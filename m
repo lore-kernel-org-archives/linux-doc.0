@@ -1,340 +1,262 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2299DF59
-	for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 10:01:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EAD41B3935
+	for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 10:09:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742983311; cv=none; b=CU3n7aG66cuBGAq87PuBoedZ3dzCHpEWkmSL8anvLnXGoXYripiOSmVSYQMVICsEqPmk6XJOyViDG4hAY5JB//BZIubKtst8kp+FCwZ8G1XGsMS0sGIl/ifXa/mFBIK1g4GyKSDcWI62+7Nof7fdBgVAQIFREwLamCPtacK8rCA=
+	t=1742983760; cv=none; b=gqVc34n8qUUgFYySWCkf4/SAilAx93RPto2evx2oGTHnP9bVTvN8ifcaEcNY8k6v5h+MtiK35/GBme3BzZ6zRk0hug3vsrYKBdVlEBFn53o+rIo4tWHOK1YjpcYbFUj/I2pQSuHAIykGSDvi05z8keakVibs5a6082Diz2HoJ1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742983311; c=relaxed/simple;
-	bh=vmGfR78GgSmopo5iBksXNIf+knROMy3RNPpIVcy5r9s=;
+	s=arc-20240116; t=1742983760; c=relaxed/simple;
+	bh=P2ErozGc1YzloiYKFY8XVll++8O7M+IJCl8ipftI2Iw=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ORolGpKE0b1i6DSih/c5ELcoBbdSUa7+3quHVoInNnLQ/Jw9ThSbnH33ou7ehEuOfybVpO+A+XgGBKG892LFP1R9n05bhIpnoreRKr4JGqCQwPRKQyzdZDQG9X7E7N7BRPSKxWOO9j0twmFWeym555nIfJHAsMVCRkEdR0OX3Uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <ore@pengutronix.de>)
-	id 1txNZZ-0005En-T3; Wed, 26 Mar 2025 11:01:21 +0100
-Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
-	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1txNZW-001j6C-2Z;
-	Wed, 26 Mar 2025 11:01:19 +0100
-Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
-	(envelope-from <ore@pengutronix.de>)
-	id 1txNZX-0004dA-0G;
-	Wed, 26 Mar 2025 11:01:19 +0100
-Date: Wed, 26 Mar 2025 11:01:19 +0100
-From: Oleksij Rempel <o.rempel@pengutronix.de>
-To: Kyle Swenson <kyle.swenson@est.tech>
-Cc: Kory Maincent <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Donald Hunter <donald.hunter@gmail.com>,
-	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
-	Simon Horman <horms@kernel.org>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Russell King <linux@armlinux.org.uk>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Liam Girdwood <lgirdwood@gmail.com>,
-	Mark Brown <broonie@kernel.org>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	"netdev@vger.kernel.org" <netdev@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Dent Project <dentproject@linuxfoundation.org>,
-	"kernel@pengutronix.de" <kernel@pengutronix.de>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <Z-PQbyKj1CBdqIQh@pengutronix.de>
-References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
- <20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
- <Z9gYTRgH-b1fXJRQ@pengutronix.de>
- <20250320173535.75e6419e@kmaincent-XPS-13-7390>
- <20250324173907.3afa58d2@kmaincent-XPS-13-7390>
- <Z-GXROTptwg3jh4J@p620>
- <Z-JAWfL5U-hq79LZ@pengutronix.de>
- <20250325162534.313bc066@kmaincent-XPS-13-7390>
- <Z-MUzZ0v_ZjT1i1J@p620>
+	 Content-Type:Content-Disposition:In-Reply-To; b=DDD9AEGu5M453JrhCpoaTpJpHj3tKcX8XPotOJa9kX4hOfeh7eFDrVcHt8rdosrmT6sCCSwmsVYYOO3/X6E9GRyZmcbjOIJdRLxfJ1jQZBl1wIMO9PfBd9onUaXDxpbvZ6l/nw8d3UKumBApXlfESaoSn8L2QtoFaVvI8cQiqJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=q0aKifaQ; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="q0aKifaQ"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-abec8b750ebso1198934066b.0
+        for <linux-doc@vger.kernel.org>; Wed, 26 Mar 2025 03:09:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1742983756; x=1743588556; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=mxE8mSuQFba5USugxIRzMPXLK6rZ2IlU479/J4S7RRQ=;
+        b=q0aKifaQ2qy5v288k5NA63z5aNi0UvdiSrsQXvU1PzWFATC5wn/+uaFX05IL5Gi6Xl
+         T6wSSwD0/qtdTxQtx83rT/9A+LcCPNWK7UO7v8wZjF2Wet5rLDWIoUKvKMrttpByUuUq
+         QQegCzmu73TDiurY1QJNV1ry+9zjEpxFbViPQoQ8s0bjCvOdcQgtV6+OY2Mt2qQMUXqK
+         2ag+iKc1VemK1wWwGLGjoEU5pLGcN8oSQwn1E3tshfHMEcgGdPDVG7sf/HFXs8+pDVVs
+         QtsTg4UEBke3wDZs9YJBrJxPemcBwfulTiZETMnMC8Rimp/YWcHdnrOaPXipVIgkqTJN
+         Ggbg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1742983756; x=1743588556;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=mxE8mSuQFba5USugxIRzMPXLK6rZ2IlU479/J4S7RRQ=;
+        b=h45PpvCP9sYaKWlLVYOzlozECvtsUUaGi9Hb9NsSyxFNriPDIzNgRQmPfAsmVr2acE
+         KPyQnu1tAWQrPzg72eYLWP4S9FRe1Aw+lFb+vpdVjjA/N5FmsEbRkGu8nqMaPQWO41cx
+         wZmoxVMSVUs5rcTBU+ubCStobRfdwLGIyRD7AJEysX/n+cb+MoBeL64AI5uPzyE4HtHZ
+         LJZuGyb8/3JIvQVrMGT6fvXJOsZ2UH9oqq/ZW1bo1ipdXpekjUGSAuWO6PR9eW7WtaVW
+         v8P7LaE3hNDFGjpuqtmpv7hM7mdBREUyc3PYgIuFn8NyTksFo9dFqAIlUEx7d77YnlPJ
+         kqVQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUTQZwcebsb8Tj7rlA6/AGq8zP6VmfnlPNbEaRTzST++aGvTNpNXxqbgA584+BhaAXrYd0XFQl5UJY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw271F2mdDY/VeWs3LgLD7s418lWHg6cltvFb1B57OslatBy/U3
+	0vG7cbexGNvvV5BxZhFkaP5F2Dm3a+WBJooitqF4M6cVQ7VsYJ+OUSa7rC57bDY=
+X-Gm-Gg: ASbGncttCcIS7bm/FXtmXf/SRTjntyIRJZHsmGuf2UiA3tRF5wmt/U1MzpEU4zmBPCx
+	vOkqepA6EUfVsGwXDDEnjre0R7pzSQ0AWFGG/Rqi1UMVJbC+a6BGmlEE+RhraC7m//ZmC4vRQMS
+	d0aoegtFDAnXUrnl9n2cLG+3kfxJtrXIgtmyc4iVaMqghDNA6dMD4ZfSuNISpDiL7R04XkbRda9
+	mKje/mYE9oLls+XhcpV4tO/4GJTafI1gMFNXXKRizUW1xB5XPlJ8XRwJhwM1pW1wZ5hJ83YCPtD
+	yoOpRpaFWf1tbsYBaouaXOOqQV7WtmirfHKWQiXbmPZLeWBn8aylhDY=
+X-Google-Smtp-Source: AGHT+IGuB/epcJCgNqpypGqs/8PJnFxUfea7pF2X+I+R3S5XuLqn/BDqdYJIFIeL24XP+sXSUduRlw==
+X-Received: by 2002:a17:907:7292:b0:ac3:8895:8e99 with SMTP id a640c23a62f3a-ac3f20ba753mr2011787766b.3.1742983755500;
+        Wed, 26 Mar 2025 03:09:15 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff21:ef30:b2cf:5182:7604:e8d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac3ef869eefsm993244766b.30.2025.03.26.03.09.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Mar 2025 03:09:15 -0700 (PDT)
+Date: Wed, 26 Mar 2025 11:09:13 +0100
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
+	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
+	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
+Subject: Re: [PATCH v36 28/31] ALSA: usb-audio: qcom: Introduce QC USB SND
+ offloading support
+Message-ID: <Z-PSSXt8WY3yVFM4@linaro.org>
+References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
+ <20250319005141.312805-29-quic_wcheng@quicinc.com>
+ <Z-J7n8qLMPVxpwuV@linaro.org>
+ <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <Z-MUzZ0v_ZjT1i1J@p620>
-X-Sent-From: Pengutronix Hildesheim
-X-URL: http://www.pengutronix.de/
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
-X-SA-Exim-Mail-From: ore@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+In-Reply-To: <5a7442c9-493d-4c23-a179-128f02a29f73@quicinc.com>
 
-Hi folks,
-
-On Tue, Mar 25, 2025 at 08:40:54PM +0000, Kyle Swenson wrote:
-> Hello Kory,
-> 
-> On Tue, Mar 25, 2025 at 04:25:34PM +0100, Kory Maincent wrote:
-> > On Tue, 25 Mar 2025 06:34:17 +0100
-> > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+On Tue, Mar 25, 2025 at 06:32:14PM -0700, Wesley Cheng wrote:
+> On 3/25/2025 2:47 AM, Stephan Gerhold wrote:
+> > On Tue, Mar 18, 2025 at 05:51:38PM -0700, Wesley Cheng wrote:
+> >> Several Qualcomm SoCs have a dedicated audio DSP, which has the ability to
+> >> support USB sound devices.  This vendor driver will implement the required
+> >> handshaking with the DSP, in order to pass along required resources that
+> >> will be utilized by the DSP's USB SW.  The communication channel used for
+> >> this handshaking will be using the QMI protocol.  Required resources
+> >> include:
+> >> - Allocated secondary event ring address
+> >> - EP transfer ring address
+> >> - Interrupter number
+> >>
+> >> The above information will allow for the audio DSP to execute USB transfers
+> >> over the USB bus.  It will also be able to support devices that have an
+> >> implicit feedback and sync endpoint as well.  Offloading these data
+> >> transfers will allow the main/applications processor to enter lower CPU
+> >> power modes, and sustain a longer duration in those modes.
+> >>
+> >> Audio offloading is initiated with the following sequence:
+> >> 1. Userspace configures to route audio playback to USB backend and starts
+> >> playback on the platform soundcard.
+> >> 2. The Q6DSP AFE will communicate to the audio DSP to start the USB AFE
+> >> port.
+> >> 3. This results in a QMI packet with a STREAM enable command.
+> >> 4. The QC audio offload driver will fetch the required resources, and pass
+> >> this information as part of the QMI response to the STREAM enable command.
+> >> 5. Once the QMI response is received the audio DSP will start queuing data
+> >> on the USB bus.
+> >>
+> >> As part of step#2, the audio DSP is aware of the USB SND card and pcm
+> >> device index that is being selected, and is communicated as part of the QMI
+> >> request received by QC audio offload.  These indices will be used to handle
+> >> the stream enable QMI request.
+> >>
+> >> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> >> ---
+> >>  sound/usb/Kconfig                 |   14 +
+> >>  sound/usb/Makefile                |    2 +-
+> >>  sound/usb/qcom/Makefile           |    2 +
+> >>  sound/usb/qcom/qc_audio_offload.c | 1988 +++++++++++++++++++++++++++++
+> >>  4 files changed, 2005 insertions(+), 1 deletion(-)
+> >>  create mode 100644 sound/usb/qcom/Makefile
+> >>  create mode 100644 sound/usb/qcom/qc_audio_offload.c
+> >>
+> >> diff --git a/sound/usb/Kconfig b/sound/usb/Kconfig
+> >> index 4a9569a3a39a..6daa551738da 100644
+> >> --- a/sound/usb/Kconfig
+> >> +++ b/sound/usb/Kconfig
+> >> @@ -176,6 +176,20 @@ config SND_BCD2000
+> >>  	  To compile this driver as a module, choose M here: the module
+> >>  	  will be called snd-bcd2000.
+> >>  
+> >> +config SND_USB_AUDIO_QMI
+> >> +	tristate "Qualcomm Audio Offload driver"
+> >> +	depends on QCOM_QMI_HELPERS && SND_USB_AUDIO && USB_XHCI_SIDEBAND && SND_SOC_USB
+> >> +	help
+> >> +	  Say Y here to enable the Qualcomm USB audio offloading feature.
+> >> +
+> >> +	  This module sets up the required QMI stream enable/disable
+> >> +	  responses to requests generated by the audio DSP.  It passes the
+> >> +	  USB transfer resource references, so that the audio DSP can issue
+> >> +	  USB transfers to the host controller.
+> >> +
+> >> +	  To compile this driver as a module, choose M here: the module
+> >> +	  will be called snd-usb-audio-qmi.
+> >> [...]
+> >> diff --git a/sound/usb/qcom/qc_audio_offload.c b/sound/usb/qcom/qc_audio_offload.c
+> >> new file mode 100644
+> >> index 000000000000..3319363a0fd0
+> >> --- /dev/null
+> >> +++ b/sound/usb/qcom/qc_audio_offload.c
+> >> @@ -0,0 +1,1988 @@
+> >> [...]
+> >> +static int __init qc_usb_audio_offload_init(void)
+> >> +{
+> >> +	struct uaudio_qmi_svc *svc;
+> >> +	int ret;
+> >> +
+> >> +	svc = kzalloc(sizeof(*svc), GFP_KERNEL);
+> >> +	if (!svc)
+> >> +		return -ENOMEM;
+> >> +
+> >> +	svc->uaudio_svc_hdl = kzalloc(sizeof(*svc->uaudio_svc_hdl), GFP_KERNEL);
+> >> +	if (!svc->uaudio_svc_hdl) {
+> >> +		ret = -ENOMEM;
+> >> +		goto free_svc;
+> >> +	}
+> >> +
+> >> +	ret = qmi_handle_init(svc->uaudio_svc_hdl,
+> >> +			      QMI_UAUDIO_STREAM_REQ_MSG_V01_MAX_MSG_LEN,
+> >> +			      &uaudio_svc_ops_options,
+> >> +			      &uaudio_stream_req_handlers);
+> >> +	ret = qmi_add_server(svc->uaudio_svc_hdl, UAUDIO_STREAM_SERVICE_ID_V01,
+> >> +			     UAUDIO_STREAM_SERVICE_VERS_V01, 0);
+> >> +
+> >> +	uaudio_svc = svc;
+> >> +
+> >> +	ret = snd_usb_register_platform_ops(&offload_ops);
+> >> +	if (ret < 0)
+> >> +		goto release_qmi;
+> >> +
+> >> +	return 0;
+> >> +
+> >> +release_qmi:
+> >> +	qmi_handle_release(svc->uaudio_svc_hdl);
+> >> +free_svc:
+> >> +	kfree(svc);
+> >> +
+> >> +	return ret;
+> >> +}
+> >> +
+> >> +static void __exit qc_usb_audio_offload_exit(void)
+> >> +{
+> >> +	struct uaudio_qmi_svc *svc = uaudio_svc;
+> >> +	int idx;
+> >> +
+> >> +	/*
+> >> +	 * Remove all connected devices after unregistering ops, to ensure
+> >> +	 * that no further connect events will occur.  The disconnect routine
+> >> +	 * will issue the QMI disconnect indication, which results in the
+> >> +	 * external DSP to stop issuing transfers.
+> >> +	 */
+> >> +	snd_usb_unregister_platform_ops();
+> >> +	for (idx = 0; idx < SNDRV_CARDS; idx++)
+> >> +		qc_usb_audio_offload_disconnect(uadev[idx].chip);
+> >> +
+> >> +	qmi_handle_release(svc->uaudio_svc_hdl);
+> >> +	kfree(svc);
+> >> +	uaudio_svc = NULL;
+> >> +}
+> >> +
+> >> +module_init(qc_usb_audio_offload_init);
+> >> +module_exit(qc_usb_audio_offload_exit);
+> >> +
+> >> +MODULE_DESCRIPTION("QC USB Audio Offloading");
+> >> +MODULE_LICENSE("GPL");
 > > 
-> > > Hi,
-> > > 
-> > > On Mon, Mar 24, 2025 at 05:33:18PM +0000, Kyle Swenson wrote:
-> > > > Hello Kory,
-> > > > 
-> > > > On Mon, Mar 24, 2025 at 05:39:07PM +0100, Kory Maincent wrote:  
-> > > > > Hello Kyle, Oleksij,  
-> > > > ...  
-> > > > > 
-> > > > > Small question on PSE core behavior for PoE users.
-> > > > > 
-> > > > > If we want to enable a port but we can't due to over budget.
-> > > > > Should we :
-> > > > > - Report an error (or not) and save the enable action from userspace. On
-> > > > > that case, if enough budget is available later due to priority change or
-> > > > > port disconnected the PSE core will try automatically to re enable the
-> > > > > PoE port. The port will then be enabled without any action from the user.
-> > > > > - Report an error but do nothing. The user will need to rerun the enable
-> > > > >   command later to try to enable the port again.
-> > > > > 
-> > > > > How is it currently managed in PoE poprietary userspace tools?  
-> > > > 
-> > > > So in our implementation, we're using the first option you've presented.
-> > > > That is, we save the enable action from the user and if we can't power
-> > > > the device due to insufficient budget remaining, we'll indicate that status
-> > > > to the user.  If enough power budget becomes available later, we'll power up
-> > > > the device automatically.  
-> > > 
-> > > It seems to be similar to administrative UP state - "ip link set dev lan1 up".
-> > > I'm ok with this behavior.
+> > What will trigger loading this if this code is built as module?
 > > 
-> > Ack I will go for it then, thank you!
+> > Testing suggests nothing does at the moment: If this is built as module,
+> > playback via USB_RX will fail until you manually modprobe
+> > snd-usb-audio-qmi.
 > > 
-> > Other question to both of you:
-> > If we configure manually the current limit for a port. Then we plug a Powered
-> > Device and we detect (during the classification) a smaller current limit
-> > supported. Should we change the current limit to the one detected. On that case
-> > we should not let the user set a power limit greater than the one detected after
-> > the PD has been plugged.
 > 
-> I don't know that we want to prevent the user from setting a higher
-> current than a device's classification current because that would
-> prevent the PD and PSE negotiating a higher current via LLDP.
+> Yes, it would only get triggered on a modprobe.  I think the more important
+> part is when snd_usb_register_platform_ops() is called.  This is what would
+> register the vendor USB offload driver callbacks for USB connect/disconnect
+> events.
 > 
-> That said, I'm struggling to think of a use-case where the user would be
-> setting a current limit before a PD is connected, so maybe we can reset
-> the current limit when the PD is classified to the classification
-> result, but also allow it to be adjusted after a PD is powered for the
-> LLDP negotiation case.
-> 
-> In our implementation, don't really let the user specify something like,
-> "Only class 3 and lower devices on this port" because we've not seen
-> customers need this.  We have, however, implemented the LLDP negotiation
-> support after several requests from customers, but this only makes sense
-> when a PD is powered at it's initial classification result.  The PD can
-> then request more power (via LLDP) and then we adjust the current limit
-> assuming the system has budget available for the request.
-> 
+> > I think the easiest way to solve this would be to drop the
+> > module_init()/module_exit() and instead call into these init/exit
+> > functions from one of the other audio modules. This would also ensure
+> > that the QMI server is only registered if we actually need it (if the
+> > board sound card actually has a USB DAI link).
 > > 
-> > What do you think? Could we let a user burn a PD?
 > 
-> This seems like a very rare case, and if the PD is designed such that
-> it's reliant on the PSE's current limiting ability then seems like it's
-> just an accident waiting to happen with any PSE.
+> It would be difficult from the perspective of USB SND, because if we got
+> rid of the vendor ops, it would be messy, since the USB offload vendor
+> driver will be specific for every SoC.
 > 
-> Very rarely have we seen a device actually pull more current than it's
-> classification result allows (except for LLDP negotiation). What's more
-> likely is a dual-channel 802.3bt device is incorrectly classified as a
-> single-channel 802.3at device; the device pulls more current than
-> allocated and gets shut off promptly, but no magic smoke escaped.  
 
-Here’s my understanding of the use cases described so far, and a proposal for
-how we could handle them in the kernel to avoid conflicts between different
-actors.
+What I meant is calling qc_usb_audio_offload_init() from any of the
+other drivers that are involved, e.g. q6usb. Or register an auxilliary
+device like in qcom_pd_mapper, so the modules don't need to link
+together directly. That shouldn't get too messy.
 
-We have multiple components that may affect power delivery:
-- The kernel, which reacts to detection and classification
-- The admin, who might want to override or restrict power for policy or safety reasons
-- The LLDP daemon, which may request more power dynamically based on what the PD asks for
+There are several reasonable options here, any of them is fine as long
+as this module will get automatically loaded for users that need it.
+Anything else would defeat the purpose of the generic USB sound
+offloading userspace interface, because you would need to load the
+QC-specific snd-usb-audio-qmi module manually. :-)
 
-To avoid races and make things more predictable, I think it's best if each
-actor has its own dedicated input.
-
-## Use Cases
-
-### Use Case 1: Classification-based power (default behavior)  
-- Kernel detects PD and performs classification
-- Power is applied according to classification and hardware limits
-- No override used
-
-Steps:
-1. Detection runs
-2. Classification result obtained (e.g. Class 2 → 7W)
-3. Kernel computes:
-
-   effective_limit = min(
-       classification_result,
-       controller_capability,
-       board_limit,
-       dynamic_budget
-   )
-
-4. Power applied up to `effective_limit`
-
-### Use Case 2: Admin-configured upper bound (non-override)  
-- Admin sets a policy limit that restricts all power delivery
-- Does not override classification, only bounds it
-
-Steps:
-1. Admin sets `ETHTOOL_A_C33_PSE_AVAIL_PWR_LIMIT = 15000`
-2. Detection + classification run normally
-3. Kernel computes:
-
-   effective_limit = min(
-       classification_result,
-       AVAIL_PWR_LIMIT,
-       controller_capability,
-       board_limit,
-       dynamic_budget
-   )
-
-4. Classification is respected, but never exceeds admin limit
-
-This value is always included in power computation — even if classification
-or LLDP overrides are active.
-
-### Use Case 3: Persistent classification override (admin)  
-- Admin sets a persistent limit that overrides classification
-- Power is always based on this override
-
-Steps:
-1. Admin sets `CLASS_OVERRIDE_PERSISTENT = 25000` (mW)
-2. Detection/classification may run, but classification result is ignored
-3. Kernel computes:
-
-   effective_limit = min(
-       CLASS_OVERRIDE_PERSISTENT,
-       AVAIL_PWR_LIMIT,
-       controller_capability,
-       board_limit,
-       dynamic_budget
-   )
-
-4. Power applied accordingly
-5. Override persists until cleared
-
-### Use Case 4: Temporary classification override (LLDP)  
-- LLDP daemon overrides classification for current PD session only
-- Cleared automatically on PD disconnect
-
-Steps:
-1. PD connects, detection + classification runs (e.g. 7W)
-2. LLDP daemon receives PD request for 25000 mW
-3. LLDP daemon sets `CLASS_OVERRIDE_TEMPORARY = 25000`
-4. Kernel computes:
-
-   effective_limit = min(
-       CLASS_OVERRIDE_TEMPORARY,
-       AVAIL_PWR_LIMIT,
-       controller_capability,
-       board_limit,
-       dynamic_budget
-   )
-
-5. Power is increased for this session
-6. On PD disconnect, override is cleared automatically
-
----
-
-### Use Case 5: Ignore detection and classification (force-on)  
-- Admin forces the port on, ignoring detection
-- Useful for passive/non-802.3 devices or bring-up
-
-Steps:
-1. Admin sets:
-   - `DETECTION_IGNORE = true`
-   - `CLASS_OVERRIDE_PERSISTENT = 5000`
-2. Kernel skips detection and classification
-3. Kernel computes:
-
-   effective_limit = min(
-       CLASS_OVERRIDE_PERSISTENT,
-       AVAIL_PWR_LIMIT,
-       controller_capability,
-       board_limit,
-       dynamic_budget
-   )
-
-4. Power is applied immediately
-
-## Proposed kernel UAPI
-
-### SET attributes (configuration input)
-
-| Attribute                                 | Type     | Lifetime              | Owner           | Description |
-|-------------------------------------------|----------|------------------------|------------------|-------------|
-| `ETHTOOL_A_PSE_CLASS_OVERRIDE_PERSISTENT` | u32 (mW) | Until cleared          | Admin            | Persistent classification override |
-| `ETHTOOL_A_PSE_CLASS_OVERRIDE_TEMPORARY`  | u32 (mW) | Cleared on detection failure / PD replug | LLDP daemon / test tool | Temporary override of classification |
-| `ETHTOOL_A_PSE_DETECTION_IGNORE`          | bool     | Until cleared          | Admin            | Ignore detection phase |
-| `ETHTOOL_A_C33_PSE_AVAIL_PWR_LIMIT`       | u32 (mW) | Until changed          | Admin            | Static admin-defined max power cap (non-override) |
-
-### GET attributes (status and diagnostics)
-
-| Attribute                                  | Type     | Description |
-|--------------------------------------------|----------|-------------|
-| `ETHTOOL_A_PSE_EFFECTIVE_PWR_LIMIT`        | u32 (mW) | Final power limit applied by kernel |
-| `ETHTOOL_A_PSE_CLASS_OVERRIDE_PERSISTENT`  | u32 (mW) | Current persistent override (if set) |
-| `ETHTOOL_A_PSE_CLASS_OVERRIDE_TEMPORARY`   | u32 (mW) | Current temporary override (if active) |
-| `ETHTOOL_A_PSE_DETECTION_IGNORE`           | bool     | Current detection ignore state |
-
-### Power Limit Priority
-
-Since we now have multiple sources that can influence how much power is
-delivered to a PD, we need to define a clear and deterministic priority
-order for all these values. This avoids confusion and ensures that the kernel
-behaves consistently, even when different actors (e.g. admin, LLDP daemon,
-hardware limits) are active at the same time.
-
-Below is the proposed priority list — values higher in the list take precedence
-over those below:
-
-| Priority | Source / Field                          | Description |
-|----------|------------------------------------------|-------------|
-| 1        | Hardware/board-specific limit         | Maximum allowed by controller or board design (e.g. via device tree or driver constraints) |
-| 2        | Dynamic power budget                  | Current system-level or PSE-level power availability (shared with other ports) |
-| 3        | `ETHTOOL_A_C33_PSE_AVAIL_PWR_LIMIT`       | Admin-configured upper bound — applies even when classification or override is used |
-| 4        | `ETHTOOL_A_PSE_CLASS_OVERRIDE_TEMPORARY`  | Temporary override, e.g. set by LLDP daemon, cleared on PD disconnect or detection loss |
-| 5        | `ETHTOOL_A_PSE_CLASS_OVERRIDE_PERSISTENT` | Admin override that persists until cleared |
-| 6        | `ETHTOOL_A_PSE_CLASSIFICATION_RESULT`     | Result of PD classification, used when no override is present |
-
-The effective power limit used by the kernel will always be the minimum of the
-values above.
-
-This way, even if the LLDP daemon requests more power, or classification result
-is high, power delivery will still be constrained by admin policies, hardware
-limits, and current budget.
-
-Best regards,  
-Oleksij
--- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+Thanks,
+Stephan
