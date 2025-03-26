@@ -1,352 +1,248 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2060.outbound.protection.outlook.com [40.107.20.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B79A926AD0;
-	Wed, 26 Mar 2025 14:35:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1742999755; cv=none; b=R9epSUMUdXxcBsGrH36OoGOhfoKtOqiOZ298sPLWo0GqqqR4dnKI8escKPmbhjJnl4SecA77s8xY3ZexZAGkuf6Nwyp43EVMJlif5inEsrxwixk2jNgiF+vickDvUGzvGPcBinT72MJ3icfrv70G7eSJLUR92r6/eYxdVMzo4Nc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1742999755; c=relaxed/simple;
-	bh=qZADYuv1O0VMmv2xs3qYIXuBVFL1d4WAbkxhCqQ6Bwg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DA+yU5BzfeB+YMTRTn7XyueHlbekdUS0Dwp8UGUjN4LuSC8Bv7W5WHvpUkSnUYAbiFbCPE0fibYt8GP9YOWLvx8jm5887DE1gm2vtvJS4XILQzJ7k6l+qM/lWa0QHWPiuwSOv+3i/XJVEyk22lqkmTAOyHYz/f1JPmNMbw6bSoI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=bw8L71c5; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93B0EA48;
+	Wed, 26 Mar 2025 15:03:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743001406; cv=fail; b=qF33XhGGl5ACEnkNf2lS8FM7Onn6Cx0CM9r60kKusmm0rcU0ac0Q5CDM/ux8xEiKXjw/2dKDF5+R7CsSMvaB5SaNQInPmiiOb73+79G1+r6kA6KdcUqGRF4H79pZrEZ+lmXA3hhRG52QpJMvRBlJn7iSCjMMjJVurbAYORlpPEY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743001406; c=relaxed/simple;
+	bh=oy7hxoZLyDcr9ULUOOChGdbRvCTvpfkN2szEt3OzhEw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=tBJKUj4n2zNOs1LzRwefRX0ysbXy+NAa6QHMqwEtSajIUUwSIT7jqhbuuPK1IrwNMejDv8o62uTwaRRQKN3Gkb+eHoGST7J2yg83wAC762iFkq8VOrMDB2DPqHjGqjJm9X1Piw7ExtwZGglEIL4IT9Q7JeiHeCQztOIlA1S2LaI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=dl3e0NU2; arc=fail smtp.client-ip=40.107.20.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="bw8L71c5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id EF4A24440F;
-	Wed, 26 Mar 2025 14:35:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1742999750;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=uQRovkh+/s+2V3L1Jz4o46KSoqh+7aTtBz4CLyvMG+k=;
-	b=bw8L71c5N71riQY/nJmC/FN+V1CHLHLWuRY4mcv4aWmvThJJBw2g5nJVoLn3QrMP8dLpjH
-	O1u+SGyX/13N2hYj/XGj/sVEliDjh0kbf47xwnpbglCRhkUSLCY4WdrpoZV4vM6iet+CKh
-	eyEQJJB+TQMG9olSA7FfZ1rQVZdxYxtVbLjNYQpBIktV7kBYUDEGJncgWZwsq9Re00FM1i
-	tM69hG6JFdue7rqrINrN3ACT+xvPV/t8nnzX0/O+VUb3yaZlUjnI4kkKyYej231PhzI3hm
-	xy8qb4/mriNJfmzO9OLbwA0RtL3BKJXKZXSmfvSHVYnoSq93jnWJyi206zdR0g==
-Date: Wed, 26 Mar 2025 15:35:45 +0100
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Kyle Swenson <kyle.swenson@est.tech>, Andrew Lunn <andrew@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, "netdev@vger.kernel.org"
- <netdev@vger.kernel.org>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>, Dent Project
- <dentproject@linuxfoundation.org>, "kernel@pengutronix.de"
- <kernel@pengutronix.de>, Maxime Chevallier <maxime.chevallier@bootlin.com>,
- "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
- "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH net-next v6 06/12] net: pse-pd: Add support for budget
- evaluation strategies
-Message-ID: <20250326153545.6f1b16ab@kmaincent-XPS-13-7390>
-In-Reply-To: <Z-PQbyKj1CBdqIQh@pengutronix.de>
-References: <20250304-feature_poe_port_prio-v6-0-3dc0c5ebaf32@bootlin.com>
-	<20250304-feature_poe_port_prio-v6-6-3dc0c5ebaf32@bootlin.com>
-	<Z9gYTRgH-b1fXJRQ@pengutronix.de>
-	<20250320173535.75e6419e@kmaincent-XPS-13-7390>
-	<20250324173907.3afa58d2@kmaincent-XPS-13-7390>
-	<Z-GXROTptwg3jh4J@p620>
-	<Z-JAWfL5U-hq79LZ@pengutronix.de>
-	<20250325162534.313bc066@kmaincent-XPS-13-7390>
-	<Z-MUzZ0v_ZjT1i1J@p620>
-	<Z-PQbyKj1CBdqIQh@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="dl3e0NU2"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mF7ZAaRCm0Lr6t4g5V1B4lK67eyMDnuWhhZLtk4ZK98QBg1mxn3b4LgtTI9kKI78hXVsS9Qn1+plg+EopSkQ2O3L64BqbwQC114FbcTMtW3vsPD8IYBwLJA7R9KRz2ZXY71JIZ8O2XsMntomeffsTYGfnK0z251LkkoUnX0LrwJRgNICmEs0oObyfLAdl7jmoS9HPM3ujRsozkxrO2vBemCgdopwlWkQA0GswRSGjlDzNWYL9ZRzZPKP6jCtDaVvvGBkSU2JpzvmjdihL6THTzYXJ9w9WoOmGvzExuChkuDeJTUoeYCmWv4uPbjFVMHo/KdA6Juy0IWtfoudZImAJw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=u5v8ePxxyNI0xLk0sd4Rg99PRVKlQ8P6TGpUnVLCJ0s=;
+ b=W5mniInHqzTKMxcbYXtyn2DQQtiuEpnRZWzNeICoy3YEfYUTp0ct6F/IdZxJIVuV8iIjWn/smrRY2NXIpE08Br2wPrvavLYhGIfRgwblCRLhWpr5NJe6n9teSr9TQ+CYixgYn1eOCcyVyRk0pkI/5gvaxQ52N4D1KgmYEvChsqz04oAKJpt+EvYq99AspRHv0ZgRuy0UzSM6/ew8oLBfFMTPI4vSnff3UlEF3NHJiNJocfjWu0pCmQ9aqc14fEvHub64wAUlQ6++URhr6r/3jnkDJUwy0mHJYh876rxm/W/WERlgauUDvfvN3TuIabcpeLG36oVIBni/CHyh9T+uug==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=u5v8ePxxyNI0xLk0sd4Rg99PRVKlQ8P6TGpUnVLCJ0s=;
+ b=dl3e0NU2S8BG0J+gSJZInAiRH13cXJu4Dw0o1S6g1d63oCKPNSZiBuOtE90T0z+ZMJEdHUMimpiskInMkCYticZ7TUCQDJmkMo8RiGQzrJbZHfCn6ZGiajSpgvPn9sO1ZGxhK17K7seQ5XXOcSKAhquKCBN7BzoR4Tj1FonReZBMU+641k+IAPJELDRU5LkJlJCKMUhMDCJZOdimYacolCWRq+sTM+ZGxTpTsw0HVUlfJID9axNlqeCYbSv+17FPCjwjESkQcfg4bFrF9kgPSoaWpyVW7CoOgr5gjfiaLCyk1a8bArsRs39lP4EdAts7PQA9DeBcFPbND2ompdxADw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DB9PR04MB10036.eurprd04.prod.outlook.com (2603:10a6:10:4c8::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.44; Wed, 26 Mar
+ 2025 15:03:20 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%3]) with mapi id 15.20.8534.040; Wed, 26 Mar 2025
+ 15:03:20 +0000
+Date: Wed, 26 Mar 2025 11:03:12 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v14 3/6] arm64: dts: imx8ulp-evk: add nxp secure enclave
+ firmware
+Message-ID: <Z+QXMJD517AK9WtR@lizhi-Precision-Tower-5810>
+References: <20250327-imx-se-if-v14-0-2219448932e4@nxp.com>
+ <20250327-imx-se-if-v14-3-2219448932e4@nxp.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327-imx-se-if-v14-3-2219448932e4@nxp.com>
+X-ClientProxiedBy: PH7P220CA0045.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:510:32b::17) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdduieehjeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtudemtggsudelmeekheekjeemjedutddtmeekfeegrgemsggvvddvmegrtdgvugemkeguvdgrnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgduleemkeehkeejmeejuddttdemkeefgegrmegsvgdvvdemrgdtvggumeekugdvrgdphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehkhihlvgdrshifvghnshhonhesvghsthdrthgvtghhpdhrtghpt
- hhtoheprghnughrvgifsehluhhnnhdrtghhpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
-X-GND-Sasl: kory.maincent@bootlin.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DB9PR04MB10036:EE_
+X-MS-Office365-Filtering-Correlation-Id: bd9a8c93-6062-4fdc-a3a3-08dd6c775880
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|376014|7416014|52116014|1800799024|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?hIWgm6/fpqW/mVGEAoVNK7oX6fI92CgQyo1In/CCKDZNX0Ecan2dCfEUcb9H?=
+ =?us-ascii?Q?Yy1r9UeZnr+m3ryOnXia7Ysje1Tedp8+yvqw+WLO2jxR6+NNlxd0JyMH9SSz?=
+ =?us-ascii?Q?rufNaSprniILu7HRBPpSRTK2tcIZvM2swl7D2sHW2E09ng3J6r8ug2ogPR7o?=
+ =?us-ascii?Q?EgO1mHpfhzp74dscEQHHBHPRkNKWqxiuHEyldayL4Om+I9Ot6WKJjoMs3Vv0?=
+ =?us-ascii?Q?j299cl9ylhTOIluGjU4mIdbkiPGd6l9fV2sGWn/eJzzpDIm4aq3Ai4G65A26?=
+ =?us-ascii?Q?fa4mGIMF/gfGcvOgMko8zfxwHMMmDxQt1hIFUXJVCeRUHfbA7gHhgP4Vq651?=
+ =?us-ascii?Q?2z5WuJyWhqaKmexqrFr/QAgGeBonOTiVrDFRO3hHiX87J1E81LKpaQHvKvyK?=
+ =?us-ascii?Q?8j0IcwOy4qvsch3mRZ8c3fxiTeKUJhYudYoVqWrsXoojYwl8HexB3tjjfGkd?=
+ =?us-ascii?Q?cFeWt/UymzllY3bZN3GGe5NBI354ObgZ5y09lyQMAbNO2T3deOVEFwuqSEKN?=
+ =?us-ascii?Q?tCNWr7BeOjtTwWzNPby+AbtKcAX2S2FZXxXREEnNRw+bHbECeVSucdBkxmWr?=
+ =?us-ascii?Q?2pDV2wBJQvjzohB3PnI6QHqIJdadrtt2DebmshNXiBzRMr2nnb9aGT87ZQ0p?=
+ =?us-ascii?Q?sv1wiBvYulzNYiAMt6LAvTa4yHDUMPkOzVxG4n27Zl4TKD8aSf6HHF5KpkPB?=
+ =?us-ascii?Q?Yvq0o9YjbJ0TDxs4B10SJa5/rAeucOnOn+eWVg9SoEikt3Suw/jWp7d2zphq?=
+ =?us-ascii?Q?hY0RHyzPD7ridHWwLmhK5ykCcSE9sNsujFRVwxmGNavSwko+pauo7pphvJNm?=
+ =?us-ascii?Q?hkXZVLPE5fbZmdya6ChcF/3DIovf/8KFh1KBbnks8uNejk2viVPEW5WkPZNW?=
+ =?us-ascii?Q?YOVkvWRTtA7A4IJf1bJbc+252X0UibJqYm3rwEpB/8vfUrtUPI5rFx5jqM/I?=
+ =?us-ascii?Q?XrvzhKavC9Or+XcP/l+7BamxAluaSIisyM6idQhjtl6hc0o6AQw53bVNpPo4?=
+ =?us-ascii?Q?+6IWD6i3u7bXjR+jyezQKYiwtvI+vhrY7YNK630MTg05N0VWInhv1euPXOnv?=
+ =?us-ascii?Q?Wu0NXKP4y4k09k1Vs8OPirDFxdMWIgWUbu9WCL79bE9HVoMJ+lSgK8S0MxkJ?=
+ =?us-ascii?Q?2H74cQCuQ+dK/mH08D1CsJrnlkSiI1JY+95RerAGWqMZSdbSGYTzUpjH/zaF?=
+ =?us-ascii?Q?q+mct+Fk5Z++SleEgguF2LmdTo34j/xj33+AytWCzk0DvVtC+Yb0my1SpR5X?=
+ =?us-ascii?Q?AnqsyM4MzCdWGRx+dgU0jztO/UMh+crE38WSXi74rNCOAkKVy7cmPP5KMgMG?=
+ =?us-ascii?Q?khQGt6kww3r2eZcKOvI+Tk2V1wTsq/wrwiUhV5RuLMlWb8pUcA5EIyqgWLhE?=
+ =?us-ascii?Q?456PjkoN9xJiv5OU4MS7YIb3ULkkNNBsIYx54xEl+yCDKszoA+GWRmW7cxz7?=
+ =?us-ascii?Q?ryY8igvSfxDZT8Ma6hJAiMHym+TTTE2CwnjdpqPGuv2xQdvTcjByUCTH2fs6?=
+ =?us-ascii?Q?H+JaNeXJwyqRFX0=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(52116014)(1800799024)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?ljJKciBKw2qFB1ECYXh6rO5Y6zTINwbKeON8kWQgyBUBvHIapWkItyVgPK50?=
+ =?us-ascii?Q?ROIUxRbx3zhql+oqimqgiPWqBh0wAff0+8DdvoFBMHrTZKJvp7il1HQbJEyi?=
+ =?us-ascii?Q?K8JQUeOawe1Xlf9hKszPT2Mh8O4A8jJJEhtUavpzXns7uXt+WHJUB9xdTRS+?=
+ =?us-ascii?Q?jc+avgzqGgwYFgYm114/MGibyL5LDMNEOHCgXVi79NbpmAoA/o7akic9fQN1?=
+ =?us-ascii?Q?UVqhT88RFX90n8kZtDdV494ghnEI+zw6BwAct1mK60y6Beg1BtyCx+EA5C2s?=
+ =?us-ascii?Q?lSNStIh3q7orb2Jqnvre9usLrcJNykzz36N8554AG/D1SXZdUqRazHWsp/7R?=
+ =?us-ascii?Q?lmoDtjUsQJykFFSNoeZOuWPuTyPp/46zyKRPYtR4V/HtJnlB11lio1HPrkit?=
+ =?us-ascii?Q?WGhKrb5nW3ooWkeoc0InbFgXEZVJcb4kv7sUp/Tgss7Xpd8tXi2/Zd3rja1P?=
+ =?us-ascii?Q?LCYihlwDknigNMlzG9b4PUk8hxHf2UB+6EI9z3FESE8KLbTpcYRblD/Mbxby?=
+ =?us-ascii?Q?m/G8juyeBISD81JUyoSBmWidpIvqfiMGjQcwBvITqSizKJedKknsR+fi0+Dg?=
+ =?us-ascii?Q?HMU04qlNmMC45reapLdroptzklwZlYycybb5X7bt8C8+zHU62QDzZ9WPrrY8?=
+ =?us-ascii?Q?tTjVIC1W08tO97UAuMvesZXUzUe1E4UVMzsB7q9EpdzuL4ESK2mn5lb+vT/G?=
+ =?us-ascii?Q?jdZMUJQ9Gj4HNoSFUP5ZAkMIEPUzy0xcrAzPYDnrBWwFlXUFk0952Z9iC1RK?=
+ =?us-ascii?Q?8h2w/wXlTMpXeiEJwS0kfMlnj9sXTPiJeNf1bp7w1/QRgTX92bJokIOYOhoC?=
+ =?us-ascii?Q?XCV2HXkxOJGybXUu//9mcVjf8huHpx1JJ+LoiI/ITca5pdTtATAi+hDCAxhy?=
+ =?us-ascii?Q?mT0XEH4SkZe7hLHj6SG+/5huxNb34uw4sYq210/wiuS+gFhBtBWljAASoHJl?=
+ =?us-ascii?Q?jDiRM7rmzRJJKlYZIpq2bgFPZTHvHp2QQn6Ny/vlvMfqZ1h6dV3RS8WDqgL6?=
+ =?us-ascii?Q?dbQfBiIMmRvCpgwitojmp7sE/ywHzRgM+0PB/3TeCl2yZe/CrTOt8WyLBSj8?=
+ =?us-ascii?Q?ArMOLTm8LQR+y/t46Iw/jHc/mcyT1luEiFmKaUeNOtLILJ+/SDoDAQYmE+xl?=
+ =?us-ascii?Q?8mHFNw+3lm7wn5k4nIU9R9Cp/Bs5UGiuvDtXK3vM8jhh92j7qwYBSvhpwjiC?=
+ =?us-ascii?Q?SHOESGUWNXj0MTJgDcTFZ5XsXIxsEh/MQdbwKQj9A7bThmD9QSjPPrZqR5iz?=
+ =?us-ascii?Q?3sv7mtoqzlvgHjmyY5wryFNWGbE2RuLCNPQ1F+DydZ1nM2MN2XqvsLmVw1/N?=
+ =?us-ascii?Q?bwsZTXxuBIear2nGqELdyO7g+4mr2x3umd5WwcKn1utUKncHMzJjqSB3revb?=
+ =?us-ascii?Q?VGlEMFuscAVZbF+0iXrVxfYApNxlvBNsPL7RfGC0jJl+KiAl8CdjCii4jqfX?=
+ =?us-ascii?Q?zyGfhFya5WRTdSBZluI73xMx3Li8WCKhljijc+Xy3nGhZplE39Bv4UTNku7E?=
+ =?us-ascii?Q?IS6KLjNbeY4WM5tx7xnMZY//CGrPF91UlH97g1vjP5Cl9+0LRv9Jr/0y23HS?=
+ =?us-ascii?Q?wEu3gMTR+uHsZ+UoRxY=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: bd9a8c93-6062-4fdc-a3a3-08dd6c775880
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 26 Mar 2025 15:03:19.9647
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SQ5GkY00TgxOLpNYvEt4dAfXdzijflUlysJWbvvnmPnX+A9vOC/8V3ZgjEk4MLtTrjLVuKZ3XxHRGSnAQa91sQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR04MB10036
 
-On Wed, 26 Mar 2025 11:01:19 +0100
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-
-> Hi folks,
->=20
-> On Tue, Mar 25, 2025 at 08:40:54PM +0000, Kyle Swenson wrote:
-> > Hello Kory,
-> >=20
-> > On Tue, Mar 25, 2025 at 04:25:34PM +0100, Kory Maincent wrote: =20
-> > > On Tue, 25 Mar 2025 06:34:17 +0100
-> > > Oleksij Rempel <o.rempel@pengutronix.de> wrote:
-> > >  =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
->  [...] =20
-> > >=20
-> > > Ack I will go for it then, thank you!
-> > >=20
-> > > Other question to both of you:
-> > > If we configure manually the current limit for a port. Then we plug a
-> > > Powered Device and we detect (during the classification) a smaller
-> > > current limit supported. Should we change the current limit to the one
-> > > detected. On that case we should not let the user set a power limit
-> > > greater than the one detected after the PD has been plugged. =20
-> >=20
-> > I don't know that we want to prevent the user from setting a higher
-> > current than a device's classification current because that would
-> > prevent the PD and PSE negotiating a higher current via LLDP.
-> >=20
-> > That said, I'm struggling to think of a use-case where the user would be
-> > setting a current limit before a PD is connected, so maybe we can reset
-> > the current limit when the PD is classified to the classification
-> > result, but also allow it to be adjusted after a PD is powered for the
-> > LLDP negotiation case.
-> >=20
-> > In our implementation, don't really let the user specify something like,
-> > "Only class 3 and lower devices on this port" because we've not seen
-> > customers need this.  We have, however, implemented the LLDP negotiation
-> > support after several requests from customers, but this only makes sense
-> > when a PD is powered at it's initial classification result.  The PD can
-> > then request more power (via LLDP) and then we adjust the current limit
-> > assuming the system has budget available for the request.
-> >  =20
-> > >=20
-> > > What do you think? Could we let a user burn a PD? =20
-> >=20
-> > This seems like a very rare case, and if the PD is designed such that
-> > it's reliant on the PSE's current limiting ability then seems like it's
-> > just an accident waiting to happen with any PSE.
-> >=20
-> > Very rarely have we seen a device actually pull more current than it's
-> > classification result allows (except for LLDP negotiation). What's more
-> > likely is a dual-channel 802.3bt device is incorrectly classified as a
-> > single-channel 802.3at device; the device pulls more current than
-> > allocated and gets shut off promptly, but no magic smoke escaped.   =20
->=20
-> Here=E2=80=99s my understanding of the use cases described so far, and a =
-proposal for
-> how we could handle them in the kernel to avoid conflicts between differe=
-nt
-> actors.
->=20
-> We have multiple components that may affect power delivery:
-> - The kernel, which reacts to detection and classification
-> - The admin, who might want to override or restrict power for policy or
-> safety reasons
-> - The LLDP daemon, which may request more power dynamically based on what=
- the
-> PD asks for
->=20
-> To avoid races and make things more predictable, I think it's best if each
-> actor has its own dedicated input.
->=20
-> ## Use Cases
->=20
-> ### Use Case 1: Classification-based power (default behavior) =20
-> - Kernel detects PD and performs classification
-> - Power is applied according to classification and hardware limits
-> - No override used
->=20
-> Steps:
-> 1. Detection runs
-> 2. Classification result obtained (e.g. Class 2 =E2=86=92 7W)
-> 3. Kernel computes:
->=20
->    effective_limit =3D min(
->        classification_result,
->        controller_capability,
->        board_limit,
->        dynamic_budget
->    )
->=20
-> 4. Power applied up to `effective_limit`
->=20
-> ### Use Case 2: Admin-configured upper bound (non-override) =20
-> - Admin sets a policy limit that restricts all power delivery
-> - Does not override classification, only bounds it
->=20
-> Steps:
-> 1. Admin sets `ETHTOOL_A_C33_PSE_AVAIL_PWR_LIMIT =3D 15000`
-> 2. Detection + classification run normally
-> 3. Kernel computes:
->=20
->    effective_limit =3D min(
->        classification_result,
->        AVAIL_PWR_LIMIT,
->        controller_capability,
->        board_limit,
->        dynamic_budget
->    )
->=20
-> 4. Classification is respected, but never exceeds admin limit
->=20
-> This value is always included in power computation =E2=80=94 even if clas=
-sification
-> or LLDP overrides are active.
->=20
-> ### Use Case 3: Persistent classification override (admin) =20
-> - Admin sets a persistent limit that overrides classification
-> - Power is always based on this override
->=20
-> Steps:
-> 1. Admin sets `CLASS_OVERRIDE_PERSISTENT =3D 25000` (mW)
-> 2. Detection/classification may run, but classification result is ignored
-> 3. Kernel computes:
->=20
->    effective_limit =3D min(
->        CLASS_OVERRIDE_PERSISTENT,
->        AVAIL_PWR_LIMIT,
->        controller_capability,
->        board_limit,
->        dynamic_budget
->    )
->=20
-> 4. Power applied accordingly
-> 5. Override persists until cleared
->=20
-> ### Use Case 4: Temporary classification override (LLDP) =20
-> - LLDP daemon overrides classification for current PD session only
-> - Cleared automatically on PD disconnect
->=20
-> Steps:
-> 1. PD connects, detection + classification runs (e.g. 7W)
-> 2. LLDP daemon receives PD request for 25000 mW
-> 3. LLDP daemon sets `CLASS_OVERRIDE_TEMPORARY =3D 25000`
-> 4. Kernel computes:
->=20
->    effective_limit =3D min(
->        CLASS_OVERRIDE_TEMPORARY,
->        AVAIL_PWR_LIMIT,
->        controller_capability,
->        board_limit,
->        dynamic_budget
->    )
->=20
-> 5. Power is increased for this session
-> 6. On PD disconnect, override is cleared automatically
->=20
+On Thu, Mar 27, 2025 at 12:07:59AM +0530, Pankaj Gupta wrote:
+> Add support for NXP secure enclave called EdgeLock Enclave
+> firmware (se-fw) for imx8ulp-evk.
+>
+> EdgeLock Enclave has a hardware limitation of restricted access to DDR
+> address: 0x80000000 to 0xafffffff, so reserve 1MB of DDR memory region
+> from 0x80000000.
+>
+> Signed-off-by: Pankaj Gupta <pankaj.gupta@nxp.com>
 > ---
->=20
-> ### Use Case 5: Ignore detection and classification (force-on) =20
-> - Admin forces the port on, ignoring detection
-> - Useful for passive/non-802.3 devices or bring-up
->=20
-> Steps:
-> 1. Admin sets:
->    - `DETECTION_IGNORE =3D true`
->    - `CLASS_OVERRIDE_PERSISTENT =3D 5000`
-> 2. Kernel skips detection and classification
-> 3. Kernel computes:
->=20
->    effective_limit =3D min(
->        CLASS_OVERRIDE_PERSISTENT,
->        AVAIL_PWR_LIMIT,
->        controller_capability,
->        board_limit,
->        dynamic_budget
->    )
->=20
-> 4. Power is applied immediately
->=20
-> ## Proposed kernel UAPI
->=20
-> ### SET attributes (configuration input)
->=20
-> | Attribute                                 | Type     | Lifetime
->  | Owner           | Description |
-> |-------------------------------------------|----------|-----------------=
--------|------------------|-------------|
-> | `ETHTOOL_A_PSE_CLASS_OVERRIDE_PERSISTENT` | u32 (mW) | Until cleared
->   | Admin            | Persistent classification override | |
-> `ETHTOOL_A_PSE_CLASS_OVERRIDE_TEMPORARY`  | u32 (mW) | Cleared on detecti=
-on
-> failure / PD replug | LLDP daemon / test tool | Temporary override of
-> classification | | `ETHTOOL_A_PSE_DETECTION_IGNORE`          | bool     |
-> Until cleared          | Admin            | Ignore detection phase | |
-> `ETHTOOL_A_C33_PSE_AVAIL_PWR_LIMIT`       | u32 (mW) | Until changed
-> | Admin            | Static admin-defined max power cap (non-override) |
->=20
-> ### GET attributes (status and diagnostics)
->=20
-> | Attribute                                  | Type     | Description |
-> |--------------------------------------------|----------|-------------|
-> | `ETHTOOL_A_PSE_EFFECTIVE_PWR_LIMIT`        | u32 (mW) | Final power lim=
-it
-> applied by kernel | | `ETHTOOL_A_PSE_CLASS_OVERRIDE_PERSISTENT`  | u32 (m=
-W) |
-> Current persistent override (if set) | |
-> `ETHTOOL_A_PSE_CLASS_OVERRIDE_TEMPORARY`   | u32 (mW) | Current temporary
-> override (if active) | | `ETHTOOL_A_PSE_DETECTION_IGNORE`           | bool
->  | Current detection ignore state |
->=20
-> ### Power Limit Priority
->=20
-> Since we now have multiple sources that can influence how much power is
-> delivered to a PD, we need to define a clear and deterministic priority
-> order for all these values. This avoids confusion and ensures that the ke=
-rnel
-> behaves consistently, even when different actors (e.g. admin, LLDP daemon,
-> hardware limits) are active at the same time.
->=20
-> Below is the proposed priority list =E2=80=94 values higher in the list t=
-ake
-> precedence over those below:
->=20
-> | Priority | Source / Field                          | Description |
-> |----------|------------------------------------------|-------------|
-> | 1        | Hardware/board-specific limit         | Maximum allowed by
-> controller or board design (e.g. via device tree or driver constraints) |=
- | 2
->        | Dynamic power budget                  | Current system-level or
-> PSE-level power availability (shared with other ports) | | 3        |
-> `ETHTOOL_A_C33_PSE_AVAIL_PWR_LIMIT`       | Admin-configured upper bound =
-=E2=80=94
-> applies even when classification or override is used | | 4        |
-> `ETHTOOL_A_PSE_CLASS_OVERRIDE_TEMPORARY`  | Temporary override, e.g. set =
-by
-> LLDP daemon, cleared on PD disconnect or detection loss | | 5        |
-> `ETHTOOL_A_PSE_CLASS_OVERRIDE_PERSISTENT` | Admin override that persists
-> until cleared | | 6        | `ETHTOOL_A_PSE_CLASSIFICATION_RESULT`     |
-> Result of PD classification, used when no override is present |
->=20
-> The effective power limit used by the kernel will always be the minimum o=
-f the
-> values above.
->=20
-> This way, even if the LLDP daemon requests more power, or classification
-> result is high, power delivery will still be constrained by admin policie=
-s,
-> hardware limits, and current budget.
+> changes from v13 to v14
+> - added the blank line.
+> - removed the lines: #address-cells = <1>; , #size-cells = <0>;
+> - moved the ele-reserved under the parent node "reserved-memory".
+> - rename the node name "ele-reserved" to general name "memory".
+> ---
+>  arch/arm64/boot/dts/freescale/imx8ulp-evk.dts | 12 +++++++++++-
+>  arch/arm64/boot/dts/freescale/imx8ulp.dtsi    | 11 +++++++++--
+>  2 files changed, 20 insertions(+), 3 deletions(-)
+>
+> diff --git a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
+> index 290a49bea2f7..10aaf02f8ea7 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
+> +++ b/arch/arm64/boot/dts/freescale/imx8ulp-evk.dts
 
-Kyle thanks for your PoE user side answer!
-Oleksij, thanks, as usual you have done an intense brainstorm! ^^
-These two replies could be helpful in the future.
+Shawn require board dts and chip dts are two patches.
 
-I asked this because I found out that the over current event of the TPS23881
-was resetting the power limit register of the port. I think I will simply
-fix it by reconfiguring the power limit if this event happens.
-So it won't change the current behavior where the user setting of power lim=
-it
-prevail over the power limit detected during classification.
+Frank
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  /*
+> - * Copyright 2021 NXP
+> + * Copyright 2021, 2025 NXP
+>   */
+>
+>  /dts-v1/;
+> @@ -37,6 +37,12 @@ linux,cma {
+>  			linux,cma-default;
+>  		};
+>
+> +		ele_reserved: memory@90000000 {
+> +			compatible = "shared-dma-pool";
+> +			reg = <0 0x90000000 0 0x100000>;
+> +			no-map;
+> +		};
+> +
+>  		m33_reserved: noncacheable-section@a8600000 {
+>  			reg = <0 0xa8600000 0 0x1000000>;
+>  			no-map;
+> @@ -259,6 +265,10 @@ &usdhc0 {
+>  	status = "okay";
+>  };
+>
+> +&hsm0 {
+> +	memory-region = <&ele_reserved>;
+> +};
+> +
+>  &fec {
+>  	pinctrl-names = "default", "sleep";
+>  	pinctrl-0 = <&pinctrl_enet>;
+> diff --git a/arch/arm64/boot/dts/freescale/imx8ulp.dtsi b/arch/arm64/boot/dts/freescale/imx8ulp.dtsi
+> index 2562a35286c2..05db47668b7e 100644
+> --- a/arch/arm64/boot/dts/freescale/imx8ulp.dtsi
+> +++ b/arch/arm64/boot/dts/freescale/imx8ulp.dtsi
+> @@ -1,6 +1,6 @@
+>  // SPDX-License-Identifier: (GPL-2.0+ OR MIT)
+>  /*
+> - * Copyright 2021 NXP
+> + * Copyright 2021, 2025 NXP
+>   */
+>
+>  #include <dt-bindings/clock/imx8ulp-clock.h>
+> @@ -154,7 +154,7 @@ sosc: clock-sosc {
+>  		#clock-cells = <0>;
+>  	};
+>
+> -	sram@2201f000 {
+> +	sram0: sram@2201f000 {
+>  		compatible = "mmio-sram";
+>  		reg = <0x0 0x2201f000 0x0 0x1000>;
+>
+> @@ -186,6 +186,13 @@ scmi_sensor: protocol@15 {
+>  				#thermal-sensor-cells = <1>;
+>  			};
+>  		};
+> +
+> +		hsm0: secure-enclave {
+> +			 compatible = "fsl,imx8ulp-se-ele-hsm";
+> +			 mbox-names = "tx", "rx";
+> +			 mboxes = <&s4muap 0 0>, <&s4muap 1 0>;
+> +			 sram = <&sram0>;
+> +		 };
+>  	};
+>
+>  	cm33: remoteproc-cm33 {
+>
+> --
+> 2.43.0
+>
