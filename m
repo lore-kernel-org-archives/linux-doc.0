@@ -1,116 +1,194 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A3BF21ABAA;
-	Thu, 27 Mar 2025 18:37:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2938121ABCD
+	for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 18:56:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743100631; cv=none; b=l+S4Lf405H9BxE0KYUVyoS4NEwE32yAun7UKkwTeF6u4cNktXbn861czx3KRB/CPRt90aFu7FqSOguVcysiB/XNr3V5YvNM+CjxkJvcxsmmba+4eLvCNRYf/qEWnJ7zAOxUolzwMelMbiFy8j/0vok9Q1MFU/pRN/vM4EWVTTmM=
+	t=1743101819; cv=none; b=gxqQB5z5yCA9Fkufy8ZVwOLnznx+XweCxzmSSvnbTtA+nmZzLK9fHQP/anhvVOZttck7qrsmSK1sgZQHIBiev6L0JPoMqLugopW6vMjwMO/plOvNXC1iCjE3QHYmmAzXAKc6HLFjqKnEard2ekiLNd7jLBOC3XCwYAkIitpf5NA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743100631; c=relaxed/simple;
-	bh=DqCIIW4vk3TZc2XuZBMZPu9SMl5ZB+LnWrs5fcjjLSM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ElEKlnuvB4FneZR/N7FcLZM0zmbH1MsHVrfJX7iu0nsulRsSclAaAHkwjuyQLrmmP/4Mz7uSeEeJRBGyc4rzncQ7y03YwxzV/mKPOsJCBffXeOhtFtRpgKpEUIf1D6lJc5i9SZ1gHRJ1YdRjSGAp7PMEzALhplujdbtVxylsqUA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dvQxoFZm; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743101819; c=relaxed/simple;
+	bh=aL7jAvW1zq17+CkLFMN0vR9BHYTKgDypZs9AcsEJ2U0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=g3A49W1AkIN9rn5kMpwH8FxEzL7YujooME8E9x9lB2zsTShOL2LJqbbi+4FZ5TU0X3qgey7K0sm699fgDZkorYCWKJTnmxBWmCPgUuWOm+T3MR2ECf7L0pRYc6+dy7eqUtppeHjwbxUErwXwclUm/83+g8zLppLZxhM7qX89TE8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=X0BESfn/; arc=none smtp.client-ip=209.85.167.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dvQxoFZm"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-301a6347494so301859a91.3;
-        Thu, 27 Mar 2025 11:37:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="X0BESfn/"
+Received: by mail-oi1-f178.google.com with SMTP id 5614622812f47-3fb3f4bf97aso395461b6e.2
+        for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 11:56:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743100629; x=1743705429; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=/JREactd+MR6uIyk15bAj7n2qQdSERCkAnE+wV8jYE4=;
-        b=dvQxoFZm5rxWdz3hbFmq8vJja3ykQj+4MAOoLdy/mnFYE2UazMMkfT58DXpbh2FNsm
-         Sf2Yxw1H2xVM1xWglpYKFCeMVr564paFWgCp3+zrbZW43vAJlUAvFj+mIDnna2NOYxCq
-         ZwRMVVjYKRAyorcMUqFXWYENieRzcgcQWUvRyvv9xd+50iDj8FDdSbufYHRrJPT57FX9
-         KSHZAePtxgVX3077CokSYktuZiiuYy8ITg338Uzrj59tpm9+vgL2gepzxUTFAX/rJfIk
-         M04HRcZP1cOfOK/wkGe/z3S6PF8OaJJWWs466leYHpihD9TkIsx0V2W5JjHbbxWD1M2s
-         MCJA==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743101816; x=1743706616; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=ppDgiMP1+TTl1CVJagamGzQJqV2s8GHoMlgEqGIQygU=;
+        b=X0BESfn/8DCN09dbPQRaSXiTBdh7dGAS2Drg2E9cWVMd2elTNBNn5aCxjTlz9kf2LU
+         f7xpbRw0bN2ahvPBGAgGDKmLiD+FZTA61F+iEwk3NqdJ7nr/wCvAUPffCA6fhyROQRBQ
+         M09/bkGcrSwp83wx7+jzIUC+UUK8b6TRsqo65wPQQHo0XpHu4+sKldMK2Kb6NEyFH5S+
+         +tDmFb26Xzq1EPpk3N+sLpOGUXkGY/CngFgR2y31+jDBFaDjXmJ4nx69n7DQHFDeePwH
+         QO7RfXE8yRx/8U2VtIN6u7lJ5NwUvtAjs7MvCahHtKUpfm6+uGUW65y9pOaZP+ZCELta
+         fgmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743100629; x=1743705429;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/JREactd+MR6uIyk15bAj7n2qQdSERCkAnE+wV8jYE4=;
-        b=n3QqEpNhoKiWuGxVOVHybH2HFGtGPQugwr1pPSMcXfe9+rdzE97y527Fvttvr2XYo6
-         ljv7MryFx/OIim2VbpzGqAln6APLbuGY4tbeFtexYjNPJgxGoPJlasmTvqyLgw16b1vg
-         VxTEfr9bxiE96pUxaVbu2wjRTaakema0jne8yhg0t+Z5PlZ56MVO1+pLwsTch5PzIddp
-         UwkB0aJGVezkttqwqNP4Z/2nqeYH0lUhEz5R3yxymFExXPmK1b0decxYQbLEo7A217ho
-         rsTXjmbfT0rrjWPY/NLZFu5hS3lBHEE5t0/q93/QTkHBqr/sd6e1QXXsYwsgPi1UKLkP
-         reaQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+bcO2U9xRr32lvxco/1Eh1VmrKqV25tGnxK0d1bRNEcmTDWzIO8UneB6fRzS8LlNqmi7/KQdo82M=@vger.kernel.org, AJvYcCVe+WeqbuEF51ouol56/QuI0FxRFzMuntIahx//KTwvH+ICRW2XsaxulDsa11y6h/2mW6ydxcS5JzBuk75A@vger.kernel.org
-X-Gm-Message-State: AOJu0YyUdv9M+NpHccTLqfvEhld5xT90PxPc2jiahKiDRdXoiko0QipV
-	FHYdKvDwuQK+IvxkJF4Oa1ZziJPIT+BJWaTqd5L+DgHvhKISwjg7yoIvhKc7FtMPAehfTazhY7w
-	ISEhkbdapAELChdQOwhZts3w/sIQ=
-X-Gm-Gg: ASbGncuXlyaBebK6/Eat5P7Rfo40DfWKqs6j3ZdpLPQrpBvG8lUjUNNC5upeD+y5TO5
-	hI9iqYh6uHp1bcQn8uhh1lXy9es9gQHdF+7WbMMTn0ktBJtXtQkQO4RKIPmPJhoOUsswpNC6ic4
-	Mk6lN44enbw8W59V2DtciofyT3KA==
-X-Google-Smtp-Source: AGHT+IH7c05IJ5W/E9xxmJQsQPdfmivr+RUCxhCsCfa8LemId4Vp9O0cRT5dp0nui4Q2qTyhx/gmnMNOqoAD7O2RzL4=
-X-Received: by 2002:a17:90b:3e8d:b0:2ff:5759:549a with SMTP id
- 98e67ed59e1d1-303b2112a46mr2303459a91.1.1743100628593; Thu, 27 Mar 2025
- 11:37:08 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743101816; x=1743706616;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ppDgiMP1+TTl1CVJagamGzQJqV2s8GHoMlgEqGIQygU=;
+        b=k1I4L4UbY/fPU/r7dVH1wX5ELnDOwNU1KLUFax6vNwfcCJmkh9hQEwYQzD+tJnLcI7
+         g/qseenNLQ2XVed4qd1OB9VW00Xq1cB1ETMwKi0MXxUOdpV9WkUj7ii+vwBKQkjQnrZo
+         YltbpXo/LY9G5ZtHJXSnCLzCZbBh83EvI43dOqhNFu52mnJDZFS4u/wIHTHAtpVmGwP2
+         4KlnPcOz5te3cMJftNSUvBEYua3qLfvUnw8N+3esdlbHxH2EY+3SsKsM6UBpZa3UA7DT
+         t4spgO7biLTWLVaoDXgAYzKlhWZj54Btg0INCRDmtqQdEDP8LvOURZWfDYlClqGt2gRm
+         IkiA==
+X-Forwarded-Encrypted: i=1; AJvYcCXCIwTmyZ5rb/Fpx+8axp6gPACwITVp585QuOi7xHSvLJA/M89MUPj65ZJ6Ol3d5hPcDE5PenhzQcM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2xCnfWg6JFsqdeoGBTasFHirL444+S8D80DRd/6r8rsod/bjv
+	OivPwua7IObP3KK0gTPniapYxSMPupv1YvrzFQo/0MfrDW5RWBrbo9xEQg8TnNk=
+X-Gm-Gg: ASbGncuNhFXNV2fJA47UQwhEmbNG8mFSbC3QmLcaRyTPEoGLGlPEppuDmd7XuasVmx1
+	F6+Yre9ypqCCV0OpOv9ZwAY5FNMP3Qy5eairI9ouYeUMNGsrANA/3P1bT71eSx22yHXgWVOJv09
+	4127lRblpCm93Jyaayf0xQUOcxgBjyRayoXesgcvzBZUPQVQQpkFsGfXdwfr1ixMKv/8pS7GqxI
+	YKEGNZ4ZSpxsvkoLgjF/wQAkxGIblQdzrAWKseoq0OpotlSKqGJfbGvCCZtuQYhAGLiGhsDPFlz
+	CVIpfsNv03McpJWToFNF54UknM/eP621WToSUWoDVrWDXvLH22DcwF6jk3EOomlzB6ivkqnG5xs
+	m45q/mA==
+X-Google-Smtp-Source: AGHT+IEQ7yeeO97qge5eKvr5YgK7xRNfEO9wfjwIfT1DcQqiR9u2xozYXLpQrS2Y9HkfQp6VTfz+Mg==
+X-Received: by 2002:a05:6808:1113:b0:3fe:af0a:f8da with SMTP id 5614622812f47-3fefa622addmr2224838b6e.38.1743101816034;
+        Thu, 27 Mar 2025 11:56:56 -0700 (PDT)
+Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3ff0516733csm36666b6e.2.2025.03.27.11.56.53
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Mar 2025 11:56:55 -0700 (PDT)
+Message-ID: <55553cdc-db84-49a6-9576-3e9e630647e0@baylibre.com>
+Date: Thu, 27 Mar 2025 13:56:53 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250213070837.2976-1-hanchunchao@inspur.com>
-In-Reply-To: <20250213070837.2976-1-hanchunchao@inspur.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Thu, 27 Mar 2025 14:36:57 -0400
-X-Gm-Features: AQ5f1JpbAw11CZFqXhvzASt06rySaccLlqPtNMKK5tEKU1zWvxVL9sPEAzCP3w4
-Message-ID: <CADnq5_Mw_d5KnUAUMLgu01o5dBoAKGJtPzYFTLp-hSsz8RSWWA@mail.gmail.com>
-Subject: Re: [PATCH] Documentation: Remove repeated word in docs
-To: Charles Han <hanchunchao@inspur.com>
-Cc: alexander.deucher@amd.com, christian.koenig@amd.com, Xinhui.Pan@amd.com, 
-	airlied@gmail.co, simona@ffwll.ch, maarten.lankhorst@linux.intel.com, 
-	mripard@kernel.org, tzimmermann@suse.de, corbet@lwn.net, 
-	Rodrigo.Siqueira@amd.com, mario.limonciello@amd.com, 
-	amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] iio: adc: ad4000: Add support for SPI offload
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, jic23@kernel.org,
+ lars@metafoo.de, Michael.Hennerich@analog.com, corbet@lwn.net
+References: <cover.1742992305.git.marcelo.schmitt@analog.com>
+ <d67e71b9fab270d16b6b5e26a3594dfc73be1ae5.1742992305.git.marcelo.schmitt@analog.com>
+ <35f4d22a-e478-4a43-bbb6-f9d34ce1f888@baylibre.com>
+ <Z-WRMih3UCFjym9p@debian-BULLSEYE-live-builder-AMD64>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <Z-WRMih3UCFjym9p@debian-BULLSEYE-live-builder-AMD64>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Feb 13, 2025 at 2:08=E2=80=AFAM Charles Han <hanchunchao@inspur.com=
-> wrote:
->
-> Remove the repeated word "the" in docs.
->
-> Signed-off-by: Charles Han <hanchunchao@inspur.com>
+On 3/27/25 12:56 PM, Marcelo Schmitt wrote:
 
-Applied.  Thanks!
+...
 
-Alex
+>>>  	case AD4000_SDI_VIO:
+>>> -		indio_dev->info = &ad4000_info;
+>>> -		indio_dev->channels = chip->chan_spec;
+>>> +		if (st->using_offload) {
+>>> +			indio_dev->info = &ad4000_offload_info;
+>>> +			indio_dev->channels = &chip->offload_chan_spec;
+>>> +			indio_dev->num_channels = 1;
+>>> +
+>>> +			/* Set CNV/CS high time for when turbo mode is not used */
+>>> +			if (!st->cnv_gpio) {
+>>> +				spi->cs_inactive.value = st->time_spec->t_conv_ns;
+>>> +				spi->cs_inactive.unit = SPI_DELAY_UNIT_NSECS;
+>>
+>> I'm still not sold on this. We know it has no effect with AXI SPI Engine and
+>> it is writing over something that usually comes from DT. It is misleading.
+> 
+> I thought it was okay to set cs_inactive and call spi_setup() from the field
+> doc in include/linux/spi/spi.h.
+> 
+> 	set_cs_timing() method is for SPI controllers that supports
+> 	configuring CS timing.
+> 	
+> 	This hook allows SPI client drivers to request SPI controllers
+> 	to configure specific CS timing through spi_set_cs_timing() after
+> 	spi_setup().
+> 
+> Would it be better to set spi-cs-inactive-delay-ns in ADC dt node?
+> Or it still doesn't look like a proper use of cs_inactive?
+> 
+>>
+>> And the non-offload case already does:
+>>
+>> 	xfers[0].cs_change_delay.value = st->time_spec->t_conv_ns;
+>>
+>> which actually does work with the AXI SPI Engine. So why not be consistent and
+>> do it the same way for the offload case?
+> 
+> One of the points in using `bits_per_word` in spi transfers was to reach high
+> frequency sample rate, right? I think it makes sense to use them for SPI offload
+> transfers. But we were also trying to set a proper CNV/CS dealy so that ADC
+> conversion could complete properly before starting requesting the data. That
+> also sound reasonable to me. But, spi_transfer struct doesn't provide a good
+> way of setting a CS inactive delay if only one transfer is executed. If we
+> use `cs_change_delay`, we would then be running two transfers, no? 
 
-> ---
->  Documentation/gpu/amdgpu/display/dc-debug.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/gpu/amdgpu/display/dc-debug.rst b/Documentatio=
-n/gpu/amdgpu/display/dc-debug.rst
-> index 013f63b271f3..605dca21f4ae 100644
-> --- a/Documentation/gpu/amdgpu/display/dc-debug.rst
-> +++ b/Documentation/gpu/amdgpu/display/dc-debug.rst
-> @@ -154,7 +154,7 @@ of the display parameters, but the userspace might al=
-so cause this issue. One
->  way to identify the source of the problem is to take a screenshot or mak=
-e a
->  desktop video capture when the problem happens; after checking the
->  screenshot/video recording, if you don't see any of the artifacts, it me=
-ans
-> -that the issue is likely on the the driver side. If you can still see th=
-e
-> +that the issue is likely on the driver side. If you can still see the
->  problem in the data collected, it is an issue that probably happened dur=
-ing
->  rendering, and the display code just got the framebuffer already corrupt=
-ed.
->
-> --
-> 2.43.0
->
+We would still only be doing one xfer per SPI offload trigger. The only
+difference it would make is that it would ensure that the second trigger
+could not come too soon after the CS deassert of the previous message.
+
+In other words, the sampling frequency is already supplying this delay
+between subsequent SPI messages. Setting xfers[0].cs_change_delay just
+adds insurance that if the next trigger comes too soon, it will be ignored.
+This could happen, e.g. if someone sets the max SCLK rate to something
+low enough that the single xfer takes longer than the trigger period at
+the max sampling frequency.
+
+In most cases though, we won't actually see cs_change_delay having any
+effect because the trigger to start the next SPI message doesn't come
+until later.
+
+> Plus, the ADC
+> would be doing two conversions (one after CS deasert of previous message and
+> one after CS deassert at the end of the first transfer) while we only read one
+> of them.
+> 
+> The offload message preparation would look like what we had in v2:
+> 
+> static int ad4000_prepare_offload_turbo_message(struct ad4000_state *st,
+> 						const struct iio_chan_spec *chan)
+> {
+> 	struct spi_transfer *xfers = st->offload_xfers;
+> 
+> 	/* Dummy transfer to guarantee enough CS high time. */
+> 	xfers[0].cs_change = 1;
+> 	xfers[0].cs_change_delay.value = st->time_spec->t_quiet1_ns;
+> 	xfers[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
+> 
+> 	xfers[1].bits_per_word = chan->scan_type.realbits;
+> 	xfers[1].len = chan->scan_type.realbits > 16 ? 4 : 2;
+> 	xfers[1].delay.value = st->time_spec->t_quiet2_ns;
+> 	xfers[1].delay.unit = SPI_DELAY_UNIT_NSECS;
+> 	xfers[1].offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
+> 
+> 	spi_message_init_with_transfers(&st->offload_msg, xfers, 2);
+> 	st->offload_msg.offload = st->offload;
+> 
+> 	return devm_spi_optimize_message(&st->spi->dev, st->spi, &st->offload_msg);
+> }
+> 
+> Are we worried about a few clock cycles in between transfers but not worried
+> about running an entire dummy transfer?
+> 
+> Plus, I've tested the single-transfer offload message version with ADAQ4003 on
+> CoraZ7 and verified the results were correct.
+> FWIW, I put a copy of the dts I used for the tests at the end of this email.
+> 
+>>
+>> It also seems safe to omit this altogether in the offload case and assume that
+>> the max sample rate will also ensure that the miniumum time for CS deasserted
+>> is respected.
+> 
+> If we can assume that, then I think that's another reason why we don't need
+> a dummy transfer to set CS high delay.
+> 
+
+I agree we don't need two xfers, especially in turbo mode.
