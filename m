@@ -1,104 +1,178 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B7BB1FF7D6
-	for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 08:13:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AA98E20B209
+	for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 08:54:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743063192; cv=none; b=OJ3bTuBNUOcyYPonZ1grgesRLCvIv7kH+E6JzU/2sHmzmKjDd8eczM3BRpaFXubbF8crQiToahMsfdjSAn95+c1748z0WN7OVHCwsxPAjsC6W0ipiAiVTq8begeQGeXbEpvyzepPaUxbCcaiL8JzXEdfSN1lFY94fyVkRtXbkRM=
+	t=1743065644; cv=none; b=GO+4PHo0NQUkosksZaT0S46cYKWWr2dD8uFpyAdbq/WqY6tbr2rzSaj5s6XLKGIYiDx7lcR58m2DLPvga17HvPUsNPDhhvkUrFIMufWxcANmYZnD1hB1qD6iMxBgGYF9A2/UuoltMuEjriHiz7yedVBvgBj58nS86f2BHx2spIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743063192; c=relaxed/simple;
-	bh=EbLVbiQlpgq9YG5GIB6FTYiL142vhrzXNYAki+1MxhU=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=W5dNZu71zvfwyEmEuzye0o9nLL2SF8AnNkW5zlKG2dO0uk25hEvHbh/Eb0Wxn+k0rghb1zpzgZwKkQdR7g9RF+e6h9JaY0SLK8gxgP/zyU2T/l/O0trp7bB46YhXEwn/3+Z9Bck9ZHOGYz38B82CWyj4AgDBlMKJXp9L8AQlqVw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=aa1HkPE/; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1743065644; c=relaxed/simple;
+	bh=PW/45Pu+M+b6KNAQI6fPCnwWPz3+7C8d0e9+28MR8CU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LFRj2oAuEoTmfmdsSyy74AmFpPKhel9/DHCNaPqVt/oGebf7wZ2JOvN9i8/UjF4Tl9sX4KJ9NuMBCaQ+ZueAdXo4clcIN+L33h2WXGzpJcht2D5hcsrlCCh0TLRkNAUTQyLBA7HoirRcEI2UPLq6lQLwHLJfkQKnbDCnFN1Hwns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Jpj7/+8Q; arc=none smtp.client-ip=209.85.221.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="aa1HkPE/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743063189;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=BoCOhkTM9KFlUbaH9jkH+YVNAgo79G44mPoieSkwGDM=;
-	b=aa1HkPE/2Hbcc+HqceopA1TvrHRlk9fxGOhoKxzA7MOF84bvxtouV5MM2T19kQFtgBH1Mg
-	5QSwDWcpAHK0l9yZm4kfR1DOmttF5JFmguEJseifi0cD5CQfY0CHL41fKqXwZnhcRj1rGf
-	kCxaq1Ua9B0pd9Soo4ObGQLY/hZICpY=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-99-0gFCmPBwPF2fHA64dZ9CNg-1; Thu,
- 27 Mar 2025 04:13:05 -0400
-X-MC-Unique: 0gFCmPBwPF2fHA64dZ9CNg-1
-X-Mimecast-MFC-AGG-ID: 0gFCmPBwPF2fHA64dZ9CNg_1743063184
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0E94F1809CA5;
-	Thu, 27 Mar 2025 08:13:04 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.32.86])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 6E48B1956095;
-	Thu, 27 Mar 2025 08:13:00 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Gabriele Monaco <gmonaco@redhat.com>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH next] Documentation/rv: Add sched pages to the indices
-Date: Thu, 27 Mar 2025 09:12:40 +0100
-Message-ID: <20250327081240.46422-1-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Jpj7/+8Q"
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3995ff6b066so302816f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 01:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743065640; x=1743670440; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6BySgb+YX1n0zynhi5aTDP7DfGbWcQJepmiGx4Uznek=;
+        b=Jpj7/+8Q9CL1DsqmYgXtK759KduLLFncv/EhmtgM+LFRu6zf2ZJ7ar8ax7yi2hpZii
+         8Wdipe/bNX8pBgzH4k9VJoVqDytLNVriXGfxS0oukO7qb9GjKQw9s2UWRTnolwd1rcvD
+         4pQcoGFRYDmjoz3URNQK/bPHSEYd4Uf5N0PZnVo7q4na1NXQRuxTJ7E5hwiHo9ffcDnZ
+         9TPwTqU4NOOfb6XI0VBWD5yHJg6c+VRx5eG2REY+xPjqxNwvG/1X25Z5ASydX0SfDlxV
+         9UmSHhdiVgGOfYjqQoD/Ykv3ywWLCT7X2ETnn6euSUkMQwDUdyfQMzuviSjCIhloscnB
+         AWJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743065640; x=1743670440;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6BySgb+YX1n0zynhi5aTDP7DfGbWcQJepmiGx4Uznek=;
+        b=nEda82FwRdBrIUG/8GroCIduq/Wc1asixSIgJg0l/fTLroYmadMUlhiepiLS12XGb1
+         cA34RiHu2oRaLfS4QWO5VtD1BnycnXm16XhlcHN9Y98XlVV9iRrv8lG69AqXHuWDPZBZ
+         3t4/1UmjyhOHIxCf0dZUr4PzP2wqOgiKFFydbe41j9ltS8w5MmLjFXjlxt7In+Rdxmso
+         mo53Am4OjTnyohpuDd6w0U/ZtZy1eXXbEDKScUjeHDdDfahTDwBPdiyDU1Agm6nhb6A1
+         XwZVi0dyTgiqNgj/uBlaa08JpZhxI7izYeb6qpw6YvWdHuV1xSygs6TtzuB8s28kXpSC
+         pa1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWvF+kBnrA0dR1Nz2mehETyUyWpvbOAXMd0y44A7AOizJ2l4jT9cSyS8cQopHF9xzra/rcdtJ61ajg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwZY7PKBnCUpk7mLjJpnViGAMXiPEmJIs9QRxf6jU+ilHi1uGbH
+	o/h9VzJrSw6QHKnAPOi9bjxAvHrLaGRp7iDutJxY5JDtAbdXKGCojUdXkGZbYwk=
+X-Gm-Gg: ASbGnctEPpXWz/Wh3rYzF0VVXUTyK5B72Mvs8MUl68RIzgKC64ToM5pA7nW7PnjGn/8
+	kiyrUgAwrZrL0mkVxDYHQjcY7oRnwj+Csc/NmUMJK8oI7FuDj0dz8X02HTNlQB6e1BQrr2mJhpd
+	KQUMLyNBzHO+M5EXvEmfx38wamPLoBF7svhe+yQYZRqN07RtUR4QcoZoDFrAoOr07w7P19tftrb
+	JP8htvXwEhDlpt+oC6jZhAsH9SDX3zih4nSqgm52MueYpfykVVDG30TrDdVWaJZ2Ov684OpIPZE
+	oegvhN+7G8uboffAiU+mXorLj7gXBP56z5Vvi3efGiN1p1ZkDpiJfZp7qxWpfbv2EwxKAjSFGjB
+	CD0Up4VwAHj/672rrEiY=
+X-Google-Smtp-Source: AGHT+IFyJgQNJ+z2yf/1utBG5Fac687BQ3VUHvz4BzbtEjnzkLxmOA5Hg+XZeYpBEVbRsM1UcB+q0A==
+X-Received: by 2002:a5d:64a1:0:b0:391:4674:b103 with SMTP id ffacd0b85a97d-39ad176bad5mr2449680f8f.39.1743065639708;
+        Thu, 27 Mar 2025 01:53:59 -0700 (PDT)
+Received: from archlinux (host-87-14-238-193.retail.telecomitalia.it. [87.14.238.193])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3997f9e6445sm19355197f8f.71.2025.03.27.01.53.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 01:53:58 -0700 (PDT)
+Date: Thu, 27 Mar 2025 09:52:47 +0100
+From: Angelo Dureghello <adureghello@baylibre.com>
+To: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+Cc: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
+	Jonathan Corbet <corbet@lwn.net>, Olivier Moysan <olivier.moysan@foss.st.com>, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] docs: iio: add documentation for ad3552r driver
+Message-ID: <uvpbdx7nzydkzigvtkx2loz2swkdrikgcbhgnlnwa3umk6ejk6@miwwdfqy3leu>
+References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
+ <20250321-wip-bl-ad3552r-fixes-v1-1-3c1aa249d163@baylibre.com>
+ <Z-R_fiDpOqV6yXcd@debian-BULLSEYE-live-builder-AMD64>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z-R_fiDpOqV6yXcd@debian-BULLSEYE-live-builder-AMD64>
 
-The pages Documentation/tools/rv/rv-mon-sched.rst and
-Documentation/trace/rv/monitor_sched.rst were introduced but not
-included in any index.
+Hi Marcelo,
 
-Add them to the respective indices.
+On 26.03.2025 19:28, Marcelo Schmitt wrote:
+> The doc seems to be all about the high-speed setup despite classical SPI support
+> being mentioned. It would be interesting to see how the regular SPI and hs
+> ad3552r IIO devices differ from each other (wiring connections, IIO device
+> interfaces (attributes, debug files, ...), any other relevant peculiarities).
+> Some comments about that inline.
+> 
 
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Fixes: 03abeaa63c08 ("Documentation/rv: Add docs for the sched monitors")
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/tools/rv/index.rst | 1 +
- Documentation/trace/rv/index.rst | 1 +
- 2 files changed, 2 insertions(+)
+had to add this file mainly to describe ramp generator usage.
 
-diff --git a/Documentation/tools/rv/index.rst b/Documentation/tools/rv/index.rst
-index 8fd16d91d..64ba2efe2 100644
---- a/Documentation/tools/rv/index.rst
-+++ b/Documentation/tools/rv/index.rst
-@@ -15,6 +15,7 @@ Runtime verification (rv) tool
-    rv-mon
-    rv-mon-wip
-    rv-mon-wwnr
-+   rv-mon-sched
- 
- .. only::  subproject and html
- 
-diff --git a/Documentation/trace/rv/index.rst b/Documentation/trace/rv/index.rst
-index 15fa96610..e80e0057f 100644
---- a/Documentation/trace/rv/index.rst
-+++ b/Documentation/trace/rv/index.rst
-@@ -12,3 +12,4 @@ Runtime Verification
-    da_monitor_instrumentation.rst
-    monitor_wip.rst
-    monitor_wwnr.rst
-+   monitor_sched.rst
+The ad3552r (classic SPI) is quite old stuff, may work with whatever
+controller with classic simple SPI (SDI/SDO/S_CLK/CS) so no particular
+wiring diagram or explainations should be needed. 
 
-base-tree: git://git.kernel.org/pub/scm/linux/kernel/git/trace/linux-trace.git
-trace-latency-v6.15
-base-commit: 4ffef9579ffc51647c5eb55869fb310f3c1e2db2
--- 
-2.49.0
+> On 03/21, Angelo Dureghello wrote:
+> > From: Angelo Dureghello <adureghello@baylibre.com>
+> > 
+> > Add documentation for ad3552r driver, needed to describe the high-speed
+> > driver debugfs attributes and shows how the user may use them.
+> > 
+> > Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
+> > ---
+> ...
+> > +==============
+> > +AD3552R driver
+> > +==============
+> > +
+> > +Device driver for Analog Devices Inc. AD35XXR series of DACs. The module name
+> > +is ``ad3552r``.
+> > +With the same module name, two different driver variants are available, the
+> > +``generic spi`` variant, to be used with any classic SPI controllers, and the
+> > +``hs`` (high speed) variant, for an ADI ``axi-dac`` (IP core) based controller
+> > +that allows to reach the maximum sample rate supported from the DACs, using the
+> > +DMA transfer and all the SPI lines available (D/QDSPI)..
+> Is D/QDSPI about dual and quad SPI? If so, what about saying that more clearly? 
+> 
+> > +The high speed driver variant is intended to be used with the ``adi-axi-dac``
+> > +backend support enabled, that is enabled by default when the driver is selected.
+> > +
+> > +Supported devices
+> > +=================
+> > +
+> > +* `AD3541R <https://www.analog.com/en/products/ad3541r.html>`_
+> > +* `AD3542R <https://www.analog.com/en/products/ad3542r.html>`_
+> > +* `AD3551R <https://www.analog.com/en/products/ad3551r.html>`_
+> > +* `AD3552R <https://www.analog.com/en/products/ad3552r.html>`_
+> > +
+> > +Wiring connections
+> > +------------------
+> > +
+> > +::
+> > +
+> > +    .-----------------.                .-------.
+> > +    |                 |--- D/QSPI -----|       |
+> > +    |   DAC IP CORE   |--- SPI S_CLK --|  DAC  |
+> > +    |                 |--- SPI CS -----|       |
+> > +    |                 |--- LDAC -------|       |
+> > +    |                 |--- RESET ------|       |
+> > +    |_________________|                |_______|
+> 
+> This only describes how the HDL IP connects to the DAC which is the high speed
+> use case. Maybe add a diagram for the regular SPI connection wiring or say that
+> the above is only for the hs setup?
+> Also, what about adding a link to the HDL documentation page?
+> https://analogdevicesinc.github.io/hdl/projects/ad35xxr_evb/index.html
+> 
+> > +
+> > +
+> > +High speed features
+> > +===================
+> > +
+> > +Device attributes
+> > +-----------------
+> This is only describing the debugfs file. What about also listing the usual
+> IIO device channels and attributes (out_voltageX_raw, out_voltageX_en, ...)?
+> 
 
+they are already documented, since part of the iio stuff.
+Please see Documentation/ABI/testing/sysfs-bus-iio.
+
+> > +
+> > +The following table shows the ad35xxr related device debug files, found in the
+> > +specific device debug folder path ``/sys/kernel/debug/iio/iio:deviceX``.
+> > +
+> > ++----------------------+-------------------------------------------------------+
+> > +| Debugfs device files | Description                                           |
+> > ++----------------------+-------------------------------------------------------+
+> > +| data_source          | The used data source,                                 |
+> > +|                      | as ``iio-buffer`` or ``backend-ramp-generator``.      |
+> > ++----------------------+-------------------------------------------------------+
+> > +
+
+Reagrds,
+angelo
