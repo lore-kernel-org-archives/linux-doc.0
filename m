@@ -1,119 +1,415 @@
-Received: from smtp-fw-80006.amazon.com (smtp-fw-80006.amazon.com [99.78.197.217])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C828453E23;
-	Thu, 27 Mar 2025 17:28:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=99.78.197.217
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B25281FF613;
+	Thu, 27 Mar 2025 17:55:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743096526; cv=none; b=uEhNDDoc6sOWCnF1BPCNErgZ4y12+0sBsDswrc9SEQiFoFcpiXiI+96j7+K1EAVtMGcF4P+EMriz37LT18j5luJRw46BZlZoad9sdS/c6Wd0hZenPADzJgDtQEjOtVu4/85G5nsSeXzm89z6+5ZHU5CmjKsvfGujM9EEHOzLfls=
+	t=1743098103; cv=none; b=XBwDWehXx5FokWh3dqe60QRBBBL/V1pqhVb+0Uu8F5HO9KuXV8v2PcOlaAKQSFQzddJbrPaPTDng11KpBhWBFpcmbNlIu7iZIQl5u9EwlJSYFihxjv/SP5+ulsCH/bK4HuzVlSWpgYl34PVgjpcKn36mAfvXiM4X2u4yjL8wSnc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743096526; c=relaxed/simple;
-	bh=m/KjN2TK9DC6QJRxDx0XiqFQ1tXNoM6xFIpl8JXP8yc=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=EBYid3smeZ0u9jTEm00rNxdK0zAcAZqSx26lzcNV5SqpuNEeLTNTnirbgllgJJAHXmLbb9u3Am09Oy8QXexhsQejxMLSHkWM8PJwUFK8Gdr7TKAIQ9z3NdK+9Z3hCKCwDoKR5eEzdEN2O6n0eEwTeOUKSRw8T9zb+/PyHdfEcCY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=P574VVFL; arc=none smtp.client-ip=99.78.197.217
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1743098103; c=relaxed/simple;
+	bh=fhmnk5e9Gn0IDCxvmT/YUvjUy6W1WYvG2k9b2kZddVk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=M4tiBEMaSk2RM5tciG8xK+COIYv1zVHYofV4/HezwzU5vMBHjw4flTvKURlAn1rg/DZWUbRBgPtbO3geGSZYgbCcharGQX0dqdBxGAMO0giURdGhZVzVEh0jutOFxGzpioa3QJxh9MaubUQSFKzA83mMGfd8crbdhYMgW4e2OTs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MKAVIMcc; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="P574VVFL"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MKAVIMcc"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2254e0b4b79so36412195ad.2;
+        Thu, 27 Mar 2025 10:55:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1743096525; x=1774632525;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=xSuF/YbxgWCWLj2Pm2m2fnuZ8qcDIDPazYI7pzm5ruM=;
-  b=P574VVFLLihRrLrYqkhjeg1fhqYasvZyAx97Q4qwAa1XE2jIQT9Zwshf
-   6mKdA22g2NKLos5QL0rXhOpLclFyzO/xDMiDfwox+bpzIVfdmZkTNs80w
-   3cMtr+ynbhhJIRCjBV7zDlAQvs90tKfkCKmy8gzTgXwvetM6TsyV/UWjp
-   o=;
-X-IronPort-AV: E=Sophos;i="6.14,281,1736812800"; 
-   d="scan'208";a="35764312"
-Received: from pdx4-co-svc-p1-lb2-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.214])
-  by smtp-border-fw-80006.pdx80.corp.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Mar 2025 17:28:43 +0000
-Received: from EX19MTAUWC001.ant.amazon.com [10.0.38.20:63978]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.62.254:2525] with esmtp (Farcaster)
- id 5fc1b816-d2cf-4e8d-a1ff-9170cc525ffa; Thu, 27 Mar 2025 17:28:42 +0000 (UTC)
-X-Farcaster-Flow-ID: 5fc1b816-d2cf-4e8d-a1ff-9170cc525ffa
-Received: from EX19D020UWC001.ant.amazon.com (10.13.138.157) by
- EX19MTAUWC001.ant.amazon.com (10.250.64.174) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Thu, 27 Mar 2025 17:28:41 +0000
-Received: from EX19MTAUWA002.ant.amazon.com (10.250.64.202) by
- EX19D020UWC001.ant.amazon.com (10.13.138.157) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Thu, 27 Mar 2025 17:28:41 +0000
-Received: from email-imr-corp-prod-pdx-all-2c-c4413280.us-west-2.amazon.com
- (10.25.36.210) by mail-relay.amazon.com (10.250.64.203) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1544.14 via Frontend Transport; Thu, 27 Mar 2025 17:28:41 +0000
-Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
-	by email-imr-corp-prod-pdx-all-2c-c4413280.us-west-2.amazon.com (Postfix) with ESMTP id 3538AA04D5;
-	Thu, 27 Mar 2025 17:28:41 +0000 (UTC)
-Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id BF36651B7; Thu, 27 Mar 2025 17:28:40 +0000 (UTC)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Changyuan Lyu <changyuanl@google.com>, <linux-kernel@vger.kernel.org>,
-	<graf@amazon.com>, <akpm@linux-foundation.org>, <luto@kernel.org>,
-	<anthony.yznaga@oracle.com>, <arnd@arndb.de>, <ashish.kalra@amd.com>,
-	<benh@kernel.crashing.org>, <bp@alien8.de>, <catalin.marinas@arm.com>,
-	<dave.hansen@linux.intel.com>, <dwmw2@infradead.org>,
-	<ebiederm@xmission.com>, <mingo@redhat.com>, <jgowans@amazon.com>,
-	<corbet@lwn.net>, <krzk@kernel.org>, <rppt@kernel.org>,
-	<mark.rutland@arm.com>, <pbonzini@redhat.com>, <pasha.tatashin@soleen.com>,
-	<hpa@zytor.com>, <peterz@infradead.org>, <robh+dt@kernel.org>,
-	<robh@kernel.org>, <saravanak@google.com>,
-	<skinsburskii@linux.microsoft.com>, <rostedt@goodmis.org>,
-	<tglx@linutronix.de>, <thomas.lendacky@amd.com>, <usama.arif@bytedance.com>,
-	<will@kernel.org>, <devicetree@vger.kernel.org>, <kexec@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <x86@kernel.org>
-Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
-In-Reply-To: <Z+VTHs0lp4TSA9L9@nvidia.com>
-References: <20250320015551.2157511-1-changyuanl@google.com>
-	<20250320015551.2157511-10-changyuanl@google.com>
-	<mafs0y0wqrdsq.fsf@amazon.de> <Z+VTHs0lp4TSA9L9@nvidia.com>
-Date: Thu, 27 Mar 2025 17:28:40 +0000
-Message-ID: <mafs0tt7eqt6f.fsf@amazon.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        d=gmail.com; s=20230601; t=1743098101; x=1743702901; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=n+dfyZTJfEZSOrQCPA/NAklJvs+/esRIRB3hCYOb0ug=;
+        b=MKAVIMccrVb9CBRAbDQFuat/A2Y3Fd7baxY+UjAn4UW91jdCWEkxqQnC39N3+57W83
+         vmNcC52VFbKcto1I2xw+/WkXhWsY4fXhwoSVYbGlRVorUIEz8Q63apzub6BrVUz/CfGT
+         s7eak2Vrtjmlcbgw3NZ6/i5IkQRsoYNuHgWoS3FSDXj5taJHdl9rr+/pKYlqQnJlrOTE
+         kunxeItx3//CNwRacMmRZdUQhESk8qPPU2aVIic8Dh4FE7vuW20qqw6jtXXWOJ8lkdMZ
+         H+dlroJb4iSwwI+cMM8jRJLybDnnFR2Vf5nCClXGXB6bwhoIsfMVl7FqNJvkog+rHJvk
+         pCcQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743098101; x=1743702901;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=n+dfyZTJfEZSOrQCPA/NAklJvs+/esRIRB3hCYOb0ug=;
+        b=OWiTLGNv3IJ/SenhzfdPEqGdty+Sytjh6f+oHOXXgTiuAWkicRwkdSs2k0n9+Sz+PM
+         hUG6bUO4pE3IrvGhM+p48jKFKNcfUUnGOvB+OABZMP/oBwIXcRygH8wrsRw9v5uSzBJR
+         Vpd0PB4fSuZv1ur6YwxA2tLil3Ir3jRtCampCGFGo0YdHgQz16F0YcW3kYcsVuzyRaXX
+         sKZLSZtE3DYUsBl2U6D3aWJjq/2PXYc81R6pXFSgxCAdpdLEXGshuV2VyT/S21bQOiEj
+         pJxoj7fxURKUSxGfMmizJpHry+KsJj0mAjZ5a5GymPX7xvLbzHpAqzLWTB3e57iuogiS
+         Bc0A==
+X-Forwarded-Encrypted: i=1; AJvYcCUIrwwG24e1G0Moi1jxNzPoHaWmEm5nsEBdtsrU5IydvTcLWeaMHZp2c8GsvITWT7JW6Uo9suUgSSE=@vger.kernel.org, AJvYcCUP18u2YvHnwCtF/3bP6UM0JhiVhDwxRUa9xvK2/EFyJdj9lHHavEomqiZe3aq7PYBXj8cKsK82HbaaOYTD@vger.kernel.org, AJvYcCXHkyayUzfLInOowQsWC2T5c8vGvr/sKgFMStLZjCm+Oybeg6YqUgNLNOvT/i8KpVDkcUmDM06H6FX2@vger.kernel.org
+X-Gm-Message-State: AOJu0YwDQkJEPNL5AKrvDfLm/KDOjmYJrLpFHyrSo4OS6jYNqCs3okhx
+	BTmu4tSzmaNgdgXiyrJOWVn23a5d7XddU5FGM9xV754HWtPhLW2d
+X-Gm-Gg: ASbGnct3fYfh8ECWi3oblW2oW3j0zZ2iDIBt30TqfZMuED6xEnhySU/sW3GvKUYB6f/
+	O5ED+9/rBV9tMKXhd5dBy/AlNhjyj21fs+rBcrGTaggIcpx+Iz7E/VhmTWyCl/InrBhw3xRyWws
+	kR+YqRdUjTO7ToXErxPGbUvTHDa2MRwp4EPiFKPyZk5RjDUZmI6Ix9eYpb74yIHuL03wiFiElcF
+	rkxB6ZDWwr5weO9c6f0BRQ/HY0XKVYSsiQG9UQKyb/UppYoGEg0MakfFanqxd0B4bR4irWyqU1b
+	+L3v9BzH5VkJM4KTzrIVqqyLPPt8et0e3lKITXDChWIas3Bq8pZRtw==
+X-Google-Smtp-Source: AGHT+IHpiwzukvLFEEn+mnHcCDcr2sJr2j0XYOPHiRJDKyDpVgLTHnbBXJVUaPsUzhVZ6DOLQVeCJA==
+X-Received: by 2002:a17:903:22cf:b0:21f:164d:93fe with SMTP id d9443c01a7336-2280491397fmr68063005ad.53.1743098100605;
+        Thu, 27 Mar 2025 10:55:00 -0700 (PDT)
+Received: from localhost ([2804:30c:b03:ee00:e0b8:a8b8:44aa:8d0b])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-2291eec543csm2823045ad.38.2025.03.27.10.54.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 27 Mar 2025 10:54:59 -0700 (PDT)
+Date: Thu, 27 Mar 2025 14:56:02 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	corbet@lwn.net
+Subject: Re: [PATCH v3 1/4] iio: adc: ad4000: Add support for SPI offload
+Message-ID: <Z-WRMih3UCFjym9p@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1742992305.git.marcelo.schmitt@analog.com>
+ <d67e71b9fab270d16b6b5e26a3594dfc73be1ae5.1742992305.git.marcelo.schmitt@analog.com>
+ <35f4d22a-e478-4a43-bbb6-f9d34ce1f888@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35f4d22a-e478-4a43-bbb6-f9d34ce1f888@baylibre.com>
 
-On Thu, Mar 27 2025, Jason Gunthorpe wrote:
+Hi David, thank you for your review.
+Hope I don't sound harsh on my reply.
+Comments inline.
 
-> On Thu, Mar 27, 2025 at 10:03:17AM +0000, Pratyush Yadav wrote:
->
->> Of course, with the current linked list structure, this cannot work. But
->> I don't see why we need to have it. I think having a page-table like
->> structure would be better -- only instead of having PTEs at the lowest
->> levels, you have the bitmap.
->
-> Yes, but there is a trade off here of what I could write in 30 mins
-> and what is maximally possible :) The xarray is providing a page table
-> implementation in a library form.
->
-> I think this whole thing can be optimized, especially the
-> memblock_reserve side, but the idea here is to get started and once we
-> have some data on what the actual preservation workload is then
-> someone can optimize this.
->
-> Otherwise we are going to be spending months just polishing this one
-> patch without any actual data on where the performance issues and hot
-> spots actually are.
+Thanks
 
-The memblock_reserve side we can optimize later, I agree. But the memory
-preservation format is ABI and I think that is worth spending a little
-more time on. And I don't think it should be that much more complex than
-the current format.
+On 03/27, David Lechner wrote:
+> On 3/26/25 8:24 AM, Marcelo Schmitt wrote:
+> > FPGA HDL projects can include a PWM generator in addition to SPI-Engine.
+> > The PWM IP is used to trigger SPI-Engine offload modules that in turn set
+> > SPI-Engine to execute transfers to poll data from the ADC. That allows data
+> > to be read at the maximum sample rates. Also, it is possible to set a
+> > specific sample rate by setting the proper PWM duty cycle and related state
+> > parameters, thus allowing an adjustable ADC sample rate when a PWM (offload
+> > trigger) is used in combination with SPI-Engine.
+> > 
+> > Add support for SPI offload.
+> > 
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > ---
+> 
+...
+> >  #include <linux/regulator/consumer.h>
+> >  #include <linux/spi/spi.h>
+> > +#include <linux/spi/offload/consumer.h>
+> 
+> Alphabetical order?
 
-I want to hack around with it, so I'll give it a try over the next few
-days and see what I can come up with.
+Ah drat, yes. Hope I've put that in the correct order now.
 
--- 
-Regards,
-Pratyush Yadav
+> 
+> >  #include <linux/units.h>
+> >  #include <linux/util_macros.h>
+> >  #include <linux/iio/iio.h>
+> >  
+> >  #include <linux/iio/buffer.h>
+> > +#include <linux/iio/buffer-dmaengine.h>
+> >  #include <linux/iio/triggered_buffer.h>
+> >  #include <linux/iio/trigger_consumer.h>
+> >  
+Also changing to
+...
+#include <linux/units.h>
+#include <linux/util_macros.h>
+
+#include <linux/iio/iio.h>
+#include <linux/iio/buffer.h>
+#include <linux/iio/buffer-dmaengine.h>
+...
+
+> 
+> ...
+> 
+> >  
+> > +/*
+> > + * When SPI offload is configured, transfers are executed withouth CPU
+> 
+> s/withouth/without/
+Ack
+
+> > + * intervention so no soft timestamp can be recorded when transfers run.
+> > + * Because of that, the macros that set timestamp channel are only used when
+> > + * transfers are not offloaded.
+> > + */
+...
+> > @@ -784,7 +1081,10 @@ static int ad4000_probe(struct spi_device *spi)
+> >  	switch (st->sdi_pin) {
+> >  	case AD4000_SDI_MOSI:
+> >  		indio_dev->info = &ad4000_reg_access_info;
+> > -		indio_dev->channels = chip->reg_access_chan_spec;
+> > +
+> > +		/* Set CNV/CS high time for when turbo mode is used */
+> > +		spi->cs_inactive.value = st->time_spec->t_quiet1_ns;
+> > +		spi->cs_inactive.unit = SPI_DELAY_UNIT_NSECS;
+> 
+> This code path later calls ad4000_prepare_3wire_mode_message() which sets:
+> 
+> 	xfers[0].cs_change_delay.value = st->time_spec->t_conv_ns;
+> 
+> Which contradicts/overrides this.
+
+Oof, good point. Though, it's probably not a problem if single-shot transfers
+use a longer delay, right? Would that also override cs_inactive or be of any
+trouble for SPI controllers?
+
+...
+> >  
+> > +		if (st->using_offload) {
+> > +			indio_dev->channels = &chip->reg_access_offload_chan_spec;
+> > +			indio_dev->num_channels = 1;
+> > +			ret = ad4000_prepare_offload_message(st, indio_dev->channels);
+> > +			if (ret)
+> > +				return dev_err_probe(dev, ret,
+> > +						     "Failed to optimize SPI msg\n");
+> > +		} else {
+> > +			indio_dev->channels = chip->reg_access_chan_spec;
+> > +			indio_dev->num_channels = ARRAY_SIZE(chip->reg_access_chan_spec);
+> > +		}
+> > +
+> > +		/*
+> > +		 * Call ad4000_prepare_3wire_mode_message() so single-shot read
+> > +		 * SPI messages are always initialized.
+> > +		 */
+> >  		ret = ad4000_prepare_3wire_mode_message(st, &indio_dev->channels[0]);
+> >  		if (ret)
+> > -			return ret;
+> > +			return dev_err_probe(dev, ret,
+> > +					     "Failed to optimize SPI msg\n");
+> >  
+> >  		ret = ad4000_config(st);
+> >  		if (ret < 0)
+> > @@ -806,19 +1123,47 @@ static int ad4000_probe(struct spi_device *spi)
+> >  
+> >  		break;
+> >  	case AD4000_SDI_VIO:
+> > -		indio_dev->info = &ad4000_info;
+> > -		indio_dev->channels = chip->chan_spec;
+> > +		if (st->using_offload) {
+> > +			indio_dev->info = &ad4000_offload_info;
+> > +			indio_dev->channels = &chip->offload_chan_spec;
+> > +			indio_dev->num_channels = 1;
+> > +
+> > +			/* Set CNV/CS high time for when turbo mode is not used */
+> > +			if (!st->cnv_gpio) {
+> > +				spi->cs_inactive.value = st->time_spec->t_conv_ns;
+> > +				spi->cs_inactive.unit = SPI_DELAY_UNIT_NSECS;
+> 
+> I'm still not sold on this. We know it has no effect with AXI SPI Engine and
+> it is writing over something that usually comes from DT. It is misleading.
+
+I thought it was okay to set cs_inactive and call spi_setup() from the field
+doc in include/linux/spi/spi.h.
+
+	set_cs_timing() method is for SPI controllers that supports
+	configuring CS timing.
+	
+	This hook allows SPI client drivers to request SPI controllers
+	to configure specific CS timing through spi_set_cs_timing() after
+	spi_setup().
+
+Would it be better to set spi-cs-inactive-delay-ns in ADC dt node?
+Or it still doesn't look like a proper use of cs_inactive?
+
+> 
+> And the non-offload case already does:
+> 
+> 	xfers[0].cs_change_delay.value = st->time_spec->t_conv_ns;
+> 
+> which actually does work with the AXI SPI Engine. So why not be consistent and
+> do it the same way for the offload case?
+
+One of the points in using `bits_per_word` in spi transfers was to reach high
+frequency sample rate, right? I think it makes sense to use them for SPI offload
+transfers. But we were also trying to set a proper CNV/CS dealy so that ADC
+conversion could complete properly before starting requesting the data. That
+also sound reasonable to me. But, spi_transfer struct doesn't provide a good
+way of setting a CS inactive delay if only one transfer is executed. If we
+use `cs_change_delay`, we would then be running two transfers, no? Plus, the ADC
+would be doing two conversions (one after CS deasert of previous message and
+one after CS deassert at the end of the first transfer) while we only read one
+of them.
+
+The offload message preparation would look like what we had in v2:
+
+static int ad4000_prepare_offload_turbo_message(struct ad4000_state *st,
+						const struct iio_chan_spec *chan)
+{
+	struct spi_transfer *xfers = st->offload_xfers;
+
+	/* Dummy transfer to guarantee enough CS high time. */
+	xfers[0].cs_change = 1;
+	xfers[0].cs_change_delay.value = st->time_spec->t_quiet1_ns;
+	xfers[0].cs_change_delay.unit = SPI_DELAY_UNIT_NSECS;
+
+	xfers[1].bits_per_word = chan->scan_type.realbits;
+	xfers[1].len = chan->scan_type.realbits > 16 ? 4 : 2;
+	xfers[1].delay.value = st->time_spec->t_quiet2_ns;
+	xfers[1].delay.unit = SPI_DELAY_UNIT_NSECS;
+	xfers[1].offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
+
+	spi_message_init_with_transfers(&st->offload_msg, xfers, 2);
+	st->offload_msg.offload = st->offload;
+
+	return devm_spi_optimize_message(&st->spi->dev, st->spi, &st->offload_msg);
+}
+
+Are we worried about a few clock cycles in between transfers but not worried
+about running an entire dummy transfer?
+
+Plus, I've tested the single-transfer offload message version with ADAQ4003 on
+CoraZ7 and verified the results were correct.
+FWIW, I put a copy of the dts I used for the tests at the end of this email.
+
+> 
+> It also seems safe to omit this altogether in the offload case and assume that
+> the max sample rate will also ensure that the miniumum time for CS deasserted
+> is respected.
+
+If we can assume that, then I think that's another reason why we don't need
+a dummy transfer to set CS high delay.
+
+> 
+> > +				ret = spi_setup(spi);
+> > +				if (ret < 0)
+> > +					return ret;
+> > +			}
+> > +
+> > +			ret = ad4000_prepare_offload_message(st, indio_dev->channels);
+> > +			if (ret)
+> > +				return dev_err_probe(dev, ret,
+> > +						     "Failed to optimize SPI msg\n");
+> > +		} else {
+> > +			indio_dev->info = &ad4000_info;
+> > +			indio_dev->channels = chip->chan_spec;
+> > +			indio_dev->num_channels = ARRAY_SIZE(chip->chan_spec);
+> > +		}
+> > +
+> >  		ret = ad4000_prepare_3wire_mode_message(st, &indio_dev->channels[0]);
+> >  		if (ret)
+> > -			return ret;
+> > +			return dev_err_probe(dev, ret,
+> > +					     "Failed to optimize SPI msg\n");
+> >  
+> >  		break;
+
+
+---------- zynq-coraz7s-adaq4003.dts { ------------------
+
+// SPDX-License-Identifier: GPL-2.0
+/*
+ * Analog Devices ADAQ4003
+ *
+ * hdl_project: <pulsar_adc/coraz7s>
+ * Link: https://github.com/analogdevicesinc/hdl/tree/main/projects/pulsar_adc
+ * board_revision: <A>
+ *
+ * Copyright (C) 2023 Analog Devices Inc.
+ */
+/dts-v1/;
+#include "zynq-coraz7s.dtsi"
+#include <dt-bindings/interrupt-controller/irq.h>
+#include <dt-bindings/gpio/gpio.h>
+
+/ {
+	adc_vref: regulator-vref {
+		compatible = "regulator-fixed";
+		regulator-name = "EVAL 5V Vref";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-always-on;
+	};
+
+	adc_vdd: regulator-vdd {
+		compatible = "regulator-fixed";
+		regulator-name = "Eval VDD supply";
+		regulator-min-microvolt = <5000000>;
+		regulator-max-microvolt = <5000000>;
+		regulator-always-on;
+	};
+
+	adc_vio: regulator-vio {
+		compatible = "regulator-fixed";
+		regulator-name = "Eval VIO supply";
+		regulator-min-microvolt = <3300000>;
+		regulator-max-microvolt = <3300000>;
+		regulator-always-on;
+	};
+
+	trigger_pwm: adc-pwm-trigger {
+		compatible = "pwm-trigger";
+		#trigger-source-cells = <0>;
+		pwms = <&adc_trigger 0 1000000 0>;
+	};
+};
+
+&fpga_axi {
+
+	adc_trigger: pwm@0x44b00000 {
+		compatible = "adi,axi-pwmgen-2.00.a";
+		reg = <0x44b00000 0x1000>;
+		label = "adc_conversion_trigger";
+		#pwm-cells = <2>;
+		clocks = <&spi_clk>;
+	};
+
+	spi_engine: spi@44a00000 {
+		compatible = "adi,axi-spi-engine-1.00.a";
+		reg = <0x44a00000 0x10000>;
+		interrupt-parent = <&intc>;
+		interrupts = <0 56 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&clkc 15 &spi_clk>;
+		clock-names = "s_axi_aclk", "spi_clk";
+
+		dmas = <&rx_dma 0>;
+		dma-names = "offload0-rx";
+		trigger-sources = <&trigger_pwm>;
+
+		#address-cells = <0x1>;
+		#size-cells = <0x0>;
+
+		adc@0 {
+			compatible = "adi,adaq4003";
+			reg = <0>;
+			spi-max-frequency = <100000000>;
+			vdd-supply = <&adc_vdd>;
+			vio-supply = <&adc_vio>;
+			ref-supply = <&adc_vref>;
+			adi,high-z-input;
+			adi,gain-milli = /bits/ 16 <454>;
+		};
+	};
+
+	rx_dma: rx-dmac@44a30000 {
+		compatible = "adi,axi-dmac-1.00.a";
+		reg = <0x44a30000 0x1000>;
+		#dma-cells = <1>;
+		interrupt-parent = <&intc>;
+		interrupts = <0 57 IRQ_TYPE_LEVEL_HIGH>;
+		clocks = <&clkc 16>;
+	};
+
+	spi_clk: axi-clkgen@0x44a70000 {
+		compatible = "adi,axi-clkgen-2.00.a";
+		reg = <0x44a70000 0x10000>;
+		#clock-cells = <0>;
+		clocks = <&clkc 15>, <&clkc 15>;
+		clock-names = "s_axi_aclk", "clkin1";
+		clock-output-names = "spi_clk";
+
+		assigned-clocks = <&spi_clk>;
+		assigned-clock-rates = <200000000>;
+	};
+};
+
+---------- } zynq-coraz7s-adaq4003.dts ------------------
