@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A87B81B415F;
-	Thu, 27 Mar 2025 03:24:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68C431DF724;
+	Thu, 27 Mar 2025 03:24:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743045859; cv=none; b=sVhWoN5DlmUOVZRSKz2TBQANrAPAwLDwKS+z7lN3VzZYndbHArs4BYJ2Oe78Me3+0osJ4v9Gzm+5V1hckr15K4Ji+CR6BCsJLKwMMyWG6o/tE77kVLwT5HIQUNvnh237r5p1/1ZUpbXIINTTEwuqV+QpA9WLUm5urZ4iDPV/v58=
+	t=1743045862; cv=none; b=ck1vJ3JoRuslkuSH7OQivv0N7o3VYJU656Uq7tghymQE4FMsPeZJ3CtNIaWUv1KtXvhOaqFEvMhy7iSo1X8qpKnUkLSMfPp4qMs6v/A7PgRPgrGR1+hDdrndbZ9pyWF/fdcTiYEq/CgqH10cAq936fFwLca3zJiQETdX/32hWVE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743045859; c=relaxed/simple;
-	bh=q3uWifr4a1+xayQ552RxBKHFkKXY6qRWxXi9pE7LfJU=;
+	s=arc-20240116; t=1743045862; c=relaxed/simple;
+	bh=YtxfKvSWv2/a1oAlKoiwHfzUaB8Ez36lv4AOkIm9qzI=;
 	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=YBmgtx/kUvfrSwm8pLwWcStEeDmuxOPF3BozyaEjLrWb0kD05zvX/12f2/nd1NJKRG002BNvd4wlpWa6lFx724Yd/XvXhGlYempRZA7B2qDd+0+NwgqSjbQiw76etQoDM/bl0bfolg2hZByuB68RndTIgaCrCV5snDscNQ2WJpM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PDsXEgSJ; arc=none smtp.client-ip=10.30.226.201
+	 In-Reply-To:To:Cc; b=mDP6G8qhaKEu9fai+N0XQJK6euybNmovmrOBDFXSIvZV4cxkA2opcJjhfM2j9Zjf5xPEgF/uNN3Dt9o/VOCcznr1eB1unqxZniNlInHjDdl3JjQafye6w9LemxV3Nq1iNayiDQ3t30ePIsk0Zf4STmIVOD04L/nRv8Xw+IroP5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=G4aZQfYo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PDsXEgSJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 246B7C4CEEE;
-	Thu, 27 Mar 2025 03:24:19 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="G4aZQfYo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B2DC4CEEA;
+	Thu, 27 Mar 2025 03:24:21 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743045859;
-	bh=q3uWifr4a1+xayQ552RxBKHFkKXY6qRWxXi9pE7LfJU=;
+	s=k20201202; t=1743045861;
+	bh=YtxfKvSWv2/a1oAlKoiwHfzUaB8Ez36lv4AOkIm9qzI=;
 	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=PDsXEgSJtwj2Mjih1sDwHOgHBXgkOYVF5IktBUYPID/1O5spP9khhBIse1WWrNRYX
-	 ACd4JKcnyVJzlJcfxeSvGiaJkg7qg8OZm23pgLgMPZ2cMacrA2uvjRzUJ5T9IAfMMX
-	 L1x10rDBc5YD6M1cW79yqRmqEVYp/DBGPHLkCiWnHeKEcTFyUOzRheqK40Gp0EoZtZ
-	 4+/glFMR87VfU2Yvj85UesipsHEkd/Pf/WKTSXfinMwweomFXYfuq7XDIOQFHudwoa
-	 IN7/fqY8tS3c5Vck4bm3p+XPCUZwxk57BSFz3BHr5vHkr4XSdkLqVk9T5jj05CK2A2
-	 Cjy5KLfcGX6cw==
+	b=G4aZQfYorl84c7rtvXXeCrzOmQpcx1lxEh7LOWAGryMmz8GUzjWtlRlQg9+qKFbVT
+	 rMQGjkH0KqeQ4vqQ07mPh7mnV1LSgNcttx92HBTwhFVKk0K/GrlqUB3qVs3RDQs1/r
+	 JXpn4Azp+jgBwCUQkF3KEDnm7p/aZapz2rzytNqSpafGSCZwqHZa/zUJ8J/DVb7uLX
+	 Cmz392YazAeoRLijed1VTQ/i6ssahkQ8RnsatM/9hab8/dP9CNDGVuvb8Sgi8BBcr0
+	 jAO+0ALvyK8X8YV53DV2Drwr7DW/qtCY/buqAsIPhXXdRyT8SUvxa86b3hbx8pcrgv
+	 QFrsc70/eal5w==
 Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id ADD60380AAFD;
-	Thu, 27 Mar 2025 03:24:56 +0000 (UTC)
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 70FD1380AAFD;
+	Thu, 27 Mar 2025 03:24:59 +0000 (UTC)
 Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -37,45 +37,44 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH v3 0/3] riscv: Add bfloat16 instruction support
+Subject: Re: [PATCH v7 0/3] Enable Zicbom in usermode
 From: patchwork-bot+linux-riscv@kernel.org
 Message-Id: 
- <174304589524.1549280.4582301504340621621.git-patchwork-notify@kernel.org>
-Date: Thu, 27 Mar 2025 03:24:55 +0000
-References: <20241206055829.1059293-1-inochiama@gmail.com>
-In-Reply-To: <20241206055829.1059293-1-inochiama@gmail.com>
-To: Inochi Amaoto <inochiama@gmail.com>
-Cc: linux-riscv@lists.infradead.org, unicorn_wang@outlook.com, corbet@lwn.net,
- paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu,
- robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
- cleger@rivosinc.com, evan@rivosinc.com, charlie@rivosinc.com,
- ajones@ventanamicro.com, jesse@rivosinc.com, andybnac@gmail.com,
- alexghiti@rivosinc.com, samuel.holland@sifive.com, yongxuan.wang@sifive.com,
+ <174304589800.1549280.3544562224305376378.git-patchwork-notify@kernel.org>
+Date: Thu, 27 Mar 2025 03:24:58 +0000
+References: <20250226063206.71216-1-cuiyunhui@bytedance.com>
+In-Reply-To: <20250226063206.71216-1-cuiyunhui@bytedance.com>
+To: yunhui cui <cuiyunhui@bytedance.com>
+Cc: linux-riscv@lists.infradead.org, ajones@ventanamicro.com,
+ alexghiti@rivosinc.com, andybnac@gmail.com, aou@eecs.berkeley.edu,
+ charlie@rivosinc.com, cleger@rivosinc.com, conor.dooley@microchip.com,
+ conor@kernel.org, corbet@lwn.net, evan@rivosinc.com, jesse@rivosinc.com,
  linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, dlan@gentoo.org, looong.bin@gmail.com
+ linux-kselftest@vger.kernel.org, palmer@dabbelt.com,
+ paul.walmsley@sifive.com, samuel.holland@sifive.com, shuah@kernel.org
 
 Hello:
 
 This series was applied to riscv/linux.git (for-next)
 by Alexandre Ghiti <alexghiti@rivosinc.com>:
 
-On Fri,  6 Dec 2024 13:58:26 +0800 you wrote:
-> Add description for the BFloat16 precision Floating-Point ISA extension,
-> (Zfbfmin, Zvfbfmin, Zvfbfwma). which was ratified in commit 4dc23d62
-> ("Added Chapter title to BF16") of the riscv-isa-manual.
+On Wed, 26 Feb 2025 14:32:03 +0800 you wrote:
+> v1/v2:
+> There is only the first patch: RISC-V: Enable cbo.clean/flush in usermode,
+> which mainly removes the enabling of cbo.inval in user mode.
 > 
-> Changed from v2:
-> 1. rebase for v6.13-rc1
+> v3:
+> Add the functionality of Expose Zicbom and selftests for Zicbom.
 > 
 > [...]
 
 Here is the summary with links:
-  - [v3,1/3] dt-bindings: riscv: add bfloat16 ISA extension description
-    https://git.kernel.org/riscv/c/35bc1883733c
-  - [v3,2/3] riscv: add ISA extension parsing for bfloat16 ISA extension
-    (no matching commit)
-  - [v3,3/3] riscv: hwprobe: export bfloat16 ISA extension
-    https://git.kernel.org/riscv/c/a4863e002cf0
+  - [v7,1/3] RISC-V: Enable cbo.clean/flush in usermode
+    https://git.kernel.org/riscv/c/de70b532f91b
+  - [v7,2/3] RISC-V: hwprobe: Expose Zicbom extension and its block size
+    https://git.kernel.org/riscv/c/eb1003970940
+  - [v7,3/3] RISC-V: selftests: Add TEST_ZICBOM into CBO tests
+    https://git.kernel.org/riscv/c/36dec9e44805
 
 You are awesome, thank you!
 -- 
