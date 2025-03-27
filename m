@@ -1,89 +1,234 @@
-Received: from out-179.mta0.migadu.com (out-179.mta0.migadu.com [91.218.175.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oi1-f172.google.com (mail-oi1-f172.google.com [209.85.167.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25D1B146A72
-	for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 15:01:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E3B8919D882
+	for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 16:12:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743087686; cv=none; b=DSzJhWckqq8fp3vmcji1orw+1aIyS2hzsYp/VTBcPfNvhvTseO3T+qyDqUZJ9awXsUEp1BfqjwSUuDR94Dsvjv1YGP8dEr2zHXQsqgAwyTZH7L3OY2FWOwq1j7mSFWmcM8KTABeQdCzvt1RIhkcFfn+HkBHzr1/Li5mgNyG3fTQ=
+	t=1743091934; cv=none; b=dqvdQVRZUH6fSNAKV34QoRnQumSN8ZvBr+pZqjA9ouK8Ds6ZtLaBx6IijqY8kYo98Wxlpgo9Pwmhc8PuMVfM+dvboMCz61zmhhS9QPQyKv65cYx3AA78ehYjmzIYHTJPHsFcgf4Dr6FV3jPOfxHLpmW6uuKiZqxcPtgnIKzxGHQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743087686; c=relaxed/simple;
-	bh=nw4pv5R1jm6ML9J+yCdzCtUQffBtXQqAQI4BoDJp0UU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jEmOwdQ74a0Cor7PjzLC2K8ZLYhXxqCzcwVQ7f3/4Zeg2cSPbMY8A7DyNAuJ4USLY7r6H7HIxdz6Az6Rh/lI5jPfl2W6YKL2b6L/MKaeba2bB9QaV7C/089adSGXpbSOmHRE9r+yuT4PEIzNOqXIX39pYQRy/WjdUws0i4fwiHQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=PBKCEw+k; arc=none smtp.client-ip=91.218.175.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1743091934; c=relaxed/simple;
+	bh=0SQScDqEeMbzQnwpiKKIFG9Vk68To6MbYwSHP1HvL3w=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=u0T8/1PFRONqOjIvtLUYUTwNTy+BC/lCej04jvxT1/YbrLVqoMPUSX8WTo1g/RSnhTcR48NrxrvJHB3n/W36TGZ4U5vRSHOhRfHazngHm0mVKoQ+yVuAVqm4QIM09oLrrvRBafEVMxBtsxyvtShFnjSgsa3AjCdWssTbScg6huM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Xtc2u7vF; arc=none smtp.client-ip=209.85.167.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="PBKCEw+k"
-Date: Thu, 27 Mar 2025 11:01:15 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1743087681;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=IcvekZQH+j+p97YeB4/yEpAZzvs9KIEsKULl/WK/9vQ=;
-	b=PBKCEw+kRjk95sKh2ZN02rlprYFY1nx3B1WFeMmw7eLoMLXmyGrSSLAxXkStIsfagZ8zmt
-	T0udX4ZTrsEPWsOGQl/xc4tctgdpgepLyZMh4KsRJGGfbfNGtotW+VZAuorJzQRKIjTMky
-	GQ4SPU30Sh6aswM8Z8+OQya2j/4jo57b6G1LEc/9Ay2kuP0t0c9lluUYtYgCAvhMalgSUI
-	HHvev9srG7jpm8+sI+1kgVsJ96knrCfxNuQyGHO3kTVcCGx9BJt0XOPYxUr8EERyuaen9S
-	hKKn/BEI08vUpHLo7MJAJJmATNahJhpRf5mDypvOmC/qWx+5yc61WPwQX31eLw==
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Neal Gompa <neal@gompa.dev>
-Cc: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alex Gaynor <alex.gaynor@gmail.com>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Faith Ekstrand <faith.ekstrand@collabora.com>,
-	Janne Grunau <j@jannau.net>, Sven Peter <sven@svenpeter.dev>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Sergio Lopez Pascual <slp@sinrega.org>,
-	Ryan Houdek <sonicadvance1@gmail.com>, linux-kernel@vger.kernel.org,
-	dri-devel@lists.freedesktop.org, rust-for-linux@vger.kernel.org,
-	asahi@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, Asahi Lina <lina@asahilina.net>,
-	Simona Vetter <simona.vetter@ffwll.ch>
-Subject: Re: [PATCH v5] drm: Add UAPI for the Asahi driver
-Message-ID: <Z-VoO7l5xzuN5RUX@blossom>
-References: <20250326-agx-uapi-v5-1-04fccfc9e631@rosenzweig.io>
- <CAEg-Je9G23mXWTHbnuozsrRY8+03tfq7uT=St+KgLvq1RggzmA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Xtc2u7vF"
+Received: by mail-oi1-f172.google.com with SMTP id 5614622812f47-3f6a92f2328so653377b6e.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 09:12:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743091931; x=1743696731; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=unBVHfPgws2ZkgWdON6HD2DMgITftuEecvFOlYQpcdY=;
+        b=Xtc2u7vFHOb37SBR0T56eXgaf+/sBptQ9j+ezC78qT4beeRDX1s5a99Pav5/IFOVBe
+         zh+cmNHwkoJbqknMt2phTjCQAgdKXYg7oQD9yVQaBMGksO4gQRni4eoC+2+y31Avno0D
+         FM+iignRE1pU5Icvw9MJNEi1dda1m3Ym2NDMxZU+ZkKuBmDghffnTxHieH3X9L1CULOO
+         wsgOwR/fneDpF/znALSo16vdZ2TeS0+USX2TO/eBrHmjIGXTxwrxVH+WyESKdw31A+ox
+         C4jfrdGNO4NwI7Tiq8Ty1e8GCADV6wP4P9ZXXZi88rRnpNt+oH4aQvbEiYDiq0hibaO4
+         nePQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743091931; x=1743696731;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=unBVHfPgws2ZkgWdON6HD2DMgITftuEecvFOlYQpcdY=;
+        b=Io2CAtR9+nNWBnN5IglPg39/sgtNo6guYGHImtZjEJNP59XwFhIKvEelvzeHFqIu4l
+         uIp1/8oREQBYCbENz6P5FMt4qQmLCaZJn9dlbN/ThhKT9s5Hwh4r01N+/uf2QoGvY5Tp
+         BYRDkBXXhGh1sIU8vtfbCCrIwzBWU8j8oyisvvQwbKKI4HpkvuHmhJcCNSe5FETmnE8w
+         CfhSlcjxt5MXRPnDC/Istk4yOG2peEbAMjVrQRF8zc2jvwKrU8kGhLenQedZ/YJZTw7l
+         nCm+U2Sn7iDwJt3dItxvO8yYPB6tqO9Lkcf9rq2ioCFyjxtoFRdtJedGiiVm//woHmST
+         Ma+Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWQ/XtAMa/LXRWAebWgcZ/1VzGOeeC67mNaUThc66Dq03Ah53YCP6M7ItUdBPxpgq8vfLpZn9nzvss=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIu1oOqmjwS5BvF8cYJwBiLL4BbTK/3OG/S1VjV6bZOFzxQ2Fa
+	ai2PQ2dbhYjArFUWgmVsLsdyOMGXc3r+leR9WxCEPo/EM/poDe1I1SzIvFC82oY=
+X-Gm-Gg: ASbGncu/gTcLOWhJmKvrCbBfoeCMcheN0GRHRMdY07tR3fnxOnsQB6ktiKPrZ6oKsT9
+	hnmwXxKl6rhvqUfyWSMkPUUNiiSNVIgEBnUf/rEviZQn2goruwRq2OURcQVUsJn2HhWWydbQXTy
+	FfBojnFXCMwlOFp93tPOXOm3CTCsVeqQ5BL/4YkTys296dgitDD/KsKNpTzKCzRAeMV2SbMFS+F
+	M2zGstDixrUlsx3mLOblikz89LrYLoZQRQjX5BCx+PeKPWBjuD8o+7uVN8vDQUw7TNM0NDDEhbg
+	hdQebKnD4gKRpJqiVnL6f8zMkaiHO4lF6f6saA7RnWsPMxxIC+G6URG1M5itQfwKqZdENU9rzLe
+	ienzAFw==
+X-Google-Smtp-Source: AGHT+IEByi/X8WFBEGBZrgq4UEw/KyKlyq98XRQT7qQm4oHe4x24ITtjZpAD1WQiKg8vcaO17wnr9A==
+X-Received: by 2002:a05:6808:3c46:b0:3f6:ab0d:8db1 with SMTP id 5614622812f47-3ff032dcf36mr751735b6e.3.1743091930689;
+        Thu, 27 Mar 2025 09:12:10 -0700 (PDT)
+Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 5614622812f47-3febf5e4c32sm2826363b6e.0.2025.03.27.09.12.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Mar 2025 09:12:09 -0700 (PDT)
+Message-ID: <35f4d22a-e478-4a43-bbb6-f9d34ce1f888@baylibre.com>
+Date: Thu, 27 Mar 2025 11:12:08 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAEg-Je9G23mXWTHbnuozsrRY8+03tfq7uT=St+KgLvq1RggzmA@mail.gmail.com>
-X-Migadu-Flow: FLOW_OUT
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/4] iio: adc: ad4000: Add support for SPI offload
+To: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+ corbet@lwn.net, marcelo.schmitt1@gmail.com
+References: <cover.1742992305.git.marcelo.schmitt@analog.com>
+ <d67e71b9fab270d16b6b5e26a3594dfc73be1ae5.1742992305.git.marcelo.schmitt@analog.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <d67e71b9fab270d16b6b5e26a3594dfc73be1ae5.1742992305.git.marcelo.schmitt@analog.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-> > https://github.com/alyssarosenzweig/linux/commits/agx-uapi-v5 contains
-> > the DRM driver implementing this proposed UAPI.
-> >
-> > https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/33984 contains
-> > the Mesa patches to implement this proposed UAPI.
-> >
-> > That Linux and Mesa branch together give a complete graphics/compute
-> > stack on top of this UAPI.
+On 3/26/25 8:24 AM, Marcelo Schmitt wrote:
+> FPGA HDL projects can include a PWM generator in addition to SPI-Engine.
+> The PWM IP is used to trigger SPI-Engine offload modules that in turn set
+> SPI-Engine to execute transfers to poll data from the ADC. That allows data
+> to be read at the maximum sample rates. Also, it is possible to set a
+> specific sample rate by setting the proper PWM duty cycle and related state
+> parameters, thus allowing an adjustable ADC sample rate when a PWM (offload
+> trigger) is used in combination with SPI-Engine.
 > 
-> Do we want these links to be present in the commit message? I doubt
-> they'll stick around permanently...
-
-Permanently, no. But by the time they go dark, the relevant code will
-hopefully be upstream in both kernel & Mesa. So I'm not worried. Not
-really weirder than any other links in commit messages we have.
-
-> This looks good to me, and the referenced integration code also looks good.
+> Add support for SPI offload.
 > 
-> Reviewed-by: Neal Gompa <neal@gompa.dev>
+> Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> ---
 
-Thanks!
+...
+
+> diff --git a/drivers/iio/adc/ad4000.c b/drivers/iio/adc/ad4000.c
+> index 4fe8dee48da9..9fc56853265e 100644
+> --- a/drivers/iio/adc/ad4000.c
+> +++ b/drivers/iio/adc/ad4000.c
+> @@ -16,11 +16,13 @@
+>  #include <linux/gpio/consumer.h>
+>  #include <linux/regulator/consumer.h>
+>  #include <linux/spi/spi.h>
+> +#include <linux/spi/offload/consumer.h>
+
+Alphabetical order?
+
+>  #include <linux/units.h>
+>  #include <linux/util_macros.h>
+>  #include <linux/iio/iio.h>
+>  
+>  #include <linux/iio/buffer.h>
+> +#include <linux/iio/buffer-dmaengine.h>
+>  #include <linux/iio/triggered_buffer.h>
+>  #include <linux/iio/trigger_consumer.h>
+>  
+
+...
+
+>  
+> +/*
+> + * When SPI offload is configured, transfers are executed withouth CPU
+
+s/withouth/without/
+
+> + * intervention so no soft timestamp can be recorded when transfers run.
+> + * Because of that, the macros that set timestamp channel are only used when
+> + * transfers are not offloaded.
+> + */
+
+...
+
+> @@ -784,7 +1081,10 @@ static int ad4000_probe(struct spi_device *spi)
+>  	switch (st->sdi_pin) {
+>  	case AD4000_SDI_MOSI:
+>  		indio_dev->info = &ad4000_reg_access_info;
+> -		indio_dev->channels = chip->reg_access_chan_spec;
+> +
+> +		/* Set CNV/CS high time for when turbo mode is used */
+> +		spi->cs_inactive.value = st->time_spec->t_quiet1_ns;
+> +		spi->cs_inactive.unit = SPI_DELAY_UNIT_NSECS;
+
+This code path later calls ad4000_prepare_3wire_mode_message() which sets:
+
+	xfers[0].cs_change_delay.value = st->time_spec->t_conv_ns;
+
+Which contradicts/overrides this.
+
+>  
+>  		/*
+>  		 * In "3-wire mode", the ADC SDI line must be kept high when
+> @@ -796,9 +1096,26 @@ static int ad4000_probe(struct spi_device *spi)
+>  		if (ret < 0)
+>  			return ret;
+>  
+> +		if (st->using_offload) {
+> +			indio_dev->channels = &chip->reg_access_offload_chan_spec;
+> +			indio_dev->num_channels = 1;
+> +			ret = ad4000_prepare_offload_message(st, indio_dev->channels);
+> +			if (ret)
+> +				return dev_err_probe(dev, ret,
+> +						     "Failed to optimize SPI msg\n");
+> +		} else {
+> +			indio_dev->channels = chip->reg_access_chan_spec;
+> +			indio_dev->num_channels = ARRAY_SIZE(chip->reg_access_chan_spec);
+> +		}
+> +
+> +		/*
+> +		 * Call ad4000_prepare_3wire_mode_message() so single-shot read
+> +		 * SPI messages are always initialized.
+> +		 */
+>  		ret = ad4000_prepare_3wire_mode_message(st, &indio_dev->channels[0]);
+>  		if (ret)
+> -			return ret;
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to optimize SPI msg\n");
+>  
+>  		ret = ad4000_config(st);
+>  		if (ret < 0)
+> @@ -806,19 +1123,47 @@ static int ad4000_probe(struct spi_device *spi)
+>  
+>  		break;
+>  	case AD4000_SDI_VIO:
+> -		indio_dev->info = &ad4000_info;
+> -		indio_dev->channels = chip->chan_spec;
+> +		if (st->using_offload) {
+> +			indio_dev->info = &ad4000_offload_info;
+> +			indio_dev->channels = &chip->offload_chan_spec;
+> +			indio_dev->num_channels = 1;
+> +
+> +			/* Set CNV/CS high time for when turbo mode is not used */
+> +			if (!st->cnv_gpio) {
+> +				spi->cs_inactive.value = st->time_spec->t_conv_ns;
+> +				spi->cs_inactive.unit = SPI_DELAY_UNIT_NSECS;
+
+I'm still not sold on this. We know it has no effect with AXI SPI Engine and
+it is writing over something that usually comes from DT. It is misleading.
+
+And the non-offload case already does:
+
+	xfers[0].cs_change_delay.value = st->time_spec->t_conv_ns;
+
+which actually does work with the AXI SPI Engine. So why not be consistent and
+do it the same way for the offload case?
+
+It also seems safe to omit this altogether in the offload case and assume that
+the max sample rate will also ensure that the miniumum time for CS deasserted
+is respected.
+
+> +				ret = spi_setup(spi);
+> +				if (ret < 0)
+> +					return ret;
+> +			}
+> +
+> +			ret = ad4000_prepare_offload_message(st, indio_dev->channels);
+> +			if (ret)
+> +				return dev_err_probe(dev, ret,
+> +						     "Failed to optimize SPI msg\n");
+> +		} else {
+> +			indio_dev->info = &ad4000_info;
+> +			indio_dev->channels = chip->chan_spec;
+> +			indio_dev->num_channels = ARRAY_SIZE(chip->chan_spec);
+> +		}
+> +
+>  		ret = ad4000_prepare_3wire_mode_message(st, &indio_dev->channels[0]);
+>  		if (ret)
+> -			return ret;
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to optimize SPI msg\n");
+>  
+>  		break;
