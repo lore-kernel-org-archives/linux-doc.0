@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E04AB1DC992;
-	Fri, 28 Mar 2025 17:13:13 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 197B61DE2AA;
+	Fri, 28 Mar 2025 17:13:14 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743181996; cv=none; b=c+oAKSoKxdI847x2jTNMaifbigBCZ6F5pN/ty2c4RtfM/m6vY+pi1TCSN2666BLqlniZIpyHZzsuS6CobVPxCXDSm97xqGKDkhSszLeh/hrGYV6DeIfqu37xrwhRdFfwcffzEQmN4pQSJDEGtVgki+Anvptzae8SCFw5exbReWo=
+	t=1743181997; cv=none; b=ihjA58iKQpMzzMXrzteX9bcCasMyQH6oeFVzsjan8D1brv/ggtthEsh9NE1tfcrRBCppkrqYoQ9xnL8A8d3FVze/u/T35M0tTcYQ5tr8fb48a++i++K4xuAPJ30vD6McmvpGS+d1SKBF1Ojv9mq5ByB9pkaMjoIOH3Rjv060vTU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743181996; c=relaxed/simple;
-	bh=QYCN0CwVTV+O2Sr/0KsfqeRaH9Ml61b2LOrM8xwuglo=;
+	s=arc-20240116; t=1743181997; c=relaxed/simple;
+	bh=WuTCj/nOK5wz2ffAUfvCxU2RDskr3rINiDGsxO3W6gk=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pVo5Ja1yPJUlrIFFunaXBpDkIuAX9rDyvrPLaB6/WMGIiWFSQf97eVEhSZbOf16uNSymHitcaDyXRDWRNPK+YljPZ7qORFwVaw38nCqbexOjEbd+W+2mwJhIPW93GIUjzC5OMa0tbodzp3Haku1aXYqsxcSR1QFOd46boD/NTfg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=XpTgX+tB; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=MC87g4+5HpBmPM5fIA+yWVs3Ltl14iTadIPVD1KaiqfFnUlmp06xjQS65MFJumG786KnVkkcfFKtBhZa6xdoS6gpCOjmnUKWEipZARzYuFaJKiuq7eKoJRuSSZZJLq1NqsEyVGeC98mPfH3VCUbnPlFui37m4bM0ePzsUigiVMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=RmfoWpDw; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="XpTgX+tB"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="RmfoWpDw"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52SHC6vo2029344
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52SHC6vd2029344
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 28 Mar 2025 10:12:30 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52SHC6vo2029344
+	Fri, 28 Mar 2025 10:12:20 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52SHC6vd2029344
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743181951;
-	bh=nB7ButsLk3QYDZXCSSjdNh6yh9dWAqZP7+P5ueYBC6s=;
+	s=2025032001; t=1743181940;
+	bh=f1w+blKmkUX826Y5eXJPZTkhVu6BgAMLCLiIiJejibY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XpTgX+tBcGITlnqfwSjVAdXV4W9pbW6fKGXUIwuaPYFwauXjoJJCFoq5D3gsWxMII
-	 Ki39aaDb/WdJZh/WoJrq4/HsPTTDIUncw4BKnklj0Shbn9XSrXjFIB6KUoIAveWyWH
-	 74mQPcD4jJNxDzphsHY6Gn2bcgWuSjcyHfswjJOl5NUivwQa1uhehV2Y3zO5lWs2M0
-	 CETDkZPb6jTYIRy+Yaf7NrxmSrN5iGnTFTsAfGc5uz6MQRzkSWChKf5B6jFQL37HTI
-	 TbUSit96UQ7O3U2FwguARceBJhVw1qmdGlnLrXznnTe4hQvzI/V9O3IZSB+mcsKmvd
-	 sbYSkbmbcCN7w==
+	b=RmfoWpDwHIFQgFR0ukgxQo9nSsuu3HWmV/Rihw/uvR30kFWXThBNw/3v9QUZMMYfe
+	 KtaX6c0XM71jpkvjQLPRUgtiZOC2hVIlr9T/QCOvf+u0aMO+Ifda6c3WL1ZPpjKBO8
+	 xaXhAta4qJGDiEyjcStoUA0Rk7QX3n6SE9on0HN6J9caXhj6XUECkW5Y8d7LFo6Mrk
+	 /mt7E1rJd5p2g90MdSBTSOXSv3q1yxTNomClV23u57H6Jtu7RmkPiE7RWn9LYa4akD
+	 KG3bMHC6fmaNVdvTcnG9uYGFUuqbRnw4x1z1PN1cvxJBH5eIWgqhwAZOqNZ+UG/Oir
+	 /aRXkYgjC6Scg==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
@@ -39,9 +39,9 @@ Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
         andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
         chao.gao@intel.com, xin3.li@intel.com
-Subject: [PATCH v4 18/19] KVM: nVMX: Add VMCS FRED states checking
-Date: Fri, 28 Mar 2025 10:12:04 -0700
-Message-ID: <20250328171205.2029296-19-xin@zytor.com>
+Subject: [PATCH v4 07/19] KVM: VMX: Save/restore guest FRED RSP0
+Date: Fri, 28 Mar 2025 10:11:53 -0700
+Message-ID: <20250328171205.2029296-8-xin@zytor.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250328171205.2029296-1-xin@zytor.com>
 References: <20250328171205.2029296-1-xin@zytor.com>
@@ -55,153 +55,70 @@ Content-Transfer-Encoding: 8bit
 
 From: Xin Li <xin3.li@intel.com>
 
-As real hardware, nested VMX performs checks on various VMCS fields,
-including both controls and guest/host states.  Add FRED related VMCS
-field checkings with the addition of nested FRED.
+Save guest FRED RSP0 in vmx_prepare_switch_to_host() and restore it
+in vmx_prepare_switch_to_guest() because MSR_IA32_FRED_RSP0 is passed
+through to the guest, thus is volatile/unknown.
+
+Note, host FRED RSP0 is restored in arch_exit_to_user_mode_prepare(),
+regardless of whether it is modified in KVM.
 
 Signed-off-by: Xin Li <xin3.li@intel.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
 ---
- arch/x86/kvm/vmx/nested.c | 80 ++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 79 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kvm/vmx/nested.c b/arch/x86/kvm/vmx/nested.c
-index 6ff7ae3b7a33..538ab3418957 100644
---- a/arch/x86/kvm/vmx/nested.c
-+++ b/arch/x86/kvm/vmx/nested.c
-@@ -2945,6 +2945,8 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
- 					  struct vmcs12 *vmcs12)
- {
- 	struct vcpu_vmx *vmx = to_vmx(vcpu);
-+	bool fred_enabled = (vmcs12->vm_entry_controls & VM_ENTRY_IA32E_MODE) &&
-+			    (vmcs12->guest_cr4 & X86_CR4_FRED);
+Changes in v3:
+* KVM only needs to save/restore guest FRED RSP0 now as host FRED RSP0
+  is restored in arch_exit_to_user_mode_prepare() (Sean Christopherson).
+
+Changes in v2:
+* Don't use guest_cpuid_has() in vmx_prepare_switch_to_{host,guest}(),
+  which are called from IRQ-disabled context (Chao Gao).
+* Reset msr_guest_fred_rsp0 in __vmx_vcpu_reset() (Chao Gao).
+---
+ arch/x86/kvm/vmx/vmx.c | 9 +++++++++
+ arch/x86/kvm/vmx/vmx.h | 1 +
+ 2 files changed, 10 insertions(+)
+
+diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
+index 236fe5428a74..1fd32aa255f9 100644
+--- a/arch/x86/kvm/vmx/vmx.c
++++ b/arch/x86/kvm/vmx/vmx.c
+@@ -1349,6 +1349,10 @@ void vmx_prepare_switch_to_guest(struct kvm_vcpu *vcpu)
+ 	}
  
- 	if (CC(!vmx_control_verify(vmcs12->vm_entry_controls,
- 				    vmx->nested.msrs.entry_ctls_low,
-@@ -2963,6 +2965,7 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
- 		u32 intr_type = intr_info & INTR_INFO_INTR_TYPE_MASK;
- 		bool has_error_code = intr_info & INTR_INFO_DELIVER_CODE_MASK;
- 		bool should_have_error_code;
-+		bool has_nested_exception = vmx->nested.msrs.basic & VMX_BASIC_NESTED_EXCEPTION;
- 		bool urg = nested_cpu_has2(vmcs12,
- 					   SECONDARY_EXEC_UNRESTRICTED_GUEST);
- 		bool prot_mode = !urg || vmcs12->guest_cr0 & X86_CR0_PE;
-@@ -2976,7 +2979,9 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
- 		/* VM-entry interruption-info field: vector */
- 		if (CC(intr_type == INTR_TYPE_NMI_INTR && vector != NMI_VECTOR) ||
- 		    CC(intr_type == INTR_TYPE_HARD_EXCEPTION && vector > 31) ||
--		    CC(intr_type == INTR_TYPE_OTHER_EVENT && vector != 0))
-+		    CC(intr_type == INTR_TYPE_OTHER_EVENT &&
-+		       ((!fred_enabled && vector > 0) ||
-+		        (fred_enabled && vector > 2))))
- 			return -EINVAL;
- 
- 		/* VM-entry interruption-info field: deliver error code */
-@@ -2995,6 +3000,15 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
- 		if (CC(intr_info & INTR_INFO_RESVD_BITS_MASK))
- 			return -EINVAL;
- 
-+		/*
-+		 * When the CPU enumerates VMX nested-exception support, bit 13
-+		 * (set to indicate a nested exception) of the intr info field
-+		 * may have value 1. Otherwise bit 13 is reserved.
-+		 */
-+		if (CC(!has_nested_exception &&
-+		       (intr_info & INTR_INFO_NESTED_EXCEPTION_MASK)))
-+			return -EINVAL;
+ 	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_guest_kernel_gs_base);
 +
- 		/* VM-entry instruction length */
- 		switch (intr_type) {
- 		case INTR_TYPE_SOFT_EXCEPTION:
-@@ -3004,6 +3018,12 @@ static int nested_check_vm_entry_controls(struct kvm_vcpu *vcpu,
- 			    CC(vmcs12->vm_entry_instruction_len == 0 &&
- 			    CC(!nested_cpu_has_zero_length_injection(vcpu))))
- 				return -EINVAL;
-+			break;
-+		case INTR_TYPE_OTHER_EVENT:
-+			if (fred_enabled && (vector == 1 || vector == 2))
-+				if (CC(vmcs12->vm_entry_instruction_len > 15))
-+					return -EINVAL;
-+			break;
- 		}
- 	}
- 
-@@ -3077,9 +3097,30 @@ static int nested_vmx_check_host_state(struct kvm_vcpu *vcpu,
- 	if (ia32e) {
- 		if (CC(!(vmcs12->host_cr4 & X86_CR4_PAE)))
- 			return -EINVAL;
-+		if (vmcs12->vm_exit_controls & VM_EXIT_ACTIVATE_SECONDARY_CONTROLS &&
-+		    vmcs12->secondary_vm_exit_controls & SECONDARY_VM_EXIT_LOAD_IA32_FRED) {
-+			/* Bit 11, bits 5:4, and bit 2 of the IA32_FRED_CONFIG must be zero */
-+			if (CC(vmcs12->host_ia32_fred_config &
-+			       (BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2))) ||
-+			    CC(vmcs12->host_ia32_fred_rsp1 & GENMASK_ULL(5, 0)) ||
-+			    CC(vmcs12->host_ia32_fred_rsp2 & GENMASK_ULL(5, 0)) ||
-+			    CC(vmcs12->host_ia32_fred_rsp3 & GENMASK_ULL(5, 0)) ||
-+			    CC(vmcs12->host_ia32_fred_ssp1 & GENMASK_ULL(2, 0)) ||
-+			    CC(vmcs12->host_ia32_fred_ssp2 & GENMASK_ULL(2, 0)) ||
-+			    CC(vmcs12->host_ia32_fred_ssp3 & GENMASK_ULL(2, 0)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_config & PAGE_MASK, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_rsp1, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_rsp2, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_rsp3, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_ssp1, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_ssp2, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->host_ia32_fred_ssp3, vcpu)))
-+				return -EINVAL;
-+		}
- 	} else {
- 		if (CC(vmcs12->vm_entry_controls & VM_ENTRY_IA32E_MODE) ||
- 		    CC(vmcs12->host_cr4 & X86_CR4_PCIDE) ||
-+		    CC(vmcs12->host_cr4 & X86_CR4_FRED) ||
- 		    CC((vmcs12->host_rip) >> 32))
- 			return -EINVAL;
- 	}
-@@ -3223,6 +3264,43 @@ static int nested_vmx_check_guest_state(struct kvm_vcpu *vcpu,
- 	     CC((vmcs12->guest_bndcfgs & MSR_IA32_BNDCFGS_RSVD))))
- 		return -EINVAL;
- 
-+	if (ia32e) {
-+		if (vmcs12->vm_entry_controls & VM_ENTRY_LOAD_IA32_FRED) {
-+			/* Bit 11, bits 5:4, and bit 2 of the IA32_FRED_CONFIG must be zero */
-+			if (CC(vmcs12->guest_ia32_fred_config &
-+			       (BIT_ULL(11) | GENMASK_ULL(5, 4) | BIT_ULL(2))) ||
-+			    CC(vmcs12->guest_ia32_fred_rsp1 & GENMASK_ULL(5, 0)) ||
-+			    CC(vmcs12->guest_ia32_fred_rsp2 & GENMASK_ULL(5, 0)) ||
-+			    CC(vmcs12->guest_ia32_fred_rsp3 & GENMASK_ULL(5, 0)) ||
-+			    CC(vmcs12->guest_ia32_fred_ssp1 & GENMASK_ULL(2, 0)) ||
-+			    CC(vmcs12->guest_ia32_fred_ssp2 & GENMASK_ULL(2, 0)) ||
-+			    CC(vmcs12->guest_ia32_fred_ssp3 & GENMASK_ULL(2, 0)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_config & PAGE_MASK, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_rsp1, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_rsp2, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_rsp3, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_ssp1, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_ssp2, vcpu)) ||
-+			    CC(is_noncanonical_msr_address(vmcs12->guest_ia32_fred_ssp3, vcpu)))
-+				return -EINVAL;
-+		}
-+		if (vmcs12->guest_cr4 & X86_CR4_FRED) {
-+			unsigned int ss_dpl = VMX_AR_DPL(vmcs12->guest_ss_ar_bytes);
-+			if (CC(ss_dpl == 1 || ss_dpl == 2))
-+				return -EINVAL;
-+			if (ss_dpl == 0 &&
-+			    CC(!(vmcs12->guest_cs_ar_bytes & VMX_AR_L_MASK)))
-+				return -EINVAL;
-+			if (ss_dpl == 3 &&
-+			    (CC(vmcs12->guest_rflags & X86_EFLAGS_IOPL) ||
-+			     CC(vmcs12->guest_interruptibility_info & GUEST_INTR_STATE_STI)))
-+				return -EINVAL;
-+		}
-+	} else {
-+		if (CC(vmcs12->guest_cr4 & X86_CR4_FRED))
-+			return -EINVAL;
++	if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_cpu_cap_has(vcpu, X86_FEATURE_FRED))
++		wrmsrns(MSR_IA32_FRED_RSP0, vmx->msr_guest_fred_rsp0);
++
+ #else
+ 	savesegment(fs, fs_sel);
+ 	savesegment(gs, gs_sel);
+@@ -1393,6 +1397,11 @@ static void vmx_prepare_switch_to_host(struct vcpu_vmx *vmx)
+ 	invalidate_tss_limit();
+ #ifdef CONFIG_X86_64
+ 	wrmsrl(MSR_KERNEL_GS_BASE, vmx->msr_host_kernel_gs_base);
++
++	if (cpu_feature_enabled(X86_FEATURE_FRED) && guest_cpu_cap_has(&vmx->vcpu, X86_FEATURE_FRED)) {
++		vmx->msr_guest_fred_rsp0 = read_msr(MSR_IA32_FRED_RSP0);
++		fred_sync_rsp0(vmx->msr_guest_fred_rsp0);
 +	}
-+
- 	if (nested_check_guest_non_reg_state(vmcs12))
- 		return -EINVAL;
+ #endif
+ 	load_fixmap_gdt(raw_smp_processor_id());
+ 	vmx->guest_state_loaded = false;
+diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
+index f48791cf6aa6..8e27b7cc700d 100644
+--- a/arch/x86/kvm/vmx/vmx.h
++++ b/arch/x86/kvm/vmx/vmx.h
+@@ -276,6 +276,7 @@ struct vcpu_vmx {
+ #ifdef CONFIG_X86_64
+ 	u64		      msr_host_kernel_gs_base;
+ 	u64		      msr_guest_kernel_gs_base;
++	u64		      msr_guest_fred_rsp0;
+ #endif
  
+ 	u64		      spec_ctrl;
 -- 
 2.48.1
 
