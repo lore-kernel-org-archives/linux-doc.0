@@ -1,39 +1,61 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f171.google.com (mail-il1-f171.google.com [209.85.166.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CCFF23CB;
-	Fri, 28 Mar 2025 17:26:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09A711DDC20
+	for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 22:14:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743182787; cv=none; b=cFXFmpRttjnT7Wv8DFwa9iTtMxtPCQzMxZRBuoGVtaDC5Cdv/QBhgeMKwnVUQa6Fl09GxeVfZMbewGBnK5FizSQIjHNHniEEgsp2F4i4mc8IiO0eL05SnKwIvn/KKpliukouZeSXPdv1hgXYUZqUFU7sJCUJM4v2A4caaSjorOY=
+	t=1743200101; cv=none; b=GyjzePSzMM4ULBJRUCnQqXoM2yW+Ddb+ex29NADc/H1TioKEEb7JV1Aag9XyuXc44fLjTP11e2j5ojNwxLPvEwsiJQVXQ3ZQ0vYLGHtW3jaHDLBhD7FZSUfDP5a5eSYPsbumxhA2qznotFXlUT+Y9Vrui0naTNXpwsmALqUb2jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743182787; c=relaxed/simple;
-	bh=NuLgCqHmnQ0wvILrKWLCFbD5y2KRQVi/PxqscccoZZs=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=j0iEtRL2NgPhIsKx7uDMvmWeqE++ZB7wRZVEIfb6fmQFKaNAYJEZRVo+wnAn2q5QxgJFGbiJe7XmM4WSwYxMf83PgKjLCKAV6I1Nwp04tOViIIU8R2CkHJ3lQeg6/X5/YffadcQv8h+BshSfGzb1PYbXlsi8If0oY3eWEhKFprE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=IQGhsRLv; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1743200101; c=relaxed/simple;
+	bh=3LhOBh1if/G4lc3HsqhYB39Qdkno2Qt5JqUSH0+F/e8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KSzZ6bB7xRSk3n1FJVgeoxcVNY15Eyg30GukFJ8ZJlJVcIyf0KvrpYyjGpURsDXCSb3XK5mK8oze4JSUpDtXbGYFxUhAwDbcAUI8Do27pJacC9b5a2ccgby8jNvjWoE+mVbnANjOdtcssk/GgkgKSPeNRjdTUSdGV8/W1AvYT6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UvsBsNtA; arc=none smtp.client-ip=209.85.166.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="IQGhsRLv"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52SHPuMJ2035654
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 28 Mar 2025 10:25:56 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52SHPuMJ2035654
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743182758;
-	bh=3Q3WizmAsVjpsON47KnbDqn8XHmFer42sXL5XTkOsnY=;
-	h=Date:Subject:From:To:Cc:References:In-Reply-To:From;
-	b=IQGhsRLv6QYNGoeHugz3a/SEvN0EW5nPtTHHtcDAZ7HqsVD2+sq5dVKv/eHHokQGI
-	 kQXWKqX9a7E2MAm+xCEKVAMKTZRURRICj63dCPJdE/IrMd898QHl5W5vkJX3v9+ckH
-	 BS2D24eFj+ld4P11z/u2q1UC/PGQSPd3ZhhO/tAA9RzDvGwu1e0iVlAMIm3WqJ099C
-	 jxuPdk4QKvVkXddLUBDHjyl5L2nNxjZ6Wgxn6x+Hkx9zfNAfuV2enoREbHk/jqxjLi
-	 tsMP6/GxWYmDOHg3GQjDVaKB5O35v1I+NnsgJsYJ9KPfuit6mOP0HFPaMXxYkS0V1u
-	 cXMdqoKbeYViw==
-Message-ID: <d243d203-7514-4541-9ea2-1200f7116cc1@zytor.com>
-Date: Fri, 28 Mar 2025 10:25:55 -0700
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UvsBsNtA"
+Received: by mail-il1-f171.google.com with SMTP id e9e14a558f8ab-3cf8e017abcso9715965ab.1
+        for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 15:14:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1743200098; x=1743804898; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=RUbOEFaJOAbY7faqDFBOHIbC1ZRfCrfheNTZ60rM6cc=;
+        b=UvsBsNtArvRdDUeYA8UGU7XjwlDQbEMdhhEvZBr3aX3UOeuHbcWFDMVauG2NjQSEIH
+         I65xsCKMykFCD6ZMgGOL7Ke6isQ3ZoNtt7/hyQ26RocNyWRImmT2UXRad6HULRG0QhTD
+         F0KplDBlDAJ7+ptEMXg1rxs++Dwd3d75kQr00=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743200098; x=1743804898;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=RUbOEFaJOAbY7faqDFBOHIbC1ZRfCrfheNTZ60rM6cc=;
+        b=v/JgpMrtLvy8WtdlkZc5IDsC8zzVmTAKWlmEmmehDjjYURsKU+6pOazg0H30++X36x
+         9UF+B5ze4lmCmoIptFoUgmvz8PUjRVskw7UWO+moEXtleVhwf+YKqCgS/J8MDX+JYbg/
+         jtTbkrBipqIBDoln8qCSZfT5ZMAVN06wXj3z3Z9GbxIM9uDHswb8dZqOZMqPvS+BMH6z
+         OJO17mGwrsLADd132RFytgNonMKmDhlCCEWghCRBOyjXJCQG5hAh0sAwAPKre5DcQx3L
+         OsAPnaoewub5IFnizc6p8qkxSNCy96TDhm7VEsAjhpA8Pw5ZM86bBBMlY9xHozOdJjbO
+         MahA==
+X-Forwarded-Encrypted: i=1; AJvYcCWpQ2vbzrXTUK5j/+j8zYDdQyfRwHIlcDPmUykB0HxTcHhX9ryRX+RjuOOsnM0ktvPImsqn91xpAdc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YypJ5NNj6WlpAL4qhvA8KgGqUnahPcG0taoRSyU5FqEzE84JNJQ
+	8k0+BwTrrMddSGrl1D0Ik9hl+gVp/XMqy0AQjn4yB7CXC/5RAt3zkxoPAlclN0c=
+X-Gm-Gg: ASbGnct/u+1x9NeE9/KWchbdFw4tjWMwKtANklpEAU2Zzt+h21mgpHJTw9urmBpxsz5
+	e/9baTFgRDNaA2uMcGV8g+bbOClTTCfQUez9GR5d4/B9+iaiJELV79yzwMq1xwvG/yq6iBOXz6T
+	lvDP4/zp9JQhlX0bc+qfOEo66CyqyHHlO2V1AaMX9UMsysQXFl3KNnUFiUmrvhWDY2koBpNCjd6
+	pxtekzFxeSbmUi1Rnpap6uhLr7gF2af+mYtmuy/nWO9nCUZoGKdfvoAKFzEc7RI3Qs62ee+K/38
+	5O0R3QP3jrPZRnOyVzu9wksWh6TSCLqNztW4FMnFKfmUtklGHJwtmLE=
+X-Google-Smtp-Source: AGHT+IHAgQaNQm7V/HQ9xhZOQz/Fs6tsLI4+HRU2b6hOJkb/FR7IJnx7J0M2QjLjv4gsNmH0eGf+NQ==
+X-Received: by 2002:a05:6e02:3807:b0:3d0:47cf:869c with SMTP id e9e14a558f8ab-3d5e0a004a5mr11036025ab.19.1743200097993;
+        Fri, 28 Mar 2025 15:14:57 -0700 (PDT)
+Received: from [192.168.1.14] ([38.175.170.29])
+        by smtp.gmail.com with ESMTPSA id 8926c6da1cb9f-4f464751ebasm643215173.57.2025.03.28.15.14.56
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Mar 2025 15:14:57 -0700 (PDT)
+Message-ID: <a998f3fa-495c-4165-884a-a11c5cb61e96@linuxfoundation.org>
+Date: Fri, 28 Mar 2025 16:14:55 -0600
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,120 +63,65 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 00/19] Enable FRED with KVM VMX
-From: Xin Li <xin@zytor.com>
-To: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
-        chao.gao@intel.com, xin3.li@intel.com
-References: <20250328171205.2029296-1-xin@zytor.com>
+Subject: Re: [PATCH v4 00/14] Add support for suppressing warning backtraces
+To: Andrew Morton <akpm@linux-foundation.org>,
+ Guenter Roeck <linux@roeck-us.net>,
+ Brendan Higgins <brendan.higgins@linux.dev>, David Gow
+ <davidgow@google.com>, Rae Moar <rmoar@google.com>
+Cc: Maxime Ripard <mripard@kernel.org>, Kees Cook <kees@kernel.org>,
+ Alessandro Carminati <acarmina@redhat.com>, linux-kselftest@vger.kernel.org,
+ David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ Dan Carpenter <dan.carpenter@linaro.org>,
+ Daniel Diaz <daniel.diaz@linaro.org>, Arthur Grillo
+ <arthurgrillo@riseup.net>, Naresh Kamboju <naresh.kamboju@linaro.org>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>,
+ Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Alessandro Carminati <alessandro.carminati@gmail.com>,
+ Jani Nikula <jani.nikula@intel.com>, dri-devel@lists.freedesktop.org,
+ kunit-dev@googlegroups.com, linux-arch@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-parisc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org,
+ linux-s390@vger.kernel.org, linux-sh@vger.kernel.org,
+ loongarch@lists.linux.dev, x86@kernel.org
+References: <20250313114329.284104-1-acarmina@redhat.com>
+ <202503131016.5DCEAEC945@keescook>
+ <20250313-abiding-vivid-robin-159dfa@houat>
+ <c8287bde-fa1c-4113-af22-4701d40d386e@roeck-us.net>
+ <20250313150505.cf1568bf7197a52a8ab302e6@linux-foundation.org>
 Content-Language: en-US
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <20250328171205.2029296-1-xin@zytor.com>
+From: Shuah Khan <skhan@linuxfoundation.org>
+In-Reply-To: <20250313150505.cf1568bf7197a52a8ab302e6@linux-foundation.org>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 3/28/2025 10:11 AM, Xin Li (Intel) wrote:
-> This patch set enables the Intel flexible return and event delivery
-> (FRED) architecture with KVM VMX to allow guests to utilize FRED.
+On 3/13/25 16:05, Andrew Morton wrote:
+> On Thu, 13 Mar 2025 11:31:12 -0700 Guenter Roeck <linux@roeck-us.net> wrote:
 > 
-> The FRED architecture defines simple new transitions that change
-> privilege level (ring transitions). The FRED architecture was
-> designed with the following goals:
+>> On Thu, Mar 13, 2025 at 06:24:25PM +0100, Maxime Ripard wrote:
+>>>>
+>>>> Yeah, as with my prior review, I'm a fan of this. It makes a bunch of my
+>>>> very noisy tests much easier to deal with.
+>>>
+>>> And for the record, we're also affected by this in DRM and would very
+>>> much like to get it merged in one shape or another.
+>>>
+>>
+>> I was unable to get maintainers of major architectures interested enough
+>> to provide feedback, and did not see a path forward. Maybe Alessandro
+>> has more success than me.
 > 
-> 1) Improve overall performance and response time by replacing event
->     delivery through the interrupt descriptor table (IDT event
->     delivery) and event return by the IRET instruction with lower
->     latency transitions.
-> 
-> 2) Improve software robustness by ensuring that event delivery
->     establishes the full supervisor context and that event return
->     establishes the full user context.
-> 
-> The new transitions defined by the FRED architecture are FRED event
-> delivery and, for returning from events, two FRED return instructions.
-> FRED event delivery can effect a transition from ring 3 to ring 0, but
-> it is used also to deliver events incident to ring 0. One FRED
-> instruction (ERETU) effects a return from ring 0 to ring 3, while the
-> other (ERETS) returns while remaining in ring 0. Collectively, FRED
-> event delivery and the FRED return instructions are FRED transitions.
-> 
-> Intel VMX architecture is extended to run FRED guests, and the major
-> changes are:
-> 
-> 1) New VMCS fields for FRED context management, which includes two new
-> event data VMCS fields, eight new guest FRED context VMCS fields and
-> eight new host FRED context VMCS fields.
-> 
-> 2) VMX nested-exception support for proper virtualization of stack
-> levels introduced with FRED architecture.
-> 
-> Search for the latest FRED spec in most search engines with this search
-> pattern:
-> 
->    site:intel.com FRED (flexible return and event delivery) specification
-> 
-> Following is the link to the v3 of this patch set:
-> https://lore.kernel.org/lkml/20241001050110.3643764-1-xin@zytor.com/
-> 
-> Since several preparatory patches in v3 have been merged, and Sean
-> reiterated that it's NOT worth to precisely track which fields are/
-> aren't supported [1], v4 patch number is reduced to 19.
-> 
-> Although FRED and CET supervisor shadow stacks are independent CPU
-> features, FRED unconditionally includes FRED shadow stack pointer
-> MSRs IA32_FRED_SSP[0123], and IA32_FRED_SSP0 is just an alias of the
-> CET MSR IA32_PL0_SSP.  IOW, the state management of MSR IA32_PL0_SSP
-> becomes an overlap area, and Sean requested that FRED virtualization
-> to land after CET virtualization [2].
+> I'll put them into mm.git, to advance things a bit.
 
-Hi Sean,
+I haven't heard from kunit maintainers yet. This thread got lost
+in inbox due to travel.
 
-Any chance we could merge FRED ahead of CET?
+David/Brendan/Rae, Okay to take this series?
 
-Ofc with proper changes to FRED code.
+Andrew, Okay to take this through your tree - this needs merging.
 
-Thanks!
-     Xin
-
-> 
-> [1]: https://lore.kernel.org/lkml/Z73uK5IzVoBej3mi@google.com/
-> [2]: https://lore.kernel.org/kvm/ZvQaNRhrsSJTYji3@google.com/
-
-
+thanks,
+-- Shuah
 
