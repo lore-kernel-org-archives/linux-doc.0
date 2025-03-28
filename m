@@ -1,37 +1,37 @@
 Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E83D81DC747;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB2911CCB40;
 	Fri, 28 Mar 2025 17:13:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743181994; cv=none; b=R1XY6HuSqVfZd5c1w2fQ5lARCyl1h1b1SHalvrSoAotbZ6jGlnFvOrIgSGtya8Zr1h4owOVdKW4KAEZOuYei/b5VLKGCtbPpLR1YgL/jittSFMaQNN+H3e8zb+mCc8TaxSNpTZbEp64ybqftRQvE1N6+3SUmXrf1PKFa8E48B7M=
+	t=1743181995; cv=none; b=L84Lwb9LLsWyVICj/y1h0zX1Gp8Eao/0DC+hzG5su3rRTd+BYi6kjGPO5KuABbp4+fYQsZDY2owG4+eg7ZyZE5COFlBRF19xGRY9dJR25QVGNjXgc3Q8Z1YfJ74Pc9DHJUYJuaC3QEoHAxZA7b0AnhZl1wRs7Hc0on0Ph5udC6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743181994; c=relaxed/simple;
-	bh=abag9AonvLCYy3voC2/uID8NTPKl/BAYAjiPkFNXhQM=;
+	s=arc-20240116; t=1743181995; c=relaxed/simple;
+	bh=dW2HeoMtqelwz6O59/q0DiXoFyVUFCNavwvXitWFCj0=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XojSDp6hR8is32VWGx9HMKs0jlqrhvlVP7zevOjMNkBGAONsDW8sEtTDuDmuAHthu/SyZAZPJritZoBGxQOk6NWYfK58v29XaUUO5oHjyIcl2WsYLAv+wahnpM9GmKJgIRe8mVxc6vC4XH8YazAOoeibQuSTKKu81L/qe1aRiSg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=a3SOG3gR; arc=none smtp.client-ip=198.137.202.136
+	 MIME-Version; b=CHqe5EvLppJhs0Duja0CqZ/1rGZy+WgqQfrhjnlubzo5/0aO/kddM5aEnJH6wwxCUO7vJB8pSgkrF80uoSZwVok37t9l0WJen9kwuwDws2EZsHy3dPvGojUQDYZmmFoP+nZlxDq2pg8f9K7CKkp/kT4TmFKKnkueOO22I7f8Q7Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=RMk1QUpS; arc=none smtp.client-ip=198.137.202.136
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="a3SOG3gR"
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="RMk1QUpS"
 Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
 	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52SHC6vY2029344
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52SHC6vk2029344
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
-	Fri, 28 Mar 2025 10:12:15 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52SHC6vY2029344
+	Fri, 28 Mar 2025 10:12:26 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52SHC6vk2029344
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1743181936;
-	bh=LI90Y/ZXpDLk0NabS4prbhHOsL3son9i/mm3krWTyZ0=;
+	s=2025032001; t=1743181947;
+	bh=BS7xz7iTWycVOZltNWA6vRzLaDaTCxHM+ZWDv+qm6NM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=a3SOG3gRoNIgENNp9p3KAcNEIoFeQSVvy4YV5KyR80oL76F9mz1Z1sSx+LWpAMTtU
-	 uWokzqpw25Je/FTfS2hiaxi5FFU59r4gZ7/dKWmvHgT98FFIHVGqCG3z45URZrgQ4+
-	 8q9LnAQHW7fwvw3IINxjlXTotprsSRKMHHQENFkPT2nuNuynaF3vQBaz6zZeDCM7ph
-	 DI3mlvT/gSV1oL05nthFqjMX8LzfAH7G6NXYWOwplErGUfkoKzP1Iwh27iF03IjJbT
-	 oiPPD6tmjrBBYcC0D05cPLxTWqaSx6qlFwLPAfNpolQtt0w3OIUgpIsLPNnmsQwPU0
-	 qblVQkn9xccxA==
+	b=RMk1QUpSbmdJBA0N58hzlQH9o2jYjm60BgXcImO0zfo+AT9WuTgLxvwFl/lP/2ve6
+	 0CmLBCHjh09XfZVEc0ic1YjYttiwFkM7vki7qRUS2yrRBWcPobOVMrlyXzxDXv0xCn
+	 UGIW89MDmeMsvq8EA5+C3ARZPK4V2ofJoCPIjUGwGcE8Bus8epnkyMx2EGyEDrdEul
+	 x3dMwe/wMOtUwYDQqV0kzj9y05vS+5P6CyBQKaCvgWcz4lId7HL4dGBSuVv4pCqE7q
+	 9hnQI2WLNCoGAII7c0qm5WJwinnRs5UjVE4qyAd9VGMARMGic30vZEELEu+9ID0da3
+	 5m09MJaltqa7g==
 From: "Xin Li (Intel)" <xin@zytor.com>
 To: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
         linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
@@ -39,9 +39,9 @@ Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
         dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
         andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
         chao.gao@intel.com, xin3.li@intel.com
-Subject: [PATCH v4 02/19] KVM: VMX: Initialize VM entry/exit FRED controls in vmcs_config
-Date: Fri, 28 Mar 2025 10:11:48 -0700
-Message-ID: <20250328171205.2029296-3-xin@zytor.com>
+Subject: [PATCH v4 14/19] KVM: VMX: Dump FRED context in dump_vmcs()
+Date: Fri, 28 Mar 2025 10:12:00 -0700
+Message-ID: <20250328171205.2029296-15-xin@zytor.com>
 X-Mailer: git-send-email 2.48.1
 In-Reply-To: <20250328171205.2029296-1-xin@zytor.com>
 References: <20250328171205.2029296-1-xin@zytor.com>
@@ -55,103 +55,116 @@ Content-Transfer-Encoding: 8bit
 
 From: Xin Li <xin3.li@intel.com>
 
-Setup VM entry/exit FRED controls in the global vmcs_config for proper
-FRED VMCS fields management:
-  1) load guest FRED state upon VM entry.
-  2) save guest FRED state during VM exit.
-  3) load host FRED state during VM exit.
-
-Also add FRED control consistency checks to the existing VM entry/exit
-consistency check framework.
+Add FRED related VMCS fields to dump_vmcs() to dump FRED context.
 
 Signed-off-by: Xin Li <xin3.li@intel.com>
 Signed-off-by: Xin Li (Intel) <xin@zytor.com>
 Tested-by: Shan Kang <shan.kang@intel.com>
-Reviewed-by: Chao Gao <chao.gao@intel.com>
 ---
 
-Change in v4:
-* Do VM exit/entry consistency checks using the new macro from Sean
-  Christopherson.
+Change in v3:
+* Use (vmentry_ctrl & VM_ENTRY_LOAD_IA32_FRED) instead of is_fred_enabled()
+  (Chao Gao).
 
-Changes in v3:
-* Add FRED control consistency checks to the existing VM entry/exit
-  consistency check framework (Sean Christopherson).
-* Just do the unnecessary FRED state load/store on every VM entry/exit
-  (Sean Christopherson).
+Changes in v2:
+* Use kvm_cpu_cap_has() instead of cpu_feature_enabled() (Chao Gao).
+* Dump guest FRED states only if guest has FRED enabled (Nikolay Borisov).
 ---
- arch/x86/include/asm/vmx.h | 4 ++++
- arch/x86/kvm/vmx/vmx.c     | 3 +++
- arch/x86/kvm/vmx/vmx.h     | 7 +++++--
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ arch/x86/kvm/vmx/vmx.c | 40 +++++++++++++++++++++++++++++++++-------
+ 1 file changed, 33 insertions(+), 7 deletions(-)
 
-diff --git a/arch/x86/include/asm/vmx.h b/arch/x86/include/asm/vmx.h
-index 47626773a9e1..5598517617a5 100644
---- a/arch/x86/include/asm/vmx.h
-+++ b/arch/x86/include/asm/vmx.h
-@@ -108,6 +108,9 @@
- #define VM_EXIT_CLEAR_IA32_RTIT_CTL		0x02000000
- #define VM_EXIT_ACTIVATE_SECONDARY_CONTROLS	0x80000000
- 
-+#define SECONDARY_VM_EXIT_SAVE_IA32_FRED	BIT_ULL(0)
-+#define SECONDARY_VM_EXIT_LOAD_IA32_FRED	BIT_ULL(1)
-+
- #define VM_EXIT_ALWAYSON_WITHOUT_TRUE_MSR	0x00036dff
- 
- #define VM_ENTRY_LOAD_DEBUG_CONTROLS            0x00000004
-@@ -120,6 +123,7 @@
- #define VM_ENTRY_LOAD_BNDCFGS                   0x00010000
- #define VM_ENTRY_PT_CONCEAL_PIP			0x00020000
- #define VM_ENTRY_LOAD_IA32_RTIT_CTL		0x00040000
-+#define VM_ENTRY_LOAD_IA32_FRED			0x00800000
- 
- #define VM_ENTRY_ALWAYSON_WITHOUT_TRUE_MSR	0x000011ff
- 
 diff --git a/arch/x86/kvm/vmx/vmx.c b/arch/x86/kvm/vmx/vmx.c
-index f1348b140e7c..e38545d0dd17 100644
+index c76015e1e3f8..03855d6690b2 100644
 --- a/arch/x86/kvm/vmx/vmx.c
 +++ b/arch/x86/kvm/vmx/vmx.c
-@@ -2634,12 +2634,15 @@ static int setup_vmcs_config(struct vmcs_config *vmcs_conf,
- 		{ VM_ENTRY_LOAD_IA32_EFER,		VM_EXIT_LOAD_IA32_EFER },
- 		{ VM_ENTRY_LOAD_BNDCFGS,		VM_EXIT_CLEAR_BNDCFGS },
- 		{ VM_ENTRY_LOAD_IA32_RTIT_CTL,		VM_EXIT_CLEAR_IA32_RTIT_CTL },
-+		{ VM_ENTRY_LOAD_IA32_FRED,		VM_EXIT_ACTIVATE_SECONDARY_CONTROLS },
- 	};
+@@ -6462,7 +6462,7 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
+ 	struct vcpu_vmx *vmx = to_vmx(vcpu);
+ 	u32 vmentry_ctl, vmexit_ctl;
+ 	u32 cpu_based_exec_ctrl, pin_based_exec_ctrl, secondary_exec_control;
+-	u64 tertiary_exec_control;
++	u64 tertiary_exec_control, secondary_vmexit_ctl;
+ 	unsigned long cr4;
+ 	int efer_slot;
  
- 	struct {
- 		u32 entry_control;
- 		u64 exit_control;
- 	} const vmcs_entry_exit2_pairs[] = {
-+		{ VM_ENTRY_LOAD_IA32_FRED,
-+			SECONDARY_VM_EXIT_SAVE_IA32_FRED | SECONDARY_VM_EXIT_LOAD_IA32_FRED },
- 	};
+@@ -6473,6 +6473,8 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
  
- 	memset(vmcs_conf, 0, sizeof(*vmcs_conf));
-diff --git a/arch/x86/kvm/vmx/vmx.h b/arch/x86/kvm/vmx/vmx.h
-index d0e026390d40..d53904db5d1a 100644
---- a/arch/x86/kvm/vmx/vmx.h
-+++ b/arch/x86/kvm/vmx/vmx.h
-@@ -486,7 +486,8 @@ static inline u8 vmx_get_rvi(void)
- 	 VM_ENTRY_LOAD_IA32_EFER |					\
- 	 VM_ENTRY_LOAD_BNDCFGS |					\
- 	 VM_ENTRY_PT_CONCEAL_PIP |					\
--	 VM_ENTRY_LOAD_IA32_RTIT_CTL)
-+	 VM_ENTRY_LOAD_IA32_RTIT_CTL |					\
-+	 VM_ENTRY_LOAD_IA32_FRED)
- 
- #define __KVM_REQUIRED_VMX_VM_EXIT_CONTROLS				\
- 	(VM_EXIT_SAVE_DEBUG_CONTROLS |					\
-@@ -512,7 +513,9 @@ static inline u8 vmx_get_rvi(void)
- 	       VM_EXIT_ACTIVATE_SECONDARY_CONTROLS)
- 
- #define KVM_REQUIRED_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
--#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS (0)
-+#define KVM_OPTIONAL_VMX_SECONDARY_VM_EXIT_CONTROLS			\
-+	     (SECONDARY_VM_EXIT_SAVE_IA32_FRED |			\
-+	      SECONDARY_VM_EXIT_LOAD_IA32_FRED)
- 
- #define KVM_REQUIRED_VMX_PIN_BASED_VM_EXEC_CONTROL			\
- 	(PIN_BASED_EXT_INTR_MASK |					\
+ 	vmentry_ctl = vmcs_read32(VM_ENTRY_CONTROLS);
+ 	vmexit_ctl = vmcs_read32(VM_EXIT_CONTROLS);
++	secondary_vmexit_ctl = cpu_has_secondary_vmexit_ctrls() ?
++			       vmcs_read64(SECONDARY_VM_EXIT_CONTROLS) : 0;
+ 	cpu_based_exec_ctrl = vmcs_read32(CPU_BASED_VM_EXEC_CONTROL);
+ 	pin_based_exec_ctrl = vmcs_read32(PIN_BASED_VM_EXEC_CONTROL);
+ 	cr4 = vmcs_readl(GUEST_CR4);
+@@ -6519,6 +6521,16 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
+ 	vmx_dump_sel("LDTR:", GUEST_LDTR_SELECTOR);
+ 	vmx_dump_dtsel("IDTR:", GUEST_IDTR_LIMIT);
+ 	vmx_dump_sel("TR:  ", GUEST_TR_SELECTOR);
++	if (vmentry_ctl & VM_ENTRY_LOAD_IA32_FRED)
++		pr_err("FRED guest: config=0x%016llx, stack_levels=0x%016llx\n"
++		       "RSP0=0x%016llx, RSP1=0x%016llx\n"
++		       "RSP2=0x%016llx, RSP3=0x%016llx\n",
++		       vmcs_read64(GUEST_IA32_FRED_CONFIG),
++		       vmcs_read64(GUEST_IA32_FRED_STKLVLS),
++		       __rdmsr(MSR_IA32_FRED_RSP0),
++		       vmcs_read64(GUEST_IA32_FRED_RSP1),
++		       vmcs_read64(GUEST_IA32_FRED_RSP2),
++		       vmcs_read64(GUEST_IA32_FRED_RSP3));
+ 	efer_slot = vmx_find_loadstore_msr_slot(&vmx->msr_autoload.guest, MSR_EFER);
+ 	if (vmentry_ctl & VM_ENTRY_LOAD_IA32_EFER)
+ 		pr_err("EFER= 0x%016llx\n", vmcs_read64(GUEST_IA32_EFER));
+@@ -6566,6 +6578,16 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
+ 	       vmcs_readl(HOST_TR_BASE));
+ 	pr_err("GDTBase=%016lx IDTBase=%016lx\n",
+ 	       vmcs_readl(HOST_GDTR_BASE), vmcs_readl(HOST_IDTR_BASE));
++	if (vmexit_ctl & SECONDARY_VM_EXIT_LOAD_IA32_FRED)
++		pr_err("FRED host: config=0x%016llx, stack_levels=0x%016llx\n"
++		       "RSP0=0x%016lx, RSP1=0x%016llx\n"
++		       "RSP2=0x%016llx, RSP3=0x%016llx\n",
++		       vmcs_read64(HOST_IA32_FRED_CONFIG),
++		       vmcs_read64(HOST_IA32_FRED_STKLVLS),
++		       (unsigned long)task_stack_page(current) + THREAD_SIZE,
++		       vmcs_read64(HOST_IA32_FRED_RSP1),
++		       vmcs_read64(HOST_IA32_FRED_RSP2),
++		       vmcs_read64(HOST_IA32_FRED_RSP3));
+ 	pr_err("CR0=%016lx CR3=%016lx CR4=%016lx\n",
+ 	       vmcs_readl(HOST_CR0), vmcs_readl(HOST_CR3),
+ 	       vmcs_readl(HOST_CR4));
+@@ -6587,25 +6609,29 @@ void dump_vmcs(struct kvm_vcpu *vcpu)
+ 	pr_err("*** Control State ***\n");
+ 	pr_err("CPUBased=0x%08x SecondaryExec=0x%08x TertiaryExec=0x%016llx\n",
+ 	       cpu_based_exec_ctrl, secondary_exec_control, tertiary_exec_control);
+-	pr_err("PinBased=0x%08x EntryControls=%08x ExitControls=%08x\n",
+-	       pin_based_exec_ctrl, vmentry_ctl, vmexit_ctl);
++	pr_err("PinBased=0x%08x EntryControls=0x%08x\n",
++	       pin_based_exec_ctrl, vmentry_ctl);
++	pr_err("ExitControls=0x%08x SecondaryExitControls=0x%016llx\n",
++	       vmexit_ctl, secondary_vmexit_ctl);
+ 	pr_err("ExceptionBitmap=%08x PFECmask=%08x PFECmatch=%08x\n",
+ 	       vmcs_read32(EXCEPTION_BITMAP),
+ 	       vmcs_read32(PAGE_FAULT_ERROR_CODE_MASK),
+ 	       vmcs_read32(PAGE_FAULT_ERROR_CODE_MATCH));
+-	pr_err("VMEntry: intr_info=%08x errcode=%08x ilen=%08x\n",
++	pr_err("VMEntry: intr_info=%08x errcode=%08x ilen=%08x event_data=%016llx\n",
+ 	       vmcs_read32(VM_ENTRY_INTR_INFO_FIELD),
+ 	       vmcs_read32(VM_ENTRY_EXCEPTION_ERROR_CODE),
+-	       vmcs_read32(VM_ENTRY_INSTRUCTION_LEN));
++	       vmcs_read32(VM_ENTRY_INSTRUCTION_LEN),
++	       kvm_cpu_cap_has(X86_FEATURE_FRED) ? vmcs_read64(INJECTED_EVENT_DATA) : 0);
+ 	pr_err("VMExit: intr_info=%08x errcode=%08x ilen=%08x\n",
+ 	       vmcs_read32(VM_EXIT_INTR_INFO),
+ 	       vmcs_read32(VM_EXIT_INTR_ERROR_CODE),
+ 	       vmcs_read32(VM_EXIT_INSTRUCTION_LEN));
+ 	pr_err("        reason=%08x qualification=%016lx\n",
+ 	       vmcs_read32(VM_EXIT_REASON), vmcs_readl(EXIT_QUALIFICATION));
+-	pr_err("IDTVectoring: info=%08x errcode=%08x\n",
++	pr_err("IDTVectoring: info=%08x errcode=%08x event_data=%016llx\n",
+ 	       vmcs_read32(IDT_VECTORING_INFO_FIELD),
+-	       vmcs_read32(IDT_VECTORING_ERROR_CODE));
++	       vmcs_read32(IDT_VECTORING_ERROR_CODE),
++	       kvm_cpu_cap_has(X86_FEATURE_FRED) ? vmcs_read64(ORIGINAL_EVENT_DATA) : 0);
+ 	pr_err("TSC Offset = 0x%016llx\n", vmcs_read64(TSC_OFFSET));
+ 	if (secondary_exec_control & SECONDARY_EXEC_TSC_SCALING)
+ 		pr_err("TSC Multiplier = 0x%016llx\n",
 -- 
 2.48.1
 
