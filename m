@@ -1,111 +1,146 @@
-Received: from mail-qv1-f50.google.com (mail-qv1-f50.google.com [209.85.219.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gmmr-2.centrum.cz (gmmr-2.centrum.cz [46.255.227.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFDC613D51E
-	for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 13:09:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D66001AF0D6;
+	Fri, 28 Mar 2025 13:48:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.227.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743167400; cv=none; b=nXHRV2FlUx/VOdJLuxlEbghXdN0vVHFmiuMA0TJlICBoMK7WgmLRTKIgLd8PZeVTbj+BUBAsnMtHB6ERW7Qa9IppRI0f39IkmdQa6qEUqQ0WnQntM3rzIEnLT07CjAN/XW1yJlv3HIMUrr/16kf3EaExJebbAxzgH/hmhkCC/a8=
+	t=1743169725; cv=none; b=WoBdql5J7IPQGrD2j1RretYlRqXi/sDy5fepYJAaGJFXSL+Irc/oYJV2jkjeVOWbTxyaotq1M4JKkC5AjgldExFA81b49LesrxOvCzBJ2yyVe8lpE4RJL/ngKNLxTba5QTWrdTS9CCitZLpg3GhfFKCowlneHeNz+eARjkst7Zc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743167400; c=relaxed/simple;
-	bh=nsTbKkWCqPsRPDxW3L9BiP9mUlaPvv6pz4JS3WdUmiU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FdDGK0IiUqM2OZ7Cse2TEBKnxBstr23HY7jp7Sje2fbDRox7XiQJElcOGZ20G/znfho657lKGMMiMWgK29r/BPpu8W2TxvxIjYqFLXurtLO7QI6k2dQOlNDBQmruwUyf66NnrU1jyL4HTMoJGpvWrD2tHZp+QOOetN4mHq7gyvs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=hiWcasnR; arc=none smtp.client-ip=209.85.219.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1743169725; c=relaxed/simple;
+	bh=q0K01qJsYFOFiG0iZ2m4U1klsVF646bLGLD1xDAPFPc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=PZLfcAy2Gp4lV5Ci0mOS8bYMnByukH6sIuY3cNypEqs+OI5G6UsfqmNb+KWt248AR6Ia6YFjxoSha5vQQWZWnk6VczmJ3ptJru3PAjYsBKuPe7vM8oBa/PGHRJ4X+QOPcYlwmEHOHi2/Qb3hulfWL5FSEA62ncG+AtLdV4Vr+Q0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=atlas.cz; spf=pass smtp.mailfrom=atlas.cz; dkim=pass (1024-bit key) header.d=atlas.cz header.i=@atlas.cz header.b=Q+rQeu7L; dkim=pass (1024-bit key) header.d=atlas.cz header.i=@atlas.cz header.b=Q+rQeu7L; arc=none smtp.client-ip=46.255.227.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=atlas.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atlas.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="hiWcasnR"
-Received: by mail-qv1-f50.google.com with SMTP id 6a1803df08f44-6e17d3e92d9so16346006d6.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 06:09:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1743167397; x=1743772197; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=GrbE8iOj+o8uLnkO2AV/Y6hVNF8UOVIwZLvvFnjPOyM=;
-        b=hiWcasnRuaL4DnKvtC4NJX8RG/f5UYOYWRUA55kt5X4Ou9aVvQm+FKdwIprb45mCN+
-         B64wAJeUv35kVw/ncU9VK4Y7J+2zZALQ6xMjCLiJ5UN1YA8+BR4pJWPwAnhS2iPQdUvg
-         qKfHDfF/lNhPkuZINhXpkMx27hpfpsPel5MxC+Q5e2U5xSSC/nu+oA5/aBUAAOCIuiLs
-         Iy4N50X1IyYpYEkWuRaOvj+/3bbi/In8PZ5Jmk2BPRbK+PZ8wfCxx+wV2nKgYTPAUe9e
-         52GfMe9xxB3rKueo/2tqGeBVLO0PEsp4lIVCD5TCOKlgJeKcfd+w0IRw0Is0p55s1l1f
-         ooBg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743167397; x=1743772197;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=GrbE8iOj+o8uLnkO2AV/Y6hVNF8UOVIwZLvvFnjPOyM=;
-        b=On44Ixoh2n1k8emkYoMBAgqF5FtV8sFhp/+lp2E3qsfurm+Y7DD5Xe2wjs+Qh0WG0+
-         4QMR2oWQyuE4fU3GTIt5JXUqb9Fh5+c5R9FJyMJEzx5MVz2Y3mRJDpS3O2xdtMI4XTIC
-         wrip11sePCyHXxppKg8gOyhOjrz2G4siduqTdsxwf9ycG4k73lxrigTYQ1bS1YnSzVs7
-         lZ2QlIUV8xKXsufrMcxl6E+NQT/0rn+XrmrfRSCfnE5RGg838Cm3kgPDUtL3R4QIOxXi
-         uTY5B3OTYMstryXA63UsWnCKCBGDkYhqWCHTCaEAn1eRox3OuXzPJ2VP5UtUMpilIEih
-         m+nA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/PuGfEhkDU/CQJsEZUqnHflfTddJ4b2iVXr86sJNKqXlPDUNwjGlLEgWwk9T5cQZY6d3TuB7tBbU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzmZPOXpeMycldenwjVzB2GdXOuQA0rbaWgRjRT02lPruGbyZyt
-	9tLJIfuxryO6alzSQGJh+RKjfiAeaSkF2Gl43Jba/tIfb62IQ8MNkedhALhXfaw=
-X-Gm-Gg: ASbGnctR6Vuno2Kg8+A4Y9+ClmlPzwS5/JfF8ziS9HJB/Km1kcn4AG/V8sIYHeInvlb
-	992/mxo4aILYDWAuTeDIad+X2BED7ctnGvco9rRpzDOAmtAZK6bciT2XquMfvOJy99cbJGQaLBO
-	BaF6dgnqeOY/YbUu4ihwgPqBp8KZEBdJkeDscvByVYmr2wXBRP+nel5yoXgbxh4gvwRwTu8/Wob
-	Tm6xsNKz7bcVMiSfVyQv9Aik0h2gVy1dpNtiSWFAeFXxFCHrnWYYKPlA7Ps7KgstmLmVXtv/nHr
-	g39TjIOanzWZWMwej3aVk0CQSjlbNRmaxfVy2uOt6Mbo0B9pD2vGYZt6p1hyFKWYnHgICe1iKXL
-	m7+gGgJlwGTT1r3qMii6j+T4=
-X-Google-Smtp-Source: AGHT+IHidI8Os+Ek5ST85eRSABKJEnwVGlnRgxl/M61KkTTVspVJqP5FKyEOIMZ6GGbE0+O2r3M/8Q==
-X-Received: by 2002:a05:6214:19c6:b0:6e8:fa72:be49 with SMTP id 6a1803df08f44-6ed238a5684mr100935736d6.12.1743167394762;
-        Fri, 28 Mar 2025 06:09:54 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c5f7659ae3sm116989685a.5.2025.03.28.06.09.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Mar 2025 06:09:54 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1ty9T7-000000005Qn-1rpo;
-	Fri, 28 Mar 2025 10:09:53 -0300
-Date: Fri, 28 Mar 2025 10:09:53 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux IOMMU <iommu@lists.linux.dev>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Nicolin Chen <nicolinc@nvidia.com>,
-	Lu Baolu <baolu.lu@linux.intel.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] iommufd: Fix iommu_vevent_header tables markup
-Message-ID: <20250328130953.GA20836@ziepe.ca>
-References: <20250328114654.55840-1-bagasdotme@gmail.com>
+	dkim=pass (1024-bit key) header.d=atlas.cz header.i=@atlas.cz header.b="Q+rQeu7L";
+	dkim=pass (1024-bit key) header.d=atlas.cz header.i=@atlas.cz header.b="Q+rQeu7L"
+Received: from gmmr-1.centrum.cz (envoy-stl.cent [10.32.56.18])
+	by gmmr-2.centrum.cz (Postfix) with ESMTP id 18355200BC3F;
+	Fri, 28 Mar 2025 14:46:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=atlas.cz; s=mail;
+	t=1743169600; bh=UlBw9/qeUcHj0FTkB0/+Oy9DVtY5u5gfvTikwDv089U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q+rQeu7LkRj/WcLfDzbrUmXEM+X1OkkobVwoAT3cCsIxI+ZzJAenX3wQlvJrwsDBJ
+	 bHPz43aR6yAbeuKCaFTbLxSrhvbVMXPYtAsZP1LXjXl8Fu40VOwVDPBKkj4oATP8f7
+	 cWTqdbyOl1aryGdAEs8oW8GLS5ZTCDpJ1dKsJ4OE=
+Received: from gmmr-1.centrum.cz (localhost [127.0.0.1])
+	by gmmr-1.centrum.cz (Postfix) with ESMTP id 150C31B4;
+	Fri, 28 Mar 2025 14:46:40 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=atlas.cz; s=mail;
+	t=1743169600; bh=UlBw9/qeUcHj0FTkB0/+Oy9DVtY5u5gfvTikwDv089U=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q+rQeu7LkRj/WcLfDzbrUmXEM+X1OkkobVwoAT3cCsIxI+ZzJAenX3wQlvJrwsDBJ
+	 bHPz43aR6yAbeuKCaFTbLxSrhvbVMXPYtAsZP1LXjXl8Fu40VOwVDPBKkj4oATP8f7
+	 cWTqdbyOl1aryGdAEs8oW8GLS5ZTCDpJ1dKsJ4OE=
+Received: from antispam32.centrum.cz (antispam32.cent [10.30.208.32])
+	by gmmr-1.centrum.cz (Postfix) with ESMTP id B2106D9;
+	Fri, 28 Mar 2025 14:46:39 +0100 (CET)
+X-CSE-ConnectionGUID: pyp5bXrhQ7eAqW///7xMxg==
+X-CSE-MsgGUID: VNyVFBIfT1OE2CfFrsGxcQ==
+X-ThreatScanner-Verdict: Negative
+X-IPAS-Result: =?us-ascii?q?A2FIAADPp+Zn/0vj/y5aGgEBAQEBAQEBAQEDAQEBARIBA?=
+ =?us-ascii?q?QEBAgIBAQEBQAmBSoM0gXGEVZFyi3mGM4EgjEgPAQEBAQEBAQEBCUQEAQE+A?=
+ =?us-ascii?q?YRIiygnOBMBAgQBAQEBAwIDAQEBAQEBAQEBDQEBBgEBAQEBAQYGAQKBHYU1U?=
+ =?us-ascii?q?4JiAYQpDwFGKA0CJgJfEoMCgjABAzGwEoEyGgJlhHzXdAJJBVVkgSmBGi4Bi?=
+ =?us-ascii?q?E8BhHyGKYINhH2ECoEGgw6CRyIEhk2BDIwghDSES4UxgnGCJ4tRSIEFHANZL?=
+ =?us-ascii?q?AFVEw0KCwcFgWwDKgsMCxIcFYFFe4I9aUk6Ag0CNYIbJFiCKIROgQeDN4RDh?=
+ =?us-ascii?q?VCCEYIEiSeEYC1Pg0AdQAMLGA1IESw3FBsGPQFuB6MaOoNTUSBaNFuVH7NFh?=
+ =?us-ascii?q?CWETZx7GjOXUh4DkmMBhTyTQiKkKYRogX6BfzMiMIMiUhnaQ3c8AgcBCgEBA?=
+ =?us-ascii?q?wmCO40tNIFLAQE?=
+IronPort-PHdr: A9a23:TH+bRBbQ+o96Y7pSy2ME0bv/LTH414qcDmcuAnoPtbtCf+yZ8oj4O
+ wSHvLMx1wWPBd2Qsq0d17GempujcFJDyK7JiGoFfp1IWk1NouQttCtkLei7TGbWF7rUVRE8B
+ 9lIT1R//nu2YgB/Ecf6YEDO8DXptWZBUhrwOhBoKevrB4Xck9q41/yo+53Ufg5EmCexbal9I
+ Ri4swndrNUajZdtJqosyBbFv3RFdupLzm50OFyfmArx6ci38JN/6Spbpugv99RHUaX0fqQ4S
+ aJXATE7OG0r58PlqAfOQxKX6nUTSmsZnQNEDhbK4h/nRpv+vTf0ueR72CmBIM35Vqs0Vii47
+ 6dqUxDnliEKPCMk/W7Ni8xwiKVboA+9pxF63oXZbp2ZOOZ4c6jAZt4RW3ZPUdhNWCxAGoO8b
+ pUAD+wdPeZDsoLxo0ICoQaiCQWwAe/izCJDiH3r0q0gy+kvER/I0RI9EdwAs3raq9r6O7sdX
+ +2u0KnFzi/OY+9M1Dvh6oXFdA0qr/GWXbJ3dMrc0VMhGB3ZjlWKtIfqMCma1uITtmiY8uFtU
+ vigi3Qkqw5rpzig3N0sh5LTiYIJzlDL7z55zJwpKty5UUN2Z8OvH5RMuS+ALYR2Xt8iTH9yu
+ CY80rALpYK3cSwUxZg6xxPSZeCKfomG7x79SuufLjl2iW97dL6imxu/81Wtx/D+W8S10VtHr
+ yhIn9jRun0N2BHe98mKR/1g9UmiwTaCzw/e5+BeLUwqlafWK4QtzqAumpcRq0jOHC/7lF3og
+ KOLeEgo4Pak5/r7brn8uJOROJN4hhv6P6kvnMG0HP42PRIUX2eB/OSxzLjj/UrkT7pUlvA2i
+ azZsIzCJcQcu665HxdZ0oY95Ba7CDeryNsYnXweIFJefRKHk5DpN0zTLPziEfiwnVKskCtxx
+ /DbO73tGInCL3nbnLfge7Zy9VJcxRI8wN1e/Z5YFLEMLfLpVkPvqtDVDAU1Pg60zur/DdVyz
+ IIeWWaBAq+DN6PStEeF6fg1I+mPfoAVvSzyK+I+6vH0kX85nUUSfbKz0ZQLaXG0Bu5mLFmBY
+ XrwntcBFn8HsRAkTOzpklKCVCRcZ2ypUq0m+jE7DJipDZzZSo+xgb2NxD27EYFOZmBaFlCMF
+ m/leJ+LWvgXbyKdPNRskj8aWri7TY8uyxWuuBXnxLpkNubU4DEXtYr/1Nhp4O3ejRUy9T1yD
+ 8SA3GCBVnx7nmQUSDItwqB/rlJyyk2Z3ah7nfNYD9pT6O1NUgsgMp7c1eN6B8joWg3dZteJV
+ EqmQtK+DDE1T9IxxcIOYklkF9WhkB/DxSyqDKERl7GQGpw0/bzT32LrK8Z+1XnGzq8hgEciQ
+ sdVMm2mnKF/+xDVB4HSi0qZjbqldbwA3C7R82eO1WWDsFlFXw5zUKXFWGgSaFPZo9v3+E3MU
+ 6OjB7I/PgRczM6NMLFKZcHxgFteXfntINvQb3qqm2eoCxaF3quCYpPydWsSj23hDx0AkgYO7
+ TOFOBI4CyOJvW3TFnptGEjpbkeq9vNx7Du/T0kp30SGaEZJybW44FgWiOaaRvdV2agL6wk7r
+ DAhJFuhxZroAtwjpEI1db9faNY0+n9OyWbQrEp2LMrzfOhZmlcCflEv7AvV3BJtB9AFyJByx
+ E4=
+IronPort-Data: A9a23:wVeOYK8h5u3FglkGFVm9DrUDhH+TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ WoeX23UPamDNDfxfYp+YY3k90gCu5PTzt9hHAZt+39EQiMRo6IpJzg4wmQcnc+2BpeeJK6yx
+ 5xGMrEsFOhtEzmB4E7rauW8xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2LBVOCvT/
+ 4quyyHjEAX9gWMsaThEs/jrRC5H5ZwehhtJ4zTSWtgU5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
+ +bZwbilyXjS9hErB8nNuu6TnpoiH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxH4
+ I4U6cHvE1dB0prkw4zxWzEAe8130DYvFLXveRBTuuTLp6HKnueFL1yDwyjaMKVBktubD12i+
+ tQAOShQZCCZh9vpzZuida4rwZszCdnkadZ3VnFIlVk1DN4pRNXYRrnSvIYe1zo2mtpTGLDVd
+ aL1axIzMlKaPkAJYA1ITs1j9AurriCXnzlwoUiWrK8++UDa0Ah4y/7mIrI5f/TTHZQPzhzD+
+ D2uE2LRPDcLCvK16DS5q1WB3MTBszngd5IZLejtnhJtqBjJroAJMzUfT1iypPCjokeiX9tEb
+ UcGkgInvaI1+WSoQ8P7Uhn+rH3slhodXcdAVuE94ymTxafOpQWUHG4JSnhGctNOnMs3QyE6k
+ 1yEhdXkARRxv7CPD3GQ7LGZqXW1Iyd9EIMZTXNaC1FYvp+5+t510U+nostfLZNZR+bdQVnYq
+ w1mZgBl3t3/UeZjO32HwG36
+IronPort-HdrOrdr: A9a23:CDIFkqxJmmhhjxqnCTv4KrPwPb1zdoMgy1knxilNoNJuHvBw8P
+ re+cjztCWE6gr5N0tPpTntAsO9qBDnhP1ICOsqXItKNTOO0ACVxepZgrcKrQeMJ8SHzI5g6Z
+ s=
+X-Talos-CUID: 9a23:PnKBvGNZraC33O5DQDh/qUQkAMAcLXD01UiXZAjnGUN5R+jA
+X-Talos-MUID: 9a23:0eXJswhOdhHuE1uNq5Kh98MpCuF53YqEKU4xyLIr4eKKGzZrFCeWtWHi
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.14,283,1736809200"; 
+   d="scan'208";a="109282367"
+Received: from unknown (HELO gm-smtp11.centrum.cz) ([46.255.227.75])
+  by antispam32.centrum.cz with ESMTP; 28 Mar 2025 14:46:34 +0100
+Received: from localhost.localdomain (ip-213-220-240-96.bb.vodafone.cz [213.220.240.96])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gm-smtp11.centrum.cz (Postfix) with ESMTPSA id 322BB100AE2A3;
+	Fri, 28 Mar 2025 14:46:34 +0100 (CET)
+From: =?UTF-8?q?Petr=20Van=C4=9Bk?= <arkamar@atlas.cz>
+To: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Jens Axboe <axboe@kernel.dk>,
+	=?UTF-8?q?Petr=20Van=C4=9Bk?= <arkamar@atlas.cz>
+Subject: [PATCH] Documentation: fix typo in root= kernel parameter description
+Date: Fri, 28 Mar 2025 14:46:21 +0100
+Message-ID: <20250328134622.15917-1-arkamar@atlas.cz>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250328114654.55840-1-bagasdotme@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Fri, Mar 28, 2025 at 06:46:54PM +0700, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warnings on iommu_vevent_header
-> tables:
-> 
-> Documentation/userspace-api/iommufd:323: ./include/uapi/linux/iommufd.h:1048: CRITICAL: Unexpected section title or transition.
-> 
-> ------------------------------------------------------------------------- [docutils]
-> WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.1.3 ./include/uapi/linux/iommufd.h' processing failed with: Documentation/userspace-api/iommufd:323: ./include/uapi/linux/iommufd.h:1048: (SEVERE/4) Unexpected section title or transition.
-> 
-> -------------------------------------------------------------------------
-> 
-> These are because Sphinx confuses the tables for section headings. Fix
-> the table markup to squash away above warnings.
-> 
-> Fixes: e36ba5ab808e ("iommufd: Add IOMMUFD_OBJ_VEVENTQ and IOMMUFD_CMD_VEVENTQ_ALLOC")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250318213359.5dc56fd1@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->  include/uapi/linux/iommufd.h | 25 ++++++++++++++++---------
->  1 file changed, 16 insertions(+), 9 deletions(-)
+Fixes a typo in the root= parameter description, changing
+"this a a" to "this is a".
 
-Applied, thanks
+Fixes: c0c1a7dcb6f5 ("init: move the nfs/cifs/ram special cases out of name_to_dev_t")
+Signed-off-by: Petr Vaněk <arkamar@atlas.cz>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Jason
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 5e351ac52cca..6049a2f30baf 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6224,7 +6224,7 @@
+ 			port and the regular usb controller gets disabled.
+ 
+ 	root=		[KNL] Root filesystem
+-			Usually this a a block device specifier of some kind,
++			Usually this is a block device specifier of some kind,
+ 			see the early_lookup_bdev comment in
+ 			block/early-lookup.c for details.
+ 			Alternatively this can be "ram" for the legacy initial
+-- 
+2.48.1
+
