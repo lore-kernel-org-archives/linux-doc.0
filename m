@@ -1,140 +1,161 @@
-Received: from LO0P265CU003.outbound.protection.outlook.com (mail-uksouthazolkn19012062.outbound.protection.outlook.com [52.103.37.62])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797B01DE2C3;
-	Fri, 28 Mar 2025 11:13:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.37.62
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743160401; cv=fail; b=eWkFYt9zLHmFrLySvYiSnB0JQ5qu462H9ecl+PVIYFyQbTfXJuSPg6/1Nwio0sVYFf5o5c3WnBdv0QmI5JDiAOXOSFpxem5oFjzp2rs5pjrPHUMNuMxqt/LWFNl9TGj3JcYSNrZetBkTnIQjrT8Im9EFxbCvF1LFpSJB+9ueaX8=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743160401; c=relaxed/simple;
-	bh=XMx1a9RmVkr7/Rb6Agozt97ks1vo5nrXwIBZ2pRUG2k=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 Content-Type:MIME-Version; b=m2MchFQY4oJBDwdbO7b83L8EIoA5n3v2K53jGL+QXfUaOurbH/PiLNePX4yHERVWBifGnxJwfCvrNv8AMW6EFMV4lzQWBlcB+JqKjicFnSX+1yBkGEAUuYGFJe3wxX3B0vOomS7U071KbKwKmilj9EyfkanavkQT7oyyvxu9Og4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=SLoq5BCp; arc=fail smtp.client-ip=52.103.37.62
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C63326289;
+	Fri, 28 Mar 2025 11:47:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743162437; cv=none; b=WAzXxFO/3T+UTn35nugh9ibdzg1rMlS1A2CbaHJ61k+rWMZEDTPQygdTKg3HRLe0bwCxfsvK62NDNt2bicHW0OSkANyYhCdW/N8SPisNFhzP3cyL7eVU+vpdWNveTKwW/p23t3BD3SnST1NNHDdr0G0ZqXeOXgN4bPRocp9/vFY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743162437; c=relaxed/simple;
+	bh=fSDDLJIg1AIFezqeviZx0z10om+VyB30CEwom2stASw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ri9CZGvcxuYx2V91X8Lq7iW3dfkRfuvzngryncC9ZG7t9LjqS0slLxrisDzXdJGUF5EqGoIlyG19oecHyHHP89GTdy/n188jU/3DzNrMrGS00iJFGW6k4TYejt1eynnpKisYl+0IAzPLaehHDFYH+IMjW6oim+t/jIyPuuGSa00=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=XzilTukn; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="SLoq5BCp"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=OFaTa9XESS6WhJt4SjGWAsfis2AnQb3QOldH/jbuJMakIyBNPBNmPmkyf0eEiJr4rijWICeZewHkyCP2AGIeH5XSoKWJPFjVozW5go8ArFpWeoulayx9rfM/gHzw+4FGMre3hOyhFXMV/nrkhuB+x5uakA6uFBsrDhpr3bs8YO+rViUkYfD+Ym0ZGUnzWAfvuciM/mQzB9rkz8PBSw+c5n92lVYS4F1I2sjGrndhZgohWNyMzbqFUkgl9z3oRm5y5BFMctBVmKx7dMxi5GSTpXy0IXJpYKiwqr1BQaI9OWe7dvR46Ddo5gPSCPDRGJ6rh6TwvUIcF8lSNid6nDS2ww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=+KH/TSwMLJvSpNXZ/cfEp9i4qUBEnFTvgFA+1e3DrGU=;
- b=a3QRuYwVFvTFuqLJXdWKT+xQmNwivZckHvJC2nTnMEKYnjH1OzNXyzwKfcctkyKYuKqUVmmbMRAH1PTzYJGdvf7F1CkB6VB3+DmUtFLc6HqC/BZ/1kfqwgVHNLOVqCIpGSVfXXaNOsfdqXato5TOwKSsnYNgOatL4Wj26As/e9xrGuubHeipfp29RjcPQLjpQRz6ctxgzaY6TEgFBx8plXhXAmCBJWuAhXFfg/pQY/0pnOaJlSgp6IqASgb5S3WLTZMqR5I4pf89M9QSdJ4qT2DOVw/m0qziuY/u5jKLI8tE408GCw7bXRaaPCdLy02W8a5nk9xNVSSBUSBfxsQj6A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=+KH/TSwMLJvSpNXZ/cfEp9i4qUBEnFTvgFA+1e3DrGU=;
- b=SLoq5BCpNAYSG4cXVf4ZjDycEdoOKhSB/iewlqKElmTHlWvf6oL0KRmu2bv2cvXWZNhpfgLviM7qLJwYJPbUsxFM8SxzkzsBngcPNLsd9zcHieiWsTRyAw6lmC3IgaolQJ5qvGzakETDCRHPj5GrF7P7fQPccn/Ty5s6IT3PHcLxalBZOQE7QfMLLRwyIjYr6dAT9juaRLQpwdClR65qbfGfv7o4fAnYL0TAIgXtlHzC6egMF/oiAMk2f+tgD4ybLF6F4j7116USS46hw0pydDdc35/oamMiUG9VXOlzLaYky5Nz4uH7i87iTGvCJTXkxNe+1paW9JKPYgOoJBE/fg==
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM (2603:10a6:400:160::13)
- by LO7P123MB7483.GBRP123.PROD.OUTLOOK.COM (2603:10a6:600:413::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Fri, 28 Mar
- 2025 11:13:17 +0000
-Received: from CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb]) by CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- ([fe80::c0fe:9ff5:51fd:3fdb%5]) with mapi id 15.20.8534.044; Fri, 28 Mar 2025
- 11:13:16 +0000
-Date: Fri, 28 Mar 2025 11:13:10 +0000 (GMT)
-From: Manuel Fombuena <fombuena@outlook.com>
-To: Lee Jones <lee@kernel.org>
-cc: pavel@ucw.cz, corbet@lwn.net, vicentiu.galanopulo@remote-tech.co.uk, 
-    linux-leds@vger.kernel.org, linux-doc@vger.kernel.org, 
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: leds: remove .rst extension for
- leds-st1202 on index
-In-Reply-To: <20250328082030.GB585744@google.com>
-Message-ID:
- <CWLP123MB547340D3A31A4F41977584CCC5A02@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
-References: <CWLP123MB5473552E76AE71CDE3085DA9C5C32@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM> <CWLP123MB5473137572529F99746F4AC4C5C32@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM> <CWLP123MB54738759F49D377A9F080AA0C5A62@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
- <20250328082030.GB585744@google.com>
-Content-Type: text/plain; charset=US-ASCII
-X-ClientProxiedBy: LO4P123CA0588.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:295::18) To CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:400:160::13)
-X-Microsoft-Original-Message-ID:
- <638db531-9fd4-35a2-f65a-4f1e73316870@outlook.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="XzilTukn"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-227cf12df27so30936005ad.0;
+        Fri, 28 Mar 2025 04:47:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743162434; x=1743767234; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Hc/xauRBy7/DMinG+JVri98lUK7sMGQwLWf3P4KYn9g=;
+        b=XzilTukn7q68jnXs2aU9aa+3hKXBh2mYTK2BrwJXTaIZ4aCf7ZRr8lqP8y0vaDuC2M
+         jXUxZ9LxDljJtijqP2LDqoVaEOU37h2GyVNyQ4NA7m+L8fwefPDugEJKUMZsqQ1UsFtI
+         a/42flYwH9n5fzvC92DZ7Vt6GwjNY4PUMMuO91apq37bMhuxrPw4MXu55SfCyALArMe8
+         nrEHNPtWjPM58VGJVkjoqa8p2bCfMtY+Yzwc1IZQUgqBiiRolm6pVd0gcEwMp91WYvp8
+         q5mtT/xPty6Uxg21JCj3DnIM21qFYit6/X0CfSqG907Flo3xCiIg3G/LBpKpLAHWwoGX
+         ej/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743162434; x=1743767234;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Hc/xauRBy7/DMinG+JVri98lUK7sMGQwLWf3P4KYn9g=;
+        b=fKOUoCnZJ0a9ZeAjwCzoIq25Pvy4z61LOfv4098hGkPcxPGFfmTuOoZpHm3rP9xNtz
+         EShKCdNE/hx7AqBsDJzGBsKdse8Lt0Ae75ZOOlfA+x0Rn/XG0ZGcw14D3OKmMbFYeDG9
+         7ZPDsMILt8/0JQCObwqhPpWDYFGSnjTPo9zHpLiGx2fULOcId/ejDF7prDeHzc7JjGEE
+         B8B/beJ3ZvVOCsrNTyEqQMSvEsfCsST1V+s6OKk7fKEerzBEZvdVr3k9vXpXOTWgvYIZ
+         s9lc1MoNoIHY47uSlQArrgGcBd57CtdP/si74K1/ArNZCiYUHEIfDduciOTyWWWtIXWZ
+         ynFA==
+X-Forwarded-Encrypted: i=1; AJvYcCWsJVZoDCvrqDJfjMwCTNPEyO3nG0JccVKsiwG6zJwhqahwcXFFCJc9752rB+f3aGXUmTpUurJ/yJQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwnHfQMsRtBGdonD9cOk/15HwS9y9CXRMz+bayiqe61JxUsMtWw
+	xbKWTSEazWCLSDWvW1hkEy2sbSqX5+pVt8jrLVbsrMh/dOcPANuc
+X-Gm-Gg: ASbGncuh04aBWDX9nPpH5Dw10by5k4wNH8jyjkEzxN6KUVb5PB4tOnKfch1HH76P2qq
+	DOq64A5lXZyJLH2xraita7txm7um4SEdJ2jQfnZsXXDSPmoI+L+VFB+czaq6+MIACunJ2YF9LiI
+	GFtPw0V53acdsGxZx2yO3HS8+X1iFXPgDlWwvE6EwaWLNxtpWcCGBRmY200UoaqlByUnIlQF4wv
+	9gVh6wVCBu5QQ1sglyGeokNJlIY7FYSg+6BKvta30bHgmHisBRMU4xiFeT7GQthNjtyelS0IHb8
+	wErCBc26NZxXhj7V2g2mDFmDLKGyNvVKH127KD3OsFcG
+X-Google-Smtp-Source: AGHT+IGL+2VkvZUTLK5bh/+zKUx91iBAgtBVleFDA2Cq1ZEhcmX1cqdZcGj78v2l4OVP0YvtefEQjg==
+X-Received: by 2002:a17:902:f68f:b0:224:3610:bef4 with SMTP id d9443c01a7336-22921d5fe82mr37434305ad.25.1743162434071;
+        Fri, 28 Mar 2025 04:47:14 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73971091ce4sm1548199b3a.132.2025.03.28.04.47.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Mar 2025 04:47:13 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 0409C420A74C; Fri, 28 Mar 2025 18:47:09 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux IOMMU <iommu@lists.linux.dev>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Nicolin Chen <nicolinc@nvidia.com>,
+	Lu Baolu <baolu.lu@linux.intel.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] iommufd: Fix iommu_vevent_header tables markup
+Date: Fri, 28 Mar 2025 18:46:54 +0700
+Message-ID: <20250328114654.55840-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CWLP123MB5473:EE_|LO7P123MB7483:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6a92ce77-e546-4d47-9fb9-08dd6de98991
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|6090799003|19110799003|5072599009|8060799006|7092599003|15080799006|461199028|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?LSzdjztP++CteY69z72K1Kr5v31aX7j2wZt8RzwsjQ6weZ3wQlneAw/WbSY8?=
- =?us-ascii?Q?681PRepJ98/XgcLpBPD/Puu2JZug6tFIQYOv5JVmGvl4/GMkhb+zBArqI2dS?=
- =?us-ascii?Q?8+W+cuTks//ewD2Ew9Q8JoFOQwqSXWgUOTZFXRfCtgbCwnQJLd4UqyEG2Mk1?=
- =?us-ascii?Q?VMd8wJu2HpzZCA2/YXWCy6S668+/DlMCROIMF/Tc+g8In2s8fjJybqAIVFJF?=
- =?us-ascii?Q?0A2W4Bim0x+Lg0TnB5kA1qESJpzReCQGv+haEMeE/vkUyiehiWDvchT6/SSL?=
- =?us-ascii?Q?6YiiiV69fyyz+V1GqbnvhzkxkzI4+0PHQ4vbJSsMtLAStL3FX0TbxW0s3JiJ?=
- =?us-ascii?Q?tWlcznZ4j6S+KeQKglD2nHwDK5USWRIas41+pon28Rh4QWXfg+eHFmlWLtLS?=
- =?us-ascii?Q?+zXIg6hMS/rAPrN9HiqYX32v2jhe/oI72q3vrnyzvz/Gr89AFpizxmGH4zW+?=
- =?us-ascii?Q?rLwuh3s1yTOAer4j2N4BHJiKd60U1UMAnkWEnpARvLmfSIg3bAoXOorqz/rs?=
- =?us-ascii?Q?7tTAXkxYRfaNN7yznjLcBrJ5Ex58KV7DDA6ZO+bHvKaWt/UwX/4h0zv1mCB/?=
- =?us-ascii?Q?/q42ELAl1g5i3w+Nz2ilm5Y+594BzUO/hJC/4s9e+W0WI9iov984lodFq+MG?=
- =?us-ascii?Q?vYojDXPlUGJgqOhza09aY9brEgzCgqNlZDCyk0La4djiOqkEMncLVlsxck3j?=
- =?us-ascii?Q?uIx/Sh5rz9GRvXoQv2GXSqj4dstD01/VpOoDIxv7IEpFxb7837pP3xj0yiCh?=
- =?us-ascii?Q?x635WZOa8aJrZf5PMTBTgIBqXvddu+bJbNgqB7w0z0v5du/DfxoV5h2AwmLC?=
- =?us-ascii?Q?XgC28qtjVQ2TBg+Mf1RErV3gYa3yXTFZg/OHgUnXp8TFPluxt+M9ANwslUqz?=
- =?us-ascii?Q?EmuXC9STVUPe0ge9dC05Ze8O846fp6G3XWezY9UAkWbk1i8wioNjCbphM1hd?=
- =?us-ascii?Q?SaviUn9l/nRGkEBU2sTAf5sI9yA+2Bai0n0jBJOGatVlgQdsq0kBlENi4SSQ?=
- =?us-ascii?Q?DZrLItEzMWj8eqZb2C3NbtHulwMPYX5Bxldop1kjGZfKv4SSz0qUcDCjBNji?=
- =?us-ascii?Q?dAwEz0ijO4EY4qDgiJwy92a2OoVc5QtwLTk1iZFQmV+RPtvjaJNkH6qUVeRW?=
- =?us-ascii?Q?2YxxYhKpwgbRjj7JCOVmM/tKtSmGWpKqoA=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?rDefZZrps9tV9QC89MgWHDnJ/05M9TCHfNrQU+XPuGGvoAV0zzJrCE1ubsKy?=
- =?us-ascii?Q?YCesiomEh+ZL9vL5PX8K5n9dNBikGFjjfKqsdED/00QUHTjaSX+TSo4qzPBK?=
- =?us-ascii?Q?K6gHb/YAZGktPS3JXcp2f1CewlnqO6wGNZSzVxVUR7ql1TvEW1U4INNe6N5E?=
- =?us-ascii?Q?V/Hpzc++RRLwtnZdEkpxe95872OAq7IVOKInHVwoof7JRP0nyAIweoDg8XxV?=
- =?us-ascii?Q?vj4g+PTp7DSvqJ1Vlf+Cj1TGiyKjROZvqQQx5JgiM/xkagIEl2w8inyH6D/n?=
- =?us-ascii?Q?zxx9qpEfmrEN4DFAyl+ztnOYl3cry2ER7MD9+0xwRd0iK9tYItvrbszSaZ6Z?=
- =?us-ascii?Q?3z//2/tyujCiGZPUqsjNHYHpkkH1iKbgOFMsmmFgUCgQWMbvOltaEHaH795Q?=
- =?us-ascii?Q?UZYR+3dUgdC3f88IVU7w27W+3f4PaJT401/xZAA+vwkds3i1HvwJWac763Q+?=
- =?us-ascii?Q?+pSMxLHjILr2Yd43PWPPn625jx87OfMe5SInVkcQRcZDii9RRfHMkRECqray?=
- =?us-ascii?Q?VPRonRyXvAvenl2SvuNWhMU1gOs8XIU97X8E/TdP/mqbeRzwy2BLxK3x3kRQ?=
- =?us-ascii?Q?Wp8GBjU3yW0C6HVZ0L5wqIBQ3vqlVdNnH/Gdq8c0MvzOiXGMlkxHL/dTtgjY?=
- =?us-ascii?Q?T31jNnpKI7SbyAtF3HHiCanEKydlk58kSyY0rJJMW0GNyenTz4sBMD3hMZV/?=
- =?us-ascii?Q?XXhxID8fjOveLpPqL4aYti6joVjdwUkhLnnevF0uwx+Dr4TQEC9duht8jT9u?=
- =?us-ascii?Q?m6XeVXs8f+/Oh43QYJVioWGy1T+KBNW6tS+zZBE7F8951dEOvUqlpJKxvbIg?=
- =?us-ascii?Q?+7uTlUVRdu9pKRLKg7wrdWcqK5/FYBlkEIglWBWnt55GpLjv0mKOIcStPX8T?=
- =?us-ascii?Q?YS4Pce3ej82YYcqFrO3yvKJbhILJ0mL1YHEDA1OuGygOb1CJGuJy7dOmg6tC?=
- =?us-ascii?Q?QkHPetXldeayqZrkuVtSoOcs8b2NustgGXt6SDzAJawvAkmqySNZ0vTd4V3W?=
- =?us-ascii?Q?H7/VFPsgYf7tHNMAvzhnDEJjQZrdqSCFjgx7UXtXLXkesFmHzgOUrlwGiByD?=
- =?us-ascii?Q?+ChYTj5WJo26AieOUl1u2MXwwf+UjY9MVZZuLVOm+/iHHDNcxn9uqvhyCgQv?=
- =?us-ascii?Q?uPkhiL3jTbkdBUXawT4n/OkMWwp4NuwlYorjsUYOGEO33ThK1F9P0dPGUMO2?=
- =?us-ascii?Q?84aMNG4Ors/KWbzpKKFVFVo6V7dOsN5MjEUr3t/AIKEPRGDVNKJxGiNuCvzc?=
- =?us-ascii?Q?6AdfBOIp/sxzxyOvObufcgM95uMZnPXTF2uhCrhlChTxMSnnfBm8VNiGqDjQ?=
- =?us-ascii?Q?Fd0=3D?=
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6a92ce77-e546-4d47-9fb9-08dd6de98991
-X-MS-Exchange-CrossTenant-AuthSource: CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Mar 2025 11:13:16.3714
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LO7P123MB7483
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4215; i=bagasdotme@gmail.com; h=from:subject; bh=fSDDLJIg1AIFezqeviZx0z10om+VyB30CEwom2stASw=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOnPuvfMqq4J+PvAebYEx5WAXL26NXcVNoidV9F3auqz6 Hm/t/pNRykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACaysJfhn9mW60I9qx4tEbi1 Q1Kg8WKS4MyQN2+Ouf+73JabIWrJ7MTwh/PvpC0zNA/denZUgLmW766oQoGwyHujKcULUw6kxH7 L5wUA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On Fri, 28 Mar 2025, Lee Jones wrote:
-> 
-> If this is still relevant and still applies cleanly, I'll take it from here.
-> 
+Stephen Rothwell reports htmldocs warnings on iommu_vevent_header
+tables:
 
-Thanks. As of now, it still applies cleanly and it is still the only 
-driver in the list that includes .rst.
+Documentation/userspace-api/iommufd:323: ./include/uapi/linux/iommufd.h:1048: CRITICAL: Unexpected section title or transition.
 
---
-Manuel Fombuena
+------------------------------------------------------------------------- [docutils]
+WARNING: kernel-doc './scripts/kernel-doc -rst -enable-lineno -sphinx-version 8.1.3 ./include/uapi/linux/iommufd.h' processing failed with: Documentation/userspace-api/iommufd:323: ./include/uapi/linux/iommufd.h:1048: (SEVERE/4) Unexpected section title or transition.
+
+-------------------------------------------------------------------------
+
+These are because Sphinx confuses the tables for section headings. Fix
+the table markup to squash away above warnings.
+
+Fixes: e36ba5ab808e ("iommufd: Add IOMMUFD_OBJ_VEVENTQ and IOMMUFD_CMD_VEVENTQ_ALLOC")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250318213359.5dc56fd1@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+ include/uapi/linux/iommufd.h | 25 ++++++++++++++++---------
+ 1 file changed, 16 insertions(+), 9 deletions(-)
+
+diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
+index 81c31a36e14a97..fa479700918409 100644
+--- a/include/uapi/linux/iommufd.h
++++ b/include/uapi/linux/iommufd.h
+@@ -1045,21 +1045,26 @@ enum iommu_veventq_flag {
+  *            [0, INT_MAX] where the following index of INT_MAX is 0
+  *
+  * Each iommufd_vevent_header reports a sequence index of the following vEVENT:
+- *  -------------------------------------------------------------------------
++ *
++ * +----------------------+-------+----------------------+-------+---+-------+
+  * | header0 {sequence=0} | data0 | header1 {sequence=1} | data1 |...| dataN |
+- *  -------------------------------------------------------------------------
++ * +----------------------+-------+----------------------+-------+---+-------+
++ *
+  * And this sequence index is expected to be monotonic to the sequence index of
+  * the previous vEVENT. If two adjacent sequence indexes has a delta larger than
+  * 1, it means that delta - 1 number of vEVENTs has lost, e.g. two lost vEVENTs:
+- *  -------------------------------------------------------------------------
++ *
++ * +-----+----------------------+-------+----------------------+-------+-----+
+  * | ... | header3 {sequence=3} | data3 | header6 {sequence=6} | data6 | ... |
+- *  -------------------------------------------------------------------------
++ * +-----+----------------------+-------+----------------------+-------+-----+
++ *
+  * If a vEVENT lost at the tail of the vEVENTQ and there is no following vEVENT
+  * providing the next sequence index, an IOMMU_VEVENTQ_FLAG_LOST_EVENTS header
+  * would be added to the tail, and no data would follow this header:
+- *  ---------------------------------------------------------------------------
++ *
++ * +--+----------------------+-------+-----------------------------------------+
+  * |..| header3 {sequence=3} | data3 | header4 {flags=LOST_EVENTS, sequence=4} |
+- *  ---------------------------------------------------------------------------
++ * +--+----------------------+-------+-----------------------------------------+
+  */
+ struct iommufd_vevent_header {
+ 	__u32 flags;
+@@ -1117,9 +1122,11 @@ struct iommu_vevent_arm_smmuv3 {
+  *
+  * Each vEVENT in a vEVENTQ encloses a struct iommufd_vevent_header followed by
+  * a type-specific data structure, in a normal case:
+- *  -------------------------------------------------------------
+- * || header0 | data0 | header1 | data1 | ... | headerN | dataN ||
+- *  -------------------------------------------------------------
++ *
++ * +-+---------+-------+---------+-------+-----+---------+-------+-+
++ * | | header0 | data0 | header1 | data1 | ... | headerN | dataN | |
++ * +-+---------+-------+---------+-------+-----+---------+-------+-+
++ *
+  * unless a tailing IOMMU_VEVENTQ_FLAG_LOST_EVENTS header is logged (refer to
+  * struct iommufd_vevent_header).
+  */
+
+base-commit: 899ddafec3b4adeb324ebda146914980137c1553
+-- 
+An old man doll... just what I always wanted! - Clara
+
