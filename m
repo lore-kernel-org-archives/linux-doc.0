@@ -1,58 +1,58 @@
-Received: from mail-pj1-f44.google.com (mail-pj1-f44.google.com [209.85.216.44])
+Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D0A7153BF0
-	for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 04:08:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7E3BB676
+	for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 04:11:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743134904; cv=none; b=PNy10ngUGQKMsgQCrBnPps2MxP9rmJabw5ec2eo0mtZsAdKMc6e++tJ64v2ICMekQKRfacDBNVnZ4v1FbIpbhHlJHZM+55S1L2gc0YfcjP+sB+PIMcJP+mjqs+k7F7u/JNCsNX/QbITJhK/LSrY6333Bc78sno8wWKc3euLiT5Q=
+	t=1743135112; cv=none; b=N5JgF/r7KnHqegQN1Wi3/oH95cgSag4UoMZ6ESrLuXiCt0K6rpB0f/0vgBwQZYup64zMO+FJC7rL3pVi9/ATFz1QfH9/FHNwVz8Uy1kO86XHHOfx3m4fmdqdQVx6gX2f/4gF2Itdk2Fy1tbVVXIUE4F/3WQTPWoJoG+OzmE4CXI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743134904; c=relaxed/simple;
-	bh=iYrVRcD+hMzJtKzodR0ESNhu7mLxGvDK1xY/1pi4jNw=;
+	s=arc-20240116; t=1743135112; c=relaxed/simple;
+	bh=VcQhGjwKbCvL7TRvUAl66tFmQC357t2OP7ZqCwnkd1s=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JPYl77PAP6uJyY1KpxzZMlAy65TFE6fH160dLNM6eBlgE6Ce55m7cTvXIjUHc+MJ5MHaScrFCc3KMBSpJNMr1NCHqlu4HS/sCbzl5618CJ1GikrOWBj5/0HRpDg/0F6rcc04BfXQ6X6gwAVV1VR0Jg7bCDa7EghQMIndMrHo1H4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eroXl0n8; arc=none smtp.client-ip=209.85.216.44
+	 To:Cc:Content-Type; b=I024NU6v+dUwKO1bQoY2zX8uLho+W3NS+uinJNnBD57fbHagWaAMWZ0UfLaLNwazG40zEK/yiTsKI0s2Svq5egIROWUimd5pS9tc+Tn+7uzswWaQPazSk8ijpsodTvGbU8i0NNjmQGrHVOomQqi3+86cSmgiy+eudn2AdVuYuf0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Fy0Iu609; arc=none smtp.client-ip=209.85.216.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eroXl0n8"
-Received: by mail-pj1-f44.google.com with SMTP id 98e67ed59e1d1-3035858c687so2388484a91.2
-        for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 21:08:22 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Fy0Iu609"
+Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-30362ee1312so3006552a91.0
+        for <linux-doc@vger.kernel.org>; Thu, 27 Mar 2025 21:11:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1743134902; x=1743739702; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1743135110; x=1743739910; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=N03iBb0aPoOa1EMU2w3tNSLo9fIJtKzm12qVBAP380o=;
-        b=eroXl0n8+OT1WgONptV+EA+kK8ucFA8h5gKi/zuj5OQRMp/bjukCcy0en5STiHvPjF
-         hk+0RbyfQArUFzXVJCZIU4lcCM91HpM/R6oLg8REt3szqn/8DlbFUqRaFz7KVW1uUhC2
-         2R8lLzlWzv6PGJtf5oH90dHAX4cRqBki80bGQli/mIh7ZKqVh16jWHyF8BwonOgC8xc7
-         Z58exKQhCj/OHYjOLyfr0Yzl57V4S4mqh5MMEoBf0uJYiiEa9z8FZgYVjc1Rkeys5wkW
-         c9jZIRU2rtdOEMJu1njuawOnnUTKseg6qPEo2Os8ZhCqc/A/C6VyepPeTfTpL9L62XQc
-         HrYw==
+        bh=KOaMt0R9YVNlwsA3/uI772AmvrvkxzcfR1yqEVw0pxY=;
+        b=Fy0Iu609nlNHuG9ClqLu+UMxGHR0IAoL+VJmrvaJLVNypQU4rg7l23kou71EVsuS5l
+         I85zvc0BhhWo+tSQCwghPfTc4rV1R/gDOyZMKPnRtmj/B0BchgusX8uuGW43DIcobBDW
+         6g5BaIdakj0Zv/iuSU1nH6+xddj6+78Mxav/8d44n5J/sN/cew6OsM+hsApEtjRwLvcM
+         piAi0a6kF+wKxxoE3MW3YBXhAx0H0XvvsUCElocGxy2dgDbMZQ1eIROn/mC8zr+CJ0cw
+         pNFDpu9Fi142rhLR0tHXrwBL4thUjWiVtsPhcNrLgzLr8Wzz5RIUDJbcdjBlKR5BKG20
+         NWeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743134902; x=1743739702;
+        d=1e100.net; s=20230601; t=1743135110; x=1743739910;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=N03iBb0aPoOa1EMU2w3tNSLo9fIJtKzm12qVBAP380o=;
-        b=Ybcn7J4/QEHLVa0MClviLRMUSYM4QUcVC5Zf/CKufw8nJ8u54fKRdMVgjDuDVrV+Gf
-         Ci2hlCMf1Wnjuslw4BAhip6av7k0S/rTD2PxsvzfAhaOtAJ1MYx33dGu/nZpSYtMjXvV
-         1VERQpfHwKSMkNECGSIcxioUHGqFSbUDWCwtMpNSDyiBfKH9pZKiwBPRVqVY8smn6WOR
-         52MXsQ1K8lIssZriHdHTV1ROKm3t2Wqb/Itloa5wHlI5q8kn2v4tkPehDLMRq8m3gJIE
-         o5u2BVotB3piMNlwDL/7C4zLBaZ0zyHBOrcnlc6M9HojnFQwLSYs4saVnyOsbEIwt3xX
-         SMlQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWLMr60523TivSB2bNPDpS3QVRc9Xv/8fK/1CYw8yOEJq8SfRzASRKH0l+4GRWa71uKe5lAuqo9e6k=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzz74aAmy2GCJ3y9D7yzsPUz2pMrmeDI7XZ1tMnNRrIeU+OJtEl
-	pi+jVJa2BGM/83JQdVL+RSmLbTJ/HloIt61NQhn8ckPjMcsACNShgNG10V3+rtjGsRhb0MbnbRi
-	mYSxbMO5OaasG6iZoLpQ618CHePvltTzCW3Tl
-X-Gm-Gg: ASbGncuHmqEGIqtsRGmgTRX4TYlenOPRFKUpOTqDN4qL9LKnYFm/HY9lV+blUbK1dZW
-	0tBiY+z3CCDjh8sqS4nTy66in16z+K6lp2UCac65ojd+RRp45diq0mhHdX3rXrDnbH8OVx3PeVG
-	VHkVJXBEKfr0/PKz7tq5NB1yLjlqV44Q17y736RigyFpS2AHLm9AkeLmhf
-X-Google-Smtp-Source: AGHT+IET2SIyJWG/WqM8dYN2pMoj552qvEHpWMKKbW6yAwVAwSlCGxAcGWCgJC6GDSoyfDHa7yGjAkBy+fMLLMAo3AE=
-X-Received: by 2002:a17:90a:e185:b0:2ee:cded:9ac7 with SMTP id
- 98e67ed59e1d1-303a8164d83mr9850612a91.20.1743134902056; Thu, 27 Mar 2025
- 21:08:22 -0700 (PDT)
+        bh=KOaMt0R9YVNlwsA3/uI772AmvrvkxzcfR1yqEVw0pxY=;
+        b=M9WICfov3ICNU/3IPGCOY0hsEBy2njKmL+VSZBVFKfiNatqAC4PY89yAWoC7qVmvrJ
+         W0zU9Cl/NbqZtr+1SghrzOrK2sCrWxJtPN0Psj5YrZzjlDoHqNgKLo0sACyLAthuxBb7
+         fEHKDqMSVUuCTi7r5YUBp2ihY+r0r+YDXLnfmCTKGllwi8zPCpsS2mfBLf2eiQkqeths
+         owWlAel1/1nLeKn4lhx6g8n0lytqIPhpiWB5SBR6R6uDrpAU/USPxIgwK2Gy9fs4rkVp
+         1nw/I/6v2C55wOd9o3kuTl88Y0KIg3hiR4skCkPpsYwc7RFHxvPaabJ+dgRHCCNzdCVN
+         mjDA==
+X-Forwarded-Encrypted: i=1; AJvYcCUqEEqqH1szGUncSVwNVS1Ua72GwbMDIG/8TDH8cHY9yN+IxNAOjFLHjFR3ibyuBn7A9GL++JglSd4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywy0ooaswG+oc6X5mu2N78J0HEHfnPsf1QLm6nQHc0PH7BHIlms
+	Yn93eA3cYVouq9rs+S8x0MzMDYuf7FUfoXKKpciHp2YzDDSBxpbqRfJs3eHnUbeBMne+EmhXzy8
+	iMD5YF8HAjmNJGk4YzmClk7eeGn8u0rHP2p9S
+X-Gm-Gg: ASbGncsxuH3J38oBILGSJxFtqcM5h3Nya7fXgZLgT6VvObXAtP/WlMKNpn+Tw1kPTxG
+	e9D9gK46GoArHMCg1xgwunU0dGEfGzHWQwO2HViHzOsu6W2c1j97JRoobwqm9hkYK4rWDCmnaTk
+	ToAUUcFzdIE/iAvngRha7Q5QltYw8+/W8KqGbSSH79iLS5pLDOrDDke1zT
+X-Google-Smtp-Source: AGHT+IFzcIsDka9WHZJAJxFJMpLG8c8sNW7ZlIUJIwmaNAc9LhnSuWXu0PkDrFCS/5qopuG/ewx09I4HC8RtpYaWMI8=
+X-Received: by 2002:a17:90b:5450:b0:2ff:64a0:4a58 with SMTP id
+ 98e67ed59e1d1-303a83c3c41mr7500138a91.22.1743135109830; Thu, 27 Mar 2025
+ 21:11:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,16 +62,16 @@ MIME-Version: 1.0
 References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
  <20250319005141.312805-2-quic_wcheng@quicinc.com> <CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
  <2025032734-reward-fantasize-dc16@gregkh> <CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
- <2025032756-aliens-ibuprofen-79e5@gregkh>
-In-Reply-To: <2025032756-aliens-ibuprofen-79e5@gregkh>
+ <87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
+In-Reply-To: <87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
 From: Puma Hsu <pumahsu@google.com>
-Date: Fri, 28 Mar 2025 12:08:00 +0800
-X-Gm-Features: AQ5f1JorDK6fkpVgYpd1mPibjV42TOlpaMjT0M3mouvQUfQc-UcxBnx7ecDNaLc
-Message-ID: <CAGCq0LZUezCBoqrS2+6Dphd4J2T0w5tPNweNVtGcNzMzjgSUXw@mail.gmail.com>
+Date: Fri, 28 Mar 2025 12:11:00 +0800
+X-Gm-Features: AQ5f1Jpnovh_4p-_u6V4wCVMQJgZBCl06fy9sGBvVcdkQOOr_maNF6N-1VIckKo
+Message-ID: <CAGCq0LYi=Dq+3RvvK6Z5kFGZ3XanPq2BuizEBZ353oVo2FGHAg@mail.gmail.com>
 Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
  secondary interrupter entity
-To: Greg KH <gregkh@linuxfoundation.org>
-Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org, 
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: Greg KH <gregkh@linuxfoundation.org>, srinivas.kandagatla@linaro.org, 
 	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org, 
 	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org, 
 	lgirdwood@gmail.com, krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com, 
@@ -83,27 +83,26 @@ Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Thu, Mar 27, 2025 at 6:48=E2=80=AFPM Greg KH <gregkh@linuxfoundation.org=
-> wrote:
+On Fri, Mar 28, 2025 at 12:12=E2=80=AFAM Wesley Cheng <quic_wcheng@quicinc.=
+com> wrote:
 >
-> On Thu, Mar 27, 2025 at 06:14:00PM +0800, Puma Hsu wrote:
+> On 3/27/2025 3:14 AM, Puma Hsu wrote:
 > > On Thu, Mar 27, 2025 at 3:02=E2=80=AFPM Greg KH <gregkh@linuxfoundation=
 .org> wrote:
-> > >
-> > > On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
-> > > > Hi,
-> > > >
-> > > > We have implemented and verified the USB audio offloading feature w=
-ith
-> > > > the xhci sideband driver on our Google Pixel products. We would
-> > > > appreciate it if this solution can be accepted. Thank you all for t=
-he
-> > > > work!
-> > > >
-> > >
-> > > Great, can you properly send a "Tested-by:" line for this against the
-> > > 00/XX email so that it will be properly saved?
-> > >
+> >>
+> >> On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
+> >>> Hi,
+> >>>
+> >>> We have implemented and verified the USB audio offloading feature wit=
+h
+> >>> the xhci sideband driver on our Google Pixel products. We would
+> >>> appreciate it if this solution can be accepted. Thank you all for the
+> >>> work!
+> >>>
+> >>
+> >> Great, can you properly send a "Tested-by:" line for this against the
+> >> 00/XX email so that it will be properly saved?
+> >>
 > >
 > > We(Google Pixel) only use the xhci sideband related changes and two
 > > changes in the sound card driver. For the details, what we actually
@@ -111,40 +110,29 @@ he
 > > Do I still send the "Tested-by:" line to 00/31 email? Or should I just
 > > send the "Tested-by:" line to the 8 changes above? (I added
 > > "Tested-by" line for this [01/31] first.)
->
-> Send it to the commits that you used if you only used portions.
->
-> But that feels odd, why are you only using portions here?  Why not the
-> whole thing?  Are you going to have to revert portions of this series in
-> order for your device to work properly?
->
-
-Google Pixels use Tensor instead of QCOM chip, so we won't enable
-QCOM specific drivers from this series(i.g. patch [14~31]). What we
-need from this series are common xhci stuff and portions of alsa. We
-won't build QCOM driver even if this series is all merged, so we don't
-have to revert anything.
-
-
-> > > Also, I think a new version of the series is coming, can you test tha=
-t
-> > > to verify it works properly?  We have to wait until after -rc1 is out
-> > > anyway.
-> > >
+> >
+> >> Also, I think a new version of the series is coming, can you test that
+> >> to verify it works properly?  We have to wait until after -rc1 is out
+> >> anyway.
+> >>
 > >
 > > I think this v36 is the last version of the series as I discussed with
 > > QCOM Wesley. And for sure I will test it if they do have a new
 > > version.
+> >
 >
-> See:
->         https://lore.kernel.org/r/ee95520b-cdcc-4e10-a70e-683993cafe36@qu=
-icinc.com
-> for where the need for a new version is discussed.
+> Hi Puma,
+>
+> I'm discussing with Stephan on the QC specific stuff, so the common chang=
+es
+> won't change on v37.  Please provide your tested-by tags for each commit,
+> so I can carry them accordingly on the next submission.  If I do end up
+> making changes to any of the common patches, I will remove your tested by
+> tag, which means you might have to test it again.
 >
 
-Thank you for the information. It looks like QCOM specific, but I will
-track and test if there was any change for common xhci in the new
-version.
+Thank you Wesley, I will add Tested-by for the commits, and I will
+track your next new version.
 
 Thanks
 Puma
