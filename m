@@ -1,157 +1,109 @@
-Received: from mail-oo1-f53.google.com (mail-oo1-f53.google.com [209.85.161.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5261B2AEED
-	for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 16:40:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB4951DB55D;
+	Fri, 28 Mar 2025 17:13:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743180017; cv=none; b=kqkW97IaPpOpjjcUO3xV4sYig0zuv26mCLJN+koCSQeGP6uKS7bJaFjH/Vl3KaODIollDWFm5VT+sgNf1uvDGXWSB4nCI7vw8pLN49WquXwcRUhkaEJcDXjt03waT87cYWibr0xJRpHUautWe3ldS575/GWHR4OlsdCnLnuVkZo=
+	t=1743181994; cv=none; b=K7bkxsUncpGoC0ERniImE1tZ7L63KIDZVkjZjz+KhcObwswXuU3kKect9T/auw39TV47ls/QKNRk2Gz2NiZPHI7AVPkHWtcmtE77qW2RGIHQBUUS3upUM/v9DilKTSDTm4K27244/JO+frAkCX7cYDc5eh75bKtpswX5EocJ/Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743180017; c=relaxed/simple;
-	bh=UfMGIFBA2NCp8X6+/ZlKX6NWlh6n9aKB62GIyfMRUvU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DYTBwM4w5alhiaij8So7aaMH4oldo2WY0eyCbcg0tkkujc8YD4FJl3S4W83SYDKjB/Znfa3noMZMUKUldRcG9IFFpiYme7SgSljdHA9z9/MxDos9Vw0p8IyNCJzqQEnJll2c6XAg/ya9YE9zGST7ZLWrWNjR06fnqsGNTLqQRP4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=n+OA2Y25; arc=none smtp.client-ip=209.85.161.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1743181994; c=relaxed/simple;
+	bh=c34mfR5nGDp98DreJIUWdBTEzJdcqfrkCC8Isfb2WXo=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=I9NgWJu5uUPAIQ9YrOud8pKvll18m8GjbKvQyc/XcHZ3VOwNfXzk8w3YUNtuAF1UjOW37+D5aLcwjKp0uP7MjPZGLSzLSTR0Op43KVRfOutPufguYw/ZukUxEqfU5AK/GsEzLk9aNh5E7PArVrzrSMJBUrKhRn+E5fFEjteruEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=a/4AWVWi; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="n+OA2Y25"
-Received: by mail-oo1-f53.google.com with SMTP id 006d021491bc7-6025007e9a0so410898eaf.1
-        for <linux-doc@vger.kernel.org>; Fri, 28 Mar 2025 09:40:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743180013; x=1743784813; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=dzrQJVTt8RVOtbppwh2ghVBNZYusJHBIFxOQR2w/3zs=;
-        b=n+OA2Y25AB/Td3LiYIbe01/eQQyVT5ft3mgQrfiFSPx+KdL5o+7TEKw3bgXQ2zObKA
-         NgZh4fdIr5gBaw8+hzhVj+nSuIfsBPNL+1EetNsoC0PryNXRSHZgSDE6cMCQYHK7oZGG
-         alt3Xs4eBJuUvSqcpR3gN0E5XN05RrbFzbp6J9FROv+2ccUtagUzEiZJ4XlVzajT9o8n
-         ZoiEpQOoZUA/O6chZnlt2gUwSSbMrdVAFbHNWvdH2eIn7vfkukQBZAWXygMVDjut31Zb
-         S1tokCgQjiMRk4IOa/VBFJ3XwDw2cHYo8zOwO0DphGIVVvpM+5xjS4Ykpr78e8JsmMwk
-         zylA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743180013; x=1743784813;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=dzrQJVTt8RVOtbppwh2ghVBNZYusJHBIFxOQR2w/3zs=;
-        b=VgMtDuZQF9djCqiz6+BDZPT6m67WFckT64BXwgPYolwdeHgVdTqpkOd2apldGXUjvG
-         DqTUeppUZJtRVhhuINrciEXGB67Wo5o5s337Sr1CWzEmhBJWRu54k8tj+Mu86gI/oQIo
-         pve6R8Et8Efmghyc3Ut66OsHxcCY0JckgNnFg2FDNqRwRgc8emhkA2SF2byTpfjcIjeX
-         fP6h/K9UmTMVOBIxLZF7XIlU5E6pdA4uozaJqh+3x6uRK/Mfq8FsQxuRqQ1rQMTuaaWC
-         paDCJqviqPviNpiprPGQxzhygHwyw9vU4wxxPUrZx1pgfaYSXAuiwT7IwBx5BpWU+cPD
-         laxg==
-X-Forwarded-Encrypted: i=1; AJvYcCVTVF9Q+JtKYzrCc7eAwAZ+pQuE7s4FQu/d+ifdrNkxXiaWO5zhJazvVOAyXjCOFxVb4Me8W7jwvIg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzMT3wbh4ZjzgaquXzOSpGPAaG0IYwE3IEeXGAO4oz5LYO3wvl4
-	37TxlAqjp9zKGX0WJjt3IYNAE2yMRm9WwmveoHX2rTSoUiLG9/anBA6h/ZnI05s=
-X-Gm-Gg: ASbGncvxhsXmhhpmQ+NNm+Umwq1vI1R/a8kuadXoDBwuui5pMdSQp0xAvYTum6NtXeX
-	yHYfS9Nu/nKUyxAA8u3rSWrCE/ANqHmGOUvoXsNtGMznQwC8KuIP3hI4aXwRUFRmNoismG1kpbH
-	wjgn+DyqF/v/nJGD3K11vT6L9Lmcgp8VgbpspQT6mLpggZL0nB4km0wUEw15Bc/YnWfnxQkBdEc
-	VESwVrDq8RTLmBIZpMy6hI0blbSJ/sPCUZBG1TIbhHxjd7vsMIhdhB0cfdmj/3ofjKuxRRLOsWx
-	AuO1daZmQWNTrhxpPGn+2VuubIXMMs760M67V/byPRn04jb4w9/a2WZ8VnYtRfW9j5WuvPn3cTJ
-	s/NiANw==
-X-Google-Smtp-Source: AGHT+IFsPyxd+WXijsrvJhUw6MhgClDj2ObmqnNkt7n1gwXZWKnnQoPsZ/k6D1o8Tiv7eFjViSnK0A==
-X-Received: by 2002:a05:6808:244f:b0:3f7:4b65:582f with SMTP id 5614622812f47-3fefa56dcddmr5562104b6e.17.1743180013168;
-        Fri, 28 Mar 2025 09:40:13 -0700 (PDT)
-Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-602843bc042sm389572eaf.0.2025.03.28.09.40.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Mar 2025 09:40:11 -0700 (PDT)
-Message-ID: <68db2225-4519-4436-bee2-24fbe320ac4f@baylibre.com>
-Date: Fri, 28 Mar 2025 11:40:10 -0500
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="a/4AWVWi"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 52SHC6vj2029344
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Fri, 28 Mar 2025 10:12:26 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 52SHC6vj2029344
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025032001; t=1743181946;
+	bh=iajN+J/RFhv35jBDNaVmpXR1Wk7KjT1xVnmZmp33tu0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=a/4AWVWibldU/vWZmho09KjzWjJ7AcXlelprA1WG0xXXA49MU9X5LYItq2bTWy3DH
+	 RAh/xAR89MOqdTKk4v57yUxai6KvCRI4BQh3pKsyuuB1SsYilfAsdS/3f3oSS1kNLf
+	 jsqD3S19f4e1TsCzB/PkkMD9ViEJzdt23ukB6L4qDAbL4WlYkjgR/CDF+A8jjSaY3w
+	 AsLTChVXNj9j+eX81gpeS/N83b1APnOaxvuR/lrkuclQZXK+/Wue/0I6FnIqerVI0X
+	 He+wuy2PEPDatqSRoP8tdo9ppk0e7UZ/W6DykPB8d2yeC6x/xLjGHo3SJQlStT1bsu
+	 eme6aCG9s3rVw==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
+        chao.gao@intel.com, xin3.li@intel.com
+Subject: [PATCH v4 13/19] KVM: x86: Mark CR4.FRED as not reserved
+Date: Fri, 28 Mar 2025 10:11:59 -0700
+Message-ID: <20250328171205.2029296-14-xin@zytor.com>
+X-Mailer: git-send-email 2.48.1
+In-Reply-To: <20250328171205.2029296-1-xin@zytor.com>
+References: <20250328171205.2029296-1-xin@zytor.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 4/4] iio: dac: ad3552r-hs: add support for internal ramp
-To: =?UTF-8?Q?Nuno_S=C3=A1?= <noname.nuno@gmail.com>,
- Angelo Dureghello <adureghello@baylibre.com>, =?UTF-8?Q?Nuno_S=C3=A1?=
- <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>,
- Lars-Peter Clausen <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>,
- Olivier Moysan <olivier.moysan@foss.st.com>,
- Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
- <20250321-wip-bl-ad3552r-fixes-v1-4-3c1aa249d163@baylibre.com>
- <2d12ff156996876e5bd85c793c07bb0c6747981c.camel@gmail.com>
-Content-Language: en-US
-From: David Lechner <dlechner@baylibre.com>
-In-Reply-To: <2d12ff156996876e5bd85c793c07bb0c6747981c.camel@gmail.com>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 3/28/25 3:28 AM, Nuno Sá wrote:
-> On Fri, 2025-03-21 at 21:28 +0100, Angelo Dureghello wrote:
->> From: Angelo Dureghello <adureghello@baylibre.com>
->>
->> The ad3552r can be feeded from the HDL controller by an internally
->> generated 16bit ramp, useful for debug pourposes. Add debugfs a file
->> to enable or disable it.
->>
->> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
->> ---
+From: Xin Li <xin3.li@intel.com>
 
-...
+The CR4.FRED bit, i.e., CR4[32], is no longer a reserved bit when
+guest cpu cap has FRED, i.e.,
+  1) All of FRED KVM support is in place.
+  2) Guest enumerates FRED.
 
->> +static ssize_t ad3552r_hs_write_data_source(struct file *f,
->> +					    const char __user *userbuf,
->> +					    size_t count, loff_t *ppos)
->> +{
->> +	struct ad3552r_hs_state *st = file_inode(f)->i_private;
->> +	char buf[64];
->> +	int ret;
->> +
->> +	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, userbuf,
->> +				     count);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	buf[count] = 0;
->> +
->> +	if (count == 10 && !strncmp(buf, "iio-buffer", 10)) {
->> +		ret = ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
->> +		if (ret)
->> +			return ret;
->> +	} else if (count == 22 && !strncmp(buf, "backend-ramp-generator", 22)) {
->> +		ret = ad3552r_hs_set_data_source(st,
->> +			IIO_BACKEND_INTERNAL_RAMP_16BIT);
->> +		if (ret)
->> +			return ret;
->> +	} else {
->> +		return -EINVAL;
->> +	}
-> 
-> Are we expected to add more data types in the future? If not, this could be simply an
-> enable/disable ramp generator thing... It would be much simpler.
+Otherwise it is still a reserved bit.
 
-Angelo actually had implemented it that way originally. :-)
+Signed-off-by: Xin Li <xin3.li@intel.com>
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+Tested-by: Shan Kang <shan.kang@intel.com>
+---
 
-I suggested to change it to a string because the HDL project for this family
-of DACs actually has 3 possibilities for the data source:
+Change in v4:
+* Rebase on top of "guest_cpu_cap".
 
-	* Selectable input source: DMA/ADC/TEST_RAMP;
+Change in v3:
+* Don't allow CR4.FRED=1 before all of FRED KVM support is in place
+  (Sean Christopherson).
+---
+ arch/x86/include/asm/kvm_host.h | 2 +-
+ arch/x86/kvm/x86.h              | 2 ++
+ 2 files changed, 3 insertions(+), 1 deletion(-)
 
-And there are other potential sources from the generic AXI DAC like
-0x00: internal tone (DDS) that seems somewhat likely to be seen in the future.
-
-> 
-> Anyways, you could define a static array and use match_string()?
-> 
-> Lastly, for insterfaces like this, it's always helpful to have an _available kind of
-> attribute.
-> 
-> - Nuno Sá
-> 
-> 
-> 
->>  
->>  static const struct of_device_id ad3552r_hs_of_id[] = {
->>
-> 
-> 
+diff --git a/arch/x86/include/asm/kvm_host.h b/arch/x86/include/asm/kvm_host.h
+index f8b9834f2f37..e94924397230 100644
+--- a/arch/x86/include/asm/kvm_host.h
++++ b/arch/x86/include/asm/kvm_host.h
+@@ -138,7 +138,7 @@
+ 			  | X86_CR4_OSXSAVE | X86_CR4_SMEP | X86_CR4_FSGSBASE \
+ 			  | X86_CR4_OSXMMEXCPT | X86_CR4_LA57 | X86_CR4_VMXE \
+ 			  | X86_CR4_SMAP | X86_CR4_PKE | X86_CR4_UMIP \
+-			  | X86_CR4_LAM_SUP))
++			  | X86_CR4_LAM_SUP | X86_CR4_FRED))
+ 
+ #define CR8_RESERVED_BITS (~(unsigned long)X86_CR8_TPR)
+ 
+diff --git a/arch/x86/kvm/x86.h b/arch/x86/kvm/x86.h
+index 13dbd87970db..24661b2ad3ad 100644
+--- a/arch/x86/kvm/x86.h
++++ b/arch/x86/kvm/x86.h
+@@ -617,6 +617,8 @@ static inline bool __kvm_is_valid_cr4(struct kvm_vcpu *vcpu, unsigned long cr4)
+ 		__reserved_bits |= X86_CR4_PCIDE;       \
+ 	if (!__cpu_has(__c, X86_FEATURE_LAM))           \
+ 		__reserved_bits |= X86_CR4_LAM_SUP;     \
++	if (!__cpu_has(__c, X86_FEATURE_FRED))          \
++		__reserved_bits |= X86_CR4_FRED;        \
+ 	__reserved_bits;                                \
+ })
+ 
+-- 
+2.48.1
 
