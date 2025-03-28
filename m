@@ -1,87 +1,216 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15ACB18871F;
-	Fri, 28 Mar 2025 08:20:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 672C82F30;
+	Fri, 28 Mar 2025 08:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743150035; cv=none; b=h1knmDyYSiFs6MYkYPy18zWath3Tm4/3Pyww1W4aASmj3xjV5WhaYb4MRObI2rkowWYpfBpFSyJVZEAfenyhcrthlvtOxQDuYYdTv61wG9rjuyDBzT9nbyKDQeYFuR3gGyOkoqpsiu8My8TjleAQmlxq2manUB5aeP2l9x9yqno=
+	t=1743150469; cv=none; b=DoqtmyQ8oCHVY2cP9PmtuGtCB/AhSD08x7gLJ/yC5/mks+jrqADOLOoTnan3b+AUWp8OpMKZUvg88ECKyHU3CKMzUpIoVTTP587W3aJlFRDS2/VPvywEG8dlQakYAU0E7162+DtWU2b/J1MQfsLUJa0DInFCrPz0hhSF3fST7wU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743150035; c=relaxed/simple;
-	bh=f8M7mTbtvhkQW6bkNjKahwsuKAxAI9kl7KWwcre5Gpg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ABDZj9dJrpYQLYBcjDvsk4NYDzRvoyIX6pc7hM+7Go8NPff6j4BAr6pBN3LEiMCHifi+H5pfHd4L/ChrjrIIESvADzlPxK9J+1nFtoxUwQMCPdacvDSX/9jvu1QjaXReeVh0FRGQUjS2h//FGJjh61aJTgxNO+NaslIiNh0BpZc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=P+wQip0F; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743150469; c=relaxed/simple;
+	bh=MeqFKTDWc/WL7uBPpHngacKWnyXmWBq7/b+vlvItLbw=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=hE8xW42pDePAhwYs6+MQ4y+dNrXpUTyyFvgyK19OqQMZhn8vwhTVOZnKuUWzDim/uHwidjkoUldEAXgaoUedrnAfzKijb4S6gdnxkLoProB3j63r2QtDnCgVHkaRU/teATaZYlPqpfAxp8erovIlnVeNB+SQFvClM6GLUT/SOqc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=I7Pbx9+C; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="P+wQip0F"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5928FC4CEE4;
-	Fri, 28 Mar 2025 08:20:33 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743150034;
-	bh=f8M7mTbtvhkQW6bkNjKahwsuKAxAI9kl7KWwcre5Gpg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=P+wQip0F5maaYYGLwTdNCTFUtix4kgzNHs7WoSoC3p5sKHStZtzivdrkWEImT8SR1
-	 gL1lz7DxU0u5Nk+PEg77zb0uCSoovuGWtIAjn7f+ODfSKjzEOOoJ0wzHXPb2/C4zGw
-	 uCjqgE+icnBLSg+CNCnAKE7axv1yfOsXtzs4V2m1vj5z4LeUuGHyJAficfOLiS6ndR
-	 SfZ2oTDXP2eBakXxX/Xi46ScYahC3X0paWLzySpkzGgSXwNNccFhGwDzoaH18lui09
-	 b5En5lLy6VSHFJjeM6keGtC4XmPCHBrBsytf4sqwXEhzXFGjdiJiQpoaYzKcMx3qvp
-	 tR6r7BX7K2r6w==
-Date: Fri, 28 Mar 2025 08:20:30 +0000
-From: Lee Jones <lee@kernel.org>
-To: Manuel Fombuena <fombuena@outlook.com>
-Cc: pavel@ucw.cz, corbet@lwn.net, vicentiu.galanopulo@remote-tech.co.uk,
-	linux-leds@vger.kernel.org, linux-doc@vger.kernel.org,
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="I7Pbx9+C"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cfba466b2so17695885e9.3;
+        Fri, 28 Mar 2025 01:27:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743150465; x=1743755265; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=naBmh3HaepkrHLp1/SsJArNAoWnuKUyKgxv8rl5w6mk=;
+        b=I7Pbx9+C/rPKVYD1sgREw4Lu3E193WoWirTD3zhcbADNj9whHlLBLnGGmK5l4KX4vt
+         v63Hu2iyDBjugSkdVaqWe4u90sW8dJ8w+6hj+plMTDqrXjpomvWMXs/pLKZUUIuDuS/a
+         u/CGt1GqIbmcYWhprr64C+OeyHxhfL8nQ6ioXtAAqfwnIBGamAHIieI3sDHxkJZu93XD
+         UBgMwgtBFkZaAc+SJ9QSFqCkenzZOPcFnUent51vzO72eIHTert/e9/Zj/WkcXYUVLzs
+         /C0XHhwQfOUfNDiiLfYG/ITXV3jRsmY4AiMNiigKGscvolvIDHfjjf6VbyxZTxPx0PAQ
+         Od8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743150465; x=1743755265;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=naBmh3HaepkrHLp1/SsJArNAoWnuKUyKgxv8rl5w6mk=;
+        b=uVptSEkWVqAxwxSOrMZr+aKk0z1RdNuGlnnpjd64jVheFDLQnqBU/KeaeTtFnlBisB
+         is3hjkBqqyXluGqHtguyYEtJsVA0sqNXncqCXF2/A7PahBWVIcgMotJO8Qpp1adlM2Ia
+         pisyLQ4iAEw80fbW17c7Nr1ywbi0c8qD+B7p3d54Wkhen5WkbcpedjkCWcR8ZCUwtkqH
+         Me0blHO8bMsEuiuWqSXYG43tK94fcNCLzDmuOCll8GFQxSU6ZDpJIc/C+9WLFQhLFsBz
+         LQ9RlWQ9cEebH1S2e52RRf8f5SFGYCuwWJwd8rH3XQ/7vjoCVYu7bVCSgjUJB0qxJeom
+         w/gQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUFReE9d3QCpObq1hTuLNVzkh+fJlsUNjYJhUN9PxlQIr2ZLU22Rmqqo7OrrGXwGjHfJ96+RLy62aw=@vger.kernel.org, AJvYcCWTjk5Pwpph2d/iC9VYxnYUgtoe14Gtt+JGForgJlmeJ9v69p56j6A92MsfnRfbPmLqWYO3Qxfa2mkO1S2a@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6odYAJuOyXrBWss9upGJngTHMsUDHPqIGHu+8tZhFKbmzoGOz
+	ZsecLMnct/hGgYGHSYi1VnBtg4K3XLVbC4YzrNkvk6KlDqezucLa
+X-Gm-Gg: ASbGncsR9+Lu5/MGTG6FvWJENWHIrxGExuZFXGDGPFSunC2lzYOwU9Q0Zwc1e+E5YkK
+	mq2eEJISmP3Xq3ZJEdHLNXz1p7do6UAE/L+TRw7nbU9R3WYS6Vb3hYzUAkNy5yteLFPmH3sHHXp
+	b65j4/fuL1Ly4lpa/lMd8VxYxwSH8V0Wy5mCi/PpT1wqU571Db2fLjC5UhSspHN2JIt0qPJmvpf
+	WXXSUWKtLy0p7dNf1K5eUeTL+d1DZNG5CHO6Je/hyX1dgGSbfo3CySLDoomLtN1RQG+eHkeWoNW
+	XHmvkOdxxklsYfut6u7qdTTKjZaESX/iel9sN58ao8jp20XVdwRzb+Hk8sb+D5+lx8dsSQn9X/o
+	j7Tm+T7UTSiziELVuLb8=
+X-Google-Smtp-Source: AGHT+IHcxC3yEgoJQj4Q4ffab2ZlS5GuWpCmVph5ZvbqPkoN9+Oj0PH3/kw5Ad+SQYjjFzd6BnQiPw==
+X-Received: by 2002:a05:600c:444c:b0:43c:efed:732d with SMTP id 5b1f17b1804b1-43d84fb5488mr62208865e9.16.1743150465390;
+        Fri, 28 Mar 2025 01:27:45 -0700 (PDT)
+Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43d8fba3e44sm20871755e9.4.2025.03.28.01.27.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Mar 2025 01:27:44 -0700 (PDT)
+Message-ID: <2d12ff156996876e5bd85c793c07bb0c6747981c.camel@gmail.com>
+Subject: Re: [PATCH 4/4] iio: dac: ad3552r-hs: add support for internal ramp
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Angelo Dureghello <adureghello@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?=
+ <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
+ Clausen <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>
+Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] Documentation: leds: remove .rst extension for
- leds-st1202 on index
-Message-ID: <20250328082030.GB585744@google.com>
-References: <CWLP123MB5473552E76AE71CDE3085DA9C5C32@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
- <CWLP123MB5473137572529F99746F4AC4C5C32@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
- <CWLP123MB54738759F49D377A9F080AA0C5A62@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
+Date: Fri, 28 Mar 2025 08:28:01 +0000
+In-Reply-To: <20250321-wip-bl-ad3552r-fixes-v1-4-3c1aa249d163@baylibre.com>
+References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
+	 <20250321-wip-bl-ad3552r-fixes-v1-4-3c1aa249d163@baylibre.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CWLP123MB54738759F49D377A9F080AA0C5A62@CWLP123MB5473.GBRP123.PROD.OUTLOOK.COM>
 
-On Wed, 26 Mar 2025, Manuel Fombuena wrote:
+On Fri, 2025-03-21 at 21:28 +0100, Angelo Dureghello wrote:
+> From: Angelo Dureghello <adureghello@baylibre.com>
+>=20
+> The ad3552r can be feeded from the HDL controller by an internally
+> generated 16bit ramp, useful for debug pourposes. Add debugfs a file
+> to enable or disable it.
+>=20
+> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
+> ---
+> =C2=A0drivers/iio/dac/ad3552r-hs.c | 106 ++++++++++++++++++++++++++++++++=
+++++++++---
+> =C2=A01 file changed, 100 insertions(+), 6 deletions(-)
+>=20
+> diff --git a/drivers/iio/dac/ad3552r-hs.c b/drivers/iio/dac/ad3552r-hs.c
+> index
+> 37397e188f225a8099745ec03f7c604da76960b1..41fe78d982a68980db059b095fc27b3=
+7ea1a461b
+> 100644
+> --- a/drivers/iio/dac/ad3552r-hs.c
+> +++ b/drivers/iio/dac/ad3552r-hs.c
+> @@ -7,6 +7,7 @@
+> =C2=A0 */
+> =C2=A0
+> =C2=A0#include <linux/bitfield.h>
+> +#include <linux/debugfs.h>
+> =C2=A0#include <linux/delay.h>
+> =C2=A0#include <linux/gpio/consumer.h>
+> =C2=A0#include <linux/iio/backend.h>
+> @@ -65,6 +66,18 @@ static int ad3552r_hs_reg_read(struct ad3552r_hs_state=
+ *st, u32
+> reg, u32 *val,
+> =C2=A0	return st->data->bus_reg_read(st->back, reg, val, xfer_size);
+> =C2=A0}
+> =C2=A0
+> +static int ad3552r_hs_set_data_source(struct ad3552r_hs_state *st,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 enum iio_backend_data_source type)
+> +{
+> +	int ret;
+> +
+> +	ret =3D iio_backend_data_source_set(st->back, 0, type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	return iio_backend_data_source_set(st->back, 1, type);
+>=20
 
-> On Tue, 25 Feb 2025, Manuel Fombuena wrote:
-> 
-> > No other LED driver is listed on index.rst with the extension .rst.
-> > Remove it.
-> > 
-> > Fixes: b1816b22381b ("Documentation:leds: Add leds-st1202.rst")
-> > Signed-off-by: Manuel Fombuena <fombuena@outlook.com>
-> > ---
-> >  Documentation/leds/index.rst | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> > 
-> > diff --git a/Documentation/leds/index.rst b/Documentation/leds/index.rst
-> > index 0ab0a2128a11..76fae171039c 100644
-> > --- a/Documentation/leds/index.rst
-> > +++ b/Documentation/leds/index.rst
-> > @@ -28,5 +28,5 @@ LEDs
-> >     leds-mlxcpld
-> >     leds-mt6370-rgb
-> >     leds-sc27xx
-> > -   leds-st1202.rst
-> > +   leds-st1202
-> >     leds-qcom-lpg
-> > -- 
-> > 2.48.1
-> > 
-> > 
-> 
-> Now that 6.14 is out, should I re-send this for 'for-leds-next' or there 
-> is no need?
+I know it's a debug thing but we could use some locking in the above...
 
-If this is still relevant and still applies cleanly, I'll take it from here.
+> +}
+> +
+> =C2=A0static int ad3552r_hs_update_reg_bits(struct ad3552r_hs_state *st, =
+u32 reg,
+> =C2=A0				=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 u32 mask, u32 val, size_t xfer_s=
+ize)
+> =C2=A0{
+> @@ -483,6 +496,66 @@ static int ad3552r_hs_reg_access(struct iio_dev *ind=
+io_dev,
+> unsigned int reg,
+> =C2=A0	return st->data->bus_reg_write(st->back, reg, writeval, 1);
+> =C2=A0}
+> =C2=A0
+> +static ssize_t ad3552r_hs_show_data_source(struct file *f, char __user *=
+userbuf,
+> +					=C2=A0=C2=A0 size_t count, loff_t *ppos)
+> +{
+> +	struct ad3552r_hs_state *st =3D file_inode(f)->i_private;
+> +	enum iio_backend_data_source type;
+> +	int ret;
+> +
+> +	ret =3D iio_backend_data_source_get(st->back, 0, &type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (type) {
+> +	case IIO_BACKEND_INTERNAL_RAMP_16BIT:
+> +		return simple_read_from_buffer(userbuf, count, ppos,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "backend-ramp-generator", 22);
+> +	case IIO_BACKEND_EXTERNAL:
+> +		return simple_read_from_buffer(userbuf, count, ppos,
+> +					=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "iio-buffer", 10);
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static ssize_t ad3552r_hs_write_data_source(struct file *f,
+> +					=C2=A0=C2=A0=C2=A0 const char __user *userbuf,
+> +					=C2=A0=C2=A0=C2=A0 size_t count, loff_t *ppos)
+> +{
+> +	struct ad3552r_hs_state *st =3D file_inode(f)->i_private;
+> +	char buf[64];
+> +	int ret;
+> +
+> +	ret =3D simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, userbuf,
+> +				=C2=A0=C2=A0=C2=A0=C2=A0 count);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	buf[count] =3D 0;
+> +
+> +	if (count =3D=3D 10 && !strncmp(buf, "iio-buffer", 10)) {
+> +		ret =3D ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
+> +		if (ret)
+> +			return ret;
+> +	} else if (count =3D=3D 22 && !strncmp(buf, "backend-ramp-generator", 2=
+2)) {
+> +		ret =3D ad3552r_hs_set_data_source(st,
+> +			IIO_BACKEND_INTERNAL_RAMP_16BIT);
+> +		if (ret)
+> +			return ret;
+> +	} else {
+> +		return -EINVAL;
+> +	}
 
--- 
-Lee Jones [李琼斯]
+Are we expected to add more data types in the future? If not, this could be=
+ simply an
+enable/disable ramp generator thing... It would be much simpler.
+
+Anyways, you could define a static array and use match_string()?
+
+Lastly, for insterfaces like this, it's always helpful to have an _availabl=
+e kind of
+attribute.
+
+- Nuno S=C3=A1
+
+
+
+> =C2=A0
+> =C2=A0static const struct of_device_id ad3552r_hs_of_id[] =3D {
+>=20
+
