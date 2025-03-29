@@ -1,240 +1,215 @@
-Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7081F891F;
-	Fri, 28 Mar 2025 23:14:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.165.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F99D15B543;
+	Sat, 29 Mar 2025 04:59:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743203697; cv=none; b=MiGmAqfQ3RVXFzlO3QfTwQo4d3pvsbSqYyhpqYEVwLxMLed+fqwYgW6fM+LK8wbb4bWTYAjvTEL/x7b6RSKZi0uk9S1K7zVapKXG0ZqzUWPm53bL2ogDi9dkS5ZUgxrF0wkG0nhu2+rdCY+AtDvKPgyiobbIeFook/4adPDGq3k=
+	t=1743224362; cv=none; b=rNT1sHeiOHjk3adRGZQAuRr9VImQeTMeGyc/EQzhAmTwyy+dQ1JjT/MyJVdO5i0WaII5Jc/yHoDGwXMdJ9c390IE2w4bEr5fR183FHyyAyKte4PPmJkYlIu7mv6PVQBXRGM726UbmFe5z/KqhdkN82DcXwxCeAirkLFDwl1nO/w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743203697; c=relaxed/simple;
-	bh=5eXlCyiq13HYOiYzdeVgHiRTlSoYl9OkVh25ka6uWAc=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=WPDMJY6tBs3nIfhuty8Vbx2kOCBQkeyAFfsqbz63vkojb7gd1j+Wq7urw2mMuuDkmynE96RJmS4K+mnN5jo0g8OkCgb6zlvBe4n3KFjstVgFpp0z1i5S3493ufT0pGCRPz8B5VrJMrSdtmW5hbIKxB1ZmqwiQSWujXpKp9+qs5U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cUVyfmZP; arc=none smtp.client-ip=205.220.165.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
+	s=arc-20240116; t=1743224362; c=relaxed/simple;
+	bh=2Yne1QbhxA+8CZWwW8yAQd6QasSrkff6bi9RqIVQxpI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RQSp014BshvfSIDtDt/H51WUVSdp5PZkWhzhnX3t/oXIEi7YGBgfwE2itZub2ZTjjSDOU1Ex72WVSVgctFeWrXYIo2yV1x1r/vdlQuCB08AohbCD7aDXpvQpV3DOUWPVTUhP7YffE2+hkkncPUjs8PDB6VqWt0QIEhI5WwwBAaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aWGIvbX+; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cUVyfmZP"
-Received: from pps.filterd (m0246629.ppops.net [127.0.0.1])
-	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 52SKWFB8015226;
-	Fri, 28 Mar 2025 23:14:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=corp-2023-11-20; bh=XUcRS
-	X98+duxyC5W2iguN6GzCB+f9wrmH01mTH4HzRI=; b=cUVyfmZPFehhY1dlpX3GG
-	dPwGRMZigmeG4jM973kDcJ7/RHu9/azE9uiZz+biA4sOu1exYKB+ATt3cbButXvO
-	kWjF8pHFivclftp2TQ9rcxt50poi9kgnomjRhQh8LynhAAspVY+JM6mtckpsnFQm
-	vDzZuVS1R9nxP9AvlAcHSXeRKLMhv4iQ05Hf+m8D7bKDK9miWiGfAi5a2vsqLESp
-	/hHXxsRM6Kid391Y5A2WoZRgMDwMdH+Ab87aqhs9QDUYdEy+dUPrciQRcZl/JM17
-	37TvHiaiI+wXDNSwSdGtkKsuhKjCgXOLotYEu7IdjL6ljAtTDP3gPPXNTKIdjAI5
-	A==
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
-	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45hn877n7v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 28 Mar 2025 23:14:29 +0000 (GMT)
-Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 52SNEN1q008230;
-	Fri, 28 Mar 2025 23:14:28 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45jj701kq1-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 28 Mar 2025 23:14:28 +0000
-Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
-	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 52SNERLk029066;
-	Fri, 28 Mar 2025 23:14:27 GMT
-Received: from bur-virt-x6-2-100.us.oracle.com (bur-virt-x6-2-100.us.oracle.com [10.153.92.40])
-	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45jj701kmw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
-	Fri, 28 Mar 2025 23:14:27 +0000
-From: Ross Philipson <ross.philipson@oracle.com>
-To: linux-kernel@vger.kernel.org, x86@kernel.org,
-        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
-        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
-        linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
-        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
-        dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
-        James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
-        jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
-        nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
-        davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
-        dwmw2@infradead.org, baolu.lu@linux.intel.com,
-        kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
-        trenchboot-devel@googlegroups.com
-Subject: [PATCH v13 19/19] x86/efi: EFI stub DRTM launch support for Secure Launch
-Date: Fri, 28 Mar 2025 16:08:14 -0700
-Message-Id: <20250328230814.2210230-20-ross.philipson@oracle.com>
-X-Mailer: git-send-email 2.39.3
-In-Reply-To: <20250328230814.2210230-1-ross.philipson@oracle.com>
-References: <20250328230814.2210230-1-ross.philipson@oracle.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aWGIvbX+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743224361; x=1774760361;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2Yne1QbhxA+8CZWwW8yAQd6QasSrkff6bi9RqIVQxpI=;
+  b=aWGIvbX+7sPZ3/QLXuOyv4OOr3zwnZ8/Q0x5/Eb67VUfpIjeKxI2bOeN
+   baybo38bjoJgkz3NMOWcw2Qn55cKURojY8lKJ4blDNjxfa1dr5H3hk99+
+   Sb/gAVgnEOspLXQvJvHF40XaoVLNeOeCPwl/SE0XwEREbVDpAuz2mrrY/
+   3OZ0FcajzE3nQF/JBiThjMjohu0hAXyS0xuRX8cDH3TWjqXtG76LCz+hl
+   +EwhewQWfVKLm7Ok35Pr5c4ZH8hcdITDuHyFeivlQcytvvVRBJJQfeMBz
+   6ct+DtxJWFZ8jD4Xfh8MFEHOdnEaedMndOtA4DOSEFZb3cHCN5Y6WfGUl
+   w==;
+X-CSE-ConnectionGUID: uWMSZTVoTM6Sm72VM4MaMQ==
+X-CSE-MsgGUID: OLmr5RJ3QIKlyHk4bointQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11387"; a="44718738"
+X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
+   d="scan'208";a="44718738"
+Received: from orviesa001.jf.intel.com ([10.64.159.141])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Mar 2025 21:59:20 -0700
+X-CSE-ConnectionGUID: IhXeNcEpQXmA46pvyVZ4WQ==
+X-CSE-MsgGUID: 52fOeOn6QNehvEx91wWYZQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.14,285,1736841600"; 
+   d="scan'208";a="162869118"
+Received: from lkp-server02.sh.intel.com (HELO e98e3655d6d2) ([10.239.97.151])
+  by orviesa001.jf.intel.com with ESMTP; 28 Mar 2025 21:59:15 -0700
+Received: from kbuild by e98e3655d6d2 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1tyOHo-0007uc-2j;
+	Sat, 29 Mar 2025 04:59:12 +0000
+Date: Sat, 29 Mar 2025 12:58:43 +0800
+From: kernel test robot <lkp@intel.com>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>,
+	Jens Wiklander <jens.wiklander@linaro.org>,
+	Sumit Garg <sumit.garg@kernel.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-arm-msm@vger.kernel.org,
+	op-tee@lists.trustedfirmware.org, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org, dri-devel@lists.freedesktop.org,
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org,
+	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Subject: Re: [PATCH v3 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+Message-ID: <202503291204.imMRd3l7-lkp@intel.com>
+References: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-03-28_11,2025-03-27_02,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 mlxlogscore=999 adultscore=0
- phishscore=0 suspectscore=0 malwarescore=0 spamscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
- definitions=main-2503280156
-X-Proofpoint-GUID: -d1fsnKL_p8_23J80tRKMxydK_fQXzPd
-X-Proofpoint-ORIG-GUID: -d1fsnKL_p8_23J80tRKMxydK_fQXzPd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d@oss.qualcomm.com>
 
-This support allows the DRTM launch to be initiated after an EFI stub
-launch of the Linux kernel is done. This is accomplished by providing
-a handler to jump to when a Secure Launch is in progress. This has to be
-called after the EFI stub does Exit Boot Services.
+Hi Amirreza,
 
-Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
-Reviewed-by: Ard Biesheuvel <ardb@kernel.org>
----
- drivers/firmware/efi/libstub/efistub.h  |  8 +++
- drivers/firmware/efi/libstub/x86-stub.c | 94 +++++++++++++++++++++++++
- 2 files changed, 102 insertions(+)
+kernel test robot noticed the following build warnings:
 
-diff --git a/drivers/firmware/efi/libstub/efistub.h b/drivers/firmware/efi/libstub/efistub.h
-index d96d4494070d..bbbc4b327ce1 100644
---- a/drivers/firmware/efi/libstub/efistub.h
-+++ b/drivers/firmware/efi/libstub/efistub.h
-@@ -135,6 +135,14 @@ void efi_set_u64_split(u64 data, u32 *lo, u32 *hi)
- 	*hi = upper_32_bits(data);
- }
- 
-+static inline
-+void efi_set_u64_form(u32 lo, u32 hi, u64 *data)
-+{
-+	u64 upper = hi;
-+
-+	*data = lo | upper << 32;
-+}
-+
- /*
-  * Allocation types for calls to boottime->allocate_pages.
-  */
-diff --git a/drivers/firmware/efi/libstub/x86-stub.c b/drivers/firmware/efi/libstub/x86-stub.c
-index 863910e9eefc..033133e7d953 100644
---- a/drivers/firmware/efi/libstub/x86-stub.c
-+++ b/drivers/firmware/efi/libstub/x86-stub.c
-@@ -9,6 +9,8 @@
- #include <linux/efi.h>
- #include <linux/pci.h>
- #include <linux/stddef.h>
-+#include <linux/slr_table.h>
-+#include <linux/slaunch.h>
- 
- #include <asm/efi.h>
- #include <asm/e820/types.h>
-@@ -798,6 +800,93 @@ static efi_status_t efi_decompress_kernel(unsigned long *kernel_entry)
- 	return efi_adjust_memory_range_protection(addr, kernel_text_size);
- }
- 
-+#if (IS_ENABLED(CONFIG_SECURE_LAUNCH))
-+static bool efi_secure_launch_update_boot_params(struct slr_table *slrt,
-+						 struct boot_params *boot_params)
-+{
-+	struct slr_entry_intel_info *txt_info;
-+	struct slr_entry_policy *policy;
-+	bool updated = false;
-+	int i;
-+
-+	txt_info = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_INTEL_INFO);
-+	if (!txt_info)
-+		return false;
-+
-+	txt_info->boot_params_addr = (u64)boot_params;
-+
-+	policy = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_ENTRY_POLICY);
-+	if (!policy)
-+		return false;
-+
-+	for (i = 0; i < policy->nr_entries; i++) {
-+		if (policy->policy_entries[i].entity_type == SLR_ET_BOOT_PARAMS) {
-+			policy->policy_entries[i].entity = (u64)boot_params;
-+			updated = true;
-+			break;
-+		}
-+	}
-+
-+	/*
-+	 * If this is a PE entry into EFI stub the mocked up boot params will
-+	 * be missing some of the setup header data needed for the second stage
-+	 * of the Secure Launch boot.
-+	 */
-+	if (image) {
-+		struct setup_header *hdr = (struct setup_header *)((u8 *)image->image_base +
-+					    offsetof(struct boot_params, hdr));
-+		u64 cmdline_ptr;
-+
-+		boot_params->hdr.setup_sects = hdr->setup_sects;
-+		boot_params->hdr.syssize = hdr->syssize;
-+		boot_params->hdr.version = hdr->version;
-+		boot_params->hdr.loadflags = hdr->loadflags;
-+		boot_params->hdr.kernel_alignment = hdr->kernel_alignment;
-+		boot_params->hdr.min_alignment = hdr->min_alignment;
-+		boot_params->hdr.xloadflags = hdr->xloadflags;
-+		boot_params->hdr.init_size = hdr->init_size;
-+		boot_params->hdr.kernel_info_offset = hdr->kernel_info_offset;
-+		efi_set_u64_form(boot_params->hdr.cmd_line_ptr, boot_params->ext_cmd_line_ptr,
-+				 &cmdline_ptr);
-+		boot_params->hdr.cmdline_size = strlen((const char *)cmdline_ptr);
-+	}
-+
-+	return updated;
-+}
-+
-+static void efi_secure_launch(struct boot_params *boot_params)
-+{
-+	struct slr_entry_dl_info *dlinfo;
-+	efi_guid_t guid = SLR_TABLE_GUID;
-+	dl_handler_func handler_callback;
-+	struct slr_table *slrt;
-+
-+	/*
-+	 * The presence of this table indicated a Secure Launch
-+	 * is being requested.
-+	 */
-+	slrt = (struct slr_table *)get_efi_config_table(guid);
-+	if (!slrt || slrt->magic != SLR_TABLE_MAGIC)
-+		return;
-+
-+	/*
-+	 * Since the EFI stub library creates its own boot_params on entry, the
-+	 * SLRT and TXT heap have to be updated with this version.
-+	 */
-+	if (!efi_secure_launch_update_boot_params(slrt, boot_params))
-+		return;
-+
-+	/* Jump through DL stub to initiate Secure Launch */
-+	dlinfo = slr_next_entry_by_tag(slrt, NULL, SLR_ENTRY_DL_INFO);
-+
-+	handler_callback = (dl_handler_func)dlinfo->dl_handler;
-+
-+	handler_callback(&dlinfo->bl_context);
-+
-+	unreachable();
-+}
-+#endif
-+
- static void __noreturn enter_kernel(unsigned long kernel_addr,
- 				    struct boot_params *boot_params)
- {
-@@ -925,6 +1014,11 @@ void __noreturn efi_stub_entry(efi_handle_t handle,
- 		goto fail;
- 	}
- 
-+#if (IS_ENABLED(CONFIG_SECURE_LAUNCH))
-+	/* If a Secure Launch is in progress, this never returns */
-+	efi_secure_launch(boot_params);
-+#endif
-+
- 	/*
- 	 * Call the SEV init code while still running with the firmware's
- 	 * GDT/IDT, so #VC exceptions will be handled by EFI.
+[auto build test WARNING on db8da9da41bced445077925f8a886c776a47440c]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Amirreza-Zarrabi/tee-allow-a-driver-to-allocate-a-tee_device-without-a-pool/20250328-104950
+base:   db8da9da41bced445077925f8a886c776a47440c
+patch link:    https://lore.kernel.org/r/20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-3-7f457073282d%40oss.qualcomm.com
+patch subject: [PATCH v3 03/11] tee: add TEE_IOCTL_PARAM_ATTR_TYPE_UBUF
+config: x86_64-randconfig-122-20250329 (https://download.01.org/0day-ci/archive/20250329/202503291204.imMRd3l7-lkp@intel.com/config)
+compiler: clang version 20.1.1 (https://github.com/llvm/llvm-project 424c2d9b7e4de40d0804dd374721e6411c27d1d1)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250329/202503291204.imMRd3l7-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202503291204.imMRd3l7-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/tee/tee_core.c:410:48: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] uaddr @@     got void [noderef] __user * @@
+   drivers/tee/tee_core.c:410:48: sparse:     expected void *[noderef] uaddr
+   drivers/tee/tee_core.c:410:48: sparse:     got void [noderef] __user *
+>> drivers/tee/tee_core.c:413:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void *[noderef] uaddr @@
+   drivers/tee/tee_core.c:413:30: sparse:     expected void const [noderef] __user *ptr
+   drivers/tee/tee_core.c:413:30: sparse:     got void *[noderef] uaddr
+   drivers/tee/tee_core.c:802:41: sparse: sparse: incorrect type in assignment (different address spaces) @@     expected void *[noderef] uaddr @@     got void [noderef] __user * @@
+   drivers/tee/tee_core.c:802:41: sparse:     expected void *[noderef] uaddr
+   drivers/tee/tee_core.c:802:41: sparse:     got void [noderef] __user *
+   drivers/tee/tee_core.c:805:30: sparse: sparse: incorrect type in argument 1 (different address spaces) @@     expected void const [noderef] __user *ptr @@     got void *[noderef] uaddr @@
+   drivers/tee/tee_core.c:805:30: sparse:     expected void const [noderef] __user *ptr
+   drivers/tee/tee_core.c:805:30: sparse:     got void *[noderef] uaddr
+>> drivers/tee/tee_core.c:413:30: sparse: sparse: dereference of noderef expression
+>> drivers/tee/tee_core.c:413:30: sparse: sparse: dereference of noderef expression
+   drivers/tee/tee_core.c:694:37: sparse: sparse: dereference of noderef expression
+   drivers/tee/tee_core.c:805:30: sparse: sparse: dereference of noderef expression
+   drivers/tee/tee_core.c:805:30: sparse: sparse: dereference of noderef expression
+
+vim +410 drivers/tee/tee_core.c
+
+   378	
+   379	static int params_from_user(struct tee_context *ctx, struct tee_param *params,
+   380				    size_t num_params,
+   381				    struct tee_ioctl_param __user *uparams)
+   382	{
+   383		size_t n;
+   384	
+   385		for (n = 0; n < num_params; n++) {
+   386			struct tee_shm *shm;
+   387			struct tee_ioctl_param ip;
+   388	
+   389			if (copy_from_user(&ip, uparams + n, sizeof(ip)))
+   390				return -EFAULT;
+   391	
+   392			/* All unused attribute bits has to be zero */
+   393			if (ip.attr & ~TEE_IOCTL_PARAM_ATTR_MASK)
+   394				return -EINVAL;
+   395	
+   396			params[n].attr = ip.attr;
+   397			switch (ip.attr & TEE_IOCTL_PARAM_ATTR_TYPE_MASK) {
+   398			case TEE_IOCTL_PARAM_ATTR_TYPE_NONE:
+   399			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_OUTPUT:
+   400				break;
+   401			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INPUT:
+   402			case TEE_IOCTL_PARAM_ATTR_TYPE_VALUE_INOUT:
+   403				params[n].u.value.a = ip.a;
+   404				params[n].u.value.b = ip.b;
+   405				params[n].u.value.c = ip.c;
+   406				break;
+   407			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INPUT:
+   408			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_OUTPUT:
+   409			case TEE_IOCTL_PARAM_ATTR_TYPE_UBUF_INOUT:
+ > 410				params[n].u.ubuf.uaddr = u64_to_user_ptr(ip.a);
+   411				params[n].u.ubuf.size = ip.b;
+   412	
+ > 413				if (!access_ok(params[n].u.ubuf.uaddr,
+   414					       params[n].u.ubuf.size))
+   415					return -EFAULT;
+   416	
+   417				break;
+   418			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INPUT:
+   419			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_OUTPUT:
+   420			case TEE_IOCTL_PARAM_ATTR_TYPE_MEMREF_INOUT:
+   421				/*
+   422				 * If a NULL pointer is passed to a TA in the TEE,
+   423				 * the ip.c IOCTL parameters is set to TEE_MEMREF_NULL
+   424				 * indicating a NULL memory reference.
+   425				 */
+   426				if (ip.c != TEE_MEMREF_NULL) {
+   427					/*
+   428					 * If we fail to get a pointer to a shared
+   429					 * memory object (and increase the ref count)
+   430					 * from an identifier we return an error. All
+   431					 * pointers that has been added in params have
+   432					 * an increased ref count. It's the callers
+   433					 * responibility to do tee_shm_put() on all
+   434					 * resolved pointers.
+   435					 */
+   436					shm = tee_shm_get_from_id(ctx, ip.c);
+   437					if (IS_ERR(shm))
+   438						return PTR_ERR(shm);
+   439	
+   440					/*
+   441					 * Ensure offset + size does not overflow
+   442					 * offset and does not overflow the size of
+   443					 * the referred shared memory object.
+   444					 */
+   445					if ((ip.a + ip.b) < ip.a ||
+   446					    (ip.a + ip.b) > shm->size) {
+   447						tee_shm_put(shm);
+   448						return -EINVAL;
+   449					}
+   450				} else if (ctx->cap_memref_null) {
+   451					/* Pass NULL pointer to OP-TEE */
+   452					shm = NULL;
+   453				} else {
+   454					return -EINVAL;
+   455				}
+   456	
+   457				params[n].u.memref.shm_offs = ip.a;
+   458				params[n].u.memref.size = ip.b;
+   459				params[n].u.memref.shm = shm;
+   460				break;
+   461			default:
+   462				/* Unknown attribute */
+   463				return -EINVAL;
+   464			}
+   465		}
+   466		return 0;
+   467	}
+   468	
+
 -- 
-2.39.3
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
