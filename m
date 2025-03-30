@@ -1,170 +1,118 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from flow-a4-smtp.messagingengine.com (flow-a4-smtp.messagingengine.com [103.168.172.139])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6488F6C;
-	Sun, 30 Mar 2025 17:01:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 190A641C72
+	for <linux-doc@vger.kernel.org>; Sun, 30 Mar 2025 21:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.139
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743354083; cv=none; b=YQ/su7hHeJfYMu6NkFXC8CiuvR0svRcVzVhrA17tEuFXF+s9sslT55Zqhs3UliquutqvPJ9X/gqq95Y+ApK+4BtjI9VX2u/ZdE0e/Ym0zrQn41Y8nl95DaArYHeAESjm/4l4S8dv9PWFXaDqXlU6r0DUjvzFIxoggFSY74lGZek=
+	t=1743370500; cv=none; b=dlvZqPo7edp0CKUenuwHqCK3qVd27UfXcljvYwD+ZeRC/thvjCV3Co0z494fp1VdAQkIbyUEq/+FFo+sShyWZenDW8bB8zGkbg44jBkYmbxZetwiIat7IUSdiR3gBA+QdMgBv+TId0pjWQX6povagh3735UM7P0qPvjaSa/vbUg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743354083; c=relaxed/simple;
-	bh=E6TymVFKzaKldCeIMXBr+IVWmwwY2H0z+CBcD6tiPQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=CKZvZUnBMDxaCEa2Z+Azq2eJAIC6Z/y6trTWiUVJV5HBIAjuneUjZmIWd6zpkyqTW4hcj2qe75yyiz+uKfTMijVpJnHqzy2tDdpEZowpSmqPg2nZCq3SMkSgp861IsPNp2hWNXbb1QCEI8Txw9iiBtJMYUkx3ab56Z8GHtrLQkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LERlvur5; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743370500; c=relaxed/simple;
+	bh=yPL7poNUYAG0X3gKW/82JphDf6G3L4GrYOWJennSucI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CKbeHMBbMVRCcx/BTtHUuiyz5gmVCwK8mLyuVoQ/5on3uYXY5+EkACGEGt93vbSWA6mYK7xpRVzPIAavIHL5ZDzzAIXfHc4Jy8fXWDb1WiNyKn5CoiB+BfVDK2VYkt/PEPFapc+LIJN1ODW2hypxtZrL8QIbBT7VtrJeaul1oss=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org; spf=pass smtp.mailfrom=maowtm.org; dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b=eCRI6g0s; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Ppq6G35Z; arc=none smtp.client-ip=103.168.172.139
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=maowtm.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=maowtm.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LERlvur5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8328AC4CEDD;
-	Sun, 30 Mar 2025 17:01:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743354082;
-	bh=E6TymVFKzaKldCeIMXBr+IVWmwwY2H0z+CBcD6tiPQs=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=LERlvur5PuhImnlOADPprlfXTweobrqcoCV4yoRbvAijSsEiuDc+gik5rfLUeMFYl
-	 wlhF6SIYsg4kafgQ5iFv3qxEY97iMxR6bQNQZaClroNw8/AcU3mOERY4u5Ixdjg+mr
-	 NZbueUecuIVbXasecmcEU6cGt2P+u0GhkcSTfcubd8ibMrup+qyIE9gwEUzeO1R6BN
-	 OtQz9ieGNAQNOvMOSOCzExdBUXV5WxJwrc6ZFN9yXl4p/5heVtzVhLWQqNzZWENdNS
-	 GSXyojgZ6Fr4eGha40e63ekklkVnfYQZzzmSiD4NMxQA3qIXiURk4xRajJauJh4xWd
-	 pgxHtgizNsd2A==
-Date: Sun, 30 Mar 2025 18:01:14 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Angelo Dureghello <adureghello@baylibre.com>
-Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Lars-Peter Clausen
- <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 4/4] iio: dac: ad3552r-hs: add support for internal ramp
-Message-ID: <20250330180114.637e1a21@jic23-huawei>
-In-Reply-To: <20250321-wip-bl-ad3552r-fixes-v1-4-3c1aa249d163@baylibre.com>
-References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
-	<20250321-wip-bl-ad3552r-fixes-v1-4-3c1aa249d163@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=maowtm.org header.i=@maowtm.org header.b="eCRI6g0s";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Ppq6G35Z"
+Received: from phl-compute-09.internal (phl-compute-09.phl.internal [10.202.2.49])
+	by mailflow.phl.internal (Postfix) with ESMTP id 0D388201EB4;
+	Sun, 30 Mar 2025 17:34:57 -0400 (EDT)
+Received: from phl-mailfrontend-02 ([10.202.2.163])
+  by phl-compute-09.internal (MEProxy); Sun, 30 Mar 2025 17:34:57 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=maowtm.org; h=cc
+	:cc:content-transfer-encoding:content-type:date:date:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to; s=fm2; t=1743370497; x=1743374097; bh=fAVegt/7o/L9UfjxefOtl
+	a5pDrpTsej8kI0jHCIePXc=; b=eCRI6g0srBU296V/9Rn6fqj3v+jS7lCy2dG2B
+	M/cug5rNNLcrHtKB3zx1EdH7BcsxXwJ6QOfwLj4zlr+FqDdGD3iK5PCCY3iYHGUv
+	EhhiByGiLjqcpYLVz7hgsyvolJHiUgNtKIwhjC8IlT/9T3tUk8qTF7XXNOahAQNM
+	ppEPmws11qpyvqVxWfGtznpSbXv+CCBGaxyo5kLHxoyGQoCzHQd6IkZWNrER52Iu
+	CFa3l/3+8di+wE3MHaagO9GrNvGPMwmFGvev6kkd//Exxfz8LNfiYTgDR3rU5ILD
+	3mvu7zz1vSytAD8N/asp6BpZSc86o5WBnVhD5La6HMIvLYZfg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:message-id:mime-version:reply-to:subject:subject:to
+	:to:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=
+	1743370497; x=1743374097; bh=fAVegt/7o/L9UfjxefOtla5pDrpTsej8kI0
+	jHCIePXc=; b=Ppq6G35Zy3wc9QjcIYiECYSBJ1Fw0dno2mc2C6L2zy6f/pzxWZF
+	XVqs0fhiINbkn69fRFkzgYczlWO5tvX8AcuJaqkF60NRrCKPTz1uFafdf1IXi6gP
+	qPVR3qkE6oEQ20edrRXsRhzbkvaw7lqqMHIAAIrgNJ3pfR0sZd39QUt/OYKdG/8Z
+	l/6qjcFOZg0JClGDi0HVBMeW4SY5SX87qACAFlob5yqqk74ClCzB7GUm73q47DgX
+	nSLAUCBSBpC0nIVzN4oOzZrn3husr7/PoJAE6y8a5sm+Wv9f9wQDqju+z/cUUWXd
+	K9FWgUq0Chm0FRcDNaqI+Qe2fDDuKLjVJrw==
+X-ME-Sender: <xms:ALnpZx_QqBHYa_tKZ2iQdPnfi1NMb-LmCBHwN3FmnpfXRtWU0vc5ow>
+    <xme:ALnpZ1uTZjYGxXKUWtdmvfYkgBq-boi_4dpeMpLpnxUIrYQdDaOmFlpOTAALAdN2d
+    GBjMmMYN7X2TO9gISs>
+X-ME-Received: <xmr:ALnpZ_DXVAvAVINMwCx5iVaWtZgby4hmH6mMY9_s3UrX88OqBCQ7ycAvrT_r4y7dayTA1CQMUuMx2rVoCf38l4GhXFS9vqU1X_KYiGwdpsal9Y4AZohiLZE>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddujeekudehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhephffvvefufffkofgggfestdekredtredttden
+    ucfhrhhomhepvfhinhhgmhgrohcuhggrnhhguceomhesmhgrohifthhmrdhorhhgqeenuc
+    ggtffrrghtthgvrhhnpeejvedtkefhveetjeekleegleeiheeuueetleeftedvieffieev
+    gfekieeiffevgeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepmhgrihhlfh
+    hrohhmpehmsehmrghofihtmhdrohhrghdpnhgspghrtghpthhtohepjedpmhhouggvpehs
+    mhhtphhouhhtpdhrtghpthhtohepvghrihgtvhhhsehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopehluhgthhhosehiohhnkhhovhdrnhgvthdprhgtphhtthhopegrshhmrgguvghu
+    shestghouggvfihrvggtkhdrohhrghdprhgtphhtthhopehlihhnuhigpghoshhssegtrh
+    huuggvsgihthgvrdgtohhmpdhrtghpthhtohepmhesmhgrohifthhmrdhorhhgpdhrtghp
+    thhtohepvhelfhhssehlihhsthhsrdhlihhnuhigrdguvghvpdhrtghpthhtoheplhhinh
+    hugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrgh
+X-ME-Proxy: <xmx:ALnpZ1f9RIML0YVBG11z6-40cr-Za6JGbAARrEAVJOpI4eIhbksEmA>
+    <xmx:ALnpZ2PMcxrqadlC2t8G7ibFpvZIX3SRU_wsD8qCVMPw1-tzp5kkaA>
+    <xmx:ALnpZ3mUGRPgPf5sEFySqVUZ9AjQkT5kbQBAuf2EXumj9lxGJ9GW0g>
+    <xmx:ALnpZwt_cl3LH4-AlwwS5Ke98pu2hocfoMZxhsR5LkyFScpRQksCMg>
+    <xmx:ALnpZzrEMq9nFIjDtse747UtC620G53kwnzgk1RBZ0550MYnep5F7zgh>
+Feedback-ID: i580e4893:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sun,
+ 30 Mar 2025 17:34:54 -0400 (EDT)
+From: Tingmao Wang <m@maowtm.org>
+To: Eric Van Hensbergen <ericvh@kernel.org>,
+	Latchesar Ionkov <lucho@ionkov.net>,
+	Dominique Martinet <asmadeus@codewreck.org>,
+	Christian Schoenebeck <linux_oss@crudebyte.com>
+Cc: Tingmao Wang <m@maowtm.org>,
+	v9fs@lists.linux.dev,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] docs: fs/9p: Add missing "not" in cache documentation
+Date: Sun, 30 Mar 2025 22:34:42 +0100
+Message-ID: <20250330213443.98434-1-m@maowtm.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Fri, 21 Mar 2025 21:28:51 +0100
-Angelo Dureghello <adureghello@baylibre.com> wrote:
+A quick fix for what I assume is a typo.
 
-> From: Angelo Dureghello <adureghello@baylibre.com>
-> 
-> The ad3552r can be feeded from the HDL controller by an internally
-> generated 16bit ramp, useful for debug pourposes. Add debugfs a file
-> to enable or disable it.
-> 
-> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
-> ---
->  drivers/iio/dac/ad3552r-hs.c | 106 ++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 100 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/iio/dac/ad3552r-hs.c b/drivers/iio/dac/ad3552r-hs.c
-> index 37397e188f225a8099745ec03f7c604da76960b1..41fe78d982a68980db059b095fc27b37ea1a461b 100644
-> --- a/drivers/iio/dac/ad3552r-hs.c
-> +++ b/drivers/iio/dac/ad3552r-hs.c
-> @@ -7,6 +7,7 @@
->   */
->  
->  #include <linux/bitfield.h>
-> +#include <linux/debugfs.h>
->  #include <linux/delay.h>
->  #include <linux/gpio/consumer.h>
->  #include <linux/iio/backend.h>
-> @@ -65,6 +66,18 @@ static int ad3552r_hs_reg_read(struct ad3552r_hs_state *st, u32 reg, u32 *val,
->  	return st->data->bus_reg_read(st->back, reg, val, xfer_size);
->  }
->  
-> +static int ad3552r_hs_set_data_source(struct ad3552r_hs_state *st,
-> +				      enum iio_backend_data_source type)
-> +{
-> +	int ret;
-> +
-> +	ret = iio_backend_data_source_set(st->back, 0, type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return iio_backend_data_source_set(st->back, 1, type);
-> +}
-> +
->  static int ad3552r_hs_update_reg_bits(struct ad3552r_hs_state *st, u32 reg,
->  				      u32 mask, u32 val, size_t xfer_size)
->  {
-> @@ -483,6 +496,66 @@ static int ad3552r_hs_reg_access(struct iio_dev *indio_dev, unsigned int reg,
->  	return st->data->bus_reg_write(st->back, reg, writeval, 1);
->  }
->  
-> +static ssize_t ad3552r_hs_show_data_source(struct file *f, char __user *userbuf,
-> +					   size_t count, loff_t *ppos)
-> +{
-> +	struct ad3552r_hs_state *st = file_inode(f)->i_private;
-> +	enum iio_backend_data_source type;
-> +	int ret;
-> +
-> +	ret = iio_backend_data_source_get(st->back, 0, &type);
-> +	if (ret)
-> +		return ret;
-> +
-> +	switch (type) {
-> +	case IIO_BACKEND_INTERNAL_RAMP_16BIT:
-> +		return simple_read_from_buffer(userbuf, count, ppos,
-> +					       "backend-ramp-generator", 22);
+Signed-off-by: Tingmao Wang <m@maowtm.org>
+---
+ Documentation/filesystems/9p.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Probably better to use a const string and then you can use strlen() to get
-the length from that.  I don't much like counting characters!
+diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+index 2bbf68b56b0d..c9f0274c808e 100644
+--- a/Documentation/filesystems/9p.rst
++++ b/Documentation/filesystems/9p.rst
+@@ -165,8 +165,8 @@ Options
+ 		do not necessarily validate cached values on the server.  In other
+ 		words changes on the server are not guaranteed to be reflected
+ 		on the client system.  Only use this mode of operation if you
+-		have an exclusive mount and the server will modify the filesystem
+-		underneath you.
++		have an exclusive mount and the server will not modify the
++		filesystem underneath you.
+ 
+   debug=n	specifies debug level.  The debug level is a bitmask.
+ 
 
-> +	case IIO_BACKEND_EXTERNAL:
-> +		return simple_read_from_buffer(userbuf, count, ppos,
-> +					       "iio-buffer", 10);
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +}
-> +
-> +static ssize_t ad3552r_hs_write_data_source(struct file *f,
-> +					    const char __user *userbuf,
-> +					    size_t count, loff_t *ppos)
-> +{
-> +	struct ad3552r_hs_state *st = file_inode(f)->i_private;
-> +	char buf[64];
-> +	int ret;
-> +
-> +	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, userbuf,
-> +				     count);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	buf[count] = 0;
-> +
-> +	if (count == 10 && !strncmp(buf, "iio-buffer", 10)) {
-> +		ret = ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
-> +		if (ret)
-> +			return ret;
-> +	} else if (count == 22 && !strncmp(buf, "backend-ramp-generator", 22)) {
-
-As above, I'd like to see some strlen() on const strings for this.
-FWIW strncmp doesn't care about NULL terminators as such so just ensure you only
-compare the characters.
-
-
-> +		ret = ad3552r_hs_set_data_source(st,
-> +			IIO_BACKEND_INTERNAL_RAMP_16BIT);
-> +		if (ret)
-> +			return ret;
-> +	} else {
-> +		return -EINVAL;
-> +	}
-> +
-> +	return count;
-> +}
-...
-
-Thanks,
-
-Jonathan
-
+base-commit: 38fec10eb60d687e30c8c6b5420d86e8149f7557
+-- 
+2.39.5
 
