@@ -1,127 +1,189 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 062061AF0B4;
-	Sun, 30 Mar 2025 16:22:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE54B13C9A3;
+	Sun, 30 Mar 2025 16:50:32 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743351742; cv=none; b=fp6r9AXRS9R07tjs/T4hiMuBauVJDR8qwHLC2a+1YXxnCwS7poNLSTCWAtGOqnRrO67G9dnFT8j0LYyXf2vbw7yEDuXK3qYOdnrXU36sAFPz6BbJQwUFPaWuY7fWky33SLz5iFK4n2sXi5Gr7lbCbyIXFBaQXUoqK7RCMa/W+0E=
+	t=1743353433; cv=none; b=JlVHFWcVSlggI7cQWRb8OiLd69JzaCJAQcxC3swfc1K09jEoMlWsey9f9XAMzYZVhC/YmaQi/teEosrP6a8dnC0AJmIZWx0mlRwzB3E2jvuuDb6vRLfDIrhwbebSCJmiH6s/cHb85RKqfd028YihnXo9bN8cXfCaq2y56T5mIBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743351742; c=relaxed/simple;
-	bh=qUBag9B5StRidN5HLkgVvfa2PUN1Q7Fm4vRmNvVYu78=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U+D6YDIF8y63Kk0dX10T3VMuRECXeDt7vg63goFleVA+sYb7JqV5qy/dfeZfSvx/Df9mXP3yXMO8PS6fn2eI7jrsA9HCbvK81JsNu3UL01MVINO8C2c3B9xmpsRK3RMygF88eC98Fi2ZSRzhrL1YOSx2D1vTt6Y8W3STiRAAUXI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Swg103uf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743353433; c=relaxed/simple;
+	bh=T2nZgkmBO2IAZub8uryRdB9Li1xQtqd5x+s1ykAv2wU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OHO4pSeIfF4/H8+1cwLNRd4qIU9g70708x+y8YtR52pPLTeUSZ+UnAQXvx77G3kRZBum0mhU5be770Og4LM39/DJPS/6rqnFQ2Km0d0GzMNQ0KOWP2eGlwGgQ0esiGIgQW6X9f3rEw6rpVC9EgiaeSVPEBxeL+g2V3sB3K+FZLk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmNxCI+P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Swg103uf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EC4ADC4CEDD;
-	Sun, 30 Mar 2025 16:22:20 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmNxCI+P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D9D8DC4CEDD;
+	Sun, 30 Mar 2025 16:50:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743351741;
-	bh=qUBag9B5StRidN5HLkgVvfa2PUN1Q7Fm4vRmNvVYu78=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Swg103ufzfdPCm0qK6fpdXzqL0eoAqqwc1GbXfJNE32jXajDTjHIXVQ8VxGMTmtPj
-	 yZh+pWwHkrPkhkYx7U8Njltg6QeVNN2CmuDArWrehsjMal475gix0nUsefXfOmJ3K2
-	 9Hi5YpvxsyfTTj3NikIYeGUfkDzo+dBcCmTDfIfwXwlZiCax5CdgLmDp2g5DKEjEUO
-	 UojgJELNaeucLLWM2TElgeJqjUFRuc53+swGckBzukjb+HvXpPcxuGmFflKXJXpmO/
-	 OY13+QM6sHChzTGFHa+7NjHpyR7vwJ6rRTiWARRrTl2fCKjIx3o6SEwzgeDFHF1Cn3
-	 62k73MgbQXYQg==
-Date: Sun, 30 Mar 2025 21:52:17 +0530
-From: Vinod Koul <vkoul@kernel.org>
-To: Bartosz Golaszewski <brgl@bgdev.pl>
-Cc: Thara Gopinath <thara.gopinath@gmail.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Md Sadre Alam <quic_mdalam@quicinc.com>,
-	Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-	linux-crypto@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-kernel@vger.kernel.org, dmaengine@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-Subject: Re: [PATCH v7 3/8] dmaengine: qcom: bam_dma: add bam_pipe_lock flag
- support
-Message-ID: <Z+lvuVaV8DXQuAR3@vaman>
-References: <20250311-qce-cmd-descr-v7-0-db613f5d9c9f@linaro.org>
- <20250311-qce-cmd-descr-v7-3-db613f5d9c9f@linaro.org>
+	s=k20201202; t=1743353432;
+	bh=T2nZgkmBO2IAZub8uryRdB9Li1xQtqd5x+s1ykAv2wU=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HmNxCI+Plibu7TQjH0YW7pC1zWuSm/AASoGx/Vgn8+apYn42fmFJY7TrohgTafFNQ
+	 JVPqHdsFeJxX7wleXERD+krYYKbF0I3qAICBTekwBOHOGLTZdAVPQZ1EAM+rspIIwU
+	 rmDqqTIN0U7GswP7Rvl3Rt7yx3W8ziLzVuSUR0H8VKPLctmirLnkYoMP0aPrg3UsE/
+	 1TwhlHNVbwa9ThRGPCnT8EwoGtF/833xOfNp86i9KwEkXKJTJo/W/hSu2cHl78nM33
+	 GuWGcbZ7ttq0SYTPBzBJUiVmoPAFfgEwadmofvKZIInvS9nFrdw4cI+d8iPmG/vdKX
+	 bboLhHpFacdvg==
+Date: Sun, 30 Mar 2025 17:50:24 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Angelo Dureghello <adureghello@baylibre.com>
+Cc: Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Lars-Peter Clausen
+ <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>, Olivier Moysan
+ <olivier.moysan@foss.st.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/4] docs: iio: add documentation for ad3552r driver
+Message-ID: <20250330175024.2319b8eb@jic23-huawei>
+In-Reply-To: <20250321-wip-bl-ad3552r-fixes-v1-1-3c1aa249d163@baylibre.com>
+References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
+	<20250321-wip-bl-ad3552r-fixes-v1-1-3c1aa249d163@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250311-qce-cmd-descr-v7-3-db613f5d9c9f@linaro.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-On 11-03-25, 10:25, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
-> 
-> Extend the device match data with a flag indicating whether the IP
-> supports the BAM lock/unlock feature. Set it to true on BAM IP versions
-> 1.4.0 and above.
-> 
-> Co-developed-by: Md Sadre Alam <quic_mdalam@quicinc.com>
-> Signed-off-by: Md Sadre Alam <quic_mdalam@quicinc.com>
-> Signed-off-by: Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+On Fri, 21 Mar 2025 21:28:48 +0100
+Angelo Dureghello <adureghello@baylibre.com> wrote:
+
+> From: Angelo Dureghello <adureghello@baylibre.com>
+>=20
+> Add documentation for ad3552r driver, needed to describe the high-speed
+> driver debugfs attributes and shows how the user may use them.
+>=20
+> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
 > ---
->  drivers/dma/qcom/bam_dma.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/dma/qcom/bam_dma.c b/drivers/dma/qcom/bam_dma.c
-> index 8861245314b1..737fce396c2e 100644
-> --- a/drivers/dma/qcom/bam_dma.c
-> +++ b/drivers/dma/qcom/bam_dma.c
-> @@ -58,6 +58,8 @@ struct bam_desc_hw {
->  #define DESC_FLAG_EOB BIT(13)
->  #define DESC_FLAG_NWD BIT(12)
->  #define DESC_FLAG_CMD BIT(11)
-> +#define DESC_FLAG_LOCK BIT(10)
-> +#define DESC_FLAG_UNLOCK BIT(9)
->  
->  struct bam_async_desc {
->  	struct virt_dma_desc vd;
-> @@ -113,6 +115,7 @@ struct reg_offset_data {
->  
->  struct bam_device_data {
->  	const struct reg_offset_data *reg_info;
-> +	bool bam_pipe_lock;
->  };
->  
->  static const struct reg_offset_data bam_v1_3_reg_info[] = {
-> @@ -179,6 +182,7 @@ static const struct reg_offset_data bam_v1_4_reg_info[] = {
->  
->  static const struct bam_device_data bam_v1_4_data = {
->  	.reg_info = bam_v1_4_reg_info,
-> +	.bam_pipe_lock = true,
->  };
->  
->  static const struct reg_offset_data bam_v1_7_reg_info[] = {
-> @@ -212,6 +216,7 @@ static const struct reg_offset_data bam_v1_7_reg_info[] = {
->  
->  static const struct bam_device_data bam_v1_7_data = {
->  	.reg_info = bam_v1_7_reg_info,
-> +	.bam_pipe_lock = true,
->  };
->  
->  /* BAM CTRL */
-> @@ -707,8 +712,15 @@ static struct dma_async_tx_descriptor *bam_prep_slave_sg(struct dma_chan *chan,
->  		unsigned int curr_offset = 0;
->  
->  		do {
-> -			if (flags & DMA_PREP_CMD)
-> +			if (flags & DMA_PREP_CMD) {
->  				desc->flags |= cpu_to_le16(DESC_FLAG_CMD);
-> +				if (bdev->dev_data->bam_pipe_lock) {
-> +					if (flags & DMA_PREP_LOCK)
-> +						desc->flags |= cpu_to_le16(DESC_FLAG_LOCK);
-> +					else if (flags & DMA_PREP_UNLOCK)
-> +						desc->flags |= cpu_to_le16(DESC_FLAG_UNLOCK);
-> +				}
+>  Documentation/iio/ad3552r.rst | 65 +++++++++++++++++++++++++++++++++++++=
+++++++
+>  Documentation/iio/index.rst   |  1 +
+>  MAINTAINERS                   |  1 +
+>  3 files changed, 67 insertions(+)
+>=20
+> diff --git a/Documentation/iio/ad3552r.rst b/Documentation/iio/ad3552r.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..638a62c99fb876cca026a0b1d=
+f469c81ba39ff29
+> --- /dev/null
+> +++ b/Documentation/iio/ad3552r.rst
+> @@ -0,0 +1,65 @@
+> +.. SPDX-License-Identifier: GPL-2.0-only
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +AD3552R driver
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Device driver for Analog Devices Inc. AD35XXR series of DACs. The module=
+ name
+> +is ``ad3552r``.
+> +With the same module name, two different driver variants are available, =
+the
+> +``generic spi`` variant, to be used with any classic SPI controllers, an=
+d the
+> +``hs`` (high speed) variant, for an ADI ``axi-dac`` (IP core) based cont=
+roller
+> +that allows to reach the maximum sample rate supported from the DACs, us=
+ing the
+> +DMA transfer and all the SPI lines available (D/QDSPI)..
+> +The high speed driver variant is intended to be used with the ``adi-axi-=
+dac``
+> +backend support enabled, that is enabled by default when the driver is s=
+elected.
+> +
+> +Supported devices
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +* `AD3541R <https://www.analog.com/en/products/ad3541r.html>`_
+> +* `AD3542R <https://www.analog.com/en/products/ad3542r.html>`_
+> +* `AD3551R <https://www.analog.com/en/products/ad3551r.html>`_
+> +* `AD3552R <https://www.analog.com/en/products/ad3552r.html>`_
+> +
+> +Wiring connections
+> +------------------
+> +
+> +::
+> +
+> +    .-----------------.                .-------.
+> +    |                 |--- D/QSPI -----|       |
+> +    |   DAC IP CORE   |--- SPI S_CLK --|  DAC  |
+> +    |                 |--- SPI CS -----|       |
+> +    |                 |--- LDAC -------|       |
+> +    |                 |--- RESET ------|       |
+> +    |_________________|                |_______|
+> +
+> +
+> +High speed features
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Device attributes
+> +-----------------
+> +
+> +The following table shows the ad35xxr related device debug files, found =
+in the
+> +specific device debug folder path ``/sys/kernel/debug/iio/iio:deviceX``.
+> +
+> ++----------------------+------------------------------------------------=
+-------+
+> +| Debugfs device files | Description                                    =
+       |
+> ++----------------------+------------------------------------------------=
+-------+
+> +| data_source          | The used data source,                          =
+       |
+> +|                      | as ``iio-buffer`` or ``backend-ramp-generator``=
+.      |
+> ++----------------------+------------------------------------------------=
+-------+
+Hmm. I'm not convinced yet that this is something that belongs in debugfs b=
+ut will
+read on through the series.
 
-No else case? you are ignoring the flags passed by user...? This should
-return an error...
+> +
+> +Usage examples
+> +--------------
+> +
+> +. code-block:: bash
+> +	root:/sys/bus/iio/devices/iio:device0# cat data_source
+> +	iio-buffer
+> +	root:/sys/bus/iio/devices/iio:device0# echo -n backend-ramp-generator >=
+ data_source
+> +	root:/sys/bus/iio/devices/iio:device0# cat data_source=E2=8F=8E
 
+Not sure what the trailing character is.
 
--- 
-~Vinod
+> +	backend-ramp-generator
+> +
+> +
+> diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+> index bbb2edce8272e7483acca500d1a757bbcc11c1e0..2d6afc5a8ed54a90cd8d5723f=
+0dc5212b8593d16 100644
+> --- a/Documentation/iio/index.rst
+> +++ b/Documentation/iio/index.rst
+> @@ -19,6 +19,7 @@ Industrial I/O Kernel Drivers
+>  .. toctree::
+>     :maxdepth: 1
+> =20
+> +   ad3552r
+>     ad4000
+>     ad4030
+>     ad4695
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 57eaab00f6cb53df52a4799eb2c1afbbd1e77a1e..52bc56a9ee22c66b90555681c=
+4757ea4399adae1 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1295,6 +1295,7 @@ L:	linux-iio@vger.kernel.org
+>  S:	Supported
+>  W:	https://ez.analog.com/linux-software-drivers
+>  F:	Documentation/devicetree/bindings/iio/dac/adi,ad3552r.yaml
+> +F:	Documentation/iio/ad3552r.rst
+>  F:	drivers/iio/dac/ad3552r.c
+> =20
+>  ANALOG DEVICES INC AD4000 DRIVER
+>=20
+
