@@ -1,100 +1,182 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D734610C;
-	Mon, 31 Mar 2025 05:13:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F40918CBE1;
+	Mon, 31 Mar 2025 06:41:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743398012; cv=none; b=q6v2+SIKmHSzPkzi7cCFNYuPLM2Cw1QXRODp9jkOxCrAfX26T27zhzYALZ8KaQnwqaxtGw3Q3SRMp0VigGopStEzS9tjm6U2YN4Xhlm0Q/uD4Kf/04tOfYq2EUC2gratF1ZV3NJkiG/wpNwG2NNuLhPFOzHTW421BJxBq5Sgh38=
+	t=1743403292; cv=none; b=f+higkSM7AL1WpncnrvEgHrQPyH6XJ0lDfVfb/wdD6qGmMZyH3nb+FdauW6kh7VbG31NxHzx2xRYOLv5eMnBF53WSwvAZEqGx+mDiu1j7ryIag7FcDZIglspdmLeJguAPIlt/j2ne5eQnupjgnynjZgHONcwdSCtkpWhi9DaQyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743398012; c=relaxed/simple;
-	bh=1FQ99V5zH90kSxmzk+IRdRPHzOGIhIJEGYr080dF3gE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kjKfP4aYdlsMs7P99Z0Lb4rJ3mypE0sMEaL3ujZFTyp/Y2SG0qkc4WjTbp8Qg92EFMzp1tVATozGM6wRgLlS5QtW5GPY6vUF2aNXFEnR858+li7MgCMwcvetid4iOyQyRkzzp+jt9vMkFggwM9w5sO1lI0bFoJW9JKQGE3q2/Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=re+IotCx; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="re+IotCx"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=xljV96mkmZwxXbRoTPyRfln7pvEQHpoXqeSptdtUeEE=; b=re+IotCxIVIRQiKQUhAu0xFNwn
-	3eiNvjf1/DLAp5y/WUp5t7CGFgbdV8bDjFLtyENlUstJKAZmdQxRqSOkO6uatpMgA/h9oFwUb+RQN
-	ttaTp4HLO8MWZbAwRgB0JhpsCZwguyjOJyIt7NNnAT8Rq+BFWuXzVIgJZ6howAq0XDLF5nI4x/ubb
-	mhWjwF8zK7ZujrWxzvOGEv6WYYWaubwxxcooPlGkugkF78OwXKPrjZ8sjUHohQovxBW+RyNX0WlUO
-	pYNUPwyTfy9+UaA7ALdequ9fdsmqL85UxN+fAyDHxdxxzO6+5/wrlKCb/DtQwV2EuQpgm1pGkeQdt
-	uTN4tN7Q==;
-Received: from [50.53.2.24] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1tz7Sc-00000006b5r-3Dr0;
-	Mon, 31 Mar 2025 05:13:24 +0000
-Message-ID: <39c91e20-94b2-4103-8654-5a7bbb8e1971@infradead.org>
-Date: Sun, 30 Mar 2025 22:13:19 -0700
+	s=arc-20240116; t=1743403292; c=relaxed/simple;
+	bh=6aUbTFZ9/zgMe0Jzt1+2v/MeJeMgEV1d9QChOoSsIc8=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Q19HbUuP0rmxx9tgCHBlibV5n4XRywsqZvWLdMlwZKgPZCCqKBFWiJZ5RFP8hY7HfrK23l3tlhmqkDNjGyAA3G0YlcKRnd4v4yCgnc22LMZLMfanAGXR/D/Ec9UTczBjh0QIzM/FD6TLALGWzJH8H9GC7RlN2A8YK7C7weht1+g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.2.10.34])
+	by gateway (Coremail) with SMTP id _____8Bx63EROepnwySsAA--.25475S3;
+	Mon, 31 Mar 2025 14:41:21 +0800 (CST)
+Received: from localhost.localdomain (unknown [10.2.10.34])
+	by front1 (Coremail) with SMTP id qMiowMDxu8QNOepnBt9oAA--.50151S3;
+	Mon, 31 Mar 2025 14:41:20 +0800 (CST)
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+To: chenhuacai@kernel.org,
+	kernel@xen0n.name,
+	corbet@lwn.net,
+	alexs@kernel.org,
+	si.yanteng@linux.dev,
+	tglx@linutronix.de,
+	jiaxun.yang@flygoat.com,
+	peterz@infradead.org,
+	wangliupu@loongson.cn,
+	lvjianmin@loongson.cn,
+	maobibo@loongson.cn,
+	siyanteng@cqsoftware.com.cn,
+	gaosong@loongson.cn,
+	yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Tianyang Zhang <zhangtianyang@loongson.cn>
+Subject: [PATCH v2 1/2] Docs/LoongArch: Add Advanced Extended-Redirect IRQ model description
+Date: Mon, 31 Mar 2025 14:41:15 +0800
+Message-Id: <20250331064116.32540-2-zhangtianyang@loongson.cn>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20250331064116.32540-1-zhangtianyang@loongson.cn>
+References: <20250331064116.32540-1-zhangtianyang@loongson.cn>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: initramfs: update compression and mtime
- descriptions
-To: David Disseldorp <ddiss@suse.de>, Alexander Viro
- <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>
-Cc: linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250331050330.17161-1-ddiss@suse.de>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250331050330.17161-1-ddiss@suse.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=yes
+Content-Transfer-Encoding: 8bit
+X-CM-TRANSID:qMiowMDxu8QNOepnBt9oAA--.50151S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
+	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
+	BjDU0xBIdaVrnRJUUUBCb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
+	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r126r13M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
+	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
+	AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW8Jr0_Cr1UM28EF7xvwVC2z280aVCY1x02
+	67AKxVW8Jr0_Cr1UM2AIxVAIcxkEcVAq07x20xvEncxIr21le4C262xC7I0v67AEwI8IwI
+	1l57IF6xkI12xvs2x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv2
+	0xvE14v26r1q6rW5McIj6I8E87Iv67AKxVW8JVWxJwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7
+	xvr2IYc2Ij64vIr41lw4CEx2IqxVAFz4v204v26I0v724l42xK82IYc2Ij64vIr41l4I8I
+	3I0E4IkC6x0Yz7v_Jr0_Gr1l4IxYO2xFxVAFwI0_JF0_Jw1lx2IqxVAqx4xG67AKxVWUJV
+	WUGwC20s026x8GjcxK67AKxVWUJVWUGwC2zVAF1VAY17CE14v26r4a6rW5MIIYrxkI7VAK
+	I48JMIIF0xvE2Ix0cI8IcVAFwI0_Gr0_Xr1lIxAIcVC0I7IYx2IY6xkF7I0E14v26r4j6F
+	4UMIIF0xvE42xK8VAvwI8IcIk0rVWUJVWUCwCI42IY6I8E87Iv67AKxVW8JVWxJwCI42IY
+	6I8E87Iv6xkF7I0E14v26r4j6r4UJbIYCTnIWIevJa73UjIFyTuYvjxUco7KUUUUU
 
-Hi,
+Introduce the redirect interrupt controllers.When the redirect interrupt
+controller is enabled, the routing target of MSI interrupts is no longer a
+specific CPU and vector number, but a specific redirect entry. The actual
+CPU and vector number used are described by the redirect entry.
 
-On 3/30/25 10:03 PM, David Disseldorp wrote:
-> Update the document to reflect that initramfs didn't replace initrd
-> following kernel 2.5.x.
-> The initramfs buffer format now supports many compression types in
-> addition to gzip, so include them in the grammar section.
-> c_mtime use is dependent on CONFIG_INITRAMFS_PRESERVE_MTIME.
-> 
-> Signed-off-by: David Disseldorp <ddiss@suse.de>
-> ---
->  .../early-userspace/buffer-format.rst         | 30 ++++++++++++-------
->  1 file changed, 19 insertions(+), 11 deletions(-)
-> 
-> diff --git a/Documentation/driver-api/early-userspace/buffer-format.rst b/Documentation/driver-api/early-userspace/buffer-format.rst
-> index 7f74e301fdf35..cb31d617729c5 100644
-> --- a/Documentation/driver-api/early-userspace/buffer-format.rst
-> +++ b/Documentation/driver-api/early-userspace/buffer-format.rst
-> @@ -4,20 +4,18 @@ initramfs buffer format
->  
->  Al Viro, H. Peter Anvin
->  
-> -Last revision: 2002-01-13
-> -
-> -Starting with kernel 2.5.x, the old "initial ramdisk" protocol is
-> -getting {replaced/complemented} with the new "initial ramfs"
-> -(initramfs) protocol.  The initramfs contents is passed using the same
-> -memory buffer protocol used by the initrd protocol, but the contents
-> +With kernel 2.5.x, the old "initial ramdisk" protocol was complemented
-> +with an "initial ramfs" protocol.  The initramfs contents is passed
+Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+---
+ .../arch/loongarch/irq-chip-model.rst         | 38 +++++++++++++++++++
+ .../zh_CN/arch/loongarch/irq-chip-model.rst   | 37 ++++++++++++++++++
+ 2 files changed, 75 insertions(+)
 
-                                                             are passed
-
-> +using the same memory buffer protocol used by initrd, but the contents
->  is different.  The initramfs buffer contains an archive which is
-
-  are different.
-
->  expanded into a ramfs filesystem; this document details the format of
->  the initramfs buffer format.
-
-Don't use "format" 2 times above.
-
-
+diff --git a/Documentation/arch/loongarch/irq-chip-model.rst b/Documentation/arch/loongarch/irq-chip-model.rst
+index a7ecce11e445..84fafb86ec17 100644
+--- a/Documentation/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/arch/loongarch/irq-chip-model.rst
+@@ -181,6 +181,44 @@ go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then go to CPUINTC directly::
+              | Devices |
+              +---------+
+ 
++Advanced Extended IRQ model (with redirection)
++===============
++
++In this model, IPI (Inter-Processor Interrupt) and CPU Local Timer interrupt go
++to CPUINTC directly, CPU UARTS interrupts go to LIOINTC, PCH-MSI interrupts go
++to REDIRECT for remapping it to AVEC, and then go to CPUINTC directly, while all
++other devices interrupts go to PCH-PIC/PCH-LPC and gathered by EIOINTC, and then
++go to CPUINTC directly::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI-related definitions
+ ========================
+ 
+diff --git a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+index d4ff80de47b6..5d82cba07482 100644
+--- a/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
++++ b/Documentation/translations/zh_CN/arch/loongarch/irq-chip-model.rst
+@@ -174,6 +174,43 @@ CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断发送到AVECINTC，
+              | Devices |
+              +---------+
+ 
++高级扩展IRQ模型 (带重定向)
++===============
++
++在这种模型里面，IPI（Inter-Processor Interrupt）和CPU本地时钟中断直接发送到CPUINTC，
++CPU串口（UARTs）中断发送到LIOINTC，PCH-MSI中断首先发送到REDIRECT模块,完成重定向后发
++送到AVECINTC，而后通过AVECINTC直接送达CPUINTC，而其他所有设备的中断则分别发送到所连
++接的PCH-PIC/PCH-LPC，然后由EIOINTC统一收集，再直接到达CPUINTC::
++
++ +-----+     +-----------------------+     +-------+
++ | IPI | --> |        CPUINTC        | <-- | Timer |
++ +-----+     +-----------------------+     +-------+
++              ^          ^          ^
++              |          |          |
++       +---------+ +----------+ +---------+     +-------+
++       | EIOINTC | | AVECINTC | | LIOINTC | <-- | UARTs |
++       +---------+ +----------+ +---------+     +-------+
++            ^            ^
++            |            |
++            |      +----------+
++            |      | REDIRECT |
++            |      +----------+
++            |            ^
++            |            |
++       +---------+  +---------+
++       | PCH-PIC |  | PCH-MSI |
++       +---------+  +---------+
++         ^     ^           ^
++         |     |           |
++ +---------+ +---------+ +---------+
++ | Devices | | PCH-LPC | | Devices |
++ +---------+ +---------+ +---------+
++                  ^
++                  |
++             +---------+
++             | Devices |
++             +---------+
++
+ ACPI相关的定义
+ ==============
+ 
 -- 
-~Randy
+2.43.0
 
