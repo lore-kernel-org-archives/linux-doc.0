@@ -1,285 +1,150 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1B721B19F
-	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 19:04:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55950211476
+	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 19:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743447852; cv=none; b=MTyMflWSwpwbdK46vWrLjhdX1P+NgYdF2qN+xcVFI8a3R0e/iZV9FO4eNttXVTRE9HVI83RFra7sTLzDPCGGHfWnFcW3JTPeBClL5+W6OCgELkyo7engTsAg+CNFasZDb3JKmBPKGvxvhtzrTHZIeRvFbZyuLZ5N8fgu6QJiheE=
+	t=1743448254; cv=none; b=P+8qxk1nCaz0Wyx6PP/j55Bbjm+aNsQd7M6jBHtfKGsczEBfKMvkISHXjlJK/SuEPC5ZNm7u2ldQs9OcVQhXUbaNfqE8hGcHmFETbBlHnTbyRGjLYMBzydZHSgeHw31aEFwUXXvkHyRpHL4RzRo5Qn03iGZjmQajSwdJz4wpr9M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743447852; c=relaxed/simple;
-	bh=HhntccDJjAfudcGqflMX5mA7KN1ruQeqrt4gyclxTbE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=pMgLuxmYh0CU0nvVm6/B9S74Wn0MKLJ269svXF6vw+zd408odhQgskCpHSMBDxpP2QXQRYQYMo1z5nYrnGDsClwlYSydpZk0/Oe7sQZz3TfbSu6ejP+wSPGEQgHwjWJYzFMQJbW7jhOoQu59MMzdVFRUYjggzWa3ufGsfD4I5cU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=li8daSgm; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1743448254; c=relaxed/simple;
+	bh=YZzEwSKb0kqBKb0A2H4+zAX/AS8Wvht4a2tMV6ys5+Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ju/gT0tvXppVVdWw6E+XmlvqkPBOVpyagTHnLKrTAwSxV/Uw3zMjAh6HaewvR3nzMuJJIcHTIoW2I3+L0LQUOlCBoOrYoMETkSscCed0zyaA0ZoONFceXqsbN5GaK5dEFN1k6eOsQoflV1lekMeQKYd8jeAM+zcAeV/S4CwpZS4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=lx5B0Y7s; arc=none smtp.client-ip=209.85.219.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="li8daSgm"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac2963dc379so765035966b.2
-        for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 12:04:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="lx5B0Y7s"
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e8fd49b85eso72454736d6.0
+        for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 12:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743447848; x=1744052648; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=oydnnGWKEEF+B555rBtJ+JTba4AdRTKZvDkfqDfc4Cc=;
-        b=li8daSgmU4S6LHRoNVdt2gneLCbU4oB3KyXFPJzihPOzQBt1Aq3ua6eb8cOppQ1Yyf
-         0Jb6sohYI6Z6Jak9K1dxrLw6nW4yZQuW8k6mbYaNmhX0uHN3W1QKTiMnc+h4zCL3SJJ5
-         ASIGk6xLAUal7G5rmE5rP9Zs3SKvYDP6vZKRhi18VKoTMh/FFH9LbdQtQzvBuFdxaV87
-         cN5n5Gw0Bx2NnVE1ZAqWqbrJBjGpIwZc54fWWQ8w2H9h0zyWW5ROaiJf37JcLTpP3Hab
-         oQv8xwAe+lZPj+QV05czE7Rag9S7U0z0cuzWrIqn4105gFxIsxvBr5VN77CxhToHq5FG
-         fbNw==
+        d=ziepe.ca; s=google; t=1743448251; x=1744053051; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Dt32gY7PII308zLmCJyd2JbPBk7pRfyqNOcGW9IblNM=;
+        b=lx5B0Y7sjuoNzd1d9i0ULXlJuFWlw50miz8KET6BzT5VFVWlzWti1qBXbQ3xuU4G7S
+         A0CO1k0tWEEysAcdeEJMmzTgXuug9Tc1daOkdBpqiD2jzT05mPtSNgKzPH2cZV9ahGwA
+         A7g/fFs7CmBaUimn9ZX52UpMrKMpVDrJPCb+HdorFxqJYgVhyTyJ9PoymkPKE5o2pFMe
+         CDhKqsIjTiKcHwVBYWLXeoJLL+e/Lnx7AwpRGoqh8/hUOocZ4Hnsld1GswY2P9cgw/QC
+         qxiFtbgZADqRhS0k/V/eVWP6yr4EleWUUOGLhuJfQuoPs10ZrsL7SnyaUgZ0R6HTG4q0
+         i/4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743447848; x=1744052648;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=oydnnGWKEEF+B555rBtJ+JTba4AdRTKZvDkfqDfc4Cc=;
-        b=GwB7iKrEvqs/ZCPgGFpFIaK0YamAztvGMkQe8SjwocutejncaLljeSQFlOBWJt/nkU
-         YZtzBo4i4C5Ovk9meNpBZiajNV1AkPU/0h2od2iDyAJMn3rfAcv3l7DEX9CQxKBdrYOZ
-         aHfa7sXXuKbfR8lZtY2rS233bKfRAdc7wPYIQB29iOcthkOB1DuVCrbX4MfahwdPjun+
-         NXMMMqhYAnCcyIWnKgzOaHQZ1o9Pd0V322h3sedH82+6ySMx8N5vOK83637qegtEJKfG
-         gJaetAGVa8RkGAGSwvUCVeAvJL7DGHMvbdxBx56yMe+/4zLSgQKIiZ0hrhK8aiGGz8Y0
-         mOaw==
-X-Forwarded-Encrypted: i=1; AJvYcCVM4L9s5PrsGDn1qP5EnUDoLp2D+DkArOm+zuabrhvA4TwOtGxeOqbaXJJosH1ECS0HrlGpVRaQ5rg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxl0qDYuvkJO6LDwNeIk6gnvGZRIgyRQMo0H6heS/vqYRKhYJib
-	h47ycKydw3J4pB8RAUFHTF/Est7IdzEXADHEJKbMR7wknIIF9ahc/UIQxf844YI=
-X-Gm-Gg: ASbGnctfFQoKu7TdDeXFJUs5/KkLJYVycgBIuFdgm2yJMiidhMFU1/tqIqJ6puGymGd
-	Ob4n30yYuQUgsnJxK/tVLusJek+YpZneU0I2ruAbMAI9Odxqp3AchbaPFzP4KU9teJ12psaxxE1
-	ZfyqhFW1+0vOT+yV4a5eNGxVRzZyQvrEXptoAOJW/XZzpVJXUcA2X4Z6R7Q9hT3AL0aPwEDQY4F
-	OSY2n+Bl75xHtADhhgWEMlBBowEl7EWL+V2W7gHYLeMeSPpgzH0pszaLhI7Q6EzqMAUopIBSHkj
-	PCq2yF8+yNWhid98NPoOOMPwCi5ehlX5uRk3kOqnI2LouPH3X8wZqYtvH0/GzoLUlUWvWyNgjoe
-	aNlYectDMKW2CHHLicAeYkrMUHSPB
-X-Google-Smtp-Source: AGHT+IGZgaTxx+7ZjL/FlP/L9Ag5GKaaT4V+DkX9m8JecEYrquECoAyEIK4ePYCjY3znN2c1xUclZw==
-X-Received: by 2002:a17:906:1382:b0:ac3:eb29:2aef with SMTP id a640c23a62f3a-ac738b4fa52mr785422966b.41.1743447848417;
-        Mon, 31 Mar 2025 12:04:08 -0700 (PDT)
-Received: from [192.168.0.2] (host-80-116-51-172.pool80116.interbusiness.it. [80.116.51.172])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac71961f9cfsm652288566b.122.2025.03.31.12.04.07
+        d=1e100.net; s=20230601; t=1743448251; x=1744053051;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Dt32gY7PII308zLmCJyd2JbPBk7pRfyqNOcGW9IblNM=;
+        b=SnZPZHIjLW1AIPX5S3muDnNk1TcjwwSLborL2FC7QrY3SKBqoZ2r1eknsM4QECkWV4
+         AcXAzhOPyfEM/oHDr0RTpOyFkFQbeGpq+KrnYeg0+gcjOMZoLZ+Sh/Ky79K56MMoxqbS
+         vrtAovKPqibQdcBxxIXeL5znHjCI5P4Eo+/cGQ4qYzEep/HiA/KHqF9NBoIIuuN4y1jA
+         SXAqjYc8kxmKZ0jgQWCphQCD63OLeOllRt8lYHNVsg0MN7WT7T7R3r9lmX2jB0ChfJDK
+         IiV0RWTbw+jHaVzfayLnTOoRDBi+wVlzc98SHm5S18lwjm67LjFuTOIMEpzyRyh0tBJ/
+         TS/g==
+X-Forwarded-Encrypted: i=1; AJvYcCVU0/BXdxb4gkVhDtmoWeWsS5All0jNJ6g5gN7vOSbHfYwKEy7795ZEEbpyhemWVClpyvfOGdNwMbs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD99MvIxEk9qHaAGGL9oGvEQFIQsodTqBhjc8olIy3fVVsNkb0
+	YN+RVeOf4SLlL6Q4T9eVD13nLDuRJlV4YOMKQ0yZ2nAcrKVqarZae9u5NRnvLqc=
+X-Gm-Gg: ASbGnctZDv/vEoSKDwxCobKe6+kGHwYIG3XrReiySIR7K8ruLFcdVvwk08d9QbvlbpL
+	gqMJ7b7CF3ksy4G57cY52Yoft2uMcGTtnqb68T1yjPEseer6Phfa3q3qnF3CwUx1UClgk02g1NT
+	vqTXhaSpJ9V5H3pHN+MD5l2WqpY/1aL+j7GJH2LpGghb3HwaqulsCTbJrZLSkWoJexVO2z3XLUN
+	UV3BynUFTeyIKocMsA3RownQsleT2uTaByxx19ZP//hDxFxhX+zrmPeQSRexR6sawIBdEuYrJz3
+	+HP0OJWUnamGR4c61fCQPKMeNv7mUJpSflp595p6ZEuDH9UIajK+fmXNmWPGKPclT3tTWxs9wP4
+	p2vTJEvQRs5VVGQN11kj6BB0=
+X-Google-Smtp-Source: AGHT+IEZHkY9cceG9Xv7rEu7PB72dn7pTp6BwVJLHoJ1MHilW0TdQewa+AGCIOjjtFFGEUJX/PJSGA==
+X-Received: by 2002:a05:6214:19cd:b0:6df:99f7:a616 with SMTP id 6a1803df08f44-6eed5f4e587mr150303596d6.2.1743448250916;
+        Mon, 31 Mar 2025 12:10:50 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec9797136sm49986056d6.103.2025.03.31.12.10.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Mar 2025 12:04:07 -0700 (PDT)
-From: Angelo Dureghello <adureghello@baylibre.com>
-X-Google-Original-From: Angelo Dureghello <adureghello@baylibre.org>
-Date: Mon, 31 Mar 2025 21:02:48 +0200
-Subject: [PATCH v2 5/5] iio: dac: ad3552r-hs: add support for internal ramp
+        Mon, 31 Mar 2025 12:10:50 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1tzKX3-00000001EjT-33eb;
+	Mon, 31 Mar 2025 16:10:49 -0300
+Date: Mon, 31 Mar 2025 16:10:49 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Message-ID: <20250331191049.GB186258@ziepe.ca>
+References: <20250220124827.GR53094@unreal>
+ <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
+ <20250312193249.GI1322339@unreal>
+ <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
+ <20250319175840.GG10600@ziepe.ca>
+ <1034b694-2b25-4649-a004-19e601061b90@samsung.com>
+ <20250322004130.GS126678@ziepe.ca>
+ <c916a21e-2d95-476d-9895-4d91873fc5d5@samsung.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250331-wip-bl-ad3552r-fixes-v2-5-cdedb430497e@baylibre.com>
-References: <20250331-wip-bl-ad3552r-fixes-v2-0-cdedb430497e@baylibre.com>
-In-Reply-To: <20250331-wip-bl-ad3552r-fixes-v2-0-cdedb430497e@baylibre.com>
-To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Olivier Moysan <olivier.moysan@foss.st.com>, 
- Michael Hennerich <Michael.Hennerich@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Angelo Dureghello <adureghello@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=5442;
- i=adureghello@baylibre.com; h=from:subject:message-id;
- bh=QKeZ0jQPU0IE/bOj+jLk3e21UXPcLFSKvsofD9UQzCU=;
- b=owGbwMvMwCXGf3bn1e/btlsznlZLYkh/9ezWvWOP/qknWHxtWxJwfcqf77Yuxv22uzU+l/C0Z
- LgWSlZndpSyMIhxMciKKbLUJUaYhN4OlVJewDgbZg4rE8gQBi5OAZhI3k1Ghnaj5IOCegVHfM6y
- WklvXsZd6K88J7NJZGZElFdasLeALyPDUXbWCqE/K54vFxTa5TLLwZ6JwfnKnGOuL2dUXG5pFkn
- gAQA=
-X-Developer-Key: i=adureghello@baylibre.com; a=openpgp;
- fpr=703CDFAD8B573EB00850E38366D1CB9419AF3953
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c916a21e-2d95-476d-9895-4d91873fc5d5@samsung.com>
 
-From: Angelo Dureghello <adureghello@baylibre.com>
+On Fri, Mar 28, 2025 at 03:18:39PM +0100, Marek Szyprowski wrote:
 
-The ad3552r can be feeded from the HDL controller by an internally
-generated 16bit ramp, useful for debug pourposes. Add debugfs a file
-to enable or disable it.
+> What kind of a fix is needed to dma_map_resource()/dma_unmap_resource() 
+> API to make it usable with P2P DMA? It looks that this API is closest to 
+> the mentioned dma_map_phys() and has little clients, so potentially 
+> changing the function signature should be quite easy.
 
-Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
----
- drivers/iio/dac/ad3552r-hs.c | 122 ++++++++++++++++++++++++++++++++++++++++---
- 1 file changed, 116 insertions(+), 6 deletions(-)
+I looked at this once, actually it was one of my first ideas to get
+the VFIO DMABUF side going. I gave up on it pretty fast because of how
+hard it would be to actually use..
 
-diff --git a/drivers/iio/dac/ad3552r-hs.c b/drivers/iio/dac/ad3552r-hs.c
-index 37397e188f225a8099745ec03f7c604da76960b1..d4f50b33565f99b90859e30571dc59038d01361c 100644
---- a/drivers/iio/dac/ad3552r-hs.c
-+++ b/drivers/iio/dac/ad3552r-hs.c
-@@ -7,6 +7,7 @@
-  */
- 
- #include <linux/bitfield.h>
-+#include <linux/debugfs.h>
- #include <linux/delay.h>
- #include <linux/gpio/consumer.h>
- #include <linux/iio/backend.h>
-@@ -54,8 +55,12 @@ struct ad3552r_hs_state {
- 	struct ad3552r_hs_platform_data *data;
- 	/* INTERFACE_CONFIG_D register cache, in DDR we cannot read values. */
- 	u32 config_d;
-+	struct mutex lock;
- };
- 
-+static const char dbgfs_src_iio_buffer[] = "iio-buffer";
-+static const char dbgfs_src_backend_ramp_gen[] = "backend-ramp-generator";
-+
- static int ad3552r_hs_reg_read(struct ad3552r_hs_state *st, u32 reg, u32 *val,
- 			       size_t xfer_size)
- {
-@@ -65,6 +70,18 @@ static int ad3552r_hs_reg_read(struct ad3552r_hs_state *st, u32 reg, u32 *val,
- 	return st->data->bus_reg_read(st->back, reg, val, xfer_size);
- }
- 
-+static int ad3552r_hs_set_data_source(struct ad3552r_hs_state *st,
-+				      enum iio_backend_data_source type)
-+{
-+	int ret;
-+
-+	ret = iio_backend_data_source_set(st->back, 0, type);
-+	if (ret)
-+		return ret;
-+
-+	return iio_backend_data_source_set(st->back, 1, type);
-+}
-+
- static int ad3552r_hs_update_reg_bits(struct ad3552r_hs_state *st, u32 reg,
- 				      u32 mask, u32 val, size_t xfer_size)
- {
-@@ -483,6 +500,76 @@ static int ad3552r_hs_reg_access(struct iio_dev *indio_dev, unsigned int reg,
- 	return st->data->bus_reg_write(st->back, reg, writeval, 1);
- }
- 
-+static ssize_t ad3552r_hs_show_data_source(struct file *f, char __user *userbuf,
-+					   size_t count, loff_t *ppos)
-+{
-+	struct ad3552r_hs_state *st = file_inode(f)->i_private;
-+	enum iio_backend_data_source type;
-+	int ret;
-+
-+	guard(mutex)(&st->lock);
-+
-+	ret = iio_backend_data_source_get(st->back, 0, &type);
-+	if (ret)
-+		return ret;
-+
-+	switch (type) {
-+	case IIO_BACKEND_INTERNAL_RAMP_16BIT:
-+		return simple_read_from_buffer(userbuf, count, ppos,
-+			dbgfs_src_backend_ramp_gen,
-+			strlen(dbgfs_src_backend_ramp_gen));
-+	case IIO_BACKEND_EXTERNAL:
-+		return simple_read_from_buffer(userbuf, count, ppos,
-+			dbgfs_src_iio_buffer, strlen(dbgfs_src_iio_buffer));
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static ssize_t ad3552r_hs_write_data_source(struct file *f,
-+					    const char __user *userbuf,
-+					    size_t count, loff_t *ppos)
-+{
-+	struct ad3552r_hs_state *st = file_inode(f)->i_private;
-+	char buf[64];
-+	int ret, len;
-+
-+	guard(mutex)(&st->lock);
-+
-+	ret = simple_write_to_buffer(buf, sizeof(buf) - 1, ppos, userbuf,
-+				     count);
-+	if (ret < 0)
-+		return ret;
-+
-+	len = strlen(dbgfs_src_iio_buffer);
-+	if (count == len && !strncmp(buf, dbgfs_src_iio_buffer, len)) {
-+		ret = ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
-+		if (ret)
-+			return ret;
-+		goto exit_ok;
-+	}
-+
-+	len = strlen(dbgfs_src_backend_ramp_gen);
-+	if (count == len && !strncmp(buf, dbgfs_src_backend_ramp_gen, len)) {
-+		ret = ad3552r_hs_set_data_source(st,
-+			IIO_BACKEND_INTERNAL_RAMP_16BIT);
-+		if (ret)
-+			return ret;
-+		goto exit_ok;
-+	}
-+
-+	return -EINVAL;
-+
-+exit_ok:
-+	return count;
-+}
-+
-+static const struct file_operations ad3552r_hs_data_source_fops = {
-+	.owner = THIS_MODULE,
-+	.write = ad3552r_hs_write_data_source,
-+	.read = ad3552r_hs_show_data_source,
-+};
-+
- static int ad3552r_hs_setup(struct ad3552r_hs_state *st)
- {
- 	u16 id;
-@@ -550,11 +637,7 @@ static int ad3552r_hs_setup(struct ad3552r_hs_state *st)
- 	if (ret)
- 		return ret;
- 
--	ret = iio_backend_data_source_set(st->back, 0, IIO_BACKEND_EXTERNAL);
--	if (ret)
--		return ret;
--
--	ret = iio_backend_data_source_set(st->back, 1, IIO_BACKEND_EXTERNAL);
-+	ret = ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
- 	if (ret)
- 		return ret;
- 
-@@ -661,6 +744,24 @@ static const struct iio_info ad3552r_hs_info = {
- 	.debugfs_reg_access = &ad3552r_hs_reg_access,
- };
- 
-+static void ad3552r_hs_debugfs_init(struct iio_dev *indio_dev)
-+{
-+	struct ad3552r_hs_state *st = iio_priv(indio_dev);
-+	struct dentry *d = iio_get_debugfs_dentry(indio_dev);
-+
-+	if (!IS_ENABLED(CONFIG_DEBUG_FS))
-+		return;
-+
-+	d = iio_get_debugfs_dentry(indio_dev);
-+	if (!d) {
-+		dev_warn(st->dev, "can't set debugfs in driver dir\n");
-+		return;
-+	}
-+
-+	debugfs_create_file("data_source", 0600, d, st,
-+			    &ad3552r_hs_data_source_fops);
-+}
-+
- static int ad3552r_hs_probe(struct platform_device *pdev)
- {
- 	struct ad3552r_hs_state *st;
-@@ -705,7 +806,16 @@ static int ad3552r_hs_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
--	return devm_iio_device_register(&pdev->dev, indio_dev);
-+	ret = devm_iio_device_register(&pdev->dev, indio_dev);
-+	if (ret)
-+		return ret;
-+
-+	mutex_init(&st->lock);
-+
-+	ad3552r_hs_debugfs_init(indio_dev);
-+
-+	return ret;
-+
- }
- 
- static const struct of_device_id ad3552r_hs_of_id[] = {
+Something like this:
 
--- 
-2.49.0
+dma_addr_t dma_map_p2p(struct device *dma_dev, struct device *mmio_dev,
+		       phys_addr_t phys_addr, u8 *unmap_flags, size_t size,
+		       enum dma_data_direction dir, unsigned long attrs);
+void dma_unmap_p2p(struct device *dev, dma_addr_t addr, u8 *unmap_flags,
+		   size_t size, enum dma_data_direction dir,
+		   unsigned long attrs);
 
+Where 'unmap_flags' would have to be carried by the caller between map
+and unmap. mmio_dev is part of the P2P metadata that dma_map_sg gets
+out of the struct page via the pgmap.
+
+unmap_flags is the big challenge, there is not an easy data structure
+to put that u8 as a per-call array into in the DMABUF space. It could
+maybe work not bad for VFIO, but the DRM DMABUF drivers would be a
+PITA to store and this wouldn't be some trivial conversion I could do
+to all drivers in a few hours.
+
+But, the big killer is that such an API would not be suitable for
+performance path, so even DMABUF might not want to use it.
+
+If we start to fix the performance things then we end up back to this
+series's API design where you have the notion of DMA transaction. The
+more of the micro optimizations that this series has the closer the
+APIs will be..
+
+So, IDK, we could make some small painfull progress for VFIO with the
+above, but replacing scatterlist would be off the table, we'd have to
+continue to live with the DMABUF scatterlist abuse, and there is no
+advancement toward a performance struct-page-less DMA API.
+
+Jason
