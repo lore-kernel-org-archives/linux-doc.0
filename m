@@ -1,62 +1,185 @@
-Received: from submarine.notk.org (submarine.notk.org [62.210.214.84])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3D453158DD8
-	for <linux-doc@vger.kernel.org>; Sun, 30 Mar 2025 21:44:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=62.210.214.84
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EAF433C47B
+	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 05:03:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743371065; cv=none; b=Odn2pOfdYohGQNJbdBmCVmeemBJ8WPzFchOTsZQwG/aSj+9EpO8m6HVL+C+InRIECVT/jOnz5/jtpCyzSO+QcHWKav7cIgi3NgmNpDmu96/vZFIZZcz5HN38M31yZavp0JzQ9/Aatf1Mi/iaV2hb2O7vL87fBVd5ED8kU/zpN1k=
+	t=1743397431; cv=none; b=qSN+TZsGQH1NcqFrxZPIL/xQfVg/51SijV1FPVaHEBPU2w3An1hI4cUNLJfk4Xfiji8f0slOvjygxKqOAlGjt0Cw5V4H0aw0JR/6ucy2fO+tO5piY+5dXoM4TBZ/fMcYPTDGd96vYTSna+1Wgmqt0NaLWtNTRm8qoW5XByjBTCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743371065; c=relaxed/simple;
-	bh=SZ6WRaoKVkfmmIq4r41yeU5/s/TtN+62I9qEnm7DKrk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=URma6gGEfCsUmACgEbE+VzYcP+EVOS6U910eW3qJzLhryucl0QDhSp5RcsQBCErt3cJ9ATnCNQq/eSYMcTXTRr1wHvfJFs5ou0KC/pNZAFWq1Whj8M3h2drEA4uRZtQyNkfetmws4ADED6d3SI4DbBQbdVlfTHFazxeO86fyZTM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org; spf=pass smtp.mailfrom=codewreck.org; dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b=kRKQFb21; arc=none smtp.client-ip=62.210.214.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=codewreck.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=codewreck.org
+	s=arc-20240116; t=1743397431; c=relaxed/simple;
+	bh=kM0h3uBUOPgkpJ5JBHLk/JkyxoqZM3lgR27h3GeCfzw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BWvCcY0G6I6rsCVsHX9hBhrR98CfocFKyS66ss+Eqy0nGBek2nIWK/vzbu5vazWpQpfN8VOGlUZHfXqU1lBT1q+X8lNp7DLlDzBR/48aA93YnMO0lKoPf0B+6+NuiqF2CTNPSZVuohfmy9KeFqykUWbYwQyWsjre4+VCdcPikYU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U5P6y/Ob; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ol79eBre; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=U5P6y/Ob; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=ol79eBre; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=codewreck.org header.i=@codewreck.org header.b="kRKQFb21"
-Received: from gaia.codewreck.org (localhost [127.0.0.1])
-	by submarine.notk.org (Postfix) with ESMTPS id 450C914C2D3;
-	Sun, 30 Mar 2025 23:44:14 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=codewreck.org;
-	s=2; t=1743371056;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=S2NWD18Pi/XKnjjTW8jfkZcyjgPN2ddq2BTc6Ta4RCE=;
-	b=kRKQFb21S7QTa7w8BolvG8xCXxyLOOVtytGyv5PAEq7BzDOC5hzagVLfFuJRBlHsvxf+tu
-	2lazdu5/4oJ4VVONzc227FBVeA9VC5vjnHWQycJ4KSp3kJLffCxWcIeP43mpQVDsOW44Mr
-	0dq39AUCNd0Y7aAQQJCOalD0mk9YqddoGulCLkVeOgHf9e/oyXYGc980egCA4lGIZxn5z3
-	E89FROQTIQjaLWDuN1QH3FrXKbfWp8c4zNGZ4bZL75XBQZIHwHCyD9mme6HRRc1sqrpwdT
-	33aJ2dBagTIn0flIuWIPEomsSfydDW+kzg36kmCxuKvW/UEsyy5t2TBXcA9ezA==
-Received: from localhost (gaia.codewreck.org [local])
-	by gaia.codewreck.org (OpenSMTPD) with ESMTPA id 60706726;
-	Sun, 30 Mar 2025 21:44:12 +0000 (UTC)
-Date: Mon, 31 Mar 2025 06:43:57 +0900
-From: Dominique Martinet <asmadeus@codewreck.org>
-To: Tingmao Wang <m@maowtm.org>
-Cc: Eric Van Hensbergen <ericvh@kernel.org>,
-	Latchesar Ionkov <lucho@ionkov.net>,
-	Christian Schoenebeck <linux_oss@crudebyte.com>,
-	v9fs@lists.linux.dev, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: fs/9p: Add missing "not" in cache documentation
-Message-ID: <Z-m7HbVW9m4x1Zp8@codewreck.org>
-References: <20250330213443.98434-1-m@maowtm.org>
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U5P6y/Ob";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ol79eBre";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="U5P6y/Ob";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="ol79eBre"
+Received: from imap1.dmz-prg2.suse.org (unknown [10.150.64.97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id 0439A21186;
+	Mon, 31 Mar 2025 05:03:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743397427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HmWKMkt9Y89ko/jG/wBS1+lg6w+9nyUnY4rWTTkWcsg=;
+	b=U5P6y/OblGif2sfeKs7gdURDx2QiSqsHpDVUm0tAfTsX63gQpJndR9AbbM3rV/zsS7grwu
+	07s2M5y6iRDlkUBx9OMNpMfjJTBPf/633WFKy5PftuZVJUDjTvj0fV18/SyUa9BpnEEe4e
+	gsCoNNtnz687nt/J/ycI+kaNgOg74nw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743397427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HmWKMkt9Y89ko/jG/wBS1+lg6w+9nyUnY4rWTTkWcsg=;
+	b=ol79eBrezz0BNfdcCiv7uwMMnj9X5Pm1AMfd0wp9mf+oCu5BM2DY+KJIJ4SC9ss9y2nfSn
+	W7TwvfWwTB/xMjBA==
+Authentication-Results: smtp-out1.suse.de;
+	none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1743397427; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HmWKMkt9Y89ko/jG/wBS1+lg6w+9nyUnY4rWTTkWcsg=;
+	b=U5P6y/OblGif2sfeKs7gdURDx2QiSqsHpDVUm0tAfTsX63gQpJndR9AbbM3rV/zsS7grwu
+	07s2M5y6iRDlkUBx9OMNpMfjJTBPf/633WFKy5PftuZVJUDjTvj0fV18/SyUa9BpnEEe4e
+	gsCoNNtnz687nt/J/ycI+kaNgOg74nw=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1743397427;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:  content-transfer-encoding:content-transfer-encoding;
+	bh=HmWKMkt9Y89ko/jG/wBS1+lg6w+9nyUnY4rWTTkWcsg=;
+	b=ol79eBrezz0BNfdcCiv7uwMMnj9X5Pm1AMfd0wp9mf+oCu5BM2DY+KJIJ4SC9ss9y2nfSn
+	W7TwvfWwTB/xMjBA==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 02AE813927;
+	Mon, 31 Mar 2025 05:03:44 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id 8TlxKzAi6meTfQAAD6G6ig
+	(envelope-from <ddiss@suse.de>); Mon, 31 Mar 2025 05:03:44 +0000
+From: David Disseldorp <ddiss@suse.de>
+To: Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>
+Cc: linux-fsdevel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	David Disseldorp <ddiss@suse.de>
+Subject: [PATCH] docs: initramfs: update compression and mtime descriptions
+Date: Mon, 31 Mar 2025 16:03:30 +1100
+Message-ID: <20250331050330.17161-1-ddiss@suse.de>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250330213443.98434-1-m@maowtm.org>
+Content-Transfer-Encoding: 8bit
+X-Spam-Level: 
+X-Spamd-Result: default: False [-2.80 / 50.00];
+	BAYES_HAM(-3.00)[100.00%];
+	MID_CONTAINS_FROM(1.00)[];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	R_MISSING_CHARSET(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	MIME_GOOD(-0.10)[text/plain];
+	MIME_TRACE(0.00)[0:+];
+	TO_DN_SOME(0.00)[];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	FROM_EQ_ENVFROM(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	RCPT_COUNT_FIVE(0.00)[5];
+	RCVD_COUNT_TWO(0.00)[2];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	DBL_BLOCKED_OPENRESOLVER(0.00)[suse.de:email,suse.de:mid,imap1.dmz-prg2.suse.org:helo];
+	RCVD_TLS_ALL(0.00)[]
+X-Spam-Score: -2.80
+X-Spam-Flag: NO
 
-Tingmao Wang wrote on Sun, Mar 30, 2025 at 10:34:42PM +0100:
-> A quick fix for what I assume is a typo.
+Update the document to reflect that initramfs didn't replace initrd
+following kernel 2.5.x.
+The initramfs buffer format now supports many compression types in
+addition to gzip, so include them in the grammar section.
+c_mtime use is dependent on CONFIG_INITRAMFS_PRESERVE_MTIME.
 
-Indeed looks like a typo, thank you!
+Signed-off-by: David Disseldorp <ddiss@suse.de>
+---
+ .../early-userspace/buffer-format.rst         | 30 ++++++++++++-------
+ 1 file changed, 19 insertions(+), 11 deletions(-)
 
-Picked this up, I'm getting a PR ready to linux so will send this in the
-next couple of days
+diff --git a/Documentation/driver-api/early-userspace/buffer-format.rst b/Documentation/driver-api/early-userspace/buffer-format.rst
+index 7f74e301fdf35..cb31d617729c5 100644
+--- a/Documentation/driver-api/early-userspace/buffer-format.rst
++++ b/Documentation/driver-api/early-userspace/buffer-format.rst
+@@ -4,20 +4,18 @@ initramfs buffer format
+ 
+ Al Viro, H. Peter Anvin
+ 
+-Last revision: 2002-01-13
+-
+-Starting with kernel 2.5.x, the old "initial ramdisk" protocol is
+-getting {replaced/complemented} with the new "initial ramfs"
+-(initramfs) protocol.  The initramfs contents is passed using the same
+-memory buffer protocol used by the initrd protocol, but the contents
++With kernel 2.5.x, the old "initial ramdisk" protocol was complemented
++with an "initial ramfs" protocol.  The initramfs contents is passed
++using the same memory buffer protocol used by initrd, but the contents
+ is different.  The initramfs buffer contains an archive which is
+ expanded into a ramfs filesystem; this document details the format of
+ the initramfs buffer format.
+ 
+ The initramfs buffer format is based around the "newc" or "crc" CPIO
+ formats, and can be created with the cpio(1) utility.  The cpio
+-archive can be compressed using gzip(1).  One valid version of an
+-initramfs buffer is thus a single .cpio.gz file.
++archive can be compressed using gzip(1), or any other algorithm provided
++via CONFIG_DECOMPRESS_*.  One valid version of an initramfs buffer is
++thus a single .cpio.gz file.
+ 
+ The full format of the initramfs buffer is defined by the following
+ grammar, where::
+@@ -25,12 +23,20 @@ grammar, where::
+ 	*	is used to indicate "0 or more occurrences of"
+ 	(|)	indicates alternatives
+ 	+	indicates concatenation
+-	GZIP()	indicates the gzip(1) of the operand
++	GZIP()	indicates gzip compression of the operand
++	BZIP2()	indicates bzip2 compression of the operand
++	LZMA()	indicates lzma compression of the operand
++	XZ()	indicates xz compression of the operand
++	LZO()	indicates lzo compression of the operand
++	LZ4()	indicates lz4 compression of the operand
++	ZSTD()	indicates zstd compression of the operand
+ 	ALGN(n)	means padding with null bytes to an n-byte boundary
+ 
+-	initramfs  := ("\0" | cpio_archive | cpio_gzip_archive)*
++	initramfs := ("\0" | cpio_archive | cpio_compressed_archive)*
+ 
+-	cpio_gzip_archive := GZIP(cpio_archive)
++	cpio_compressed_archive := (GZIP(cpio_archive) | BZIP2(cpio_archive)
++		| LZMA(cpio_archive) | XZ(cpio_archive) | LZO(cpio_archive)
++		| LZ4(cpio_archive) | ZSTD(cpio_archive))
+ 
+ 	cpio_archive := cpio_file* + (<nothing> | cpio_trailer)
+ 
+@@ -75,6 +81,8 @@ c_chksum      8 bytes		 Checksum of data field if c_magic is 070702;
+ The c_mode field matches the contents of st_mode returned by stat(2)
+ on Linux, and encodes the file type and file permissions.
+ 
++c_mtime is ignored unless CONFIG_INITRAMFS_PRESERVE_MTIME=y is set.
++
+ The c_filesize should be zero for any file which is not a regular file
+ or symlink.
+ 
 -- 
-Dominique
+2.43.0
+
