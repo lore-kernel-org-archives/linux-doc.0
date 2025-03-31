@@ -1,183 +1,83 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from kylie.crudebyte.com (kylie.crudebyte.com [5.189.157.229])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0AB3D3FFD
-	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 06:50:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D5DE1CAA87;
+	Mon, 31 Mar 2025 08:35:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.189.157.229
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743403803; cv=none; b=TKVcXXk554HdE2wqbl6vHzz3zvhLT/4blqwvu1kluk6JVoMXPusJw4DOl8AhvbQmi9WHC7AkB0auantIpxIIqgP7EWp6j+S7manBL7H7b2LbhDjr6dC3svRn9132Vrrb4/l7l8h633fzc8iG6UA45ZUjyuanRIDRYFdI/Ign8jU=
+	t=1743410113; cv=none; b=iW5FQI9AnPKGEcQNVzT5OXel/hBpcqM63J54ynN83pArF/d07K6iJ+R3vjyZNoBXEK/hqen6FRO9U1S+UOhTOsPtXPRyuOBj3ZDlaqJKskrOIzrYQ0VA/5vtxEy3WJdFwHyuhdv4zRv54PLZr7B8xbeRF196NgzylinZvtQgRls=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743403803; c=relaxed/simple;
-	bh=D3O5imBHUYGS5OxjuAF0+hlyxeWodMwjvFTbgrjbpe4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=hEz9TwhGdJBGBfPRlbs1fb2fUVI1IFSeS7wy2aCTOQVyKG/FlsHTKkkzr3TFsRGx/wbeVrhZ8CBmCaJwlHQDN165Eeb5+49X3vnEr6e1zMe2SHYEuBeeZ9j8tvSgL6qD+xNcZ6iyJqv4GFMVaj7KuSELoErQPrtx46TL2C6Bu9w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dMONIVjP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=09wHGfdY; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=dMONIVjP; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=09wHGfdY; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
+	s=arc-20240116; t=1743410113; c=relaxed/simple;
+	bh=pXyTOxQ6Zf+1HXKG0wsfG1ed/KhRNifgCxb817XNzfk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=p6/cH+BewGmhzzr/uS6vjqFJyYFcNVpso8oWdOob1A6MRgHtskd4UGb/r+Pi5Q9NjagBbMNPpx4OAAWOWnhqoTrm5fT5BORwISIUTO4Ii8C7NuANDDxsXNDdU9rFyYFlAWX8wN11KqICrzftn0A8BwQYcCbGsBF83C9TRVPoA10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com; spf=pass smtp.mailfrom=crudebyte.com; dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b=VZJjLreK; arc=none smtp.client-ip=5.189.157.229
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=crudebyte.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=crudebyte.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dMONIVjP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="09wHGfdY";
-	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="dMONIVjP";
-	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="09wHGfdY"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id F417C21197;
-	Mon, 31 Mar 2025 06:49:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743403800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VPyRbVbHSj/XyzZeopPN7997hVKl+H5ekbnEEyjfIJ8=;
-	b=dMONIVjP1JvnMtyCaXJz14Doc1kvCQrENwA6aJevbGuvONuUHllbojuoNi3EBgzXYcPtrC
-	fF8cBDvhYBViCNzonwjDpmmqCwadnslTf4Rw72C6vqJsvRTaDNN3vr8xKiTvTwcFCGwmxG
-	2S5AjRuVa+V5aRhb6n4ZTRb/lCdT1nc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743403800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VPyRbVbHSj/XyzZeopPN7997hVKl+H5ekbnEEyjfIJ8=;
-	b=09wHGfdYBGhExkIK3F9fic1Vec8G4MNx2hedWYJHCZXFey0Ign0shr6r4V2V177ZMMc4dv
-	WimDb9Ct9rEij6CQ==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=dMONIVjP;
-	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=09wHGfdY
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
-	t=1743403800; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VPyRbVbHSj/XyzZeopPN7997hVKl+H5ekbnEEyjfIJ8=;
-	b=dMONIVjP1JvnMtyCaXJz14Doc1kvCQrENwA6aJevbGuvONuUHllbojuoNi3EBgzXYcPtrC
-	fF8cBDvhYBViCNzonwjDpmmqCwadnslTf4Rw72C6vqJsvRTaDNN3vr8xKiTvTwcFCGwmxG
-	2S5AjRuVa+V5aRhb6n4ZTRb/lCdT1nc=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
-	s=susede2_ed25519; t=1743403800;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=VPyRbVbHSj/XyzZeopPN7997hVKl+H5ekbnEEyjfIJ8=;
-	b=09wHGfdYBGhExkIK3F9fic1Vec8G4MNx2hedWYJHCZXFey0Ign0shr6r4V2V177ZMMc4dv
-	WimDb9Ct9rEij6CQ==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id ED3C3139A1;
-	Mon, 31 Mar 2025 06:49:57 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id sLjWKBU76mcjHAAAD6G6ig
-	(envelope-from <ddiss@suse.de>); Mon, 31 Mar 2025 06:49:57 +0000
-Date: Mon, 31 Mar 2025 17:49:51 +1100
-From: David Disseldorp <ddiss@suse.de>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner
- <brauner@kernel.org>, linux-fsdevel@vger.kernel.org,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs: initramfs: update compression and mtime
- descriptions
-Message-ID: <20250331174951.7818afb1.ddiss@suse.de>
-In-Reply-To: <39c91e20-94b2-4103-8654-5a7bbb8e1971@infradead.org>
-References: <20250331050330.17161-1-ddiss@suse.de>
-	<39c91e20-94b2-4103-8654-5a7bbb8e1971@infradead.org>
+	dkim=pass (4096-bit key) header.d=crudebyte.com header.i=@crudebyte.com header.b="VZJjLreK"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:
+	Content-ID:Content-Description;
+	bh=aT2V1sz8yLOA2w9EOGsMnfr5x7JQjaboWZRV6dDfBQg=; b=VZJjLreK1D9Pm42wOj1fZN44cs
+	Rw+eXh9HAnvgpXyqcC5g4QUr1vMjuPFKhlhx2cvUR9o3p/XqK8oyDP+UlApIBaJsYiXhcHHHfaGsh
+	7BEG2B5ps956Jfk7Uv9ShhYvB/s0ezJJ/uYwnRvNkawhdd61siPeukFi8e4cHPOvflv4mStnp/VSF
+	PGQCA4qnA62TV/u6DRz9ah99gzVc64momajJ4JTyVPUo1hvrUSeNR2OMrf7o4MtWn+M23VscyrHC7
+	ICmzHnLq80L9M8Qj55kRbGX+KqwEgW/tGg525PI1fx0z97mOwzC3yEfZu/i+QkAPwaZV96VEEcbFG
+	mHfyJyj8qiOHOQmXs0ETzcJAE0k/GP21XuCA8IMY0voys9EPH2bTmWqAr+Snn3ZvRi1GntDhXjDb3
+	W9edBR0S3QusjEQEDFjXiHNx+/X9/PPc7qlSAD+CMrX4oqa3o/nFog384HJA340z7q3iMNnDqFxgv
+	QbytMfETgQnAWwMueJ3gvsOoj+TsSG1M8pkzUXdujGZ2zYob1i9nsW5uD8XRzbVz0prHDnVFPygHp
+	5pOZym+boZ0VM8p2b/XIu0uq0VI3JFnAXl8mfPDXvsLnk2hm3djVqAcF2zExOLuZr8WRQJriOvWHY
+	zdfo5kkPf9Y+0fiK4ooel/Jq3u2BIQZKDuNQXdVck=;
+From: Christian Schoenebeck <linux_oss@crudebyte.com>
+To: Eric Van Hensbergen <ericvh@kernel.org>,
+ Latchesar Ionkov <lucho@ionkov.net>,
+ Dominique Martinet <asmadeus@codewreck.org>, Tingmao Wang <m@maowtm.org>,
+ v9fs@lists.linux.dev
+Cc: linux-doc@vger.kernel.org
+Subject: Re: [PATCH] docs: fs/9p: Add missing "not" in cache documentation
+Date: Mon, 31 Mar 2025 09:54:09 +0200
+Message-ID: <36322483.C5m3dU8G8V@silver>
+In-Reply-To: <20250330213443.98434-1-m@maowtm.org>
+References: <20250330213443.98434-1-m@maowtm.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: F417C21197
-X-Spam-Level: 
-X-Spamd-Result: default: False [-3.51 / 50.00];
-	BAYES_HAM(-3.00)[100.00%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	MID_CONTAINS_FROM(1.00)[];
-	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	MIME_TRACE(0.00)[0:+];
-	ARC_NA(0.00)[];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	TO_DN_SOME(0.00)[];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	RCVD_TLS_ALL(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	RCPT_COUNT_FIVE(0.00)[5];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	MISSING_XM_UA(0.00)[];
-	ASN(0.00)[asn:25478, ipnet:::/0, country:RU];
-	DKIM_TRACE(0.00)[suse.de:+];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:helo,imap1.dmz-prg2.suse.org:rdns,suse.de:email,suse.de:dkim,suse.de:mid]
-X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
-X-Rspamd-Action: no action
-X-Spam-Score: -3.51
-X-Spam-Flag: NO
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 
-Thanks for the feedback, Randy...
-
-On Sun, 30 Mar 2025 22:13:19 -0700, Randy Dunlap wrote:
-
-> Hi,
+On Sunday, March 30, 2025 11:34:42 PM CEST Tingmao Wang wrote:
+> A quick fix for what I assume is a typo.
 > 
-> On 3/30/25 10:03 PM, David Disseldorp wrote:
-> > Update the document to reflect that initramfs didn't replace initrd
-> > following kernel 2.5.x.
-> > The initramfs buffer format now supports many compression types in
-> > addition to gzip, so include them in the grammar section.
-> > c_mtime use is dependent on CONFIG_INITRAMFS_PRESERVE_MTIME.
-> > 
-> > Signed-off-by: David Disseldorp <ddiss@suse.de>
-> > ---
-> >  .../early-userspace/buffer-format.rst         | 30 ++++++++++++-------
-> >  1 file changed, 19 insertions(+), 11 deletions(-)
-> > 
-> > diff --git a/Documentation/driver-api/early-userspace/buffer-format.rst b/Documentation/driver-api/early-userspace/buffer-format.rst
-> > index 7f74e301fdf35..cb31d617729c5 100644
-> > --- a/Documentation/driver-api/early-userspace/buffer-format.rst
-> > +++ b/Documentation/driver-api/early-userspace/buffer-format.rst
-> > @@ -4,20 +4,18 @@ initramfs buffer format
-> >  
-> >  Al Viro, H. Peter Anvin
-> >  
-> > -Last revision: 2002-01-13
-> > -
-> > -Starting with kernel 2.5.x, the old "initial ramdisk" protocol is
-> > -getting {replaced/complemented} with the new "initial ramfs"
-> > -(initramfs) protocol.  The initramfs contents is passed using the same
-> > -memory buffer protocol used by the initrd protocol, but the contents
-> > +With kernel 2.5.x, the old "initial ramdisk" protocol was complemented
-> > +with an "initial ramfs" protocol.  The initramfs contents is passed  
-> 
->                                                              are passed
-> 
-> > +using the same memory buffer protocol used by initrd, but the contents
-> >  is different.  The initramfs buffer contains an archive which is  
-> 
->   are different.
+> Signed-off-by: Tingmao Wang <m@maowtm.org>
+> ---
 
-I've not really changed those sentences with this patch, so I don't mind
-if they stay as is, or switch "contents" to "content" or "is" to "are".
+Reviewed-by: Christian Schoenebeck <linux_oss@crudebyte.com>
 
-> >  expanded into a ramfs filesystem; this document details the format of
-> >  the initramfs buffer format.  
+>  Documentation/filesystems/9p.rst | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Don't use "format" 2 times above.
+> diff --git a/Documentation/filesystems/9p.rst b/Documentation/filesystems/9p.rst
+> index 2bbf68b56b0d..c9f0274c808e 100644
+> --- a/Documentation/filesystems/9p.rst
+> +++ b/Documentation/filesystems/9p.rst
+> @@ -165,8 +165,8 @@ Options
+>  		do not necessarily validate cached values on the server.  In other
+>  		words changes on the server are not guaranteed to be reflected
+>  		on the client system.  Only use this mode of operation if you
+> -		have an exclusive mount and the server will modify the filesystem
+> -		underneath you.
+> +		have an exclusive mount and the server will not modify the
+> +		filesystem underneath you.
+>  
+>    debug=n	specifies debug level.  The debug level is a bitmask.
+>  
+> 
+> base-commit: 38fec10eb60d687e30c8c6b5420d86e8149f7557
+> 
 
-This is also not changed by the patch. I'm happy to send a v2 or have
-these clean-ups squashed in when applied. Will leave it up to the
-maintainers.
+
