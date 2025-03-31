@@ -1,99 +1,75 @@
-Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com [209.85.208.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 55950211476
-	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 19:10:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93369156F3C
+	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 19:12:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743448254; cv=none; b=P+8qxk1nCaz0Wyx6PP/j55Bbjm+aNsQd7M6jBHtfKGsczEBfKMvkISHXjlJK/SuEPC5ZNm7u2ldQs9OcVQhXUbaNfqE8hGcHmFETbBlHnTbyRGjLYMBzydZHSgeHw31aEFwUXXvkHyRpHL4RzRo5Qn03iGZjmQajSwdJz4wpr9M=
+	t=1743448365; cv=none; b=nlVpexfLmShq90TAyxson8VlhnwOwobP/hWA6IAMoHII9DMZF06iD0YkjmBXhGwGkY+yduK/DfqdXVG/6jydGiq9mA84O7lw0oxt8o5F3QxpCfQMBxmftJNE5H35A/2ypSo/TBm6vxUENV86f45CG36vVNDTLFyzgIBkR00QD6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743448254; c=relaxed/simple;
-	bh=YZzEwSKb0kqBKb0A2H4+zAX/AS8Wvht4a2tMV6ys5+Y=;
+	s=arc-20240116; t=1743448365; c=relaxed/simple;
+	bh=FynjO+wyrDxQU76r4XZQPeVNoSz6E2PDqYfEE2ZRHJ8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ju/gT0tvXppVVdWw6E+XmlvqkPBOVpyagTHnLKrTAwSxV/Uw3zMjAh6HaewvR3nzMuJJIcHTIoW2I3+L0LQUOlCBoOrYoMETkSscCed0zyaA0ZoONFceXqsbN5GaK5dEFN1k6eOsQoflV1lekMeQKYd8jeAM+zcAeV/S4CwpZS4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=lx5B0Y7s; arc=none smtp.client-ip=209.85.219.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	 Content-Type:Content-Disposition:In-Reply-To; b=YzAXFD792Mb8r21iU4I50Fn4IavfhbujmtfQxKN6lr7F9wJ6T2js3K7GrJrE9xyB7x5JLVt8uNtRgxVWm7kbxw8zVzYyWpxx7zRwJoywBbF2wjXwjc+6+pbcvKBubIQq5QY6cL5EKdAebOwID++klb/eqNvWL7YEvfytPdMKQn0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=Oc7nN89G; arc=none smtp.client-ip=209.85.208.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="lx5B0Y7s"
-Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-6e8fd49b85eso72454736d6.0
-        for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 12:10:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="Oc7nN89G"
+Received: by mail-ed1-f47.google.com with SMTP id 4fb4d7f45d1cf-5e60cfef9cfso7629048a12.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 12:12:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1743448251; x=1744053051; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743448362; x=1744053162; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dt32gY7PII308zLmCJyd2JbPBk7pRfyqNOcGW9IblNM=;
-        b=lx5B0Y7sjuoNzd1d9i0ULXlJuFWlw50miz8KET6BzT5VFVWlzWti1qBXbQ3xuU4G7S
-         A0CO1k0tWEEysAcdeEJMmzTgXuug9Tc1daOkdBpqiD2jzT05mPtSNgKzPH2cZV9ahGwA
-         A7g/fFs7CmBaUimn9ZX52UpMrKMpVDrJPCb+HdorFxqJYgVhyTyJ9PoymkPKE5o2pFMe
-         CDhKqsIjTiKcHwVBYWLXeoJLL+e/Lnx7AwpRGoqh8/hUOocZ4Hnsld1GswY2P9cgw/QC
-         qxiFtbgZADqRhS0k/V/eVWP6yr4EleWUUOGLhuJfQuoPs10ZrsL7SnyaUgZ0R6HTG4q0
-         i/4w==
+        bh=i+ZQnQ80R0WMIpJCwElOQwANooBm/ZMxuRWkUPoDmbE=;
+        b=Oc7nN89G7mR9CQfkxfeTaBdk5PXyUvZkWZIuw+hSuujjn6U51vg1udHPLNPPTHvANL
+         riy07Jgg4RR3yKlxH3mmBn8DKandeQPb4XZCAl0jZOqsN9pe/zDbf8w6heRSTAOGO7pC
+         nEZeoBFlx20vLc6VrLb41ivr/UDYiXvMDMXxjHnAvcs7OlbJXeziAQl+9jL/hZ5FNuyI
+         GT0XxmxcnnvW81mh11S45ISIz9gLXC7UPHSWkYlT3vEsgsqRBQSwLODR0OML014S1MDX
+         y2Q+5WdU9Taojmwg+5cWuD+qaSdaSWD1rl2/e7uQ1QBqPSatAi8ECacrjM/NodYQjMZH
+         c7qQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743448251; x=1744053051;
+        d=1e100.net; s=20230601; t=1743448362; x=1744053162;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Dt32gY7PII308zLmCJyd2JbPBk7pRfyqNOcGW9IblNM=;
-        b=SnZPZHIjLW1AIPX5S3muDnNk1TcjwwSLborL2FC7QrY3SKBqoZ2r1eknsM4QECkWV4
-         AcXAzhOPyfEM/oHDr0RTpOyFkFQbeGpq+KrnYeg0+gcjOMZoLZ+Sh/Ky79K56MMoxqbS
-         vrtAovKPqibQdcBxxIXeL5znHjCI5P4Eo+/cGQ4qYzEep/HiA/KHqF9NBoIIuuN4y1jA
-         SXAqjYc8kxmKZ0jgQWCphQCD63OLeOllRt8lYHNVsg0MN7WT7T7R3r9lmX2jB0ChfJDK
-         IiV0RWTbw+jHaVzfayLnTOoRDBi+wVlzc98SHm5S18lwjm67LjFuTOIMEpzyRyh0tBJ/
-         TS/g==
-X-Forwarded-Encrypted: i=1; AJvYcCVU0/BXdxb4gkVhDtmoWeWsS5All0jNJ6g5gN7vOSbHfYwKEy7795ZEEbpyhemWVClpyvfOGdNwMbs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwD99MvIxEk9qHaAGGL9oGvEQFIQsodTqBhjc8olIy3fVVsNkb0
-	YN+RVeOf4SLlL6Q4T9eVD13nLDuRJlV4YOMKQ0yZ2nAcrKVqarZae9u5NRnvLqc=
-X-Gm-Gg: ASbGnctZDv/vEoSKDwxCobKe6+kGHwYIG3XrReiySIR7K8ruLFcdVvwk08d9QbvlbpL
-	gqMJ7b7CF3ksy4G57cY52Yoft2uMcGTtnqb68T1yjPEseer6Phfa3q3qnF3CwUx1UClgk02g1NT
-	vqTXhaSpJ9V5H3pHN+MD5l2WqpY/1aL+j7GJH2LpGghb3HwaqulsCTbJrZLSkWoJexVO2z3XLUN
-	UV3BynUFTeyIKocMsA3RownQsleT2uTaByxx19ZP//hDxFxhX+zrmPeQSRexR6sawIBdEuYrJz3
-	+HP0OJWUnamGR4c61fCQPKMeNv7mUJpSflp595p6ZEuDH9UIajK+fmXNmWPGKPclT3tTWxs9wP4
-	p2vTJEvQRs5VVGQN11kj6BB0=
-X-Google-Smtp-Source: AGHT+IEZHkY9cceG9Xv7rEu7PB72dn7pTp6BwVJLHoJ1MHilW0TdQewa+AGCIOjjtFFGEUJX/PJSGA==
-X-Received: by 2002:a05:6214:19cd:b0:6df:99f7:a616 with SMTP id 6a1803df08f44-6eed5f4e587mr150303596d6.2.1743448250916;
-        Mon, 31 Mar 2025 12:10:50 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6eec9797136sm49986056d6.103.2025.03.31.12.10.50
+        bh=i+ZQnQ80R0WMIpJCwElOQwANooBm/ZMxuRWkUPoDmbE=;
+        b=ImaMaD9eRSSFNTNigAe84LRun90+uLSVPVdII4jRWVTHbIR1b/0FAt31Od8qi3rILT
+         3dO8ZU7c164vYHhMkxUqowjxA2OlM0EMcSY1etwScOec6zTMgYwwquSQyNsSMOQnHv7z
+         4spXKkJoRmTSa6bd2RFf1QoeGCCZg48S4P2i5UOYDIRf/gH+flABb1xV/X6+5md8LJcD
+         d1jr4r1rlZtpCHhjx7FzkOgVKNDZf2wOGrzXy43t4r/CO4jOdd1AZGxqTOeRJxbrrMQU
+         4GY8eRDT/YbRQWR1px9WVT6jd9ivHJEkacNT+hnw+umPB6euGLpX3PzhbaosCeG1s9ue
+         OR8Q==
+X-Forwarded-Encrypted: i=1; AJvYcCXiFs3ebbvufPOkTjP8aHket3NwLLDrdTyvrHXSW8+lnHI6vmWlRw6AeD5UJfKSvbxqrspSahwSADU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxd3IitIlVkn3yKkALv4I+rTQ0jn4mp4X1sDdPWQzWQBxbClbCG
+	OjNNlHv1Lx0oExAuBlFH3YJkHVjiOkvBn1niZivvH9N19IcECeQhDgxHzXAyLNbE2zqN+YRmqsi
+	8
+X-Gm-Gg: ASbGnctslCbJtrDbiOcb9qfZMtNNYlAVKFlTwZAy1afpYCkno1vCITCGEyRQzCzqxlB
+	6KLzCs7DPNr0/W+4PL83b1sWUPFJPVmJii6zR54vXXe6QYc9PUT8iYj/Prq/ZJ8A8+UQWTlUHwz
+	TF2HVZQMzyMV9wpI9PtTTqjJwyp6NHb4ZUXMiou/RT7GOMm1TQC1poge9LcjK1G30+oAtshG8ne
+	JNf+uj6X8nXpbJ9a7iBqW4FJGv19dn3uc4kI6s1K4PBZwMtkvYzTwk1RsB0DWvCwOJCA5/vgZG1
+	Vk2hPqX+W0ZXnKx3gVpQ1gcnCBsxC/W7cQeoSWV9lCwfUolhFVftq3IUu7DMhmUFP1jrQ5rk3jL
+	qO4fihssqAr5CMeT25J8LjjU=
+X-Google-Smtp-Source: AGHT+IHYlyt8xY0epQjTlOCW+TVkJ9R/yks8RK5qvgPhFcudpqb9LYxazj5SPyj/oXKpLpHkVhq25A==
+X-Received: by 2002:a17:907:7e82:b0:ac1:e332:b1f5 with SMTP id a640c23a62f3a-ac738b61c9cmr1026985366b.37.1743448361779;
+        Mon, 31 Mar 2025 12:12:41 -0700 (PDT)
+Received: from archlinux (host-80-116-51-172.pool80116.interbusiness.it. [80.116.51.172])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac76fa520absm145764166b.112.2025.03.31.12.12.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Mar 2025 12:10:50 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1tzKX3-00000001EjT-33eb;
-	Mon, 31 Mar 2025 16:10:49 -0300
-Date: Mon, 31 Mar 2025 16:10:49 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Marek Szyprowski <m.szyprowski@samsung.com>
-Cc: Leon Romanovsky <leon@kernel.org>, Robin Murphy <robin.murphy@arm.com>,
-	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org, linux-mm@kvack.org,
-	Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
-Message-ID: <20250331191049.GB186258@ziepe.ca>
-References: <20250220124827.GR53094@unreal>
- <CGME20250228195423eucas1p221736d964e9aeb1b055d3ee93a4d2648@eucas1p2.samsung.com>
- <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
- <d408b1c7-eabf-4a1e-861c-b2ddf8bf9f0e@samsung.com>
- <20250312193249.GI1322339@unreal>
- <adb63b87-d8f2-4ae6-90c4-125bde41dc29@samsung.com>
- <20250319175840.GG10600@ziepe.ca>
- <1034b694-2b25-4649-a004-19e601061b90@samsung.com>
- <20250322004130.GS126678@ziepe.ca>
- <c916a21e-2d95-476d-9895-4d91873fc5d5@samsung.com>
+        Mon, 31 Mar 2025 12:12:41 -0700 (PDT)
+Date: Mon, 31 Mar 2025 21:11:30 +0200
+From: Angelo Dureghello <adureghello@baylibre.com>
+To: Jonathan Cameron <jic23@kernel.org>
+Cc: Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>, 
+	Olivier Moysan <olivier.moysan@foss.st.com>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] iio: ad3552r-hs: add support for internal ramp
+ generator
+Message-ID: <ucmb7wfkovo6mssmmrx4fmfv2hliulshjhob4efz2phczbnu74@3xphjz5schp4>
+References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
+ <20250330175350.6cebf779@jic23-huawei>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -102,49 +78,70 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <c916a21e-2d95-476d-9895-4d91873fc5d5@samsung.com>
+In-Reply-To: <20250330175350.6cebf779@jic23-huawei>
 
-On Fri, Mar 28, 2025 at 03:18:39PM +0100, Marek Szyprowski wrote:
+Hi Jonathan,
 
-> What kind of a fix is needed to dma_map_resource()/dma_unmap_resource() 
-> API to make it usable with P2P DMA? It looks that this API is closest to 
-> the mentioned dma_map_phys() and has little clients, so potentially 
-> changing the function signature should be quite easy.
+On 30.03.2025 17:53, Jonathan Cameron wrote:
+> On Fri, 21 Mar 2025 21:28:47 +0100
+> Angelo Dureghello <adureghello@baylibre.com> wrote:
+> 
+> > Add support to enable the HDL IP core internal ramp generator,
+> > actually managed by the adi-axi-dac backend. 
+> 
+> What is it for?  Circuit testing or something else?
+> We have in the past had pattern generators in IIO (currently under
+> frequency drivers, though I'm not sure what we have in the way of
+> waveforms in the stuff outside staging) so I'd like to be sure
+> this is about debug rather than a pattern that is actually expected
+> to be useful.
+> 
 
-I looked at this once, actually it was one of my first ideas to get
-the VFIO DMABUF side going. I gave up on it pretty fast because of how
-hard it would be to actually use..
+Sorry form some reason seen this too late, just sent a v2.
 
-Something like this:
+Anyway, the signal is a tooth wave at 280Hz, not sure that pattern
+can be of any use except for some dabug cases, or noise tests.
 
-dma_addr_t dma_map_p2p(struct device *dma_dev, struct device *mmio_dev,
-		       phys_addr_t phys_addr, u8 *unmap_flags, size_t size,
-		       enum dma_data_direction dir, unsigned long attrs);
-void dma_unmap_p2p(struct device *dev, dma_addr_t addr, u8 *unmap_flags,
-		   size_t size, enum dma_data_direction dir,
-		   unsigned long attrs);
 
-Where 'unmap_flags' would have to be carried by the caller between map
-and unmap. mmio_dev is part of the P2P metadata that dma_map_sg gets
-out of the struct page via the pgmap.
+Regards,
+angelo
 
-unmap_flags is the big challenge, there is not an easy data structure
-to put that u8 as a per-call array into in the DMABUF space. It could
-maybe work not bad for VFIO, but the DRM DMABUF drivers would be a
-PITA to store and this wouldn't be some trivial conversion I could do
-to all drivers in a few hours.
-
-But, the big killer is that such an API would not be suitable for
-performance path, so even DMABUF might not want to use it.
-
-If we start to fix the performance things then we end up back to this
-series's API design where you have the notion of DMA transaction. The
-more of the micro optimizations that this series has the closer the
-APIs will be..
-
-So, IDK, we could make some small painfull progress for VFIO with the
-above, but replacing scatterlist would be off the table, we'd have to
-continue to live with the DMABUF scatterlist abuse, and there is no
-advancement toward a performance struct-page-less DMA API.
-
-Jason
+> Jonathan
+> 
+> > 
+> > It works this way:
+> > 
+> > /sys/bus/iio/devices/iio:device0# echo 1 > buffer0/out_voltage0_en 
+> > /sys/bus/iio/devices/iio:device0# echo 1 > buffer0/out_voltage1_en                                           
+> > /sys/bus/iio/devices/iio:device0# echo 1 > buffer0/enable 
+> > 
+> > Activating ramp generator:
+> > 
+> > /sys/kernel/debug/iio/iio:device0# echo -n backend-ramp-generator > data_source
+> > 
+> > Deactivating:
+> > 
+> > /sys/kernel/debug/iio/iio:device0# echo -n iio-buffer > data_source
+> > 
+> > Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
+> > ---
+> > Angelo Dureghello (4):
+> >       docs: iio: add documentation for ad3552r driver
+> >       iio: backend: add support for data source get
+> >       iio: dac: adi-axi-dac: add data source get
+> >       iio: dac: ad3552r-hs: add support for internal ramp
+> > 
+> >  Documentation/iio/ad3552r.rst      |  65 +++++++++++++++++++++++
+> >  Documentation/iio/index.rst        |   1 +
+> >  MAINTAINERS                        |   1 +
+> >  drivers/iio/dac/ad3552r-hs.c       | 106 ++++++++++++++++++++++++++++++++++---
+> >  drivers/iio/dac/adi-axi-dac.c      |  27 ++++++++++
+> >  drivers/iio/industrialio-backend.c |  28 ++++++++++
+> >  include/linux/iio/backend.h        |   5 ++
+> >  7 files changed, 227 insertions(+), 6 deletions(-)
+> > ---
+> > base-commit: eb870a5af7db1e5ca59330875125230b28e630f9
+> > change-id: 20250321-wip-bl-ad3552r-fixes-4a386944c170
+> > 
+> > Best regards,
+> 
