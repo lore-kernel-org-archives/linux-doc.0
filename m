@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DBDD821516E;
-	Mon, 31 Mar 2025 14:34:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91A4A21A440;
+	Mon, 31 Mar 2025 14:34:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743431658; cv=none; b=fkC4CrNcqdPtHATPVYSyeh1KWAFu+8OqqHb6kb3K/dEF8xEeCRiohqphQLDpQnpfVzCx9kzJPgYoNg2HGcAxNOJMgvly3YbjRf5BGyp71oAkP2lDFthY5O4q3d8/oU5PIrWvvZdVY1evtZbKBcy+OUuQCZO03/mKQG8wEUC5/y4=
+	t=1743431698; cv=none; b=G2GCDNLyAvoSx9ohLyZQ2JVSG16RED9pd26dvlNEM9vtssEbvbJPeZX//Qlmm7oA9sQ1kvge+/MGfa1CR4AHjZyBL4ijTB+zLfE/Ys5m4BMt4Vr6v2qJ0nM9q5aN5jg1Iwn/E8MXMrplAn9SlTxY9gp07u1EBjHfV+Y0MhkzOYE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743431658; c=relaxed/simple;
-	bh=Sod3UEvmQzflWu9AcZV6qGlMGbbHJP/efdLxBV3kV2A=;
+	s=arc-20240116; t=1743431698; c=relaxed/simple;
+	bh=4lFmDVlO5QQIKxlq97M+xkBou2knFsS2ZM+0LhTToB4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=u401Ikkr7pCG+TWihMqu8burUcBU4oltNg2ojLPiS0s/OylnpzZWbuNiyHDrnHYFMxZP7yyGmCYp5VeIF/K+SUzvVVhR6CtCix59Sz4uLXYgetj2Sco0PtWmXbTbGUkHb6iOkOnpSnZWCoPFh12Ajy7edsB2SYx9rL6/hiGvYCE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cY6wyoAY; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=UgU7tYmSTEAEG2/TYQppnxMBXGQZdWDH2bc3IOguN9tNmdDEG3KWqoXChLN/UIRgpIlsmV8Ov2VJjXtrKO4Lat3eaodRC7gs6AKvNPEmePnFFmpb1y6P9DSNCIL+ONWEQ8vQghwKppFfhuS8jE5FuPA2+m03ssOaiTndgnjqtmo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TjNjnNb4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cY6wyoAY"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 75CEAC4CEE3;
-	Mon, 31 Mar 2025 14:34:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TjNjnNb4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D241DC4CEE4;
+	Mon, 31 Mar 2025 14:34:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743431657;
-	bh=Sod3UEvmQzflWu9AcZV6qGlMGbbHJP/efdLxBV3kV2A=;
+	s=k20201202; t=1743431698;
+	bh=4lFmDVlO5QQIKxlq97M+xkBou2knFsS2ZM+0LhTToB4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=cY6wyoAY/YuBNrCCZB5nd49C+wp4blJL4InIVCIERZ41E3OBMYfrCBd779xNj/9m+
-	 nCsFrDmJLbWvdYYi+F8fES2CJCoXU7Ys0zwAhWYWVJ5rEUHJIGBvagICItcgGZ/AKw
-	 Act/DKNaZU+lQDu2AteBCfT9NTFBYTlw/qCOcoyXk5O5jjPSgjkK+pkPLlit+NCKAh
-	 Q6an+BXybMm+IyvgdjYymWE3A/3M6hiuuyWnj44rWzssZJBCFvLnEIDR65RfruXHf+
-	 SMBjIaH7dBmBiko9mgXzOBq5AnkKraewiSAmjdZB9Mk1GovGLPiOdJHejhLwBwZf0s
-	 MPW3hPBs58ZFg==
+	b=TjNjnNb4zO2+XU55a9rZrU/9lq+MNB0fu8WEA1MTp/Lhk4Xty52wop7pwtQNBhfA6
+	 2oiUGqcZ1wYLMw/GymyJq1o4rF1ovka6aDlclYdr5j58S/6WBiPFmD4mssm7vUVA3X
+	 +o8WepcrInuVJIu+rHVQeEIBDHS5tmAe630L1cvBzYcNoNgAm/ieoNX+5n1js6geNP
+	 Eu2tj14T4TquKXZiN2M02LuP3R2jcOdYNZWi1Kd/RaQyJmSegWa+CjIJMu+L+5lJ+a
+	 Wek9CNZNFn0OquMP0dIPkM6ptexPvybGCQdW7I5eh6WavMyYx9bLcQckGqk4V6cctc
+	 4DHxnL3HC2ZPg==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -38,12 +38,12 @@ Cc: Dmitry Osipenko <dmitry.osipenko@collabora.com>,
 	corbet@lwn.net,
 	linux-arm-kernel@lists.infradead.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 03/18] irqchip/gic-v3: Add Rockchip 3568002 erratum workaround
-Date: Mon, 31 Mar 2025 10:33:53 -0400
-Message-Id: <20250331143409.1682789-3-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 03/16] irqchip/gic-v3: Add Rockchip 3568002 erratum workaround
+Date: Mon, 31 Mar 2025 10:34:37 -0400
+Message-Id: <20250331143450.1685242-3-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250331143409.1682789-1-sashal@kernel.org>
-References: <20250331143409.1682789-1-sashal@kernel.org>
+In-Reply-To: <20250331143450.1685242-1-sashal@kernel.org>
+References: <20250331143450.1685242-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,7 +52,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14
+X-stable-base: Linux 6.13.9
 Content-Transfer-Encoding: 8bit
 
 From: Dmitry Osipenko <dmitry.osipenko@collabora.com>
@@ -80,10 +80,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  3 files changed, 33 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/arch/arm64/silicon-errata.rst b/Documentation/arch/arm64/silicon-errata.rst
-index f074f6219f5c3..f968c13b46a78 100644
+index b42fea07c5cec..ab87b3499b386 100644
 --- a/Documentation/arch/arm64/silicon-errata.rst
 +++ b/Documentation/arch/arm64/silicon-errata.rst
-@@ -284,6 +284,8 @@ stable kernels.
+@@ -283,6 +283,8 @@ stable kernels.
  +----------------+-----------------+-----------------+-----------------------------+
  | Rockchip       | RK3588          | #3588001        | ROCKCHIP_ERRATUM_3588001    |
  +----------------+-----------------+-----------------+-----------------------------+
@@ -93,10 +93,10 @@ index f074f6219f5c3..f968c13b46a78 100644
  | Fujitsu        | A64FX           | E#010001        | FUJITSU_ERRATUM_010001      |
  +----------------+-----------------+-----------------+-----------------------------+
 diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
-index 940343beb3d4c..3e7483ad5276c 100644
+index 100570a048c5e..4531ed216d50c 100644
 --- a/arch/arm64/Kconfig
 +++ b/arch/arm64/Kconfig
-@@ -1302,6 +1302,15 @@ config NVIDIA_CARMEL_CNP_ERRATUM
+@@ -1298,6 +1298,15 @@ config NVIDIA_CARMEL_CNP_ERRATUM
  
  	  If unsure, say Y.
  
