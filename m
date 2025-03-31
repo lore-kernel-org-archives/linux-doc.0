@@ -1,67 +1,67 @@
-Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
+Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90660217647
-	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 19:04:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4482D219318
+	for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 19:04:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743447848; cv=none; b=IrFcfmVL9JZ1Jg955+8NTeWmjB2c7sxap45p7oIutw+p/9TwjBWi/GAGf2siIeY+Lnp41aLJg9ePoIZYBhCssob2hG5zJZL+FUcK9OVhAWb8U4ucTK2URmnxFbrNT1OVWvPnJCBDu184eftmuho49qy5Y720YLmcQCSclWiHoEI=
+	t=1743447849; cv=none; b=gSyljafhOmOSXB2ECDprX7EB3EfetVFBKEpxFtNOCJY5W8nhh6cfWdA5msSn4MS7mMUTDaeLYyfhzNBCLJsn9WfeWMAlQ/CC4mmocJ7Ge7FFVVZUTFxVRqfVW973Ws6MeXcUWlPcvzj7opFQkjaG9OoScnEuyefkd3uABKK4mAw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743447848; c=relaxed/simple;
-	bh=KCzCQK5KfTNTXVj3QAb70ZvZJIWC5xLub+VrbQLHf60=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=PNSlpPXVUO6dAgykgGjNPE+qv2yJbnqDiFZQg09wi+yGwjjdx6bTJhUuH9ELHmSYULsJxFGidxzfgR/QawSNIJBqfm5rLvNYVG0l+CmPgNa5ooUJrqFPp3sVxBnLd1o5IOOgPy3efhlb22EAGmT+4N168x7txphkgE4VpukvRlA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=WsMJjIcM; arc=none smtp.client-ip=209.85.218.45
+	s=arc-20240116; t=1743447849; c=relaxed/simple;
+	bh=F2Qod7NABbhubiuu+bmx+zE/fhm/Yo5sMggxFose+iE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=YPUVcx7eGlrdCZe3AYmU8yD0ijQ2eOqmFEL72kim3xQGaw6z+RanrLIRuFgAEeyqGZVthf07wMX6+BpKGZrBF2Fmh/IfkWkC0JcBaT3LthifNdE5IVYpLrqdSNSyrjmaPdQcrJz7hImocbzNG/W141I9L5T5OAlaLZ5nIpnBqnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=botxjJON; arc=none smtp.client-ip=209.85.218.51
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="WsMJjIcM"
-Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac2a81e41e3so971505666b.1
-        for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 12:04:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="botxjJON"
+Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ac41514a734so795392566b.2
+        for <linux-doc@vger.kernel.org>; Mon, 31 Mar 2025 12:04:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743447842; x=1744052642; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=o3EOzlYlRNAiJ4+uUWCt9BJ21v6gCuzJhG6mflO89SQ=;
-        b=WsMJjIcMQuHGuqHk7oPK0lSDmr4KCRyTZ1ew2THFefYrrYbQZwLwNLDvjGOXgyNrmg
-         PsHT7FRCZvh5qgG04/7QuHs+kJfm70JJXrTcsQhE/q7OvrudMujMkFcVEDfXlLu6N0Ol
-         t+K+swTplZqslhFFmNNI8gDDdujtQfETFxizLghs1aCFF59UIj8bDiHT7hJpwIC55P6G
-         qpf6rBdyfFvF7Nu1ABwZkvDaFcD7XjbAzi9ax5aJ4SDToKhJ1WRIuq6dgH/gSowJ0o1Y
-         75RzZU+IrNUkneoeKy46SaSnJT30NFkccTR7V+n8a87lMUA/WnAvvdNR5pMSQYXcAhgn
-         Vykw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743447842; x=1744052642;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743447844; x=1744052644; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=o3EOzlYlRNAiJ4+uUWCt9BJ21v6gCuzJhG6mflO89SQ=;
-        b=cM1W8KeCz0mMICqThbyOYOPp06bqWTaOf7zC0BJM4/uPjzj0H7884CwU2vAKnPa9oX
-         4rNA86DYkUqFTQ226Cv5G/XMbIbiOQ4n4AqA5Zbb06+lNxjg7ZM+prAymyskondKFU5e
-         USWevrHz5Nl5spyZI3j8ZyrZXf7Vx3jncbI+4jGlpwE4MFnKudP40MIEVVLmmPxWRkmV
-         WCljhF0qbxZf8jlKgREEolLzXAnNTEnEZCh+hKWxTOoan2B7BZHoVO1YaD4yRepeZnfz
-         gfhYTeZ0EsZmxZgY79mW+qr/SdYRBksYUMzgpK23/24gTYQUi2hZ1yEYiYpIo9xLEOHf
-         X5vA==
-X-Forwarded-Encrypted: i=1; AJvYcCUxpDp8MhJhfWXCzjo3Ec+ItfH/aCy2Ez9t+8A90fMhCI0E3Mn0UJecaxhHWB218wisz9iNHWFppII=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzKgQxYYSqXbJISSy4HwxnfWn3dJwIua/xTKAk3yEcEg5mlCWaX
-	CSLEflO3Ta/w6OIRNWJPYFlgLhHV39KwUt4BVFqOuEnBo1f8JEHAgJZoAKA5/TQ=
-X-Gm-Gg: ASbGncuEs+GqyTmqm/erGnGeEgzUwMbSKj3QHTgyf4o/OFQW1553GsJDmdAtcaAHQ8v
-	LF1qL8JSjuxiCTIzxK2lncEicnuiORpQXPsfJE/fmZTMYflN/5r44VhEGsufWftmJUyljvWFSKm
-	XdB8fUdjLWAYTNovOo7zOW+52wj+pnaFmayyVrHBeevSOaXiQPlceEmkw0hikBIuVwPi/FjeREQ
-	g8wxaCXae3NzTd8Wy6V1seNJSQmhh07QXo5eiHgl/HaVWrxFSJtmBW6mWTpDjsU7bPLElJwfMPS
-	Zn+b0SmjlqxoENi2vjILYG4ZL5Ct6r1nKF0z0SJ/G7/oOv/Wa/nZm6IVxvVOttuwr4BHLOUpSg+
-	+agsOWopISI34l1UOsPfJ/A7bIY+I
-X-Google-Smtp-Source: AGHT+IG6x2cQV9rQNT/dNa4oIVCMlwksMuE5agsbtSttDyBJNmy1EbpQYwO/1wjMinTPo+R7D0RWPQ==
-X-Received: by 2002:a17:907:9629:b0:ac3:991:a631 with SMTP id a640c23a62f3a-ac738a9a6b5mr822914366b.34.1743447841909;
-        Mon, 31 Mar 2025 12:04:01 -0700 (PDT)
+        bh=ShsE3ZcbHwYaWyOB5JwD08uVlCnOZ4Y4zX0gXgP+EjU=;
+        b=botxjJONMq1XNSP1m+4d0W1/82YmAgXdqwQfI1o2IjiTJnnHSsODdL3lUuw0D82TKi
+         Wqo5qHFN4661B/tsr2Ov+ZKS+2liC5Nc78bcJeI1QNRN5gl3+FGAfBU16iYknsZivQyZ
+         i/nHL5OGr8fUA8pOEgbvNiOAVtyN/CVEgK7V2PAzNG44T/9UuxPUTdidom2AMDSC0RWS
+         wltDwlg0kJquszJ8lNfqb/f7LJZOpMObuOngW+TX9tb/hmTv6RK9ZoUi3nNkVWsL2k8O
+         HJmcSI3YjAKVANaF8u6Lvx7NNE1U7SJOBqTzGc4MotJYl4Egn9Wg4WXyDtLEXfmNM0BZ
+         Y4Qw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743447844; x=1744052644;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ShsE3ZcbHwYaWyOB5JwD08uVlCnOZ4Y4zX0gXgP+EjU=;
+        b=JwI1sfY1oJv8b+gvmjdJUOlrCoG/tfBEvIALbArSNnQqEGjpARAc+Nxwvk5Ti0GJ5r
+         xobdZWVIMv3D5rlOskp8W0ofVvtUsRmIvv3jffAvyuy3iWHTaL0o9eokf3EfLIISu12O
+         9VeRNH8lvWNQqhIgROjIVmg1VY3TfTFjXVd1FpZ3qUAnzZCyWFYCxmm3TO+56cex+031
+         R3PcgkE19bYPzGkiuB7WffGVIKEp7GK3zxpQokkBouA0smBJo4j2D2i2tRhtwdRK2JCC
+         +nLnqnnhybFw1RY77J44bMmIucHYDzh1IdvWUhXr4DSeCsnmpPPXCVWaAxxMJmpK9fjR
+         S91w==
+X-Forwarded-Encrypted: i=1; AJvYcCVPJfOv2UV0XHaHCoK1oxnIGs0z08IWfUW0J6hgYeS/wfaOt7OpUYFMH4bi9qUlx3SYyeS+XRe1rSI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxH0dMfmtGKfni05mXQK+i9l/EuWJMjaEldniM8IW3dFjzw12h8
+	WWOlgdU3+3BZ8lkZg2APjmfxnO77nkGPuyNloEAjeTo/FAz/pcUmeDXXQwmDoV4=
+X-Gm-Gg: ASbGncvNS36E9M4JKq2PIH0ZEqj5mf5QuHrOEb76pPdiRUU2LvQ3+fcwSlInTsboyf3
+	RLr9+WNZHMJ6kdeuYNXf8OAnc9o+MjrTVGTJgVL44pQGH/tYxtfLcg0WEnOwSnLY6qXARmTe/e+
+	7kj/fbfuZ/AxySZ3ztteq6vtGUD25Uu/xbrle6dUHyjqukF1wdhGTAd6T2+b6N5u1Wl547bFDqo
+	AcJA+tiByj8LWilQGF/Pl4d/eS0yqBLLFbtNKVH5G/Y+nUB/ToIJ6EQTY4Djcf7MFQcPNybmrcf
+	D51rR9HyjNBe13JBD7ibBogw/VqGQ8pTT7jo0+fFNbD/oIaOGjRNepgyPGGLE+acjiN0Q889swH
+	t5/F58jTHPDUJv0jdKyp+cW2SK7FP
+X-Google-Smtp-Source: AGHT+IGuQItt9kOHohfEdRqiYQ1qj4daUOg0M2kttNOL8REmmUJaouq4B1SoHf687sYLgKm6ciKoHQ==
+X-Received: by 2002:a17:907:9708:b0:ac3:ed56:86dc with SMTP id a640c23a62f3a-ac738a4b283mr953684366b.31.1743447844447;
+        Mon, 31 Mar 2025 12:04:04 -0700 (PDT)
 Received: from [192.168.0.2] (host-80-116-51-172.pool80116.interbusiness.it. [80.116.51.172])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac71961f9cfsm652288566b.122.2025.03.31.12.04.00
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac71961f9cfsm652288566b.122.2025.03.31.12.04.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 31 Mar 2025 12:04:01 -0700 (PDT)
+        Mon, 31 Mar 2025 12:04:03 -0700 (PDT)
 From: Angelo Dureghello <adureghello@baylibre.com>
 X-Google-Original-From: Angelo Dureghello <adureghello@baylibre.org>
-Subject: [PATCH v2 0/5] iio: ad3552r-hs: add support for internal ramp
- generator
-Date: Mon, 31 Mar 2025 21:02:43 +0200
-Message-Id: <20250331-wip-bl-ad3552r-fixes-v2-0-cdedb430497e@baylibre.com>
+Date: Mon, 31 Mar 2025 21:02:45 +0200
+Subject: [PATCH v2 2/5] docs: iio: add documentation for ad3552r driver
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,11 +70,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIANPm6mcC/4WNTQ6CMBCFr0Jm7Zj+orjyHoZFaUeZBClpDUoId
- 7dyAZffe/neWyFTYspwqVZINHPmOBZQhwp878YHIYfCoISyQiuJb56wG9AFba1KeOcPZTROn+v
- GGC9PAoo6JdqLYt7awj3nV0zL/jLLX/pncJYoUHvpnDJNkLW+dm4ZuEt09PEJ7bZtX+MWp0O7A
- AAA
-X-Change-ID: 20250321-wip-bl-ad3552r-fixes-4a386944c170
+Message-Id: <20250331-wip-bl-ad3552r-fixes-v2-2-cdedb430497e@baylibre.com>
+References: <20250331-wip-bl-ad3552r-fixes-v2-0-cdedb430497e@baylibre.com>
+In-Reply-To: <20250331-wip-bl-ad3552r-fixes-v2-0-cdedb430497e@baylibre.com>
 To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>, 
  Jonathan Corbet <corbet@lwn.net>, 
@@ -83,64 +81,131 @@ To: =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
 Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
  linux-kernel@vger.kernel.org, Angelo Dureghello <adureghello@baylibre.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1948;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=4191;
  i=adureghello@baylibre.com; h=from:subject:message-id;
- bh=KCzCQK5KfTNTXVj3QAb70ZvZJIWC5xLub+VrbQLHf60=;
- b=owGbwMvMwCXGf3bn1e/btlsznlZLYkh/9eyWU/Z71/OsNwqv/Pr96d4JyZ5sriPHzypasbepZ
- y7cvcRuekcpC4MYF4OsmCJLXWKESejtUCnlBYyzYeawMoEMYeDiFICJCAUzMrQuvPeQ5cHJ+rOV
- z7Wf3du46qlbcTH79+JFLkr7L3e2X3jB8N9P09Elmu+SYvWKqkkKv79LPp15dNnd92YB7I7HdpQ
- JPuMBAA==
+ bh=K6IzTR+F1J2B1DTGHtf/OPY+ArUlb20kadSjMscdtUE=;
+ b=owGbwMvMwCXGf3bn1e/btlsznlZLYkh/9exWaIWaQl1Sgvvim+/ND1wUOxlvZZSyOOmFicU1t
+ SQzA8nijlIWBjEuBlkxRZa6xAiT0NuhUsoLGGfDzGFlAhnCwMUpABNxOMnIcOvf041rRYquJ2Va
+ 2QpoPv3Ata/+n+W65Y7zdy7bEVgeWMbwT0+06WiWnH9pVMvMLcsmGfuk2S3fryiV9rR/jmePNr8
+ UDwA=
 X-Developer-Key: i=adureghello@baylibre.com; a=openpgp;
  fpr=703CDFAD8B573EB00850E38366D1CB9419AF3953
 
-Add support to enable the HDL IP core internal ramp generator,
-actually managed by the adi-axi-dac backend. 
+From: Angelo Dureghello <adureghello@baylibre.com>
 
-It works this way:
-
-/sys/bus/iio/devices/iio:device0# echo 1 > buffer0/out_voltage0_en 
-/sys/bus/iio/devices/iio:device0# echo 1 > buffer0/out_voltage1_en                                           
-/sys/bus/iio/devices/iio:device0# echo 1 > buffer0/enable 
-
-Activating ramp generator:
-
-/sys/kernel/debug/iio/iio:device0# echo -n backend-ramp-generator > data_source
-
-Deactivating:
-
-/sys/kernel/debug/iio/iio:device0# echo -n iio-buffer > data_source
+Add documentation for ad3552r driver, needed to describe the high-speed
+driver debugfs attributes and shows how the user may use them.
 
 Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
 ---
-Changes in v2:
-- doc, add few words for generic spi driver version,
-- axi-dac, add a separate patch to check cntrl chan validity,
-- axi-dac, return EIO on a wrong source on get, 
-- add a lock on debugfs file access,
-- use const strings and strlen on file access.
-- Link to v1: https://lore.kernel.org/r/20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com
+ Documentation/iio/ad3552r.rst | 72 +++++++++++++++++++++++++++++++++++++++++++
+ Documentation/iio/index.rst   |  1 +
+ MAINTAINERS                   |  1 +
+ 3 files changed, 74 insertions(+)
 
----
-Angelo Dureghello (5):
-      iio: dac: adi-axi-dac: add cntrl chan check
-      docs: iio: add documentation for ad3552r driver
-      iio: backend: add support for data source get
-      iio: dac: adi-axi-dac: add data source get
-      iio: dac: ad3552r-hs: add support for internal ramp
+diff --git a/Documentation/iio/ad3552r.rst b/Documentation/iio/ad3552r.rst
+new file mode 100644
+index 0000000000000000000000000000000000000000..2af24cfe886f1f4c1b86ac679fd19b83635b6771
+--- /dev/null
++++ b/Documentation/iio/ad3552r.rst
+@@ -0,0 +1,72 @@
++.. SPDX-License-Identifier: GPL-2.0-only
++
++==============
++AD3552R driver
++==============
++
++Device driver for Analog Devices Inc. AD35XXR series of DACs. The module name
++is ``ad3552r``.
++With the same module name, two different driver variants are available, the
++``generic spi`` variant, to be used with any classic SPI controllers, and the
++``hs`` (high speed) variant, for an ADI ``axi-dac`` (IP core) based controller
++that allows to reach the maximum sample rate supported from the DACs, using the
++DMA transfer and all the SPI lines available (D/QDSPI)..
++The high speed driver variant is intended to be used with the ``adi-axi-dac``
++backend support enabled, that is enabled by default when the driver is selected.
++
++Supported devices
++=================
++
++* `AD3541R <https://www.analog.com/en/products/ad3541r.html>`_
++* `AD3542R <https://www.analog.com/en/products/ad3542r.html>`_
++* `AD3551R <https://www.analog.com/en/products/ad3551r.html>`_
++* `AD3552R <https://www.analog.com/en/products/ad3552r.html>`_
++
++Wiring connections
++==================
++
++Generic SPI
++-----------
++Use the classic SPI S_CLK/CS/SDO/SDI connection.
++
++High speed (using axi-dac backend)
++----------------------------------
++
++::
++
++    .-----------------.                .-------.
++    |                 |--- D/QSPI -----|       |
++    |   DAC IP CORE   |--- SPI S_CLK --|  DAC  |
++    |                 |--- SPI CS -----|       |
++    |                 |--- LDAC -------|       |
++    |                 |--- RESET ------|       |
++    |_________________|                |_______|
++
++
++High speed features
++===================
++
++Device attributes
++-----------------
++
++The following table shows the ad35xxr related device debug files, found in the
++specific device debug folder path ``/sys/kernel/debug/iio/iio:deviceX``.
++
+++----------------------+-------------------------------------------------------+
++| Debugfs device files | Description                                           |
+++----------------------+-------------------------------------------------------+
++| data_source          | The used data source,                                 |
++|                      | as ``iio-buffer`` or ``backend-ramp-generator``.      |
+++----------------------+-------------------------------------------------------+
++
++Usage examples
++--------------
++
++. code-block:: bash
++	root:/sys/bus/iio/devices/iio:device0# cat data_source
++	iio-buffer
++	root:/sys/bus/iio/devices/iio:device0# echo -n backend-ramp-generator > data_source
++	root:/sys/bus/iio/devices/iio:device0# cat data_source
++	backend-ramp-generator
++
++
+diff --git a/Documentation/iio/index.rst b/Documentation/iio/index.rst
+index bbb2edce8272e7483acca500d1a757bbcc11c1e0..2d6afc5a8ed54a90cd8d5723f0dc5212b8593d16 100644
+--- a/Documentation/iio/index.rst
++++ b/Documentation/iio/index.rst
+@@ -19,6 +19,7 @@ Industrial I/O Kernel Drivers
+ .. toctree::
+    :maxdepth: 1
+ 
++   ad3552r
+    ad4000
+    ad4030
+    ad4695
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 57eaab00f6cb53df52a4799eb2c1afbbd1e77a1e..52bc56a9ee22c66b90555681c4757ea4399adae1 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1295,6 +1295,7 @@ L:	linux-iio@vger.kernel.org
+ S:	Supported
+ W:	https://ez.analog.com/linux-software-drivers
+ F:	Documentation/devicetree/bindings/iio/dac/adi,ad3552r.yaml
++F:	Documentation/iio/ad3552r.rst
+ F:	drivers/iio/dac/ad3552r.c
+ 
+ ANALOG DEVICES INC AD4000 DRIVER
 
- Documentation/iio/ad3552r.rst      |  72 ++++++++++++++++++++++
- Documentation/iio/index.rst        |   1 +
- MAINTAINERS                        |   1 +
- drivers/iio/dac/ad3552r-hs.c       | 122 +++++++++++++++++++++++++++++++++++--
- drivers/iio/dac/adi-axi-dac.c      |  54 ++++++++++++++++
- drivers/iio/industrialio-backend.c |  28 +++++++++
- include/linux/iio/backend.h        |   5 ++
- 7 files changed, 277 insertions(+), 6 deletions(-)
----
-base-commit: eb870a5af7db1e5ca59330875125230b28e630f9
-change-id: 20250321-wip-bl-ad3552r-fixes-4a386944c170
-
-Best regards,
 -- 
-Angelo Dureghello <adureghello@baylibre.com>
+2.49.0
 
