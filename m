@@ -1,167 +1,103 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2D832216E24;
-	Mon, 31 Mar 2025 20:57:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F23FD3595D;
+	Tue,  1 Apr 2025 01:09:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743454647; cv=none; b=ACPIdPR4fhGFOqtrFlSbyvgegUTlA8G63EVCFYDmc348cMS1wnl/CeH17XZiRMOVPhCuwKekWyfDksahv8hpMBmkXm/QmShL2AKNr1eAbuztvVuJL4daef4NvHOEiIhdm7GhBK7KB2D8QKekk49R8IdqGrqgNgNlEGnz5zvLiXQ=
+	t=1743469771; cv=none; b=uK4+O16uJDGrjLCVE4zwPpu1nSVSSs8vP+vAI/wDg7G0lnSzXJXHo+6wxBMhcIU7E+fn7aFmbRitH6Tl0b6rpO56GG8t9LoQE1RD3aTsw7b5i6xdnNYfonZVkbJjoQD5EK/tNsBYnAdYEucrG8pYG3HMHl2j+5J740VswEIE0s0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743454647; c=relaxed/simple;
-	bh=10bv2ci8Gq6q+ywpbgUZb11BTLKgedTDu+zcEPWmeN0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=msjov1frB92gd2WoBbWubIY9zHA29Y3AZ5refKJgx2KaoN3zFXv4dxBuScXXWY/Iw6iRq4nwxnUALtvKmgSDDOck1LEN/V5kdMjc/7ge0U4BYpGP9inMjGeQ+Yidl/PjW5eJn482MvwizzHNoR9h4ovsvVrIzA1FcNja57z7JbU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=d28vV6/y; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1743469771; c=relaxed/simple;
+	bh=xnDKz4hdm/kkZqcWSzvYO96l5CqeHbCretys4W9iu2o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JGihU/Z7m0/tO7rJ8ZFFvjo3RML6cRJoR/drLSBkZ6Jj2bq1t8exDUHY17iPyUswYt/u8kgmRo/Ikz76bOzsa7uarfjfNTDHyFGUnom8Li/N3u3FBEi4HQ2jg15tLIyy2wyCskXJxQiU2axPpwOBctliM38vveLhxG5RieF/WNU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ce0nhRfs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="d28vV6/y"
-Received: from narnia (unknown [167.220.2.28])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 4D2A1210237A;
-	Mon, 31 Mar 2025 13:57:18 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 4D2A1210237A
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1743454645;
-	bh=5XsgAWUoFJ8EmLqO+z62iuJCHz41nTI4m6vFV/nAFDg=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=d28vV6/yHuGZDGRY+KhqOML58EhHOZvrywvgHDZb0obC9gbdEWtd1vkSN7MEHX4P2
-	 e9a2D4VWMXQWHWQ2FoVJfkcWg1HevVpml0wySPWlEGN/IQiIxN2AtXipKVvyu9vvC9
-	 c0uwH1dLc9NLCkUNPgqOf5hVIXGc82dBCH4f5l54=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: Jarkko Sakkinen <jarkko@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
- <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
- <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
- =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
- <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
- Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Jan Stancek <jstancek@redhat.com>,
- Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
- linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
- bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com,
- teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
-Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
-In-Reply-To: <Z97xvUul1ObkmulE@kernel.org>
-References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
- <Z97xvUul1ObkmulE@kernel.org>
-Date: Mon, 31 Mar 2025 13:57:15 -0700
-Message-ID: <871puc7wb8.fsf@microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ce0nhRfs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 978F4C4CEE3;
+	Tue,  1 Apr 2025 01:09:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743469769;
+	bh=xnDKz4hdm/kkZqcWSzvYO96l5CqeHbCretys4W9iu2o=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ce0nhRfsh4foP8kliSiSC0eCyy1P530wNZv1yXlz0fhnntdzc2pHj8ehJ73sKloVM
+	 C0cw7cUj+BIc9kmwIU3OVnx2X/5KZolUkXS2nrcBmOD80XEOnwWEu+qaNld4IC1Lbz
+	 ktTwM4BKKx5FIv7O9NfsPq2v7mz23KDqI6mFjPh6003pPohStRGfOcfyHzqdAMOVmD
+	 1gOusmiwUbvZzBP/fZDRftY7IT+SckUkPyIVGM5JFjlw/2fk+9/Ns880REt1nFz5Or
+	 pRuSFvVxXKUnth/AX3auD+qu9VK2N7OyoDzrtCOl5aOlD0WNxZyXTU1dmfK4K2DInq
+	 5BLO5MT41pJgw==
+Date: Mon, 31 Mar 2025 18:09:27 -0700
+From: Luis Chamberlain <mcgrof@kernel.org>
+To: Leon Romanovsky <leon@kernel.org>, Daniel Gomez <da.gomez@samsung.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>, Robin Murphy <robin.murphy@arm.com>,
+	Christoph Hellwig <hch@lst.de>, Jens Axboe <axboe@kernel.dk>,
+	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>, Keith Busch <kbusch@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org, linux-mm@kvack.org,
+	Randy Dunlap <rdunlap@infradead.org>
+Subject: Re: [PATCH v7 00/17] Provide a new two step DMA mapping API
+Message-ID: <Z-s8x_YyGEYTz8BJ@bombadil.infradead.org>
+References: <cover.1738765879.git.leonro@nvidia.com>
+ <20250220124827.GR53094@unreal>
+ <1166a5f5-23cc-4cce-ba40-5e10ad2606de@arm.com>
+ <20250302085717.GO53094@unreal>
+ <e024fe3d-bddf-4006-8535-656fd0a3fada@arm.com>
+ <Z+KjVVpPttE3Ci62@ziepe.ca>
+ <20250325144158.GA4558@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250325144158.GA4558@unreal>
 
-Jarkko Sakkinen <jarkko@kernel.org> writes:
+On Tue, Mar 25, 2025 at 04:41:58PM +0200, Leon Romanovsky wrote:
+> On Tue, Mar 25, 2025 at 09:36:37AM -0300, Jason Gunthorpe wrote:
+> > On Fri, Mar 21, 2025 at 04:05:22PM +0000, Robin Murphy wrote:
+> 
+> <...>
+> 
+> > > So what is it now, a layering violation in a hat with still no clear path to
+> > > support SWIOTLB?
+> > 
+> > I was under the impression Leon had been testing SWIOTLB?
+> 
+> Yes, SWIOTLB works
 
-Hi Jarkko,
+We will double check too.
 
-Thanks for the comments. Paul did a very nice job providing some
-background info, allow me to provide some additional data.
+> and Christoph said it more than once that he tested
+> NVMe conversion patches and they worked.
 
-> On Fri, Mar 21, 2025 at 09:45:02AM -0700, Blaise Boscaccy wrote:
->> This patch series introduces the Hornet LSM.
->> 
->> Hornet takes a simple approach to light-skeleton-based eBPF signature
->
-> Can you define "light-skeleton-based" before using the term.
->
-> This is the first time in my life when I hear about it.
->
+We've taken this entire series and the NVMe patches and have built on
+top of them. The nvme-pci driver does not have scatter list chaining
+support, and we don't want to support that because it is backwards.
+Instead, the two step DMA API lets us actually remove all that scatter
+list cruft and provide a single solution for direct IO and io-uring
+command passthrough to support large IOs [0] [1] and logical block sizes
+up to 2 MiB.
 
-Sure. Here is the patchset where this stuff got introduced if you are
-curious.
-https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gmail.com/
+We continue to plan to work on this and are happy to test this further.
 
-eBPF has similar requirements to that of modules when it comes to
-loading: find kallysym addresses, fix up elf relocations, some
-struct field offset handing stuff called CO-RE (compile-one
-run-anywhere), and some other miscellaneous bookkeeping.  During eBPF
-program compilation, pseudo-values get written to the immedate operands
-of instructions.  During loading, those pseudo-values get rewritten with
-concrete addresses or data applicable to the currently running system,
-e.g. a kallsym address or a fd for a map. This needs to happen before
-the instructions for a bpf program are loaded into the kernel via the
-bpf() syscall.
+Clearly, we don't want any regressions on NVMe.
 
-Unlike modules, an in-kernel loader unfortunately doesn't
-exist. Typically, the instruction rewriting is done dynamically in
-userspace via libbpf (or the rust/go/python loader). What skeletons do
-is generate a script of required instruction-rewriting operations which
-then gets played back at load-time against a hard-coded blob of raw
-instruction data. This removes the need to distribute source-code or
-object files.
+[0] https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+[1] https://lore.kernel.org/all/Z9v-1xjl7dD7Tr-H@bombadil.infradead.org/
 
-There are two flavors of skeletons, normal skeletons, and light
-skeletons. Normal skeletons utilize relocation logic that lives in
-libbpf, and the relocations/instruction rewriting happen in userspace.
-The second flavor, light skeletons, uses a small eBPF program that
-contains the relocation lookup logic. As it's running in in the kernel,
-it unpacks the target program, peforms the instruction rewriting, and
-loads the target program. Light skeletons are currently utilized for
-some drivers, and BPF_PRELOAD functionionality since they can operate
-without userspace.
-
-Light skeletons were recommended on various mailing list discussions as
-the preffered path to performing signature verification. There are some
-PoCs floating around that used light-skeletons in concert with
-fs-verity/IMA and eBPF LSMs. We took a slightly different approach to
-Hornet, by utilizing the existing PCKS#7 signing scheme that is used for
-kernel modules.
-
->> verification. Signature data can be easily generated for the binary
->
-> s/easily//
->
-> Useless word having no measure.
->
-
-Ack, thanks.
-
-
->> data that is generated via bpftool gen -L. This signature can be
->
-> I have no idea what that command does.
->
-> "Signature data can be generated for the binary data as follows:
->
-> bpftool gen -L
->
-> <explanation>"
->
-> Here you'd need to answer to couple of unknowns:
->
-> 1. What is in exact terms "signature data"?
-
-That is a PKCS#7 signature of a data buffer containing the raw
-instructions of an eBPF program, followed by the initial values of any
-maps used by the program. 
-
-> 2. What does "bpftool gen -L" do?
->
-
-eBPF programs often have 2 parts. An orchestrator/loader program that
-provides load -> attach/run -> i/o -> teardown logic and the in-kernel
-program.
-
-That command is used to generate a skeleton which can be used by the
-orchestrator prgoram. Skeletons get generated as a C header file, that
-contains various autogenerated functions that open and load bpf programs
-as decribed above. That header file ends up being included in a
-userspace orchestrator program or possibly a kernel module.
-
-> This feedback maps to other examples too in the cover letter.
->
-> BR, Jarkko
-
-
-I'll rework this with some definitions of the eBPF subsystem jargon
-along with your suggestions.
-
--blaise
+  Luis
