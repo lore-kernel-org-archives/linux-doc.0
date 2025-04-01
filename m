@@ -1,272 +1,191 @@
-Received: from szxga02-in.huawei.com (szxga02-in.huawei.com [45.249.212.188])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 331624501A;
-	Tue,  1 Apr 2025 13:56:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 86DCA204C0D
+	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 14:35:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743515779; cv=none; b=tJmXkMORLr5qi1gTLrBoWVJPyNM8wUQPmrph4siLX2il8uib3VdN+yxvBfwsqqZ9PhE4mTa8RK1+UMZ1Y87AADsRbyGOyND5/fr4V2rHYVAOQJB1KanwC7deQ26YdwsTHNNb4vOlgzF9vSD+jNtjC8kMmOuYAtWKyCclMIvRtaM=
+	t=1743518160; cv=none; b=b/Tf5kUIa+eiyMsTkNRmVv+fLF21muf+p2DajyRwZFlhnPV1qEdJkKZI1UcmJnkIFVJFCmz5nRfr/36BJntIVgDcVStKDHgOwR1M4FgMr367FkilmBnTP0yzMQAMCkWBkkm9Jg3Fbu7G7n3j1T5NjoB9P1ghO1BfkVCXN3ntCiY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743515779; c=relaxed/simple;
-	bh=tjpdGmk7PsTYQICyO1o16SjzRJ5VUSgEoghI+wvraLw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=f0i6/jTyIrGrTtxy/UnO87pYFmNG0dnULD17L4mbGRfihBuhXtNualvIzvDeZ3Q2Ts3FczrNb2YP1w0x5+e3sufFRNEGxsboMtiLXId+ZPVxu6Ibk9nJE9ucY/spBfRTqx/MxQWe7NwTiC/rfbScV727SeC0rRbpALYCUDA5SjQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.162.254])
-	by szxga02-in.huawei.com (SkyGuard) with ESMTP id 4ZRqHp4HlwztRR6;
-	Tue,  1 Apr 2025 21:54:46 +0800 (CST)
-Received: from kwepemh100008.china.huawei.com (unknown [7.202.181.93])
-	by mail.maildlp.com (Postfix) with ESMTPS id E1C7C180116;
-	Tue,  1 Apr 2025 21:56:11 +0800 (CST)
-Received: from [10.67.121.90] (10.67.121.90) by kwepemh100008.china.huawei.com
- (7.202.181.93) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 1 Apr
- 2025 21:56:11 +0800
-Message-ID: <4a87269d-542e-4d4d-9c46-780f9eb55193@huawei.com>
-Date: Tue, 1 Apr 2025 21:56:10 +0800
+	s=arc-20240116; t=1743518160; c=relaxed/simple;
+	bh=FnEOMPtHXvmXWNykCouBSk3dwHkhqcz3bglrKwEvwl4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=FXQHwuq0Za8jLAM7G8j/wTl6jfRJpBC06VVtY1sR2Cd7IbU1FAdJQQWICWUo7PV5RcH03mFpdLzX+n4BQDCwyxWa8TdNIYnkDQDLbPR7jufbE3xrDiXMA4dXsBlYhLdbq5llvui+/K41gTIw5bIkAy/T11nXlRlmFn2/FP17/vE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KtvC7N/y; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KtvC7N/y"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-225df540edcso121984325ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Apr 2025 07:35:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743518158; x=1744122958; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=LoMDKExd/0DHBDdQYNCjd1xpr7uBzJ6GzizlZJKTOo8=;
+        b=KtvC7N/y48XI07BhkMDPUFv3HRJuN7zO57vOsjX+ulDYfUCQIGuWV/+vvs6Rvcq8su
+         7PZh2h9Cu943CWtF0HQw2gMkZL48Cg3IqGjTk449loVTUNW8uBRfimh8cVfy7EmShpkT
+         D+bFbnApJxzqCFJxNweP357MtDdy6qf35F6LWwUISGjfSm/vCW9fSRv3iSW9CPZG58k4
+         fDvNOlRmtCx4EjsXkOiUoEAtJmbqTFHyxmp8le2HNGrA7L8pKaWbfqlWCIP6DZUqLfcK
+         IBs93UAX9kaDxQRsU7Gzhqu0HWaAlu5cl1OTTXqsBuuulWUAIYYWDGVD81JBV51h9Llo
+         yBvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743518158; x=1744122958;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=LoMDKExd/0DHBDdQYNCjd1xpr7uBzJ6GzizlZJKTOo8=;
+        b=rDjdkXoIe69UIs2+e8fc6QICYawHjIK4oASF//zt2p5sIGDkGVmgJZ7kI9geV9b7ve
+         AZvJBoftAYKgDUWzyPkRykO0OIuqHBNmL9C80ULkjR5Ae2lxIZ8K7Dqdy5ZbdKqXYvaw
+         RqqI17Y0G3iOtYaPd3JxfM7SDwKT/WsuGAxdwGFaD3DVYcd7rM8NbzZvFmDjhGKS/ql7
+         iuk+vTM51oRD+QqQSk8qLGBl1kShiESWgidvBwZmyG2OnPRiNJvi5S0npp8FWAKhAQE/
+         1RnrKrTbZ1XJktC310IBT7aUJcKZolQZK2Or4muijul9YAK83MA4hjLCVagPajylrzP1
+         H3uw==
+X-Forwarded-Encrypted: i=1; AJvYcCWFQZw1qhVReIzNr7WxOrNCMtjn1trKbU/sCS6mXPiyK4Wv7TPGovoBfr7guEdZGIFOPD2XAlj5Shg=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwiFtyzQbpL1zfFJMvwNdXLedlEIrWHks3aBcGHImjkCCGLrxMm
+	HboW9izIDzbJKd8BDxG/VruNvm0QNzb9I94WGYhpfXxsx6mqqnJbl21JLurFUfzQ65oO7ufO/Db
+	YlWc5vqYV5/Sz5D5XW8pPOoH56WPuI7Snch2xPhefW5SYF2Uz
+X-Gm-Gg: ASbGncu+QiDf8trKBOOArBbCpzsKcw72P2tSf6CjrYwb6I5qgPmpjU8+kow2uCoaw4J
+	AxNTRTgyeLnu9WJqMv2iEmSBt5lnXCcBhh9CWK8CX8jyOkZ5kI5Mk2JxpZUP/P8dDm0tYPR50nb
+	Hs6f1ScO9eIZ8hIEMiWLbTJECF6+k=
+X-Google-Smtp-Source: AGHT+IElYmfVb2yc9aONM2WA1fcc0/ZsfWcagvHUfiuxnFsCoq1ML/YcfpJWjED2Sr70PTdeBFSXfVPfj6mWtcfTrTQ=
+X-Received: by 2002:a05:6a00:391f:b0:736:9f2e:1357 with SMTP id
+ d2e1a72fcca58-739c43b578cmr278533b3a.12.1743518157532; Tue, 01 Apr 2025
+ 07:35:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [Patch 0/5] Support Autonomous Selection mode in cppc_cpufreq
-To: Sumit Gupta <sumitg@nvidia.com>, "Rafael J. Wysocki" <rafael@kernel.org>,
-	Viresh Kumar <viresh.kumar@linaro.org>
-CC: <lenb@kernel.org>, <robert.moore@intel.com>, <corbet@lwn.net>,
-	<linux-pm@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <acpica-devel@lists.linux.dev>,
-	<linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
-	<treding@nvidia.com>, <jonathanh@nvidia.com>, <sashal@nvidia.com>,
-	<vsethi@nvidia.com>, <ksitaraman@nvidia.com>, <sanjayc@nvidia.com>,
-	<bbasu@nvidia.com>
-References: <20250211103737.447704-1-sumitg@nvidia.com>
- <20250211104428.dibsnxmkiluzixvz@vireshk-i7>
- <b45d0d81-e4f7-474e-a146-0075a6145cc2@huawei.com>
- <868d4c2a-583a-4cbb-a572-d884090a7134@nvidia.com>
- <8d5e0035-d8fe-49ef-bda5-f5881ff96657@huawei.com>
- <94bdab73-adc4-4b43-9037-5639f23e3d1e@nvidia.com>
- <CAJZ5v0iAg6HFROHctYQwW=V9XiV8p3XVYgeKUcX4qBgfwQK6Ow@mail.gmail.com>
- <e58a20f8-e8bf-409c-a878-af2bd3c7d243@nvidia.com>
- <73fbf483-7afa-4cd2-84d1-6ace36549c53@huawei.com>
- <f0f1b31b-a0fc-4d21-8b79-c896833dae35@nvidia.com>
-From: "zhenglifeng (A)" <zhenglifeng1@huawei.com>
-In-Reply-To: <f0f1b31b-a0fc-4d21-8b79-c896833dae35@nvidia.com>
+References: <20250311170451.611389-1-leo.yan@arm.com> <20250311170451.611389-6-leo.yan@arm.com>
+ <8d9ad64b-a5f7-4a44-a557-7edb83322fdf@arm.com>
+In-Reply-To: <8d9ad64b-a5f7-4a44-a557-7edb83322fdf@arm.com>
+From: Mike Leach <mike.leach@linaro.org>
+Date: Tue, 1 Apr 2025 15:35:44 +0100
+X-Gm-Features: AQ5f1Jq5eJSb33lj_lNuU5GhQT-ygaUHLr5aCzHY0xeQqpsFwQFKMr8XTLIXVPw
+Message-ID: <CAJ9a7ViUOZEyvqe-KGc-UdhmkqXpPdSeBWjk-=u1tAjFKu5Y+A@mail.gmail.com>
+Subject: Re: [PATCH v3 5/6] coresight: perf: Update buffer on AUX pause
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: Leo Yan <leo.yan@arm.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems704-chm.china.huawei.com (10.3.19.181) To
- kwepemh100008.china.huawei.com (7.202.181.93)
 
-Sorry for the delay.
+On Tue, 1 Apr 2025 at 13:52, Suzuki K Poulose <suzuki.poulose@arm.com> wrote:
+>
+> On 11/03/2025 17:04, Leo Yan wrote:
+> > Due to sinks like ETR and ETB don't support interrupt handling, the
+> > hardware trace data might be lost for continuous running tasks.
+> >
+> > This commit takes advantage of the AUX pause for updating trace buffer
+> > to mitigate the trace data losing issue.
+> >
+> > The per CPU sink has its own interrupt handling.  Thus, there will be a
+> > race condition between the updating buffer in NMI and sink's interrupt
+> > handler.  To avoid the race condition, this commit disallows updating
+> > buffer on AUX pause for the per CPU sink.  Currently, this is only
+> > applied for TRBE.
+> >
+> > Signed-off-by: Leo Yan <leo.yan@arm.com>
+> > ---
+> >   .../hwtracing/coresight/coresight-etm-perf.c  | 43 ++++++++++++++++++-
+> >   1 file changed, 41 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/hwtracing/coresight/coresight-etm-perf.c b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> > index 2dcf1809cb7f..f1551c08ecb2 100644
+> > --- a/drivers/hwtracing/coresight/coresight-etm-perf.c
+> > +++ b/drivers/hwtracing/coresight/coresight-etm-perf.c
+> > @@ -574,14 +574,53 @@ static void etm_event_start(struct perf_event *event, int flags)
+> >       return;
+> >   }
+> >
+> > -static void etm_event_pause(struct coresight_device *csdev,
+> > +static void etm_event_pause(struct perf_event *event,
+> > +                         struct coresight_device *csdev,
+> >                           struct etm_ctxt *ctxt)
+> >   {
+> > +     int cpu = smp_processor_id();
+> > +     struct coresight_device *sink;
+> > +     struct perf_output_handle *handle = &ctxt->handle;
+> > +     struct coresight_path *path;
+> > +     unsigned long size;
+> > +
+> >       if (!ctxt->event_data)
+> >               return;
+> >
+> >       /* Stop tracer */
+> >       coresight_pause_source(csdev);
+> > +
+> > +     path = etm_event_cpu_path(ctxt->event_data, cpu);
+> > +     sink = coresight_get_sink(path);
+> > +     if (WARN_ON_ONCE(!sink))
+> > +             return;
+> > +
+> > +     /*
+> > +      * The per CPU sink has own interrupt handling, it might have
+> > +      * race condition with updating buffer on AUX trace pause if
+> > +      * it is invoked from NMI.  To avoid the race condition,
+> > +      * disallows updating buffer for the per CPU sink case.
+> > +      */
+> > +     if (coresight_is_percpu_sink(sink))
+> > +             return;
+> > +
+> > +     if (WARN_ON_ONCE(handle->event != event))
+> > +             return;
+> > +
+> > +     if (!sink_ops(sink)->update_buffer)
+> > +             return;
+> > +
+> > +     size = sink_ops(sink)->update_buffer(sink, handle,
+> > +                                          ctxt->event_data->snk_config);
+>
+> I believe we keep the sink disabled/stopped in update_buffer. We need to
+> turn it back ON after the "buffer update". May be we could use a flag
+> to update_buffer() to indicate this is "pause" triggered update.
+>
+> Cheers
+> Suzuki
+>
 
-On 2025/3/14 20:48, Sumit Gupta wrote:
-> 
-> 
->>>>
->>>> There seems to be some quite fundamental disagreement on how this
->>>> should be done, so I'm afraid I cannot do much about it ATM.
->>>>
->>>> Please agree on a common approach and come back to me when you are ready.
->>>>
->>>> Sending two concurrent patchsets under confusingly similar names again
->>>> and again isn't particularly helpful.
->>>>
->>>> Thanks!
->>>
->>> Hi Rafael,
->>>
->>> Thank you for looking into this.
->>>
->>> Hi Lifeng,
->>>
->>> As per the discussion, we can make the driver future extensible and
->>> also can optimize the register read/write access.
->>>
->>> I gave some thought and below is my proposal.
->>>
->>> 1) Pick 'Patch 1-7' from your patch series [1] which optimize API's
->>>     to read/write a cpc register.
->>>
->>> 2) Pick my patches in [2]:
->>>     - Patch 1-4: Keep all cpc registers together under acpi_cppc sysfs.
->>>                  Also, update existing API's to read/write regs in batch.
->>>     - Patch 5: Creates 'cppc_cpufreq_epp_driver' instance for booting
->>>       all CPU's in Auto mode and set registers with right values.
->>>       They can be updated after boot from sysfs to change hints to HW.
->>>       I can use the optimized API's from [1] where required in [2].
->>>
->>> Let me know if you are okay with this proposal.
->>> I can also send an updated patch series with all the patches combined?
->>>
->>> [1] https://lore.kernel.org/all/20250206131428.3261578-1-zhenglifeng1@huawei.com/
->>> [2] https://lore.kernel.org/lkml/20250211103737.447704-1-sumitg@nvidia.com/
->>>
->>> Regards,
->>> Sumit Gupta
->>>
->>
->> Hi Sumit,
->>
->> Over the past few days, I've been thinking about your proposal and
->> scenario.
->>
->> I think we both agree that PATCH 1-7 in [1] doesn't conflicts with [2], so
->> the rest of the discussion focuses on the differences between [2] and the
->> PATCH 8 in [1].
->>
->> We both tried to support autonomous selection mode in cppc_cpufreq but on
->> different ways. I think the differences between these two approaches can be
->> summarized into three questions:
->>
->> 1. Which sysfs files to expose? I think this is not a problem, we can keep
->> all of them.
->>
->> 2. Where to expose these sysfs files? I understand your willing to keep all
->> cpc registers together under acpi_cppc sysfs. But in my opinion, it is more
->> suitable to expose them under cppc_cpufreq_attr, for these reasons:
->>
->>    1) It may probably introduce concurrency and data consistency issues, as
->> I mentioned before.
->>
-> 
-> As explained in previous reply, this will be solved with the ifdef
-> check to enable the attributes for only those CPUFREQ drivers which want
-> to use the generic nodes.
->  e.g: '#ifdef CONFIG_ACPI_CPPC_CPUFREQ' for 'cppc_cpufreq'.
->            
-> These CPC register read/write sysfs nodes are generic as per the ACPI
-> specification and without any vendor specific logic.
-> So, adding them in the lib file 'cppc_acpi.c'(CONFIG_ACPI_CPPC_LIB) will
-> avoid code duplication if a different or new ACPI based CPUFREQ driver
-> also wants to use them just by adding their macro check. Such ifdef check is also used in other places for attributes creation like below.
-> So, don't look like a problem.
->  $ grep -A4 "acpi_cpufreq_attr\[" drivers/cpufreq/acpi-cpufreq.c
->  static struct freq_attr *acpi_cpufreq_attr[] = {
->     &freqdomain_cpus,
->  #ifdef CONFIG_X86_ACPI_CPUFREQ_CPB
->     &cpb,
->  #endif
+The sink is stopped to read data, but also important is the
+enable/disable refcount. The only time that "update_buffer" will read
+is if the sink has a refcount == 1. These are ultimately controlled by
+enable/disable path - which will not occur during pause/resume
+operations.
 
-So in the future, we will see:
 
-static struct attribute *cppc_attrs[] = {
-	...
-#ifdef CONFIG_XXX
-	&xxx.attr,
-	&xxx.attr,
-#endif
-#ifdef CONFIG_XXX
-	&xxx.attr,
-#endif
-#ifdef CONFIG_XXX
-	&xxx.attr,
-	...
-};
+Regards
 
-I think you are making things more complicated.
+Mike
 
-> 
->>    2) The store functions call cpufreq_cpu_get() to get policy and update
->> the driver_data which is a cppc_cpudata. Only the driver_data in
->> cppc_cpufreq's policy is a cppc_cpudata! These operations are inappropriate
->> in cppc_acpi. This file currently provides interfaces for cpufreq drivers
->> to use. Reverse calls might mess up call relationships, break code
->> structures, and cause problems that are hard to pinpoint the root cause!
->>
-> 
-> If we don't want to update the cpufreq policy from 'cppc_acpi.c' and only update it from within the cpufreq,    then this could be one valid
-> point to not add the write syfs nodes in 'cppc_acpi.c' lib file.
-> 
-> @Rafael, @Viresh : Do you have any comments on this?
+>
+> > +     if (READ_ONCE(handle->event)) {
+> > +             if (!size)
+> > +                     return;
+> > +
+> > +             perf_aux_output_end(handle, size);
+> > +             perf_aux_output_begin(handle, event);
+> > +     } else {
+> > +             WARN_ON_ONCE(size);
+> > +     }
+> >   }
+> >
+> >   static void etm_event_stop(struct perf_event *event, int mode)
+> > @@ -595,7 +634,7 @@ static void etm_event_stop(struct perf_event *event, int mode)
+> >       struct coresight_path *path;
+> >
+> >       if (mode & PERF_EF_PAUSE)
+> > -             return etm_event_pause(csdev, ctxt);
+> > +             return etm_event_pause(event, csdev, ctxt);
+> >
+> >       /*
+> >        * If we still have access to the event_data via handle,
+>
 
-I think updating cpufreq policy from 'cppc_acpi.c' should be forbidden.
 
-> 
->>    3) Difficult to extend. Different cpufreq drivers may have different
->> processing logic when reading from and writing to these CPC registers.
->> Limiting all sysfs here makes it difficult for each cpufreq driver to
->> extend. I think this is why there are only read-only interfaces under
->> cppc_attrs before.
->>
-> 
-> We are updating the CPC registers as per the generic ACPI specification.
-> So, any ACPI based CPUFREQ driver can use these generic nodes to
-> read/write reg's until they have a vendor specific requirement or
-> implementation.
-> As explained above, If someone wants to update in different way and use
-> their own CPUFREQ driver then these generic attributes won't be created
-> due to the CPUFREQ driver macro check.
-> I think AMD and Intel are doing more than just reading/updating the registers. That's why they needed their driver specific implementations.
-> 
->> Adding a 'ifdef' is not a good way to solve these problems. Defining this
->> config does not necessarily mean that the cpufreq driver is cppc_cpufreq.
->>
-> 
-> It means that only.
->  ./drivers/cpufreq/Makefile:obj-$(CONFIG_ACPI_CPPC_CPUFREQ) += cppc_cpufreq.o
-
-Compile this file does not mean that the cpufreq driver is cppc_cpufreq.
-Driver registration may fail, and the actually loaded driver may be
-another. It'll be dangerous to expose these sysfs files for users to update
-registers' value in this case.
-
-> 
->> 3. Is it necessary to add a new driver instance? [1] exposed the sysfs
->> files to support users dynamically change the auto selection mode of each
->> policy. Each policy can be operated seperately. It seems to me that if you
->> want to boot all CPUs in auto mode, it should be sufficient to set all
->> relevant registers to the correct values at boot time. I can't see why the
->> new instance is necessary unless you explain it further. Could you explain
->> more about why you add a new instance starting from answer these questions:
->>
->> For a specific CPU, what is the difference between using the two instances
->> when auto_sel is 1? And what is the difference when auto_sel is 0?
->>
-> 
-> Explained this in previous reply. Let me elaborate more.
-> 
-> For hundred's of CPU's, we don't need to explicitly set multiple sysfs
-> after boot to enable and configure Auto mode with right params. That's why an easy option is to pass boot argument or module param for enabling
-> and configuration.
-> A separate instance 'cppc_cpufreq_epp' of the 'cppc_cpufreq' driver is
-> added because policy min/max need to be updated to the min/max_perf
-> and not nominal/lowest nonlinear perf which is done by the default
-> init hook. Min_perf value can be lower than lowest nonlinear perf and Max_perf can be higher than nominal perf.
-> If some CPU is booted with epp instance and later the auto mode is disabled or min/max_perf is changed from sysfs then also the policy
-> min/max need to be updated accordingly.
-> 
-> Another is that in Autonomous mode the freq selection and setting is
-> done by HW. So, cpufreq_driver->target() hook is not needed.
-> These are few reasons which I am aware of as of now.
-> I think in future there can be more. Having a separate instance
-> reflecting a HW based Autonomous frequency selection will make it easy
-> for any future changes.
-
-So CPUs will act totally differently under these two instance. But what if
-I want part of the CPUs in HW mode and others in SW mode? Should I boot on
-HW mode and set some policies' auto_set to false or the other way? It seems
-like the effects of theses two approaches are completely different. In my
-opinion, this new instance is more like a completely different driver than
-cppc_cpufreq.
-
-> 
->> If it turns out that the new instance is necessary, I think we can reach a
->> common approach by adding this new cpufreq driver instance and place the
->> attributes in 'cppc_cpufreq_epp_attr', like amd-pstate did.
->>
->> What do you think?
-> 
-> I initially thought about this but there was a problem.
-> What if we boot with non-epp instance which doesn't have these attributes and later want to enable Auto mode for few CPU's from sysfs.
-
-That's the problem. CPUs can be set to Auto mode with or without this new
-instance. So what's the point of it?
-
-> 
-> 
-> Best Regards,
-> Sumit Gupta
-
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
