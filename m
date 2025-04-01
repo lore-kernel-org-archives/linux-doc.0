@@ -1,205 +1,305 @@
-Received: from mailout3.samsung.com (mailout3.samsung.com [203.254.224.33])
+Received: from out-187.mta1.migadu.com (out-187.mta1.migadu.com [95.215.58.187])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464521A3179
-	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 02:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=203.254.224.33
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC46232C85
+	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 02:15:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.187
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743473679; cv=none; b=cv+ZdAavwNCTCA5qwZBD0XBbNUPGY71hDMC4YD/UWe2DkTAr06G92Zu2guvAaSF61NyuO1bzKd9XbSrCbg2AGASazdxu5HQHT69wL7LR0xCl7ecI/7ywapHfJcvtkOGzeCivoAH9cG4l78SAFVqtypEDeKRXoAfM9P+qR3e16Cw=
+	t=1743473757; cv=none; b=PMxASsuTBGdJJVymcmE5Sf2eoijA7atjwufzv3oT0bSgpMfL/ptqsB645Hp6qvGeRB7u/xbm2rBVxvZ5dYWBE6Q2SLPEioCtIV0KdwgeBN15YdRDiq52n8s/tTR+Eb3SNwXng/78KayIvn42OHS6C5LaBV0IwpBLOKUEp/vidyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743473679; c=relaxed/simple;
-	bh=btsx7G9oLe745AyCwE8EiMzW96Mm8fFPN0r5Nj09QU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:In-Reply-To:
-	 Content-Type:References; b=csUYsJ4k/iiTlTst3R+3520kK+pbg7+NTDkT+2huz6NnQ/fcBoswb4/LObw5pPSrfrdSvvzCA1M2m1IBFt2DgHaH6CwHzLOwHlqceckqz+Gxf3DfPmo8HKT3BpUuaCt/l1gj0rH1IyLYezs4gCjfY60hJeWLqZZ0Ff6zON8BASU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com; spf=pass smtp.mailfrom=samsung.com; dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b=TOuFEw4o; arc=none smtp.client-ip=203.254.224.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=samsung.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=samsung.com
+	s=arc-20240116; t=1743473757; c=relaxed/simple;
+	bh=yK7sCII2pcmZURx+Xjim+BLAiRlgmXjngtSEYTBTWqk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=M695P9JXZnmkOhk5ipPZX4DlWV4fKdGm+WGscpO4fP5KeEOgnpiXlaWd6wCWPpnJdZtelre/TGkARPylFU6lOhLDTWU5mkBBCEl9nJgjrCylqxKKDmBpNgAqSsj7VaW7okwKUezMCh7quh0O2H/2mA+Hpu2qMOLaICPbE9w8MvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Lv3RaiNh; arc=none smtp.client-ip=95.215.58.187
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=samsung.com header.i=@samsung.com header.b="TOuFEw4o"
-Received: from epcas2p1.samsung.com (unknown [182.195.41.53])
-	by mailout3.samsung.com (KnoxPortal) with ESMTP id 20250401021429epoutp03044ac2048c9d5ba23d6da1570c918036~yEBCwfBUF1155911559epoutp03X
-	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 02:14:29 +0000 (GMT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 mailout3.samsung.com 20250401021429epoutp03044ac2048c9d5ba23d6da1570c918036~yEBCwfBUF1155911559epoutp03X
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
-	s=mail20170921; t=1743473669;
-	bh=7bcFPViTtsO+p+t1ZImtFXAyntpk+EDHZqlNKA6Gh6M=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=TOuFEw4olTPDU1ScHlbbM0LQWlYP2ZauWyXqgYfusBsztcO4uwO6Dbd94KZiUG3lY
-	 BoPzCCmNDuoJDw9+6ahHmScTn9JUDw+HByHeJq+GSysEe8cPpBHKo9M5PjRJQqVpO7
-	 YhRWUUXEvDlNBsPt8cb6Bzlijvi0kzAAxLmqJgj0=
-Received: from epsnrtp02.localdomain (unknown [182.195.42.154]) by
-	epcas2p2.samsung.com (KnoxPortal) with ESMTPS id
-	20250401021429epcas2p2402906ff9dabc07ca417a98c05fd3182~yEBCN5tQm1409014090epcas2p2Y;
-	Tue,  1 Apr 2025 02:14:29 +0000 (GMT)
-Received: from epsmgec2p1-new.samsung.com (unknown [182.195.36.89]) by
-	epsnrtp02.localdomain (Postfix) with ESMTP id 4ZRWlm2pMzz2SSL3; Tue,  1 Apr
-	2025 02:14:28 +0000 (GMT)
-Received: from epcas2p1.samsung.com ( [182.195.41.53]) by
-	epsmgec2p1-new.samsung.com (Symantec Messaging Gateway) with SMTP id
-	CE.27.37303.40C4BE76; Tue,  1 Apr 2025 11:14:28 +0900 (KST)
-Received: from epsmtrp2.samsung.com (unknown [182.195.40.14]) by
-	epcas2p4.samsung.com (KnoxPortal) with ESMTPA id
-	20250401021427epcas2p40616133da2f95585af5f83e355e0cab8~yEBBErT0m0916509165epcas2p4d;
-	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
-Received: from epsmgmcp1.samsung.com (unknown [182.195.42.82]) by
-	epsmtrp2.samsung.com (KnoxPortal) with ESMTP id
-	20250401021427epsmtrp28c03f61d7cb3ee24287566a1dd591f6b~yEBBDlwmU1626516265epsmtrp2C;
-	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
-X-AuditID: b6c32a4d-541ff700000091b7-49-67eb4c041e75
-Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
-	epsmgmcp1.samsung.com (Symantec Messaging Gateway) with SMTP id
-	B1.C6.19478.30C4BE76; Tue,  1 Apr 2025 11:14:27 +0900 (KST)
-Received: from ubuntu (unknown [10.229.95.128]) by epsmtip1.samsung.com
-	(KnoxPortal) with ESMTPA id
-	20250401021427epsmtip160f3d75d1ab0c4c53dd0924e5eafe711~yEBAxHCur0673006730epsmtip1q;
-	Tue,  1 Apr 2025 02:14:27 +0000 (GMT)
-Date: Tue, 1 Apr 2025 11:23:36 +0900
-From: Jung Daehwan <dh10.jung@samsung.com>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: Puma Hsu <pumahsu@google.com>, Greg KH <gregkh@linuxfoundation.org>,
-	srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org, Mathias Nyman
-	<mathias.nyman@linux.intel.com>
-Subject: Re: [PATCH v36 01/31] xhci: sideband: add initial api to register a
- secondary interrupter entity
-Message-ID: <20250401022336.GA98772@ubuntu>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Lv3RaiNh"
+Message-ID: <6863ae24-10de-4d50-9175-ab5012f204ed@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743473743;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=mVIt39iX+yIgMFcd6pfezPgLCafub6eRM8LBfRP+VDw=;
+	b=Lv3RaiNhQ7iM2mSKuBeumVnHUGxMvbPEkEblwwu27O6scytl9/WT5PmIvHUAojiSX5GIu8
+	AhIPHYBh6iBwkE50GK+v5PMixUr9rgZ6x0+vriQ0vZMoA25qxya32DT7h+fDFhr/UxCbnw
+	vmhQ148wJ3rfComORpzs/IvMG3/9mIo=
+Date: Tue, 1 Apr 2025 10:15:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
-User-Agent: Mutt/1.5.24 (2015-08-30)
-X-Brightmail-Tracker: H4sIAAAAAAAAA02TfUxTVxjGPb29t+Wjeim6HXGZTZnZYANa5OOwiS7RuEuGCWNLmPtj2MCl
-	MEpb2jKQkcGgfAZRBHHUMhg4QCZ28iGCRb4cDLaRZYqMDzFsUKWdToEVJgJruWr473ee932e
-	c95zcrgYv5Ljxo2Ta2iVXCITEo7sK30e/l7sUItUNJrtis5MzxDoYucwC8105wJUeWMYR33V
-	9wHKqjEQaE43RSDrrTwWKu76lYO+zTnPRmPzVhzd7NATqMJUiqHq2mwMZTWV4sjyKJON8jtO
-	4ujJuomFyhvdUdO1IhytG69yUE5/P44aqro56IelRvAupNp1dzhUVVMSVWOcY1FNDfkENXnb
-	SFDfDH5AdVVc5FA1RSU4df1BLUEVG7+kDC0jbKqlawFQC02vhvE+id8XS0uiaZWAlkcpouPk
-	0mDh+x9GHoz0DxCJvcRBKFAokEsS6GDhodAwr8NxMtv8QsHnElmSTQqTqNVCn/37VIokDS2I
-	Vag1wUJaGS1TBiq91ZIEdZJc6i2nNW+LRSJff1vjsfjYR+tWoLzumjKWmQcyQOO2AuDAhaQf
-	HGmYwO3MJ40Ariy5FABHG88D+Fh7nnixKKkoAc8d/ywvsZhCO4BT2macWcwAWDiazbZ3scnX
-	4N8npjeYID3h1PJPmJ2323hSfxfYDRj5HxtaTT0ce8GVjIc/VutYduaRb8KnX7dxGHaBg+Uz
-	G0EO5AF4qbLZ1sPl7rBtYO5Jt+dAss0BXiitwe06JA/B/Aw2c1JXaB5o4TDsBhcedhIMq+H4
-	PRPGeLUA1pu1GFPYC3Wm3I0xMTIWTq79jjGZ7vDGOJuRt8K8vlUOI/NgXg6fcbrDszdP4Qzv
-	hD2W4WeJFCw7eRsw99OCwQHTCfwU2K3bNJlu0246WyxGekBDhw8j74ZZreeeybtg3Rp3U0cV
-	IBqAG61UJ0jpKF+l2EtOJ794+yhFQhPY+CmeR64Ci2HVuxewuKAXQC4m3M77+N85KZ8XLTme
-	SqsUkaokGa3uBf62ZyvG3HZEKWxfTa6JFPsFifwCAsSBvv6iQOHLvN7Hs1I+KZVo6HiaVtKq
-	5z4W18Etg7U3fCVl3OKZdjlt8cFXT6e35sYM/VEWMRq362C4gZf1urN1LCER29p2obLklRjV
-	e7Mdvn7Oi/FbZO4Tp2vqe1dDvPsy/qrMuLKtfa7d5KTsc9Sp2W3JdUebs985nBmy80mbvmg0
-	2xLTHyW4I0inP9InDk2cqfs06OhsRNB36cWFVZedQ/lcY/6tcKehPa1arf6h44FUklw5VrYH
-	obP9RsfUxft/RnW+9LM5aEt9npewI9n6Fj+nOM3iPuUjMITXR1ocrzmL5fPEQEF6ueDeYq3R
-	xWO/Uyge8sXx3yRry0cSIwYv6TPNdz9L7U6pPbeWseyWNaLQFUabW3+RvfF9GTYiDxey1bES
-	sSemUkv+B4ufmJ6yBAAA
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrNIsWRmVeSWpSXmKPExsWy7bCSnC6zz+t0g22N6hZTHz5hs1iz9xyT
-	xZMD7YwW84+cY7U4vOgFo0Xz4vVsFi9n3WOz+Halg8li4v6z7BYL25awWNz89I3V4vKuOWwW
-	c59NYbZYtKyV2aJ50xRWi9cfmlgsOnf1s1r8+v+MyWLmWmWLTbv7WC3+79nBbtF27BirxaoF
-	B9gtNnxfy+gg4bFz1l12jwWbSj0W73nJ5LFpVSebx51re9g85p0M9Ng/dw27x+K+yawe+94u
-	Y/OYuKfOY/2WqyweW/Z/ZvT4vEkugDeKyyYlNSezLLVI3y6BK+Pe8qOMBQ8EKqYeeMDWwPia
-	p4uRk0NCwETi/Y/vTF2MXBxCAtsZJRoutbJCJCQlls69wQ5hC0vcbznCClH0iFFiz6lPzCAJ
-	FgEViTe9D1lAbDYBLYl7P06AxUWA7Dtz7jOCNDAL/GaRuL38DliRsEC2xNFFs5hAbF4BbYk/
-	M7azQ0zdwiyxb813VoiEoMTJmU/AGpgF1CX+zLsENJUDyJaWWP6PAyIsL9G8dTbYMk4Be4l1
-	8zczgZSIAh306mD9BEahWUgGzUIyaBbCoFlIBi1gZFnFKJpaUJybnptcYKhXnJhbXJqXrpec
-	n7uJEZwetIJ2MC5b/1fvECMTB+MhRgkOZiUR3oivL9OFeFMSK6tSi/Lji0pzUosPMUpzsCiJ
-	8yrndKYICaQnlqRmp6YWpBbBZJk4OKUamNx5nF6ozFZ4Gmqs7/737UExTW+Gs+6rr3/Sv/TT
-	4f30oOPsV+f4HVmbyfpoMZup1r2FT36dctf4qjvhepfNx+zpvxlmusU/2Fbeyqeb8tS8us1f
-	Z/K5qO6+iqeVZVtL4kproyYKvT8bnLcyXyRiVuX+H8IpWvrslfkshQ/eK35IC8ycbvL3Sdee
-	lIVr9NScNRSvvmldL7V7+nJbMWbWWXur9jl7ymty/f9aKFpUeuF9y6HOI4Ida6OiOwsagqqz
-	GYv5FT6J68lIdWXVWV8vUlXYlTB1Tnt7/u++fecqTyfkHGmdJNVxIvvXj8usL/lPvOl/8L3Y
-	hGu/1nHugFsmmUauT8TKT7PWxvz/L/lSiaU4I9FQi7moOBEADSCNCn4DAAA=
-X-CMS-MailID: 20250401021427epcas2p40616133da2f95585af5f83e355e0cab8
-X-Msg-Generator: CA
-Content-Type: multipart/mixed;
-	boundary="----caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_"
-X-Sendblock-Type: AUTO_CONFIDENTIAL
-CMS-TYPE: 102P
-DLP-Filter: Pass
-X-CFilter-Loop: Reflected
-X-CMS-RootMailID: 20250327161254epcas2p35ea7c80bdcefaefc645c061531dd6833
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
-	<20250319005141.312805-2-quic_wcheng@quicinc.com>
-	<CAGCq0LZoi0MOJLJYUeQJW6EfOU_Ch=v1Sg8L4_B-KhdDCx1fCw@mail.gmail.com>
-	<2025032734-reward-fantasize-dc16@gregkh>
-	<CAGCq0LamxvvE8b45VAshw9aWJNC2so_vK9t+pzXd3C7Y7tfYAg@mail.gmail.com>
-	<CGME20250327161254epcas2p35ea7c80bdcefaefc645c061531dd6833@epcas2p3.samsung.com>
-	<87746e66-84c1-4ff3-8b69-fbee1664eff6@quicinc.com>
-
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_
-Content-Type: text/plain; charset="utf-8"
+Subject: Re: [PATCH v2 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+To: Tianyang Zhang <zhangtianyang@loongson.cn>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, tglx@linutronix.de,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250331064116.32540-1-zhangtianyang@loongson.cn>
+ <20250331064116.32540-3-zhangtianyang@loongson.cn>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Yanteng Si <si.yanteng@linux.dev>
+In-Reply-To: <20250331064116.32540-3-zhangtianyang@loongson.cn>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Disposition: inline
-
-On Thu, Mar 27, 2025 at 09:12:12AM -0700, Wesley Cheng wrote:
-> 
-> 
-> On 3/27/2025 3:14 AM, Puma Hsu wrote:
-> > On Thu, Mar 27, 2025 at 3:02 PM Greg KH <gregkh@linuxfoundation.org> wrote:
-> >>
-> >> On Thu, Mar 27, 2025 at 02:27:00PM +0800, Puma Hsu wrote:
-> >>> Hi,
-> >>>
-> >>> We have implemented and verified the USB audio offloading feature with
-> >>> the xhci sideband driver on our Google Pixel products. We would
-> >>> appreciate it if this solution can be accepted. Thank you all for the
-> >>> work!
-> >>>
-> >>
-> >> Great, can you properly send a "Tested-by:" line for this against the
-> >> 00/XX email so that it will be properly saved?
-> >>
-> > 
-> > We(Google Pixel) only use the xhci sideband related changes and two
-> > changes in the sound card driver. For the details, what we actually
-> > tested are patch [01], [02], [03], [04], [05], [06], [08], and [12].
-> > Do I still send the "Tested-by:" line to 00/31 email? Or should I just
-> > send the "Tested-by:" line to the 8 changes above? (I added
-> > "Tested-by" line for this [01/31] first.)
-> > 
-> >> Also, I think a new version of the series is coming, can you test that
-> >> to verify it works properly?  We have to wait until after -rc1 is out
-> >> anyway.
-> >>
-> > 
-> > I think this v36 is the last version of the series as I discussed with
-> > QCOM Wesley. And for sure I will test it if they do have a new
-> > version.
-> > 
-> 
-> Hi Puma,
-> 
-> I'm discussing with Stephan on the QC specific stuff, so the common changes
-> won't change on v37.  Please provide your tested-by tags for each commit,
-> so I can carry them accordingly on the next submission.  If I do end up
-> making changes to any of the common patches, I will remove your tested by
-> tag, which means you might have to test it again.
-> 
-> Thanks
-> Wesley Cheng
-> 
-> 
-> 
-
-Hi Wesley,
-
-Thanks for your effort to upstream usb audio offload.
-I've also used your patchset like Puma.
-([01], [02], [03], [04], [05], [06], [08], and [12])
-
-It works well on Exynos. Please let me know if you need also
-"Tested-by:" on our side.
-
-Best Regards,
-Jung Daehwan
-
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_
-Content-Type: text/plain; charset="utf-8"
+X-Migadu-Flow: FLOW_OUT
 
 
-------caUwc_dC5aEw_I.xGS0GMYyTEPKysFRHRKa1IoFNAgiy-i3F=_66d1f_--
+在 3/31/25 2:41 PM, Tianyang Zhang 写道:
+> The main function of the Redirected interrupt controller is to manage the
+> redirected-interrupt table, which consists of many redirected entries.
+> When MSI interrupts are requested, the driver creates a corresponding
+> redirected entry that describes the target CPU/vector number and the
+> operating mode of the interrupt. The redirected interrupt module has an
+> independent cache, and during the interrupt routing process, it will
+> prioritize the redirected entries that hit the cache. The driver
+> invalidates certain entry caches via a command queue.
+>
+> Co-developed-by: Liupu Wang <wangliupu@loongson.cn>
+> Signed-off-by: Liupu Wang <wangliupu@loongson.cn>
+> Signed-off-by: Tianyang Zhang <zhangtianyang@loongson.cn>
+> ---
+>   arch/loongarch/include/asm/cpu-features.h |   1 +
+>   arch/loongarch/include/asm/cpu.h          |   2 +
+>   arch/loongarch/include/asm/loongarch.h    |   6 +
+>   arch/loongarch/kernel/cpu-probe.c         |   2 +
+>   drivers/irqchip/Makefile                  |   2 +-
+>   drivers/irqchip/irq-loongarch-avec.c      |  21 +-
+>   drivers/irqchip/irq-loongarch-ir.c        | 561 ++++++++++++++++++++++
+>   drivers/irqchip/irq-loongson.h            |  12 +
+>   include/linux/cpuhotplug.h                |   1 +
+>   9 files changed, 594 insertions(+), 14 deletions(-)
+>   create mode 100644 drivers/irqchip/irq-loongarch-ir.c
+>
+>
+> +static void invalid_enqueue(struct redirect_queue *rqueue, struct irde_inv_cmd *cmd)
+> +{
+> +	struct irde_inv_cmd *inv_addr;
+> +	u32 tail;
+> +
+> +	guard(raw_spinlock_irqsave)(&rqueue->lock);
+> +
+> +	while (invalid_queue_is_full(rqueue->node, &tail))
+> +		cpu_relax();
+> +
+> +	inv_addr = (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct irde_inv_cmd));
+> +	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
+> +	tail = (tail + 1) % INVALID_QUEUE_SIZE;
+> +
+
+> +	wmb();
+
+Add some comments?  In kernel docs:
+
+
+22) 所有内存屏障（例如 ``barrier()``, ``rmb()``, ``wmb()`` ）都需要源代码注
+     释来解释它们正在执行的操作及其原因的逻辑。
+> +
+> +	iocsr_write32(tail, LOONGARCH_IOCSR_REDIRECT_CQT);
+> +}
+> +
+> +static void smp_call_invalid_enqueue(void *arg)
+> +{
+> +	struct smp_invalid_arg *s_arg = (struct smp_invalid_arg *)arg;
+> +
+> +	invalid_enqueue(s_arg->queue, s_arg->cmd);
+> +}
+> +
+> +static void irde_invlid_entry_node(struct redirect_item *item)
+> +{
+> +	struct redirect_queue *rqueue;
+> +	struct smp_invalid_arg arg;
+> +	struct irde_inv_cmd cmd;
+> +	volatile u64 raddr = 0;
+> +	int node = item->table->node, cpu;
+> +
+> +	rqueue = &(irde_descs[node].inv_queue);
+> +	cmd.cmd_info = 0;
+> +	cmd.index.type = INVALID_INDEX;
+> +	cmd.index.need_notice = 1;
+> +	cmd.index.index = item->index;
+> +	cmd.notice_addr = (u64)(__pa(&raddr));
+> +
+> +	if (cpu_to_node(smp_processor_id()) == node)
+> +		invalid_enqueue(rqueue, &cmd);
+> +	else {
+> +		for_each_cpu(cpu, cpumask_of_node(node)) {
+> +			if (cpu_online(cpu))
+> +				break;
+> +		}
+> +		arg.queue = rqueue;
+> +		arg.cmd = &cmd;
+> +		smp_call_function_single(cpu, smp_call_invalid_enqueue, &arg, 0);
+> +	}
+> +
+> +	while (!raddr)
+> +		cpu_relax();
+> +
+> +}
+> +
+> +static inline struct avecintc_data *irq_data_get_avec_data(struct irq_data *data)
+> +{
+> +	return data->parent_data->chip_data;
+> +}
+> +
+> +static int redirect_table_alloc(struct redirect_item *item, struct redirect_table *ird_table)
+> +{
+> +	int index;
+> +
+> +	guard(raw_spinlock_irqsave)(&ird_table->lock);
+> +
+> +	index = find_first_zero_bit(ird_table->bitmap, IRD_ENTRIES);
+> +	if (index > IRD_ENTRIES) {
+> +		pr_err("No redirect entry to use\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	__set_bit(index, ird_table->bitmap);
+> +
+> +	item->index = index;
+> +	item->entry = &ird_table->table[index];
+> +	item->table = ird_table;
+> +
+> +	return 0;
+> +}
+> +
+> +static int redirect_table_free(struct redirect_item *item)
+> +{
+> +	struct redirect_table *ird_table;
+> +	struct redirect_entry *entry;
+> +	unsigned long flags;
+> +
+> +	ird_table = item->table;
+> +
+> +	entry = item->entry;
+> +	memset(entry, 0, sizeof(struct redirect_entry));
+> +
+> +	raw_spin_lock_irqsave(&ird_table->lock, flags);
+> +	bitmap_release_region(ird_table->bitmap, item->index, 0);
+> +	raw_spin_unlock_irqrestore(&ird_table->lock, flags);
+> +
+> +	kfree(item->gpid);
+> +
+> +	irde_invlid_entry_node(item);
+> +
+> +	return 0;
+> +}
+> +
+> +static inline void redirect_domain_prepare_entry(struct redirect_item *item, struct avecintc_data *adata)
+> +{
+> +	struct redirect_entry *entry = item->entry;
+> +
+> +	item->gpid->en = 1;
+> +	item->gpid->irqnum = adata->vec;
+> +	item->gpid->dst = adata->cpu;
+> +
+> +	entry->lo.valid = 1;
+> +	entry->lo.gpid = ((long)item->gpid >> GPID_ADDR_SHIFT) & (GPID_ADDR_MASK);
+> +	entry->lo.vector = 0xff;
+> +	wmb();
+> +}
+> +
+> +static int redirect_set_affinity(struct irq_data *data, const struct cpumask *dest, bool force)
+> +{
+> +	struct redirect_item *item = data->chip_data;
+> +	struct avecintc_data *adata;
+> +	int ret;
+> +
+> +	ret = irq_chip_set_affinity_parent(data, dest, force);
+> +	if (ret == IRQ_SET_MASK_OK_DONE)
+> +		return IRQ_SET_MASK_OK;
+> +	else if (ret) {
+> +		pr_err("IRDE:set_affinity error %d\n", ret);
+> +		return ret;
+> +	}
+> +
+> +	adata = irq_data_get_avec_data(data);
+> +
+> +	redirect_domain_prepare_entry(item, adata);
+> +
+> +	irde_invlid_entry_node(item);
+> +
+> +	avecintc_sync(adata);
+> +	return IRQ_SET_MASK_OK;
+> +}
+> +
+> +static void redirect_compose_msi_msg(struct irq_data *d, struct msi_msg *msg)
+> +{
+> +	struct redirect_item *item;
+> +
+> +	item = irq_data_get_irq_chip_data(d);
+> +	msg->address_lo = (msi_base_addr | 1 << 2 | ((item->index & 0xffff) << 4));
+> +	msg->address_hi = 0x0;
+> +	msg->data = 0x0;
+> +}
+> +
+> +static inline void redirect_ack_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void redirect_unmask_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static inline void redirect_mask_irq(struct irq_data *d)
+> +{
+> +}
+> +
+> +static struct irq_chip loongarch_redirect_chip = {
+> +	.name			= "REDIRECT",
+> +	.irq_ack		= redirect_ack_irq,
+> +	.irq_mask		= redirect_mask_irq,
+> +	.irq_unmask		= redirect_unmask_irq,
+> +	.irq_set_affinity	= redirect_set_affinity,
+> +	.irq_compose_msi_msg	= redirect_compose_msi_msg,
+> +};
+> +
+> +static void redirect_free_resources(struct irq_domain *domain,
+> +						unsigned int virq, unsigned int nr_irqs)
+> +{
+> +	struct irq_data *irq_data;
+> +	struct redirect_item *item;
+> +
+> +	for (int i = 0; i < nr_irqs; i++) {
+> +		irq_data = irq_domain_get_irq_data(domain, virq  + i);
+> +		if (irq_data && irq_data->chip_data) {
+> +			item = irq_data->chip_data;
+> +			redirect_table_free(item);
+> +			kfree(item);
+> +		}
+> +	}
+> +}
+> +
+
+> +static int redirect_alloc(struct irq_domain *domain,
+> +					unsigned int virq, unsigned int nr_irqs,
+> +					 void *arg)
+
+The line break handling here is not good. Two lines would be
+
+sufficient. Your code style is extremely terrible, and it seems
+
+that you haven't passed the checkpatch.pl test yet.
+
+
+https://docs.kernel.org/translations/zh_CN/process/coding-style.html
+
+
+Maybe it would be a good idea to read the kernel
+
+documentation before preparing for v3.
+
+
+Thanks,
+
+Yanteng
+
+
