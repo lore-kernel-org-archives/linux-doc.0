@@ -1,38 +1,59 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 896DD20487D;
-	Tue,  1 Apr 2025 15:09:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A745020C01C;
+	Tue,  1 Apr 2025 15:50:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743520141; cv=none; b=b4OU4w53XTuQgD+grad2Yx0rSEv75ZXz0G5MVClet0e6b15NnOhOqWlOefh3KAOjsaiCMRK/T8Ld57d8qkIhbiZpqozumkFuG7H1veVDvQ1wPigAMaJOXqcCZSRv0UAik3DeoQPhRoiCp4pEow0wNKLQ7oVJOo72oNGn3X/2nQI=
+	t=1743522607; cv=none; b=SJCENRdJmh35YbAPUHqn2FjecI2WbLEYj8DaZMZGv+PdRclomPnuPPYbWlPSkiOVqrqCfCWJjkyqtVCJspZyb/GxjdwCfow4XpL+0Xg7fkinRJ8eSDTX/XJLKaLcraC6TJb+J+moD0AFdjSDoV1kovnIyY+Cl6CH5rGlSgMh3DU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743520141; c=relaxed/simple;
-	bh=AOJislbVXgKdhCxTaKtemM1ByV8ewGd50Dci9oXZHjM=;
+	s=arc-20240116; t=1743522607; c=relaxed/simple;
+	bh=1hkJIObXU6D6g/m6PDf5eOhm8XieoCe72AgLZFtJ1tY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WgRK5ujj358oEi3EJD1ZackU6VedV561ira0RrBhpf7CRzoqVlBek72nVsr+eqEqPj3je3dE4xeDy+AW20UCXb7Y3wHXrUmUvc9UREltqlkLoQnUeYJ89mLAak6jQsltA4aWeQtse+k9tmGj/XSMKGBvuihRHTdTnUxDtVWaj4k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 055FE2B;
-	Tue,  1 Apr 2025 08:09:03 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E06A3F694;
-	Tue,  1 Apr 2025 08:08:59 -0700 (PDT)
-Date: Tue, 1 Apr 2025 16:08:57 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Mike Leach <mike.leach@linaro.org>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3 5/6] coresight: perf: Update buffer on AUX pause
-Message-ID: <20250401150857.GD115840@e132581.arm.com>
-References: <20250311170451.611389-1-leo.yan@arm.com>
- <20250311170451.611389-6-leo.yan@arm.com>
- <8d9ad64b-a5f7-4a44-a557-7edb83322fdf@arm.com>
- <CAJ9a7ViUOZEyvqe-KGc-UdhmkqXpPdSeBWjk-=u1tAjFKu5Y+A@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQkjyyS2S9n3iHrYGp2lXYTjJfEwowWt+DXuiLuJQOKDcVr3A6oemgHOIZimLciIotYhoIIA68ZiCM4cHv1e4eJlQytsGmUCETsz/MPHPxlgTGOuZ7DoVLXzKLoZ3cn2wTVVlZNa4OMhkr09yn7bWTcNWqErJDWlcAq7FdQ/ajA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Pg9hd6bO; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Pg9hd6bO"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CFFEC4CEE4;
+	Tue,  1 Apr 2025 15:50:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743522607;
+	bh=1hkJIObXU6D6g/m6PDf5eOhm8XieoCe72AgLZFtJ1tY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Pg9hd6bOaGA/LYOFZN8mY4c003tZBqGisSy1eGSSPOnbpvECWNvOgduhC3WV48xYp
+	 mzn/SLSFf8UozljIiONEJAh1yqrMkNGkPlDuXflY8TprZ3FeTfabYNro4cwehZWBhx
+	 aaaOauK6U+4vud+mQfyTDqL8OIyJEW5/FuhabMNYjH98UkDm01FORoRs7vcZzJZVrH
+	 Pi/ff8O/1EUuU1AOzgdLPQfUj/EfCSei+ij4B8QYBY58MsTjdmaSkG4UiH3GHWb/T0
+	 ORw0oMtC/KKdafl0LcV6605G+s7nkKpYuhXOo6JyRvCEki5c5wdOYjX36z5Wp3UHkh
+	 B59gg6SPSZewg==
+Date: Tue, 1 Apr 2025 18:50:02 +0300
+From: Jarkko Sakkinen <jarkko@kernel.org>
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>,
+	=?iso-8859-1?Q?Micka=EBl_Sala=FCn?= <mic@digikod.net>,
+	=?iso-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
+	linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+	llvm@lists.linux.dev, nkapron@google.com, teknoraver@meta.com,
+	roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
+Message-ID: <Z-wLKhlfJ5EQqvJC@kernel.org>
+References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
+ <Z97xvUul1ObkmulE@kernel.org>
+ <871puc7wb8.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,75 +62,96 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAJ9a7ViUOZEyvqe-KGc-UdhmkqXpPdSeBWjk-=u1tAjFKu5Y+A@mail.gmail.com>
+In-Reply-To: <871puc7wb8.fsf@microsoft.com>
 
-On Tue, Apr 01, 2025 at 03:35:44PM +0100, Mike Leach wrote:
+On Mon, Mar 31, 2025 at 01:57:15PM -0700, Blaise Boscaccy wrote:
+> There are two flavors of skeletons, normal skeletons, and light
+> skeletons. Normal skeletons utilize relocation logic that lives in
+> libbpf, and the relocations/instruction rewriting happen in userspace.
+> The second flavor, light skeletons, uses a small eBPF program that
+> contains the relocation lookup logic. As it's running in in the kernel,
+> it unpacks the target program, peforms the instruction rewriting, and
+> loads the target program. Light skeletons are currently utilized for
+> some drivers, and BPF_PRELOAD functionionality since they can operate
+> without userspace.
+> 
+> Light skeletons were recommended on various mailing list discussions as
+> the preffered path to performing signature verification. There are some
+> PoCs floating around that used light-skeletons in concert with
+> fs-verity/IMA and eBPF LSMs. We took a slightly different approach to
+> Hornet, by utilizing the existing PCKS#7 signing scheme that is used for
+> kernel modules.
 
-[...]
+Right, because in the normal skeletons relocation logic remains
+unsigned?
 
-> > > -static void etm_event_pause(struct coresight_device *csdev,
-> > > +static void etm_event_pause(struct perf_event *event,
-> > > +                         struct coresight_device *csdev,
-> > >                           struct etm_ctxt *ctxt)
-> > >   {
-> > > +     int cpu = smp_processor_id();
-> > > +     struct coresight_device *sink;
-> > > +     struct perf_output_handle *handle = &ctxt->handle;
-> > > +     struct coresight_path *path;
-> > > +     unsigned long size;
-> > > +
-> > >       if (!ctxt->event_data)
-> > >               return;
-> > >
-> > >       /* Stop tracer */
-> > >       coresight_pause_source(csdev);
-> > > +
-> > > +     path = etm_event_cpu_path(ctxt->event_data, cpu);
-> > > +     sink = coresight_get_sink(path);
-> > > +     if (WARN_ON_ONCE(!sink))
-> > > +             return;
-> > > +
-> > > +     /*
-> > > +      * The per CPU sink has own interrupt handling, it might have
-> > > +      * race condition with updating buffer on AUX trace pause if
-> > > +      * it is invoked from NMI.  To avoid the race condition,
-> > > +      * disallows updating buffer for the per CPU sink case.
-> > > +      */
-> > > +     if (coresight_is_percpu_sink(sink))
-> > > +             return;
-> > > +
-> > > +     if (WARN_ON_ONCE(handle->event != event))
-> > > +             return;
-> > > +
-> > > +     if (!sink_ops(sink)->update_buffer)
-> > > +             return;
-> > > +
-> > > +     size = sink_ops(sink)->update_buffer(sink, handle,
-> > > +                                          ctxt->event_data->snk_config);
+I have to admit I don't fully cope how the relocation process translates
+into eBPF program but I do get how it is better for signatures if it
+does :-)
+
+> 
+> >> verification. Signature data can be easily generated for the binary
 > >
-> > I believe we keep the sink disabled/stopped in update_buffer. We need to
-> > turn it back ON after the "buffer update". May be we could use a flag
-> > to update_buffer() to indicate this is "pause" triggered update.
+> > s/easily//
+> >
+> > Useless word having no measure.
+> >
+> 
+> Ack, thanks.
+> 
+> 
+> >> data that is generated via bpftool gen -L. This signature can be
+> >
+> > I have no idea what that command does.
+> >
+> > "Signature data can be generated for the binary data as follows:
+> >
+> > bpftool gen -L
+> >
+> > <explanation>"
+> >
+> > Here you'd need to answer to couple of unknowns:
+> >
+> > 1. What is in exact terms "signature data"?
+> 
+> That is a PKCS#7 signature of a data buffer containing the raw
+> instructions of an eBPF program, followed by the initial values of any
+> maps used by the program. 
 
-Thanks for pointing out, Suzuki.
+Got it, thanks. This motivates to refine my TPM2 asymmetric keys
+series so that TPM2 could anchor these :-)
 
-I will fix it in next spin.
+https://lore.kernel.org/linux-integrity/20240528210823.28798-1-jarkko@kernel.org/
 
-> The sink is stopped to read data, but also important is the
-> enable/disable refcount. The only time that "update_buffer" will read
-> is if the sink has a refcount == 1. These are ultimately controlled by
-> enable/disable path - which will not occur during pause/resume
-> operations.
 
-Hi Mike,
+> 
+> > 2. What does "bpftool gen -L" do?
+> >
+> 
+> eBPF programs often have 2 parts. An orchestrator/loader program that
+> provides load -> attach/run -> i/o -> teardown logic and the in-kernel
+> program.
+> 
+> That command is used to generate a skeleton which can be used by the
+> orchestrator prgoram. Skeletons get generated as a C header file, that
+> contains various autogenerated functions that open and load bpf programs
+> as decribed above. That header file ends up being included in a
+> userspace orchestrator program or possibly a kernel module.
 
-My understanding is: if a sink is shared by multiple CPUs, e.g. a Perf
-session with CPU mode or system wide mode, then we cannot arbitrarily
-disable sink and update buffer, otherwise, it might cause hardware
-lockup issue.
+I did read the man page now too, but thanks for the commentary!
 
-For per-thread mode, the refcount == 1, we can take chance to update
-buffer, right?
+> 
+> > This feedback maps to other examples too in the cover letter.
+> >
+> > BR, Jarkko
+> 
+> 
+> I'll rework this with some definitions of the eBPF subsystem jargon
+> along with your suggestions.
 
-Thanks,
-Leo
+Yeah, you should be able to put the gist a factor better to nutshell :-)
+
+> 
+> -blaise
+
+BR, Jarkko
