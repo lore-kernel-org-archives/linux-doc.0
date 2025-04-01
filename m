@@ -1,230 +1,238 @@
-Received: from mail-ej1-f50.google.com (mail-ej1-f50.google.com [209.85.218.50])
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C3811E885A
-	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 08:16:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5654F1EB9E8
+	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 08:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743495399; cv=none; b=FZF3MF4j46+E1kNq6+sVvxuL4Fw8agXYyAXAME29syr3TFaaLYv5qo2gZMZBLyc8qYmbDLaq7h7QsrnRbuK6iavGD0E35t+SigNtU0YIDtN/HMUSk1LmMsVvmcl2Ghlo668OVk0+Fy8EIDiTv6OeO0j2L7mkbu11i7WS9nFi0a8=
+	t=1743497985; cv=none; b=o+1CkNkjaZ0s9+aEqaQ4B2GYb4X4H4sdDzB6T3Auz4r+48BrN6a620pPDdmZu5GqP3iVpW+dViZ8oVr5c7uU/ssn+AR/61E1Ob0VYxyKfGgwM+yo517+c6iT2TafYbWYynm068znaYTV0opZ/4lffg02KFOxNB1WNU5FUw7dvTk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743495399; c=relaxed/simple;
-	bh=eofPP7zphowVZVkOlN5trgp55mfN8GY1zjDnh4fRLYw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=evUCKY9BS90ZzGpnwnbsO12FVO1T8XmWKblXen+C2MSqPIKmwfzx8fZxNrHesDg6KY19NAkCGeFHsOqREp7seJKX6/OXiPvkwvaX/IPKfzRCedi5MQBNQ2FuXLcYAZvo2gZSTkXHqlxh7Krqnk52nXd9fgsJ49VQ/QaamQGz770=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RhP/zcmu; arc=none smtp.client-ip=209.85.218.50
+	s=arc-20240116; t=1743497985; c=relaxed/simple;
+	bh=iA3vc6iBumO0wyuNH4D4SNx9H8X39pPVlKvlLxxeDqY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=cofMTD3s3mjuHtbcbzHHznB0QJCh6U6WAK5CnbwnEYlPIdwHR9WdHgE3BLzPAA9WfsbFJOzKXe+Qm9Bn2ajHpDuaecinThufkjGnXSZQcvMtTeDhY9uEKNYcJsPgrIIT3JoC5F9/j1OIN6GwUp9fSfUlZtuATuQv6jTBmnXsO0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RdYg5tmv; arc=none smtp.client-ip=209.85.214.182
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RhP/zcmu"
-Received: by mail-ej1-f50.google.com with SMTP id a640c23a62f3a-ac25d2b2354so848871266b.1
-        for <linux-doc@vger.kernel.org>; Tue, 01 Apr 2025 01:16:36 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RdYg5tmv"
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-224191d92e4so98105605ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 01 Apr 2025 01:59:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743495395; x=1744100195; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PrVIKvgnOU4qD+Zbvm9Ig4ON8IklOf3INDhWzvDe65U=;
-        b=RhP/zcmuF2oktGZ9djneLZZIv8DrdOmYMf3/9v/fTfCH7S+uZWj9EnvhdKBsULP/Qm
-         nUILXTDPXbMbzevmseryy7BN24KkpEI/fRqoJTmd52+43QC3E9Q8aP70xcC+xnCt+OJA
-         FzRImPdI7RSFfhrz0i1ugscsLgMtOl/7zZWCCaK+ZAgEOUEvbvUZERnrqc34RuP0sZeG
-         cJ2dP1O4+a2xVv7tG0UIdZyPJRKuDJHXNr72Oelmf+x9quujf4dOLk9ZcudasdNmE6mn
-         M52YIkQFosR+6ZiaA5KYqpeJ+c63U9/EsXcdSRKRj5+8XZpsUsZZnB1EjYXDaI6exbna
-         Aj8w==
+        d=linaro.org; s=google; t=1743497982; x=1744102782; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=DUtQE7nMd/6PSKoEtlC68hCAEgv6hCHzZZn6Ocd8nbQ=;
+        b=RdYg5tmvEjiqm121IL/nr5xTsAa7TODaIHEnWSDofjTsVwB49Br7seF1Dq21pX/7Wz
+         K5QnifMwPrCJ5zbt9gk+6sqkpTWi/+QA09Bs07vk1H6UMLVL2mQsyW6aNnsgHZpOuHhy
+         7E7ByvnqJDTBpw1E8Sg0f71SRGTUbO9gFg8msmdg3yF9gliU7sJ+urFZttPKVFb9hMTv
+         MV+amILgTfQ6z4rq2KcMkStei4C3km3hnTT9OnhPkcT4UsW1O5+CcRZyMA9H9OKolP2b
+         snayhs/E369slo70k5DbOqgQm03ea0BTUA+LPeEdjtzCwrgzYONnY8Lclvinb1iT+oJc
+         tNFg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743495395; x=1744100195;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=PrVIKvgnOU4qD+Zbvm9Ig4ON8IklOf3INDhWzvDe65U=;
-        b=etfXMceroHxC6jXyiAPbYAi7kRTpuwVXF6VDeEeAlyGDUSqnbR18k70uJKNwzWxpJb
-         RyYBdxUo0YEk0ECMqMcfzjgR8RUmUS5SlM8k8aYaN/W2MF2Q+XIwSWSJzxuRuGh5H9Ch
-         6pKFkxySCwGLZALUlvIkAHuYx1BxDb5C5wdCDnbv+JrXDanq8Gq3W0QuvCiqdkuWDBh9
-         9fKT5fooo5pqPYhHyK4o96sU02NuA4Q7yLehOqbiOu3pEMyrYVLjzUmFGKO/o1LugxFk
-         n5sxXrD4CkmsksIKi6LvYHYSTMRdu5kUluqHuey3YqKThXrTvqtXJtMUdHIzqnSPwoBY
-         EBgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWVM/QzMYA2ecFuMnmn0FZJfyfVPCn5s9n6Z7HlMfjzwyTwSfTw5Yi0f4Wr9w9c825iwMiAkZ54Ma8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyrb3yBoFYXvoU4CV7HkRWLQvsrps00doGG1X0QjXBEG+wGDc2J
-	4RfAHvopef3Tcc3DeFpmREDG8o3jsvj3PFKNpVUtThz8MkAGmK1T3QG613wh+Kw=
-X-Gm-Gg: ASbGncv7wZHt6d+RV6FD3HUt3yrapz6tgNluYMPTQVE9UKB90ip16GAnZ969hHvy081
-	vapjS9/3IKkbE52NtIeIo/8z45sS5mCDHcFSO+Vlx4V7hWLsdL8dkhFG2YUwq/KJ2nKjGqyFME0
-	4LM9wthpsGFwxhaNog/lHqfLHEWQC2Dp5bhxVEEUgjoFNIsGOrpaCGWkdhF6ShXniPEi5b6mOLi
-	3BIPwrrhzMpzklvsGKx2msLAvsawQWPSMQgh+T8ovlIzw/9nnepTzeV4W61yBelOCGVtk0+VI2n
-	hV3OiOb6Wv1ycwEBVfxBXH1KNAF0q60qls3c+bZeZfLEVLVfS8t+ICY=
-X-Google-Smtp-Source: AGHT+IH1NMpRelTCtWxZmplIIh8jUgx3dBuQ+5KnEzikK+mjlKQVyUDxOdR2qGWxJmqwwa8QNnWrYA==
-X-Received: by 2002:a17:907:868e:b0:ac3:5d68:c519 with SMTP id a640c23a62f3a-ac738c13dcbmr1172846266b.53.1743495395257;
-        Tue, 01 Apr 2025 01:16:35 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:ce6:8cc5:6e98:d576])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7196f55f9sm738659266b.177.2025.04.01.01.16.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Apr 2025 01:16:34 -0700 (PDT)
-Date: Tue, 1 Apr 2025 10:16:29 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z-ug3YFwff8hWIRl@linaro.org>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
- <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+        d=1e100.net; s=20230601; t=1743497982; x=1744102782;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=DUtQE7nMd/6PSKoEtlC68hCAEgv6hCHzZZn6Ocd8nbQ=;
+        b=iYZpBYXNFO/RReyA/4yAn6sT2GkGYoMjKvt1IUna+jmaLOdg5IScjEjpagj4M1Kgg7
+         ZX843KQPzNlrRY8wW6XS3xQ86odBN+0NycZZzplBUy847Ovv3QHUgFLphNUIfYIa+uIP
+         f0YiguxWKAeGvCJ9KknVyXI8ojnMkynG4/GfSFbb8pm+pff3lmH7WwNdrAfCz6vtYPm2
+         UbhAVOR9CaKcmtIdTyqxS51zz7hN8mPLHeBLE+Vtb+G7R23RX+B/ti58Ox/EKVtLyftt
+         FAM9Md2wXXfrIid9tSzwZ8XVaIekDoFWcVVAXx+PmjVD/wJ1Pia2vZQqeqhNBZ8wIUn8
+         Bizw==
+X-Forwarded-Encrypted: i=1; AJvYcCXS5UilUe2hq5u+zl3n8XUEeOkbP0FVen39ISk4rU7R21Et+IDauCsu7i3xNcuRX9DthQtJ8kVzgFQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzH3KgxWKVGIINmFiABDhnTiJxf8Knwh3X9pBtMxCVbfMJj2G8X
+	yKNVAH/1rchQPNrWVj7umul3EB5EcVQEmEBYkJvqdLIB1W6Wb3b/5ahKBr8aaIsxKBkzycAo5Kt
+	ksCWuJ1ne7Z+fFkCaa8N7y5Xs2PYFQxp0pyc3xw==
+X-Gm-Gg: ASbGncs2BZAfStVT/LKdGk6Zq4QwKIGh2MM/Qa69rwgyHBiRuptCb2cXZdYAmQ/LRbU
+	CQHE+lvPhXDDCMTqhfvieGptLsdmDURRubv8YY4sfM4iyZkqjdysGbqfEF8U8Gp+MJP1Q0R/7nJ
+	/7eSdBazqzL1A7R6dbERKTHxVtml8=
+X-Google-Smtp-Source: AGHT+IGzin6V0f0YGKy7Udk3aewjUGbBv6XmcP/DU6qB3LkeQJ2R2Z1zAebpSyapanvD2hTwAq7WiNaUzpcJ1/QKOno=
+X-Received: by 2002:a05:6a00:853:b0:736:9fa2:bcbb with SMTP id
+ d2e1a72fcca58-73980436cbamr19044549b3a.24.1743497982506; Tue, 01 Apr 2025
+ 01:59:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+References: <20250311170451.611389-1-leo.yan@arm.com> <20250311170451.611389-2-leo.yan@arm.com>
+In-Reply-To: <20250311170451.611389-2-leo.yan@arm.com>
+From: Mike Leach <mike.leach@linaro.org>
+Date: Tue, 1 Apr 2025 09:59:31 +0100
+X-Gm-Features: AQ5f1JpICOn046XWir454LuVhWbevJeRSx1F27tfX6sfrfiP5_Zt2Y4Br9MlhyM
+Message-ID: <CAJ9a7Vi7kkjqfTWkY1-KP-HZUNG-25sPCZqDf2_n5i_OagEDGw@mail.gmail.com>
+Subject: Re: [PATCH v3 1/6] coresight: etm4x: Extract the trace unit controlling
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Wesley,
+On Tue, 11 Mar 2025 at 17:05, Leo Yan <leo.yan@arm.com> wrote:
+>
+> The trace unit is controlled in the ETM hardware enabling and disabling.
+> The sequential changes for support AUX pause and resume will reuse the
+> same operations.
+>
+> Extract the operations in the etm4_{enable|disable}_trace_unit()
+> functions.  A minor improvement in etm4_enable_trace_unit() is for
+> returning the timeout error to callers.
+>
+> Signed-off-by: Leo Yan <leo.yan@arm.com>
+> ---
+>  .../coresight/coresight-etm4x-core.c          | 103 +++++++++++-------
+>  1 file changed, 62 insertions(+), 41 deletions(-)
+>
+> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> index e5972f16abff..53cb0569dbbf 100644
+> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
+> @@ -431,6 +431,44 @@ static int etm4x_wait_status(struct csdev_access *csa, int pos, int val)
+>         return coresight_timeout(csa, TRCSTATR, pos, val);
+>  }
+>
+> +static int etm4_enable_trace_unit(struct etmv4_drvdata *drvdata)
+> +{
+> +       struct coresight_device *csdev = drvdata->csdev;
+> +       struct device *etm_dev = &csdev->dev;
+> +       struct csdev_access *csa = &csdev->access;
+> +
+> +       /*
+> +        * ETE mandates that the TRCRSR is written to before
+> +        * enabling it.
+> +        */
+> +       if (etm4x_is_ete(drvdata))
+> +               etm4x_relaxed_write32(csa, TRCRSR_TA, TRCRSR);
+> +
+> +       etm4x_allow_trace(drvdata);
+> +       /* Enable the trace unit */
+> +       etm4x_relaxed_write32(csa, 1, TRCPRGCTLR);
+> +
+> +       /* Synchronize the register updates for sysreg access */
+> +       if (!csa->io_mem)
+> +               isb();
+> +
+> +       /* wait for TRCSTATR.IDLE to go back down to '0' */
+> +       if (etm4x_wait_status(csa, TRCSTATR_IDLE_BIT, 0)) {
+> +               dev_err(etm_dev,
+> +                       "timeout while waiting for Idle Trace Status\n");
+> +               return -ETIME;
+> +       }
+> +
+> +       /*
+> +        * As recommended by section 4.3.7 ("Synchronization when using the
+> +        * memory-mapped interface") of ARM IHI 0064D
+> +        */
+> +       dsb(sy);
+> +       isb();
+> +
+> +       return 0;
+> +}
+> +
+>  static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
+>  {
+>         int i, rc;
+> @@ -539,33 +577,7 @@ static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
+>                 etm4x_relaxed_write32(csa, trcpdcr | TRCPDCR_PU, TRCPDCR);
+>         }
+>
+> -       /*
+> -        * ETE mandates that the TRCRSR is written to before
+> -        * enabling it.
+> -        */
+> -       if (etm4x_is_ete(drvdata))
+> -               etm4x_relaxed_write32(csa, TRCRSR_TA, TRCRSR);
+> -
+> -       etm4x_allow_trace(drvdata);
+> -       /* Enable the trace unit */
+> -       etm4x_relaxed_write32(csa, 1, TRCPRGCTLR);
+> -
+> -       /* Synchronize the register updates for sysreg access */
+> -       if (!csa->io_mem)
+> -               isb();
+> -
+> -       /* wait for TRCSTATR.IDLE to go back down to '0' */
+> -       if (etm4x_wait_status(csa, TRCSTATR_IDLE_BIT, 0))
+> -               dev_err(etm_dev,
+> -                       "timeout while waiting for Idle Trace Status\n");
+> -
+> -       /*
+> -        * As recommended by section 4.3.7 ("Synchronization when using the
+> -        * memory-mapped interface") of ARM IHI 0064D
+> -        */
+> -       dsb(sy);
+> -       isb();
+> -
+> +       rc = etm4_enable_trace_unit(drvdata);
+>  done:
+>         etm4_cs_lock(drvdata, csa);
+>
+> @@ -884,25 +896,12 @@ static int etm4_enable(struct coresight_device *csdev, struct perf_event *event,
+>         return ret;
+>  }
+>
+> -static void etm4_disable_hw(void *info)
+> +static void etm4_disable_trace_unit(struct etmv4_drvdata *drvdata)
+>  {
+>         u32 control;
+> -       struct etmv4_drvdata *drvdata = info;
+> -       struct etmv4_config *config = &drvdata->config;
+>         struct coresight_device *csdev = drvdata->csdev;
+>         struct device *etm_dev = &csdev->dev;
+>         struct csdev_access *csa = &csdev->access;
+> -       int i;
+> -
+> -       etm4_cs_unlock(drvdata, csa);
+> -       etm4_disable_arch_specific(drvdata);
+> -
+> -       if (!drvdata->skip_power_up) {
+> -               /* power can be removed from the trace unit now */
+> -               control = etm4x_relaxed_read32(csa, TRCPDCR);
+> -               control &= ~TRCPDCR_PU;
+> -               etm4x_relaxed_write32(csa, control, TRCPDCR);
+> -       }
+>
+>         control = etm4x_relaxed_read32(csa, TRCPRGCTLR);
+>
+> @@ -943,6 +942,28 @@ static void etm4_disable_hw(void *info)
+>          * of ARM IHI 0064H.b.
+>          */
+>         isb();
+> +}
+> +
+> +static void etm4_disable_hw(void *info)
+> +{
+> +       u32 control;
+> +       struct etmv4_drvdata *drvdata = info;
+> +       struct etmv4_config *config = &drvdata->config;
+> +       struct coresight_device *csdev = drvdata->csdev;
+> +       struct csdev_access *csa = &csdev->access;
+> +       int i;
+> +
+> +       etm4_cs_unlock(drvdata, csa);
+> +       etm4_disable_arch_specific(drvdata);
+> +
+> +       if (!drvdata->skip_power_up) {
+> +               /* power can be removed from the trace unit now */
+> +               control = etm4x_relaxed_read32(csa, TRCPDCR);
+> +               control &= ~TRCPDCR_PU;
+> +               etm4x_relaxed_write32(csa, control, TRCPDCR);
+> +       }
+> +
+> +       etm4_disable_trace_unit(drvdata);
+>
+>         /* read the status of the single shot comparators */
+>         for (i = 0; i < drvdata->nr_ss_cmp; i++) {
+> --
+> 2.34.1
+>
 
-On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
-> On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> > On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
-> > > On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
-> > > > On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
-> > > > > The QC ADSP is able to support USB playback endpoints, so that the main
-> > > > > application processor can be placed into lower CPU power modes.  This adds
-> > > > > the required AFE port configurations and port start command to start an
-> > > > > audio session.
-> > > > > 
-> > > > > Specifically, the QC ADSP can support all potential endpoints that are
-> > > > > exposed by the audio data interface.  This includes isochronous data
-> > > > > endpoints, in either synchronous mode or asynchronous mode. In the latter
-> > > > > case both implicit or explicit feedback endpoints are supported.  The size
-> > > > > of audio samples sent per USB frame (microframe) will be adjusted based on
-> > > > > information received on the feedback endpoint.
-> > > > > 
-> > > > > Some pre-requisites are needed before issuing the AFE port start command,
-> > > > > such as setting the USB AFE dev_token.  This carries information about the
-> > > > > available USB SND cards and PCM devices that have been discovered on the
-> > > > > USB bus.  The dev_token field is used by the audio DSP to notify the USB
-> > > > > offload driver of which card and PCM index to enable playback on.
-> > > > > 
-> > > > > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> > > > > ---
-> > > > >  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
-> > > > >  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
-> > > > >  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
-> > > > >  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
-> > > > >  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
-> > > > >  sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
-> > > > >  6 files changed, 341 insertions(+), 3 deletions(-)
-> > > > > 
-> > > [...]
-> > > > > diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > index 90228699ba7d..b7439420b425 100644
-> > > > > --- a/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> > > > > @@ -435,6 +435,26 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
-> > > > >  	return NULL;
-> > > > >  }
-> > > > > +
-> > > > > +static bool is_usb_routing_enabled(struct msm_routing_data *data)
-> > > > > +{
-> > > > > +	int i;
-> > > > > +
-> > > > > +	/*
-> > > > > +	 * Loop through current sessions to see if there are active routes
-> > > > > +	 * to the USB_RX backend DAI.  The USB offload routing is designed
-> > > > > +	 * similarly to the non offload path.  If there are multiple PCM
-> > > > > +	 * devices associated with the ASoC platform card, only one active
-> > > > > +	 * path can be routed to the USB offloaded endpoint.
-> > > > > +	 */
-> > > > > +	for (i = 0; i < MAX_SESSIONS; i++) {
-> > > > > +		if (data->sessions[i].port_id == USB_RX)
-> > > > > +			return true;
-> > > > > +	}
-> > > > > +
-> > > > > +	return false;
-> > > > > +}
-> > > > 
-> > > > What is different about USB_RX compared to other output ports we have in
-> > > > Q6AFE? Obviously, we can only play one stream on an output port. But
-> > > > doesn't the ADSP mix streams together when you have multiple routes?
-> > > > 
-> > > 
-> > > This patch will limit the USB_RX from being able to be mixed to multiple
-> > > q6adm paths.
-> > > 
-> > > > Also, this doesn't actually check for *active* routes only. It just
-> > > > looks if any other MultiMedia DAI is configured to output to USB_RX.
-> > > > That doesn't mean they will ever be active at the same time.
-> > > > 
-> > > 
-> > > Yes, the main reason being that that is the mechanism we use to populate
-> > > the active offload path within the USB SND card mixer.
-> > > 
-> > > > I might for example want to have MultiMedia1 and MultiMedia2 both
-> > > > configured to output to USB_RX. Let's assume MultiMedia1 is a normal PCM
-> > > > DAI, MultiMedia2 is a compress offload DAI. When I want to playback
-> > > > normal audio, I go through MultiMedia1, when I want to play compressed
-> > > > audio, I go through MultiMedia2. Only one of them active at a time.
-> > > > Why can't I set this up statically in the mixers?
-> > > > 
-> > > > If you confirm that it is really impossible to have multiple streams
-> > > > mixed together to the USB_RX output in the ADSP, then this should be a
-> > > > runtime check instead when starting the stream IMO.
-> > > > 
-> > > 
-> > > We can have multiple streams being mixed together, but it will get
-> > > confusing because it changes the definition that we had discussed about in
-> > > the past about the overall design for the interaction w/ userspace.
-> > > Although we (QC) only support a single USB audio device for offloading,
-> > > there could be other situations where the audio DSP can support multiple
-> > > devices.  The assumption is that each MM path is assigned to a USB device.
-> > > 
-> > 
-> > Are you referring to the "USB Offload Playback Route PCM#*" mixers here?
-> > They could just refer to first of the configured MM paths, if someone
-> > decides to route multiple paths to the USB backend. Looking at
-> > q6usb_update_offload_route(), I think the implementation does that
-> > already.
-> > 
-> > I think it's fine that the userspace API for automatically "probing" the
-> > PCM device supports only a single path to the USB backend. But if
-> > someone wants to bypass the automatic probing and configure a more
-> > advanced setup, do we need to forbid that?
-> > 
-> > Asked differently: what would happen if we remove this check here and
-> > handle USB_RX like any other Q6AFE output port? Would anything break for
-> > the userspace interface?
-> > 
-> 
-> So I took a look at seeing how the Q6ADM/ASM interactions would work for
-> the situation where if user tried to start both MM1/2 streams at the same
-> time over the USB offload path.  In this scenario, we see that the Q6USB BE
-> DAI operations, ie startup, hw_params, etc... gets called one time for the
-> initial stream.  For example, if I start playback on MM1, then that
-> triggers the USB BE DAI to be brought up.
-> 
-> When I start playback on MM2, since MM1 already called
-> dpcm_be_dai_startup(), then be->dpcm[stream].users will be greater than
-> zero.  This would cause the __soc_pcm_open() to be skipped for the USB BE
-> DAI, so I wouldn't be able to check the runtime status at the Q6USB backend
-> DAI.  However, we do track current streaming sessions done over Q6 ADM and
-> it does save the AFE port associated to each COPP allocation, so I think its
-> reasonable to see if there is already a COPP entry for the USB AFE port, to
-> fail the open() call associated to the FE DAI.
-> 
-
-This sounds like a reasonable approach *if* we have to prevent multiple
-MM DAIs from streaming to the USB AFE port at the same time.
-
-It's still unclear to me why we have to introduce this limitation in the
-first place. I think the questions from my previous email are still
-open. Can you check them again?
-
-Thanks,
-Stephan
+Reviewed-by: Mike Leach <mike;leach@linaro.org>
+-- 
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
