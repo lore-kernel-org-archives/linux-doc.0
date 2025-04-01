@@ -1,238 +1,118 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5654F1EB9E8
-	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 08:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8E7FF1EDA29;
+	Tue,  1 Apr 2025 09:20:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743497985; cv=none; b=o+1CkNkjaZ0s9+aEqaQ4B2GYb4X4H4sdDzB6T3Auz4r+48BrN6a620pPDdmZu5GqP3iVpW+dViZ8oVr5c7uU/ssn+AR/61E1Ob0VYxyKfGgwM+yo517+c6iT2TafYbWYynm068znaYTV0opZ/4lffg02KFOxNB1WNU5FUw7dvTk=
+	t=1743499218; cv=none; b=ZixoBUDLiEOEFPw5rsDnG4BMLsspo+ez65EzqmF1B6hO4JJ0HtxOuKDHjUtQvasUk7A8hu2yhk3/8o8P/46CNmDO7Vp34ktzMJjPLqO7EwqmgII1GzjBtOTV9vLfq8dx/i4QEN6ZZHADCzNoUToISb/Ycwatl4uTtd2T8VeE09U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743497985; c=relaxed/simple;
-	bh=iA3vc6iBumO0wyuNH4D4SNx9H8X39pPVlKvlLxxeDqY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cofMTD3s3mjuHtbcbzHHznB0QJCh6U6WAK5CnbwnEYlPIdwHR9WdHgE3BLzPAA9WfsbFJOzKXe+Qm9Bn2ajHpDuaecinThufkjGnXSZQcvMtTeDhY9uEKNYcJsPgrIIT3JoC5F9/j1OIN6GwUp9fSfUlZtuATuQv6jTBmnXsO0A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=RdYg5tmv; arc=none smtp.client-ip=209.85.214.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743499218; c=relaxed/simple;
+	bh=Q4+/Q8eUvUq9Y9bXzIY4bPaeeK3kIkEBNnD8hv86/C4=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=jTareiwE+aTMN7oGIgcqhzPiZ5MjuzOfumNpwXRH3nSOtBzgy5FeaB6EigjYacxEUC5CN6ESq+0aFZy0VoWpw+a6kGDWAx4L0Tp938JLACjoQwHTG6gbggIgxRoBP5sLdCdB/zBCIu0aYgtZqR/gHbDL2db+03Hssebwyx90lK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=CzuSPGtT; arc=none smtp.client-ip=209.85.221.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="RdYg5tmv"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-224191d92e4so98105605ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 01 Apr 2025 01:59:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="CzuSPGtT"
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-39ac8e7688aso4158479f8f.2;
+        Tue, 01 Apr 2025 02:20:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743497982; x=1744102782; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=DUtQE7nMd/6PSKoEtlC68hCAEgv6hCHzZZn6Ocd8nbQ=;
-        b=RdYg5tmvEjiqm121IL/nr5xTsAa7TODaIHEnWSDofjTsVwB49Br7seF1Dq21pX/7Wz
-         K5QnifMwPrCJ5zbt9gk+6sqkpTWi/+QA09Bs07vk1H6UMLVL2mQsyW6aNnsgHZpOuHhy
-         7E7ByvnqJDTBpw1E8Sg0f71SRGTUbO9gFg8msmdg3yF9gliU7sJ+urFZttPKVFb9hMTv
-         MV+amILgTfQ6z4rq2KcMkStei4C3km3hnTT9OnhPkcT4UsW1O5+CcRZyMA9H9OKolP2b
-         snayhs/E369slo70k5DbOqgQm03ea0BTUA+LPeEdjtzCwrgzYONnY8Lclvinb1iT+oJc
-         tNFg==
+        d=gmail.com; s=20230601; t=1743499215; x=1744104015; darn=vger.kernel.org;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Q4+/Q8eUvUq9Y9bXzIY4bPaeeK3kIkEBNnD8hv86/C4=;
+        b=CzuSPGtT1QjTYbd1N9j82OLOZ7c60BuntkouWsfkZ06Mx1vvmu92hFH8puO6AFTnDz
+         UxJ06b5EsBc3yaR7YjTcd8l7eKPGU8ay3VcNVROsOPihYKuq8zHkS2OJMSvQzQ9EMWIx
+         5UrhaMakNNVoib6b0/eQbueev2dqZSLmHBw4DUusgnVHUC39IxuDR8MSKoPrxujVguEw
+         v1/2UvDJLPSgsNkWFEZEsC9gpsBdLEi2eRIs47WXMgpj8HWRtWfnZ/mcZQT8Mtx8C5vD
+         5mbHgqMpQEOueskC4/hhXCkwCmmtski4XPyKGiV4bO565+qQ3wI10I9CwD8IsvvjxOHC
+         UreA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743497982; x=1744102782;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=DUtQE7nMd/6PSKoEtlC68hCAEgv6hCHzZZn6Ocd8nbQ=;
-        b=iYZpBYXNFO/RReyA/4yAn6sT2GkGYoMjKvt1IUna+jmaLOdg5IScjEjpagj4M1Kgg7
-         ZX843KQPzNlrRY8wW6XS3xQ86odBN+0NycZZzplBUy847Ovv3QHUgFLphNUIfYIa+uIP
-         f0YiguxWKAeGvCJ9KknVyXI8ojnMkynG4/GfSFbb8pm+pff3lmH7WwNdrAfCz6vtYPm2
-         UbhAVOR9CaKcmtIdTyqxS51zz7hN8mPLHeBLE+Vtb+G7R23RX+B/ti58Ox/EKVtLyftt
-         FAM9Md2wXXfrIid9tSzwZ8XVaIekDoFWcVVAXx+PmjVD/wJ1Pia2vZQqeqhNBZ8wIUn8
-         Bizw==
-X-Forwarded-Encrypted: i=1; AJvYcCXS5UilUe2hq5u+zl3n8XUEeOkbP0FVen39ISk4rU7R21Et+IDauCsu7i3xNcuRX9DthQtJ8kVzgFQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzH3KgxWKVGIINmFiABDhnTiJxf8Knwh3X9pBtMxCVbfMJj2G8X
-	yKNVAH/1rchQPNrWVj7umul3EB5EcVQEmEBYkJvqdLIB1W6Wb3b/5ahKBr8aaIsxKBkzycAo5Kt
-	ksCWuJ1ne7Z+fFkCaa8N7y5Xs2PYFQxp0pyc3xw==
-X-Gm-Gg: ASbGncs2BZAfStVT/LKdGk6Zq4QwKIGh2MM/Qa69rwgyHBiRuptCb2cXZdYAmQ/LRbU
-	CQHE+lvPhXDDCMTqhfvieGptLsdmDURRubv8YY4sfM4iyZkqjdysGbqfEF8U8Gp+MJP1Q0R/7nJ
-	/7eSdBazqzL1A7R6dbERKTHxVtml8=
-X-Google-Smtp-Source: AGHT+IGzin6V0f0YGKy7Udk3aewjUGbBv6XmcP/DU6qB3LkeQJ2R2Z1zAebpSyapanvD2hTwAq7WiNaUzpcJ1/QKOno=
-X-Received: by 2002:a05:6a00:853:b0:736:9fa2:bcbb with SMTP id
- d2e1a72fcca58-73980436cbamr19044549b3a.24.1743497982506; Tue, 01 Apr 2025
- 01:59:42 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1743499215; x=1744104015;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Q4+/Q8eUvUq9Y9bXzIY4bPaeeK3kIkEBNnD8hv86/C4=;
+        b=FugOza79mdIF/FSLPObiBRysksDHaiVw+LEW7fJ11MIdsV4exo5Bg4f+jgODE1PgE2
+         49Y1+9vFZsePkzxVh1H2XUrbe0Rm+Zq5dR/fuf+GlDhkKC4Aae1Ei80DiwGn0PHfNReZ
+         zGbVQRs9OQf8z9+LZo0BkmRq4B2EXjE7YRGQOUWpQAjsA43auh8lqJE3oTPaU3zIhyuY
+         Kn111lH5x2+VIeRlrZvHlQteOgcosPm6Bj5fCOv0XgvrgI2380G7BhmvfAwUCQ5P+7VP
+         beMqrU0IC4qMps7TVAOZu5ZhLrGT06I9lrK4rWWzV9Vocega5YT+eKIbfT6vbeBVimRc
+         T+jQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUIKHHLyFm4BwNsjeh9e/g4AEfK8CLi1AlTC41W1LXLDF1ukeg63px7u2S296nzAL7OqVPLq0Kt8aKb@vger.kernel.org, AJvYcCV4x/PdGwlRn7WoaSaKg4mYnGs5B18oCB2OtRZG2Hs5vafwWbM7DL7pVc8lVnN1VSSkTFbHgMkmdZ8=@vger.kernel.org, AJvYcCW8VjEKxGu27stu3hH9zIB5bj48cPXbVbHnaTfh9fxUR3L/5xhG6wrWs3H2DiriIdjRuVL8D9aBdPEHZhgt@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3FFKZUb7m+Wy0zaPhDAK+UMAU4q21bDS/NgHJAoXOdohG34Xz
+	pmMxttdwR/CBvNGogTnpSdbmJu+Yftm1JywvJuwN0avsfxJyamd3
+X-Gm-Gg: ASbGncvXItDlltUFDT1S31o/xAwiYjQYhsV4IUvrgn6Wyestqn4C83b/oFj9GzdBAFD
+	2es0CUHWqhfvLbAzKCSCfRIAD9+IDI+xMuCp0ze/EFegR/0rC/wv1epxm7BclKlyRWyZs6UdrBT
+	/PTreh8wFYrJOZ/g/mOUgBHKYcTYqNgV6bloWe+VIciPGIPFro4B8hzu7CEw0PMKD2sB71B7H+H
+	m3sQs4pbHQMf8TEWTLfbQwOeTGlFkDiW3aWumU30ALeROTiZrG9wfJSfmFRofnwMb7tsfLyrwxM
+	5BPy8i9rcnGwC+MOuAc8vCGwh5TKZyPTp1A38OhIAbcUUUE/+a34jH766bFpb+iMThBMf51EDEI
+	k/iPTpPqiB1KtBlEJ
+X-Google-Smtp-Source: AGHT+IEKRREFuu7xEnipiixpvfhmZzkY1DBDCub5I8hZzD7/4QR7Y/PaCTDAGQ/hCQo64SSj0QbH/Q==
+X-Received: by 2002:a05:6000:220f:b0:39c:268b:83a7 with SMTP id ffacd0b85a97d-39c268b83c6mr1093103f8f.5.1743499214596;
+        Tue, 01 Apr 2025 02:20:14 -0700 (PDT)
+Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c0b66a962sm13396538f8f.46.2025.04.01.02.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 02:20:14 -0700 (PDT)
+Message-ID: <a56cd1676fd267b7be691955f90c02db01959c3d.camel@gmail.com>
+Subject: Re: [PATCH 0/4] iio: ad3552r-hs: add support for internal ramp
+ generator
+From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
+To: Angelo Dureghello <adureghello@baylibre.com>, Jonathan Cameron
+	 <jic23@kernel.org>
+Cc: Nuno =?ISO-8859-1?Q?S=E1?= <nuno.sa@analog.com>, Lars-Peter Clausen	
+ <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>, Olivier Moysan	
+ <olivier.moysan@foss.st.com>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, 	linux-iio@vger.kernel.org,
+ linux-doc@vger.kernel.org, 	linux-kernel@vger.kernel.org
+Date: Tue, 01 Apr 2025 10:20:14 +0100
+In-Reply-To: <ucmb7wfkovo6mssmmrx4fmfv2hliulshjhob4efz2phczbnu74@3xphjz5schp4>
+References: <20250321-wip-bl-ad3552r-fixes-v1-0-3c1aa249d163@baylibre.com>
+	 <20250330175350.6cebf779@jic23-huawei>
+	 <ucmb7wfkovo6mssmmrx4fmfv2hliulshjhob4efz2phczbnu74@3xphjz5schp4>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.0 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250311170451.611389-1-leo.yan@arm.com> <20250311170451.611389-2-leo.yan@arm.com>
-In-Reply-To: <20250311170451.611389-2-leo.yan@arm.com>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Tue, 1 Apr 2025 09:59:31 +0100
-X-Gm-Features: AQ5f1JpICOn046XWir454LuVhWbevJeRSx1F27tfX6sfrfiP5_Zt2Y4Br9MlhyM
-Message-ID: <CAJ9a7Vi7kkjqfTWkY1-KP-HZUNG-25sPCZqDf2_n5i_OagEDGw@mail.gmail.com>
-Subject: Re: [PATCH v3 1/6] coresight: etm4x: Extract the trace unit controlling
-To: Leo Yan <leo.yan@arm.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, James Clark <james.clark@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 11 Mar 2025 at 17:05, Leo Yan <leo.yan@arm.com> wrote:
->
-> The trace unit is controlled in the ETM hardware enabling and disabling.
-> The sequential changes for support AUX pause and resume will reuse the
-> same operations.
->
-> Extract the operations in the etm4_{enable|disable}_trace_unit()
-> functions.  A minor improvement in etm4_enable_trace_unit() is for
-> returning the timeout error to callers.
->
-> Signed-off-by: Leo Yan <leo.yan@arm.com>
-> ---
->  .../coresight/coresight-etm4x-core.c          | 103 +++++++++++-------
->  1 file changed, 62 insertions(+), 41 deletions(-)
->
-> diff --git a/drivers/hwtracing/coresight/coresight-etm4x-core.c b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> index e5972f16abff..53cb0569dbbf 100644
-> --- a/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> +++ b/drivers/hwtracing/coresight/coresight-etm4x-core.c
-> @@ -431,6 +431,44 @@ static int etm4x_wait_status(struct csdev_access *csa, int pos, int val)
->         return coresight_timeout(csa, TRCSTATR, pos, val);
->  }
->
-> +static int etm4_enable_trace_unit(struct etmv4_drvdata *drvdata)
-> +{
-> +       struct coresight_device *csdev = drvdata->csdev;
-> +       struct device *etm_dev = &csdev->dev;
-> +       struct csdev_access *csa = &csdev->access;
-> +
-> +       /*
-> +        * ETE mandates that the TRCRSR is written to before
-> +        * enabling it.
-> +        */
-> +       if (etm4x_is_ete(drvdata))
-> +               etm4x_relaxed_write32(csa, TRCRSR_TA, TRCRSR);
-> +
-> +       etm4x_allow_trace(drvdata);
-> +       /* Enable the trace unit */
-> +       etm4x_relaxed_write32(csa, 1, TRCPRGCTLR);
-> +
-> +       /* Synchronize the register updates for sysreg access */
-> +       if (!csa->io_mem)
-> +               isb();
-> +
-> +       /* wait for TRCSTATR.IDLE to go back down to '0' */
-> +       if (etm4x_wait_status(csa, TRCSTATR_IDLE_BIT, 0)) {
-> +               dev_err(etm_dev,
-> +                       "timeout while waiting for Idle Trace Status\n");
-> +               return -ETIME;
-> +       }
-> +
-> +       /*
-> +        * As recommended by section 4.3.7 ("Synchronization when using the
-> +        * memory-mapped interface") of ARM IHI 0064D
-> +        */
-> +       dsb(sy);
-> +       isb();
-> +
-> +       return 0;
-> +}
-> +
->  static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
->  {
->         int i, rc;
-> @@ -539,33 +577,7 @@ static int etm4_enable_hw(struct etmv4_drvdata *drvdata)
->                 etm4x_relaxed_write32(csa, trcpdcr | TRCPDCR_PU, TRCPDCR);
->         }
->
-> -       /*
-> -        * ETE mandates that the TRCRSR is written to before
-> -        * enabling it.
-> -        */
-> -       if (etm4x_is_ete(drvdata))
-> -               etm4x_relaxed_write32(csa, TRCRSR_TA, TRCRSR);
-> -
-> -       etm4x_allow_trace(drvdata);
-> -       /* Enable the trace unit */
-> -       etm4x_relaxed_write32(csa, 1, TRCPRGCTLR);
-> -
-> -       /* Synchronize the register updates for sysreg access */
-> -       if (!csa->io_mem)
-> -               isb();
-> -
-> -       /* wait for TRCSTATR.IDLE to go back down to '0' */
-> -       if (etm4x_wait_status(csa, TRCSTATR_IDLE_BIT, 0))
-> -               dev_err(etm_dev,
-> -                       "timeout while waiting for Idle Trace Status\n");
-> -
-> -       /*
-> -        * As recommended by section 4.3.7 ("Synchronization when using the
-> -        * memory-mapped interface") of ARM IHI 0064D
-> -        */
-> -       dsb(sy);
-> -       isb();
-> -
-> +       rc = etm4_enable_trace_unit(drvdata);
->  done:
->         etm4_cs_lock(drvdata, csa);
->
-> @@ -884,25 +896,12 @@ static int etm4_enable(struct coresight_device *csdev, struct perf_event *event,
->         return ret;
->  }
->
-> -static void etm4_disable_hw(void *info)
-> +static void etm4_disable_trace_unit(struct etmv4_drvdata *drvdata)
->  {
->         u32 control;
-> -       struct etmv4_drvdata *drvdata = info;
-> -       struct etmv4_config *config = &drvdata->config;
->         struct coresight_device *csdev = drvdata->csdev;
->         struct device *etm_dev = &csdev->dev;
->         struct csdev_access *csa = &csdev->access;
-> -       int i;
-> -
-> -       etm4_cs_unlock(drvdata, csa);
-> -       etm4_disable_arch_specific(drvdata);
-> -
-> -       if (!drvdata->skip_power_up) {
-> -               /* power can be removed from the trace unit now */
-> -               control = etm4x_relaxed_read32(csa, TRCPDCR);
-> -               control &= ~TRCPDCR_PU;
-> -               etm4x_relaxed_write32(csa, control, TRCPDCR);
-> -       }
->
->         control = etm4x_relaxed_read32(csa, TRCPRGCTLR);
->
-> @@ -943,6 +942,28 @@ static void etm4_disable_hw(void *info)
->          * of ARM IHI 0064H.b.
->          */
->         isb();
-> +}
-> +
-> +static void etm4_disable_hw(void *info)
-> +{
-> +       u32 control;
-> +       struct etmv4_drvdata *drvdata = info;
-> +       struct etmv4_config *config = &drvdata->config;
-> +       struct coresight_device *csdev = drvdata->csdev;
-> +       struct csdev_access *csa = &csdev->access;
-> +       int i;
-> +
-> +       etm4_cs_unlock(drvdata, csa);
-> +       etm4_disable_arch_specific(drvdata);
-> +
-> +       if (!drvdata->skip_power_up) {
-> +               /* power can be removed from the trace unit now */
-> +               control = etm4x_relaxed_read32(csa, TRCPDCR);
-> +               control &= ~TRCPDCR_PU;
-> +               etm4x_relaxed_write32(csa, control, TRCPDCR);
-> +       }
-> +
-> +       etm4_disable_trace_unit(drvdata);
->
->         /* read the status of the single shot comparators */
->         for (i = 0; i < drvdata->nr_ss_cmp; i++) {
-> --
-> 2.34.1
->
+On Mon, 2025-03-31 at 21:11 +0200, Angelo Dureghello wrote:
+> Hi Jonathan,
+>=20
+> On 30.03.2025 17:53, Jonathan Cameron wrote:
+> > On Fri, 21 Mar 2025 21:28:47 +0100
+> > Angelo Dureghello <adureghello@baylibre.com> wrote:
+> >=20
+> > > Add support to enable the HDL IP core internal ramp generator,
+> > > actually managed by the adi-axi-dac backend.=20
+> >=20
+> > What is it for?=C2=A0 Circuit testing or something else?
+> > We have in the past had pattern generators in IIO (currently under
+> > frequency drivers, though I'm not sure what we have in the way of
+> > waveforms in the stuff outside staging) so I'd like to be sure
+> > this is about debug rather than a pattern that is actually expected
+> > to be useful.
+> >=20
+>=20
+> Sorry form some reason seen this too late, just sent a v2.
+>=20
+> Anyway, the signal is a tooth wave at 280Hz, not sure that pattern
+> can be of any use except for some dabug cases, or noise tests.
+>=20
 
-Reviewed-by: Mike Leach <mike;leach@linaro.org>
--- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+Yes, typical usecase for this is to debug/validate the serial interfaces. I=
+'m
+used to this see for LVDS/CMOS though (but I would assume the principle to =
+be
+the same).
+
+- Nuno S=C3=A1
+
