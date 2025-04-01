@@ -1,98 +1,160 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C87AE20E703;
-	Tue,  1 Apr 2025 18:07:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 920F51F09B8;
+	Tue,  1 Apr 2025 18:56:50 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743530852; cv=none; b=gAHdwqpm0xdbbHW8jo+yDk2EsOatwAZQ0setT0S7e2C6JlHEo1sVU6eEmLjFvO3gzvBqK4T0F8pEswJUI6kh6/Q0DXLj1ABx3xmp+VaivbRadK+my1864ftzSK7ZIYt18z+QQiIDg/cfdOeu2c7Y7L4gNKK5OfNWVde3f2Iw/xw=
+	t=1743533812; cv=none; b=ri6zdFOCHpaGek3SCddGsZNG+a2z73I2YAqhS7AsBSZfZx4rF2pcdtSPTCkc4iPfuIa2hi5+eUWCNvk+hjrOyyJ5x4fQO02TY5XVUA4zPmNTKPLp3MS7QRqYnOEzPNL69NveDvFrGSSL6mzy4uZi0UhIuHTJCCbpMv7PskZ/6Ew=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743530852; c=relaxed/simple;
-	bh=TXxMNAnXlc8yDC90Wg8saX7ywbgOuUDpvHHIJU0/IH0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=ZPokWxSTZ633VBOy57V8RrzUNEKw3TaYYwRh6wECgtm/kNaXWyC3aQcKG8CBqk/gdkZFNmC8si6fTWEc2zuEpFoJssq5Gk4bOZpiDlCHbXhdhtda86FhyPFEqp3WAR0MlQUH6oQeO8JXD9PPq/DvIW5amn8GJ+OcLjjCafnI3vA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 63BD914BF;
-	Tue,  1 Apr 2025 11:07:33 -0700 (PDT)
-Received: from e132581.cambridge.arm.com (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 86A073F59E;
-	Tue,  1 Apr 2025 11:07:28 -0700 (PDT)
-From: Leo Yan <leo.yan@arm.com>
-To: Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Mike Leach <mike.leach@linaro.org>,
-	James Clark <james.clark@linaro.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	coresight@lists.linaro.org,
-	linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Cc: Leo Yan <leo.yan@arm.com>
-Subject: [PATCH v4 7/7] Documentation: coresight: Document AUX pause and resume
-Date: Tue,  1 Apr 2025 19:07:08 +0100
-Message-Id: <20250401180708.385396-8-leo.yan@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250401180708.385396-1-leo.yan@arm.com>
-References: <20250401180708.385396-1-leo.yan@arm.com>
+	s=arc-20240116; t=1743533812; c=relaxed/simple;
+	bh=bzA5yQlxM5CYAzByNShEGHGrcQhOK5tsk1smItcbPvw=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=dRbhQBPZItq3GylKxd8EgGzKQD3OzKY/Fcui8lYvjJuiju3N/RLPacnpOAdnsTfdICJFCI1yNGvEA4byZBlVRYpYU6+IuRVbQvQswQl8oDz2OHvq/LZPs/9BsOaXaiyMlJWJSPiu3abQLir5Yy1o1tXKConZbAx1YoRJpGq6SLg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=QapRp3OK; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="QapRp3OK"
+Received: from narnia (unknown [167.220.2.28])
+	by linux.microsoft.com (Postfix) with ESMTPSA id DE23920412F8;
+	Tue,  1 Apr 2025 11:56:42 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com DE23920412F8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1743533810;
+	bh=nghUxCgd3Rj3zORPScI3SKHVRg60ZkC2fKZvDytP/2E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=QapRp3OKW3zygfnH/WRQRfu0u/vCRTJXMpGbSZvyiA818p11IAQoJN61iog+1P/sm
+	 gCtLH8qYoJ9tTiU7yIgFxpeZVYM05PLTHgDXbzkOmyZI4Tp/r5hR1VF4NeerLlWozD
+	 qUVTlal3A+XPQ8mlFolSwwPpKu7U/qXbdRRRDGhs=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Jarkko Sakkinen <jarkko@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
+ =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
+ <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
+ Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Jan Stancek <jstancek@redhat.com>,
+ Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com,
+ teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+Subject: Re: [RFC PATCH security-next 0/4] Introducing Hornet LSM
+In-Reply-To: <Z-wLKhlfJ5EQqvJC@kernel.org>
+References: <20250321164537.16719-1-bboscaccy@linux.microsoft.com>
+ <Z97xvUul1ObkmulE@kernel.org> <871puc7wb8.fsf@microsoft.com>
+ <Z-wLKhlfJ5EQqvJC@kernel.org>
+Date: Tue, 01 Apr 2025 11:56:40 -0700
+Message-ID: <87friru2vr.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-This adds description for AUX pause and resume.  It gives introduction
-for what's AUX pause and resume and records usage examples.
+Jarkko Sakkinen <jarkko@kernel.org> writes:
 
-Signed-off-by: Leo Yan <leo.yan@arm.com>
----
- Documentation/trace/coresight/coresight-perf.rst | 31 +++++++++++++++++++++++++++++++
- 1 file changed, 31 insertions(+)
+> On Mon, Mar 31, 2025 at 01:57:15PM -0700, Blaise Boscaccy wrote:
+>> There are two flavors of skeletons, normal skeletons, and light
+>> skeletons. Normal skeletons utilize relocation logic that lives in
+>> libbpf, and the relocations/instruction rewriting happen in userspace.
+>> The second flavor, light skeletons, uses a small eBPF program that
+>> contains the relocation lookup logic. As it's running in in the kernel,
+>> it unpacks the target program, peforms the instruction rewriting, and
+>> loads the target program. Light skeletons are currently utilized for
+>> some drivers, and BPF_PRELOAD functionionality since they can operate
+>> without userspace.
+>> 
+>> Light skeletons were recommended on various mailing list discussions as
+>> the preffered path to performing signature verification. There are some
+>> PoCs floating around that used light-skeletons in concert with
+>> fs-verity/IMA and eBPF LSMs. We took a slightly different approach to
+>> Hornet, by utilizing the existing PCKS#7 signing scheme that is used for
+>> kernel modules.
+>
+> Right, because in the normal skeletons relocation logic remains
+> unsigned?
+>
 
-diff --git a/Documentation/trace/coresight/coresight-perf.rst b/Documentation/trace/coresight/coresight-perf.rst
-index d087aae7d492..30be89320621 100644
---- a/Documentation/trace/coresight/coresight-perf.rst
-+++ b/Documentation/trace/coresight/coresight-perf.rst
-@@ -78,6 +78,37 @@ enabled like::
- 
- Please refer to the kernel configuration help for more information.
- 
-+Fine-grained tracing with AUX pause and resume
-+----------------------------------------------
-+
-+Arm CoreSight may generate a large amount of hardware trace data, which
-+will lead to overhead in recording and distract users when reviewing
-+profiling result. To mitigate the issue of excessive trace data, Perf
-+provides AUX pause and resume functionality for fine-grained tracing.
-+
-+The AUX pause and resume can be triggered by associated events. These
-+events can be ftrace tracepoints (including static and dynamic
-+tracepoints) or PMU events (e.g. CPU PMU cycle event). To create a perf
-+session with AUX pause / resume, three configuration terms are
-+introduced:
-+
-+- "aux-action=start-paused": it is specified for the cs_etm PMU event to
-+  launch in a paused state.
-+- "aux-action=pause": an associated event is specified with this term
-+  to pause AUX trace.
-+- "aux-action=resume": an associated event is specified with this term
-+  to resume AUX trace.
-+
-+Example for triggering AUX pause and resume with ftrace tracepoints::
-+
-+  perf record -e cs_etm/aux-action=start-paused/k,syscalls:sys_enter_openat/aux-action=resume/,syscalls:sys_exit_openat/aux-action=pause/ ls
-+
-+Example for triggering AUX pause and resume with PMU event::
-+
-+  perf record -a -e cs_etm/aux-action=start-paused/k \
-+        -e cycles/aux-action=pause,period=10000000/ \
-+        -e cycles/aux-action=resume,period=1050000/ -- sleep 1
-+
- Perf test - Verify kernel and userspace perf CoreSight work
- -----------------------------------------------------------
- 
--- 
-2.34.1
+Yup, Exactly. 
 
+> I have to admit I don't fully cope how the relocation process translates
+> into eBPF program but I do get how it is better for signatures if it
+> does :-)
+>
+>> 
+>> >> verification. Signature data can be easily generated for the binary
+>> >
+>> > s/easily//
+>> >
+>> > Useless word having no measure.
+>> >
+>> 
+>> Ack, thanks.
+>> 
+>> 
+>> >> data that is generated via bpftool gen -L. This signature can be
+>> >
+>> > I have no idea what that command does.
+>> >
+>> > "Signature data can be generated for the binary data as follows:
+>> >
+>> > bpftool gen -L
+>> >
+>> > <explanation>"
+>> >
+>> > Here you'd need to answer to couple of unknowns:
+>> >
+>> > 1. What is in exact terms "signature data"?
+>> 
+>> That is a PKCS#7 signature of a data buffer containing the raw
+>> instructions of an eBPF program, followed by the initial values of any
+>> maps used by the program. 
+>
+> Got it, thanks. This motivates to refine my TPM2 asymmetric keys
+> series so that TPM2 could anchor these :-)
+>
+> https://lore.kernel.org/linux-integrity/20240528210823.28798-1-jarkko@kernel.org/
+>
+>
+
+Oooh. That would be very nice :) 
+
+>> 
+>> > 2. What does "bpftool gen -L" do?
+>> >
+>> 
+>> eBPF programs often have 2 parts. An orchestrator/loader program that
+>> provides load -> attach/run -> i/o -> teardown logic and the in-kernel
+>> program.
+>> 
+>> That command is used to generate a skeleton which can be used by the
+>> orchestrator prgoram. Skeletons get generated as a C header file, that
+>> contains various autogenerated functions that open and load bpf programs
+>> as decribed above. That header file ends up being included in a
+>> userspace orchestrator program or possibly a kernel module.
+>
+> I did read the man page now too, but thanks for the commentary!
+>
+>> 
+>> > This feedback maps to other examples too in the cover letter.
+>> >
+>> > BR, Jarkko
+>> 
+>> 
+>> I'll rework this with some definitions of the eBPF subsystem jargon
+>> along with your suggestions.
+>
+> Yeah, you should be able to put the gist a factor better to nutshell :-)
+>
+>> 
+>> -blaise
+>
+> BR, Jarkko
