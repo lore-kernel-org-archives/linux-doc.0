@@ -1,90 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-oa1-f45.google.com (mail-oa1-f45.google.com [209.85.160.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46CC717C211;
-	Tue,  1 Apr 2025 20:00:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B6CB1F03C4
+	for <linux-doc@vger.kernel.org>; Tue,  1 Apr 2025 22:50:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743537660; cv=none; b=cJxvxjfqgGpKoRl3sO+NzDIEonM/J0I2Fu44Uu9iF0V334M07S6wtqfds4TCxq8BqlRZCyoIFqyKhc/rf+eUkgqDpP8fj34CCLCxunndADIiVjPaFUEcyAJuBI2hxpxspRl+dXlOVm5FDuRLo9Qx0L5rXBglo0BU3YHk9B80BKI=
+	t=1743547838; cv=none; b=RBECYNGCzNYvATuHWx0UCoOqfF7iiWTqwRjK9zumnn+yjaUpzPXKqAVa5sZVhn1vGTA1nJ/8mGd1W0CjYUv43sKyiOslcM7O1ywBrV/o6Iq4N/1umZuD0AAKZCEMz3oS1gas9ofl5a+qyBI5669L1PBMlrOBEqyzgDAD5anKsuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743537660; c=relaxed/simple;
-	bh=SsEtymDjFxM1dLd88DEPk7b/DPbXgQcSJ+nDYJthskA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y78rRU+QtdRyCDqIaLlBhyfPGUrq9lZvlIdcgtPJM+04/fzsjcJiNcs74qJ+vTDZXBSYDUmft1u//CgRRzmK43wWMu80Md5b82+Mecb4uu84xmF6Cl8X8uA+ueJzPVhU5bQdbCsvim/a9abbfGMPYysq1/s6h3whZt/byuEeFX0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Sj0UIMgJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743547838; c=relaxed/simple;
+	bh=YAlLqkiUmn3HLW9UEES3iRfYVjnsBQso51HpCIG25JQ=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=egNXaDcPwup5o7tX1eZu9zSY2Xbh2ILqSh/dSd7RavpXE9OE4rbjQ3gGh6YWlqZ5QApKx7xd7KQ2BElESRv4+kUfaglk7qB0Sr+m8moMhwx9wQdI93yN+rcmvp4sEMwKhYBcOnf+yFkofg+96DRix7KoOxWUrYZuQ0SWMt/dxQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=itJMp6hL; arc=none smtp.client-ip=209.85.160.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Sj0UIMgJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EB7BC4CEE4;
-	Tue,  1 Apr 2025 20:00:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743537659;
-	bh=SsEtymDjFxM1dLd88DEPk7b/DPbXgQcSJ+nDYJthskA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Sj0UIMgJB3BhWg6Q5hThirUmVNapBvLUCssaM9xJhq4z8rINztn8U2a8VU7uKVvO+
-	 KNTKB8yFVEH/6P0aJxnzC8ql/cEZBktK2XjcFkIJonPY+vNiktGaEJh1pu3KP86pOZ
-	 0Z/JDChHvvi4fQgWwY2pv315OrvtUWanr7oVb/zq3/xkPyam7hR1FljADmz/mdjKmW
-	 3KeD4+Bq0JfzX1PdRiolOCzdjflmaIQN6ONyog6XNtxrNEObEDL4X29f59mJiYMhry
-	 cfSVpBrf0Tf8VE+sJ34qXMxAOHcRzpXoXlXhcPxZlM+YajKX9z4ArQ7bi8GhCQGACf
-	 ReX1Z2plvjm5Q==
-Date: Tue, 1 Apr 2025 13:00:55 -0700
-From: Josh Poimboeuf <jpoimboe@kernel.org>
-To: Guenter Roeck <linux@roeck-us.net>
-Cc: Peter Zijlstra <peterz@infradead.org>, 
-	Alessandro Carminati <acarmina@redhat.com>, linux-kselftest@vger.kernel.org, 
-	David Airlie <airlied@gmail.com>, Arnd Bergmann <arnd@arndb.de>, 
-	=?utf-8?B?TWHDrXJh?= Canal <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>, 
-	Kees Cook <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>, 
-	David Gow <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, 
-	Brendan Higgins <brendan.higgins@linux.dev>, Naresh Kamboju <naresh.kamboju@linaro.org>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Andrew Morton <akpm@linux-foundation.org>, 
-	Maxime Ripard <mripard@kernel.org>, Ville =?utf-8?B?U3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Daniel Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	Alessandro Carminati <alessandro.carminati@gmail.com>, Jani Nikula <jani.nikula@intel.com>, 
-	dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com, linux-arch@vger.kernel.org, 
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-sh@vger.kernel.org, loongarch@lists.linux.dev, 
-	x86@kernel.org, Linux Kernel Functional Testing <lkft@linaro.org>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>
-Subject: Re: [PATCH v4 06/14] x86: Add support for suppressing warning
- backtraces
-Message-ID: <rkuxvq6pkha6pixz5rtu327ujt7ism5f4wgrak7egcecuxwe42@qkn5ewdzwhvo>
-References: <20250313114329.284104-1-acarmina@redhat.com>
- <20250313114329.284104-7-acarmina@redhat.com>
- <20250401170829.GO5880@noisy.programming.kicks-ass.net>
- <ddc7939f-fb98-43af-aed1-0bc0594ecc41@roeck-us.net>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="itJMp6hL"
+Received: by mail-oa1-f45.google.com with SMTP id 586e51a60fabf-2b3680e548aso168006fac.0
+        for <linux-doc@vger.kernel.org>; Tue, 01 Apr 2025 15:50:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743547834; x=1744152634; darn=vger.kernel.org;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=1KzpsO/kBfwd4inh4brwX0T0qUV9oBaxwEbylk8edno=;
+        b=itJMp6hL7yLifBXJCZeS6T00kh9130OjC/qiv2cftxOXRjFR4Pa96bWm3A60nwkedz
+         R3JinWmRhS8dOn50t7gLIm5d8PryAy58sxDP+tYb6/5qmzSu5ba8fOBOZHt8zKW0TmTC
+         bMBe9GHYMrng1ZgkwCZD9nkQRAV4QZfBpDSswHmuk8X8lvVFRaOLSnwVhilVPa4KoDyH
+         IhQSonikSjbpNWQibSt0SNiOvqjpStOKpPPrDGTpGd1ZWc9YZVUQ4BLl6hRtJU+s20G9
+         UDwTHmrKHsG01zxRnC7hNQhQVRABaxIZVSk8s0tQqebbMRvH805TeEZWRl2cNTUbpU0T
+         DEVg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743547834; x=1744152634;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=1KzpsO/kBfwd4inh4brwX0T0qUV9oBaxwEbylk8edno=;
+        b=r8GPyLzoE/xH0p7XMxfgnGy3ENRbiecP/2BGIaQD50Q/flFhpMjMjzx1NK1EY4wRCM
+         jx9/VUl2WOyUYqU9uJSlEv2DwTwRsOJQZINAAQiv5P0fco+2YBaY0PfPLKfTg7buKo8b
+         ogmI2GKF1qE0l1VPsgn76jVmaYyuMGicec5K+5lRse+pWHzSPqts6ZYDwScxotjOwNQO
+         Srzg60rt5NitQRSSrLQPo2M8AhZJHKDzXG1ZfHZOZsKxJpQImLyi9N2mJoY2Nl0NiW25
+         F6sGFCObigIOtpPfpMt05AIe0bjs6ToOY9yQor6VLh40dCYfQRaYh860pN38qJVL7NIW
+         RB3w==
+X-Forwarded-Encrypted: i=1; AJvYcCWaMUI1eLnANQh7wFDTJNlPQowM93Hvo8xGQrxzuucj9yYVl+Mgfpm6pGkM8iqtUF18nTV0tdcyWIw=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw26R7f1NGJD6o8wFcRpgLZwUooqMR+dJJwhiFjvzbppc8II2Zf
+	bI/gmoESQd8xjUE6nH+wJPK+TkGSq4joTPTdXVwVSaD4HNSFCKnro6WgSEIsf3w=
+X-Gm-Gg: ASbGncuyafTiOUHrUruWwhDPLwh0FNuI3s4Zkh0w7n8BnjV8Z5tzvy0+LzL4UxWEbgs
+	qGrXzIwkWaUGkhlfa+VaFNjCXkWH/LdXGYjkF+px7nCO31kj6yd6hLRopBgJhbFhCB62mBRYCcy
+	khYBCiP6KCS0lWtyiKT5Epo6tQRmI1uFbffUb5vNvS6J1aXwg/8Y/GvHtwiSsHTmF1VFn/4CbJ6
+	xEmeLUM2hRUvZSClGuT/lDNow6fSOJEG8VVCH/ZyreKAVjPIvJFB42b8H8Xy8SGhf0cfBA/Y9SX
+	DNzXObFmtXHfWUC0uFsceAL62najh0BpS4eEbS6WVLtyTNzAv1WwtJthZasIWfsgDvuOufjF/4B
+	r
+X-Google-Smtp-Source: AGHT+IFSez3et7WKBsDlKmMYtgl2hfH5thKM/Tt23C6oNV6Ycv2F2CQ+eNAr/KccskPj3MVGvqv3Ig==
+X-Received: by 2002:a05:6870:ff93:b0:2b8:65f7:8268 with SMTP id 586e51a60fabf-2cc550a11e4mr1066371fac.11.1743547833793;
+        Tue, 01 Apr 2025 15:50:33 -0700 (PDT)
+Received: from [127.0.1.1] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2c86a860267sm2541894fac.36.2025.04.01.15.50.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Apr 2025 15:50:32 -0700 (PDT)
+From: David Lechner <dlechner@baylibre.com>
+Subject: [PATCH 0/5] iio: adc: ad7380: add ad7389-4 support
+Date: Tue, 01 Apr 2025 17:50:07 -0500
+Message-Id: <20250401-iio-ad7380-add-ad7389-4-v1-0-23d2568aa24f@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <ddc7939f-fb98-43af-aed1-0bc0594ecc41@roeck-us.net>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAJ9t7GcC/yWMOwqAMBAFryJbu5CfxngVsRB3o9uoJCCCeHeDV
+ vOmeHND5iScoa9uSHxKln0rousK5nXaFkah4mCUaZRTGkV2nMjbThXQPwM61LElS55m7wKU95E
+ 4yvWVh/F5Xjnv09FpAAAA
+X-Change-ID: 20250401-iio-ad7380-add-ad7389-4-1f6d3d7dc749
+To: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org
+Cc: Michael Hennerich <Michael.Hennerich@analog.com>, 
+ =?utf-8?q?Nuno_S=C3=A1?= <nuno.sa@analog.com>, 
+ Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ David Lechner <dlechner@baylibre.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1310; i=dlechner@baylibre.com;
+ h=from:subject:message-id; bh=YAlLqkiUmn3HLW9UEES3iRfYVjnsBQso51HpCIG25JQ=;
+ b=owEBgwJ8/ZANAwAKAR+K+IyC93wDAcsmYgBn7G2ji5jZGeBcfDlKiaW9oiPp8fE0x2NefCXng
+ IV4mEI86MiJAkkEAAEKADMWIQSKc9gqah9QmQfzc4gfiviMgvd8AwUCZ+xtoxUcZGF2aWRAbGVj
+ aG5vbG9neS5jb20ACgkQH4r4jIL3fANDlBAAjJs9Hsb2pr80RJr0dynacRF3AA3EXEZOBA/50Jq
+ X0W3pne1SXihcZdmS+0RlA98QHthDG7+noKnN8ME/V65oCJdZOSM5pWVaden3dQxCJp1bnvthbx
+ A1857Szgkm93pR9OpsTg/oMs7OUSLIulOzR2pOfQq2V7trNoCjw3++Rq6o5KD+7vyi/m5RJD+nU
+ lilNSLAui4aYoqCJShuK2uLl1gGIHHWtbAs+kuVokPKZSO0qmQ9znVgo0NkTrqW72vhC9aY5MQV
+ yEY4piz+F/PSy9ZCbD30jZMWuPEU52E723U5gQRvlytQmWbOoSWp8ThAu1a4efGzdFJ0tNawCCR
+ 5DSZpFTduiQ27S1UCgjNrWYHyYAcSB2MjUuVkU/ejPoCq/vfoKhzmIUyvuLe2KWW/XXjYy28v6O
+ Z4siF4TMFVJDU0fat7yMIsk4kHJngkHXGute/By+eB8ySxcTmftT6b7RoEd9lJH5X0XbY2phWid
+ x3uRGz2HWVeUneZQ9JcdvnYfAlcvNiAZhGnCls42wuC7qrtk6S2wfnHDKEvVr8tvi8ih98CWjGb
+ DtqMx3//ZBITuW7pJjctLVcTxNps63y/BYzN/Lc+Mh4e1RDwvQiDScOFjVRL3uDvcrB/ijZ/MeV
+ H8KxbdobeYPMY4SznVb5H3U7iIrSLiRPY6o9ECH/sHRY=
+X-Developer-Key: i=dlechner@baylibre.com; a=openpgp;
+ fpr=8A73D82A6A1F509907F373881F8AF88C82F77C03
 
-On Tue, Apr 01, 2025 at 10:53:46AM -0700, Guenter Roeck wrote:
-> On 4/1/25 10:08, Peter Zijlstra wrote:
-> > > +	if (!KUNIT_IS_SUPPRESSED_WARNING(__func__))			\
-> > > +		_BUG_FLAGS(ASM_UD2, __flags, ANNOTATE_REACHABLE(1b));	\
-> > >   	instrumentation_end();					\
-> > >   } while (0)
-> > 
-> > NAK, this grows the BUG site for now appreciable reason.
-> 
-> Only if CONFIG_KUNIT_SUPPRESS_BACKTRACE is enabled. Why does that
-> warrant a NACK ?
+While developing this driver, we glossed over AD7389-4 since we didn't
+have hardware to test it. However, it should be trivial enough to add
+support without testing. It is basically the same as AD7380-4 but
+instead of no internal reference, it has no external reference. And we
+already have support for chips with internal reference only (ADAQ).
 
-I agree with Peter, this bloats the code around thousands of UD2 sites.
+We have the typical DT bindings/driver/documentation patches for it plus
+a few patches to shuffle around the existing code for supporting chips
+with internal-reference-only to make it generic enough to support this
+chip as well.
 
-It would be much better to do the checking after the exception.  In fact
-it looks like you're already doing that in report_bug()?
+---
+David Lechner (5):
+      dt-bindings: iio: adc: ad7380: add AD7389-4
+      iio: adc: ad7380: rename internal_ref_only
+      iio: adc: ad7380: move internal reference voltage to chip_info
+      iio: adc: ad7380: add ad7389-4
+      Documentation: iio: ad7380: add AD7389-4
 
-	if (warning && KUNIT_IS_SUPPRESSED_WARNING(function))
-		return BUG_TRAP_TYPE_WARN;
+ .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 11 +++++
+ Documentation/iio/ad7380.rst                       |  7 +++
+ drivers/iio/adc/ad7380.c                           | 50 +++++++++++++++++++---
+ 3 files changed, 61 insertions(+), 7 deletions(-)
+---
+base-commit: f8ffc92ae9052e6615896052f0c5b808bfc17520
+change-id: 20250401-iio-ad7380-add-ad7389-4-1f6d3d7dc749
 
-Why check it twice?
-
+Best regards,
 -- 
-Josh
+David Lechner <dlechner@baylibre.com>
+
