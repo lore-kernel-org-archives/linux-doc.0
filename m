@@ -1,66 +1,147 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505C99444;
-	Wed,  2 Apr 2025 08:25:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8845235345;
+	Wed,  2 Apr 2025 08:28:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743582350; cv=none; b=kZWiJhRuiOWBTkPXpm9CW6H674xJgROJ5fGL/gjOYahlyGKvOlTirbG4jlIRrK8yenRyyV6M4aco4hDPjXjmoi8IPZaEo08iX37fF4Hrnld9kbQcAveabyvsM2zpfHOyIPSUTWaPcS4qs2+1yyd7Wwq046+/MBZChfjM7K6cQGs=
+	t=1743582536; cv=none; b=YU4qkZSCKIFqOKHz/9oon4RTqpmSOtT2uCL7E187pdIS85Vl09p7J7NXUMcxURnCbKXKpPKqxfSLkA5Oyvc0HRbHaE5AQdRIAaUd2qjRtWCq0O8pUw7879j1aBqUOlozuVH5E5xMT7k3SOrhLHVUc0Dtq87LkQN6KpODzFlATck=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743582350; c=relaxed/simple;
-	bh=otuypYYxO0QSjLeAobJAQo27qrjBeltuzY9/WEqFTxM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NL7fmdab9s52VekMauM4k8CYDxrG9WZbMKi+hNCyU9P9vMVjFmmSE8kgCSJdXfx9cCZ8xtp96p/fWxyO8581TnTz0AIxluIIbQXBx+Vh2B2Q8QFpiGVQ6hvqUiJniKJAqdYYxRKaqnJnIz2W93NYdLTsN4bgvE0jOBqDj3hf14w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FZRqupmN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743582536; c=relaxed/simple;
+	bh=+NyrcvDxQWdvL5vOazz3qtBbzZp5lT92VivrZpEL9WI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=fRZQDbybW2AKwMrPvHQTWBkTT1wnkxg3EBUA/yycBEuBwJPPWG8StTfIIxuBQ4dMHY7cB1vf6C+QTznRdJTpiVFbceMdKd2iT9HB4+34xZoPJhbQONg+gRHj5LaQzzTSqGVSKTUdK3U9cP1DYoXs0UUqlBNfiKcF4iiOUE/HD8c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ewWuH8e3; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FZRqupmN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3AD18C4CEDD;
-	Wed,  2 Apr 2025 08:25:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ewWuH8e3"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A5B84C4CEDD;
+	Wed,  2 Apr 2025 08:28:49 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743582349;
-	bh=otuypYYxO0QSjLeAobJAQo27qrjBeltuzY9/WEqFTxM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FZRqupmNclgLdDIYFU6xOb1JCVFihifTTRQqzcuoRgBb0kkkPCCMB1hubMpaLU4gN
-	 XlB2rkjB98v7gq5ncRRqr2chTy7S/lR0awHtbRjzlSLnao9g49XNo+7oTgJzG+lDgL
-	 IE4nTgi5EARczC3MLLqJTowkDwg2uwQRD+3K2fsN+WD1R7s0U12jBf3NaFys2y5q24
-	 a9hRUNm9IhO3mjmuxXqlNecZ41UVrKtbFJdtBTl+cVo1MAaoLvz9R/txaG9XGtdwOM
-	 8YPLWXcVcm/KkAjrOb1UrVuSmDr/zHO3ieIzzYckstGdWHiCLVVwCFexPDD+J/diVO
-	 vWDlbLWESWsfw==
-Date: Wed, 2 Apr 2025 10:25:46 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
-	Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	s=k20201202; t=1743582535;
+	bh=+NyrcvDxQWdvL5vOazz3qtBbzZp5lT92VivrZpEL9WI=;
+	h=From:To:Cc:Subject:Date:From;
+	b=ewWuH8e31m7iceYWeMziIqSMnau8JyiuAUIpino64Lb697g5m/HSkgG+8QoxGRAkU
+	 3tW+KVeGjVYqmqTKy3mzoqaVS8VEXNcbXy0xrd4A2jbJ2VS6j1U5OY9fwfC2VFzNev
+	 yblo6BU9wAzztCX1MobafPuTvegJNn5Ro/ZJE3J9yySZHfukQRaD0t4Vpn8bVWGkWa
+	 umjB9v+6+DiHz7Vq+Jdj5eE+GOhXc2wrNuwGvtGaJWBZSCGeVRUUTkiuT7tURz3MJy
+	 Y6Hqyf/LzgrMCI19pbjV6HWUBuGyETGw5X+y2etQMZn26k7yEnADxBHR2ptL1qAe6l
+	 v2mU2FcuBGU+g==
+From: Amit Shah <amit@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	kvm@vger.kernel.org,
+	x86@kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 1/5] dt-bindings: iio: adc: ad7380: add AD7389-4
-Message-ID: <20250402-winged-ambitious-sparrow-c988c6@krzk-bin>
-References: <20250401-iio-ad7380-add-ad7389-4-v1-0-23d2568aa24f@baylibre.com>
- <20250401-iio-ad7380-add-ad7389-4-v1-1-23d2568aa24f@baylibre.com>
+Cc: amit.shah@amd.com,
+	thomas.lendacky@amd.com,
+	bp@alien8.de,
+	tglx@linutronix.de,
+	peterz@infradead.org,
+	jpoimboe@kernel.org,
+	pawan.kumar.gupta@linux.intel.com,
+	corbet@lwn.net,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	hpa@zytor.com,
+	seanjc@google.com,
+	pbonzini@redhat.com,
+	daniel.sneddon@linux.intel.com,
+	kai.huang@intel.com,
+	sandipan.das@amd.com,
+	boris.ostrovsky@oracle.com,
+	Babu.Moger@amd.com,
+	david.kaplan@amd.com,
+	dwmw@amazon.co.uk,
+	andrew.cooper3@citrix.com,
+	Amit Shah <amit@kernel.org>
+Subject: [RFC PATCH v4 0/2] KVM: Add support for the ERAPS feature
+Date: Wed,  2 Apr 2025 10:28:31 +0200
+Message-ID: <20250402082833.9835-1-amit@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250401-iio-ad7380-add-ad7389-4-v1-1-23d2568aa24f@baylibre.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 01, 2025 at 05:50:08PM -0500, David Lechner wrote:
-> Add compatible and quirks for AD7389-4. This is essentially the same as
-> AD7380-4 but instead of having no internal reference, it has no external
-> reference voltage supply.
+Zen5+ AMD CPUs have a larger RSB (64 entries on Zen5), and use all of it in
+the host context.  The hypervisor needs to set up a couple things before it's
+exposed to guests.  Patch 1 adds that support.
 
-So neither refio nor refin, but your schema says:
+The feature also adds host/guest tagging to entries in the RSB, which helps
+with preserving RSB entries instead of flushing them across VMEXITs.  The
+patches at
 
-> +    then:
-> +      properties:
-> +        refio-supply: false
+https://lore.kernel.org/kvm/cover.1732219175.git.jpoimboe@kernel.org/ 
 
-So what about refin, which is also external reference?
+address that.
 
-Best regards,
-Krzysztof
+The feature isn't yet part of an APM update that details its working, so this
+is still tagged as RFC.  The notes at
+
+https://amitshah.net/2024/11/eraps-reduces-software-tax-for-hardware-bugs/
+
+may help follow along till the APM is public.
+
+Patch 2 is something I used for development and debugging, I don't intend to
+submit it for inclusion, but let me know if you think it's useful and I'll
+prepare it for final inclusion as well.
+
+One thing I'm not sure about, though, and would like clarification.  Quoting
+from my reply to the v3 series:
+
+When EPT/NPT is disabled, and shadow MMU is used by kvm, the CR3
+register on the CPU holds the PGD of the qemu process.  So if a task
+switch happens within the guest, the CR3 on the CPU is not updated, but
+KVM's shadow MMU routines change the page tables pointed to by that
+CR3.  Contrasting to the NPT case, the CPU's CR3 holds the guest PGD
+directly, and task switches within the guest cause an update to the
+CPU's CR3.
+
+Am I misremembering and misreading the code?
+
+v4:
+* Address Sean's comments from v3
+  * remove a bunch of comments in favour of a better commit message
+* Drop patch 1 fromt the series - Josh's patches handle the most common case,
+  and the AutoIBRS-disabled case can be tackled later if required after Josh's
+  patches have been merged upstream.
+
+v3:
+* rebase on top of Josh's RSB tweaks series
+  * with that rebase, only the non-AutoIBRS case needs special ERAPS support.
+    AutoIBRS is currently disabled when SEV-SNP is active (commit acaa4b5c4c8)
+
+* remove comment about RSB_CLEAR_LOOPS and the size of the RSB -- it's not
+  necessary anymore with the rework
+
+* remove comment from patch 2 in svm.c in favour of the commit message
+
+v2:
+* reword comments to highlight context switch as the main trigger for RSB
+  flushes in hardware (Dave Hansen)
+* Split out outdated comment updates in (v1) patch1 to be a standalone
+  patch1 in this series, to reinforce RSB filling is only required for RSB
+  poisoning cases for AMD
+  * Remove mentions of BTC/BTC_NO (Andrew Cooper)
+* Add braces in case stmt (kernel test robot)
+* s/boot_cpu_has/cpu_feature_enabled (Boris Petkov)
+
+
+
+Amit Shah (2):
+  x86: kvm: svm: set up ERAPS support for guests
+  debug: add tracepoint for flush_rap_on_vmrun
+
+ arch/x86/include/asm/cpufeatures.h |  1 +
+ arch/x86/include/asm/svm.h         |  6 +++++-
+ arch/x86/kvm/cpuid.c               | 10 +++++++++-
+ arch/x86/kvm/svm/svm.c             |  9 +++++++++
+ arch/x86/kvm/svm/svm.h             | 15 +++++++++++++++
+ arch/x86/kvm/trace.h               | 16 ++++++++++++++++
+ arch/x86/kvm/x86.c                 |  1 +
+ 7 files changed, 56 insertions(+), 2 deletions(-)
+
+-- 
+2.49.0
 
