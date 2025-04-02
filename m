@@ -1,159 +1,135 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-52005.amazon.com (smtp-fw-52005.amazon.com [52.119.213.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FB819E826
-	for <linux-doc@vger.kernel.org>; Wed,  2 Apr 2025 18:37:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8966518A93F;
+	Wed,  2 Apr 2025 18:49:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743619073; cv=none; b=A0+CuCJfQiVUSnOWbbl7nGZrVtZtibdy5jv6mnevFG3Mp4e1aoR1Ec+AtWZa6PAYCCsQMDS7PGKYM+/TiEzEEJiegoJNpCh+/AcNyK0NuF60d0jaChOxtMADSRzy3QvV2rq/Ty9kexn/v4BARgi6F1yMWJDOzKic8R/uGbpvlak=
+	t=1743619759; cv=none; b=iEeqR8C2Pe0MTpkfzbU+U0d4eg3OdZL/vnu/Yo/h9J83qebyuXF0cs7udkj788F8CExM5hP4oB4qur5qfqbrgW0gWl82hd0r7GR7UjyPLPgOsnLnjzAxUmH8dU59V9ADsDsOvcqJyNP/T6p4NbhhEvQqRkH9UHQYNlT9DEapUuc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743619073; c=relaxed/simple;
-	bh=8sGZeCa0sKqwzNT7+OssvY0XCe1f29aCSfnouhi7cVM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=chKyTxxT4FgcyMJHuoScjPCvA7VMAXj+3fNpCrqqGP3UnV4jzgvbq5Trl4qYVkm4zgAb6g1hukSu1mEUu9CqlHMPvlyudg55DproJ+Y6zLXiMAAsFDu28HD/VtYrE/GF2fJ032cXEPA8gWBHlah4m0AGLLs4AWFzwrkoKplQq/Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=UpeHXMHl; arc=none smtp.client-ip=209.85.160.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1743619759; c=relaxed/simple;
+	bh=lzIzGe/A8K0FeDNd49e2UFCleX6gbOBWTXq2lLAmj28=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=B78ShEliKPfEKdbYhLQBHmwqiEI/gMgVTFHv4OGOvtgaYfhu5yZAIap/KPjz5BjAuDZ8CPDYbeUa8OO6VRDU4g+9/3YFQhB7XwiWqODbb6ibIVFgIqzwHzUknkM/2fZi7M6JFoN6AKHe6VH4lKlHBpPnHY+KPxcW3XqIP/3jh1c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=N2tQb1bp; arc=none smtp.client-ip=52.119.213.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="UpeHXMHl"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-47664364628so1270441cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 02 Apr 2025 11:37:51 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="N2tQb1bp"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1743619071; x=1744223871; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=8sGZeCa0sKqwzNT7+OssvY0XCe1f29aCSfnouhi7cVM=;
-        b=UpeHXMHlzqKf09a80PpbFREcBUIZ1dqQ8ZbaBTyd5+mEK78huJs0wY6ewTjVNf34JI
-         VitV8Kn+IbDJVYPpr9GDRPkSWUzpvarn9sX/frxInxyzs4SLCrP89PQYpv0Bj6egULPj
-         4SdHto9LJGUIDuQXBxsXhtbAgvDkRvqi4kYYiLtv+Zj3fuU305AZrJEO+wPgVYMRmhU+
-         MUMk5cP6Vr2aDYTlO3BkMXPW3ayHvgCRQHL1CwWfVDVvm4lbv+uyoGV8oAzTKTtU//4C
-         5NBeMdOZijjZI+0vLDB1vRusk6rpeYQGwkuwd47CbOa7FG0JiaXlT3UIs24b/lD+3/9g
-         2S4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743619071; x=1744223871;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=8sGZeCa0sKqwzNT7+OssvY0XCe1f29aCSfnouhi7cVM=;
-        b=A4gje68C2d1fYPMVMGBvxbKU2dPvbjO0QerV/Evy6+Vk/QONmZB3CqzQ8LcjXIID9h
-         B0ufiSACYOEpbnBCq2om5BAujxjugWex5/cSZ+huw6+lYgDhndYCRFYAqbX6E1mCZjJn
-         A+zM54EpM90RH/OEp8P7IHv3jPnA84PmGwMb9z6IASO5dda5jBeIrbhA3qAUX7/hfkfo
-         hsR0cYjaGMZgGf0+1k89RM2IPKW7yT2khaCbvI1ffSCD91ZmWQCmKvE9oPE9NSrkBnaw
-         2AIMP6ZFaYMl5rynKF/dV//tYzbHFBA1JmAMrjMvrYuTFcW36Rpa3Pv7MlP5tbgC01rJ
-         H4TA==
-X-Forwarded-Encrypted: i=1; AJvYcCV/vRaCG/X5vV36llkZ8kdTFPntu8VV8hNI8YTVo9yl4MyKftMPQ5AWkAEqYRjsg5W5VMmZtD22eg0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyldmYSXmrPYsnCvjEKidMM+P1XYvWF1RnPqC6oU3bddIa20QeQ
-	0kjG6kstnPuiM+DUfPC7eNwB9ZaDwnvEtBSBZSVey3ZcmasT1sEs2b6F0Rgpkip4qaxwMndulq1
-	TsbHvmjE9GIHL+bVgeagg7TL0JqNbt30GS1r0WA==
-X-Gm-Gg: ASbGnct3+sde1k45ni3iQKe3XTDjMN0HdtqatkxHs68EOXn29kmnKEdKNT8fvgYM9fc
-	bsqhyCKuluezYzaFxVLfiLUwszbta4NZ/wYtu4J6QGlHsGJjYVkj8GPmWlO/tGTdTPqA8MxImR1
-	y8rWUxSX5ujkmqtgo9F1TmeKM=
-X-Google-Smtp-Source: AGHT+IGBm8eRAZTRRIQNHm7hrKsMWsRZO7yaRU5V8qu8Hz4XTnZI9DQTzhglhyasNi+RSLHZS4pwai1XiiNO0rfUKEY=
-X-Received: by 2002:a05:622a:255:b0:472:145:3e02 with SMTP id
- d75a77b69052e-4791615e607mr11970971cf.8.1743619070935; Wed, 02 Apr 2025
- 11:37:50 -0700 (PDT)
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1743619758; x=1775155758;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version:content-transfer-encoding;
+  bh=lzIzGe/A8K0FeDNd49e2UFCleX6gbOBWTXq2lLAmj28=;
+  b=N2tQb1bp3qAv2NusgoPPUnXMweVB3/nS7LdTV9GYHbUntQQwMGCSt5gQ
+   CzOr0x+as3Mg2yZi/OUBXSwDg6A6wInOT0nejWxGQ08Zz6rHBizhQ+FJT
+   KQHBfSBPuaQj3Ubru/FC85qSGD7pTQhVKLgT8j0AREHnkQmra13pouAec
+   Q=;
+X-IronPort-AV: E=Sophos;i="6.15,183,1739836800"; 
+   d="scan'208";a="732319846"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52005.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Apr 2025 18:49:12 +0000
+Received: from EX19MTAUWB001.ant.amazon.com [10.0.21.151:38908]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.37.138:2525] with esmtp (Farcaster)
+ id 7d79399a-a36b-4d73-99b6-98948cdf7eea; Wed, 2 Apr 2025 18:49:11 +0000 (UTC)
+X-Farcaster-Flow-ID: 7d79399a-a36b-4d73-99b6-98948cdf7eea
+Received: from EX19D020UWA002.ant.amazon.com (10.13.138.222) by
+ EX19MTAUWB001.ant.amazon.com (10.250.64.248) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 2 Apr 2025 18:49:01 +0000
+Received: from EX19MTAUWA002.ant.amazon.com (10.250.64.202) by
+ EX19D020UWA002.ant.amazon.com (10.13.138.222) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Wed, 2 Apr 2025 18:49:01 +0000
+Received: from email-imr-corp-prod-iad-all-1b-85daddd1.us-east-1.amazon.com
+ (10.25.36.210) by mail-relay.amazon.com (10.250.64.203) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1544.14 via Frontend Transport; Wed, 2 Apr 2025 18:49:01 +0000
+Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
+	by email-imr-corp-prod-iad-all-1b-85daddd1.us-east-1.amazon.com (Postfix) with ESMTP id B8E254076F;
+	Wed,  2 Apr 2025 18:49:00 +0000 (UTC)
+Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id 74DA54F1C; Wed,  2 Apr 2025 18:49:00 +0000 (UTC)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>
+CC: Changyuan Lyu <changyuanl@google.com>, <akpm@linux-foundation.org>,
+	<anthony.yznaga@oracle.com>, <arnd@arndb.de>, <ashish.kalra@amd.com>,
+	<benh@kernel.crashing.org>, <bp@alien8.de>, <catalin.marinas@arm.com>,
+	<corbet@lwn.net>, <dave.hansen@linux.intel.com>,
+	<devicetree@vger.kernel.org>, <dwmw2@infradead.org>, <ebiederm@xmission.com>,
+	<graf@amazon.com>, <hpa@zytor.com>, <jgg@nvidia.com>, <jgowans@amazon.com>,
+	<kexec@lists.infradead.org>, <krzk@kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <linux-mm@kvack.org>, <luto@kernel.org>,
+	<mark.rutland@arm.com>, <mingo@redhat.com>, <pbonzini@redhat.com>,
+	<peterz@infradead.org>, <robh+dt@kernel.org>, <robh@kernel.org>,
+	<rostedt@goodmis.org>, <rppt@kernel.org>, <saravanak@google.com>,
+	<skinsburskii@linux.microsoft.com>, <tglx@linutronix.de>,
+	<thomas.lendacky@amd.com>, <will@kernel.org>, <x86@kernel.org>
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
+In-Reply-To: <CA+CK2bBnbEtw7jL2fbukJ3aBCjn=-OVT70oEAsZ435vtFe18Vw@mail.gmail.com>
+References: <mafs0tt7eqt6f.fsf@amazon.de>
+	<20250402164453.2470750-1-changyuanl@google.com>
+	<mafs0ecyaqzmd.fsf_-_@amazon.de>
+	<CA+CK2bBnbEtw7jL2fbukJ3aBCjn=-OVT70oEAsZ435vtFe18Vw@mail.gmail.com>
+Date: Wed, 2 Apr 2025 18:49:00 +0000
+Message-ID: <mafs0a58yqu03.fsf_-_@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <mafs0tt7eqt6f.fsf@amazon.de> <20250402164453.2470750-1-changyuanl@google.com>
- <mafs0ecyaqzmd.fsf_-_@amazon.de>
-In-Reply-To: <mafs0ecyaqzmd.fsf_-_@amazon.de>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Wed, 2 Apr 2025 14:37:12 -0400
-X-Gm-Features: AQ5f1Jr9Neh0jFNvgUt9co1Ay0Junb4b6fkF7RtFZQf-u5XIPaKITjI68-n5adU
-Message-ID: <CA+CK2bBnbEtw7jL2fbukJ3aBCjn=-OVT70oEAsZ435vtFe18Vw@mail.gmail.com>
-Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
-To: Pratyush Yadav <ptyadav@amazon.de>
-Cc: Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org, 
-	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com, 
-	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com, 
-	corbet@lwn.net, dave.hansen@linux.intel.com, devicetree@vger.kernel.org, 
-	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com, 
-	jgg@nvidia.com, jgowans@amazon.com, kexec@lists.infradead.org, 
-	krzk@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com, pbonzini@redhat.com, 
-	peterz@infradead.org, robh+dt@kernel.org, robh@kernel.org, 
-	rostedt@goodmis.org, rppt@kernel.org, saravanak@google.com, 
-	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
-	will@kernel.org, x86@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 2, 2025 at 12:47=E2=80=AFPM Pratyush Yadav <ptyadav@amazon.de> =
-wrote:
->
-> Hi,
->
-> On Wed, Apr 02 2025, Changyuan Lyu wrote:
->
-> > Hi Pratyush, Thanks for suggestions!
-> >
-> > On Thu, Mar 27, 2025 at 17:28:40 +0000, Pratyush Yadav <ptyadav@amazon.=
-de> wrote:
-> >> On Thu, Mar 27 2025, Jason Gunthorpe wrote:
-> >>
-> >> > On Thu, Mar 27, 2025 at 10:03:17AM +0000, Pratyush Yadav wrote:
-> >> >
-> >> >> Of course, with the current linked list structure, this cannot work=
-. But
-> >> >> I don't see why we need to have it. I think having a page-table lik=
-e
-> >> >> structure would be better -- only instead of having PTEs at the low=
-est
-> >> >> levels, you have the bitmap.
-> >> >
-> >> > Yes, but there is a trade off here of what I could write in 30 mins
-> >> > and what is maximally possible :) The xarray is providing a page tab=
-le
-> >> > implementation in a library form.
-> >> >
-> >> > I think this whole thing can be optimized, especially the
-> >> > memblock_reserve side, but the idea here is to get started and once =
-we
-> >> > have some data on what the actual preservation workload is then
-> >> > someone can optimize this.
-> >> >
-> >> > Otherwise we are going to be spending months just polishing this one
-> >> > patch without any actual data on where the performance issues and ho=
-t
-> >> > spots actually are.
-> >>
-> >> The memblock_reserve side we can optimize later, I agree. But the memo=
-ry
-> >> preservation format is ABI and I think that is worth spending a little
-> >> more time on. And I don't think it should be that much more complex th=
-an
-> >> the current format.
-> >>
-> >> I want to hack around with it, so I'll give it a try over the next few
-> >> days and see what I can come up with.
-> >
-> > I agree with Jason that "nothing is ABI at this
-> > point" and it will take some time for KHO to stabilize.
-> >
-> > On the other hand if you have already came up with something working an=
-d
-> > simple, we can include it in the next version.
->
-> I already have something that works with zero-order pages. I am
-> currently implementing support for other orders. It is almost done, but
-> I need to test it and do a performance comparison with the current
-> patch. Will post something soon!
+On Wed, Apr 02 2025, Pasha Tatashin wrote:
 
-Hi Pratyush,
-
-Just to clarify, how soon? We are about to post v6 for KHO, with all
-other comments in this thread addressed.
-
-Thanks,
-Pasha
-
+> On Wed, Apr 2, 2025 at 12:47=E2=80=AFPM Pratyush Yadav <ptyadav@amazon.de=
+> wrote:
+>>
+>> Hi,
+>>
+>> On Wed, Apr 02 2025, Changyuan Lyu wrote:
+>>
+>> > Hi Pratyush, Thanks for suggestions!
+>> >
+>> > On Thu, Mar 27, 2025 at 17:28:40 +0000, Pratyush Yadav <ptyadav@amazon=
+.de> wrote:
+[...]
+>> >>
+>> >> The memblock_reserve side we can optimize later, I agree. But the mem=
+ory
+>> >> preservation format is ABI and I think that is worth spending a little
+>> >> more time on. And I don't think it should be that much more complex t=
+han
+>> >> the current format.
+>> >>
+>> >> I want to hack around with it, so I'll give it a try over the next few
+>> >> days and see what I can come up with.
+>> >
+>> > I agree with Jason that "nothing is ABI at this
+>> > point" and it will take some time for KHO to stabilize.
+>> >
+>> > On the other hand if you have already came up with something working a=
+nd
+>> > simple, we can include it in the next version.
+>>
+>> I already have something that works with zero-order pages. I am
+>> currently implementing support for other orders. It is almost done, but
+>> I need to test it and do a performance comparison with the current
+>> patch. Will post something soon!
 >
-> --
-> Regards,
-> Pratyush Yadav
+> Hi Pratyush,
+>
+> Just to clarify, how soon? We are about to post v6 for KHO, with all
+> other comments in this thread addressed.
+
+I have it working, but I need to clean up the code a bit and test it
+better. So hopefully end of this week or early next week.
+
+--=20
+Regards,
+Pratyush Yadav
