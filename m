@@ -1,107 +1,123 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A17777DA6A;
-	Wed,  2 Apr 2025 15:58:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-ot1-f73.google.com (mail-ot1-f73.google.com [209.85.210.73])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98CE76AA7
+	for <linux-doc@vger.kernel.org>; Wed,  2 Apr 2025 16:44:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.73
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743609529; cv=none; b=NV6TMXXwLFNfA8F5sYWLyUrV5KAMiU0SHEPw5G/BsRTNf4yhX5ZypT6506S7WkZoTZ79+F9lwCxf1DhtfZHqgAupxZ7j0Z4Nwt5FVOt/swKHxwk7kAjiSuxqspUxB+0UZW0KEYbT0QHtR8bzw63ky0xsigTR8CasUecBbjNCPO4=
+	t=1743612301; cv=none; b=U+f0pXCx8SG2VbH+qp9Kr5NaF+qqkoH5faEl5vDH9fI3a0E4GxPGaU3CDt2/S44vmSwGyMEBUOFuJGLKczpXameOppIp2HrRMaGilytRAw2hwfZVuIyyLMhlAfri/6qIOEGEexcDs1/11QYu/tb28OnwiFS9TlTeVBhlJH/LNm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743609529; c=relaxed/simple;
-	bh=SgmZKwGDUNVrWRo7bbqVZy/+CQgxdIV5IbzJ0FUWPws=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HaDnYGHYDh8o+T7wdaS94wrWufm3SI/a16TnNFZIQ1zc+XWCbtr/sFJyBaJE0/tUAV5R343+gpvNjD6JC7qKKV3kL5JaFqDGsmNAJBV3rF2x1yaMtaViY9F4RmBPjEscChUqHM4opM+HGFnhbYBvlCwuGV6LAMv2FJ0dlXuG+XU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id DBB4E106F;
-	Wed,  2 Apr 2025 08:58:49 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8759D3F63F;
-	Wed,  2 Apr 2025 08:58:46 -0700 (PDT)
-Date: Wed, 2 Apr 2025 16:58:41 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: Mike Leach <mike.leach@linaro.org>
-Cc: James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v4 5/7] coresight: tmc: Re-enable sink after buffer update
-Message-ID: <20250402155841.GO115840@e132581.arm.com>
-References: <20250401180708.385396-1-leo.yan@arm.com>
- <20250401180708.385396-6-leo.yan@arm.com>
- <CAJ9a7VgTyKfebbYhEG5cGH4HyzU+4FavDXsAxGncXLsDtHSUHA@mail.gmail.com>
+	s=arc-20240116; t=1743612301; c=relaxed/simple;
+	bh=VuzG4R3fGEOVCAcfPoOTUO+6ntcv0bfx+Pvn/LkzyGI=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=iU1lRslfVIpaQy2R3HiF++krA31Okvh2iFjE3lVBHhTsSDqjKSswlsthULPKQRtxecLW+riHc9VVe/84ixUaQ8/qI6OaiQ/3oFYSvD4pd2FUJfO6O4siPDlW0bZYE3MOAE456SKqKZShU7eQD6WI3xKSNPRQ+DemFRAj6qu6wpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ke9bkLUu; arc=none smtp.client-ip=209.85.210.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ke9bkLUu"
+Received: by mail-ot1-f73.google.com with SMTP id 46e09a7af769-72a0de193b2so63087a34.3
+        for <linux-doc@vger.kernel.org>; Wed, 02 Apr 2025 09:44:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1743612298; x=1744217098; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=VuzG4R3fGEOVCAcfPoOTUO+6ntcv0bfx+Pvn/LkzyGI=;
+        b=Ke9bkLUusWnEJOUAsBBXpRSTnV91FmPVZUpeXNAFTEdC1hzQOD3NUB5snuJ2smG607
+         ZmTG+YPY9YpsgzXYw9V9iVPh/AuVqFDckPfwM4QRCyDeroF3nbY8iRYFhi2pxOCr8clm
+         +EXNdy7nh/no4wSK/OcfOXfFxqw4Mne6ni/KfOpmmT1JP728EuzLslHfySLB0NF+uwmX
+         YxiibwJyp24uR5wh7v8iOX8OxeF+6KcxVZ3mr5c9X2CumN6egDDERbbYkpDzgIjK6ndQ
+         yZNs5c5Ho9mM5xHJ+5ZpQ43p/7nh2mM2yZyb9k0i0Ii5fArlBP0XSFTzcTiPQbpmrMXJ
+         hLJg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743612298; x=1744217098;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=VuzG4R3fGEOVCAcfPoOTUO+6ntcv0bfx+Pvn/LkzyGI=;
+        b=gKcqUzGG2hqFWgeOc0fqMoZRq/oPZUWSAJowiBRM4KjRfJ1l08LmzzBAuO6bpyPp4L
+         T5vK613ebxaUNLNcvrfvOfKgkkxNXzuQXDOty2elfXqhmqHCEhvEwKXv3n7MpQxaf8QH
+         AYlHByyyH+Q13eALpUsCoZ0RypsmYtfkqzF0p/7XOnoIZtIpXdWYIVG2hLfXkwrGOtcn
+         SV0T4JkdlYYKlH3Y7X6rAHzh+OlPjfwyFkrdl/tKv3zv/ObwaNqYHPL+WhfjWlasATm3
+         T9gqO/9hfsczFoNoWXGykhoTDTJtEpXuOuMprs6Cwc8j9J2fzv9qAOlp8Z9MnRFJ51fS
+         uvqw==
+X-Forwarded-Encrypted: i=1; AJvYcCXswHMdRy7Bk0qE+HB2YQcWSvW++1JjeHxkfpfpQ4I47xjyQd+0MVZdDgg6idbjC1N4tv1/C6x49Rk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxu+VerUMkXQyY3hY9+1l7ldzoeLB5o57/Q2kR3lot5wZZFOpFM
+	C8nA81Ld2Ao/BaR1TgJs1t+wXj82t55BI27Q5lzsFVxvRH2WEy3HbFHDO/JEwQmbyAxNBo658bF
+	TJDLW52h+PAAVts05dw==
+X-Google-Smtp-Source: AGHT+IEtfiQ81dhFjIlo1nhzzYpS6z7yTo9b5I2hiuFriTAYh9htxtNtSS00ENc+Qm/R9+CszjB93qxoNQJ5CKjh
+X-Received: from oacpy11.prod.google.com ([2002:a05:6871:e40b:b0:2bc:6c19:c219])
+ (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6830:2902:b0:72b:9f90:56c5 with SMTP id 46e09a7af769-72c6382cde9mr10771860a34.17.1743612298587;
+ Wed, 02 Apr 2025 09:44:58 -0700 (PDT)
+Date: Wed,  2 Apr 2025 09:44:53 -0700
+In-Reply-To: <mafs0tt7eqt6f.fsf@amazon.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJ9a7VgTyKfebbYhEG5cGH4HyzU+4FavDXsAxGncXLsDtHSUHA@mail.gmail.com>
+Mime-Version: 1.0
+References: <mafs0tt7eqt6f.fsf@amazon.de>
+X-Mailer: git-send-email 2.49.0.472.ge94155a9ec-goog
+Message-ID: <20250402164453.2470750-1-changyuanl@google.com>
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
+From: Changyuan Lyu <changyuanl@google.com>
+To: ptyadav@amazon.de
+Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de, 
+	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
+	catalin.marinas@arm.com, changyuanl@google.com, corbet@lwn.net, 
+	dave.hansen@linux.intel.com, devicetree@vger.kernel.org, dwmw2@infradead.org, 
+	ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com, jgg@nvidia.com, 
+	jgowans@amazon.com, kexec@lists.infradead.org, krzk@kernel.org, 
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org, 
+	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com, 
+	pbonzini@redhat.com, peterz@infradead.org, robh+dt@kernel.org, 
+	robh@kernel.org, rostedt@goodmis.org, rppt@kernel.org, saravanak@google.com, 
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	will@kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-Hi Mike,
+Hi Pratyush, Thanks for suggestions!
 
-On Wed, Apr 02, 2025 at 04:05:10PM +0100, Mike Leach wrote:
-
-[...]
-
-> > @@ -482,6 +482,7 @@ static unsigned long tmc_update_etf_buffer(struct coresight_device *csdev,
-> >         unsigned long offset, to_read = 0, flags;
-> >         struct cs_buffers *buf = sink_config;
-> >         struct tmc_drvdata *drvdata = dev_get_drvdata(csdev->dev.parent);
-> > +       struct perf_event *event = handle->event;
+On Thu, Mar 27, 2025 at 17:28:40 +0000, Pratyush Yadav <ptyadav@amazon.de> wrote:
+> On Thu, Mar 27 2025, Jason Gunthorpe wrote:
+>
+> > On Thu, Mar 27, 2025 at 10:03:17AM +0000, Pratyush Yadav wrote:
 > >
-> >         if (!buf)
-> >                 return 0;
-> > @@ -586,6 +587,14 @@ static unsigned long tmc_update_etf_buffer(struct coresight_device *csdev,
-> >          * is expected by the perf ring buffer.
-> >          */
-> >         CS_LOCK(drvdata->base);
-> > +
-> > +       /*
-> > +        * If the event is active, it is triggered during an AUX pause.
-> > +        * Re-enable the sink so that it is ready when AUX resume is invoked.
-> > +        */
-> > +       if (!event->hw.state)
-> > +               __tmc_etb_enable_hw(drvdata);
-> > +
-> 
-> Think that the  refcnt should be checked here too.
+> >> Of course, with the current linked list structure, this cannot work. But
+> >> I don't see why we need to have it. I think having a page-table like
+> >> structure would be better -- only instead of having PTEs at the lowest
+> >> levels, you have the bitmap.
+> >
+> > Yes, but there is a trade off here of what I could write in 30 mins
+> > and what is maximally possible :) The xarray is providing a page table
+> > implementation in a library form.
+> >
+> > I think this whole thing can be optimized, especially the
+> > memblock_reserve side, but the idea here is to get started and once we
+> > have some data on what the actual preservation workload is then
+> > someone can optimize this.
+> >
+> > Otherwise we are going to be spending months just polishing this one
+> > patch without any actual data on where the performance issues and hot
+> > spots actually are.
+>
+> The memblock_reserve side we can optimize later, I agree. But the memory
+> preservation format is ABI and I think that is worth spending a little
+> more time on. And I don't think it should be that much more complex than
+> the current format.
+>
+> I want to hack around with it, so I'll give it a try over the next few
+> days and see what I can come up with.
 
-No, ETF driver uses spinlock to guard the entire region for checking
-refcnt and updating buffer, here it is still in the same critical
-region.  This is why the checking refcnt is not needed.
+I agree with Jason that "nothing is ABI at this
+point" and it will take some time for KHO to stabilize.
 
-> Does the  ETB case need to be handled? - somewhat confusingly the
-> coresight-tmc-etf.c file handles both ETF and ETB.
+On the other hand if you have already came up with something working and
+simple, we can include it in the next version.
 
-ETF is for the link mode, and ETB is for sink.  Updating buffer is only
-for sink mode, this is why here I use __tmc_etb_enable_hw().  Does it
-make sense?
+(Sorry for the late reply, I was traveling.)
 
-I also have a question for the paired operations (this is applied for
-both ETF and ETR drivers).
-
-Now the flow is:
-
-  tmc_update_etf_buffer()  {
-
-    tmc_flush_and_stop();
-
-    update buffer;
-
-    __tmc_etb_enable_hw();
-  }
-
-The operations are not paired between tmc_flush_and_stop() and
-__tmc_etb_enable_hw().
-
-The tmc_flush_and_stop() function only controls the TMC_FFCR register.
-I'm not sure whether I need to extract the TMC_FFCR operations from
-__tmc_etb_enable_hw() to use them for recovery in the update buffer.
-Or do you think re-enabling the hardware in this patch is the safer
-approach?
-
-Thanks,
-Leo
+Best,
+Changyuan
