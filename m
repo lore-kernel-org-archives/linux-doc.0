@@ -1,191 +1,129 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928EA231A51
-	for <linux-doc@vger.kernel.org>; Wed,  2 Apr 2025 08:45:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 215D321480E;
+	Wed,  2 Apr 2025 12:03:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743583537; cv=none; b=Uj2LtICxl00eq0l/zitD8tSK5TRusU8pXudYoTc6gF+VtDeGnQ8mQEd/eEgOl3WbXJlJhq32x6Dew2+CGIUJjRdqQHtuyokJlBaUu5rNkh4u8WOPHqVIBlJFK2qWnB2UbU9Buws886RRS18x5nNV4gldJJOeux9eUaJEay0BX+4=
+	t=1743595384; cv=none; b=g0llpdb6PqSCzyljwlzwou26op1rJrryN37ka8YuDv07pOCtW2VOpr/8i6oAyCYUv1PHKyjx6FY5angqtGO2qvFeLbc+23l0Xsf8J/UbbcV5X7DxyUb4m3GojR8qJSc4IkjCd3FhK3+kZZtRnZCLMOdhXpRDPb7Oq7xULnttw5M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743583537; c=relaxed/simple;
-	bh=NFm7tbq0ZaH2RVNvsamjo+KHzIpxQSPgvdSp6JQoL5g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pBYkvFa6KX+t4HYk9G5N1QRdW6SwyXDt83ROdFfIKk/lPUy0cze4dE2cRjLLQtVEsjk/A+6PNAvUEgDRfTo9U8J3JprTkJ1vnhnARKhUZ3ctXzWrMo3afYFuA5myhSp0k2HIDzLZq7rKr7rYZw0YfDwL8+ipSn5jAHUJf4myNPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FgcMcc9e; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FgcMcc9e"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-227aaa82fafso125281295ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 02 Apr 2025 01:45:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743583534; x=1744188334; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=zJsLeD6lgFKMBvtHYkyhM89bgWS3aRtj9tm/3qhx9hI=;
-        b=FgcMcc9eHBtYVM6u1uo6hR3HmwykYCpZkmgDTLS7aU/rETiaCNG1fwnu8xBMyQCyT7
-         Piq2glE3m6jAcFRtEeBrRRh3dhse6EjnsXcY2LjFvAH3qDmppbJLACr2ncTA5ic8gAoh
-         btR9LsRC6+F6wXqC6toURqk2TNMpA9CbLq2l4MyOHjrni2pJLFli+jK5wRAaRMACaoUw
-         dt4fgrDJ2rmxy6WyqMlDwBbDvdJv+HpGcb0jyMQy06KhvMZkZwDABHcbyKAtKpHtdn3C
-         zVo+DA+tChSFmPy+YWWgW1v+AzPCMPp/HPC3HqiwZ3U8EgR4xmmlpR+KYbJqZ5TRxgOx
-         ywnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743583534; x=1744188334;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=zJsLeD6lgFKMBvtHYkyhM89bgWS3aRtj9tm/3qhx9hI=;
-        b=tSy1C2wku2mryDyjRCX6KosKN295pewOBM/e+IYHPYExxw4xPEo7+JX5zoyepXuh3y
-         YVyKemkVxhk7LfIUXmw3GnWp6GILiwo88vurOshtTWCT1IcW/bzUwNigMmdTNvN6lh2M
-         AByDZGmexeX2+YxJRxuji0WQaOZxuYmKdbnrYjBnksp4DpHMT5fKRBXEqbyFggURNvfZ
-         1LnkCbcGrbzrebTVXvKppJO6+0fMrV3lASEBODe/q4FnfkCFEuqMnsOV+b/S56pOvf88
-         7p8Cp5xlpMco9S1XkzLwnIDGNnUFpsUdsMg2SLGaeH07flQNppy+/l+M5KWziULjdHHM
-         zynQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUrOU/NW9vjwwGCA3cuiKwODSG/K50noxWew6ghkTwHIikkFGbnHVqGBXMlmbLSgYXUSCtCPEuC/uc=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws8E80NqdibaN5lPK9PnwzNR+iOHm2d3XrEjMG1ib0qlZte5J/
-	WqO3YTaPUD4jEwMfCn1J1tMpFlplue3NW3hLmsbhs6hrqkk4snxBTgvgjlHFc4WdYWqqtuqoB29
-	m8ITq93iNVVBwUWjPg4YBmewz7k0PyBRqWFykdQ==
-X-Gm-Gg: ASbGncuvD7d34X3qKdC1Q0W85nRUZyHyGI1VcCzPmURkB8csv2NqxRR1J6LBYhTFrpC
-	nRKtk2/MtHtlWJ68ZGbOuvfLBe2WNXJ5epiLyCe7RvSRoC+McSSLPNpb6lEeg5oMk/gAaaThiY5
-	Te3dI7SNLadcOqw9ZPb/q3L4ZemXA=
-X-Google-Smtp-Source: AGHT+IHI6Yu/hcdMXCreLSpHVh+HBTcQtrbpLe5Yl5Ua0D4HJd6y3JEpPE+J4Y6K6IQOUqDHmajJ8A4Nn/gDke9iJXk=
-X-Received: by 2002:a05:6a00:3288:b0:736:57cb:f2b6 with SMTP id
- d2e1a72fcca58-739803aa740mr26454210b3a.12.1743583533738; Wed, 02 Apr 2025
- 01:45:33 -0700 (PDT)
+	s=arc-20240116; t=1743595384; c=relaxed/simple;
+	bh=6Uirm4+1R84g08my0RgMU5SWWSZorcx4qDdRmB+DzJY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=RMVjLqiWPd/yB3rRmWnLJkK7hYgSb8e+5anUnfeX9k43TcX36ICFPaAElLjdn4/XpSf77fOQ0eapTTicqYJ5jPYryxSGIOJnhoGutEtw3lm0zXkPp5OFSujWZYKVHSYzvVeKS03TWAisPejgm5F1ByYSG5PYgFw0WsvJZOjrkpo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZSNh25PrKz6M4my;
+	Wed,  2 Apr 2025 19:59:14 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id 852EB140736;
+	Wed,  2 Apr 2025 20:02:53 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.126.171.80) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 2 Apr 2025 14:02:51 +0200
+From: <shiju.jose@huawei.com>
+To: <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+CC: <bp@alien8.de>, <rafael@kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <jonathan.cameron@huawei.com>, <linux-mm@kvack.org>,
+	<linuxarm@huawei.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
+	<Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
+	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
+	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<dferguson@amperecomputing.com>, <wbs@os.amperecomputing.com>,
+	<nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
+	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
+Subject: [PATCH v3 0/3] ACPI: Add support for ACPI RAS2 feature table
+Date: Wed, 2 Apr 2025 13:02:26 +0100
+Message-ID: <20250402120230.596-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250311170451.611389-1-leo.yan@arm.com> <20250311170451.611389-5-leo.yan@arm.com>
- <CAJ9a7VjqGbpPPeR3-PH5vYHNMwqnPLJ+Ouik017Qh717wFOJ0g@mail.gmail.com> <20250401150019.GC115840@e132581.arm.com>
-In-Reply-To: <20250401150019.GC115840@e132581.arm.com>
-From: Mike Leach <mike.leach@linaro.org>
-Date: Wed, 2 Apr 2025 09:45:20 +0100
-X-Gm-Features: AQ5f1JpVKguSRw3Soam_GH8e7qCPQbsLVx7D2P5cFerAhYuRpuHvAGuo7V2FHvg
-Message-ID: <CAJ9a7ViKeqNp_c0+w2mkdujLvzs0UA=Xbm5bG7K-kA86AjJ=eA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/6] coresight: perf: Support AUX trace pause and resume
-To: Leo Yan <leo.yan@arm.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, James Clark <james.clark@linaro.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
-	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-Hi Leo
+From: Shiju Jose <shiju.jose@huawei.com>
 
-On Tue, 1 Apr 2025 at 16:00, Leo Yan <leo.yan@arm.com> wrote:
->
-> Hi Mike,
->
-> On Tue, Apr 01, 2025 at 01:50:52PM +0100, Mike Leach wrote:
->
-> [...]
->
-> > >  static void etm_event_start(struct perf_event *event, int flags)
-> > >  {
-> > >         int cpu = smp_processor_id();
-> > > @@ -463,6 +484,14 @@ static void etm_event_start(struct perf_event *event, int flags)
-> > >         if (!csdev)
-> > >                 goto fail;
-> > >
-> >
-> > Is it possible here that the first call to etm_event_start() also has
-> > the PERF_EF_RESUME flag set?
->
-> The first call has a flow below, using flag 0 but not PERF_EF_RESUME.
->
->   etm_event_add()
->     `>  etm_event_start(event, 0);
->
+Add support for ACPI RAS2 feature table (RAS2) defined in the
+ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+scrubbing feature.
 
-When I looked at the vague comments in the perf source - it seemed to
-imply that ->start() calls could overlap - so the associated event
-that resumes trace could occur at the same time as the initialising
-start from paused for the trace operations.
+ACPI RAS2 patches were part of the EDAC series [1].
 
-If we are guaranteed this cannot happen then we are good to go!
+The code is based on ras.git: edac-cxl branch [2].
 
-> Note: for the first call, the tracer should be disabled if
-> 'event->hw.aux_paused' is 1.  This is ensured by patch 03.
->
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://web.git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git/log/?h=edac-cxl
 
-Yes - I saw that.
+Changes
+=======
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature. Not for merging.
+   Corresponding changes are merged in the acpica:
+   https://github.com/acpica/acpica/commit/2c8a38f747de9d977491a494faf0dfaf799b777b
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
 
-Mike
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".  
 
-> Thanks,
-> Leo
->
-> > If so it looks like we need to fall through and do a "normal" start to
-> > get all the ctxt->event_data set up.
-> >
-> > > +       if (flags & PERF_EF_RESUME) {
-> > > +               if (etm_event_resume(csdev, ctxt) < 0) {
-> > > +                       dev_err(&csdev->dev, "Failed to resume ETM event.\n");
-> > > +                       goto fail;
-> > > +               }
-> > > +               return;
-> > > +       }
-> > > +
-> > >         /* Have we messed up our tracking ? */
-> > >         if (WARN_ON(ctxt->event_data))
-> > >                 goto fail;
-> > > @@ -545,6 +574,16 @@ static void etm_event_start(struct perf_event *event, int flags)
-> > >         return;
-> > >  }
-> > >
-> > > +static void etm_event_pause(struct coresight_device *csdev,
-> > > +                           struct etm_ctxt *ctxt)
-> > > +{
-> > > +       if (!ctxt->event_data)
-> > > +               return;
-> > > +
-> > > +       /* Stop tracer */
-> > > +       coresight_pause_source(csdev);
-> > > +}
-> > > +
-> > >  static void etm_event_stop(struct perf_event *event, int mode)
-> > >  {
-> > >         int cpu = smp_processor_id();
-> > > @@ -555,6 +594,9 @@ static void etm_event_stop(struct perf_event *event, int mode)
-> > >         struct etm_event_data *event_data;
-> > >         struct coresight_path *path;
-> > >
-> > > +       if (mode & PERF_EF_PAUSE)
-> > > +               return etm_event_pause(csdev, ctxt);
-> > > +
-> > >         /*
-> > >          * If we still have access to the event_data via handle,
-> > >          * confirm that we haven't messed up the tracking.
-> > > @@ -899,7 +941,8 @@ int __init etm_perf_init(void)
-> > >         int ret;
-> > >
-> > >         etm_pmu.capabilities            = (PERF_PMU_CAP_EXCLUSIVE |
-> > > -                                          PERF_PMU_CAP_ITRACE);
-> > > +                                          PERF_PMU_CAP_ITRACE |
-> > > +                                          PERF_PMU_CAP_AUX_PAUSE);
-> > >
-> > >         etm_pmu.attr_groups             = etm_pmu_attr_groups;
-> > >         etm_pmu.task_ctx_nr             = perf_sw_context;
-> > > --
-> > > 2.34.1
-> > >
-> >
-> > If the possible issue above is prevented by perf internals
-> >
-> > Reviewed-by: Mike Leach <mike.leach@linaro.org>
-> >
-> >
-> > --
-> > Mike Leach
-> > Principal Engineer, ARM Ltd.
-> > Manchester Design Centre. UK
+Shiju Jose (3):
+  ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names
+  ACPI:RAS2: Add ACPI RAS2 driver
+  ras: mem: Add memory ACPI RAS2 driver
 
-
+ Documentation/edac/scrub.rst |  76 +++++++
+ drivers/acpi/Kconfig         |  11 +
+ drivers/acpi/Makefile        |   1 +
+ drivers/acpi/bus.c           |   3 +
+ drivers/acpi/ras2.c          | 420 +++++++++++++++++++++++++++++++++++
+ drivers/ras/Kconfig          |  11 +
+ drivers/ras/Makefile         |   1 +
+ drivers/ras/acpi_ras2.c      | 406 +++++++++++++++++++++++++++++++++
+ include/acpi/actbl2.h        |  16 +-
+ include/acpi/ras2.h          |  51 +++++
+ 10 files changed, 988 insertions(+), 8 deletions(-)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
 
 -- 
-Mike Leach
-Principal Engineer, ARM Ltd.
-Manchester Design Centre. UK
+2.43.0
+
