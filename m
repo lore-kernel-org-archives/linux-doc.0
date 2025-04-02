@@ -1,134 +1,191 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CAAEE23534D;
-	Wed,  2 Apr 2025 08:29:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 928EA231A51
+	for <linux-doc@vger.kernel.org>; Wed,  2 Apr 2025 08:45:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743582546; cv=none; b=BHN/4hxqwnZKU7BCuxPidOoX0rS66DAWfUFLcbIaFVKoQae+DKGRFVz5xkDXtq+bMdW/AdX/NFl4r+G1NYBL87dPKIUsfN2xRTK41B8KZzBxP41JRYhpuyVpRCpzkuQ8EIe0pPl9ENuxdtGKWG24msfMBPhVEgTHkHZKklp2MDo=
+	t=1743583537; cv=none; b=Uj2LtICxl00eq0l/zitD8tSK5TRusU8pXudYoTc6gF+VtDeGnQ8mQEd/eEgOl3WbXJlJhq32x6Dew2+CGIUJjRdqQHtuyokJlBaUu5rNkh4u8WOPHqVIBlJFK2qWnB2UbU9Buws886RRS18x5nNV4gldJJOeux9eUaJEay0BX+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743582546; c=relaxed/simple;
-	bh=iwE9zHuYFYjBKqHaIW4VF+tXUhWkWm+PMEJkvYVBaXU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=K3qAeflPJ52AwDKzhkNiZlhCGoF4oH0NDUmcMWbkcK5P+g8s1eMQGCk+k0Yl8fXcitxQCmd5/f72r35PSjRZEKoHWzrxBpvr5JX/AaAQncbWYTBOW50piXY+aHgKHiisxURka4GUbZF9+OFdrFUmMxiWr25CGcmlVVEt8dToc0U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JVzo88t1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743583537; c=relaxed/simple;
+	bh=NFm7tbq0ZaH2RVNvsamjo+KHzIpxQSPgvdSp6JQoL5g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pBYkvFa6KX+t4HYk9G5N1QRdW6SwyXDt83ROdFfIKk/lPUy0cze4dE2cRjLLQtVEsjk/A+6PNAvUEgDRfTo9U8J3JprTkJ1vnhnARKhUZ3ctXzWrMo3afYFuA5myhSp0k2HIDzLZq7rKr7rYZw0YfDwL8+ipSn5jAHUJf4myNPU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FgcMcc9e; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JVzo88t1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5493CC4CEDD;
-	Wed,  2 Apr 2025 08:29:01 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743582546;
-	bh=iwE9zHuYFYjBKqHaIW4VF+tXUhWkWm+PMEJkvYVBaXU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JVzo88t16ZjM8MszTZXtKtDlN21lEeGH7kxXO88WaaFLSaH94epzLs+irDfyHttl+
-	 TtvAIejtRAU8Y0h6FTTUNekKciN+8Ftd25ra8Q/Z7+sqez+WV5fB0TQJpDZcQIRM6Y
-	 q0dytxHMLbvhKZuyo+P/nNR0saaZqd2N0X6chj0QOqOkoOwtviL7snBO9+bgxSTFLM
-	 L7eRtSDvSjuDd8tR4d1D0egE0J6563NNMhGjbXavkgWLtffE6HbPGPwzM1JCw6R3OR
-	 QdT4VWB8xPwMOy3qKUMDy6kuD+rabltEby0LqtEw2jRnGO2cnTr7iFawd3hfEbrFWs
-	 qFn7m+Yt66s4g==
-From: Amit Shah <amit@kernel.org>
-To: linux-kernel@vger.kernel.org,
-	kvm@vger.kernel.org,
-	x86@kernel.org,
-	linux-doc@vger.kernel.org
-Cc: amit.shah@amd.com,
-	thomas.lendacky@amd.com,
-	bp@alien8.de,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
-	pawan.kumar.gupta@linux.intel.com,
-	corbet@lwn.net,
-	mingo@redhat.com,
-	dave.hansen@linux.intel.com,
-	hpa@zytor.com,
-	seanjc@google.com,
-	pbonzini@redhat.com,
-	daniel.sneddon@linux.intel.com,
-	kai.huang@intel.com,
-	sandipan.das@amd.com,
-	boris.ostrovsky@oracle.com,
-	Babu.Moger@amd.com,
-	david.kaplan@amd.com,
-	dwmw@amazon.co.uk,
-	andrew.cooper3@citrix.com
-Subject: [RFC PATCH v4 2/2] debug: add tracepoint for flush_rap_on_vmrun
-Date: Wed,  2 Apr 2025 10:28:33 +0200
-Message-ID: <20250402082833.9835-3-amit@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250402082833.9835-1-amit@kernel.org>
-References: <20250402082833.9835-1-amit@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FgcMcc9e"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-227aaa82fafso125281295ad.2
+        for <linux-doc@vger.kernel.org>; Wed, 02 Apr 2025 01:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1743583534; x=1744188334; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=zJsLeD6lgFKMBvtHYkyhM89bgWS3aRtj9tm/3qhx9hI=;
+        b=FgcMcc9eHBtYVM6u1uo6hR3HmwykYCpZkmgDTLS7aU/rETiaCNG1fwnu8xBMyQCyT7
+         Piq2glE3m6jAcFRtEeBrRRh3dhse6EjnsXcY2LjFvAH3qDmppbJLACr2ncTA5ic8gAoh
+         btR9LsRC6+F6wXqC6toURqk2TNMpA9CbLq2l4MyOHjrni2pJLFli+jK5wRAaRMACaoUw
+         dt4fgrDJ2rmxy6WyqMlDwBbDvdJv+HpGcb0jyMQy06KhvMZkZwDABHcbyKAtKpHtdn3C
+         zVo+DA+tChSFmPy+YWWgW1v+AzPCMPp/HPC3HqiwZ3U8EgR4xmmlpR+KYbJqZ5TRxgOx
+         ywnQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743583534; x=1744188334;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=zJsLeD6lgFKMBvtHYkyhM89bgWS3aRtj9tm/3qhx9hI=;
+        b=tSy1C2wku2mryDyjRCX6KosKN295pewOBM/e+IYHPYExxw4xPEo7+JX5zoyepXuh3y
+         YVyKemkVxhk7LfIUXmw3GnWp6GILiwo88vurOshtTWCT1IcW/bzUwNigMmdTNvN6lh2M
+         AByDZGmexeX2+YxJRxuji0WQaOZxuYmKdbnrYjBnksp4DpHMT5fKRBXEqbyFggURNvfZ
+         1LnkCbcGrbzrebTVXvKppJO6+0fMrV3lASEBODe/q4FnfkCFEuqMnsOV+b/S56pOvf88
+         7p8Cp5xlpMco9S1XkzLwnIDGNnUFpsUdsMg2SLGaeH07flQNppy+/l+M5KWziULjdHHM
+         zynQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUrOU/NW9vjwwGCA3cuiKwODSG/K50noxWew6ghkTwHIikkFGbnHVqGBXMlmbLSgYXUSCtCPEuC/uc=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws8E80NqdibaN5lPK9PnwzNR+iOHm2d3XrEjMG1ib0qlZte5J/
+	WqO3YTaPUD4jEwMfCn1J1tMpFlplue3NW3hLmsbhs6hrqkk4snxBTgvgjlHFc4WdYWqqtuqoB29
+	m8ITq93iNVVBwUWjPg4YBmewz7k0PyBRqWFykdQ==
+X-Gm-Gg: ASbGncuvD7d34X3qKdC1Q0W85nRUZyHyGI1VcCzPmURkB8csv2NqxRR1J6LBYhTFrpC
+	nRKtk2/MtHtlWJ68ZGbOuvfLBe2WNXJ5epiLyCe7RvSRoC+McSSLPNpb6lEeg5oMk/gAaaThiY5
+	Te3dI7SNLadcOqw9ZPb/q3L4ZemXA=
+X-Google-Smtp-Source: AGHT+IHI6Yu/hcdMXCreLSpHVh+HBTcQtrbpLe5Yl5Ua0D4HJd6y3JEpPE+J4Y6K6IQOUqDHmajJ8A4Nn/gDke9iJXk=
+X-Received: by 2002:a05:6a00:3288:b0:736:57cb:f2b6 with SMTP id
+ d2e1a72fcca58-739803aa740mr26454210b3a.12.1743583533738; Wed, 02 Apr 2025
+ 01:45:33 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250311170451.611389-1-leo.yan@arm.com> <20250311170451.611389-5-leo.yan@arm.com>
+ <CAJ9a7VjqGbpPPeR3-PH5vYHNMwqnPLJ+Ouik017Qh717wFOJ0g@mail.gmail.com> <20250401150019.GC115840@e132581.arm.com>
+In-Reply-To: <20250401150019.GC115840@e132581.arm.com>
+From: Mike Leach <mike.leach@linaro.org>
+Date: Wed, 2 Apr 2025 09:45:20 +0100
+X-Gm-Features: AQ5f1JpVKguSRw3Soam_GH8e7qCPQbsLVx7D2P5cFerAhYuRpuHvAGuo7V2FHvg
+Message-ID: <CAJ9a7ViKeqNp_c0+w2mkdujLvzs0UA=Xbm5bG7K-kA86AjJ=eA@mail.gmail.com>
+Subject: Re: [PATCH v3 4/6] coresight: perf: Support AUX trace pause and resume
+To: Leo Yan <leo.yan@arm.com>
+Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, James Clark <james.clark@linaro.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Alexander Shishkin <alexander.shishkin@linux.intel.com>, 
+	coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-From: Amit Shah <amit.shah@amd.com>
+Hi Leo
 
----
- arch/x86/kvm/svm/svm.c |  4 +++-
- arch/x86/kvm/trace.h   | 16 ++++++++++++++++
- arch/x86/kvm/x86.c     |  1 +
- 3 files changed, 20 insertions(+), 1 deletion(-)
+On Tue, 1 Apr 2025 at 16:00, Leo Yan <leo.yan@arm.com> wrote:
+>
+> Hi Mike,
+>
+> On Tue, Apr 01, 2025 at 01:50:52PM +0100, Mike Leach wrote:
+>
+> [...]
+>
+> > >  static void etm_event_start(struct perf_event *event, int flags)
+> > >  {
+> > >         int cpu = smp_processor_id();
+> > > @@ -463,6 +484,14 @@ static void etm_event_start(struct perf_event *event, int flags)
+> > >         if (!csdev)
+> > >                 goto fail;
+> > >
+> >
+> > Is it possible here that the first call to etm_event_start() also has
+> > the PERF_EF_RESUME flag set?
+>
+> The first call has a flow below, using flag 0 but not PERF_EF_RESUME.
+>
+>   etm_event_add()
+>     `>  etm_event_start(event, 0);
+>
 
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index b5de6341080b..c47d4dfcc1d4 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -3607,8 +3607,10 @@ static int svm_handle_exit(struct kvm_vcpu *vcpu, fastpath_t exit_fastpath)
- 
- 		trace_kvm_nested_vmexit(vcpu, KVM_ISA_SVM);
- 
--		if (vmcb_is_extended_rap(svm->vmcb01.ptr))
-+		if (vmcb_is_extended_rap(svm->vmcb01.ptr)) {
- 			vmcb_flush_guest_rap(svm->vmcb01.ptr);
-+			trace_kvm_svm_eraps_flush_rap(svm->vmcb01.ptr);
-+		}
- 
- 		vmexit = nested_svm_exit_special(svm);
- 
-diff --git a/arch/x86/kvm/trace.h b/arch/x86/kvm/trace.h
-index ccda95e53f62..059dfc744a22 100644
---- a/arch/x86/kvm/trace.h
-+++ b/arch/x86/kvm/trace.h
-@@ -346,6 +346,22 @@ TRACE_EVENT(name,							     \
-  */
- TRACE_EVENT_KVM_EXIT(kvm_exit);
- 
-+TRACE_EVENT(kvm_svm_eraps_flush_rap,					     \
-+	TP_PROTO(struct vmcb *vmcb),					     \
-+	TP_ARGS(vmcb),							     \
-+									     \
-+	TP_STRUCT__entry(						     \
-+		__field( struct vmcb *,		vmcb		)	     \
-+	),								     \
-+									     \
-+	TP_fast_assign(							     \
-+		__entry->vmcb	= vmcb; 				     \
-+	),								     \
-+									     \
-+	TP_printk("vmcb: 0x%p",						     \
-+		  __entry->vmcb)					     \
-+)
-+
- /*
-  * Tracepoint for kvm interrupt injection:
-  */
-diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-index c841817a914a..414a0e6c9c4b 100644
---- a/arch/x86/kvm/x86.c
-+++ b/arch/x86/kvm/x86.c
-@@ -14024,6 +14024,7 @@ EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_vmgexit_exit);
- EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_vmgexit_msr_protocol_enter);
- EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_vmgexit_msr_protocol_exit);
- EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_rmp_fault);
-+EXPORT_TRACEPOINT_SYMBOL_GPL(kvm_svm_eraps_flush_rap);
- 
- static int __init kvm_x86_init(void)
- {
+When I looked at the vague comments in the perf source - it seemed to
+imply that ->start() calls could overlap - so the associated event
+that resumes trace could occur at the same time as the initialising
+start from paused for the trace operations.
+
+If we are guaranteed this cannot happen then we are good to go!
+
+> Note: for the first call, the tracer should be disabled if
+> 'event->hw.aux_paused' is 1.  This is ensured by patch 03.
+>
+
+Yes - I saw that.
+
+Mike
+
+> Thanks,
+> Leo
+>
+> > If so it looks like we need to fall through and do a "normal" start to
+> > get all the ctxt->event_data set up.
+> >
+> > > +       if (flags & PERF_EF_RESUME) {
+> > > +               if (etm_event_resume(csdev, ctxt) < 0) {
+> > > +                       dev_err(&csdev->dev, "Failed to resume ETM event.\n");
+> > > +                       goto fail;
+> > > +               }
+> > > +               return;
+> > > +       }
+> > > +
+> > >         /* Have we messed up our tracking ? */
+> > >         if (WARN_ON(ctxt->event_data))
+> > >                 goto fail;
+> > > @@ -545,6 +574,16 @@ static void etm_event_start(struct perf_event *event, int flags)
+> > >         return;
+> > >  }
+> > >
+> > > +static void etm_event_pause(struct coresight_device *csdev,
+> > > +                           struct etm_ctxt *ctxt)
+> > > +{
+> > > +       if (!ctxt->event_data)
+> > > +               return;
+> > > +
+> > > +       /* Stop tracer */
+> > > +       coresight_pause_source(csdev);
+> > > +}
+> > > +
+> > >  static void etm_event_stop(struct perf_event *event, int mode)
+> > >  {
+> > >         int cpu = smp_processor_id();
+> > > @@ -555,6 +594,9 @@ static void etm_event_stop(struct perf_event *event, int mode)
+> > >         struct etm_event_data *event_data;
+> > >         struct coresight_path *path;
+> > >
+> > > +       if (mode & PERF_EF_PAUSE)
+> > > +               return etm_event_pause(csdev, ctxt);
+> > > +
+> > >         /*
+> > >          * If we still have access to the event_data via handle,
+> > >          * confirm that we haven't messed up the tracking.
+> > > @@ -899,7 +941,8 @@ int __init etm_perf_init(void)
+> > >         int ret;
+> > >
+> > >         etm_pmu.capabilities            = (PERF_PMU_CAP_EXCLUSIVE |
+> > > -                                          PERF_PMU_CAP_ITRACE);
+> > > +                                          PERF_PMU_CAP_ITRACE |
+> > > +                                          PERF_PMU_CAP_AUX_PAUSE);
+> > >
+> > >         etm_pmu.attr_groups             = etm_pmu_attr_groups;
+> > >         etm_pmu.task_ctx_nr             = perf_sw_context;
+> > > --
+> > > 2.34.1
+> > >
+> >
+> > If the possible issue above is prevented by perf internals
+> >
+> > Reviewed-by: Mike Leach <mike.leach@linaro.org>
+> >
+> >
+> > --
+> > Mike Leach
+> > Principal Engineer, ARM Ltd.
+> > Manchester Design Centre. UK
+
+
+
 -- 
-2.49.0
-
+Mike Leach
+Principal Engineer, ARM Ltd.
+Manchester Design Centre. UK
