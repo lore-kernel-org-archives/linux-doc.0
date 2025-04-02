@@ -1,101 +1,159 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CACF1A3156;
-	Wed,  2 Apr 2025 17:44:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02FB819E826
+	for <linux-doc@vger.kernel.org>; Wed,  2 Apr 2025 18:37:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743615902; cv=none; b=UmvunodwwSQqtGxkOuwo5m+lNOz3IUBnANOpKUFXCcTu0aMzzqzstLTh9ORqIB9AeCiwvCXAw+5mCq0Tb/Diq1ypQX3E1mBJS7QrfGkv4OaIHg9rh23D/cvYN2qr4OfaP4WM6vIl76eiTPQMiUsMXw3LsCZWrwDjEFGdJLWBrgc=
+	t=1743619073; cv=none; b=A0+CuCJfQiVUSnOWbbl7nGZrVtZtibdy5jv6mnevFG3Mp4e1aoR1Ec+AtWZa6PAYCCsQMDS7PGKYM+/TiEzEEJiegoJNpCh+/AcNyK0NuF60d0jaChOxtMADSRzy3QvV2rq/Ty9kexn/v4BARgi6F1yMWJDOzKic8R/uGbpvlak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743615902; c=relaxed/simple;
-	bh=srpIceCgkPJ9GUI3k+Z5EprFXkZTsifVhAWS6EXrPxA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kxsAJ9VbEESZto09lqZqGQhMXKi6U71fVquYHMpn1/HtIkdM8sb3ODDlQpM0M1wbkrd06ZjOsAqJNqVd8/lAJuJpFljjhhVcmvCTtoiO71zDm0xb5DLqeKtCSwWNJUjNYBDdkU/El1Ae1YAUfu1gi5xtk6IJW4iC2YMSlNBPbDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=Y+GbdSvD; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1743619073; c=relaxed/simple;
+	bh=8sGZeCa0sKqwzNT7+OssvY0XCe1f29aCSfnouhi7cVM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=chKyTxxT4FgcyMJHuoScjPCvA7VMAXj+3fNpCrqqGP3UnV4jzgvbq5Trl4qYVkm4zgAb6g1hukSu1mEUu9CqlHMPvlyudg55DproJ+Y6zLXiMAAsFDu28HD/VtYrE/GF2fJ032cXEPA8gWBHlah4m0AGLLs4AWFzwrkoKplQq/Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=UpeHXMHl; arc=none smtp.client-ip=209.85.160.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="Y+GbdSvD"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=R98V4fWIBT97doh+FdllktzDEOGq5n+le8g6zWGxnrE=; b=Y+GbdSvDxDWc8tKE
-	0LSFem4xFryQ4aRNR7zIUKKg4hguo4DCcMWJ8XLnTBXIrgZhcZmi3kbLnYy/9Cpq78V7IV87WYU9s
-	osVcVRfM4I2sUJ1Hxq/VZ4r+ZbMsQVLPVVXc5ymPx8WW7nDjcgbcplDcc17dhygQecbdJGsmAaDU8
-	OaNVXJ9CW4+9xiNNFnguwsXENfvW2Oo/fgNVWb7akUOODjIJZmxvJluAY+2QlztjMxeuwrPlpQDSX
-	uNi2qpyodeU59ZY9mZwDNTH2QtV0RYiBcjgMrlfm7Us5QALmD7Veuv+aM7jT7ln7vrPPiqPDV+R2L
-	SEt1rQSuKkAfJga60g==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1u0290-008dFx-3B;
-	Wed, 02 Apr 2025 17:44:54 +0000
-Date: Wed, 2 Apr 2025 17:44:54 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: srinivas.kandagatla@linaro.org
-Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/3] Remove nvmem deadcode
-Message-ID: <Z-13lseyUTqtVhyS@gallifrey>
-References: <20250221015841.209458-1-linux@treblig.org>
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="UpeHXMHl"
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-47664364628so1270441cf.1
+        for <linux-doc@vger.kernel.org>; Wed, 02 Apr 2025 11:37:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1743619071; x=1744223871; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8sGZeCa0sKqwzNT7+OssvY0XCe1f29aCSfnouhi7cVM=;
+        b=UpeHXMHlzqKf09a80PpbFREcBUIZ1dqQ8ZbaBTyd5+mEK78huJs0wY6ewTjVNf34JI
+         VitV8Kn+IbDJVYPpr9GDRPkSWUzpvarn9sX/frxInxyzs4SLCrP89PQYpv0Bj6egULPj
+         4SdHto9LJGUIDuQXBxsXhtbAgvDkRvqi4kYYiLtv+Zj3fuU305AZrJEO+wPgVYMRmhU+
+         MUMk5cP6Vr2aDYTlO3BkMXPW3ayHvgCRQHL1CwWfVDVvm4lbv+uyoGV8oAzTKTtU//4C
+         5NBeMdOZijjZI+0vLDB1vRusk6rpeYQGwkuwd47CbOa7FG0JiaXlT3UIs24b/lD+3/9g
+         2S4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743619071; x=1744223871;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=8sGZeCa0sKqwzNT7+OssvY0XCe1f29aCSfnouhi7cVM=;
+        b=A4gje68C2d1fYPMVMGBvxbKU2dPvbjO0QerV/Evy6+Vk/QONmZB3CqzQ8LcjXIID9h
+         B0ufiSACYOEpbnBCq2om5BAujxjugWex5/cSZ+huw6+lYgDhndYCRFYAqbX6E1mCZjJn
+         A+zM54EpM90RH/OEp8P7IHv3jPnA84PmGwMb9z6IASO5dda5jBeIrbhA3qAUX7/hfkfo
+         hsR0cYjaGMZgGf0+1k89RM2IPKW7yT2khaCbvI1ffSCD91ZmWQCmKvE9oPE9NSrkBnaw
+         2AIMP6ZFaYMl5rynKF/dV//tYzbHFBA1JmAMrjMvrYuTFcW36Rpa3Pv7MlP5tbgC01rJ
+         H4TA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/vRaCG/X5vV36llkZ8kdTFPntu8VV8hNI8YTVo9yl4MyKftMPQ5AWkAEqYRjsg5W5VMmZtD22eg0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyldmYSXmrPYsnCvjEKidMM+P1XYvWF1RnPqC6oU3bddIa20QeQ
+	0kjG6kstnPuiM+DUfPC7eNwB9ZaDwnvEtBSBZSVey3ZcmasT1sEs2b6F0Rgpkip4qaxwMndulq1
+	TsbHvmjE9GIHL+bVgeagg7TL0JqNbt30GS1r0WA==
+X-Gm-Gg: ASbGnct3+sde1k45ni3iQKe3XTDjMN0HdtqatkxHs68EOXn29kmnKEdKNT8fvgYM9fc
+	bsqhyCKuluezYzaFxVLfiLUwszbta4NZ/wYtu4J6QGlHsGJjYVkj8GPmWlO/tGTdTPqA8MxImR1
+	y8rWUxSX5ujkmqtgo9F1TmeKM=
+X-Google-Smtp-Source: AGHT+IGBm8eRAZTRRIQNHm7hrKsMWsRZO7yaRU5V8qu8Hz4XTnZI9DQTzhglhyasNi+RSLHZS4pwai1XiiNO0rfUKEY=
+X-Received: by 2002:a05:622a:255:b0:472:145:3e02 with SMTP id
+ d75a77b69052e-4791615e607mr11970971cf.8.1743619070935; Wed, 02 Apr 2025
+ 11:37:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <20250221015841.209458-1-linux@treblig.org>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 17:44:30 up 329 days,  4:58,  1 user,  load average: 0.09, 0.02,
- 0.01
-User-Agent: Mutt/2.2.12 (2023-09-09)
+References: <mafs0tt7eqt6f.fsf@amazon.de> <20250402164453.2470750-1-changyuanl@google.com>
+ <mafs0ecyaqzmd.fsf_-_@amazon.de>
+In-Reply-To: <mafs0ecyaqzmd.fsf_-_@amazon.de>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Wed, 2 Apr 2025 14:37:12 -0400
+X-Gm-Features: AQ5f1Jr9Neh0jFNvgUt9co1Ay0Junb4b6fkF7RtFZQf-u5XIPaKITjI68-n5adU
+Message-ID: <CA+CK2bBnbEtw7jL2fbukJ3aBCjn=-OVT70oEAsZ435vtFe18Vw@mail.gmail.com>
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
+To: Pratyush Yadav <ptyadav@amazon.de>
+Cc: Changyuan Lyu <changyuanl@google.com>, akpm@linux-foundation.org, 
+	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com, 
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com, 
+	corbet@lwn.net, dave.hansen@linux.intel.com, devicetree@vger.kernel.org, 
+	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com, hpa@zytor.com, 
+	jgg@nvidia.com, jgowans@amazon.com, kexec@lists.infradead.org, 
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com, pbonzini@redhat.com, 
+	peterz@infradead.org, robh+dt@kernel.org, robh@kernel.org, 
+	rostedt@goodmis.org, rppt@kernel.org, saravanak@google.com, 
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	will@kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-* linux@treblig.org (linux@treblig.org) wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
+On Wed, Apr 2, 2025 at 12:47=E2=80=AFPM Pratyush Yadav <ptyadav@amazon.de> =
+wrote:
+>
 > Hi,
->   This series removes some uncalled deadcode in nvmem.
-> The third patch probably deserves a bit closer inspection.
-> 
-> The first one removes nvmem_device_cell_read/write functions
-> that haven't been used in ~10 years.
-> 
-> The second removes nvmem_add/del_cell_table - again this is
-> removing uncalled functions; nvmem_add_cell_table is unused
-> after the removal of the Davinci machines.
-> 
-> The third one removes the remaining nvmem_cell_table code - including
-> a function that's called ( nvmem_add_cells_from_table ) - but
-> my reading is that from the previous patch there's no way for this
-> function to do anything active any more since the list it walks is
-> empty.
-> 
-> Build tested only.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+>
+> On Wed, Apr 02 2025, Changyuan Lyu wrote:
+>
+> > Hi Pratyush, Thanks for suggestions!
+> >
+> > On Thu, Mar 27, 2025 at 17:28:40 +0000, Pratyush Yadav <ptyadav@amazon.=
+de> wrote:
+> >> On Thu, Mar 27 2025, Jason Gunthorpe wrote:
+> >>
+> >> > On Thu, Mar 27, 2025 at 10:03:17AM +0000, Pratyush Yadav wrote:
+> >> >
+> >> >> Of course, with the current linked list structure, this cannot work=
+. But
+> >> >> I don't see why we need to have it. I think having a page-table lik=
+e
+> >> >> structure would be better -- only instead of having PTEs at the low=
+est
+> >> >> levels, you have the bitmap.
+> >> >
+> >> > Yes, but there is a trade off here of what I could write in 30 mins
+> >> > and what is maximally possible :) The xarray is providing a page tab=
+le
+> >> > implementation in a library form.
+> >> >
+> >> > I think this whole thing can be optimized, especially the
+> >> > memblock_reserve side, but the idea here is to get started and once =
+we
+> >> > have some data on what the actual preservation workload is then
+> >> > someone can optimize this.
+> >> >
+> >> > Otherwise we are going to be spending months just polishing this one
+> >> > patch without any actual data on where the performance issues and ho=
+t
+> >> > spots actually are.
+> >>
+> >> The memblock_reserve side we can optimize later, I agree. But the memo=
+ry
+> >> preservation format is ABI and I think that is worth spending a little
+> >> more time on. And I don't think it should be that much more complex th=
+an
+> >> the current format.
+> >>
+> >> I want to hack around with it, so I'll give it a try over the next few
+> >> days and see what I can come up with.
+> >
+> > I agree with Jason that "nothing is ABI at this
+> > point" and it will take some time for KHO to stabilize.
+> >
+> > On the other hand if you have already came up with something working an=
+d
+> > simple, we can include it in the next version.
+>
+> I already have something that works with zero-order pages. I am
+> currently implementing support for other orders. It is almost done, but
+> I need to test it and do a performance comparison with the current
+> patch. Will post something soon!
 
-Hi,
-  I'd appreciate a review on this series if you get a chance.
+Hi Pratyush,
 
-Dave (cleaning up his patch queue)
-> 
-> 
-> Dr. David Alan Gilbert (3):
->   nvmem: core: Remove unused nvmem_device_cell_(read|write)
->   nvmem: core: Remove nvmem_(add|del)_cell_table
->   nvmem: core: Remove remains of nvmem_cell_table
-> 
->  Documentation/driver-api/nvmem.rst |  23 ------
->  drivers/nvmem/core.c               | 126 -----------------------------
->  include/linux/nvmem-consumer.h     |   4 -
->  include/linux/nvmem-provider.h     |  24 ------
->  4 files changed, 177 deletions(-)
-> 
-> -- 
-> 2.48.1
-> 
--- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+Just to clarify, how soon? We are about to post v6 for KHO, with all
+other comments in this thread addressed.
+
+Thanks,
+Pasha
+
+>
+> --
+> Regards,
+> Pratyush Yadav
