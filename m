@@ -1,360 +1,437 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from mout.gmx.net (mout.gmx.net [212.227.15.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 454EF74E09;
-	Thu,  3 Apr 2025 00:55:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A6FFBA42;
+	Thu,  3 Apr 2025 01:21:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743641708; cv=none; b=nYGuq5MnqFt+243Wo4oQnkYvmQ0X+V0tyEOHdhNnaRl7MOueKCp9mAnZar0YkgG2A3kRbTkazHmYRqTia8lnapxiJLqplqp/4F4LOHcKsVkG6YA1HsCBBIFtKJf0KrvJzqplk79IHyzM+9WyEIxoBv6Mg5AgIBpti9f6DZE3P9E=
+	t=1743643303; cv=none; b=YFLbsDpxv9pCwPdIxI1XoOSB26lMwZj5Fd16+RhJZU3P+bNx/gmpeXm/t7AHt4eGStLVuZf3jlHyk2w8Q+I132gnkN8lboj2enpU+fdClwwagLsbktrbEoIO4ekH+Rrka39+NaiSb69qBraltwCPbR3qySqGiSmaPL8UahSjaeU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743641708; c=relaxed/simple;
-	bh=zKpfLIwSh9sk1uWhGC8a1xGRs5Gvttua5l5oaWVM7K8=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:CC:References:
-	 In-Reply-To:Content-Type; b=LCZcEE+CIIY3Al4502FkTTC8x+LYzJhZwD8eMVVxCSMk/7cNLH4A19fyygpsKrqR2/AS896kiWWe2uejRkQj95cjSNsfUw6UPzjrquQ5zrMqejxfvP58qLSdGayEwxEe22jhUsHqwC7bCdzl8nJpNL3po8lAs9BoyrDhpbaitfY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Uz94BxKz; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1743643303; c=relaxed/simple;
+	bh=DgzRUgJg0RCM1mA7IBEVb9vqnduw4iXeU5mJ/+KaQF8=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=VB24jSRjmsTrOJmVGDernIzRRQrsc+yxKSyOQmP23QUaPtLVBNe899uB0lCr6Bk8vSHhbaHSFKYLiZbr+0vRZvzo7v/0vaVFe7FF5Cu0+oCPFrEdsGN8c9ZcScxtcovYALtTu+EazuuNN0GjZm/SNtLI9bbKB7jPQmPBArIzmBw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=qV4Yx7hP; arc=none smtp.client-ip=212.227.15.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Uz94BxKz"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 532KCqJD009335;
-	Thu, 3 Apr 2025 00:54:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	m81eCxnZ5q0UBTmLZ9Op+OmJbazYRTVExp/+1h/RLAE=; b=Uz94BxKzcGwCxzct
-	mS7/boJrTEWfX8+chhbb/5uHheIvHD/AEB68Pg1mX9lD+zvjgg+kz0/dWOWlmHEJ
-	FDFwiKV4tPMgZqL301hPFoogaMuawsHGyk7zdTVMwg5q8YmG0+VlmXAfL0zSL6AI
-	ontj1935rzT9AKXljol9aNfcJds0bQ30v6QDwqPg2yO0HAbncoKogd5nizfUvX0P
-	HParAKCShWGpAU72At4yrKPogUBIZ/SNh14ogeejbWzAe+hCIM9Yh579B/6NCIzT
-	kKn1qDrVDNWRaY52PBo84RL81kOC6u7D6sySDK633bc2s3MzgKgIg+tk4XNThV7d
-	6FDCOg==
-Received: from nalasppmta02.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45sc2yrf0k-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 03 Apr 2025 00:54:48 +0000 (GMT)
-Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
-	by NALASPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 5330sk8K031112
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 3 Apr 2025 00:54:46 GMT
-Received: from [10.110.31.20] (10.80.80.8) by nalasex01b.na.qualcomm.com
- (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 2 Apr 2025
- 17:54:45 -0700
-Message-ID: <a9e281d6-59c0-3615-9851-c33752b0620f@quicinc.com>
-Date: Wed, 2 Apr 2025 17:54:45 -0700
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="qV4Yx7hP"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1743643295; x=1744248095; i=w_armin@gmx.de;
+	bh=6JWBUr99DMY2yyitlYzB82gkD6FBT8TUumdim5XNNNU=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=qV4Yx7hPdND6Z17g4PjpTPPMzznO0jDhSZ0uDUyR27znNpyfTYOYr/7B4ljCnFhk
+	 JJ67xFfdNqDdvFgQYMv/ibhVDaiD+kmdoA2f/eISoq9WfI7UE9sLH/HjBWQUUDPP9
+	 6DOiy5YEylDxnkQCpX50dtKZEAlVaWNUJnnah5C2Ggmis7U8mCqYOnyrK4O3xV7sP
+	 a2x/rzrE1DPUMkxP/g5as5pap7t0AViPfMJl/xydgw0r2jPeyftxB/tTfqrvtiYm1
+	 L/Qlj/qlUSKIC3WH9pDeA6zM4xNTtTfyLBWttK46w7/QDsRkYnNNRfcNbetKW2CCF
+	 N2H7Lw1jT0AYf15m/Q==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx004
+ [212.227.17.190]) with ESMTPSA (Nemesis) id 1MvbBk-1t8b7322z8-013P2F; Thu, 03
+ Apr 2025 03:21:35 +0200
+Message-ID: <d083f0ec-8af3-4365-ae8d-f4cff5511c8b@gmx.de>
+Date: Thu, 3 Apr 2025 03:21:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 4/6 RESEND] platform/x86: Add Lenovo Capability Data 01
+ WMI Driver
+To: Derek John Clark <derekjohn.clark@gmail.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+ Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>,
+ Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>,
+ Mia Shao <shaohz1@lenovo.com>, Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
+ platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ LKML <linux-kernel@vger.kernel.org>
+References: <20250317144326.5850-1-derekjohn.clark@gmail.com>
+ <20250317144326.5850-5-derekjohn.clark@gmail.com>
+ <9138d1c8-0713-e28a-3cdf-590b3f4e9449@linux.intel.com>
+ <CAFqHKTmPChKu935zrHJWX1jF9mMg3kb5GFBQ=ogy66LnO6bfQA@mail.gmail.com>
 Content-Language: en-US
-From: Wesley Cheng <quic_wcheng@quicinc.com>
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
-        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
-        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
-        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
-        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
-        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
-        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-        Luca Weiss
-	<luca.weiss@fairphone.com>
-References: <20250319005141.312805-1-quic_wcheng@quicinc.com>
- <20250319005141.312805-23-quic_wcheng@quicinc.com>
- <Z-J2WnrZHP6iMIhT@linaro.org>
- <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
- <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
- <Z-ug3YFwff8hWIRl@linaro.org>
- <378af3f1-b5b0-4f7a-ab62-f5c891feb7b5@quicinc.com>
- <Z-1MtJjfVbUQFron@linaro.org>
- <7d5fd3bf-c33e-4274-938b-2fb93c4b39d8@quicinc.com>
-In-Reply-To: <7d5fd3bf-c33e-4274-938b-2fb93c4b39d8@quicinc.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01b.na.qualcomm.com (10.47.209.197)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=AMoviu7M c=1 sm=1 tr=0 ts=67eddc58 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=C9hOfAvaeypiYwR-5fUA:9 a=3ZKOabzyN94A:10
- a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-GUID: sFV98N5bktipYpl6q-YUruEE8rSyPvVk
-X-Proofpoint-ORIG-GUID: sFV98N5bktipYpl6q-YUruEE8rSyPvVk
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-02_12,2025-04-02_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 priorityscore=1501 malwarescore=0 mlxscore=0 impostorscore=0
- clxscore=1015 spamscore=0 phishscore=0 mlxlogscore=999 adultscore=0
- suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504030001
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <CAFqHKTmPChKu935zrHJWX1jF9mMg3kb5GFBQ=ogy66LnO6bfQA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:ymbNiwYkfL7TMEtNomc8tU3rnuGBEWDFstvW6I63hAvXqXUW58y
+ nENqiEm69PENDizZNYz57BeIfUZ582rLk4WBUJoF0dMuadLOvQ4zx1CoFmSXPOb1F4BGukC
+ gJ20bH2Oxj+07fal9vhZjsRRjrwSssWXM42eCOMu+hxqYFuNDUIOZkRHLiuDd0rFxHkcGdB
+ t07HrO4yCndoHVdDmcgYA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:QdsV2Ml06cU=;06LGfnW/NOWQdZGH4o72k/niY6G
+ 6sMIlwt5UaaYCAxKhPbI7wtjtthDKuuVd8x+ZKGHGKqzBhwi8fSXAN33nDKifXIepm2R5RqR5
+ SrepLxv9Te48I6CmRr++WPGvdbiAz1/Ryh1ooMfOYdm29SrBRMCY1wGWbrB7I62dtc0HdL7Ij
+ KbLwvJJEnrzEkRtIQaRIQTlmYGbeZfzax5o7my8H4CP8Y9Q2AQMYN9+fmUz0kmVlsgqPK7R9D
+ XaEOHklVLUGcBty4JvbOlE2we0NlcnaMVkNWJkFnynjro3gB05+KYnlvcz35VbFOyg5kd4tR+
+ NtiSXu2uqb9fq9WixjV5MkNGnk0MKM1evvB+LFJyGZFNlHjS5QzhBPNRQk2HpkoqJ/bViynnd
+ qSqFuJXHAIDu2Y3N23qn/9PpHVomnN4hPEFGv5ISLJz1Kdi0RBL4LiGqJXoW7O9NEwrh2nXrS
+ AThBwNNLGK7O2GdZfegPy/ltOLqetSWMVfjliu+J//PW/enJk56SO2+cZJaUX5qurznPwElqd
+ p23C9ueUemyXl6pIJxSlUe2BVH6tb2xg0kiwPMmXqy9ycxcw4BC52VCvmBUmLPjnWaafP6ZH0
+ hd3nckt9xArHqcJBMWl8miYmz/VgN0bZudmqZjnHqDJFnYe7vMk2z2GMBEEukTthD4w+fwAPq
+ BPLUood+Hc6o41wPclK/puCCTxCmH7LKCo2n7tOfs0r9/WxeBFEDaDCVB1yHnLAzmaN1NKX99
+ 2lTAXGGUm4POXofQPk1oHTjxFCwPtD4WFCVZBwb8sXDHVDWD+nzU+Zi4sNf6ooviwoABU1eR3
+ 7tsiHjOn5aN0EUmzovwdgL4FC9FC4k8j9EASS3ntCQfZkbO+e50LR6pW2pXq9IsnAfitCGLEb
+ kAwYm0tjDiOOczfV0qHgbz0XBmKfVYGkSj1QYtUeMhJh6AQzfAq02OS7siQUl4NL82BMWjXmj
+ FKSx7TwyaF2ScARnnR+eYF4xw0xFblGdKvcT3rR2qnleHqxGbxL0z0NZ+YWLyVnWt3Vdkf6xx
+ hPYJK0195LTQOZWGuXnM1CAPmeF5TGrDD86lWwsGQCtEZa/Fv5lRmO4hUWSWnHd3dHRK3Z1rY
+ dVuqZXQ90SyW7+bR8pCGV3PcYJhX10xR5dYIIbByWrGwQgAI0HLqopGektm6Qo0UT5iLitN8x
+ GiVfK7NPfUKyWh4FIgh39haV7qNLJ7TcEBbLumkW2VhLO+qaUGNVJfEOiEjaa+DQfG0xynYML
+ b44uryKwEdNNuE3GfTBJ64d9YCoMKkyMoRDk+ZveS/XMMvp/U4zoMMj7nfr5sKSKkUOssWgIO
+ VvZOdamGFstsWWHKk5GT9xE3xH6DQFik0mNVrYUuH8jODzxw24Igtf0ZXmx/E2D1kSCCLhgkC
+ UL0HYAKG30sRwvegrUb/OKaYzpERGywpbd53IIXgmoJnK2TTcsc48rc+zJMzii1+VSbdmuCsv
+ 4zmgd5CmTucvCytSrTUyAZSy5A24=
 
-Hi Stephan,
+Am 02.04.25 um 23:22 schrieb Derek John Clark:
 
-On 4/2/2025 5:23 PM, Wesley Cheng wrote:
-> Hi Stephan,
-> 
-> On 4/2/2025 7:41 AM, Stephan Gerhold wrote:
->> On Tue, Apr 01, 2025 at 04:47:41PM -0700, Wesley Cheng wrote:
->>> On 4/1/2025 1:16 AM, Stephan Gerhold wrote:
->>>> On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
->>>>> On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
->>>>>> On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
->>>>>>> On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
->>>>>>>> On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
->>>>>>>>> The QC ADSP is able to support USB playback endpoints, so that 
->>>>>>>>> the main
->>>>>>>>> application processor can be placed into lower CPU power 
->>>>>>>>> modes.  This adds
->>>>>>>>> the required AFE port configurations and port start command to 
->>>>>>>>> start an
->>>>>>>>> audio session.
->>>>>>>>>
->>>>>>>>> Specifically, the QC ADSP can support all potential endpoints 
->>>>>>>>> that are
->>>>>>>>> exposed by the audio data interface.  This includes isochronous 
->>>>>>>>> data
->>>>>>>>> endpoints, in either synchronous mode or asynchronous mode. In 
->>>>>>>>> the latter
->>>>>>>>> case both implicit or explicit feedback endpoints are 
->>>>>>>>> supported.  The size
->>>>>>>>> of audio samples sent per USB frame (microframe) will be 
->>>>>>>>> adjusted based on
->>>>>>>>> information received on the feedback endpoint.
->>>>>>>>>
->>>>>>>>> Some pre-requisites are needed before issuing the AFE port 
->>>>>>>>> start command,
->>>>>>>>> such as setting the USB AFE dev_token.  This carries 
->>>>>>>>> information about the
->>>>>>>>> available USB SND cards and PCM devices that have been 
->>>>>>>>> discovered on the
->>>>>>>>> USB bus.  The dev_token field is used by the audio DSP to 
->>>>>>>>> notify the USB
->>>>>>>>> offload driver of which card and PCM index to enable playback on.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
->>>>>>>>> ---
->>>>>>>>>   sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
->>>>>>>>>   sound/soc/qcom/qdsp6/q6afe.c             | 192 
->>>>>>>>> ++++++++++++++++++++++-
->>>>>>>>>   sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
->>>>>>>>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
->>>>>>>>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
->>>>>>>>>   sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
->>>>>>>>>   6 files changed, 341 insertions(+), 3 deletions(-)
->>>>>>>>>
->>>>>>> [...]
->>>>>>>>> diff --git a/sound/soc/qcom/qdsp6/q6routing.c 
->>>>>>>>> b/sound/soc/qcom/qdsp6/q6routing.c
->>>>>>>>> index 90228699ba7d..b7439420b425 100644
->>>>>>>>> --- a/sound/soc/qcom/qdsp6/q6routing.c
->>>>>>>>> +++ b/sound/soc/qcom/qdsp6/q6routing.c
->>>>>>>>> @@ -435,6 +435,26 @@ static struct session_data 
->>>>>>>>> *get_session_from_id(struct msm_routing_data *data,
->>>>>>>>>       return NULL;
->>>>>>>>>   }
->>>>>>>>> +
->>>>>>>>> +static bool is_usb_routing_enabled(struct msm_routing_data *data)
->>>>>>>>> +{
->>>>>>>>> +    int i;
->>>>>>>>> +
->>>>>>>>> +    /*
->>>>>>>>> +     * Loop through current sessions to see if there are 
->>>>>>>>> active routes
->>>>>>>>> +     * to the USB_RX backend DAI.  The USB offload routing is 
->>>>>>>>> designed
->>>>>>>>> +     * similarly to the non offload path.  If there are 
->>>>>>>>> multiple PCM
->>>>>>>>> +     * devices associated with the ASoC platform card, only 
->>>>>>>>> one active
->>>>>>>>> +     * path can be routed to the USB offloaded endpoint.
->>>>>>>>> +     */
->>>>>>>>> +    for (i = 0; i < MAX_SESSIONS; i++) {
->>>>>>>>> +        if (data->sessions[i].port_id == USB_RX)
->>>>>>>>> +            return true;
->>>>>>>>> +    }
->>>>>>>>> +
->>>>>>>>> +    return false;
->>>>>>>>> +}
->>>>>>>>
->>>>>>>> What is different about USB_RX compared to other output ports we 
->>>>>>>> have in
->>>>>>>> Q6AFE? Obviously, we can only play one stream on an output port. 
->>>>>>>> But
->>>>>>>> doesn't the ADSP mix streams together when you have multiple 
->>>>>>>> routes?
->>>>>>>>
->>>>>>>
->>>>>>> This patch will limit the USB_RX from being able to be mixed to 
->>>>>>> multiple
->>>>>>> q6adm paths.
->>>>>>>
->>>>>>>> Also, this doesn't actually check for *active* routes only. It just
->>>>>>>> looks if any other MultiMedia DAI is configured to output to 
->>>>>>>> USB_RX.
->>>>>>>> That doesn't mean they will ever be active at the same time.
->>>>>>>>
->>>>>>>
->>>>>>> Yes, the main reason being that that is the mechanism we use to 
->>>>>>> populate
->>>>>>> the active offload path within the USB SND card mixer.
->>>>>>>
->>>>>>>> I might for example want to have MultiMedia1 and MultiMedia2 both
->>>>>>>> configured to output to USB_RX. Let's assume MultiMedia1 is a 
->>>>>>>> normal PCM
->>>>>>>> DAI, MultiMedia2 is a compress offload DAI. When I want to playback
->>>>>>>> normal audio, I go through MultiMedia1, when I want to play 
->>>>>>>> compressed
->>>>>>>> audio, I go through MultiMedia2. Only one of them active at a time.
->>>>>>>> Why can't I set this up statically in the mixers?
->>>>>>>>
->>>>>>>> If you confirm that it is really impossible to have multiple 
->>>>>>>> streams
->>>>>>>> mixed together to the USB_RX output in the ADSP, then this 
->>>>>>>> should be a
->>>>>>>> runtime check instead when starting the stream IMO.
->>>>>>>>
->>>>>>>
->>>>>>> We can have multiple streams being mixed together, but it will get
->>>>>>> confusing because it changes the definition that we had discussed 
->>>>>>> about in
->>>>>>> the past about the overall design for the interaction w/ userspace.
->>>>>>> Although we (QC) only support a single USB audio device for 
->>>>>>> offloading,
->>>>>>> there could be other situations where the audio DSP can support 
->>>>>>> multiple
->>>>>>> devices.  The assumption is that each MM path is assigned to a 
->>>>>>> USB device.
->>>>>>>
->>>>>>
->>>>>> Are you referring to the "USB Offload Playback Route PCM#*" mixers 
->>>>>> here?
->>>>>> They could just refer to first of the configured MM paths, if someone
->>>>>> decides to route multiple paths to the USB backend. Looking at
->>>>>> q6usb_update_offload_route(), I think the implementation does that
->>>>>> already.
->>>>>>
->>>>>> I think it's fine that the userspace API for automatically 
->>>>>> "probing" the
->>>>>> PCM device supports only a single path to the USB backend. But if
->>>>>> someone wants to bypass the automatic probing and configure a more
->>>>>> advanced setup, do we need to forbid that?
->>>>>>
->>>>>> Asked differently: what would happen if we remove this check here and
->>>>>> handle USB_RX like any other Q6AFE output port? Would anything 
->>>>>> break for
->>>>>> the userspace interface?
->>>>>>
->>>>>
->>>>> So I took a look at seeing how the Q6ADM/ASM interactions would 
->>>>> work for
->>>>> the situation where if user tried to start both MM1/2 streams at 
->>>>> the same
->>>>> time over the USB offload path.  In this scenario, we see that the 
->>>>> Q6USB BE
->>>>> DAI operations, ie startup, hw_params, etc... gets called one time 
->>>>> for the
->>>>> initial stream.  For example, if I start playback on MM1, then that
->>>>> triggers the USB BE DAI to be brought up.
->>>>>
->>>>> When I start playback on MM2, since MM1 already called
->>>>> dpcm_be_dai_startup(), then be->dpcm[stream].users will be greater 
->>>>> than
->>>>> zero.  This would cause the __soc_pcm_open() to be skipped for the 
->>>>> USB BE
->>>>> DAI, so I wouldn't be able to check the runtime status at the Q6USB 
->>>>> backend
->>>>> DAI.  However, we do track current streaming sessions done over Q6 
->>>>> ADM and
->>>>> it does save the AFE port associated to each COPP allocation, so I 
->>>>> think its
->>>>> reasonable to see if there is already a COPP entry for the USB AFE 
->>>>> port, to
->>>>> fail the open() call associated to the FE DAI.
->>>>>
->>>>
->>>> This sounds like a reasonable approach *if* we have to prevent multiple
->>>> MM DAIs from streaming to the USB AFE port at the same time.
->>>>
->>>> It's still unclear to me why we have to introduce this limitation in 
->>>> the
->>>> first place. I think the questions from my previous email are still
->>>> open. Can you check them again?
->>>>
+> On Thu, Mar 27, 2025 at 5:56=E2=80=AFAM Ilpo J=C3=A4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+>> On Mon, 17 Mar 2025, Derek J. Clark wrote:
+>>
+>>> Adds lenovo-wmi-capdata01 driver which provides the
+>>> LENOVO_CAPABILITY_DATA_01 WMI data block that comes on "Other Mode"
+>>> enabled hardware. Provides an interface for querying if a given
+>>> attribute is supported by the hardware, as well as its default_value,
+>>> max_value, min_value, and step increment.
 >>>
->>> So I checked with our audio DSP folks, and they mentioned there isn't
->>> technically a limitation from mixing multiple ADM streams from their 
->>> end.
->>> My observations are as follows:
->>> - Using tinyplay to open and play on different FE PCM devices (ie MM1 
->>> and
->>> MM2), both streams are audible on the USB headset (intermixed).
->>> - If starting playback on MM1 first, before MM2, then once playback is
->>> complete on MM1, the ADM close is also affecting the MM2 stream.
->>> Basically, MM2 stops when the MM1 audio file is completed.
->>> - Due to the abrupt/incomplete closing of the MM2 ADM stream, looks like
->>> the audio DSP is not handling that case well, so subsequent playbacks 
->>> fail.
+>>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+>>> ---
+>>> v4:
+>>>   - Make driver data a private struct, remove references from Other Mo=
+de
+>>>     driver.
+>>>   - Don't cache data at device initialization. Instead, on component b=
+ind,
+>>>     cache the data on a member variable of the Other Mode driver data
+>>>     passed as a void pointer.
+>>>   - Add header file for capdata01 structs.
+>>>   - Add new struct to pass capdata01 array data and array length to Ot=
+her
+>>>     Mode.
+>>> v3:
+>>> - Add as component to lenovo-wmi-other driver.
+>>> v2:
+>>> - Use devm_kmalloc to ensure driver can be instanced, remove global
+>>>    reference.
+>>> - Ensure reverse Christmas tree for all variable declarations.
+>>> - Remove extra whitespace.
+>>> - Use guard(mutex) in all mutex instances, global mutex.
+>>> - Use pr_fmt instead of adding the driver name to each pr_err.
+>>> - Remove noisy pr_info usage.
+>>> - Rename capdata_wmi to lenovo_wmi_cd01_priv and cd01_wmi to priv.
+>>> - Use list to get the lenovo_wmi_cd01_priv instance in
+>>>    lenovo_wmi_capdata01_get as none of the data provided by the macros
+>>>    that will use it can pass a member of the struct for use in
+>>>    container_of.
+>>> ---
+>>>   MAINTAINERS                                 |   2 +
+>>>   drivers/platform/x86/Kconfig                |   4 +
+>>>   drivers/platform/x86/Makefile               |   1 +
+>>>   drivers/platform/x86/lenovo-wmi-capdata01.c | 136 ++++++++++++++++++=
+++
+>>>   drivers/platform/x86/lenovo-wmi-capdata01.h |  29 +++++
+>>>   5 files changed, 172 insertions(+)
+>>>   create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+>>>   create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.h
 >>>
->>
->> Thanks a lot for testing this!
->>
->>> I did find a possible reason for this, and it seems to be due to some 
->>> code
->>> unrelated to the USB offload path directly.  It looks like the Q6ADM is
->>> currently built in a way that you can only route streams to a single
->>> endpoint, even though we do have reference counting for each COPP 
->>> profile.
->>> So even after the first MM1 ADM stream completes and the PCM device is
->>> closed, the MM1 ADM close callback will issue a q6adm_device_close() for
->>> the USB AFE port.
->>
->> Yeah, this sounds like a bug to me...
->>
+>>> diff --git a/MAINTAINERS b/MAINTAINERS
+>>> index 6dde75922aaf..56ead241a053 100644
+>>> --- a/MAINTAINERS
+>>> +++ b/MAINTAINERS
+>>> @@ -13164,6 +13164,8 @@ L:    platform-driver-x86@vger.kernel.org
+>>>   S:   Maintained
+>>>   F:   Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>>>   F:   Documentation/wmi/devices/lenovo-wmi-other.rst
+>>> +F:   drivers/platform/x86/lenovo-wmi-capdata01.c
+>>> +F:   drivers/platform/x86/lenovo-wmi-capdata01.h
+>>>   F:   drivers/platform/x86/lenovo-wmi-events.c
+>>>   F:   drivers/platform/x86/lenovo-wmi-events.h
+>>>   F:   drivers/platform/x86/lenovo-wmi-helpers.c
+>>> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconf=
+ig
+>>> index 13b8f4ac5dc5..64663667f0cb 100644
+>>> --- a/drivers/platform/x86/Kconfig
+>>> +++ b/drivers/platform/x86/Kconfig
+>>> @@ -467,6 +467,10 @@ config LENOVO_WMI_HELPERS
+>>>        tristate
+>>>        depends on ACPI_WMI
 >>>
->>> I made some test changes to account for the refcount before issuing the
->>> q6adm_device_close(), and that seemed to work.  Once the MM1 stream 
->>> closes,
->>> it allows for the MM2 stream to close/finish before issuing the command,
->>> and that allows for proper cleanup of the audio data.
+>>> +config LENOVO_WMI_DATA01
+>>> +     tristate
+>>> +     depends on ACPI_WMI
+>>> +
+>>>   config IDEAPAD_LAPTOP
+>>>        tristate "Lenovo IdeaPad Laptop Extras"
+>>>        depends on ACPI
+>>> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Make=
+file
+>>> index fc039839286a..7a35c77221b7 100644
+>>> --- a/drivers/platform/x86/Makefile
+>>> +++ b/drivers/platform/x86/Makefile
+>>> @@ -69,6 +69,7 @@ obj-$(CONFIG_THINKPAD_LMI)  +=3D think-lmi.o
+>>>   obj-$(CONFIG_YOGABOOK)               +=3D lenovo-yogabook.o
+>>>   obj-$(CONFIG_YT2_1380)               +=3D lenovo-yoga-tab2-pro-1380-=
+fastcharger.o
+>>>   obj-$(CONFIG_LENOVO_WMI_CAMERA)      +=3D lenovo-wmi-camera.o
+>>> +obj-$(CONFIG_LENOVO_WMI_DATA01)      +=3D lenovo-wmi-capdata01.o
+>>>   obj-$(CONFIG_LENOVO_WMI_EVENTS)      +=3D lenovo-wmi-events.o
+>>>   obj-$(CONFIG_LENOVO_WMI_HELPERS)     +=3D lenovo-wmi-helpers.o
 >>>
->>> IMO, I would like to keep the initial behavior (ie, blocking the 
->>> additional
->>> stream open from the kernel) until I can get some more testing done, and
->>> figure out if this is the correct approach.  If it is, I can submit a
->>> follow up series to address it.
->>>
+>>> diff --git a/drivers/platform/x86/lenovo-wmi-capdata01.c b/drivers/pla=
+tform/x86/lenovo-wmi-capdata01.c
+>>> new file mode 100644
+>>> index 000000000000..b6876611ffd9
+>>> --- /dev/null
+>>> +++ b/drivers/platform/x86/lenovo-wmi-capdata01.c
+>>> @@ -0,0 +1,136 @@
+>>> +// SPDX-License-Identifier: GPL-2.0-or-later
+>>> +/*
+>>> + * LENOVO_CAPABILITY_DATA_01 WMI data block driver.
+>> Add a empty comment line here, you might want to rephrase the opening o=
+f
+>> the paragraph after splitting these apart.
 >>
->> I'm fine with this approach. My only two concerns/comments are:
+>>> This interface provides
+>>> + * information on tunable attributes used by the "Other Mode" WMI int=
+erface,
+>>> + * including if it is supported by the hardware, the default_value, m=
+ax_value,
+>>> + * min_value, and step increment.
+>>> + *
+>>> + * Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
+>>> + */
+>>> +
+>>> +#include <linux/cleanup.h>
+>>> +#include <linux/component.h>
+>>> +#include <linux/container_of.h>
+>>> +#include <linux/device.h>
+>>> +#include <linux/gfp_types.h>
+>>> +#include <linux/types.h>
+>>> +#include <linux/wmi.h>
+>> Add an empty line here please.
 >>
->>   1. Let's make sure we don't waste too much time finding the ideal
->>      approach to implement the additional blocking, if this will likely
->>      end up getting removed again anyway.
+>>> +#include "lenovo-wmi-capdata01.h"
+>>> +
+>>> +/* Interface GUIDs */
+>>> +#define LENOVO_CAPABILITY_DATA_01_GUID "7A8F5407-CB67-4D6E-B547-39B3B=
+E018154"
+>>> +
+>>> +struct lwmi_cd01_priv {
+>>> +     struct wmi_device *wdev;
+>>> +};
+>>> +
+>>> +/*
+>>> + * lenovo_cd01_component_bind() - On master bind, caches all capabili=
+ty data on
+>>> + * the master device.
+>> Is this "On master bind" something that the caller should be doing? IMO=
+,
+>> that would belong to description paragraph instead of the function
+>> summary.
 >>
->>   2. How can we justify making this change only for USB? Your analysis
->>      sounds like the issue applies to all types of output ports. This was
->>      exactly my main concern with the check you added in this patch:
->>      I would expect QDSP6 treats all ports exactly the same. This means
->>      we should add this additional check for all the output ports...
+> Acked
+>
+>>> + * @cd01_dev: Pointer to the capability data 01 parent device.
+>>> + * @om_dev: Pointer to the other mode parent device.
+>>> + * @data: capdata01_list object pointer to return the capability data=
+ with.
+>>> + *
+>>> + * Returns: 0, or an error.
+>> Return:
 >>
-> 
-> Fair points...I will extend this check across all ports until I get back 
-> with seeing how we can address the mixing situation.
-> 
+>>> + */
+>>> +static int lenovo_cd01_component_bind(struct device *cd01_dev,
+>>> +                                   struct device *om_dev, void *data)
+>>> +{
+>>> +     struct lwmi_cd01_priv *priv =3D dev_get_drvdata(cd01_dev);
+>>> +     int count, idx;
+>>> +
+>>> +     if (!priv)
+>>> +             return -ENODEV;
+>>> +
+>>> +     count =3D wmidev_instance_count(priv->wdev);
+>>> +
+>>> +     if (count =3D=3D 0)
+>>> +             return -EINVAL;
+>>> +
+>>> +     ((struct cd01_list *)data)->count =3D count;
+>> Please create a local variable with the correct type and since data is
+>> void *, you don't need to cast it while assigning to that local variabl=
+e.
+>>
+> This will be reworked a bit with Armin's suggestions.
+>
+>>> +     ((struct cd01_list *)data)->data =3D devm_kmalloc_array(om_dev, =
+count,
+>>> +                                                           sizeof(str=
+uct capdata01 *),
+>> sizeof() should preferrably take the type directly from ->data (with th=
+e
+>> correct amount of * chars).
+>>
+> With Armin's suggestion I'll be using struct_size, but I'll note this
+> for future reference, thanks.
+>
+>>> +                                                           GFP_KERNEL=
+);
+>>> +     if (!data)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     for (idx =3D 0; idx < count; idx++) {
+>>> +             union acpi_object *ret_obj __free(kfree) =3D NULL;
+>>> +
+>>> +             ret_obj =3D wmidev_block_query(priv->wdev, idx);
+>>> +             if (!ret_obj) {
+>>> +                     ((struct cd01_list *)data)->data[idx] =3D NULL;
+>>> +                     continue;
+>>> +             }
+>>> +             if (ret_obj->type !=3D ACPI_TYPE_BUFFER) {
+>>> +                     ((struct cd01_list *)data)->data[idx] =3D NULL;
+>>> +                     continue;
+>>> +             }
+>>> +
+>>> +             if (ret_obj->buffer.length !=3D sizeof(struct capdata01)=
+) {
+>> You could consider joining these 3 if()s with || to avoid having to
+>> repeat the NULL assignment and continue.
+>>
+> devm_kzalloc will take care of the NULL assignment going forward. for
+> !ret_obj, should I return an error here instead? It seems like a
+> problem if that fails.
 
-Sorry for replying again.  I think I'll at least limit this to the 
-playback path only for now.  I'm not sure how the behavior yet is for 
-the record path, since I don't really have that use case to test with 
-yet :).  I will see how it looks like when the record USB offload is done.
+Returning an error if a ACPI object is invalid should be OK here. This way=
+ the driver
+ensures that it either exports all capdata entries on a given machine or n=
+one at all.
 
-Thanks
-Wesley Cheng
+Just a side note: the check "ret_obj->buffer.length !=3D sizeof(struct cap=
+data01)" should
+be turned into "ret_obj->buffer.length < sizeof(struct capdata01)" to also=
+ accept oversized
+buffers. This would mimic the behavior of the Windows WMI-ACPI driver.
+
+Thanks,
+Armin Wolf
+
+>>> +                     ((struct cd01_list *)data)->data[idx] =3D NULL;
+>>> +                     continue;
+>>> +             }
+>>> +
+>>> +             ((struct cd01_list *)data)->data[idx] =3D
+>>> +                     devm_kmemdup(om_dev, ret_obj->buffer.pointer,
+>>> +                                  ret_obj->buffer.length, GFP_KERNEL)=
+;
+>>> +     }
+>>> +     return 0;
+>>> +}
+>>> +
+>>> +static const struct component_ops lenovo_cd01_component_ops =3D {
+>>> +     .bind =3D lenovo_cd01_component_bind,
+>>> +};
+>>> +
+>>> +static int lwmi_cd01_probe(struct wmi_device *wdev, const void *conte=
+xt)
+>>> +
+>>> +{
+>>> +     struct lwmi_cd01_priv *priv;
+>>> +     int ret;
+>>> +
+>>> +     priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
+>>> +     if (!priv)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     priv->wdev =3D wdev;
+>>> +     dev_set_drvdata(&wdev->dev, priv);
+>>> +
+>>> +     ret =3D component_add(&wdev->dev, &lenovo_cd01_component_ops);
+>>> +
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +static void lwmi_cd01_remove(struct wmi_device *wdev)
+>>> +{
+>>> +     component_del(&wdev->dev, &lenovo_cd01_component_ops);
+>>> +}
+>>> +
+>>> +static const struct wmi_device_id lwmi_cd01_id_table[] =3D {
+>>> +     { LENOVO_CAPABILITY_DATA_01_GUID, NULL },
+>>> +     {}
+>>> +};
+>>> +
+>>> +static struct wmi_driver lwmi_cd01_driver =3D {
+>>> +     .driver =3D {
+>>> +             .name =3D "lenovo_wmi_cd01",
+>>> +             .probe_type =3D PROBE_PREFER_ASYNCHRONOUS,
+>>> +     },
+>>> +     .id_table =3D lwmi_cd01_id_table,
+>>> +     .probe =3D lwmi_cd01_probe,
+>>> +     .remove =3D lwmi_cd01_remove,
+>>> +     .no_singleton =3D true,
+>>> +};
+>>> +
+>>> +int lwmi_cd01_match(struct device *dev, void *data)
+>>> +{
+>>> +     return dev->driver =3D=3D &lwmi_cd01_driver.driver;
+>>> +}
+>>> +EXPORT_SYMBOL_NS_GPL(lwmi_cd01_match, "LENOVO_WMI_CD01");
+>>> +
+>>> +module_wmi_driver(lwmi_cd01_driver);
+>>> +
+>>> +MODULE_DEVICE_TABLE(wmi, lwmi_cd01_id_table);
+>>> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+>>> +MODULE_DESCRIPTION("Lenovo Capability Data 01 WMI Driver");
+>>> +MODULE_LICENSE("GPL");
+>>> diff --git a/drivers/platform/x86/lenovo-wmi-capdata01.h b/drivers/pla=
+tform/x86/lenovo-wmi-capdata01.h
+>>> new file mode 100644
+>>> index 000000000000..c7067a8d0398
+>>> --- /dev/null
+>>> +++ b/drivers/platform/x86/lenovo-wmi-capdata01.h
+>>> @@ -0,0 +1,29 @@
+>>> +/* SPDX-License-Identifier: GPL-2.0-or-later
+>>> + *
+>>> + * Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
+>>> + *
+>> Extra line
+>>
+>>> + */
+>>> +
+>>> +#ifndef _LENOVO_WMI_CAPDATA01_H_
+>>> +#define _LENOVO_WMI_CAPDATA01_H_
+>>> +
+>>> +#include <linux/device.h>
+>> Please fwd declare struct device instead.
+>>
+>>> +#include <linux/types.h>
+>>> +
+>>> +struct capdata01 {
+>>> +     u32 id;
+>>> +     u32 supported;
+>>> +     u32 default_value;
+>>> +     u32 step;
+>>> +     u32 min_value;
+>>> +     u32 max_value;
+>>> +};
+>>> +
+>>> +struct cd01_list {
+>>> +     struct capdata01 **data;
+>>> +     int count;
+>>> +};
+>>> +
+>>> +int lwmi_cd01_match(struct device *dev, void *data);
+>>> +
+>>> +#endif /* !_LENOVO_WMI_CAPDATA01_H_ */
+>>>
+>> --
+>>   i.
+>>
