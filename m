@@ -1,123 +1,322 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF8A1624E0;
-	Thu,  3 Apr 2025 10:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450F51DF975;
+	Thu,  3 Apr 2025 11:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743677742; cv=none; b=QG0JUIzDYsa9dcGS9wwzjmKoFaNTEGVuLRIu8qbokWUM9l3sb0oAnPVLZtIiuSCDoaFixxio+uRfcF27ldliS7D1JVNyyADk2RLx3OCQjMBJWn4i2ZBkeLhPfPXSHNu8W618RQ6NJoHub2mqmiVOIBGU2wUFRwW4k7fbAlh8cfU=
+	t=1743678075; cv=none; b=NAgQoNFI3sEY3hgn80bN6ukA9ViwxS0o5juXnIoaPMSnAWEhZnAdiaaQl/X3pd8C3AcAJ+g2htT4cLXLQ1akBCkG2JhQMUDxWnpCZbulLGAXsAl/JZRt9h28vO2JQR9A/+BuHkA955JPuf3bBEEXDfF9DU7c0dbapLzrsF6uuvw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743677742; c=relaxed/simple;
-	bh=+Txho1X6kxtQ7ArayeLB/i6A0cBPRmvC3mL3UWxb1f0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QqYH/+nvH19JuDwj79mK7lnmHlOxg4nB66kl8bvtJpUb7JvA7v0CXOqaBHx+GT60N2PBpJg3203xCRuqC3Wd45A47LILC7hm7MVBfdwcFLmqY1ps9BUaxEHiZreNdNp9+4uWm2nf44cul+XRUVby+C6e9rEnifECHmcAzCP/QWQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TAY4vGly; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743678075; c=relaxed/simple;
+	bh=WjKn5Ft50bkDAgGzKhNHOlAwAuzRWcLtV657VipXF3k=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=iZuwFcjF5rphbqWrvB8fKX1f8tfuPOuF9jhDjsNBnGuSLn7TABL3PUQxUBvywMQR7AvbJwILawuKksQcy+aItXA/ao9g8Cv9296hHnAXEq78jZtuyoRzsbnpkaJkN7xCSrpyoU05y8OSJEv5DcLaLmKx2KZqHOh36qNMCmn9bv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=doDflvhw; arc=none smtp.client-ip=198.175.65.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAY4vGly"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22403cbb47fso8108955ad.0;
-        Thu, 03 Apr 2025 03:55:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743677740; x=1744282540; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=sNlLWGdRtItnGdc2sw0oNRPSrhRzRsHpESstF1l2f68=;
-        b=TAY4vGlysrbPtQjr8H4zRF/trgoHcPGlsEO8AVh5Qm8MYfmR+yrH3FQtwM1sA6RJqr
-         Uja3dEz34voLGlMTv3Iem6PvPqUr2fFVfX68xL+BNSThY1YU3OyjHWtQ3hj3IOM3NdZ/
-         IOXemxBs7cYLHJGtoVlYbVBTO9F0WCFE3v74o1z3PrmNMqf7cA7IefSP90L9eXI8zCat
-         SHOMeTUQzRqtpbvFD/GIV55RrQc5L6DetlcR5OUDUGFZfiOnRxww2I1Ne8CDPepdnj3j
-         K14FKrOgO+j/7TJDKX2QVeYj9l+ctZo+aAJLXovy7g5nD8pUF22E2Pcokd51/33hZn64
-         Xmsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743677740; x=1744282540;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=sNlLWGdRtItnGdc2sw0oNRPSrhRzRsHpESstF1l2f68=;
-        b=WApbvSwSmSB6s4IHzUMM40Pc49oPAdMYheq4yn9o+iwoTiUS8qK5Nkluv0FYTiQdkl
-         y/24S4XaHB9RkYUyv2PLlRVPuA7CqxldOYKzoIkGIUcUXAoEP92KW+icHAeqtgroSc8r
-         7OagFnatpuahQ49PDgXetMsRFaCzzeLmpXmhv13HXue4TW5iKTIc6SCQ6Ac+qgcgzef5
-         PSoa2SSGUGDK+V7tEYOX2f51OBSMgyoelp3kWIHE+poKk0GGwhj2WQviZRNl960JiB59
-         Ourtgz+n5nVEqkxByqLpfff/sz2IA0/8y5jdCUgkr1UBOtq5elsDpH+VuwWYHYIA51Ph
-         NkUg==
-X-Forwarded-Encrypted: i=1; AJvYcCWHktD73tqkvcnr4kv4QYd4aCUDO8gddNGgb15thZI2TjM1oF1Y912i8XRYPoS9aoI/8vWTLnvfKBXrMB1p@vger.kernel.org, AJvYcCWcyauqcBpOPGY1/MrSZiTyd3XXrZBhne97GqNE/3AriT2NoOSCFFi9MSsZ74kVBf9tiBsDGC8Ryq8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIiYOu3tfBQOvkA6A5f12Fy7t/bq4KELC2lxGB7A0qplrf5YLj
-	kMxqTOzFbHo6dLvyZK2bYk3AhUVGEfES0r/3qa30HvxCqjFRKJ6b
-X-Gm-Gg: ASbGncu22yro4iutw2+EJ50F1Ndjz0jCMTRwXGje+rxVMi4Nj4R/qE5S5AWIPDaU5mN
-	GQtofzLUxDmSfLmw/GHSqbt7w9j5Sf7YLdZBIqukXSO2fjodyk7y/ouA1WukpXVSqjYmzrfvxX8
-	GJ+IyUaex55VWPyFssk/JLmI2zeD7hjBKa1XwSoyuWk/sofD6st7t5Jrb9EhBGkJSEcF6Myrs6b
-	+0bRnWIj4oPIcj5q6dXEKDxY1XCw/NvPuKg7u3u8X0EmoVwWeVCKEynimGaRu+zQHz+kOpTxI1j
-	WMDmkmdb+Q+vyx6N6TbxBry+ofURVqAff/58NeBptJ+0
-X-Google-Smtp-Source: AGHT+IE+gQXleRkvfL/4cfdA5b6Dbr2fmsHTRHz18hvqGG9oy+QNiixivlKQms0BXRWQfa03q8a36w==
-X-Received: by 2002:a17:902:f54a:b0:220:d79f:60f1 with SMTP id d9443c01a7336-2292f9f2bdcmr292546445ad.42.1743677739427;
-        Thu, 03 Apr 2025 03:55:39 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297865e04bsm11402235ad.114.2025.04.03.03.55.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 03:55:38 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id EFE744208F7B; Thu, 03 Apr 2025 17:55:35 +0700 (WIB)
-Date: Thu, 3 Apr 2025 17:55:35 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: "Naveen N Rao (AMD)" <naveen@kernel.org>, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@kernel.org>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org
-Subject: Re: [PATCH] Documentation/x86: Clarify naming of CPU features for
- /proc/cpuinfo
-Message-ID: <Z-5pJ6iat-uptEh9@archie.me>
-References: <20250403094308.2297617-1-naveen@kernel.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="doDflvhw"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743678073; x=1775214073;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=WjKn5Ft50bkDAgGzKhNHOlAwAuzRWcLtV657VipXF3k=;
+  b=doDflvhwHjj6v8dL4upMZtjNQ7Kn+J6TtMcqG8ZZ3EVxOCDNs0PPN/td
+   sA1R7fqODCn0/J5LFz2Hz5F1ickwInTgjke/uUD0Rd66vpzYWi8bAw99Z
+   MjvVwa0PfMitBXxforotQdAFZ1vBarpn3u1K3SWOHhhthZuHLY/m4S9a+
+   VXYifIrt/sXu7/auYKv7TlnOyLbU5V/nw2t4irs2ar2TR8+ArB7FEMB+z
+   OdaUJnxKhr3XdrQQasE5N46seW5/tB4cMJb14znHT5rSoaQsQzQK26X/m
+   2V5DFlOTjzklK1DyQ0Hv9yGLBAVDx+zBzoMsWj2DV4F+mdztHLyfeZfhY
+   g==;
+X-CSE-ConnectionGUID: lx17ApQVSea5d7LUizKxzw==
+X-CSE-MsgGUID: EsxBxmSSTbaXAr9bYaYC1A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="45219521"
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
+   d="scan'208";a="45219521"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 04:01:12 -0700
+X-CSE-ConnectionGUID: unhoSeMDSICr7iPwhg5Iew==
+X-CSE-MsgGUID: EKA112bwQaSIOpec3ME2tw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
+   d="scan'208";a="131099993"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.152])
+  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 04:01:08 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 3 Apr 2025 14:01:05 +0300 (EEST)
+To: Derek John Clark <derekjohn.clark@gmail.com>
+cc: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>, 
+    Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, 
+    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    "Cody T . -H . Chiu" <codyit@gmail.com>, 
+    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 4/6 RESEND] platform/x86: Add Lenovo Capability Data
+ 01 WMI Driver
+In-Reply-To: <CAFqHKTmPChKu935zrHJWX1jF9mMg3kb5GFBQ=ogy66LnO6bfQA@mail.gmail.com>
+Message-ID: <ef3078d2-4ab5-9d5f-e1ba-42f595b3dd48@linux.intel.com>
+References: <20250317144326.5850-1-derekjohn.clark@gmail.com> <20250317144326.5850-5-derekjohn.clark@gmail.com> <9138d1c8-0713-e28a-3cdf-590b3f4e9449@linux.intel.com> <CAFqHKTmPChKu935zrHJWX1jF9mMg3kb5GFBQ=ogy66LnO6bfQA@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="RhAAMdodC1OlX4rj"
-Content-Disposition: inline
-In-Reply-To: <20250403094308.2297617-1-naveen@kernel.org>
+Content-Type: multipart/mixed; boundary="8323328-773067350-1743678065=:1302"
+
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
+
+--8323328-773067350-1743678065=:1302
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
+
+On Wed, 2 Apr 2025, Derek John Clark wrote:
+
+> On Thu, Mar 27, 2025 at 5:56=E2=80=AFAM Ilpo J=C3=A4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> >
+> > On Mon, 17 Mar 2025, Derek J. Clark wrote:
+> >
+> > > Adds lenovo-wmi-capdata01 driver which provides the
+> > > LENOVO_CAPABILITY_DATA_01 WMI data block that comes on "Other Mode"
+> > > enabled hardware. Provides an interface for querying if a given
+> > > attribute is supported by the hardware, as well as its default_value,
+> > > max_value, min_value, and step increment.
+> > >
+> > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > > ---
+> > > v4:
+> > >  - Make driver data a private struct, remove references from Other Mo=
+de
+> > >    driver.
+> > >  - Don't cache data at device initialization. Instead, on component b=
+ind,
+> > >    cache the data on a member variable of the Other Mode driver data
+> > >    passed as a void pointer.
+> > >  - Add header file for capdata01 structs.
+> > >  - Add new struct to pass capdata01 array data and array length to Ot=
+her
+> > >    Mode.
+> > > v3:
+> > > - Add as component to lenovo-wmi-other driver.
+> > > v2:
+> > > - Use devm_kmalloc to ensure driver can be instanced, remove global
+> > >   reference.
+> > > - Ensure reverse Christmas tree for all variable declarations.
+> > > - Remove extra whitespace.
+> > > - Use guard(mutex) in all mutex instances, global mutex.
+> > > - Use pr_fmt instead of adding the driver name to each pr_err.
+> > > - Remove noisy pr_info usage.
+> > > - Rename capdata_wmi to lenovo_wmi_cd01_priv and cd01_wmi to priv.
+> > > - Use list to get the lenovo_wmi_cd01_priv instance in
+> > >   lenovo_wmi_capdata01_get as none of the data provided by the macros
+> > >   that will use it can pass a member of the struct for use in
+> > >   container_of.
+> > > ---
+> > >  MAINTAINERS                                 |   2 +
+> > >  drivers/platform/x86/Kconfig                |   4 +
+> > >  drivers/platform/x86/Makefile               |   1 +
+> > >  drivers/platform/x86/lenovo-wmi-capdata01.c | 136 ++++++++++++++++++=
+++
+> > >  drivers/platform/x86/lenovo-wmi-capdata01.h |  29 +++++
+> > >  5 files changed, 172 insertions(+)
+> > >  create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+> > >  create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.h
+> > >
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 6dde75922aaf..56ead241a053 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -13164,6 +13164,8 @@ L:    platform-driver-x86@vger.kernel.org
+> > >  S:   Maintained
+> > >  F:   Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> > >  F:   Documentation/wmi/devices/lenovo-wmi-other.rst
+> > > +F:   drivers/platform/x86/lenovo-wmi-capdata01.c
+> > > +F:   drivers/platform/x86/lenovo-wmi-capdata01.h
+> > >  F:   drivers/platform/x86/lenovo-wmi-events.c
+> > >  F:   drivers/platform/x86/lenovo-wmi-events.h
+> > >  F:   drivers/platform/x86/lenovo-wmi-helpers.c
+> > > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kcon=
+fig
+> > > index 13b8f4ac5dc5..64663667f0cb 100644
+> > > --- a/drivers/platform/x86/Kconfig
+> > > +++ b/drivers/platform/x86/Kconfig
+> > > @@ -467,6 +467,10 @@ config LENOVO_WMI_HELPERS
+> > >       tristate
+> > >       depends on ACPI_WMI
+> > >
+> > > +config LENOVO_WMI_DATA01
+> > > +     tristate
+> > > +     depends on ACPI_WMI
+> > > +
+> > >  config IDEAPAD_LAPTOP
+> > >       tristate "Lenovo IdeaPad Laptop Extras"
+> > >       depends on ACPI
+> > > diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Mak=
+efile
+> > > index fc039839286a..7a35c77221b7 100644
+> > > --- a/drivers/platform/x86/Makefile
+> > > +++ b/drivers/platform/x86/Makefile
+> > > @@ -69,6 +69,7 @@ obj-$(CONFIG_THINKPAD_LMI)  +=3D think-lmi.o
+> > >  obj-$(CONFIG_YOGABOOK)               +=3D lenovo-yogabook.o
+> > >  obj-$(CONFIG_YT2_1380)               +=3D lenovo-yoga-tab2-pro-1380-=
+fastcharger.o
+> > >  obj-$(CONFIG_LENOVO_WMI_CAMERA)      +=3D lenovo-wmi-camera.o
+> > > +obj-$(CONFIG_LENOVO_WMI_DATA01)      +=3D lenovo-wmi-capdata01.o
+> > >  obj-$(CONFIG_LENOVO_WMI_EVENTS)      +=3D lenovo-wmi-events.o
+> > >  obj-$(CONFIG_LENOVO_WMI_HELPERS)     +=3D lenovo-wmi-helpers.o
+> > >
+> > > diff --git a/drivers/platform/x86/lenovo-wmi-capdata01.c b/drivers/pl=
+atform/x86/lenovo-wmi-capdata01.c
+> > > new file mode 100644
+> > > index 000000000000..b6876611ffd9
+> > > --- /dev/null
+> > > +++ b/drivers/platform/x86/lenovo-wmi-capdata01.c
+> > > @@ -0,0 +1,136 @@
+> > > +// SPDX-License-Identifier: GPL-2.0-or-later
+> > > +/*
+> > > + * LENOVO_CAPABILITY_DATA_01 WMI data block driver.
+> >
+> > Add a empty comment line here, you might want to rephrase the opening o=
+f
+> > the paragraph after splitting these apart.
+> >
+> > > This interface provides
+> > > + * information on tunable attributes used by the "Other Mode" WMI in=
+terface,
+> > > + * including if it is supported by the hardware, the default_value, =
+max_value,
+> > > + * min_value, and step increment.
+> > > + *
+> > > + * Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
+> > > + */
+> > > +
+> > > +#include <linux/cleanup.h>
+> > > +#include <linux/component.h>
+> > > +#include <linux/container_of.h>
+> > > +#include <linux/device.h>
+> > > +#include <linux/gfp_types.h>
+> > > +#include <linux/types.h>
+> > > +#include <linux/wmi.h>
+> >
+> > Add an empty line here please.
+> >
+> > > +#include "lenovo-wmi-capdata01.h"
+> > > +
+> > > +/* Interface GUIDs */
+> > > +#define LENOVO_CAPABILITY_DATA_01_GUID "7A8F5407-CB67-4D6E-B547-39B3=
+BE018154"
+> > > +
+> > > +struct lwmi_cd01_priv {
+> > > +     struct wmi_device *wdev;
+> > > +};
+> > > +
+> > > +/*
+> > > + * lenovo_cd01_component_bind() - On master bind, caches all capabil=
+ity data on
+> > > + * the master device.
+> >
+> > Is this "On master bind" something that the caller should be doing? IMO=
+,
+> > that would belong to description paragraph instead of the function
+> > summary.
+> >
+>=20
+> Acked
+>=20
+> > > + * @cd01_dev: Pointer to the capability data 01 parent device.
+> > > + * @om_dev: Pointer to the other mode parent device.
+> > > + * @data: capdata01_list object pointer to return the capability dat=
+a with.
+> > > + *
+> > > + * Returns: 0, or an error.
+> >
+> > Return:
+> >
+> > > + */
+> > > +static int lenovo_cd01_component_bind(struct device *cd01_dev,
+> > > +                                   struct device *om_dev, void *data=
+)
+> > > +{
+> > > +     struct lwmi_cd01_priv *priv =3D dev_get_drvdata(cd01_dev);
+> > > +     int count, idx;
+> > > +
+> > > +     if (!priv)
+> > > +             return -ENODEV;
+> > > +
+> > > +     count =3D wmidev_instance_count(priv->wdev);
+> > > +
+> > > +     if (count =3D=3D 0)
+> > > +             return -EINVAL;
+> > > +
+> > > +     ((struct cd01_list *)data)->count =3D count;
+> >
+> > Please create a local variable with the correct type and since data is
+> > void *, you don't need to cast it while assigning to that local variabl=
+e.
+> >
+>=20
+> This will be reworked a bit with Armin's suggestions.
+>=20
+> > > +     ((struct cd01_list *)data)->data =3D devm_kmalloc_array(om_dev,=
+ count,
+> > > +                                                           sizeof(st=
+ruct capdata01 *),
+> >
+> > sizeof() should preferrably take the type directly from ->data (with th=
+e
+> > correct amount of * chars).
+> >
+>=20
+> With Armin's suggestion I'll be using struct_size, but I'll note this
+> for future reference, thanks.
+>=20
+> > > +                                                           GFP_KERNE=
+L);
+> > > +     if (!data)
+> > > +             return -ENOMEM;
+> > > +
+> > > +     for (idx =3D 0; idx < count; idx++) {
+> > > +             union acpi_object *ret_obj __free(kfree) =3D NULL;
+> > > +
+> > > +             ret_obj =3D wmidev_block_query(priv->wdev, idx);
+> > > +             if (!ret_obj) {
+> > > +                     ((struct cd01_list *)data)->data[idx] =3D NULL;
+> > > +                     continue;
+> > > +             }
+> > > +             if (ret_obj->type !=3D ACPI_TYPE_BUFFER) {
+> > > +                     ((struct cd01_list *)data)->data[idx] =3D NULL;
+> > > +                     continue;
+> > > +             }
+> > > +
+> > > +             if (ret_obj->buffer.length !=3D sizeof(struct capdata01=
+)) {
+> >
+> > You could consider joining these 3 if()s with || to avoid having to
+> > repeat the NULL assignment and continue.
+> >
+>=20
+> devm_kzalloc will take care of the NULL assignment going forward. for
+> !ret_obj, should I return an error here instead? It seems like a
+> problem if that fails.
+
+Sure, if you think something is an indication of a bigger problem that=20
+requires giving up.
 
 
---RhAAMdodC1OlX4rj
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+BTW, in general (not related to this particular comment), you don't have=20
+reply/ack those review comments you're going to implement as I suggested.=
+=20
+I trust you to make the changes you don't contest :-).
 
-On Thu, Apr 03, 2025 at 03:13:08PM +0530, Naveen N Rao (AMD) wrote:
->  If the comment on the line for the #define X86_FEATURE_* starts with a
-> -double-quote character (""), the string inside the double-quote characte=
-rs
-> -will be the name of the flags. For example, the flag "sse4_1" comes from
-> -the comment "sse4_1" following the X86_FEATURE_XMM4_1 definition.
-> +double-quote character (""), the string inside the double-quote characte=
-rs will
-                           "... the quoted string ..."
-> +be the name of the flag. For example, the flag "sse4_1" comes from the c=
-omment
-> +"sse4_1" following the X86_FEATURE_XMM4_1 definition. /proc/cpuinfo is a
-> +userspace interface and must remain constant. If, for some reason, the n=
-aming
-> +of X86_FEATURE_<name> changes, one shall retain the name already used in
-> +/proc/cpuinfo.
-
-Thanks.
+That way, we can focus on the points that need further discussion.
 
 --=20
-An old man doll... just what I always wanted! - Clara
+ i.
 
---RhAAMdodC1OlX4rj
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ+5pJwAKCRD2uYlJVVFO
-o4VoAP9Dd/u1PorFRyEC/XHLuijWLg32I7km53KfdYi9N6GsvAEAl+P9pwvFptaG
-Se86hcc9DINWnPrw3KXrBBvZx2L9tQU=
-=F0td
------END PGP SIGNATURE-----
-
---RhAAMdodC1OlX4rj--
+--8323328-773067350-1743678065=:1302--
