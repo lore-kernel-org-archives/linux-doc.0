@@ -1,144 +1,178 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5EE0324886C;
-	Thu,  3 Apr 2025 10:50:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337552E3385;
+	Thu,  3 Apr 2025 10:54:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743677430; cv=none; b=WHGyJ8vGMd4M7CAnCna21froRY7lce8albT6CAS7J/IVi4DqSoRnl1nFNhR8aLZp4Ko6YLpulWEmcu7fU2vVV9fBKuHmqyDMNZqOagdA3q8Vk852/YGYFy7z0Jo7/nF0RjIHKByueFQhe1DvdUCJLtfdPBOhqZV6IqVpnE7iPDs=
+	t=1743677648; cv=none; b=djxrzf6ZZzL9jaV9orazBeeWuUNyYji0coW6ta8L0O1ns5PyJu0AWec/E4lo7/X5hmohUSwzlcGTvVAhMkhE++eRFRSxirNN3AVqbd476fyyqvREF5JBNny0R4SerBoo+9PrV/cWhnsS2tTzffo+O/GyTfYh7kZe4jAfEj3Q4OM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743677430; c=relaxed/simple;
-	bh=ZNO5bwpJb3f0B518+WAple7GtPmZqWrIMq2S88tSb2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WGHEA9zsQJB09T4Wrc4nNy24okTMA69tbcrw9YmEhAmp5onjOqDmlh207KOd0AihYSd3dbH4mpz2O8D8HsC030jZoaXyqZ21VWOYmEHUPDq5KbkkRd7qo7+vR5dYkZ7GH9QIB7jmVYMZOYFeVjcw4l09yXhN9UFBVrQXcViIvwM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jXwyQWXU; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743677648; c=relaxed/simple;
+	bh=HL2bZeN/6TrOkvPvEDWvjU2rnNHuuFI0DJdwxDFEfpQ=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=i7RX9XtfgVzO41xIQGaed2cve8zAJUtAlOul32sHg1Jz9s0SYjX2EcRDzEduyzt7sisgIKLyyQxyxrqaYwvxHtGzmykB2BENDUDSQDgc1KU0yf0yWBOR97ZMYdGsK5lvmhl19bXNaor/u7mZSrYaWRpaOzvEapSuwvleGanfAQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxLsZ69Z; arc=none smtp.client-ip=198.175.65.20
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jXwyQWXU"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-af6b02d9e5eso545832a12.0;
-        Thu, 03 Apr 2025 03:50:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743677428; x=1744282228; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=iI92r4BXcQyxk5mWJamKRDECY89Mdefw5GbImf8nwOw=;
-        b=jXwyQWXU3KJxG1QBc8vBs5ZLJbAYLNVOPHpZA5H2/2gBXVF2J3d9p8MjNNbdpUkfC5
-         ZEec7AwHOPPtrhAJB+W1bGNtCIvs0JYfAmQuspTnzT1qFrEVCJiQQenNQVvjk70NLFHF
-         SDLxenRcgpwjuW0Q+BGV/GLyaA0VWnFb9F29HlyUIvu4oPRGxW39qdnfzBLufBOmDEac
-         KjPKm5/rRiwooNfr1nRcZ0FHJeNfDiMP0h7uhudujNp18fk8iisxstyWJeakl5eYM8Qi
-         px/Gj8g3YuO7jrGf5LsuiLotJ9AoYiQPmlIjLo8G1qEdC8cjyh1pwdo3E/6z9G7laMil
-         pJBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743677428; x=1744282228;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=iI92r4BXcQyxk5mWJamKRDECY89Mdefw5GbImf8nwOw=;
-        b=f9266lR1k8pgakGtWEyb6G9PoXynHAkAijkmQUQtVlK5KWJWmg39yTHFvi9DeuJnMn
-         z1gVhj7zvblTqWRNEkiWbpW0iQ3p9amAAEY3yZDp1x8oK7c1MGtXy2OfzrpfW14Jrr4E
-         6Rg5MxCE0juo7x0KpCkScMlhdtlVxQPZRL4tK6Yqj/liuCBH6LG2kKB7F2aVoG+SQbaA
-         ZMoBr9iiwFD9xEpHYP6Rri8KEEMqQQUKVl+R1MrZBceY6eZrEDz5qtz0RJID+/rMf5uO
-         VhEteAGi4cX6VPwLVfQheg2VxfVgbTIyzRzVNFZfeWaAmEZlF7fy77GzgW4upsGBzFqB
-         BnTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUX7N8LUsiXdUWPckkyaJCMNHDU1B6ZXfXSuSn5IcpAhq7MScXGn+SymnAyQzlX/YxRbOWAzGAZyv0=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+B1gk+J8nWcCYAS/AXHC3ugU5lv0TtfQRHHiKHh4m5LVrRSVY
-	FAkQvK3+soxQdT+pkrvgEiQwSSJxsNqRn74TdSxg/Jyhu+1lwD0N
-X-Gm-Gg: ASbGncu0sYBblo3I36doC3tAdH9XtBvB4mMIMRUWjtF+zsP/PF5WPNiLOzGaMkejfCp
-	WdKKRhIE2s0qzkfsvFQo3pqS5Fuo0AFcTjfb89l9kZj4lFX2EUgEobqogJgL5eNCRIa3DhlcDdJ
-	T4laRgzvz0Z74hWUzEUKUeGdam/o5f4zu1vizdlMaZSATctVeqtu/RrnyuZlp5SDlQoblwexQP5
-	VCZ/sfiOk+2DqFcZowkpaIWzsBxrFVETD+JScWXNRSh56cv8xAomfI8atWipxVa13dKake/OSc/
-	AzPYwn9jRoremytL/cO0LcC97plEHYqLpVCs9l/ls72w
-X-Google-Smtp-Source: AGHT+IHdAqc9zUyInFF/NAewX2BPd1vIY9WYwM/V3+DZBr+gvzKsHpLJ/UeaL6SUIeQTZGFOZ6JK4Q==
-X-Received: by 2002:a17:90a:d643:b0:2eb:140d:f6df with SMTP id 98e67ed59e1d1-3057cbcf195mr2872640a91.1.1743677428330;
-        Thu, 03 Apr 2025 03:50:28 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785adaeesm11442735ad.41.2025.04.03.03.50.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 03:50:27 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 74F7D4208F7B; Thu, 03 Apr 2025 17:50:25 +0700 (WIB)
-Date: Thu, 3 Apr 2025 17:50:25 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, willy@infradead.org, linux-mm@kvack.org,
-	David Hildenbrand <david@redhat.com>, da.gomez@kernel.org,
-	mcgrof@kernel.org, gost.dev@samsung.com, linux-doc@vger.kernel.org,
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH] docs: update THP admin guide about non-tmpfs filesystem
- support
-Message-ID: <Z-5n8XrUIAV4r_tG@archie.me>
-References: <20250403103805.173761-1-kernel@pankajraghav.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxLsZ69Z"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743677647; x=1775213647;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=HL2bZeN/6TrOkvPvEDWvjU2rnNHuuFI0DJdwxDFEfpQ=;
+  b=fxLsZ69ZQuXNqWczYBVh8FWa4j8pNYkCOaviXxqfEv3k/FQHl2bO9W5G
+   5Wwvdmalmkt8yo/lpQUd8G0oNfCIH2tVPwxB8XaXRdBdc5H9LqKtThRWr
+   LuDngDVZ/ZKBtJcNm4nlnrU2pXkY44h9u9YyjIc7LapF45iKBMCYYknLf
+   jqj6Dg1oB8f8hLfV2GWUycmNA9k9NpZpf1lJ0SltbWW0leIOmghpdQemF
+   EEiOm7JZFgMvL4AE1gWhjXExD4iVTNFj4UrJ2W7QtA5UcWtROIY6BsZeY
+   kFPuXcVmPWXKQx127vRf4pyRJ3tjtNvs3xJSH+RnFWFm/V/ORNY3ltkOS
+   A==;
+X-CSE-ConnectionGUID: bjb5qYENSiKB3O9S1s5rFg==
+X-CSE-MsgGUID: dRlBPgRnQBOw11var4MHQQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44791483"
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
+   d="scan'208";a="44791483"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 03:54:05 -0700
+X-CSE-ConnectionGUID: oxi6xKPlS/ClIRGIeX+iFA==
+X-CSE-MsgGUID: O7/WCy3ATK6shXcHXXc5XQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
+   d="scan'208";a="127483765"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.152])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 03:54:01 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Thu, 3 Apr 2025 13:53:58 +0300 (EEST)
+To: Derek John Clark <derekjohn.clark@gmail.com>
+cc: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>, 
+    Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, 
+    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    "Cody T . -H . Chiu" <codyit@gmail.com>, 
+    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 6/6 RESEND] platform/x86: Add Lenovo Gamezone WMI
+ Driver
+In-Reply-To: <CAFqHKTk30hV5UuXjpfHs_0CT=5cfbPkiW4im4uHO4dC=9d9AqQ@mail.gmail.com>
+Message-ID: <345fc20a-5658-3c1d-3c3d-cfb3b2e31a3c@linux.intel.com>
+References: <20250317144326.5850-1-derekjohn.clark@gmail.com> <20250317144326.5850-7-derekjohn.clark@gmail.com> <be11f12b-d610-6130-180a-476d7958f2b9@linux.intel.com> <CAFqHKTk30hV5UuXjpfHs_0CT=5cfbPkiW4im4uHO4dC=9d9AqQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="ROtX3L22Pq/ipLSv"
-Content-Disposition: inline
-In-Reply-To: <20250403103805.173761-1-kernel@pankajraghav.com>
+Content-Type: multipart/mixed; boundary="8323328-1685862956-1743677638=:1302"
 
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
---ROtX3L22Pq/ipLSv
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+--8323328-1685862956-1743677638=:1302
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
-On Thu, Apr 03, 2025 at 12:38:05PM +0200, Pankaj Raghav (Samsung) wrote:
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
-dmin-guide/mm/transhuge.rst
-> index dff8d5985f0f..01b7ce90d693 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -12,8 +12,8 @@ using huge pages for the backing of virtual memory with=
- huge pages
->  that supports the automatic promotion and demotion of page sizes and
->  without the shortcomings of hugetlbfs.
-> =20
-> -Currently THP only works for anonymous memory mappings and tmpfs/shmem.
-> -But in the future it can expand to other filesystems.
-> +Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
-> +filesystems that support large folios.
-> =20
->  .. note::
->     in the examples below we presume that the basic page size is 4K and
-> @@ -463,6 +463,10 @@ fields for each mapping. (Note that AnonHugePages on=
-ly applies to traditional
->  PMD-sized THP for historical reasons and should have been called
->  AnonHugePmdMapped).
-> =20
-> +The number of PMD-sized transparent huge pages currently used by
-> +filesystem data (page cache) is available by reading the FileHugePages f=
-ield
-> +in ``/proc/meminfo``.
-> +
->  The number of file transparent huge pages mapped to userspace is availab=
-le
->  by reading ShmemPmdMapped and ShmemHugePages fields in ``/proc/meminfo``.
->  To identify what applications are mapping file transparent huge pages, it
+On Wed, 2 Apr 2025, Derek John Clark wrote:
+
+> On Thu, Mar 27, 2025 at 6:56=E2=80=AFAM Ilpo J=C3=A4rvinen
+> <ilpo.jarvinen@linux.intel.com> wrote:
+> >
+> > On Mon, 17 Mar 2025, Derek J. Clark wrote:
+> >
+> > > Adds lenovo-wmi-gamezone driver which provides the Lenovo Gamezone WM=
+I
+> > > interface that comes on Lenovo "Gaming Series" hardware. Provides ACP=
+I
+> > > platform profiles over WMI.
+> > >
+> > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> >
+> > This has a few similar nits I flagged for the other patches but I won't
+> > mark them here again but please go through the patches to find similar
+> > cases.
+> >
+> > > ---
+> > > v4:
+> > > - Add notifier blocks for the Events and Other Mode drivers.
+> > > - Remove notifier block chain head and all reference to Thermal Mode
+> > >   Event GUID.
+> > > - Add header for Gamezone specific structs and functions.
+> > > - Various fixes from review.
+> > > v3:
+> > > - Use notifier chain to report platform profile changes to any
+> > >   subscribed drivers.
+> > > - Adds THERMAL_MODE_EVENT GUID and .notify function to trigger notifi=
+er
+> > >   chain.
+> > > - Adds support for Extreme Mode profile on supported hardware, as wel=
+l
+> > >   as a DMI quirk table for some devices that report extreme mode vers=
+ion
+> > >   support but so not have it fully implemented.
+> > > - Update to include recent changes to platform-profile.
+> > > v2:
+> > > - Use devm_kmalloc to ensure driver can be instanced, remove global
+> > >   reference.
+> > > - Ensure reverse Christmas tree for all variable declarations.
+> > > - Remove extra whitespace.
+> > > - Use guard(mutex) in all mutex instances, global mutex.
+> > > - Use pr_fmt instead of adding the driver name to each pr_err.
+> > > - Remove noisy pr_info usage.
+> > > - Rename gamezone_wmi to lenovo_wmi_gz_priv and gz_wmi to priv.
+> > > - Remove GZ_WMI symbol exporting.
+> > > ---
+> > >  MAINTAINERS                                |   2 +
+> > >  drivers/platform/x86/Kconfig               |  13 +
+> > >  drivers/platform/x86/Makefile              |   1 +
+> > >  drivers/platform/x86/lenovo-wmi-gamezone.c | 380 +++++++++++++++++++=
+++
+> > >  drivers/platform/x86/lenovo-wmi-gamezone.h |  18 +
+> > >  5 files changed, 414 insertions(+)
+> > >  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
+> > >  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.h
+> > >
+
+> > > diff --git a/drivers/platform/x86/lenovo-wmi-gamezone.h b/drivers/pla=
+tform/x86/lenovo-wmi-gamezone.h
+> > > new file mode 100644
+> > > index 000000000000..ac536803160b
+> > > --- /dev/null
+> > > +++ b/drivers/platform/x86/lenovo-wmi-gamezone.h
+> > > @@ -0,0 +1,18 @@
+> > > +/* SPDX-License-Identifier: GPL-2.0-or-later
+> > > + *
+> > > + * Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
+> > > + *
+> > > + */
+> > > +
+> > > +#ifndef _LENOVO_WMI_GAMEZONE_H_
+> > > +#define _LENOVO_WMI_GAMEZONE_H_
+> > > +
+> > > +enum thermal_mode {
+> > > +     SMARTFAN_MODE_QUIET =3D 0x01,
+> > > +     SMARTFAN_MODE_BALANCED =3D 0x02,
+> > > +     SMARTFAN_MODE_PERFORMANCE =3D 0x03,
+> > > +     SMARTFAN_MODE_EXTREME =3D 0xE0, /* Ver 6+ */
+> > > +     SMARTFAN_MODE_CUSTOM =3D 0xFF,
+> > > +};
+> > > +
+> > > +#endif /* !_LENOVO_WMI_GAMEZONE_H_ */
+> > >
+> >
+> > Are these going the be used by other .c files?
+> >
 >=20
-> base-commit: f0a16f5363325cc8d9382471cdc7b654c53254c9
+> They are used across different c files in this series. The
+> lenovo-wmi-other driver uses every header.
 
-The wording looks good, thanks!
+Oh, how can this then be the last patch of the series???
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+Won't the build fail before this patch for lenovo-wmi-other.c?
 
 --=20
-An old man doll... just what I always wanted! - Clara
+ i.
 
---ROtX3L22Pq/ipLSv
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ+5n7AAKCRD2uYlJVVFO
-owUdAP4vLlJhDJZ5rVo9cdiT2DV/pwdfcfDeN78Zy4hB+YtgnAEAmoXODzvzfppp
-4AyylZuDquYZcut8Ck+4DaYmufGV8QU=
-=jaiS
------END PGP SIGNATURE-----
-
---ROtX3L22Pq/ipLSv--
+--8323328-1685862956-1743677638=:1302--
