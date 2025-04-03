@@ -1,91 +1,94 @@
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C6CF32417E6;
-	Thu,  3 Apr 2025 08:28:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A5624501D;
+	Thu,  3 Apr 2025 09:04:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743668891; cv=none; b=U4WVXaaEH2swemizF1u0xqTUMhvn3B0yPSQjso2VMVCUzZ9Dk2ZTg7G3qjmduFGNPFke2+FD6S3qwiveGub0vjRTJitJMb6kIQiwHAq6TzUSeuLXjd8Yytb4HxdinwVNCMc87blGB/TWLKzjB9b88OHZX1gFzMsGYjjaNjKbGTg=
+	t=1743671093; cv=none; b=aB4sPOqt4U13CsPUTav9Yg6zEfKRtNolyea2WYSPkhAS+ooPb/AjmZS/2ew1wnf0tk6a6IElxTcp2DDc+gS9bHPv8ePdDM1AxhTWOgmOnzUfgoAJWqk6H4rm6vZrR36WO9Z+62phXGPXuFpvyh8tHgxOhgHuSTMPw0lrPuEx4HY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743668891; c=relaxed/simple;
-	bh=e9HGzNr+7rhA4wWr8t3Fv+wxJSE2qTuGRu7sNWZ6Sf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=et4fhYnB3q3lQqKfUuF0jwEb2MyC0RAQTNNX8AfQbT6E+J0e5Cd5NOQOPyLEdVQKlI8qO1K09hRqUyGOSazctlERhozlgc6BkuzTtk8XDGa7MsVjthnZMxKIpZweimn5X56UadafWE38DSE0mLLuZlCesvxnFz+1WQuUji7jU9w=
+	s=arc-20240116; t=1743671093; c=relaxed/simple;
+	bh=j1Fkw8epdkiaxhLhJzIHl7KWT3KcJ8DBd7ToBVFnEtQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ZfVdp3EHe6fdnHaDEYR8xnf9XUfxxnqLX2vmDA3d0BRP33gQrqeaAgdAaKP6kme+lC4H7Zk4BgvVGDokOHCXf5baEus5dA8w2wfvDIY4ZfD57ZMQNKWEbMinU5RMpNvbPhuuQm4K+flRUTIFJYaTUaJg1GeXSlh1LAJW2jC5yKk=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 35DA5106F;
-	Thu,  3 Apr 2025 01:28:11 -0700 (PDT)
-Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.2.80.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 63B403F59E;
-	Thu,  3 Apr 2025 01:28:04 -0700 (PDT)
-Date: Thu, 3 Apr 2025 08:28:01 +0000
-From: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
-	catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org,
-	robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
-	ardb@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
-	maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
-	oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
-	ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com,
-	mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-Subject: Re: [PATCH v5 3/3] arm64/mm: Elide tlbi in contpte_convert() under
- BBML2
-Message-ID: <20250403082801.GA14239@mazurka.cambridge.arm.com>
-References: <20250325093625.55184-1-miko.lenczewski@arm.com>
- <20250325093625.55184-4-miko.lenczewski@arm.com>
- <fc505d3f-8ee4-40ed-8b8e-9e1c07b21fe1@arm.com>
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1D12106F;
+	Thu,  3 Apr 2025 02:04:52 -0700 (PDT)
+Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF29A3F63F;
+	Thu,  3 Apr 2025 02:04:47 -0700 (PDT)
+Message-ID: <957ccba4-2ae1-4358-b62d-3b5c44d7f1ca@arm.com>
+Date: Thu, 3 Apr 2025 10:04:46 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <fc505d3f-8ee4-40ed-8b8e-9e1c07b21fe1@arm.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/6] arm64: Provide basic EL2 setup for FEAT_{LS64,
+ LS64_V} usage at EL0/1
+To: Yicong Yang <yangyicong@huawei.com>, catalin.marinas@arm.com,
+ will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, corbet@lwn.net,
+ linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
+ linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: joey.gouly@arm.com, yuzenghui@huawei.com, shuah@kernel.org,
+ jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com,
+ linuxarm@huawei.com, prime.zeng@hisilicon.com, xuwei5@huawei.com,
+ yangyicong@hisilicon.com, tangchengchang@huawei.com
+References: <20250331094320.35226-1-yangyicong@huawei.com>
+ <20250331094320.35226-2-yangyicong@huawei.com>
+Content-Language: en-US
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20250331094320.35226-2-yangyicong@huawei.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 03, 2025 at 09:14:43AM +0100, Ryan Roberts wrote:
-> On 25/03/2025 05:36, Mikołaj Lenczewski wrote:
-> > diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
-> > index 55107d27d3f8..77ed03b30b72 100644
-> > --- a/arch/arm64/mm/contpte.c
-> > +++ b/arch/arm64/mm/contpte.c
-> > @@ -68,7 +68,8 @@ static void contpte_convert(struct mm_struct *mm, unsigned long addr,
-> >  			pte = pte_mkyoung(pte);
-> >  	}
-> >  
-> > -	__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
-> > +	if (!system_supports_bbml2_noabort())
-> > +		__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
-> >  
-> >  	__set_ptes(mm, start_addr, start_ptep, pte, CONT_PTES);
+On 31/03/2025 10:43, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
 > 
-> Despite all the conversation we had about completely eliding the TLBI for the
-> BBML2 case, I've continued to be a bit uneasy about it. I had another chat with
-> Alex C and we concluded that it is safe, but there could be conceivable
-> implementations where it is not performant. Alex suggested doing a TLBI without
-> the DSB and I think that's a good idea. So after the __set_ptes(), I suggest adding:
+> Instructions introduced by FEAT_{LS64, LS64_V} is controlled by
+> HCRX_EL2.{EnALS, EnASR}. Configure all of these to allow usage
+> at EL0/1.
 > 
-> 	if (system_supports_bbml2_noabort())
-> 		__flush_tlb_range_nosync(mm, start_addr, addr, PAGE_SIZE,
-> 					 true, 3);
+> This doesn't mean these instructions are always available in
+> EL0/1 if provided. The hypervisor still have the control at
+> runtime.
 > 
-> That will issue the TLBI but won't wait for it to complete. So it should be very
-> fast. We are guranteed correctness immediately. We are guranteed performance
-> after the next DSB (worst-case; next context switch).
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
+> ---
+>   arch/arm64/include/asm/el2_setup.h | 12 +++++++++++-
+>   1 file changed, 11 insertions(+), 1 deletion(-)
 > 
-> Thanks,
-> Ryan
+> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> index ebceaae3c749..0259941602c4 100644
+> --- a/arch/arm64/include/asm/el2_setup.h
+> +++ b/arch/arm64/include/asm/el2_setup.h
+> @@ -57,9 +57,19 @@
+>           /* Enable GCS if supported */
+>   	mrs_s	x1, SYS_ID_AA64PFR1_EL1
+>   	ubfx	x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
+> -	cbz	x1, .Lset_hcrx_\@
+> +	cbz	x1, .Lskip_gcs_hcrx_\@
+>   	orr	x0, x0, #HCRX_EL2_GCSEn
+>   
+> +.Lskip_gcs_hcrx_\@:
 
-Hi Ryan,
+minor nit: For consistency, could we rename this "set_ls64", similar to 
+"set_hcrx" ?
 
-Sure, perfectly happy to add that on. Will respin and add a note about
-this behaviour to the source code and to the patch / cover letter.
+> +	/* Enable LS64, LS64_V if supported */
+> +	mrs_s	x1, SYS_ID_AA64ISAR1_EL1
+> +	ubfx	x1, x1, #ID_AA64ISAR1_EL1_LS64_SHIFT, #4
+> +	cbz	x1, .Lset_hcrx_\@
+> +	orr	x0, x0, #HCRX_EL2_EnALS
+> +	cmp	x1, #ID_AA64ISAR1_EL1_LS64_LS64_V
+> +	b.lt	.Lset_hcrx_\@
+> +	orr	x0, x0, #HCRX_EL2_EnASR
+> +
+>   .Lset_hcrx_\@:
+>   	msr_s	SYS_HCRX_EL2, x0
+>   .Lskip_hcrx_\@:
 
--- 
-Kind regards,
-Mikołaj Lenczewski
+Suzuki
