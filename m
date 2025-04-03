@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDB8253356;
-	Thu,  3 Apr 2025 19:02:28 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0C725F980;
+	Thu,  3 Apr 2025 19:04:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743706948; cv=none; b=Ee+4U5vivkNHkAm0buhw40ztVS7ZqcIHNsj1p50ytWjBN8bokJWKM9Dgc6qFFvP+S63MoZ8JbaZSuvmEoIJ6R0KKsaxCTNtAWzQa80yxyI6ijr8RiRfBOl+XYr3lEGsEP5hTJahfpDrBl3XYTFuYk2RdjCKNVwGv0Fo9L/vKGqs=
+	t=1743707061; cv=none; b=g75ySPNEK+p3NoNhZlnfPoUtRpM3Bhel81B6YHlcG95Sqv6JyR45VfyjgwhxSeF2OOGyMC2jTK5ZSvMKcFbWVuEtUuraUWSnu4cJOBLXOm7VVCaumDN7RU4wOpdg4FZupCoVXRNU/D8CwDNKxje4GLFg/AwXsmfdgqC/LNL1SqM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743706948; c=relaxed/simple;
-	bh=RCKS208+S9uxKFrgFhNxe1Xye6b7JnXWUELLEdZiEiI=;
+	s=arc-20240116; t=1743707061; c=relaxed/simple;
+	bh=gLc83+S0ze4qE4mtl3apedfw1/l3NHZMYy4g/7Qo6g8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=nXyEjLpXm/B3fG85/8OIa2SGeRxGo1X73jwmV35srz7NAs6zpWaoCdukQ0RwrFgytiH+UFdx9gz4jqbkBSe3U3jVvp53Fh0Sjl8jDfr/6nKS3OUjRL/ID5lLF1VSjYHBnFg1MaTM1f8cpQoeYtvOQy6Ja7YUuSjrhVPOErBRTDE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KE8G4Dot; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=I9k3oXSpkGepX97cBS7fZiqqKubcideKKurXehUgtiZf1CfobZR2p331cBJ9/75cucjTEPhxUyanurPtFBhRe4m5JHp9fzq895Uh4H6e7K2QGT4SjZRwYdGoJJh3MzNt/N7ERz6FEPgWI9v3381d4QJg8gscRZQZAoXcVko0W7s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sAVTjHFb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KE8G4Dot"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74236C4CEE3;
-	Thu,  3 Apr 2025 19:02:26 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sAVTjHFb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF76EC4CEE9;
+	Thu,  3 Apr 2025 19:04:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743706948;
-	bh=RCKS208+S9uxKFrgFhNxe1Xye6b7JnXWUELLEdZiEiI=;
+	s=k20201202; t=1743707060;
+	bh=gLc83+S0ze4qE4mtl3apedfw1/l3NHZMYy4g/7Qo6g8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=KE8G4DotWTbQm37cM0a/cwD4kiNU1KeSA74QhbvgJcFDySF5/Q7JBjZ7SLImpgREn
-	 q+ZKlBSEAFkjK5sA1QyQhLxzmYtnQ15PgADPNIk+9a0lwA5l/hH7+KOLM75nZEHFNb
-	 Y2YIAxx6Z4IxrGNV6mbkcbvpurR8WiluZY9CpqeJAd5QBe64p6dKvRVRM3dmCG3/Wj
-	 wgHmsh/K4mKW9nqQjC+AzHC764joTiuTAVzyJ/E12R6MxPpXXd7TyyA8Z1fVtUjy28
-	 iXJqoNlIF0GjmT1WDH4B7fg5NOgYvKu+K3OQVHxVKS8zi/0ezDewsrxwMgcfCM4doZ
-	 3FxQyyLrJPfcw==
+	b=sAVTjHFbMKVHzKz4FOtA1QqBEf4O90uC78rDDxvixK+ExMFOHcv3k951oeilav5Nj
+	 2gEvKkcDSBVzJt75MiEIzFXAhxGj/6ebHtyxlg3YEGcg4UAoGQAqz2lCI4uZign4Uq
+	 cXxM1MxXdQBlE6t+4OuMa2U3V/Bdi7wtyLLZT1+9BRwgSxHnqQylxh4Q0XRFiRhnXJ
+	 lJXCSjU9sJlIc6T1t9Ic94rrzfH5yPmTUNUl39vYwBgSALcJfyNUad8Lfms1vRhZ8d
+	 ku01Bz8UzelbtBz1Hyp6BmXBo/PfZdOI2+TMckXxuqb2wxwEjCXcK+K9LepAN9W7MQ
+	 8rhcZGKqCyAfA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,20 +35,20 @@ Cc: Niklas Cassel <cassel@kernel.org>,
 	corbet@lwn.net,
 	akpm@linux-foundation.org,
 	paulmck@kernel.org,
-	thuth@redhat.com,
 	rostedt@goodmis.org,
+	thuth@redhat.com,
 	bp@alien8.de,
 	ardb@kernel.org,
 	gregkh@linuxfoundation.org,
 	jpoimboe@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-ide@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 07/54] ata: libata-core: Add 'external' to the libata.force kernel parameter
-Date: Thu,  3 Apr 2025 15:01:22 -0400
-Message-Id: <20250403190209.2675485-7-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.13 05/49] ata: libata-core: Add 'external' to the libata.force kernel parameter
+Date: Thu,  3 Apr 2025 15:03:24 -0400
+Message-Id: <20250403190408.2676344-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250403190209.2675485-1-sashal@kernel.org>
-References: <20250403190209.2675485-1-sashal@kernel.org>
+In-Reply-To: <20250403190408.2676344-1-sashal@kernel.org>
+References: <20250403190408.2676344-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,7 +57,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.14
+X-stable-base: Linux 6.13.9
 Content-Transfer-Encoding: 8bit
 
 From: Niklas Cassel <cassel@kernel.org>
@@ -98,10 +98,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 40 insertions(+)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb8752b42ec85..aa7447f8837cb 100644
+index 3872bc6ec49d6..d9c55dcbf4a21 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3116,6 +3116,8 @@
+@@ -3036,6 +3036,8 @@
  			* max_sec_lba48: Set or clear transfer size limit to
  			  65535 sectors.
  
@@ -111,7 +111,7 @@ index fb8752b42ec85..aa7447f8837cb 100644
  
  			* [no]setxfer: Indicate if transfer speed mode setting
 diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
-index d956735e2a764..0cb97181d10a9 100644
+index c085dd81ebe7f..52b78d22c831a 100644
 --- a/drivers/ata/libata-core.c
 +++ b/drivers/ata/libata-core.c
 @@ -88,6 +88,7 @@ struct ata_force_param {
@@ -166,7 +166,7 @@ index d956735e2a764..0cb97181d10a9 100644
  static inline void ata_force_link_limits(struct ata_link *link) { }
  static inline void ata_force_xfermask(struct ata_device *dev) { }
  static inline void ata_force_quirks(struct ata_device *dev) { }
-@@ -5460,6 +5491,8 @@ struct ata_port *ata_port_alloc(struct ata_host *host)
+@@ -5452,6 +5483,8 @@ struct ata_port *ata_port_alloc(struct ata_host *host)
  #endif
  	ata_sff_port_init(ap);
  
@@ -175,7 +175,7 @@ index d956735e2a764..0cb97181d10a9 100644
  	return ap;
  }
  EXPORT_SYMBOL_GPL(ata_port_alloc);
-@@ -6272,6 +6305,9 @@ EXPORT_SYMBOL_GPL(ata_platform_remove_one);
+@@ -6264,6 +6297,9 @@ EXPORT_SYMBOL_GPL(ata_platform_remove_one);
  	{ "no" #name,	.lflags_on	= (flags) },	\
  	{ #name,	.lflags_off	= (flags) }
  
@@ -185,7 +185,7 @@ index d956735e2a764..0cb97181d10a9 100644
  #define force_quirk_on(name, flag)			\
  	{ #name,	.quirk_on	= (flag) }
  
-@@ -6331,6 +6367,8 @@ static const struct ata_force_param force_tbl[] __initconst = {
+@@ -6323,6 +6359,8 @@ static const struct ata_force_param force_tbl[] __initconst = {
  	force_lflag_on(rstonce,		ATA_LFLAG_RST_ONCE),
  	force_lflag_onoff(dbdelay,	ATA_LFLAG_NO_DEBOUNCE_DELAY),
  
