@@ -1,178 +1,123 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337552E3385;
-	Thu,  3 Apr 2025 10:54:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADF8A1624E0;
+	Thu,  3 Apr 2025 10:55:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743677648; cv=none; b=djxrzf6ZZzL9jaV9orazBeeWuUNyYji0coW6ta8L0O1ns5PyJu0AWec/E4lo7/X5hmohUSwzlcGTvVAhMkhE++eRFRSxirNN3AVqbd476fyyqvREF5JBNny0R4SerBoo+9PrV/cWhnsS2tTzffo+O/GyTfYh7kZe4jAfEj3Q4OM=
+	t=1743677742; cv=none; b=QG0JUIzDYsa9dcGS9wwzjmKoFaNTEGVuLRIu8qbokWUM9l3sb0oAnPVLZtIiuSCDoaFixxio+uRfcF27ldliS7D1JVNyyADk2RLx3OCQjMBJWn4i2ZBkeLhPfPXSHNu8W618RQ6NJoHub2mqmiVOIBGU2wUFRwW4k7fbAlh8cfU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743677648; c=relaxed/simple;
-	bh=HL2bZeN/6TrOkvPvEDWvjU2rnNHuuFI0DJdwxDFEfpQ=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=i7RX9XtfgVzO41xIQGaed2cve8zAJUtAlOul32sHg1Jz9s0SYjX2EcRDzEduyzt7sisgIKLyyQxyxrqaYwvxHtGzmykB2BENDUDSQDgc1KU0yf0yWBOR97ZMYdGsK5lvmhl19bXNaor/u7mZSrYaWRpaOzvEapSuwvleGanfAQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=fxLsZ69Z; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1743677742; c=relaxed/simple;
+	bh=+Txho1X6kxtQ7ArayeLB/i6A0cBPRmvC3mL3UWxb1f0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QqYH/+nvH19JuDwj79mK7lnmHlOxg4nB66kl8bvtJpUb7JvA7v0CXOqaBHx+GT60N2PBpJg3203xCRuqC3Wd45A47LILC7hm7MVBfdwcFLmqY1ps9BUaxEHiZreNdNp9+4uWm2nf44cul+XRUVby+C6e9rEnifECHmcAzCP/QWQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=TAY4vGly; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="fxLsZ69Z"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743677647; x=1775213647;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=HL2bZeN/6TrOkvPvEDWvjU2rnNHuuFI0DJdwxDFEfpQ=;
-  b=fxLsZ69ZQuXNqWczYBVh8FWa4j8pNYkCOaviXxqfEv3k/FQHl2bO9W5G
-   5Wwvdmalmkt8yo/lpQUd8G0oNfCIH2tVPwxB8XaXRdBdc5H9LqKtThRWr
-   LuDngDVZ/ZKBtJcNm4nlnrU2pXkY44h9u9YyjIc7LapF45iKBMCYYknLf
-   jqj6Dg1oB8f8hLfV2GWUycmNA9k9NpZpf1lJ0SltbWW0leIOmghpdQemF
-   EEiOm7JZFgMvL4AE1gWhjXExD4iVTNFj4UrJ2W7QtA5UcWtROIY6BsZeY
-   kFPuXcVmPWXKQx127vRf4pyRJ3tjtNvs3xJSH+RnFWFm/V/ORNY3ltkOS
-   A==;
-X-CSE-ConnectionGUID: bjb5qYENSiKB3O9S1s5rFg==
-X-CSE-MsgGUID: dRlBPgRnQBOw11var4MHQQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11392"; a="44791483"
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="44791483"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 03:54:05 -0700
-X-CSE-ConnectionGUID: oxi6xKPlS/ClIRGIeX+iFA==
-X-CSE-MsgGUID: O7/WCy3ATK6shXcHXXc5XQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,184,1739865600"; 
-   d="scan'208";a="127483765"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.152])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 03:54:01 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Thu, 3 Apr 2025 13:53:58 +0300 (EEST)
-To: Derek John Clark <derekjohn.clark@gmail.com>
-cc: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>, 
-    Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, 
-    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
-    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
-    Mark Pearson <mpearson-lenovo@squebb.ca>, 
-    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
-    "Cody T . -H . Chiu" <codyit@gmail.com>, 
-    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 6/6 RESEND] platform/x86: Add Lenovo Gamezone WMI
- Driver
-In-Reply-To: <CAFqHKTk30hV5UuXjpfHs_0CT=5cfbPkiW4im4uHO4dC=9d9AqQ@mail.gmail.com>
-Message-ID: <345fc20a-5658-3c1d-3c3d-cfb3b2e31a3c@linux.intel.com>
-References: <20250317144326.5850-1-derekjohn.clark@gmail.com> <20250317144326.5850-7-derekjohn.clark@gmail.com> <be11f12b-d610-6130-180a-476d7958f2b9@linux.intel.com> <CAFqHKTk30hV5UuXjpfHs_0CT=5cfbPkiW4im4uHO4dC=9d9AqQ@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="TAY4vGly"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22403cbb47fso8108955ad.0;
+        Thu, 03 Apr 2025 03:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743677740; x=1744282540; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=sNlLWGdRtItnGdc2sw0oNRPSrhRzRsHpESstF1l2f68=;
+        b=TAY4vGlysrbPtQjr8H4zRF/trgoHcPGlsEO8AVh5Qm8MYfmR+yrH3FQtwM1sA6RJqr
+         Uja3dEz34voLGlMTv3Iem6PvPqUr2fFVfX68xL+BNSThY1YU3OyjHWtQ3hj3IOM3NdZ/
+         IOXemxBs7cYLHJGtoVlYbVBTO9F0WCFE3v74o1z3PrmNMqf7cA7IefSP90L9eXI8zCat
+         SHOMeTUQzRqtpbvFD/GIV55RrQc5L6DetlcR5OUDUGFZfiOnRxww2I1Ne8CDPepdnj3j
+         K14FKrOgO+j/7TJDKX2QVeYj9l+ctZo+aAJLXovy7g5nD8pUF22E2Pcokd51/33hZn64
+         Xmsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743677740; x=1744282540;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=sNlLWGdRtItnGdc2sw0oNRPSrhRzRsHpESstF1l2f68=;
+        b=WApbvSwSmSB6s4IHzUMM40Pc49oPAdMYheq4yn9o+iwoTiUS8qK5Nkluv0FYTiQdkl
+         y/24S4XaHB9RkYUyv2PLlRVPuA7CqxldOYKzoIkGIUcUXAoEP92KW+icHAeqtgroSc8r
+         7OagFnatpuahQ49PDgXetMsRFaCzzeLmpXmhv13HXue4TW5iKTIc6SCQ6Ac+qgcgzef5
+         PSoa2SSGUGDK+V7tEYOX2f51OBSMgyoelp3kWIHE+poKk0GGwhj2WQviZRNl960JiB59
+         Ourtgz+n5nVEqkxByqLpfff/sz2IA0/8y5jdCUgkr1UBOtq5elsDpH+VuwWYHYIA51Ph
+         NkUg==
+X-Forwarded-Encrypted: i=1; AJvYcCWHktD73tqkvcnr4kv4QYd4aCUDO8gddNGgb15thZI2TjM1oF1Y912i8XRYPoS9aoI/8vWTLnvfKBXrMB1p@vger.kernel.org, AJvYcCWcyauqcBpOPGY1/MrSZiTyd3XXrZBhne97GqNE/3AriT2NoOSCFFi9MSsZ74kVBf9tiBsDGC8Ryq8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwIiYOu3tfBQOvkA6A5f12Fy7t/bq4KELC2lxGB7A0qplrf5YLj
+	kMxqTOzFbHo6dLvyZK2bYk3AhUVGEfES0r/3qa30HvxCqjFRKJ6b
+X-Gm-Gg: ASbGncu22yro4iutw2+EJ50F1Ndjz0jCMTRwXGje+rxVMi4Nj4R/qE5S5AWIPDaU5mN
+	GQtofzLUxDmSfLmw/GHSqbt7w9j5Sf7YLdZBIqukXSO2fjodyk7y/ouA1WukpXVSqjYmzrfvxX8
+	GJ+IyUaex55VWPyFssk/JLmI2zeD7hjBKa1XwSoyuWk/sofD6st7t5Jrb9EhBGkJSEcF6Myrs6b
+	+0bRnWIj4oPIcj5q6dXEKDxY1XCw/NvPuKg7u3u8X0EmoVwWeVCKEynimGaRu+zQHz+kOpTxI1j
+	WMDmkmdb+Q+vyx6N6TbxBry+ofURVqAff/58NeBptJ+0
+X-Google-Smtp-Source: AGHT+IE+gQXleRkvfL/4cfdA5b6Dbr2fmsHTRHz18hvqGG9oy+QNiixivlKQms0BXRWQfa03q8a36w==
+X-Received: by 2002:a17:902:f54a:b0:220:d79f:60f1 with SMTP id d9443c01a7336-2292f9f2bdcmr292546445ad.42.1743677739427;
+        Thu, 03 Apr 2025 03:55:39 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297865e04bsm11402235ad.114.2025.04.03.03.55.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Apr 2025 03:55:38 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id EFE744208F7B; Thu, 03 Apr 2025 17:55:35 +0700 (WIB)
+Date: Thu, 3 Apr 2025 17:55:35 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: "Naveen N Rao (AMD)" <naveen@kernel.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>, Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, x86@kernel.org
+Subject: Re: [PATCH] Documentation/x86: Clarify naming of CPU features for
+ /proc/cpuinfo
+Message-ID: <Z-5pJ6iat-uptEh9@archie.me>
+References: <20250403094308.2297617-1-naveen@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-1685862956-1743677638=:1302"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="RhAAMdodC1OlX4rj"
+Content-Disposition: inline
+In-Reply-To: <20250403094308.2297617-1-naveen@kernel.org>
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323328-1685862956-1743677638=:1302
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+--RhAAMdodC1OlX4rj
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, 2 Apr 2025, Derek John Clark wrote:
+On Thu, Apr 03, 2025 at 03:13:08PM +0530, Naveen N Rao (AMD) wrote:
+>  If the comment on the line for the #define X86_FEATURE_* starts with a
+> -double-quote character (""), the string inside the double-quote characte=
+rs
+> -will be the name of the flags. For example, the flag "sse4_1" comes from
+> -the comment "sse4_1" following the X86_FEATURE_XMM4_1 definition.
+> +double-quote character (""), the string inside the double-quote characte=
+rs will
+                           "... the quoted string ..."
+> +be the name of the flag. For example, the flag "sse4_1" comes from the c=
+omment
+> +"sse4_1" following the X86_FEATURE_XMM4_1 definition. /proc/cpuinfo is a
+> +userspace interface and must remain constant. If, for some reason, the n=
+aming
+> +of X86_FEATURE_<name> changes, one shall retain the name already used in
+> +/proc/cpuinfo.
 
-> On Thu, Mar 27, 2025 at 6:56=E2=80=AFAM Ilpo J=C3=A4rvinen
-> <ilpo.jarvinen@linux.intel.com> wrote:
-> >
-> > On Mon, 17 Mar 2025, Derek J. Clark wrote:
-> >
-> > > Adds lenovo-wmi-gamezone driver which provides the Lenovo Gamezone WM=
-I
-> > > interface that comes on Lenovo "Gaming Series" hardware. Provides ACP=
-I
-> > > platform profiles over WMI.
-> > >
-> > > Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
-> >
-> > This has a few similar nits I flagged for the other patches but I won't
-> > mark them here again but please go through the patches to find similar
-> > cases.
-> >
-> > > ---
-> > > v4:
-> > > - Add notifier blocks for the Events and Other Mode drivers.
-> > > - Remove notifier block chain head and all reference to Thermal Mode
-> > >   Event GUID.
-> > > - Add header for Gamezone specific structs and functions.
-> > > - Various fixes from review.
-> > > v3:
-> > > - Use notifier chain to report platform profile changes to any
-> > >   subscribed drivers.
-> > > - Adds THERMAL_MODE_EVENT GUID and .notify function to trigger notifi=
-er
-> > >   chain.
-> > > - Adds support for Extreme Mode profile on supported hardware, as wel=
-l
-> > >   as a DMI quirk table for some devices that report extreme mode vers=
-ion
-> > >   support but so not have it fully implemented.
-> > > - Update to include recent changes to platform-profile.
-> > > v2:
-> > > - Use devm_kmalloc to ensure driver can be instanced, remove global
-> > >   reference.
-> > > - Ensure reverse Christmas tree for all variable declarations.
-> > > - Remove extra whitespace.
-> > > - Use guard(mutex) in all mutex instances, global mutex.
-> > > - Use pr_fmt instead of adding the driver name to each pr_err.
-> > > - Remove noisy pr_info usage.
-> > > - Rename gamezone_wmi to lenovo_wmi_gz_priv and gz_wmi to priv.
-> > > - Remove GZ_WMI symbol exporting.
-> > > ---
-> > >  MAINTAINERS                                |   2 +
-> > >  drivers/platform/x86/Kconfig               |  13 +
-> > >  drivers/platform/x86/Makefile              |   1 +
-> > >  drivers/platform/x86/lenovo-wmi-gamezone.c | 380 +++++++++++++++++++=
-++
-> > >  drivers/platform/x86/lenovo-wmi-gamezone.h |  18 +
-> > >  5 files changed, 414 insertions(+)
-> > >  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
-> > >  create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.h
-> > >
-
-> > > diff --git a/drivers/platform/x86/lenovo-wmi-gamezone.h b/drivers/pla=
-tform/x86/lenovo-wmi-gamezone.h
-> > > new file mode 100644
-> > > index 000000000000..ac536803160b
-> > > --- /dev/null
-> > > +++ b/drivers/platform/x86/lenovo-wmi-gamezone.h
-> > > @@ -0,0 +1,18 @@
-> > > +/* SPDX-License-Identifier: GPL-2.0-or-later
-> > > + *
-> > > + * Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
-> > > + *
-> > > + */
-> > > +
-> > > +#ifndef _LENOVO_WMI_GAMEZONE_H_
-> > > +#define _LENOVO_WMI_GAMEZONE_H_
-> > > +
-> > > +enum thermal_mode {
-> > > +     SMARTFAN_MODE_QUIET =3D 0x01,
-> > > +     SMARTFAN_MODE_BALANCED =3D 0x02,
-> > > +     SMARTFAN_MODE_PERFORMANCE =3D 0x03,
-> > > +     SMARTFAN_MODE_EXTREME =3D 0xE0, /* Ver 6+ */
-> > > +     SMARTFAN_MODE_CUSTOM =3D 0xFF,
-> > > +};
-> > > +
-> > > +#endif /* !_LENOVO_WMI_GAMEZONE_H_ */
-> > >
-> >
-> > Are these going the be used by other .c files?
-> >
->=20
-> They are used across different c files in this series. The
-> lenovo-wmi-other driver uses every header.
-
-Oh, how can this then be the last patch of the series???
-
-Won't the build fail before this patch for lenovo-wmi-other.c?
+Thanks.
 
 --=20
- i.
+An old man doll... just what I always wanted! - Clara
 
---8323328-1685862956-1743677638=:1302--
+--RhAAMdodC1OlX4rj
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ+5pJwAKCRD2uYlJVVFO
+o4VoAP9Dd/u1PorFRyEC/XHLuijWLg32I7km53KfdYi9N6GsvAEAl+P9pwvFptaG
+Se86hcc9DINWnPrw3KXrBBvZx2L9tQU=
+=F0td
+-----END PGP SIGNATURE-----
+
+--RhAAMdodC1OlX4rj--
