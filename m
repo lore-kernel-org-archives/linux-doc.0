@@ -1,190 +1,93 @@
-Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com [209.85.210.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5B81514F6;
-	Thu,  3 Apr 2025 16:32:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6882512CC
+	for <linux-doc@vger.kernel.org>; Thu,  3 Apr 2025 16:48:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743697969; cv=none; b=LikbNK0uItllGgRb7oPFcrUgIvz3fkqA38X1u2oe7+h5cSWrQqBski2VDh52YTUSFVqromWOg9oNE5JDvKbzymIvHbOiu1cm/jfRcml4WrRNGjNdbu1Kg0lJgLW1JOJPaFpkI9p5KwtNkaICdw37GAvBJSoZ8TfoDnX2N/lukSY=
+	t=1743698894; cv=none; b=ROWFIwVhT1E3M8//lHSjrE0vLzwRjoJvbA82uvXoS3ehuYRWF+r6U/HvaRYZ0P5930JcNn/QsfvE5AZ2ZBCy1PcPpP/cSg0aL/2oSb8bkIY4kArKRzK0IctGTdnCM3P+bfq3xoaAZz2PSIih2Ww+bW0H6nNWeG3NouejyvZiR+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743697969; c=relaxed/simple;
-	bh=nMCJUD39JxPn8sbGvbI/xrwFl+jsJVFVNZQe/Lk07E8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qYa5JxHeU1pqTPoU3a/j03yXve0dFm6PXluDnaYdPy2Wc+42fvXAGqi+kKzSfkVd+zxXxDYJmW+tu5cyBe34OaVEp8aACJoePizVZqccpYmgyhJCB7QxbpFZMI+sms3OzJ2A7Ye55L15hqe4jPKeFvBLeFYR9a4UvYalkphYMRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGqtQ+cE; arc=none smtp.client-ip=209.85.215.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743698894; c=relaxed/simple;
+	bh=4wuv9Dt/9rj9cF2a6+xai4em1wNvUS1HPV5q6UbrWUc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=BDugB5TiVZaCCU6PAiJVpZl04ueqfUc1MvF+4wVArkNTpi5NULtBW9T8G9XnntES+xOlYDr9g+HYY6wSuDJCfjwxAcMCojUPpAhUGPmFff95tqgKzYjMs8u3PrMnhV48I4I0io4sHXKKDTwnxcVZCaX7CJY2tY3KDgCSrktK9lI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=I3i1n9Mw; arc=none smtp.client-ip=209.85.210.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGqtQ+cE"
-Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-af241f0a4beso1020305a12.2;
-        Thu, 03 Apr 2025 09:32:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="I3i1n9Mw"
+Received: by mail-ot1-f47.google.com with SMTP id 46e09a7af769-72c3b863b8eso764007a34.2
+        for <linux-doc@vger.kernel.org>; Thu, 03 Apr 2025 09:48:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743697966; x=1744302766; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=7KJdAxOd/G0iqxROXI10DaNI9IIAFwi2MfAijcTTkYc=;
-        b=WGqtQ+cEdySJ6D2gzXYfXDcw/u+jYnwq8P5lpFeXUUdyyrQdmiIr4yk7SjI4fT8/iy
-         3x0Z6+01oJZl4bgqY3M4edE5APuKFy9sUXWwWHq0oAYCXW8NbrdljBdkXy+8shn1eNeD
-         cIcutsXNStFblFrk4+JmFGf7a2NgaUHFMiM5hRjRbIDAKKx4xusMfsN+qcOqB4Be2NHe
-         7XC4H4+oO05SAPyINxO9Qt0YV+VrTSjKFd+hZZ1fHqLTGWFRlHNAt+gLkBLQ9qZSqN+D
-         PtpwNdCTxuKJ8yNHgI7NaOBg4eTmJsjmqluy7namlvYXZ8cuV3V607r3CNVZKlCwOM0B
-         T3KQ==
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743698890; x=1744303690; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=YSC+FUFy0d9lpIsypY5Nl8Mx6gi/Bcekgwf80nw84HU=;
+        b=I3i1n9MwCbrlxICsFt+cvK6O+W9NjVOn+9VoukT2RXByhIBHiCtcZ23dCHs0WUzMwf
+         fokR4pphQR0FTr+wpqfty3N0QwMNau8SwRYJMPT39egB/8aIXvl6HuRk4qAAt1L5j08J
+         2+wt73oTEvRjlo/2e7Wrd+z3bTlOTXBLwRDHG9C6sMnfN613s/KEhc3D1zHl26yKz59K
+         Vqzp2YWHIzJWI5eD1QrWmZhqAs39Wi0/Wgc1V+ppEl4AC4uo6GQtnswEtt+CzaNTjiLE
+         3FTOlhsW+7ECI+p8evg66aC6ezgw6B78+gzUqW8RtUnXTX6BoIp+ZDNWPZ3a509rKBvr
+         XqcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743697966; x=1744302766;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=7KJdAxOd/G0iqxROXI10DaNI9IIAFwi2MfAijcTTkYc=;
-        b=ZZDyyAJg2pnNdmykSkITwfqWbRdhsJsGHp6oUoxw6HeQeL9ACPzy384bB0/OUbQiBQ
-         +UMIXKGabicsz3/U2gIINBTob0r/acKJXMI2ku6UFnfwChhVOdTJRBVaFfvwl97VTLxY
-         fnlRh+0cSU44ATutZW3fWU87B2VnXsXAwP0rTFOb6Sf0DyVr6OSKGUOwWN3KuMBzMkKj
-         F8K6S3wo2SAoR5ucjpzx2/RjWBkJKMNdLxpLjTtoLZ/+tX4RX20XVjkvL5PqVr1LhMz3
-         v6iw71d21d/4gqNW0O/w5oY0lkbNxDI/lkg75eKbOjHeqLRrLUxn3RejKZWCMnbY9/Tp
-         /KWg==
-X-Forwarded-Encrypted: i=1; AJvYcCU1Xn+5W62idSAiRWgjb7GissTFbUzYEEDmxQi1eeTnVXVWGLcmhFDecuGT7y9Sx2rIMXvTwgtX2XeHpIE=@vger.kernel.org, AJvYcCWGabrbfpVeNmmuEYATi1RRCJXuz3OvVbIIZwj+RaOFej/XWVKaE4j25vMkt0Lo1vHvXgGwGibaRuU=@vger.kernel.org, AJvYcCXeewcdku5EvOVK9ObiXJZMOTt9coMh54n7AjINEJFHEQKcNkddX2A3nFeNm9614mShOfdVWRUFj9WY@vger.kernel.org, AJvYcCXevtq/rfbDC+XIqUO6COfbTAGxcvtikJ5gLindUR99hQB4wJ1jBNkRWiMtRlsSLIDZKpIF96V48N0OnIbK@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzc561kOmUAinADvKqVmtR/JUoEnHBlncZtEbPYfdsGCEyIDyw0
-	mlkk1G5KLgOY0JPCGZs2jctm3z11d0J/UZIRmtiYRc53HDistaHr
-X-Gm-Gg: ASbGncv3rzoMWKO/EJ+VT7scJnSuISbMxPFCvjuk6K0VldaOENo+etEr98Sse7LTRdf
-	LtT1RsEhkU1s6s+TxsiINS+WyGaZkfR+HjHBnhrzibc0lL34AEbpIZHJ7accBcLZkqkdAQKADWK
-	GGPoIlmJuo0a0+WOSP2XVdSCf0jQnMNYU3UT1LaZJJXfRAfuS8ar7Me+uEUfr/am3VsBAFxoK3t
-	r4mUiOu+43A6EDJt2AQjvtlSDWMYRO4d0i8mrW9BMYa6Qtvbp42Rwy7HIzBJIko+ZZ/20/jfA1/
-	8KGaV+Fzl6k1AZ7X6cLcYZGNXsWUiFqSZMHOx69EQtMdL3NVm6Ux9HeIGg==
-X-Google-Smtp-Source: AGHT+IGNyHx4nxR5tTiooAyFc+8Sh9HpSHaXhwKL4UKkSQzlutFbKuE/+7rfXHqUXEHQgUx/tXZDIA==
-X-Received: by 2002:a05:6a21:1583:b0:1f5:7eee:bb10 with SMTP id adf61e73a8af0-20104598389mr113569637.8.1743697966408;
-        Thu, 03 Apr 2025 09:32:46 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc40098dsm1448971a12.48.2025.04.03.09.32.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 09:32:45 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Thu, 3 Apr 2025 09:32:44 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/max34440): Fix support for max34451
-Message-ID: <2234425e-b676-4564-96c6-57c0a635292c@roeck-us.net>
-References: <20250403-dev_adpm12160-v2-0-bbf40faae988@analog.com>
- <20250403-dev_adpm12160-v2-1-bbf40faae988@analog.com>
+        d=1e100.net; s=20230601; t=1743698891; x=1744303691;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=YSC+FUFy0d9lpIsypY5Nl8Mx6gi/Bcekgwf80nw84HU=;
+        b=d5yO5crd6d3OXJOUuxyPJlpft0ZsETcUhmuihomNFUELPFh6SDq5s2a9zWptlpDHRo
+         XNVV8Xgq2/a928AtXo+i3FiTnXO0M3TBwmGh5frVWcd0GpFkMhoepdoMp4zJ78up0hsR
+         S+pcTMnP56N3lpUAqPRorfwnbGJhBcvzrrtQYpRERKlWgPDXRUsf4GQV/M95wAamtJ4C
+         D5WwOxq08on+OsS83K69eb++w58IVuukjr+0eL+lczzwXsqKSo0x4uEZYS99PwBQbeZE
+         Nb393ZZ6tqiB6STO0j6nP5cgi8tbUS8nRggCijk6a5UTxI1UJDXkoAOP9HANlJ3GbqOy
+         l8yw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8Y8xilhQyp6KtZ+oHY4i1EpLBD/0OvxeFWHxuASNc4fUlKBbiQD2/27CBVovyuJyhxyMbwncKOzo=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz6xrL4hEXJ0g8G6mEjaSU7A+OfxcmfRoPFf5i+sPh8jb9keer/
+	jAWx9gmNysHCBCO135RbMDfVKnXJbrdUkq07BibQHOG1bmC7mgtSM6UlwKj9piU=
+X-Gm-Gg: ASbGncs1bbhPjKtJ7dHYrpUFSkLVm3Cs+BCtX7A1FZyhzamSvuWHEkhVoD4b951Cfjh
+	j5HY0cYgXZSxDbN7KGxiBgO1vpSl2SDPv/gNH8Dzv/h2vf8r9xfeqXu0Q1B5qUq94wWpSBnCoW4
+	1swIVA+gR3LsWv5fJju5fraqeehB/hx1mgCUCDEw7z1lLqnYQGdDRsBcF4dYWzREwGfIWeigVl9
+	YCuDPpoDH+Yo5CpJveaMCpj5YrLZd8af7GWzjYkLyH/Hefrzv8FFsnfa65sGvj5P5gtMHlWXqH4
+	kGyVVKkRgHgpP1nsdP2fuJLHuQtZhB1URaDWGbD+8qy2oonkZrRZnrBiV04xRxwesx9QzcUiqb0
+	qOav7Zw==
+X-Google-Smtp-Source: AGHT+IHMO8mKj7XI4u0FpdUX8+XWGlKjBQ/8BZn9Gd3V/HfCKgUeXNkn3/hksONPqG77YFoErY/6nA==
+X-Received: by 2002:a05:6830:4987:b0:72a:1d2a:4acf with SMTP id 46e09a7af769-72e3696f946mr147011a34.17.1743698890734;
+        Thu, 03 Apr 2025 09:48:10 -0700 (PDT)
+Received: from [192.168.0.113] (ip98-183-112-25.ok.ok.cox.net. [98.183.112.25])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-72e30511237sm281580a34.15.2025.04.03.09.48.09
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Apr 2025 09:48:10 -0700 (PDT)
+Message-ID: <c146175f-6a21-4039-8c81-5933a9ef5ef6@baylibre.com>
+Date: Thu, 3 Apr 2025 11:48:09 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250403-dev_adpm12160-v2-1-bbf40faae988@analog.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/3] iio: ad7606: add SPI offload support
+To: Angelo Dureghello <adureghello@baylibre.com>,
+ Lars-Peter Clausen <lars@metafoo.de>,
+ Michael Hennerich <Michael.Hennerich@analog.com>,
+ Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
+Content-Language: en-US
+From: David Lechner <dlechner@baylibre.com>
+In-Reply-To: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, Apr 03, 2025 at 01:16:18PM +0800, Alexis Czezar Torreno wrote:
-> The max344** family has an issue with some PMBUS address being switched.
-> This includes max34451 however version MAX34451-NA6 and later has this
-> issue fixed and this commit supports that update.
+On 4/3/25 11:19 AM, Angelo Dureghello wrote:
+> Add SPI offload support for the ad7606 ADC.
 > 
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
 > ---
->  drivers/hwmon/pmbus/max34440.c | 55 +++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 51 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/hwmon/pmbus/max34440.c b/drivers/hwmon/pmbus/max34440.c
-> index c9dda33831ff24e7b5e2fd1956a65e6bd2bfcbb9..585746806663409bc97042647f6c0aba4c6f520a 100644
-> --- a/drivers/hwmon/pmbus/max34440.c
-> +++ b/drivers/hwmon/pmbus/max34440.c
-> @@ -34,16 +34,22 @@ enum chips { max34440, max34441, max34446, max34451, max34460, max34461 };
->  /*
->   * The whole max344* family have IOUT_OC_WARN_LIMIT and IOUT_OC_FAULT_LIMIT
->   * swapped from the standard pmbus spec addresses.
-> + * For max34451, version MAX34451ETNA6+ and later has this issue fixed.
->   */
->  #define MAX34440_IOUT_OC_WARN_LIMIT	0x46
->  #define MAX34440_IOUT_OC_FAULT_LIMIT	0x4A
->  
-> +#define MAX34451ETNA6_MFR_REV		0x0012
-> +
->  #define MAX34451_MFR_CHANNEL_CONFIG	0xe4
->  #define MAX34451_MFR_CHANNEL_CONFIG_SEL_MASK	0x3f
->  
->  struct max34440_data {
->  	int id;
->  	struct pmbus_driver_info info;
-> +	bool pmbus_addr_fixed;
 
-Unnecessary. See below.
+Reviewed-by: David Lechner <dlechner@baylibre.com>
 
-> +	u32 iout_oc_warn_limit;
-> +	u32 iout_oc_fault_limit;
-
-u8 would be sufficient.
-
->  };
->  
->  #define to_max34440_data(x)  container_of(x, struct max34440_data, info)
-> @@ -60,11 +66,11 @@ static int max34440_read_word_data(struct i2c_client *client, int page,
->  	switch (reg) {
->  	case PMBUS_IOUT_OC_FAULT_LIMIT:
->  		ret = pmbus_read_word_data(client, page, phase,
-> -					   MAX34440_IOUT_OC_FAULT_LIMIT);
-> +					   data->iout_oc_fault_limit);
->  		break;
->  	case PMBUS_IOUT_OC_WARN_LIMIT:
->  		ret = pmbus_read_word_data(client, page, phase,
-> -					   MAX34440_IOUT_OC_WARN_LIMIT);
-> +					   data->iout_oc_warn_limit);
->  		break;
->  	case PMBUS_VIRT_READ_VOUT_MIN:
->  		ret = pmbus_read_word_data(client, page, phase,
-> @@ -133,11 +139,11 @@ static int max34440_write_word_data(struct i2c_client *client, int page,
->  
->  	switch (reg) {
->  	case PMBUS_IOUT_OC_FAULT_LIMIT:
-> -		ret = pmbus_write_word_data(client, page, MAX34440_IOUT_OC_FAULT_LIMIT,
-> +		ret = pmbus_write_word_data(client, page, data->iout_oc_fault_limit,
->  					    word);
->  		break;
->  	case PMBUS_IOUT_OC_WARN_LIMIT:
-> -		ret = pmbus_write_word_data(client, page, MAX34440_IOUT_OC_WARN_LIMIT,
-> +		ret = pmbus_write_word_data(client, page, data->iout_oc_warn_limit,
->  					    word);
->  		break;
->  	case PMBUS_VIRT_RESET_POUT_HISTORY:
-> @@ -235,6 +241,24 @@ static int max34451_set_supported_funcs(struct i2c_client *client,
->  	 */
->  
->  	int page, rv;
-> +	bool max34451_na6 = false;
-> +
-> +	rv = i2c_smbus_read_word_data(client, PMBUS_MFR_REVISION);
-> +	if (rv < 0)
-> +		return rv;
-> +
-> +	if (rv == MAX34451ETNA6_MFR_REV) {
-
-Sure that this is only one revision ?
-Would it be better to use ">=" instead of "==" ?
-
-> +		max34451_na6 = true;
-> +		data->pmbus_addr_fixed = true;
-> +		data->info.format[PSC_VOLTAGE_IN] = direct;
-> +		data->info.format[PSC_CURRENT_IN] = direct;
-> +		data->info.m[PSC_VOLTAGE_IN] = 1;
-> +		data->info.b[PSC_VOLTAGE_IN] = 0;
-> +		data->info.R[PSC_VOLTAGE_IN] = 3;
-> +		data->info.m[PSC_CURRENT_IN] = 1;
-> +		data->info.b[PSC_CURRENT_IN] = 0;
-> +		data->info.R[PSC_CURRENT_IN] = 2;
-
-Assign register addresses directly here.
-
-		data->iout_oc_fault_limit = PMBUS_IOUT_OC_FAULT_LIMIT;
-		data->iout_oc_warn_limit = PMBUS_IOUT_OC_WARN_LIMIT;
-	} else {
-		data->iout_oc_fault_limit = MAX34440_IOUT_OC_FAULT_LIMIT;
-		data->iout_oc_warn_limit = MAX34440_IOUT_OC_WARN_LIMIT;
-
-> +	}
-
-Thanks,
-Guenter
