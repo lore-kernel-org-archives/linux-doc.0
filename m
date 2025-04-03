@@ -1,649 +1,190 @@
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1399825179E
-	for <linux-doc@vger.kernel.org>; Thu,  3 Apr 2025 16:20:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F5B81514F6;
+	Thu,  3 Apr 2025 16:32:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743697234; cv=none; b=CzLCNMiObe2mYFF9RPOcczqvtQfmZA7EMcctYhvIDVOPzR7WywzHeaZmSdlLyfKDTxJYjR7fh1rVQUMWsZ1tZgz208hp1nHdnw6FSpO/s/dzEuC7JzQgIhZtTA259aD7oKhJIwZly8RspDuhtI9Obm8xC880tD6wbERMmy89rrU=
+	t=1743697969; cv=none; b=LikbNK0uItllGgRb7oPFcrUgIvz3fkqA38X1u2oe7+h5cSWrQqBski2VDh52YTUSFVqromWOg9oNE5JDvKbzymIvHbOiu1cm/jfRcml4WrRNGjNdbu1Kg0lJgLW1JOJPaFpkI9p5KwtNkaICdw37GAvBJSoZ8TfoDnX2N/lukSY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743697234; c=relaxed/simple;
-	bh=GAuwtVV2LPz6cQ7YQ57GL+yH6PAnOCH4FqR/ZBoZFx8=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Wk5Fyf61IQkJ3ayZVLCTgBPPeQEcSLvxG30z1Qn1BLmg8ERbHUMxD1CQCFsw/oiMyP059+1W3IWTWceGuSjvDQLv62r5SgrEc9z5BK8eb4+GXMgZUsGpKC2BB714jQNLsfKJCIHe2FdVzHMMPym1mKPAM+HQF6uoBxdStofYiwA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=TcThyohW; arc=none smtp.client-ip=209.85.128.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1743697969; c=relaxed/simple;
+	bh=nMCJUD39JxPn8sbGvbI/xrwFl+jsJVFVNZQe/Lk07E8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qYa5JxHeU1pqTPoU3a/j03yXve0dFm6PXluDnaYdPy2Wc+42fvXAGqi+kKzSfkVd+zxXxDYJmW+tu5cyBe34OaVEp8aACJoePizVZqccpYmgyhJCB7QxbpFZMI+sms3OzJ2A7Ye55L15hqe4jPKeFvBLeFYR9a4UvYalkphYMRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WGqtQ+cE; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="TcThyohW"
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cf05f0c3eso7242535e9.0
-        for <linux-doc@vger.kernel.org>; Thu, 03 Apr 2025 09:20:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WGqtQ+cE"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-af241f0a4beso1020305a12.2;
+        Thu, 03 Apr 2025 09:32:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743697230; x=1744302030; darn=vger.kernel.org;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+        d=gmail.com; s=20230601; t=1743697966; x=1744302766; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=4TfY4qSk60hX3lLReIodKR9Eo5X5vrCTMKVPYT7mkh8=;
-        b=TcThyohWsd9nE11N9Tb7t+NaAEWUfNZgcjfQH3J8A9QxE4Sl5ekYHuPkFJPb6hxpRt
-         yL4Gju40zSP84rm067YWflR8cMUXvd7EiWu3LoFY+iAHcSnw3VvVEJESkew4g2OUNbI1
-         hqM8gKRwDdadQBde/vdsmKiOHnS5Jdu4zxdXe6/IXRtVi2/oaEiv5QlUeONLunAP1tXI
-         +ObFPLziJglA4oHC4N6x9BnNzKvnVLUx+E7VzQN0kOrIio+FwPHatBMYtD0pVAvcei3N
-         nWnmqMFpRAMnFBifBRmDLU5wfQDplf73CnVBjyctVAzbSCDBxAFYKoHnJNkqZ+hyNWcC
-         Telg==
+        bh=7KJdAxOd/G0iqxROXI10DaNI9IIAFwi2MfAijcTTkYc=;
+        b=WGqtQ+cEdySJ6D2gzXYfXDcw/u+jYnwq8P5lpFeXUUdyyrQdmiIr4yk7SjI4fT8/iy
+         3x0Z6+01oJZl4bgqY3M4edE5APuKFy9sUXWwWHq0oAYCXW8NbrdljBdkXy+8shn1eNeD
+         cIcutsXNStFblFrk4+JmFGf7a2NgaUHFMiM5hRjRbIDAKKx4xusMfsN+qcOqB4Be2NHe
+         7XC4H4+oO05SAPyINxO9Qt0YV+VrTSjKFd+hZZ1fHqLTGWFRlHNAt+gLkBLQ9qZSqN+D
+         PtpwNdCTxuKJ8yNHgI7NaOBg4eTmJsjmqluy7namlvYXZ8cuV3V607r3CNVZKlCwOM0B
+         T3KQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743697230; x=1744302030;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1743697966; x=1744302766;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=4TfY4qSk60hX3lLReIodKR9Eo5X5vrCTMKVPYT7mkh8=;
-        b=NtKSQBywRoM/RnymWfoyqzwUl6g6NdRO+WDZaHE6xJzbZAWDn2osZMylhatwyeyj0S
-         UJmbz9bp/CK5ySxt80rkO7hu5GmfdpJLptGIFEH9b1Lis73owYz8urYUFuU9pJ4NPNcs
-         YnvoW1IDAeEyPr0Ea3zAykeOM6f0mg67jTqhyRvIuwUChtdiAcCgmDj0JbuyIiKBLJWf
-         wgfiMya23Q3gyFCE6i7OPq5Oo8mw10bvEn/uQSJcbq5fkANekzJcyfL7mf00FgXIGBq1
-         fr626JTIbGeVy2hUd5JniQArbwi4dC5dXBXReV8vap7jgxzjg0iGgLNUE12kTJry2Zvs
-         K4Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCXhKi4B73dBAoBxLZuxSHFXqGeWZCCHvmbDuXxgDcWNat3+xR0GlG1LsMEMVdjMJvMG8LEjsSDBsXQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxdyW8UqLxkpPIKXBOP/jdOEfshGBGZF26biYTwnrfo1Lc8Hqj0
-	PQ1r2Ld1F+jVlSOTKMe54LiCnhOsQBQKN2jnYTY1fIFYpc54mW06cQXgIM1aQVo=
-X-Gm-Gg: ASbGncu9Jp0r5fUAdvLQc72PDub7HcdTDf9gZEhSzsEMptbfMh8CCeXZH3CjHfd00B2
-	JPIbgcvk3j/VDHyYiu0W+CBLMPjuhGmVjmvC8ebZLHBE/a+6Saw/mt8BDxK8FjsiauJWRbJFIlI
-	ePYIV/2LuSdz9YSyD0aad36GgDVXIXgljU2OINPLsU/jbypNmRPTp6y2lgT1YmwR+Vqum4B7F0l
-	junE/VJKlhQN618tJZzgHYx67DPlVF8Eu3oIlpiFtiojf/7t3AUKhZctZO0ZoNEYTydJ0wyAatr
-	ceHiebN0HuEDgexwAZ9FLlJEJsEBshL5n7yyRA/fLpk6w+0bllXpn2ubP2HvaXb2fOl1c+kj5XE
-	E6scaeZjyr3tTX+AZ63NcYQ==
-X-Google-Smtp-Source: AGHT+IF8xYIBszIt76N3/Vj2/PAhkC7PlGgmLrnJ+KJlZmDpzXDRD/T6jtosHO8b5MQ8RilTZSurvg==
-X-Received: by 2002:a05:600c:3547:b0:439:86fb:7340 with SMTP id 5b1f17b1804b1-43eb06bd359mr95792075e9.30.1743697230016;
-        Thu, 03 Apr 2025 09:20:30 -0700 (PDT)
-Received: from [192.168.0.2] (host-79-30-116-65.retail.telecomitalia.it. [79.30.116.65])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d68esm2197657f8f.67.2025.04.03.09.20.28
+        bh=7KJdAxOd/G0iqxROXI10DaNI9IIAFwi2MfAijcTTkYc=;
+        b=ZZDyyAJg2pnNdmykSkITwfqWbRdhsJsGHp6oUoxw6HeQeL9ACPzy384bB0/OUbQiBQ
+         +UMIXKGabicsz3/U2gIINBTob0r/acKJXMI2ku6UFnfwChhVOdTJRBVaFfvwl97VTLxY
+         fnlRh+0cSU44ATutZW3fWU87B2VnXsXAwP0rTFOb6Sf0DyVr6OSKGUOwWN3KuMBzMkKj
+         F8K6S3wo2SAoR5ucjpzx2/RjWBkJKMNdLxpLjTtoLZ/+tX4RX20XVjkvL5PqVr1LhMz3
+         v6iw71d21d/4gqNW0O/w5oY0lkbNxDI/lkg75eKbOjHeqLRrLUxn3RejKZWCMnbY9/Tp
+         /KWg==
+X-Forwarded-Encrypted: i=1; AJvYcCU1Xn+5W62idSAiRWgjb7GissTFbUzYEEDmxQi1eeTnVXVWGLcmhFDecuGT7y9Sx2rIMXvTwgtX2XeHpIE=@vger.kernel.org, AJvYcCWGabrbfpVeNmmuEYATi1RRCJXuz3OvVbIIZwj+RaOFej/XWVKaE4j25vMkt0Lo1vHvXgGwGibaRuU=@vger.kernel.org, AJvYcCXeewcdku5EvOVK9ObiXJZMOTt9coMh54n7AjINEJFHEQKcNkddX2A3nFeNm9614mShOfdVWRUFj9WY@vger.kernel.org, AJvYcCXevtq/rfbDC+XIqUO6COfbTAGxcvtikJ5gLindUR99hQB4wJ1jBNkRWiMtRlsSLIDZKpIF96V48N0OnIbK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzc561kOmUAinADvKqVmtR/JUoEnHBlncZtEbPYfdsGCEyIDyw0
+	mlkk1G5KLgOY0JPCGZs2jctm3z11d0J/UZIRmtiYRc53HDistaHr
+X-Gm-Gg: ASbGncv3rzoMWKO/EJ+VT7scJnSuISbMxPFCvjuk6K0VldaOENo+etEr98Sse7LTRdf
+	LtT1RsEhkU1s6s+TxsiINS+WyGaZkfR+HjHBnhrzibc0lL34AEbpIZHJ7accBcLZkqkdAQKADWK
+	GGPoIlmJuo0a0+WOSP2XVdSCf0jQnMNYU3UT1LaZJJXfRAfuS8ar7Me+uEUfr/am3VsBAFxoK3t
+	r4mUiOu+43A6EDJt2AQjvtlSDWMYRO4d0i8mrW9BMYa6Qtvbp42Rwy7HIzBJIko+ZZ/20/jfA1/
+	8KGaV+Fzl6k1AZ7X6cLcYZGNXsWUiFqSZMHOx69EQtMdL3NVm6Ux9HeIGg==
+X-Google-Smtp-Source: AGHT+IGNyHx4nxR5tTiooAyFc+8Sh9HpSHaXhwKL4UKkSQzlutFbKuE/+7rfXHqUXEHQgUx/tXZDIA==
+X-Received: by 2002:a05:6a21:1583:b0:1f5:7eee:bb10 with SMTP id adf61e73a8af0-20104598389mr113569637.8.1743697966408;
+        Thu, 03 Apr 2025 09:32:46 -0700 (PDT)
+Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-af9bc40098dsm1448971a12.48.2025.04.03.09.32.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 09:20:29 -0700 (PDT)
-From: Angelo Dureghello <adureghello@baylibre.com>
-X-Google-Original-From: Angelo Dureghello <adureghello@baylibre.org>
-Date: Thu, 03 Apr 2025 18:19:06 +0200
-Subject: [PATCH 3/3] iio: adc: ad7606: add SPI offload support
+        Thu, 03 Apr 2025 09:32:45 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Date: Thu, 3 Apr 2025 09:32:44 -0700
+From: Guenter Roeck <linux@roeck-us.net>
+To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
+	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/max34440): Fix support for max34451
+Message-ID: <2234425e-b676-4564-96c6-57c0a635292c@roeck-us.net>
+References: <20250403-dev_adpm12160-v2-0-bbf40faae988@analog.com>
+ <20250403-dev_adpm12160-v2-1-bbf40faae988@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250403-wip-bl-spi-offload-ad7606-v1-3-1b00cb638b12@baylibre.com>
-References: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
-In-Reply-To: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
-To: Lars-Peter Clausen <lars@metafoo.de>, 
- Michael Hennerich <Michael.Hennerich@analog.com>, 
- Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- David Lechner <dlechner@baylibre.com>
-Cc: Michael Hennerich <michael.hennerich@analog.com>, 
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Angelo Dureghello <adureghello@baylibre.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=19074;
- i=adureghello@baylibre.com; h=from:subject:message-id;
- bh=sTlXALFQnPjy07d36wd4636kyW9SEMVlwtfX04R/tNc=;
- b=owGbwMvMwCXGf3bn1e/btlsznlZLYkh/t5Up+LqA22x+LxZdISUx9X+Muh826k2c5qu7nOGOy
- hxb3imxHaUsDGJcDLJiiix1iREmobdDpZQXMM6GmcPKBDKEgYtTACZycBkjw8foP32eVS3P20PU
- dvNb/Hhc2yCb3XZmjz0zw4qeWVMYTRkZ3m1s/eHCrOEaaLm08c/Rbi6nBLY/Ww+0LZtRdGnK57O
- HmAE=
-X-Developer-Key: i=adureghello@baylibre.com; a=openpgp;
- fpr=703CDFAD8B573EB00850E38366D1CB9419AF3953
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250403-dev_adpm12160-v2-1-bbf40faae988@analog.com>
 
-From: Angelo Dureghello <adureghello@baylibre.com>
+On Thu, Apr 03, 2025 at 01:16:18PM +0800, Alexis Czezar Torreno wrote:
+> The max344** family has an issue with some PMBUS address being switched.
+> This includes max34451 however version MAX34451-NA6 and later has this
+> issue fixed and this commit supports that update.
+> 
+> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+> ---
+>  drivers/hwmon/pmbus/max34440.c | 55 +++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 51 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/hwmon/pmbus/max34440.c b/drivers/hwmon/pmbus/max34440.c
+> index c9dda33831ff24e7b5e2fd1956a65e6bd2bfcbb9..585746806663409bc97042647f6c0aba4c6f520a 100644
+> --- a/drivers/hwmon/pmbus/max34440.c
+> +++ b/drivers/hwmon/pmbus/max34440.c
+> @@ -34,16 +34,22 @@ enum chips { max34440, max34441, max34446, max34451, max34460, max34461 };
+>  /*
+>   * The whole max344* family have IOUT_OC_WARN_LIMIT and IOUT_OC_FAULT_LIMIT
+>   * swapped from the standard pmbus spec addresses.
+> + * For max34451, version MAX34451ETNA6+ and later has this issue fixed.
+>   */
+>  #define MAX34440_IOUT_OC_WARN_LIMIT	0x46
+>  #define MAX34440_IOUT_OC_FAULT_LIMIT	0x4A
+>  
+> +#define MAX34451ETNA6_MFR_REV		0x0012
+> +
+>  #define MAX34451_MFR_CHANNEL_CONFIG	0xe4
+>  #define MAX34451_MFR_CHANNEL_CONFIG_SEL_MASK	0x3f
+>  
+>  struct max34440_data {
+>  	int id;
+>  	struct pmbus_driver_info info;
+> +	bool pmbus_addr_fixed;
 
-Add SPI offload support for this family.
+Unnecessary. See below.
 
-Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
----
- drivers/iio/adc/Kconfig      |   2 +
- drivers/iio/adc/ad7606.c     |  50 ++++++++---
- drivers/iio/adc/ad7606.h     |  12 +++
- drivers/iio/adc/ad7606_spi.c | 210 +++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 264 insertions(+), 10 deletions(-)
+> +	u32 iout_oc_warn_limit;
+> +	u32 iout_oc_fault_limit;
 
-diff --git a/drivers/iio/adc/Kconfig b/drivers/iio/adc/Kconfig
-index 859c77f40f1d1893d0fc92212ad538150f0992c8..df90db609f683217cffaeb605aa9b6f022cf2b9b 100644
---- a/drivers/iio/adc/Kconfig
-+++ b/drivers/iio/adc/Kconfig
-@@ -284,6 +284,8 @@ config AD7606_IFACE_SPI
- 	tristate "Analog Devices AD7606 ADC driver with spi interface support"
- 	depends on SPI
- 	select AD7606
-+	select IIO_BUFFER_DMAENGINE
-+	select SPI_OFFLOAD
- 	help
- 	  Say yes here to build spi interface support for Analog Devices:
- 	  ad7605-4, ad7606, ad7606-6, ad7606-4 analog to digital converters (ADC).
-diff --git a/drivers/iio/adc/ad7606.c b/drivers/iio/adc/ad7606.c
-index 843c30fddc7346d0dec7d791e26ca16e2c1ea0cf..aa6ae2c1b06acfa5d38229827e37fed1c2f82870 100644
---- a/drivers/iio/adc/ad7606.c
-+++ b/drivers/iio/adc/ad7606.c
-@@ -138,6 +138,7 @@ const struct ad7606_chip_info ad7606_6_info = {
- 	.oversampling_avail = ad7606_oversampling_avail,
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7606_16bit_chan_scale_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7606_6_info, "IIO_AD7606");
- 
-@@ -149,6 +150,7 @@ const struct ad7606_chip_info ad7606_4_info = {
- 	.oversampling_avail = ad7606_oversampling_avail,
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7606_16bit_chan_scale_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7606_4_info, "IIO_AD7606");
- 
-@@ -161,6 +163,7 @@ const struct ad7606_chip_info ad7606b_info = {
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7606_16bit_chan_scale_setup,
- 	.sw_setup_cb = ad7606b_sw_mode_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7606b_info, "IIO_AD7606");
- 
-@@ -173,6 +176,7 @@ const struct ad7606_chip_info ad7606c_16_info = {
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7606c_16bit_chan_scale_setup,
- 	.sw_setup_cb = ad7606b_sw_mode_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7606c_16_info, "IIO_AD7606");
- 
-@@ -184,6 +188,7 @@ const struct ad7606_chip_info ad7607_info = {
- 	.oversampling_avail = ad7606_oversampling_avail,
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7607_chan_scale_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7607_info, "IIO_AD7606");
- 
-@@ -195,6 +200,7 @@ const struct ad7606_chip_info ad7608_info = {
- 	.oversampling_avail = ad7606_oversampling_avail,
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7608_chan_scale_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7608_info, "IIO_AD7606");
- 
-@@ -206,6 +212,7 @@ const struct ad7606_chip_info ad7609_info = {
- 	.oversampling_avail = ad7606_oversampling_avail,
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7609_chan_scale_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7609_info, "IIO_AD7606");
- 
-@@ -218,6 +225,7 @@ const struct ad7606_chip_info ad7606c_18_info = {
- 	.oversampling_num = ARRAY_SIZE(ad7606_oversampling_avail),
- 	.scale_setup_cb = ad7606c_18bit_chan_scale_setup,
- 	.sw_setup_cb = ad7606b_sw_mode_setup,
-+	.offload_storagebits = 32,
- };
- EXPORT_SYMBOL_NS_GPL(ad7606c_18_info, "IIO_AD7606");
- 
-@@ -232,6 +240,7 @@ const struct ad7606_chip_info ad7616_info = {
- 	.os_req_reset = true,
- 	.scale_setup_cb = ad7606_16bit_chan_scale_setup,
- 	.sw_setup_cb = ad7616_sw_mode_setup,
-+	.offload_storagebits = 16,
- };
- EXPORT_SYMBOL_NS_GPL(ad7616_info, "IIO_AD7606");
- 
-@@ -514,7 +523,7 @@ static int ad7606_pwm_set_high(struct ad7606_state *st)
- 	return ret;
- }
- 
--static int ad7606_pwm_set_low(struct ad7606_state *st)
-+int ad7606_pwm_set_low(struct ad7606_state *st)
- {
- 	struct pwm_state cnvst_pwm_state;
- 	int ret;
-@@ -527,8 +536,9 @@ static int ad7606_pwm_set_low(struct ad7606_state *st)
- 
- 	return ret;
- }
-+EXPORT_SYMBOL_NS_GPL(ad7606_pwm_set_low, "IIO_AD7606");
- 
--static int ad7606_pwm_set_swing(struct ad7606_state *st)
-+int ad7606_pwm_set_swing(struct ad7606_state *st)
- {
- 	struct pwm_state cnvst_pwm_state;
- 
-@@ -538,6 +548,7 @@ static int ad7606_pwm_set_swing(struct ad7606_state *st)
- 
- 	return pwm_apply_might_sleep(st->cnvst_pwm, &cnvst_pwm_state);
- }
-+EXPORT_SYMBOL_NS_GPL(ad7606_pwm_set_swing, "IIO_AD7606");
- 
- static bool ad7606_pwm_is_swinging(struct ad7606_state *st)
- {
-@@ -626,7 +637,7 @@ static int ad7606_scan_direct(struct iio_dev *indio_dev, unsigned int ch,
- 	 * will not happen because IIO_CHAN_INFO_RAW is not supported for the backend.
- 	 * TODO: Add support for reading a single value when the backend is used.
- 	 */
--	if (!st->back) {
-+	if (st->trig) {
- 		ret = wait_for_completion_timeout(&st->completion,
- 						  msecs_to_jiffies(1000));
- 		if (!ret) {
-@@ -634,7 +645,12 @@ static int ad7606_scan_direct(struct iio_dev *indio_dev, unsigned int ch,
- 			goto error_ret;
- 		}
- 	} else {
--		fsleep(1);
-+		/*
-+		 * If the BUSY interrupt is not available, wait enough time for
-+		 * the longest possible conversion (max for the whole family is
-+		 * around 350us).
-+		 */
-+		fsleep(400);
- 	}
- 
- 	ret = ad7606_read_samples(st);
-@@ -1201,7 +1217,7 @@ static int ad7606_probe_channels(struct iio_dev *indio_dev)
- 	bool slow_bus;
- 	int ret, i;
- 
--	slow_bus = !st->bops->iio_backend_config;
-+	slow_bus = !(st->bops->iio_backend_config || st->offload_en);
- 	indio_dev->num_channels = st->chip_info->num_adc_channels;
- 
- 	/* Slow buses also get 1 more channel for soft timestamp */
-@@ -1222,7 +1238,14 @@ static int ad7606_probe_channels(struct iio_dev *indio_dev)
- 		chan->scan_index = i;
- 		chan->scan_type.sign = 's';
- 		chan->scan_type.realbits = st->chip_info->bits;
--		chan->scan_type.storagebits = st->chip_info->bits > 16 ? 32 : 16;
-+		/*
-+		 * If in SPI offload mode, storagebits are set based
-+		 * on the spi-engine hw implementation.
-+		 */
-+		chan->scan_type.storagebits = st->offload_en ?
-+			st->chip_info->offload_storagebits :
-+			(st->chip_info->bits > 16 ? 32 : 16);
-+
- 		chan->scan_type.endianness = IIO_CPU;
- 
- 		if (indio_dev->modes & INDIO_DIRECT_MODE)
-@@ -1340,6 +1363,13 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 	indio_dev->modes = st->bops->iio_backend_config ? 0 : INDIO_DIRECT_MODE;
- 	indio_dev->name = chip_info->name;
- 
-+	/* Using spi-engine with offload support ? */
-+	if (st->bops->offload_config) {
-+		ret = st->bops->offload_config(dev, indio_dev);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	ret = ad7606_probe_channels(indio_dev);
- 	if (ret)
- 		return ret;
-@@ -1355,7 +1385,7 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 	}
- 
- 	/* If convst pin is not defined, setup PWM. */
--	if (!st->gpio_convst) {
-+	if (!st->gpio_convst || st->offload_en) {
- 		st->cnvst_pwm = devm_pwm_get(dev, NULL);
- 		if (IS_ERR(st->cnvst_pwm))
- 			return PTR_ERR(st->cnvst_pwm);
-@@ -1394,8 +1424,7 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 			return ret;
- 
- 		indio_dev->setup_ops = &ad7606_backend_buffer_ops;
--	} else {
--
-+	} else if (!st->offload_en) {
- 		/* Reserve the PWM use only for backend (force gpio_convst definition) */
- 		if (!st->gpio_convst)
- 			return dev_err_probe(dev, -EINVAL,
-@@ -1433,7 +1462,8 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 	st->write_scale = ad7606_write_scale_hw;
- 	st->write_os = ad7606_write_os_hw;
- 
--	if (st->sw_mode_en) {
-+	/* Offload needs 1 DOUT line, applying this setting in sw_setup_cb. */
-+	if (st->sw_mode_en || st->offload_en) {
- 		indio_dev->info = &ad7606_info_sw_mode;
- 		st->chip_info->sw_setup_cb(indio_dev);
- 	}
-diff --git a/drivers/iio/adc/ad7606.h b/drivers/iio/adc/ad7606.h
-index f0b262fb4554f0bf244338c98ca585143321d616..89d49551eaf515bab9706c12bff056dfcb707b67 100644
---- a/drivers/iio/adc/ad7606.h
-+++ b/drivers/iio/adc/ad7606.h
-@@ -60,6 +60,7 @@ typedef int (*ad7606_sw_setup_cb_t)(struct iio_dev *indio_dev);
-  * @os_req_reset:	some devices require a reset to update oversampling
-  * @init_delay_ms:	required delay in milliseconds for initialization
-  *			after a restart
-+ * @offload_storagebits: storage bits used by the offload hw implementation
-  */
- struct ad7606_chip_info {
- 	unsigned int			max_samplerate;
-@@ -72,6 +73,7 @@ struct ad7606_chip_info {
- 	unsigned int			oversampling_num;
- 	bool				os_req_reset;
- 	unsigned long			init_delay_ms;
-+	u8				offload_storagebits;
- };
- 
- /**
-@@ -118,6 +120,8 @@ struct ad7606_chan_scale {
-  * @trig:		The IIO trigger associated with the device.
-  * @completion:		completion to indicate end of conversion
-  * @data:		buffer for reading data from the device
-+ * @offload_en:		SPI offload enabled
-+ * @bus_data:		bus-specific variables
-  * @d16:		be16 buffer for reading data from the device
-  */
- struct ad7606_state {
-@@ -145,6 +149,9 @@ struct ad7606_state {
- 	struct iio_trigger		*trig;
- 	struct completion		completion;
- 
-+	bool				offload_en;
-+	void				*bus_data;
-+
- 	/*
- 	 * DMA (thus cache coherency maintenance) may require the
- 	 * transfer buffers to live in their own cache lines.
-@@ -165,6 +172,8 @@ struct ad7606_state {
-  * @read_block:		function pointer for reading blocks of data
-  * @sw_mode_config:	pointer to a function which configured the device
-  *			for software mode
-+ * @offload_config:     function pointer for configuring offload support,
-+ *			where any
-  * @reg_read:		function pointer for reading spi register
-  * @reg_write:		function pointer for writing spi register
-  * @update_scan_mode:	function pointer for handling the calls to iio_info's
-@@ -174,6 +183,7 @@ struct ad7606_state {
- struct ad7606_bus_ops {
- 	/* more methods added in future? */
- 	int (*iio_backend_config)(struct device *dev, struct iio_dev *indio_dev);
-+	int (*offload_config)(struct device *dev, struct iio_dev *indio_dev);
- 	int (*read_block)(struct device *dev, int num, void *data);
- 	int (*sw_mode_config)(struct iio_dev *indio_dev);
- 	int (*reg_read)(struct ad7606_state *st, unsigned int addr);
-@@ -199,6 +209,8 @@ int ad7606_probe(struct device *dev, int irq, void __iomem *base_address,
- 		 const struct ad7606_bus_ops *bops);
- 
- int ad7606_reset(struct ad7606_state *st);
-+int ad7606_pwm_set_swing(struct ad7606_state *st);
-+int ad7606_pwm_set_low(struct ad7606_state *st);
- 
- extern const struct ad7606_chip_info ad7605_4_info;
- extern const struct ad7606_chip_info ad7606_8_info;
-diff --git a/drivers/iio/adc/ad7606_spi.c b/drivers/iio/adc/ad7606_spi.c
-index b2b975fb7fea4d1af6caef59e75ca495501bc140..b086122497eb22042171580878160334f56baa23 100644
---- a/drivers/iio/adc/ad7606_spi.c
-+++ b/drivers/iio/adc/ad7606_spi.c
-@@ -6,15 +6,31 @@
-  */
- 
- #include <linux/err.h>
-+#include <linux/math.h>
- #include <linux/module.h>
-+#include <linux/pwm.h>
-+#include <linux/spi/offload/consumer.h>
-+#include <linux/spi/offload/provider.h>
- #include <linux/spi/spi.h>
- #include <linux/types.h>
-+#include <linux/units.h>
- 
-+#include <linux/iio/buffer-dmaengine.h>
- #include <linux/iio/iio.h>
-+
-+#include <dt-bindings/iio/adc/adi,ad7606.h>
-+
- #include "ad7606.h"
- 
- #define MAX_SPI_FREQ_HZ		23500000	/* VDRIVE above 4.75 V */
- 
-+struct spi_bus_data {
-+	struct spi_offload *offload;
-+	struct spi_offload_trigger *offload_trigger;
-+	struct spi_transfer offload_xfer;
-+	struct spi_message offload_msg;
-+};
-+
- static u16 ad7616_spi_rd_wr_cmd(int addr, char is_write_op)
- {
- 	/*
-@@ -125,19 +141,211 @@ static int ad7606b_sw_mode_config(struct iio_dev *indio_dev)
- 				   AD7606_SINGLE_DOUT);
- }
- 
-+static const struct spi_offload_config ad7606_spi_offload_config = {
-+	.capability_flags = SPI_OFFLOAD_CAP_TRIGGER |
-+			    SPI_OFFLOAD_CAP_RX_STREAM_DMA,
-+};
-+
-+static int ad7606_spi_offload_buffer_postenable(struct iio_dev *indio_dev)
-+{
-+	const struct iio_scan_type *scan_type;
-+	struct ad7606_state *st = iio_priv(indio_dev);
-+	struct spi_bus_data *bus_data = st->bus_data;
-+	struct spi_transfer *xfer = &bus_data->offload_xfer;
-+	struct spi_device *spi = to_spi_device(st->dev);
-+	struct spi_offload_trigger_config config = {
-+		.type = SPI_OFFLOAD_TRIGGER_DATA_READY,
-+	};
-+	int ret;
-+
-+	scan_type = &indio_dev->channels[0].scan_type;
-+
-+	xfer->bits_per_word = scan_type->realbits;
-+	xfer->offload_flags = SPI_OFFLOAD_XFER_RX_STREAM;
-+	/*
-+	 * Using SPI offload, storagebits are related to the spi-engine
-+	 * hw implementation, can be 16 or 32, so can't be used to compute
-+	 * struct spi_transfer.len. Using realbits instead.
-+	 */
-+	xfer->len = (scan_type->realbits > 16 ? 4 : 2) *
-+		    st->chip_info->num_adc_channels;
-+
-+	spi_message_init_with_transfers(&bus_data->offload_msg, xfer, 1);
-+	bus_data->offload_msg.offload = bus_data->offload;
-+
-+	ret = spi_optimize_message(spi, &bus_data->offload_msg);
-+	if (ret) {
-+		dev_err(st->dev, "failed to prepare offload, err: %d\n", ret);
-+		return ret;
-+	}
-+
-+	ret = spi_offload_trigger_enable(bus_data->offload,
-+					 bus_data->offload_trigger,
-+					 &config);
-+	if (ret)
-+		goto err_unoptimize_message;
-+
-+	ret = ad7606_pwm_set_swing(st);
-+	if (ret)
-+		goto err_offload_exit_conversion_mode;
-+
-+	return 0;
-+
-+err_offload_exit_conversion_mode:
-+	spi_offload_trigger_disable(bus_data->offload,
-+				    bus_data->offload_trigger);
-+
-+err_unoptimize_message:
-+	spi_unoptimize_message(&bus_data->offload_msg);
-+
-+	return ret;
-+}
-+
-+static int ad7606_spi_offload_buffer_predisable(struct iio_dev *indio_dev)
-+{
-+	struct ad7606_state *st = iio_priv(indio_dev);
-+	struct spi_bus_data *bus_data = st->bus_data;
-+	int ret;
-+
-+	ret = ad7606_pwm_set_low(st);
-+	if (ret)
-+		return ret;
-+
-+	spi_offload_trigger_disable(bus_data->offload,
-+				    bus_data->offload_trigger);
-+	spi_unoptimize_message(&bus_data->offload_msg);
-+
-+	return 0;
-+}
-+
-+static const struct iio_buffer_setup_ops ad7606_offload_buffer_setup_ops = {
-+	.postenable = ad7606_spi_offload_buffer_postenable,
-+	.predisable = ad7606_spi_offload_buffer_predisable,
-+};
-+
-+static bool ad7606_spi_offload_trigger_match(
-+				struct spi_offload_trigger *trigger,
-+				enum spi_offload_trigger_type type,
-+				u64 *args, u32 nargs)
-+{
-+	if (type != SPI_OFFLOAD_TRIGGER_DATA_READY)
-+	       return false;
-+
-+	/*
-+	 * Requires 1 arg:
-+	 * args[0] is the trigger event.
-+	 */
-+	if (nargs != 1 || args[0] != AD7606_TRIGGER_EVENT_BUSY)
-+		return false;
-+
-+	return true;
-+}
-+
-+static int ad7606_spi_offload_trigger_request(
-+				struct spi_offload_trigger *trigger,
-+				enum spi_offload_trigger_type type,
-+				u64 *args, u32 nargs)
-+{
-+	/* Should already be validated by match, but just in case. */
-+	if (nargs != 1)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static int ad7606_spi_offload_trigger_validate(
-+				struct spi_offload_trigger *trigger,
-+				struct spi_offload_trigger_config *config)
-+{
-+	if (config->type != SPI_OFFLOAD_TRIGGER_DATA_READY)
-+		return -EINVAL;
-+
-+	return 0;
-+}
-+
-+static const struct spi_offload_trigger_ops ad7606_offload_trigger_ops = {
-+	.match = ad7606_spi_offload_trigger_match,
-+	.request = ad7606_spi_offload_trigger_request,
-+	.validate = ad7606_spi_offload_trigger_validate,
-+};
-+
-+static int ad7606_spi_offload_probe(struct device *dev,
-+				    struct iio_dev *indio_dev)
-+{
-+	struct ad7606_state *st = iio_priv(indio_dev);
-+	struct spi_device *spi = to_spi_device(dev);
-+	struct spi_bus_data *bus_data;
-+	struct dma_chan *rx_dma;
-+	struct spi_offload_trigger_info trigger_info = {
-+		.fwnode = dev_fwnode(dev),
-+		.ops = &ad7606_offload_trigger_ops,
-+		.priv = st,
-+	};
-+	int ret;
-+
-+	bus_data = devm_kzalloc(dev, sizeof(*bus_data), GFP_KERNEL);
-+	if (!bus_data)
-+		return -ENOMEM;
-+	st->bus_data = bus_data;
-+
-+	bus_data->offload = devm_spi_offload_get(dev, spi,
-+						 &ad7606_spi_offload_config);
-+	ret = PTR_ERR_OR_ZERO(bus_data->offload);
-+	if (ret && ret != -ENODEV)
-+		return dev_err_probe(dev, ret, "failed to get SPI offload\n");
-+	/* Allow main ad7606_probe function to continue. */
-+	if (ret == -ENODEV)
-+		return 0;
-+
-+	ret = devm_spi_offload_trigger_register(dev, &trigger_info);
-+	if (ret)
-+		return dev_err_probe(dev, ret,
-+				     "failed to register offload trigger\n");
-+
-+	bus_data->offload_trigger = devm_spi_offload_trigger_get(dev,
-+		bus_data->offload, SPI_OFFLOAD_TRIGGER_DATA_READY);
-+	if (IS_ERR(bus_data->offload_trigger))
-+		return dev_err_probe(dev, PTR_ERR(bus_data->offload_trigger),
-+				     "failed to get offload trigger\n");
-+
-+	/* TODO: PWM setup should be ok, done for the backend. PWM mutex ? */
-+	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev,
-+							     bus_data->offload);
-+	if (IS_ERR(rx_dma))
-+		return dev_err_probe(dev, PTR_ERR(rx_dma),
-+				     "failed to get offload RX DMA\n");
-+
-+	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev,
-+		rx_dma, IIO_BUFFER_DIRECTION_IN);
-+	if (ret)
-+		return dev_err_probe(dev, PTR_ERR(rx_dma),
-+				     "failed to setup offload RX DMA\n");
-+
-+	/* Use offload ops. */
-+	indio_dev->setup_ops = &ad7606_offload_buffer_setup_ops;
-+
-+	st->offload_en = true;
-+
-+	return 0;
-+}
-+
- static const struct ad7606_bus_ops ad7606_spi_bops = {
-+	.offload_config = ad7606_spi_offload_probe,
- 	.read_block = ad7606_spi_read_block,
- };
- 
- static const struct ad7606_bus_ops ad7607_spi_bops = {
-+	.offload_config = ad7606_spi_offload_probe,
- 	.read_block = ad7606_spi_read_block14to16,
- };
- 
- static const struct ad7606_bus_ops ad7608_spi_bops = {
-+	.offload_config = ad7606_spi_offload_probe,
- 	.read_block = ad7606_spi_read_block18to32,
- };
- 
- static const struct ad7606_bus_ops ad7616_spi_bops = {
-+	.offload_config = ad7606_spi_offload_probe,
- 	.read_block = ad7606_spi_read_block,
- 	.reg_read = ad7606_spi_reg_read,
- 	.reg_write = ad7606_spi_reg_write,
-@@ -145,6 +353,7 @@ static const struct ad7606_bus_ops ad7616_spi_bops = {
- };
- 
- static const struct ad7606_bus_ops ad7606b_spi_bops = {
-+	.offload_config = ad7606_spi_offload_probe,
- 	.read_block = ad7606_spi_read_block,
- 	.reg_read = ad7606_spi_reg_read,
- 	.reg_write = ad7606_spi_reg_write,
-@@ -153,6 +362,7 @@ static const struct ad7606_bus_ops ad7606b_spi_bops = {
- };
- 
- static const struct ad7606_bus_ops ad7606c_18_spi_bops = {
-+	.offload_config = ad7606_spi_offload_probe,
- 	.read_block = ad7606_spi_read_block18to32,
- 	.reg_read = ad7606_spi_reg_read,
- 	.reg_write = ad7606_spi_reg_write,
+u8 would be sufficient.
 
--- 
-2.49.0
+>  };
+>  
+>  #define to_max34440_data(x)  container_of(x, struct max34440_data, info)
+> @@ -60,11 +66,11 @@ static int max34440_read_word_data(struct i2c_client *client, int page,
+>  	switch (reg) {
+>  	case PMBUS_IOUT_OC_FAULT_LIMIT:
+>  		ret = pmbus_read_word_data(client, page, phase,
+> -					   MAX34440_IOUT_OC_FAULT_LIMIT);
+> +					   data->iout_oc_fault_limit);
+>  		break;
+>  	case PMBUS_IOUT_OC_WARN_LIMIT:
+>  		ret = pmbus_read_word_data(client, page, phase,
+> -					   MAX34440_IOUT_OC_WARN_LIMIT);
+> +					   data->iout_oc_warn_limit);
+>  		break;
+>  	case PMBUS_VIRT_READ_VOUT_MIN:
+>  		ret = pmbus_read_word_data(client, page, phase,
+> @@ -133,11 +139,11 @@ static int max34440_write_word_data(struct i2c_client *client, int page,
+>  
+>  	switch (reg) {
+>  	case PMBUS_IOUT_OC_FAULT_LIMIT:
+> -		ret = pmbus_write_word_data(client, page, MAX34440_IOUT_OC_FAULT_LIMIT,
+> +		ret = pmbus_write_word_data(client, page, data->iout_oc_fault_limit,
+>  					    word);
+>  		break;
+>  	case PMBUS_IOUT_OC_WARN_LIMIT:
+> -		ret = pmbus_write_word_data(client, page, MAX34440_IOUT_OC_WARN_LIMIT,
+> +		ret = pmbus_write_word_data(client, page, data->iout_oc_warn_limit,
+>  					    word);
+>  		break;
+>  	case PMBUS_VIRT_RESET_POUT_HISTORY:
+> @@ -235,6 +241,24 @@ static int max34451_set_supported_funcs(struct i2c_client *client,
+>  	 */
+>  
+>  	int page, rv;
+> +	bool max34451_na6 = false;
+> +
+> +	rv = i2c_smbus_read_word_data(client, PMBUS_MFR_REVISION);
+> +	if (rv < 0)
+> +		return rv;
+> +
+> +	if (rv == MAX34451ETNA6_MFR_REV) {
 
+Sure that this is only one revision ?
+Would it be better to use ">=" instead of "==" ?
+
+> +		max34451_na6 = true;
+> +		data->pmbus_addr_fixed = true;
+> +		data->info.format[PSC_VOLTAGE_IN] = direct;
+> +		data->info.format[PSC_CURRENT_IN] = direct;
+> +		data->info.m[PSC_VOLTAGE_IN] = 1;
+> +		data->info.b[PSC_VOLTAGE_IN] = 0;
+> +		data->info.R[PSC_VOLTAGE_IN] = 3;
+> +		data->info.m[PSC_CURRENT_IN] = 1;
+> +		data->info.b[PSC_CURRENT_IN] = 0;
+> +		data->info.R[PSC_CURRENT_IN] = 2;
+
+Assign register addresses directly here.
+
+		data->iout_oc_fault_limit = PMBUS_IOUT_OC_FAULT_LIMIT;
+		data->iout_oc_warn_limit = PMBUS_IOUT_OC_WARN_LIMIT;
+	} else {
+		data->iout_oc_fault_limit = MAX34440_IOUT_OC_FAULT_LIMIT;
+		data->iout_oc_warn_limit = MAX34440_IOUT_OC_WARN_LIMIT;
+
+> +	}
+
+Thanks,
+Guenter
