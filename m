@@ -1,94 +1,117 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id E6A5624501D;
-	Thu,  3 Apr 2025 09:04:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6C61291E;
+	Thu,  3 Apr 2025 09:50:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743671093; cv=none; b=aB4sPOqt4U13CsPUTav9Yg6zEfKRtNolyea2WYSPkhAS+ooPb/AjmZS/2ew1wnf0tk6a6IElxTcp2DDc+gS9bHPv8ePdDM1AxhTWOgmOnzUfgoAJWqk6H4rm6vZrR36WO9Z+62phXGPXuFpvyh8tHgxOhgHuSTMPw0lrPuEx4HY=
+	t=1743673811; cv=none; b=GBEgX0ZMv6ij5V6jZJFkxs5dXd1KVdvK1GJdbm6sRdIzoAuvE8r3mCKhwCrzh+lmkDuuQvkk2XjMNvZ0qu40O0FHTgBifqMIxeAO8EBBPNUmfF1p9nW+n2fQcZ7ODEiAWh5GatKBmn+AhPQ+8e4ZeyE+YGEcSRRPGrp8WsmX3y4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743671093; c=relaxed/simple;
-	bh=j1Fkw8epdkiaxhLhJzIHl7KWT3KcJ8DBd7ToBVFnEtQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZfVdp3EHe6fdnHaDEYR8xnf9XUfxxnqLX2vmDA3d0BRP33gQrqeaAgdAaKP6kme+lC4H7Zk4BgvVGDokOHCXf5baEus5dA8w2wfvDIY4ZfD57ZMQNKWEbMinU5RMpNvbPhuuQm4K+flRUTIFJYaTUaJg1GeXSlh1LAJW2jC5yKk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E1D12106F;
-	Thu,  3 Apr 2025 02:04:52 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EF29A3F63F;
-	Thu,  3 Apr 2025 02:04:47 -0700 (PDT)
-Message-ID: <957ccba4-2ae1-4358-b62d-3b5c44d7f1ca@arm.com>
-Date: Thu, 3 Apr 2025 10:04:46 +0100
+	s=arc-20240116; t=1743673811; c=relaxed/simple;
+	bh=TnGDFNFHTjy2FssdrhuKJ9L2jDl28k5d2aCQtujzw1A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=m9P+fsNkj8fNlakl909Ee5EiTGnywL4qE8uuxcMU/kbbscItLQN1Qw6kfar01N7+mTFciHObg9/jiM/2Wf65rLEsa2cR/aDoKkBSwTqjLUdcPwyP3QodqJYm+Fi4ux/57VsOMzBDmhGDkIdskji8D1uQSbjKh8T6w+JhQShJsIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VUpxvzTI; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VUpxvzTI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B35ACC4CEE3;
+	Thu,  3 Apr 2025 09:50:10 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743673811;
+	bh=TnGDFNFHTjy2FssdrhuKJ9L2jDl28k5d2aCQtujzw1A=;
+	h=From:To:Cc:Subject:Date:From;
+	b=VUpxvzTIroDftu7xzkqU3G/Nh0W8uussLJIX98Le2Z6n4amtOHIgoQiG1LvAF6Z8i
+	 sMqKodcUMMCJhjWdYV3TAcPmLAtzmWhewtRH7BfAliauDfhh8E3S8Mhc+RnG+mSznP
+	 bkXbXEVCAVJnqBiyl24udmlFPu6JJijOtH8O7CbE+CCPJzJJ1SUcH1iTXMZc2ZvQlB
+	 vULBjB4jsjj5YT8dpzLE42V764eC/8Z5HY3VecRPwvw9aoy3uKt2lCBTSDRViQybOj
+	 ayygayRC9VMw34WCYtJmlNCra8sXajEnxsyhW2rgyGE2bVh/Ddluj8bGjpW4nrA2aT
+	 xzvT1joLazQ+g==
+From: "Naveen N Rao (AMD)" <naveen@kernel.org>
+To: <linux-kernel@vger.kernel.org>,
+	linux-doc@vger.kernel.org
+Cc: Borislav Petkov <bp@alien8.de>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@kernel.org>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	<x86@kernel.org>
+Subject: [PATCH] Documentation/x86: Clarify naming of CPU features for /proc/cpuinfo
+Date: Thu,  3 Apr 2025 15:13:08 +0530
+Message-ID: <20250403094308.2297617-1-naveen@kernel.org>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/6] arm64: Provide basic EL2 setup for FEAT_{LS64,
- LS64_V} usage at EL0/1
-To: Yicong Yang <yangyicong@huawei.com>, catalin.marinas@arm.com,
- will@kernel.org, maz@kernel.org, oliver.upton@linux.dev, corbet@lwn.net,
- linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
- linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Cc: joey.gouly@arm.com, yuzenghui@huawei.com, shuah@kernel.org,
- jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com,
- linuxarm@huawei.com, prime.zeng@hisilicon.com, xuwei5@huawei.com,
- yangyicong@hisilicon.com, tangchengchang@huawei.com
-References: <20250331094320.35226-1-yangyicong@huawei.com>
- <20250331094320.35226-2-yangyicong@huawei.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20250331094320.35226-2-yangyicong@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 31/03/2025 10:43, Yicong Yang wrote:
-> From: Yicong Yang <yangyicong@hisilicon.com>
-> 
-> Instructions introduced by FEAT_{LS64, LS64_V} is controlled by
-> HCRX_EL2.{EnALS, EnASR}. Configure all of these to allow usage
-> at EL0/1.
-> 
-> This doesn't mean these instructions are always available in
-> EL0/1 if provided. The hypervisor still have the control at
-> runtime.
-> 
-> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> ---
->   arch/arm64/include/asm/el2_setup.h | 12 +++++++++++-
->   1 file changed, 11 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> index ebceaae3c749..0259941602c4 100644
-> --- a/arch/arm64/include/asm/el2_setup.h
-> +++ b/arch/arm64/include/asm/el2_setup.h
-> @@ -57,9 +57,19 @@
->           /* Enable GCS if supported */
->   	mrs_s	x1, SYS_ID_AA64PFR1_EL1
->   	ubfx	x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
-> -	cbz	x1, .Lset_hcrx_\@
-> +	cbz	x1, .Lskip_gcs_hcrx_\@
->   	orr	x0, x0, #HCRX_EL2_GCSEn
->   
-> +.Lskip_gcs_hcrx_\@:
+Commit 78ce84b9e0a5 ("x86/cpufeatures: Flip the /proc/cpuinfo appearance
+logic") changed how CPU feature names should be specified. Update
+document to reflect the same.
 
-minor nit: For consistency, could we rename this "set_ls64", similar to 
-"set_hcrx" ?
+Signed-off-by: Naveen N Rao (AMD) <naveen@kernel.org>
+---
+ Documentation/arch/x86/cpuinfo.rst | 42 +++++++++---------------------
+ 1 file changed, 13 insertions(+), 29 deletions(-)
 
-> +	/* Enable LS64, LS64_V if supported */
-> +	mrs_s	x1, SYS_ID_AA64ISAR1_EL1
-> +	ubfx	x1, x1, #ID_AA64ISAR1_EL1_LS64_SHIFT, #4
-> +	cbz	x1, .Lset_hcrx_\@
-> +	orr	x0, x0, #HCRX_EL2_EnALS
-> +	cmp	x1, #ID_AA64ISAR1_EL1_LS64_LS64_V
-> +	b.lt	.Lset_hcrx_\@
-> +	orr	x0, x0, #HCRX_EL2_EnASR
-> +
->   .Lset_hcrx_\@:
->   	msr_s	SYS_HCRX_EL2, x0
->   .Lskip_hcrx_\@:
+diff --git a/Documentation/arch/x86/cpuinfo.rst b/Documentation/arch/x86/cpuinfo.rst
+index 6ef426a52cdc..fecdc36e02a1 100644
+--- a/Documentation/arch/x86/cpuinfo.rst
++++ b/Documentation/arch/x86/cpuinfo.rst
+@@ -124,37 +124,21 @@ also defined in cpufeatures.h.
+ Naming of Flags
+ ===============
+ 
+-The script arch/x86/kernel/cpu/mkcapflags.sh processes the
+-#define X86_FEATURE_<name> from cpufeatures.h and generates the
+-x86_cap/bug_flags[] arrays in kernel/cpu/capflags.c. The names in the
+-resulting x86_cap/bug_flags[] are used to populate /proc/cpuinfo. The naming
+-of flags in the x86_cap/bug_flags[] are as follows:
+-
+-a: The name of the flag is from the string in X86_FEATURE_<name> by default.
+-----------------------------------------------------------------------------
+-By default, the flag <name> in /proc/cpuinfo is extracted from the respective
+-X86_FEATURE_<name> in cpufeatures.h. For example, the flag "avx2" is from
+-X86_FEATURE_AVX2.
+-
+-b: The naming can be overridden.
+---------------------------------
+ If the comment on the line for the #define X86_FEATURE_* starts with a
+-double-quote character (""), the string inside the double-quote characters
+-will be the name of the flags. For example, the flag "sse4_1" comes from
+-the comment "sse4_1" following the X86_FEATURE_XMM4_1 definition.
++double-quote character (""), the string inside the double-quote characters will
++be the name of the flag. For example, the flag "sse4_1" comes from the comment
++"sse4_1" following the X86_FEATURE_XMM4_1 definition. /proc/cpuinfo is a
++userspace interface and must remain constant. If, for some reason, the naming
++of X86_FEATURE_<name> changes, one shall retain the name already used in
++/proc/cpuinfo.
+ 
+-There are situations in which overriding the displayed name of the flag is
+-needed. For instance, /proc/cpuinfo is a userspace interface and must remain
+-constant. If, for some reason, the naming of X86_FEATURE_<name> changes, one
+-shall override the new naming with the name already used in /proc/cpuinfo.
+-
+-c: The naming override can be "", which means it will not appear in /proc/cpuinfo.
+-----------------------------------------------------------------------------------
+-The feature shall be omitted from /proc/cpuinfo if it does not make sense for
+-the feature to be exposed to userspace. For example, X86_FEATURE_ALWAYS is
+-defined in cpufeatures.h but that flag is an internal kernel feature used
+-in the alternative runtime patching functionality. So, its name is overridden
+-with "". Its flag will not appear in /proc/cpuinfo.
++If the comment on the line does not start with a double-quote character, then
++it will be omitted from /proc/cpuinfo. This is desirable if it does not make
++sense for the feature to be exposed to userspace. For example,
++X86_FEATURE_ALWAYS is defined in cpufeatures.h but that flag is an internal
++kernel feature used in the alternative runtime patching functionality. So, no
++name is specified within double-quotes and its flag will not appear in
++/proc/cpuinfo.
+ 
+ Flags are missing when one or more of these happen
+ ==================================================
 
-Suzuki
+base-commit: 1c13554a1d43317fe9009837ef6524f808e107b7
+-- 
+2.48.1
+
