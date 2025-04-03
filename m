@@ -1,67 +1,68 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7DDD92512E2
-	for <linux-doc@vger.kernel.org>; Thu,  3 Apr 2025 16:20:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E033C2512EA
+	for <linux-doc@vger.kernel.org>; Thu,  3 Apr 2025 16:20:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743697231; cv=none; b=u6raXhaPL73wafMsqnHA5A3XM8hia0NCBaaxLYYe9CIPdUbD9pJw4MQcxRW4e7iJSEpBj4g7oeCvHWj7ov8VXGRkYegTwAIiA3TFTMCEZaLe/h7ENBXHdSzZRqQdcwtosK3FZPWXfLv0OQeMzyhHuiNolS/0/xenw6ljQVUQcRg=
+	t=1743697231; cv=none; b=i7GwLnVGXM87MxDGBccUdbYexGtfYJNFigx8D7tFMigRzXQNB1T3o4cEx5t7tw2IzKGeSEU7m2UPgTsU/eeD0pbeV5kYuUkJypvJEhjWBHZpfpyxA9teHGh6e0GozOCo8VgUINKV9aUJEm6M+jgupHmzv5XfuwodDpKmgkMGk54=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1743697231; c=relaxed/simple;
-	bh=1iOywepJB9D1Cs5fFJUAHOEJHl07Klqnogg9LfO9XxY=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=gv654PIodW9telwvmj4wzCioeMdbuwiTW5PuFvB4SKId02H1N4pDytKEMosM/ny99Pn8S9i/SgHDVwrh2B8/Fiq3kOM89pTuA8dgTv83ue2KaqyYcOK9P3CTXQy2TWLncX4jpnGbxEB6qsGQEagpluAtFqJPz5Uz8CRZ9HBWaiE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=aN1cneoN; arc=none smtp.client-ip=209.85.221.44
+	bh=cfF0Kt99mMEaJk4dHE6IOh/L/Is6q2mNay7uazGqI8E=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=oA+GfJqC3ziuhzzd8szQxBcTIgFv9cZrTVmpX4XOtG+xJtIq2RpUQRlKdxsjiUbIHJKWT1B0X2o3YgI8+22PuKASui8tyi+r2L+ZkGxAYk/NJRmSbeVd23VhTAMtpch8gH4R4uI9VPjK3HmaEk7S8GQ2VXOExlrHSFXCvGuL5dY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=CzSWmnh0; arc=none smtp.client-ip=209.85.128.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="aN1cneoN"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-39c1efbefc6so750371f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Apr 2025 09:20:27 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="CzSWmnh0"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso8042785e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 03 Apr 2025 09:20:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743697226; x=1744302026; darn=vger.kernel.org;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=uBVhL7yTpzF4aCvVs+zDC3x7gXGoHrEnyJnBgzx0lPI=;
-        b=aN1cneoN4fAGjeNete/43fsr05bCaB9UZ//8VKbsomTvqXPUU+ivTk6AnZXcw1KCFP
-         askYWR7CGm8DFTPCSAxRiBCHPVK0ynEDymmz4hR3MkEVU36WYY7U9GYnBQV3okcHN+ho
-         u/eqSR1dSWPmO95JK5D9lDOTAS6q6AxWwZKafvYP3o+iORT5OVKotQn3y3znQD0ZHB5j
-         Uw2/EMugWItXYH55T48AUCBk0z44FHgnPD3NdUgaxK65n3EUAVRICeDrCktmbMKvST5O
-         iThSNX13BaOmMiXn3Oj8ggclNyptogjmoM79YTNhttjwZJuI0m6HIMjSED4vWSo3wZDf
-         Z8MQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743697226; x=1744302026;
-        h=cc:to:content-transfer-encoding:mime-version:message-id:date
-         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1743697227; x=1744302027; darn=vger.kernel.org;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=uBVhL7yTpzF4aCvVs+zDC3x7gXGoHrEnyJnBgzx0lPI=;
-        b=EQqClcDGmei339WI9CXLbxSKeUVnxC003by4g2YzZSnQCEQc9UEGCyC7tnobQdgO8S
-         P4d/SINMk7hKVvH2/xYaMT4hVsV6+FvIup6IweIIy3CeFDaPDKZ4dK/7F54oAohefkSs
-         IRXfERJgPoDhan3uXCccz/Qorx92H7Fk0ep2P7NpxfdYDcnKqV8D6agqHcVLIz3goCGs
-         SguuSXroxy04Biub2bKP+6RgTCK+vqfCM5f49AKNrqjiNCxD/scmOmBNRqYvGK86ai9P
-         EgYfhf7kf9qEl0EwjJWhHUWmlfQNTXnxJqFpzfuT/MzKDfCfa22gXphc/QE99pDVGov3
-         U9eQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXakiJZ6YUIjVSW/omfVlNWR9YJatmjAy1fWztiw9tNTNEgJytzVQxZlVZTlDa+3grwPfo0+jRokfM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw1Y+dNcQFxb2sPPAbRlMOmWYQPeGLhTFBg+B1neUAl6OKCg5FS
-	Ex47TbZoJG/9UWu2fdK6+7eu11oNzDZHqQfSYR2OExxSZRx/iqzL8KsbdZq8YgxnI7MmFiErCkg
-	P
-X-Gm-Gg: ASbGncvKqOxWEEDGH+KeFDplyMq55puoohWjACE9EmhKvphSLo9boNnSwEiaBeyB/vL
-	QkDXFvvtVXfkCjeWU1polnLkYGT8ZQbWo/JEtGe6z65H2hSqjjTM9wmaDnHx9JO2OoXOb4eRMB7
-	L6ewLlQxODANwEYp5qLUiYuOg8f62zVoB5Hpq1fhM782oZwFq8fzQxg0ks23M862LKDdQXy1jUx
-	Uc15Jzk9Oih9eMU05JRKdCO5vjpJPvCVfwk2QTcnMmyVMOlHVZG8ybX9yjdJeujtAjqZU7Yaz0o
-	iQUspheG+LPd29+hDsuBc1gSw7SoYtvB/oNugCF1fUQXHw3NpePGV79MHDRMOvdflMIjfvGQSM3
-	+n7NBuy2BbioJLodagr58+w==
-X-Google-Smtp-Source: AGHT+IGJDhMx8oCC7Tp11JFpxULIlT3VQCaTVwlQL+bVnYZZqD0E+NDnAZopToyMwMZDTLy+RipN5g==
-X-Received: by 2002:a05:6000:402b:b0:391:ab2:9e71 with SMTP id ffacd0b85a97d-39c2975188dmr6368451f8f.20.1743697225664;
-        Thu, 03 Apr 2025 09:20:25 -0700 (PDT)
+        bh=yzNoxtXo4QidWtvKIfVT4LcTVZJpsOZ2PfIgE0rCqRc=;
+        b=CzSWmnh0LXoi3ALux6K8Wwtgz6AA7lnDLThTOd+h05F7DYrOWUJbgSgBj7acgxMfi1
+         2f7gNYAhQuQOlVtkK2ce8v7BsKxSG5L5je6bD5ZI3SdLsHgpNNQHpQWPObL54+5k7A78
+         AzuM1jS7ops2FaSj+BCVsn3A/9QE68hykWW950ZwycKwJ1uEmTdVqJwW3Ga3+WZYle+x
+         b04SkXL2WJ3GqFCdyjPVZVzOb1/p3mP65wRHBR5VN3wecKpqDxGeT8jqCZxx3cWWZarK
+         FGnqGQXzWndvV3Ihd3B8xoxrSq8EsFhFQigSVKyhnj+tadU0BHeUkXeZbDcd1O+wqtwi
+         BpUg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743697227; x=1744302027;
+        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
+         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=yzNoxtXo4QidWtvKIfVT4LcTVZJpsOZ2PfIgE0rCqRc=;
+        b=SLHyINXNkXtnNCYzyOip9qZ0yfWE3DaFkJfavoMh9D/89qMyMxemG3TtsEyTdylDKs
+         0+2FZF1d0u2WtOzOORxjPoTQIKAQ//0ZwApnrekN08wOIwCysVghdvQERpQx4bjGwIg2
+         5AXwk0+Bdb2NdYpSAlGIKNyOQLF4PgmwoSNvfN5+ToLYu5D4QB8R900R/KIn4jyQsvjE
+         6DQgn2YkJCtMrkTLa1NZuCMAFLoplE4kEqhzhybHMi0mauM4JtOKuaxI7biZtb1x4DG1
+         TJuvhYE72gSJwt1PLC5htM7PO6iTTpVSKmQdIFYuyM8YunU3vhYwxVI+WulUiRHl+PdK
+         YO1w==
+X-Forwarded-Encrypted: i=1; AJvYcCXmXmvoASXl5CNy1Sg3ICIPxLj4WmTHP5gVF7mu5Pqp9VYwGjRnQcdhBfJnfQNBmalWpl/tXqwhzNE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHq8Z6byG0ikPLGnSCY5gaTD2iM96N38XAV0oK4GHxTqa+y2X9
+	D/lQw50DzP9/125yRtTOQf0Ez9VN0pdAHzTmrP/zr+6mQqTCxa1yrjUnYy60vxk=
+X-Gm-Gg: ASbGnctLZx1iHXXMEP1hg3oWqFuYmE6SjjlFXpsZSn3DP2TxSKdkjJrZF1LulB/ytpw
+	O4Waw2kqVtBD5AlvxPk3/yNxIZP2ckwtR5lVvwFmrZtR2V7v3WMAwEVtKjPZ9gEiqLtemrmfj/1
+	1wF0CjQ99ZUuekHQPPKOYTWfR3592x9kh1yHaCMaMlY+RPjZl2J1+bT1I8EPdcW/Xk14E0vfPqU
+	ImOZIbUr4Z3NDsgarmtZSUrmBkdFOzBfOs1bZ/gbOn5bZqeXpgC/IdVFCtGXmQMpYv0r2XBFf5B
+	4j1TCZ6CiZCETw2Vf+3bpO/E9AOCbyLSdTO+6pWVqfAdhjj0rPluzqQcj3ls692Z8/t9GnVhq1z
+	Dufh/epqb1jzaEcxgZm82SQ==
+X-Google-Smtp-Source: AGHT+IFt7PGvO05ze96jmWf3hCQCu5z1rtdVnHLEm06qbJ6daKoMANciVM3x3K9bSnxMRl9i6Q0Q1Q==
+X-Received: by 2002:a05:600c:b89:b0:43d:fa5d:9314 with SMTP id 5b1f17b1804b1-43ec153677cmr37644645e9.32.1743697227084;
+        Thu, 03 Apr 2025 09:20:27 -0700 (PDT)
 Received: from [192.168.0.2] (host-79-30-116-65.retail.telecomitalia.it. [79.30.116.65])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d68esm2197657f8f.67.2025.04.03.09.20.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39c3020d68esm2197657f8f.67.2025.04.03.09.20.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 09:20:25 -0700 (PDT)
+        Thu, 03 Apr 2025 09:20:26 -0700 (PDT)
 From: Angelo Dureghello <adureghello@baylibre.com>
 X-Google-Original-From: Angelo Dureghello <adureghello@baylibre.org>
-Subject: [PATCH 0/3] iio: ad7606: add SPI offload support
-Date: Thu, 03 Apr 2025 18:19:03 +0200
-Message-Id: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
+Date: Thu, 03 Apr 2025 18:19:04 +0200
+Subject: [PATCH 1/3] dt-bindings: iio: adc: adi,ad7606: add SPI offload
+ properties
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,10 +71,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAPe07mcC/x3MQQqDMBBA0avIrDuQRk1rryIuYmZiB4IJCagg3
- t3g8i3+P6FwFi7wa07IvEmRuFa8Xw24v10XRqFq0Er3qlMt7pJwDliSYPQ+REto6WOUQedpGDT
- pr7Ed1D5l9nI873G6rhsqmluEawAAAA==
-X-Change-ID: 20250403-wip-bl-spi-offload-ad7606-cfd992d286a4
+Message-Id: <20250403-wip-bl-spi-offload-ad7606-v1-1-1b00cb638b12@baylibre.com>
+References: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
+In-Reply-To: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
 To: Lars-Peter Clausen <lars@metafoo.de>, 
  Michael Hennerich <Michael.Hennerich@analog.com>, 
  Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
@@ -85,38 +85,66 @@ Cc: Michael Hennerich <michael.hennerich@analog.com>,
  linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
  Angelo Dureghello <adureghello@baylibre.com>
 X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1005;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1999;
  i=adureghello@baylibre.com; h=from:subject:message-id;
- bh=1iOywepJB9D1Cs5fFJUAHOEJHl07Klqnogg9LfO9XxY=;
- b=owGbwMvMwCXGf3bn1e/btlsznlZLYkh/t5XxyIyq2Z9+3MsNaDwlUKCz5WuTZU6c5d+tlRu/W
- c34UfXMoqOUhUGMi0FWTJGlLjHCJPR2qJTyAsbZMHNYmUCGMHBxCsBE/EwY/tnq7rt2g8v7o9eW
- D3Psb20S0j39u/xx2oL1ATOCpxgzcS5k+Ct+VvX4JbVNfBoNVduPz2IrrFhqW3z0mnfw0qxzrH8
- /xrMCAA==
+ bh=UfpxApW5Zv/Cbo0daRMPGTL/xp0EwZ3iApNb08LgQ24=;
+ b=owGbwMvMwCXGf3bn1e/btlsznlZLYkh/t5XJYdMfLlHt8GeMDAnvgv/85E47JSf+5MCv+YKaE
+ 9do15YKdJSyMIhxMciKKbLUJUaYhN4OlVJewDgbZg4rE8gQBi5OAZgIQwrDf3cV0+dh+Z0dvdND
+ d8msS6yTZZp0c/8pUaGUH9/mboh53cHwV6KP8ced9Z3S2TlWgsH9ftrivgWVkjMKLP/IrY6zai9
+ jBgA=
 X-Developer-Key: i=adureghello@baylibre.com; a=openpgp;
  fpr=703CDFAD8B573EB00850E38366D1CB9419AF3953
 
-Add SPI offload support for the ad7606 ADC.
+From: Angelo Dureghello <adureghello@baylibre.com>
+
+Add #trigger-source-cells property to allow the BUSY output to be
+used as a SPI offload trigger source to indicate when a sample is ready
+to be read.
+
+Macros are added to adi,ad7606.h for the cell values to help with
+readability since they are arbitrary values.
 
 Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
 ---
-Angelo Dureghello (3):
-      dt-bindings: iio: adc: adi,ad7606: add SPI offload properties
-      doc: iio: ad7606: describe offload support
-      iio: adc: ad7606: add SPI offload support
+ Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml | 8 ++++++++
+ include/dt-bindings/iio/adc/adi,ad7606.h                  | 9 +++++++++
+ 2 files changed, 17 insertions(+)
 
- .../devicetree/bindings/iio/adc/adi,ad7606.yaml    |   8 +
- Documentation/iio/ad7606.rst                       |  45 +++++
- drivers/iio/adc/Kconfig                            |   2 +
- drivers/iio/adc/ad7606.c                           |  50 ++++-
- drivers/iio/adc/ad7606.h                           |  12 ++
- drivers/iio/adc/ad7606_spi.c                       | 210 +++++++++++++++++++++
- include/dt-bindings/iio/adc/adi,ad7606.h           |   9 +
- 7 files changed, 326 insertions(+), 10 deletions(-)
----
-base-commit: 8f159ea5a253d40682e041daec007933d6caf01b
-change-id: 20250403-wip-bl-spi-offload-ad7606-cfd992d286a4
+diff --git a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+index 52d3f1ce336783084d601d361779ebc766124f7a..29f12d650442b8ff2eb455306ce59a0e87867ddd 100644
+--- a/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
++++ b/Documentation/devicetree/bindings/iio/adc/adi,ad7606.yaml
+@@ -45,6 +45,14 @@ properties:
+   "#size-cells":
+     const: 0
+ 
++  '#trigger-source-cells':
++    description: |
++      Cell indicates the output signal: 0 = BUSY, 1 = FIRSTDATA.
++
++      For convenience, macros for these values are available in
++      dt-bindings/iio/adc/adi,ad7606.h.
++    const: 1
++
+   # According to the datasheet, "Data is clocked in from SDI on the falling
+   # edge of SCLK, while data is clocked out on DOUTA on the rising edge of
+   # SCLK".  Also, even if not stated textually in the datasheet, it is made
+diff --git a/include/dt-bindings/iio/adc/adi,ad7606.h b/include/dt-bindings/iio/adc/adi,ad7606.h
+new file mode 100644
+index 0000000000000000000000000000000000000000..f38a6d72b6dc2d4067c07d6a5c0377e526219e5c
+--- /dev/null
++++ b/include/dt-bindings/iio/adc/adi,ad7606.h
+@@ -0,0 +1,9 @@
++/* SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause) */
++
++#ifndef _DT_BINDINGS_ADI_AD7606_H
++#define _DT_BINDINGS_ADI_AD7606_H
++
++#define AD7606_TRIGGER_EVENT_BUSY	0
++#define AD7606_TRIGGER_EVENT_FRSTDATA	1
++
++#endif /* _DT_BINDINGS_ADI_AD7606_H */
 
-Best regards,
 -- 
-Angelo Dureghello <adureghello@baylibre.com>
+2.49.0
 
