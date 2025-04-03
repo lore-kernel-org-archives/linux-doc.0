@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CE0C725F980;
-	Thu,  3 Apr 2025 19:04:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8692571BD;
+	Thu,  3 Apr 2025 19:06:09 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743707061; cv=none; b=g75ySPNEK+p3NoNhZlnfPoUtRpM3Bhel81B6YHlcG95Sqv6JyR45VfyjgwhxSeF2OOGyMC2jTK5ZSvMKcFbWVuEtUuraUWSnu4cJOBLXOm7VVCaumDN7RU4wOpdg4FZupCoVXRNU/D8CwDNKxje4GLFg/AwXsmfdgqC/LNL1SqM=
+	t=1743707170; cv=none; b=RTZN7+t5cqvUPhG8DOk5on11TUjriA+99Tady21tJ0i+aEfkYj+YHwC/RpsNCgVpPldvGbLN500luQw49kAzkxP6WbI/l2sxeW8Aa0wOWeg88PMdV3Mx3o07H3GBQMgWUNPdKx0oUJduLc1en/sS+6b0WK3AEgqoy50Y/OxBNTo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743707061; c=relaxed/simple;
-	bh=gLc83+S0ze4qE4mtl3apedfw1/l3NHZMYy4g/7Qo6g8=;
+	s=arc-20240116; t=1743707170; c=relaxed/simple;
+	bh=VXmZH9V6z/axWCJeBB01zjQefHERyCjM+PgwTOtgH/s=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=I9k3oXSpkGepX97cBS7fZiqqKubcideKKurXehUgtiZf1CfobZR2p331cBJ9/75cucjTEPhxUyanurPtFBhRe4m5JHp9fzq895Uh4H6e7K2QGT4SjZRwYdGoJJh3MzNt/N7ERz6FEPgWI9v3381d4QJg8gscRZQZAoXcVko0W7s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sAVTjHFb; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=eaK3gOxKfVffdLflJ1+e6ndumH2vGSXkZ9HTT0FVBs4CFCgN6r6ZPueRBVYt+U8J/xDXuAhQhoNonzG8u6t12lSnsMmfXjL0iFQl3Ww9vpnfho+o2ac31lmyolqVg0NzLwpLPpw7ZF4R+y4DU0gX2D76fXT8af8zySLzUInajfQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qFfutzwx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sAVTjHFb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AF76EC4CEE9;
-	Thu,  3 Apr 2025 19:04:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qFfutzwx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3ADA0C4CEE3;
+	Thu,  3 Apr 2025 19:06:08 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743707060;
-	bh=gLc83+S0ze4qE4mtl3apedfw1/l3NHZMYy4g/7Qo6g8=;
+	s=k20201202; t=1743707169;
+	bh=VXmZH9V6z/axWCJeBB01zjQefHERyCjM+PgwTOtgH/s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=sAVTjHFbMKVHzKz4FOtA1QqBEf4O90uC78rDDxvixK+ExMFOHcv3k951oeilav5Nj
-	 2gEvKkcDSBVzJt75MiEIzFXAhxGj/6ebHtyxlg3YEGcg4UAoGQAqz2lCI4uZign4Uq
-	 cXxM1MxXdQBlE6t+4OuMa2U3V/Bdi7wtyLLZT1+9BRwgSxHnqQylxh4Q0XRFiRhnXJ
-	 lJXCSjU9sJlIc6T1t9Ic94rrzfH5yPmTUNUl39vYwBgSALcJfyNUad8Lfms1vRhZ8d
-	 ku01Bz8UzelbtBz1Hyp6BmXBo/PfZdOI2+TMckXxuqb2wxwEjCXcK+K9LepAN9W7MQ
-	 8rhcZGKqCyAfA==
+	b=qFfutzwxkTEV2QxibpFIQkGBzX7Jb0CwZWHGgLVUv9EooCLeu2nMA9hpp5vAH+5lw
+	 KG8UYoWVcShJeH+qMBJhO963DCrpnEFlNVKeocP7MHXNZyJ9/eoUvNkJDp7/lVzRfD
+	 4RYtPJkXH8CsCcUue8rB5rhNZV5HwlACvd8s3xYB8WGsrplUbGW8SmBxxPLByuNgjX
+	 +UxrHYSFIbFiyFwD/5sEMgGWAKFxCOTtDsn1ayEYu4eK0EV2/Vg8omzpfKuVS2Xmit
+	 bUyqTwmRc+qU5+mJ8ycqT6E4OJ6lJ0rztXrDGeldRrS3o5fiShJV7BVS2zQQDAG2JT
+	 F8OqlQlB2R91w==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -35,20 +35,19 @@ Cc: Niklas Cassel <cassel@kernel.org>,
 	corbet@lwn.net,
 	akpm@linux-foundation.org,
 	paulmck@kernel.org,
-	rostedt@goodmis.org,
 	thuth@redhat.com,
+	rostedt@goodmis.org,
 	bp@alien8.de,
 	ardb@kernel.org,
 	gregkh@linuxfoundation.org,
-	jpoimboe@kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-ide@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.13 05/49] ata: libata-core: Add 'external' to the libata.force kernel parameter
-Date: Thu,  3 Apr 2025 15:03:24 -0400
-Message-Id: <20250403190408.2676344-5-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.12 05/47] ata: libata-core: Add 'external' to the libata.force kernel parameter
+Date: Thu,  3 Apr 2025 15:05:13 -0400
+Message-Id: <20250403190555.2677001-5-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250403190408.2676344-1-sashal@kernel.org>
-References: <20250403190408.2676344-1-sashal@kernel.org>
+In-Reply-To: <20250403190555.2677001-1-sashal@kernel.org>
+References: <20250403190555.2677001-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,7 +56,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 6.13.9
+X-stable-base: Linux 6.12.21
 Content-Transfer-Encoding: 8bit
 
 From: Niklas Cassel <cassel@kernel.org>
@@ -98,10 +97,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 40 insertions(+)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 3872bc6ec49d6..d9c55dcbf4a21 100644
+index d401577b5a6ac..607a8937f1754 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3036,6 +3036,8 @@
+@@ -3028,6 +3028,8 @@
  			* max_sec_lba48: Set or clear transfer size limit to
  			  65535 sectors.
  
