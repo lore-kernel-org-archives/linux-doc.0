@@ -1,597 +1,1119 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5167D2512E7
-	for <linux-doc@vger.kernel.org>; Thu,  3 Apr 2025 18:01:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 29EB9253355
+	for <linux-doc@vger.kernel.org>; Thu,  3 Apr 2025 18:19:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743703263; cv=none; b=srBZW2exJ8hMY6la5+GUcEfNOwKrG/JrvOGInXVUSqm+NplQpVHc+A69KMcEJlpO70IMGzB/cjI3aug68RF5jq7xphe2Mw5hC0cjqwMTQnyp2V+ze55De/ZFy+xnQOtQ8ABersqylXoucRsByBBX+S+9QXv6IdLhraanxynnwq8=
+	t=1743704375; cv=none; b=cPB2fWIWOYw5RDMg3k9L+43xRY3p0zuEXdMLWfPC9CZjmj2knmDgO5M08I1aLVruXCL4Qc2q4npW8QXCzvn2HCunO8XUwU4tbVJZ6P9r83Cr5krTtBp+OiENmWcOvokF9IqtPRMI2UcV40bx57k0oXPNTBfIyFTicgmAFt47m+I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743703263; c=relaxed/simple;
-	bh=4ykLBjACoxxDUxdlJXisDPXYF8nh2gUm3OaYFAIuPzI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gX/+QzBgfuaTdRDdin0yffmjqc7uDb3zxRrveIWChD0vqWCzWH/9gUtxjQThC/KiYQws/V7Vf58oIofs1C5MnQmzTh/SXo4hsMcDcxYHFhVcOUMzRV/qC2hJAs8fvmmqCkKIpopiqAqWb4N9QUS4ywswOM58QhlmEw+Qc8T1oIo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=fzKYrTp7; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1743704375; c=relaxed/simple;
+	bh=UwK6F7Z6P5+SofjQVQeIUXE6qb5DKJKzasCJgVBo9xg=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=pGEiLNOBkRM+dOCBYlCWvuOuM4rSR0nyecyEuFVMPrQmPLVPpxQjXnX9loB3mbPyEizJ1yDihisPNI08ySQ0JTaywIqAel7fAUTVnMlE5+Qc9XmlEL3Db7GW3jtSGh3Qk0YmbsOgCvaqQKQ7T/Z8VVNI4hX9J2uOopo8wPcimyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=rax/4iVX; arc=none smtp.client-ip=91.218.175.184
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="fzKYrTp7"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac25d2b2354so208144266b.1
-        for <linux-doc@vger.kernel.org>; Thu, 03 Apr 2025 11:01:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743703258; x=1744308058; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=tSbwwWBv1wP8PbIZ+XWDV3wTTpk86HKdHfJh/sgtPqQ=;
-        b=fzKYrTp7dOL5qWy88xrqe1l5Yg/5suE4Kw+gr9ptP5FnFbfpC1KEytLIg2tW6Hc42a
-         z1X4w33/H6lXblDYCHLs/TDA5OhE5HMRMjlN3lBhpWGLhCdvci0t73BF5XTIXgMRAIHG
-         MOBi/Z5KgITPknK9r+kyz7C/OWMlcMtcld4h9kWEGUvFWk0AXWGIgjeuHH1XZf4/EnBl
-         nrgaRwAWqDmTKLCSY9rZqjxCQdIUHB8t1r7MMDaZoHdJDmm45q0EFxFS8w9LicSQXG+h
-         L0tOaiRA7D5MCh4afHq128xrRDDXqS6+uDgjNyhS50zXrbi7Ap9IiNsxkkP4qiwd7jr6
-         kmkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743703258; x=1744308058;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=tSbwwWBv1wP8PbIZ+XWDV3wTTpk86HKdHfJh/sgtPqQ=;
-        b=ERVisIvQ6VSlE5IYPodLBE1/fQzunP1asEI2BhjW3Fh/JJ1qtHKcowrhR1dwZ7p1ZD
-         V+4YZw/3/k0jqIbQR+ygubpc1YPW2q8FEPK2cIsrsLEYTT65zMN2sLPR7tsEpCcRunt1
-         +4NJuDUacq98pXoB4iN7PUonryrvrbyUHI1gmUoKS07nI0p0vtCskBXSYU5tWo2/ENch
-         fTyNq/bc6hssYVplHBdmCmPNR5G1A/Nh8M8IzB/FGlRuo0xQ1RIrk55BmmIdVggEsq8B
-         hF3+BFZ423GBjhD78ACuc9ntrpdZuvTm8A/4iuDgenQy0ByiheyVwPNewgXC046AywHn
-         BGyg==
-X-Forwarded-Encrypted: i=1; AJvYcCUBohH1r0rDUUA/AtF92rNYF8OjD1sLeHRrxPuFO+upG6wAwsh+o5RIqvhcfQCf2ANeMAh6yW35A6o=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwqqZlaSpkD/mKkrNuWwWrnsoYZkLiR7yahOzMPTYF3998pdtT5
-	iN3XBkE5+9WV/ldq0lEw0xvIM+YycQ5B8eXBu5gsd1HCenM4aU9iMcKn+FC6OUw=
-X-Gm-Gg: ASbGncsvq4D5B1RCTcYL19N2NLb3JK25OvJkvzk/PDaiRkxZDAAK4rRojQODTLgb71A
-	e5w5bI3jZwzFhtgiGJVHkMrWuNFB/YXEk6Wwa6lARS78V5DOj72QATtEtFpD6gtJYh78kUVvugi
-	/5+Za0ZXxUvyuhpGBwe+UgJKZKv/w+ny6/xCm4LaEhjquLcg0MkM3WLohN6zOkXIfqUIcJWQyap
-	b7T7RqUcGffdhg3AIlsiPYwRb0mF2UIup3uGsW17uzvAZoLSrhTXJYnFsGAXnWuHJAWA13O0P0d
-	pkgZblrZkVrw6lq4tH7sPdKhfF+8uWXhSTtN56WHrQltjLslfhlUeYA7
-X-Google-Smtp-Source: AGHT+IFtxX3dMcxR7VWG+baPGO4m1vEAQrXum/smjPjgDcoAfwBKUaOeaH+qj6m5wwvVWLE/r+QQPg==
-X-Received: by 2002:a17:907:9443:b0:ac7:1350:e878 with SMTP id a640c23a62f3a-ac7d1beea51mr37620366b.46.1743703258138;
-        Thu, 03 Apr 2025 11:00:58 -0700 (PDT)
-Received: from linaro.org ([2a02:2454:ff21:ef30:6802:e744:38a7:72ee])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7bfee2591sm125555666b.79.2025.04.03.11.00.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Apr 2025 11:00:57 -0700 (PDT)
-Date: Thu, 3 Apr 2025 20:00:52 +0200
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, robh@kernel.org, gregkh@linuxfoundation.org,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org, Luca Weiss <luca.weiss@fairphone.com>
-Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z-7M1IeKNk6ZBayS@linaro.org>
-References: <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
- <Z-PPlRD7gcUcNvNv@linaro.org>
- <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
- <Z-ug3YFwff8hWIRl@linaro.org>
- <378af3f1-b5b0-4f7a-ab62-f5c891feb7b5@quicinc.com>
- <Z-1MtJjfVbUQFron@linaro.org>
- <7d5fd3bf-c33e-4274-938b-2fb93c4b39d8@quicinc.com>
- <a9e281d6-59c0-3615-9851-c33752b0620f@quicinc.com>
- <Z-6Q_gaWsWyZcpLz@linaro.org>
- <e1eac325-233e-43eb-9ca0-9746893462d7@quicinc.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="rax/4iVX"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1743704370;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=VmOzHRCKK//tjTGoGqSzoFrHc6VkoHv6ThwTrKjhWgI=;
+	b=rax/4iVX8XJJ/sd8WW5o61+yP3tlhc79o29mNLmx2dUp7beTpSWz9qSCJMTKgZh5N8dCGg
+	QILwVFeQt1ncv0e1yABSjEvTkz/W/aHWhAp5OfvYP3XZgP7oGjQq/7DvCYJlbq53hq5EC0
+	/E6ExMdBAocxU8aqPc3oRzAjKelJLBk=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: netdev@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: linux-kernel@vger.kernel.org,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	upstream@airoha.com,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Sean Anderson <sean.anderson@linux.dev>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [RFC net-next PATCH 03/13] net: pcs: Add subsystem
+Date: Thu,  3 Apr 2025 14:18:57 -0400
+Message-Id: <20250403181907.1947517-4-sean.anderson@linux.dev>
+In-Reply-To: <20250403181907.1947517-1-sean.anderson@linux.dev>
+References: <20250403181907.1947517-1-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <e1eac325-233e-43eb-9ca0-9746893462d7@quicinc.com>
+X-Migadu-Flow: FLOW_OUT
 
-On Thu, Apr 03, 2025 at 08:58:11AM -0700, Wesley Cheng wrote:
-> On 4/3/2025 6:45 AM, Stephan Gerhold wrote:
-> > On Wed, Apr 02, 2025 at 05:54:45PM -0700, Wesley Cheng wrote:
-> >> On 4/2/2025 5:23 PM, Wesley Cheng wrote:
-> >>> On 4/2/2025 7:41 AM, Stephan Gerhold wrote:
-> >>>> On Tue, Apr 01, 2025 at 04:47:41PM -0700, Wesley Cheng wrote:
-> >>>>> On 4/1/2025 1:16 AM, Stephan Gerhold wrote:
-> >>>>>> On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
-> >>>>>>> On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
-> >>>>>>>> On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
-> >>>>>>>>> On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
-> >>>>>>>>>> On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
-> >>>>>>>>>>> The QC ADSP is able to support USB
-> >>>>>>>>>>> playback endpoints, so that the main
-> >>>>>>>>>>> application processor can be placed into
-> >>>>>>>>>>> lower CPU power modes.  This adds
-> >>>>>>>>>>> the required AFE port configurations and
-> >>>>>>>>>>> port start command to start an
-> >>>>>>>>>>> audio session.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Specifically, the QC ADSP can support
-> >>>>>>>>>>> all potential endpoints that are
-> >>>>>>>>>>> exposed by the audio data interface. 
-> >>>>>>>>>>> This includes isochronous data
-> >>>>>>>>>>> endpoints, in either synchronous mode or
-> >>>>>>>>>>> asynchronous mode. In the latter
-> >>>>>>>>>>> case both implicit or explicit feedback
-> >>>>>>>>>>> endpoints are supported.  The size
-> >>>>>>>>>>> of audio samples sent per USB frame
-> >>>>>>>>>>> (microframe) will be adjusted based on
-> >>>>>>>>>>> information received on the feedback endpoint.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Some pre-requisites are needed before
-> >>>>>>>>>>> issuing the AFE port start command,
-> >>>>>>>>>>> such as setting the USB AFE dev_token. 
-> >>>>>>>>>>> This carries information about the
-> >>>>>>>>>>> available USB SND cards and PCM devices
-> >>>>>>>>>>> that have been discovered on the
-> >>>>>>>>>>> USB bus.  The dev_token field is used by
-> >>>>>>>>>>> the audio DSP to notify the USB
-> >>>>>>>>>>> offload driver of which card and PCM index to enable playback on.
-> >>>>>>>>>>>
-> >>>>>>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
-> >>>>>>>>>>> ---
-> >>>>>>>>>>>   sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
-> >>>>>>>>>>>  
-> >>>>>>>>>>> sound/soc/qcom/qdsp6/q6afe.c            
-> >>>>>>>>>>> | 192 ++++++++++++++++++++++-
-> >>>>>>>>>>>   sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
-> >>>>>>>>>>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
-> >>>>>>>>>>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
-> >>>>>>>>>>>   sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
-> >>>>>>>>>>>   6 files changed, 341 insertions(+), 3 deletions(-)
-> >>>>>>>>>>>
-> >>>>>>>>> [...]
-> >>>>>>>>>>> diff --git
-> >>>>>>>>>>> a/sound/soc/qcom/qdsp6/q6routing.c
-> >>>>>>>>>>> b/sound/soc/qcom/qdsp6/q6routing.c
-> >>>>>>>>>>> index 90228699ba7d..b7439420b425 100644
-> >>>>>>>>>>> --- a/sound/soc/qcom/qdsp6/q6routing.c
-> >>>>>>>>>>> +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> >>>>>>>>>>> @@ -435,6 +435,26 @@ static struct
-> >>>>>>>>>>> session_data *get_session_from_id(struct
-> >>>>>>>>>>> msm_routing_data *data,
-> >>>>>>>>>>>       return NULL;
-> >>>>>>>>>>>   }
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +static bool is_usb_routing_enabled(struct msm_routing_data *data)
-> >>>>>>>>>>> +{
-> >>>>>>>>>>> +    int i;
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +    /*
-> >>>>>>>>>>> +     * Loop through current sessions to
-> >>>>>>>>>>> see if there are active routes
-> >>>>>>>>>>> +     * to the USB_RX backend DAI.  The
-> >>>>>>>>>>> USB offload routing is designed
-> >>>>>>>>>>> +     * similarly to the non offload
-> >>>>>>>>>>> path.  If there are multiple PCM
-> >>>>>>>>>>> +     * devices associated with the ASoC
-> >>>>>>>>>>> platform card, only one active
-> >>>>>>>>>>> +     * path can be routed to the USB offloaded endpoint.
-> >>>>>>>>>>> +     */
-> >>>>>>>>>>> +    for (i = 0; i < MAX_SESSIONS; i++) {
-> >>>>>>>>>>> +        if (data->sessions[i].port_id == USB_RX)
-> >>>>>>>>>>> +            return true;
-> >>>>>>>>>>> +    }
-> >>>>>>>>>>> +
-> >>>>>>>>>>> +    return false;
-> >>>>>>>>>>> +}
-> >>>>>>>>>>
-> >>>>>>>>>> What is different about USB_RX compared to
-> >>>>>>>>>> other output ports we have in
-> >>>>>>>>>> Q6AFE? Obviously, we can only play one
-> >>>>>>>>>> stream on an output port. But
-> >>>>>>>>>> doesn't the ADSP mix streams together when
-> >>>>>>>>>> you have multiple routes?
-> >>>>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> This patch will limit the USB_RX from being able
-> >>>>>>>>> to be mixed to multiple
-> >>>>>>>>> q6adm paths.
-> >>>>>>>>>
-> >>>>>>>>>> Also, this doesn't actually check for *active* routes only. It just
-> >>>>>>>>>> looks if any other MultiMedia DAI is
-> >>>>>>>>>> configured to output to USB_RX.
-> >>>>>>>>>> That doesn't mean they will ever be active at the same time.
-> >>>>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> Yes, the main reason being that that is the
-> >>>>>>>>> mechanism we use to populate
-> >>>>>>>>> the active offload path within the USB SND card mixer.
-> >>>>>>>>>
-> >>>>>>>>>> I might for example want to have MultiMedia1 and MultiMedia2 both
-> >>>>>>>>>> configured to output to USB_RX. Let's assume
-> >>>>>>>>>> MultiMedia1 is a normal PCM
-> >>>>>>>>>> DAI, MultiMedia2 is a compress offload DAI. When I want to playback
-> >>>>>>>>>> normal audio, I go through MultiMedia1, when
-> >>>>>>>>>> I want to play compressed
-> >>>>>>>>>> audio, I go through MultiMedia2. Only one of them active at a time.
-> >>>>>>>>>> Why can't I set this up statically in the mixers?
-> >>>>>>>>>>
-> >>>>>>>>>> If you confirm that it is really impossible
-> >>>>>>>>>> to have multiple streams
-> >>>>>>>>>> mixed together to the USB_RX output in the
-> >>>>>>>>>> ADSP, then this should be a
-> >>>>>>>>>> runtime check instead when starting the stream IMO.
-> >>>>>>>>>>
-> >>>>>>>>>
-> >>>>>>>>> We can have multiple streams being mixed together, but it will get
-> >>>>>>>>> confusing because it changes the definition that
-> >>>>>>>>> we had discussed about in
-> >>>>>>>>> the past about the overall design for the interaction w/ userspace.
-> >>>>>>>>> Although we (QC) only support a single USB audio
-> >>>>>>>>> device for offloading,
-> >>>>>>>>> there could be other situations where the audio
-> >>>>>>>>> DSP can support multiple
-> >>>>>>>>> devices.  The assumption is that each MM path is
-> >>>>>>>>> assigned to a USB device.
-> >>>>>>>>>
-> >>>>>>>>
-> >>>>>>>> Are you referring to the "USB Offload Playback Route
-> >>>>>>>> PCM#*" mixers here?
-> >>>>>>>> They could just refer to first of the configured MM paths, if someone
-> >>>>>>>> decides to route multiple paths to the USB backend. Looking at
-> >>>>>>>> q6usb_update_offload_route(), I think the implementation does that
-> >>>>>>>> already.
-> >>>>>>>>
-> >>>>>>>> I think it's fine that the userspace API for
-> >>>>>>>> automatically "probing" the
-> >>>>>>>> PCM device supports only a single path to the USB backend. But if
-> >>>>>>>> someone wants to bypass the automatic probing and configure a more
-> >>>>>>>> advanced setup, do we need to forbid that?
-> >>>>>>>>
-> >>>>>>>> Asked differently: what would happen if we remove this check here and
-> >>>>>>>> handle USB_RX like any other Q6AFE output port?
-> >>>>>>>> Would anything break for
-> >>>>>>>> the userspace interface?
-> >>>>>>>>
-> >>>>>>>
-> >>>>>>> So I took a look at seeing how the Q6ADM/ASM
-> >>>>>>> interactions would work for
-> >>>>>>> the situation where if user tried to start both MM1/2
-> >>>>>>> streams at the same
-> >>>>>>> time over the USB offload path.  In this scenario, we
-> >>>>>>> see that the Q6USB BE
-> >>>>>>> DAI operations, ie startup, hw_params, etc... gets
-> >>>>>>> called one time for the
-> >>>>>>> initial stream.  For example, if I start playback on MM1, then that
-> >>>>>>> triggers the USB BE DAI to be brought up.
-> >>>>>>>
-> >>>>>>> When I start playback on MM2, since MM1 already called
-> >>>>>>> dpcm_be_dai_startup(), then be->dpcm[stream].users will
-> >>>>>>> be greater than
-> >>>>>>> zero.  This would cause the __soc_pcm_open() to be
-> >>>>>>> skipped for the USB BE
-> >>>>>>> DAI, so I wouldn't be able to check the runtime status
-> >>>>>>> at the Q6USB backend
-> >>>>>>> DAI.  However, we do track current streaming sessions
-> >>>>>>> done over Q6 ADM and
-> >>>>>>> it does save the AFE port associated to each COPP
-> >>>>>>> allocation, so I think its
-> >>>>>>> reasonable to see if there is already a COPP entry for
-> >>>>>>> the USB AFE port, to
-> >>>>>>> fail the open() call associated to the FE DAI.
-> >>>>>>>
-> >>>>>>
-> >>>>>> This sounds like a reasonable approach *if* we have to prevent multiple
-> >>>>>> MM DAIs from streaming to the USB AFE port at the same time.
-> >>>>>>
-> >>>>>> It's still unclear to me why we have to introduce this
-> >>>>>> limitation in the
-> >>>>>> first place. I think the questions from my previous email are still
-> >>>>>> open. Can you check them again?
-> >>>>>>
-> >>>>>
-> >>>>> So I checked with our audio DSP folks, and they mentioned there isn't
-> >>>>> technically a limitation from mixing multiple ADM streams from
-> >>>>> their end.
-> >>>>> My observations are as follows:
-> >>>>> - Using tinyplay to open and play on different FE PCM devices
-> >>>>> (ie MM1 and
-> >>>>> MM2), both streams are audible on the USB headset (intermixed).
-> >>>>> - If starting playback on MM1 first, before MM2, then once playback is
-> >>>>> complete on MM1, the ADM close is also affecting the MM2 stream.
-> >>>>> Basically, MM2 stops when the MM1 audio file is completed.
-> >>>>> - Due to the abrupt/incomplete closing of the MM2 ADM stream, looks like
-> >>>>> the audio DSP is not handling that case well, so subsequent
-> >>>>> playbacks fail.
-> >>>>>
-> >>>>
-> >>>> Thanks a lot for testing this!
-> >>>>
-> >>>>> I did find a possible reason for this, and it seems to be due to
-> >>>>> some code
-> >>>>> unrelated to the USB offload path directly.  It looks like the Q6ADM is
-> >>>>> currently built in a way that you can only route streams to a single
-> >>>>> endpoint, even though we do have reference counting for each
-> >>>>> COPP profile.
-> >>>>> So even after the first MM1 ADM stream completes and the PCM device is
-> >>>>> closed, the MM1 ADM close callback will issue a q6adm_device_close() for
-> >>>>> the USB AFE port.
-> >>>>
-> >>>> Yeah, this sounds like a bug to me...
-> >>>>
-> >>>>>
-> >>>>> I made some test changes to account for the refcount before issuing the
-> >>>>> q6adm_device_close(), and that seemed to work.  Once the MM1
-> >>>>> stream closes,
-> >>>>> it allows for the MM2 stream to close/finish before issuing the command,
-> >>>>> and that allows for proper cleanup of the audio data.
-> >>>>>
-> >>>>> IMO, I would like to keep the initial behavior (ie, blocking the
-> >>>>> additional
-> >>>>> stream open from the kernel) until I can get some more testing done, and
-> >>>>> figure out if this is the correct approach.  If it is, I can submit a
-> >>>>> follow up series to address it.
-> >>>>>
-> >>>>
-> >>>> I'm fine with this approach. My only two concerns/comments are:
-> >>>>
-> >>>>   1. Let's make sure we don't waste too much time finding the ideal
-> >>>>      approach to implement the additional blocking, if this will likely
-> >>>>      end up getting removed again anyway.
-> >>>>
-> >>>>   2. How can we justify making this change only for USB? Your analysis
-> >>>>      sounds like the issue applies to all types of output ports. This was
-> >>>>      exactly my main concern with the check you added in this patch:
-> >>>>      I would expect QDSP6 treats all ports exactly the same. This means
-> >>>>      we should add this additional check for all the output ports...
-> >>>>
-> >>>
-> >>> Fair points...I will extend this check across all ports until I get back
-> >>> with seeing how we can address the mixing situation.
-> >>>
-> >>
-> >> Sorry for replying again.  I think I'll at least limit this to the playback
-> >> path only for now.  I'm not sure how the behavior yet is for the record
-> >> path, since I don't really have that use case to test with yet :).  I will
-> >> see how it looks like when the record USB offload is done.
-> >>
-> > 
-> > FWIW, I tested this on MSM8916:
-> > 
-> >  - MultiMedia1 -> PRI_MI2S_RX
-> >  - MultiMedia3 -> PRI_MI2S_RX
-> >  - TERT_MI2S_TX -> MultiMedia2
-> >  - TERT_MI2S_TX -> MultiMedia5
-> > 
-> > 2x speaker-test to MultiMedia1 and MultiMedia3 (pink noise + sine wave):
-> >  -> Audio playback correctly mixed together
-> >  -> Playback aborts for both when stopping one of the processes
-> >       Write error: -5,I/O error
-> >       xrun_recovery failed: -5,I/O error
-> >       Transfer failed: I/O error
-> >  -> Kernel log:
-> >     [  585.679421] q6routing 4080000.remoteproc:smd-edge:apr:service@8:routing: Found Matching Copp 0x0
-> >     [  587.917135] qcom-q6adm aprsvc:service:4:8: cmd = 0x10327 return error = 0x2
-> >     [  587.917378] qcom-q6adm aprsvc:service:4:8: DSP returned error[2]
-> >     [  587.917409] qcom-q6adm aprsvc:service:4:8: Failed to close copp -22
-> > 
-> > 2x arecord from MultiMedia2 and MultiMedia5:
-> >  -> Both processes record audio as expected
-> >  -> Recording aborts for both when stopping one of the processes
-> >       arecord: pcm_read:2272: read error: I/O error
-> >  -> Kernel log:
-> >     [  646.125612] q6routing 4080000.remoteproc:smd-edge:apr:service@8:routing: Found Matching Copp 0x0
-> >     [  654.247867] q6asm-dai 4080000.remoteproc:smd-edge:apr:service@7:dais: command[0x10bdb] not expecting rsp
-> >     [  654.815474] q6asm-dai 4080000.remoteproc:smd-edge:apr:service@7:dais: command[0x10bdb] not expecting rsp
-> >     [  654.825568] qcom-q6adm aprsvc:service:4:8: cmd = 0x10327 return error = 0x2
-> >     [  654.825955] qcom-q6adm aprsvc:service:4:8: DSP returned error[2]
-> >     [  654.826013] qcom-q6adm aprsvc:service:4:8: Failed to close copp -22
-> > 
-> > => Both playback and recording are affected. As you suspected it's
-> >    unrelated to USB.
-> > 
-> 
-> Great, thanks for confirming both paths show the same issue :).
-> 
-> > This feels like a bug to me rather than an intentional limitation. If
-> > you can share the fix you made I can test it here.
-> > 
-> 
-> Change I tried was fairly straightforward.  Sharing it below:
-> 
-> diff --git a/sound/soc/qcom/qdsp6/q6adm.c b/sound/soc/qcom/qdsp6/q6adm.c
-> index fe719c4c32b3..7880fbbe815f 100644
-> --- a/sound/soc/qcom/qdsp6/q6adm.c
-> +++ b/sound/soc/qcom/qdsp6/q6adm.c
-> @@ -578,12 +579,13 @@ int q6adm_close(struct device *dev, struct q6copp *copp)
->      struct q6adm *adm = dev_get_drvdata(dev->parent);
->      int ret = 0;
-> 
-> -    ret = q6adm_device_close(adm, copp, copp->afe_port, copp->copp_idx);
-> -    if (ret < 0) {
-> -        dev_err(adm->dev, "Failed to close copp %d\n", ret);
-> -        return ret;
-> +    if (kref_read(&copp->refcount) == 1) {
-> +        ret = q6adm_device_close(adm, copp, copp->afe_port, copp->copp_idx);
-> +        if (ret < 0) {
-> +            dev_err(adm->dev, "Failed to close copp %d\n", ret);
-> +            return ret;
-> +        }
->      }
-> -
->      kref_put(&copp->refcount, q6adm_free_copp);
-> 
->      return 0;
-> 
+This adds support for getting PCS devices from the device tree. PCS
+drivers must first register with phylink_register_pcs. After that, MAC
+drivers may look up their PCS using phylink_get_pcs.
 
-Hmm, yeah it looks like we need some reference counting for the
-open/close operation. I think checking the refcount like that is going
-to be prone to potential race conditions though. I'm not sure if we can
-guarantee that q6adm_close() isn't called concurrently.
+We wrap registered PCSs in another PCS. This wrapper PCS is refcounted
+and can outlive the wrapped PCS (such as if the wrapped PCS's driver is
+unbound). The wrapper forwards all PCS callbacks to the wrapped PCS,
+first checking to make sure the wrapped PCS still exists. This design
+was inspired by Bartosz Golaszewsk's talk at LPC [1].
 
-I played around a bit and came up with the two patches below. I think
-those should be good. Given the "Found Matching Copp" code path, it
-feels like this was the intended behavior all along. I can post these if
-you have no objections. You could then just go ahead with your series by
-removing the check I originally commented on in this patch.
+pcs_get_by_fwnode_compat is a bit hairy, but it's necessary for
+compatibility with existing drivers, which often attach to (devicetree)
+nodes directly. We use the devicetree changeset system instead of
+adding a (secondary) software node because mdio_bus_match calls
+of_driver_match_device to match devices, and that function only works on
+devicetree nodes.
 
-Test results with the two patches below:
- - 2x speaker-test: Audio playback mixed together correctly, processes
-   keep running independently, can start/stop new processes
- - 2x arecord: Both processes record audio as expected, processes
-   keep running independently, can start/stop new processes
+[1] https://lpc.events/event/17/contributions/1627/
 
-Thanks,
-Stephan
-
-From 0a74bded47436f6dd52bfed8a420c5cb84188f50 Mon Sep 17 00:00:00 2001
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-Date: Thu, 3 Apr 2025 19:37:50 +0200
-Subject: [PATCH 1/2] ASoC: qcom: qdsp6: q6adm: Finish initializing copp before
- releasing lock
-
+Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 ---
- sound/soc/qcom/qdsp6/q6adm.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/sound/soc/qcom/qdsp6/q6adm.c b/sound/soc/qcom/qdsp6/q6adm.c
-index 1530e98df165..b4879cac76a6 100644
---- a/sound/soc/qcom/qdsp6/q6adm.c
-+++ b/sound/soc/qcom/qdsp6/q6adm.c
-@@ -408,9 +408,6 @@ struct q6copp *q6adm_open(struct device *dev, int port_id, int path, int rate,
- 		return ERR_CAST(copp);
- 	}
+ Documentation/networking/index.rst |   1 +
+ Documentation/networking/kapi.rst  |   4 +
+ Documentation/networking/pcs.rst   |  99 ++++
+ MAINTAINERS                        |   2 +
+ drivers/net/pcs/Kconfig            |  12 +
+ drivers/net/pcs/Makefile           |   2 +
+ drivers/net/pcs/core.c             | 701 +++++++++++++++++++++++++++++
+ include/linux/pcs.h                | 122 +++++
+ 8 files changed, 943 insertions(+)
+ create mode 100644 Documentation/networking/pcs.rst
+ create mode 100644 drivers/net/pcs/core.c
+ create mode 100644 include/linux/pcs.h
+
+diff --git a/Documentation/networking/index.rst b/Documentation/networking/index.rst
+index 058193ed2eeb..96a2cf71057d 100644
+--- a/Documentation/networking/index.rst
++++ b/Documentation/networking/index.rst
+@@ -30,6 +30,7 @@ Contents:
+    page_pool
+    phy
+    sfp-phylink
++   pcs
+    alias
+    bridge
+    snmp_counter
+diff --git a/Documentation/networking/kapi.rst b/Documentation/networking/kapi.rst
+index 98682b9a13ee..7a48178649de 100644
+--- a/Documentation/networking/kapi.rst
++++ b/Documentation/networking/kapi.rst
+@@ -146,6 +146,10 @@ PHYLINK
  
--	list_add_tail(&copp->node, &adm->copps_list);
--	spin_unlock_irqrestore(&adm->copps_list_lock, flags);
--
- 	kref_init(&copp->refcount);
- 	copp->topology = topology;
- 	copp->mode = perf_mode;
-@@ -419,6 +416,9 @@ struct q6copp *q6adm_open(struct device *dev, int port_id, int path, int rate,
- 	copp->bit_width = bit_width;
- 	copp->app_type = app_type;
+ .. kernel-doc:: include/linux/phylink.h
+    :internal:
++   :no-identifiers: phylink_pcs phylink_pcs_ops pcs_validate pcs_inband_caps
++      pcs_enable pcs_disable pcs_pre_config pcs_post_config pcs_get_state
++      pcs_config pcs_an_restart pcs_link_up pcs_disable_eee pcs_enable_eee
++      pcs_pre_init
  
-+	list_add_tail(&copp->node, &adm->copps_list);
-+	spin_unlock_irqrestore(&adm->copps_list_lock, flags);
+ .. kernel-doc:: drivers/net/phy/phylink.c
+ 
+diff --git a/Documentation/networking/pcs.rst b/Documentation/networking/pcs.rst
+new file mode 100644
+index 000000000000..3677527e5e2b
+--- /dev/null
++++ b/Documentation/networking/pcs.rst
+@@ -0,0 +1,99 @@
++.. SPDX-License-Identifier: GPL-2.0
 +
- 	ret = q6adm_device_open(adm, copp, port_id, path, topology,
- 				channel_mode, bit_width, rate);
- 	if (ret < 0) {
--- 
-2.47.2
-
-From 8e0cab2b66b053f3008eb2e117dcbec72b1a467c Mon Sep 17 00:00:00 2001
-From: Stephan Gerhold <stephan.gerhold@linaro.org>
-Date: Thu, 3 Apr 2025 19:38:49 +0200
-Subject: [PATCH 2/2] ASoC: qcom: qdsp6: q6adm: Add reference count for
- opening/closing copps
-
----
- sound/soc/qcom/qdsp6/q6adm.c | 71 ++++++++++++++++++++++--------------
- 1 file changed, 43 insertions(+), 28 deletions(-)
-
-diff --git a/sound/soc/qcom/qdsp6/q6adm.c b/sound/soc/qcom/qdsp6/q6adm.c
-index b4879cac76a6..b073980bb967 100644
---- a/sound/soc/qcom/qdsp6/q6adm.c
-+++ b/sound/soc/qcom/qdsp6/q6adm.c
-@@ -51,6 +51,9 @@ struct q6copp {
- 	wait_queue_head_t wait;
- 	struct list_head node;
- 	struct q6adm *adm;
++=============
++PCS Subsystem
++=============
 +
-+	int open_count;
-+	struct mutex open_lock;
- };
- 
- struct q6adm {
-@@ -396,35 +399,43 @@ struct q6copp *q6adm_open(struct device *dev, int port_id, int path, int rate,
- 
- 	copp = q6adm_find_matching_copp(adm, port_id, topology, perf_mode,
- 				      rate, channel_mode, bit_width, app_type);
--	if (copp) {
--		dev_err(dev, "Found Matching Copp 0x%x\n", copp->copp_idx);
--		return copp;
--	}
-+	if (!copp) {
-+		spin_lock_irqsave(&adm->copps_list_lock, flags);
-+		copp = q6adm_alloc_copp(adm, port_id);
-+		if (IS_ERR(copp)) {
-+			spin_unlock_irqrestore(&adm->copps_list_lock, flags);
-+			return ERR_CAST(copp);
-+		}
- 
--	spin_lock_irqsave(&adm->copps_list_lock, flags);
--	copp = q6adm_alloc_copp(adm, port_id);
--	if (IS_ERR(copp)) {
-+		kref_init(&copp->refcount);
-+		copp->topology = topology;
-+		copp->mode = perf_mode;
-+		copp->rate = rate;
-+		copp->channels = channel_mode;
-+		copp->bit_width = bit_width;
-+		copp->app_type = app_type;
-+		mutex_init(&copp->open_lock);
++The PCS (Physical Coding Sublayer) subsystem handles the registration and lookup
++of PCS devices. These devices contain the upper sublayers of the Ethernet
++physical layer, generally handling framing, scrambling, and encoding tasks. PCS
++devices may also include PMA (Physical Medium Attachment) components. PCS
++devices transfer data between the Link-layer MAC device, and the rest of the
++physical layer, typically via a serdes. The output of the serdes may be
++connected more-or-less directly to the medium when using fiber-optic or
++backplane connections (1000BASE-SX, 1000BASE-KX, etc). It may also communicate
++with a separate PHY (such as over SGMII) which handles the connection to the
++medium (such as 1000BASE-T).
 +
-+		list_add_tail(&copp->node, &adm->copps_list);
- 		spin_unlock_irqrestore(&adm->copps_list_lock, flags);
--		return ERR_CAST(copp);
++Looking up PCS Devices
++----------------------
++
++There are generally two ways to look up a PCS device. If the PCS device is
++internal to a larger device (such as a MAC or switch), and it does not share an
++implementation with an existing PCS, then it does not need to be registered with
++the PCS subsystem. Instead, you can populate a :c:type:`phylink_pcs`
++in your probe function. Otherwise, you must look up the PCS.
++
++If your device has a :c:type:`fwnode_handle`, you can add a PCS using the
++``pcs-handle`` property::
++
++    ethernet-controller {
++        // ...
++        pcs-handle = <&pcs>;
++        pcs-handle-names = "internal";
++    };
++
++Then, during your probe function, you can get the PCS using :c:func:`pcs_get`::
++
++    mac->pcs = pcs_get(dev, "internal");
++    if (IS_ERR(mac->pcs)) {
++        err = PTR_ERR(mac->pcs);
++        return dev_err_probe(dev, "Could not get PCS\n");
++    }
++
++If your device doesn't have a :c:type:`fwnode_handle`, you can get the PCS
++based on the providing device using :c:func:`pcs_get_by_dev`. Typically, you
++will create the device and bind your PCS driver to it before calling this
++function. This allows reuse of an existing PCS driver.
++
++Once you are done using the PCS, you must call :c:func:`pcs_put`.
++
++Using PCS Devices
++-----------------
++
++To select the PCS from a MAC driver, implement the ``mac_select_pcs`` callback
++of :c:type:`phylink_mac_ops`. In this example, the PCS is selected for SGMII
++and 1000BASE-X, and deselected for other interfaces::
++
++    static struct phylink_pcs *mac_select_pcs(struct phylink_config *config,
++                                              phy_interface_t iface)
++    {
++        struct mac *mac = config_to_mac(config);
++
++        switch (iface) {
++        case PHY_INTERFACE_MODE_SGMII:
++        case PHY_INTERFACE_MODE_1000BASEX:
++            return mac->pcs;
++        default:
++            return NULL;
++        }
++    }
++
++To do the same from a DSA driver, implement the ``phylink_mac_select_pcs``
++callback of :c:type:`dsa_switch_ops`.
++
++Writing PCS Drivers
++-------------------
++
++To write a PCS driver, first implement :c:type:`phylink_pcs_ops`. Then,
++register your PCS in your probe function using :c:func:`pcs_register`. You must
++call :c:func:`pcs_unregister` from your remove function. You can avoid this step
++by registering with :c:func:`devm_pcs_unregister`.
++
++API Reference
++-------------
++
++.. kernel-doc:: include/linux/phylink.h
++   :identifiers: phylink_pcs phylink_pcs_ops pcs_validate pcs_inband_caps
++      pcs_enable pcs_disable pcs_pre_config pcs_post_config pcs_get_state
++      pcs_config pcs_an_restart pcs_link_up pcs_disable_eee pcs_enable_eee
++      pcs_pre_init
++
++.. kernel-doc:: include/linux/pcs.h
++   :internal:
++
++.. kernel-doc:: drivers/net/pcs/core.c
++   :export:
++
++.. kernel-doc:: drivers/net/pcs/core.c
++   :internal:
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 1cd25139cc58..9d3b3788a005 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8644,6 +8644,7 @@ F:	Documentation/ABI/testing/sysfs-class-net-phydev
+ F:	Documentation/devicetree/bindings/net/ethernet-phy.yaml
+ F:	Documentation/devicetree/bindings/net/mdio*
+ F:	Documentation/devicetree/bindings/net/qca,ar803x.yaml
++F:	Documentation/networking/pcs.rst
+ F:	Documentation/networking/phy.rst
+ F:	drivers/net/mdio/
+ F:	drivers/net/mdio/acpi_mdio.c
+@@ -8657,6 +8658,7 @@ F:	include/linux/linkmode.h
+ F:	include/linux/mdio/*.h
+ F:	include/linux/mii.h
+ F:	include/linux/of_net.h
++F:	include/linux/pcs.h
+ F:	include/linux/phy.h
+ F:	include/linux/phy_fixed.h
+ F:	include/linux/phy_link_topology.h
+diff --git a/drivers/net/pcs/Kconfig b/drivers/net/pcs/Kconfig
+index f6aa437473de..b764770063cc 100644
+--- a/drivers/net/pcs/Kconfig
++++ b/drivers/net/pcs/Kconfig
+@@ -5,6 +5,18 @@
+ 
+ menu "PCS device drivers"
+ 
++config PCS
++	bool "PCS subsystem"
++	help
++	  This provides common helper functions for registering and looking up
++	  Physical Coding Sublayer (PCS) devices. PCS devices translate between
++	  different interface types. In some use cases, they may either
++	  translate between different types of Medium-Independent Interfaces
++	  (MIIs), such as translating GMII to SGMII. This allows using a fast
++	  serial interface to talk to the phy which translates the MII to the
++	  Medium-Dependent Interface. Alternatively, they may translate a MII
++	  directly to an MDI, such as translating GMII to 1000Base-X.
++
+ config PCS_XPCS
+ 	tristate "Synopsys DesignWare Ethernet XPCS"
+ 	select PHYLINK
+diff --git a/drivers/net/pcs/Makefile b/drivers/net/pcs/Makefile
+index 4f7920618b90..35e3324fc26e 100644
+--- a/drivers/net/pcs/Makefile
++++ b/drivers/net/pcs/Makefile
+@@ -1,6 +1,8 @@
+ # SPDX-License-Identifier: GPL-2.0
+ # Makefile for Linux PCS drivers
+ 
++obj-$(CONFIG_PCS)		+= core.o
++
+ pcs_xpcs-$(CONFIG_PCS_XPCS)	:= pcs-xpcs.o pcs-xpcs-plat.o \
+ 				   pcs-xpcs-nxp.o pcs-xpcs-wx.o
+ 
+diff --git a/drivers/net/pcs/core.c b/drivers/net/pcs/core.c
+new file mode 100644
+index 000000000000..de3f9e418cf2
+--- /dev/null
++++ b/drivers/net/pcs/core.c
+@@ -0,0 +1,701 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ * Copyright (C) 2022, 2025 Sean Anderson <sean.anderson@seco.com>
++ */
++
++#define pr_fmt(fmt) "pcs-core: " fmt
++
++#include <linux/fwnode.h>
++#include <linux/list.h>
++#include <linux/mutex.h>
++#include <linux/of.h>
++#include <linux/pcs.h>
++#include <linux/phylink.h>
++#include <linux/property.h>
++#include <linux/rcupdate.h>
++
++static LIST_HEAD(pcs_wrappers);
++static DEFINE_MUTEX(pcs_mutex);
++
++/**
++ * struct pcs_wrapper - Wrapper for a registered PCS
++ * @pcs: the wrapping PCS
++ * @ssp: SRCU protecting @wrapped
++ * @refcnt: refcount for the wrapper
++ * @list: list head for pcs_wrappers
++ * @dev: the device associated with this PCS
++ * @wrapped: the backing PCS
++ */
++struct pcs_wrapper {
++	struct phylink_pcs pcs;
++	struct srcu_struct ssp;
++	refcount_t refcnt;
++	struct list_head list;
++	struct device *dev;
++	struct phylink_pcs *wrapped;
++};
++
++static const struct phylink_pcs_ops pcs_ops;
++
++static struct pcs_wrapper *pcs_to_wrapper(struct phylink_pcs *pcs)
++{
++	WARN_ON(pcs->ops != &pcs_ops);
++	return container_of(pcs, struct pcs_wrapper, pcs);
++}
++
++static int pcs_validate(struct phylink_pcs *pcs, unsigned long *supported,
++			const struct phylink_link_state *state)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int ret, idx;
++
++	if (!wrapper)
++		return 0;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped) {
++		if (wrapped->ops->pcs_validate)
++			ret = wrapped->ops->pcs_validate(wrapped, supported,
++							 state);
++		else
++			ret = 0;
 +	} else {
-+		dev_dbg(dev, "Found Matching Copp 0x%x\n", copp->copp_idx);
- 	}
- 
--	kref_init(&copp->refcount);
--	copp->topology = topology;
--	copp->mode = perf_mode;
--	copp->rate = rate;
--	copp->channels = channel_mode;
--	copp->bit_width = bit_width;
--	copp->app_type = app_type;
--
--	list_add_tail(&copp->node, &adm->copps_list);
--	spin_unlock_irqrestore(&adm->copps_list_lock, flags);
--
--	ret = q6adm_device_open(adm, copp, port_id, path, topology,
--				channel_mode, bit_width, rate);
--	if (ret < 0) {
--		kref_put(&copp->refcount, q6adm_free_copp);
--		return ERR_PTR(ret);
-+	mutex_lock(&copp->open_lock);
-+	if (copp->open_count == 0) {
-+		ret = q6adm_device_open(adm, copp, port_id, path, topology,
-+					channel_mode, bit_width, rate);
-+		if (ret < 0) {
-+			mutex_unlock(&copp->open_lock);
-+			kref_put(&copp->refcount, q6adm_free_copp);
-+			return ERR_PTR(ret);
-+		}
-+		copp->open_count = 1;
++		ret = -ENODEV;
++	}
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++	return ret;
++}
++
++static unsigned int pcs_inband_caps(struct phylink_pcs *pcs,
++				    phy_interface_t interface)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int ret, idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped && wrapped->ops->pcs_inband_caps)
++		ret = wrapped->ops->pcs_inband_caps(wrapped, interface);
++	else
++		ret = 0;
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++	return ret;
++}
++
++static int pcs_enable(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int ret, idx;
++
++	if (!wrapper)
++		return 0;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped) {
++		if (wrapped->ops->pcs_enable)
++			ret = wrapped->ops->pcs_enable(wrapped);
++		else
++			ret = 0;
 +	} else {
-+		copp->open_count++;
- 	}
-+	mutex_unlock(&copp->open_lock);
- 
- 	return copp;
- }
-@@ -570,11 +581,15 @@ int q6adm_close(struct device *dev, struct q6copp *copp)
- 	struct q6adm *adm = dev_get_drvdata(dev->parent);
- 	int ret = 0;
- 
--	ret = q6adm_device_close(adm, copp, copp->afe_port, copp->copp_idx);
--	if (ret < 0) {
--		dev_err(adm->dev, "Failed to close copp %d\n", ret);
--		return ret;
-+	mutex_lock(&copp->open_lock);
-+	if (--copp->open_count == 0) {
-+		ret = q6adm_device_close(adm, copp, copp->afe_port, copp->copp_idx);
-+		if (ret < 0) {
-+			dev_err(adm->dev, "Failed to close copp %d\n", ret);
-+			return ret;
-+		}
- 	}
-+	mutex_unlock(&copp->open_lock);
- 
- 	kref_put(&copp->refcount, q6adm_free_copp);
- 
++		ret = -ENODEV;
++	}
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++	return ret;
++}
++
++static void pcs_disable(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped && wrapped->ops->pcs_disable)
++		wrapped->ops->pcs_disable(wrapped);
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static void pcs_get_state(struct phylink_pcs *pcs, unsigned int neg_mode,
++			  struct phylink_link_state *state)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped)
++		wrapped->ops->pcs_get_state(wrapped, neg_mode, state);
++	else
++		state->link = 0;
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static void pcs_pre_config(struct phylink_pcs *pcs,
++			   phy_interface_t interface)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped && wrapped->ops->pcs_pre_config)
++		wrapped->ops->pcs_pre_config(wrapped, interface);
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static int pcs_post_config(struct phylink_pcs *pcs,
++			   phy_interface_t interface)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int ret, idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (pcs && wrapped->ops->pcs_post_config)
++		ret = wrapped->ops->pcs_post_config(wrapped, interface);
++	else
++		ret = 0;
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++	return ret;
++}
++
++static int pcs_config(struct phylink_pcs *pcs, unsigned int neg_mode,
++		      phy_interface_t interface,
++		      const unsigned long *advertising,
++		      bool permit_pause_to_mac)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int ret, idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped)
++		ret = wrapped->ops->pcs_config(wrapped, neg_mode, interface,
++					   advertising, permit_pause_to_mac);
++	else
++		ret = -ENODEV;
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++	return ret;
++}
++
++static void pcs_an_restart(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped)
++		wrapped->ops->pcs_an_restart(wrapped);
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static void pcs_link_up(struct phylink_pcs *pcs, unsigned int neg_mode,
++			phy_interface_t interface, int speed, int duplex)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped && wrapped->ops->pcs_link_up)
++		wrapped->ops->pcs_link_up(wrapped, neg_mode, interface, speed,
++					  duplex);
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static void pcs_disable_eee(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped && wrapped->ops->pcs_disable_eee)
++		wrapped->ops->pcs_disable_eee(wrapped);
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static void pcs_enable_eee(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped && wrapped->ops->pcs_enable_eee)
++		wrapped->ops->pcs_enable_eee(wrapped);
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++}
++
++static int pcs_pre_init(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
++	struct phylink_pcs *wrapped;
++	int ret, idx;
++
++	idx = srcu_read_lock(&wrapper->ssp);
++
++	wrapped = srcu_dereference(wrapper->wrapped, &wrapper->ssp);
++	if (wrapped) {
++		wrapped->rxc_always_on = pcs->rxc_always_on;
++		if (wrapped->ops->pcs_pre_init)
++			ret = wrapped->ops->pcs_pre_init(wrapped);
++		else
++			ret = 0;
++	} else {
++		ret = -ENODEV;
++	}
++
++	srcu_read_unlock(&wrapper->ssp, idx);
++	return ret;
++}
++
++static const struct phylink_pcs_ops pcs_ops = {
++	.pcs_validate = pcs_validate,
++	.pcs_inband_caps = pcs_inband_caps,
++	.pcs_enable = pcs_enable,
++	.pcs_disable = pcs_disable,
++	.pcs_pre_config = pcs_pre_config,
++	.pcs_post_config = pcs_post_config,
++	.pcs_get_state = pcs_get_state,
++	.pcs_config = pcs_config,
++	.pcs_an_restart = pcs_an_restart,
++	.pcs_link_up = pcs_link_up,
++	.pcs_disable_eee = pcs_disable_eee,
++	.pcs_enable_eee = pcs_enable_eee,
++	.pcs_pre_init = pcs_pre_init,
++};
++
++static void pcs_change_callback(void *priv, bool up)
++{
++	struct pcs_wrapper *wrapper = priv;
++
++	phylink_pcs_change(&wrapper->pcs, up);
++}
++
++/**
++ * pcs_register() - register a new PCS
++ * @dev: The device requesting the PCS
++ * @pcs: The PCS to register
++ *
++ * Registers a new PCS which can be attached to a phylink.
++ *
++ * Return: 0 on success, or -errno on error
++ */
++int pcs_register(struct device *dev, struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper;
++
++	if (!dev || !pcs->ops)
++		return -EINVAL;
++
++	if (!pcs->ops->pcs_an_restart || !pcs->ops->pcs_config ||
++	    !pcs->ops->pcs_get_state)
++		return -EINVAL;
++
++	wrapper = kzalloc(sizeof(*wrapper), GFP_KERNEL);
++	if (!wrapper)
++		return -ENOMEM;
++
++	init_srcu_struct(&wrapper->ssp);
++	refcount_set(&wrapper->refcnt, 1);
++	INIT_LIST_HEAD(&wrapper->list);
++	wrapper->dev = dev;
++	RCU_INIT_POINTER(wrapper->wrapped, pcs);
++
++	wrapper->pcs.ops = &pcs_ops;
++	wrapper->pcs.poll = pcs->poll;
++	bitmap_copy(wrapper->pcs.supported_interfaces, pcs->supported_interfaces,
++		    PHY_INTERFACE_MODE_MAX);
++
++	pcs->link_change = pcs_change_callback;
++	pcs->link_change_priv = wrapper;
++
++	mutex_lock(&pcs_mutex);
++	list_add(&wrapper->list, &pcs_wrappers);
++	mutex_unlock(&pcs_mutex);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(pcs_register);
++
++static void pcs_destroy(struct pcs_wrapper *wrapper)
++{
++	cleanup_srcu_struct(&wrapper->ssp);
++	kfree(wrapper);
++}
++
++/**
++ * pcs_unregister() - unregister a PCS
++ * @pcs: a PCS previously registered with pcs_register()
++ */
++void pcs_unregister(struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper;
++	struct phylink_pcs *wrapped;
++
++	mutex_lock(&pcs_mutex);
++	list_for_each_entry(wrapper, &pcs_wrappers, list) {
++		if (wrapper->wrapped == pcs)
++			goto found;
++	}
++
++	mutex_unlock(&pcs_mutex);
++	WARN(1, "trying to unregister an already-unregistered PCS\n");
++	return;
++
++found:
++	list_del(&wrapper->list);
++	wrapped = rcu_replace_pointer(wrapper->wrapped, NULL, true);
++	mutex_unlock(&pcs_mutex);
++	synchronize_srcu(&wrapper->ssp);
++
++	if (!wrapper->pcs.poll)
++		phylink_pcs_change(&wrapper->pcs, false);
++	if (refcount_dec_and_test(&wrapper->refcnt))
++		pcs_destroy(wrapper);
++}
++EXPORT_SYMBOL_GPL(pcs_unregister);
++
++static void devm_pcs_release(struct device *dev, void *res)
++{
++	pcs_unregister(*(struct phylink_pcs **)res);
++}
++
++/**
++ * devm_pcs_register - resource managed pcs_register()
++ * @dev: device that is registering this PCS
++ * @pcs: the PCS to register
++ *
++ * Managed pcs_register(). For PCSs registered by this function,
++ * pcs_unregister() is automatically called on driver detach. See
++ * pcs_register() for more information.
++ *
++ * Return: 0 on success, or -errno on failure
++ */
++int devm_pcs_register(struct device *dev, struct phylink_pcs *pcs)
++{
++	struct phylink_pcs **pcsp;
++	int ret;
++
++	pcsp = devres_alloc(devm_pcs_release, sizeof(*pcsp),
++			    GFP_KERNEL);
++	if (!pcsp)
++		return -ENOMEM;
++
++	ret = pcs_register(dev, pcs);
++	if (ret) {
++		devres_free(pcsp);
++		return ret;
++	}
++
++	*pcsp = pcs;
++	devres_add(dev, pcsp);
++
++	return ret;
++}
++EXPORT_SYMBOL_GPL(devm_pcs_register);
++
++/**
++ * _pcs_get_tail() - Look up and request a PCS
++ * @dev: The device requesting the PCS
++ * @fwnode: The PCS's fwnode
++ * @pcs_dev: The PCS's device
++ *
++ * Search PCSs registered with pcs_register() for one with a matching
++ * fwnode or device. Either @fwnode or @pcs_dev may be %NULL if matching
++ * against a fwnode or device is not desired (respectively).
++ *
++ * Once a PCS is found, perform common operations necessary when getting a PCS
++ * (increment reference counts, etc).
++ *
++ * You should probably call one of the pcs_get* functions instead of this one.
++ *
++ * Return: A PCS, or an error pointer on failure. If both @fwnode and @pcs_dev are
++ * *       %NULL, returns %NULL to allow easier chaining.
++ */
++struct phylink_pcs *_pcs_get_tail(struct device *dev,
++				  const struct fwnode_handle *fwnode,
++				  const struct device *pcs_dev)
++{
++	struct pcs_wrapper *wrapper;
++
++	if (!fwnode && !pcs_dev)
++		return NULL;
++
++	pr_debug("looking for %pfwf or %s %s...\n", fwnode,
++		 pcs_dev ? dev_driver_string(pcs_dev) : "(null)",
++		 pcs_dev ? dev_name(pcs_dev) : "(null)");
++
++	/* We need to hold this until we get to device_link_add. Otherwise,
++	 * someone could unbind the PCS driver.
++	 */
++	mutex_lock(&pcs_mutex);
++	list_for_each_entry(wrapper, &pcs_wrappers, list) {
++		if (pcs_dev && wrapper->dev == pcs_dev)
++			goto found;
++		if (fwnode && wrapper->dev && wrapper->dev->fwnode == fwnode)
++			goto found;
++	}
++	mutex_unlock(&pcs_mutex);
++	pr_debug("...not found\n");
++	return ERR_PTR(-EPROBE_DEFER);
++
++found:
++	pr_debug("...found\n");
++
++	refcount_inc(&wrapper->refcnt);
++	get_device(wrapper->dev);
++
++	mutex_unlock(&pcs_mutex);
++	return &wrapper->pcs;
++}
++EXPORT_SYMBOL_GPL(_pcs_get_tail);
++
++/**
++ * pcs_find_fwnode() - Find a PCS's fwnode
++ * @mac_node: The fwnode referencing the PCS
++ * @id: The name of the PCS to get. May be %NULL to get the first PCS.
++ * @fallback: An optional fallback property to use if pcs-handle is absent
++ * @optional: Whether the PCS is optional
++ *
++ * Find a PCS's fwnode, as referenced by @mac_node. This fwnode can later be
++ * used with _pcs_get_tail() to get the actual PCS. ``pcs-handle-names`` is
++ * used to match @id, then the fwnode is found using ``pcs-handle``.
++ *
++ * This function is internal to the PCS subsystem from a consumer
++ * point-of-view. However, it may be used to implement fallbacks for legacy
++ * behavior in PCS providers.
++ *
++ * Return: %NULL if @optional is set and the PCS cannot be found. Otherwise,
++ * *       returns a PCS if found or an error pointer on failure.
++ */
++struct fwnode_handle *pcs_find_fwnode(const struct fwnode_handle *mac_node,
++				      const char *id, const char *fallback,
++				      bool optional)
++{
++	int index;
++	struct fwnode_handle *pcs_fwnode;
++
++	if (!mac_node)
++		return optional ? NULL : ERR_PTR(-ENODEV);
++
++	if (id)
++		index = fwnode_property_match_string(mac_node,
++						     "pcs-handle-names", id);
++	else
++		index = 0;
++
++	if (index < 0) {
++		if (optional && (index == -EINVAL || index == -ENODATA))
++			return NULL;
++		return ERR_PTR(index);
++	}
++
++	/* First try pcs-handle, and if that doesn't work try the fallback */
++	pcs_fwnode = fwnode_find_reference(mac_node, "pcs-handle", index);
++	if (PTR_ERR(pcs_fwnode) == -ENOENT && fallback)
++		pcs_fwnode = fwnode_find_reference(mac_node, fallback, index);
++	if (optional && !id && PTR_ERR(pcs_fwnode) == -ENOENT)
++		return NULL;
++	return pcs_fwnode;
++}
++EXPORT_SYMBOL_GPL(pcs_find_fwnode);
++
++/**
++ * _pcs_get() - Get a PCS from a fwnode property
++ * @dev: The device to get a PCS for
++ * @fwnode: The fwnode to find the PCS with
++ * @id: The name of the PCS to get. May be %NULL to get the first PCS.
++ * @fallback: An optional fallback property to use if pcs-handle is absent
++ * @optional: Whether the PCS is optional
++ *
++ * Find a PCS referenced by @mac_node and return a reference to it. Every call
++ * to _pcs_get_by_fwnode() must be balanced with one to pcs_put().
++ *
++ * Return: a PCS if found, %NULL if not, or an error pointer on failure
++ */
++struct phylink_pcs *_pcs_get(struct device *dev, struct fwnode_handle *fwnode,
++			     const char *id, const char *fallback,
++			     bool optional)
++{
++	struct fwnode_handle *pcs_fwnode;
++	struct phylink_pcs *pcs;
++
++	pcs_fwnode = pcs_find_fwnode(fwnode, id, fallback, optional);
++	if (IS_ERR(pcs_fwnode))
++		return ERR_CAST(pcs_fwnode);
++
++	pcs = _pcs_get_tail(dev, pcs_fwnode, NULL);
++	fwnode_handle_put(pcs_fwnode);
++	return pcs;
++}
++EXPORT_SYMBOL_GPL(_pcs_get);
++
++static __maybe_unused void of_changeset_cleanup(void *data)
++{
++	struct of_changeset *ocs = data;
++
++	if (WARN(of_changeset_revert(ocs),
++		 "could not revert changeset; leaking memory\n"))
++		return;
++
++	of_changeset_destroy(ocs);
++	kfree(ocs);
++}
++
++/**
++ * pcs_get_by_fwnode_compat() - Get a PCS with a compatibility fallback
++ * @dev: The device requesting the PCS
++ * @fwnode: The &struct fwnode_handle of the PCS itself
++ * @fixup: Callback to fix up @fwnode for compatibility
++ * @data: Passed to @fixup
++ *
++ * This function looks up a PCS and retries on failure after fixing up @fwnode.
++ * It is intended to assist in backwards-compatible behavior for drivers that
++ * used to create a PCS directly from a &struct device_node. This function
++ * should NOT be used in new drivers.
++ *
++ * @fixup modifies a devicetree changeset to create any properties necessary to
++ * bind the PCS's &struct device_node. At the very least, it should use
++ * of_changeset_add_prop_string() to add a compatible property.
++ *
++ * Note that unlike pcs_get_by_fwnode, @fwnode is the &struct fwnode_handle of
++ * the PCS itself, and not that of the requesting device. @fwnode could be
++ * looked up with pcs_find_fwnode() or determined by some other means for
++ * compatibility.
++ *
++ * Return: A PCS on success or an error pointer on failure
++ */
++struct phylink_pcs *
++pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
++			 int (*fixup)(struct of_changeset *ocs,
++				      struct device_node *np, void *data),
++			 void *data)
++{
++#ifdef CONFIG_OF_DYNAMIC
++	struct mdio_device *mdiodev;
++	struct of_changeset *ocs;
++	struct phylink_pcs *pcs;
++	struct device_node *np;
++	struct device *pcsdev;
++	int err;
++
++	/* First attempt */
++	pcs = _pcs_get_tail(dev, fwnode, NULL);
++	if (PTR_ERR(pcs) != -EPROBE_DEFER)
++		return pcs;
++
++	/* No luck? Maybe there's no compatible... */
++	np = to_of_node(fwnode);
++	if (!np || of_property_present(np, "compatible"))
++		return pcs;
++
++	/* OK, let's try fixing things up */
++	pr_warn("%pOF is missing a compatible\n", np);
++	ocs = kmalloc(sizeof(*ocs), GFP_KERNEL);
++	if (!ocs)
++		return ERR_PTR(-ENOMEM);
++
++	of_changeset_init(ocs);
++	err = fixup(ocs, np, data);
++	if (err)
++		goto err_ocs;
++
++	err = of_changeset_apply(ocs);
++	if (err)
++		goto err_ocs;
++
++	err = devm_add_action_or_reset(dev, of_changeset_cleanup, ocs);
++	if (err)
++		return ERR_PTR(err);
++
++	mdiodev = fwnode_mdio_find_device(fwnode);
++	if (mdiodev) {
++		/* Clear that pesky PHY flag so we can match PCS drivers */
++		device_lock(&mdiodev->dev);
++		mdiodev->flags &= ~MDIO_DEVICE_FLAG_PHY;
++		device_unlock(&mdiodev->dev);
++		pcsdev = &mdiodev->dev;
++	} else {
++		pcsdev = get_device(fwnode->dev);
++		if (!pcsdev)
++			return ERR_PTR(-EPROBE_DEFER);
++	}
++
++	err = device_reprobe(pcsdev);
++	put_device(pcsdev);
++	if (err)
++		return ERR_PTR(err);
++
++	return _pcs_get_tail(dev, fwnode, NULL);
++
++err_ocs:
++	of_changeset_destroy(ocs);
++	kfree(ocs);
++	return ERR_PTR(err);
++#else
++	return _pcs_get_tail(dev, fwnode, NULL);
++#endif
++}
++EXPORT_SYMBOL_GPL(pcs_get_by_fwnode_compat);
++
++/**
++ * pcs_put() - Release a previously-acquired PCS
++ * @dev: The device used to acquire the PCS
++ * @pcs: The PCS to put
++ *
++ * This frees resources associated with the PCS which were acquired when it was
++ * gotten.
++ */
++void pcs_put(struct device *dev, struct phylink_pcs *pcs)
++{
++	struct pcs_wrapper *wrapper;
++
++	if (!pcs)
++		return;
++
++	wrapper = pcs_to_wrapper(pcs);
++	put_device(wrapper->dev);
++	if (refcount_dec_and_test(&wrapper->refcnt))
++		pcs_destroy(wrapper);
++}
++EXPORT_SYMBOL_GPL(pcs_put);
+diff --git a/include/linux/pcs.h b/include/linux/pcs.h
+new file mode 100644
+index 000000000000..53fbff3af9e8
+--- /dev/null
++++ b/include/linux/pcs.h
+@@ -0,0 +1,122 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Copyright (C) 2022 Sean Anderson <sean.anderson@seco.com>
++ */
++
++#ifndef _PCS_H
++#define _PCS_H
++
++struct device_node;
++struct of_changeset;
++struct phylink_pcs;
++
++int pcs_register(struct device *dev, struct phylink_pcs *pcs);
++void pcs_unregister(struct phylink_pcs *pcs);
++int devm_pcs_register(struct device *dev, struct phylink_pcs *pcs);
++struct phylink_pcs *_pcs_get_tail(struct device *dev,
++				  const struct fwnode_handle *fwnode,
++				  const struct device *pcs_dev);
++struct phylink_pcs *_pcs_get(struct device *dev, struct fwnode_handle *fwnode,
++			     const char *id, const char *fallback,
++			     bool optional);
++void pcs_put(struct device *dev, struct phylink_pcs *handle);
++
++/**
++ * pcs_get() - Get a PCS based on a fwnode
++ * @dev: The device requesting the PCS
++ * @id: The name of the PCS
++ *
++ * Find and get a PCS, as referenced by @dev's &struct fwnode_handle. See
++ * pcs_find_fwnode() for details. Each call to this function must be balanced
++ * with one to pcs_put().
++ *
++ * Return: A PCS on success or an error pointer on failure
++ */
++static inline struct phylink_pcs *pcs_get(struct device *dev, const char *id)
++{
++	return _pcs_get(dev, dev_fwnode(dev), id, NULL, false);
++}
++
++/**
++ * pcs_get_optional() - Optionally get a PCS based on a fwnode
++ * @dev: The device requesting the PCS
++ * @id: The name of the PCS
++ *
++ * Optionally find and get a PCS, as referenced by @dev's &struct
++ * fwnode_handle. See pcs_find_fwnode() for details. Each call to this function
++ * must be balanced with one to pcs_put().
++ *
++ * Return: A PCS on success, %NULL if none was found, or an error pointer on
++ * *       failure
++ */
++static inline struct phylink_pcs *pcs_get_optional(struct device *dev,
++						   const char *id)
++{
++	return _pcs_get(dev, dev_fwnode(dev), id, NULL, true);
++}
++
++/**
++ * pcs_get_by_fwnode() - Get a PCS based on a fwnode
++ * @dev: The device requesting the PCS
++ * @fwnode: The &struct fwnode_handle referencing the PCS
++ * @id: The name of the PCS
++ *
++ * Find and get a PCS, as referenced by @fwnode. See pcs_find_fwnode() for
++ * details. Each call to this function must be balanced with one to pcs_put().
++ *
++ * Return: A PCS on success or an error pointer on failure
++ */
++static inline struct phylink_pcs
++*pcs_get_by_fwnode(struct device *dev, struct fwnode_handle *fwnode,
++		   const char *id)
++{
++	return _pcs_get(dev, fwnode, id, NULL, false);
++}
++
++/**
++ * pcs_get_by_fwnode_optional() - Optionally get a PCS based on a fwnode
++ * @dev: The device requesting the PCS
++ * @fwnode: The &struct fwnode_handle referencing the PCS
++ * @id: The name of the PCS
++ *
++ * Optionally find and get a PCS, as referenced by @fwnode. See
++ * pcs_find_fwnode() for details. Each call to this function must be balanced
++ * with one to pcs_put().
++ *
++ * Return: A PCS on success, %NULL if none was found, or an error pointer on
++ * *       failure
++ */
++static inline struct phylink_pcs
++*pcs_get_by_fwnode_optional(struct device *dev, struct fwnode_handle *fwnode,
++			    const char *id)
++{
++	return _pcs_get(dev, fwnode, id, NULL, true);
++}
++
++/**
++ * pcs_get_by_dev() - Get a PCS from its providing device
++ * @dev: The device requesting the PCS
++ * @pcs_dev: The device providing the PCS
++ *
++ * Get the first PCS registered by @pcs_dev. Each call to this function must be
++ * balanced with one to pcs_put().
++ *
++ * Return: A PCS on success or an error pointer on failure
++ */
++static inline struct phylink_pcs *pcs_get_by_dev(struct device *dev,
++						 const struct device *pcs_dev)
++{
++	return _pcs_get_tail(dev, NULL, pcs_dev);
++}
++
++struct fwnode_handle *pcs_find_fwnode(const struct fwnode_handle *mac_node,
++				      const char *id, const char *fallback,
++				      bool optional);
++
++struct phylink_pcs *
++pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
++			 int (*fixup)(struct of_changeset *ocs, struct device_node *np,
++				      void *data),
++			 void *data);
++
++#endif /* PCS_H */
 -- 
-2.47.2
-
+2.35.1.1320.gc452695387.dirty
 
