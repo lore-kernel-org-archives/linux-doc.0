@@ -1,882 +1,431 @@
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5C4B24E4B1;
-	Thu,  3 Apr 2025 15:50:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7FA6D24E4A6;
+	Thu,  3 Apr 2025 15:58:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743695423; cv=none; b=f29Sp2nHmIGv5nDNhFe3jUu/F0Wb8LdyI1d+oPw0LoP0BgtyLvmG91rsqSl3sy9f8pD2QfY9Wv88AgH4VDGl78Pwn1oOGe2J3Ndg897ApfwmI/jhKOc7Bakjspp6T0FwlmtssTTScj9z/NW8QDhp2SJYmiLXcIdFy/P1IzRuUEI=
+	t=1743695915; cv=none; b=dQsCPqkbKVdnmA+3++ziPGXtE1aRBs2d6VnevOjGgP4rXRw3sqP6e96/DTZfiGAdcypwSq9FvMtuznhyngFS3A6DW/Y79OX/54X+7ENGRgEslcZvx89CSkV6jMhG/aNiq+sLUF/mPACTIlmMA9QB3bNvB/7CDOgpxpRHuOd+6VY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743695423; c=relaxed/simple;
-	bh=sK+vNoIaDrOOFQJ5YOOB49Psgi0K4ClVy9ZJc83Ts/g=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=d9iCeIdjGSUkb2IvTbXgimHg08RdGw1R956Ww+u2hTs0rhD5KmDO3o9SPJiEwLmv3SKlLL42EnxvvpYuwydzIPWGLWCaj/7HJid4TfmKvFUfvVKrOz0mQyBsDIo/j2Ylzns1znTLucegka/2IdaweBkVipfScPSa7wVedQn7Q3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=NABWvBIr; arc=none smtp.client-ip=207.171.188.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1743695915; c=relaxed/simple;
+	bh=2A9rJIaUhBkwHzYOi8u5ZjB7l2W2hFn4e9orgVO/jBM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=i0GIuqL1JIasOGjwBKFuXr/SPw+H1KWg11/q4J7b/m9wKNsun+jqYj66KYVue6U/G/tUY9VOWJpoV3YsZBu7+5r70VccUvyfNiU2z/kT/KkzSPvEu084MlDEdM4WznDRP/uYwZ3RLjdrEOG5NnvA6DQQshvZ7eExcoY1p+D9U0c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=oIzkF8vf; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="NABWvBIr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1743695420; x=1775231420;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=qcMW5YU6Ov/npYgSuZB97Gp5gouJCI42HOQPuo027Pk=;
-  b=NABWvBIr/FfrkS8gAuGtwSI7bUGqdUbEsvzQVcjL7TgLMuRXKbksVy1/
-   YNPixZNux6kv+lX+2hGq9yvtHLrfwC57kSFimCqsVxy/A9q9NdGleoA1d
-   YKxxhn9M3KLeC/XAtCeTEJ6BVIUIE6sUGRnf3XF2sm8NMni+hwmwe9X/G
-   g=;
-X-IronPort-AV: E=Sophos;i="6.15,184,1739836800"; 
-   d="scan'208";a="7305493"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Apr 2025 15:50:11 +0000
-Received: from EX19MTAEUB002.ant.amazon.com [10.0.17.79:58793]
- by smtpin.naws.eu-west-1.prod.farcaster.email.amazon.dev [10.0.0.201:2525] with esmtp (Farcaster)
- id 695a9014-428d-4134-ad0e-8fc30892e84e; Thu, 3 Apr 2025 15:50:10 +0000 (UTC)
-X-Farcaster-Flow-ID: 695a9014-428d-4134-ad0e-8fc30892e84e
-Received: from EX19D014EUA004.ant.amazon.com (10.252.50.41) by
- EX19MTAEUB002.ant.amazon.com (10.252.51.59) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Thu, 3 Apr 2025 15:50:06 +0000
-Received: from EX19MTAUEA002.ant.amazon.com (10.252.134.9) by
- EX19D014EUA004.ant.amazon.com (10.252.50.41) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Thu, 3 Apr 2025 15:50:05 +0000
-Received: from email-imr-corp-prod-iad-all-1a-f1af3bd3.us-east-1.amazon.com
- (10.43.8.2) by mail-relay.amazon.com (10.252.134.34) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1544.14 via Frontend Transport; Thu, 3 Apr 2025 15:50:05 +0000
-Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
-	by email-imr-corp-prod-iad-all-1a-f1af3bd3.us-east-1.amazon.com (Postfix) with ESMTP id 2C2D740633;
-	Thu,  3 Apr 2025 15:50:05 +0000 (UTC)
-Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id DC9874F88; Thu,  3 Apr 2025 15:50:04 +0000 (UTC)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Changyuan Lyu <changyuanl@google.com>
-CC: <linux-kernel@vger.kernel.org>, <graf@amazon.com>,
-	<akpm@linux-foundation.org>, <luto@kernel.org>, <anthony.yznaga@oracle.com>,
-	<arnd@arndb.de>, <ashish.kalra@amd.com>, <benh@kernel.crashing.org>,
-	<bp@alien8.de>, <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
-	<dwmw2@infradead.org>, <ebiederm@xmission.com>, <mingo@redhat.com>,
-	<jgowans@amazon.com>, <corbet@lwn.net>, <krzk@kernel.org>, <rppt@kernel.org>,
-	<mark.rutland@arm.com>, <pbonzini@redhat.com>, <pasha.tatashin@soleen.com>,
-	<hpa@zytor.com>, <peterz@infradead.org>, <robh+dt@kernel.org>,
-	<robh@kernel.org>, <saravanak@google.com>,
-	<skinsburskii@linux.microsoft.com>, <rostedt@goodmis.org>,
-	<tglx@linutronix.de>, <thomas.lendacky@amd.com>, <usama.arif@bytedance.com>,
-	<will@kernel.org>, <devicetree@vger.kernel.org>, <kexec@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <x86@kernel.org>, Jason Gunthorpe <jgg@nvidia.com>
-Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
-In-Reply-To: <20250320015551.2157511-10-changyuanl@google.com>
-References: <20250320015551.2157511-1-changyuanl@google.com>
-	<20250320015551.2157511-10-changyuanl@google.com>
-Date: Thu, 3 Apr 2025 15:50:04 +0000
-Message-ID: <mafs01pu9qm6r.fsf@amazon.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="oIzkF8vf"
+Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533FUxHc025767;
+	Thu, 3 Apr 2025 15:58:13 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	tWevI1ToCGt2CriIo4ldAQsXoh5yK+WsrPGPRwjQMUo=; b=oIzkF8vfTCkvFxHE
+	priBDxWz0QdMfVHLoXYooeU7a2z6zBzQ6CXIXSoREbgtwcopEHMxcaDTf4l5C3RZ
+	zjZ6e7rP4/0Uve9KKGB1/wQOC55RR90TNmlTsc7fqblPf3c0J8lwRuhb6E2ppFP+
+	qTbXhJcmRuwg1j5Iz2+EiBtw5r37CikLH9DEqLzmmj/Yh0tNzDollKFKrhFIbQYa
+	iUAUlO2PO0sRnj6z33L8AKgAYW7Fz7go1PCzwVgtoQZKAPvVL9a6j7sCLjB5i2tS
+	Ic/jJeHxHulZiO46UwEbMs1emDBoYDue1oYy6xyyFn9NJxZbDyAam+6eW3D/7mBV
+	f7Hilw==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45sr8q0wqb-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 03 Apr 2025 15:58:13 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 533FwCUX008909
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 3 Apr 2025 15:58:12 GMT
+Received: from [10.110.110.182] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 3 Apr 2025
+ 08:58:11 -0700
+Message-ID: <e1eac325-233e-43eb-9ca0-9746893462d7@quicinc.com>
+Date: Thu, 3 Apr 2025 08:58:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v36 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
+ q6dsp
+To: Stephan Gerhold <stephan.gerhold@linaro.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <krzk+dt@kernel.org>, <pierre-louis.bossart@linux.intel.com>,
+        <Thinh.Nguyen@synopsys.com>, <tiwai@suse.com>, <robh@kernel.org>,
+        <gregkh@linuxfoundation.org>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+        Luca Weiss
+	<luca.weiss@fairphone.com>
+References: <20250319005141.312805-23-quic_wcheng@quicinc.com>
+ <Z-J2WnrZHP6iMIhT@linaro.org>
+ <871827f0-94ba-4565-865f-775cab9501eb@quicinc.com>
+ <Z-PPlRD7gcUcNvNv@linaro.org>
+ <200c08f7-3637-c2fb-2caa-002604b957ed@quicinc.com>
+ <Z-ug3YFwff8hWIRl@linaro.org>
+ <378af3f1-b5b0-4f7a-ab62-f5c891feb7b5@quicinc.com>
+ <Z-1MtJjfVbUQFron@linaro.org>
+ <7d5fd3bf-c33e-4274-938b-2fb93c4b39d8@quicinc.com>
+ <a9e281d6-59c0-3615-9851-c33752b0620f@quicinc.com>
+ <Z-6Q_gaWsWyZcpLz@linaro.org>
+Content-Language: en-US
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <Z-6Q_gaWsWyZcpLz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: ikGlksGGNpvtbtaynuF5nI9G7klucGcm
+X-Authority-Analysis: v=2.4 cv=Iu4ecK/g c=1 sm=1 tr=0 ts=67eeb015 cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=COk6AnOGAAAA:8 a=NqY0eDUn9F4LP9R08cAA:9 a=3ZKOabzyN94A:10
+ a=QEXdDO2ut3YA:10 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: ikGlksGGNpvtbtaynuF5nI9G7klucGcm
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-03_07,2025-04-03_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 impostorscore=0
+ adultscore=0 priorityscore=1501 suspectscore=0 mlxscore=0 malwarescore=0
+ bulkscore=0 spamscore=0 lowpriorityscore=0 clxscore=1015 mlxlogscore=999
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504030078
 
-Hi all,
+Hi Stephan,
 
-The below patch implements the table based memory preservation mechanism
-I suggested. It is a replacement of this patch. Instead of using an
-xarray of bitmaps and converting them into a linked list of bitmaps at
-serialization time, it tracks preserved pages in a page table like
-format, that needs no extra work when serializing. This results in
-noticeably better performance when preserving a large number of pages.
+On 4/3/2025 6:45 AM, Stephan Gerhold wrote:
+> On Wed, Apr 02, 2025 at 05:54:45PM -0700, Wesley Cheng wrote:
+>> On 4/2/2025 5:23 PM, Wesley Cheng wrote:
+>>> On 4/2/2025 7:41 AM, Stephan Gerhold wrote:
+>>>> On Tue, Apr 01, 2025 at 04:47:41PM -0700, Wesley Cheng wrote:
+>>>>> On 4/1/2025 1:16 AM, Stephan Gerhold wrote:
+>>>>>> On Mon, Mar 31, 2025 at 12:52:19PM -0700, Wesley Cheng wrote:
+>>>>>>> On 3/26/2025 2:57 AM, Stephan Gerhold wrote:
+>>>>>>>> On Tue, Mar 25, 2025 at 04:18:03PM -0700, Wesley Cheng wrote:
+>>>>>>>>> On 3/25/2025 2:24 AM, Stephan Gerhold wrote:
+>>>>>>>>>> On Tue, Mar 18, 2025 at 05:51:32PM -0700, Wesley Cheng wrote:
+>>>>>>>>>>> The QC ADSP is able to support USB
+>>>>>>>>>>> playback endpoints, so that the main
+>>>>>>>>>>> application processor can be placed into
+>>>>>>>>>>> lower CPU power modes.  This adds
+>>>>>>>>>>> the required AFE port configurations and
+>>>>>>>>>>> port start command to start an
+>>>>>>>>>>> audio session.
+>>>>>>>>>>>
+>>>>>>>>>>> Specifically, the QC ADSP can support
+>>>>>>>>>>> all potential endpoints that are
+>>>>>>>>>>> exposed by the audio data interface. 
+>>>>>>>>>>> This includes isochronous data
+>>>>>>>>>>> endpoints, in either synchronous mode or
+>>>>>>>>>>> asynchronous mode. In the latter
+>>>>>>>>>>> case both implicit or explicit feedback
+>>>>>>>>>>> endpoints are supported.  The size
+>>>>>>>>>>> of audio samples sent per USB frame
+>>>>>>>>>>> (microframe) will be adjusted based on
+>>>>>>>>>>> information received on the feedback endpoint.
+>>>>>>>>>>>
+>>>>>>>>>>> Some pre-requisites are needed before
+>>>>>>>>>>> issuing the AFE port start command,
+>>>>>>>>>>> such as setting the USB AFE dev_token. 
+>>>>>>>>>>> This carries information about the
+>>>>>>>>>>> available USB SND cards and PCM devices
+>>>>>>>>>>> that have been discovered on the
+>>>>>>>>>>> USB bus.  The dev_token field is used by
+>>>>>>>>>>> the audio DSP to notify the USB
+>>>>>>>>>>> offload driver of which card and PCM index to enable playback on.
+>>>>>>>>>>>
+>>>>>>>>>>> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+>>>>>>>>>>> ---
+>>>>>>>>>>>   sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
+>>>>>>>>>>>  
+>>>>>>>>>>> sound/soc/qcom/qdsp6/q6afe.c            
+>>>>>>>>>>> | 192 ++++++++++++++++++++++-
+>>>>>>>>>>>   sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
+>>>>>>>>>>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
+>>>>>>>>>>>   sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
+>>>>>>>>>>>   sound/soc/qcom/qdsp6/q6routing.c         |  32 +++-
+>>>>>>>>>>>   6 files changed, 341 insertions(+), 3 deletions(-)
+>>>>>>>>>>>
+>>>>>>>>> [...]
+>>>>>>>>>>> diff --git
+>>>>>>>>>>> a/sound/soc/qcom/qdsp6/q6routing.c
+>>>>>>>>>>> b/sound/soc/qcom/qdsp6/q6routing.c
+>>>>>>>>>>> index 90228699ba7d..b7439420b425 100644
+>>>>>>>>>>> --- a/sound/soc/qcom/qdsp6/q6routing.c
+>>>>>>>>>>> +++ b/sound/soc/qcom/qdsp6/q6routing.c
+>>>>>>>>>>> @@ -435,6 +435,26 @@ static struct
+>>>>>>>>>>> session_data *get_session_from_id(struct
+>>>>>>>>>>> msm_routing_data *data,
+>>>>>>>>>>>       return NULL;
+>>>>>>>>>>>   }
+>>>>>>>>>>> +
+>>>>>>>>>>> +static bool is_usb_routing_enabled(struct msm_routing_data *data)
+>>>>>>>>>>> +{
+>>>>>>>>>>> +    int i;
+>>>>>>>>>>> +
+>>>>>>>>>>> +    /*
+>>>>>>>>>>> +     * Loop through current sessions to
+>>>>>>>>>>> see if there are active routes
+>>>>>>>>>>> +     * to the USB_RX backend DAI.  The
+>>>>>>>>>>> USB offload routing is designed
+>>>>>>>>>>> +     * similarly to the non offload
+>>>>>>>>>>> path.  If there are multiple PCM
+>>>>>>>>>>> +     * devices associated with the ASoC
+>>>>>>>>>>> platform card, only one active
+>>>>>>>>>>> +     * path can be routed to the USB offloaded endpoint.
+>>>>>>>>>>> +     */
+>>>>>>>>>>> +    for (i = 0; i < MAX_SESSIONS; i++) {
+>>>>>>>>>>> +        if (data->sessions[i].port_id == USB_RX)
+>>>>>>>>>>> +            return true;
+>>>>>>>>>>> +    }
+>>>>>>>>>>> +
+>>>>>>>>>>> +    return false;
+>>>>>>>>>>> +}
+>>>>>>>>>>
+>>>>>>>>>> What is different about USB_RX compared to
+>>>>>>>>>> other output ports we have in
+>>>>>>>>>> Q6AFE? Obviously, we can only play one
+>>>>>>>>>> stream on an output port. But
+>>>>>>>>>> doesn't the ADSP mix streams together when
+>>>>>>>>>> you have multiple routes?
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> This patch will limit the USB_RX from being able
+>>>>>>>>> to be mixed to multiple
+>>>>>>>>> q6adm paths.
+>>>>>>>>>
+>>>>>>>>>> Also, this doesn't actually check for *active* routes only. It just
+>>>>>>>>>> looks if any other MultiMedia DAI is
+>>>>>>>>>> configured to output to USB_RX.
+>>>>>>>>>> That doesn't mean they will ever be active at the same time.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> Yes, the main reason being that that is the
+>>>>>>>>> mechanism we use to populate
+>>>>>>>>> the active offload path within the USB SND card mixer.
+>>>>>>>>>
+>>>>>>>>>> I might for example want to have MultiMedia1 and MultiMedia2 both
+>>>>>>>>>> configured to output to USB_RX. Let's assume
+>>>>>>>>>> MultiMedia1 is a normal PCM
+>>>>>>>>>> DAI, MultiMedia2 is a compress offload DAI. When I want to playback
+>>>>>>>>>> normal audio, I go through MultiMedia1, when
+>>>>>>>>>> I want to play compressed
+>>>>>>>>>> audio, I go through MultiMedia2. Only one of them active at a time.
+>>>>>>>>>> Why can't I set this up statically in the mixers?
+>>>>>>>>>>
+>>>>>>>>>> If you confirm that it is really impossible
+>>>>>>>>>> to have multiple streams
+>>>>>>>>>> mixed together to the USB_RX output in the
+>>>>>>>>>> ADSP, then this should be a
+>>>>>>>>>> runtime check instead when starting the stream IMO.
+>>>>>>>>>>
+>>>>>>>>>
+>>>>>>>>> We can have multiple streams being mixed together, but it will get
+>>>>>>>>> confusing because it changes the definition that
+>>>>>>>>> we had discussed about in
+>>>>>>>>> the past about the overall design for the interaction w/ userspace.
+>>>>>>>>> Although we (QC) only support a single USB audio
+>>>>>>>>> device for offloading,
+>>>>>>>>> there could be other situations where the audio
+>>>>>>>>> DSP can support multiple
+>>>>>>>>> devices.  The assumption is that each MM path is
+>>>>>>>>> assigned to a USB device.
+>>>>>>>>>
+>>>>>>>>
+>>>>>>>> Are you referring to the "USB Offload Playback Route
+>>>>>>>> PCM#*" mixers here?
+>>>>>>>> They could just refer to first of the configured MM paths, if someone
+>>>>>>>> decides to route multiple paths to the USB backend. Looking at
+>>>>>>>> q6usb_update_offload_route(), I think the implementation does that
+>>>>>>>> already.
+>>>>>>>>
+>>>>>>>> I think it's fine that the userspace API for
+>>>>>>>> automatically "probing" the
+>>>>>>>> PCM device supports only a single path to the USB backend. But if
+>>>>>>>> someone wants to bypass the automatic probing and configure a more
+>>>>>>>> advanced setup, do we need to forbid that?
+>>>>>>>>
+>>>>>>>> Asked differently: what would happen if we remove this check here and
+>>>>>>>> handle USB_RX like any other Q6AFE output port?
+>>>>>>>> Would anything break for
+>>>>>>>> the userspace interface?
+>>>>>>>>
+>>>>>>>
+>>>>>>> So I took a look at seeing how the Q6ADM/ASM
+>>>>>>> interactions would work for
+>>>>>>> the situation where if user tried to start both MM1/2
+>>>>>>> streams at the same
+>>>>>>> time over the USB offload path.  In this scenario, we
+>>>>>>> see that the Q6USB BE
+>>>>>>> DAI operations, ie startup, hw_params, etc... gets
+>>>>>>> called one time for the
+>>>>>>> initial stream.  For example, if I start playback on MM1, then that
+>>>>>>> triggers the USB BE DAI to be brought up.
+>>>>>>>
+>>>>>>> When I start playback on MM2, since MM1 already called
+>>>>>>> dpcm_be_dai_startup(), then be->dpcm[stream].users will
+>>>>>>> be greater than
+>>>>>>> zero.  This would cause the __soc_pcm_open() to be
+>>>>>>> skipped for the USB BE
+>>>>>>> DAI, so I wouldn't be able to check the runtime status
+>>>>>>> at the Q6USB backend
+>>>>>>> DAI.  However, we do track current streaming sessions
+>>>>>>> done over Q6 ADM and
+>>>>>>> it does save the AFE port associated to each COPP
+>>>>>>> allocation, so I think its
+>>>>>>> reasonable to see if there is already a COPP entry for
+>>>>>>> the USB AFE port, to
+>>>>>>> fail the open() call associated to the FE DAI.
+>>>>>>>
+>>>>>>
+>>>>>> This sounds like a reasonable approach *if* we have to prevent multiple
+>>>>>> MM DAIs from streaming to the USB AFE port at the same time.
+>>>>>>
+>>>>>> It's still unclear to me why we have to introduce this
+>>>>>> limitation in the
+>>>>>> first place. I think the questions from my previous email are still
+>>>>>> open. Can you check them again?
+>>>>>>
+>>>>>
+>>>>> So I checked with our audio DSP folks, and they mentioned there isn't
+>>>>> technically a limitation from mixing multiple ADM streams from
+>>>>> their end.
+>>>>> My observations are as follows:
+>>>>> - Using tinyplay to open and play on different FE PCM devices
+>>>>> (ie MM1 and
+>>>>> MM2), both streams are audible on the USB headset (intermixed).
+>>>>> - If starting playback on MM1 first, before MM2, then once playback is
+>>>>> complete on MM1, the ADM close is also affecting the MM2 stream.
+>>>>> Basically, MM2 stops when the MM1 audio file is completed.
+>>>>> - Due to the abrupt/incomplete closing of the MM2 ADM stream, looks like
+>>>>> the audio DSP is not handling that case well, so subsequent
+>>>>> playbacks fail.
+>>>>>
+>>>>
+>>>> Thanks a lot for testing this!
+>>>>
+>>>>> I did find a possible reason for this, and it seems to be due to
+>>>>> some code
+>>>>> unrelated to the USB offload path directly.  It looks like the Q6ADM is
+>>>>> currently built in a way that you can only route streams to a single
+>>>>> endpoint, even though we do have reference counting for each
+>>>>> COPP profile.
+>>>>> So even after the first MM1 ADM stream completes and the PCM device is
+>>>>> closed, the MM1 ADM close callback will issue a q6adm_device_close() for
+>>>>> the USB AFE port.
+>>>>
+>>>> Yeah, this sounds like a bug to me...
+>>>>
+>>>>>
+>>>>> I made some test changes to account for the refcount before issuing the
+>>>>> q6adm_device_close(), and that seemed to work.  Once the MM1
+>>>>> stream closes,
+>>>>> it allows for the MM2 stream to close/finish before issuing the command,
+>>>>> and that allows for proper cleanup of the audio data.
+>>>>>
+>>>>> IMO, I would like to keep the initial behavior (ie, blocking the
+>>>>> additional
+>>>>> stream open from the kernel) until I can get some more testing done, and
+>>>>> figure out if this is the correct approach.  If it is, I can submit a
+>>>>> follow up series to address it.
+>>>>>
+>>>>
+>>>> I'm fine with this approach. My only two concerns/comments are:
+>>>>
+>>>>   1. Let's make sure we don't waste too much time finding the ideal
+>>>>      approach to implement the additional blocking, if this will likely
+>>>>      end up getting removed again anyway.
+>>>>
+>>>>   2. How can we justify making this change only for USB? Your analysis
+>>>>      sounds like the issue applies to all types of output ports. This was
+>>>>      exactly my main concern with the check you added in this patch:
+>>>>      I would expect QDSP6 treats all ports exactly the same. This means
+>>>>      we should add this additional check for all the output ports...
+>>>>
+>>>
+>>> Fair points...I will extend this check across all ports until I get back
+>>> with seeing how we can address the mixing situation.
+>>>
+>>
+>> Sorry for replying again.  I think I'll at least limit this to the playback
+>> path only for now.  I'm not sure how the behavior yet is for the record
+>> path, since I don't really have that use case to test with yet :).  I will
+>> see how it looks like when the record USB offload is done.
+>>
+> 
+> FWIW, I tested this on MSM8916:
+> 
+>  - MultiMedia1 -> PRI_MI2S_RX
+>  - MultiMedia3 -> PRI_MI2S_RX
+>  - TERT_MI2S_TX -> MultiMedia2
+>  - TERT_MI2S_TX -> MultiMedia5
+> 
+> 2x speaker-test to MultiMedia1 and MultiMedia3 (pink noise + sine wave):
+>  -> Audio playback correctly mixed together
+>  -> Playback aborts for both when stopping one of the processes
+>       Write error: -5,I/O error
+>       xrun_recovery failed: -5,I/O error
+>       Transfer failed: I/O error
+>  -> Kernel log:
+>     [  585.679421] q6routing 4080000.remoteproc:smd-edge:apr:service@8:routing: Found Matching Copp 0x0
+>     [  587.917135] qcom-q6adm aprsvc:service:4:8: cmd = 0x10327 return error = 0x2
+>     [  587.917378] qcom-q6adm aprsvc:service:4:8: DSP returned error[2]
+>     [  587.917409] qcom-q6adm aprsvc:service:4:8: Failed to close copp -22
+> 
+> 2x arecord from MultiMedia2 and MultiMedia5:
+>  -> Both processes record audio as expected
+>  -> Recording aborts for both when stopping one of the processes
+>       arecord: pcm_read:2272: read error: I/O error
+>  -> Kernel log:
+>     [  646.125612] q6routing 4080000.remoteproc:smd-edge:apr:service@8:routing: Found Matching Copp 0x0
+>     [  654.247867] q6asm-dai 4080000.remoteproc:smd-edge:apr:service@7:dais: command[0x10bdb] not expecting rsp
+>     [  654.815474] q6asm-dai 4080000.remoteproc:smd-edge:apr:service@7:dais: command[0x10bdb] not expecting rsp
+>     [  654.825568] qcom-q6adm aprsvc:service:4:8: cmd = 0x10327 return error = 0x2
+>     [  654.825955] qcom-q6adm aprsvc:service:4:8: DSP returned error[2]
+>     [  654.826013] qcom-q6adm aprsvc:service:4:8: Failed to close copp -22
+> 
+> => Both playback and recording are affected. As you suspected it's
+>    unrelated to USB.
+> 
 
-To compare performance, I allocated 48 GiB of memory and preserved it
-using KHO. Below is the time taken to make the reservations, and then
-serialize that to FDT.
+Great, thanks for confirming both paths show the same issue :).
 
-    Linked list:  577ms +- 0.7% (6 samples)
-    Table:        469ms +- 0.6% (6 samples)
+> This feels like a bug to me rather than an intentional limitation. If
+> you can share the fix you made I can test it here.
+> 
 
-From this, we can see that the table is almost 19% faster.
+Change I tried was fairly straightforward.  Sharing it below:
 
-This test was done with only one thread, but since it is possible to
-make reservations in parallel, the performance would increase even more
--- especially since the linked list serialization cannot be parallelized
-easily.
+diff --git a/sound/soc/qcom/qdsp6/q6adm.c b/sound/soc/qcom/qdsp6/q6adm.c
+index fe719c4c32b3..7880fbbe815f 100644
+--- a/sound/soc/qcom/qdsp6/q6adm.c
++++ b/sound/soc/qcom/qdsp6/q6adm.c
+@@ -578,12 +579,13 @@ int q6adm_close(struct device *dev, struct q6copp *copp)
+     struct q6adm *adm = dev_get_drvdata(dev->parent);
+     int ret = 0;
 
-In terms of memory usage, I could not collect reliable data, but I don't
-think there should be significant difference between either approach
-since the bitmaps are the same density, and only difference would be
-extra metadata (chunks vs upper level tables).
+-    ret = q6adm_device_close(adm, copp, copp->afe_port, copp->copp_idx);
+-    if (ret < 0) {
+-        dev_err(adm->dev, "Failed to close copp %d\n", ret);
+-        return ret;
++    if (kref_read(&copp->refcount) == 1) {
++        ret = q6adm_device_close(adm, copp, copp->afe_port, copp->copp_idx);
++        if (ret < 0) {
++            dev_err(adm->dev, "Failed to close copp %d\n", ret);
++            return ret;
++        }
+     }
+-
+     kref_put(&copp->refcount, q6adm_free_copp);
 
-Memory usage for tables can be further optimized if needed by collapsing
-full tables. That is, if all bits in a L1 table are set, we can just not
-allocate a page for it, and instead set a flag in the L2 descriptor.
+     return 0;
 
-The patch currently has a limitation where it does not free any of the
-empty tables after a unpreserve operation. But Changyuan's patch also
-doesn't do it so at least it is not any worse off.
-
-In terms of code size, I believe both are roughly the same. This patch
-is 609 lines compared Changyuan's 522, many of which come from the
-longer comment.
-
-When working on this patch, I realized that kho_mem_deserialize() is
-currently _very_ slow. It takes over 2 seconds to make memblock
-reservations for 48 GiB of 0-order pages. I suppose this can later be
-optimized by teaching memblock_free_all() to skip preserved pages
-instead of making memblock reservations.
-
-Regards,
-Pratyush Yadav
-
----- 8< ----
-From 40c1274052709e4d102cc9fe55fa94272f827283 Mon Sep 17 00:00:00 2001
-From: "Mike Rapoport (Microsoft)" <rppt@kernel.org>
-Date: Wed, 19 Mar 2025 18:55:44 -0700
-Subject: [PATCH] kexec: enable KHO support for memory preservation
-
-Introduce APIs allowing KHO users to preserve memory across kexec and
-get access to that memory after boot of the kexeced kernel
-
-kho_preserve_folio() - record a folio to be preserved over kexec
-kho_restore_folio() - recreates the folio from the preserved memory
-kho_preserve_phys() - record physically contiguous range to be
-preserved over kexec.
-kho_restore_phys() - recreates order-0 pages corresponding to the
-preserved physical range
-
-The memory preservations are tracked by using 4 levels of tables,
-similar to page tables, except at the lowest level, a bitmap is present
-instead of PTEs. Each page order has its own separate table. A set bit
-in the bitmap represents a page of the table's order. The tables are
-named simply by their level, with the highest being level 4 (L4), the
-next being level 3 (L3) and so on.
-
-Assuming 0-order 4K pages, a L1 table will have a total of 4096 * 8 ==
-23768 bits. This maps to 128 MiB of memory. L2 and above tables will
-consist of pointers to lower level tables, so each level will have 4096
-/ 8 == 512 pointers. This means Each level 2 table maps to 64 GiB of
-memory, each level 3 table maps to 32 TiB of memory, and each level 4
-table maps to 16 PiB of memory. More information on the table format can
-be found in the comment in the patch.
-
-At serialization time, all that needs to be done is to record the
-top-level table descriptors for each order. The next kernel can use
-those to find the tables, walk the them, reserve the memory ranges, and
-later when a user requests a folio or a physical range, KHO restores
-corresponding memory map entries.
-
-Suggested-by: Jason Gunthorpe <jgg@nvidia.com>
-Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Co-developed-by: Changyuan Lyu <changyuanl@google.com>
-Signed-off-by: Changyuan Lyu <changyuanl@google.com>
-[ptyadav@amazon.de: table based preserved page tracking]
-Co-developed-by: Pratyush Yadav <ptyadav@amazon.de>
-Signed-off-by: Pratyush Yadav <ptyadav@amazon.de>
----
- include/linux/kexec_handover.h |  38 +++
- kernel/kexec_handover.c        | 573 ++++++++++++++++++++++++++++++++-
- 2 files changed, 609 insertions(+), 2 deletions(-)
-
-diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handover.h
-index c665ff6cd728a..d52a7b500f4ce 100644
---- a/include/linux/kexec_handover.h
-+++ b/include/linux/kexec_handover.h
-@@ -5,6 +5,7 @@
- #include <linux/types.h>
- #include <linux/hashtable.h>
- #include <linux/notifier.h>
-+#include <linux/mm_types.h>
- 
- struct kho_scratch {
- 	phys_addr_t addr;
-@@ -54,6 +55,13 @@ int kho_add_string_prop(struct kho_node *node, const char *key,
- int register_kho_notifier(struct notifier_block *nb);
- int unregister_kho_notifier(struct notifier_block *nb);
- 
-+int kho_preserve_folio(struct folio *folio);
-+int kho_unpreserve_folio(struct folio *folio);
-+int kho_preserve_phys(phys_addr_t phys, size_t size);
-+int kho_unpreserve_phys(phys_addr_t phys, size_t size);
-+struct folio *kho_restore_folio(phys_addr_t phys);
-+void *kho_restore_phys(phys_addr_t phys, size_t size);
-+
- void kho_memory_init(void);
- 
- void kho_populate(phys_addr_t handover_fdt_phys, phys_addr_t scratch_phys,
-@@ -118,6 +126,36 @@ static inline int unregister_kho_notifier(struct notifier_block *nb)
- 	return -EOPNOTSUPP;
- }
- 
-+static inline int kho_preserve_folio(struct folio *folio)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline int kho_unpreserve_folio(struct folio *folio)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline int kho_preserve_phys(phys_addr_t phys, size_t size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline int kho_unpreserve_phys(phys_addr_t phys, size_t size)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline struct folio *kho_restore_folio(phys_addr_t phys)
-+{
-+	return NULL;
-+}
-+
-+static inline void *kho_restore_phys(phys_addr_t phys, size_t size)
-+{
-+	return NULL;
-+}
-+
- static inline void kho_memory_init(void)
- {
- }
-diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
-index 6ebad2f023f95..16f10bd06de0a 100644
---- a/kernel/kexec_handover.c
-+++ b/kernel/kexec_handover.c
-@@ -3,6 +3,7 @@
-  * kexec_handover.c - kexec handover metadata processing
-  * Copyright (C) 2023 Alexander Graf <graf@amazon.com>
-  * Copyright (C) 2025 Microsoft Corporation, Mike Rapoport <rppt@kernel.org>
-+ * Copyright (C) 2025 Amazon.com Inc. or its affiliates, Pratyush Yadav <ptyadav@amazon.de>
-  * Copyright (C) 2024 Google LLC
-  */
- 
-@@ -62,6 +63,10 @@ struct kho_out {
- 	struct rw_semaphore tree_lock;
- 	struct kho_node root;
- 
-+	/* Array containing the L4 table descriptors for each order. */
-+	unsigned long mem_tables[NR_PAGE_ORDERS];
-+	struct kho_node preserved_memory;
-+
- 	void *fdt;
- 	u64 fdt_max;
- };
-@@ -70,6 +75,7 @@ static struct kho_out kho_out = {
- 	.chain_head = BLOCKING_NOTIFIER_INIT(kho_out.chain_head),
- 	.tree_lock = __RWSEM_INITIALIZER(kho_out.tree_lock),
- 	.root = KHO_NODE_INIT,
-+	.preserved_memory = KHO_NODE_INIT,
- 	.fdt_max = 10 * SZ_1M,
- };
- 
-@@ -237,6 +243,559 @@ int kho_node_check_compatible(const struct kho_in_node *node,
- }
- EXPORT_SYMBOL_GPL(kho_node_check_compatible);
- 
-+/*
-+ * Keep track of memory that is to be preserved across KHO.
-+ *
-+ * The memory is tracked by using 4 levels of tables, similar to page tables,
-+ * except at the lowest level, a bitmap is present instead of PTEs. Each page
-+ * order has its own separate table. A set bit in the bitmap represents a page
-+ * of the table's order. The tables are named simply by their level, with the
-+ * highest being level 4 (L4), the next being level 3 (L3) and so on.
-+ *
-+ * The table hierarchy can be seen with the below diagram.
-+ *
-+ * +----+
-+ * | L4 |
-+ * +----+
-+ *    |
-+ *    |   +----+
-+ *    +-->| L3 |
-+ *        +----+
-+ *           |
-+ *           |   +----+
-+ *           +-->| L2 |
-+ *               +----+
-+ *                  |
-+ *                  |   +----+
-+ *                  +-->| L1 |
-+ *                      +----+
-+ *
-+ * Assuming 0-order 4K pages, a L1 table will have a total of 4096 * 8 == 23768
-+ * bits. This maps to 128 MiB of memory. L2 and above tables will consist of
-+ * pointers to lower level tables, so each level will have 4096 / 8 == 512
-+ * pointers. This means Each level 2 table maps to 64 GiB of memory, each level
-+ * 3 table maps to 32 TiB of memory, and each level 4 table maps to 16 PiB of
-+ * memory.
-+ *
-+ * The below diagram shows how the address is split into the different levels
-+ * for 0-order 4K pages:
-+ *
-+ *    63:54     53:45    44:36     35:27       26:12        11:0
-+ * +----------+--------+--------+--------+--------------+-----------+
-+ * | Ignored  |   L4   |   L3   |   L2   |      L1      | Page off  |
-+ * +----------+--------+--------+--------+--------------+-----------+
-+ *
-+ * For higher order pages, the bits for each level get shifted left by the
-+ * order.
-+ *
-+ * Each table except L1 contains a descriptor for the next level table. For 4K
-+ * pages, the below diagram shows the format of the descriptor:
-+ *
-+ *                           63:12                          11:0
-+ * +----------+--------+--------+--------+--------------+-----------+
-+ * |             Pointer to next level table            | Reserved  |
-+ * +----------+--------+--------+--------+--------------+-----------+
-+ *
-+ * The reserved bits must be zero, but can be used for flags in later versions.
-+ */
-+
-+typedef unsigned long khomem_desc_t;
-+typedef int (*khomem_walk_fn_t)(unsigned long phys, unsigned int order, void *arg);
-+
-+#define PTRS_PER_LEVEL		(PAGE_SIZE / sizeof(unsigned long))
-+#define KHOMEM_L1_BITS		(PAGE_SIZE * BITS_PER_BYTE)
-+#define KHOMEM_L1_MASK		((1 << ilog2(KHOMEM_L1_BITS)) - 1)
-+#define KHOMEM_L1_SHIFT		(PAGE_SHIFT)
-+#define KHOMEM_L2_SHIFT		(KHOMEM_L1_SHIFT + ilog2(KHOMEM_L1_BITS))
-+#define KHOMEM_L3_SHIFT		(KHOMEM_L2_SHIFT + ilog2(PTRS_PER_LEVEL))
-+#define KHOMEM_L4_SHIFT		(KHOMEM_L3_SHIFT + ilog2(PTRS_PER_LEVEL))
-+#define KHOMEM_PFN_MASK		PAGE_MASK
-+
-+static unsigned int khomem_level_shifts[] = {
-+	[1] = KHOMEM_L1_SHIFT,
-+	[2] = KHOMEM_L2_SHIFT,
-+	[3] = KHOMEM_L3_SHIFT,
-+	[4] = KHOMEM_L4_SHIFT,
-+};
-+
-+static inline unsigned long khomem_table_index(unsigned long address,
-+					       unsigned int level,
-+					       unsigned int order)
-+{
-+	unsigned long mask = level == 1 ? KHOMEM_L1_MASK : (PTRS_PER_LEVEL - 1);
-+	/* Avoid undefined behaviour in case shift is too big. */
-+	int shift = min_t(int, khomem_level_shifts[level] + order, BITS_PER_LONG);
-+
-+	return (address >> shift) & mask;
-+}
-+
-+static inline khomem_desc_t *khomem_table(khomem_desc_t desc)
-+{
-+	return __va(desc & KHOMEM_PFN_MASK);
-+}
-+
-+static inline khomem_desc_t *khomem_table_offset(khomem_desc_t *table,
-+						 unsigned long address,
-+						 unsigned int level,
-+						 unsigned int order)
-+{
-+	return khomem_table(*table) + khomem_table_index(address, level, order);
-+}
-+
-+static inline bool khomem_desc_none(khomem_desc_t desc)
-+{
-+	return !(desc & KHOMEM_PFN_MASK);
-+}
-+
-+static inline void khomem_bitmap_preserve(khomem_desc_t *desc,
-+					  unsigned long address,
-+					  unsigned int order)
-+{
-+	/* set_bit() is atomic, so no need for locking. */
-+	set_bit(khomem_table_index(address, 1, order), khomem_table(*desc));
-+}
-+
-+static inline void khomem_bitmap_unpreserve(khomem_desc_t *desc,
-+					    unsigned long address,
-+					    unsigned int order)
-+{
-+	/* clear_bit() is atomic, so no need for locking. */
-+	clear_bit(khomem_table_index(address, 1, order), khomem_table(*desc));
-+}
-+
-+static inline khomem_desc_t khomem_mkdesc(void *table)
-+{
-+	return virt_to_phys(table) & KHOMEM_PFN_MASK;
-+}
-+
-+static int __khomem_table_alloc(khomem_desc_t *desc)
-+{
-+	if (khomem_desc_none(*desc)) {
-+		khomem_desc_t *table, val;
-+
-+		table = (khomem_desc_t *)get_zeroed_page(GFP_KERNEL);
-+		if (!table)
-+			return -ENOMEM;
-+
-+		val = khomem_mkdesc(table);
-+		if (cmpxchg(desc, 0, val))
-+			/* Someone else already allocated it. */
-+			free_page((unsigned long)table);
-+	}
-+
-+	return 0;
-+}
-+
-+static khomem_desc_t *khomem_table_alloc(khomem_desc_t *desc,
-+					 unsigned long address,
-+					 unsigned int level,
-+					 unsigned int order)
-+{
-+	if (__khomem_table_alloc(desc))
-+		return NULL;
-+
-+	return khomem_table_offset(desc, address, level, order);
-+}
-+
-+static int khomem_preserve(khomem_desc_t *l4, unsigned long pfn,
-+			   unsigned int order)
-+{
-+	unsigned long address = PFN_PHYS(pfn);
-+	khomem_desc_t *l4p, *l3p, *l2p;
-+	int ret;
-+
-+	l4p = khomem_table_alloc(l4, address, 4, order);
-+	if (!l4p)
-+		return -ENOMEM;
-+
-+	l3p = khomem_table_alloc(l4p, address, 3, order);
-+	if (!l3p)
-+		return -ENOMEM;
-+
-+	l2p = khomem_table_alloc(l3p, address, 2, order);
-+	if (!l2p)
-+		return -ENOMEM;
-+
-+	/*
-+	 * L1 table is handled different since it is a bitmap not a table of
-+	 * descriptors. So offsetting into it directly does not work.
-+	 */
-+	ret = __khomem_table_alloc(l2p);
-+	if (ret)
-+		return ret;
-+
-+	khomem_bitmap_preserve(l2p, address, order);
-+	return 0;
-+}
-+
-+/* TODO: Clean up empty tables eventually. */
-+static void khomem_unpreserve(khomem_desc_t *l4, unsigned long pfn,
-+			      unsigned int order)
-+{
-+	unsigned long address = PFN_PHYS(pfn);
-+	khomem_desc_t *l4p, *l3p, *l2p;
-+
-+	if (khomem_desc_none(*l4))
-+		return;
-+
-+	l4p = khomem_table_offset(l4, address, 4, order);
-+	if (khomem_desc_none(*l4p))
-+		return;
-+
-+	l3p = khomem_table_offset(l4p, address, 3, order);
-+	if (khomem_desc_none(*l3p))
-+		return;
-+
-+	l2p = khomem_table_offset(l3p, address, 2, order);
-+	if (khomem_desc_none(*l2p))
-+		return;
-+
-+	khomem_bitmap_unpreserve(l2p, address, order);
-+}
-+
-+static int khomem_walk_l1(unsigned long *table, unsigned long addr,
-+			  unsigned int order, khomem_walk_fn_t fn, void *arg)
-+{
-+	int ret, i;
-+
-+	for_each_set_bit(i, table, KHOMEM_L1_BITS) {
-+		ret = fn(addr + (i * PAGE_SIZE), order, arg);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+static int __khomem_walk_table(khomem_desc_t *base, unsigned int level,
-+			       unsigned long addr, unsigned int order,
-+			       khomem_walk_fn_t fn, void *arg)
-+{
-+	unsigned long block = (1UL << (khomem_level_shifts[level] + order));
-+	khomem_desc_t *cur;
-+	int ret;
-+
-+	if (level == 1)
-+		return khomem_walk_l1(base, addr, order, fn, arg);
-+
-+	for (cur = base; cur < base + PTRS_PER_LEVEL; cur++, addr += block) {
-+		if (!khomem_desc_none(*cur)) {
-+			ret = __khomem_walk_table(khomem_table(*cur), level - 1,
-+						  addr, order, fn, arg);
-+			if (ret)
-+				return ret;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+static int khomem_walk_preserved(khomem_desc_t *l4, unsigned int order,
-+				 khomem_walk_fn_t fn, void *arg)
-+{
-+	if (khomem_desc_none(*l4))
-+		return 0;
-+
-+	return __khomem_walk_table(khomem_table(*l4), 4, 0, order, fn, arg);
-+}
-+
-+struct kho_mem_track {
-+	/* Points to L4 KHOMEM descriptor, each order gets its own table. */
-+	struct xarray orders;
-+};
-+
-+static struct kho_mem_track kho_mem_track;
-+
-+static void *xa_load_or_alloc(struct xarray *xa, unsigned long index, size_t sz)
-+{
-+	void *elm, *res;
-+
-+	elm = xa_load(xa, index);
-+	if (elm)
-+		return elm;
-+
-+	elm = kzalloc(sz, GFP_KERNEL);
-+	if (!elm)
-+		return ERR_PTR(-ENOMEM);
-+
-+	res = xa_cmpxchg(xa, index, NULL, elm, GFP_KERNEL);
-+	if (xa_is_err(res))
-+		res = ERR_PTR(xa_err(res));
-+
-+	if (res) {
-+		kfree(elm);
-+		return res;
-+	}
-+
-+	return elm;
-+}
-+
-+static void __kho_unpreserve(struct kho_mem_track *tracker, unsigned long pfn,
-+			     unsigned int order)
-+{
-+	khomem_desc_t *l4;
-+
-+	l4 = xa_load(&tracker->orders, order);
-+	if (!l4)
-+		return;
-+
-+	khomem_unpreserve(l4, pfn, order);
-+}
-+
-+static int __kho_preserve(struct kho_mem_track *tracker, unsigned long pfn,
-+			  unsigned int order)
-+{
-+	khomem_desc_t *l4;
-+
-+	might_sleep();
-+
-+	l4 = xa_load_or_alloc(&tracker->orders, order, sizeof(*l4));
-+	if (IS_ERR(l4))
-+		return PTR_ERR(l4);
-+
-+	khomem_preserve(l4, pfn, order);
-+
-+	return 0;
-+}
-+
-+/**
-+ * kho_preserve_folio - preserve a folio across KHO.
-+ * @folio: folio to preserve
-+ *
-+ * Records that the entire folio is preserved across KHO. The order
-+ * will be preserved as well.
-+ *
-+ * Return: 0 on success, error code on failure
-+ */
-+int kho_preserve_folio(struct folio *folio)
-+{
-+	unsigned long pfn = folio_pfn(folio);
-+	unsigned int order = folio_order(folio);
-+	int err;
-+
-+	if (!kho_enable)
-+		return -EOPNOTSUPP;
-+
-+	down_read(&kho_out.tree_lock);
-+	if (kho_out.fdt) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	err = __kho_preserve(&kho_mem_track, pfn, order);
-+
-+unlock:
-+	up_read(&kho_out.tree_lock);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(kho_preserve_folio);
-+
-+/**
-+ * kho_unpreserve_folio - unpreserve a folio
-+ * @folio: folio to unpreserve
-+ *
-+ * Remove the record of a folio previously preserved by kho_preserve_folio().
-+ *
-+ * Return: 0 on success, error code on failure
-+ */
-+int kho_unpreserve_folio(struct folio *folio)
-+{
-+	unsigned long pfn = folio_pfn(folio);
-+	unsigned int order = folio_order(folio);
-+	int err = 0;
-+
-+	down_read(&kho_out.tree_lock);
-+	if (kho_out.fdt) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	__kho_unpreserve(&kho_mem_track, pfn, order);
-+
-+unlock:
-+	up_read(&kho_out.tree_lock);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(kho_unpreserve_folio);
-+
-+/**
-+ * kho_preserve_phys - preserve a physically contiguous range across KHO.
-+ * @phys: physical address of the range
-+ * @size: size of the range
-+ *
-+ * Records that the entire range from @phys to @phys + @size is preserved
-+ * across KHO.
-+ *
-+ * Return: 0 on success, error code on failure
-+ */
-+int kho_preserve_phys(phys_addr_t phys, size_t size)
-+{
-+	unsigned long pfn = PHYS_PFN(phys), end_pfn = PHYS_PFN(phys + size);
-+	unsigned int order = ilog2(end_pfn - pfn);
-+	unsigned long failed_pfn;
-+	int err = 0;
-+
-+	if (!kho_enable)
-+		return -EOPNOTSUPP;
-+
-+	down_read(&kho_out.tree_lock);
-+	if (kho_out.fdt) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	for (; pfn < end_pfn;
-+	     pfn += (1 << order), order = ilog2(end_pfn - pfn)) {
-+		err = __kho_preserve(&kho_mem_track, pfn, order);
-+		if (err) {
-+			failed_pfn = pfn;
-+			break;
-+		}
-+	}
-+
-+	if (err)
-+		for (pfn = PHYS_PFN(phys); pfn < failed_pfn;
-+		     pfn += (1 << order), order = ilog2(end_pfn - pfn))
-+			__kho_unpreserve(&kho_mem_track, pfn, order);
-+
-+unlock:
-+	up_read(&kho_out.tree_lock);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(kho_preserve_phys);
-+
-+/**
-+ * kho_unpreserve_phys - unpreserve a physically contiguous range
-+ * @phys: physical address of the range
-+ * @size: size of the range
-+ *
-+ * Remove the record of a range previously preserved by kho_preserve_phys().
-+ *
-+ * Return: 0 on success, error code on failure
-+ */
-+int kho_unpreserve_phys(phys_addr_t phys, size_t size)
-+{
-+	unsigned long pfn = PHYS_PFN(phys), end_pfn = PHYS_PFN(phys + size);
-+	unsigned int order = ilog2(end_pfn - pfn);
-+	int err = 0;
-+
-+	down_read(&kho_out.tree_lock);
-+	if (kho_out.fdt) {
-+		err = -EBUSY;
-+		goto unlock;
-+	}
-+
-+	for (; pfn < end_pfn; pfn += (1 << order), order = ilog2(end_pfn - pfn))
-+		__kho_unpreserve(&kho_mem_track, pfn, order);
-+
-+unlock:
-+	up_read(&kho_out.tree_lock);
-+
-+	return err;
-+}
-+EXPORT_SYMBOL_GPL(kho_unpreserve_phys);
-+
-+/* almost as free_reserved_page(), just don't free the page */
-+static void kho_restore_page(struct page *page)
-+{
-+	ClearPageReserved(page);
-+	init_page_count(page);
-+	adjust_managed_page_count(page, 1);
-+}
-+
-+struct folio *kho_restore_folio(phys_addr_t phys)
-+{
-+	struct page *page = pfn_to_online_page(PHYS_PFN(phys));
-+	unsigned long order = page->private;
-+
-+	if (!page)
-+		return NULL;
-+
-+	order = page->private;
-+	if (order)
-+		prep_compound_page(page, order);
-+	else
-+		kho_restore_page(page);
-+
-+	return page_folio(page);
-+}
-+EXPORT_SYMBOL_GPL(kho_restore_folio);
-+
-+void *kho_restore_phys(phys_addr_t phys, size_t size)
-+{
-+	unsigned long start_pfn, end_pfn, pfn;
-+	void *va = __va(phys);
-+
-+	start_pfn = PFN_DOWN(phys);
-+	end_pfn = PFN_UP(phys + size);
-+
-+	for (pfn = start_pfn; pfn < end_pfn; pfn++) {
-+		struct page *page = pfn_to_online_page(pfn);
-+
-+		if (!page)
-+			return NULL;
-+		kho_restore_page(page);
-+	}
-+
-+	return va;
-+}
-+EXPORT_SYMBOL_GPL(kho_restore_phys);
-+
-+static void kho_mem_serialize(void)
-+{
-+	struct kho_mem_track *tracker = &kho_mem_track;
-+	khomem_desc_t *desc;
-+	unsigned long order;
-+
-+	xa_for_each(&tracker->orders, order, desc) {
-+		if (WARN_ON(order >= NR_PAGE_ORDERS))
-+			break;
-+		kho_out.mem_tables[order] = *desc;
-+	}
-+}
-+
-+static int kho_mem_deser_walk_fn(unsigned long phys, unsigned int order,
-+				 void *arg)
-+{
-+	struct page *page = phys_to_page(phys);
-+	unsigned long sz = 1UL << (PAGE_SHIFT + order);
-+
-+	memblock_reserve(phys, sz);
-+	memblock_reserved_mark_noinit(phys, sz);
-+	page->private = order;
-+
-+	return 0;
-+}
-+
-+static void __init kho_mem_deserialize(void)
-+{
-+	struct kho_in_node preserved_mem;
-+	const unsigned long *tables;
-+	unsigned int nr_tables;
-+	int err, order;
-+	u32 len;
-+
-+	err = kho_get_node(NULL, "preserved-memory", &preserved_mem);
-+	if (err) {
-+		pr_err("no preserved-memory node: %d\n", err);
-+		return;
-+	}
-+
-+	tables = kho_get_prop(&preserved_mem, "metadata", &len);
-+	if (!tables || len % sizeof(*tables)) {
-+		pr_err("failed to get preserved memory table\n");
-+		return;
-+	}
-+
-+	nr_tables = min_t(unsigned int, len / sizeof(*tables), NR_PAGE_ORDERS);
-+	for (order = 0; order < nr_tables; order++)
-+		khomem_walk_preserved((khomem_desc_t *)&tables[order], order,
-+				      kho_mem_deser_walk_fn, NULL);
-+}
-+
- /* Helper functions for KHO state tree */
- 
- struct kho_prop {
-@@ -542,6 +1101,8 @@ static int kho_unfreeze(void)
- 	kho_out.fdt = NULL;
- 	up_write(&kho_out.tree_lock);
- 
-+	memset(kho_out.mem_tables, 0, sizeof(kho_out.mem_tables));
-+
- 	if (fdt)
- 		kvfree(fdt);
- 
-@@ -648,6 +1209,8 @@ static int kho_finalize(void)
- 	kho_out.fdt = fdt;
- 	up_write(&kho_out.tree_lock);
- 
-+	kho_mem_serialize();
-+
- 	err = kho_convert_tree(fdt, kho_out.fdt_max);
- 
- unfreeze:
-@@ -829,6 +1392,10 @@ static __init int kho_init(void)
- 
- 	kho_out.root.name = "";
- 	err = kho_add_string_prop(&kho_out.root, "compatible", "kho-v1");
-+	err |= kho_add_prop(&kho_out.preserved_memory, "metadata",
-+			    kho_out.mem_tables, sizeof(kho_out.mem_tables));
-+	err |= kho_add_node(&kho_out.root, "preserved-memory",
-+			    &kho_out.preserved_memory);
- 	if (err)
- 		goto err_free_scratch;
- 
-@@ -1079,10 +1646,12 @@ static void __init kho_release_scratch(void)
- 
- void __init kho_memory_init(void)
- {
--	if (!kho_get_fdt())
-+	if (!kho_get_fdt()) {
- 		kho_reserve_scratch();
--	else
-+	} else {
-+		kho_mem_deserialize();
- 		kho_release_scratch();
-+	}
- }
- 
- void __init kho_populate(phys_addr_t handover_fdt_phys,
--- 
-2.47.1
+Thanks
+Wesley Cheng
