@@ -1,95 +1,199 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 910CC2517B5;
-	Thu,  3 Apr 2025 18:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BDB8253356;
+	Thu,  3 Apr 2025 19:02:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743704531; cv=none; b=b/3wDFn6VVdHexIAHCpPIatf8JE82QPuwPjGCA8Ei9LwXJJj8IIXY1ANAZJZACjWfn33yed434mApwgKjEddHPgp6Rrla82uvz+hTZTWnSf3ZbmIin+8sVg8HpDZuAa6Fn/P9aDMZgLgq3st1XycBB0ya/GQOX+E3BaGK+b9c30=
+	t=1743706948; cv=none; b=Ee+4U5vivkNHkAm0buhw40ztVS7ZqcIHNsj1p50ytWjBN8bokJWKM9Dgc6qFFvP+S63MoZ8JbaZSuvmEoIJ6R0KKsaxCTNtAWzQa80yxyI6ijr8RiRfBOl+XYr3lEGsEP5hTJahfpDrBl3XYTFuYk2RdjCKNVwGv0Fo9L/vKGqs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743704531; c=relaxed/simple;
-	bh=dpmf/tvaFa1UnF86V9qToJN08i22YlUcXNGfDcdl/B0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qPEi9xBPzoHRz5HCfrxhbqNz22O6LWNV+hMukhiIwGxwyIfZZJdmR4bj7o66pW+x8lbW/4G9Lq5tZS45UVg4ukRIsOEZ6VBD+KDhvdeS87WEIPZV29VVeDifyvxyHOrBOW66FmV8tXpUfXXyPPkhOKVkfmle9AkNIeVX10apJ7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=ttXfk71o; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
+	s=arc-20240116; t=1743706948; c=relaxed/simple;
+	bh=RCKS208+S9uxKFrgFhNxe1Xye6b7JnXWUELLEdZiEiI=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=nXyEjLpXm/B3fG85/8OIa2SGeRxGo1X73jwmV35srz7NAs6zpWaoCdukQ0RwrFgytiH+UFdx9gz4jqbkBSe3U3jVvp53Fh0Sjl8jDfr/6nKS3OUjRL/ID5lLF1VSjYHBnFg1MaTM1f8cpQoeYtvOQy6Ja7YUuSjrhVPOErBRTDE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KE8G4Dot; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="ttXfk71o"
-Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZT97K4Qxvz9tCK;
-	Thu,  3 Apr 2025 20:22:05 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
-	s=MBO0001; t=1743704525;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Uq27JMiTJIa5r25K1CbROwKYLHM43JGVKOiIpJ5rqG0=;
-	b=ttXfk71oSpE/n07q4y88Uu+EdqXVL6GDvVu75W6YWmgCO+wqZG+A2enve1aQDWJtY0+37c
-	IiGtmpp4iCrB/Pp19fqo/3PNN6CCjvkb0tkNxD+sw8onP8cS68HDQUTzIhf2Zlt9I3JULM
-	ceIX5Mn6kI33dnEQuACHDvQ4TdGtB2pVTh5/adMS2Za3yF/aJZTioEMSwWVA4Zj2m0aW01
-	xASH3TnNkZ4fNLyYl46Eol7Eq2wQFXJK0P7VZI3ajr3EZiY77JmTVM9jOksW3W7O/5/+rP
-	17/On4GDG7Ke2MNIuFmSDIJ+gJxmFAihPnfhCTCGdh4x6vAXjl9qGD2ZefVHSw==
-Date: Thu, 3 Apr 2025 20:21:19 +0200
-From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
-To: David Hildenbrand <david@redhat.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, willy@infradead.org, 
-	linux-mm@kvack.org, da.gomez@kernel.org, mcgrof@kernel.org, gost.dev@samsung.com, 
-	linux-doc@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH] docs: update THP admin guide about non-tmpfs filesystem
- support
-Message-ID: <midpuwlrt6tllgk2lpcntariyyt7msp7uyv32syfwne2p662yg@ux2zb7flcam3>
-References: <20250403103805.173761-1-kernel@pankajraghav.com>
- <77b19486-28ca-47e1-b506-6de604f6ec0a@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KE8G4Dot"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 74236C4CEE3;
+	Thu,  3 Apr 2025 19:02:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743706948;
+	bh=RCKS208+S9uxKFrgFhNxe1Xye6b7JnXWUELLEdZiEiI=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=KE8G4DotWTbQm37cM0a/cwD4kiNU1KeSA74QhbvgJcFDySF5/Q7JBjZ7SLImpgREn
+	 q+ZKlBSEAFkjK5sA1QyQhLxzmYtnQ15PgADPNIk+9a0lwA5l/hH7+KOLM75nZEHFNb
+	 Y2YIAxx6Z4IxrGNV6mbkcbvpurR8WiluZY9CpqeJAd5QBe64p6dKvRVRM3dmCG3/Wj
+	 wgHmsh/K4mKW9nqQjC+AzHC764joTiuTAVzyJ/E12R6MxPpXXd7TyyA8Z1fVtUjy28
+	 iXJqoNlIF0GjmT1WDH4B7fg5NOgYvKu+K3OQVHxVKS8zi/0ezDewsrxwMgcfCM4doZ
+	 3FxQyyLrJPfcw==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Niklas Cassel <cassel@kernel.org>,
+	Damien Le Moal <dlemoal@kernel.org>,
+	Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net,
+	akpm@linux-foundation.org,
+	paulmck@kernel.org,
+	thuth@redhat.com,
+	rostedt@goodmis.org,
+	bp@alien8.de,
+	ardb@kernel.org,
+	gregkh@linuxfoundation.org,
+	jpoimboe@kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-ide@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 07/54] ata: libata-core: Add 'external' to the libata.force kernel parameter
+Date: Thu,  3 Apr 2025 15:01:22 -0400
+Message-Id: <20250403190209.2675485-7-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250403190209.2675485-1-sashal@kernel.org>
+References: <20250403190209.2675485-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <77b19486-28ca-47e1-b506-6de604f6ec0a@redhat.com>
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14
+Content-Transfer-Encoding: 8bit
 
-> >      in the examples below we presume that the basic page size is 4K and
-> > @@ -463,6 +463,10 @@ fields for each mapping. (Note that AnonHugePages only applies to traditional
-> >   PMD-sized THP for historical reasons and should have been called
-> >   AnonHugePmdMapped).
-> > +The number of PMD-sized transparent huge pages currently used by
-> > +filesystem data (page cache) is available by reading the FileHugePages field
-> > +in ``/proc/meminfo``.
-> > +
-> 
-> These changed look good. Do we also want to talk about FilePmdMapped?
-> (PMD-sized THPs in the page cache that are mapped in to user space using a
-> PMD ?)
+From: Niklas Cassel <cassel@kernel.org>
 
-I am a bit new to this subsystem, and it took some time to wrap around all
-the different terminology used :)
+[ Upstream commit deca423213cb33feda15e261e7b5b992077a6a08 ]
 
-But sure, I will add a new commit to talk about FilePmdMapped. I can
-give it a shot with what I understand about FilePmdMapped, but please feel
-free to add your input.
+Commit ae1f3db006b7 ("ata: ahci: do not enable LPM on external ports")
+changed so that LPM is not enabled on external ports (hotplug-capable or
+eSATA ports).
 
-> 
-> Do we have to distinguish it from below? (shmem also uses the page cache)
-> 
-> >   The number of file transparent huge pages mapped to userspace is available
-> >   by reading ShmemPmdMapped and ShmemHugePages fields in ``/proc/meminfo``.
-> >   To identify what applications are mapping file transparent huge pages, it
-> 
-> Previously here, but: this reads rather odd. "file transparent huge pages".
-> "PMD-sized THPs specific to shmem are tracked separately ..." ?
-> 
+This is because hotplug and LPM are mutually exclusive, see 7.3.1 Hot Plug
+Removal Detection and Power Management Interaction in AHCI 1.3.1.
 
-I totally agree. Reading "file transparent huge pages" confused me even
-more. I will fold these changes as well.
+This does require that firmware has set the appropate bits (HPCP or ESP)
+in PxCMD (which is a per port register in the AHCI controller).
 
-Thanks, David.
+If the firmware has failed to mark a port as hotplug-capable or eSATA in
+PxCMD, then there is currently not much a user can do.
 
---
-Pankaj
+If LPM is enabled on the port, hotplug insertions and removals will not be
+detected on that port.
+
+In order to allow a user to fix up broken firmware, add 'external' to the
+libata.force kernel parameter.
+
+libata.force can be specified either on the kernel command line, or as a
+kernel module parameter.
+
+For more information, see Documentation/admin-guide/kernel-parameters.txt.
+
+Reviewed-by: Damien Le Moal <dlemoal@kernel.org>
+Link: https://lore.kernel.org/r/20250130133544.219297-4-cassel@kernel.org
+Signed-off-by: Niklas Cassel <cassel@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ .../admin-guide/kernel-parameters.txt         |  2 +
+ drivers/ata/libata-core.c                     | 38 +++++++++++++++++++
+ 2 files changed, 40 insertions(+)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index fb8752b42ec85..aa7447f8837cb 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3116,6 +3116,8 @@
+ 			* max_sec_lba48: Set or clear transfer size limit to
+ 			  65535 sectors.
+ 
++			* external: Mark port as external (hotplug-capable).
++
+ 			* [no]lpm: Enable or disable link power management.
+ 
+ 			* [no]setxfer: Indicate if transfer speed mode setting
+diff --git a/drivers/ata/libata-core.c b/drivers/ata/libata-core.c
+index d956735e2a764..0cb97181d10a9 100644
+--- a/drivers/ata/libata-core.c
++++ b/drivers/ata/libata-core.c
+@@ -88,6 +88,7 @@ struct ata_force_param {
+ 	unsigned int	xfer_mask;
+ 	unsigned int	quirk_on;
+ 	unsigned int	quirk_off;
++	unsigned int	pflags_on;
+ 	u16		lflags_on;
+ 	u16		lflags_off;
+ };
+@@ -331,6 +332,35 @@ void ata_force_cbl(struct ata_port *ap)
+ 	}
+ }
+ 
++/**
++ *	ata_force_pflags - force port flags according to libata.force
++ *	@ap: ATA port of interest
++ *
++ *	Force port flags according to libata.force and whine about it.
++ *
++ *	LOCKING:
++ *	EH context.
++ */
++static void ata_force_pflags(struct ata_port *ap)
++{
++	int i;
++
++	for (i = ata_force_tbl_size - 1; i >= 0; i--) {
++		const struct ata_force_ent *fe = &ata_force_tbl[i];
++
++		if (fe->port != -1 && fe->port != ap->print_id)
++			continue;
++
++		/* let pflags stack */
++		if (fe->param.pflags_on) {
++			ap->pflags |= fe->param.pflags_on;
++			ata_port_notice(ap,
++					"FORCE: port flag 0x%x forced -> 0x%x\n",
++					fe->param.pflags_on, ap->pflags);
++		}
++	}
++}
++
+ /**
+  *	ata_force_link_limits - force link limits according to libata.force
+  *	@link: ATA link of interest
+@@ -486,6 +516,7 @@ static void ata_force_quirks(struct ata_device *dev)
+ 	}
+ }
+ #else
++static inline void ata_force_pflags(struct ata_port *ap) { }
+ static inline void ata_force_link_limits(struct ata_link *link) { }
+ static inline void ata_force_xfermask(struct ata_device *dev) { }
+ static inline void ata_force_quirks(struct ata_device *dev) { }
+@@ -5460,6 +5491,8 @@ struct ata_port *ata_port_alloc(struct ata_host *host)
+ #endif
+ 	ata_sff_port_init(ap);
+ 
++	ata_force_pflags(ap);
++
+ 	return ap;
+ }
+ EXPORT_SYMBOL_GPL(ata_port_alloc);
+@@ -6272,6 +6305,9 @@ EXPORT_SYMBOL_GPL(ata_platform_remove_one);
+ 	{ "no" #name,	.lflags_on	= (flags) },	\
+ 	{ #name,	.lflags_off	= (flags) }
+ 
++#define force_pflag_on(name, flags)			\
++	{ #name,	.pflags_on	= (flags) }
++
+ #define force_quirk_on(name, flag)			\
+ 	{ #name,	.quirk_on	= (flag) }
+ 
+@@ -6331,6 +6367,8 @@ static const struct ata_force_param force_tbl[] __initconst = {
+ 	force_lflag_on(rstonce,		ATA_LFLAG_RST_ONCE),
+ 	force_lflag_onoff(dbdelay,	ATA_LFLAG_NO_DEBOUNCE_DELAY),
+ 
++	force_pflag_on(external,	ATA_PFLAG_EXTERNAL),
++
+ 	force_quirk_onoff(ncq,		ATA_QUIRK_NONCQ),
+ 	force_quirk_onoff(ncqtrim,	ATA_QUIRK_NO_NCQ_TRIM),
+ 	force_quirk_onoff(ncqati,	ATA_QUIRK_NO_NCQ_ON_ATI),
+-- 
+2.39.5
+
