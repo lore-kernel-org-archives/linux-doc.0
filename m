@@ -1,230 +1,163 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 24FDF1F561C;
-	Fri,  4 Apr 2025 21:56:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51CC71917CD;
+	Fri,  4 Apr 2025 23:56:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743803781; cv=none; b=Lz78dk9C79kfbTyZqiVQhWB44WFYq0e2UKb5c++pFplHK6B388WJCykY5kv7mhzO05BOfMUX6TM1k8n2zLdi6aaMsieB3uxjKpAVj/TeyfT/x+HP3fLdFC4yUKygkgwz0pU+5kFEl6NbfTcdkk76ZdxekDwkd8h+Y0dTZBUQQPo=
+	t=1743810961; cv=none; b=jlGZCaVArcQP4B0uKia9HQphRdaoT7Tyj+M6ZwbRjKWQNPufGU5T4PtCyZWwQZJZTF3Zo2N6xSQXSXwlkEKcDK9RauxdJRpvGXAefUMqWPlCW++JiRj4hIDODTFaCrPz/DGUvCj0yo2vXBV1LUiaN8Fsidfqgwh/QWM8JmOCc3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743803781; c=relaxed/simple;
-	bh=vErPsP1f8OmYiisdnHrct0dtflgIUFAowO74VEc7nxw=;
-	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gQeoHphkPt7LmjDLNt28NRUJs3HEd5ay1cVAVnMeHlU4F+omRIx7MkLyftHMJ3cFXpSDm2aN9w6M1XhdT810fRk38FUER9UDNZBh5JQGdtEbQMgwBMO0bE5XHYihr1AUYIwlLYXKsElZMRjmfhqN1ik/b667pzOsXtG33tPW+rk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=rAplIJIH; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1743810961; c=relaxed/simple;
+	bh=AX/YYsl0Uu354FlrKcpzn234fsPZcHAP77j6aDninNk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=LrRV5+RkkjZ3HHjRv9zKhY0yKJk8G2AuT4woz7aq3gWtVv0t4yqcKFUkMeOUBIiodZahHkjnjABSrHIYgxVzv8gJM233SvY8I5++uqfOGOPTyt/r1I0WJw/UB0XkZLsqAAmx74JbxF215eQtP+w2BMvUYEVkHCIZZZlRpCnZ5m0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fqfwvCVx; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="rAplIJIH"
-Received: from narnia.corp.microsoft.com (unknown [167.220.2.28])
-	by linux.microsoft.com (Postfix) with ESMTPSA id AD18F2027DF5;
-	Fri,  4 Apr 2025 14:56:11 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com AD18F2027DF5
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1743803779;
-	bh=szwO3lNn6ZvHTun2QxjXczTlSkLfwthZiFQZw/CTTCs=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=rAplIJIHi/Zplgew6qOSq6wvSVcFUimFRjEpCxx7UTU38iNMEH6lWl5b35PRyUpJ9
-	 I8MdHmDRlB7VQpD6nSbStvhRXJA8bYmkUDsIPGGl9nHxJzDYf+UMXzus8NLF0+Qp9I
-	 48cnH38StUwNcg/74AMQjLeTfLssXmflcfHow84g=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-	David Howells <dhowells@redhat.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paul Moore <paul@paul-moore.com>,
-	James Morris <jmorris@namei.org>,
-	"Serge E. Hallyn" <serge@hallyn.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Shuah Khan <shuah@kernel.org>,
-	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
-	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Bill Wendling <morbo@google.com>,
-	Justin Stitt <justinstitt@google.com>,
-	Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
-	Jarkko Sakkinen <jarkko@kernel.org>,
-	Jan Stancek <jstancek@redhat.com>,
-	Neal Gompa <neal@gompa.dev>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	keyrings@vger.kernel.org,
-	linux-crypto@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	linux-kbuild@vger.kernel.org,
-	linux-kselftest@vger.kernel.org,
-	bpf@vger.kernel.org,
-	llvm@lists.linux.dev,
-	nkapron@google.com,
-	teknoraver@meta.com,
-	roberto.sassu@huawei.com,
-	xiyou.wangcong@gmail.com
-Subject: [PATCH v2 security-next 4/4] selftests/hornet: Add a selftest for the Hornet LSM
-Date: Fri,  4 Apr 2025 14:54:53 -0700
-Message-ID: <20250404215527.1563146-5-bboscaccy@linux.microsoft.com>
-X-Mailer: git-send-email 2.48.1
-In-Reply-To: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fqfwvCVx"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2260c91576aso21944825ad.3;
+        Fri, 04 Apr 2025 16:56:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743810959; x=1744415759; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=2Qbcg7beoc6Xu96NsYniUdclE5DhDfitSzlmmppCwV8=;
+        b=fqfwvCVxGLKTbhJQyq+knS1Lak3VGqTpyEdZYIl9rERjHNhAKX+D8T5SSlt9/srg6C
+         UB/2saG6IHnhFVxQPXFT7JgPL0SmTzdVObiGoRwYNEqIfb/bOWoNtmUcbOL7VA9wxzOt
+         g5ddwUaII60/22cB5y8G59EfAWrdEP10lrDoO/dk8k839Q6pmPFOVAdAJvh/DHIYF7Iu
+         I7vUFs6tpMO+1olaGpiajwDtE1VsCd+s+W0If6S4SviqC4YR+OL45hMJ8g/PzdENuSdI
+         eLX9Yu0XzVLy83Iqxr17o5MMuep/ZI2cW2wG1TD0YAFEVQowhza8rNeRmjVpQFDxGFx9
+         AReQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743810959; x=1744415759;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=2Qbcg7beoc6Xu96NsYniUdclE5DhDfitSzlmmppCwV8=;
+        b=oDllmEkSbGGXV0HjVFt62s9w62gLIsx55ct+uKTL1m6C7cZu7L8UtdH9Ho1eCTd+ly
+         Qv7YZQHAmxvn4RQj/d6WdPwMkvyduYg3QfasKg5uH9aP+nax/y5G8YGQi7xYtpEq5xXh
+         vCpgjSI5s96XbFwiYl2211lqTMX9S/XVQPoDOYWuelaLyNeFBKHORN483Q8TEItfQblJ
+         aiB3G3860C10fSEI2KS71ueN6CfuAtnWUcAq82jdbovupbG/VnGtYHLLJkj30rDCsF1W
+         0oIAv4ZOeK25IswVwfoz7CgSjd+ylvWI7VqvQuDR7gV+y9pZVNq2AekciLlCgVAB+lHj
+         fJdA==
+X-Forwarded-Encrypted: i=1; AJvYcCWRQtsoCFCvwYUIc24XR6pdIztHKOQnRocRJ63/OGWUKxO5czx8LrzC38qXSpe0m+hYsksVL+zhj+Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwoIpNS8GWVKXhY2yLV77AqxxH0e3cmERafaygUZ4W2RT6BH88Z
+	dkCmL9OQcjmA2LyFZk11sCmdW27PeqEyzOIfxduHZ6TR10LH4qKS
+X-Gm-Gg: ASbGnctEui2Lqe8nrr5tf3mZFlQTyn6ZK3pz0tHbZWldnjKShFnK2rc+qxbEth56lSq
+	i2USxVXNr0jSoXO9O4IMGTbBe7uN64Vteei9QChdIOzM4W/E6C8YzWPFEPD3qQ3L89Nn+gJ3NEz
+	alGugme11J5AFUgowjPMsu7XK+S68DSc0+r8HyKd8h928CxKpvmrDhRd/hTHxkYyrUZ6FQpxBZR
+	1q1CRdK2X0vpzzni34vJjnzljQm3kYgRcZ6qvO5CXoPl7X1crMk/KOgS94gINodMiOjVIEQeziv
+	z6xbhsaz/e7crayttz8gsGRU7ryVhIen28otZHvSt7P1
+X-Google-Smtp-Source: AGHT+IGDHqCIcWJ1VVlBQCJ3ZYjTMz19C+w7npPLNO4tkDkiZoOk24haQWGTKLstZl1LKwOpDtISBA==
+X-Received: by 2002:a17:903:1b6d:b0:21f:68ae:56e3 with SMTP id d9443c01a7336-22a8a1b8c79mr64850695ad.39.1743810959244;
+        Fri, 04 Apr 2025 16:55:59 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22978772861sm38459045ad.234.2025.04.04.16.55.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Apr 2025 16:55:58 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id B5471420A696; Sat, 05 Apr 2025 06:55:55 +0700 (WIB)
+Date: Sat, 5 Apr 2025 06:55:55 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, willy@infradead.org, linux-mm@kvack.org,
+	David Hildenbrand <david@redhat.com>, da.gomez@kernel.org,
+	mcgrof@kernel.org, gost.dev@samsung.com, linux-doc@vger.kernel.org,
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH v3] docs: update THP admin guide about non-tmpfs
+ filesystem support
+Message-ID: <Z_Bxi-w8dhMLesKy@archie.me>
+References: <20250404140657.29285-1-kernel@pankajraghav.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="hE7iKIIkiNutKzNZ"
+Content-Disposition: inline
+In-Reply-To: <20250404140657.29285-1-kernel@pankajraghav.com>
 
-This selftest contains a testcase that utilizes light skeleton eBPF
-loaders. One version of the light skeleton is signed with the
-autogenerated module signing key, another is not. A test driver
-attempts to load the programs. With Hornet enabled, the signed version
-should successfully be loaded, and the unsigned version should fail.
 
-Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
----
- tools/testing/selftests/Makefile             |  1 +
- tools/testing/selftests/hornet/Makefile      | 51 ++++++++++++++++++++
- tools/testing/selftests/hornet/loader.c      | 21 ++++++++
- tools/testing/selftests/hornet/trivial.bpf.c | 33 +++++++++++++
- 4 files changed, 106 insertions(+)
- create mode 100644 tools/testing/selftests/hornet/Makefile
- create mode 100644 tools/testing/selftests/hornet/loader.c
- create mode 100644 tools/testing/selftests/hornet/trivial.bpf.c
+--hE7iKIIkiNutKzNZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/tools/testing/selftests/Makefile b/tools/testing/selftests/Makefile
-index 8daac70c2f9d..fce32ee4de32 100644
---- a/tools/testing/selftests/Makefile
-+++ b/tools/testing/selftests/Makefile
-@@ -41,6 +41,7 @@ TARGETS += ftrace
- TARGETS += futex
- TARGETS += gpio
- TARGETS += hid
-+TARGETS += hornet
- TARGETS += intel_pstate
- TARGETS += iommu
- TARGETS += ipc
-diff --git a/tools/testing/selftests/hornet/Makefile b/tools/testing/selftests/hornet/Makefile
-new file mode 100644
-index 000000000000..93da70f41d40
---- /dev/null
-+++ b/tools/testing/selftests/hornet/Makefile
-@@ -0,0 +1,51 @@
-+# SPDX-License-Identifier: GPL-2.0
-+include ../../../build/Build.include
-+include ../../../scripts/Makefile.arch
-+include ../../../scripts/Makefile.include
-+
-+CLANG ?= clang
-+CFLAGS := -g -O2 -Wall
-+BPFTOOL ?= bpftool
-+SCRIPTSDIR := $(abspath ../../../../scripts/hornet)
-+TOOLSDIR := $(abspath ../../..)
-+LIBDIR := $(TOOLSDIR)/lib
-+BPFDIR := $(LIBDIR)/bpf
-+TOOLSINCDIR := $(TOOLSDIR)/include
-+APIDIR := $(TOOLSINCDIR)/uapi
-+CERTDIR := $(abspath ../../../../certs)
-+
-+TEST_GEN_PROGS_EXTENDED := loader
-+TEST_GEN_PROGS := signed_loader
-+TEST_PROGS := fail_loader
-+TEST_GEN_FILES := vmlinux.h loader.h trivial.bin trivial.bpf.o
-+$(TEST_GEN_PROGS): LDLIBS += -lbpf
-+$(TEST_GEN_PROGS): $(TEST_GEN_FILES)
-+
-+include ../lib.mk
-+
-+BPF_CFLAGS := -target bpf \
-+              -D__TARGET_ARCH_$(ARCH) \
-+              -I/usr/include/$(shell uname -m)-linux-gnu \
-+               $(KHDR_INCLUDES)
-+vmlinux.h:
-+	$(BPFTOOL) btf dump file /sys/kernel/btf/vmlinux format c > vmlinux.h
-+
-+trivial.bpf.o: trivial.bpf.c vmlinux.h
-+	$(CLANG) $(CFLAGS) $(BPF_CFLAGS) -c $< -o $@
-+
-+loader.h: trivial.bpf.o
-+	$(BPFTOOL) gen skeleton -L $< name trivial > $@
-+
-+trivial.bin: loader.h
-+	$(SCRIPTSDIR)/extract-skel.sh $< $@
-+
-+loader: loader.c loader.h
-+	$(CC) $(CFLAGS) -I$(LIBDIR) -I$(APIDIR) $< -o $@ -lbpf
-+
-+fail_loader: fail_loader.c loader.h
-+	$(CC) $(CFLAGS) -I$(LIBDIR) -I$(APIDIR) $< -o $@ -lbpf
-+
-+signed_loader: trivial.bin loader fail_loader
-+	$(SCRIPTSDIR)/sign-ebpf sha256 $(CERTDIR)/signing_key.pem  $(CERTDIR)/signing_key.x509 \
-+		trivial.bin loader signed_loader
-+	chmod u+x $@
-diff --git a/tools/testing/selftests/hornet/loader.c b/tools/testing/selftests/hornet/loader.c
-new file mode 100644
-index 000000000000..9a43bb012d1b
---- /dev/null
-+++ b/tools/testing/selftests/hornet/loader.c
-@@ -0,0 +1,21 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+
-+#include <stdio.h>
-+#include <unistd.h>
-+#include <stddef.h>
-+#include <sys/resource.h>
-+#include <bpf/libbpf.h>
-+#include <errno.h>
-+#include  "loader.h"
-+
-+int main(int argc, char **argv)
-+{
-+	struct trivial *skel;
-+
-+	skel = trivial__open_and_load();
-+	if (!skel)
-+		return -1;
-+
-+	trivial__destroy(skel);
-+	return 0;
-+}
-diff --git a/tools/testing/selftests/hornet/trivial.bpf.c b/tools/testing/selftests/hornet/trivial.bpf.c
-new file mode 100644
-index 000000000000..d38c5b53ff93
---- /dev/null
-+++ b/tools/testing/selftests/hornet/trivial.bpf.c
-@@ -0,0 +1,33 @@
-+// SPDX-License-Identifier: GPL-2.0 OR BSD-3-Clause
-+
-+#include "vmlinux.h"
-+
-+#include <bpf/bpf_helpers.h>
-+#include <bpf/bpf_tracing.h>
-+#include <bpf/bpf_core_read.h>
-+
-+char LICENSE[] SEC("license") = "Dual BSD/GPL";
-+
-+int monitored_pid = 0;
-+
-+SEC("tracepoint/syscalls/sys_enter_unlinkat")
-+int handle_enter_unlink(struct trace_event_raw_sys_enter *ctx)
-+{
-+	char filename[128] = { 0 };
-+	struct task_struct *task;
-+	unsigned long start_time = 0;
-+	int pid = bpf_get_current_pid_tgid() >> 32;
-+	char *pathname_ptr = (char *) BPF_CORE_READ(ctx, args[1]);
-+
-+	bpf_probe_read_str(filename, sizeof(filename), pathname_ptr);
-+	task = (struct task_struct *)bpf_get_current_task();
-+	start_time = BPF_CORE_READ(task, start_time);
-+
-+	bpf_printk("BPF triggered unlinkat by PID: %d, start_time %ld. pathname = %s",
-+		   pid, start_time, filename);
-+
-+	if (monitored_pid == pid)
-+		bpf_printk("target pid found");
-+
-+	return 0;
-+}
--- 
-2.48.1
+On Fri, Apr 04, 2025 at 04:06:57PM +0200, Pankaj Raghav (Samsung) wrote:
+> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/a=
+dmin-guide/mm/transhuge.rst
+> index dff8d5985f0f..f8aae64e38d0 100644
+> --- a/Documentation/admin-guide/mm/transhuge.rst
+> +++ b/Documentation/admin-guide/mm/transhuge.rst
+> @@ -12,8 +12,8 @@ using huge pages for the backing of virtual memory with=
+ huge pages
+>  that supports the automatic promotion and demotion of page sizes and
+>  without the shortcomings of hugetlbfs.
+> =20
+> -Currently THP only works for anonymous memory mappings and tmpfs/shmem.
+> -But in the future it can expand to other filesystems.
+> +Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
+> +filesystems that support large folios.
+> =20
+>  .. note::
+>     in the examples below we presume that the basic page size is 4K and
+> @@ -463,11 +463,19 @@ fields for each mapping. (Note that AnonHugePages o=
+nly applies to traditional
+>  PMD-sized THP for historical reasons and should have been called
+>  AnonHugePmdMapped).
+> =20
+> -The number of file transparent huge pages mapped to userspace is availab=
+le
+> -by reading ShmemPmdMapped and ShmemHugePages fields in ``/proc/meminfo``.
+> -To identify what applications are mapping file transparent huge pages, it
+> -is necessary to read ``/proc/PID/smaps`` and count the FilePmdMapped fie=
+lds
+> -for each mapping.
+> +The number of PMD-sized transparent huge pages currently used by
+> +filesystem data (page cache) is available by reading the FileHugePages f=
+ield
+> +in ``/proc/meminfo``. The number of these huge pages that are mapped to =
+userspace
+> +is available by reading FilePmdMapped field in ``proc/meminfo``. To iden=
+tify
+> +what applications are mapping these huge pages, it is necessary to read
+> +``/proc/PID/smaps`` and count the FilePmdMapped fields for each mapping.
+> +
+> +In similar fashion, the number of PMD-sized transparent huge pages curre=
+ntly
+> +used by tmpfs/shmem is available by reading the ShmemHugePages field
+> +in ``/proc/meminfo``. The number of these huge pages that are mapped to =
+userspace
+> +is available by reading ShmemPmdMapped field in ``proc/meminfo``. To ide=
+ntify
+> +what applications are mapping these huge pages, it is necessary to read
+> +``/proc/PID/smaps`` and count the ShmemPmdMapped fields for each mapping.
+> =20
+>  Note that reading the smaps file is expensive and reading it
+>  frequently will incur overhead.
+>=20
 
+Looks good, thanks!
+
+Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--hE7iKIIkiNutKzNZ
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ/BxhgAKCRD2uYlJVVFO
+o9aXAQDXeJRYL8Ql9rfKPgO01q0Tg4hKcR91PSCos74scWsqWwD6Agz+YSUSGRTU
+ms/KfqjUA3brhTaTnV90IE6gDmf0yQA=
+=e6Cl
+-----END PGP SIGNATURE-----
+
+--hE7iKIIkiNutKzNZ--
