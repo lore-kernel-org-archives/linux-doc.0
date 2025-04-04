@@ -1,62 +1,62 @@
-Received: from mail-ed1-f54.google.com (mail-ed1-f54.google.com [209.85.208.54])
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9E9A1A5B9E
-	for <linux-doc@vger.kernel.org>; Fri,  4 Apr 2025 09:24:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 214201A5BB6
+	for <linux-doc@vger.kernel.org>; Fri,  4 Apr 2025 09:54:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743758671; cv=none; b=TVXYwwClYgZtXf3tEqDIwpzfmPP4Tv1LNoLEqPnkqaTy4Fee3j/zEl7geHdb0MlAAYujrWIRsgFIndr/WTsXsniNMeMvMElc4j0+Op/0koi+qoebLZlfuUyreTCCuLG9FlPfCMcryZ51ng2ZrSRph+iV9XtRuWsTvdeJ/PkHo5o=
+	t=1743760458; cv=none; b=ZZsF9hS2epG1t5FH/Xw9lEkV8VNwWage40QckS+xuxPnYUwGzSm7T4jifmVj0WjmW72kHRZjkDR4c14BHKCmrF7evBRETL6c2yQwhvgxlQ/GSY4nzosi9jbVGOB9z4+R2w2aUwEdq/fwwqHGWDggB16aeDpUYZ0XzZfNnNIPWXw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743758671; c=relaxed/simple;
-	bh=mhsAKtrtx8q6Kuhdx1gCRLTnQk8BFVldD1RjWRzGuFA=;
+	s=arc-20240116; t=1743760458; c=relaxed/simple;
+	bh=hNeF7z0PXm+fZ7v87K6B50kIrzIayzQQzo6kuSxs2hY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pvtpJaXczfc1KGW2F/AqGqpU/CDbKBQMZlsQhXZ4wbWu2bIbN7GS6vSNbmqrD0Y9Pu5PJT7M5qEUHYPdp5jNxM7H1F4/lS9Jf3AxSSwPWQKIjHkFb4h93+hNGVASDvR9CsyO0DdpPppmy2ZZIyL8zCD0VT7v5jNCAod01P33yFU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WYIupbwQ; arc=none smtp.client-ip=209.85.208.54
+	 Content-Type:Content-Disposition:In-Reply-To; b=nhK8cp18NG4XNN6KlQH4YNnYinJ+KQhzkLN2DGmbKX5hm0IXIgWoTXvKZH7V+3R8egZbbHxowFR67/hKacTg6G4HZyQrtTgzSYXQtMMq8xnizRu5H3qC4Sj9YM6QYdQPGFP+nAtfMsIX37SLV7TmPXFZRRfYsua3/2D+m6nvE+Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=PSUiO4NR; arc=none smtp.client-ip=209.85.218.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WYIupbwQ"
-Received: by mail-ed1-f54.google.com with SMTP id 4fb4d7f45d1cf-5e5bc066283so2959794a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 04 Apr 2025 02:24:28 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="PSUiO4NR"
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ac2bfcd2a70so242392766b.0
+        for <linux-doc@vger.kernel.org>; Fri, 04 Apr 2025 02:54:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1743758667; x=1744363467; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1743760453; x=1744365253; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=qHqjNgPYjFVoUL5p28toluYm5U5RftH3Zux4QyIsXJM=;
-        b=WYIupbwQAl2Bo8bZMP4jLovbTIPyj554nVfS0y+R5j5rTnqWMGrdBzDIJI9hCqUfRT
-         Xkv+eYEIlGvv/Gqg4VTDiKcME+FhB6zco5zG6iuVfjXn81CozvJtG840c4snwFmoviPs
-         bFRgqY7yVaapMODG9sqTKfF7NYMcpS1tHxYAI96E9PuKT8S03MZKS6S+INl8T3DGpiqO
-         YmTgdKJdMDtc4HMRYBOg0Ohv5ySPB5N+YXb6EvqMf2GwmF/HAcELsXSOJlMiPLHa4Spx
-         LNQjq//IhGDjth6no/1VTVH5u3ELjHl2pRyltj1Ur1OzFB/j4pEMCCGKZhfeX2ww0M9F
-         7+NA==
+        bh=kYAlHXEplBZR8C+Nf50IvIJmhOSpOhaYvMLYZLbAtKw=;
+        b=PSUiO4NRJ7BCL0mL0p8SghQIM+pQNmuV+iah/Hy03TDHKCYzo1v81v6VsIbkNXjQ0W
+         OiX+DzmB7vSvZV8M3a5btnnym/02igUBTmAdq7J3ghGuqgzSazAMCAkNtJrRu67xuIhO
+         cldE6KnKKsw0ubqsqG12NiTY/OBIpQ7bx8HB1BQor/8LjeZzfltGmF8Hxsnw47h7vqJg
+         OvBaf5OtAweU98FE8h41o4PjR/kni+OWNwbY4aIkHqK4m3yNdmtqvM3q8kv15SKh9Fuy
+         DLdM/Uhq0pcH50AWd3DrlXuJs345e85iXp2EUnq4qkqN1lDf9k4TlyHfMULoWP2MF2sY
+         QZ2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743758667; x=1744363467;
+        d=1e100.net; s=20230601; t=1743760453; x=1744365253;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=qHqjNgPYjFVoUL5p28toluYm5U5RftH3Zux4QyIsXJM=;
-        b=Wq7AwaNdPJsJjz6CenagnK5iaBQGPTHfpsyegflwziLWW4b/I4Gm2ZWWkYNlaA/mtf
-         yMfSsnzVW/44A7B9ddALUBzr/OTqDIj+iQSgc6udRrUnkb4xgnnzbU80ixoWxerVQJ/4
-         apbzEueOMTzjDMXvcp6iWrcMdbIrF2bAI+EMC3e4RnJqZBh/yqf/TbxtEej23zhTKgql
-         riUKYXa6cvHz3oCGR6q/2YiOOUEActD8RFj/hn220E+Q/OVzT2aM4OXklMTP8OTwWED1
-         TSa3I/zFIWEx1h8M5RBr08y1sfFK/nh3R97IS7g0YmEg6Xr+14Og4YnAPoWUmX9eWScH
-         +pag==
-X-Forwarded-Encrypted: i=1; AJvYcCXjQFCaxnFmrtMNG/aRbgvg+JQ3R/kfyaT/GV/4NcSqUf5AS0yU4ic4QYfvuQbIIL/I9XPmoX7gjfM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw6ljhMUh9HcGNYab/amw/iThuBo0mrIHMB8an6gElIY/BjJbm5
-	PI2aiQ13ou8fRl59g2TpNhxcLD6nnrYnph1wfB2wGrNSrDN9lfxxgy6x0YV4ImQ=
-X-Gm-Gg: ASbGnctly4zyU8o1QCH5zeyu/1fGqwgADiPsRyocrd3GNNs+49VeXLNyzMq5pQUwb4m
-	VpdvKLWeGIpE+WbwO3b4EDRzST0xsYxr1lIOCxvDnbQqQgCZZZRixyMmtnoJFj/tpgbX5boVqFb
-	j9sFSfGaRRFKo7R5F6qVSSfW+RcPCOYPeLYeWJWKqL1tehXS/5e8CDMe8Ck9uaiC4M3hrbbvJbE
-	lKwB+kLBiSl25EJ6DHhvJG3DiH79+TowNb5y/JvM967VG0uKrXto86OZ9pTyD3jelVZGJX/RVit
-	DClXd4EftakT52JuIq2mBgpb+jolG4oKL4O6QXtUCxzN1uP/4VE4qBD8
-X-Google-Smtp-Source: AGHT+IEaYodn/Q89C7K0adlmfoOMuodOzseFeUPVohsEX4n8FnBRqPy5wPCCe0ARrP3xquBqgynpHQ==
-X-Received: by 2002:a17:907:86a8:b0:ac2:a50a:51ad with SMTP id a640c23a62f3a-ac7d6d22c0fmr167315566b.14.1743758666891;
-        Fri, 04 Apr 2025 02:24:26 -0700 (PDT)
+        bh=kYAlHXEplBZR8C+Nf50IvIJmhOSpOhaYvMLYZLbAtKw=;
+        b=YhVnF/BMCc+nyxz8J015tuisWzLn0XiuSjlJclAZtX6WVQVzDGhkyBgCT9Hjax5U42
+         jFZj3RWkLvvh/+BrjgQcK/C0tEE/9EQOAnmXY+nUWSqW23kUxaXE3r4LyOlSuC3gtLfb
+         PaNV/jv9eC/lnOVBS0FNZnvQhLPudeKqqKTNgKKzU69fVXGJd/MMFi3uAtQjH01gLqGf
+         JzIZheR8Ca0ZvdKBIxmNoawjpTybm8KSuXMZx1YOZZ1sWguvEJt0mfE8NUiay22NYiNu
+         cjx+0w5TdgjSUmmRi9KRgupENPma2pbyYDEXyltKTrHQ/VYWCI7IU20tokpJP37kMrS/
+         B8kQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW8OxL5vvm897fs4aaySp6XEVyeZjygdap5ZYwfZJlcInq3QNqBgJ6WuihO8xqM9B8XbzCq8GCT3So=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy+wv+OKfvLR7iU0W4orJgegOp5FMOa7NTmMF13rU69gjvUZgJh
+	dF6KR1XpIiDu5ZHc9NBltnBiPhkk6NNRwv/Rtq9pc4KW77pGsll3ULK2UEWuqTs=
+X-Gm-Gg: ASbGncv4Kn4tRqO2ukNI/RmUskvnIVWHsfPtu+zJuElbyAqMQEhEEnAQixwOxGt/pKe
+	g+tppI8Hq+rJEKscTHerWTxSqoPdi+L/TINxHtaAslfQMEdMPMT8O5jx14Sug2ZeHK/gIzeH+vG
+	bqhQb8JOjyo5pBcXdC/BW0nEjejJsMfAb3qwC5VgCSXt8TBu2kAfIFZPE8oeVboJ1r8c3Ir2CVX
+	is7oTFgge9l2zLxkLatxyyUjhfVi1hxkBiqcZ7GIt1Zu9ZasCRg1mWrxXDrp80RCIMaeX5yMTQv
+	ktMQN002mjogpd9DOSqPqLn0drVfCTS0KiDcdLt/F6xHENxncUAC6L4b
+X-Google-Smtp-Source: AGHT+IHVK1xPFjgUlctqGoP+C/6wMdr/sOeO1yGK5ebaeEn+PcqQk/KtPy0g6bA4aI5FsjIRW2rTCA==
+X-Received: by 2002:a17:907:6d29:b0:ac1:f19a:c0a0 with SMTP id a640c23a62f3a-ac7d177475emr226973866b.20.1743760453343;
+        Fri, 04 Apr 2025 02:54:13 -0700 (PDT)
 Received: from linaro.org ([2a02:2454:ff21:ef30:e124:1321:48a4:8c63])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c01bf898sm221290366b.164.2025.04.04.02.24.25
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ac7c013f651sm224335566b.123.2025.04.04.02.54.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 02:24:26 -0700 (PDT)
-Date: Fri, 4 Apr 2025 11:24:20 +0200
+        Fri, 04 Apr 2025 02:54:12 -0700 (PDT)
+Date: Fri, 4 Apr 2025 11:54:10 +0200
 From: Stephan Gerhold <stephan.gerhold@linaro.org>
 To: Wesley Cheng <quic_wcheng@quicinc.com>
 Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
@@ -68,11 +68,11 @@ Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
 	linux-sound@vger.kernel.org, linux-usb@vger.kernel.org,
 	linux-input@vger.kernel.org, linux-arm-msm@vger.kernel.org,
 	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v37 22/31] ASoC: qcom: qdsp6: Introduce USB AFE port to
- q6dsp
-Message-ID: <Z--lRII_5_rp9tDf@linaro.org>
+Subject: Re: [PATCH v37 24/31] ASoC: qcom: qdsp6: Add USB backend ASoC driver
+ for Q6
+Message-ID: <Z--sQj-fXwXkk5iS@linaro.org>
 References: <20250404002728.3590501-1-quic_wcheng@quicinc.com>
- <20250404002728.3590501-23-quic_wcheng@quicinc.com>
+ <20250404002728.3590501-25-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,151 +81,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250404002728.3590501-23-quic_wcheng@quicinc.com>
+In-Reply-To: <20250404002728.3590501-25-quic_wcheng@quicinc.com>
 
-On Thu, Apr 03, 2025 at 05:27:19PM -0700, Wesley Cheng wrote:
-> The QC ADSP is able to support USB playback endpoints, so that the main
-> application processor can be placed into lower CPU power modes.  This adds
-> the required AFE port configurations and port start command to start an
-> audio session.
+On Thu, Apr 03, 2025 at 05:27:21PM -0700, Wesley Cheng wrote:
+> Create a USB BE component that will register a new USB port to the ASoC USB
+> framework.  This will handle determination on if the requested audio
+> profile is supported by the USB device currently selected.
 > 
-> Specifically, the QC ADSP can support all potential endpoints that are
-> exposed by the audio data interface.  This includes isochronous data
-> endpoints, in either synchronous mode or asynchronous mode. In the latter
-> case both implicit or explicit feedback endpoints are supported.  The size
-> of audio samples sent per USB frame (microframe) will be adjusted based on
-> information received on the feedback endpoint.
-> 
-> Some pre-requisites are needed before issuing the AFE port start command,
-> such as setting the USB AFE dev_token.  This carries information about the
-> available USB SND cards and PCM devices that have been discovered on the
-> USB bus.  The dev_token field is used by the audio DSP to notify the USB
-> offload driver of which card and PCM index to enable playback on.
+> Check for if the PCM format is supported during the hw_params callback.  If
+> the profile is not supported then the userspace ALSA entity will receive an
+> error, and can take further action.
 > 
 > Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
 > ---
->  sound/soc/qcom/qdsp6/q6afe-dai.c         |  60 +++++++
->  sound/soc/qcom/qdsp6/q6afe.c             | 192 ++++++++++++++++++++++-
->  sound/soc/qcom/qdsp6/q6afe.h             |  36 ++++-
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.c |  23 +++
->  sound/soc/qcom/qdsp6/q6dsp-lpass-ports.h |   1 +
->  sound/soc/qcom/qdsp6/q6routing.c         |  10 +-
->  6 files changed, 319 insertions(+), 3 deletions(-)
+>  include/sound/q6usboffload.h  |  20 +++
+>  sound/soc/qcom/Kconfig        |  12 ++
+>  sound/soc/qcom/qdsp6/Makefile |   1 +
+>  sound/soc/qcom/qdsp6/q6usb.c  | 278 ++++++++++++++++++++++++++++++++++
+>  4 files changed, 311 insertions(+)
+>  create mode 100644 include/sound/q6usboffload.h
+>  create mode 100644 sound/soc/qcom/qdsp6/q6usb.c
 > 
-> diff --git a/sound/soc/qcom/qdsp6/q6afe-dai.c b/sound/soc/qcom/qdsp6/q6afe-dai.c
-> index 7d9628cda875..0f47aadaabe1 100644
-> --- a/sound/soc/qcom/qdsp6/q6afe-dai.c
-> +++ b/sound/soc/qcom/qdsp6/q6afe-dai.c
+> diff --git a/include/sound/q6usboffload.h b/include/sound/q6usboffload.h
+> new file mode 100644
+> index 000000000000..35ae26ba6509
+> --- /dev/null
+> +++ b/include/sound/q6usboffload.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0
+> + *
+> + * sound/q6usboffload.h -- QDSP6 USB offload
+> + *
+> + * Copyright (c) 2022-2025 Qualcomm Innovation Center, Inc. All rights reserved.
+> + */
+> +
+> +/**
+> + * struct q6usb_offload - USB backend DAI link offload parameters
+> + * @dev: dev handle to usb be
+> + * @domain: allocated iommu domain
+> + * @sid: streamID for iommu
+> + * @intr_num: usb interrupter number
+> + **/
+> +struct q6usb_offload {
+> +	struct device *dev;
+> +	struct iommu_domain *domain;
+> +	long long sid;
+
+"long long" feels like overkill for sid, given that it's essentially
+either an u8 or -1. I see you just copied this from q6asm-dai.c, but
+unlike q6asm-dai, you don't seem to check for sid < 0 in PATCH 28/31
+(qc_audio_offload.c).
+
+Looking at the logic in q6asm-dai.c, it feels like this could really
+just be an "u8", since the -1 for "no iommus specified" is effectively
+just handled like sid = 0.
+
+> +	u16 intr_num;
+> +};
 > [...]
-> +static int afe_port_send_usb_params(struct q6afe_port *port, struct q6afe_usb_cfg *cfg)
+> diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+> new file mode 100644
+> index 000000000000..cb8c4a62a816
+> --- /dev/null
+> +++ b/sound/soc/qcom/qdsp6/q6usb.c
+> [...]
+> +static int q6usb_dai_dev_probe(struct platform_device *pdev)
 > +{
-> +	union afe_port_config *pcfg = &port->port_cfg;
-> +	struct afe_param_id_usb_audio_dev_lpcm_fmt lpcm_fmt;
-> +	struct afe_param_id_usb_audio_svc_interval svc_int;
+> +	struct device_node *node = pdev->dev.of_node;
+> +	struct q6usb_port_data *data;
+> +	struct device *dev = &pdev->dev;
+> +	struct of_phandle_args args;
 > +	int ret;
 > +
-> +	if (!pcfg) {
-> +		dev_err(port->afe->dev, "%s: Error, no configuration data\n", __func__);
-> +		ret = -EINVAL;
-> +		goto exit;
-
-Nitpick: drop the goto here, just do "return -EINVAL;"
-
-> +	}
+> +	data = devm_kzalloc(dev, sizeof(*data), GFP_KERNEL);
+> +	if (!data)
+> +		return -ENOMEM;
 > +
-> +	memset(&lpcm_fmt, 0, sizeof(lpcm_fmt));
-> +	memset(&svc_int, 0, sizeof(svc_int));
-> +
-> +	lpcm_fmt.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-> +	lpcm_fmt.endian = pcfg->usb_cfg.endian;
-> +	ret = q6afe_port_set_param_v2(port, &lpcm_fmt,
-> +				      AFE_PARAM_ID_USB_AUDIO_DEV_LPCM_FMT,
-> +				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(lpcm_fmt));
+> +	ret = of_property_read_u16(node, "qcom,usb-audio-intr-idx",
+> +				   &data->priv.intr_num);
 > +	if (ret) {
-> +		dev_err(port->afe->dev, "%s: AFE device param cmd LPCM_FMT failed %d\n",
-> +			__func__, ret);
-> +		goto exit;
-
-return ret;
-
+> +		dev_err(&pdev->dev, "failed to read intr idx.\n");
+> +		return ret;
 > +	}
 > +
-> +	svc_int.cfg_minor_version = AFE_API_MINOR_VERSION_USB_AUDIO_CONFIG;
-> +	svc_int.svc_interval = pcfg->usb_cfg.service_interval;
-> +	ret = q6afe_port_set_param_v2(port, &svc_int,
-> +				      AFE_PARAM_ID_USB_AUDIO_SVC_INTERVAL,
-> +				      AFE_MODULE_AUDIO_DEV_INTERFACE, sizeof(svc_int));
-> +	if (ret)
-> +		dev_err(port->afe->dev, "%s: AFE device param cmd svc_interval failed %d\n",
-> +			__func__, ret);
+> +	ret = of_parse_phandle_with_fixed_args(node, "iommus", 1, 0, &args);
+> +	if (ret < 0)
+> +		data->priv.sid = -1;
+> +	else
+
+Could just do if (ret == 0) here and drop the if branch above, if you
+make sid an u8 like I suggested above.
+
+> +		data->priv.sid = args.args[0] & Q6_USB_SID_MASK;
 > +
-> +exit:
-
-drop
-
-> +	return ret;
-> +}
+> +	data->priv.domain = iommu_get_domain_for_dev(&pdev->dev);
 > +
-> [...]
-> diff --git a/sound/soc/qcom/qdsp6/q6routing.c b/sound/soc/qcom/qdsp6/q6routing.c
-> index 90228699ba7d..0def036ed3c9 100644
-> --- a/sound/soc/qcom/qdsp6/q6routing.c
-> +++ b/sound/soc/qcom/qdsp6/q6routing.c
-> @@ -435,6 +435,7 @@ static struct session_data *get_session_from_id(struct msm_routing_data *data,
->  
->  	return NULL;
->  }
-> +
->  /**
->   * q6routing_stream_close() - Deregister a stream
->   *
-> @@ -515,6 +516,9 @@ static int msm_routing_put_audio_mixer(struct snd_kcontrol *kcontrol,
->  	return 1;
->  }
->  
-> +static const struct snd_kcontrol_new usb_rx_mixer_controls[] = {
-> +	Q6ROUTING_RX_MIXERS(USB_RX) };
-> +
->  static const struct snd_kcontrol_new hdmi_mixer_controls[] = {
->  	Q6ROUTING_RX_MIXERS(HDMI_RX) };
->  
-> @@ -933,6 +937,9 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
->  	SND_SOC_DAPM_MIXER("RX_CODEC_DMA_RX_7 Audio Mixer", SND_SOC_NOPM, 0, 0,
->  		rx_codec_dma_rx_7_mixer_controls,
->  		ARRAY_SIZE(rx_codec_dma_rx_7_mixer_controls)),
-> +	SND_SOC_DAPM_MIXER("USB Mixer", SND_SOC_NOPM, 0, 0,
+> +	data->priv.dev = dev;
+> +	INIT_LIST_HEAD(&data->devices);
 
-As I wrote on v36:
-
-I think it would be more clear if you call this "USB_RX Audio Mixer"
-instead for consistency with the other playback mixers. This would also
-avoid confusion later when USB_TX is added in addition to USB_RX.
-
-The "Audio" part in the name is redundant, but looks like all the other
-playback mixers have it as well ...
-
-
-> +			   usb_rx_mixer_controls,
-> +			   ARRAY_SIZE(usb_rx_mixer_controls)),
->  	SND_SOC_DAPM_MIXER("MultiMedia1 Mixer", SND_SOC_NOPM, 0, 0,
->  		mmul1_mixer_controls, ARRAY_SIZE(mmul1_mixer_controls)),
->  	SND_SOC_DAPM_MIXER("MultiMedia2 Mixer", SND_SOC_NOPM, 0, 0,
-> @@ -949,7 +956,6 @@ static const struct snd_soc_dapm_widget msm_qdsp6_widgets[] = {
->  		mmul7_mixer_controls, ARRAY_SIZE(mmul7_mixer_controls)),
->  	SND_SOC_DAPM_MIXER("MultiMedia8 Mixer", SND_SOC_NOPM, 0, 0,
->  		mmul8_mixer_controls, ARRAY_SIZE(mmul8_mixer_controls)),
-> -
->  };
->  
->  static const struct snd_soc_dapm_route intercon[] = {
-> @@ -1043,6 +1049,8 @@ static const struct snd_soc_dapm_route intercon[] = {
->  	{"MM_UL6", NULL, "MultiMedia6 Mixer"},
->  	{"MM_UL7", NULL, "MultiMedia7 Mixer"},
->  	{"MM_UL8", NULL, "MultiMedia8 Mixer"},
-> +
-> +	Q6ROUTING_RX_DAPM_ROUTE("USB Mixer", "USB_RX"),
-
-Put this below "Q6ROUTING_RX_DAPM_ROUTE("RX_CODEC_DMA_RX_7 Audio Mixer".
+I think you also need devm_mutex_init(&data->lock) or separate
+mutex_init()/mutex_destroy() here, if someone enables
+CONFIG_DEBUG_MUTEXES.
 
 Thanks,
 Stephan
