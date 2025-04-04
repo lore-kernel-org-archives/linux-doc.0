@@ -1,417 +1,147 @@
-Received: from mail-pg1-f178.google.com (mail-pg1-f178.google.com [209.85.215.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp-fw-52003.amazon.com (smtp-fw-52003.amazon.com [52.119.213.152])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BBD0C2036E8;
-	Fri,  4 Apr 2025 16:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 20BE73C38;
+	Fri,  4 Apr 2025 16:15:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.119.213.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743783087; cv=none; b=ou0n0FId6pkIKrW9AlLTUcY1hB06FsdcCBHHvvF8Z49cRXiAIH5XAQmEaxeV2JLc8iYNTrN4sSUE5naZ1WyCSahiY0WREkfCoNW0poBDg/Hef+Unh+xUCPwa359erEiL3Vx0mKjn46hUEcqdbmY8A4YwGgqH+1tisPSq+ODwX6Y=
+	t=1743783347; cv=none; b=LgkQjcKNfd25rjCeVh5gPWFt4mcXdJfDiUQbYtsV5ebTlgTnuDpVssPOgGk+c4PKD49TAeCqE1k7BymjIcUjcOO3IAx6XNup7rnzYeWSLhPRdVxg8Brxw39O4f3a9rkWJthTyWmai0WtW8vgm6S8Vlu/wwjpK+/Ap7+gb4ecIdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743783087; c=relaxed/simple;
-	bh=H5MQWT7nCLDyNR+Z4Y9keYaUN0IujSyqpxw4zl4sTbM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eiv17Q4FV0d699Gd8KcdxA904gdjmpS7Wsx28y05Hd7kX83LgQ7wBkwp2UlF/glk5IBm4ZZ6HPF39NlZ7Qj2iDKlQG81kyQyLvfkBcAIN9dZiyUBzZ6rrbjcWfi3NxhntfgghAAuDISXcl7Navu167NuutkIHn8B0TPCWsFKz+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.215.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=fomichev.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pg1-f178.google.com with SMTP id 41be03b00d2f7-af241f0a4beso1906958a12.2;
-        Fri, 04 Apr 2025 09:11:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743783083; x=1744387883;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=BYibj8v1WsCdAupbON054VLeROn+dyl08ImUB4vo6kA=;
-        b=oibQNtsxzL3SorUFd6q+hjsw7C0mwD4xtzwSHQ6wiXIKuAkpOMggHZ2U3ao4NyRDjc
-         4v9EkBoj8538UvuBhaNQ1YxUjay5stYbExIzedK5Ja4KG8N4gev2/a7Qx/qnZZwf0C4s
-         7BV4eRWdbSYUxVhVUxq9WPE4tx9koSdzVxFWykxu2lkBtXAo7zdKI/pWXcnBDjzNTEuM
-         D7EQOHQVd8E48WSAovs2N5AEl0GE6ZputWJrI6bYvyaQclgh2Osv0r4ZSANqSm1yj2Ot
-         aBdDnDsN1BRInlUZJSpbgKLli8Gl19peWqylWMY9mfPnw0cZIVfvvluSKckNHazJrbhN
-         oX+A==
-X-Forwarded-Encrypted: i=1; AJvYcCX1cX9UdBUDex39e7k3g+RmeoAIkpPjn0/tGhydkxpyDboG+gIhIgKrFp6PZnD4UkbW7PCeCxBOegI=@vger.kernel.org, AJvYcCXss+iQa4yorlQEuBLW/mYV5Kp9EYPoxxcdSXUEZpbInO9MU+Up63k7Ejfka+zUwrbp4iibOervPi1oc1cv@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOenNjeSI3oLqO0fbLSLwfi4TkuttuKGO935y8x4WI4u/UlNOE
-	xUFw/6L6ZdCX0FfvrZjWECSCjmGwQ0GHDIhR7/63o4wQoEyzs+ysfXQz
-X-Gm-Gg: ASbGncvjOVY9J6t5i7gV3Wm92kR/rJVEh2xzlCpU+sWAPtxSDOGCXJaaMmkz4ytIvJu
-	cSi1WPajZNEIBjXr7zazglk9JvuMP7La7zYQBikKXUCyZk8JUoQpmcynlE0HITGUSEdmTG1pagY
-	LCG1BNvvqD4LsUw1WnAF3bVi8mrPipT5ueCGgtsCPs34O3QbxEmhOoD5/kMMHWC2iAxhPbplAQe
-	yM+Z6eL+F1iq2oNtZuygxKhfnrt0oEefjsxBE75v2sFxx7VQ2TGpPp3UD1AZ5jngzqBI6oQp31E
-	xVyw99+p6iDuWBYysqIaQRYTZlAobyoULLZcR6S0Hf32ZIKH8imrNZk=
-X-Google-Smtp-Source: AGHT+IFzE1kDsi69TyzkhNxhskXb1xZHh0zhCJwRW6uZ4w6F9lWUlVuP47ZPARnize2RCt2M7g2L9g==
-X-Received: by 2002:a17:90b:5190:b0:301:6343:1626 with SMTP id 98e67ed59e1d1-306a6120a09mr4224266a91.1.1743783083504;
-        Fri, 04 Apr 2025 09:11:23 -0700 (PDT)
-Received: from localhost ([2601:646:9e00:f56e:2844:3d8f:bf3e:12cc])
-        by smtp.gmail.com with UTF8SMTPSA id 98e67ed59e1d1-305983d801csm4027687a91.43.2025.04.04.09.11.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Apr 2025 09:11:23 -0700 (PDT)
-From: Stanislav Fomichev <sdf@fomichev.me>
-To: netdev@vger.kernel.org
-Cc: davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	horms@kernel.org,
-	corbet@lwn.net,
-	andrew+netdev@lunn.ch,
-	sdf@fomichev.me,
-	kuniyu@amazon.com,
-	vladimir.oltean@nxp.com,
-	ecree.xilinx@gmail.com,
-	lukma@denx.de,
-	m-karicheri2@ti.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Cosmin Ratiu <cratiu@nvidia.com>
-Subject: [PATCH net] net: hold instance lock during NETDEV_CHANGE
-Date: Fri,  4 Apr 2025 09:11:22 -0700
-Message-ID: <20250404161122.3907628-1-sdf@fomichev.me>
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1743783347; c=relaxed/simple;
+	bh=dmVtZM5UK8m+VA8tUcL/fjto9wQk0qaLwDUp7HO3HWk=;
+	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Mpsbn0yUnKxp9aDE8WeD33ReLJvklEBSe94XFNf5+Vx6SWQc6LP9zDYcA9wxKd9e8GDUr2ALtW7s1DyTXamHtmvtxt+Kda8NgqgaMYVgXifqy2qn5fpmm9Z8nWXJQ9aXlaJWwRzCFY1cutQwqnUWF5rAmijYoOCNJvD2JDFN3FI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=Oz9k30J3; arc=none smtp.client-ip=52.119.213.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="Oz9k30J3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
+  t=1743783345; x=1775319345;
+  h=from:to:cc:subject:in-reply-to:references:date:
+   message-id:mime-version;
+  bh=PR+81n/7PE5GFJ2G42uL7koHAi23tz/7cZC1Tr5YEZ8=;
+  b=Oz9k30J3lERgdz+rdh3uVGNhDNLQfxrlkAXHaUeVe45I4U8ba6vYGGJ8
+   92cvJrux54dwdPE3pY9qGTGSKwFjtOs6xwEWkXnuZoHsijXPLzu3tcc7G
+   yJJ5kOFqVCAprakIbpu/ZYO/2CElP1W6ROqrWu2/ShNqwZ6cGeZhtmMzs
+   E=;
+X-IronPort-AV: E=Sophos;i="6.15,188,1739836800"; 
+   d="scan'208";a="80882244"
+Received: from iad12-co-svc-p1-lb1-vlan3.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.43.8.6])
+  by smtp-border-fw-52003.iad7.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 16:15:38 +0000
+Received: from EX19MTAUWA001.ant.amazon.com [10.0.21.151:44551]
+ by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.21.195:2525] with esmtp (Farcaster)
+ id 199298bd-9d18-4877-a617-13ac25876d15; Fri, 4 Apr 2025 16:15:37 +0000 (UTC)
+X-Farcaster-Flow-ID: 199298bd-9d18-4877-a617-13ac25876d15
+Received: from EX19D020UWA003.ant.amazon.com (10.13.138.254) by
+ EX19MTAUWA001.ant.amazon.com (10.250.64.204) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 4 Apr 2025 16:15:29 +0000
+Received: from EX19MTAUEA002.ant.amazon.com (10.252.134.9) by
+ EX19D020UWA003.ant.amazon.com (10.13.138.254) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
+ Fri, 4 Apr 2025 16:15:29 +0000
+Received: from email-imr-corp-prod-iad-all-1a-6ea42a62.us-east-1.amazon.com
+ (10.43.8.2) by mail-relay.amazon.com (10.252.134.34) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
+ 15.2.1544.14 via Frontend Transport; Fri, 4 Apr 2025 16:15:28 +0000
+Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
+	by email-imr-corp-prod-iad-all-1a-6ea42a62.us-east-1.amazon.com (Postfix) with ESMTP id 9DB8140530;
+	Fri,  4 Apr 2025 16:15:28 +0000 (UTC)
+Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
+	id 59B05157A; Fri,  4 Apr 2025 16:15:28 +0000 (UTC)
+From: Pratyush Yadav <ptyadav@amazon.de>
+To: Mike Rapoport <rppt@kernel.org>
+CC: Jason Gunthorpe <jgg@nvidia.com>, Changyuan Lyu <changyuanl@google.com>,
+	<linux-kernel@vger.kernel.org>, <graf@amazon.com>,
+	<akpm@linux-foundation.org>, <luto@kernel.org>, <anthony.yznaga@oracle.com>,
+	<arnd@arndb.de>, <ashish.kalra@amd.com>, <benh@kernel.crashing.org>,
+	<bp@alien8.de>, <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
+	<dwmw2@infradead.org>, <ebiederm@xmission.com>, <mingo@redhat.com>,
+	<jgowans@amazon.com>, <corbet@lwn.net>, <krzk@kernel.org>,
+	<mark.rutland@arm.com>, <pbonzini@redhat.com>, <pasha.tatashin@soleen.com>,
+	<hpa@zytor.com>, <peterz@infradead.org>, <robh+dt@kernel.org>,
+	<robh@kernel.org>, <saravanak@google.com>,
+	<skinsburskii@linux.microsoft.com>, <rostedt@goodmis.org>,
+	<tglx@linutronix.de>, <thomas.lendacky@amd.com>, <usama.arif@bytedance.com>,
+	<will@kernel.org>, <devicetree@vger.kernel.org>, <kexec@lists.infradead.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
+	<linux-mm@kvack.org>, <x86@kernel.org>
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
+In-Reply-To: <Z-_kSXrHWU5Bf3sV@kernel.org>
+References: <20250320015551.2157511-1-changyuanl@google.com>
+	<20250320015551.2157511-10-changyuanl@google.com>
+	<mafs05xjmqsqc.fsf@amazon.de> <20250403114209.GE342109@nvidia.com>
+	<Z-6UA3C1TPeH_kGL@kernel.org> <20250403142438.GF342109@nvidia.com>
+	<Z--sUYCvP3Q8nT8e@kernel.org> <20250404124729.GH342109@nvidia.com>
+	<Z-_kSXrHWU5Bf3sV@kernel.org>
+Date: Fri, 4 Apr 2025 16:15:28 +0000
+Message-ID: <mafs0cydrq4wv.fsf@amazon.de>
+User-Agent: Gnus/5.13 (Gnus v5.13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
-Cosmin reports an issue with ipv6_add_dev being called from
-NETDEV_CHANGE notifier:
+Hi Mike,
 
-[ 3455.008776]  ? ipv6_add_dev+0x370/0x620
-[ 3455.010097]  ipv6_find_idev+0x96/0xe0
-[ 3455.010725]  addrconf_add_dev+0x1e/0xa0
-[ 3455.011382]  addrconf_init_auto_addrs+0xb0/0x720
-[ 3455.013537]  addrconf_notify+0x35f/0x8d0
-[ 3455.014214]  notifier_call_chain+0x38/0xf0
-[ 3455.014903]  netdev_state_change+0x65/0x90
-[ 3455.015586]  linkwatch_do_dev+0x5a/0x70
-[ 3455.016238]  rtnl_getlink+0x241/0x3e0
-[ 3455.019046]  rtnetlink_rcv_msg+0x177/0x5e0
+On Fri, Apr 04 2025, Mike Rapoport wrote:
 
-Similarly, linkwatch might get to ipv6_add_dev without ops lock:
-[ 3456.656261]  ? ipv6_add_dev+0x370/0x620
-[ 3456.660039]  ipv6_find_idev+0x96/0xe0
-[ 3456.660445]  addrconf_add_dev+0x1e/0xa0
-[ 3456.660861]  addrconf_init_auto_addrs+0xb0/0x720
-[ 3456.661803]  addrconf_notify+0x35f/0x8d0
-[ 3456.662236]  notifier_call_chain+0x38/0xf0
-[ 3456.662676]  netdev_state_change+0x65/0x90
-[ 3456.663112]  linkwatch_do_dev+0x5a/0x70
-[ 3456.663529]  __linkwatch_run_queue+0xeb/0x200
-[ 3456.663990]  linkwatch_event+0x21/0x30
-[ 3456.664399]  process_one_work+0x211/0x610
-[ 3456.664828]  worker_thread+0x1cc/0x380
-[ 3456.665691]  kthread+0xf4/0x210
+[...]
+> As for the optimizations of memblock reserve path, currently it what hurts
+> the most in my and Pratyush experiments. They are not very representative,
+> but still, preserving lots of pages/folios spread all over would have it's
+> toll on the mm initialization. And I don't think invasive changes to how
+> buddy and memory map initialization are the best way to move forward and
+> optimize that. Quite possibly we'd want to be able to minimize amount of
+> *ranges* that we preserve.
+>
+> So from the three alternatives we have now (xarrays + bitmaps, tables +
+> bitmaps and maple tree for ranges) maple tree seems to be the simplest and
+> efficient enough to start with.
 
-Reclassify NETDEV_CHANGE as a notifier that consistently runs under the
-instance lock.
+But you'd need to somehow serialize the maple tree ranges into some
+format. So you would either end up going back to the kho_mem ranges we
+had, or have to invent something more complex. The sample code you wrote
+is pretty much going back to having kho_mem ranges.
 
-Link: https://lore.kernel.org/netdev/aac073de8beec3e531c86c101b274d434741c28e.camel@nvidia.com/
-Reported-by: Cosmin Ratiu <cratiu@nvidia.com>
-Tested-by: Cosmin Ratiu <cratiu@nvidia.com>
-Fixes: ad7c7b2172c3 ("net: hold netdev instance lock during sysfs operations")
-Signed-off-by: Stanislav Fomichev <sdf@fomichev.me>
----
- Documentation/networking/netdevices.rst | 10 +++++----
- include/linux/netdevice.h               |  2 ++
- include/linux/rtnetlink.h               |  2 +-
- net/core/dev.c                          | 11 +---------
- net/core/dev_api.c                      | 16 ++++++++++++++
- net/core/link_watch.c                   | 28 ++++++++++++++++++++-----
- net/core/lock_debug.c                   |  2 +-
- net/core/rtnetlink.c                    | 15 +++++++------
- net/ethtool/ioctl.c                     |  2 +-
- net/hsr/hsr_device.c                    |  6 +++---
- 10 files changed, 63 insertions(+), 31 deletions(-)
+And if you say that we should minimize the amount of ranges, the table +
+bitmaps is still a fairly good data structure. You can very well have a
+higher order table where your entire range is a handful of bits. This
+lets you track a small number of ranges fairly efficiently -- both in
+terms of memory and in terms of CPU. I think the only place where it
+doesn't work as well as a maple tree is if you want to merge or split a
+lot ranges quickly. But if you say that you only want to have a handful
+of ranges, does that really matter?
 
-diff --git a/Documentation/networking/netdevices.rst b/Documentation/networking/netdevices.rst
-index 6c2d8945f597..eab601ab2db0 100644
---- a/Documentation/networking/netdevices.rst
-+++ b/Documentation/networking/netdevices.rst
-@@ -338,10 +338,11 @@ operations directly under the netdev instance lock.
- Devices drivers are encouraged to rely on the instance lock where possible.
- 
- For the (mostly software) drivers that need to interact with the core stack,
--there are two sets of interfaces: ``dev_xxx`` and ``netif_xxx`` (e.g.,
--``dev_set_mtu`` and ``netif_set_mtu``). The ``dev_xxx`` functions handle
--acquiring the instance lock themselves, while the ``netif_xxx`` functions
--assume that the driver has already acquired the instance lock.
-+there are two sets of interfaces: ``dev_xxx``/``netdev_xxx`` and ``netif_xxx``
-+(e.g., ``dev_set_mtu`` and ``netif_set_mtu``). The ``dev_xxx``/``netdev_xxx``
-+functions handle acquiring the instance lock themselves, while the
-+``netif_xxx`` functions assume that the driver has already acquired
-+the instance lock.
- 
- Notifiers and netdev instance lock
- ==================================
-@@ -354,6 +355,7 @@ For devices with locked ops, currently only the following notifiers are
- running under the lock:
- * ``NETDEV_REGISTER``
- * ``NETDEV_UP``
-+* ``NETDEV_CHANGE``
- 
- The following notifiers are running without the lock:
- * ``NETDEV_UNREGISTER``
-diff --git a/include/linux/netdevice.h b/include/linux/netdevice.h
-index cf3b6445817b..2d11d013cabe 100644
---- a/include/linux/netdevice.h
-+++ b/include/linux/netdevice.h
-@@ -4429,6 +4429,7 @@ void linkwatch_fire_event(struct net_device *dev);
-  * pending work list (if queued).
-  */
- void linkwatch_sync_dev(struct net_device *dev);
-+void __linkwatch_sync_dev(struct net_device *dev);
- 
- /**
-  *	netif_carrier_ok - test if carrier present
-@@ -4974,6 +4975,7 @@ void dev_set_rx_mode(struct net_device *dev);
- int dev_set_promiscuity(struct net_device *dev, int inc);
- int netif_set_allmulti(struct net_device *dev, int inc, bool notify);
- int dev_set_allmulti(struct net_device *dev, int inc);
-+void netif_state_change(struct net_device *dev);
- void netdev_state_change(struct net_device *dev);
- void __netdev_notify_peers(struct net_device *dev);
- void netdev_notify_peers(struct net_device *dev);
-diff --git a/include/linux/rtnetlink.h b/include/linux/rtnetlink.h
-index ccaaf4c7d5f6..ea39dd23a197 100644
---- a/include/linux/rtnetlink.h
-+++ b/include/linux/rtnetlink.h
-@@ -240,6 +240,6 @@ rtnl_notify_needed(const struct net *net, u16 nlflags, u32 group)
- 	return (nlflags & NLM_F_ECHO) || rtnl_has_listeners(net, group);
- }
- 
--void netdev_set_operstate(struct net_device *dev, int newstate);
-+void netif_set_operstate(struct net_device *dev, int newstate);
- 
- #endif	/* __LINUX_RTNETLINK_H */
-diff --git a/net/core/dev.c b/net/core/dev.c
-index 0608605cfc24..75e104322ad5 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -1518,15 +1518,7 @@ void netdev_features_change(struct net_device *dev)
- }
- EXPORT_SYMBOL(netdev_features_change);
- 
--/**
-- *	netdev_state_change - device changes state
-- *	@dev: device to cause notification
-- *
-- *	Called to indicate a device has changed state. This function calls
-- *	the notifier chains for netdev_chain and sends a NEWLINK message
-- *	to the routing socket.
-- */
--void netdev_state_change(struct net_device *dev)
-+void netif_state_change(struct net_device *dev)
- {
- 	if (dev->flags & IFF_UP) {
- 		struct netdev_notifier_change_info change_info = {
-@@ -1538,7 +1530,6 @@ void netdev_state_change(struct net_device *dev)
- 		rtmsg_ifinfo(RTM_NEWLINK, dev, 0, GFP_KERNEL, 0, NULL);
- 	}
- }
--EXPORT_SYMBOL(netdev_state_change);
- 
- /**
-  * __netdev_notify_peers - notify network peers about existence of @dev,
-diff --git a/net/core/dev_api.c b/net/core/dev_api.c
-index 90bafb0b1b8c..90898cd540ce 100644
---- a/net/core/dev_api.c
-+++ b/net/core/dev_api.c
-@@ -327,3 +327,19 @@ int dev_xdp_propagate(struct net_device *dev, struct netdev_bpf *bpf)
- 	return ret;
- }
- EXPORT_SYMBOL_GPL(dev_xdp_propagate);
-+
-+/**
-+ * netdev_state_change() - device changes state
-+ * @dev: device to cause notification
-+ *
-+ * Called to indicate a device has changed state. This function calls
-+ * the notifier chains for netdev_chain and sends a NEWLINK message
-+ * to the routing socket.
-+ */
-+void netdev_state_change(struct net_device *dev)
-+{
-+	netdev_lock_ops(dev);
-+	netif_state_change(dev);
-+	netdev_unlock_ops(dev);
-+}
-+EXPORT_SYMBOL(netdev_state_change);
-diff --git a/net/core/link_watch.c b/net/core/link_watch.c
-index cb04ef2b9807..864f3bbc3a4c 100644
---- a/net/core/link_watch.c
-+++ b/net/core/link_watch.c
-@@ -183,7 +183,7 @@ static void linkwatch_do_dev(struct net_device *dev)
- 		else
- 			dev_deactivate(dev);
- 
--		netdev_state_change(dev);
-+		netif_state_change(dev);
- 	}
- 	/* Note: our callers are responsible for calling netdev_tracker_free().
- 	 * This is the reason we use __dev_put() instead of dev_put().
-@@ -240,7 +240,9 @@ static void __linkwatch_run_queue(int urgent_only)
- 		 */
- 		netdev_tracker_free(dev, &dev->linkwatch_dev_tracker);
- 		spin_unlock_irq(&lweventlist_lock);
-+		netdev_lock_ops(dev);
- 		linkwatch_do_dev(dev);
-+		netdev_unlock_ops(dev);
- 		do_dev--;
- 		spin_lock_irq(&lweventlist_lock);
- 	}
-@@ -253,25 +255,41 @@ static void __linkwatch_run_queue(int urgent_only)
- 	spin_unlock_irq(&lweventlist_lock);
- }
- 
--void linkwatch_sync_dev(struct net_device *dev)
-+static bool linkwatch_clean_dev(struct net_device *dev)
- {
- 	unsigned long flags;
--	int clean = 0;
-+	bool clean = false;
- 
- 	spin_lock_irqsave(&lweventlist_lock, flags);
- 	if (!list_empty(&dev->link_watch_list)) {
- 		list_del_init(&dev->link_watch_list);
--		clean = 1;
-+		clean = true;
- 		/* We must release netdev tracker under
- 		 * the spinlock protection.
- 		 */
- 		netdev_tracker_free(dev, &dev->linkwatch_dev_tracker);
- 	}
- 	spin_unlock_irqrestore(&lweventlist_lock, flags);
--	if (clean)
-+
-+	return clean;
-+}
-+
-+void __linkwatch_sync_dev(struct net_device *dev)
-+{
-+	netdev_ops_assert_locked(dev);
-+
-+	if (linkwatch_clean_dev(dev))
- 		linkwatch_do_dev(dev);
- }
- 
-+void linkwatch_sync_dev(struct net_device *dev)
-+{
-+	if (linkwatch_clean_dev(dev)) {
-+		netdev_lock_ops(dev);
-+		linkwatch_do_dev(dev);
-+		netdev_unlock_ops(dev);
-+	}
-+}
- 
- /* Must be called with the rtnl semaphore held */
- void linkwatch_run_queue(void)
-diff --git a/net/core/lock_debug.c b/net/core/lock_debug.c
-index b7f22dc92a6f..941e26c1343d 100644
---- a/net/core/lock_debug.c
-+++ b/net/core/lock_debug.c
-@@ -20,11 +20,11 @@ int netdev_debug_event(struct notifier_block *nb, unsigned long event,
- 	switch (cmd) {
- 	case NETDEV_REGISTER:
- 	case NETDEV_UP:
-+	case NETDEV_CHANGE:
- 		netdev_ops_assert_locked(dev);
- 		fallthrough;
- 	case NETDEV_DOWN:
- 	case NETDEV_REBOOT:
--	case NETDEV_CHANGE:
- 	case NETDEV_UNREGISTER:
- 	case NETDEV_CHANGEMTU:
- 	case NETDEV_CHANGEADDR:
-diff --git a/net/core/rtnetlink.c b/net/core/rtnetlink.c
-index c23852835050..d8d03ff87a3b 100644
---- a/net/core/rtnetlink.c
-+++ b/net/core/rtnetlink.c
-@@ -1043,7 +1043,7 @@ int rtnl_put_cacheinfo(struct sk_buff *skb, struct dst_entry *dst, u32 id,
- }
- EXPORT_SYMBOL_GPL(rtnl_put_cacheinfo);
- 
--void netdev_set_operstate(struct net_device *dev, int newstate)
-+void netif_set_operstate(struct net_device *dev, int newstate)
- {
- 	unsigned int old = READ_ONCE(dev->operstate);
- 
-@@ -1052,9 +1052,9 @@ void netdev_set_operstate(struct net_device *dev, int newstate)
- 			return;
- 	} while (!try_cmpxchg(&dev->operstate, &old, newstate));
- 
--	netdev_state_change(dev);
-+	netif_state_change(dev);
- }
--EXPORT_SYMBOL(netdev_set_operstate);
-+EXPORT_SYMBOL(netif_set_operstate);
- 
- static void set_operstate(struct net_device *dev, unsigned char transition)
- {
-@@ -1080,7 +1080,7 @@ static void set_operstate(struct net_device *dev, unsigned char transition)
- 		break;
- 	}
- 
--	netdev_set_operstate(dev, operstate);
-+	netif_set_operstate(dev, operstate);
- }
- 
- static unsigned int rtnl_dev_get_flags(const struct net_device *dev)
-@@ -3396,7 +3396,7 @@ static int do_setlink(const struct sk_buff *skb, struct net_device *dev,
- errout:
- 	if (status & DO_SETLINK_MODIFIED) {
- 		if ((status & DO_SETLINK_NOTIFY) == DO_SETLINK_NOTIFY)
--			netdev_state_change(dev);
-+			netif_state_change(dev);
- 
- 		if (err < 0)
- 			net_warn_ratelimited("A link change request failed with some changes committed already. Interface %s may have been left with an inconsistent configuration, please check.\n",
-@@ -3676,8 +3676,11 @@ struct net_device *rtnl_create_link(struct net *net, const char *ifname,
- 				nla_len(tb[IFLA_BROADCAST]));
- 	if (tb[IFLA_TXQLEN])
- 		dev->tx_queue_len = nla_get_u32(tb[IFLA_TXQLEN]);
--	if (tb[IFLA_OPERSTATE])
-+	if (tb[IFLA_OPERSTATE]) {
-+		netdev_lock_ops(dev);
- 		set_operstate(dev, nla_get_u8(tb[IFLA_OPERSTATE]));
-+		netdev_unlock_ops(dev);
-+	}
- 	if (tb[IFLA_LINKMODE])
- 		dev->link_mode = nla_get_u8(tb[IFLA_LINKMODE]);
- 	if (tb[IFLA_GROUP])
-diff --git a/net/ethtool/ioctl.c b/net/ethtool/ioctl.c
-index 221639407c72..8262cc10f98d 100644
---- a/net/ethtool/ioctl.c
-+++ b/net/ethtool/ioctl.c
-@@ -60,7 +60,7 @@ static struct devlink *netdev_to_devlink_get(struct net_device *dev)
- u32 ethtool_op_get_link(struct net_device *dev)
- {
- 	/* Synchronize carrier state with link watch, see also rtnl_getlink() */
--	linkwatch_sync_dev(dev);
-+	__linkwatch_sync_dev(dev);
- 
- 	return netif_carrier_ok(dev) ? 1 : 0;
- }
-diff --git a/net/hsr/hsr_device.c b/net/hsr/hsr_device.c
-index 439cfb7ad5d1..1b1b700ec05e 100644
---- a/net/hsr/hsr_device.c
-+++ b/net/hsr/hsr_device.c
-@@ -33,14 +33,14 @@ static void hsr_set_operstate(struct hsr_port *master, bool has_carrier)
- 	struct net_device *dev = master->dev;
- 
- 	if (!is_admin_up(dev)) {
--		netdev_set_operstate(dev, IF_OPER_DOWN);
-+		netif_set_operstate(dev, IF_OPER_DOWN);
- 		return;
- 	}
- 
- 	if (has_carrier)
--		netdev_set_operstate(dev, IF_OPER_UP);
-+		netif_set_operstate(dev, IF_OPER_UP);
- 	else
--		netdev_set_operstate(dev, IF_OPER_LOWERLAYERDOWN);
-+		netif_set_operstate(dev, IF_OPER_LOWERLAYERDOWN);
- }
- 
- static bool hsr_check_carrier(struct hsr_port *master)
+Also, I think the allocation pattern depends on which use case you have
+in mind. For hypervisor live update, you might very well only have a
+handful of ranges. The use case I have in mind is for taking a userspace
+process, quickly checkpointing it by dumping its memory contents to a
+memfd, and restoring it after KHO. For that, the ability to do random
+sparse allocations quickly helps a lot.
+
+So IMO the table works well for both sparse and dense allocations. So
+why have a data structure that only solves one problem when we can have
+one that solves both? And honestly, I don't think the table is that much
+more complex either -- both in terms of understanding the idea and in
+terms of code -- the whole thing is like 200 lines.
+
+Also, I think changes to buddy initialization _is_ the way to optimize
+boot times. Having maple tree ranges and moving them around into
+memblock ranges does not really scale very well for anything other than
+a handful of ranges, and we shouldn't limit ourselves to that without
+good reason.
+
+>  
+> Preserving folio orders with it is really straighforward and until we see
+> some real data of how the entire KHO machinery is used, I'd prefer simple
+> over anything else.
+
 -- 
-2.49.0
-
+Regards,
+Pratyush Yadav
