@@ -1,191 +1,353 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3DAE41E1DEE
-	for <linux-doc@vger.kernel.org>; Fri,  4 Apr 2025 12:55:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BADD01991B2;
+	Fri,  4 Apr 2025 13:14:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743771325; cv=none; b=tuACNMS5S9wR/9k8hfUIEJClozoIl0ws5hIUcwSl3uBXGy2TWlAep111pp4pJScFCKdQyBo121Uw2/2+Kw4gfWD43QWHbpb30uyEHcusvP0b8mvxMiIjJOtPLujXi3H5K37TrqoB8nXqPEE5FbHr6EtSeelOtKFFumH/x1rw2mY=
+	t=1743772490; cv=none; b=fnae9Y0TYI1J3vHji0CtKrmZlNN+MrqShFzdVpmT2h8I+09VGjdXdcCcuVGrlL3sMdgMg/KyjwkerLZKMd96817CEL30WQO4EFmYSdCt4kNlDwPxZOmCtZUMwr2E6xY1KXvJ9MmlzL3la0hpatrkyJ1yFohuic72H004hbPZ9Ts=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743771325; c=relaxed/simple;
-	bh=kQhvnnm2l7HMnKW5oJ32mCUmfMkx36l9chfLuunJISU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Jd50qs56KxnqbCNVfeOIvOsc7jMeytlduXe2tz/7h6UR/JJlGZw7KVyWs6U+z5hJOPCy+bhamUxllQ9q54ckjhTlbiw8YA16UufmYAtNrWV2RwZ1/6aFIepQFFHQW1BMO5ktIkbUwJlbDZYVP1Hk3inLj/XZznkgqT1hXc3nP08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=dOnaPw1W; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1743772490; c=relaxed/simple;
+	bh=UmYfWsnNAV/qSCDcr4ZpyELoC1X9sU7WVhwu9z7WdMk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Jvkh96aBsHH2p5fWYxXl5yMqUVUHh+Kflbv4NgT7swO+6nESAI6amjpITDzFQkZopnzt793vxTxZtyHsQIi7rmGCC3a1CEHKXcVbtPmbUv4iNQObZaeoH1bGa4H+nOSZRSRqPykYnFcprVXVtPx/uG+go7ndB3TSxoT02SEvxXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=HghoyQ7j; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="dOnaPw1W"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743771323;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=xkhGFt23aa/2AZ2ro0ZihwQoMTR8Kug7Bx96EP6cizo=;
-	b=dOnaPw1WCv7dNm44jCwTvg6sYf83PE+xQquq1H0oyaYubnfRDkazEX0g7omqHqIzGuZKXo
-	fODbqu3DgvAPJMrUKFkvx7JJAZ0jEWqaKtrfDPr4GKhyfUhBk0nqBVFTDGzKU8XpfzAaPE
-	sTKcmyEFspnJlojdwiVA1JKS8AG1R28=
-Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
- [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-442-eMf2bQkiOXqVqwA76WRfxw-1; Fri, 04 Apr 2025 08:55:22 -0400
-X-MC-Unique: eMf2bQkiOXqVqwA76WRfxw-1
-X-Mimecast-MFC-AGG-ID: eMf2bQkiOXqVqwA76WRfxw_1743771321
-Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43d4d15058dso14500935e9.0
-        for <linux-doc@vger.kernel.org>; Fri, 04 Apr 2025 05:55:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743771321; x=1744376121;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=xkhGFt23aa/2AZ2ro0ZihwQoMTR8Kug7Bx96EP6cizo=;
-        b=rlWwqlnC/kvNZcKGPPAQj0zbEpAIYcnEsw5wuHK3YuZyNypos4HxyOoDx7u8op93Ip
-         AeET/jW/f4Xk+sJ0VSFglE8+Yx+M+4F3Hk6WGIcmL+52v8+QAEerGO3MimQUA6uZbnk4
-         L2qxzi+pPOlXcXzc/d6IWF9895NQwrWwL+K0igVwX+y7EfZcAWTcegCUOMEniHkVwiSl
-         tBOolaFdanAo433hC5k9wudZ3aT3Jls9TZHhc7+46ceNK5mMFcmPAxPYMQZdYyvJL9P+
-         Y5cA+UELPT009bFAMYtBrB9e2qcwV/SgRqmkcMMmlenr7/18wymlvT+8vSNxCrdjPIlg
-         GocA==
-X-Forwarded-Encrypted: i=1; AJvYcCWYEIV7D0vu17/+LeEIR8vbeMxYh3VVgxHS6qLmK8eXfkV8JCLbRhQAOkAnZlYkSDOIK0uE8n5bUew=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSFDJ3MritlVCtbHrtM9LOwwlHi6T50HB2EylZga4tc2jrBPT7
-	NTPn55EWUp6SvYUOjybUQdexv/8pjUb+l3fiwFl8MzOCrawOZOCxq3ZxMQw6nHU99pRABrsmMs5
-	kHyIklsbh8rFHdau+j9ry7Q25Lo7sbdNJNAfOGhh+aTW0M5jRdwYymjm7EQ==
-X-Gm-Gg: ASbGncvCfpveVn59gbqafBMx8KazqyNa9gV7AGeKgyJA65xDYjs0sx5I6YrJtX6AHd5
-	CdMob3k5UTGOV+vyEa0L+aRIyXwFG7lfRPgzi0MyDEYGJnu6TA1W9e9dBBkmcv7RH0Lhbd6tQR0
-	YCG/KPVyYmLY5zrO5eM6NXwQkyBxAbBd0rtchsfDxpoAB1+VHX+BirmGLx2FsfoQGV18ZSKvj/N
-	OnnEMfNFoAgoUONJ3400iyCnaYGYGzaXN0RaRhKrAba9mH1h0Rpy8exmjdbatNA4SFwj9a6ujpn
-	FwW83+gNmZq2RlfRq9O35I+TfOkwhgtg9k3h4cFdzoo7d58A4D8riua+groJ9A4LNgVljmWnPZ6
-	lf0R5BRCMYcs+lUlF/sxJU9GAx4qHFk0ddcNnctyxcFg=
-X-Received: by 2002:a05:600c:1387:b0:43c:f513:9585 with SMTP id 5b1f17b1804b1-43ed0bde88amr28774325e9.13.1743771320882;
-        Fri, 04 Apr 2025 05:55:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF9B9+s0t0B5K9K7kvpZ1G+MK5yBDyiOw8AivkYABoCm9Fb2pyQU63TV6Hdl+izl22SEq3Zqg==
-X-Received: by 2002:a05:600c:1387:b0:43c:f513:9585 with SMTP id 5b1f17b1804b1-43ed0bde88amr28774045e9.13.1743771320496;
-        Fri, 04 Apr 2025 05:55:20 -0700 (PDT)
-Received: from ?IPV6:2003:cb:c71b:7900:8752:fae3:f9c9:a07e? (p200300cbc71b79008752fae3f9c9a07e.dip0.t-ipconnect.de. [2003:cb:c71b:7900:8752:fae3:f9c9:a07e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec169b4e4sm48959365e9.20.2025.04.04.05.55.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 05:55:20 -0700 (PDT)
-Message-ID: <d4b2748c-d23f-49da-bbbd-5ba8df1be7d5@redhat.com>
-Date: Fri, 4 Apr 2025 14:55:18 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="HghoyQ7j"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1743772488; x=1775308488;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=UmYfWsnNAV/qSCDcr4ZpyELoC1X9sU7WVhwu9z7WdMk=;
+  b=HghoyQ7jynqCXthoD4TymNyarwUEArRYlqtoBMM2eNUrN3Nt0/CVNP7f
+   sKDrki+JMEjusphO3lNAJKWBFX/Bin783tJHOStHwYasm8RSqwXka7SiO
+   Ke/+tUn2kPhItIEhX+id7K/7K3gZnQ9pL4cts75we9sAse9U/Q6AI0fw1
+   +cshkCBIhLQt2xBNWn5O02dv+m9P2dIL07ZD8YBGpnqWthrjYH0TXlhTv
+   PZhbzUGupTwAyQd/REwBtByiVi70eE2/KorC4mocibyig46lT3+Lbh4w+
+   f4R89+/4zQbHogG8RoDvFqVZ/b/R+fpHW2RuW6vkidd/hnMFORdGtngCL
+   Q==;
+X-CSE-ConnectionGUID: bo9e+V7QREO9PP2p3ADG/A==
+X-CSE-MsgGUID: SkDWv9x8RLKnJ32LSMRASw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="55401488"
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
+   d="scan'208";a="55401488"
+Received: from fmviesa009.fm.intel.com ([10.60.135.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:14:47 -0700
+X-CSE-ConnectionGUID: FZxz6OJGQf6jyVDmqeoQgQ==
+X-CSE-MsgGUID: loB3APGTTAqGkdlmWdKwag==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
+   d="scan'208";a="128156901"
+Received: from opintica-mobl1 (HELO wieczorr-mobl1.intel.com) ([10.245.245.50])
+  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 06:14:32 -0700
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To: hpa@zytor.com,
+	hch@infradead.org,
+	nick.desaulniers+lkml@gmail.com,
+	kuan-ying.lee@canonical.com,
+	masahiroy@kernel.org,
+	samuel.holland@sifive.com,
+	mingo@redhat.com,
+	corbet@lwn.net,
+	ryabinin.a.a@gmail.com,
+	guoweikang.kernel@gmail.com,
+	jpoimboe@kernel.org,
+	ardb@kernel.org,
+	vincenzo.frascino@arm.com,
+	glider@google.com,
+	kirill.shutemov@linux.intel.com,
+	apopple@nvidia.com,
+	samitolvanen@google.com,
+	maciej.wieczor-retman@intel.com,
+	kaleshsingh@google.com,
+	jgross@suse.com,
+	andreyknvl@gmail.com,
+	scott@os.amperecomputing.com,
+	tony.luck@intel.com,
+	dvyukov@google.com,
+	pasha.tatashin@soleen.com,
+	ziy@nvidia.com,
+	broonie@kernel.org,
+	gatlin.newhouse@gmail.com,
+	jackmanb@google.com,
+	wangkefeng.wang@huawei.com,
+	thiago.bauermann@linaro.org,
+	tglx@linutronix.de,
+	kees@kernel.org,
+	akpm@linux-foundation.org,
+	jason.andryuk@amd.com,
+	snovitoll@gmail.com,
+	xin@zytor.com,
+	jan.kiszka@siemens.com,
+	bp@alien8.de,
+	rppt@kernel.org,
+	peterz@infradead.org,
+	pankaj.gupta@amd.com,
+	thuth@redhat.com,
+	andriy.shevchenko@linux.intel.com,
+	joel.granados@kernel.org,
+	kbingham@kernel.org,
+	nicolas@fjasle.eu,
+	mark.rutland@arm.com,
+	surenb@google.com,
+	catalin.marinas@arm.com,
+	morbo@google.com,
+	justinstitt@google.com,
+	ubizjak@gmail.com,
+	jhubbard@nvidia.com,
+	urezki@gmail.com,
+	dave.hansen@linux.intel.com,
+	bhe@redhat.com,
+	luto@kernel.org,
+	baohua@kernel.org,
+	nathan@kernel.org,
+	will@kernel.org,
+	brgerst@gmail.com
+Cc: llvm@lists.linux.dev,
+	linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kasan-dev@googlegroups.com,
+	x86@kernel.org
+Subject: [PATCH v3 00/14] kasan: x86: arm64: KASAN tag-based mode for x86
+Date: Fri,  4 Apr 2025 15:14:04 +0200
+Message-ID: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] docs: clarify THP admin guide about
- (File|Shmem)PmdMapped and ShmemHugePage
-To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-mm@kvack.org, willy@infradead.org,
- Bagas Sanjaya <bagasdotme@gmail.com>, da.gomez@kernel.org,
- mcgrof@kernel.org, gost.dev@samsung.com, linux-doc@vger.kernel.org,
- Pankaj Raghav <p.raghav@samsung.com>
-References: <20250404100159.27086-1-kernel@pankajraghav.com>
- <20250404100159.27086-3-kernel@pankajraghav.com>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <20250404100159.27086-3-kernel@pankajraghav.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 04.04.25 12:01, Pankaj Raghav (Samsung) wrote:
-> From: Pankaj Raghav <p.raghav@samsung.com>
-> 
-> Move FilePmdMapped to previous paragraph for clarity, and clarify
-> ShmemPmdMapped & ShmemHugePage.
-> 
-> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-> ---
->   Documentation/admin-guide/mm/transhuge.rst | 16 ++++++++++------
->   1 file changed, 10 insertions(+), 6 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index 01b7ce90d693..b0b9d578732b 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -465,13 +465,17 @@ AnonHugePmdMapped).
->   
->   The number of PMD-sized transparent huge pages currently used by
->   filesystem data (page cache) is available by reading the FileHugePages field
-> -in ``/proc/meminfo``.
-> +in ``/proc/meminfo``. The number of these huge pages that are mapped to userspace
-> +is available by reading FilePmdMapped field in ``proc/meminfo``. To identify
-> +what applications are mapping these huge pages, it is necessary to read
-> +``/proc/PID/smaps`` and count the FilePmdMapped fields for each mapping.
->   
+Changes v3:
+- Remove the runtime_const patch and setup a unified offset for both 5
+  and 4 paging levels.
+- Add a fix for inline mode on x86 tag-based KASAN. Add a handler for
+  int3 that is generated on inline tag mismatches.
+- Fix scripts/gdb/linux/kasan.py so the new signed mem_to_shadow() is
+  reflected there.
+- Fix Documentation/arch/arm64/kasan-offsets.sh to take new offsets into
+  account.
+- Made changes to the kasan_non_canonical_hook() according to upstream
+  discussion.
+- Remove patches 2 and 3 since they related to risc-v and this series
+  adds only x86 related things.
+- Reorder __tag_*() functions so they're before arch_kasan_*(). Remove
+  CONFIG_KASAN condition from __tag_set().
 
-Having that change here looks weird.
+Changes v2:
+- Split the series into one adding KASAN tag-based mode (this one) and
+  another one that adds the dense mode to KASAN (will post later).
+- Removed exporting kasan_poison() and used a wrapper instead in
+  kasan_init_64.c
+- Prepended series with 4 patches from the risc-v series and applied
+  review comments to the first patch as the rest already are reviewed.
 
-I suggest to just squash both patches, they are intertwined.
+======= Introduction
+The patchset aims to add a KASAN tag-based mode for the x86 architecture
+with the help of the new CPU feature called Linear Address Masking
+(LAM). Main improvement introduced by the series is 2x lower memory
+usage compared to KASAN's generic mode, the only currently available
+mode on x86.
 
-> -The number of file transparent huge pages mapped to userspace is available
-> -by reading ShmemPmdMapped and ShmemHugePages fields in ``/proc/meminfo``.
-> -To identify what applications are mapping file transparent huge pages, it
-> -is necessary to read ``/proc/PID/smaps`` and count the FilePmdMapped fields
-> -for each mapping.
-> +The number of PMD-sized transparent huge pages currently used by
-> +tmpfs/shmem is available by reading the ShmemHugePages field
-> +in ``/proc/meminfo``. The number of these huge pages that are mapped to userspace
-> +is available by reading ShmemPmdMapped field in ``proc/meminfo``. To identify
-> +what applications are mapping these huge pages, it is necessary to read
-> +``/proc/PID/smaps`` and count the ShmemPmdMapped fields for each mapping.
+There are two relevant series in the process of adding KASAN tag-based
+support to x86. This one focuses on implementing and enabling the
+tag-based mode for the x86 architecture by using LAM. The second one
+attempts to add a new memory saving mechanism called "dense mode" to the
+non-arch part of the tag-based KASAN code. It can provide another 2x
+memory savings by packing tags denser in the shadow memory.
 
-Apart from that (and taking Bagas comment in account), LGTM.
+======= How does KASAN' tag-based mode work?
+When enabled, memory accesses and allocations are augmented by the
+compiler during kernel compilation. Instrumentation functions are added
+to each memory allocation and each pointer dereference.
 
-Feel free to add
+The allocation related functions generate a random tag and save it in
+two places: in shadow memory that maps to the allocated memory, and in
+the top bits of the pointer that points to the allocated memory. Storing
+the tag in the top of the pointer is possible because of Top-Byte Ignore
+(TBI) on arm64 architecture and LAM on x86.
 
-Acked-by: David Hildenbrand <david@redhat.com>
+The access related functions are performing a comparison between the tag
+stored in the pointer and the one stored in shadow memory. If the tags
+don't match an out of bounds error must have occurred and so an error
+report is generated.
+
+The general idea for the tag-based mode is very well explained in the
+series with the original implementation [1].
+
+[1] https://lore.kernel.org/all/cover.1544099024.git.andreyknvl@google.com/
+
+======= Differences summary compared to the arm64 tag-based mode
+- Tag width:
+	- Tag width influences the chance of a tag mismatch due to two
+	  tags from different allocations having the same value. The
+	  bigger the possible range of tag values the lower the chance
+	  of that happening.
+	- Shortening the tag width from 8 bits to 4, while it can help
+	  with memory usage, it also increases the chance of not
+	  reporting an error. 4 bit tags have a ~7% chance of a tag
+	  mismatch.
+
+- TBI and LAM
+	- TBI in arm64 allows for storing metadata in the top 8 bits of
+	  the virtual address.
+	- LAM in x86 allows storing tags in bits [62:57] of the pointer.
+	  To maximize memory savings the tag width is reduced to bits
+	  [60:57].
+
+======= Testing
+Checked all the kunits for both software tags and generic KASAN after
+making changes.
+
+In generic mode the results were:
+
+kasan: pass:59 fail:0 skip:13 total:72
+Totals: pass:59 fail:0 skip:13 total:72
+ok 1 kasan
+
+and for software tags:
+
+kasan: pass:63 fail:0 skip:9 total:72
+Totals: pass:63 fail:0 skip:9 total:72
+ok 1 kasan
+
+======= Benchmarks
+All tests were ran on a Sierra Forest server platform with 512GB of
+memory. The only differences between the tests were kernel options:
+	- CONFIG_KASAN
+	- CONFIG_KASAN_GENERIC
+	- CONFIG_KASAN_SW_TAGS
+	- CONFIG_KASAN_INLINE [1]
+	- CONFIG_KASAN_OUTLINE
+
+More benchmarks are noted in the second series that adds the dense mode
+to KASAN. That's because most values on x86' tag-based mode are tailored
+to work well with that.
+
+Boot time (until login prompt):
+* 03:48 for clean kernel
+* 08:02 / 09:45 for generic KASAN (inline/outline)
+* 08:50 for tag-based KASAN
+* 04:50 for tag-based KASAN with stacktrace disabled [1]
+
+Compilation time comparison (10 cores):
+* 7:27 for clean kernel
+* 8:21/7:44 for generic KASAN (inline/outline)
+* 7:41 for tag-based KASAN
+
+[1] Currently (after getting it enabled in the Makefile) inline mode
+doesn't work on x86. It's probably due to something missing in the
+compiler and I aim to figure this out when working on the second series
+that adds the dense mode (and will need compiler support anyway).
+
+[2] Memory allocation and freeing performance suffers heavily from saving
+stacktraces that can be later displayed in error reports.
+
+======= Compilation
+Clang was used to compile the series (make LLVM=1) since gcc doesn't
+seem to have support for KASAN tag-based compiler instrumentation on
+x86.
+
+======= Dependencies
+The base branch for the series is the tip x86/mm branch.
+
+======= Enabling LAM for testing the series without LASS
+Since LASS is needed for LAM and it can't be compiled without it I
+enabled LAM during testing with the patch below:
+
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -2275,7 +2275,7 @@ config RANDOMIZE_MEMORY_PHYSICAL_PADDING
+ config ADDRESS_MASKING
+ 	bool "Linear Address Masking support"
+ 	depends on X86_64
+-	depends on COMPILE_TEST || !CPU_MITIGATIONS # wait for LASS
++	#depends on COMPILE_TEST || !CPU_MITIGATIONS # wait for LASS
+ 	help
+ 	  Linear Address Masking (LAM) modifies the checking that is applied
+ 	  to 64-bit linear addresses, allowing software to use of the
+
+--- a/arch/x86/kernel/cpu/common.c
++++ b/arch/x86/kernel/cpu/common.c
+@@ -2401,9 +2401,10 @@ void __init arch_cpu_finalize_init(void)
+
+ 		/*
+ 		 * Enable this when LAM is gated on LASS support
++		 */
+ 		if (cpu_feature_enabled(X86_FEATURE_LAM))
+ 			USER_PTR_MAX = (1ul << 63) - PAGE_SIZE;
+-		 */
++
+ 		runtime_const_init(ptr, USER_PTR_MAX);
+
+ 		/*
+
+Maciej Wieczor-Retman (12):
+  x86: Add arch specific kasan functions
+  kasan: arm64: x86: Make special tags arch specific
+  x86: Reset tag for virtual to physical address conversions
+  x86: Physical address comparisons in fill_p*d/pte
+  x86: KASAN raw shadow memory PTE init
+  x86: LAM initialization
+  x86: Minimal SLAB alignment
+  x86: Update the KASAN non-canonical hook
+  x86: Handle int3 for inline KASAN reports
+  kasan: Fix inline mode for x86 tag-based mode
+  mm: Unpoison pcpu chunks with base address tag
+  x86: Make software tag-based kasan available
+
+Samuel Holland (2):
+  kasan: sw_tags: Use arithmetic shift for shadow computation
+  kasan: sw_tags: Support tag widths less than 8 bits
+
+ Documentation/arch/arm64/kasan-offsets.sh |  8 ++-
+ Documentation/arch/x86/x86_64/mm.rst      |  6 +-
+ MAINTAINERS                               |  2 +-
+ arch/arm64/Kconfig                        | 10 ++--
+ arch/arm64/include/asm/kasan-tags.h       |  9 +++
+ arch/arm64/include/asm/kasan.h            |  6 +-
+ arch/arm64/include/asm/memory.h           | 14 ++++-
+ arch/arm64/include/asm/uaccess.h          |  1 +
+ arch/arm64/mm/kasan_init.c                |  7 ++-
+ arch/x86/Kconfig                          |  5 +-
+ arch/x86/boot/compressed/misc.h           |  1 +
+ arch/x86/include/asm/cache.h              |  4 ++
+ arch/x86/include/asm/kasan-tags.h         |  9 +++
+ arch/x86/include/asm/kasan.h              | 41 ++++++++++++-
+ arch/x86/include/asm/page.h               | 17 ++++--
+ arch/x86/include/asm/page_64.h            |  2 +-
+ arch/x86/kernel/alternative.c             |  3 +
+ arch/x86/kernel/head_64.S                 |  3 +
+ arch/x86/kernel/setup.c                   |  2 +
+ arch/x86/kernel/traps.c                   | 52 +++++++++++++++++
+ arch/x86/mm/fault.c                       |  2 +
+ arch/x86/mm/init.c                        |  3 +
+ arch/x86/mm/init_64.c                     | 11 ++--
+ arch/x86/mm/kasan_init_64.c               | 21 +++++--
+ arch/x86/mm/physaddr.c                    |  1 +
+ include/linux/kasan-tags.h                | 19 ++++--
+ include/linux/kasan.h                     | 24 +++++++-
+ include/linux/mm.h                        |  6 +-
+ include/linux/page-flags-layout.h         |  7 +--
+ lib/Kconfig.kasan                         |  3 +-
+ mm/kasan/report.c                         | 70 +++++++++++++++++++++--
+ mm/kasan/shadow.c                         | 11 ++++
+ mm/vmalloc.c                              |  3 +-
+ scripts/Makefile.kasan                    |  3 +
+ scripts/gdb/linux/kasan.py                |  3 +
+ scripts/gdb/linux/mm.py                   |  5 +-
+ 36 files changed, 336 insertions(+), 58 deletions(-)
+ mode change 100644 => 100755 Documentation/arch/arm64/kasan-offsets.sh
+ create mode 100644 arch/arm64/include/asm/kasan-tags.h
+ create mode 100644 arch/x86/include/asm/kasan-tags.h
 
 -- 
-Cheers,
-
-David / dhildenb
+2.49.0
 
