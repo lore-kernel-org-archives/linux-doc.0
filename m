@@ -1,73 +1,73 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 915731531F0
-	for <linux-doc@vger.kernel.org>; Fri,  4 Apr 2025 19:07:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78E1E145B25
+	for <linux-doc@vger.kernel.org>; Fri,  4 Apr 2025 19:16:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743793650; cv=none; b=ZWf/2v4+1bUvL+1ilCDnCg2tjDsywGVvhL9r3rvG1BdnXrW2slDhr5ABBXOxs2qupzPvMjnzcdNxuntz+0VinG1EDiXAw1LHZD/RjuhD1RA9BfYf5AKy9ssjTjGfsbBgoftxyvM5E3XlOGeyGV8siFnXsLfaiNqPqIp3VUmjKMk=
+	t=1743794178; cv=none; b=akitcTQQp0WWMXyEG+NQahJm1eQQ1PTBtQweMVHrVhEWQm5y0DMvYyGfz8d8iBM8AEn6yb2byp8Vd6u89ylW6pej6U462AeHdbaZrZY9FxqcN8+NHQ8BXESNqVqm2gsL79V5YsKEbl8h1iR5z9E9BWRI2OUwUOsmJ5CJ0TAG8hs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743793650; c=relaxed/simple;
-	bh=yNZ0kchyaMHKOOSattO/R7rZ6yp8sSzvuJYRWNSMaJU=;
+	s=arc-20240116; t=1743794178; c=relaxed/simple;
+	bh=4jDpcbc+n3StlJ/igRvfdtaJfpXsjzsOP8rxVbWqNQE=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gvNJ1BM6TfbpX3tIRZ9mn7QLaPG0tyIENRqgQteedwpek7tJO+BpiZPUSpj51o3ojOT9sB5w0qHQp/hQrcrSXNpuRqyskPpLLw3WLVY5MSgOSUCitlU8fnnoZmP8HMQvke4pJolcWji6ru141e3pzyI2p6BHXwiC0T6Gmf5K9Jk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=LIiJvuoW; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=iURfhiOdlZC0ZB0tIFfbzr7rXE8LaPgQQgFbr4k9R3BKsRCO/+waVY9hvl4bayRzB8Eift5igd2/5VDS+fXHRLNxe6LlexlordyXEFYs2twI72sTsY4zoBnCGf9uxh7cPIrW7pk38oRECsv0GLINj4DIVBRwNyf9kfIlXShreRE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VF5H4iPL; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="LIiJvuoW"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VF5H4iPL"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1743793647;
+	s=mimecast20190719; t=1743794175;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=j8cUxrNy3Rx78apksYsfaPzukZTCMHhoyKdomVK2V/w=;
-	b=LIiJvuoWQloWEGM0gFKxv0QLVPXsikHrdSThOFnKAmvk2CbPuwDZRxMZK6LA4D0weOUYSd
-	jOcqwh9SkO6COnU7joTpR1SXwXotmDeun0+Vy+4GhR/gDW+lyaHOcvGlkYiQ9i2eBP1MoH
-	Dz0BcIBbOM0d2TgWx5wLN2htwIU1hB4=
-Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
- [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=4PpR+tac16PtwrzOBM/O7GPHt+8dLRoSGWTrWNH4DHg=;
+	b=VF5H4iPLfhFOZeqGV2Oj8c5mvX6fxI4a9ycbTgg/9XAKB48Ff885Xz1PKcLuQ+wuA17f8l
+	WcZ14cqQScFkipj+90JBuGmyqjtz1Ifl5zWipbSMekFzrmNMSFU8ycNpMd3GO3fMoEPYBc
+	qQrkCxYqIVJVjv6Tou1JLBxm01R+sbE=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-417-fiGTGWA1PTSNY90VT1BTMA-1; Fri, 04 Apr 2025 15:07:26 -0400
-X-MC-Unique: fiGTGWA1PTSNY90VT1BTMA-1
-X-Mimecast-MFC-AGG-ID: fiGTGWA1PTSNY90VT1BTMA_1743793645
-Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43ce245c5acso28412875e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 04 Apr 2025 12:07:26 -0700 (PDT)
+ us-mta-564-K7LFoJgnMGC82pgDxxpB9g-1; Fri, 04 Apr 2025 15:16:14 -0400
+X-MC-Unique: K7LFoJgnMGC82pgDxxpB9g-1
+X-Mimecast-MFC-AGG-ID: K7LFoJgnMGC82pgDxxpB9g_1743794173
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-4394c489babso12454705e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 04 Apr 2025 12:16:13 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743793645; x=1744398445;
+        d=1e100.net; s=20230601; t=1743794173; x=1744398973;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=j8cUxrNy3Rx78apksYsfaPzukZTCMHhoyKdomVK2V/w=;
-        b=Zdpv9mqBLiJ+mpf3oV2m5sHfMyPbdLWd/mp60QDyG6am8N0U8x1yev0i/uqGWE62ws
-         z3Foo4ki7gy44kauHqK7R0feNBQIYSdv1s0InVP5Lj2FYz3bJHzkKyYyYRRgzUiAjXSV
-         NV4uKUPr/QjXhcdl0bmm2GErjYK0W4I+afP98DjXIKnzrmAKdwAoMLiwak+2g5dvxtu4
-         cakv7bOqjkVqWE5S7mg3kxbb1zMs/FPJgsRPPG75tLXwgvzzysHCu6uVtbcRCYqmFypU
-         aWk5PKQyh3C+NjOJ4QVXi+J3PVjaakizW94iJQeoFHYLnEGn9a+EVgOgZlZuKbLxE1Mb
-         uQDw==
-X-Forwarded-Encrypted: i=1; AJvYcCWMndgZttmSEaT24Nac+wGv35a6OhPkddt1w4QZtf3v4yPl4KpKCmhiPAcHOMvQ0GWfDthTMDqr+Ic=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxAwdkGKSgvimk9S3mRieJ2nSdkE92RNlctwXcVxq8sEOQptmEM
-	6rOW43V5x8Fji1z5HySpHOnpiPQL6aKc/5+R4+c8KoHqMgBbqFWVFNk/Ox8G8Jaepfd9Cb4yCjE
-	QBgS0nFxBLowV0TI87Pj8yVYoQvd6JjMGITMad+JJOprvnu/dSlP2WB5pdg==
-X-Gm-Gg: ASbGncsJ6/yTaJZQt4U3wlUleTruxk6kQ1YSSf7gDkPv1dJIFYNfKgLb4PLVil4cOiM
-	ilCKwG1d58nAJKS9gr9tkz5lTSpT68jrpmSBz5LuZeYgCOrAsQYXaD6Sy/ZKdjnUT/oIxqhhwPx
-	LM0oK4rOa3hAB+5ygyOMOLkHQsSs0Kz3+kN+jYOCo301DYuOzdtysv8xrlwFHkPK/CY0IW6bEHx
-	oAg2GVKiacwGsfdF6ltaJyLsu+1sLIYahjRoXVxoLbe/redRobXrUnWXqwH6U4Fq0NoAG4jp0yg
-	7YwJim8bM20i236nyVaBSbQF/sL7HP+AbbagOdozJDOREPuy8prg2FxxWYUWIQKhzGZmg45Srhy
-	E3f+/tn0D+KE9pLQrcmKVrwqXlJ8gFFdfb6npEJTXKsk=
-X-Received: by 2002:a05:600c:4e0e:b0:43c:fda5:41e9 with SMTP id 5b1f17b1804b1-43ed0da5960mr46146425e9.31.1743793644974;
-        Fri, 04 Apr 2025 12:07:24 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGVehbx7IFxxmOzORDp8jOyzXkdBMOGm6/NyyN+Ynqnfen8uNBrBfGp93vakeFTUGGd99VRcg==
-X-Received: by 2002:a05:600c:4e0e:b0:43c:fda5:41e9 with SMTP id 5b1f17b1804b1-43ed0da5960mr46146285e9.31.1743793644625;
-        Fri, 04 Apr 2025 12:07:24 -0700 (PDT)
+        bh=4PpR+tac16PtwrzOBM/O7GPHt+8dLRoSGWTrWNH4DHg=;
+        b=YX6A96TuBeF0Kpn/0ecgMtx/IsCPJjbNN/5Su3xyIgHlGS+STnXvXkZDG3mBSEplyT
+         gUmthOJzkTEQkuSx3BWzujEgCaesQGqtexAJ9UdLo/uB2jvkjLwt1k88Q5SX6/m7iLY9
+         O2S9cC20w/KY4KAvehDW4aKZ01Yf+K4qsbGBG9K3ODEHoZ0/OwtCNO7zXaJalgPrQ9p1
+         gi8Khkzby4lptKyFZJSmaGSbCuaAvEy/R80sH/779cxbl/iAYBCwPZkbc3881puOh0Xf
+         nGzMAIsiGcy83E4ya8SBxCKD3fJk3jCcn3XHPVsjzetBPE4RY/kHsVud7Efsi11dav2l
+         Z/xw==
+X-Forwarded-Encrypted: i=1; AJvYcCX8bmwOoVXet25hNFL/hkSqaD6QHZgsBJhN3kEEzHovRK2ivH+gUHUGQhubDk3eNTGM9msXuwtC3C0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzyay5za6Fw3jv3YXFaAXoOm+91zeDCA/imLcuzPuiehoUh+8cY
+	YEdb44obghLtObYhE6kV7xNSnx4Mx7EBSROsoyz5OgG2Ct2PO8tTArDFo1qNbtA/Zg4Emt8TnUq
+	fsvbKe9FnZ+StPev5KXiU8VarWdpsGYPahNusky8F0Tk1BkkyvVl8ScM5dg==
+X-Gm-Gg: ASbGncuYCnhgqsZ3ESkpC2zf3Ww4I60vwAH64mveoROZlb20ZX89LvlZTuFItKiW2aD
+	U54r3EcG428dIDf3YlZ6d5pYkEJSItx4omlPzUT8KFbJmeMgo38M2a1aKqLySc8h6MuqRkVAQF5
+	t9NL2KEp/+DK9+w4NdWHOAJRFEqMebLMlw9xbLMs2NFD+UCaFhl9uKxkGwo583zndqduypFfs7R
+	desLeisuoPymvv9qxSY4K8525vUYx0MsIZHilu6H1eutnTgmU47H4lxjt0LSUtXiDJYZUfJqnVn
+	7okFLigisUmepF+epO5y6GeVEMY8swVX88lH7gbGBWwPP7nR/v1oCblMbCzK8nmET3VZZ1C3O+b
+	nwJmN0QRcyIub8ingDYScUCs7/mWyEW7CNxJJjKWVWkk=
+X-Received: by 2002:a05:600c:3109:b0:43c:f629:66f4 with SMTP id 5b1f17b1804b1-43ecf57edb7mr49105465e9.0.1743794172966;
+        Fri, 04 Apr 2025 12:16:12 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH05fYflvrVwvhMukX75WUDcgwXtJWZ9HyjyIeSGiNXu+yaUN2WxYLK1syGo/EXt1y/isBObA==
+X-Received: by 2002:a05:600c:3109:b0:43c:f629:66f4 with SMTP id 5b1f17b1804b1-43ecf57edb7mr49105295e9.0.1743794172623;
+        Fri, 04 Apr 2025 12:16:12 -0700 (PDT)
 Received: from ?IPV6:2003:cb:c71b:7900:8752:fae3:f9c9:a07e? (p200300cbc71b79008752fae3f9c9a07e.dip0.t-ipconnect.de. [2003:cb:c71b:7900:8752:fae3:f9c9:a07e])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec366aa29sm53303815e9.39.2025.04.04.12.07.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43ec16ba978sm56794595e9.23.2025.04.04.12.16.11
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 12:07:24 -0700 (PDT)
-Message-ID: <427f683b-ac68-4820-b264-4016b34df592@redhat.com>
-Date: Fri, 4 Apr 2025 21:07:23 +0200
+        Fri, 04 Apr 2025 12:16:11 -0700 (PDT)
+Message-ID: <f4924ad4-c70b-4999-b595-01c488607189@redhat.com>
+Date: Fri, 4 Apr 2025 21:16:10 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,17 +77,13 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH v3] docs: update THP admin guide about non-tmpfs
  filesystem support
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
- Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>,
- linux-kernel@vger.kernel.org, willy@infradead.org, linux-mm@kvack.org,
+To: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>,
+ Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, willy@infradead.org, linux-mm@kvack.org,
  Bagas Sanjaya <bagasdotme@gmail.com>, da.gomez@kernel.org,
- gost.dev@samsung.com, linux-doc@vger.kernel.org,
+ mcgrof@kernel.org, gost.dev@samsung.com, linux-doc@vger.kernel.org,
  Pankaj Raghav <p.raghav@samsung.com>
 References: <20250404140657.29285-1-kernel@pankajraghav.com>
- <Z-_7fzU02OU1hVOT@bombadil.infradead.org>
- <09c13770-4d62-430a-827d-6ad35411d18c@redhat.com>
- <Z_Ad0MsSAuAGevgm@bombadil.infradead.org>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -135,98 +131,35 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <Z_Ad0MsSAuAGevgm@bombadil.infradead.org>
+In-Reply-To: <20250404140657.29285-1-kernel@pankajraghav.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 04.04.25 19:58, Luis Chamberlain wrote:
-> On Fri, Apr 04, 2025 at 06:18:12PM +0200, David Hildenbrand wrote:
->> On 04.04.25 17:32, Luis Chamberlain wrote:
->>> On Fri, Apr 04, 2025 at 04:06:57PM +0200, Pankaj Raghav (Samsung) wrote:
->>>> From: Pankaj Raghav <p.raghav@samsung.com>
->>>>
->>>> THP support for non-tmpfs filesystem has been around for some time now.
->>>> Update the admin guide to reflect it.
->>>>
->>>> While we are at it, move FilePmdMapped to previous paragraph for clarity,
->>>> and clarify ShmemPmdMapped & ShmemHugePage.
->>>>
->>>> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
->>>> Acked-by: David Hildenbrand <david@redhat.com>
->>>> ---
->>>>
->>>> Changes since v2:
->>>> - Address comment from Bagas Sanjaya
->>>> - Squash commits and Ack from David
->>>>
->>>>    Documentation/admin-guide/mm/transhuge.rst | 22 +++++++++++++++-------
->>>>    1 file changed, 15 insertions(+), 7 deletions(-)
->>>>
->>>> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
->>>> index dff8d5985f0f..f8aae64e38d0 100644
->>>> --- a/Documentation/admin-guide/mm/transhuge.rst
->>>> +++ b/Documentation/admin-guide/mm/transhuge.rst
->>>> @@ -12,8 +12,8 @@ using huge pages for the backing of virtual memory with huge pages
->>>>    that supports the automatic promotion and demotion of page sizes and
->>>>    without the shortcomings of hugetlbfs.
->>>> -Currently THP only works for anonymous memory mappings and tmpfs/shmem.
->>>> -But in the future it can expand to other filesystems.
->>>> +Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
->>>> +filesystems that support large folios.
->>>
->>> That seems to allude that THP can be supported on filesystems
->>> that suppor large folios. I don't think we want to call that THP
->>> and that can confuse folks. Leaving "currently" also seems to
->>> indicate that there is more work to be done for THP for filesystems
->>> but that's not true as well. So how about something like:
->>>
->>> THP only works for anonymous memory mappings, and the tmpfs/shmem is the only
->>> filesystem to support it. The alternative to THP for other filesystems is to
->>> support large folios and with it you can end up using huge pages
->>
->> That makes things more complicated without a good reason.
->>
->> See CONFIG_READ_ONLY_THP_FOR_FS as an early usage of the term "THP" for
->> stuff we have in the pagecache.
+On 04.04.25 16:06, Pankaj Raghav (Samsung) wrote:
+> From: Pankaj Raghav <p.raghav@samsung.com>
 > 
-> OK.
+> THP support for non-tmpfs filesystem has been around for some time now.
+> Update the admin guide to reflect it.
 > 
->> (with large folios we now properly implement
->> this concept, and support more than only PMD size)
+> While we are at it, move FilePmdMapped to previous paragraph for clarity,
+> and clarify ShmemPmdMapped & ShmemHugePage.
 > 
-> Do we really want to call large folio support on filesystems THP?
+> Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> Acked-by: David Hildenbrand <david@redhat.com>
+> ---
 
-Good question.
+BTW, we should go over the whole document and bring it up to date. 
+Interestingly, it starts with
 
-"folio" is just the metadata we currently use to manage a chunk of 
-memory, and a "large folio" is one that spans more than a single page -- 
-huge page, large page, super page, ... in the past the metadata for that 
-used to be a complicated piece of "compound page". In the future, we 
-might call it differently (struct file_mem ?), who knows.
+"Performance critical computing applications dealing with large memory
+working sets are already running on top of libhugetlbfs and in turn
+hugetlbfs. Transparent HugePage Support (THP) is an alternative mean of
+using huge pages for the backing of virtual memory with huge pages
+that supports the automatic promotion and demotion of page sizes and
+without the shortcomings of hugetlbfs.
 
-So "large folio" support in a fs allows for the usage of these larger 
-chunks of memory (huge pages).
-
-
-The filesystem tries to transparently make use of huge pages (of various 
-sizes); in contrast to hugetlb, that is "transparent" in a way that 
-these can be split, partially mapped, partially truncated -- just like 
-for anon or shmem.
-
-(Well, the "transparent" part was never really 100% true, but that's a 
-different story)
-
-I see more similarity with THP than with hugetlb in that sense.
-
-In the end I don't think the terminology matters that much -- note that 
-we are talking about an admin guide that resides in transhuge.rst -- as 
-long as people don't confuse it with "ordinary" huge pages as in 
-hugetlb. "file huge page" is rather misleading.
-
-I'd be curious in which sense these file thingies are different than 
-what we have for anon/shmem/... except that some toggles don't apply to 
-them and the pagecache mostly "more transparently" makes use of them. 
-(which makes them even more transparent? ;) )
+Currently THP only works for anonymous memory mappings and tmpfs/shmem.
+But in the future it can expand to other filesystems."
 
 -- 
 Cheers,
