@@ -1,183 +1,223 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from EUR05-DB8-obe.outbound.protection.outlook.com (mail-db8eur05on2051.outbound.protection.outlook.com [40.107.20.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D13AB20C47A;
-	Fri,  4 Apr 2025 16:43:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743784987; cv=none; b=rQPKkJeYO8T0WuYH+/rw4vzpspAG2VRzA+ajh22PhQuj+kWB3PEuR+Ejox9yScJ+s+NttTDBGZ8INlxZ9RBg7GCPTSAWB0qoKHpr9iNeOAID0S0UBtHp64E3M1tJJKqlp7k8JuPjIewS7OKFj3FDUs8pE2xysEIcvGafb0rpuJ0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743784987; c=relaxed/simple;
-	bh=ayFfjprWbAEYcS3LTd7+T5khf0vhzbC7c/TA3bU+bmo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gi5ZQQ/ULa2mPTUvm0zr7OZ6pfaO2YjcmMy6r5UB2LOD5cBqpFDzJM8nOAhl/XbbKvF0S9wRF5t4MFL84B55mYKgDis1h+eStm3WhwwmZ7BmAVC1TPPR/yxjSXYXoCU1ZJz0Z1Zj1Xze3b/+O5rEnXGAlR9hIXCaa9JvV49EK7Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lxatC83k; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6882D1DA53;
+	Fri,  4 Apr 2025 16:50:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.20.51
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743785415; cv=fail; b=KloHTrO9NsfQZ3aX8i3y8ddxwPcouEJWFF7C911zl5YdRZfcrYvpqIysEtH7xqDfs0vc/ad04wLYIAw0FY26j1tuc4PW60gEXP9c9+KQE80oyr3sCCf0c3Ga97O/ebaRgMpYFGzqEjuHCObCAPWGZi+93NtJ1avufsmCL+13dzs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743785415; c=relaxed/simple;
+	bh=cApcswUgbGsuT+p2HnERe583XMeqzdUrArZH161QDwQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=o/2u58brvXaBSBp45VY69t3E/khA1vVO+BaFNQmT/NFxbQS9IsT3HAlSkMqpAadqlL12m2RsqjezFIr6xyXYDQIOmrXNcYNrQEl4EaDGE8/TcWHab9PwmRdU2+p/3Fw9/CUMFpvl/fOG20Gnj0HLfVgAuEjr5s+mJczJ+4nONNw=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com; spf=pass smtp.mailfrom=nxp.com; dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b=oKsLJlYb; arc=fail smtp.client-ip=40.107.20.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=nxp.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nxp.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lxatC83k"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743784985; x=1775320985;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=ayFfjprWbAEYcS3LTd7+T5khf0vhzbC7c/TA3bU+bmo=;
-  b=lxatC83kcd6Ob7PcGlbGvmpI44y75SAjgZ+vsH4c7P3Iarb08F0DwjxQ
-   zdzKoJF9XTHedlmQsoO3bl7J7Re9yRsS2ptvT80wH0Ft2INjrib4dFRft
-   ZbpjYNsT6U0L/ktXWIEQQmwywr8drQEKWOtf8KSIhhkoDVfG/3Z5S9fGW
-   iXr8xnBgBKUeRxpyDm0qrl9KgEMiQGMcVswLzXrjh1V41Iu11agJmFUVT
-   E49IWLtAfUzKKoiuK05k8DoS3A1wgErGipGTUOzXvnTZR+Si/mVPHo361
-   lSl9surpw2V/S0vxBem4zKbpXlI/uznmPrGcJIjDgK3ZOmFopDmdSHYoV
-   Q==;
-X-CSE-ConnectionGUID: vLB8CuB1TGSfT5g6aXDQEw==
-X-CSE-MsgGUID: RtUtNF8bRVydtFzn52jdXA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11394"; a="62631332"
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="62631332"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:43:04 -0700
-X-CSE-ConnectionGUID: PNDCImh2SwmUq/OXMReN8A==
-X-CSE-MsgGUID: 2z30JdBbQJeAh01BitZsnQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,188,1739865600"; 
-   d="scan'208";a="127247176"
-Received: from daliomra-mobl3.amr.corp.intel.com (HELO [10.124.223.29]) ([10.124.223.29])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 09:42:57 -0700
-Message-ID: <257b39a5-69bf-4e6d-844b-576e9c9d2e7d@intel.com>
-Date: Fri, 4 Apr 2025 09:42:55 -0700
+	dkim=pass (2048-bit key) header.d=nxp.com header.i=@nxp.com header.b="oKsLJlYb"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aKcK61JMoUNs89kVShuoRb4HB058BSf7evRzhnKPQg9Z0kb6kcRBcNn2YgQdrqUz/auqtddfC6cBMaT5o13xlhxDgwGE6LvAFHJVe19MxaH+wsW8GpGp+zCvqqxNHHCe5XbA1kJvgh61f9U3BUL8XLK4Ypq2G0e7BaBSsbVhQkwcnql2zZsjDHSAwQeIcb68xLmSWYFJqFi+W3cJXvZz/e0JlNAZaoZld3OgfPgHXMH1tnX+iz90GvNAVJcD2gFNZx014aqVP+c9XiHpN1jlCPuPU5HE3UShY1AzldPBHBYmBJPsojEjv9uvAVzNdKO/SB6E4uCtOq1dDYhyb606Gg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=W+sgAnsLhH57eOdNsvuI1L0ywx/UFZY/lzF0V83S3Uc=;
+ b=SokvsjstyBEt/h/6kIL96e+ZgN6tOQkw2PKoT8oOhjjesa/jouh6Nsb1nACahFXmAC2JCUE5oaPIBoTEbhg/43J1WRvLqqLSRxTjaIlVTZYEt8qx0wdiEvmSuOLyC+NRnBbjamk77veuQ1XQR2G9ZM9G51qMS56LZ7vezM/saI7iXDp2S8ogtOg+vUTePYaL/F/DvYlRjfA0z6yzyE4H8mFHV0ESuIufhkf/y7g8Dmj14MzZLlqNRnby8zi55KFtqnrnI/zStnvvMbAJmXnTW8TJv8ofruXkfufm+ynrYzf2EcDzHMBTd219uUlASE90w1+wy6smdE2foHn/HpqJgA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
+ header.d=nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=W+sgAnsLhH57eOdNsvuI1L0ywx/UFZY/lzF0V83S3Uc=;
+ b=oKsLJlYb2xaTXd+7N5j914qqXYgBGsXfCLUMDBrGX9PxVziVrIp/57pIx8rRPWPrnJqF54HF3I/w+Zk12F+YPNdNP+PM47RW99as7c1jR9mgkWo5avl1pHOpKZMFG03Xl9qdxMBQYUtY7xaooKMrqOqXmnVs0QqqE+MIFOksg2Xo+AvLoaS4zmuGLEDFfflAPONod+af9+I50cGNqgyrYanHjgRCMwJqdu6D1jEhGtuhbBS1RRHoPm0ESdX5KPd93GY3tnZFEb/WWx7D26Bquc2GUzQjlUwC1M0cPawtWirboueJ+viCc1ysD8u95zvHqdjOaakYGMkuOKVRf61AWg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nxp.com;
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com (2603:10a6:102:240::14)
+ by DBAPR04MB7303.eurprd04.prod.outlook.com (2603:10a6:10:1af::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Fri, 4 Apr
+ 2025 16:50:10 +0000
+Received: from PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06]) by PAXPR04MB9642.eurprd04.prod.outlook.com
+ ([fe80::9126:a61e:341d:4b06%2]) with mapi id 15.20.8534.048; Fri, 4 Apr 2025
+ 16:50:10 +0000
+Date: Fri, 4 Apr 2025 12:50:02 -0400
+From: Frank Li <Frank.li@nxp.com>
+To: Pankaj Gupta <pankaj.gupta@nxp.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>, Shawn Guo <shawnguo@kernel.org>,
+	Sascha Hauer <s.hauer@pengutronix.de>,
+	Pengutronix Kernel Team <kernel@pengutronix.de>,
+	Fabio Estevam <festevam@gmail.com>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+	"imx@lists.linux.dev" <imx@lists.linux.dev>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>
+Subject: Re: [PATCH v14 4/6] firmware: imx: add driver for NXP EdgeLock
+ Enclave
+Message-ID: <Z/ANuvgHRRTUWV0x@lizhi-Precision-Tower-5810>
+References: <20250327-imx-se-if-v14-0-2219448932e4@nxp.com>
+ <20250327-imx-se-if-v14-4-2219448932e4@nxp.com>
+ <Z+QePoixgnheYQTW@lizhi-Precision-Tower-5810>
+ <AM9PR04MB8604C02C27C8C43FF89B95DC95AC2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+ <AM9PR04MB86046B9A3821D8793877F1D395AF2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+ <Z+2qFe/E0dbR+qkQ@lizhi-Precision-Tower-5810>
+ <AM9PR04MB8604F5E033F9C0985F29BD5F95AE2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <AM9PR04MB8604F5E033F9C0985F29BD5F95AE2@AM9PR04MB8604.eurprd04.prod.outlook.com>
+X-ClientProxiedBy: SJ0PR03CA0138.namprd03.prod.outlook.com
+ (2603:10b6:a03:33c::23) To PAXPR04MB9642.eurprd04.prod.outlook.com
+ (2603:10a6:102:240::14)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 05/14] x86: Reset tag for virtual to physical address
- conversions
-To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>, hpa@zytor.com,
- hch@infradead.org, nick.desaulniers+lkml@gmail.com,
- kuan-ying.lee@canonical.com, masahiroy@kernel.org,
- samuel.holland@sifive.com, mingo@redhat.com, corbet@lwn.net,
- ryabinin.a.a@gmail.com, guoweikang.kernel@gmail.com, jpoimboe@kernel.org,
- ardb@kernel.org, vincenzo.frascino@arm.com, glider@google.com,
- kirill.shutemov@linux.intel.com, apopple@nvidia.com,
- samitolvanen@google.com, kaleshsingh@google.com, jgross@suse.com,
- andreyknvl@gmail.com, scott@os.amperecomputing.com, tony.luck@intel.com,
- dvyukov@google.com, pasha.tatashin@soleen.com, ziy@nvidia.com,
- broonie@kernel.org, gatlin.newhouse@gmail.com, jackmanb@google.com,
- wangkefeng.wang@huawei.com, thiago.bauermann@linaro.org, tglx@linutronix.de,
- kees@kernel.org, akpm@linux-foundation.org, jason.andryuk@amd.com,
- snovitoll@gmail.com, xin@zytor.com, jan.kiszka@siemens.com, bp@alien8.de,
- rppt@kernel.org, peterz@infradead.org, pankaj.gupta@amd.com,
- thuth@redhat.com, andriy.shevchenko@linux.intel.com,
- joel.granados@kernel.org, kbingham@kernel.org, nicolas@fjasle.eu,
- mark.rutland@arm.com, surenb@google.com, catalin.marinas@arm.com,
- morbo@google.com, justinstitt@google.com, ubizjak@gmail.com,
- jhubbard@nvidia.com, urezki@gmail.com, dave.hansen@linux.intel.com,
- bhe@redhat.com, luto@kernel.org, baohua@kernel.org, nathan@kernel.org,
- will@kernel.org, brgerst@gmail.com
-Cc: llvm@lists.linux.dev, linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
-References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
- <a8332a2dc5b21bd8533ea38da258c093fb9f2fe2.1743772053.git.maciej.wieczor-retman@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- xsFNBE6HMP0BEADIMA3XYkQfF3dwHlj58Yjsc4E5y5G67cfbt8dvaUq2fx1lR0K9h1bOI6fC
- oAiUXvGAOxPDsB/P6UEOISPpLl5IuYsSwAeZGkdQ5g6m1xq7AlDJQZddhr/1DC/nMVa/2BoY
- 2UnKuZuSBu7lgOE193+7Uks3416N2hTkyKUSNkduyoZ9F5twiBhxPJwPtn/wnch6n5RsoXsb
- ygOEDxLEsSk/7eyFycjE+btUtAWZtx+HseyaGfqkZK0Z9bT1lsaHecmB203xShwCPT49Blxz
- VOab8668QpaEOdLGhtvrVYVK7x4skyT3nGWcgDCl5/Vp3TWA4K+IofwvXzX2ON/Mj7aQwf5W
- iC+3nWC7q0uxKwwsddJ0Nu+dpA/UORQWa1NiAftEoSpk5+nUUi0WE+5DRm0H+TXKBWMGNCFn
- c6+EKg5zQaa8KqymHcOrSXNPmzJuXvDQ8uj2J8XuzCZfK4uy1+YdIr0yyEMI7mdh4KX50LO1
- pmowEqDh7dLShTOif/7UtQYrzYq9cPnjU2ZW4qd5Qz2joSGTG9eCXLz5PRe5SqHxv6ljk8mb
- ApNuY7bOXO/A7T2j5RwXIlcmssqIjBcxsRRoIbpCwWWGjkYjzYCjgsNFL6rt4OL11OUF37wL
- QcTl7fbCGv53KfKPdYD5hcbguLKi/aCccJK18ZwNjFhqr4MliQARAQABzUVEYXZpZCBDaHJp
- c3RvcGhlciBIYW5zZW4gKEludGVsIFdvcmsgQWRkcmVzcykgPGRhdmUuaGFuc2VuQGludGVs
- LmNvbT7CwXgEEwECACIFAlQ+9J0CGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEGg1
- lTBwyZKwLZUP/0dnbhDc229u2u6WtK1s1cSd9WsflGXGagkR6liJ4um3XCfYWDHvIdkHYC1t
- MNcVHFBwmQkawxsYvgO8kXT3SaFZe4ISfB4K4CL2qp4JO+nJdlFUbZI7cz/Td9z8nHjMcWYF
- IQuTsWOLs/LBMTs+ANumibtw6UkiGVD3dfHJAOPNApjVr+M0P/lVmTeP8w0uVcd2syiaU5jB
- aht9CYATn+ytFGWZnBEEQFnqcibIaOrmoBLu2b3fKJEd8Jp7NHDSIdrvrMjYynmc6sZKUqH2
- I1qOevaa8jUg7wlLJAWGfIqnu85kkqrVOkbNbk4TPub7VOqA6qG5GCNEIv6ZY7HLYd/vAkVY
- E8Plzq/NwLAuOWxvGrOl7OPuwVeR4hBDfcrNb990MFPpjGgACzAZyjdmYoMu8j3/MAEW4P0z
- F5+EYJAOZ+z212y1pchNNauehORXgjrNKsZwxwKpPY9qb84E3O9KYpwfATsqOoQ6tTgr+1BR
- CCwP712H+E9U5HJ0iibN/CDZFVPL1bRerHziuwuQuvE0qWg0+0SChFe9oq0KAwEkVs6ZDMB2
- P16MieEEQ6StQRlvy2YBv80L1TMl3T90Bo1UUn6ARXEpcbFE0/aORH/jEXcRteb+vuik5UGY
- 5TsyLYdPur3TXm7XDBdmmyQVJjnJKYK9AQxj95KlXLVO38lczsFNBFRjzmoBEACyAxbvUEhd
- GDGNg0JhDdezyTdN8C9BFsdxyTLnSH31NRiyp1QtuxvcqGZjb2trDVuCbIzRrgMZLVgo3upr
- MIOx1CXEgmn23Zhh0EpdVHM8IKx9Z7V0r+rrpRWFE8/wQZngKYVi49PGoZj50ZEifEJ5qn/H
- Nsp2+Y+bTUjDdgWMATg9DiFMyv8fvoqgNsNyrrZTnSgoLzdxr89FGHZCoSoAK8gfgFHuO54B
- lI8QOfPDG9WDPJ66HCodjTlBEr/Cwq6GruxS5i2Y33YVqxvFvDa1tUtl+iJ2SWKS9kCai2DR
- 3BwVONJEYSDQaven/EHMlY1q8Vln3lGPsS11vSUK3QcNJjmrgYxH5KsVsf6PNRj9mp8Z1kIG
- qjRx08+nnyStWC0gZH6NrYyS9rpqH3j+hA2WcI7De51L4Rv9pFwzp161mvtc6eC/GxaiUGuH
- BNAVP0PY0fqvIC68p3rLIAW3f97uv4ce2RSQ7LbsPsimOeCo/5vgS6YQsj83E+AipPr09Caj
- 0hloj+hFoqiticNpmsxdWKoOsV0PftcQvBCCYuhKbZV9s5hjt9qn8CE86A5g5KqDf83Fxqm/
- vXKgHNFHE5zgXGZnrmaf6resQzbvJHO0Fb0CcIohzrpPaL3YepcLDoCCgElGMGQjdCcSQ+Ci
- FCRl0Bvyj1YZUql+ZkptgGjikQARAQABwsFfBBgBAgAJBQJUY85qAhsMAAoJEGg1lTBwyZKw
- l4IQAIKHs/9po4spZDFyfDjunimEhVHqlUt7ggR1Hsl/tkvTSze8pI1P6dGp2XW6AnH1iayn
- yRcoyT0ZJ+Zmm4xAH1zqKjWplzqdb/dO28qk0bPso8+1oPO8oDhLm1+tY+cOvufXkBTm+whm
- +AyNTjaCRt6aSMnA/QHVGSJ8grrTJCoACVNhnXg/R0g90g8iV8Q+IBZyDkG0tBThaDdw1B2l
- asInUTeb9EiVfL/Zjdg5VWiF9LL7iS+9hTeVdR09vThQ/DhVbCNxVk+DtyBHsjOKifrVsYep
- WpRGBIAu3bK8eXtyvrw1igWTNs2wazJ71+0z2jMzbclKAyRHKU9JdN6Hkkgr2nPb561yjcB8
- sIq1pFXKyO+nKy6SZYxOvHxCcjk2fkw6UmPU6/j/nQlj2lfOAgNVKuDLothIxzi8pndB8Jju
- KktE5HJqUUMXePkAYIxEQ0mMc8Po7tuXdejgPMwgP7x65xtfEqI0RuzbUioFltsp1jUaRwQZ
- MTsCeQDdjpgHsj+P2ZDeEKCbma4m6Ez/YWs4+zDm1X8uZDkZcfQlD9NldbKDJEXLIjYWo1PH
- hYepSffIWPyvBMBTW2W5FRjJ4vLRrJSUoEfJuPQ3vW9Y73foyo/qFoURHO48AinGPZ7PC7TF
- vUaNOTjKedrqHkaOcqB185ahG2had0xnFsDPlx5y
-In-Reply-To: <a8332a2dc5b21bd8533ea38da258c093fb9f2fe2.1743772053.git.maciej.wieczor-retman@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAXPR04MB9642:EE_|DBAPR04MB7303:EE_
+X-MS-Office365-Filtering-Correlation-Id: f08961b4-f2bb-4fc8-77e8-08dd7398c2fe
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|366016|7416014|1800799024|52116014|376014|38350700014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?grjGk8WP1c14NjFtfKgFm53i0jj3Vc6zYLpWidSvw+azurwqQGHLV4TONamX?=
+ =?us-ascii?Q?nzwgRmH7UDpRI9GDuO98diaJI7Fr10KZuBitGadFVBbmNp7fNe5OY7MK5kyM?=
+ =?us-ascii?Q?9YgE7JVC1RYDqE4tProB1HyTGK5Nc9E1QFVZXZFis3wIour6C6NasCvS1aEB?=
+ =?us-ascii?Q?YujHmmK9ICVRiVZknufwS0R3b8N/SgPGxz4vwfNYF5yheQSXT5cuFnqX+LMa?=
+ =?us-ascii?Q?tt7PpbsF7wRHqT7hq7sQWRyN9i7YIUfvBP3wxS5s3OGUXoTfam2KOEnyl8b3?=
+ =?us-ascii?Q?lYORlNIV+swh042Jw+oMoETAW6pN1wd6kvzMDEEorzGmLAAIxcoWuczrX8L7?=
+ =?us-ascii?Q?sAyZ3rowv9dwy76a6s7RSvaTO9JszEObtzmk1FJlvISpTOcyAieiUtbHz/9y?=
+ =?us-ascii?Q?DhKORegBZSlGkH8SE59FD0stRH3VDt8zsXPBFrunloNs9pYlqKvDgu3PN+HW?=
+ =?us-ascii?Q?qHukr+pwT7w5NybvTqK+1KhZqNWZp6ukhiYHvEwQjv2/q6SwtTtH6QYNS80X?=
+ =?us-ascii?Q?y44vKGJbjScg+cPreEMSWHhCgwBJYXsrdyXSp84+MTtdi9g4TCvEGjpvkK9U?=
+ =?us-ascii?Q?Rx9O7XbZxS0R2P6KrCl+t7XB+FxC6fGqozrwNPg/K4FS7PnzjswxEPqCd7CZ?=
+ =?us-ascii?Q?Lp/GrTf61nYjoh+8MdHvQyjS1oM3wA28vCipmswHQ5bBeP53wdNMmQjLOgHt?=
+ =?us-ascii?Q?aXKi7MCCG0PY49QK6AUYWvw0M+A+PbskBCX4YPqgd2a0yQo77AiP9jrv9xiE?=
+ =?us-ascii?Q?Fed0UKSqIQU5H0bo27eDoDsXvTSQDso3mfVZaqPBBet8cH6dFuvKKFQsbJcO?=
+ =?us-ascii?Q?TNCmt91TYL+m6jCNilGiE6AFvnrAD13uxuFSfmUhA9htMvdq+Ikokxe4Sgd6?=
+ =?us-ascii?Q?Dw9tPZr2em+fG5+sFfYEL8JO8B16pRR2e2r/5WDOCu11bR6iwxYGLzzpooQZ?=
+ =?us-ascii?Q?RwyPQDG/F1SrkdgA6jRBT4kKTjd4gYcbGbF24gBtWNbOQxItQdvrrRisC+de?=
+ =?us-ascii?Q?RvLjSMdtowEgi8o0p9nZNYJOFWiV/NzCeuKBZ2IMy3hbvrtRtsEPb0IEYe+v?=
+ =?us-ascii?Q?6XaresXpK8d+HVED3t0DiZM94sGZCn0aDPQHLW8mCOTiu/2usoQ4/nxNkyg9?=
+ =?us-ascii?Q?O+5HK2q/lroKdD6lhFOFSBrhWIO7BJl7kzRVz+Z94VDUCUsXJchuFZN54OQB?=
+ =?us-ascii?Q?YrUSDLTRwzAqZPSObQA30pM1BDrBZf7nRkHiIHpe7vQp5Of+NpWa/AlRkRv0?=
+ =?us-ascii?Q?Y/63ggsQ8sRLH/l3U2AAgPISujPVFv4r+rRhuyRXHWRz88955Fts/o9LBa5d?=
+ =?us-ascii?Q?ABhyNsfazlfp+Rmnw0nPCKYkXTj70SS9y/uKhSYEtRCZ5C2f0AmZ79clpT+b?=
+ =?us-ascii?Q?nxyF8KHk3//6VVT7QJdk0mTATJ6LRM0LjYB6IqFy8zWfXauy3bDtCFO/AX6Z?=
+ =?us-ascii?Q?RxAckLPr/pu67dPDaYxtT7IHjcLm4Blr?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAXPR04MB9642.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(1800799024)(52116014)(376014)(38350700014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?RyOS0/7AiKDDwQNvIUOUDXXCdcRsk59kjg976OYe+lEY7NX2PJUh3L/LQ1Yr?=
+ =?us-ascii?Q?28sJJxCqbcntE6bXQIvaAQCFHBBzVGKkf7dBapHnbJ99jBAPbSFHhu6uKqjm?=
+ =?us-ascii?Q?Hvi0rAYg8SEx0gn+JC6iDIOQDA/L5TAyJYrHLdvpAhFy0PqwdbAUBqM1KhF+?=
+ =?us-ascii?Q?TcgFCUad2XaLxM9Bq0E+kev+XgySbNulJ3kNzb+8NExWm83ofuVRIOOBMc8l?=
+ =?us-ascii?Q?o2AhLUEFUu2roLdF87rqGTWc48sXh4TzPyTJt24VnKBjNyG276ATuLU2NQT2?=
+ =?us-ascii?Q?RUYrbZ2elQNOBnQCttcwZrgTJIm308CbuEqtkf11V6ykj5gnv1Xl1WP9xwQK?=
+ =?us-ascii?Q?Uh6B0ze6bYXdqCVPJJvxqS0r5j3b+hlqLIWZR7ev7otfbTwcbPtfkzqkmvm6?=
+ =?us-ascii?Q?iO49sVz8keL0Iv+Mdu0Bk+v2E3PVTfreKk5ighVBFepKDeJ2Vk2JmjuttC2O?=
+ =?us-ascii?Q?wGDatpwdRTMEcrIn2W03luGwVyzi0zObL0YEh+mXYIp6awYZiSXE1imWMm8q?=
+ =?us-ascii?Q?E+wFFXNU+469OQatIpvkFhWpbkLN96P5duRqnCYanXWpuNTctpqoeu0kXJnO?=
+ =?us-ascii?Q?GnU6G8I/YzuYMXOgHbohqYRftRv2CZlBC7v9p6xoHI0DrccfKBgRq0s/8cSJ?=
+ =?us-ascii?Q?N4pFs+nHZ2C9/yCNEXoohab8P+eliROnZ7gIXFOmVfDncu/Ywnkc+fjI60RY?=
+ =?us-ascii?Q?g9eZVeNTaZu6pjbI0KXtD3uHXuVLpxZnXl00x9kyrjz+wlwf2U/4S+764y4E?=
+ =?us-ascii?Q?XiedelwvgIiaaipJyIuAw7bx51JSEeUoTI9PdQ7UAzKSrV0OiwtbEGjalfHn?=
+ =?us-ascii?Q?RQJuONKGx6y4584vLRPZfSuMxL2SpudOtcHCpqCXrqXfEOUJ/qOuYyhRoaZR?=
+ =?us-ascii?Q?5OhcZQQcCD4gPiCY4JVnZIUCyCUmlmICCMkAWy/AC/3ikw8cA4kkR9pKJ9Xx?=
+ =?us-ascii?Q?YUacYt5vVwwrSAqb2DQ/tlueia/qMKZDaISP54/nhLQxHu4qKdd2g+QJamfd?=
+ =?us-ascii?Q?1rYeLpCJSntGQmCsEjzmlfngbaqDXH1EqNM4nzrcmzygImN2x7UQnofFL65y?=
+ =?us-ascii?Q?xkS5+HfhHhIY6uq5CrNe6cu8Nae0SAy2BQKoi5JzjRT2i611UPKDdk7n/TxF?=
+ =?us-ascii?Q?x49Dd8UTijd+HHENJhW1OXN0H47FcxG+9JwSlasGJSsfl1MGCWjd3FpW6jrK?=
+ =?us-ascii?Q?dX3Es9eORn+Bo1svsFj8vHJHC/1fW653j71TC7aRL3DY+X9gfbjF9VKEPuNu?=
+ =?us-ascii?Q?AdN54phPSY67DVu5hW1VevAE8IvWYvBKbXeXuiQD3vAZ8qi2eZjj+stwl/89?=
+ =?us-ascii?Q?3Pza+6nSVRH8KywFuVuLfuh4Cx2wvduysRUSMI0Djg16dQo2wbys581/Wj6M?=
+ =?us-ascii?Q?vHrloZBppjIMM6CxQHIikNsR0P9jnqsMvuDOo2khpU+AIHf5m8mushv6hr9b?=
+ =?us-ascii?Q?X4oOm899vak284QChjEWGRdTZzH9lws+yuUI14eqkGhDheGlhtLPjMprRgJu?=
+ =?us-ascii?Q?4wCtQoYWZB0pHlDSQ0WiDB+q68EsOx+Vq6PU/HTHFeLY7Yy19Aa89t4f8FWB?=
+ =?us-ascii?Q?MdEkHmWRSL/7uAvF5tA=3D?=
+X-OriginatorOrg: nxp.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: f08961b4-f2bb-4fc8-77e8-08dd7398c2fe
+X-MS-Exchange-CrossTenant-AuthSource: PAXPR04MB9642.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Apr 2025 16:50:10.3684
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T+Y0Pfg+3YldNd7D7vFe+LlvjfHj6uegsP9myy64cwuPVibcdNH+mE2Jk5F+DJS811HsJ6STSCXbTO0GHIMHBQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DBAPR04MB7303
 
-On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
-> +#ifdef CONFIG_KASAN_SW_TAGS
-> +#define page_to_virt(x)	({									\
-> +	__typeof__(x) __page = x;								\
-> +	void *__addr = __va(page_to_pfn((__typeof__(x))__tag_reset(__page)) << PAGE_SHIFT);	\
-> +	(void *)__tag_set((const void *)__addr, page_kasan_tag(__page));			\
-> +})
-> +#endif
+On Thu, Apr 03, 2025 at 05:02:08AM +0000, Pankaj Gupta wrote:
+> On Wed, Apr 02, 2025 at 06:15:12AM +0000, Pankaj Gupta wrote:
+> >> >> diff --git a/drivers/firmware/imx/se_ctrl.h
+> >> >> b/drivers/firmware/imx/se_ctrl.h new file mode 100644 index
+> >> >> 000000000000..177623f3890e
+> >> >> --- /dev/null
+> >> >> +++ b/drivers/firmware/imx/se_ctrl.h
+> >> >> @@ -0,0 +1,84 @@
+> >> >> +/* SPDX-License-Identifier: GPL-2.0+ */
+> >> >> +/*
+> >> >> + * Copyright 2025 NXP
+> >> >> + */
+> >> >> +
+> >> >> +#ifndef SE_MU_H
+> >> >> +#define SE_MU_H
+> >> >> +
+> >> >> +#include <linux/miscdevice.h>
+> >> >> +#include <linux/semaphore.h>
+> >> >> +#include <linux/mailbox_client.h>
+> >> >> +
+> >>
+> >> ....
+> >>
+> >> >> +};
+> >> >> +
+> >> >> +struct se_if_defines {
+> >> >> +	const u8 se_if_type;
+> >> >> +	const u8 se_instance_id;
+> >> Getting used at drivers/firmware/imx/se_ctrl.c:320
+>
+> >	dev_info(dev, "i.MX secure-enclave: %s%d interface to firmware,
+> configured.",
+> >		 SE_TYPE_STR_HSM,
+> >		 priv->if_defs->se_instance_id);
+>
+> > You only print value, don't actual use it. It should be safe remove it
+>
+> > Frank
+>
+> No, it is not just used for print.
+> This variable is used to construct the device name as well, in 5/6 patch.
+>
+> Moreover, it is needed for other SoC like i.MX8DXL, i.MX95, i.MX94, there
+> are multiple instances of same secure-enclave type.
+> It will be used to identify the intended instance later.
 
-Is this #ifdef needed?
+But it all is 0 now. Add it back when it really need in future.
 
-I thought there were stub versions of all of those tag functions. So it
-should be harmless to use this page_to_virt() implementation with or
-without KASAN. Right?
-
-I'm also confused by the implementation. This is one reason why I rather
-dislike macros. Why does this act like the type of 'x' is variable?
-Isn't it always a 'struct page *'? If so, then why all of the
-__typeof__()'s?
-
-Are struct page pointers _ever_ tagged? If they are, then doesn't
-page_to_pfn() need to handle untagging as well? If they aren't, then
-there's no reason to __tag_reset() in here.
-
-What was the thinking behind this cast:
-
-	(const void *)__addr
-
-?
-
-Are any of these casts _doing_ anything? I'm struggling to find anything
-wrong with:
-
-#define page_to_virt(x)	({													
-	void *__addr = __va(page_to_pfn(__page) << PAGE_SHIFT);
-	__tag_set(__addr, page_kasan_tag(x))
-})
-
-... which made me look back at:
-
-	static inline const void *__tag_set(const void *addr, u8 tag)
-
-from patch 3. I don't think the 'const' makes any sense on the return
-value here. Surely the memory pointed at by a tagged pointer doesn't
-need to be const. Why should the tag setting function be returning a
-const pointer?
-
-I can see why it would *take* a const pointer since it's not modifying
-the memory, but I don't see why it is returning one.
+Frank
+>
+> >>
+> >> > This is not used actually, you can remove it
+> >> Getting used at drivers/firmware/imx/se_ctrl.c:347
+> >>
+> >> >> +	u8 cmd_tag;
+> >> >> +	u8 rsp_tag;
+> >> >> +	u8 success_tag;
+> >> >> +	u8 base_api_ver;
+> >> >> +	u8 fw_api_ver;
+> >> >> +};
+> >> >> +
+> >> >> +struct se_if_priv {
+> >> >> +	struct device *dev;
+> >> >> +
+>
+>
 
 
