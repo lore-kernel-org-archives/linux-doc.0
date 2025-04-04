@@ -1,81 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9948D1F03CD;
-	Fri,  4 Apr 2025 17:02:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 440301F3D45;
+	Fri,  4 Apr 2025 17:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743786177; cv=none; b=fuoM4+ZlJF1zGZdcA+kw1qAcFzXYotrtbYLpe/BlcuWCeP47Vki65Aw6KpSJq3oLX6u2J988cJaA98v0hca9ZnoRJWmxb+z+JX35wIa6QqzKVMozq7TDCiCJzTKjIT3xezbRUGXB0mBtkFptIT9CEclAY0v6FuPdXpDWWj4xxrk=
+	t=1743787213; cv=none; b=cz59c2jTgDAdsVfWLERAtZbBtDFUrBmAx1GEiHysuGb2tSGIrhLmLxow2FHx44xWtbZYGc3H5RHfS72MVQJZU88xZjNvRRnYQJNeAMlAGp6fUhBpwiweiBBzUg6FyKZuLilaienvgGGVEhrG6AyTNp2as4GJadTALEr9QvbO/Zo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743786177; c=relaxed/simple;
-	bh=oPnGwjxtjjs/5C3MfcR4X0HPMe5YHfPGa1R/ZL26eaI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KZbmm76h+AgV0Hytj+oaF/aQIelm6vjP9yAktY1ifPJNlsuOLu0XZZQGnZFuaYWzXCnCYYZyAlMSssSsyh3C/hwqo++5r1OCXgHQ8GmBJ4IhCo7Wc3FZG5wRxWPBS4gz9ZQOC1UfcY+QVnORAzsjPRF56a7cpvEeUfGpqxVlbFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ctS8h6Ui; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ctS8h6Ui"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E855BC4CEE9;
-	Fri,  4 Apr 2025 17:02:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743786177;
-	bh=oPnGwjxtjjs/5C3MfcR4X0HPMe5YHfPGa1R/ZL26eaI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ctS8h6UiAWFI8jl0bgAEfAX7R4mchKnqjT+n0JWOg646pmH/zOivPZTrGIireM9sB
-	 m/Rs11ArykManspipp/fM28gcraX4jU/hB+smFeTffWTlLhiI3jTmI8yKWAwJ3pu/8
-	 3N6QmrMndLU0Y2z2lpIY+C6EeIGtFfmsm0Kz2rKNJ3bejXt7zNH2puZtdFWWc0lU4J
-	 y3JJ5UC0N51vmOrv4kg8E9sJeNLD09LUSVwyWZ+88kyDcDzTYqo4aSgvu7psu2c3xo
-	 HHmvAfKen39M9UTXY2YBauBV1RsKbAQOM+ISLza7gqZ4VzJlYEKhh1wdLHxNkK1IJj
-	 m/czyoMdQtj8g==
-Date: Fri, 4 Apr 2025 18:02:53 +0100
-From: Mark Brown <broonie@kernel.org>
-To: Johann Neuhauser <jneuhauser@dh-electronics.com>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Jonathan Corbet <corbet@lwn.net>,
-	Liam Girdwood <lgirdwood@gmail.com>
-Subject: Re: [PATCH 0/3] regulator: userspace-consumer: Add regulator event
- uevents
-Message-ID: <b5fa7d1a-16bf-4031-8990-f559cf589b67@sirena.org.uk>
-References: <20250404134009.2610460-1-jneuhauser@dh-electronics.com>
+	s=arc-20240116; t=1743787213; c=relaxed/simple;
+	bh=HA1xCpYpiuBjQTt/pfzcIBhSFbPJbNH4yu1fa14YH+E=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=LrgcZRzSoarwsFNtT8Z3NQaWlAOyQ+vE0yw4tv4rkAizVdBRSYoX0nxGjuwUF/blSUTkiGSQsp0ABqpVzkRth1gEvY4w75O7WKxssYQdwiFFD2BqA3JXNKOIXAfaomow6xUzF2QZtLzBcZBG9N0P1FS9NwUZP5rq4KJbBh+Zhpg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZTld74xBKz6K9J8;
+	Sat,  5 Apr 2025 01:16:27 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id BEE601402C7;
+	Sat,  5 Apr 2025 01:20:08 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 4 Apr
+ 2025 19:20:07 +0200
+Date: Fri, 4 Apr 2025 18:20:06 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: "=?ISO-8859-1?Q?N=EDcolas?= F. R. A. Prado" <nfraprado@collabora.com>
+CC: Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet
+	<corbet@lwn.net>, Vinod Koul <vkoul@kernel.org>, Eric Biggers
+	<ebiggers@kernel.org>, "Theodore Y. Ts'o" <tytso@mit.edu>, Jaegeuk Kim
+	<jaegeuk@kernel.org>, Jonathan Cameron <jic23@kernel.org>, "Lars-Peter
+ Clausen" <lars@metafoo.de>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, "Paolo
+ Abeni" <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, "Maxime
+ Chevallier" <maxime.chevallier@bootlin.com>, James Bottomley
+	<James.Bottomley@HansenPartnership.com>, Jarkko Sakkinen <jarkko@kernel.org>,
+	Mimi Zohar <zohar@linux.ibm.com>, Jaroslav Kysela <perex@perex.cz>, Takashi
+ Iwai <tiwai@suse.com>, Mauro Carvalho Chehab <mchehab@kernel.org>, Richard
+ Weinberger <richard@nod.at>, Anton Ivanov <anton.ivanov@cambridgegreys.com>,
+	Johannes Berg <johannes@sipsolutions.net>, <kernel@collabora.com>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <dmaengine@vger.kernel.org>,
+	<linux-fscrypt@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+	<netdev@vger.kernel.org>, <workflows@vger.kernel.org>,
+	<linux-integrity@vger.kernel.org>, <keyrings@vger.kernel.org>,
+	<linux-sound@vger.kernel.org>, <linux-media@vger.kernel.org>,
+	<linux-um@lists.infradead.org>
+Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
+Message-ID: <20250404182006.000038cc@huawei.com>
+In-Reply-To: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="jT5kjD0mLTfL7UhA"
-Content-Disposition: inline
-In-Reply-To: <20250404134009.2610460-1-jneuhauser@dh-electronics.com>
-X-Cookie: You will soon forget this.
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+X-ClientProxiedBy: lhrpeml100006.china.huawei.com (7.191.160.224) To
+ frapeml500008.china.huawei.com (7.182.85.71)
+
+On Fri, 04 Apr 2025 11:37:28 -0400
+N=EDcolas F. R. A. Prado <nfraprado@collabora.com> wrote:
+
+> Given that the automarkup Sphinx plugin cross-references
+> "Documentation/*.rst" strings in the text to the corresponding
+> documents, surrounding those strings with the literal markup (``) not
+> only adds unnecessary markup in the source files, but actually prevents
+> the automatic cross-referencing to happen (as it doesn't happen in
+> literal blocks).
+>=20
+> Remove all the occurrences of the literal markup in
+> "Documentation/*.rst" paths, except when the actual source file is being
+> referred. Also change the surrounding text when needed so it reads well
+> both in the source and the web page (eg. 'see file Doc...' -> 'see
+> Doc...').
+>=20
+> Signed-off-by: N=EDcolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  Documentation/admin-guide/mm/numa_memory_policy.rst       | 2 +-
+>  Documentation/admin-guide/serial-console.rst              | 2 +-
+>  Documentation/driver-api/dmaengine/client.rst             | 2 +-
+>  Documentation/driver-api/nvdimm/security.rst              | 2 +-
+>  Documentation/filesystems/fscrypt.rst                     | 4 ++--
+>  Documentation/iio/adis16475.rst                           | 4 ++--
+>  Documentation/iio/adis16480.rst                           | 4 ++--
+>  Documentation/iio/adis16550.rst                           | 4 ++--
+>  Documentation/iio/adxl380.rst                             | 4 ++--
+
+Split patch up by subsystem would be a good thing here as we may
+get other changes to these docs during the cycle and resulting
+merge conflicts if this all goes in as one patch.
 
 
---jT5kjD0mLTfL7UhA
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-
-On Fri, Apr 04, 2025 at 03:40:06PM +0200, Johann Neuhauser wrote:
-> This series adds support for regulator event reporting via uevents to the
-> userspace-consumer regulator driver. The goal is to provide userspace with
-> a straightforward mechanism to monitor and respond to important regulator
-> events such as overcurrent conditions, voltage changes, and enable/disable
-> transitions.
-
-This sounds like you're trying to use userspace-consumer in production
-rather than as a test bodge...   what's the actual use case here?
-
---jT5kjD0mLTfL7UhA
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmfwELwACgkQJNaLcl1U
-h9AxAAf8Cu5MhCLb1wWJCLWNM2VRJ6fqAj/TDBYj3J4N0xaB8DgkwDW+tI5Wv8pS
-5qVmiMeZJRiLd1I2ExLLMK1Rs3qeaIORmsk8/C1tCpp30RzW0eYfuK5DtPnsj9K+
-QWOeijYQJ7USFPSxdhkZdixgBTeMJHlAF+XmsVc1gSRx9Ii5w1O2SWRiZ+ZMkaYC
-muL++Vf4+7qpfeljxzv4O46NMQvd8EjFWfQaBuf6+eCOWwjzy16gPCUdX9G4PyLJ
-voDEW9T11bWfJUcTm6noxSRTco/trQ5UZVly4w4szU5qlBvsyb0qKJYW0amoT/kW
-KuCZ/mZj6JdAeznPYndw3de06vb31Q==
-=nnRE
------END PGP SIGNATURE-----
-
---jT5kjD0mLTfL7UhA--
+>  Documentation/kernel-hacking/hacking.rst                  | 6 +++---
+>  Documentation/kernel-hacking/locking.rst                  | 2 +-
+>  Documentation/networking/dsa/b53.rst                      | 2 +-
+>  Documentation/networking/dsa/bcm_sf2.rst                  | 2 +-
+>  Documentation/networking/dsa/dsa.rst                      | 2 +-
+>  Documentation/networking/dsa/lan9303.rst                  | 2 +-
+>  Documentation/networking/phy-link-topology.rst            | 2 +-
+>  Documentation/process/adding-syscalls.rst                 | 2 +-
+>  Documentation/process/submit-checklist.rst                | 7 ++++---
+>  Documentation/security/keys/trusted-encrypted.rst         | 4 ++--
+>  Documentation/sound/kernel-api/writing-an-alsa-driver.rst | 2 +-
+>  Documentation/userspace-api/media/v4l/dev-sliced-vbi.rst  | 2 +-
+>  Documentation/userspace-api/media/v4l/diff-v4l.rst        | 2 +-
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 4 ++--
+>  Documentation/virt/uml/user_mode_linux_howto_v2.rst       | 2 +-
+>  24 files changed, 36 insertions(+), 35 deletions(-)
