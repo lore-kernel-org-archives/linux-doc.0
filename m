@@ -1,165 +1,128 @@
-Received: from smtp-fw-9105.amazon.com (smtp-fw-9105.amazon.com [207.171.188.204])
+Received: from mout-p-102.mailbox.org (mout-p-102.mailbox.org [80.241.56.152])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87D2920ADEE;
-	Fri,  4 Apr 2025 16:25:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.171.188.204
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A4BE1E1DE5;
+	Fri,  4 Apr 2025 16:31:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.152
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743783913; cv=none; b=QCkDyPihvWY2CFDhORfvgjqEN1PTmLrEtf6veysO4uOXzirvlOX7lcP+JNORNBYV00eJYZCYqvrQk5CbFVLiM+nTEnnbfQMDxnN4NHpsKor1pxiHDGQKxP7Xn54AGNvC3IavuwF/Q7CLiYpeLSPrghLcykdu+hQWsPbT5FgleTM=
+	t=1743784292; cv=none; b=QxpzxfsSNWgwRAmdW+KCS8KC6SW5XOJAQJOoz5xu25IdLBGLNFZegLNm6FaJrtSDISy+ZjgmOO1P6SOHJNjEuik13yX1DQY2xBVrUFjC/R8vhtMVbHf+fNiPlzSThiVpWX9VTvOcuOXHifknahuJhNRFBHqihHnTYxjfzzs0gX8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743783913; c=relaxed/simple;
-	bh=eF+HTA08ywMrReINY75pZwsJgSFDqgNGDi1vthS9iHo=;
-	h=From:To:CC:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=f82mnlw/DO1wu0QyYwCq1JMT8ZZovA6Bm8oPWqsSjKDW9uwFVZKpOml1PLBZP3oFjF6SqRt7eXrWNgRK14n9A9BtsPDtlefMl1aGBSc04gODWCwATnCprzlpAY1A1QyUifwnmlK3SSlzPaoFMT5iCv3jQYMcCKktkw8fZHV9c1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de; spf=pass smtp.mailfrom=amazon.de; dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b=GRrTQdV/; arc=none smtp.client-ip=207.171.188.204
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amazon.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=amazon.de
+	s=arc-20240116; t=1743784292; c=relaxed/simple;
+	bh=KWkDvNu6blQIO6Kz+QbMPY3hHMdMHjuMkFHK0h8ygzI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nitBgtPqAfA89EAYiw43CKV3QIVh+VLb+I4eQvR+52JrLH02xnleYcv4CyJkSTy+EHqCYLnWQle3353Uu7VUlQutnPEFFE3oyj6iGfrnoy4KuUrNpXH8NZ7vb/C8dYfPs0wdJIzzo2t9AS+YHVLde4/NteeGR5uVSeOuSNSK2Cw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com; spf=pass smtp.mailfrom=pankajraghav.com; dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b=YDseWwgp; arc=none smtp.client-ip=80.241.56.152
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=pankajraghav.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pankajraghav.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amazon.de header.i=@amazon.de header.b="GRrTQdV/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=amazon.de; i=@amazon.de; q=dns/txt; s=amazon201209;
-  t=1743783912; x=1775319912;
-  h=from:to:cc:subject:in-reply-to:references:date:
-   message-id:mime-version;
-  bh=8M1kcrllrPJGqNpSTkGjHsOAwcJ4P4JfrDK2o2gPRAw=;
-  b=GRrTQdV/oqMyDHVDf2wgm4Zc24mJeZVF0GWGtisl/D6UJl/3VDLEH5qs
-   BkC6KousddgRX3CetGXbI5sG5NFwKG68CK3UmP19TUp6FRHi1Tkgb2XhS
-   SFagrcb/OegaDa5ILUtBw5PzFSeg0eFfIqxpZUxtBrfUe0Jc8fPTnACls
-   8=;
-X-IronPort-AV: E=Sophos;i="6.15,188,1739836800"; 
-   d="scan'208";a="7655191"
-Received: from pdx4-co-svc-p1-lb2-vlan2.amazon.com (HELO smtpout.prod.us-west-2.prod.farcaster.email.amazon.dev) ([10.25.36.210])
-  by smtp-border-fw-9105.sea19.amazon.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Apr 2025 16:25:05 +0000
-Received: from EX19MTAUWB002.ant.amazon.com [10.0.21.151:19358]
- by smtpin.naws.us-west-2.prod.farcaster.email.amazon.dev [10.0.43.57:2525] with esmtp (Farcaster)
- id 41e9b48e-af72-465f-a631-5054d723289f; Fri, 4 Apr 2025 16:25:04 +0000 (UTC)
-X-Farcaster-Flow-ID: 41e9b48e-af72-465f-a631-5054d723289f
-Received: from EX19D020UWA001.ant.amazon.com (10.13.138.249) by
- EX19MTAUWB002.ant.amazon.com (10.250.64.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 4 Apr 2025 16:24:56 +0000
-Received: from EX19MTAUWB001.ant.amazon.com (10.250.64.248) by
- EX19D020UWA001.ant.amazon.com (10.13.138.249) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id 15.2.1544.14;
- Fri, 4 Apr 2025 16:24:55 +0000
-Received: from email-imr-corp-prod-iad-all-1a-059220b4.us-east-1.amazon.com
- (10.25.36.214) by mail-relay.amazon.com (10.250.64.254) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA) id
- 15.2.1544.14 via Frontend Transport; Fri, 4 Apr 2025 16:24:55 +0000
-Received: from dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com [172.19.91.144])
-	by email-imr-corp-prod-iad-all-1a-059220b4.us-east-1.amazon.com (Postfix) with ESMTP id EBBDF42F0D;
-	Fri,  4 Apr 2025 16:24:54 +0000 (UTC)
-Received: by dev-dsk-ptyadav-1c-43206220.eu-west-1.amazon.com (Postfix, from userid 23027615)
-	id A83976148; Fri,  4 Apr 2025 16:24:54 +0000 (UTC)
-From: Pratyush Yadav <ptyadav@amazon.de>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Mike Rapoport <rppt@kernel.org>, Changyuan Lyu <changyuanl@google.com>,
-	<linux-kernel@vger.kernel.org>, <graf@amazon.com>,
-	<akpm@linux-foundation.org>, <luto@kernel.org>, <anthony.yznaga@oracle.com>,
-	<arnd@arndb.de>, <ashish.kalra@amd.com>, <benh@kernel.crashing.org>,
-	<bp@alien8.de>, <catalin.marinas@arm.com>, <dave.hansen@linux.intel.com>,
-	<dwmw2@infradead.org>, <ebiederm@xmission.com>, <mingo@redhat.com>,
-	<jgowans@amazon.com>, <corbet@lwn.net>, <krzk@kernel.org>,
-	<mark.rutland@arm.com>, <pbonzini@redhat.com>, <pasha.tatashin@soleen.com>,
-	<hpa@zytor.com>, <peterz@infradead.org>, <robh+dt@kernel.org>,
-	<robh@kernel.org>, <saravanak@google.com>,
-	<skinsburskii@linux.microsoft.com>, <rostedt@goodmis.org>,
-	<tglx@linutronix.de>, <thomas.lendacky@amd.com>, <usama.arif@bytedance.com>,
-	<will@kernel.org>, <devicetree@vger.kernel.org>, <kexec@lists.infradead.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-mm@kvack.org>, <x86@kernel.org>
-Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory preservation
-In-Reply-To: <20250404143031.GB1336818@nvidia.com>
-References: <20250320015551.2157511-1-changyuanl@google.com>
-	<20250320015551.2157511-10-changyuanl@google.com>
-	<mafs05xjmqsqc.fsf@amazon.de> <20250403114209.GE342109@nvidia.com>
-	<Z-6UA3C1TPeH_kGL@kernel.org> <20250403142438.GF342109@nvidia.com>
-	<Z--sUYCvP3Q8nT8e@kernel.org> <20250404124729.GH342109@nvidia.com>
-	<Z-_kSXrHWU5Bf3sV@kernel.org> <20250404143031.GB1336818@nvidia.com>
-Date: Fri, 4 Apr 2025 16:24:54 +0000
-Message-ID: <mafs08qofq4h5.fsf@amazon.de>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+	dkim=pass (2048-bit key) header.d=pankajraghav.com header.i=@pankajraghav.com header.b="YDseWwgp"
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [10.196.197.202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-102.mailbox.org (Postfix) with ESMTPS id 4ZTkdB1w5Cz9slr;
+	Fri,  4 Apr 2025 18:31:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pankajraghav.com;
+	s=MBO0001; t=1743784286;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fjwud8ak6+xfC04y1eWrvVdmASw0v1ZoTEzAJrACWAo=;
+	b=YDseWwgp4DPdW+9UfcNzBwdjuUPiX9bS881tFQiODJY1V1Cqp1NwQfkP+TSOkudURmJ/qB
+	1wtFGHU8INphOGB+e4bplll0ucaGwH5dAG+FhV2+O9gAxqEGWaGuo+l5l2viNqmDgW/noc
+	Z6pNvEsR6P5zuMgBQY9gjRumtzqYxVjA3vA6+ccMQDhM1DfyM3tjwQYgVTFA+Z3I67EPg5
+	kY9spDYtP7en+7eXOIPhIs5Dt5b2BwHinClNA1BMyCezvryIDTZLCq4HBEYnxz8GUFieFW
+	nrq05PLgW2WrEeni5iHRARJDppH4Nmdf+ZhmPCOsNb1THvDg00LkQY3CjaQ9dg==
+Date: Fri, 4 Apr 2025 18:31:16 +0200
+From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, willy@infradead.org, 
+	linux-mm@kvack.org, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	David Hildenbrand <david@redhat.com>, da.gomez@kernel.org, gost.dev@samsung.com, 
+	linux-doc@vger.kernel.org, Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH v3] docs: update THP admin guide about non-tmpfs
+ filesystem support
+Message-ID: <qy52tvn6atrlt5rhgzbtueyqbs56ik3rfg2b7yopynhhoipvtj@qph743k6m7kg>
+References: <20250404140657.29285-1-kernel@pankajraghav.com>
+ <Z-_7fzU02OU1hVOT@bombadil.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z-_7fzU02OU1hVOT@bombadil.infradead.org>
 
-On Fri, Apr 04 2025, Jason Gunthorpe wrote:
+On Fri, Apr 04, 2025 at 08:32:15AM -0700, Luis Chamberlain wrote:
+> On Fri, Apr 04, 2025 at 04:06:57PM +0200, Pankaj Raghav (Samsung) wrote:
+> > From: Pankaj Raghav <p.raghav@samsung.com>
+> > 
+> > THP support for non-tmpfs filesystem has been around for some time now.
+> > Update the admin guide to reflect it.
+> > 
+> > While we are at it, move FilePmdMapped to previous paragraph for clarity,
+> > and clarify ShmemPmdMapped & ShmemHugePage.
+> > 
+> > Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> > Acked-by: David Hildenbrand <david@redhat.com>
+> > ---
+> > 
+> > Changes since v2:
+> > - Address comment from Bagas Sanjaya
+> > - Squash commits and Ack from David
+> > 
+> >  Documentation/admin-guide/mm/transhuge.rst | 22 +++++++++++++++-------
+> >  1 file changed, 15 insertions(+), 7 deletions(-)
+> > 
+> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> > index dff8d5985f0f..f8aae64e38d0 100644
+> > --- a/Documentation/admin-guide/mm/transhuge.rst
+> > +++ b/Documentation/admin-guide/mm/transhuge.rst
+> > @@ -12,8 +12,8 @@ using huge pages for the backing of virtual memory with huge pages
+> >  that supports the automatic promotion and demotion of page sizes and
+> >  without the shortcomings of hugetlbfs.
+> >  
+> > -Currently THP only works for anonymous memory mappings and tmpfs/shmem.
+> > -But in the future it can expand to other filesystems.
+> > +Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
+> > +filesystems that support large folios.
+> 
+> That seems to allude that THP can be supported on filesystems
+> that suppor large folios. I don't think we want to call that THP
 
-> On Fri, Apr 04, 2025 at 04:53:13PM +0300, Mike Rapoport wrote:
-[...]
->> Most drivers do not use folios
->
-> Yes they do, either through kmalloc or through alloc_page/etc. "folio"
-> here is just some generic word meaning memory from the buddy allocator.
->
-> The big question on my mind is if we need a way to preserve slab
-> objects as well..
+But we do allocate a THP in the page cache if we support large folios.
 
-Only if the objects in the slab cache are of a format that doesn't
-change, and I am not sure if that is the case anywhere. Maybe a driver
-written with KHO in mind would find it useful, but that's way down the
-line.
+See [1] where THP was supported through page cache. From what I
+understand, THP support was added first to the page cache and then large
+folios (orders in between) support came later.
 
->
->> and for preserving memfd* and hugetlb we'd need to have some dance
->> around that memory anyway.
->
-> memfd is all folios - what do you mean?
->
-> hugetlb is moving toward folios.. eg guestmemfd is supposed to be
-> taking the hugetlb special stuff and turning it into folios.
->
->> So I think kho_preserve_folio() would be a part of the fdbox or
->> whatever that functionality will be called.
->
-> It is part of KHO. Preserving the folios has to be sequenced with
-> starting the buddy allocator, and that is KHO's entire responsibility.
->
-> I could see something like preserving slab being in a different layer,
-> built on preserving folios.
+For example, you can mount XFS and do a simple dd as follows:
 
-Agree with both points.
+$ dd if=/dev/random of=/mnt/hello bs=1G count=2
 
-[...]
->> As for the optimizations of memblock reserve path, currently it what hurts
->> the most in my and Pratyush experiments. They are not very representative,
->> but still, preserving lots of pages/folios spread all over would have it's
->> toll on the mm initialization.
->
->> And I don't think invasive changes to how
->> buddy and memory map initialization are the best way to move forward and
->> optimize that.
->
-> I'm pretty sure this is going to be the best performance path, but I
-> have no idea how invasive it would be to the buddy alloactor to make
-> it work.
+And if you monitor `FileHugePages` after dd is done, it would have filled
+up if THP is enabled.
 
-I don't imagine it would be that invasive TBH. memblock_free_pages()
-already checks for kmsan_memblock_free_pages() or
-early_page_initialised(), it can also check for kho_page() just as
-easily.
+> and that can confuse folks. Leaving "currently" also seems to
+> indicate that there is more work to be done for THP for filesystems
+> but that's not true as well. So how about something like:
 
->
->> Quite possibly we'd want to be able to minimize amount of *ranges*
->> that we preserve.
->
-> I'm not sure, that seems backwards to me, we really don't want to have
-> KHO mem zones! So I think optimizing for, and thinking about ranges
-> doesn't make sense.
->
-> The big ranges will arise naturally beacuse things like hugetlb
-> reservations should all be contiguous and the resulting folios should
-> all be allocated for the VM and also all be contigous. So vast, vast
-> amounts of memory will be high order and contiguous.
+There is more work to be done in the filesystems right? Adding large
+folio support is the prerequisite here to get the THP support.
 
-Yes, and those can work quite well with table + bitmaps too.
+> 
+> THP only works for anonymous memory mappings, and the tmpfs/shmem is the only
+> filesystem to support it. The alternative to THP for other filesystems is to
+> support large folios and with it you can end up using huge pages
+> opportunistically.
+> 
+>   Luis
 
-[...]
+[1] https://lore.kernel.org/linux-mm/20201029193405.29125-1-willy@infradead.org/
 
--- 
-Regards,
-Pratyush Yadav
+--
+Pankaj
+
