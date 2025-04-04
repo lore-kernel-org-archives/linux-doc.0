@@ -1,334 +1,721 @@
-Received: from mx0b-00128a01.pphosted.com (mx0b-00128a01.pphosted.com [148.163.139.77])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B4818481B1;
-	Fri,  4 Apr 2025 00:29:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=148.163.139.77
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743726550; cv=fail; b=nhW0OpJzP589OVH5CuEt0nvonE1fYtCG77E6YBUPxPOqjgV+qBbCbuwi3iteYgrnp8T3Vh8o9VeaXEfJQrkNYvg6kKOc4Bdg6YmEfFcJRfcsXJrtM5vH8oEtnL/nLcLR9+NrWvsQOxjbXljEO+kJC4zy0nsD82gzgqfyG02igXU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743726550; c=relaxed/simple;
-	bh=JfuZKUwPj6DlnfUU2nK0ouqOHawFrkWOOKUwxXQRzKo=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=IoakQ4rQw5Mf9jM8pUVo/QUkLTa+VHZZTn0jfOwn+huYaQcr6oACiFRVup+5MQ3TE8Kk1eBqUzTYZBofri2P0JivBeYkyAvUSP6wQCgmidl4aZ0L25+B5zNKtJE4dHO3jABRZaS0vYRz72Cs4UWLzETkqBUaJ3n+ONNHbgiT8Cw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com; spf=pass smtp.mailfrom=analog.com; dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b=CYQIrOgh; arc=fail smtp.client-ip=148.163.139.77
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=analog.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=analog.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CF76A1A08B8
+	for <linux-doc@vger.kernel.org>; Fri,  4 Apr 2025 08:46:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1743756400; cv=none; b=TZwv93yexi7NKijvA53qhsCdjCV59cegukxco4roopv/9KZL3VQjuxzujU4XUWLb3FrbW5Y6yVj0z2B/Fw8ZMqtNDTc8AYe0/BxdcTQJNGBYTz/SAryWtjBlIbAc+Shv8AiHZ1ybJ176btDSo2AnIY7Eh9En4FW7xNMZO+qXCnk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1743756400; c=relaxed/simple;
+	bh=EC2qLD3yAqT9hmPSQkMhT0qXr1pMBO6vYWsBJYi/6Kk=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VjZDDyN1SdLxu6KhavZUVWlA2EVnGPjnBiZ9+FY15a23JKomRQffcgVOS4HicUrFVl9yUXx4RHCxF8MiYBxJ17XghfsLGdd/KO8Z7BFSjL5ONH/mI3SZEYTvR+f/deJTZcQZXaGXjB9oXwJ5C80Kx1RXzzv7fgZm14Hd6g/beN8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Vm99kKUk; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=analog.com header.i=@analog.com header.b="CYQIrOgh"
-Received: from pps.filterd (m0375854.ppops.net [127.0.0.1])
-	by mx0b-00128a01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 533LeRML022905;
-	Thu, 3 Apr 2025 20:28:53 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=analog.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=DKIM; bh=wk6v6
-	O+ESIXbizv+oClSfVzMXyiNxhHQXFiRWF13Hf4=; b=CYQIrOghBA3qvFRlXhBTa
-	sW9aws7kWYP/qHx1Ny3SrOQYPAeYSKrAXKtZwYnXkscOsZL4WP6YWMlZNuKvS2kz
-	DW41fYGjuezSIEJYPg+Excnp/hgrd8+jO3QRij12t7Pjn+MR3KZAKkyAEvXnFhMz
-	Olh+frh8KgDUIQnyWNNqz/IihE9fhfpimLLSjJ92bRGWZHXCgTkQmibPo4cWkNsJ
-	tFF9aL7Ka3G8Bli3HkzDjMvsNxx8/VPbU1NkOjQhIkZv4TD+3ehhJeWKJcfXCg0P
-	C5nRub4hyjXmzIH+p2eLK3HOALAfyK8Ix/iJTOiq+qDH+bxs82eGZMPdEMj0bMK1
-	Q==
-Received: from nam11-co1-obe.outbound.protection.outlook.com (mail-co1nam11lp2177.outbound.protection.outlook.com [104.47.56.177])
-	by mx0b-00128a01.pphosted.com (PPS) with ESMTPS id 45t2f28ek6-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 03 Apr 2025 20:28:52 -0400 (EDT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x7GwQIr0XCIx5b51qIrj1LVGdVXLUq7ve/oLUkmIIXkERiJMa/dKL24Mlpybnw12m4BRQrRT/gni89su6zmkrfEwR2MTdrOV6WF9sZBuX4Ih18xVmQMk3SuGczeUbxGUxGw8Vux6JlovHi215Djvgu7r7n6HOTZ+edpvU2L8Z+vi6EOLsmzAD25G9vA9dGfKaq8BOkTPWOOP5CU55nwExGOKHafQqTrR6xV9U98bjAkGzgpA+0pLKWh6QKFAsNeiZq8p5lmxEVYfwkXxdyKHnlEJOeuoCd6xc5p5eRsPlAKy9DgAYQwET8hHgnSLR7/EttYQ2MeDgQpUSSorvn7O4Q==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=wk6v6O+ESIXbizv+oClSfVzMXyiNxhHQXFiRWF13Hf4=;
- b=M67LwnJRsZyFTvAATapDhuTUlJSp4CRpOdaP7eOu+OOKkyX83exNkEWU04ZobsRuIAkTJZ6qMRAva0JFTOixP1f9SEmx/Ka5yqWhZKHYmOlEd2h4eFbakgy1YxHGLHub+Q7aQNldIDfwls8QQy5USs+zoNxPqBtb3doFcylMwivPXig6CqJ2CnDtZwFynFFNV/f8DO6Pi7K+GBIah5Gi8l0i/ZwGfw4vz/PPfqiBKtuhUqi2jlMMjzHVgfllxvNnyHhJm/tiugM+LL746j7xcCl5zbowDmg/hLeZOV2e8nxMHAYZA216UNb50yrf69t+mWoPAww8yUUGyGWiXIV6jw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=analog.com; dmarc=pass action=none header.from=analog.com;
- dkim=pass header.d=analog.com; arc=none
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com (2603:10b6:510:ab::18)
- by BL4PR03MB8076.namprd03.prod.outlook.com (2603:10b6:208:58e::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8534.50; Fri, 4 Apr
- 2025 00:28:49 +0000
-Received: from PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::71f7:8e63:e91:a354]) by PH0PR03MB6351.namprd03.prod.outlook.com
- ([fe80::71f7:8e63:e91:a354%5]) with mapi id 15.20.8583.043; Fri, 4 Apr 2025
- 00:28:49 +0000
-From: "Torreno, Alexis Czezar" <AlexisCzezar.Torreno@analog.com>
-To: Guenter Roeck <linux@roeck-us.net>
-CC: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-        Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-        "linux-hwmon@vger.kernel.org"
-	<linux-hwmon@vger.kernel.org>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>,
-        "linux-i2c@vger.kernel.org"
-	<linux-i2c@vger.kernel.org>
-Subject: RE: [PATCH v2 1/2] hwmon: (pmbus/max34440): Fix support for max34451
-Thread-Topic: [PATCH v2 1/2] hwmon: (pmbus/max34440): Fix support for max34451
-Thread-Index: AQHbpFeb5xuhX/HLf02m4uk+Dq4nObOSI14AgACDvnA=
-Date: Fri, 4 Apr 2025 00:28:48 +0000
-Message-ID:
- <PH0PR03MB635158DB70EA4D463AE1B4EAF1A92@PH0PR03MB6351.namprd03.prod.outlook.com>
-References: <20250403-dev_adpm12160-v2-0-bbf40faae988@analog.com>
- <20250403-dev_adpm12160-v2-1-bbf40faae988@analog.com>
- <2234425e-b676-4564-96c6-57c0a635292c@roeck-us.net>
-In-Reply-To: <2234425e-b676-4564-96c6-57c0a635292c@roeck-us.net>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PH0PR03MB6351:EE_|BL4PR03MB8076:EE_
-x-ms-office365-filtering-correlation-id: 08687fc6-bcfd-45ad-c9c5-08dd730fab32
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?us-ascii?Q?J0FK+GR8H3Pcdrb03xd8JDaWjXTUgvBZTavNAKju1QBt4EITLReEm7zds6+f?=
- =?us-ascii?Q?1PCQwSFMgABNdP/roTMbQPO/RAV063mbX/9tTV9fSgndrulgA4FeN3MCfrm/?=
- =?us-ascii?Q?XrVZvUSf/MIdbSC9zf+BRHGdE7/0jmZf5Kj8OE/XHSdxWWlVb7F+nLGXPUUP?=
- =?us-ascii?Q?oilCuhmyRsiI+4jeVMvk0tmREqAKD8JE32r78HyacX92sm6DRM+Ii4HD7BHj?=
- =?us-ascii?Q?bq4a6JR4vDQTwqGTSb9Ju1Wy7FeVJS3FpSXBVubZL8hbU4dvBEaZsU/LUIeL?=
- =?us-ascii?Q?tHJrAyu2bwcYBD610vTyZInPvEW+Nt4ou8AOziF/hl3XjUoZX7Gsob2lswhz?=
- =?us-ascii?Q?+vH+Nh+kAZH2Q+lrmSx7W6kzbrFgD/MtDZC3tqv4k67AIIv6eQQ117DNclRB?=
- =?us-ascii?Q?CeA0a4iSd1cho6Ngz4N/hSgWDwFyCt5vnXcAhaRcX493ytW/err31P0T0YUk?=
- =?us-ascii?Q?7G9KaCDudujDjWymo0rd1K5SihLpz8afF4MZAVf140c17+IlFBIX4mP+ikGa?=
- =?us-ascii?Q?kuAotjgTJLmEB5qWfpO5Yrdv195JGMIH5womcleSy43m0uPI72y7WtM7sz3S?=
- =?us-ascii?Q?Q7TiX49crdIa+g5Ca+mKMq0YLdWePzT9ypcM9jNRBULIXD9PDTB/Xe9yJfFN?=
- =?us-ascii?Q?kn/ANuJMWfsOanfMSR801GaXeIWLnNSPmL23ZarEsz9XnmUIFO5xDAyEeABY?=
- =?us-ascii?Q?eLvRyheHfZXpoOZLC6E8P3b1D8fOKpsogtQM5B+Y9D+aNHoBzHvPpise9U86?=
- =?us-ascii?Q?5TmY4eKlh52Q72Qg8WTFLNQx0VTL+W3u1bj/3TWuqj4EFXKsgmpO9K0NAEhY?=
- =?us-ascii?Q?gN6oLxo/Vv/2YX/xokFWGdMfrsKIyxdMvtQOfdIzAdjCGytz9WvNMKU2+a/u?=
- =?us-ascii?Q?WxalJ8ew6nwyEBIPWs9C7RVRzTQzLaDXqSaGvQU7x9SF7mg79iJM2iaIdc/L?=
- =?us-ascii?Q?iIr9KsI2uSVAjkbjrtaPhhMosZQm8n3f7NF3aeJwzJv8HtAihbIey6REHyhL?=
- =?us-ascii?Q?q9hvNR3oRVRwsAPT0x4RwsOqiPtXsBSLRIkMRil4kki3Pm6LSUS8KDPkOABW?=
- =?us-ascii?Q?HosD8axcqWKFILV9X2IVU2r4HTujUKJ8dXZ8vgRfuZMGmNPcz8EeAeQdl+vH?=
- =?us-ascii?Q?pNBXXRKyAMbGKpFY0BBDbx81AMmWtXVXeNaTqStN5t+iEYqhP5c5UrhGT6B7?=
- =?us-ascii?Q?BNUDTcJWVKEnYR541strrwlLGLMITJGmC+ZhSjlCtdec01UYukoa8E8jb7jI?=
- =?us-ascii?Q?vdADAr27UEoHk2Kh5AMhYVy2ooLUT2hUjpwKr7AE2IS0Bvl5xoE4PpLC/hLQ?=
- =?us-ascii?Q?Y+TeYXCNRddeYP5sk4Hul/PdJQ6gzsrxQLrZp8vh8QtZ/w9+K+u/0FDErXOg?=
- =?us-ascii?Q?Wa5w4Suv3JDXLTmJV0C1wJoHtj3pvi5fM9lX1vq+oT0bLUCQ3GqSQHhCnT7J?=
- =?us-ascii?Q?0q3+leyL1WL18M9oXl+TLy1zu/ogw3PB?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR03MB6351.namprd03.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?us-ascii?Q?G9xaV8VaxsjNN2frI2Z/SRhms08L96o2u5gbldUc2qKxuUmdDj3VuWv9+uuh?=
- =?us-ascii?Q?C4v6OR1qzLbVjxJoVUyH4taG3n366SRVWhVp7kEUyrisLO6s0mfqMftOopYG?=
- =?us-ascii?Q?ANvmDPZo1tsZnefjxfRC6XT5rBkZloQ1WkG5jQ34arWXZeiMvF9zkka9oJkb?=
- =?us-ascii?Q?KlbtW6oQLORYg4vRTun/OWDGZi4xk2kcp1/SrCOK5w7WHG+Xi+V6kUghKEHu?=
- =?us-ascii?Q?3rfyaBkFbMa15773o4SmBjxcvH3/msTZazU3B1Qwzjgc3J9Cn0eqYwWXm/yc?=
- =?us-ascii?Q?Kb3n3Axr0qYZh7vKNTXhpPrn3kT5qGI3ctYx8njIW4zAQU/Y9YmgrlO/5ywO?=
- =?us-ascii?Q?5G+AkU0+mcR9iFeFadB3AXxhVICBHFFyhXz48TMi0ijsgMyHbsKa7EpK5YCQ?=
- =?us-ascii?Q?wfJn3Q3PlhQXMCXMciZWoLKVWwkUFMJrcOcUSWJ+EIkyHNMa5Ujo5SL2MO6r?=
- =?us-ascii?Q?awRvV9ub0D0sytkleGkMQMSHLQHBRPAPjce17rDi63z39Qr5tSj/k+yVK7s4?=
- =?us-ascii?Q?bjYNstSkR6eTCZTIvlhpLJYOiD35vfC9KfW6ObCBezl7G7CbTdQNP8x6onb7?=
- =?us-ascii?Q?FM+6N57D3qPJZGHhW2KVg3J2xuTwaeimSiEKXTLcuj6LHOinrYM4svwhuu37?=
- =?us-ascii?Q?QpbUI6XMsVLxDG8yPxWUcAI9RfbEWa0VvoyAbFPPEBIOvm0i3PpIfDwsgzVk?=
- =?us-ascii?Q?dlDzuQaD3Wt20AsHIPkpFmeHaU0nlXEaX3DtCm9HQZfUJRDpwF8bMnDYxA/b?=
- =?us-ascii?Q?NUujooaFfRDPbcgxi4HEr4yqtQVhIA0bHBqbu3T+bXjFRZmidHsgQ9plPHkA?=
- =?us-ascii?Q?0Mjeu4pdaYa++QmOMQb9QFcxlCewNud315DdfNMhzQ4ob575K3Cp0qqeOOmY?=
- =?us-ascii?Q?uFj8+HQo7aGnxADdO+p8d1uD/uBm84nMBYFJk1t3sBkBMd32gRN06RppkSNh?=
- =?us-ascii?Q?792GM+mqP/1ZoBr8elaMawR27e8/njIWZbToyLF3foE+v5WoitkUxkzLkhXK?=
- =?us-ascii?Q?epEN56h/L5sbvcg/YpUWy/rkOcUUnd3k8XMiW4hZRqSlHyTwyyYBCF1eFLtg?=
- =?us-ascii?Q?r+CZi3a+AdAHB7NMeSr3VreJjhCzsrefHkgYz54lsXrit65O65ExzoL5JNUH?=
- =?us-ascii?Q?ck9i8SXrAxZ+4Oe+1e2qeoNcVfaGlv5IJ9TtKzrAEY9VWtTjczxCdzwXte12?=
- =?us-ascii?Q?TlH5zqvIPFLUbzYipdzrcG9l54RucR39X3rhJ2rZhYAvZVSGIAlch2RI3mMY?=
- =?us-ascii?Q?RwSnAO7jkIehpo5X78fjGrCA8fxym4wIVVgJQ65p3b5Tq1Iagv7kcYH7jMDk?=
- =?us-ascii?Q?YhdFkHCBNePOYWUTA9b1WKagf6MlfKCSqewf5DV8xYDxAvBhG55464m4Wu00?=
- =?us-ascii?Q?jXrvksh+j5WefoXiVHM1yQtLuRhZqndumEJZShTYRHFde8P46NYvadVa73my?=
- =?us-ascii?Q?m8HEJqC1pmWFsmqCuab2JAxNb40Mho5kLmQSTj16KgZDZRM20KNVSvVjg039?=
- =?us-ascii?Q?SGa7PWUH/475Nehtp+LtxBFJDDQqdra+k13ZaOZHYxNc8sK2xZlZCQzUN+yV?=
- =?us-ascii?Q?3S+/6hCYH6YCOirXvJX9/wa0SYWuaS2MpKPps2HM+urtciecCpDYNhf8wvGu?=
- =?us-ascii?Q?qg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Vm99kKUk"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1743756395;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=7VgUHqvVbcZ3hwyo97/1UdgAimaq/eLN4hqPXuIKJcs=;
+	b=Vm99kKUkvyc4Ry2o/eIbUW4RuPypQXHt0XmCwuWMts0J6fbNKR0CFRwBLBLUJ0Yew+Z6ko
+	CAmKapXBkM1yHjlYEYfEGSPr9CorzIUoRxWT8WbRNz/Ry4EpAXTaRqfCWsI8qIbxezuucL
+	1wkYovO/jzMogi9IYdRBrBaTKf5PJso=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-653-A223c62CM-CR7PhUmAmBUw-1; Fri,
+ 04 Apr 2025 04:46:32 -0400
+X-MC-Unique: A223c62CM-CR7PhUmAmBUw-1
+X-Mimecast-MFC-AGG-ID: A223c62CM-CR7PhUmAmBUw_1743756391
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id DE83B195608B;
+	Fri,  4 Apr 2025 08:46:30 +0000 (UTC)
+Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.32.143])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D43D0180B487;
+	Fri,  4 Apr 2025 08:46:25 +0000 (UTC)
+From: Gabriele Monaco <gmonaco@redhat.com>
+To: linux-kernel@vger.kernel.org,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	linux-trace-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Gabriele Monaco <gmonaco@redhat.com>,
+	Ingo Molnar <mingo@redhat.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Tomas Glozar <tglozar@redhat.com>,
+	Juri Lelli <jlelli@redhat.com>
+Subject: [RFC PATCH 8/9] rv: Replace tss monitor with more complete sts
+Date: Fri,  4 Apr 2025 10:45:21 +0200
+Message-ID: <20250404084512.98552-19-gmonaco@redhat.com>
+In-Reply-To: <20250404084512.98552-11-gmonaco@redhat.com>
+References: <20250404084512.98552-11-gmonaco@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: analog.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR03MB6351.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 08687fc6-bcfd-45ad-c9c5-08dd730fab32
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Apr 2025 00:28:49.0181
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: eaa689b4-8f87-40e0-9c6f-7228de4d754a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: gV5nj7BnfctE4wFG9HE+6MPJerxx52AH6hKOun7IjawHJt6URGnv9QE0wQnsvHc1hHsg7bFCF5mzaucpNj0uK4y2nivk6jEZQT47rF9QG/Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR03MB8076
-X-Proofpoint-GUID: HBtOsdkNjwAkR9KTQ087OFqcV0386jEC
-X-Authority-Analysis: v=2.4 cv=A4dsP7WG c=1 sm=1 tr=0 ts=67ef27c4 cx=c_pps a=hHPfuxNGWHHq0fQgDGst2w==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
- a=XR8D0OoHHMoA:10 a=pGLkceISAAAA:8 a=gAnH3GRIAAAA:8 a=iox4zFpeAAAA:8 a=07d9gI8wAAAA:8 a=cPYzWk29AAAA:8 a=VwQbUJbxAAAA:8 a=jg431nGE5sWvl1LrVhMA:9 a=CjuIK1q_8ugA:10 a=WzC6qhA0u3u7Ye7llzcV:22 a=e2CUPOnPG4QKp8I52DXD:22 a=oSR2DF9YFqZEN4IGatwP:22
-X-Proofpoint-ORIG-GUID: HBtOsdkNjwAkR9KTQ087OFqcV0386jEC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-03_11,2025-04-03_03,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
- suspectscore=0 mlxlogscore=999 lowpriorityscore=0 priorityscore=1501
- mlxscore=0 clxscore=1015 phishscore=0 bulkscore=0 malwarescore=0
- adultscore=0 spamscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504040001
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
+The tss monitor currently guarantees context switches can happen only
+while scheduling, but it doesn't enforce that each scheduling call
+implies a task switch. This can be implied only if we rely on the newly
+introduced sched_switch_vain tracepoint, which represents a
+scheduler call where the previously running task is the same that is
+picked to run next, in fact no context is switched.
 
+Replace the monitor with a more comprehensive specification which
+implies tss but also ensures that:
+* each scheduler call switches context (or has a vain switch)
+* each context switch happens with interrupts disabled
 
-> -----Original Message-----
-> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
-> Sent: Friday, April 4, 2025 12:33 AM
-> To: Torreno, Alexis Czezar <AlexisCzezar.Torreno@analog.com>
-> Cc: Jean Delvare <jdelvare@suse.com>; Jonathan Corbet <corbet@lwn.net>;
-> Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>; linux-
-> hwmon@vger.kernel.org; linux-doc@vger.kernel.org; linux-
-> kernel@vger.kernel.org; linux-i2c@vger.kernel.org
-> Subject: Re: [PATCH v2 1/2] hwmon: (pmbus/max34440): Fix support for
-> max34451
->=20
-> [External]
->=20
-> On Thu, Apr 03, 2025 at 01:16:18PM +0800, Alexis Czezar Torreno wrote:
-> > The max344** family has an issue with some PMBUS address being switched=
-.
-> > This includes max34451 however version MAX34451-NA6 and later has this
-> > issue fixed and this commit supports that update.
-> >
-> > Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-> > ---
-> >  drivers/hwmon/pmbus/max34440.c | 55
-> > +++++++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 51 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/hwmon/pmbus/max34440.c
-> > b/drivers/hwmon/pmbus/max34440.c index
-> >
-> c9dda33831ff24e7b5e2fd1956a65e6bd2bfcbb9..585746806663409bc970426
-> 47f6c
-> > 0aba4c6f520a 100644
-> > --- a/drivers/hwmon/pmbus/max34440.c
-> > +++ b/drivers/hwmon/pmbus/max34440.c
-> > @@ -34,16 +34,22 @@ enum chips { max34440, max34441, max34446,
-> > max34451, max34460, max34461 };
-> >  /*
-> >   * The whole max344* family have IOUT_OC_WARN_LIMIT and
-> IOUT_OC_FAULT_LIMIT
-> >   * swapped from the standard pmbus spec addresses.
-> > + * For max34451, version MAX34451ETNA6+ and later has this issue fixed=
-.
-> >   */
-> >  #define MAX34440_IOUT_OC_WARN_LIMIT	0x46
-> >  #define MAX34440_IOUT_OC_FAULT_LIMIT	0x4A
-> >
-> > +#define MAX34451ETNA6_MFR_REV		0x0012
-> > +
-> >  #define MAX34451_MFR_CHANNEL_CONFIG	0xe4
-> >  #define MAX34451_MFR_CHANNEL_CONFIG_SEL_MASK	0x3f
-> >
-> >  struct max34440_data {
-> >  	int id;
-> >  	struct pmbus_driver_info info;
-> > +	bool pmbus_addr_fixed;
->=20
-> Unnecessary. See below.
->=20
-> > +	u32 iout_oc_warn_limit;
-> > +	u32 iout_oc_fault_limit;
->=20
-> u8 would be sufficient.
+Cc: Ingo Molnar <mingo@redhat.com>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
+---
+ Documentation/trace/rv/monitor_sched.rst      |  68 +++++++---
+ kernel/trace/rv/Kconfig                       |   2 +-
+ kernel/trace/rv/Makefile                      |   2 +-
+ kernel/trace/rv/monitors/sts/Kconfig          |  18 +++
+ kernel/trace/rv/monitors/sts/sts.c            | 118 ++++++++++++++++++
+ kernel/trace/rv/monitors/sts/sts.h            |  62 +++++++++
+ .../{tss/tss_trace.h => sts/sts_trace.h}      |   8 +-
+ kernel/trace/rv/monitors/tss/Kconfig          |  14 ---
+ kernel/trace/rv/monitors/tss/tss.c            |  91 --------------
+ kernel/trace/rv/monitors/tss/tss.h            |  47 -------
+ kernel/trace/rv/rv_trace.h                    |   2 +-
+ tools/verification/models/sched/sts.dot       |  29 +++++
+ tools/verification/models/sched/tss.dot       |  18 ---
+ 13 files changed, 282 insertions(+), 197 deletions(-)
+ create mode 100644 kernel/trace/rv/monitors/sts/Kconfig
+ create mode 100644 kernel/trace/rv/monitors/sts/sts.c
+ create mode 100644 kernel/trace/rv/monitors/sts/sts.h
+ rename kernel/trace/rv/monitors/{tss/tss_trace.h => sts/sts_trace.h} (67%)
+ delete mode 100644 kernel/trace/rv/monitors/tss/Kconfig
+ delete mode 100644 kernel/trace/rv/monitors/tss/tss.c
+ delete mode 100644 kernel/trace/rv/monitors/tss/tss.h
+ create mode 100644 tools/verification/models/sched/sts.dot
+ delete mode 100644 tools/verification/models/sched/tss.dot
 
-Will change
+diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
+index 24b2c62a3bc26..641e70e359aaa 100644
+--- a/Documentation/trace/rv/monitor_sched.rst
++++ b/Documentation/trace/rv/monitor_sched.rst
+@@ -40,26 +40,6 @@ defined in by Daniel Bristot in [1].
+ 
+ Currently we included the following:
+ 
+-Monitor tss
+-~~~~~~~~~~~
+-
+-The task switch while scheduling (tss) monitor ensures a task switch happens
+-only in scheduling context, that is inside a call to `__schedule`::
+-
+-                     |
+-                     |
+-                     v
+-                   +-----------------+
+-                   |     thread      | <+
+-                   +-----------------+  |
+-                     |                  |
+-                     | schedule_entry   | schedule_exit
+-                     v                  |
+-    sched_switch                        |
+-  +---------------                      |
+-  |                       sched         |
+-  +-------------->                     -+
+-
+ Monitor sco
+ ~~~~~~~~~~~
+ 
+@@ -165,6 +145,54 @@ schedule is not called with interrupt disabled::
+                                        |
+                         cant_sched    -+
+ 
++Monitor sts
++~~~~~~~~~~~
++
++The schedule implies task switch (sts) monitor ensures a task switch happens in
++every scheduling context, that is inside a call to ``__schedule``, as well as no
++task switch can happen without scheduling and before interrupts are disabled.
++This require the special type of switch called vain, which occurs when the next
++task picked for execution is the same as the previously running one, in fact no
++real task switch occurs::
++
++                    |
++                    |
++                    v
++                  #====================#   irq_disable
++                  H                    H   irq_enable
++                  H       thread       H --------------+
++                  H                    H               |
++  +-------------> H                    H <-------------+
++  |               #====================#
++  |                 |
++  |                 | schedule_entry
++  |                 v
++  |               +--------------------+
++  |               |     scheduling     | <+
++  |               +--------------------+  |
++  |                 |                     |
++  |                 | irq_disable         | irq_enable
++  |                 v                     |
++  |               +--------------------+  |
++  |               | disable_to_switch  | -+
++  | schedule_exit +--------------------+
++  |                 |
++  |                 | sched_switch
++  |                 | sched_switch_vain
++  |                 v
++  |               +--------------------+
++  |               |     switching      |
++  |               +--------------------+
++  |                 |
++  |                 | irq_enable
++  |                 v
++  |               +--------------------+   irq_disable
++  |               |                    |   irq_enable
++  |               |   enable_to_exit   | --------------+
++  |               |                    |               |
++  +-------------- |                    | <-------------+
++                  +--------------------+
++
+ References
+ ----------
+ 
+diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
+index b39f36013ef23..a53a3eca9616d 100644
+--- a/kernel/trace/rv/Kconfig
++++ b/kernel/trace/rv/Kconfig
+@@ -28,12 +28,12 @@ menuconfig RV
+ source "kernel/trace/rv/monitors/wip/Kconfig"
+ source "kernel/trace/rv/monitors/wwnr/Kconfig"
+ source "kernel/trace/rv/monitors/sched/Kconfig"
+-source "kernel/trace/rv/monitors/tss/Kconfig"
+ source "kernel/trace/rv/monitors/sco/Kconfig"
+ source "kernel/trace/rv/monitors/snroc/Kconfig"
+ source "kernel/trace/rv/monitors/scpd/Kconfig"
+ source "kernel/trace/rv/monitors/snep/Kconfig"
+ source "kernel/trace/rv/monitors/sncid/Kconfig"
++source "kernel/trace/rv/monitors/sts/Kconfig"
+ # Add new monitors here
+ 
+ config RV_REACTORS
+diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
+index f9b2cd0483c3c..c609b72275cb8 100644
+--- a/kernel/trace/rv/Makefile
++++ b/kernel/trace/rv/Makefile
+@@ -6,12 +6,12 @@ obj-$(CONFIG_RV) += rv.o
+ obj-$(CONFIG_RV_MON_WIP) += monitors/wip/wip.o
+ obj-$(CONFIG_RV_MON_WWNR) += monitors/wwnr/wwnr.o
+ obj-$(CONFIG_RV_MON_SCHED) += monitors/sched/sched.o
+-obj-$(CONFIG_RV_MON_TSS) += monitors/tss/tss.o
+ obj-$(CONFIG_RV_MON_SCO) += monitors/sco/sco.o
+ obj-$(CONFIG_RV_MON_SNROC) += monitors/snroc/snroc.o
+ obj-$(CONFIG_RV_MON_SCPD) += monitors/scpd/scpd.o
+ obj-$(CONFIG_RV_MON_SNEP) += monitors/snep/snep.o
+ obj-$(CONFIG_RV_MON_SNCID) += monitors/sncid/sncid.o
++obj-$(CONFIG_RV_MON_STS) += monitors/sts/sts.o
+ # Add new monitors here
+ obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
+ obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
+diff --git a/kernel/trace/rv/monitors/sts/Kconfig b/kernel/trace/rv/monitors/sts/Kconfig
+new file mode 100644
+index 0000000000000..5b486dac3f10f
+--- /dev/null
++++ b/kernel/trace/rv/monitors/sts/Kconfig
+@@ -0,0 +1,18 @@
++# SPDX-License-Identifier: GPL-2.0-only
++#
++config RV_MON_STS
++	depends on RV
++	depends on IRQSOFF_TRACER
++	depends on RV_MON_SCHED
++	default y
++	select DA_MON_EVENTS_IMPLICIT
++	bool "sts monitor"
++	help
++	  Monitor to ensure relationships between scheduler and switches
++	   * each call to the scheduler implies a switch
++	   * switches only happen inside the scheduler
++	   * switches happen with interrupt disabled
++	  This monitor is part of the sched monitors collection.
++
++	  For further information, see:
++	    Documentation/trace/rv/monitor_sched.rst
+diff --git a/kernel/trace/rv/monitors/sts/sts.c b/kernel/trace/rv/monitors/sts/sts.c
+new file mode 100644
+index 0000000000000..0a3ed35bfe894
+--- /dev/null
++++ b/kernel/trace/rv/monitors/sts/sts.c
+@@ -0,0 +1,118 @@
++// SPDX-License-Identifier: GPL-2.0
++#include <linux/ftrace.h>
++#include <linux/tracepoint.h>
++#include <linux/kernel.h>
++#include <linux/module.h>
++#include <linux/init.h>
++#include <linux/rv.h>
++#include <rv/instrumentation.h>
++#include <rv/da_monitor.h>
++
++#define MODULE_NAME "sts"
++
++#include <trace/events/sched.h>
++#include <trace/events/preemptirq.h>
++#include <rv_trace.h>
++#include <monitors/sched/sched.h>
++
++#include "sts.h"
++
++static struct rv_monitor rv_sts;
++DECLARE_DA_MON_PER_CPU(sts, unsigned char);
++
++static void handle_irq_disable(void *data, unsigned long ip, unsigned long parent_ip)
++{
++	da_handle_event_sts(irq_disable_sts);
++}
++
++static void handle_irq_enable(void *data, unsigned long ip, unsigned long parent_ip)
++{
++	da_handle_event_sts(irq_enable_sts);
++}
++
++static void handle_sched_switch(void *data, bool preempt,
++				struct task_struct *prev,
++				struct task_struct *next,
++				unsigned int prev_state)
++{
++	da_handle_event_sts(sched_switch_sts);
++}
++
++static void handle_sched_switch_vain(void *data, bool preempt,
++				     struct task_struct *tsk,
++				     unsigned int tsk_state)
++{
++	da_handle_event_sts(sched_switch_vain_sts);
++}
++
++static void handle_schedule_entry(void *data, bool preempt, unsigned long ip)
++{
++	da_handle_event_sts(schedule_entry_sts);
++}
++
++static void handle_schedule_exit(void *data, bool is_switch, unsigned long ip)
++{
++	da_handle_start_event_sts(schedule_exit_sts);
++}
++
++static int enable_sts(void)
++{
++	int retval;
++
++	retval = da_monitor_init_sts();
++	if (retval)
++		return retval;
++
++	rv_attach_trace_probe("sts", irq_disable, handle_irq_disable);
++	rv_attach_trace_probe("sts", irq_enable, handle_irq_enable);
++	rv_attach_trace_probe("sts", sched_switch, handle_sched_switch);
++	rv_attach_trace_probe("sts", sched_switch_vain_tp, handle_sched_switch_vain);
++	rv_attach_trace_probe("sts", sched_entry_tp, handle_schedule_entry);
++	rv_attach_trace_probe("sts", sched_exit_tp, handle_schedule_exit);
++
++	return 0;
++}
++
++static void disable_sts(void)
++{
++	rv_sts.enabled = 0;
++
++	rv_detach_trace_probe("sts", irq_disable, handle_irq_disable);
++	rv_detach_trace_probe("sts", irq_enable, handle_irq_enable);
++	rv_detach_trace_probe("sts", sched_switch, handle_sched_switch);
++	rv_detach_trace_probe("sts", sched_switch_vain_tp, handle_sched_switch_vain);
++	rv_detach_trace_probe("sts", sched_entry_tp, handle_schedule_entry);
++	rv_detach_trace_probe("sts", sched_exit_tp, handle_schedule_exit);
++
++	da_monitor_destroy_sts();
++}
++
++/*
++ * This is the monitor register section.
++ */
++static struct rv_monitor rv_sts = {
++	.name = "sts",
++	.description = "schedule implies task switch.",
++	.enable = enable_sts,
++	.disable = disable_sts,
++	.reset = da_monitor_reset_all_sts,
++	.enabled = 0,
++};
++
++static int __init register_sts(void)
++{
++	rv_register_monitor(&rv_sts, &rv_sched);
++	return 0;
++}
++
++static void __exit unregister_sts(void)
++{
++	rv_unregister_monitor(&rv_sts);
++}
++
++module_init(register_sts);
++module_exit(unregister_sts);
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
++MODULE_DESCRIPTION("sts: schedule implies task switch.");
+diff --git a/kernel/trace/rv/monitors/sts/sts.h b/kernel/trace/rv/monitors/sts/sts.h
+new file mode 100644
+index 0000000000000..6921c00422930
+--- /dev/null
++++ b/kernel/trace/rv/monitors/sts/sts.h
+@@ -0,0 +1,62 @@
++/* SPDX-License-Identifier: GPL-2.0 */
++/*
++ * Automatically generated C representation of sts automaton
++ * For further information about this format, see kernel documentation:
++ *   Documentation/trace/rv/deterministic_automata.rst
++ */
++
++enum states_sts {
++	thread_sts = 0,
++	disable_to_switch_sts,
++	enable_to_exit_sts,
++	scheduling_sts,
++	switching_sts,
++	state_max_sts
++};
++
++#define INVALID_STATE state_max_sts
++
++enum events_sts {
++	irq_disable_sts = 0,
++	irq_enable_sts,
++	sched_switch_sts,
++	sched_switch_vain_sts,
++	schedule_entry_sts,
++	schedule_exit_sts,
++	event_max_sts
++};
++
++struct automaton_sts {
++	char *state_names[state_max_sts];
++	char *event_names[event_max_sts];
++	unsigned char function[state_max_sts][event_max_sts];
++	unsigned char initial_state;
++	bool final_states[state_max_sts];
++};
++
++static const struct automaton_sts automaton_sts = {
++	.state_names = {
++		"thread",
++		"disable_to_switch",
++		"enable_to_exit",
++		"scheduling",
++		"switching"
++	},
++	.event_names = {
++		"irq_disable",
++		"irq_enable",
++		"sched_switch",
++		"sched_switch_vain",
++		"schedule_entry",
++		"schedule_exit"
++	},
++	.function = {
++		{            thread_sts,            thread_sts,         INVALID_STATE,         INVALID_STATE,        scheduling_sts,         INVALID_STATE },
++		{         INVALID_STATE,        scheduling_sts,         switching_sts,         switching_sts,         INVALID_STATE,         INVALID_STATE },
++		{    enable_to_exit_sts,    enable_to_exit_sts,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE,            thread_sts },
++		{ disable_to_switch_sts,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE },
++		{         INVALID_STATE,    enable_to_exit_sts,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE },
++	},
++	.initial_state = thread_sts,
++	.final_states = { 1, 0, 0, 0, 0 },
++};
+diff --git a/kernel/trace/rv/monitors/tss/tss_trace.h b/kernel/trace/rv/monitors/sts/sts_trace.h
+similarity index 67%
+rename from kernel/trace/rv/monitors/tss/tss_trace.h
+rename to kernel/trace/rv/monitors/sts/sts_trace.h
+index 4619dbb50cc06..d78beb58d5b3d 100644
+--- a/kernel/trace/rv/monitors/tss/tss_trace.h
++++ b/kernel/trace/rv/monitors/sts/sts_trace.h
+@@ -4,12 +4,12 @@
+  * Snippet to be included in rv_trace.h
+  */
+ 
+-#ifdef CONFIG_RV_MON_TSS
+-DEFINE_EVENT(event_da_monitor, event_tss,
++#ifdef CONFIG_RV_MON_STS
++DEFINE_EVENT(event_da_monitor, event_sts,
+ 	     TP_PROTO(char *state, char *event, char *next_state, bool final_state),
+ 	     TP_ARGS(state, event, next_state, final_state));
+ 
+-DEFINE_EVENT(error_da_monitor, error_tss,
++DEFINE_EVENT(error_da_monitor, error_sts,
+ 	     TP_PROTO(char *state, char *event),
+ 	     TP_ARGS(state, event));
+-#endif /* CONFIG_RV_MON_TSS */
++#endif /* CONFIG_RV_MON_STS */
+diff --git a/kernel/trace/rv/monitors/tss/Kconfig b/kernel/trace/rv/monitors/tss/Kconfig
+deleted file mode 100644
+index 479f86f52e60d..0000000000000
+--- a/kernel/trace/rv/monitors/tss/Kconfig
++++ /dev/null
+@@ -1,14 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0-only
+-#
+-config RV_MON_TSS
+-	depends on RV
+-	depends on RV_MON_SCHED
+-	default y
+-	select DA_MON_EVENTS_IMPLICIT
+-	bool "tss monitor"
+-	help
+-	  Monitor to ensure sched_switch happens only in scheduling context.
+-	  This monitor is part of the sched monitors collection.
+-
+-	  For further information, see:
+-	    Documentation/trace/rv/monitor_sched.rst
+diff --git a/kernel/trace/rv/monitors/tss/tss.c b/kernel/trace/rv/monitors/tss/tss.c
+deleted file mode 100644
+index 542787e6524fc..0000000000000
+--- a/kernel/trace/rv/monitors/tss/tss.c
++++ /dev/null
+@@ -1,91 +0,0 @@
+-// SPDX-License-Identifier: GPL-2.0
+-#include <linux/ftrace.h>
+-#include <linux/tracepoint.h>
+-#include <linux/kernel.h>
+-#include <linux/module.h>
+-#include <linux/init.h>
+-#include <linux/rv.h>
+-#include <rv/instrumentation.h>
+-#include <rv/da_monitor.h>
+-
+-#define MODULE_NAME "tss"
+-
+-#include <trace/events/sched.h>
+-#include <rv_trace.h>
+-#include <monitors/sched/sched.h>
+-
+-#include "tss.h"
+-
+-static struct rv_monitor rv_tss;
+-DECLARE_DA_MON_PER_CPU(tss, unsigned char);
+-
+-static void handle_sched_switch(void *data, bool preempt,
+-				struct task_struct *prev,
+-				struct task_struct *next,
+-				unsigned int prev_state)
+-{
+-	da_handle_event_tss(sched_switch_tss);
+-}
+-
+-static void handle_schedule_entry(void *data, bool preempt, unsigned long ip)
+-{
+-	da_handle_event_tss(schedule_entry_tss);
+-}
+-
+-static void handle_schedule_exit(void *data, bool is_switch, unsigned long ip)
+-{
+-	da_handle_start_event_tss(schedule_exit_tss);
+-}
+-
+-static int enable_tss(void)
+-{
+-	int retval;
+-
+-	retval = da_monitor_init_tss();
+-	if (retval)
+-		return retval;
+-
+-	rv_attach_trace_probe("tss", sched_switch, handle_sched_switch);
+-	rv_attach_trace_probe("tss", sched_entry_tp, handle_schedule_entry);
+-	rv_attach_trace_probe("tss", sched_exit_tp, handle_schedule_exit);
+-
+-	return 0;
+-}
+-
+-static void disable_tss(void)
+-{
+-	rv_tss.enabled = 0;
+-
+-	rv_detach_trace_probe("tss", sched_switch, handle_sched_switch);
+-	rv_detach_trace_probe("tss", sched_entry_tp, handle_schedule_entry);
+-	rv_detach_trace_probe("tss", sched_exit_tp, handle_schedule_exit);
+-
+-	da_monitor_destroy_tss();
+-}
+-
+-static struct rv_monitor rv_tss = {
+-	.name = "tss",
+-	.description = "task switch while scheduling.",
+-	.enable = enable_tss,
+-	.disable = disable_tss,
+-	.reset = da_monitor_reset_all_tss,
+-	.enabled = 0,
+-};
+-
+-static int __init register_tss(void)
+-{
+-	rv_register_monitor(&rv_tss, &rv_sched);
+-	return 0;
+-}
+-
+-static void __exit unregister_tss(void)
+-{
+-	rv_unregister_monitor(&rv_tss);
+-}
+-
+-module_init(register_tss);
+-module_exit(unregister_tss);
+-
+-MODULE_LICENSE("GPL");
+-MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
+-MODULE_DESCRIPTION("tss: task switch while scheduling.");
+diff --git a/kernel/trace/rv/monitors/tss/tss.h b/kernel/trace/rv/monitors/tss/tss.h
+deleted file mode 100644
+index f0a36fda1b873..0000000000000
+--- a/kernel/trace/rv/monitors/tss/tss.h
++++ /dev/null
+@@ -1,47 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * Automatically generated C representation of tss automaton
+- * For further information about this format, see kernel documentation:
+- *   Documentation/trace/rv/deterministic_automata.rst
+- */
+-
+-enum states_tss {
+-	thread_tss = 0,
+-	sched_tss,
+-	state_max_tss
+-};
+-
+-#define INVALID_STATE state_max_tss
+-
+-enum events_tss {
+-	sched_switch_tss = 0,
+-	schedule_entry_tss,
+-	schedule_exit_tss,
+-	event_max_tss
+-};
+-
+-struct automaton_tss {
+-	char *state_names[state_max_tss];
+-	char *event_names[event_max_tss];
+-	unsigned char function[state_max_tss][event_max_tss];
+-	unsigned char initial_state;
+-	bool final_states[state_max_tss];
+-};
+-
+-static const struct automaton_tss automaton_tss = {
+-	.state_names = {
+-		"thread",
+-		"sched"
+-	},
+-	.event_names = {
+-		"sched_switch",
+-		"schedule_entry",
+-		"schedule_exit"
+-	},
+-	.function = {
+-		{     INVALID_STATE,         sched_tss,     INVALID_STATE },
+-		{         sched_tss,     INVALID_STATE,        thread_tss },
+-	},
+-	.initial_state = thread_tss,
+-	.final_states = { 1, 0 },
+-};
+diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
+index 18fa0e358a30e..a5e1c52e29926 100644
+--- a/kernel/trace/rv/rv_trace.h
++++ b/kernel/trace/rv/rv_trace.h
+@@ -58,11 +58,11 @@ DECLARE_EVENT_CLASS(error_da_monitor,
+ );
+ 
+ #include <monitors/wip/wip_trace.h>
+-#include <monitors/tss/tss_trace.h>
+ #include <monitors/sco/sco_trace.h>
+ #include <monitors/scpd/scpd_trace.h>
+ #include <monitors/snep/snep_trace.h>
+ #include <monitors/sncid/sncid_trace.h>
++#include <monitors/sts/sts_trace.h>
+ // Add new monitors based on CONFIG_DA_MON_EVENTS_IMPLICIT here
+ 
+ #endif /* CONFIG_DA_MON_EVENTS_IMPLICIT */
+diff --git a/tools/verification/models/sched/sts.dot b/tools/verification/models/sched/sts.dot
+new file mode 100644
+index 0000000000000..8152675b4f528
+--- /dev/null
++++ b/tools/verification/models/sched/sts.dot
+@@ -0,0 +1,29 @@
++digraph state_automaton {
++	center = true;
++	size = "7,11";
++	{node [shape = circle] "disable_to_switch"};
++	{node [shape = circle] "enable_to_exit"};
++	{node [shape = circle] "scheduling"};
++	{node [shape = circle] "switching"};
++	{node [shape = plaintext, style=invis, label=""] "__init_thread"};
++	{node [shape = doublecircle] "thread"};
++	{node [shape = circle] "thread"};
++	"__init_thread" -> "thread";
++	"disable_to_switch" [label = "disable_to_switch"];
++	"disable_to_switch" -> "scheduling" [ label = "irq_enable" ];
++	"disable_to_switch" -> "switching" [ label = "sched_switch\nsched_switch_vain" ];
++	"enable_to_exit" [label = "enable_to_exit"];
++	"enable_to_exit" -> "enable_to_exit" [ label = "irq_disable\nirq_enable" ];
++	"enable_to_exit" -> "thread" [ label = "schedule_exit" ];
++	"scheduling" [label = "scheduling"];
++	"scheduling" -> "disable_to_switch" [ label = "irq_disable" ];
++	"switching" [label = "switching"];
++	"switching" -> "enable_to_exit" [ label = "irq_enable" ];
++	"thread" [label = "thread", color = green3];
++	"thread" -> "scheduling" [ label = "schedule_entry" ];
++	"thread" -> "thread" [ label = "irq_disable\nirq_enable" ];
++	{ rank = min ;
++		"__init_thread";
++		"thread";
++	}
++}
+diff --git a/tools/verification/models/sched/tss.dot b/tools/verification/models/sched/tss.dot
+deleted file mode 100644
+index 7dfa1d9121bbd..0000000000000
+--- a/tools/verification/models/sched/tss.dot
++++ /dev/null
+@@ -1,18 +0,0 @@
+-digraph state_automaton {
+-	center = true;
+-	size = "7,11";
+-	{node [shape = plaintext] "sched"};
+-	{node [shape = plaintext, style=invis, label=""] "__init_thread"};
+-	{node [shape = ellipse] "thread"};
+-	{node [shape = plaintext] "thread"};
+-	"__init_thread" -> "thread";
+-	"sched" [label = "sched"];
+-	"sched" -> "sched" [ label = "sched_switch" ];
+-	"sched" -> "thread" [ label = "schedule_exit" ];
+-	"thread" [label = "thread", color = green3];
+-	"thread" -> "sched" [ label = "schedule_entry" ];
+-	{ rank = min ;
+-		"__init_thread";
+-		"thread";
+-	}
+-}
+-- 
+2.49.0
 
->=20
-> >  };
-> >
-> >  #define to_max34440_data(x)  container_of(x, struct max34440_data,
-> > info) @@ -60,11 +66,11 @@ static int max34440_read_word_data(struct
-> i2c_client *client, int page,
-> >  	switch (reg) {
-> >  	case PMBUS_IOUT_OC_FAULT_LIMIT:
-> >  		ret =3D pmbus_read_word_data(client, page, phase,
-> > -
-> MAX34440_IOUT_OC_FAULT_LIMIT);
-> > +					   data->iout_oc_fault_limit);
-> >  		break;
-> >  	case PMBUS_IOUT_OC_WARN_LIMIT:
-> >  		ret =3D pmbus_read_word_data(client, page, phase,
-> > -
-> MAX34440_IOUT_OC_WARN_LIMIT);
-> > +					   data->iout_oc_warn_limit);
-> >  		break;
-> >  	case PMBUS_VIRT_READ_VOUT_MIN:
-> >  		ret =3D pmbus_read_word_data(client, page, phase, @@ -133,11
-> +139,11
-> > @@ static int max34440_write_word_data(struct i2c_client *client, int
-> > page,
-> >
-> >  	switch (reg) {
-> >  	case PMBUS_IOUT_OC_FAULT_LIMIT:
-> > -		ret =3D pmbus_write_word_data(client, page,
-> MAX34440_IOUT_OC_FAULT_LIMIT,
-> > +		ret =3D pmbus_write_word_data(client, page,
-> > +data->iout_oc_fault_limit,
-> >  					    word);
-> >  		break;
-> >  	case PMBUS_IOUT_OC_WARN_LIMIT:
-> > -		ret =3D pmbus_write_word_data(client, page,
-> MAX34440_IOUT_OC_WARN_LIMIT,
-> > +		ret =3D pmbus_write_word_data(client, page, data-
-> >iout_oc_warn_limit,
-> >  					    word);
-> >  		break;
-> >  	case PMBUS_VIRT_RESET_POUT_HISTORY:
-> > @@ -235,6 +241,24 @@ static int max34451_set_supported_funcs(struct
-> i2c_client *client,
-> >  	 */
-> >
-> >  	int page, rv;
-> > +	bool max34451_na6 =3D false;
-> > +
-> > +	rv =3D i2c_smbus_read_word_data(client, PMBUS_MFR_REVISION);
-> > +	if (rv < 0)
-> > +		return rv;
-> > +
-> > +	if (rv =3D=3D MAX34451ETNA6_MFR_REV) {
->=20
-> Sure that this is only one revision ?
-> Would it be better to use ">=3D" instead of "=3D=3D" ?
-
-Currently yes this is the only revision and the latest
-It is nice to future proof this just in case so will change to >=3D
-
->=20
-> > +		max34451_na6 =3D true;
-> > +		data->pmbus_addr_fixed =3D true;
-> > +		data->info.format[PSC_VOLTAGE_IN] =3D direct;
-> > +		data->info.format[PSC_CURRENT_IN] =3D direct;
-> > +		data->info.m[PSC_VOLTAGE_IN] =3D 1;
-> > +		data->info.b[PSC_VOLTAGE_IN] =3D 0;
-> > +		data->info.R[PSC_VOLTAGE_IN] =3D 3;
-> > +		data->info.m[PSC_CURRENT_IN] =3D 1;
-> > +		data->info.b[PSC_CURRENT_IN] =3D 0;
-> > +		data->info.R[PSC_CURRENT_IN] =3D 2;
->=20
-> Assign register addresses directly here.
-
-Ah I see, will move.
-
-Thanks!
-
->=20
-> 		data->iout_oc_fault_limit =3D PMBUS_IOUT_OC_FAULT_LIMIT;
-> 		data->iout_oc_warn_limit =3D PMBUS_IOUT_OC_WARN_LIMIT;
-> 	} else {
-> 		data->iout_oc_fault_limit =3D
-> MAX34440_IOUT_OC_FAULT_LIMIT;
-> 		data->iout_oc_warn_limit =3D
-> MAX34440_IOUT_OC_WARN_LIMIT;
->=20
-> > +	}
->=20
-> Thanks,
-> Guenter
