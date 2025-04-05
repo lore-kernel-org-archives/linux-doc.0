@@ -1,161 +1,501 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1155F2E62C1;
-	Sat,  5 Apr 2025 01:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 133A8125B2;
+	Sat,  5 Apr 2025 15:30:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743815848; cv=none; b=Sc8gzpWqGIh2GS44P+bmhBD5J/psYQwr1jz92yZbcmmnpAzHY4TIA2mTTH0+slwtKLeVykYubqD4PJUwmjbmKcxxdkgkNKA9Z3okfAVKGfApwo82BOLVjxXzuQep/xMofsjOckYNx8FdO/VJuafemIGBlJ/v7VPxTxt5tNkqJqo=
+	t=1743867025; cv=none; b=AbmV+f5bg4HVhvV/l3b6lQAj8Q8XK89laPQsDgSv/etntYsjBanhr7J7O7qPjpp2QYaNOEoVEJmbFSR0oc9SpsK8aGlEK8g5Lb+XBEauejaZNP8qI7DJYHYhjV2sBeLYRMpXzh+SATTxi1O8wLBj+MVkNYaTSmoFxzimHKFyZsQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743815848; c=relaxed/simple;
-	bh=f3i7y9qJZMSTYCRTNPf2EJF6SHSdbXnOdImAqF1W99g=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=KwPRGuLq/r+uRRcMvlsTrxmbpue912LVugJGBSjOPteHARpxK9tWjQv5yEweZEvtSe8MIHzH7gzFDjanseh9fQjpegP717+rSbRtzZOBNFSI31ZgZNlDPIIndWyY+wRdeBt0BR32l7XrDg101n5CzI8Fu7VyRomrYH8+S8UsRRk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YRnurKuH; arc=none smtp.client-ip=209.85.214.178
+	s=arc-20240116; t=1743867025; c=relaxed/simple;
+	bh=aRlJLTmUp5tdCiD00zDR1GGKCG6fLcuztrMn0cT7beQ=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=kyrfWloSu5cxQ2HGzIOOw8YbP888rGVOy2PoczFh4Hnl0jrJrFiB2nyuuJjc2RXmRWmZrcQUdmpR4Ag5oya1o6xoKY8Y1BsFPZsLsu65zGndiFW9SveAkLx9UoY4Acnns7wD4UinOIGCkopSAI8m2kbgmPqAxC0zJ7vN1YLIYqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nJ3ffC3e; arc=none smtp.client-ip=209.85.208.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YRnurKuH"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2243803b776so37806955ad.0;
-        Fri, 04 Apr 2025 18:17:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nJ3ffC3e"
+Received: by mail-ed1-f41.google.com with SMTP id 4fb4d7f45d1cf-5e61d91a087so4871744a12.0;
+        Sat, 05 Apr 2025 08:30:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743815846; x=1744420646; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=NRiuL4Sy1s+c/lXgB3vFyCUJTB29r4cpXB4vQmrcmqI=;
-        b=YRnurKuH0qf8QZ1KCUwm5y0Za2vb8zsJBV5R9jIeOPcHdOS2Y1x2cC9u18+sOLLm3V
-         Vgao4vJjL7NF1PUiRYzGDDwSvbsJr4iEgNRAvvUwKQQFPg4FDRGXPwf9vwatDsYut9RP
-         r2RgB7tx8Pm3ecjNlusVzcWtgXYg2tisennGcVuDQt64BV4jGjFT8ebw3CJ6k7/fTscF
-         5p0rHmXQd3P0JUGdGGtvjjYZeeALHHVJoHFSa8Xdpy+8IULCU2KrSfJp6fPSLbhmaYRd
-         Pr9jo7SrBt3qoQ24Bf4Oi48YcL6Lu5sXehSxcZmBDNkR7kRLSt2c+dow5tDaUrr/TFNg
-         bZLg==
+        d=gmail.com; s=20230601; t=1743867021; x=1744471821; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=HfodeP++aE3SzPS91QS6yvzYgKSgtGmMzZNiqM32dis=;
+        b=nJ3ffC3el5Y/HXptZdUm+BJPbT1afonCGxxhQZ1lpKGjH1daVFadWzDVXh3eiZluUm
+         NlbLQdusezGylFu8elMawlWR9JZWVAhE0r0J8/0UDM2PfhnxuAWtDLcDS1ObfGoxrrCB
+         VcXX7eb8QWC6rN/yPmECF3QD1Hq6fcHitGLqLiWedUMcOLZaJmUUjjcx4vxddDQyLr1t
+         SlYwuH0/O+4BsyJ7QyUmof9njwtNJAiNYNSXqf9mP/wplq1d+91LmibpjVe7YICAymPP
+         qzv6SNRG9iSOPcotf+g87FJ4EK/bl6wPenpyaeQCPhGIMfWDfTWQiXQMxTI8xYU3EjVq
+         GRUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743815846; x=1744420646;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=NRiuL4Sy1s+c/lXgB3vFyCUJTB29r4cpXB4vQmrcmqI=;
-        b=JHLrp3NVp/SMPJ1GTJaDcfNB78Xr9OvSse6kWADJGEKlTf+RjJA4Fkah4epIGQigGH
-         juqh0LlakK+D162kGm6hXKSfssMM2WiN7E9f85+2WcGqghwhZOlmBUGpE5FkozdTA16G
-         qALNOwgIk0ImH9vVPCXQ75LvqAhnBwwOpnC+Ob8J7+VIA/r0KXSB7EzwBczecF9l5wSi
-         0vmu/KbwAK/u78Vi8gm84GIsrn6ACreBXE/a9J/YeA5fTkEJj9mGawIz+yvzy62ZqP3t
-         /82nn5WLqy+h2roZoTvsAlzFq/TLSW1RrwrwRJJAyF6e1OFAM8RMNvRwlP2lOg9JOo8r
-         6OwA==
-X-Forwarded-Encrypted: i=1; AJvYcCUWlDFizJ72L4JaLpGMGIXwPVkkry0CxprxOxHRciM+kbDmneQ/BvwS/4Z9t6b6hHswwZsZIhEUcr66SQ9s@vger.kernel.org, AJvYcCV5YymNw437k3DF6kKFAwfK3U2exxJWUISpUaX+DQIMatGKsTnW7b51mOoli9iXf8Jm6BVqH9MY483MU/YGLg==@vger.kernel.org, AJvYcCV73uF6MlopNrW2+1X8virrsE1CN1EbJ82LQ3FfZSkFJ+ek2Ms0nesputnSByKTAhpkx+yT0XK/@vger.kernel.org, AJvYcCVMi0tnSlpsyUu9NCHb33HIHlEWwl25WXGtTP0H5l19Gh81q5ug1vd/CfdjApdJoCuSvRjAiSm7Zw4tAssV6DBY@vger.kernel.org, AJvYcCVNCQVqTlSFPXisH9bZc4eTOctWFTgsksSkc3GHeu/NuKsr3Qzkgwi2Te2fYJKcQ5BaPZ+1wgdVWCLw@vger.kernel.org, AJvYcCWhZFY9l4lNdSkHoLCWyE3EuOFxfqkiLQah38cNgKePAtSELcneThA51vDR3UHagmV8RSQZaQfCGSc=@vger.kernel.org, AJvYcCWlrI/JSZ/JuzS25BJBuyhHkRldgpr04/5qaY/YnqEBG1YHrboHaYDpqGjpmTgrNJP3ChrkytKYAEs=@vger.kernel.org, AJvYcCX6Ssa8979EneFfYhtaAKodjajDjHOfsHL5SXVQjWL+Wpt/AirlpUm/5S9S3MkohbdN32hAInPZsS3k@vger.kernel.org, AJvYcCXGOZOkI9lE0ylnkW0ktt7aPVyh/RRvJqqZibl8nWD0+nU5bBc4/Jn50bSdtN32AQibAfnZmQxuLyTG/XU=@vger.kernel.org, AJvYcCXMMuu1sTDouy7+bUG/G9YWJANtU5x7ZyVtgwZpr347i2TCa6jfm7ldLE32U0FxTgjN+pO4rSUPcf7Iew0=@vger.kernel.org, AJvYcCXRKSALrXbi3YbfbNZTUz7Ps+pdGKDPFa5OCJciAmpTHN3Su5BptmzAObQG6GDmH08H2h7+Q9Vhm0vp@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxr3CPhGm8W4iDr6QTqTstL9azX+Uw+8RfXnyLamw8fGI/bUBtC
-	YUmaEC7MECJEamEdzBjCIxA++D9v2aQD7VB7huqGNe63OUgohkpK
-X-Gm-Gg: ASbGnct0KFiIGSMKavchuzIRbJohlzYkeVSZP914WZK+mCplAHw3Yoy/mlyvKfJsgye
-	Cf2C4Bs4B2WNfX6Cnqvwo6zR1/QValY51yjC3Sg3KrsJ58GwlOJzW/5y8SJriFsdgnVnqMhZTL3
-	PTfsq25FUzSCX9ZzIUin0Z/QwIKZ3lenAGyKYxGF/KBrKjNd3IE6uZ5ynP5BeCriY4Rg7VxjH83
-	Hrf1ArhW4TpfLkSJ8AO9YujF7wAVjYscCfZCHxq0g+OX/Tb+mTI6RlVEfoyj7fLQyv+dVJwn5K5
-	wI9ck+8z03mRtxCCet1nvTA97oh58E89BEywJeZaMHosMno2zLF53pJHEiS2coOqaWJ1h5ZeqXQ
-	4LekjcPW+js7527c=
-X-Google-Smtp-Source: AGHT+IGrKFiapGLIEGHnSEZIAujUvj6ZJLSj064m/nFeE0wcOjOeNVFt0u8EmZ8qnV5tFeQau4dR7A==
-X-Received: by 2002:a17:903:3c6b:b0:224:24d3:6103 with SMTP id d9443c01a7336-22a955734f5mr25800795ad.35.1743815846125;
-        Fri, 04 Apr 2025 18:17:26 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-229785b352esm39374225ad.18.2025.04.04.18.17.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 04 Apr 2025 18:17:25 -0700 (PDT)
-Message-ID: <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
-Date: Sat, 5 Apr 2025 10:17:16 +0900
+        d=1e100.net; s=20230601; t=1743867021; x=1744471821;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=HfodeP++aE3SzPS91QS6yvzYgKSgtGmMzZNiqM32dis=;
+        b=omwKHbHLe97/lnNZIQ4pHYrnj7r1bhT9s2oUoTHAbc56PlXPYQCMxmXPaZV/Z/izW4
+         e71uXcWXIzZhF41XVvITM4uAod7AlqGuQduVE3gg31YLw3YB3Lo0mWUuH0xG/gzJCCXd
+         7u4jbuoQxc978WmYBXNKGw/E0LKsipPZxzifa3WEqbZ+I40n0zRBEwmVSh3QYBSu/LMe
+         M7NU3XBuV8j1qyRuz2BF3C+Ea8UA9ncIltqizt8hFBN1v/gtdMzVHiQZYXDqDXhO7q8h
+         o2o5NlLSybYiOzjsEFEAxIX2fYQRXEKnTijPX1QbKyMQMgmq2QFiD0OCLXH51BHEpfbi
+         KlKw==
+X-Forwarded-Encrypted: i=1; AJvYcCVnTmhIKNUYKrh37dnHBqgu+ZQrqx1eMAMLC58QvXbXz/l3Uuoso63LalhPVJTwQMszM7k+Kj21lP75olMg@vger.kernel.org, AJvYcCXSoSXP2+kjW4kwM9Rfb3BzC2QTyV20kp9uaUpmwWM5yHc+pYMtBvlA9+NsUgyKZ9tGavJC+QSHzl8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD6EtsGqT52KDqwg1wcpSNepYs+V9WPE+HxpFkbGnskFQIU922
+	lFSWrXvUu5CP6fnsmvzUEV7YkYMITjfahvUpPHkjEJ5fyJcDrp1g
+X-Gm-Gg: ASbGncudStO2gsPNGmUMElX/UougbswXdjC41HwswldqEGr05aRNwaA+5AyRJI+XaYm
+	WKxHoc0dHpzY4P1tfaIGphQ6VoAFJmFEobeuifN3ddFzfsAMLKkNCUmaBfz/CYQmCvLbqPKgvQQ
+	rFLq8P55qjRZ3pMRaVFMVG2XdqN5Jyl+Pegy7rJltJdCK8EuaI2qa586j73B30jQZ9S3sYjHTBB
+	2xJ6goRMNZrsZDfLfqlfME+vdZMw5O2PzGV5ioE/Pmt4QmRPPIxDze5T3OyyrPQzZTkQu7AWBdT
+	SlXua8FAA94t/paPLXWV95rkzL62OnbrGLXXrkGsoeU=
+X-Google-Smtp-Source: AGHT+IHCy0YaXIz4pyE5ZeQXuXSrsO2xl+TNIcOQoSHK5r4AWg9QYjvgRYPN9l6wae994bkfWMbE8g==
+X-Received: by 2002:a17:907:1b08:b0:abf:a387:7e35 with SMTP id a640c23a62f3a-ac7d19f4f50mr728436966b.53.1743867020897;
+        Sat, 05 Apr 2025 08:30:20 -0700 (PDT)
+Received: from [127.0.1.1] ([46.53.242.22])
+        by smtp.googlemail.com with ESMTPSA id a640c23a62f3a-ac7bfea13dcsm443543766b.66.2025.04.05.08.30.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 05 Apr 2025 08:30:20 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Sat, 05 Apr 2025 18:30:08 +0300
+Subject: [PATCH v3] hwmon: (max77705) add initial support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: nfraprado@collabora.com
-Cc: James.Bottomley@HansenPartnership.com, akpm@linux-foundation.org,
- anton.ivanov@cambridgegreys.com, corbet@lwn.net, davem@davemloft.net,
- dmaengine@vger.kernel.org, ebiggers@kernel.org, edumazet@google.com,
- horms@kernel.org, jaegeuk@kernel.org, jarkko@kernel.org, jic23@kernel.org,
- johannes@sipsolutions.net, kernel@collabora.com, keyrings@vger.kernel.org,
- kuba@kernel.org, lars@metafoo.de, linux-doc@vger.kernel.org,
- linux-fscrypt@vger.kernel.org, linux-iio@vger.kernel.org,
- linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linux-mm@kvack.org,
- linux-sound@vger.kernel.org, linux-um@lists.infradead.org,
- maxime.chevallier@bootlin.com, mchehab@kernel.org, netdev@vger.kernel.org,
- pabeni@redhat.com, perex@perex.cz, richard@nod.at, tiwai@suse.com,
- tytso@mit.edu, vkoul@kernel.org, workflows@vger.kernel.org,
- zohar@linux.ibm.com, Akira Yokosawa <akiyks@gmail.com>
-References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
-Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250405-initial-support-for-max77705-sensors-v3-1-e5f64fccd005@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAH9M8WcC/42OQQ6CMBBFr0K6dkw7UEpceQ/jopRRJxGKLRIN4
+ e4WXODS5fuL9/4kIgWmKA7ZJAKNHNl3CfJdJtzNdlcCbhILlKilwhy444HtHeKz730Y4OIDtPZ
+ ljJEaInXRhwi2kcpI6xQ5LZKqD3Th15o5nb8c6PFMtWEbbxwHH97rlVEt67eKqP+rjgoUYE1lU
+ ZoSq1oer63l+975ViyBETdpLos/pZikumoQpXEmx/pXOs/zB33yYSRCAQAA
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Chanwoo Choi <cw00.choi@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1743867019; l=11530;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=aRlJLTmUp5tdCiD00zDR1GGKCG6fLcuztrMn0cT7beQ=;
+ b=/Y0NbHwqseKCrn/No1vmaHxnlcfd0/Dg0/Th8zZQEv8fjzjHoBjygwDkEu0AwzR12+q48fvAP
+ L5s/u/imtw9BJ72qfei2PP4/HPWb46nnwUc3d7FRyi1jBtRS4+IhD4y
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-Hi,
+Add support for max77705 hwmon. Includes charger input, system bus, and
+vbyp measurements.
 
-Nícolas F. R. A. Prado wrote:
-> Given that the automarkup Sphinx plugin cross-references
-> "Documentation/*.rst" strings in the text to the corresponding
-> documents, surrounding those strings with the literal markup (``) not
-> only adds unnecessary markup in the source files, but actually prevents
-> the automatic cross-referencing to happen (as it doesn't happen in
-> literal blocks).
-> 
-> Remove all the occurrences of the literal markup in
-> "Documentation/*.rst" paths, except when the actual source file is being
-> referred. Also change the surrounding text when needed so it reads well
-> both in the source and the web page (eg. 'see file Doc...' -> 'see
-> Doc...').
-> 
-> Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
-> ---
-[...]
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
+It includes charger and fuel gauge blocks, and is capable of measuring
+charger input current, system bus volatage and current, and bypass
+voltage.
 
->  Documentation/process/submit-checklist.rst                | 7 ++++---
+Add support for mentioned measurements.
+---
+Changes in v3:
+- Fix review comments.
+- Fix v2 changed message.
+- Link to v2: https://lore.kernel.org/r/20250304-initial-support-for-max77705-sensors-v2-1-58d2207c732b@gmail.com
 
-I have updated ja_JP translation of this recently.
+Changes in v2:
+- Fix review comments.
+- Link to v1: https://lore.kernel.org/r/20250225-initial-support-for-max77705-sensors-v1-1-2be6467628b0@gmail.com
+---
+Changes in v3:
+- change resolution type to u32
+- pass regmap from parent
+- rebase on latest linux-next, containg max77705 driver
 
-> diff --git a/Documentation/process/submit-checklist.rst b/Documentation/process/submit-checklist.rst
-> index beb7f94279fdb6a1d9b4aa86b2bea031f140732b..3ae31c5af2cb5c374658c1fb7125e70bf36e911c 100644
-> --- a/Documentation/process/submit-checklist.rst
-> +++ b/Documentation/process/submit-checklist.rst
-> @@ -30,7 +30,8 @@ Review Kconfig changes
->  
->  1) Any new or modified ``CONFIG`` options do not muck up the config menu and
->     default to off unless they meet the exception criteria documented in
-> -   ``Documentation/kbuild/kconfig-language.rst`` Menu attributes: default value.
-> +   Documentation/kbuild/kconfig-language.rst, under "Menu attributes", "default
-> +   value".
+Changes in v2:
+- sort headers alphabetically
+- swap curr channel info, to align indeces with channel_desc struct
+- reword coverletter
+- fix checkpatch --strict warnings
+- remove struct max77705_hwmon, use regmap directly
+- move register validation logic to is_visible function
+- move common register reading and converting logic to separate function
+- remove unnessesary {} in if statement
+- s/i2c->dev/pdev->dev in dev_err_probe
+---
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/max77705.rst |  39 +++++++++++++++++++++++++++++++
+ MAINTAINERS                      |   7 ++++++
+ drivers/hwmon/Kconfig            |  10 ++++++++
+ drivers/hwmon/Makefile           |   1 +
+ drivers/hwmon/max77705-hwmon.c   | 246 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 304 insertions(+)
 
-I have made the same change in the translation, but failed to submit a patch...
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index f0ddf6222c44..764c1c91ed70 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -161,6 +161,7 @@ Hardware Monitoring Kernel Drivers
+    max6639
+    max6650
+    max6697
++   max77705
+    max8688
+    mc13783-adc
+    mc34vr500
+diff --git a/Documentation/hwmon/max77705.rst b/Documentation/hwmon/max77705.rst
+new file mode 100644
+index 000000000000..9037226c50b9
+--- /dev/null
++++ b/Documentation/hwmon/max77705.rst
+@@ -0,0 +1,39 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver max77705
++====================
++
++Supported chips:
++
++  * Maxim Integrated MAX77705
++
++    Prefix: 'max77705'
++
++    Addresses scanned: none
++
++    Datasheet: Not available
++
++Authors:
++      - Dzmitry Sankouski <dsankouski@gmail.com>
++
++Description
++-----------
++
++The MAX77705 PMIC provides current and voltage measurements besides fuelgauge:
++- chip input current
++- system bus current and voltage
++- VBYP voltage
++
++Sysfs Attributes
++----------------
++
++================= ========================================
++in1_label         "vbyp"
++in1_input         Measured chip vbyp voltage
++in2_label         "vsys"
++in2_input         Measured chip system bus voltage
++curr1_label       "iin"
++curr1_input       Measured chip input current.
++curr2_label       "isys"
++curr2_input       Measured chip system bus current.
++================= ========================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 78467ad7a8fe..2e1e5233a011 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18369,6 +18369,13 @@ S:	Maintained
+ F:	Documentation/hwmon/pc87427.rst
+ F:	drivers/hwmon/pc87427.c
+ 
++MAX77705 HARDWARE MONITORING DRIVER
++M:	Dzmitry Sankouski <dsankouski@gmail.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/hwmon/max77705.rst
++F:	drivers/hwmon/max77705-hwmon.c
++
+ PCA9532 LED DRIVER
+ M:	Riku Voipio <riku.voipio@iki.fi>
+ S:	Maintained
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index f91f713b0105..37f3bee91e3f 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1308,6 +1308,16 @@ config SENSORS_MAX31790
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called max31790.
+ 
++config SENSORS_MAX77705
++	tristate "MAX77705 current and voltage sensor"
++	depends on I2C
++	select REGMAP_I2C
++	help
++	  If you say yes here you get support for MAX77705 sensors connected with I2C.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called max77705-hwmon.
++
+ config SENSORS_MC34VR500
+ 	tristate "NXP MC34VR500 hardware monitoring driver"
+ 	depends on I2C
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index 766c652ef22b..22ceebf10299 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -161,6 +161,7 @@ obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
+ obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
+ obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
+ obj-$(CONFIG_MAX31827) += max31827.o
++obj-$(CONFIG_SENSORS_MAX77705) += max77705-hwmon.o
+ obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
+ obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
+ obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
+diff --git a/drivers/hwmon/max77705-hwmon.c b/drivers/hwmon/max77705-hwmon.c
+new file mode 100644
+index 000000000000..47fe1cf53041
+--- /dev/null
++++ b/drivers/hwmon/max77705-hwmon.c
+@@ -0,0 +1,246 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ *  MAX77705 voltage and current hwmon driver.
++ *
++ *  Copyright (C) 2025 Dzmitry Sankouski <dsankouski@gmail.com>
++ */
++
++#include <linux/err.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/hwmon.h>
++#include <linux/jiffies.h>
++#include <linux/kernel.h>
++#include <linux/mfd/max77705-private.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++#include <linux/slab.h>
++
++struct channel_desc {
++	u8 reg;
++	u8 avg_reg;
++	const char *const label;
++	// register resolution. nano Volts for voltage, nano Amperes for current
++	u32 resolution;
++};
++
++static const struct channel_desc current_channel_desc[] = {
++	{
++		.reg = IIN_REG,
++		.label = "IIN_REG",
++		.resolution = 125000
++	},
++	{
++		.reg = ISYS_REG,
++		.avg_reg = AVGISYS_REG,
++		.label = "ISYS_REG",
++		.resolution = 312500
++	}
++};
++
++static const struct channel_desc voltage_channel_desc[] = {
++	{
++		.reg = VBYP_REG,
++		.label = "VBYP_REG",
++		.resolution = 427246
++	},
++	{
++		.reg = VSYS_REG,
++		.label = "VSYS_REG",
++		.resolution = 156250
++	}
++};
++
++static const struct regmap_range max77705_hwmon_readable_ranges[] = {
++	regmap_reg_range(AVGISYS_REG,	AVGISYS_REG + 1),
++	regmap_reg_range(IIN_REG,	IIN_REG + 1),
++	regmap_reg_range(ISYS_REG,	ISYS_REG + 1),
++	regmap_reg_range(VBYP_REG,	VBYP_REG + 1),
++	regmap_reg_range(VSYS_REG,	VSYS_REG + 1),
++};
++
++static const struct regmap_access_table max77705_hwmon_readable_table = {
++	.yes_ranges = max77705_hwmon_readable_ranges,
++	.n_yes_ranges = ARRAY_SIZE(max77705_hwmon_readable_ranges),
++};
++
++static const struct regmap_config max77705_hwmon_regmap_config = {
++	.name = "max77705_hwmon",
++	.reg_bits = 8,
++	.val_bits = 16,
++	.rd_table = &max77705_hwmon_readable_table,
++	.max_register = MAX77705_FG_END,
++	.val_format_endian = REGMAP_ENDIAN_LITTLE
++};
++
++static int max77705_read_and_convert(struct regmap *regmap, u8 reg, u32 res, long *val)
++{
++	int ret;
++	u32 regval;
++
++	ret = regmap_read(regmap, reg, &regval);
++	if (ret < 0)
++		return ret;
++	*val = mult_frac((long)regval, res, 1000000);
++
++	return 0;
++}
++
++static umode_t max77705_is_visible(const void *data,
++				   enum hwmon_sensor_types type,
++				   u32 attr, int channel)
++{
++	switch (type) {
++	case hwmon_in:
++		if (channel >= ARRAY_SIZE(voltage_channel_desc))
++			return 0;
++
++		switch (attr) {
++		case hwmon_in_input:
++		case hwmon_in_label:
++			return 0444;
++		default:
++			break;
++		}
++		break;
++	case hwmon_curr:
++		if (channel >= ARRAY_SIZE(current_channel_desc))
++			return 0;
++
++		switch (attr) {
++		case hwmon_curr_input:
++		case hwmon_in_label:
++			return 0444;
++		case hwmon_curr_average:
++			if (current_channel_desc[channel].avg_reg)
++				return 0444;
++		default:
++			break;
++		}
++		break;
++	default:
++		break;
++	}
++	return 0;
++}
++
++static int max77705_read_string(struct device *dev, enum hwmon_sensor_types type, u32 attr,
++				int channel, const char **buf)
++{
++	switch (type) {
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_in_label:
++			*buf = current_channel_desc[channel].label;
++			return 0;
++		default:
++			return -EOPNOTSUPP;
++		}
++
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_label:
++			*buf = voltage_channel_desc[channel].label;
++			return 0;
++		default:
++			return -EOPNOTSUPP;
++		}
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
++static int max77705_read(struct device *dev, enum hwmon_sensor_types type,
++			 u32 attr, int channel, long *val)
++{
++	struct regmap *regmap = dev_get_drvdata(dev);
++	u8 reg;
++	u32 res;
++
++	switch (type) {
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_curr_input:
++			reg = current_channel_desc[channel].reg;
++			res = current_channel_desc[channel].resolution;
++
++			return max77705_read_and_convert(regmap, reg, res, val);
++		case hwmon_curr_average:
++			reg = current_channel_desc[channel].avg_reg;
++			res = current_channel_desc[channel].resolution;
++
++			return max77705_read_and_convert(regmap, reg, res, val);
++		default:
++			return -EOPNOTSUPP;
++		}
++
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_input:
++			reg = voltage_channel_desc[channel].reg;
++			res = voltage_channel_desc[channel].resolution;
++
++			return max77705_read_and_convert(regmap, reg, res, val);
++		default:
++			return -EOPNOTSUPP;
++		}
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	return 0;
++}
++
++static const struct hwmon_ops max77705_hwmon_ops = {
++	.is_visible = max77705_is_visible,
++	.read = max77705_read,
++	.read_string = max77705_read_string,
++};
++
++static const struct hwmon_channel_info *max77705_info[] = {
++	HWMON_CHANNEL_INFO(in,
++			   HWMON_I_INPUT | HWMON_I_LABEL,
++			   HWMON_I_INPUT | HWMON_I_LABEL
++			),
++	HWMON_CHANNEL_INFO(curr,
++			   HWMON_C_INPUT | HWMON_C_LABEL,
++			   HWMON_C_INPUT | HWMON_C_AVERAGE | HWMON_C_LABEL
++			),
++	NULL
++};
++
++static const struct hwmon_chip_info max77705_chip_info = {
++	.ops = &max77705_hwmon_ops,
++	.info = max77705_info,
++};
++
++static int max77705_hwmon_probe(struct platform_device *pdev)
++{
++	struct device *hwmon_dev;
++	struct regmap *regmap;
++
++	regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!regmap)
++		return -ENODEV;
++
++	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "max77705", regmap,
++							 &max77705_chip_info, NULL);
++	if (IS_ERR(hwmon_dev))
++		return dev_err_probe(&pdev->dev, PTR_ERR(hwmon_dev),
++				"Unable to register hwmon device\n");
++
++	return 0;
++};
++
++static struct platform_driver max77705_hwmon_driver = {
++	.driver = {
++		.name = "max77705-hwmon",
++	},
++	.probe = max77705_hwmon_probe,
++};
++
++module_platform_driver(max77705_hwmon_driver);
++
++MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
++MODULE_DESCRIPTION("MAX77705 monitor driver");
++MODULE_LICENSE("GPL");
++
 
->  
->  2) All new ``Kconfig`` options have help text.
->  
-> @@ -47,7 +48,7 @@ Provide documentation
->  2) All new ``/proc`` entries are documented under ``Documentation/``
->  
->  3) All new kernel boot parameters are documented in
-> -   ``Documentation/admin-guide/kernel-parameters.rst``.
-> +   Documentation/admin-guide/kernel-parameters.rst.
+---
+base-commit: a4cda136f021ad44b8b52286aafd613030a6db5f
+change-id: 20250123-initial-support-for-max77705-sensors-ad0170ac1ec5
 
-Hmm, this item is asking "Have you documented the new params in that
-particular file?", so I don't think this change should be made.
-
->  
->  4) All new module parameters are documented with ``MODULE_PARM_DESC()``
->  
-> @@ -58,7 +59,7 @@ Provide documentation
->     linux-api@vger.kernel.org.
->  
->  6) If any ioctl's are added by the patch, then also update
-> -   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
-> +   Documentation/userspace-api/ioctl/ioctl-number.rst.
-
-Ditto.
-
-        Thanks, Akira
-
->  
->  Check your code with tools
->  ==========================
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
 
