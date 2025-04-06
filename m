@@ -1,67 +1,63 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA014A24;
-	Sun,  6 Apr 2025 15:36:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72C80157A6B;
+	Sun,  6 Apr 2025 16:11:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743953790; cv=none; b=GhlOcLlG0zAzrOToFR+Q61YbX6U80Ddz22hIKQGR5N8c3ON7gNJIgP5EYcx6yxDI5u0srChEa0C9FMJQC0cbmTwfKYOXOoEgfX9aBaSZQ95ogi4r2xq9Sh41mHUVnCwTFOAWedMqJtASI5galh0ArGbIbLhKux6NECYRaOXXapw=
+	t=1743955893; cv=none; b=A/FidOsl5TcAWgefqlSxkSo22t6KK1qLjpdgzCHFq13KrVuDc9yUTBqrX5ccgcN1P+u+VXQrDDTq0SuPkqcgIJydV4Zm1kqmK3O2OnNk7wn/1FEhJJAOqqqt5uMoDO/VSHIi0gSZwp9kfRvL+iHQx9L5qk3b0W1eDOQaPKgE7K4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743953790; c=relaxed/simple;
-	bh=dAUz5nWt212a9mjO6jtVMFKmRV6J2U9WqhzJxntF4Hs=;
+	s=arc-20240116; t=1743955893; c=relaxed/simple;
+	bh=Sz4kzjU47HEj+yUM/THf8yMkaaup6Rg7Dx4qH2/70CY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=dgxeNcPu/5mv8sqKUI6YrYKjG2kAu/8us9XsG6iba1rUe8SRzaBDjei6LTWSZSONPePXTmTZUrxEYGOPsDuuFbr7rniLvDfYdAOfk/oipMn71kHwq2cSFKEpBxGawQ/tflje3hSHSjwkCxRr5jj08BEIm2xXG8G/0GvoO2Euxck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ngX8f879; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=Rl3DWle9QuTOU/sy8X74WfFKxZxI+M18+4JI39IKCc+48fqOC94BvkzVSpg5Nn6QIaQExP41YAAgeT3fkdE/KvTFTq0nK3sABpmAzlhqSiMeCST2lK2HuPVPToNJHzxbAqUmG+Yyqxj4bk4i4QC7xuiuCh/oFvfGwi/eEM65T7U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TGZ7ZIB/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ngX8f879"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1743953787; x=1775489787;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=dAUz5nWt212a9mjO6jtVMFKmRV6J2U9WqhzJxntF4Hs=;
-  b=ngX8f879oUmngaxT9HWcsjzVuKTuHOdAXvSNOH7AFxEn6cc6Yl3orvkK
-   QATs9gjkM0vmIC5GHFXiiqvozd8utvfjWbJR7ptK9cW/r1Vo4GWeDVWC6
-   d39qw3ZQ0PxnHVk444ZRYEOlmzQiqUGpqplNbOPh+QUirCRuxZxWCFLya
-   ba4el9voPV1IpkqmJZFEdl0vKZHN5/bKur0bAReUixPvpRzmShjVOTh2W
-   lQCJ4tUluT2EK5zrCV0+jM64BZwNezqcy9RyqOvbsl5XefKhraU5Zi7g2
-   yBHrC+Gxm+8VLQebSKReRLfNZ2+Y0vzuCEdRAULb2wexGiGYdKzrmQApI
-   w==;
-X-CSE-ConnectionGUID: 3AB8f23xTTqZttI50+siww==
-X-CSE-MsgGUID: W5Dn/mx1R5uF3JnMfl8Ogg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11396"; a="56709809"
-X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="56709809"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 06 Apr 2025 08:36:26 -0700
-X-CSE-ConnectionGUID: mnxmPAr3TL2JtJZVyVG/Yg==
-X-CSE-MsgGUID: zszONF3UTbiipkyM/QQNkA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,193,1739865600"; 
-   d="scan'208";a="132578217"
-Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
-  by orviesa003.jf.intel.com with ESMTP; 06 Apr 2025 08:36:24 -0700
-Received: from kbuild by b207828170a5 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u1S2n-0002fT-2D;
-	Sun, 06 Apr 2025 15:36:21 +0000
-Date: Sun, 6 Apr 2025 23:36:10 +0800
-From: kernel test robot <lkp@intel.com>
-To: Dzmitry Sankouski <dsankouski@gmail.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Chanwoo Choi <cw00.choi@samsung.com>,
-	Krzysztof Kozlowski <krzk@kernel.org>
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Dzmitry Sankouski <dsankouski@gmail.com>
-Subject: Re: [PATCH v3] hwmon: (max77705) add initial support
-Message-ID: <202504062351.7jqIfzxh-lkp@intel.com>
-References: <20250405-initial-support-for-max77705-sensors-v3-1-e5f64fccd005@gmail.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TGZ7ZIB/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 001A8C4CEE3;
+	Sun,  6 Apr 2025 16:11:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743955892;
+	bh=Sz4kzjU47HEj+yUM/THf8yMkaaup6Rg7Dx4qH2/70CY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TGZ7ZIB/u5WG5waiYDZ9nIiO+DrHUzhyT9rGMi+NxU4/5VEXHubGIE8QIT+ddpOBL
+	 GOhVn3oQOLm218mBHQbsLAHWcS++8ZJuwmz3m1kU8+IkHS6TDC0GcnlNzi9/4SHmbU
+	 n/q318Sa5wo6I0DzVTV51I3h3a69SN9OmvLC4lzDr4mef97Y8OOvrZRURv5RkQ9gDF
+	 qEs/aqPaBz3hyiHLDBlvO3mwumjpErkxZ3jfT0maQhp7YLf5gF2vjXvihOxf2Nh0mc
+	 sx42TYyj+JrkURKv0e81e9pLvqoWQzIf5XwEystouNJqJ0yHOviPP/fW+j2gB4oiSj
+	 /smAFmSyxIF9w==
+Date: Sun, 6 Apr 2025 19:11:14 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <ptyadav@amazon.de>,
+	Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
+	graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
+	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
+	dave.hansen@linux.intel.com, dwmw2@infradead.org,
+	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com,
+	corbet@lwn.net, krzk@kernel.org, mark.rutland@arm.com,
+	pbonzini@redhat.com, pasha.tatashin@soleen.com, hpa@zytor.com,
+	peterz@infradead.org, robh+dt@kernel.org, robh@kernel.org,
+	saravanak@google.com, skinsburskii@linux.microsoft.com,
+	rostedt@goodmis.org, tglx@linutronix.de, thomas.lendacky@amd.com,
+	usama.arif@bytedance.com, will@kernel.org,
+	devicetree@vger.kernel.org, kexec@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory
+ preservation
+Message-ID: <Z_KnovvW7F2ZyzhX@kernel.org>
+References: <20250320015551.2157511-1-changyuanl@google.com>
+ <20250320015551.2157511-10-changyuanl@google.com>
+ <mafs05xjmqsqc.fsf@amazon.de>
+ <20250403114209.GE342109@nvidia.com>
+ <Z-6UA3C1TPeH_kGL@kernel.org>
+ <20250403142438.GF342109@nvidia.com>
+ <Z--sUYCvP3Q8nT8e@kernel.org>
+ <20250404124729.GH342109@nvidia.com>
+ <Z-_kSXrHWU5Bf3sV@kernel.org>
+ <20250404143031.GB1336818@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -70,106 +66,184 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250405-initial-support-for-max77705-sensors-v3-1-e5f64fccd005@gmail.com>
+In-Reply-To: <20250404143031.GB1336818@nvidia.com>
 
-Hi Dzmitry,
+On Fri, Apr 04, 2025 at 11:30:31AM -0300, Jason Gunthorpe wrote:
+> On Fri, Apr 04, 2025 at 04:53:13PM +0300, Mike Rapoport wrote:
+> > > Maybe change the reserved regions code to put the region list in a
+> > > folio and preserve the folio instead of using FDT as a "demo" for the
+> > > functionality.
+> > 
+> > Folios are not available when we restore reserved regions, this just won't
+> > work.
+> 
+> You don't need the folio at that point, you just need the data in the
+> page.
+> 
+> The folio would be freed after starting up the buddy allocator.
 
-kernel test robot noticed the following build warnings:
+Maybe, but seems a bit far fetched to me.
+ 
+> > > We know what the future use case is for the folio preservation, all
+> > > the drivers and the iommu are going to rely on this.
+> > 
+> > We don't know how much of the preservation will be based on folios.
+> 
+> I think almost all of it. Where else does memory come from for drivers?
 
-[auto build test WARNING on a4cda136f021ad44b8b52286aafd613030a6db5f]
+alloc_pages()? vmalloc()?
+These don't use struct folio unless there's __GFP_COMP in alloc_pages()
+call, and in my mind "folio" is memory described by struct folio.
+ 
+> > Most drivers do not use folios
+> 
+> Yes they do, either through kmalloc or through alloc_page/etc. "folio"
+> here is just some generic word meaning memory from the buddy allocator.
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/hwmon-max77705-add-initial-support/20250405-233235
-base:   a4cda136f021ad44b8b52286aafd613030a6db5f
-patch link:    https://lore.kernel.org/r/20250405-initial-support-for-max77705-sensors-v3-1-e5f64fccd005%40gmail.com
-patch subject: [PATCH v3] hwmon: (max77705) add initial support
-config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250406/202504062351.7jqIfzxh-lkp@intel.com/config)
-compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250406/202504062351.7jqIfzxh-lkp@intel.com/reproduce)
+How about we find some less ambiguous term? Using "folio" for memory
+returned from kmalloc is really confusing. And even alloc_pages() does not
+treat all memory it returns as folios.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504062351.7jqIfzxh-lkp@intel.com/
+How about we call them ranges? ;-)
+ 
+> The big question on my mind is if we need a way to preserve slab
+> objects as well..
+> 
+> > and for preserving memfd* and hugetlb we'd need to have some dance
+> > around that memory anyway.
+> 
+> memfd is all folios - what do you mean?
 
-All warnings (new ones prefixed by >>):
+memfd is struct folios indeed, but some of them are hugetlb and even for
+those that are not I'm not sure that kho_preserve_folio(struct *folio)
+kho_restore_folio(some token?) will be enough. I totally might be wrong
+here.
+ 
+> hugetlb is moving toward folios.. eg guestmemfd is supposed to be
+> taking the hugetlb special stuff and turning it into folios.
 
->> drivers/hwmon/max77705-hwmon.c:116:3: warning: unannotated fall-through between switch labels [-Wimplicit-fallthrough]
-     116 |                 default:
-         |                 ^
-   drivers/hwmon/max77705-hwmon.c:116:3: note: insert 'break;' to avoid fall-through
-     116 |                 default:
-         |                 ^
-         |                 break; 
->> drivers/hwmon/max77705-hwmon.c:66:35: warning: unused variable 'max77705_hwmon_regmap_config' [-Wunused-const-variable]
-      66 | static const struct regmap_config max77705_hwmon_regmap_config = {
-         |                                   ^~~~~~~~~~~~~~~~~~~~~~~~~~~~
-   2 warnings generated.
+At some point yes. But I really hope KHO can happen faster than hugetlb and
+guestmemfd convergence.
+ 
+> > So I think kho_preserve_folio() would be a part of the fdbox or
+> > whatever that functionality will be called.
+> 
+> It is part of KHO. Preserving the folios has to be sequenced with
+> starting the buddy allocator, and that is KHO's entire responsibility.
 
+So if you call "folio" any memory range that comes from page allocator, I
+do agree. But since it's not necessarily struct folio, and struct folio is
+mostly used with file descriptors, the kho_preserve_folio(struct folio *)
+API can be a part of fdbox.
 
-vim +116 drivers/hwmon/max77705-hwmon.c
+Preserving struct folio is one of several case where we'd want to preserve
+ranges. There's simplistic memblock case that does not care about any
+memdesc, there's memory returned from alloc_pages() without __GFP_COMP,
+there's vmalloc() and of course there's memory with struct folio.
 
-    65	
-  > 66	static const struct regmap_config max77705_hwmon_regmap_config = {
-    67		.name = "max77705_hwmon",
-    68		.reg_bits = 8,
-    69		.val_bits = 16,
-    70		.rd_table = &max77705_hwmon_readable_table,
-    71		.max_register = MAX77705_FG_END,
-    72		.val_format_endian = REGMAP_ENDIAN_LITTLE
-    73	};
-    74	
-    75	static int max77705_read_and_convert(struct regmap *regmap, u8 reg, u32 res, long *val)
-    76	{
-    77		int ret;
-    78		u32 regval;
-    79	
-    80		ret = regmap_read(regmap, reg, &regval);
-    81		if (ret < 0)
-    82			return ret;
-    83		*val = mult_frac((long)regval, res, 1000000);
-    84	
-    85		return 0;
-    86	}
-    87	
-    88	static umode_t max77705_is_visible(const void *data,
-    89					   enum hwmon_sensor_types type,
-    90					   u32 attr, int channel)
-    91	{
-    92		switch (type) {
-    93		case hwmon_in:
-    94			if (channel >= ARRAY_SIZE(voltage_channel_desc))
-    95				return 0;
-    96	
-    97			switch (attr) {
-    98			case hwmon_in_input:
-    99			case hwmon_in_label:
-   100				return 0444;
-   101			default:
-   102				break;
-   103			}
-   104			break;
-   105		case hwmon_curr:
-   106			if (channel >= ARRAY_SIZE(current_channel_desc))
-   107				return 0;
-   108	
-   109			switch (attr) {
-   110			case hwmon_curr_input:
-   111			case hwmon_in_label:
-   112				return 0444;
-   113			case hwmon_curr_average:
-   114				if (current_channel_desc[channel].avg_reg)
-   115					return 0444;
- > 116			default:
-   117				break;
-   118			}
-   119			break;
-   120		default:
-   121			break;
-   122		}
-   123		return 0;
-   124	}
-   125	
+But the basic KHO primitive should preserve ranges because they are the
+common denominator of alloc_pages(), folio_alloc(), vmalloc() and memblock.
+ 
+> I could see something like preserving slab being in a different layer,
+> built on preserving folios.
+
+Maybe, on top of ranges. slab is yet another memdesc.
+ 
+> > Are they? 
+> > The purpose of basic KHO is to make sure the memory we want to preserve is
+> > not trampled over. Preserving folios with their orders means we need to
+> > make sure memory range of the folio is preserved and we carry additional
+> > information to actually recreate the folio object, in case it is needed and
+> > in case it is possible. Hughetlb, for instance has its own way initializing
+> > folios and just keeping the order won't be enough for that.
+> 
+> I expect many things will need a side-car datastructure to record that
+> additional meta-data. hugetlb can start with folios, then switch them
+> over to its non-folio stuff based on its metadata.
+> 
+> The point is the basic low level KHO mechanism is simple folios -
+> memory from the buddy allocator with an neutral struct folio that the
+> caller can then customize to its own memory descriptor type on restore.
+
+I can't say I understand what do you mean by "neutral struct folio", but we
+can't really use struct folio for memory that wasn't struct folio at the
+first place. There's a ton of checks for flags etc in mm core that could
+blow up if we use a wrong memdesc.
+
+Hence the use of page->private for order of folios. It's stable (for now)
+and can be used by any page owner.
+ 
+> Eventually restore would allocate a caller specific memdesc and it
+> wouldn't be "folios" at all. We just don't have the right words yet to
+> describe this.
+> 
+> > As for the optimizations of memblock reserve path, currently it what hurts
+> > the most in my and Pratyush experiments. They are not very representative,
+> > but still, preserving lots of pages/folios spread all over would have it's
+> > toll on the mm initialization.
+> 
+> > And I don't think invasive changes to how
+> > buddy and memory map initialization are the best way to move forward and
+> > optimize that.
+> 
+> I'm pretty sure this is going to be the best performance path, but I
+> have no idea how invasive it would be to the buddy alloactor to make
+> it work.
+
+I'm not sure about the best performance, but if we are to completely bypass
+memblock_reserve() we'd need an alternative memory map and free lists
+initialization for KHO. I believe it's too premature to target that at this
+point.
+ 
+> > Quite possibly we'd want to be able to minimize amount of *ranges*
+> > that we preserve.
+> 
+> I'm not sure, that seems backwards to me, we really don't want to have
+> KHO mem zones! So I think optimizing for, and thinking about ranges
+> doesn't make sense.
+
+"folio" as "some generic word meaning memory from the buddy allocator" and
+range are quite the same thing.
+ 
+> The big ranges will arise naturally beacuse things like hugetlb
+> reservations should all be contiguous and the resulting folios should
+> all be allocated for the VM and also all be contigous. So vast, vast
+> amounts of memory will be high order and contiguous.
+
+So there won't be a problem with too many memblock_reserve() then.
+ 
+> > Preserving folio orders with it is really straighforward and until we see
+> > some real data of how the entire KHO machinery is used, I'd prefer simple
+> > over anything else.
+> 
+> mapletree may not even work as it has a very high bound on memory
+> usage if the preservation workload is small and fragmented. This is
+> why I didn't want to use list of ranges in the first place.
+
+But aren't "vast, vast amounts of memory will be high order and
+contiguous."? ;-)
+
+For small and fragmented workload bitmaps become really sparse and we are
+wasting memory for nothing. Maple tree only tracks memory that is actually
+used and coalesces adjacent ranges so although it's unbound in theory, in
+practice it may be not that bad. 
+
+> It also doesn't work so well if you need to preserve the order too :\
+
+It does. In the example I've sent there's an unsigned long to store
+"kho_mem_info_t", which definitely can contain order.
+
+> Until we know the workload(s) and cost how much memory the maple tree
+> version will use I don't think it is a good general starting point.
+ 
+I did and experiment with preserving 8G of memory allocated with randomly
+chosen order. For each order (0 to 10) I've got roughly 1000 "folios". I
+measured time kho_mem_deserialize() takes with xarrays + bitmaps vs maple
+tree based implementation. The maple tree outperformed by factor of 10 and
+it's serialized data used 6 times less memory.
+
+> Jason
 
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Sincerely yours,
+Mike.
