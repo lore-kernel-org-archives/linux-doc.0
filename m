@@ -1,126 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17DE435968;
-	Sun,  6 Apr 2025 09:26:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D1B25EACD;
+	Sun,  6 Apr 2025 11:08:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743931584; cv=none; b=sLZwOWqZNL0OmA/I+OIfF36Ir5KiW7IWMK/wVEsNO84L18ZQZun7b4kVEYaBZiKQqrf2fAUr3X9uVRUQVeDFeCUYWqYuvha31gjvMiMdTqE9JLl8zXbzSEcQxvRmBGrQPm+GMtb453CLw0AMVUaPs+s2mU1NRKvseHjhD8rozr8=
+	t=1743937690; cv=none; b=Y7R+OJzmwc9QgMky4ewi/0cfPT5cwH2mnwsvNKhvkPfaNAf2BCC2x4etnKGEjMQrXyHqqGIho96do72FLQaO/FjRACcHM7hd/XaMGCt5+heTZRxMwsAHZ26it3Xjs6jeeMt8FhWvBtM3p1/fNt47ysP6OTWlbBf5N7t0RUMWIbE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743931584; c=relaxed/simple;
-	bh=3Qq5NnmquQLX60jBevmQd5yzm1UOv63qfAtHb+WnK/4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kNtP+0C7Vq/fd9eTIRda55ua3lcr3WXzrq157yCSOSqx0/PMpSS0gRuZ07o8WLGkL1IlDx8m+tYkhFMCwNXIid3yvdfsjs30NXNiCw0dVROoyg+7Pik7Ztae5anHOkL2a+zShdo4Kl0ysOK2nXH5qfxRQxQwaLTG3d4FjFAeQ2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lcv3hWnR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1743937690; c=relaxed/simple;
+	bh=oUhxAnOMCHsqdz8DNQsypzn7+qug73xuCJrLxNoJ6pw=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=Ms1zxxndSNttxFQr+lf09vXA49sel/C3sA8LoF24TN260fgBC+kopzmLzOwaV3fRNAk6yiH3Q2phfZeDKfXLAPLat0+UyavlpN9sa0tlvyC5jzxDZntFJxPqLwpbIxiUV5mTEg0HvKO70oiysPp5QsSY6Cck6fAgwW46fye1AcU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bAvsywBG; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lcv3hWnR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C0A10C4CEE3;
-	Sun,  6 Apr 2025 09:26:19 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1743931583;
-	bh=3Qq5NnmquQLX60jBevmQd5yzm1UOv63qfAtHb+WnK/4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=lcv3hWnRCVUYjnNExkhSOPfB8ZL9ZCen5wd8M+GZISKvYCz2UFQCFdADVCAUW74Dq
-	 XmfONTeRVB/c4le7Hsw4Gq4jrDkf+CHjbEpV3P2F9bVaMMLNN92L+W1t9Nx/F4mpCs
-	 WCeN03eOMdFHXD2sMLvBjn99y26xlgGTHxY5kejk+iuZYUH1NSNXcmgYIbmJn+1205
-	 OGKJloD/d5bqeF32asZB2z/bSk60Vlx1YSvuonS2FM5uayJLXSrqfprzaylX1ym8Gz
-	 I7GMVtsMEGpW6wc/5TukKOMk7mQG3XXmNOGs0SGfQYC3MRDKDepeJc5YhiBhvyMsQK
-	 lv5q02m8lpqwg==
-Date: Sun, 6 Apr 2025 10:26:15 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Marcelo Schmitt <marcelo.schmitt@analog.com>
-Cc: <linux-iio@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <lars@metafoo.de>,
- <Michael.Hennerich@analog.com>, <corbet@lwn.net>, <dlechner@baylibre.com>,
- <marcelo.schmitt1@gmail.com>
-Subject: Re: [PATCH v4 0/4] iio: adc: ad4000: Add SPI offload support
-Message-ID: <20250406102615.73b56d01@jic23-huawei>
-In-Reply-To: <cover.1743110188.git.marcelo.schmitt@analog.com>
-References: <cover.1743110188.git.marcelo.schmitt@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bAvsywBG"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-736b0c68092so2643097b3a.0;
+        Sun, 06 Apr 2025 04:08:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1743937688; x=1744542488; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ZT8Yrr5vxwZg9guu+30Mw3AXNH1uiqWJ290W7GyHofo=;
+        b=bAvsywBGRSiLhT40kWIJYL42DJbtaVgF8GgJvSoS7jxIA41gCjhPHmK591ATSbxT9N
+         iBF+S4DvXF1dWT30+BQfUKB+V6GlFZmcTwN0ojtkDBknjNJkNzCAXUmE/flEewLBhtaw
+         epLlB6wmZIvCjN+wwTXJX8r6f6GEiA2R8sr9lMVCVaO1WMADQvhWIxlOdt3Lj+xAgHzP
+         vfvm9t9fiuCvZBKa664cCLNWpqAEdteVD/CS2eeh8sJWRDHN4IRbNkAwzl6BqntTv+yJ
+         QKq5pSj4xTukyJIOZT4LFxVnNDBxzicMxwl6AkUUMdLXnn0rqsCMthdMYvxj/WdFKWjE
+         5dJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1743937688; x=1744542488;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZT8Yrr5vxwZg9guu+30Mw3AXNH1uiqWJ290W7GyHofo=;
+        b=UU1LtfYB/TljChcTFaqIMNCjHZj4Vx0kRf3FxmHBxuoaqAb8pMVf8azZaZ+N2Qyb+9
+         PdScbFd3zcW6MC42MSBNI5qB8kTTX9OVfIUnVQrfzEfo2f3Rcj3yArLicJWtPWBxPcES
+         MLL4E6szT5zrFvcjnQFm0P2jxjiKIO0Iv7FtTrU19FBX6hTLnG6FM2CBcDN109FfyNAO
+         XVVciPOSaebZzggN/4aJRJi5G3/4IpOPvJHK4HPGTwdLt25z11csISJOB3MNcQsGP0nF
+         YdbwDX8gnN0Vq25FHRb48RP0rldU2X5oOQWFa6Vd1Q/fXg9LMNMRtYAXBHFw8ONYbbdY
+         BjhA==
+X-Forwarded-Encrypted: i=1; AJvYcCUrPkTqTp1I0ou1bYLefIajpGJOCtw/7dZ7COkZSBq7vq9E6ox6g6KlIfRK38rdqRgJjUaloYemhFx0Wkre@vger.kernel.org, AJvYcCWugRpPzhsVYMa0qcoHPuJmiyk1jruqOr00PY9TWpSp5e64KDe3zwt9oRycmXdBuRrjH0fuha3LGD0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywsIpUEqmu7q3THrpM4ZBlcBlTYxo9zqQNWnBIJuIheHq0oD89
+	sqF4IsBJlIoBQtgHgZKUGi3HUUeWn0zOyf7TcO3Bck5q3RJujC6P
+X-Gm-Gg: ASbGncsxCpYIhAJsbtulHiumcaFtgmg7rYU2ZJKfyTdsVMFHxvu9nJj93etR5ukNwFb
+	zEsREuR12EzPx2whCn4caj77qTcGgzdqrdZp1sxBalLkoOqXSJgBPHWirUt2yWUVk63HP9f2T2+
+	X8d2FhrU7r13+G1h/LvKa9bfmjFWV+XN/BXGWmMPGmS/SokSWiUr6JkY7W1X+bnUAonEgRAC9+K
+	1noCpnhlJ2g5fD9rn6iF6tSNbdObeX2ZDv/mGDr4TqK8TaUQgbLcoBcbD7DYEUqPdL4AZF7evzB
+	2WDGWpQG7bVz8MSjYqdfGAgwqEOpTbwpfxIRB4Ke0V8IvPHlw1BAI7hBh/jKA6fiVyYLjw4bbnV
+	kNZEj8zgXvkGBaiM=
+X-Google-Smtp-Source: AGHT+IEjBAE/rld+9aiCuqigpuY+9zpIRh773iCRiL5ITop6OwxL60YXEg8KAl4CRgm6Ds8OhqjP/A==
+X-Received: by 2002:a05:6a20:72a3:b0:1f3:4427:74ae with SMTP id adf61e73a8af0-2010462b559mr14593665637.25.1743937688009;
+        Sun, 06 Apr 2025 04:08:08 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d97ee385sm6471991b3a.45.2025.04.06.04.08.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 06 Apr 2025 04:08:07 -0700 (PDT)
+Message-ID: <48bdc474-2dd8-4c51-a32f-04bc7e9f50e7@gmail.com>
+Date: Sun, 6 Apr 2025 20:08:04 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+User-Agent: Mozilla Thunderbird
+To: kevinpaul468@gmail.com
+Cc: corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ rbrasga@uci.edu, rdunlap@infradead.org, skhan@linuxfoundation.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <20250405165116.147958-1-kevinpaul468@gmail.com>
+Subject: Re: [PATCH] Added usb_string function to a namespace
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250405165116.147958-1-kevinpaul468@gmail.com>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On Thu, 27 Mar 2025 18:24:14 -0300
-Marcelo Schmitt <marcelo.schmitt@analog.com> wrote:
+Hi,
 
-> This patch series extends the ad4000 driver to support SPI offloading.
-> In addition to that, ad4000 IIO documentation is expanded to:
-> - list PulSAR parts supported by the ad4000 driver.
-> - describe some characteristics of AD4000 IIO device.
-> - describe changes when SPI offload is being used.
+Kevin Paul Reddy Janagari wrote:
+> with reference to WARNING:
+> Duplicate C declaration, also defined at driver-api/usb/gadget:804
+> There is a function usb_string in the file message.c,
+> there is also a struct usb_string in the kernel api headers.
+> The docs is unable to index the function as the index is occupied by struct
+> This fix adds messgae.c to the usb_core namespace (in docs) hence providing
+> usb_sting a unique index usb_core.usb_string()
 
-I left it to sit for a week to see if anyone else had remaining
-comments.  Seems not on this occasion.
+This is a bug of Sphinx.
+Quote of my message in July 2023 [1]:
 
-Applied to the tesing branch of iio.git which I'll shortly rebase
-on rc1 once available.
+ > This is a bug of Sphinx >=3.1, first reported by Mauro back in September 2020 at:
+ >
+ >     https://github.com/sphinx-doc/sphinx/issues/8241
+ >
+ > It was closed when a local fix was presented.  Unfortunately, it was not
+ > merged at the time and a subsequent pull request was opened at:
+ >
+ >     https://github.com/sphinx-doc/sphinx/pull/8313
+ >
+ > It is not merged yet and carries a milestone of Sphinx 7.x.
 
-Thanks,
+[1]: https://lore.kernel.org/0475d177-4c01-0988-0b34-3099dd703498@gmail.com/
 
-Jonathan
+The PR carries a milestone of Sphinx 8.x now ...
+
+It might be a high time to make some noise in the PR.
+
+       Thanks, Akira
 
 > 
-> Change log v3 -> v4
-> [IIO driver]
-> - No longer changing spi_device CS timing parameters.
-> - SPI offload messages now set only one transfer.
-> - Degraded offload_xfers from array to single entry field.
-> - Adjusted ad4000_spi_offload_setup() comment.
-> - Dropped t_quiet1_ns since it's not used anymore.
-> - Fixed include order.
-> - Fixed typo: withouth -> without.
-> [Documentation]
-> - Picked up review tags.
-> - Made phrase about SPI offload engine more generic.
-> - Complemented SPI offload section with supported wiring configurations.
+> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
+> ---
+>  Documentation/driver-api/usb/usb.rst | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> Change log v2 -> v3
-> - Dropped patch 1 of v2 series and reverted buffer endianness and SPI transfer
->   bits_per_word configurations to the way they were in v1.
-> - Removed dummy transfer in ad4000_prepare_offload_turbo_message().
-> - Unified offload message preparation.
-> - Removed spi->cs_hold.value to use cs_inactive to set CNV/CS high time.
-> - Adjusted max sample rate for AD7983 and AD7984.
-> - Dropped AD4000_TCONV_NS and made all time related constants a time_spec field.
-> - Removed _offl param from _CHANNELS() macros and added a comment about that.
-> - Commented IIO_BE check in ad4000_prepare_3wire_mode_message().
-> - Now using predisable to balance with postenable.
-> - Put spi/offload/consumer.h include right after spi/spi.h.
-> - Removed unrelated brackets in info_mask_separate_available assignment
-> - Added blank line after if.
-> 
-> Change log v1 -> v2
-> - Fixed passing inappropriate pointer instead of ret to dev_err_probe()
-> - [new patch] Set transfer bits_per_word to have data in CPU endianness
-> - Set iio_dev num_channels close to where channels is set.
-> - Complement offload message comment about first sample being invalid
-> - Document why the first buffer sample is invalid when offloading
-> - Added blank line before a 'simple return'.
-> 
-> Link to v3: https://lore.kernel.org/linux-iio/cover.1742992305.git.marcelo.schmitt@analog.com/
-> Link to v2: https://lore.kernel.org/linux-iio/cover.1742394806.git.marcelo.schmitt@analog.com/
-> Link to v1: https://lore.kernel.org/linux-iio/cover.1741970538.git.marcelo.schmitt@analog.com/
-> 
-> 
-> Marcelo Schmitt (4):
->   iio: adc: ad4000: Add support for SPI offload
->   Documentation: iio: ad4000: Add new supported parts
->   Documentation: iio: ad4000: Add IIO Device characteristics section
->   Documentation: iio: ad4000: Describe offload support
-> 
->  Documentation/iio/ad4000.rst |  91 ++++++++-
->  drivers/iio/adc/Kconfig      |   7 +-
->  drivers/iio/adc/ad4000.c     | 382 +++++++++++++++++++++++++++++++----
->  3 files changed, 444 insertions(+), 36 deletions(-)
-> 
-> 
-> base-commit: 9f36acefb2621d980734a5bb7d74e0e24e0af166
-> prerequisite-patch-id: 3d517eef53a799adba5922815fe684b913e36773
+> diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
+> index 89f9c37bb979..976fb4221062 100644
+> --- a/Documentation/driver-api/usb/usb.rst
+> +++ b/Documentation/driver-api/usb/usb.rst
+> @@ -161,6 +161,7 @@ rely on 64bit DMA to eliminate another kind of bounce buffer.
+>  .. kernel-doc:: drivers/usb/core/urb.c
+>     :export:
+>  
+> +.. c:namespace:: usb_core
+>  .. kernel-doc:: drivers/usb/core/message.c
+>     :export:
+>  
+> -- 
+> 2.39.5
 
