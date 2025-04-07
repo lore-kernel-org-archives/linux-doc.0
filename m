@@ -1,36 +1,38 @@
-Received: from out-189.mta0.migadu.com (out-189.mta0.migadu.com [91.218.175.189])
+Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB81B1B87E2
-	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 14:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.189
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D921B4140
+	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 14:00:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744034436; cv=none; b=JaxFm2rGdx3iHsQyaw2Tu5DYxILyepb0E1s65HU3GuWEnY7SHVbDjl9FJ9gdKvR6bCpD1vijE1Is485JsGxmuouHi1cuNVarH4bQHeOHELUZ2sWhMlWwkE/A0FQ0i7QPdd5cZYz7ty2JrKENeTBO6kPHkk0dL4wly4ody07sLu4=
+	t=1744034448; cv=none; b=pZWBslMREFQmEjtzus84glC9hs1f8T/3ZFJCL5yzLtPUdeEMH0ffcAbxSClbG2LpJcepzYbsB4jF/GD51O5pMr69jTMc1gyMA0CUHh5uuWhtB1xIuV36QeD3V7pd5DfOaeo87lx3mTLp6nu+yBFghh8LMw6bcmdT2eP2ORg4BRM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744034436; c=relaxed/simple;
-	bh=/6uprZLADz8IwUmk8EgesHcuIVKbMrDNRmW1j/TmpH8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uy+Fqog9FihjWrs/bHuRlkdEhCgIecjqOpQ7zUG8lvVRSReVU0yL+VPo9pL3rXuSgmQaVi1kGG7PNCTWzg/HVCdnWYyxtXhTWliv46p20xOXeVA/+HZ8Id+5dOGCxcwnsGOqEJLHpSfHr4oDIdaHZVARQxMBhmPIkWIA0yZod9k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=WvTc0BdE; arc=none smtp.client-ip=91.218.175.189
+	s=arc-20240116; t=1744034448; c=relaxed/simple;
+	bh=7LrK4+MSCQBQFEg2PH2/aBeSSmKtqORGYXRBnlS/6GQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=dUtkY3KQaHoWWAqWAbd0N6inhcAPqs0MgVyy24QaqUY4W7bk6PxU40dvKdTeenM8rkQEdkWEm73DxYtWX1WtaCfC5LwHokEeeUbzgQw26a77LXYZFPgEmy/GTRAqoNQxc9THDR44IlIJyciJI+sLjs1q/iSEmyv/XBH606UyMw0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jbdAoQtP; arc=none smtp.client-ip=91.218.175.185
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="WvTc0BdE"
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jbdAoQtP"
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744034419;
+	t=1744034443;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding;
-	bh=ZsTxmJA06+KEIIYttk/IyeF44+Ud1z93XW6H7Gh8cAs=;
-	b=WvTc0BdEASl8hhzN38d6ZSUYZgiCq0AULq66M0bvOVUsjc8bXNrwu2s8EyARzv4cCvwKYo
-	gwbywHfCTkNj5jPsFqjYYuoFTZrBGmYnLV+7+bb2CbOENYIAhLaUEjeo6WuDmbrgqqv/FZ
-	pH3tVVYhns34Ylnw8dAUqPhKJODLfK0=
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=iSot3nw7CEW5EVdvYwJBj+RWIEBQWOakFzZs+Ew+PEI=;
+	b=jbdAoQtPHSJIxk5w+e979vRQUoYMe/oR63p7XQQ2cNwF753extQrOGARTvodaEe+XG5tZV
+	EMWjaNWeHaDYiE89ZlCul8kVp+tFMjxh+SGQ1JZ25cuUmHBOdzIQHsn1ZRJhdrNbGUVUKe
+	Z0RGrrZi5hphR633A4erHlXCmGjUN7Q=
 From: Jiayuan Chen <jiayuan.chen@linux.dev>
 To: bpf@vger.kernel.org
 Cc: mrpre@163.com,
 	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"David S. Miller" <davem@davemloft.net>,
 	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
 	Jakub Kicinski <kuba@kernel.org>,
 	Paolo Abeni <pabeni@redhat.com>,
 	Simon Horman <horms@kernel.org>,
@@ -40,14 +42,17 @@ Cc: mrpre@163.com,
 	David Ahern <dsahern@kernel.org>,
 	Steffen Klassert <steffen.klassert@secunet.com>,
 	Sabrina Dubroca <sd@queasysnail.net>,
+	Nicolas Dichtel <nicolas.dichtel@6wind.com>,
 	Antony Antony <antony.antony@secunet.com>,
 	Christian Hopps <chopps@labn.net>,
 	netdev@vger.kernel.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND net-next v3 0/2] tcp: add a new TW_PAWS drop reason
-Date: Mon,  7 Apr 2025 21:59:49 +0800
-Message-ID: <20250407140001.13886-1-jiayuan.chen@linux.dev>
+Subject: [PATCH RESEND net-next v3 2/2] tcp: add LINUX_MIB_PAWS_TW_REJECTED counter
+Date: Mon,  7 Apr 2025 21:59:51 +0800
+Message-ID: <20250407140001.13886-3-jiayuan.chen@linux.dev>
+In-Reply-To: <20250407140001.13886-1-jiayuan.chen@linux.dev>
+References: <20250407140001.13886-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,48 +62,94 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
-PAWS is a long-standing issue, especially when there are upstream network
-devices, making it more prone to occur.
+When TCP is in TIME_WAIT state, PAWS verification uses
+LINUX_PAWSESTABREJECTED, which is ambiguous and cannot be distinguished
+from other PAWS verification processes.
 
-Currently, packet loss statistics for PAWS can only be viewed through MIB,
-which is a global metric and cannot be precisely obtained through tracing
-to get the specific 4-tuple of the dropped packet. In the past, we had to
-use kprobe ret to retrieve relevant skb information from
-tcp_timewait_state_process().
+Moreover, when PAWS occurs in TIME_WAIT, we typically need to pay special
+attention to upstream network devices, so we added a new counter, like the
+existing PAWS_OLD_ACK one.
 
+Also we update the doc with previously missing PAWS_OLD_ACK.
+
+usage:
+'''
+nstat -az | grep PAWSTimewait
+TcpExtPAWSTimewait              1                  0.0
+'''
+
+Suggested-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
 ---
-Re-sending the patch after merge window.
-
-v2 -> v3: use new SNMP counter and drop reason suggested by Eric.
-https://lore.kernel.org/netdev/5cdc1bdd9caee92a6ae932638a862fd5c67630e8@linux.dev/T/#t
-
-I didn't provide a packetdrill script.
-I struggled for a long time to get packetdrill to fix the client port, but
-ultimately failed to do so...
-
-Instead, I wrote my own program to trigger PAWS, which can be found at
-https://github.com/mrpre/nettrigger/tree/main
-'''
-//assume nginx running on 172.31.75.114:9999, current host is 172.31.75.115
-iptables -t filter -I OUTPUT -p tcp --sport 12345 --tcp-flags RST RST -j DROP
-./nettrigger -i eth0 -s 172.31.75.115:12345 -d 172.31.75.114:9999 -action paws
-'''
-
-
-Jiayuan Chen (2):
-  tcp: add TCP_RFC7323_TW_PAWS drop reason
-  tcp: add LINUX_MIB_PAWS_TW_REJECTED counter
-
  Documentation/networking/net_cachelines/snmp.rst | 2 ++
- include/net/dropreason-core.h                    | 7 +++++++
- include/net/tcp.h                                | 3 ++-
+ include/net/dropreason-core.h                    | 1 +
  include/uapi/linux/snmp.h                        | 1 +
  net/ipv4/proc.c                                  | 1 +
- net/ipv4/tcp_ipv4.c                              | 3 ++-
- net/ipv4/tcp_minisocks.c                         | 9 ++++++---
- net/ipv6/tcp_ipv6.c                              | 3 ++-
- 8 files changed, 23 insertions(+), 6 deletions(-)
+ net/ipv4/tcp_minisocks.c                         | 2 +-
+ 5 files changed, 6 insertions(+), 1 deletion(-)
 
+diff --git a/Documentation/networking/net_cachelines/snmp.rst b/Documentation/networking/net_cachelines/snmp.rst
+index bc96efc92cf5..bd44b3eebbef 100644
+--- a/Documentation/networking/net_cachelines/snmp.rst
++++ b/Documentation/networking/net_cachelines/snmp.rst
+@@ -37,6 +37,8 @@ unsigned_long  LINUX_MIB_TIMEWAITKILLED
+ unsigned_long  LINUX_MIB_PAWSACTIVEREJECTED
+ unsigned_long  LINUX_MIB_PAWSESTABREJECTED
+ unsigned_long  LINUX_MIB_TSECR_REJECTED
++unsigned_long  LINUX_MIB_PAWS_OLD_ACK
++unsigned_long  LINUX_MIB_PAWS_TW_REJECTED
+ unsigned_long  LINUX_MIB_DELAYEDACKLOST
+ unsigned_long  LINUX_MIB_LISTENOVERFLOWS
+ unsigned_long  LINUX_MIB_LISTENDROPS
+diff --git a/include/net/dropreason-core.h b/include/net/dropreason-core.h
+index 9701d7f936f6..bea77934a235 100644
+--- a/include/net/dropreason-core.h
++++ b/include/net/dropreason-core.h
+@@ -287,6 +287,7 @@ enum skb_drop_reason {
+ 	/**
+ 	 * @SKB_DROP_REASON_TCP_RFC7323_TW_PAWS: PAWS check, socket is in
+ 	 * TIME_WAIT state.
++	 * Corresponds to LINUX_MIB_PAWS_TW_REJECTED.
+ 	 */
+ 	SKB_DROP_REASON_TCP_RFC7323_TW_PAWS,
+ 	/**
+diff --git a/include/uapi/linux/snmp.h b/include/uapi/linux/snmp.h
+index ec47f9b68a1b..1d234d7e1892 100644
+--- a/include/uapi/linux/snmp.h
++++ b/include/uapi/linux/snmp.h
+@@ -188,6 +188,7 @@ enum
+ 	LINUX_MIB_PAWSESTABREJECTED,		/* PAWSEstabRejected */
+ 	LINUX_MIB_TSECRREJECTED,		/* TSEcrRejected */
+ 	LINUX_MIB_PAWS_OLD_ACK,			/* PAWSOldAck */
++	LINUX_MIB_PAWS_TW_REJECTED,		/* PAWSTimewait */
+ 	LINUX_MIB_DELAYEDACKS,			/* DelayedACKs */
+ 	LINUX_MIB_DELAYEDACKLOCKED,		/* DelayedACKLocked */
+ 	LINUX_MIB_DELAYEDACKLOST,		/* DelayedACKLost */
+diff --git a/net/ipv4/proc.c b/net/ipv4/proc.c
+index 10cbeb76c274..ea2f01584379 100644
+--- a/net/ipv4/proc.c
++++ b/net/ipv4/proc.c
+@@ -191,6 +191,7 @@ static const struct snmp_mib snmp4_net_list[] = {
+ 	SNMP_MIB_ITEM("PAWSEstab", LINUX_MIB_PAWSESTABREJECTED),
+ 	SNMP_MIB_ITEM("TSEcrRejected", LINUX_MIB_TSECRREJECTED),
+ 	SNMP_MIB_ITEM("PAWSOldAck", LINUX_MIB_PAWS_OLD_ACK),
++	SNMP_MIB_ITEM("PAWSTimewait", LINUX_MIB_PAWS_TW_REJECTED),
+ 	SNMP_MIB_ITEM("DelayedACKs", LINUX_MIB_DELAYEDACKS),
+ 	SNMP_MIB_ITEM("DelayedACKLocked", LINUX_MIB_DELAYEDACKLOCKED),
+ 	SNMP_MIB_ITEM("DelayedACKLost", LINUX_MIB_DELAYEDACKLOST),
+diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+index 27511bf58c0f..43d7852ce07e 100644
+--- a/net/ipv4/tcp_minisocks.c
++++ b/net/ipv4/tcp_minisocks.c
+@@ -248,7 +248,7 @@ tcp_timewait_state_process(struct inet_timewait_sock *tw, struct sk_buff *skb,
+ 
+ 	if (paws_reject) {
+ 		*drop_reason = SKB_DROP_REASON_TCP_RFC7323_TW_PAWS;
+-		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWSESTABREJECTED);
++		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWS_TW_REJECTED);
+ 	}
+ 
+ 	if (!th->rst) {
 -- 
 2.47.1
 
