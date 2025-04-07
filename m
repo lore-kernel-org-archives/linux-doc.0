@@ -1,153 +1,116 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CB732054EE;
-	Mon,  7 Apr 2025 16:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE9C20A5D5
+	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 16:33:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744043496; cv=none; b=qAyvwLSI8G3tRq/KBzbuKPgmcRJKJmLMmoR1d6f7fRt5A/PQW8uH3fVWblVWJeROHL8V855LZtJ7XLst64IcMHuxUEFYO+T6iQFD99wTRQED/yqQu7KwsLtTZOS9Z0j3qRb6agyGKAFTbQHEDHxkg9JLb2FP1oB4iZCiswplDIk=
+	t=1744043622; cv=none; b=hG3Hi1bCrCsHjkt6XpWBU9uutWc0veagLzy/eTOLdGigYgurm8aO0bq+XT26f0pYdGmcxo49q/ntNlH0KKVtjUeLJ7LpS7G8dzcXGzVu2s2PpPsyVEtwriGaT0Qy6VUiZ2BRzsMeL0D0gY5prcOxoKqVDI+a7/iue/QBLhkvB5s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744043496; c=relaxed/simple;
-	bh=RSrEtdAd5F0XISIgryvTa6dXc7w7kiCKmtOkNhqhQY4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=aMpnO9HNfFSqcgWYWnnlk9up2QIlOFzkyeqPAD2FSJ1Ozpf1iI3GFONtKoqrKVg/A9qEzlOOBcF9gRlnmzxqPMSOmUZpFfLm2fqqhbj+w0WWpPrf14gXzFH3hO7uBjJlfyyrrQFyifnZXRLRVQMO3n7y4m9xDoBGWEZujaUnIjE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=emyn0LK2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744043622; c=relaxed/simple;
+	bh=anBURer+NUbId9TRyOLh3MVO9AZan0YdjFquvwr88fY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=hQWwmqLv7/lYyxx0+V5fLzWEVFCEyAKPGqvrmWUOJicUrPjq9n/kJZYgtzLUYuOxMewEq1Haen0u5xmVJsXPyx6Rs5Pixwvr6SykTCxtcymG5ZeQ7pM33GsXX8DFL31zFfF71hplHxEy4bDnrGYwGWLsBuiYVU1kFBLnS4YaR0A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=UJWGbxFq; arc=none smtp.client-ip=91.218.175.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="emyn0LK2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF58BC4CEE7;
-	Mon,  7 Apr 2025 16:31:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744043496;
-	bh=RSrEtdAd5F0XISIgryvTa6dXc7w7kiCKmtOkNhqhQY4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=emyn0LK28d026GSydKtLRNImtQcKaVGWuubapwQw0jgJSGeLE5R2eeOSv137XDl3d
-	 CRE6SAkRmJJ6fuqdxPGsBEwpoGUyk2nJ+cCMro9SKEIpCuTV22Y4irttl8KmvnpW+t
-	 ASgvQIJ+iHZ4T8QGM5ojHf64XQOwrwYleiDfDYDnKOTK9JEGxfONsvownLtzOuo3sQ
-	 k6INQAfxDoqrAwvYTjxaakaCIMonB4iKTjRBeZqcF5nBamTvZ9KPNomR7kRXmWvd+P
-	 v9dwmHgbbNKIWeWf2WLuU6ZGalf7SJ8/U9NcRa0+LmvbIG5Q8nGeTtztIne8hQDdkW
-	 /RgKrAd25BcHg==
-Date: Mon, 7 Apr 2025 19:31:21 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <ptyadav@amazon.de>,
-	Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
-	graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
-	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
-	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
-	dave.hansen@linux.intel.com, dwmw2@infradead.org,
-	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com,
-	corbet@lwn.net, krzk@kernel.org, mark.rutland@arm.com,
-	pbonzini@redhat.com, pasha.tatashin@soleen.com, hpa@zytor.com,
-	peterz@infradead.org, robh+dt@kernel.org, robh@kernel.org,
-	saravanak@google.com, skinsburskii@linux.microsoft.com,
-	rostedt@goodmis.org, tglx@linutronix.de, thomas.lendacky@amd.com,
-	usama.arif@bytedance.com, will@kernel.org,
-	devicetree@vger.kernel.org, kexec@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory
- preservation
-Message-ID: <Z_P92UCbNCV0TbiA@kernel.org>
-References: <mafs05xjmqsqc.fsf@amazon.de>
- <20250403114209.GE342109@nvidia.com>
- <Z-6UA3C1TPeH_kGL@kernel.org>
- <20250403142438.GF342109@nvidia.com>
- <Z--sUYCvP3Q8nT8e@kernel.org>
- <20250404124729.GH342109@nvidia.com>
- <Z-_kSXrHWU5Bf3sV@kernel.org>
- <20250404143031.GB1336818@nvidia.com>
- <Z_KnovvW7F2ZyzhX@kernel.org>
- <20250407141626.GB1557073@nvidia.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="UJWGbxFq"
+Message-ID: <720b6db8-49c5-47e7-98da-f044fc38fc1a@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1744043618;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=KFg4OMSXqyZAd4XoQGwUdaygVVdJ30SNWIcU9tJnxO4=;
+	b=UJWGbxFqDDyMWF8b4G2fYOD53tA+BWAfWoGwac3pflGNx/7Q8PgHH198LIFtBZ+wsx8gh/
+	XnnznK1WuR4pSzwX7dn9Bt8JcNWp1s5DrdqgsT/GTNhH4Vgnu+/qhtSKjA+JF6SZ4FceM1
+	MRxTN0uezDbNPzPZHXbHspuUXvMOgC8=
+Date: Mon, 7 Apr 2025 12:33:28 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407141626.GB1557073@nvidia.com>
+Subject: Re: [RFC net-next PATCH 00/13] Add PCS core support
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>,
+ linux-kernel@vger.kernel.org, Christian Marangi <ansuelsmth@gmail.com>,
+ upstream@airoha.com, Heiner Kallweit <hkallweit1@gmail.com>,
+ Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>,
+ Christophe Leroy <christophe.leroy@csgroup.eu>,
+ Clark Wang <xiaoning.wang@nxp.com>,
+ Claudiu Beznea <claudiu.beznea@microchip.com>,
+ Claudiu Manoil <claudiu.manoil@nxp.com>, Conor Dooley <conor+dt@kernel.org>,
+ Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
+ Joyce Ooi <joyce.ooi@intel.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
+ Li Yang <leoyang.li@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>,
+ Madhavan Srinivasan <maddy@linux.ibm.com>,
+ Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+ Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@amd.com>,
+ Naveen N Rao <naveen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
+ Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+ Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
+ Robert Hancock <robert.hancock@calian.com>,
+ Saravana Kannan <saravanak@google.com>, Shawn Guo <shawnguo@kernel.org>,
+ UNGLinuxDriver@microchip.com, Vladimir Oltean <vladimir.oltean@nxp.com>,
+ Wei Fang <wei.fang@nxp.com>, devicetree@vger.kernel.org,
+ imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
+ linuxppc-dev@lists.ozlabs.org
+References: <20250403181907.1947517-1-sean.anderson@linux.dev>
+ <20250407182738.498d96b0@kmaincent-XPS-13-7390>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Sean Anderson <sean.anderson@linux.dev>
+In-Reply-To: <20250407182738.498d96b0@kmaincent-XPS-13-7390>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 07, 2025 at 11:16:26AM -0300, Jason Gunthorpe wrote:
-> On Sun, Apr 06, 2025 at 07:11:14PM +0300, Mike Rapoport wrote:
-> > > > > We know what the future use case is for the folio preservation, all
-> > > > > the drivers and the iommu are going to rely on this.
-> > > > 
-> > > > We don't know how much of the preservation will be based on folios.
-> > > 
-> > > I think almost all of it. Where else does memory come from for drivers?
-> > 
-> > alloc_pages()? vmalloc()?
+On 4/7/25 12:27, Kory Maincent wrote:
+> On Thu,  3 Apr 2025 14:18:54 -0400
+> Sean Anderson <sean.anderson@linux.dev> wrote:
 > 
-> alloc_pages is a 0 order "folio". vmalloc is an array of 0 order
-> folios (?)
-
-According to current Matthew's plan [1] vmalloc is misc memory :)
- 
-> > How about we find some less ambiguous term? Using "folio" for memory
-> > returned from kmalloc is really confusing. And even alloc_pages() does not
-> > treat all memory it returns as folios.
-> > 
-> > How about we call them ranges? ;-)
+>> This series adds support for creating PCSs as devices on a bus with a
+>> driver (patch 3). As initial users,
+>> 
+>> - The Lynx PCS (and all of its users) is converted to this system (patch 5)
+>> - The Xilinx PCS is broken out from the AXI Ethernet driver (patches 6-8)
+>> - The Cadence MACB driver is converted to support external PCSs (namely
+>>   the Xilinx PCS) (patches 9-10).
+>> 
+>> The last few patches add device links for pcs-handle to improve boot times,
+>> and add compatibles for all Lynx PCSs.
+>> 
+>> Care has been taken to ensure backwards-compatibility. The main source
+>> of this is that many PCS devices lack compatibles and get detected as
+>> PHYs. To address this, pcs_get_by_fwnode_compat allows drivers to edit
+>> the devicetree to add appropriate compatibles.
 > 
-> memdescs if you want to be forward looking. It is not ranges.
->
-> The point very much is that they are well defined allocations from the
-> buddy allocator that can be freed back to the buddy allocator. We
-> provide an API sort of like alloc_pages/folio_alloc to get the pointer
-> back out and that is the only way to use it.
+> I don't dive into your patch series and I don't know if you have heard about it
+> but Christian Marangi is currently working on fwnode for PCS:
+> https://lore.kernel.org/netdev/20250406221423.9723-1-ansuelsmth@gmail.com
 > 
-> KHO needs to provide a way to give back an allocated struct page/folio
-> that can be freed back to the buddy alloactor, of the proper
-> order. Whatever you call that function it belongs to KHO as it is
-> KHO's primary responsibility to manage the buddy allocator and the
-> struct pages.
-> 
-> Today initializing the folio is the work required to do that.
- 
-Ok, let's stick with memdesc then. Put aside the name it looks like we do
-agree that KHO needs to provide a way to preserve memory allocated from
-buddy along with some of the metadata describing that memory, like order
-for multi-order allocations.
+> Maybe you should sync with him!
 
-The issue I see with bitmaps is that there's nothing except the order that
-we can save. And if sometime later we'd have to recreate memdesc for that
-memory, that would mean allocating a correct data structure, i.e. struct
-folio, struct slab, struct vmalloc maybe.
+I saw that series and made some comments. He is CC'd on this one.
 
-I'm not sure we are going to preserve slabs at least at the foreseeable
-future, but vmalloc seems like something that we'd have to address.
-  
-> > I did and experiment with preserving 8G of memory allocated with randomly
-> > chosen order. For each order (0 to 10) I've got roughly 1000 "folios". I
-> > measured time kho_mem_deserialize() takes with xarrays + bitmaps vs maple
-> > tree based implementation. The maple tree outperformed by factor of 10 and
-> > it's serialized data used 6 times less memory.
-> 
-> That seems like it means most of your memory ended up contiguous and
-> the maple tree didn't split nodes to preserve order. :\
+I think this approach has two advantages:
 
-I was cheating to some extent but not that much. I preserved order in
-kho_mem_info_t and if the folios next to each other were of different
-orders they were not merged into a single maple tree node. But in case all
-memory is free and not fragmented my understanding is that buddy will
-allocate folios of the same order next to each other and so they could be
-merged in the maple tree.
+- It completely solves the problem of the PCS being unregistered while the netdev
+  (or whatever) is up
+- I have designed the interface to make it easy to convert existing
+  drivers that may not be able to use the "standard" probing process
+  (because they have to support other devicetree structures for
+  backwards-compatibility).
 
-> Also the bitmap scanning to optimize the memblock reserve isn't
-> implemented for xarray.. I don't think this is representative..
-
-I believe that even with optimization of bitmap scanning maple tree would
-perform much better when the memory is not fragmented. And when it is
-fragmented both will need to call memblock_reserve() similar number of
-times and there won't be real difference. Of course maple tree will consume
-much more memory in the worst case.
-
-[1] https://kernelnewbies.org/MatthewWilcox/Memdescs
- 
-> Jason
-> 
-
--- 
-Sincerely yours,
-Mike.
+--Sean
