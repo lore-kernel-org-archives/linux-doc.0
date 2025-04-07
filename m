@@ -1,85 +1,91 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08818261565;
-	Mon,  7 Apr 2025 18:40:01 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F186F1B042E;
+	Mon,  7 Apr 2025 18:46:29 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744051202; cv=none; b=O27Th+oSNEyTAs7GhBVHBGcNryBv7KIEksCx06RW62kG9IZMmal4GQnqQlBhvpB98V9Rc7QrCEiX5XoUcXdosFfTUDoYDpVsX2IpAS+j90WY+RCeR356fKZBsDwgHRhioA9nIYqm9laUfDDnhEZN7PakuIRVubWb7KwY0hcyLUA=
+	t=1744051590; cv=none; b=W03jblO/G/lXA7HtbYwoBd1n+o0a4oKwNo6cNEUvnmitHUdUdrCeVnT7irYR1T6sx1pbG/Hfjpg/8KUg/0HIlu/7eiIxORT58pbpJ7TB32Cj+2aDUqVfSzpixmKIu5UEHHJUTGJ9DV5WgvHovbrASkgwbcyWmW9Mtmd7dVqb6gY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744051202; c=relaxed/simple;
-	bh=BqAYBDV85npiuG9lUU6aZSMxUQypt9VFmCg1ipp2j7w=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=CROxuHzqXOKBrDdbi6Sye1h5RDt/ADNOcvPfyyW/nTDZ3Zhwl+ayNkIOk4T6t+aNO1VpNac3cR38PSGdzGnsuiBdWqnw82YS3GrpvkFkEb2mgtct9ajxe2+iP0QOZrMAjRwX4ZQDMFiaAYWJu/FSbwOCfvka5SPgk3JU2gIWMd0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6x3QZ0B; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744051590; c=relaxed/simple;
+	bh=t93cdI/wL24j2HR4ce39FZz6lJqa0QJlRalczKG2iHE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=jRtBdAYrua0wPcu67kvORdjiXEDiCdJFFWH1wwoKhGD3r+n0L/VsrLdN+N5HAFOicX1ub66PC6KKOFfNnsxK9LY0DhhAkeN01oqJaQEWMER3Tq11Enk0upatqhVcpwskCdK/1UPRMKYCbRlIRZmo6yDD5P2FfPv7oFXijEC0QPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=upzcL7hy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6x3QZ0B"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6050EC4CEDD;
-	Mon,  7 Apr 2025 18:40:01 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="upzcL7hy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 59521C4CEDD;
+	Mon,  7 Apr 2025 18:46:25 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744051201;
-	bh=BqAYBDV85npiuG9lUU6aZSMxUQypt9VFmCg1ipp2j7w=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=c6x3QZ0BwKoxZD6akefXms+h1fypLN5lMIPrt0sDhIxCfxWTlzVR5tYnXEEE6tnOS
-	 qv8kysHeTGITEKiYRIk9xsm6cTQmvdgN+uehYm/niLVMeKFiCjbaAr+iwIZZUE1rN2
-	 LxWivKUSaXJiU3yPRrSL8VULxbx88lzeMG1q0agfOxncWL/WOaIYIHHIF4qIox80TO
-	 6SnO4SjzojsAO1O6nULIhndkElXEZnuwQRO+u/WhBNg+E2UN7U/m+0GXm9+4YVT4ob
-	 53549X+KUPkp16Gr9UURw0pj+QU+YeQCscyIsz+yvAhmkW/KZdI+Lsl1/hYxKO/byJ
-	 fKZKXMDDkwkIw==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB818380CEEF;
-	Mon,  7 Apr 2025 18:40:39 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=k20201202; t=1744051589;
+	bh=t93cdI/wL24j2HR4ce39FZz6lJqa0QJlRalczKG2iHE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=upzcL7hygJ/keMMrQfuERZ7goqYflE9P2ZNFyBvMwS++4GRb3FsbSPrc8ij6Il9mj
+	 h/iUwF5PfmCV7Uy/m3OY+WnepzR9VBlmyzXRX8wYKLF68DoTIJIKpCvq9+KHN/hutb
+	 ZPKeQRsnqXmUH4A49TYmoxucX1yPwpYtXLqZ1dQ5tdwhe9luhudB2O01dTRHiDvdA5
+	 FZHzjguUtWd1tvyhky5O9Y3G21VywD6t9vYee21/qvxhM0xIai3rp1saQFuY9BPvUQ
+	 V2pm9bs+ZdxNau5iAG4YX7e7/J28He7y+R19cdT/8z6IriHEfE/+AfFCoEVt3cHkKG
+	 1LUtbbqogcZFg==
+Date: Mon, 7 Apr 2025 19:46:20 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org, Michael
+ Hennerich <Michael.Hennerich@analog.com>, Nuno =?UTF-8?B?U8Oh?=
+ <nuno.sa@analog.com>, Jonathan Corbet <corbet@lwn.net>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+Subject: Re: [PATCH 0/5] iio: adc: ad7380: add ad7389-4 support
+Message-ID: <20250407194620.7d5e92df@jic23-huawei>
+In-Reply-To: <20250401-iio-ad7380-add-ad7389-4-v1-0-23d2568aa24f@baylibre.com>
+References: <20250401-iio-ad7380-add-ad7389-4-v1-0-23d2568aa24f@baylibre.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net] net: hold instance lock during NETDEV_CHANGE
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174405123877.1227543.13613718146765643033.git-patchwork-notify@kernel.org>
-Date: Mon, 07 Apr 2025 18:40:38 +0000
-References: <20250404161122.3907628-1-sdf@fomichev.me>
-In-Reply-To: <20250404161122.3907628-1-sdf@fomichev.me>
-To: Stanislav Fomichev <sdf@fomichev.me>
-Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
- kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
- andrew+netdev@lunn.ch, kuniyu@amazon.com, vladimir.oltean@nxp.com,
- ecree.xilinx@gmail.com, lukma@denx.de, m-karicheri2@ti.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cratiu@nvidia.com
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Hello:
+On Tue, 01 Apr 2025 17:50:07 -0500
+David Lechner <dlechner@baylibre.com> wrote:
 
-This patch was applied to netdev/net.git (main)
-by Jakub Kicinski <kuba@kernel.org>:
-
-On Fri,  4 Apr 2025 09:11:22 -0700 you wrote:
-> Cosmin reports an issue with ipv6_add_dev being called from
-> NETDEV_CHANGE notifier:
+> While developing this driver, we glossed over AD7389-4 since we didn't
+> have hardware to test it. However, it should be trivial enough to add
+> support without testing. It is basically the same as AD7380-4 but
+> instead of no internal reference, it has no external reference. And we
+> already have support for chips with internal reference only (ADAQ).
 > 
-> [ 3455.008776]  ? ipv6_add_dev+0x370/0x620
-> [ 3455.010097]  ipv6_find_idev+0x96/0xe0
-> [ 3455.010725]  addrconf_add_dev+0x1e/0xa0
-> [ 3455.011382]  addrconf_init_auto_addrs+0xb0/0x720
-> [ 3455.013537]  addrconf_notify+0x35f/0x8d0
-> [ 3455.014214]  notifier_call_chain+0x38/0xf0
-> [ 3455.014903]  netdev_state_change+0x65/0x90
-> [ 3455.015586]  linkwatch_do_dev+0x5a/0x70
-> [ 3455.016238]  rtnl_getlink+0x241/0x3e0
-> [ 3455.019046]  rtnetlink_rcv_msg+0x177/0x5e0
+> We have the typical DT bindings/driver/documentation patches for it plus
+> a few patches to shuffle around the existing code for supporting chips
+> with internal-reference-only to make it generic enough to support this
+> chip as well.
+Series applied to the togreg branch of iio.git (which I just rebased on rc1)
+Will initially push out as testing though to let 0-day have a first poke
+at it.
+
+Thanks,
+
+Jonathan
+
 > 
-> [...]
-
-Here is the summary with links:
-  - [net] net: hold instance lock during NETDEV_CHANGE
-    https://git.kernel.org/netdev/net/c/04efcee6ef8d
-
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
-
+> ---
+> David Lechner (5):
+>       dt-bindings: iio: adc: ad7380: add AD7389-4
+>       iio: adc: ad7380: rename internal_ref_only
+>       iio: adc: ad7380: move internal reference voltage to chip_info
+>       iio: adc: ad7380: add ad7389-4
+>       Documentation: iio: ad7380: add AD7389-4
+> 
+>  .../devicetree/bindings/iio/adc/adi,ad7380.yaml    | 11 +++++
+>  Documentation/iio/ad7380.rst                       |  7 +++
+>  drivers/iio/adc/ad7380.c                           | 50 +++++++++++++++++++---
+>  3 files changed, 61 insertions(+), 7 deletions(-)
+> ---
+> base-commit: f8ffc92ae9052e6615896052f0c5b808bfc17520
+> change-id: 20250401-iio-ad7380-add-ad7389-4-1f6d3d7dc749
+> 
+> Best regards,
 
