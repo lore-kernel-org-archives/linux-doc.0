@@ -1,196 +1,163 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33D0921931E
-	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 18:06:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFCB5223706;
+	Mon,  7 Apr 2025 18:09:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744049205; cv=none; b=dvVi0c/e+P9d3VpufwGrTP25uTDPMtj0GLCAEz0irKYsExmCnDiiF/0MbCc40R0tIP624/US1dw8yrwNWudLeX4v3QmkZkK4VdTh4jLUPF9m4yt9RnHXIijMNQV/0WS8dmqLniCeKauYEwSlpq52SOBxhfyXzH4PnsJy824jyxw=
+	t=1744049388; cv=none; b=H5yxbKa5j+5zDGKl9klmrIfpoj7L9T9uzDD41x896I8+OfmPgDLGdncTCY/RlkkIy8EvgN2/SMe6la7JBVZ4HTscQOParXkxrbXw2JkAi7sEHUUqkC9PKmJxRYP+kcGLucP4JgGi/4riNnITH1Az4qgRb8w9Ug+6pfQG/Jv9Zi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744049205; c=relaxed/simple;
-	bh=aPHlSmphASyw/e6OtF5BrnhEcXrJ3Tl5hTVdsy/Yibc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZgZkzv4WYTFI5nWzBwBEUP7M76KNBb3OQ4k2sKSFcS+XU1WkpvrVSdXbPQ7ir0UR0p6y7BQ+BrO1b9sQW9/k+y4AR6Ct5teNcm6Bsr16bzXqeiybIFKQ/GXYHZV/LMLch9sXRnnD5aiIGE7stYM7RR5I2qci9sBy3eBNed2joK4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=kybWyAZ0; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1744049388; c=relaxed/simple;
+	bh=RvuKAktVa96t1lOsp3K5Pu+p7/BjZYrqr/zoz3phUFU=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=DS2RnMqEOZCAmt2leMHfSHNg9rtLT1smgNrawkZkljt8kf+JxoN1G4kFRWM/zmg/Q6YJu6z4ajOiohuvzyjyb0jzvMXXMgRoPeCfb0L8UeyJsxqm4175nPgpI8btCDYX6i0hlcSs9diJvirWaMp5toDn/kesQ8lebd3mTV0SkwM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Nb3t/RBd; arc=none smtp.client-ip=209.85.214.178
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="kybWyAZ0"
-Message-ID: <3203955d-b0fa-4ef6-bcec-6d23a5b6441d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744049190;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=kFU4PCOFCF2t2dPmfjFQsFfH3+loT9oNKaTNo2jAsrw=;
-	b=kybWyAZ0LNPljlzODiID9MCxmPkOsj3+XZ3NOBA1SJ+GUkEwxi2q4YG6Tqzxu5OztwOoy2
-	4FWNfu+DxWPsP6v4QiY6skK5eZddzEVCNMMTHOBHgUXOXHrueBs+hUmpIpZBJYNh/tQl0M
-	sPWqXv7raQ0Wc9svTCLcg7RV8xLYw7E=
-Date: Mon, 7 Apr 2025 14:06:21 -0400
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Nb3t/RBd"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-223fb0f619dso45801785ad.1;
+        Mon, 07 Apr 2025 11:09:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744049386; x=1744654186; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fyM5SZww3BsIxLq5imP6WPb97ECb0VvvV7XlSlZ6uaA=;
+        b=Nb3t/RBdiz5r1mOI1FxJLhd/VioJyWw1m/BtOkXK8nS5djPq+1RXllFagn3tGiPIZ3
+         OhLqD/xA5NPkiIoSf1Nft+/a8p1qv3qrfK66kRqwcwEcCMiB2I/HVyg1f3LJmOrNRRqS
+         RLV8BJSXh9zF5IPU8tVJ4aZDwb+VY+dyEHDwZJPAo7qBzZaSuz9N6BkVVIvclTa7c/ll
+         6bMQYrfGtvvnleTr7+5u8fLZ2J4Q2KUsfSQGH7zCYtq3tZ2lTnzZOXDqtNmZv3XouqYM
+         X4UTDhob8vxDBXlTKDtM20WOz7yA2XHre6YYifCG2LO7IZ/n17K0A2nN0MynPTpok+7g
+         GIpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744049386; x=1744654186;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fyM5SZww3BsIxLq5imP6WPb97ECb0VvvV7XlSlZ6uaA=;
+        b=rx0UdbUuKY/PINsYEHlNvjA9xGY2rKp9xHWj/6CmLl7DlYcnDXckGbI+gJf5t1S1f/
+         vHpL9kMZ9Iatw2w0b0z3jbbMK9U5zeNdJlwNf6dewOBTyD4dEXjKYV3ki5gYdHc/YFtY
+         Re6kjJRVAvzFJW9rSCvJRUFWGD/QkdwBYZyYEohKnGwg984dcclBPEo/HeMg+AhvjlFQ
+         3j+DwfzJOGZldNMbTGIfN6pmXCJ4Q9ZlJmuMGoQSRFJDYcZoTEHnIh2B9sKhT4aT5BRP
+         NBXEvTLVoHmbcK58XgDGrroVeDTa7kGlOkPwR3JkYmriC8mlH1e1ffmuGU+m7OzE76Ca
+         HnwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVA1yTnzShX1B3nw0xAudaZTMAC3MF+mNEQp2JAe0a515tfI8kI8MF8CKnv0NM2pYK7c9XfF5puRk6FBsou@vger.kernel.org, AJvYcCWiQUMO9Rqq1GmfaxriJM4W82tzAAyP2pYJdreWhD/DVMFhpvkUsYZlvmsnZHx7FbVh3pLB/4NfzT0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrZGZn5XQTdLHrc+Abqo3AyRs1LctXLXcC2mIxR3ix2+ckzh4I
+	rFjViYvnfTDl2bcz30Kkmva2rw2pBwm1xymHY2TRjoRxyDrNFoXL
+X-Gm-Gg: ASbGncuBdX1meJ8cXTcBrHCKnyQ/MHPmIvJAw5bi3pyA5CY/SpddzfX9PGdl0kS305W
+	62EgPclP/wO4UT1sY6VfeDCsGT0UizkcQXAQQmu1oVi14tYZ8egnu69rgi+Vk9MfC9wOhnP8Ysi
+	C4bEc35Lr51H9xctiTIpYQo9ziwGFvjpA4piw08Phd3yqLBz7TH/RP2HL/G0kGKw8HpDPnnh3Uk
+	Gap2TyFAZ7HDNbp0AFOXaSsyxjyMsVnJurpt6EcxxZOGu7ugDMVEN8DT4Dw0DFARZ4t63B55oNJ
+	er54NL+v4DJ/2FDaWGcj8OHyTVTcoW9p8AFfSRY5D3mU6zI9+eXe4ZpFdqji+reRgRnodAFcKWH
+	8M3VzjEgZUj6zPub04qgrxaFw+zmpbLCsag==
+X-Google-Smtp-Source: AGHT+IH4QUToL7D8e8p/6On2iiP6OQv/SkBOfhg4jmTT3eYoxpzbIuK2HeFgMoBbObddEAjzAiLW1w==
+X-Received: by 2002:a17:902:c40c:b0:224:c47:cbd with SMTP id d9443c01a7336-22a89ebe8e4mr191891385ad.0.1744049386163;
+        Mon, 07 Apr 2025 11:09:46 -0700 (PDT)
+Received: from localhost.localdomain (118-160-134-247.dynamic-ip.hinet.net. [118.160.134.247])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2297865e03esm84282455ad.146.2025.04.07.11.09.42
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Mon, 07 Apr 2025 11:09:45 -0700 (PDT)
+From: Andy Chiu <andybnac@gmail.com>
+To: linux-riscv@lists.infradead.org,
+	alexghiti@rivosinc.com,
+	palmer@dabbelt.com
+Cc: Andy Chiu <andybnac@gmail.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	bjorn@rivosinc.com,
+	puranjay12@gmail.com,
+	paul.walmsley@sifive.com,
+	greentime.hu@sifive.com,
+	nick.hu@sifive.com,
+	nylon.chen@sifive.com,
+	eric.lin@sifive.com,
+	vicent.chen@sifive.com,
+	zong.li@sifive.com,
+	yongxuan.wang@sifive.com,
+	samuel.holland@sifive.com,
+	olivia.chu@sifive.com,
+	c2232430@gmail.com
+Subject: [PATCH v4 12/12] riscv: Documentation: add a description about dynamic ftrace
+Date: Tue,  8 Apr 2025 02:08:36 +0800
+Message-Id: <20250407180838.42877-12-andybnac@gmail.com>
+X-Mailer: git-send-email 2.39.3 (Apple Git-145)
+In-Reply-To: <20250407180838.42877-1-andybnac@gmail.com>
+References: <20250407180838.42877-1-andybnac@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [RFC net-next PATCH 00/13] Add PCS core support
-To: "Christian Marangi (Ansuel)" <ansuelsmth@gmail.com>
-Cc: Kory Maincent <kory.maincent@bootlin.com>, netdev@vger.kernel.org,
- Andrew Lunn <andrew+netdev@lunn.ch>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- upstream@airoha.com, Heiner Kallweit <hkallweit1@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Christophe Leroy <christophe.leroy@csgroup.eu>,
- Clark Wang <xiaoning.wang@nxp.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>, Conor Dooley <conor+dt@kernel.org>,
- Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Joyce Ooi <joyce.ooi@intel.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Krzysztof Kozlowski <krzysztof.kozlowski+dt@linaro.org>,
- Li Yang <leoyang.li@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>,
- Madhavan Srinivasan <maddy@linux.ibm.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Michal Simek <michal.simek@amd.com>,
- Naveen N Rao <naveen@kernel.org>, Nicholas Piggin <npiggin@gmail.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
- Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Robert Hancock <robert.hancock@calian.com>,
- Saravana Kannan <saravanak@google.com>, Shawn Guo <shawnguo@kernel.org>,
- UNGLinuxDriver@microchip.com, Vladimir Oltean <vladimir.oltean@nxp.com>,
- Wei Fang <wei.fang@nxp.com>, devicetree@vger.kernel.org,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-stm32@st-md-mailman.stormreply.com,
- linuxppc-dev@lists.ozlabs.org
-References: <20250403181907.1947517-1-sean.anderson@linux.dev>
- <20250407182738.498d96b0@kmaincent-XPS-13-7390>
- <720b6db8-49c5-47e7-98da-f044fc38fc1a@linux.dev>
- <CA+_ehUyAo7fMTe_P0ws_9zrcbLEWVwBXDKbezcKVkvDUUNg0rg@mail.gmail.com>
- <1aec6dab-ed03-4ca3-8cd1-9cfbb807be10@linux.dev>
- <CA+_ehUzeMBFrDEb7Abn3UO3S7VVjMiKc+2o=p5RGjPDkfLPVtQ@mail.gmail.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <CA+_ehUzeMBFrDEb7Abn3UO3S7VVjMiKc+2o=p5RGjPDkfLPVtQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+Content-Transfer-Encoding: 8bit
 
-On 4/7/25 13:21, Christian Marangi (Ansuel) wrote:
-> Il giorno lun 7 apr 2025 alle ore 19:00 Sean Anderson
-> <sean.anderson@linux.dev> ha scritto:
->>
->> On 4/7/25 12:46, Christian Marangi (Ansuel) wrote:
->> > Il giorno lun 7 apr 2025 alle ore 18:33 Sean Anderson
->> > <sean.anderson@linux.dev> ha scritto:
->> >>
->> >> On 4/7/25 12:27, Kory Maincent wrote:
->> >> > On Thu,  3 Apr 2025 14:18:54 -0400
->> >> > Sean Anderson <sean.anderson@linux.dev> wrote:
->> >> >
->> >> >> This series adds support for creating PCSs as devices on a bus with a
->> >> >> driver (patch 3). As initial users,
->> >> >>
->> >> >> - The Lynx PCS (and all of its users) is converted to this system (patch 5)
->> >> >> - The Xilinx PCS is broken out from the AXI Ethernet driver (patches 6-8)
->> >> >> - The Cadence MACB driver is converted to support external PCSs (namely
->> >> >>   the Xilinx PCS) (patches 9-10).
->> >> >>
->> >> >> The last few patches add device links for pcs-handle to improve boot times,
->> >> >> and add compatibles for all Lynx PCSs.
->> >> >>
->> >> >> Care has been taken to ensure backwards-compatibility. The main source
->> >> >> of this is that many PCS devices lack compatibles and get detected as
->> >> >> PHYs. To address this, pcs_get_by_fwnode_compat allows drivers to edit
->> >> >> the devicetree to add appropriate compatibles.
->> >> >
->> >> > I don't dive into your patch series and I don't know if you have heard about it
->> >> > but Christian Marangi is currently working on fwnode for PCS:
->> >> > https://lore.kernel.org/netdev/20250406221423.9723-1-ansuelsmth@gmail.com
->> >> >
->> >> > Maybe you should sync with him!
->> >>
->> >> I saw that series and made some comments. He is CC'd on this one.
->> >>
->> >> I think this approach has two advantages:
->> >>
->> >> - It completely solves the problem of the PCS being unregistered while the netdev
->> >>   (or whatever) is up
->> >> - I have designed the interface to make it easy to convert existing
->> >>   drivers that may not be able to use the "standard" probing process
->> >>   (because they have to support other devicetree structures for
->> >>   backwards-compatibility).
->> >>
->> >
->> > I notice this and it's my fault for taking too long to post v2 of the PCS patch.
->> > There was also this idea of entering the wrapper hell but I scrapped that early
->> > as I really feel it's a workaround to the current problem present for
->> > PCS handling.
->>
->> It's no workaround. The fundamental problem is that drivers can become
->> unbound at any time, and we cannot make consumers drop their references.
->> Every subsystem must deal with this reality, or suffer from
->> user-after-free bugs. See [1-3] for discussion of this problem in
->> relation to PCSs and PHYs, and [4] for more discussion of my approach.
->>
->> [1] https://lore.kernel.org/netdev/YV7Kp2k8VvN7J0fY@shell.armlinux.org.uk/
->> [2] https://lore.kernel.org/netdev/20220816163701.1578850-1-sean.anderson@seco.com/
->> [3] https://lore.kernel.org/netdev/9747f8ef-66b3-0870-cbc0-c1783896b30d@seco.com/
->> [3] https://lpc.events/event/17/contributions/1627/
->>
->> > And the real problem IMHO is that currently PCS handling is fragile and with too
->> > many assumptions. With Daniel we also discussed backwards-compatibility.
->> > (mainly needed for mt7621 and mt7986 (for mediatek side those are the 2
->> > that slipped in before it was correctly complained that things were
->> > taking a bad path)
->> >
->> > We feel v2 permits correct support of old implementations.
->> > The ""legacy"" implementation pose the assumption that PCS is never removed
->> > (unless the MAC driver is removed)
->> > That fits v2 where a MAC has to initially provide a list of PCS to
->> > phylink instance.
->>
->> And what happens when the driver is unbound from the device and suddenly
->> a PCS on that list is free'd memory but is in active use by a netdev?
->>
-> 
-> driver bug for not correctly implementing the removal task.
-> 
-> The approach is remove as provider and call phylink removal phase
-> under rtnl lock.
-> We tested this with unbind, that is actually the main problem we are
-> trying to address
-> and works correctly.
+Add a section in cmodx to describe how dynamic ftrace works on riscv,
+limitations, and assumptions.
 
-OK, so this is a different approach since your last submission. Please
-CC me on your series.
+Signed-off-by: Andy Chiu <andybnac@gmail.com>
+---
+ Documentation/arch/riscv/cmodx.rst | 46 +++++++++++++++++++++++++-----
+ 1 file changed, 39 insertions(+), 7 deletions(-)
 
-- Fundamentally this is going to make backwards compatibility very
-  difficult, since your approach cannot work with mac_select_pcs. How
-  are you going to handle the case of MAC-internal PCSs? Are you going
-  to make them create a swnode and bind to it just to create a PCS for
-  e.g. MMIO registers? And how is the MAC supposed to know how to select
-  the PCS? From what I can tell you don't even notify the MAC about
-  which PCS it's using.
+diff --git a/Documentation/arch/riscv/cmodx.rst b/Documentation/arch/riscv/cmodx.rst
+index 8c48bcff3df9..e009873b2d17 100644
+--- a/Documentation/arch/riscv/cmodx.rst
++++ b/Documentation/arch/riscv/cmodx.rst
+@@ -10,13 +10,45 @@ modified by the program itself. Instruction storage and the instruction cache
+ program must enforce its own synchronization with the unprivileged fence.i
+ instruction.
+ 
+-However, the default Linux ABI prohibits the use of fence.i in userspace
+-applications. At any point the scheduler may migrate a task onto a new hart. If
+-migration occurs after the userspace synchronized the icache and instruction
+-storage with fence.i, the icache on the new hart will no longer be clean. This
+-is due to the behavior of fence.i only affecting the hart that it is called on.
+-Thus, the hart that the task has been migrated to may not have synchronized
+-instruction storage and icache.
++CMODX in the Kernel Space
++---------------------
++
++Dynamic ftrace
++---------------------
++
++Essentially, dynamic ftrace directs the control flow by inserting a function
++call at each patchable function entry, and patches it dynamically at runtime to
++enable or disable the redirection. In the case of RISC-V, 2 instructions,
++AUIPC + JALR, are required to compose a function call. However, it is impossible
++to patch 2 instructions and expect that a concurrent read-side executes them
++without a race condition. This series makes atmoic code patching possible in
++RISC-V ftrace. Kernel preemption makes things even worse as it allows the old
++state to persist across the patching process with stop_machine().
++
++In order to get rid of stop_machine() and run dynamic ftrace with full kernel
++preemption, we partially initialize each patchable function entry at boot-time,
++setting the first instruction to AUIPC, and the second to NOP. Now, atmoic
++patching is possible because the kernel only has to update one instruction.
++According to Ziccif, as long as an instruction is naturally aligned, the ISA
++guarantee an  atomic update.
++
++By fixing down the first instruction, AUIPC, the range of the ftrace trampoline
++is limited to +-2K from the predetermined target, ftrace_caller, due to the lack
++of immediate encoding space in RISC-V. To address the issue, we introduce
++CALL_OPS, where an 8B naturally align metadata is added in front of each
++pacthable function. The metadata is resolved at the first trampoline, then the
++execution can be derect to another custom trampoline.
++
++CMODX in the User Space
++---------------------
++
++Though fence.i is an unprivileged instruction, the default Linux ABI prohibits
++the use of fence.i in userspace applications. At any point the scheduler may
++migrate a task onto a new hart. If migration occurs after the userspace
++synchronized the icache and instruction storage with fence.i, the icache on the
++new hart will no longer be clean. This is due to the behavior of fence.i only
++affecting the hart that it is called on. Thus, the hart that the task has been
++migrated to may not have synchronized instruction storage and icache.
+ 
+ There are two ways to solve this problem: use the riscv_flush_icache() syscall,
+ or use the ``PR_RISCV_SET_ICACHE_FLUSH_CTX`` prctl() and emit fence.i in
+-- 
+2.39.3 (Apple Git-145)
 
-  I considered an approach like this, where the phylink would be in the
-  driver's seat (so to speak), but I decided not to persue it due to
-  the problems listed above. A lot of PCSs are tightly-integrated with
-  their MACs, so it does not make sense to introduce this little
-  coupling. I think it is better to let the MAC select the PCS e.g.
-  based on the phy interface. This tends to be a few lines of code for
-  the MAC and saves so much complexity in phylink.
-
-  I think you should try doing the macb and lynx conversions for your
-  approach. It will make the above problems obvious.
-
-- Your approach is very intrusive. There are lots of changes all over
-  phylink across several patches and it is hard to verify all the
-  assumptions. Whereas a wrapper keeps everything contained to one file,
-  and most of the functions can be evaluated independently.
-
---Sean
