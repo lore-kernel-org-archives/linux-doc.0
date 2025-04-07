@@ -1,106 +1,201 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8C491ACEAD;
-	Mon,  7 Apr 2025 13:55:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB7A91940A2
+	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 14:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744034152; cv=none; b=jp5a3jQRFWyqBadjcNSudKUaX/+H77YlX77jopwfEbJ033Xh2SfHTUJxkALQd5Y2K0TgSsQ4rXojPr6lVH7WzDkvFjR5Tvv8hFZtEuF6mMTMXCtcNof7E90GLZ3AlLuH2+ZTCZnZQQkAUayvXWeVUGRM1N4Xra85L/D6vgS/TbU=
+	t=1744034435; cv=none; b=U1wBjB2ZDsHQaju2WfTMctpH4++cKR/+wjptYiBApzKzBplocYs2NoBBzEYB5LhNgbD5KsoCO00Cwwt7zLaZ6rykGQ588/DJCt8U5tEXr1I5+MjE9+mYr4qSfm4gMjvT9zaOdg66NIIa++e5LWZD1Rhdv72tCkLKUXHcIPiQRMs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744034152; c=relaxed/simple;
-	bh=w+Szp4qRe6od/VKiQ0QTbtbzWdiqzc20uA+XzIXV+Ek=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tz+zFKq6npVsHgbEeX/X9bmarUdvfCmKjr2sqzWt83m1E7Okpt8wvL2QqgqJUfwAbaiQXIAwPSPCKdwImt72Lvyt0otgqxfQJRvmiEW1kfuxKZN2svcnEgkV0v/KbX8qLueNyQ1IW8oTBP0p09Hm9NnLVnbVqd6k5xPUqly6Kto=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QcPQLc2j; arc=none smtp.client-ip=192.198.163.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1744034435; c=relaxed/simple;
+	bh=DgMnIFXtAvx1loyBh95GC/kcO1U1K7g6nvQfxWnY9lM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=FWgIWCK35SwQE7St13VvCR93LvUcUvxceCq3gi1rhzJUNo2kTIQIIKZIXRaH9oIZtrKlv06KUT97jruZPSbX6ShCfRAr3UxLH0Q0ehdJm3RWJm99ejIMPU++IAv9HHUpVQw8ySZ+08iwh0sVg3QHPsxCeHofBsCWzI6Rt+Sqi9I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uX8XMhGb; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QcPQLc2j"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744034151; x=1775570151;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=w+Szp4qRe6od/VKiQ0QTbtbzWdiqzc20uA+XzIXV+Ek=;
-  b=QcPQLc2jfZhhJUNKPuGN2seu0DqDk9xO+8ahUUOwos2XBn3tGhkRatd7
-   E+ahYjlGNqxHXJyPgeoWwsi8zCG475YgLs+MOxy+hBVK8wxXlHUFIQ+Z5
-   /NtKEVqTcnjr4KRw1tQyrzu5aUMehiaWPn6zTj2FE3AesVuI8ignnBMVg
-   6TcGa9iVogGN+QwnUUBU4d3GGgwBBfZhIQ0pOp4Jqh0QOOdwDE6D6/JmO
-   aRSGM3A/upWWzAg0xSIFMrOHNIKWC/wqLefcG4cuWNYY/eK6D870Efzke
-   gAzUnxK3Dz6Z4/0Q6CJr+HP0lVyoQrRX3qTL4DHND/Ig6StziKfFoUN4l
-   Q==;
-X-CSE-ConnectionGUID: VGIjPkuoSBmoVDuAD5PmYw==
-X-CSE-MsgGUID: Vo1yqEaFSFua1PcEc5pyDA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56058818"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="56058818"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 06:55:50 -0700
-X-CSE-ConnectionGUID: yN/pI+e+RzqBjngpWOGVkg==
-X-CSE-MsgGUID: aSeNLAvTQue274cUj/gT8Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="132100493"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 06:55:46 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u1mwv-0000000A5Q5-0pqS;
-	Mon, 07 Apr 2025 16:55:41 +0300
-Date: Mon, 7 Apr 2025 16:55:40 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uX8XMhGb"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1744034430;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=9cbMwporEsi242xRzgMBwjUyFcDHJGIP25ud7IaC75Y=;
+	b=uX8XMhGbrioPdgoNlB2Zx7hjtiyx2T12b79dMnJos2ACmrUakRYGA/v4hGCV4MwgAhKf6R
+	xyVmjJNYzxmalWd/AItVmefT2v0snUGViLFJB6b4vPqTv9Yr8GE4Xh1JrdMsFyM7/ZZl2n
+	3biBk4VoSevVZDiTt2VuG0A04xhnwwo=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: bpf@vger.kernel.org
+Cc: mrpre@163.com,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Eric Dumazet <edumazet@google.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
-	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-	Kees Cook <kees@kernel.org>, tamird@gmail.com,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Hector Martin <marcan@marcan.st>,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Subject: Re: [PATCH v3 0/3] Use proper printk format in appletbdrm
-Message-ID: <Z_PZXPAklfkMlx6O@smile.fi.intel.com>
-References: <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	Neal Cardwell <ncardwell@google.com>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	David Ahern <dsahern@kernel.org>,
+	Steffen Klassert <steffen.klassert@secunet.com>,
+	Sabrina Dubroca <sd@queasysnail.net>,
+	Antony Antony <antony.antony@secunet.com>,
+	Christian Hopps <chopps@labn.net>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH RESEND net-next v3 1/2] tcp: add TCP_RFC7323_TW_PAWS drop reason
+Date: Mon,  7 Apr 2025 21:59:50 +0800
+Message-ID: <20250407140001.13886-2-jiayuan.chen@linux.dev>
+In-Reply-To: <20250407140001.13886-1-jiayuan.chen@linux.dev>
+References: <20250407140001.13886-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <PN3PR01MB9597596DA5DA9FC02825CF0FB8AA2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 07, 2025 at 07:05:13PM +0530, Aditya Garg wrote:
-> The vsprint patch was originally being sent as a seperate patch [1], and
-> I was waiting it to be taken up. But as suggested by Petr, I'm sending
-> them via DRM.
+PAWS is a long-standing issue, especially when there are upstream network
+devices, making it more prone to occur.
 
+Currently, packet loss statistics for PAWS can only be viewed through MIB,
+which is a global metric and cannot be precisely obtained through tracing
+to get the specific 4-tuple of the dropped packet. In the past, we had to
+use kprobe ret to retrieve relevant skb information from
+tcp_timewait_state_process().
 
-Your message is detached from the thread, make sure you use proper tools, e.g.
+We add a drop_reason pointer, similar to what previous commit does:
+commit e34100c2ecbb ("tcp: add a drop_reason pointer to tcp_check_req()")
 
-`git format-patch --thread --cover-letter -v3 ...` gives the correct result.
+This commit addresses the PAWSESTABREJECTED case and also sets the
+corresponding drop reason.
 
-...
+We use 'pwru' to test.
 
-> [1]: https://lore.kernel.org/lkml/1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com/
+Before this commit:
+''''
+./pwru 'port 9999'
+2025/04/07 13:40:19 Listening for events..
+TUPLE                                        FUNC
+172.31.75.115:12345->172.31.75.114:9999(tcp) sk_skb_reason_drop(SKB_DROP_REASON_NOT_SPECIFIED)
+'''
 
-Even here you can use Link: tag
+After this commit:
+'''
+./pwru 'port 9999'
+2025/04/07 13:51:34 Listening for events..
+TUPLE                                        FUNC
+172.31.75.115:12345->172.31.75.114:9999(tcp) sk_skb_reason_drop(SKB_DROP_REASON_TCP_RFC7323_TW_PAWS)
+'''
 
-Link: https://lore.kernel.org/lkml/1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com/ [1]
+Suggested-by: Eric Dumazet <edumazet@google.com>
+Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+---
+ include/net/dropreason-core.h | 6 ++++++
+ include/net/tcp.h             | 3 ++-
+ net/ipv4/tcp_ipv4.c           | 3 ++-
+ net/ipv4/tcp_minisocks.c      | 7 +++++--
+ net/ipv6/tcp_ipv6.c           | 3 ++-
+ 5 files changed, 17 insertions(+), 5 deletions(-)
 
+diff --git a/include/net/dropreason-core.h b/include/net/dropreason-core.h
+index e4fdc6b54cef..9701d7f936f6 100644
+--- a/include/net/dropreason-core.h
++++ b/include/net/dropreason-core.h
+@@ -40,6 +40,7 @@
+ 	FN(TCP_OFOMERGE)		\
+ 	FN(TCP_RFC7323_PAWS)		\
+ 	FN(TCP_RFC7323_PAWS_ACK)	\
++	FN(TCP_RFC7323_TW_PAWS)		\
+ 	FN(TCP_RFC7323_TSECR)		\
+ 	FN(TCP_LISTEN_OVERFLOW)		\
+ 	FN(TCP_OLD_SEQUENCE)		\
+@@ -283,6 +284,11 @@ enum skb_drop_reason {
+ 	 * Corresponds to LINUX_MIB_PAWS_OLD_ACK.
+ 	 */
+ 	SKB_DROP_REASON_TCP_RFC7323_PAWS_ACK,
++	/**
++	 * @SKB_DROP_REASON_TCP_RFC7323_TW_PAWS: PAWS check, socket is in
++	 * TIME_WAIT state.
++	 */
++	SKB_DROP_REASON_TCP_RFC7323_TW_PAWS,
+ 	/**
+ 	 * @SKB_DROP_REASON_TCP_RFC7323_TSECR: PAWS check, invalid TSEcr.
+ 	 * Corresponds to LINUX_MIB_TSECRREJECTED.
+diff --git a/include/net/tcp.h b/include/net/tcp.h
+index 4450c384ef17..5078ad868fee 100644
+--- a/include/net/tcp.h
++++ b/include/net/tcp.h
+@@ -427,7 +427,8 @@ enum tcp_tw_status {
+ enum tcp_tw_status tcp_timewait_state_process(struct inet_timewait_sock *tw,
+ 					      struct sk_buff *skb,
+ 					      const struct tcphdr *th,
+-					      u32 *tw_isn);
++					      u32 *tw_isn,
++					      enum skb_drop_reason *drop_reason);
+ struct sock *tcp_check_req(struct sock *sk, struct sk_buff *skb,
+ 			   struct request_sock *req, bool fastopen,
+ 			   bool *lost_race, enum skb_drop_reason *drop_reason);
+diff --git a/net/ipv4/tcp_ipv4.c b/net/ipv4/tcp_ipv4.c
+index 8cce0d5489da..d5b5c32115d2 100644
+--- a/net/ipv4/tcp_ipv4.c
++++ b/net/ipv4/tcp_ipv4.c
+@@ -2417,7 +2417,8 @@ int tcp_v4_rcv(struct sk_buff *skb)
+ 		goto csum_error;
+ 	}
+ 
+-	tw_status = tcp_timewait_state_process(inet_twsk(sk), skb, th, &isn);
++	tw_status = tcp_timewait_state_process(inet_twsk(sk), skb, th, &isn,
++					       &drop_reason);
+ 	switch (tw_status) {
+ 	case TCP_TW_SYN: {
+ 		struct sock *sk2 = inet_lookup_listener(net,
+diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
+index fb9349be36b8..27511bf58c0f 100644
+--- a/net/ipv4/tcp_minisocks.c
++++ b/net/ipv4/tcp_minisocks.c
+@@ -97,7 +97,8 @@ static void twsk_rcv_nxt_update(struct tcp_timewait_sock *tcptw, u32 seq,
+  */
+ enum tcp_tw_status
+ tcp_timewait_state_process(struct inet_timewait_sock *tw, struct sk_buff *skb,
+-			   const struct tcphdr *th, u32 *tw_isn)
++			   const struct tcphdr *th, u32 *tw_isn,
++			   enum skb_drop_reason *drop_reason)
+ {
+ 	struct tcp_timewait_sock *tcptw = tcp_twsk((struct sock *)tw);
+ 	u32 rcv_nxt = READ_ONCE(tcptw->tw_rcv_nxt);
+@@ -245,8 +246,10 @@ tcp_timewait_state_process(struct inet_timewait_sock *tw, struct sk_buff *skb,
+ 		return TCP_TW_SYN;
+ 	}
+ 
+-	if (paws_reject)
++	if (paws_reject) {
++		*drop_reason = SKB_DROP_REASON_TCP_RFC7323_TW_PAWS;
+ 		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWSESTABREJECTED);
++	}
+ 
+ 	if (!th->rst) {
+ 		/* In this case we must reset the TIMEWAIT timer.
+diff --git a/net/ipv6/tcp_ipv6.c b/net/ipv6/tcp_ipv6.c
+index b03c223eda4f..7dcb33f879ee 100644
+--- a/net/ipv6/tcp_ipv6.c
++++ b/net/ipv6/tcp_ipv6.c
+@@ -1970,7 +1970,8 @@ INDIRECT_CALLABLE_SCOPE int tcp_v6_rcv(struct sk_buff *skb)
+ 		goto csum_error;
+ 	}
+ 
+-	tw_status = tcp_timewait_state_process(inet_twsk(sk), skb, th, &isn);
++	tw_status = tcp_timewait_state_process(inet_twsk(sk), skb, th, &isn,
++					       &drop_reason);
+ 	switch (tw_status) {
+ 	case TCP_TW_SYN:
+ 	{
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.47.1
 
