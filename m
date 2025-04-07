@@ -1,126 +1,112 @@
-Received: from out-184.mta0.migadu.com (out-184.mta0.migadu.com [91.218.175.184])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 779EB2222B0
-	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 05:35:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.184
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2332135A4;
+	Mon,  7 Apr 2025 06:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744004145; cv=none; b=iKfO+Umnf4WOyFkBbFZxiel1/Sn6hOdODEb/kx+xV1352eTus6ykRmgQ3tE62wYgo5sdXb/qFkYsxSRePUCsJxS9vYFG+JHO54Vo7K3+k8l416Kbz60whpKwT4Rt00aJoRtk/KuILoFhtTvIogxYGaa8jXTkIA3ZaWda24S8tmY=
+	t=1744008116; cv=none; b=JueOrBZERqponMo1MRoskb7SopE+wnKoy/zRIdtqvNyTE8NYBbKfj7Fbd2DPU1dwdBg/dkVITHLnnjzpTQ4FliUuVMpcQxH7+5TNOnKxA0LTFEOJ6jEMlNwmsQ8VUQmSuYHlfebBZkfRJ+KOzWrL7q6vX9YQRqWPl0lvJLUXgxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744004145; c=relaxed/simple;
-	bh=GdhxnSjy0DInCZdHnnjNeLTcrqCu8hav/hskR37tAW0=;
+	s=arc-20240116; t=1744008116; c=relaxed/simple;
+	bh=DoJUGBL2D6O/z79KhKuE6vrMJER/aoe7N3m1hEHkVgI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=b444r57EGbSz/UArfuRNjEzO1UzNNRTcHiNvRCPaKfd3cALRuPIIG0qm2YDQ6hMBNrOp6WA1QCXDbTf9rc5d/ufakRk3sL5KQ/iv9eHWcg03aaaNaUHNVV9zvk5HBDB/wjAtAhKC4K6iOjgBGD5i/X4hO/PhoU8g3sXFm0kYkf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Ho0knh0x; arc=none smtp.client-ip=91.218.175.184
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	 Content-Type:Content-Disposition:In-Reply-To; b=fmZzm2KtWjsqayUeWK/oFLG1fpaQLoGLD8n6PsSc4bGx/7PAbzwre7/DVm5ygCMKqFb+l0K90eFE3ErqS9qpB2bdvJQGMgoHOptrfQmGQf5Y8Bk5ENXIALeH/tSbKbP8j6k0Ge2Bn9HcLUN2U8/+I4AyenVmrf/9w2g1JEgMB4Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UaXnqCXX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Ho0knh0x"
-Date: Sun, 6 Apr 2025 22:35:25 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744004138;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=RNfyjJ36NwMo27wB3yA4lOZ9U2Fsk9+3dltOkC7RDUE=;
-	b=Ho0knh0xTy/U6S07jKpiwc1tvurITGV4mcne2YhLXL2Rn6cx3FnLTTNaMt27AwnJgeBq6H
-	+TzMKPCaBi/Ke6MgVhhKc9uyOD2BPbMMn3jOQSa5bxoveD0Tb0fYKCBa4KW7K9ohcrUd6O
-	D3h0nI+wvSMyFHJP3zSreSgpZecBsKA=
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Oliver Upton <oliver.upton@linux.dev>
-To: Yicong Yang <yangyicong@huawei.com>
-Cc: yangyicong@hisilicon.com, catalin.marinas@arm.com, will@kernel.org,
-	maz@kernel.org, corbet@lwn.net,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
-	shuah@kernel.org, jonathan.cameron@huawei.com,
-	shameerali.kolothum.thodi@huawei.com, linuxarm@huawei.com,
-	prime.zeng@hisilicon.com, xuwei5@huawei.com,
-	tangchengchang@huawei.com
-Subject: Re: [PATCH v2 6/6] KVM: arm64: Handle DABT caused by LS64*
- instructions on unsupported memory
-Message-ID: <Z_NkHWStDJLo0cmY@linux.dev>
-References: <20250331094320.35226-1-yangyicong@huawei.com>
- <20250331094320.35226-7-yangyicong@huawei.com>
- <Z-wQuJAefT3xNipl@linux.dev>
- <e9674079-9a22-c3cd-3b00-5989f6926303@huawei.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UaXnqCXX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 35947C4CEDD;
+	Mon,  7 Apr 2025 06:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744008115;
+	bh=DoJUGBL2D6O/z79KhKuE6vrMJER/aoe7N3m1hEHkVgI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UaXnqCXXEuagAk6jCr/F0GwOLDmfUV7bMUTYXIni82xQXgVrf4BhwaiWbAbLN8Sg+
+	 BUlflqPodN6t7s4c+/7U//8mKpr5uw+/ZIvX4gQYfRIOEJnbQmPuZZKsCIaNvyQRvP
+	 kdaUhAY1vfm9EqdZ74ISV4dR2Uz6ob9vMJpgNgNt94EYoNQccmNRsch+mmoiyLSY44
+	 PyE/iwxHnUMDrHMgYETyKdF7rRVJ9JBsyXDsxzmu6Z8mebBMVwclqtALX4UIXmjZRU
+	 1/uoxzRE5jn5Vg+qBG3Fsad0WIxhz2DHwfAfR39ma26MbFCm6f+SBZIvDOVTbTfpgT
+	 Oa+41Q7J3aRlw==
+Date: Mon, 7 Apr 2025 08:41:53 +0200
+From: Krzysztof Kozlowski <krzk@kernel.org>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jonathan Cameron <jic23@kernel.org>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, linux-iio@vger.kernel.org, 
+	Michael Hennerich <Michael.Hennerich@analog.com>, Nuno =?utf-8?B?U8Oh?= <nuno.sa@analog.com>, 
+	Jonathan Corbet <corbet@lwn.net>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/5] dt-bindings: iio: adc: ad7380: add AD7389-4
+Message-ID: <20250407-adorable-copper-guillemot-00c44f@shite>
+References: <20250401-iio-ad7380-add-ad7389-4-v1-0-23d2568aa24f@baylibre.com>
+ <20250401-iio-ad7380-add-ad7389-4-v1-1-23d2568aa24f@baylibre.com>
+ <20250402-winged-ambitious-sparrow-c988c6@krzk-bin>
+ <847307bf-c612-475e-84bd-31efcbd7239f@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <e9674079-9a22-c3cd-3b00-5989f6926303@huawei.com>
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <847307bf-c612-475e-84bd-31efcbd7239f@baylibre.com>
 
-On Mon, Apr 07, 2025 at 11:33:01AM +0800, Yicong Yang wrote:
-> On 2025/4/2 0:13, Oliver Upton wrote:
-> > On Mon, Mar 31, 2025 at 05:43:20PM +0800, Yicong Yang wrote:
-> >> @@ -1658,6 +1658,25 @@ static int user_mem_abort(struct kvm_vcpu *vcpu, phys_addr_t fault_ipa,
-> > Keep in mind that data aborts with DFSC == 0x35 can happen for a lot
-> > more than LS64 instructions, e.g. an atomic on a Device-* mapping.
+On Wed, Apr 02, 2025 at 09:39:43AM GMT, David Lechner wrote:
+> On 4/2/25 3:25 AM, Krzysztof Kozlowski wrote:
+> > On Tue, Apr 01, 2025 at 05:50:08PM -0500, David Lechner wrote:
+> >> Add compatible and quirks for AD7389-4. This is essentially the same as
+> >> AD7380-4 but instead of having no internal reference, it has no external
+> >> reference voltage supply.
 > > 
+> > So neither refio nor refin, but your schema says:
+> > 
+> >> +    then:
+> >> +      properties:
+> >> +        refio-supply: false
+> > 
+> > So what about refin, which is also external reference?
 > 
-> got it. 0x35 should be caused by LS64* or IMPLEMENTATION DEFINED fault, but no
-> further hint to distinguish between these two faults. hope it's also the right
-> behaviour to inject a DABT back for the latter case.
-
-There isn't exactly a 'right' behavior here. The abort could either be
-due to a bug in the guest (doing an access on something knows it can't)
-or the VMM creating / describing the IPA memory map incorrectly.
-
-Since KVM can't really work out who's to blame in this situation we should
-probably exit to userspace + provide a way to reinject the abort.
-
-> >> @@ -1919,6 +1939,21 @@ int kvm_handle_guest_abort(struct kvm_vcpu *vcpu)
-> >>  			goto out_unlock;
-> >>  		}
-> >>  
-> >> +		/*
-> >> +		 * If instructions of FEAT_{LS64, LS64_V} operated on
-> >> +		 * unsupported memory regions, a DABT for unsupported
-> >> +		 * Exclusive or atomic access is generated. It's
-> >> +		 * implementation defined whether the exception will
-> >> +		 * be taken to, a stage-1 DABT or the final enabled
-> >> +		 * stage of translation (stage-2 in this case as we
-> >> +		 * hit here). Inject a DABT to the guest to handle it
-> >> +		 * if it's implemented as a stage-2 DABT.
-> >> +		 */
-> >> +		if (esr_fsc_is_excl_atomic_fault(esr)) {
-> >> +			kvm_inject_dabt_excl_atomic(vcpu, kvm_vcpu_get_hfar(vcpu));
-> >> +			return 1;
-> >> +		}
-> >> +
-> > 
-> > A precondition of taking such a data abort is having a valid mapping at
-> > stage-2. If KVM can't resolve the HVA of the fault then there couldn't
-> > have been a stage-2 mapping.
-> > 
+> This is already handled by the existing if statement:
 > 
-> Here's handling the case for emulated mmio, I thought there's no valid stage-2 mapping
-> for the emulated MMIO? so this check is put just before entering io_mem_abort(). should
-> it be put into io_mem_abort() or we just don't handle the emulated case?
+>   - if:
+>       properties:
+>         compatible:
+>           enum:
+>             - adi,ad7380-4
+>             - adi,adaq4370-4
+>             - adi,adaq4380-4
+>             - adi,adaq4381-4
+>     then:
+>       properties:
+>         refio-supply: false
+>       required:
+>         - refin-supply
+>     else:
+>       properties:
+>         refin-supply: false
 
-Right -- there's no valid stage-2 translation for _most_ MMIO. If KVM
-cannot find an HVA for the fault (look at the condition that gets us
-here) then we know there isn't a stage-2 mapping. How would we know what
-to map?
+The way the if-then are organized there is not how I would expect, so
+thus confusion. Each if: condition has else:, so to understand what
+applies to given model one has to read everything!
 
-In that case I would expect to take a Translation fault with instruction
-syndrome that can can be used to construct an exit to the VMM. Marc had
-some patches on list to do exactly that [*].
+And you add here second method - if without else.
 
-However, after reading this again there's a rather ugly catch. The KVM
-ABI has it that writes to a RO memlot generate an MMIO exit, so it *is*
-possible to get here w/ a stage-2 mapping. Unfortunately there's no
-instruction syndrome with DFSC = 0x35 so no way to decode the access.
+This is supposed to be simple:
+if:
+  - model_foo
+then:
+  ...
 
-This is starting to sound similar an nISV MMIO abort...
+if:
+  - model_bar
+then:
+  ...
 
-[*]: https://lore.kernel.org/kvmarm/20240815125959.2097734-1-maz@kernel.org/
+if:
+  - model_baz
+then:
+  ...
 
-Thanks,
-Oliver
+
+Best regards,
+Krzysztof
+
