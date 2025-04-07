@@ -1,63 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AC3823FC52;
-	Mon,  7 Apr 2025 18:58:27 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7648A25B66A;
+	Mon,  7 Apr 2025 19:04:07 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744052308; cv=none; b=fAVgZJWBHTh9y3ROId+BU32jB3JjV/rQIyVhGOHDiWdS2qNlRPg2G7kvG+iEsQ07SOWRIll+IUBwyn+UPcLoMeuOEgu5vA7jvmu4V1G/zKQO9yc9cSXBXJqJguYR42WvcQ1Sd5hToJCqxUypU4MX8iEwfXdrfbecF0qrPzIFPXk=
+	t=1744052647; cv=none; b=TJRD/6W28jhbGLTiVqGSO1BNTrClIIgXoBcBzV9xrQ6x7ZHkf2h6q+HTFTPvNNJNs0Z3cx2WTI/gCbwbnTRawsXZ+DQQsxX73QX9re1XRJGcRyRjstKQ3vJ/QItbyuTciyWIw1xOJrsPOnUgUlkW548onhGxOlQf5Wm4o2nmAS0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744052308; c=relaxed/simple;
-	bh=kpnlwU1ua4w3405cDEFSviiFMiWPttNWuxqNWJ6xrhg=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=FZYYThZS7AMTMOHGTT9yZ0QzT3mEiZgIcOEab6AALY6u+tVj57P4P5B6dKur8Mm6EWwe7m3qt1l5HRZvCixf+FdRC2jSG9ZjnAMIeTMPLNHmgblCwNVlZJ5Snnod16iXpGFYe/GqBDfGf4JgTYXahcOAfsEzPNsSAFuiAmfwbOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=D0fvdEA9; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744052647; c=relaxed/simple;
+	bh=qqrw6QRkHJJzwT64WIKngX6jRFxi983UO52jm9agfOM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=n7koXJHdIeqeIdIuF6oNIoCr0i2fFVf6POITX3XmWVlqxmHc2l8sKJdubbJCu4/hWnOuIQjQV9Whsi3pSWFA/a1vyiMvT70NLM0XLnvTOY/d7FH4hHjWPdR8+IF7kiROzKrQvl9JZQKsYfGldRDNQmmkjY1ynqtogNUOAHq7Pa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PaJNJa1k; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="D0fvdEA9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B0BC4CEFE;
-	Mon,  7 Apr 2025 18:58:22 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PaJNJa1k"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32123C4CEE9;
+	Mon,  7 Apr 2025 19:04:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744052307;
-	bh=kpnlwU1ua4w3405cDEFSviiFMiWPttNWuxqNWJ6xrhg=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=D0fvdEA9QYp9ibxMxuVd+ukYS2ASZtxn6COss2F01rOz4/UptfXi7frDT5l6MyO4N
-	 yWzDF+OcFCgdWR8pj6VAdc1YoOC3K/QA0QGF/8bWOyIXNb/vdIhjvJUHu8XBMcfKiq
-	 G5pM57vd/Nt8xKSUs8oCv58SQf89qqhc0rzwqFubjZR2X4gCamJoT/XEUIDXlSY4HJ
-	 GcinFmITK+bnmhkYdD1vJ6a+2qm8P8PjVD6wu+bbKjtRwANw95phihW3dgzbXE0r/h
-	 sUqo0Lxy3NGoKWtNpXvFdGQQdN0gIadPCs0nYA86PnA22VdaofSD/7Yt/pF1YPo+KY
-	 6hP1cPvNh3C2g==
-Date: Mon, 7 Apr 2025 19:58:19 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Angelo Dureghello <adureghello@baylibre.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
- linux-iio@vger.kernel.org, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] iio: adc: ad7606: add SPI offload support
-Message-ID: <20250407195819.506e4d6f@jic23-huawei>
-In-Reply-To: <20250403-wip-bl-spi-offload-ad7606-v1-3-1b00cb638b12@baylibre.com>
-References: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
-	<20250403-wip-bl-spi-offload-ad7606-v1-3-1b00cb638b12@baylibre.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	s=k20201202; t=1744052647;
+	bh=qqrw6QRkHJJzwT64WIKngX6jRFxi983UO52jm9agfOM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=PaJNJa1kHSlAkFt6D4jNyw4pzpsOSColBRH1qfEYKHdz4TrUCw9wN5amD3LmAyBeZ
+	 kA7zYSgh58faw94Kb7Wg9Z/YYjlcykrwJKmScMuQgN27nplhvagJ4UoYoKIQaZvFoZ
+	 kRSxAyO0e73yASn8PLZVFo38qFh21GhPQQtSincuB08MEdtOPqWuH1uXw1mf9sgNXx
+	 aN9TgIqbtIaFSbirmSbugNz9PlUMqmme5U1pQzGPTENd2vZzBP+ZPJOXhIBJV1iQcx
+	 T8fnd2D5gCz/OINyrlhzjyXLSm0dU468sY0pszV5AxuLmnq8dz2qkmwtzTURA5TbhX
+	 D6eQph2ulg/RQ==
+Date: Mon, 7 Apr 2025 21:04:01 +0200
+From: Ingo Molnar <mingo@kernel.org>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH 2/2] x86/CPU/AMD: Print the reason for the last reset
+Message-ID: <Z_QhoXeHf-Itua95@gmail.com>
+References: <20250407162525.1357673-1-superm1@kernel.org>
+ <20250407162525.1357673-2-superm1@kernel.org>
+ <Z_Qdn_WYAalNAHOi@gmail.com>
+ <ebfaae8d-7186-454f-ba06-b86fea357d03@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ebfaae8d-7186-454f-ba06-b86fea357d03@kernel.org>
 
-On Thu, 03 Apr 2025 18:19:06 +0200
-Angelo Dureghello <adureghello@baylibre.com> wrote:
 
-> From: Angelo Dureghello <adureghello@baylibre.com>
+* Mario Limonciello <superm1@kernel.org> wrote:
+
+> > I realize that the entire numeric value gets printed as well, but it's
+> > the symbolic decoding that is most useful to humans.
 > 
-> Add SPI offload support for this family.
+> The way that I "envisioned" this working was someone uses their machine and
+> suddenly hits a problem.  When they do they look at amd/debugging.rst and
+> then run:
 > 
-> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
-Missing import of the IIO_DMAENGINE_BUFFER in the spi module.
+> "journalctl -k | grep "System reset was due"
+> 
+> and then map the odd duck(s) out to the table.
 
-Added.
+99% of such people wouldn't know about amd/debugging.rst (nor should 
+they really: why should there be an extra layer of obfuscation while we 
+have this thing called a 'computer' that could ... compute all that 
+lookup for us? ;-), and they'd be looking at information in the syslog 
+after weird reboots.
+
+We should improve their quality of life as much as possible.
+
+Thanks,
+
+	Ingo
