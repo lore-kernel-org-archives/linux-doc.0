@@ -1,139 +1,621 @@
-Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF4BC171C9;
-	Sun,  6 Apr 2025 21:48:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A18935280;
+	Mon,  7 Apr 2025 02:48:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1743976134; cv=none; b=ayWzzxtF6J6XjVjXRLPEaWughYgi/6Flw7wf89THs3Ta/ptaoj1IlH921CEQ6euvpuq6VJxvmxtPpnnAjYAmog7OTf9wvGhGT4tO9i40kw9BSr/3N2E5WV7Gc8ZW8Xce6M61VQT8jWPXpvtbJLJN6E2J6XCxw5uxV8CD16OrVC0=
+	t=1743994087; cv=none; b=r2TOJdDfFVmBQoNwXa5I4CQ8Sf/+L1CPM5TpJau7tnZhb366IbbpKt3JAJcdK4c94VLV2dSVaK53XNQiPP13lZMPM+uvSZ/XAfqmxpgt59TYV1mgXQ5wLW80gk1KVS8OueHdFkHmSokne/akG5YZtK0g7VpOLTsCgS5OiWGVa8A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1743976134; c=relaxed/simple;
-	bh=PRiUAHuapsHhA19g4WPSvr6Qs5u3n/NllBUUPCf8VJs=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=IZwcDnCSNDDZvgvkwRBeG2y1RgmvET5hR2R3+iMVXfhmauFyyyiqezQnacKQ+OXu0C6itmmTPnWfXiIU1SFW+UvEunEBBa9f4JQpYIllqg58MSzPZvcirc5Jz+QX2rnJRLYeH230KVNJebq3uS+nPdxY8G1Ztx+L/b1g19/XcZw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lOt6/DUa; arc=none smtp.client-ip=209.85.219.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1743994087; c=relaxed/simple;
+	bh=rv5c1vQPYG3wAffq8ileWcmnlS8WdUbG/k1tMQShqIk=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=t4a1vw0l8p2RDO7Bl8zeoMZSlMTmDR1zxQjUbN2hyXCsEdbPGCntqa6fiPlnW+/2gD4SMTiYW37gxbxe1YQDWilj3F+GUiwJhY9K5ye2L5TAQAlzweS01BXYrgPQAARjLGszLUvRC7/pBGWRJykZ6MsUfWjz+uk0D0MQ2BegBcY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EM2ZAt8B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lOt6/DUa"
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6ed16ce246bso18188876d6.3;
-        Sun, 06 Apr 2025 14:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1743976132; x=1744580932; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=bNgkV292MAez/Ftrvz5rqrrsIqnUNqRnV30Y0Cya1t4=;
-        b=lOt6/DUao1AfpUUeLkwRoigudxWPWcFJh382JmyIkY30mwbiNVQPFqFMWqbUIxqgUK
-         0ms4W+sQIcRWOWj68D6G+AhEV8Q4e6sicpfV8C4k4ADZ/FNrqWIbVc9YYXHjMPBbxFNE
-         mDHRTzlsBXYyJL7zZNkCbgIjlCh2II9PV0/KwvwKfSzL/WVCf4/FFDrtmviewPTKTP81
-         qvkDyDkK8PZKcrqev0P1LC/JXOkwi9L+LxGXuUiXjfCYM+IwjcLOBmolNpSTaHTApRxn
-         UzWX2m4AKHXpia64vxQNzBSHGJoBBRAQpFesSj25zkV8vXczbAXVLP5ZKE8QETn2O+A1
-         rR4w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1743976132; x=1744580932;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=bNgkV292MAez/Ftrvz5rqrrsIqnUNqRnV30Y0Cya1t4=;
-        b=NANrzMQQSQH1CaILCSHMi7lyqrDtbhFggXaL6LQst2rGsh7lJq9iW1U0WYjIlwVNDS
-         3H+DFUbReai0Z05Ctz4tAiU2B6q8ifZ8RxFpHs5dVqQPTVyW/2K2p5qOknw+42R4/XRI
-         plaUWZxfsi0vINHxGvezCVQgMMHT6xkUFfoeu4FiUrkng4hdAoyUZigMznLRCPFdgG0u
-         3BWQpY7rbg5x3yjjlSBACDucjBgAzExBbjhbyq+XCjmLDESkjINUUzIW/7Ude5jsKCaU
-         sCnEU2x54KHuIYkqS2BFKhaRR+1MQ/cH6vr+tvOUPr5Vcyo4YFpKzk5iY5JsBQy7X/Ok
-         wOnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVXMbr++W44nqx5rO+E6T/Lkt2fUDgDqRkWZM41ZUzDIBs3vYrln7u/+5BNKZO90xpzSl5yKoxxDHc=@vger.kernel.org, AJvYcCWNICzkpK57fGs/LVBlE/sHeR69Wy+gZ70txSd/2c05oKTUL/C4T827tEI5NWIiV23nUtJJL/AHQXplAnN6@vger.kernel.org, AJvYcCXA/C69gz4DjuSzjmj/iywj1z02P/n3CivHBsJawVoZE4FG/UJn7ICWPytdHjhPvRfxyOSvbNKN+vMiGIB2Ox4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz3fXFG6LIrqSTmGcnPNPY9A6osEffYQ37t1rKjp0Amn4x22/eu
-	8Dhif/tt49wtkry7HHxW7HCtCIPLTkFdcBokkXaAdoUj7oY2GY/a
-X-Gm-Gg: ASbGncttCFPhJY8Xv+99P8LwIP+piZo62re2ACyg12bnzzntQgFd858lxCginQW2eIp
-	iC92Mg4BqgTtlNciTTUnK7cMr0NKqGr2/1mAKjySgitMzAIIZexgZV2ZhZEjnCFvQwEZgBfhdQl
-	5OBcKV4jvWjnff9FJqxZW3BiE/rzXEDrKr4NPC1Q9sMWpITnyueDZo/hZHUERhRnz10TiNbzsDT
-	zB3rrcegPbMQw2jAgNIWtfSFV4oyS9RjPu2o6jUOd31X+BDzGFUVdYRbwu9ueLVHWtG//xm05RC
-	45CFVnooxXZaweVgvQZ0NHUMaIRnLu6k4P5lPnWaMkrXmg==
-X-Google-Smtp-Source: AGHT+IEo/vvFQikPb5wxHN+5EYi3j68mWX6w5dxqxY4oIDDLekC3VENJPnI/ETKSgmdjhcKRZswhKQ==
-X-Received: by 2002:a05:6214:e86:b0:6e8:fa72:be51 with SMTP id 6a1803df08f44-6f05850ca4bmr173026176d6.19.1743976131657;
-        Sun, 06 Apr 2025 14:48:51 -0700 (PDT)
-Received: from [192.168.38.58] ([24.35.8.11])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76e75b747sm510189385a.36.2025.04.06.14.48.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 06 Apr 2025 14:48:51 -0700 (PDT)
-Message-ID: <10600492-5f89-4c1b-a8a4-0396af93f264@gmail.com>
-Date: Sun, 6 Apr 2025 17:48:49 -0400
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EM2ZAt8B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B8D6CC4CEE3;
+	Mon,  7 Apr 2025 02:48:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1743994087;
+	bh=rv5c1vQPYG3wAffq8ileWcmnlS8WdUbG/k1tMQShqIk=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=EM2ZAt8BR8yTMyh/Xv7cy6981b7vcU5DbjwRGPW6cvpNzxDNi39qys9npA8kUEMHF
+	 CFdyIJbZmDTMY/a5lwT+vu2PS7T4sPPr7MrJje+gkTmAOys0TFkomIegffkSZiEvLD
+	 inATxGZAPvif01UVd2sG72/EiNALOy8u7cuskEZuOboeUwzaPjY071+n0S/c85LAWD
+	 zhMk+8cwq49yfrN6Wq+FCsdyjb5ylF9J8a7CFHz4qbx0Xj9DRbpDKeGC9d3aLqx4ne
+	 fsXP0YMpiglNnTzuMbpSRCsYAb+eDH96dDArb6tcCaXHEQKdRKY4h2tceRJwNA1MUI
+	 vKqPHAqmK6Lgg==
+Date: Mon, 7 Apr 2025 10:47:55 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "=?UTF-8?B?TsOtY29sYXM=?= F. R. A. Prado" <nfraprado@collabora.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas.schier@linux.dev>, kernel@collabora.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH RFC 1/2] docs: Add documentation generation for Kconfig
+ symbols
+Message-ID: <20250407104429.45c0ba77@sal.lan>
+In-Reply-To: <20250404-kconfig-docs-v1-1-4c3155d4ba44@collabora.com>
+References: <20250404-kconfig-docs-v1-0-4c3155d4ba44@collabora.com>
+	<20250404-kconfig-docs-v1-1-4c3155d4ba44@collabora.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: chrisi.schrefl@gmail.com
-Cc: Jamie.Cunliffe@arm.com, a.hindborg@kernel.org, alex.gaynor@gmail.com,
- aliceryhl@google.com, andrew@lunn.ch, ardb@kernel.org,
- benno.lossin@proton.me, bjorn3_gh@protonmail.com, boqun.feng@gmail.com,
- corbet@lwn.net, gary@garyguo.net, guptarud@gmail.com,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux@armlinux.org.uk, ojeda@kernel.org,
- rust-for-linux@vger.kernel.org, stappers@stappers.nl, thesven73@gmail.com,
- tmgross@umich.edu
-References: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
-Subject: Re: [PATCH v3] arm: rust: Enable Rust support for ARMv7
-Content-Language: en-US
-From: Manish Shakya <msh.shakya@gmail.com>
-In-Reply-To: <20250123-rfl-arm32-v3-1-8f13623d42c5@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 
-I followed the Documentation/rust/testing.rs document to test more. It 
-seems that only the KUnit test is possible, while the other two tests 
-are not feasible in a cross-compilation setup. What other tests need to 
-be performed?
+Em Fri, 04 Apr 2025 10:02:52 -0400
+N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com> escreveu:
 
-The KUnit test passed.
+> Add the contents of all Kconfig files to the Documentation to both
+> increase their visibility and allow for cross-referencing throughout the
+> documentation. In order to achieve this:
+> * Add a new script 'kconfig2rst' that converts a Kconfig file into a
+>   reStructuredText document.
+> * Add an extra step to the documentation building that runs the script
+>   for every Kconfig in the source tree, generating a documentation page
+>   for each one.
+> * Add a new "Kconfig symbols" page in the documentation, that is listed
+>   on the "Kernel Build System" page, which contains an index of all
+>   Kconfig files and their Kconfig symbols, linking to the corresponding
+>   pages.
+>=20
+> The generated documentation pages have the config symbols as sections
+> with labels that can be referenced from anywhere in the documentation.
+> The exceptions are configs that appear multiple times. Those don't get
+> labels, as that would generate 'duplicate label' warnings from sphinx.
+> To allow this, a list of configs that appear more than once is embedded
+> in the kconfig2rst script. When a config appears more than once in the
+> same Kconfig file, a count is appended in the section to prevent
+> sphinx's auto-labeling to cause the same warning.
+>=20
+> The paths in 'source' directives in the Kconfig files are turned into
+> links to the generated documentation page to allow for navigation to
+> included Kconfig files.
+>=20
+> Config symbols on 'depends'/'select'/etc lines are prepended by
+> 'CONFIG_' to allow them to be cross-referenced by automarkup, though no
+> cross-references are created in this commit.
 
-[    1.162374] # rust_doctests_kernel: pass:128 fail:0 skip:0 total:128
-[    1.162388] # Totals: pass:128 fail:0 skip:0 total:128
-[    1.162401] ok 1 rust_doctests_kernel
+Despite the huge increase on the time to produce documentation, I'm not
+sure how worth is to have it, as there are already cross-reference
+services doing something somewhat similar, like:
 
-Here is my current setup:
-# zcat /proc/config.gz | grep RUST
-CONFIG_RUSTC_VERSION=108600
-CONFIG_RUST_IS_AVAILABLE=y
-CONFIG_RUSTC_LLVM_VERSION=190107
-CONFIG_RUST=y
-CONFIG_RUSTC_VERSION_TEXT="rustc 1.86.0 (05f9846f8 2025-03-31)"
-CONFIG_HAVE_RUST=y
-# CONFIG_RUST_FW_LOADER_ABSTRACTIONS is not set
-CONFIG_TRUSTED_FOUNDATIONS=y
-# CONFIG_BLK_DEV_RUST_NULL is not set
-# CONFIG_TRUSTED_KEYS is not set
-CONFIG_SYSTEM_TRUSTED_KEYRING=y
-CONFIG_SYSTEM_TRUSTED_KEYS=""
-# CONFIG_SECONDARY_TRUSTED_KEYRING is not set
-CONFIG_SAMPLES_RUST=y
-CONFIG_SAMPLE_RUST_MINIMAL=y
-CONFIG_SAMPLE_RUST_PRINT=y
-CONFIG_SAMPLE_RUST_HOSTPROGS=y
-CONFIG_RUST_DEBUG_ASSERTIONS=y
-CONFIG_RUST_OVERFLOW_CHECKS=y
-# CONFIG_RUST_BUILD_ASSERT_ALLOW is not set
-CONFIG_RUST_KERNEL_DOCTESTS=y
+	https://elixir.bootlin.com
 
-# cat /proc/cpuinfo
-processor       : 0
-model name      : ARMv7 Processor rev 2 (v7l)
-BogoMIPS        : 298.84
-Features        : half thumb fastmult vfp edsp thumbee neon vfpv3 tls 
-vfpd32
-CPU implementer : 0x41
-CPU architecture: 7
-CPU variant     : 0x3
-CPU part        : 0xc08
-CPU revision    : 2
+Yet, I didn't test this series yet. So, not sure yet about its
+value.
 
-Hardware        : Generic AM33XX (Flattened Device Tree)
-Revision        : 0000
-Serial          : 4014BBBK0948
+Anyway, it follows some comments about the current implementation.
+
+After addressed on a v2, I intend to test and see how it behaves.
+
+>=20
+> Signed-off-by: N=C3=ADcolas F. R. A. Prado <nfraprado@collabora.com>
+> ---
+>  Documentation/.gitignore       |   2 +
+>  Documentation/Config/index.rst |  17 +++
+>  Documentation/Makefile         |  12 +-
+>  Documentation/kbuild/index.rst |   2 +
+>  scripts/kconfig2rst.py         | 336 +++++++++++++++++++++++++++++++++++=
+++++++
+>  5 files changed, 368 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/Documentation/.gitignore b/Documentation/.gitignore
+> index d6dc7c9b8e25020f1f3b28811df2291c38695d5f..2fc70a398dc874fcb83834cb6=
+337f602c64a070a 100644
+> --- a/Documentation/.gitignore
+> +++ b/Documentation/.gitignore
+> @@ -1,3 +1,5 @@
+>  # SPDX-License-Identifier: GPL-2.0-only
+>  output
+>  *.pyc
+> +Config/
+> +!Config/index.rst
+> diff --git a/Documentation/Config/index.rst b/Documentation/Config/index.=
+rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..2abaa9844dd2a9f57bed0a8d0=
+50da3538865b1a5
+> --- /dev/null
+> +++ b/Documentation/Config/index.rst
+> @@ -0,0 +1,17 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Kconfig symbols
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +.. toctree::
+> +   :glob:
+> +   :maxdepth: 2
+> +
+> +   *
+> +   */*
+> +   */*/*
+> +   */*/*/*
+> +   */*/*/*/*
+> +   */*/*/*/*/*
+> +   */*/*/*/*/*/*
+
+That sounds weird, hard to maintain and probably slow.
+
+Better to have a Sphinx extension instead, with a decent implementation
+of glob. The Python's one is slow, on my tests with the Kernel tree.
+I worked on something that worked fine for kernel-doc.py:
+
+	https://lore.kernel.org/linux-doc/12a54f1b8f4afd2e70a87195a2aa34f96d736b77=
+.1740387599.git.mchehab+huawei@kernel.org/
+
+Perhaps this script could import the class from it, once such
+series gets merged. It could make sense to split it on a separate file
+if we're going to re-use its code.
+
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 63094646df2890a788542a273e4a828a844b2932..74ebc5303b47f0837a9ab31d3=
+9b5464af5f17995 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -115,7 +115,7 @@ $(YNL_INDEX): $(YNL_RST_FILES)
+>  $(YNL_RST_DIR)/%.rst: $(YNL_YAML_DIR)/%.yaml $(YNL_TOOL)
+>  	$(Q)$(YNL_TOOL) -i $< -o $@
+> =20
+> -htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX)
+> +htmldocs texinfodocs latexdocs epubdocs xmldocs: $(YNL_INDEX) kconfigdocs
+> =20
+>  htmldocs:
+>  	@$(srctree)/scripts/sphinx-pre-install --version-check
+> @@ -182,9 +182,19 @@ endif # HAVE_SPHINX
+>  refcheckdocs:
+>  	$(Q)cd $(srctree);scripts/documentation-file-ref-check
+> =20
+> +KCONFIG_DOC_DIR=3D$(srctree)/Documentation/Config
+> +KCONFIGS :=3D $(shell find $(srctree) -name Kconfig -type f)
+> +KCONFIGS_RST :=3D $(patsubst %, $(KCONFIG_DOC_DIR)/%.rst, $(KCONFIGS))
+> +
+> +$(KCONFIGS_RST): $(KCONFIGS)
+> +	$(Q)cd $(srctree); $(foreach var,$^,$(shell mkdir -p $(KCONFIG_DOC_DIR)=
+/$(shell dirname $(var)); scripts/kconfig2rst.py $(var) >$(KCONFIG_DOC_DIR)=
+/$(var).rst))
+> +
+> +kconfigdocs: $(KCONFIGS_RST)
+> +
+>  cleandocs:
+>  	$(Q)rm -f $(YNL_INDEX) $(YNL_RST_FILES)
+>  	$(Q)rm -rf $(BUILDDIR)
+> +	$(Q)rm -rf $(filter-out %index.rst,$(wildcard $(KCONFIG_DOC_DIR)/*))
+>  	$(Q)$(MAKE) BUILDDIR=3D$(abspath $(BUILDDIR)) $(build)=3DDocumentation/=
+userspace-api/media clean
+> =20
+>  dochelp:
+> diff --git a/Documentation/kbuild/index.rst b/Documentation/kbuild/index.=
+rst
+> index 3731ab22bfe745c5c51963cffe58fb652dadf88c..47a1d9753a9fb7b55b8a7141d=
+a8123ca97b15cfb 100644
+> --- a/Documentation/kbuild/index.rst
+> +++ b/Documentation/kbuild/index.rst
+> @@ -15,6 +15,8 @@ Kernel Build System
+>      makefiles
+>      modules
+> =20
+> +    /Config/index
+> +
+>      headers_install
+> =20
+>      issues
+> diff --git a/scripts/kconfig2rst.py b/scripts/kconfig2rst.py
+> new file mode 100755
+> index 0000000000000000000000000000000000000000..5af073a1c669ac43c95bb7af0=
+0099dcd9473a6ae
+> --- /dev/null
+> +++ b/scripts/kconfig2rst.py
+> @@ -0,0 +1,336 @@
+> +#!/usr/bin/env python3
+> +# SPDX-License-Identifier: GPL-2.0
+> +# Copyright 2025 Collabora Ltd
+> +
+> +import sys
+> +import re
+> +import os
+> +
+> +import argparse
+> +
+> +BASE_PATH_DEFAULT =3D "Documentation/Config/"
+> +CFG_LEN =3D 60
+
+> +RE_indentation =3D r"^[ \t]*"
+> +in_help_txt =3D False
+> +help_txt =3D ""
+
+Better to follow Python's standards and keep all constants on uppercase.
+
+I would place the main code inside a class, with the non-const data
+inside the class, as it makes the code cleaner and helps using it as
+both a Sphinx extension and as a standalone command (which is useful
+for testing it).
+
+> +
+> +# These configs appear more than once, thus we don't generate labels or =
+xrefs to
+> +# them to avoid duplicate label warnings from Sphinx
+> +REPEATED_CONFIGS =3D [
+> +    "32BIT",
+> +    "4KSTACKS",
+> +    "64BIT",
+> +    "A",
+> +    "ADVANCED_OPTIONS",
+> +    "ALPHA_LEGACY_START_ADDRESS",
+> +    "ARCH_AIROHA",
+> +    "ARCH_ALPINE",
+> +    "ARCH_BCM2835",
+> +    "ARCH_BCM_IPROC",
+> +    "ARCH_BRCMSTB",
+> +    "ARCH_DEFAULT_CRASH_DUMP",
+> +    "ARCH_FLATMEM_ENABLE",
+> +    "ARCH_FORCE_MAX_ORDER",
+> +    "ARCH_HAS_ADD_PAGES",
+> +    "ARCH_HAS_CACHE_LINE_SIZE",
+> +    "ARCH_HAS_GENERIC_CRASHKERNEL_RESERVATION",
+> +    "ARCH_HAS_ILOG2_U32",
+> +    "ARCH_HAS_ILOG2_U64",
+> +    "ARCH_HIBERNATION_HEADER",
+> +    "ARCH_HIBERNATION_POSSIBLE",
+> +    "ARCH_HISI",
+> +    "ARCH_MAY_HAVE_PC_FDC",
+> +    "ARCH_MEMORY_PROBE",
+> +    "ARCH_MMAP_RND_BITS_MAX",
+> +    "ARCH_MMAP_RND_BITS_MIN",
+> +    "ARCH_MMAP_RND_COMPAT_BITS_MAX",
+> +    "ARCH_MMAP_RND_COMPAT_BITS_MIN",
+> +    "ARCH_MTD_XIP",
+> +    "ARCH_OMAP",
+> +    "ARCH_PKEY_BITS",
+> +    "ARCH_PROC_KCORE_TEXT",
+> +    "ARCH_R9A07G043",
+> +    "ARCH_RENESAS",
+> +    "ARCH_ROCKCHIP",
+> +    "ARCH_SELECT_MEMORY_MODEL",
+> +    "ARCH_SELECTS_CRASH_DUMP",
+> +    "ARCH_SELECTS_KEXEC_FILE",
+> +    "ARCH_SPARSEMEM_DEFAULT",
+> +    "ARCH_SPARSEMEM_ENABLE",
+> +    "ARCH_SUNXI",
+> +    "ARCH_SUPPORTS_CRASH_DUMP",
+> +    "ARCH_SUPPORTS_CRASH_HOTPLUG",
+> +    "ARCH_SUPPORTS_KEXEC",
+> +    "ARCH_SUPPORTS_KEXEC_FILE",
+> +    "ARCH_SUPPORTS_KEXEC_JUMP",
+> +    "ARCH_SUPPORTS_KEXEC_PURGATORY",
+> +    "ARCH_SUPPORTS_KEXEC_SIG",
+> +    "ARCH_SUPPORTS_UPROBES",
+> +    "ARCH_SUSPEND_POSSIBLE",
+> +    "ARCH_UNIPHIER",
+> +    "ARCH_VIRT",
+> +    "AUDIT_ARCH",
+> +    "B",
+> +    "BCH_CONST_M",
+> +    "BCH_CONST_T",
+> +    "BUILTIN_DTB",
+> +    "BUILTIN_DTB_NAME",
+> +    "C",
+> +    "CC_HAVE_STACKPROTECTOR_TLS",
+> +    "CHOICE_B",
+> +    "CHOICE_C",
+> +    "CMDLINE",
+> +    "CMDLINE_BOOL",
+> +    "CMDLINE_EXTEND",
+> +    "CMDLINE_FORCE",
+> +    "CMDLINE_FROM_BOOTLOADER",
+> +    "CMDLINE_OVERRIDE",
+> +    "CMM",
+> +    "COMPAT",
+> +    "COMPAT_VDSO",
+> +    "CORE",
+> +    "CORE_BELL_A",
+> +    "CORE_BELL_A_ADVANCED",
+> +    "CPU_BIG_ENDIAN",
+> +    "CPU_HAS_FPU",
+> +    "CPU_HAS_PREFETCH",
+> +    "CPU_LITTLE_ENDIAN",
+> +    "CRYPTO_CHACHA20_NEON",
+> +    "CRYPTO_JITTERENTROPY_MEMORY_BLOCKS",
+> +    "CRYPTO_JITTERENTROPY_MEMORY_BLOCKSIZE",
+> +    "CRYPTO_JITTERENTROPY_OSR",
+> +    "CRYPTO_JITTERENTROPY_TESTINTERFACE",
+> +    "CRYPTO_NHPOLY1305_NEON",
+> +    "DEBUG_ENTRY",
+> +    "DMA_NONCOHERENT",
+> +    "DMI",
+> +    "DRAM_BASE",
+> +    "DUMMY",
+> +    "DUMMY_CONSOLE",
+> +    "EARLY_PRINTK",
+> +    "EFI",
+> +    "EFI_STUB",
+> +    "FIT_IMAGE_FDT_EPM5",
+> +    "FIX_EARLYCON_MEM",
+> +    "FPU",
+> +    "GENERIC_BUG",
+> +    "GENERIC_BUG_RELATIVE_POINTERS",
+> +    "GENERIC_CALIBRATE_DELAY",
+> +    "GENERIC_CSUM",
+> +    "GENERIC_HWEIGHT",
+> +    "GENERIC_ISA_DMA",
+> +    "GENERIC_LOCKBREAK",
+> +    "HAS_IOMEM",
+> +    "HAVE_SMP",
+> +    "HAVE_TCM",
+> +    "HEARTBEAT",
+> +    "HIGHMEM",
+> +    "HOTPLUG_CPU",
+> +    "HW_PERF_EVENTS",
+> +    "HZ",
+> +    "HZ_100",
+> +    "HZ_1000",
+> +    "HZ_1024",
+> +    "HZ_128",
+> +    "HZ_250",
+> +    "HZ_256",
+> +    "ILLEGAL_POINTER_VALUE",
+> +    "IRQSTACKS",
+> +    "ISA",
+> +    "ISA_DMA_API",
+> +    "KASAN_SHADOW_OFFSET",
+> +    "KERNEL_MODE_NEON",
+> +    "KERNEL_START",
+> +    "KERNEL_START_BOOL",
+> +    "KUSER_HELPERS",
+> +    "KVM",
+> +    "KVM_GUEST",
+> +    "L1_CACHE_SHIFT",
+> +    "LEDS_EXPRESSWIRE",
+> +    "LOCKDEP_SUPPORT",
+> +    "LOWMEM_SIZE",
+> +    "LOWMEM_SIZE_BOOL",
+> +    "MACH_LOONGSON32",
+> +    "MACH_LOONGSON64",
+> +    "MACH_TX49XX",
+> +    "MAGIC_SYSRQ",
+> +    "MATH_EMULATION",
+> +    "MCOUNT",
+> +    "MMU",
+> +    "NODES_SHIFT",
+> +    "NO_IOPORT_MAP",
+> +    "NR_CPUS",
+> +    "NR_CPUS_DEFAULT",
+> +    "NR_CPUS_RANGE_END",
+> +    "NUMA",
+> +    "PAGE_OFFSET",
+> +    "PANIC_TIMEOUT",
+> +    "PARAVIRT",
+> +    "PARAVIRT_SPINLOCKS",
+> +    "PARAVIRT_TIME_ACCOUNTING",
+> +    "PFAULT",
+> +    "PGTABLE_LEVELS",
+> +    "PHYSICAL_ALIGN",
+> +    "PHYSICAL_START",
+> +    "PID_IN_CONTEXTIDR",
+> +    "PM",
+> +    "POWERPC64_CPU",
+> +    "PRINT_STACK_DEPTH",
+> +    "RANDOMIZE_BASE",
+> +    "RANDOMIZE_BASE_MAX_OFFSET",
+> +    "RELOCATABLE",
+> +    "SBUS",
+> +    "SCHED_CLUSTER",
+> +    "SCHED_HRTICK",
+> +    "SCHED_MC",
+> +    "SCHED_OMIT_FRAME_POINTER",
+> +    "SCHED_SMT",
+> +    "SERIAL_CONSOLE",
+> +    "SMP",
+> +    "STACKPROTECTOR_PER_TASK",
+> +    "STACKTRACE_SUPPORT",
+> +    "SWAP_IO_SPACE",
+> +    "SYS_SUPPORTS_APM_EMULATION",
+> +    "SYS_SUPPORTS_NUMA",
+> +    "SYS_SUPPORTS_SMP",
+> +    "TASK_SIZE",
+> +    "TASK_SIZE_BOOL",
+> +    "TCP_CONG_CUBIC",
+> +    "TIME_LOW_RES",
+> +    "UNWINDER_FRAME_POINTER",
+> +    "UNWINDER_GUESS",
+> +    "UNWINDER_ORC",
+> +    "USE_OF",
+> +    "VMSPLIT_1G",
+> +    "VMSPLIT_2G",
+> +    "VMSPLIT_3G",
+> +    "VMSPLIT_3G_OPT",
+> +    "X",
+> +    "X86_32",
+> +    "X86_64",
+> +    "XEN",
+> +    "XEN_DOM0",
+> +    "XIP_KERNEL",
+> +    "XIP_PHYS_ADDR",
+> +    "ARCH_BCM",
+> +    "VIRTUALIZATION",
+> +]
+
+Maintaining this sounds a nightmare, as new (eventually duplicated)
+symbols may happen anytime.
+
+The best here sounds to do something similar to what I did with
+get_abi.py: parse them all altogether, dynamically detecting
+duplication. IMO, it also makes sense to have dereference pages
+for such duplicated symbols pointing to all occurrences of them.
 
 
+> +
+> +
+> +def print_title(title):
+> +    heading =3D "=3D" * len(title)
+> +    print(heading)
+> +    print(title)
+> +    print(heading)
+> +    print()
+> +
+> +
+> +parser =3D argparse.ArgumentParser(
+> +    prog=3D"kconfig2rst", description=3D"Convert a Kconfig file into ReS=
+tructuredText"
+> +)
+> +
+> +parser.add_argument("kconfig", help=3D"Path to input Kconfig file")
+> +parser.add_argument(
+> +    "--base-doc-path",
+> +    default=3DBASE_PATH_DEFAULT,
+> +    help=3D"Base path of generated rST files for usage in 'source' links=
+",
+> +)
+> +args =3D parser.parse_args()
+> +
+> +print_title(args.kconfig)
+> +
+> +line_accum =3D ""
+> +continued_line =3D False
+> +
+> +repeated_config_count =3D {}
+> +
+> +with open(args.kconfig) as f:
+> +    for il in f:
 
+This won't handle directories. Better to use my glob function.
 
+Also, calling lines as as "il" sounds weird for me. I would just
+call it "line".
+
+> +        # If line ends with \, accumulate it and handle full line
+> +        if re.search(r"\\\n$", il):
+
+Better to use endswith("\\\n"),, as it is faster. We can also use
+removesuffix(), as I guess the minimal Python version is now 3.9.
+
+> +            continued_line =3D True
+> +            line_accum +=3D il[:-2]  # accumulate without backslash and =
+newline
+> +            continue
+> +
+> +        if continued_line:
+> +            continued_line =3D False
+> +            l =3D line_accum + il
+> +            line_accum =3D ""
+> +        else:
+> +            l =3D il
+> +
+> +        if in_help_txt:
+> +            if l =3D=3D "\n":
+> +                help_txt +=3D l
+> +                continue
+> +            if first_line_help_txt:
+> +                help_txt_indentation =3D re.match(RE_indentation, l).gro=
+up(0).expandtabs()
+
+Please compile all regular expressions, to make it faster.
+
+> +                first_line_help_txt =3D False
+> +            # Consider any line with same or more indentation as part of=
+ help text
+> +            if (
+> +                help_txt_indentation
+> +                in re.match(RE_indentation, l).group(0).expandtabs()
+> +            ):
+> +                help_txt +=3D l
+> +                continue
+> +            else:
+> +                in_help_txt =3D False
+> +                print(help_txt)
+> +                help_txt =3D ""
+> +        else:
+> +            l =3D re.sub(r"[*]", r"\*", l)  # Escape asterisks
+> +
+> +        if re.match(r"^[ \t]*#.*", l):
+> +            # Skip comments
+> +            continue
+
+I would strip comments first, as I guess Kconfig syntaxe allow to use
+comments after any texts, like:
+
+	config SYMBOL # some comment
+
+> +
+> +        if re.match(r"^[ \t]*help", l):
+> +            in_help_txt =3D True
+> +            first_line_help_txt =3D True
+> +            print("* help::\n")
+> +            continue
+> +
+> +        m =3D re.match("^[ \t]*(menu)?config (?P<cfgname>[A-Za-z0-9_]+)"=
+, l)
+
+Better to accept multiple spaces after config, as it would be valid to
+have:
+
+	config    FOO
+
+> +        if m:
+> +            section_name =3D f"\nCONFIG_{m.group('cfgname')}"
+> +            underline =3D f"\n{'=3D'*CFG_LEN}\n"
+> +            if m.group("cfgname") in REPEATED_CONFIGS:
+> +                repeated_config_count[m.group("cfgname")] =3D (
+> +                    repeated_config_count.get(m.group("cfgname"), 0) + 1
+> +                )
+> +                if repeated_config_count[m.group("cfgname")] > 1:
+> +                    section_name +=3D f"({repeated_config_count[m.group(=
+'cfgname')]})"
+> +                print(section_name + underline)
+> +            else:
+> +                print(f"\n.. _CONFIG_{m.group('cfgname')}:\n\n" + sectio=
+n_name + underline)
+> +            continue
+> +
+> +        m =3D re.match(
+> +            r"^[ \t]*(def_bool|def_tristate|depends on|select|range|visi=
+ble if|imply|default|prompt|bool|tristate|string|hex|int|modules)( \"(.*)\"=
+)?(?P<expr> [^\"]*)?",
+> +            l,
+> +        )
+
+I would place the valid matches on an array and do a join to create the
+compiled regex to match them. This would make easier to maintain as=20
+Kconfig syntax add more notations.
+
+> +        if m:
+> +            expr =3D m.group('expr') if m.group('expr') else ''
+> +            not_expr =3D l
+> +            if expr:
+> +                expr =3D re.sub(r'[A-Z0-9_]{2,}', rf" CONFIG_\g<0> ", ex=
+pr)
+> +                not_expr =3D l[:m.start('expr')]
+> +            print("* " + not_expr.lstrip() + expr.rstrip())
+> +            continue
+> +
+> +        m =3D re.match(r'^[ \t]*source "(.*)"', l)
+> +        if m:
+> +            # Format Kconfig file paths as Documentation/... so they can=
+ be turned
+> +            # into links by the automarkup plugin
+> +            print(f"\nsource {args.base_doc_path + m.group(1)}.rst\n")
+> +            continue
+> +
+> +        m =3D re.match(r"[^ \t]*choice|endchoice|comment|menu|endmenu|if=
+|endif", l)
+
+Same here.
+
+> +        if m:
+> +            print("\n" + l.strip() + "\n")
+> +            continue
+> +
+> +        print(l.strip())
+> +
+> +if help_txt:
+> +    print(help_txt)  # Flush any pending help text
+>=20
