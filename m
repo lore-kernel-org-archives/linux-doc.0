@@ -1,103 +1,85 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0ECF1EE032;
-	Mon,  7 Apr 2025 18:30:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08818261565;
+	Mon,  7 Apr 2025 18:40:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744050624; cv=none; b=UQhEXxx4fMnk0gMEGfYvwFSoj0cRAB0U4rARMEoPe6qnFkybsAa9IL80h9pFxn4POqPWlG33ZchZ+G8zFHHViv83pWWd7Lql1SIAUV7NlO7TC8EGlrLOOv7qUJHkSzEC8KtS8yl4I2mrqrGPM4tVj7wA5omDzt6QHG0dtgirCL4=
+	t=1744051202; cv=none; b=O27Th+oSNEyTAs7GhBVHBGcNryBv7KIEksCx06RW62kG9IZMmal4GQnqQlBhvpB98V9Rc7QrCEiX5XoUcXdosFfTUDoYDpVsX2IpAS+j90WY+RCeR356fKZBsDwgHRhioA9nIYqm9laUfDDnhEZN7PakuIRVubWb7KwY0hcyLUA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744050624; c=relaxed/simple;
-	bh=FQMfGLh5C6n7JuybfDzu2iuG/1Pw/ID6KqOpxvzKSf0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ozC/uJIQ9M1dTTg8Q5PLahdXS6hJYHO6L7B5P7J/IqGQz0/t7dYIGtRo5XSGLbv1NYzHlTjnTl6rjGNLLyb/3jA69btfziE79n1Yx3UXB06nwj3olPMecCQqJ5/WaWigVl6wb2lm7w6jaBd6sqqbdeeqfTEexB00wgkLkAV7tmQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qhr8f8gZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744051202; c=relaxed/simple;
+	bh=BqAYBDV85npiuG9lUU6aZSMxUQypt9VFmCg1ipp2j7w=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=CROxuHzqXOKBrDdbi6Sye1h5RDt/ADNOcvPfyyW/nTDZ3Zhwl+ayNkIOk4T6t+aNO1VpNac3cR38PSGdzGnsuiBdWqnw82YS3GrpvkFkEb2mgtct9ajxe2+iP0QOZrMAjRwX4ZQDMFiaAYWJu/FSbwOCfvka5SPgk3JU2gIWMd0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=c6x3QZ0B; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qhr8f8gZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D8DFC4CEDD;
-	Mon,  7 Apr 2025 18:30:17 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="c6x3QZ0B"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6050EC4CEDD;
+	Mon,  7 Apr 2025 18:40:01 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744050624;
-	bh=FQMfGLh5C6n7JuybfDzu2iuG/1Pw/ID6KqOpxvzKSf0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=qhr8f8gZiL0WRr46kStn2vSZUbAYQXAuO0aN9Q++95HNF7FaI8kzwZSbly1LsBypL
-	 /MdsuXsMr+wp2Pjy8kXUAqkw5XZqGFteMbwpbvxr8Daj+eDx63tVuOgCzLkrgoFW9K
-	 O7yUUZJSQ/RJHzcpPP4yliEQTYEVcmEjK2mx+nDQU2+Ab1HJ1pR9RlUjD3m2o1j2b6
-	 iyU4WfBchLKbUk4sjkdCjSDahIan+K2xDP3sK0Lg34NFdEt8wEiBpS6EN36kmySjRl
-	 5NvqLJyvpIJbfe3cCeJIcv2Smi4XWmBXtRP5YBIa5HO7wjSWuG2hkFAnzHl2/Cz0Pf
-	 4LgmFHUyS9Mjg==
-Date: Mon, 7 Apr 2025 20:30:15 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Eric Biggers <ebiggers@kernel.org>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
-	Arnd Bergmann <arnd@arndb.de>, "H. Peter Anvin" <hpa@zytor.com>,
-	Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Brian Gerst <brgerst@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uros Bizjak <ubizjak@gmail.com>, Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-raid@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
-Message-ID: <Z_QZt8mPEf-dlvcZ@gmail.com>
-References: <20250407094116.1339199-1-arnd@kernel.org>
- <20250407164151.GB2536@sol.localdomain>
+	s=k20201202; t=1744051201;
+	bh=BqAYBDV85npiuG9lUU6aZSMxUQypt9VFmCg1ipp2j7w=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=c6x3QZ0BwKoxZD6akefXms+h1fypLN5lMIPrt0sDhIxCfxWTlzVR5tYnXEEE6tnOS
+	 qv8kysHeTGITEKiYRIk9xsm6cTQmvdgN+uehYm/niLVMeKFiCjbaAr+iwIZZUE1rN2
+	 LxWivKUSaXJiU3yPRrSL8VULxbx88lzeMG1q0agfOxncWL/WOaIYIHHIF4qIox80TO
+	 6SnO4SjzojsAO1O6nULIhndkElXEZnuwQRO+u/WhBNg+E2UN7U/m+0GXm9+4YVT4ob
+	 53549X+KUPkp16Gr9UURw0pj+QU+YeQCscyIsz+yvAhmkW/KZdI+Lsl1/hYxKO/byJ
+	 fKZKXMDDkwkIw==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB818380CEEF;
+	Mon,  7 Apr 2025 18:40:39 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407164151.GB2536@sol.localdomain>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH net] net: hold instance lock during NETDEV_CHANGE
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174405123877.1227543.13613718146765643033.git-patchwork-notify@kernel.org>
+Date: Mon, 07 Apr 2025 18:40:38 +0000
+References: <20250404161122.3907628-1-sdf@fomichev.me>
+In-Reply-To: <20250404161122.3907628-1-sdf@fomichev.me>
+To: Stanislav Fomichev <sdf@fomichev.me>
+Cc: netdev@vger.kernel.org, davem@davemloft.net, edumazet@google.com,
+ kuba@kernel.org, pabeni@redhat.com, horms@kernel.org, corbet@lwn.net,
+ andrew+netdev@lunn.ch, kuniyu@amazon.com, vladimir.oltean@nxp.com,
+ ecree.xilinx@gmail.com, lukma@denx.de, m-karicheri2@ti.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, cratiu@nvidia.com
 
+Hello:
 
-* Eric Biggers <ebiggers@kernel.org> wrote:
+This patch was applied to netdev/net.git (main)
+by Jakub Kicinski <kuba@kernel.org>:
 
-> On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> > 
-> > x86 already requires gcc-8.1 since linux-6.15-rc1, which led me to
-> > actually go through all  version checks and make this is the minimum
-> > for all architectures.
-> > 
-> > Most of the actual resulting changes are actually for raising the
-> > binutils version, which eliminates version checks on x86 and arm64.
-> > 
-> > Arnd Bergmann (4):
-> >   kbuild: require gcc-8 and binutils-2.30
-> >   raid6: skip avx512 checks
-> >   x86: remove checks for binutils-2.30 and earlier
-> >   arm64: drop binutils version checks
+On Fri,  4 Apr 2025 09:11:22 -0700 you wrote:
+> Cosmin reports an issue with ipv6_add_dev being called from
+> NETDEV_CHANGE notifier:
 > 
-> This is intended to supersede the patches from Uros that removed checks for
-> binutils < 2.25, right?  See:
+> [ 3455.008776]  ? ipv6_add_dev+0x370/0x620
+> [ 3455.010097]  ipv6_find_idev+0x96/0xe0
+> [ 3455.010725]  addrconf_add_dev+0x1e/0xa0
+> [ 3455.011382]  addrconf_init_auto_addrs+0xb0/0x720
+> [ 3455.013537]  addrconf_notify+0x35f/0x8d0
+> [ 3455.014214]  notifier_call_chain+0x38/0xf0
+> [ 3455.014903]  netdev_state_change+0x65/0x90
+> [ 3455.015586]  linkwatch_do_dev+0x5a/0x70
+> [ 3455.016238]  rtnl_getlink+0x241/0x3e0
+> [ 3455.019046]  rtnetlink_rcv_msg+0x177/0x5e0
 > 
-> * https://lore.kernel.org/linux-crypto/20250404074135.520812-1-ubizjak@gmail.com/
-> * https://lore.kernel.org/linux-crypto/20250404074135.520812-2-ubizjak@gmail.com
-> * https://lore.kernel.org/linux-crypto/20250404074135.520812-3-ubizjak@gmail.com/
+> [...]
 
-Yeah, so these commits (now pending in the x86 tree) should nicely 
-complement each other, there shouldn't be much friction other than:
+Here is the summary with links:
+  - [net] net: hold instance lock during NETDEV_CHANGE
+    https://git.kernel.org/netdev/net/c/04efcee6ef8d
 
-  a72d55dc3bd6 x86/idle: Remove CONFIG_AS_TPAUSE
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
-... which will have a conflict in arch/x86/Kconfig.assembler but is 
-straightforward to resolve.
 
-> If we can indeed bump up the requirement to 2.30, that would be great.
-
-Agreed.
-
-Thanks,
-
-	Ingo
