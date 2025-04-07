@@ -1,204 +1,114 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay1-d.mail.gandi.net (relay1-d.mail.gandi.net [217.70.183.193])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BCAE12F28;
-	Mon,  7 Apr 2025 16:25:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D24E20896C;
+	Mon,  7 Apr 2025 16:27:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.193
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744043140; cv=none; b=PB5WmUGvG4KzxBeVzv5Fzd4ctKdTJ8SI07msbhhLDkLzv9mx5jX2XJ9G/cdLeOx9sUPJnN84A5HDi/KcU4rERUv2ELP/Ulc/zr6+qKRUsVG7YcsTsfuLEeBp5gdPKIxaeMw7JPFO1wsPbMP0m4Omu4HYeovhfG7llY+r1aRHtJI=
+	t=1744043269; cv=none; b=Pq1HD5XRBoTigBFBXUHjq02afVS2OLctEjHnwvLQRG7tADAXbWoyl7BEv0wxMAblJAtz83Qi+MmwEqn+ZCHBxV2meoLlm8+B22lO7Rve0s/qecnWxVY1YKPBcASr8vxt6JvjGpVricapLTd+8IhltrCuwHNzccvAHdQw9Ofgez8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744043140; c=relaxed/simple;
-	bh=+94DxqlitMbLGB+wlBBsY6tpDWszgaemr9JBqu5sx9o=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Zh1K23Gd+J7WKvXMwGlAV55NqYbWXmCKkosadLGPQzx8kgKWThCx4Kjpd1QWSu4PVG+kLOz/h5sj5HNLnO+q6sJD6pzzNR6DfHj+GHfk7vyBDk+VcY+vZLq209Q9m+9PoC2XC9AnXpFuMunDQ1I8EBI3INgA5yPtywg7WG4G9AY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QaTx24va; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744043269; c=relaxed/simple;
+	bh=8HnaG/eG2QgDsXkFgpjbIklESPg41acrEUDgvqvQ0mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ocioSS/I+RaFpBPeMgpMxwBo/sU99P/k1Vykap1LsQHoaF7K1e2FsiDXQcUCPKQNc01KmVQa7KI7bndOea20FXDK4mK5pTQXaKu0uqtkyPDwq5vjws5R4a+Lupw2CzFJAjcyS3QkjD1VnplxzPY8+WMOKmnS7PxsstjEGypVACs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=CObBzKRS; arc=none smtp.client-ip=217.70.183.193
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QaTx24va"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 94F24C4CEEA;
-	Mon,  7 Apr 2025 16:25:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744043140;
-	bh=+94DxqlitMbLGB+wlBBsY6tpDWszgaemr9JBqu5sx9o=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=QaTx24vau/y+2epVhQFbs+0pPGYp7fzQLmHDCI4y3eS71ZWAMos3FS3SrOezyovB3
-	 9aUdecMvGLbNsRNdflLkKrYUVCKpLDWbqDpei/rRVCNIR0iF3dg3/WFLK/vsi1fLdk
-	 IQ6Wyh9ke+Swtiv4SKvbIN3aJQ+YwJXUpxyCgH9HyDogmXCZtuEuVrzZTG6AGQmsE/
-	 80LdPgX4ZKK7fRUvCzwcBju8Qk5DLRfWoFUQaRrNTkhRr/iSwj0yICTMDXNFqSZj4I
-	 yfAhQfQD1zuiOT9N3Q0NUu4p9gueqwaI2bHIudE5FVqDqhfia4oLXTRPIoGEsLz7OU
-	 EVGf77dC9VonA==
-From: Mario Limonciello <superm1@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	"H . Peter Anvin" <hpa@zytor.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH 2/2] x86/CPU/AMD: Print the reason for the last reset
-Date: Mon,  7 Apr 2025 11:25:25 -0500
-Message-ID: <20250407162525.1357673-2-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250407162525.1357673-1-superm1@kernel.org>
-References: <20250407162525.1357673-1-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="CObBzKRS"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 024C943DF3;
+	Mon,  7 Apr 2025 16:27:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744043263;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=T37MrcReRu3n4dLXt3U+NVNLtXb9JL/zdt0u4v0w6kk=;
+	b=CObBzKRSeL3FF/dNWuapvRiAGerYon6k1J7eOu+wHYiv/SYAjEC1TrS8OEnMvC9J4gx5tz
+	2BPZJmMRr4PoA71CjpwNB2ITH4wo9rTbBOVmD5TonuC4l5kqbZRKeH+ok6zIBy793sE4PG
+	t2aJE8rZ25xbV2tWEgfkK00Sk6TVYVnRYLQo9oe9hn/ckUxe9RpDAs0wmyrTvi+x1oOGRq
+	9gruGm8B08dtES4D6QVlqBnQQjmCrxAsrnx5R69zSz/D3U1Yf+dxZkSI9/20h/EKu+5ZJV
+	pBZ95mXvYPNfC5yr3qXNex+r4MWhxUhGkUyfMo3iuX9RYCFhZ78PGZhEX8mICg==
+Date: Mon, 7 Apr 2025 18:27:38 +0200
+From: Kory Maincent <kory.maincent@bootlin.com>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>, "David S .
+ Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub
+ Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Russell King
+ <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org, Christian Marangi
+ <ansuelsmth@gmail.com>, upstream@airoha.com, Heiner Kallweit
+ <hkallweit1@gmail.com>, Alexandre Belloni <alexandre.belloni@bootlin.com>,
+ Alexandre Torgue <alexandre.torgue@foss.st.com>, Christophe Leroy
+ <christophe.leroy@csgroup.eu>, Clark Wang <xiaoning.wang@nxp.com>, Claudiu
+ Beznea <claudiu.beznea@microchip.com>, Claudiu Manoil
+ <claudiu.manoil@nxp.com>, Conor Dooley <conor+dt@kernel.org>, Ioana Ciornei
+ <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>, Joyce Ooi
+ <joyce.ooi@intel.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Krzysztof
+ Kozlowski <krzysztof.kozlowski+dt@linaro.org>, Li Yang
+ <leoyang.li@nxp.com>, Madalin Bucur <madalin.bucur@nxp.com>, Madhavan
+ Srinivasan <maddy@linux.ibm.com>, Maxime Coquelin
+ <mcoquelin.stm32@gmail.com>, Michael Ellerman <mpe@ellerman.id.au>, Michal
+ Simek <michal.simek@amd.com>, Naveen N Rao <naveen@kernel.org>, Nicholas
+ Piggin <npiggin@gmail.com>, Nicolas Ferre <nicolas.ferre@microchip.com>,
+ Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>, Rob Herring
+ <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>, Robert Hancock
+ <robert.hancock@calian.com>, Saravana Kannan <saravanak@google.com>, Shawn
+ Guo <shawnguo@kernel.org>, UNGLinuxDriver@microchip.com, Vladimir Oltean
+ <vladimir.oltean@nxp.com>, Wei Fang <wei.fang@nxp.com>,
+ devicetree@vger.kernel.org, imx@lists.linux.dev,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-stm32@st-md-mailman.stormreply.com, linuxppc-dev@lists.ozlabs.org
+Subject: Re: [RFC net-next PATCH 00/13] Add PCS core support
+Message-ID: <20250407182738.498d96b0@kmaincent-XPS-13-7390>
+In-Reply-To: <20250403181907.1947517-1-sean.anderson@linux.dev>
+References: <20250403181907.1947517-1-sean.anderson@linux.dev>
+Organization: bootlin
+X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddtieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhephfduveekuedtvdeiffduleetvdegteetveetvdelteehhfeuhfegvdeuuedtleegnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghlohepkhhmrghinhgtvghnthdqigfrufdqudefqdejfeeltddpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeegledprhgtphhtthhopehsvggrnhdrrghnuggvrhhsohhnsehlihhnuhigrdguvghvpdhrtghpthhtohepnhgvthguvghvsehvghgvrhdrkhgvrhhnvghlrdhorhhgpdhrtghpthhtoheprghnughrvgifodhnvghtuggvvheslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegur
+ ghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehlihhnuhigsegrrhhmlhhinhhugidrohhrghdruhhk
+X-GND-Sasl: kory.maincent@bootlin.com
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+On Thu,  3 Apr 2025 14:18:54 -0400
+Sean Anderson <sean.anderson@linux.dev> wrote:
 
-The following register contains bits that indicate the cause for the
-previous reset.
+> This series adds support for creating PCSs as devices on a bus with a
+> driver (patch 3). As initial users,
+>=20
+> - The Lynx PCS (and all of its users) is converted to this system (patch =
+5)
+> - The Xilinx PCS is broken out from the AXI Ethernet driver (patches 6-8)
+> - The Cadence MACB driver is converted to support external PCSs (namely
+>   the Xilinx PCS) (patches 9-10).
+>=20
+> The last few patches add device links for pcs-handle to improve boot time=
+s,
+> and add compatibles for all Lynx PCSs.
+>=20
+> Care has been taken to ensure backwards-compatibility. The main source
+> of this is that many PCS devices lack compatibles and get detected as
+> PHYs. To address this, pcs_get_by_fwnode_compat allows drivers to edit
+> the devicetree to add appropriate compatibles.
 
-        PMx000000C0 (FCH::PM::S5_RESET_STATUS)
+I don't dive into your patch series and I don't know if you have heard abou=
+t it
+but Christian Marangi is currently working on fwnode for PCS:
+https://lore.kernel.org/netdev/20250406221423.9723-1-ansuelsmth@gmail.com
 
-This is useful for debug. The reasons for reset are broken into 6 high
-level categories. Decode it by category and print during boot.
+Maybe you should sync with him!
 
-Specifics within a category are split off into debugging documentation.
-
-The register is accessed indirectly through a "PM" port in the FCH. Use
-MMIO access in order to avoid restrictions with legacy port access.
-
-Use a late_initcall() to ensure that MMIO has been set up before trying
-to access the register.
-
-This register was introduced with AMD Family 17h, so avoid access on
-older families. There is no CPUID feature bit for this register.
-
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
- .../admin-guide/amd/amd-reboot-reason.csv     | 21 ++++++++
- Documentation/admin-guide/amd/debugging.rst   | 22 ++++++++
- arch/x86/kernel/cpu/amd.c                     | 50 +++++++++++++++++++
- 3 files changed, 93 insertions(+)
- create mode 100644 Documentation/admin-guide/amd/amd-reboot-reason.csv
-
-diff --git a/Documentation/admin-guide/amd/amd-reboot-reason.csv b/Documentation/admin-guide/amd/amd-reboot-reason.csv
-new file mode 100644
-index 0000000000000..c31c7a0464c38
---- /dev/null
-+++ b/Documentation/admin-guide/amd/amd-reboot-reason.csv
-@@ -0,0 +1,21 @@
-+Bit, Type, Reason
-+0, Pin, Thermal trip (BP_THERMTRIP_L)
-+1, Pin, Power button
-+2, Pin, SHUTDOWN# pin
-+4, Remote, Remote ASF power off command
-+9, Internal, Thermal trip (internal)
-+16, Pin, User reset (BP_SYS_RST_L)
-+17, Software, PCI reset (PMIO 0xC4)
-+18, Software, CF9 reset (0x04)
-+19, Software, CF9 reset (0x06)
-+20, Software, CF9 reset (0x0E)
-+21, Sleep, Power state or ACPI state transition
-+22, Pin, Keyboard reset (KB_RST_L)
-+23, Internal, Internal CPU shutdown
-+24, Hardware, Failed boot timer
-+25, Hardware, Watchdog timer
-+26, Remote, Remote ASF reset command
-+27, Internal, Data fabric sync flood event due to uncorrected error
-+29, Internal, MP1 Watchdog timer timeout
-+30, Internal, Parity error
-+31, Internal, SW sync flood event
-\ No newline at end of file
-diff --git a/Documentation/admin-guide/amd/debugging.rst b/Documentation/admin-guide/amd/debugging.rst
-index 5a721ab4fe013..2a966f0ead26a 100644
---- a/Documentation/admin-guide/amd/debugging.rst
-+++ b/Documentation/admin-guide/amd/debugging.rst
-@@ -268,3 +268,25 @@ EPP Policy
- The ``energy_performance_preference`` sysfs file can be used to set a bias
- of efficiency or performance for a CPU.  This has a direct relationship on
- the battery life when more heavily biased towards performance.
-+
-+Random reboot issues
-+====================
-+When a random reboot occurs, the high-level reason for the reboot is stored
-+in a register that will persist onto the next boot.
-+
-+There are 6 classes of reasons for the reboot:
-+ * Software induced
-+ * Power state transition
-+ * Pin induced
-+ * Hardware induced
-+ * Remote reset
-+ * Internal CPU event
-+
-+.. csv-table::
-+   :header-rows: 1
-+   :widths: 1, 1, 1
-+   :file: ./amd-reboot-reason.csv
-+
-+This information is read by the kernel at bootup and is saved into the
-+kernel ring buffer. When a random reboot occurs this message can be helpful
-+to determine the next component to debug such an issue.
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 79569f72b8ee5..bb187c46a6a71 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -1231,3 +1231,53 @@ void amd_check_microcode(void)
- 	if (cpu_feature_enabled(X86_FEATURE_ZEN2))
- 		on_each_cpu(zenbleed_check_cpu, NULL, 1);
- }
-+
-+#define PIN_RESET	(BIT(0) | BIT(1) | BIT(2) | BIT(16) | BIT(22))
-+#define REMOTE_RESET	(BIT(4) | BIT(26))
-+#define INTERNAL_RESET	(BIT(9) | BIT(23) | BIT(27) | BIT(29) | BIT(30) | BIT(31))
-+#define SW_RESET	(BIT(17) | BIT(18) | BIT(19) | BIT(20))
-+#define HW_RESET	(BIT(24) | BIT(25))
-+#define SLEEP_RESET	(BIT(21))
-+
-+static inline char *get_s5_reset_reason(u32 value)
-+{
-+	if (value & SW_RESET)
-+		return "software";
-+	if (value & SLEEP_RESET)
-+		return "power state transition";
-+	if (value & PIN_RESET)
-+		return "pin state change";
-+	if (value & HW_RESET)
-+		return "hardware";
-+	if (value & REMOTE_RESET)
-+		return "remote power event";
-+	if (value & INTERNAL_RESET)
-+		return "internal CPU error";
-+	return "unknown reason";
-+}
-+
-+static __init int print_s5_reset_status_mmio(void)
-+{
-+	void __iomem *addr;
-+	u32 value;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_ZEN))
-+		return 0;
-+
-+	/*
-+	 * FCH::PM::S5_RESET_STATUS
-+	 * PM Base = 0xFED80300
-+	 * S5_RESET_STATUS offset = 0xC0
-+	 */
-+	addr = ioremap(0xFED803C0, sizeof(value));
-+	if (!addr)
-+		return 0;
-+	value = ioread32(addr);
-+	iounmap(addr);
-+
-+	pr_info("System reset was due to %s (0x%08x)\n",
-+		get_s5_reset_reason(value), value);
-+
-+	return 0;
-+}
-+late_initcall(print_s5_reset_status_mmio);
--- 
-2.43.0
-
+Regards,
+--=20
+K=C3=B6ry Maincent, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
