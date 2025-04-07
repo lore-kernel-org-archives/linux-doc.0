@@ -1,61 +1,53 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 918DB208993;
-	Mon,  7 Apr 2025 16:38:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0236620E30C;
+	Mon,  7 Apr 2025 16:41:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744043940; cv=none; b=jpfGcYkRnS1HZJrxp4hueyQiKEWVXYiyQrPZsYzgiAkjyjbKo92lC++jsKx2URjb7AcH5dZ5GtMbc7BQ6RxNPfaa15V5vxD2c5MEjiT+vdADTuZ/z9xA++aKLa/ADHnQetsNp4/wwGyv34tFb9FAVBevYoWW9gbQmFQSNSYoBec=
+	t=1744044115; cv=none; b=m2kblExlD3511+FZdWrCc/DcW/Rf6pcLlvyucxe/Av5QcHaf9bM6bL2b9uHShgRwRly1fWbzqHjEqxFjY9Iy13WsFY8FLQHlnBpt/tAN5BGDLt22kdFFN1vkARrRroRrDFxnjjnojaV4baKfJZpH7kTmNyGLCFCHIxkWfFiOG+4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744043940; c=relaxed/simple;
-	bh=b5Bcf4bgH9mfTxOjTTOwooVPb+WHPpMcRRDPk4qIZbg=;
+	s=arc-20240116; t=1744044115; c=relaxed/simple;
+	bh=2DZaBdiIWfRi2cZXVupSLX8P1kQDQE1JN+1+Y8S2N2Q=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=V8kJobZt3WWZkRawDNCzz4oAI+V0QKy03LdXIwohOeh9PHNg4f39CG0Bsc5U0/476LWoKblFc7Y2LdyD3fAV++vsZ06uel5N9PgQ4HjEIe5wNxEPqAMltjjgOQ8eNlh8TGa+OfJf0awYzvtf7gJqFKIk2oSm4yOKHiA0oovjFPE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jx4KxV9R; arc=none smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=oJ0N0By+HDGtINQcAFHco8ma/ct3oSB61NIN27FTXpX81VWuMJrMRPFVzfNej1cXOiddKYTYsmm9ua6xjjkfBEkzFFa/JnDSJCxSvnX8WVxZz2z0KZK9G8K0rGSUPA5KA5Jjzz4IAlvV2GFTVrysg8MBPv0v7mc9/6JLE7mXJxg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jx56oOeJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jx4KxV9R"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744043939; x=1775579939;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=b5Bcf4bgH9mfTxOjTTOwooVPb+WHPpMcRRDPk4qIZbg=;
-  b=jx4KxV9RN5gDv6kTMtkzg3/Xvf6h8tIC9XRd4s3Vym0zaGOuwtpwoD5R
-   8nxfqlAy8m9MPBnZJ+AKwVT7MjoXrpsTVU5+/zVJbbCuZFcb0LZedpcwp
-   9KLf9sSCMlX03KDH0dfODU85gMPpw11RhvMkdcDQBwmYG8ymobjgeGLPM
-   f4HP7Ke8iVNyxHlycnsKNOajsVrqeWgrhLWu2wVAfXeDXn/6szoj8DCyR
-   MS1mo0/VCIcCwqdvL4xfy/Op6hd8PcAtdzYjsvxQauccOMGT4SXdC6KQX
-   VMrysvcVUPUKhRzO+fSJE51LBT7l+4Ip/dCIuDQ0obAvr3fp7vDt+E+kS
-   w==;
-X-CSE-ConnectionGUID: WgQnuPr8TdOmbiA6GR/hdQ==
-X-CSE-MsgGUID: WvXpTZgAR9ub/Lhu4bQ4WQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="67915103"
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="67915103"
-Received: from fmviesa006.fm.intel.com ([10.60.135.146])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Apr 2025 09:38:57 -0700
-X-CSE-ConnectionGUID: a3D7z+wCQ0+4GqgKioce9Q==
-X-CSE-MsgGUID: Hc8LHqKdTLC6Iacr22IIeg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,194,1739865600"; 
-   d="scan'208";a="127867940"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by fmviesa006.fm.intel.com with ESMTP; 07 Apr 2025 09:38:54 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-	id A63D3F0; Mon, 07 Apr 2025 19:38:53 +0300 (EEST)
-Date: Mon, 7 Apr 2025 19:38:53 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Denis Mukhin <dmukhin@ford.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] x86/early_printk: add MMIO-based UARTs
-Message-ID: <Z_P_nWrl4JQJVy2c@black.fi.intel.com>
-References: <20250324-earlyprintk-v3-1-aee7421dc469@ford.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jx56oOeJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B715DC4CEDD;
+	Mon,  7 Apr 2025 16:41:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744044113;
+	bh=2DZaBdiIWfRi2cZXVupSLX8P1kQDQE1JN+1+Y8S2N2Q=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=jx56oOeJKQbuRt2tp4+Xt6FIXUoZzIU/0LeM+CA9psDCzTxiRu73kTHMT8QNjQzxj
+	 NeJABgeGL2rOuTieaPWkit/Ti5qv6ZStUTbHWHH3sGmNBPrWvZZ5jFTC5/Y5G/Q5io
+	 csCPtwRcv7BVxCHj9xNP8nZc9ibQFOSwLZNMC44ARnPnjs2YZRo9CNfe5XgXv4ts97
+	 bOV/tzzCrGy41yMfhpifKnNcb9JXzPXg+YKSZZjjpPNJIrfhpHY8d5IZ8b8K+ND4sX
+	 OwjRJYyUZVeLpVEwwNRlqVAYJWUxvA00mDxRjqHnFU1wv5uh8MEYjIdA1XX5fWDld1
+	 X+TPrxdxwu2Aw==
+Date: Mon, 7 Apr 2025 09:41:51 -0700
+From: Eric Biggers <ebiggers@kernel.org>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Brian Gerst <brgerst@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uros Bizjak <ubizjak@gmail.com>, Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-raid@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
+Message-ID: <20250407164151.GB2536@sol.localdomain>
+References: <20250407094116.1339199-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,39 +56,45 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250324-earlyprintk-v3-1-aee7421dc469@ford.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250407094116.1339199-1-arnd@kernel.org>
 
-On Mon, Mar 24, 2025 at 05:55:40PM -0700, Denis Mukhin wrote:
-> During the bring-up of an x86 board, the kernel was crashing before
-> reaching the platform's console driver because of a bug in the firmware,
-> leaving no trace of the boot progress.
+On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
 > 
-> It was discovered that the only available method to debug the kernel
-> boot process was via the platform's MMIO-based UART, as the board lacked
-> an I/O port-based UART, PCI UART, or functional video output.
+> x86 already requires gcc-8.1 since linux-6.15-rc1, which led me to
+> actually go through all  version checks and make this is the minimum
+> for all architectures.
 > 
-> Then it turned out that earlyprintk= does not have a knob to configure
-> the MMIO-mapped UART.
+> Most of the actual resulting changes are actually for raising the
+> binutils version, which eliminates version checks on x86 and arm64.
 > 
-> Extend the early printk facility to support platform MMIO-based UARTs
-> on x86 systems, enabling debugging during the system bring-up phase.
-> 
-> The command line syntax to enable platform MMIO-based UART is:
->   earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
-> 
-> Note, the change does not integrate MMIO-based UART support to:
->   arch/x86/boot/early_serial_console.c
-> 
-> Also, update kernel parameters documentation with the new syntax and
-> add missing 'nocfg' setting to PCI serial cards description.
+> Arnd Bergmann (4):
+>   kbuild: require gcc-8 and binutils-2.30
+>   raid6: skip avx512 checks
+>   x86: remove checks for binutils-2.30 and earlier
+>   arm64: drop binutils version checks
 
-Just for your information: Have you seen this rather old series of mine?
+This is intended to supersede the patches from Uros that removed checks for
+binutils < 2.25, right?  See:
 
-https://bitbucket.org/andy-shev/linux/commits/branch/topic%2Fx86%2Fboot-earlyprintk
+* https://lore.kernel.org/linux-crypto/20250404074135.520812-1-ubizjak@gmail.com/
+* https://lore.kernel.org/linux-crypto/20250404074135.520812-2-ubizjak@gmail.com
+* https://lore.kernel.org/linux-crypto/20250404074135.520812-3-ubizjak@gmail.com/
 
--- 
-With Best Regards,
-Andy Shevchenko
+If we can indeed bump up the requirement to 2.30, that would be great.
 
+Just a note though: I recently added VAES and VPCLMULQDQ instructions to
+BoringSSL, which increased the binutils requirement of building BoringSSL to
+2.30, and this caused issues in a downstream project; e.g. see
+https://github.com/briansmith/ring/issues/2463.  Specifically people complained
+about being unable to build on Amazon Linux 2 and CentOS/RHEL/Oracle Linux 7.
 
+So I just thought I'd mention that, based on past experience with this sort of
+thing, those are the specific cases where it seems people are most likely to be
+trying to use binutils < 2.30.
+
+But if those distros are not going to be supported any longer (without
+installing newer tools on them), or even are already unsupported due to the gcc
+requirement, bumping up the binutils requirement to 2.30 sounds good to me.
+
+- Eric
