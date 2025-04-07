@@ -1,93 +1,76 @@
-Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6674320E71D;
-	Mon,  7 Apr 2025 22:11:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEE0F33E1
+	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 22:21:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744063863; cv=none; b=oSOg/l3S38rrMaEvoOw/prvbBxQsJFeN64gy/CmJIesqDG8W3C9Jl7AyJKjn0qZhafoxwDqbayDTtv8MoJVmt1Qvj28FYFM0ObC0vNukomMPlRJo79NIBvSHbqHkrV+N7soEvsS8PKwmqF9dT9gxQ01HmoabpzSAeUM8p7xSG58=
+	t=1744064517; cv=none; b=KiOAtj4ALYERLCV1/yVIAjLu+VE4A/t3+0sXycWN8wPXDLNBaF27U4mleUOzU2S7fsS0Ewe6sFNXvYAS1U1O1mU4SLnHG4uSEfYLopTB1cZwvAWr32q+yRFcVDs6FuYA0EJbvicvVPA8sHmWfqiUUPJr328wc/0nQ25QHSGW508=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744063863; c=relaxed/simple;
-	bh=oXs+S6jVlOGx9OdjJzPpPkt2TkZmWnt20bsYY0sfycI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hphv1Hv18scccPaexjWzN+kIleuzRi+U1w5ifTW2qOQQkTfrIEbPVFuXSbwDQtg1iN40i6eG6sOcPHlQsRcvg/+k4LbbcCzbYETyJimuHaHMc+e3XPMRzAKscBUQW88ypPpgmerWl7rOC5T7sRjEm904ReniFOua7aUdFpddUQo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=J9WKiBnW; arc=none smtp.client-ip=209.85.210.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744064517; c=relaxed/simple;
+	bh=0NVjScSkPVJzIge1ECmcx+Ze17C41xW5nAn7SKqPJCc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jqRiBMQeM6Ij6s0K54rokyv7XfTSoFWab4CZJyMMxleT2dwDtEUiAlH3oM66eeEMOrLVWdJ2TEG4Ar1q3zO8iEi+1RLDqjZrgOv9i7nbebqloLit3w+yTSeuFUHH+5+ha3bkCegKjPy8TiGBKwOoB7T+WA6e+9IdkLeqk2tnbPo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=t2o8aSLc; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="J9WKiBnW"
-Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-736aaeed234so3940280b3a.0;
-        Mon, 07 Apr 2025 15:11:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744063860; x=1744668660; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=YifP3IHlYasWdbiAjH/wU2s8OBHQLZQM5vo24wvS4uQ=;
-        b=J9WKiBnWsKE05+t9RhbzpDjje8FzldQLtHKu0HxkNcte4OCWorebnmta47JYRBw3LZ
-         CEhUL5TqMSrRiX9DCxQfykmAmlQZp0CPwFbDoQc2bOuwDi3sxWl22tzMntB+h9mmkO4w
-         7LcgCYJCli9d9pYEiMDYwWsRrMgj3BOgQxNvmLIoT9t02Rj3xS1xyZz4kR9oKiQ7Z2CD
-         EL7z1/Y7gW/utOj9QIzU4LxFmiuSK7cmRS59vWjwIr2yS+LG5rh3MQ27GG07li6bKRuE
-         a+LlSq1+r44/McfOpCzsTbdRzL4sB2PIxy3GnhPAVSwFcUGWFE6cnYB0ZVD/5BdU7b8Z
-         RI9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744063860; x=1744668660;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YifP3IHlYasWdbiAjH/wU2s8OBHQLZQM5vo24wvS4uQ=;
-        b=nfgSvlnwrbk0gUrxhsCg4xg+XT++xGc+TihVy9NsHRzVb55Jwnk6V0sZHyAiZJroU8
-         5rl/lp2fvrzoeAjDnqOvJBOfg9Y2CkJHvluTjvnYfV4EppyuEuJmpGUOX9xvZq1OI5a1
-         JZ0YroS7QpoceOGdVZbjGtRPhB3dzqhcYcgJIPoWU3n0JvpFArl4FMkY+D53srJ2o/6J
-         TXw76agP9RvBK5SaUkA+C/E8eiY0/Wmdx9iHumj6F55ER3KASBnc8BQ4+3PP1duLpWLq
-         SoU1AbPzeeoARUEdnUw5vO7ACl492a15YcpVyAOAfekBPqKRSdnzTtW9tV6QK/nQmC17
-         qk+A==
-X-Forwarded-Encrypted: i=1; AJvYcCU5Z4IG1e2AydTMJHEEAkcsv6+5PXRG2RdnB1Zbu1450kFACOOUGfOVEGIWg3BUdQi7/o20wuETvtLhlLWn@vger.kernel.org, AJvYcCUzdV4AuW9mzjb1R+ELNUuiSvdoBaq5hEcfa9M0ZhJzO3FGXcP5Od+ozkeFoHES/u989qVe/A/4T6Uw1dg=@vger.kernel.org, AJvYcCV3OooXa8AC1WpofFsUyOBgz9wyXHSR0yzZg5m3kivhHcMazSC7Zo+padZqfhpw3aLg5GwU/j0cIT8=@vger.kernel.org, AJvYcCVNZPkprQvJbVblSNImXvpOY3MfNt9U8YVD08HxahyR/vPU0NMpV3EFSYfXs6vyZLFuYCWIz17UkVTg@vger.kernel.org
-X-Gm-Message-State: AOJu0YzxWKCYgsX5s5G/GMR2WppJaPrf10vacaCcTk4tOschU/GWcC9G
-	xbEoS53mP1FA9GfWwmWOHBMSnZOvvyCBa7wnhhLEABbim5+1NXkd
-X-Gm-Gg: ASbGncuC6lD7VCxeo3GbRGCLo7sVuWWpzQ7h7HCyItWq+65J2mfs6Z/p5Ks25R4vowj
-	DbQn081K8y54Tk7IBYjnmICKcnXoZoTgtKmFkIbxIxBykHjjJsBWYCMKGeNflNy7Gh5+hyTxxZy
-	9C8LwD0lNBTkQz26qXfYq0QCgNE1FpheDJWfw8aRXlXs/Iu3y7zCgi18qNuQRb6wpJU7LFjMNXv
-	MCZFfdQ9jgF9XDc9qSowsnrN/bpI8LPw0y4i1Ln2N7qudFmYwlbe9NqolNahaiG+XAMWIbnrgKz
-	EUO5xAVst/bshG9hACjmwBbPssg9fyJj/MURI49aRY0IEYns/NH6ZG3cfGth4vozPPty
-X-Google-Smtp-Source: AGHT+IES2QXxO8lb/vTvHlhPSVDGrsTaz8KmqVRVT0eakMhdejsKNxaarh9P/bZGpi9gt8LD22NXDw==
-X-Received: by 2002:a05:6a00:1acc:b0:736:fff2:9ac with SMTP id d2e1a72fcca58-739e7167605mr19224558b3a.23.1744063860529;
-        Mon, 07 Apr 2025 15:11:00 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-739d9ea154dsm9053606b3a.112.2025.04.07.15.10.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Apr 2025 15:11:00 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Mon, 7 Apr 2025 15:10:59 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
-Cc: Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/max34440): add support adpm12160
-Message-ID: <3f4279e9-8667-4bd5-8815-32f05d080336@roeck-us.net>
-References: <20250407-dev_adpm12160-v3-0-9cd3095445c8@analog.com>
- <20250407-dev_adpm12160-v3-2-9cd3095445c8@analog.com>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="t2o8aSLc"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1744064499;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=TKalfcv5j8KRhUC5Mav4zI0RgTj1I1xYLS2dJzJx2uI=;
+	b=t2o8aSLcQkSOAzfmYyBjsxe18HROp/YBKPvpdU+D8NxCwMTXJ0OuUHDsdUC0kSLfHAbfg1
+	B3leAyk4EeKpP99CWkOSX2s6dE8TiaNG3d9GnR8BV+1XzyLTR6KnThcYV23RJm/RicSYc/
+	w092TLBSVcgzdryf4nm7GssfBqMyCtU=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sean Anderson <sean.anderson@linux.dev>
+Subject: [PATCH] scripts: kernel-doc: fix parsing function-like typedefs (again)
+Date: Mon,  7 Apr 2025 18:21:34 -0400
+Message-Id: <20250407222134.2280553-1-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407-dev_adpm12160-v3-2-9cd3095445c8@analog.com>
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, Apr 07, 2025 at 11:47:25AM +0800, Alexis Czezar Torreno wrote:
-> ASPM12160 is a quarter brick DC/DC Power Module. It is a high power
-> non-isolated converter capable of delivering a fully regulated 12V,
-> with continuous power level of 1600W with peak power at 2400W for
-> a limited time. Uses PMBus Configuration.
-> 
-> Signed-off-by: Alexis Czezar Torreno <alexisczezar.torreno@analog.com>
+Typedefs like
 
-Applied.
+    typedef struct phylink_pcs *(*pcs_xlate_t)(const u64 *args);
 
-Thanks,
-Guenter
+have a typedef_type that ends with a * and therefore has no word
+boundary. Add an extra clause for the final group of the typedef_type so
+we only require a word boundary if we match a word.
+
+Fixes: 7d2c6b1edf79 ("scripts: kernel-doc: fix parsing function-like typedefs")
+Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+---
+
+ scripts/kernel-doc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index af6cf408b96d..5db23cbf4eb2 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -1325,7 +1325,7 @@ sub dump_enum($$) {
+     }
+ }
+ 
+-my $typedef_type = qr { ((?:\s+[\w\*]+\b){1,8})\s* }x;
++my $typedef_type = qr { ((?:\s+[\w\*]+\b){0,7}\s+(?:\w+\b|\*+))\s* }x;
+ my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
+ my $typedef_args = qr { \s*\((.*)\); }x;
+ 
+-- 
+2.35.1.1320.gc452695387.dirty
+
