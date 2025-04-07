@@ -1,105 +1,208 @@
-Received: from mail-4316.protonmail.ch (mail-4316.protonmail.ch [185.70.43.16])
+Received: from out-180.mta0.migadu.com (out-180.mta0.migadu.com [91.218.175.180])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3019E20966B;
-	Mon,  7 Apr 2025 23:04:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59E7F157E6B
+	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 23:17:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744067098; cv=none; b=BQLYOYGaALGb0sN5wV2eIYri6BCkb3haTa/brwGtg4MHSNCaGgUDS+n354NF8TWTlyKae8fORpugHgw+S0PVo9T7Z1o4quZElOZHIrDB1xdjxU4shAfmAtPz5aYSlo3rzlO3skynZxWbELDIFzKNHnFlL3VQiZeHELS2qwOVUrE=
+	t=1744067880; cv=none; b=KWqARv1X/IKVHtBOZYuVx/Yusrqi8/j6nRd2CmDvQn/801GTWlJSOkAZTcSScSt68lDoUcwR0VRiZ5w/IuyYNJ4oFru7WBMYthznBIWt63VIhmHiAn/6BbPqHk/HZ+xpqLpfCNlyDFzQNy4SvtQxxE1LPR8bWKuhZwhvbuRzsHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744067098; c=relaxed/simple;
-	bh=0zaMJuW2E2sX2GTgnWPvgAAilohNggh6HJKl9fIlzHE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=MLOC5nUUWhi6/R3nXgDHtdR1uB95NGFUW0CeUDhMkOYsCKvmUwEFnxQSAyB+t98/Ug0GkmRj/V7nwq2cUk+iMxIfplyekXYG+9KZklLOiCyvgfx5rUk8bjcmPolc67jc72B4napkHKBf4ogZorrs8RpsFP6CP3LnNBsltKQTsq4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=lLkhpptg; arc=none smtp.client-ip=185.70.43.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
+	s=arc-20240116; t=1744067880; c=relaxed/simple;
+	bh=JUHh/Q1K2H6IVhkGJ++Y1Nf2RdLOp/6C/r7XnLzqc8U=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=FzB3XSuqpeswHTF/lgOCtAYbg10BjrRWde18otX8g8yQVoGTV5mFTXk/h7vxLMEPQ8bhhO1hOEmCg4BnGJWTGMBzV5qmAlVq05U+lgMUhppRc0eEKEqnoxvGiyE/bOxvqyro8cIPtTBvtc7PIugqIBE8rX19jhwfTxJc0DCljKw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=SgnrJsFA; arc=none smtp.client-ip=91.218.175.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="lLkhpptg"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
-	s=protonmail; t=1744067088; x=1744326288;
-	bh=0zaMJuW2E2sX2GTgnWPvgAAilohNggh6HJKl9fIlzHE=;
-	h=Date:To:From:Cc:Subject:Message-ID:In-Reply-To:References:
-	 Feedback-ID:From:To:Cc:Date:Subject:Reply-To:Feedback-ID:
-	 Message-ID:BIMI-Selector:List-Unsubscribe:List-Unsubscribe-Post;
-	b=lLkhpptgkYKd2q6rpOEbE5VGo/V+n50UjQgv72FwAgmU5nDsHcmcHpv1KzL1+7jQI
-	 buGrXQqOY6FuPFTPqSOpBl4qqsinu/lWOV3JMTvRc+4oItCZWl+SOmGue8gPjrzxu/
-	 xyRjLRw505GapDMbWj//8IXtGda5gMdwgATO7WMf+Dtnu23zNGIwKKIjTHQ+nfB6ZV
-	 OjkyiArjc6H8UYtByPa3cnVFPv4Ry+L1xy+pdAJxt6nfFdilvepuzKwb7kPBR8EYsV
-	 vYG+qO22LmFvlqvlQcoe390M4W2ijbSzvuz7HeOTI3tZLPqkiY2C37WXE8/BGrMSIc
-	 yWJLC8GEkIsDQ==
-Date: Mon, 07 Apr 2025 23:04:42 +0000
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-From: Denis Mukhin <dmkhn@proton.me>
-Cc: Denis Mukhin <dmukhin@ford.com>, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v3] x86/early_printk: add MMIO-based UARTs
-Message-ID: <vCbvBjUt9kPZhYP0tXAoVKrIn5hk5ON-HEqi2OjnCECThGJ73vh7S4qAKspAlxtgBAHFv1Sc_k6Hmdeq_nYXReITCt2FNRy1wWZR-udke9c=@proton.me>
-In-Reply-To: <Z_P_nWrl4JQJVy2c@black.fi.intel.com>
-References: <20250324-earlyprintk-v3-1-aee7421dc469@ford.com> <Z_P_nWrl4JQJVy2c@black.fi.intel.com>
-Feedback-ID: 123220910:user:proton
-X-Pm-Message-ID: 364800189e164472cd92cc200173e0051292a8cd
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="SgnrJsFA"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1744067875;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=cWonVcXX3jqcfNp/b9lgu6z0q2BXOtRBQGBmf1D4SVQ=;
+	b=SgnrJsFAJgNi9WQ+rl1nhgeJ8/jKFu0Z1ceqFZKXJFSOU0aFCGLqqAQNIakS5vh508pWuH
+	ZXTig3Oqa7Hl5tBUgAKuqZbCvXp0LPqoN1GgiGYAELr0mPP34Yh3WnW7wh65Ig2gKNQlrd
+	Omk115Z2psF0DR9mJ9RfqEV0eWNXxQs=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: netdev@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: linux-kernel@vger.kernel.org,
+	upstream@airoha.com,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Sean Anderson <sean.anderson@linux.dev>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Clark Wang <xiaoning.wang@nxp.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joyce Ooi <joyce.ooi@intel.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Madalin Bucur <madalin.bucur@nxp.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Robert Hancock <robert.hancock@calian.com>,
+	Saravana Kannan <saravanak@google.com>,
+	UNGLinuxDriver@microchip.com,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Wei Fang <wei.fang@nxp.com>,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: [net-next PATCH v2 00/14] Add PCS core support
+Date: Mon,  7 Apr 2025 19:17:31 -0400
+Message-Id: <20250407231746.2316518-1-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-Hi!
+This series adds support for creating PCSs as devices on a bus with a
+driver (patch 3). As initial users,
 
-On Monday, April 7th, 2025 at 9:38 AM, Andy Shevchenko <andriy.shevchenko@i=
-ntel.com> wrote:
+- The Lynx PCS (and all of its users) is converted to this system (patch 5)
+- The Xilinx PCS is broken out from the AXI Ethernet driver (patches 6-8)
+- The Cadence MACB driver is converted to support external PCSs (namely
+  the Xilinx PCS) (patches 9-10).
 
->=20
->=20
-> On Mon, Mar 24, 2025 at 05:55:40PM -0700, Denis Mukhin wrote:
->=20
-> > During the bring-up of an x86 board, the kernel was crashing before
-> > reaching the platform's console driver because of a bug in the firmware=
-,
-> > leaving no trace of the boot progress.
-> >=20
-> > It was discovered that the only available method to debug the kernel
-> > boot process was via the platform's MMIO-based UART, as the board lacke=
-d
-> > an I/O port-based UART, PCI UART, or functional video output.
-> >=20
-> > Then it turned out that earlyprintk=3D does not have a knob to configur=
-e
-> > the MMIO-mapped UART.
-> >=20
-> > Extend the early printk facility to support platform MMIO-based UARTs
-> > on x86 systems, enabling debugging during the system bring-up phase.
-> >=20
-> > The command line syntax to enable platform MMIO-based UART is:
-> > earlyprintk=3Dmmio,membase[,{nocfg|baudrate}][,keep]
-> >=20
-> > Note, the change does not integrate MMIO-based UART support to:
-> > arch/x86/boot/early_serial_console.c
-> >=20
-> > Also, update kernel parameters documentation with the new syntax and
-> > add missing 'nocfg' setting to PCI serial cards description.
->=20
->=20
-> Just for your information: Have you seen this rather old series of mine?
->=20
-> https://bitbucket.org/andy-shev/linux/commits/branch/topic%2Fx86%2Fboot-e=
-arlyprintk
+The last few patches add device links for pcs-handle to improve boot times,
+and add compatibles for all Lynx PCSs.
 
-This is a nice cleanup!
-Thanks for sharing.
+This series depends on [1,2], and they have been included at the
+beginning so CI will run. However, I expect them to be reviewed/applied
+outside the net-next tree.
 
-Sorry, I haven't seen the series above, I had to write a patch (which was m=
-onths ago).
-It's just I could not post it on the mailing list until recently.
+Care has been taken to ensure backwards-compatibility. The main source
+of this is that many PCS devices lack compatibles and get detected as
+PHYs. To address this, pcs_get_by_fwnode_compat allows drivers to edit
+the devicetree to add appropriate compatibles.
 
->=20
-> --
-> With Best Regards,
-> Andy Shevchenko
->=20
+There is another series [3] with the same goal by Christian Marangi. In
+comparison, I believe this series
 
-Thanks,
-Denis
+- Implements a simpler and more-robust method of PCS access.
+- Provides a more-direct upgrade path for existing MAC and PCS drivers.
+
+Due to popular demand, I have added support for #pcs-cells with this
+revision.
+
+[1] https://lore.kernel.org/all/20250407222134.2280553-1-sean.anderson@linux.dev/
+[2] https://lore.kernel.org/all/20250407223714.2287202-1-sean.anderson@linux.dev/
+[3] https://lore.kernel.org/netdev/20250406221423.9723-1-ansuelsmth@gmail.com/
+
+Changes in v2:
+- Add fallbacks for pcs_get* and pcs_put
+- Add support for #pcs-cells
+- Change base compatible to just xlnx,pcs
+- Change compatible to just xlnx,pcs
+- Defer devicetree updates for another series
+- Drop #clock-cells description
+- Drop PCS_ALTERA_TSE which was accidentally added while rebasing
+- Move #clock-cells after compatible
+- Move update to macb_pcs_get_state to previous patch
+- Remove outdated comment
+- Remove second example
+- Remove unused variable
+- Remove unused variable lynx_properties
+- Rename pcs-modes to xlnx,pcs-modes
+- Reorder pcs_handle to come before suffix props
+- Reword commit message
+- Rework xilinx_pcs_validate to just clear out half-duplex modes instead
+  of constraining modes based on the interface.
+
+Sean Anderson (13):
+  dt-bindings: net: Add Xilinx PCS
+  device property: Add optional nargs_prop for get_reference_args
+  device property: Add fwnode_property_get_reference_optional_args
+  scripts: kernel-doc: fix parsing function-like typedefs (again)
+  net: phylink: Support setting PCS link change callbacks
+  net: pcs: Add subsystem
+  net: pcs: lynx: Convert to an MDIO driver
+  net: phy: Export some functions
+  net: pcs: Add Xilinx PCS driver
+  net: axienet: Convert to use PCS subsystem
+  net: macb: Move most of mac_config to mac_prepare
+  net: macb: Support external PCSs
+  of: property: Add device link support for PCS
+
+Vladimir Oltean (1):
+  net: dsa: ocelot: suppress PHY device scanning on the internal MDIO
+    bus
+
+ .../devicetree/bindings/net/xilinx,pcs.yaml   | 115 +++
+ Documentation/networking/index.rst            |   1 +
+ Documentation/networking/kapi.rst             |   4 +
+ Documentation/networking/pcs.rst              | 107 +++
+ MAINTAINERS                                   |   8 +
+ drivers/base/property.c                       |  50 +-
+ drivers/base/swnode.c                         |  13 +-
+ drivers/net/dsa/ocelot/Kconfig                |   4 +
+ drivers/net/dsa/ocelot/felix_vsc9959.c        |  15 +-
+ drivers/net/dsa/ocelot/seville_vsc9953.c      |  16 +-
+ drivers/net/ethernet/altera/Kconfig           |   2 +
+ drivers/net/ethernet/altera/altera_tse_main.c |   7 +-
+ drivers/net/ethernet/cadence/macb.h           |   1 +
+ drivers/net/ethernet/cadence/macb_main.c      | 229 +++--
+ drivers/net/ethernet/freescale/dpaa/Kconfig   |   2 +-
+ drivers/net/ethernet/freescale/dpaa2/Kconfig  |   3 +
+ .../net/ethernet/freescale/dpaa2/dpaa2-mac.c  |  11 +-
+ drivers/net/ethernet/freescale/enetc/Kconfig  |   2 +
+ .../net/ethernet/freescale/enetc/enetc_pf.c   |   8 +-
+ .../net/ethernet/freescale/enetc/enetc_pf.h   |   1 -
+ .../freescale/enetc/enetc_pf_common.c         |   4 +-
+ drivers/net/ethernet/freescale/fman/Kconfig   |   4 +-
+ .../net/ethernet/freescale/fman/fman_memac.c  |  27 +-
+ drivers/net/ethernet/stmicro/stmmac/Kconfig   |   3 +
+ .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |   6 +-
+ drivers/net/ethernet/xilinx/Kconfig           |   1 +
+ drivers/net/ethernet/xilinx/xilinx_axienet.h  |   4 +-
+ .../net/ethernet/xilinx/xilinx_axienet_main.c | 104 +--
+ drivers/net/pcs/Kconfig                       |  45 +-
+ drivers/net/pcs/Makefile                      |   4 +
+ drivers/net/pcs/core.c                        | 782 ++++++++++++++++++
+ drivers/net/pcs/pcs-lynx.c                    | 110 +--
+ drivers/net/pcs/pcs-xilinx.c                  | 479 +++++++++++
+ drivers/net/phy/mdio_device.c                 |   1 +
+ drivers/net/phy/phy_device.c                  |   3 +-
+ drivers/net/phy/phylink.c                     |  24 +-
+ drivers/of/property.c                         |  12 +-
+ include/linux/fwnode.h                        |   2 +-
+ include/linux/pcs-lynx.h                      |  13 +-
+ include/linux/pcs-xilinx.h                    |  36 +
+ include/linux/pcs.h                           | 195 +++++
+ include/linux/phy.h                           |   1 +
+ include/linux/phylink.h                       |  27 +-
+ include/linux/property.h                      |   4 +
+ scripts/kernel-doc                            |   2 +-
+ 45 files changed, 2181 insertions(+), 311 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/xilinx,pcs.yaml
+ create mode 100644 Documentation/networking/pcs.rst
+ create mode 100644 drivers/net/pcs/core.c
+ create mode 100644 drivers/net/pcs/pcs-xilinx.c
+ create mode 100644 include/linux/pcs-xilinx.h
+ create mode 100644 include/linux/pcs.h
+
+-- 
+2.35.1.1320.gc452695387.dirty
+
