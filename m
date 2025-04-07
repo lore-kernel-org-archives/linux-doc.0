@@ -1,155 +1,125 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D921B4140
-	for <linux-doc@vger.kernel.org>; Mon,  7 Apr 2025 14:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E19B1B87CE;
+	Mon,  7 Apr 2025 14:03:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744034448; cv=none; b=pZWBslMREFQmEjtzus84glC9hs1f8T/3ZFJCL5yzLtPUdeEMH0ffcAbxSClbG2LpJcepzYbsB4jF/GD51O5pMr69jTMc1gyMA0CUHh5uuWhtB1xIuV36QeD3V7pd5DfOaeo87lx3mTLp6nu+yBFghh8LMw6bcmdT2eP2ORg4BRM=
+	t=1744034619; cv=none; b=YhiusNlpa9lruvkylJeCH8j6rtlTHk6kNQ/tpTbkl+Lzu5b5BvqPIu/4kKBmZrp2n9EPVWF7nwC5glWzOuNHGE8iIc5x4CjjQ4AJ9IYUdp+LJ/urWhJFiQBNip0msw255o0YyP5cee/Zeufzr1rvMQhp4F177REfME8CAvqJ6H0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744034448; c=relaxed/simple;
-	bh=7LrK4+MSCQBQFEg2PH2/aBeSSmKtqORGYXRBnlS/6GQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dUtkY3KQaHoWWAqWAbd0N6inhcAPqs0MgVyy24QaqUY4W7bk6PxU40dvKdTeenM8rkQEdkWEm73DxYtWX1WtaCfC5LwHokEeeUbzgQw26a77LXYZFPgEmy/GTRAqoNQxc9THDR44IlIJyciJI+sLjs1q/iSEmyv/XBH606UyMw0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=jbdAoQtP; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1744034619; c=relaxed/simple;
+	bh=LwpFHqtTF6aiM+1soPf8ma0ZkEP2mzQ1iN1O5ga09M4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SoKZAzSxpyXi6K/mK1ClctWGRkxEJcYn0Lqp7jtgzQMTwguD5SX9iY+eWbww8DK8bd4HZYDGeb2MemFW82XKTccC9Qwz5T0qdTBesy5+PUOROJtP2p2BaQnXuFL4cphnyPdsq9g8QvgUBHxgU5RiWlknRUe3Jdxg3tk2RDiMFGM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=XbK+zNlm; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="jbdAoQtP"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744034443;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=iSot3nw7CEW5EVdvYwJBj+RWIEBQWOakFzZs+Ew+PEI=;
-	b=jbdAoQtPHSJIxk5w+e979vRQUoYMe/oR63p7XQQ2cNwF753extQrOGARTvodaEe+XG5tZV
-	EMWjaNWeHaDYiE89ZlCul8kVp+tFMjxh+SGQ1JZ25cuUmHBOdzIQHsn1ZRJhdrNbGUVUKe
-	Z0RGrrZi5hphR633A4erHlXCmGjUN7Q=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: bpf@vger.kernel.org
-Cc: mrpre@163.com,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Eric Dumazet <edumazet@google.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	David Ahern <dsahern@kernel.org>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Nicolas Dichtel <nicolas.dichtel@6wind.com>,
-	Antony Antony <antony.antony@secunet.com>,
-	Christian Hopps <chopps@labn.net>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH RESEND net-next v3 2/2] tcp: add LINUX_MIB_PAWS_TW_REJECTED counter
-Date: Mon,  7 Apr 2025 21:59:51 +0800
-Message-ID: <20250407140001.13886-3-jiayuan.chen@linux.dev>
-In-Reply-To: <20250407140001.13886-1-jiayuan.chen@linux.dev>
-References: <20250407140001.13886-1-jiayuan.chen@linux.dev>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="XbK+zNlm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744034614;
+	bh=LwpFHqtTF6aiM+1soPf8ma0ZkEP2mzQ1iN1O5ga09M4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XbK+zNlmEYMyXgy9EE+nYDPMS6CNvfQvS4m8Ns622tsZ+iUYZZUmQVKBc+XlC+Ex0
+	 LaVUBaVnuHyN4MmHQRM5lw75L9OtxOhDCkjuYODTe+qjTI/m5+AMTxT0Gka7jc0QE8
+	 IifRhyjZZYK5QvnI+mMIhrnYhTnAo9KP5sABY5mQ6fcU6WPvsT9xj3IKWxPUaa7KsX
+	 WNf9C7FVgUYYMwv/V1hMAOJBiisS+blTU874Zclxv4aFp9RB6gJyAyCkEp32WSgf2b
+	 YGO6OexvWQ9aiFyaesw8sjta8FGk9hz0lRUCH2EruQhXMFQ6T/BIolXXN9TstLXeHQ
+	 P+ItjRt/WHB3Q==
+Received: from notapiano (unknown [70.107.117.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id D60C917E02BE;
+	Mon,  7 Apr 2025 16:03:28 +0200 (CEST)
+Date: Mon, 7 Apr 2025 10:03:26 -0400
+From: =?utf-8?B?TsOtY29sYXMgRi4gUi4gQS4=?= Prado <nfraprado@collabora.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: James.Bottomley@hansenpartnership.com, akpm@linux-foundation.org,
+	anton.ivanov@cambridgegreys.com, corbet@lwn.net,
+	davem@davemloft.net, dmaengine@vger.kernel.org, ebiggers@kernel.org,
+	edumazet@google.com, horms@kernel.org, jaegeuk@kernel.org,
+	jarkko@kernel.org, jic23@kernel.org, johannes@sipsolutions.net,
+	kernel@collabora.com, keyrings@vger.kernel.org, kuba@kernel.org,
+	lars@metafoo.de, linux-doc@vger.kernel.org,
+	linux-fscrypt@vger.kernel.org, linux-iio@vger.kernel.org,
+	linux-integrity@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-media@vger.kernel.org, linux-mm@kvack.org,
+	linux-sound@vger.kernel.org, linux-um@lists.infradead.org,
+	maxime.chevallier@bootlin.com, mchehab@kernel.org,
+	netdev@vger.kernel.org, pabeni@redhat.com, perex@perex.cz,
+	richard@nod.at, tiwai@suse.com, tytso@mit.edu, vkoul@kernel.org,
+	workflows@vger.kernel.org, zohar@linux.ibm.com
+Subject: Re: [PATCH] docs: Remove literal markup from Documentation/ paths
+Message-ID: <9bc7b77b-73a7-4d6d-9187-ac452f8cad23@notapiano>
+References: <20250404-doc-paths-unliteral-v1-1-74718785444e@collabora.com>
+ <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <811c4103-08b1-4288-9a15-bd9795bc59f4@gmail.com>
 
-When TCP is in TIME_WAIT state, PAWS verification uses
-LINUX_PAWSESTABREJECTED, which is ambiguous and cannot be distinguished
-from other PAWS verification processes.
+On Sat, Apr 05, 2025 at 10:17:16AM +0900, Akira Yokosawa wrote:
+> Hi,
+> 
+> Nícolas F. R. A. Prado wrote:
+> > Given that the automarkup Sphinx plugin cross-references
+> > "Documentation/*.rst" strings in the text to the corresponding
+> > documents, surrounding those strings with the literal markup (``) not
+> > only adds unnecessary markup in the source files, but actually prevents
+> > the automatic cross-referencing to happen (as it doesn't happen in
+> > literal blocks).
+> > 
+> > Remove all the occurrences of the literal markup in
+> > "Documentation/*.rst" paths, except when the actual source file is being
+> > referred. Also change the surrounding text when needed so it reads well
+> > both in the source and the web page (eg. 'see file Doc...' -> 'see
+> > Doc...').
+> > 
+> > Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
+> > ---
+[..]
+> >  
+> >  2) All new ``Kconfig`` options have help text.
+> >  
+> > @@ -47,7 +48,7 @@ Provide documentation
+> >  2) All new ``/proc`` entries are documented under ``Documentation/``
+> >  
+> >  3) All new kernel boot parameters are documented in
+> > -   ``Documentation/admin-guide/kernel-parameters.rst``.
+> > +   Documentation/admin-guide/kernel-parameters.rst.
+> 
+> Hmm, this item is asking "Have you documented the new params in that
+> particular file?", so I don't think this change should be made.
 
-Moreover, when PAWS occurs in TIME_WAIT, we typically need to pay special
-attention to upstream network devices, so we added a new counter, like the
-existing PAWS_OLD_ACK one.
+Right, that makes sense. I'll drop this and the below change for v2.
 
-Also we update the doc with previously missing PAWS_OLD_ACK.
+Thanks,
+Nícolas
 
-usage:
-'''
-nstat -az | grep PAWSTimewait
-TcpExtPAWSTimewait              1                  0.0
-'''
-
-Suggested-by: Eric Dumazet <edumazet@google.com>
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- Documentation/networking/net_cachelines/snmp.rst | 2 ++
- include/net/dropreason-core.h                    | 1 +
- include/uapi/linux/snmp.h                        | 1 +
- net/ipv4/proc.c                                  | 1 +
- net/ipv4/tcp_minisocks.c                         | 2 +-
- 5 files changed, 6 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/networking/net_cachelines/snmp.rst b/Documentation/networking/net_cachelines/snmp.rst
-index bc96efc92cf5..bd44b3eebbef 100644
---- a/Documentation/networking/net_cachelines/snmp.rst
-+++ b/Documentation/networking/net_cachelines/snmp.rst
-@@ -37,6 +37,8 @@ unsigned_long  LINUX_MIB_TIMEWAITKILLED
- unsigned_long  LINUX_MIB_PAWSACTIVEREJECTED
- unsigned_long  LINUX_MIB_PAWSESTABREJECTED
- unsigned_long  LINUX_MIB_TSECR_REJECTED
-+unsigned_long  LINUX_MIB_PAWS_OLD_ACK
-+unsigned_long  LINUX_MIB_PAWS_TW_REJECTED
- unsigned_long  LINUX_MIB_DELAYEDACKLOST
- unsigned_long  LINUX_MIB_LISTENOVERFLOWS
- unsigned_long  LINUX_MIB_LISTENDROPS
-diff --git a/include/net/dropreason-core.h b/include/net/dropreason-core.h
-index 9701d7f936f6..bea77934a235 100644
---- a/include/net/dropreason-core.h
-+++ b/include/net/dropreason-core.h
-@@ -287,6 +287,7 @@ enum skb_drop_reason {
- 	/**
- 	 * @SKB_DROP_REASON_TCP_RFC7323_TW_PAWS: PAWS check, socket is in
- 	 * TIME_WAIT state.
-+	 * Corresponds to LINUX_MIB_PAWS_TW_REJECTED.
- 	 */
- 	SKB_DROP_REASON_TCP_RFC7323_TW_PAWS,
- 	/**
-diff --git a/include/uapi/linux/snmp.h b/include/uapi/linux/snmp.h
-index ec47f9b68a1b..1d234d7e1892 100644
---- a/include/uapi/linux/snmp.h
-+++ b/include/uapi/linux/snmp.h
-@@ -188,6 +188,7 @@ enum
- 	LINUX_MIB_PAWSESTABREJECTED,		/* PAWSEstabRejected */
- 	LINUX_MIB_TSECRREJECTED,		/* TSEcrRejected */
- 	LINUX_MIB_PAWS_OLD_ACK,			/* PAWSOldAck */
-+	LINUX_MIB_PAWS_TW_REJECTED,		/* PAWSTimewait */
- 	LINUX_MIB_DELAYEDACKS,			/* DelayedACKs */
- 	LINUX_MIB_DELAYEDACKLOCKED,		/* DelayedACKLocked */
- 	LINUX_MIB_DELAYEDACKLOST,		/* DelayedACKLost */
-diff --git a/net/ipv4/proc.c b/net/ipv4/proc.c
-index 10cbeb76c274..ea2f01584379 100644
---- a/net/ipv4/proc.c
-+++ b/net/ipv4/proc.c
-@@ -191,6 +191,7 @@ static const struct snmp_mib snmp4_net_list[] = {
- 	SNMP_MIB_ITEM("PAWSEstab", LINUX_MIB_PAWSESTABREJECTED),
- 	SNMP_MIB_ITEM("TSEcrRejected", LINUX_MIB_TSECRREJECTED),
- 	SNMP_MIB_ITEM("PAWSOldAck", LINUX_MIB_PAWS_OLD_ACK),
-+	SNMP_MIB_ITEM("PAWSTimewait", LINUX_MIB_PAWS_TW_REJECTED),
- 	SNMP_MIB_ITEM("DelayedACKs", LINUX_MIB_DELAYEDACKS),
- 	SNMP_MIB_ITEM("DelayedACKLocked", LINUX_MIB_DELAYEDACKLOCKED),
- 	SNMP_MIB_ITEM("DelayedACKLost", LINUX_MIB_DELAYEDACKLOST),
-diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-index 27511bf58c0f..43d7852ce07e 100644
---- a/net/ipv4/tcp_minisocks.c
-+++ b/net/ipv4/tcp_minisocks.c
-@@ -248,7 +248,7 @@ tcp_timewait_state_process(struct inet_timewait_sock *tw, struct sk_buff *skb,
- 
- 	if (paws_reject) {
- 		*drop_reason = SKB_DROP_REASON_TCP_RFC7323_TW_PAWS;
--		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWSESTABREJECTED);
-+		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWS_TW_REJECTED);
- 	}
- 
- 	if (!th->rst) {
--- 
-2.47.1
-
+> 
+> >  
+> >  4) All new module parameters are documented with ``MODULE_PARM_DESC()``
+> >  
+> > @@ -58,7 +59,7 @@ Provide documentation
+> >     linux-api@vger.kernel.org.
+> >  
+> >  6) If any ioctl's are added by the patch, then also update
+> > -   ``Documentation/userspace-api/ioctl/ioctl-number.rst``.
+> > +   Documentation/userspace-api/ioctl/ioctl-number.rst.
+> 
+> Ditto.
+> 
+>         Thanks, Akira
+> 
+> >  
+> >  Check your code with tools
+> >  ==========================
+> 
