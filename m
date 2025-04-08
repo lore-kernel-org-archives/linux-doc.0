@@ -1,56 +1,66 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D9FE263F2C;
-	Tue,  8 Apr 2025 08:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDBE2641CC;
+	Tue,  8 Apr 2025 08:30:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744100173; cv=none; b=L7cZZknYNveORG+iJucD6Uqp2wWzUF+j1JUh4ygad3ouykpiKj4NqpJGt9wwNNQfI4HRYiMx4QY/ziq7oLLDeu4YqVTq+6u7QpGTcd0SgtGL+ak7kHG/fKLcZNfWEEMIt4CsH9ogPU85VclZM+bDwgptEKEcIqSR5HLjOVDXd2Q=
+	t=1744101010; cv=none; b=GsU5pU0Bu2NTwV9MTNflv2+XQLXdTXJOoiOVlCO+71UZOBvYljxr5Oy2h+4cZqfmcx04s2AxZ7wR4qz0TvPZeNrTTs6ZvCGenafmacPKTYwIbVjR1c+lb9Zfgv2l1i0PjE6vRbOz5AObF6S/01396XmyUJsSRu96HbP/dayDPLk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744100173; c=relaxed/simple;
-	bh=a0cHsypMDGBoj1KQFM5mwYajqEJrx4jAOqxJNpZ+kzU=;
+	s=arc-20240116; t=1744101010; c=relaxed/simple;
+	bh=mtQ0cgbg65B3Y14wimzpCJkbW0UL7A7exIM5eb44PFI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pnBDIA0zWGDA2LWw462ZZEkp4tXLgKL20UFew2y92LT1UbhThKLv3sgC9I3by2wlCDjGeioMcTrxF1085IeeHoIGg0Huifr1ALZCSbABWPBdIXqRgKQpWXOQ2Q+nOKfW4pUg5kWyyy/NYXK/BDYLZiLJAw4Jpx/N7ZRioStpaKU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mTbuCqJe; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=j3ZPogUyrL4pHHI0EbNu8cWAllEo4NgZdaDfgGUQ34F8RbnbOD+Kwvng38WZT0xk7GHBL28T2PqNmXnK8F5t+R99/W/QDZ7vx3ndjg1StpicA3wUTzksxVFFG03edprq9CbpV02gq7Z79RS0WwoSiUmcGdnXZRnV6JklzpHPfVQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=TbjRdyZC; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mTbuCqJe"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1ED2C4CEEB;
-	Tue,  8 Apr 2025 08:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744100173;
-	bh=a0cHsypMDGBoj1KQFM5mwYajqEJrx4jAOqxJNpZ+kzU=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mTbuCqJetua5Pl89eRSq+KlSTASP0RslqlF95iKaZ1238IoDHob5PfyjcI9b1TjzW
-	 oRS9ccNNBVgaFxO6Xn0/xrrYjvwRF67tgr2Q/lVjc52IBDfXbp9/+bS1RZ1DsbfIOr
-	 M3XEap2gKGIDF8vSkJU3YvnVVWMMlKpuA6S7jBu1K6Md7TQJ7y6UKAny/rt8JYyxdx
-	 IFdTX4ONhmFkxnvg+N5Kx+cNhc4Bjv9jVsoXS/WZuoZfo5uzB+bSpRnInEiXNEiMqo
-	 Dq4QZuYjQq/kE4ajtkQ+kbMFU1g5rKcVGLFsuMFtWZLCTz2qJdF2fxoi/fLxxkUgoL
-	 zB+LZD52kI6nQ==
-Date: Tue, 8 Apr 2025 10:16:04 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Eric Biggers <ebiggers@kernel.org>, Arnd Bergmann <arnd@kernel.org>,
-	linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
-	Ard Biesheuvel <ardb@kernel.org>, Borislav Petkov <bp@alien8.de>,
-	Brian Gerst <brgerst@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="TbjRdyZC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744101008; x=1775637008;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mtQ0cgbg65B3Y14wimzpCJkbW0UL7A7exIM5eb44PFI=;
+  b=TbjRdyZCO+n53ndhyWeWREL1PoDz9cY+gtH7rczLjTkhv/uXDYTUQzBr
+   K10E6JN4X24uUOZdsuR4W9bUAYZF9mT8UJD5NLIFYNT17ZedIJbJjPI3J
+   IU96tJjNLtuuMVFs0gKPc5tqm2A889RYt2zL0ef7WfgrWsV8qPiB5Q/RM
+   QFX36dGE2xoGDVKAa8PpBeG0g3/BQ4l6IRSkGBtipR4JIpELyogXV+vVf
+   MjU8PHyNBuKX5B7U937l+TTM5knLLFJcZycvzEh9WM4pUCpz+jf8VV8yk
+   uuEm0RAA/+l2B5p8IaPSVlAXv8ZVuFa0ti0MzoaZFH/Lpp4hCLu4Mv+w0
+   w==;
+X-CSE-ConnectionGUID: FJ2ai5R2QUutrbg9K9Flhw==
+X-CSE-MsgGUID: OYsK20KaS2mR2LDSwSIC6Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="44770229"
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="44770229"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 01:30:07 -0700
+X-CSE-ConnectionGUID: 80DLV24cQKSaJb5P60LKlA==
+X-CSE-MsgGUID: ntoy4gz8TbKZqevi3o7V2Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
+   d="scan'208";a="133402993"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 01:30:04 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u24LI-0000000AL5R-1HaE;
+	Tue, 08 Apr 2025 11:30:00 +0300
+Date: Tue, 8 Apr 2025 11:30:00 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Denis Mukhin <dmkhn@proton.me>
+Cc: Denis Mukhin <dmukhin@ford.com>, Jonathan Corbet <corbet@lwn.net>,
 	Thomas Gleixner <tglx@linutronix.de>,
-	Uros Bizjak <ubizjak@gmail.com>, Will Deacon <will@kernel.org>,
-	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-raid@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
-Message-ID: <Z_TbRGgRTDvyQyfs@gmail.com>
-References: <20250407094116.1339199-1-arnd@kernel.org>
- <20250407164151.GB2536@sol.localdomain>
- <0d087503-88d5-4d66-aa52-161ca6e0df06@app.fastmail.com>
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3] x86/early_printk: add MMIO-based UARTs
+Message-ID: <Z_TeiDVh50u7OhIw@smile.fi.intel.com>
+References: <20250324-earlyprintk-v3-1-aee7421dc469@ford.com>
+ <Z_P_nWrl4JQJVy2c@black.fi.intel.com>
+ <vCbvBjUt9kPZhYP0tXAoVKrIn5hk5ON-HEqi2OjnCECThGJ73vh7S4qAKspAlxtgBAHFv1Sc_k6Hmdeq_nYXReITCt2FNRy1wWZR-udke9c=@proton.me>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,30 +69,52 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0d087503-88d5-4d66-aa52-161ca6e0df06@app.fastmail.com>
+In-Reply-To: <vCbvBjUt9kPZhYP0tXAoVKrIn5hk5ON-HEqi2OjnCECThGJ73vh7S4qAKspAlxtgBAHFv1Sc_k6Hmdeq_nYXReITCt2FNRy1wWZR-udke9c=@proton.me>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
+On Mon, Apr 07, 2025 at 11:04:42PM +0000, Denis Mukhin wrote:
+> On Monday, April 7th, 2025 at 9:38 AM, Andy Shevchenko <andriy.shevchenko@intel.com> wrote:
+> > On Mon, Mar 24, 2025 at 05:55:40PM -0700, Denis Mukhin wrote:
 
-* Arnd Bergmann <arnd@arndb.de> wrote:
-
-> On Mon, Apr 7, 2025, at 18:41, Eric Biggers wrote:
-> > On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
-> >
-> > This is intended to supersede the patches from Uros that removed checks for
-> > binutils < 2.25, right?  See:
-> >
-> > * 
-> > https://lore.kernel.org/linux-crypto/20250404074135.520812-1-ubizjak@gmail.com/
-> > * 
-> > https://lore.kernel.org/linux-crypto/20250404074135.520812-2-ubizjak@gmail.com
-> > * 
-> > https://lore.kernel.org/linux-crypto/20250404074135.520812-3-ubizjak@gmail.com/
+> > > During the bring-up of an x86 board, the kernel was crashing before
+> > > reaching the platform's console driver because of a bug in the firmware,
+> > > leaving no trace of the boot progress.
+> > > 
+> > > It was discovered that the only available method to debug the kernel
+> > > boot process was via the platform's MMIO-based UART, as the board lacked
+> > > an I/O port-based UART, PCI UART, or functional video output.
+> > > 
+> > > Then it turned out that earlyprintk= does not have a knob to configure
+> > > the MMIO-mapped UART.
+> > > 
+> > > Extend the early printk facility to support platform MMIO-based UARTs
+> > > on x86 systems, enabling debugging during the system bring-up phase.
+> > > 
+> > > The command line syntax to enable platform MMIO-based UART is:
+> > > earlyprintk=mmio,membase[,{nocfg|baudrate}][,keep]
+> > > 
+> > > Note, the change does not integrate MMIO-based UART support to:
+> > > arch/x86/boot/early_serial_console.c
+> > > 
+> > > Also, update kernel parameters documentation with the new syntax and
+> > > add missing 'nocfg' setting to PCI serial cards description.
+> > 
+> > Just for your information: Have you seen this rather old series of mine?
+> > 
+> > https://bitbucket.org/andy-shev/linux/commits/branch/topic%2Fx86%2Fboot-earlyprintk
 > 
-> I missed these, but it does sounds we easy to work out, either
-> by rebasing my patch or dropping Uros' version.
+> This is a nice cleanup!
+> Thanks for sharing.
+> 
+> Sorry, I haven't seen the series above, I had to write a patch (which was months ago).
+> It's just I could not post it on the mailing list until recently.
 
-It's a trivial conflict resolution AFAICS, already done in today's 
--next.
+No problem. Can you look at
+https://lore.kernel.org/r/20250407172214.792745-1-andriy.shevchenko@linux.intel.com
+? I forgot to Cc you and that is an important fix.
 
-Thanks,
+-- 
+With Best Regards,
+Andy Shevchenko
 
-	Ingo
+
