@@ -1,95 +1,150 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1ACB41A8407
-	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 15:31:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9804C8F5A;
+	Tue,  8 Apr 2025 15:32:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744126267; cv=none; b=EQdsSqH3V55C2/P49x/XMDg9+7pbh+Renz3ydce9DJae2WMquh9U9lF+atve4kUpJV+hwXeY+5T5dvqYt/ZSLLMEY3zmQtREB7yfIRf6uxZ/leeUJ6kHtHG0g3qtKw5+GkU3XLS+dakq88qoZM2dL5hKMPRYAE9ygrdnOuqoyIM=
+	t=1744126372; cv=none; b=HUkmgSc/EZ0+ZEVMs4G9IPHZSuZE7Nrr1ddNmQBTvY3JpMGN7h1pYdP5tp5LgudnXwVvf64on8AhKtScz+1vSBlFFPyTMIqHj+HTxmM3lOzwjY7xMsnz989k9T8M8GzSILzF0b1OlRoZfbVRqFXa1ffvwyI42Kr4We6uSfVPfWg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744126267; c=relaxed/simple;
-	bh=0YFuHjXItMALCF9I61SplNMuKtnWRp5UV2h38diSEak=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RlsC4uSoBG6rjhSdXztvoh9QBuqc2xtvs7IR5nJeC2hbTURhDB4q93bzu7w8PTVMhvXjXElkOxyvo2nCQVcOSpcCFtM+KDXzCJ56b+cSbaDn3b34sgyiKverK5xhhMYvDNBVwKSubDKsvUn5XCJg2KtFSEO5J0C1OKiuzLkGRBQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=xHjiYEdg; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="xHjiYEdg"
-Message-ID: <08c0e1eb-2de6-45bf-95a4-e817008209ab@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744126252;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=8BoOWeNe+pe93MVOTNw72S8eDhTJzWNGVCLyplYdrjU=;
-	b=xHjiYEdgV7tMnhbjUS9rxzHVYtisqRgofwAbFgKBjHeCW/w+sALVnUMiySoFUarrOrSbJp
-	Ecqv/CNdAQM8aUz/+aPqTRou80iDO+z9ZzmUuIVt85PyF9sLMmnGUY26Em+RgqaMhsISwv
-	mClV4f4j7VSPhAIpytBuD78aAgb4MhI=
-Date: Tue, 8 Apr 2025 11:30:43 -0400
+	s=arc-20240116; t=1744126372; c=relaxed/simple;
+	bh=+SSZrN8wkNSkmcTPKV2yxkI5mq1uBPzghaYSVyoz1kM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qbw4IvKVbcTvURVSTqdqDo4XQ2SQoWFXyajBbcQx0sX8p8ck4a5l0QiUiP4sf0QReYiwQPlnjowAXi2zpVffOCNZU4hXrVm9cxfRm86p1Uc2d4UNunPtju6geZJ8n/loD+wR0KEK4XBAFNOxBW7tDSbtRQF0Tlvwvv6i1JnfNkE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-7c592764e24so609777585a.0;
+        Tue, 08 Apr 2025 08:32:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744126366; x=1744731166;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sWauuTJeBzaymof//eJXjaRWpKnp1jf/EjofEIpiwYM=;
+        b=rJkYVdUM9T9zUTnBCTlEoIDocRsli4DGBTO8bgBomQGIhzPN9dhv/Zi4QDuRrr0M/t
+         YRxpoufH1/hYgoDV6ayVrXUQiO/4OJzhX21WJCXMPgQ6vo6LaFoVD8FK50SOIzTfEFOo
+         2LPGEYgFZIcNy5uqFihHLAItfLYtiwSJGf6Sol+A7PRcJ+LbO9OGdSLTxUJhQGoZ5DhI
+         WX5ySE0HNgazLW3zSJKbwZSBa9+cUbD9LyYXh7/aaEpCr9JzdBA3nFcJRNUfdoAoLAnn
+         0fx4O8RTw/GE4MPIylIXYOfgCKswV6qHUEbZOsYHtPvVpK9rRTLV2MLvJJNYpcGNmXZQ
+         7l6g==
+X-Forwarded-Encrypted: i=1; AJvYcCWHxZxu3YVExsB5pFHH1H8JhMB2mZ9cXMZNXXxpdBSBGHHBKMXPXcfFzIplDrNbZ0+UqTN1YYQQ0jmEyQxo@vger.kernel.org, AJvYcCXvHflDVvgVMkORnxGLI0MS1Uc+k8+/LTJmzmhLzcl+v2fa0gqIj8nF4pliTgwoUCa/JNDK0iQURjo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzEdaoeggrP8OqAoKpCASXW+pJfm64WNNYJr1lLTMvseHwoGSuY
+	HXo0ZkZ6pKSAKhaumXcQGCJ4KAwj78ZZGqxkV5Kw5gWPiKETlubK4IfRm2i7
+X-Gm-Gg: ASbGncuw5AYD/VdzgcY78MaF7UlhKTuX49UZbqHmM4K8eLh6X48YYza+DyxQ2l0rmjt
+	Ku6KZsnAXBadZS5fHU/uMg2JREA1/CLiFn70mhNZZkACdAJ3+0jrrddpZ5Q7pUNtYdRVyKEG3eH
+	5nTDcMRNDnybWnWU7SxPRQyTjGA3mhGaBdiV82JLmIrJUZxFrJc3QzG5/5U/WfMDaZCZ1aw14zF
+	kbT+Fr1js4dz3uQR+wdn1sKfbcxVU+yJl0/GFIgwoDLaBE6wytY+v/k8dJiwbLNBsH9oN/TdPv1
+	ADJeZ+ci26dAzgQuwfvgpidQCkTjoLSpX5Ll62zOUOKd9Cqkgdo2SZvBtNIbPyrkco41dGPS04T
+	4qKm8YrsfAH0=
+X-Google-Smtp-Source: AGHT+IEnSFlTWDZfMJvUU/4uP24DOXtgkU62MH/Q/dBTDsUnHEqB2uN53fLWdR7eyScBn51RG/GyvQ==
+X-Received: by 2002:a05:620a:2889:b0:7c5:94ec:5114 with SMTP id af79cd13be357-7c79409bf63mr553112485a.18.1744126366028;
+        Tue, 08 Apr 2025 08:32:46 -0700 (PDT)
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com. [209.85.222.179])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c76eaacff9sm775018985a.116.2025.04.08.08.32.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 08 Apr 2025 08:32:45 -0700 (PDT)
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c54f67db99so644762285a.1;
+        Tue, 08 Apr 2025 08:32:45 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUL/6as5KGbJiouwF8WqWoagu0I/h8FuGneNwELWOly3XNUc8AglEmPTnBjyOaIzPt88Ek9CEqGUw+WKh2J@vger.kernel.org, AJvYcCVyM4Hr15y91RT2Q0ZSKlNw9FVZOq0iwUl57hrFj6Mdd2rLbR/zksYh8xoYciGybWW+Zd0Br5uMRWM=@vger.kernel.org
+X-Received: by 2002:a05:620a:4150:b0:7b1:7508:9f38 with SMTP id
+ af79cd13be357-7c79408f423mr535672885a.16.1744126365206; Tue, 08 Apr 2025
+ 08:32:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [net-next PATCH v2 00/14] Add PCS core support
-To: Jakub Kicinski <kuba@kernel.org>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, linux-kernel@vger.kernel.org,
- upstream@airoha.com, Christian Marangi <ansuelsmth@gmail.com>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Kory Maincent <kory.maincent@bootlin.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Clark Wang <xiaoning.wang@nxp.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>, Conor Dooley <conor+dt@kernel.org>,
- Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Joyce Ooi <joyce.ooi@intel.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Madalin Bucur <madalin.bucur@nxp.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Michal Simek <michal.simek@amd.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
- Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Robert Hancock <robert.hancock@calian.com>,
- Saravana Kannan <saravanak@google.com>, UNGLinuxDriver@microchip.com,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Wei Fang <wei.fang@nxp.com>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250407231746.2316518-1-sean.anderson@linux.dev>
- <20250408075047.69d031a9@kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20250408075047.69d031a9@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250304120014.143628-10-ajones@ventanamicro.com>
+ <20250304120014.143628-17-ajones@ventanamicro.com> <CAMuHMdWVMP0MYCLFq+b7H_uz-2omdFiDDUZq0t_gw0L9rrJtkQ@mail.gmail.com>
+ <20250408-f3b5934a901bd24c1c800c8d@orel>
+In-Reply-To: <20250408-f3b5934a901bd24c1c800c8d@orel>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 8 Apr 2025 17:32:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdW8DBfGNVkeY6qLv-eN=mjRKW3qUbXvEn7sLdA61QRfcA@mail.gmail.com>
+X-Gm-Features: ATxdqUEIXkJ1UlfuGjCURKEaeAQ-DRYOLV6RZU-cgg5H0QCozGCmtM1pj04if88
+Message-ID: <CAMuHMdW8DBfGNVkeY6qLv-eN=mjRKW3qUbXvEn7sLdA61QRfcA@mail.gmail.com>
+Subject: Re: [PATCH v3 7/8] riscv: Add parameter for skipping access speed tests
+To: Andrew Jones <ajones@ventanamicro.com>
+Cc: linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, paul.walmsley@sifive.com, palmer@dabbelt.com, 
+	charlie@rivosinc.com, cleger@rivosinc.com, alex@ghiti.fr, 
+	Anup Patel <apatel@ventanamicro.com>, corbet@lwn.net
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/8/25 10:50, Jakub Kicinski wrote:
-> On Mon,  7 Apr 2025 19:17:31 -0400 Sean Anderson wrote:
->> This series depends on [1,2], and they have been included at the
->> beginning so CI will run. However, I expect them to be reviewed/applied
->> outside the net-next tree.
-> 
-> These appear to break the build:
-> 
-> drivers/acpi/property.c:1669:39: error: initialization of ‘int (*)(const struct fwnode_handle *, const char *, const char *, int,  unsigned int,  struct fwnode_reference_args *)’ from incompatible pointer type ‘int (*)(const struct fwnode_handle *, const char *, const char *, unsigned int,  unsigned int,  struct fwnode_reference_args *)’ [-Wincompatible-pointer-types]
->  1669 |                 .get_reference_args = acpi_fwnode_get_reference_args,   \
-> 
-> Could you post as RFC until we can actually merge this? I'm worried 
-> some sleep deprived maintainer may miss the note in the cover letter
-> and just apply it all to net-next..
+Hi Andrew,
 
-I would really like to keep RFC off the titles since some reviewers don't
-pay attention to RFC series.
+On Tue, 8 Apr 2025 at 15:03, Andrew Jones <ajones@ventanamicro.com> wrote:
+> On Tue, Apr 08, 2025 at 02:25:12PM +0200, Geert Uytterhoeven wrote:
+> > On Tue, 4 Mar 2025 at 13:02, Andrew Jones <ajones@ventanamicro.com> wrote:
+> > > Allow skipping scalar and vector unaligned access speed tests. This
+> > > is useful for testing alternative code paths and to skip the tests in
+> > > environments where they run too slowly. All CPUs must have the same
+> > > unaligned access speed.
+> > >
+> > > The code movement is because we now need the scalar cpu hotplug
+> > > callback to always run, so we need to bring it and its supporting
+> > > functions out of CONFIG_RISCV_PROBE_UNALIGNED_ACCESS.
+> > >
+> > > Signed-off-by: Andrew Jones <ajones@ventanamicro.com>
+> >
+> > > --- a/arch/riscv/kernel/unaligned_access_speed.c
+> > > +++ b/arch/riscv/kernel/unaligned_access_speed.c
+> >
+> > >  static int __init check_unaligned_access_all_cpus(void)
+> > >  {
+> > >         int cpu;
+> > >
+> > > -       if (!check_unaligned_access_emulated_all_cpus())
+> > > +       if (unaligned_scalar_speed_param == RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN &&
+> > > +           !check_unaligned_access_emulated_all_cpus()) {
+> > >                 check_unaligned_access_speed_all_cpus();
+> > > -
+> > > -       if (!has_vector()) {
+> > > +       } else {
+> > > +               pr_info("scalar unaligned access speed set to '%s' by command line\n",
+> > > +                       speed_str[unaligned_scalar_speed_param]);
+> > >                 for_each_online_cpu(cpu)
+> > > -                       per_cpu(vector_misaligned_access, cpu) = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
+> > > -       } else if (!check_vector_unaligned_access_emulated_all_cpus() &&
+> > > -                  IS_ENABLED(CONFIG_RISCV_PROBE_VECTOR_UNALIGNED_ACCESS)) {
+> > > +                       per_cpu(misaligned_access_speed, cpu) = unaligned_scalar_speed_param;
+> > > +       }
+> > > +
+> > > +       if (!has_vector())
+> > > +               unaligned_vector_speed_param = RISCV_HWPROBE_MISALIGNED_VECTOR_UNSUPPORTED;
+> > > +
+> > > +       if (unaligned_vector_speed_param == RISCV_HWPROBE_MISALIGNED_VECTOR_UNKNOWN &&
+> > > +           !check_vector_unaligned_access_emulated_all_cpus() &&
+> > > +           IS_ENABLED(CONFIG_RISCV_PROBE_VECTOR_UNALIGNED_ACCESS)) {
+> > >                 kthread_run(vec_check_unaligned_access_speed_all_cpus,
+> > >                             NULL, "vec_check_unaligned_access_speed_all_cpus");
+> > > +       } else {
+> > > +               pr_info("vector unaligned access speed set to '%s' by command line\n",
+> > > +                       speed_str[unaligned_vector_speed_param]);
+> >
+> > On SiPEED MAiXBiT, unaligned_scalar_speed_param is zero, and it prints:
+> >
+> >     scalar unaligned access speed set to '(null)' by command line
+>
+> Thanks, Geert. I think unaligned_scalar_speed_param is likely 1 in this
+> case and we should be printing 'emulated', but I neglected to add that
+> string to speed_str[].
 
-Would [DO NOT MERGE] in the subject be OK?
+No, the value of unaligned_scalar_speed_param is zero.
 
---Sean
+> I'll fix this too.
+
+Thanks!
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
