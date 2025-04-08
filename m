@@ -1,117 +1,105 @@
-Received: from out-188.mta1.migadu.com (out-188.mta1.migadu.com [95.215.58.188])
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6221D22DF8C
-	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 15:50:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.188
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ECA9822ACEE
+	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 15:57:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744127420; cv=none; b=TizUxmCERRJvjNJOKbYx/5z3jc37Kbka3u5Yi7fkICAVkILbgV66sXpNwslEVd/E61i0H4H8eIw6NZcitcG05vnKt5xG2LUe+opU9lOsT5XLymkTgrQ6LSqX58KvsNLGRFvgGdPoTv1C96/YarZF1InpNU/SxgslnztNlvPJHQI=
+	t=1744127847; cv=none; b=GEK2d+Q+JsW7fX5vSg3lkqeeO8DJOAkTdoKooCqetERLiQGPVdVKiSLU/tU/sdMHfH2jhHG77xxnB5v3i+J4IJZOWyKFAskHy+y4MZDAdp4Rop+YrQqCLyAbSlmO5b4gPyfhNAdqLY5BT8Gr2d1gTDeoUDvMtJ/6fBwmiDmx0Jw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744127420; c=relaxed/simple;
-	bh=j47vGAAtksccEUYr4w4LdgceuKnPRkuIL9WLW+TNwfc=;
-	h=MIME-Version:Date:Content-Type:From:Message-ID:Subject:To:Cc:
-	 In-Reply-To:References; b=fQufnA03/wvoBXAL4xr+d9gtOijry1NmSIWLIh/QfpBrbB+SKeIsz0Kl8bZWjVGem6dhiWXhTWaFpWWo5fLYiCuJE8TdTh4bQycvOfwuPiNr4Mvz2558A7+Jo7+IPtaFbanIatC48aFSPVwqtkEZP18EI/awpcfjy0okVbg4HOU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=w8HKgmbF; arc=none smtp.client-ip=95.215.58.188
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="w8HKgmbF"
+	s=arc-20240116; t=1744127847; c=relaxed/simple;
+	bh=RICNyDzMWEPhPWXpODUnagP84CCpJoMAriEuDH0LLGc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=In51EqLlxmKQctr19Tmu7Az51HO0KEYT17yJJsU0Y493UHL5xT9LeaYLSZUvukQmg+IhRB5f0VF73a+DbbRdb0gFQeHZnhUv+sxzOvCwDnBlDBYU3YhHuXym/kihUJ8PhsOsu0wUWmHyEuRG7+HjFCsntJ9//3oQEGo50YsrqnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u2BJv-0001IZ-Vu; Tue, 08 Apr 2025 17:57:04 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u2BJu-003xUB-2A;
+	Tue, 08 Apr 2025 17:57:02 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u2BJu-006cKU-1i;
+	Tue, 08 Apr 2025 17:57:02 +0200
+Date: Tue, 8 Apr 2025 17:57:02 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v7 02/13] net: pse-pd: Add support for reporting
+ events
+Message-ID: <Z_VHThEut3E-xXZA@pengutronix.de>
+References: <20250408-feature_poe_port_prio-v7-0-9f5fc9e329cd@bootlin.com>
+ <20250408-feature_poe_port_prio-v7-2-9f5fc9e329cd@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744127405;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=1JxA4fI6xIrcW42/17J5BLUCCtQy1R9vPzLmio89gWM=;
-	b=w8HKgmbFDA6me6xLQKYCtHsgTBQJkZUNMZoPezGQlJYXmJp0SwFCxZRgz3lUUDED31Q3qC
-	33OiRkxRXOoYTzUOvEe73DP6TC6diypGj6WrFTQgZglu9lEKYeT4Ev0FIzOtWbx7Bj1RFW
-	EEE7J6OCdK5oPDjDCJsONpWPB/Ywj+0=
-Date: Tue, 08 Apr 2025 15:49:59 +0000
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: "Jiayuan Chen" <jiayuan.chen@linux.dev>
-Message-ID: <a3e08ca65f86dac1f741ef002af2feac69537041@linux.dev>
-TLS-Required: No
-Subject: Re: [PATCH RESEND net-next v3 2/2] tcp: add
- LINUX_MIB_PAWS_TW_REJECTED counter
-To: "Jakub Kicinski" <kuba@kernel.org>
-Cc: "Eric Dumazet" <edumazet@google.com>, bpf@vger.kernel.org, mrpre@163.com,
- "David S. Miller" <davem@davemloft.net>, "Paolo Abeni"
- <pabeni@redhat.com>, "Simon Horman" <horms@kernel.org>, "Jonathan Corbet"
- <corbet@lwn.net>, "Neal Cardwell" <ncardwell@google.com>, "Kuniyuki 
- Iwashima" <kuniyu@amazon.com>, "David Ahern" <dsahern@kernel.org>,
- "Steffen  Klassert" <steffen.klassert@secunet.com>, "Sabrina Dubroca"
- <sd@queasysnail.net>, "Nicolas Dichtel" <nicolas.dichtel@6wind.com>,
- "Antony Antony" <antony.antony@secunet.com>, "Christian Hopps"
- <chopps@labn.net>, netdev@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org
-In-Reply-To: <20250408081930.2734169c@kernel.org>
-References: <20250407140001.13886-1-jiayuan.chen@linux.dev>
- <20250407140001.13886-3-jiayuan.chen@linux.dev>
- <CANn89iJRyEkfiUWbxhpCuKjEm0J+g7DiEa2JQPBQdqBmLBJq+w@mail.gmail.com>
- <46c9a3cd5888df36ec17bcc5bfd57aab687d4273@linux.dev>
- <20250408081930.2734169c@kernel.org>
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250408-feature_poe_port_prio-v7-2-9f5fc9e329cd@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-April 8, 2025 at 23:19, "Jakub Kicinski" <kuba@kernel.org> wrote:
+On Tue, Apr 08, 2025 at 04:32:11PM +0200, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> Add support for devm_pse_irq_helper() to register PSE interrupts and report
+> events such as over-current or over-temperature conditions. This follows a
+> similar approach to the regulator API but also sends notifications using a
+> dedicated PSE ethtool netlink socket.
+> 
+> Introduce an attached_phydev field in the pse_control structure to store
+> the phydev attached to the PSE PI, ensuring that PSE ethtool notifications
+> are sent to the correct network interface.
+> 
+> The attached_phydev pointer is directly tied to the PHY lifecycle. It
+> is set when the PHY is registered and cleared when the PHY is removed.
+> There is no need to use a refcount, as doing so could interfere with
+> the PHY removal process.
+> 
+> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
->=20
->=20On Tue, 08 Apr 2025 14:57:29 +0000 Jiayuan Chen wrote:
-> >=20
->=20> > When TCP is in TIME_WAIT state, PAWS verification uses
-> >  > LINUX_PAWSESTABREJECTED, which is ambiguous and cannot be distingu=
-ished
-> >  > from other PAWS verification processes.
-> >  > Moreover, when PAWS occurs in TIME_WAIT, we typically need to pay =
-special
-> >  > attention to upstream network devices, so we added a new counter, =
-like the
-> >  > existing PAWS_OLD_ACK one.
-> >  >=20
->=20>=20
->=20>=20
->=20>  I really dislike the repetition of "upstream network devices".
-> >  Is it mentioned in some RFC ?=20
->=20>=20=20
->=20>  I used this term to refer to devices that are located in the path =
-of the
-> >  TCP connection
-> >=20
->=20
-> Could we use some form of: "devices that are located in the path of the
-> TCP connection" ? Maybe just "devices in the networking path" ?
-> I hope that will be sufficiently clear in all contexts.
->=20
->=20Upstream devices sounds a little like devices which have drivers in
->=20
->=20upstream Linux kernel :(
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
+Thank you!
 
-That makes sense :).
-
-Thanks.
-
-> >=20
->=20> such as firewalls, NATs, or routers, which can perform
-> >  SNAT or DNAT and these network devices use addresses from their own =
-limited
-> >  address pools to masquerade the source address during forwarding, th=
-is
-> >  can cause PAWS verification to fail more easily.
-> >=20
->=20>  You are right that this term is not mentioned in RFC but it's comm=
-only used
-> >  in IT infrastructure contexts. Sorry to have caused misunderstanding=
-s.
->=20
->=20--=20
->=20
-> pw-bot: cr
->
+-- 
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
