@@ -1,110 +1,150 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D9131DA31D
-	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 14:19:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 640891D8DF6;
+	Tue,  8 Apr 2025 14:21:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744121941; cv=none; b=sTZpeRY0IO8CiCmkbKmGcJ7rBVlneJ6wLrQT5I/Cxxqb7DKxv1L2Ym6cbUobob8G8r4Dz5QEuNwLtGZbX2D/CcUT6sCVrx9LOKl/euGD7kIds5zhDnN2GtEsIwF32LiMNSzOqiHGVz+vW6pORoyY6ozXrCpX4v5eZxtg216/CJQ=
+	t=1744122065; cv=none; b=TVQL2eMG8s+5u8S9lpmyTlRyi0nAnH3NZWlAUEEPIxrBv1wEF0JIDFy7VgGzzHZ1PQhLasOnc+NEdS8vGEd4B54VyeNe7koBmxrnIItr+nUtMtFNxayp33nMXHkq8IxGw2on4Mz68iYrCn/d3oVk+Dh9LjpSkNzYnx8GTqoIrrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744121941; c=relaxed/simple;
-	bh=LU9c6S8jykeOIbG6spfGjk1g+WXwLSV3Y9u1UsLCvIw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YMP8b7xQi56I1LUP114usQaA+krg79YFDUBVu6zEa1B1kkPrsavRyGrLsbo2K2IKw1gDSWfi/s6Z5IKv2wk+OABHPmc3a6RuLtwFBVO01+h08YgV0zdlrteSV8p8fA21lp6Rz/l8TptgfWrzu8Jq7GSE717ZT/NAWc+jwf39ksQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=VqhxqQHS; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="VqhxqQHS"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-476b4c9faa2so65458181cf.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Apr 2025 07:19:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744121939; x=1744726739; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=yUED+YsizoYtLbuUa6Mn2CGrviLGvDgEueuSE8tfdgc=;
-        b=VqhxqQHSrgG0NHPDtU978Aaig06cFv8kxFpUwFtp8DJWhHWT3kCkRnNu3hLdeA85Mg
-         LoDWUFXB5ZZmJKHh4CzB1exYaEAM3H/e3V8aOav5/T68W+FMV8E5m2DD5Pvz/kzIIJbX
-         aH3PCFa2omAn5F4/oMt1mtqQxQqLh5n7e9EFHt/ylplbaNjTTDdBfEOnCRV3VPslFRjc
-         GXQxxCQoJUBqXdgEdZRArPc2j8Ka8yBny4T4n+Ihf25RCQKBvfvIpQrglKGAxmXvDPyx
-         qbuhXI0LhnstYtJd/+fa22NxiI/WFk2ZGSNl0C4lgTuD1le8zhvKWNy5CGnyDj7IFRMw
-         H7Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744121939; x=1744726739;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=yUED+YsizoYtLbuUa6Mn2CGrviLGvDgEueuSE8tfdgc=;
-        b=n6yN5xwME2lYC21JumqqD1Yi31OGPnBzkFVq/YRCWhxd5wCbFY1bdKaVO2NTgwzOEy
-         iUpCnXk0HlI0PAucDdOS1oUG4vKJ8i/aNDuHHUCp6yZNaF2dZUQlqUEZH7H+389StFbR
-         Carqh5cLOvz6WwXR8i8PRfPD6Q6h8+LuHVrpsko91/J/FHfev83RdXrjYPEPyEDCjSCP
-         m+tq2/LRrdmgn3bE8mCSV3too2oyrW39GTvjMrym+g+TCLKlLPYAKln2GGUXAofaxHb7
-         VdKq04y+LfGL02xZ1XNkIZwarPCZCNAFxT1XS467+SXFzg3cF09NLVr77osZ2bPi2okV
-         Eb0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVNDP9lMAthi2Wel5Ep/Nx4apXv6SkMiISnjS3uOmUz4/50XyiZ8kF3VXpLZajirP9fD96+1hUdv78=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxnOgq0PqwkK9Ta8SAJnCzcJexqm307AgQ1+xnHRIPbIJpRt04L
-	wqUXC45rBC526ykmdqRcFEdbhvBRkb/4pmjeEqwVY9Mn7aGzqfheDSvCvjbM8zs3uPWQYjbWJjd
-	ZbwrrL0nAeR1aLgDia8/NqgoMVaRZaTiWSTgT
-X-Gm-Gg: ASbGncuf7UnBtPNWGyi/0ZFEyK+NJcRzWk2YFhp8pJeCemWpKPl1MLwTt+QLKXa2eT8
-	T8uE9IrjErVcBnQi7Md4H51sc+elS0UJRULgjtQzTiv4qXNoJ4UiUrdtv1vaozVm70RSWadXqlh
-	3nZBmQKfZ1EmfK8lEp3ziOtR8gvU4=
-X-Google-Smtp-Source: AGHT+IFIhTvGae12W3Tf48cMLLSWVq125Yz7ZFcXjWUhP0aqaEKdzLe5CH8ZijLEEkcz+k7HaYWQTShUKE3lcrVa7Fc=
-X-Received: by 2002:ac8:5956:0:b0:476:76bc:cfc4 with SMTP id
- d75a77b69052e-4792595b9acmr239939611cf.21.1744121938944; Tue, 08 Apr 2025
- 07:18:58 -0700 (PDT)
+	s=arc-20240116; t=1744122065; c=relaxed/simple;
+	bh=cAQI760n7YkqAtzL4hcAIR55fHa1dxos0epYJ6MikR0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XHDN0cRCYCGWhorIv14ZcAgyyg01pdHl8i+5zECAqQqp/d7nXcNh9Slh4ief1IhEP04a5gN6DNNIg0WZSBhcRUEM0rLXV0camw0BPR1vRtR2by4kvOoW5ENuT0yPQC9sFQ2mDk/CCAk/LpSL7DKtokQpDcQQ2XKDd0fDLwiyh4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0B5431688;
+	Tue,  8 Apr 2025 07:21:01 -0700 (PDT)
+Received: from J2N7QTR9R3.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3508A3F6A8;
+	Tue,  8 Apr 2025 07:20:56 -0700 (PDT)
+Date: Tue, 8 Apr 2025 15:20:53 +0100
+From: Mark Rutland <mark.rutland@arm.com>
+To: Arnd Bergmann <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, Arnd Bergmann <arnd@arndb.de>,
+	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Brian Gerst <brgerst@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uros Bizjak <ubizjak@gmail.com>, Will Deacon <will@kernel.org>,
+	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-raid@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
+Message-ID: <Z_Uwxe46_o5nYkMB@J2N7QTR9R3.cambridge.arm.com>
+References: <20250407094116.1339199-1-arnd@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250407140001.13886-1-jiayuan.chen@linux.dev> <20250407140001.13886-3-jiayuan.chen@linux.dev>
-In-Reply-To: <20250407140001.13886-3-jiayuan.chen@linux.dev>
-From: Eric Dumazet <edumazet@google.com>
-Date: Tue, 8 Apr 2025 16:18:47 +0200
-X-Gm-Features: ATxdqUFSGvKSj3SCrZXg0qfXO62DRsoebr6pzqkdURmDkUnvUfIhjveRN8CTtjk
-Message-ID: <CANn89iJRyEkfiUWbxhpCuKjEm0J+g7DiEa2JQPBQdqBmLBJq+w@mail.gmail.com>
-Subject: Re: [PATCH RESEND net-next v3 2/2] tcp: add LINUX_MIB_PAWS_TW_REJECTED
- counter
-To: Jiayuan Chen <jiayuan.chen@linux.dev>
-Cc: bpf@vger.kernel.org, mrpre@163.com, 
-	"David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Neal Cardwell <ncardwell@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, David Ahern <dsahern@kernel.org>, 
-	Steffen Klassert <steffen.klassert@secunet.com>, Sabrina Dubroca <sd@queasysnail.net>, 
-	Nicolas Dichtel <nicolas.dichtel@6wind.com>, Antony Antony <antony.antony@secunet.com>, 
-	Christian Hopps <chopps@labn.net>, netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250407094116.1339199-1-arnd@kernel.org>
 
-On Mon, Apr 7, 2025 at 4:00=E2=80=AFPM Jiayuan Chen <jiayuan.chen@linux.dev=
-> wrote:
->
-> When TCP is in TIME_WAIT state, PAWS verification uses
-> LINUX_PAWSESTABREJECTED, which is ambiguous and cannot be distinguished
-> from other PAWS verification processes.
->
-> Moreover, when PAWS occurs in TIME_WAIT, we typically need to pay special
-> attention to upstream network devices, so we added a new counter, like th=
-e
-> existing PAWS_OLD_ACK one.
+On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
+> From: Arnd Bergmann <arnd@arndb.de>
+> 
+> x86 already requires gcc-8.1 since linux-6.15-rc1, which led me to
+> actually go through all  version checks and make this is the minimum
+> for all architectures.
 
-I really dislike the repetition of "upstream network devices".
+I am very much in favour of this, so for the series:
 
-Is it mentioned in some RFC ?
+Acked-by: Mark Rutland <mark.rutland@arm.com>
 
->
-> Also we update the doc with previously missing PAWS_OLD_ACK.
->
-> usage:
-> '''
-> nstat -az | grep PAWSTimewait
-> TcpExtPAWSTimewait              1                  0.0
-> '''
->
-> Suggested-by: Eric Dumazet <edumazet@google.com>
-> Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
+Is the aim to get this in for v6.15?
 
-Reviewed-by: Eric Dumazet <edumazet@google.com>
+I believe this will permit a number of further cleanups for arm64, and
+if it's possible to get this in for v6.15, it'd be a bit easier to start
+preparing those for v6.16. No big problem if that's not the case.
+
+Mark.
+
+> 
+> Most of the actual resulting changes are actually for raising the
+> binutils version, which eliminates version checks on x86 and arm64.
+> 
+> Arnd Bergmann (4):
+>   kbuild: require gcc-8 and binutils-2.30
+>   raid6: skip avx512 checks
+>   x86: remove checks for binutils-2.30 and earlier
+>   arm64: drop binutils version checks
+> 
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Ard Biesheuvel <ardb@kernel.org>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Brian Gerst <brgerst@gmail.com>
+> Cc: Catalin Marinas <catalin.marinas@arm.com>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: Herbert Xu <herbert@gondor.apana.org.au>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Marc Zyngier <maz@kernel.org>
+> Cc: Mark Rutland <mark.rutland@arm.com>
+> Cc: Masahiro Yamada <masahiroy@kernel.org>
+> Cc: Nathan Chancellor <nathan@kernel.org>
+> Cc: Nicolas Schier <nicolas@fjasle.eu>
+> Cc: Takashi Iwai <tiwai@suse.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Uros Bizjak <ubizjak@gmail.com>
+> Cc: Will Deacon <will@kernel.org>
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-crypto@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kbuild@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> Cc: linux-raid@vger.kernel.org
+> Cc: x86@kernel.org
+> 
+>  Documentation/admin-guide/README.rst          |  2 +-
+>  Documentation/kbuild/makefiles.rst            |  4 +-
+>  Documentation/process/changes.rst             |  4 +-
+>  .../translations/it_IT/process/changes.rst    |  4 +-
+>  .../translations/zh_CN/admin-guide/README.rst |  2 +-
+>  arch/arm64/Kconfig                            | 37 +--------------
+>  arch/arm64/Makefile                           | 21 +--------
+>  arch/arm64/include/asm/rwonce.h               |  4 --
+>  arch/arm64/kvm/Kconfig                        |  1 -
+>  arch/arm64/lib/xor-neon.c                     |  2 +-
+>  arch/um/Makefile                              |  4 +-
+>  arch/x86/Kconfig.assembler                    | 29 ------------
+>  arch/x86/crypto/Kconfig                       |  2 +-
+>  arch/x86/crypto/Makefile                      | 12 +++--
+>  arch/x86/crypto/aes-ctr-avx-x86_64.S          |  2 -
+>  arch/x86/crypto/aes-xts-avx-x86_64.S          |  2 -
+>  arch/x86/crypto/aesni-intel_glue.c            | 21 +--------
+>  arch/x86/crypto/aria-aesni-avx-asm_64.S       | 10 -----
+>  arch/x86/crypto/aria-aesni-avx2-asm_64.S      | 10 +----
+>  arch/x86/crypto/aria_aesni_avx2_glue.c        |  4 +-
+>  arch/x86/crypto/aria_aesni_avx_glue.c         |  4 +-
+>  arch/x86/crypto/blake2s-core.S                |  4 --
+>  arch/x86/crypto/blake2s-glue.c                |  6 +--
+>  arch/x86/crypto/chacha_glue.c                 |  6 +--
+>  arch/x86/crypto/poly1305-x86_64-cryptogams.pl |  8 ----
+>  arch/x86/crypto/poly1305_glue.c               |  4 +-
+>  arch/x86/crypto/sha1_ssse3_glue.c             | 10 -----
+>  arch/x86/crypto/sha256_ssse3_glue.c           | 10 -----
+>  include/linux/unroll.h                        |  4 +-
+>  kernel/gcov/gcc_4_7.c                         |  4 --
+>  lib/raid6/algos.c                             |  6 ---
+>  lib/raid6/avx512.c                            |  4 --
+>  lib/raid6/recov_avx512.c                      |  6 ---
+>  lib/raid6/test/Makefile                       |  3 --
+>  lib/test_fortify/Makefile                     |  5 +--
+>  scripts/Makefile.compiler                     |  2 +-
+>  scripts/gcc-plugins/gcc-common.h              | 45 -------------------
+>  scripts/min-tool-version.sh                   |  6 +--
+>  38 files changed, 36 insertions(+), 278 deletions(-)
+> 
+> -- 
+> 2.39.5
+> 
