@@ -1,227 +1,255 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACF362356A7;
-	Tue,  8 Apr 2025 17:47:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67F2D23BCF8;
+	Tue,  8 Apr 2025 17:58:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744134455; cv=none; b=OqXtWYI7vYcXrUA0ZF+/l43of2XeBbMIHOZADmLblUScpiVyIaEgmxL5JgwRPTyDbjUED2HTEnUopDqpsIqQhtAb0t0e1uQasI/IqG9zKU1DkKTqSNn1htzwoKGEWljzFWrenr2daZPDHfAFmtWQISIdSGHKNjn7VvM0jAesLZY=
+	t=1744135106; cv=none; b=O+zWlBBSax1gEidEDYLz0gTZ+GxgUypw8c7rrKX/ihEY8sQNy+v02PsXMR+jSLBvBwvYvvQiFi83fLGkUqO69EMzECMFWsOncAVRw3LA1cwaOEkkGmMjEJRoxb6i6wx24iI0lgVJxl45sv2utBK37OBClHFAmAgYvpBqHj4/tgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744134455; c=relaxed/simple;
-	bh=BWm5NjBgp6rpkmB3NqVUxeHZEuJARJjr/NLFM8DMhKQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=pG7hWQHS1jPf3IEAjAWpO0n4pfA5qBuOOgHzJD2yejw9L5i6murSLam0UiIMKC2vWH18mFA029mE58aN4GSl1EcO0JkSZ+WRdaJf7Ez+wR4IQxaEGzdwgWpn2xxZ+sGKKpTPMGBSnM83U7v+0HlrLLfVYjKIinXw6sfrlv5yFNI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AnJrA5fU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744135106; c=relaxed/simple;
+	bh=NNDw5/sxr1HoXnUmWxxGP+FjaKE04b9d79DTu1WAxKE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=Pu6t2FsYdC8b6yjGD6IkRXfNiRSMv1sKBZJofzPCq7/lEzz0ORHDb38nDQkkR0x5FgGIhI49UhfF4aobxGONzddZIA6VOMOvo843IkPyQ2UW7KcvZcylQ7q/UoAcaMpiM4yrRa4i1SWV8hRM+V21oM++gzl17MkCkVJyQaAAr/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=g1YE85yA; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AnJrA5fU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0F8DAC4CEE9;
-	Tue,  8 Apr 2025 17:47:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744134454;
-	bh=BWm5NjBgp6rpkmB3NqVUxeHZEuJARJjr/NLFM8DMhKQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=AnJrA5fU+bd9JOfAc40z74CvA091mk5uL4RaSSxzTGTXc2ifbnGGCyGp3P2zgui6I
-	 pDUxJhAHqBSZ7PlKK9pLmyMI1LVXC5OyHAM3mI4LwQj9jrt8OcA649iDcbsOlUd7vl
-	 9img1tilDPfdAm7uuMwGMwJkNh00vvf5337OBIEZnS+FYenB5EpuUqRmTZkEFGdfJ2
-	 mmz1n6wdKtQRX7l27di4IhsWLsJQJ6QfeCgK2WGr6iGx08HhVXs+5n6j5G9m2TIHfA
-	 xJ2SrexYTqaImExGqnoLnZfYGEqsQ4WOhuUbNX4IdzIbGfYYwE2h4nIUzyDiBdV7b2
-	 Poqfz9NFaY87Q==
-From: Mario Limonciello <superm1@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	"H . Peter Anvin" <hpa@zytor.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: [PATCH v2 2/2] x86/CPU/AMD: Print the reason for the last reset
-Date: Tue,  8 Apr 2025 12:47:26 -0500
-Message-ID: <20250408174726.3999817-2-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250408174726.3999817-1-superm1@kernel.org>
-References: <20250408174726.3999817-1-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="g1YE85yA"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744135102;
+	bh=NNDw5/sxr1HoXnUmWxxGP+FjaKE04b9d79DTu1WAxKE=;
+	h=From:Date:Subject:To:Cc:From;
+	b=g1YE85yA7DWju8TaTIS9XjPXT+CD4hI/GYNl7eS+nImNm2PIkDsgg71U79tVlDBJq
+	 GcW469V8yzjeA/+B2EKGg9x+uhSmE/mywn5Cy7DXGwWYwuwB1vlhunuR7BmqFnDVCY
+	 2+OAvJ612c3iLvPhW6rnNwgeoYGw32SP5yctWiekGyWdq72GeEa23U1+VCvbNXT8Kw
+	 26s0naB6B2XLkThz8GaWJH2fmz73ZRWSqP/q+srZfShgHNW9p4IqMJK3wmE4PVqTCE
+	 fPMA4qIvgJEVswFY/gnCbTihTw14zQAwFKcXFGD2kEnGD3TG0X14bYB2iUiRelKL1J
+	 ek4YSon9fnlgQ==
+Received: from [192.168.1.63] (unknown [70.107.117.78])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: nfraprado)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 6C8BF17E07F3;
+	Tue,  8 Apr 2025 19:58:21 +0200 (CEST)
+From: =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+Date: Tue, 08 Apr 2025 13:57:47 -0400
+Subject: [PATCH v2] docs: automarkup: Move common logic to add and resolve
+ xref to helper
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
+Message-Id: <20250408-automarkup-resolve-xref-helper-v2-1-e0a9b8fc7fdd@collabora.com>
+X-B4-Tracking: v=1; b=H4sIAJpj9WcC/42NQQ6CMBBFr0K6dkxpQMGV9zAs6nSQxkKbKTQYw
+ t2tnMDl+z95bxOR2FIUt2ITTMlG66cM6lQIHPT0IrAms1BS1bKSV9DL7EfN7yUAU/QuEaxMPQz
+ kAjGY1iChbKteNSJLQv7segQeXebBxtnz5+il8rf+rU4llNCiRnnRpm5kf0fvnH561mf0o+j2f
+ f8C8BS6stAAAAA=
+X-Change-ID: 20250407-automarkup-resolve-xref-helper-d9dcec094f28
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, 
+ =?utf-8?q?N=C3=ADcolas_F=2E_R=2E_A=2E_Prado?= <nfraprado@collabora.com>
+X-Mailer: b4 0.14.2
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+Several of the markup functions contain the same code, calling into
+sphinx's pending_xref and resolve_xref functions to add and resolve a
+cross-reference, with only a few of the parameters changed (domain,
+reference type, markup content). Move this logic to its own function and
+reuse it in the markup functions.
 
-The following register contains bits that indicate the cause for the
-previous reset.
+No functional change.
 
-        PMx000000C0 (FCH::PM::S5_RESET_STATUS)
-
-This is useful for debug. The reasons for reset are broken into 6 high
-level categories. Decode it by category and print during boot.
-
-Specifics within a category are split off into debugging documentation.
-
-The register is accessed indirectly through a "PM" port in the FCH. Use
-MMIO access in order to avoid restrictions with legacy port access.
-
-Use a late_initcall() to ensure that MMIO has been set up before trying
-to access the register.
-
-This register was introduced with AMD Family 17h, so avoid access on
-older families. There is no CPUID feature bit for this register.
-
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Nícolas F. R. A. Prado <nfraprado@collabora.com>
 ---
-v2:
- * Add string for each reason, but still include value in case multiple
-   values are set.
+Changes in v2:
+- Moved repeated "Go through the dance..." comment to the helper
+- Dropped "Return the xref if we got it..." comment as the helper
+  returns None in case of failure
+- Link to v1: https://lore.kernel.org/r/20250407-automarkup-resolve-xref-helper-v1-1-9cac06ad580f@collabora.com
 ---
- .../admin-guide/amd/amd-reboot-reason.csv     | 21 ++++++
- Documentation/admin-guide/amd/debugging.rst   | 22 ++++++
- arch/x86/kernel/cpu/amd.c                     | 69 +++++++++++++++++++
- 3 files changed, 112 insertions(+)
- create mode 100644 Documentation/admin-guide/amd/amd-reboot-reason.csv
+ Documentation/sphinx/automarkup.py | 97 ++++++++++----------------------------
+ 1 file changed, 24 insertions(+), 73 deletions(-)
 
-diff --git a/Documentation/admin-guide/amd/amd-reboot-reason.csv b/Documentation/admin-guide/amd/amd-reboot-reason.csv
-new file mode 100644
-index 0000000000000..c31c7a0464c38
---- /dev/null
-+++ b/Documentation/admin-guide/amd/amd-reboot-reason.csv
-@@ -0,0 +1,21 @@
-+Bit, Type, Reason
-+0, Pin, Thermal trip (BP_THERMTRIP_L)
-+1, Pin, Power button
-+2, Pin, SHUTDOWN# pin
-+4, Remote, Remote ASF power off command
-+9, Internal, Thermal trip (internal)
-+16, Pin, User reset (BP_SYS_RST_L)
-+17, Software, PCI reset (PMIO 0xC4)
-+18, Software, CF9 reset (0x04)
-+19, Software, CF9 reset (0x06)
-+20, Software, CF9 reset (0x0E)
-+21, Sleep, Power state or ACPI state transition
-+22, Pin, Keyboard reset (KB_RST_L)
-+23, Internal, Internal CPU shutdown
-+24, Hardware, Failed boot timer
-+25, Hardware, Watchdog timer
-+26, Remote, Remote ASF reset command
-+27, Internal, Data fabric sync flood event due to uncorrected error
-+29, Internal, MP1 Watchdog timer timeout
-+30, Internal, Parity error
-+31, Internal, SW sync flood event
-\ No newline at end of file
-diff --git a/Documentation/admin-guide/amd/debugging.rst b/Documentation/admin-guide/amd/debugging.rst
-index 5a721ab4fe013..2a966f0ead26a 100644
---- a/Documentation/admin-guide/amd/debugging.rst
-+++ b/Documentation/admin-guide/amd/debugging.rst
-@@ -268,3 +268,25 @@ EPP Policy
- The ``energy_performance_preference`` sysfs file can be used to set a bias
- of efficiency or performance for a CPU.  This has a direct relationship on
- the battery life when more heavily biased towards performance.
+diff --git a/Documentation/sphinx/automarkup.py b/Documentation/sphinx/automarkup.py
+index ecf54d22e9dc6ab459a91fde580c1cf161f054ed..fd633f7a0bc30a205cd155d2df65fd5440336e30 100644
+--- a/Documentation/sphinx/automarkup.py
++++ b/Documentation/sphinx/automarkup.py
+@@ -128,13 +128,8 @@ def note_failure(target):
+ # own C role, but both match the same regex, so we try both.
+ #
+ def markup_func_ref_sphinx3(docname, app, match):
+-    cdom = app.env.domains['c']
+-    #
+-    # Go through the dance of getting an xref out of the C domain
+-    #
+     base_target = match.group(2)
+     target_text = nodes.Text(match.group(0))
+-    xref = None
+     possible_targets = [base_target]
+     # Check if this document has a namespace, and if so, try
+     # cross-referencing inside it first.
+@@ -146,22 +141,8 @@ def markup_func_ref_sphinx3(docname, app, match):
+             if (target not in Skipfuncs) and not failure_seen(target):
+                 lit_text = nodes.literal(classes=['xref', 'c', 'c-func'])
+                 lit_text += target_text
+-                pxref = addnodes.pending_xref('', refdomain = 'c',
+-                                              reftype = 'function',
+-                                              reftarget = target,
+-                                              modname = None,
+-                                              classname = None)
+-                #
+-                # XXX The Latex builder will throw NoUri exceptions here,
+-                # work around that by ignoring them.
+-                #
+-                try:
+-                    xref = cdom.resolve_xref(app.env, docname, app.builder,
+-                                             'function', target, pxref,
+-                                             lit_text)
+-                except NoUri:
+-                    xref = None
+-
++                xref = add_and_resolve_xref(app, docname, 'c', 'function',
++                                            target, contnode=lit_text)
+                 if xref:
+                     return xref
+                 note_failure(target)
+@@ -188,13 +169,8 @@ def markup_c_ref(docname, app, match):
+                    RE_typedef: 'type',
+                    }
+ 
+-    cdom = app.env.domains['c']
+-    #
+-    # Go through the dance of getting an xref out of the C domain
+-    #
+     base_target = match.group(2)
+     target_text = nodes.Text(match.group(0))
+-    xref = None
+     possible_targets = [base_target]
+     # Check if this document has a namespace, and if so, try
+     # cross-referencing inside it first.
+@@ -206,21 +182,9 @@ def markup_c_ref(docname, app, match):
+             if not (match.re == RE_function and target in Skipfuncs):
+                 lit_text = nodes.literal(classes=['xref', 'c', class_str[match.re]])
+                 lit_text += target_text
+-                pxref = addnodes.pending_xref('', refdomain = 'c',
+-                                              reftype = reftype_str[match.re],
+-                                              reftarget = target, modname = None,
+-                                              classname = None)
+-                #
+-                # XXX The Latex builder will throw NoUri exceptions here,
+-                # work around that by ignoring them.
+-                #
+-                try:
+-                    xref = cdom.resolve_xref(app.env, docname, app.builder,
+-                                             reftype_str[match.re], target, pxref,
+-                                             lit_text)
+-                except NoUri:
+-                    xref = None
+-
++                xref = add_and_resolve_xref(app, docname, 'c',
++                                            reftype_str[match.re], target,
++                                            contnode=lit_text)
+                 if xref:
+                     return xref
+ 
+@@ -231,30 +195,12 @@ def markup_c_ref(docname, app, match):
+ # cross reference to that page
+ #
+ def markup_doc_ref(docname, app, match):
+-    stddom = app.env.domains['std']
+-    #
+-    # Go through the dance of getting an xref out of the std domain
+-    #
+     absolute = match.group(1)
+     target = match.group(2)
+     if absolute:
+        target = "/" + target
+-    xref = None
+-    pxref = addnodes.pending_xref('', refdomain = 'std', reftype = 'doc',
+-                                  reftarget = target, modname = None,
+-                                  classname = None, refexplicit = False)
+-    #
+-    # XXX The Latex builder will throw NoUri exceptions here,
+-    # work around that by ignoring them.
+-    #
+-    try:
+-        xref = stddom.resolve_xref(app.env, docname, app.builder, 'doc',
+-                                   target, pxref, None)
+-    except NoUri:
+-        xref = None
+-    #
+-    # Return the xref if we got it; otherwise just return the plain text.
+-    #
 +
-+Random reboot issues
-+====================
-+When a random reboot occurs, the high-level reason for the reboot is stored
-+in a register that will persist onto the next boot.
++    xref = add_and_resolve_xref(app, docname, 'std', 'doc', target)
+     if xref:
+         return xref
+     else:
+@@ -265,10 +211,6 @@ def markup_doc_ref(docname, app, match):
+ # with a cross reference to that page
+ #
+ def markup_abi_ref(docname, app, match, warning=False):
+-    stddom = app.env.domains['std']
+-    #
+-    # Go through the dance of getting an xref out of the std domain
+-    #
+     kernel_abi = get_kernel_abi()
+ 
+     fname = match.group(1)
+@@ -280,7 +222,18 @@ def markup_abi_ref(docname, app, match, warning=False):
+             kernel_abi.log.warning("%s not found", fname)
+         return nodes.Text(match.group(0))
+ 
+-    pxref = addnodes.pending_xref('', refdomain = 'std', reftype = 'ref',
++    xref = add_and_resolve_xref(app, docname, 'std', 'ref', target)
++    if xref:
++        return xref
++    else:
++        return nodes.Text(match.group(0))
 +
-+There are 6 classes of reasons for the reboot:
-+ * Software induced
-+ * Power state transition
-+ * Pin induced
-+ * Hardware induced
-+ * Remote reset
-+ * Internal CPU event
++def add_and_resolve_xref(app, docname, domain, reftype, target, contnode=None):
++    #
++    # Go through the dance of getting an xref out of the corresponding domain
++    #
++    dom_obj = app.env.domains[domain]
++    pxref = addnodes.pending_xref('', refdomain = domain, reftype = reftype,
+                                   reftarget = target, modname = None,
+                                   classname = None, refexplicit = False)
+ 
+@@ -289,17 +242,15 @@ def markup_abi_ref(docname, app, match, warning=False):
+     # work around that by ignoring them.
+     #
+     try:
+-        xref = stddom.resolve_xref(app.env, docname, app.builder, 'ref',
+-                                   target, pxref, None)
++        xref = dom_obj.resolve_xref(app.env, docname, app.builder, reftype,
++                                    target, pxref, contnode)
+     except NoUri:
+         xref = None
+-    #
+-    # Return the xref if we got it; otherwise just return the plain text.
+-    #
 +
-+.. csv-table::
-+   :header-rows: 1
-+   :widths: 1, 1, 1
-+   :file: ./amd-reboot-reason.csv
+     if xref:
+         return xref
+-    else:
+-        return nodes.Text(match.group(0))
 +
-+This information is read by the kernel at bootup and is saved into the
-+kernel ring buffer. When a random reboot occurs this message can be helpful
-+to determine the next component to debug such an issue.
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 79569f72b8ee5..af7615ac8f898 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -1231,3 +1231,72 @@ void amd_check_microcode(void)
- 	if (cpu_feature_enabled(X86_FEATURE_ZEN2))
- 		on_each_cpu(zenbleed_check_cpu, NULL, 1);
- }
-+
-+static inline char *get_s5_reset_reason(u32 value)
-+{
-+	if (value & BIT(0))
-+		return "trip of thermal pin BP_THERMTRIP_L";
-+	if (value & BIT(1))
-+		return "power button";
-+	if (value & BIT(2))
-+		return "shutdown pin";
-+	if (value & BIT(4))
-+		return "remote ASF power off command";
-+	if (value & BIT(9))
-+		return "internal CPU thermal trip";
-+	if (value & BIT(16))
-+		return "user reset via BP_SYS_RST_L pin";
-+	if (value & BIT(17))
-+		return "PCI reset";
-+	if (value & BIT(18) ||
-+	    value & BIT(19) ||
-+	    value & BIT(20))
-+		return "CF9 reset";
-+	if (value & BIT(21))
-+		return "power state of acpi state transition";
-+	if (value & BIT(22))
-+		return "keyboard reset pin KB_RST_L";
-+	if (value & BIT(23))
-+		return "internal CPU shutdown";
-+	if (value & BIT(24))
-+		return "failed boot timer";
-+	if (value & BIT(25))
-+		return "watchdog timer";
-+	if (value & BIT(26))
-+		return "remote ASF reset command";
-+	if (value & BIT(27))
-+		return "data fabric sync flood event due to uncorrected error";
-+	if (value & BIT(29))
-+		return "MP1 watchdog timer timeout";
-+	if (value & BIT(30))
-+		return "parity error";
-+	if (value & BIT(31))
-+		return "software sync flood event";
-+	return "unknown reason";
-+}
-+
-+static __init int print_s5_reset_status_mmio(void)
-+{
-+	void __iomem *addr;
-+	u32 value;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_ZEN))
-+		return 0;
-+
-+	/*
-+	 * FCH::PM::S5_RESET_STATUS
-+	 * PM Base = 0xFED80300
-+	 * S5_RESET_STATUS offset = 0xC0
-+	 */
-+	addr = ioremap(0xFED803C0, sizeof(value));
-+	if (!addr)
-+		return 0;
-+	value = ioread32(addr);
-+	iounmap(addr);
-+
-+	pr_info("System was reset due to %s (0x%08x)\n",
-+		get_s5_reset_reason(value), value);
-+
-+	return 0;
-+}
-+late_initcall(print_s5_reset_status_mmio);
++    return None
+ 
+ #
+ # Variant of markup_abi_ref() that warns whan a reference is not found
+
+---
+base-commit: a4cda136f021ad44b8b52286aafd613030a6db5f
+change-id: 20250407-automarkup-resolve-xref-helper-d9dcec094f28
+
+Best regards,
 -- 
-2.43.0
+Nícolas F. R. A. Prado <nfraprado@collabora.com>
 
