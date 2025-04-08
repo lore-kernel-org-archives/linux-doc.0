@@ -1,133 +1,252 @@
-Received: from mail-lj1-f181.google.com (mail-lj1-f181.google.com [209.85.208.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC87266EFB
-	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 11:44:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 64D7626988E;
+	Tue,  8 Apr 2025 12:09:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744112691; cv=none; b=dPwT2YfK4W0zZ4WwSgRKxWhZjXpUtzl8/Me9IYueuPGW4qBZx4nxA9ptaz/cMX4VCbv71VTMCxhEIPXygZ/ml4ML1uHiZvv1alPrzebtq/ZV0DmRak5xhGNw3Dqv8HTkyytsIAqlnRHxzCauNGz+pSKO2QxU/ducSTkid6yag1Y=
+	t=1744114186; cv=none; b=Ny9q8m6aZy7Bxwfeleh6ean518myO4zmj8cAZZJ9ChkCVG5zbUeylw9IPOFoMe4A6Us8Ca4sAE62NGLar8BfPCn66ypli3k3I22RXSsbEpDdOwXfpVj4ijBp69l1KyTRDQewSLLf8GoAsCoct6ELZzVth5cbBP+sE53f7V1jM1M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744112691; c=relaxed/simple;
-	bh=sVnWWYifDzNHWDD5ZdDHNMXXvkM1H7Mr10Ssgl0n+6I=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=qDrg7bsh9EeDjKpg2qKBmjSK4IvR9yyOfovWPkDIl4KDpVe7GlU87Z7yr/T3Ll2xsZIbumsUrk+F4wBaGKZL5hAYQUn1BGBiPwCFKAO1Py/FviNxy0PuQdbv1RhklQLKfdAlsi0zCSi5OjhoCoMsM9zB8UwDJ0hsdkkRisDpD10=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gEDnffPo; arc=none smtp.client-ip=209.85.208.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744114186; c=relaxed/simple;
+	bh=vmw4qXLEXSar//LeQlOCAoG3Ftnj1yKaLNkaXGlmaeI=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=CiRM11wU1AbJNq1h7eXUg6uj1Vj3C1OiFEagJGJhZPTNEPwZIh3b+dDg8TXOK4FfmcH7mo2wZcramV3BSlg/1Z7kyAXG+lRXxbulWJT0i1xlpn/QXbXM35XhCoSUftnuceRyg3H6Yk0ygV7lK6eBqvNIgGOR3G6lU9uQ37RdrXE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=l3ZQ1kq3; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gEDnffPo"
-Received: by mail-lj1-f181.google.com with SMTP id 38308e7fff4ca-30bfe0d2b6dso51952571fa.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Apr 2025 04:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744112687; x=1744717487; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=JrYauhzusPrI0iXB3x51m5sg6uFNXWBUmKbASQyHV2k=;
-        b=gEDnffPoi/BaYCY/J0wQAXVy/xuJWs0K1YXcXKq+noC3BsdYmtR5bE+9n25XPFai04
-         AUK9YLeLUJ0uGcpgf0cn5swmDSIuv6gCUL3B1BlkxQ3zek2kR3j0TWU+rOPnUGxeRL4E
-         r70lAnJg2Yqq6aU0jAn5hpTug2In0gbLnP+jfJpNhpb82xmV7BB32Vf1xdKyp0mG4dni
-         RJ33XTbj7v8rCotisfpi3K5J8G+hdoC2BHXxONUPQikSsH4YJgASgdBg4Rd69E1HtGX7
-         hn6MvEn+bs09blcdaXc9NQrvHWvePjzQxO/Rqx0GVkMbhbzQPuISgDxiZi/k8s/LsWMH
-         oJhw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744112687; x=1744717487;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=JrYauhzusPrI0iXB3x51m5sg6uFNXWBUmKbASQyHV2k=;
-        b=Weg49r/AsUkysjNuqvrz0buThA4Ers4nRtoQjaaIN8NPY4RgC0PQvfwRGfqCpuBeXy
-         GQVOTw/Cpj1A65x/QPPHMpc0MiK+MfXhl2SjjQ833e9YNiomEl2QObwFXFMviFMUzX5L
-         TTSgX0oK6VHqFfKAJc6Do9PQN5i7usGecYiYNAuewKnsVkzuOYCcHMs5whKAkafABIib
-         Dy80LvNkyXf/1Fsqtgo46/DJ9mUEHOB72J4qmb+VeDRrcHPN6KlzEvAbKrX0JTrGW1pa
-         nBt57j1pAbaZEIK+4JlwnwSD/ffTOc/7Xapdnq8RSMSoEaSOtzVvE/qob5OnTOGLVZ9Z
-         5DIg==
-X-Forwarded-Encrypted: i=1; AJvYcCX5ExCoaO4i99rN3Vzad7gx1Hzt8GAGERnRtvvnrFysTg0JFHb4H/C3aGtuSwkmVJwRBR0d9tDdMKU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyC6A6e/uslSv6ZitpT5VR55dPWWGKiFj9WI7rRNqfCFpKBgRbV
-	tlvpEmbbPj0uSMvLuCxNV/LrgS52qFEXzM8N3u7A90oHfF54INr263BfkPs9y5WVg/eBcxSpLCM
-	yez8eN/3h3Gt0RuGZ9XBziAnOic/cCnNVUTXDMw==
-X-Gm-Gg: ASbGncvO0T01u+CQmi2+bi6RUp2AY5IEe/UpSKKnjMF5RkV5+D+n+JoU7dB/o8o0R6i
-	5GegtAJM0WUBaM0Ql1leKEdmskhruLsDFIwUQ2IffNpOMagVjCiLsy9V9pNEz2VuhAGhAtP8Ohr
-	WYPhWp9TMpmtXEh2ps6krHzlWaWJq5DWM=
-X-Google-Smtp-Source: AGHT+IHjL36c4DD0hqrS7NUmvzOjx/3kG/kPwxU+j7cHEhXKV/Zh3wqhtcKt/lEg9h3aP4E8pKAxMXueT2IArw3DOF0=
-X-Received: by 2002:a05:651c:882:b0:307:9555:dc5e with SMTP id
- 38308e7fff4ca-30f0be04016mr46411251fa.3.1744112686911; Tue, 08 Apr 2025
- 04:44:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="l3ZQ1kq3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744114184; x=1775650184;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=vmw4qXLEXSar//LeQlOCAoG3Ftnj1yKaLNkaXGlmaeI=;
+  b=l3ZQ1kq3aBP4Beaz6lNL4cGeUYnOyb218tivY1Eyltwp89nTnD1Aco0a
+   Zj3hwgaN+f14WwyKzqB5ip3vKNkeVQlDwJW1ub/ZTkr1FqJyiF2i53FXD
+   +TlQDp9ZDNjWN3D799rw8kn0Uz6tnCVU6kK8niYtpmFza+5OllD+Tz6Hs
+   buy4YeaxufWGyAMCCkXLSe4vF8Ar1KzNPklNpm/n0Os8+rZfZMNRs9Lky
+   Er6W8otpLeyyg1aitTX70kmREwylHGuxinsvGOw/s6C68FjRokBjIWx03
+   lwNC97M0EA/euDAL0o6hiq6oYhfhew61rbGGm9dBTzzcZtZHaKUKBkz0m
+   g==;
+X-CSE-ConnectionGUID: MMkH3oNQSd2hvU6p4rQbbw==
+X-CSE-MsgGUID: NIfwIzxhTW+8dMAkuKOopg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="62944306"
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="62944306"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 05:09:43 -0700
+X-CSE-ConnectionGUID: JeQ9WJ0FSsuAcX3B/mFn4w==
+X-CSE-MsgGUID: +Ch64BGAS0ujjR8aA1Vaww==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,198,1739865600"; 
+   d="scan'208";a="133460324"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.125])
+  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 05:09:38 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Tue, 8 Apr 2025 15:09:34 +0300 (EEST)
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>, 
+    Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, 
+    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    "Cody T . -H . Chiu" <codyit@gmail.com>, 
+    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    Mario Limonciello <mario.limonciello@amd.com>
+Subject: Re: [PATCH v5 2/6] platform/x86: Add lenovo-wmi-helpers
+In-Reply-To: <20250408012815.1032357-3-derekjohn.clark@gmail.com>
+Message-ID: <1bf0e01a-9619-5cf2-72ff-6bb557654cce@linux.intel.com>
+References: <20250408012815.1032357-1-derekjohn.clark@gmail.com> <20250408012815.1032357-3-derekjohn.clark@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1740504232.git.nicolinc@nvidia.com> <f205a4e2f5971cd4b1033d7cac41683e10ebabfb.1740504232.git.nicolinc@nvidia.com>
- <CABQgh9Fuh2HdBH7pyAteawZBpa55ZzfR9dv2K4RF=Ps4yhREbw@mail.gmail.com> <Z/QSuMzJVGOcTx60@nvidia.com>
-In-Reply-To: <Z/QSuMzJVGOcTx60@nvidia.com>
-From: Zhangfei Gao <zhangfei.gao@linaro.org>
-Date: Tue, 8 Apr 2025 19:44:34 +0800
-X-Gm-Features: ATxdqUE5HzSx71KLyQAI3wDnKvY_BQRF_RJmPVNkaKt2N6Ua3aAx7RZCkWtktDg
-Message-ID: <CABQgh9FObG8-Qsp-nqoTP-fC7VkPoi1ooHPQ1=s5uW_2BTL9vw@mail.gmail.com>
-Subject: Re: [PATCH v8 12/14] iommu/arm-smmu-v3: Introduce struct arm_smmu_vmaster
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org, 
-	joro@8bytes.org, suravee.suthikulpanit@amd.com, robin.murphy@arm.com, 
-	dwmw2@infradead.org, baolu.lu@linux.intel.com, linux-kernel@vger.kernel.org, 
-	iommu@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org, 
-	eric.auger@redhat.com, jean-philippe@linaro.org, mdf@kernel.org, 
-	mshavit@google.com, shameerali.kolothum.thodi@huawei.com, smostafa@google.com, 
-	ddutile@redhat.com, yi.l.liu@intel.com, praan@google.com, 
-	patches@lists.linux.dev
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
 
-On Tue, 8 Apr 2025 at 02:00, Nicolin Chen <nicolinc@nvidia.com> wrote:
->
-> On Mon, Apr 07, 2025 at 08:08:57PM +0800, Zhangfei Gao wrote:
-> > Hi, Nico
-> >
-> > On Wed, 26 Feb 2025 at 01:35, Nicolin Chen <nicolinc@nvidia.com> wrote:
-> > >
-> > > Use it to store all vSMMU-related data. The vsid (Virtual Stream ID) will
-> > > be the first use case. Since the vsid reader will be the eventq handler
-> > > that already holds a streams_mutex, reuse that to fenche the vmaster too.
-> > >
-> > > Also add a pair of arm_smmu_attach_prepare/commit_vmaster helpers to set
-> > > or unset the master->vmaster point. Put these helpers inside the existing
-> > > arm_smmu_attach_prepare/commit().
-> > >
-> > > For identity/blocked ops that don't call arm_smmu_attach_prepare/commit(),
-> > > add a simpler arm_smmu_master_clear_vmaster helper to unset the vmaster.
-> > >
-> > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > Reviewed-by: Pranjal Shrivastavat <praan@google.com>
-> > > Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> > > ---
-> >
-> > >
-> > > +int arm_smmu_attach_prepare_vmaster(struct arm_smmu_attach_state *state,
-> > > +                                   struct arm_smmu_nested_domain *nested_domain)
-> > > +{
-> > > +       struct arm_smmu_vmaster *vmaster;
-> > > +       unsigned long vsid;
-> > > +       int ret;
-> > > +
-> > > +       iommu_group_mutex_assert(state->master->dev);
-> > > +
-> > > +       /* Skip invalid vSTE */
-> > > +       if (!(nested_domain->ste[0] & cpu_to_le64(STRTAB_STE_0_V)))
-> > > +               return 0;
-> >
-> > Why this is removed in v9 and 6.15-rc1?
-> >
-> > I tested 6.15-rc1 the qemu failed to boot with qemu branch:
-> > for_iommufd_veventq-v8
-> > "failed to attach the bypass pagetable"
->
-> Here is the problem: v9 isn't compatible with v8 :)
->
-> Would you please try for-v9 version?
-> https://github.com/nicolinc/qemu/commits/wip/for_iommufd_veventq-v9
+On Mon, 7 Apr 2025, Derek J. Clark wrote:
 
-Thanks Nico
+> Adds lenovo-wmi-helpers, which provides a common wrapper function for
+> wmidev_evaluate_method that does data validation and error handling.
+> 
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+> v5:
+>  - Fixes from v4 review.
+>  - Combine all previous methods into a single function that takes a
+>    buffer for the wmi method arguments.
+> v4:
+>  - Changed namespace to LENOVO_WMI_HELPERS from LENOVO_WMI.
+>  - Changed filenames to lenovo-wmi-helpers from lenovo-wmi.
+>  - Removed structs and functions implemented by other drivers.
+> ---
+>  MAINTAINERS                               |  2 +
+>  drivers/platform/x86/Kconfig              |  4 ++
+>  drivers/platform/x86/Makefile             |  1 +
+>  drivers/platform/x86/lenovo-wmi-helpers.c | 74 +++++++++++++++++++++++
+>  drivers/platform/x86/lenovo-wmi-helpers.h | 20 ++++++
+>  5 files changed, 101 insertions(+)
+>  create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.c
+>  create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 675f4b26426d..3a370a18b806 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13164,6 +13164,8 @@ L:	platform-driver-x86@vger.kernel.org
+>  S:	Maintained
+>  F:	Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>  F:	Documentation/wmi/devices/lenovo-wmi-other.rst
+> +F:	drivers/platform/x86/lenovo-wmi-helpers.c
+> +F:	drivers/platform/x86/lenovo-wmi-helpers.h
+>  
+>  LENOVO WMI HOTKEY UTILITIES DRIVER
+>  M:	Jackie Dong <xy-jackie@139.com>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 43407e76476b..bece1ba61417 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -459,6 +459,10 @@ config IBM_RTL
+>  	 state = 0 (BIOS SMIs on)
+>  	 state = 1 (BIOS SMIs off)
+>  
+> +config LENOVO_WMI_HELPERS
+> +	tristate
+> +	depends on ACPI_WMI
+> +
+>  config IDEAPAD_LAPTOP
+>  	tristate "Lenovo IdeaPad Laptop Extras"
+>  	depends on ACPI
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index 650dfbebb6c8..5a9f4e94f78b 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -69,6 +69,7 @@ obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
+>  obj-$(CONFIG_YOGABOOK)		+= lenovo-yogabook.o
+>  obj-$(CONFIG_YT2_1380)		+= lenovo-yoga-tab2-pro-1380-fastcharger.o
+>  obj-$(CONFIG_LENOVO_WMI_CAMERA)	+= lenovo-wmi-camera.o
+> +obj-$(CONFIG_LENOVO_WMI_HELPERS)	+= lenovo-wmi-helpers.o
+>  
+>  # Intel
+>  obj-y				+= intel/
+> diff --git a/drivers/platform/x86/lenovo-wmi-helpers.c b/drivers/platform/x86/lenovo-wmi-helpers.c
+> new file mode 100644
+> index 000000000000..166e87fef156
+> --- /dev/null
+> +++ b/drivers/platform/x86/lenovo-wmi-helpers.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Lenovo Legion WMI helpers driver.
+> + *
+> + * The Lenovo Legion WMI interface is broken up into multiple GUID interfaces
+> + * that require cross-references between GUID's for some functionality. The
+> + * "Custom Mode" interface is a legacy interface for managing and displaying
+> + * CPU & GPU power and hwmon settings and readings. The "Other Mode" interface
+> + * is a modern interface that replaces or extends the "Custom Mode" interface
+> + * methods. The "Gamezone" interface adds advanced features such as fan
+> + * profiles and overclocking. The "Lighting" interface adds control of various
+> + * status lights related to different hardware components. Each of these
+> + * drivers uses a common procedure to get data from the WMI interface,
+> + * enumerated here.
+> + *
+> + * Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/errno.h>
+> +#include <linux/export.h>
+> +#include <linux/module.h>
+> +#include <linux/wmi.h>
+> +
+> +#include "lenovo-wmi-helpers.h"
+> +
+> +/**
+> + * lwmi_dev_evaluate_int() - Helper function for calling WMI methods that
+> + * return an integer.
+> + * @wdev: Pointer to the WMI device to be called.
+> + * @instance: Instance of the called method.
+> + * @method_id: WMI Method ID for the method to be called.
+> + * @buf: Buffer of all arguments for the given method_id.
+> + * @size: Length of the buffer.
+> + * @retval: Pointer for the return value to be assigned.
+> + *
+> + * Calls wmidev_valuate_method for Lenovo WMI devices that return an ACPI
+> + * integer. Validates the return value type and assigns the value to the
+> + * retval pointer.
+> + *
+> + * Return: 0 on success, or on error.
 
-I tried this branch, it works with 6.15-rc1
+The second part either has a typo (on -> an ?) or is grammaritically 
+incomplete (what is returned on error ?). Although I think if it's the 
+first option, it should say e.g. "an error code." not just "an error."
 
-Thanks
+> + */
+> +int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u32 method_id,
+> +			  unsigned char *buf, size_t size, u32 *retval)
+> +{
+> +	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *ret_obj __free(kfree) = NULL;
+> +	struct acpi_buffer input = { size, buf };
+> +	acpi_status status;
+> +
+> +	status = wmidev_evaluate_method(wdev, instance, method_id, &input,
+> +					&output);
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -EIO;
+> +
+> +	if (retval) {
+> +		ret_obj = output.pointer;
+> +		if (!ret_obj)
+> +			return -ENODATA;
+> +
+> +		if (ret_obj->type != ACPI_TYPE_INTEGER)
+> +			return -ENXIO;
+> +
+> +		*retval = (u32)ret_obj->integer.value;
+> +	}
+> +	return 0;
+> +};
+> +EXPORT_SYMBOL_NS_GPL(lwmi_dev_evaluate_int, "LENOVO_WMI_HELPERS");
+> +
+> +MODULE_AUTHOR("Derek J. Clark <derekjohn.clark@gmail.com>");
+> +MODULE_DESCRIPTION("Lenovo WMI Helpers Driver");
+> +MODULE_LICENSE("GPL");
+> diff --git a/drivers/platform/x86/lenovo-wmi-helpers.h b/drivers/platform/x86/lenovo-wmi-helpers.h
+> new file mode 100644
+> index 000000000000..b76633603dcc
+> --- /dev/null
+> +++ b/drivers/platform/x86/lenovo-wmi-helpers.h
+> @@ -0,0 +1,20 @@
+> +/* SPDX-License-Identifier: GPL-2.0-or-later */
+> +
+> +/* Copyright(C) 2025 Derek J. Clark <derekjohn.clark@gmail.com> */
+> +
+> +#ifndef _LENOVO_WMI_HELPERS_H_
+> +#define _LENOVO_WMI_HELPERS_H_
+> +
+> +#include <linux/types.h>
+> +
+> +struct wmi_device;
+> +
+> +struct wmi_method_args_32 {
+> +	u32 arg0;
+> +	u32 arg1;
+> +};
+> +
+> +int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u32 method_id,
+> +			  unsigned char *buf, size_t size, u32 *retval);
+> +
+> +#endif /* !_LENOVO_WMI_HELPERS_H_ */
+> 
+
+-- 
+ i.
+
