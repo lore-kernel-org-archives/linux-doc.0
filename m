@@ -1,119 +1,84 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from mout-p-201.mailbox.org (mout-p-201.mailbox.org [80.241.56.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BCF8264FA1;
-	Tue,  8 Apr 2025 09:39:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CD4D227EBD;
+	Tue,  8 Apr 2025 09:44:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744105142; cv=none; b=oTJDIz6PRsjkLsuJxCT0iiUEAVHQhGNKrtPgjoHZwkW2ciCbCB+EpuSYaAu69LTybq9aw9FQ7wRldVc67ToJEFNvvvdYfDN7zhHR98SKiofeyGqTSc2HUXuNBjdkkqoDS6HvhWbdV4SaNRun0C7XdbhmHacTx3MnR2XPZT8YcpQ=
+	t=1744105479; cv=none; b=iGTLeggCl1S8IkxpHwOuTz0liWTN1Y39aHhJb4BwCEnXdKdGxBn6KHYe3hsZYYANl06wMvmlAxLJ32qasBRMnvHABpyef8a3m4yKtFJ3l7JVbYCXid1E62e1MyyDVmofF7qwXpT7ddVEk18H85SHh/NWum7mNHskcitCg0y+fHA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744105142; c=relaxed/simple;
-	bh=6jLG1OuuXBJUAHnNSfsPLbzl7/d33svlvvDOppltdO0=;
+	s=arc-20240116; t=1744105479; c=relaxed/simple;
+	bh=qGJrTesZCjcQE7T5S3kt4lybhOjqvF09IifpDAL1cgk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DQt1UxnGVCczsu8U1rHaz5nbG7RyX1NqHa3GDPX01w4j5kDVYouBLNYV8a8js7WaAeuwOATpHHjc1GVCk+kNwTR9z5p2SKkAdeJ//SmrxAG3lC8P1VxfRo79d94R5zY9fvLMrafcypsfe+RcXFxZhwBtHhV0A3No8Fn3Wacu2uc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NiOzex8E; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NiOzex8E"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744105141; x=1775641141;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=6jLG1OuuXBJUAHnNSfsPLbzl7/d33svlvvDOppltdO0=;
-  b=NiOzex8Ecp+VLncOpgDeuI+t3jyoPz1+t5RX4WwTzrbvqBlVuHwasiRy
-   RVBdGGDKveJZHZyXRNq/QqXDhgMvN3jNwghiO8kDzsR+X8m+fJlDIPlL2
-   IKO6jJdLkfejB6NbAunMQqKqRFvmmMeQ/7aVXuekdP+1N+f1GEkoDD0CB
-   60mfxp8Gu4WZ59WaIRtPcKgtYcZ9pQbG7/K7BQn6Nfcx9t4pq+3nN5cR/
-   Tio/IUuooIojm2LSk6XmfD6Rg48GeoCz2/xXPInddYg9K8o5HiwqZWaCk
-   mPkFlrukczr9XbOIwGhBNh/kUJ2GzIWgOK2w/BItnjsx00IVt89y1xs2Q
-   g==;
-X-CSE-ConnectionGUID: jcdfs5K9RVCsArf/1YfVmA==
-X-CSE-MsgGUID: a5FdjuTaRI2vSwe5QGkNHQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="45646550"
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="45646550"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:39:00 -0700
-X-CSE-ConnectionGUID: 5VuIt83cTS6l6lfkb4k9BQ==
-X-CSE-MsgGUID: T0BBoRTrT+Wxe1dWjZB5Og==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,197,1739865600"; 
-   d="scan'208";a="129076090"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa009.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Apr 2025 02:38:55 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u25Pu-0000000AM6i-3NlY;
-	Tue, 08 Apr 2025 12:38:50 +0300
-Date: Tue, 8 Apr 2025 12:38:50 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Aditya Garg <gargaditya08@live.com>
-Cc: "alyssa@rosenzweig.io" <alyssa@rosenzweig.io>,
-	Petr Mladek <pmladek@suse.com>, Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>,
-	"airlied@redhat.com" <airlied@redhat.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"apw@canonical.com" <apw@canonical.com>,
-	"joe@perches.com" <joe@perches.com>,
-	"dwaipayanray1@gmail.com" <dwaipayanray1@gmail.com>,
-	"lukas.bulwahn@gmail.com" <lukas.bulwahn@gmail.com>,
-	Kees Cook <kees@kernel.org>, "tamird@gmail.com" <tamird@gmail.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	"dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	Hector Martin <marcan@marcan.st>,
-	"asahi@lists.linux.dev" <asahi@lists.linux.dev>
-Subject: Re: [PATCH v4 0/3] Use proper printk format in appletbdrm
-Message-ID: <Z_TuqoRpTrjN07zo@smile.fi.intel.com>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <Z_ThPOOKXa3VwvmO@smile.fi.intel.com>
- <PN3PR01MB959761E1B759183D83C1AC33B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+	 Content-Type:Content-Disposition:In-Reply-To; b=GgPhlayNHNqb2iQ401bZ9eWOnMJRFci+kmkwMDfeJGdLnAYJTecfJUhyltzEctGcP15ulsut5mpJq0c2O4iWMaWldss66hmLSffoOOfnu4bwZl2MjGBM/j1r4LhFYihRp/m5wCKMYAtR501w5hgWAfuA27fxGocZVOGUiGOLoAQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pankajraghav.com; spf=none smtp.mailfrom=pankajraghav.com; arc=none smtp.client-ip=80.241.56.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pankajraghav.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=pankajraghav.com
+Received: from smtp202.mailbox.org (smtp202.mailbox.org [IPv6:2001:67c:2050:b231:465::202])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mout-p-201.mailbox.org (Postfix) with ESMTPS id 4ZX1Ps48gkz9tYJ;
+	Tue,  8 Apr 2025 11:44:33 +0200 (CEST)
+Date: Tue, 8 Apr 2025 11:44:22 +0200
+From: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>
+To: David Hildenbrand <david@redhat.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, 
+	Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, willy@infradead.org, 
+	linux-mm@kvack.org, Bagas Sanjaya <bagasdotme@gmail.com>, da.gomez@kernel.org, 
+	mcgrof@kernel.org, gost.dev@samsung.com, linux-doc@vger.kernel.org, 
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH v3] docs: update THP admin guide about non-tmpfs
+ filesystem support
+Message-ID: <spuuu4rg3awuakis2qepqob33nj6ex2w2p7u4jbdv4fhvicnxe@dcec3e3eaz53>
+References: <20250404140657.29285-1-kernel@pankajraghav.com>
+ <f4924ad4-c70b-4999-b595-01c488607189@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <PN3PR01MB959761E1B759183D83C1AC33B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <f4924ad4-c70b-4999-b595-01c488607189@redhat.com>
+X-Rspamd-Queue-Id: 4ZX1Ps48gkz9tYJ
 
-On Tue, Apr 08, 2025 at 08:52:10AM +0000, Aditya Garg wrote:
-> > On 8 Apr 2025, at 2:11 PM, Andy Shevchenko <andriy.shevchenko@linux.intel.com> wrote:
-> > On Tue, Apr 08, 2025 at 12:17:13PM +0530, Aditya Garg wrote:
-> >> The vsprint patch was originally being sent as a seperate patch [1], and
-> >> I was waiting it to be taken up. But as suggested by Petr, I'm sending
-> >> them via DRM.
+On Fri, Apr 04, 2025 at 09:16:10PM +0200, David Hildenbrand wrote:
+> On 04.04.25 16:06, Pankaj Raghav (Samsung) wrote:
+> > From: Pankaj Raghav <p.raghav@samsung.com>
 > > 
-> > You need to do something about your tools, really.
+> > THP support for non-tmpfs filesystem has been around for some time now.
+> > Update the admin guide to reflect it.
+> > 
+> > While we are at it, move FilePmdMapped to previous paragraph for clarity,
+> > and clarify ShmemPmdMapped & ShmemHugePage.
+> > 
+> > Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> > Acked-by: David Hildenbrand <david@redhat.com>
+> > ---
 > 
-> Uhh, I'll just revert to the tried and tested macOS mail.
+> BTW, we should go over the whole document and bring it up to date.
+> Interestingly, it starts with
 > 
-> Although I don't think a resend is necessary here now.
+> "Performance critical computing applications dealing with large memory
+> working sets are already running on top of libhugetlbfs and in turn
+> hugetlbfs. Transparent HugePage Support (THP) is an alternative mean of
+> using huge pages for the backing of virtual memory with huge pages
+> that supports the automatic promotion and demotion of page sizes and
+> without the shortcomings of hugetlbfs.
+> 
+> Currently THP only works for anonymous memory mappings and tmpfs/shmem.
+> But in the future it can expand to other filesystems."
 
-I dunno. If people are using `b4`, it might mess up the patch ordering,
-I haven't checked this myself (it depends if it takes [PATCH x/y] or message
-threading into account first).
+As a part of this patch, I do change 2nd paragraph:
 
-It seems not a big deal with _this_ series, but for the future it may be really
-a problem (esp. from [runtime] bisectability point of view).
+-Currently THP only works for anonymous memory mappings and tmpfs/shmem.
+-But in the future it can expand to other filesystems.
++Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
++filesystems that support large folios.
 
-> > Now it's patch 3 threaded to patch 1, while the rest, including cover letter,
-> > seems okay.
+Do we need to add more changes to the first paragraph as well?
 
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+--
+Pankaj
