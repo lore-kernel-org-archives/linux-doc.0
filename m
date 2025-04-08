@@ -1,43 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF91F267728;
-	Tue,  8 Apr 2025 10:09:56 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76B90267B07;
+	Tue,  8 Apr 2025 10:09:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744106997; cv=none; b=brTIRGU1ujm3IZga3dF7nbU+YsSmPGOFv9QC8gTvR84z/kPdXSxrEvDBQRnWvBL2q4yeCrtVAW3DqeuGMtJo9/bWB4ivOOkqUKHseM1q1yNuvpQprB39LJgmes/s0heMPFUWL4zqkp4cwviwyUF8Baa0dEJpnfsTF4K4d+QNg8k=
+	t=1744106997; cv=none; b=QHRPMo0tiZVWM1VDfRYJ2niDRwF6L1C6NNTMXQk5JU/qd8JWKnWHm5jXrVl0wkI+CTZfotMuJvnUkytfRm56ItIWheZBWT1Bj2uWSkJ+wGIFv5PBryI25NnIRzhoMN9ju1jg6v9kIbwm5TbJUMdX2zDGmApcCI4vfYLDcOWI6aQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744106997; c=relaxed/simple;
-	bh=WC+f6MF8GfFGr87diUnskmJPC7KBcMzgHUcQy1jHo0Y=;
+	bh=fECQ0wT3cwyILMq52vt+FKrJbJo2Gu0emu+5UkOVdgM=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=TfER6g9h/HBF667pWSKEroHTmqedRx8xIFu108JlSUubVQ1K4OUPb5RKLjH3VAFZbKdkeRb7kWd3LYHwkUE7lMyNpC72OXHK/H5APzEGGQpLf1zSbkU7pCU6/cQJXHvkJJ2Ag6A42yrXLxZld7IBIur0P5pProd61s/+XubL9gk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=JLSz1ik1; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Bgm6n0IR67XbAYdw7QZx7V27Z/5FoMFhRzCR5HtkolAN89nG2D3pCs2idgsyV1E9sXQhdwNRefi1voLwKCDMo5uh+4QvH6JxksO6rqd4z4q4yRDlv6CLfcecEmYF9pEPeH5vLdpwXkW53oXOe2/yWBQK9Em+vO9vw24oe9ma46M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VVtGygnS; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="JLSz1ik1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DDE73C4CEF8;
-	Tue,  8 Apr 2025 10:09:55 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VVtGygnS"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9F90CC4AF0D;
+	Tue,  8 Apr 2025 10:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744106996;
-	bh=WC+f6MF8GfFGr87diUnskmJPC7KBcMzgHUcQy1jHo0Y=;
+	s=k20201202; t=1744106997;
+	bh=fECQ0wT3cwyILMq52vt+FKrJbJo2Gu0emu+5UkOVdgM=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=JLSz1ik1QaYVzyAQ9lMi3N82ZZgS2mb8I5/hWo0dcA4vTQiKV41iork2xAUjen4qF
-	 BCgXyrUvDK7SO7d/znIRxTAZjBFSdYoloCi71nUZJX1hy/9Mn5TWDVFA3MLqP7NiOm
-	 p5gUmhklTj3Wpmz8rZG+92h+h1ei4vFzAUmBwnlIpYYCxOxacOc+892BvrDBDC4hkp
-	 bdiI87FzfiVfPZSb1yBVcnNdQtDd3qVCfaAjjuJ5hIEfJyz3qOkTs3gPM1sEOydrVT
-	 yirH0LIbEIhtW7AnYvdaFVQpMC7eTvC+LV66enIT2hCHCHKk7mMCHmzkRUN1mk8T47
-	 Mzs53J8mzCFTQ==
+	b=VVtGygnSL21S0Bb+6WFI3FSyVeXdlkaF4bB6gh8jFc3yLM/+Uv4zPZD/oSgzwXl/L
+	 TSjXMfLCi+MUcIubTqXDSCLySusbS9xFeL+tgzHo883+J/PtVak5yLqpmWVPV8Fgze
+	 +mvbFuupjjadPYwNFtPoR/W381sapvryTeUQfVTQDbOl9b1lu9lH8TQInyGxU3j70J
+	 G4ovXGNaiqyPD2PvNWYARsPbJLS3W8iz+ibCYVdehk3Qvrtl7GG/1Vqqpg+LWFwomt
+	 c82a5k0ESFEvB/4mrypW7h9+SdHrTzHFL8VazOMXxeuxUAwAIOb3GYodMmEFZYiwTK
+	 6tRH5gV1EVoSg==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1u25tt-00000008RVj-0nD6;
+	id 1u25tt-00000008RWk-2nBW;
 	Tue, 08 Apr 2025 18:09:49 +0800
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Sean Anderson <sean.anderson@linux.dev>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 10/33] scripts/kernel-doc.py: move output classes to a separate file
-Date: Tue,  8 Apr 2025 18:09:13 +0800
-Message-ID: <81087eff25d11c265019a8631f7fc8d3904795d0.1744106242.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 31/33] scripts/kernel_doc.py: better handle exported symbols
+Date: Tue,  8 Apr 2025 18:09:34 +0800
+Message-ID: <6a69ba8d2b7ee6a6427abb53e60d09bd4d3565ee.1744106242.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1744106241.git.mchehab+huawei@kernel.org>
 References: <cover.1744106241.git.mchehab+huawei@kernel.org>
@@ -50,1512 +51,417 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-In preparation for letting kerneldoc Sphinx extension to import
-Python libraries, move kernel-doc output logic to a separate file.
+Change the logic which detects internal/external symbols in a way
+that we can re-use it when calling via Sphinx extension.
+
+While here, remove an unused self.config var and let it clearer
+that self.config variables are read-only. This helps to allow
+handling multiple times in parallel if ever needed.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py           | 727 +------------------------------
- scripts/lib/kdoc/kdoc_output.py | 736 ++++++++++++++++++++++++++++++++
- 2 files changed, 739 insertions(+), 724 deletions(-)
- create mode 100755 scripts/lib/kdoc/kdoc_output.py
+ scripts/kernel-doc.py           |   2 +-
+ scripts/lib/kdoc/kdoc_files.py  | 142 +++++++++++++++++---------------
+ scripts/lib/kdoc/kdoc_output.py |   9 +-
+ scripts/lib/kdoc/kdoc_parser.py |  52 ++++++++++--
+ 4 files changed, 125 insertions(+), 80 deletions(-)
 
 diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index d09ada2d862a..abff78e9160f 100755
+index 2f2fad813024..12ae66f40bd7 100755
 --- a/scripts/kernel-doc.py
 +++ b/scripts/kernel-doc.py
-@@ -2,9 +2,7 @@
- # SPDX-License-Identifier: GPL-2.0
- # Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
- #
--# pylint: disable=R0902,R0903,R0904,R0911,R0912,R0913,R0914,R0915,R0917,R1702
--# pylint: disable=C0302,C0103,C0301
--# pylint: disable=C0116,C0115,W0511,W0613
-+# pylint: disable=C0103
- #
- # Converted from the kernel-doc script originally written in Perl
- # under GPLv2, copyrighted since 1998 by the following authors:
-@@ -102,14 +100,8 @@ documentation comment syntax.
- import argparse
- import logging
- import os
--import re
- import sys
+@@ -287,7 +287,7 @@ def main():
  
--from datetime import datetime
--from pprint import pformat
--
--from dateutil import tz
--
- # Import Python modules
+     for t in kfiles.msg(enable_lineno=args.enable_lineno, export=args.export,
+                         internal=args.internal, symbol=args.symbol,
+-                        nosymbol=args.nosymbol,
++                        nosymbol=args.nosymbol, export_file=args.export_file,
+                         no_doc_sections=args.no_doc_sections):
+         msg = t[1]
+         if msg:
+diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
+index 527ab9117268..dd003feefd1b 100644
+--- a/scripts/lib/kdoc/kdoc_files.py
++++ b/scripts/lib/kdoc/kdoc_files.py
+@@ -68,6 +68,9 @@ class GlobSourceFiles:
+         handling directories if any
+         """
  
- LIB_DIR = "lib/kdoc"
-@@ -117,721 +109,8 @@ SRC_DIR = os.path.dirname(os.path.realpath(__file__))
- 
- sys.path.insert(0, os.path.join(SRC_DIR, LIB_DIR))
- 
--from kdoc_parser import KernelDoc, type_param
--from kdoc_re import Re
--from kdoc_files import KernelFiles
--
--function_pointer = Re(r"([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)", cache=False)
--
--# match expressions used to find embedded type information
--type_constant = Re(r"\b``([^\`]+)``\b", cache=False)
--type_constant2 = Re(r"\%([-_*\w]+)", cache=False)
--type_func = Re(r"(\w+)\(\)", cache=False)
--type_param_ref = Re(r"([\!~\*]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
--
--# Special RST handling for func ptr params
--type_fp_param = Re(r"\@(\w+)\(\)", cache=False)
--
--# Special RST handling for structs with func ptr params
--type_fp_param2 = Re(r"\@(\w+->\S+)\(\)", cache=False)
--
--type_env = Re(r"(\$\w+)", cache=False)
--type_enum = Re(r"\&(enum\s*([_\w]+))", cache=False)
--type_struct = Re(r"\&(struct\s*([_\w]+))", cache=False)
--type_typedef = Re(r"\&(typedef\s*([_\w]+))", cache=False)
--type_union = Re(r"\&(union\s*([_\w]+))", cache=False)
--type_member = Re(r"\&([_\w]+)(\.|->)([_\w]+)", cache=False)
--type_fallback = Re(r"\&([_\w]+)", cache=False)
--type_member_func = type_member + Re(r"\(\)", cache=False)
--
--
--class OutputFormat:
--    # output mode.
--    OUTPUT_ALL          = 0 # output all symbols and doc sections
--    OUTPUT_INCLUDE      = 1 # output only specified symbols
--    OUTPUT_EXPORTED     = 2 # output exported symbols
--    OUTPUT_INTERNAL     = 3 # output non-exported symbols
--
--    # Virtual member to be overriden at the  inherited classes
--    highlights = []
--
--    def __init__(self):
--        """Declare internal vars and set mode to OUTPUT_ALL"""
--
--        self.out_mode = self.OUTPUT_ALL
--        self.enable_lineno = None
--        self.nosymbol = {}
--        self.symbol = None
--        self.function_table = set()
--        self.config = None
--
--    def set_config(self, config):
--        self.config = config
--
--    def set_filter(self, export, internal, symbol, nosymbol, function_table,
--                   enable_lineno):
--        """
--        Initialize filter variables according with the requested mode.
--
--        Only one choice is valid between export, internal and symbol.
--
--        The nosymbol filter can be used on all modes.
--        """
--
--        self.enable_lineno = enable_lineno
--
--        if symbol:
--            self.out_mode = self.OUTPUT_INCLUDE
--            function_table = symbol
--        elif export:
--            self.out_mode = self.OUTPUT_EXPORTED
--        elif internal:
--            self.out_mode = self.OUTPUT_INTERNAL
--        else:
--            self.out_mode = self.OUTPUT_ALL
--
--        if nosymbol:
--            self.nosymbol = set(nosymbol)
--
--        if function_table:
--            self.function_table = function_table
--
--    def highlight_block(self, block):
--        """
--        Apply the RST highlights to a sub-block of text.
--        """
--
--        for r, sub in self.highlights:
--            block = r.sub(sub, block)
--
--        return block
--
--    def check_doc(self, name):
--        """Check if DOC should be output"""
--
--        if self.out_mode == self.OUTPUT_ALL:
--            return True
--
--        if self.out_mode == self.OUTPUT_INCLUDE:
--            if name in self.nosymbol:
--                return False
--
--            if name in self.function_table:
--                return True
--
--        return False
--
--    def check_declaration(self, dtype, name):
--        if name in self.nosymbol:
--            return False
--
--        if self.out_mode == self.OUTPUT_ALL:
--            return True
--
--        if self.out_mode in [ self.OUTPUT_INCLUDE, self.OUTPUT_EXPORTED ]:
--            if name in self.function_table:
--                return True
--
--        if self.out_mode == self.OUTPUT_INTERNAL:
--            if dtype != "function":
--                return True
--
--            if name not in self.function_table:
--                return True
--
--        return False
--
--    def check_function(self, fname, name, args):
--        return True
--
--    def check_enum(self, fname, name, args):
--        return True
--
--    def check_typedef(self, fname, name, args):
--        return True
--
--    def msg(self, fname, name, args):
--
--        dtype = args.get('type', "")
--
--        if dtype == "doc":
--            self.out_doc(fname, name, args)
--            return False
--
--        if not self.check_declaration(dtype, name):
--            return False
--
--        if dtype == "function":
--            self.out_function(fname, name, args)
--            return False
--
--        if dtype == "enum":
--            self.out_enum(fname, name, args)
--            return False
--
--        if dtype == "typedef":
--            self.out_typedef(fname, name, args)
--            return False
--
--        if dtype in ["struct", "union"]:
--            self.out_struct(fname, name, args)
--            return False
--
--        # Warn if some type requires an output logic
--        self.config.log.warning("doesn't now how to output '%s' block",
--                                dtype)
--
--        return True
--
--    # Virtual methods to be overridden by inherited classes
--    def out_doc(self, fname, name, args):
--        pass
--
--    def out_function(self, fname, name, args):
--        pass
--
--    def out_enum(self, fname, name, args):
--        pass
--
--    def out_typedef(self, fname, name, args):
--        pass
--
--    def out_struct(self, fname, name, args):
--        pass
--
--
--class RestFormat(OutputFormat):
--    # """Consts and functions used by ReST output"""
--
--    highlights = [
--        (type_constant, r"``\1``"),
--        (type_constant2, r"``\1``"),
--
--        # Note: need to escape () to avoid func matching later
--        (type_member_func, r":c:type:`\1\2\3\\(\\) <\1>`"),
--        (type_member, r":c:type:`\1\2\3 <\1>`"),
--        (type_fp_param, r"**\1\\(\\)**"),
--        (type_fp_param2, r"**\1\\(\\)**"),
--        (type_func, r"\1()"),
--        (type_enum, r":c:type:`\1 <\2>`"),
--        (type_struct, r":c:type:`\1 <\2>`"),
--        (type_typedef, r":c:type:`\1 <\2>`"),
--        (type_union, r":c:type:`\1 <\2>`"),
--
--        # in rst this can refer to any type
--        (type_fallback, r":c:type:`\1`"),
--        (type_param_ref, r"**\1\2**")
--    ]
--    blankline = "\n"
--
--    sphinx_literal = Re(r'^[^.].*::$', cache=False)
--    sphinx_cblock = Re(r'^\.\.\ +code-block::', cache=False)
--
--    def __init__(self):
--        """
--        Creates class variables.
--
--        Not really mandatory, but it is a good coding style and makes
--        pylint happy.
--        """
--
--        super().__init__()
--        self.lineprefix = ""
--
--    def print_lineno (self, ln):
--        """Outputs a line number"""
--
--        if self.enable_lineno and ln:
--            print(f".. LINENO {ln}")
--
--    def output_highlight(self, args):
--        input_text = args
--        output = ""
--        in_literal = False
--        litprefix = ""
--        block = ""
--
--        for line in input_text.strip("\n").split("\n"):
--
--            # If we're in a literal block, see if we should drop out of it.
--            # Otherwise, pass the line straight through unmunged.
--            if in_literal:
--                if line.strip():  # If the line is not blank
--                    # If this is the first non-blank line in a literal block,
--                    # figure out the proper indent.
--                    if not litprefix:
--                        r = Re(r'^(\s*)')
--                        if r.match(line):
--                            litprefix = '^' + r.group(1)
--                        else:
--                            litprefix = ""
--
--                        output += line + "\n"
--                    elif not Re(litprefix).match(line):
--                        in_literal = False
--                    else:
--                        output += line + "\n"
--                else:
--                    output += line + "\n"
--
--            # Not in a literal block (or just dropped out)
--            if not in_literal:
--                block += line + "\n"
--                if self.sphinx_literal.match(line) or self.sphinx_cblock.match(line):
--                    in_literal = True
--                    litprefix = ""
--                    output += self.highlight_block(block)
--                    block = ""
--
--        # Handle any remaining block
--        if block:
--            output += self.highlight_block(block)
--
--        # Print the output with the line prefix
--        for line in output.strip("\n").split("\n"):
--            print(self.lineprefix + line)
--
--    def out_section(self, args, out_reference=False):
--        """
--        Outputs a block section.
--
--        This could use some work; it's used to output the DOC: sections, and
--        starts by putting out the name of the doc section itself, but that
--        tends to duplicate a header already in the template file.
--        """
--
--        sectionlist = args.get('sectionlist', [])
--        sections = args.get('sections', {})
--        section_start_lines = args.get('section_start_lines', {})
--
--        for section in sectionlist:
--            # Skip sections that are in the nosymbol_table
--            if section in self.nosymbol:
--                continue
--
--            if not self.out_mode == self.OUTPUT_INCLUDE:
--                if out_reference:
--                    print(f".. _{section}:\n")
--
--                if not self.symbol:
--                    print(f'{self.lineprefix}**{section}**\n')
--
--            self.print_lineno(section_start_lines.get(section, 0))
--            self.output_highlight(sections[section])
--            print()
--        print()
--
--    def out_doc(self, fname, name, args):
--        if not self.check_doc(name):
--            return
--
--        self.out_section(args, out_reference=True)
--
--    def out_function(self, fname, name, args):
--
--        oldprefix = self.lineprefix
--        signature = ""
--
--        func_macro = args.get('func_macro', False)
--        if func_macro:
--            signature = args['function']
--        else:
--            if args.get('functiontype'):
--                signature = args['functiontype'] + " "
--            signature += args['function'] + " ("
--
--        parameterlist = args.get('parameterlist', [])
--        parameterdescs = args.get('parameterdescs', {})
--        parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
--
--        ln = args.get('ln', 0)
--
--        count = 0
--        for parameter in parameterlist:
--            if count != 0:
--                signature += ", "
--            count += 1
--            dtype = args['parametertypes'].get(parameter, "")
--
--            if function_pointer.search(dtype):
--                signature += function_pointer.group(1) + parameter + function_pointer.group(3)
--            else:
--                signature += dtype
--
--        if not func_macro:
--            signature += ")"
--
--        if args.get('typedef') or not args.get('functiontype'):
--            print(f".. c:macro:: {args['function']}\n")
--
--            if args.get('typedef'):
--                self.print_lineno(ln)
--                print("   **Typedef**: ", end="")
--                self.lineprefix = ""
--                self.output_highlight(args.get('purpose', ""))
--                print("\n\n**Syntax**\n")
--                print(f"  ``{signature}``\n")
--            else:
--                print(f"``{signature}``\n")
--        else:
--            print(f".. c:function:: {signature}\n")
--
--        if not args.get('typedef'):
--            self.print_lineno(ln)
--            self.lineprefix = "   "
--            self.output_highlight(args.get('purpose', ""))
--            print()
--
--        # Put descriptive text into a container (HTML <div>) to help set
--        # function prototypes apart
--        self.lineprefix = "  "
--
--        if parameterlist:
--            print(".. container:: kernelindent\n")
--            print(f"{self.lineprefix}**Parameters**\n")
--
--        for parameter in parameterlist:
--            parameter_name = Re(r'\[.*').sub('', parameter)
--            dtype = args['parametertypes'].get(parameter, "")
--
--            if dtype:
--                print(f"{self.lineprefix}``{dtype}``")
--            else:
--                print(f"{self.lineprefix}``{parameter}``")
--
--            self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
--
--            self.lineprefix = "    "
--            if parameter_name in parameterdescs and \
--               parameterdescs[parameter_name] != KernelDoc.undescribed:
--
--                self.output_highlight(parameterdescs[parameter_name])
--                print()
--            else:
--                print(f"{self.lineprefix}*undescribed*\n")
--            self.lineprefix = "  "
--
--        self.out_section(args)
--        self.lineprefix = oldprefix
--
--    def out_enum(self, fname, name, args):
--
--        oldprefix = self.lineprefix
--        name = args.get('enum', '')
--        parameterlist = args.get('parameterlist', [])
--        parameterdescs = args.get('parameterdescs', {})
--        ln = args.get('ln', 0)
--
--        print(f"\n\n.. c:enum:: {name}\n")
--
--        self.print_lineno(ln)
--        self.lineprefix = "  "
--        self.output_highlight(args.get('purpose', ''))
--        print()
--
--        print(".. container:: kernelindent\n")
--        outer = self.lineprefix + "  "
--        self.lineprefix = outer + "  "
--        print(f"{outer}**Constants**\n")
--
--        for parameter in parameterlist:
--            print(f"{outer}``{parameter}``")
--
--            if parameterdescs.get(parameter, '') != KernelDoc.undescribed:
--                self.output_highlight(parameterdescs[parameter])
--            else:
--                print(f"{self.lineprefix}*undescribed*\n")
--            print()
--
--        self.lineprefix = oldprefix
--        self.out_section(args)
--
--    def out_typedef(self, fname, name, args):
--
--        oldprefix = self.lineprefix
--        name = args.get('typedef', '')
--        ln = args.get('ln', 0)
--
--        print(f"\n\n.. c:type:: {name}\n")
--
--        self.print_lineno(ln)
--        self.lineprefix = "   "
--
--        self.output_highlight(args.get('purpose', ''))
--
--        print()
--
--        self.lineprefix = oldprefix
--        self.out_section(args)
--
--    def out_struct(self, fname, name, args):
--
--        name = args.get('struct', "")
--        purpose = args.get('purpose', "")
--        declaration = args.get('definition', "")
--        dtype = args.get('type', "struct")
--        ln = args.get('ln', 0)
--
--        parameterlist = args.get('parameterlist', [])
--        parameterdescs = args.get('parameterdescs', {})
--        parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
--
--        print(f"\n\n.. c:{dtype}:: {name}\n")
--
--        self.print_lineno(ln)
--
--        oldprefix = self.lineprefix
--        self.lineprefix += "  "
--
--        self.output_highlight(purpose)
--        print()
--
--        print(".. container:: kernelindent\n")
--        print(f"{self.lineprefix}**Definition**::\n")
--
--        self.lineprefix = self.lineprefix + "  "
--
--        declaration = declaration.replace("\t", self.lineprefix)
--
--        print(f"{self.lineprefix}{dtype} {name}" + ' {')
--        print(f"{declaration}{self.lineprefix}" + "};\n")
--
--        self.lineprefix = "  "
--        print(f"{self.lineprefix}**Members**\n")
--        for parameter in parameterlist:
--            if not parameter or parameter.startswith("#"):
--                continue
--
--            parameter_name = parameter.split("[", maxsplit=1)[0]
--
--            if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
--                continue
--
--            self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
--
--            print(f"{self.lineprefix}``{parameter}``")
--
--            self.lineprefix = "    "
--            self.output_highlight(parameterdescs[parameter_name])
--            self.lineprefix = "  "
--
--            print()
--
--        print()
--
--        self.lineprefix = oldprefix
--        self.out_section(args)
--
--
--class ManFormat(OutputFormat):
--    """Consts and functions used by man pages output"""
--
--    highlights = (
--        (type_constant, r"\1"),
--        (type_constant2, r"\1"),
--        (type_func, r"\\fB\1\\fP"),
--        (type_enum, r"\\fI\1\\fP"),
--        (type_struct, r"\\fI\1\\fP"),
--        (type_typedef, r"\\fI\1\\fP"),
--        (type_union, r"\\fI\1\\fP"),
--        (type_param, r"\\fI\1\\fP"),
--        (type_param_ref, r"\\fI\1\2\\fP"),
--        (type_member, r"\\fI\1\2\3\\fP"),
--        (type_fallback, r"\\fI\1\\fP")
--    )
--    blankline = ""
--
--    def __init__(self):
--        """
--        Creates class variables.
--
--        Not really mandatory, but it is a good coding style and makes
--        pylint happy.
--        """
--
--        super().__init__()
--
--        dt = datetime.now()
--        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
--            # use UTC TZ
--            to_zone = tz.gettz('UTC')
--            dt = dt.astimezone(to_zone)
--
--        self.man_date = dt.strftime("%B %Y")
--
--    def output_highlight(self, block):
--
--        contents = self.highlight_block(block)
--
--        if isinstance(contents, list):
--            contents = "\n".join(contents)
--
--        for line in contents.strip("\n").split("\n"):
--            line = Re(r"^\s*").sub("", line)
--
--            if line and line[0] == ".":
--                print("\\&" + line)
--            else:
--                print(line)
--
--    def out_doc(self, fname, name, args):
--        module = args.get('module')
--        sectionlist = args.get('sectionlist', [])
--        sections = args.get('sections', {})
--
--        print(f'.TH "{module}" 9 "{module}" "{self.man_date}" "API Manual" LINUX')
--
--        for section in sectionlist:
--            print(f'.SH "{section}"')
--            self.output_highlight(sections.get(section))
--
--    def out_function(self, fname, name, args):
--        """output function in man"""
--
--        parameterlist = args.get('parameterlist', [])
--        parameterdescs = args.get('parameterdescs', {})
--        sectionlist = args.get('sectionlist', [])
--        sections = args.get('sections', {})
--
--        print(f'.TH "{args['function']}" 9 "{args['function']}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX')
--
--        print(".SH NAME")
--        print(f"{args['function']} \\- {args['purpose']}")
--
--        print(".SH SYNOPSIS")
--        if args.get('functiontype', ''):
--            print(f'.B "{args['functiontype']}" {args['function']}')
--        else:
--            print(f'.B "{args['function']}')
--
--        count = 0
--        parenth = "("
--        post = ","
--
--        for parameter in parameterlist:
--            if count == len(parameterlist) - 1:
--                post = ");"
--
--            dtype = args['parametertypes'].get(parameter, "")
--            if function_pointer.match(dtype):
--                # Pointer-to-function
--                print(f'".BI "{parenth}{function_pointer.group(1)}" " ") ({function_pointer.group(2)}){post}"')
--            else:
--                dtype = Re(r'([^\*])$').sub(r'\1 ', dtype)
--
--                print(f'.BI "{parenth}{dtype}"  "{post}"')
--            count += 1
--            parenth = ""
--
--        if parameterlist:
--            print(".SH ARGUMENTS")
--
--        for parameter in parameterlist:
--            parameter_name = re.sub(r'\[.*', '', parameter)
--
--            print(f'.IP "{parameter}" 12')
--            self.output_highlight(parameterdescs.get(parameter_name, ""))
--
--        for section in sectionlist:
--            print(f'.SH "{section.upper()}"')
--            self.output_highlight(sections[section])
--
--    def out_enum(self, fname, name, args):
--
--        name = args.get('enum', '')
--        parameterlist = args.get('parameterlist', [])
--        sectionlist = args.get('sectionlist', [])
--        sections = args.get('sections', {})
--
--        print(f'.TH "{args['module']}" 9 "enum {args['enum']}" "{self.man_date}" "API Manual" LINUX')
--
--        print(".SH NAME")
--        print(f"enum {args['enum']} \\- {args['purpose']}")
--
--        print(".SH SYNOPSIS")
--        print(f"enum {args['enum']}" + " {")
--
--        count = 0
--        for parameter in parameterlist:
--            print(f'.br\n.BI "    {parameter}"')
--            if count == len(parameterlist) - 1:
--                print("\n};")
--            else:
--                print(", \n.br")
--
--            count += 1
--
--        print(".SH Constants")
--
--        for parameter in parameterlist:
--            parameter_name = Re(r'\[.*').sub('', parameter)
--            print(f'.IP "{parameter}" 12')
--            self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
--
--        for section in sectionlist:
--            print(f'.SH "{section}"')
--            self.output_highlight(sections[section])
--
--    def out_typedef(self, fname, name, args):
--        module = args.get('module')
--        typedef = args.get('typedef')
--        purpose = args.get('purpose')
--        sectionlist = args.get('sectionlist', [])
--        sections = args.get('sections', {})
--
--        print(f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX')
--
--        print(".SH NAME")
--        print(f"typedef {typedef} \\- {purpose}")
--
--        for section in sectionlist:
--            print(f'.SH "{section}"')
--            self.output_highlight(sections.get(section))
--
--    def out_struct(self, fname, name, args):
--        module = args.get('module')
--        struct_type = args.get('type')
--        struct_name = args.get('struct')
--        purpose = args.get('purpose')
--        definition = args.get('definition')
--        sectionlist = args.get('sectionlist', [])
--        parameterlist = args.get('parameterlist', [])
--        sections = args.get('sections', {})
--        parameterdescs = args.get('parameterdescs', {})
--
--        print(f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX')
--
--        print(".SH NAME")
--        print(f"{struct_type} {struct_name} \\- {purpose}")
--
--        # Replace tabs with two spaces and handle newlines
--        declaration = definition.replace("\t", "  ")
--        declaration = Re(r"\n").sub('"\n.br\n.BI "', declaration)
--
--        print(".SH SYNOPSIS")
--        print(f"{struct_type} {struct_name} " + "{" +"\n.br")
--        print(f'.BI "{declaration}\n' + "};\n.br\n")
--
--        print(".SH Members")
--        for parameter in parameterlist:
--            if parameter.startswith("#"):
--                continue
--
--            parameter_name = re.sub(r"\[.*", "", parameter)
--
--            if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
--                continue
--
--            print(f'.IP "{parameter}" 12')
--            self.output_highlight(parameterdescs.get(parameter_name))
--
--        for section in sectionlist:
--            print(f'.SH "{section}"')
--            self.output_highlight(sections.get(section))
--
--
--# Command line interface
--
-+from kdoc_files import KernelFiles                      # pylint: disable=C0413
-+from kdoc_output import RestFormat, ManFormat           # pylint: disable=C0413
- 
- DESC = """
- Read C language source or header FILEs, extract embedded documentation comments,
-diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
-new file mode 100755
-index 000000000000..24e40b3e7d1d
---- /dev/null
-+++ b/scripts/lib/kdoc/kdoc_output.py
-@@ -0,0 +1,736 @@
-+#!/usr/bin/env python3
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright(c) 2025: Mauro Carvalho Chehab <mchehab@kernel.org>.
-+#
-+# pylint: disable=C0301,R0911,R0912,R0913,R0914,R0915,R0917
-+
-+# TODO: implement warning filtering
-+
-+"""
-+Implement output filters to print kernel-doc documentation.
-+
-+The implementation uses a virtual base class (OutputFormat) which
-+contains a dispatches to virtual methods, and some code to filter
-+out output messages.
-+
-+The actual implementation is done on one separate class per each type
-+of output. Currently, there are output classes for ReST and man/troff.
-+"""
-+
-+import os
-+import re
-+from datetime import datetime
-+
-+from dateutil import tz
-+
-+from kdoc_parser import KernelDoc, type_param
-+from kdoc_re import Re
-+
-+
-+function_pointer = Re(r"([^\(]*\(\*)\s*\)\s*\(([^\)]*)\)", cache=False)
-+
-+# match expressions used to find embedded type information
-+type_constant = Re(r"\b``([^\`]+)``\b", cache=False)
-+type_constant2 = Re(r"\%([-_*\w]+)", cache=False)
-+type_func = Re(r"(\w+)\(\)", cache=False)
-+type_param_ref = Re(r"([\!~\*]?)\@(\w*((\.\w+)|(->\w+))*(\.\.\.)?)", cache=False)
-+
-+# Special RST handling for func ptr params
-+type_fp_param = Re(r"\@(\w+)\(\)", cache=False)
-+
-+# Special RST handling for structs with func ptr params
-+type_fp_param2 = Re(r"\@(\w+->\S+)\(\)", cache=False)
-+
-+type_env = Re(r"(\$\w+)", cache=False)
-+type_enum = Re(r"\&(enum\s*([_\w]+))", cache=False)
-+type_struct = Re(r"\&(struct\s*([_\w]+))", cache=False)
-+type_typedef = Re(r"\&(typedef\s*([_\w]+))", cache=False)
-+type_union = Re(r"\&(union\s*([_\w]+))", cache=False)
-+type_member = Re(r"\&([_\w]+)(\.|->)([_\w]+)", cache=False)
-+type_fallback = Re(r"\&([_\w]+)", cache=False)
-+type_member_func = type_member + Re(r"\(\)", cache=False)
-+
-+
-+class OutputFormat:
-+    # output mode.
-+    OUTPUT_ALL          = 0 # output all symbols and doc sections
-+    OUTPUT_INCLUDE      = 1 # output only specified symbols
-+    OUTPUT_EXPORTED     = 2 # output exported symbols
-+    OUTPUT_INTERNAL     = 3 # output non-exported symbols
-+
-+    # Virtual member to be overriden at the  inherited classes
-+    highlights = []
-+
-+    def __init__(self):
-+        """Declare internal vars and set mode to OUTPUT_ALL"""
-+
-+        self.out_mode = self.OUTPUT_ALL
-+        self.enable_lineno = None
-+        self.nosymbol = {}
-+        self.symbol = None
-+        self.function_table = set()
-+        self.config = None
-+
-+    def set_config(self, config):
-+        self.config = config
-+
-+    def set_filter(self, export, internal, symbol, nosymbol, function_table,
-+                   enable_lineno):
-+        """
-+        Initialize filter variables according with the requested mode.
-+
-+        Only one choice is valid between export, internal and symbol.
-+
-+        The nosymbol filter can be used on all modes.
-+        """
-+
-+        self.enable_lineno = enable_lineno
-+
-+        if symbol:
-+            self.out_mode = self.OUTPUT_INCLUDE
-+            function_table = symbol
-+        elif export:
-+            self.out_mode = self.OUTPUT_EXPORTED
-+        elif internal:
-+            self.out_mode = self.OUTPUT_INTERNAL
-+        else:
-+            self.out_mode = self.OUTPUT_ALL
-+
-+        if nosymbol:
-+            self.nosymbol = set(nosymbol)
-+
-+        if function_table:
-+            self.function_table = function_table
-+
-+    def highlight_block(self, block):
-+        """
-+        Apply the RST highlights to a sub-block of text.
-+        """
-+
-+        for r, sub in self.highlights:
-+            block = r.sub(sub, block)
-+
-+        return block
-+
-+    def check_doc(self, name):
-+        """Check if DOC should be output"""
-+
-+        if self.out_mode == self.OUTPUT_ALL:
-+            return True
-+
-+        if self.out_mode == self.OUTPUT_INCLUDE:
-+            if name in self.nosymbol:
-+                return False
-+
-+            if name in self.function_table:
-+                return True
-+
-+        return False
-+
-+    def check_declaration(self, dtype, name):
-+        if name in self.nosymbol:
-+            return False
-+
-+        if self.out_mode == self.OUTPUT_ALL:
-+            return True
-+
-+        if self.out_mode in [self.OUTPUT_INCLUDE, self.OUTPUT_EXPORTED]:
-+            if name in self.function_table:
-+                return True
-+
-+        if self.out_mode == self.OUTPUT_INTERNAL:
-+            if dtype != "function":
-+                return True
-+
-+            if name not in self.function_table:
-+                return True
-+
-+        return False
-+
-+    def check_function(self, fname, name, args):
-+        return True
-+
-+    def check_enum(self, fname, name, args):
-+        return True
-+
-+    def check_typedef(self, fname, name, args):
-+        return True
-+
-+    def msg(self, fname, name, args):
-+
-+        dtype = args.get('type', "")
-+
-+        if dtype == "doc":
-+            self.out_doc(fname, name, args)
-+            return False
-+
-+        if not self.check_declaration(dtype, name):
-+            return False
-+
-+        if dtype == "function":
-+            self.out_function(fname, name, args)
-+            return False
-+
-+        if dtype == "enum":
-+            self.out_enum(fname, name, args)
-+            return False
-+
-+        if dtype == "typedef":
-+            self.out_typedef(fname, name, args)
-+            return False
-+
-+        if dtype in ["struct", "union"]:
-+            self.out_struct(fname, name, args)
-+            return False
-+
-+        # Warn if some type requires an output logic
-+        self.config.log.warning("doesn't now how to output '%s' block",
-+                                dtype)
-+
-+        return True
-+
-+    # Virtual methods to be overridden by inherited classes
-+    def out_doc(self, fname, name, args):
-+        pass
-+
-+    def out_function(self, fname, name, args):
-+        pass
-+
-+    def out_enum(self, fname, name, args):
-+        pass
-+
-+    def out_typedef(self, fname, name, args):
-+        pass
-+
-+    def out_struct(self, fname, name, args):
-+        pass
-+
-+
-+class RestFormat(OutputFormat):
-+    # """Consts and functions used by ReST output"""
-+
-+    highlights = [
-+        (type_constant, r"``\1``"),
-+        (type_constant2, r"``\1``"),
-+
-+        # Note: need to escape () to avoid func matching later
-+        (type_member_func, r":c:type:`\1\2\3\\(\\) <\1>`"),
-+        (type_member, r":c:type:`\1\2\3 <\1>`"),
-+        (type_fp_param, r"**\1\\(\\)**"),
-+        (type_fp_param2, r"**\1\\(\\)**"),
-+        (type_func, r"\1()"),
-+        (type_enum, r":c:type:`\1 <\2>`"),
-+        (type_struct, r":c:type:`\1 <\2>`"),
-+        (type_typedef, r":c:type:`\1 <\2>`"),
-+        (type_union, r":c:type:`\1 <\2>`"),
-+
-+        # in rst this can refer to any type
-+        (type_fallback, r":c:type:`\1`"),
-+        (type_param_ref, r"**\1\2**")
-+    ]
-+    blankline = "\n"
-+
-+    sphinx_literal = Re(r'^[^.].*::$', cache=False)
-+    sphinx_cblock = Re(r'^\.\.\ +code-block::', cache=False)
-+
-+    def __init__(self):
-+        """
-+        Creates class variables.
-+
-+        Not really mandatory, but it is a good coding style and makes
-+        pylint happy.
-+        """
-+
-+        super().__init__()
-+        self.lineprefix = ""
-+
-+    def print_lineno(self, ln):
-+        """Outputs a line number"""
-+
-+        if self.enable_lineno and ln:
-+            print(f".. LINENO {ln}")
-+
-+    def output_highlight(self, args):
-+        input_text = args
-+        output = ""
-+        in_literal = False
-+        litprefix = ""
-+        block = ""
-+
-+        for line in input_text.strip("\n").split("\n"):
-+
-+            # If we're in a literal block, see if we should drop out of it.
-+            # Otherwise, pass the line straight through unmunged.
-+            if in_literal:
-+                if line.strip():  # If the line is not blank
-+                    # If this is the first non-blank line in a literal block,
-+                    # figure out the proper indent.
-+                    if not litprefix:
-+                        r = Re(r'^(\s*)')
-+                        if r.match(line):
-+                            litprefix = '^' + r.group(1)
-+                        else:
-+                            litprefix = ""
-+
-+                        output += line + "\n"
-+                    elif not Re(litprefix).match(line):
-+                        in_literal = False
-+                    else:
-+                        output += line + "\n"
-+                else:
-+                    output += line + "\n"
-+
-+            # Not in a literal block (or just dropped out)
-+            if not in_literal:
-+                block += line + "\n"
-+                if self.sphinx_literal.match(line) or self.sphinx_cblock.match(line):
-+                    in_literal = True
-+                    litprefix = ""
-+                    output += self.highlight_block(block)
-+                    block = ""
-+
-+        # Handle any remaining block
-+        if block:
-+            output += self.highlight_block(block)
-+
-+        # Print the output with the line prefix
-+        for line in output.strip("\n").split("\n"):
-+            print(self.lineprefix + line)
-+
-+    def out_section(self, args, out_reference=False):
-+        """
-+        Outputs a block section.
-+
-+        This could use some work; it's used to output the DOC: sections, and
-+        starts by putting out the name of the doc section itself, but that
-+        tends to duplicate a header already in the template file.
-+        """
-+
-+        sectionlist = args.get('sectionlist', [])
-+        sections = args.get('sections', {})
-+        section_start_lines = args.get('section_start_lines', {})
-+
-+        for section in sectionlist:
-+            # Skip sections that are in the nosymbol_table
-+            if section in self.nosymbol:
-+                continue
-+
-+            if not self.out_mode == self.OUTPUT_INCLUDE:
-+                if out_reference:
-+                    print(f".. _{section}:\n")
-+
-+                if not self.symbol:
-+                    print(f'{self.lineprefix}**{section}**\n')
-+
-+            self.print_lineno(section_start_lines.get(section, 0))
-+            self.output_highlight(sections[section])
-+            print()
-+        print()
-+
-+    def out_doc(self, fname, name, args):
-+        if not self.check_doc(name):
++        if not file_list:
 +            return
 +
-+        self.out_section(args, out_reference=True)
+         for fname in file_list:
+             if self.srctree:
+                 f = os.path.join(self.srctree, fname)
+@@ -84,40 +87,70 @@ class GlobSourceFiles:
+ 
+ class KernelFiles():
+     """
+-    Parse lernel-doc tags on multiple kernel source files.
++    Parse kernel-doc tags on multiple kernel source files.
 +
-+    def out_function(self, fname, name, args):
++    There are two type of parsers defined here:
++        - self.parse_file(): parses both kernel-doc markups and
++          EXPORT_SYMBOL* macros;
++        - self.process_export_file(): parses only EXPORT_SYMBOL* macros.
+     """
+ 
++    def warning(self, msg):
++        """Ancillary routine to output a warning and increment error count"""
 +
-+        oldprefix = self.lineprefix
-+        signature = ""
++        self.config.log.warning(msg)
++        self.errors += 1
 +
-+        func_macro = args.get('func_macro', False)
-+        if func_macro:
-+            signature = args['function']
-+        else:
-+            if args.get('functiontype'):
-+                signature = args['functiontype'] + " "
-+            signature += args['function'] + " ("
++    def error(self, msg):
++        """Ancillary routine to output an error and increment error count"""
 +
-+        parameterlist = args.get('parameterlist', [])
-+        parameterdescs = args.get('parameterdescs', {})
-+        parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
++        self.config.log.error(msg)
++        self.errors += 1
 +
-+        ln = args.get('ln', 0)
+     def parse_file(self, fname):
+         """
+         Parse a single Kernel source.
+         """
+ 
++        # Prevent parsing the same file twice if results are cached
++        if fname in self.files:
++            return
 +
-+        count = 0
-+        for parameter in parameterlist:
-+            if count != 0:
-+                signature += ", "
-+            count += 1
-+            dtype = args['parametertypes'].get(parameter, "")
+         doc = KernelDoc(self.config, fname)
+-        doc.run()
++        export_table, entries = doc.parse_kdoc()
+ 
+-        return doc.entries
++        self.export_table[fname] = export_table
 +
-+            if function_pointer.search(dtype):
-+                signature += function_pointer.group(1) + parameter + function_pointer.group(3)
-+            else:
-+                signature += dtype
++        self.files.add(fname)
++        self.export_files.add(fname)      # parse_kdoc() already check exports
 +
-+        if not func_macro:
-+            signature += ")"
++        self.results[fname] = entries
+ 
+     def process_export_file(self, fname):
+         """
+         Parses EXPORT_SYMBOL* macros from a single Kernel source file.
+         """
+-        try:
+-            with open(fname, "r", encoding="utf8",
+-                      errors="backslashreplace") as fp:
+-                for line in fp:
+-                    KernelDoc.process_export(self.config.function_table, line)
+-
+-        except IOError:
+-            self.config.log.error("Error: Cannot open fname %s", fname)
+-            self.config.errors += 1
 +
-+        if args.get('typedef') or not args.get('functiontype'):
-+            print(f".. c:macro:: {args['function']}\n")
++        # Prevent parsing the same file twice if results are cached
++        if fname in self.export_files:
++            return
 +
-+            if args.get('typedef'):
-+                self.print_lineno(ln)
-+                print("   **Typedef**: ", end="")
-+                self.lineprefix = ""
-+                self.output_highlight(args.get('purpose', ""))
-+                print("\n\n**Syntax**\n")
-+                print(f"  ``{signature}``\n")
-+            else:
-+                print(f"``{signature}``\n")
-+        else:
-+            print(f".. c:function:: {signature}\n")
++        doc = KernelDoc(self.config, fname)
++        export_table = doc.parse_export()
 +
-+        if not args.get('typedef'):
-+            self.print_lineno(ln)
-+            self.lineprefix = "   "
-+            self.output_highlight(args.get('purpose', ""))
-+            print()
++        if not export_table:
++            self.error(f"Error: Cannot check EXPORT_SYMBOL* on {fname}")
++            export_table = set()
 +
-+        # Put descriptive text into a container (HTML <div>) to help set
-+        # function prototypes apart
-+        self.lineprefix = "  "
++        self.export_table[fname] = export_table
++        self.export_files.add(fname)
+ 
+     def file_not_found_cb(self, fname):
+         """
+         Callback to warn if a file was not found.
+         """
+ 
+-        self.config.log.error("Cannot find file %s", fname)
+-        self.config.errors += 1
++        self.error(f"Cannot find file {fname}")
+ 
+     def __init__(self, verbose=False, out_style=None,
+                  werror=False, wreturn=False, wshort_desc=False,
+@@ -147,7 +180,9 @@ class KernelFiles():
+             if kdoc_werror:
+                 werror = kdoc_werror
+ 
+-        # Set global config data used on all files
++        # Some variables are global to the parser logic as a whole as they are
++        # used to send control configuration to KernelDoc class. As such,
++        # those variables are read-only inside the KernelDoc.
+         self.config = argparse.Namespace
+ 
+         self.config.verbose = verbose
+@@ -156,27 +191,25 @@ class KernelFiles():
+         self.config.wshort_desc = wshort_desc
+         self.config.wcontents_before_sections = wcontents_before_sections
+ 
+-        self.config.function_table = set()
+-        self.config.source_map = {}
+-
+         if not logger:
+             self.config.log = logging.getLogger("kernel-doc")
+         else:
+             self.config.log = logger
+ 
+-        self.config.kernel_version = os.environ.get("KERNELVERSION",
+-                                                    "unknown kernel version'")
++        self.config.warning = self.warning
 +
-+        if parameterlist:
-+            print(".. container:: kernelindent\n")
-+            print(f"{self.lineprefix}**Parameters**\n")
+         self.config.src_tree = os.environ.get("SRCTREE", None)
+ 
++        # Initialize variables that are internal to KernelFiles
 +
-+        for parameter in parameterlist:
-+            parameter_name = Re(r'\[.*').sub('', parameter)
-+            dtype = args['parametertypes'].get(parameter, "")
+         self.out_style = out_style
+ 
+-        # Initialize internal variables
+-
+-        self.config.errors = 0
++        self.errors = 0
+         self.results = {}
+ 
+         self.files = set()
+         self.export_files = set()
++        self.export_table = {}
+ 
+     def parse(self, file_list, export_file=None):
+         """
+@@ -185,28 +218,11 @@ class KernelFiles():
+ 
+         glob = GlobSourceFiles(srctree=self.config.src_tree)
+ 
+-        # Prevent parsing the same file twice to speedup parsing and
+-        # avoid reporting errors multiple times
+-
+         for fname in glob.parse_files(file_list, self.file_not_found_cb):
+-            if fname not in self.files:
+-                self.results[fname] = self.parse_file(fname)
+-                self.files.add(fname)
+-
+-        # If a list of export files was provided, parse EXPORT_SYMBOL*
+-        # from files that weren't fully parsed
+-
+-        if not export_file:
+-            return
+-
+-        self.export_files |= self.files
+-
+-        glob = GlobSourceFiles(srctree=self.config.src_tree)
++            self.parse_file(fname)
+ 
+         for fname in glob.parse_files(export_file, self.file_not_found_cb):
+-            if fname not in self.export_files:
+-                self.process_export_file(fname)
+-                self.export_files.add(fname)
++            self.process_export_file(fname)
+ 
+     def out_msg(self, fname, name, arg):
+         """
+@@ -223,32 +239,35 @@ class KernelFiles():
+ 
+     def msg(self, enable_lineno=False, export=False, internal=False,
+             symbol=None, nosymbol=None, no_doc_sections=False,
+-            filenames=None):
++            filenames=None, export_file=None):
+         """
+         Interacts over the kernel-doc results and output messages,
+         returning kernel-doc markups on each interaction
+         """
+ 
+-        function_table = self.config.function_table
+-
+-        if symbol:
+-            for s in symbol:
+-                function_table.add(s)
+-
+-        # Output none mode: only warnings will be shown
+-        if not self.out_style:
+-            return
+-
+         self.out_style.set_config(self.config)
+ 
+-        self.out_style.set_filter(export, internal, symbol, nosymbol,
+-                                  function_table, enable_lineno,
+-                                  no_doc_sections)
+-
+         if not filenames:
+             filenames = sorted(self.results.keys())
+ 
+         for fname in filenames:
++            function_table = set()
 +
-+            if dtype:
-+                print(f"{self.lineprefix}``{dtype}``")
-+            else:
-+                print(f"{self.lineprefix}``{parameter}``")
++            if internal or export:
++                if not export_file:
++                    export_file = [fname]
 +
-+            self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
++                for f in export_file:
++                    function_table |= self.export_table[f]
 +
-+            self.lineprefix = "    "
-+            if parameter_name in parameterdescs and \
-+               parameterdescs[parameter_name] != KernelDoc.undescribed:
++            if symbol:
++                for s in symbol:
++                    function_table.add(s)
 +
-+                self.output_highlight(parameterdescs[parameter_name])
-+                print()
-+            else:
-+                print(f"{self.lineprefix}*undescribed*\n")
-+            self.lineprefix = "  "
++            self.out_style.set_filter(export, internal, symbol, nosymbol,
++                                      function_table, enable_lineno,
++                                      no_doc_sections)
 +
-+        self.out_section(args)
-+        self.lineprefix = oldprefix
+             msg = ""
+             for name, arg in self.results[fname]:
+                 msg += self.out_msg(fname, name, arg)
+@@ -261,12 +280,3 @@ class KernelFiles():
+                                             fname, ln, dtype)
+             if msg:
+                 yield fname, msg
+-
+-    @property
+-    def errors(self):
+-        """
+-        Return a count of the number of warnings found, including
+-        the ones displayed while interacting over self.msg.
+-        """
+-
+-        return self.config.errors
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index e9b4d0093084..c352b7f8d3fd 100755
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -69,7 +69,7 @@ class OutputFormat:
+         self.enable_lineno = None
+         self.nosymbol = {}
+         self.symbol = None
+-        self.function_table = set()
++        self.function_table = None
+         self.config = None
+         self.no_doc_sections = False
+ 
+@@ -94,10 +94,10 @@ class OutputFormat:
+ 
+         self.enable_lineno = enable_lineno
+         self.no_doc_sections = no_doc_sections
++        self.function_table = function_table
+ 
+         if symbol:
+             self.out_mode = self.OUTPUT_INCLUDE
+-            function_table = symbol
+         elif export:
+             self.out_mode = self.OUTPUT_EXPORTED
+         elif internal:
+@@ -108,8 +108,6 @@ class OutputFormat:
+         if nosymbol:
+             self.nosymbol = set(nosymbol)
+ 
+-        if function_table:
+-            self.function_table = function_table
+ 
+     def highlight_block(self, block):
+         """
+@@ -129,8 +127,7 @@ class OutputFormat:
+         warnings = args.get('warnings', [])
+ 
+         for log_msg in warnings:
+-            self.config.log.warning(log_msg)
+-            self.config.errors += 1
++            self.config.warning(log_msg)
+ 
+     def check_doc(self, name, args):
+         """Check if DOC should be output"""
+diff --git a/scripts/lib/kdoc/kdoc_parser.py b/scripts/lib/kdoc/kdoc_parser.py
+index 43e6ffbdcc2c..33f00c77dd5f 100755
+--- a/scripts/lib/kdoc/kdoc_parser.py
++++ b/scripts/lib/kdoc/kdoc_parser.py
+@@ -1133,21 +1133,25 @@ class KernelDoc:
+         self.emit_warning(ln, "error: Cannot parse typedef!")
+ 
+     @staticmethod
+-    def process_export(function_table, line):
++    def process_export(function_set, line):
+         """
+         process EXPORT_SYMBOL* tags
+ 
+-        This method is called both internally and externally, so, it
+-        doesn't use self.
++        This method doesn't use any variable from the class, so declare it
++        with a staticmethod decorator.
+         """
+ 
++        # Note: it accepts only one EXPORT_SYMBOL* per line, as having
++        # multiple export lines would violate Kernel coding style.
 +
-+    def out_enum(self, fname, name, args):
-+
-+        oldprefix = self.lineprefix
-+        name = args.get('enum', '')
-+        parameterlist = args.get('parameterlist', [])
-+        parameterdescs = args.get('parameterdescs', {})
-+        ln = args.get('ln', 0)
-+
-+        print(f"\n\n.. c:enum:: {name}\n")
-+
-+        self.print_lineno(ln)
-+        self.lineprefix = "  "
-+        self.output_highlight(args.get('purpose', ''))
-+        print()
-+
-+        print(".. container:: kernelindent\n")
-+        outer = self.lineprefix + "  "
-+        self.lineprefix = outer + "  "
-+        print(f"{outer}**Constants**\n")
-+
-+        for parameter in parameterlist:
-+            print(f"{outer}``{parameter}``")
-+
-+            if parameterdescs.get(parameter, '') != KernelDoc.undescribed:
-+                self.output_highlight(parameterdescs[parameter])
-+            else:
-+                print(f"{self.lineprefix}*undescribed*\n")
-+            print()
-+
-+        self.lineprefix = oldprefix
-+        self.out_section(args)
-+
-+    def out_typedef(self, fname, name, args):
-+
-+        oldprefix = self.lineprefix
-+        name = args.get('typedef', '')
-+        ln = args.get('ln', 0)
-+
-+        print(f"\n\n.. c:type:: {name}\n")
-+
-+        self.print_lineno(ln)
-+        self.lineprefix = "   "
-+
-+        self.output_highlight(args.get('purpose', ''))
-+
-+        print()
-+
-+        self.lineprefix = oldprefix
-+        self.out_section(args)
-+
-+    def out_struct(self, fname, name, args):
-+
-+        name = args.get('struct', "")
-+        purpose = args.get('purpose', "")
-+        declaration = args.get('definition', "")
-+        dtype = args.get('type', "struct")
-+        ln = args.get('ln', 0)
-+
-+        parameterlist = args.get('parameterlist', [])
-+        parameterdescs = args.get('parameterdescs', {})
-+        parameterdesc_start_lines = args.get('parameterdesc_start_lines', {})
-+
-+        print(f"\n\n.. c:{dtype}:: {name}\n")
-+
-+        self.print_lineno(ln)
-+
-+        oldprefix = self.lineprefix
-+        self.lineprefix += "  "
-+
-+        self.output_highlight(purpose)
-+        print()
-+
-+        print(".. container:: kernelindent\n")
-+        print(f"{self.lineprefix}**Definition**::\n")
-+
-+        self.lineprefix = self.lineprefix + "  "
-+
-+        declaration = declaration.replace("\t", self.lineprefix)
-+
-+        print(f"{self.lineprefix}{dtype} {name}" + ' {')
-+        print(f"{declaration}{self.lineprefix}" + "};\n")
-+
-+        self.lineprefix = "  "
-+        print(f"{self.lineprefix}**Members**\n")
-+        for parameter in parameterlist:
-+            if not parameter or parameter.startswith("#"):
-+                continue
-+
-+            parameter_name = parameter.split("[", maxsplit=1)[0]
-+
-+            if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
-+                continue
-+
-+            self.print_lineno(parameterdesc_start_lines.get(parameter_name, 0))
-+
-+            print(f"{self.lineprefix}``{parameter}``")
-+
-+            self.lineprefix = "    "
-+            self.output_highlight(parameterdescs[parameter_name])
-+            self.lineprefix = "  "
-+
-+            print()
-+
-+        print()
-+
-+        self.lineprefix = oldprefix
-+        self.out_section(args)
-+
-+
-+class ManFormat(OutputFormat):
-+    """Consts and functions used by man pages output"""
-+
-+    highlights = (
-+        (type_constant, r"\1"),
-+        (type_constant2, r"\1"),
-+        (type_func, r"\\fB\1\\fP"),
-+        (type_enum, r"\\fI\1\\fP"),
-+        (type_struct, r"\\fI\1\\fP"),
-+        (type_typedef, r"\\fI\1\\fP"),
-+        (type_union, r"\\fI\1\\fP"),
-+        (type_param, r"\\fI\1\\fP"),
-+        (type_param_ref, r"\\fI\1\2\\fP"),
-+        (type_member, r"\\fI\1\2\3\\fP"),
-+        (type_fallback, r"\\fI\1\\fP")
-+    )
-+    blankline = ""
-+
-+    def __init__(self):
+         if export_symbol.search(line):
+             symbol = export_symbol.group(2)
+-            function_table.add(symbol)
++            function_set.add(symbol)
++            return
+ 
+         if export_symbol_ns.search(line):
+             symbol = export_symbol_ns.group(2)
+-            function_table.add(symbol)
++            function_set.add(symbol)
+ 
+     def process_normal(self, ln, line):
+         """
+@@ -1617,17 +1621,39 @@ class KernelDoc:
+         elif doc_content.search(line):
+             self.entry.contents += doc_content.group(1) + "\n"
+ 
+-    def run(self):
++    def parse_export(self):
 +        """
-+        Creates class variables.
-+
-+        Not really mandatory, but it is a good coding style and makes
-+        pylint happy.
++        Parses EXPORT_SYMBOL* macros from a single Kernel source file.
 +        """
 +
-+        super().__init__()
++        export_table = set()
 +
-+        dt = datetime.now()
-+        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
-+            # use UTC TZ
-+            to_zone = tz.gettz('UTC')
-+            dt = dt.astimezone(to_zone)
++        try:
++            with open(self.fname, "r", encoding="utf8",
++                      errors="backslashreplace") as fp:
 +
-+        self.man_date = dt.strftime("%B %Y")
++                for line in fp:
++                    self.process_export(export_table, line)
 +
-+    def output_highlight(self, block):
++        except IOError:
++            return None
 +
-+        contents = self.highlight_block(block)
++        return export_table
 +
-+        if isinstance(contents, list):
-+            contents = "\n".join(contents)
++    def parse_kdoc(self):
+         """
+         Open and process each line of a C source file.
+-        he parsing is controlled via a state machine, and the line is passed
++        The parsing is controlled via a state machine, and the line is passed
+         to a different process function depending on the state. The process
+         function may update the state as needed.
 +
-+        for line in contents.strip("\n").split("\n"):
-+            line = Re(r"^\s*").sub("", line)
++        Besides parsing kernel-doc tags, it also parses export symbols.
+         """
+ 
+         cont = False
+         prev = ""
+         prev_ln = None
++        export_table = set()
+ 
+         try:
+             with open(self.fname, "r", encoding="utf8",
+@@ -1659,6 +1685,16 @@ class KernelDoc:
+                                           self.st_inline_name[self.inline_doc_state],
+                                           line)
+ 
++                    # This is an optimization over the original script.
++                    # There, when export_file was used for the same file,
++                    # it was read twice. Here, we use the already-existing
++                    # loop to parse exported symbols as well.
++                    #
++                    # TODO: It should be noticed that not all states are
++                    # needed here. On a future cleanup, process export only
++                    # at the states that aren't handling comment markups.
++                    self.process_export(export_table, line)
 +
-+            if line and line[0] == ".":
-+                print("\\&" + line)
-+            else:
-+                print(line)
+                     # Hand this line to the appropriate state handler
+                     if self.state == self.STATE_NORMAL:
+                         self.process_normal(ln, line)
+@@ -1675,3 +1711,5 @@ class KernelDoc:
+                         self.process_docblock(ln, line)
+         except OSError:
+             self.config.log.error(f"Error: Cannot open file {self.fname}")
 +
-+    def out_doc(self, fname, name, args):
-+        module = args.get('module')
-+        sectionlist = args.get('sectionlist', [])
-+        sections = args.get('sections', {})
-+
-+        print(f'.TH "{module}" 9 "{module}" "{self.man_date}" "API Manual" LINUX')
-+
-+        for section in sectionlist:
-+            print(f'.SH "{section}"')
-+            self.output_highlight(sections.get(section))
-+
-+    def out_function(self, fname, name, args):
-+        """output function in man"""
-+
-+        parameterlist = args.get('parameterlist', [])
-+        parameterdescs = args.get('parameterdescs', {})
-+        sectionlist = args.get('sectionlist', [])
-+        sections = args.get('sections', {})
-+
-+        print(f'.TH "{args['function']}" 9 "{args['function']}" "{self.man_date}" "Kernel Hacker\'s Manual" LINUX')
-+
-+        print(".SH NAME")
-+        print(f"{args['function']} \\- {args['purpose']}")
-+
-+        print(".SH SYNOPSIS")
-+        if args.get('functiontype', ''):
-+            print(f'.B "{args['functiontype']}" {args['function']}')
-+        else:
-+            print(f'.B "{args['function']}')
-+
-+        count = 0
-+        parenth = "("
-+        post = ","
-+
-+        for parameter in parameterlist:
-+            if count == len(parameterlist) - 1:
-+                post = ");"
-+
-+            dtype = args['parametertypes'].get(parameter, "")
-+            if function_pointer.match(dtype):
-+                # Pointer-to-function
-+                print(f'".BI "{parenth}{function_pointer.group(1)}" " ") ({function_pointer.group(2)}){post}"')
-+            else:
-+                dtype = Re(r'([^\*])$').sub(r'\1 ', dtype)
-+
-+                print(f'.BI "{parenth}{dtype}"  "{post}"')
-+            count += 1
-+            parenth = ""
-+
-+        if parameterlist:
-+            print(".SH ARGUMENTS")
-+
-+        for parameter in parameterlist:
-+            parameter_name = re.sub(r'\[.*', '', parameter)
-+
-+            print(f'.IP "{parameter}" 12')
-+            self.output_highlight(parameterdescs.get(parameter_name, ""))
-+
-+        for section in sectionlist:
-+            print(f'.SH "{section.upper()}"')
-+            self.output_highlight(sections[section])
-+
-+    def out_enum(self, fname, name, args):
-+
-+        name = args.get('enum', '')
-+        parameterlist = args.get('parameterlist', [])
-+        sectionlist = args.get('sectionlist', [])
-+        sections = args.get('sections', {})
-+
-+        print(f'.TH "{args['module']}" 9 "enum {args['enum']}" "{self.man_date}" "API Manual" LINUX')
-+
-+        print(".SH NAME")
-+        print(f"enum {args['enum']} \\- {args['purpose']}")
-+
-+        print(".SH SYNOPSIS")
-+        print(f"enum {args['enum']}" + " {")
-+
-+        count = 0
-+        for parameter in parameterlist:
-+            print(f'.br\n.BI "    {parameter}"')
-+            if count == len(parameterlist) - 1:
-+                print("\n};")
-+            else:
-+                print(", \n.br")
-+
-+            count += 1
-+
-+        print(".SH Constants")
-+
-+        for parameter in parameterlist:
-+            parameter_name = Re(r'\[.*').sub('', parameter)
-+            print(f'.IP "{parameter}" 12')
-+            self.output_highlight(args['parameterdescs'].get(parameter_name, ""))
-+
-+        for section in sectionlist:
-+            print(f'.SH "{section}"')
-+            self.output_highlight(sections[section])
-+
-+    def out_typedef(self, fname, name, args):
-+        module = args.get('module')
-+        typedef = args.get('typedef')
-+        purpose = args.get('purpose')
-+        sectionlist = args.get('sectionlist', [])
-+        sections = args.get('sections', {})
-+
-+        print(f'.TH "{module}" 9 "{typedef}" "{self.man_date}" "API Manual" LINUX')
-+
-+        print(".SH NAME")
-+        print(f"typedef {typedef} \\- {purpose}")
-+
-+        for section in sectionlist:
-+            print(f'.SH "{section}"')
-+            self.output_highlight(sections.get(section))
-+
-+    def out_struct(self, fname, name, args):
-+        module = args.get('module')
-+        struct_type = args.get('type')
-+        struct_name = args.get('struct')
-+        purpose = args.get('purpose')
-+        definition = args.get('definition')
-+        sectionlist = args.get('sectionlist', [])
-+        parameterlist = args.get('parameterlist', [])
-+        sections = args.get('sections', {})
-+        parameterdescs = args.get('parameterdescs', {})
-+
-+        print(f'.TH "{module}" 9 "{struct_type} {struct_name}" "{self.man_date}" "API Manual" LINUX')
-+
-+        print(".SH NAME")
-+        print(f"{struct_type} {struct_name} \\- {purpose}")
-+
-+        # Replace tabs with two spaces and handle newlines
-+        declaration = definition.replace("\t", "  ")
-+        declaration = Re(r"\n").sub('"\n.br\n.BI "', declaration)
-+
-+        print(".SH SYNOPSIS")
-+        print(f"{struct_type} {struct_name} " + "{" + "\n.br")
-+        print(f'.BI "{declaration}\n' + "};\n.br\n")
-+
-+        print(".SH Members")
-+        for parameter in parameterlist:
-+            if parameter.startswith("#"):
-+                continue
-+
-+            parameter_name = re.sub(r"\[.*", "", parameter)
-+
-+            if parameterdescs.get(parameter_name) == KernelDoc.undescribed:
-+                continue
-+
-+            print(f'.IP "{parameter}" 12')
-+            self.output_highlight(parameterdescs.get(parameter_name))
-+
-+        for section in sectionlist:
-+            print(f'.SH "{section}"')
-+            self.output_highlight(sections.get(section))
++        return export_table, self.entries
 -- 
 2.49.0
 
