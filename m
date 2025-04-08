@@ -1,111 +1,151 @@
-Received: from smtpbg151.qq.com (smtpbg151.qq.com [18.169.211.239])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C32D264A90
-	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 07:41:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.169.211.239
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A8501FECDF;
+	Tue,  8 Apr 2025 07:43:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744098126; cv=none; b=DIxVXQu3ErYJHGU8ijjND2XWkKppwlvVN0fwzGnPCv6sr4KXD1+uA4zS0iypQOA8dH4ArJW/k3e5bu6QaSCWYlt6b0xsebnj/ta2qpX1s9ZFlrGU/Y+J6U/aKhJC+kOTCgJrdPVFbrDzSUQ+h6k/HXF8dlD9KgfMyeit0TBxc9o=
+	t=1744098236; cv=none; b=uk6M7TTG4Z1e7fRyQLOlzf1bn4Kywi8vUtWYCBLJl87MVvYeVPVsL+3CgqVgZlI56gmmjdQvtw6+IbK8APQvri3eW/HpioHXm6irJmCHcrQnr5htZnYUEZEocJxGMznKGuppEm+VGoedt0tn5Qs1SyF0AuIEGJLlm5mOb4NFWYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744098126; c=relaxed/simple;
-	bh=VmrdJVDpTY1Y3BF9QzGsEsk2pkeTQKYXt41LsIyEfyM=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Rot2UYBn04JIGayjqDGREVVQ1S4+HPyHG1aNuhgS0QXk3PHK4Tx86cMXswSUEOml9uxEtkteffJOhwScGNlFkd51WB2IDe5RrJBHMI5v11q8o78rFqYtyCr29WOdnBUu8fvKVp47Lz71K5u31v9R9yZMQ+V+O1Zc3Gxg03Hynx4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=BKLZSlXi; arc=none smtp.client-ip=18.169.211.239
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1744098236; c=relaxed/simple;
+	bh=6bh0qyU+r+JuXFXJKhwKfbhcKQy6IuZgXqrPKNG5G/A=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=bvhyGK+mI66vMnRO6AFDpkGvyXg9iABqrWhzgLZ7qde8+9qHqWjrr5spug4qETkin7lcxvIYbIVmvzdzVv81zAcNyfR0meWIXmpfGE6x3C2ihE1LK8GNhCTpvPdIFjzo7qZOr64dVW7KhqTniFMi7XWj1LY3duqYkfkvlKlqUO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=BnAb3b5P; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=Yw4K4gV0; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="BKLZSlXi"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744098047;
-	bh=CwKUleQf27cGcf66047RnWHjOqMcyIi/LBBDO1qSzAM=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=BKLZSlXiwOS0ObJ8zdUczG1rUS1ZL2dEPFY1urmf19WwO2hi1pyfZKZz17LsAyV9B
-	 f/u/M4HoLlv9WY6YV8EssNEPQyRxdGH2d2AF+mcduMmLOKtqs3HNv0BLLAFSpzjh/w
-	 8oDqoRKsctdG9NWWKeWP9IoFCTPlXglH4CIVhfN4=
-X-QQ-mid: bizesmtpsz4t1744098041tb64312
-X-QQ-Originating-IP: YLpLnDErj1dtfcCfWuO3BojoYWQCqOM0zq8eEbVCJxE=
-Received: from localhost.localdomain ( [113.57.152.160])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 08 Apr 2025 15:40:39 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 8994852775391133971
-EX-QQ-RecipientCnt: 14
-From: Chen Linxuan <chenlinxuan@uniontech.com>
-To: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Pablo Neira Ayuso <pablo@netfilter.org>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	netfilter-devel@vger.kernel.org,
-	coreteam@netfilter.org,
-	Chen Linxuan <chenlinxuan@uniontech.com>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v2 nf-next] docs: tproxy: fix formatting for nft code block
-Date: Tue,  8 Apr 2025 15:35:50 +0800
-Message-ID: <E25F951CDC9F22B2+20250408073550.3319892-2-chenlinxuan@uniontech.com>
-X-Mailer: git-send-email 2.48.1
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="BnAb3b5P";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="Yw4K4gV0"
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 6C5C41140146;
+	Tue,  8 Apr 2025 03:43:52 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-12.internal (MEProxy); Tue, 08 Apr 2025 03:43:52 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1744098232;
+	 x=1744184632; bh=ewx83j9qElYFHGyCDMW6mla9eXeOChmIosrMTe0/WBs=; b=
+	BnAb3b5PIUXSgS0G5av5ieSA92df8uJv1AQC8Wex2ZKSql0hMzUhSD3bKsLw3/Lz
+	Tkzaldn1CIIm/GUZxxFsO6Hi/YYI0OjTYBDuZQU3zblAPsH2060iYU01zl50so4U
+	tK2IQ0UFSc4iYBd1c1GzsdMwEz1BRkZ1czwbZgfPY3xE1nQPIXNOTPyaDYtpd3Dy
+	wM/PsRlzglvRNMMVwHQiIxDOdBvml9vIkF+NUeX5S2dJHesq3W8S/FjBwgJYwBV5
+	/wK67ZZNz7tR6vin4xqwgQgM31DVHVebh/vh1Pv2VhQOFbHWL5QgPtFCQoIkaBk+
+	llv8o7ihgpvX833cgLTXlQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744098232; x=
+	1744184632; bh=ewx83j9qElYFHGyCDMW6mla9eXeOChmIosrMTe0/WBs=; b=Y
+	w4K4gV0Mh+I8g3s9TfAoNlJ80Xbr/keyzEPnpZdjTgOiODKlOoXcM3SmHGSFf13c
+	E/VR345nVDXCC9dTm3vxF6KmmXEevx4RVz+qg7cscxqBsZc7QsYnphbZWrdxyE/l
+	SOjGsVFY1hxPk9ZV067C+0lZVS7h7JSDZaaCyPZy8wcJIWl572xpZF1Xn64fqZkO
+	D1m/pyE+2u2almsE5VBDNr8bZJytO+Qtn49yBHIVZNG9psjoyR/yXf6tJD2MwJth
+	ldGnFN80ogvzUerKLJq/mw0tgMf2s3c++2TNUNizb2VbIDfeMQqS6eSzdipc2UDH
+	VxWXFVUricWQzD7rIcqvw==
+X-ME-Sender: <xms:t9P0Z2FFd6HeiNkUYIqhP0IIvt6RrqTsYoyhdfuVxRsgBUsVXSpa8Q>
+    <xme:t9P0Z3XMf0PVXL1OwRmQ6BrtpFwAJefsD1XPE73J32Uczij87YmouPt6sQ8UV7qlf
+    YEwJJuHBIbKVz-zsFg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtddvheduucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhepfeffleeludehheeljedthfehgedtffehtdff
+    ieelheekteffvedtgeehudfhiedunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdpgh
+    hithhhuhgsrdgtohhmnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
+    lhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohepvdejpdhmoh
+    guvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvgdprhgtphht
+    thhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghpthhtohepmh
+    grrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghpthhtohepnhhitgholhgrshes
+    fhhjrghslhgvrdgvuhdprhgtphhtthhopegsrhhgvghrshhtsehgmhgrihhlrdgtohhmpd
+    hrtghpthhtohepuhgsihiijhgrkhesghhmrghilhdrtghomhdprhgtphhtthhopehhvghr
+    sggvrhhtsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthhtoheprghrug
+    gssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugeskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:t9P0ZwKEV3h0A9U4abhdgosqJR81_XlNNlrBOoMMv90RDY_A0HxFAQ>
+    <xmx:t9P0ZwFtmJBtAwUERosEmNCeDPYn_gPoNBoNxaIonqBE9WNn3Tv96g>
+    <xmx:t9P0Z8UTBRpwm3xoL__t3pweGd4k75DJPhLsM22xTtb5m_RaAsJkMA>
+    <xmx:t9P0ZzMFbzQ9KVEEOAgweQRtkE-SF-hm6e1ingTAWEwE9sAou3S_gQ>
+    <xmx:uNP0Z4rFIQyEeeeBln6uug9CpMZmT-HDuAUYTmQqmy6JF1T7gKshVYlF>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id E50952220073; Tue,  8 Apr 2025 03:43:50 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: bizesmtpsz:uniontech.com:qybglogicsvrgz:qybglogicsvrgz5a-1
-X-QQ-XMAILINFO: MMREUZv4wJ7/uOrne6X5SSbeT+Yka9zVShie8oIcWhB2JdLJ5WW4MiZr
-	EcNaNn5OQy4bG0OswoJSKhKIxzRSTx8Ji7+YbJzGszsZ8swRuLITYCvaV75cop7PcdiT53B
-	Tv7gyq+M57NR8SB4wgCAM9Za1FVwoE7GLC2D0d7uJ5/eASbI4KET6cJJwKrNoBONKOPt6ZK
-	zhgULO6RkpBxK639RfIcrXaO5fmMxhpCoTi11CT8ViQimX2togtb6AC4vPfm5lsDzJ2wi54
-	Xk8ruXvnMBGOZzFyMTewDewcl4hSax4NknF/qpnG879YSKMRYWopOklFOisHVy+IDv3kfyc
-	E5FP+wSmH7Mh8Yv3mCk4id7pYXqxnFtE0ICnSUgPJBbPVpSodbLh5+DWNKtdQ6TILvQLkby
-	kVxVC1glPfD0e4hLg1A/1F37cqJZJxtKJR/X3UiC8SQCwJ6ObNth0QFb5MF+04L9GxMp28i
-	YN/+VoGG0SwWME66wZWCXhtYVYvMiTLTjbNhVPwaQa6MDjt2sL8jIKVPS8cJe8pnugeVdwn
-	f3vaUEbY8GHZwM4SE8loBmWQeZQAPGRAQNiannu2ZUsw5bNHtOWjrE0GMbnuLL6bGJ9KBbM
-	4MH1SqsuSL/aR/LlDtSWShsx1UyNy3kEiQu3cK3LXzPKw+iuipmLOgAB5LbkGFXa78aMa08
-	XcZR8u+ljZtIKTsbyeaMZW3RgG73Gf8TqBiOKW1CI02vsvznzkiiZ8K0CJ4CkuXapzUyzqs
-	U/CHkHFGQkyocjPZYxkajOOuOqs5NfWIyg8hSALnrQ+jk+wviR46TfyiGyn3NzOc/be4v2T
-	bpGsWOh6JyvHKz2flezWYgXJb09DfHzt1aBj7F8gdtaNjetsLUsxUKKku3/JO78xazNwsXK
-	o9cJriTCtnByBjDEIf54djXIGwmsKc4l8lC9GevAYyN9l9CAG9UXQzY/og/IBFV7FM+H76L
-	vxK9Dvm1Xl55Uj/pE1lX3+QYIOJcuIiVwZ7+o4MtD7qmun35OMrdZaGam
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+X-ThreadId: T46c1ceb211c7c949
+Date: Tue, 08 Apr 2025 09:43:10 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Eric Biggers" <ebiggers@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ "Ard Biesheuvel" <ardb@kernel.org>, "Borislav Petkov" <bp@alien8.de>,
+ "Brian Gerst" <brgerst@gmail.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, "Ingo Molnar" <mingo@redhat.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Marc Zyngier" <maz@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Takashi Iwai" <tiwai@suse.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Uros Bizjak" <ubizjak@gmail.com>,
+ "Will Deacon" <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, x86@kernel.org
+Message-Id: <0d087503-88d5-4d66-aa52-161ca6e0df06@app.fastmail.com>
+In-Reply-To: <20250407164151.GB2536@sol.localdomain>
+References: <20250407094116.1339199-1-arnd@kernel.org>
+ <20250407164151.GB2536@sol.localdomain>
+Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-The nft command snippet for redirecting traffic isn't formatted
-in a literal code block like the rest of snippets.
-Fix the formatting inconsistency.
+On Mon, Apr 7, 2025, at 18:41, Eric Biggers wrote:
+> On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
+>
+> This is intended to supersede the patches from Uros that removed checks for
+> binutils < 2.25, right?  See:
+>
+> * 
+> https://lore.kernel.org/linux-crypto/20250404074135.520812-1-ubizjak@gmail.com/
+> * 
+> https://lore.kernel.org/linux-crypto/20250404074135.520812-2-ubizjak@gmail.com
+> * 
+> https://lore.kernel.org/linux-crypto/20250404074135.520812-3-ubizjak@gmail.com/
 
-Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
----
-v2:
-  - Update commit message according to suggestion from Bagas
-v1: https://lore.kernel.org/all/CFD0AAF9D7040B1E+20250407031727.1615941-1-chenlinxuan@uniontech.com/
----
- Documentation/networking/tproxy.rst | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+I missed these, but it does sounds we easy to work out, either
+by rebasing my patch or dropping Uros' version.
 
-diff --git a/Documentation/networking/tproxy.rst b/Documentation/networking/tproxy.rst
-index 7f7c1ff6f159..75e4990cc3db 100644
---- a/Documentation/networking/tproxy.rst
-+++ b/Documentation/networking/tproxy.rst
-@@ -69,9 +69,9 @@ add rules like this to the iptables ruleset above::
-     # iptables -t mangle -A PREROUTING -p tcp --dport 80 -j TPROXY \
-       --tproxy-mark 0x1/0x1 --on-port 50080
- 
--Or the following rule to nft:
-+Or the following rule to nft::
- 
--# nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
-+    # nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
- 
- Note that for this to work you'll have to modify the proxy to enable (SOL_IP,
- IP_TRANSPARENT) for the listening socket.
--- 
-2.48.1
+> If we can indeed bump up the requirement to 2.30, that would be great.
+>
+> Just a note though: I recently added VAES and VPCLMULQDQ instructions to
+> BoringSSL, which increased the binutils requirement of building BoringSSL to
+> 2.30, and this caused issues in a downstream project; e.g. see
+> https://github.com/briansmith/ring/issues/2463.  Specifically people complained
+> about being unable to build on Amazon Linux 2 and CentOS/RHEL/Oracle Linux 7.
+>
+> So I just thought I'd mention that, based on past experience with this sort of
+> thing, those are the specific cases where it seems people are most likely to be
+> trying to use binutils < 2.30.
+>
+> But if those distros are not going to be supported any longer (without
+> installing newer tools on them), or even are already unsupported due to the gcc
+> requirement, bumping up the binutils requirement to 2.30 sounds good to me.
 
+RHEL7 comes wit gcc-4.8.5, which is already too old to build the kernel,
+so I'm not worried about it at all. RHEL8 and Debian 10 have gcc-8,
+which is why that makes sense as a new minimum version.
+
+SLES-15 (gcc-7), Debian 9 (gcc-6), and Ubuntu 18.05 (gcc-7) are the
+ones that can currently build mainline kernels but are broken by this
+change. SLES-15 is the only one of those that are still supported, but
+they do ship with add-on compilers.
+
+     Arnd
