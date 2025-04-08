@@ -1,44 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9A63E2673B8;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9664C2673A8;
 	Tue,  8 Apr 2025 10:09:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744106996; cv=none; b=mNbRKmI2QvKitEswzW4Xupx7NCWrl7LB6TF3kYze0LqyGOP3IeHjHIyCg0XCFOP+EJWuOKcyAD5s1ovMQD7Faci0Mqz49PTTjsFde2+47JiyKPUBco0sGUOWt362I+g30JTv8M3P77vBv4kERRMU9UYwAy+469eQeKzydho/hUA=
+	t=1744106996; cv=none; b=EDWInrrHuolpXx8nkS6u7FVFZnQfi8gHNMivj+wSf8IDRUsN3/wLpLQxKKzOfnUOvM4ge9HrluMg32PhRYbmaJTkTJ5l8cs9uL7IP3dTd+Ks8M7QxXOq6lJZVgT1QLwFEmyMz4wcpkxKVVdQqEcvlNtRGnQTsjyaGd++Kv4FpaE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744106996; c=relaxed/simple;
-	bh=5NIsmVCuy0Ps73FY9SsRdlOH9IrLgYYVlKEUKddXlno=;
+	bh=3BDYTh1/WNFZ05pM+UlQyBSQkq+sjQ/vD8b342dkHcE=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=ZAck7/qdVT7bbjo8gn8UIDfl7sqxVj8JlRJvWm4tFdp8FI41r9ISHQoulazwA3oojcev1OKP3UIiOsfbaIw1375WiGXvUAfGvhdqgC9T+u1WKCfS3EKcV6bUAqTK+k8tRi4VImFe9oZR3f/p26DT87a75nJdBtCrJpegp26l5rY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nRC9cHDV; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=cUxoDF+3Ls8YVtdIwjfnJQGEHvpLkbdQoXMCAksOn/fzvrgYZg1+/4XFR0BtlwR2IUPZmfLtbdCMDFKHDMbZDq8MOfKeD/917F7VElg4J52sKBSBKt9PAGONcy0MurY6SgkSxKeiTcSQ69T/9ri4bbAa0t0c887qg1PauwSPSAU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TNwaozQz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nRC9cHDV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6B064C4CEEA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TNwaozQz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3A2C9C4CEED;
 	Tue,  8 Apr 2025 10:09:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1744106996;
-	bh=5NIsmVCuy0Ps73FY9SsRdlOH9IrLgYYVlKEUKddXlno=;
+	bh=3BDYTh1/WNFZ05pM+UlQyBSQkq+sjQ/vD8b342dkHcE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=nRC9cHDV9zHdrcvINwNoFFY0cfM0R31zuO686CM/9sneLkEO7j3EHhvS1LL6GTD24
-	 Z/qFyNnDQJgO27iRqE08pZmwZ0Q9F47TRLuX5rA/0CrgE7KauKdGHSn0BYWahNuWI3
-	 /dXpg7P76+5KY+yTftnHjBa6rjz7qm31nYVFvKAskDfWsmOL5ZVB8QtSVIO4OXPWF5
-	 L1FSs+sEd5IQUQ7E1xMqRQyf3W/fRnjnavYByusFu2l7hJepqrNnmXiV6av6ihOX7a
-	 W81p0/u+CxuwuZz34hQWlhu692cSzoUk9pV9v1g+vD7WiJK+RFP4g8Ii7UQeBb364g
-	 QyD/kPIvkPVzA==
+	b=TNwaozQz1eXfwIoxIgOj+N3Vr+rRFutWbt2QVglR9yv+EwvV3WitJfjr7kjWvq0hK
+	 jb15LLcItUowJ7z+bcU/atRXB16+Q07OcvFbNEIg9njPbvbL0ZA1Yma+G3iGujFmeI
+	 o4sEjgDiX9Lmqbob+3iFuqvaL20xQAe3jdATP5lTYDIAueHcWG8Te/x9BBeI8rBTU2
+	 spWJpf9F4uvZUXHW4mxPIeBa0qcLx1xbPgpXjYIvryKiCTHKpEoiJsjerQElNYDAuk
+	 PZ3V6DJy/KR3wm0I9SqONSsBfS9KWbyw/jXtwvQ0fBsGaXS5iVKkfn1b2z1VB2+i1Q
+	 sKmNy76XNEn3A==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1u25tt-00000008RWA-1e8a;
+	id 1u25tt-00000008RWV-2Jmx;
 	Tue, 08 Apr 2025 18:09:49 +0800
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Kees Cook <kees@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 19/33] docs: sphinx: kerneldoc: verbose kernel-doc command if V=1
-Date: Tue,  8 Apr 2025 18:09:22 +0800
-Message-ID: <a2f01590814b111e138f278e8a721024fdf2d445.1744106242.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 26/33] scripts/kernel-doc.py: properly handle KBUILD_BUILD_TIMESTAMP
+Date: Tue,  8 Apr 2025 18:09:29 +0800
+Message-ID: <ffc70a1b741b010365ed82f31611018f24f91ce7.1744106242.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1744106241.git.mchehab+huawei@kernel.org>
 References: <cover.1744106241.git.mchehab+huawei@kernel.org>
@@ -51,80 +50,96 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-It is useful to know what kernel-doc command was used during
-document build time, as it allows one to check the output the same
-way as Sphinx extension does.
+The logic that handles KBUILD_BUILD_TIMESTAMP is wrong, and adds
+a dependency of a third party module (dateutil).
+
+Fix it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kerneldoc.py | 34 +++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ scripts/lib/kdoc/kdoc_files.py  |  9 ---------
+ scripts/lib/kdoc/kdoc_output.py | 28 +++++++++++++++++++++-------
+ 2 files changed, 21 insertions(+), 16 deletions(-)
 
-diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index 39ddae6ae7dd..d206eb2be10a 100644
---- a/Documentation/sphinx/kerneldoc.py
-+++ b/Documentation/sphinx/kerneldoc.py
-@@ -43,6 +43,29 @@ from sphinx.util import logging
+diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
+index 5a6e92e34d05..e52a6d05237e 100644
+--- a/scripts/lib/kdoc/kdoc_files.py
++++ b/scripts/lib/kdoc/kdoc_files.py
+@@ -13,9 +13,6 @@ import logging
+ import os
+ import re
+ import sys
+-from datetime import datetime
+-
+-from dateutil import tz
  
- __version__  = '1.0'
+ from kdoc_parser import KernelDoc
+ from kdoc_output import OutputFormat
+@@ -137,12 +134,6 @@ class KernelFiles():
+         if out_style is None:
+             out_style = OutputFormat()
  
-+def cmd_str(cmd):
-+    """
-+    Helper function to output a command line that can be used to produce
-+    the same records via command line. Helpful to debug troubles at the
-+    script.
-+    """
-+
-+    cmd_line = ""
-+
-+    for w in cmd:
-+        if w == "" or " " in w:
-+            esc_cmd = "'" + w + "'"
-+        else:
-+            esc_cmd = w
-+
-+        if cmd_line:
-+            cmd_line += " " + esc_cmd
-+            continue
-+        else:
-+            cmd_line = esc_cmd
-+
-+    return cmd_line
-+
- class KernelDocDirective(Directive):
-     """Extract kernel-doc comments from the specified file"""
-     required_argument = 1
-@@ -57,6 +80,7 @@ class KernelDocDirective(Directive):
-     }
-     has_content = False
-     logger = logging.getLogger('kerneldoc')
-+    verbose = 0
+-        dt = datetime.now()
+-        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
+-            # use UTC TZ
+-            to_zone = tz.gettz('UTC')
+-            dt = dt.astimezone(to_zone)
+-
+         if not werror:
+             kcflags = os.environ.get("KCFLAGS", None)
+             if kcflags:
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index 8be69245c0d0..eb013075da84 100755
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -19,8 +19,6 @@ import os
+ import re
+ from datetime import datetime
  
-     def run(self):
-         env = self.state.document.settings.env
-@@ -65,6 +89,13 @@ class KernelDocDirective(Directive):
-         filename = env.config.kerneldoc_srctree + '/' + self.arguments[0]
-         export_file_patterns = []
+-from dateutil import tz
+-
+ from kdoc_parser import KernelDoc, type_param
+ from kdoc_re import Re
  
-+        verbose = os.environ.get("V")
-+        if verbose:
-+            try:
-+                self.verbose = int(verbose)
-+            except ValueError:
-+                pass
+@@ -586,6 +584,15 @@ class ManFormat(OutputFormat):
+     )
+     blankline = ""
+ 
++    date_formats = [
++        "%a %b %d %H:%M:%S %Z %Y",
++        "%a %b %d %H:%M:%S %Y",
++        "%Y-%m-%d",
++        "%b %d %Y",
++        "%B %d %Y",
++        "%m %d %Y",
++    ]
 +
-         # Tell sphinx of the dependency
-         env.note_dependency(os.path.abspath(filename))
+     def __init__(self, modulename):
+         """
+         Creates class variables.
+@@ -597,11 +604,18 @@ class ManFormat(OutputFormat):
+         super().__init__()
+         self.modulename = modulename
  
-@@ -104,6 +135,9 @@ class KernelDocDirective(Directive):
- 
-         cmd += [filename]
- 
-+        if self.verbose >= 1:
-+            print(cmd_str(cmd))
+-        dt = datetime.now()
+-        if os.environ.get("KBUILD_BUILD_TIMESTAMP", None):
+-            # use UTC TZ
+-            to_zone = tz.gettz('UTC')
+-            dt = dt.astimezone(to_zone)
++        dt = None
++        tstamp = os.environ.get("KBUILD_BUILD_TIMESTAMP")
++        if tstamp:
++            for fmt in self.date_formats:
++                try:
++                    dt = datetime.strptime(tstamp, fmt)
++                    break
++                except ValueError:
++                    pass
 +
-         try:
-             self.logger.verbose("calling kernel-doc '%s'" % (" ".join(cmd)))
++        if not dt:
++            dt = datetime.now()
+ 
+         self.man_date = dt.strftime("%B %Y")
  
 -- 
 2.49.0
