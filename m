@@ -1,72 +1,121 @@
-Received: from szxga06-in.huawei.com (szxga06-in.huawei.com [45.249.212.32])
+Received: from mail.ptr1337.dev (mail.ptr1337.dev [202.61.224.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F1221A8F7F;
-	Tue,  8 Apr 2025 03:33:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7884523AD;
+	Tue,  8 Apr 2025 04:45:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.61.224.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744083202; cv=none; b=jdM43vVYkY4JBDQNa7iGLxqM/K0fTUMlsWckrsE1mq5a8Uaf/v+tlrLiKscxjx5c8m39OPoXyjoLSidvh+AnTGAjQktDxHJz9nNEHVz8uyd2uMIad9EfyTK74symeYFVvDv+3z3YLV+AYVVOAVGVQIrPW1mcRRwJOi3X4duFRNI=
+	t=1744087534; cv=none; b=t5T9zbGbYxOKhdGSjer6ApGupmOefmJLwbNq+uSOngTKl6dpozM6p0ZENC0n42sus7gVxN5UHn28tIB6Z+NzfwJuPRxmN9sLsHO2yOmMN9TJ33I4uRx067m1OWAsSK2nIE315XAec9rnQ6FEGg1+SeMGL5yCT0x66yjFUcPG8rs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744083202; c=relaxed/simple;
-	bh=kzUE0pCrzs0/zsHKx2TxeZ5TwBd3IKFaauPSw3FbeNs=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=hcZha3Cd6QZw3VgQdxk24IwyuPzpvyOxRAt3M6pAqXOtQSL7ySCVliMc+r0xGsf9V7SXZUTNOWeJvJhtL8/hl2KK9+wlymjmx05PYC24OJ+S3WjNkqMu05bmRgy+5mh0sioviZhXtcrXK9JZWcue73c4fFluo0gAA7zBi9d/jeY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.163.44])
-	by szxga06-in.huawei.com (SkyGuard) with ESMTP id 4ZWrl41h9Zz27hgl;
-	Tue,  8 Apr 2025 11:13:52 +0800 (CST)
-Received: from dggpemf500008.china.huawei.com (unknown [7.185.36.156])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0B99014022E;
-	Tue,  8 Apr 2025 11:13:12 +0800 (CST)
-Received: from huawei.com (10.189.179.16) by dggpemf500008.china.huawei.com
- (7.185.36.156) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.11; Tue, 8 Apr
- 2025 11:13:11 +0800
-From: Xiquan Zhang <zhangxiquan@hisilicon.com>
-To: <catalin.marinas@arm.com>, <will@kernel.org>, <corbet@lwn.net>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>
-Subject: [PATCH] Documentation (arm64):Advanced SIMD and floating point support condition
-Date: Tue, 8 Apr 2025 11:13:09 +0800
-Message-ID: <20250408031309.2095-1-zhangxiquan@hisilicon.com>
-X-Mailer: git-send-email 2.45.1.windows.1
+	s=arc-20240116; t=1744087534; c=relaxed/simple;
+	bh=F2PYI+L2dgk/3pQsr9DP7jaG9Mjpx4ZaXFpuiOfJOrc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=t7z0oRVH7iBRqGmU4y0YJXtFOUrRx9Yhydp96xbLgyij8OOdthx/optvwhClQW7YELzJHPnzEzLgf8IcxyxRwJyhr6vuGWtCdL2tHnPfs9Q0sPSzOroOknoeJyIC3OIiTXB1Gl249B4JFy8u33LpDWArITcM8cqmdpNI0fNg5CU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org; spf=pass smtp.mailfrom=cachyos.org; dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b=RB/UMYRl; arc=none smtp.client-ip=202.61.224.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=cachyos.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cachyos.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=cachyos.org header.i=@cachyos.org header.b="RB/UMYRl"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E064F281552;
+	Tue,  8 Apr 2025 06:39:35 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cachyos.org; s=dkim;
+	t=1744087189;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=W6lum0tK8iDSD3O1/w0NV8phRZIGe2yefEV3A1OTASE=;
+	b=RB/UMYRl3akr6Y8arx8VoiIh7JJFg6O6efnTlECPY+Udx14ewLdibMHM4h+aPmr6TQgVFg
+	3tYc4etb248jCyDvlQc0dCcAjw7AbJXeXjuUldroGOw8W5iNu9Uy5tEzKBvge3JX4ZukoK
+	vRI0hqTtDyE9prVsl/NwsYvmKc9dDeyu81GiPPKzezA9ustLKrXTGolSkiVHnPHD/0m2zo
+	ovuXnS2VnLE4nF8yO+rGNNR/95LTY3PR9OMIlzxPzIY6SQg6z6JFi3B5p/uCWJOIYE/lAZ
+	c3LgcrefqLIKK39ez7Wg1WNTgzSDeGmUZ0YUMVyfD0vxuq7OX7vBFgojsYsPpg==
+Message-ID: <40182b31-95ad-4825-9c0c-0127be1734a6@cachyos.org>
+Date: Tue, 8 Apr 2025 12:39:25 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: dggems706-chm.china.huawei.com (10.3.19.183) To
- dggpemf500008.china.huawei.com (7.185.36.156)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v7 10/17] mm: uninline the main body of vma_start_write()
+To: Vlastimil Babka <vbabka@suse.cz>, Suren Baghdasaryan <surenb@google.com>,
+ akpm@linux-foundation.org
+Cc: peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
+ lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org,
+ mjguzik@gmail.com, oliver.sang@intel.com, mgorman@techsingularity.net,
+ david@redhat.com, peterx@redhat.com, oleg@redhat.com, dave@stgolabs.net,
+ paulmck@kernel.org, brauner@kernel.org, dhowells@redhat.com,
+ hdanton@sina.com, hughd@google.com, lokeshgidra@google.com,
+ minchan@google.com, jannh@google.com, shakeel.butt@linux.dev,
+ souravpanda@google.com, pasha.tatashin@soleen.com, klarasmodin@gmail.com,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-mm@kvack.org,
+ linux-kernel@vger.kernel.org, kernel-team@android.com
+References: <20241226170710.1159679-1-surenb@google.com>
+ <20241226170710.1159679-11-surenb@google.com>
+ <0d36fd53-b817-4bbd-ae38-af094bd301df@suse.cz>
+Content-Language: en-US
+From: Eric Naim <dnaim@cachyos.org>
+In-Reply-To: <0d36fd53-b817-4bbd-ae38-af094bd301df@suse.cz>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-From: zhangyu <zhangyu550@huawei.com>
+On 1/8/25 01:35, Vlastimil Babka wrote:
+> On 12/26/24 18:07, Suren Baghdasaryan wrote:
+>> vma_start_write() is used in many places and will grow in size very soon.
+>> It is not used in performance critical paths and uninlining it should
+>> limit the future code size growth.
+>> No functional changes.
+>>
+>> Signed-off-by: Suren Baghdasaryan <surenb@google.com>
+> 
+> Reviewed-by: Vlastimil Babka <vbabka@suse.cz>
+> 
+>> --- a/mm/memory.c
+>> +++ b/mm/memory.c
+>> @@ -6328,6 +6328,20 @@ struct vm_area_struct *lock_mm_and_find_vma(struct mm_struct *mm,
+>>  #endif
+>>  
+>>  #ifdef CONFIG_PER_VMA_LOCK
+>> +void __vma_start_write(struct vm_area_struct *vma, unsigned int mm_lock_seq)
+>> +{
+>> +	down_write(&vma->vm_lock.lock);
+>> +	/*
+>> +	 * We should use WRITE_ONCE() here because we can have concurrent reads
+>> +	 * from the early lockless pessimistic check in vma_start_read().
+>> +	 * We don't really care about the correctness of that early check, but
+>> +	 * we should use WRITE_ONCE() for cleanliness and to keep KCSAN happy.
+>> +	 */
+>> +	WRITE_ONCE(vma->vm_lock_seq, mm_lock_seq);
+>> +	up_write(&vma->vm_lock.lock);
+>> +}
+>> +EXPORT_SYMBOL_GPL(__vma_start_write);
+> 
+> Do any modules need it? If not we shouldn't export.
 
-Because the kernel code cannot be started from el1
-according to the booting.rst.
-It is found that CPTR_EL2.FPEN is not configured.
-After the configuration, the problem is solved.
+Hi Vlastimil, Suren
 
-Signed-off-by: zhangyu <zhangyu550@huawei.com>
-Signed-off-by: zhangxiquan <zhangxiquan@hisilicon.com>
----
- Documentation/arch/arm64/booting.rst | 1 +
- 1 file changed, 1 insertion(+)
+The out-of-tree NVIDIA modules seem to rely on this symbol, is it possible to use EXPORT_SYMBOL() here instead of EXPORT_SYMBOL_GPL(), below is the modpost error:
 
-diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-index dee7b6de864f..ccefc42b51bc 100644
---- a/Documentation/arch/arm64/booting.rst
-+++ b/Documentation/arch/arm64/booting.rst
-@@ -309,6 +309,7 @@ Before jumping into the kernel, the following conditions must be met:
-   - If EL2 is present and the kernel is entered at EL1:
+	MODPOST Module.symvers
+	WARNING: modpost: missing MODULE_DESCRIPTION() in nvidia.o
+	WARNING: modpost: missing MODULE_DESCRIPTION() in nvidia-uvm.o
+	WARNING: modpost: missing MODULE_DESCRIPTION() in nvidia-modeset.o
+	WARNING: modpost: missing MODULE_DESCRIPTION() in nvidia-drm.o
+	ERROR: modpost: GPL-incompatible module nvidia.ko uses GPL-only symbol '__vma_start_write'
+	ERROR: modpost: GPL-incompatible module nvidia-drm.ko uses GPL-only symbol '__vma_start_write'
+	make[4]: *** [/tmp/makepkg/linux-cachyos-rc-nc/src/linux-6.15-rc1/scripts/Makefile.modpost:147: Module.symvers] Error 1
+	make[3]: *** [/tmp/makepkg/linux-cachyos-rc-nc/src/linux-6.15-rc1/Makefile:1964: modpost] Error 2
 
-     - CPTR_EL2.TFP (bit 10) must be initialised to 0b0.
-+    - CPTR_EL2.FPEN (bit 21:20) must be initialised to 0b11.
+If it's possible I can send a patch that changes that.
 
-   For CPUs with the Scalable Vector Extension (FEAT_SVE) present:
-
---
-2.45.1.windows.1
-
+> 
+>>  /*
+>>   * Lookup and lock a VMA under RCU protection. Returned VMA is guaranteed to be
+>>   * stable and not isolated. If the VMA is not found or is being modified the
+> 
+-- 
+Regards,
+Eric
