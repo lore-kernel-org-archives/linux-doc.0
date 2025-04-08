@@ -1,71 +1,113 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5A710E0;
-	Tue,  8 Apr 2025 06:02:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4C62116F4;
+	Tue,  8 Apr 2025 06:23:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744092125; cv=none; b=mCsKxmxflpV0ALjZlVw01XUrceJOqo3YvXuEnDU8GiWRWCtPItshSMWw4fLC90T/SOqJOZN86Iw53sCN/yHdXdTUSScKc7jR2jUOTPmkRQ+GrzZ6AKYT3HXRjjSpR4dvlIFK6SVORKNBOtqILeLIxmtSoNr0xsMUK8JgpNsOaVg=
+	t=1744093402; cv=none; b=nTm2gbibdrLu6iljimwEe1tx5WYUpKeVN9ki8QnIRBI4GSXBaTnrBR3m6/U0M9gdIZOocb8VRd49yVpCZlXbxG5KJXZ0enK5pzKYEWPWhDaMeBs37BhIiUOoS4jN51xbPI8BBRnvV4hmuw8iEF+LVvEA1a0uX3OWt6KBu5kjJ9E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744092125; c=relaxed/simple;
-	bh=e1j0fgkqOXDZec9URWtIbhBA54o0opSuOGLmeemXFQs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tkou2CSuCALqOAaaY8IXd/8LIedBIKWLJL9nthP0y/JeSP9uOjcd2pQgMjokOjbS7ed3sXpyLWLluwj15UVhx16CXk/URCDMUkn2od3mDJj7P6+qOr02D8lXN0UiL5Nnu9W0QmwuKoI6r2ueWjhnuYAw28NnHEMgQI+35/rCsEA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=eaj1IaAq; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	s=arc-20240116; t=1744093402; c=relaxed/simple;
+	bh=vDlFkI7K44fG/1eX2PGlhRalUbXRAzJfsPAtS28hMhE=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=nw3vkIeB0m27K32Wz/EFHUJ9vSy13s2P5x7O5AfWW/Kf4MtBonWQOZr0IRZF/2USfVqr2IRZPbjeAO5tiyoKLa8PMwtgb1zfDCqI1kW6FEI0CUmgdw1k/pQ6y5TcN2xqZtfMzA0jLsIWldypAdygc8DIimMaUdchziI3rbsyYdc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aaTj/65c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="eaj1IaAq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=EDvhmqcm28EGKlWvqvv6BIg+rBPoOk4uGE1wigR7x3o=; b=eaj1IaAqJLIbwH05lY07iozfAP
-	FvaFhZ8ycdvdRmono/f4bzqeelSUDKtVyi6N76cV4Agkxr95sZdYny5LOdja8Aq1oSTcAdLs+axej
-	w4MABierkL6xejGfPy+ohktMFwQBE52hcO4vFZwpmq54PJ1vgRJK1CB4GR4ngrBlTFRc+9yNCfbWO
-	ZiVBwVsAfXeQjL6bCG3SeO8E27oeD7YW+SbLhpq1+Z7k3C25WQOYytd7rrY4ag8z5//HEFVsC76hV
-	K7oezNLUkf5XqD8Gy54XMP2HcELF5NYwuFI6sXJXSpYPEa8oKvTA8LxLOSiXgRMY0rHMvrNAtGh6Q
-	6rBy0CQQ==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u221q-00000002qK6-2cV0;
-	Tue, 08 Apr 2025 06:01:46 +0000
-Date: Mon, 7 Apr 2025 23:01:46 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: Eric Naim <dnaim@cachyos.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	Suren Baghdasaryan <surenb@google.com>, akpm@linux-foundation.org,
-	peterz@infradead.org, willy@infradead.org, liam.howlett@oracle.com,
-	lorenzo.stoakes@oracle.com, mhocko@suse.com, hannes@cmpxchg.org,
-	mjguzik@gmail.com, oliver.sang@intel.com,
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com,
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org,
-	brauner@kernel.org, dhowells@redhat.com, hdanton@sina.com,
-	hughd@google.com, lokeshgidra@google.com, minchan@google.com,
-	jannh@google.com, shakeel.butt@linux.dev, souravpanda@google.com,
-	pasha.tatashin@soleen.com, klarasmodin@gmail.com, corbet@lwn.net,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org, kernel-team@android.com
-Subject: Re: [PATCH v7 10/17] mm: uninline the main body of vma_start_write()
-Message-ID: <Z_S7yjRXWIXnVXsf@infradead.org>
-References: <20241226170710.1159679-1-surenb@google.com>
- <20241226170710.1159679-11-surenb@google.com>
- <0d36fd53-b817-4bbd-ae38-af094bd301df@suse.cz>
- <40182b31-95ad-4825-9c0c-0127be1734a6@cachyos.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aaTj/65c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 5CEE0C4CEE9;
+	Tue,  8 Apr 2025 06:23:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744093402;
+	bh=vDlFkI7K44fG/1eX2PGlhRalUbXRAzJfsPAtS28hMhE=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=aaTj/65cKDusEpdjo46yvcT+JBtLHGM4U30oO5yXxUGKqMPzBBpN6N8H60NYepB7t
+	 kndKlyUUSH0Zjgnb+EAI79tXth0zIJ80Zm5+Li2NYPeNLWlsCSspcjIE51/uK+3kPa
+	 a+DW6WRFLWsCbMFqGeCVU8GHaoVkqX/4yxniucmEb/isl1jDcW8w8RBY1tZ0Vi03jb
+	 QnZDgPK2bbgCMHfcZN7aKvkxc2qXGm0pXacNWPTlrSSCunlolsV3gk5eBlrzqfZAEE
+	 7EymTebsmnitxhpsCPU+mTZqedaQbxuCVsG8Py3FFAfHgHQHCo7L9CrpBG/ggurJ72
+	 0dWSMfwl6aMlA==
+Date: Tue, 8 Apr 2025 14:22:56 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Sean Anderson <sean.anderson@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] scripts: kernel-doc: fix parsing function-like typedefs
+ (again)
+Message-ID: <20250408142256.4b36b7e9@sal.lan>
+In-Reply-To: <87h62z8utr.fsf@trenco.lwn.net>
+References: <20250407222134.2280553-1-sean.anderson@linux.dev>
+	<87h62z8utr.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <40182b31-95ad-4825-9c0c-0127be1734a6@cachyos.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 08, 2025 at 12:39:25PM +0800, Eric Naim wrote:
-> The out-of-tree NVIDIA modules seem to rely on this symbol, is it possible to use EXPORT_SYMBOL() here instead of EXPORT_SYMBOL_GPL(), below is the modpost error:
+Em Mon, 07 Apr 2025 16:34:24 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-No.  They don't have any business using this.
+> Sean Anderson <sean.anderson@linux.dev> writes:
+> 
+> > Typedefs like
+> >
+> >     typedef struct phylink_pcs *(*pcs_xlate_t)(const u64 *args);
+> >
+> > have a typedef_type that ends with a * and therefore has no word
+> > boundary. Add an extra clause for the final group of the typedef_type so
+> > we only require a word boundary if we match a word.
+> >
+> > Fixes: 7d2c6b1edf79 ("scripts: kernel-doc: fix parsing function-like typedefs")
+> > Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+> > ---
+> >
+> >  scripts/kernel-doc | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> > index af6cf408b96d..5db23cbf4eb2 100755
+> > --- a/scripts/kernel-doc
+> > +++ b/scripts/kernel-doc
+> > @@ -1325,7 +1325,7 @@ sub dump_enum($$) {
+> >      }
+> >  }
+> >  
+> > -my $typedef_type = qr { ((?:\s+[\w\*]+\b){1,8})\s* }x;
+> > +my $typedef_type = qr { ((?:\s+[\w\*]+\b){0,7}\s+(?:\w+\b|\*+))\s* }x;
+> >  my $typedef_ident = qr { \*?\s*(\w\S+)\s* }x;
+> >  my $typedef_args = qr { \s*\((.*)\); }x;  
+> 
+> This seems like a worth fix but ... we're kind of hoping to replace that
+> script entirely in 6.16.
 
-In fact vma_start_write should not be exported at all, just the
-vm_flags_{set,clear,mod} helpers.
+Hi Jon,
+
+The same regex was preserved at:	
+
+scripts/lib/kdoc/kdoc_parser.py:        typedef_type = r'((?:\s+[\w\*]+\b){1,8})\s*'
+
+It sounds to me that all we need to to is to rebase this change from
+kernel-doc to kdoc_parser.py.
+
+> 
+> Mauro, do you have a series for me along those lines?  It seems like
+> time to put that in if we're going to do it.  Then maybe this fix could
+> be adapted on top?
+
+I'll rebase my latest series on the top of upstream and send you.
+
+If you prefer, I can rebase this patch on the top of it, preserving
+its original authorship and adding something like:
+
+	[mchehab: modified to apply on the top of kdoc_parser.py]
+
+and submit altogether.
+
+Another alternative would be for you to merge first my series, and then
+Sean would send you a version of it on the top of the new kernel-doc.py.
+
+Regards,
+Mauro
