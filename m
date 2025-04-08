@@ -1,179 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail-4322.protonmail.ch (mail-4322.protonmail.ch [185.70.43.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358C921517D;
-	Tue,  8 Apr 2025 20:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 364C8254856
+	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 20:46:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.70.43.22
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744144282; cv=none; b=Zwvc14VVAjWfE/bcWew44+EEpbd4432TMtk+NFbS4/X1yrC1xgpz3qT1bRAcUygUJmfE8NFsDo4mMlqvfrA21oagLBCV9+vUhpO6rwDf9nICjwYAPszW5TJtSUzJGFiW/s8eWBTPQYeUnGFDA87IZCToINeGlDbSI3xkOeR5DM8=
+	t=1744145180; cv=none; b=gIrleEd01ohQO0ZM5w94YpBXd2buL6fSduzTWtYNor6ay5CK9FN1lb80NQD4EGZP1587WRqlhWkhUrCZvirnIimkRrwJ8Of1NXbRiwkxy7vhpd77CKidO/Vj8r96fbNc3NuNJHD5iXcNSkljK490uTCNA8M3BoU78R93uHhM+rE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744144282; c=relaxed/simple;
-	bh=DMjZ1/RAZgEsuBn5HCdCnHNlTOYxIgcnTcp3ByTgwos=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CGyTsR61RqbIyVegoeFIY/nHMCCKA8WYCfyBPZtqk4IJfKgxFgr8RWPe5qgiICcTUWPo395+ROmOlfJ63RXGRQBpxWOIeeJ1Bw6Y3g4mAcvZZt6hU55W1E4OSLtcE3cwqeUa6jFf1JM3eDXKHyIo3ex4/YZY6Z3d2XmPMO9Jkok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NARKNKLj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744145180; c=relaxed/simple;
+	bh=93eT2rpamlxVc6aFa/l0LJNv4i5WbwKqNk2fS+xc8CA=;
+	h=Date:To:From:Cc:Subject:Message-ID:MIME-Version:Content-Type; b=Lv0eFENEyAfb5luUDW3TSue3sLgrvQu7DIkMRFkae+rty9Mg+IMk1yASBHLBl2brRi/srC0j5C0jB8XZyPqfGrw9XBtgaw41kjSZ+av7YPzLgs0tHBFaZe5P5QgBFrzhnOWtKdKuB3El+HWU40TIgjrYuRC1PehNPrPKLFTUrRU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me; spf=pass smtp.mailfrom=proton.me; dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b=I9cDpkoL; arc=none smtp.client-ip=185.70.43.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=proton.me
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=proton.me
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NARKNKLj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id F1E14C4CEE5;
-	Tue,  8 Apr 2025 20:31:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744144281;
-	bh=DMjZ1/RAZgEsuBn5HCdCnHNlTOYxIgcnTcp3ByTgwos=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=NARKNKLjS4L3Drr8clmsRxD7yfH2dqRL2fHdj5qiVNMEvUBhvoGY0QM7dnFK0JjlR
-	 Dq5pVs7/d2Uck1UyGdfYQ/MDRx8QEM7naCVDkf4WWJxX0ZQQfdJwbmD4/ys58b0B0Y
-	 Pm58XV2T06p0YsenRmzpg0lvPQODOWMqbUaaE3F/bwMuBKP2J7Kt2qgSlQTQU7Orl4
-	 /rFiSGVKgqpLzwePYcoWzkWo/3LioKv/t7ewxzw09tL1xhXs9Cwm23xohetRlVxr6y
-	 sZgcjUjFdwRfhZREks/BAGwug8fBeFuWxARlwTNfHVPbH2/RGfyX4/Pf8mgwFxIZK+
-	 nmkL14WG+ADKQ==
-Date: Tue, 8 Apr 2025 22:31:15 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>, Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Mario Limonciello <mario.limonciello@amd.com>
-Subject: Re: [PATCH v2 2/2] x86/CPU/AMD: Print the reason for the last reset
-Message-ID: <Z_WHk4jP0inUSt7T@gmail.com>
-References: <20250408174726.3999817-1-superm1@kernel.org>
- <20250408174726.3999817-2-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=proton.me header.i=@proton.me header.b="I9cDpkoL"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=proton.me;
+	s=protonmail; t=1744145170; x=1744404370;
+	bh=YYLiZ0LCn/fJYeBcV4Bc2RbLDA4OTOnCGSvl/4wo+9M=;
+	h=Date:To:From:Cc:Subject:Message-ID:Feedback-ID:From:To:Cc:Date:
+	 Subject:Reply-To:Feedback-ID:Message-ID:BIMI-Selector:
+	 List-Unsubscribe:List-Unsubscribe-Post;
+	b=I9cDpkoLAszJNlLR0vodgu/FnX+lm+1HD0KgITHUevObv1p1/UIDHDe2L7YsEAAtR
+	 XKSmcGkUI5btNWBZn1LdAWzdzsay3ERVFSIXsxWxomonds/9+QdXKuEBXoZ+dNiXcN
+	 EqyNxNz9gGR/lKx1I+EXeSh3sjCTb1mEIDP5G5E7bi77wkhdhxMR83RCeqJJw8jet4
+	 WzBtAkzjcDWjwC88UlWWierMgKyEsal/jMKcVGJzLqkR/ktaxrM8p9rzkWLTLf/mlf
+	 IG5rQL+MxGvRU+6ZuXC4nrQnVpNO+kULIbi1itf/fz9xUKi53m5/VPVQCBATDDWtpw
+	 5rcSfz3X9qrSg==
+Date: Tue, 08 Apr 2025 20:46:05 +0000
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+From: dmkhn@proton.me
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Subject: Re: [PATCH v1 1/1] x86/early_printk: Use 'mmio32' for consistency
+Message-ID: <Z/WLCdZlg4sebQ6i@kraken>
+Feedback-ID: 123220910:user:proton
+X-Pm-Message-ID: 43a1fb498a3fc80da4fbec0bfdaa7fba09367345
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408174726.3999817-2-superm1@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 07, 2025 at 08:22:14PM +0300, Andy Shevchenko wrote:
+> First of all, using 'mmio' prevents proper implementation of 8-bit access=
+ors.
+> Second, it's simply inconsistent with uart8250 set of options. Rename it =
+to
+> 'mmio32'. While at it, remove rather misleading comment in the documentat=
+ion.
+> >From now on mmio32 is self-explanatory and pciserial supports not only 3=
+2-bit
+> MMIO accessors.
+>=20
+> Fixes: 3181424aeac2 ("x86/early_printk: Add support for MMIO-based UARTs"=
+)
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-* Mario Limonciello <superm1@kernel.org> wrote:
+Reviewed-by: Denis Mukhin <dmukhin@ford.com>
 
-> +static inline char *get_s5_reset_reason(u32 value)
-> +{
-> +	if (value & BIT(0))
-> +		return "trip of thermal pin BP_THERMTRIP_L";
-> +	if (value & BIT(1))
-> +		return "power button";
-> +	if (value & BIT(2))
-> +		return "shutdown pin";
-> +	if (value & BIT(4))
-> +		return "remote ASF power off command";
-> +	if (value & BIT(9))
-> +		return "internal CPU thermal trip";
-> +	if (value & BIT(16))
-> +		return "user reset via BP_SYS_RST_L pin";
-> +	if (value & BIT(17))
-> +		return "PCI reset";
-> +	if (value & BIT(18) ||
-> +	    value & BIT(19) ||
-> +	    value & BIT(20))
-> +		return "CF9 reset";
-> +	if (value & BIT(21))
-> +		return "power state of acpi state transition";
-> +	if (value & BIT(22))
-> +		return "keyboard reset pin KB_RST_L";
-> +	if (value & BIT(23))
-> +		return "internal CPU shutdown";
-> +	if (value & BIT(24))
-> +		return "failed boot timer";
-> +	if (value & BIT(25))
-> +		return "watchdog timer";
-> +	if (value & BIT(26))
-> +		return "remote ASF reset command";
-> +	if (value & BIT(27))
-> +		return "data fabric sync flood event due to uncorrected error";
-> +	if (value & BIT(29))
-> +		return "MP1 watchdog timer timeout";
-> +	if (value & BIT(30))
-> +		return "parity error";
-> +	if (value & BIT(31))
-> +		return "software sync flood event";
-> +	return "unknown reason";
+> ---
+>  Documentation/admin-guide/kernel-parameters.txt | 5 +----
+>  arch/x86/kernel/early_printk.c                  | 6 +++---
+>  2 files changed, 4 insertions(+), 7 deletions(-)
+>=20
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+> index 76e538c77e31..d9fd26b95b34 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1407,18 +1407,15 @@
+>  =09=09=09earlyprintk=3Dserial[,0x...[,baudrate]]
+>  =09=09=09earlyprintk=3DttySn[,baudrate]
+>  =09=09=09earlyprintk=3Ddbgp[debugController#]
+> +=09=09=09earlyprintk=3Dmmio32,membase[,{nocfg|baudrate}]
+>  =09=09=09earlyprintk=3Dpciserial[,force],bus:device.function[,{nocfg|bau=
+drate}]
+>  =09=09=09earlyprintk=3Dxdbc[xhciController#]
+>  =09=09=09earlyprintk=3Dbios
+> -=09=09=09earlyprintk=3Dmmio,membase[,{nocfg|baudrate}]
+> =20
+>  =09=09=09earlyprintk is useful when the kernel crashes before
+>  =09=09=09the normal console is initialized. It is not enabled by
+>  =09=09=09default because it has some cosmetic problems.
+> =20
+> -=09=09=09Only 32-bit memory addresses are supported for "mmio"
+> -=09=09=09and "pciserial" devices.
+> -
+>  =09=09=09Use "nocfg" to skip UART configuration, assume
+>  =09=09=09BIOS/firmware has configured UART correctly.
+> =20
+> diff --git a/arch/x86/kernel/early_printk.c b/arch/x86/kernel/early_print=
+k.c
+> index b70e6e99fb17..dc053641698c 100644
+> --- a/arch/x86/kernel/early_printk.c
+> +++ b/arch/x86/kernel/early_printk.c
+> @@ -424,10 +424,10 @@ static int __init setup_early_printk(char *buf)
+>  =09keep =3D (strstr(buf, "keep") !=3D NULL);
+> =20
+>  =09while (*buf !=3D '\0') {
+> -=09=09if (!strncmp(buf, "mmio", 4)) {
+> -=09=09=09early_mmio_serial_init(buf + 4);
+> +=09=09if (!strncmp(buf, "mmio32", 6)) {
+> +=09=09=09buf +=3D 6;
+> +=09=09=09early_mmio_serial_init(buf);
+>  =09=09=09early_console_register(&early_serial_console, keep);
+> -=09=09=09buf +=3D 4;
+>  =09=09}
+>  =09=09if (!strncmp(buf, "serial", 6)) {
+>  =09=09=09buf +=3D 6;
+> --=20
+> 2.47.2
+>=20
 
-Can multiple bits be set in principle, belonging to different reasons?
-
-Also, wouldn't a clean, readable text array and find_first_bit() result 
-in more readable and more maintainable code?
-
-Which can be initialized thusly:
-
-  static const char *s6_reset_reason_txt[] = {
-
-	[0] = "trip of thermal pin BP_THERMTRIP_L",
-	[1] = "power button",
-	[2] = "shutdown pin",
-	[4] = "remote ASF power off command",
-	[9] = "internal CPU thermal trip",
-	...
-
-  };
-
-Also the text should probably be expanded into standard noun+verb 
-sentences or so, to make it all less ambiguous:
-
-  static const char *s6_reset_reason_txt[] = {
-
-	[0] = "thermal pin BP_THERMTRIP_L was tripped",
-	[1] = "power button was pressed",
-	[2] = "shutdown pin was shorted",
-	[4] = "remote ASF power off command was received",
-	[9] = "internal CPU thermal limit was tripped",
-	...
-  };
-
-etc. Note the deliberate use of past tense, to make it clear this 
-refers to a previous event, while usually syslog events indicate 
-current events.
-
-> +	/*
-> +	 * FCH::PM::S5_RESET_STATUS
-> +	 * PM Base = 0xFED80300
-> +	 * S5_RESET_STATUS offset = 0xC0
-> +	 */
-> +	addr = ioremap(0xFED803C0, sizeof(value));
-
-0xFED803C0 is a magic number, please define a symbol for it.
-
-> +	if (!addr)
-> +		return 0;
-> +	value = ioread32(addr);
-> +	iounmap(addr);
-> +
-> +	pr_info("System was reset due to %s (0x%08x)\n",
-> +		get_s5_reset_reason(value), value);
-
-Please make the source of this printout a bit more specific, something 
-like:
-
-      x86/amd/Fam17h: Previous system reset reason [%0x08x]: %s
-
-or so? Also note how grepped output will be easier to read due to 
-flipping the fixed-width numeric and the variable-length text output:
-
- # Before:
-
-        x86/amd/Fam17h: Previous system reset reason: thermal pin BP_THERMTRIP_L was tripped (0x00000001)
-        x86/amd/Fam17h: Previous system reset reason: power button was pressed (0x00000002)
-        x86/amd/Fam17h: Previous system reset reason: shutdown pin was shorted (0x00000004)
-        x86/amd/Fam17h: Previous system reset reason: remote ASF power off command was received (0x00000010)
-        x86/amd/Fam17h: Previous system reset reason: internal CPU thermal limit was tripped (0x00000200)
-
- # After:
-
-        x86/amd/Fam17h: Previous system reset reason: [0x00000001]: thermal pin BP_THERMTRIP_L was tripped
-        x86/amd/Fam17h: Previous system reset reason: [0x00000002]: power button was pressed
-        x86/amd/Fam17h: Previous system reset reason: [0x00000004]: shutdown pin was shorted
-        x86/amd/Fam17h: Previous system reset reason: [0x00000010]: remote ASF power off command was received
-        x86/amd/Fam17h: Previous system reset reason: [0x00000200]: internal CPU thermal limit was tripped
-
-Thanks,
-
-	Ingo
