@@ -1,43 +1,43 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12129265CDC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1220026656B;
 	Tue,  8 Apr 2025 10:09:55 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744106996; cv=none; b=XXZ/3gE25KN1/zn3rfKAG7cbjYo+suR6JDepf4Hqyxe8+ugMzivkMCek+fM/EmEzB4FHe6Y/dFQK6D1HOsvFufzY0ZHzUHfJsvSOG597ucXZUrtGQiCKtNSRCqMDHDcnAEy/wAe5CQXSNxnVXdOAezAXmr5JjsTMknwPptRhlMk=
+	t=1744106996; cv=none; b=XQ8wa1M+RqnQroM1l0gHLHVbEQBrVQ1WA6+W7f1YS1juzLGREhAduVuLQcDsRG3q6XDN06pkeRE6BFGSYiQPPXdEJk2Gij1Nw1ZjueXyc5vVn3WJU2pOHrC/t20pIvdlMrDSGx4qcb54mSIVwRA9xD+EqaxSN6iqxEmGnQJzy9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744106996; c=relaxed/simple;
-	bh=Uh81BCZUvcOm9n0xK8VTsj936JVZ+CIeEHT1iPNOQVA=;
+	bh=sXOUNajyjwmKqQnv7hchPEAJzSeCddrnAGb/R4Jp03A=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=XXUZB6j7ieKWOtG8Aal66EvNgaKvyDIkkQtqsSbiwjNPIQvxQgXOdjtGvza9y2IkdquDlMnugCIB2m3M41QzBvWe6VT+p9lqbfv3vT3IvrYQqJSz1nlbPISjYq2u32GD9OQ/Uf3mFIwMEbhZ8MKeftHuKZtcy1akdItLTiESnXE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNzL2Oun; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=Q/wvKQljIjIeQQdnF4maTmzYVjRXfVVuzw078Ako8BXZT5of/+p0g4VxTuQ5h9rNHo45ap43/OqNxy72xZRosof96DsVP1M5jxqmUpe1WMV+h0LRhEoOKXA8HNgDof+U4uxcLqJXFsE8eoTfkk+Z0QlHR9xF5PlGIyzfuPH+PXU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q4KMl5bj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNzL2Oun"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9B5E0C4CEEA;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q4KMl5bj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2F30C4CEEE;
 	Tue,  8 Apr 2025 10:09:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1744106995;
-	bh=Uh81BCZUvcOm9n0xK8VTsj936JVZ+CIeEHT1iPNOQVA=;
+	bh=sXOUNajyjwmKqQnv7hchPEAJzSeCddrnAGb/R4Jp03A=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=RNzL2Ounydg9MrIFLUQN/vTk+EgaZ3DZEDYf5d1zi4daJxZYFPQZmvQiz45UPI/jR
-	 5g/gysGbFGTlqKph9p8KFxyF+SNYyYJBJm+4G8m+GE6cz+ScM+fWd6q4ISwbBM2Md1
-	 tR/IhmunVX4Qp1AIuBDl0jM5M3PByUg/YSxsefzeGw250c/+bC5u3O6fMI3HN4aZ2i
-	 OONiuk0TewAxruxpCV3CRVbF3R7NrKKSuwzsNhbhvV5BXPUvN8za15qPj57ha4NRGM
-	 QfCOHiS8dyLsJCN8p1t9HAspGRhqI1olrsy+NZO1/o8gBtHxWf9kaTypqQl4Ow42ux
-	 +wXGR5VrGyOog==
+	b=q4KMl5bjRaaKJn/p13ksfffYbLrbb6+ox85Ny7/4DS+TDQliar6MgtnbVpHqJ7rQx
+	 O3PFEVy35I6VSWegv+E6jqJMEN/mw3WcmhlZdYZcf/MdWzS1l8uDxC56rPAY23JgsT
+	 2jys5zF90nrMT4rjqFmhVcd8tYl09weWdetlZPPylEPKxdGHGPw3YR2UAB3ZM6hCRY
+	 CVNTH1m/LG90XJA3YilT+38Kye5v5a2HrAWg+KWilqfjB9DsDf3asjmO8C8Nwqgeyy
+	 xFocvIs15VukbSGmur8QR50pSAS9XOcGRrPIbKm8g0uVRUO9ALeqjWtodEgeEJxppe
+	 MfB7gnigEGoZw==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1u25tt-00000008RVR-05cN;
+	id 1u25tt-00000008RVs-15KS;
 	Tue, 08 Apr 2025 18:09:49 +0800
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>
 Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH v3 04/33] scripts/kernel-doc.py: output warnings the same way as kerneldoc
-Date: Tue,  8 Apr 2025 18:09:07 +0800
-Message-ID: <559f0ad9e6fecfcbb3cc38b6097463bd38d58629.1744106241.git.mchehab+huawei@kernel.org>
+Subject: [PATCH v3 13/33] scripts/kernel-doc.py: implement support for -no-doc-sections
+Date: Tue,  8 Apr 2025 18:09:16 +0800
+Message-ID: <06b18a32142b44d5ba8b41ac64a76c02b03b4969.1744106242.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1744106241.git.mchehab+huawei@kernel.org>
 References: <cover.1744106241.git.mchehab+huawei@kernel.org>
@@ -50,62 +50,110 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Add a formatter to logging to produce outputs in a similar way
-to kernel-doc. This should help making it more compatible with
-existing scripts.
+The venerable kernel-doc Perl script has a number of options that
+aren't properly documented. Among them, there is -no-doc-sections,
+which is used by the Sphinx extension.
+
+Implement support for it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- scripts/kernel-doc.py | 20 ++++++++++++++++----
- 1 file changed, 16 insertions(+), 4 deletions(-)
+ scripts/kernel-doc.py           | 8 ++++++--
+ scripts/lib/kdoc/kdoc_files.py  | 5 +++--
+ scripts/lib/kdoc/kdoc_output.py | 7 ++++++-
+ 3 files changed, 15 insertions(+), 5 deletions(-)
 
 diff --git a/scripts/kernel-doc.py b/scripts/kernel-doc.py
-index 114f3699bf7c..8625209d6293 100755
+index e258a9df7f78..90aacd17499a 100755
 --- a/scripts/kernel-doc.py
 +++ b/scripts/kernel-doc.py
-@@ -2715,6 +2715,11 @@ neither here nor at the original Perl script.
- """
+@@ -239,10 +239,13 @@ def main():
+     sel_mut.add_argument("-s", "-function", "--symbol", action='append',
+                          help=FUNCTION_DESC)
  
+-    # This one is valid for all 3 types of filter
++    # Those are valid for all 3 types of filter
+     parser.add_argument("-n", "-nosymbol", "--nosymbol", action='append',
+                          help=NOSYMBOL_DESC)
  
-+class MsgFormatter(logging.Formatter):
-+    def format(self, record):
-+        record.levelname = record.levelname.capitalize()
-+        return logging.Formatter.format(self, record)
++    parser.add_argument("-D", "-no-doc-sections", "--no-doc-sections",
++                        action='store_true', help="Don't outputt DOC sections")
 +
- def main():
-     """Main program"""
+     parser.add_argument("files", metavar="FILE",
+                         nargs="+", help=FILES_DESC)
  
-@@ -2799,10 +2804,19 @@ def main():
-         args.wshort_desc = True
-         args.wcontents_before_sections = True
+@@ -284,7 +287,8 @@ def main():
  
-+    logger = logging.getLogger()
-+
-     if not args.debug:
--        level = logging.INFO
-+        logger.setLevel(logging.INFO)
-     else:
--        level = logging.DEBUG
-+        logger.setLevel(logging.DEBUG)
-+
-+    formatter = MsgFormatter('%(levelname)s: %(message)s')
-+
-+    handler = logging.StreamHandler()
-+    handler.setFormatter(formatter)
-+
-+    logger.addHandler(handler)
+     for t in kfiles.msg(enable_lineno=args.enable_lineno, export=args.export,
+                           internal=args.internal, symbol=args.symbol,
+-                          nosymbol=args.nosymbol):
++                          nosymbol=args.nosymbol,
++                          no_doc_sections=args.no_doc_sections):
+         msg = t[1]
+         if msg:
+             print(msg)
+diff --git a/scripts/lib/kdoc/kdoc_files.py b/scripts/lib/kdoc/kdoc_files.py
+index 47dab46c89fe..4c04546a74fe 100755
+--- a/scripts/lib/kdoc/kdoc_files.py
++++ b/scripts/lib/kdoc/kdoc_files.py
+@@ -238,7 +238,7 @@ class KernelFiles():
+         return self.out_style.msg(fname, name, arg)
  
-     if args.man:
-         out_style = ManFormat()
-@@ -2811,8 +2825,6 @@ def main():
-     else:
-         out_style = RestFormat()
+     def msg(self, enable_lineno=False, export=False, internal=False,
+-            symbol=None, nosymbol=None):
++            symbol=None, nosymbol=None, no_doc_sections=False):
+         """
+         Interacts over the kernel-doc results and output messages,
+         returning kernel-doc markups on each interaction
+@@ -257,7 +257,8 @@ class KernelFiles():
+         self.out_style.set_config(self.config)
  
--    logging.basicConfig(level=level, format="%(levelname)s: %(message)s")
--
-     kfiles = KernelFiles(files=args.files, verbose=args.verbose,
-                          out_style=out_style, werror=args.werror,
-                          wreturn=args.wreturn, wshort_desc=args.wshort_desc,
+         self.out_style.set_filter(export, internal, symbol, nosymbol,
+-                                  function_table, enable_lineno)
++                                  function_table, enable_lineno,
++                                  no_doc_sections)
+ 
+         for fname, arg_tuple in self.results:
+             msg = ""
+diff --git a/scripts/lib/kdoc/kdoc_output.py b/scripts/lib/kdoc/kdoc_output.py
+index fda07049ecf7..a246d213523c 100755
+--- a/scripts/lib/kdoc/kdoc_output.py
++++ b/scripts/lib/kdoc/kdoc_output.py
+@@ -70,6 +70,7 @@ class OutputFormat:
+         self.symbol = None
+         self.function_table = set()
+         self.config = None
++        self.no_doc_sections = False
+ 
+         self.data = ""
+ 
+@@ -77,7 +78,7 @@ class OutputFormat:
+         self.config = config
+ 
+     def set_filter(self, export, internal, symbol, nosymbol, function_table,
+-                   enable_lineno):
++                   enable_lineno, no_doc_sections):
+         """
+         Initialize filter variables according with the requested mode.
+ 
+@@ -87,6 +88,7 @@ class OutputFormat:
+         """
+ 
+         self.enable_lineno = enable_lineno
++        self.no_doc_sections = no_doc_sections
+ 
+         if symbol:
+             self.out_mode = self.OUTPUT_INCLUDE
+@@ -117,6 +119,9 @@ class OutputFormat:
+     def check_doc(self, name):
+         """Check if DOC should be output"""
+ 
++        if self.no_doc_sections:
++            return False
++
+         if self.out_mode == self.OUTPUT_ALL:
+             return True
+ 
 -- 
 2.49.0
 
