@@ -1,162 +1,134 @@
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from fhigh-a5-smtp.messagingengine.com (fhigh-a5-smtp.messagingengine.com [103.168.172.156])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2DF022E3E7
-	for <linux-doc@vger.kernel.org>; Tue,  8 Apr 2025 17:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425D3234979;
+	Tue,  8 Apr 2025 17:16:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.156
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744132212; cv=none; b=fxZB9Fy/78Es4zdbmPx4Z8PburukUUZ1u5r4ujJpV9CUuxsAOFgsQohSsgftZ6RoCUCx4UZvHTgKCuo7w54U3UAl9wt9yqf8XgP+TOhBUGX8xH8HXIdT6QqyXBqTAZ69hezxZxEV5P0VrgR7TD59VAP8FZyxaU1UN2AykY3S+90=
+	t=1744132593; cv=none; b=MjYBv+ugPVFMWcr257dOl8baMPpdxBZ9M1P0D2a/Podb2X9GoF480u3V0GUoEjc83dK4cYKOvVQXeFflHkA802TJsZjy4f3vIhNQrs2mUngVFfONJNlAFMdQMKdaU9HFYhMW7ucNtVefeaI0txuKCJIgK5Yim3MJow8iEhlcsE8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744132212; c=relaxed/simple;
-	bh=LWa4XDwwo4d59kqNl51cl1TvnMbRR7e2mo28ME9GXAY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OBkTzWnt8/RWl5Pwt8NOsH9xMWfZm7MTP3ScL2SgRnoQ6YHdA5nbhWghp86Py8Cv3ztpc3A25wdfB+x0N7mOYYmSZ2v0RGJ2Caxd1NWv4izMHLQ8yoEpGcq+KztcFQLgmx5kWJVZqk0eJezHooWxL2YNDhjsSgGPgkPvekA2FEQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=0O2lMojh; arc=none smtp.client-ip=209.85.160.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1744132593; c=relaxed/simple;
+	bh=5sVm7Ccq5DFzle8yTbs1g/hLQHzfJVombqZ3QUUwX+Y=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=pCcwJa2akv2wmtCd0ACoCc6CdVNsrBmOzFEhNpSnyLU2MA13DNaNPy/Xz7mDJCuHdJksHRYu8Pcr/MNmcw1BmAoyTPK5vqXFKcVIuG4R0IZ/gOdakYspLA3LgLom1aNC8xE3NuwOXc4YCf/Xm4Bn8L1IzUbSDhyG/C3JZBnB+Tw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=kAKER9WG; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kxASuWul; arc=none smtp.client-ip=103.168.172.156
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="0O2lMojh"
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-4769e30af66so5491cf.1
-        for <linux-doc@vger.kernel.org>; Tue, 08 Apr 2025 10:10:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744132209; x=1744737009; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=vEavw7wISTyL0l6A7aF6Yonm10PQMT8+Weu7nHplJ2g=;
-        b=0O2lMojhWmtFH6JSMiHngm4GJE7eKl79IfIP4/3XzCYzqZmSOcZwDpxEb3hxEq6shP
-         MhwfXyGUbMKCJvlsdY6B06f5z/vl72IDqEhtA9Dm2G5S3cQ2ysHFDE834ChsrG+93NBz
-         WZxdvR8rxLvMQlwL0jcqcc2LTAXugpWRXqFmsnItot4Si4MQ/k6J1YjJe83XufZFDf/g
-         /UuUZrrbjTF4u70ME4tIOd54ZaksMUIDRNNKd22JaSRnXggbhWYKjrPFmIySCUA0kT5b
-         0C9QsvcHdvV6MlbFRYx3SfSqKKpT1zs/txDcd5cpHyPwQJooMkv3NQy8UEfdFLCniQnD
-         54mQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744132209; x=1744737009;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=vEavw7wISTyL0l6A7aF6Yonm10PQMT8+Weu7nHplJ2g=;
-        b=nEmlOYKcPjDOv6hvUUkD0+37MHP99bc0FsZcg7fbIzPwhEdDb+EGcdNsLm/X6TpFeJ
-         9ihOI3yyupL0MRGpUl4JxteKQ8BcELATPfmNC911r48NmbpFkFPj4m5KsLWjIVnSY0wm
-         MR9vub/uzE/vGPE4ztDxKT0ovjHDa1ZYWLxXWFyA0u+lhfNKscFMK7RyFhcZ+FMmPd46
-         j5Au8UcqrqVy4hmTC6mZCsuyQ9vdodX0MjISPhwoQebDR++p8ETzowimBjtbJuJnlv7a
-         +jygLlhiZo1Spj1jW8sGkluErTPxPltXxK61F4pC3I7JRLUi/iJKkNcEi8pq/DxJmXiv
-         TB3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVWVI/p8OdypLUbMOI4RJJojBibzz/cVQaqRA6GdMV3oG7hkBE/dGvYD52L6TXZSt1FUC7UwfWqmiA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzCbwXMDAbtETOR5L56g6PgijUiBCMQ82HYJZkuXlBp8VdXDdFb
-	4uqDVeP5Hk4+0F+bruQQpoV1TPoHNTrIXpOvwPXFTssqLY6ZgdW+wOuueXOmgQCaYfPgA8zFB2M
-	Xa4hNuytFuDg1YkibWOhx4z4KyyQubk23fYX9
-X-Gm-Gg: ASbGncshdZbI0ilAXZP0EO8S80ZZX4j0yG+Zf3S2FFX9YG+xkr7xx5dArrHlsKMlbbz
-	xMVO5m1O1cLwiXqYWl6ROgHtLs3uBC1hOogPPodJD25vKQoOZTqnu37Mmc+P+7v4rhjg3Loah/t
-	bQPszynTqoqbNcK1AgvfGqQ+KKO0Sog2W91ehDQaKKKZV0UClyvY1YJkm/
-X-Google-Smtp-Source: AGHT+IHiqT9WgiUwFoTHaax+N0RSK22VUlJB1BbpqXUuiRr9K/yDngoZwS5ZytcFEj3snPUrxhytOq9VQRJq2krmies=
-X-Received: by 2002:a05:622a:11d4:b0:477:852d:ead6 with SMTP id
- d75a77b69052e-4795e9fb0a7mr811cf.0.1744132209130; Tue, 08 Apr 2025 10:10:09
- -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="kAKER9WG";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kxASuWul"
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 301A611400B6;
+	Tue,  8 Apr 2025 13:16:28 -0400 (EDT)
+Received: from phl-imap-11 ([10.202.2.101])
+  by phl-compute-12.internal (MEProxy); Tue, 08 Apr 2025 13:16:28 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1744132588;
+	 x=1744218988; bh=ZusC4j88iZDe7cKmTzZPwEEcBckZyU9z5JAnaD7npYo=; b=
+	kAKER9WG8clrJgdPv5KjhGSlW0MTMk5KT4ZUk7Kw0BFGACZ5jol0penH71/1gQAN
+	5qjpXbVzNbMs9sqso3a55c0mhxatEOgnBlPFswaXbqQVXVuL2b5qa602yQCMJ9Tg
+	C/VVYD9yetDD4NvMjEZRNne8hAFU+Dl7BqDOCFuyobL44dg6iyb60EKsZnC+fm7A
+	u0Ik2rTGasA0fSEjYMnN8h5f0Tbt9X/0Ikpuy4r+fJd3WolKh736R69sUkxgNcQv
+	GvCPiGiFWVaxQXUnxdnQNxTA90CCMynLszA2i7jkuVjgDkgGEtVAEq+b/vqBMwZ0
+	LzXKhjxzgHF6qODoQUzlQA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm2; t=1744132588; x=
+	1744218988; bh=ZusC4j88iZDe7cKmTzZPwEEcBckZyU9z5JAnaD7npYo=; b=k
+	xASuWulBPJTSShQgUfSKwnoLD8ec+A277BzKDuxEnJzp8ZzNq4MdXk/KoUVv6jvB
+	GMb+Llj/jrPu2WhV16RwgIFBSTChgTX14A3Y/Y7dEVGL6qoCYjUlDpPA0851RWje
+	gw0idm5agye/vmHe/LSXchEkPiyoHcCSsDWA7lyl6hN6U76nBVxIM9HcNaXQqPPR
+	2e3y+Rtwa4q+qm50bpWXvaxipmdCC2wcTQgdy1aLlSpt23iaDnPdo+CI4IdUfHLb
+	ZR5w/enAAEe1T96W8TFXkKb+rzLSz16dQr29S287m9i7ftHNci8O3roNlTk9gL3T
+	TOZPxW5NWjLteT6xc52ww==
+X-ME-Sender: <xms:6Vn1ZzgSipKPFrG6IuVoqX5aC0B3zsJ03TwguC7t67ub6IzI064pWg>
+    <xme:6Vn1ZwAuvhR3fDsZ5YZ1Y1k607MrfdkQysMrhL0JsIj5HLd9Ng1ogrHZkwqRYKAbs
+    llOE7mlyo4sQ9Q2Jgw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdefieeiucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhepteeutddtheffkedttdduiefgffefkefhgfeu
+    ieetjeehteeludefleffieevffdtnecuffhomhgrihhnpeduiedrnhhonecuvehluhhsth
+    gvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggs
+    rdguvgdpnhgspghrtghpthhtohepvdeipdhmohguvgepshhmthhpohhuthdprhgtphhtth
+    hopegsphesrghlihgvnhekrdguvgdprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhn
+    rghssegrrhhmrdgtohhmpdhrtghpthhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrd
+    gtohhmpdhrtghpthhtohepnhhitgholhgrshesfhhjrghslhgvrdgvuhdprhgtphhtthho
+    pegsrhhgvghrshhtsehgmhgrihhlrdgtohhmpdhrtghpthhtohepuhgsihiijhgrkhesgh
+    hmrghilhdrtghomhdprhgtphhtthhopehhvghrsggvrhhtsehgohhnughorhdrrghprghn
+    rgdrohhrghdrrghupdhrtghpthhtoheprghruggssehkvghrnhgvlhdrohhrghdprhgtph
+    htthhopegrrhhnugeskhgvrhhnvghlrdhorhhg
+X-ME-Proxy: <xmx:6Vn1ZzHurRHuHgzee5gnc6zzuDyC99eqxxcG0Rd-a83_k91ZjMjq6g>
+    <xmx:6Vn1ZwTdHSNtQ4IwxNAhwiTCO_unZ12OFl0sjgDX-1QoynU850u4GQ>
+    <xmx:6Vn1Zwx3PDyMl3hQZQb01ThSkhjNY3lKUTI6KycfntiEaYR15s-G7A>
+    <xmx:6Vn1Z24UqqDehkMC3wjyPDDqgGzgMI5XFgUZNLhnHBQDEILM7AC05Q>
+    <xmx:7Fn1Z3TC_xAheqDni-VD8_gghQnO4lzwgRrKNmcct4VKq6wG0MRxZT47>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 0A5352220073; Tue,  8 Apr 2025 13:16:24 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20241226170710.1159679-1-surenb@google.com> <20241226170710.1159679-11-surenb@google.com>
- <0d36fd53-b817-4bbd-ae38-af094bd301df@suse.cz> <40182b31-95ad-4825-9c0c-0127be1734a6@cachyos.org>
- <Z_S7yjRXWIXnVXsf@infradead.org> <3f9f8a06-a044-4bce-a4e6-f17090cb3c0f@lucifer.local>
- <182bfb4f-e856-47d8-bc54-d419109cb4ac@cachyos.org>
-In-Reply-To: <182bfb4f-e856-47d8-bc54-d419109cb4ac@cachyos.org>
-From: Suren Baghdasaryan <surenb@google.com>
-Date: Tue, 8 Apr 2025 10:09:57 -0700
-X-Gm-Features: ATxdqUFWgfdDczYIBON7DSH20Zy6f02l43BIrke5gpTYWz03ZaaKpgDrA9wykEU
-Message-ID: <CAJuCfpF=pUQFpbGn4kGjpW4dObcMbo8CTFLGK09npGi4W4MCsg@mail.gmail.com>
-Subject: Re: [PATCH v7 10/17] mm: uninline the main body of vma_start_write()
-To: Eric Naim <dnaim@cachyos.org>
-Cc: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Christoph Hellwig <hch@infradead.org>, 
-	Vlastimil Babka <vbabka@suse.cz>, akpm@linux-foundation.org, peterz@infradead.org, 
-	willy@infradead.org, liam.howlett@oracle.com, mhocko@suse.com, 
-	hannes@cmpxchg.org, mjguzik@gmail.com, oliver.sang@intel.com, 
-	mgorman@techsingularity.net, david@redhat.com, peterx@redhat.com, 
-	oleg@redhat.com, dave@stgolabs.net, paulmck@kernel.org, brauner@kernel.org, 
-	dhowells@redhat.com, hdanton@sina.com, hughd@google.com, 
-	lokeshgidra@google.com, minchan@google.com, jannh@google.com, 
-	shakeel.butt@linux.dev, souravpanda@google.com, pasha.tatashin@soleen.com, 
-	klarasmodin@gmail.com, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	linux-mm@kvack.org, linux-kernel@vger.kernel.org, kernel-team@android.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-ThreadId: T46c1ceb211c7c949
+Date: Tue, 08 Apr 2025 19:16:04 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Mark Rutland" <mark.rutland@arm.com>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ "Ard Biesheuvel" <ardb@kernel.org>, "Borislav Petkov" <bp@alien8.de>,
+ "Brian Gerst" <brgerst@gmail.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, "Ingo Molnar" <mingo@redhat.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Marc Zyngier" <maz@kernel.org>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Takashi Iwai" <tiwai@suse.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Uros Bizjak" <ubizjak@gmail.com>,
+ "Will Deacon" <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, x86@kernel.org
+Message-Id: <37ac1bd5-580c-4980-98fa-653dfe3eb768@app.fastmail.com>
+In-Reply-To: <Z_Uwxe46_o5nYkMB@J2N7QTR9R3.cambridge.arm.com>
+References: <20250407094116.1339199-1-arnd@kernel.org>
+ <Z_Uwxe46_o5nYkMB@J2N7QTR9R3.cambridge.arm.com>
+Subject: Re: [PATCH 0/4] Make gcc-8.1 and binutils-2.30 the minimum version
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 8, 2025 at 12:52=E2=80=AFAM Eric Naim <dnaim@cachyos.org> wrote=
-:
+On Tue, Apr 8, 2025, at 16:20, Mark Rutland wrote:
+> On Mon, Apr 07, 2025 at 11:41:12AM +0200, Arnd Bergmann wrote:
+>> From: Arnd Bergmann <arnd@arndb.de>
+>> 
+>> x86 already requires gcc-8.1 since linux-6.15-rc1, which led me to
+>> actually go through all  version checks and make this is the minimum
+>> for all architectures.
 >
-> On 4/8/25 14:25, Lorenzo Stoakes wrote:
-> > On Mon, Apr 07, 2025 at 11:01:46PM -0700, Christoph Hellwig wrote:
-> >> On Tue, Apr 08, 2025 at 12:39:25PM +0800, Eric Naim wrote:
-> >>> The out-of-tree NVIDIA modules seem to rely on this symbol, is it pos=
-sible to use EXPORT_SYMBOL() here instead of EXPORT_SYMBOL_GPL(), below is =
-the modpost error:
-> >>
-> >> No.  They don't have any business using this.
-> >
-> > What on _earth_ are they using this for? Is this just via the VMA flag
-> > manipulation functions? If it's something else, it's an unintended use =
-of this.
-> >
-> > Anyway, generally speaking - agreed, this is absolutely a no-go Eric. I=
-n my view
-> > we simply should not be using EXPORT_SYMBOL() for _any_ new symbols wha=
-tsoever.
-> >
-> > Out-of-tree modules are simply a non-consideration for core mm code, th=
-is is a
-> > GPL open source project. If I had my way we'd simply revoke _all_
-> > EXPORT_SYMBOL()'s, not add new ones.
-> >
-> >>
-> >> In fact vma_start_write should not be exported at all, just the
-> >> vm_flags_{set,clear,mod} helpers.
-> >
-> > Yup, I'd rather we just kept vma_start_write() mm-internal, though of c=
-ourse
-> > kernel/fork.c (ugh) needs it (we could probably refactor that in some w=
-ay to
-> > avoid), and literally just the PPC arch (again maybe we can find a way =
-round
-> > that).
-> >
-> > Maybe one for me to look at actually... hmm.
-> >
-> > Anyway Eric - I wonder if this is simply the nvidia OOT driver doing a
-> > vm_flags_...() call and then having an issue because the lock is uninli=
-ned now?
-> >
-> > I guess you are jut noticing this is breaking and don't know since - pr=
-oprietary
-> > code.
+> I am very much in favour of this, so for the series:
 >
+> Acked-by: Mark Rutland <mark.rutland@arm.com>
 >
-> This seems to be the case, upon looking a bit deeper it looks like the dr=
-iver code
-> is calling atleast one of vm_flags_set. I couldn't find any direct calls =
-to {,__}vma_start_write
-> at first and was bit confused.
+> Is the aim to get this in for v6.15?
+>
+> I believe this will permit a number of further cleanups for arm64, and
+> if it's possible to get this in for v6.15, it'd be a bit easier to start
+> preparing those for v6.16. No big problem if that's not the case.
 
-I agree that EXPORT_SYMBOL_GPL() should be enough as far as exporting goes.
+I wasn't planning to push it for 6.15, as we've discussed this change
+for a long time already, I don't think there is any rush now, though
+I agree it would have helped to have it earlier.
 
->
-> >
-> > Anyway in this case, the OOT driver should just write some GPL wrapper =
-code or
-> > something here. Or better yet - make the driver open source :)
->
-> Yeah, as obvious as it seems it doesn't happen on their open-sourced code=
- :)
->
-> Either way, I'm thankful for the replies. NVIDIA *should* have probably n=
-oticed
-> this already and it would probably fixed in the next driver or two so I'l=
-l just
-> let sleeping dogs lie.
->
->
-> --
-> Regards,
-> Eric
+I already found another follow-up, removing support for the sancov
+gcc plugin that is no longer needed, I'm sure there is more.
+
+     Arnd
