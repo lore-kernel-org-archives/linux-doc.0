@@ -1,360 +1,254 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2045.outbound.protection.outlook.com [40.107.220.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DFBBAD5E
-	for <linux-doc@vger.kernel.org>; Wed,  9 Apr 2025 00:20:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744158060; cv=none; b=nqJaFndObr4VnpNHq9vdTdXdCl6OyAFqeafPwDTWQlapykmHt4E1DTYprMKkgN9VJQZpDfZuvBKSqGG6u9IDoZdBwQ0FbZzvIGdzTKoEGBhE+Z0yH1ej5HWkZ6XTJXmJSK47vkCq1SjQwIlbbaFLFr+vbUu26nOtUK31pJQdRG4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744158060; c=relaxed/simple;
-	bh=tYkXqFIvc+gbe8sHgqItixjC+6rGl7AliNvh8LlSK4o=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=JccI6yDzDBmPxSJIWy0F2eJQFzyKdIk0JzM7Nzb3id3cFYPQTf/feSEKJ2pwfZDRt9lO8x71k4Ef0WqdtECO78IwbDeZ+A4+LV2VSjP/3u6NCgs1a0ygvZXC1aC6Vo6R+YG+SVuZWp/j62gGBMJA5w2mr4/258kxI0tDdQk7tr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=fotEjA3/; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 393712C190;
+	Wed,  9 Apr 2025 00:41:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744159294; cv=fail; b=Uu31LD/dxApzNcKRDTsZZxpMkSZXTCcwe30GZTSbTVLWHCfTd77gtp/CnSUDmEl/g4DAGYyl3CcD9iw482IFp7hLSV96YwpF6tErj8PsUyHpTo06Un3TEAsUxHeGcf2Wwi9NHmBSe6s7eEotfBDehDJn349gwQfIHSXpOUbZE8E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744159294; c=relaxed/simple;
+	bh=G7mHPhzIIBsnWUwhwAipFZmMGKLm4et6dIBFIFO0/qA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BoOBNa7pGcsRSKnkLSyTpgzAUbOgy2jEoJvCid3fLx9was3poQvhfd6oCA05EZvnKTja2TWPDU7cyjRy2/+HK5sHoFTpfrxCdLmsE9cdgL/uDkOKyu89QY+7TWAgJ1wViiAbeJ94Eymv6L9dJ81w0WmDpH5nbn9U8foU9Mvd8KA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=KmEi2ItH; arc=fail smtp.client-ip=40.107.220.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="fotEjA3/"
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 538JYvbC029092
-	for <linux-doc@vger.kernel.org>; Wed, 9 Apr 2025 00:20:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	+u8F0wFKlS2xCEt0m2UMyKjouRwHrMCvFiQ+byjNMyg=; b=fotEjA3/l9nWRfWo
-	1I1/p7pzcS00FQeirRQhGq9QCLjK/NawKk7yQNKEYsHZwQhhQO6UiTG5a3+I4gmS
-	K9VlISzFYayXSmr06XsvCtghYfPS5gHnpxwh/KQb2j3nerFMP50Cr9feiVCj0/Yc
-	IKPmiVnt73oSvMaVXxMhbADM1Nny428ZviEEj8BwqVVT4YUSbYxuWQgm3hTFfRcB
-	UoEBgrdKcR2Gr+DsMaRX3yz1c3L/QuxPLngikuJahUthokmIq4qM3GRHbvgFR7AN
-	BcBXToc9aLNV7vhLDsubJ6lm6MUHvDgKzHnuXovY+i+9vRm449Xd1xeXWSeNu450
-	UFTWVA==
-Received: from mail-pl1-f198.google.com (mail-pl1-f198.google.com [209.85.214.198])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twpm9g4d-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Wed, 09 Apr 2025 00:20:57 +0000 (GMT)
-Received: by mail-pl1-f198.google.com with SMTP id d9443c01a7336-227ed471999so51051165ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 08 Apr 2025 17:20:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744158056; x=1744762856;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=+u8F0wFKlS2xCEt0m2UMyKjouRwHrMCvFiQ+byjNMyg=;
-        b=cmmNhZrTtijtFp/O1l1BF5u10HGiAFo4VmEeNnVjS6rR08IBcdo8E8QYHot/aXuI5M
-         KFU1AnvjQOV7XMDk/UPOcEkE6k+YqBc39q8azDbv5USKiEgtWdZKiPpjgN67RffxwjiS
-         PYFYNplZWtY71gGIEMZoGa79AnVpKoSVeYip6ePcb44056QZehPxcCrM2wEiy5XDjjsf
-         ztS8OAJDVwHyj42wedw2kk/OtoP5EnZnyhE/J1BAN+9P9lquRKvK+xLSLAyto/cp2+XT
-         FkhBY2JiKexlmFlX/WawaUcdEfJgYEjUAAzs4MtS09jiMOCAa8rOLFC+gGE82DyDM15g
-         h/KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVVAp5BAo+U9P0a+ZCjZSl6XMZB2M+cz1sNMkjtheqysU117VRRhKwZVm/Oyt7/tQlollGTnsswWHs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnsmbSVLBOSIQyI7XueCWQRtRTxjtWEWmPe1LZw/wDaaSd5MBm
-	BAK0CNqkhRMM/EhOEVo7vhGrVS86WTDNLwgLVbu2sZkMBmtbxJH11Gg2tvj/0Q7KsZUzoLxpJcO
-	+3f8TS6P8PPaFaZmQKjEEYpz3/FsrBOaGEfwY1AnShjCT+NwSJpGtbeQfPw==
-X-Gm-Gg: ASbGncva9Oo6gGI86FNKlmDIghbz+/y9djesL6iZbbHxJjih2FJS0iBLlICBu19ZvEN
-	6tNeDRqTb3Mafq6RXIginajjsAuVrw2BhiliVWd3F83kLjZ+3WhyBNjDnoWHaqzwlDT7cZhR7MJ
-	Tw5sj2KdSs4It7NDQ0sLbH0ZAE7hkiS6qlikgtjidAqs+GnGSr1/UxMXDbvgBvveFj6YE36ah12
-	EyN6A/Mv5+88IolxeGBDU69aswcKczAt6w0PQzVZXKmKg/kK5DcPup44uinBU51ox0q3mfsDL8k
-	vandw8lb5a4J9OUXadKoT+ZvuyohZA/oJwF7Fmidzle+95aXjw8l2v4RX9Hktg+ljbOAn+kTuMv
-	AyiwglwCdz0+c0Q==
-X-Received: by 2002:a17:902:d4d1:b0:220:eade:d77e with SMTP id d9443c01a7336-22ac2a2dc06mr14318075ad.40.1744158056469;
-        Tue, 08 Apr 2025 17:20:56 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEfrysMIWoJydh7GIwuH2hJSLX/HXRThwTul/foKNq3HmO4GJI1OgO2NEpmg7x0Yo54T6pcOw==
-X-Received: by 2002:a17:902:d4d1:b0:220:eade:d77e with SMTP id d9443c01a7336-22ac2a2dc06mr14317795ad.40.1744158055940;
-        Tue, 08 Apr 2025 17:20:55 -0700 (PDT)
-Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22aa0684804sm55144285ad.117.2025.04.08.17.20.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Apr 2025 17:20:55 -0700 (PDT)
-Message-ID: <9c143438-82ee-47ac-acc5-00d58960afe5@oss.qualcomm.com>
-Date: Wed, 9 Apr 2025 10:20:47 +1000
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="KmEi2ItH"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rcLTOISW+pwxfjA6zf5uD1qGFLXRWJIGjWGI6l+OvsNS604lCYiIzeKWeXx8ZVa5SUd4AJwB2nFm7rBo0MIJQqsn+5Ubnpb4hzp/haj7Cmnm4PCL9QQI6jCdyk4VTBb6gMEPj4KhBu1weTOM0+5hSABeYvqXF1Qk+l1Zr9Ge9VUa85gYiejD/fMxNgdOb2yQJwi606FZlQd2K1UjQS3QaxMeAI6H++3z1veoTBHw1W2StXcGJErmkqu/d8xPl81O0HRe5wnHiYfp9CFVqoSbuHy9mMunFVeNHF4vhr2g+RWcBcot9O5xjhF6Ch0odcFGLhAwAm6nvP7mkK9+Z+qdtg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ZDwVYywNgRR1pQqee6WlrPoVYjYXFI7U9iUYtH1Be5w=;
+ b=G75/wLr9nB6XLpv+t18FLZjntpRhTgxaFqaV5Im9w59tpn4Yu6cRKuXVMhkOJdjnyMsv/TbL/ehMzlwcBAUpc9lxzEgjRHoscS3OC+JM4kLp2x8BKpVIPc4MBx2d+88nhU5VZom+wNtdqXqSQtR3SjQ9f+mx5gaccavYDpdjC8jKw3CNd7bXbT6D9M0nkcdLzKp4fsjH1QKGt5aEG4Wbs22KoODKD+RTgBZEbRMGC2xXA5uOBOo9e2CbzeMucyYlFLOUVJRSku1GXRXZ5VE9aYsoJ5GLqNwFMj8XfrOrwfKR16tKBkyLnsgxRYuOaRySPgTM+NGmC3hpqDiCY9a6Sg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ZDwVYywNgRR1pQqee6WlrPoVYjYXFI7U9iUYtH1Be5w=;
+ b=KmEi2ItH2ergh+JEhrmgSI0dLDFryyLm0Ff6E4HbN3OoFgwEPZNO55rkxJ/rLP9Ik4mdPQ1Hj3kKKYI72NM60P9TAY664t/Kxv46DvYPPa42krzDavHZvJ+0icvcv7HCJSz2H0+hFywzi876DsHOcASqNiNeM6DkY1f2UK6V8fg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by CH1PPF4C9628624.namprd12.prod.outlook.com (2603:10b6:61f:fc00::60d) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.35; Wed, 9 Apr
+ 2025 00:41:27 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8606.033; Wed, 9 Apr 2025
+ 00:41:27 +0000
+Message-ID: <46e40771-c73c-4ceb-acc3-812693f98f19@amd.com>
+Date: Tue, 8 Apr 2025 19:41:22 -0500
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/7] Support L3 Smart Data Cache Injection Allocation
+ Enforcement (SDCIAE)
+To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
+ tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com
+Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
+ paulmck@kernel.org, thuth@redhat.com, rostedt@goodmis.org,
+ xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
+ jpoimboe@kernel.org, daniel.sneddon@linux.intel.com,
+ thomas.lendacky@amd.com, perry.yuan@amd.com, sandipan.das@amd.com,
+ kai.huang@intel.com, seanjc@google.com, xin3.li@intel.com,
+ ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ tan.shaopeng@fujitsu.com, james.morse@arm.com, tony.luck@intel.com,
+ peternewman@google.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, eranian@google.com, corbet@lwn.net
+References: <cover.1738272037.git.babu.moger@amd.com>
+ <7c135464-d859-459b-b86d-e8c18f106fc4@intel.com>
+ <251c8fe1-603f-4993-a822-afb35b49cdfa@amd.com>
+ <4a98eccf-4d31-40ac-8112-c89cde7a1c6e@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <bmoger@amd.com>
+In-Reply-To: <4a98eccf-4d31-40ac-8112-c89cde7a1c6e@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SN6PR08CA0026.namprd08.prod.outlook.com
+ (2603:10b6:805:66::39) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 02/11] tee: add close_context to TEE driver operation
-To: Jens Wiklander <jens.wiklander@linaro.org>
-Cc: Sumit Garg <sumit.garg@kernel.org>,
-        Bjorn Andersson
- <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Apurupa Pattapu <quic_apurupa@quicinc.com>,
-        Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-doc@vger.kernel.org
-References: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com>
- <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-2-7f457073282d@oss.qualcomm.com>
- <CAHUa44G+Z9LjxqqqvKRRHrfN_6QPweF_5df2uOqtRuBfa5j3pw@mail.gmail.com>
-Content-Language: en-US
-From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-In-Reply-To: <CAHUa44G+Z9LjxqqqvKRRHrfN_6QPweF_5df2uOqtRuBfa5j3pw@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-GUID: DQKfoz0cwEg7tkLFvYG86G4vhL88Jm8D
-X-Proofpoint-ORIG-GUID: DQKfoz0cwEg7tkLFvYG86G4vhL88Jm8D
-X-Authority-Analysis: v=2.4 cv=MpRS63ae c=1 sm=1 tr=0 ts=67f5bd69 cx=c_pps a=MTSHoo12Qbhz2p7MsH1ifg==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=EUspDBNiAAAA:8 a=dqaakhkvI0CaZRVxv44A:9 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
- a=GvdueXVYPmCkWapjIL-Q:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-08_09,2025-04-08_04,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- mlxlogscore=999 clxscore=1015 priorityscore=1501 impostorscore=0
- spamscore=0 bulkscore=0 suspectscore=0 malwarescore=0 adultscore=0
- phishscore=0 mlxscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2502280000
- definitions=main-2504090000
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|CH1PPF4C9628624:EE_
+X-MS-Office365-Filtering-Correlation-Id: 51180c42-3f1d-453f-5eaa-08dd76ff4339
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|1800799024|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Q3hrbDVWWE40d0wxd01XaVYwSjd4bWx6dDgwU1BwbjJ6VC9uUmIrN0w5SHVB?=
+ =?utf-8?B?cm5uclJQV1FDaDFMQythK2diNjMvemVmS2JFVWJLSHNFOCthYXlSOGtmZ1Bq?=
+ =?utf-8?B?blBxNVk2ekZBSExJc1EzcDNBWTc3V3V4RTJSMmE4OVV6UmcweGNIdVY3U2c5?=
+ =?utf-8?B?OXB1OTlra3lybDZNYmFEbXgrU001RDQzdnE4WE9PNllwL0grRG9YOEVjTURt?=
+ =?utf-8?B?N1c2ZHRrbVBYTGZMd1hPRFJVQmx3MDk5VVIyZnpLajJ5S2NvbkhTZjk3OXRR?=
+ =?utf-8?B?ODFtaFFJSGRvNUM1dUtrNVQyZ1F4ODN0M2Yza21hSHhLa2tzYVVOR3J4bVJW?=
+ =?utf-8?B?VGkxUDNpaExPSjBQWldvNHBnZktlM05Ic3Q3S1pTZmdFcFJXQVpPNnFJRGdq?=
+ =?utf-8?B?emhEbngrVTFZYkFKdkVwdDl5elRoQXhTWVZkTDNQcjhFVUNZMWFUck53eDI1?=
+ =?utf-8?B?OHMya00yMlNOeE9Vd01pWmJKL0dFTTFkZVA3bllMSWJ1QjgzZnJTZzBQcERz?=
+ =?utf-8?B?WXRxV004UHZSVmxUY3NlKzdIY3N6T0xKM3BOdC9TTytjWVdaTzVsMngxMzFG?=
+ =?utf-8?B?Vm1GdThGd2MyV1dDOFRYdUZvb2M4WndYNEdQYVF1N1hFTllySDVkS1dZSjNX?=
+ =?utf-8?B?enlkS3YyeDA1dlhhWmdyOHFZdXY1L0dyWmxqWjZTT095cTd3T1VlUnltY1ZO?=
+ =?utf-8?B?RHFLbnVnSnZRamJMVzFIbTZYblIraEg2TFI3UjdSaXdJcGpyRkJ0K3pkZTE2?=
+ =?utf-8?B?V04reGhwVXZZNjVLNU1BakxnNUFqcE4zamJwaHR4SGdVNXhaNnhZS3ludS9J?=
+ =?utf-8?B?ZGJ1Q1dEcThWMUg2ZHdjUFBwN0xDVUczZXRNL3NaZ3lWVzFlSzkyQzZtZFUz?=
+ =?utf-8?B?cTMxNHQvZy9Pdlg3WVNyU0ZrR0hEeWRYdDBxOHVYM1FRU1VrVWgyQ1BZcUxI?=
+ =?utf-8?B?bUhJajd4eCt2V216WjcwRkE0OTlaUG1SNmR4UTZqTEdpT0FqNlN1bDAzZ3Fj?=
+ =?utf-8?B?Qy9NQlNWaTY2VnhXdVhiT1QzNzFtZkVlaFFaaGRwK1R2c2NkQjJSWXpDdjhZ?=
+ =?utf-8?B?aFIrcUg4T0MzVFcrRzB6YWVOMi9vdUpJMDhzcWd0RFZBVjZ5YTNkb3g5c29X?=
+ =?utf-8?B?aE1xMmdRRFpkdG1PUXRsV2ZqSVBlVHJ1dW5yOTFGNmg2SVJta3graHRvSEd1?=
+ =?utf-8?B?V3RWVUo2Nm9Rc0FiR1lwbVV4Si9kRE5JY1h5WFhTcDJoNWg5TzJBMms0NFEx?=
+ =?utf-8?B?MG92Y0FsRlFKdWJ3NE5pK2hiMHFQNzFEMDQwMzlMQU11dWJhdmt5SVNxMVhi?=
+ =?utf-8?B?UjZrcmFpeTFDdzQwWTdJSzBlUGVDQzFQZmg4WmdJakUwMjdpa20zK0V2aWRW?=
+ =?utf-8?B?aUhOc2dZT0FlVHZCVUwxU1BzRUtGRmtmc004dzNpTHZobVVnL2QraDgwZFdq?=
+ =?utf-8?B?NHBKSnhaenFlTnZBWmNmVDRyck5xUHI2dXVoRlliTTBIcC94NHFOTEIrZ2dB?=
+ =?utf-8?B?ZTVHNHB0U3ZPM2VaNGdxeGtKWUJTeGRqV01TeVFnYW10MFdvNm91RDMzeGZT?=
+ =?utf-8?B?Q21pRVRXaWtvcWg3NmlQai9NcFB2clJJN2wvZzd5M01sTjR3Q1VNZ1lnN1ZB?=
+ =?utf-8?B?SzMxeW1UNUxGYkh4WERIdkU4UnZPb2FxWWJrWWRhRnA2djRCYUdUa25VSE41?=
+ =?utf-8?B?dFJhRmVTWkwwS1U5a0JVdzk5UC9PWEI0VENtYjF6emJaaTBMdTU4TEtkMWlq?=
+ =?utf-8?B?TVZiTDV4Sm9hREcybnBCQnB3cEdMOUptOTl2bjJaR0U4WitiaEZyYkJ5Rysw?=
+ =?utf-8?B?bFRNa0RXQ05ZK3RvcG5GMkgvT3Y0a1EyZzJvVmprOGltYmlpa1dEc0s3RHU1?=
+ =?utf-8?B?SXBWSi9GQTdIbU9Wamlod0NUYWtmTkRNT2NqclNCM1BITHZmeW5rOHR0a0tK?=
+ =?utf-8?Q?uo936A/D0yk=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(1800799024)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?OWYza2hHaWZ2a3B0bGMwMU5XTVNoSi8zKytlMmxuUFE5WVM0MDc2a3hkemx4?=
+ =?utf-8?B?T09ScCtlT3N0L0tOU1BlMUg4ZHB2eFFPcVBUc2M1aEEyTDNYcHBqT3dvc0h4?=
+ =?utf-8?B?UlVVdk9aSUlIeUZFSVFvNXBxamkrMmRBTW10RER6MnhIdElQTW54S1BFRlY0?=
+ =?utf-8?B?U3ZHb3p0NUhOM3UwUmg3Nk9WWVNKakUxRjR4STB4ZHB6MXVheWdRQ3B0ZUFF?=
+ =?utf-8?B?UFcrS0F0WHlYT3M5SWpIeVExc2Rmd01LNU4rV1ZKTnJIaFo4YzNPeUNmcGR1?=
+ =?utf-8?B?cWhuMWVvMW5OeVJUT3NNTk9kajAxL3lBZENvWlkxM2g2Z1l2K2xqMnNGTndt?=
+ =?utf-8?B?RkFlTytnQWFjaDV6V1dTcVpYanJ0c1NBQWViaXZQSHB3eDIralNBaHZpcWFl?=
+ =?utf-8?B?QXl0TmppVjZ2RnJzeGc5bk54NUF4dDVraERSeGRCdFBYbisramJ5aWlrUjQv?=
+ =?utf-8?B?Z3lVOHVzTUNXUHByRnRUbERNemczTEgxeFIra2N3b0w1WFZVd3ZBZzhqYmFQ?=
+ =?utf-8?B?RTZHOVA5OUxsVS83NXdqRWZWU2phS2ROMlpLN0VxNG9YOWF5OGNsbll3RkNn?=
+ =?utf-8?B?cjBJMDNwdzJKNDlVSmlPdEMwWEZ6Q3RibTdZYVJkaXpaZnZuTE1qVXdOWEFC?=
+ =?utf-8?B?VHpqWUV0UnRiVXc2UWRhc2RJUWhQbHpxYWNWV1VmZ25OT1hzL0dUTDIxaXlT?=
+ =?utf-8?B?K0RDNDUvMzBtMGhCcU5XUWZ0emxlQmlzUm9oZDZlUUVxMnY1QWFQQVk5OU1v?=
+ =?utf-8?B?bW82eHg5QVVEdVBKS2tIQUNJRVRRays4alFCejRPemRTS3pUSHdXNUI2N0NX?=
+ =?utf-8?B?YXhKeWlQemlWbmpCc0syekdRd0NZYXdNbnM4TjZTTGxiTXRZdWgrWEFuZ0cv?=
+ =?utf-8?B?VWo3aFBkMlNvR3A4NHRzVEtSLzJuME9sczUvUkJ5SGNTQTFBMXBRWlVic1dG?=
+ =?utf-8?B?cGwyMGhlUit1VnJTc3k3T3dvNFdSYnpTUnhuM2ptakM0OUVIbHN5M0MzdFgv?=
+ =?utf-8?B?RSs2OEhjQ0pQMHFLL3FCMFVRbDlSMUgyd1lPd0xqWVZOSVVuRUR6QzVBeHRs?=
+ =?utf-8?B?bmVkbFNnTFNWVHdXWW0rWEpRVmhaMENLakczSDE1em5RMFVyZkg5VTAyVU9u?=
+ =?utf-8?B?MWRLcjNZZE14T0tKdWtIYXRDRWROL2FXWHJBcUptZmNXUWNjRkVrZGRLTmhS?=
+ =?utf-8?B?dmFvbW9BMnBnSGVaaU1NQXhCQ2R6UEZERER5bWVSVnRmR0p3ODBYZmVNY29r?=
+ =?utf-8?B?K09DeEVTa2UxbXp2NUNHNjgrdDdzWXRFSm9zWXJ1T1ZvTThGbUNDUTRGR0U3?=
+ =?utf-8?B?eWhPcDV0OXNrNXNaRW1iOTU5ditidWxLVXk3QzBCREVXbVY1S3A4MFVrOGhV?=
+ =?utf-8?B?Q0RtSUhOSXQ3bjdqM2ZDSHNaeDd1dSs3T2JReVExRzRpbklSaTF5clcxa2NE?=
+ =?utf-8?B?RjNaeGtWb0JMbUFGaEJkczJGbEFJK2xCU1BlazhpcWd2dGh3OXFSdHFOcmg2?=
+ =?utf-8?B?ejJGelJYUWNRSGY2RmVDVGRFdEVOdVhnNE4xK0dKOUhiYTM0OG1YQmp1a3Bt?=
+ =?utf-8?B?VHlTcjJqbkY1MGhsdFN0YzdFWVgvL0g1WHVtWTFwcE42dS8xNHdnN0MxVHNx?=
+ =?utf-8?B?M1Q2YkRVaWZhQ0lRNWpsUHV6c2hMRzZSb2l0SEF5MndwNEFIeitwcFdZSnRC?=
+ =?utf-8?B?MFVhRUlxb2MxMjI4bXNDZGMydG5wV3Exd0t1cjBZNVphdFl2ckNUWng2b2NS?=
+ =?utf-8?B?UjdsbEtXYjhUN1NwbXNLNkQ1YkZtNnE4ZEZLSnVGV3haZVNMRldxMlk3TDFQ?=
+ =?utf-8?B?eWNQTDFDSmRFZHBqQWhTRU1DRVNHTk0wOEhtdCtpQ3dlYWNrb0lSamU4NUJV?=
+ =?utf-8?B?U1MvTlpjN3pxVGpGMHlXa0FCWEJKRDdIMnhtMlVXYzhKZW0vcjN5ZVFVTG0w?=
+ =?utf-8?B?UGlRRVdISUNWMWRXbWpnd01VdWxOVnBpbTJoaWxaTERkY2ZZMkx2V0NrT1k5?=
+ =?utf-8?B?SEUxS2tEVFp3RUc4RWV5aFMxdkxBWlJTVDlZanQ1K0ZuV1VXOHExSEFHbitQ?=
+ =?utf-8?B?VDdmNWR0Zjd1ZGNmVERmQVBEOFlzRmFaSzZKMlpJRVJRK1kyMW9ocmMvVGZx?=
+ =?utf-8?Q?hPgw=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51180c42-3f1d-453f-5eaa-08dd76ff4339
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 00:41:27.5668
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: VWC3z0Q22+VqrN/CiovSSAPwbLw10Gg3sw65dgyZpbiIczz1ZRGDax3bVbgEHlQS
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH1PPF4C9628624
 
-Hi Jens,
+Hi Reinette,
 
-On 4/8/2025 12:55 AM, Jens Wiklander wrote:
-> Hi Amir,
->
-> On Fri, Mar 28, 2025 at 3:48 AM Amirreza Zarrabi
-> <amirreza.zarrabi@oss.qualcomm.com> wrote:
->> The tee_context can be used to manage TEE user resources, including
->> those allocated by the driver for the TEE on behalf of the user.
->> The release() callback is invoked only when all resources, such as
->> tee_shm, are released and there are no references to the tee_context.
+On 4/8/2025 4:44 PM, Reinette Chatre wrote:
+> Hi Babu,
+> 
+> On 4/7/25 1:12 PM, Moger, Babu wrote:
+>> On 3/21/25 17:50, Reinette Chatre wrote:
+>>> On 1/30/25 1:20 PM, Babu Moger wrote:
+> 
+> 
+>>>>
+>>>
+>>> AMD also supports what is exposed to user space as "shareable_bits". According
+>>> to APM:
+>>> 	Depending on the implementation, some portions of the L3 Cache may be
+>>> 	shared by other system functions or used for some other purpose not
+>>> 	under the control of the PQOS feature set. The L3 Cache Allocation
+>>> 	Sharing Mask returned by CPUID Fn0000_0010_EBX_x1[L3ShareAllocMask] is a
+>>> 	bitmask that represents portions of the L3 that may be shared by those
+>>> 	functions.
 >>
->> When a user closes the device file, the driver should notify the
->> TEE to release any resources it may hold and drop the context
->> references. To achieve this, a close_context() callback is
->> introduced to initiate resource release in the TEE driver when
->> the device file is closed.
+>> Here is the complete text.
 >>
->> Relocate teedev_ctx_get, teedev_ctx_put, tee_device_get, and
->> tee_device_get functions to tee_drv.h to make them accessible
->> outside the TEE subsystem.
+>> The L3 Cache allocation sharing mask (L3ShareAllocMask) returned in EBX by
+>> CPUID Fn0000_0010 with ECX=1 is a bit vector which represents portions of
+>> the cache which may be shared with other system entities or used for some
+>> other purpose not under the control of the QOS feature set. When software
+>> sets a bit in one of the L3_MASK_n registers at the same bit positions a
+>> bit in the L3ShareAllocMask, processors executing with the corresponding
+>> COS will competitively share that portion of the cache with the other
+>> function. If this mask is all 0’s, then there is no other entity in the
+>> system competing with the processors for use of the L3 cache.
 >>
->> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
->> ---
->>  drivers/tee/tee_core.c    | 39 +++++++++++++++++++++++++++++++++++++++
->>  drivers/tee/tee_private.h |  6 ------
->>  include/linux/tee_core.h  | 11 +++++++++--
->>  include/linux/tee_drv.h   | 40 ++++++++++++++++++++++++++++++++++++++++
->>  4 files changed, 88 insertions(+), 8 deletions(-)
+>> The "L3ShareAllocMask" is always reported as 0 on AMD systems.
 >>
->> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
->> index 24edce4cdbaa..22cc7d624b0c 100644
->> --- a/drivers/tee/tee_core.c
->> +++ b/drivers/tee/tee_core.c
->> @@ -72,6 +72,20 @@ struct tee_context *teedev_open(struct tee_device *teedev)
->>  }
->>  EXPORT_SYMBOL_GPL(teedev_open);
+>>> Could you please include what (if any) the relationship is between the CBM
+>>> discoverable via Fn0000_0010_EBX_x1[L3ShareAllocMask] and the CBM of
+>>> "highest-supported L3_MASK_n register" when SDCIAE is enabled?
 >>
->> +/**
->> + * teedev_ctx_get() - Increment the reference count of a context
->> + *
->> + * This function increases the refcount of the context, which is tied to
->> + * resources shared by the same tee_device. During the unregistration process,
->> + * the context may remain valid even after tee_device_unregister() has returned.
->> + *
->> + * Users should ensure that the context's refcount is properly decreased before
->> + * calling tee_device_put(), typically within the context's release() function.
->> + * Alternatively, users can call tee_device_get() and teedev_ctx_get() together
->> + * and release them simultaneously (see shm_alloc_helper()).
->> + *
->> + * @ctx: Pointer to the context
-> Please move this @ctx line to before the verbose description of the function.
->
-> Cheers,
-> Jens
+>> No. There is no relationship in here.
+>>
+>>>
+>>> On the resctrl interface side the documentation currently states:
+>>>
+>>> 	"shareable_bits":
+>>> 		Bitmask of shareable resource with other executing
+>>> 		entities (e.g. I/O). User can use this when
+>>> 		setting up exclusive cache partitions. Note that
+>>> 		some platforms support devices that have their
+>>> 		own settings for cache use which can over-ride
+>>> 		these bits.
+>>>
+>>> Even though this was originally used to expose the content of
+>>> Fn0000_0010_EBX_x1[L3ShareAllocMask] the intent of the content does
+>>> seem to also apply to the "io_alloc" CBM also.
+>>
+>> It says "shared by other system functions or used for some other purpose
+>> not under the control of the PQOS feature set".
+> 
+> This is a quote from the AMD spec, not the resctrl user interface documentation.
+> 
+> Please consider this from resctrl user interface perspective.
+> 
+>>
+>> "io_alloc" is PQOS feature set. I feel it should not affect "shareable_bits".
+> 
+> When I read the resctrl user interface documentation for "shareable_bits" it
+> sounds relevant to io_alloc. The "shareable_bits" contains a bitmask "of
+> shareable resource with other executing entities (e.g. I/O)" ... is this
+> not exactly io_alloc?
 
-Ack.
+I agree the text is pretty generic. Actually, the whole bit mask 
+(0xfffF) is shareable with io_alloc.
 
-Best Regards,
-Amir
+The 'shareable_bits' is coming from CPUID 
+Fn0000_0010_EBX_x1[L3ShareAllocMask] which is always 0 on AMD systems.
+It will be bit odd to manipulate these value. Not sure if we have to do it.
 
->
->> + */
->>  void teedev_ctx_get(struct tee_context *ctx)
->>  {
->>         if (ctx->releasing)
->> @@ -79,6 +93,7 @@ void teedev_ctx_get(struct tee_context *ctx)
->>
->>         kref_get(&ctx->refcount);
->>  }
->> +EXPORT_SYMBOL_GPL(teedev_ctx_get);
->>
->>  static void teedev_ctx_release(struct kref *ref)
->>  {
->> @@ -89,6 +104,10 @@ static void teedev_ctx_release(struct kref *ref)
->>         kfree(ctx);
->>  }
->>
->> +/**
->> + * teedev_ctx_put() - Decrease reference count on a context
->> + * @ctx: pointer to the context
->> + */
->>  void teedev_ctx_put(struct tee_context *ctx)
->>  {
->>         if (ctx->releasing)
->> @@ -96,11 +115,15 @@ void teedev_ctx_put(struct tee_context *ctx)
->>
->>         kref_put(&ctx->refcount, teedev_ctx_release);
->>  }
->> +EXPORT_SYMBOL_GPL(teedev_ctx_put);
->>
->>  void teedev_close_context(struct tee_context *ctx)
->>  {
->>         struct tee_device *teedev = ctx->teedev;
->>
->> +       if (teedev->desc->ops->close_context)
->> +               teedev->desc->ops->close_context(ctx);
->> +
->>         teedev_ctx_put(ctx);
->>         tee_device_put(teedev);
->>  }
->> @@ -1024,6 +1047,10 @@ int tee_device_register(struct tee_device *teedev)
->>  }
->>  EXPORT_SYMBOL_GPL(tee_device_register);
->>
->> +/**
->> + * tee_device_put() - Decrease the user count for a tee_device
->> + * @teedev: pointer to the tee_device
->> + */
->>  void tee_device_put(struct tee_device *teedev)
->>  {
->>         mutex_lock(&teedev->mutex);
->> @@ -1037,7 +1064,18 @@ void tee_device_put(struct tee_device *teedev)
->>         }
->>         mutex_unlock(&teedev->mutex);
->>  }
->> +EXPORT_SYMBOL_GPL(tee_device_put);
->>
->> +/**
->> + * tee_device_get() - Increment the user count for a tee_device
->> + * @teedev: Pointer to the tee_device
->> + *
->> + * If tee_device_unregister() has been called and the final user of @teedev
->> + * has already released the device, this function will fail to prevent new users
->> + * from accessing the device during the unregistration process.
->> + *
->> + * Returns: true if @teedev remains valid, otherwise false
->> + */
->>  bool tee_device_get(struct tee_device *teedev)
->>  {
->>         mutex_lock(&teedev->mutex);
->> @@ -1049,6 +1087,7 @@ bool tee_device_get(struct tee_device *teedev)
->>         mutex_unlock(&teedev->mutex);
->>         return true;
->>  }
->> +EXPORT_SYMBOL_GPL(tee_device_get);
->>
->>  /**
->>   * tee_device_unregister() - Removes a TEE device
->> diff --git a/drivers/tee/tee_private.h b/drivers/tee/tee_private.h
->> index 9bc50605227c..d3f40a03de36 100644
->> --- a/drivers/tee/tee_private.h
->> +++ b/drivers/tee/tee_private.h
->> @@ -14,12 +14,6 @@
->>
->>  int tee_shm_get_fd(struct tee_shm *shm);
->>
->> -bool tee_device_get(struct tee_device *teedev);
->> -void tee_device_put(struct tee_device *teedev);
->> -
->> -void teedev_ctx_get(struct tee_context *ctx);
->> -void teedev_ctx_put(struct tee_context *ctx);
->> -
->>  struct tee_shm *tee_shm_alloc_user_buf(struct tee_context *ctx, size_t size);
->>  struct tee_shm *tee_shm_register_user_buf(struct tee_context *ctx,
->>                                           unsigned long addr, size_t length);
->> diff --git a/include/linux/tee_core.h b/include/linux/tee_core.h
->> index a38494d6b5f4..8a4c9e30b652 100644
->> --- a/include/linux/tee_core.h
->> +++ b/include/linux/tee_core.h
->> @@ -65,8 +65,9 @@ struct tee_device {
->>  /**
->>   * struct tee_driver_ops - driver operations vtable
->>   * @get_version:       returns version of driver
->> - * @open:              called when the device file is opened
->> - * @release:           release this open file
->> + * @open:              called for a context when the device file is opened
->> + * @close_context:     called when the device file is closed
->> + * @release:           called to release the context
->>   * @open_session:      open a new session
->>   * @close_session:     close a session
->>   * @system_session:    declare session as a system session
->> @@ -76,11 +77,17 @@ struct tee_device {
->>   * @supp_send:         called for supplicant to send a response
->>   * @shm_register:      register shared memory buffer in TEE
->>   * @shm_unregister:    unregister shared memory buffer in TEE
->> + *
->> + * The context given to @open might last longer than the device file if it is
->> + * tied to other resources in the TEE driver. @close_context is called when the
->> + * client closes the device file, even if there are existing references to the
->> + * context. The TEE driver can use @close_context to start cleaning up.
->>   */
->>  struct tee_driver_ops {
->>         void (*get_version)(struct tee_device *teedev,
->>                             struct tee_ioctl_version_data *vers);
->>         int (*open)(struct tee_context *ctx);
->> +       void (*close_context)(struct tee_context *ctx);
->>         void (*release)(struct tee_context *ctx);
->>         int (*open_session)(struct tee_context *ctx,
->>                             struct tee_ioctl_open_session_arg *arg,
->> diff --git a/include/linux/tee_drv.h b/include/linux/tee_drv.h
->> index a54c203000ed..ce23fd42c5d4 100644
->> --- a/include/linux/tee_drv.h
->> +++ b/include/linux/tee_drv.h
->> @@ -96,6 +96,46 @@ struct tee_param {
->>         } u;
->>  };
->>
->> +/**
->> + * tee_device_get() - Increment the user count for a tee_device
->> + * @teedev: Pointer to the tee_device
->> + *
->> + * If tee_device_unregister() has been called and the final user of @teedev
->> + * has already released the device, this function will fail to prevent new users
->> + * from accessing the device during the unregistration process.
->> + *
->> + * Returns: true if @teedev remains valid, otherwise false
->> + */
->> +bool tee_device_get(struct tee_device *teedev);
->> +
->> +/**
->> + * tee_device_put() - Decrease the user count for a tee_device
->> + * @teedev: pointer to the tee_device
->> + */
->> +void tee_device_put(struct tee_device *teedev);
->> +
->> +/**
->> + * teedev_ctx_get() - Increment the reference count of a context
->> + *
->> + * This function increases the refcount of the context, which is tied to
->> + * resources shared by the same tee_device. During the unregistration process,
->> + * the context may remain valid even after tee_device_unregister() has returned.
->> + *
->> + * Users should ensure that the context's refcount is properly decreased before
->> + * calling tee_device_put(), typically within the context's release() function.
->> + * Alternatively, users can call tee_device_get() and teedev_ctx_get() together
->> + * and release them simultaneously (see shm_alloc_helper()).
->> + *
->> + * @ctx: Pointer to the context
->> + */
->> +void teedev_ctx_get(struct tee_context *ctx);
->> +
->> +/**
->> + * teedev_ctx_put() - Decrease reference count on a context
->> + * @ctx: pointer to the context
->> + */
->> +void teedev_ctx_put(struct tee_context *ctx);
->> +
->>  /**
->>   * tee_shm_alloc_kernel_buf() - Allocate kernel shared memory for a
->>   *                              particular TEE client driver
->>
->> --
->> 2.34.1
->>
+Thanks
+Babu
+
+
+
