@@ -1,261 +1,269 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1032125B9;
-	Wed,  9 Apr 2025 07:31:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744183914; cv=none; b=dO9jBCe39dPDvNznNv49tcr8f1GuQIn7phsscHchN5t1fcnWE/+NxRGOw4KhnpGe2ugeDGa+kZJmZrjIGe+DXDhoDqgy6X8XD0Q0E3j/q+wJUERf/x7T+18AXsH74UBydiesPH+4+ayQBByraEb5LgNt2ZhHwaKKmimT/k0CyUQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744183914; c=relaxed/simple;
-	bh=0reF5eVkTPs+VQ+XzqgvxURmmJIR5Kufrz5v6wcSEdU=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=UWv7sU71QMHVWEQLOKMEl44BKY7hMECXp+4ZOlSur11xjarGMuPuuFezI1UZB7jv//ZgSM6LdLWej7mZ7TcI2ZqjcRIvYFgEs5H3sFlF7prKDE8ERjfuogm4/6SdzG0FH0vV59UAjmSF2FS3b+2BOb2jfUgeF9QVvUOXG9Bp+RQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gE42Zmel; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FB0025A2D1;
+	Wed,  9 Apr 2025 07:37:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744184258; cv=fail; b=RjnDPohSFK3DfwWzxWMnZwh/rXRjWk7CD5j50gB4Y3J2g0KruhKExAyIM+KXVjhkDe7MrTlRWIayICisdnCKmel2AqTia5oiXsmvy97fAkNvsfR1wQ+kfQ+cAVH07J+EMSucx1DS17Aul3x4xUizoh8jLh6U7uXbSxnp0TatJiQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744184258; c=relaxed/simple;
+	bh=tHSswy6XsMRK6kuFhq3NUaq3M2JEu62sA7RjcVDgH20=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=JaKwlW4G07FqJ8SpyF4vK7Jgz9Mosvs4cel7tbrKzAeU/kiRZZzRtPtcu+1VHXXI6ZfSLADW8NByv9889C0Eb8UOq2KFbvJJtok8N8JD9ecWzZTkEsz+Emlf9lnFihagvlY/DgBA6oyIeh2x32v5iz6YJqpmmczCC6uAEOWJvRA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MDUzJHss; arc=fail smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gE42Zmel"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso36386545e9.3;
-        Wed, 09 Apr 2025 00:31:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744183911; x=1744788711; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=FxkrmrDnX1oVlK+vG9j1Gh2jAbjCk8teFF7Lnah4O98=;
-        b=gE42Zmel2zjYuzaqA7Z6PgJfS2EFd8v2qsK0JnoeRhywZKpSpbMNTZHptcJTl6x69j
-         AS21VWActTSGpZxdXb88oYk+jvsR7eA/mB/a9qZMNPcaYw0IqbeOpITY0X1uuwe6ZCoa
-         ZzG00oVaXizfYbsa/LPQ08gQaGHEQmCoSkmpzNAX4Ckj17OdGwn3iVSdPiVLybDKqM74
-         /uv6CfCjQsu0AVKuezx8a1CWM2KWUN5U8mvCF7A7n4D1prJK4x/RFcp87cYONhp4wIME
-         1FpLdBf02vl2r//x9g/VmAbETftOTJ+b+AOfWM3omH727Qji5hZM9H9CPaPub9QNsEDq
-         DZNQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744183911; x=1744788711;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=FxkrmrDnX1oVlK+vG9j1Gh2jAbjCk8teFF7Lnah4O98=;
-        b=gf6ir4hh0WOdY24JSj1RQGgf5ftj1xopZ72EsVfgNKONN2u4gAnkxmvoZu5PHCbVSZ
-         oMKLHiEHPDY0R4ZNIvnsTy07OLRF96NIr3zAW4iVKjuPICTrXO87govkgc9Zju4/rHdL
-         Dplp0jvMjkkqeyWiKlHywsIE9qgL422Z32KXzET89oIkLfD7wWTxqfyhTut5W86GBbHd
-         Udj3vPeqbzh+ZTjfAmjQ7ViUqZktSbONUqbRhRDufsQ7EbQbvvmiuA3IFY2RC8XUWZoX
-         e+Gqh0ST0VtDvHjlTBYwgJbu5nFr9Zyc1uf7+eZBWKBoEBAk3RjDEXvFTu4NL8xCYKWT
-         zWrQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVk/8pRuAUSE7O6tqkD4RSNa/t+hAa4Mkq8OfcJsmEBQwiJl8+ZCNe8C6PSCSoIyd/DQK5uBGuMFeE=@vger.kernel.org, AJvYcCXybI6qO/1eWBFrdfxQAynXvVvOROPJxyF8b5xu86PEjcBtHRSF8YByhjDsbRxUkW2LomxginMd5VHjb00R@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy1M11eX0m6vnMqptXdUw8gObh119yTiQtY7R7Nu42xp9qWPVeh
-	oSUTw5T9bHp5dlzQDtgPEUs6x5AcFoTwtODMlk/Zuur0fWceUJ7y
-X-Gm-Gg: ASbGnctt+2v4GoZ0JMxLEewkX+pgim3Lr6OHod+WaLgAUYkez7g31F8x5ORo7GTNiy+
-	ElvwPWqKICoe4wm1kHOyHzdj+mV6zBXBd26nCNHf1ySFkhOSJekDuAoFG3c+e0jU1GBaLDCNl8g
-	Il0SwojWNOlOMVNtvBs8ToiaQ1HwChVW8AEZ+cUzo0sDLLLgJIGccYO2HzrBULIs7KAmJTl4BZu
-	ezPUV/rJSDOLMl1C8z1k4KsojBt6xI1XDFBBbp172uANq/1yOfCQLa9ZZUzfcs4NWxveM52tLwF
-	bzSBF+VDf2GC4qNgATQZlp/g6F8ILm5exuN+AdsOeIX6taq/A7YT8YKCc6ArKUrWym/H4JiQmEl
-	RCg/qYby23f8TYIs=
-X-Google-Smtp-Source: AGHT+IE+RJVpqMf15Nm4Oq0HJr4Jofxhvw22oqRlpuJ57WBFl4u2dFpbeuHGNH1NyfH4T/4RMBanbA==
-X-Received: by 2002:a05:600c:548a:b0:43d:94:2d1e with SMTP id 5b1f17b1804b1-43f1eca8070mr14482225e9.13.1744183910715;
-        Wed, 09 Apr 2025 00:31:50 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea56:d000:56e0:ceba:7da4:6673? ([2001:818:ea56:d000:56e0:ceba:7da4:6673])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2338dc13sm7193965e9.3.2025.04.09.00.31.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 00:31:50 -0700 (PDT)
-Message-ID: <0900650872a1533a344df375e99ce116046b3ee0.camel@gmail.com>
-Subject: Re: [PATCH v4 5/5] iio: dac: ad3552r-hs: add support for internal
- ramp
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Angelo Dureghello <adureghello@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?=
- <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, Lars-Peter
- Clausen <lars@metafoo.de>, Jonathan Corbet <corbet@lwn.net>, Olivier Moysan
- <olivier.moysan@foss.st.com>, Michael Hennerich
- <Michael.Hennerich@analog.com>
-Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Date: Wed, 09 Apr 2025 07:32:09 +0100
-In-Reply-To: <20250408-wip-bl-ad3552r-fixes-v4-5-b33c0264bd78@baylibre.com>
-References: <20250408-wip-bl-ad3552r-fixes-v4-0-b33c0264bd78@baylibre.com>
-	 <20250408-wip-bl-ad3552r-fixes-v4-5-b33c0264bd78@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MDUzJHss"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744184256; x=1775720256;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=tHSswy6XsMRK6kuFhq3NUaq3M2JEu62sA7RjcVDgH20=;
+  b=MDUzJHss2HYifTMuzAemqedljI3skRs2ctEO6aWLyr16cJxCbNqKej27
+   nN81UaLSK5QfMx+2d7v3Ee7ZdNhFJYkvPMDIxGIaxBaHu3gpdjDPMQPWP
+   GZ+IKzM4E9iU++X25gxTqp5o+y3w7Lq1+7KFhTrSIxsEb98u06gW52xae
+   dl9AYns65ih+4hbkYBfnapphCmLTscDSEe69YOYogc0Fn/E+Sd9AmhqA6
+   UCCxm2f1C3sUCi/PL3HuY7Gkbt+mmN3+utOR3ndYGRCwxr/wBLd0zl6EF
+   XeatKG5jnd6qvRW35YfnmlbdpFJfG+f+eiAn6qst4mM0afpkFTZzqRxet
+   Q==;
+X-CSE-ConnectionGUID: rj+q02JSRLSdOFaiSsHfLQ==
+X-CSE-MsgGUID: A7ZqOhadROS7IIfp/eVgzw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11397"; a="56311022"
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="56311022"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 00:37:35 -0700
+X-CSE-ConnectionGUID: 8d+NmMzzRNy/C25VpsmJAA==
+X-CSE-MsgGUID: eIOmOAbZSQm4giJyrdYA4Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="129451211"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 00:37:34 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 9 Apr 2025 00:37:34 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 9 Apr 2025 00:37:34 -0700
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (104.47.56.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 9 Apr 2025 00:37:33 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=muvyeM0aN0r8xS2TKcM+CCaw+aQEW1w6IQaGvPUjVQ39QMVu4+UQ2Qmug2uydxk9GLK8BJwm+GjwLZpIjKko63Qnw5Cm0rcvL93u1Gr3r9XIL/q2GS6mNtD6F6Nq4+x0nj+ZuM/5XKRlSljxtecL3nG0B+euIVaHzlWqs8LamAACqnioO3vruq0z6jlz+lwwlhZ7ABTyqDoCeW6n7baVBrasktSgWW9rzw5iDOyqp3DypNb9dEsh3XPo49F8E1+WsEbR82gr52/mhuKO0YYTrLtaSukX7exU2oLp0MbdK69m5NqKQNrZTVr+1MEOILL3SD6BvJsxqRPw5ja7x6qvsQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CJ6CzhN92oiB5Hct6GpQqdmjuoXgYOgmYkJTHKLM4Ls=;
+ b=HfwM8bOflHoy5ccWQm2+zPT1sDGkePTSpZTCc2LswNzGRLvfZPXLoIkBXgxc8G3AOvBKVlq5bRXHABdRRPQUigB4HdFMQ+TZaKtrHo4TGporvAlPOluSSQiAO7/uVcHvwFtNPxUvzHc0/kA/amr1FoQl8XGjBb3TzXCpBorjgH84Q6tW9Fg/2lWKcbBjMcm/mVNJYRhjREsAcxlBey3SZJ+okRElU/JJONiXOigLhw5v+Rp3Ja0D7gIRdAis0Mwm6Lenl4Krm9hYLQ+3tggBOGeAEXwC2okIMOyJJWp7t7HbsgSyFMpg3kWjjFxcUxQogcRV2Nbmi6lBLwEbIWS5Rg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by PH0PR11MB5109.namprd11.prod.outlook.com (2603:10b6:510:3e::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.33; Wed, 9 Apr
+ 2025 07:37:18 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8606.029; Wed, 9 Apr 2025
+ 07:37:18 +0000
+Date: Wed, 9 Apr 2025 09:36:32 +0200
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To: Dave Hansen <dave.hansen@intel.com>
+CC: <hpa@zytor.com>, <hch@infradead.org>, <nick.desaulniers+lkml@gmail.com>,
+	<kuan-ying.lee@canonical.com>, <masahiroy@kernel.org>,
+	<samuel.holland@sifive.com>, <mingo@redhat.com>, <corbet@lwn.net>,
+	<ryabinin.a.a@gmail.com>, <guoweikang.kernel@gmail.com>,
+	<jpoimboe@kernel.org>, <ardb@kernel.org>, <vincenzo.frascino@arm.com>,
+	<glider@google.com>, <kirill.shutemov@linux.intel.com>, <apopple@nvidia.com>,
+	<samitolvanen@google.com>, <kaleshsingh@google.com>, <jgross@suse.com>,
+	<andreyknvl@gmail.com>, <scott@os.amperecomputing.com>,
+	<tony.luck@intel.com>, <dvyukov@google.com>, <pasha.tatashin@soleen.com>,
+	<ziy@nvidia.com>, <broonie@kernel.org>, <gatlin.newhouse@gmail.com>,
+	<jackmanb@google.com>, <wangkefeng.wang@huawei.com>,
+	<thiago.bauermann@linaro.org>, <tglx@linutronix.de>, <kees@kernel.org>,
+	<akpm@linux-foundation.org>, <jason.andryuk@amd.com>, <snovitoll@gmail.com>,
+	<xin@zytor.com>, <jan.kiszka@siemens.com>, <bp@alien8.de>, <rppt@kernel.org>,
+	<peterz@infradead.org>, <pankaj.gupta@amd.com>, <thuth@redhat.com>,
+	<andriy.shevchenko@linux.intel.com>, <joel.granados@kernel.org>,
+	<kbingham@kernel.org>, <nicolas@fjasle.eu>, <mark.rutland@arm.com>,
+	<surenb@google.com>, <catalin.marinas@arm.com>, <morbo@google.com>,
+	<justinstitt@google.com>, <ubizjak@gmail.com>, <jhubbard@nvidia.com>,
+	<urezki@gmail.com>, <dave.hansen@linux.intel.com>, <bhe@redhat.com>,
+	<luto@kernel.org>, <baohua@kernel.org>, <nathan@kernel.org>,
+	<will@kernel.org>, <brgerst@gmail.com>, <llvm@lists.linux.dev>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kbuild@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<x86@kernel.org>
+Subject: Re: [PATCH v3 05/14] x86: Reset tag for virtual to physical address
+ conversions
+Message-ID: <a7imdoiu4dpypmw2rp25j3vmmuvvzhg6bcx5wtt2dgukg5u7cz@nuyvc77cdmvb>
+References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
+ <a8332a2dc5b21bd8533ea38da258c093fb9f2fe2.1743772053.git.maciej.wieczor-retman@intel.com>
+ <257b39a5-69bf-4e6d-844b-576e9c9d2e7d@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <257b39a5-69bf-4e6d-844b-576e9c9d2e7d@intel.com>
+X-ClientProxiedBy: DU6P191CA0002.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:540::19) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|PH0PR11MB5109:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e111d9d-67ec-4cd2-178a-08dd77395ae2
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?gm5JE6RvxiT9WvVipGtIkxidrz/iwVRUEMEDY/zKEki8ruDYBhp2XycuKh?=
+ =?iso-8859-1?Q?67Wviz7oahrFb+BJtk9lEcbo+xWASo2UJvZto01sWa1dawjvyhJMV1brUT?=
+ =?iso-8859-1?Q?t7dZvpqHqE4C4D9rN4U+M1IRZxb0cswFSVAcA9un5N0R4/0jXWAoW6PDHT?=
+ =?iso-8859-1?Q?pD5dvqunmiDj4lqbegV5d7+FnlPqIgoP6CBnheSJk37+BAqHKFOzBBRHOq?=
+ =?iso-8859-1?Q?0CWOcJeB7idYRohHcSpe9Qk+lPJ8VZkByfWFaki+z9fMekOx+cIw7Q30/t?=
+ =?iso-8859-1?Q?GsS7r7Hl5EtfVWzUMe+jpfHR7/4m4x+99GQ2cFNeKDGi6Y04PZOdvBpX2L?=
+ =?iso-8859-1?Q?FRwsz+ffwY4pcrAnpfXn2IB41NRbiT78BkqyoKS3sCRabhEAbHu/QNosUl?=
+ =?iso-8859-1?Q?aE8vQbxT/EArHB+BIOaVoc+0mvYkGETPCclNL89LHFKAhrv4IYcPRsf4nZ?=
+ =?iso-8859-1?Q?j3IKKhCzsD3JzbvrU+96aha/NtgjRKhwkb/Q3OxcH6fE33SUQro5wGmC3x?=
+ =?iso-8859-1?Q?UVlnoRSvtZvIBvQ+sj+4fApFTrpWdxBI3GOSAgUZvBnPK7E1u+Xpn0y0sd?=
+ =?iso-8859-1?Q?tx+dwr6VbyJVI9Qi9X/5kXuMOaiMbSFMqmFnggM/oVC2VA9x4/jSYLSvtj?=
+ =?iso-8859-1?Q?mKs3nhrWYfSRkZsAqgbrC6qmyh0VFG0Fot/uyjiOkrooiN9Ffr5EYFi5t1?=
+ =?iso-8859-1?Q?LyQk2hDKYOw6lLxlP1Zs9fkxnLn5kqYnTNMQZNu0FCeXxtquYpDOQVgOzC?=
+ =?iso-8859-1?Q?ODKV8TumU2TUxwaRVMZyAy7qyo7mDmv6kOGZmm/x253aTmfjIlbo6U5Ceg?=
+ =?iso-8859-1?Q?L+u00NqwngBpq3wKV3sxPCEljf3TxXNwKrF86qtA6M8PmS75A0wTOdWQIv?=
+ =?iso-8859-1?Q?PoXddF9c2Gc8L1e4BkC5Jwap8Qe3vxytwTp9t312sBXG+9WBtjFeCgUete?=
+ =?iso-8859-1?Q?ro9B5KqkvZ6DcPoAY3FHsiNjHDNbrREY9bwbGc3n/GRUNbJz/G+jf8cTen?=
+ =?iso-8859-1?Q?sS6LVZk8Hr/XojYJhZNnnp2FN/DDxEAumQeAMs7zZsTdWeeZNDeo7JudKs?=
+ =?iso-8859-1?Q?+DGFZvaDhEG/mM0F7EkEuQbefwhWPYzE0TgKPSfR2+s7JJowDPYLA/wgiF?=
+ =?iso-8859-1?Q?vHgF6cIFoWe1bVf+XNc6S7S2djPEyXQmu62PfwJmB/jMjSp8ohmGELBkAy?=
+ =?iso-8859-1?Q?1wlKVoFQgjFokmsXE7rNycK8xQhqgAeataKp54S7sEO5HnC+TJ0x97zMAy?=
+ =?iso-8859-1?Q?8odjXmtmTU2+lwxenkIQYTEJAVejskMi/J5er29N2uQlhvdqdg6qfk1k3i?=
+ =?iso-8859-1?Q?JiEKmsxLmcOYSUyuFVoy9mMmdfkmgIp875sDPyNrBmf0LqZUX5nQIq2j/4?=
+ =?iso-8859-1?Q?gv/f9J+Ox6eXFXwGHsCXqGHTdKZs5AT+lxvIz1EwQ9hd2RqRVmqHxo/NWI?=
+ =?iso-8859-1?Q?iDjafMhPJqixjgjf?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?fV5eZ4juin3bW3Ae4NYIjGjWhGTeRU+u2uA6No9eHcoA6i8n+0D9bK64ju?=
+ =?iso-8859-1?Q?Omabk2vT1nvo31qHX0EJPh/DKcD1UspudA2VTKj9x+iSQBmd8XdljwBmyX?=
+ =?iso-8859-1?Q?wTOxB54Id7kliWCgXLWwhLN43Ri5YEChduHATc58Ik0xaibxs/Y5OBfnE6?=
+ =?iso-8859-1?Q?AB04GyXnqspwhfNgz7RdqPFBVvxAA7H4PwPQzahGQgXymBed68i9uImCC8?=
+ =?iso-8859-1?Q?JmOtEVzpSsbEGBhY+wj+qgyBxEzSMKgnXNM5uHhwCAfjBorAkagtr8NDoU?=
+ =?iso-8859-1?Q?gcTxO9nW0VMg4soMCxXuGxDiMOgNtkgC9keRbbXWcTrgi1wTDOsa2bTlzw?=
+ =?iso-8859-1?Q?6D0anjRmwx7/p4cimi5dSIiJxVxLI1st/EjV7jJbECCGOxmuBslqn56/1c?=
+ =?iso-8859-1?Q?UAbi04S5CQH16UAOddglh7IDZt5+ssY6HGHnpYxzJU+Pvgoz12w97KkbRK?=
+ =?iso-8859-1?Q?oEPJygqTYg7MUhXjkJBeqjGhN6G21KkgCbK6CGvkY5GV+Ncbx5c9rXwv2W?=
+ =?iso-8859-1?Q?iwzbFvbNs8qVP9JmLHezEulRg+Wz1nqHERhgt4Bbo5dW0301j9jr5uJE8M?=
+ =?iso-8859-1?Q?Y3qLJqApgJidhUSG0EWWPaTU+SbC47tTNnKdG4I4HmzyJJ9a52NrWPT/oF?=
+ =?iso-8859-1?Q?QzLSR82lNzVNyYTubxb2n9aSvhfwHUNBjA79VHeJPdEAJk7kIGr6HoIiGV?=
+ =?iso-8859-1?Q?2DiQkOvwj1XRA6jwaRYbOPuFNQS4C13ChiZG7CHJUnkVsTB6VKW8dc2Sl2?=
+ =?iso-8859-1?Q?3PxB5aKwlRr80ReT/hFLMaZ/XdUbcH81ESip45IqzY8O9/k0jA4irc9NnL?=
+ =?iso-8859-1?Q?Ad9BqaAeDOawAeqsXD0EWhqn+bKEWJuI3sfGMj0f1E/157x2A5jwSi0ubt?=
+ =?iso-8859-1?Q?BUDJ262Wtpbajo/QFk0iBDLpqipabSknqVL4GSfUidO/6bWdhzRjXvC3Bb?=
+ =?iso-8859-1?Q?ETkIuavuqR6GPI+f1aBO7hkFmqaATuas3Iz//Yy2j8P6+1kIMDtaqY2NeR?=
+ =?iso-8859-1?Q?H0Zz/tTAathyqzKZ5dBCdDLO+dGAYdqYHkCAv7I0dIVGzlV2mErStmaa1e?=
+ =?iso-8859-1?Q?x8YNWiDyykCN9cOtBCjonqs9rAhAwcQcg45T0qrCicGLxA65Wf9f0dfy6p?=
+ =?iso-8859-1?Q?uchwWl60Ym5jUsJ0JMTrB7cl0IsO52rQuC+51dVxEm4CI7nsaJViO7Oiyp?=
+ =?iso-8859-1?Q?9vlisHK7X1jhkPGk0lIjIYasiA+d+kBjPeqAaAjw/lN1/QvMiBUf7jO+y7?=
+ =?iso-8859-1?Q?U3vWL5B8OkYwhuh2w8JdmWnmAhpgAndEEbtP3pKL5mUUZ/WR/OZ5CgIZaH?=
+ =?iso-8859-1?Q?k/MxLlWyr32K8BYyfjsqVbgCWvDCSQTll/ApIrTC4ej7R3quTjGLzfSwmM?=
+ =?iso-8859-1?Q?zagR166KwMRd/yz+HOgWuUgsKXq+rLTD9+CNGBFpf90+hSuN9W412yxNu9?=
+ =?iso-8859-1?Q?xeQ+LSTXJEZG8DxYas6vpmVv1lIQZeD7TVLgkjP252Ljc/WdZ3ZXjD+kw/?=
+ =?iso-8859-1?Q?51WCeXU7FMxa3SypO4fkUVR/UB18t4zcNPRCavfKSHL+L7JANN2dR6+3aJ?=
+ =?iso-8859-1?Q?HvG+LlTTcYRxw9F6P9S+BXrJFHQ5O70cqPaKuuurSnS2mD4eZTJauuikrG?=
+ =?iso-8859-1?Q?mFhL9EDGEWzzU48/qCl2ffznUCSURWUYhzqR1G0aUZdcKhUmxxalLAhCuY?=
+ =?iso-8859-1?Q?pf/r+7zXKnFzA91sNmA=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e111d9d-67ec-4cd2-178a-08dd77395ae2
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 07:37:17.9937
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: t06MeM8qBfZRbbYIen/iGGo9063ePKWL9qn8UiL3A2SyU2iPV6iElez1g8jERQaAjVlmdZygmUDne1LzA14lxZ8YGTd1/W6Vlho/fR+bQ0c=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB5109
+X-OriginatorOrg: intel.com
 
-On Tue, 2025-04-08 at 12:18 +0200, Angelo Dureghello wrote:
-> From: Angelo Dureghello <adureghello@baylibre.com>
->=20
-> The ad3552r can be feeded from the HDL controller by an internally
-> generated 16bit ramp, useful for debug pourposes. Add debugfs a file
-> to enable or disable it.
->=20
-> Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
-> ---
+On 2025-04-04 at 09:42:55 -0700, Dave Hansen wrote:
+>On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
+>> +#ifdef CONFIG_KASAN_SW_TAGS
+>> +#define page_to_virt(x)	({									\
+>> +	__typeof__(x) __page = x;								\
+>> +	void *__addr = __va(page_to_pfn((__typeof__(x))__tag_reset(__page)) << PAGE_SHIFT);	\
+>> +	(void *)__tag_set((const void *)__addr, page_kasan_tag(__page));			\
+>> +})
+>> +#endif
+>
+>Is this #ifdef needed?
+>
+>I thought there were stub versions of all of those tag functions. So it
+>should be harmless to use this page_to_virt() implementation with or
+>without KASAN. Right?
+>
+>I'm also confused by the implementation. This is one reason why I rather
+>dislike macros. Why does this act like the type of 'x' is variable?
+>Isn't it always a 'struct page *'? If so, then why all of the
+>__typeof__()'s?
+>
+>Are struct page pointers _ever_ tagged? If they are, then doesn't
+>page_to_pfn() need to handle untagging as well? If they aren't, then
+>there's no reason to __tag_reset() in here.
+>
+>What was the thinking behind this cast:
+>
+>	(const void *)__addr
+>
+>?
+>
+>Are any of these casts _doing_ anything? I'm struggling to find anything
+>wrong with:
+>
+>#define page_to_virt(x)	({
+>	void *__addr = __va(page_to_pfn(__page) << PAGE_SHIFT);
+>	__tag_set(__addr, page_kasan_tag(x))
+>})
+>
+>... which made me look back at:
+>
+>	static inline const void *__tag_set(const void *addr, u8 tag)
+>
+>from patch 3. I don't think the 'const' makes any sense on the return
+>value here. Surely the memory pointed at by a tagged pointer doesn't
+>need to be const. Why should the tag setting function be returning a
+>const pointer?
+>
+>I can see why it would *take* a const pointer since it's not modifying
+>the memory, but I don't see why it is returning one.
+>
 
-Hi Angelo,
+Right, yes, both your page_to_virt() and removing the const from __tag_set()
+return seem to be working just fine. Thanks for pointing it out.
 
-One issue that needs a respin and then a minor comment... With it,
+With the macros I was trying to do what the arm64 implementation did assuming it
+had some significance that wasn't written down anywhere.
 
-Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
+I recall lack of the const thing was giving me a compilation error a while
+back but now it's gone. And I didn't think much of it since arm had the same
+thing.
 
-> =C2=A0drivers/iio/dac/ad3552r-hs.c | 166 ++++++++++++++++++++++++++++++++=
-+++++++++--
-> =C2=A01 file changed, 160 insertions(+), 6 deletions(-)
->=20
-> diff --git a/drivers/iio/dac/ad3552r-hs.c b/drivers/iio/dac/ad3552r-hs.c
-> index
-> 37397e188f225a8099745ec03f7c604da76960b1..9a8eed7a06e4f2e7b23d59764b8f2fc=
-21e2c4537
-> 100644
-> --- a/drivers/iio/dac/ad3552r-hs.c
-> +++ b/drivers/iio/dac/ad3552r-hs.c
-> @@ -7,6 +7,7 @@
-> =C2=A0 */
-> =C2=A0
-> =C2=A0#include <linux/bitfield.h>
-> +#include <linux/debugfs.h>
-> =C2=A0#include <linux/delay.h>
-> =C2=A0#include <linux/gpio/consumer.h>
-> =C2=A0#include <linux/iio/backend.h>
-> @@ -54,6 +55,18 @@ struct ad3552r_hs_state {
-> =C2=A0	struct ad3552r_hs_platform_data *data;
-> =C2=A0	/* INTERFACE_CONFIG_D register cache, in DDR we cannot read values=
-. */
-> =C2=A0	u32 config_d;
-> +	/* Protects backend I/O operations from concurrent accesses. */
-> +	struct mutex lock;
-> +};
-> +
-> +enum ad3552r_sources {
-> +	AD3552R_SRC_IIO_BUFFER,
-> +	AD3552R_SRC_BACKEND_RAMP_GEN,
-> +};
-> +
-> +static const char * const dbgfs_attr_source[] =3D {
-> +	[AD3552R_SRC_IIO_BUFFER] =3D "iio-buffer",
-> +	[AD3552R_SRC_BACKEND_RAMP_GEN] =3D "backend-ramp-generator",
-> =C2=A0};
+If Andrey Konovalov is reading this: is there a reason the __tag_set() on arm64
+returns a const pointer? And the page_to_virt() does the __typeof__()?
 
-nit: I would use more generic strings. I assume "iio-buffer" is just the "n=
-ormal"
-data so use something like that. For the ramp, is it 16 bits? I would just =
-use ex:
-RAMP_16. I do not thing that the "backend" prefix (as well as "-generator")=
- to add
-much.
-> =C2=A0
-
-...
-
-> +
-> +static ssize_t ad3552r_hs_show_data_source_avail(struct file *f,
-> +						 char __user *userbuf,
-> +						 size_t count, loff_t *ppos)
-> +{
-> +	ssize_t len =3D 0;
-> +	char *buf;
-> +	int i;
-> +
-> +	buf =3D kmalloc(PAGE_SIZE, GFP_KERNEL);
-> +	if (!buf)
-> +		return -ENOMEM;
-> +
-
-When are we freeing this memory? I also do not see the point for a PAGE_SIZ=
-E
-allocation for such a small string table. I would say to simplify things an=
-d use a
-local buffer with 64/128 bytes (should be more than enough). If you see thi=
-s growing
-in the future, you can also go with seq_file.
-
-- Nuno S=C3=A1
-
-> +	for (i =3D 0; i < ARRAY_SIZE(dbgfs_attr_source); i++) {
-> +		len +=3D scnprintf(buf + len, PAGE_SIZE - len, "%s ",
-> +				 dbgfs_attr_source[i]);
-> +	}
-> +	buf[len - 1] =3D '\n';
-> +
-> +	return simple_read_from_buffer(userbuf, count, ppos, buf, len);
-> +}
-> +
-> +static const struct file_operations ad3552r_hs_data_source_fops =3D {
-> +	.owner =3D THIS_MODULE,
-> +	.write =3D ad3552r_hs_write_data_source,
-> +	.read =3D ad3552r_hs_show_data_source,
-> +};
-> +
-> +static const struct file_operations ad3552r_hs_data_source_avail_fops =
-=3D {
-> +	.owner =3D THIS_MODULE,
-> +	.read =3D ad3552r_hs_show_data_source_avail,
-> +};
-> +
-> =C2=A0static int ad3552r_hs_setup(struct ad3552r_hs_state *st)
-> =C2=A0{
-> =C2=A0	u16 id;
-> @@ -550,11 +678,7 @@ static int ad3552r_hs_setup(struct ad3552r_hs_state =
-*st)
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> -	ret =3D iio_backend_data_source_set(st->back, 0, IIO_BACKEND_EXTERNAL);
-> -	if (ret)
-> -		return ret;
-> -
-> -	ret =3D iio_backend_data_source_set(st->back, 1, IIO_BACKEND_EXTERNAL);
-> +	ret =3D ad3552r_hs_set_data_source(st, IIO_BACKEND_EXTERNAL);
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> @@ -661,6 +785,26 @@ static const struct iio_info ad3552r_hs_info =3D {
-> =C2=A0	.debugfs_reg_access =3D &ad3552r_hs_reg_access,
-> =C2=A0};
-> =C2=A0
-> +static void ad3552r_hs_debugfs_init(struct iio_dev *indio_dev)
-> +{
-> +	struct ad3552r_hs_state *st =3D iio_priv(indio_dev);
-> +	struct dentry *d =3D iio_get_debugfs_dentry(indio_dev);
-> +
-> +	if (!IS_ENABLED(CONFIG_DEBUG_FS))
-> +		return;
-> +
-> +	d =3D iio_get_debugfs_dentry(indio_dev);
-> +	if (!d) {
-> +		dev_warn(st->dev, "can't set debugfs in driver dir\n");
-> +		return;
-> +	}
-> +
-> +	debugfs_create_file("data_source", 0600, d, st,
-> +			=C2=A0=C2=A0=C2=A0 &ad3552r_hs_data_source_fops);
-> +	debugfs_create_file("data_source_available", 0600, d, st,
-> +			=C2=A0=C2=A0=C2=A0 &ad3552r_hs_data_source_avail_fops);
-> +}
-> +
-> =C2=A0static int ad3552r_hs_probe(struct platform_device *pdev)
-> =C2=A0{
-> =C2=A0	struct ad3552r_hs_state *st;
-> @@ -705,7 +849,17 @@ static int ad3552r_hs_probe(struct platform_device *=
-pdev)
-> =C2=A0	if (ret)
-> =C2=A0		return ret;
-> =C2=A0
-> -	return devm_iio_device_register(&pdev->dev, indio_dev);
-> +	ret =3D devm_iio_device_register(&pdev->dev, indio_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret =3D devm_mutex_init(&pdev->dev, &st->lock);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ad3552r_hs_debugfs_init(indio_dev);
-> +
-> +	return ret;
-> =C2=A0}
-> =C2=A0
-> =C2=A0static const struct of_device_id ad3552r_hs_of_id[] =3D {
->=20
-
+-- 
+Kind regards
+Maciej Wieczór-Retman
