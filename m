@@ -1,136 +1,190 @@
-Received: from relay8-d.mail.gandi.net (relay8-d.mail.gandi.net [217.70.183.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1BAB22253E4;
-	Wed,  9 Apr 2025 12:58:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADA0125E467
+	for <linux-doc@vger.kernel.org>; Wed,  9 Apr 2025 13:24:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744203535; cv=none; b=H9Mfg9WzD1/ZYLQs2KrwNvCBpMKKSlM6pgsunZ094E903CL5bDNhyfi403T8nKBr8T1EBfxkD0aiSFWYi/WS74r3I1EFtqCRU4Q3gSGv3BUBTumRbxcCxLoc/QnDxm2ZPfV1CetdkzUlgRdW9+ztXq9uk4hyWDLX+Do7i9Qn2LI=
+	t=1744205076; cv=none; b=uFapT++gy7AtfYF08SmHubGCaYezPAy6y8hvqy1ZlCU6MYKsncAQn5lyTMcwq0NkH18uCE012oI7ROBehcdk9bHjIuonq3pHRdJ3MXGwF2NRI7MnamcOa1Gf2284jUDsENAp5EVPriw5lFQOpO9T++tLKEBGyS9TaoDX+QU3LCM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744203535; c=relaxed/simple;
-	bh=v0E8JwOeSFTseer5b+OWBKz2tkz65IA5DX+mqCrtQ5Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=E4uNpX1Sy78gcp0OAezt1CL6s6RjvCApZsrBj+W7WCnUB/COnq94sb87vrymXgg5lyvbgJOCUxcPnxTzxjLGeVQ61mCJkp7ENMe0Y1wdP7LIA1LOnw0494CdejTlaDOoI030IbHEXYdsnS9i6tm3Bi/xETmSGZYmgwU+MdGohbM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=UWxbpKE9; arc=none smtp.client-ip=217.70.183.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1744205076; c=relaxed/simple;
+	bh=lR6HbIW46Lo1luKRc0aisq12HHbyplNXNMAdbjw83Qw=;
+	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
+	 Content-Type:Date:Message-ID; b=s0F2KwpVtos8hdQpd+/QYX5zkeneiGg6wgPc2priTYCcCDU8klDFE8qJ3OhtT5MlRQoZAPtyhxHoEnKgMT3s9qLtYvyENoTqzeaELZCqI2JDI/lnzm+E4n44D4pXaIPB0NDN31YsAuhMalmVdAM3o4JmoUVcFrhw5ABOZNEfNfA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fZnPtZRl; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="UWxbpKE9"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id C70FD433F1;
-	Wed,  9 Apr 2025 12:58:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744203531;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fZnPtZRl"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744205073;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=p+ga/SibcWPx3fl3n2uJ5iHXkBtS8N9d3kPs8xAyuRw=;
-	b=UWxbpKE9/Y7votllY+udYTCtqWxd59BQ978/IVivP+m7tYkDVZzyQBDPeHqyzA0fDrJm6e
-	YxReLsbiBUY8UOyKOTbZnF+oBtJfkEWKmm84hbhLsnjapK7dkioCW9rFlCl2oT/UzZHWGi
-	Uozc14KbUceUThlAw1yB2mpO6U54S+GH9wKlJ0O/B67QsWIOXPaU2uapeBHK4mWyz/adsl
-	HHmZSGkzbKQDHjqPoO8F9dqLFdFN1ZP42KPJO1UuEelon0CoYSbZezlqQd5w4vLymR2JOF
-	/Sdz/nSL7QHLk12ykIr8Vxihg/QGOiyiND9RJvsB8e9WHltvsNI3RgvyxXI0XA==
-Date: Wed, 9 Apr 2025 14:58:48 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo
- Abeni <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v7 04/13] net: pse-pd: Add support for PSE
- power domains
-Message-ID: <20250409145848.552fadd2@kmaincent-XPS-13-7390>
-In-Reply-To: <Z_VmYMvqfrBPR1l5@pengutronix.de>
-References: <20250408-feature_poe_port_prio-v7-0-9f5fc9e329cd@bootlin.com>
-	<20250408-feature_poe_port_prio-v7-4-9f5fc9e329cd@bootlin.com>
-	<Z_VmYMvqfrBPR1l5@pengutronix.de>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	bh=lfwYYsGrLuBzhEjko8XOF3Kr8lKmO5hpl5xF++WtSAA=;
+	b=fZnPtZRl73M0z+lcx/Y9yccDrAEhDIB79CytU0CVUOQSy357iSRuVmSG+nGCKp5eOyKLP+
+	AUkdk/GjlAJGrI5af3EPsw2PB4ySeqPtndQmcpVlBY5fNxbuA1TvLBoyBo0Yu/U4mxkasG
+	A59yrhL67rAcwrOJhBXX9/jQL9gu19Q=
+Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-282-0sGq1VTdOK6CsMIJAsgGDg-1; Wed,
+ 09 Apr 2025 09:24:30 -0400
+X-MC-Unique: 0sGq1VTdOK6CsMIJAsgGDg-1
+X-Mimecast-MFC-AGG-ID: 0sGq1VTdOK6CsMIJAsgGDg_1744205068
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1F214195606A;
+	Wed,  9 Apr 2025 13:24:28 +0000 (UTC)
+Received: from warthog.procyon.org.uk (unknown [10.42.28.40])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B9ECE19560AD;
+	Wed,  9 Apr 2025 13:24:24 +0000 (UTC)
+Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
+	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
+	Kingdom.
+	Registered in England and Wales under Company Registration No. 3798903
+From: David Howells <dhowells@redhat.com>
+In-Reply-To: <Z_ZHoCgi2BY5lVjN@archie.me>
+References: <Z_ZHoCgi2BY5lVjN@archie.me> <Z_XOr4Ak4S0EOdrw@archie.me> <1565252.1744124997@warthog.procyon.org.uk> <1657441.1744189529@warthog.procyon.org.uk>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: dhowells@redhat.com, Christian Brauner <brauner@kernel.org>,
+    Paulo Alcantara <pc@manguebit.com>, Jeff Layton <jlayton@kernel.org>,
+    Viacheslav Dubeyko <slava@dubeyko.com>,
+    Alex Markuze <amarkuze@redhat.com>, Timothy Day <timday@amazon.com>,
+    Jonathan Corbet <corbet@lwn.net>, netfs@lists.linux.dev,
+    linux-doc@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+    linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] netfs: Update main API document
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="us-ascii"
+Content-ID: <1676059.1744205063.1@warthog.procyon.org.uk>
 Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvtdeitdehucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepohdrrhgvmhhpvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehku
- hgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopegtohhrsggvtheslhifnhdrnhgvthdprhgtphhtthhopeguohhnrghlugdrhhhunhhtvghrsehgmhgrihhlrdgtohhm
-X-GND-Sasl: kory.maincent@bootlin.com
+Date: Wed, 09 Apr 2025 14:24:23 +0100
+Message-ID: <1676060.1744205063@warthog.procyon.org.uk>
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-Hello Oleksij,
+Bagas Sanjaya <bagasdotme@gmail.com> wrote:
 
-On Tue, 8 Apr 2025 20:09:36 +0200
-Oleksij Rempel <o.rempel@pengutronix.de> wrote:
+> > > > +Further, if a read from the cache fails, the library will ask the=
+ filesystem to
+> > > > +do the read instead, renegotiating and retiling the subrequests a=
+s necessary.
+> > > Read from the filesystem itself or direct read?
+> > =
 
-> Hi Kory,
->=20
-> here are some points
->=20
-> On Tue, Apr 08, 2025 at 04:32:13PM +0200, Kory Maincent wrote:
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> > +static struct pse_power_domain *devm_pse_alloc_pw_d(struct device *dev)
-> > +{
-> > +	struct pse_power_domain *pw_d;
-> > +	int index, ret;
-> > +
-> > +	pw_d =3D devm_kzalloc(dev, sizeof(*pw_d), GFP_KERNEL);
-> > +	if (!pw_d)
-> > +		return ERR_PTR(-ENOMEM);
-> > +
-> > +	ret =3D xa_alloc(&pse_pw_d_map, &index, pw_d, XA_LIMIT(1,
-> > PSE_PW_D_LIMIT),
-> > +		       GFP_KERNEL);
-> > +	if (ret)
-> > +		return ERR_PTR(ret); =20
->=20
-> Missing "kref_init(&pw_d->refcnt);" ?
+> > I'm not sure what you mean.  Here, I'm talking about read subrequests =
+- i.e. a
+> > subrequest that corresponds to a BIO issued to the cache or a single R=
+PC
+> > issued to the server.  Things like DIO and pagecache are at a higher l=
+evel and
+> > not directly exposed to the filesystem.
+> > =
 
-Oh yes, indeed thanks.
+> > Maybe I should amend the text to read:
+> > =
 
-> > +
-> > +		pw_d =3D devm_pse_alloc_pw_d(pcdev->dev);
-> > +		if (IS_ERR_OR_NULL(pw_d)) { =20
->=20
-> s/IS_ERR_OR_NULL/IS_ERR
->=20
-> devm_pse_alloc_pw_d() is not returning NULL.
-=20
-Yes, that's right!
+> > 	Further, if one or more subrequests issued to read from the cache
+> > 	fail, the library will issue them to the filesystem instead,
+> > 	renegotiating and retiling the subrequests as necessary.
+> =
 
-> > +			ret =3D PTR_ERR(pw_d);
-> > +			goto out;
-> > +		}
-> > +
-> > +		supply =3D regulator_get(&rdev->dev, rdev->supply_name);
-> > +		if (IS_ERR(supply)) {
-> > +			xa_erase(&pse_pw_d_map, pw_d->id);
-> > +			ret =3D PTR_ERR(supply); =20
->=20
-> Here:
-> Either we need to ensure pse_flush_pw_ds() handles incomplete setups
-> or immediately clean up earlier entries in the loop when an error
-> occurs.
+> That one sounds better to me.
 
-The pw_d has not yet been saved to pcdev->pi[i].pw_d so we need to remove t=
-he
-pw_d from the xarray here. pse_flush_pw_ds will deal with all the pw_d entr=
-ies
-in pcdev->pi[x].
+I think I like this better:
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+	Further, if one or more contiguous cache-read subrequests fail, the
+	library will pass them to the filesystem to perform instead,
+	renegotiating and retiling them as necessary to fit with the
+	filesystem's parameters rather than those of the cache.
+
+> > > > +Netfslib will pin resources on an inode for future writeback (suc=
+h as pinning
+> > > > +use of an fscache cookie) when an inode is dirtied.  However, thi=
+s needs
+> > > > +managing.  Firstly, a function is provided to unpin the writeback=
+ in
+> > > inode management?
+> > > > +``->write_inode()``::
+> > =
+
+> > Is "inode management" meant to be a suggested insertion or an alternat=
+ive for
+> > the subsection title?
+> =
+
+> I mean "However, this needs managing the inode (inode management)". Is i=
+t
+> correct to you?
+
+Um.  "However, this needs managing the inode (inode management)" isn't val=
+id
+English and "(inode management)" is superfluous with "managing the inode" =
+also
+in the sentence.
+
+How about:
+
+	Netfslib will pin resources on an inode for future writeback (such as pin=
+ning
+	use of an fscache cookie) when an inode is dirtied.  However, this pinnin=
+g
+	needs careful management.  To manage the pinning, the following sequence
+	occurs:
+
+	 1) An inode state flag ``I_PINNING_NETFS_WB`` is set by netfslib when th=
+e
+	    pinning begins (when a folio is dirtied, for example) if the cache is
+	    active to stop the cache structures from being discarded and the cach=
+e
+	    space from being culled.  This also prevents re-getting of cache reso=
+urces
+	    if the flag is already set.
+
+	 2) This flag then cleared inside the inode lock during inode writeback i=
+n the
+	    VM - and the fact that it was set is transferred to ``->unpinned_netf=
+s_wb``
+	    in ``struct writeback_control``.
+
+	 3) If ``->unpinned_netfs_wb`` is now set, the write_inode procedure is f=
+orced.
+
+	 4) The filesystem's ``->write_inode()`` function is invoked to do the cl=
+eanup.
+
+	 5) The filesystem invokes netfs to do its cleanup.
+
+	To do the cleanup, netfslib provides a function to do the resource unpinn=
+ing::
+
+		int netfs_unpin_writeback(struct inode *inode, struct writeback_control =
+*wbc);
+
+	If the filesystem doesn't need to do anything else, this may be set as a =
+its
+	``.write_inode`` method.
+
+	Further, if an inode is deleted, the filesystem's write_inode method may =
+not
+	get called, so::
+
+		void netfs_clear_inode_writeback(struct inode *inode, const void *aux);
+
+	must be called from ``->evict_inode()`` *before* ``clear_inode()`` is cal=
+led.
+
+
+instead?
+
+Thanks,
+David
+
