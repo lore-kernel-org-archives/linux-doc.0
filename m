@@ -1,32 +1,50 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EFE6E26FD9C;
-	Wed,  9 Apr 2025 16:44:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87645276030;
+	Wed,  9 Apr 2025 17:12:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744217046; cv=none; b=l63AJ8ev5NgYViAUJBdtkZImzWSEMlfJkjSU12l0VlKCq0CAsQE8Yhf9NyYqdIGbBQC2lVQT1iGJs5P1ry6jyuenGSlhLLkkRg5lrFvdYoSAuIW2wIBOc5vOtBfhI4loubd8sQt1M5V9ISG1cRfY/JAVqq0OfuCI37MGzqUiNQo=
+	t=1744218740; cv=none; b=kFu6L+m8bdWs4WOUFS8HqPYU00p0SiXnlxbZGV+y3jagHJ0ftjS69ftOKRd8pBo6rjpdVWdVaD/1VrMRCRd1jvXSe0CvsVpuODz0ciuARC2aXL49m2WmYowB6Z86eTZYlrMimcq8Ia0Y5YAojn2eIwrOMBdzPxnYQGfkyAG4kn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744217046; c=relaxed/simple;
-	bh=vZtj6fjzUV9JwxxnoW0FOLv7WXuJNAO384idCThihp4=;
+	s=arc-20240116; t=1744218740; c=relaxed/simple;
+	bh=rMaFchJcz6j9TxgZxUNyUBffmSIxcvFjaUkyyQVtObU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CpjBJ97euxF60tY8Mv/bjAS5jVXEo+fi9IIcdiOjTIUJbSKcnT3SGRROLBp2EbgojyjDr27yrM5c9Kv+P766iJEouNBeq5wXRGankaX81KkmvZI8eFS4jxzTZok2z2HyKyoXv777WvBsKU5vQkjnG3rSKQkVyP51Vufvk3rLHlo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=X5Bu2HZt; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	 In-Reply-To:Content-Type; b=bgxqwSm5Vl5XIHTzeLNIx8t2Z40ahTxpbqyBTkQAnooLExDpacAar0U+M3SuarOjghH+Fr6JSGbAdOv3oaMa2Kr31y57uTHqnwQuAuMVhiiy89quGn0WTwr95kOJbJZ91vbiJfx/J/RnkJDCx/89fm2UKjYqe3bU14cFINbeTvQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=bPvbKghH; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="X5Bu2HZt"
-Received: from [10.137.184.60] (unknown [131.107.160.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 07BCC2114D83;
-	Wed,  9 Apr 2025 09:44:04 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 07BCC2114D83
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744217044;
-	bh=F8xQZLyZb0rzWyPg1F/HaiidpPm+dIKPw5hHkJr+EYQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=X5Bu2HZtj9nOBz7XIfNcku0n6btZPRjA06s9/Mki9xsm0FQwB18Awal4/1D7GrMc5
-	 ldY7BlNZAf0jksb4iEe6B9Aq+XAeWwSa7PR9fSZ9DI3m8thgBxhLMO6RUmfi7KXbVY
-	 DvNAmlkKO2GunRKxD34D0+pdQbJF7LnfcPa/sJQc=
-Message-ID: <0ab2849a-5c03-4a8c-891e-3cb89b20b0e4@linux.microsoft.com>
-Date: Wed, 9 Apr 2025 09:44:03 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="bPvbKghH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744218738; x=1775754738;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=rMaFchJcz6j9TxgZxUNyUBffmSIxcvFjaUkyyQVtObU=;
+  b=bPvbKghHabBHc4+L6dn8WW7Y1uDNgBwiLS7MAevtK8uNT9WfRF6jME9S
+   hwT1tCVEvV2UGOi44ws88NVe+byxd2StEu6xcEWr5lelMLfdvOTwRQKVf
+   YS09i7nBgZmJ6imkH6p9OXKOdP+5rnaI0ZZhBjbzFKPs05+SPXm5QIwxT
+   Y2XxmWOi1qf3T6EVb5DxQ1ZIaajtM0bq4hkwc3Kd7OGfSmzbeyuVVtEF1
+   uygjCOaujdINW3+NGH3WPoNV12gBO7B74T0cXVPsYhGNj+ZeOv/6W4Hz0
+   OhsLf0e61URxHNQc0AumnN0ZElTIk2/E7oaE3L6+sgJreQkFjAx6/ypcH
+   w==;
+X-CSE-ConnectionGUID: 8y3mPrYQRyufkUMhMjEzzQ==
+X-CSE-MsgGUID: G6g7NUDyRZWFALXeSLT8Ag==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="44952549"
+X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
+   d="scan'208";a="44952549"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 10:12:17 -0700
+X-CSE-ConnectionGUID: mi8o2LJPTq2WEbMiBYvzQQ==
+X-CSE-MsgGUID: i54YUDKXRgOeQ4aHOdozlw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,201,1739865600"; 
+   d="scan'208";a="129170078"
+Received: from sramkris-mobl1.amr.corp.intel.com (HELO [10.124.220.195]) ([10.124.220.195])
+  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 10:12:14 -0700
+Message-ID: <a7713487-cbbc-430d-8028-ce9ab1f6f3e1@intel.com>
+Date: Wed, 9 Apr 2025 10:12:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -34,175 +52,89 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next 5/6] arch, drivers: Add device struct bitfield
- to not bounce-buffer
-To: Robin Murphy <robin.murphy@arm.com>, aleksander.lobakin@intel.com,
- andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dakr@kernel.org,
- dan.j.williams@intel.com, dave.hansen@linux.intel.com, decui@microsoft.com,
- gregkh@linuxfoundation.org, haiyangz@microsoft.com, hch@lst.de,
- hpa@zytor.com, James.Bottomley@HansenPartnership.com,
- Jonathan.Cameron@huawei.com, kys@microsoft.com, leon@kernel.org,
- lukas@wunner.de, luto@kernel.org, m.szyprowski@samsung.com,
- martin.petersen@oracle.com, mingo@redhat.com, peterz@infradead.org,
- quic_zijuhu@quicinc.com, tglx@linutronix.de, wei.liu@kernel.org,
- will@kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, x86@kernel.org
-Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
- sunilmut@microsoft.com, Suzuki K Poulose <suzuki.poulose@arm.com>
-References: <20250409000835.285105-1-romank@linux.microsoft.com>
- <20250409000835.285105-6-romank@linux.microsoft.com>
- <0eb87302-fae8-4708-aaf8-d16e836e727f@arm.com>
+Subject: Re: [PATCH v3 13/14] mm: Unpoison pcpu chunks with base address tag
+To: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+Cc: hpa@zytor.com, hch@infradead.org, nick.desaulniers+lkml@gmail.com,
+ kuan-ying.lee@canonical.com, masahiroy@kernel.org,
+ samuel.holland@sifive.com, mingo@redhat.com, corbet@lwn.net,
+ ryabinin.a.a@gmail.com, guoweikang.kernel@gmail.com, jpoimboe@kernel.org,
+ ardb@kernel.org, vincenzo.frascino@arm.com, glider@google.com,
+ kirill.shutemov@linux.intel.com, apopple@nvidia.com,
+ samitolvanen@google.com, kaleshsingh@google.com, jgross@suse.com,
+ andreyknvl@gmail.com, scott@os.amperecomputing.com, tony.luck@intel.com,
+ dvyukov@google.com, pasha.tatashin@soleen.com, ziy@nvidia.com,
+ broonie@kernel.org, gatlin.newhouse@gmail.com, jackmanb@google.com,
+ wangkefeng.wang@huawei.com, thiago.bauermann@linaro.org, tglx@linutronix.de,
+ kees@kernel.org, akpm@linux-foundation.org, jason.andryuk@amd.com,
+ snovitoll@gmail.com, xin@zytor.com, jan.kiszka@siemens.com, bp@alien8.de,
+ rppt@kernel.org, peterz@infradead.org, pankaj.gupta@amd.com,
+ thuth@redhat.com, andriy.shevchenko@linux.intel.com,
+ joel.granados@kernel.org, kbingham@kernel.org, nicolas@fjasle.eu,
+ mark.rutland@arm.com, surenb@google.com, catalin.marinas@arm.com,
+ morbo@google.com, justinstitt@google.com, ubizjak@gmail.com,
+ jhubbard@nvidia.com, urezki@gmail.com, dave.hansen@linux.intel.com,
+ bhe@redhat.com, luto@kernel.org, baohua@kernel.org, nathan@kernel.org,
+ will@kernel.org, brgerst@gmail.com, llvm@lists.linux.dev,
+ linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, kasan-dev@googlegroups.com, x86@kernel.org
+References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
+ <61033ef5b70277039ceeb8f6173e8b3fbc271c08.1743772053.git.maciej.wieczor-retman@intel.com>
+ <fb0d5f33-4636-4de0-82f4-93a9def63a26@intel.com>
+ <ynl7b325d5jo52n7cpy64v6bvqhzlbkphqsbs3jrgtji4v4yoz@cjpytwlwc6kt>
+From: Dave Hansen <dave.hansen@intel.com>
 Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <0eb87302-fae8-4708-aaf8-d16e836e727f@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <ynl7b325d5jo52n7cpy64v6bvqhzlbkphqsbs3jrgtji4v4yoz@cjpytwlwc6kt>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+On 4/9/25 09:32, Maciej Wieczor-Retman wrote:
+> They don't seem to be virtuall contiguous. At least from testing on a live
+> system, QEMU and Simics I never saw any be contiguous. And I double checked
+> today too. But your version is nice, I'll just drop 2 and 3 and I think it still
+> will make sense, right?
 
-
-On 4/9/2025 9:03 AM, Robin Murphy wrote:
-> On 2025-04-09 1:08 am, Roman Kisel wrote:
->> Bounce-buffering makes the system spend more time copying
->> I/O data. When the I/O transaction take place between
->> a confidential and a non-confidential endpoints, there is
->> no other way around.
->>
->> Introduce a device bitfield to indicate that the device
->> doesn't need to perform bounce buffering. The capable
->> device may employ it to save on copying data around.
-> 
-> It's not so much about bounce buffering, it's more fundamentally about 
-> whether the device is trusted and able to access private memory at all 
-> or not. And performance is hardly the biggest concern either - if you do 
-> trust a device to operate on confidential data in private memory, then 
-> surely it is crucial to actively *prevent* that data ever getting into 
-> shared SWIOTLB pages where anyone else could also get at it. At worst 
-> that means CoCo VMs might need an *additional* non-shared SWIOTLB to 
-> support trusted devices with addressing limitations (and/or 
-> "swiotlb=force" debugging, potentially).
-
-Thanks, I should've highlighted that facet most certainly!
-
-> 
-> Also whatever we do for this really wants to tie in with the nascent 
-> TDISP stuff as well, since we definitely don't want to end up with more 
-> than one notion of whether a device is in a trusted/locked/private/etc. 
-> vs. unlocked/shared/etc. state with respect to DMA (or indeed anything 
-> else if we can avoid it).
-
-Wouldn't TDISP be per-device as well? In which case, a flag would be
-needed just as being added in this patch.
-
-Although, there must be a difference between a device with TDISP where
-the flag would be the indication of the feature, and this code where the
-driver may flip that back and forth...
-
-Do you feel this is shoehorned in `struct device`? I couldn't find an
-appropriate private (== opaque pointer) part in the structure to store
-that bit (`struct device_private` wouldn't fit the bill) and looked like
-adding it to the struct itself would do no harm. However, my read of the
-room is that folks see that as dubious :)
-
-What would be your opinion on where to store that flag to tie together
-its usage in the Hyper-V SCSI and not bounce-buffering?
-
-> 
-> Thanks,
-> Robin.
-> 
->> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
->> ---
->>   arch/x86/mm/mem_encrypt.c  | 3 +++
->>   include/linux/device.h     | 8 ++++++++
->>   include/linux/dma-direct.h | 3 +++
->>   include/linux/swiotlb.h    | 3 +++
->>   4 files changed, 17 insertions(+)
->>
->> diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
->> index 95bae74fdab2..6349a02a1da3 100644
->> --- a/arch/x86/mm/mem_encrypt.c
->> +++ b/arch/x86/mm/mem_encrypt.c
->> @@ -19,6 +19,9 @@
->>   /* Override for DMA direct allocation check - 
->> ARCH_HAS_FORCE_DMA_UNENCRYPTED */
->>   bool force_dma_unencrypted(struct device *dev)
->>   {
->> +    if (dev->use_priv_pages_for_io)
->> +        return false;
->> +
->>       /*
->>        * For SEV, all DMA must be to unencrypted addresses.
->>        */
->> diff --git a/include/linux/device.h b/include/linux/device.h
->> index 80a5b3268986..4aa4a6fd9580 100644
->> --- a/include/linux/device.h
->> +++ b/include/linux/device.h
->> @@ -725,6 +725,8 @@ struct device_physical_location {
->>    * @dma_skip_sync: DMA sync operations can be skipped for coherent 
->> buffers.
->>    * @dma_iommu: Device is using default IOMMU implementation for DMA and
->>    *        doesn't rely on dma_ops structure.
->> + * @use_priv_pages_for_io: Device is using private pages for I/O, no 
->> need to
->> + *        bounce-buffer.
->>    *
->>    * At the lowest level, every device in a Linux system is 
->> represented by an
->>    * instance of struct device. The device structure contains the 
->> information
->> @@ -843,6 +845,7 @@ struct device {
->>   #ifdef CONFIG_IOMMU_DMA
->>       bool            dma_iommu:1;
->>   #endif
->> +    bool            use_priv_pages_for_io:1;
->>   };
->>   /**
->> @@ -1079,6 +1082,11 @@ static inline bool 
->> dev_removable_is_valid(struct device *dev)
->>       return dev->removable != DEVICE_REMOVABLE_NOT_SUPPORTED;
->>   }
->> +static inline bool dev_priv_pages_for_io(struct device *dev)
->> +{
->> +    return dev->use_priv_pages_for_io;
->> +}
->> +
->>   /*
->>    * High level routines for use by the bus drivers
->>    */
->> diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
->> index d7e30d4f7503..b096369f847e 100644
->> --- a/include/linux/dma-direct.h
->> +++ b/include/linux/dma-direct.h
->> @@ -94,6 +94,9 @@ static inline dma_addr_t 
->> phys_to_dma_unencrypted(struct device *dev,
->>    */
->>   static inline dma_addr_t phys_to_dma(struct device *dev, phys_addr_t 
->> paddr)
->>   {
->> +    if (dev_priv_pages_for_io(dev))
->> +        return phys_to_dma_unencrypted(dev, paddr);
->> +
->>       return __sme_set(phys_to_dma_unencrypted(dev, paddr));
->>   }
->> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
->> index 3dae0f592063..35ee10641b42 100644
->> --- a/include/linux/swiotlb.h
->> +++ b/include/linux/swiotlb.h
->> @@ -173,6 +173,9 @@ static inline bool is_swiotlb_force_bounce(struct 
->> device *dev)
->>   {
->>       struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
->> +    if (dev_priv_pages_for_io(dev))
->> +        return false;
->> +
->>       return mem && mem->force_bounce;
->>   }
-> 
-
--- 
-Thank you,
-Roman
-
+Yep, it still makes sense.
