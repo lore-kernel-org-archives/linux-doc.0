@@ -1,228 +1,351 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC41F267702
-	for <linux-doc@vger.kernel.org>; Wed,  9 Apr 2025 14:43:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744209831; cv=none; b=tAAx8BCAsbgcw6RHqFVtqt9oNScP73TGKQ81qbdl0pHnhV47mC5XB/n5ZWPamSMFfAd5C5Ypn3k0F1wbwNb7II3lEAeqerlhxVL/QFd4jSZe9KiMDzPztBdtWyOgttApyS/5kNs2pSD9D4T3at9CfIIJXpw35XZOXVeiDq1CO6U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744209831; c=relaxed/simple;
-	bh=7Qyl/KGbNgAjKHzOstykL1b1PVeFC9C9SmfU8PxYhlc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=G7L7gzFC1sb5KbysagPIsB7yV5pdACd5LAeKbrRLoEe/0y01k9bO5ioPKyEKBPxmm+gtTnoKq1aVIbHOyPVImtyM+3nMMzm0y3mGsLeqlIHfnKrpniin9NcS8PvmCF6cSSykS9xuD9IphBBmJ/AWp3BM9NOmR+E0MbDpkpJEhYU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Rv1Tpnnf; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3237B267381;
+	Wed,  9 Apr 2025 14:49:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744210189; cv=fail; b=PrpS6DeGlm67M8yNcrlyD8y42pQXUd4JZITml9oh9LCyeKpdke9ytQeDlx+Bv1Acixq2nQkHd0ZvA/c1XKkGdE7Vo/OxhqDK/r/zu1GA1yOGbaPUag2NvBW4utVrgUPEYDGxJiJy+JRAR7We1eL/9tv+h0bW/lBWxrDiG64YHRk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744210189; c=relaxed/simple;
+	bh=2jEOSg+5YCjvgmfMeEh/tK2w2NmxGdSnnNSS5YqpaOQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=XXBfRlz6P6JYbt7Yk1v+DkLYtzJHdztZ1tx89DsCrkWIlbOR60aYNWUiAGtyJinTf1lE+6JAyvnwt9VbZ1jrZUe0AtIhPnng6L4oYjF771i+jO5/iZk1RhHbv7z4L6n7WMOY9Y3rrm2QaQARocrfJmnPkz7DaneUrVwWYASRopc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ewEuy+Pn; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Rv1Tpnnf"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-22622ddcc35so92903935ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 09 Apr 2025 07:43:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1744209827; x=1744814627; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ow5mA7lTDwDJ/M6E3XEwhzsM01atmOj/MJRSg0pfs/U=;
-        b=Rv1TpnnfCAYDUJmZsb8GSLvbfAR41yOxgzPfzDczY7jUA9EHzFeKfw8JMydztCGYmZ
-         EjkDW3U9IbEbUtWHMuA7Ei3zh3fO1csXbPVFVIW4Lk95SfxgnBXXrgS+h1ORV6U+k9rK
-         0q3vzGjvCCjgiP9ttTvVkciqE0XaJPSBdZR16s8pDn7OLYvGm5g+2E0VHGt2MX9y6x9h
-         MUF7ZnNirkUdAMreh7a4kyTkdeG9ovH0ptoLzHh8IZi9NhzWmPlJFGGHjxCbG5LBLWF0
-         6k8csHj2KmrgIgaOfbscu3VA6rKihvw7Im13SXTB/DAuk8xbv597NB3r5s2ufihZAbqu
-         pHgg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744209827; x=1744814627;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ow5mA7lTDwDJ/M6E3XEwhzsM01atmOj/MJRSg0pfs/U=;
-        b=EcX25GjTq+i6bWa/faXDAYdR8u9t77T9gWq7xvSufVegpS42QOtc4RpVntWizgO5v2
-         UlopnODVDHbksuJa40luteAEhWBy4/eZ8htkr8664qkpKtRsTAUt8Gf/mHrTMn/aYQky
-         0ae4A4Nd0pNJlYC/dYFpV0cBBnAjiEBYdO8e+0l3ot2c9h309E5hbUcqKbSelsUuN4Z7
-         3zDCOWVYfX5BMRgZdd7DevDEG92kQSqCY2DQtaecHXihNvgVLwWQHTtZ80urg4HZlv0C
-         CbEEI4ViGb7CAWdBWhWIPZ0IDI7eHX2hTSw4RZjtCZ/2SjcjcWU2RbMbWuwgoKxZQ+TT
-         dUQQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVM0a7C4O6W6goa0ns3XExueMsez3T3T2cpZVKLOGQrIh4G6PgfPkjfIH68KWJ2kgDbIoT1a3BDJ2Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKWBD6LxtHO9JpkKjIgr1KU0i1ZBUjoaEFj4n2ly7vOv37VcmW
-	bXtpk8lgYMANVvVAR5PEWc/b9lvBuJPjv77m0npfvI6e6mVJpX0SDOuRfKVaskc=
-X-Gm-Gg: ASbGncspjUOV6lHNtg/1OTpBf2uX148oDRtBDs5kQcBfAcpZMn2G1xNMtFlKDe4q4LF
-	HPHEZdS/4rn9u83JdSPg3SVL5uxN3KQ6q26ogXSxFzoKxtHDJuepCmJ25QGjCbDY84eODzaJ4lf
-	6GjALF4jQFoD8xnCzcDGY3sLtC2dRk5AMQTQ0IWuNHgEup9fUv9kAO4ajOspFOTXwbCVTP1h6dR
-	KoWP4MSsa1Cm+skaJ8hlxzyAXVTm51mseuMd9jgkTXviXKRK7SGxWKvwpH2o4545bsckkLHz3e8
-	PoBEMF2M4335qsxwu4e74EZRtRAg8zsJGDaixBzXV0YacZgmJdE=
-X-Google-Smtp-Source: AGHT+IEgaCnvV5qiE5FYgc0Ujjm72QHq4NY5rpvgBrpJwRVGqGD1OFM7I6sIlnm2n2XAV9/GUpCxyg==
-X-Received: by 2002:a17:903:32cb:b0:220:c164:6ee1 with SMTP id d9443c01a7336-22ac2a1df5cmr51260355ad.32.1744209826897;
-        Wed, 09 Apr 2025 07:43:46 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7cb538csm12708815ad.176.2025.04.09.07.43.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 07:43:46 -0700 (PDT)
-Date: Wed, 9 Apr 2025 07:43:42 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, Zong Li <zong.li@sifive.com>
-Subject: Re: [PATCH v12 03/28] riscv: zicfiss / zicfilp enumeration
-Message-ID: <Z_aHnj2-8OlcRuHd@debug.ba.rivosinc.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-3-e51202b53138@rivosinc.com>
- <cc314da6-8755-4037-846b-01a20b3c68e1@ghiti.fr>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ewEuy+Pn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744210186; x=1775746186;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=2jEOSg+5YCjvgmfMeEh/tK2w2NmxGdSnnNSS5YqpaOQ=;
+  b=ewEuy+PnrQGs9U9evBVkA+HgTsIMmfuqljkUgWqBD2LIV6RXhHEYhH4V
+   RjrboStBRYgS6DSf6JyGDy0USkCSHuKw5fmf5RiT+ZZBHwqKGeBT99itG
+   ZK/uGH0KFIhaeCMg3Q87N9eAIQaxgcLOTOMMg+2Pm3GIu25zGOVKllVn2
+   b9lLQvXW8TCX7C7IHx+NU662H+fFn1LwpcpfSQrMPiTQxij+HpEn1DZR8
+   IS7Pz+KRsXrRVePi867q4hLqPqcDuD71bmxtqGFqHPiQtNobIpnM73v2s
+   r3iHs7aSghLxZ/qrFhNORnMAznP9I5MQnWWXNotvflGHUXHAz+3lb4kHM
+   Q==;
+X-CSE-ConnectionGUID: 64zot+yNTXKjqfqvhG6ksQ==
+X-CSE-MsgGUID: bl9dWC5UQ+qE5J/PP9FY5A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11399"; a="33296493"
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="33296493"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 07:49:45 -0700
+X-CSE-ConnectionGUID: u5odJqvvRgeBIOQHgKQwKQ==
+X-CSE-MsgGUID: T5RBdYERQW+b4byDn7WdWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,200,1739865600"; 
+   d="scan'208";a="159583328"
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Apr 2025 07:49:43 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 9 Apr 2025 07:49:43 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 9 Apr 2025 07:49:43 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
+ edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 9 Apr 2025 07:49:42 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xx2hpfYSGWugqdX+bKg741aN6wueI/M0U314uzCqAc7QE9kBFHDDFtHPqnETLxYSw5ObuQXWHU/E2oFpsKhETDWbbP7dS8qsGeoaG/3FXyj+Zk0bDtXUA2/GFRsg5g7qhxt1RdqCvjvRg6012QrC1uyxRbSobAG+NwH4AJjYg5cwphWEj46TwyxWXQ6iNjZMQ1SFb43eMbDtkPJO2ZMfJzE9sUisgdk5G5LuDn03AcsnGov1FSRkRfUdb9FEXwbjd8rjsMLtyDrO/IO5gdzYFwFXECwFQT5b1qZ5WMok/+qABjEqoKDHWMpgjcETcMLkaNmoM75JXJKKCLkWURnlpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=FzG3cYdBwO72PLSDMRXLfAigdevmFWr/6L+gdLn8tDY=;
+ b=DUfveKKgzqGTH6hzXxgmdPY5SiV4UY6a0ISju+TDG58cIq20Wq63e8FrUuZZUs/aHSGcHARwhaENo23XbyXw/xG3sNb9RPidtf3f7xF/s5VnE2IJpt6yWBLibNO/1bfxNgP2Kece8Co40cgfY3mJXe1sbvEQkema6kbpxIFid+sKUP0o4wfIIDtLujenp9me5sA6bNahgkrozcx9wwk/SttU53Lt/kmcVtc0imJtVzLV3X7olU+PHUM/nRF3u/3Kb+qSQE72tC97ke00RBMn3p/Jqyhi31h0L4yMO19VZmZ8NC3ZrgUTWjMRmHhdfi9B5L29iuc2Li2z7B+YRYcIow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com (2603:10b6:208:3c4::15)
+ by IA0PR11MB7863.namprd11.prod.outlook.com (2603:10b6:208:40c::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.21; Wed, 9 Apr
+ 2025 14:49:11 +0000
+Received: from MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4]) by MN0PR11MB6231.namprd11.prod.outlook.com
+ ([fe80::a137:ffd0:97a3:1db4%4]) with mapi id 15.20.8606.029; Wed, 9 Apr 2025
+ 14:49:11 +0000
+Date: Wed, 9 Apr 2025 16:48:58 +0200
+From: Maciej Wieczor-Retman <maciej.wieczor-retman@intel.com>
+To: Dave Hansen <dave.hansen@intel.com>
+CC: <hpa@zytor.com>, <hch@infradead.org>, <nick.desaulniers+lkml@gmail.com>,
+	<kuan-ying.lee@canonical.com>, <masahiroy@kernel.org>,
+	<samuel.holland@sifive.com>, <mingo@redhat.com>, <corbet@lwn.net>,
+	<ryabinin.a.a@gmail.com>, <guoweikang.kernel@gmail.com>,
+	<jpoimboe@kernel.org>, <ardb@kernel.org>, <vincenzo.frascino@arm.com>,
+	<glider@google.com>, <kirill.shutemov@linux.intel.com>, <apopple@nvidia.com>,
+	<samitolvanen@google.com>, <kaleshsingh@google.com>, <jgross@suse.com>,
+	<andreyknvl@gmail.com>, <scott@os.amperecomputing.com>,
+	<tony.luck@intel.com>, <dvyukov@google.com>, <pasha.tatashin@soleen.com>,
+	<ziy@nvidia.com>, <broonie@kernel.org>, <gatlin.newhouse@gmail.com>,
+	<jackmanb@google.com>, <wangkefeng.wang@huawei.com>,
+	<thiago.bauermann@linaro.org>, <tglx@linutronix.de>, <kees@kernel.org>,
+	<akpm@linux-foundation.org>, <jason.andryuk@amd.com>, <snovitoll@gmail.com>,
+	<xin@zytor.com>, <jan.kiszka@siemens.com>, <bp@alien8.de>, <rppt@kernel.org>,
+	<peterz@infradead.org>, <pankaj.gupta@amd.com>, <thuth@redhat.com>,
+	<andriy.shevchenko@linux.intel.com>, <joel.granados@kernel.org>,
+	<kbingham@kernel.org>, <nicolas@fjasle.eu>, <mark.rutland@arm.com>,
+	<surenb@google.com>, <catalin.marinas@arm.com>, <morbo@google.com>,
+	<justinstitt@google.com>, <ubizjak@gmail.com>, <jhubbard@nvidia.com>,
+	<urezki@gmail.com>, <dave.hansen@linux.intel.com>, <bhe@redhat.com>,
+	<luto@kernel.org>, <baohua@kernel.org>, <nathan@kernel.org>,
+	<will@kernel.org>, <brgerst@gmail.com>, <llvm@lists.linux.dev>,
+	<linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-kbuild@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <kasan-dev@googlegroups.com>,
+	<x86@kernel.org>
+Subject: Re: [PATCH v3 11/14] x86: Handle int3 for inline KASAN reports
+Message-ID: <tqlfdijmks6fjcqvfkl75u7dt2ysjak5uqvyco2h6c3qwldcx4@2xuqtek33vaj>
+References: <cover.1743772053.git.maciej.wieczor-retman@intel.com>
+ <012c84049b853d6853a7d6c887ce0c2323bcd80a.1743772053.git.maciej.wieczor-retman@intel.com>
+ <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c797714b-4180-4439-8a02-3cfacd42dafe@intel.com>
+X-ClientProxiedBy: DUZPR01CA0069.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:3c2::12) To MN0PR11MB6231.namprd11.prod.outlook.com
+ (2603:10b6:208:3c4::15)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <cc314da6-8755-4037-846b-01a20b3c68e1@ghiti.fr>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MN0PR11MB6231:EE_|IA0PR11MB7863:EE_
+X-MS-Office365-Filtering-Correlation-Id: 704d1a6b-4b64-4316-ec9f-08dd7775b04f
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?iso-8859-1?Q?8vRvKgG1umdUecJDh7V3c9yquLeFZ0tWoCVRHmT9pAAvXgWwadOH7b5BPT?=
+ =?iso-8859-1?Q?t/h6mcAf3vd8wHMgQRn5ty/JUIN6CpgHVVAoS5k1RiA+zK60otScWzRZge?=
+ =?iso-8859-1?Q?dQSivIdxl2FbVVdXVEbioTq6D2g7OlhHefS6azMQmuSb9w4MWg08OIfbVc?=
+ =?iso-8859-1?Q?FTd7vhrt26trUf0+fazlYtW7+vCP0k/jZc91yXCuPlmF0CSJu5rlIhnc6u?=
+ =?iso-8859-1?Q?VEVq0qHMH9Tyw3wGh84zLzPw7j8/KVklb2F0ycRyrx3cN4PfG0CH4H/Hzg?=
+ =?iso-8859-1?Q?WswIUpHQnWjLPxdFfE/60nAy9bbulM/3g90dT4fpTK0vZV0TMB20UEi3Pm?=
+ =?iso-8859-1?Q?jiYRMDZRr+qxCjmLtUIJgr96yUgvrmMeFbODrUfBeQE3+FqPhFi8m4mn9j?=
+ =?iso-8859-1?Q?7ImGwqeXdfvV9A3Nu2ZxQ6nD/sfJ1XRFif7t1uD4SzXhy4rEbJhPY8r9cz?=
+ =?iso-8859-1?Q?l1Uy8BnpHguXe4x2gMZ9vQwXhpJw5oGEHiGc5jJ85mfnOl0+ZiEs1s/CP1?=
+ =?iso-8859-1?Q?WOLQxnIyGERphVgNgMtDvZA2HqAvu8HjkplCU+7C5FDBrw7t8tbuNXwBmJ?=
+ =?iso-8859-1?Q?ZoU/OZFJtbROJ86Fhst9hbUsajbu1o2Mrmd874iRkXrthzZG7a5zVlNtAo?=
+ =?iso-8859-1?Q?LXQoI61zKtv+x3/2EBgJnp8Q3FsIr2hjbIytCKwv3UTk7CyGNVd7sX11cU?=
+ =?iso-8859-1?Q?u/O1PSqWmbHxa08a6t0jg80x8jmWlDuWLIUzL5GEHtwSvyfdkYutzC9I+6?=
+ =?iso-8859-1?Q?UvxN1MicZK98Qrlp3qKjrNchIfYyg2ug4k8ZYqKhHoOrHs+oGn/tKaB04V?=
+ =?iso-8859-1?Q?4DZF5LHl9r5ZxBSDQBYIqSox3by/x+ingA5qqJwCV9UW67wb9cTRLRzRXB?=
+ =?iso-8859-1?Q?Eg8F5zTgYEyif+ElS6yTakTXwrKYX0ajZ0g+6vPeC0f1HIUNBom7mutHAN?=
+ =?iso-8859-1?Q?jwl26NOuYXNMqhxqHC58seCinEsDoA3jrlCjkEZ4s9VJh0lasQwidCv8PB?=
+ =?iso-8859-1?Q?P+x+ndUy4MXCW7qfD5+/qXOmkCCL7xHQzkIGcumq7BpSsLASB6v/mIsV9G?=
+ =?iso-8859-1?Q?qytO8LGOXKfErLbGWXNtW6x/736DE2dRfQn3Bpdg+usCECARe0olJWTRC7?=
+ =?iso-8859-1?Q?mVtSYC6aMZO0iuhi/oXiM+DP5iP65RslSEFl6eucA0/IYeCpG3fnGsLVXj?=
+ =?iso-8859-1?Q?9f876Qr63b1k8xm4tL1r+VK0M7cxFrH2PIjstpJlYIz+WqqKukUHqBuMv5?=
+ =?iso-8859-1?Q?gVpusHS1gzt/pR9sXuvRoXzBLg9Q0JN4ZPbFuxWBYZh9JpeAkdzlkmmQ8i?=
+ =?iso-8859-1?Q?5G9xWjEYTHPyvRGFPI8SdoOf2K2N0Qn4l0+hw2J3snkT4ECboeAIHBgo8+?=
+ =?iso-8859-1?Q?LjFvse0uZviplxE8aKghm0lT6ZUz4i4DFo1H0hiw4awNyN9Wu9hN8chjc/?=
+ =?iso-8859-1?Q?FgBv/fA73tIHIDEkFF6Pm43dvZDHu89eiaAwhRYVF8vambH/pOFWRELb/O?=
+ =?iso-8859-1?Q?U=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN0PR11MB6231.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?iso-8859-1?Q?8DTpMCOxKcC9zCHyOQn9sBmRqRE9gi+cQ+yWG6XoacgjQKckzdhxwkt1Ze?=
+ =?iso-8859-1?Q?+bstmi4qBJzHALSC3/Zby88Q2blz2ehMozYkDB/ipvRWgOpZjx2cKapGtQ?=
+ =?iso-8859-1?Q?YlLqLN8SM/1KBooD7PrBGF7TuJijs0IZYx5MpTdocR2oZd9z70FS0/AoOD?=
+ =?iso-8859-1?Q?U+rpTNFZx6ODOvVvt2Mjxh8/Pinu3KpCC5nDIjfEeB540GCoBQ4p+kGAKF?=
+ =?iso-8859-1?Q?uHx3QoiWTQ3aR1uUJ9i4SQ5sHkuVNYowMfOWTapb78xV6JrZjeRf54Mdct?=
+ =?iso-8859-1?Q?QP2Umxx6SvjERNTuUIjDihRcbheFiDCg3Zh6/FIQOU+iMzk7P8awlxZGTk?=
+ =?iso-8859-1?Q?O7iIGBQCpBeiSDU/vQ7UfRmUDS0KVd3RsAwz7hwgHScta6027uELZV3oO0?=
+ =?iso-8859-1?Q?/ft9y61mFKykUh8b7en1bbLjiF1y9VpbG/hgw0NhpH1v+iyiklExuDn9do?=
+ =?iso-8859-1?Q?TM40uJ/ilQyPqfSgbi2CaQf3ZLZHrmFD7UeoH1B+vJFn62JXLHd1og50QY?=
+ =?iso-8859-1?Q?ab/shhP7hT0L5X0ZIb2ht113T0Pr2WaJxGIDsPzWs7ajy7Tlg/uS4EzmuB?=
+ =?iso-8859-1?Q?evWdW0yil5T4l4UQrmvrAPXv8kEbH+eKjukGeEsnh3vrW1DOAYGbitYKZ9?=
+ =?iso-8859-1?Q?PciKcq6vM9gTIlqLX+r+j2IukaxpI9kIBBIUSWVhs6UZKZxBVRHPUy3cfB?=
+ =?iso-8859-1?Q?c+2QZPm7B+S8xk/Z0RoKQee1JuYhT/enCG15x2IA+4h5ltv9PhYSYezjjN?=
+ =?iso-8859-1?Q?EQh+jzrzOhAV0JGj0vEvc14rY333HFVwLzApdz3bEnA9YUhLcjeGniDdad?=
+ =?iso-8859-1?Q?QHYiFiD1xluy0k2DOWkZxaRMCFbqWgnDjavzTizZVRNXanlQY35usvBqKr?=
+ =?iso-8859-1?Q?ZvX0O4KWhuV6DHC0QGWy3Qtlq8zqEMX+iba5FaY7BRfGN6NFUFm4JLq+Ro?=
+ =?iso-8859-1?Q?0BfFoGTKSDxTY9x3HfCKWO8PhALmpRfH/7i2h8FhSk5tx+6JLvz2RDmBCr?=
+ =?iso-8859-1?Q?5gxdt+cYZa24TJKFdaE7iU79IppEZn7U5sZ8P25aptRJZTpxIXB7xe4pNE?=
+ =?iso-8859-1?Q?6uR8ind0d6DGuvVmlDgh0rYdC7bpBArhRYFbCyCz8dXAZDKqIxbTg4gLyw?=
+ =?iso-8859-1?Q?3PnreJM6Y894XeP8/SfGk9AKRGWVBhkBp2GNH0bUz+7bUBYP7ivYeOsN0j?=
+ =?iso-8859-1?Q?csEEzfnDqTe/5k6A6and5Khx/HCOz2GNxbklxz22UQn2QZSbb+8MDtrFGr?=
+ =?iso-8859-1?Q?5bT2IZ0ASVN1BsEMd5jl/EQBsHzNcOudYhuZUABl1U+KUHfDEF6Cippg7t?=
+ =?iso-8859-1?Q?hd3GTrNbos42kux8eRs4fmzefMwaQZnD9zLQ2HbsKzUYd26c+DhxLuLXJT?=
+ =?iso-8859-1?Q?cbwXgWoLTvhXMK7AVnIg2T+Lllpyv9pu0uULsk86R6YKb7flFtVjVvNqbt?=
+ =?iso-8859-1?Q?GM62Gujd/2O6lYM7HR3CVgKUjHoeHwDOvD+dDvQodFjo9ezNUJ+sZOhBrn?=
+ =?iso-8859-1?Q?+C06BZwVCSB0fIUfS9UBWa5GDZD4Vp/+e7pWJsbvtYJoFAfaXadcY/aJcA?=
+ =?iso-8859-1?Q?GWkDTyT+hp6ICWfaobw9ro4d1NVYHSlt74im5TOB8nSDvuWB5eojhqWe/7?=
+ =?iso-8859-1?Q?Xwvib7S0e2Uj+U+upuXVkLz08TUxApGMf6/I92OoduAC7P9WwbE1yhHCtx?=
+ =?iso-8859-1?Q?Q6nuK98vtGOAusdBKk0=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 704d1a6b-4b64-4316-ec9f-08dd7775b04f
+X-MS-Exchange-CrossTenant-AuthSource: MN0PR11MB6231.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 Apr 2025 14:49:11.1393
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ElTqV2GOykO6W8MNVcTeIulNL2XFhe4QRmb72/uKGyEIgqpCWH1/m67aO6zSkAtwlOjSoD6d3L0w5ciimM7mB/pauAHeyEu5MfiVb+KQSNY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PR11MB7863
+X-OriginatorOrg: intel.com
 
-On Mon, Apr 07, 2025 at 05:48:27PM +0200, Alexandre Ghiti wrote:
+On 2025-04-04 at 10:55:09 -0700, Dave Hansen wrote:
+>On 4/4/25 06:14, Maciej Wieczor-Retman wrote:
+>> When a tag mismatch happens in inline software tag-based KASAN on x86 an
+>> int3 instruction is executed and needs proper handling.
 >
->On 14/03/2025 22:39, Deepak Gupta wrote:
->>This patch adds support for detecting zicfiss and zicfilp. zicfiss and
->>zicfilp stands for unprivleged integer spec extension for shadow stack
->>and branch tracking on indirect branches, respectively.
->>
->>This patch looks for zicfiss and zicfilp in device tree and accordinlgy
->>lights up bit in cpu feature bitmap. Furthermore this patch adds detection
->>utility functions to return whether shadow stack or landing pads are
->>supported by cpu.
->>
->>Reviewed-by: Zong Li <zong.li@sifive.com>
->>Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->>---
->>  arch/riscv/include/asm/cpufeature.h | 13 +++++++++++++
->>  arch/riscv/include/asm/hwcap.h      |  2 ++
->>  arch/riscv/include/asm/processor.h  |  1 +
->>  arch/riscv/kernel/cpufeature.c      | 13 +++++++++++++
->>  4 files changed, 29 insertions(+)
->>
->>diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
->>index 569140d6e639..69007b8100ca 100644
->>--- a/arch/riscv/include/asm/cpufeature.h
->>+++ b/arch/riscv/include/asm/cpufeature.h
->>@@ -12,6 +12,7 @@
->>  #include <linux/kconfig.h>
->>  #include <linux/percpu-defs.h>
->>  #include <linux/threads.h>
->>+#include <linux/smp.h>
->>  #include <asm/hwcap.h>
->>  #include <asm/cpufeature-macros.h>
->>@@ -137,4 +138,16 @@ static __always_inline bool riscv_cpu_has_extension_unlikely(int cpu, const unsi
->>  	return __riscv_isa_extension_available(hart_isa[cpu].isa, ext);
+>Does this mean "inline software"? Or "inline" functions? I'm not quite
+>parsing that. I think it needs some more background.
+
+Both software KASAN modes (generic and tag-based) have an inline and outline
+variant. So I was referring to the inline mode in software tag-based mode. I'm
+mentioning "software" since there is also the "hardware" mode.
+
+>
+>> Call kasan_report() from the int3 handler and pass down the proper
+>> information from registers - RDI should contain the problematic address
+>> and RAX other metadata.
+>> 
+>> Also early return from the int3 selftest if inline KASAN is enabled
+>> since it will cause a kernel panic otherwise.
+>...
+>> diff --git a/arch/x86/kernel/alternative.c b/arch/x86/kernel/alternative.c
+>> index bf82c6f7d690..ba277a25b57f 100644
+>> --- a/arch/x86/kernel/alternative.c
+>> +++ b/arch/x86/kernel/alternative.c
+>> @@ -1979,6 +1979,9 @@ static noinline void __init int3_selftest(void)
+>>  	};
+>>  	unsigned int val = 0;
+>>  
+>> +	if (IS_ENABLED(CONFIG_KASAN_INLINE))
+>> +		return;
+>
+>Comments, please. This is a total non sequitur otherwise.
+
+Sure, will add.
+
+>
+>>  	BUG_ON(register_die_notifier(&int3_exception_nb));
+>>  
+>>  	/*
+>> diff --git a/arch/x86/kernel/traps.c b/arch/x86/kernel/traps.c
+>> index 9f88b8a78e50..32c81fc2d439 100644
+>> --- a/arch/x86/kernel/traps.c
+>> +++ b/arch/x86/kernel/traps.c
+>...
+>> @@ -849,6 +850,51 @@ DEFINE_IDTENTRY_ERRORCODE(exc_general_protection)
+>>  	cond_local_irq_disable(regs);
 >>  }
->>+static inline bool cpu_supports_shadow_stack(void)
->>+{
->>+	return (IS_ENABLED(CONFIG_RISCV_USER_CFI) &&
->>+		riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV_ISA_EXT_ZICFISS));
+>>  
+>> +#ifdef CONFIG_KASAN_SW_TAGS
+>> +
+>> +#define KASAN_RAX_RECOVER	0x20
+>> +#define KASAN_RAX_WRITE	0x10
+>> +#define KASAN_RAX_SIZE_MASK	0x0f
+>> +#define KASAN_RAX_SIZE(rax)	(1 << ((rax) & KASAN_RAX_SIZE_MASK))
 >
->
->I would use riscv_has_extension_unlikely() instead of the cpu specific 
->variant, that would remove the need for #include <linux/smp.h>. Unless 
->you have a good reason to do that?
+>This ABI _looks_ like it was conjured out out of thin air. I assume it's
+>coming from the compiler. Any pointers to that ABI definition in or out
+>of the kernel would be appreciated.
 
-
-No I dont remember the reason. I'll fix it.
-When I am fixing it, and happpen to remember the reason.
-I'll post it.
+I'll put a comment that it's related to compilare ABI and I'll add a link to the
+relevant compiler file in the patch message.
 
 >
+>> +static bool kasan_handler(struct pt_regs *regs)
+>> +{
+>> +	int metadata = regs->ax;
+>> +	u64 addr = regs->di;
+>> +	u64 pc = regs->ip;
+>> +	bool recover = metadata & KASAN_RAX_RECOVER;
+>> +	bool write = metadata & KASAN_RAX_WRITE;
+>> +	size_t size = KASAN_RAX_SIZE(metadata);
 >
->>+}
->>+
->>+static inline bool cpu_supports_indirect_br_lp_instr(void)
->>+{
->>+	return (IS_ENABLED(CONFIG_RISCV_USER_CFI) &&
->>+		riscv_cpu_has_extension_unlikely(smp_processor_id(), RISCV_ISA_EXT_ZICFILP));
->>+}
->>+
+>"metadata" is exactly the same length as "regs->ax", so it seems a
+>little silly. Also, please use vertical alignment as a tool to make code
+>more readable. Isn't this much more readable?
+>
+>	bool recover = regs->ax & KASAN_RAX_RECOVER;
+>	bool write   = regs->ax & KASAN_RAX_WRITE;
+>	size_t size  = KASAN_RAX_SIZE(regs->ax);
+>	u64 addr     = regs->di;
+>	u64 pc       = regs->ip;
+>
+
+Thanks, I'll apply this.
+
+>> +	if (!IS_ENABLED(CONFIG_KASAN_INLINE))
+>> +		return false;
+>> +
+>> +	if (user_mode(regs))
+>> +		return false;
+>> +
+>> +	kasan_report((void *)addr, size, write, pc);
+>> +
+>> +	/*
+>> +	 * The instrumentation allows to control whether we can proceed after
+>> +	 * a crash was detected. This is done by passing the -recover flag to
+>> +	 * the compiler. Disabling recovery allows to generate more compact
+>> +	 * code.
+>> +	 *
+>> +	 * Unfortunately disabling recovery doesn't work for the kernel right
+>> +	 * now. KASAN reporting is disabled in some contexts (for example when
+>> +	 * the allocator accesses slab object metadata; this is controlled by
+>> +	 * current->kasan_depth). All these accesses are detected by the tool,
+>> +	 * even though the reports for them are not printed.
+>> +	 *
+>> +	 * This is something that might be fixed at some point in the future.
+>> +	 */
+>
+>Can we please find a way to do this that doesn't copy and paste a rather
+>verbose comment?
+>
+>What if we passed 'recover' into kasan_report() and had it do the die()?
+
+If that doesn't conflict somehow with how the kasan_report() is envisioned to
+work I think it's a good idea. Since risc-v will soon add this too I imagine? So
+it'd be copied in three places.
+
+>
+>> +	if (!recover)
+>> +		die("Oops - KASAN", regs, 0);
+>> +	return true;
+>> +}
+>> +
+>> +#endif
+>> +
+>>  static bool do_int3(struct pt_regs *regs)
+>>  {
+>>  	int res;
+>> @@ -863,6 +909,12 @@ static bool do_int3(struct pt_regs *regs)
+>>  	if (kprobe_int3_handler(regs))
+>>  		return true;
 >>  #endif
->>diff --git a/arch/riscv/include/asm/hwcap.h b/arch/riscv/include/asm/hwcap.h
->>index 869da082252a..2dc4232bdb3e 100644
->>--- a/arch/riscv/include/asm/hwcap.h
->>+++ b/arch/riscv/include/asm/hwcap.h
->>@@ -100,6 +100,8 @@
->>  #define RISCV_ISA_EXT_ZICCRSE		91
->>  #define RISCV_ISA_EXT_SVADE		92
->>  #define RISCV_ISA_EXT_SVADU		93
->>+#define RISCV_ISA_EXT_ZICFILP		94
->>+#define RISCV_ISA_EXT_ZICFISS		95
->>  #define RISCV_ISA_EXT_XLINUXENVCFG	127
->>diff --git a/arch/riscv/include/asm/processor.h b/arch/riscv/include/asm/processor.h
->>index 5f56eb9d114a..e3aba3336e63 100644
->>--- a/arch/riscv/include/asm/processor.h
->>+++ b/arch/riscv/include/asm/processor.h
->>@@ -13,6 +13,7 @@
->>  #include <vdso/processor.h>
->>  #include <asm/ptrace.h>
->>+#include <asm/hwcap.h>
->>  #define arch_get_mmap_end(addr, len, flags)			\
->>  ({								\
->>diff --git a/arch/riscv/kernel/cpufeature.c b/arch/riscv/kernel/cpufeature.c
->>index c6ba750536c3..82065cc55822 100644
->>--- a/arch/riscv/kernel/cpufeature.c
->>+++ b/arch/riscv/kernel/cpufeature.c
->>@@ -150,6 +150,15 @@ static int riscv_ext_svadu_validate(const struct riscv_isa_ext_data *data,
->>  	return 0;
->>  }
->>+static int riscv_cfi_validate(const struct riscv_isa_ext_data *data,
->>+			      const unsigned long *isa_bitmap)
->>+{
->>+	if (!IS_ENABLED(CONFIG_RISCV_USER_CFI))
->>+		return -EINVAL;
->>+
->>+	return 0;
->>+}
->>+
->>  static const unsigned int riscv_zk_bundled_exts[] = {
->>  	RISCV_ISA_EXT_ZBKB,
->>  	RISCV_ISA_EXT_ZBKC,
->>@@ -333,6 +342,10 @@ const struct riscv_isa_ext_data riscv_isa_ext[] = {
->>  	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicboz, RISCV_ISA_EXT_ZICBOZ, riscv_xlinuxenvcfg_exts,
->>  					  riscv_ext_zicboz_validate),
->>  	__RISCV_ISA_EXT_DATA(ziccrse, RISCV_ISA_EXT_ZICCRSE),
->>+	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfilp, RISCV_ISA_EXT_ZICFILP, riscv_xlinuxenvcfg_exts,
->>+					  riscv_cfi_validate),
->>+	__RISCV_ISA_EXT_SUPERSET_VALIDATE(zicfiss, RISCV_ISA_EXT_ZICFISS, riscv_xlinuxenvcfg_exts,
->>+					  riscv_cfi_validate),
->>  	__RISCV_ISA_EXT_DATA(zicntr, RISCV_ISA_EXT_ZICNTR),
->>  	__RISCV_ISA_EXT_DATA(zicond, RISCV_ISA_EXT_ZICOND),
->>  	__RISCV_ISA_EXT_DATA(zicsr, RISCV_ISA_EXT_ZICSR),
->>
+>> +
+>> +#ifdef CONFIG_KASAN_SW_TAGS
+>> +	if (kasan_handler(regs))
+>> +		return true;
+>> +#endif
+>I won't get _too_ grumbly about ti since there's another culprit right
+>above, but the "no #fidefs in .c files" rule still applies. The right
+>way to do this is with a stub kasan_handler() in a header with the
+>#ifdef in the header.
 >
->With the above comment fixed, you can add:
->
->Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
->
->Thanks,
->
->Alex
->
+>Actually, ditto on the kasan_handler() #ifdef. I suspect it can go away
+>too and be replaced with a IS_ENABLED(CONFIG_KASAN_SW_TAGS) check.
+
+Okay, thanks for pointing it out, I'll add the stub and IS_ENABLED().
+
+-- 
+Kind regards
+Maciej Wieczór-Retman
