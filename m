@@ -1,168 +1,132 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id D51A11DE891;
-	Wed,  9 Apr 2025 16:03:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B21CF268FE7;
+	Wed,  9 Apr 2025 16:19:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744214599; cv=none; b=AkrugaXGCA9k4xbJYlTG2uL4h4GijofzaTaDubvVK4MY5HYONh7023E4NKd0Cz8X1n8PXX1enU4P+i1U+38m2R7VKwga0nvwTQiWF8NJ7X6oV4oeUEfs/iH8Vi/T7H+5/8+lzZXTG2YvNJ9OX6Te2MMJR5W6Y0tczXLeka5h+eY=
+	t=1744215586; cv=none; b=dnuCQ5xxKnoq7kMeNQQynTngdASWmfHfPkoW1jMLSHf30TP7tKO8Pvv+F7Y5xX4e+TXRlj9dQQRPdNTgDiBjxmuQc6XDinjjDo/hOhRLJu5gVmc12g67JpuM9K4C6QHM4YrNqyGBye3h7nDwPRMpM5zWQD2ABRWOtyckzzQoPq8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744214599; c=relaxed/simple;
-	bh=sxYP4nb4nfqQSxWXYMoiaKdALpRkbmawtaHGeWOAi7g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SgEkl3A4rTro2WxGIV+w5eI1BUVXFwROA3ZxQgw71+tA4SHunW5oHqMvwwTbbokThVEb71KHwy8gnkpdVAqftFDthSIshdYwhH0Ut74QkfKZKRSEZEIJMSgDO7pjd6bXjFCehkUNy9dVBSm2gqeqejK3lSW7ft9oxJy9R2CrNz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 52CC115A1;
-	Wed,  9 Apr 2025 09:03:15 -0700 (PDT)
-Received: from [10.57.72.20] (unknown [10.57.72.20])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2A4F93F59E;
-	Wed,  9 Apr 2025 09:03:07 -0700 (PDT)
-Message-ID: <0eb87302-fae8-4708-aaf8-d16e836e727f@arm.com>
-Date: Wed, 9 Apr 2025 17:03:05 +0100
+	s=arc-20240116; t=1744215586; c=relaxed/simple;
+	bh=O547vvi8wN4fNcefZC+j8pm7sBawXkTtl7ULJh5r69Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f4GxxW1+Eex79vFzKxkIGD3W5HXQnKiIhh0F70Tq/JXetQN/eVSgUCNaSPwaizwWwWCc3lRFTTHCLglFBXoAwYYsPzKoEBYCnBOzMrrDSYXvi/bhnMcPb2mTJ4kfrh1y90wZOOE7a1+Bz/mnoq1P7AU3i2YJ7aglN1uH1KaGkgM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VztxvMqX; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VztxvMqX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6114CC4CEE7;
+	Wed,  9 Apr 2025 16:19:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744215586;
+	bh=O547vvi8wN4fNcefZC+j8pm7sBawXkTtl7ULJh5r69Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VztxvMqXxrpm841YCPlRs5HxRWtyQCzteRRbsExjaVh5HQZx45QxpYyiLBSJuv3X2
+	 MN7vgPzgclauypOQrUuLMro0cb2A0r82+RdvOdFbdWLfEEJnlIKYXhzyYcrWqjWDQY
+	 Q2bNXiFlR1BufsnZpfyjBbXsf215Q3IWHCFYnUYB2UaCy9B+xsxoGFnRP/J8guSrrR
+	 tE+UzMvqzhuoQsiyE/Fb8/shQw2OD0K6GR+ygi9Kvnxt8ywUgCPvZUdDJ+rdXobs4P
+	 AmIZmTueujQ0kDezDalKcjSW/fDLL+xKB1kEOBg1cCPtZwRGJQ0wI8e45idxGkET1w
+	 JGcNybozD2e9A==
+Date: Wed, 9 Apr 2025 19:19:30 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Jason Gunthorpe <jgg@nvidia.com>
+Cc: Pratyush Yadav <ptyadav@amazon.de>,
+	Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
+	graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
+	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
+	dave.hansen@linux.intel.com, dwmw2@infradead.org,
+	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com,
+	corbet@lwn.net, krzk@kernel.org, mark.rutland@arm.com,
+	pbonzini@redhat.com, pasha.tatashin@soleen.com, hpa@zytor.com,
+	peterz@infradead.org, robh+dt@kernel.org, robh@kernel.org,
+	saravanak@google.com, skinsburskii@linux.microsoft.com,
+	rostedt@goodmis.org, tglx@linutronix.de, thomas.lendacky@amd.com,
+	usama.arif@bytedance.com, will@kernel.org,
+	devicetree@vger.kernel.org, kexec@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-mm@kvack.org, x86@kernel.org
+Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory
+ preservation
+Message-ID: <Z_aeEn7hKqGOG3Cf@kernel.org>
+References: <Z-_kSXrHWU5Bf3sV@kernel.org>
+ <20250404143031.GB1336818@nvidia.com>
+ <Z_KnovvW7F2ZyzhX@kernel.org>
+ <20250407141626.GB1557073@nvidia.com>
+ <Z_P92UCbNCV0TbiA@kernel.org>
+ <20250407170305.GI1557073@nvidia.com>
+ <Z_Y4k4rDO-BbMjqs@kernel.org>
+ <20250409125630.GI1778492@nvidia.com>
+ <Z_Z8-BLWMkiWpaDY@kernel.org>
+ <20250409153714.GK1778492@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next 5/6] arch, drivers: Add device struct bitfield
- to not bounce-buffer
-To: Roman Kisel <romank@linux.microsoft.com>, aleksander.lobakin@intel.com,
- andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dakr@kernel.org,
- dan.j.williams@intel.com, dave.hansen@linux.intel.com, decui@microsoft.com,
- gregkh@linuxfoundation.org, haiyangz@microsoft.com, hch@lst.de,
- hpa@zytor.com, James.Bottomley@HansenPartnership.com,
- Jonathan.Cameron@huawei.com, kys@microsoft.com, leon@kernel.org,
- lukas@wunner.de, luto@kernel.org, m.szyprowski@samsung.com,
- martin.petersen@oracle.com, mingo@redhat.com, peterz@infradead.org,
- quic_zijuhu@quicinc.com, tglx@linutronix.de, wei.liu@kernel.org,
- will@kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-scsi@vger.kernel.org, x86@kernel.org
-Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
- sunilmut@microsoft.com, Suzuki K Poulose <suzuki.poulose@arm.com>
-References: <20250409000835.285105-1-romank@linux.microsoft.com>
- <20250409000835.285105-6-romank@linux.microsoft.com>
-From: Robin Murphy <robin.murphy@arm.com>
-Content-Language: en-GB
-In-Reply-To: <20250409000835.285105-6-romank@linux.microsoft.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250409153714.GK1778492@nvidia.com>
 
-On 2025-04-09 1:08 am, Roman Kisel wrote:
-> Bounce-buffering makes the system spend more time copying
-> I/O data. When the I/O transaction take place between
-> a confidential and a non-confidential endpoints, there is
-> no other way around.
+On Wed, Apr 09, 2025 at 12:37:14PM -0300, Jason Gunthorpe wrote:
+> On Wed, Apr 09, 2025 at 04:58:16PM +0300, Mike Rapoport wrote:
+> > >
+> > > I think we still don't really know what will be needed, so I'd stick
+> > > with folio only as that allows building the memfd and a potential slab
+> > > preservation system.
+> > 
+> > void * seems to me much more reasonable than folio one as the starting
+> > point because it allows preserving folios with the right order but it's not
+> > limited to it. 
 > 
-> Introduce a device bitfield to indicate that the device
-> doesn't need to perform bounce buffering. The capable
-> device may employ it to save on copying data around.
+> It would just call kho_preserve_folio() under the covers though.
 
-It's not so much about bounce buffering, it's more fundamentally about 
-whether the device is trusted and able to access private memory at all 
-or not. And performance is hardly the biggest concern either - if you do 
-trust a device to operate on confidential data in private memory, then 
-surely it is crucial to actively *prevent* that data ever getting into 
-shared SWIOTLB pages where anyone else could also get at it. At worst 
-that means CoCo VMs might need an *additional* non-shared SWIOTLB to 
-support trusted devices with addressing limitations (and/or 
-"swiotlb=force" debugging, potentially).
-
-Also whatever we do for this really wants to tie in with the nascent 
-TDISP stuff as well, since we definitely don't want to end up with more 
-than one notion of whether a device is in a trusted/locked/private/etc. 
-vs. unlocked/shared/etc. state with respect to DMA (or indeed anything 
-else if we can avoid it).
-
-Thanks,
-Robin.
-
-> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-> ---
->   arch/x86/mm/mem_encrypt.c  | 3 +++
->   include/linux/device.h     | 8 ++++++++
->   include/linux/dma-direct.h | 3 +++
->   include/linux/swiotlb.h    | 3 +++
->   4 files changed, 17 insertions(+)
+How that will work for memblock and 1G pages?
+ 
+> > I don't mind having kho_preserve_folio() from day 1 and even stretching the
+> > use case we have right now to use it to preserve FDT memory.
+> > 
+> > But kho_preserve_folio() does not make sense for reserve_mem and it won't
+> > make sense for vmalloc.
 > 
-> diff --git a/arch/x86/mm/mem_encrypt.c b/arch/x86/mm/mem_encrypt.c
-> index 95bae74fdab2..6349a02a1da3 100644
-> --- a/arch/x86/mm/mem_encrypt.c
-> +++ b/arch/x86/mm/mem_encrypt.c
-> @@ -19,6 +19,9 @@
->   /* Override for DMA direct allocation check - ARCH_HAS_FORCE_DMA_UNENCRYPTED */
->   bool force_dma_unencrypted(struct device *dev)
->   {
-> +	if (dev->use_priv_pages_for_io)
-> +		return false;
-> +
->   	/*
->   	 * For SEV, all DMA must be to unencrypted addresses.
->   	 */
-> diff --git a/include/linux/device.h b/include/linux/device.h
-> index 80a5b3268986..4aa4a6fd9580 100644
-> --- a/include/linux/device.h
-> +++ b/include/linux/device.h
-> @@ -725,6 +725,8 @@ struct device_physical_location {
->    * @dma_skip_sync: DMA sync operations can be skipped for coherent buffers.
->    * @dma_iommu: Device is using default IOMMU implementation for DMA and
->    *		doesn't rely on dma_ops structure.
-> + * @use_priv_pages_for_io: Device is using private pages for I/O, no need to
-> + *		bounce-buffer.
->    *
->    * At the lowest level, every device in a Linux system is represented by an
->    * instance of struct device. The device structure contains the information
-> @@ -843,6 +845,7 @@ struct device {
->   #ifdef CONFIG_IOMMU_DMA
->   	bool			dma_iommu:1;
->   #endif
-> +	bool			use_priv_pages_for_io:1;
->   };
->   
->   /**
-> @@ -1079,6 +1082,11 @@ static inline bool dev_removable_is_valid(struct device *dev)
->   	return dev->removable != DEVICE_REMOVABLE_NOT_SUPPORTED;
->   }
->   
-> +static inline bool dev_priv_pages_for_io(struct device *dev)
-> +{
-> +	return dev->use_priv_pages_for_io;
-> +}
-> +
->   /*
->    * High level routines for use by the bus drivers
->    */
-> diff --git a/include/linux/dma-direct.h b/include/linux/dma-direct.h
-> index d7e30d4f7503..b096369f847e 100644
-> --- a/include/linux/dma-direct.h
-> +++ b/include/linux/dma-direct.h
-> @@ -94,6 +94,9 @@ static inline dma_addr_t phys_to_dma_unencrypted(struct device *dev,
->    */
->   static inline dma_addr_t phys_to_dma(struct device *dev, phys_addr_t paddr)
->   {
-> +	if (dev_priv_pages_for_io(dev))
-> +		return phys_to_dma_unencrypted(dev, paddr);
-> +
->   	return __sme_set(phys_to_dma_unencrypted(dev, paddr));
->   }
->   
-> diff --git a/include/linux/swiotlb.h b/include/linux/swiotlb.h
-> index 3dae0f592063..35ee10641b42 100644
-> --- a/include/linux/swiotlb.h
-> +++ b/include/linux/swiotlb.h
-> @@ -173,6 +173,9 @@ static inline bool is_swiotlb_force_bounce(struct device *dev)
->   {
->   	struct io_tlb_mem *mem = dev->dma_io_tlb_mem;
->   
-> +	if (dev_priv_pages_for_io(dev))
-> +		return false;
-> +
->   	return mem && mem->force_bounce;
->   }
->   
+> It does for vmalloc too, just stop thinking about it as a
+> folio-for-pagecache and instead as an arbitary order handle to buddy
+> allocator memory that will someday be changed to a memdesc :|
 
+But we have memdesc today, it's struct page. It will be shrinked and maybe
+renamed, it will contain a pointer rather than data, but that's what basic
+memdesc is.
+And when the data structure that memdesc points to will be allocated
+separately folios won't make sense for order-0 allocations.
+ 
+> > The weird games slab does with casting back and forth to folio also seem to
+> > me like transitional and there won't be that folios in slab later.
+> 
+> Yes transitional, but we are at the transitional point and KHO should
+> fit in.
+> 
+> The lowest allocator primitive returns folios, which can represent any
+> order, and the caller casts to their own memdesc.
+
+The lowest allocation primitive returns pages. 
+
+struct folio *__folio_alloc_noprof(gfp_t gfp, unsigned int order, int preferred_nid,
+		nodemask_t *nodemask)
+{
+	struct page *page = __alloc_pages_noprof(gfp | __GFP_COMP, order,
+					preferred_nid, nodemask);
+	return page_rmappable_folio(page);
+}
+EXPORT_SYMBOL(__folio_alloc_noprof);
+
+And page_rmappable_folio() clues about folio-for-pagecache very clearly.
+
+And I don't think folio will be a lowest primitive buddy returns anytime
+soon if ever.
+ 
+> Jason
+> 
+
+-- 
+Sincerely yours,
+Mike.
