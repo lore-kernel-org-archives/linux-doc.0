@@ -1,152 +1,205 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0958D25DCE5
-	for <linux-doc@vger.kernel.org>; Wed,  9 Apr 2025 11:27:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49AB225F79B;
+	Wed,  9 Apr 2025 11:44:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744198064; cv=none; b=WfmBAXkToaaCmczXeggPErRcZx6xzioFv3fMVLle0y81XZ3NoK8wpynQbX25js0QzUrxhLMYI9SMzNJBGusawBwVoAlgKwQ7QcsEoQJnqOVTQlKH5L0nwLkgSg0zKR0TYhLeKMycQVsQXsrz9sWsz0vCTJF8h2PPa3Zh+sKwdH4=
+	t=1744199088; cv=none; b=VJm/RuJ2K990rVGuy35xqyfa3mNwmQ57QOEC9r8lBnetj/dTU3IwWb1MG1znDFky/+91PrErFv4lU3B6lO1gWl3+degYXUvtxSN6zGfXGGhJ6J1VVIl0udp4kI3HTbsmvVKLYtPhgZgkv8RpsTVXoCchStGyWmKAhaMOFbOpiRQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744198064; c=relaxed/simple;
-	bh=HVeE+COPPGrNk6VAYW0mohrUVpc18vBtkM7XtNBy+ag=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=WfAkWrk0hgGZpf+/2g+6ZKIsEKivvUlAXiPlCql9o35qnakiqeF42Vcnh/D6+ZXEoVdOtppGqOaUM19Xk3Kr2r2GTIFcotGRPmd4yWAOHdIHlkmXA055FuMoZF7ZZ2Z466zXyBH+8YHDcO1F+JOcuPDQ0cDoOs/IzH6goq5K19Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=dJTY4Zoo; arc=none smtp.client-ip=91.218.175.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1744199088; c=relaxed/simple;
+	bh=iY5EsMn0jbpG1tVs5WE3pjqlXKU5g3mGBlcrgN1cXYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=K94MPIYmJocz308pkAjQ+vvSaor1mNGGK05TSMaKvvc8zwPkdJwlZuRKmx1IYP9HZrcAugLQeIGakhKepoYaV0oTqSdgsXia7u3/HNd3VOXCIBd74RSwNiDs4tnsRN2ZXQmjeL86jfvtZRzna5AyNXzKMhexAGsPfg60ShsxpUM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cMDUaLSU; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="dJTY4Zoo"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744198060;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aiPsVK0LkzRJOqwrU5xUDBr/zxLKWQSqjXIEjy0OgOc=;
-	b=dJTY4ZoooaZLYwLvqEqa3Q4cEYbyqCwmtK3sU7ljZEacvUIv4X4hvyhQ+bzQc5RfnANxPB
-	eVsj/YvE1Y9JzNhOFRUx87mcOx7aPqcDv134i87bwthMH1xvPVSZMd9ZC+L4SjhkYnZtpE
-	sVIauf00Vu+0cn3AeppMXOaZ7kqWx0k=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: kuba@kernel.org,
-	edumazet@google.com
-Cc: mrpre@163.com,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	"David S. Miller" <davem@davemloft.net>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	David Ahern <dsahern@kernel.org>,
-	Sabrina Dubroca <sd@queasysnail.net>,
-	Steffen Klassert <steffen.klassert@secunet.com>,
-	Antony Antony <antony.antony@secunet.com>,
-	Christian Hopps <chopps@labn.net>,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH net-next v4 2/2] tcp: add LINUX_MIB_PAWS_TW_REJECTED counter
-Date: Wed,  9 Apr 2025 19:26:05 +0800
-Message-ID: <20250409112614.16153-3-jiayuan.chen@linux.dev>
-In-Reply-To: <20250409112614.16153-1-jiayuan.chen@linux.dev>
-References: <20250409112614.16153-1-jiayuan.chen@linux.dev>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cMDUaLSU"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 16AE4C4CEE3;
+	Wed,  9 Apr 2025 11:44:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744199087;
+	bh=iY5EsMn0jbpG1tVs5WE3pjqlXKU5g3mGBlcrgN1cXYc=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=cMDUaLSUyLPCKE3KdacRrB7QnxUH+0jk0pESqIXiQKEsxLcCF2xAFWQX2RIyd5YQ8
+	 KNKqKDS90oZxLNTs2h2Ik2FADoZpLfLW3YrJgNlAYlWiaoUo6ZOqF5G1ODNxdwlQR9
+	 SPs66F1TVr1Hmy8KdzvyXEadbrW/q+Eh3p1Cq32uzgIXvgzoSUJQWvrwSm2/YzsUrA
+	 PQ5+hnvTIzwni/cgbOF+Fv50dLYr1HopFBixZys1xGedu9I0AiYRZnaJ4LwvaE3hsz
+	 EYJqadhzq6P4aGkC/qsgx9jVIqKZuxkiZ+64uOVB1KbJ7M/eDsrKYDuu5gPm+iq8Ft
+	 +JKuPV/3N/9cg==
+Date: Wed, 9 Apr 2025 19:44:25 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jani Nikula <jani.nikula@linux.intel.com>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>, Russell King
+ <linux@armlinux.org.uk>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
+Message-ID: <20250409194425.496d092d@sal.lan>
+In-Reply-To: <87r021wsgp.fsf@intel.com>
+References: <cover.1744106241.git.mchehab+huawei@kernel.org>
+	<87r021wsgp.fsf@intel.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-When TCP is in TIME_WAIT state, PAWS verification uses
-LINUX_PAWSESTABREJECTED, which is ambiguous and cannot be distinguished
-from other PAWS verification processes.
+Em Wed, 09 Apr 2025 13:16:06 +0300
+Jani Nikula <jani.nikula@linux.intel.com> escreveu:
 
-We added a new counter, like the existing PAWS_OLD_ACK one.
+> On Tue, 08 Apr 2025, Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> > Hi Jon,
+> >
+> > This changeset contains the kernel-doc.py script to replace the verable
+> > kernel-doc originally written in Perl. It replaces the first version and the
+> > second series I sent on the top of it.  
+> 
+> Yay! Thanks for doing this. I believe this will make contributing to
+> kernel-doc more accessible in the long run.
+> 
+> > I tried to stay as close as possible of the original Perl implementation
+> > on the first patch introducing kernel-doc.py, as it helps to double check
+> > if each function was  properly translated to Python.  This have been 
+> > helpful debugging troubles that happened during the conversion.
+> >
+> > I worked hard to make it bug-compatible with the original one. Still, its
+> > output has a couple of differences from the original one:
+> >
+> > - The tab expansion works better with the Python script. With that, some
+> >   outputs that contain tabs at kernel-doc markups are now different;
+> >
+> > - The new script  works better stripping blank lines. So, there are a couple
+> >   of empty new lines that are now stripped with this version;
+> >
+> > - There is a buggy logic at kernel-doc to strip empty description and
+> >   return sections. I was not able to replicate the exact behavior. So, I ended
+> >   adding an extra logic to strip empty sections with a different algorithm.
+> >
+> > Yet, on my tests, the results are compatible with the venerable script
+> > output for all .. kernel-doc tags found in Documentation/. I double-checked
+> > this by adding support to output the kernel-doc commands when V=1, and
+> > then I ran a diff between kernel-doc.pl and kernel-doc.py for the same
+> > command lines.
+> >
+> > The only patch that doesn't belong to this series is a patch dropping
+> > kernel-doc.pl. I opted to keep it for now, as it can help to better
+> > test the new tools.
+> >
+> > With such changes, if one wants to build docs with the old script,
+> > all it is needed is to use KERNELDOC parameter, e.g.:
+> >
+> > 	$ make KERNELDOC=scripts/kernel-doc.pl htmldocs  
+> 
+> I guess that's good for double checking that the python version
+> reproduces the output of the old version, warts and all. And it could be
+> used standalone for comparing the output for .[ch] files directly
+> instead of going through Sphinx.
+> 
+> But once we're reasonably sure the new one works fine, I think the
+> natural follow-up will be to import the kernel-doc python module from
+> the kernel-doc Sphinx extension instead of running it with
+> subprocess.Popen(). It'll bypass an absolutely insane amount of forks,
+> python interpreter launches and module imports.
+> 
+> It'll also open the door for passing the results in python native
+> structures instead of text, also making it possible to cache parse
+> results instead of parsing the source files for every kernel-doc
+> directive in rst.
 
-Also we update the doc with previously missing PAWS_OLD_ACK.
+Yes, this is on my plan. I have already a patch series for that,
+but it still requires some care to ensure that the results will be
+identical.
 
-usage:
-'''
-nstat -az | grep PAWSTimewait
-TcpExtPAWSTimewait              1                  0.0
-'''
+> Another idea regarding code organization, again for future. Maybe we
+> should have a scripts/python/ directory structure, so we can point
+> python path there, and be able to import stuff from there? And
+> reasonably share code between modules. And have linters handle it
+> recursively, etc, etc.
 
-Suggested-by: Eric Dumazet <edumazet@google.com>
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
-Reviewed-by: Eric Dumazet <edumazet@google.com>
----
- Documentation/networking/net_cachelines/snmp.rst | 2 ++
- include/net/dropreason-core.h                    | 1 +
- include/uapi/linux/snmp.h                        | 1 +
- net/ipv4/proc.c                                  | 1 +
- net/ipv4/tcp_minisocks.c                         | 2 +-
- 5 files changed, 6 insertions(+), 1 deletion(-)
+Sounds like a plan. I did some code reorg already, but surely there
+are spaces for improvements. 
 
-diff --git a/Documentation/networking/net_cachelines/snmp.rst b/Documentation/networking/net_cachelines/snmp.rst
-index bc96efc92cf5..bd44b3eebbef 100644
---- a/Documentation/networking/net_cachelines/snmp.rst
-+++ b/Documentation/networking/net_cachelines/snmp.rst
-@@ -37,6 +37,8 @@ unsigned_long  LINUX_MIB_TIMEWAITKILLED
- unsigned_long  LINUX_MIB_PAWSACTIVEREJECTED
- unsigned_long  LINUX_MIB_PAWSESTABREJECTED
- unsigned_long  LINUX_MIB_TSECR_REJECTED
-+unsigned_long  LINUX_MIB_PAWS_OLD_ACK
-+unsigned_long  LINUX_MIB_PAWS_TW_REJECTED
- unsigned_long  LINUX_MIB_DELAYEDACKLOST
- unsigned_long  LINUX_MIB_LISTENOVERFLOWS
- unsigned_long  LINUX_MIB_LISTENDROPS
-diff --git a/include/net/dropreason-core.h b/include/net/dropreason-core.h
-index 9701d7f936f6..bea77934a235 100644
---- a/include/net/dropreason-core.h
-+++ b/include/net/dropreason-core.h
-@@ -287,6 +287,7 @@ enum skb_drop_reason {
- 	/**
- 	 * @SKB_DROP_REASON_TCP_RFC7323_TW_PAWS: PAWS check, socket is in
- 	 * TIME_WAIT state.
-+	 * Corresponds to LINUX_MIB_PAWS_TW_REJECTED.
- 	 */
- 	SKB_DROP_REASON_TCP_RFC7323_TW_PAWS,
- 	/**
-diff --git a/include/uapi/linux/snmp.h b/include/uapi/linux/snmp.h
-index ec47f9b68a1b..1d234d7e1892 100644
---- a/include/uapi/linux/snmp.h
-+++ b/include/uapi/linux/snmp.h
-@@ -188,6 +188,7 @@ enum
- 	LINUX_MIB_PAWSESTABREJECTED,		/* PAWSEstabRejected */
- 	LINUX_MIB_TSECRREJECTED,		/* TSEcrRejected */
- 	LINUX_MIB_PAWS_OLD_ACK,			/* PAWSOldAck */
-+	LINUX_MIB_PAWS_TW_REJECTED,		/* PAWSTimewait */
- 	LINUX_MIB_DELAYEDACKS,			/* DelayedACKs */
- 	LINUX_MIB_DELAYEDACKLOCKED,		/* DelayedACKLocked */
- 	LINUX_MIB_DELAYEDACKLOST,		/* DelayedACKLost */
-diff --git a/net/ipv4/proc.c b/net/ipv4/proc.c
-index 10cbeb76c274..ea2f01584379 100644
---- a/net/ipv4/proc.c
-+++ b/net/ipv4/proc.c
-@@ -191,6 +191,7 @@ static const struct snmp_mib snmp4_net_list[] = {
- 	SNMP_MIB_ITEM("PAWSEstab", LINUX_MIB_PAWSESTABREJECTED),
- 	SNMP_MIB_ITEM("TSEcrRejected", LINUX_MIB_TSECRREJECTED),
- 	SNMP_MIB_ITEM("PAWSOldAck", LINUX_MIB_PAWS_OLD_ACK),
-+	SNMP_MIB_ITEM("PAWSTimewait", LINUX_MIB_PAWS_TW_REJECTED),
- 	SNMP_MIB_ITEM("DelayedACKs", LINUX_MIB_DELAYEDACKS),
- 	SNMP_MIB_ITEM("DelayedACKLocked", LINUX_MIB_DELAYEDACKLOCKED),
- 	SNMP_MIB_ITEM("DelayedACKLost", LINUX_MIB_DELAYEDACKLOST),
-diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-index 27511bf58c0f..43d7852ce07e 100644
---- a/net/ipv4/tcp_minisocks.c
-+++ b/net/ipv4/tcp_minisocks.c
-@@ -248,7 +248,7 @@ tcp_timewait_state_process(struct inet_timewait_sock *tw, struct sk_buff *skb,
- 
- 	if (paws_reject) {
- 		*drop_reason = SKB_DROP_REASON_TCP_RFC7323_TW_PAWS;
--		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWSESTABREJECTED);
-+		__NET_INC_STATS(twsk_net(tw), LINUX_MIB_PAWS_TW_REJECTED);
- 	}
- 
- 	if (!th->rst) {
--- 
-2.47.1
+> Anyway, I applaud the work, and I regret that I don't have time to
+> review it in detail. Regardless, I think the matching output is the most
+> important part.
 
+I did several tests here to check the output, making it similar to the
+output from the Perl version.
+
+> 
+> 
+> BR,
+> Jani.
+> 
+> > ---
+> >
+> > v3:
+> > - rebased on the top of v6.15-rc1;
+> > - Removed patches that weren't touching kernel-doc and its Sphinx extension;
+> > - The "Re" class was renamed to "KernRe"
+> > - It contains one patch from Sean with an additional hunk for the
+> >   python version.
+> >
+> > Mauro Carvalho Chehab (32):
+> >   scripts/kernel-doc: rename it to scripts/kernel-doc.pl
+> >   scripts/kernel-doc: add a symlink to the Perl version of kernel-doc
+> >   scripts/kernel-doc.py: add a Python parser
+> >   scripts/kernel-doc.py: output warnings the same way as kerneldoc
+> >   scripts/kernel-doc.py: better handle empty sections
+> >   scripts/kernel-doc.py: properly handle struct_group macros
+> >   scripts/kernel-doc.py: move regex methods to a separate file
+> >   scripts/kernel-doc.py: move KernelDoc class to a separate file
+> >   scripts/kernel-doc.py: move KernelFiles class to a separate file
+> >   scripts/kernel-doc.py: move output classes to a separate file
+> >   scripts/kernel-doc.py: convert message output to an interactor
+> >   scripts/kernel-doc.py: move file lists to the parser function
+> >   scripts/kernel-doc.py: implement support for -no-doc-sections
+> >   scripts/kernel-doc.py: fix line number output
+> >   scripts/kernel-doc.py: fix handling of doc output check
+> >   scripts/kernel-doc.py: properly handle out_section for ReST
+> >   scripts/kernel-doc.py: postpone warnings to the output plugin
+> >   docs: add a .pylintrc file with sys path for docs scripts
+> >   docs: sphinx: kerneldoc: verbose kernel-doc command if V=1
+> >   docs: sphinx: kerneldoc: ignore "\" characters from options
+> >   docs: sphinx: kerneldoc: use kernel-doc.py script
+> >   scripts/kernel-doc.py: Set an output format for --none
+> >   scripts/kernel-doc.py: adjust some coding style issues
+> >   scripts/lib/kdoc/kdoc_parser.py: fix Python compat with < v3.13
+> >   scripts/kernel-doc.py: move modulename to man class
+> >   scripts/kernel-doc.py: properly handle KBUILD_BUILD_TIMESTAMP
+> >   scripts/lib/kdoc/kdoc_parser.py: remove a python 3.9 dependency
+> >   scripts/kernel-doc.py: Properly handle Werror and exit codes
+> >   scripts/kernel-doc: switch to use kernel-doc.py
+> >   scripts/lib/kdoc/kdoc_files.py: allow filtering output per fname
+> >   scripts/kernel_doc.py: better handle exported symbols
+> >   scripts/kernel-doc.py: Rename the kernel doc Re class to KernRe
+> >
+> > Sean Anderson (1):
+> >   scripts: kernel-doc: fix parsing function-like typedefs (again)
+> >
+> >  .pylintrc                         |    2 +
+> >  Documentation/Makefile            |    2 +-
+> >  Documentation/conf.py             |    2 +-
+> >  Documentation/sphinx/kerneldoc.py |   46 +
+> >  scripts/kernel-doc                | 2440 +----------------------------
+> >  scripts/kernel-doc.pl             | 2439 ++++++++++++++++++++++++++++
+> >  scripts/kernel-doc.py             |  315 ++++
+> >  scripts/lib/kdoc/kdoc_files.py    |  282 ++++
+> >  scripts/lib/kdoc/kdoc_output.py   |  793 ++++++++++
+> >  scripts/lib/kdoc/kdoc_parser.py   | 1715 ++++++++++++++++++++
+> >  scripts/lib/kdoc/kdoc_re.py       |  273 ++++
+> >  11 files changed, 5868 insertions(+), 2441 deletions(-)
+> >  create mode 100644 .pylintrc
+> >  mode change 100755 => 120000 scripts/kernel-doc
+> >  create mode 100755 scripts/kernel-doc.pl
+> >  create mode 100755 scripts/kernel-doc.py
+> >  create mode 100644 scripts/lib/kdoc/kdoc_files.py
+> >  create mode 100755 scripts/lib/kdoc/kdoc_output.py
+> >  create mode 100755 scripts/lib/kdoc/kdoc_parser.py
+> >  create mode 100755 scripts/lib/kdoc/kdoc_re.py  
+> 
