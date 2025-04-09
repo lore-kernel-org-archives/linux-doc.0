@@ -1,48 +1,44 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91CC829D0E;
-	Wed,  9 Apr 2025 02:31:26 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3353F1624CC;
+	Wed,  9 Apr 2025 05:30:20 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744165886; cv=none; b=j2iOwiwL/9PUNr4GiANfz5p19ZqPCgtiXrPFljbfPFHzrBhYFC6ao9x9xlCaylrD7k6f870bd0YERhI7w/KkfA5FZaWDWYKkOFYfnZRSh4edjA5tfFRLbFZG+7AuE70TpVzqxoDh9YO3ZJQeAhfmGoH959ti/b3VYnkldEppAFQ=
+	t=1744176621; cv=none; b=olIWavNu482SoFRhHl8QApNj2HBfZ5L/3ID1cg0Z5fzLxrZIDReX9rPbmEpmHYVJ8BrnEPzGOR4N8WRPTGRtDnK7ovviWgMnJbf2wj03LPse447EbhBnYAHRfWGFxjF78qgjw+2VgHh6EIMTGd7QFXlBs19eAOXPhi0h1yhLJxo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744165886; c=relaxed/simple;
-	bh=xOPz/3MoJhE0JQSF25YcCRj8bkBsU/2uvbH5OCTlVbo=;
+	s=arc-20240116; t=1744176621; c=relaxed/simple;
+	bh=Pkxu3NAMTKZQhUI6l0kj/7Y9JPAUk8WU77HBxyZyuu4=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=C5TQA6JueW7iQLe7Xh1P7VkZH5E/efXvDngNxyPFP0V/GKdsOwu/wB0s+fHX2ShdHPV4pX0eNSmqAwSn41UrT9G3k3/MTeACdUR/TbJ6um2bMEiaOEYDspMWEEFOZVPpMIKnwlVHuDpV3gDZklo9wvIEolgbbzmk9r4mvTcflGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nBx2WXWX; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=nAMdWa4oGPkduXfzIySmDLCBZUojamL2ELos/xM4NPNa9wVQcsYsjNUuq/GF/7bDbaXQJ8vjXC8ocqAEn76TlLX/HtFmxTILltecEkw4MsPnbcLl/u6toZIsVM58+H/ld7mW48AMojCiCZejTKnXO9/v91lUzoHWH+QlE4knVMM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3w4ezDP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nBx2WXWX"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49E7EC4CEE5;
-	Wed,  9 Apr 2025 02:31:25 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3w4ezDP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 76D5AC4CEE3;
+	Wed,  9 Apr 2025 05:30:13 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744165886;
-	bh=xOPz/3MoJhE0JQSF25YcCRj8bkBsU/2uvbH5OCTlVbo=;
+	s=k20201202; t=1744176620;
+	bh=Pkxu3NAMTKZQhUI6l0kj/7Y9JPAUk8WU77HBxyZyuu4=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nBx2WXWXgOOB8fM0F0qK5X5pTBG10sj6xNzEYvs8a9ZQsQ5p1scgivjx2kWt3DSUw
-	 u9l+joPQ8mZOY2aUQ62iv0uAAWvmYKQxTSPSeYR0roMaZV8Cv8rJfRrP8EIzpvCion
-	 qlvcAuJJB1H7hFotrKsWb00NPAZFUxGz3XAh/9+C9ELjjXzr9L9e2B2agWU2ip1qOA
-	 xFw3MrpyU0mudUnamkmBpfWHpgv/AO/y6BmyPLZulrtl6dOSn4L4ORZd0uHdmOpcbn
-	 2TeoPPpbMo3GgsZgD+9XJKg32mPJ+oZPuUIdrdsKo8/nHkUTVcMZqiqidEx2JH6evw
-	 tRW9gNCTJLcVQ==
-Date: Tue, 8 Apr 2025 19:31:24 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: davem@davemloft.net, pabeni@redhat.com, edumazet@google.com,
- andrew+netdev@lunn.ch, netdev@vger.kernel.org, Jedrzej Jagielski
- <jedrzej.jagielski@intel.com>, przemyslaw.kitszel@intel.com,
- jiri@resnulli.us, horms@kernel.org, corbet@lwn.net,
- linux-doc@vger.kernel.org, Mateusz Polchlopek
- <mateusz.polchlopek@intel.com>, Bharath R <bharath.r@intel.com>, Slawomir
- Mrozowicz <slawomirx.mrozowicz@intel.com>, Piotr Kwapulinski
- <piotr.kwapulinski@intel.com>
-Subject: Re: [PATCH net-next 10/15] ixgbe: extend .info_get with() stored
- versions
-Message-ID: <20250408193124.37f37f7c@kernel.org>
-In-Reply-To: <20250407215122.609521-11-anthony.l.nguyen@intel.com>
-References: <20250407215122.609521-1-anthony.l.nguyen@intel.com>
-	<20250407215122.609521-11-anthony.l.nguyen@intel.com>
+	b=L3w4ezDP78cfE/iZLUPQSN5v7+y2H4QHQ7UbBV102hyMUwGl0LJLPZG9CyarY9/Cf
+	 9INMXu2KVvX4QfwG+/aZnh8iOHChqPu4WMWSK5DiHL41kdBmZkDaOT0Vl073h1ldb1
+	 vycANWuTqhJ9ijQAIIxwe4dHV7cRc4a+bMlkWbxlomrNyVMmeoZ9sqsQpfQUT+BaLK
+	 pRBSb2IxcS2rpJhFMEdc2vuUYEMpSfKpdjWzdfl5JpV1EO5+RyN2Y16aOf/ewfLqdJ
+	 JFvwcKyAhnn8iN3JgiPGWS8oNawi6RwRHYWVClW+VbSr95Qts8KRAsxolRFUjJES+J
+	 0q/shjDlWH82A==
+Date: Wed, 9 Apr 2025 13:29:55 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>
+Cc: linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
+ <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>, Russell King
+ <linux@armlinux.org.uk>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
+Message-ID: <20250409132955.04248d25@sal.lan>
+In-Reply-To: <cover.1744106241.git.mchehab+huawei@kernel.org>
+References: <cover.1744106241.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,58 +48,20 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Mon,  7 Apr 2025 14:51:14 -0700 Tony Nguyen wrote:
-> From: Jedrzej Jagielski <jedrzej.jagielski@intel.com>
-> 
-> Add functions reading inactive versions from the inactive flash
-> bank.
+Jon,
 
-Just to be crystal clear -- could you share the outputs for dev info:
- - before update
- - after update, before reboot/reload
- - after update, after activation (/reboot/reload)
-?
+Em Tue,  8 Apr 2025 18:09:03 +0800
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-AFAICT the code is fine but talking about the "inactive versions"
-is not exactly in line with the uAPI expectations. 
+> Mauro Carvalho Chehab (32):
+>   scripts/kernel-doc: rename it to scripts/kernel-doc.pl
+>   scripts/kernel-doc: add a symlink to the Perl version of kernel-doc
 
-> +static int ixgbe_set_ctx_dev_caps(struct ixgbe_hw *hw,
-> +				  struct ixgbe_info_ctx *ctx,
-> +				  struct netlink_ext_ack *extack)
-> +{
-> +	int err = ixgbe_discover_dev_caps(hw, &ctx->dev_caps);
-> +
-> +	if (err) {
+Forgot to mention at the description. After review, it makes sense to merge
+those two patches into one.
 
-Don't call functions which need error checking as part of variable init.
+Having them in separate is good for review, but merging them makes
+sense from bisectability PoV.
 
-> +		NL_SET_ERR_MSG_MOD(extack,
-> +				   "Unable to discover device capabilities");
-> +		return err;
-> +	}
-> +
-> +	if (ctx->dev_caps.common_cap.nvm_update_pending_orom) {
-> +		err = ixgbe_get_inactive_orom_ver(hw, &ctx->pending_orom);
-> +		if (err)
-> +			ctx->dev_caps.common_cap.nvm_update_pending_orom =
-> +				false;
-
-This function would benefit from having ctx->dev_caps.common_cap
-stored to a local variable with a shorter name :S
-
-> +	}
-> +
-> +	if (ctx->dev_caps.common_cap.nvm_update_pending_nvm) {
-> +		err = ixgbe_get_inactive_nvm_ver(hw, &ctx->pending_nvm);
-> +		if (err)
-> +			ctx->dev_caps.common_cap.nvm_update_pending_nvm = false;
-> +	}
-> +
-> +	if (ctx->dev_caps.common_cap.nvm_update_pending_netlist) {
-> +		err = ixgbe_get_inactive_netlist_ver(hw, &ctx->pending_netlist);
-> +		if (err)
-> +			ctx->dev_caps.common_cap.nvm_update_pending_netlist =
-> +				false;
-> +	}
--- 
-pw-bot: cr
+Regards,
+Mauro
