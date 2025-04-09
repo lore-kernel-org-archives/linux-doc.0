@@ -1,147 +1,107 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 69166EEB3;
-	Wed,  9 Apr 2025 09:06:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 476902B9CD;
+	Wed,  9 Apr 2025 09:15:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744189603; cv=none; b=AK6UQnjaEijDn7dfaXXuKi3+tVSPc3wXMO+AIBZY9nhH3qkkeAvE1YZvSUdYsMyYokhf4J2C39HYpCc1RnbUy8vCi+53ENBu+klfR6vXnoWO/VJBrhBe8Cl9SfhdLBWNIGxe6VWT18i1lIq0qsW20Nh5LM5uTncgACudN4lRunU=
+	t=1744190147; cv=none; b=tEbTe0wBRZsTVOySwZICVh9k/JZyBTqKqKN60zVcjfzsYSEcrulKnSoqeWE/0VSXaSdnuFwklXNyef/4iGGgIdz7IEIDVLR7QjrSaVW0U/skM6v4gDOs9zEDKHYQsE4V5yQUJhsnQX1fRqTs+o6QaMwHOC+duw+XC3KB0gD3PDc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744189603; c=relaxed/simple;
-	bh=/s+U51p2rme6ttKunG01nE4+T3pq5eYIYautG/ah3Wc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PJew9nGtLEauv02E4+7E4tuAqjcTJuTJH9uMhVXqe8yaTGTy0uO88VOBLgwP102lfDH0McjiK+KcQ42r6K7fbxg/c9ckjdm/F6550gcE/V5CK6jSXVPSaKuCDc7jIIs7HPf3dGkO63z3bUrQkBs/VvNmDAy3NlCgTRNCvU5ri2g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eerjUQlv; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744190147; c=relaxed/simple;
+	bh=Ty1pwqrmShrkkSXMYJB/5FbS4/B1OSXP3/4mT9aAsdM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ka6/6ViYIYGJL4nprcB029WYYBqdlDIh7+3A6uXlIZaxOKNs0tD/EjKru/lPL9x9ITiG1eIwZ+GLoF6NRR0lZPmuzDvLA7ARRPjxzlqV0vP+uH6Me0gsdjmCmPJ0RYT+xc1SojNVUMqnDy0VLNRAt+4Up+mQ9j4uOsetXE5Dr60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=U+JWoiGn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eerjUQlv"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 20181C4CEE3;
-	Wed,  9 Apr 2025 09:06:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="U+JWoiGn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D3ACBC4CEEE;
+	Wed,  9 Apr 2025 09:15:46 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744189602;
-	bh=/s+U51p2rme6ttKunG01nE4+T3pq5eYIYautG/ah3Wc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=eerjUQlvNJF+OcsvIsqmEbAp/QAZ/fvQAZPtZABd4PBsB7L/b4Q5V00nkAKW7iTGB
-	 fOWeKV/HJ/ib1NS32lxrfK674W4vSwxOS/yrVTY0c7xJyhbfGDcT9JWQU5S0ZYKolL
-	 bIKUumb/XfD+cSCkjS6jADB/RYMB7aQ2g7eLdflW7X+exTmDyUGTqcW+pVSPt4uoGZ
-	 oTqY7MD0cLXyIw8SnWTcPccndUqN9w/kWekQURRgNXJsL+uDtiwyA58zBUMHEEnuxs
-	 chk5n2/7cxnMmUCrsFmejaBdPXgvCnJLEGYHXd5nkJcUyqeHVzitwPYKYPg2Ps+4hN
-	 M2oTs57z8vEAg==
-Date: Wed, 9 Apr 2025 12:06:27 +0300
-From: Mike Rapoport <rppt@kernel.org>
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Pratyush Yadav <ptyadav@amazon.de>,
-	Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
-	graf@amazon.com, akpm@linux-foundation.org, luto@kernel.org,
-	anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com,
-	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com,
-	dave.hansen@linux.intel.com, dwmw2@infradead.org,
-	ebiederm@xmission.com, mingo@redhat.com, jgowans@amazon.com,
-	corbet@lwn.net, krzk@kernel.org, mark.rutland@arm.com,
-	pbonzini@redhat.com, pasha.tatashin@soleen.com, hpa@zytor.com,
-	peterz@infradead.org, robh+dt@kernel.org, robh@kernel.org,
-	saravanak@google.com, skinsburskii@linux.microsoft.com,
-	rostedt@goodmis.org, tglx@linutronix.de, thomas.lendacky@amd.com,
-	usama.arif@bytedance.com, will@kernel.org,
-	devicetree@vger.kernel.org, kexec@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-mm@kvack.org, x86@kernel.org
-Subject: Re: [PATCH v5 09/16] kexec: enable KHO support for memory
- preservation
-Message-ID: <Z_Y4k4rDO-BbMjqs@kernel.org>
-References: <Z-6UA3C1TPeH_kGL@kernel.org>
- <20250403142438.GF342109@nvidia.com>
- <Z--sUYCvP3Q8nT8e@kernel.org>
- <20250404124729.GH342109@nvidia.com>
- <Z-_kSXrHWU5Bf3sV@kernel.org>
- <20250404143031.GB1336818@nvidia.com>
- <Z_KnovvW7F2ZyzhX@kernel.org>
- <20250407141626.GB1557073@nvidia.com>
- <Z_P92UCbNCV0TbiA@kernel.org>
- <20250407170305.GI1557073@nvidia.com>
+	s=k20201202; t=1744190146;
+	bh=Ty1pwqrmShrkkSXMYJB/5FbS4/B1OSXP3/4mT9aAsdM=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=U+JWoiGnB3Ltj1oq2Lf12BbJStduvwmmIbUpPwE46zLzraulDbpUgoHkBVVxSd8dR
+	 xOjYR3O0gjN793iX6J5SWUKGfn+DlCd+uaXBa+XFVfRJqxVnHQLRo7nKYLq9iVeXzp
+	 A/XArWDVpftzIr3pQVPG/eHPWRm3RpI0SJr9XSe0gl9SKO/KANIGVe8EcU5X7aFWTa
+	 RGiQ2+2WTb/xFNL+o/t7/fYw5Du7FdwDxlEPGS/tMcK8pzaxCTKqVFYH8LIx3xs4J/
+	 ErqqLr1eYv8y+gb3UwC3FHhHjttrF/dppMtlQcx4TZpLLNii5sUvwGx1x4OAmCwuw6
+	 uOEeyj0DSftjA==
+Received: by mail-lf1-f45.google.com with SMTP id 2adb3069b0e04-549b159c84cso4589821e87.3;
+        Wed, 09 Apr 2025 02:15:46 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUgSzhF7Y3/gyKzFLL0DIAPu946Tfhx9pgySOUcWKcp6r9meUdZ8Vp7zd25RZWW/toXZmzRv5QMTbaN@vger.kernel.org, AJvYcCVCUlaSgUmr2jrTmLM+kEATKVQ/WbsNRiAuR85WbGmmQbBtk7mQYnJevWfqXBAMbN5Kc8MWY28yp3jjGsLjvWxh@vger.kernel.org, AJvYcCVLuk0NjYvcXlSNV/aOHWYRF3tXKOcCA2K8FfCWt4d0rlbaTJaTOuMHLCIStvd1XUp8kVpvoY8tcj5IG5l9@vger.kernel.org, AJvYcCVyzk5eztTdtqq6WdCgwGERRM1zD6Ka4JowOP8UR1oNx2MHnWRDqri2xoN9N8M2R6jfYFq1qVD1r+oVI5k=@vger.kernel.org, AJvYcCW7GIpvuMbbX7bmeLkv8aheWSGNVviCFWOunLp1RXDF19I2yyWp6rR2WWYwxR++Dqk5/sjYlg2gKlG6@vger.kernel.org
+X-Gm-Message-State: AOJu0YxgYdVILBznhKsRZwTE0CVRjC2r9439bosqfwgJ6UiU78jr6/KY
+	/1t5TX95wzDcKQJpdtaW2VMvizyS5GggiSCFGJY/1AFMoJFs2uQRETKopT1F/GGxvgiCTGmC6j+
+	jb1PeeuCERB0ingq8YeaS6Ug4fHo=
+X-Google-Smtp-Source: AGHT+IGr6pJEooPeND2WPKwmKzqEYbai9tqpsiAki3uL4C9w+bT2D4fnGON4jq0ew7tRiFB4rDjlDOhGc1mfiwwy2OM=
+X-Received: by 2002:a05:6512:3981:b0:545:8a1:5379 with SMTP id
+ 2adb3069b0e04-54c44561c19mr593775e87.43.1744190145154; Wed, 09 Apr 2025
+ 02:15:45 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407170305.GI1557073@nvidia.com>
+References: <20250328230814.2210230-1-ross.philipson@oracle.com>
+ <20250328230814.2210230-20-ross.philipson@oracle.com> <B41D3199-8054-4B2C-94D6-508D1DE4C8B3@zytor.com>
+ <886145d3-a9f2-41f3-a754-253decdb1b4f@oracle.com> <Z_WkaJhel-BYxHeW@char.us.oracle.com>
+In-Reply-To: <Z_WkaJhel-BYxHeW@char.us.oracle.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Wed, 9 Apr 2025 11:15:34 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXEAZS+839zmpW3WfwvTRMZmRbPYGpEoY=Xj9qFch9J7BA@mail.gmail.com>
+X-Gm-Features: ATxdqUF80H-sehwytd1k_ZBdeFEl5wo_O_6zq2xvDwvr3fvlWsrlNSPU8VOuvPk
+Message-ID: <CAMj1kXEAZS+839zmpW3WfwvTRMZmRbPYGpEoY=Xj9qFch9J7BA@mail.gmail.com>
+Subject: Re: [PATCH v13 19/19] x86/efi: EFI stub DRTM launch support for
+ Secure Launch
+To: Konrad Rzeszutek Wilk <konrad.wilk@oracle.com>
+Cc: ross.philipson@oracle.com, hpa@zytor.com, linux-kernel@vger.kernel.org, 
+	x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
+	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, dave.hansen@linux.intel.com, mjg59@srcf.ucam.org, 
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org, 
+	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
+	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
+	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
+	trenchboot-devel@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Apr 07, 2025 at 02:03:05PM -0300, Jason Gunthorpe wrote:
-> On Mon, Apr 07, 2025 at 07:31:21PM +0300, Mike Rapoport wrote:
+On Wed, 9 Apr 2025 at 00:35, Konrad Rzeszutek Wilk
+<konrad.wilk@oracle.com> wrote:
+>
+> ..snip..
+> > > > @@ -925,6 +1014,11 @@ void __noreturn efi_stub_entry(efi_handle_t handle,
+> > > >           goto fail;
+> > > >   }
+> > > >
+> > > > +#if (IS_ENABLED(CONFIG_SECURE_LAUNCH))
+> > > > + /* If a Secure Launch is in progress, this never returns */
+> > > > + efi_secure_launch(boot_params);
+> > > > +#endif
+> > > > +
+> > > >   /*
+> > > >    * Call the SEV init code while still running with the firmware's
+> > > >    * GDT/IDT, so #VC exceptions will be handled by EFI.
+> > >
+> > > efi_set_u64_form()?
+> > >
+> > > What the heck is that? If it actually involves two u32 packed into a 64 field, why not simply do two stores?
+> > >
 > >
-> > Ok, let's stick with memdesc then. Put aside the name it looks like we do
-> > agree that KHO needs to provide a way to preserve memory allocated from
-> > buddy along with some of the metadata describing that memory, like order
-> > for multi-order allocations.
-> 
-> +1
-> 
-> > The issue I see with bitmaps is that there's nothing except the order that
-> > we can save. And if sometime later we'd have to recreate memdesc for that
-> > memory, that would mean allocating a correct data structure, i.e. struct
-> > folio, struct slab, struct vmalloc maybe.
-> 
-> Yes. The caller would have to take care of this using a caller
-> specific serialization of any memdesc data. Like slab would have to
-> presumably record the object size and the object allocation bitmap.
-> 
-> > I'm not sure we are going to preserve slabs at least at the foreseeable
-> > future, but vmalloc seems like something that we'd have to address.
-> 
-> And I suspect vmalloc doesn't need to preserve any memdesc information?
-> It can all be recreated
+> > Well the story is this. The EFI maintainers asked me to use the
+> > efi_set_u64_split() type functions (this one splits a u64 into 2 u32). I
+> > went to look and there was no function that did the opposite action so I
+> > added it. The original function was called efi_set_u64_split() so
+> > efi_set_u64_form() was what I came up with. I can name it anything that is
+> > desired.
+>
+> Hey Peter,
+>
+> Is there anything in particular that needs to be done to this patch?
+>
 
-vmalloc does not have anything in memdesc now, just plain order-0 pages
-from alloc_pages variants.
-
-Now we've settled with terminology, and given that currently memdesc ==
-struct page, I think we need kho_preserve_folio(struct *folio) for actual
-struct folios and, apparently other high order allocations, and
-kho_preserve_pages(struct page *, int nr) for memblock, vmalloc and
-alloc_pages_exact.
-
-On the restore path kho_restore_folio() will recreate multi-order thingy by
-doing parts of what prep_new_page() does. And kho_restore_pages() will
-recreate order-0 pages as if they were allocated from buddy.
-
-If the caller needs more in its memdesc, it is responsible to fill in the
-missing bits.
- 
-> > > Also the bitmap scanning to optimize the memblock reserve isn't
-> > > implemented for xarray.. I don't think this is representative..
-> > 
-> > I believe that even with optimization of bitmap scanning maple tree would
-> > perform much better when the memory is not fragmented. 
-> 
-> Hard to guess, bitmap scanning is not free, especially if there are
-> lots of zeros, but memory allocating maple tree nodes and locking them
-> is not free either so who knows where things cross over..
-> 
-> > And when it is fragmented both will need to call memblock_reserve()
-> > similar number of times and there won't be real difference. Of
-> > course maple tree will consume much more memory in the worst case.
-> 
-> Yes.
-> 
-> bitmaps are bounded like the comment says, 512K for 16G of memory with
-> arbitary order 0 fragmentation.
-> 
-> Assuming absolute worst case fragmentation maple tree (@24 bytes per
-> range, alternating allocated/freed pattern) would require around
-> 50M. Then almost doubled since we have the maple tree and then the
-> serialized copy.
-> 
-> 100Mb vs 512k - I will pick the 512K :)
-
-Nah, memory is cheap nowadays :)
-
-Ok, let's start with bitmaps and then see what are the actual bottlenecks
-we have to optimize.
- 
-> Jason
-
--- 
-Sincerely yours,
-Mike.
+If anyone feels strongly enough about this, we can fix it in a
+follow-up patch. The code works as expected, so no need to derail this
+series even further.
