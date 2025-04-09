@@ -1,213 +1,128 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2DAB25B673;
-	Wed,  9 Apr 2025 08:03:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92B91E5718
+	for <linux-doc@vger.kernel.org>; Wed,  9 Apr 2025 08:21:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744185832; cv=none; b=ndWMEQIYmqDj3hGqZJrxp7o/HOC/2CQ5xnJkF7Mj4WnUAWBqoNdTq6QetATSiM18HIvAvnbeeQT6mHS49/aBRsdlLQLqCaxGvIgsIaHY9g4H95tQRWU6wcgp9VLJMp7QeRE1c9wqLVaaiX76JwA4PMgzKdxryLT9qUMlNZiyVoM=
+	t=1744186867; cv=none; b=EUHntZ6bGBiVi83lKn9nXpL5GeE6xxW1WHmfmzxY6mWRhALUr15r/i5qXZaMm52cLeNe+wwxVRhVG2E0m0ii7/qWmWkqw1LgSy7MkB1Rr4XvXwKXuhR/51nhYdjYHczdUyHkZ1Fcb+1mEqNVD+c1BcUxm8iSh/g8RzORcvaZye8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744185832; c=relaxed/simple;
-	bh=7fqznLAyvHu/jJ9za6hfLAeZqCvQ3xojCZMtgLC3XYw=;
+	s=arc-20240116; t=1744186867; c=relaxed/simple;
+	bh=yPtsBjYSLkAPrCZiTss+NrJJGezTaQbSZTYzCNiC8N4=;
 	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=V3VYGwF19eduEdHH0T1XTdf6vjdkqiuB4AteDqRjiUL+susHcJAaGWohJiHkl91/B/fHCwcnSMDyq18WYx5ASbf66sAPMmB4LnyMnepAjbsGNS+qJuADw1/fF0LhI9enKQq7lF/HVsIUSN0YpdI0eoAQkgnm9f9951A+TAH+jC0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=H9kbCebU; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	 Content-Type:MIME-Version; b=PxGixnPFt6WDtkpQB8OokW/BpOWqHeFHjs8rkS+ete8ArzO8hAuFPysuU7fBhbDfkMmMB2DmkHpHOSh7xhvzLOrsu/H24vtPgdCY6JgFAvosKRfgEb5ZGik4dr03fdsllXaH0AvnmmA5pLncHZ8vt/R/ulIirJQG9BDqZFaqkAY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JDDH68S3; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="H9kbCebU"
-Received: from smtp1.mailbox.org (smtp1.mailbox.org [10.196.197.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZXb711qMBz9t4w;
-	Wed,  9 Apr 2025 10:03:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1744185821; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JDDH68S3"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744186864;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=7fqznLAyvHu/jJ9za6hfLAeZqCvQ3xojCZMtgLC3XYw=;
-	b=H9kbCebUZR1c7HOrQgYjPIYBVEFAXQSWcq6/p1UyaFsQL5RVW8qDJPZJDp+qC3GjKNVxRt
-	DRZL0n/rENniKePXYZaCqEJY0i7wRIVO8nj1NZnDeePrW2Dn3W1dB+9XWKWpB33dMcfYJ9
-	J2f7juccWHrQ6rBYVzSeuDhek0t6v0Y1omaNC+VbHOyOLNiRNHXjOlg+v77wj55CLq6kZe
-	I8GCkSKnPB7VGieK0t/tUrz6+VwPURjf1eHIX/aqKevwbGEZET2BfNY4v4zU1C5ZKlQMsV
-	q1BjHRuzslbwi9G5yJVXKkWQP5uTYc6Ftpwgx9gaAtErlzy1rplwxy1+/krYeg==
-Message-ID: <2486e9eba3806f8e7fc3df724e916929a627fac7.camel@mailbox.org>
-Subject: Re: [PATCH v8 00/10] Improve gpu_scheduler trace events + UAPI
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>, Pierre-Eric
- Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, Tvrtko Ursulin
- <tvrtko.ursulin@igalia.com>, Philipp Stanner <phasta@kernel.org>, Danilo
- Krummrich <dakr@kernel.org>, Matthew Brost <matthew.brost@intel.com>
-Cc: amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org, 
-	etnaviv@lists.freedesktop.org, freedreno@lists.freedesktop.org, 
-	intel-xe@lists.freedesktop.org, lima@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-arm-msm@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, nouveau@lists.freedesktop.org
-Date: Wed, 09 Apr 2025 10:03:34 +0200
-In-Reply-To: <f3416edf-46f8-4296-86bd-600ab629fe60@damsy.net>
-References: <20250320095818.40622-1-pierre-eric.pelloux-prayer@amd.com>
-	 <f3416edf-46f8-4296-86bd-600ab629fe60@damsy.net>
+	bh=yPtsBjYSLkAPrCZiTss+NrJJGezTaQbSZTYzCNiC8N4=;
+	b=JDDH68S3DQVBWm3y4MUO+NITGxD/kIpN2g5FhukBvEJL1T7jrfjFpt0WHaJb8ia263oOdF
+	QwKKUbgRsaaW1DRUFL+f07wOwQuiGiS38FzwYjTp5Zey5Selu0Qvc18BfJTE0FrDCZZsRl
+	z9Ojgg1Qo+9666coeQLQLzkjRIvpxRs=
+Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
+ [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-37-O9Tze-qqNLWNl_CCFFtdPQ-1; Wed, 09 Apr 2025 04:21:03 -0400
+X-MC-Unique: O9Tze-qqNLWNl_CCFFtdPQ-1
+X-Mimecast-MFC-AGG-ID: O9Tze-qqNLWNl_CCFFtdPQ_1744186862
+Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-736d64c5e16so5709923b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 09 Apr 2025 01:21:03 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744186862; x=1744791662;
+        h=mime-version:user-agent:content-transfer-encoding:references
+         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yPtsBjYSLkAPrCZiTss+NrJJGezTaQbSZTYzCNiC8N4=;
+        b=Wf6Z8C7PPniIX76Pd8SBwMdNfVz4hOiGS6suPR3+tgIlS4YPsDA7OKWarwsilq/qX4
+         W6oqWB8GAJHVzdbWn1eQAeUV5ahnOIqRFEmdC3H94VGkwgbeBN0WyMjObsh8dfL1CaDT
+         5DIJsPuF/i4zg881zNKnLS3m9EvQczmLW0MDj5KDxiZYVnHYRYDNVG4sqCo495rgGLT6
+         7ga/T+9pl5/6qjWZSHOS16GQnweMok+p220khQnRFpo4aXWeYBJgqBrRlXkast+SVrxm
+         jBRUFRXykIXjpESkq1KOj9TXdjY+F1O+rWZwlvd4Tvs1bZLNp/eldXBvH0ZEyB9o+9kX
+         UGFA==
+X-Gm-Message-State: AOJu0YybfHd12uepNUg1EsQ4ZrFAgrEFyrmz1JesXV4HmGUKGWIq5tXZ
+	yickmOKOvOVeMKTyTw5hP2CGRmkFT0So4AxzuY1ttxIfKew7fVTfBV/ZygcwQFTSZv5xQW0HjTT
+	QcPqxz/uEk0W+rp6T/7qEdTzsqrqJWOle12Rm9ujh/uOuEkjXcBc37/JYsQ==
+X-Gm-Gg: ASbGncv0SS3SXZ1Hob4Wg9sCNvGg41MNWCDWgB6vcH4LOQ/O+zGPle+MJOEgAa7vzmC
+	pVrmSLljZRGbvg7ahBs0LzTijA++syJIA4QaXXGvxLX3/ua8CGsZ8pY+3Do9XX9yC49Do7jtzM9
+	cPPEhQWdklCgB8cpu7kOVl8709Dr3u3vTAPmo7w9p94udskSl/y9jf023H6dEbuGox58POH3kYr
+	gFoU3Pk4NEuZ02pGGzVP4NBSUUyFz8487M9rtTxoXmtUeOoRyNCqDR47Y31CzkqY+QRWwXenOaF
+	+U7MhvCq8TBKrYOV53SE7LFEpQ5+/jjf2CvpbA==
+X-Received: by 2002:a05:6a20:9f4b:b0:201:4061:bd94 with SMTP id adf61e73a8af0-2015aec70dcmr2663683637.19.1744186862423;
+        Wed, 09 Apr 2025 01:21:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHAdC8ZOoLIsWMuTKkgVixwpNFmJg4t2tF+Bs6s3GQA8caDDKDF7hIvBuRiacHAa2qdet6aIQ==
+X-Received: by 2002:a05:6a20:9f4b:b0:201:4061:bd94 with SMTP id adf61e73a8af0-2015aec70dcmr2663635637.19.1744186862052;
+        Wed, 09 Apr 2025 01:21:02 -0700 (PDT)
+Received: from [10.200.68.91] (nat-pool-muc-u.redhat.com. [149.14.88.27])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a0cf2eb3sm660285a12.24.2025.04.09.01.20.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Apr 2025 01:21:01 -0700 (PDT)
+Message-ID: <f2ec6ba36845c96e9fb9a2dc465d9066948bbe4f.camel@redhat.com>
+Subject: Re: [PATCH 0/2] PCI: Remove pcim_iounmap_regions()
+From: Philipp Stanner <pstanner@redhat.com>
+To: Philipp Stanner <phasta@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Jens Axboe <axboe@kernel.dk>, Bjorn Helgaas <bhelgaas@google.com>, Mark
+ Brown <broonie@kernel.org>,  David Lechner <dlechner@baylibre.com>, Damien
+ Le Moal <dlemoal@kernel.org>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Yang Yingliang
+ <yangyingliang@huawei.com>,  Zijun Hu <quic_zijuhu@quicinc.com>, Hannes
+ Reinecke <hare@suse.de>, Al Viro <viro@zeniv.linux.org.uk>,  Li Zetao
+ <lizetao1@huawei.com>, Anuj Gupta <anuj20.g@samsung.com>
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-block@vger.kernel.org, linux-pci@vger.kernel.org
+Date: Wed, 09 Apr 2025 10:20:46 +0200
+In-Reply-To: <20250327110707.20025-2-phasta@kernel.org>
+References: <20250327110707.20025-2-phasta@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: ac77wnkq97cnh7ipc437xrje46qmhgfq
-X-MBO-RS-ID: 890d0c8e5ddfbadb243
 
-On Wed, 2025-04-09 at 09:52 +0200, Pierre-Eric Pelloux-Prayer wrote:
-> Hi,
+On Thu, 2025-03-27 at 12:07 +0100, Philipp Stanner wrote:
+> The last remaining user of pcim_iounmap_regions() is mtip32 (in
+> Linus's
+> current master)
 >=20
-> I've rebased the series on top of drm-next, applied the minor tweaks
-> suggested by Tvrtko on v8 and=20
-> the R-b tags. The result can be found on gitlab.fdo:
+> So we could finally remove this deprecated API. I suggest that this
+> gets
+> merged through the PCI tree. (I also suggest we watch with an eagle's
+> eyes for folks who want to re-add calls to that function before the
+> next
+> merge window opens).
 >=20
-> https://gitlab.freedesktop.org/pepp/linux/-/commits/improve_gpu_scheduler=
-_trace_v9
+> P.
 >=20
-> I believe it's ready to be merged, unless I've missed something?
+> Philipp Stanner (2):
+> =C2=A0 mtip32xx: Remove unnecessary PCI function calls
+> =C2=A0 PCI: Remove pcim_iounmap_regions()
 
-Has slipped my radar for a while, sorry.
+Can this go in for the next merge window, Bjorn?
 
-I browsed over the series=20
-
-Can you pro forma send the v9 (with the scheduler maintainers also in
-the cover letter's CC) with the changelog, please?
-
-Then I'd ACK and someone (probably me?) can take it in.
-
-Thanks
 P.
 
 >=20
-> Thanks,
-> Pierre-Eric
+> =C2=A0.../driver-api/driver-model/devres.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0 |=C2=A0 1 -
+> =C2=A0drivers/block/mtip32xx/mtip32xx.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 ++----
+> =C2=A0drivers/pci/devres.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 24 -----------------
+> --
+> =C2=A0include/linux/pci.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 1 -
+> =C2=A04 files changed, 2 insertions(+), 31 deletions(-)
 >=20
-> Le 20/03/2025 =C3=A0 10:57, Pierre-Eric Pelloux-Prayer a =C3=A9crit=C2=A0=
-:
-> > Hi,
-> >=20
-> > The initial goal of this series was to improve the drm and amdgpu
-> > trace events to be able to expose more of the inner workings of
-> > the scheduler and drivers to developers via tools.
-> >=20
-> > Then, the series evolved to become focused only on gpu_scheduler.
-> > The changes around vblank events will be part of a different
-> > series, as well as the amdgpu ones.
-> >=20
-> > Moreover Sima suggested to make some trace events stable uAPI,
-> > so tools can rely on them long term.
-> >=20
-> > The first patches extend and cleanup the gpu scheduler events,
-> > then add a documentation entry in drm-uapi.rst.
-> >=20
-> > The last 2 patches are new in v8. One is based on a suggestion
-> > from Tvrtko and gets rid of drm_sched_job::id. The other is a
-> > cleanup of amdgpu trace events to use the fence=3D%llu:%llu format.
-> >=20
-> > The drm_sched_job patches don't affect gpuvis which has code to
-> > parse
-> > the gpu_scheduler events but these events are not enabled.
-> >=20
-> > Changes since v7:
-> > * uint64_t -> u64
-> > * reworked dependencies tracing (Tvrtko)
-> > * use common name prefix for all events (Tvrtko)
-> > * dropped drm_sched_job::id (Tvrtko)
-> >=20
-> > Useful links:
-> > - userspace tool using the updated events:
-> > https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
-> > - v7:
-> > https://lists.freedesktop.org/archives/dri-devel/2025-January/488117.ht=
-ml
-> >=20
-> > Pierre-Eric Pelloux-Prayer (10):
-> > =C2=A0=C2=A0 drm/debugfs: output client_id in in drm_clients_info
-> > =C2=A0=C2=A0 drm/sched: store the drm client_id in drm_sched_fence
-> > =C2=A0=C2=A0 drm/sched: add device name to the drm_sched_process_job ev=
-ent
-> > =C2=A0=C2=A0 drm/sched: cleanup gpu_scheduler trace events
-> > =C2=A0=C2=A0 drm/sched: trace dependencies for gpu jobs
-> > =C2=A0=C2=A0 drm/sched: add the drm_client_id to the drm_sched_run/exec=
-_job
-> > events
-> > =C2=A0=C2=A0 drm/sched: cleanup event names
-> > =C2=A0=C2=A0 drm/doc: document some tracepoints as uAPI
-> > =C2=A0=C2=A0 drm: get rid of drm_sched_job::id
-> > =C2=A0=C2=A0 drm/amdgpu: update trace format to match gpu_scheduler_tra=
-ce
-> >=20
-> > =C2=A0 Documentation/gpu/drm-uapi.rst=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 19 ++++
-> > =C2=A0 drivers/accel/amdxdna/aie2_ctx.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_job.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> > =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_job.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h=C2=A0=C2=A0=C2=A0=C2=
-=A0 |=C2=A0 32 ++----
-> > =C2=A0 drivers/gpu/drm/drm_debugfs.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 10 =
-+-
-> > =C2=A0 drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c=C2=A0 |=C2=A0=C2=A0=
- 2 +-
-> > =C2=A0 drivers/gpu/drm/imagination/pvr_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/imagination/pvr_queue.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> > =C2=A0 drivers/gpu/drm/imagination/pvr_queue.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/lima/lima_gem.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/lima/lima_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 6 +-
-> > =C2=A0 drivers/gpu/drm/lima/lima_sched.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 drivers/gpu/drm/msm/msm_gem_submit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 8 +-
-> > =C2=A0 drivers/gpu/drm/nouveau/nouveau_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 drivers/gpu/drm/panfrost/panfrost_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/panthor/panthor_drv.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 drivers/gpu/drm/panthor/panthor_mmu.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/panthor/panthor_sched.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 5 +-
-> > =C2=A0 drivers/gpu/drm/panthor/panthor_sched.h=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 .../gpu/drm/scheduler/gpu_scheduler_trace.h=C2=A0=C2=A0 | 103
-> > +++++++++++++-----
-> > =C2=A0 drivers/gpu/drm/scheduler/sched_entity.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0 |=C2=A0 16 ++-
-> > =C2=A0 drivers/gpu/drm/scheduler/sched_fence.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |=C2=A0=C2=A0 4 +-
-> > =C2=A0 drivers/gpu/drm/scheduler/sched_internal.h=C2=A0=C2=A0=C2=A0 |=
-=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/scheduler/sched_main.c=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0 11 +-
-> > =C2=A0 drivers/gpu/drm/v3d/v3d_submit.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 2 +-
-> > =C2=A0 drivers/gpu/drm/xe/xe_sched_job.c=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +-
-> > =C2=A0 include/drm/gpu_scheduler.h=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 13 ++-
-> > =C2=A0 30 files changed, 186 insertions(+), 96 deletions(-)
-> >=20
 
