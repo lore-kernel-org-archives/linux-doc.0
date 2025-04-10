@@ -1,285 +1,91 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DAD51290085;
-	Thu, 10 Apr 2025 17:44:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9901628D83E;
+	Thu, 10 Apr 2025 19:10:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744307077; cv=none; b=psEURWXydCweSANbDwScWbQ80OVTnUFHP51tNDS8LVxdXvVQ6FZ9J88JQWOAA/2knIlNLBIbuVWSoVh3d2zXKtbSdUGzTcTWsY1FA13+etUA2KIg0NkQpFeaIr60Zav34Z+rkjT5pbmxbMnM6SwghAE4fAeZfwb8irTiOL5NvlY=
+	t=1744312233; cv=none; b=cE4BR3cNUrN98s78m6dAO32sQGF+nH4ZCXwR6yAk1kdjXVzcz1vbZttss7FlFLgB54egFDzU9nJkt6tFTh2jd1nhjw3GunbBD/j0miY7VGIfs8+agaPdogQPPe/w5KP6nV9XVlHrRrqZNYLBhUVxKPWmEpk0pt5VpDetvn5MFF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744307077; c=relaxed/simple;
-	bh=U3zcrDMRNTLqyiysE+pRfSO56yC9CZe65BpKpLcwg48=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=jF/AJXPqnf2Pg6fpajQv+1t2tIkeORgsWyx4a2md5Jf8cCZBOgUqGg/EgCWkoMNvwhk0t8O8zL90YC3iOGxRFmlvn/bhxNowpCMImDrHDxUpvRK7v1hygDhTmrEuc2CUBqNDLcm+PZDAlaDIErUToWmDOV+giITpvbCnWG+cXSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CkL6gQ/C; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744312233; c=relaxed/simple;
+	bh=MwU13Bp26U6V3maPsnG2tuN0xljevYyWsfzq1qfrCS4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=oXXbWmfkonJGg7LmRgfG0lEyhLx7gWsEnRitxy8D/BXE+Mmtra0+nwWxOv41dRmBy6GnGA0xFBwzhKEeLDq82g3VaOrvVLPyl2rTQlrZHQ9d2I8aJwP5KzwbcGv7JfttZ4+GQ1cjShpp83fC7HhuJVsIo1eePvWDnRgvLA740CM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=P7hSa02M; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CkL6gQ/C"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47B1EC4CEDD;
-	Thu, 10 Apr 2025 17:44:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744307076;
-	bh=U3zcrDMRNTLqyiysE+pRfSO56yC9CZe65BpKpLcwg48=;
-	h=From:To:Cc:Subject:Date:From;
-	b=CkL6gQ/CXEwaMTLfKs352BK3CXvgxsi3tGI7I+tfFnojuDI0EER10CvukR7m98w8a
-	 W+gJ0LJNgjkgG/Erl01c2NMiXcOgi75bKdaC8MgQS2ccGxpWqkENQ+OE1fj+FRgbsX
-	 oQj9A/kd+1jEWn5iYnEbjPUqLLVZD1YZk6zcFgnXcuzbSWZ/qw2ODbyFbafmaLLLBc
-	 mkNG3dvEuXLvm25WYMJJaLERy++ekRidod/03mveSfiZT8hmOhpt9FwMxf6WfPjlr6
-	 JqBMKFPZp11wFXr/A+urEba9fEZqaof60X3PovCVvnH3WeHQyJlPMiubmBUcuj3NpK
-	 mxLi09BSgkrPA==
-From: Kees Cook <kees@kernel.org>
-To: Vlastimil Babka <vbabka@suse.cz>
-Cc: Kees Cook <kees@kernel.org>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@linux.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH] slab: Decouple slab_debug and no_hash_pointers
-Date: Thu, 10 Apr 2025 10:44:31 -0700
-Message-Id: <20250410174428.work.488-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="P7hSa02M"
+Received: from [10.137.184.60] (unknown [131.107.159.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id B95962114DA8;
+	Thu, 10 Apr 2025 12:10:30 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B95962114DA8
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744312231;
+	bh=GIf52GlovbvkGrmF0yuwN/3vnWv6uH/x4VM7bLG+QCY=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=P7hSa02M3iPJfwyVRh9ul8Qqg3w3S9nzYdXt1Jguz+zzE2jU7vdU4NAeqNKF9CJpV
+	 SLgW6C2o4uN4t7kSkTROtIOX2QqjDT3/uXC+0yxmK45wBRqoJVxJonTcXFFAeY59o2
+	 mMrZ3NYMSyQOYMfz6rugX2MXe3gTtYW6AzauSq5U=
+Message-ID: <fb7de79c-100c-4423-a6f5-6f7b9acfccbc@linux.microsoft.com>
+Date: Thu, 10 Apr 2025 12:10:30 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8377; i=kees@kernel.org; h=from:subject:message-id; bh=U3zcrDMRNTLqyiysE+pRfSO56yC9CZe65BpKpLcwg48=; b=owGbwMvMwCVmps19z/KJym7G02pJDOk/mOsna55L9qq9FZHnqH/b8Gs4x7EtF2s/CJeKbWGtu vWiUt66o5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCJnmhkZbuhKBYq46qw/URBU zL6p+Nqm+lOVZR7VRyZ77z/4sodtNyPDgkixOdWsH1b8u/51/sllTY97H/y0Pc9U4Ri3ja94UeN MTgA=
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH hyperv-next 1/6] Documentation: hyperv: Confidential VMBus
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>, aleksander.lobakin@intel.com,
+ andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+ catalin.marinas@arm.com, corbet@lwn.net, dakr@kernel.org,
+ dan.j.williams@intel.com, dave.hansen@linux.intel.com, decui@microsoft.com,
+ gregkh@linuxfoundation.org, haiyangz@microsoft.com, hch@lst.de,
+ hpa@zytor.com, James.Bottomley@HansenPartnership.com,
+ Jonathan.Cameron@huawei.com, kys@microsoft.com, leon@kernel.org,
+ lukas@wunner.de, luto@kernel.org, m.szyprowski@samsung.com,
+ martin.petersen@oracle.com, mingo@redhat.com, peterz@infradead.org,
+ quic_zijuhu@quicinc.com, robin.murphy@arm.com, tglx@linutronix.de,
+ wei.liu@kernel.org, will@kernel.org, iommu@lists.linux.dev,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, x86@kernel.org
+Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
+ sunilmut@microsoft.com
+References: <20250409000835.285105-1-romank@linux.microsoft.com>
+ <20250409000835.285105-2-romank@linux.microsoft.com>
+ <724f9f7d-137b-4cf5-aff5-bbb9727c23c1@oracle.com>
+Content-Language: en-US
+From: Roman Kisel <romank@linux.microsoft.com>
+In-Reply-To: <724f9f7d-137b-4cf5-aff5-bbb9727c23c1@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-Some system owners use slab_debug=FPZ (or similar) as a hardening option,
-but do not want to be forced into having kernel addresses exposed due
-to the implicit "no_hash_pointers" boot param setting.[1]
 
-Introduce the "hash_pointers" boot param, which defaults to "auto"
-(the current behavior), but also includes "always" (forcing on hashing
-even when "slab_debug=..." is defined), and "never". The existing
-"no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
 
-This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
+On 4/10/2025 9:54 AM, ALOK TIWARI wrote:
+> 
+> 
 
-Link: https://github.com/KSPP/linux/issues/368 [1]
-Fixes: 792702911f58 ("slub: force on no_hash_pointers when slub_debug is enabled")
-Co-developed-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-Signed-off-by: Kees Cook <kees@kernel.org>
----
-Cc: Vlastimil Babka <vbabka@suse.cz>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: Petr Mladek <pmladek@suse.com>
-Cc: Steven Rostedt <rostedt@goodmis.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Cc: Sergey Senozhatsky <senozhatsky@chromium.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>
-Cc: Christoph Lameter <cl@linux.com>
-Cc: Pekka Enberg <penberg@kernel.org>
-Cc: David Rientjes <rientjes@google.com>
-Cc: Joonsoo Kim <iamjoonsoo.kim@lge.com>
-Cc: Roman Gushchin <roman.gushchin@linux.dev>
-Cc: Harry Yoo <harry.yoo@oracle.com>
-Cc: "Paul E. McKenney" <paulmck@kernel.org>
-Cc: Randy Dunlap <rdunlap@infradead.org>
-Cc: Tamir Duberstein <tamird@gmail.com>
-Cc: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alice Ryhl <aliceryhl@google.com>
-Cc: linux-doc@vger.kernel.org
-Cc: linux-mm@kvack.org
----
- .../admin-guide/kernel-parameters.txt         | 34 ++++++++-----
- include/linux/sprintf.h                       |  2 +-
- lib/vsprintf.c                                | 51 +++++++++++++++++--
- mm/slub.c                                     |  5 +-
- 4 files changed, 72 insertions(+), 20 deletions(-)
+[...]
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 76e538c77e31..d0fd9c745db9 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1798,6 +1798,27 @@
- 			backtraces on all cpus.
- 			Format: 0 | 1
- 
-+	hash_pointers=
-+			[KNL,EARLY]
-+			By default, when pointers are printed to the console
-+			or buffers via the %p format string, that pointer is
-+			"hashed", i.e. obscured by hashing the pointer value.
-+			This is a security feature that hides actual kernel
-+			addresses from unprivileged users, but it also makes
-+			debugging the kernel more difficult since unequal
-+			pointers can no longer be compared. The choices are:
-+			Format: { auto | always | never }
-+			Default: auto
-+
-+			auto   - Hash pointers unless slab_debug is enabled.
-+			always - Always hash pointers (even if slab_debug is
-+				 enabled).
-+			never  - Never hash pointers. This option should only
-+				 be specified when debugging the kernel. Do
-+				 not use on production kernels. The boot
-+				 param "no_hash_pointers" is an alias for
-+				 this mode.
-+
- 	hashdist=	[KNL,NUMA] Large hashes allocated during boot
- 			are distributed across NUMA nodes.  Defaults on
- 			for 64-bit NUMA, off otherwise.
-@@ -4120,18 +4141,7 @@
- 
- 	no_hash_pointers
- 			[KNL,EARLY]
--			Force pointers printed to the console or buffers to be
--			unhashed.  By default, when a pointer is printed via %p
--			format string, that pointer is "hashed", i.e. obscured
--			by hashing the pointer value.  This is a security feature
--			that hides actual kernel addresses from unprivileged
--			users, but it also makes debugging the kernel more
--			difficult since unequal pointers can no longer be
--			compared.  However, if this command-line option is
--			specified, then all normal pointers will have their true
--			value printed. This option should only be specified when
--			debugging the kernel.  Please do not use on production
--			kernels.
-+			Alias for "hash_pointers=never".
- 
- 	nohibernate	[HIBERNATION] Disable hibernation and resume.
- 
-diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
-index 51cab2def9ec..521bb2cd2648 100644
---- a/include/linux/sprintf.h
-+++ b/include/linux/sprintf.h
-@@ -22,7 +22,7 @@ __scanf(2, 0) int vsscanf(const char *, const char *, va_list);
- 
- /* These are for specific cases, do not use without real need */
- extern bool no_hash_pointers;
--int no_hash_pointers_enable(char *str);
-+void hash_pointers_finalize(bool slub_debug);
- 
- /* Used for Rust formatting ('%pA') */
- char *rust_fmt_argument(char *buf, char *end, const void *ptr);
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 01699852f30c..1762cbbe1f5d 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -60,6 +60,20 @@
- bool no_hash_pointers __ro_after_init;
- EXPORT_SYMBOL_GPL(no_hash_pointers);
- 
-+/*
-+ * Hashed pointers policy selected by "hash_pointers=..." boot param
-+ *
-+ * `auto`   - Hashed pointers enabled unless disabled by slub_debug_enabled=true
-+ * `always` - Hashed pointers enabled unconditionally
-+ * `never`  - Hashed pointers disabled unconditionally
-+ */
-+enum hash_pointers_policy {
-+	HASH_PTR_AUTO = 0,
-+	HASH_PTR_ALWAYS,
-+	HASH_PTR_NEVER
-+};
-+static enum hash_pointers_policy hash_pointers_mode __initdata;
-+
- noinline
- static unsigned long long simple_strntoull(const char *startp, char **endp, unsigned int base, size_t max_chars)
- {
-@@ -2271,12 +2285,13 @@ char *resource_or_range(const char *fmt, char *buf, char *end, void *ptr,
- 	return resource_string(buf, end, ptr, spec, fmt);
- }
- 
--int __init no_hash_pointers_enable(char *str)
-+void __init hash_pointers_finalize(bool slub_debug)
- {
--	if (no_hash_pointers)
--		return 0;
-+	if (hash_pointers_mode == HASH_PTR_AUTO && slub_debug)
-+		no_hash_pointers = true;
- 
--	no_hash_pointers = true;
-+	if (!no_hash_pointers)
-+		return;
- 
- 	pr_warn("**********************************************************\n");
- 	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
-@@ -2289,11 +2304,39 @@ int __init no_hash_pointers_enable(char *str)
- 	pr_warn("** the kernel, report this immediately to your system   **\n");
- 	pr_warn("** administrator!                                       **\n");
- 	pr_warn("**                                                      **\n");
-+	pr_warn("** Use hash_pointers=always to force this mode off      **\n");
-+	pr_warn("**                                                      **\n");
- 	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
- 	pr_warn("**********************************************************\n");
-+}
-+
-+static int __init hash_pointers_mode_parse(char *str)
-+{
-+	if (!str) {
-+		pr_warn("Hash pointers mode empty; falling back to auto.\n");
-+		hash_pointers_mode = HASH_PTR_AUTO;
-+	} else if (strncmp(str, "auto", 4) == 0)   {
-+		pr_info("Hash pointers mode set to auto.\n");
-+		hash_pointers_mode = HASH_PTR_AUTO;
-+	} else if (strncmp(str, "never", 5) == 0) {
-+		pr_info("Hash pointers mode set to never.\n");
-+		hash_pointers_mode = HASH_PTR_NEVER;
-+	} else if (strncmp(str, "always", 6) == 0) {
-+		pr_info("Hash pointers mode set to always.\n");
-+		hash_pointers_mode = HASH_PTR_ALWAYS;
-+	} else {
-+		pr_warn("Unknown hash_pointers mode '%s' specified; assuming auto.\n", str);
-+		hash_pointers_mode = HASH_PTR_AUTO;
-+	}
- 
- 	return 0;
- }
-+early_param("hash_pointers", hash_pointers_mode_parse);
-+
-+static int __init no_hash_pointers_enable(char *str)
-+{
-+	return hash_pointers_mode_parse("never");
-+}
- early_param("no_hash_pointers", no_hash_pointers_enable);
- 
- /*
-diff --git a/mm/slub.c b/mm/slub.c
-index b46f87662e71..f3d61b330a76 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -6314,9 +6314,8 @@ void __init kmem_cache_init(void)
- 	if (debug_guardpage_minorder())
- 		slub_max_order = 0;
- 
--	/* Print slub debugging pointers without hashing */
--	if (__slub_debug_enabled())
--		no_hash_pointers_enable(NULL);
-+	/* Inform pointer hashing choice about slub debugging state. */
-+	hash_pointers_finalize(__slub_debug_enabled());
- 
- 	kmem_cache_node = &boot_kmem_cache_node;
- 	kmem_cache = &boot_kmem_cache;
+> 
+> typo trsuted  -> trusted
+> 
+>> +To support confidential communication with the paravisor, a VmBus client
+>> +will first attempt to use regular, non-isolated mechanisms for 
+>> communication.
+>> +To do this, it must:
+> 
+
+Thanks for your help with this patch, and the other ones!! I'll make
+sure to use the spellchecker on the patches before sending another
+version out.
+
+> 
+> Thanks,
+> Alok
+
 -- 
-2.34.1
+Thank you,
+Roman
 
