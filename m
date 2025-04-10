@@ -1,107 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E00E26A0DC;
-	Thu, 10 Apr 2025 09:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A28CE2571C2
+	for <linux-doc@vger.kernel.org>; Thu, 10 Apr 2025 09:46:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744277483; cv=none; b=kpcJmQ/qg8VM5+tnghIcTTYnoHzjAcRGVNc5EpuLRWB4H5E9K06g68dP649XYEbLZzXrvDpKgh1gtvBNUBX9Vi5KLP27uc9L8nCh3NJol+wVDvjxY45uJ2QPG5huIeDIZwHH2oDbQ3mf4r89B+pDs+ixMMG+i5uHgFZDii2HAiM=
+	t=1744278363; cv=none; b=G9orJpi9K4DJaZ8B7O0epPR2d+cxkdsr2MhsXSyAX0umiDRMXnW1LwyWLuXmteEef/ErwgzBKyl9HcLHSUfc0+OB7KwqpqcRa9alcxvQXaQN8Lpb/8ULoxL3E7eInza4xXqEtZsyFYhNHKjDnp1EGZ8Pyy9WMLQu/bTdC8G1E4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744277483; c=relaxed/simple;
-	bh=NUQSl8+KNt2Gck3bg5zy+/lvTkACE7uM59VfdQMYJzA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J+izQEV29kQrPmy6IrAe/wEwNdFM76QCcDotPbvx1bj6ts0B/I85+r8n6rVwrbKCQyoskmCp/XVjhB4oVf21MIGh0hK/iwYq0pxmnTkFZZPguANwx5t+8ycqkUN2Mrz4ueqcJBu1euljHTa5xIQhhfYRE7HbeJck++gFk8YYnx8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjL9FtRZ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744278363; c=relaxed/simple;
+	bh=cWjCm2K3mXJ4hsQfSC0tAiTyj6UZ6wJSPp2mVTIRSAE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=MqsCAjcRRZ/axwRaB3qFmp6pNVbm9mX49JLmk00LXbi5KyzL4ljTJrBGoHOk9thPD+/DesNg8zwP5BR7qNNSPVIODNr2RgbSavhV7EwhkDf+lxYitnQKiTkA4wJtb/QQjet8Vv55E9oeKfBKZQJk1Ypdxh/wK7r9Q8aVlVz9C8E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=iOKdyDnc; arc=none smtp.client-ip=209.85.128.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjL9FtRZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23F6AC4CEDD;
-	Thu, 10 Apr 2025 09:31:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744277481;
-	bh=NUQSl8+KNt2Gck3bg5zy+/lvTkACE7uM59VfdQMYJzA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=VjL9FtRZYiAIUa//U1cc/2gKUgnwvHeK4bT+9LIGC9mtHU1f4UcjRF0h8D7rOx7pz
-	 iR5HtXzcxamzNeae3/JNe/gPTy7boaa5FX9rOMKNiug9wVM0NIp6ZsP3YrBz8ld8hC
-	 emGVRKGBrQZolj9q3AkTLhoPDH3Cmug/BsiPEJafWnEdVDPuWXvw4oPf7MVZ883aIT
-	 SJ+/eOuPhOaJ8rHhdMAey+nmq2fZo514q3YXzOeVeKf81mzqfrbZtp/H00V0m26P/k
-	 8ejdZ+VOEcTpTcNVTPAcNqpNmuKDVGm/wMQYhjBLxEDHI30rSti3DVMXfe8kASLaYC
-	 blPbZfprIw1cQ==
-Date: Thu, 10 Apr 2025 11:31:19 +0200
-From: Daniel Gomez <da.gomez@kernel.org>
-To: Luis Chamberlain <mcgrof@kernel.org>
-Cc: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
-	willy@infradead.org, linux-mm@kvack.org, Bagas Sanjaya <bagasdotme@gmail.com>, 
-	David Hildenbrand <david@redhat.com>, gost.dev@samsung.com, linux-doc@vger.kernel.org, 
-	Pankaj Raghav <p.raghav@samsung.com>
-Subject: Re: [PATCH v3] docs: update THP admin guide about non-tmpfs
- filesystem support
-Message-ID: <bozpegwoihmwakmmtkk2lhkwycv3yv4ovpfthguhcr4vbjgzpm@bjv7aioyg6ql>
-References: <20250404140657.29285-1-kernel@pankajraghav.com>
- <Z-_7fzU02OU1hVOT@bombadil.infradead.org>
- <qy52tvn6atrlt5rhgzbtueyqbs56ik3rfg2b7yopynhhoipvtj@qph743k6m7kg>
- <Z_Aexql5FDVLtuQp@bombadil.infradead.org>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="iOKdyDnc"
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-43d64e6c83eso630305e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 10 Apr 2025 02:46:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1744278360; x=1744883160; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=T8i8GZtfdY75DsuPGV8mdkCHtexeE8J8QTGC238f61s=;
+        b=iOKdyDncUDwDoD5psxtgcxvM35zh6Zae+qpWAmKco41uJCREAZCoR7K8S7IA3unsVB
+         ZLZJJ7O5A44WBkO0BpX9nDVjl2uYUmcHudz6SqaZBzP+UmPFVDzXhmJzGcaBiulFSx4I
+         9M1YJse8NEmCU/uFhyoOzwMFwXj85VGsKg7zIVTE3wbX09wTNTKOnvWi6aGN5fDiyDdw
+         yOJZpIPd6CZ/NhXDC5iqJUdzUxngSzfAIcoBCZOOy+ukcP/VHsScp2jtRoXVlaAQ+fU+
+         EFkm2l7XqI6tRvYPXxgzLTNwsUOVxZfelavab8LBT3AVBrUbOVUh6tWtQ+T78MQr2/QN
+         LEVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744278360; x=1744883160;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=T8i8GZtfdY75DsuPGV8mdkCHtexeE8J8QTGC238f61s=;
+        b=L7wAQEyMe/GW5HkjC0AvirYwyrXwSwtNeR6/xO7luUMrJnZV49dqVebrgxS1gIYdl5
+         9rojvuWelff7Sd0xN9mViwwtNN17jJoZENoaztJK7F4RSBylq95ylHLdKkVczY814XaW
+         9Z1LZ9x/3YDWDC/+EIfrZVpoeCok5NMw8z38Jj2oocJlLmuRv+dUJIF0D0rhzmzpRdTI
+         zLUaIW5SdEPH4dl2BWjf/pZKpf1M9BUmIQjF4R5t2QYQkgbwP4/fbkMnL6AmKBbrakv8
+         mn60VzligEdNKZrleWrZ5njf1ug1T9Qd0yBrcxSYQHhI47LLiUU20VRKweb9kzOL+5a7
+         tgIA==
+X-Forwarded-Encrypted: i=1; AJvYcCVo+9yInUJJQjHOTbswS6E6FsfcXRuRUMz6FP15bo5rDx0Mf7EwZZ5EeMEviDTJ9cW5QS0hb9dZDs0=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw9RQBnBizN3hETuyL7Tg/Qd6au6xa1weezKK7mS9xFjf1Ngbql
+	hrrwD6JHXUVetxB4VMofRWXXGiIEme1mfOqFSNYp0QMA89Ga7bFizkjXGdq9eg4=
+X-Gm-Gg: ASbGncutI8TSnH22jyh0tBhmlSo+qcR7RrE6jFg4sX06gvb8Hm+4pjPcSgfRiq56ndj
+	sZ9x4qAQ25k8YpMO9E+nmbzZOXVXICSHhfl11hBTgAcXMGjKAtGTLAS3c9NrJSuE1okLC86WWyj
+	HEO6wSP0ROv5Zvb6qY5cK6ZaIX0ALf9j8svyeQ6zx5R75AFw5CL/o4gfuCnipyvx9+aVZSiqavQ
+	cwbMSj/RMbdAqrOP9JuRqKSBMYftOV+HJZW8uXmXXqtzgdazQJqb6PBiFyiHpnmg+/BtpF93dit
+	lwSjtrcPTNZASJ1CJPK0zzihqPTIak5nV9j9cVdHqqUB3Ti2
+X-Google-Smtp-Source: AGHT+IGtn4otBiHZ5rhpzGojxm7Tp3rcDjovrmZXPH6P8CvTrnSeGNCclbDgZlnTp+GpEEnuS4B3vQ==
+X-Received: by 2002:a05:6000:430d:b0:39c:1258:32d4 with SMTP id ffacd0b85a97d-39d87ce1a29mr1909263f8f.16.1744278359773;
+        Thu, 10 Apr 2025 02:45:59 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:7d22:13bb:e539:15ee])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39d893611dcsm4217671f8f.9.2025.04.10.02.45.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 02:45:59 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z_Aexql5FDVLtuQp@bombadil.infradead.org>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 10 Apr 2025 11:45:58 +0200
+Message-Id: <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
+Subject: Re: [PATCH v12 12/28] riscv: Implements arch agnostic shadow stack
+ prctls
+Cc: <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
+ <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+To: "Deepak Gupta" <debug@rivosinc.com>, "Thomas Gleixner"
+ <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov"
+ <bp@alien8.de>, "Dave Hansen" <dave.hansen@linux.intel.com>,
+ <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Vlastimil Babka" <vbabka@suse.cz>, "Lorenzo Stoakes"
+ <lorenzo.stoakes@oracle.com>, "Paul Walmsley" <paul.walmsley@sifive.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Conor Dooley" <conor@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Arnd Bergmann"
+ <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>, "Peter Zijlstra"
+ <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>, "Eric Biederman"
+ <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann Horn"
+ <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
+In-Reply-To: <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
 
-On Fri, Apr 04, 2025 at 11:02:46AM +0100, Luis Chamberlain wrote:
-> On Fri, Apr 04, 2025 at 06:31:16PM +0200, Pankaj Raghav (Samsung) wrote:
-> > On Fri, Apr 04, 2025 at 08:32:15AM -0700, Luis Chamberlain wrote:
-> > > On Fri, Apr 04, 2025 at 04:06:57PM +0200, Pankaj Raghav (Samsung) wrote:
-> > > > From: Pankaj Raghav <p.raghav@samsung.com>
-> > > > 
-> > > > THP support for non-tmpfs filesystem has been around for some time now.
-> > > > Update the admin guide to reflect it.
-> > > > 
-> > > > While we are at it, move FilePmdMapped to previous paragraph for clarity,
-> > > > and clarify ShmemPmdMapped & ShmemHugePage.
-> > > > 
-> > > > Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
-> > > > Acked-by: David Hildenbrand <david@redhat.com>
-> > > > ---
-> > > > 
-> > > > Changes since v2:
-> > > > - Address comment from Bagas Sanjaya
-> > > > - Squash commits and Ack from David
-> > > > 
-> > > >  Documentation/admin-guide/mm/transhuge.rst | 22 +++++++++++++++-------
-> > > >  1 file changed, 15 insertions(+), 7 deletions(-)
-> > > > 
-> > > > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> > > > index dff8d5985f0f..f8aae64e38d0 100644
-> > > > --- a/Documentation/admin-guide/mm/transhuge.rst
-> > > > +++ b/Documentation/admin-guide/mm/transhuge.rst
-> > > > @@ -12,8 +12,8 @@ using huge pages for the backing of virtual memory with huge pages
-> > > >  that supports the automatic promotion and demotion of page sizes and
-> > > >  without the shortcomings of hugetlbfs.
-> > > >  
-> > > > -Currently THP only works for anonymous memory mappings and tmpfs/shmem.
-> > > > -But in the future it can expand to other filesystems.
-> > > > +Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
-> > > > +filesystems that support large folios.
-> > > 
-> > > That seems to allude that THP can be supported on filesystems
-> > > that suppor large folios. I don't think we want to call that THP
-> > 
-> > But we do allocate a THP in the page cache if we support large folios.
-> > 
-> > See [1] where THP was supported through page cache. From what I
-> > understand, THP support was added first to the page cache and then large
-> > folios (orders in between) support came later.
-> 
-> I see, yes Do we want to clarify this further?
+2025-03-14T14:39:31-07:00, Deepak Gupta <debug@rivosinc.com>:
+> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/us=
+ercfi.h
+> @@ -14,7 +15,8 @@ struct kernel_clone_args;
+>  struct cfi_status {
+>  	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
+> -	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 1);
+> +	unsigned long ubcfi_locked : 1;
+> +	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
 
-According to this thread [1], large folios currently depends on
-CONFIG_TRANSPARENT_HUGEPAGE, but that will be removed eventually.
+The rsvd field shouldn't be necessary as the container for the bitfield
+is 'unsigned long' sized.
 
-https://lore.kernel.org/all/ZPINmXyTgy2wqLqr@casper.infradead.org/
+Why don't we use bools here, though?
+It might produce a better binary and we're not hurting for struct size.
 
-I agree this needs to be clarified. THP for anonymous memory and tmpfs/shmem is
-not the same for filesystems that support large folios.
+> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
+> @@ -24,6 +24,16 @@ bool is_shstk_enabled(struct task_struct *task)
+> +bool is_shstk_allocated(struct task_struct *task)
+> +{
+> +	return task->thread_info.user_cfi_state.shdw_stk_base ? true : false;
+
+I think that the following is clearer:
+
+  return task->thread_info.user_cfi_state.shdw_stk_base
+
+(Similar for all other implicit conversion ternaries.)
+
+> @@ -42,6 +52,26 @@ void set_active_shstk(struct task_struct *task, unsign=
+ed long shstk_addr)
+> +void set_shstk_status(struct task_struct *task, bool enable)
+> +{
+> +	if (!cpu_supports_shadow_stack())
+> +		return;
+> +
+> +	task->thread_info.user_cfi_state.ubcfi_en =3D enable ? 1 : 0;
+> +
+> +	if (enable)
+> +		task->thread.envcfg |=3D ENVCFG_SSE;
+> +	else
+> +		task->thread.envcfg &=3D ~ENVCFG_SSE;
+> +
+> +	csr_write(CSR_ENVCFG, task->thread.envcfg);
+
+There is a new helper we could reuse for this:
+
+  envcfg_update_bits(task, ENVCFG_SSE, enable ? ENVCFG_SSE : 0);
+
+> +}
+> @@ -262,3 +292,83 @@ void shstk_release(struct task_struct *tsk)
+> +int arch_set_shadow_stack_status(struct task_struct *t, unsigned long st=
+atus)
+> +{
+> +	/* Request is to enable shadow stack and shadow stack is not enabled al=
+ready */
+> +	if (enable_shstk && !is_shstk_enabled(t)) {
+> +		/* shadow stack was allocated and enable request again
+> +		 * no need to support such usecase and return EINVAL.
+> +		 */
+> +		if (is_shstk_allocated(t))
+> +			return -EINVAL;
+> +
+> +		size =3D calc_shstk_size(0);
+> +		addr =3D allocate_shadow_stack(0, size, 0, false);
+
+Why don't we use the userspace-allocated stack?
+
+I'm completely missing the design idea here...  Userspace has absolute
+over the shadow stack pointer CSR, so we don't need to do much in Linux:
+
+1. interface to set up page tables with -W- PTE and
+2. interface to control senvcfg.SSE.
+
+Userspace can do the rest.
+
+> +int arch_lock_shadow_stack_status(struct task_struct *task,
+> +				  unsigned long arg)
+> +{
+> +	/* If shtstk not supported or not enabled on task, nothing to lock here=
+ */
+> +	if (!cpu_supports_shadow_stack() ||
+> +	    !is_shstk_enabled(task) || arg !=3D 0)
+> +		return -EINVAL;
+
+The task might want to prevent shadow stack from being enabled?
+
+Thanks.
