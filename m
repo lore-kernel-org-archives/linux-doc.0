@@ -1,85 +1,160 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id DCBA115B135;
-	Thu, 10 Apr 2025 15:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE7CB1E98E0;
+	Thu, 10 Apr 2025 16:00:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744298163; cv=none; b=b/9O2qFhQlunX27UxmWAGstWOTmhtc13LHhV2yyDhDfpMz7BOA9YLnr+we8ZqY9hO2SyqIK7wXg3Y/fC0eeGxJ30dKBr3xoq8R/kwqEuObpBNRU1AOIXZ+Z5fjdCqv95dccKOeZ46GJHiT/hoGI3tmrXhXwhQSgT9fJMerAJhpk=
+	t=1744300815; cv=none; b=TU1JlWctBIKmTUkDXc7EHGf7Oa7EQop6l8qBogiUWuFvm408Js7it35I8h5v4cgMVTFU3p6cyBC/MCZvyR8a02fNUrlE4EPaJRGmMiTJgHfGP29EJwFa8rXbX/yHInqIMOoYlCxGaLmyltFP6p7CrXvQTHh7oAsVnew8hInIi6I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744298163; c=relaxed/simple;
-	bh=FJiKHY0yXYvYpnwTi6b4QY4wSVLzbkccdNokb8K2uZM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=snCZJ9I/aHDcMjrS7VsTzv98j0ny5jfJj0i26N9kmJzfQOTX3vs0RBK7vAN/rqsVeWlH7254WoREOhcNPovxqsiYdmAq5s/mXQGwIgx552W8zHrd7rEGV+cRMUC5MKLOpFG6y9+Yqux9+cF+z1byt3BBSpCZ7yW/Scyh8KaYSo8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=pPUwqlOB; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1744300815; c=relaxed/simple;
+	bh=pl9dJD0Qx8fdr7PO+1lN8nE809JuwSMSpc4t1wsrh24=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=dazoVUfjpBjcalI7nqAArrVwWR5wy8niJNly/ZWkA5shO+qqbJe4O7L/X3Gz/FUKxMnHfTqcszbRBsxEVS3ZVyZ8uCENT+5mX5MC6/dvZqQsg61B+7GPo2kkFMVK030EcizHW+VtaWdT6TWkF1++LCdFzU+c8TVXpkpBLPtlFgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=jk4L0VD2; arc=none smtp.client-ip=209.85.214.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="pPUwqlOB"
-Received: from [10.137.184.60] (unknown [131.107.159.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id EA497203B86C;
-	Thu, 10 Apr 2025 08:16:00 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com EA497203B86C
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744298161;
-	bh=b/USx7FyrAAP0KVFJIR3S9nGQoNXd7rpnvG6sRwEcjk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=pPUwqlOBrIErhRnMenQuuETY6McFAU1X0L10gqqB+/k7VCThivMB270N9MVPVqKZv
-	 OKxIXSvIKMZxOqZulERNSc4wZJRTLL80Ml0pDUeMCwWwOhmkq4niN8+MWNU6gCLoNP
-	 iRC71M6wjwxVnS1zZO8WpZAJaxORmPm0mctceOLU=
-Message-ID: <e169cb52-8f2d-4ac5-b667-87c3357c11a7@linux.microsoft.com>
-Date: Thu, 10 Apr 2025 08:16:00 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="jk4L0VD2"
+Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-224341bbc1dso9681085ad.3;
+        Thu, 10 Apr 2025 09:00:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744300813; x=1744905613; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qo3jtmdiLQ30YVjIBcjlK7lG5+Fo4/D/zRq2VtRejDA=;
+        b=jk4L0VD23zV1rd7SZg0tE0ezcJx/mew4fyO8ro2DgN0/w9SZypHr5HdrfoFAcQYOY7
+         GduPlAPXjAkV5q4CMtl2mlj+R/cEwJ2Wy2BWpkLHXAcFWNMe4c+f9qdmqFwbDKcMVQl4
+         0qcbKFyX9fi7DiDOuc99noaFuk+emeLPEACdJDMb18dCc0pc5oB9EAeS2hwQ6pGSjNPn
+         bJ/bloVifbWahp/81d3B11INgth92UPH0H+n5I6/Wwo2Nlyko+mR4nst2ucC3ROZnOzx
+         6CfqU/nGw8HJKbLPEYXBZkiG05gmEfk1XcpkgyMWxslG3UA73WFpdkomyvXBcwfeDpYw
+         L2Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744300813; x=1744905613;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qo3jtmdiLQ30YVjIBcjlK7lG5+Fo4/D/zRq2VtRejDA=;
+        b=m9vG4lLGXBH7JKSWxEf8geOEc4lQ1c55KUgIhAqHQOWqcnp5QSKrjyQkvSXPL2/2mR
+         19V8jrQbbLpB444uSGIFJ3JWf2A2NSEM2EfMUDdBisrNcZK8jh3urf0M2QY3pvdSnKx7
+         woGL9/i6VIC8RgTVUN+1ckiGpAhtpFuhIXQzH2deW/siPHC6a8wJm51AjuAxF4BJPjIC
+         FF9qdJiXpI+mJ42STrE2gTYEbQsv0iJ/ewedIQfKyn6SeirzlRrbvkIfIsn7HR8LIBQL
+         LBH8XoXZl9YYYOjElbf614BP+FxTTb6hhY+VYaIDPNSYlLCAD5da+Thnai8AQb5Bgfda
+         5VxA==
+X-Forwarded-Encrypted: i=1; AJvYcCU+W0A7c4t1YvHvqSSHj/3hUGtRiBOLAB0zg6+gT2bkDEI+7NDeUWm7C14mDC20hYtKne8unWuSPwM=@vger.kernel.org, AJvYcCUi5vN3tM1958cSgB8ZsQ6+LT0tscNiQpIHvmAyHEeMQ6wyhAeQKkoueTjtBFfTMrigjJCBaNISm2wJem/4@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXtUF++8JJlp6fbYdNhKPR2R5TjrT95gd/IFbO0ksfjLlqNUVO
+	eP4O3t0c4N2C+SCBY4cXra3w699zku8eOvULQnO2Jpw9mnBc7q3T
+X-Gm-Gg: ASbGncv0zudFTAlZjAWvi7emnx8Ce4fPk43P+FuVMZMXiURzYZBftXNmrgP+3BGQoQ8
+	vjD5WRvtAOtS5Kz2Wk4sxnDCjXpKoj5DIh+pCWeJGcnlzwll8vxUYnFhnWDnnAoMUbEVqXQ/6eZ
+	oyGcZtoDQ4u7u9oN2uVXqbBkul8Yt8g+dOHYBJUQOiGAdGBXsNWSSD4/+vb/cvesSAxKRwEuznm
+	zRU8hEvffDK7orMEAFVLAixwXwLnPJv7OtoGGb4rqx2OBMKqWpD73wvUQbbbkmy9or6wtEjDOD7
+	s1mXIwJQf/BpGJITEdQOdx5tlhMx057OoxPuq1HYvcFuuZMsRxeerX4Vst/LTA==
+X-Google-Smtp-Source: AGHT+IGnJBJQib59YV2tKOPvVx8bjO1Oi1ZxGy4LlEUbUkj4ifQE6YltT6IlIPhorHZiQqXMnN4f1g==
+X-Received: by 2002:a17:903:2446:b0:224:249f:9723 with SMTP id d9443c01a7336-22b42c2e74fmr47652475ad.51.1744300812602;
+        Thu, 10 Apr 2025 09:00:12 -0700 (PDT)
+Received: from localhost.localdomain ([2409:40f2:1181:ecab:2ac2:19c7:32de:1c4d])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7c95cd1sm32179355ad.150.2025.04.10.09.00.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 09:00:12 -0700 (PDT)
+From: saivishnu725@gmail.com
+To: mchehab@kernel.org
+Cc: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	saivishnu725 <saivishnu725@gmail.com>
+Subject: [PATCH] Add --interactive option to prompt for dependency installation if missing
+Date: Thu, 10 Apr 2025 21:24:15 +0530
+Message-Id: <20250410155414.47114-1-saivishnu725@gmail.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next 5/6] arch, drivers: Add device struct bitfield
- to not bounce-buffer
-To: Christoph Hellwig <hch@lst.de>
-Cc: Robin Murphy <robin.murphy@arm.com>, aleksander.lobakin@intel.com,
- andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dakr@kernel.org,
- dan.j.williams@intel.com, dave.hansen@linux.intel.com, decui@microsoft.com,
- gregkh@linuxfoundation.org, haiyangz@microsoft.com, hpa@zytor.com,
- James.Bottomley@HansenPartnership.com, Jonathan.Cameron@huawei.com,
- kys@microsoft.com, leon@kernel.org, lukas@wunner.de, luto@kernel.org,
- m.szyprowski@samsung.com, martin.petersen@oracle.com, mingo@redhat.com,
- peterz@infradead.org, quic_zijuhu@quicinc.com, tglx@linutronix.de,
- wei.liu@kernel.org, will@kernel.org, iommu@lists.linux.dev,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, x86@kernel.org,
- apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
- sunilmut@microsoft.com, Suzuki K Poulose <suzuki.poulose@arm.com>
-References: <20250409000835.285105-1-romank@linux.microsoft.com>
- <20250409000835.285105-6-romank@linux.microsoft.com>
- <0eb87302-fae8-4708-aaf8-d16e836e727f@arm.com>
- <0ab2849a-5c03-4a8c-891e-3cb89b20b0e4@linux.microsoft.com>
- <20250410072150.GA32563@lst.de>
-Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <20250410072150.GA32563@lst.de>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+From: saivishnu725 <saivishnu725@gmail.com>
 
+Introduce the --interactive flag to enable user prompts before running commands to install missing dependencies.
+Asks if the user would like to run the distro appropriate commands if any dependency is not available.
 
-On 4/10/2025 12:21 AM, Christoph Hellwig wrote:
-> On Wed, Apr 09, 2025 at 09:44:03AM -0700, Roman Kisel wrote:
->> Do you feel this is shoehorned in `struct device`? I couldn't find an
->> appropriate private (== opaque pointer) part in the structure to store
->> that bit (`struct device_private` wouldn't fit the bill) and looked like
->> adding it to the struct itself would do no harm. However, my read of the
->> room is that folks see that as dubious :)
-> 
-> We'll need per-device information.  But it is much higher level than a
-> need bounce buffer flag.
-> 
+Signed-off-by: saivishnu725 <saivishnu725@gmail.com>
+---
+ scripts/sphinx-pre-install | 27 ++++++++++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
 
-I see, thanks for the explanation!
-
+diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
+index ad9945ccb0cf..581d694eb0fd 100755
+--- a/scripts/sphinx-pre-install
++++ b/scripts/sphinx-pre-install
+@@ -42,6 +42,7 @@ my $latest_avail_ver;
+ my $pdf = 1;
+ my $virtualenv = 1;
+ my $version_check = 0;
++my $interactive = 0;
+ 
+ #
+ # List of required texlive packages on Fedora and OpenSuse
+@@ -338,6 +339,21 @@ sub which($)
+ 	return undef;
+ }
+ 
++sub run_if_interactive($)
++{
++	my $command = shift;
++
++	if ($interactive) {
++		printf("Do you want to run the command now [Y/n]: ");
++		my $user_input = <STDIN>;
++		chomp $user_input;
++		if ($user_input =~ /Y|y/) {
++			printf("\$ $command\n");
++			system($command);
++		}
++	}
++}
++
+ #
+ # Subroutines that check distro-specific hints
+ #
+@@ -374,7 +390,9 @@ sub give_debian_hints()
+ 
+ 	return if (!$need && !$optional);
+ 	printf("You should run:\n") if ($verbose_warn_install);
+-	printf("\n\tsudo apt-get install $install\n");
++	my $command = "sudo apt-get install $install";
++	printf("\n\t$command\n");
++	run_if_interactive($command);
+ }
+ 
+ sub give_redhat_hints()
+@@ -1002,12 +1020,15 @@ while (@ARGV) {
+ 		$pdf = 0;
+ 	} elsif ($arg eq "--version-check"){
+ 		$version_check = 1;
++	} elsif ($arg eq "--interactive") {
++		$interactive = 1;
+ 	} else {
+-		print "Usage:\n\t$0 <--no-virtualenv> <--no-pdf> <--version-check>\n\n";
++		print "Usage:\n\t$0 <--no-virtualenv> <--no-pdf> <--version-check> <--interactive>\n\n";
+ 		print "Where:\n";
+ 		print "\t--no-virtualenv\t- Recommend installing Sphinx instead of using a virtualenv\n";
+ 		print "\t--version-check\t- if version is compatible, don't check for missing dependencies\n";
+-		print "\t--no-pdf\t- don't check for dependencies required to build PDF docs\n\n";
++		print "\t--no-pdf\t- don't check for dependencies required to build PDF docs\n";
++		print "\t--interactive\t- Ask to install missing dependencies\n\n";
+ 		exit -1;
+ 	}
+ }
 -- 
-Thank you,
-Roman
+
+This is not the complete patch - I'm sending this to get early feedback before I go further. If this looks good, I plan to follow up with additional patches that will:
+1. use the run_if_interactive on the hints for every distro
+2. add more quality-to-life features to make the script more useful
+
+Any form of feedback would be helpful! If there is a reason why none of the scripts are interactable, please let me know why.
+
+Sai Vishnu
+
+2.34.1
 
