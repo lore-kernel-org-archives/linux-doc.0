@@ -1,127 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFA212857FA;
-	Thu, 10 Apr 2025 13:44:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3F691E9B2B
+	for <linux-doc@vger.kernel.org>; Thu, 10 Apr 2025 13:47:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744292691; cv=none; b=gsXWqdWBDD1u+QDa/7UwbC+LZq6oj9Jf/PifRpubRfgIBzx0Uub7OeeURi+4EnVXcir/yHwS+JUDIGMXJq9jsdSZ+fh2r7tXdtWOHSMM2KzfAAHzp4Cuk1cXS71iwvuOPGCO451grG0QvdPlEVGNgmOf/Tio9rfeHJf1gD07xy8=
+	t=1744292833; cv=none; b=BcYXHpODOd3BFaEuR6uPjAar3ES7Hhx7TbBrM5ftkkSp2HYiphvPRMrH+VA0quPuZdh4P7Ez++qW8zvAY+K4+oB2DtEEvHEN3NJHwm1mmkpigiFwk83qIl3WSpEWE8jnZ/Pfrm02honP3xn4XOg9uZGznyLu5+e5nrGcTMNvnrM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744292691; c=relaxed/simple;
-	bh=zIuv99jR6/DvhIj/ezFd7gDXDCcqNb+1BR6FZTmkWrc=;
+	s=arc-20240116; t=1744292833; c=relaxed/simple;
+	bh=4b9272PBm8zs6TURGhpg1ANgpmpR6PaBZxZkWeDeEHY=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VaLPSk4WfSpZ4yvNBThlrE3Md7vZH1X3QchXS4mvpbSwS8riXxEfvO7JnI3yCsUBFbvIbBIcP/GBNU5Upqh5PBMC4CVwqcBS5mD54ye60mX4Pjz+CDsV2ZJEV5xpV8seVHuElfaJhjf6jFp73qZ4pjIQ5QobEPJ5uthTXIvTWu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WWFnvSEr; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=YYYpVVgLKTVRH54RuJT8t3nI20SkTvZ4Kd/ANmsSuv2IzS83efcAlNa4GtYvR7EGB0EDZHy/cmrT5uqFnfplBgRzcfstbosbeEjveoiQjzmPfntAZPOvteIyaLMIo3yLurSBOa12zod0TBSAUUfmS1XnUKGn/NWQuzDbAMGEAIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=Mk9oC8Ci; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WWFnvSEr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4C278C4CEE9;
-	Thu, 10 Apr 2025 13:44:49 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744292690;
-	bh=zIuv99jR6/DvhIj/ezFd7gDXDCcqNb+1BR6FZTmkWrc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WWFnvSErJGHoAFL49fO2hww9SHO0/RHs5AH/HqVziawMjh9vkYSNexmYM9V1qao//
-	 Uh5m0IBGBkSMOyIl6LkSlHlAzZ8YKtLENE/p8M8TUsEKyGyM9YU4yx4VNGvR+vZpeJ
-	 myK2knY44CdZhmM1cF4cFbU8prSB9k9gCLko941gW1mDLOBdONOpcnJXQkkw0Nuzng
-	 SOBwpUziCkn/UNnqzHR0tQdkzSkfGkkBfztnfEcXBSOrSxMfFsR97hoDLizOpcrsJY
-	 nBHLyuWvuLHh2P7ENrjNiNabOB/jqF0W7PDRh3p6iblYP0qF5q//7SvENLREFz9+8M
-	 sxOCOcCxwnQcQ==
-Date: Thu, 10 Apr 2025 16:44:43 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Alexander Lobakin <aleksander.lobakin@intel.com>
-Cc: Larysa Zaremba <larysa.zaremba@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Lee Trager <lee@trager.us>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
-	Emil Tantilov <emil.s.tantilov@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Josh Hay <joshua.a.hay@intel.com>,
-	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
-	"Singhai, Anjali" <anjali.singhai@intel.com>,
-	Phani R Burra <phani.r.burra@intel.com>
-Subject: Re: [PATCH iwl-next 05/14] libeth: add control queue support
-Message-ID: <20250410134443.GS199604@unreal>
-References: <20250408124816.11584-1-larysa.zaremba@intel.com>
- <20250408124816.11584-6-larysa.zaremba@intel.com>
- <20250410082137.GO199604@unreal>
- <Z_ehEXmlEBREQWQM@soc-5CG4396X81.clients.intel.com>
- <20250410112349.GP199604@unreal>
- <c1ff0342-4fe9-44ec-a212-9f547e333a5e@intel.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="Mk9oC8Ci"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so6861625e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 10 Apr 2025 06:47:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1744292829; x=1744897629; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Z+9TWPr4cIFFLNnl4cBBmSOXCekcTbC/DxVvbdg+OgM=;
+        b=Mk9oC8Ciseix0Lc9kzOm7O/CrVcBc8ogo8t3nGu2efGsUpin5FPC/2BkM1D4lVl7gq
+         sbwpnxZTMlFNLdhnVwadktRsdl3q/mJkxZxr1OBBM2i6tlU4v0ppICZrrODtzKUg6kwr
+         y/PmrXN6Fip2HnGhrYMTxkuOu07dGHLyayrXn8jYLUMAFINTbZYSgNYVFfA8CWhtqe4O
+         tqwDtAIjtX0WLOoGP8aIwDCN66oTszueE6qNelX61SQTpWLsaiyqcoQYwx9QkDfuxgjz
+         yCsHSK4kZeU2HSI5yo7pZ8W+YqZGvufXIJHxix8nGUBSxdSVf3WgraVDTfcrCRG1/5RK
+         0iIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744292829; x=1744897629;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Z+9TWPr4cIFFLNnl4cBBmSOXCekcTbC/DxVvbdg+OgM=;
+        b=NYfFX58PWK3/sweKcMzSt7V+KpWFsqO1jEO1fI6CNu4nEyRgnc+Q45ZCzhQfIVjC+G
+         q+UBvjOU/ToQMfBuM3ty6L3KsLhGPZoMOgG16+lEYq9q3P8FaWS2be3u9yLicIG9iAjw
+         5Y9SU4iqVDAnIMF+J4QPnNC0UkCgh3WT7IDgg0oJVd20zBKT9TgyTZox2qJX4d50VHoe
+         cpOT1Jb+A8RxHxdvHdaPI6voxpNwTb65f1PJ/eTMkefqJpE3OE+rQDdTMZcom+3SPXGV
+         kIbQBQiskud6CHbHwSMaoi79jy3/jrj5hs9UK63fAwPO3dWKsZKGkaaLUkq+bLI/MmKy
+         YLXg==
+X-Forwarded-Encrypted: i=1; AJvYcCWNqGBzfV1fOnC1r3Dnu05262br8Ocbf0Q7H40fyTO0CBVxfcNg/SwLOPi3J+S6q5Y+ZOWHPC791sk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw8Jp4SNrriOxnYyAkpM7li47NHMM13eA31tJuEvtoafcqmIYx9
+	ANGvZ8dLkTTY6b8RuOkxBr9QVGM1gfQzoL+JrN5B+eFYCcvPkbLA25fpZ/lDFus=
+X-Gm-Gg: ASbGncsfEGvMPQLgqXrGXQZpAf1/b3nVfzHQaV7XIsXkz6gAXg8VrD8+/uPvBfM3rtw
+	2QrRR3GwJXNCPr7ZdXUL34TGf4Ypb48dhsUVpSA33ujXLWbwyL4oFQpFE2QHZbFjdMwrgLGwmNY
+	sti1c9tDi0QdSASeNBFvnpM0dLCgGLy/a/IFfLZGiLzBm6VqPG7NsaKrYoCJq0O1wNTO1CsdBn0
+	OMCiL+42nCw3xJejP4hZDhywIw1gdw3ERbY4FQBsegLfK4HFKtJqgJZUJFxTy25LS346J/R7lfx
+	gDIV4ij+wAN54x79F7EHW7P7ATJO+SfKtwKucl4tHB8=
+X-Google-Smtp-Source: AGHT+IGJpePNvVyjgvmav5Kd5AqQY4lDiNg+UquOUe0N4IN23Wm6xkWaUOUyn4V50aiJmmCXeU8IOg==
+X-Received: by 2002:a05:600c:5248:b0:43d:79:ae1b with SMTP id 5b1f17b1804b1-43f2d7bc45bmr27374935e9.14.1744292829089;
+        Thu, 10 Apr 2025 06:47:09 -0700 (PDT)
+Received: from blackdock.suse.cz ([193.86.92.181])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2066d004sm57414615e9.18.2025.04.10.06.47.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 06:47:08 -0700 (PDT)
+Date: Thu, 10 Apr 2025 15:47:06 +0200
+From: Michal =?utf-8?Q?Koutn=C3=BD?= <mkoutny@suse.com>
+To: Vishal Chourasia <vishalc@linux.ibm.com>
+Cc: tj@kernel.org, hannes@cmpxchg.org, corbet@lwn.net, 
+	cgroups@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] doc,cgroup-v2: memory.max is reported in multiples of
+ page size
+Message-ID: <la6q2koug4ohzcfc5eqguod7x6fdwhndqkhzfrttsfnjo5fbb3@xzxodtpjl6ww>
+References: <20250410133439.4028817-2-vishalc@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="cbkayfgiworvjsdj"
 Content-Disposition: inline
-In-Reply-To: <c1ff0342-4fe9-44ec-a212-9f547e333a5e@intel.com>
+In-Reply-To: <20250410133439.4028817-2-vishalc@linux.ibm.com>
 
-On Thu, Apr 10, 2025 at 03:05:19PM +0200, Alexander Lobakin wrote:
-> From: Leon Romanovsky <leon@kernel.org>
-> Date: Thu, 10 Apr 2025 14:23:49 +0300
-> 
-> > On Thu, Apr 10, 2025 at 12:44:33PM +0200, Larysa Zaremba wrote:
-> >> On Thu, Apr 10, 2025 at 11:21:37AM +0300, Leon Romanovsky wrote:
-> >>> On Tue, Apr 08, 2025 at 02:47:51PM +0200, Larysa Zaremba wrote:
-> >>>> From: Phani R Burra <phani.r.burra@intel.com>
-> >>>>
-> >>>> Libeth will now support control queue setup and configuration APIs.
-> >>>> These are mainly used for mailbox communication between drivers and
-> >>>> control plane.
-> >>>>
-> >>>> Make use of the page pool support for managing controlq buffers.
 
-<...>
+--cbkayfgiworvjsdj
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH] doc,cgroup-v2: memory.max is reported in multiples of
+ page size
+MIME-Version: 1.0
 
-> >> Module dependencies are as follows:
-> >>
-> >> libeth_rx and libeth_pci do not depend on other modules.
-> >> libeth_cp depends on both libeth_rx and libeth_pci.
-> >> idpf directly uses libeth_pci, libeth_rx and libeth_cp.
-> >> ixd directly uses libeth_cp and libeth_pci.
-> > 
-> > You can do whatever module architecture for netdev devices, but if you
-> > plan to expose it to RDMA devices, I will vote against any deep layered
-> > module architecture for the drivers.
-> 
-> No plans for RDMA there.
-> 
-> Maybe link the whole kernel to one vmlinux then?
+Hello.
 
-It seems that you didn't understand at all about what we are talking
-here. Please use the opportunity that you are working for the same
-company with Larysa and ask her offline. She understood perfectly about
-which modules we are talking.
+On Thu, Apr 10, 2025 at 07:04:40PM +0530, Vishal Chourasia <vishalc@linux.i=
+bm.com> wrote:
+> Update documentation for memory.max to clarify that the reported value
+> is in multiples of the system page_size. The following example
+> demonstrates this behavior:
 
-> 
-> > 
-> > BTW, please add some Intel prefix to the modules names, they shouldn't
-> > be called in generic names like libeth, e.t.c
-> 
-> Two modules with the same name can't exist within the kernel. libeth was
-> available and I haven't seen anyone wanting to take it. It's not common
-> at all to name a module starting with "lib".
+This applies to any of page_counter-based attribute, not only
+memory.max.
 
-Again, please talk with Larysa. ETH part is problematic in libeth name
-and not LIB.
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1316,6 +1316,9 @@ PAGE_SIZE multiple when read back.
+>  	Caller could retry them differently, return into userspace
+>  	as -ENOMEM or silently ignore in cases like disk readahead.
+> =20
+> +        Note that the value set for memory.max is reported in units
+> +        corresponding to the system's page size.
+> +
 
-Thanks
+There seems to be mismatch in whitespace to surrounding text.
+
+Also the wording would be more precise if it referred to 'multiples',
+not 'units' (units are simply bytes).
+
+Michal
+
+--cbkayfgiworvjsdj
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQTd6mfF2PbEZnpdoAkt3Wney77BSQUCZ/fL2AAKCRAt3Wney77B
+SRSNAP0bnJApWLajoXwxzl1ghVWKw5zQVjK3WrLIJrECXtDDewEAugoDnnl7QTvl
+4H/JYvFk91gyh5my4GuIExOBCwcMQQs=
+=2s8B
+-----END PGP SIGNATURE-----
+
+--cbkayfgiworvjsdj--
