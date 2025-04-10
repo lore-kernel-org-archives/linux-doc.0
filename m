@@ -1,135 +1,118 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2024928C5A0;
-	Thu, 10 Apr 2025 14:18:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D22F84039;
+	Thu, 10 Apr 2025 15:07:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744294735; cv=none; b=hc38LcwpxZtOFTwVnupkZsekrjyNRWZ6r/gheR//IN1kRJTo30OwxC2m/RNk1JQyNyqBTroyDj2+I/hLkOPzFY4bvHRwfcntfDYzzYaAk7RJaU0WQYhKcnFL+SeUS9S7D3GecCuqsn2QB4z4Cg0ZvshhTF8eEyZz1DSW0353c9Y=
+	t=1744297643; cv=none; b=e3Ip/wn9+eTdPXx8xjGr8XiJL23okCk/sOS9kluPtavJMYqjvxL6GFAMDPvR1qk++WUJqtRvDxs6pPk1rzBaKudV2AyJhlEvs1oIxaAmUqu6MU0tnIb4urKMRu+dTzRYsg8eGQobFALBTtzkKRDSLrjRTM+LkR6ASpBqzRYPZZ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744294735; c=relaxed/simple;
-	bh=UQ27vrQLCi8V4Grh3C1PRVUE7qYKzT6JbAsCqSsolYE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kNXIFuQEWdEBFWk2FnFjNgzZlEzMxUuKWTBzoRp7Ny6rnsJlOON/wyNGSc7wBgimq1Qi+hr+R0S/0ratWKVUywUmvOvZ0yUvmaGgHd+5mtXfvocXHJXVo/876g6w1wrejTwr7vXFuCWrJ6cNCsQ1p9lvt0r7zhoZI76svEXEDH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eNYZU+1r; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1744297643; c=relaxed/simple;
+	bh=eboaS5c05OyvAb+NBPFm2wN3NGNx/XKe73+3Wz4fRNs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Gce9G60G8BWWqmbu1gvD6tBJabixUEaOJVKCIMxri5SsHbi46lFRu6ppVWakWuq2IHR4UlbGr6PGOP86k/LRtMpLxVT+xBVHhpBq2KDcGVyG8Yd7dTbgjro2uCcipcNlZfzngGPuNJODQqnVj/eF2PpBsw1YSDRcsHA1+Afosg0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Y4fQScCd; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eNYZU+1r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1744294733; x=1775830733;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=UQ27vrQLCi8V4Grh3C1PRVUE7qYKzT6JbAsCqSsolYE=;
-  b=eNYZU+1rU8H3WaGHuUP8A0xP17y8x3OKYgcvirl3d7CjLnSoR7d0EwDo
-   SnHeHhkOtIBeXS7zOvcMqutrO2yhSaYjn4TuaXYrnx9+E0LTNMByEmVBl
-   yrHNuh4xDiphpW+DPdvRJIr3L3nRk4qX29ySntduLhv7VdL9QDAcc0Apv
-   55mEBbCbih4bjOyh1CiCmFtaPuuN68NGqaQFwcbw8FDcYk0xx5c/g7MEx
-   9x+rl3YMKwpf4XRc02J8FyLwIN+g3NHZ2seBlMR5YOCcjj2UdRmh2af8G
-   +FguYKWWpI71fUJQzHsfYo8ecpbMGO2ztRrJJCc3Ou3MyzxVPM8kxzeUW
-   A==;
-X-CSE-ConnectionGUID: cuXbM/DUQeCgxZoqPIX0tg==
-X-CSE-MsgGUID: QFHF/ofzTuCAsICQnU8FLQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11400"; a="57190264"
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="57190264"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 07:18:52 -0700
-X-CSE-ConnectionGUID: o7QVdegNRvSJLWEnhVhM6w==
-X-CSE-MsgGUID: 9FAYZpHpT2OwCe0ucqzqyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,202,1739865600"; 
-   d="scan'208";a="133036043"
-Received: from jairdeje-mobl1.amr.corp.intel.com (HELO [10.124.221.45]) ([10.124.221.45])
-  by fmviesa003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Apr 2025 07:18:51 -0700
-Message-ID: <e88be442-1163-4163-8f2f-06a37d1e595a@intel.com>
-Date: Thu, 10 Apr 2025 07:18:49 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Y4fQScCd"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-af28bc68846so916266a12.1;
+        Thu, 10 Apr 2025 08:07:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744297641; x=1744902441; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=brD0jvjX625bzsG6fgbmQ6q3jKQyaVH5CAKGozygZW4=;
+        b=Y4fQScCdBm7TYTc2CO/GK2xHK2xFEykki0+FIk13PeMSfMZSbypl3klPQdjaHfqCNh
+         sdwHCz2ccdYIKyb1TjGx2lz8PaOfEfSJEsQBjzXX9PcIRIz/AGguNDB2R1Je5iOOlvAR
+         FexJxObppUR/dXUUtLT+XKzR5oJfVymXGux/qcz2hqxQFTvQD50axZ3Avtz+xAqWD9Tu
+         AdhDyc0osLPhQ6FSitAIQ7T83Bk+p6EJTgbM3Svuj+Pw3FsWqhr2WhK510mE4MRFybRq
+         7YgMVlzMoW1bCs2INXe7FIRn611na87jiyjZgz4Z+k6d56r+BRCjPgTk0DX/IQItCsOK
+         NSkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744297641; x=1744902441;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=brD0jvjX625bzsG6fgbmQ6q3jKQyaVH5CAKGozygZW4=;
+        b=m61RxGzGY7+4IvBJhEYepWHS1BB3sp4b0uNkGcsf9JWKchkUIpn0ZDdeuZf0ggv8Ji
+         ziO2fgJhR+kzPQw82gnKdh3dWG5/GyUk1tLVpghN7uk72xFdcRxhhsaXHPYjC5ABh3H5
+         +28xZOmU0zXQfVA6/+fBjG4IjsM4R3FvzuueZsOfgJnwGfFepZQoDB1j4NF5NgHLdHkA
+         Rl+v0DF8NR3ct6o607WSmBGI7SYKrHVB73vai8GGvnNc1SfUHPtMsPS+XI5m9hDPsEA3
+         FrE37v34ee9XCs5L5eHxa345EUOB56YMQKnUKm2n9vKSIc9R8l/zo1JTtvFj2eYhb9a4
+         lDQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVkake7YC+Cx7FIZVy8aaheNTdbh1BxYIKq59S7C6DI8kKmG7rIFXwWHfroBPWaOQZYB+EIBr2U5EBJ@vger.kernel.org, AJvYcCWOoPTpuowzbexyL11ACVpltt2AHkZKD6WSp6CTWtrn0Q0yE2gLJqd6f8oOS9MK0TXj6/Dr0K1roco=@vger.kernel.org, AJvYcCXquWq+VjRxMtO3cAbC6gZrBs34MxRPNZuMaV64U8e3W5GKqK6lmehzVB0z9yMm0evJOejQnecN1yBcifW3@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz0RVEu3eY4oflf70ioG3l+DaYESkK5rSS19xeUrdIyH/7ejwyt
+	m8n61z2PKJ16ZTpZHOIANlDd7bzXOxOI4YCXQPlkMKiw+WDBJKjN
+X-Gm-Gg: ASbGncuOUce8+83DGyypqMzVm0ghJKr7dY9d/SuR5KY8hSOtcvRPjzG8vn1atrymToD
+	mtgFJuWHJhHnJyqqPuZi3UfXtnyERTNWeOfBInJsw9YLxu7rmBmtGg/npXnDs69LkO13RZTbXAc
+	aAHQvbgRrbraf7hTEXCVdBWEDI5upWdRT9HCBKehFB5/zy+b9Ri78BtWjuFF5bTHc3Jj797hhmq
+	LlxCtuUW+mBsdz+K4jdrMrkD/h6BwJE2Hp7YBBqIY0Xd0qmVwJ82Jtm8lLe/z/oPW1qOEfyjXjX
+	6BolBf9X2uCrwZNzdK1TGeZ/Qs6ef+rMzVx3lkcRVVxQueCSuA==
+X-Google-Smtp-Source: AGHT+IFipQ50ghFnCXKI8zRF8Bt+A/DpNB00DQaIIZ1RLRoPjkBbjJFwo/iHx851n7lTd+u7pGjTKA==
+X-Received: by 2002:a05:6a21:9214:b0:1f5:8153:9407 with SMTP id adf61e73a8af0-2016cd5ec22mr4138335637.20.1744297641304;
+        Thu, 10 Apr 2025 08:07:21 -0700 (PDT)
+Received: from localhost ([2804:30c:979:8400:d3a1:d5f7:94ea:b576])
+        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-73bb1d46586sm3471204b3a.64.2025.04.10.08.07.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Apr 2025 08:07:20 -0700 (PDT)
+Date: Thu, 10 Apr 2025 12:08:27 -0300
+From: Marcelo Schmitt <marcelo.schmitt1@gmail.com>
+To: David Lechner <dlechner@baylibre.com>
+Cc: Marcelo Schmitt <marcelo.schmitt@analog.com>, linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	jic23@kernel.org, lars@metafoo.de, Michael.Hennerich@analog.com,
+	corbet@lwn.net
+Subject: Re: [PATCH v4 1/4] iio: adc: ad4000: Add support for SPI offload
+Message-ID: <Z_fe69bn90oVjPNk@debian-BULLSEYE-live-builder-AMD64>
+References: <cover.1743110188.git.marcelo.schmitt@analog.com>
+ <386ce043a0e3fc9e8ff71f17aef8de128ce5869e.1743110188.git.marcelo.schmitt@analog.com>
+ <97d0cc16-cdd4-449c-87f5-f62e0515de97@baylibre.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/19] x86/cea: Export per CPU array
- 'cea_exception_stacks' for KVM to use
-To: Christoph Hellwig <hch@infradead.org>, "Xin Li (Intel)" <xin@zytor.com>
-Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, corbet@lwn.net,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
- chao.gao@intel.com, xin3.li@intel.com
-References: <20250328171205.2029296-1-xin@zytor.com>
- <20250328171205.2029296-5-xin@zytor.com> <Z_eHGjzR33LMqLfL@infradead.org>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <Z_eHGjzR33LMqLfL@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <97d0cc16-cdd4-449c-87f5-f62e0515de97@baylibre.com>
 
-On 4/10/25 01:53, Christoph Hellwig wrote:
-> On Fri, Mar 28, 2025 at 10:11:50AM -0700, Xin Li (Intel) wrote:
->> The per CPU array 'cea_exception_stacks' points to per CPU stacks
->> +/*
->> + * FRED introduced new fields in the host-state area of the VMCS for
->> + * stack levels 1->3 (HOST_IA32_FRED_RSP[123]), each respectively
->> + * corresponding to per CPU stacks for #DB, NMI and #DF.  KVM must
->> + * populate these each time a vCPU is loaded onto a CPU.
->> + */
->> +EXPORT_PER_CPU_SYMBOL(cea_exception_stacks);
-> Exporting data vs accessors for it is usually a bad idea.  Doing a
-> non-_GPl for such a very low level data struture is even worse.
+On 04/09, David Lechner wrote:
+> On 3/27/25 4:24 PM, Marcelo Schmitt wrote:
+> > FPGA HDL projects can include a PWM generator in addition to SPI-Engine.
+> > The PWM IP is used to trigger SPI-Engine offload modules that in turn set
+> > SPI-Engine to execute transfers to poll data from the ADC. That allows data
+> > to be read at the maximum sample rates. Also, it is possible to set a
+> > specific sample rate by setting the proper PWM duty cycle and related state
+> > parameters, thus allowing an adjustable ADC sample rate when a PWM (offload
+> > trigger) is used in combination with SPI-Engine.
+> > 
+> > Add support for SPI offload.
+> > 
+> > Signed-off-by: Marcelo Schmitt <marcelo.schmitt@analog.com>
+> > ---
+> 
+> I think I spotted a bug. With that fixed...
+> 
+> Reviewed-by: David Lechner <dlechner@baylibre.com>
+> 
+> > @@ -690,6 +942,15 @@ static int ad4000_prepare_3wire_mode_message(struct ad4000_state *st,
+> >  
+> >  	xfers[1].rx_buf = &st->scan.data;
+> >  	xfers[1].len = BITS_TO_BYTES(chan->scan_type.storagebits);
+> 
+> Now this needs to be:
+> 
+> 	xfer->len = chan->scan_type.realbits > 16 ? 4 : 2;
+> 
+> Otherwise when there is SPI offload, this could read 2 words because
+> storagebits is always == 32.
 
-Big ack on this.
+I've just tested both versions with ADAQ4003 and with AD7687.
+There's no practical difference between the suggestion and what already is in
+IIO testing. I don't mind sending a patch with the change, but don't think it
+fixes anything.
 
-I don't even see a single caller of __this_cpu_ist_top_va() that's
-remotely performance sensitive or that needs to be inline.
-
-Just make the __this_cpu_ist_top/bottom_va() macros into real functions
-and export __this_cpu_ist_top_va(). It's going to be a pretty tiny
-function but I think that's tolerable.
+Thanks,
+Marcelo
