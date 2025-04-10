@@ -1,43 +1,45 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from verein.lst.de (verein.lst.de [213.95.11.211])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 682431D5CFE;
-	Thu, 10 Apr 2025 07:13:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C31A520AF6C;
+	Thu, 10 Apr 2025 07:21:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744269199; cv=none; b=nKc+4R+ix9+bOn3lWOp51Vb0QrOzCtPSPdSZn9/gjaXgvPaGSHBm5y8nY3kGBfY2R3s52oREHNuLuKniKHJSxlSXFRFjE35mvo18bXQBVCPEIXVLHtnfCVxqw7XcdLw+JoK/xb+vgivjSXQ/lnjKN/GreQS+ZGezi/JWoJdOPRs=
+	t=1744269719; cv=none; b=ftLa43k+GLi1A5Hs2EBNm/FrD62Jzvu515dz3EjQDPxOmyk0ejvQNknuLANX5a/dTis39T6AVws+1mIKcC38DRy0d5o9t8pPF4fc4Qv+5ik3xcTDJGaAgFz88lNo9UtRmQ69N0WYiUZFUxp2LOM9mb/H5lWqoxcul+193E2etWI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744269199; c=relaxed/simple;
-	bh=/Af35//dXZkHFZDl9CSvQBw8I9JeUaK4Yzg54bBJudY=;
+	s=arc-20240116; t=1744269719; c=relaxed/simple;
+	bh=dorXJXTWIWIP6/iW2KT5hpaWe+xzufigP/RnUc3Y5bs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=PQQq/4fbVVhPmzfzyurzNN32kaZclNH0e63IvtkbVT+ctdzzClaGVA1BEf4hubU8etUiv94G6S1b9phSU7hz5CtJWEbv8oWsQYSZczXmKIP0XS8V68X22p/Ua/s9mTrie7t/wCOr5jyQSmAHZk/aWEre38VTJChphby1CoL7JZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=UdvuR5+0; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="UdvuR5+0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 111EFC4CEDD;
-	Thu, 10 Apr 2025 07:13:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744269196;
-	bh=/Af35//dXZkHFZDl9CSvQBw8I9JeUaK4Yzg54bBJudY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=UdvuR5+0FOsO8XIYkduD5wzFV76+OiM+1q2RKjF0h8j+qszquiuzCbdbVYgqqHjTP
-	 YHU54KLMk6MccD9hUeR+tWEuC1iRZARsvOwa9C+Nsih6l8S4rVLZZh1/+GjeN0Gnt8
-	 4DbnUt4KivKOmnMmseNYebLK2A3sPY19rfyLbuKs=
-Date: Thu, 10 Apr 2025 09:11:42 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Wesley Cheng <quic_wcheng@quicinc.com>
-Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
-	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
-	broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
-	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
-	Thinh.Nguyen@synopsys.com, tiwai@suse.com,
-	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
-	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v38 00/31] Introduce QC USB SND audio offloading support
-Message-ID: <2025041029-oval-cavity-7896@gregkh>
-References: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=t+E5m+9xU+0T2jKYhJ2bDqHKJ3dVLULoUR483oSY8RK99pHggATmstprlsh9FI2Squ9lvcfbjcRIlC+1gaXpOArtKPYfOVNBxjP00dFVYJMG9aiEeebMEjYDitSN2laGiieoLD2vIBkna5K9yEJU+07crakpVJh6OxAw2bYIZow=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
+Received: by verein.lst.de (Postfix, from userid 2407)
+	id BD93D68BFE; Thu, 10 Apr 2025 09:21:50 +0200 (CEST)
+Date: Thu, 10 Apr 2025 09:21:50 +0200
+From: Christoph Hellwig <hch@lst.de>
+To: Roman Kisel <romank@linux.microsoft.com>
+Cc: Robin Murphy <robin.murphy@arm.com>, aleksander.lobakin@intel.com,
+	andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
+	catalin.marinas@arm.com, corbet@lwn.net, dakr@kernel.org,
+	dan.j.williams@intel.com, dave.hansen@linux.intel.com,
+	decui@microsoft.com, gregkh@linuxfoundation.org,
+	haiyangz@microsoft.com, hch@lst.de, hpa@zytor.com,
+	James.Bottomley@HansenPartnership.com, Jonathan.Cameron@huawei.com,
+	kys@microsoft.com, leon@kernel.org, lukas@wunner.de,
+	luto@kernel.org, m.szyprowski@samsung.com,
+	martin.petersen@oracle.com, mingo@redhat.com, peterz@infradead.org,
+	quic_zijuhu@quicinc.com, tglx@linutronix.de, wei.liu@kernel.org,
+	will@kernel.org, iommu@lists.linux.dev, linux-arch@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+	linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-scsi@vger.kernel.org, x86@kernel.org, apais@microsoft.com,
+	benhill@microsoft.com, bperkins@microsoft.com,
+	sunilmut@microsoft.com, Suzuki K Poulose <suzuki.poulose@arm.com>
+Subject: Re: [PATCH hyperv-next 5/6] arch, drivers: Add device struct
+ bitfield to not bounce-buffer
+Message-ID: <20250410072150.GA32563@lst.de>
+References: <20250409000835.285105-1-romank@linux.microsoft.com> <20250409000835.285105-6-romank@linux.microsoft.com> <0eb87302-fae8-4708-aaf8-d16e836e727f@arm.com> <0ab2849a-5c03-4a8c-891e-3cb89b20b0e4@linux.microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,10 +48,16 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
+In-Reply-To: <0ab2849a-5c03-4a8c-891e-3cb89b20b0e4@linux.microsoft.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 
-On Wed, Apr 09, 2025 at 12:47:33PM -0700, Wesley Cheng wrote:
-> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+On Wed, Apr 09, 2025 at 09:44:03AM -0700, Roman Kisel wrote:
+> Do you feel this is shoehorned in `struct device`? I couldn't find an
+> appropriate private (== opaque pointer) part in the structure to store
+> that bit (`struct device_private` wouldn't fit the bill) and looked like
+> adding it to the struct itself would do no harm. However, my read of the
+> room is that folks see that as dubious :)
 
-let me give it some 0-day bot testing to see how that goes...
+We'll need per-device information.  But it is much higher level than a
+need bounce buffer flag.
 
