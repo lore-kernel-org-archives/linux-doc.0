@@ -1,91 +1,93 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9901628D83E;
-	Thu, 10 Apr 2025 19:10:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 466AA19DF99;
+	Thu, 10 Apr 2025 20:02:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744312233; cv=none; b=cE4BR3cNUrN98s78m6dAO32sQGF+nH4ZCXwR6yAk1kdjXVzcz1vbZttss7FlFLgB54egFDzU9nJkt6tFTh2jd1nhjw3GunbBD/j0miY7VGIfs8+agaPdogQPPe/w5KP6nV9XVlHrRrqZNYLBhUVxKPWmEpk0pt5VpDetvn5MFF4=
+	t=1744315338; cv=none; b=qtjVguppqXXPfyB2GGZc9D7WYMKGHACIri+tkYWgn6GCxdBxaUh7S1p5ts0mFR2mNeTsUa1KO84LKwhNUv3+jlbny9vIFzBUS1LSrHV6BfpYAd4ggKTM6phVOxAz/7vxlXgWmmPFsbFlD6PL7udQSYa7cbEuSBz0xUjTmocT2YM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744312233; c=relaxed/simple;
-	bh=MwU13Bp26U6V3maPsnG2tuN0xljevYyWsfzq1qfrCS4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oXXbWmfkonJGg7LmRgfG0lEyhLx7gWsEnRitxy8D/BXE+Mmtra0+nwWxOv41dRmBy6GnGA0xFBwzhKEeLDq82g3VaOrvVLPyl2rTQlrZHQ9d2I8aJwP5KzwbcGv7JfttZ4+GQ1cjShpp83fC7HhuJVsIo1eePvWDnRgvLA740CM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=P7hSa02M; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1744315338; c=relaxed/simple;
+	bh=sbiJCE73U885kOZ2/LQ9Zkp6JvO2nK74WGrxsvwKbs0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=CaZQTeqWgAXOt7xNNdkr6DcBrK+A96etISO3EhKYzg2e+bUWf1lH0l0d2pYO7lod88Era3tlHlBUq5N5UjQWjVTMZ+TClaOswAFORcjH/vHqDRMQoXi33bTOvezvaz17bp75KIlrcq6W7DswAfCMVWEjYk7sRl1WA8rT9civpwE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Q6qWwP2K; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="P7hSa02M"
-Received: from [10.137.184.60] (unknown [131.107.159.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id B95962114DA8;
-	Thu, 10 Apr 2025 12:10:30 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com B95962114DA8
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744312231;
-	bh=GIf52GlovbvkGrmF0yuwN/3vnWv6uH/x4VM7bLG+QCY=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=P7hSa02M3iPJfwyVRh9ul8Qqg3w3S9nzYdXt1Jguz+zzE2jU7vdU4NAeqNKF9CJpV
-	 SLgW6C2o4uN4t7kSkTROtIOX2QqjDT3/uXC+0yxmK45wBRqoJVxJonTcXFFAeY59o2
-	 mMrZ3NYMSyQOYMfz6rugX2MXe3gTtYW6AzauSq5U=
-Message-ID: <fb7de79c-100c-4423-a6f5-6f7b9acfccbc@linux.microsoft.com>
-Date: Thu, 10 Apr 2025 12:10:30 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Q6qWwP2K"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 15E69C4CEDD;
+	Thu, 10 Apr 2025 20:02:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744315337;
+	bh=sbiJCE73U885kOZ2/LQ9Zkp6JvO2nK74WGrxsvwKbs0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Q6qWwP2Kr03GOIaLSne5ITkRqyvduv9B1zzDuoKBgwNZFJ8jcK8b+29yEkLofOubY
+	 7Mf5DYp939Vfaf8fjqTZu32wUSMU5j3KhirfhtlVLJRI4VMB5027TV0j+IR4NoVRos
+	 7gU6gRBS4nmTgeIUlznmd6ymdQ0O2/IEqFaxh97gC6A/b6FoqLNMA0gy8DPNkIeTmL
+	 S29B3Owr/G7ipQb+zMio80yapmWK2j6JxQ7ljZOoAph2fdDdczUjGPuyPJbwxyYlu4
+	 bWExaq+b+7zGIg+htKttKOsStGaPYfk1J3lYYflYBi0xfU+HJsDj47HYVGr0gw92sC
+	 Q18ty0Y3umuxg==
+From: Mario Limonciello <superm1@kernel.org>
+To: Borislav Petkov <bp@alien8.de>,
+	Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-i2c@vger.kernel.org (open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC),
+	platform-driver-x86@vger.kernel.org (open list:AMD PMC DRIVER)
+Subject: [PATCH v3 0/4] AMD Zen debugging documentation
+Date: Thu, 10 Apr 2025 15:01:58 -0500
+Message-ID: <20250410200202.2974062-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next 1/6] Documentation: hyperv: Confidential VMBus
-To: ALOK TIWARI <alok.a.tiwari@oracle.com>, aleksander.lobakin@intel.com,
- andriy.shevchenko@linux.intel.com, arnd@arndb.de, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dakr@kernel.org,
- dan.j.williams@intel.com, dave.hansen@linux.intel.com, decui@microsoft.com,
- gregkh@linuxfoundation.org, haiyangz@microsoft.com, hch@lst.de,
- hpa@zytor.com, James.Bottomley@HansenPartnership.com,
- Jonathan.Cameron@huawei.com, kys@microsoft.com, leon@kernel.org,
- lukas@wunner.de, luto@kernel.org, m.szyprowski@samsung.com,
- martin.petersen@oracle.com, mingo@redhat.com, peterz@infradead.org,
- quic_zijuhu@quicinc.com, robin.murphy@arm.com, tglx@linutronix.de,
- wei.liu@kernel.org, will@kernel.org, iommu@lists.linux.dev,
- linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org, x86@kernel.org
-Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
- sunilmut@microsoft.com
-References: <20250409000835.285105-1-romank@linux.microsoft.com>
- <20250409000835.285105-2-romank@linux.microsoft.com>
- <724f9f7d-137b-4cf5-aff5-bbb9727c23c1@oracle.com>
-Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <724f9f7d-137b-4cf5-aff5-bbb9727c23c1@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
+From: Mario Limonciello <mario.limonciello@amd.com>
 
+Introduce documentation for debugging some issues on AMD zen hardware.
+As one of the debugging techniques read and add information for
+S5_RESET_STATUS register.
 
-On 4/10/2025 9:54 AM, ALOK TIWARI wrote:
-> 
-> 
+v3:
+ * Introduce patches to have a common define for a register base used
+   in 3 different places.
+ * Take into account feedback on how to show S5_RESET_STATUS info
 
-[...]
+Mario Limonciello (3):
+  Documentation: Add AMD Zen debugging document
+  i2c: piix4: Move SB800_PIIX4_FCH_PM_ADDR definition to amd_node.h
+  platform/x86/amd: pmc: use FCH_PM_BASE definition
 
-> 
-> typo trsuted  -> trusted
-> 
->> +To support confidential communication with the paravisor, a VmBus client
->> +will first attempt to use regular, non-isolated mechanisms for 
->> communication.
->> +To do this, it must:
-> 
+Yazen Ghannam (1):
+  x86/CPU/AMD: Print the reason for the last reset
 
-Thanks for your help with this patch, and the other ones!! I'll make
-sure to use the spellchecker on the patches before sending another
-version out.
-
-> 
-> Thanks,
-> Alok
+ Documentation/admin-guide/amd/index.rst   | 312 ++++++++++++++++++++++
+ Documentation/admin-guide/amd/resume.svg  |   4 +
+ Documentation/admin-guide/amd/suspend.svg |   4 +
+ Documentation/admin-guide/index.rst       |   1 +
+ arch/x86/include/asm/amd_node.h           |   3 +
+ arch/x86/kernel/cpu/amd.c                 |  51 ++++
+ drivers/i2c/busses/i2c-piix4.c            |  12 +-
+ drivers/platform/x86/amd/pmc/pmc-quirks.c |   5 +-
+ 8 files changed, 385 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/admin-guide/amd/index.rst
+ create mode 100644 Documentation/admin-guide/amd/resume.svg
+ create mode 100644 Documentation/admin-guide/amd/suspend.svg
 
 -- 
-Thank you,
-Roman
+2.43.0
 
