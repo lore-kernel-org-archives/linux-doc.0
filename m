@@ -1,56 +1,73 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 53456293453;
-	Thu, 10 Apr 2025 20:02:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59F1A290BD5;
+	Thu, 10 Apr 2025 20:47:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.177.32
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744315348; cv=none; b=lvh8DitAbAUfoi7XFrMIecLoAeJizi0S/1c3zsbTWObzUcRzwB1HktG81TDm/6mvHFjl7RPh+HrmqPUs2gpPCHnW0daIH/vMIEUaOp9XV4ThebIzj8mia+FHM4cItCR38wNTGre2vvbzL+FKy93AzBI1gnRt4T2Ykr22o6CuxnY=
+	t=1744318063; cv=none; b=tnrUsx/6HScU5Qh2AE5rywbjSxxwy4/PyMNeBnC+flejk8I16CZ2RpMKkx/1yZbMhMLsH6x/ChzuWxM5bsFpx3QfPhj6nhUEjHQ0rSHWcGRI5snrGF4sh3byr1i9+zKgpZCnf5dFRxQHN1vFQGpU9GaTUb0sG1iT/ELElImeMVA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744315348; c=relaxed/simple;
-	bh=HKokz0uKDHtOCWF8mVU98Ua+9d+BqiXJ5Xr3OER4avA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=cKtS+lbp2TqrYkPkAXl2BBD7A8uOTPqMbqnejLeyidz9LLHP+THbbLoKwzcwUn6u+CANd29X8R99LADZ8BHJEZW7sqbj2CKayONiL3Gl7Kl3rqFglzVR6a09cBvgxXuxvfapVLcij35lKa8hBGPi1S8HBoD50w9/dYhgt7JcEJo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UHnCNir2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744318063; c=relaxed/simple;
+	bh=KdWCqli66+wnrOmBVJgZedK6VLKkVCmNvwTWLkM2Cw0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=cPC17wRSIkmIkmVj0l1Dg0DFj/GJeJkU0Lu+fQiLERTkAlA6ARn9gp3BEcPTSF+mH/Uki6rs85xaHW0C0m+qEe7xtAzI4i/Y5ODSTqg8wsRNk7shYKL1Kym4nSNp29v//kYh0X7Zb8/C9xCJdKYzgM6YoopCTLA3WZqxDHJetzM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=WSdk78/0; arc=none smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UHnCNir2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0FF2CC4CEEB;
-	Thu, 10 Apr 2025 20:02:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744315346;
-	bh=HKokz0uKDHtOCWF8mVU98Ua+9d+BqiXJ5Xr3OER4avA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=UHnCNir2w/qC/TUDrEZF6CUuXnAq7z4ttCiWJ7Zl6E4G4rJEXXpWt+vq2GKISyhsO
-	 IqItkZJyoRyEZuzecc8VL4x0QTWnbFALNEcjHwd9EvC1iyAysslm7SQsCE9dL4z6d9
-	 0FE58oRWLowJTRzzppEA4JDmElzf1Y3GjsDbrl9ZK038s4lWkpAxmFhx86oPAjhjdU
-	 vmRUwPMkNKwJ3Fpen4X3sUgqAuK5ZXaymtAWbKUnwN8+/xDOFjQUoHuJ4XJEg3Uf7G
-	 YVbGSupTFtRkeDWSzIJg9wQucb/eEEEcLvcLB8qDASxtfXed2IQOngDwYPDTzxkP5O
-	 5jmb6uFdZEsOw==
-From: Mario Limonciello <superm1@kernel.org>
-To: Borislav Petkov <bp@alien8.de>,
-	Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	linux-i2c@vger.kernel.org (open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC),
-	platform-driver-x86@vger.kernel.org (open list:AMD PMC DRIVER)
-Subject: [PATCH v3 4/4] x86/CPU/AMD: Print the reason for the last reset
-Date: Thu, 10 Apr 2025 15:02:02 -0500
-Message-ID: <20250410200202.2974062-5-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250410200202.2974062-1-superm1@kernel.org>
-References: <20250410200202.2974062-1-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="WSdk78/0"
+Received: from pps.filterd (m0246631.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53AKg4tu005017;
+	Thu, 10 Apr 2025 20:47:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=corp-2023-11-20; bh=tGkyk
+	5X6t38/9y2W68Skl7oHbPOQVzKyOCP/d1hW/Cg=; b=WSdk78/0Fbpz7SEVNpAXn
+	xJ+VVvsc5rlTRaAF5AmecTaPIt0jKoSVaZz7wzSRyCXQK8Bot6Mk8ztFejRldFKG
+	5eLuP7PXo3uWh6BWiXSBU2Ni6SnaJfviAuzd+SPw6IT4KcJm1adiiNgo8Gy1DzsZ
+	hLkK1k1LKKwHK/vXxse5afWW3lyK/dVhQhu/eNqGjKoSBTE8V+W/PHDMknRsVlur
+	79WvQdr4qGsJMNzmk5b4wGekWN0bV52RoLK2kJ7S8qk9ctWVXvn9HRHrLWnSwydK
+	kL/k4N6Prf4x4QuaMGnvlrgRkBoJI57O0LOW3QP7Q719fsm1D2DHKDT8myG4HiaO
+	A==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 45xn8fr0cw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 10 Apr 2025 20:47:06 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 53AJYenL016314;
+	Thu, 10 Apr 2025 20:47:05 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45ttycrnkt-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 10 Apr 2025 20:47:05 +0000
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by pps.reinject (8.17.1.5/8.17.1.5) with ESMTP id 53AKl4i7039892;
+	Thu, 10 Apr 2025 20:47:04 GMT
+Received: from bur-virt-x6-2-100.us.oracle.com (bur-virt-x6-2-100.us.oracle.com [10.153.92.40])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 45ttycrnfu-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NO);
+	Thu, 10 Apr 2025 20:47:04 +0000
+From: Ross Philipson <ross.philipson@oracle.com>
+To: linux-kernel@vger.kernel.org, x86@kernel.org,
+        linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+        linux-efi@vger.kernel.org, iommu@lists.linux.dev
+Cc: ross.philipson@oracle.com, dpsmith@apertussolutions.com,
+        tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, hpa@zytor.com,
+        dave.hansen@linux.intel.com, ardb@kernel.org, mjg59@srcf.ucam.org,
+        James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de,
+        jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+        nivedita@alum.mit.edu, herbert@gondor.apana.org.au,
+        davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com,
+        dwmw2@infradead.org, baolu.lu@linux.intel.com,
+        kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com,
+        trenchboot-devel@googlegroups.com
+Subject: [PATCH v13 02/19] x86: Secure Launch Kconfig
+Date: Thu, 10 Apr 2025 13:41:32 -0700
+Message-Id: <20250410204149.2576104-3-ross.philipson@oracle.com>
+X-Mailer: git-send-email 2.39.3
+In-Reply-To: <20250410204149.2576104-1-ross.philipson@oracle.com>
+References: <20250410204149.2576104-1-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,175 +75,46 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-10_06,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 spamscore=0 suspectscore=0
+ bulkscore=0 adultscore=0 malwarescore=0 phishscore=0 mlxlogscore=999
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2502280000
+ definitions=main-2504100150
+X-Proofpoint-GUID: JxuJSkmEcr6Sw152GbvVq16TkYUDuk_6
+X-Proofpoint-ORIG-GUID: JxuJSkmEcr6Sw152GbvVq16TkYUDuk_6
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+Initial bits to bring in Secure Launch functionality. Add Kconfig
+options for compiling in/out the Secure Launch code.
 
-The following register contains bits that indicate the cause for the
-previous reset.
-
-        PMx000000C0 (FCH::PM::S5_RESET_STATUS)
-
-This is useful for debug. The reasons for reset are broken into 6 high
-level categories. Decode it by category and print during boot.
-
-Specifics within a category are split off into debugging documentation.
-
-The register is accessed indirectly through a "PM" port in the FCH. Use
-MMIO access in order to avoid restrictions with legacy port access.
-
-Use a late_initcall() to ensure that MMIO has been set up before trying
-to access the register.
-
-This register was introduced with AMD Family 17h, so avoid access on
-older families. There is no CPUID feature bit for this register.
-
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
 ---
-v3:
- * Align strings in the CSV and code.
- * Switch to an array of strings
- * Switch to looking up bit of first value
- * Re-order message to have number first (makes grepping easier)
- * Add x86/amd prefix to message
-v2:
- * Add string for each reason, but still include value in case multiple
-   values are set.
----
- Documentation/admin-guide/amd/index.rst | 42 ++++++++++++++++++++
- arch/x86/include/asm/amd_node.h         |  1 +
- arch/x86/kernel/cpu/amd.c               | 51 +++++++++++++++++++++++++
- 3 files changed, 94 insertions(+)
+ arch/x86/Kconfig | 11 +++++++++++
+ 1 file changed, 11 insertions(+)
 
-diff --git a/Documentation/admin-guide/amd/index.rst b/Documentation/admin-guide/amd/index.rst
-index 5a721ab4fe013..c888b192365c5 100644
---- a/Documentation/admin-guide/amd/index.rst
-+++ b/Documentation/admin-guide/amd/index.rst
-@@ -268,3 +268,45 @@ EPP Policy
- The ``energy_performance_preference`` sysfs file can be used to set a bias
- of efficiency or performance for a CPU.  This has a direct relationship on
- the battery life when more heavily biased towards performance.
-+
-+Random reboot issues
-+====================
-+When a random reboot occurs, the high-level reason for the reboot is stored
-+in a register that will persist onto the next boot.
-+
-+There are 6 classes of reasons for the reboot:
-+ * Software induced
-+ * Power state transition
-+ * Pin induced
-+ * Hardware induced
-+ * Remote reset
-+ * Internal CPU event
-+
-+.. csv-table::
-+   :header: "Bit", "Type", "Reason"
-+   :align: left
-+
-+   "0",  "Pin",      "thermal pin BP_THERMTRIP_L was tripped"
-+   "1",  "Pin",      "power button was pressed for 4 seconds"
-+   "2",  "Pin",      "shutdown pin was shorted"
-+   "4",  "Remote",   "remote ASF power off command was received"
-+   "9",  "Internal", "internal CPU thermal limit was tripped"
-+   "16", "Pin",      "system reset pin BP_SYS_RST_L was tripped"
-+   "17", "Software", "software issued PCI reset"
-+   "18", "Software", "software wrote 0x4 to reset control register 0xCF9"
-+   "19", "Software", "software wrote 0x6 to reset control register 0xCF9"
-+   "20", "Software", "software wrote 0xE to reset control register 0xCF9"
-+   "21", "Sleep",    "ACPI power state transition occurred"
-+   "22", "Pin",      "keyboard reset pin KB_RST_L was asserted"
-+   "23", "Internal", "internal CPU shutdown event occurred"
-+   "24", "Hardware", "system failed to boot before failed boot timer expired"
-+   "25", "Hardware", "hardware watchdog timer expired"
-+   "26", "Remote",   "remote ASF reset command was received"
-+   "27", "Internal", "an uncorrected error caused a data fabric sync flood event"
-+   "29", "Internal", "FCH and MP1 failed warm reset handshake"
-+   "30", "Internal", "a parity error occurred"
-+   "31", "Internal", "a software sync flood event occurred"
-+
-+This information is read by the kernel at bootup and is saved into the
-+kernel ring buffer. When a random reboot occurs this message can be helpful
-+to determine the next component to debug such an issue.
-diff --git a/arch/x86/include/asm/amd_node.h b/arch/x86/include/asm/amd_node.h
-index f4993201834ea..a945d146f1a77 100644
---- a/arch/x86/include/asm/amd_node.h
-+++ b/arch/x86/include/asm/amd_node.h
-@@ -20,6 +20,7 @@
- #include <linux/pci.h>
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 9427b5292ca2..a92788060a05 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -1990,6 +1990,17 @@ config EFI_RUNTIME_MAP
  
- #define FCH_PM_BASE		0xFED80300
-+#define FCH_PM_S5_RESET_STATUS	0xC0
+ 	  See also Documentation/ABI/testing/sysfs-firmware-efi-runtime-map.
  
- #define MAX_AMD_NUM_NODES	8
- #define AMD_NODE0_PCI_SLOT	0x18
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 79569f72b8ee5..ddb17f0ad580e 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -9,6 +9,7 @@
- #include <linux/sched/clock.h>
- #include <linux/random.h>
- #include <linux/topology.h>
-+#include <asm/amd_node.h>
- #include <asm/processor.h>
- #include <asm/apic.h>
- #include <asm/cacheinfo.h>
-@@ -1231,3 +1232,53 @@ void amd_check_microcode(void)
- 	if (cpu_feature_enabled(X86_FEATURE_ZEN2))
- 		on_each_cpu(zenbleed_check_cpu, NULL, 1);
- }
++config SECURE_LAUNCH
++	bool "Secure Launch support"
++	depends on X86_64 && X86_X2APIC && TCG_TIS && TCG_CRB && CRYPTO_LIB_SHA1 && CRYPTO_LIB_SHA256
++	help
++	   The Secure Launch feature allows a kernel to be loaded
++	   directly through an Intel TXT measured launch. Intel TXT
++	   establishes a Dynamic Root of Trust for Measurement (DRTM)
++	   where the CPU measures the kernel image. This feature then
++	   continues the measurement chain over kernel configuration
++	   information and init images.
 +
-+static const char * const s5_reset_reason_txt[] = {
-+	[0] = "thermal pin BP_THERMTRIP_L was tripped",
-+	[1] = "power button was pressed for 4 seconds",
-+	[2] = "shutdown pin was shorted",
-+	[4] = "remote ASF power off command was received",
-+	[9] = "internal CPU thermal limit was tripped",
-+	[16] = "system reset pin BP_SYS_RST_L was tripped",
-+	[17] = "software issued PCI reset",
-+	[18] = "software wrote 0x4 to reset control register 0xCF9",
-+	[19] = "software wrote 0x6 to reset control register 0xCF9",
-+	[20] = "software wrote 0xE to reset control register 0xCF9",
-+	[21] = "ACPI power state transition occurred",
-+	[22] = "keyboard reset pin KB_RST_L was asserted",
-+	[23] = "internal CPU shutdown event occurred",
-+	[24] = "system failed to boot before failed boot timer expired",
-+	[25] = "hardware watchdog timer expired",
-+	[26] = "remote ASF reset command was received",
-+	[27] = "an uncorrected error caused a data fabric sync flood event",
-+	[29] = "FCH and MP1 failed warm reset handshake",
-+	[30] = "a parity error occurred",
-+	[31] = "a software sync flood event occurred",
-+	[32] = "unknown",
-+};
-+
-+static __init int print_s5_reset_status_mmio(void)
-+{
-+	void __iomem *addr;
-+	unsigned long value;
-+	int bit = -1;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_ZEN))
-+		return 0;
-+
-+	addr = ioremap(FCH_PM_BASE + FCH_PM_S5_RESET_STATUS, sizeof(value));
-+	if (!addr)
-+		return 0;
-+	value = ioread32(addr);
-+	iounmap(addr);
-+
-+	do {
-+		bit = find_next_bit(&value, BITS_PER_LONG, bit + 1);
-+	} while (!s5_reset_reason_txt[bit]);
-+
-+	pr_info("x86/amd: Previous system reset reason [0x%08lx]: %s\n",
-+		value, s5_reset_reason_txt[bit]);
-+
-+	return 0;
-+}
-+late_initcall(print_s5_reset_status_mmio);
+ source "kernel/Kconfig.hz"
+ 
+ config ARCH_SUPPORTS_KEXEC
 -- 
-2.43.0
+2.39.3
 
