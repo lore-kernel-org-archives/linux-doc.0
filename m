@@ -1,219 +1,195 @@
-Received: from mail-pj1-f54.google.com (mail-pj1-f54.google.com [209.85.216.54])
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0BE41D516C
-	for <linux-doc@vger.kernel.org>; Thu, 10 Apr 2025 05:24:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E5A22040AF
+	for <linux-doc@vger.kernel.org>; Thu, 10 Apr 2025 06:41:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744262650; cv=none; b=ITCtF3NoRkO38HvflX63dAqe80ecnO3B4OWZ5pCIFBcyQMzGG33zfZ3q+b7/kehgXSbr4BJ0sGWq2N+53YJhXAtiF1I7mGssFN+9C/lOBbBocna6IwJv3hsrLkbaiOHzntQhlVREtS141TQMrt6zLbmT1Eqra4X/I1GMqa0qkvA=
+	t=1744267309; cv=none; b=elDJLERTj/DIyCFYdyGYQciDH+EuBPFkcJL6dMM5QfFODq9IHCRMrd9S5l0lx62R5GQdPtKHrF5a2kMsVTd0frKIetkLVf5VWr5oS/7z/wpXgDEeqC5BDzQWoA41dIEIlFlROe0B6u0EAabiD50ROfNqQwIEJfKOqNooTUnmnyY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744262650; c=relaxed/simple;
-	bh=AvvJAYBIs5by7MUm027EyrQQeOiSll/0ZVufQ4rC9yc=;
+	s=arc-20240116; t=1744267309; c=relaxed/simple;
+	bh=eKWdlsR+gZq/WMnwiDfDDPjy/aOdQaKP5Tog0oX8hXI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pg9UVoU9axgDq3HJWyPm30L9E0P6YyVAmqFyS2MHKQi6Sqdvxc+RgaebrTkV3SfsLuiRnII7OC8BqmllKWNU7gLDb9WGQBCOlxEQ/VhC/df0FcGX8vXz1rHObk/eeZziHw4j31W82IEJH+lK0OQoOfSEuiIMRsC0OXuTHUq0sAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=Q06OStfN; arc=none smtp.client-ip=209.85.216.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=R2Cb88mXuKumBx64nBTjBGptMjj2spt5QLUkDqsU4Xi3hX0DFfsgp0bFPelMh4tf1n+e+8aJjszq+4UWtKVDSR/SSCvkkQjFSBYe+U79DIv4QaxsqE8iK8XG8XBiLbwR5nB6WNw0e/Juhoj64dRP/DoLndKfAoC5A2SJoY6lYQk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dKOfMOT3; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="Q06OStfN"
-Received: by mail-pj1-f54.google.com with SMTP id 98e67ed59e1d1-2ff69365e1dso321193a91.3
-        for <linux-doc@vger.kernel.org>; Wed, 09 Apr 2025 22:24:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dKOfMOT3"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac3eb3fdd2eso94173866b.0
+        for <linux-doc@vger.kernel.org>; Wed, 09 Apr 2025 23:41:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1744262646; x=1744867446; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1744267306; x=1744872106; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=PZYMzQXIXSU/bXW26sRzTu+9m/v0haq3s3VFwVwrb1s=;
-        b=Q06OStfNnyhk6geDn6XJVdrTgl9RLokjP8fFq1dQ5Ji+TXVzONRg8FXehDUrWs7g4y
-         ow0UE9yJ80OHMRNMVUuPCELlh75h4elSC02YCbIpkF+up6qXmlfcOitm/Kc+Dz0qDgCq
-         VIn9Bl01QVVVq7GS+sou1aoLgIaE0uSS7ZXuFZB+f4CXFTK0l7fX4nP3Z/jDmDizTO7H
-         uOUZ5cRkMngYz7mdK7Z5PEek0Io4x6hT8vSTqHCXek+twna6uNudanzqx4e5j834oFwx
-         a+/w6v0Mgqoe7HWMnwXAl43j3VvtbMG/Kv5s337nQORHOSEmLRmRlMqMt6BV/UCyD1VJ
-         10+Q==
+        bh=Sbl05XNjXwXIwA7PmbRBkyTSHc10MQi0pg5RfqUxRjQ=;
+        b=dKOfMOT3zf19q3/SaMp71AMOwSWNO+Nymp479U1orkzGBNoTOt6WawgFtJ6autr5QO
+         EESJW7gb6g59d1iRQ2+BPF2n63YmmYpo9hJfAH9Hvc/9n3uoZoeb/AwD32pmzxpBsHws
+         eV2yZM6VnR78EFytfqT/yyBBms9rJ0p7Blo0ZJ0eiODVswhjE3reinDNrEiNIVZVwWF7
+         zMNAk9xdevU4bRWduYuOu5Gv2Kx0DVOvYWSdMJY8oznb8N4ELKGxFEpts/SwsLaa/Xhu
+         u9fxOhvRYoO8OHI7O6U/6HDCqVsdLgLsfg9Xfs/due7Vbt5NgDBp8AHTr5SHKQd0EbZt
+         9vgw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744262646; x=1744867446;
+        d=1e100.net; s=20230601; t=1744267306; x=1744872106;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=PZYMzQXIXSU/bXW26sRzTu+9m/v0haq3s3VFwVwrb1s=;
-        b=xHsaXnwmzHqkhySZQwKtAGGsLw4KLgPzY56tufNzz6agZ+ggtNz8RSeoY7b1L1EG5E
-         FtK6FGl4y4sEyAGATffd8kmSi4ISkbsYq8VVTBK9zA7xBGBxpuF5lE2ltin/E8DIwP1p
-         aUSjQNkOxLXXe3E1q7BM2nU0/7hORJcjzdWxi1b5x1b8SW6dq+bpDyP3roBZWtlivXvG
-         62VD5msMq10GmZvmIdQSM0p0YjeFKffEW3spDcvcpWAj4IYThzowNEXoikJwtOJ13sRh
-         7XLnIyd6CCMhqAtgTO5+XRfQOeWW1srIGpC/lUpW4cCMRnA99Yoarxhj4OcGdqi2QEDH
-         PMnQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWV50wBAmecc83U5yH8nmCk/mpCGx5vqbr0li1+qsW1FbNV3coT2gQdNXhjzEltTtOEgKlBsXHCgf8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw92fsk3RYmkT4lurv8wXftXQKWPZ5LgIFsO13aMfddaElx0CoP
-	6nPBe8R8g6+giaKl7eCmqQBkaHdMNylmgEUICZ98oe43o8NFtTPQTNYjrYLKHy8=
-X-Gm-Gg: ASbGncukzzT1e8vyTJpxWnnKtMyBg0qEcTpaDCW0yiu6jFP00lqSkuuKyIt7KB6SwYW
-	kJU3W150fe8M2T3ctA08eBSAJGIpcyXJTZUqKmleSjQclVLtbsJdywjIyuK7XglSKwzXw7iTysJ
-	1QlECKbuchMy3wjlrBtUaHTboJD1HJb8lLbI7ltaTkCxD2U3CF92ZVoDPxe7863VECOvcaYcqYu
-	vQ12+tZwPRzo1sjcxlfdNbGDK93Nn2vEm6At79MFWt8YgPRJdrlyyU1RBN1ihAZx9+TQ1e5bkM7
-	8wxsBhub9TYNYwrvBe5He3FfMsJ1aTc176tDozOk1n/3r3kXr0E=
-X-Google-Smtp-Source: AGHT+IEFGYLi01GN6t1Qu8phsbyE3bnOEDBZkOiu+MAV/bjppeYPX1aHEWOs4wEGQPAvVv3qM4pyaQ==
-X-Received: by 2002:a17:90a:d64b:b0:2fa:13d9:39c with SMTP id 98e67ed59e1d1-30718b75cebmr2953474a91.14.1744262646173;
-        Wed, 09 Apr 2025 22:24:06 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22ac7ccac49sm21649615ad.217.2025.04.09.22.24.03
+        bh=Sbl05XNjXwXIwA7PmbRBkyTSHc10MQi0pg5RfqUxRjQ=;
+        b=KFhhBIdAck5ic7C6eaooNxb/I7U8bboQpxcNGsmB3lYPJTlKxHZ7j3KV4PSUMcolhC
+         mEjmF/oCPRrwzcAHD+F8hhh3+KWTPs80xHg0BvRZywzeovj07/k0VTCT0mVa3BhEdv2c
+         iADi3tJCqnsRIG63FwdMFSsxO6NwWQFL+7fTaVpDs1AEvAzg3SJw9P0HTr0wzRSIG985
+         vCzS/i9zSPXksxykPUrg07NS1dUyJAzNAi5hPjt/oALDZrj3jj0LPKgNr34YoUPXIqA+
+         GKJpQ9qNsO40/mE6GivdqSoVpgdpFj7wmtcrfOknB5QQmalVIhra495xUWqklkVVRI7b
+         o8+A==
+X-Forwarded-Encrypted: i=1; AJvYcCWOHSL6JHO63Za//QjmA1thoNXKc/E2RBZTyvkgEeozphvbJJYCC5RkW8CKGl4g4wSw+duS4Q25drg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2xr5bPh3aEQF/2ex6U7xIUiJdIybDxXEJQvuggR0aGJhXhRpa
+	KaRhuDdq4ErfbIEWWSOtNYSTQbTluaEnUeVo7YjjmRQMkQ79JZ6UUkP9mIavPYI=
+X-Gm-Gg: ASbGncv4bAuT+EqyOHfypsucwsZj99w35lsMoq7uqE/xyTzeXIHzK53kBz+zVv9ZurT
+	BRFIKfI8Mj+/IkHKlLVjN5azwAw29nzAkc9IXNef++LkpQOUvJoUdlfNkY1pwmiuXOjwZ5AUlNP
+	x38d2i5lzo0e8AXcLc8ILzp5MND9Qg7Ew+1oddlpnRQY7NJNfkZX0Y60vOTcebM8Pu/xb5ai7K/
+	9IT8y1sWuCX1kCd0wOqigQIoAGON9eTFFH+He0eH1EkygUy6YDSNaWY4fd0Ro9+JK/Jqanp2ssI
+	wE0EjoYJGi+U6aHgNmN6GZO6ghUJVdvcVxCI6vz6p4v75l3Z+E/YtqQ5nA6GGA==
+X-Google-Smtp-Source: AGHT+IGIijzSQTIvNZFHk1vd6j481tQc4BPdHGyE68UEhUubBExhKjE2Tspefm3pBMUpCnsjgm2sQw==
+X-Received: by 2002:a17:907:3cc3:b0:ac3:afb1:dee7 with SMTP id a640c23a62f3a-acabd20d17dmr128884466b.28.1744267305615;
+        Wed, 09 Apr 2025 23:41:45 -0700 (PDT)
+Received: from linaro.org ([2a02:2454:ff21:ef30:ae8a:4fb8:9c71:6be])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1be9632sm221324866b.66.2025.04.09.23.41.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Apr 2025 22:24:05 -0700 (PDT)
-Date: Wed, 9 Apr 2025 22:24:02 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Alexandre Ghiti <alex@ghiti.fr>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, Zong Li <zong.li@sifive.com>
-Subject: Re: [PATCH v12 27/28] riscv: Documentation for shadow stack on riscv
-Message-ID: <Z_dV8v54vfD9zHLV@debug.ba.rivosinc.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-27-e51202b53138@rivosinc.com>
- <2a24cc43-4150-4a56-ba09-0d136dde893f@ghiti.fr>
+        Wed, 09 Apr 2025 23:41:45 -0700 (PDT)
+Date: Thu, 10 Apr 2025 08:41:40 +0200
+From: Stephan Gerhold <stephan.gerhold@linaro.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
+	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com, tiwai@suse.com,
+	gregkh@linuxfoundation.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
+	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
+	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v38 26/31] ASoC: qcom: qdsp6: Fetch USB offload mapped
+ card and PCM device
+Message-ID: <Z_doJMXjSFHt6eAp@linaro.org>
+References: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
+ <20250409194804.3773260-27-quic_wcheng@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <2a24cc43-4150-4a56-ba09-0d136dde893f@ghiti.fr>
+In-Reply-To: <20250409194804.3773260-27-quic_wcheng@quicinc.com>
 
-On Tue, Apr 08, 2025 at 10:48:08AM +0200, Alexandre Ghiti wrote:
->
->On 14/03/2025 22:39, Deepak Gupta wrote:
->>Adding documentation on shadow stack for user mode on riscv and kernel
->>interfaces exposed so that user tasks can enable it.
->>
->>Reviewed-by: Zong Li <zong.li@sifive.com>
->>Signed-off-by: Deepak Gupta <debug@rivosinc.com>
->>---
->>  Documentation/arch/riscv/index.rst   |   1 +
->>  Documentation/arch/riscv/zicfiss.rst | 176 +++++++++++++++++++++++++++++++++++
->>  2 files changed, 177 insertions(+)
->>
->>diff --git a/Documentation/arch/riscv/index.rst b/Documentation/arch/riscv/index.rst
->>index be7237b69682..e240eb0ceb70 100644
->>--- a/Documentation/arch/riscv/index.rst
->>+++ b/Documentation/arch/riscv/index.rst
->>@@ -15,6 +15,7 @@ RISC-V architecture
->>      vector
->>      cmodx
->>      zicfilp
->>+    zicfiss
->>      features
->>diff --git a/Documentation/arch/riscv/zicfiss.rst b/Documentation/arch/riscv/zicfiss.rst
->>new file mode 100644
->>index 000000000000..5ba389f15b3f
->>--- /dev/null
->>+++ b/Documentation/arch/riscv/zicfiss.rst
->>@@ -0,0 +1,176 @@
->>+.. SPDX-License-Identifier: GPL-2.0
->>+
->>+:Author: Deepak Gupta <debug@rivosinc.com>
->>+:Date:   12 January 2024
->>+
->>+=========================================================
->>+Shadow stack to protect function returns on RISC-V Linux
->>+=========================================================
+On Wed, Apr 09, 2025 at 12:47:59PM -0700, Wesley Cheng wrote:
+> The USB SND path may need to know how the USB offload path is routed, so
+> that applications can open the proper sound card and PCM device.  The
+> implementation for the QC ASoC design has a "USB Mixer" kcontrol for each
 
-<... snipped ..>
+Is this "USB_RX Audio Mixer" now?
 
->>+
->>+5. violations related to returns with shadow stack enabled
->>+-----------------------------------------------------------
->>+
->>+Pertaining to shadow stack, CPU raises software check exception in following
->>+condition:
->>+
->>+- On execution of ``sspopchk x1/x5``, ``x1/x5`` didn't match top of shadow
->>+  stack. If mismatch happens then cpu does ``*tval = 3`` and raise software
->>+  check exception.
->>+
->>+Linux kernel will treat this as :c:macro:`SIGSEV`` with code =
->>+:c:macro:`SEGV_CPERR` and follow normal course of signal delivery.
->>+
->>+6. Shadow stack tokens
->>+-----------------------
->>+Regular stores on shadow stacks are not allowed and thus can't be tampered
->>+with via arbitrary stray writes due to bugs. Method of pivoting / switching to
->>+shadow stack is simply writing to csr ``CSR_SSP`` changes active shadow stack.
->
->
->I don't understand the end of this sentence.
+> possible FE (Q6ASM) DAI, which can be utilized to know which front end link
+> is enabled.
+> 
+> When an application/userspace queries for the mapped offload devices, the
+> logic will lookup the USB mixer status though the following path:
+> 
+> MultiMedia* <-> MM_DL* <-> USB Mixer*
 
-I'll rephrase it to make it readable and understandable.
+^
 
->
->
->>+This can be problematic because usually value to be written to ``CSR_SSP`` will
->>+be loaded somewhere in writeable memory and thus allows an adversary to
->>+corruption bug in software to pivot to an any address in shadow stack range.
->
->
->Remove "an"
->
->
->>+Shadow stack tokens can help mitigate this problem by making sure that:
->>+
->>+- When software is switching away from a shadow stack, shadow stack pointer
->>+  should be saved on shadow stack itself and call it ``shadow stack token``
->>+
->>+- When software is switching to a shadow stack, it should read the
->>+  ``shadow stack token`` from shadow stack pointer and verify that
->>+  ``shadow stack token`` itself is pointer to shadow stack itself.
->>+
->>+- Once the token verification is done, software can perform the write to
->>+  ``CSR_SSP`` to switch shadow stack.
->>+
->>+Here software can be user mode task runtime itself which is managing various
->>+contexts as part of single thread. Software can be kernel as well when kernel
->>+has to deliver a signal to user task and must save shadow stack pointer. Kernel
->>+can perform similar procedure by saving a token on user shadow stack itself.
->>+This way whenever :c:macro:`sigreturn` happens, kernel can read the token and
->>+verify the token and then switch to shadow stack. Using this mechanism, kernel
->>+helps user task so that any corruption issue in user task is not exploited by
->>+adversary by arbitrarily using :c:macro:`sigreturn`. Adversary will have to
->>+make sure that there is a ``shadow stack token`` in addition to invoking
->>+:c:macro:`sigreturn`
->>+
->>+7. Signal shadow stack
->>+-----------------------
->>+Following structure has been added to sigcontext for RISC-V::
->>+
->>+    struct __sc_riscv_cfi_state {
->>+        unsigned long ss_ptr;
->>+    };
->>+
->>+As part of signal delivery, shadow stack token is saved on current shadow stack
->>+itself and updated pointer is saved away in :c:macro:`ss_ptr` field in
->>+:c:macro:`__sc_riscv_cfi_state` under :c:macro:`sigcontext`. Existing shadow
->>+stack allocation is used for signal delivery. During :c:macro:`sigreturn`,
->>+kernel will obtain :c:macro:`ss_ptr` from :c:macro:`sigcontext` and verify the
->>+saved token on shadow stack itself and switch shadow stack.
->>
+> 
+> The "USB Mixer" is a DAPM widget, and the q6routing entity will set the
+
+^
+
+> DAPM connect status accordingly if the USB mixer is enabled.  If enabled,
+> the Q6USB backend link can fetch the PCM device number from the FE DAI
+> link (Multimedia*).  With respects to the card number, that is
+> straightforward, as the ASoC components have direct references to the ASoC
+> platform sound card.
+> 
+> An example output can be shown below:
+> 
+> Number of controls: 9
+> name                                    value
+> Capture Channel Map                     0, 0 (range 0->36)
+> Playback Channel Map                    0, 0 (range 0->36)
+> Headset Capture Switch                  On
+> Headset Capture Volume                  1 (range 0->4)
+> Sidetone Playback Switch                On
+> Sidetone Playback Volume                4096 (range 0->8192)
+> Headset Playback Switch                 On
+> Headset Playback Volume                 20, 20 (range 0->24)
+> USB Offload Playback Route PCM#0        0, 1 (range -1->255)
+> 
+> The "USB Offload Playback Route PCM#*" kcontrol will signify the
+> corresponding card and pcm device it is offload to. (card#0 pcm - device#1)
+> If the USB SND device supports multiple audio interfaces, then it will
+> contain several PCM streams, hence in those situations, it is expected
+> that there will be multiple playback route kcontrols created.
+> 
+> Signed-off-by: Wesley Cheng <quic_wcheng@quicinc.com>
+> ---
+>  sound/soc/qcom/qdsp6/q6usb.c | 98 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 98 insertions(+)
+> 
+> diff --git a/sound/soc/qcom/qdsp6/q6usb.c b/sound/soc/qcom/qdsp6/q6usb.c
+> index 6634e132787e..274c251e84dd 100644
+> --- a/sound/soc/qcom/qdsp6/q6usb.c
+> +++ b/sound/soc/qcom/qdsp6/q6usb.c
+> @@ -134,6 +134,103 @@ static int q6usb_audio_ports_of_xlate_dai_name(struct snd_soc_component *compone
+>  	return ret;
+>  }
+>  
+> +static int q6usb_get_pcm_id_from_widget(struct snd_soc_dapm_widget *w)
+> +{
+> +	struct snd_soc_pcm_runtime *rtd;
+> +	struct snd_soc_dai *dai;
+> +
+> +	for_each_card_rtds(w->dapm->card, rtd) {
+> +		dai = snd_soc_rtd_to_cpu(rtd, 0);
+> +		/*
+> +		 * Only look for playback widget. RTD number carries the assigned
+> +		 * PCM index.
+> +		 */
+> +		if (dai->stream[0].widget == w)
+> +			return rtd->id;
+> +	}
+> +
+> +	return -1;
+> +}
+> +
+> +static int q6usb_usb_mixer_enabled(struct snd_soc_dapm_widget *w)
+> +{
+> +	struct snd_soc_dapm_path *p;
+> +
+> +	/* Checks to ensure USB path is enabled/connected */
+> +	snd_soc_dapm_widget_for_each_sink_path(w, p)
+> +		if (!strcmp(p->sink->name, "USB Mixer") && p->connect)
+> +			return 1;
+
+I assume this also needs to be changed. Please make sure you test the
+series again. :)
+
+> +
+> +	return 0;
+> +}
+> +
+> +static int q6usb_get_pcm_id(struct snd_soc_component *component)
+> +{
+> +	struct snd_soc_dapm_widget *w;
+> +	struct snd_soc_dapm_path *p;
+> +	int pidx;
+> +
+> +	/*
+> +	 * Traverse widgets to find corresponding FE widget.  The DAI links are
+> +	 * built like the following:
+> +	 *    MultiMedia* <-> MM_DL* <-> USB Mixer*
+
+^
+
+Thanks,
+Stephan
