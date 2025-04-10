@@ -1,275 +1,286 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2074.outbound.protection.outlook.com [40.107.223.74])
+Received: from CY3PR05CU001.outbound.protection.outlook.com (mail-westcentralusazolkn19013087.outbound.protection.outlook.com [52.103.7.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2590F1754B;
-	Thu, 10 Apr 2025 00:58:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78A7F18B48B;
+	Thu, 10 Apr 2025 01:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.7.87
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744246732; cv=fail; b=gvjMq+hyHmrgGw6OKmd8mW4v2bv9EhHsqbsrc4cFRy0PHmsqqKlgVDp1Sbf6qJGl1I0X2kvMzcsVTadn2QiTp0XxR+PSGl3aU2jRsJRIinbRJWUTCta2VD0XMTuFTzNAWKT/RTMB2c72Ow0rgGS61HS3lX6s25DZ1PNFTx7xYjs=
+	t=1744247780; cv=fail; b=UaML0bFZLE909BFg7ovzhRRAZN3gMEl8I5FpfNenU/p8TpHmLVp9g6wXk26rGDKkuQuAhr30ZkDtId4K2gf6tXUaQQtw0qIPSF/NtznLkDULOCfzVj/ASmji5mRZbEyrkzXD7GLtNK0Ed5AWMnaimS9hByA+XKzuutZRstHMnpA=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744246732; c=relaxed/simple;
-	bh=MXdExGWoMjNFwbe5fkOn66FWfGwLbb3vL9lPpAIYb4E=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=uQywqGTJhlJsHNvFTJMAxDr9ttKWWESypp8bWYCaOHuo6euYtLmzeOVMk07BM7Uy6J1mlTrGEc6sw992F7NOwDwVzN5NvO/tV/zs0Eh9O8jBeoCWUYDRaaUkxAk/DkT0MpwRQ+epga+4nLigBUjHt3OabMS+C12ALjyMfYXwWyI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ZCnB1SEG; arc=fail smtp.client-ip=40.107.223.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	s=arc-20240116; t=1744247780; c=relaxed/simple;
+	bh=fMGZMkZqAbTj2f77VjkweA0Ni3qZz9aOtsXiich+/5g=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=oRThYfy35tYMf/teypWf3FjGEV4Ia8TRWyvQd5n+WvF/lFGTokWh/+Lw5adWSMfMoJd9gSJtvU+hbxc7DF+CSKIudqo5L8lgj9zs7TrOs3eXC2qteg79/u9ZRnBD7aZzm0/ZhE9nVljIix7N1cqprUTcLtYjEyi4aKjSITHnIWs=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com; spf=pass smtp.mailfrom=outlook.com; dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b=LdfDVBIo; arc=fail smtp.client-ip=52.103.7.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=outlook.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=outlook.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ZCnB1SEG"
+	dkim=pass (2048-bit key) header.d=outlook.com header.i=@outlook.com header.b="LdfDVBIo"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xPjGhCzfkrASLw+KMVFAz0CFj3QZznYYwJhW+mIQKzrfV5hu4UxUaiKyl+vOhLdFD82Pffj3rGnBqXp6tJL+3Cvr/0BpSlXl10WifthrhvDzKglKOYpjMy61qOW0pTFunDC9h7j0JXndDqNzXEtXz/d180CGVu8EVkLfZGEsg7P3ClI8K8a9TBQaC4v8i9M82Tu2c9mRnwjTG4ie6Zal4X4DP2xEpBC4a9y7t3bOVT4NsLd4/8MsNE30zADvWoEG8HolcYZjCy9gDCBJWZG/SWlUcg251khVJCXZnpC16QjFny/tWEr8ocPmrVete+vbT45U7xbdTcjPemc5KA96fw==
+ b=Gy0GA0FKChiJme8FjuQvLBCN4qGZHFW6BUeSpsAv/ciCLIxvr5mPUDXjEboOktM8H3z42UMSQj8UOQ6R+eDiKFxFxXtAeD6cqBEB7kIale7SdHN0Alc4xr+je2UdkBTULdVCquRJkFI2ZmXv9jpf4VzCpW68Yo1gxLpZhdKrKmw0y7iBTwsbR0DL+TmxIr/SZUgns780vXamtcW8vDfaErALzXsoL8bd0os2TNAah+Yg8nESFeIkjE3rTabig4LthSRNHb5GG/Pdl2V0apvkj7BGhChHStOnTbiB/3sAkGhPbMhT9xspyEpV2LHwBHAXwyD289jujG7whmCjDpbj5Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YOquSQ7Eqwj/nAcirJKoiU4pNV4GZ2XCjfjogdRGR3M=;
- b=vjmMJrM7Qu6SXroRGYoeNOX05JeGJRBQiacGFCOGmJYRfSmFRqMXVQmbaGu2qWlE6WTowRexjyFYH7D/CAnmCAh8FLHIgwdQT/jpnhRCIgxyalCI3s3egsxQBauhcE2PJF/xQRpUIY0HCVi0mVjmOr6JLf1UnyAhYB+pwSqDIreXnTN6bx5kNYNh4uBOAFsb/wogkjfRGhelrYqE7wGpWHFu5gAmVqByAdV9drKIXzSjtSpnT/SBLiNR3wdgUUIgid5lV6ktpfqfWkRfOjs0Wu9GkYKOY8AY6HKjpFvOcJv9HAN2ciWak7J0wftL9ya7O3L2xFe91I2z259ixNclYw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ bh=fMGZMkZqAbTj2f77VjkweA0Ni3qZz9aOtsXiich+/5g=;
+ b=HQcmQM95rQ8rrqgCOnWyoRscOYcHkYsImI4WWOH0Nhj8raOnHs/QQn4zmHBAmz14tP2e/QNgb9ykJCtoLml7/yqzZnJzR3oSkwUK67nVtS4QNqbYnJSM6QCU9DBWX+jgwN3OjHm2kldjUtpizYQ+xI9v9D7CVghApEMx2HHNyvYo2qApHvdpybxz7I5Jz4hus27+lOZeRk3r+WTBfdWAoOBL9Av7GPP4H3qRVF7M0NlpBYBbbUmSpVvkoctbhNA4T3pqCzOwJyaw82pm4NGduUMQ9WdQQDgtKsac1YzQkfw07XPqmLijYSmS/EGXs/sjaQa99kPK0xTYyxfUrPUAtQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=outlook.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YOquSQ7Eqwj/nAcirJKoiU4pNV4GZ2XCjfjogdRGR3M=;
- b=ZCnB1SEGjRU7n1av3wFQsJ58VhX52x0xvpdcupsJTGsSBl6HXaU7LRvSWPxkFH4svCnc27twnDgZrBpp8mSvu1NCdY3SxlVlZFORHe5l9dqjhcBJX0NfPhoX1E80+pEpmXQTaLWJCg/R5MPTYGBn6bylcbRAme+6vwlnac/Dx0o=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by BN7PPF48E601ED5.namprd12.prod.outlook.com (2603:10b6:40f:fc02::6ce) with
+ bh=fMGZMkZqAbTj2f77VjkweA0Ni3qZz9aOtsXiich+/5g=;
+ b=LdfDVBIoB8lH3oPtSNhP/ER1xhJFD6ouukywVzG7gNZ2ARIlm+Upl8ieTEdAf13TuugYn4JMCo2VXzPaGB+VIGAdqEdrAfrJ+lRwhSDLirMnVSw0rBsCduF464m1Gj1QEHzpdqU5baDcWmOSRB1cRFODmShMja0MrtKemAzRuM3BiQejB4sOo7A0ZF519pO6ms5vJM37qntLOL9d+TVkFCeOg5bApUzsab7E0gLu4JALWVDyDhp8xZkonPjK3EEIrFGuiV9SwPRGszsbTFI0fWu9S6eXvfFGA42C70AKjGqUkRpooqO1hhJpkBXZhsu/KWAU3Gc9IFOnNFfykBUIwg==
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com (2603:10b6:805:33::23)
+ by CY8PR02MB10188.namprd02.prod.outlook.com (2603:10b6:930:55::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.21; Thu, 10 Apr
- 2025 00:58:47 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%4]) with mapi id 15.20.8606.033; Thu, 10 Apr 2025
- 00:58:47 +0000
-Message-ID: <f16697d8-be6b-4dd2-b0dc-3c628fc4eec6@amd.com>
-Date: Wed, 9 Apr 2025 19:58:42 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/7] Support L3 Smart Data Cache Injection Allocation
- Enforcement (SDCIAE)
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
- tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- paulmck@kernel.org, thuth@redhat.com, rostedt@goodmis.org,
- xiongwei.song@windriver.com, pawan.kumar.gupta@linux.intel.com,
- jpoimboe@kernel.org, daniel.sneddon@linux.intel.com,
- thomas.lendacky@amd.com, perry.yuan@amd.com, sandipan.das@amd.com,
- kai.huang@intel.com, seanjc@google.com, xin3.li@intel.com,
- ebiggers@google.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
- tan.shaopeng@fujitsu.com, james.morse@arm.com, tony.luck@intel.com,
- peternewman@google.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, eranian@google.com, corbet@lwn.net
-References: <cover.1738272037.git.babu.moger@amd.com>
- <7c135464-d859-459b-b86d-e8c18f106fc4@intel.com>
- <251c8fe1-603f-4993-a822-afb35b49cdfa@amd.com>
- <4a98eccf-4d31-40ac-8112-c89cde7a1c6e@intel.com>
- <46e40771-c73c-4ceb-acc3-812693f98f19@amd.com>
- <5ece1b6b-a225-4fab-be74-b48037986686@intel.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8606.31; Thu, 10 Apr
+ 2025 01:16:15 +0000
+Received: from SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df]) by SN6PR02MB4157.namprd02.prod.outlook.com
+ ([fe80::cedd:1e64:8f61:b9df%5]) with mapi id 15.20.8632.021; Thu, 10 Apr 2025
+ 01:16:15 +0000
+From: Michael Kelley <mhklinux@outlook.com>
+To: Dan Williams <dan.j.williams@intel.com>, Roman Kisel
+	<romank@linux.microsoft.com>, Robin Murphy <robin.murphy@arm.com>,
+	"aleksander.lobakin@intel.com" <aleksander.lobakin@intel.com>,
+	"andriy.shevchenko@linux.intel.com" <andriy.shevchenko@linux.intel.com>,
+	"arnd@arndb.de" <arnd@arndb.de>, "bp@alien8.de" <bp@alien8.de>,
+	"catalin.marinas@arm.com" <catalin.marinas@arm.com>, "corbet@lwn.net"
+	<corbet@lwn.net>, "dakr@kernel.org" <dakr@kernel.org>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"decui@microsoft.com" <decui@microsoft.com>, "gregkh@linuxfoundation.org"
+	<gregkh@linuxfoundation.org>, "haiyangz@microsoft.com"
+	<haiyangz@microsoft.com>, "hch@lst.de" <hch@lst.de>, "hpa@zytor.com"
+	<hpa@zytor.com>, "James.Bottomley@hansenpartnership.com"
+	<James.Bottomley@hansenpartnership.com>, "Jonathan.Cameron@huawei.com"
+	<Jonathan.Cameron@huawei.com>, "kys@microsoft.com" <kys@microsoft.com>,
+	"leon@kernel.org" <leon@kernel.org>, "lukas@wunner.de" <lukas@wunner.de>,
+	"luto@kernel.org" <luto@kernel.org>, "m.szyprowski@samsung.com"
+	<m.szyprowski@samsung.com>, "martin.petersen@oracle.com"
+	<martin.petersen@oracle.com>, "mingo@redhat.com" <mingo@redhat.com>,
+	"peterz@infradead.org" <peterz@infradead.org>, "quic_zijuhu@quicinc.com"
+	<quic_zijuhu@quicinc.com>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"wei.liu@kernel.org" <wei.liu@kernel.org>, "will@kernel.org"
+	<will@kernel.org>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-arch@vger.kernel.org" <linux-arch@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-hyperv@vger.kernel.org"
+	<linux-hyperv@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-scsi@vger.kernel.org"
+	<linux-scsi@vger.kernel.org>, "x86@kernel.org" <x86@kernel.org>
+CC: "apais@microsoft.com" <apais@microsoft.com>, "benhill@microsoft.com"
+	<benhill@microsoft.com>, "bperkins@microsoft.com" <bperkins@microsoft.com>,
+	"sunilmut@microsoft.com" <sunilmut@microsoft.com>, Suzuki K Poulose
+	<suzuki.poulose@arm.com>, "linux-coco@lists.linux.dev"
+	<linux-coco@lists.linux.dev>
+Subject: RE: [PATCH hyperv-next 5/6] arch, drivers: Add device struct bitfield
+ to not bounce-buffer
+Thread-Topic: [PATCH hyperv-next 5/6] arch, drivers: Add device struct
+ bitfield to not bounce-buffer
+Thread-Index: AQHbqOPfbMEO/VxdVECSYxt0gRTVfbObf/mAgAALcoCAAHGBgIAAGRsQ
+Date: Thu, 10 Apr 2025 01:16:14 +0000
+Message-ID:
+ <SN6PR02MB4157328CAB1EBD021093DD3FD4B72@SN6PR02MB4157.namprd02.prod.outlook.com>
+References: <20250409000835.285105-1-romank@linux.microsoft.com>
+ <20250409000835.285105-6-romank@linux.microsoft.com>
+ <0eb87302-fae8-4708-aaf8-d16e836e727f@arm.com>
+ <0ab2849a-5c03-4a8c-891e-3cb89b20b0e4@linux.microsoft.com>
+ <67f703099f124_71fe2949e@dwillia2-xfh.jf.intel.com.notmuch>
+In-Reply-To: <67f703099f124_71fe2949e@dwillia2-xfh.jf.intel.com.notmuch>
+Accept-Language: en-US
 Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <5ece1b6b-a225-4fab-be74-b48037986686@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SN7P222CA0002.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:806:124::14) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN6PR02MB4157:EE_|CY8PR02MB10188:EE_
+x-ms-office365-filtering-correlation-id: b87c3ce7-142a-4f6e-7470-08dd77cd4a0d
+x-microsoft-antispam:
+ BCL:0;ARA:14566002|12121999004|19110799003|8060799006|15080799006|8062599003|461199028|3412199025|440099028|102099032|12091999003|41001999003;
+x-microsoft-antispam-message-info:
+ =?us-ascii?Q?PwhT/Fia8E1U9ChqRNjhYc0D4Kdv/TKebzYsECN/XuX3OQ90MjMj0s8mQFl0?=
+ =?us-ascii?Q?G2NL4BqhvVf2o9MYBaKXOAwAIo7oZXbvPkifDlBYI4h9wMulaCIy3z++nYzx?=
+ =?us-ascii?Q?W8X+Lk9rFz5mdVw1ipUdQ+Jjp7/I6d32wMo+xGc0Dxmyr5/qLoC1ma3HV7nz?=
+ =?us-ascii?Q?tIZsb+L9e/HW15k2llnGIAcRjpKbzngfG5fGQlQcKB6un15fsiKpfvkidVxy?=
+ =?us-ascii?Q?8fi+Hzxr2efe68oy6199EfPuGnCL63GtYZaFkxfwiVf7kQaQaLBf+ncSVidq?=
+ =?us-ascii?Q?P8DLtHw+Zn4TvuxEdqZ+Kw75JUO8Wu59GlEPXv5Ecv0rktbAPbK7rRXvELZw?=
+ =?us-ascii?Q?BE6pHl7kpIvJj5ADijwvtFmc0gI7bX6G/ltxixINPgxgvtObNAH2FkLZZydD?=
+ =?us-ascii?Q?QGgHPZBA6eatx9UrQIa3B+RcHXKu4toYdE6+TnDOuiEbCfRFSadNyKv85ggx?=
+ =?us-ascii?Q?+WB44LLXB9CwDdiOi3tEdEnvGPtx1HI6jtZZb7cTIQT2cRSqm65OTA8PcjME?=
+ =?us-ascii?Q?gVfOWsJYwW+yuvgoyLccXuuur/+mYQC2QHa1IUeOAxMcIjLwTLxVdAXpDXrX?=
+ =?us-ascii?Q?2zNTCRA+kR4Nizi2kgOp3svmKd6WmtQzvYM9J4XQMiGzQ5x6BOD7a54ym+i3?=
+ =?us-ascii?Q?ZxP/UTAGmCfZjKLOYv5DsUuBXTAMH04iaDQ5hWM7T/Ec/ZIa89BmlyTq0NbL?=
+ =?us-ascii?Q?P2Gf+mZWrumVQeYUl85jKyWLLlfMv/VcOg5LLINoyU71QcHsBaP7o/og/pYr?=
+ =?us-ascii?Q?EZo8SJR1/xbtWJ/YExiQgpwLcP2RhgwpYOk0Ov/lvBiz4G7QJtucOGxygka3?=
+ =?us-ascii?Q?CommPqHfFDic1n/AKACGP7+ryxaOiA0Dvxr4Qo5m3L4nSpUGgBxRTVKvZS+5?=
+ =?us-ascii?Q?9cS4uuAQT8rvncWIvHX+PZxEltWdPtbbPJ07gd/R0qn+3DxUv6GYfPEF+tpH?=
+ =?us-ascii?Q?lJUafXsb7Jhs8i+pCcLgcQfJNq1PyVhkizd9/AHPa7iMSXEq7Wb8p8wwoCOy?=
+ =?us-ascii?Q?WyAuGHZ9+D7S9Lc2krzp9ZNP55+AxtcpJnXYdGb/Y1RCeMxBPw3tlDM9Gi8w?=
+ =?us-ascii?Q?EKwD2ksl2iypypFj3HiTVu9MLg2Et0uXxDWHnawNbELogU0yaMtj7e+4rs02?=
+ =?us-ascii?Q?WTa9AXFCqltytWUhMXj/L8LhP1sSJ6nuzevhBnfA/iFZr5gCVBECpYE=3D?=
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?us-ascii?Q?A6+vKqkKYS6vsuywgRRj1BjJwmC1LUQzu38UEzsPfdKavvuqBwUIWPHbid3x?=
+ =?us-ascii?Q?Olfk7HGKKzHFmcOBNqgIo9FM52tlMJ6CiNtAt8oVhm/mBvywPAa8aJe4gxvR?=
+ =?us-ascii?Q?/NuAoY6ylNNc75kOcFwDsBuAPdO7k2d/MxTLq7xkL52sDMiykkYcsgWRP86m?=
+ =?us-ascii?Q?a9mRW27nAd6YjyOBhdvdgl4tIIR3KkTnvqSfngG6gtsUzBnfkjXUjU5iYL0j?=
+ =?us-ascii?Q?9ouVI0w6nYl4sdy3tVQ2hLJMMZjT3S034oHkFj6jd7aHsQNeKG40FNU7YGl6?=
+ =?us-ascii?Q?yiocbnqXJTbJx+EV+IqKdPjBuYj5+hh2zx6+3T3hbdTSCTiuiwPhFT5KaLjh?=
+ =?us-ascii?Q?tsltZLHCgF6k1BBS/uHz8Nalp2nJgDTjaZp3m5tP5eQ6nezLilAkd6gk53iV?=
+ =?us-ascii?Q?5NMhJ3YRdzAOmkbLQuXwRsj/nlqMpSKfmNyQDNfQNCh6+z63pYk587/7ppod?=
+ =?us-ascii?Q?1wgdIvZ+snQocc4+qGUy1CdlNCk9SYQLiJ1B+AhHO25Z4BZthUHUv4VwADDC?=
+ =?us-ascii?Q?Zi4AjRVlSLBMqiw32G+0fiFIY0nth1xhx0PFkc3SITWvv8k8v1KlVf7ZtwVh?=
+ =?us-ascii?Q?PZnRoVoOC8qiHAXraBw0Ck1pfBALuBNlr6gNuzYmV7dFbxK1i2KgjxlS52vf?=
+ =?us-ascii?Q?LK+8wOD9T7STg5MgJE9pUGMAuO/OSl2+C76+jIggf88gO2wMjKZlXj3ncj0G?=
+ =?us-ascii?Q?8NDrB7Y5E1hqRdbZfKJYybJXP45qF0lsvAe4fG8g1nOLjSyc+XtA1SD5i89t?=
+ =?us-ascii?Q?Aq418ijrIGGzlHfboQbxUCZxqup3yh+m4qj9d5f9HbDslzVFk7lBvhkc96vj?=
+ =?us-ascii?Q?1XJTmQ9e7acJAoB1ZScQ/IbmfDk6xsKcF3Xn6uiJmsvXpWmstv8X5ny2BXcV?=
+ =?us-ascii?Q?mnPbAlHV69SgcIC8gJrl2pSbMkyt/OQRtTuYGcKahg5gKkTsGkhj/WnMSoPd?=
+ =?us-ascii?Q?nMoNTV36RaTK1CjVe/4lltYWQSebRg171MXm/ucUajIogwk4jwiOBDlkkVvZ?=
+ =?us-ascii?Q?YiswCCbILpkLZD30txSmah9E9aE+esEtnY1JrYxXhvyGAlMeRUi+Cho+RRIT?=
+ =?us-ascii?Q?pWjt+RGl+xPBQSD2d+mTl58Iq42MFU0iYIX2lQDUFMWb+hJrhleU2i4pqqBa?=
+ =?us-ascii?Q?8fXCs5iN2YWw1c48NenljDC67CrPKEkoT1nO51bmLr5w9xI/ZQqpdoggM5NB?=
+ =?us-ascii?Q?22ZWla+xh95VGVweGDZbhKCqQGprMRpVdFLMZG9skIg8Y/OFFka4KQMbKgY?=
+ =?us-ascii?Q?=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|BN7PPF48E601ED5:EE_
-X-MS-Office365-Filtering-Correlation-Id: c298e45d-44ab-4e22-9c97-08dd77cad944
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Q0Y3ZER0QkNTZ01yZ2gzcVJuR0U2MkhqYVJYdGI0Q1IvT1VDRlJZYmQyTWJs?=
- =?utf-8?B?aDdmaUQ3VktqYVFGWHEzREMxN2dQcnlHQm9nWVNWRk9MdWZMNWVGblJJSi8r?=
- =?utf-8?B?TDZ5QTZ4d200L1BIMjl6bWVVSnFyRUtMWlEyeEFLbFp3ZXdQS0RCbzNWYTRa?=
- =?utf-8?B?RUNVdDRpSTJmVlU5RUprWE9RZWJldnMxSnZtTko5T0lPeHdDMUtDbmhrYkU1?=
- =?utf-8?B?T1ZHMmsrNVA3N05sQnV3OTFESE85VnI5aXo3TXJJUXJDOVNpdUVTV1hDU0VT?=
- =?utf-8?B?UGpnQXp5US9yRktrTU9hQkpoaWc1Q3pLTGlpT0Z5S2VienNZUGZFWnlXM0ZD?=
- =?utf-8?B?OFZSckRoSnFlWjBwNWorcUNHcnVUcFpZVDVZN2NQdHZTU3FhRVZyOWdQaFJu?=
- =?utf-8?B?eDh2d3FQZWllb2lFS21rRnYzSFJzWGNRcDNtejU0V3YzSC9IaEZrMk5IZVZY?=
- =?utf-8?B?T1IybXNrbTdnWnJmTHlDemlwWEJlVCszMWlCVWxFV1ZRVXVvVjFRNG5XUEV3?=
- =?utf-8?B?OW5FWmdlb3d1Qm45VERMajRHT2poRlQyWnRCTCtUK3FoTXBkRTU4aVlyYWo1?=
- =?utf-8?B?cHMvbXowbDB3RXVmbnJBYjNQbmxGMTV3eTd1NVpZc3ZURGpWRnRxL2ZWS3Bt?=
- =?utf-8?B?cGZDT0tCaGsxREs2YkRoUGhYNVYwUWhRempRVk52cWs4Um9NckVWR2VESXVC?=
- =?utf-8?B?aE8ydG5WZ2tiZC9JbnpDVjBLRUVENGNoeDJSVm14N25oNjNPNjZ4UTI2M3pS?=
- =?utf-8?B?ZW42VzRFakttcGM5UVhnQ3RrMlBPaGo2N3NMOWhWbU5UdVJnNlI5YlRzb2Q3?=
- =?utf-8?B?QnBQdHRNdTNLS2tQd3drUVF2Y0VMZ2owR3FIQVgyU1pVdDV6VUxpdTRpQUZ5?=
- =?utf-8?B?R296R1JhNFFSZ0RNUlVyTit0ci9waWxETzRJT1RtZzFENWxFK01lUFRpRlMz?=
- =?utf-8?B?c1VjUnI5WmRWQjBFRVR1RkRhbHFCcGV2Szl3THUxK1RNT1lza1g0SmNkZ3V0?=
- =?utf-8?B?TE50ZElSWHk3QVVTem1BS1E1dzNjUGVtSVl1d1F5YzJQNHRWQUJKNFc0VXN6?=
- =?utf-8?B?TlJwY3Ryb1krRHNrMzcyNnZHTjZWR2xpMlN0THRIS05MOHpsYkxucGE5b0NY?=
- =?utf-8?B?WGlqd1NsQ0FlSGRpQjNCYVc4dis5WmhxM0dEa3QwcDczNkIzKzl1R1B6TGpk?=
- =?utf-8?B?TExhdUdoZEJwcmtIV3Rlb1dvTWhBNjIrdVNsNDBiSjRvaktvWFNYOElnWis2?=
- =?utf-8?B?S2w2SVJpNFljeFBKQ0JvR0dyVWYzcGh6QytGWVU5YkUzVVY4dUFTSWZ2MW5k?=
- =?utf-8?B?QjVOa2YwSFNXRmE4N0pvTjRPbGJ0cnlqc2thN003bEQycXN3c1JVVXJ4d1hD?=
- =?utf-8?B?L1pHOTJ6ZktkaS80OWNYNE1PNzA1d2NVK25TeGhHQ3pMVmtnUEgxSHRubDRm?=
- =?utf-8?B?YklJdUp5MHFNMzNpT2lKaXRlOWtHWVU1aTNlNmJpN2hrcUFuaFY0SVAxTlJP?=
- =?utf-8?B?eUZJN3pVN0FvUXdhbTZ4WDRWL1k3eDg4c0NTUncwVGJVYkFudytlSGFxLzRT?=
- =?utf-8?B?V0ZneDV6R0hCdGd3UnFFUFlVQXNBYzZnNTlhZTR1M3hRSFM5SnVQckFYcE9T?=
- =?utf-8?B?TkNHTmtLU0d3WENNUzdrR3h4UzR2Q3ppRXVET1lyV3UzQkZJR0crN2ZVV3BD?=
- =?utf-8?B?dU83Zzc0Rk00QitYcWptamV3MkJqMmViMmVIcXM0eFk4WWlDRUw5VDdmeUNz?=
- =?utf-8?B?WjRTSTZzc3FZekMra3pYYVVGUXBUZW45WGErb3BCSHMvVjIrQ1BUc294dHJD?=
- =?utf-8?B?RnJHbHJ5QzZ1MUxEVDE3WTNXaGR6VC9KMUJ4VldnTS9Id1NRb3BNNHoreHFm?=
- =?utf-8?Q?gy4NohhRPWIgx?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UmZ0NWxFUW84bnp3OE9ycVVYQnM2emgvMkszL2g1aVlEM0xRcVR0U0hVdXJa?=
- =?utf-8?B?c0I5cjJsYnc4ZlpxMy9xUHJSWGpOSWJNeDJnUzlFR3JETHNQV2wyTkw3SFV1?=
- =?utf-8?B?alZsRXQzZndRM1J5aXM3Vk1pUVlRQTRkQkMyQ21Ud2Nmd2ZMWE9ZMGlnc3kr?=
- =?utf-8?B?aVdabUg4RlpUdzEweVM3VU9pM2M2ejNWK0w4TG5SUTZUTFZVYTRGeEswWUd6?=
- =?utf-8?B?WHRKdWZsWFJKcmdwdnNqNXE1N3UxaDVodUtIc3RjM2RSVnY0STBPTFcveGNy?=
- =?utf-8?B?bTcwaERaa0R0aGE5QW9jM1dJcWIvcXRKbUtwMW5Ib1ZYRW14RDh2ZHVidVU0?=
- =?utf-8?B?alVLQlp4WWNWVFpwalVmTmpJb0JCN2gyR0UzSExRMjJXQ2dDYTl6SXpFeGtM?=
- =?utf-8?B?a1ZGeERmZEdhZFVMdGlYUmhwUWVkUC94c3puaTB1eHdOOFMyK01FaG9UUjE0?=
- =?utf-8?B?eVRXTnJOOHZoSDlzWGN6Q2FUVWhPVmJzUVp2UE9GT242cVNHMWJTaE96NDUz?=
- =?utf-8?B?dVZLdWJVMEhMNEh3SlBkaWQ1b3Fxb1hHRng3ZlN0TXhBZHUzRVhSTmJZSnZm?=
- =?utf-8?B?YTZvazliQWJ3TlB1YUxVdkJObGFkRGpPckRYWnRHSG5iKzYwZWRRdnZxa0x5?=
- =?utf-8?B?SkFaUnQ3THB0SmZmZHpJMzBTU0JEOTlTMzVOYmw2SXZEbGdyTlcwRlMvWkNH?=
- =?utf-8?B?c1F4VU11bjIvVTBIbjFLcmtRYWxDcjhLcTIzVFNxVFA0UUdvT3VCZ2pERHFX?=
- =?utf-8?B?bkJRbkhBaDhZREs2NWcva3QxRDhQSzN2Y2lMTjRIamNHa0VTd1lEWjl2MTMz?=
- =?utf-8?B?c3IzNEljd291cEN1WSt2N1ZmMjcrRTlrUkZoZmI4TW9RLzkyTTk2Tys1T3pv?=
- =?utf-8?B?eldOWmZUeVZGYXM3dDZCQmhYRWNoeTkvYTk5Z3JqTHBaYXZRUWFkc0xzQ3Y5?=
- =?utf-8?B?NmhTSTJwV1JJejJYeTJXUW9nSmNmbUVDcUpMUlhNM0l3bFVVajdnYXBLaGkv?=
- =?utf-8?B?M1VDR3FDUEd4WDJHRTgwVEQwdXBuWlZrbUgrRlVvNWM1ZEJnQWQ2azg1djNP?=
- =?utf-8?B?YnovSi8rZzlYVU9Nc1REWHlVNFI2dW10cHNvcnBySzdwTXBJYTB3WnJqYk14?=
- =?utf-8?B?OXFnL0xuOVUxcjNPL0p5eTF2WG53ektSWEJtcmZSOXJpSENFMXBtZGFNT3N2?=
- =?utf-8?B?bStIN0Y0bHJLVjJZSnBVdFdjTGQwY25RRHQ4aEZobWxBdHBhVmtnRDdTbTA2?=
- =?utf-8?B?S09iNTFMaTFidUlhaUxSZmFFYlM2azFqcVBsK3l1SDZIWFY0VW1pV09FanFD?=
- =?utf-8?B?Q2NWMzV4a3BmKy82WUVsQjhWakh0bTdEUEkxcWF2dmFrU3RRUkJtcHQ5WTZF?=
- =?utf-8?B?aUxFK1Q1MDFoVi9iV09YZjlNSGhLSDhPbG9pUHM3Z2wySHE4ekhUZTUwVDcx?=
- =?utf-8?B?VTJrek1DcjhvVTliTUcvaDNOSnNXTEdnQ250QlF1MEU5Tzd2Z3FtRXVXYWE1?=
- =?utf-8?B?SlBIZndVc1cyUnVPbjVrWjAvRHhKNlZvMkRvZUd4MG1yWHRsWGEvVzRUTFFC?=
- =?utf-8?B?YlZPUlhXQm9mNWlLTWVLSjZRUEJDWGRmR0FKL1FyM1Z4SmkwTUdOTDJwbGNv?=
- =?utf-8?B?VWxHa1V6dFloSk9YS25DUDlTMGhqbHI2T0s0K1RWeWUwaldWOXg2Vk9nSG5O?=
- =?utf-8?B?NUF0S2FwckNvY2xDZm9iUEpMb1JoSHNaR3doWmVqbG5JMzdZKzhvLzlQbkJP?=
- =?utf-8?B?VjIyQVdudTdZdElDRlNmTWIwcTE5TGdLY0V5UmdJM0Y3STNJSisrZytVSDNB?=
- =?utf-8?B?WWFxcVNQNGNJVWl3cXB5M3dVMUY1OWRJQ2p3SEhQOFk0dVJQSmcwd0lSM0JF?=
- =?utf-8?B?R29kSDBBK1NkWDRPcDVpK3kyR0dFWUptRGU0TnBtaE1tenRxeElRbTd1U3B5?=
- =?utf-8?B?SVNFMjdQS085L2xlZXMzN3JqbVBzdHBEOE5ldTJROUdEMjc1U0FCV2o2Q0Ex?=
- =?utf-8?B?R2xKTllZU3hkMlEvci9nWHFCeVBtVUdWWFFyWm5TR21neWQ1dzJLdXIzOEpj?=
- =?utf-8?B?dmEzWFh1bjhQcGJISlhNWnkzNmF2OVRlYTZONDNLbFdzUk5nWk00ZldKMGUz?=
- =?utf-8?Q?dvxc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c298e45d-44ab-4e22-9c97-08dd77cad944
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-OriginatorOrg: outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Apr 2025 00:58:47.0426
+X-MS-Exchange-CrossTenant-AuthSource: SN6PR02MB4157.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: b87c3ce7-142a-4f6e-7470-08dd77cd4a0d
+X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Apr 2025 01:16:15.0620
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: cy2CY1nArY1DTGIMTAMJGdYExKRYhSEJn7u4YDRSgpyFzQCotVVue0UP+/TMMV0R
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PPF48E601ED5
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY8PR02MB10188
 
-Hi Reinette,
+From: Dan Williams <dan.j.williams@intel.com> Sent: Wednesday, April 9, 202=
+5 4:30 PM
+>=20
+> [ add linux-coco ]
+>=20
+> Roman Kisel wrote:
+> >
+> >
+> > On 4/9/2025 9:03 AM, Robin Murphy wrote:
+> > > On 2025-04-09 1:08 am, Roman Kisel wrote:
+> > >> Bounce-buffering makes the system spend more time copying
+> > >> I/O data. When the I/O transaction take place between
+> > >> a confidential and a non-confidential endpoints, there is
+> > >> no other way around.
+> > >>
+> > >> Introduce a device bitfield to indicate that the device
+> > >> doesn't need to perform bounce buffering. The capable
+> > >> device may employ it to save on copying data around.
+> > >
+> > > It's not so much about bounce buffering, it's more fundamentally abou=
+t
+> > > whether the device is trusted and able to access private memory at al=
+l
+> > > or not. And performance is hardly the biggest concern either - if you=
+ do
+> > > trust a device to operate on confidential data in private memory, the=
+n
+> > > surely it is crucial to actively *prevent* that data ever getting int=
+o
+> > > shared SWIOTLB pages where anyone else could also get at it. At worst
+> > > that means CoCo VMs might need an *additional* non-shared SWIOTLB to
+> > > support trusted devices with addressing limitations (and/or
+> > > "swiotlb=3Dforce" debugging, potentially).
+> >
+> > Thanks, I should've highlighted that facet most certainly!
+>=20
+> One would hope that no one is building a modern device with trusted I/O
+> capability, *and* with a swiotlb addressing dependency. However, I agree
+> that a non-shared swiotlb would be needed in such a scenario.
+>=20
+> Otherwise the policy around "a device should not even be allowed to
+> bounce buffer any private page" is a userspace responsibility to either
+> not load the driver, not release secrets to this CVM, or otherwise make
+> sure the device is only ever bounce buffering private memory that does
+> not contain secrets.
+>=20
+> > > Also whatever we do for this really wants to tie in with the nascent
+> > > TDISP stuff as well, since we definitely don't want to end up with mo=
+re
+> > > than one notion of whether a device is in a trusted/locked/private/et=
+c.
+> > > vs. unlocked/shared/etc. state with respect to DMA (or indeed anythin=
+g
+> > > else if we can avoid it).
+> >
+> > Wouldn't TDISP be per-device as well? In which case, a flag would be
+> > needed just as being added in this patch.
+> >
+> > Although, there must be a difference between a device with TDISP where
+> > the flag would be the indication of the feature, and this code where th=
+e
+> > driver may flip that back and forth...
+> >
+> > Do you feel this is shoehorned in `struct device`? I couldn't find an
+> > appropriate private (=3D=3D opaque pointer) part in the structure to st=
+ore
+> > that bit (`struct device_private` wouldn't fit the bill) and looked lik=
+e
+> > adding it to the struct itself would do no harm. However, my read of th=
+e
+> > room is that folks see that as dubious :)
+> >
+> > What would be your opinion on where to store that flag to tie together
+> > its usage in the Hyper-V SCSI and not bounce-buffering?
+>=20
+> The name and location of a flag bit is not the issue, it is the common
+> expectation of how and when that flag is set.
+>=20
+> tl;dr Linux likely needs a "private_accepted" flag for devices
+>=20
+> Like Christoph said, a driver really has no business opting itself into
+> different DMA addressing domains. For TDISP we are also being careful to
+> make sure that flipping a device from shared to private is a suitably
+> violent event. This is because the Linux DMA layer does not have a
+> concept of allowing a device to have mappings from two different
+> addressing domains simultaneously.
+>=20
+> In the current TDISP proposal, a device starts in shared mode and only
+> after validating all of the launch state of the CVM, device
+> measurements, and a device interface report is it granted access to
+> private memory. Without dumping a bunch of golden measurement data into
+> the kernel that validation can really only be performed by userspace.
+>=20
+> Enter this vmbus proposal that wants to emulate devices with a paravisor
+> that is presumably within the TCB at launch, but the kernel can not
+> really trust that until a "launch state of the CVM + paravisor"
+> attestation event.
+>=20
+> Like PCIe TDISP the capability of this device to access private memory
+> is a property of the bus and the iommu. However, acceptance of the
+> device into private operation is a willful policy action. It needs to
+> validate not only the device provenance and state, but also the Linux
+> DMA layer requirements of not holding shared or swiotlb mappings over
+> the "entry into private mode operation" event.
 
-On 4/8/2025 8:41 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 4/8/25 5:41 PM, Moger, Babu wrote:
->> Hi Reinette,
->>
->> On 4/8/2025 4:44 PM, Reinette Chatre wrote:
->>> Hi Babu,
->>>
->>> On 4/7/25 1:12 PM, Moger, Babu wrote:
->>>> On 3/21/25 17:50, Reinette Chatre wrote:
->>>>> On 1/30/25 1:20 PM, Babu Moger wrote:
->>>
->>>
->>>>>>
->>>>>
->>>>> AMD also supports what is exposed to user space as "shareable_bits". According
->>>>> to APM:
->>>>>      Depending on the implementation, some portions of the L3 Cache may be
->>>>>      shared by other system functions or used for some other purpose not
->>>>>      under the control of the PQOS feature set. The L3 Cache Allocation
->>>>>      Sharing Mask returned by CPUID Fn0000_0010_EBX_x1[L3ShareAllocMask] is a
->>>>>      bitmask that represents portions of the L3 that may be shared by those
->>>>>      functions.
->>>>
->>>> Here is the complete text.
->>>>
->>>> The L3 Cache allocation sharing mask (L3ShareAllocMask) returned in EBX by
->>>> CPUID Fn0000_0010 with ECX=1 is a bit vector which represents portions of
->>>> the cache which may be shared with other system entities or used for some
->>>> other purpose not under the control of the QOS feature set. When software
->>>> sets a bit in one of the L3_MASK_n registers at the same bit positions a
->>>> bit in the L3ShareAllocMask, processors executing with the corresponding
->>>> COS will competitively share that portion of the cache with the other
->>>> function. If this mask is all 0’s, then there is no other entity in the
->>>> system competing with the processors for use of the L3 cache.
->>>>
->>>> The "L3ShareAllocMask" is always reported as 0 on AMD systems.
->>>>
->>>>> Could you please include what (if any) the relationship is between the CBM
->>>>> discoverable via Fn0000_0010_EBX_x1[L3ShareAllocMask] and the CBM of
->>>>> "highest-supported L3_MASK_n register" when SDCIAE is enabled?
->>>>
->>>> No. There is no relationship in here.
->>>>
->>>>>
->>>>> On the resctrl interface side the documentation currently states:
->>>>>
->>>>>      "shareable_bits":
->>>>>          Bitmask of shareable resource with other executing
->>>>>          entities (e.g. I/O). User can use this when
->>>>>          setting up exclusive cache partitions. Note that
->>>>>          some platforms support devices that have their
->>>>>          own settings for cache use which can over-ride
->>>>>          these bits.
->>>>>
->>>>> Even though this was originally used to expose the content of
->>>>> Fn0000_0010_EBX_x1[L3ShareAllocMask] the intent of the content does
->>>>> seem to also apply to the "io_alloc" CBM also.
->>>>
->>>> It says "shared by other system functions or used for some other purpose
->>>> not under the control of the PQOS feature set".
->>>
->>> This is a quote from the AMD spec, not the resctrl user interface documentation.
->>>
->>> Please consider this from resctrl user interface perspective.
->>>
->>>>
->>>> "io_alloc" is PQOS feature set. I feel it should not affect "shareable_bits".
->>>
->>> When I read the resctrl user interface documentation for "shareable_bits" it
->>> sounds relevant to io_alloc. The "shareable_bits" contains a bitmask "of
->>> shareable resource with other executing entities (e.g. I/O)" ... is this
->>> not exactly io_alloc?
->>
->> I agree the text is pretty generic. Actually, the whole bit mask (0xfffF) is shareable with io_alloc.
-> 
-> I think the value of "shareable_bits" presented to user space could be the
-> actual io_alloc_cbm value. Thus, not the "possible IO bitmask" but the actual
+To flesh this out the swiotlb aspect a bit, once a TDISP device has
+gone private, how does it prevent the DMA layer from ever doing
+bounce buffering through the swiotlb? My understanding is that
+the DMA layer doesn't make any promises to not do bounce buffering.
+Given the vagaries of memory alignment, perhaps add in a virtual
+IOMMU, etc., it seems like a device driver can't necessarily predict
+what DMA operations might result in bounce buffering. Does TDISP
+anticipate needing a formal way to tell the DMA layer "don't bounce
+buffer"? (and return an error instead?) Or would there be a separate
+swiotlb memory pool that is private memory so that bounce buffer
+could be done when necessary and still maintain confidentiality?
 
-Confused little bit here. The shareable_bits is resource property.
-io_alloc_cbm is domain specific value. Not sure how to display it.
+Just wondering if there's any thinking on this topic ...
 
-> value. This seems to be the best match of what "shareable_bits" represents, which
-> is the region currently used by IO devices. This partners well with the "bit_usage"
-> output, for example, "X" can be used to show which portions of cache are currently
-> used by both software (via schemata of resource groups) and hardware (via io_alloc_cbm).
+Thanks,
 
-Haven't looked at this code much. Will look into it.
-  >>
->> The 'shareable_bits' is coming from CPUID Fn0000_0010_EBX_x1[L3ShareAllocMask] which is always 0 on AMD systems.
->> It will be bit odd to manipulate these value. Not sure if we have to do it.
-> 
-> It is not clear to me what you mean with "manipulate". "shareable_bits" does currently
-> come from the existing register but AMD now provides more interfaces with which this data
-> can be obtained and it seems appropriate to use it.
-
-Ok.
-
-Thanks
-Babu
+Michael
