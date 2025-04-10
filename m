@@ -1,48 +1,46 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF99520C477;
-	Thu, 10 Apr 2025 08:53:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E00E26A0DC;
+	Thu, 10 Apr 2025 09:31:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744275233; cv=none; b=utRoK4DIRTAwXMSdoXs01zYhMptBHV7v/7zEOxVoWJZ4WOGUA3ly9qvvKpmEQKLXzOUkX8sGOIHFo0bXzdUfL6aUBwRRdPKvMbZL0BzcRGftxlrfb9bQnaw06HJqfLXjqdtLTGcVnSyKHj3rJQToMpb553Y5Li5HOANyoK22BuM=
+	t=1744277483; cv=none; b=kpcJmQ/qg8VM5+tnghIcTTYnoHzjAcRGVNc5EpuLRWB4H5E9K06g68dP649XYEbLZzXrvDpKgh1gtvBNUBX9Vi5KLP27uc9L8nCh3NJol+wVDvjxY45uJ2QPG5huIeDIZwHH2oDbQ3mf4r89B+pDs+ixMMG+i5uHgFZDii2HAiM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744275233; c=relaxed/simple;
-	bh=aCop2NCYxYQLVZbOYBztIuutt9Q6fjvbcLrSOou4TUA=;
+	s=arc-20240116; t=1744277483; c=relaxed/simple;
+	bh=NUQSl8+KNt2Gck3bg5zy+/lvTkACE7uM59VfdQMYJzA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=oQMonWJTCSYCYujD8ygNr2c5B6okpUQPoszjEqHf/7w6Jb8xuT0guL7pXxEFwMytYlYdYVU9fe5VOBjQf6iSAGD1MDdUhaukQzbCE3PimalzuCA/xZypr/e+5scRzNU4DY60wZpJsT7HcBURKBm8+yahCLJJCCkqC+1trTHUno0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=sRWlQV6K; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=J+izQEV29kQrPmy6IrAe/wEwNdFM76QCcDotPbvx1bj6ts0B/I85+r8n6rVwrbKCQyoskmCp/XVjhB4oVf21MIGh0hK/iwYq0pxmnTkFZZPguANwx5t+8ycqkUN2Mrz4ueqcJBu1euljHTa5xIQhhfYRE7HbeJck++gFk8YYnx8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VjL9FtRZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="sRWlQV6K"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
-	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=RtxIxoigqQYXde/ahuxYdBARIf+SRXzUFP+gRfTCt0Q=; b=sRWlQV6KPBAfTa2WehVjjg2P/P
-	BdlO2v11GQovoSXdWZ7/I7opo7BHxICY+Fy6ZBxuQ4KOvJvDC55PtmG1q9BnqQVb7t8Rw7NGZyWIX
-	6KbWYQoBs1m6OH6ZIb4cF7w+eLwbnZvqc+Qz1xApMq5Y2p+hH3/rcyxa8PvmkGxqLrM/87jvV7GIl
-	cXRHqJTFbj8WMVUrSJUQVO4jcnxwS11BnIS/77dxDgt+/IQC6TD6i5yqU2FiezVWAkENCQTaP5LRo
-	nMokkXQev0D0sib3QU/VpKcS0arDC7C8APCAqKDdICycHQJKch3l3WhfAEQEshWeYp4DMGMtuKfGD
-	IMtBiXqw==;
-Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u2nfP-00000009pBY-04nj;
-	Thu, 10 Apr 2025 08:53:47 +0000
-Date: Thu, 10 Apr 2025 01:53:46 -0700
-From: Christoph Hellwig <hch@infradead.org>
-To: "Xin Li (Intel)" <xin@zytor.com>
-Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-	dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-	andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
-	chao.gao@intel.com, xin3.li@intel.com
-Subject: Re: [PATCH v4 04/19] x86/cea: Export per CPU array
- 'cea_exception_stacks' for KVM to use
-Message-ID: <Z_eHGjzR33LMqLfL@infradead.org>
-References: <20250328171205.2029296-1-xin@zytor.com>
- <20250328171205.2029296-5-xin@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VjL9FtRZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 23F6AC4CEDD;
+	Thu, 10 Apr 2025 09:31:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744277481;
+	bh=NUQSl8+KNt2Gck3bg5zy+/lvTkACE7uM59VfdQMYJzA=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=VjL9FtRZYiAIUa//U1cc/2gKUgnwvHeK4bT+9LIGC9mtHU1f4UcjRF0h8D7rOx7pz
+	 iR5HtXzcxamzNeae3/JNe/gPTy7boaa5FX9rOMKNiug9wVM0NIp6ZsP3YrBz8ld8hC
+	 emGVRKGBrQZolj9q3AkTLhoPDH3Cmug/BsiPEJafWnEdVDPuWXvw4oPf7MVZ883aIT
+	 SJ+/eOuPhOaJ8rHhdMAey+nmq2fZo514q3YXzOeVeKf81mzqfrbZtp/H00V0m26P/k
+	 8ejdZ+VOEcTpTcNVTPAcNqpNmuKDVGm/wMQYhjBLxEDHI30rSti3DVMXfe8kASLaYC
+	 blPbZfprIw1cQ==
+Date: Thu, 10 Apr 2025 11:31:19 +0200
+From: Daniel Gomez <da.gomez@kernel.org>
+To: Luis Chamberlain <mcgrof@kernel.org>
+Cc: "Pankaj Raghav (Samsung)" <kernel@pankajraghav.com>, 
+	Andrew Morton <akpm@linux-foundation.org>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+	willy@infradead.org, linux-mm@kvack.org, Bagas Sanjaya <bagasdotme@gmail.com>, 
+	David Hildenbrand <david@redhat.com>, gost.dev@samsung.com, linux-doc@vger.kernel.org, 
+	Pankaj Raghav <p.raghav@samsung.com>
+Subject: Re: [PATCH v3] docs: update THP admin guide about non-tmpfs
+ filesystem support
+Message-ID: <bozpegwoihmwakmmtkk2lhkwycv3yv4ovpfthguhcr4vbjgzpm@bjv7aioyg6ql>
+References: <20250404140657.29285-1-kernel@pankajraghav.com>
+ <Z-_7fzU02OU1hVOT@bombadil.infradead.org>
+ <qy52tvn6atrlt5rhgzbtueyqbs56ik3rfg2b7yopynhhoipvtj@qph743k6m7kg>
+ <Z_Aexql5FDVLtuQp@bombadil.infradead.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,19 +49,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250328171205.2029296-5-xin@zytor.com>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
+In-Reply-To: <Z_Aexql5FDVLtuQp@bombadil.infradead.org>
 
-On Fri, Mar 28, 2025 at 10:11:50AM -0700, Xin Li (Intel) wrote:
-> The per CPU array 'cea_exception_stacks' points to per CPU stacks
-> +/*
-> + * FRED introduced new fields in the host-state area of the VMCS for
-> + * stack levels 1->3 (HOST_IA32_FRED_RSP[123]), each respectively
-> + * corresponding to per CPU stacks for #DB, NMI and #DF.  KVM must
-> + * populate these each time a vCPU is loaded onto a CPU.
-> + */
-> +EXPORT_PER_CPU_SYMBOL(cea_exception_stacks);
+On Fri, Apr 04, 2025 at 11:02:46AM +0100, Luis Chamberlain wrote:
+> On Fri, Apr 04, 2025 at 06:31:16PM +0200, Pankaj Raghav (Samsung) wrote:
+> > On Fri, Apr 04, 2025 at 08:32:15AM -0700, Luis Chamberlain wrote:
+> > > On Fri, Apr 04, 2025 at 04:06:57PM +0200, Pankaj Raghav (Samsung) wrote:
+> > > > From: Pankaj Raghav <p.raghav@samsung.com>
+> > > > 
+> > > > THP support for non-tmpfs filesystem has been around for some time now.
+> > > > Update the admin guide to reflect it.
+> > > > 
+> > > > While we are at it, move FilePmdMapped to previous paragraph for clarity,
+> > > > and clarify ShmemPmdMapped & ShmemHugePage.
+> > > > 
+> > > > Signed-off-by: Pankaj Raghav <p.raghav@samsung.com>
+> > > > Acked-by: David Hildenbrand <david@redhat.com>
+> > > > ---
+> > > > 
+> > > > Changes since v2:
+> > > > - Address comment from Bagas Sanjaya
+> > > > - Squash commits and Ack from David
+> > > > 
+> > > >  Documentation/admin-guide/mm/transhuge.rst | 22 +++++++++++++++-------
+> > > >  1 file changed, 15 insertions(+), 7 deletions(-)
+> > > > 
+> > > > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
+> > > > index dff8d5985f0f..f8aae64e38d0 100644
+> > > > --- a/Documentation/admin-guide/mm/transhuge.rst
+> > > > +++ b/Documentation/admin-guide/mm/transhuge.rst
+> > > > @@ -12,8 +12,8 @@ using huge pages for the backing of virtual memory with huge pages
+> > > >  that supports the automatic promotion and demotion of page sizes and
+> > > >  without the shortcomings of hugetlbfs.
+> > > >  
+> > > > -Currently THP only works for anonymous memory mappings and tmpfs/shmem.
+> > > > -But in the future it can expand to other filesystems.
+> > > > +Currently, THP only works for anonymous memory mappings, tmpfs/shmem and
+> > > > +filesystems that support large folios.
+> > > 
+> > > That seems to allude that THP can be supported on filesystems
+> > > that suppor large folios. I don't think we want to call that THP
+> > 
+> > But we do allocate a THP in the page cache if we support large folios.
+> > 
+> > See [1] where THP was supported through page cache. From what I
+> > understand, THP support was added first to the page cache and then large
+> > folios (orders in between) support came later.
+> 
+> I see, yes Do we want to clarify this further?
 
-Exporting data vs accessors for it is usually a bad idea.  Doing a
-non-_GPl for such a very low level data struture is even worse.
+According to this thread [1], large folios currently depends on
+CONFIG_TRANSPARENT_HUGEPAGE, but that will be removed eventually.
 
+https://lore.kernel.org/all/ZPINmXyTgy2wqLqr@casper.infradead.org/
+
+I agree this needs to be clarified. THP for anonymous memory and tmpfs/shmem is
+not the same for filesystems that support large folios.
