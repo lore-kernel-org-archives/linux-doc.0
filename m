@@ -1,119 +1,114 @@
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailtransmit05.runbox.com (mailtransmit05.runbox.com [185.226.149.38])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28878278E7D;
-	Fri, 11 Apr 2025 11:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A606920F063;
+	Fri, 11 Apr 2025 11:33:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.38
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744369907; cv=none; b=uJN2TKWX/TgaINsuToueL5NlRPvlm82F1fxych7dZD+KajkRD5vxlfgVsm5xE0OACdg4rgePzd64vOpVhZevGsCDXiFMxhQZYZcxJ4IZti4k/lL3UJ9F8Uk+E5Q0AQsKADu8rgVx8KEvhbNldSCPU8xlG255lvadvNOIU0ND2rg=
+	t=1744371237; cv=none; b=n3UPREHMKux/DK47qI6blv29s0uGu4GU6NM5+61MK0cFHpzOVEWzDlvvISN6g93jBhPFVGIJNZkD9LhOJm1QV0O9daZYRi4qb9ymvynPqHvIp5GOYPtMySpBMYeKaWeV9lifhrQsdwgoVeXfeqhwZZ2y7LOg7GwJkLVwbWhI/C8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744369907; c=relaxed/simple;
-	bh=r47D4va+hMH0nDuBINvAukqzGK5b0T3bIPft0LLGe1w=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=VbbYLfl3Lzi4CPHXqYHhT83RydEUCnH75w+D8ZZvvTiMB3vadb04xKzYM23yZVVY4LPpkeWMtyvI4Et0CBi0x8XX2kAHilJokt8NYUWP9SBC/cK3sqipGVFkIbKc5h/rVhfAB7lA7xmzXPiqp2pd9E0UALiGR9ICSa8v4jFWHvw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dBPn+ti2; arc=none smtp.client-ip=209.85.128.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744371237; c=relaxed/simple;
+	bh=5HjaKrb4OSnZq4HKsJZh48cCqPwW7cyhlHLZdAr8QI4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=Vzfv0bdFtWBr469bUYzzsxxmaZHByw1lMwSa+46OINfE6ZoHKXoOIuGq3gGpduWdglu5P0IxQIddsBEr5NB2NsofwpPbrLw5K5+z++8JDJt9yjQMdVBostuIQhlnYuCLwZwLBUmn/xMzNBIjhCzomx4mJRTd7z4gU4HY2SXw9LE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co; spf=pass smtp.mailfrom=rbox.co; dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b=G4E2swKG; arc=none smtp.client-ip=185.226.149.38
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dBPn+ti2"
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso12910485e9.1;
-        Fri, 11 Apr 2025 04:11:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744369904; x=1744974704; darn=vger.kernel.org;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hpXQKfyaLGLKe3xI0l3a3j00vTUAb2QPam0PVoMhfq4=;
-        b=dBPn+ti2Zp5nkv/QQ3lAtYxMEMf/Nh0mIC0SVRNgV38h7+7eM4fcev79bNM3YSoSbH
-         BUFjkLaHw0fPSBYDvKoYCsGukL3xzJlp14spfCfBzbKHtf4Ql1qOG4RkYVKNZYqwlxp1
-         12IP4MmSggKn284GM5+oK6jrRD37hFtp33gunPA0SOaNGnt27KMlYFVqfQcrigOlMaV8
-         1nmsZ4dvQUiQ77kbZuX5XX74i4XZ+cXXkNiUhEfi8nzbF6bduftxltRTM6FzHMoa+hc8
-         HPJO2XploqyMTnXK5qu9U0R8M79iaReifntoKsRxdh51730hXR31RP86qntbq+RI+FHr
-         e/NA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744369904; x=1744974704;
-        h=content-transfer-encoding:content-language:in-reply-to:mime-version
-         :user-agent:date:message-id:from:references:cc:to:subject
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hpXQKfyaLGLKe3xI0l3a3j00vTUAb2QPam0PVoMhfq4=;
-        b=VM8oVh3ZvXH/1Oiz4PZVz0YvOBRDWTMFX4FWXvBNNvk9R69efDIxyoCX9dm0b/caSa
-         Gok2ImrFxoHDuDYBUSzFZnB9A4ZMYNmjT3zNbH7cZnf9hwJizLYTxp/+o2UoaLRBWSrX
-         7JM0mZYRdye1p5OnAkUM7jsx9j7wnXtLmHPBH6+WfKQHtx3hUiT0swwbKehDjTWYkaqr
-         x4acjQpFrziu16o1/IfesNs832TrxrfHE9dz6qPY4FmSHBF/du3/E//orTw6olDufava
-         79iRSipMfTlfzzGjBQp2cC1sYYrSs57srZ2Ca/pG/0xGBdOYMdAHYPzB0hPgKYmAK08T
-         2RLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW3x3tb4m0E/kUJEzaP4Ukr35dLrgyXPvxrzExqwn3Z2AnXg4kSL2XKfUqacPqtVBwMrXhMb9A7DN0=@vger.kernel.org, AJvYcCW8ilWNWvvR07D5Sx6UW/5EBfM+LDUaY4bDipdRXp0/JYUWf8cEiDiSaY06zsXJhr1PuraEXh7x@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZED/EF9zqHyFoVumZiywF79Z/XesoiTD3Mxepm6Cs9FvX9+B5
-	xS42Ppz+NpSabmk+1cYMdHkRNSeQKfDScdTFE5zmIt5XFDpmf6mi
-X-Gm-Gg: ASbGnctRhnNDvYi5GvgmyQCwgp+PlcuVh+Qx0iVsT0JtkX+mgVI5K/UrYzBtJ7Q7TMN
-	Wkt/KcBIgyRwdkFpmXm0cbDvWOKZtTapd2PtIKwV1awU+UQo9NLHPtJklf7j70CA/00j4w6uznc
-	l9j3PvLAf9z2wLIaKu3CYU4WYz3qdU5Hl0S/hvuW9j4DFR/GvGf8JKEYwqF5keGHDnAvUwkRejC
-	/X1GVrL+WgTNE7g/9uKe9UTOlTA3KOqlvf+AKpDrma/6P8np3rfA0o4stGkj8LGeWQMXbOQBzul
-	hCyzvkDh9CLK0/MhRFQdGoahmbDoJJ9fp+31+WwlLqZjWdwDK5ra9BgGw7EtujKwj6OP998xJSF
-	A8zkke2pkNkHf3VoJ7TSD8s5ouXPVn+m/BC4aPGM=
-X-Google-Smtp-Source: AGHT+IHGfWqGKYK2XCsLaggmdsTg8N3NYT4RvucqIT58PsOgAUm1Rp915BQIxxI3WxJe3J7VXocRuw==
-X-Received: by 2002:a05:600c:5107:b0:43c:fe15:41dd with SMTP id 5b1f17b1804b1-43f3a926606mr18010065e9.6.1744369904282;
-        Fri, 11 Apr 2025 04:11:44 -0700 (PDT)
-Received: from [192.168.1.122] (cpc159313-cmbg20-2-0-cust161.5-4.cable.virginm.net. [82.0.78.162])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-43f2338db88sm81134385e9.6.2025.04.11.04.11.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 11 Apr 2025 04:11:43 -0700 (PDT)
-Subject: Re: [PATCH net-next 01/15] devlink: add value check to
- devlink_info_version_put()
-To: "Nelson, Shannon" <shannon.nelson@amd.com>,
- Jakub Kicinski <kuba@kernel.org>,
- "Jagielski, Jedrzej" <jedrzej.jagielski@intel.com>
-Cc: "Nguyen, Anthony L" <anthony.l.nguyen@intel.com>,
- "davem@davemloft.net" <davem@davemloft.net>,
- "pabeni@redhat.com" <pabeni@redhat.com>, "Dumazet, Eric"
- <edumazet@google.com>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
- "Kitszel, Przemyslaw" <przemyslaw.kitszel@intel.com>,
- "jiri@resnulli.us" <jiri@resnulli.us>, "horms@kernel.org"
- <horms@kernel.org>, "corbet@lwn.net" <corbet@lwn.net>,
- "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>,
- "R, Bharath" <bharath.r@intel.com>
-References: <20250407215122.609521-1-anthony.l.nguyen@intel.com>
- <20250407215122.609521-2-anthony.l.nguyen@intel.com>
- <d9638476-1778-4e34-96ac-448d12877702@amd.com>
- <DS0PR11MB7785C2BC22AE770A31D7427AF0B52@DS0PR11MB7785.namprd11.prod.outlook.com>
- <7e5aecb4-cb28-4f55-9970-406ec35a5ae7@amd.com>
- <DS0PR11MB7785945F6C0A9907A4E51AD6F0B42@DS0PR11MB7785.namprd11.prod.outlook.com>
- <20250409073942.26be7914@kernel.org>
- <5f896919-6397-4806-ab1a-946c4d20a1b3@amd.com>
-From: Edward Cree <ecree.xilinx@gmail.com>
-Message-ID: <20a047ba-6b99-22d9-93e0-de7b4ed60b34@gmail.com>
-Date: Fri, 11 Apr 2025 12:11:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.14.0
+	dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b="G4E2swKG"
+Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
+	by mailtransmit05.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
+	(Exim 4.93)
+	(envelope-from <mhal@rbox.co>)
+	id 1u3Cdm-005qKu-MX; Fri, 11 Apr 2025 13:33:46 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
+	s=selector1; h=Cc:To:In-Reply-To:References:Message-Id:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:Subject:Date:From;
+	bh=bRBtGUHo2mfXsbLumHd/r9ed2RVyNnk36YPXlBUTUBI=; b=G4E2swKGpA+n2ZhxtF2l0a13Ak
+	ucO3c4GWByMiOa9f6x7tgkQ+j7wp+VrYrbCMVonnJfe+wTlwf+J4VRG2vuFL6RBZTV/eSpe3NXWi2
+	qSgHfYCxkKNBDZ/xnVLyXgnCZ3pgCy4ntTdSMd2wJ/Gr2D/7c/dkJmmSFEOcvrbiSDBxPvl2hHnlM
+	m3F+SidVtDRfy2+MoGE+CeodfIJgpeoJcfih6X4kmx/d50N1MfmQ3gMUzOqgW3PhJcFMhzcpiVRwV
+	ikgvs9kJmeyeM6tXzqWJ99M5IZcO+Fc4WM01Yomiuf1ued1aSC7JsCoj1WgjiPMuD0H0X3cEPq429
+	dK/la4pg==;
+Received: from [10.9.9.73] (helo=submission02.runbox)
+	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+	(envelope-from <mhal@rbox.co>)
+	id 1u3Cdg-0005qc-1Q; Fri, 11 Apr 2025 13:33:40 +0200
+Received: by submission02.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
+	(Exim 4.93)
+	id 1u3CdW-00D5Ut-8V; Fri, 11 Apr 2025 13:33:30 +0200
+From: Michal Luczaj <mhal@rbox.co>
+Date: Fri, 11 Apr 2025 13:32:40 +0200
+Subject: [PATCH bpf-next v2 4/9] selftests/bpf: Allow setting BPF_F_INGRESS
+ in prog_msg_verdict()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <5f896919-6397-4806-ab1a-946c4d20a1b3@amd.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250411-selftests-sockmap-redir-v2-4-5f9b018d6704@rbox.co>
+References: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
+In-Reply-To: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
+To: Andrii Nakryiko <andrii@kernel.org>, 
+ Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>, 
+ Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+ Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+ Yonghong Song <yonghong.song@linux.dev>, 
+ John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>, 
+ Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>, 
+ Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+ Jakub Sitnicki <jakub@cloudflare.com>, Michal Luczaj <mhal@rbox.co>
+X-Mailer: b4 0.14.2
 
-On 09/04/2025 18:25, Nelson, Shannon wrote:
-> On 4/9/2025 7:39 AM, Jakub Kicinski wrote:
->>
->> On Wed, 9 Apr 2025 14:14:23 +0000 Jagielski, Jedrzej wrote:
->>> No insisting on that but should empty entry be really presented to the user?
->>> Especially unintentionally? Actually it's exposing some driver's shortcomings.
->>> That means the output was not properly validated so imho there's no point in
->>> printing it.
->>
->> +1, FWIW, I don't see the point of outputting keys without values.
-> 
-> Because I like to see hints that something might be wrong, rather than hiding them.
+Let a selftest set BPF_F_INGRESS for map/hash redirect.
 
-+1 to this.  Failures should be noisy.  Time you care most about these
- data is when something *is* wrong and you're trying to debug it.
-AFAICT the argument on the other side is "it makes the driver look bad",
- which has (expletive)-all to do with engineering.
-Value often comes from firmware, anyway, in which case driver's (& core's)
- job is to be a dumb pipe, not go around 'validating' things.
+In run_tests(), explicitly reset skel->bss->test_ingress to false. Earlier
+tests might have left it flipped.
+
+Signed-off-by: Michal Luczaj <mhal@rbox.co>
+---
+ tools/testing/selftests/bpf/prog_tests/sockmap_listen.c | 2 ++
+ tools/testing/selftests/bpf/progs/test_sockmap_listen.c | 6 ++++--
+ 2 files changed, 6 insertions(+), 2 deletions(-)
+
+diff --git a/tools/testing/selftests/bpf/prog_tests/sockmap_listen.c b/tools/testing/selftests/bpf/prog_tests/sockmap_listen.c
+index 4ee1148d22be3d7f26a5c899542e6a29ca5e7d6c..c8b736f96503829cba51da0f08c545028b48b8c6 100644
+--- a/tools/testing/selftests/bpf/prog_tests/sockmap_listen.c
++++ b/tools/testing/selftests/bpf/prog_tests/sockmap_listen.c
+@@ -1858,6 +1858,8 @@ static void test_udp_unix_redir(struct test_sockmap_listen *skel, struct bpf_map
+ static void run_tests(struct test_sockmap_listen *skel, struct bpf_map *map,
+ 		      int family)
+ {
++	skel->bss->test_ingress = false;
++
+ 	test_ops(skel, map, family, SOCK_STREAM);
+ 	test_ops(skel, map, family, SOCK_DGRAM);
+ 	test_redir(skel, map, family, SOCK_STREAM);
+diff --git a/tools/testing/selftests/bpf/progs/test_sockmap_listen.c b/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
+index b7250eb9c30cca8f77675e56529e6b780d76ab2e..5a3504d5dfc32f75f49f969b4935b1c1f3f7c773 100644
+--- a/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
++++ b/tools/testing/selftests/bpf/progs/test_sockmap_listen.c
+@@ -106,9 +106,11 @@ int prog_msg_verdict(struct sk_msg_md *msg)
+ 	int verdict;
+ 
+ 	if (test_sockmap)
+-		verdict = bpf_msg_redirect_map(msg, &sock_map, zero, 0);
++		verdict = bpf_msg_redirect_map(msg, &sock_map, zero,
++					       test_ingress ? BPF_F_INGRESS : 0);
+ 	else
+-		verdict = bpf_msg_redirect_hash(msg, &sock_hash, &zero, 0);
++		verdict = bpf_msg_redirect_hash(msg, &sock_hash, &zero,
++						test_ingress ? BPF_F_INGRESS : 0);
+ 
+ 	count = bpf_map_lookup_elem(&verdict_map, &verdict);
+ 	if (count)
+
+-- 
+2.49.0
+
