@@ -1,96 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C7CD19005D;
-	Fri, 11 Apr 2025 13:25:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.2])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 17C5E45948;
+	Fri, 11 Apr 2025 14:33:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.2
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744377959; cv=none; b=FSyJtf49GwUXyfdFvc+C+ktrS/oOf3qbs5U4Jws9pP3Cqnr/p7RfjI9U0jXT4FuWUJsad7OKSueb2yD8EaMScW+dEshemeu10hFGX17JI1pmTPk/uyFRyVJjULs6z68Rb76Lh+W3whZDk4NL0rg/ZbEQRAybdtHKiqpTjcGXovk=
+	t=1744382027; cv=none; b=e4qKsjNrfkVzLH4KQ9NF4tg8WVp3Uu/YpwQyHstnw8LBU7Yh4K21DEyVlTpINCk6Jfhv8ni+xjtOOPq6LZz/59eKVNTG7jfMVHfKnUepWfEv2GEhwUEpUwYZhT5l+eMp5Vw2HP2OPSfGHBk216gg6iRrEcQAcuXZ2PhuFCjURpM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744377959; c=relaxed/simple;
-	bh=YacvS452bdujPx0/+c9q8F6L4dCyA32XvwEotJeih94=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MlcaM5R05zngDBy3iyEtvPzHQlCmNxd2OV6aYXQbls43fl8HH/BCJ1E6xo6fD2ZaDPsmgdoCziE0od1cXV1/l9c1viz+sycdmjHO7qLYbPiCh4GrC8Ly1nFZXyYzwWUYHjeKsQVYv5F3QKuAbwVO6czyVFvnsIz0nKmFCXIaiaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KO59uPJr; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744382027; c=relaxed/simple;
+	bh=oVuRtuSjG5JGh6JU+d825kCCzZGN6r/zZRQW1ttQVdQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=R5yBdJvx9lqhlPBxaHiYEkQhjpl09ijG3IKaeMf9jknfta8NWuSZgHgB1crxHlfr78F0fVQJBoQz9b1KCPLZb+qreU4Oj/vhC5BcJqGhNSUCpQB1UjNIlSh1lcaB8EmbWfxV7iuP1uZHqsDdJOZSmh3DLMRSeIaUTDl/PT3Se30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=pcj7niJK; arc=none smtp.client-ip=220.197.31.2
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KO59uPJr"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E1BEAC4CEE5;
-	Fri, 11 Apr 2025 13:25:56 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744377958;
-	bh=YacvS452bdujPx0/+c9q8F6L4dCyA32XvwEotJeih94=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=KO59uPJrDp4sEDCFT5+zO3cbTKTBg8OFpJ8hF1oI3BVmhSHvdnVJa/fgd8l4n58AC
-	 mE38BIO/61xpTroy9LUKV25x+QVWOCK2VB0OZujHpseVFa1fi7nfj0CiW3o7gX9vj1
-	 rKXJiIKH+AQHIXiN/pKyU5z/VpK5epBu0KvZpNbPlwQeyu9f8SCocS3Smx/1oMuRNO
-	 niOQqcQd/3CAVyf9h/9deAXH3gwHK4zJiHiPEerLvlIV7gn2mx603Zk8chtv5h8Way
-	 H9Z+7YMGXQ9u4vsJgrt6Q0bTysK5D3pqG8rk4tw+T8OO2yxIh7xKQ27270I3QsO5n6
-	 uToXGAHylexAA==
-Message-ID: <f7e66377-4616-4e3e-aa2d-ccd512411f21@kernel.org>
-Date: Fri, 11 Apr 2025 08:25:55 -0500
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="pcj7niJK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=ItP1aVb1e+h9azvx3WYwQtH0ZEUzn4mgScjro0lkdMU=;
+	b=pcj7niJKjKWu9W5yhl0cVbt1ENSSl//cUrActJg0c539Uvm/1E21WWyHnVFheF
+	ItMczQoOy6DKtOl6/D74wxp0xrsBUnjnYAeuIDgvoCd911ec6jh2LDPCPF5EpODu
+	vI1htwPdi7cQYHE2+2M6S3+bwdMwe7gAbPWqFmMpnWheM=
+Received: from iZj6c3ewsy61ybpk7hrb16Z (unknown [])
+	by gzga-smtp-mtada-g1-3 (Coremail) with SMTP id _____wCHg23NJ_lnU8isFg--.61454S2;
+	Fri, 11 Apr 2025 22:31:44 +0800 (CST)
+Date: Fri, 11 Apr 2025 22:31:41 +0800
+From: Jiayuan Chen <mrpre@163.com>
+To: Michal Luczaj <mhal@rbox.co>
+Cc: Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Jakub Sitnicki <jakub@cloudflare.com>
+Subject: Re: [PATCH bpf-next v2 5/9] selftests/bpf: Add selftest for
+ sockmap/hashmap redirection
+Message-ID: <ghhz3pi3oh3rylyd5t6gfa3x7m35q4ei5liwytmcbfit4r4pit@4al5vrpx7exl>
+References: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
+ <20250411-selftests-sockmap-redir-v2-5-5f9b018d6704@rbox.co>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 4/4] x86/CPU/AMD: Print the reason for the last reset
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jean Delvare <jdelvare@suse.com>, Andi Shyti <andi.shyti@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
- "open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
-References: <20250410200202.2974062-1-superm1@kernel.org>
- <20250410200202.2974062-5-superm1@kernel.org>
- <20250411120617.GMZ_kFucLFQQ7LJkys@fat_crate.local>
- <42b7547d-c1f7-4509-a381-7bf0a485a5f5@kernel.org>
- <20250411125050.GEZ_kQKtYBfEMDQuXU@fat_crate.local>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250411125050.GEZ_kQKtYBfEMDQuXU@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250411-selftests-sockmap-redir-v2-5-5f9b018d6704@rbox.co>
+X-CM-TRANSID:_____wCHg23NJ_lnU8isFg--.61454S2
+X-Coremail-Antispam: 1Uf129KBjvJXoW7uF43Ar45KrWUWF1DCrW8Xrb_yoW8Xr45pa
+	40gFZ7GFWSq3W5XryYqws2grZrZw1FvrWDX343GrW3Jw1q9r9rWrn5GFWYyr4fAFnxCr17
+	XFn5CF47K3s29F7anT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UiNV9UUUUU=
+X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiOhwsp2f5JzcV7gAAsY
 
+On Fri, Apr 11, 2025 at 01:32:41PM +0200, Michal Luczaj wrote:
+> +static void test_send_redir_recv(int sd_send, int send_flags, int sd_peer,
+> +				 int sd_in, int sd_out, int sd_recv,
+> +				 struct maps *maps, int status)
+> +{
+> +	unsigned int drop, pass;
+> +	char *send_buf = "ab";
+> +	char recv_buf = '\0';
+> +	ssize_t n, len = 1;
+> +	/* Zero out the verdict map */
+> +	if (xbpf_map_update_elem(maps->verd, &u32(SK_DROP), &u32(0), BPF_ANY) ||
+> +	    xbpf_map_update_elem(maps->verd, &u32(SK_PASS), &u32(0), BPF_ANY))
+> +		return;
+> +
+> +	if (xbpf_map_update_elem(maps->in, &u32(0), &u64(sd_in), BPF_NOEXIST))
+> +		return;
+> +
+> +	if (xbpf_map_update_elem(maps->out, &u32(0), &u64(sd_out), BPF_NOEXIST))
+> +		goto del_in;
+> +
+> +	/* Last byte is OOB data when send_flags has MSG_OOB bit set */
+> +	if (send_flags & MSG_OOB)
+> +		len++;
+> +	n = send(sd_send, send_buf, len, send_flags);
+> +	if (n >= 0 && n < len)
+> +		FAIL("incomplete send");
+> +	if (n < 0) {
+> +		/* sk_msg redirect combo not supported? */
+> +		if (status & SUPPORTED || errno != EACCES)
+> +			FAIL_ERRNO("send");
+> +		goto out;
+> +	}
+> +
+> +	if (!(status & SUPPORTED)) {
+> +		handle_unsupported(sd_send, sd_peer, sd_in, sd_out, sd_recv,
+> +				   maps->verd, status);
+> +		goto out;
+> +	}
+> +
+> +	errno = 0;
+> +	n = recv_timeout(sd_recv, &recv_buf, 1, 0, IO_TIMEOUT_SEC);
+> +	if (n != 1) {
+> +		FAIL_ERRNO("recv_timeout()");
+> +		goto out;
+> +	}
+I prefer multiple send and receive operations, or implementing a loop at
+the outer level.
 
+Thanks.
 
-On 4/11/25 07:50, Borislav Petkov wrote:
-> On Fri, Apr 11, 2025 at 07:12:24AM -0500, Mario Limonciello wrote:
->> The idea was to walk all the bits and pick the first one that has a string
->> associated with it.  I was finding that sometimes the reserved bits are set
->> which would get you a NULL pointer deref.
-> 
-> Uff, that needs a comment at least.
-> 
-> But you can write it a lot simpler instead:
-> 
-> 	for (i = 0; i <= ARRAY_SIZE(s5_reset_reason_txt); i++) {
-> 		if (!(value & BIT(i)))
-> 			continue;
-> 
-> 		if (s5_reset_reason_txt[i])
-> 			break;
-> 	}
-> 
-> Simple loop, simple statements and all easy. :-)
-> 
->> Right; I was worried about that too but find_next_bit() will return the size
->> argument when it doesn't find anything.
->>
->> So that should be s5_reset_reason_txt[32] which has the "Unknown" string.
-> 
-> Yeah, that definitely needs a comment above it.
-> 
-
-Thanks; I'll take your simpler solution and leave a comment above the 
-!(value & BIT(i)) check about skipping reserved bits.
