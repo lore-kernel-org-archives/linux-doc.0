@@ -1,121 +1,95 @@
-Received: from ms11p00im-qufo17282001.me.com (ms11p00im-qufo17282001.me.com [17.58.38.57])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF6DF215078
-	for <linux-doc@vger.kernel.org>; Fri, 11 Apr 2025 15:32:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.38.57
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5912367DD;
+	Fri, 11 Apr 2025 16:02:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744385537; cv=none; b=SO5yJe2EPtqZkoVVCISMujSwpMAO6KpT0WFwpuFVyloS+JhH7IZ1E5iM/dodcQ9jnqzNjk46SrU5a11qj+9DgmugeTmp6L6PWC4xMh4SQ/BkbbSscxhokyCsrezn1Mo+NwRjfmfajJkBQ5NZcXxj/ecFgSl6CBJo1/tJFUiLhOY=
+	t=1744387355; cv=none; b=RgmVBgDBXS1TfymWffyP+CkivmA4TD4ATOSQ3S+qE0ORnNOw2enHxH1hp5syJPolH0Z0Qj5idJhj7ovnkg504woZLt/qRuTd0WRNrhDklC5BlQ4pOPM15gqflVvfRKfam7P6UKC/ytctuwACPH54F0nRa9l1zL/k6WX/xYoxB2Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744385537; c=relaxed/simple;
-	bh=Q+b1uj2Yuc5VJ/ui7Oz4J9OvaUP+S6G9VrEPYRna1yg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=Lt9VKoK0sF3ipQPpUWBLlrOfKfLBfN88AQ6+vVyYjdSTbEh169Cwl/kSGZojA3j/k1HhZ718UPbb7hLdRvtOCg1Yg83Qe7CvCN2mt1x9Gj3Olp7Xcxn2q0SwJeWDERdiSOfbK03IciKxrgwsQ8PebE7JOxVw6Pc8a8ptTG79W5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=Un0jMtNS; arc=none smtp.client-ip=17.58.38.57
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1744387355; c=relaxed/simple;
+	bh=vAL2HWsYZdwCmYgBhqkDTW705E6nfjbHy8zZUtbDK1A=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hOwPm9J796+vnm3bEluS6c5tXgftlMQ/352H/MEDAZkSZxYgxxFW3xiAcWgUhnme5ZEf9AyvA6X3d/WNbGi8iHqVTf8XDjGq6rYViXTLKIXjV/CB/u0MsCiZm9yivMJkoLOVC4rAv/1JfZXnE3HEw1CffQWWLprhA32WCPl28Ds=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lM3n2Loz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="Un0jMtNS"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=yujqbfWH4Vu7cBrznjNw3PAx5cjIMFD5qOZHcZDi32I=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
-	b=Un0jMtNSdWU2dsdyZUgCWkrlVJa6I76EN2yfmOwITLHYCbrazYz57jWQjPNRploRi
-	 coP0v/uNj/aVWU+Q9IY2peqx9zjZ3ntuvyt11U+9UPo38HYwn2Nw/IOMhCaiqV/ux9
-	 SRoP4dwDcP4kZwQ9nYPQU/aEKMQf1wa5b4emqZqqsZx4tvi+I9TAvo5TH8DVq6Dujx
-	 /p324vBUOT2iK6CwclIK1N7pBzXYoAArgcUo8h2sw2gyo8G1EosfkbMBtv45at6lYm
-	 IQJ5dGya/1PjZL6Bm//E1UJS5/DzviTpjkyfhhoNPp47e9VlDAfCOTHlzvaHJ1phUj
-	 jNOKikgk0CE/Q==
-Received: from ms11p00im-qufo17282001.me.com (ms11p00im-qufo17282001.me.com [17.58.38.57])
-	by ms11p00im-qufo17282001.me.com (Postfix) with ESMTPS id 5A8FB1E0310;
-	Fri, 11 Apr 2025 15:32:13 +0000 (UTC)
-Received: from [192.168.1.26] (ms11p00im-dlb-asmtpmailmevip.me.com [17.57.154.19])
-	by ms11p00im-qufo17282001.me.com (Postfix) with ESMTPSA id 648961E034D;
-	Fri, 11 Apr 2025 15:32:09 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Fri, 11 Apr 2025 23:31:41 +0800
-Subject: [PATCH v2 2/2] fs/fs_parse: Fix 3 issues for
- validate_constant_table()
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lM3n2Loz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 660A0C4CEE2;
+	Fri, 11 Apr 2025 16:02:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744387354;
+	bh=vAL2HWsYZdwCmYgBhqkDTW705E6nfjbHy8zZUtbDK1A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lM3n2Loz/+36sq/6Lei4iAuRvu0gIZAxvFRJtwZJkrecobf/bxMztsQO8Ec0gJN/f
+	 fXLjuuIGuhEKNlEDySUgAFXjabeqc/IU7+VSGmwoOungmellXHntYqTXYbyWHYqW5R
+	 nPTTpV656C2vLz6f0jvUeU6hmU23lQqoEwlpFaf4W0hxSA0f2n12r/4oYKMyVz841q
+	 DQloyDbE7vemgtETopzA47uMliPINAXLBoy/olrdvyxgU7Pd9lVlDefKAoo81dVMzU
+	 8orDcHPaYgZPwO2Pzul9QKFGqTIjHhhv0N96eMQ1RSesLVcCCaGOeRgic6Rzpk29vL
+	 Cx6nXHbilX9OA==
+Date: Fri, 11 Apr 2025 17:02:26 +0100
+From: Will Deacon <will@kernel.org>
+To: Arnd Bergmann <arnd@arndb.de>
+Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
+	Borislav Petkov <bp@alien8.de>, Brian Gerst <brgerst@gmail.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Uros Bizjak <ubizjak@gmail.com>,
+	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-raid@vger.kernel.org, x86@kernel.org
+Subject: Re: [PATCH 4/4] arm64: drop binutils version checks
+Message-ID: <20250411160225.GA5675@willie-the-truck>
+References: <20250407094116.1339199-1-arnd@kernel.org>
+ <20250407094116.1339199-5-arnd@kernel.org>
+ <20250408084642.GA1768@willie-the-truck>
+ <f79695b7-f0c0-442f-963d-6ecae246ebf5@app.fastmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250411-fix_fs-v2-2-5d3395c102e4@quicinc.com>
-References: <20250411-fix_fs-v2-0-5d3395c102e4@quicinc.com>
-In-Reply-To: <20250411-fix_fs-v2-0-5d3395c102e4@quicinc.com>
-To: Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>, 
- David Howells <dhowells@redhat.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: Zijun Hu <zijun_hu@icloud.com>, linux-fsdevel@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
- Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: oVcoFRum3OnSNydi8BgdF6TLHwzlIMor
-X-Proofpoint-GUID: oVcoFRum3OnSNydi8BgdF6TLHwzlIMor
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-11_05,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 suspectscore=0
- malwarescore=0 bulkscore=0 mlxlogscore=999 adultscore=0 mlxscore=0
- clxscore=1015 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2504110099
-X-Apple-Remote-Links: v=1;h=KCk=;charset=UTF-8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f79695b7-f0c0-442f-963d-6ecae246ebf5@app.fastmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
+On Tue, Apr 08, 2025 at 03:10:57PM +0200, Arnd Bergmann wrote:
+> On Tue, Apr 8, 2025, at 10:46, Will Deacon wrote:
+> > Hi Arnd,
+> >
+> > On Mon, Apr 07, 2025 at 11:41:16AM +0200, Arnd Bergmann wrote:
+> >> From: Arnd Bergmann <arnd@arndb.de>
+> >> 
+> >> Now that gcc-8 and binutils-2.30 are the minimum versions, a lot of
+> >> the individual feature checks can go away for simplification.
+> >> 
+> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> >> ---
+> >>  arch/arm64/Kconfig              | 37 ++-------------------------------
+> >>  arch/arm64/Makefile             | 21 ++-----------------
+> >>  arch/arm64/include/asm/rwonce.h |  4 ----
+> >>  arch/arm64/kvm/Kconfig          |  1 -
+> >>  arch/arm64/lib/xor-neon.c       |  2 +-
+> >>  5 files changed, 5 insertions(+), 60 deletions(-)
+> >
+> > Since some of these checks are dynamic (i.e. they try passing various
+> > options to the tools to see if they barf), have you checked that the
+> > minimum supported version of clang implements them all?
+> 
+> I did some randconfig build testing with clang-13/lld-13, since that
+> is the oldest supported version, and checked that the options are
+> all supported. I'm pretty sure it's been there for a long time before
+> that already.
 
-Constant table array array[] which must end with a empty entry and fix
-below issues for validate_constant_table(array, ARRAY_SIZE(array), ...):
+Thanks (especially to Mark!) for checking.
 
-- Always return wrong value for good constant table array which ends
-  with a empty entry.
-
-- Imprecise error message for missorted case.
-
-- Potential NULL pointer dereference since the last pr_err() may use
-  'tbl[i].name' NULL pointer to print the last constant entry's name.
-
-Fortunately, the function has no caller currently.
-Fix these issues mentioned above.
-
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
- fs/fs_parser.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
-
-diff --git a/fs/fs_parser.c b/fs/fs_parser.c
-index e635a81e17d965df78ffef27f6885cd70996c6dd..ef7876340a917876bc40df9cdde9232204125a75 100644
---- a/fs/fs_parser.c
-+++ b/fs/fs_parser.c
-@@ -399,6 +399,9 @@ bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
- 	}
- 
- 	for (i = 0; i < tbl_size; i++) {
-+		if (!tbl[i].name && (i + 1 == tbl_size))
-+			break;
-+
- 		if (!tbl[i].name) {
- 			pr_err("VALIDATE C-TBL[%zu]: Null\n", i);
- 			good = false;
-@@ -411,13 +414,13 @@ bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
- 				good = false;
- 			}
- 			if (c > 0) {
--				pr_err("VALIDATE C-TBL[%zu]: Missorted %s>=%s\n",
-+				pr_err("VALIDATE C-TBL[%zu]: Missorted %s>%s\n",
- 				       i, tbl[i-1].name, tbl[i].name);
- 				good = false;
- 			}
- 		}
- 
--		if (tbl[i].value != special &&
-+		if (tbl[i].name && tbl[i].value != special &&
- 		    (tbl[i].value < low || tbl[i].value > high)) {
- 			pr_err("VALIDATE C-TBL[%zu]: %s->%d const out of range (%d-%d)\n",
- 			       i, tbl[i].name, tbl[i].value, low, high);
-
--- 
-2.34.1
-
+Will
