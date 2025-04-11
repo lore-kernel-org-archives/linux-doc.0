@@ -1,39 +1,48 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B691096F;
-	Fri, 11 Apr 2025 16:17:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD72719CC36;
+	Fri, 11 Apr 2025 16:48:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744388264; cv=none; b=noGIsue0T8Yhe8sgXwqIJchtS/pDtuxvl2BqEkqNGcye/simVZ6w6n8E2YCQXYrpikZJ+R35CX7ew88Oz0R9n6JRgGdwa/5PhY7iDTVi4EHUPvKZCTlRAlRhp/2jPlu6IRPHsbnLbFVrCKHf2IjRyexvPzp5Tf8K7OeA2RfUWD8=
+	t=1744390095; cv=none; b=Ako4ptKoMjV84kNq2ddpnuOnyT0foArWVFnfxvHojC034I1iiOqG4ueFntKOF5r65BcFqgtRzbMJ0g6LrKT/mYCQbnwOdZVQhqH0AsHHv6vM1W+PF4QXfKn2VTn+9uugfrjhx+sJOHhcLHNlonK4UfWzq0kehuQhY+NYH+No0fQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744388264; c=relaxed/simple;
-	bh=ofn7XasYbL6HV6msHMWQ5/n1EDKYsh7K8ld9N4uLdI4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=bWHtig6NQ5BczjMWyTGQQuMiumOF9DOTg4nbW5hBSLdn5Ke5Ci5sQAzjsYtaD7D1zKYMLUsbx0QJZxSQDOpOr9OpUWi4jfCVj0zD2U+KC2u4OMm9utQC38G8gMkLfl3t9RNBIYoCp/6Do+s8+1Yb5nc6NoIb5qKxkfTdBPQq1W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hFr0NUvD; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1744390095; c=relaxed/simple;
+	bh=wa+AVNQk+IQmGfijqRyLsj77653kD6hhJ1b2CemESKw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=uKeLR8VzpEDBlvpsxVarVqWfpkEzJ87yPX3M0TqjHxyXuHU5GPFm6b05BZyA65qN3IQWLtbP9gQ3aYn2R8tq70qnOZ+aq/Gcg0qdHmHb/qlUqbm0bn+bXCAjwtuqjYv2cxkoRVrEoj/Syw4cPqb8r4fbdgiRqNvJalEvCtX+ZqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=jzvR40yO; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hFr0NUvD"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53BGGYuW556229
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 11 Apr 2025 09:16:35 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53BGGYuW556229
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025032001; t=1744388197;
-	bh=Je4jjtqDg1lupTlCqhCqlBHURcIemD1LKF6L79eZeQ4=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=hFr0NUvDO0KxnqHVd5tvh9wlEpPLoXj5+Fk6VRp98Oufm46awXFQUGmxV/fTfgMrx
-	 GzKsVKrNaQ4GKWIS49y82WqrPyQZdWjzvwEUzzMeF18SIrRIxD7pRirRv3yvheYKEE
-	 qAUhHwHGouynqmSNswzUfCwMzXOIh7q1kaCMyUTDJJTa9yd+hAnd6McuU1bc7BfoPc
-	 eQneZepAltsYPsjYuY/TJFnv79plc+f+g/zZNkbo0sIfICoW48HmlTCXZhE1q5HFkw
-	 m3fln8o2KWtLCxcgstTZDEqws5rEYsoFSuQi9X+5Dtycrj6nld6wkvj3/RmP2kBtIf
-	 z2Gw0Sp7D9H9w==
-Message-ID: <c1481083-ee0d-4d58-aa07-01e43fec7c9f@zytor.com>
-Date: Fri, 11 Apr 2025 09:16:33 -0700
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="jzvR40yO"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53BFaraB032525;
+	Fri, 11 Apr 2025 16:47:55 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	mxSIL024YDdH3noxg9Rt5OG8c1CjMIkSVCfzMQ9iUAo=; b=jzvR40yOJgbc1vTZ
+	T40ditOiQkBc5zCStqPVrNyTCEcd1lFiqbYYU0KHUu6n1IMm/q1vztooHJqhQ4Sw
+	dys5WnAJ9UI4RKuD1DUaCeZnQXGLJqNYxFadHtaMYbFmngeOOKkN9abBDsg21eQ/
+	p2dq6NZ5025Dua/XroA/8ZtChOw9AeEbCIo1Vkn7gslRIOUjv1h1ed5DfEaS7oQH
+	wd1yfrCWyh4bu9Tfp1hg+TZzHQCpze8dV+aq4wUQYz6lW4km+GlPpjf8WA7Th7+j
+	ChkD/9+aAiDZZPKNQXKftZbZd41ToyYEGuVZL5TP+A8mLLT3yu766aBn+YyyCPfZ
+	d88eJA==
+Received: from nalasppmta04.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 45twfktusf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Apr 2025 16:47:55 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53BGlsqu029526
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Fri, 11 Apr 2025 16:47:54 GMT
+Received: from [10.71.112.82] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 11 Apr
+ 2025 09:47:53 -0700
+Message-ID: <2efdc7ef-adc1-4316-adbc-ef25db7c7612@quicinc.com>
+Date: Fri, 11 Apr 2025 09:47:50 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -41,80 +50,77 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 04/19] x86/cea: Export per CPU array
- 'cea_exception_stacks' for KVM to use
-To: Dave Hansen <dave.hansen@intel.com>, Christoph Hellwig <hch@infradead.org>
-Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
-        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
-        andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
-        chao.gao@intel.com, xin3.li@intel.com
-References: <20250328171205.2029296-1-xin@zytor.com>
- <20250328171205.2029296-5-xin@zytor.com> <Z_eHGjzR33LMqLfL@infradead.org>
- <e88be442-1163-4163-8f2f-06a37d1e595a@intel.com>
+Subject: Re: [PATCH v38 00/31] Introduce QC USB SND audio offloading support
+To: Greg KH <gregkh@linuxfoundation.org>,
+        Stephan Gerhold
+	<stephan.gerhold@linaro.org>
+CC: <srinivas.kandagatla@linaro.org>, <mathias.nyman@intel.com>,
+        <perex@perex.cz>, <conor+dt@kernel.org>, <dmitry.torokhov@gmail.com>,
+        <corbet@lwn.net>, <broonie@kernel.org>, <lgirdwood@gmail.com>,
+        <robh@kernel.org>, <krzk+dt@kernel.org>,
+        <pierre-louis.bossart@linux.intel.com>, <Thinh.Nguyen@synopsys.com>,
+        <tiwai@suse.com>, <linux-kernel@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-sound@vger.kernel.org>,
+        <linux-input@vger.kernel.org>, <linux-usb@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <linux-doc@vger.kernel.org>
+References: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
+ <2025041029-oval-cavity-7896@gregkh>
+ <2025041144-imitation-reappear-a0d9@gregkh> <Z_kNr52hM-iWUgyZ@linaro.org>
+ <2025041152-eternal-harmonize-d608@gregkh>
 Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <e88be442-1163-4163-8f2f-06a37d1e595a@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+From: Wesley Cheng <quic_wcheng@quicinc.com>
+In-Reply-To: <2025041152-eternal-harmonize-d608@gregkh>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: 1a38mqELc9Yx_-XevlOZ1O78PQHDv81z
+X-Proofpoint-ORIG-GUID: 1a38mqELc9Yx_-XevlOZ1O78PQHDv81z
+X-Authority-Analysis: v=2.4 cv=b7Oy4sGx c=1 sm=1 tr=0 ts=67f947bb cx=c_pps a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=5j0JM0_CJDOIDA5IkhwA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-11_06,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 adultscore=0 malwarescore=0
+ priorityscore=1501 suspectscore=0 mlxscore=0 impostorscore=0 phishscore=0
+ clxscore=1015 spamscore=0 mlxlogscore=711 bulkscore=0 lowpriorityscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.19.0-2502280000
+ definitions=main-2504110106
 
-On 4/10/2025 7:18 AM, Dave Hansen wrote:
-> On 4/10/25 01:53, Christoph Hellwig wrote:
->> On Fri, Mar 28, 2025 at 10:11:50AM -0700, Xin Li (Intel) wrote:
->>> The per CPU array 'cea_exception_stacks' points to per CPU stacks
->>> +/*
->>> + * FRED introduced new fields in the host-state area of the VMCS for
->>> + * stack levels 1->3 (HOST_IA32_FRED_RSP[123]), each respectively
->>> + * corresponding to per CPU stacks for #DB, NMI and #DF.  KVM must
->>> + * populate these each time a vCPU is loaded onto a CPU.
->>> + */
->>> +EXPORT_PER_CPU_SYMBOL(cea_exception_stacks);
->> Exporting data vs accessors for it is usually a bad idea.  Doing a
->> non-_GPl for such a very low level data struture is even worse.
+Hi Greg,
+
+On 4/11/2025 5:54 AM, Greg KH wrote:
+> On Fri, Apr 11, 2025 at 02:40:15PM +0200, Stephan Gerhold wrote:
+>> Hi Greg,
+>>
+>> On Fri, Apr 11, 2025 at 01:04:37PM +0200, Greg KH wrote:
+>>> On Thu, Apr 10, 2025 at 09:11:42AM +0200, Greg KH wrote:
+>>>> On Wed, Apr 09, 2025 at 12:47:33PM -0700, Wesley Cheng wrote:
+>>>>> Requesting to see if we can get some Acked-By tags, and merge on usb-next.
+>>>>
+>>>> let me give it some 0-day bot testing to see how that goes...
+>>>
+>>> All looks good, so let me go apply this to my usb-next branch now.
+>>>
+>>> Thanks for sticking with this, I think it deserves the "most versions ever"
+>>> of a patch series award.
+>>>
+>>
+>> I have honestly no intention of blocking this series any longer, but the
+>> comments I raised on PATCH 26/31 are likely valid and suggest the series
+>> wasn't fully tested on v38. So I would personally prefer to get fixes
+>> and confirmation on that from Wesley and then merge v39. It doesn't feel
+>> like the kind of thing to fix incrementally on top, since the commit
+>> message is also misleading now.
 > 
-> Big ack on this.
-> 
-> I don't even see a single caller of __this_cpu_ist_top_va() that's
-> remotely performance sensitive or that needs to be inline.
-> 
-> Just make the __this_cpu_ist_top/bottom_va() macros into real functions
-> and export __this_cpu_ist_top_va(). It's going to be a pretty tiny
-> function but I think that's tolerable.
+> I think a fixup is probably sufficient, especially as I can't rebase my
+> tree, and reverting all of these is just a mess.
 > 
 
-Right, that does make sense to me.
+Sure I will submit a fix up today.  Thanks Greg, Stephan for the feedback
+and help with the overall progress of the series.
+
+Thanks
+Wesley Cheng
