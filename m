@@ -1,100 +1,108 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCD729CB35;
-	Fri, 11 Apr 2025 12:09:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A111D2BF3DF;
+	Fri, 11 Apr 2025 12:11:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744373399; cv=none; b=nXHKr29yNU/rMnevZA/oKiYPGrvJPERtIJ1EEV3XERwzT1kb1OjOR2qW3JBmdBlK6PrNiPY8R7i8045CykswMqchxG70w2jnTjDVuQJCVfls6S8dOEmqr4+uM4e7ioEIrLhZEMpfF/Q4Y9GUyaHgaTNA/pTX9DkZtXxgq90V9b4=
+	t=1744373479; cv=none; b=aij4CgPGVQkySSXi0TARSksd/JdqDE5Yp9+VYYZpoRubs0yAAPuf3CC82XoT0UdP5eghz78Yz2E60OP0ImnLzpQnmOmuRNX+1u9Fg/kWvYHZXNFaaVPfmHGEmcVmcjJW9NEgIXT1m3ikbahWAKqQQIMa3jwZwBBnyF9IBG4m8As=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744373399; c=relaxed/simple;
-	bh=jB3cdHnD5PFtfwchWWHYOzMV3tNT07jCumA17HRyPZE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=LJVoS+GwjeKSULmBkNVMdvGUS9ZlYIOuUIwaTxVB5R2ADNK/ZquspPTFhCWiiAYM+BaE/qvMNcc2NkJiZXpz/fnGuf8BEahSjuGEiplzeVejKwfI7aT/7B0Uq9jtZuMMZlHi3lhIS/GZwqr1KIgxi+GKw2Ues+DmZ7Bw4k2jMSc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=F1PQ0DU0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744373479; c=relaxed/simple;
+	bh=yzF33gKvYRvTTNQyiHSKd1m6sCWnvqK2EfrNCow/rKs=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qd0quCBjdTksYbOM4/cSfYqlDOUXoB26lEbWJC4dATODuQEN4SxlYFyI5Hq2f3J114ESvUEmVmaiCzF9tDqa/YjSc7V+NeC8dHVVd2J9Wf9gxAc8gxd0WrHBWyy6K/Z5DgMyVdWjyYi2S67dLcsdrtjorR/4wx5WGfKugD/9s0M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KJrmP+Jo; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="F1PQ0DU0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EA9E1C4AF09;
-	Fri, 11 Apr 2025 12:09:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744373399;
-	bh=jB3cdHnD5PFtfwchWWHYOzMV3tNT07jCumA17HRyPZE=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=F1PQ0DU0c3bRUeMui9G6QG8PjXlVzEqbKSy7GpIQx2m33+ffSJSmPg7B57SxLzbey
-	 OsDl1/VTo60VoVhm5/AM+Ea1eEZNooR+TD/61AONybXlgmuqk3cTbjbF/c+YNtsRAh
-	 mgQdL2wtq3se797yrjNd74d/Gm95Aigrm0ylV/b9vuienYlwAhqAoBsxQIHXQHeQOZ
-	 OZgFtoc76jDk9TsXpbHyxzmtCzXVt9cLWH/j7DInjiZTUASPzIkzSgRrC+9ewysGqT
-	 gfnB9H3wkNz2sp3vLfVsWJsIgqvwSVOh947TgTVUf7kJx+CGXUsc1nj8f6aQzIqs/k
-	 uYdkbMdCFuavg==
-Message-ID: <dc564c29-38fc-4b9d-8b1c-c6f890b2333c@kernel.org>
-Date: Fri, 11 Apr 2025 07:09:56 -0500
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KJrmP+Jo"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
+	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
+	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=rNYHj+jMsjKcQ0NBqVY00CTxiyNat9iFuHkI3uiocOY=; b=KJrmP+JovP2P9xpa3JDZx/JtZP
+	JtWQwOoCQvVCPB4QGUr5YlNkKzL3r7Q5mOODeZKTr1+MR3Dhk7G+Paus7+haNrtDezlEwg0j3NSKd
+	YcQudvJbx9SMzW55WVSP0oT924FtLAFG5eyLkvjBQKf+Cie6VGV/D73o5BfqDN5fT+Pkc67908pAp
+	0KhKLNFsCx4PTo+fip5FDCjhK/MFYrHbEOofJZiTd3Gp0CMf4cuYeGZtr8rxgKVUBtzqY5m6NtZ8k
+	PYv2jHn1UBaDECx067z/Fi7ZPPXJ/bPK0S5bsXIhQsnWK6ENdII4+oKiiHi/5bVoTtEiKwGkKZXc7
+	1nPsgQIg==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54684)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1u3DDq-0003Js-0Q;
+	Fri, 11 Apr 2025 13:11:02 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1u3DDh-0004bC-1Y;
+	Fri, 11 Apr 2025 13:10:53 +0100
+Date: Fri, 11 Apr 2025 13:10:53 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Frank Sae <Frank.Sae@motor-comm.com>
+Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Parthiban.Veerasooran@microchip.com, linux-kernel@vger.kernel.org,
+	"andrew+netdev @ lunn . ch" <andrew+netdev@lunn.ch>, lee@trager.us,
+	horms@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+	geert+renesas@glider.be, xiaogang.fan@motor-comm.com,
+	fei.zhang@motor-comm.com, hua.sun@motor-comm.com
+Subject: Re: [PATCH net-next v4 00/14] yt6801: Add Motorcomm yt6801 PCIe
+ driver
+Message-ID: <Z_kGzeUfQB9qa2EN@shell.armlinux.org.uk>
+References: <20250408092835.3952-1-Frank.Sae@motor-comm.com>
+ <Z_T6vv013jraCzSD@shell.armlinux.org.uk>
+ <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/4] i2c: piix4: Move SB800_PIIX4_FCH_PM_ADDR
- definition to amd_node.h
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jean Delvare <jdelvare@suse.com>, Andi Shyti <andi.shyti@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
- "open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
-References: <20250410200202.2974062-1-superm1@kernel.org>
- <20250410200202.2974062-3-superm1@kernel.org>
- <20250411114908.GLZ_kBtN94h79EEN6j@fat_crate.local>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250411114908.GLZ_kBtN94h79EEN6j@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-
-
-On 4/11/25 06:49, Borislav Petkov wrote:
-> On Thu, Apr 10, 2025 at 03:02:00PM -0500, Mario Limonciello wrote:
->> From: Mario Limonciello <mario.limonciello@amd.com>
->>
->> SB800_PIIX4_FCH_PM_ADDR is used to indicate the base address for the
->> FCH PM registers.  Multiple drivers may need this base address, so
->> move it to a common header location and rename accordingly.
->>
->> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
->> ---
->>   arch/x86/include/asm/amd_node.h |  2 ++
->>   drivers/i2c/busses/i2c-piix4.c  | 12 ++++++------
->>   2 files changed, 8 insertions(+), 6 deletions(-)
->>
->> diff --git a/arch/x86/include/asm/amd_node.h b/arch/x86/include/asm/amd_node.h
->> index 23fe617898a8f..f4993201834ea 100644
->> --- a/arch/x86/include/asm/amd_node.h
->> +++ b/arch/x86/include/asm/amd_node.h
->> @@ -19,6 +19,8 @@
->>   
->>   #include <linux/pci.h>
->>   
->> +#define FCH_PM_BASE		0xFED80300
+On Fri, Apr 11, 2025 at 05:50:55PM +0800, Frank Sae wrote:
 > 
-> Is that even related to amd_node?
 > 
-> Or should it be in some x86...platform.h header?
+> On 2025/4/8 18:30, Russell King (Oracle) wrote:
+> > On Tue, Apr 08, 2025 at 05:28:21PM +0800, Frank Sae wrote:
+> >> This series includes adding Motorcomm YT6801 Gigabit ethernet driver
+> >>  and adding yt6801 ethernet driver entry in MAINTAINERS file.
+> >> YT6801 integrates a YT8531S phy.
+> > 
+> > What is different between this and the Designware GMAC4 core supported
+> > by drivers/net/ethernet/stmicro/stmmac/ ?
+> > 
 > 
+> We support more features: NS, RSS, wpi, wol pattern and aspm control.
 
-I was aiming for a header that we would conceivably use in all these 
-places anyway.
+Is it not possible to add those features?
 
-Can you suggest a more fitting existing header?  A new one felt too 
-heavy for a single register define.
+> > Looking at the register layout, it looks very similar. The layout of the
+> > MAC control register looks similar. The RX queue and PMT registers are
+> > at the same relative offset. The MDIO registers as well.
+> > 
+> > Can you re-use the stmmac driver?
+> > 
+> 
+> I can not re-use the stmmac driver, because pcie and ephy can not work well on
+> the stmmac driver.
 
+Doesn't the stmmac driver support PCIe already (e.g. for Intel
+platforms?) Can't it be fixed?
+
+We shouldn't be duplicating what we already have, but fixing it if
+there are problems.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
