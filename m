@@ -1,72 +1,63 @@
-Received: from out28-74.mail.aliyun.com (out28-74.mail.aliyun.com [115.124.28.74])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F52529614B;
-	Fri, 11 Apr 2025 09:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 212761DE3C7;
+	Fri, 11 Apr 2025 11:04:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744365392; cv=none; b=pv5uvPyl4Y3twG5ZOKZvvO3z2+kGeuNFkFOKaBuXi1Z/qzAtiAoY5cW0lgKY2+pWJQwIUkXn5r/kbbpALHhRp5N0vrszMr6WFmPKw1p/M4u4E9eCEvMXCWPtKCU4JJ30GmNUec9KEwqGDwqUgZryJrlf1C75l6QHgw0VlrUY0oc=
+	t=1744369483; cv=none; b=JUgrMEuyvYRVcYUfX+hvERfgp++TgRHQT3zSixAAtJAFGFSlgQEQpsZmqJ4ppWBTv9u+VONe+NyOAF8ULOogVf0J1WK2hh1pfIRPeYPWFfQCdSr244sadcZ0t2xUb9gPvU5FLHqNb/6MPVc+ILAxIEW/2tYBbtc/t1lUwCIqLB0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744365392; c=relaxed/simple;
-	bh=dI24S8coPzz7k1htKptwmRID8NIsoRVYe1b7fMWVAk4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ttEZKMhTCw4mmGlNHX4vIFXq8nz///3S0m4/upKrkMwAvUtEzIGHWARPsW5QB2BYhqyZ+sL4kvo+YwTxNNaeBKz311ZRbfoHEvDNqNsUW2Z7PA2SWLz4I3gDFj4AYzl+/b9k2DxysT6qwObIN8TGibm5NSOSs7nZOQ51DI0fNi0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motor-comm.com; spf=pass smtp.mailfrom=motor-comm.com; arc=none smtp.client-ip=115.124.28.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motor-comm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motor-comm.com
-Received: from 10.0.2.15(mailfrom:Frank.Sae@motor-comm.com fp:SMTPD_---.cK5WKQw_1744365055 cluster:ay29)
-          by smtp.aliyun-inc.com;
-          Fri, 11 Apr 2025 17:50:56 +0800
-Message-ID: <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
-Date: Fri, 11 Apr 2025 17:50:55 +0800
+	s=arc-20240116; t=1744369483; c=relaxed/simple;
+	bh=0KqGQD32cA/2yKE2JGtWJRqB0cD6N0rORycBv1UgRB0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hheuEqiJW14kK8yKIWk21qnvL88fBkw6oizlal/7vTkWiTJHqpPRUZsgpD0QoHEN/Il6KhP5lX3buiW2+WugPYXWJVTt+skKYJ6rh6hlhJbppHaDEmoUX6Pjkpdm3FrG9sFlRvtnEFHC6v8ZvvLK8AVYyAaVyTBJEYaPVfQfitM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=BN+AMmfA; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="BN+AMmfA"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 13B5CC4CEE2;
+	Fri, 11 Apr 2025 11:04:40 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1744369480;
+	bh=0KqGQD32cA/2yKE2JGtWJRqB0cD6N0rORycBv1UgRB0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BN+AMmfAD9S58qQpIxWaib5iCJNvI4z/lfBFpjD0ocp+E/nz2mF2/zoIIvDt+wo4E
+	 jkh+cz7by8Sth9cf3nLjPjQAorBQkupm+AJyCyS6fM3l6sz9ef64bVHzD7kJE0GukK
+	 J1p7tqpBZPu9my3U+oYHR21j7onRTVD7mJv4Stiw=
+Date: Fri, 11 Apr 2025 13:04:37 +0200
+From: Greg KH <gregkh@linuxfoundation.org>
+To: Wesley Cheng <quic_wcheng@quicinc.com>
+Cc: srinivas.kandagatla@linaro.org, mathias.nyman@intel.com, perex@perex.cz,
+	conor+dt@kernel.org, dmitry.torokhov@gmail.com, corbet@lwn.net,
+	broonie@kernel.org, lgirdwood@gmail.com, robh@kernel.org,
+	krzk+dt@kernel.org, pierre-louis.bossart@linux.intel.com,
+	Thinh.Nguyen@synopsys.com, tiwai@suse.com,
+	linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-sound@vger.kernel.org, linux-input@vger.kernel.org,
+	linux-usb@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v38 00/31] Introduce QC USB SND audio offloading support
+Message-ID: <2025041144-imitation-reappear-a0d9@gregkh>
+References: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
+ <2025041029-oval-cavity-7896@gregkh>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v4 00/14] yt6801: Add Motorcomm yt6801 PCIe
- driver
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, netdev@vger.kernel.org,
- Masahiro Yamada <masahiroy@kernel.org>, Parthiban.Veerasooran@microchip.com,
- linux-kernel@vger.kernel.org,
- "andrew+netdev @ lunn . ch" <andrew+netdev@lunn.ch>, lee@trager.us,
- horms@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
- geert+renesas@glider.be, xiaogang.fan@motor-comm.com,
- fei.zhang@motor-comm.com, hua.sun@motor-comm.com
-References: <20250408092835.3952-1-Frank.Sae@motor-comm.com>
- <Z_T6vv013jraCzSD@shell.armlinux.org.uk>
-Content-Language: en-US
-From: Frank Sae <Frank.Sae@motor-comm.com>
-In-Reply-To: <Z_T6vv013jraCzSD@shell.armlinux.org.uk>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <2025041029-oval-cavity-7896@gregkh>
 
-
-
-On 2025/4/8 18:30, Russell King (Oracle) wrote:
-> On Tue, Apr 08, 2025 at 05:28:21PM +0800, Frank Sae wrote:
->> This series includes adding Motorcomm YT6801 Gigabit ethernet driver
->>  and adding yt6801 ethernet driver entry in MAINTAINERS file.
->> YT6801 integrates a YT8531S phy.
+On Thu, Apr 10, 2025 at 09:11:42AM +0200, Greg KH wrote:
+> On Wed, Apr 09, 2025 at 12:47:33PM -0700, Wesley Cheng wrote:
+> > Requesting to see if we can get some Acked-By tags, and merge on usb-next.
 > 
-> What is different between this and the Designware GMAC4 core supported
-> by drivers/net/ethernet/stmicro/stmmac/ ?
-> 
+> let me give it some 0-day bot testing to see how that goes...
 
-We support more features: NS, RSS, wpi, wol pattern and aspm control.
+All looks good, so let me go apply this to my usb-next branch now.
 
-> Looking at the register layout, it looks very similar. The layout of the
-> MAC control register looks similar. The RX queue and PMT registers are
-> at the same relative offset. The MDIO registers as well.
-> 
-> Can you re-use the stmmac driver?
-> 
+Thanks for sticking with this, I think it deserves the "most versions ever"
+of a patch series award.
 
-I can not re-use the stmmac driver, because pcie and ephy can not work well on
-the stmmac driver.
+greg k-h
