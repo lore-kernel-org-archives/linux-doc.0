@@ -1,108 +1,111 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A111D2BF3DF;
-	Fri, 11 Apr 2025 12:11:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B6B2229AAF3;
+	Fri, 11 Apr 2025 12:12:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744373479; cv=none; b=aij4CgPGVQkySSXi0TARSksd/JdqDE5Yp9+VYYZpoRubs0yAAPuf3CC82XoT0UdP5eghz78Yz2E60OP0ImnLzpQnmOmuRNX+1u9Fg/kWvYHZXNFaaVPfmHGEmcVmcjJW9NEgIXT1m3ikbahWAKqQQIMa3jwZwBBnyF9IBG4m8As=
+	t=1744373547; cv=none; b=VNFp7FvdhmQXeACqwpSSdt1XCBvCTOpuZPv+H7YKXdqg5R8KLUF+Y+YxrGbOvpMNpcqo1CUqEy8UEBoW0SGSB+dsnh7sqg3EogQhzqnQ63+Pr0BmtyQe1Ak2lKTMSCbPmKjXNnGlrIQkcdcIKWkaKi88Za3cfsJfpWanmnU7fik=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744373479; c=relaxed/simple;
-	bh=yzF33gKvYRvTTNQyiHSKd1m6sCWnvqK2EfrNCow/rKs=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qd0quCBjdTksYbOM4/cSfYqlDOUXoB26lEbWJC4dATODuQEN4SxlYFyI5Hq2f3J114ESvUEmVmaiCzF9tDqa/YjSc7V+NeC8dHVVd2J9Wf9gxAc8gxd0WrHBWyy6K/Z5DgMyVdWjyYi2S67dLcsdrtjorR/4wx5WGfKugD/9s0M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=KJrmP+Jo; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	s=arc-20240116; t=1744373547; c=relaxed/simple;
+	bh=OgiHmzAMJV/c6pK5hif8A/swuofjSwyYdjGM252Al4I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PM/HmtBuz1gR3L3gc4Vrd28iFAoRGR+gHSKDFEvUo+uMYJy9b9l/KSReZX1zP7JuHlafM/rEeqTjpKjfCZFx3vXRSIxy0nu97il+Ljnsit0XtbjIy5dCkGeAWD/MavZT5zIsv6kkkWJpauULBcfFLXo0ukkNFizgz8vSHVWjqXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZKJfHHJy; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="KJrmP+Jo"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:
-	Content-Transfer-Encoding:Content-Type:MIME-Version:References:Message-ID:
-	Subject:Cc:To:From:Date:Reply-To:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=rNYHj+jMsjKcQ0NBqVY00CTxiyNat9iFuHkI3uiocOY=; b=KJrmP+JovP2P9xpa3JDZx/JtZP
-	JtWQwOoCQvVCPB4QGUr5YlNkKzL3r7Q5mOODeZKTr1+MR3Dhk7G+Paus7+haNrtDezlEwg0j3NSKd
-	YcQudvJbx9SMzW55WVSP0oT924FtLAFG5eyLkvjBQKf+Cie6VGV/D73o5BfqDN5fT+Pkc67908pAp
-	0KhKLNFsCx4PTo+fip5FDCjhK/MFYrHbEOofJZiTd3Gp0CMf4cuYeGZtr8rxgKVUBtzqY5m6NtZ8k
-	PYv2jHn1UBaDECx067z/Fi7ZPPXJ/bPK0S5bsXIhQsnWK6ENdII4+oKiiHi/5bVoTtEiKwGkKZXc7
-	1nPsgQIg==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:54684)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1u3DDq-0003Js-0Q;
-	Fri, 11 Apr 2025 13:11:02 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1u3DDh-0004bC-1Y;
-	Fri, 11 Apr 2025 13:10:53 +0100
-Date: Fri, 11 Apr 2025 13:10:53 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Frank Sae <Frank.Sae@motor-comm.com>
-Cc: Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Andrew Lunn <andrew@lunn.ch>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	"David S . Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Parthiban.Veerasooran@microchip.com, linux-kernel@vger.kernel.org,
-	"andrew+netdev @ lunn . ch" <andrew+netdev@lunn.ch>, lee@trager.us,
-	horms@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
-	geert+renesas@glider.be, xiaogang.fan@motor-comm.com,
-	fei.zhang@motor-comm.com, hua.sun@motor-comm.com
-Subject: Re: [PATCH net-next v4 00/14] yt6801: Add Motorcomm yt6801 PCIe
- driver
-Message-ID: <Z_kGzeUfQB9qa2EN@shell.armlinux.org.uk>
-References: <20250408092835.3952-1-Frank.Sae@motor-comm.com>
- <Z_T6vv013jraCzSD@shell.armlinux.org.uk>
- <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZKJfHHJy"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 86E57C4CEE7;
+	Fri, 11 Apr 2025 12:12:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744373547;
+	bh=OgiHmzAMJV/c6pK5hif8A/swuofjSwyYdjGM252Al4I=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=ZKJfHHJyYcGvqjYidnEdh8euHtbuinPbP6cdaZSEqUi7bzcfkPnSL7swwOH6yxhAX
+	 gDwsQFbMZlI3PEgWeNs1Iy5e5391s9T6ySobR+MoHlCuICPMlTDuKbgJkeRONmQtaO
+	 ypN3kLxkdU1k2t3ob0oH5U7EsKYn+tsr/ZxWKDzsysLrwf5JLLxgV2XpT6Aqgp0G/H
+	 xc2nw8/ryVcV/TTlYoEN6Sb9QAVsPAh/EVfIj7+wgECvkB9pUh7BXO1tNUZ40qI5mu
+	 E7GeeGlSTAlib3jzC6EeFR+64GVoEQ1TQlFCtNmB20/uWKWdwVcaqRNaNBSTE3d21e
+	 YEBTcy/yLl3xA==
+Message-ID: <42b7547d-c1f7-4509-a381-7bf0a485a5f5@kernel.org>
+Date: Fri, 11 Apr 2025 07:12:24 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/4] x86/CPU/AMD: Print the reason for the last reset
+To: Borislav Petkov <bp@alien8.de>
+Cc: Jean Delvare <jdelvare@suse.com>, Andi Shyti <andi.shyti@kernel.org>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Mario Limonciello <mario.limonciello@amd.com>,
+ Yazen Ghannam <yazen.ghannam@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
+ "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+ "H . Peter Anvin" <hpa@zytor.com>,
+ Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
+ "open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
+References: <20250410200202.2974062-1-superm1@kernel.org>
+ <20250410200202.2974062-5-superm1@kernel.org>
+ <20250411120617.GMZ_kFucLFQQ7LJkys@fat_crate.local>
+Content-Language: en-US
+From: Mario Limonciello <superm1@kernel.org>
+In-Reply-To: <20250411120617.GMZ_kFucLFQQ7LJkys@fat_crate.local>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Fri, Apr 11, 2025 at 05:50:55PM +0800, Frank Sae wrote:
+
+
+On 4/11/25 07:06, Borislav Petkov wrote:
+> On Thu, Apr 10, 2025 at 03:02:02PM -0500, Mario Limonciello wrote:
+>> +static __init int print_s5_reset_status_mmio(void)
+>> +{
+>> +	void __iomem *addr;
+>> +	unsigned long value;
+>> +	int bit = -1;
+>> +
+>> +	if (!cpu_feature_enabled(X86_FEATURE_ZEN))
+>> +		return 0;
+>> +
+>> +	addr = ioremap(FCH_PM_BASE + FCH_PM_S5_RESET_STATUS, sizeof(value));
+>> +	if (!addr)
+>> +		return 0;
 > 
+> newline.
 > 
-> On 2025/4/8 18:30, Russell King (Oracle) wrote:
-> > On Tue, Apr 08, 2025 at 05:28:21PM +0800, Frank Sae wrote:
-> >> This series includes adding Motorcomm YT6801 Gigabit ethernet driver
-> >>  and adding yt6801 ethernet driver entry in MAINTAINERS file.
-> >> YT6801 integrates a YT8531S phy.
-> > 
-> > What is different between this and the Designware GMAC4 core supported
-> > by drivers/net/ethernet/stmicro/stmmac/ ?
-> > 
+>> +	value = ioread32(addr);
+>> +	iounmap(addr);
+>> +
+>> +	do {
+>> +		bit = find_next_bit(&value, BITS_PER_LONG, bit + 1);
+>> +	} while (!s5_reset_reason_txt[bit]);
 > 
-> We support more features: NS, RSS, wpi, wol pattern and aspm control.
-
-Is it not possible to add those features?
-
-> > Looking at the register layout, it looks very similar. The layout of the
-> > MAC control register looks similar. The RX queue and PMT registers are
-> > at the same relative offset. The MDIO registers as well.
-> > 
-> > Can you re-use the stmmac driver?
-> > 
+> What's the idea here? The highest bit is the most fitting one?
 > 
-> I can not re-use the stmmac driver, because pcie and ephy can not work well on
-> the stmmac driver.
+> So why don't you do fls() or so?
 
-Doesn't the stmmac driver support PCIe already (e.g. for Intel
-platforms?) Can't it be fixed?
+The idea was to walk all the bits and pick the first one that has a 
+string associated with it.  I was finding that sometimes the reserved 
+bits are set which would get you a NULL pointer deref.
 
-We shouldn't be duplicating what we already have, but fixing it if
-there are problems.
+> 
+>> +	pr_info("x86/amd: Previous system reset reason [0x%08lx]: %s\n",
+>> +		value, s5_reset_reason_txt[bit]);
+> 
+> What's guaranteeing that s5_reset_reason_txt[bit] is still set here?
+> 
+> I'd suggest you check it again and never trust the hw because we'll be fixing
+> a null ptr here at some point otherwise...
+> 
 
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+Right; I was worried about that too but find_next_bit() will return the 
+size argument when it doesn't find anything.
+
+So that should be s5_reset_reason_txt[32] which has the "Unknown" string.
+
