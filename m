@@ -1,46 +1,44 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 450892367B7;
-	Fri, 11 Apr 2025 12:54:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from m16.mail.163.com (m16.mail.163.com [220.197.31.4])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 354BC2367A7;
+	Fri, 11 Apr 2025 13:07:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=220.197.31.4
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744376075; cv=none; b=NlgwAVb1xUnEcNXovUfDs17LZ05mJL+dOj5FTMpVAA4palwU0aFxqWSHResORKhTC4s1mJ66jUUcfnXD0BAiRBYWjNQkOJ0ueJe6QVX8cn3o8GgUh75yQlpKFRgMUjRQcK98bpk0GTR1hRKNp3UvC8RyhsN3bSnBS6Sf2s35EXE=
+	t=1744376877; cv=none; b=MyjHinhaGqBUqAj3Vo+c8DdvCL+k4FZ7EFlb0cmhyQdswp4LzXVFyUAbTFrt4iksxt3nxluV9cZzLOsEFQY6+dKiIfGZsUcnFgIUSXkJhSN8mgl6NkfzL1AbHdUjo/V+z2KLsJDVWxckaUjI5+5KPwLpUciCrMXcxjRay4Gt334=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744376075; c=relaxed/simple;
-	bh=1FMfL5JnI997PT62pkJADHSoxPEsKGsxLvDEqOfq+8g=;
+	s=arc-20240116; t=1744376877; c=relaxed/simple;
+	bh=I8a9dN6aHQZms/YtghSSJ1hw1q/pOboZ1oI3gg8yojA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kC/V7kH2NIa2JbJqbq0CpNWudf0xzGfZeIXru625GrLpz/F4IgXuIjamDLvm2AVtQMnII/Ap3kiyx5sCA6RjCFfWY5XSYapoyCd2srZJNeXUiQFhaGhVvCm0Co0Q/aa509pv8ajqJBMMsmzcWUp+YeR4E/SRuWN1fh2W/tBiEEU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=D+1poUm5; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=OWceN87XBmUlE36cgX3gvBiZ2YjLOSr3opdDKxe+SUWhVIFnUy1JpNd1+XncHAxfT1rfUlR19BnDs4Dgsnf8rGTEqXCdXqxNsh9XAglgPbOXQU29ubGnNlRC2mO9KFRYa5+9KdKVMFeqzm0lMwbstJ7P0jGAtpnj9mf+AAUk8hQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com; spf=pass smtp.mailfrom=163.com; dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b=WBTw0Qfn; arc=none smtp.client-ip=220.197.31.4
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=163.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=163.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="D+1poUm5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 31EC1C4CEE2;
-	Fri, 11 Apr 2025 12:54:34 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1744376074;
-	bh=1FMfL5JnI997PT62pkJADHSoxPEsKGsxLvDEqOfq+8g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=D+1poUm5qqgIM4f5Y+ygHQRvTmE/bDvELlFFTrXnk8o9amrj9+VwDjvaI3UHLLXfm
-	 tuvUNtFa0w0fegdzpUTp173lRcHis64JPwwddmp2rS0SIa/5pyLHSpuJsh73wQmqaM
-	 eeyHnimkbrv+XaHd28Y80irAKGZcQH0CzvNaEUXI=
-Date: Fri, 11 Apr 2025 14:54:32 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Stephan Gerhold <stephan.gerhold@linaro.org>
-Cc: Wesley Cheng <quic_wcheng@quicinc.com>, srinivas.kandagatla@linaro.org,
-	mathias.nyman@intel.com, perex@perex.cz, conor+dt@kernel.org,
-	dmitry.torokhov@gmail.com, corbet@lwn.net, broonie@kernel.org,
-	lgirdwood@gmail.com, robh@kernel.org, krzk+dt@kernel.org,
-	pierre-louis.bossart@linux.intel.com, Thinh.Nguyen@synopsys.com,
-	tiwai@suse.com, linux-kernel@vger.kernel.org,
-	devicetree@vger.kernel.org, linux-sound@vger.kernel.org,
-	linux-input@vger.kernel.org, linux-usb@vger.kernel.org,
-	linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v38 00/31] Introduce QC USB SND audio offloading support
-Message-ID: <2025041152-eternal-harmonize-d608@gregkh>
-References: <20250409194804.3773260-1-quic_wcheng@quicinc.com>
- <2025041029-oval-cavity-7896@gregkh>
- <2025041144-imitation-reappear-a0d9@gregkh>
- <Z_kNr52hM-iWUgyZ@linaro.org>
+	dkim=pass (1024-bit key) header.d=163.com header.i=@163.com header.b="WBTw0Qfn"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=Date:From:Subject:Message-ID:MIME-Version:
+	Content-Type; bh=lyZXs2Zi6ekjJ4FW1SSFkba/dKS2ypdHY1EDXydc9FY=;
+	b=WBTw0QfnbMMZ5lGVGzxWAKb6PenYP1x8fkL2XRfhbE5DseqQ2A8jmcACuffw2a
+	KWe0OO/sZ0UcO6XF7fmbU0ynBLC9sV1XW2LoCw25b0c9L6s5k2MKqe8lSPi8Ol4O
+	309F2KhpoJVXGzulzJHcm9COUBJjV5XY3PsX/DYKa/WDo=
+Received: from iZj6c3ewsy61ybpk7hrb16Z (unknown [])
+	by gzga-smtp-mtada-g0-3 (Coremail) with SMTP id _____wC3t1nPE_lncFMNFg--.46424S2;
+	Fri, 11 Apr 2025 21:06:26 +0800 (CST)
+Date: Fri, 11 Apr 2025 21:06:23 +0800
+From: Jiayuan Chen <mrpre@163.com>
+To: Michal Luczaj <mhal@rbox.co>
+Cc: Andrii Nakryiko <andrii@kernel.org>, 
+	Eduard Zingerman <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>, 
+	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
+	Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>, 
+	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
+	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, 
+	Hao Luo <haoluo@google.com>, Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Jakub Sitnicki <jakub@cloudflare.com>
+Subject: Re: [PATCH bpf-next v2 0/9] selftests/bpf: Test sockmap/sockhash
+ redirection
+Message-ID: <sgdbbkc2nzbnvkchrs23nss4c7cohebn2qwbfdxtyupbmxunqu@afosvfyylrdg>
+References: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -49,34 +47,83 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <Z_kNr52hM-iWUgyZ@linaro.org>
+In-Reply-To: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
+X-CM-TRANSID:_____wC3t1nPE_lncFMNFg--.46424S2
+X-Coremail-Antispam: 1Uf129KBjvJXoWxuF47tF1DAr43tw18tF4DCFg_yoW5Xr1fpa
+	93A3W3KFWxJFWIgw43WFWI9F4rKF48Jw15G3Wjgw1rZwnFkryxtr1Sg3yrW3Z8JrW5ZF15
+	u3y7KF93Gw1UCaDanT9S1TB71UUUUU7qnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UcTmhUUUUU=
+X-CM-SenderInfo: xpus2vi6rwjhhfrp/1tbiWxcsp2f5DlK-YAAAsa
 
-On Fri, Apr 11, 2025 at 02:40:15PM +0200, Stephan Gerhold wrote:
-> Hi Greg,
+On Fri, Apr 11, 2025 at 01:32:36PM +0200, Michal Luczaj wrote:
+> The idea behind this series is to comprehensively test the BPF redirection:
 > 
-> On Fri, Apr 11, 2025 at 01:04:37PM +0200, Greg KH wrote:
-> > On Thu, Apr 10, 2025 at 09:11:42AM +0200, Greg KH wrote:
-> > > On Wed, Apr 09, 2025 at 12:47:33PM -0700, Wesley Cheng wrote:
-> > > > Requesting to see if we can get some Acked-By tags, and merge on usb-next.
-> > > 
-> > > let me give it some 0-day bot testing to see how that goes...
-> > 
-> > All looks good, so let me go apply this to my usb-next branch now.
-> > 
-> > Thanks for sticking with this, I think it deserves the "most versions ever"
-> > of a patch series award.
-> > 
+> BPF_MAP_TYPE_SOCKMAP,
+> BPF_MAP_TYPE_SOCKHASH
+> 	x
+> sk_msg-to-egress,
+> sk_msg-to-ingress,
+> sk_skb-to-egress,
+> sk_skb-to-ingress
+> 	x
+> AF_INET, SOCK_STREAM,
+> AF_INET6, SOCK_STREAM,
+> AF_INET, SOCK_DGRAM,
+> AF_INET6, SOCK_DGRAM,
+> AF_UNIX, SOCK_STREAM,
+> AF_UNIX, SOCK_DGRAM,
+> AF_VSOCK, SOCK_STREAM,
+> AF_VSOCK, SOCK_SEQPACKET
 > 
-> I have honestly no intention of blocking this series any longer, but the
-> comments I raised on PATCH 26/31 are likely valid and suggest the series
-> wasn't fully tested on v38. So I would personally prefer to get fixes
-> and confirmation on that from Wesley and then merge v39. It doesn't feel
-> like the kind of thing to fix incrementally on top, since the commit
-> message is also misleading now.
+> New module is introduced, sockmap_redir: all supported and unsupported
+> redirect combinations are tested for success and failure respectively. Code
+> is pretty much stolen/adapted from Jakub Sitnicki's sockmap_redir_matrix.c
+> [1].
+> 
+> Usage:
+> $ cd tools/testing/selftests/bpf
+> $ make
+> $ sudo ./test_progs -t sockmap_redir
+> ...
+> Summary: 1/576 PASSED, 0 SKIPPED, 0 FAILED
+> 
+> [1]: https://github.com/jsitnicki/sockmap-redir-matrix/blob/main/sockmap_redir_matrix.c
 
-I think a fixup is probably sufficient, especially as I can't rebase my
-tree, and reverting all of these is just a mess.
+This is exactly what we need, thanks.
+> 
+> Changes in v2:
+> - Verify that the unsupported redirect combos do fail [Jakub]
+> - Dedup tests in sockmap_listen
+> - Cosmetic changes and code reordering
+> - Link to v1: https://lore.kernel.org/bpf/42939687-20f9-4a45-b7c2-342a0e11a014@rbox.co/
+> 
+> Suggested-by: Jakub Sitnicki <jakub@cloudflare.com>
+> Signed-off-by: Michal Luczaj <mhal@rbox.co>
+> ---
+> Michal Luczaj (9):
+>       selftests/bpf: Support af_unix SOCK_DGRAM socket pair creation
+>       selftests/bpf: Add socket_kind_to_str() to socket_helpers
+>       selftests/bpf: Add u32()/u64() to sockmap_helpers
+>       selftests/bpf: Allow setting BPF_F_INGRESS in prog_msg_verdict()
+>       selftests/bpf: Add selftest for sockmap/hashmap redirection
+>       selftests/bpf: sockmap_listen cleanup: Drop af_vsock redir tests
+>       selftests/bpf: sockmap_listen cleanup: Drop af_unix redir tests
+>       selftests/bpf: sockmap_listen cleanup: Drop af_inet SOCK_DGRAM redir tests
+>       docs/bpf: sockmap: Add a missing comma
+> 
+>  Documentation/bpf/map_sockmap.rst                  |   2 +-
+>  .../selftests/bpf/prog_tests/socket_helpers.h      |  84 +++-
+>  .../selftests/bpf/prog_tests/sockmap_helpers.h     |  25 +-
+>  .../selftests/bpf/prog_tests/sockmap_listen.c      | 459 +-------------------
+>  .../selftests/bpf/prog_tests/sockmap_redir.c       | 461 +++++++++++++++++++++
+>  .../selftests/bpf/progs/test_sockmap_listen.c      |   6 +-
+>  6 files changed, 558 insertions(+), 479 deletions(-)
+> ---
+> base-commit: a27a97f713947b20ba91b23a3ef77fa92d74171b
+> change-id: 20240922-selftests-sockmap-redir-5d839396c75e
+> 
+> Best regards,
+> -- 
+> Michal Luczaj <mhal@rbox.co>
+> 
 
-thanks,
-
-greg k-h
