@@ -1,180 +1,100 @@
-Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 229F427CB35
-	for <linux-doc@vger.kernel.org>; Fri, 11 Apr 2025 07:47:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7849628F939;
+	Fri, 11 Apr 2025 08:23:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744357644; cv=none; b=XS2T4WXLplyC/7opnF0PFwZ8t+r2mBc7dTCuU8nAWZfcM6mfFWKxqGES1GS1RyzKwnw9hP7iMf0qhnuNcgUduOxi6doQrBLYbB4QzKRwVBtgK6fyiBTvv5T9HW02I3xCB/j8TnjGD6KxQmpzqWnvtTqjXGoG+/W8znIfpeIhax8=
+	t=1744359825; cv=none; b=I9V8iFqiIUUXznQm2kPDyJz55u8VjYad4B1PGQaaxIWkRPBIFK3+ICVboB2nZ+bvLQ9ki/ytfEtQhe563aVviHLFxY6xFOCluCTHBMCn0WUCXLrXckmniG86e5LnDQcd4aFOqbyNkzc4wrue0YtFTGJ42bF7op/CsslbRNoJwhE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744357644; c=relaxed/simple;
-	bh=EAz6BYyegX9HsUVlO2LvtyL+bKqfENHOMQini843ORE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eO1+W/Ic3w16+FKLkJkPoUS9/JN9DMY/sh8vcInK/Vk9jFAXI9DN2F5qY/WPV2OsJfI1Qr72V8PadidboEKE5HM2T3NNWCH1y1SDkVUwe/sajE0+6iNO1XHuAyCqoJbH0k1E/N3jWI8vH//TRsA/9qk84YJfZQGu0oVvnWuTN+M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz; spf=pass smtp.mailfrom=suse.cz; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3AzJ3xPt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y3PEkJOF; dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b=3AzJ3xPt; dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b=Y3PEkJOF; arc=none smtp.client-ip=195.135.223.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=suse.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.cz
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3AzJ3xPt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y3PEkJOF";
-	dkim=pass (1024-bit key) header.d=suse.cz header.i=@suse.cz header.b="3AzJ3xPt";
-	dkim=permerror (0-bit key) header.d=suse.cz header.i=@suse.cz header.b="Y3PEkJOF"
-Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by smtp-out1.suse.de (Postfix) with ESMTPS id 3C0A821125;
-	Fri, 11 Apr 2025 07:47:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1744357641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G6aNx8roFs3brDqtJz4qS5Ktvp9IrPY2jgp3xIHvb3U=;
-	b=3AzJ3xPtXM9xl6A9NBybWV0Z+mdnzcsHM3ymLxCOl0O1rFgI1boQ3Vfk3y81515olX/b9Z
-	GJBdnvEpB3+a3m0kDO3vuJdQE5DA2jzsbgtkvpVGdiDc4PlhNPKpsMAtYWbMeOov+guYmH
-	f5rcCkufQ00ZcUrV+uQwWihxKDm1axY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1744357641;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G6aNx8roFs3brDqtJz4qS5Ktvp9IrPY2jgp3xIHvb3U=;
-	b=Y3PEkJOFMDbn2b/M6sYqxko+XqKRr4dhrdZkciCJqVDGy7i2TKbC4ulkk5BifBd82OpI+G
-	WYDY7knV6nr0p2Dg==
-Authentication-Results: smtp-out1.suse.de;
-	dkim=pass header.d=suse.cz header.s=susede2_rsa header.b=3AzJ3xPt;
-	dkim=pass header.d=suse.cz header.s=susede2_ed25519 header.b=Y3PEkJOF
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.cz; s=susede2_rsa;
-	t=1744357641; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G6aNx8roFs3brDqtJz4qS5Ktvp9IrPY2jgp3xIHvb3U=;
-	b=3AzJ3xPtXM9xl6A9NBybWV0Z+mdnzcsHM3ymLxCOl0O1rFgI1boQ3Vfk3y81515olX/b9Z
-	GJBdnvEpB3+a3m0kDO3vuJdQE5DA2jzsbgtkvpVGdiDc4PlhNPKpsMAtYWbMeOov+guYmH
-	f5rcCkufQ00ZcUrV+uQwWihxKDm1axY=
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.cz;
-	s=susede2_ed25519; t=1744357641;
-	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-	 mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G6aNx8roFs3brDqtJz4qS5Ktvp9IrPY2jgp3xIHvb3U=;
-	b=Y3PEkJOFMDbn2b/M6sYqxko+XqKRr4dhrdZkciCJqVDGy7i2TKbC4ulkk5BifBd82OpI+G
-	WYDY7knV6nr0p2Dg==
-Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 013AB13886;
-	Fri, 11 Apr 2025 07:47:20 +0000 (UTC)
-Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
-	by imap1.dmz-prg2.suse.org with ESMTPSA
-	id Vax0OwjJ+GcJCAAAD6G6ig
-	(envelope-from <vbabka@suse.cz>); Fri, 11 Apr 2025 07:47:20 +0000
-Message-ID: <472508e5-2b96-403b-9284-274c5bf587c9@suse.cz>
-Date: Fri, 11 Apr 2025 09:47:16 +0200
+	s=arc-20240116; t=1744359825; c=relaxed/simple;
+	bh=fA+MpSDHIN+qzgKOcqVh+9dEMsxcCZTkoUpUBw48PnQ=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=sz1m8H/hvDR1DXoQjHX4FyuRIN/QOcGZmAjZYeEUpCeI8p0np5ZVFPfVWaDfwq2uk/kH7o0ANj9tBRji+I8hrV8WqdGCmNHAzGyQDUx4Mvz3DuDuL4ihN7z44uRBg+AYET3L8gx1XrzpotRt2U6vdcZfMXNU4zPY7HKkaMMM+q4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.216])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZYqNb4lsqz6M4Yq;
+	Fri, 11 Apr 2025 16:19:43 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 23733140275;
+	Fri, 11 Apr 2025 16:23:35 +0800 (CST)
+Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Fri, 11 Apr
+ 2025 10:23:34 +0200
+Date: Fri, 11 Apr 2025 09:23:32 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: "Koichi Okuno (Fujitsu)" <fj2767dz@fujitsu.com>
+CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Catalin Marinas <catalin.marinas@arm.com>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, Bjorn Andersson
+	<quic_bjorande@quicinc.com>, Geert Uytterhoeven <geert+renesas@glider.be>,
+	Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>, Dmitry Baryshkov
+	<dmitry.baryshkov@linaro.org>, Konrad Dybcio <konradybcio@kernel.org>, "Neil
+ Armstrong" <neil.armstrong@linaro.org>, Arnd Bergmann <arnd@arndb.de>, "
+ =?ISO-8859-1?Q?N=EDcolas?= \"\"F. R. A. Prado\"\"" <nfraprado@collabora.com>,
+	Thomas Gleixner <tglx@linutronix.de>, "Peter Zijlstra"
+	<peterz@infradead.org>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v4 1/2] perf: Fujitsu: Add the Uncore MAC PMU driver
+Message-ID: <20250411092332.00004b73@huawei.com>
+In-Reply-To: <TYYPR01MB67157AE764B00DEAC97D4EAAC1B62@TYYPR01MB6715.jpnprd01.prod.outlook.com>
+References: <20250116045911.3382537-1-fj5100bi@fujitsu.com>
+	<20250116045911.3382537-2-fj5100bi@fujitsu.com>
+	<20250130170422.00004c6f@huawei.com>
+	<OS3PR01MB6903DC3738709A4536A62613D4F52@OS3PR01MB6903.jpnprd01.prod.outlook.com>
+	<TYYPR01MB67157AE764B00DEAC97D4EAAC1B62@TYYPR01MB6715.jpnprd01.prod.outlook.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] slab: Decouple slab_debug and no_hash_pointers
-Content-Language: en-US
-To: Kees Cook <kees@kernel.org>, Petr Mladek <pmladek@suse.com>,
- Steven Rostedt <rostedt@goodmis.org>
-Cc: Sergio Perez Gonzalez <sperezglz@gmail.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Andrew Morton <akpm@linux-foundation.org>, Christoph Lameter <cl@linux.com>,
- Pekka Enberg <penberg@kernel.org>, David Rientjes <rientjes@google.com>,
- Joonsoo Kim <iamjoonsoo.kim@lge.com>,
- Roman Gushchin <roman.gushchin@linux.dev>, Harry Yoo <harry.yoo@oracle.com>,
- "Paul E. McKenney" <paulmck@kernel.org>, Randy Dunlap
- <rdunlap@infradead.org>, Tamir Duberstein <tamird@gmail.com>,
- Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
- linux-doc@vger.kernel.org, linux-mm@kvack.org, Thomas Huth
- <thuth@redhat.com>, "Borislav Petkov (AMD)" <bp@alien8.de>,
- Ard Biesheuvel <ardb@kernel.org>,
- Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- Andreas Hindborg <a.hindborg@kernel.org>, Stephen Boyd
- <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-References: <20250410174428.work.488-kees@kernel.org>
-From: Vlastimil Babka <vbabka@suse.cz>
-In-Reply-To: <20250410174428.work.488-kees@kernel.org>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
-X-Rspamd-Queue-Id: 3C0A821125
-X-Spam-Score: -4.51
-X-Rspamd-Action: no action
-X-Spamd-Result: default: False [-4.51 / 50.00];
-	BAYES_HAM(-3.00)[99.99%];
-	NEURAL_HAM_LONG(-1.00)[-1.000];
-	R_DKIM_ALLOW(-0.20)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	NEURAL_HAM_SHORT(-0.20)[-1.000];
-	MIME_GOOD(-0.10)[text/plain];
-	MX_GOOD(-0.01)[];
-	DKIM_SIGNED(0.00)[suse.cz:s=susede2_rsa,suse.cz:s=susede2_ed25519];
-	FUZZY_BLOCKED(0.00)[rspamd.com];
-	RBL_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	ARC_NA(0.00)[];
-	RCPT_COUNT_TWELVE(0.00)[30];
-	TO_MATCH_ENVRCPT_ALL(0.00)[];
-	MIME_TRACE(0.00)[0:+];
-	SPAMHAUS_XBL(0.00)[2a07:de40:b281:104:10:150:64:97:from];
-	FREEMAIL_ENVRCPT(0.00)[gmail.com];
-	FREEMAIL_CC(0.00)[gmail.com,lwn.net,linux.intel.com,rasmusvillemoes.dk,chromium.org,linux-foundation.org,linux.com,kernel.org,google.com,lge.com,linux.dev,oracle.com,infradead.org,vger.kernel.org,kvack.org,redhat.com,alien8.de,linuxfoundation.org];
-	RCVD_TLS_ALL(0.00)[];
-	RCVD_COUNT_TWO(0.00)[2];
-	FROM_EQ_ENVFROM(0.00)[];
-	FROM_HAS_DN(0.00)[];
-	TO_DN_SOME(0.00)[];
-	MID_RHS_MATCH_FROM(0.00)[];
-	RCVD_VIA_SMTP_AUTH(0.00)[];
-	RECEIVED_SPAMHAUS_BLOCKED_OPENRESOLVER(0.00)[2a07:de40:b281:106:10:150:64:167:received];
-	DKIM_TRACE(0.00)[suse.cz:+];
-	R_RATELIMIT(0.00)[to_ip_from(RLisu716frudqkg98kczdd9eac)];
-	DBL_BLOCKED_OPENRESOLVER(0.00)[imap1.dmz-prg2.suse.org:rdns,imap1.dmz-prg2.suse.org:helo]
-X-Rspamd-Server: rspamd1.dmz-prg2.suse.org
-X-Spam-Flag: NO
-X-Spam-Level: 
+X-ClientProxiedBy: lhrpeml500002.china.huawei.com (7.191.160.78) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On 4/10/25 19:44, Kees Cook wrote:
-> Some system owners use slab_debug=FPZ (or similar) as a hardening option,
-> but do not want to be forced into having kernel addresses exposed due
-> to the implicit "no_hash_pointers" boot param setting.[1]
+On Fri, 11 Apr 2025 02:56:59 +0000
+"Koichi Okuno (Fujitsu)" <fj2767dz@fujitsu.com> wrote:
+
+> Hi, Jonathan
 > 
-> Introduce the "hash_pointers" boot param, which defaults to "auto"
-> (the current behavior), but also includes "always" (forcing on hashing
-> even when "slab_debug=..." is defined), and "never". The existing
-> "no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
+> Sorry for the late reply.
+> Also, the person in charge here has changed from Furudera to Okuno.
 > 
-> This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
+Hi,
+
+
+> > > Text identical to memory-pwrite-count
+> > > which suggest two things.
+> > > a) naming inconsistent.  Why is mac mentioned here and not in the name  
+> > earlier.  
+> > > b) This comment is perhaps wrong as I assume has something more tod owtih  
+> > with  
+> > >    energy estimation?  
+> > 
+> > We are currently checking and will reply later.  
 > 
-> Link: https://github.com/KSPP/linux/issues/368 [1]
-> Fixes: 792702911f58 ("slub: force on no_hash_pointers when slub_debug is enabled")
-> Co-developed-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-> Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-> Signed-off-by: Kees Cook <kees@kernel.org>
+> After checking with the hardware team,
+> the 'ea' events are measured at different points and may therefore 
+> return different values.
+> Since memory-pwrite-count and ea-memory-mac-pwrite currently return 
+> the same value, they share the same description.
+> However, we have defined distinct event names to accommodate potential 
+> future enhancements.
 
-I like how this makes things more generic. Perhaps there are more debug
-boot/config options that could tie into the hash_pointers=auto and are even
-more obvious than slab_debug in the sense that you would really only enable
-them in debugging/CI runs when you do not care about the info leaks but want
-as much useful debug info as possible (KASAN etc?).
+As any future enhancement to make these different will also need a change
+to the documentation to reflect that difference (and hence a kernel patch)
+maybe it is better to not provide the second event for now?
 
-Given how this changes mostly printk code and is in fact only a small change
-to slab, I'll wait first if printk maintainers want to take this patch. In
-that case please add
+Or is there some other subtle effect to do with groups that can be enabled
+at the same time? I've forgotten how the driver works!
 
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-
-Thanks!
+Jonathan
 
