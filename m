@@ -1,95 +1,120 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B5912367DD;
-	Fri, 11 Apr 2025 16:02:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1B691096F;
+	Fri, 11 Apr 2025 16:17:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744387355; cv=none; b=RgmVBgDBXS1TfymWffyP+CkivmA4TD4ATOSQ3S+qE0ORnNOw2enHxH1hp5syJPolH0Z0Qj5idJhj7ovnkg504woZLt/qRuTd0WRNrhDklC5BlQ4pOPM15gqflVvfRKfam7P6UKC/ytctuwACPH54F0nRa9l1zL/k6WX/xYoxB2Y=
+	t=1744388264; cv=none; b=noGIsue0T8Yhe8sgXwqIJchtS/pDtuxvl2BqEkqNGcye/simVZ6w6n8E2YCQXYrpikZJ+R35CX7ew88Oz0R9n6JRgGdwa/5PhY7iDTVi4EHUPvKZCTlRAlRhp/2jPlu6IRPHsbnLbFVrCKHf2IjRyexvPzp5Tf8K7OeA2RfUWD8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744387355; c=relaxed/simple;
-	bh=vAL2HWsYZdwCmYgBhqkDTW705E6nfjbHy8zZUtbDK1A=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hOwPm9J796+vnm3bEluS6c5tXgftlMQ/352H/MEDAZkSZxYgxxFW3xiAcWgUhnme5ZEf9AyvA6X3d/WNbGi8iHqVTf8XDjGq6rYViXTLKIXjV/CB/u0MsCiZm9yivMJkoLOVC4rAv/1JfZXnE3HEw1CffQWWLprhA32WCPl28Ds=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lM3n2Loz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744388264; c=relaxed/simple;
+	bh=ofn7XasYbL6HV6msHMWQ5/n1EDKYsh7K8ld9N4uLdI4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=bWHtig6NQ5BczjMWyTGQQuMiumOF9DOTg4nbW5hBSLdn5Ke5Ci5sQAzjsYtaD7D1zKYMLUsbx0QJZxSQDOpOr9OpUWi4jfCVj0zD2U+KC2u4OMm9utQC38G8gMkLfl3t9RNBIYoCp/6Do+s8+1Yb5nc6NoIb5qKxkfTdBPQq1W8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=hFr0NUvD; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lM3n2Loz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 660A0C4CEE2;
-	Fri, 11 Apr 2025 16:02:30 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744387354;
-	bh=vAL2HWsYZdwCmYgBhqkDTW705E6nfjbHy8zZUtbDK1A=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lM3n2Loz/+36sq/6Lei4iAuRvu0gIZAxvFRJtwZJkrecobf/bxMztsQO8Ec0gJN/f
-	 fXLjuuIGuhEKNlEDySUgAFXjabeqc/IU7+VSGmwoOungmellXHntYqTXYbyWHYqW5R
-	 nPTTpV656C2vLz6f0jvUeU6hmU23lQqoEwlpFaf4W0hxSA0f2n12r/4oYKMyVz841q
-	 DQloyDbE7vemgtETopzA47uMliPINAXLBoy/olrdvyxgU7Pd9lVlDefKAoo81dVMzU
-	 8orDcHPaYgZPwO2Pzul9QKFGqTIjHhhv0N96eMQ1RSesLVcCCaGOeRgic6Rzpk29vL
-	 Cx6nXHbilX9OA==
-Date: Fri, 11 Apr 2025 17:02:26 +0100
-From: Will Deacon <will@kernel.org>
-To: Arnd Bergmann <arnd@arndb.de>
-Cc: Arnd Bergmann <arnd@kernel.org>, linux-kbuild@vger.kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>,
-	Borislav Petkov <bp@alien8.de>, Brian Gerst <brgerst@gmail.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	Herbert Xu <herbert@gondor.apana.org.au>,
-	Ingo Molnar <mingo@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>, Takashi Iwai <tiwai@suse.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Uros Bizjak <ubizjak@gmail.com>,
-	linux-arm-kernel@lists.infradead.org, linux-crypto@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-raid@vger.kernel.org, x86@kernel.org
-Subject: Re: [PATCH 4/4] arm64: drop binutils version checks
-Message-ID: <20250411160225.GA5675@willie-the-truck>
-References: <20250407094116.1339199-1-arnd@kernel.org>
- <20250407094116.1339199-5-arnd@kernel.org>
- <20250408084642.GA1768@willie-the-truck>
- <f79695b7-f0c0-442f-963d-6ecae246ebf5@app.fastmail.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="hFr0NUvD"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53BGGYuW556229
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Fri, 11 Apr 2025 09:16:35 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53BGGYuW556229
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025032001; t=1744388197;
+	bh=Je4jjtqDg1lupTlCqhCqlBHURcIemD1LKF6L79eZeQ4=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=hFr0NUvDO0KxnqHVd5tvh9wlEpPLoXj5+Fk6VRp98Oufm46awXFQUGmxV/fTfgMrx
+	 GzKsVKrNaQ4GKWIS49y82WqrPyQZdWjzvwEUzzMeF18SIrRIxD7pRirRv3yvheYKEE
+	 qAUhHwHGouynqmSNswzUfCwMzXOIh7q1kaCMyUTDJJTa9yd+hAnd6McuU1bc7BfoPc
+	 eQneZepAltsYPsjYuY/TJFnv79plc+f+g/zZNkbo0sIfICoW48HmlTCXZhE1q5HFkw
+	 m3fln8o2KWtLCxcgstTZDEqws5rEYsoFSuQi9X+5Dtycrj6nld6wkvj3/RmP2kBtIf
+	 z2Gw0Sp7D9H9w==
+Message-ID: <c1481083-ee0d-4d58-aa07-01e43fec7c9f@zytor.com>
+Date: Fri, 11 Apr 2025 09:16:33 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f79695b7-f0c0-442f-963d-6ecae246ebf5@app.fastmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 04/19] x86/cea: Export per CPU array
+ 'cea_exception_stacks' for KVM to use
+To: Dave Hansen <dave.hansen@intel.com>, Christoph Hellwig <hch@infradead.org>
+Cc: pbonzini@redhat.com, seanjc@google.com, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+        dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+        andrew.cooper3@citrix.com, luto@kernel.org, peterz@infradead.org,
+        chao.gao@intel.com, xin3.li@intel.com
+References: <20250328171205.2029296-1-xin@zytor.com>
+ <20250328171205.2029296-5-xin@zytor.com> <Z_eHGjzR33LMqLfL@infradead.org>
+ <e88be442-1163-4163-8f2f-06a37d1e595a@intel.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ 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
+ l75w1xInsg==
+In-Reply-To: <e88be442-1163-4163-8f2f-06a37d1e595a@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 08, 2025 at 03:10:57PM +0200, Arnd Bergmann wrote:
-> On Tue, Apr 8, 2025, at 10:46, Will Deacon wrote:
-> > Hi Arnd,
-> >
-> > On Mon, Apr 07, 2025 at 11:41:16AM +0200, Arnd Bergmann wrote:
-> >> From: Arnd Bergmann <arnd@arndb.de>
-> >> 
-> >> Now that gcc-8 and binutils-2.30 are the minimum versions, a lot of
-> >> the individual feature checks can go away for simplification.
-> >> 
-> >> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> >> ---
-> >>  arch/arm64/Kconfig              | 37 ++-------------------------------
-> >>  arch/arm64/Makefile             | 21 ++-----------------
-> >>  arch/arm64/include/asm/rwonce.h |  4 ----
-> >>  arch/arm64/kvm/Kconfig          |  1 -
-> >>  arch/arm64/lib/xor-neon.c       |  2 +-
-> >>  5 files changed, 5 insertions(+), 60 deletions(-)
-> >
-> > Since some of these checks are dynamic (i.e. they try passing various
-> > options to the tools to see if they barf), have you checked that the
-> > minimum supported version of clang implements them all?
+On 4/10/2025 7:18 AM, Dave Hansen wrote:
+> On 4/10/25 01:53, Christoph Hellwig wrote:
+>> On Fri, Mar 28, 2025 at 10:11:50AM -0700, Xin Li (Intel) wrote:
+>>> The per CPU array 'cea_exception_stacks' points to per CPU stacks
+>>> +/*
+>>> + * FRED introduced new fields in the host-state area of the VMCS for
+>>> + * stack levels 1->3 (HOST_IA32_FRED_RSP[123]), each respectively
+>>> + * corresponding to per CPU stacks for #DB, NMI and #DF.  KVM must
+>>> + * populate these each time a vCPU is loaded onto a CPU.
+>>> + */
+>>> +EXPORT_PER_CPU_SYMBOL(cea_exception_stacks);
+>> Exporting data vs accessors for it is usually a bad idea.  Doing a
+>> non-_GPl for such a very low level data struture is even worse.
 > 
-> I did some randconfig build testing with clang-13/lld-13, since that
-> is the oldest supported version, and checked that the options are
-> all supported. I'm pretty sure it's been there for a long time before
-> that already.
+> Big ack on this.
+> 
+> I don't even see a single caller of __this_cpu_ist_top_va() that's
+> remotely performance sensitive or that needs to be inline.
+> 
+> Just make the __this_cpu_ist_top/bottom_va() macros into real functions
+> and export __this_cpu_ist_top_va(). It's going to be a pretty tiny
+> function but I think that's tolerable.
+> 
 
-Thanks (especially to Mark!) for checking.
-
-Will
+Right, that does make sense to me.
