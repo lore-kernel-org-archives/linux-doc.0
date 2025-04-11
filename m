@@ -1,156 +1,111 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C08BE221DB3;
-	Fri, 11 Apr 2025 17:18:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 455BC2586DA
+	for <linux-doc@vger.kernel.org>; Fri, 11 Apr 2025 17:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744391930; cv=none; b=ZzJejCxggsebj8jaW5L8MBujjfKlgH+Lcu8WkrS1ymicd/4rIn0/xZTBw3uVRC4rFbDH3j4CnBkGnikMttnPYsrOfqL5yZnPpMrjwFlPv/tMGABn+icg1r1kAx1TgULnvbOVMTASYIxdU/N/4vsdzBR7R3z8A85iABlQvXFHcts=
+	t=1744394093; cv=none; b=N5Z9K8aWnm2QAuj8v9+vepsF7q2KnkkXUQanvEhKMQUSHTiJy+TxR53qp6ayT16Q4inTb9iNCw5GOW37WhXDec0mP5+hQ4kArnihlumw83HsdkyRaqP661982k6BjmZc0v+Jewy5F8ebyI9xDGiuCdSv1KuJwy4IDMjno35NLJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744391930; c=relaxed/simple;
-	bh=lRKwdQ9StQwDkVSRqJkrGUFaZtKmCreOQJCWpPe6TOg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uz38ZscTfHLAQQD3BVrwci42KC0arNJESyV1U5Q9uiis6V7EMpna6Z+Xs9wQtC4n8gPvqrBaznlcISeeRTJPtg65v/2GJ1mNxCQ36YRO9kwJGXEGx/agn5R4YPfAdADInvjFRdldcgNKtsX+uNjifOUPNtjph/7hzCa6/clFcHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=d/7sWOt2; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744394093; c=relaxed/simple;
+	bh=ucba/TyRjphp5QB5NmFsNbDWb/WFdcnndSRrwoEMpJA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=StrHfNj5RWvvGO+8/JcmL+gxT+lfTeTL51kc+dLikOJzWj9cEvdwtIYmXTVxWaydRFlMr6/O6EkPelhlq4LfvD/Zlw2IHfLiAop8eY3a7eP05QFevsRVO/mtDurUDxLnTthyw8M7uYxyvQ0ScTrbgQbo1S9dEU8gNWyYmQ5TA70=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com; spf=pass smtp.mailfrom=cloudflare.com; dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b=XIe8zYUP; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=cloudflare.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloudflare.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="d/7sWOt2"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D951BC4CEE2;
-	Fri, 11 Apr 2025 17:18:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744391930;
-	bh=lRKwdQ9StQwDkVSRqJkrGUFaZtKmCreOQJCWpPe6TOg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=d/7sWOt23ZlZr8J+iLl1EYrM58L9dFPTvPbIlatsExxzGuIxVT1UUyyg24+oQVGry
-	 SEdQi1+e99GeDZlxUNKzSEdEbYr7RbmFyrko36wM3zekG37pcpdzPMYByqN2JZNyCy
-	 qh/hETc2eQGD335bHdFLqds2ebuIy4c+nlaftBeMyUjnicXyVS/0M6/8w+/3aYHYVW
-	 Z1wX9usjrS7T0bs4Pg2OKOJNMvTe9sfwKZkNh9QF7AGN2ebb/pheWaaz+JkwRVOz0C
-	 qdvfN9sznMUUTprszvLIW9J75jwipVwWkKsimhjA+KJJ6bKkN+5KCPLtuBc6x5FjhR
-	 IfbGLAPmEWB1g==
-Date: Fri, 11 Apr 2025 20:18:44 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Larysa Zaremba <larysa.zaremba@intel.com>
-Cc: Alexander Lobakin <aleksander.lobakin@intel.com>,
-	intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Lee Trager <lee@trager.us>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
-	Emil Tantilov <emil.s.tantilov@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Josh Hay <joshua.a.hay@intel.com>,
-	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
-	"Singhai, Anjali" <anjali.singhai@intel.com>,
-	Phani R Burra <phani.r.burra@intel.com>
-Subject: Re: [PATCH iwl-next 05/14] libeth: add control queue support
-Message-ID: <20250411171844.GW199604@unreal>
-References: <20250408124816.11584-1-larysa.zaremba@intel.com>
- <20250408124816.11584-6-larysa.zaremba@intel.com>
- <20250410082137.GO199604@unreal>
- <Z_ehEXmlEBREQWQM@soc-5CG4396X81.clients.intel.com>
- <20250410112349.GP199604@unreal>
- <c1ff0342-4fe9-44ec-a212-9f547e333a5e@intel.com>
- <20250410134443.GS199604@unreal>
- <Z_fOu3veEUcPUxuh@soc-5CG4396X81.clients.intel.com>
+	dkim=pass (2048-bit key) header.d=cloudflare.com header.i=@cloudflare.com header.b="XIe8zYUP"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ab78e6edb99so325025466b.2
+        for <linux-doc@vger.kernel.org>; Fri, 11 Apr 2025 10:54:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=cloudflare.com; s=google09082023; t=1744394089; x=1744998889; darn=vger.kernel.org;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:from:to:cc:subject:date:message-id:reply-to;
+        bh=uZElioqvOJMRGLrrbRjtOKF/8Aggf8tT1T8UOQr1p6A=;
+        b=XIe8zYUPdcuX4Vl9xiQHoFR6q7oqLvwv7yFoLGQk/648ktFbwV4erdH8vnG4UNV7W/
+         4gqjXnDyTNzYf7Ro1TApfEldZpVvs2o4d5tZRSfNwQZZGsfeSL3BlxAtULHN1M7aKQgi
+         XXFwNGzogrlL+z+9HIxZiUIR/mQLyNwX3Anda/UWqZiSq1c5axT8sqvWU3EutLven15V
+         Jj8OWgsfRDeufCHi0tqPqmDdZifzNWFXR2NNmESArXmCMW25jJJlFQucVAgGt52nsfLc
+         G1lnt9LX1ARITZ1pqid+Mb/R8j46HIDBhKJkvRaFHjCILoxzPbQrs4h+2d/2HnkwD9hH
+         P7PQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744394089; x=1744998889;
+        h=mime-version:message-id:date:references:in-reply-to:subject:cc:to
+         :from:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uZElioqvOJMRGLrrbRjtOKF/8Aggf8tT1T8UOQr1p6A=;
+        b=r09WMkN+b3BjrLGbE6uJeJnbTWdpUH0VqGsuwwvHnFyr7vUsV9SxyQqvkWSUVQ+A4g
+         IfLC15BIqy/CIymSUXwsm4aobf6fm31rGBImkYTBpGfLpcV9DMPj1rvlH1n+dtVxtZiW
+         BtboXdbljpEtrcAPDZEL406v6V0vaHtjVlgDNddMB1hsy9QZJRsCGZPXXxvJb4P2za96
+         rwsEb1JUBDwzVHORCRItcFVfjvWIFiPLPZZ7vx7PSzgs+grkJRB2b3agUGwn1V2TpK3W
+         t3fRA88ShERkVjnRaz7h7eY+2qrEkwxt873432yoO1+PhZIbxL9PjWjPTHZWxjJyvU1Q
+         atpw==
+X-Forwarded-Encrypted: i=1; AJvYcCWF3z3XdCUFkIZ75us6Z4TpuaOWKiAzJyAU9KaWBPB/ksW989hVCr4fsHU94stvL89P90w8tVqygnE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBv77V3X28QaqxIz7RrGSy0S04/voo2rag54W0JvgLdrxCbGWi
+	KagWlE8cI2RL74zbSKDBJSTKR013lSgHxLmj60WJgMom4RxRJLLJRH2Jgf44Ubs=
+X-Gm-Gg: ASbGncsHMxYCHPFGe5ZsRW8R9axYFBDHdrEc54rBMDCJmLPrdXZ9d2sAVbeBRU8G/VY
+	NkO3iAAyReoHVcRaTv3jlGbznx/UENbViue84lKUQ2a/Ubjm1HWJMKs73O2mkQ28Xmgfd7hakXM
+	aZLknEwmRBsPjnL0vcTDIj2Rg9wdNf98lV/Yg7497rRwsdpJ3MoQDnD2VfU7t3Dwlyovc5amczE
+	Rps8PU5oPEYPV8boOcJ30whGsBhP1z5HGRiXjnIa1aDllmVhdnPW8ZeytG+NQYvPItaqcN3yONh
+	+j7j07dpTJ76mppBzDfAZk6Vsu4USuvz
+X-Google-Smtp-Source: AGHT+IHlsd1OjqlMWlAQPwwAuOKfCl8uk/pGPlrihEPFE8d9StcXjSTkGzgHNBrELNxLTW7C3iUInw==
+X-Received: by 2002:a17:907:6d0b:b0:ac2:cae8:e153 with SMTP id a640c23a62f3a-acad3445f7emr328570666b.4.1744394089440;
+        Fri, 11 Apr 2025 10:54:49 -0700 (PDT)
+Received: from cloudflare.com ([2a09:bac5:506a:2387::38a:3])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acaa1ce70ebsm479714666b.178.2025.04.11.10.54.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Apr 2025 10:54:48 -0700 (PDT)
+From: Jakub Sitnicki <jakub@cloudflare.com>
+To: Jiayuan Chen <mrpre@163.com>, Michal Luczaj <mhal@rbox.co>
+Cc: Andrii Nakryiko <andrii@kernel.org>,  Eduard Zingerman
+ <eddyz87@gmail.com>,  Mykola Lysenko <mykolal@fb.com>,  Alexei Starovoitov
+ <ast@kernel.org>,  Daniel Borkmann <daniel@iogearbox.net>,  Martin KaFai
+ Lau <martin.lau@linux.dev>,  Song Liu <song@kernel.org>,  Yonghong Song
+ <yonghong.song@linux.dev>,  John Fastabend <john.fastabend@gmail.com>,  KP
+ Singh <kpsingh@kernel.org>,  Stanislav Fomichev <sdf@fomichev.me>,  Hao
+ Luo <haoluo@google.com>,  Jiri Olsa <jolsa@kernel.org>,  Shuah Khan
+ <shuah@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,
+  bpf@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  linux-kernel@vger.kernel.org,  linux-doc@vger.kernel.org
+Subject: Re: [PATCH bpf-next v2 5/9] selftests/bpf: Add selftest for
+ sockmap/hashmap redirection
+In-Reply-To: <fnsy7wey4vaewoyur5363w2q2nb7dvljmaroijflgq2hfqbumo@gqdged7tly47>
+	(Jiayuan Chen's message of "Fri, 11 Apr 2025 21:09:53 +0800")
+References: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
+	<20250411-selftests-sockmap-redir-v2-5-5f9b018d6704@rbox.co>
+	<fnsy7wey4vaewoyur5363w2q2nb7dvljmaroijflgq2hfqbumo@gqdged7tly47>
+Date: Fri, 11 Apr 2025 19:54:47 +0200
+Message-ID: <87a58mh9co.fsf@cloudflare.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <Z_fOu3veEUcPUxuh@soc-5CG4396X81.clients.intel.com>
+Content-Type: text/plain
 
-On Thu, Apr 10, 2025 at 03:59:23PM +0200, Larysa Zaremba wrote:
-> On Thu, Apr 10, 2025 at 04:44:43PM +0300, Leon Romanovsky wrote:
-> > On Thu, Apr 10, 2025 at 03:05:19PM +0200, Alexander Lobakin wrote:
-> > > From: Leon Romanovsky <leon@kernel.org>
-> > > Date: Thu, 10 Apr 2025 14:23:49 +0300
-> > > 
-> > > > On Thu, Apr 10, 2025 at 12:44:33PM +0200, Larysa Zaremba wrote:
-> > > >> On Thu, Apr 10, 2025 at 11:21:37AM +0300, Leon Romanovsky wrote:
-> > > >>> On Tue, Apr 08, 2025 at 02:47:51PM +0200, Larysa Zaremba wrote:
-> > > >>>> From: Phani R Burra <phani.r.burra@intel.com>
-> > > >>>>
-> > > >>>> Libeth will now support control queue setup and configuration APIs.
-> > > >>>> These are mainly used for mailbox communication between drivers and
-> > > >>>> control plane.
-> > > >>>>
-> > > >>>> Make use of the page pool support for managing controlq buffers.
-> > 
-> > <...>
-> > 
-> > > >> Module dependencies are as follows:
-> > > >>
-> > > >> libeth_rx and libeth_pci do not depend on other modules.
-> > > >> libeth_cp depends on both libeth_rx and libeth_pci.
-> > > >> idpf directly uses libeth_pci, libeth_rx and libeth_cp.
-> > > >> ixd directly uses libeth_cp and libeth_pci.
-> > > > 
-> > > > You can do whatever module architecture for netdev devices, but if you
-> > > > plan to expose it to RDMA devices, I will vote against any deep layered
-> > > > module architecture for the drivers.
-> > > 
-> > > No plans for RDMA there.
-> > > 
-> > > Maybe link the whole kernel to one vmlinux then?
-> > 
-> > It seems that you didn't understand at all about what we are talking
-> > here. Please use the opportunity that you are working for the same
-> > company with Larysa and ask her offline. She understood perfectly about
-> > which modules we are talking.
-> >
-> 
-> While I do understand what kind of module relationship you consider problematic,
+On Fri, Apr 11, 2025 at 09:09 PM +08, Jiayuan Chen wrote:
+> On Fri, Apr 11, 2025 at 01:32:41PM +0200, Michal Luczaj wrote:
+>> Test redirection logic. All supported and unsupported redirect combinations
+>> are tested for success and failure respectively.
+>> 
+>> BPF_MAP_TYPE_SOCKMAP
+>> BPF_MAP_TYPE_SOCKHASH
+>> 	x
+>> sk_msg-to-egress
+>> sk_msg-to-ingress
+>> sk_skb-to-egress
+>> sk_skb-to-ingress
+>
+> Could we also add test cases for SK_PASS (and even SK_DROP)?
+> Previously, we encountered deadlocks and incorrect sequence issues when
+> the program returned SK_PASS, so explicit testing for these cases would
+> be helpful.
+>
+> If implemented, this test would fully exercise all code paths and
+> demonstrate a complete example that covers every aspect of
+> sockmap's packet steering and connection management capabilities.
 
-Awesome, thanks.
+This could easily be a follow up in my mind.
 
-> I still struggle to understand why stateless lib hierarchy can be problematic.
-
-As I said already, I wrote my remark as a general comment. It is just
-a matter of time when perfectly working system will be changed to less
-working one. So when you and Alexander are focused to see what is wrong
-now, I see what can be in the future.
-
-To make it clear, even for people who sentimentally attached to libeth code:
- I didn't ask to change anything, just tried to understand why
- you did it like you did it.
-
-> The fixes that you linked relate more to problematic resource sharing, of which 
-> libeth has none, it does not have its own memory or its own threads, this is 
-> just collection of data structures and functions.
-
-It is just a matter of time and you will get same issues like I posted.
-
-Thanks
-
-> 
-> > > 
-> > > > 
-> > > > BTW, please add some Intel prefix to the modules names, they shouldn't
-> > > > be called in generic names like libeth, e.t.c
-> > > 
-> > > Two modules with the same name can't exist within the kernel. libeth was
-> > > available and I haven't seen anyone wanting to take it. It's not common
-> > > at all to name a module starting with "lib".
-> > 
-> > Again, please talk with Larysa. ETH part is problematic in libeth name
-> > and not LIB.
-> > 
-> > Thanks
+[...]
