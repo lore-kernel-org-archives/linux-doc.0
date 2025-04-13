@@ -1,142 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E0A178372;
-	Sun, 13 Apr 2025 19:32:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2418F134CF;
+	Sun, 13 Apr 2025 20:33:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744572741; cv=none; b=Mqyg91/ltGkAlgB/Bspv0bJHjHvjoyeeZvtI5lnNzpkIcxjWPy+ebyIQL0xf+gcEH1rRnYcnd/dw8SWu7SM9gqFHozf/WVqcqPFFE+ZqFQi2cB92TkwQZ4vWM1Gadn6Wl7w6xY8+V3/twF3Bi5xSN8LNQBqwFmn4X+Tf4UolxLE=
+	t=1744576419; cv=none; b=HLm/IZRWG5tl7V9FNh6Hw+vMlSgog9m6J8M4V/FHUU6xBhDkx9xibZTNg4xTyTh7PMrfTaz8UPq/cK9MgL+HL3U+NU59RuvocA2iksrzyVvP+9RlWfqsZ16YtVfWNUNn7ld9OJJsGtTTLNb7yeCZxLwmh/J08rMsBH0kFElE+Ro=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744572741; c=relaxed/simple;
-	bh=aoJ41MTK7om0A4vaNXUhyT4kK5YDNIZ0M5saG+CPtok=;
+	s=arc-20240116; t=1744576419; c=relaxed/simple;
+	bh=WB4Yla/3Tg0ZtllH2jQcdl22/LiuvuNCfqdh6jpH2Bk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LDvpkexbTng7NZKTNZXrL0KEQT7+c3tRf+86c+tWCdjMCIqqudn18A1vIadTZ7v6YM4p4BcPwuApBQKwuVRsGrNNOuDK1KZV0hEXLTOfJEYqMfQK0kuWq8D1YSgUAfgiT2dP5dwab4avgIXT3YbdNUXpsBLf8sr/J5G0eUXPKBU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rPqrtt2O; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=AlMDx3udmX21lSwUlvG3FjKV46btk0KbW1FaNubEDevOKdSufrGct6IFW3qEZ/15tL2E4w/ZeKkBbNw0XxqX5f2rFkZOjG19HyapXP9AjRIXhQMzwSymHQJXLghLUvWNJd0soqLFInA0QTgt9RHQI+qlXK4NxnHqFasfd0GWvgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=b+mAuese; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rPqrtt2O"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 04407C4CEDD;
-	Sun, 13 Apr 2025 19:32:15 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744572740;
-	bh=aoJ41MTK7om0A4vaNXUhyT4kK5YDNIZ0M5saG+CPtok=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=rPqrtt2OcgL4B22YjLq+3AuJXoQfDMElXqqc3JFIJIC5qZtqHlPpuUK+Srn+zf1a+
-	 xOqELQOApmJtN51s9TM6tYOCSKVRbgwCAqUORNCq4mNTvYdfiG93ju40NKevuMtUwc
-	 WQy/ZiRSRvSrEC3EQ2XjvKxdoF/lD3Ljdatrdqpof9DbBWuqhf82Dqu06WkHxJuP8q
-	 KXfHv9TbnTAwe4fvxauOlQ6Nv61VyscpDGDV2CIr++AC4eqFRvOK9TLQBK7Qowtl15
-	 60pvV/gi+cAL0znPCATnXbkqyyujvT8hKbEH2CHGYsbkmXD4MW8a5rdpMf6er8vbbh
-	 SoDhzFRjjVw2Q==
-Date: Sun, 13 Apr 2025 21:32:13 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>, Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
-	"open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH v3 2/4] i2c: piix4: Move SB800_PIIX4_FCH_PM_ADDR
- definition to amd_node.h
-Message-ID: <Z_wRPb5H5hi6jmxN@gmail.com>
-References: <20250411114908.GLZ_kBtN94h79EEN6j@fat_crate.local>
- <dc564c29-38fc-4b9d-8b1c-c6f890b2333c@kernel.org>
- <20250411124157.GDZ_kOFfsGgY4zUXA5@fat_crate.local>
- <Z_rCuLD56IZ4hsNw@gmail.com>
- <5509f044-912b-4d10-bdeb-95ec52002b06@kernel.org>
- <Z_rJ37er9Dc25ne-@gmail.com>
- <BE7BBBD7-BDFF-452E-8FAA-669970950B27@alien8.de>
- <Z_ttp0ZNHEpNhh_9@gmail.com>
- <Z_t5YADNi0vpPqGO@gmail.com>
- <1b5835f4-cc09-4cdd-ab75-6159793c242f@kernel.org>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="b+mAuese"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Transfer-Encoding:Content-Disposition:
+	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:From:
+	Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Content-Disposition:
+	In-Reply-To:References; bh=4suwe0GPghGVOUBQOhjESsEsml3JzRYI5cuxzx0xBqk=; b=b+
+	mAuesefucksWwDFb5CqmhRU+CyhnMXJS7vJZpj6JBC65+fE6yta+glE2+wYimYkYrbydxagW5IRh2
+	p256uRvACRqA1UsBGj7GZOFQhI/cOruTxAnj3m7OGiH9agsx7ixlSeaZh5nV7XyOH8/t78BGKpq99
+	24DaJ8TObQA8Tb8=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u4411-0095wc-Qy; Sun, 13 Apr 2025 22:33:19 +0200
+Date: Sun, 13 Apr 2025 22:33:19 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Frank Sae <Frank.Sae@motor-comm.com>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>, netdev@vger.kernel.org,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Parthiban.Veerasooran@microchip.com, linux-kernel@vger.kernel.org,
+	"andrew+netdev @ lunn . ch" <andrew+netdev@lunn.ch>, lee@trager.us,
+	horms@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+	geert+renesas@glider.be, xiaogang.fan@motor-comm.com,
+	fei.zhang@motor-comm.com, hua.sun@motor-comm.com
+Subject: Re: [PATCH net-next v4 00/14] yt6801: Add Motorcomm yt6801 PCIe
+ driver
+Message-ID: <4fac4c4f-543b-4887-ace9-d264a0e5b0f2@lunn.ch>
+References: <20250408092835.3952-1-Frank.Sae@motor-comm.com>
+ <Z_T6vv013jraCzSD@shell.armlinux.org.uk>
+ <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <1b5835f4-cc09-4cdd-ab75-6159793c242f@kernel.org>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
 
-
-* Mario Limonciello <superm1@kernel.org> wrote:
-
+On Fri, Apr 11, 2025 at 05:50:55PM +0800, Frank Sae wrote:
 > 
 > 
-> On 4/13/25 03:44, Ingo Molnar wrote:
+> On 2025/4/8 18:30, Russell King (Oracle) wrote:
+> > On Tue, Apr 08, 2025 at 05:28:21PM +0800, Frank Sae wrote:
+> >> This series includes adding Motorcomm YT6801 Gigabit ethernet driver
+> >>  and adding yt6801 ethernet driver entry in MAINTAINERS file.
+> >> YT6801 integrates a YT8531S phy.
 > > 
-> > * Ingo Molnar <mingo@kernel.org> wrote:
-> > 
-> > > 
-> > > * Borislav Petkov <bp@alien8.de> wrote:
-> > > 
-> > > > I was aiming more for a header which contains non-CPU defines -
-> > > > i.e., platform. But the FCH is only one part of that platform. But
-> > > > let's start with amd/fch.h - "amd/" subpath element would allow us
-> > > > to trivially put other headers there too - and see where it gets
-> > > > us. We can (and will) always refactor later if needed...
-> > > 
-> > > Yeah, agreed on opening the <asm/amd/> namespace for this.
-> > 
-> > Here's a tree that establishes <asm/amd/> and moves existing headers
-> > there:
-> > 
-> >    git://git.kernel.org/pub/scm/linux/kernel/git/mingo/tip.git WIP.x86/platform
-> > 
-> > Mario, could you base your series on top of this tree?
+> > What is different between this and the Designware GMAC4 core supported
+> > by drivers/net/ethernet/stmicro/stmmac/ ?
 > > 
 > 
-> Sure.
+> We support more features: NS, RSS, wpi, wol pattern and aspm control.
+
+Details please as to why these preventing the stmmac driver from being
+used? Our default opinion will be that you will extend that stmmac
+driver. In order to change that, you need to give us deep technical
+arguments why it cannot be done.
+
+> > Looking at the register layout, it looks very similar. The layout of the
+> > MAC control register looks similar. The RX queue and PMT registers are
+> > at the same relative offset. The MDIO registers as well.
+> > 
+> > Can you re-use the stmmac driver?
+> > 
 > 
-> One problem that I notice though is that by using <asm/amd/fch.h> that
-> drivers/i2c/busses/i2c-piix4.c has some compile failures on non-x86.
+> I can not re-use the stmmac driver, because pcie and ephy can not work well on
+> the stmmac driver.
 
-Hm, should these I2C drivers even be built on non-x86 systems?
+Please could you explain that in detail. What exactly does not work?
+What is stmmac_pci.c about if not PCI?
 
-> 1) Add '#if CONFIG_X86' around all related code.
-> 
-> 2) Move applicable code to drivers/i2c/busses/i2c-amd-fch.c (similar to how
-> we have i2c-amd-asf-plat.c) but modify drivers/i2c/busses/Makefile to only
-> compile it for x86.
-> 
-> 3) Idea two but also add a new Kconfig for CONFIG_I2C_AMD_FCH that depends
-> on CONFIG_X86.
-> 
-> I am /leaning/ on the refactor with idea 3.
-
-I'd go for something like the patch below. There's X86 dependencies for 
-other I2C drivers as well, so it's not unprecedented.
-
-Thanks,
-
-	Ingo
-
-==============>
- drivers/i2c/busses/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/i2c/busses/Kconfig b/drivers/i2c/busses/Kconfig
-index 83c88c79afe2..bbbd6240fa6e 100644
---- a/drivers/i2c/busses/Kconfig
-+++ b/drivers/i2c/busses/Kconfig
-@@ -200,7 +200,7 @@ config I2C_ISMT
- 
- config I2C_PIIX4
- 	tristate "Intel PIIX4 and compatible (ATI/AMD/Serverworks/Broadcom/SMSC)"
--	depends on PCI && HAS_IOPORT
-+	depends on PCI && HAS_IOPORT && X86
- 	select I2C_SMBUS
- 	help
- 	  If you say yes to this option, support will be included for the Intel
-
+	Andrew
