@@ -1,204 +1,220 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2078.outbound.protection.outlook.com [40.107.244.78])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D48691DF723;
-	Mon, 14 Apr 2025 20:30:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.78
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744662616; cv=fail; b=CVW98gUbER/YP/7taEaPt+r7Nv2on/xQ/upfQqZJPEDJjmRQraT04XNuqdQZ/Pj2B4388yWstS34eozq3arNAeOm3XJniacdqR6ov20bhColDXtJexx9RmVw0mymAYAQrv6nyYQX6EXAZhMtO95AKqdLHDli1eVc6K27W73BlBs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744662616; c=relaxed/simple;
-	bh=3GKq7YEAwCDlCQfRbbH3GcB5P5SGRK9v2kOZ05yLQwk=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=E6uKJEiBng/n0Yjb1IROj4gcmZrlvVsSdJ6xPf3voLWpehF+W5Ho/qCh7MmvwTrM08cWQbgujBBZ628dZDfo/SmcChnAHLlLxrdRjdP+orvYVd76UA8F8lF6MVCbPbDJ09fQlDL8lj7L1YweKnxYYgGWi2/2IP0zmBNYHNN5Cd8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=ydKM9W3s; arc=fail smtp.client-ip=40.107.244.78
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E12E1624CE;
+	Mon, 14 Apr 2025 20:46:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744663609; cv=none; b=UwVTFcb62ULWde+DXKXbDRPbQ3kUh/DGggVJlIF2dbEY4jyrgeGbA0HRfooqcNDxJ4RG2LWYgpcaoWB5Pbc3+cpcVduuD+fh0Y6iljCOQ9WePr65YFPn9Fr4UpYtxPKm/c0L0fWAlGx3kRJn2e4rmOaSoP0ojTOI1U1iBJNNqXg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744663609; c=relaxed/simple;
+	bh=swUAc50daEtFf7DA0WVyC/laYjSUv1+bSAEF4s5HlRI=;
+	h=From:To:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=WGV4gouru5VCYaliMsHep+W3et4a7hfWmblujqK1Dhmy3Gjc1izquLMLARh/lzHodj1GDGrOar2tgfECTeE2A48MdIfevYqGzBebOcaVNqZ43hruFsPyWPJ1BdvBX9TSMlLSPsdaGB2TIsV/6o+tXUyAYoke/DkYNpB11j6Y9S8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=qjXuU6AB; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="ydKM9W3s"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=qhseuh2CnQdPL5awJuqeDv2KHbAkyehqggys+jKnxuTqoVXKxxXfsE8C5TmMvMywgo/quNrefWPWggLjIcsfA8T+0Ame0/yr1ju4CKNH/+9y1c1ejshxIAaN6Bb5nZfRHNEnFm6EAleMVDJDrygsZaUAISBO0IIgPAzYo+V8lQI5sFv7HCOGZyQd3lLaI1FMYW5oL1i9nUIrZ9jLifek31WxHpmgJV9SuLS2YcaBXNUckO1yATwmzO6AhBYVIkQxhWeQ/+i2czt8lkSO2glOb3vHu3vX3EtX3KU8jn4DV/nWx2xhRGFyWzXQ6ZN1QhHWW7/5hzW4QjLieVNmeDWtQg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uotC1ooU0CN4eUMyDDWIXcDiTvX++cepQWbnb4dSluE=;
- b=cKU160Ve2kdp9Jk6AHqFnvBJkJCZMKisaf+3ugdao0du9CnqoBnh5Uvsf5ocdHDqGYPCqZBCfSuD74lgolek7zC6MJU4lDQU4DFEIydtX976cK4FiVmSBY74RZUthxIqcpfhBJ9NO6y1E2evI9tgsX9zYeUjbKlPGwO4mS3/hV9agkAVpH+iknyfWN6tggEc7UHbAqehEISleWEzp3AmIswEPHx6GiFvXDA6akfaPKITbnpoYuYTr7O8VGa7G9BcNO27kT6fqD2TdGK9cMz1CdMEe83eSa46JQrJrUPNv1ASgqeqKFJuLGSnijiEw6z9Dz/8QhwQrTlU6fRGrTtzUQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=uotC1ooU0CN4eUMyDDWIXcDiTvX++cepQWbnb4dSluE=;
- b=ydKM9W3sRgURsBddUbabnjITr2G+dpQ7UicaUbpguJZsMpS8B7Fi2qnc1yKEmZxa4RcLbebOZ+K0KrlXv6odYJY5o3Cg2cByVX1pmOUl6qOm5nuLfN1obLDg+fp0w3zA3SBBU00ZVm8kvXm2ylUR5o6b4ANgtyJkfq7jnSXZ644=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by DS7PR12MB6141.namprd12.prod.outlook.com (2603:10b6:8:9b::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.34; Mon, 14 Apr
- 2025 20:30:10 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%6]) with mapi id 15.20.8632.030; Mon, 14 Apr 2025
- 20:30:10 +0000
-Message-ID: <0d8cb80a-d34e-461a-9864-cadd5497bcf1@amd.com>
-Date: Mon, 14 Apr 2025 15:30:06 -0500
-User-Agent: Mozilla Thunderbird
-Reply-To: babu.moger@amd.com
-Subject: Re: [PATCH v12 12/26] x86/resctrl: Add data structures and
- definitions for ABMC assignment
-To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
- peternewman@google.com
-Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
- paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
- rostedt@goodmis.org, ardb@kernel.org, gregkh@linuxfoundation.org,
- daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
- alexandre.chartre@oracle.com, pawan.kumar.gupta@linux.intel.com,
- thomas.lendacky@amd.com, perry.yuan@amd.com, seanjc@google.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, kan.liang@linux.intel.com,
- xin3.li@intel.com, ebiggers@google.com, xin@zytor.com,
- sohil.mehta@intel.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- maciej.wieczor-retman@intel.com, eranian@google.com
-References: <cover.1743725907.git.babu.moger@amd.com>
- <3a15e2e5d6c8a5e9ee65b3fae48ada7eafb77628.1743725907.git.babu.moger@amd.com>
- <cb71665f-a732-4fd9-90cf-213f5609e872@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <babu.moger@amd.com>
-In-Reply-To: <cb71665f-a732-4fd9-90cf-213f5609e872@intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN1PR12CA0052.namprd12.prod.outlook.com
- (2603:10b6:802:20::23) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="qjXuU6AB"
+Received: from narnia (unknown [167.220.2.28])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 60923210C42A;
+	Mon, 14 Apr 2025 13:46:37 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 60923210C42A
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744663607;
+	bh=Wr54ktj2RvZmhcjZy8uOTgLbn/jq3tS7dZjeGpQb/nw=;
+	h=From:To:Subject:In-Reply-To:References:Date:From;
+	b=qjXuU6ABun9uxsNQhI/clJhmrp/6vVlTdbfk4qxK2v2nxeh5OqP37fiPZdEnFDqkY
+	 kOUugcOpq+GLETdIYWgPGFGQQivn630G04emB62z69Z3RXNRCfGMMIaRGFuoTSBVBc
+	 QVY1IKkm1oN0ZGNYmSp2AqT1aoqcUZBDPqGCfaZw=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Paul Moore <paul@paul-moore.com>, Jonathan Corbet <corbet@lwn.net>,
+ David Howells <dhowells@redhat.com>, Herbert Xu
+ <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
+ James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>,
+ Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
+ <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan
+ <shuah@kernel.org>, =?utf-8?Q?Micka=C3=ABl_Sala=C3=BCn?= <mic@digikod.net>,
+ =?utf-8?Q?G=C3=BCnther?= Noack
+ <gnoack@google.com>, Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+ Bill Wendling <morbo@google.com>, Justin Stitt <justinstitt@google.com>,
+ Jarkko Sakkinen <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>,
+ Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, keyrings@vger.kernel.org,
+ linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com,
+ teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+Subject: Re: [PATCH v2 1/4] security: Hornet LSM
+In-Reply-To: <d3ad9a7bb9eb68a3ae5dd18bf091825d@paul-moore.com>
+References: <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+ <d3ad9a7bb9eb68a3ae5dd18bf091825d@paul-moore.com>
+Date: Mon, 14 Apr 2025 13:46:33 -0700
+Message-ID: <87ikn6jwt2.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DS7PR12MB6141:EE_
-X-MS-Office365-Filtering-Correlation-Id: ce661890-4360-45ad-8f2e-08dd7b9326dd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aU9XZ2lPYi84bTZ1UkhuK0VFZmNUUXVhVG50alVLbklPdWdNbDNteFkyNDdX?=
- =?utf-8?B?VUtGQjR3VHIvNzZ6YVlBNmx0LzdYNG85QkxKYnFlWWNxdUJYb0tzZnU0ZlFP?=
- =?utf-8?B?MFZhbm5TS2tmVDhwVDZ6aHdzMUdudzQzcmdIWElxNHhFclBPL0o4aE5IUGx1?=
- =?utf-8?B?MXpuNDBHTldvc2dySnFLRTlWZUo1K1MzcVFXek5ENk9MRFk5WGVvcFZyMzFN?=
- =?utf-8?B?emhTcThzckZxLytVbzVBRVllOXJvZHBLNDVGR3BHMUNQNnJpQ29maDZwNDBz?=
- =?utf-8?B?Q0M5R0psT2ZrRTBIbGZyQkFYTUNFSVBlVnJiTDk4YXgyc0xuNDZ6RWdZTEhI?=
- =?utf-8?B?Yis0ZjBBaDd5N0o3ZUZVWEpnL1NNM0Q2c0tqdHZiRCtVaE0wK250a1d5cFI1?=
- =?utf-8?B?WnhYR2srMkxCVjdmSDhyek1kbzZQWEsycG1YbTFrT2t3Ym5RVExzK2tVcEhQ?=
- =?utf-8?B?ZGhZcTdxOUhHYW1jNHlRWi8zVmcwS05adEdNY2VQdS9GWnl2aXgxdHJEQ1Q3?=
- =?utf-8?B?SnRyQ2tvUFFWUXNaUVFrNytmb3ZURjBqRTIzakg1MEZybk5tUEM0QVZXdTBy?=
- =?utf-8?B?ZnpvUmR0VHBHY2Rid092UC9wdm5yNHBVSXBaUzJmUk5MT05reGZxMitjdVRK?=
- =?utf-8?B?MmJRQ2x1RDNCV1o4TVZ1VGFjNzd4Y1ZjdTdyVDFNeDdRVE5uYlFYMTQ5SmtS?=
- =?utf-8?B?VWVVWDVHa0FsaGZSR3NyQW5PaE0yekpyaGdIR2xBUVJQaDJ6TVlGRFkrYUJJ?=
- =?utf-8?B?MTNoQmV5ZDF6c0FRQjhmSXk3V09NRTgvSEFPS21YblFOLzlaYmxCR1lKU0tS?=
- =?utf-8?B?Nlk0K3FxQmRLYWdXTnNveS8wemd2SFQrZkdhdi9GNEJBTGw2Vk5CS1FHdFZt?=
- =?utf-8?B?dTFCRHBKQVp3WDhHbm56dEhSNml6SS9MMXVseklTaUloci9pYmNHNDY3VlVv?=
- =?utf-8?B?dGxzWWZXaHlpREJLajdMaWtwa2VTS2g3VUlZdEw4VGhMcThnYmlyaEhpN2Vi?=
- =?utf-8?B?alBaR2oyMkg1RkYvdUdSSHdEQ211eVBCY3VWY2R1bTJwaUh0WWhvd1dkTk5z?=
- =?utf-8?B?YnkzdU5OTE1kVENkS0E2T3RVSGR3UzdlcVdnNVVJVkcrbW10YVdJTDJjYzBv?=
- =?utf-8?B?SU9kRlRyVEI1VU1EZ3hvcTFVRGlnd1dKbFdRbFRuTm8rNVlMLzZVVDZqTWNt?=
- =?utf-8?B?UnRyR0VtOGlqdHU1VHFYWEdDMDZtN0pmdVdQSitYTEVzS0UzUmJhemZVZVBF?=
- =?utf-8?B?MnJOK1krUmFQYWRneFdVdTFUaHZDSkt5RHpkZVBTMzRMUy9HcDFYNWhFdHg3?=
- =?utf-8?B?ZnBScUZVOEc5K2Q5WEl5VnhNdDNVaURDSGJXcGFrQ0dsY3lRdUh4NStXVzdJ?=
- =?utf-8?B?NFptOURLY0hJdE02eW5PWnEvbzJpbUxHbUorRGk1Mm04eWprc05EWmZiSjI5?=
- =?utf-8?B?cmhzRmROVHlXNWhWaThSR0p6bEN2cHVGMXpzcjlrdHVKVkc2RmxPaGEwQ1Nn?=
- =?utf-8?B?VE02OW5FNEVIUUx0RXNIOHVZV2pQUU1qVG1DR25hQmdLTzVIOHhYV2NFZTNN?=
- =?utf-8?B?YXYzQkEwWDhIKzdTRXBkemZrQnRBOUMxbkRPbjd2WWF2aWh1bVNvNVQrSlNU?=
- =?utf-8?B?K3BLL3U3YWNVWlFCOHBqL0ZhMEd5V2VJVk5WVHhNaENnYXRlNlZITUtFVWJa?=
- =?utf-8?B?ZEt2Q05qdjZ3TFZSejcrMnZneG8yY3RyNzJ2MlNINlNMaUNPSDVleTU5eVVt?=
- =?utf-8?B?Q1IrZjlQTTljMnJzM1N2V3ZlRzhwSkdDb0ptWkpYZlhKOCtNemZFekpuSEty?=
- =?utf-8?B?UXJGelpndHF3NXhDMm0zNUJydU91L2NENkMwT3AvK016YWtVLzRxaGFFOFpx?=
- =?utf-8?B?Y3NRdzlzdFdMMmpsNWVGeFFRVkZxU2RCRy9CSzBiN29YSlE9PQ==?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?RGNCdSs1MURnQWtpZEJ3a3RnL203VExLWlVHWldMVzQrem80WUk2MHg4dkhN?=
- =?utf-8?B?aDNJSEsvZWl6aDZ1bXNUSFk4Qk1uRzYwa3RGaXNGZFVrQjUzZitiNDhmV2Va?=
- =?utf-8?B?YWhpRjJYZWdjQTA2NmRFZHFmbTNkdmtnR294dmtzOVhiRHpkU1VDYnpOSHZ3?=
- =?utf-8?B?cFdUblhoVHpNUjVvRWxTWGJNV0dLb1c2RjlCNWwveEZwUEtsQzZHU24xZGxq?=
- =?utf-8?B?LytjYmE1cmJhQUZUd01YY3YzUU5XV21kb283MGhEcjhTK1E1dThkVlgvamdS?=
- =?utf-8?B?ajhBRWZHbXhGZ0cyM1YwcXFZZjdlQTVPRnN0TDNNOC9WTzlzR1lQcnJGbnpS?=
- =?utf-8?B?TlVySml5aFdvZmRGM2RkWHZaV2JWVGtNTnV6bktvSkd1SS9ORVo1OFhpYUdO?=
- =?utf-8?B?TFI5OXV0c0JiNkc3SHpHSWNiMXRJSEsvSTFpR083M1BqNFAxNU02ZXl4NkJX?=
- =?utf-8?B?amUwUGZWOVcwSnFTVEVyTkNxdG9IdWVXZTN4QmQ0WWF1aHhqM3JqL3g2bVY4?=
- =?utf-8?B?WDErKzNaVDZUQy9aV2dsTEV6c21uN1NBUTNGSlU1bGdwT3phZit3YkRlcCtr?=
- =?utf-8?B?NWtuMWZZZysyc1B1ZGhIZkIzS1JqRCtZMXhVTkZkajMweWxUWXdNMkNGWUh3?=
- =?utf-8?B?NGVpM2JXVXgxaXMvTTZCTzVFamZQYzFxMXhqdzlqTDlVTmEvZUlQclNEd3Zx?=
- =?utf-8?B?SDBRRFZWYWxlWlU2SjZsS3BLa2d5YmxuWExJdjFjR3E1ajQ4SDU3WEJxa3dw?=
- =?utf-8?B?b0VrMldZUHYrODdTelQxSExTQzZXUzZNZ0FmdE1tdm9FM3hiVnpBVkFGeC9P?=
- =?utf-8?B?SjNKWHNpTk1WRUJ3cWtTdWlLdEU3L0hVdWFZNTVla05NbUlkOXJPcmxraGlV?=
- =?utf-8?B?bDlRbzFTdDVhZ1pNWmNiNksrOXcyUGhmZVRPOW1GNDlhdXBaTk1QckhIVS8v?=
- =?utf-8?B?SEszZ2NTRm1OOGVPOTg1TjBDOU1Pb2ZLVU1ZQnQzdmd5KzYzbFl6ZTk2T3p1?=
- =?utf-8?B?cUZ6OWg2ZkJFZWNudDFnbGtrR1UvRmROdXJ0Kzl2VTRCbXNsbXRiY1o1Sktq?=
- =?utf-8?B?U3oyU1IwUGxTZ2dHamJHV3Y5QUhRZ1lwcFFtRTc3azBmbjRrZzA5dlJIR21L?=
- =?utf-8?B?WWpIdGNiWDFwQ1Rza3NQOWxDUDFESFhOd1d3T3BLdk1wdDZTYk1hdWt4SHM3?=
- =?utf-8?B?aW1zWjRObWJsemw1V3VPMkRVUVNpeUZJc3ZJMVFmTGdyWkJsbFFwbVIrbEEw?=
- =?utf-8?B?SGgvdW00TDhCVnYrMEtuSmlpRHlHVUZ3R1FCazVzZWFVcGMxS0xDZVdERm4y?=
- =?utf-8?B?anFwbUQ1cklKdzlnczhZRDNnbFZ4eEFBTWw1UEpxZWNYeDhWUmp1am9xUWVZ?=
- =?utf-8?B?MHJkUFVjT1FnV3RJNmNJWGRBVjdMUm1zM3Q5aXZoSWpneVFSZUtRVXMwWTZv?=
- =?utf-8?B?SjZUSklnSWhLV0o4akVhMVF3bGFHbE95TDlQWVpnbzYxSUs4NkIyQkRBa1or?=
- =?utf-8?B?MkdGZk5qVGRkdGNLeGNXcHJSNXEyMVNIL2JMVSttd0dlUTM1LzJtZFQ1eVlz?=
- =?utf-8?B?TEREMHNTa2tXeTAxRms3TGkvd3gyc1V2VlpWaUdPZmNuTCs1ektaUVNYTjV2?=
- =?utf-8?B?bnNHVkJOczIzcXJMQlJvMU8zb2FDUm8yMmtKL1o0SkhFUUtRTGtkbVByOU9H?=
- =?utf-8?B?cUFoWTI4UmRZMkNsVGxLU0psckNBWEpuaDM4eVM0bVkvM0V6TXZrWFgyb2Z0?=
- =?utf-8?B?OEY0L3hLY0pLck85cnVBbHNjeHVDYjBOZjZMNUMySDFBTU1UemJkS3V6bzl5?=
- =?utf-8?B?ZUdobFlTRmRZSTZTbXp1YnJJc3A2Zi9JZGhGODFTWnJoaFZIZjRzdEx6NVQ0?=
- =?utf-8?B?dXZ0cklsR2w0OENhKytXOXJzMWFGbHdDMHc4TUNhMk1RSUx6UlVTNW9UOU5J?=
- =?utf-8?B?Q2xsMEJGMGdKOWJGUUxWQWhwOG1qNVlxOUJEM1hZWlY3L3NRU1dFQW1tc3VZ?=
- =?utf-8?B?VnFGamdqblZFSnplYzd4ZC81aFRQK1NtSHNsVnFOZm1ZRHNPOSswcFoxOFhI?=
- =?utf-8?B?UmJWUFkwK0pZRVBvMVJzd2FzR0pJZU1ZYWQrR2ZBclhtWG9TNXhBLy8wK0Zz?=
- =?utf-8?Q?cKOw=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ce661890-4360-45ad-8f2e-08dd7b9326dd
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Apr 2025 20:30:10.0599
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: S2iwJoMPQIu611J+OohNcAvktBiraPOnUKX3CtHS16Hu+zKY0TLMBMcALY00Ps5+
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB6141
+Content-Type: text/plain
 
-Hi Reinette,
+Paul Moore <paul@paul-moore.com> writes:
 
-On 4/11/25 16:01, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 4/3/25 5:18 PM, Babu Moger wrote:
->> The ABMC feature provides an option to the user to assign a hardware
->> counter to an RMID, event pair and monitor the bandwidth as long as the
->> counter is assigned. The bandwidth events will be tracked by the hardware
->> until the user changes the configuration. Each resctrl group can configure
->> maximum two counters, one for total event and one for local event.
->>
->> The ABMC feature implements an MSR L3_QOS_ABMC_CFG (C000_03FDh).
->> Configuration is done by setting the counter id, bandwidth source (RMID)
->> and bandwidth configuration supported by BMEC (Bandwidth Monitoring Event
->> Configuration).
-> 
-> Apart from the BMEC optimization in patch #1 and patch #2 this is the
-> first and only mention of BMEC dependency I see in this series while I do
-> not see implementation support for this. What am I missing?
-> 
+> On Apr  4, 2025 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
+>> 
+>> This adds the Hornet Linux Security Module which provides signature
+>> verification of eBPF programs. This allows users to continue to
+>> maintain an invariant that all code running inside of the kernel has
+>> been signed.
+>> 
+>> The primary target for signature verification is light-skeleton based
+>> eBPF programs which was introduced here:
+>> https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gmail.com/
+>> 
+>> eBPF programs, before loading, undergo a complex set of operations
+>> which transform pseudo-values within the immediate operands of
+>> instructions into concrete values based on the running
+>> system. Typically, this is done by libbpf in
+>> userspace. Light-skeletons were introduced in order to support
+>> preloading of bpf programs and user-mode-drivers by removing the
+>> dependency on libbpf and userspace-based operations.
+>> 
+>> Userpace modifications, which may change every time a program gets
+>> loaded or runs on a slightly different kernel, break known signature
+>> verification algorithms. A method is needed for passing unadulterated
+>> binary buffers into the kernel in-order to use existing signature
+>> verification algorithms. Light-skeleton loaders with their support of
+>> only in-kernel relocations fit that constraint.
+>> 
+>> Hornet employs a signature verification scheme similar to that of
+>> kernel modules. A signature is appended to the end of an
+>> executable file. During an invocation of the BPF_PROG_LOAD subcommand,
+>> a signature is extracted from the current task's executable file. That
+>> signature is used to verify the integrity of the bpf instructions and
+>> maps which were passed into the kernel. Additionally, Hornet
+>> implicitly trusts any programs which were loaded from inside kernel
+>> rather than userspace, which allows BPF_PRELOAD programs along with
+>> outputs for BPF_SYSCALL programs to run.
+>> 
+>> The validation check consists of checking a PKCS#7 formatted signature
+>> against a data buffer containing the raw instructions of an eBPF
+>> program, followed by the initial values of any maps used by the
+>> program. Maps are frozen before signature verification checking to
+>> stop TOCTOU attacks.
+>> 
+>> Signed-off-by: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+>> ---
+>>  Documentation/admin-guide/LSM/Hornet.rst |  55 ++++++
+>>  Documentation/admin-guide/LSM/index.rst  |   1 +
+>>  MAINTAINERS                              |   9 +
+>>  crypto/asymmetric_keys/pkcs7_verify.c    |  10 +
+>>  include/linux/kernel_read_file.h         |   1 +
+>>  include/linux/verification.h             |   1 +
+>>  include/uapi/linux/lsm.h                 |   1 +
+>>  security/Kconfig                         |   3 +-
+>>  security/Makefile                        |   1 +
+>>  security/hornet/Kconfig                  |  11 ++
+>>  security/hornet/Makefile                 |   4 +
+>>  security/hornet/hornet_lsm.c             | 239 +++++++++++++++++++++++
+>>  12 files changed, 335 insertions(+), 1 deletion(-)
+>>  create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+>>  create mode 100644 security/hornet/Kconfig
+>>  create mode 100644 security/hornet/Makefile
+>>  create mode 100644 security/hornet/hornet_lsm.c
+>
+> ...
+>
+>> diff --git a/security/hornet/hornet_lsm.c b/security/hornet/hornet_lsm.c
+>> new file mode 100644
+>> index 000000000000..d9e36764f968
+>> --- /dev/null
+>> +++ b/security/hornet/hornet_lsm.c
+>
+> ...
+>
+>> +/* kern_sys_bpf is declared as an EXPORT_SYMBOL in kernel/bpf/syscall.c, however no definition is
+>> + * provided in any bpf header files. If/when this function has a proper definition provided
+>> + * somewhere this declaration should be removed
+>> + */
+>> +int kern_sys_bpf(int cmd, union bpf_attr *attr, unsigned int size);
+>
+> I believe the maximum generally accepted line length is now up to 100
+> characters, but I remain a big fan of the ol' 80 character terminal
+> width and would encourage you to stick to that if possible.  However,
+> you're the one who is signing on for maintenence of Hornet, not me, so
+> if you love those >80 char lines, you do you :)
+>
+> I also understand why you are doing the kern_sys_bpf() declaration here,
+> but once this lands in Linus' tree I would encourage you to try moving
+> the declaration into a kernel-wide BPF header where it really belongs.
+>
+>> +static int hornet_check_binary(struct bpf_prog *prog, union bpf_attr *attr,
+>> +			       struct hornet_maps *maps)
+>> +{
+>> +	struct file *file = get_task_exe_file(current);
+>> +	const unsigned long markerlen = sizeof(EBPF_SIG_STRING) - 1;
+>> +	void *buf = NULL;
+>> +	size_t sz = 0, sig_len, prog_len, buf_sz;
+>> +	int err = 0;
+>> +	struct module_signature sig;
+>> +>> +	buf_sz = kernel_read_file(file, 0, &buf, INT_MAX, &sz, READING_EBPF);
+>> +	fput(file);
+>> +	if (!buf_sz)
+>> +		return -1;
+>
+> I'm pretty sure I asked you about this already off-list, but I can't
+> remember the answer so I'm going to bring this up again :)
+>
+> This file read makes me a bit nervous about a mismatch between the
+> program copy operation done in the main BPF code and the copy we do
+> here in kernel_read_file().  Is there not some way to build up the
+> buffer with the BPF program from the attr passed into this function
+> (e.g. attr.insns?)?
+>
 
-My mistake. I should have corrected it.  How about this?
+There is. That would require modifying the BPF_PROG_LOAD subcommand
+along with modifying the skeletobn generator to use it. I don't know if
+there is enough buy-in from the ebpf developers to do that
+currently. Tacking the signature to the end of of the light-skeleton
+binary allows Hornet to operate without modifying the bpf subsystem and
+is very similar to how module signing currently works. Modules have the
+advantage of having a working in-kernel loader, which makes all of this
+a non-issue with modules.
 
-"The ABMC feature implements an MSR L3_QOS_ABMC_CFG (C000_03FDh).
-ABMC counter assignment is done by setting the counter id, bandwidth
-source (RMID) and bandwidth configuration. Users will have the option to
-change the bandwidth configuration using resctrl interface which will be
-introduced later in the series."
+> If there is some clever reason why all of this isn't an issue, it might
+> be a good idea to put a small comment above the kernel_read_file()
+> explaining why it is both safe and good.
+>
 
--- 
-Thanks
-Babu Moger
+Will do. I don't see this being an issue. In practice it's not much
+different than auth schemes that use a separate passkey. The
+instructions and maps are passed into the kernel during BPF_PROG_LOAD
+via a syscall, they aren't copied from the binary. The only part that
+gets copied during kernel_read_file() is the signature. If there was a
+mismatch between what was on-disk and what was passed in via the
+syscall, the signature verification would fail.  As long as a signature
+can be found somewhere for the loader program and map, that signature is
+valid, and that program and map can't be modified by the user after the
+signature is checked, it means that someone trusted signed that blob at
+some point in time and only signed blobs are going to run.  It shouldn't
+matter from a math standpoint where that signature physically lives, be
+it in a binary image, a buffer in a syscall or even an additional map.
+
+>> +	prog_len = buf_sz;
+>> +
+>> +	if (prog_len > markerlen &&
+>> +	    memcmp(buf + prog_len - markerlen, EBPF_SIG_STRING, markerlen) == 0)
+>> +		prog_len -= markerlen;
+>> +
+>> +	memcpy(&sig, buf + (prog_len - sizeof(sig)), sizeof(sig));
+>> +	sig_len = be32_to_cpu(sig.sig_len);
+>> +	prog_len -= sig_len + sizeof(sig);
+>> +
+>> +	err = mod_check_sig(&sig, prog->len * sizeof(struct bpf_insn), "ebpf");
+>> +	if (err)
+>> +		return err;
+>> +	return hornet_verify_lskel(prog, maps, buf + prog_len, sig_len);
+>> +}
+>
+> --
+
+> paul-moore.com
