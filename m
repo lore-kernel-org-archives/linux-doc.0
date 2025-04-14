@@ -1,269 +1,127 @@
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9982418C32C
-	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 12:31:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646F7293B4D
+	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 12:35:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744633908; cv=none; b=MT+++n568nf4jAFBa+fIEUtPGtbLFAWRV4gRC446NbnmuXqzCH5tWrFQZaLORvXVqeHppgtLB/rioY+LfZeu3GSixdWKdIPfpUhbqtXlGyI/jDpzt423Nb9cTurcg+FY/jf2RwOJtwQYCQr0NJQDU28Gq/X5DDO5HpyKuxKByq4=
+	t=1744634158; cv=none; b=Gp9xNayIfGMeKMAI2pQHRAwwcF/r70wT9xIi/wpUmZj4W8vQDsKlT3aTUlKbTJSwT4F5RTrfyOG9ib58BxPdNDUIvTsp2P+jZY9GRYR8JXo4qCd2GHxlLc55Ta8myoSRbQ8tEUdal0bYoI73T0h9BnQZpvARyRnvQIOVbDg1hjQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744633908; c=relaxed/simple;
-	bh=Ub+bREUz26MZsF0p4MWug9Yo0djKeDcAZdv169/OOWY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ojnMNUjlt5zagNk3De5fphSkfyQsO4JD6lj0cylu4AJJ9e1jyv0NwDacOrJ4BWotb59qd+27T29noGSfAYEUhNG8aV3P2Cxf7sDO4bFQ6yo/tPJWKd8zMKCCofAmRK7enorIxS3Tw743tJuqP9ADCOl1CnY5PiKKTLEL7CyC8tg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=a4ktIU6o; arc=none smtp.client-ip=209.85.221.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
+	s=arc-20240116; t=1744634158; c=relaxed/simple;
+	bh=2mocTyMZccQWl6hqt2SiR6urZCNyzBGg08Agjt8O9rQ=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ocklQkdDbEyS6K3nK/zM99OeDxgAPTopB8rs1UuXBPByCr57rq76+FWNb2ppgN3k9LuposuhyIQ/Y2xaWk+Zh1Jt7QmBjkNuXpx6LFHhPYbkXO3XOIZUJpAi+y9NbbOZHUTd84XFCyYB0VkY4dSRprgnQha0O3YzgiSK780Zn88=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=nasWIn7E; arc=none smtp.client-ip=209.85.128.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="a4ktIU6o"
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c14016868so3911518f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 05:31:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="nasWIn7E"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43edecbfb94so45736315e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 05:35:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=suse.com; s=google; t=1744633905; x=1745238705; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=UzE4G1qxViP6T7whIrLBrJ/GtgCmUCswBCy5CnSYKK8=;
-        b=a4ktIU6oo8d29Sp6sCAIT24lMqDriXd9ZZUgECccsJfYdmfc/f/HCyYYM4JD7imBoZ
-         YJSpOTdff2gjPjVk6J3Xobx4S29LiJoYiNlF0Elnu/hz7UP8cV5/lW/FFFjzlxNI7vUU
-         Vmiicm6DqLOvJMueP60uHUI1uAheQLsmzZDhgAKEIXWPpJdMIggK4phLjYKzTctKu3zF
-         G+Jd4rBQ0vIYmBRxxT1U8ojeVMPyzC4f32GDh4E8ekeqaxM1OLy+VAijqm+DWc9KadMr
-         omjUH3g5CGKy7WBotnY7/iuTXCcqyeQtWDExl9ZsqayKDR+Xz544YUVgYhbVVpAZHIpi
-         OYYw==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1744634153; x=1745238953; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=WQmio3wqLQnFz3mNwa+nQ7W5ScqINI2CxtaTzG1u6QU=;
+        b=nasWIn7EGt5/MBjrKgbeLE+0Acn/uqcYzqxhewurgrw8Lor1bsor/mS9Owd7yYJOT4
+         XfQd84eOjHJb/Ycvj5Dew0EZZ7SlO+sqF26ym+J45dZ2eN2jQdboOYeUIhG7hOjAUFtG
+         KaQAi/gRVZAjgy5HKEWj/gA96KPuZi2xWl/JbFanbSMPZ+vyRrWthrduBybk3+ReNLQI
+         HntP5zT5pHwIUZzDeI9Dmb/NPgbLWLGmmstmGp5pGxXlbgWutVqVSCpZl8YY1yAd7ox+
+         zBeOaLGi+6iIEi/PT0xIp/JnmsvKFzYEYdK9WR7qqtcvTlc8iKtN+tIJga8G2b+/MonG
+         zUGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744633905; x=1745238705;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=UzE4G1qxViP6T7whIrLBrJ/GtgCmUCswBCy5CnSYKK8=;
-        b=pqtaoEQxmBs8FX2FCNySiEWhGDeasySSUzLKQ8hh0pfGErpyyXEwx2zOk4Mmevo1ez
-         ACzRvpvaplaosxYm2qv/QDp5KDDpvYTsScaOoKHApZrQreXV650gLUYQUG8eT3US6KkK
-         05IVlEnO2ry9sNL7KFQkLAdP3ggFi3bZMm63m8ZM1/St3WcsnIAov5MMpCnfg4TTE8Pp
-         BrDCpA5TfDebH36mp1Tpuu6otob3BX+mzMtog+MU7A/b67CUVCxXUAhisBRWEJ2YtXbc
-         ra3E2ae+9GJtuzTPW7TyMhiS6UU8c0Jd/PGm1HWAKYUXGD36PFH/y9kY0lY5rDXKaP9P
-         mCIg==
-X-Forwarded-Encrypted: i=1; AJvYcCW3f6FWn2RssGjVoTUni1LOzLbk1pncHcfNP7VRqORX9at+Yjo23+yxJoIBwIPArVTsETNKrqgnECA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz2UUNstYCQqOWuYZYL5MY9oxVzauA/5uHfCXkBxqsLRFMbCxmV
-	1DbCX0gy86palzn95m/T8mXJgm9vd+MeqNvvFcq/8BHHISQcF6shpJ9unaNXR7o=
-X-Gm-Gg: ASbGncsoMIDCf/MaXmk3TRD4e8wNTPopb07CbA34TdPdcmqlymYA0MhdP6s7sTbJbWG
-	zyqhaxQvzIwY6uSKNztWskg/66ASuxIHmma8/SCbB4BOvA/VlJWTYX1FmkAUAOuTv3jtTitkvfT
-	vwQG6daJotgUQisfi/hM5G4LvVVdbM5+yYI8zABOi4e/VFOkBN6UXT1c/yf0cTQYTfqc59CbP+5
-	qqColYk2sHDl9QcQM46ke7tEmllzVzYZqxwpMuD5hGRebZZYOrZLYWzBDaM5dQ82z33jsmNNQqd
-	fMMwdXv7r8O5Jlo266CVU+zERL8fm9zf/qPFNhu8hoA=
-X-Google-Smtp-Source: AGHT+IGPx3FekDQBH+w1DRIhnhl/LKSHQTM4c3o3SlHgBBWG1pxWWapk3NPpkMv5AAzM/asN/sLGnA==
-X-Received: by 2002:a05:6000:2911:b0:391:1652:f0bf with SMTP id ffacd0b85a97d-39eaaea8c84mr8884498f8f.33.1744633904685;
-        Mon, 14 Apr 2025 05:31:44 -0700 (PDT)
-Received: from pathway.suse.cz ([176.114.240.130])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eaf43d053sm11008797f8f.68.2025.04.14.05.31.43
+        d=1e100.net; s=20230601; t=1744634153; x=1745238953;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WQmio3wqLQnFz3mNwa+nQ7W5ScqINI2CxtaTzG1u6QU=;
+        b=eNqucToPyQU689pW2CAK28wxg30c9O2umHCht8QL1R7VZ2AyOl+hZ0bdTdaOCwiaJh
+         jAdCPQUFiG+TWe2e3pZKj59dqvz7lOSsa8+H6Ky8ifSz2N3U5z5j1frJYQjb+bT9QNBW
+         7f6Z9zwnl5iRENG6WU0YQ60AuUyHLWD5UXRAdSCv/MyiZuCWJMDxQo5kRaqOVDst2eV6
+         QpeJd+murjGeg/n0RFk9n+NzxkbemPDqx5RfvI4cifilPyt8GLzS/nrGhnLKV6Frnn7B
+         azxpd33xmyFyFbJbiGQWZ+3c1Wv4sM8iIY797/8r3iY9w83TEOuasoNWCxs+OtxXHpHo
+         uakQ==
+X-Gm-Message-State: AOJu0YxOEkb6weQqoRYuXNiejptciEpNSIPx66L30ruYchOuo/kwfXKh
+	vEB9Kr/GQ0QiYrqIqwULjea1wKYEqT7qudt0dhN2EusNM9I1hgnjkA7B32KArRsE5aT8a3d4Pcd
+	z
+X-Gm-Gg: ASbGncvj7xCSYsHMjPgSxUC0pqUCm6u+VbVPPRfkJrba5ppZ2rUi0epI6gnZ42o+Js8
+	hV9otiz2NEkW4wrXftbphxuXi3oBOtwfBE3yjnt2MC37TJmqnAjqLG+4Yh6+quuxz8uPHe1eBba
+	PVVmIGq281U2dzQs0F5Wvs5xSVUhLsH6rNL+CESHkBWyT9WduTd9pvwBDKBubl1/VUrLwHlnblh
+	2i3G1YOqkya0Vp14dCpIBkgS+zACD6s29jdqcZnuaoZT3KV9xEIIokuMrl+EaRmC6Ip4Mht7EsM
+	XQimZugd7YjOJ5HwpPOZAJF5UHjmw4IvNk6uELuGkQ==
+X-Google-Smtp-Source: AGHT+IFJJtwFHDUCk/X/IbkfQRGm+JIG/6RFDceYpwEU9uYCKZDnLPKJFVJZ9lYtIGA9fiFwvtiSuQ==
+X-Received: by 2002:a05:600c:348a:b0:43d:aed:f7d0 with SMTP id 5b1f17b1804b1-43f3a9be478mr93613435e9.28.1744634153055;
+        Mon, 14 Apr 2025 05:35:53 -0700 (PDT)
+Received: from carbon-x1.. ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae9780a0sm11003166f8f.50.2025.04.14.05.35.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 05:31:44 -0700 (PDT)
-Date: Mon, 14 Apr 2025 14:31:42 +0200
-From: Petr Mladek <pmladek@suse.com>
-To: Kees Cook <kees@kernel.org>
-Cc: Vlastimil Babka <vbabka@suse.cz>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
+        Mon, 14 Apr 2025 05:35:52 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list),
+	linux-riscv@lists.infradead.org (open list:RISC-V ARCHITECTURE),
+	linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	David Rientjes <rientjes@google.com>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] slab: Decouple slab_debug and no_hash_pointers
-Message-ID: <Z_0AFjai6Bvg-YLD@pathway.suse.cz>
-References: <20250410174428.work.488-kees@kernel.org>
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	Shuah Khan <shuah@kernel.org>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: [PATCH 0/5] riscv: misaligned: fix interruptible context and add tests
+Date: Mon, 14 Apr 2025 14:34:40 +0200
+Message-ID: <20250414123543.1615478-1-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250410174428.work.488-kees@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu 2025-04-10 10:44:31, Kees Cook wrote:
-> Some system owners use slab_debug=FPZ (or similar) as a hardening option,
-> but do not want to be forced into having kernel addresses exposed due
-> to the implicit "no_hash_pointers" boot param setting.[1]
-> 
-> Introduce the "hash_pointers" boot param, which defaults to "auto"
-> (the current behavior), but also includes "always" (forcing on hashing
-> even when "slab_debug=..." is defined), and "never". The existing
-> "no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
-> 
-> This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
+This series fixes misaligned access handling when in non interruptible
+context by reenabling interrupts when possible. A previous commit
+changed raw_copy_from_user() with copy_from_user() which enables page
+faulting and thus can sleep. While correct, a warning is now triggered
+due to being called in an invalid context (sleeping in
+non-interruptible). This series fixes that problem by factorizing
+misaligned load/store entry in a single function than reenables
+interrupt if the interrupted context had interrupts enabled.
+In order for misaligned handling problems to be caught sooner, add a
+kselftest for all the currently supported instructions .
 
-The idea makes sense. But it seems that the patch did not handle
-the "always" mode correctly, see below.
-
-
-> --- a/lib/vsprintf.c
-> +++ b/lib/vsprintf.c
-> @@ -60,6 +60,20 @@
->  bool no_hash_pointers __ro_after_init;
->  EXPORT_SYMBOL_GPL(no_hash_pointers);
->  
-> +/*
-> + * Hashed pointers policy selected by "hash_pointers=..." boot param
-> + *
-> + * `auto`   - Hashed pointers enabled unless disabled by slub_debug_enabled=true
-> + * `always` - Hashed pointers enabled unconditionally
-> + * `never`  - Hashed pointers disabled unconditionally
-> + */
-> +enum hash_pointers_policy {
-> +	HASH_PTR_AUTO = 0,
-> +	HASH_PTR_ALWAYS,
-> +	HASH_PTR_NEVER
-> +};
-> +static enum hash_pointers_policy hash_pointers_mode __initdata;
-> +
->  noinline
->  static unsigned long long simple_strntoull(const char *startp, char **endp, unsigned int base, size_t max_chars)
->  {
-> @@ -2271,12 +2285,13 @@ char *resource_or_range(const char *fmt, char *buf, char *end, void *ptr,
->  	return resource_string(buf, end, ptr, spec, fmt);
->  }
->  
-> -int __init no_hash_pointers_enable(char *str)
-> +void __init hash_pointers_finalize(bool slub_debug)
->  {
-> -	if (no_hash_pointers)
-> -		return 0;
-> +	if (hash_pointers_mode == HASH_PTR_AUTO && slub_debug)
-> +		no_hash_pointers = true;
->  
-> -	no_hash_pointers = true;
-> +	if (!no_hash_pointers)
-> +		return;
->  
->  	pr_warn("**********************************************************\n");
->  	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
+Note: these commits were actually part of another larger series for
+misaligned request delegation but was split since it isn't directly
+required.
 
 
-The mode/policy is generic but this function is ready to be called
-only once. And we might actually want to call it twice, see below.
+Clément Léger (5):
+  riscv: misaligned: factorize trap handling
+  riscv: misaligned: enable IRQs while handling misaligned accesses
+  riscv: misaligned: use get_user() instead of __get_user()
+  Documentation/sysctl: add riscv to unaligned-trap supported archs
+  selftests: riscv: add misaligned access testing
 
-I would suggest to use a generic names and allow to call it more
-times, something like:
+ Documentation/admin-guide/sysctl/kernel.rst   |   4 +-
+ arch/riscv/kernel/traps.c                     |  57 ++--
+ arch/riscv/kernel/traps_misaligned.c          |   2 +-
+ .../selftests/riscv/misaligned/.gitignore     |   1 +
+ .../selftests/riscv/misaligned/Makefile       |  12 +
+ .../selftests/riscv/misaligned/common.S       |  33 +++
+ .../testing/selftests/riscv/misaligned/fpu.S  | 180 +++++++++++++
+ tools/testing/selftests/riscv/misaligned/gp.S | 103 +++++++
+ .../selftests/riscv/misaligned/misaligned.c   | 254 ++++++++++++++++++
+ 9 files changed, 614 insertions(+), 32 deletions(-)
+ create mode 100644 tools/testing/selftests/riscv/misaligned/.gitignore
+ create mode 100644 tools/testing/selftests/riscv/misaligned/Makefile
+ create mode 100644 tools/testing/selftests/riscv/misaligned/common.S
+ create mode 100644 tools/testing/selftests/riscv/misaligned/fpu.S
+ create mode 100644 tools/testing/selftests/riscv/misaligned/gp.S
+ create mode 100644 tools/testing/selftests/riscv/misaligned/misaligned.c
 
-/**
- * hash_pointers_update() - update the decision whether to hash
- *	printed pointers
- * @auto_disable: Disable hashing in auto mode
- *
- * The function allows to disable hashing printed pointers either
- * when the global mode is HASH_PTR_NEVER or when the caller
- * wants to disable it and the mode is HASH_PTR_AUTO.
- */
-void __init hash_pointers_update(bool auto_disable)
-{
-	bool disable_hashing = false;
+-- 
+2.49.0
 
-	switch(hash_pointers_mode) {
-	case HASH_PTR_AUTO:
-		disable_hashing = auto_disable;
-		break;
-	case HASH_PTR_ALWAYS:
-		disable_hashing = true;
-		break;
-	case HASH_PTR_NEVER:
-		if (no_hash_pointers) {
-			pr_warn("Pointers were temporary printed without hashing. Force hashing again.\n");
-			no_hash_pointers = false;
-		}
-		break;
-	default:
-		pr_warn("Unknown hash_pointers mode '%d' specified; assuming auto.\n",
-			hash_pointers_mode);
-		disable_hashing = auto_disable;
-	}
-
-	/* Nope when no change requested. */
-	if (no_hash_pointers || !disable_hashing)
-		return;
-
-	no_hash_pointers = true;
-
-	pr_warn("**********************************************************\n");
-	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** This system shows unhashed kernel memory addresses   **\n");
-	pr_warn("** via the console, logs, and other interfaces. This    **\n");
-	pr_warn("** might reduce the security of your system.            **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** If you see this message and you are not debugging    **\n");
-	pr_warn("** the kernel, report this immediately to your system   **\n");
-	pr_warn("** administrator!                                       **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("** Use hash_pointers=always to force this mode off      **\n");
-	pr_warn("**                                                      **\n");
-	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
-	pr_warn("**********************************************************\n");
-}
-
-> @@ -2289,11 +2304,39 @@ int __init no_hash_pointers_enable(char *str)
->  	pr_warn("** the kernel, report this immediately to your system   **\n");
->  	pr_warn("** administrator!                                       **\n");
->  	pr_warn("**                                                      **\n");
-> +	pr_warn("** Use hash_pointers=always to force this mode off      **\n");
-> +	pr_warn("**                                                      **\n");
->  	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
->  	pr_warn("**********************************************************\n");
-> +}
-> +
-> +static int __init hash_pointers_mode_parse(char *str)
-> +{
-> +	if (!str) {
-> +		pr_warn("Hash pointers mode empty; falling back to auto.\n");
-> +		hash_pointers_mode = HASH_PTR_AUTO;
-> +	} else if (strncmp(str, "auto", 4) == 0)   {
-> +		pr_info("Hash pointers mode set to auto.\n");
-> +		hash_pointers_mode = HASH_PTR_AUTO;
-> +	} else if (strncmp(str, "never", 5) == 0) {
-> +		pr_info("Hash pointers mode set to never.\n");
-> +		hash_pointers_mode = HASH_PTR_NEVER;
-> +	} else if (strncmp(str, "always", 6) == 0) {
-> +		pr_info("Hash pointers mode set to always.\n");
-> +		hash_pointers_mode = HASH_PTR_ALWAYS;
-
-This mode is not handled anywhere, see below.
-
-> +	} else {
-> +		pr_warn("Unknown hash_pointers mode '%s' specified; assuming auto.\n", str);
-> +		hash_pointers_mode = HASH_PTR_AUTO;
-> +	}
-
-We might handle HASH_PTR_ALWAYS by calling:
-
-	hash_pointers_update(false);
-
->  	return 0;
->  }
-> +early_param("hash_pointers", hash_pointers_mode_parse);
-> +
-> +static int __init no_hash_pointers_enable(char *str)
-> +{
-> +	return hash_pointers_mode_parse("never");
-> +}
->  early_param("no_hash_pointers", no_hash_pointers_enable);
->  
->  /*
-
-Best Regards,
-Petr
