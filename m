@@ -1,202 +1,192 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D72615575C;
-	Mon, 14 Apr 2025 20:56:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3DE71DB548
+	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 22:06:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744664218; cv=none; b=V0XcodPzBThM5j8OxvAAxiPm3uRbDuevIvq+esVRjg8YTXDJCDcSL9w5/A+JSu298tT/uMlfILA99WiO4Y3QjDEmqk58BXQmrl0i3bczYZz0N9lVttqk2awkOt5QHNFzjSpEcmT0dxKajDht58N1swK/AxVqBdEzQnv+BZtn5k8=
+	t=1744668406; cv=none; b=S3mplDg8Ck/u0duNftq+hdXE41T/G0Otbs+G6IdBuBMCOMEPQOzXdxNd85bx0uVdadt+VmKR8QDfNRSGG162tD7TAyIkD5QAe9tIzJ4G05oHuzj94BgsH2h5vJoFxR2xoCXltv+quMuWkL4pEWPsgnD9cpwBhrJXkQ1svAa7JQE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744664218; c=relaxed/simple;
-	bh=59DG5cicG2nYVNl6LJKyYhu1RhtD/HerSJsdOedeqQw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=QXQBy45UPvIRgsrtn5rTxLk+qG75o/n2kD8ErdAFbaLQ94ip1JGPcZ/j4ZcbWv/stBEuO1wYe4Vhq/VD17X+LRLYfINKQFMoykoyDqke6ZZ2qQj8E5WLQzeGYKQYYlJOchRRgAS10JlxPMRU9ivxm9gCuhKwe8Y5FX26aXgFq4M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=PzVuOzT4; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744668406; c=relaxed/simple;
+	bh=fejDswuf7V0RzMSrs0ALv14zz8fbbeLCxWpLbydMRfA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=hfSj7WfU9R0wyvGInnTpFsAT4/kI1twieF1x/bax3r8sa5X5rkf2PMbFeUnG+mZAt3m0BPclFBnWZTVCfpfwYMuBy05SkhKqARhA27lIhLNfpRkwVx7XqQPNyYZfen6bQeYTHgm4RQlfSD3xNdfspQ1auWrI8v6bagSAifMtX5o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=O8v7dh2o; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="PzVuOzT4"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cef035a3bso34860245e9.1;
-        Mon, 14 Apr 2025 13:56:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744664215; x=1745269015; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0TcZJJNpo591s6xoFqHx75vVN+ieiVBofj1AeFVZgrg=;
-        b=PzVuOzT4fBc3xml+NOLwoW9AiewIoYrS+AxPuBw9aMZ9YWSkvyhtYH5dbkEcxo9B/r
-         stCTCKdhU6cqHLXeJiBXBkiMtIrhuF3k/vMSy8ODhxN3RPXEpsFjmBvo6NiOnteZsY9S
-         cIOsOjogeKhejhCT+nIln6A01Xc8laP6ev2w5BYOQ8uXr7ca6+SgBrOYhD53WYP+hQ1X
-         Wnxv3oMQpYTyD79JFQKzkeBMAlTS2Clw002OQkDFtBMEJRvqyDrMlKSYWz7oCuwDw9hY
-         NFEJIxwtzmA7aAcpkR4iJzXxPgHuAwEhflTa0rHSlvLxnxHtBmbTR+uBMMiWGe22/ZAz
-         3Zzg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744664215; x=1745269015;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0TcZJJNpo591s6xoFqHx75vVN+ieiVBofj1AeFVZgrg=;
-        b=tZrmNXe46eokoYjTG44XVIOnhNkXWlK2so+m6PCs8Go8r/FuVvNLeK3x+bgMkv562o
-         pc/8hP6NTs4Jw6ddC2Jz/MWRYcsgoMcEUkATBN8vrNWSlZwKk6f3R3HlwrOD3kLM1VLT
-         Uq0ckhdd6aerUVozyXkixtlIclUtmDfhjlabgOgDQ4KcsnFBjk7+GRQRRS9Ub5yP55Xx
-         Cik2Cc9UX/Sy08Tx9DAPeKj3l5DTVqaMXXrdAAEH9bPs31se4XD4uDf4IkSHqviBD98F
-         gqZUwfTEftQB9sNgC2h8nXWABPQbbxAFtj+P1D3ZX83R1cJT3UV5H32GDfjkcbITBIm+
-         MkTg==
-X-Forwarded-Encrypted: i=1; AJvYcCUQ9hRL9ZHFtEmEhx0PCz+tXcRrmfUnmgNzFJKWM1cuFr3MufTEg16j0FHJEYeG2Q65Xi0UswvKfr1a4xCx@vger.kernel.org, AJvYcCUfdgssTDPX71N7y301jCn1TkjTDoIIMo1WuoXZB47aEcadi2NdabZgqfwl9tAd4vsSoDNNM42DFFdJ@vger.kernel.org, AJvYcCUieUCHc+1uAli+HuXiX2E88609zdYIO0lRa7RemaxO0wgByl6IXc471sNJR61L3FfrmL1NBD8b+RE=@vger.kernel.org, AJvYcCV1YGDrP+Q1nCGtZGbgaiRGaJ210lhswG12tMAj6WdYjzmGoVZcWq6np/RxMpnbhGNOdme+fLNnDzYaCeJbp+Tw@vger.kernel.org, AJvYcCVBzcKFsErzncqZdn8MMjDFOde6rGP0khGNYqSqveOmbdqTflrYMrD5fQa/cWpvYTRy5uk=@vger.kernel.org, AJvYcCVhTCSJbRfrBAeJlHNCnFZCALarOCy5yspY12xRmPvY1F0dINepdRpkReQ2s9plQYQCqaW9irGlmBJ525b3@vger.kernel.org, AJvYcCWAyPnL43WxtqznTx1ipljrLwzQFoVUVO2hZiGosULE/+HewMmwIWubylOrH8Ki3R3Ld6F6flRkmrUVDM5aoHsFO+VkS4Vf@vger.kernel.org, AJvYcCWfLxqOvdm3PUs9B6nftTkGZDzyOla2vPDkfdsZy6vspO7SAukbJqB86Q23gHZ3elWkTsncod8TOiGFizlQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxryvs4wzvwZkYD+l4tgCl+58jbqSdGGiJS2lSvRDiKMkMbiwyF
-	pVShQXrUij/TMISUhWhRgahLVPHm5sZO5/CXEJtVft8hX8WDeuWy82+91nC5SD7B2dLKGYrK+yr
-	RvHGbiIp1cx6lO70z3ep9icQ3CHU=
-X-Gm-Gg: ASbGncvPZF5bgBGOEPZ0oXaZYAyVJ+sjN8ATMcLqUZaPH33PWqWvKWNw29xtgscgxnK
-	RVzgKd1B2t4/Rcq7npXlk1yQdPdIx90V7b0Nf9BjEBRH8zuaMMKJHfWSPlGvIRUmLv4K4FYiAD2
-	KhqK1gV6h+IGQgNoBYqP/gWst2uWd2lTP27xFE+Q==
-X-Google-Smtp-Source: AGHT+IFcREG/4yFEmC+ZxV8s2QA/5bd3ZV1RNpvIrg2UOkqeg3XFOew6fBn8aG27bqWGkg7Xi5BfChdrPFBmpTvrP3w=
-X-Received: by 2002:a7b:ce16:0:b0:43c:fabf:9146 with SMTP id
- 5b1f17b1804b1-43f4aafa80dmr58064325e9.17.1744664214557; Mon, 14 Apr 2025
- 13:56:54 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="O8v7dh2o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744668401;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=7A+Lf5b6+QKJm+ZLr2WSKVaUqffwZGw3fSnH07I2CYs=;
+	b=O8v7dh2oFUqnbkgFDw8SmYSVWlwFJKt1r64W8K0g8QDJZzgTnUE5Hs93HaJvH6FBGDwOBE
+	LK1k4G0j+wiJpzEQkwuYGfcdlTz5YKx3c5lDLd8GPJWhV2V6xJI+3NVtGqSpuLj2yhpXW5
+	Wvy91Z6DXa3p8PAIu+ofUyJCu3Htzbs=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-403-XqYKilyTPFGcWBaK2QIohA-1; Mon,
+ 14 Apr 2025 18:06:37 -0400
+X-MC-Unique: XqYKilyTPFGcWBaK2QIohA-1
+X-Mimecast-MFC-AGG-ID: XqYKilyTPFGcWBaK2QIohA_1744668393
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 5595A195609E;
+	Mon, 14 Apr 2025 22:06:32 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.64.91])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id AA0131956094;
+	Mon, 14 Apr 2025 22:06:22 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	corbet@lwn.net,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	ryan.roberts@arm.com,
+	willy@infradead.org,
+	peterx@redhat.com,
+	ziy@nvidia.com,
+	wangkefeng.wang@huawei.com,
+	usamaarif642@gmail.com,
+	sunnanyong@huawei.com,
+	vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com,
+	yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com,
+	aarcange@redhat.com,
+	raquini@redhat.com,
+	dev.jain@arm.com,
+	anshuman.khandual@arm.com,
+	catalin.marinas@arm.com,
+	tiwai@suse.de,
+	will@kernel.org,
+	dave.hansen@linux.intel.com,
+	jack@suse.cz,
+	cl@gentwo.org,
+	jglisse@google.com,
+	surenb@google.com,
+	zokeefe@google.com,
+	hannes@cmpxchg.org,
+	rientjes@google.com,
+	mhocko@suse.com
+Subject: [PATCH v3 00/12] khugepaged: mTHP support
+Date: Mon, 14 Apr 2025 16:05:45 -0600
+Message-ID: <20250414220557.35388-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com>
-In-Reply-To: <87semdjxcp.fsf@microsoft.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 14 Apr 2025 13:56:42 -0700
-X-Gm-Features: ATxdqUHCb53j5ciFtAcQCnJkNA0yls1KzsDz-H40EWEXDT9mEyWFo_Dj8Pa3eyk
-Message-ID: <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
-	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-On Sat, Apr 12, 2025 at 6:58=E2=80=AFAM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
->
-> TAlexei Starovoitov <alexei.starovoitov@gmail.com> writes:
->
-> > On Fri, Apr 4, 2025 at 2:56=E2=80=AFPM Blaise Boscaccy
-> > <bboscaccy@linux.microsoft.com> wrote:
-> >> +
-> >> +static int hornet_find_maps(struct bpf_prog *prog, struct hornet_maps=
- *maps)
-> >> +{
-> >> +       struct bpf_insn *insn =3D prog->insnsi;
-> >> +       int insn_cnt =3D prog->len;
-> >> +       int i;
-> >> +       int err;
-> >> +
-> >> +       for (i =3D 0; i < insn_cnt; i++, insn++) {
-> >> +               if (insn[0].code =3D=3D (BPF_LD | BPF_IMM | BPF_DW)) {
-> >> +                       switch (insn[0].src_reg) {
-> >> +                       case BPF_PSEUDO_MAP_IDX_VALUE:
-> >> +                       case BPF_PSEUDO_MAP_IDX:
-> >> +                               err =3D add_used_map(maps, insn[0].imm=
-);
-> >> +                               if (err < 0)
-> >> +                                       return err;
-> >> +                               break;
-> >> +                       default:
-> >> +                               break;
-> >> +                       }
-> >> +               }
-> >> +       }
-> >
-> > ...
-> >
-> >> +               if (!map->frozen) {
-> >> +                       attr.map_fd =3D fd;
-> >> +                       err =3D kern_sys_bpf(BPF_MAP_FREEZE, &attr, si=
-zeof(attr));
-> >
-> > Sorry for the delay. Still swamped after conferences and the merge wind=
-ow.
-> >
->
-> No worries.
->
-> > Above are serious layering violations.
-> > LSMs should not be looking that deep into bpf instructions.
->
-> These aren't BPF internals; this is data passed in from
-> userspace. Inspecting userspace function inputs is definitely within the
-> purview of an LSM.
->
-> Lskel signature verification doesn't actually need a full disassembly,
-> but it does need all the maps used by the lskel. Due to API design
-> choices, this unfortunately requires disassembling the program to see
-> which array indexes are being used.
->
-> > Calling into sys_bpf from LSM is plain nack.
-> >
->
-> kern_sys_bpf is an EXPORT_SYMBOL, which means that it should be callable
-> from a module.
+The following series provides khugepaged and madvise collapse with the
+capability to collapse regions to mTHPs.
 
-It's a leftover.
-kern_sys_bpf() is not something that arbitrary kernel
-modules should call.
-It was added to work for cases where kernel modules
-carry their own lskels.
-That use case is gone, so EXPORT_SYMBOL will be removed.
+To achieve this we generalize the khugepaged functions to no longer depend
+on PMD_ORDER. Then during the PMD scan, we keep track of chunks of pages
+(defined by MTHP_MIN_ORDER) that are utilized. This info is tracked
+using a bitmap. After the PMD scan is done, we do binary recursion on the
+bitmap to find the optimal mTHP sizes for the PMD range. The restriction
+on max_ptes_none is removed during the scan, to make sure we account for
+the whole PMD range. When no mTHP size is enabled, the legacy behavior of
+khugepaged is maintained. max_ptes_none will be scaled by the attempted
+collapse order to determine how full a THP must be to be eligible. If a
+mTHP collapse is attempted, but contains swapped out, or shared pages, we
+dont perform the collapse.
 
-> Lskels without frozen maps are vulnerable to a TOCTOU
-> attack from a sufficiently privileged user. Lskels currently pass
-> unfrozen maps into the kernel, and there is nothing stopping someone
-> from modifying them between BPF_PROG_LOAD and BPF_PROG_RUN.
->
-> > The verification of module signatures is a job of the module loading pr=
-ocess.
-> > The same thing should be done by the bpf system.
-> > The signature needs to be passed into sys_bpf syscall
-> > as a part of BPF_PROG_LOAD command.
-> > It probably should be two new fields in union bpf_attr
-> > (signature and length),
-> > and the whole thing should be processed as part of the loading
-> > with human readable error reported back through the verifier log
-> > in case of signature mismatch, etc.
-> >
->
-> I don't necessarily disagree, but my main concern with this is that
-> previous code signing patchsets seem to get gaslit or have the goalposts
-> moved until they die or are abandoned.
+With the default max_ptes_none=511, the code should keep its most of its
+original behavior. To exercise mTHP collapse we need to set max_ptes_none<=255.
+With max_ptes_none > HPAGE_PMD_NR/2 you will experience collapse "creep" and
+constantly promote mTHPs to the next available size.
 
-Previous attempts to add signing failed because
-1. It's a difficult problem to solve
-2. people only cared about their own narrow use case and not
-considering the needs of bpf ecosystem as a whole.
+Patch 1:     Some refactoring to combine madvise_collapse and khugepaged
+Patch 2:     Refactor/rename hpage_collapse
+Patch 3-5:   Generalize khugepaged functions for arbitrary orders
+Patch 6-9:   The mTHP patches
+Patch 10-11: Tracing/stats
+Patch 12:    Documentation
 
-> Are you saying that at this point, you would be amenable to an in-tree
-> set of patches that enforce signature verification of lskels during
-> BPF_PROG_LOAD that live in syscall.c,
+---------
+ Testing
+---------
+- Built for x86_64, aarch64, ppc64le, and s390x
+- selftests mm
+- I created a test script that I used to push khugepaged to its limits while
+   monitoring a number of stats and tracepoints. The code is available
+   here[1] (Run in legacy mode for these changes and set mthp sizes to inherit)
+   The summary from my testings was that there was no significant regression
+   noticed through this test. In some cases my changes had better collapse
+   latencies, and was able to scan more pages in the same amount of time/work,
+   but for the most part the results were consistent.
+- redis testing. I tested these changes along with my defer changes
+  (see followup post for more details).
+- some basic testing on 64k page size.
+- lots of general use. These changes have been running in my VM for some time.
 
-that's the only way to do it.
+Changes since V2:
+- corrected legacy behavior for khugepaged and madvise_collapse
+- added proper mTHP stat tracking
+- Minor changes to prevent a nested lock on non-split-lock arches
+- Took Devs version of alloc_charge_folio as it has the proper stats
+- Skip cases were trying to collapse to a lower order would still fail
+- Fixed cases were the bitmap was not being updated properly
+- Moved Documentation update to this series instead of the defer set
+- Minor bugs discovered during testing and review
+- Minor "nit" cleanup
 
-> without adding extra non-code
-> signing requirements like attachment point verification, completely
-> eBPF-based solutions, or rich eBPF-based program run-time policy
-> enforcement?
 
-Those are secondary considerations that should also be discussed.
-Not necessarily a blocker.
+Changes since V1 [2]:
+- Minor bug fixes discovered during review and testing
+- removed dynamic allocations for bitmaps, and made them stack based
+- Adjusted bitmap offset from u8 to u16 to support 64k pagesize.
+- Updated trace events to include collapsing order info.
+- Scaled max_ptes_none by order rather than scaling to a 0-100 scale.
+- No longer require a chunk to be fully utilized before setting the bit. Use
+   the same max_ptes_none scaling principle to achieve this.
+- Skip mTHP collapse that requires swapin or shared handling. This helps prevent
+   some of the "creep" that was discovered in v1.
+
+[1] - https://gitlab.com/npache/khugepaged_mthp_test
+[2] - https://lore.kernel.org/lkml/20250108233128.14484-1-npache@redhat.com/
+
+Dev Jain (1):
+  khugepaged: generalize alloc_charge_folio()
+
+Nico Pache (11):
+  introduce khugepaged_collapse_single_pmd to unify khugepaged and
+    madvise_collapse
+  khugepaged: rename hpage_collapse_* to khugepaged_*
+  khugepaged: generalize hugepage_vma_revalidate for mTHP support
+  khugepaged: generalize __collapse_huge_page_* for mTHP support
+  khugepaged: introduce khugepaged_scan_bitmap for mTHP support
+  khugepaged: add mTHP support
+  khugepaged: skip collapsing mTHP to smaller orders
+  khugepaged: avoid unnecessary mTHP collapse attempts
+  khugepaged: improve tracepoints for mTHP orders
+  khugepaged: add per-order mTHP khugepaged stats
+  Documentation: mm: update the admin guide for mTHP collapse
+
+ Documentation/admin-guide/mm/transhuge.rst |   9 +-
+ include/linux/huge_mm.h                    |   5 +
+ include/linux/khugepaged.h                 |   4 +
+ include/trace/events/huge_memory.h         |  34 +-
+ mm/huge_memory.c                           |  11 +
+ mm/khugepaged.c                            | 457 ++++++++++++++-------
+ 6 files changed, 368 insertions(+), 152 deletions(-)
+
+-- 
+2.48.1
+
