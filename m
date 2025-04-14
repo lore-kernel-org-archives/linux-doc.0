@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2C62741C8;
-	Mon, 14 Apr 2025 15:40:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A74A27466A;
+	Mon, 14 Apr 2025 15:49:19 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744645249; cv=none; b=tdCb4hxPc35WUrmGSEOX5I13xsKLmKX5ry2+2CTP2kb1sJBYoefoUJbw2r/WBoH9B/xJ+UIqUyReNkKsSYAf4Egk4DjnVOHmwKnBWow4cY2NO9J5pgpnRNah7Iexo0ROkLkx+I24k/Oxt8N4izWW8GP8QZIHpOT8uXAtnXcGhaM=
+	t=1744645760; cv=none; b=Jw18hfqNArJz7UoKxm6adDwFaq/Dc24n2xcY1vBmr4U7UwiP9unU/KToKsL1Ed4Qmi/O7EnbKwRK+l2U2eSa4lhaWfsBxMiHC3dcVtsYD8iUYyDWnVy6SbdCNUgkfcMNFeFWMhn8kaoc3d8uBxJFhBAXkayF69FN26xQwUgfjEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744645249; c=relaxed/simple;
-	bh=5QSDn6KKf0BI/D2F5oXgxnkoaf9AduFGO5YkzxDQTRE=;
+	s=arc-20240116; t=1744645760; c=relaxed/simple;
+	bh=LW+sWehA2wdSuARkuJpL0aAVzRSrHG73IzO/zg+cjAA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=na6VON3SB3PaL34Zm7kv5l07vBx7KaSQTrf8Oi0/55dGaYt+NkXsWG0wmGYRuLnHoshqovOLStWZ5zTDKDL6MDNql3ttdrCjNWSzlHbAJNQWM9+9B3bG4b+4GC+KEOi7DL1KyhEGNX4AnK8YJviQgfI9nMkBGfNjFCBusMm5A5E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1IjtOfF; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=BlIlyBBT6sET7koc2FgoA3tg2YDqIPQZaleEHtYRw2NPafFbDlh63vqEWER+tqwYLEsZZTLPUwu879do+iMN4BcmiAhumsYedxmgkjLUpJ1PKd5qimNMY4YO+dGzYCIbFoGfQU1zD04D6omJaLIiM0037A8QgwcCa3kzRBoL9YY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vQHDRh49; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1IjtOfF"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633B9C4CEE2;
-	Mon, 14 Apr 2025 15:40:48 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vQHDRh49"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D77C4CEE2;
+	Mon, 14 Apr 2025 15:49:18 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744645248;
-	bh=5QSDn6KKf0BI/D2F5oXgxnkoaf9AduFGO5YkzxDQTRE=;
+	s=k20201202; t=1744645759;
+	bh=LW+sWehA2wdSuARkuJpL0aAVzRSrHG73IzO/zg+cjAA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=m1IjtOfF2xuF5dFlNxDnCXUTbL/f8ikg62tzfw46eJhMbatuCHPm7yAYF72xF7vd3
-	 sEnyrG2r7f0WZ2gijdKeXUYezJhOBDb4XN61H8IXVVXjTA5SW1HAD3sr+lcf1m+eyG
-	 sGNR+gcstIvDoWGLxUPk2XoWq9cdgo/VvMqx9mN34D3GI4LzgYm24Zp0p/yflkCaNS
-	 oqaUIFuMkvf1E0boe7dPeyX4F+OcLnGkXL7hHAx96JVjJ0lqaLCqKqSuQypfXedvwk
-	 TqI4ekc7Y3iWoVB7J6Cc0lqFG/DmekuEoBzc079X0k1h+6ZNYXsGjvOF1Zcvz4ETAR
-	 4ts/1LvqJjh9g==
-Date: Mon, 14 Apr 2025 17:40:46 +0200
+	b=vQHDRh490SnMEjPeOhE4Iu7MOzuIs/dIp0Ha/Zouf40WmLSuctYyJhbsxq0a0o+wJ
+	 +7nayZFxRAVHdI3Rx7G55dVCsguYPSojJ48ZT56icKJLtI3Zejoa2XDYvucCb73EBC
+	 LYqVRnY4shH4pedqs20qzvXRYpUZginHF8UcAtQW7F7GAOr2mvx7uv4ckY5VtUF+fk
+	 oxZggRIpA0nCVXq2bnxxHYcDjcRfockIwI7ypLRY9pjDBZ7zbeHRY365/tm1O3D37P
+	 PLi8r2pi9aUvQ9YKj2iTKA6kUYTBr/0Ika98yvY64amsJQSvG69AHS2cZH4XWD1kyX
+	 56tAKc+A3uMpA==
+Date: Mon, 14 Apr 2025 17:49:16 +0200
 From: Maxime Ripard <mripard@kernel.org>
 To: Luca Ceresoli <luca.ceresoli@bootlin.com>
 Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
@@ -39,11 +39,11 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
 	Dmitry Baryshkov <lumag@kernel.org>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
 	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
 	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
- lifecycle
-Message-ID: <20250414-dangerous-stoic-lemur-5e083c@houat>
+Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
+ devm_drm_bridge_alloc()
+Message-ID: <20250414-misty-hungry-woodlouse-dbbd64@houat>
 References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
- <20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
+ <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,190 +51,131 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="7r4bubvsnjmr6bbb"
+	protocol="application/pgp-signature"; boundary="4jicyu5cwq5bgi2g"
 Content-Disposition: inline
-In-Reply-To: <20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
+In-Reply-To: <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
 
 
---7r4bubvsnjmr6bbb
+--4jicyu5cwq5bgi2g
 Content-Type: text/plain; protected-headers=v1; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
- lifecycle
+Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
+ devm_drm_bridge_alloc()
 MIME-Version: 1.0
 
 Hi,
 
-On Wed, Apr 09, 2025 at 04:50:34PM +0200, Luca Ceresoli wrote:
-> Document in detail the DRM bridge allocation and refcounting process based
-> on the recently introduced devm_drm_bridge_alloc().
+On Wed, Apr 09, 2025 at 04:50:35PM +0200, Luca Ceresoli wrote:
+> Add a basic KUnit test for the newly introduced drm_bridge_alloc().
 >=20
 > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-
-There's a typo in your commit title.
-
+>=20
 > ---
 >=20
-> Changes in v7:
->  - remove mention of "legacy mode", we now support only refcounted
->    bridges
->  - rename patch title from "drm/bridge: add documentation of refcounted
->    bridges", we now support only refcounted bridges
+> Changed in v7:
+>  - rebase on current drm-misc-next, which now has a drm_bridge_test.c file
+>  - cleanup commit message
 >=20
-> Changes in v6:
->  - update to the new devm_drm_bridge_alloc() API
->  - rewrite and improve various sentences for clarity
->  - fix typos (Randy Dunlap)
+> Changed in v6:
+>  - update to new devm_drm_bridge_alloc() API
+>  - remove drm_test_drm_bridge_put test, not straightforward to write with
+>    the new API and the current notification mechanism
+>  - do not allocate a drm_device: a bridge is allocated without one
+>  - rename some identifiers for easier code reading
 >=20
 > This patch was added in v5.
 > ---
->  Documentation/gpu/drm-kms-helpers.rst |  6 +++
->  drivers/gpu/drm/drm_bridge.c          | 73 +++++++++++++++++++++++++++++=
+>  drivers/gpu/drm/tests/drm_bridge_test.c | 60 +++++++++++++++++++++++++++=
 ++++++
->  2 files changed, 79 insertions(+)
+>  1 file changed, 60 insertions(+)
 >=20
-> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/dr=
-m-kms-helpers.rst
-> index 5139705089f200b189876a5a61bf2a935cec433a..393cd0e4cb5af3fe98674e7a9=
-6c853ffb2556c97 100644
-> --- a/Documentation/gpu/drm-kms-helpers.rst
-> +++ b/Documentation/gpu/drm-kms-helpers.rst
-> @@ -151,6 +151,12 @@ Overview
->  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
->     :doc: overview
+> diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/te=
+sts/drm_bridge_test.c
+> index ff88ec2e911c9cc9a718483f09d4c764f45f991a..87fb64744b67f0780457a546a=
+ba77ba945a0ce67 100644
+> --- a/drivers/gpu/drm/tests/drm_bridge_test.c
+> +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
+> @@ -8,6 +8,7 @@
+>  #include <drm/drm_bridge_helper.h>
+>  #include <drm/drm_kunit_helpers.h>
 > =20
-> +Bridge allocation and lifecycle
-> +-------------------------------
-> +
-> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> +   :doc: bridge lifecycle
-> +
->  Display Driver Integration
->  --------------------------
+> +#include <kunit/device.h>
+>  #include <kunit/test.h>
 > =20
-> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> index b4c89ec01998b849018ce031c7cd84614e65e710..b7e1ad761dad52bdb2ec09d42=
-5e69ee23a18fd36 100644
-> --- a/drivers/gpu/drm/drm_bridge.c
-> +++ b/drivers/gpu/drm/drm_bridge.c
-> @@ -61,6 +61,79 @@
->   * encoder chain.
->   */
+>  struct drm_bridge_init_priv {
+> @@ -407,11 +408,70 @@ static struct kunit_suite drm_bridge_helper_reset_c=
+rtc_test_suite =3D {
+>  	.test_cases =3D drm_bridge_helper_reset_crtc_tests,
+>  };
 > =20
-> +/**
-> + * DOC: bridge lifecycle
-> + *
-> + * In some use cases such as hot-plugging a DRM bridge device can
-> + * physically disappear and reappear at runtime. To handle such cases
-> + * without destroying and recreating the entire DRM pipeline, DRM bridge
-> + * lifetime is managed using reference counting:
+> +struct drm_bridge_alloc_test_ctx {
+> +	struct device *dev;
+> +};
 
-That case doesn't exist yet, so documenting it seems a source of confusion.
+You don't need a struct there then, you can just pass the device pointer.
 
-> + * - each &struct drm_bridge is reference counted since its allocation
-> + * - any code taking a pointer to a bridge has APIs to get a reference a=
-nd
-> + *   put it when done, to ensure the memory allocated for the bridge won=
-'t
-> + *   be deallocated while there is still a reference to it
-> + * - the driver implementing the bridge also holds a reference, but the
-> + *   allocated struct can survive the driver in case other references st=
-ill
-> + *   exist
-> + * - deallocation is done when the last put happens, dropping the refcou=
-nt
-> + *   to zero
-> + *
-> + * Usage of refcounted bridges happens in two sides: the bridge *provide=
-r*
-> + * and the bridge *consumers*. The bridge provider is the driver
-> + * implementing the bridge. The bridge consumers are all parts of the
-> + * kernel taking a &struct drm_bridge pointer, including other bridges,
-> + * encoders and the DRM core.
-> + *
-> + * For bridge **providers**, the bridge driver declares a driver-specific
-> + * struct embedding a &struct drm_bridge. E.g.::
-> + *
-> + *   struct my_bridge {
-> + *       ...
-> + *       struct drm_bridge bridge;
-> + *       ...
-> + *   };
-> + *
-> + * The driver must allocate and initialize ``struct my_bridge`` using
-> + * devm_drm_bridge_alloc(), as in this example::
-> + *
-> + *     static int my_bridge_probe(...)
-> + *     {
-> + *         struct device *dev =3D ...;
-> + *         struct my_bridge *mybr;
-> + *
-> + *         mybr =3D devm_drm_bridge_alloc(dev, struct my_bridge, bridge,=
- &my_bridge_funcs);
-> + *         if (IS_ERR(mybr))
-> + *             return PTR_ERR(mybr);
-> + *
-> + *         // Get resources, initialize my_bridge members...
-> + *         drm_bridge_add(&mybr->bridge);
-> + *         ...
-> + *     }
-> + *
-> + *     static void my_bridge_remove(...)
-> + *     {
-> + *         struct my_bridge *mybr =3D ...;
-> + *
-> + *         drm_bridge_remove(&mybr->bridge);
-> + *         // Free resources
-> + *         // ... NO kfree here!
-> + *     }
-
-This part is already documented by drm_bridge_add(), so it's not clear
-what that section brings to the table either.
-
-> + * Bridge **consumers** need to handle the case of a bridge being removed
-> + * while they have a pointer to it. As this can happen at any time, such
-> + * code can incur in use-after-free. To avoid that, consumers have to ca=
-ll
-> + * drm_bridge_get() when taking a pointer and drm_bridge_put() after they
-> + * are done using it. This will extend the allocation lifetime of the
-> + * bridge struct until the last reference has been put, potentially a lo=
-ng
-> + * time after the bridge device has been removed from the kernel.
-
-And it's kind of the same thing here. You're saying here that every
-consumer absolutely needs to call drm_bridge_get() and drm_bridge_put()
-on their pointer ...
-
-> + * Functions that return a pointer to a bridge, such as
-> + * of_drm_find_bridge(), internally call drm_bridge_get() on the bridge
-> + * they are about to return, so users using such functions to get a brid=
-ge
-> + * pointer only have to take care of calling drm_bridge_put().
+> +/*
+> + * Mimick the typical struct defined by a bridge driver, which embeds a
+> + * bridge plus other fields.
 > + */
+> +struct dummy_drm_bridge {
+> +	int dummy; // ensure we test non-zero @bridge offset
+> +	struct drm_bridge bridge;
+> +};
 
-=2E.. but that every function that gives you a pointer will take care of
-drm_bridge_get already and (will) document that you need to call
-drm_bridge_put ?
+drm_bridge_init_priv gives you that already.
 
-I guess my larger question is kind of an editorial one. What do you want
-people to learn here that isn't in some function documentation already?
-At the moment, it looks like a doc that used to be useful but got kind
-of deprecated by the documentation you created on all the functions we
-merged so far, or a documentation that might be useful at some point but
-not quite yet. Either way, it's confusing.
+> +static const struct drm_bridge_funcs drm_bridge_dummy_funcs =3D {
+> +};
+> +
+> +static int drm_test_bridge_alloc_init(struct kunit *test)
+> +{
+> +	struct drm_bridge_alloc_test_ctx *ctx;
+> +
+> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> +
+> +	ctx->dev =3D kunit_device_register(test, "drm-bridge-dev");
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
+> +
+> +	test->priv =3D ctx;
+> +
+> +	return 0;
+> +}
+> +
+> +/*
+> + * Test that the allocation and initialization of a bridge works as
+> + * expected and doesn't report any error.
+> + */
+> +static void drm_test_drm_bridge_alloc(struct kunit *test)
+> +{
+> +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
+> +	struct dummy_drm_bridge *dummy;
+> +
+> +	dummy =3D devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, brid=
+ge,
+> +				      &drm_bridge_dummy_funcs);
+> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy);
+
+Why did you need the dummy value in dummy_drm_bridge if you're not using
+it?
+
+We'd need a couple more tests, in particular some to make sure the
+bridge pointer is properly cleaned up when the device goes away, but not
+when we have called drm_bridge_get pointer on it, etc.
 
 Maxime
 
---7r4bubvsnjmr6bbb
+--4jicyu5cwq5bgi2g
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/0sfQAKCRDj7w1vZxhR
-xaCOAP0fs5wqFsAMRRjpo4RFWiZr7coTS4MFS6msUslo7GPA6AD+JN13lmgDSnwt
-TepAz3sv0KOKOs3KvskmyqtnrgJJ5AE=
-=78Qg
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/0ufAAKCRDj7w1vZxhR
+xciJAPwN/nr+7o9AH21EBA74RUDiqX8sNRT5jbGun9PPilLS9wEAxZulZJey52X/
+5KR4SC2mAdeAyULYDu85vBJzNMc+aA8=
+=Bh9n
 -----END PGP SIGNATURE-----
 
---7r4bubvsnjmr6bbb--
+--4jicyu5cwq5bgi2g--
