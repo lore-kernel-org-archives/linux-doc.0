@@ -1,161 +1,240 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E68FE2741D6;
-	Mon, 14 Apr 2025 15:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E2C62741C8;
+	Mon, 14 Apr 2025 15:40:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744644562; cv=none; b=iSY6stPgN4IJo7POhcAbJ4eZvgQ2RirD+AtqkCDKr9zRyqDyjzrOEFGbJLMNsONDy0iAlQrB694EbBJn5Zva2nowYh6fII42pJ2uWuhsM5aRU6t+4V6E3jGA81AD0anF+MMlY8V9NfA0cNVm2c06C51EQ+ic3IhpygrIOca6qKM=
+	t=1744645249; cv=none; b=tdCb4hxPc35WUrmGSEOX5I13xsKLmKX5ry2+2CTP2kb1sJBYoefoUJbw2r/WBoH9B/xJ+UIqUyReNkKsSYAf4Egk4DjnVOHmwKnBWow4cY2NO9J5pgpnRNah7Iexo0ROkLkx+I24k/Oxt8N4izWW8GP8QZIHpOT8uXAtnXcGhaM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744644562; c=relaxed/simple;
-	bh=Zfxt9pzsycQ44C7fc2uUTKbR36TCBIXwtLawvoFRbzw=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Aml0hXol5+iTxIX1OdQqEHzhS0mqNFSFoJsRynNFY1sW6AJSsxTR4r1dS0FzXS9UB/hTjx9bvYitGJ9Y2oT9qB5KOC7YQZspM8yLRXE1PuFhoI4V8laWLA2wfy9tbM4ki5olPviQuD3DFdgDH6l2C2ye4sfGDqxmT/pGEb6KwyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mntqWbOF; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1744645249; c=relaxed/simple;
+	bh=5QSDn6KKf0BI/D2F5oXgxnkoaf9AduFGO5YkzxDQTRE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=na6VON3SB3PaL34Zm7kv5l07vBx7KaSQTrf8Oi0/55dGaYt+NkXsWG0wmGYRuLnHoshqovOLStWZ5zTDKDL6MDNql3ttdrCjNWSzlHbAJNQWM9+9B3bG4b+4GC+KEOi7DL1KyhEGNX4AnK8YJviQgfI9nMkBGfNjFCBusMm5A5E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=m1IjtOfF; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mntqWbOF"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DFB8E41062
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1744644560; bh=1jK3yJ43Y4sGCHxXLdedDiZmuvB+Y7tZLtCUL/i2on0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mntqWbOFsNQAYHj4sRpw8TY+m9L7Rs6tBkz6DFlTly52FEbncyeA5i31M0iPnzPK+
-	 TGzjG/rK4p28IhjqJwCU1hxm2bDWBZat4Tgw64dyrNJuxzV3QVEoPfErarkG4TZvpg
-	 Ae+FyeXvaWUC036W1eH5XGTQSze211UIM3U5UGZXPtAM9ZtlqkSSCko/Nh3lu03cfn
-	 g6aHHtHltbRHjmykKm1hq6CmjWDbv355H5T0gigaKGkKeCyPHjPK4+6XrpeU/XK7dt
-	 0nejM/3CsjLtddWl9lyt329RqtoqGFILA8/w38XHfM9zygkIZrdItXWdfWWrNXsdAR
-	 JwT6B07E/hdtw==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DFB8E41062;
-	Mon, 14 Apr 2025 15:29:19 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: saivishnu725@gmail.com, mchehab@kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, saivishnu725
- <saivishnu725@gmail.com>
-Subject: Re: [PATCH] Add --interactive option to prompt for dependency
- installation if missing
-In-Reply-To: <20250410155414.47114-1-saivishnu725@gmail.com>
-References: <20250410155414.47114-1-saivishnu725@gmail.com>
-Date: Mon, 14 Apr 2025 09:29:19 -0600
-Message-ID: <87ikn6bw34.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="m1IjtOfF"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 633B9C4CEE2;
+	Mon, 14 Apr 2025 15:40:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744645248;
+	bh=5QSDn6KKf0BI/D2F5oXgxnkoaf9AduFGO5YkzxDQTRE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=m1IjtOfF2xuF5dFlNxDnCXUTbL/f8ikg62tzfw46eJhMbatuCHPm7yAYF72xF7vd3
+	 sEnyrG2r7f0WZ2gijdKeXUYezJhOBDb4XN61H8IXVVXjTA5SW1HAD3sr+lcf1m+eyG
+	 sGNR+gcstIvDoWGLxUPk2XoWq9cdgo/VvMqx9mN34D3GI4LzgYm24Zp0p/yflkCaNS
+	 oqaUIFuMkvf1E0boe7dPeyX4F+OcLnGkXL7hHAx96JVjJ0lqaLCqKqSuQypfXedvwk
+	 TqI4ekc7Y3iWoVB7J6Cc0lqFG/DmekuEoBzc079X0k1h+6ZNYXsGjvOF1Zcvz4ETAR
+	 4ts/1LvqJjh9g==
+Date: Mon, 14 Apr 2025 17:40:46 +0200
+From: Maxime Ripard <mripard@kernel.org>
+To: Luca Ceresoli <luca.ceresoli@bootlin.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
+	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
+	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
+	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
+	Dmitry Baryshkov <lumag@kernel.org>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
+	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
+ lifecycle
+Message-ID: <20250414-dangerous-stoic-lemur-5e083c@houat>
+References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
+ <20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="7r4bubvsnjmr6bbb"
+Content-Disposition: inline
+In-Reply-To: <20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
 
-Thanks for working to make our tooling better.  Various comments...
 
-saivishnu725@gmail.com writes:
+--7r4bubvsnjmr6bbb
+Content-Type: text/plain; protected-headers=v1; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
+ lifecycle
+MIME-Version: 1.0
 
-> From: saivishnu725 <saivishnu725@gmail.com>
->
-> Introduce the --interactive flag to enable user prompts before running commands to install missing dependencies.
-> Asks if the user would like to run the distro appropriate commands if any dependency is not available.
+Hi,
 
-Please keep changelog text within the 80-column limit.
+On Wed, Apr 09, 2025 at 04:50:34PM +0200, Luca Ceresoli wrote:
+> Document in detail the DRM bridge allocation and refcounting process based
+> on the recently introduced devm_drm_bridge_alloc().
+>=20
+> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
 
-> Signed-off-by: saivishnu725 <saivishnu725@gmail.com>
-
-The signoff should have your full name, please.
+There's a typo in your commit title.
 
 > ---
->  scripts/sphinx-pre-install | 27 ++++++++++++++++++++++++---
->  1 file changed, 24 insertions(+), 3 deletions(-)
->
-> diff --git a/scripts/sphinx-pre-install b/scripts/sphinx-pre-install
-> index ad9945ccb0cf..581d694eb0fd 100755
-> --- a/scripts/sphinx-pre-install
-> +++ b/scripts/sphinx-pre-install
-> @@ -42,6 +42,7 @@ my $latest_avail_ver;
->  my $pdf = 1;
->  my $virtualenv = 1;
->  my $version_check = 0;
-> +my $interactive = 0;
->  
->  #
->  # List of required texlive packages on Fedora and OpenSuse
-> @@ -338,6 +339,21 @@ sub which($)
->  	return undef;
->  }
->  
-> +sub run_if_interactive($)
-> +{
-> +	my $command = shift;
+>=20
+> Changes in v7:
+>  - remove mention of "legacy mode", we now support only refcounted
+>    bridges
+>  - rename patch title from "drm/bridge: add documentation of refcounted
+>    bridges", we now support only refcounted bridges
+>=20
+> Changes in v6:
+>  - update to the new devm_drm_bridge_alloc() API
+>  - rewrite and improve various sentences for clarity
+>  - fix typos (Randy Dunlap)
+>=20
+> This patch was added in v5.
+> ---
+>  Documentation/gpu/drm-kms-helpers.rst |  6 +++
+>  drivers/gpu/drm/drm_bridge.c          | 73 +++++++++++++++++++++++++++++=
+++++++
+>  2 files changed, 79 insertions(+)
+>=20
+> diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/dr=
+m-kms-helpers.rst
+> index 5139705089f200b189876a5a61bf2a935cec433a..393cd0e4cb5af3fe98674e7a9=
+6c853ffb2556c97 100644
+> --- a/Documentation/gpu/drm-kms-helpers.rst
+> +++ b/Documentation/gpu/drm-kms-helpers.rst
+> @@ -151,6 +151,12 @@ Overview
+>  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+>     :doc: overview
+> =20
+> +Bridge allocation and lifecycle
+> +-------------------------------
 > +
-> +	if ($interactive) {
-> +		printf("Do you want to run the command now [Y/n]: ");
-> +		my $user_input = <STDIN>;
-> +		chomp $user_input;
-> +		if ($user_input =~ /Y|y/) {
-> +			printf("\$ $command\n");
-> +			system($command);
-> +		}
-> +	}
-> +}
+> +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
+> +   :doc: bridge lifecycle
+> +
+>  Display Driver Integration
+>  --------------------------
+> =20
+> diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
+> index b4c89ec01998b849018ce031c7cd84614e65e710..b7e1ad761dad52bdb2ec09d42=
+5e69ee23a18fd36 100644
+> --- a/drivers/gpu/drm/drm_bridge.c
+> +++ b/drivers/gpu/drm/drm_bridge.c
+> @@ -61,6 +61,79 @@
+>   * encoder chain.
+>   */
+> =20
+> +/**
+> + * DOC: bridge lifecycle
+> + *
+> + * In some use cases such as hot-plugging a DRM bridge device can
+> + * physically disappear and reappear at runtime. To handle such cases
+> + * without destroying and recreating the entire DRM pipeline, DRM bridge
+> + * lifetime is managed using reference counting:
 
-It seems to me that you might want to check the exit status of the
-command and stop if something does not work properly.
+That case doesn't exist yet, so documenting it seems a source of confusion.
 
->  #
->  # Subroutines that check distro-specific hints
->  #
-> @@ -374,7 +390,9 @@ sub give_debian_hints()
->  
->  	return if (!$need && !$optional);
->  	printf("You should run:\n") if ($verbose_warn_install);
-> -	printf("\n\tsudo apt-get install $install\n");
-> +	my $command = "sudo apt-get install $install";
-> +	printf("\n\t$command\n");
-> +	run_if_interactive($command);
->  }
+> + * - each &struct drm_bridge is reference counted since its allocation
+> + * - any code taking a pointer to a bridge has APIs to get a reference a=
+nd
+> + *   put it when done, to ensure the memory allocated for the bridge won=
+'t
+> + *   be deallocated while there is still a reference to it
+> + * - the driver implementing the bridge also holds a reference, but the
+> + *   allocated struct can survive the driver in case other references st=
+ill
+> + *   exist
+> + * - deallocation is done when the last put happens, dropping the refcou=
+nt
+> + *   to zero
+> + *
+> + * Usage of refcounted bridges happens in two sides: the bridge *provide=
+r*
+> + * and the bridge *consumers*. The bridge provider is the driver
+> + * implementing the bridge. The bridge consumers are all parts of the
+> + * kernel taking a &struct drm_bridge pointer, including other bridges,
+> + * encoders and the DRM core.
+> + *
+> + * For bridge **providers**, the bridge driver declares a driver-specific
+> + * struct embedding a &struct drm_bridge. E.g.::
+> + *
+> + *   struct my_bridge {
+> + *       ...
+> + *       struct drm_bridge bridge;
+> + *       ...
+> + *   };
+> + *
+> + * The driver must allocate and initialize ``struct my_bridge`` using
+> + * devm_drm_bridge_alloc(), as in this example::
+> + *
+> + *     static int my_bridge_probe(...)
+> + *     {
+> + *         struct device *dev =3D ...;
+> + *         struct my_bridge *mybr;
+> + *
+> + *         mybr =3D devm_drm_bridge_alloc(dev, struct my_bridge, bridge,=
+ &my_bridge_funcs);
+> + *         if (IS_ERR(mybr))
+> + *             return PTR_ERR(mybr);
+> + *
+> + *         // Get resources, initialize my_bridge members...
+> + *         drm_bridge_add(&mybr->bridge);
+> + *         ...
+> + *     }
+> + *
+> + *     static void my_bridge_remove(...)
+> + *     {
+> + *         struct my_bridge *mybr =3D ...;
+> + *
+> + *         drm_bridge_remove(&mybr->bridge);
+> + *         // Free resources
+> + *         // ... NO kfree here!
+> + *     }
 
-It seems you'll print the command twice?
+This part is already documented by drm_bridge_add(), so it's not clear
+what that section brings to the table either.
 
->  sub give_redhat_hints()
-> @@ -1002,12 +1020,15 @@ while (@ARGV) {
->  		$pdf = 0;
->  	} elsif ($arg eq "--version-check"){
->  		$version_check = 1;
-> +	} elsif ($arg eq "--interactive") {
-> +		$interactive = 1;
->  	} else {
-> -		print "Usage:\n\t$0 <--no-virtualenv> <--no-pdf> <--version-check>\n\n";
-> +		print "Usage:\n\t$0 <--no-virtualenv> <--no-pdf> <--version-check> <--interactive>\n\n";
->  		print "Where:\n";
->  		print "\t--no-virtualenv\t- Recommend installing Sphinx instead of using a virtualenv\n";
->  		print "\t--version-check\t- if version is compatible, don't check for missing dependencies\n";
-> -		print "\t--no-pdf\t- don't check for dependencies required to build PDF docs\n\n";
-> +		print "\t--no-pdf\t- don't check for dependencies required to build PDF docs\n";
-> +		print "\t--interactive\t- Ask to install missing dependencies\n\n";
->  		exit -1;
->  	}
->  }
-> -- 
->
-> This is not the complete patch - I'm sending this to get early feedback before I go further. If this looks good, I plan to follow up with additional patches that will:
-> 1. use the run_if_interactive on the hints for every distro
-> 2. add more quality-to-life features to make the script more useful
->
-> Any form of feedback would be helpful! If there is a reason why none of the scripts are interactable, please let me know why.
+> + * Bridge **consumers** need to handle the case of a bridge being removed
+> + * while they have a pointer to it. As this can happen at any time, such
+> + * code can incur in use-after-free. To avoid that, consumers have to ca=
+ll
+> + * drm_bridge_get() when taking a pointer and drm_bridge_put() after they
+> + * are done using it. This will extend the allocation lifetime of the
+> + * bridge struct until the last reference has been put, potentially a lo=
+ng
+> + * time after the bridge device has been removed from the kernel.
 
-Here too, please stick with the 80-column limit.
+And it's kind of the same thing here. You're saying here that every
+consumer absolutely needs to call drm_bridge_get() and drm_bridge_put()
+on their pointer ...
 
-When you post an RFC patch like this, it's good to put "RFC" into the
-subject line, just to help ensure that it doesn't end up being applied
-prematurely.
+> + * Functions that return a pointer to a bridge, such as
+> + * of_drm_find_bridge(), internally call drm_bridge_get() on the bridge
+> + * they are about to return, so users using such functions to get a brid=
+ge
+> + * pointer only have to take care of calling drm_bridge_put().
+> + */
 
-Overall, I have no objection to the intent of the patch.  Nobody has
-asked for this, but that doesn't mean that they wouldn't have found it
-useful.  If you want to proceed, I would expect to apply the final
-result.
+=2E.. but that every function that gives you a pointer will take care of
+drm_bridge_get already and (will) document that you need to call
+drm_bridge_put ?
 
-Thanks,
+I guess my larger question is kind of an editorial one. What do you want
+people to learn here that isn't in some function documentation already?
+At the moment, it looks like a doc that used to be useful but got kind
+of deprecated by the documentation you created on all the functions we
+merged so far, or a documentation that might be useful at some point but
+not quite yet. Either way, it's confusing.
 
-jon
+Maxime
+
+--7r4bubvsnjmr6bbb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/0sfQAKCRDj7w1vZxhR
+xaCOAP0fs5wqFsAMRRjpo4RFWiZr7coTS4MFS6msUslo7GPA6AD+JN13lmgDSnwt
+TepAz3sv0KOKOs3KvskmyqtnrgJJ5AE=
+=78Qg
+-----END PGP SIGNATURE-----
+
+--7r4bubvsnjmr6bbb--
