@@ -1,193 +1,94 @@
-Received: from mail-yb1-f181.google.com (mail-yb1-f181.google.com [209.85.219.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E25C028B4E1
-	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 16:08:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D47AB13D531
+	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 16:27:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744646903; cv=none; b=B0GUR1ytt5BvmYtXwkECfU9DFj7bTUpvj65uB8xkjvizkr2RrURVCJYuBXdAl6Po96dfMFtzkWoSwYvrjSJqC0up4xpw5MJoF2NFPvEKHCsZf8UMPQfG8ncI+SCc1eilY/BFjSQqWuyIf6So7rvRx4GT+BHC9goTiMcmxhnKo5s=
+	t=1744648042; cv=none; b=NwwinJbl1dNPWBUYnDEZjMIWt7bBG9RjCtGZ1OYfm8HqB3+5HrUWkZAM0FJr5ZK4fhQKscd0rrIjlazteeRXS86YtXmVGd1LPURe/rFdh+89gbN6OMqAF3j3olKfKHp7FgNPLKsyGQT2DEVyyjqyi0V3WY54FEOVRldFQC9y9Rc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744646903; c=relaxed/simple;
-	bh=UM2X1MMDXZM7fTOBoaVl4irheKjkJEoFW6yGloSDkIU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=HToY/QT4S/KL7rGsX45glm0yWLxSWA78saduVrrfBpSdfGMb/BsQ3aB090fVMuFUff7umhxsBE7+xzaAES0w8MrKI8QHQmDpQkkx9czX9xSR0qzfxOZB/ErgywA2vDha67pWSxuGdzFbukbDqBL0TsyKkE9WSUO01FvssW+cOhA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Mumwvm/8; arc=none smtp.client-ip=209.85.219.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1744648042; c=relaxed/simple;
+	bh=gn9BL5+cLf0GxLK13J+IPORHm01ix+CiRp98VF8xXpo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=rAGhXrLMjCl+P6Sw5qyNkRfGiNIEUSYf11Df5ZqILRo31uTNqnNZe1Nrb6GglmtL7xSf+L9xmC9lJj7qXkWKlYHCZNHsmvP3QVqS+72LB26jUuXKLXg3Qo5IowKSKjE3H9Ueexcce/eWw9QHR8GD+kd/zi4t0NYdtTEERojYlmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=ao9qKy9K; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Mumwvm/8"
-Received: by mail-yb1-f181.google.com with SMTP id 3f1490d57ef6-e6e50418da6so4175198276.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 09:08:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1744646900; x=1745251700; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CL3vhJ/AOwi9smEiZpaLEqVlOaMdXAZ9MQuarYjoWe8=;
-        b=Mumwvm/8Y5rtsz0IvKUFkpE8ruDsmgBOjoUBw6i35+BbgBlhTboR4WV1z9gUU1ywLH
-         If2Yai0i6Q6qV8vm/ZQQZL0v9dYK03JXD0IhGFtp9mbK19ZLCDLnhXw/Uf/vH2kQ+taV
-         z3gj/9kyjkXNnsJWvBnbscoWFRL03Ll5QTZUTC2l+vzaVamEWnHzXlRUPZ/Nr5Bu7ppt
-         P307C8L/eQjyp29jdZkkMH6TcWCd6a8kcUjlFLyfvoFFuv0+9y0c+K0ho2d945G7mDRV
-         TST1aqnUXcHWpERl3ZCxsaVHdRAEe7WupgH9tpJDTMG1CJbCaOFvsU20YqAQ3wwsSnh1
-         TXnQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744646900; x=1745251700;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CL3vhJ/AOwi9smEiZpaLEqVlOaMdXAZ9MQuarYjoWe8=;
-        b=O6aZSyUMXUmV9f/WiKSGe3eOVJ9rCM2AJhUwelvL/ITEuMa3Chp5heDZggG2PphKIU
-         pONqlkfleC3h+JaEyf9EF82dmala8NhtkoswBpxv6NVyBpk4oEUmXk4Ddhc0+jFzE1n0
-         SLowxY9Q0i/z+/pzp+8lDvih+JmIADLXZaq9JKAGIyRuYWjBBcHg5gzPRGH/h6WrVjJk
-         SYo6t8kDsg8cRUWjV/YqEudi/dFzguV0iHjSgfAG+w0AlxcVMNsRX/fAhedeRS+0cJrx
-         jrgst0Kv84KJaKDM/cmu7yhngXTo6PCcfrseVulsys91NDWrSR/aVu6xprnikfKQqhfU
-         B4mQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVzWlTfiIyn4qfPiAQIEiCB2wyn+7Y58BwV5cpsiPaonLK36MHe80E+gU/Hw6MqmWhkPMx/YYWR0GI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy8sbOCrv4TX/cdu1VbBi1rPLffqY9K8H4yYbypUR6H5CIrWOqH
-	hjgf4jsl74ghjK107RZHuXMI6JmeTAPPh7Lt1TtzWG4xVdnSYwjm/+gpRAgldw4EMsIiRZfC4Ar
-	i1hAQOAh6KAoRE91OShJB6cpl7FxFUaWXWaeX9kYidVlbcaA=
-X-Gm-Gg: ASbGncunkXSNoVS8X/UsPEQuyEkv4GVxWlPXG0KzOgwgcQthpx5mXooSftxl/HQ+h5Z
-	YLEr3FzeyLz369HI4mD2Vwuigok+fe1vOjeGbFA69+yPy5Hor4srJ1w4P/53giT8VKm7Qn0vGJT
-	C0bI7LrgYf6IfId5dRQmp1cg==
-X-Google-Smtp-Source: AGHT+IEIR0Yjon2HOlR6cN2sFBuht845hyAi0y0g8G/WBIBmJsXWf+CNllSW2DnKB64zYskb2VqpvQmI+s8gSsNUMNs=
-X-Received: by 2002:a05:6902:2086:b0:e6d:e3f8:5167 with SMTP id
- 3f1490d57ef6-e704e00541cmr21022948276.39.1744646899625; Mon, 14 Apr 2025
- 09:08:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="ao9qKy9K"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E494E41062
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1744648040; bh=S8VQftal0JDr0OZ/UF0hM+IYA3kVZXEv+/6XWF0wVkA=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=ao9qKy9KrChAgUHQ2m2s4UEH5RKbznILtonE/46BA6JjupZ34nZJFZj2S6mVJDtlE
+	 N4/9FzT8lm29Y74ONffGmvnE+HGZg/CFxTUaKR1c9Emnf6oe/qLN+wlqN7QfB+4UMG
+	 OzgRBxJuAC5rDvdbfQWu6M1F/fKRaZauEyuo9h7uAqlA7AamQnSIie+ouRwWcpfB/X
+	 nmeUzWZ+ziqOEy2DU7DC8VLPzW6PwrYeQ3evwJ+Q5WIGW4pLQUdKxorrt6V6JPI8Oq
+	 Q5Zl1jm8m3ez6VFXMxoucDL918ISObpiCeUtekOixIUjkh4zBemZGIw3tw/2NMCBiZ
+	 72MNVo8dusuyQ==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E494E41062;
+	Mon, 14 Apr 2025 16:27:19 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Jelle van der Waa <jvanderwaa@redhat.com>
+Cc: linux-doc@vger.kernel.org, James Addison <jay@jp-hosting.net>, Thorsten
+ Leemhuis <linux@leemhuis.info>
+Subject: Re: [PATCH v3 1/1] docs: Disambiguate a pair of rST labels
+In-Reply-To: <20250407195120.331103-2-jvanderwaa@redhat.com>
+References: <20250407195120.331103-1-jvanderwaa@redhat.com>
+ <20250407195120.331103-2-jvanderwaa@redhat.com>
+Date: Mon, 14 Apr 2025 10:27:19 -0600
+Message-ID: <87semaaeu0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com>
-In-Reply-To: <87semdjxcp.fsf@microsoft.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 14 Apr 2025 12:08:08 -0400
-X-Gm-Features: ATxdqUE4xsXRFht60hSZa09A9jxdssSnYGr-dDs5eKOQiFPM4gPTEA6FMREhjdE
-Message-ID: <CAHC9VhQ-Zs56LG9D-9Xs14Au-ub8aR4W+THDJfEsza_54CJf-Q@mail.gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
-	Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
-	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
-	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 
-On Sat, Apr 12, 2025 at 9:58=E2=80=AFAM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
-> Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
-> > On Fri, Apr 4, 2025 at 2:56=E2=80=AFPM Blaise Boscaccy
-> > <bboscaccy@linux.microsoft.com> wrote:
+Jelle van der Waa writes:
 
-...
-
-> > Above are serious layering violations.
-> > LSMs should not be looking that deep into bpf instructions.
+> From: James Addison <jay@jp-hosting.net>
 >
-> These aren't BPF internals; this is data passed in from
-> userspace. Inspecting userspace function inputs is definitely within the
-> purview of an LSM.
+> According to the reStructuredText documentation, internal hyperlink
+> targets[1] are intended to resolve within the current document.
 >
-> Lskel signature verification doesn't actually need a full disassembly,
-> but it does need all the maps used by the lskel. Due to API design
-> choices, this unfortunately requires disassembling the program to see
-> which array indexes are being used.
+> Sphinx has a bug that causes internal hyperlinks declared with
+> duplicate names to resolve nondeterministically, producing incorrect
+> documentation. Sphinx does not yet emit a warning when these
+> duplicate target names are declared.
 >
-> > Calling into sys_bpf from LSM is plain nack.
-> >
+> To improve the reproducibility and correctness of the HTML
+> documentation, disambiguate two labels both previously titled
+> "submit_improvements".
 >
-> kern_sys_bpf is an EXPORT_SYMBOL, which means that it should be callable
-> from a module. Lskels without frozen maps are vulnerable to a TOCTOU
-> attack from a sufficiently privileged user. Lskels currently pass
-> unfrozen maps into the kernel, and there is nothing stopping someone
-> from modifying them between BPF_PROG_LOAD and BPF_PROG_RUN.
-
-I agree with Blaise on both the issue of iterating through the eBPF
-program as well as calling into EXPORT_SYMBOL'd functions; I see no
-reason why these things couldn't be used in a LSM.  These are both
-"public" interfaces; reading/iterating through the eBPF instructions
-falls under a "don't break userspace" API, and EXPORT_SYMBOL is
-essentially public by definition.
-
-It is a bit odd that the eBPF code is creating an exported symbol and
-not providing a declaration in a kernel wide header file, but that's a
-different issue.
-
-> > The verification of module signatures is a job of the module loading pr=
-ocess.
-> > The same thing should be done by the bpf system.
-> > The signature needs to be passed into sys_bpf syscall
-> > as a part of BPF_PROG_LOAD command.
-> > It probably should be two new fields in union bpf_attr
-> > (signature and length),
-> > and the whole thing should be processed as part of the loading
-> > with human readable error reported back through the verifier log
-> > in case of signature mismatch, etc.
-> >
+> [1] - https://docutils.sourceforge.io/docs/ref/rst/restructuredtext.html#hyperlink-targets
 >
-> I don't necessarily disagree, but my main concern with this is that
-> previous code signing patchsets seem to get gaslit or have the goalposts
-> moved until they die or are abandoned.
+> Link: https://github.com/sphinx-doc/sphinx/issues/13383
+> Signed-off-by: James Addison <jay@jp-hosting.net>
+> ---
+>  Documentation/admin-guide/quickly-build-trimmed-linux.rst     | 4 ++--
+>  .../admin-guide/verify-bugs-and-bisect-regressions.rst        | 4 ++--
+>  2 files changed, 4 insertions(+), 4 deletions(-)
 
-My understanding from the previous threads is that the recommendation
-from the BPF devs was that anyone wanting to implement BPF program
-signature validation at load time should implement a LSM that
-leverages a light skeleton based loading mechanism and implement a
-gatekeeper which would authorize BPF program loading based on
-signatures.  From what I can see that is exactly what Blaise has done
-with Hornet.  While Hornet is implemented in C, that alone should not
-be reason for rejection; from the perspective of the overall LSM
-framework, we don't accept or reject individual LSMs based on their
-source language, we have both BPF and C based LSMs today, and we've
-been working with the Rust folks to ensure we have the right things in
-place to support Rust in the future.  If your response to Hornet is
-that it isn't acceptable because it is written in C and not BPF, you
-need to know that such a response isn't an acceptable objection.
+The patch makes sense, and I've applied it, but ...
 
-> Are you saying that at this point, you would be amenable to an in-tree
-> set of patches that enforce signature verification of lskels during
-> BPF_PROG_LOAD that live in syscall.c, without adding extra non-code
-> signing requirements like attachment point verification, completely
-> eBPF-based solutions, or rich eBPF-based program run-time policy
-> enforcement?
+- When you forward a patch like this, you are really supposed to add
+  your own Signed-off-by tag to it.  Given the nature of the patch and
+  the explicit acknowledgment from James, I've concluded I can proceed
+  without it.
 
-I worry that we are now circling back to the original idea of doing
-BPF program signature validation in the BPF subsystem itself.  To be
-clear, I think that would be okay, if not ultimately preferable, but I
-think we've all seen this attempted numerous times in the past and it
-has been delayed, dismissed in favor of alternatives, or simply
-rejected for one reason or another.  If there is a clearly defined
-path forward for validation of signatures on BPF programs within the
-context of the BPF subsystem that doesn't require a trusted userspace
-loader/library/etc. that is one thing, but I don't believe we
-currently have that, despite user/dev requests for such a feature
-stretching out over several years.
+- The headers of this patch have:
 
-I believe there are a few questions/issues that have been identified
-in Hornet's latest round of reviews which may take Blaise a few days
-(week?) to address; if the BPF devs haven't provided a proposal in
-which one could acceptably implement in-kernel BPF signature
-validation by that time, I see no reason why development and review of
-Hornet shouldn't continue into a v3 revision.
+	From: Jelle van der Waa
 
---=20
-paul-moore.com
+  ...which doesn't help in the generation of a proper reply.  Something
+  to look into.
+
+Thanks,
+
+jon
