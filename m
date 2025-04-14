@@ -1,181 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A74A27466A;
-	Mon, 14 Apr 2025 15:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57BC11F3D54;
+	Mon, 14 Apr 2025 15:54:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744645760; cv=none; b=Jw18hfqNArJz7UoKxm6adDwFaq/Dc24n2xcY1vBmr4U7UwiP9unU/KToKsL1Ed4Qmi/O7EnbKwRK+l2U2eSa4lhaWfsBxMiHC3dcVtsYD8iUYyDWnVy6SbdCNUgkfcMNFeFWMhn8kaoc3d8uBxJFhBAXkayF69FN26xQwUgfjEM=
+	t=1744646092; cv=none; b=oHoyOff6idIp7L9hVJ6cyLQz4Z+LhjqHTW/9RTd0YGSFEZhOq09mk9Eqdg324+c/dXhgEFgu6J3gIZL1MFuTmtnzC8S5CRki9JcozAva1WueAomnXrMSr7Y1CQlL4vwmREjycoaHvhXMEJsn4cCFavop+OugjXSkMIz9ZWNpHcY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744645760; c=relaxed/simple;
-	bh=LW+sWehA2wdSuARkuJpL0aAVzRSrHG73IzO/zg+cjAA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BlIlyBBT6sET7koc2FgoA3tg2YDqIPQZaleEHtYRw2NPafFbDlh63vqEWER+tqwYLEsZZTLPUwu879do+iMN4BcmiAhumsYedxmgkjLUpJ1PKd5qimNMY4YO+dGzYCIbFoGfQU1zD04D6omJaLIiM0037A8QgwcCa3kzRBoL9YY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vQHDRh49; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744646092; c=relaxed/simple;
+	bh=C9knOfhyNn7pBqhOZDqaRgO9Pi2Kzqbu/2YzRbqiu0E=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SQeMww6rrT5/szVev2md2JuY8GTc8zaI8FEt5EOqLWgPiNiC0KfJr7gJezOmXTrlaoyOwcxTm7iHLxRZLZNFWzn9R6Fg5dOSsnKb5XXSUqBGUEVRJB3A7p23K0QoYRTqbwOmQ1aqB/Y+bz+GKaL8iP4W0g7mJqPhrXD0i0oEMek=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=o+W4stEl; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vQHDRh49"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D5D77C4CEE2;
-	Mon, 14 Apr 2025 15:49:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744645759;
-	bh=LW+sWehA2wdSuARkuJpL0aAVzRSrHG73IzO/zg+cjAA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=vQHDRh490SnMEjPeOhE4Iu7MOzuIs/dIp0Ha/Zouf40WmLSuctYyJhbsxq0a0o+wJ
-	 +7nayZFxRAVHdI3Rx7G55dVCsguYPSojJ48ZT56icKJLtI3Zejoa2XDYvucCb73EBC
-	 LYqVRnY4shH4pedqs20qzvXRYpUZginHF8UcAtQW7F7GAOr2mvx7uv4ckY5VtUF+fk
-	 oxZggRIpA0nCVXq2bnxxHYcDjcRfockIwI7ypLRY9pjDBZ7zbeHRY365/tm1O3D37P
-	 PLi8r2pi9aUvQ9YKj2iTKA6kUYTBr/0Ika98yvY64amsJQSvG69AHS2cZH4XWD1kyX
-	 56tAKc+A3uMpA==
-Date: Mon, 14 Apr 2025 17:49:16 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Dmitry Baryshkov <lumag@kernel.org>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
- devm_drm_bridge_alloc()
-Message-ID: <20250414-misty-hungry-woodlouse-dbbd64@houat>
-References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
- <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="o+W4stEl"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 763B141062
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1744646090; bh=hpXdb6ga9QdFOjNmzZyes+BogiP51Z4H4avHqOOc2i0=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=o+W4stElfcWSaIsG2fkOGPdkvRWbKtrjS3xMLkrkSsqNdMYrTmm8omoCCGkrIdChn
+	 JWqmRtK15fPWtPS4BYNX3hIr0Ro94Ny5UDNI6OxxG8PxJROccm9Be0aFKx23Mki93f
+	 Y4ngrXPYtGkq4rLzlViGycDlg2i99Rfq0FcQcSrZnOSyeVPnqZ8Q+zMSnaG7KXJK7z
+	 BdjIEEmebgi1SybqtRA7KwlxD1/xd8uiKrGIFUc39Xjg3pvZBk6ZYjMq5nP4N80she
+	 vVpVMBO59y53/VYCOUast+Hk3ZA/J6nwPulzWcFethQRQP6sHqy6KPuqnyncIoxIVw
+	 nqwnhe69SxdYw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 763B141062;
+	Mon, 14 Apr 2025 15:54:50 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Andy Shevchenko <andriy.shevchenko@intel.com>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, "Gustavo
+ A. R. Silva" <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>, Russell
+ King <linux@armlinux.org.uk>, linux-hardening@vger.kernel.org,
+ netdev@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
+In-Reply-To: <87mscibwm8.fsf@trenco.lwn.net>
+References: <cover.1744106241.git.mchehab+huawei@kernel.org>
+ <871pu1193r.fsf@trenco.lwn.net> <Z_zYXAJcTD-c3xTe@black.fi.intel.com>
+ <87mscibwm8.fsf@trenco.lwn.net>
+Date: Mon, 14 Apr 2025 09:54:49 -0600
+Message-ID: <87ecxubuwm.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="4jicyu5cwq5bgi2g"
-Content-Disposition: inline
-In-Reply-To: <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
+Content-Type: text/plain
 
+> Andy Shevchenko <andriy.shevchenko@intel.com> writes:
+>
+>> On Wed, Apr 09, 2025 at 12:30:00PM -0600, Jonathan Corbet wrote:
+>>> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+>>> 
+>>> > This changeset contains the kernel-doc.py script to replace the verable
+>>> > kernel-doc originally written in Perl. It replaces the first version and the
+>>> > second series I sent on the top of it.
+>>> 
+>>> OK, I've applied it, looked at the (minimal) changes in output, and
+>>> concluded that it's good - all this stuff is now in docs-next.  Many
+>>> thanks for doing this!
+>>> 
+>>> I'm going to hold off on other documentation patches for a day or two
+>>> just in case anything turns up.  But it looks awfully good.
+>>
+>> This started well, until it becomes a scripts/lib/kdoc.
+>> So, it makes the `make O=...` builds dirty *). Please make sure this doesn't leave
+>> "disgusting turd" )as said by Linus) in the clean tree.
+>>
+>> *) it creates that __pycache__ disaster. And no, .gitignore IS NOT a solution.
 
---4jicyu5cwq5bgi2g
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
- devm_drm_bridge_alloc()
-MIME-Version: 1.0
+Actually, I find myself unable to reproduce this; can you tell me how
+you get Python to create that directory on your system?  Which version
+of Python?
 
-Hi,
+Thanks,
 
-On Wed, Apr 09, 2025 at 04:50:35PM +0200, Luca Ceresoli wrote:
-> Add a basic KUnit test for the newly introduced drm_bridge_alloc().
->=20
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
->=20
-> ---
->=20
-> Changed in v7:
->  - rebase on current drm-misc-next, which now has a drm_bridge_test.c file
->  - cleanup commit message
->=20
-> Changed in v6:
->  - update to new devm_drm_bridge_alloc() API
->  - remove drm_test_drm_bridge_put test, not straightforward to write with
->    the new API and the current notification mechanism
->  - do not allocate a drm_device: a bridge is allocated without one
->  - rename some identifiers for easier code reading
->=20
-> This patch was added in v5.
-> ---
->  drivers/gpu/drm/tests/drm_bridge_test.c | 60 +++++++++++++++++++++++++++=
-++++++
->  1 file changed, 60 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/tests/drm_bridge_test.c b/drivers/gpu/drm/te=
-sts/drm_bridge_test.c
-> index ff88ec2e911c9cc9a718483f09d4c764f45f991a..87fb64744b67f0780457a546a=
-ba77ba945a0ce67 100644
-> --- a/drivers/gpu/drm/tests/drm_bridge_test.c
-> +++ b/drivers/gpu/drm/tests/drm_bridge_test.c
-> @@ -8,6 +8,7 @@
->  #include <drm/drm_bridge_helper.h>
->  #include <drm/drm_kunit_helpers.h>
-> =20
-> +#include <kunit/device.h>
->  #include <kunit/test.h>
-> =20
->  struct drm_bridge_init_priv {
-> @@ -407,11 +408,70 @@ static struct kunit_suite drm_bridge_helper_reset_c=
-rtc_test_suite =3D {
->  	.test_cases =3D drm_bridge_helper_reset_crtc_tests,
->  };
-> =20
-> +struct drm_bridge_alloc_test_ctx {
-> +	struct device *dev;
-> +};
-
-You don't need a struct there then, you can just pass the device pointer.
-
-> +/*
-> + * Mimick the typical struct defined by a bridge driver, which embeds a
-> + * bridge plus other fields.
-> + */
-> +struct dummy_drm_bridge {
-> +	int dummy; // ensure we test non-zero @bridge offset
-> +	struct drm_bridge bridge;
-> +};
-
-drm_bridge_init_priv gives you that already.
-
-> +static const struct drm_bridge_funcs drm_bridge_dummy_funcs =3D {
-> +};
-> +
-> +static int drm_test_bridge_alloc_init(struct kunit *test)
-> +{
-> +	struct drm_bridge_alloc_test_ctx *ctx;
-> +
-> +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-> +
-> +	ctx->dev =3D kunit_device_register(test, "drm-bridge-dev");
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
-> +
-> +	test->priv =3D ctx;
-> +
-> +	return 0;
-> +}
-> +
-> +/*
-> + * Test that the allocation and initialization of a bridge works as
-> + * expected and doesn't report any error.
-> + */
-> +static void drm_test_drm_bridge_alloc(struct kunit *test)
-> +{
-> +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
-> +	struct dummy_drm_bridge *dummy;
-> +
-> +	dummy =3D devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, brid=
-ge,
-> +				      &drm_bridge_dummy_funcs);
-> +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy);
-
-Why did you need the dummy value in dummy_drm_bridge if you're not using
-it?
-
-We'd need a couple more tests, in particular some to make sure the
-bridge pointer is properly cleaned up when the device goes away, but not
-when we have called drm_bridge_get pointer on it, etc.
-
-Maxime
-
---4jicyu5cwq5bgi2g
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCZ/0ufAAKCRDj7w1vZxhR
-xciJAPwN/nr+7o9AH21EBA74RUDiqX8sNRT5jbGun9PPilLS9wEAxZulZJey52X/
-5KR4SC2mAdeAyULYDu85vBJzNMc+aA8=
-=Bh9n
------END PGP SIGNATURE-----
-
---4jicyu5cwq5bgi2g--
+jon
