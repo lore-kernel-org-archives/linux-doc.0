@@ -1,78 +1,83 @@
-Received: from mr85p00im-ztdg06011201.me.com (mr85p00im-ztdg06011201.me.com [17.58.23.181])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F42627991A
-	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 13:24:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=17.58.23.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 966F04438B;
+	Mon, 14 Apr 2025 13:36:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744637098; cv=none; b=KMWBUXb8EAwjh4WUTsACl13Fc7SPEuvbgmhJoEFosqEdYaiMH0EaceRdHXUIaOxU0GwxKwggE2AyJ/mvTQFDQajliCtgrV2KHfyFa14ti3SSu4CUjpbVPMeoh0C1Ry2smYpaCQsAAPgK2K7xmfmWwbN6aZ3ZsR+Dm4MAqhUvttc=
+	t=1744637767; cv=none; b=L4yCmWk2DF8X/IJtvoXQS1Au652ICdNucwkpsya6FobV+q9xr7AsUmEO5+KzTn6C/CFDJQ6ulAxPiAmzHOBjI5SQfq4HQ4gLtAkLX6nfCbnhzIUr3leqNt9/4KNqCvFhdq9bPTmwYlEc56ovrTlfj3TXSPG5IGqbyXeuOhN5WTA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744637098; c=relaxed/simple;
-	bh=uSczamGJoJKbGvV0A8rmuxq4WURqfp+pw4w7uxYDPZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=IuZNkB3DjqYULurQyC8xzFk0ZvO+Y39GEt8Wmvm0UbwFeWmmZ+GlnqW4GfwtVTE94Y8EI4oKSG0p4fFbkQVimtfce+JTTY+qyaLFLJJieqLHy7Jy3kmym9V5lGfITeJeG70psRG5rwYYPGD5Xes+6K8ZQ2MQipAIj9sEIkU513c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=TAWOW2ID; arc=none smtp.client-ip=17.58.23.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1744637767; c=relaxed/simple;
+	bh=WJ+JyBh1nHLEgrQ+hkI6yYMG1Nzzmf5jxQP5xAVPess=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RxBu0A25CIepnYjya7yfaHlCoSypYE0LqrKBwQK90gf65TJvEMuYGMFbzFslXGijoMAyulJanDfloTaXCdhkjN9SKGvcFH5eeC/pN+6UGtj7VORoRAG0nYJoSA/3W1LPdoRKJFPMQeIqAlVcUV5knlCAXVfu/B3kZG9yrbnK5Dw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ModmNHGZ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="TAWOW2ID"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=uSczamGJoJKbGvV0A8rmuxq4WURqfp+pw4w7uxYDPZs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type:x-icloud-hme;
-	b=TAWOW2ID6aTTvU+2MgRsbja7BK3I6WCve1CEcTJdzcuVylzCmnxH51hkvXlnJUDQW
-	 NN5lKvFdU5YC64bkyNn7WvK8siqEibla7THc0XjaD7zu1HFDaSTdrJSSZA7aolMKaU
-	 dMsR223FEqx8/giBGj4YiCi5AFdphjWH02Q67639CeDHtMweGU+1kxlrE5IwHCsk1U
-	 YtplErG4FcFBUnp+mjdKzotOjXFVMbjtb0YdrK3ZZU4awXHuLkC+unzgpXK8fw+bOe
-	 O7j6pAvdpxg6y8amQtYDOhjyvW5LNE3ML7swuaMoD4JSjCWhiAQG2xE0asiW9IOUDn
-	 56eEyGr1LFBXg==
-Received: from mr85p00im-ztdg06011201.me.com (mr85p00im-ztdg06011201.me.com [17.58.23.181])
-	by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPS id A9AD19600F8;
-	Mon, 14 Apr 2025 13:24:54 +0000 (UTC)
-Received: from [192.168.1.26] (mr38p00im-dlb-asmtp-mailmevip.me.com [17.57.152.18])
-	by mr85p00im-ztdg06011201.me.com (Postfix) with ESMTPSA id 5F754960248;
-	Mon, 14 Apr 2025 13:24:52 +0000 (UTC)
-Message-ID: <c6c5ab5d-8895-4c16-9f74-ad311cd8ac14@icloud.com>
-Date: Mon, 14 Apr 2025 21:24:49 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ModmNHGZ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B47B5C4CEE2;
+	Mon, 14 Apr 2025 13:36:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744637767;
+	bh=WJ+JyBh1nHLEgrQ+hkI6yYMG1Nzzmf5jxQP5xAVPess=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=ModmNHGZWVYZSvRJmLj4DYSNL946kAvpy4PvTvWEhTupDlrlWzAXry5I6l7Dx82Ht
+	 Y8EsFJugOinR0dZ/0AYs7iNd5CxdB0r/LgJNued2qfFH952bl4pMnBaJVlC36ceek1
+	 sv4Lx2V/Pwn7uQlAlnm7pl4+9SrCOU9a7JWSxRiW8ZF8up4a2qeubRxHidUKVMLudJ
+	 0lufpOQeh6ZFFR8qoxGgPYDMYnN7YSZaotmEB67n9fqaMOOorUPlfqB2F8P26m3hY3
+	 SVELAFEWzvRh0F4kkJWly0/BrwsnUiD6Y2P9FUol7Zfm84HQ47LE1gPPMOVkBbP9wY
+	 2/+6V/1fDQ5ig==
+From: Christian Brauner <brauner@kernel.org>
+To: Zijun Hu <zijun_hu@icloud.com>
+Cc: Christian Brauner <brauner@kernel.org>,
+	linux-fsdevel@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Zijun Hu <quic_zijuhu@quicinc.com>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Jan Kara <jack@suse.cz>,
+	David Howells <dhowells@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>
+Subject: Re: (subset) [PATCH v2 1/2] fs/fs_parse: Delete macro fsparam_u32hex()
+Date: Mon, 14 Apr 2025 15:35:54 +0200
+Message-ID: <20250414-klemmen-tiefen-026d7343aceb@brauner>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250411-fix_fs-v2-1-5d3395c102e4@quicinc.com>
+References: <20250411-fix_fs-v2-0-5d3395c102e4@quicinc.com> <20250411-fix_fs-v2-1-5d3395c102e4@quicinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/2] fs/fs_parse: Fix 3 issues for
- validate_constant_table()
-To: Jan Kara <jack@suse.cz>
-Cc: Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, David Howells <dhowells@redhat.com>,
- Jonathan Corbet <corbet@lwn.net>, linux-fsdevel@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Zijun Hu <quic_zijuhu@quicinc.com>
-References: <20250411-fix_fs-v2-0-5d3395c102e4@quicinc.com>
- <20250411-fix_fs-v2-2-5d3395c102e4@quicinc.com>
- <pgxiizhnhcuaol2vhwikrtqfcp6b3g4cxs26rwxzdxuyjnadtv@smpxafscsxod>
-Content-Language: en-US
-From: Zijun Hu <zijun_hu@icloud.com>
-In-Reply-To: <pgxiizhnhcuaol2vhwikrtqfcp6b3g4cxs26rwxzdxuyjnadtv@smpxafscsxod>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-ORIG-GUID: Oe2BybD7vv3eR5YIj3SuH323SYG7yc6E
-X-Proofpoint-GUID: Oe2BybD7vv3eR5YIj3SuH323SYG7yc6E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-14_04,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 malwarescore=0
- suspectscore=0 spamscore=0 mlxscore=0 phishscore=0 adultscore=0
- clxscore=1015 mlxlogscore=937 classifier=spam adjust=0 reason=mlx
- scancount=1 engine=8.19.0-2411120000 definitions=main-2504140097
+Content-Type: text/plain; charset="utf-8"
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1026; i=brauner@kernel.org; h=from:subject:message-id; bh=WJ+JyBh1nHLEgrQ+hkI6yYMG1Nzzmf5jxQP5xAVPess=; b=owGbwMvMwCU28Zj0gdSKO4sYT6slMaT/5XfMPq0zZevHlztfHM5c/qXT6qqZJjtH29GfwZOF5 tyTEGYR7ShlYRDjYpAVU2RxaDcJl1vOU7HZKFMDZg4rE8gQBi5OAZhIphrD//K8NGaZ5+t0zO10 InlZTS6U/fnB7pHOsNjkWaX+jH/LFzL8TxE6xND6iPv/k0+PxR3M7Fds1eecM5np7Gn3hO55X0t OcwMA
+X-Developer-Key: i=brauner@kernel.org; a=openpgp; fpr=4880B8C9BD0E5106FC070F4F7B3C391EFEA93624
+Content-Transfer-Encoding: 8bit
 
-On 2025/4/14 21:17, Jan Kara wrote:
->> Fortunately, the function has no caller currently.
->> Fix these issues mentioned above.
->>
->> Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
-> As discussed, I'd rather drop this function since it is unused as well.
+On Fri, 11 Apr 2025 23:31:40 +0800, Zijun Hu wrote:
+> Delete macro fsparam_u32hex() since:
+> 
+> - it has no caller.
+> 
+> - it uses as type @fs_param_is_u32_hex which is never defined, so will
+>   cause compile error when caller uses it.
+> 
+> [...]
 
-thank you Jan for comments.
-will drop it in next revision (^^).
+Applied to the vfs-6.16.misc branch of the vfs/vfs.git tree.
+Patches in the vfs-6.16.misc branch should appear in linux-next soon.
 
+Please report any outstanding bugs that were missed during review in a
+new review to the original patch series allowing us to drop it.
+
+It's encouraged to provide Acked-bys and Reviewed-bys even though the
+patch has now been applied. If possible patch trailers will be updated.
+
+Note that commit hashes shown below are subject to change due to rebase,
+trailer updates or similar. If in doubt, please check the listed branch.
+
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/vfs/vfs.git
+branch: vfs-6.16.misc
+
+[1/2] fs/fs_parse: Delete macro fsparam_u32hex()
+      https://git.kernel.org/vfs/vfs/c/8cc42084abd9
