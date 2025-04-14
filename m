@@ -1,94 +1,85 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8615C2DFA3D;
-	Mon, 14 Apr 2025 16:33:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC7E1B3929;
+	Mon, 14 Apr 2025 16:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744648438; cv=none; b=YLWArqWQpxK1XaeDqc7+/p5uEN8bLmIbQjYTfeSrpEZvFSVclV5kXQSptqL8WDFjieY5xHRMM/HRV5k0lT3kFmW1uWaJXWz+TFdwBqsy3W2n0bT1e1Anz37UjEB9VN7eWewtVDwBG3qPZl1UNP8xabVj+WYWYK76qnuKGmlfDzc=
+	t=1744648740; cv=none; b=oHoAkXLYcspOB9bCO2pMpDSxQJ6OViMQN/BunEM0dMOP5H+HFk5a/WPDWTT0XGRVXnTUsdt3xBtqTjZbCRJjAIcXsKAVqrLU5t4K2Gh9HhavWpZlhRMlxEa+kUqpIcE2P7Ke4TnjNuSD5FJ1eARbDyioSgV/vNj0jJD+ySiG6N0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744648438; c=relaxed/simple;
-	bh=d+ZRTx+RD81P0rFTl+nUP/1QZulDzYY8KvICn1C4bls=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=igg0AQOaJHTXiwiW2k+D/QT4AIQdyC8xbW77EihBcZ5nLwj7BoAhS0nYbaNG21gRe2j8mu29mbtPLr8kvKBt/4NTKCzwzqeK+sBDLwrAsi0BFn6Fa9xXjqd4bD1oHlmWKgfrRMCq6cZHbidVCz/bj1vRr7HNsS2meonWJf00Kv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uEOWyo0z; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744648740; c=relaxed/simple;
+	bh=/0cVtE8Q3MLwLuUw/RkYfhOGTI/fmx+tmu0Sq46Ejxg=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=R/bkq0qeaeVXosHswkVjeJdFh4DWBUNdbDaiwPbFuoQMf1TqeHp/W5PmLXp3LnwOIYLFEE1WfRoJORFww8+LbkdIonBCSSfxs6JUlmTc2b6nEYvAOCgxxOwJwoy0i08UyTes1VqLWgSCimLifBclJeTmGe7MkckMCv6QMdsqMK0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=A1ZSgSe/; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uEOWyo0z"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BC6BC4CEE2;
-	Mon, 14 Apr 2025 16:33:57 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744648438;
-	bh=d+ZRTx+RD81P0rFTl+nUP/1QZulDzYY8KvICn1C4bls=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=uEOWyo0z3Vhi0x3jgeHCXbWlBHnpp14a2akmPJ27kwkZ+ubwypzexMevHalO8+W96
-	 uwIAagW/Q5Z+e31k1HDBDYRXeEvK/lxpcRjRDuossGwwcv05iWkmWSBtX2Iqqx5/vd
-	 BZ0ExtPCm4Rh4LG9s3Kvc9UjHyjsuNLbm74rPthBFXIJxeqjxCZV/NCtLTJ9MVYwtG
-	 4oLB9j6PQj6msOYPtE2gLOyd1TNgdyjrDWbbFL9uDx+sboRHl7Qux8xGZE86oeA9us
-	 sdhoTuSql7goYtmhhj3J/hlpu9aUW0SeFj6nP6cHemuQUPlGAAsXd+rkxIhbm5hiBi
-	 +2DD3I3V6c1Kw==
-Date: Mon, 14 Apr 2025 09:33:56 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Przemek Kitszel <przemyslaw.kitszel@intel.com>
-Cc: Edward Cree <ecree.xilinx@gmail.com>, "Nelson, Shannon"
- <shannon.nelson@amd.com>, "Jagielski, Jedrzej"
- <jedrzej.jagielski@intel.com>, "Nguyen, Anthony L"
- <anthony.l.nguyen@intel.com>, "davem@davemloft.net" <davem@davemloft.net>,
- "pabeni@redhat.com" <pabeni@redhat.com>, "Dumazet, Eric"
- <edumazet@google.com>, "andrew+netdev@lunn.ch" <andrew+netdev@lunn.ch>,
- "netdev@vger.kernel.org" <netdev@vger.kernel.org>, "jiri@resnulli.us"
- <jiri@resnulli.us>, "horms@kernel.org" <horms@kernel.org>, "corbet@lwn.net"
- <corbet@lwn.net>, "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
- Kalesh AP <kalesh-anakkur.purayil@broadcom.com>, "R, Bharath"
- <bharath.r@intel.com>
-Subject: Re: [PATCH net-next 01/15] devlink: add value check to
- devlink_info_version_put()
-Message-ID: <20250414093356.52868a1d@kernel.org>
-In-Reply-To: <69a0bf15-5f52-4974-bbaf-d4ba04e1f983@intel.com>
-References: <20250407215122.609521-1-anthony.l.nguyen@intel.com>
-	<20250407215122.609521-2-anthony.l.nguyen@intel.com>
-	<d9638476-1778-4e34-96ac-448d12877702@amd.com>
-	<DS0PR11MB7785C2BC22AE770A31D7427AF0B52@DS0PR11MB7785.namprd11.prod.outlook.com>
-	<7e5aecb4-cb28-4f55-9970-406ec35a5ae7@amd.com>
-	<DS0PR11MB7785945F6C0A9907A4E51AD6F0B42@DS0PR11MB7785.namprd11.prod.outlook.com>
-	<20250409073942.26be7914@kernel.org>
-	<5f896919-6397-4806-ab1a-946c4d20a1b3@amd.com>
-	<20a047ba-6b99-22d9-93e0-de7b4ed60b34@gmail.com>
-	<69a0bf15-5f52-4974-bbaf-d4ba04e1f983@intel.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="A1ZSgSe/"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8891041062
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1744648737; bh=2UkZ8GQ5xYZ4ajvmGKXu1/uFI0khvnYs9HAESy83j9w=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=A1ZSgSe/is/LTtUgJrR+wv/LSt2BU15GyFhPfdUVTs0eoC5QFu2aco7uDjhBn/vSk
+	 VsmW+25ZddEvORxLgLT0Tsxic0NByNja4dD9/pmd0v4R7Peye0Tkn3er8/FLvqW+yG
+	 Tg+3yWBcaUGiUAcamHrVocM0yi3Cscgg47zGB7JHKf11PdoGQHq3nmvPvdZ/YrPkp7
+	 fJr6hX/VlH/3DULdGNazPuWTVJMN//PwavqS7GwiOniUMdLP/QI/S/vKWw42zeB7+C
+	 7i1V4TE/ygb6P2vX9uJ8oyRqcRiIvD51W0PgXLbq29GTWQwWNIoZ97VEIMDff40jm3
+	 rWH727+g/x3Jw==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8891041062;
+	Mon, 14 Apr 2025 16:38:57 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>,
+ rdunlap@infradead.org, rbrasga@uci.edu, kevinpaul468@gmail.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc: skhan@linuxfoundation.org
+Subject: Re: [PATCH] Added usb_string function to a namespace
+In-Reply-To: <20250405165116.147958-1-kevinpaul468@gmail.com>
+References: <20250405165116.147958-1-kevinpaul468@gmail.com>
+Date: Mon, 14 Apr 2025 10:38:56 -0600
+Message-ID: <87ecxuaean.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain
 
-On Mon, 14 Apr 2025 14:28:31 +0200 Przemek Kitszel wrote:
-> On 4/11/25 13:11, Edward Cree wrote:
-> > On 09/04/2025 18:25, Nelson, Shannon wrote:  
-> >> On 4/9/2025 7:39 AM, Jakub Kicinski wrote:  
-> > AFAICT the argument on the other side is "it makes the driver look bad",
-> >   which has (expletive)-all to do with engineering.
-> > Value often comes from firmware, anyway, in which case driver's (& core's)
-> >   job is to be a dumb pipe, not go around 'validating' things.  
-> 
-> that way we will stick with the ugly, repetitive, overly bloated code,
-> repetitive and hard to fix in all places, (and repetitive) drivers
-> 
-> yeah, good that we bikeshed on something so simple :)
-> If anyone is "strongly opposed", please say so once more, and we will
-> drop this patch. Otherwise we are going to keep it.
+Kevin Paul Reddy Janagari <kevinpaul468@gmail.com> writes:
 
-Unrelated (I think?) this is a relatively big series so I don't want 
-to race with it, but I think we should rename the defines. 
+> with reference to WARNING:
+> Duplicate C declaration, also defined at driver-api/usb/gadget:804
+> There is a function usb_string in the file message.c,
+> there is also a struct usb_string in the kernel api headers.
+> The docs is unable to index the function as the index is occupied by struct
+> This fix adds messgae.c to the usb_core namespace (in docs) hence providing
+> usb_sting a unique index usb_core.usb_string()
+>
+> Signed-off-by: Kevin Paul Reddy Janagari <kevinpaul468@gmail.com>
+> ---
+>  Documentation/driver-api/usb/usb.rst | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/Documentation/driver-api/usb/usb.rst b/Documentation/driver-api/usb/usb.rst
+> index 89f9c37bb979..976fb4221062 100644
+> --- a/Documentation/driver-api/usb/usb.rst
+> +++ b/Documentation/driver-api/usb/usb.rst
+> @@ -161,6 +161,7 @@ rely on 64bit DMA to eliminate another kind of bounce buffer.
+>  .. kernel-doc:: drivers/usb/core/urb.c
+>     :export:
+>  
+> +.. c:namespace:: usb_core
+>  .. kernel-doc:: drivers/usb/core/message.c
+>     :export:
 
-DEVLINK_INFO_VERSION_GENERIC_x -> DEVLINK_VER_x ?
+I hate this sort of workaround ... but so be it.  Someday maybe it won't
+be needed...
 
-You did some major devlink refactors, maybe you want to take this on? :)
-The 40 char defines lead to pretty ugly wrapping, and make constructs
-like:
+Applied, thanks,
 
-	if (something)
-		devlink_info_version_running_put(...
-
-impossible. We could also rename the helpers to s/_version// ..
+jon
