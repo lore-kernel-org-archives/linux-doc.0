@@ -1,71 +1,74 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 91165288CBF
-	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 16:45:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE54A284687;
+	Mon, 14 Apr 2025 16:52:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744649108; cv=none; b=EOmbv7iKrAwxXSp3v6c9/7xGOFTEj3R3IbnPxuGeIqSKyInYhEF0r3s8aBTCn900ExiYHnWEo7WhoIf5Jiozna3PcAc3E+OUq0Yf3tmxAL89vqiFnsRuukPsn0Lw1VsQHIHSR9ct/Ymg1uogJbRMpcSUyoJoD0kobOOcHhqU3mQ=
+	t=1744649524; cv=none; b=tH/ryjNAlUYXTEe7Gf44LqOekbsQqKI53nS0WMHjl65116KLCYMJCkmh8CsiAIqT1v+/JN93COSSdK24kzOy1V2rbKUpHXaIfwOk9ZTy0JMXIXJ1iA2T8uinSBRaWBlc56bjyyUJA3mOzfuk3sBoZq5lwTun3eXbEliVz/pmLyQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744649108; c=relaxed/simple;
-	bh=mhsi0DOeQYbpxukkethWFqkcy0tQF4koJxOMB68FTtQ=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=fZIzWk5uWAT0i2wwFQmXDp6umJfEbQG7Cv5aUunUiYvEEEmPV0OgA7MtiMo1+eSNydXTtDUVPtcXJ7BbKdMzM4yWQZnL9x82ZChfTa6165kEllJKKYKCUgE0dY5wGEjhAd1EnLHGTNRZ78+8+YMUBS1RcBa/31t8O1Ymkyd3pk0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=mI2rk0H8; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1744649524; c=relaxed/simple;
+	bh=R1S7RaWPVlRAT0t1ZYmVJuTwQHq6TQH0O6oceEPyRdk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=POXY0mN4VTvQ2dWq3Vq1La/Kpnk8TDIMKfhwd4gj24KCdxS+VAPkewNeSMkA1hTa+pUyVBHjk10+Yiy4h3IhaX7aH2t/UatCB4o62lI/JMn3LYrJFXM6murFz0kX9DZfpIvtbfyDoMDG42cpdfLCDEnnyBI/7OK8kBaLmPieR98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=Op39d3Et; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="mI2rk0H8"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net AACD641062
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1744649105; bh=sdpSDZAgHfCELwlTMSR/BmwdIBY8gp3LitT69vGxVhI=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=mI2rk0H8hRvckig6A//Uld+mopvh/5ijoHRghZWWIZEKMAmq9kNbpSiac2XBSkd06
-	 zCXVPrJaGBBhzHnB5D4g3wk1xRSGMVyBFKxEbMb0jF8pjeJ8eZpphw0tzPzJ5ptiiB
-	 PDJMZ4h0KJKSlWwxpKY33SfeBfNj2WHUMcYxa2VMTdjFR1sPerldn9vTCD1EC48A4H
-	 8DW5NVv1BOiDizj0Jfkba0Tgzry8V8mfUoFUz74rnbBXCq0r0UzO/Bj3Q/mjX2XO3i
-	 R9ZBQjZsUP6QqylhFOhkeGdJlVudSQAfLOlWTw3G/bpe7TEHdiVlzKmCYR9LsaeaXZ
-	 88+uwJNOPR7dQ==
-Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id AACD641062;
-	Mon, 14 Apr 2025 16:45:05 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Andres Urian Florez <andres.emb.sys@gmail.com>,
- carlos.bilbao@kernel.org, avadhut.naik@amd.com
-Cc: Andres Urian Florez <andres.emb.sys@gmail.com>,
- skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH] docs/sp_SP: fix links to mailing list services
-In-Reply-To: <20250324164613.12639-1-andres.emb.sys@gmail.com>
-References: <20250324164613.12639-1-andres.emb.sys@gmail.com>
-Date: Mon, 14 Apr 2025 10:45:04 -0600
-Message-ID: <871ptuae0f.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="Op39d3Et"
+Received: from terminus.zytor.com (terminus.zytor.com [IPv6:2607:7c80:54:3:0:0:0:136])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53EGplm52279462
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NO);
+	Mon, 14 Apr 2025 09:51:52 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53EGplm52279462
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025032001; t=1744649512;
+	bh=DLT/9k/43vpfkMEjnFjZcZUM16eyzAR8pgDlAvfPvV4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Op39d3EtffbM9p3nA/uzskL6aLReK3r4w16UunCt2ZcEEf84yXE47aKCyVFE9GHcR
+	 FlMaWCOWQ/+UF0u8JubPD8jbpluNJk0DthuLQB6k3h+qARJgpbiDCMXNF8DFucVkw5
+	 I7f1wahgdonx2PMuBSDQfAdza6tHXRIESX5BNcf7nn9kUQLtQ4X1c13oREm7ED2LI5
+	 o2C8zwvIRP9x4LDn5HTxla0pkvvS+dHbo1PriOw3H8wrs/MVNQ8OhFd1HZJif0cMnV
+	 oohWQ5X5DXRsswAaVOxUnQ+LEp+3fDhuuahjyDv/eQiW0qsGLMS/dD0S3ztxlYdRbb
+	 ov1rqKYNgL8RQ==
+From: "Xin Li (Intel)" <xin@zytor.com>
+To: kvm@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc: pbonzini@redhat.com, corbet@lwn.net
+Subject: [PATCH v1 1/1] Documentation: kvm: Fix a section number
+Date: Mon, 14 Apr 2025 09:51:46 -0700
+Message-ID: <20250414165146.2279450-1-xin@zytor.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Transfer-Encoding: 8bit
 
-Andres Urian Florez <andres.emb.sys@gmail.com> writes:
+The previous section is 7.41, thus this should be 7.42.
 
-> With the changes in the way mailing lists are hostet at kernel.org, there
-> is a need to sync the Spanish documentation to:
->
-> 1. fix links that are pointing at the outdated resources
-> 2. remove an outdated patchbomb admonition
->
-> Signed-off-by: Andres Urian Florez <andres.emb.sys@gmail.com>
-> ---
->  .../translations/sp_SP/process/2.Process.rst        | 11 ++++++-----
->  Documentation/translations/sp_SP/process/howto.rst  | 10 +++++-----
->  .../translations/sp_SP/process/kernel-docs.rst      |  5 ++---
->  .../sp_SP/process/submitting-patches.rst            | 13 +++++--------
->  4 files changed, 18 insertions(+), 21 deletions(-)
+Signed-off-by: Xin Li (Intel) <xin@zytor.com>
+---
+ Documentation/virt/kvm/api.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Applied, thanks.
+diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+index 47c7c3f92314..58478b470860 100644
+--- a/Documentation/virt/kvm/api.rst
++++ b/Documentation/virt/kvm/api.rst
+@@ -8478,7 +8478,7 @@ ENOSYS for the others.
+ When enabled, KVM will exit to userspace with KVM_EXIT_SYSTEM_EVENT of
+ type KVM_SYSTEM_EVENT_SUSPEND to process the guest suspend request.
+ 
+-7.37 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
++7.42 KVM_CAP_ARM_WRITABLE_IMP_ID_REGS
+ -------------------------------------
+ 
+ :Architectures: arm64
 
-jon
+base-commit: 8ffd015db85fea3e15a77027fda6c02ced4d2444
+-- 
+2.49.0
+
