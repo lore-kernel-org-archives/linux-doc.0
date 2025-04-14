@@ -1,152 +1,190 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2C21D932F
-	for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 20:00:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A4F651B4233;
+	Mon, 14 Apr 2025 20:11:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744660847; cv=none; b=nu/Ak9wzI4bHXMeihTuLVhIL406NKxs/qxWdFQt6CrhPunXJLBtsTOSSYD5OgkU+fWUSvrPWXVt1xlqJX0cVUgDPsVgb++2X3u/VRqAt6xgMPLZ8Qn0V5lfqmNx53Uvjdr/jkzGkwwPYZ+P0dQhV7Piok87kCUpQ1HjbVz7GZmY=
+	t=1744661482; cv=none; b=SSaPIGZuTq4vMCqqzvoXITgrHKqMpsYGTL95QisvEYClYwHTTOTaB18vaqYONcaEOGf1+siOe/LLK68t/A/l61lKaX6SKyC7EtuRIH+LMhfBQzz0tcBEcLhJkZno3MNR7RxK0y0Wo+UxrmzIeEWieKOV57rxg0dEsH6Yg7xg1kw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744660847; c=relaxed/simple;
-	bh=Nw0LcWGPT7ovb/UapvxLHTltKihzzl3S+Aj3yFzA+Kg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N3B18cVxr/D1RtkTTbsLTpDqzwmetBmSk8Fyd04APWguaQg+TalthCyu3fASAhwvSbu2BOGbmUw35xdj0TnDNmvhhxDK4FL+R49lmt734SSAA/bK0i5h1Mi0V4gcUVf8DkFzgGrFhgK7revAyA4ihnZIqelraK1itfRJaZfepRM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=kZfvKh6g; arc=none smtp.client-ip=209.85.128.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1744661482; c=relaxed/simple;
+	bh=m9gUHGSqqjzXCUNW6X/n+Ri/iJ5aMnBxw6nMVp+5E6M=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=QyURcX1XBSpvhS+UJvbqehcfgTXb6BQ4mMUaOdHE4NQqX9u2R2hDLjWYFfPZLY5Zie0EoRNhX1Xt0kMhb3Z3wrDYiV5aD+WHXrilxvO0d8t7QZ5TbPn5IZlpGf+o7Ly4oS5m8ZNIZloLVt003zBZ3Rn+7qOLRS2t21XaT1HP7bs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=DGcER8U0; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="kZfvKh6g"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43d0c18e84eso24229225e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 13:00:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744660844; x=1745265644; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=I+dr467YMrCXRlo27LgBCAnCDb+4zH3txMsyWAkJpXA=;
-        b=kZfvKh6gMXpNUV6sClVyHYdPqfb+wW1IM/qlKhhPFRHyQJb+GhloSOAV896kTNzjmI
-         gd9Ea/2REUYl8wgmFykz0blSSxnOb99j6LJKDleNlqMckgjXDITuoUiZ10P0VinxdNa7
-         N8MhKxnfjxVOg6I+JUMbGtzDPwjvSz1J21m5hH2mzJ3Ms9i4a9VMruNKWBDKq95P3eTx
-         dSLT3X0lFjab/jQMZeT3N9c9H4vHGLDuFr5rFl2ZM3IVr4Cau+YYIo06CZXq/2bZipue
-         We8DMpHIzYN4P6kgGcovvr9o9+rdRI7T6SfUlLyMvKBYIhlXjcVVYtAY7Menu4IZ+Hl4
-         aBsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744660844; x=1745265644;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=I+dr467YMrCXRlo27LgBCAnCDb+4zH3txMsyWAkJpXA=;
-        b=GxXha/nCVVYQKvvJsicV72y9MC7+sqm/vm7OffnRbeX36Lr9hLWD4JrYlL5bdjHQ+w
-         L/xr/eUATo6QSoaydcvWw3QD4miJGfJ0Ub7+35czfnzGUS5/sfOMunnLAEE9V6zyL8dD
-         iaOl8XC/hCctV06gU3UQ3lPh3kkn+NR2xcLRu1gRmu5UzQVaINSuIn9s3V8cBI+OfXed
-         aQ4Ls7Ahj3aThdwWCNxAqYlZHZIU6dcXvLKbL1jSBvQ1dcsxo5Vb/N2J22RNI+yA4/yt
-         gx1IXaPKoO2l3OiXg1TQGrEfNEoHb89gmnZRhLhs9FmdtRci0F0StKUamBIXWU42kUVK
-         8Mpw==
-X-Forwarded-Encrypted: i=1; AJvYcCVlCGxEV/c0QEaKoaD1Mxpf1GZlvpU4c6kRaihEbLhZl+q/wDOf5Z3Lt+itCenqwYxuHhVyxFAVOhY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMnNygAx5+TYKJ4dmbh0KnjBu7VFmAWhdBfFIg0TJCZ1zN9dUR
-	Ow9vUHzf+GxOd+Kk3EV+PlXcAv1ZCec2SMpj8aZmN0EAHzoveFnSzzmcMC+Ccgo=
-X-Gm-Gg: ASbGncvaPxfTF4gpk+9wbvt0EK4eVGGWV4nj6gn3daCQlzEedMunwabYvbc26+KUZbi
-	TUx23hfO25W1hBUz8wEIIGcwnveJ3yzBu1Wou+9Y/PLV/cEHcMtBnde1EvbGltjjsRXFBk/8CPi
-	XESu4HwcVr70yXwmmf37dRtk1bIWBLVxni60rMC6fA6erT2ZYqt37vySCjQjPiJAaAZCu6slkVJ
-	O8qidQJwtTdqLLlSqZQ8ZAgfXpvW+WRMXJy/4Gx8bPkQPzAur2GAlPkwz5DGMsTyTQlZHCPugtP
-	BIcTxnBoArX65hZVQTTvaoctDAc9juGPMOzTtIzknAS+vs5FPq+INkMdes4j4+aWi1L7Vzk+Yw9
-	Kq7LWYpZcmlZ/Om+Rneu/C10=
-X-Google-Smtp-Source: AGHT+IG6KMFrnxI51KOYugO7FGCSBaq/lcvpClmyxP06XlPfwq97MevV0T43qHWbhAawMclBkpDoXg==
-X-Received: by 2002:a5d:6daa:0:b0:39c:310a:f87e with SMTP id ffacd0b85a97d-39ea51f59eamr11814936f8f.16.1744660843596;
-        Mon, 14 Apr 2025 13:00:43 -0700 (PDT)
-Received: from archlinux (host-87-15-70-119.retail.telecomitalia.it. [87.15.70.119])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae9640a9sm11987383f8f.10.2025.04.14.13.00.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 13:00:42 -0700 (PDT)
-Date: Mon, 14 Apr 2025 21:59:16 +0200
-From: Angelo Dureghello <adureghello@baylibre.com>
-To: Jonathan Cameron <jic23@kernel.org>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, 
-	Michael Hennerich <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>, linux-iio@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH 3/3] iio: adc: ad7606: add SPI offload support
-Message-ID: <alstwly2ya6qtb3usscpwavofzpinakmtx4dugt3aoey3fyjqz@sfnxwjt72jjj>
-References: <20250403-wip-bl-spi-offload-ad7606-v1-0-1b00cb638b12@baylibre.com>
- <20250403-wip-bl-spi-offload-ad7606-v1-3-1b00cb638b12@baylibre.com>
- <20250414192422.039817b7@jic23-huawei>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="DGcER8U0"
+Received: from narnia (unknown [167.220.2.28])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 3E98D210C426;
+	Mon, 14 Apr 2025 13:11:11 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 3E98D210C426
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744661480;
+	bh=P556LurTOELheJsvrtJpXaQl7rF2eMtCrBpdxv4c0g8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=DGcER8U0Lp6LIp5x8dw8dW/kKK1vADezhCEhZACHXla6ONsZ/FiK3dfjlQd/DeITL
+	 6lyD6wH7iWHkvv5LbIiMagDI/VQwjUWpO/P+F21KKUt2eFOC3eYPU3j6gOs5oqok7S
+	 SMP1E1bth48QsO3rcIBsYXqH09fmAhbiTS24RlfI=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Tyler Hicks <code@tyhicks.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
+ =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
+ <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
+ Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>, Neal Gompa
+ <neal@gompa.dev>, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ keyrings@vger.kernel.org, linux-crypto@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, bpf@vger.kernel.org,
+ llvm@lists.linux.dev, nkapron@google.com, teknoraver@meta.com,
+ roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+In-Reply-To: <Z/lo3iVcJgB2pfQX@redbud>
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+ <Z/lo3iVcJgB2pfQX@redbud>
+Date: Mon, 14 Apr 2025 13:11:09 -0700
+Message-ID: <87lds2jyg2.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250414192422.039817b7@jic23-huawei>
+Content-Type: text/plain
 
-On 14.04.2025 19:24, Jonathan Cameron wrote:
-> 
-> > +static int ad7606_spi_offload_probe(struct device *dev,
-> > +				    struct iio_dev *indio_dev)
-> > +{
-> > +	struct ad7606_state *st = iio_priv(indio_dev);
-> > +	struct spi_device *spi = to_spi_device(dev);
-> > +	struct spi_bus_data *bus_data;
-> > +	struct dma_chan *rx_dma;
-> > +	struct spi_offload_trigger_info trigger_info = {
-> > +		.fwnode = dev_fwnode(dev),
-> > +		.ops = &ad7606_offload_trigger_ops,
-> > +		.priv = st,
-> > +	};
-> > +	int ret;
-> > +
-> > +	bus_data = devm_kzalloc(dev, sizeof(*bus_data), GFP_KERNEL);
-> > +	if (!bus_data)
-> > +		return -ENOMEM;
-> > +	st->bus_data = bus_data;
-> > +
-> > +	bus_data->offload = devm_spi_offload_get(dev, spi,
-> > +						 &ad7606_spi_offload_config);
-> > +	ret = PTR_ERR_OR_ZERO(bus_data->offload);
-> > +	if (ret && ret != -ENODEV)
-> > +		return dev_err_probe(dev, ret, "failed to get SPI offload\n");
-> > +	/* Allow main ad7606_probe function to continue. */
-> > +	if (ret == -ENODEV)
-> > +		return 0;
-> > +
-> > +	ret = devm_spi_offload_trigger_register(dev, &trigger_info);
-> > +	if (ret)
-> > +		return dev_err_probe(dev, ret,
-> > +				     "failed to register offload trigger\n");
-> > +
-> > +	bus_data->offload_trigger = devm_spi_offload_trigger_get(dev,
-> > +		bus_data->offload, SPI_OFFLOAD_TRIGGER_DATA_READY);
-> > +	if (IS_ERR(bus_data->offload_trigger))
-> > +		return dev_err_probe(dev, PTR_ERR(bus_data->offload_trigger),
-> > +				     "failed to get offload trigger\n");
-> > +
-> > +	/* TODO: PWM setup should be ok, done for the backend. PWM mutex ? */
-> > +	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev,
-> > +							     bus_data->offload);
-> > +	if (IS_ERR(rx_dma))
-> > +		return dev_err_probe(dev, PTR_ERR(rx_dma),
-> > +				     "failed to get offload RX DMA\n");
-> > +
-> > +	ret = devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev,
-> > +		rx_dma, IIO_BUFFER_DIRECTION_IN);
-> > +	if (ret)
-> 
-> should be ret;  Thanks to 0-day for the report and fixed up.
-> 
+Tyler Hicks <code@tyhicks.com> writes:
 
-thanks for fixing it.
+> On 2025-04-04 14:54:50, Blaise Boscaccy wrote:
+>> +static int hornet_verify_lskel(struct bpf_prog *prog, struct hornet_maps *maps,
+>> +			       void *sig, size_t sig_len)
+>> +{
+>> +	int fd;
+>> +	u32 i;
+>> +	void *buf;
+>> +	void *new;
+>> +	size_t buf_sz;
+>> +	struct bpf_map *map;
+>> +	int err = 0;
+>> +	int key = 0;
+>> +	union bpf_attr attr = {0};
+>> +
+>> +	buf = kmalloc_array(prog->len, sizeof(struct bpf_insn), GFP_KERNEL);
+>> +	if (!buf)
+>> +		return -ENOMEM;
+>> +	buf_sz = prog->len * sizeof(struct bpf_insn);
+>> +	memcpy(buf, prog->insnsi, buf_sz);
+>> +
+>> +	for (i = 0; i < maps->used_map_cnt; i++) {
+>> +		err = copy_from_bpfptr_offset(&fd, maps->fd_array,
+>> +					      maps->used_idx[i] * sizeof(fd),
+>> +					      sizeof(fd));
+>> +		if (err < 0)
+>> +			continue;
+>> +		if (fd < 1)
+>> +			continue;
+>> +
+>> +		map = bpf_map_get(fd);
+>
+> I'm not very familiar with BPF map lifetimes but I'd assume we need to have a
+> corresponding bpf_map_put(map) before returning.
+>
+>> +		if (IS_ERR(map))
+>> +			continue;
+>> +
+>> +		/* don't allow userspace to change map data used for signature verification */
+>> +		if (!map->frozen) {
+>> +			attr.map_fd = fd;
+>> +			err = kern_sys_bpf(BPF_MAP_FREEZE, &attr, sizeof(attr));
+>> +			if (err < 0)
+>> +				goto out;
+>> +		}
+>> +
+>> +		new = krealloc(buf, buf_sz + map->value_size, GFP_KERNEL);
+>> +		if (!new) {
+>> +			err = -ENOMEM;
+>> +			goto out;
+>> +		}
+>> +		buf = new;
+>> +		new = map->ops->map_lookup_elem(map, &key);
+>> +		if (!new) {
+>> +			err = -ENOENT;
+>> +			goto out;
+>> +		}
+>> +		memcpy(buf + buf_sz, new, map->value_size);
+>> +		buf_sz += map->value_size;
+>> +	}
+>> +
+>> +	err = verify_pkcs7_signature(buf, buf_sz, sig, sig_len,
+>> +				     VERIFY_USE_SECONDARY_KEYRING,
+>> +				     VERIFYING_EBPF_SIGNATURE,
+>> +				     NULL, NULL);
+>> +out:
+>> +	kfree(buf);
+>> +	return err;
+>> +}
+>> +
+>> +static int hornet_check_binary(struct bpf_prog *prog, union bpf_attr *attr,
+>> +			       struct hornet_maps *maps)
+>> +{
+>> +	struct file *file = get_task_exe_file(current);
+>
+> We should handle get_task_exe_file() returning NULL. I don't think it is likely
+> to happen when passing `current` but kernel_read_file() doesn't protect against
+> it and we'll have a NULL pointer dereference when it calls file_inode(NULL).
+>
+>> +	const unsigned long markerlen = sizeof(EBPF_SIG_STRING) - 1;
+>> +	void *buf = NULL;
+>> +	size_t sz = 0, sig_len, prog_len, buf_sz;
+>> +	int err = 0;
+>> +	struct module_signature sig;
+>> +
+>> +	buf_sz = kernel_read_file(file, 0, &buf, INT_MAX, &sz, READING_EBPF);
+>
+> We are leaking buf in this function. kernel_read_file() allocates the memory
+> for us but we never kfree(buf).
+>
+>> +	fput(file);
+>> +	if (!buf_sz)
+>> +		return -1;
+>> +
+>> +	prog_len = buf_sz;
+>> +
+>> +	if (prog_len > markerlen &&
+>> +	    memcmp(buf + prog_len - markerlen, EBPF_SIG_STRING, markerlen) == 0)
+>> +		prog_len -= markerlen;
+>
+> Why is the marker optional? Looking at module_sig_check(), which verifies the
+> signature on kernel modules, I see that it refuses to proceed if the marker is
+> not found. Should we do the same and refuse to operate on any unexpected input?
+>
 
-Regards,
-angelo
+Looking at this again, there doesn't seem to be a good reason to have an
+optional marker. I'll get that fixed in v3 along with the rest of these
+suggestions. 
 
-> > +		return dev_err_probe(dev, PTR_ERR(rx_dma),
-> > +				     "failed to setup offload RX DMA\n");
-> > +
-> > +	/* Use offload ops. */
-> > +	indio_dev->setup_ops = &ad7606_offload_buffer_setup_ops;
-> > +
-> > +	st->offload_en = true;
-> > +
-> > +	return 0;
-> > +}
+>> +
+>> +	memcpy(&sig, buf + (prog_len - sizeof(sig)), sizeof(sig));
+>
+> We should make sure that prog_len is larger than sizeof(sig) prior to this
+> memcpy(). It is probably not a real issue in practice but it would be good to
+> ensure that we can't be tricked to copy and operate on any bytes proceeding
+> buf.
+>
+> Tyler
+>
+>> +	sig_len = be32_to_cpu(sig.sig_len);
+>> +	prog_len -= sig_len + sizeof(sig);
+>> +
+>> +	err = mod_check_sig(&sig, prog->len * sizeof(struct bpf_insn), "ebpf");
+>> +	if (err)
+>> +		return err;
+>> +	return hornet_verify_lskel(prog, maps, buf + prog_len, sig_len);
+>> +}
