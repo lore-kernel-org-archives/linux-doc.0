@@ -1,86 +1,99 @@
-Received: from relay5-d.mail.gandi.net (relay5-d.mail.gandi.net [217.70.183.197])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E585D2417C8;
-	Tue, 15 Apr 2025 11:06:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.197
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EDA1228F515;
+	Tue, 15 Apr 2025 11:13:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744715209; cv=none; b=XGvSEhdyEEaHo5DZ3dOJbreI69Uoa9W3P5nTeGQYfJ456L2ojfLd6FrvqASmHgw0uJTuK0YKDSd30yPipp1odRKn0qe31jQqP52Gbr6jtyYGWcZYkIt+bm1J6M7zrN2UCRT8eHb+OLi3UL2flrGyVsglxidr2fYUbQAdyQwsrPg=
+	t=1744715601; cv=none; b=f0vi4Gr4YphgSRqgQm5HUSJ2Oa4FRBcZ/RKv1fk3eG7x80C/7T1RXXbBmoM/NwSyr5x3HtEKgQkQA93w1ZrZQsiIKJsTpNW7YwHu2PQdYgFNOn43nHn+KwCynhT99aVUN9ZjbGJJAi1LjQg2GvxyVmSDPWq5IYb7GpiPkl0t5d8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744715209; c=relaxed/simple;
-	bh=Ha0elEjMP6yRTsucjzFgdJXqzOY/qP0SIL9jP1gI9zY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=DsvWeaoF5wEKYPH5qsRg7X1GbfJDeShgkO9gOxbGCXyp8LBrimYJkByzY1K3PozsGmC3VqlYRJGmRZFTjdaNjzRAqNGzmotFVAybKIK+WJTLlYrFUbTjQXCWVavcypjFfKn0KbpQUOTo1a5l1KAhpiTbswdQVF4obiosGuzYr6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=MAy+kUu6; arc=none smtp.client-ip=217.70.183.197
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1744715601; c=relaxed/simple;
+	bh=JImvK1kbxpz/Pko6NQtBvb6KK/vNuwZZQJ5c/28uPhM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=cEOXTZouSUADLarKfjh77Aiq1ldG3FFFG6iS/Eckc1Qt9HlrRO9AzUvOZMQY9KC6nn0TyAsuzWTGmpyblnRyONMRro9F1ER+ysSTtkvOeZLBAyMScl7HNyzsCGxuVsRVf+fHYdpLalzpiF91fiGwR74ZvFK4nCGqj51TvDb0Wvs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Vpd49iQI; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="MAy+kUu6"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id DD3D54333F;
-	Tue, 15 Apr 2025 11:06:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744715205;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=udU7VdwDyMJ3EQPBOEs8+xexnGGNWkNKUrKue8Vn0cU=;
-	b=MAy+kUu6XYprpvyB25g/DO0TGELhc5Rxkkc0RFGGgSdkXUkcI5UK41CK+H08djf1xkeheO
-	sh5NG8p8T4LWiwyRhYNueufUaZziKHiqRrfF3YADbuisMVhNMDpE0a5pRd9XsOouRH9CbW
-	KcH7a+h6rgo/EfumJK+nt1o1MXNBpQ+na70auxJ484YUZgC1KgpXUzxmUPg2GgkBHPTzDR
-	vt048Qh0DbOBar99p6W6IWhdXWbJDMJwG35KLBLtz5G0BSK4ZVEwzdTjCpoX9jQLjDZXo3
-	JipGw4zRJvJeG7IgYW+oUYInFT89xTPDbHvGXwgwiTtBujxC40ZNP4YYCFcm2A==
-Date: Tue, 15 Apr 2025 13:06:42 +0200
-From: Maxime Chevallier <maxime.chevallier@bootlin.com>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon
- <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Siddharth Vadapalli
- <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, Tero Kristo
- <kristo@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux@ew.tq-group.com
-Subject: Re: [PATCH net-next 3/4] net: ethernet: ti: am65-cpsw: fixup PHY
- mode for fixed RGMII TX delay
-Message-ID: <20250415130642.00410100@fedora.home>
-In-Reply-To: <32e0dffa7ea139e7912607a08e391809d7383677.1744710099.git.matthias.schiffer@ew.tq-group.com>
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	<32e0dffa7ea139e7912607a08e391809d7383677.1744710099.git.matthias.schiffer@ew.tq-group.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Vpd49iQI"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744715600; x=1776251600;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=JImvK1kbxpz/Pko6NQtBvb6KK/vNuwZZQJ5c/28uPhM=;
+  b=Vpd49iQIbyd5FrpQWR7buVyV+ZM7ZVZxb5Pk6MrmuF18w8VfkVuUb3Yl
+   UE+FdtoQdgtVoMnVClQRqDJt4kvmuLnm7bbKbnenPxSYPryWnxW0kMnhl
+   eZv9zrXVnfLjKaKZjE9YpaTLm+gy2/rg0lclsw4M4nUB267Ir1dQcYdjv
+   wLzw9VtW3PeUr6WcsAewLyEtde4ZpcHmSW10tJ1xPPQpnh+vqIYtJDYXe
+   JrdBoJbUdVFrk6V8b7CgDEwtnt7f1EtMgehMhn/sEmVxzaHZ2HmHReknJ
+   CKvr7Uf5xHaWxzg0OEz0UxXmtdv9GLLKrRzWGPtsRexbYhTceiC4xlPoM
+   A==;
+X-CSE-ConnectionGUID: xpNBkC9rQ+6d39GOapeicw==
+X-CSE-MsgGUID: /4WOGKEFSkaTPYYl2XbonQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="56879281"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="56879281"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 04:13:19 -0700
+X-CSE-ConnectionGUID: 7lTl8OIGT+ydGVvqP81thw==
+X-CSE-MsgGUID: cu5VTjdYShWgiaKp42kSxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="130049566"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 04:13:16 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u4eE5-0000000CWdf-2Uer;
+	Tue, 15 Apr 2025 14:13:13 +0300
+Date: Tue, 15 Apr 2025 14:13:13 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <kees@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	linux-hardening@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
+Message-ID: <Z_4_SU5kOko49Twf@smile.fi.intel.com>
+References: <87mscibwm8.fsf@trenco.lwn.net>
+ <Z_4EL2bLm5Jva8Mq@smile.fi.intel.com>
+ <Z_4E0y07kUdgrGQZ@smile.fi.intel.com>
+ <87v7r5sw3a.fsf@intel.com>
+ <Z_4WCDkAhfwF6WND@smile.fi.intel.com>
+ <Z_4Wjv0hmORIwC_Z@smile.fi.intel.com>
+ <20250415164014.575c0892@sal.lan>
+ <Z_4sKaag1wZhME7B@smile.fi.intel.com>
+ <Z_4sxCFvpqs7qmcN@smile.fi.intel.com>
+ <20250415180631.180e9a9f@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeffedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeeftdertddvnecuhfhrohhmpeforgigihhmvgcuvehhvghvrghllhhivghruceomhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheetveefiedvkeejfeekkefffefgtdduteejheekgeeileehkefgfefgveevfffhnecukfhppedvrgdtudemtggsudelmeekugegheemgeeltddtmeeiheeikeemvdelsgdumeelvghfheemvgektgejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddumegtsgduleemkegugeehmeegledttdemieehieekmedvlegsudemlegvfhehmegvkegtjedphhgvlhhopehfvgguohhrrgdrhhhomhgvpdhmrghilhhfrhhomhepmhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdehpdhrtghpthhtohepmhgrthhthhhirghsrdhstghhihhffhgvrhesvgifrdhtqhdqghhrohhuphdrtghomhdprhgtphhtthhopegrnhgurhgvfidonhgvthguvghvsehluhhnnhdrtghhpdhrtghpthhtohepuggrvhgvm
- hesuggrvhgvmhhlohhfthdrnhgvthdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheprhhosghhsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehkrhiikhdoughtsehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: maxime.chevallier@bootlin.com
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415180631.180e9a9f@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, 15 Apr 2025 12:18:03 +0200
-Matthias Schiffer <matthias.schiffer@ew.tq-group.com> wrote:
+On Tue, Apr 15, 2025 at 06:06:31PM +0800, Mauro Carvalho Chehab wrote:
+> Em Tue, 15 Apr 2025 12:54:12 +0300
+> Andy Shevchenko <andriy.shevchenko@intel.com> escreveu:
 
-> All am65-cpsw controllers have a fixed TX delay, so the PHY interface
-> mode must be fixed up to account for this.
-> 
-> Modes that claim to a delay on the PCB can't actually work. Warn people
-> to update their Device Trees if one of the unsupported modes is specified.
-> 
-> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+...
 
-This looks good to me,
+> I'll try to craft a patch along the week to add
+> PYTHONDONTWRITEBYTECODE=1 to the places where kernel-doc
+> is called.
 
-Reviewed-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
+Cc me and I'll be happy to test. Thank you!
 
-Maxime
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
