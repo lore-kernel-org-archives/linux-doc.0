@@ -1,72 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f180.google.com (mail-yw1-f180.google.com [209.85.128.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BEE3C463;
-	Tue, 15 Apr 2025 01:28:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF4EF19DF48
+	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 01:37:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744680502; cv=none; b=QE7iEJV/h+vU4tTcl6TQO2smvIS1YV0wUNJLF6EbtWkyvsNy6xK/A8L3pA2fLH/mbPrdkZOTU5ewrHfXL+5pzOO/vRlkwfeFG6ibMh7zn5Wlpbe/kK/KwMWgy7uCqfscfKjM955JyqjLH3cFAyTCnELhtVCWWrZm4PybCqmmk3M=
+	t=1744681080; cv=none; b=P59qZSgFuQvxaJesazTtJy6DSsqjUPbKQRxMY90ab+7YxmflcJswMHNraF1eLzRc91JBJv7szc/qVZF+RjzzimEy/6Nuh0d0OJHRdCDf+jYYGwsWWnpsk9btPby45NODvAey7w9rI2mEiIBzej4Xp/yrn0nvhJ3SgBV+rUhvJVY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744680502; c=relaxed/simple;
-	bh=qOiLzz5Ys8eSSLqOWk5VgHA3ONL6mmYMIxRWgNUdq0w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fQKKc0t6oNJeRBgOf9YRRakABxCcH48FfNa7e1hXSzyhVb85d1ECBDHuYdduQZApm1VOb4nPQtVj4UKWtEeZuUPCjMJo2eGKoJtJK7uF3voyBSP8GAmlnAk3mffs4kjoOqN+d3l5qPFlrElFLUUfiTt7sHntsmfh/Rtka3znNL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmH07lrM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744681080; c=relaxed/simple;
+	bh=nnSwVQEmzGQiBeSzekmrr/5D5+/Kj5ljs92bYT66phg=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Lq9fiw9zSOxj9XCjMTJOFkGLvrOVsPFH9LBSge5fnaJ7USOibao8w993oBmPIom9/WF4NPEXYmBrYE+BQansLCl3LmqZROg779QL1yAug4YXm740IZzD65E7E2eHGd9C51ra0aRdXlxSKSSD5H8iuRIMOMgCZ305SN/Z+EPYzYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=UyGPpseq; arc=none smtp.client-ip=209.85.128.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmH07lrM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD09C4CEE2;
-	Tue, 15 Apr 2025 01:28:20 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744680501;
-	bh=qOiLzz5Ys8eSSLqOWk5VgHA3ONL6mmYMIxRWgNUdq0w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=HmH07lrMHaqvYw2TUmzSVnmklXNNFlYxJPI6IJEXLClrjQEwLdeDGu7a5pKuVGjnT
-	 UQHg4viqaE+XD/0YfBHNAzyqIf1q2dOTlRNz+ZS0M2CfEUrGbd+K3zW52t+caMHZzh
-	 NxPV+fGt7E37dD8jmElvwG/HyQfY9Xg6tRn1K3o2Z65urYXd/CRCZUSbZRyHx7gHsp
-	 329nHQ7eSvNZfIz/NcxCPOyzEhXj+dt1vdlUi2CIvaR3rxR0G++WR6FBChvwTMGFj9
-	 u0BcCSav4jHIEN9JwTwAS3vCTEHuyh4DvE9C+4igenTlFtZvaxaG2T9pV7kSu0x+nk
-	 ahGsmqeDHgO+A==
-Date: Mon, 14 Apr 2025 18:28:20 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Gur Stavi <gur.stavi@huawei.com>
-Cc: Fan Gong <gongfan1@huawei.com>, <netdev@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
- Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Lee Trager
- <lee@trager.us>, <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>, Bjorn Helgaas <helgaas@kernel.org>, Cai Huoqing
- <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>, Xin Guo
- <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
- Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
- <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Suman Ghosh
- <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Joe
- Damato <jdamato@fastly.com>
-Subject: Re: [PATCH net-next v10 1/1] hinic3: module initialization and
- tx/rx logic
-Message-ID: <20250414182820.370e9feb@kernel.org>
-In-Reply-To: <f74da5b6deceacf4e21cd6fa126e88acd3e8b824.1744286279.git.gur.stavi@huawei.com>
-References: <cover.1744286279.git.gur.stavi@huawei.com>
-	<f74da5b6deceacf4e21cd6fa126e88acd3e8b824.1744286279.git.gur.stavi@huawei.com>
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="UyGPpseq"
+Received: by mail-yw1-f180.google.com with SMTP id 00721157ae682-6fed0620395so49065987b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 14 Apr 2025 18:37:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1744681077; x=1745285877; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=RmvfG1SQQQWNnAFrc4eRr2gOVcRDAxX6JXskDgWSkhk=;
+        b=UyGPpseqMIr5FWt1t8/fTweMybHb8ICvimkGcv7SqUidNJyoA1rE3eqyyK4rkCYVAt
+         JuesuxZderCvCHLu7J/wy2+5dgy5Ds/VAm3691Pem68xwhSqciezzHRCT8A6mBt+nPRx
+         KBU41Gfl3MKy52eXSCr10GEQZyuvHKx1FrWdGUbeuIIvt6Rlh9DH1hxztlLec+ExxLQQ
+         PWJNsQ9Gy3ZxwfmuMVRMar8Gamz+e0SX/blsUEDoet5FzTVA8Dh0GIZu6oSeIgvaReA8
+         UUbjCMDY4uJ8kZrkDXv8HIhVc6jL5tzSHyeubtilCFb/H+91BY2/saK3ti2PvlqIXW1w
+         H1ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744681077; x=1745285877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=RmvfG1SQQQWNnAFrc4eRr2gOVcRDAxX6JXskDgWSkhk=;
+        b=tvYfsR9wU0Tobehy1bdiHNHh3Ud2wfYsCLV8aqadRQWjCwO7fU6AAh2z6ki1Xdl+1e
+         Jha2XSUIG92rDEdIC6tAkbI+sMwlMvSEoNkzGez9JwndW8MB1H3vjCk2WU6jDd40RcvJ
+         8X209VyNF9eEnWRzX+28U/TUPQLOVRWoILwBh96d1v80hQIiv/lF5bBHoM7qmSoKPKyX
+         VXmXsNHjDelqZNU/xfaj4uaOnZc2VlClK0OeQJjL2R3fT1TZu/PmIKupP2GnUMxfAh4X
+         ZTzyQ/YX9Ke6LAWjtTWx4KYLCB1iPGtRZgIGG6pfU0K+UR0Fb68/FcYttC9QQ2RZNdlR
+         7/dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCX2HF5+LYLVfJadj+2kGZdt5GHSiWBQkEa6ou3hKtvOk89/jHd2keWHyTrWuqVUMd/JDELCq85F2KM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx6O0kTIByJec53fRIXQx5VGx0O6YQioG6AyL8suEj2B2UQAXit
+	MXCcQliURTJtwZxRyPPHUE5j4N6aKyxi4hSPms6tKSHMZ1DmCaK2oolVt4sJ9NX6z8xklM10oDt
+	XUrke4Nl8MoWjggFVG+ZFz/uQxp0D1i9HhLTB
+X-Gm-Gg: ASbGncsdSzrlM2kbOv3TxxFr2N/3pNupVWDKVSb8pT6i3tQYHeEED6m9WuyzJxoOIoU
+	kSFtYWMy5alqmYJ7y8HWTP933gBb26zxGLKrQzGJPOKvLn0FLbKONIL60flsDdOR2JKSpv5/uFQ
+	HeRKe36vhltv+gYmXXA2+LQkYPVkvzHK4w
+X-Google-Smtp-Source: AGHT+IGVFpWpZi+wTlwkHFutHe8bqQ5rjA+H2o0mhaXEz1HFA8h8I8OEvnDz+zZIg9Hq6o5FyhzxVV34XBFz3VTMiPA=
+X-Received: by 2002:a05:6902:d43:b0:e63:ebbf:7ea with SMTP id
+ 3f1490d57ef6-e704df842b4mr23249055276.39.1744681077563; Mon, 14 Apr 2025
+ 18:37:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+ <d3ad9a7bb9eb68a3ae5dd18bf091825d@paul-moore.com> <87ikn6jwt2.fsf@microsoft.com>
+In-Reply-To: <87ikn6jwt2.fsf@microsoft.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 14 Apr 2025 21:37:46 -0400
+X-Gm-Features: ATxdqUFeWe8YQ9KNwKtLxVB-kJkAnedXLrtL9lJ0sVjc8DBpxOzeoo2ai7wuYBI
+Message-ID: <CAHC9VhTugESMrL8=+b45j3rTKykypZN31in0-cq_FcQF+3nYCg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/4] security: Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
+	James Morris <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, 
+	Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, 
+	Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, keyrings@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, linux-security-module@vger.kernel.org, 
+	linux-kbuild@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	bpf@vger.kernel.org, llvm@lists.linux.dev, nkapron@google.com, 
+	teknoraver@meta.com, roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Thu, 10 Apr 2025 15:15:51 +0300 Gur Stavi wrote:
-> +	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
-> +	if (err) {
-> +		dev_warn(&pdev->dev, "Couldn't set 64-bit DMA mask\n");
-> +		/* try 32 bit DMA mask if 64 bit fails */
-> +		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
-> +		if (err) {
-> +			dev_err(&pdev->dev, "Failed to set DMA mask\n");
-> +			goto err_release_regions;
-> +		}
+On Mon, Apr 14, 2025 at 4:46=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
+> Paul Moore <paul@paul-moore.com> writes:
+> > On Apr  4, 2025 Blaise Boscaccy <bboscaccy@linux.microsoft.com> wrote:
 
-Please take a look at commit 004464835bfc ("hinic: Remove useless
-DMA-32 fallback configuration"). This construct was removed in your
-other driver now you're bringing it back.
+...
+
+> >> +static int hornet_check_binary(struct bpf_prog *prog, union bpf_attr =
+*attr,
+> >> +                           struct hornet_maps *maps)
+> >> +{
+> >> +    struct file *file =3D get_task_exe_file(current);
+> >> +    const unsigned long markerlen =3D sizeof(EBPF_SIG_STRING) - 1;
+> >> +    void *buf =3D NULL;
+> >> +    size_t sz =3D 0, sig_len, prog_len, buf_sz;
+> >> +    int err =3D 0;
+> >> +    struct module_signature sig;
+> >> +>> +        buf_sz =3D kernel_read_file(file, 0, &buf, INT_MAX, &sz, =
+READING_EBPF);
+> >> +    fput(file);
+> >> +    if (!buf_sz)
+> >> +            return -1;
+> >
+> > I'm pretty sure I asked you about this already off-list, but I can't
+> > remember the answer so I'm going to bring this up again :)
+> >
+> > This file read makes me a bit nervous about a mismatch between the
+> > program copy operation done in the main BPF code and the copy we do
+> > here in kernel_read_file().  Is there not some way to build up the
+> > buffer with the BPF program from the attr passed into this function
+> > (e.g. attr.insns?)?
+> >
+>
+> There is. That would require modifying the BPF_PROG_LOAD subcommand
+> along with modifying the skeletobn generator to use it. I don't know if
+> there is enough buy-in from the ebpf developers to do that
+> currently. Tacking the signature to the end of of the light-skeleton
+> binary allows Hornet to operate without modifying the bpf subsystem and
+> is very similar to how module signing currently works. Modules have the
+> advantage of having a working in-kernel loader, which makes all of this
+> a non-issue with modules.
+>
+> > If there is some clever reason why all of this isn't an issue, it might
+> > be a good idea to put a small comment above the kernel_read_file()
+> > explaining why it is both safe and good.
+> >
+>
+> Will do. I don't see this being an issue ...
+
+My mistake, I spaced out a bit when looking at this and for some
+reason thought it was reading the BPF program/lskel itself and not the
+signature, meaning that the BPF that was being checked by Hornet was
+not necessarily the same BPF that was actually loaded.  However,
+that's not the case here, as you rightly point out it is just the
+signature that is being read by the kernel_read_file() which shouldn't
+be an issue.
+
+Thanks for the correction and sorry for the noise :)
+
+--=20
+paul-moore.com
