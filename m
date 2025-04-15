@@ -1,209 +1,113 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 884A927B4F1;
-	Tue, 15 Apr 2025 08:30:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B956227A11F;
+	Tue, 15 Apr 2025 08:35:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744705832; cv=none; b=ZoscL6cLS4GzqWUQN0IXULyZzGHyAam5FdN2nTOKYHUZlCRzpvSfFrf0y3I04gxx7N1crYewEkxLDW8DeYyu4SG7slj0QBeiw5wDNAfkxijd5qeCmZFI5vQwdU720fBOXDQb8YhYwXyVxtqAwkJnalPCUTi5LHdLiTgIqjBw3l4=
+	t=1744706133; cv=none; b=oyDV17DrFLFm94b2OAZp2sBu8RQLq3sEEoGe5Jb1HqL+QBh0jL5W4BZuA9rriZLVhNgzYXco057ikj5SB4WaqoGkwyVfNFWnMu1tc8WUZz28wK8AETyaMXUV5Sh7vS9wx69dx1tb5mU3mSY8k+9rNEWHL56kW924AgaWbyORIxg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744705832; c=relaxed/simple;
-	bh=luRNjjq9Ky4e8OeXI2+K5Ns2S6QljlO+7NwvSgkcH2w=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nFpo0C60L+hw4oG0Ao1dTkz2j97Hht83qMWGZShj19f4jGQ/0VSxDnB/9+8pxOaaD5bbOI0yNzhK2TrkvQSRNdfjv8+nAgt+sUSWO3bB8YYiNCAQ6GCMEkHL5TgaH3jd7/nHhzNcKcj2T4FvnbuUV4BrR3rEoGZH0Iudn+zFvSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PVcWO21J; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744706133; c=relaxed/simple;
+	bh=jGqXa6qAd07xPumuQnTOwwVerUwK7vIp8vwS6j9n5Yw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TmQ46/FhstgGCethVkD9YNp86YVMLzYMRWGTZzQ2GOBLUx//nwJoVjBjbXEh4X6g2Yl/6vcWsGbcGjTAFdYCNGGNA8/Wqn4i8A0hWI5wt1mRILEinb0gkqyGPtA4bgKx8LYGsW5aIZIyXJe+EpLuaN4AuzsFZd9lxsJRCI4Sdo4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=b0DOwnR0; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PVcWO21J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2A338C4CEE9;
-	Tue, 15 Apr 2025 08:30:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744705832;
-	bh=luRNjjq9Ky4e8OeXI2+K5Ns2S6QljlO+7NwvSgkcH2w=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=PVcWO21JVPPefr1i5FyIc6PzdVdqZdH6GIbZbhao8j8PQlehZnUahYbQRNEuO4bFY
-	 dznACuhUAN/mM3iZL9puDzlFp5h3CfcAfoh1i5ns8E77Mpgz7gz+7m8jAaG9WRf1nC
-	 4V4oo0xhNg6LhKvwr6mFAaWL/UcsIKC5vl0p1eCELBZd6q4zS1d6cF0i04ab9I0IrX
-	 J7zV+Ee44iy7sFP69DgGUt7Jzp1nkpNN8zHj07tAr95U4w+BpizcJAc2J8GiqR6e4b
-	 WOs9sklRJ58erHqPiZxo6vyFqv+u4vuZm9769RIVdyU7bddJQS0f2ZUcVyoAPbar36
-	 9SlIEmVBLWW+g==
-Date: Tue, 15 Apr 2025 16:30:16 +0800
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, "Gustavo A. R.
- Silva" <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>, Russell King
- <linux@armlinux.org.uk>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
-Message-ID: <20250415163016.39bcc220@sal.lan>
-In-Reply-To: <Z_4E0y07kUdgrGQZ@smile.fi.intel.com>
-References: <cover.1744106241.git.mchehab+huawei@kernel.org>
-	<871pu1193r.fsf@trenco.lwn.net>
-	<Z_zYXAJcTD-c3xTe@black.fi.intel.com>
-	<87mscibwm8.fsf@trenco.lwn.net>
-	<Z_4EL2bLm5Jva8Mq@smile.fi.intel.com>
-	<Z_4E0y07kUdgrGQZ@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="b0DOwnR0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744706132; x=1776242132;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=jGqXa6qAd07xPumuQnTOwwVerUwK7vIp8vwS6j9n5Yw=;
+  b=b0DOwnR0lwOpWG5+QAxArIKEOSZNSnQ2gWEBB3h3zKuVLd5IljyZDJC4
+   5JG/S0ChWZg5k0HP4NhO0lFrY5K8jPkzTB+5cRYP+1CFLcCDHScsxnqOU
+   iUy5LWz5FkGwUVVz2+B69+ZuMByu4beQMDH3I+sxWQ85to3ScYGBb+Uyy
+   3nQPO/Cg/erOjp6VPHA8re5i/3w3L2I0sGxxj6DJ1DExAgOC0ZK2L36qo
+   tH0uE7e8s7HEuVyBoR6rW/Zn+DCIasXvHP1yKiUpXxRM6pg6Zrnt9TnnN
+   4fl49F9bbLpKkLL5rIUKFPWEbl8Mk7KbatW+6xCrQ4Wsq97pZ2KdpomMq
+   A==;
+X-CSE-ConnectionGUID: mH9uV0ZjTIaJbJkW9XksLw==
+X-CSE-MsgGUID: 7CqifoWFTuyJ4hURP3MRgw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45337960"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="45337960"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 01:34:19 -0700
+X-CSE-ConnectionGUID: 0oNhRal1SjGXEsB3HijK6Q==
+X-CSE-MsgGUID: XcQw+3HNSKCqozLjnKIVaA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="161039023"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 15 Apr 2025 01:34:16 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u4bkD-000FPu-2n;
+	Tue, 15 Apr 2025 08:34:13 +0000
+Date: Tue, 15 Apr 2025 16:33:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Dzmitry Sankouski <dsankouski@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Chanwoo Choi <cw00.choi@samsung.com>,
+	Krzysztof Kozlowski <krzk@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Dzmitry Sankouski <dsankouski@gmail.com>
+Subject: Re: [PATCH v4] hwmon: (max77705) add initial support
+Message-ID: <202504151600.nzy7dDhd-lkp@intel.com>
+References: <20250412-initial-support-for-max77705-sensors-v4-1-2e4cf268a3d0@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250412-initial-support-for-max77705-sensors-v4-1-2e4cf268a3d0@gmail.com>
 
-Em Tue, 15 Apr 2025 10:03:47 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> escreveu:
+Hi Dzmitry,
 
-> On Tue, Apr 15, 2025 at 10:01:04AM +0300, Andy Shevchenko wrote:
-> > On Mon, Apr 14, 2025 at 09:17:51AM -0600, Jonathan Corbet wrote:  
-> > > Andy Shevchenko <andriy.shevchenko@intel.com> writes:  
-> > > > On Wed, Apr 09, 2025 at 12:30:00PM -0600, Jonathan Corbet wrote:  
-> > > >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > > >>   
-> > > >> > This changeset contains the kernel-doc.py script to replace the verable
-> > > >> > kernel-doc originally written in Perl. It replaces the first version and the
-> > > >> > second series I sent on the top of it.  
-> > > >> 
-> > > >> OK, I've applied it, looked at the (minimal) changes in output, and
-> > > >> concluded that it's good - all this stuff is now in docs-next.  Many
-> > > >> thanks for doing this!
-> > > >> 
-> > > >> I'm going to hold off on other documentation patches for a day or two
-> > > >> just in case anything turns up.  But it looks awfully good.  
-> > > >
-> > > > This started well, until it becomes a scripts/lib/kdoc.
-> > > > So, it makes the `make O=...` builds dirty *). Please make sure this doesn't leave
-> > > > "disgusting turd" )as said by Linus) in the clean tree.
-> > > >
-> > > > *) it creates that __pycache__ disaster. And no, .gitignore IS NOT a solution.  
-> > > 
-> > > If nothing else, "make cleandocs" should clean it up, certainly.
+kernel test robot noticed the following build warnings:
 
-Not sure about that, as __pycache__ is completely managed by Python: it
-will not only create it for scripts/lib, but also for all Python libraries,
-including the Sphinx ones.
+[auto build test WARNING on a4cda136f021ad44b8b52286aafd613030a6db5f]
 
-IMO, it makes more sense, instead, to ensure that __pycache__ won't be
-created at the sourcedir if O= is used, but ignore it if this is created.
+url:    https://github.com/intel-lab-lkp/linux/commits/Dzmitry-Sankouski/hwmon-max77705-add-initial-support/20250414-123556
+base:   a4cda136f021ad44b8b52286aafd613030a6db5f
+patch link:    https://lore.kernel.org/r/20250412-initial-support-for-max77705-sensors-v4-1-2e4cf268a3d0%40gmail.com
+patch subject: [PATCH v4] hwmon: (max77705) add initial support
+config: s390-allmodconfig (https://download.01.org/0day-ci/archive/20250415/202504151600.nzy7dDhd-lkp@intel.com/config)
+compiler: clang version 18.1.8 (https://github.com/llvm/llvm-project 3b5b5c1ec4a3095ab096dd780e84d7ab81f3d7ff)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250415/202504151600.nzy7dDhd-lkp@intel.com/reproduce)
 
-Btw, the same problem should already happen with get_abi.py, as it also
-uses "import" from scripts/lib. So, we need a more generic solution. See
-below.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504151600.nzy7dDhd-lkp@intel.com/
 
-> > > 
-> > > We can also tell CPython to not create that directory at all.  I'll run
-> > > some tests to see what the effect is on the documentation build times;
-> > > I'm guessing it will not be huge...  
+All warnings (new ones prefixed by >>):
 
-I doubt it would have much impact for kernel-doc, but it can have some impact
-for Sphinx, as disabling Python JIT to store bytecode would affect it too.
+>> drivers/hwmon/max77705-hwmon.c:59:41: warning: unused variable 'max77705_hwmon_readable_table' [-Wunused-const-variable]
+      59 | static const struct regmap_access_table max77705_hwmon_readable_table = {
+         |                                         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+   1 warning generated.
 
--
 
-Andy, 
+vim +/max77705_hwmon_readable_table +59 drivers/hwmon/max77705-hwmon.c
 
-Could you please remove __pycache__ and set this env:
+    58	
+  > 59	static const struct regmap_access_table max77705_hwmon_readable_table = {
+    60		.yes_ranges = max77705_hwmon_readable_ranges,
+    61		.n_yes_ranges = ARRAY_SIZE(max77705_hwmon_readable_ranges),
+    62	};
+    63	
 
-	PYTHONDONTWRITEBYTECODE=1
-
-before building the Kernel? If this works, one alternative would be to 
-set it when O= is used.
-
-> > I do not build documentation at all, it's just a regular code build that leaves
-> > tree dirty.
-> > 
-> > $ python3 --version
-> > Python 3.13.2
-> > 
-> > It's standard Debian testing distribution, no customisation in the code.
-> > 
-> > To reproduce.
-> > 1) I have just done a new build to reduce the churn, so, running make again does nothing;
-> > 2) The following snippet in shell shows the issue
-> > 
-> > $ git clean -xdf
-> > $ git status --ignored
-> > On branch ...
-> > nothing to commit, working tree clean
-> > 
-> > $ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> > make[1]: Entering directory '...'
-> >   GEN     Makefile
-> >   DESCEND objtool
-> >   CALL    .../scripts/checksyscalls.sh
-> >   INSTALL libsubcmd_headers
-> > .pylintrc: warning: ignored by one of the .gitignore files
-> > Kernel: arch/x86/boot/bzImage is ready  (#23)
-> > make[1]: Leaving directory '...'
-> > 
-> > $ touch drivers/gpio/gpiolib-acpi.c
-> > 
-> > $ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> > make[1]: Entering directory '...'
-> >   GEN     Makefile
-> >   DESCEND objtool
-> >   CALL    .../scripts/checksyscalls.sh
-> >   INSTALL libsubcmd_headers
-> > ...
-> >   OBJCOPY arch/x86/boot/setup.bin
-> >   BUILD   arch/x86/boot/bzImage
-> > Kernel: arch/x86/boot/bzImage is ready  (#24)
-> > make[1]: Leaving directory '...'
-> > 
-> > $ git status --ignored
-> > On branch ...
-> > Untracked files:
-> >   (use "git add <file>..." to include in what will be committed)
-> > 	scripts/lib/kdoc/__pycache__/
-> > 
-> > nothing added to commit but untracked files present (use "git add" to track)  
-> 
-> FWIW, I repeated this with removing the O=.../out folder completely, so it's
-> fully clean build. Still the same issue.
-> 
-> And it appears at the very beginning of the build. You don't need to wait to
-> have the kernel to be built actually.
-
-Depending on your .config, kernel-doc will be called even without building
-documentation to check for some problems at kernel-doc tags.
-
-> 
-> > It's 100% reproducible on my side. I am happy to test any patches to fix this.
-> > It's really annoying "feature" for `make O=...` builds. Also note that
-> > theoretically the Git worktree may be located on read-only storage / media
-> > and this can induce subtle issues.  
-
-Python's JIT compiler automatically creates __pycache__ whenever it
-encounters an "import" and the *.pyc is older than the script (or doesn't
-exist). This happens with external libraries, and also with the internal
-ones, like the ones we now have at the Kernel.
-
-I dunno what happens if the FS is read-only. I would expect that the JIT
-compiler would just work as if bytecode creation is disabled.
-
-That's said, I never played myself with __pycache__.
-
-Yet, I have some raw ideas about how to deal with that. This requires
-more tests, though. I can see some possible solutions for that:
-
-1. Assuming that PYTHONDONTWRITEBYTECODE=1 works, the build system could
-   set it if O= is used. This would have some performance impact for both
-   Kernel compilation (because kernel-doc is called to check doc issues),
-   and for Kernel compilation itself. I dunno how much it would impact,
-   but this is probably the quickest solution to implement;
-
-2. when O=<targetdir> is used, copy scripts/lib/*/*.py to the target
-   directory and change kernel-doc.py to use <targetdir> for library search
-   on such case. This way, the __pycache__ would be created at the 
-   <targetdir>. This might work as well with symlinks. The performance
-   impact here would be minimal, but it will require an extra step for
-   O= to copy data (or to create symlinks);
-
-3. eventually there is a way to teach Python to place the __pycache__
-   at <targetdir>, instead of <sourcedir>. If supported, this would
-   be the cleanest solution.
-
-Regards,
-Mauro
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
