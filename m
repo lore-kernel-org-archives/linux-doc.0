@@ -1,249 +1,243 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4643719E7FA;
-	Tue, 15 Apr 2025 01:38:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 365DB1F4C84;
+	Tue, 15 Apr 2025 02:27:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744681109; cv=none; b=ghVtBe/DndQ39bckxOLOEZBVJrRXsecQHtK1Vxkp/al+kb5HQmYXgi3FziBz9bf9NP8LaxrIgOrHhuTPqJSffKmZ7ORbJIo0HKT7zoEF9hf4n5dUiWquGtUiZ+KBNvB9QpV6sVGK9f7bCdfJJw/dpcaS9CDpgpXnLEVCMe3E864=
+	t=1744684044; cv=none; b=H0TnJr2l/pRRwYS7ETEhlL/GjIgibUA2RTUPYhHiiq+MRPBnsDc7ilsw3/HYqSE23+fKb5I7g00Lu2qLlSeu6VNVxBtz4j52ZNQS9VXQP7BwfL9io/fFOLbDcVlLYR2bXL+RxGuCm6t7qVcuP2AFL3Eyc5LLkNYp8Y9iMjO+O7g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744681109; c=relaxed/simple;
-	bh=D9/copwN8Vi93hcXVQLwm6TV1oCBKCuDxgsjassI+4c=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=PRi+IMK8erC2fD5IW/wm7Rq9wDBY9vexJ2xqWzgt5ioyyryRi1owQRFcBJ5HGJtoeh6ilrNBrQj+r369N668pBqaiR5hYDhyBIezVgYx3bvURsBZXxebRSve7u60lgWEyysw4X9WT9/JzgzwDL8zTA368VOi5bXq7RTvjuVt1yU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=msD5sJlj; arc=none smtp.client-ip=209.85.221.51
+	s=arc-20240116; t=1744684044; c=relaxed/simple;
+	bh=MS6EysD23VjLdj+RMi75vnjwBap4RjF89j2Ujy/2KPo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JQvUQf3hFQMwnfk7lgahVZOwIwK+cLJKMbGYAhRvpOY1R5ZNjx8J2ub7r+psztd8yM6nnkjOrmDh8IbPP6a22HmCNmWk+5RynLLlu1Xn31B6Y93otmWGYKCew2yXJoQ7rRAUxQVMJhbF87BIZ07JeFlyD2CDfIvc4nErKwvzd4s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=i3xomCJH; arc=none smtp.client-ip=209.85.216.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="msD5sJlj"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-39c0e0bc733so4290509f8f.1;
-        Mon, 14 Apr 2025 18:38:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="i3xomCJH"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-301cda78d48so4617724a91.0;
+        Mon, 14 Apr 2025 19:27:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744681105; x=1745285905; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hstID7d8ycIqCdy0S2HoM/NmlIdP9WL4OFhfgrftQOQ=;
-        b=msD5sJljC6I/EtHN9goTu0a7djeRR60OSMmISChLeHmJTw9Y0KJnL8AvVLHalqfarI
-         PKkGy2Ij9fCBteFprt4IEfWqMDZ4lQN2489qO9ZuGUVHCG4A2wkmCdMc0TQojZQ3VRvd
-         BEZc7W6BA3/peO+QG9ysnmYwY8cG+wc5GF9IPSCG6UP3j9MdVercRYLr1UtShV/EVKrE
-         IHaIWG6Ic3J/I6MqvQyQu5u5oxgoNOQh2yYaDI6kkfiYyvzRv4PYs+eWwWmkGLC00qvE
-         sS/ny6qOgQVzKVqnngjCHjtZ7+jK8dZ71TXU6rwhFJw3qxSv4WizCnArvI/AJA2CBvnY
-         e+uQ==
+        d=gmail.com; s=20230601; t=1744684042; x=1745288842; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=O15D89FO56XI8MNfU7wmkDFxB94F0rcKshm3G4RRbz4=;
+        b=i3xomCJHVwKEnkdV9Nznsw29Nto0rv282P6U0n1m6bDQW/ziT1QYj0wVAokmONRJM0
+         OlcByx9nnxISzOP/JCafKsp6IbH69TC3rUAAqSbAo0uDX/pgGK7QvckkKemI9mUvtZpp
+         ouobmKes+ppXb4gGxzyMUBn1zTFwhMk0xSqWBNBYN+ZZM1ZFiiY81X0WY2MigorRwB86
+         AfLO97wHd0f42n5eU//CgQmRYrGJdaUcxx+5lqHtYbSwnJXzx6XBNQr0gAeE+EvaFNkR
+         96XDXoCP/3hDw0AjAOT5u8fqyTO2XRo3sUrrfmIIIZO0yaqzoKi9toe1x78Ahs30yNDv
+         z8Vw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744681105; x=1745285905;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hstID7d8ycIqCdy0S2HoM/NmlIdP9WL4OFhfgrftQOQ=;
-        b=CcfEqANc3tbTf0O2c+jpsFJv0yPAeopSm/clItGdyo8A9BYzqAVJDCJ9Yc7QorPmT7
-         0nh+2GybxBQc/W6fHuTJ3yazJinM4dbTm8n+x87MoeVoyb/hBS5xIM19qKH/02ChvHLj
-         Cuh5aDNZC29jknrwYHVNupnmqN7rhlaBTsQZHXbyF1zHgCtfpW42kEPeDxU3oNdD4MP7
-         OCNR3oXMovsSYD+6cgjG7IORcqiOi+Ngen1E5E6DM62bx3ma6cxX3658bU+z17wgJKTI
-         Guho1p0/sxCUz/absYke+ksnhO1kOMNSOuwXmE/DTwkY0LfoFGv9uKErMFCogIIZM2+V
-         PlYw==
-X-Forwarded-Encrypted: i=1; AJvYcCU5AV1GI4Ha+rltlJgm9CX5//Up2x1MJvNNcYJQ6//lCCSURacegyg6QLw8FpnLbU21xUNKRhLQ4+X0@vger.kernel.org, AJvYcCUxEByZ9/VYp44U44XcxjIr2kMyW12uZVj7vOY491FMAk2rtDCfGH7Z3/7YTm4bWk+i2RtPvstErKC8/nWg@vger.kernel.org, AJvYcCV7E/Rvf0ttQnmtVIiA97ckfEW58Ehtg/jIWDstE0LrFzMo2nPQPAR7KepP8rM1KfLAjvQhI3B6gsko+YkU@vger.kernel.org, AJvYcCVLswzPF+nqt8yuJrX3DRc1Jr5qP+iunQPhr6F+P3gXuimi89eh3gorfztzzTK6PRUlDqo=@vger.kernel.org, AJvYcCVrpRMjxs5cSqz6owxfuN3Ke2I5zk7BzqZxwKR5m52ejECbqBPlukf/vDyUC/abv4h0Aq0kPxSONSw=@vger.kernel.org, AJvYcCW07wT5BBwKwYqQy3PhydDxgXwf8Wym78+GaKiyM+0bMlkqhKQv1pq0NA5hAdnqzoD6CcAzcUnoaQu6CV6mvTOv@vger.kernel.org, AJvYcCWJbNpMghIoHTDImjc1eDIw8LdaE3IJZek/MDNUBvuQiFCMAgyW6N7Mx4+i4azrajflI6hixx4Yp0N4K/k+@vger.kernel.org, AJvYcCXIOom3JmViMNY4HFNymzxGKCo0X+uB57m+daOgmkFqZPU1XNat680+mzEN2VVbjki+akn5QPvAcrzabFHx0w+9t07tIAY+@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0goiS4OKwq3dtorXP3jIamJMVdB2nabBFilStG4elw3uzExq3
-	5TPsRbS+JNm39YZHMxy8y4MNO3/1O5YlLCpJHzOzz7j2+VHDIjbZCHfjSHn3Lblal8OhBbsb2LS
-	JLKToUgX7iMhg90yh3vosu63Cn2s=
-X-Gm-Gg: ASbGncuOL7upgNNj/NwoGGubh/LqkfEqRBZDOkGuBYnR4Yc9rBe9f2iwNAQDtohPtSq
-	Hg+Iwe28qY5Nr6AtSlYheItSXhJf/i3kbAlGpwTOs4rVCWnu9ZP7S86G2jH4h8o8YsedoBhfxKa
-	FK6S6bB8kadjlZMHOTlLSBtoKwpnv6NCKG63uZvg==
-X-Google-Smtp-Source: AGHT+IE13LNRwKepLhiR5HgiMZISHCOnuS/exoyNGmTnGn08SGCoosF3MkOhQ4I61FeJBNHAP0KCBKG0KSg/y+VQIDA=
-X-Received: by 2002:a5d:5c84:0:b0:391:2e7:67ff with SMTP id
- ffacd0b85a97d-39ea51f47e0mr10937877f8f.10.1744681105142; Mon, 14 Apr 2025
- 18:38:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1744684042; x=1745288842;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=O15D89FO56XI8MNfU7wmkDFxB94F0rcKshm3G4RRbz4=;
+        b=wkUXaeBP9+vyYkO/81wggAfzVr4mTXpIVYSOzD6Pablu4bfRYHKpyWeJSpjCI88+xf
+         wo9ggYmb/sd3+H30s4fhfHS3oKWU0/mjSu6skkKUuU0AUtqlPdoWmp94+tR4sstUM29r
+         nC0/KmSH2f99qKWiAvg2yM/5qaqT4t33bG1boWLOsIkBef2hoAJ5RU4CAyRsfPQiOmZX
+         aaBDvjJhiHb2R1yIdG/gc818iAquju9E51mLDiPlp03kR+ijVwneiynRNkaR7MFSGIH/
+         CfSR1nk586b6DYNnu570vCb8EVPP76UmSHIMyF5g6tFjmvwxGZrDXA29FZtpeHIa5zUA
+         ro6Q==
+X-Forwarded-Encrypted: i=1; AJvYcCUpWLicoO57QJ7M9ILqMfQdCA3D4gz25Dna5hd3Y0b7a9sOLnZ3fKBLruTRubXdUKRUhT51bLOIg+Oa@vger.kernel.org, AJvYcCWD/OUstxqSjVB0BC4TxAjEqBhnJ0JpIvJXsDd+Qil374Zw+cCRCM0NsLeA84dkQdjQkMi44us+iEF4@vger.kernel.org, AJvYcCWaFlYAK+2DXr35MllfbDto+F/YetJzcd/AB+BqgwZXUhZr6vBi5zTJXWL9VupOIlVm3XHGk8dQ+jzOLA==@vger.kernel.org, AJvYcCWif6gp8f5L6EwJNtzjMA728aLxkP4s55U554JfahTh4spMDI9DAE4p1Ao2e7Nbadq1N+MPOaVrpha495Kw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3jbQExfr/BctseLxdDsQZq8Tdarb5sSWvU3LZHVfX0o+neDNR
+	4xaZi9L7ESgQ3jMcvyECpKrvayMON/8FD9kX7Fyh6CzlNe9g/+0P3qrVlA==
+X-Gm-Gg: ASbGnct19fy9I9Acy/auJU1MbPcZP5WS2bOfrZ+Wsk0gF+vlQjHHQ4acWahRkNlUBDb
+	fZ8O84oVoh0XWHpAf0pUzsdDdJlhxMzlDaGZadzS1wf6K91n5YTYiH7LOom49sr290xF1GdXD2w
+	HKZPUi+z7bz/fMVqhzIJnCANDmQiYK8rMV9ojCZH9aChLrBMcWD1nk8kqd9xs5ad9S/QllB+1qc
+	y00tBFtb1h22z44KiNNHlrouY3xnhLypqBvWH+ZpmzF2spBRb0okPuDixSEpYlizn9f8Fai51rR
+	6OJdTefBTj1vD3wT7uxO/qLIMjuv/NGlAI2xdw/e
+X-Google-Smtp-Source: AGHT+IF7tZboihmKB5Di8tKXtKer9swCSXnzgwtsHGn1m6uNejSyJkaNFB9R/GjFVr14dMO2hAvkUw==
+X-Received: by 2002:a17:90b:254d:b0:2fa:137f:5c61 with SMTP id 98e67ed59e1d1-30823639ca2mr27484059a91.12.1744684042051;
+        Mon, 14 Apr 2025 19:27:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-306df2fb064sm11900542a91.32.2025.04.14.19.27.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Apr 2025 19:27:20 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id B51414209E44; Tue, 15 Apr 2025 09:27:16 +0700 (WIB)
+Date: Tue, 15 Apr 2025 09:27:16 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Ante Knezic <ante.knezic@helmholz.de>, linux-leds@vger.kernel.org
+Cc: lee@kernel.org, pavel@kernel.org, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, knezic@helmholz.com,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 1/3] Documentation: leds: Add docs for Wurth Elektronik
+ WL-ICLED
+Message-ID: <Z_3EBMmtm5LbQGmE@archie.me>
+References: <cover.1744636666.git.knezic@helmholz.com>
+ <7f324a9a25ad1ac3a622aa1201cbd91ead80f8f9.1744636666.git.knezic@helmholz.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
- <87friajmd5.fsf@microsoft.com>
-In-Reply-To: <87friajmd5.fsf@microsoft.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Mon, 14 Apr 2025 18:38:13 -0700
-X-Gm-Features: ATxdqUHye6neCty12upWdoIVJgMpLkd6THftJdEFKQdyUAliYMBWVcY1MoiFP1Q
-Message-ID: <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
-	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="6Nt9HQRoa9PzXHye"
+Content-Disposition: inline
+In-Reply-To: <7f324a9a25ad1ac3a622aa1201cbd91ead80f8f9.1744636666.git.knezic@helmholz.com>
+
+
+--6Nt9HQRoa9PzXHye
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 14, 2025 at 5:32=E2=80=AFPM Blaise Boscaccy
-<bboscaccy@linux.microsoft.com> wrote:
->
-> Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
->
-> > On Sat, Apr 12, 2025 at 6:58=E2=80=AFAM Blaise Boscaccy
-> > <bboscaccy@linux.microsoft.com> wrote:
-> >>
-> >> TAlexei Starovoitov <alexei.starovoitov@gmail.com> writes:
-> >>
-> >> > On Fri, Apr 4, 2025 at 2:56=E2=80=AFPM Blaise Boscaccy
-> >> > <bboscaccy@linux.microsoft.com> wrote:
-> >> >> +
-> >> >> +static int hornet_find_maps(struct bpf_prog *prog, struct hornet_m=
-aps *maps)
-> >> >> +{
-> >> >> +       struct bpf_insn *insn =3D prog->insnsi;
-> >> >> +       int insn_cnt =3D prog->len;
-> >> >> +       int i;
-> >> >> +       int err;
-> >> >> +
-> >> >> +       for (i =3D 0; i < insn_cnt; i++, insn++) {
-> >> >> +               if (insn[0].code =3D=3D (BPF_LD | BPF_IMM | BPF_DW)=
-) {
-> >> >> +                       switch (insn[0].src_reg) {
-> >> >> +                       case BPF_PSEUDO_MAP_IDX_VALUE:
-> >> >> +                       case BPF_PSEUDO_MAP_IDX:
-> >> >> +                               err =3D add_used_map(maps, insn[0].=
-imm);
-> >> >> +                               if (err < 0)
-> >> >> +                                       return err;
-> >> >> +                               break;
-> >> >> +                       default:
-> >> >> +                               break;
-> >> >> +                       }
-> >> >> +               }
-> >> >> +       }
-> >> >
-> >> > ...
-> >> >
-> >> >> +               if (!map->frozen) {
-> >> >> +                       attr.map_fd =3D fd;
-> >> >> +                       err =3D kern_sys_bpf(BPF_MAP_FREEZE, &attr,=
- sizeof(attr));
-> >> >
-> >> > Sorry for the delay. Still swamped after conferences and the merge w=
-indow.
-> >> >
-> >>
-> >> No worries.
-> >>
-> >> > Above are serious layering violations.
-> >> > LSMs should not be looking that deep into bpf instructions.
-> >>
-> >> These aren't BPF internals; this is data passed in from
-> >> userspace. Inspecting userspace function inputs is definitely within t=
-he
-> >> purview of an LSM.
-> >>
-> >> Lskel signature verification doesn't actually need a full disassembly,
-> >> but it does need all the maps used by the lskel. Due to API design
-> >> choices, this unfortunately requires disassembling the program to see
-> >> which array indexes are being used.
-> >>
-> >> > Calling into sys_bpf from LSM is plain nack.
-> >> >
-> >>
-> >> kern_sys_bpf is an EXPORT_SYMBOL, which means that it should be callab=
-le
-> >> from a module.
-> >
-> > It's a leftover.
-> > kern_sys_bpf() is not something that arbitrary kernel
-> > modules should call.
-> > It was added to work for cases where kernel modules
-> > carry their own lskels.
-> > That use case is gone, so EXPORT_SYMBOL will be removed.
-> >
->
-> I'm not following that at all. You recommended using module-based lskels
-> to get around code signing requirements at lsfmmbpf and now you want to
-> nuke that entire feature? And further, skel_internal will no longer be
-> usable from within the kernel and bpf_preload is no longer going to be
-> supported?
+On Mon, Apr 14, 2025 at 03:28:49PM +0200, Ante Knezic wrote:
+> +Description
+> +-----------
+> +The WL-ICLEDs are RGB LEDs with integrated controller that can be
+> +daisy-chained to a arbitrary number of units. The MCU communicates
+> +with the first LED in chain via SPI interface and can be single or
+> +two wire connection, depending on  the model.
+> +
+> +Single wire models like 1315050930002, 1313210530000, 1312020030000 and
+> +1312121320437 are controlled with specific signal pattern on the
+> +input line. The MCU is connected to input line only via SPI MOSI signal.
+> +For example WE-1312121320437 uses following signal pattern per one LED:
+> +
+> +|          RED            |          GREEN          |           BLUE    =
+      |
+> +| GAIN:4bits | PWM:12bits | GAIN:4bits | PWM:12bits | GAIN:4bits | PWM:1=
+2bits |
+> +
+> + where logical 1 is represented as:
+> + (V)^
+> +    |          T
+> +    |<-------1.2us------->
+> +    |
+> +    +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D+
+> +    | <---0.9us----> |
+> +    |                |
+> +    +----------------+=3D=3D=3D|------> t
+> +
+> + and logical 0 is represented as:
+> + (V)^
+> +    |          T
+> +    |<-------1.2us------->
+> +    |
+> +    +=3D=3D=3D=3D=3D+
+> +    |0.3us|
+> +    |     |
+> +    +-----+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D|------> t
 
-It was exported to modules to run lskel-s from modules.
-It's bpf internal api, but seeing how you want to abuse it
-the feature has to go. Sadly.
+I get htmldocs indentation warnings from Sphinx:
 
-> >> Lskels without frozen maps are vulnerable to a TOCTOU
-> >> attack from a sufficiently privileged user. Lskels currently pass
-> >> unfrozen maps into the kernel, and there is nothing stopping someone
-> >> from modifying them between BPF_PROG_LOAD and BPF_PROG_RUN.
-> >>
-> >> > The verification of module signatures is a job of the module loading=
- process.
-> >> > The same thing should be done by the bpf system.
-> >> > The signature needs to be passed into sys_bpf syscall
-> >> > as a part of BPF_PROG_LOAD command.
-> >> > It probably should be two new fields in union bpf_attr
-> >> > (signature and length),
-> >> > and the whole thing should be processed as part of the loading
-> >> > with human readable error reported back through the verifier log
-> >> > in case of signature mismatch, etc.
-> >> >
-> >>
-> >> I don't necessarily disagree, but my main concern with this is that
-> >> previous code signing patchsets seem to get gaslit or have the goalpos=
-ts
-> >> moved until they die or are abandoned.
-> >
-> > Previous attempts to add signing failed because
-> > 1. It's a difficult problem to solve
-> > 2. people only cared about their own narrow use case and not
-> > considering the needs of bpf ecosystem as a whole.
-> >
-> >> Are you saying that at this point, you would be amenable to an in-tree
-> >> set of patches that enforce signature verification of lskels during
-> >> BPF_PROG_LOAD that live in syscall.c,
-> >
-> > that's the only way to do it.
-> >
->
-> So the notion of forcing people into writing bpf-based gatekeeper program=
-s
-> is being abandoned? e.g.
->
-> https://lore.kernel.org/bpf/bqxgv2tqk3hp3q3lcdqsw27btmlwqfkhyg6kohsw7lwdg=
-beol7@nkbxnrhpn7qr/#t
-> https://lore.kernel.org/bpf/61aae2da8c7b0_68de0208dd@john.notmuch/
+Documentation/leds/leds-wl-icled.rst:22: ERROR: Unexpected indentation. [do=
+cutils]
+Documentation/leds/leds-wl-icled.rst:23: WARNING: Line block ends without a=
+ blank line. [docutils]
+Documentation/leds/leds-wl-icled.rst:32: ERROR: Unexpected indentation. [do=
+cutils]
+Documentation/leds/leds-wl-icled.rst:33: WARNING: Line block ends without a=
+ blank line. [docutils]
+Documentation/leds/leds-wl-icled.rst:55: ERROR: Unexpected indentation. [do=
+cutils]
+Documentation/leds/leds-wl-icled.rst:23: ERROR: Undefined substitution refe=
+renced: "<-------1.2us-------> | +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D+ | <---0.9us----> | | | +----------------+=3D=3D=3D". [docutils]
+Documentation/leds/leds-wl-icled.rst:33: ERROR: Undefined substitution refe=
+renced: "<-------1.2us-------> | +=3D=3D=3D=3D=3D+ |0.3us". [docutils]
 
-Not abandoned.
-bpf-based tuning of load conditions is still necessary.
-The bpf_prog_load command will check the signature only.
-It won't start rejecting progs that don't have a signature.
-For that a one liner bpf-lsm or C-based lsm would be needed
-to address your dont-trust-root use case.
+I have to wrap the signal logics diagram in literal code block:
 
->
-> >> without adding extra non-code
-> >> signing requirements like attachment point verification, completely
-> >> eBPF-based solutions, or rich eBPF-based program run-time policy
-> >> enforcement?
-> >
-> > Those are secondary considerations that should also be discussed.
-> > Not necessarily a blocker.
->
-> Again, I'm confused here since you recently stated this whole thing
-> was "questionable" without attachment point verification.
+---- >8 ----
+diff --git a/Documentation/leds/leds-wl-icled.rst b/Documentation/leds/leds=
+-wl-icled.rst
+index 0e55683e946894..78ee2df33df2f5 100644
+--- a/Documentation/leds/leds-wl-icled.rst
++++ b/Documentation/leds/leds-wl-icled.rst
+@@ -12,12 +12,13 @@ two wire connection, depending on  the model.
+ Single wire models like 1315050930002, 1313210530000, 1312020030000 and
+ 1312121320437 are controlled with specific signal pattern on the
+ input line. The MCU is connected to input line only via SPI MOSI signal.
+-For example WE-1312121320437 uses following signal pattern per one LED:
++For example WE-1312121320437 uses following signal pattern per one LED::
+=20
+-|          RED            |          GREEN          |           BLUE      =
+    |
+-| GAIN:4bits | PWM:12bits | GAIN:4bits | PWM:12bits | GAIN:4bits | PWM:12b=
+its |
++  |          RED            |          GREEN          |           BLUE    =
+      |
++  | GAIN:4bits | PWM:12bits | GAIN:4bits | PWM:12bits | GAIN:4bits | PWM:1=
+2bits |
++
++where logical 1 is represented as::
+=20
+- where logical 1 is represented as:
+  (V)^
+     |          T
+     |<-------1.2us------->
+@@ -27,7 +28,8 @@ For example WE-1312121320437 uses following signal patter=
+n per one LED:
+     |                |
+     +----------------+=3D=3D=3D|------> t
+=20
+- and logical 0 is represented as:
++and logical 0 is represented as::
++
+  (V)^
+     |          T
+     |<-------1.2us------->
 
-Correct.
-For fentry prog type the attachment point is checked during the load,
-but for tracepoints it's not, and anyone who is claiming that
-their system is secure because the tracepoint prog was signed
-is simply clueless in how bpf works.
+> +
+> +To generate the required pattern with exact timings SPI clock is selected
+> +so that it devides T in 8 equal parts such that a logical true symbol ca=
+n be
+> +represented as 1111 1100 and a logical false can be represented as 1100 =
+0000.
+> +Single wire LEDs require the MOSI line to be set to low at idle and this=
+ should
+> +be provided by the chip driver if possible or by external HW circuit.
+> +
+> +Models 1313210530000, 1312020030000 and 1315050930002 require a slightly
+> +different signaling scheme where each color of the LED is encoded in
+> +8 bits.
+> +
+> +Two wire LED types do not require specific encoding of the input line as
+> +both clock and data are provided to each LED.
+> +
+> +Additionally, models differ by available controls:
+> +- WE 1312121320437 provide PWM and GAIN control per each RGB element.
+> +  Both GAIN and PWM values are calculated by normalising particular
+> +  multi_intensity value to 4 and 12 bits.
+
+Separate the first bullet item from previous paragraph so that all three
+items are outputted as in bullet list.
+
+> +
+> +- WE 1315050930246 and 1311610030140 provide PWM control per each
+> +  RGB element and one global GAIN control.
+> +  Global GAIN value is calculated by normalising global led brightness
+> +  value to 5 bits while PWM values are set by particular
+> +  multi_intensity values.
+> +
+> +- WE 1315050930002, 1313210530000 and 1312020030000 provide only PWM
+> +  control per each RGB element.
+> +  PWM values are set by particular multi_intensity value.
+> +
+> +For more product information please see the link below:
+> +https://www.we-online.com/en/components/products/WL-ICLED
+
+Thanks.
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--6Nt9HQRoa9PzXHye
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCZ/3D/AAKCRD2uYlJVVFO
+o7zAAQC2UFTsZIvZVhLpQpC1QR38b/LY5qEIC77YBYCGZ4xgbQD/fZiX+Sa8EHF0
+hUjl6P1pxa0VMqnDgZwH73cmDk5NrAQ=
+=n4uO
+-----END PGP SIGNATURE-----
+
+--6Nt9HQRoa9PzXHye--
