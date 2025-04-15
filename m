@@ -1,180 +1,198 @@
-Received: from smtpbguseast2.qq.com (smtpbguseast2.qq.com [54.204.34.130])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2043.outbound.protection.outlook.com [40.107.95.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0488D1A3160;
-	Tue, 15 Apr 2025 15:10:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744729816; cv=none; b=icofpjQyrbGJupM2exAyiovN1R345Nbe/XatyY6GJ/9Z4UcFhHk1FLOokb05sSicg4Y7XPQuICTNFsbWQ1x/8LnEXWrTx5KzgT1ZeZdy6V5uYEUSbzoKZ/un62VBqdnWCv/VdN0NuUXyf9Qe9EQbnldjH2PEm9OH2K/I30TRZ1Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744729816; c=relaxed/simple;
-	bh=YzBPupIzIE3olUJLaZrFCV3IDRNSdvCv+HlsMCjlAvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=cbKqGLe33V18yhECPe7RZ/wsqHx55Gh0TYay4fWcDzV8/GS1emeQDBAn3hr0UKmfqeySe4FNW/1UOtPedehKlTDg9rdaz7WKbTWUDAxSgP1YphenR/jnYXtOx/00gbARsdWigzNtsFlpM/ZH7g8vlIQEQW/n+Dx61b3jihy/Muo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=ae6ADcWT; arc=none smtp.client-ip=54.204.34.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4943F2DFA37;
+	Tue, 15 Apr 2025 15:13:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.43
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744730016; cv=fail; b=VBJeoODPr4BJ7a+om90AZo7pp8gDHZK6Ur4XG/pMwEWMtzUwR0c+fA1OMV6LCCRDOED4YWgRKNV4uApX8evQ8t2Y+maQYBclQRxekdaloRmI5FYDQldyWRRrnld73V566/D6eHojQamVzoW5ASLjTMySYdqsQArhSfLhvysuLII=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744730016; c=relaxed/simple;
+	bh=Yhmu5SYZCbiNl2sCzeNl5UCmPj85nzKthYHpQ0f0Bd0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=hGD6Z/EEMGnKrKbezCyD9ixG+mm84J4xBv42JLpi25OBJEvYlWtQXkjr9qalceAF5/IXrssTnBaWa3EDOC0B1IqmMlIu24dH7sAdb08lyxFTgyMTrqDwL4cNszk/MTic0TaHWZf2KfRCpmJ2uUJciTDHFIV1ctMhHFr8SqAm5gI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=v3leBmX7; arc=fail smtp.client-ip=40.107.95.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="ae6ADcWT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744729790;
-	bh=YzBPupIzIE3olUJLaZrFCV3IDRNSdvCv+HlsMCjlAvE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=ae6ADcWTgZFv93SqnXm6cCCKOPwuv9OOuygoMIiZXrBnAcp9P+fHWBBpjMVtJBZkY
-	 zjyqZ8aaimWYDiSsl3fLQh3JFvh/thdL7dOLLg2IHEDAjjN9cB5vS1HwYkW3PbwEci
-	 l63I3qWkwu2i21fEvy6SIqRhHeGkRc/xFiJRgJ10=
-X-QQ-mid: zesmtpip2t1744729780t0dbbf6a9
-X-QQ-Originating-IP: rTFwT3p1Lt7ir1CwAmPkdNI8Hx294LLO15b6yZVH9k8=
-Received: from [IPV6:240e:668:120a::212:232] ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 15 Apr 2025 23:09:37 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 13868571241981791234
-EX-QQ-RecipientCnt: 19
-Message-ID: <6FA8AEB5634BC9F0+99411846-6783-44bf-80c4-8b46ad9d046b@uniontech.com>
-Date: Tue, 15 Apr 2025 23:09:37 +0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="v3leBmX7"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Xk51aJLCF4CpWAdjGZ4oD17SbXkdd4Kl+n8olHI+GL6DceWskUbBYorxk67fTyqSj6opuGRNHdm3+r7Ns4iV5nn+F+ziVpdn73wjJlV1xPOF8R67ttI1XTfNSTmztpuRmKeMK/poVEcZ13ddROszzPJiNCm6ATC7NzjhIbN43xtk8eeUq2mrYZYVRHBZUdqhFMDbTfu62lQIfihBJ4yiH8T1T47ikcJjvvfYg0PDg7nPVsduEBcj0u150rFrR9kIzAG8cokGjdv8wlBA5fIdzN9nOU57nlf/bXTdlIc+7ZqQ+gFcyxOKFTPg4Ryh6aNpVWI8/z6mGW+YtY4eHi03PA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jZCyXIBqEBm0JFOba5HRzBjjMT1vgkcKXe+AUSCOdxo=;
+ b=NQACvT72sud3RDbH/vm7qDsIuJCNfs1QV9I0DDO5Oo8RyRDk2rZR0fB7j2i98nG3do1WU6wSh6KBLCh7ZrP74Xhai5YVoK7Zabq87cwBk0m/AoXpWQv3vZa7BwZOfVb8W060sJvo2orTEYVaR58opSl3mOxJzR4L2AZgqDupVkfYP4N80T4rMtt29Hw6ZVJAN7nogPwTEe6qI2go+rNEOSJap4c9kMDg2ptLGdrjg3ec+Kbt1xi+z5WQywjUJOcuQ8I0yClZnHM2EQCUzvA6pDBSGZGLtb677ymDC9J5SMIQOrT8ZJ+nH4Q68Q0fpDxOvo35cgq84LStK1iLTkXmeA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jZCyXIBqEBm0JFOba5HRzBjjMT1vgkcKXe+AUSCOdxo=;
+ b=v3leBmX7rQjylh8zeBZlU+lqgG+nQkR2pfrpGEU7h6yGFHVNJeb+8dTKYYqQfu4i0j126j9nqPIOyUJwZ+xi2ebL6OlC6e1OlNk+xkWYqzlUbBa37QnSAqH+B4CM6sPgOGDqb79n+EayXkmipNGM9QBkAyxkyblOlSMiIuhgPvg=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DM4PR12MB6373.namprd12.prod.outlook.com (2603:10b6:8:a4::7) by
+ DS0PR12MB6462.namprd12.prod.outlook.com (2603:10b6:8:c6::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8632.35; Tue, 15 Apr 2025 15:13:32 +0000
+Received: from DM4PR12MB6373.namprd12.prod.outlook.com
+ ([fe80::12f7:eff:380b:589f]) by DM4PR12MB6373.namprd12.prod.outlook.com
+ ([fe80::12f7:eff:380b:589f%7]) with mapi id 15.20.8632.030; Tue, 15 Apr 2025
+ 15:13:32 +0000
+Date: Tue, 15 Apr 2025 11:13:26 -0400
+From: Yazen Ghannam <yazen.ghannam@amd.com>
+To: Mario Limonciello <superm1@kernel.org>
+Cc: Borislav Petkov <bp@alien8.de>, Jean Delvare <jdelvare@suse.com>,
+	Andi Shyti <andi.shyti@kernel.org>,
+	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	Hans de Goede <hdegoede@redhat.com>,
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+	open list <linux-kernel@vger.kernel.org>,
+	"open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
+	"open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
+Subject: Re: [PATCH v4 4/5] platform/x86/amd: pmc: use FCH_PM_BASE definition
+Message-ID: <20250415151326.GA624550@yaz-khff2.amd.com>
+References: <20250415002658.1320419-1-superm1@kernel.org>
+ <20250415002658.1320419-5-superm1@kernel.org>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415002658.1320419-5-superm1@kernel.org>
+X-ClientProxiedBy: BN9PR03CA0281.namprd03.prod.outlook.com
+ (2603:10b6:408:f5::16) To DM4PR12MB6373.namprd12.prod.outlook.com
+ (2603:10b6:8:a4::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] mseal sysmap: enable LoongArch
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: corbet@lwn.net, chenhuacai@kernel.org, kernel@xen0n.name,
- akpm@linux-foundation.org, jeffxu@chromium.org, Liam.Howlett@oracle.com,
- kees@kernel.org, hca@linux.ibm.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, xry111@xry111.site,
- tglx@linutronix.de, thomas.weissschuh@linutronix.de, Jason@zx2c4.com,
- zhanjun@uniontech.com, niecheng1@uniontech.com, guanwentao@uniontech.com
-References: <433B5132A1535C98+20250415134933.531084-1-wangyuli@uniontech.com>
- <3de559d6-be19-44bc-ba8f-4c52d4bca684@lucifer.local>
-Content-Language: en-US
-From: WangYuli <wangyuli@uniontech.com>
-Autocrypt: addr=wangyuli@uniontech.com; keydata=
- xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
- IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
- qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
- 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
- 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
- VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
- DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
- o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
-In-Reply-To: <3de559d6-be19-44bc-ba8f-4c52d4bca684@lucifer.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------qxeJIoDL6ag0P77WHSUGvJWb"
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: N6VZ0oGM3c0LGFoSDW5NMNoQVJqwy+NUFnKL2woLBHdH/MYHrcXWiNnR
-	aj4dO1oc5X2iZDuBLHbXfIF1hpthKa5LS+pHpBlJ0iqgvmDXT9bj3zMFWQ+ILOi2we69Qwn
-	STpy4U2eFc4FexvxT2QBpiBOFKd1uVXix0LY/wxvH51jEJ75T/euAeogkTpxhMcqJ7cp3cy
-	DrQxlAj9v3VMH3SgCnNfzxkOaDTqtk2mnL1/+8aMSa5ox7LKLWm6uHPFUh95+2NKAyKnJpA
-	HacrWGduffc5POzoyZCJ1CUWjECaboOS5ezJARUGH17fLxaWqtTFglf+Igf+Kl7oTFBMsio
-	9wj12sTOW0mtrMnYm1n0yRNoo33SiPQFtWJQ2IGLJREhD0inKkG6BcTK5nlETCsaJm7m3X5
-	otMLjUUQuvaR4x2AWu1oKRBxBabn3OvTtBH3Q73s0G23DuSYiaRpDtLRrTBWrvDODSOXby+
-	sz0YgMI8XUWE8nKhxET2qAjANdvmRhaLGFn6XNh3+MnYQJcZUqzxxsD3osctr7VVn8/5yal
-	NEz6q9xSD3X576sq0jiixobx7MIGbyE/vBtkkXoTDlW4eOsx2W0D/g3pZvfD55rv3MFLNF3
-	SnLNn0KcNq3qMwDk5wkvCFc0boApXYkr0B4G6wLAt/w2S4Q23FwZG/ociJ5sVGLHTYctH/O
-	Mj3LQ+nggtB4CZ0ToRVhRPGv0y412eeaTfouHRX0Npy75ad2yjeI0JmJwcer0b2eIK4i813
-	/nfn+HuRE5BQ8TWp2JeNWRpYy8C/yJ0TSP+qVvx1wwWeTZv54hl5pP0POVau8RN4xpPr961
-	C5YMz+sdF2BB24hcTPwX0mBHtPDQ3i7HAsYsSMhpnbeamelxGo3S/TuI7xE32SVpNR4bp/e
-	K5ZxN6omQ595tveYe0bj3fW2EVdhs9Y5PwWQoG27ewD/y3fpcaSfwaiSSKiUfODUJLoFHzM
-	xEq3WVNH6IR/5RdFfC6uf+9F6aIQKlpCkMTi4jIzcrCJlDrprqcKR2VKzvToFAqUR6Ocaih
-	32db7Dsv/PEDSYIwBjDk7ri5XSgkdwl0Nu/T2FXmM1LIpm4t2Nx0qht2K3iKwXyZFT5TCYD
-	TfqYPwgEGaE
-X-QQ-XMRINFO: Nq+8W0+stu50PRdwbJxPCL0=
-X-QQ-RECHKSPAM: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR12MB6373:EE_|DS0PR12MB6462:EE_
+X-MS-Office365-Filtering-Correlation-Id: 25f1c741-0e1f-45fe-50d8-08dd7c3015b7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|7416014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?N9BM+vaqVPEOP7IFbvvDqsY5m3AKei3AyTs4Tvsrn68W81IkfPYCi5AhyB9q?=
+ =?us-ascii?Q?I5C5kHINtVeTPbMhhZA+WKah9MMvjGEUlz54nWYjTnSY6WQ/W+yej+aO3pKR?=
+ =?us-ascii?Q?b1zVxnAO/bDyEia8YvuSJvCHsREsl/XP2A/zL43tA5uCrzL4miPK/6wTnaBm?=
+ =?us-ascii?Q?tmFn3Jg/TScoo+nmEDoMAJOm5LjWnPT6+15venwdzQ6ZAl92863Uu1ga38Cx?=
+ =?us-ascii?Q?AIELx89pF63zqUT7q6yHsnixmxfVRyw85N+WWQDh4lpRWO/BgK6XSU7VONzD?=
+ =?us-ascii?Q?ax0JXHh8xE/Qb9LnFu4GtZeuYJ1o4utS15Y4CdL7RhI4HFnPig+QLnQJ9lF8?=
+ =?us-ascii?Q?v3Ux843GvsmtCMwKy/uBhw7WH0qoNyYW53jgERwrRmfYwRMdmRB8RTPO+zAd?=
+ =?us-ascii?Q?1+wdnmhMjVkU5Iru7E9ZeqoASA5aOmpz4mJE5/RzlT5VOH71IfiWEA2qQIVX?=
+ =?us-ascii?Q?d59dcr21UkZTQ+PioSfvTTBv637K1Png2oaAl5LdzjNbT3XJiwe+mxiCltMR?=
+ =?us-ascii?Q?D6ncal/4vRYWfHtKW8MFAhX+gatWPgczgN6ay9FdoKQmDXdKyBkViMczSIXx?=
+ =?us-ascii?Q?vnq1HmFnBvRKc+J1onGu1Z6CY3jeEMY06C1TpQRsu0+wBm0SQ/Wwetxtsjyl?=
+ =?us-ascii?Q?y9n5XNm8nNr6ob3Gje52abIOz0OoXdBfc5RFMwS2HJ0Va+OXKKRoNkIqriKc?=
+ =?us-ascii?Q?L9zpw2gt16diGKYywz6I6zaiWuT2ZF5DXql/cHuf7y6qxmjDnlTE+BtaqnDx?=
+ =?us-ascii?Q?o4Pw94H0RTCJPBa6lUICgfH2YwCm67zpJ9bBDv2iY77iXKGX8FCfKSFm8qoR?=
+ =?us-ascii?Q?moBQRBJBcufxykt11wOeXxvLKccx4GOtuL/HeAXwieQoM8urjgpwWQrFThDa?=
+ =?us-ascii?Q?7vnee/q6txgcwXkGXuFjK3zBrTUIXjxySUNu4GlZp/Q7GT4kXp+OenFYEe8C?=
+ =?us-ascii?Q?c6+xp8+Dy8rZrccwNQEMdWYAH9t4CC6tZniZA+d8NScuTFHGKHMz97HzYv/O?=
+ =?us-ascii?Q?S6dDEeQKbiy1BgBueUCwjmX47PfvfXKeZ0oTzexEwLeb+nj+zHHJaM8/aWrj?=
+ =?us-ascii?Q?KdV8szcUjoXget0Yf0NsEPQag19fLfF9DionPldH/Rybdh4ZsreOwKsn7nCt?=
+ =?us-ascii?Q?KL7EjXMwm0Sax9W9KQDZKU8n8RgS84ayOVUX09ZcpYgntHvXnWBNIjz2C19S?=
+ =?us-ascii?Q?rMj6tTLC7gNcPfWKpX0aZIeWfPDFOyuTX99otDtbTseGD/ItXkVxoMQuvHGj?=
+ =?us-ascii?Q?jRNv1CJT2xkEg26J936nnHf5sTIiqALv8Tpr8ZZOclD0REpiX8J60SKKgVqD?=
+ =?us-ascii?Q?IvOnC5W4o35H0QCPa83+rJKGeFs9I/hHz0hV2zq+0E6VuL9m5W4ilMuaeh4R?=
+ =?us-ascii?Q?qyVp4zfBJba87fQRdRgNIGUlLrK10ZN0Kh1FNDwXUN9iNtAnwg/JpwhhrtVy?=
+ =?us-ascii?Q?TiW7w6VgKoM=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR12MB6373.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?auAQNFrswvvJ7J8e6IIgYEMHal/6wTnFmbSBSr17iX+kIg/4RIrc2NuNbTbz?=
+ =?us-ascii?Q?PtrwjIzx9Ddz8DCVqZi0EEmFW9jpXq6D/Gy9tfUe9paiN/joiDmw1ZdlMv5c?=
+ =?us-ascii?Q?rAaa/RK1PL1HIb/G6ulUta6er7UUF4LNudI/mPgezGpxS2h4eO44/5L5Bkyr?=
+ =?us-ascii?Q?j6749Wnkbc2B3wikgCwE1GdwmSju7/nXfX7q6LhD1AUAddezy2B8b0YSbQ1s?=
+ =?us-ascii?Q?goqgEvJUHqmZg7qaTln/UczfNLjKbFgdihNOWt0F06Gj6gxytPHl6tThLVeq?=
+ =?us-ascii?Q?9WRtHNJJerLygEEHCLUxHAcmxpU7W8mf+vNqi45ONpqmSm7eUmQL2frfWRLY?=
+ =?us-ascii?Q?wBCwzsXKY8OQscsiQ+A7uTUIg54g+b6EIRC/TUrHoJNLdLI4zA6kYwoxxC5J?=
+ =?us-ascii?Q?X0CAVrhPPru6pmGVtsaKRdoPUHo5tRxhKU4vVNc2Km6KhVJaDKG3uHuBD4HQ?=
+ =?us-ascii?Q?Eg4TOx7PUa34BpxYJwS+LyCfBuQS+Z/U2JYtl6rgBUSLsovRumyVEwWX2RQ8?=
+ =?us-ascii?Q?H7ID3TAfjCnNLk3pt1GTBLBDUUBMRes41fgTgQnMz2NJbbG2ciFFGi/N9PLT?=
+ =?us-ascii?Q?vBha5aKx7a6jVC/AAdNLW+Cv0YYc+tp7wbbxpNpI4RFaUIxHpl2EqDUXkRv3?=
+ =?us-ascii?Q?k/mKH3gES8p1jL2+TfFMZImghkXUfBdhMIasPTMF7xf1QIIx5Hc+Ptc0Kxib?=
+ =?us-ascii?Q?9y0kbQhD0g4hYE01boNwfgsS8k9p3IDbG5C1oUH5xmgrGBB/Tmk00C9GNaFU?=
+ =?us-ascii?Q?SuZmfHV38TJPYh7HoFWlX5TG3OAzO5JTGN7BqactHHAkdA+DpQaDAta4OLZc?=
+ =?us-ascii?Q?85p3aKDksUw5BoFO5B/U1Mh3zRncfr0TY0z4tPMOKG7GRneDtasu2ES+wSWX?=
+ =?us-ascii?Q?uY5jB6AOGazdsOp5ugRsK34rrJ4Xs1BKFXBui755jTxEOyLjBM6gpu3xEfVZ?=
+ =?us-ascii?Q?TItKN5aPpZLhaYX6meoIXTa6w1EJW4UxTwgQr+AsRQ0vltOWuFCi32c7xG6X?=
+ =?us-ascii?Q?miqy17lXByOwnHbBdMDlPiNaD1wKYy3QHe6CkU7g7/BJYEuT8232E4jcJs3f?=
+ =?us-ascii?Q?mxN8v84OeCDdEFaEQmiSg1gG8Cj7xfxjBDOIDDVkukp5vsZPA7MoNQbUkdcp?=
+ =?us-ascii?Q?yAmUCL6jG15ZAMHtu+RRiEQIbHwyR+wNAinEibD+bm0rAxLVvTRCUHRRm5ng?=
+ =?us-ascii?Q?O/au582endbolinj/rUWYUJxkXMKoLLW29rnSxDH6MDfQ8nH8kaYKA2gfoOm?=
+ =?us-ascii?Q?9irkOM9TLxLtREplgwO/p/Wp+Z7thccmPR6lgP9PhbNAQsexCoUX5afPoCTi?=
+ =?us-ascii?Q?xQypzJokbufT6TuWe45/XJaBK4HdTyjAbvgmh2xuEE77+G4NmN3YLUnzqTw/?=
+ =?us-ascii?Q?H+F1YcVqIGdGnqTROPMy232aAAyPiwtbGiTdsDsA6pxHUsxxbYm9yTLhqOJD?=
+ =?us-ascii?Q?vXtyx5icxmpwbaDgmtmdbogkP7B64TItLO+4IA1SgTCx8eWE1SQxRBZAqoQn?=
+ =?us-ascii?Q?91BeQOB4yPhXTTuAWByUwcbAHUtzADDdFa5EcgAtWUMqUPUHPhKVfITdyRTF?=
+ =?us-ascii?Q?X6XntAeDtVjPrgmI6unzed0D3vvP6kF0d+96yCYh?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 25f1c741-0e1f-45fe-50d8-08dd7c3015b7
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR12MB6373.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Apr 2025 15:13:32.2665
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: hdX6yu2nlBqtpwhYiFtAMdVKXej92JX0+EShB3neRmkTCuSax4uWfHw10rcVSqedC/MOQo132P+EO/wUiCWOgA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB6462
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------qxeJIoDL6ag0P77WHSUGvJWb
-Content-Type: multipart/mixed; boundary="------------0Mgo3dQXuQGeXIjHqoBmYfqo";
- protected-headers="v1"
-From: WangYuli <wangyuli@uniontech.com>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: corbet@lwn.net, chenhuacai@kernel.org, kernel@xen0n.name,
- akpm@linux-foundation.org, jeffxu@chromium.org, Liam.Howlett@oracle.com,
- kees@kernel.org, hca@linux.ibm.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, loongarch@lists.linux.dev, xry111@xry111.site,
- tglx@linutronix.de, thomas.weissschuh@linutronix.de, Jason@zx2c4.com,
- zhanjun@uniontech.com, niecheng1@uniontech.com, guanwentao@uniontech.com
-Message-ID: <99411846-6783-44bf-80c4-8b46ad9d046b@uniontech.com>
-Subject: Re: [PATCH] mseal sysmap: enable LoongArch
-References: <433B5132A1535C98+20250415134933.531084-1-wangyuli@uniontech.com>
- <3de559d6-be19-44bc-ba8f-4c52d4bca684@lucifer.local>
-In-Reply-To: <3de559d6-be19-44bc-ba8f-4c52d4bca684@lucifer.local>
+On Mon, Apr 14, 2025 at 07:26:57PM -0500, Mario Limonciello wrote:
+> From: Mario Limonciello <mario.limonciello@amd.com>
+> 
+> The s2idle mmio quirk uses a scratch register in the FCH.
+> Adjust the code to clarify that.
+> 
+> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
+> ---
+> v4:
+>  * Use fch.h instead
+> ---
+>  arch/x86/include/asm/amd/fch.h            | 1 +
+>  drivers/platform/x86/amd/pmc/pmc-quirks.c | 3 ++-
+>  2 files changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/x86/include/asm/amd/fch.h b/arch/x86/include/asm/amd/fch.h
+> index a5fd91ff92df3..9b32e8a03193e 100644
+> --- a/arch/x86/include/asm/amd/fch.h
+> +++ b/arch/x86/include/asm/amd/fch.h
+> @@ -8,5 +8,6 @@
+>  /* register offsets from PM base */
+>  #define FCH_PM_DECODEEN			0x00
+>  #define FCH_PM_DECODEEN_SMBUS0SEL	GENMASK(20, 19)
+> +#define FCH_PM_SCRATCH			0x80
+>  
+>  #endif
+> diff --git a/drivers/platform/x86/amd/pmc/pmc-quirks.c b/drivers/platform/x86/amd/pmc/pmc-quirks.c
+> index b4f49720c87f6..3c680d2029f62 100644
+> --- a/drivers/platform/x86/amd/pmc/pmc-quirks.c
+> +++ b/drivers/platform/x86/amd/pmc/pmc-quirks.c
+> @@ -8,6 +8,7 @@
+>   * Author: Mario Limonciello <mario.limonciello@amd.com>
+>   */
+>  
+> +#include <asm/amd/fch.h>
 
---------------0Mgo3dQXuQGeXIjHqoBmYfqo
-Content-Type: multipart/mixed; boundary="------------rvgDtAGELhvjk2xX0XuctW51"
+Arch headers should go after linux headers, I think.
 
---------------rvgDtAGELhvjk2xX0XuctW51
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+So that arch stuff can override generic stuff.
 
-SGkgTG9yZW56byBTdG9ha2VzLA0KDQpPbiAyMDI1LzQvMTUgMjE6NTgsIExvcmVuem8gU3Rv
-YWtlcyB3cm90ZToNCj4gSSdtIHN1cmUgaXQncyBmaW5lLCBidXQgSSBhbSB5ZXQgdG8gZW5j
-b3VudGVyIHNvbWVib2R5IGVuYWJsaW5nIHRoaXMgZm9yIGFuDQo+IGFyY2ggYW5kIHNheWlu
-ZyAnSSBoYXZlIGNoZWNrZWQgdG8gZW5zdXJlIHdlIGluIG5vIHdheSByZWx5IG9uIHJlbWFw
-cGluZw0KPiB0aGUgVkRTTywgVlZBUiBvciBhbnkgb3RoZXIgc3BlY2lhbCBtYXBwaW5nJy4N
-Cj4NCj4gQmVjYXVzZSBpZiB5b3UgaGF2ZW4ndCwgZG9pbmcgdGhpcyBicmVha3MgeW91ciBh
-cmNoLg0KPg0KPiBJIGhhdGUgdG8gc291bmQgbGlrZSBhIGdydW1weSBtYWludGFpbmVyLCBi
-dXQgY291bGQgSSBqdXN0IGFzayB0byBjaGVjaw0KPiB3aGV0aGVyIHlvdSBoYXZlLCBpbmRl
-ZWQsIGNvbmZpcm1lZCB0aGlzPyA6KQ0KDQpJJ3ZlIGRvbmUgc29tZSByZWFsLXdvcmxkIHRl
-c3RpbmcgYmVmb3JlIHN1Ym1pdHRpbmcuDQoNCkJlZm9yZSBlbmFibGluZyBNU0VBTF9TWVNU
-RU1fTUFQUElOR1MsIHZkc28vdnZhciBpcyBub3Qgc2VhbGVkOyBhZnRlciANCmVuYWJsaW5n
-IE1TRUFMX1NZU1RFTV9NQVBQSU5HUywgdmRzby92dmFyIGlzIHNlYWxlZC4NCg0KSSB0ZXN0
-ZWQgdGhlIGJvb3QgYW5kIHNodXRkb3duIG9mIHRoZSBEZWVwaW4gMjMgZGlzdHJpYnV0aW9u
-LCB3ZWIgQnJvd3NlIA0Kd2l0aCBGaXJlZm94LCBhbmQgZG9jdW1lbnQgZWRpdGluZyB3aXRo
-IExpYnJlT2ZmaWNlIGJvdGggYmVmb3JlIGFuZCANCmFmdGVyIGVuYWJsaW5nIGl0LCBhbmQg
-SSBkaWRuJ3QgZW5jb3VudGVyIGFueSBpc3N1ZXMgDQooTVNFQUxfU1lTVEVNX01BUFBJTkdT
-IGRvZXMgY2F1c2UgYSBub3RpY2VhYmxlIHBlcmZvcm1hbmNlIGRyb3Agd2hlbiANCm91dHB1
-dHRpbmcgaW1hZ2VzIHZpYSBzaW1wbGVfZHJtLCBidXQgSSB0aGluayB0aGlzIGlzIGV4cGVj
-dGVkKS4NCg0KT2YgY291cnNlLCBJIGFsc28gcmFuIHRoZSBzZWxmLXRlc3RzIHByb3ZpZGVk
-IGJ5IA0KdG9vbHMvdGVzdGluZy9zZWxmdGVzdHMvbXNlYWxfc3lzdGVtX21hcHBpbmdzLCBh
-bmQgYWxsIHRlc3RzIHBhc3NlZC4NCg0KSSB3YW50ZWQgdG8gY29uZmlybSBpZiAiYnJlYWtz
-IHlvdXIgYXJjaCIgcmVmZXJzIHRvIHRoZSBhYm92ZT8NCg0KRG8gSSBuZWVkIHRvIHBlcmZv
-cm0gYW55IG90aGVyIGtpbmRzIG9mIHRlc3RzIHRvIGVuc3VyZSB0aGUgdmFsaWRpdHkgb2Yg
-DQp0aGlzIHN1Ym1pc3Npb24/DQoNCj4gSWYgc28gdGhlbiBhbGwgZ29vZC4NCj4NCj4gSSBh
-bHNvIHRoaW5rIHdlIGhhdmUgYSB0YWJsZSBzb21ld2hlcmUgaW4gYSBkb2MgdGhhdCBuZWVk
-cyB1cGRhdGluZyB0aGVuPw0KPiBKZWZmLCBjYW4geW91IGNvbmZpcm0/DQo+DQo+IFRoYW5r
-cyENCj4NClRoYW5rcyENCg0KLS0gDQpXYW5nWXVsaQ0K
---------------rvgDtAGELhvjk2xX0XuctW51
-Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
+>  #include <linux/dmi.h>
+>  #include <linux/io.h>
+>  #include <linux/ioport.h>
 
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
-P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
-FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
-AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
-bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
-AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
-GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
-7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
-/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
-=3DBlkq
------END PGP PUBLIC KEY BLOCK-----
-
---------------rvgDtAGELhvjk2xX0XuctW51--
-
---------------0Mgo3dQXuQGeXIjHqoBmYfqo--
-
---------------qxeJIoDL6ag0P77WHSUGvJWb
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZ/52sQUDAAAAAAAKCRDF2h8wRvQL7t26
-AP9g8eC6pE/UHxSiRciVWD3NRZ1j75nHUptxYK9xZRgztQD/b4iqClisFDRwOIRdTxN34fmswXGi
-YvcGB9A1WHXM9QQ=
-=eoXb
------END PGP SIGNATURE-----
-
---------------qxeJIoDL6ag0P77WHSUGvJWb--
+Thanks,
+Yazen
