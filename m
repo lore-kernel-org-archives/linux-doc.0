@@ -1,160 +1,105 @@
-Received: from out-183.mta0.migadu.com (out-183.mta0.migadu.com [91.218.175.183])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB25F2144DC
-	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 03:14:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.183
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C2561581EE;
+	Tue, 15 Apr 2025 03:46:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744686846; cv=none; b=MI5rEZvozqQgBkuyIx2988Js3GVdkbVfr2ofmcGzjFPBNc90vtT7OMR58Te6BnEkxMCv7HqUpunuIB14nPzeCT1Oh3D7nR4G4YkU3WeWXj1/ORyZ69u/GLVmtL1/LIjUVaE/BBxjQCHJCoB2PFmn6/jpZ3exAvZkDv1z2O139dc=
+	t=1744688784; cv=none; b=UFyD+u03eH5IHozLXvg7zhhJ+rLGTxWjam9YV/YvrbPkt5RCJN3e757kpU3IISSme1ojBVrdDNxL9Ni54Rsn1g8NdH3wKzo/p4gmtYfgyvYR07RLYV670ZhdscmzsfKs05D9bpbdWqy2qCrAgmvI9EKGbE9nqBJWmVi/fp0AQUE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744686846; c=relaxed/simple;
-	bh=5Nj8N9v4V3zy/bm1kIRHGzCFw5OTZILcPj9dHz5jeys=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RQTwC4afk4+PJ5SiOJFT56gSeDMdW7Dxb326arybpqY5eyJl95RS0vKjqUwc706dWgVytOEXvoyf74u4FsIggE9RXjG7zz8aNROB9TDatf+rvZGRJD5+eBJ061Cgvr3LzF10fp2bj+e9p/BvUhp3afUs4DSSolZP+yOHS9sniTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=j1WBpnjY; arc=none smtp.client-ip=91.218.175.183
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1744688784; c=relaxed/simple;
+	bh=bw006OWHFZGFjT/xjrJoXgiwkZZvm6j1+QFK4WAJNEE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=eCDPIfudQh1L3ZQR6kmwfZ+aMcTrnDG7LpuDs23Hp7ni7IrXk4xkfKMpjZegNR6O6l0pVECSka9WnhsnqA/0Yi31K6kbS9jq45Sxo+H8SSr8CoY0Qr89YFTLvufpGQtW1TZoL8hNd3SlZqrNLbDLDkXcx5B2ZDNwQdlMJGw4AxM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mP8658t3; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="j1WBpnjY"
-Message-ID: <06e7bfb3-88fb-41ba-876c-a31cb46f3557@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744686832;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=gDjkqbAP1OiqGgRVIwoiUHC9xsTKg6jR4G+CB2Ipjz4=;
-	b=j1WBpnjYwqBfHgrLi6XmjS03noUEr+rjFMtLNQmgqws2uaQeBkB/5PeF5vE+gYI/JKpwzl
-	vmMhX8K0DVM3RIV/+3Awpp30r+duCAASQBXT1dhqYkrgpYa4/YNNFyqqyTIK7jKp1wInXk
-	gjyaFQdVVAfSN169DrHjUb+VcnM7sXU=
-Date: Tue, 15 Apr 2025 11:13:43 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mP8658t3"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-736b0c68092so4279174b3a.0;
+        Mon, 14 Apr 2025 20:46:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1744688782; x=1745293582; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=tm4kKqRZsJU0OlSbpZW8W6mIOb8bsKwi79vQfDW/w70=;
+        b=mP8658t3x8nKZi/bwf7OdAtCvZgxE4LdM/EfLdEctUn7VDJxeAX5BIi1j33cnubZuC
+         GqZ5JxnEeJmR+e1p0634n0d29i0Bi7MJMac79YlEIF1AdKNVnWamaiBSo9fAkG8QW/Ea
+         wLxPwU9mfVfkHlj6fElzYF6Bu85zfj9AaSPVpDAvgb0nrLJDGAZOhso/ybLcfP7JQkWh
+         OXeQ4MAQwgu5MtN9NMiTVcvr2MvVopOCeLp8sdYQ/X8wkdhSGmoDfszB9QbyOm2aY7mR
+         oL+vRJ+xE1vC6oPLfnjKn5J7AibPJSzSlSXfnn9cJpFLE3y6k0iEoZ4e022vZqlFYuij
+         TZJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744688782; x=1745293582;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=tm4kKqRZsJU0OlSbpZW8W6mIOb8bsKwi79vQfDW/w70=;
+        b=qdjmTLIQMzUfc5OFgamLVSxX9Cx5yXYlU6KqWwcqKY5xiiOpWSMKQBvFOtNY2X2L9c
+         N1v33ayl/tlhHtH51punCYW2EsqH7yUuT79Iw2AOe+g8LJ9AmPeFH160IsI7vWfjOqpk
+         dbNc/1k9HYxnLP9EzuQaGaW7zqeWMPUIZyHORH/H+Q+YwlMn6DVZr02lBL2LstS0THZq
+         v2lX6xmodZhDxsnksJT4QguFzs9X+inKUd8xgsuK9G3xdebCffVVx4fRKQoSZ+E/FnK4
+         a92Ndj6Gz5ftS7JXQ5HqurUfzTg6cDKqODX8h4R+SJfGpx4kb7KCX37FLtMG8LA7AqMF
+         kBzw==
+X-Forwarded-Encrypted: i=1; AJvYcCVMG6aPzID8KFrz0rLX/uikATo8H7RHVyx34KT9CP5VOgzrS7GKeb4K15ifWp9K7hzs3Tk1pBpJW6E=@vger.kernel.org, AJvYcCXVE4Y+qp6juTLGcBufgk0HVVOxZYAh3Z8yMIGX46Etwv902ju9nQtt5gp6Mh2caYirqn3We2md2xME3y5FBtvW+H9e@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm0bgLaPG++5faqRk00e4IXTaprklKaKrZifEiEqZWvqhErZ0D
+	oM4beLbkxY3F/CiIJDZJHWWLPAf/xI3dnC+u3uaimEfGTL/8nzeU5JmICw==
+X-Gm-Gg: ASbGnctd6dBDqpSM39WpnGraZabM6AgxUc7pGTIMmquPUUBGA5vLRgvvQwdZ67V2loP
+	y1Ns1x0tKIWiH3YAgHORXAtTcH8UMzwjRmyEXdYTkb7pIMWag71urzbEZuA4PWsj/QFkFdfOWJ3
+	Dg8QQTSv+AtMfofElbg542WR16oYFhcteZKDaLAjv+aZNxmHuwxsKWM3RDY6Q9xS66aZszi3XdM
+	jqDxuw+P37/FjVzltjgyz3Jxu142/W+sRNLInEM8Pvb+4Ej5GYuSqoDj5PRGvr7xVwcMe4bI8SF
+	Y5g7ynUxNJqIKuS16z6R0qgLX7NfTCwTlx+YszwW2C+4FZHUYFs=
+X-Google-Smtp-Source: AGHT+IEKTX5XjfMZleNquSZckdmG7mf5XcGl65IGZBMGfhu29ouvvpsp9RkjSeSsbV1cf8G4o44Rng==
+X-Received: by 2002:a05:6a00:4fc7:b0:737:9b:582a with SMTP id d2e1a72fcca58-73bd12b3127mr23039398b3a.24.1744688782320;
+        Mon, 14 Apr 2025 20:46:22 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73bd230f164sm7438327b3a.155.2025.04.14.20.46.21
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Apr 2025 20:46:21 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 9813D4209E44; Tue, 15 Apr 2025 10:46:19 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Kernel Tracing <linux-trace-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>
+Cc: Steven Rostedt <rostedt@goodmis.org>,
+	Masami Hiramatsu <mhiramat@kernel.org>,
+	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: [PATCH 0/2] Table of contents refactoring for tracing docs
+Date: Tue, 15 Apr 2025 10:46:11 +0700
+Message-ID: <20250415034613.21305-1-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH net-next v4 14/14] yt6801: update ethernet documentation
- and maintainer
-To: corbet@lwn.net, Frank Sae <Frank.Sae@motor-comm.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Andrew Lunn <andrew@lunn.ch>, Heiner Kallweit <hkallweit1@gmail.com>,
- Russell King <linux@armlinux.org.uk>, "David S . Miller"
- <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- netdev@vger.kernel.org
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
- Parthiban.Veerasooran@microchip.com, linux-kernel@vger.kernel.org,
- "andrew+netdev @ lunn . ch" <andrew+netdev@lunn.ch>, lee@trager.us,
- horms@kernel.org, linux-doc@vger.kernel.org, geert+renesas@glider.be,
- xiaogang.fan@motor-comm.com, fei.zhang@motor-comm.com, hua.sun@motor-comm.com
-References: <20250408092835.3952-1-Frank.Sae@motor-comm.com>
- <20250408092835.3952-15-Frank.Sae@motor-comm.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250408092835.3952-15-Frank.Sae@motor-comm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-Developer-Signature: v=1; a=openpgp-sha256; l=693; i=bagasdotme@gmail.com; h=from:subject; bh=bw006OWHFZGFjT/xjrJoXgiwkZZvm6j1+QFK4WAJNEE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOl/rzFMfvferFh7e+KvKbKndTJFOzVnJOoHtlt9b47/I 1G6eM7EjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAExExIGR4aC/5v8t2oF3es08 d031Fj1sLHyhxXnJn9i/75v+5P8wM2JkmFFaUROqG7HyzdrXTl/tM96l7HVxPXFwj2FomdTnled nMwAA
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Hi Frank, Xiaogang, Zhang Fei, and Sun Hua,
+Hi,
 
-在 4/8/25 5:28 PM, Frank Sae 写道:
-> Add the yt6801.rst in ethernet/motorcomm folder
-> Add the yt6801 entry in the index.rst.
-> Add myself as the maintainer for the motorcomm ethernet driver.
-Would it be possible to split it into two patches?
+The trace toctree refactoring series [1] didn't make it through 6.15
+merge window previously, so I forwarded it targeting 6.16 via
+docs-next tree instead. The patch diffs are left intact but I reword
+the patch descriptions.
 
-patch 1 Add docs
-patch 2 Modify MAINTAINERS
+Enjoy!
 
-> 
-> Signed-off-by: Frank Sae <Frank.Sae@motor-comm.com>
-> ---
->   .../device_drivers/ethernet/index.rst         |  1 +
->   .../ethernet/motorcomm/yt6801.rst             | 20 +++++++++++++++++++
->   MAINTAINERS                                   |  8 ++++++++
->   3 files changed, 29 insertions(+)
->   create mode 100644 Documentation/networking/device_drivers/ethernet/motorcomm/yt6801.rst
-> 
-> diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-> index 05d822b90..7a158af55 100644
-> --- a/Documentation/networking/device_drivers/ethernet/index.rst
-> +++ b/Documentation/networking/device_drivers/ethernet/index.rst
-> @@ -46,6 +46,7 @@ Contents:
->      mellanox/mlx5/index
->      meta/fbnic
->      microsoft/netvsc
-> +   motorcomm/yt6801
->      neterion/s2io
->      netronome/nfp
->      pensando/ionic
-> diff --git a/Documentation/networking/device_drivers/ethernet/motorcomm/yt6801.rst b/Documentation/networking/device_drivers/ethernet/motorcomm/yt6801.rst
-> new file mode 100644
-> index 000000000..dd1e59c33
-> --- /dev/null
-> +++ b/Documentation/networking/device_drivers/ethernet/motorcomm/yt6801.rst
-> @@ -0,0 +1,20 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +================================================================
+[1]: https://lore.kernel.org/linux-doc/20250318113230.24950-1-purvayeshi550@gmail.com/T/#u
 
-> +Linux Base Driver for Motorcomm(R) Gigabit PCI Express Adapters
-The title is great!
+Purva Yeshi (2):
+  Documentation: trace: Reduce toctree depth
+  Documentation: trace: Refactor toctree
 
-> +================================================================
-> +
-
-> +Motorcomm Gigabit Linux driver.
-> +Copyright (c) 2021 - 2024 Motor-comm Co., Ltd.
-I'm not sure if it's appropriate to write it this way. I don't object to 
-them, but I think it's a bit strange to put them below the title.
-
-Actually, this is a suitable place to write an introduction.
-
-> +
-> +
-
-> +Contents
-> +========
-> +
-> +- Support
-Could this be all of the content? It appears to deviate slightly from 
-the title.
-
-> +
-> +
-
-> +Support
-> +=======
-> +If you got any problem, contact Motorcomm support team via support@motor-comm.com
-> +and Cc: netdev.
-I think this part of the content can be written in the code comments.
-
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 4c5c2e2c1..1d7700e6b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -16351,6 +16351,14 @@ F:	drivers/most/
->   F:	drivers/staging/most/
->   F:	include/linux/most.h
->   
-> +MOTORCOMM ETHERNET DRIVER
-> +M:	Frank <Frank.Sae@motor-comm.com>
-> +L:	netdev@vger.kernel.org
-> +S:	Maintained
-> +W:	https://www.motor-comm.com/
-
-> +F:	Documentation/networking/device_drivers/ethernet/motorcomm/*
-I'm quite interested in the long-term planning of this directory. 
-Because compared with the documents in other parallel directories 
-(wangxun is not a good example), there is still a great deal of content 
-that needs to be written. Of course, I'm not sure if there are any 
-engineers in your team whose mother tongue is Chinese. If it's 
-convenient, it would be even better if a Chinese document could be 
-prepared as well.
+ Documentation/trace/index.rst | 96 +++++++++++++++++++++++++++++------
+ 1 file changed, 80 insertions(+), 16 deletions(-)
 
 
-Thanks,
-Yanteng
+base-commit: 43e9076a00b17cf8115b4bd4d3b2be33a44245ca
+-- 
+An old man doll... just what I always wanted! - Clara
 
