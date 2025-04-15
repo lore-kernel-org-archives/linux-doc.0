@@ -1,118 +1,162 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DA872192F3;
-	Tue, 15 Apr 2025 03:46:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A66CD2DFA34;
+	Tue, 15 Apr 2025 07:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744688787; cv=none; b=XZmRZqZSXp1elYIAd19lZ+wSjE5gufjUEn4YbmK5J3vfkcXya2PiBGmy9/8MOEaN0hPr/Jm6IlqvNu/psgERmmFoEwit/cSeWXza4qnoZEjy9uMP12W89184fxHFS3yhKETF3Dm4d0zilrY+3bdgjaSQ9s8RAaPVyv52CcIcWW0=
+	t=1744700473; cv=none; b=byB5AGN24aa+PO1VFDc9pWKfepFzr9xj743ZNcomygD0hGv/CPM1Kl2UE41+V0LWE/nf8EpRUMbGMffsdmwj8UDo/+rB9rjK1dROWuP32dFMSeWO0xXTsP5IKtgDGKEyvNxOLE8paOoahh15ZpDzFh6XZKtDHGajdZc0F+jQhco=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744688787; c=relaxed/simple;
-	bh=YYRrOvjgiKweiLMcWTs3WDiH09awtMkkv0V/WkX/ngQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=BXQ4E6ySHGfMW2re0E1+GX5Yh/V/WlkeMqDkg614rvbzpTxjntzFz/28O+HSI4OB5H1BcuGhW8cF9CBFyWeGORhpiE/JvRxWQwcDMMkUEaJBE7Ex6r2UFuEVOY1UZDJK69uJhTwm/MD9L+1G1j0MTV0H8fygMVB+gMIELnDdyf4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=YE8iZq5H; arc=none smtp.client-ip=209.85.210.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744700473; c=relaxed/simple;
+	bh=tP1nLNEOryZ2Rfki3LWUs8Eu0CqMBbLY8xZy7cXBm1M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qkf/lOSOyTBFmzjXZmz+U7xBq44JTFS37ib3JvAewk26CyZSDlUOfR3iAoM9WLvecfJCVNUOGjWWQulgzdVpOvi93tzJ/ZzyTklKRqHC7gVj9qq6Afx4gan7C6PfBWZSozwcxrcoKiqn+s2u2rfOhhkV/vup9OanmHlgE7QTE6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=KM18OPyt; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="YE8iZq5H"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-736b98acaadso4574510b3a.1;
-        Mon, 14 Apr 2025 20:46:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744688785; x=1745293585; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=lrkZtCriRccIxAXSOpwXoTdEGSPm5t/eG/+f02UBahQ=;
-        b=YE8iZq5H9CAS4nhyXKvtApue/vIGm3X4J8yknNzNPX+QG6f04TJWuW2gfBSl97H43d
-         9Qo4asy8Iety0dmVLXahv1D5HX6Aqj37Xdeg5670SBY5m/nwWBIx7RKSafj8oRZ+6nsV
-         sUbXT7BuB6TjMV2IOf/FgXl6uPppdxbse6Uho+oMpSVFOr2Of8NEmYSWN2WUMcCvmSlx
-         nNTJZJ734zNvZeZh6eJGrLlFY3VXAvESApoHXaDa4FjhKPT5sD4afqWx3LANDMNPhude
-         ruWoK07InvxevVOj2asHcOO6bmcZYbY5ZeT/PoWISu1HumZY8HrsGd5h5x+ax9c7A3us
-         PfqA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744688785; x=1745293585;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=lrkZtCriRccIxAXSOpwXoTdEGSPm5t/eG/+f02UBahQ=;
-        b=B9FoMxzCaH1jREEs5EYneTOh/pJNqqGONLnSFMoNFofnX7we7Z7CDZlByu+DQvf1Ah
-         hI4LKAI7o4JK2dgusn1nEq38BsxH6D1oiJq+zYs0xqtj+dEcY9/2HOfn47qm3TMcpY5f
-         DNDHm/gCJCqBQ8JXofGs7qbFBYelOj1fTRedCf8PcCADXFpqPoocFkSfM8Ln3RTNUJqU
-         XuHbyK9SDTHTcIbMwj8dXyRqXA9nn2j1EoWhqAWJEC5Zwprcad+6T8gdlTDhCFcdHN5X
-         ARVCMWWAX0IMkv/D4puamZcecZ3c+41CjLe2SVAHAR4mv1OCzLXNt7KD31F+ko9kA0Bh
-         N9fw==
-X-Forwarded-Encrypted: i=1; AJvYcCVzKY25SbJgDXkxx8DpyeiotJRsWgmKXVUVYorm2TjhG7q+CwCBR0kkSuvE4et1bmf9V/8XWkOhv9c=@vger.kernel.org, AJvYcCWeo5nGI/tK+JdHOlVwKr9gG8C6hpmxmDM3F23AcnhQQoEer6/uW8ZgmnyjM5+7aZLdwMahVqu67NDewtlcH1xPfxn9@vger.kernel.org
-X-Gm-Message-State: AOJu0YycKqv0ge/21SkaVFMhMaqWHmISRULumtSP3tPc99m8WozYjSh6
-	Yna+4POJHDXaTh9eHY+8C1UB7F+hBgS+Bh7x20y2ByzUtDMWFSQY
-X-Gm-Gg: ASbGncv690zjJrPkop1bmjKtQE4XECDMWSTdi6PGXq4Vkj8niBzEA4GSyZ7EinWBb4v
-	+DvRJu+x78EVmfar4H9lJ9WAre7L26xId58aop0Meoacm9IrborGAQMEYsFHFs1gzdTCtDMdpZr
-	6U90vyQyvezM1u8HDl8+CNmu+WtfHFCLFMsskgXLEG5uGPp556vEOWBCo42DjXPRyfXsyh+j4zf
-	9StZt+CnewdAulVnoLHNLZsCKBdW6amajQDt+newFC0XfjOIc6dkDaoMbtRHvbOlTGvH2FQANZn
-	pu2fiZIkf9AeIvwrWGajrkqqApsx9l9N9De4Zfrv
-X-Google-Smtp-Source: AGHT+IHlt3s1bNXF70pZDG3Huxb7B0xPxrqB/2waFTKpBK5Y7xvtmoAFELG4dQ5st2tD40r4EY/h3g==
-X-Received: by 2002:a05:6a20:12d4:b0:1f5:591b:4f73 with SMTP id adf61e73a8af0-20179969b8amr23886618637.34.1744688784710;
-        Mon, 14 Apr 2025 20:46:24 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b02a12c8ac4sm10100383a12.46.2025.04.14.20.46.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Apr 2025 20:46:22 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C40B74209E46; Tue, 15 Apr 2025 10:46:19 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Kernel Tracing <linux-trace-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Steven Rostedt <rostedt@goodmis.org>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	Mathieu Desnoyers <mathieu.desnoyers@efficios.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Purva Yeshi <purvayeshi550@gmail.com>
-Subject: [PATCH 1/2] Documentation: trace: Reduce toctree depth
-Date: Tue, 15 Apr 2025 10:46:12 +0700
-Message-ID: <20250415034613.21305-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250415034613.21305-1-bagasdotme@gmail.com>
-References: <20250415034613.21305-1-bagasdotme@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="KM18OPyt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744700471; x=1776236471;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=tP1nLNEOryZ2Rfki3LWUs8Eu0CqMBbLY8xZy7cXBm1M=;
+  b=KM18OPytoj12OMm8L7QAJ8kgYc8yLznReoS8MSs+G5sRmABv8xGrNTSk
+   KJnColaZQvQ5VUj4SuWFzyuNmu/8OX2FE/FD5JBrbJ7ILU/lGexHninDr
+   +AVoLVy/tbCmYA3Kgx6jdLNAccOZBZwtEgGwn3wmX0+c5KjPLDq2XCJ6I
+   o3A4zlRPK5+SVzEPxCCKIPkAZgGD7Jc+zxadfPWqBe0fV3o6auRJE+TQH
+   WS41PuXsSL9b/6/81StljZxqy+it8t/o+ZPnRdpa/1y+1GPB+jwWu5bFs
+   096jdz7qkGwpjLuXzpG/uaibaWHwPTxQOPxOApHFhJ2lQZQXxnCKwLKMm
+   A==;
+X-CSE-ConnectionGUID: L8W0ygYzRlGp1Gf/wHN25A==
+X-CSE-MsgGUID: JIRDwf/oRBunTN4nGlb4lA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="49845957"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="49845957"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 00:01:10 -0700
+X-CSE-ConnectionGUID: pMPcLX8ESJ22RSF9di3EvQ==
+X-CSE-MsgGUID: MoBCwUo+Tl+cMeqTJnpNSw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="129999895"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 00:01:07 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u4aI4-0000000CT86-0em2;
+	Tue, 15 Apr 2025 10:01:04 +0300
+Date: Tue, 15 Apr 2025 10:01:03 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <kees@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	linux-hardening@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
+Message-ID: <Z_4EL2bLm5Jva8Mq@smile.fi.intel.com>
+References: <cover.1744106241.git.mchehab+huawei@kernel.org>
+ <871pu1193r.fsf@trenco.lwn.net>
+ <Z_zYXAJcTD-c3xTe@black.fi.intel.com>
+ <87mscibwm8.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=985; i=bagasdotme@gmail.com; h=from:subject; bh=Rd3o0sCpC2xXC5Pjq8gk+zddcwr8eplBuFqEp1EciuA=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDOl/r7Hd4FburH9lX59mu/X8o77EHKdbB2+utG/7tkRKf G2j0obEjlIWBjEuBlkxRZZJiXxNp3cZiVxoX+sIM4eVCWQIAxenAEyk9RUjw1w+61z3GuMThiqi DgqeqpXuP594TVvML79ZSrS+XLzuDMP/SqMdjAcyJ2hW7tt1iyPzWJdNUe5uI+Z3f5ZJzt30RuA VGwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87mscibwm8.fsf@trenco.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-From: Purva Yeshi <purvayeshi550@gmail.com>
+On Mon, Apr 14, 2025 at 09:17:51AM -0600, Jonathan Corbet wrote:
+> Andy Shevchenko <andriy.shevchenko@intel.com> writes:
+> > On Wed, Apr 09, 2025 at 12:30:00PM -0600, Jonathan Corbet wrote:
+> >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> >> 
+> >> > This changeset contains the kernel-doc.py script to replace the verable
+> >> > kernel-doc originally written in Perl. It replaces the first version and the
+> >> > second series I sent on the top of it.
+> >> 
+> >> OK, I've applied it, looked at the (minimal) changes in output, and
+> >> concluded that it's good - all this stuff is now in docs-next.  Many
+> >> thanks for doing this!
+> >> 
+> >> I'm going to hold off on other documentation patches for a day or two
+> >> just in case anything turns up.  But it looks awfully good.
+> >
+> > This started well, until it becomes a scripts/lib/kdoc.
+> > So, it makes the `make O=...` builds dirty *). Please make sure this doesn't leave
+> > "disgusting turd" )as said by Linus) in the clean tree.
+> >
+> > *) it creates that __pycache__ disaster. And no, .gitignore IS NOT a solution.
+> 
+> If nothing else, "make cleandocs" should clean it up, certainly.
+> 
+> We can also tell CPython to not create that directory at all.  I'll run
+> some tests to see what the effect is on the documentation build times;
+> I'm guessing it will not be huge...
 
-Reduce toctree depth from 2 to 1 so that only docs titles are listed
-in the toctree. Individual docs' table of contents can be shown on
-sidebar by actually visiting the respective docs.
+I do not build documentation at all, it's just a regular code build that leaves
+tree dirty.
 
-Signed-off-by: Purva Yeshi <purvayeshi550@gmail.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Link: https://lore.kernel.org/r/20250318113230.24950-1-purvayeshi550@gmail.com
-[Bagas: massage commit message]
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
- Documentation/trace/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+$ python3 --version
+Python 3.13.2
 
-diff --git a/Documentation/trace/index.rst b/Documentation/trace/index.rst
-index 2c991dc96ace60..fecc4adf70a830 100644
---- a/Documentation/trace/index.rst
-+++ b/Documentation/trace/index.rst
-@@ -3,7 +3,7 @@ Linux Tracing Technologies
- ==========================
- 
- .. toctree::
--   :maxdepth: 2
-+   :maxdepth: 1
- 
-    ftrace-design
-    tracepoint-analysis
+It's standard Debian testing distribution, no customisation in the code.
+
+To reproduce.
+1) I have just done a new build to reduce the churn, so, running make again does nothing;
+2) The following snippet in shell shows the issue
+
+$ git clean -xdf
+$ git status --ignored
+On branch ...
+nothing to commit, working tree clean
+
+$ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
+make[1]: Entering directory '...'
+  GEN     Makefile
+  DESCEND objtool
+  CALL    .../scripts/checksyscalls.sh
+  INSTALL libsubcmd_headers
+.pylintrc: warning: ignored by one of the .gitignore files
+Kernel: arch/x86/boot/bzImage is ready  (#23)
+make[1]: Leaving directory '...'
+
+$ touch drivers/gpio/gpiolib-acpi.c
+
+$ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
+make[1]: Entering directory '...'
+  GEN     Makefile
+  DESCEND objtool
+  CALL    .../scripts/checksyscalls.sh
+  INSTALL libsubcmd_headers
+...
+  OBJCOPY arch/x86/boot/setup.bin
+  BUILD   arch/x86/boot/bzImage
+Kernel: arch/x86/boot/bzImage is ready  (#24)
+make[1]: Leaving directory '...'
+
+$ git status --ignored
+On branch ...
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	scripts/lib/kdoc/__pycache__/
+
+nothing added to commit but untracked files present (use "git add" to track)
+
+It's 100% reproducible on my side. I am happy to test any patches to fix this.
+It's really annoying "feature" for `make O=...` builds. Also note that
+theoretically the Git worktree may be located on read-only storage / media
+and this can induce subtle issues.
+
 -- 
-An old man doll... just what I always wanted! - Clara
+With Best Regards,
+Andy Shevchenko
+
 
