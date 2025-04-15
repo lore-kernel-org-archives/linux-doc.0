@@ -1,213 +1,160 @@
-Received: from outbound.pv.icloud.com (p-west1-cluster1-host2-snip4-10.eps.apple.com [57.103.64.83])
+Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DBC292915
-	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 12:25:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.64.83
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 425BE28B4F1;
+	Tue, 15 Apr 2025 12:47:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744719924; cv=none; b=YTr5ZjedQYiFxsW1C1ziut7mCrF48+KSkEHXqQ5L60Nyo8G4Z4DR/pkGRSONxIjwKQld3wU2sUDlaaVaaQFOu2MDcuAf5OkdKKgof36fQ0Yeq4yhHgj/PZBXjENRtTO3n9cNC4dqCntaumRbQCazJqC+tKtip7rty7QTR6AHoKw=
+	t=1744721224; cv=none; b=LYUozLV6/mrODf5gP+l/F9Ji09VCzTorFUP67bvflWQpbqyFaQTRGP55bPx3TvuDRgNL2OK/XotGGBb7TK/cfJMXYPCdnzsVcOXDTmZhC/T8UB875MBhVd8NYLAkvUysuCD0XAYU2pWH+VlFZ9cMXwuuNyIlf6ce2GdT1ZWR4Sc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744719924; c=relaxed/simple;
-	bh=jltUQ38KRnxk/jmuA1LlxaWEFSm+NkVCPiXXnAdFpRE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a1cY059jl6UyW7xuyLsHAW9ZBxMSAiTN8SAQRJJB5zVv7gHNscbRw67Yzv6DFFXn1ZfBFPSfLfq/2dewQ9sEqt0IPEwDKoImlYvKtUdoGVclZA8HC+sV9uHB/8BhCT+vkkzxejTfYmVplYKZ5liRgO/+8cMaSrztq1PM0MPvsKQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=DR0HgK59; arc=none smtp.client-ip=57.103.64.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
+	s=arc-20240116; t=1744721224; c=relaxed/simple;
+	bh=5vRosKX5Osw72EvS+mxpqaBtV03BB8wYWXzLNWqTvNU=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=VscrMf5Z9vcPJLfsdRX8xR3T/IfPYH68qe8JrHNLl0AC1DRdz7qs3ckQXEdliLVBfEm2CygvrlF8ROdjWzEtJQXaYNKzQHTo/TsmXv2FFMUic3UPqY/nYYvfnNA+ntejAJZmU26Tanc3ZMRkmzhc7sD1UlMIJCoS645ztW5ewQ4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Pb6tvvc7; arc=none smtp.client-ip=217.70.183.198
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="DR0HgK59"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=xgxhhlEqIkEJ2KCZO6AJq72n4YhBAvp3VflUxswOa9Y=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
-	b=DR0HgK59oXTDtZh8DRhbuvRwbhy/YziyrZCWNL0juh943oKjePC/NO7TeVXktMmmD
-	 YFdQ1/bVERHCkW2K1A+hwLC/MXcyVf7Zk7izcIgFIH0K4Fs4SdnjAoheOXFxCyWOOY
-	 sb7FuR3czkq5HGx+NSO+2s8d6oguvV6VrUn99Mq8Alih31juepXBUUMD7+2yr5zo7G
-	 5AlUHU4ILRimLn9lSdBLNvPTWk9We2vjTKwp8JZAc7gdBC/ySzofZ7IhcIyw4F9fY3
-	 pAM4fM67xdbCbxpoNJ97XlucZrnyzgEeLe+z3N9+7NmeA84INK48D/P7i3yhjwy9po
-	 y5//1S1R/CZkQ==
-Received: from [192.168.1.26] (pv-asmtp-me-k8s.p00.prod.me.com [17.56.9.36])
-	by outbound.pv.icloud.com (Postfix) with ESMTPSA id EE6F0180093E;
-	Tue, 15 Apr 2025 12:25:16 +0000 (UTC)
-From: Zijun Hu <zijun_hu@icloud.com>
-Date: Tue, 15 Apr 2025 20:25:00 +0800
-Subject: [PATCH v4] fs/fs_parse: Remove unused and problematic
- validate_constant_table()
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Pb6tvvc7"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 299544397E;
+	Tue, 15 Apr 2025 12:46:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744721219;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aOROKFQ2lacCi0F/sGRNvCq/N5utu9L8rxls16miSXo=;
+	b=Pb6tvvc76apWhHbdIEqp/Stcts3c7Sm/V+f6ZLnsfk6BojnBRT3ZEPHzce74zAiG4TniuH
+	cf13yoXltXjAjAuMf/nMIooDISY8kg3lLrKYXVpABFT8hWrAiNUXeGmlQPo2GSjvp7E7s8
+	nP0BG3XeaMRpAMTv3JjUC11g9nPwDyW+DWQc64GMv/oDLsNq9lvhQdPPKKwNDCLg9295KJ
+	f1opItPe2LX2cVUnrs1U6ILDCrw+XxVkwlNZM2aH6/vzMyahQXRf/rtH4SAlxny+yiheen
+	/F5b1OniD+8tDZbayxWleJlcC4r8MzWx8MlhSXxh6XKSMiey9Wo2XVxnEROBEw==
+Date: Tue, 15 Apr 2025 14:46:55 +0200
+From: Maxime Chevallier <maxime.chevallier@bootlin.com>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Siddharth Vadapalli
+ <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, Tero Kristo
+ <kristo@kernel.org>, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux@ew.tq-group.com, Andrew Lunn <andrew@lunn.ch>
+Subject: Re: [PATCH net-next 4/4] checkpatch: check for comment explaining
+ rgmii(|-rxid|-txid) PHY modes
+Message-ID: <20250415144655.416c31ab@fedora.home>
+In-Reply-To: <a40072f780a531e5274ce7f2ed28d1319b12d872.camel@ew.tq-group.com>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	<16a08c72ec6cf68bbe55b82d6fb2f12879941f16.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	<20250415131548.0ae3b66f@fedora.home>
+	<a40072f780a531e5274ce7f2ed28d1319b12d872.camel@ew.tq-group.com>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250415-fix_fs-v4-1-5d575124a3ff@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIABtQ/mcC/2WMQQ6CMBBFr0JmbU1LWwFX3sMYU8dBZiHFVhsN4
- e4WFkbj8s3890aIFJgibIsRAiWO7PsMZlUAdq6/kOBzZihlaaVRUrT8PLZRbEi6pkJDtmkhj4d
- A+bOE9ofMHce7D6+lm9R8/UskJaSoUBlErOnk3O72YOQe1+ivMEeS/hbtR9Qiq6irGtEiafsrT
- tP0BqZtyl7XAAAA
-X-Change-ID: 20250410-fix_fs-6e0a97c4e59f
-To: Jonathan Corbet <corbet@lwn.net>, 
- Alexander Viro <viro@zeniv.linux.org.uk>, 
- Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
-Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
- Zijun Hu <quic_zijuhu@quicinc.com>
-X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: AA4KBPzgyiUMCvSca0xXIiMSyoYGS86k
-X-Proofpoint-GUID: AA4KBPzgyiUMCvSca0xXIiMSyoYGS86k
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-15_05,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
- suspectscore=0 mlxscore=0 bulkscore=0 clxscore=1015 adultscore=0
- mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2308100000 definitions=main-2504150088
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpeforgigihhmvgcuvehhvghvrghllhhivghruceomhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepudfgleelvddtffdvkeduieejudeuvedvveffheduhedvueduteehkeehiefgteehnecuffhomhgrihhnpehkvghrnhgvlhdrohhrghenucfkphepvdgrtddumegtsgduleemkegugeehmeegledttdemieehieekmedvlegsudemlegvfhehmegvkegtjeenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtudemtggsudelmeekugegheemgeeltddtmeeiheeikeemvdelsgdumeelvghfheemvgektgejpdhhvghlohepfhgvughorhgrrdhhohhmvgdpmhgrihhlfhhrohhmpehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedviedprhgtphhtthhopehmrghtthhhihgrshdrshgthhhifhhfvghrsegvfidrthhqqdhgrhhouhhprdgtohhmpdhrtghpthhtoheprghnughrvgifodhnvghtuggvvhesl
+ hhunhhnrdgthhdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehkuhgsrgeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepphgrsggvnhhisehrvgguhhgrthdrtghomhdprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhg
+X-GND-Sasl: maxime.chevallier@bootlin.com
 
-From: Zijun Hu <quic_zijuhu@quicinc.com>
+On Tue, 15 Apr 2025 13:21:25 +0200
+Matthias Schiffer <matthias.schiffer@ew.tq-group.com> wrote:
 
-Remove validate_constant_table() since:
+> On Tue, 2025-04-15 at 13:15 +0200, Maxime Chevallier wrote:
+> > On Tue, 15 Apr 2025 12:18:04 +0200
+> > Matthias Schiffer <matthias.schiffer@ew.tq-group.com> wrote:
+> >   
+> > > Historially, the RGMII PHY modes specified in Device Trees have been  
+> >   ^^^^^^^^^^^
+> >   Historically  
+> > > used inconsistently, often referring to the usage of delays on the PHY
+> > > side rather than describing the board; many drivers still implement this
+> > > incorrectly.
+> > > 
+> > > Require a comment in Devices Trees using these modes (usually mentioning
+> > > that the delay is relalized on the PCB), so we can avoid adding more
+> > > incorrect uses (or will at least notice which drivers still need to be
+> > > fixed).
+> > > 
+> > > Suggested-by: Andrew Lunn <andrew@lunn.ch>
+> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> > > ---
+> > >  Documentation/dev-tools/checkpatch.rst |  9 +++++++++
+> > >  scripts/checkpatch.pl                  | 11 +++++++++++
+> > >  2 files changed, 20 insertions(+)
+> > > 
+> > > diff --git a/Documentation/dev-tools/checkpatch.rst b/Documentation/dev-tools/checkpatch.rst
+> > > index abb3ff6820766..8692d3bc155f1 100644
+> > > --- a/Documentation/dev-tools/checkpatch.rst
+> > > +++ b/Documentation/dev-tools/checkpatch.rst
+> > > @@ -513,6 +513,15 @@ Comments
+> > >  
+> > >      See: https://lore.kernel.org/lkml/20131006222342.GT19510@leaf/
+> > >  
+> > > +  **UNCOMMENTED_RGMII_MODE**
+> > > +    Historially, the RGMII PHY modes specified in Device Trees have been  
+> >        ^^^^^^^^^^^
+> >       	 Historically  
+> > > +    used inconsistently, often referring to the usage of delays on the PHY
+> > > +    side rather than describing the board.
+> > > +
+> > > +    PHY modes "rgmii", "rgmii-rxid" and "rgmii-txid" modes require the clock
+> > > +    signal to be delayed on the PCB; this unusual configuration should be
+> > > +    described in a comment. If they are not (meaning that the delay is realized
+> > > +    internally in the MAC or PHY), "rgmii-id" is the correct PHY mode.
+> > >  
+> > >  Commit message
+> > >  --------------
+> > > diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> > > index 784912f570e9d..57fcbd4b63ede 100755
+> > > --- a/scripts/checkpatch.pl
+> > > +++ b/scripts/checkpatch.pl
+> > > @@ -3735,6 +3735,17 @@ sub process {
+> > >  			}
+> > >  		}
+> > >  
+> > > +# Check for RGMII phy-mode with delay on PCB
+> > > +		if ($realfile =~ /\.dtsi?$/ && $line =~ /^\+\s*(phy-mode|phy-connection-type)\s*=\s*"/ &&
+> > > +		    !ctx_has_comment($first_line, $linenr)) {
+> > > +			my $prop = $1;
+> > > +			my $mode = get_quoted_string($line, $rawline);
+> > > +			if ($mode =~ /^"rgmii(?:|-rxid|-txid)"$/) {
+> > > +				CHK("UNCOMMENTED_RGMII_MODE",
+> > > +				    "$prop $mode without comment -- delays on the PCB should be described, otherwise use \"rgmii-id\"\n" . $herecurr);
+> > > +			}
+> > > +		}
+> > > +  
+> > 
+> > My Perl-fu isn't good enough for me to review this properly... I think
+> > though that Andrew mentioned something along the lines of 'Comment
+> > should include PCB somewhere', but I don't know if this is easily
+> > doable with checkpatch though.
+> > 
+> > Maxime  
+> 
+> I think it can be done using ctx_locate_comment instead of ctx_has_comment, but
+> I decided against it - requiring to have a comment at all should be sufficient
+> to make people think about the used mode, and a comment with a bad explanation
+> would hopefully be caught during review.
 
-- It has no caller.
+True, and having looked at other stuff in checkpatch, it looks like
+there's no other example of rules expecting a specific word in a
+comment.
 
-- It has below 3 bugs for good constant table array array[] which must
-  end with a empty entry, and take below invocation for explaination:
-  validate_constant_table(array, ARRAY_SIZE(array), ...)
+So besides the typo above, I'm OK with this patch :)
 
-  - Always return wrong value due to the last empty entry.
-  - Imprecise error message for missorted case.
-  - Potential NULL pointer dereference since the last pr_err() may use
-    @tbl[i].name NULL pointer to print the last empty entry's name.
-
-Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
----
-Changes in v4:
-- Rebase on vfs-6.16.misc branch to fix merge conflict.
-- Link to v3: https://lore.kernel.org/r/20250415-fix_fs-v3-1-0c378cc5ce35@quicinc.com
-
-Changes in v3:
-- Remove validate_constant_table() instead of fixing it
-- Link to v2: https://lore.kernel.org/r/20250411-fix_fs-v2-2-5d3395c102e4@quicinc.com
-
-Changes in v2:
-- Remove fixes tag for remaining patches
-- Add more comment for the NULL pointer dereference issue
-- Link to v1: https://lore.kernel.org/r/20250410-fix_fs-v1-3-7c14ccc8ebaa@quicinc.com
----
- Documentation/filesystems/mount_api.rst | 15 ----------
- fs/fs_parser.c                          | 49 ---------------------------------
- include/linux/fs_parser.h               |  5 ----
- 3 files changed, 69 deletions(-)
-
-diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
-index 47dafbb7427e6a829989a815e4d034e48fdbe7a2..e149b89118c885c377a17b95adcdbcb594b34e00 100644
---- a/Documentation/filesystems/mount_api.rst
-+++ b/Documentation/filesystems/mount_api.rst
-@@ -752,21 +752,6 @@ process the parameters it is given.
-      If a match is found, the corresponding value is returned.  If a match
-      isn't found, the not_found value is returned instead.
- 
--   * ::
--
--       bool validate_constant_table(const struct constant_table *tbl,
--				    size_t tbl_size,
--				    int low, int high, int special);
--
--     Validate a constant table.  Checks that all the elements are appropriately
--     ordered, that there are no duplicates and that the values are between low
--     and high inclusive, though provision is made for one allowable special
--     value outside of that range.  If no special value is required, special
--     should just be set to lie inside the low-to-high range.
--
--     If all is good, true is returned.  If the table is invalid, errors are
--     logged to the kernel log buffer and false is returned.
--
-    * ::
- 
-        bool fs_validate_description(const char *name,
-diff --git a/fs/fs_parser.c b/fs/fs_parser.c
-index c5cb19788f74771a945801ceedeec69efed0e40a..c092a9f79e324bacbd950165a0eb66632cae9e03 100644
---- a/fs/fs_parser.c
-+++ b/fs/fs_parser.c
-@@ -379,55 +379,6 @@ int fs_param_is_path(struct p_log *log, const struct fs_parameter_spec *p,
- EXPORT_SYMBOL(fs_param_is_path);
- 
- #ifdef CONFIG_VALIDATE_FS_PARSER
--/**
-- * validate_constant_table - Validate a constant table
-- * @tbl: The constant table to validate.
-- * @tbl_size: The size of the table.
-- * @low: The lowest permissible value.
-- * @high: The highest permissible value.
-- * @special: One special permissible value outside of the range.
-- */
--bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
--			     int low, int high, int special)
--{
--	size_t i;
--	bool good = true;
--
--	if (tbl_size == 0) {
--		pr_warn("VALIDATE C-TBL: Empty\n");
--		return true;
--	}
--
--	for (i = 0; i < tbl_size; i++) {
--		if (!tbl[i].name) {
--			pr_err("VALIDATE C-TBL[%zu]: Null\n", i);
--			good = false;
--		} else if (i > 0 && tbl[i - 1].name) {
--			int c = strcmp(tbl[i-1].name, tbl[i].name);
--
--			if (c == 0) {
--				pr_err("VALIDATE C-TBL[%zu]: Duplicate %s\n",
--				       i, tbl[i].name);
--				good = false;
--			}
--			if (c > 0) {
--				pr_err("VALIDATE C-TBL[%zu]: Missorted %s>=%s\n",
--				       i, tbl[i-1].name, tbl[i].name);
--				good = false;
--			}
--		}
--
--		if (tbl[i].value != special &&
--		    (tbl[i].value < low || tbl[i].value > high)) {
--			pr_err("VALIDATE C-TBL[%zu]: %s->%d const out of range (%d-%d)\n",
--			       i, tbl[i].name, tbl[i].value, low, high);
--			good = false;
--		}
--	}
--
--	return good;
--}
--
- /**
-  * fs_validate_description - Validate a parameter specification array
-  * @name: Owner name of the parameter specification array
-diff --git a/include/linux/fs_parser.h b/include/linux/fs_parser.h
-index 5057faf4f09182fa6e7ddd03fb17b066efd7e58b..5a0e897cae807bbf5472645735027883a6593e91 100644
---- a/include/linux/fs_parser.h
-+++ b/include/linux/fs_parser.h
-@@ -87,14 +87,9 @@ extern int lookup_constant(const struct constant_table tbl[], const char *name,
- extern const struct constant_table bool_names[];
- 
- #ifdef CONFIG_VALIDATE_FS_PARSER
--extern bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
--				    int low, int high, int special);
- extern bool fs_validate_description(const char *name,
- 				    const struct fs_parameter_spec *desc);
- #else
--static inline bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
--					   int low, int high, int special)
--{ return true; }
- static inline bool fs_validate_description(const char *name,
- 					   const struct fs_parameter_spec *desc)
- { return true; }
-
----
-base-commit: 8cc42084abd926e3f005d7f5c23694c598b29cee
-change-id: 20250410-fix_fs-6e0a97c4e59f
-
-Best regards,
--- 
-Zijun Hu <quic_zijuhu@quicinc.com>
+Maxime
 
