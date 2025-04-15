@@ -1,193 +1,208 @@
-Received: from fllvem-ot04.ext.ti.com (fllvem-ot04.ext.ti.com [198.47.19.246])
+Received: from outbound.pv.icloud.com (p-west1-cluster4-host4-snip4-1.eps.apple.com [57.103.65.202])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3B32292920;
-	Tue, 15 Apr 2025 11:55:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.246
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98A2292915
+	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 12:12:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.65.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744718153; cv=none; b=ZVdJ/83cXm4fGf72whoQoOL3Ooknd24qIUO/e0nWQDlvhpaqW8egK/2X9SD9GG4H4mIRCfJ/tQSZJd3F9U3mAJ1XVkqIpzpXo+VoPv9dg9o0UiKhyFcnhWT4tbxXA2KZByCVMf8ZTHopu6alPbmC8KJMN2bwoaDjXMMnW8eFpkU=
+	t=1744719135; cv=none; b=G8co/ZEIwavvZacmJtOyaZthefcCCdWnbjDlT5o7mmvLiv5EciK9jGLs4oI/zVJJg5hhcHQHBjxiijvA9APeowepDkTKnqkNl4D3Wn47qIMK7/taasSlss8DZUVZ/LhV/C7WpXv53+2037hJT6bkT3NDz8hoYhVD51+OdEdN2uQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744718153; c=relaxed/simple;
-	bh=zo+r2sNEz6UwnSlLcoN279KEjH3LqnKjrK6N1YxxbB4=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KT6BV2TFD2spfKx3iPOWqBdS+OdHxD/Mx/Dk30M+cjB8ZcWUPCs9DqqQKeXB48TuUHG+q6nO3xyFl7yiM4rOCJAO0lvOkKoFNLgmY3f/8HKcV7QHqn002BbP75crqPWU93Xhy7VgwbzKeMk7ZlJ3vLJz7E/qDLKGb+fzH3JihQE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=u+nxzOqF; arc=none smtp.client-ip=198.47.19.246
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1744719135; c=relaxed/simple;
+	bh=H7LTL9umZKyDsnfMDzZYM/E8okgqBQBFrUVan+djzmA=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tI/YaK7k5oPzV+Lu5bGZzXujFM/hGSWyytWV3yzJqgeNhY6XUSK4PbRYemdjC1WRoXhrG15rKAFRnZs+76bjzgrcIDij3iTSe5AXj48fsYuy9GRXmSrRNc+Khb2vlvIwVGFSjNxV+U+/d+qhA+fOyInYn3BV8azmb61BA9cc7wM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=rY4RX+8e; arc=none smtp.client-ip=57.103.65.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="u+nxzOqF"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by fllvem-ot04.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53FBtQPg3022404
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Tue, 15 Apr 2025 06:55:26 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1744718126;
-	bh=jzqacroDsAOYpxYHjTL1g6D7LTgb86zIA+otutCdK9o=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=u+nxzOqFw63Yr04cyhBA8F2SWK9SFbES4a4uJOmOa+jg5VB9qmLIhxEIIupQYGeP9
-	 euzAqWhZ+otzQpCrhWFh2oZl2krWEIY2AtUwYQ/Z6xQjViz13UWhYLJDxJOlQhgzLh
-	 7zNgZzTf3IlFlq4gQrKo4r7ofGFSbDgEh5aCQk+I=
-Received: from DLEE109.ent.ti.com (dlee109.ent.ti.com [157.170.170.41])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53FBtQos017475
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Tue, 15 Apr 2025 06:55:26 -0500
-Received: from DLEE111.ent.ti.com (157.170.170.22) by DLEE109.ent.ti.com
- (157.170.170.41) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Tue, 15
- Apr 2025 06:55:25 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DLEE111.ent.ti.com
- (157.170.170.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Tue, 15 Apr 2025 06:55:25 -0500
-Received: from localhost (uda0492258.dhcp.ti.com [10.24.72.113])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53FBtOI6103847;
-	Tue, 15 Apr 2025 06:55:24 -0500
-Date: Tue, 15 Apr 2025 17:25:23 +0530
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-CC: Siddharth Vadapalli <s-vadapalli@ti.com>,
-        Andrew Lunn
-	<andrew+netdev@lunn.ch>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric
- Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andy Whitcroft
-	<apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn
-	<lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
-	<vigneshr@ti.com>,
-        Roger Quadros <rogerq@kernel.org>, Tero Kristo
-	<kristo@kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux@ew.tq-group.com>
-Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
- update descriptions of RGMII modes
-Message-ID: <5d74d4b2-f442-4cb8-910e-cb1cc7eb2b3d@ti.com>
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
- <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
- <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
- <cd483b43465d6e50b75f0b11d0fae57251cdc3db.camel@ew.tq-group.com>
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="rY4RX+8e"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
+	s=1a1hai; bh=prbX2eDvC7yhKvTFBuMdrTVaSPa9eB/EAv2umF7suu0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
+	b=rY4RX+8e7g4QCLojUtasymv7m5M97ry3w3nFeup362SH0UJO7shq5Ch8lQJQ3aIbC
+	 nQ/nWn4/6PLvQ8WssIqwHmtM+WzNYPcw+JsiBZl0/bTxHcuXxAlmiyiZUjOvVraiNJ
+	 FF05PzQKA1KPNPXgJGVDCFXy/K+mPsWWcdCcxVm83UwlyIlqSfwAtuKFmNYql21bUX
+	 P89ogrilMe7uTwE0xgxw6dzarAR5uIegf7xZ6GMIVu6qe1bePx3lT0Cl8T4oSeS8fT
+	 Pq5jkf9iyPWF7HhaeQSHhM+1Z7a99o5bJO7nBwF/lVYTT3KfTqDSY6vGh/N8b+pYbC
+	 0Pt1IGiO1xT+w==
+Received: from [192.168.1.26] (pv-asmtp-me-k8s.p00.prod.me.com [17.56.9.36])
+	by outbound.pv.icloud.com (Postfix) with ESMTPSA id B5E271800096;
+	Tue, 15 Apr 2025 12:12:08 +0000 (UTC)
+From: Zijun Hu <zijun_hu@icloud.com>
+Date: Tue, 15 Apr 2025 20:11:52 +0800
+Subject: [PATCH v3] fs/fs_parse: Remove unused and problematic
+ validate_constant_table()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <cd483b43465d6e50b75f0b11d0fae57251cdc3db.camel@ew.tq-group.com>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250415-fix_fs-v3-1-0c378cc5ce35@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIAAdN/mcC/2WMQQ7CIBBFr9LM2jFQqbWuvIdpDI6DnYWgoETTc
+ HexW5fv/5c3Q+IonGDfzBA5S5LgK2xWDdBk/ZVRLpWhVW2njFbo5H1yCbes7NCT4W5wUOV75Po
+ soeNYeZL0DPGzdLP+rX+JrFFhT9oQ0Y7P1h4eLyHxtKZwg7GU8gVHj39wngAAAA==
+X-Change-ID: 20250410-fix_fs-6e0a97c4e59f
+To: Jonathan Corbet <corbet@lwn.net>, 
+ Alexander Viro <viro@zeniv.linux.org.uk>, 
+ Christian Brauner <brauner@kernel.org>, Jan Kara <jack@suse.cz>
+Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+ Zijun Hu <quic_zijuhu@quicinc.com>
+X-Mailer: b4 0.14.2
+X-Proofpoint-ORIG-GUID: bl664JtNcEyBld6oDCHqRLPUmC_pp4Ln
+X-Proofpoint-GUID: bl664JtNcEyBld6oDCHqRLPUmC_pp4Ln
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-15_05,2025-04-10_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 bulkscore=0 spamscore=0
+ adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2411120000 definitions=main-2504150086
 
-On Tue, Apr 15, 2025 at 01:28:48PM +0200, Matthias Schiffer wrote:
-> On Tue, 2025-04-15 at 16:06 +0530, Siddharth Vadapalli wrote:
-> > 
-> > On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
-> > > As discussed [1], the comments for the different rgmii(-*id) modes do not
-> > > accurately describe what these values mean.
-> > > 
-> > > As the Device Tree is primarily supposed to describe the hardware and not
-> > > its configuration, the different modes need to distinguish board designs
-> > 
-> > If the Ethernet-Controller (MAC) is integrated in an SoC (as is the case
-> > with CPSW Ethernet Switch), and, given that "phy-mode" is a property
-> > added within the device-tree node of the MAC, I fail to understand how
-> > the device-tree can continue "describing" hardware for different board
-> > designs using the same SoC (unchanged MAC HW).
-> 
-> The setting is part of the MAC node, but it is always set in the board DTS,
-> together with assigning a PHY to the MAC.
+From: Zijun Hu <quic_zijuhu@quicinc.com>
 
-The MAC is the same independent of which board it is used in. So are we
-really describing the "MAC" or configuring the "MAC"? Isn't it the PHY
-along with the PCB lines on a given board that determine how the "MAC"
-should be "configured" to make the combination of "MAC" + "PHY"
-functional together?
+Remove validate_constant_table() since:
 
-> 
-> > How do we handle situations where a given MAC supports various
-> > "phy-modes" in HW? Shouldn't "phy-modes" then be a "list" to technically
-> > descibe the HW? Even if we set aside the "rgmii" variants that this
-> > series is attempting to address, the CPSW MAC supports "sgmii", "qsgmii"
-> > and "usxgmii/xfi" as well.
-> 
-> This is not about PHY mode support of the MAC, but the mode to be used on a
-> particular board. I would not expect a board to use multiple different
-> interfaces with a single PHY (and if such cases exist, I consider them out of
+- It has no caller.
 
-For a fixed PHY, the MAC will be "configured" to operate in a set of
-modes supported by the PHY. The HW description is coming from the PHY
-that has been "fixed", and not the MAC. But the "phy-mode" property
-resides within the device-tree node of the MAC and not the PHY. So are
-we still "describing" the MAC when it is the "PHY" that introduces the
-limitation or requires the MAC to be configured for a particular
-"phy-mode"?
+- It has below 3 bugs for good constant table array array[] which must
+  end with a empty entry, and take below invocation for explaination:
+  validate_constant_table(array, ARRAY_SIZE(array), ...)
 
-> scope for this patch series).
-> 
-> > 
-> > > (if a delay is built into the PCB using different trace lengths); whether
-> > > a delay is added on the MAC or the PHY side when needed should not matter.
-> > > 
-> > > Unfortunately, implementation in MAC drivers is somewhat inconsistent
-> > > where a delay is fixed or configurable on the MAC side. As a first step
-> > > towards sorting this out, improve the documentation.
+  - Always return wrong value due to the last empty entry.
+  - Imprecise error message for missorted case.
+  - Potential NULL pointer dereference since the last pr_err() may use
+    @tbl[i].name NULL pointer to print the last empty entry's name.
 
-While this patch is improving the documentation and making it consistent
-when it comes to the description of "rgmii" by stating that the "MAC"
-shouldn't add a delay, for the remaining cases, as to who adds the delay
-and whether or not the MAC should add a delay has been left open.
-Existing documentation clarifies what the MAC should do for each case
-except "rgmii" which is being fixed by your patch.
+Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
+---
+Changes in v3:
+- Remove validate_constant_table() instead of fixing it
+- Link to v2: https://lore.kernel.org/r/20250411-fix_fs-v2-2-5d3395c102e4@quicinc.com
 
-> > > 
-> > > Link: https://lore.kernel.org/lkml/d25b1447-c28b-4998-b238-92672434dc28@lunn.ch/ [1]
-> > > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > > ---
-> > >  .../bindings/net/ethernet-controller.yaml        | 16 +++++++++-------
-> > >  1 file changed, 9 insertions(+), 7 deletions(-)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > > index 45819b2358002..2ddc1ce2439a6 100644
-> > > --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > > +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > > @@ -74,19 +74,21 @@ properties:
-> > >        - rev-rmii
-> > >        - moca
-> > >  
-> > > -      # RX and TX delays are added by the MAC when required
-> > > +      # RX and TX delays are part of the board design (through PCB traces). MAC
-> > > +      # and PHY must not add delays.
-> > >        - rgmii
-> > >  
-> > > -      # RGMII with internal RX and TX delays provided by the PHY,
-> > > -      # the MAC should not add the RX or TX delays in this case
-> > > +      # RGMII with internal RX and TX delays provided by the MAC or PHY. No
-> > > +      # delays are included in the board design; this is the most common case
-> > > +      # in modern designs.
-> > >        - rgmii-id
-> > >  
-> > > -      # RGMII with internal RX delay provided by the PHY, the MAC
-> > > -      # should not add an RX delay in this case
-> > > +      # RGMII with internal RX delay provided by the MAC or PHY. TX delay is
-> > > +      # part of the board design.
-> > >        - rgmii-rxid
-> > >  
-> > > -      # RGMII with internal TX delay provided by the PHY, the MAC
-> > > -      # should not add an TX delay in this case
-> > > +      # RGMII with internal TX delay provided by the MAC or PHY. RX delay is
-> > > +      # part of the board design.
+Changes in v2:
+- Remove fixes tag for remaining patches
+- Add more comment for the NULL pointer dereference issue
+- Link to v1: https://lore.kernel.org/r/20250410-fix_fs-v1-3-7c14ccc8ebaa@quicinc.com
+---
+ Documentation/filesystems/mount_api.rst | 15 ----------
+ fs/fs_parser.c                          | 49 ---------------------------------
+ include/linux/fs_parser.h               |  5 ----
+ 3 files changed, 69 deletions(-)
 
-[...]
+diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
+index d92c276f1575af11370dcd4a5d5d0ac97c4d7f4c..cf56086bbd6622a07bbb1e283a86fea40a98a8e6 100644
+--- a/Documentation/filesystems/mount_api.rst
++++ b/Documentation/filesystems/mount_api.rst
+@@ -753,21 +753,6 @@ process the parameters it is given.
+      If a match is found, the corresponding value is returned.  If a match
+      isn't found, the not_found value is returned instead.
+ 
+-   * ::
+-
+-       bool validate_constant_table(const struct constant_table *tbl,
+-				    size_t tbl_size,
+-				    int low, int high, int special);
+-
+-     Validate a constant table.  Checks that all the elements are appropriately
+-     ordered, that there are no duplicates and that the values are between low
+-     and high inclusive, though provision is made for one allowable special
+-     value outside of that range.  If no special value is required, special
+-     should just be set to lie inside the low-to-high range.
+-
+-     If all is good, true is returned.  If the table is invalid, errors are
+-     logged to the kernel log buffer and false is returned.
+-
+    * ::
+ 
+        bool fs_validate_description(const char *name,
+diff --git a/fs/fs_parser.c b/fs/fs_parser.c
+index e635a81e17d965df78ffef27f6885cd70996c6dd..07a78a5064d05009148fa9780f3e031cd3a9b529 100644
+--- a/fs/fs_parser.c
++++ b/fs/fs_parser.c
+@@ -379,55 +379,6 @@ int fs_param_is_path(struct p_log *log, const struct fs_parameter_spec *p,
+ EXPORT_SYMBOL(fs_param_is_path);
+ 
+ #ifdef CONFIG_VALIDATE_FS_PARSER
+-/**
+- * validate_constant_table - Validate a constant table
+- * @tbl: The constant table to validate.
+- * @tbl_size: The size of the table.
+- * @low: The lowest permissible value.
+- * @high: The highest permissible value.
+- * @special: One special permissible value outside of the range.
+- */
+-bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
+-			     int low, int high, int special)
+-{
+-	size_t i;
+-	bool good = true;
+-
+-	if (tbl_size == 0) {
+-		pr_warn("VALIDATE C-TBL: Empty\n");
+-		return true;
+-	}
+-
+-	for (i = 0; i < tbl_size; i++) {
+-		if (!tbl[i].name) {
+-			pr_err("VALIDATE C-TBL[%zu]: Null\n", i);
+-			good = false;
+-		} else if (i > 0 && tbl[i - 1].name) {
+-			int c = strcmp(tbl[i-1].name, tbl[i].name);
+-
+-			if (c == 0) {
+-				pr_err("VALIDATE C-TBL[%zu]: Duplicate %s\n",
+-				       i, tbl[i].name);
+-				good = false;
+-			}
+-			if (c > 0) {
+-				pr_err("VALIDATE C-TBL[%zu]: Missorted %s>=%s\n",
+-				       i, tbl[i-1].name, tbl[i].name);
+-				good = false;
+-			}
+-		}
+-
+-		if (tbl[i].value != special &&
+-		    (tbl[i].value < low || tbl[i].value > high)) {
+-			pr_err("VALIDATE C-TBL[%zu]: %s->%d const out of range (%d-%d)\n",
+-			       i, tbl[i].name, tbl[i].value, low, high);
+-			good = false;
+-		}
+-	}
+-
+-	return good;
+-}
+-
+ /**
+  * fs_validate_description - Validate a parameter description
+  * @name: The parameter name to search for.
+diff --git a/include/linux/fs_parser.h b/include/linux/fs_parser.h
+index 53e566efd5fd133d19e313e494b975612a227b77..8d1c2fdd382fb51aee3ccdcc49735d7441581c26 100644
+--- a/include/linux/fs_parser.h
++++ b/include/linux/fs_parser.h
+@@ -87,14 +87,9 @@ extern int lookup_constant(const struct constant_table tbl[], const char *name,
+ extern const struct constant_table bool_names[];
+ 
+ #ifdef CONFIG_VALIDATE_FS_PARSER
+-extern bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
+-				    int low, int high, int special);
+ extern bool fs_validate_description(const char *name,
+ 				    const struct fs_parameter_spec *desc);
+ #else
+-static inline bool validate_constant_table(const struct constant_table *tbl, size_t tbl_size,
+-					   int low, int high, int special)
+-{ return true; }
+ static inline bool fs_validate_description(const char *name,
+ 					   const struct fs_parameter_spec *desc)
+ { return true; }
 
-Regards,
-Siddharth.
+---
+base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+change-id: 20250410-fix_fs-6e0a97c4e59f
+
+Best regards,
+-- 
+Zijun Hu <quic_zijuhu@quicinc.com>
+
