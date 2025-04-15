@@ -1,205 +1,93 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1AD29117B;
-	Tue, 15 Apr 2025 11:28:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ADFF428F508
+	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 11:30:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744716542; cv=none; b=XtoRK7GrM6bgXXmrHOhyQSXrsXg5j6GF7QyoCPdtE+tlerPlzwl1WcJg6Ce0GX1+rSZCzCqsaa4xbIjS9ZOADGZuaB6aq9F7pTBGINuYJxcXLhkhH6G0FaayNPesJ88IEkT/MV/A334tyezNHzkCODRZAhTeF6vqMkmKaNUgA8Y=
+	t=1744716645; cv=none; b=X2eedMJEFqz94hsTwSbQj+F4srA4W17e2+MLOq8Mjy4rv7zPLJU0jXFsNd8tnwDHh/7Z3f/aRi5JYQYjAUgtB80rLdpuVU1PkO9kMqefOC3ipQoJWCj+vRJ3MVENoGqJCJJ5gGyNUWANp2OVGtTRIvvRe3bcuoNkclU2BMKTP6Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744716542; c=relaxed/simple;
-	bh=HkGK4vKcs2199YO0fGdWUg9GcSJPiCpZOIr/Szy0PUg=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=J4+isDeu26WOYAI1iv0q5uNBl5s/7UfLewFK2/FKjeVvReJBVpnVSQZss0Fyy1g8LVSK8Hav+hIOPqheS30Mqn/I+A02Dz9SFAmVjEl5uw1xJqZ9gizOOda86ousChPCY87e0PfZTOT+f9DMNitVZ4kM4OtoGC7eP0NsppMtxbs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=QzSY+1mk; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=pfGHhhh1 reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
+	s=arc-20240116; t=1744716645; c=relaxed/simple;
+	bh=c3z5ccriEVPjarGob2HVFGrL98tv6tcf6bH/VEudxTo=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=hbnQCI3hWpwJ6ANOS9DjHlTwgXHHRvaHZx/5EVA1tLiXEGZtBlviG4i208LFGCLTc8sL1IHTzNecEIC3GYBKjcGtd5OmoFCqgye+YZhv1MnDHBChaPwyDtuw2Wri5NMma8z2WmIVslIuICnsiOZ0cKiq3OEfR4C/O0zJxm9oMXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iOmqik7r; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="QzSY+1mk";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="pfGHhhh1"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1744716539; x=1776252539;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=mYfOX7V+RukALTVJ8Qi0exktDRQwn3ad8TOZoUSa2Qs=;
-  b=QzSY+1mkLi0kFNWpIrh9ZQtkHDvaDnBA+IYAiY3ehV8wlc5CTFz2Q048
-   odYXdZTQZFHgNssT9hh1mNq35ZHNLKffkwWlyVDd7Ufqe1sU2iZaWNTel
-   RJTWwbYDYyhu7gtNoQZMWub6MjKBTcdevc6m5QvRF0yaCWZsv4RDfw9Wz
-   Aix0K4AaZ8Q5NWYDskRsuS7QhRktFTn0hWZ3ktJVqcBXohFpUkuuSuKUC
-   PThIERxSirTE969BBRfSTUVlpXNhKEziZxVyfCVR9RFsaQAyO2oiLp1vr
-   E1KIA0h1FCZIkCRFeLKf5eoj+WnmfrD7eDWqWugq8QjUYu2XjWr1MrRZD
-   A==;
-X-CSE-ConnectionGUID: vXCahAz8Qt2JyThBws63mw==
-X-CSE-MsgGUID: kYpqigZ5SqehRJK/H93HBA==
-X-IronPort-AV: E=Sophos;i="6.15,213,1739833200"; 
-   d="scan'208";a="43539741"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 15 Apr 2025 13:28:55 +0200
-X-CheckPoint: {67FE42F7-22-B1D34AC3-DEA5B19F}
-X-MAIL-CPID: 711BF174EC8067FD99CF9D8CB63779DE_4
-X-Control-Analysis: str=0001.0A006374.67FE42EA.007C,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6DD8A165E7F;
-	Tue, 15 Apr 2025 13:28:49 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1744716530;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=mYfOX7V+RukALTVJ8Qi0exktDRQwn3ad8TOZoUSa2Qs=;
-	b=pfGHhhh1oTEs/xBWDSj8LUf9ShgiCi7VgdPYiuGvNXG5xphp+EBH09XLaali19JDQZxCET
-	4gIOjjzMDHQZHiMpK8S9BpuJWqWsjhvdAWZcb/0ike2AGTJ/PmNLgtFwrmKyXuy4qNKdXw
-	CRaH+/VtIpzD467WnNG43Q4gg1o3XMr/Ph7tIhKWplLHCS2ZplnPpS7FtM2BIurUgzzD/K
-	wymqT2YbGckWBt3/5yJ3aVCix3azGs2ZprELQv61+z+kQH+0UehkQocQwbqDQ16aSKGXmf
-	oVwZgl2CKMo1G1thmHXVb83n2a+hYrj9+3exhFUU5QyhngmG84KjYwlPFyd1RQ==
-Message-ID: <cd483b43465d6e50b75f0b11d0fae57251cdc3db.camel@ew.tq-group.com>
-Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
- update descriptions of RGMII modes
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Siddharth Vadapalli <s-vadapalli@ti.com>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
- <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
- Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon
- <nm@ti.com>,  Vignesh Raghavendra <vigneshr@ti.com>, Roger Quadros
- <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
- netdev@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Date: Tue, 15 Apr 2025 13:28:48 +0200
-In-Reply-To: <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	 <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	 <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iOmqik7r"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744716643; x=1776252643;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=c3z5ccriEVPjarGob2HVFGrL98tv6tcf6bH/VEudxTo=;
+  b=iOmqik7rK7fqymY9hrRg9N7gyY4EwPtnVL0IDYi/ITd7yJN9R3Rb2wpq
+   2uSoD/K73nfVL5rpkPnFSfL9gKomIHsAePrRh72pIu32wCEb8SXl+6rsc
+   PKh7/NdIce1KpnvfSwq0QlXUDIyHdp95NR8Y/dVNGD/8EnCG/x4wXYXcX
+   NDYlasNG3HZME72mxm2g3UYoEwIztLQl1tS9HFYZ+0OazRxhmDqrIIhU6
+   VnVOJktKmdZTCVsd+1ImfQCy/L16KulxUpcRCJDkjgu9tof3LvOvmtVvD
+   Jbf96obQ5KotIUHYjCJBbctZqLZ8HyXAmW1JprJoTNaWSdQi+x2hjOepE
+   Q==;
+X-CSE-ConnectionGUID: OKDel97uQzu6RNXyaIMswA==
+X-CSE-MsgGUID: aZkvbg18Tw6JwQNGzxxvcA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="46354210"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="46354210"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 04:30:43 -0700
+X-CSE-ConnectionGUID: WKgzFX4PSp2PLAuZwk1lqQ==
+X-CSE-MsgGUID: l1EZ6TZKQbyr3jQiBVJ8lA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="130060909"
+Received: from lkp-server01.sh.intel.com (HELO b207828170a5) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 15 Apr 2025 04:30:41 -0700
+Received: from kbuild by b207828170a5 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u4eUw-000FmW-2t;
+	Tue, 15 Apr 2025 11:30:38 +0000
+Date: Tue, 15 Apr 2025 19:30:06 +0800
+From: kernel test robot <lkp@intel.com>
+To: Richard Fitzgerald <rf@opensource.cirrus.com>
+Cc: oe-kbuild-all@lists.linux.dev, Mark Brown <broonie@kernel.org>,
+	"Rob Herring (Arm)" <robh@kernel.org>, linux-doc@vger.kernel.org
+Subject: [broonie-ci:v3_20250414_rf_asoc_add_codec_driver_for_cirrus_logic_cs48l32_dsp
+ 1/2] htmldocs: Warning: MAINTAINERS references a file that doesn't exist:
+ Documentation/devicetree/bindings/mfd/cirrus,cs48l32.yaml
+Message-ID: <202504151930.v1gBorQy-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-On Tue, 2025-04-15 at 16:06 +0530, Siddharth Vadapalli wrote:
->=20
-> On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
-> > As discussed [1], the comments for the different rgmii(-*id) modes do n=
-ot
-> > accurately describe what these values mean.
-> >=20
-> > As the Device Tree is primarily supposed to describe the hardware and n=
-ot
-> > its configuration, the different modes need to distinguish board design=
-s
->=20
-> If the Ethernet-Controller (MAC) is integrated in an SoC (as is the case
-> with CPSW Ethernet Switch), and, given that "phy-mode" is a property
-> added within the device-tree node of the MAC, I fail to understand how
-> the device-tree can continue "describing" hardware for different board
-> designs using the same SoC (unchanged MAC HW).
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/broonie/ci.git v3_20250414_rf_asoc_add_codec_driver_for_cirrus_logic_cs48l32_dsp
+head:   6da7663063d3316c350eed934d76fe787db9db37
+commit: e54a168d41145e7d83d9d53ade47aa0da71029e4 [1/2] ASoC: dt-bindings: Add Cirrus Logic CS48L32 audio DSP
+reproduce: (https://download.01.org/0day-ci/archive/20250415/202504151930.v1gBorQy-lkp@intel.com/reproduce)
 
-The setting is part of the MAC node, but it is always set in the board DTS,
-together with assigning a PHY to the MAC.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504151930.v1gBorQy-lkp@intel.com/
 
-> How do we handle situations where a given MAC supports various
-> "phy-modes" in HW? Shouldn't "phy-modes" then be a "list" to technically
-> descibe the HW? Even if we set aside the "rgmii" variants that this
-> series is attempting to address, the CPSW MAC supports "sgmii", "qsgmii"
-> and "usxgmii/xfi" as well.
+All warnings (new ones prefixed by >>):
 
-This is not about PHY mode support of the MAC, but the mode to be used on a
-particular board. I would not expect a board to use multiple different
-interfaces with a single PHY (and if such cases exist, I consider them out =
-of
-scope for this patch series).
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+   Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+   Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/mfd/cirrus,cs48l32.yaml
+   Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+   Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+   make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+   make[1]: *** [Makefile:1804: htmldocs] Error 2
+   make: *** [Makefile:248: __sub-make] Error 2
 
->=20
-> > (if a delay is built into the PCB using different trace lengths); wheth=
-er
-> > a delay is added on the MAC or the PHY side when needed should not matt=
-er.
-> >=20
-> > Unfortunately, implementation in MAC drivers is somewhat inconsistent
-> > where a delay is fixed or configurable on the MAC side. As a first step
-> > towards sorting this out, improve the documentation.
-> >=20
-> > Link: https://lore.kernel.org/lkml/d25b1447-c28b-4998-b238-92672434dc28=
-@lunn.ch/ [1]
-> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > ---
-> >  .../bindings/net/ethernet-controller.yaml        | 16 +++++++++-------
-> >  1 file changed, 9 insertions(+), 7 deletions(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.=
-yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > index 45819b2358002..2ddc1ce2439a6 100644
-> > --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > @@ -74,19 +74,21 @@ properties:
-> >        - rev-rmii
-> >        - moca
-> > =20
-> > -      # RX and TX delays are added by the MAC when required
-> > +      # RX and TX delays are part of the board design (through PCB tra=
-ces). MAC
-> > +      # and PHY must not add delays.
-> >        - rgmii
-> > =20
-> > -      # RGMII with internal RX and TX delays provided by the PHY,
-> > -      # the MAC should not add the RX or TX delays in this case
-> > +      # RGMII with internal RX and TX delays provided by the MAC or PH=
-Y. No
-> > +      # delays are included in the board design; this is the most comm=
-on case
-> > +      # in modern designs.
-> >        - rgmii-id
-> > =20
-> > -      # RGMII with internal RX delay provided by the PHY, the MAC
-> > -      # should not add an RX delay in this case
-> > +      # RGMII with internal RX delay provided by the MAC or PHY. TX de=
-lay is
-> > +      # part of the board design.
-> >        - rgmii-rxid
-> > =20
-> > -      # RGMII with internal TX delay provided by the PHY, the MAC
-> > -      # should not add an TX delay in this case
-> > +      # RGMII with internal TX delay provided by the MAC or PHY. RX de=
-lay is
-> > +      # part of the board design.
->=20
-> Since all of the above is documented in "ethernet-controller.yaml" and
-> not "ethernet-phy.yaml", describing what the "MAC" should or shouldn't
-> do seems accurate, and modifying it to describe what the "PHY" should or
-> shouldn't do seems wrong.
-
-The settings describe the connection between MAC and PHY, thus their explan=
-ation
-must mention both to make sense. See the linked discussion with Andrew for
-details.
-
-Best,
-Matthias
-
-
-
->=20
-> >        - rgmii-txid
-> >        - rtbi
-> >        - smii
->=20
-> Regards,
-> Siddharth.
-
---=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
