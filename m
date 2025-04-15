@@ -1,63 +1,64 @@
-Received: from mail.netfilter.org (mail.netfilter.org [217.70.190.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E426C2DFA29;
-	Tue, 15 Apr 2025 15:41:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.190.124
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A98B526296;
+	Tue, 15 Apr 2025 15:45:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744731703; cv=none; b=Km4lZsdag5dDPnrQ0ljJdGxhlrwOCz36hDVmDQIU/Z2UvRtM859cIiOBh8y+Ibh0EP7KGVjMYcMtDmuZfUM/DBZMYY+q3qyHa2pb2uomt/TSVyI7lpl2h19mrQDA6DLezSI/6kP2+6tOoGnvoiVn9Gil6ezTh2R4IwEvM9rA7XQ=
+	t=1744731939; cv=none; b=tMUtChBT3VbCvbWxbK876WYT24f1CR8FAoogie1UBVSPul3+Jy9FLpNfSfYv28cmR6LfNdaBRscbfjtd/Nfxag3cIo7eqqXTLTEyNpw3BpRhkkWTb8mfikcRrMVmizTXeho8CIcT368p3KJsT0dE4y5X0Z5OaDkWh09yXFgIIcA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744731703; c=relaxed/simple;
-	bh=CIg8QmdP3BeTv3ceN/dvUqOI2TuC4nhVjPF76pREnLE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZDevZGKD8LBfOslgB1sokBm6otVuIUrXdYYQ2eXFIfSic5ckwPa3X+xnDsOdNqXQi7hlPGC9fEIHG6g3Rq7qRRl9d3tDMkzVUjKWvq/50yAYF2g0vpQtep1laKRgzHKxklytE7eVasjqkfKqFDU+2MbdHlY9XzAb0fdS2QLyByg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org; spf=pass smtp.mailfrom=netfilter.org; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=inmuVdwX; dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b=RkDHEnNC; arc=none smtp.client-ip=217.70.190.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=netfilter.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=netfilter.org
+	s=arc-20240116; t=1744731939; c=relaxed/simple;
+	bh=o0Eg9TfT7BJvamHuPbuu03I8bpxbABShuJ3X8yYmfcI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=SNKCabfjrPcgqDUMyAKlaaC2ojelHMm88g/lHrtzniC4LOXeyhSlGx7Y4A+erlxYBpHmZCcVyClhoI+x4+YAoJc2YxGUtF68qZr3whRXl7WLQSFq+hH4nI3ZrubQQ/AeKB5oiZEh970vv1qYln/ZFmchFbCYsJMhnAJz6LRUwpk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=BLgKTF0Q; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="inmuVdwX";
-	dkim=pass (2048-bit key) header.d=netfilter.org header.i=@netfilter.org header.b="RkDHEnNC"
-Received: by mail.netfilter.org (Postfix, from userid 109)
-	id 5AD79608C8; Tue, 15 Apr 2025 17:41:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1744731699;
-	bh=CIg8QmdP3BeTv3ceN/dvUqOI2TuC4nhVjPF76pREnLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=inmuVdwXuYLpYwFRvYYzPoAj4KZeZbXpCpyQaeS1OX3yS931k4d9TVDW+sZ0i4GWT
-	 CSYhj0qJ50QSBBxJPjHhTy22zQZAceAXk2/FCWe8JxftLoe4exHxZpchc4tGe70w2o
-	 FOSdmAYgpi+luYfDB+ityxmUpu8YJdt6obz8KrfL1qS/Ws2A02SbSuUBO7Tmpcqx26
-	 lJP4ir1Hh3atYA9YLLcDKUDaNhaks5VPCP2yV2Vwvj/LchKf3OcKmIXrSdT0/rhD0r
-	 Me2MsgzAx/g8XWtwJEC8U2Tm6rObZZzwaqVZf7tjpalt7pmnJkrzkTjCOa2QP/Nzaa
-	 sMrVzGP3czu5A==
-X-Spam-Level: 
-Received: from netfilter.org (mail-agni [217.70.190.124])
-	by mail.netfilter.org (Postfix) with ESMTPSA id 740DC60883;
-	Tue, 15 Apr 2025 17:41:37 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=netfilter.org;
-	s=2025; t=1744731697;
-	bh=CIg8QmdP3BeTv3ceN/dvUqOI2TuC4nhVjPF76pREnLE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RkDHEnNC4qIVB0kkMZ0j9le+WBomjWS0Iv/Qz2FKbjVVt1zva6O9+kpDM84wBM9+U
-	 ARtUINfma9QCs4JqjtnrbSI5p80cwrYKSe33mbzcVxXhFclj4VjHQQNXodba+dU3qX
-	 WcFn+qiuar26WLBqD34bSJOAoDN53AMxY7B/Os9mleVicJz++Hf49fsg7TORTE/F87
-	 RGGSPYsgdjGUP/oyL/CANtfdi/MjN6uCzP9XYQRfJaXk7bfrgl9fCBAQUeIwr6wjO8
-	 e/ArCxop0t3SMNz3jX7Ih1caX9YoS+SsKQEGFxQdV1wWTp3ZYrt1lRqUBQ7CJmjLt4
-	 /mGB8WtyIwDjQ==
-Date: Tue, 15 Apr 2025 17:41:34 +0200
-From: Pablo Neira Ayuso <pablo@netfilter.org>
-To: Chen Linxuan <chenlinxuan@uniontech.com>
-Cc: "David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	Jozsef Kadlecsik <kadlec@netfilter.org>,
-	netfilter-devel@vger.kernel.org, coreteam@netfilter.org,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 nf-next] docs: tproxy: fix formatting for nft code
- block
-Message-ID: <Z_5-LkQaP9gs7O1b@calendula>
-References: <E25F951CDC9F22B2+20250408073550.3319892-2-chenlinxuan@uniontech.com>
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="BLgKTF0Q"
+Received: from narnia (unknown [167.220.2.28])
+	by linux.microsoft.com (Postfix) with ESMTPSA id A3E9A210C443;
+	Tue, 15 Apr 2025 08:45:27 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com A3E9A210C443
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1744731937;
+	bh=QuJyjod+PaXXHNfCMhPGMW9mLvFTWCWAv7e+voj8vdo=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=BLgKTF0QYGwhBiUKzBI83CwLp6uOuqH/rY3yqMfbDQX4A4kaUL3UWtisXJDrRAnDR
+	 mOrfD3P30AUwXj+9OBwC3yLw9XRi0+CidxFNAOizuUezj6gsmGYe4ZnSuUO8GlsZjy
+	 mW0p4dYmbkkAV5SouL1VVFtRwgjmhvezJoV+fGAw=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
+ Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
+ <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
+ <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
+ Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
+ =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
+ <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
+ Desaulniers
+ <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
+ Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
+ <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>, Neal Gompa
+ <neal@gompa.dev>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ LKML <linux-kernel@vger.kernel.org>, keyrings@vger.kernel.org, Linux
+ Crypto Mailing List <linux-crypto@vger.kernel.org>, LSM List
+ <linux-security-module@vger.kernel.org>, Linux Kbuild mailing list
+ <linux-kbuild@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
+ <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
+ clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, Matteo Croce
+ <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, Cong Wang
+ <xiyou.wangcong@gmail.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+In-Reply-To: <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
+ <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+ <87semdjxcp.fsf@microsoft.com>
+ <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+ <87friajmd5.fsf@microsoft.com>
+ <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+Date: Tue, 15 Apr 2025 08:45:25 -0700
+Message-ID: <87a58hjune.fsf@microsoft.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,12 +66,191 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <E25F951CDC9F22B2+20250408073550.3319892-2-chenlinxuan@uniontech.com>
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 08, 2025 at 03:35:50PM +0800, Chen Linxuan wrote:
-> The nft command snippet for redirecting traffic isn't formatted
-> in a literal code block like the rest of snippets.
-> Fix the formatting inconsistency.
+Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
 
-Applied to nf-next, thanks
+> On Mon, Apr 14, 2025 at 5:32=E2=80=AFPM Blaise Boscaccy
+> <bboscaccy@linux.microsoft.com> wrote:
+>>
+>> Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+>>
+>> > On Sat, Apr 12, 2025 at 6:58=E2=80=AFAM Blaise Boscaccy
+>> > <bboscaccy@linux.microsoft.com> wrote:
+>> >>
+>> >> TAlexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+>> >>
+>> >> > On Fri, Apr 4, 2025 at 2:56=E2=80=AFPM Blaise Boscaccy
+>> >> > <bboscaccy@linux.microsoft.com> wrote:
+>> >> >> +
+>> >> >> +static int hornet_find_maps(struct bpf_prog *prog, struct hornet_=
+maps *maps)
+>> >> >> +{
+>> >> >> +       struct bpf_insn *insn =3D prog->insnsi;
+>> >> >> +       int insn_cnt =3D prog->len;
+>> >> >> +       int i;
+>> >> >> +       int err;
+>> >> >> +
+>> >> >> +       for (i =3D 0; i < insn_cnt; i++, insn++) {
+>> >> >> +               if (insn[0].code =3D=3D (BPF_LD | BPF_IMM | BPF_DW=
+)) {
+>> >> >> +                       switch (insn[0].src_reg) {
+>> >> >> +                       case BPF_PSEUDO_MAP_IDX_VALUE:
+>> >> >> +                       case BPF_PSEUDO_MAP_IDX:
+>> >> >> +                               err =3D add_used_map(maps, insn[0]=
+.imm);
+>> >> >> +                               if (err < 0)
+>> >> >> +                                       return err;
+>> >> >> +                               break;
+>> >> >> +                       default:
+>> >> >> +                               break;
+>> >> >> +                       }
+>> >> >> +               }
+>> >> >> +       }
+>> >> >
+>> >> > ...
+>> >> >
+>> >> >> +               if (!map->frozen) {
+>> >> >> +                       attr.map_fd =3D fd;
+>> >> >> +                       err =3D kern_sys_bpf(BPF_MAP_FREEZE, &attr=
+, sizeof(attr));
+>> >> >
+>> >> > Sorry for the delay. Still swamped after conferences and the merge =
+window.
+>> >> >
+>> >>
+>> >> No worries.
+>> >>
+>> >> > Above are serious layering violations.
+>> >> > LSMs should not be looking that deep into bpf instructions.
+>> >>
+>> >> These aren't BPF internals; this is data passed in from
+>> >> userspace. Inspecting userspace function inputs is definitely within =
+the
+>> >> purview of an LSM.
+>> >>
+>> >> Lskel signature verification doesn't actually need a full disassembly,
+>> >> but it does need all the maps used by the lskel. Due to API design
+>> >> choices, this unfortunately requires disassembling the program to see
+>> >> which array indexes are being used.
+>> >>
+>> >> > Calling into sys_bpf from LSM is plain nack.
+>> >> >
+>> >>
+>> >> kern_sys_bpf is an EXPORT_SYMBOL, which means that it should be calla=
+ble
+>> >> from a module.
+>> >
+>> > It's a leftover.
+>> > kern_sys_bpf() is not something that arbitrary kernel
+>> > modules should call.
+>> > It was added to work for cases where kernel modules
+>> > carry their own lskels.
+>> > That use case is gone, so EXPORT_SYMBOL will be removed.
+>> >
+>>
+>> I'm not following that at all. You recommended using module-based lskels
+>> to get around code signing requirements at lsfmmbpf and now you want to
+>> nuke that entire feature? And further, skel_internal will no longer be
+>> usable from within the kernel and bpf_preload is no longer going to be
+>> supported?
+
+The eBPF dev community has spent what, 4-5 years on this, with little to
+no progress. I have little faith that this is going to progress on your
+end in a timely manner or at all, and frankly we (and others) needed
+this yesterday. Hornet has zero impact on the bpf subsystem, yet you
+seem viscerally opposed to us doing this. Why are you trying to stop us
+from securing our cloud?
+
+>
+> It was exported to modules to run lskel-s from modules.
+> It's bpf internal api, but seeing how you want to abuse it
+> the feature has to go. Sadly.
+>
+
+Are we in preschool again? You don't like how others are playing with
+your toys so you want to take them away from everyone. Forever.=20
+
+>> >> Lskels without frozen maps are vulnerable to a TOCTOU
+>> >> attack from a sufficiently privileged user. Lskels currently pass
+>> >> unfrozen maps into the kernel, and there is nothing stopping someone
+>> >> from modifying them between BPF_PROG_LOAD and BPF_PROG_RUN.
+>> >>
+>> >> > The verification of module signatures is a job of the module loadin=
+g process.
+>> >> > The same thing should be done by the bpf system.
+>> >> > The signature needs to be passed into sys_bpf syscall
+>> >> > as a part of BPF_PROG_LOAD command.
+>> >> > It probably should be two new fields in union bpf_attr
+>> >> > (signature and length),
+>> >> > and the whole thing should be processed as part of the loading
+>> >> > with human readable error reported back through the verifier log
+>> >> > in case of signature mismatch, etc.
+>> >> >
+>> >>
+>> >> I don't necessarily disagree, but my main concern with this is that
+>> >> previous code signing patchsets seem to get gaslit or have the goalpo=
+sts
+>> >> moved until they die or are abandoned.
+>> >
+>> > Previous attempts to add signing failed because
+>> > 1. It's a difficult problem to solve
+>> > 2. people only cared about their own narrow use case and not
+>> > considering the needs of bpf ecosystem as a whole.
+>> >
+>> >> Are you saying that at this point, you would be amenable to an in-tree
+>> >> set of patches that enforce signature verification of lskels during
+>> >> BPF_PROG_LOAD that live in syscall.c,
+>> >
+>> > that's the only way to do it.
+>> >
+>>
+>> So the notion of forcing people into writing bpf-based gatekeeper progra=
+ms
+>> is being abandoned? e.g.
+>>
+>> https://lore.kernel.org/bpf/bqxgv2tqk3hp3q3lcdqsw27btmlwqfkhyg6kohsw7lwd=
+gbeol7@nkbxnrhpn7qr/#t
+>> https://lore.kernel.org/bpf/61aae2da8c7b0_68de0208dd@john.notmuch/
+>
+> Not abandoned.
+> bpf-based tuning of load conditions is still necessary.
+> The bpf_prog_load command will check the signature only.
+> It won't start rejecting progs that don't have a signature.
+> For that a one liner bpf-lsm or C-based lsm would be needed
+> to address your dont-trust-root use case.
+>
+
+Since this will require an LSM no matter what, there is zero reason for
+us not to proceed with Hornet. If or when you actually figure out how to
+sign an lskel and upstream updated LSM hooks, I can always rework Hornet
+to use that instead.
+
+>>
+>> >> without adding extra non-code
+>> >> signing requirements like attachment point verification, completely
+>> >> eBPF-based solutions, or rich eBPF-based program run-time policy
+>> >> enforcement?
+>> >
+>> > Those are secondary considerations that should also be discussed.
+>> > Not necessarily a blocker.
+>>
+>> Again, I'm confused here since you recently stated this whole thing
+>> was "questionable" without attachment point verification.
+>
+> Correct.
+> For fentry prog type the attachment point is checked during the load,
+> but for tracepoints it's not, and anyone who is claiming that
+> their system is secure because the tracepoint prog was signed
+> is simply clueless in how bpf works.
+
+No one is making that claim, although I do appreciate the lovely
+ad-hominem attack and absolutist standpoint. It's not like we invented
+code signing last week. All we are trying to do is make our cloud
+ever-so-slightly more secure and share the results with the community.
+
+The attack vectors I'm looking at are things like CVE-2021-33200. ACLs
+for attachment points do nothing to stop that whereas code signing is a
+possible countermeasure. This kind of thing is probably a non-issue with
+your private cloud, but it's a very real issue with publicly accessible
+ones.=20=20
