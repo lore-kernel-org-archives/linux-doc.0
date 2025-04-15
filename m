@@ -1,35 +1,35 @@
-Received: from outbound.pv.icloud.com (p-west1-cluster4-host4-snip4-1.eps.apple.com [57.103.65.202])
+Received: from outbound.pv.icloud.com (p-west1-cluster1-host2-snip4-10.eps.apple.com [57.103.64.83])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B98A2292915
-	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 12:12:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.65.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3DBC292915
+	for <linux-doc@vger.kernel.org>; Tue, 15 Apr 2025 12:25:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=57.103.64.83
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744719135; cv=none; b=G8co/ZEIwavvZacmJtOyaZthefcCCdWnbjDlT5o7mmvLiv5EciK9jGLs4oI/zVJJg5hhcHQHBjxiijvA9APeowepDkTKnqkNl4D3Wn47qIMK7/taasSlss8DZUVZ/LhV/C7WpXv53+2037hJT6bkT3NDz8hoYhVD51+OdEdN2uQ=
+	t=1744719924; cv=none; b=YTr5ZjedQYiFxsW1C1ziut7mCrF48+KSkEHXqQ5L60Nyo8G4Z4DR/pkGRSONxIjwKQld3wU2sUDlaaVaaQFOu2MDcuAf5OkdKKgof36fQ0Yeq4yhHgj/PZBXjENRtTO3n9cNC4dqCntaumRbQCazJqC+tKtip7rty7QTR6AHoKw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744719135; c=relaxed/simple;
-	bh=H7LTL9umZKyDsnfMDzZYM/E8okgqBQBFrUVan+djzmA=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=tI/YaK7k5oPzV+Lu5bGZzXujFM/hGSWyytWV3yzJqgeNhY6XUSK4PbRYemdjC1WRoXhrG15rKAFRnZs+76bjzgrcIDij3iTSe5AXj48fsYuy9GRXmSrRNc+Khb2vlvIwVGFSjNxV+U+/d+qhA+fOyInYn3BV8azmb61BA9cc7wM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=rY4RX+8e; arc=none smtp.client-ip=57.103.65.202
+	s=arc-20240116; t=1744719924; c=relaxed/simple;
+	bh=jltUQ38KRnxk/jmuA1LlxaWEFSm+NkVCPiXXnAdFpRE=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=a1cY059jl6UyW7xuyLsHAW9ZBxMSAiTN8SAQRJJB5zVv7gHNscbRw67Yzv6DFFXn1ZfBFPSfLfq/2dewQ9sEqt0IPEwDKoImlYvKtUdoGVclZA8HC+sV9uHB/8BhCT+vkkzxejTfYmVplYKZ5liRgO/+8cMaSrztq1PM0MPvsKQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com; spf=pass smtp.mailfrom=icloud.com; dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b=DR0HgK59; arc=none smtp.client-ip=57.103.64.83
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=icloud.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=icloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="rY4RX+8e"
+	dkim=pass (2048-bit key) header.d=icloud.com header.i=@icloud.com header.b="DR0HgK59"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=icloud.com;
-	s=1a1hai; bh=prbX2eDvC7yhKvTFBuMdrTVaSPa9eB/EAv2umF7suu0=;
+	s=1a1hai; bh=xgxhhlEqIkEJ2KCZO6AJq72n4YhBAvp3VflUxswOa9Y=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:x-icloud-hme;
-	b=rY4RX+8e7g4QCLojUtasymv7m5M97ry3w3nFeup362SH0UJO7shq5Ch8lQJQ3aIbC
-	 nQ/nWn4/6PLvQ8WssIqwHmtM+WzNYPcw+JsiBZl0/bTxHcuXxAlmiyiZUjOvVraiNJ
-	 FF05PzQKA1KPNPXgJGVDCFXy/K+mPsWWcdCcxVm83UwlyIlqSfwAtuKFmNYql21bUX
-	 P89ogrilMe7uTwE0xgxw6dzarAR5uIegf7xZ6GMIVu6qe1bePx3lT0Cl8T4oSeS8fT
-	 Pq5jkf9iyPWF7HhaeQSHhM+1Z7a99o5bJO7nBwF/lVYTT3KfTqDSY6vGh/N8b+pYbC
-	 0Pt1IGiO1xT+w==
+	b=DR0HgK59oXTDtZh8DRhbuvRwbhy/YziyrZCWNL0juh943oKjePC/NO7TeVXktMmmD
+	 YFdQ1/bVERHCkW2K1A+hwLC/MXcyVf7Zk7izcIgFIH0K4Fs4SdnjAoheOXFxCyWOOY
+	 sb7FuR3czkq5HGx+NSO+2s8d6oguvV6VrUn99Mq8Alih31juepXBUUMD7+2yr5zo7G
+	 5AlUHU4ILRimLn9lSdBLNvPTWk9We2vjTKwp8JZAc7gdBC/ySzofZ7IhcIyw4F9fY3
+	 pAM4fM67xdbCbxpoNJ97XlucZrnyzgEeLe+z3N9+7NmeA84INK48D/P7i3yhjwy9po
+	 y5//1S1R/CZkQ==
 Received: from [192.168.1.26] (pv-asmtp-me-k8s.p00.prod.me.com [17.56.9.36])
-	by outbound.pv.icloud.com (Postfix) with ESMTPSA id B5E271800096;
-	Tue, 15 Apr 2025 12:12:08 +0000 (UTC)
+	by outbound.pv.icloud.com (Postfix) with ESMTPSA id EE6F0180093E;
+	Tue, 15 Apr 2025 12:25:16 +0000 (UTC)
 From: Zijun Hu <zijun_hu@icloud.com>
-Date: Tue, 15 Apr 2025 20:11:52 +0800
-Subject: [PATCH v3] fs/fs_parse: Remove unused and problematic
+Date: Tue, 15 Apr 2025 20:25:00 +0800
+Subject: [PATCH v4] fs/fs_parse: Remove unused and problematic
  validate_constant_table()
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -39,10 +39,11 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250415-fix_fs-v3-1-0c378cc5ce35@quicinc.com>
-X-B4-Tracking: v=1; b=H4sIAAdN/mcC/2WMQQ7CIBBFr9LM2jFQqbWuvIdpDI6DnYWgoETTc
- HexW5fv/5c3Q+IonGDfzBA5S5LgK2xWDdBk/ZVRLpWhVW2njFbo5H1yCbes7NCT4W5wUOV75Po
- soeNYeZL0DPGzdLP+rX+JrFFhT9oQ0Y7P1h4eLyHxtKZwg7GU8gVHj39wngAAAA==
+Message-Id: <20250415-fix_fs-v4-1-5d575124a3ff@quicinc.com>
+X-B4-Tracking: v=1; b=H4sIABtQ/mcC/2WMQQ6CMBBFr0JmbU1LWwFX3sMYU8dBZiHFVhsN4
+ e4WFkbj8s3890aIFJgibIsRAiWO7PsMZlUAdq6/kOBzZihlaaVRUrT8PLZRbEi6pkJDtmkhj4d
+ A+bOE9ofMHce7D6+lm9R8/UskJaSoUBlErOnk3O72YOQe1+ivMEeS/hbtR9Qiq6irGtEiafsrT
+ tP0BqZtyl7XAAAA
 X-Change-ID: 20250410-fix_fs-6e0a97c4e59f
 To: Jonathan Corbet <corbet@lwn.net>, 
  Alexander Viro <viro@zeniv.linux.org.uk>, 
@@ -51,15 +52,15 @@ Cc: Zijun Hu <zijun_hu@icloud.com>, linux-doc@vger.kernel.org,
  linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
  Zijun Hu <quic_zijuhu@quicinc.com>
 X-Mailer: b4 0.14.2
-X-Proofpoint-ORIG-GUID: bl664JtNcEyBld6oDCHqRLPUmC_pp4Ln
-X-Proofpoint-GUID: bl664JtNcEyBld6oDCHqRLPUmC_pp4Ln
+X-Proofpoint-ORIG-GUID: AA4KBPzgyiUMCvSca0xXIiMSyoYGS86k
+X-Proofpoint-GUID: AA4KBPzgyiUMCvSca0xXIiMSyoYGS86k
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
  definitions=2025-04-15_05,2025-04-10_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 clxscore=1015 bulkscore=0 spamscore=0
- adultscore=0 phishscore=0 malwarescore=0 mlxscore=0 mlxlogscore=999
- suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2411120000 definitions=main-2504150086
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 phishscore=0
+ suspectscore=0 mlxscore=0 bulkscore=0 clxscore=1015 adultscore=0
+ mlxlogscore=999 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2308100000 definitions=main-2504150088
 
 From: Zijun Hu <quic_zijuhu@quicinc.com>
 
@@ -78,6 +79,10 @@ Remove validate_constant_table() since:
 
 Signed-off-by: Zijun Hu <quic_zijuhu@quicinc.com>
 ---
+Changes in v4:
+- Rebase on vfs-6.16.misc branch to fix merge conflict.
+- Link to v3: https://lore.kernel.org/r/20250415-fix_fs-v3-1-0c378cc5ce35@quicinc.com
+
 Changes in v3:
 - Remove validate_constant_table() instead of fixing it
 - Link to v2: https://lore.kernel.org/r/20250411-fix_fs-v2-2-5d3395c102e4@quicinc.com
@@ -93,10 +98,10 @@ Changes in v2:
  3 files changed, 69 deletions(-)
 
 diff --git a/Documentation/filesystems/mount_api.rst b/Documentation/filesystems/mount_api.rst
-index d92c276f1575af11370dcd4a5d5d0ac97c4d7f4c..cf56086bbd6622a07bbb1e283a86fea40a98a8e6 100644
+index 47dafbb7427e6a829989a815e4d034e48fdbe7a2..e149b89118c885c377a17b95adcdbcb594b34e00 100644
 --- a/Documentation/filesystems/mount_api.rst
 +++ b/Documentation/filesystems/mount_api.rst
-@@ -753,21 +753,6 @@ process the parameters it is given.
+@@ -752,21 +752,6 @@ process the parameters it is given.
       If a match is found, the corresponding value is returned.  If a match
       isn't found, the not_found value is returned instead.
  
@@ -119,7 +124,7 @@ index d92c276f1575af11370dcd4a5d5d0ac97c4d7f4c..cf56086bbd6622a07bbb1e283a86fea4
  
         bool fs_validate_description(const char *name,
 diff --git a/fs/fs_parser.c b/fs/fs_parser.c
-index e635a81e17d965df78ffef27f6885cd70996c6dd..07a78a5064d05009148fa9780f3e031cd3a9b529 100644
+index c5cb19788f74771a945801ceedeec69efed0e40a..c092a9f79e324bacbd950165a0eb66632cae9e03 100644
 --- a/fs/fs_parser.c
 +++ b/fs/fs_parser.c
 @@ -379,55 +379,6 @@ int fs_param_is_path(struct p_log *log, const struct fs_parameter_spec *p,
@@ -176,10 +181,10 @@ index e635a81e17d965df78ffef27f6885cd70996c6dd..07a78a5064d05009148fa9780f3e031c
 -}
 -
  /**
-  * fs_validate_description - Validate a parameter description
-  * @name: The parameter name to search for.
+  * fs_validate_description - Validate a parameter specification array
+  * @name: Owner name of the parameter specification array
 diff --git a/include/linux/fs_parser.h b/include/linux/fs_parser.h
-index 53e566efd5fd133d19e313e494b975612a227b77..8d1c2fdd382fb51aee3ccdcc49735d7441581c26 100644
+index 5057faf4f09182fa6e7ddd03fb17b066efd7e58b..5a0e897cae807bbf5472645735027883a6593e91 100644
 --- a/include/linux/fs_parser.h
 +++ b/include/linux/fs_parser.h
 @@ -87,14 +87,9 @@ extern int lookup_constant(const struct constant_table tbl[], const char *name,
@@ -199,7 +204,7 @@ index 53e566efd5fd133d19e313e494b975612a227b77..8d1c2fdd382fb51aee3ccdcc49735d74
  { return true; }
 
 ---
-base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
+base-commit: 8cc42084abd926e3f005d7f5c23694c598b29cee
 change-id: 20250410-fix_fs-6e0a97c4e59f
 
 Best regards,
