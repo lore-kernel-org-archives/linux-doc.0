@@ -1,213 +1,141 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4193528A1CE;
-	Tue, 15 Apr 2025 10:06:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 94DF828B514;
+	Tue, 15 Apr 2025 10:18:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744711609; cv=none; b=H1kDQ+Ja1dLVgdKmCBIV39qNCvQgBBWezNUQJZ/tn77U1TdlArPwbLsi1NdIDUDXeRSExdYRucgQngsCzlFPOQ9HEnGj5oJyhhYXSXxglAYtso9aPokIg0mReY3qNM4FHos8ufEVf3oVGTmBm3LPsQ+M4wtchpLxL44O2fFxDLk=
+	t=1744712344; cv=none; b=K2d4MQWq8resyhCwaevXRWmFxnTuso6dDO+8Q33v+LkU98B7iRmHDkHG7JWjrzi51S29n5E0psVbhd2UDRiZ7/eMwbRg0q5+EpqY3DlK6mnM7DQ0YV64jeswr+4Su26WSFJxExa6/mnySEIFBjcQwMhLHqJuCMOE/eWBYdEaN5w=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744711609; c=relaxed/simple;
-	bh=AcYgonVLWePGiHAxSjHPdf3Rwctz0JHoJhO6Z55gyjw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RhN8o75mITgz8M56Zr0xVFnSNzCatZ9QinNttGFcQk8SDrtWfqdSVCpzOEPTa4f/AJHvEclbJ5wFiEufcwlpV7jMlg0NOPYNOa6aVi1k5YLg63PPg7mn+Pf6ngo6J8I53O8veIMwBbEUUsIcL/FZRtofIT+w/9goGwDRTdv8S48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nel4OjhK; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744712344; c=relaxed/simple;
+	bh=hycr9RrMa/7Y9VWU/Z/GmIOCv9QKk4RftFGy1qVEEyk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=VBjiehzsJo8YKPvYSuH6nvbhwRHIG9xCygZWa2iYqZTZvc9xajwFwhSj8ILayVbpvgnIkuMULlRF9yl8jaJ3nR+JrGvMSBwvBYxLORT5/YnZkUEQ86zXNHIwuqT1y5uPtxeNVtf+N8q16eifXz9Hunz3/UFw+5/fQU8J/PWKR5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=RGnqFyEt; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=FxbIXQ3H reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nel4OjhK"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BABCC4CEEC;
-	Tue, 15 Apr 2025 10:06:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744711608;
-	bh=AcYgonVLWePGiHAxSjHPdf3Rwctz0JHoJhO6Z55gyjw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nel4OjhKJ2V4eB0k235iwkT92Zff0JgyX2u+r1qGYzh+fAUOiclUFq29lVhtp9URX
-	 fdU8Sa5Ok8eyVRgvBIsk3tou351fS0cApWKH0+TfXKn8wvwxwVvDg2Rwg1J2GpE3I7
-	 bjaQChu6WDmIRmzBypMQdkAtLhWP832riIS18pkd+7B/I8R78GRkdTKAndfKGO1evA
-	 Sr/0vT8vDNu2njW4KLvuyrKjFfwShkMpXmVSd6quxTREjeAHG6ch6UrQEbnjeBnXDr
-	 AmBisEVtdEISTBC/0+d3JIxhyLrrYBVOSiZOhOEckG8WtCTePuXoPJqVLqAeAfZmiI
-	 WiwWBD8qRmqjA==
-Date: Tue, 15 Apr 2025 18:06:31 +0800
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: Jani Nikula <jani.nikula@linux.intel.com>, Jonathan Corbet
- <corbet@lwn.net>, Linux Doc Mailing List <linux-doc@vger.kernel.org>,
- linux-kernel@vger.kernel.org, "Gustavo A. R. Silva"
- <gustavoars@kernel.org>, Kees Cook <kees@kernel.org>, Russell King
- <linux@armlinux.org.uk>, linux-hardening@vger.kernel.org,
- netdev@vger.kernel.org
-Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
-Message-ID: <20250415180631.180e9a9f@sal.lan>
-In-Reply-To: <Z_4sxCFvpqs7qmcN@smile.fi.intel.com>
-References: <871pu1193r.fsf@trenco.lwn.net>
-	<Z_zYXAJcTD-c3xTe@black.fi.intel.com>
-	<87mscibwm8.fsf@trenco.lwn.net>
-	<Z_4EL2bLm5Jva8Mq@smile.fi.intel.com>
-	<Z_4E0y07kUdgrGQZ@smile.fi.intel.com>
-	<87v7r5sw3a.fsf@intel.com>
-	<Z_4WCDkAhfwF6WND@smile.fi.intel.com>
-	<Z_4Wjv0hmORIwC_Z@smile.fi.intel.com>
-	<20250415164014.575c0892@sal.lan>
-	<Z_4sKaag1wZhME7B@smile.fi.intel.com>
-	<Z_4sxCFvpqs7qmcN@smile.fi.intel.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="RGnqFyEt";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="FxbIXQ3H"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1744712339; x=1776248339;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=Nb1CaeSyZdwCqAexjrlTSruwnwqmG4LLxlXJojt81rk=;
+  b=RGnqFyEtnaz9tRKmro35jkfV3ilPA5+75dOFN5xRBZBfLHCxevOghUlh
+   Xqgq4OiqksOXfGRXYvXJsrBndlQNKzfZn9pGpblZpcQUUXMje3OYcg+e8
+   lsnYT3jVwLGcXKKwvkm0OLXjuf1b4IZ+I/lmk4Ire3DfoXo7qgTZYhrqu
+   AS1LyikkSTJTulNbk5tn7WaSalf5UEP1YJ5g7t7Ttn42IhSi5YLfY8cBD
+   eLcyp2wRKw6FiPgeYpZfOtswxy9u7lav378GqcSCeNzgm5YTqji6ALOBh
+   yOh/vSUvHK5WARNMMSwLLPZguNvxOaeyViIIRyy2RxX8qH5bFUC2wTIxv
+   g==;
+X-CSE-ConnectionGUID: qHslwqOKQDS3n+C1PL8nQQ==
+X-CSE-MsgGUID: z5CBpqFHQfidSCZ9bnHD7g==
+X-IronPort-AV: E=Sophos;i="6.15,213,1739833200"; 
+   d="scan'208";a="43537779"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 15 Apr 2025 12:18:55 +0200
+X-CheckPoint: {67FE3290-2D-903EAEAC-E04C76C8}
+X-MAIL-CPID: 776D1808CE1E037E8E14824437E2A7F7_5
+X-Control-Analysis: str=0001.0A006378.67FE328F.0080,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E105F161113;
+	Tue, 15 Apr 2025 12:18:48 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1744712331;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Nb1CaeSyZdwCqAexjrlTSruwnwqmG4LLxlXJojt81rk=;
+	b=FxbIXQ3HA+sGY8beUPvzMhSf8rVMxH9ihaDwISw58nDj4onHiPYDmzZR3r5FmvyQ0+ryhE
+	SPTAUFh5jUFCYhlaUWM0uUeM2ttx8wXnwRF7SAZI50AGPebD5uP+rZ44+XCcghjbAg+3ba
+	v/VucSP2xJw4k/hFi8G33/22jbmMOP0XsrRWeID36OjgICE1rfJHeyT6bnivXqmE6aAnmj
+	3UggLZoPYk5wHtd9qwIhlbjpv462wNqOLuiXrDRUmMQ2RVE0imOhqc5FRo0BX7se8qW2f8
+	IpNo1YCmCWf3g6pjX3ie/lkmJrK59/Ogx8BbITKc/rNhU/FXHqimWAH8vt5Riw==
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>
+Cc: Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>,
+	Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>,
+	Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux@ew.tq-group.com,
+	Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Subject: [PATCH net-next 0/4] RGMII mode clarification + am65-cpsw fix
+Date: Tue, 15 Apr 2025 12:18:00 +0200
+Message-ID: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Em Tue, 15 Apr 2025 12:54:12 +0300
-Andy Shevchenko <andriy.shevchenko@intel.com> escreveu:
+As discussed [1], the comments for the different rgmii(-*id) modes do not
+accurately describe what these values mean. Update the binding
+documentation and fix up the mode to account for the fixed TX delay on
+the AM65 CPSW Ethernet controllers, similar to the way the icssg-prueth
+does it. For backwards compatibility, the "impossible" modes that claim
+to have a delay on the PCB are still accepted, but trigger a warning
+message.
 
-> On Tue, Apr 15, 2025 at 12:51:38PM +0300, Andy Shevchenko wrote:
-> > On Tue, Apr 15, 2025 at 04:40:34PM +0800, Mauro Carvalho Chehab wrote:  
-> > > Em Tue, 15 Apr 2025 11:19:26 +0300
-> > > Andy Shevchenko <andriy.shevchenko@intel.com> escreveu:  
-> > > > On Tue, Apr 15, 2025 at 11:17:12AM +0300, Andy Shevchenko wrote:  
-> > > > > On Tue, Apr 15, 2025 at 10:49:29AM +0300, Jani Nikula wrote:    
-> > > > > > On Tue, 15 Apr 2025, Andy Shevchenko <andriy.shevchenko@intel.com> wrote:    
-> > > > > > > On Tue, Apr 15, 2025 at 10:01:04AM +0300, Andy Shevchenko wrote:    
-> > > > > > >> On Mon, Apr 14, 2025 at 09:17:51AM -0600, Jonathan Corbet wrote:    
-> > > > > > >> > Andy Shevchenko <andriy.shevchenko@intel.com> writes:    
-> > > > > > >> > > On Wed, Apr 09, 2025 at 12:30:00PM -0600, Jonathan Corbet wrote:    
-> > > > > > >> > >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-> > > > > > >> > >>     
-> > > > > > >> > >> > This changeset contains the kernel-doc.py script to replace the verable
-> > > > > > >> > >> > kernel-doc originally written in Perl. It replaces the first version and the
-> > > > > > >> > >> > second series I sent on the top of it.    
-> > > > > > >> > >> 
-> > > > > > >> > >> OK, I've applied it, looked at the (minimal) changes in output, and
-> > > > > > >> > >> concluded that it's good - all this stuff is now in docs-next.  Many
-> > > > > > >> > >> thanks for doing this!
-> > > > > > >> > >> 
-> > > > > > >> > >> I'm going to hold off on other documentation patches for a day or two
-> > > > > > >> > >> just in case anything turns up.  But it looks awfully good.    
-> > > > > > >> > >
-> > > > > > >> > > This started well, until it becomes a scripts/lib/kdoc.
-> > > > > > >> > > So, it makes the `make O=...` builds dirty *). Please make sure this doesn't leave
-> > > > > > >> > > "disgusting turd" )as said by Linus) in the clean tree.
-> > > > > > >> > >
-> > > > > > >> > > *) it creates that __pycache__ disaster. And no, .gitignore IS NOT a solution.    
-> > > > > > >> > 
-> > > > > > >> > If nothing else, "make cleandocs" should clean it up, certainly.
-> > > > > > >> > 
-> > > > > > >> > We can also tell CPython to not create that directory at all.  I'll run
-> > > > > > >> > some tests to see what the effect is on the documentation build times;
-> > > > > > >> > I'm guessing it will not be huge...    
-> > > > > > >> 
-> > > > > > >> I do not build documentation at all, it's just a regular code build that leaves
-> > > > > > >> tree dirty.
-> > > > > > >> 
-> > > > > > >> $ python3 --version
-> > > > > > >> Python 3.13.2
-> > > > > > >> 
-> > > > > > >> It's standard Debian testing distribution, no customisation in the code.
-> > > > > > >> 
-> > > > > > >> To reproduce.
-> > > > > > >> 1) I have just done a new build to reduce the churn, so, running make again does nothing;
-> > > > > > >> 2) The following snippet in shell shows the issue
-> > > > > > >> 
-> > > > > > >> $ git clean -xdf
-> > > > > > >> $ git status --ignored
-> > > > > > >> On branch ...
-> > > > > > >> nothing to commit, working tree clean
-> > > > > > >> 
-> > > > > > >> $ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> > > > > > >> make[1]: Entering directory '...'
-> > > > > > >>   GEN     Makefile
-> > > > > > >>   DESCEND objtool
-> > > > > > >>   CALL    .../scripts/checksyscalls.sh
-> > > > > > >>   INSTALL libsubcmd_headers
-> > > > > > >> .pylintrc: warning: ignored by one of the .gitignore files
-> > > > > > >> Kernel: arch/x86/boot/bzImage is ready  (#23)
-> > > > > > >> make[1]: Leaving directory '...'
-> > > > > > >> 
-> > > > > > >> $ touch drivers/gpio/gpiolib-acpi.c
-> > > > > > >> 
-> > > > > > >> $ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
-> > > > > > >> make[1]: Entering directory '...'
-> > > > > > >>   GEN     Makefile
-> > > > > > >>   DESCEND objtool
-> > > > > > >>   CALL    .../scripts/checksyscalls.sh
-> > > > > > >>   INSTALL libsubcmd_headers
-> > > > > > >> ...
-> > > > > > >>   OBJCOPY arch/x86/boot/setup.bin
-> > > > > > >>   BUILD   arch/x86/boot/bzImage
-> > > > > > >> Kernel: arch/x86/boot/bzImage is ready  (#24)
-> > > > > > >> make[1]: Leaving directory '...'
-> > > > > > >> 
-> > > > > > >> $ git status --ignored
-> > > > > > >> On branch ...
-> > > > > > >> Untracked files:
-> > > > > > >>   (use "git add <file>..." to include in what will be committed)
-> > > > > > >> 	scripts/lib/kdoc/__pycache__/
-> > > > > > >> 
-> > > > > > >> nothing added to commit but untracked files present (use "git add" to track)    
-> > > > > > >
-> > > > > > > FWIW, I repeated this with removing the O=.../out folder completely, so it's
-> > > > > > > fully clean build. Still the same issue.
-> > > > > > >
-> > > > > > > And it appears at the very beginning of the build. You don't need to wait to
-> > > > > > > have the kernel to be built actually.    
-> > > > > > 
-> > > > > > kernel-doc gets run on source files for W=1 builds. See Makefile.build.    
-> > > > > 
-> > > > > Thanks for the clarification, so we know that it runs and we know that it has
-> > > > > an issue.    
-> > > > 
-> > > > Ideal solution what would I expect is that the cache folder should respect
-> > > > the given O=... argument, or disabled at all (but I don't think the latter
-> > > > is what we want as it may slow down the build).  
-> > > 
-> > > From:
-> > > 	https://github.com/python/cpython/commit/b193fa996a746111252156f11fb14c12fd6267e6
-> > > and:
-> > > 	https://peps.python.org/pep-3147/
-> > > 
-> > > It sounds that Python 3.8 and above have a way to specify the cache
-> > > location, via PYTHONPYCACHEPREFIX env var, and via "-X pycache_prefix=path".
-> > > 
-> > > As the current minimal Python version is 3.9, we can safely use it.
-> > > 
-> > > So, maybe this would work:
-> > > 
-> > > 	make O="../out" PYTHONPYCACHEPREFIX="../out"
-> > > 
-> > > or a variant of it:
-> > > 
-> > > 	PYTHONPYCACHEPREFIX="../out" make O="../out" 
-> > > 
-> > > If this works, we can adjust the building system to fill PYTHONPYCACHEPREFIX
-> > > env var when O= is used.  
-> > 
-> > It works,
+As Andrew suggested, I have also added a checkpatch check that requires
+a comment for any RGMII mode that is not "rgmii-id".
 
-Good!
+No Device Trees are updated to avoid the warning for now, to give other
+projects syncing the Linux Device Trees some time to fix their drivers
+as well. I intend to submit an equivalent change for U-Boot's
+am65-cpsw-nuss driver as soon as the changes are accepted for Linux.
 
-> > the problem is that it should be automatically assigned to the
-> > respective folder, so when compiling kdoc, it should be actually
-> > 
-> > $O/scripts/lib/kdoc/__pycache__
-> > 
-> > and so on for _each_ of the python code.  
+[1] https://lore.kernel.org/lkml/d25b1447-c28b-4998-b238-92672434dc28@lunn.ch/
 
-Yeah, agreed. We need to think on a more generic solution though,
-as we also may have scripts/lib/abi/__pycache__ if one runs
-get_abi.pl, and, in the future, we may have more. Not sure how
-hard/easy would be to do that, though.
+Submitting for net-next for now - I don't know it would make sense to
+backport some of these changes to stable.
 
-> So, the bottom line, can we just disable it for a quick fix and when a proper
-> solution comes, it will redo that?
+Note: I have also added the maintainers for the TI K3 SoC families to cc
+in addition to the get_maintainers.pl output, to loop in some more of
+the relevant people at TI. Should MAINTAINERS be extended to include
+some of you for the am65-cpsw* files? At the moment, only the netdev
+maintainers are reported for drivers/net/ethernet/ti/am65-cpsw-nuss.c
+(except for "authored" lines etc.)
 
-Agreed, this sounds to be the best approach.
+Matthias Schiffer (4):
+  dt-bindings: net: ethernet-controller: update descriptions of RGMII
+    modes
+  dt-bindings: net: ti: k3-am654-cpsw-nuss: update phy-mode in example
+  net: ethernet: ti: am65-cpsw: fixup PHY mode for fixed RGMII TX delay
+  checkpatch: check for comment explaining rgmii(|-rxid|-txid) PHY modes
 
-I'll try to craft a patch along the week to add
-PYTHONDONTWRITEBYTECODE=1 to the places where kernel-doc
-is called.
+ Documentation/dev-tools/checkpatch.rst        |  9 +++++++
+ .../bindings/net/ethernet-controller.yaml     | 16 ++++++-----
+ .../bindings/net/ti,k3-am654-cpsw-nuss.yaml   |  2 +-
+ drivers/net/ethernet/ti/am65-cpsw-nuss.c      | 27 +++++++++++++++++--
+ scripts/checkpatch.pl                         | 11 ++++++++
+ 5 files changed, 55 insertions(+), 10 deletions(-)
 
-Regards,
-Mauro
+-- 
+TQ-Systems GmbH | Mühlstraße 2, Gut Delling | 82229 Seefeld, Germany
+Amtsgericht München, HRB 105018
+Geschäftsführer: Detlef Schneider, Rüdiger Stahl, Stefan Schneider
+https://www.tq-group.com/
 
