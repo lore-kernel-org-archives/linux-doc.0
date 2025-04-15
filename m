@@ -1,118 +1,214 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9742E27B4EB;
-	Tue, 15 Apr 2025 09:08:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E308C1624CE;
+	Tue, 15 Apr 2025 09:51:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744708091; cv=none; b=pbMeM7ZpWMi8aq8EHRH574jiCzFCRauYO/pJRcqLX8+jWcuFSIrHINUK7LoXFUPq2HKyO4Dvu2Sg/tefJUdIcYxgJ9ANe4SH4rlHw0hqe8eEQrMXrHD5+YajNQfjQ/cXvTFThE2MCOydfXRSB6WSRzEQx6D9igB07lzwWJ3YKpk=
+	t=1744710707; cv=none; b=oo8Vq6/UVoXcgDZ4tYfQxHMNU4NacSVh8K1z5BjpbhED0emG5ijRsQtlsTUzfXgzwpfnop0ndkOiBksynwWlrOAuEE8C+zODpYkriN4/VWQAhw0knSdT/jTBjo5EZun9iZ6oOYgOv11tw+833hVD+dp1awxv8P2+KVP5oF87mlw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744708091; c=relaxed/simple;
-	bh=lfUREmygUPm0Jj5r1LTZOWueVQMn0sd7cjQR1OIjf3c=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=GG5fs7vMkJCMaq1aavY1Zr07vT+VZTX2YuBn0Vesww6uXyYCrHzdWoGj8b8dk6xixAlEodbkdA/Mwq8EGyYLyCrtvsO27SmrLnXElTPEdYODF7wgtQLnECgZ4S+it5dIrj/SGKfK/bf2euAS778e8ZMe5YEBVykYh2tYEpQ+fyA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LDR7UbSH; arc=none smtp.client-ip=209.85.221.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1744710707; c=relaxed/simple;
+	bh=5WpAnuD7rY2zfHzov1pLWpU6kAWZqxlT7IVqh34iWro=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fW47lfdEZ+JaCHnUq2jCug0ttzhuyXbzgj+SH+gl/xAdFutYunKG6LzR/W10A37F9xK/01VwNq4y1NwbcT/LzWZXIGqW3M2iOPT2qDX9zfvLnKsNmwhuyUrSwizZ05krX0rPRizbW/8nZaOYBObKv2Fg6NsTbv7Yw25phG1foo8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ZN5Fm/Io; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LDR7UbSH"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c14016868so4839987f8f.1;
-        Tue, 15 Apr 2025 02:08:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744708088; x=1745312888; darn=vger.kernel.org;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=lfUREmygUPm0Jj5r1LTZOWueVQMn0sd7cjQR1OIjf3c=;
-        b=LDR7UbSH/EAttQLIO7bgdWcLHfqXHuHWuBQRcoUuesGWAmA+2lCJE8BSL1JhqxOzFP
-         9antJ1Oe7r1evDk2iiBY52332Wwbyz3JbuoAMk6T5O6x+YexWPYpqiQ30NaI+4NMkzeR
-         GEuRy9fSbmnI1fCe5M5vaE2cIST6PwjOmDUiaO133+Dwk0Db5VSGJQNCPu+O0QkQ8bbt
-         f6LkqjfYyMz1Ir6RJ7lwRgPa3DmTY+Y4HcYk5R4x+uSPsqOGHa4l09GQFqdmx0D78gbd
-         ykeS+DmZ3y2AQKSaR5azL5Mw9PBsM7vo9mxpBoEvD/nytctMjYnHoiAeFrGno/KKIhAT
-         9uaQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744708088; x=1745312888;
-        h=mime-version:user-agent:content-transfer-encoding:references
-         :in-reply-to:date:cc:to:from:subject:message-id:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=lfUREmygUPm0Jj5r1LTZOWueVQMn0sd7cjQR1OIjf3c=;
-        b=dQwV+rEM6Vcfz6N7UoHa+PY/twQLooBvvGqStIVac/BX/HN0/XLuxxVUULfYs6cR5m
-         MDHNnyHyzw9H3jnSdgeKwWE5+Oy0m5etixxBtfyrefpkNqOIlE6GG6pHezHkTPOBEvm+
-         OqLc9JgOf2dXoB07APb4h2ljgj1ux1HYhjlroBICV8rJYTbrHHuDFs0irEWHZqjvx/Db
-         XzvIKglKVzp7w3mruAgGgzXShFA+ke8i0ctUTqCw/p2ODhDJyECNoo1J+Uon3CV0OIf0
-         poMGuHFUb+jzA8ZHizmtASVO+Hg9P8Nr5mQFxfo+ti5OBgcfzmZT0HmucvtbrCS+n+fg
-         9Q5A==
-X-Forwarded-Encrypted: i=1; AJvYcCUHQBJf7dEjzA2tIwuCsMa0aClK0259BJOmPz8g/0azDaofsZCq59sgK6tMc3IApF931n+KM2LBqFU=@vger.kernel.org, AJvYcCWhbYlZmX3O/YoySI6wdyhweKduDigUvP2zgrgnEY3mO6MMdniw5LnclTkxEIUJkHeqTSGL3hS2XK+6fkzQ@vger.kernel.org, AJvYcCXwx6meFILnY8vTY7B9wHBMxrRjVciyXqYlb9UbC61NJYdLY9UHcgx/nOBuLVRifhQa5aONdk/AI2Bq@vger.kernel.org
-X-Gm-Message-State: AOJu0YwTr8qt0cRHsF1WIzWl5ZcjbaJRzkYL5BBYLy6rgKe4cVg8tRWQ
-	7tsZt5Ld5R3tAdaFifGNdNsPqG05bC+y+ZVFZcpzF/mUUl2igFM2
-X-Gm-Gg: ASbGnctCCh2LtqcCHYXNY4arqzz3dBGRYfG3gQ5zyJ7yfG+QcSm2g2robnvvUJk406y
-	zNucrhIJZCj3qsqen3JVCZD8tRGXoFytR4s5rvp+CBovcFKGkg2LPt5ft+R5YwfaFfUyKOYW32K
-	QUiqgQKc64XEmz9HckCXcqNxzxe5exGI4NC0lUgbKnXEnxHtnlU5b/aY1EG/21CdywdTSslObHj
-	md/hINN+irss02/mCaDbesBkmDXAHW+VwzTiyf14Nb73OQROs1Fzbq+uG8gsZRxUDcPgSOMCj9A
-	YFbSaPMf2GqzvlloN5fhLb+Teo/rwvY+wTmKeECt2qXTjwvURIuE9tYeisawjioCZuP2kKVIauT
-	ox+Jdwr92lE8T
-X-Google-Smtp-Source: AGHT+IHvFokkxMDwtcFkEpaJ0Z4DYBlnrZDQ/ooZwQvYNR1ae6siZqjs8Qu/4aQtubMfy6kh8zYE/Q==
-X-Received: by 2002:a05:6000:40cd:b0:39c:268e:ae04 with SMTP id ffacd0b85a97d-39e9f3cf20dmr11718479f8f.0.1744708087834;
-        Tue, 15 Apr 2025 02:08:07 -0700 (PDT)
-Received: from ?IPv6:2001:818:ea8e:7f00:2575:914:eedd:620e? ([2001:818:ea8e:7f00:2575:914:eedd:620e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39eae96bf97sm13325934f8f.25.2025.04.15.02.08.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Apr 2025 02:08:07 -0700 (PDT)
-Message-ID: <087b28aeecb54645a52627d84291a5ed6d309011.camel@gmail.com>
-Subject: Re: [PATCH] docs: iio: ad3552r: fix malformed table
-From: Nuno =?ISO-8859-1?Q?S=E1?= <noname.nuno@gmail.com>
-To: Angelo Dureghello <adureghello@baylibre.com>, Nuno =?ISO-8859-1?Q?S=E1?=
-	 <nuno.sa@analog.com>, Jonathan Cameron <jic23@kernel.org>, David Lechner	
- <dlechner@baylibre.com>, Andy Shevchenko <andy@kernel.org>, Jonathan Corbet
-	 <corbet@lwn.net>
-Cc: Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- linux-iio@vger.kernel.org, 	linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, sfr@canb.auug.org.au
-Date: Tue, 15 Apr 2025 10:08:09 +0100
-In-Reply-To: <20250415-wip-bl-ad3552r-fix-doc-table-v1-1-717ffd320c9d@baylibre.com>
-References: 
-	<20250415-wip-bl-ad3552r-fix-doc-table-v1-1-717ffd320c9d@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.56.0 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ZN5Fm/Io"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744710705; x=1776246705;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=5WpAnuD7rY2zfHzov1pLWpU6kAWZqxlT7IVqh34iWro=;
+  b=ZN5Fm/Io2IL4U2mnVPKSYC/lvOxHRHM7BBgVNwYGGG8vh8JVXFIgcrGB
+   5XR7DT7c8k1GLcelLvzF8+p2zXhlH1kUmQvzRyx0duyUHCeC3/szEVBLt
+   LzmpIGYQWZvV3chjgOilDkwlkI+8Obbtb3wEiS/w2zFvwTyZxubh0yGAy
+   7u9IQvXBso3H+mSLqIQGj2ei5phEYEyYCfv7eOFQWtBTJhHQw8qNwSGfa
+   P7ogpDQKWOHIWB3gC8eZlwrPtj9rIFhpTc+6E9QzWMjer9wHx0uMxQeqt
+   QsxQAkBiamTuDgvK9pVvuH3QsAP0X3bCF8wLloN1r8w/+i0SHxXczg1Jd
+   A==;
+X-CSE-ConnectionGUID: 3lwh3ib+SnSYJSsnP+tR/Q==
+X-CSE-MsgGUID: mXHEZAmcSveHsbTDcMUWOQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11403"; a="45344557"
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="45344557"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 02:51:44 -0700
+X-CSE-ConnectionGUID: W0CteNbSRTWU26lsLXqP7g==
+X-CSE-MsgGUID: dJlw7yvwTm2Bu0o109KtcA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,213,1739865600"; 
+   d="scan'208";a="135058563"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 Apr 2025 02:51:41 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u4cx8-0000000CVad-1Qzq;
+	Tue, 15 Apr 2025 12:51:38 +0300
+Date: Tue, 15 Apr 2025 12:51:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jani Nikula <jani.nikula@linux.intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	linux-kernel@vger.kernel.org,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Kees Cook <kees@kernel.org>, Russell King <linux@armlinux.org.uk>,
+	linux-hardening@vger.kernel.org, netdev@vger.kernel.org
+Subject: Re: [PATCH v3 00/33] Implement kernel-doc in Python
+Message-ID: <Z_4sKaag1wZhME7B@smile.fi.intel.com>
+References: <cover.1744106241.git.mchehab+huawei@kernel.org>
+ <871pu1193r.fsf@trenco.lwn.net>
+ <Z_zYXAJcTD-c3xTe@black.fi.intel.com>
+ <87mscibwm8.fsf@trenco.lwn.net>
+ <Z_4EL2bLm5Jva8Mq@smile.fi.intel.com>
+ <Z_4E0y07kUdgrGQZ@smile.fi.intel.com>
+ <87v7r5sw3a.fsf@intel.com>
+ <Z_4WCDkAhfwF6WND@smile.fi.intel.com>
+ <Z_4Wjv0hmORIwC_Z@smile.fi.intel.com>
+ <20250415164014.575c0892@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415164014.575c0892@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-T24gVHVlLCAyMDI1LTA0LTE1IGF0IDA5OjQ0ICswMjAwLCBBbmdlbG8gRHVyZWdoZWxsbyB3cm90
-ZToKPiBGcm9tOiBBbmdlbG8gRHVyZWdoZWxsbyA8YWR1cmVnaGVsbG9AYmF5bGlicmUuY29tPgo+
-IAo+IEZpeCBtYWxmb3JtZWQgdGFibGUuCj4gCj4gRml4ZXM6IDlhMjU5YjUxZTNlYSAoImRvY3M6
-IGlpbzogYWRkIGRvY3VtZW50YXRpb24gZm9yIGFkMzU1MnIgZHJpdmVyIikKPiBTaWduZWQtb2Zm
-LWJ5OiBBbmdlbG8gRHVyZWdoZWxsbyA8YWR1cmVnaGVsbG9AYmF5bGlicmUuY29tPgo+IC0tLQoK
-UmV2aWV3ZWQtYnk6IE51bm8gU8OhIDxudW5vLnNhQGFuYWxvZy5jb20+Cgo+IEZpeCBtYWxmb3Jt
-ZWQgdGFibGUuCj4gLS0tCj4gwqBEb2N1bWVudGF0aW9uL2lpby9hZDM1NTJyLnJzdCB8IDIgKy0K
-PiDCoDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQo+IAo+IGRp
-ZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2lpby9hZDM1NTJyLnJzdCBiL0RvY3VtZW50YXRpb24v
-aWlvL2FkMzU1MnIucnN0Cj4gaW5kZXgKPiA1ODI1MDdhYmU4YzRjMmVjYjUxYTFmODM4OWQ3ZGVl
-YzQ0ZDIwMjIyLi5mNWQ1OWU0ZTg2YzdlYzgzMzhmM2Y0ZTgyZDdhMDc1ODdlM2QKPiA4NDA0IDEw
-MDY0NAo+IC0tLSBhL0RvY3VtZW50YXRpb24vaWlvL2FkMzU1MnIucnN0Cj4gKysrIGIvRG9jdW1l
-bnRhdGlvbi9paW8vYWQzNTUyci5yc3QKPiBAQCAtNTYsNyArNTYsNyBAQCBzcGVjaWZpYyBkZWJ1
-Z2ZzIHBhdGggYGAvc3lzL2tlcm5lbC9kZWJ1Zy9paW8vaWlvOmRldmljZVhgYC4KPiDCoHwgRGVi
-dWdmcyBkZXZpY2UgZmlsZXPCoCB8Cj4gRGVzY3JpcHRpb27CoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIHwKPiDCoCstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gLS0rCj4gwqB8IGRhdGFfc291cmNlwqDC
-oMKgwqDCoMKgwqDCoMKgwqAgfCBUaGUgdXNlZCBkYXRhIHNvdXJjZSwKPiBhc8KgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwKPiAtfMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwgYGBub3JtYWxgYCwgYGBy
-YW1wLTE2Yml0YGAsCj4gZXRjLsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqAgfAo+ICt8wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKg
-wqAgfCBgYG5vcm1hbGBgLCBgYHJhbXAtMTZiaXRgYCwKPiBldGMuwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCB8Cj4gwqArLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0rLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLQo+IC0tKwo+
-IMKgfCBkYXRhX3NvdXJjZV9hdmFpbGFibGUgfCBUaGUgYXZhaWxhYmxlIGRhdGEKPiBzb3VyY2Vz
-LsKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHwKPiDC
-oCstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLSstLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0t
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tCj4gLS0rCj4gCj4gLS0tCj4gYmFzZS1jb21taXQ6IDMxYzUy
-ZmUzYjJlZmVlYmZjNzJjYzUzMzY2NTNiYWFhOTg4OWI0MWUKPiBjaGFuZ2UtaWQ6IDIwMjUwNDE1
-LXdpcC1ibC1hZDM1NTJyLWZpeC1kb2MtdGFibGUtNTg5MjkzYzliODYwCj4gCj4gQmVzdCByZWdh
-cmRzLAo=
+On Tue, Apr 15, 2025 at 04:40:34PM +0800, Mauro Carvalho Chehab wrote:
+> Em Tue, 15 Apr 2025 11:19:26 +0300
+> Andy Shevchenko <andriy.shevchenko@intel.com> escreveu:
+> > On Tue, Apr 15, 2025 at 11:17:12AM +0300, Andy Shevchenko wrote:
+> > > On Tue, Apr 15, 2025 at 10:49:29AM +0300, Jani Nikula wrote:  
+> > > > On Tue, 15 Apr 2025, Andy Shevchenko <andriy.shevchenko@intel.com> wrote:  
+> > > > > On Tue, Apr 15, 2025 at 10:01:04AM +0300, Andy Shevchenko wrote:  
+> > > > >> On Mon, Apr 14, 2025 at 09:17:51AM -0600, Jonathan Corbet wrote:  
+> > > > >> > Andy Shevchenko <andriy.shevchenko@intel.com> writes:  
+> > > > >> > > On Wed, Apr 09, 2025 at 12:30:00PM -0600, Jonathan Corbet wrote:  
+> > > > >> > >> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
+> > > > >> > >>   
+> > > > >> > >> > This changeset contains the kernel-doc.py script to replace the verable
+> > > > >> > >> > kernel-doc originally written in Perl. It replaces the first version and the
+> > > > >> > >> > second series I sent on the top of it.  
+> > > > >> > >> 
+> > > > >> > >> OK, I've applied it, looked at the (minimal) changes in output, and
+> > > > >> > >> concluded that it's good - all this stuff is now in docs-next.  Many
+> > > > >> > >> thanks for doing this!
+> > > > >> > >> 
+> > > > >> > >> I'm going to hold off on other documentation patches for a day or two
+> > > > >> > >> just in case anything turns up.  But it looks awfully good.  
+> > > > >> > >
+> > > > >> > > This started well, until it becomes a scripts/lib/kdoc.
+> > > > >> > > So, it makes the `make O=...` builds dirty *). Please make sure this doesn't leave
+> > > > >> > > "disgusting turd" )as said by Linus) in the clean tree.
+> > > > >> > >
+> > > > >> > > *) it creates that __pycache__ disaster. And no, .gitignore IS NOT a solution.  
+> > > > >> > 
+> > > > >> > If nothing else, "make cleandocs" should clean it up, certainly.
+> > > > >> > 
+> > > > >> > We can also tell CPython to not create that directory at all.  I'll run
+> > > > >> > some tests to see what the effect is on the documentation build times;
+> > > > >> > I'm guessing it will not be huge...  
+> > > > >> 
+> > > > >> I do not build documentation at all, it's just a regular code build that leaves
+> > > > >> tree dirty.
+> > > > >> 
+> > > > >> $ python3 --version
+> > > > >> Python 3.13.2
+> > > > >> 
+> > > > >> It's standard Debian testing distribution, no customisation in the code.
+> > > > >> 
+> > > > >> To reproduce.
+> > > > >> 1) I have just done a new build to reduce the churn, so, running make again does nothing;
+> > > > >> 2) The following snippet in shell shows the issue
+> > > > >> 
+> > > > >> $ git clean -xdf
+> > > > >> $ git status --ignored
+> > > > >> On branch ...
+> > > > >> nothing to commit, working tree clean
+> > > > >> 
+> > > > >> $ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
+> > > > >> make[1]: Entering directory '...'
+> > > > >>   GEN     Makefile
+> > > > >>   DESCEND objtool
+> > > > >>   CALL    .../scripts/checksyscalls.sh
+> > > > >>   INSTALL libsubcmd_headers
+> > > > >> .pylintrc: warning: ignored by one of the .gitignore files
+> > > > >> Kernel: arch/x86/boot/bzImage is ready  (#23)
+> > > > >> make[1]: Leaving directory '...'
+> > > > >> 
+> > > > >> $ touch drivers/gpio/gpiolib-acpi.c
+> > > > >> 
+> > > > >> $ make LLVM=-19 O=.../out W=1 C=1 CF=-D__CHECK_ENDIAN__ -j64
+> > > > >> make[1]: Entering directory '...'
+> > > > >>   GEN     Makefile
+> > > > >>   DESCEND objtool
+> > > > >>   CALL    .../scripts/checksyscalls.sh
+> > > > >>   INSTALL libsubcmd_headers
+> > > > >> ...
+> > > > >>   OBJCOPY arch/x86/boot/setup.bin
+> > > > >>   BUILD   arch/x86/boot/bzImage
+> > > > >> Kernel: arch/x86/boot/bzImage is ready  (#24)
+> > > > >> make[1]: Leaving directory '...'
+> > > > >> 
+> > > > >> $ git status --ignored
+> > > > >> On branch ...
+> > > > >> Untracked files:
+> > > > >>   (use "git add <file>..." to include in what will be committed)
+> > > > >> 	scripts/lib/kdoc/__pycache__/
+> > > > >> 
+> > > > >> nothing added to commit but untracked files present (use "git add" to track)  
+> > > > >
+> > > > > FWIW, I repeated this with removing the O=.../out folder completely, so it's
+> > > > > fully clean build. Still the same issue.
+> > > > >
+> > > > > And it appears at the very beginning of the build. You don't need to wait to
+> > > > > have the kernel to be built actually.  
+> > > > 
+> > > > kernel-doc gets run on source files for W=1 builds. See Makefile.build.  
+> > > 
+> > > Thanks for the clarification, so we know that it runs and we know that it has
+> > > an issue.  
+> > 
+> > Ideal solution what would I expect is that the cache folder should respect
+> > the given O=... argument, or disabled at all (but I don't think the latter
+> > is what we want as it may slow down the build).
+> 
+> From:
+> 	https://github.com/python/cpython/commit/b193fa996a746111252156f11fb14c12fd6267e6
+> and:
+> 	https://peps.python.org/pep-3147/
+> 
+> It sounds that Python 3.8 and above have a way to specify the cache
+> location, via PYTHONPYCACHEPREFIX env var, and via "-X pycache_prefix=path".
+> 
+> As the current minimal Python version is 3.9, we can safely use it.
+> 
+> So, maybe this would work:
+> 
+> 	make O="../out" PYTHONPYCACHEPREFIX="../out"
+> 
+> or a variant of it:
+> 
+> 	PYTHONPYCACHEPREFIX="../out" make O="../out" 
+> 
+> If this works, we can adjust the building system to fill PYTHONPYCACHEPREFIX
+> env var when O= is used.
+
+It works, the problem is that it should be automatically assigned to the
+respective folder, so when compiling kdoc, it should be actually
+
+$O/scripts/lib/kdoc/__pycache__
+
+and so on for _each_ of the python code.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
