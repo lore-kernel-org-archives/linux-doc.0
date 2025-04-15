@@ -1,140 +1,167 @@
-Received: from smtpbguseast1.qq.com (smtpbguseast1.qq.com [54.204.34.129])
+Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A937C4315C;
-	Tue, 15 Apr 2025 13:52:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.204.34.129
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39D419F47E;
+	Tue, 15 Apr 2025 13:55:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744725143; cv=none; b=s5ladFQZHDFPOlxbKh/5ZSZs2E1vNTZOpgGySuYteyNwhbGp4vOmrGzPChMtrdcX40KqqfQ3NwadjwjHMdtyZlGNo6BaFH73CLG8HhitdpB6/0lRa+Dnd06XpF/cZHzOIcN8K1cgadjXy7SgX/b+4V1/NqFhajtbyqzd466FmFU=
+	t=1744725348; cv=none; b=rgH2SXIHQYFFMAqgtKeKPVjVnvMq7Rkukup5hxzBaeqcx5qL/LwKle73ZwZUNG1sFZR3ZGck0YShRZKVUkFEW+ngny89JWiCCkuNxSKOMXKqm/krLHhkFsJTwRgFaQ+N4/rC/yqb1qASf4SZgzvUXvxZaN7vX3vX7eKeankdiWU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744725143; c=relaxed/simple;
-	bh=SYP5aUx854LZI3QqpRFhskAvPk/sjt33YUGhDwyPD5s=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Zk5oKsY5ZWbIaP7rFQ7sOXDWHteveWgWcwOavr0exme3mkBShRjLQFAbIW6DnJQLGK2VZW3BifEbfhlRQX5PAojE6FR8jX64sbb06UQfhSIepNqv0J/lsT09zb7B7uPjtPgaMz1UGQi6hwD2aNN9UIIeyYmSRs7/ewk+bO1KRCs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=B9PM2vdU; arc=none smtp.client-ip=54.204.34.129
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1744725348; c=relaxed/simple;
+	bh=Cca7E3l30b7Vj1oZWrk8xX21a6wsjicWXd9StviIAdE=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=LSZIxkMFlFNOjUQnXDjoFo90v/ELXmTD41ZaMRt7UvI39piamhUJPr7gUNuYpxAVNi3GPnRy6wAoeUt9xsD75HM7Oh4nZZfuPxS+EKWc1bnagu42HFTegMg5CEmftmCoysgn017xcv/r/YX+Mpt6HW+4n7vs7y2eitXwEdPzjwI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kX8Ch05Z; arc=none smtp.client-ip=217.70.183.196
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="B9PM2vdU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744725124;
-	bh=Ixi9pWKBiDS6VBaREd11yEf72/je33uvlluDQogeMxo=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=B9PM2vdUmuR/bxGkikTEJBimk53M+mGGfQtJ4GarF64T+C59b2uVfMTV+s7HpyuMx
-	 jCuB+dn8eZS75htEIvVlrUwZZFNpXNIvQ5I3JXNhSkZCd2NBYReZPTccCiIHbP9HiE
-	 7MvPZtJ94GCJb4y99s0PKDNDElPAiypIuOI/oeV4=
-X-QQ-mid: zesmtpip3t1744724985t838566ab
-X-QQ-Originating-IP: IvxrBklCfHMUcYXSFD7ASed4Rg4FD9KV6HpuJrAKVqQ=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Tue, 15 Apr 2025 21:49:43 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17750832799163754876
-EX-QQ-RecipientCnt: 20
-From: WangYuli <wangyuli@uniontech.com>
-To: corbet@lwn.net,
-	chenhuacai@kernel.org,
-	kernel@xen0n.name
-Cc: akpm@linux-foundation.org,
-	jeffxu@chromium.org,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	kees@kernel.org,
-	wangyuli@uniontech.com,
-	hca@linux.ibm.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	loongarch@lists.linux.dev,
-	xry111@xry111.site,
-	tglx@linutronix.de,
-	thomas.weissschuh@linutronix.de,
-	Jason@zx2c4.com,
-	zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	guanwentao@uniontech.com
-Subject: [PATCH] mseal sysmap: enable LoongArch
-Date: Tue, 15 Apr 2025 21:49:33 +0800
-Message-ID: <433B5132A1535C98+20250415134933.531084-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kX8Ch05Z"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5906843AD1;
+	Tue, 15 Apr 2025 13:55:36 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744725339;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=Cu9EMJfO9vfdZP93I3947Z+rnvq4H7D9JgRMmuafxvI=;
+	b=kX8Ch05Z6lTZ6OHie+GrhSHws9SUNPDU7pQBiNuZSN1cVbk2IvvpMDJZdXyk1CBzke5oDD
+	OfjAkkAU/78dvR7elO4v6luKExSF6EKUs8RjZ0Rz/FqQbyh7Mz4AjT8BFam6LMWgUAfXCT
+	s5JNgzkYJPIs7Pyo14g9YlpRn6Oss5crzR4HAqHH/NbPkZoG7anQ8+I5labm7gm4eQka/+
+	0SI3qvjbZy/zT3ZkiDW5KCSups8oPh4259VULNS8mwnG8RCqeROzXS+WvW0Lz/v4n2J3KV
+	CXTbZ9XIP3XTLv9nLeGM4y1FkQCwJ0P0G4XDBKnfALn2zJ7YZwRH/L/WxblNgw==
+From: Louis Chauvet <louis.chauvet@bootlin.com>
+Subject: [PATCH v18 0/8] drm/vkms: Add support for YUV and DRM_FORMAT_R*
+Date: Tue, 15 Apr 2025 15:55:31 +0200
+Message-Id: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NV9lVvsB36Op1yEGLqX6VyH6IMMjPPSHflDax0yHqTYUExZlnvTyKMTF
-	RUFh4YGevHLcNupZVHEoRUisMQLbAifW7/nXLxnyeyVwYIshagyEn7LrVi84guxdutPZfSh
-	ULrPELeI4WI+uhXnCLSKVsqNfWyNSfd6n3orRR8ekhVxsHmZ0wHFK8WuuuBW8evqmO5TJwe
-	32NwMRr1WITwdkEoE5oa6sWKBA+9Mu3sgOYe5/eIz61Nb/dOP/4QA56IMpG0ag9ST0rJY/q
-	0mF0gpnGE+9X36w4l0hah1rT62FkHOLyQE5RJngepX92WCbYyWcArgTRPYkpoJDfiQ8fcCn
-	MI+kqPNc7ukDXuNe4572FMBT7+l6tUqCzaapbHEE8CWcuRjhAY/ang3MkiOVA1yDdxd6lIy
-	s8S1wPvC6d8DF10wl+claEj9tVJbOzY6dgFiMegMyyGLrzkFKlFpjG0GrZYMSR2na7CSYJg
-	wD+XXYwP8RIrr/HexDD1PAhXIxPHkVDQP1MEXVXTyBYpBfP5yKBT98eNaEr3yQcSeSFnfeA
-	ZHEGwvjKMcScOIoDP6iXbG0BmQ4yW7gHnGta7jBp5d1RHw2Pp9ipVj2HhgBBgghTN21H6c+
-	A9fp1HG3rhEW3PTP4rqxHbR8ALFaIp65EeyZA8FXsexnhIfAd4ObLGRnKkYX/O9gLWru/We
-	8UtjAJ/zDyJFrFjVtraZo+VKuFPVJw2Znmi3JFGhATier5hHfEBLigKtKtqgDajIXB8e2fx
-	vDOourSPMK5mvu8pnVsdUUR/Rm3uez/zTaC+oBc9S42jj/cPpYR5JClxRe243fG7c7rJ0Ic
-	LNUq780H0hpV2zwE252ojLnPJetASkt1UMlKnY50dlEXkQGP8Z8iQg5QeRdGJqblzPuleYZ
-	j2jdcYn1A1GkfTANUMogjfM51i4OJgG7M2AiV50Fa6+Y5IQODnLt0Y+iWq4bfr2dVkE5it4
-	NtatJYhKl6wkIZYG0sd7KDBGP0FI2lZ1R77B76B+uJPUDKNVvv+qCb5pedOFXv2mW3EHyEV
-	CXSLUewQcaE4Ahu4yMiBEMTlaeMw5k9iMrkAEHNg==
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAFNl/mcC/23US5KbMBAG4Ku4WIekuyW1pFnlHqks9IypsnECN
+ jVTU3P3iIcDE9iB6I8W+iXeqz51Teqrl9N71aWh6ZtbW27QfDlV4ezaX6luYhmoCEgCAdZvj6F
+ GIXS0EK3SXJVK7/pU+8614Vxq28flUgZ/dyk3r9O7f/ws9+emv9+6t6nVgOPo55cOWEMtghOaM
+ 2kW9N3fbvdL034Nt+vYZapWyHO1KdUhm8jZsBSQPlWP/Qba9CAxKyrKOfaJDGnv9V6JrVp6iaJ
+ yZqYM1sro90quSoCclSxKl1YumGS1FXulNgqXGaqiEiMEH0FkRXvFq5JgZ8VFxYRBaTI5atgrv
+ Sr17KXHFTeQbM4pKDjoZVdlgGZliwLjNDCzTch7hbBlyxSxqBqdDpolMueDtcfNtrACFjfuC+n
+ REfuQgz3qt0aNAHpxY9aAAV10XL7PHLg1bEQ0ixvTdgFilEhWHSWAcuNoWRaUU3IcjYhkIoQDt
+ waOJJ7bfkq8zNF7AWTS0ff9i1wB0tONmTvGbJUru1IczVOvjp7bEsfUbWASxkAE9988P+aj26U
+ /j/I3uM/ndz7h5fm1ub+cYnetr00fvj0v6ja93gv9+AukUNRoUAQAAA==
+X-Change-ID: 20240201-yuv-1337d90d9576
+To: Melissa Wen <melissa.srw@gmail.com>, 
+ =?utf-8?q?Ma=C3=ADra_Canal?= <mairacanal@riseup.net>, 
+ Haneen Mohammed <hamohammed.sa@gmail.com>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, rdunlap@infradead.org, 
+ arthurgrillo@riseup.net, Jonathan Corbet <corbet@lwn.net>, 
+ pekka.paalanen@haloniitty.fi, Simona Vetter <simona@ffwll.ch>, 
+ Rodrigo Siqueira <siqueira@igalia.com>, 
+ Simona Vetter <simona.vetter@ffwll.ch>
+Cc: dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org, 
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com, 
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com, 
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org, 
+ Louis Chauvet <louis.chauvet@bootlin.com>, 
+ Pekka Paalanen <pekka.paalanen@collabora.com>, 
+ =?utf-8?q?Jos=C3=A9_Exp=C3=B3sito?= <jose.exposito89@gmail.com>
+X-Mailer: b4 0.15-dev
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2835;
+ i=louis.chauvet@bootlin.com; h=from:subject:message-id;
+ bh=Cca7E3l30b7Vj1oZWrk8xX21a6wsjicWXd9StviIAdE=;
+ b=owEBbQKS/ZANAwAIASCtLsZbECziAcsmYgBn/mVWpH/Ab0PBccxHCAljOGT2Cotvfrf8um9Ku
+ 57oeo/9vkiJAjMEAAEIAB0WIQRPj7g/vng8MQxQWQQgrS7GWxAs4gUCZ/5lVgAKCRAgrS7GWxAs
+ 4qYDD/wPgbMcg0OrOqnKaYvugT4Qf3Y3vWm4qVOqihduHRw2uSfxDwdWyYaYOVw5a4WedtgER1a
+ dlcYoPmMgGFrZ0TPvcc4Fqvy62hP9YmDPin+4i7xdv5ZtBgESvYuWBDMhFFsC6btlmjgMQNfeEJ
+ 6OTxqaVRarIiDjIBdlVvTkbg0B/AjHpStHtKAuuhSvX3aIE2/xp6FE7roiy03BbfQnSsG7c1UfM
+ T3KVegFePXAzk29YSpEu38SU2vV/Mq3uC+1C8WnsJNvk0Hu6xWn6awUiLX/hjddCyrtAI9SUvHg
+ 1tM3Kd0baUIEiyxIlqeobyPSCDGGCtLw3KklPaBRpCLdN9I4sRCaafZtxKVKZRNRqVGO2FEilRr
+ OAKUmgFWuZuJewGXX0aeZaWLBno8Xi8tbHaUdLk0fGqVoGSfxhCrFymufzCNjFmDU5yhsghHIHG
+ ldz8i1/nCN2fMJzEHRqACUR3GKU9DyB5z6UY5jP3U/Uy06UTLMb1rmlEh3mjFxS8AexqzEHUOrV
+ tkFz9eAX7ICPot0rhnu2FNzoRk0oBae2kxW/U+hD3aFaJMm5rgg34WYsRcif20rhsfx+7RBqIE1
+ vRPuW2G8vM4Y6Hq0915MZtrixOBpSJQWHLujdUOkSPgteSGdtkjrIiR/FnmUAOwEJFpa3vZjNYf
+ fmh4Hn94XLM05Cw==
+X-Developer-Key: i=louis.chauvet@bootlin.com; a=openpgp;
+ fpr=8B7104AE9A272D6693F527F2EC1883F55E0B40A5
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdefieejucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhufffkfggtgfgvfevofesthejredtredtjeenucfhrhhomhepnfhouhhishcuvehhrghuvhgvthcuoehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeejleduffeikeefkeejvdejffffueevfeeigefhiefhudegkefhjeejvefhvdefjeenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegludejvddrudekrddtrddungdpmhgrihhlfhhrohhmpehlohhuihhsrdgthhgruhhvvghtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedviedprhgtphhtthhopehsihhmohhnrgdrvhgvthhtvghrsehffhiflhhlrdgthhdprhgtphhtthhopegurhhiqdguvghvvghlsehlihhsthhsrdhfrhgvvgguvghskhhtohhprdhorhhgpdhrtghpthhtohepthhhohhmrghsrdhpvghtrgiiiihonhhisegsohhothhlihhnrdgtohhmpdhrtghpthhtohepmhgrihhrrggtrghnrghlsehrihhsvghup
+ hdrnhgvthdprhgtphhtthhopehnihgtohhlvghjrgguvgihvggvsehgohhoghhlvgdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtohepmhgrrhgthhgvuhesghhoohhglhgvrdgtohhmpdhrtghpthhtohepjhhoshgvrdgvgihpohhsihhtohekleesghhmrghilhdrtghomh
+X-GND-Sasl: louis.chauvet@bootlin.com
 
-Provide support for CONFIG_MSEAL_SYSTEM_MAPPINGS on LoongArch,
-covering the vdso.
+This patchset is extracted from [1]. The goal is to introduce the YUV
+support, thanks to Arthur's work.
 
-Tested-by: Yuli Wang <wangyuli@uniontech.com>
-Signed-off-by: Yuli Wang <wangyuli@uniontech.com>
+- PATCH 2: Document pixel_arbg_u16
+- PATCH 3: Add the support of YUV formats
+- PATCH 4: Add some drm properties to expose more YUV features
+- PATCH 5: Cleanup the todo
+- PATCH 6..7: Add some kunit tests
+- PATCH 8: Add the support of DRM_FORMAT_R1/2/4/8
+
+[1]: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+
+Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
 ---
- Documentation/userspace-api/mseal.rst | 2 +-
- arch/loongarch/Kconfig                | 1 +
- arch/loongarch/kernel/vdso.c          | 4 +++-
- 3 files changed, 5 insertions(+), 2 deletions(-)
+Changes in v18:
+- Add PATCH 1
+- Add documentation around pixel_yuv_u8
+- Link to v17: https://lore.kernel.org/r/20250204-yuv-v17-0-9c623880d0ac@bootlin.com
 
-diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
-index 1dabfc29be0d..ef733f69003d 100644
---- a/Documentation/userspace-api/mseal.rst
-+++ b/Documentation/userspace-api/mseal.rst
-@@ -144,7 +144,7 @@ Use cases
-   architecture.
- 
-   The following architectures currently support this feature: x86-64, arm64,
--  and s390.
-+  loongarch and s390.
- 
-   WARNING: This feature breaks programs which rely on relocating
-   or unmapping system mappings. Known broken software at the time
-diff --git a/arch/loongarch/Kconfig b/arch/loongarch/Kconfig
-index 067c0b994648..54ed5b59a690 100644
---- a/arch/loongarch/Kconfig
-+++ b/arch/loongarch/Kconfig
-@@ -69,6 +69,7 @@ config LOONGARCH
- 	select ARCH_SUPPORTS_INT128 if CC_HAS_INT128
- 	select ARCH_SUPPORTS_LTO_CLANG
- 	select ARCH_SUPPORTS_LTO_CLANG_THIN
-+	select ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS
- 	select ARCH_SUPPORTS_NUMA_BALANCING
- 	select ARCH_SUPPORTS_RT
- 	select ARCH_USE_BUILTIN_BSWAP
-diff --git a/arch/loongarch/kernel/vdso.c b/arch/loongarch/kernel/vdso.c
-index 10cf1608c7b3..7b888d9085a0 100644
---- a/arch/loongarch/kernel/vdso.c
-+++ b/arch/loongarch/kernel/vdso.c
-@@ -105,7 +105,9 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
- 
- 	vdso_addr = data_addr + VVAR_SIZE;
- 	vma = _install_special_mapping(mm, vdso_addr, info->size,
--				       VM_READ | VM_EXEC | VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC,
-+				       VM_READ | VM_EXEC |
-+				       VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC |
-+				       VM_SEALED_SYSMAP,
- 				       &info->code_mapping);
- 	if (IS_ERR(vma)) {
- 		ret = PTR_ERR(vma);
+Changes in v17:
+- Rebased on drm-msic-next
+- Updated comment in kunit test
+- Updated test count in kunit test
+- Link to v16: https://lore.kernel.org/r/20250121-yuv-v16-0-a61f95a99432@bootlin.com
+
+Changes in v16:
+- Rebased on drm-misc-next
+- Updated comment and changed fail thresholds. 
+- Link to v15: https://lore.kernel.org/r/20241231-yuv-v15-0-eda6bb3028e6@bootlin.com
+
+Changes in v15:
+- Export drm_get_color_encoding_name only for kunit tests
+- Link to v14: https://lore.kernel.org/r/20241122-yuv-v14-0-e66d83d28d0c@bootlin.com
+
+Changes in v14:
+- Rebased on drm-misc-next
+- Link to v13: https://lore.kernel.org/r/20241118-yuv-v13-0-ac0dd4129552@bootlin.com
+
+Changes since previous series:
+ - Fix build test as modules issue: https://lore.kernel.org/all/202410110407.EHvadSaF-lkp@intel.com/
+ - Export required symbols in DRM core to use them in kunit
+ - Update the kunit comments according to Maxime's feedback
+ - Link to original series: https://lore.kernel.org/r/20241007-yuv-v12-0-01c1ada6fec8@bootlin.com
+
+---
+Arthur Grillo (5):
+      drm/vkms: Add YUV support
+      drm/vkms: Add range and encoding properties to the plane
+      drm/vkms: Drop YUV formats TODO
+      drm/vkms: Create KUnit tests for YUV conversions
+      drm/vkms: Add how to run the Kunit tests
+
+Louis Chauvet (3):
+      drm/vkms: Document pixel_argb_u16
+      drm: Export symbols to use in tests
+      drm/vkms: Add support for DRM_FORMAT_R*
+
+ Documentation/gpu/vkms.rst                    |  15 +-
+ drivers/gpu/drm/drm_color_mgmt.c              |   3 +
+ drivers/gpu/drm/vkms/tests/Makefile           |   1 +
+ drivers/gpu/drm/vkms/tests/vkms_format_test.c | 280 +++++++++++++++
+ drivers/gpu/drm/vkms/vkms_drv.h               |  35 ++
+ drivers/gpu/drm/vkms/vkms_formats.c           | 467 +++++++++++++++++++++++++-
+ drivers/gpu/drm/vkms/vkms_formats.h           |   9 +
+ drivers/gpu/drm/vkms/vkms_plane.c             |  29 +-
+ 8 files changed, 835 insertions(+), 4 deletions(-)
+---
+base-commit: 81f6e0e0f3505809dd78eab129106f1c0cf2baf1
+change-id: 20240201-yuv-1337d90d9576
+
+Best regards,
 -- 
-2.49.0
+Louis Chauvet <louis.chauvet@bootlin.com>
 
