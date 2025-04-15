@@ -1,69 +1,72 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00A4F163;
-	Tue, 15 Apr 2025 17:09:51 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F252DFA41;
+	Tue, 15 Apr 2025 17:26:57 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744736992; cv=none; b=dnx9gYfse2br56zyUdw3m5BRLfz+rFH7P8gUxOCJATyavQVHh4gOMuHZlbx5MUqi3iBe11dBemmahGLhue3eaqwBicUunh5bJyEUbPukauyJgouUt/QCNJA9fqDhGP3cLK1bojn+EcJ+922eIxL2UFxOLU3Wua3Cf2R5CrK6U58=
+	t=1744738017; cv=none; b=R9oni7BHCF2UGKXE7NrujRdIvA04uP0d7yZalnaXYA835y7efXj9LZt3uSHiKX9svLzxGqsAkMTBcR3DLKByRHa2b/DVy2Ilp7gxSwzuoRYWDnUNO+OsaZF77tgdksH25Xit/8uIRNLDmKdCXXkuXTrTVN5NTPwZfeF7Gj8PqBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744736992; c=relaxed/simple;
-	bh=MTxGoC4BpioZcRWG/zm7Kk5SqdnGqA04/C85BpU85ZE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=EqRKvNswDuO1dGguWPgrTb18qQCjE+HoHL0IkR+EFRxL+1J0GgM4QarWteHGuP7rhrjTQmr/vtJ4UKJvEG3tjqgARsgLS49dE9TsB60gd02rknmRx71CXqBB5qa/y5Y6vWLmje+dr2TFqwAc9XoTZ8n4gM5h7KD1Ricgf2ibiGM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=MASYSJPz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744738017; c=relaxed/simple;
+	bh=sb+Sz6Yxyiucz4F0XzTl26j21GxS7DGgFLIILu0YX/Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JFpzkFbyhoDl/iwCadG6iSKN2vj67XPyA/z+YnkKkKPcCDnVJfsaaS+W8mUSD3NbkMyCB1ZM8nJ2hSkmLnjAllcV7ek79Y8ZW1qzkMnupfpXDJcwq7MDirS2iqnxDYyVCtKxoGWZdE72kCl0fyVmgkAsCJfG9OjQOFMkE3uXv3g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SSRin+XI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="MASYSJPz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6BB59C4CEE9;
-	Tue, 15 Apr 2025 17:09:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SSRin+XI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF892C4CEE9;
+	Tue, 15 Apr 2025 17:26:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744736991;
-	bh=MTxGoC4BpioZcRWG/zm7Kk5SqdnGqA04/C85BpU85ZE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MASYSJPz+lAlRc2CEVdeSjmxxQarSAxWrd8v5UVp202CkYT1f79ktOgjOefk/q1cO
-	 rs8qyM+ROx9RuuhnKnEi7E2U0CrwXITzDEB2+fh+N7wo3O6qe2Sm84PVEGBI5Tt8Nx
-	 ptuZpYp+YPXIA6smMj7AMsr3BOuBBGAa+Y/pHzmUulW9TGCZFtXpv+vOWF8getNtgI
-	 06uW5sQxSJ9y/AM++RQa/VRWwO+f49a0TEbszOc8py9gOtk+uF+yTVlbghjY/dVzdM
-	 Uw4/sqCbxj4tGkIiHI2ZXCkwUT6on/XezwRAchoCo1Mb9biKdpC/mkKUFv9tYZ2W+Z
-	 FTCIGOlAWxnng==
-Date: Tue, 15 Apr 2025 10:09:48 -0700
-From: Kees Cook <kees@kernel.org>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <thomas.weissschuh@linutronix.de>
-Cc: Brendan Higgins <brendan.higgins@linux.dev>,
-	David Gow <davidgow@google.com>, Rae Moar <rmoar@google.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-kselftest@vger.kernel.org,
-	kunit-dev@googlegroups.com, linux-kernel@vger.kernel.org,
-	workflows@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] kunit: tool: Implement listing of available
- architectures
-Message-ID: <202504151009.DC4EBC7BE4@keescook>
-References: <20250415-kunit-list-v2-1-aa452cd317ae@linutronix.de>
+	s=k20201202; t=1744738017;
+	bh=sb+Sz6Yxyiucz4F0XzTl26j21GxS7DGgFLIILu0YX/Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=SSRin+XI8xsMmGrsf+7o0V/ku1xzrBVIqkMrto9QeRZMpjRFMtE2l/gUdBbd78iwE
+	 LJx3p47m2zD12w+kg0VAa05+JGWJhSlXC9Dk79MaJNQgafBEeWy2nG/H9MLh8urNXp
+	 edGSy49xDfJ7SohKpcP/JM7EtZMqtBa/zoHKM80HKNcVoePyqN3wkUuuvUNvpjsybx
+	 7g8rif5T0zPs/wOmfbFIJ63zTR+zsfWmFTSF5wNWz65k1e3TeXIv1vM1twYFSlxwnc
+	 j5U4ApC162wLCiQGrgDQDjuHHV5UR7kHv7jFN0twlCEn0rp/z0eJdr9PfcWZAhiT5K
+	 koan6/vfRqdzw==
+From: Jakub Kicinski <kuba@kernel.org>
+To: davem@davemloft.net
+Cc: netdev@vger.kernel.org,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	andrew+netdev@lunn.ch,
+	horms@kernel.org,
+	linux-doc@vger.kernel.org,
+	Jakub Kicinski <kuba@kernel.org>
+Subject: [PATCH net-next] docs: networking: clarify intended audience of netdevices.rst
+Date: Tue, 15 Apr 2025 10:26:53 -0700
+Message-ID: <20250415172653.811147-1-kuba@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250415-kunit-list-v2-1-aa452cd317ae@linutronix.de>
 
-On Tue, Apr 15, 2025 at 09:03:06AM +0200, Thomas Weiﬂschuh wrote:
-> To implement custom scripting around kunit.py it is useful to get a list of
-> available architectures. While it is possible to manually inspect
-> tools/testing/kunit/qemu_configs/, this is annoying to implement and
-> introduces a dependency on a kunit.py implementation detail.
-> 
-> Introduce 'kunit.py run --arch help' which lists all known architectures
-> in an easy to parse list. This is equivalent on how QEMU implements
-> listing of possible argument values.
-> 
-> Signed-off-by: Thomas Weiﬂschuh <thomas.weissschuh@linutronix.de>
+The netdevices doc is dangerously broad. At least make it clear
+that it's intended for developers, not for users.
 
-Oh nice; I like it! :)
+Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+---
+ Documentation/networking/netdevices.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Reviewed-by: Kees Cook <kees@kernel.org>
-
+diff --git a/Documentation/networking/netdevices.rst b/Documentation/networking/netdevices.rst
+index eab601ab2db0..abfd584f1874 100644
+--- a/Documentation/networking/netdevices.rst
++++ b/Documentation/networking/netdevices.rst
+@@ -8,7 +8,7 @@ Network Devices, the Kernel, and You!
+ Introduction
+ ============
+ The following is a random collection of documentation regarding
+-network devices.
++network devices. It is intended for driver developers.
+ 
+ struct net_device lifetime rules
+ ================================
 -- 
-Kees Cook
+2.49.0
+
