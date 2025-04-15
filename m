@@ -1,244 +1,205 @@
-Received: from relay3-d.mail.gandi.net (relay3-d.mail.gandi.net [217.70.183.195])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 41BD429A3E3;
-	Tue, 15 Apr 2025 11:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.195
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E1AD29117B;
+	Tue, 15 Apr 2025 11:28:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744716147; cv=none; b=oG5XNsBIuMmtWVwjQHCcj2USEUvS9+pkXWr6FAFoF2apDwaSLI6WEtgK9u3jOAbQTALZrbCI8FcCvlRR+UtbVaRQNIDdD8hg7kiUBWY5nBHFpJ86qW01ls+0wqfEicx10DyhF8oyMjqkePBPXVQchPlqIxnHEGHFKlxEM5FyYYM=
+	t=1744716542; cv=none; b=XtoRK7GrM6bgXXmrHOhyQSXrsXg5j6GF7QyoCPdtE+tlerPlzwl1WcJg6Ce0GX1+rSZCzCqsaa4xbIjS9ZOADGZuaB6aq9F7pTBGINuYJxcXLhkhH6G0FaayNPesJ88IEkT/MV/A334tyezNHzkCODRZAhTeF6vqMkmKaNUgA8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744716147; c=relaxed/simple;
-	bh=ycEo2Z8x5NpwyAIKbT3u/HI0dSC/LsbzhXmIWQ8tBEY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GTk+m0G8BqwE9TuBlFBY/Vp2iwSeuMh2zoiBDqU4kAQKripbgK6cOb40sIFGZvzJ2gYpuKomPRI5b5z+OolDdv3aoDg+YhZsJ3i4dhJStyvkC9UGv1T06UReSeFMc3P93+GDIiVQu/vMT8cKhi3A39AKV6r0tAZGKJxePv+VrUI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=lq4OFBo5; arc=none smtp.client-ip=217.70.183.195
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1744716542; c=relaxed/simple;
+	bh=HkGK4vKcs2199YO0fGdWUg9GcSJPiCpZOIr/Szy0PUg=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=J4+isDeu26WOYAI1iv0q5uNBl5s/7UfLewFK2/FKjeVvReJBVpnVSQZss0Fyy1g8LVSK8Hav+hIOPqheS30Mqn/I+A02Dz9SFAmVjEl5uw1xJqZ9gizOOda86ousChPCY87e0PfZTOT+f9DMNitVZ4kM4OtoGC7eP0NsppMtxbs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=QzSY+1mk; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=pfGHhhh1 reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="lq4OFBo5"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 571201FCE7;
-	Tue, 15 Apr 2025 11:22:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744716143;
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="QzSY+1mk";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="pfGHhhh1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1744716539; x=1776252539;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=mYfOX7V+RukALTVJ8Qi0exktDRQwn3ad8TOZoUSa2Qs=;
+  b=QzSY+1mkLi0kFNWpIrh9ZQtkHDvaDnBA+IYAiY3ehV8wlc5CTFz2Q048
+   odYXdZTQZFHgNssT9hh1mNq35ZHNLKffkwWlyVDd7Ufqe1sU2iZaWNTel
+   RJTWwbYDYyhu7gtNoQZMWub6MjKBTcdevc6m5QvRF0yaCWZsv4RDfw9Wz
+   Aix0K4AaZ8Q5NWYDskRsuS7QhRktFTn0hWZ3ktJVqcBXohFpUkuuSuKUC
+   PThIERxSirTE969BBRfSTUVlpXNhKEziZxVyfCVR9RFsaQAyO2oiLp1vr
+   E1KIA0h1FCZIkCRFeLKf5eoj+WnmfrD7eDWqWugq8QjUYu2XjWr1MrRZD
+   A==;
+X-CSE-ConnectionGUID: vXCahAz8Qt2JyThBws63mw==
+X-CSE-MsgGUID: kYpqigZ5SqehRJK/H93HBA==
+X-IronPort-AV: E=Sophos;i="6.15,213,1739833200"; 
+   d="scan'208";a="43539741"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 15 Apr 2025 13:28:55 +0200
+X-CheckPoint: {67FE42F7-22-B1D34AC3-DEA5B19F}
+X-MAIL-CPID: 711BF174EC8067FD99CF9D8CB63779DE_4
+X-Control-Analysis: str=0001.0A006374.67FE42EA.007C,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6DD8A165E7F;
+	Tue, 15 Apr 2025 13:28:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1744716530;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=LOPeQ3QXBoCTF3FUds9Uh4yiTkt5BuZd+Sa0Yo8E0Qs=;
-	b=lq4OFBo5n/VHsMXt7eaqVQV2i3E3Ys+yaadhsx26TRwy8dumU4wHWX0hc1/LHRB6ZkWnHN
-	81bJLMnXDjxpId/oH0EqfzdA9cYdv2ZuRBmE4mW7TQRDNGpdIg8pvfX8mWJuSBrlgpEjj5
-	/EwgcYcZD/Z+e2d+uhVg4D24YDendCzHabENLlu+m8/3K+otjlhf1IhsRRKaSwJ/24KQ+F
-	beQc3Qo669tV+fw6t78Yu+kSUv9i0okQj+zYn0aE4cn/fDSWvAHiF6b/hN5dAeDb8P2xwD
-	orhq9KFBrHUf/zgYQbF1gcLGcpC8g6ibZ1q/ncejoumhvYRKVYRhfIprNSL2CQ==
-Date: Tue, 15 Apr 2025 13:22:20 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maxime Ripard <mripard@kernel.org>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
- <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
- <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Anusha Srivatsa
- <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, Dmitry
- Baryshkov <lumag@kernel.org>, =?UTF-8?B?SGVydsOp?= Codina
- <herve.codina@bootlin.com>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 1/2] drm/bridge: documentat bridge allocation and
- lifecycle
-Message-ID: <20250415132220.3246d9ca@booty>
-In-Reply-To: <20250414-dangerous-stoic-lemur-5e083c@houat>
-References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
-	<20250409-drm-bridge-alloc-doc-test-v7-1-a3ca4b97597f@bootlin.com>
-	<20250414-dangerous-stoic-lemur-5e083c@houat>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	bh=mYfOX7V+RukALTVJ8Qi0exktDRQwn3ad8TOZoUSa2Qs=;
+	b=pfGHhhh1oTEs/xBWDSj8LUf9ShgiCi7VgdPYiuGvNXG5xphp+EBH09XLaali19JDQZxCET
+	4gIOjjzMDHQZHiMpK8S9BpuJWqWsjhvdAWZcb/0ike2AGTJ/PmNLgtFwrmKyXuy4qNKdXw
+	CRaH+/VtIpzD467WnNG43Q4gg1o3XMr/Ph7tIhKWplLHCS2ZplnPpS7FtM2BIurUgzzD/K
+	wymqT2YbGckWBt3/5yJ3aVCix3azGs2ZprELQv61+z+kQH+0UehkQocQwbqDQ16aSKGXmf
+	oVwZgl2CKMo1G1thmHXVb83n2a+hYrj9+3exhFUU5QyhngmG84KjYwlPFyd1RQ==
+Message-ID: <cd483b43465d6e50b75f0b11d0fae57251cdc3db.camel@ew.tq-group.com>
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
+ <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon
+ <nm@ti.com>,  Vignesh Raghavendra <vigneshr@ti.com>, Roger Quadros
+ <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ netdev@vger.kernel.org, devicetree@vger.kernel.org, 
+ linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Date: Tue, 15 Apr 2025 13:28:48 +0200
+In-Reply-To: <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	 <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	 <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeffeeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgeelffefgfehhfdtvdefueefieevkefggfelkeeiudetkeektedvhedukefgvddvnecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidrihhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrn
- hhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
-X-GND-Sasl: luca.ceresoli@bootlin.com
+X-Last-TLS-Session-Version: TLSv1.3
 
-On Mon, 14 Apr 2025 17:40:46 +0200
-Maxime Ripard <mripard@kernel.org> wrote:
+On Tue, 2025-04-15 at 16:06 +0530, Siddharth Vadapalli wrote:
+>=20
+> On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
+> > As discussed [1], the comments for the different rgmii(-*id) modes do n=
+ot
+> > accurately describe what these values mean.
+> >=20
+> > As the Device Tree is primarily supposed to describe the hardware and n=
+ot
+> > its configuration, the different modes need to distinguish board design=
+s
+>=20
+> If the Ethernet-Controller (MAC) is integrated in an SoC (as is the case
+> with CPSW Ethernet Switch), and, given that "phy-mode" is a property
+> added within the device-tree node of the MAC, I fail to understand how
+> the device-tree can continue "describing" hardware for different board
+> designs using the same SoC (unchanged MAC HW).
 
-> Hi,
-> 
-> On Wed, Apr 09, 2025 at 04:50:34PM +0200, Luca Ceresoli wrote:
-> > Document in detail the DRM bridge allocation and refcounting process based
-> > on the recently introduced devm_drm_bridge_alloc().
-> > 
-> > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
-> 
-> There's a typo in your commit title.
-> 
+The setting is part of the MAC node, but it is always set in the board DTS,
+together with assigning a PHY to the MAC.
+
+> How do we handle situations where a given MAC supports various
+> "phy-modes" in HW? Shouldn't "phy-modes" then be a "list" to technically
+> descibe the HW? Even if we set aside the "rgmii" variants that this
+> series is attempting to address, the CPSW MAC supports "sgmii", "qsgmii"
+> and "usxgmii/xfi" as well.
+
+This is not about PHY mode support of the MAC, but the mode to be used on a
+particular board. I would not expect a board to use multiple different
+interfaces with a single PHY (and if such cases exist, I consider them out =
+of
+scope for this patch series).
+
+>=20
+> > (if a delay is built into the PCB using different trace lengths); wheth=
+er
+> > a delay is added on the MAC or the PHY side when needed should not matt=
+er.
+> >=20
+> > Unfortunately, implementation in MAC drivers is somewhat inconsistent
+> > where a delay is fixed or configurable on the MAC side. As a first step
+> > towards sorting this out, improve the documentation.
+> >=20
+> > Link: https://lore.kernel.org/lkml/d25b1447-c28b-4998-b238-92672434dc28=
+@lunn.ch/ [1]
+> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
 > > ---
-> > 
-> > Changes in v7:
-> >  - remove mention of "legacy mode", we now support only refcounted
-> >    bridges
-> >  - rename patch title from "drm/bridge: add documentation of refcounted
-> >    bridges", we now support only refcounted bridges
-> > 
-> > Changes in v6:
-> >  - update to the new devm_drm_bridge_alloc() API
-> >  - rewrite and improve various sentences for clarity
-> >  - fix typos (Randy Dunlap)
-> > 
-> > This patch was added in v5.
-> > ---
-> >  Documentation/gpu/drm-kms-helpers.rst |  6 +++
-> >  drivers/gpu/drm/drm_bridge.c          | 73 +++++++++++++++++++++++++++++++++++
-> >  2 files changed, 79 insertions(+)
-> > 
-> > diff --git a/Documentation/gpu/drm-kms-helpers.rst b/Documentation/gpu/drm-kms-helpers.rst
-> > index 5139705089f200b189876a5a61bf2a935cec433a..393cd0e4cb5af3fe98674e7a96c853ffb2556c97 100644
-> > --- a/Documentation/gpu/drm-kms-helpers.rst
-> > +++ b/Documentation/gpu/drm-kms-helpers.rst
-> > @@ -151,6 +151,12 @@ Overview
-> >  .. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> >     :doc: overview
-> >  
-> > +Bridge allocation and lifecycle
-> > +-------------------------------
-> > +
-> > +.. kernel-doc:: drivers/gpu/drm/drm_bridge.c
-> > +   :doc: bridge lifecycle
-> > +
-> >  Display Driver Integration
-> >  --------------------------
-> >  
-> > diff --git a/drivers/gpu/drm/drm_bridge.c b/drivers/gpu/drm/drm_bridge.c
-> > index b4c89ec01998b849018ce031c7cd84614e65e710..b7e1ad761dad52bdb2ec09d425e69ee23a18fd36 100644
-> > --- a/drivers/gpu/drm/drm_bridge.c
-> > +++ b/drivers/gpu/drm/drm_bridge.c
-> > @@ -61,6 +61,79 @@
-> >   * encoder chain.
-> >   */
-> >  
-> > +/**
-> > + * DOC: bridge lifecycle
-> > + *
-> > + * In some use cases such as hot-plugging a DRM bridge device can
-> > + * physically disappear and reappear at runtime. To handle such cases
-> > + * without destroying and recreating the entire DRM pipeline, DRM bridge
-> > + * lifetime is managed using reference counting:  
-> 
-> That case doesn't exist yet, so documenting it seems a source of confusion.
+> >  .../bindings/net/ethernet-controller.yaml        | 16 +++++++++-------
+> >  1 file changed, 9 insertions(+), 7 deletions(-)
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.=
+yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > index 45819b2358002..2ddc1ce2439a6 100644
+> > --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > @@ -74,19 +74,21 @@ properties:
+> >        - rev-rmii
+> >        - moca
+> > =20
+> > -      # RX and TX delays are added by the MAC when required
+> > +      # RX and TX delays are part of the board design (through PCB tra=
+ces). MAC
+> > +      # and PHY must not add delays.
+> >        - rgmii
+> > =20
+> > -      # RGMII with internal RX and TX delays provided by the PHY,
+> > -      # the MAC should not add the RX or TX delays in this case
+> > +      # RGMII with internal RX and TX delays provided by the MAC or PH=
+Y. No
+> > +      # delays are included in the board design; this is the most comm=
+on case
+> > +      # in modern designs.
+> >        - rgmii-id
+> > =20
+> > -      # RGMII with internal RX delay provided by the PHY, the MAC
+> > -      # should not add an RX delay in this case
+> > +      # RGMII with internal RX delay provided by the MAC or PHY. TX de=
+lay is
+> > +      # part of the board design.
+> >        - rgmii-rxid
+> > =20
+> > -      # RGMII with internal TX delay provided by the PHY, the MAC
+> > -      # should not add an TX delay in this case
+> > +      # RGMII with internal TX delay provided by the MAC or PHY. RX de=
+lay is
+> > +      # part of the board design.
+>=20
+> Since all of the above is documented in "ethernet-controller.yaml" and
+> not "ethernet-phy.yaml", describing what the "MAC" should or shouldn't
+> do seems accurate, and modifying it to describe what the "PHY" should or
+> shouldn't do seems wrong.
 
-OK, I'd replace it all with:
+The settings describe the connection between MAC and PHY, thus their explan=
+ation
+must mention both to make sense. See the linked discussion with Andrew for
+details.
 
-+ * DRM bridge lifetime is managed using reference counting:  
+Best,
+Matthias
 
-> > + * - each &struct drm_bridge is reference counted since its allocation
-> > + * - any code taking a pointer to a bridge has APIs to get a reference and
-> > + *   put it when done, to ensure the memory allocated for the bridge won't
-> > + *   be deallocated while there is still a reference to it
-> > + * - the driver implementing the bridge also holds a reference, but the
-> > + *   allocated struct can survive the driver in case other references still
-> > + *   exist
-> > + * - deallocation is done when the last put happens, dropping the refcount
-> > + *   to zero
-> > + *
-> > + * Usage of refcounted bridges happens in two sides: the bridge *provider*
-> > + * and the bridge *consumers*. The bridge provider is the driver
-> > + * implementing the bridge. The bridge consumers are all parts of the
-> > + * kernel taking a &struct drm_bridge pointer, including other bridges,
-> > + * encoders and the DRM core.
-> > + *
-> > + * For bridge **providers**, the bridge driver declares a driver-specific
-> > + * struct embedding a &struct drm_bridge. E.g.::
-> > + *
-> > + *   struct my_bridge {
-> > + *       ...
-> > + *       struct drm_bridge bridge;
-> > + *       ...
-> > + *   };
-> > + *
-> > + * The driver must allocate and initialize ``struct my_bridge`` using
-> > + * devm_drm_bridge_alloc(), as in this example::
-> > + *
-> > + *     static int my_bridge_probe(...)
-> > + *     {
-> > + *         struct device *dev = ...;
-> > + *         struct my_bridge *mybr;
-> > + *
-> > + *         mybr = devm_drm_bridge_alloc(dev, struct my_bridge, bridge, &my_bridge_funcs);
-> > + *         if (IS_ERR(mybr))
-> > + *             return PTR_ERR(mybr);
-> > + *
-> > + *         // Get resources, initialize my_bridge members...
-> > + *         drm_bridge_add(&mybr->bridge);
-> > + *         ...
-> > + *     }
-> > + *
-> > + *     static void my_bridge_remove(...)
-> > + *     {
-> > + *         struct my_bridge *mybr = ...;
-> > + *
-> > + *         drm_bridge_remove(&mybr->bridge);
-> > + *         // Free resources
-> > + *         // ... NO kfree here!
-> > + *     }  
-> 
-> This part is already documented by drm_bridge_add(), so it's not clear
-> what that section brings to the table either.
-> 
-> > + * Bridge **consumers** need to handle the case of a bridge being removed
-> > + * while they have a pointer to it. As this can happen at any time, such
-> > + * code can incur in use-after-free. To avoid that, consumers have to call
-> > + * drm_bridge_get() when taking a pointer and drm_bridge_put() after they
-> > + * are done using it. This will extend the allocation lifetime of the
-> > + * bridge struct until the last reference has been put, potentially a long
-> > + * time after the bridge device has been removed from the kernel.  
-> 
-> And it's kind of the same thing here. You're saying here that every
-> consumer absolutely needs to call drm_bridge_get() and drm_bridge_put()
-> on their pointer ...
-> 
-> > + * Functions that return a pointer to a bridge, such as
-> > + * of_drm_find_bridge(), internally call drm_bridge_get() on the bridge
-> > + * they are about to return, so users using such functions to get a bridge
-> > + * pointer only have to take care of calling drm_bridge_put().
-> > + */  
-> 
-> ... but that every function that gives you a pointer will take care of
-> drm_bridge_get already and (will) document that you need to call
-> drm_bridge_put ?
-> 
-> I guess my larger question is kind of an editorial one. What do you want
-> people to learn here that isn't in some function documentation already?
-> At the moment, it looks like a doc that used to be useful but got kind
-> of deprecated by the documentation you created on all the functions we
-> merged so far, or a documentation that might be useful at some point but
-> not quite yet. Either way, it's confusing.
 
-When I start looking into a kernel subsystem that is new to me, I am
-very happy when there is high-level, "big picture" introductory
-documentation like this. Otherwise I need to learn from existing code,
-with the risk of learning from drivers that not following the best
-practice. That's what I tried to do here.
 
-Of course neither you or I will need this documentation. But I suspect
-you consider this not useful in general.
+>=20
+> >        - rgmii-txid
+> >        - rtbi
+> >        - smii
+>=20
+> Regards,
+> Siddharth.
 
-Do you think this patch should be removed entirely?
-
-(no offense taken if you do, just I won't invest more time in improving
-this patch if it is not going to be taken)
-
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+https://www.tq-group.com/
