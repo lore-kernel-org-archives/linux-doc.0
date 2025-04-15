@@ -1,114 +1,72 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 226A4E552;
-	Tue, 15 Apr 2025 01:09:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63BEE3C463;
+	Tue, 15 Apr 2025 01:28:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744679391; cv=none; b=LUkwTzfstxbUyQH6SngvLjyvZSgrkpeDlvp7VJ/Xyd4mOPFwZJq/Tk6c4B/4rpWvXg5ukeXHxYGToqa5hVLdES8AxnfjD27j2Ec0hjxAEj3ZXAJxI4fMDu0TMoDmCera7qda6NcXoDAPI0k9MFyfZ2F6jlSchswSysepPBLHzc8=
+	t=1744680502; cv=none; b=QE7iEJV/h+vU4tTcl6TQO2smvIS1YV0wUNJLF6EbtWkyvsNy6xK/A8L3pA2fLH/mbPrdkZOTU5ewrHfXL+5pzOO/vRlkwfeFG6ibMh7zn5Wlpbe/kK/KwMWgy7uCqfscfKjM955JyqjLH3cFAyTCnELhtVCWWrZm4PybCqmmk3M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744679391; c=relaxed/simple;
-	bh=LMeLUEKg5xDcGioaeFPFvRZ04XyTLfjMaXAPpjddU/4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HuRkLtnVsiEl5lFtBSvqmPDL440LIEj+OUAI9AUx0rw5spjKA1B4RQ4CK+1GHgCy6QmMPqNjhNSjSyqO7A5LsQsb55Hs9sZKBTherHYNrfITSLnI3jqE4mD5VHkp03sw1AL3/m+f1RXprusBZWdrBT1THXakkU7p1D0JTRWT7Vc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=mGWRfMcB; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1744680502; c=relaxed/simple;
+	bh=qOiLzz5Ys8eSSLqOWk5VgHA3ONL6mmYMIxRWgNUdq0w=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fQKKc0t6oNJeRBgOf9YRRakABxCcH48FfNa7e1hXSzyhVb85d1ECBDHuYdduQZApm1VOb4nPQtVj4UKWtEeZuUPCjMJo2eGKoJtJK7uF3voyBSP8GAmlnAk3mffs4kjoOqN+d3l5qPFlrElFLUUfiTt7sHntsmfh/Rtka3znNL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmH07lrM; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="mGWRfMcB"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
-	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
-	:Reply-To:Content-ID:Content-Description;
-	bh=tkpYvkCIQ/uMw3T3hwTBxYM93KgGHR0Qg2Z4WopPNg8=; b=mGWRfMcBluKY5szv4YyyZdWO0A
-	tGJjrHZD61V16NoOYr/Bdp8TvKCrOZ0D7brHyZfAtH/OGTRderEz/ZNE9KpG7c7G7+hsH64EcH53N
-	3lmD4riYUr5WpDa22yfHucMb3N+5L/ABxB3TC5CVq6cDcc7Bo3uEOzl+aqvO7RegCZ9ZPQFxqAlbx
-	fhNLtFz+t0eW4D6rBqZMyRZUjKScqdPhzfNCsT5EQufORCl095Tdnu16bPWWXN7bR/vd1H+sRd+E+
-	VKpgtst32G/nkc+OmCBmS2Xx0XRR9jFSLR3o4wkpuOjf+GPPC0IXRML3OWBMGSBq7Jc5qhRP7LV2J
-	ItGDSmSA==;
-Received: from [50.39.124.201] (helo=[192.168.254.17])
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u4Uns-00000007kMN-3dik;
-	Tue, 15 Apr 2025 01:09:33 +0000
-Message-ID: <984797ec-9073-4a83-b3ee-7c5041f2d423@infradead.org>
-Date: Mon, 14 Apr 2025 18:09:22 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmH07lrM"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BD09C4CEE2;
+	Tue, 15 Apr 2025 01:28:20 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744680501;
+	bh=qOiLzz5Ys8eSSLqOWk5VgHA3ONL6mmYMIxRWgNUdq0w=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HmH07lrMHaqvYw2TUmzSVnmklXNNFlYxJPI6IJEXLClrjQEwLdeDGu7a5pKuVGjnT
+	 UQHg4viqaE+XD/0YfBHNAzyqIf1q2dOTlRNz+ZS0M2CfEUrGbd+K3zW52t+caMHZzh
+	 NxPV+fGt7E37dD8jmElvwG/HyQfY9Xg6tRn1K3o2Z65urYXd/CRCZUSbZRyHx7gHsp
+	 329nHQ7eSvNZfIz/NcxCPOyzEhXj+dt1vdlUi2CIvaR3rxR0G++WR6FBChvwTMGFj9
+	 u0BcCSav4jHIEN9JwTwAS3vCTEHuyh4DvE9C+4igenTlFtZvaxaG2T9pV7kSu0x+nk
+	 ahGsmqeDHgO+A==
+Date: Mon, 14 Apr 2025 18:28:20 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: Fan Gong <gongfan1@huawei.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Lee Trager
+ <lee@trager.us>, <linux-doc@vger.kernel.org>, Jonathan Corbet
+ <corbet@lwn.net>, Bjorn Helgaas <helgaas@kernel.org>, Cai Huoqing
+ <cai.huoqing@linux.dev>, luosifu <luosifu@huawei.com>, Xin Guo
+ <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+ <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Suman Ghosh
+ <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Joe
+ Damato <jdamato@fastly.com>
+Subject: Re: [PATCH net-next v10 1/1] hinic3: module initialization and
+ tx/rx logic
+Message-ID: <20250414182820.370e9feb@kernel.org>
+In-Reply-To: <f74da5b6deceacf4e21cd6fa126e88acd3e8b824.1744286279.git.gur.stavi@huawei.com>
+References: <cover.1744286279.git.gur.stavi@huawei.com>
+	<f74da5b6deceacf4e21cd6fa126e88acd3e8b824.1744286279.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 12/12] Documentation: mm: update the admin guide for
- mTHP collapse
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, baolin.wang@linux.alibaba.com, ryan.roberts@arm.com,
- willy@infradead.org, peterx@redhat.com, ziy@nvidia.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, dev.jain@arm.com,
- anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de,
- will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com
-References: <20250414220557.35388-1-npache@redhat.com>
- <20250414220557.35388-13-npache@redhat.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250414220557.35388-13-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
+On Thu, 10 Apr 2025 15:15:51 +0300 Gur Stavi wrote:
+> +	err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(64));
+> +	if (err) {
+> +		dev_warn(&pdev->dev, "Couldn't set 64-bit DMA mask\n");
+> +		/* try 32 bit DMA mask if 64 bit fails */
+> +		err = dma_set_mask_and_coherent(&pdev->dev, DMA_BIT_MASK(32));
+> +		if (err) {
+> +			dev_err(&pdev->dev, "Failed to set DMA mask\n");
+> +			goto err_release_regions;
+> +		}
 
-
-On 4/14/25 3:05 PM, Nico Pache wrote:
-> Now that we can collapse to mTHPs lets update the admin guide to
-> reflect these changes and provide proper guidence on how to utilize it.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->  Documentation/admin-guide/mm/transhuge.rst | 9 ++++++++-
->  1 file changed, 8 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-> index dff8d5985f0f..f0d4e78cedaa 100644
-> --- a/Documentation/admin-guide/mm/transhuge.rst
-> +++ b/Documentation/admin-guide/mm/transhuge.rst
-> @@ -63,7 +63,7 @@ often.
->  THP can be enabled system wide or restricted to certain tasks or even
->  memory ranges inside task's address space. Unless THP is completely
->  disabled, there is ``khugepaged`` daemon that scans memory and
-> -collapses sequences of basic pages into PMD-sized huge pages.
-> +collapses sequences of basic pages into huge pages.
->  
->  The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
->  interface and using madvise(2) and prctl(2) system calls.
-> @@ -144,6 +144,13 @@ hugepage sizes have enabled="never". If enabling multiple hugepage
->  sizes, the kernel will select the most appropriate enabled size for a
->  given allocation.
->  
-> +khugepaged uses max_ptes_none scaled to the order of the enabled mTHP size to
-> +determine collapses. When using mTHPs its recommended to set max_ptes_none low.
-
-                                         it's
-
-> +Ideally less than HPAGE_PMD_NR / 2 (255 on 4k page size). This will prevent
-
-   ^^^ not a sentence
-
-> +undesired "creep" behavior that leads to continuously collapsing to a larger
-> +mTHP size. max_ptes_shared and max_ptes_swap have no effect when collapsing to a
-> +mTHP, and mTHP collapse will fail on shared or swapped out pages.
-> +
->  It's also possible to limit defrag efforts in the VM to generate
->  anonymous hugepages in case they're not immediately free to madvise
->  regions or to never try to defrag memory and simply fallback to regular
-
--- 
-~Randy
-
+Please take a look at commit 004464835bfc ("hinic: Remove useless
+DMA-32 fallback configuration"). This construct was removed in your
+other driver now you're bringing it back.
