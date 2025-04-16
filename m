@@ -1,103 +1,309 @@
-Received: from mailtransmit04.runbox.com (mailtransmit04.runbox.com [185.226.149.37])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 543C017BA6;
-	Wed, 16 Apr 2025 12:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.226.149.37
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65C9520FAB3;
+	Wed, 16 Apr 2025 13:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744806870; cv=none; b=shquWvFqbGJWEC/e1yRbvQpVLGw0SajYM0OaM2OySseTM6PZLnAl4PnK/7TXPDl7w7QYmVE8HuMk1+PYZXffx3JVUZw+/tDP4vLdbnLRzAIUgszRn47nd+QuaRZyMCJBpjrLRmE2X7NT19bApV4aKs3KszwL7bTA9EdtSSm7p5E=
+	t=1744811095; cv=none; b=XvBgxYsGqwXhLlQw24JC6kZBT+43cx9vQySxXVMzD1Nz6aKh7KYj3fk+mpEZzM2zsXgtD9Xwb+1bN+q9PWhc0h3/+i1MWLDA/xij19UtlIiQvtfJLQxAymJElsshYrtNhyOkZfVvNf2Uaj1qaXAtBFSzw2L/vVQ/KJb6okoo074=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744806870; c=relaxed/simple;
-	bh=WWcwwTC7EZdfHdRfTryGVgalV2DWfrLjxVOpvMgt8U0=;
-	h=Message-ID:Date:MIME-Version:From:Subject:To:Cc:References:
-	 In-Reply-To:Content-Type; b=sfEGWriHi0ojcJmsOK/JiJqRqzTee7Zd8aa01S3Bh7TQU4swhSyoZLf7pEZXRi2Ju0c2f/Q/pFhDudHmyyfj2vM1WkVZRmPu6bElcDFsWHkSIneejIhwLYiW8Pk1NL5VUNtvpFsJqiDkyqn8gJmdFa2nsaDmMplWNTetSulptRI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co; spf=pass smtp.mailfrom=rbox.co; dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b=lW39PM8L; arc=none smtp.client-ip=185.226.149.37
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=rbox.co
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rbox.co
+	s=arc-20240116; t=1744811095; c=relaxed/simple;
+	bh=Wjjk84mYVVEGEyfkFT0FHSVi/SyGHbn82K0gy33AhnI=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=p1vyOx+smakuaJ3czM3Eaq1uZ4BZwPOdNjeyJayNvPthgrGm8yhYSk8MzqiCQ9cn3FFhen30FgS5T8cMxbrhutR50HwWv8ajg5tZL+iv5zVmx6TuU0/dT1LmU2m/QIFJIiCAZgc1W98WzrHWNlTfaDya/sQ8vWcM0cmY/Cf5GWc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=Qm41dug0; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rbox.co header.i=@rbox.co header.b="lW39PM8L"
-Received: from mailtransmit02.runbox ([10.9.9.162] helo=aibo.runbox.com)
-	by mailtransmit04.runbox.com with esmtps  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-	(Exim 4.93)
-	(envelope-from <mhal@rbox.co>)
-	id 1u51y6-002msX-2M; Wed, 16 Apr 2025 14:34:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=rbox.co;
-	s=selector1; h=Content-Transfer-Encoding:Content-Type:In-Reply-To:References:
-	Cc:To:Subject:From:MIME-Version:Date:Message-ID;
-	bh=UjqFfqPx6cvEdccJ7oOBXQZaC6kTqAwp1SpYt+j3Nkc=; b=lW39PM8LFm7wlVgceI3BzJ7ww7
-	WgizwU0MwPokEk38E4P+a8BzogJpl40MwoGfW6A6/deK5sv7jnxoUANTcwECI8mpr7KqT4damgkQQ
-	hwTeRRN+sXAac17IdM9ChTP99T9WFX8Sfkd+Q0SQirHE7Up0T20or+iZl1eDBc/6ralfzc98ZKgbf
-	DKU1ufcnq6rBX1VWqYqtdcLdUlTZuWafbQhmPRFP6VC5VezKMijh5PACFXXNa6Q/JzBLpUbBMgZky
-	QRnPSj8DZrPs3fsICGD6LW2DfkOYgqt8/f4fQoSsx4eKKqTl8IqErW9l++pUi5Sxwobix1a+5g/4I
-	HAt/1qYg==;
-Received: from [10.9.9.74] (helo=submission03.runbox)
-	by mailtransmit02.runbox with esmtp (Exim 4.86_2)
-	(envelope-from <mhal@rbox.co>)
-	id 1u51xz-0005AD-Gd; Wed, 16 Apr 2025 14:34:11 +0200
-Received: by submission03.runbox with esmtpsa  [Authenticated ID (604044)]  (TLS1.2:ECDHE_SECP256R1__RSA_PSS_RSAE_SHA256__AES_256_GCM:256)
-	(Exim 4.93)
-	id 1u51xm-007llz-BQ; Wed, 16 Apr 2025 14:33:58 +0200
-Message-ID: <adbb8f18-4490-4785-aa5c-2942a53c09c3@rbox.co>
-Date: Wed, 16 Apr 2025 14:33:56 +0200
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="Qm41dug0"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 92D0E43924;
+	Wed, 16 Apr 2025 13:44:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1744811090;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=aA2LUjHXJ1t2EPpMddyKio7ZvvlafiyxPiAfJOMw+jo=;
+	b=Qm41dug0sWGKLPkLtQa7U0SpBPEpxkcWCwUkJGB2w3rfU+dtQOBlai0ADp+/fqeQP6KPJN
+	2M5q+msu9X5EOneIhhtt3pvRTJwUc537Q3r8B0/yqJCffaUQyxVh9uKbMtNUBNSb9jC/ew
+	L13LyxH3Vy2b/d9Zj8JASrdrJ/oyVOdw5tddT9rTA8UFjwHAZmcdRBXTMniue5DecCC4O/
+	th6B5JsoK4JIHnvlwg7UTwgE1C087U3bNwEcUXyClEtJhjB8AwTl8aEV/K1z8Ke3SCx2sW
+	Wy544PSjKt7XZIDnVwBS2vCuJBiXODb4sCxTPDrBz48n7bUZs1zmcmf/ClRBXQ==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Wed, 16 Apr 2025 15:44:19 +0200
+Subject: [PATCH net-next v8 04/13] net: pse-pd: Add support for PSE power
+ domains
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-From: Michal Luczaj <mhal@rbox.co>
-Subject: Re: [PATCH bpf-next v2 5/9] selftests/bpf: Add selftest for
- sockmap/hashmap redirection
-To: Jakub Sitnicki <jakub@cloudflare.com>, Jiayuan Chen <mrpre@163.com>
-Cc: Andrii Nakryiko <andrii@kernel.org>, Eduard Zingerman
- <eddyz87@gmail.com>, Mykola Lysenko <mykolal@fb.com>,
- Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>,
- Martin KaFai Lau <martin.lau@linux.dev>, Song Liu <song@kernel.org>,
- Yonghong Song <yonghong.song@linux.dev>,
- John Fastabend <john.fastabend@gmail.com>, KP Singh <kpsingh@kernel.org>,
- Stanislav Fomichev <sdf@fomichev.me>, Hao Luo <haoluo@google.com>,
- Jiri Olsa <jolsa@kernel.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, bpf@vger.kernel.org,
- linux-kselftest@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250411-selftests-sockmap-redir-v2-0-5f9b018d6704@rbox.co>
- <20250411-selftests-sockmap-redir-v2-5-5f9b018d6704@rbox.co>
- <fnsy7wey4vaewoyur5363w2q2nb7dvljmaroijflgq2hfqbumo@gqdged7tly47>
- <87a58mh9co.fsf@cloudflare.com>
-Content-Language: pl-PL, en-GB
-In-Reply-To: <87a58mh9co.fsf@cloudflare.com>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+Message-Id: <20250416-feature_poe_port_prio-v8-4-446c39dc3738@bootlin.com>
+References: <20250416-feature_poe_port_prio-v8-0-446c39dc3738@bootlin.com>
+In-Reply-To: <20250416-feature_poe_port_prio-v8-0-446c39dc3738@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdeiheefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpefhfffugggtgffkfhgjvfevofesthejredtredtjeenucfhrhhomhepmfhorhihucforghinhgtvghnthcuoehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmqeenucggtffrrghtthgvrhhnpeevgfdvgfektefgfefggeekudfggffhtdfffedtueetheejtddvledvvdelhedtveenucfkphepledtrdekledrudeifedruddvjeenucevlhhushhtvghrufhiiigvpedunecurfgrrhgrmhepihhnvghtpeeltddrkeelrdduieefrdduvdejpdhhvghloheplgduvdejrddtrddurddungdpmhgrihhlfhhrohhmpehkohhrhidrmhgrihhntggvnhhtsegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopedvjedprhgtphhtthhopehrohgshheskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopegurghvvghmsegurghvvghmlhhofhhtrdhnvghtpdhrtghpthhtohephhhkrghllhifvghithdusehgmhgrihhlrdgtohhmpdhrtghpthhtohepkhgvrhhnvghlsehpvghnghhuthhrohhnihigrdguvgdprhgtphhtthhopehhohhrmhhssehkvghrn
+ hgvlhdrohhrghdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepughonhgrlhgurdhhuhhnthgvrhesghhmrghilhdrtghomh
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On 4/11/25 19:54, Jakub Sitnicki wrote:
-> On Fri, Apr 11, 2025 at 09:09 PM +08, Jiayuan Chen wrote:
->> On Fri, Apr 11, 2025 at 01:32:41PM +0200, Michal Luczaj wrote:
->>> Test redirection logic. All supported and unsupported redirect combinations
->>> are tested for success and failure respectively.
->>>
->>> BPF_MAP_TYPE_SOCKMAP
->>> BPF_MAP_TYPE_SOCKHASH
->>> 	x
->>> sk_msg-to-egress
->>> sk_msg-to-ingress
->>> sk_skb-to-egress
->>> sk_skb-to-ingress
->>
->> Could we also add test cases for SK_PASS (and even SK_DROP)?
->> Previously, we encountered deadlocks and incorrect sequence issues when
->> the program returned SK_PASS, so explicit testing for these cases would
->> be helpful.
->>
->> If implemented, this test would fully exercise all code paths and
->> demonstrate a complete example that covers every aspect of
->> sockmap's packet steering and connection management capabilities.
-> 
-> This could easily be a follow up in my mind.
-> 
-> [...]
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-Yeah, I wouldn't mind doing this in multiple steps.
+Introduce PSE power domain support as groundwork for upcoming port
+priority features. Multiple PSE PIs can now be grouped under a single
+PSE power domain, enabling future enhancements like defining available
+power budgets, port priority modes, and disconnection policies. This
+setup will allow the system to assess whether activating a port would
+exceed the available power budget, preventing over-budget states
+proactively.
 
-That said, with SK_PASS/SK_DROP involved, are we sticking with the name
-"sockmap_redir"?
+Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+---
+Changes in v8:
+- Add missing kref_init and an wrong error check condition.
+
+Changes in v7:
+- Add reference count and mutex lock for PSE power domain in case of PSE
+  from different controllers want to register the same PSE power domain.
+
+Changes in v6:
+- nitpick change.
+
+Changes in v4:
+- Add kdoc.
+- Fix null dereference in pse_flush_pw_ds function.
+
+Changes in v3:
+- Remove pw_budget variable.
+
+Changes in v2:
+- new patch.
+---
+ drivers/net/pse-pd/pse_core.c | 139 ++++++++++++++++++++++++++++++++++++++++++
+ include/linux/pse-pd/pse.h    |   2 +
+ 2 files changed, 141 insertions(+)
+
+diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
+index 8755c2e00b6a..30d043af5b3f 100644
+--- a/drivers/net/pse-pd/pse_core.c
++++ b/drivers/net/pse-pd/pse_core.c
+@@ -13,8 +13,12 @@
+ #include <linux/regulator/driver.h>
+ #include <linux/regulator/machine.h>
+ 
++#define PSE_PW_D_LIMIT INT_MAX
++
+ static DEFINE_MUTEX(pse_list_mutex);
+ static LIST_HEAD(pse_controller_list);
++static DEFINE_XARRAY_ALLOC(pse_pw_d_map);
++static DEFINE_MUTEX(pse_pw_d_mutex);
+ 
+ /**
+  * struct pse_control - a PSE control
+@@ -35,6 +39,18 @@ struct pse_control {
+ 	struct phy_device *attached_phydev;
+ };
+ 
++/**
++ * struct pse_power_domain - a PSE power domain
++ * @id: ID of the power domain
++ * @supply: Power supply the Power Domain
++ * @refcnt: Number of gets of this pse_power_domain
++ */
++struct pse_power_domain {
++	int id;
++	struct regulator *supply;
++	struct kref refcnt;
++};
++
+ static int of_load_single_pse_pi_pairset(struct device_node *node,
+ 					 struct pse_pi *pi,
+ 					 int pairset_num)
+@@ -440,6 +456,124 @@ devm_pse_pi_regulator_register(struct pse_controller_dev *pcdev,
+ 	return 0;
+ }
+ 
++static void __pse_pw_d_release(struct kref *kref)
++{
++	struct pse_power_domain *pw_d = container_of(kref,
++						     struct pse_power_domain,
++						     refcnt);
++
++	regulator_put(pw_d->supply);
++	xa_erase(&pse_pw_d_map, pw_d->id);
++}
++
++/**
++ * pse_flush_pw_ds - flush all PSE power domains of a PSE
++ * @pcdev: a pointer to the initialized PSE controller device
++ */
++static void pse_flush_pw_ds(struct pse_controller_dev *pcdev)
++{
++	struct pse_power_domain *pw_d;
++	int i;
++
++	for (i = 0; i < pcdev->nr_lines; i++) {
++		if (!pcdev->pi[i].pw_d)
++			continue;
++
++		pw_d = xa_load(&pse_pw_d_map, pcdev->pi[i].pw_d->id);
++		if (!pw_d)
++			continue;
++
++		kref_put_mutex(&pw_d->refcnt, __pse_pw_d_release,
++			       &pse_pw_d_mutex);
++	}
++}
++
++/**
++ * devm_pse_alloc_pw_d - allocate a new PSE power domain for a device
++ * @dev: device that is registering this PSE power domain
++ *
++ * Return: Pointer to the newly allocated PSE power domain or error pointers
++ */
++static struct pse_power_domain *devm_pse_alloc_pw_d(struct device *dev)
++{
++	struct pse_power_domain *pw_d;
++	int index, ret;
++
++	pw_d = devm_kzalloc(dev, sizeof(*pw_d), GFP_KERNEL);
++	if (!pw_d)
++		return ERR_PTR(-ENOMEM);
++
++	ret = xa_alloc(&pse_pw_d_map, &index, pw_d, XA_LIMIT(1, PSE_PW_D_LIMIT),
++		       GFP_KERNEL);
++	if (ret)
++		return ERR_PTR(ret);
++
++	kref_init(&pw_d->refcnt);
++	pw_d->id = index;
++	return pw_d;
++}
++
++/**
++ * pse_register_pw_ds - register the PSE power domains for a PSE
++ * @pcdev: a pointer to the PSE controller device
++ *
++ * Return: 0 on success and failure value on error
++ */
++static int pse_register_pw_ds(struct pse_controller_dev *pcdev)
++{
++	int i, ret = 0;
++
++	mutex_lock(&pse_pw_d_mutex);
++	for (i = 0; i < pcdev->nr_lines; i++) {
++		struct regulator_dev *rdev = pcdev->pi[i].rdev;
++		struct pse_power_domain *pw_d;
++		struct regulator *supply;
++		bool present = false;
++		unsigned long index;
++
++		/* No regulator or regulator parent supply registered.
++		 * We need a regulator parent to register a PSE power domain
++		 */
++		if (!rdev || !rdev->supply)
++			continue;
++
++		xa_for_each(&pse_pw_d_map, index, pw_d) {
++			/* Power supply already registered as a PSE power
++			 * domain.
++			 */
++			if (regulator_is_equal(pw_d->supply, rdev->supply)) {
++				present = true;
++				pcdev->pi[i].pw_d = pw_d;
++				break;
++			}
++		}
++		if (present) {
++			kref_get(&pw_d->refcnt);
++			continue;
++		}
++
++		pw_d = devm_pse_alloc_pw_d(pcdev->dev);
++		if (IS_ERR(pw_d)) {
++			ret = PTR_ERR(pw_d);
++			goto out;
++		}
++
++		supply = regulator_get(&rdev->dev, rdev->supply_name);
++		if (IS_ERR(supply)) {
++			xa_erase(&pse_pw_d_map, pw_d->id);
++			ret = PTR_ERR(supply);
++			goto out;
++		}
++
++		pw_d->supply = supply;
++		pcdev->pi[i].pw_d = pw_d;
++	}
++
++out:
++	mutex_unlock(&pse_pw_d_mutex);
++	return ret;
++}
++
+ /**
+  * pse_controller_register - register a PSE controller device
+  * @pcdev: a pointer to the initialized PSE controller device
+@@ -499,6 +633,10 @@ int pse_controller_register(struct pse_controller_dev *pcdev)
+ 			return ret;
+ 	}
+ 
++	ret = pse_register_pw_ds(pcdev);
++	if (ret)
++		return ret;
++
+ 	mutex_lock(&pse_list_mutex);
+ 	list_add(&pcdev->list, &pse_controller_list);
+ 	mutex_unlock(&pse_list_mutex);
+@@ -513,6 +651,7 @@ EXPORT_SYMBOL_GPL(pse_controller_register);
+  */
+ void pse_controller_unregister(struct pse_controller_dev *pcdev)
+ {
++	pse_flush_pw_ds(pcdev);
+ 	pse_release_pis(pcdev);
+ 	mutex_lock(&pse_list_mutex);
+ 	list_del(&pcdev->list);
+diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
+index 5d41a1c984bd..5201a0fb3d74 100644
+--- a/include/linux/pse-pd/pse.h
++++ b/include/linux/pse-pd/pse.h
+@@ -220,12 +220,14 @@ struct pse_pi_pairset {
+  * @np: device node pointer of the PSE PI node
+  * @rdev: regulator represented by the PSE PI
+  * @admin_state_enabled: PI enabled state
++ * @pw_d: Power domain of the PSE PI
+  */
+ struct pse_pi {
+ 	struct pse_pi_pairset pairset[2];
+ 	struct device_node *np;
+ 	struct regulator_dev *rdev;
+ 	bool admin_state_enabled;
++	struct pse_power_domain *pw_d;
+ };
+ 
+ /**
+
+-- 
+2.34.1
+
