@@ -1,95 +1,127 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9E32884E1C;
-	Wed, 16 Apr 2025 17:31:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 200E321576A;
+	Wed, 16 Apr 2025 17:52:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744824691; cv=none; b=D112bay0m7XE+Vj/hkzkE9hZPnuUGUwfGZ2xTZipyOp3LYwMVcpZRUH+pnjEbJfZva1suW8uQj6sB94tv2xyZmdnzK711dqhzkNFbLIRmnjhKP/O2uuvv7+r8A20fBHAVw+7S0tUQDUzY4DsfFhN5NLW8VVqp8vKkR6ZAoaOZMI=
+	t=1744825933; cv=none; b=t6VWSGd99uQ0N74ajzd9wjM6daNTpBxiwRBox+P5362KHlia+gUY70uLJ4q86xOH6X4HAxAMXAHEZIUDPbkVqA5YzPmS22qoXxTrf5+VnSQL3I9sQLetMZ2bBpZkW+mTvh5rAykTh9qaXG4ylEYEo/NteiPk0FQvPchqanw4208=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744824691; c=relaxed/simple;
-	bh=5Pv3Hc0R8ZXL+oH8n2b7z3OtCOacHKIR1ANqXH+K9c0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=Z6xAiaGvNQheyQ613Gf8n2WutwhQB4Ggf/OdQ9ZWAejineJRBApQhgWc3kPaOzvAb9+pl5V+zXfDL33JkEkj+Ub/Kwc6kz9o+vEh27VTA5OxVJPRTGd+i46sezK5If3i7vEs8J4bohK+yf8Jje/gFqSX/zb20N+OYJniVzMq8dE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=TJVRAyam; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1744825933; c=relaxed/simple;
+	bh=MGg7zlY8w1c4ygae3wQmVztn9Aa9+X7cqIum9lXVmSk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H2emrMv6NsRoItQd7oILCe9T32hZa0r2Sld5tHW9btbgGdpe6X4ijPHvkEU/kNo8/ZsuresofKkjpY4jmeS0n4O77Am/A8rENmlug6DVcvcStl5LazDrIkzoaM95+zVMgjz/qMTZPrFZDe+WnLSobtopCB9Qq1ljN0cP0U+ipJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bRYvgBTH; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="TJVRAyam"
-Received: from narnia (unknown [167.220.2.28])
-	by linux.microsoft.com (Postfix) with ESMTPSA id CA0032052508;
-	Wed, 16 Apr 2025 10:31:20 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com CA0032052508
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1744824689;
-	bh=b7cZx62sBqiNAK+Z5g1uUfPSpgmxvu8T11NIoXrTY/o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=TJVRAyamNt8PTaChjPR4KaTuMaecAOHx9O2mwAnlkPR9lulk07gjnRGoxXT/5rHwB
-	 ZlrItUV1NU7JpKbyzk/UEEXb1e+ROAv34a6ZYR5OoptpDpkfF+e1fJEz/jPiDVMnTN
-	 ekQqoaiXnzkMd9ip4K/kRhdBVUggBCaWt16+ZVoo=
-From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Jonathan Corbet <corbet@lwn.net>, David Howells <dhowells@redhat.com>,
- Herbert Xu <herbert@gondor.apana.org.au>, "David S. Miller"
- <davem@davemloft.net>, Paul Moore <paul@paul-moore.com>, James Morris
- <jmorris@namei.org>, "Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Nathan Chancellor <nathan@kernel.org>, Nicolas
- Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, =?utf-8?Q?Mick?=
- =?utf-8?Q?a=C3=ABl_Sala=C3=BCn?=
- <mic@digikod.net>, =?utf-8?Q?G=C3=BCnther?= Noack <gnoack@google.com>, Nick
- Desaulniers
- <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>,
- Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
- <jarkko@kernel.org>, Jan Stancek <jstancek@redhat.com>, Neal Gompa
- <neal@gompa.dev>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- LKML <linux-kernel@vger.kernel.org>, keyrings@vger.kernel.org, Linux
- Crypto Mailing List <linux-crypto@vger.kernel.org>, LSM List
- <linux-security-module@vger.kernel.org>, Linux Kbuild mailing list
- <linux-kbuild@vger.kernel.org>, "open list:KERNEL SELFTEST FRAMEWORK"
- <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>,
- clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, Matteo Croce
- <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, Cong Wang
- <xiyou.wangcong@gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-In-Reply-To: <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
- <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com>
- <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
- <87friajmd5.fsf@microsoft.com>
- <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
- <87a58hjune.fsf@microsoft.com>
- <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
-Date: Wed, 16 Apr 2025 10:31:18 -0700
-Message-ID: <87y0w0hv2x.fsf@microsoft.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bRYvgBTH"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 768B8C4CEE2;
+	Wed, 16 Apr 2025 17:52:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744825932;
+	bh=MGg7zlY8w1c4ygae3wQmVztn9Aa9+X7cqIum9lXVmSk=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bRYvgBTHPEyRc9yOHaQf4+d3mlyza5BchLoQ8UCuMfTwuI4nBe49tu4eOGOLMokZu
+	 dnOv938m1QVM2RnTc74JIR5fmJn2r4uVtnqGJgBtVhizCaf+buQaxaSakDKDFlXKLu
+	 Ib8HEx/wA8nS1mSs7VWbsrlx36rNG/YJ4RJoJg/ep5lLVgvMRoxlCeo19gSTZjASS+
+	 ddCuPrBo2TD8Nyu+j12gGkILvQU4hKvRfp6jvbDYNNtq0I7iB7zY/hTujOzrr6Lc9V
+	 nqhoSAxh0TZo6ae8WfyhUzo6DCBglvi0A7ASJ2iT78PXFiFRXxHmyccoZvSVusPp1b
+	 qU58RTAJW0sMw==
+Date: Wed, 16 Apr 2025 10:52:09 -0700
+From: Kees Cook <kees@kernel.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	David Rientjes <rientjes@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	Harry Yoo <harry.yoo@oracle.com>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	Thomas Huth <thuth@redhat.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v2] slab: Decouple slab_debug and no_hash_pointers
+Message-ID: <202504161048.B7A4CAFB@keescook>
+References: <20250415170232.it.467-kees@kernel.org>
+ <Z_-dPcdiGW0fo8Ji@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <Z_-dPcdiGW0fo8Ji@pathway.suse.cz>
 
-Alexei Starovoitov <alexei.starovoitov@gmail.com> writes:
+On Wed, Apr 16, 2025 at 02:06:21PM +0200, Petr Mladek wrote:
+> On Tue 2025-04-15 10:02:33, Kees Cook wrote:
+> > Some system owners use slab_debug=FPZ (or similar) as a hardening option,
+> > but do not want to be forced into having kernel addresses exposed due
+> > to the implicit "no_hash_pointers" boot param setting.[1]
+> > 
+> > Introduce the "hash_pointers" boot param, which defaults to "auto"
+> > (the current behavior), but also includes "always" (forcing on hashing
+> > even when "slab_debug=..." is defined), and "never". The existing
+> > "no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
+> > 
+> > This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
+> > 
+> > Link: https://github.com/KSPP/linux/issues/368 [1]
+> > Fixes: 792702911f58 ("slub: force on no_hash_pointers when slub_debug is enabled")
+> > Co-developed-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
+> > Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
+> > Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> > Acked-by: David Rientjes <rientjes@google.com>
+> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> > Signed-off-by: Kees Cook <kees@kernel.org>
+> 
+> Tested-by: Petr Mladek <pmladek@suse.com>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> 
+> I am going to wait few more days for a potential feedback.
+> I'll queue it for 6.16 unless anyone complains.
 
-> History repeats itself.
-> 1. the problem is hard.
-> 2. you're only interested in addressing your own use case.
-> There is no end-to-end design here and no attempt to
-> think it through how it will work for others.
->
+Thanks very much!
 
-Well, I suppose anything worth doing is going to be hard :)
+> See a rant below ;-)
+> [...]
+> I personally do not like that these two parameters do not have the
+> real effect until hash_pointers_finalize() is called at some
+> "random" "unrelated" location, namely kmem_cache_init().
+> But I could live with it.
 
-The end-to-end design for this is the same end-to-end design that exists
-for signing kernel modules today. We envisioned it working for others
-the same way module signing works for others. 
+Yeah, this is mainly due to slab_debug wanting to be able to control it.
+I'd prefer they weren't linked at all, but it's also not too
+unreasonable.
 
-> Hacking into bpf internal objects like maps is not acceptable.
+> But the alternative solution proposed at
+> https://lore.kernel.org/r/Z_0AFjai6Bvg-YLD@pathway.suse.cz
+> was hairy another way.
+> 
+> We could always improve it when it causes troubles.
 
-We've heard your concerns about kern_sys_bpf and we agree that the LSM
-should not be calling it. The proposal in this email should meet both of
-our needs
-https://lore.kernel.org/bpf/874iypjl8t.fsf@microsoft.com/
+Right. My thinking is that if another subsystem comes along with the
+same compelling complaint as kmem, we can look at it again then. IMO,
+really only an allocator should be in charge of such a large knob --
+its whole job is managing pointers. :)
 
+-Kees
 
--blaise
+-- 
+Kees Cook
