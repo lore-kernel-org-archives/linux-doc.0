@@ -1,139 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7CB10224B09;
-	Wed, 16 Apr 2025 07:00:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DECC18787A;
+	Wed, 16 Apr 2025 07:16:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744786832; cv=none; b=dlZOPszXgZs8TKh/GMXnt+HtOnc8xgbXRalcznBqi812oxZOXe5y9uGieGsXn9jung9Ifo++XELy9Iay8U5dSXIPzFRnwpneOxa0Jj3PMDmXiktaLRZMFliSzmNv7oiNI1uXk6sb5mOXJSX5TqkGS5ZHfdzpDCbp2ARvAfvndVk=
+	t=1744787778; cv=none; b=aKAa4pxYKhohGORnARY3F7fUabBd8npOwzqH+ORfmYJQFD62X8YkY+P4+yxKrsacH1/2KU+1iKwaCM06jXyq7ypqshjsxWNB/HjAd9l+Vt1m+k+gr64C5LmaU5fBTHZGXawJXDf/CkUufZ5KtVisDNHG7jdE6fHUtFTSVO/YEac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744786832; c=relaxed/simple;
-	bh=SsNuJ3RpS7E+2S0Ptg7xVQWifaO8YE/cOa8x5LLvIEE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NgWI48OgW77mMdIKcmenCw3ZH5h4DN0cVGFyn2V/6B+TXJCx3naFTLa8v/e5Va+B1lbHUh0wQV9Ji3xYWYrRPRKJkyq83ZcEGmSUuwocLMukoHMCO1dx97sMDSZXgaPeuA1m0DvG6Uj9KxiiD9+8ZE5WH3dRmb9UgBPPEvlJS3I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J/NAiUy0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744787778; c=relaxed/simple;
+	bh=C8myiaFqWsaataown0n2Ge3P0lpZ0VUVE2ROm5FM9BA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uRSPfUOpQabM+GchmCzHLQsEyvTTXpnKfWULhTGaxfM8CfSZJ8DpY2Krk7DUJsRqUR2mtzsIHqaWXFkewRYcQL5D6qztLdxFs7kC3tgEfxBf5cPRUsRuE1yHMPEhMJ+E5FE4uF6XuRzg9H3uXVyOOsTLrTHUD/NFR+5da+SzUsw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JmBHSpFp; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J/NAiUy0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1F382C4CEED;
-	Wed, 16 Apr 2025 07:00:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744786831;
-	bh=SsNuJ3RpS7E+2S0Ptg7xVQWifaO8YE/cOa8x5LLvIEE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=J/NAiUy0CsqRiLVh78VhnQz1sW+T3e/dGyEafTT/ifWafwgCuuiExr4fMRyxP4CT1
-	 Zyuiik8v5Asn806L1H7cMl3DUXMUnyyI16U274kE/7EOXdP+tDkXazh6F+trIvEFl4
-	 o+ZXVmGEly8mX4aTr/XdvAifuNssdnFB7maptVshBbQroUcGtVQCtopBcDcExgCmx8
-	 0QVF8Qi0KxQM7b/x8PJhrbEm1x7lTI5dNPLVwC+a/TN5lmoL6DiXuTZvKTdAAj1htT
-	 dePHsdE+L313jjO+hXqIP1Vm275Z/6qh1BWgXEIo5fKwnvlB/fnxAw72xzPglQkWtC
-	 d2xWRn98bMc1w==
-Date: Wed, 16 Apr 2025 15:00:07 +0800
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Linux Doc Mailing List <linux-doc@vger.kernel.org>, Jonathan Corbet
- <corbet@lwn.net>
-Cc: "Andy Shevchenko" <andriy.shevchenko@intel.com>, David Airlie
- <airlied@gmail.com>, Jani Nikula <jani.nikula@linux.intel.com>, Joonas
- Lahtinen <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
- <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] scripts/kernel-doc.py: don't create *.pyc files
-Message-ID: <20250416150007.427f8161@sal.lan>
-In-Reply-To: <432f17b785d35122753d4b210874d78ee84e1bb5.1744785773.git.mchehab+huawei@kernel.org>
-References: <432f17b785d35122753d4b210874d78ee84e1bb5.1744785773.git.mchehab+huawei@kernel.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JmBHSpFp"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744787776; x=1776323776;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=C8myiaFqWsaataown0n2Ge3P0lpZ0VUVE2ROm5FM9BA=;
+  b=JmBHSpFpgivPBch+6PEQTPkLhBWBqkWT9ZiIMXinu0k5oXcMjA7kixov
+   k3v9tt5kPgRghJwBIncJg28NcY6riIxynifCOUNXkftBeXLUppPUrgksk
+   rdA4FPSUS513UAV71oprsnX7c+5JMbrtgWEXmb4b459Iz7yLPF90VDZCk
+   qJi0BRz6FlaKGQ0NhFWh3y6MO0Pbwk2nHOFEofFV/DvtLYyIdVIbuIlE2
+   WbHeReOp15oAJFO+cUyDvrk7xM1WgpRdLgj8/x3F+PSzvbehX8MqtFAwv
+   kvOul1CLUafez10U6KrWiorq8zLuik16PFMO+Dahw24lva3naRtN+z+mB
+   w==;
+X-CSE-ConnectionGUID: 26gaTOmFRC2LjiZOPnwiYA==
+X-CSE-MsgGUID: AmPxQ38yQjqVUPihAMFoVw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11404"; a="46203189"
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
+   d="scan'208";a="46203189"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 00:16:15 -0700
+X-CSE-ConnectionGUID: GfOwOcv/T0ali2sPfkJ87g==
+X-CSE-MsgGUID: xfKbddfORuCQNpMRi5DhTw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,215,1739865600"; 
+   d="scan'208";a="161309830"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Apr 2025 00:16:12 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u4x0C-0000000CmGV-1O2g;
+	Wed, 16 Apr 2025 10:16:08 +0300
+Date: Wed, 16 Apr 2025 10:16:08 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"David S. Miller" <davem@davemloft.net>,
+	Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Kris Van Hees <kris.van.hees@oracle.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Li Zhijian <lizhijian@fujitsu.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Alcock <nick.alcock@oracle.com>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Vegard Nossum <vegard.nossum@oracle.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] .gitignore: ignore Python compiled bytecode
+Message-ID: <Z_9ZOInQVgx5wtbG@smile.fi.intel.com>
+References: <cover.1744786420.git.mchehab+huawei@kernel.org>
+ <eb7c854d1bddab19ec1105b928463bb1845d4d50.1744786420.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <eb7c854d1bddab19ec1105b928463bb1845d4d50.1744786420.git.mchehab+huawei@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Em Wed, 16 Apr 2025 14:42:57 +0800
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
-
-> As reported by Andy, kernel-doc.py is creating a __pycache__
-> directory at build time.
+On Wed, Apr 16, 2025 at 02:57:39PM +0800, Mauro Carvalho Chehab wrote:
+> While the building system doesn't create any Python JIT bytecode,
+> if one manually runs kernel-doc.py or get_abi.py, Python will,
+> by default, create a bytecode and store it under scripts/lib/*.
 > 
-> Disable creation of __pycache__ for the libraries used by
-> kernel-doc.py, when excecuted via the build system or via
-> scripts/find-unused-docs.sh.
-> 
-> Reported-by: Andy Shevchenko <andriy.shevchenko@intel.com>
-> Closes: https://lore.kernel.org/linux-doc/Z_zYXAJcTD-c3xTe@black.fi.intel.com/
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> This is normal, and not controlled by the Kernel itself. So,
+> add *.pyc as an extension to be ignored.
 
-Sent a v2 with an extra patch, as this only solves the case where
-the script is called from the build system.
+...
 
-When the script is manually called, if Python or the script is called 
-without any parameters, Python JIT will still create a __pycache__
-containing *.pyc files.
+>  *.mod.c
+>  *.o
+>  *.o.*
+> +*.pyc
 
-As we don't want to show such binaries as sources that need to be
-committed, we need an extra patch adding *.pyc to .gitignore.
+Shouldn't we prevent the order? (This should go after the "patch")
 
-This is done on v2 of this.
+>  *.patch
+>  *.rmeta
+>  *.rpm
 
-> ---
->  drivers/gpu/drm/Makefile      | 2 +-
->  drivers/gpu/drm/i915/Makefile | 2 +-
->  include/drm/Makefile          | 2 +-
->  scripts/find-unused-docs.sh   | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/gpu/drm/Makefile b/drivers/gpu/drm/Makefile
-> index ed54a546bbe2..1469d64f8783 100644
-> --- a/drivers/gpu/drm/Makefile
-> +++ b/drivers/gpu/drm/Makefile
-> @@ -236,7 +236,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
->  quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
->        cmd_hdrtest = \
->  		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-> -		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> +		$(KERNELDOC) PYTHONDONTWRITEBYTECODE=1 -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
->  		touch $@
->  
->  $(obj)/%.hdrtest: $(src)/%.h FORCE
-> diff --git a/drivers/gpu/drm/i915/Makefile b/drivers/gpu/drm/i915/Makefile
-> index ed05b131ed3a..bb873f9cc2aa 100644
-> --- a/drivers/gpu/drm/i915/Makefile
-> +++ b/drivers/gpu/drm/i915/Makefile
-> @@ -408,7 +408,7 @@ obj-$(CONFIG_DRM_I915_GVT_KVMGT) += kvmgt.o
->  #
->  # Enable locally for CONFIG_DRM_I915_WERROR=y. See also scripts/Makefile.build
->  ifdef CONFIG_DRM_I915_WERROR
-> -    cmd_checkdoc = $(srctree)/scripts/kernel-doc -none -Werror $<
-> +    cmd_checkdoc = $(KERNELDOC) PYTHONDONTWRITEBYTECODE=1 -none -Werror $<
->  endif
->  
->  # header test
-> diff --git a/include/drm/Makefile b/include/drm/Makefile
-> index a7bd15d2803e..6088ea458f44 100644
-> --- a/include/drm/Makefile
-> +++ b/include/drm/Makefile
-> @@ -11,7 +11,7 @@ always-$(CONFIG_DRM_HEADER_TEST) += \
->  quiet_cmd_hdrtest = HDRTEST $(patsubst %.hdrtest,%.h,$@)
->        cmd_hdrtest = \
->  		$(CC) $(c_flags) -fsyntax-only -x c /dev/null -include $< -include $<; \
-> -		$(srctree)/scripts/kernel-doc -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
-> +		$(KERNELDOC) PYTHONDONTWRITEBYTECODE=1 -none $(if $(CONFIG_WERROR)$(CONFIG_DRM_WERROR),-Werror) $<; \
->  		touch $@
->  
->  $(obj)/%.hdrtest: $(src)/%.h FORCE
-> diff --git a/scripts/find-unused-docs.sh b/scripts/find-unused-docs.sh
-> index ee6a50e33aba..d6d397fbf917 100755
-> --- a/scripts/find-unused-docs.sh
-> +++ b/scripts/find-unused-docs.sh
-> @@ -54,7 +54,7 @@ for file in `find $1 -name '*.c'`; do
->  	if [[ ${FILES_INCLUDED[$file]+_} ]]; then
->  	continue;
->  	fi
-> -	str=$(scripts/kernel-doc -export "$file" 2>/dev/null)
-> +	str=$(PYTHONDONTWRITEBYTECODE=1 scripts/kernel-doc -export "$file" 2>/dev/null)
->  	if [[ -n "$str" ]]; then
->  	echo "$file"
->  	fi
+...
+
+P.S. I'm going to test the first patch (at least) soon.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
