@@ -1,200 +1,156 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F0609211A39;
-	Wed, 16 Apr 2025 16:28:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4D871212D62
+	for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 16:28:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744820892; cv=none; b=q+v/GCrjeIPXwg8bccsFv5NVetvg78TOwAOuHzmDQNmRqXILUXsynll1lLX9M5i9kptT2dRGTZwqqNA1rcIRs7KVAlTO3fCL9gjJ9ltCuuuD+bbIxEjWtpIN4URNlsEpwDP6OP5i3RTZUWB45F8cc8Hlfwb0zcKUG47vVK6vmzw=
+	t=1744820909; cv=none; b=g5pQiK6vZUuRRcNaLCUCoVed2N62dXmTKrjJDDJnocxMh3CA7D6qmOIFqv3VKI/ziM0A/oxbgBOUGr8IAuBb3VQSGMxLPqdQnOyKT5p8D1AW4KQAU6XE22g6fKPrVcgxqES3Ur+q06z685Hki0sjziRmc0ARMMgt9bYtRs6io8s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744820892; c=relaxed/simple;
-	bh=vwm5Mk05vwJcnowO6ce3WT8ac8B4Mus0humMfiCUSbs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Lfyb4tbXOf7o7VUkoLHXXa+XjY0aLggg1joLl7qgyr4JyiBBdDnzat59o9CpCBPBlEfloZ7Mq8n8+Fw+aG1oqMsLN11Fg5L6CVwqBg8ZxxBN7wrMxV7YpQc8m2NF6dzfOj59AUgoRh2JIjBb8u9eKtzD4IsnUKBZ829MSuou18M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=Wp/zPPqC; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	s=arc-20240116; t=1744820909; c=relaxed/simple;
+	bh=V5EjEqLAI6VF4m0ym14G0zP2Lk1AAeOTupEjRA2/fhk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=QACrgutKr4BjAv8djXAQQ4/CKHkCVzHVAB/WhgRkv+m2b6KHGUtAOkHHLa49McZkiLFj92wKmVgNzWIKbKyOFV+V8DphEfolQWEWKavjyQUJTKZMR/xZutzlbT3jWA3g16ufi+AzhFywVb2LqySIbGyA/4uV3Kw6EBdFK22kQdY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=DMt5At1z; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="Wp/zPPqC"
-Received: from pps.filterd (m0353725.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53GFc6nu028308;
-	Wed, 16 Apr 2025 16:28:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=pp1; bh=usqaj2tF1DNqR3U6G
-	APpgQwpgtlrJ6fiUScEz3vahoE=; b=Wp/zPPqC2HSbMcpvxnCRikDmt5bDGJGse
-	1gVF/769KMF876VICWooPeaZQWi8TuWMZP61VZjk4l6qmlaJYPeRKtO2tmN4C6Jj
-	IZYo6xaPCZGuVcNwOYzY+7jsRRJKYhxkAA6cWtx46OJ/CJdoTYQ6dkqU5qf6/dSQ
-	2bk6VGCu0DqHAxPd8IyIOIVi/kzOe2JTsdNPxJ5aTqaRoDiaKrxGHoB74CCuCDDN
-	cQm/Hl5eIJ46sNypOQLgrVghfy2aaYBegzMgL49q1CfIrzWS8YbPB6N5YHccFlU0
-	hYc2HejwNYnZJuHEclPKzL+kjmshf1fJALi6X5o63C9hA6euO6nNQ==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4621dxcag0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Apr 2025 16:27:59 +0000 (GMT)
-Received: from m0353725.ppops.net (m0353725.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 53GGRxa5010648;
-	Wed, 16 Apr 2025 16:27:59 GMT
-Received: from ppma22.wdc07v.mail.ibm.com (5c.69.3da9.ip4.static.sl-reverse.com [169.61.105.92])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 4621dxcafw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Apr 2025 16:27:59 +0000 (GMT)
-Received: from pps.filterd (ppma22.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma22.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53GDawFl001265;
-	Wed, 16 Apr 2025 16:27:58 GMT
-Received: from smtprelay07.fra02v.mail.ibm.com ([9.218.2.229])
-	by ppma22.wdc07v.mail.ibm.com (PPS) with ESMTPS id 4602w01dms-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 16 Apr 2025 16:27:58 +0000
-Received: from smtpav05.fra02v.mail.ibm.com (smtpav05.fra02v.mail.ibm.com [10.20.54.104])
-	by smtprelay07.fra02v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53GGRsq645482288
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 16 Apr 2025 16:27:54 GMT
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7996B20043;
-	Wed, 16 Apr 2025 16:27:54 +0000 (GMT)
-Received: from smtpav05.fra02v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 679F620040;
-	Wed, 16 Apr 2025 16:27:50 +0000 (GMT)
-Received: from vaibhav?linux.ibm.com (unknown [9.124.210.156])
-	by smtpav05.fra02v.mail.ibm.com (Postfix) with SMTP;
-	Wed, 16 Apr 2025 16:27:50 +0000 (GMT)
-Received: by vaibhav@linux.ibm.com (sSMTP sendmail emulation); Wed, 16 Apr 2025 21:57:49 +0530
-From: Vaibhav Jain <vaibhav@linux.ibm.com>
-To: linuxppc-dev@lists.ozlabs.org, kvm@vger.kernel.org,
-        kvm-ppc@vger.kernel.org
-Cc: Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Nicholas Piggin <npiggin@gmail.com>,
-        Vaidyanathan Srinivasan <svaidy@linux.vnet.ibm.com>,
-        sbhat@linux.ibm.com, gautam@linux.ibm.com, kconsul@linux.ibm.com,
-        amachhiw@linux.ibm.com, Athira Rajeev <atrajeev@linux.vnet.ibm.com>,
-        linux-doc@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [RESEND PATCH v5 1/6] powerpc: Document APIv2 KVM hcall spec for Hostwide counters
-Date: Wed, 16 Apr 2025 21:57:31 +0530
-Message-ID: <20250416162740.93143-2-vaibhav@linux.ibm.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250416162740.93143-1-vaibhav@linux.ibm.com>
-References: <20250416162740.93143-1-vaibhav@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="DMt5At1z"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso62925e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 09:28:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1744820905; x=1745425705; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=dcKONrIAwY+Efjpusl4unIszUT6B68ir1oyM8EH1UJY=;
+        b=DMt5At1zuEraXQDFdfoUFyvRo93WxwpM9AIaXjydcUOd8acdr4WnZ6Od9BCDBrfZoS
+         IpXaXURIRkBaAdzsoDppwKFlPtFA597blEBXLIQ1jzW7DAp13/CExsblaURmFHAXV8QS
+         DrO+HYC4JjqVac0hoL4iQ3zlCoSC7/pMpMWwN7GEIIxd3vjAg19/VB4ZS7cQoqOAnw0c
+         MdgvX2MYGIRzNlqFIrtG70316UJiEz5U0phJ7y7ft2ylDXQiMkb6xKPnzp7nbG6cuUbZ
+         1cNgss8+3qC8TmXwbbCnlq9Hi+8kYLMWCI8qfmxw+aLQrm8d020+hs9ra7i1jJ65Vi0x
+         S4dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744820905; x=1745425705;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=dcKONrIAwY+Efjpusl4unIszUT6B68ir1oyM8EH1UJY=;
+        b=ZxAg6IcKADQp2R3cEHCgMlRtmUBX+6vcGfCxXBVOKgyiX3Ni9F+P1W9U5Ma8n058+u
+         HX5G2kQZ78FtWDKuRzXF1100hpVZvMUI9IXwWbn9WCpkTjm8Y9luUx5oDjkyU08tJTKw
+         qEmlkt2DfjIE6480DFeXpKnXauTO6GONbBhtzQliU1nFKN2FgDozBG4j8ol5UegEoTcb
+         fokud/i5fQ+GleAUpEpNX1fv5HF3xno3EFkb/U2WpmfUb4Y6rHWtCNZ4NglhomMEAL13
+         a9Elz4HZpsA2Elo3Cgzl2w1fewdrH0retWAmAElaomAMjt2T0zp5w56SbUlFtHW7KMNM
+         PawQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWICp5gw6f3J8BG9+4QCnjFTnO5WPwbtP1vY28NX2F7FEg5pvGU7W9XmTxuYbqNzBKZARiKulsb+GU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMK9fnsTbeWxTLUhHmK49i09a4iq5kffNVqWdGYTHQF888w896
+	iAtOLIOq/GIAPViPrEHqJVm9T0aeN+U9SBYVON68/tYTXa8oDdz4auxrzoS+2eli+S0awzavZYE
+	ZE7HkhZbH34GDRsF5DbtheX1wMWPv4RMQ+Y8Y
+X-Gm-Gg: ASbGncvbIiuRA4fp9TGcJzaAEL51lkylYaQHq5iJ4yLMqOlnbZuA2Coyf2jt1BbXT5q
+	CxbONfrGj7+0zZMzzhpku8sGWW2aHq0Dh0e3BEuGqW2th/Z38gCQzBO05FLHy+8tbPgAKUyU5al
+	axOoUaN1Ui8rTYFGfdJdtLqdXDAxxqeRFk/e+rnqOBDWHOlZnmeOqM
+X-Google-Smtp-Source: AGHT+IECcvlnv6xPe9UB0/XJHO7q92sQEEqdeeGFlPVCn4BZ/toc+Qo3v9Dc1e4mY/RgIEckbUeu3UbXyA3ppO6oN3o=
+X-Received: by 2002:a05:600c:6a87:b0:439:4a76:c246 with SMTP id
+ 5b1f17b1804b1-4405d26eadcmr1009515e9.6.1744820905359; Wed, 16 Apr 2025
+ 09:28:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-ORIG-GUID: NBEWalgEqII7xxgyadBTOHbgqsXynCzK
-X-Proofpoint-GUID: XmTaUyDrGYSc6DuGX5-IWETUQLbVW07C
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1095,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-16_04,2025-04-15_01,2024-11-22_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0
- priorityscore=1501 bulkscore=0 mlxlogscore=999 impostorscore=0 spamscore=0
- adultscore=0 clxscore=1015 mlxscore=0 suspectscore=0 lowpriorityscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.19.0-2502280000 definitions=main-2504160127
+References: <20250414225227.3642618-3-tjmercier@google.com> <202504161015.x2XLaha2-lkp@intel.com>
+In-Reply-To: <202504161015.x2XLaha2-lkp@intel.com>
+From: "T.J. Mercier" <tjmercier@google.com>
+Date: Wed, 16 Apr 2025 09:28:13 -0700
+X-Gm-Features: ATxdqUFoAbnFhGEzvGofJporgvqMuSJROlNX-nlFC0ORBP_b5Axo3RH1otfUvlU
+Message-ID: <CABdmKX16QttfxRYHaq1B92U8nw+S6Gte+mFVhOTnCy4H3cLFcA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: kernel test robot <lkp@intel.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, llvm@lists.linux.dev, 
+	oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, song@kernel.org, 
+	yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org, 
+	sdf@fomichev.me, jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Update kvm-nested APIv2 documentation to include five new
-Guest-State-Elements to fetch the hostwide counters. These counters are
-per L1-Lpar and indicate the amount of Heap/Page-table memory allocated,
-available and Page-table memory reclaimed for all L2-Guests active
-instances
+On Tue, Apr 15, 2025 at 9:43=E2=80=AFPM kernel test robot <lkp@intel.com> w=
+rote:
+>
+> Hi Mercier,
+>
+> kernel test robot noticed the following build errors:
+>
+> [auto build test ERROR on bpf-next/net]
+> [also build test ERROR on bpf-next/master bpf/master linus/master v6.15-r=
+c2 next-20250415]
+> [If your patch is applied to the wrong git tree, kindly drop us a note.
+> And when submitting patch, we suggest to use '--base' as documented in
+> https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> url:    https://github.com/intel-lab-lkp/linux/commits/T-J-Mercier/dma-bu=
+f-Rename-and-expose-debugfs-symbols/20250415-065354
+> base:   https://git.kernel.org/pub/scm/linux/kernel/git/bpf/bpf-next.git =
+net
+> patch link:    https://lore.kernel.org/r/20250414225227.3642618-3-tjmerci=
+er%40google.com
+> patch subject: [PATCH 2/4] bpf: Add dmabuf iterator
+> config: i386-buildonly-randconfig-005-20250416
+> compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df=
+0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+> reproduce (this is a W=3D1 build):
+>
+> If you fix the issue in a separate patch/commit (i.e. not just a new vers=
+ion of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202504161015.x2XLaha2-lkp=
+@intel.com/
+>
+> All errors (new ones prefixed by >>):
+>
+> >> ld.lld: error: undefined symbol: dmabuf_debugfs_list_mutex
+>    >>> referenced by dmabuf_iter.c:44 (kernel/bpf/dmabuf_iter.c:44)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:53 (kernel/bpf/dmabuf_iter.c:53)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:26 (kernel/bpf/dmabuf_iter.c:26)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_start)
+>    >>> referenced 1 more times
+> --
+> >> ld.lld: error: undefined symbol: dma_buf_put
+>    >>> referenced by dmabuf_iter.c:45 (kernel/bpf/dmabuf_iter.c:45)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:90 (kernel/bpf/dmabuf_iter.c:90)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_stop)
+> --
+> >> ld.lld: error: undefined symbol: dmabuf_debugfs_list
+>    >>> referenced by list.h:354 (include/linux/list.h:354)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_next)
+>    >>> referenced by dmabuf_iter.c:0 (kernel/bpf/dmabuf_iter.c:0)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_start)
+>    >>> referenced by list.h:364 (include/linux/list.h:364)
+>    >>>               vmlinux.o:(dmabuf_iter_seq_start)
+>
+> --
+> 0-DAY CI Kernel Test Service
+> https://github.com/intel/lkp-tests/wiki
 
-Cc: linux-doc@vger.kernel.org
-Cc: linuxppc-dev@lists.ozlabs.org
-Cc: Madhavan Srinivasan <maddy@linux.ibm.com>
-Cc: Nicholas Piggin <npiggin@gmail.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Tested-by: Gautam Menghani <gautam@linux.ibm.com>
-Signed-off-by: Vaibhav Jain <vaibhav@linux.ibm.com>
----
-Changelog
+This is due to no CONFIG_DMA_SHARED_BUFFER. Fixed by:
 
-v5->resend:
-* Rebase the patch to latest upstream kernel tree
-
-v4->v5:
-* None
-
-v3->v4:
-* Added reviewed by [ Bagas Sanjaya ]
-
-v2->v3:
-* Minor reword for the cumulative reclaim counter [ Gautam ]
-
-v1->v2:
-* Reworded section on GSID [Gautam]
----
- Documentation/arch/powerpc/kvm-nested.rst | 40 +++++++++++++++++------
- 1 file changed, 30 insertions(+), 10 deletions(-)
-
-diff --git a/Documentation/arch/powerpc/kvm-nested.rst b/Documentation/arch/powerpc/kvm-nested.rst
-index 5defd13cc6c1..574592505604 100644
---- a/Documentation/arch/powerpc/kvm-nested.rst
-+++ b/Documentation/arch/powerpc/kvm-nested.rst
-@@ -208,13 +208,9 @@ associated values for each ID in the GSB::
-       flags:
-          Bit 0: getGuestWideState: Request state of the Guest instead
-            of an individual VCPU.
--         Bit 1: takeOwnershipOfVcpuState Indicate the L1 is taking
--           over ownership of the VCPU state and that the L0 can free
--           the storage holding the state. The VCPU state will need to
--           be returned to the Hypervisor via H_GUEST_SET_STATE prior
--           to H_GUEST_RUN_VCPU being called for this VCPU. The data
--           returned in the dataBuffer is in a Hypervisor internal
--           format.
-+         Bit 1: getHostWideState: Request stats of the Host. This causes
-+           the guestId and vcpuId parameters to be ignored and attempting
-+           to get the VCPU/Guest state will cause an error.
-          Bits 2-63: Reserved
-       guestId: ID obtained from H_GUEST_CREATE
-       vcpuId: ID of the vCPU pass to H_GUEST_CREATE_VCPU
-@@ -406,9 +402,10 @@ the partition like the timebase offset and partition scoped page
- table information.
- 
- +--------+-------+----+--------+----------------------------------+
--|   ID   | Size  | RW | Thread | Details                          |
--|        | Bytes |    | Guest  |                                  |
--|        |       |    | Scope  |                                  |
-+|   ID   | Size  | RW |(H)ost  | Details                          |
-+|        | Bytes |    |(G)uest |                                  |
-+|        |       |    |(T)hread|                                  |
-+|        |       |    |Scope   |                                  |
- +========+=======+====+========+==================================+
- | 0x0000 |       | RW |   TG   | NOP element                      |
- +--------+-------+----+--------+----------------------------------+
-@@ -434,6 +431,29 @@ table information.
- |        |       |    |        |- 0x8 Table size.                 |
- +--------+-------+----+--------+----------------------------------+
- | 0x0007-|       |    |        | Reserved                         |
-+| 0x07FF |       |    |        |                                  |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0800 | 0x08  | R  |   H    | Current usage in bytes of the    |
-+|        |       |    |        | L0's Guest Management Space      |
-+|        |       |    |        | for an L1-Lpar.                  |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0801 | 0x08  | R  |   H    | Max bytes available in the       |
-+|        |       |    |        | L0's Guest Management Space for  |
-+|        |       |    |        | an L1-Lpar                       |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0802 | 0x08  | R  |   H    | Current usage in bytes of the    |
-+|        |       |    |        | L0's Guest Page Table Management |
-+|        |       |    |        | Space for an L1-Lpar             |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0803 | 0x08  | R  |   H    | Max bytes available in the L0's  |
-+|        |       |    |        | Guest Page Table Management      |
-+|        |       |    |        | Space for an L1-Lpar             |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0804 | 0x08  | R  |   H    | Cumulative Reclaimed bytes from  |
-+|        |       |    |        | L0 Guest's Page Table Management |
-+|        |       |    |        | Space due to overcommit          |
-++--------+-------+----+--------+----------------------------------+
-+| 0x0805-|       |    |        | Reserved                         |
- | 0x0BFF |       |    |        |                                  |
- +--------+-------+----+--------+----------------------------------+
- | 0x0C00 | 0x10  | RW |   T    |Run vCPU Input Buffer:            |
--- 
-2.49.0
-
+--- a/kernel/bpf/Makefile
++++ b/kernel/bpf/Makefile
+@@ -53,7 +53,7 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
+ obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
+ obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
+ obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
+-ifeq ($(CONFIG_DEBUG_FS),y)
++ifeq ($(CONFIG_DMA_SHARED_BUFFER)$(CONFIG_DEBUG_FS),yy)
+ obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
+ endif
