@@ -1,160 +1,102 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f74.google.com (mail-wm1-f74.google.com [209.85.128.74])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B43221567;
-	Wed, 16 Apr 2025 10:21:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26274221FDC
+	for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 10:41:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744798881; cv=none; b=dFw619/hj9tGmwL0RiyBPELfZP5koW0FwalJWcjXsfaZ2yR2x1COU6yVD249/rze+E4wqiNGb+7RtcfUrP9ixgZIRR6rt9sRpeIa3ffoHktg04HOW8DlLdhCpAi1bM+iaWV/06G6gRm37Xn5zkUwOeJ3Wmaexp7nOgSSxWQtorA=
+	t=1744800119; cv=none; b=JiD9P+9UB/cmy4A7oqszIPW13yz8uSCXM/TFCZOVDcBJ12hXN72L9ylWKTGyHZJVd6VphzCNhWf5Q9ohHyA31APtM+8e4dCrTd+LNYOJmUVzeVbI0dITvXGVRjxLA5WhPmcVcJsLe6SKMk7l12z4Bz3kqy8vx48bkIgRUGX7ghg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744798881; c=relaxed/simple;
-	bh=yK74k5RUMx7O8nw5wi5mKDUdSdxQ1r0xVixydioGZCQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=XWjpbNwMRDbMIObDXLEA8S3PSfqEQGXz2vRhTdDYXChqheUJbKeWNC4wIQ5lsA7+S1mvYMt3T7MmVLWwh/Eg2BV4zNhf1BY7+uul3+8eH9BpkKAfWVSFI/nHyxPhVQewj7uU6vV565yLtCiF3tEa4xKzu/csxSR8kG/8QrROS7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aHtvcH58; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744800119; c=relaxed/simple;
+	bh=h68xXKINGGyp2Zd1XCK0EQjYEAkncB1gRD1F116+4l8=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=Br157NJ163Yl+gppv+jyeVOg8HzVRxl/UZf9BER9qRckkd1bdbABuBrwvujbGkj44ogTV5iLgMCRKNzab5Q3hGo+neM9BV7gMoRIiO9eFaoZN2IB6/IZkGCNOlxi34WkMIKZe48AUwu+zH/jv3R9K5jYvN6bXhye94N70IAK31U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jt9td+Y+; arc=none smtp.client-ip=209.85.128.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--aliceryhl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aHtvcH58"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2156BC4CEE2;
-	Wed, 16 Apr 2025 10:21:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744798879;
-	bh=yK74k5RUMx7O8nw5wi5mKDUdSdxQ1r0xVixydioGZCQ=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aHtvcH58Fvm8PkQ8fZU4apWjR5AVGQSBBXdXMXJtEgELsLWu61qJK1Y9HLCDcMrHg
-	 iYfgBDcFhDPxearM+xDc1qSbr0FvIErArMw1RztS35lMF1Xa3tfPwqDqIUO0Zop0a6
-	 GjBzM8YNG7xrLI9M1RKQztW+eWX0HCKVDUYddF4laxMRGhWufZRU1bUc7zsIT5JKyI
-	 LfIMIT+W7IDeN074gXxmWDcNYRf9CNjNZHCu9ScB4uoZQE3QjOtHTd/4HmXZY8AEhQ
-	 Gjd5RunpMUSdFfA8g/F5JtC+f8UngVo6ZVwa7dFeHa58zv82LqG0w6Cwz0HqJcBjmN
-	 HaLaeqUWdb5sA==
-Message-ID: <74ce031c-dcae-4fcb-9598-73ce37e3ee99@kernel.org>
-Date: Wed, 16 Apr 2025 12:21:14 +0200
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jt9td+Y+"
+Received: by mail-wm1-f74.google.com with SMTP id 5b1f17b1804b1-43cf3168b87so35109375e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 03:41:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1744800116; x=1745404916; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=6A0OYhXVyrvwG53WhJNazsiQLTbwvjRH95oKmIwbVlI=;
+        b=jt9td+Y+apu6TXIz01nW6c96+L5WUIovnfFfBwtgml8TdpjVyfVQS4uOHDXUFKvvC6
+         iDKzj1NiX1+ij31K4llByHishKFt3azDHSUYscVRthZD5wrVziPyZXdxcHDl0+8rBCw2
+         Md7jVRvyVXgw95U1Jc8inUwYwR/h+GVQvwSXy+x4ZU8gTsSMo8O9H/vRqlRzXiwPCicz
+         eWInKGNTTsi3pjUU0xiT7ae82eRbbqGMgcGsCf4uVHn7rEZJ7vwfcVU6QSSOnBfa1W27
+         aHsXyg4W0XQqcsKQHfsfhKiv9UCsklOUidjzlXXRZOz9H3EN3x8sME7TNLA/QmnZlyRX
+         HHDQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744800116; x=1745404916;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=6A0OYhXVyrvwG53WhJNazsiQLTbwvjRH95oKmIwbVlI=;
+        b=YHnzinuGOECSWURmCwvk0zWPhXz2qU9XEytMIyur7P4osoklnzrSouF3DdkK3VO8sQ
+         gbKDlO/fG980o3111vKN0s5HDSXTonUwLSB2ICd1ZLoBAT7QVqWUDo63cLq/5/RlgIkq
+         XiffjU9+Id4lHSeXasHACDK+5a4l0/0sQYO3sUhePaMfNKj9EOLNVTyEdtLjhHb88Zkn
+         TMHY+WHo+1S3v6+D9iJX92T6qXL8n2HypMA8vDxFuNluMsBaW88qHnYKuQvD4p54Plbw
+         562gAW0RYKd3PV6EvAFWjxLycyZLfJk0MsucEYUVUntditnjH999wTNCgsD9WU0cSs1N
+         SoAw==
+X-Forwarded-Encrypted: i=1; AJvYcCXKewWWn3yNAM1GIhM2gJhi7z9+qUwK78PxUiE3Sd7vyQk6bd67ueoAsdwta+2xpEL/d0e7xstqgGw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZj5xQr//nrNy5LjOgq6ScATMGTwr2hsTLRjjUbTDO2UF9wAHc
+	brjcct81i5a2X9Wf6dPepYl9E3m4ELqrD7Uh9xRvAP8zqZQpU8ZS0vym0x9rvIJ3rU4OWORY3UJ
+	lhwfNMmav3WQRrw==
+X-Google-Smtp-Source: AGHT+IHbOUuiD9l/lD/r2xNmdxsnmZyj3rRN9YGE8HEdjxjnJL08f4wrTj4agiOUIECbnHkcWVNjdQwPnigBcfM=
+X-Received: from wmql6.prod.google.com ([2002:a05:600c:4f06:b0:440:5d62:5112])
+ (user=aliceryhl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:600c:4e0f:b0:43c:fa24:8721 with SMTP id 5b1f17b1804b1-4405d6372e0mr14227725e9.17.1744800116579;
+ Wed, 16 Apr 2025 03:41:56 -0700 (PDT)
+Date: Wed, 16 Apr 2025 10:41:54 +0000
+In-Reply-To: <20250415071017.3261009-1-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 2/3] dt-bindings: leds: add binding for WL-ICLED
-To: Ante Knezic <ante.knezic@helmholz.de>
-Cc: conor+dt@kernel.org, corbet@lwn.net, devicetree@vger.kernel.org,
- knezic@helmholz.com, krzk+dt@kernel.org, lee@kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-leds@vger.kernel.org, pavel@kernel.org, robh@kernel.org
-References: <20250415-dashing-impartial-baboon-70d086@shite>
- <20250416090645.11123-1-ante.knezic@helmholz.de>
-From: Krzysztof Kozlowski <krzk@kernel.org>
-Content-Language: en-US
-Autocrypt: addr=krzk@kernel.org; keydata=
- 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 fv0=
-In-Reply-To: <20250416090645.11123-1-ante.knezic@helmholz.de>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+References: <20250415071017.3261009-1-dualli@chromium.org>
+Message-ID: <Z_-Jcv-GN68zILvH@google.com>
+Subject: Re: [PATCH v17 0/3] binder: report txn errors via generic netlink
+From: Alice Ryhl <aliceryhl@google.com>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net, 
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, 
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com, 
+	tkjos@android.com, maco@android.com, joel@joelfernandes.org, 
+	brauner@kernel.org, cmllamas@google.com, surenb@google.com, 
+	omosnace@redhat.com, shuah@kernel.org, arnd@arndb.de, masahiroy@kernel.org, 
+	bagasdotme@gmail.com, horms@kernel.org, tweek@google.com, paul@paul-moore.com, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	netdev@vger.kernel.org, selinux@vger.kernel.org, hridya@google.com, 
+	smoreland@google.com, ynaffit@google.com, kernel-team@android.com
+Content-Type: text/plain; charset="utf-8"
 
-On 16/04/2025 11:06, Ante Knezic wrote:
-> On Tue, Apr 15, 2025 Krzysztof Kozlowski wrote:
->>>  1 file changed, 88 insertions(+)
->>>  create mode 100644 Documentation/devicetree/bindings/leds/leds-wl-icled.yaml
->>>
->>> diff --git a/Documentation/devicetree/bindings/leds/leds-wl-icled.yaml b/Documentation/devicetree/bindings/leds/leds-wl-icled.yaml
->>> new file mode 100644
->>> index 000000000000..bf79c7a1719b
->>> --- /dev/null
->>> +++ b/Documentation/devicetree/bindings/leds/leds-wl-icled.yaml
->>> @@ -0,0 +1,88 @@
->>> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
->>> +%YAML 1.2
->>> +---
->>> +$id: http://devicetree.org/schemas/leds/leds-wl-icled.yaml#
->>> +$schema: http://devicetree.org/meta-schemas/core.yaml#
->>> +
->>> +title: LED driver for WL-ICLEDs from Wurth Elektronik.
->>
->> driver as Linux driver? Then drop and describe hardware.
-> Sorry, I am not sure I quite understand what you mean here? Add "linux LED driver" to
-> title?
-
-I am asking to drop it and instead describe the hardware.
-
+On Tue, Apr 15, 2025 at 12:10:14AM -0700, Li Li wrote:
+> From: Li Li <dualli@google.com>
 > 
->> Also drop full stop
-> Ok, understood.
+> It's a known issue that neither the frozen processes nor the system
+> administration process of the OS can correctly deal with failed binder
+> transactions. The reason is that there's no reliable way for the user
+> space administration process to fetch the binder errors from the kernel
+> binder driver.
 > 
->>> +
->>> +maintainers:
->>> +  - Ante Knezic <ante.knezic@helmholz.de>
->>> +
->>> +description: |
->>> +  The WL-ICLEDs are RGB LEDs with integrated controller that can be
->>> +  daisy-chained to arbitrary number of LEDs. Communication with LEDs is
->>> +  via SPI interface and can be single or two wire, depending on the model.
->>> +  For more product information please see the link below:
->>> +  https://www.we-online.com/en/components/products/WL-ICLED
->>> +
->>> +properties:
->>> +  compatible:
->>> +    enum:
->>> +      - we,1315x246
->>> +      - we,1315x002
->>> +      - we,131x000
->>> +      - we,131161x
->>> +      - we,131212x
->>
->> Is that a wildcard in each compatible?
-> Unfortunatelly, yes. Exact model names are quite elaborate, yet similar enough:
-> 1315050930246   --> we,1315x246
-> 1315050930002   --> we,1315x002
-> 1313210530000   --> we,131x000
-> 1312020030000       we,131x000
-> 1311610030140   --> we,131161x
-> 1312121320437   --> we,131212x
+> Android is such an OS suffering from this issue. Since cgroup freezer
+> was used to freeze user applications to save battery, innocent frozen
+> apps have to be killed when they receive sync binder transactions or
+> when their async binder buffer is running out.
 > 
-> This seemed easier than writing complete model number... You want compatible
-> expanded to full number anyway?
+> This patch introduces the Linux generic netlink messages into the binder
+> driver so that the Linux/Android system administration process can
+> listen to important events and take corresponding actions, like stopping
+> a broken app from attacking the OS by sending huge amount of spamming
+> binder transactiions.
 
-Yes, otherwise git grep for model won't work.
+I'm a bit confused about this series. Why is [PATCH] binder: add
+setup_report permission a reply to [PATCH v17 1/3] lsm, selinux: Add
+setup_report permission to binder? Which patches are supposed to be
+included and in which order?
 
-
-Best regards,
-Krzysztof
+Alice
