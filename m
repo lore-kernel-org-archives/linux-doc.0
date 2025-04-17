@@ -1,136 +1,108 @@
-Received: from relay6-d.mail.gandi.net (relay6-d.mail.gandi.net [217.70.183.198])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A62D28E37;
-	Thu, 17 Apr 2025 12:52:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.198
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A712322A7F1;
+	Thu, 17 Apr 2025 13:24:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744894326; cv=none; b=d+WWnD73MPgH+7/W8oCMsp/eo7GmNL7DK9H2Mp3YdmzQ5vCu5eEvcEGCa+lUTM4OUSMMN2LjG/sZ5CnrUWhb1jbDdX+5nvuqjwO79VmAqHaS9o2OPf129A+6pM2FTKB35c8QqLYlBz3W86o25t/06s9kg4HqbbTjdmdwy4SkY8g=
+	t=1744896264; cv=none; b=LSBP2Zo4DoZk0Otyu459ycDlvQ85fWDcmxQ6/A4L4IM1VWaztWSusWP8bjTFoNTFqXGpPAsxPZJ6dp1A7qJ97WhohaRBKJ5NTwu85cOHQV2jFzfOH1yp1CxRJfjbIRa2BVZY070oWcBGyESHb/pEBz4gf3Rj2B8Qtk1B1QrRiGI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744894326; c=relaxed/simple;
-	bh=vwg+JpeNDtpdq8I/n2KI09Z8P3wJ2LAphm0xoV+Veak=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=tfOJyVHfbMaj3OOKPFT9A7JZuTRN/nmClD2b6iPoeTprLhnjKr9fXIBlKMwDM/UxY9vRIiyLMEeq6NILBhRGCm/rTX2VTpjZk7gLMklk4dMQMS1t73uuEVorwZ+Sry/GVIdHMFxMiYmdbcDcBiZrY5OcmdNpKm3DBDzXhGefNIQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=NltSaAaH; arc=none smtp.client-ip=217.70.183.198
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1744896264; c=relaxed/simple;
+	bh=3C0z3bqQphJ/rneK3taoWu7dxwuwy273SojRPNw7Mik=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=R50uoPZ1/RjANZy9QBlRCwbrpW+X1/I5jzslPOMdBWUG8lO9ijzpG4cwxH/FDjEQdMTekUlM7pk5Ggq5gFVFVYvAVJeEYqBmYDr1vCmvKG9gOScM2RTCMw6HFVf/7ENpDiAbtfM2nKsxH8SKD4W+1qr6iiy5/ASlpbRA8hENgN0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qPpsNwVa; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="NltSaAaH"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8B84C4398B;
-	Thu, 17 Apr 2025 12:51:53 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1744894315;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=zEQX9dTK5OyX90/v7y2AQbh6bo08Y0ofbCQ+5EMbGpU=;
-	b=NltSaAaHRmq9kixVw4vlEq72DFEmVEvEOjzZxfDRfluWkh1O39Z4pHjQGRSHy7KxtHN+JJ
-	UuJqSFElgpkny4XrnUoELw1mRxcjR+9gPSPZyeLB2WqH6UG1XQ4uBY28UtjNFKthVD3Yf/
-	YYpHzPO4xoGmfAGTf8OeoSm9PP34h75TgCVbJfENfwNp0LT9Er9ZPG8ZvXbAF6a61s50RG
-	TgVxzo3D6sWd4tFKEm3ZQmgm95LTbL8FT/noe0GtBl0DmCj5RMSMJo/o08flh3A+1fGh+3
-	ssXcJOwXcuRZlXQ/f5ftXFCnKXZxaGITCbAr3Mxhgvkm+YfyLu+zJZoLJJY31g==
-Date: Thu, 17 Apr 2025 14:51:52 +0200
-From: Kory Maincent <kory.maincent@bootlin.com>
-To: Maxime Chevallier <maxime.chevallier@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Donald Hunter
- <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>, Andrew Lunn
- <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>, Heiner Kallweit
- <hkallweit1@gmail.com>, Russell King <linux@armlinux.org.uk>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Liam
- Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, Thomas
- Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de,
- devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v8 02/13] net: pse-pd: Add support for
- reporting events
-Message-ID: <20250417145152.5e6718b1@kmaincent-XPS-13-7390>
-In-Reply-To: <20250417144349.5b30afec@fedora.home>
-References: <20250416-feature_poe_port_prio-v8-0-446c39dc3738@bootlin.com>
-	<20250416-feature_poe_port_prio-v8-2-446c39dc3738@bootlin.com>
-	<20250417144349.5b30afec@fedora.home>
-Organization: bootlin
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qPpsNwVa"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7025041062
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1744896256; bh=9yhRUByZUvTPPxNd7Jt2Y3FeXqk3lHI/pOhzKqMczvI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qPpsNwVaDHm4uTuAjs27umd7qRVoYlFxIGVw5G8tBJtHshsZfZXN2dfbOjICoh03C
+	 lWJ6XzlpYWGYHcSd7ABu8CQrGRxGjVXIiTa3RjNilQ4Thz2HsJzo3QHwDAuaHz2sfw
+	 mddYKpEk5quHKmIVakTOHM96mAZRaQ5KIuE3gnsHq/iq/V+SNiPFRldmgnD8komrQv
+	 IF3v8Tbx4JmrqXfONSF8eXGtErz/ayMt6b+BOKys5WKTDtkgCgI5HRlAS6RMdlbbxe
+	 LeTryIT202uWTXF/RENSGzWPEYebkwlAkCGm6eEy/oW50I6i7bvSsAohjBGPAjWBR9
+	 QD1X6GUdXj4Pg==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 7025041062;
+	Thu, 17 Apr 2025 13:24:16 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH] pwm: Fix various formatting issues in kernel-doc
+In-Reply-To: <20250417092535.2669166-2-u.kleine-koenig@baylibre.com>
+References: <20250417092535.2669166-2-u.kleine-koenig@baylibre.com>
+Date: Thu, 17 Apr 2025 07:24:15 -0600
+Message-ID: <87cyda6hvk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvvdelfeduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtqhertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepgfdutdefvedtudegvefgvedtgfdvhfdtueeltefffefffffhgfetkedvfeduieeinecuffhomhgrihhnpegsohhothhlihhnrdgtohhmnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopehkmhgrihhntggvnhhtqdgirffuqddufedqjeefledtpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepmhgrgihimhgvrdgthhgvvhgrlhhlihgvrhessghoohhtlhhinhdrtghomhdprhgtphhtthhopegrnhgurhgvfieslhhunhhnrdgthhdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepuggrvhgvmhesuggrvhgvmhhlohhfthdrnhgvt
- hdprhgtphhtthhopegvughumhgriigvthesghhoohhglhgvrdgtohhmpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehprggsvghnihesrhgvughhrghtrdgtohhmpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvght
-X-GND-Sasl: kory.maincent@bootlin.com
 
-On Thu, 17 Apr 2025 14:43:49 +0200
-Maxime Chevallier <maxime.chevallier@bootlin.com> wrote:
+Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com> writes:
 
-> Hi K=C3=B6ry,
->=20
-> On Wed, 16 Apr 2025 15:44:17 +0200
-> Kory Maincent <kory.maincent@bootlin.com> wrote:
->=20
-> > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> >=20
-> > Add support for devm_pse_irq_helper() to register PSE interrupts and re=
-port
-> > events such as over-current or over-temperature conditions. This follow=
-s a
-> > similar approach to the regulator API but also sends notifications usin=
-g a
-> > dedicated PSE ethtool netlink socket.
-> >=20
-> > Introduce an attached_phydev field in the pse_control structure to store
-> > the phydev attached to the PSE PI, ensuring that PSE ethtool notificati=
-ons
-> > are sent to the correct network interface.
-> >=20
-> > The attached_phydev pointer is directly tied to the PHY lifecycle. It
-> > is set when the PHY is registered and cleared when the PHY is removed.
-> > There is no need to use a refcount, as doing so could interfere with
-> > the PHY removal process.
-> >=20
-> > Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
-> > Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-> > --- =20
->=20
-> [...]
->=20
-> > +void ethnl_pse_send_ntf(struct phy_device *phydev, unsigned long notif=
-s,
-> > +			struct netlink_ext_ack *extack)
-> > +{
-> > +	struct net_device *netdev =3D phydev->attached_dev;
-> > +	struct genl_info info;
-> > +	void *reply_payload;
-> > +	struct sk_buff *skb;
-> > +	int reply_len;
-> > +	int ret;
-> > +
-> > +	if (!netdev || !notifs)
-> > +		return;
-> > +
-> > +	ethnl_info_init_ntf(&info, ETHTOOL_MSG_PSE_NTF);
-> > +	info.extack =3D extack;
-> > +
-> > +	reply_len =3D ethnl_reply_header_size() +
-> > +		    nla_total_size(sizeof(u32)); /* _PSE_NTF_EVENTS */
-> > +
-> > +	skb =3D genlmsg_new(reply_len, GFP_KERNEL); =20
->=20
-> I think you need to check skb here before using it.
+> Add Return and (where interesting) Context sections, fix some formatting
+> and drop documenting the internal function __pwm_apply().
+>
+> Signed-off-by: Uwe Kleine-K=C3=B6nig <u.kleine-koenig@baylibre.com>
+> ---
+> Hello Jonathan,
+>
+> while looking into the warning that Stephen reported in
+> https://lore.kernel.org/linux-next/20250417162700.728e14e5@canb.auug.org.=
+au,
+> I found a few more issues fixed here.
+>
+> I intend to merge this via my pwm tree, but getting a confirmation (or cr=
+itic)
+> from someone who knows kernel-doc better than me would be great.
 
-Oh, thanks for spotting that!
+Seems generally fine, but ...
 
-Regards,
---=20
-K=C3=B6ry Maincent, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
+> Best regards
+> Uwe
+>
+>  drivers/pwm/core.c  | 30 ++++++++++++++++++++++--------
+>  include/linux/pwm.h |  8 +++++---
+>  2 files changed, 27 insertions(+), 11 deletions(-)
+>
+> diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+> index 079964961bd8..447077776bce 100644
+> --- a/drivers/pwm/core.c
+> +++ b/drivers/pwm/core.c
+> @@ -222,8 +222,10 @@ static int __pwm_write_waveform(struct pwm_chip *chi=
+p, struct pwm_device *pwm, c
+>   * Note however that the world doesn't stop turning when you call it, so=
+ when
+>   * doing
+>   *
+> - * 	pwm_round_waveform_might_sleep(mypwm, &wf);
+> - * 	pwm_set_waveform_might_sleep(mypwm, &wf, true);
+> + * .. code-block:: C
+> + *
+> + *   pwm_round_waveform_might_sleep(mypwm, &wf);
+> + *   pwm_set_waveform_might_sleep(mypwm, &wf, true);
+
+Here I would just use an ordinary literal block rather than embedding
+Sphinx directives into the comment like that:
+
+ * Note however that the world doesn't stop turning when you call it, so wh=
+en
+ * doing::
+ *
+ * 	pwm_round_waveform_might_sleep(mypwm, &wf);
+ * 	pwm_set_waveform_might_sleep(mypwm, &wf, true);
+
+Thanks,
+
+jon
