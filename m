@@ -1,247 +1,205 @@
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2058.outbound.protection.outlook.com [40.107.244.58])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 149AE1EB1BF
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 18:16:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.52
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744913786; cv=none; b=ZZ1aZdQJ9qjgKU44snorb1NwNOazn6XkVKhU81PlDojglHUrlvYzZXKGwvPiDLwn6s/F6w8ZakPks0qc/mu0J/fMJD6MRzJZ64eY5/nLuBTd42dFcJUPTYN6XBzvMS2sISTTF3EDmbBr1JLdJha65Ij8iQUDk0UosUCE9yt0mdc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744913786; c=relaxed/simple;
-	bh=jXPgA34u1lNSA7bi3gNWWVNOyhX2LV4sCHT6HZSTmT8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=FMAKbQeDiCqk1tnY+SFo+CEKBXjsck5rDnzQj5faHEU6TP3jiZH+QyXamwWy79b+MyEjfpeZscDjHlMnOYm/2f+IIHu4jTAwj0bYgIysHVPJ9iqmoWKj79n4GUOSYEhbqr4+g0fFTCqUiVi3BJXVpYa/6vQ6J2W76d1L+csWoX4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=gmA9bYwh; arc=none smtp.client-ip=209.85.208.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24911865FA;
+	Thu, 17 Apr 2025 20:19:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.58
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744921182; cv=fail; b=FlHq5p/HVUKeb5QLiLsY7QhpVPMKyymmH4hetelDejpO9RZ9zm5jjR4RcEipOCG8R3B/qtMQQ6PNhQC7PIKeF2Gz8KMrNOtdvuO5PG4O2iY8m4GKVeLp+kpom+FIzoMnu7dUutmqU8GE8uJrPUGvdfO8XAR5iKLnzgTEmgVSkAg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744921182; c=relaxed/simple;
+	bh=90uGuLwFB8+yNMxe5uVcUW1S+CPSnGAEQReXs/gu+fE=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=QZJ78B/bGEtAHx3nu45cOeaRQD/KfCuxzbGUJmbood3IipeEkvLwz8YVajnkPmoYUGKecA+crZhilbnJDSnq30ONi57auZhhPuBNG92PoXhxzNtyc3oQSp4expQKDAw/KsmevZiJcNezP9/qT7bdPO9CaKC9oG3tXPz706UQO84=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=C8eHAY7t; arc=fail smtp.client-ip=40.107.244.58
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="gmA9bYwh"
-Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-5e5e22e6ed2so1794439a12.3
-        for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 11:16:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744913781; x=1745518581; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0JR72QzUITGmZ1eN8BgBmaLIcpaMnqlf8+OiLb+WQXw=;
-        b=gmA9bYwhX4jsCgrzrjr0D2teHdKnqStrNi8CJtEYS6vuhXB2yEhfD1sFzB1h/K1kDI
-         OmD9qVKBLcr4LhKSd+ZityFi99Pm5t6N/M+/4pQc7zEU+0xkvHgoviZAjKx+/yq2a8zv
-         k620/CdNdSgXuvo2bBs+wW0HeDAqPcmS3Sg0o0no2qfH5E6nOumHi7no8+bVW3Bqqts2
-         GIqXkhgGOUJg86uMEQKf3sd8n7c/dpPigyoVxMWLAu6idgdWfxBdC0iLLE77zt6D+5mT
-         UQx+AhG9Gzof2KfsvxXFL5SfSXdOuQ+fUk30dbGUty4T+XrwpUtWirJuaPkmF62BmaXm
-         4Ctg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744913781; x=1745518581;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0JR72QzUITGmZ1eN8BgBmaLIcpaMnqlf8+OiLb+WQXw=;
-        b=Gek8sATbAZ+NzFdAjfucjrbVbnYwd5GTVxQDaqSZdQrodte90yLLldpR6ZB/k8OvvQ
-         JIZCGGlSvMECXsWLSBpwyP4Y+ObVD0hVLFgH3Ghv10cr9lfz77Od2UKJ/UeeU2b69Gyk
-         ygkKklyA6Rw25JrxnKoRCS1KEnSqnnreMcvqq2762AhCNFBtwgvaSGd1DL5CY4PYUPpF
-         y/cRAFP+ryNRZiLsBSemfYKRWkeen2dygBljz04iF8XTQtnFNOqjZejSe01wbnnI3GnF
-         eGMtKFUBHYjczBvNOBXuxBVWiCc51BWO23crb0WXOareHRPoQVsY5Lv3nk8uiy3TGJwu
-         pcuQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUWfKetcSa+xlYl6zKeYNcHQhaMONfT6qwsKpvdPa9AocAuKeWhBQjiwpnhYYvwkJC+4uOZZJbkBPw=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yze5+6tHIPrgZHxDxTw60CzVlT1dgMnUnNUb0uVeMEcJOr03Z9A
-	G+kKzYrthEm4Rw1zF9E1ydOUun5JLC3PRW3527za5Bn3oaHpNZ/Z6Fi7vOC7HIQ=
-X-Gm-Gg: ASbGncurRP/h6/MIDQ4t/cLsSZzBhXO8AXKqLl+Xh5tQLBL0/nvIjBln+BJgL7ewEBa
-	xE5E3hxOIzNPvtBnh2PD/TyILApFBdb6dUajem3MrFuep2jXvgv95Rif1oXn/1sX9QV3Pr7vjql
-	ORtlltAB+rcWOA/VwF7x6aRezd9nvenBqmCkZ09tV6GRXNLpEz0LOq3kzox51JX34rP04AJSP38
-	O9awWJkKhdWmzCrKEQ9S4mAK/t3kmXysTtQgMYGNGURjMdI77IYGktY/Ra48t8hVJL6VVlljhPZ
-	ThItvrjDXodB9eLHexcNU10YqldIf3KnBiWcdR+cG/KNOw==
-X-Google-Smtp-Source: AGHT+IHlYeYhG6D/L5VXgVTeHR6fho6DQgzHvC8kg63I/TWXJGygxa9MOIz50mmV/UzPSs7obTPp5w==
-X-Received: by 2002:a17:907:6e87:b0:aca:d861:877b with SMTP id a640c23a62f3a-acb42ba1438mr610635066b.49.1744913781206;
-        Thu, 17 Apr 2025 11:16:21 -0700 (PDT)
-Received: from localhost ([2a02:8071:b783:6940:36f3:9aff:fec2:7e46])
-        by smtp.gmail.com with UTF8SMTPSA id a640c23a62f3a-acb6ec103a0sm25765466b.12.2025.04.17.11.16.20
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 11:16:20 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH v2] pwm: Fix various formatting issues in kernel-doc
-Date: Thu, 17 Apr 2025 20:16:11 +0200
-Message-ID: <20250417181611.2693599-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.2
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="C8eHAY7t"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DaVoUOXj4HsEJx6DOnOC0Ww5nfZ8DeU35nvD1QAd65Fn1k5TgfOdjcBJ1zK5DgAL4yu8DAQ164KLzhafHNE7weXOu8ffoX0/UtQd10YuxbIAKNZiQcjyhxvrjZ/39mF1qo5KwjGwR6JGef/0z/Vk3hlbx2L7+JZJIBHjRdKKApyYO1icnuan3RXXFaNEKjiMoi46saIcYxfU6TML6of1jFGCCVBkcUdub5ejsMVrnVySp0i4b/YjS4Iq2COsFBugBSQHgU5QWdiS6yAJy7fKvNSgnG/aE/Stbnp3z6uiTfLGx0KhhyZyRUBlY0dL6Sl5rj/mrR6jS0s7bl3ttvLHAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1hsAKHxsqPc/R3X+o7NAk/TLd0DTBZJewag4ICXeqK8=;
+ b=JSi4ZSKCiB1uSSLb6pq1DZMzFrH/ocFwj7xi79ocI4WnkthLq1HBW2c8Y4ws0OtVatLdOibMRiCCRBKawi+FXE9u0W+GaOXn62up8xFzij77KgHqeOZ+YGFcpGkYsesurX86cLT6OhPU+sVZbnfTgbDN/1TSQWFIfbKCuQgkvycJfOCN18c0g5AVd66+8nN8HTU0ZWUTshJ2QkTu26Qsz1AdGsfsVov9L0cEXrFGcFW/G3sM7KcFYx8bjLjckJBKQoq3MPF9pvbNVbXCKWiLY3Snij8wDonwXXW+I14w47BuxSurDdZZPtb9Rv3sgUuSZXhVXoArcN3qyia0GpO/ew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1hsAKHxsqPc/R3X+o7NAk/TLd0DTBZJewag4ICXeqK8=;
+ b=C8eHAY7t5QOof/akreo5aDh4MPe7okb0d/lDrS3NGubiF0hPy7RToriXrBUYKQyYzvf5ag8q8rCJhM59ywnA7/GvCZ0SnqjBw07l98TTQu5iyI6LmRCWRtvTO5A4BCapBlQhMTI2YgzyV6dxVsbk6sir+DJHGY37HYtq+1WmdT8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
+ by DM3PR12MB9415.namprd12.prod.outlook.com (2603:10b6:8:1ac::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.33; Thu, 17 Apr
+ 2025 20:19:38 +0000
+Received: from MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
+ ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8655.022; Thu, 17 Apr 2025
+ 20:19:38 +0000
+Message-ID: <f761af28-8ce4-4f82-847a-844974116169@amd.com>
+Date: Thu, 17 Apr 2025 15:19:34 -0500
+User-Agent: Mozilla Thunderbird
+Reply-To: babu.moger@amd.com
+Subject: Re: [PATCH v12 20/26] x86/resctrl: Provide interface to update the
+ event configurations
+To: Reinette Chatre <reinette.chatre@intel.com>, tony.luck@intel.com,
+ peternewman@google.com
+Cc: corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
+ dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com,
+ paulmck@kernel.org, akpm@linux-foundation.org, thuth@redhat.com,
+ rostedt@goodmis.org, ardb@kernel.org, gregkh@linuxfoundation.org,
+ daniel.sneddon@linux.intel.com, jpoimboe@kernel.org,
+ alexandre.chartre@oracle.com, pawan.kumar.gupta@linux.intel.com,
+ thomas.lendacky@amd.com, perry.yuan@amd.com, seanjc@google.com,
+ kai.huang@intel.com, xiaoyao.li@intel.com, kan.liang@linux.intel.com,
+ xin3.li@intel.com, ebiggers@google.com, xin@zytor.com,
+ sohil.mehta@intel.com, andrew.cooper3@citrix.com, mario.limonciello@amd.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maciej.wieczor-retman@intel.com, eranian@google.com
+References: <cover.1743725907.git.babu.moger@amd.com>
+ <d18beb9ca31eb013405677792377542e609ea693.1743725907.git.babu.moger@amd.com>
+ <7be35258-f913-4111-b5da-c4173615cf18@intel.com>
+ <7423145d-7de7-4414-85be-b7325c01b437@amd.com>
+ <fda6c46d-c01c-494f-a2ba-efbcb1f331b4@intel.com>
+ <c3c54172-087e-4a53-bd66-7849402f4a55@amd.com>
+ <2aff0d11-91c1-4a3e-92e0-0ae49c804549@intel.com>
+Content-Language: en-US
+From: "Moger, Babu" <babu.moger@amd.com>
+In-Reply-To: <2aff0d11-91c1-4a3e-92e0-0ae49c804549@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SN6PR05CA0007.namprd05.prod.outlook.com
+ (2603:10b6:805:de::20) To MW3PR12MB4553.namprd12.prod.outlook.com
+ (2603:10b6:303:2c::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6887; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=jXPgA34u1lNSA7bi3gNWWVNOyhX2LV4sCHT6HZSTmT8=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoAUVr1oiIuwsIiDv/3Q6DobtJ8PKnWlf+mh9mp eT8YmEh2bqJATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaAFFawAKCRCPgPtYfRL+ ThgGB/9/yk+rVcCQUl/5gQWMn4sWHPU1oIPLGuPABA786Oo0E6K2o+AffyoTfk8hF/6j2jZRXEo pCJZKlijFWbp5nbXHxqZdywY4e8Zd5qVzAPju+WDDsGK55bdoMQ/tkvvVUFh2kB1Te57c1NqKiv TKnUJZxJH3IB37B30hsR0KgaAXFRDMxivNpcaCVpWP1UvSqysjfrubKiHltxa3KHgh3x2a4UTzb u2A4INqSDOvtQ3w3UgpQOTqZXYL94qsMkqwfF9L51YAmoTS21rFEImwn985WbHqM/1DH0NAIqgA CA4JddOwbqIuPn7XcIbi5wmqGmq1NjNz34Gr7UmfwNhVq8gC
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|DM3PR12MB9415:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9c4b11ab-8751-4562-cd5b-08dd7ded2dc8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Z1ZuQkMvVGpyemoxdTFBekgxL0U3SWY3SVAvZFVCWWRZNjVtQm9CTHpKUTNi?=
+ =?utf-8?B?TGZGbnEweTM3MWtnZG1rV0pjenAxMHErQ2Z0ZHVYNW4wd1hsd2MzaXo2MTYr?=
+ =?utf-8?B?L2RmcUxHazBNcFpkblhZYzZjMUo3RTI1cGd1eDd2SkdxbkxnTUEwNjZzRWh6?=
+ =?utf-8?B?eHFSbCtZUzlWd2xYOHZkZDliNnU0V09RTWwrcGpFbjVnWTV3c2tOTkZYTDZW?=
+ =?utf-8?B?bXJ6MUtXMmpud2lLWGJEVTFEOWJWMnVESmt6Y0VOQnBVNytaWDV0TE16SjIv?=
+ =?utf-8?B?Y0tQMjNOZEZDNmJHMnFHRXBBSjBmL0Zzd1luVFM0UG01NnBRK2UyWWNyWE5N?=
+ =?utf-8?B?a3MvcjAvVU5FcnFMRWgyNm1tQVRwTkdOZVE3a21tZTB3aERNTVhSU1o2eXNS?=
+ =?utf-8?B?R2FmOC82MkQxV0NmVzBBL1BsdnVaQlE4WU92ZWt5bVhYZXVOdnNlQlY5Lzl0?=
+ =?utf-8?B?QmlmTk12Z2V5WE9yWXdXR1MyazJTUHd2cTNIWTR5Z3RLYlRlU0J2K2d6RjdU?=
+ =?utf-8?B?anJoZC9ldUJvTjNyWEkyTEtIMnpKK21CN2JZYWhBaHFZVmJZUm9CSGdhY3lH?=
+ =?utf-8?B?RFFTekxjUXhxb2UzeTFUeHMreE1oWnMwa3NXVEpzV2dxbnd3cHJIR2R6a1Bi?=
+ =?utf-8?B?blRWRDdqTUdWMWZUdnljMkVNZDFwNVJIZVlrUzR5SktVazlHWTV0bDU3d0Jm?=
+ =?utf-8?B?aGQyMXNKaVdtZkRuK1U2Z0hGT3VNcjVmUDA3TnNkYWZCblJQQWFGakFtRTR0?=
+ =?utf-8?B?MVZNU0dDb0MrR1BPWXVaRytyV1hXQmF5MmFFWnVRYUFhVGJ0M0dBVDF2UEp2?=
+ =?utf-8?B?TWpmUzZLR2M5VXZEMitnZ3o4eXNhMElmM0Y0WDhxZ2t0ZlZ4OGd0aGhaSTM0?=
+ =?utf-8?B?WTYvWEp3T1gvZk5aa2hwaVQ2U0dGLzgyRkRWZU1sZWNVY05pZTRLWlA3b3FJ?=
+ =?utf-8?B?cHBHdlNvWFVQUDVqbXk2dm4wOWl2TzJjY3dSYkpGZ2RacDhKN2l3amZrbjFJ?=
+ =?utf-8?B?RGxYaDlnTFJWZnFPZm01bVZMaXlCUFFYMXp6bjZldVlMU0hHSHlSZ2cwM1c3?=
+ =?utf-8?B?Z20xVDFBY25BU1RsN2FaSHlyRWdQYUVDQ2JPcVBoS2RXSUc5S2xFQ0QrTUp1?=
+ =?utf-8?B?Uk5iMG5OejBXMW1jQ2xQM0lheXIwdWRYdm51OGg5SHpVNGw4Nkw5Q2V0OVVD?=
+ =?utf-8?B?VWRhREJJZU4yZ3BBUkozVUlhOXZ3WlcyODJoOG83L0NyeG1Mb2xXK2k1bWt5?=
+ =?utf-8?B?WnB6NXRwdDBkNG81bTFVbmRXOG11RmFNNzlhY2pXd0ZxN1RSWUljS054ellu?=
+ =?utf-8?B?Yjc4QjlZYm5MYWE2UWJPK1lFcjVFdktEVXY1clFUd1JlRnhvY0MvL2tudFd1?=
+ =?utf-8?B?YlQ1Zkd6YUgwdmtrSUhXZ083RlhUVGJSSUJxTHlkMWVuV2IwNk1vanM3WDhn?=
+ =?utf-8?B?eGlzK2I1WkdhalIxazVWUGp1Tk5RQ1g5OXd3dG9JZCtZSDZPMEZWTEthaU96?=
+ =?utf-8?B?REQrL3VEU2JzMEZCZU0xeUltd3pRdVRUUGpvOXNZSG5qSzdFb0w3WjlPM2hk?=
+ =?utf-8?B?Z1V5Y2d2MWZ2MnY0SEdXaS9CMUFyR1VybnpUWTVMRUUyditqVGthNTJreWlr?=
+ =?utf-8?B?eHhYNWpYc0Z0QlFYdXVnM202OHFLVDNERTRLbzd3TDNKSGFQN29mTHIwSkxT?=
+ =?utf-8?B?OXVtYXNqQ3N5eGc1eUpEbWZkZ28zMlAxUmJqM1k2Vm9MeVRYZU54MmxPcUo0?=
+ =?utf-8?B?SktZdkUvSTh4bHdyTkdDZThKZFNjUHdqVGdQeWJTUGk2bm1QU2haTFU5VzNu?=
+ =?utf-8?B?SGJKUmpEWFVGOG5sQTZHK3V3UTlxeXBQYUptN3JSMFZWNy9naEFXSFBSd3Iy?=
+ =?utf-8?B?RFo5L1IwN2FFSDlmdEZIZ2x2QTVJY3RGR1N3bnVZUStzUGtKdS9iUEJjR09p?=
+ =?utf-8?Q?z5AVER3T47k=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?SlRFclB6ZWJETmhIUjVsSXU0d2NjV212WWZ0N09aSTRVaS8wK2JQOEd1akx0?=
+ =?utf-8?B?cGg0dW43YkVmR2ZXZUt1endRTFR1cEExOVc5djlKRVZ1SG53WXVTTnZqZzNs?=
+ =?utf-8?B?UEx5c28xTnQ5R0ZINENReEs3cUQ4TDlrRlNNVjJiczVrVFl4U0NVQ2ZTSFhi?=
+ =?utf-8?B?UnFTV2RjcmtFR0toVmk5MndqaVd3Z1czanRvSUZaQWRrTlZUTFNTeE5yb3BM?=
+ =?utf-8?B?OHgwaHpuTHV6dm95K2V5SnNSbS9Rd2E1VUVtWC9FSUI1ZzR6dkd1RVg1SE1h?=
+ =?utf-8?B?Y21OcTh3VmFUUjJ1YU5BVWVSbzFnYjdSbktTYy9zTm5pWEN5dTZacjc4SE45?=
+ =?utf-8?B?UlA1bkdReFpEL1RiUXJPS2tlWXFPWm4vL3QrVGI5K1pqWjFOTlAyVVdHQ2cv?=
+ =?utf-8?B?ZS9UNkxPeTZhUlk3OVFYRHJsdkpvOTI1VG53OXhqWkExR3JZc2dHQVJTeGlX?=
+ =?utf-8?B?R1dPM2xDVitDTGJ0dEtrWTh3SFUxT3BPc1FRQmVmV0d6V1BxLzd1ZEtsYy9O?=
+ =?utf-8?B?VDgvTXJsRUNveHQxeHdKQ0RNcEZlUlVUd09tYlpUbHVtNlhuZWpJWVFOa3Ni?=
+ =?utf-8?B?WForaHpibm9DbTRiS09RYlA1V29OSmJXcW5HR1VqOTBEa3hRQjhIRTFDRjRE?=
+ =?utf-8?B?L2o3WVByUHl6dTdQSUZHeDlrNktNVWgrYytOMnNPdW4wbDJFbERuU3ZuYU9v?=
+ =?utf-8?B?SjZxaytONUcwaGxNMllGUnd5MEdrNnl0RVN0dHhacGdkZHNsY3VITXR3alF3?=
+ =?utf-8?B?R3NqcUZaU3BURHM5U0xjRFg1N1dnVFBkcXY4Ri9BOGlCbFkyNVdONElLUkEx?=
+ =?utf-8?B?MHk2VzhmL25lWU1zbEhUMWtkdDJ2RGszdU9adks2Yk5iSnN0NmtkZDkyREpJ?=
+ =?utf-8?B?VzZjRVllVlN5YW5iK3ZEWE0vVDFIYk1MeE1DY2NzaVJuc3VNTG1jSWhtbzl1?=
+ =?utf-8?B?S1VsSU5lWnRoYlNMVFZIQlAxdlFoUjBLK0hkNnY0QkJPS1BFQ1FXUU03Rkkz?=
+ =?utf-8?B?MHJPRktMRzlFR0d2WU5JZnVGUG9aTHZGUmsxRTBoQUtMN3B2VnRMSVc4Tkpp?=
+ =?utf-8?B?cFFkQUpsMVVhZ1N3eDNNK1ZpTGNJUWxKWmVnRmlyWlROd2JGR3lMWW1yT2Fq?=
+ =?utf-8?B?aTdkeGxlK3hxNy93VDJtTk9pcG9WQXF6VHRvMEg0TnVwaE9RTDZDbHhVUmdD?=
+ =?utf-8?B?T0Z6SnRrUmdMV2FlOXA4OTI5L1lPVlFrSlJRS25hSWIzYW1kWUlEakwxTWZw?=
+ =?utf-8?B?SFpCdHhwcU9pZWtWNW9SOWh6a2JUelJ1eUFXV3pFTjlBeU9xZWNYNWNmd2N3?=
+ =?utf-8?B?d05DN21nZncvelhHNXFKcDNFV2w5Yjd5emRFeExWUlpnVGxUbHBpUmFhaE1r?=
+ =?utf-8?B?K1A5QkZxZk9vaEZJYm9wbU44ZmZUd1pqOUEvWlcwN3hZQ2lrRjJXTDJHcEkz?=
+ =?utf-8?B?Ukk0MGxOWVJURFFwcWVvT3krVmxHcGlBUGdRNVliU2twbE5MYW1NMkMyaGti?=
+ =?utf-8?B?UmlXY0ZUVzYwTWNKRmhvbkxCK2RnYnhpSjJiVC9MR3Q0WDF0aVRLTVF3WHp6?=
+ =?utf-8?B?RXhKNGtmOTFxSE16aXI4RmhjSWZBUkNOS2RNOXJVaWNwbVRmMEVoRGt1Ym90?=
+ =?utf-8?B?OTNTNk9Xek9tWG1nTkFWQlA5a0RMenlGZmU5TW0zZ2xqRGFwWVhYbU1TMi9k?=
+ =?utf-8?B?SXhjU21vS2cyU0RZWTZrVjErdmkyOVFZeVIrcUJLbGhUdEVoaERMS2c2VEZD?=
+ =?utf-8?B?RitlZjdhUHM1TEQ4bHl2MUU1SlhVSXV5MHJCcFh4cHhIcjZtQWluSEg1SExW?=
+ =?utf-8?B?Rk5jNEpsRGdMajMyQ255WE4rQUx1TlZCQSswSjVXeVJLQmMxZ2hRV2p4M0NV?=
+ =?utf-8?B?MTVHYmk4TFNna2ZHR1JLRWtSZ1E2NC9mNVdtK0VGdHEwbkdaUjVvdDRRTTRh?=
+ =?utf-8?B?T01iS2syNFdKOFV2RTA5dXZmZzg0Y3ZFdnVmWkI2bStFUGlCNHgrRWRNU3Jy?=
+ =?utf-8?B?ekYzUWRhQTdKbXd5ZzlrQTRSRllGV3c3NEtoNEtUanFtb09VRTNoK05JQTZr?=
+ =?utf-8?B?ZmNjUFd6R1ZsbEdoQ2kvODI5Mjd4M1I0eUs4ZzhUdUZzTDhxL2psekZFTWhE?=
+ =?utf-8?Q?SL5o=3D?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9c4b11ab-8751-4562-cd5b-08dd7ded2dc8
+X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 20:19:38.7332
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: MLFwMyhuv/m9280rjf7sEGBSxogz8iVfEq+lmIRxxzPOj12u6PKfTAZUlhgeaRXk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9415
 
-Add Return and (where interesting) Context sections, fix some formatting
-and drop documenting the internal function __pwm_apply().
+Hi Reinette,
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
----
-Hello Jonathan,
-
-On Thu, Apr 17, 2025 at 07:24:15AM -0600, Jonathan Corbet wrote:
-> > --- a/drivers/pwm/core.c
-> > +++ b/drivers/pwm/core.c
-> > @@ -222,8 +222,10 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
-> >   * Note however that the world doesn't stop turning when you call it, so when
-> >   * doing
-> >   *
-> > - *         pwm_round_waveform_might_sleep(mypwm, &wf);
-> > - *         pwm_set_waveform_might_sleep(mypwm, &wf, true);
-> > + * .. code-block:: C
-> > + *
-> > + *   pwm_round_waveform_might_sleep(mypwm, &wf);
-> > + *   pwm_set_waveform_might_sleep(mypwm, &wf, true);
+On 4/17/25 10:09, Reinette Chatre wrote:
+> Hi Babu,
 > 
-> Here I would just use an ordinary literal block rather than embedding
-> Sphinx directives into the comment like that:
+> On 4/17/25 7:34 AM, Moger, Babu wrote:
+>> On 4/16/25 13:52, Reinette Chatre wrote:
+>>>
+>>> Below is a start of trying to address this but I think more refinement is needed (other
+>>> possible terms for "transactions" could perhaps be "data sources"? ... what do you think?):
+>>>
+>>> 	"The read/write event_filter file contains the configuration of the event
+>>> 	 that reflects which transactions(?) are being counted by it."
+>>>
+>>
+>> How about?
+>>
+>> "The read/write event_filter file contains the configuration of the event
+>> that reflects which memory transactions are being counted by it."
+>>
 > 
->  * Note however that the world doesn't stop turning when you call it, so when
->  * doing::
->  *
->  *    pwm_round_waveform_might_sleep(mypwm, &wf);
->  *    pwm_set_waveform_might_sleep(mypwm, &wf, true);
+> Looks good to me. Perhaps "being" can be dropped? Thank you.
+> 
 
-Oh, that looks identically in the rendered output (though I didn't
-compare pixel by pixel :-) and looks much better in the ASCII
-representation. Adapted accordingly in this v2.
+Sure.
 
-Thanks for your input
-Uwe
-
- drivers/pwm/core.c  | 30 +++++++++++++++++++++---------
- include/linux/pwm.h |  8 +++++---
- 2 files changed, 26 insertions(+), 12 deletions(-)
-
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 079964961bd8..1f41c7a8cf1e 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -220,10 +220,10 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
-  * pwm_set_waveform_might_sleep now.
-  *
-  * Note however that the world doesn't stop turning when you call it, so when
-- * doing
-+ * doing::
-  *
-- * 	pwm_round_waveform_might_sleep(mypwm, &wf);
-- * 	pwm_set_waveform_might_sleep(mypwm, &wf, true);
-+ *   pwm_round_waveform_might_sleep(mypwm, &wf);
-+ *   pwm_set_waveform_might_sleep(mypwm, &wf, true);
-  *
-  * the latter might fail, e.g. because an input clock changed its rate between
-  * these two calls and the waveform determined by
-@@ -233,8 +233,9 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
-  * value (in the order period_length_ns, duty_length_ns and then
-  * duty_offset_ns). Only if this isn't possible, a value might grow.
-  *
-- * Returns 0 on success, 1 if at least one value had to be rounded up or a
-+ * Returns: 0 on success, 1 if at least one value had to be rounded up or a
-  * negative errno.
-+ * Context: May sleep.
-  */
- int pwm_round_waveform_might_sleep(struct pwm_device *pwm, struct pwm_waveform *wf)
- {
-@@ -291,6 +292,9 @@ EXPORT_SYMBOL_GPL(pwm_round_waveform_might_sleep);
-  *
-  * Stores the current configuration of the PWM in @wf. Note this is the
-  * equivalent of pwm_get_state_hw() (and not pwm_get_state()) for pwm_waveform.
-+ *
-+ * Returns: 0 on success or a negative errno
-+ * Context: May sleep.
-  */
- int pwm_get_waveform_might_sleep(struct pwm_device *pwm, struct pwm_waveform *wf)
- {
-@@ -406,6 +410,10 @@ static int __pwm_set_waveform(struct pwm_device *pwm,
-  * Note that even with exact = true, some rounding by less than 1 is
-  * possible/needed. In the above example requesting .period_length_ns = 94 and
-  * exact = true, you get the hardware configured with period = 93.5 ns.
-+ *
-+ * Returns: 0 on succes, 1 if was rounded up (if !@exact) or no perfect match was
-+ * possible (if @exact), or a negative errno
-+ * Context: May sleep.
-  */
- int pwm_set_waveform_might_sleep(struct pwm_device *pwm,
- 				 const struct pwm_waveform *wf, bool exact)
-@@ -565,11 +573,6 @@ static bool pwm_state_valid(const struct pwm_state *state)
- 	return true;
- }
- 
--/**
-- * __pwm_apply() - atomically apply a new state to a PWM device
-- * @pwm: PWM device
-- * @state: new state to apply
-- */
- static int __pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
- {
- 	struct pwm_chip *chip;
-@@ -678,6 +681,9 @@ static int __pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
-  * Cannot be used in atomic context.
-  * @pwm: PWM device
-  * @state: new state to apply
-+ *
-+ * Returns: 0 on success, or a negative errno
-+ * Context: May sleep.
-  */
- int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
- {
-@@ -719,6 +725,9 @@ EXPORT_SYMBOL_GPL(pwm_apply_might_sleep);
-  * Not all PWM devices support this function, check with pwm_might_sleep().
-  * @pwm: PWM device
-  * @state: new state to apply
-+ *
-+ * Returns: 0 on success, or a negative errno
-+ * Context: Any
-  */
- int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state)
- {
-@@ -792,6 +801,9 @@ EXPORT_SYMBOL_GPL(pwm_get_state_hw);
-  * This function will adjust the PWM config to the PWM arguments provided
-  * by the DT or PWM lookup table. This is particularly useful to adapt
-  * the bootloader config to the Linux one.
-+ *
-+ * Returns: 0 on success or a negative error code on failure.
-+ * Context: May sleep.
-  */
- int pwm_adjust_config(struct pwm_device *pwm)
- {
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index bf0469b2201d..63a17d2b4ec8 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -218,6 +218,8 @@ static inline void pwm_init_state(const struct pwm_device *pwm,
-  *
-  * pwm_get_state(pwm, &state);
-  * duty = pwm_get_relative_duty_cycle(&state, 100);
-+ *
-+ * Returns: rounded relative duty cycle multiplied by @scale
-  */
- static inline unsigned int
- pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
-@@ -244,8 +246,8 @@ pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
-  * pwm_set_relative_duty_cycle(&state, 50, 100);
-  * pwm_apply_might_sleep(pwm, &state);
-  *
-- * This functions returns -EINVAL if @duty_cycle and/or @scale are
-- * inconsistent (@scale == 0 or @duty_cycle > @scale).
-+ * Returns: 0 on success or ``-EINVAL`` if @duty_cycle and/or @scale are
-+ * inconsistent (@scale == 0 or @duty_cycle > @scale)
-  */
- static inline int
- pwm_set_relative_duty_cycle(struct pwm_state *state, unsigned int duty_cycle,
-@@ -351,7 +353,7 @@ struct pwm_chip {
-  * pwmchip_supports_waveform() - checks if the given chip supports waveform callbacks
-  * @chip: The pwm_chip to test
-  *
-- * Returns true iff the pwm chip support the waveform functions like
-+ * Returns: true iff the pwm chip support the waveform functions like
-  * pwm_set_waveform_might_sleep() and pwm_round_waveform_might_sleep()
-  */
- static inline bool pwmchip_supports_waveform(struct pwm_chip *chip)
-
-base-commit: 061f087f5d0bcae9f43ae0101121fcaa999d2809
 -- 
-2.47.2
-
+Thanks
+Babu Moger
