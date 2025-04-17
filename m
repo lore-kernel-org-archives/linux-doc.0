@@ -1,256 +1,227 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9487A22A811;
-	Thu, 17 Apr 2025 09:19:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EC6218EB8
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 09:25:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744881583; cv=none; b=poT0aBVt15wMBFvZmXRjAqOwYOMTUwbyMhhwLkYtdSLxDt1olwRq70Hi4GBnixAKOM5/HwTvfVNLv+shl3+haWpQmq2yUHfaQtYlEPkgxF6ArrtLzC28lLXymgmTbO8eq/d7RpJ4J6DaQOyjGZuy0C4OwtmCcnayWYOEVFKIX10=
+	t=1744881949; cv=none; b=sXFjxtZkKuNXhBK4KDFwwDNkHQ4Jy/PoOB6fn+MRKe2ZA43LutQ2N80n2X2GBHofebv+mrq7MobKLcGblihLIg7c6rKF00N8wHzu6AUbn39HKXaep02SqoY4EJIz5wH3kbStvUxoxUr1OlHKUKIs431QZJwHOjakgxnUFljs7/4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744881583; c=relaxed/simple;
-	bh=Rd8dR5mrLxtA4cWdfHrGRP8CZ4syR8GqQIiI8cKDki4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hkf7Vj5LJfpyOxou0AoQOh2TvG7BnyiAVohMZ886Q5I7X/82jWjE9/8aiSQnrMCqNj70mPOSRbFlebpP3wgxrEEcSLWx5jGXrIwr4rW74v06GJeAxj4DmbXkVqXXjNrL06WEUkNriA0R9d2/qBPLmafb98o77YYYzTOLD13OTVU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FD9KAabj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1744881949; c=relaxed/simple;
+	bh=e/oRy53W5i+7IG/wMwBVb4X925eCUkKPvvLvpxZ9kOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UtJKzY2sS1dv+sDXlo4Eg1dAxnrLb2Qhne0VrqoOeCwk6rzJCVCMUteLyemocqiFbNZwiBT5BJGInLgZq/5+/4mpvuBeyY2yITlVZH3KcxAbTX5LWJXRJlYgQlFnQrVqTNzAgcD7wPaRZGn7fpIukFZlBVXD5lLe0G+vsW8hF6I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mKVZJQjH; arc=none smtp.client-ip=209.85.208.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FD9KAabj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61089C4CEEE;
-	Thu, 17 Apr 2025 09:19:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744881581;
-	bh=Rd8dR5mrLxtA4cWdfHrGRP8CZ4syR8GqQIiI8cKDki4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=FD9KAabj+GLPxJZyVB0XxL2tOJpdpCb0zHp5EfdMtghZZs0tI8Hr4DRmvItDg+FXw
-	 R+VcjgwKDgKZ10FCnp0bUto0evEKZdxSfn/Fiu1kWfxZIPoOKEpKfWL7SR7xZHAL21
-	 aE/vkmF6ddvoJ/ZJ7LFX/C7vimUg+qaKsrjRqKgLc2tpBPYewyC4J9odk7emTJHq30
-	 5mcNDuWxHiSQIXNbe1ykg/u2pCznT2z+GbEiOFYTxtLvFMM9in7h7Z+OLropK5DqWT
-	 lq/TAxo8X9NLowo93xVCB+awHqAygPv0kON9wIi0iErpsaGtIlXcprl0tyPkX8OfKE
-	 7cgDHC7sYVm8g==
-Date: Thu, 17 Apr 2025 10:19:36 +0100
-From: Simon Horman <horms@kernel.org>
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>, upstream@airoha.com,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [net-next PATCH v3 03/11] net: pcs: Add subsystem
-Message-ID: <20250417091936.GB2430521@horms.kernel.org>
-References: <20250415193323.2794214-1-sean.anderson@linux.dev>
- <20250415193323.2794214-4-sean.anderson@linux.dev>
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mKVZJQjH"
+Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5f4c30f8570so1185793a12.2
+        for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 02:25:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744881945; x=1745486745; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=QrSfDTj8BEF3kjwsmuGGuGpkcd9XmrYmUx8LIf1Kk9Y=;
+        b=mKVZJQjHI9jVHF2r0oeEP4XJRDPWTnY2w8GDwdiEUrVf7N0GEJvXXnzJYhYEQFaGm3
+         hGTaAuUqtuOj9c6yv4Ptjhe/yLcw3urtl8erhpXhJ5mGJwMaErVGxi2NPBqKQnPtU+7g
+         OkvT8IqPZW6ozLkaDKxDxo8LY+UYq9Ny0ApDSGFH2Rjf74h+FfXHjzvathqo2ejJTAT8
+         P72sH4e61yJhBb2mSI0pCP7o8Y23xK6AqHSiOle/BsqqgWwCoMNcd5cyUqoXTiPHVTK2
+         3i4WyP0aDBj0boZi4csRBumWZEgbx5BlqABiBon3eKN9veuyteqEFEbnSh5P7iSfKT+Z
+         Nxuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744881945; x=1745486745;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=QrSfDTj8BEF3kjwsmuGGuGpkcd9XmrYmUx8LIf1Kk9Y=;
+        b=tgByB45lebIU5EnuGSQK7nq080tV1c2qLQVBSibZDDlegA1o2xx4HBzWAsuLG4JEmy
+         KTvFSxfy7U2N4fJKnxsLeTFzFzlsX9m5Xa/r80/AVABH2DPQh8KOmgqJpSpUeiU80pv1
+         FHZ2BIOpmaVn/3Yc1PXkhgj5loH6NwH0UEyMht/4KwwN7YD0xzmIpkL7p+1yCjtYa781
+         FuWJVrDxJByf/PyiRSWoCKDgR2hi3daHlrZuK2tCaMQeijqgSeCx/9GRlp+xetKJCzLM
+         GOAWIjGQoQwhOR1YI+oWtXEMyKAfUTdAavlE81eydlABLvlHJaH/W5UUMu4p1RCjfsBx
+         McWQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXvoundbUKOBABP4pvut9vWOoeZ2EGDCi93UnEYlavBUCNdHMJoWai4QI5YY0Rveq/Wv58wRcf9Vjw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJtIWdzkl/u/P06t0JFRFks4U1CqKSI8E72PcK7xCyHzuI1Vn8
+	YWGhLJlHbu3vEj0MLU7TMI7viBHofUeEuH8+1pduFsDQVtG+uY+MRHBRhuGZgII=
+X-Gm-Gg: ASbGncswbu4xYF/xN2laZOvRMFih0CZXVAcZYPM8/jkkmyB9oRl8YN0/UlAmFQjPwNh
+	FbKl+3hM4bLVrfe+Jl5SecYe1IwcOLoxGR1qCNlvqc6DeSC6c3KIAXldjWp0hYb2T0RSdbn+6+K
+	6RiURMB93Ze6/xM46yDId166NOTQyS7MIFGowLre004dClcdluCZP+V5tI0k3BocLnU4JblmI5D
+	/DcjsV263CpIVgtBAJTZ1VhkcGJfCwWP3yvS663gFoe69M87zWxuHNSCGqMWD/4+O9RyVLmN6cC
+	u7j1C/AJkPCRZ6IstuIPiHl0lcmSf68aYn4GzqvqUgSz45EXb1hQSWNbU04vwiZFAMCNAzV6lg3
+	QmOSdo3g=
+X-Google-Smtp-Source: AGHT+IHyMvSRKBCCa4SYcTzYCD71vauhiKEz3DIVlJPHPwMSp9FaDUkQ+4RwVXm4gSqRx6WK9VUjWQ==
+X-Received: by 2002:a05:6402:3490:b0:5ec:cc79:84f5 with SMTP id 4fb4d7f45d1cf-5f4b71e7b0fmr4913234a12.7.1744881945063;
+        Thu, 17 Apr 2025 02:25:45 -0700 (PDT)
+Received: from localhost (p200300f65f13aa0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f13:aa04::1b9])
+        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5f36f06b244sm10008358a12.45.2025.04.17.02.25.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Apr 2025 02:25:44 -0700 (PDT)
+From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-pwm@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH] pwm: Fix various formatting issues in kernel-doc
+Date: Thu, 17 Apr 2025 11:25:34 +0200
+Message-ID: <20250417092535.2669166-2-u.kleine-koenig@baylibre.com>
+X-Mailer: git-send-email 2.47.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250415193323.2794214-4-sean.anderson@linux.dev>
+Content-Type: text/plain; charset=UTF-8
+X-Developer-Signature: v=1; a=openpgp-sha256; l=6030; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=e/oRy53W5i+7IG/wMwBVb4X925eCUkKPvvLvpxZ9kOI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoAMkP8pZPT8sLqgGKRckugfZ4OMwoSMLdJOm+P fR6AMHJEy6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaADJDwAKCRCPgPtYfRL+ TqmDB/90UyPHpS30gIML7SfaHGqM9OXo0YTRJ8FQrbDzXkPAfa5TbafL2V23dpPOir96dsp6RlM ckHUGC7fRgbVUHUECMGPr0RqHGAHBXXpIfOpG5/xTp+5tIf4dm1XL1HP22XwFzXgMLnveihsSWc BdSCXD6QnTZJZI8TGz3LaDtDCWZquOdmJBCGXDg9rhBGktYZM9ZWW53JlnCFeCsx34swTZBOVtO QlKJcSINcVzMVkyMaaKTW7EGvM4szHloBuvGz++STjOMIsghorlrCrZTjv7+jZS9PqRC+W7Z7mq q6j+g9A4FPPhqvxe3+AnLxo2f90LHhGW2TgF2lib2eH+QdzE
+X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 15, 2025 at 03:33:15PM -0400, Sean Anderson wrote:
-> This adds support for getting PCS devices from the device tree. PCS
-> drivers must first register with phylink_register_pcs. After that, MAC
-> drivers may look up their PCS using phylink_get_pcs.
-> 
-> We wrap registered PCSs in another PCS. This wrapper PCS is refcounted
-> and can outlive the wrapped PCS (such as if the wrapped PCS's driver is
-> unbound). The wrapper forwards all PCS callbacks to the wrapped PCS,
-> first checking to make sure the wrapped PCS still exists. This design
-> was inspired by Bartosz Golaszewski's talk at LPC [1].
-> 
-> pcs_get_by_fwnode_compat is a bit hairy, but it's necessary for
-> compatibility with existing drivers, which often attach to (devicetree)
-> nodes directly. We use the devicetree changeset system instead of
-> adding a (secondary) software node because mdio_bus_match calls
-> of_driver_match_device to match devices, and that function only works on
-> devicetree nodes.
-> 
-> [1] https://lpc.events/event/17/contributions/1627/
-> 
-> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+Add Return and (where interesting) Context sections, fix some formatting
+and drop documenting the internal function __pwm_apply().
 
-Hi Sean,
+Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+---
+Hello Jonathan,
 
-I noticed a few build problems after sending my previous email.
+while looking into the warning that Stephen reported in
+https://lore.kernel.org/linux-next/20250417162700.728e14e5@canb.auug.org.au,
+I found a few more issues fixed here.
 
-I was able to exercise them using variants of the following to
-generate small configs. I include this here in case it is useful to you.
+I intend to merge this via my pwm tree, but getting a confirmation (or critic)
+from someone who knows kernel-doc better than me would be great.
 
-make tinyconfig
+Best regards
+Uwe
 
-cat >> .config << __EOF__
-CONFIG_MODULES=y
-CONFIG_NET=y
-CONFIG_NETDEVICES=y
-CONFIG_PCS=y
-CONFIG_PHYLIB=m
-__EOF__
+ drivers/pwm/core.c  | 30 ++++++++++++++++++++++--------
+ include/linux/pwm.h |  8 +++++---
+ 2 files changed, 27 insertions(+), 11 deletions(-)
 
-cat >> .config << __EOF__
-CONFIG_OF=y
-CONFIG_OF_UNITTEST=y
-CONFIG_OF_DYNAMIC=y
-__EOF__
+diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
+index 079964961bd8..447077776bce 100644
+--- a/drivers/pwm/core.c
++++ b/drivers/pwm/core.c
+@@ -222,8 +222,10 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
+  * Note however that the world doesn't stop turning when you call it, so when
+  * doing
+  *
+- * 	pwm_round_waveform_might_sleep(mypwm, &wf);
+- * 	pwm_set_waveform_might_sleep(mypwm, &wf, true);
++ * .. code-block:: C
++ *
++ *   pwm_round_waveform_might_sleep(mypwm, &wf);
++ *   pwm_set_waveform_might_sleep(mypwm, &wf, true);
+  *
+  * the latter might fail, e.g. because an input clock changed its rate between
+  * these two calls and the waveform determined by
+@@ -233,8 +235,9 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
+  * value (in the order period_length_ns, duty_length_ns and then
+  * duty_offset_ns). Only if this isn't possible, a value might grow.
+  *
+- * Returns 0 on success, 1 if at least one value had to be rounded up or a
++ * Returns: 0 on success, 1 if at least one value had to be rounded up or a
+  * negative errno.
++ * Context: May sleep.
+  */
+ int pwm_round_waveform_might_sleep(struct pwm_device *pwm, struct pwm_waveform *wf)
+ {
+@@ -291,6 +294,9 @@ EXPORT_SYMBOL_GPL(pwm_round_waveform_might_sleep);
+  *
+  * Stores the current configuration of the PWM in @wf. Note this is the
+  * equivalent of pwm_get_state_hw() (and not pwm_get_state()) for pwm_waveform.
++ *
++ * Returns: 0 on success or a negative errno
++ * Context: May sleep.
+  */
+ int pwm_get_waveform_might_sleep(struct pwm_device *pwm, struct pwm_waveform *wf)
+ {
+@@ -406,6 +412,10 @@ static int __pwm_set_waveform(struct pwm_device *pwm,
+  * Note that even with exact = true, some rounding by less than 1 is
+  * possible/needed. In the above example requesting .period_length_ns = 94 and
+  * exact = true, you get the hardware configured with period = 93.5 ns.
++ *
++ * Returns: 0 on succes, 1 if was rounded up (if !@exact) or no perfect match was
++ * possible (if @exact), or a negative errno
++ * Context: May sleep.
+  */
+ int pwm_set_waveform_might_sleep(struct pwm_device *pwm,
+ 				 const struct pwm_waveform *wf, bool exact)
+@@ -565,11 +575,6 @@ static bool pwm_state_valid(const struct pwm_state *state)
+ 	return true;
+ }
+ 
+-/**
+- * __pwm_apply() - atomically apply a new state to a PWM device
+- * @pwm: PWM device
+- * @state: new state to apply
+- */
+ static int __pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
+ {
+ 	struct pwm_chip *chip;
+@@ -678,6 +683,9 @@ static int __pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
+  * Cannot be used in atomic context.
+  * @pwm: PWM device
+  * @state: new state to apply
++ *
++ * Returns: 0 on success, or a negative errno
++ * Context: May sleep.
+  */
+ int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
+ {
+@@ -719,6 +727,9 @@ EXPORT_SYMBOL_GPL(pwm_apply_might_sleep);
+  * Not all PWM devices support this function, check with pwm_might_sleep().
+  * @pwm: PWM device
+  * @state: new state to apply
++ *
++ * Returns: 0 on success, or a negative errno
++ * Context: Any
+  */
+ int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state)
+ {
+@@ -792,6 +803,9 @@ EXPORT_SYMBOL_GPL(pwm_get_state_hw);
+  * This function will adjust the PWM config to the PWM arguments provided
+  * by the DT or PWM lookup table. This is particularly useful to adapt
+  * the bootloader config to the Linux one.
++ *
++ * Returns: 0 on success or a negative error code on failure.
++ * Context: May sleep.
+  */
+ int pwm_adjust_config(struct pwm_device *pwm)
+ {
+diff --git a/include/linux/pwm.h b/include/linux/pwm.h
+index bf0469b2201d..63a17d2b4ec8 100644
+--- a/include/linux/pwm.h
++++ b/include/linux/pwm.h
+@@ -218,6 +218,8 @@ static inline void pwm_init_state(const struct pwm_device *pwm,
+  *
+  * pwm_get_state(pwm, &state);
+  * duty = pwm_get_relative_duty_cycle(&state, 100);
++ *
++ * Returns: rounded relative duty cycle multiplied by @scale
+  */
+ static inline unsigned int
+ pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
+@@ -244,8 +246,8 @@ pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
+  * pwm_set_relative_duty_cycle(&state, 50, 100);
+  * pwm_apply_might_sleep(pwm, &state);
+  *
+- * This functions returns -EINVAL if @duty_cycle and/or @scale are
+- * inconsistent (@scale == 0 or @duty_cycle > @scale).
++ * Returns: 0 on success or ``-EINVAL`` if @duty_cycle and/or @scale are
++ * inconsistent (@scale == 0 or @duty_cycle > @scale)
+  */
+ static inline int
+ pwm_set_relative_duty_cycle(struct pwm_state *state, unsigned int duty_cycle,
+@@ -351,7 +353,7 @@ struct pwm_chip {
+  * pwmchip_supports_waveform() - checks if the given chip supports waveform callbacks
+  * @chip: The pwm_chip to test
+  *
+- * Returns true iff the pwm chip support the waveform functions like
++ * Returns: true iff the pwm chip support the waveform functions like
+  * pwm_set_waveform_might_sleep() and pwm_round_waveform_might_sleep()
+  */
+ static inline bool pwmchip_supports_waveform(struct pwm_chip *chip)
 
-yes "" | make oldconfig
+base-commit: fbf1880bada00ad44bffcc8b4f5fed95b47891dd
+-- 
+2.47.2
 
-...
-
-> diff --git a/drivers/net/pcs/core.c b/drivers/net/pcs/core.c
-
-...
-
-> +/**
-> + * _pcs_get() - Get a PCS from a fwnode property
-> + * @dev: The device to get a PCS for
-> + * @fwnode: The fwnode to find the PCS with
-> + * @id: The name of the PCS to get. May be %NULL to get the first PCS.
-> + * @fallback: An optional fallback property to use if pcs-handle is absent
-> + * @optional: Whether the PCS is optional
-> + *
-> + * Find a PCS referenced by @mac_node and return a reference to it. Every call
-> + * to _pcs_get_by_fwnode() must be balanced with one to pcs_put().
-> + *
-> + * Return: a PCS if found, %NULL if not, or an error pointer on failure
-> + */
-> +struct phylink_pcs *_pcs_get(struct device *dev, struct fwnode_handle *fwnode,
-> +			     const char *id, const char *fallback,
-> +			     bool optional)
-> +{
-> +	struct fwnode_handle *pcs_fwnode;
-> +	struct phylink_pcs *pcs;
-> +
-> +	pcs_fwnode = pcs_find_fwnode(fwnode, id, fallback, optional);
-> +	if (IS_ERR(pcs_fwnode))
-> +		return ERR_CAST(pcs_fwnode);
-> +
-> +	pcs = _pcs_get_tail(dev, pcs_fwnode, NULL);
-> +	fwnode_handle_put(pcs_fwnode);
-> +	return pcs;
-> +}
-> +EXPORT_SYMBOL_GPL(_pcs_get);
-> +
-> +static __maybe_unused void of_changeset_cleanup(void *data)
-> +{
-> +	struct of_changeset *ocs = data;
-
-Code in pcs_get_by_fwnode_compat is conditionally compiled
-based on CONFIG_OF_DYNAMIC. I think that is needed here too,
-because of_changeset_revert() doesn't exist unless CONFIG_OF_DYNAMIC is set.
-
-> +
-> +	if (WARN(of_changeset_revert(ocs),
-> +		 "could not revert changeset; leaking memory\n"))
-> +		return;
-> +
-> +	of_changeset_destroy(ocs);
-> +	kfree(ocs);
-> +}
-> +
-> +/**
-> + * pcs_get_by_fwnode_compat() - Get a PCS with a compatibility fallback
-> + * @dev: The device requesting the PCS
-> + * @fwnode: The &struct fwnode_handle of the PCS itself
-> + * @fixup: Callback to fix up @fwnode for compatibility
-> + * @data: Passed to @fixup
-> + *
-> + * This function looks up a PCS and retries on failure after fixing up @fwnode.
-> + * It is intended to assist in backwards-compatible behavior for drivers that
-> + * used to create a PCS directly from a &struct device_node. This function
-> + * should NOT be used in new drivers.
-> + *
-> + * @fixup modifies a devicetree changeset to create any properties necessary to
-> + * bind the PCS's &struct device_node. At the very least, it should use
-> + * of_changeset_add_prop_string() to add a compatible property.
-> + *
-> + * Note that unlike pcs_get_by_fwnode, @fwnode is the &struct fwnode_handle of
-> + * the PCS itself, and not that of the requesting device. @fwnode could be
-> + * looked up with pcs_find_fwnode() or determined by some other means for
-> + * compatibility.
-> + *
-> + * Return: A PCS on success or an error pointer on failure
-> + */
-> +struct phylink_pcs *
-> +pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
-> +			 int (*fixup)(struct of_changeset *ocs,
-> +				      struct device_node *np, void *data),
-> +			 void *data)
-> +{
-> +#ifdef CONFIG_OF_DYNAMIC
-> +	struct mdio_device *mdiodev;
-> +	struct of_changeset *ocs;
-> +	struct phylink_pcs *pcs;
-> +	struct device_node *np;
-> +	struct device *pcsdev;
-> +	int err;
-> +
-> +	/* First attempt */
-> +	pcs = _pcs_get_tail(dev, fwnode, NULL);
-> +	if (PTR_ERR(pcs) != -EPROBE_DEFER)
-> +		return pcs;
-> +
-> +	/* No luck? Maybe there's no compatible... */
-> +	np = to_of_node(fwnode);
-> +	if (!np || of_property_present(np, "compatible"))
-> +		return pcs;
-> +
-> +	/* OK, let's try fixing things up */
-> +	pr_warn("%pOF is missing a compatible\n", np);
-> +	ocs = kmalloc(sizeof(*ocs), GFP_KERNEL);
-> +	if (!ocs)
-> +		return ERR_PTR(-ENOMEM);
-> +
-> +	of_changeset_init(ocs);
-> +	err = fixup(ocs, np, data);
-> +	if (err)
-> +		goto err_ocs;
-> +
-> +	err = of_changeset_apply(ocs);
-> +	if (err)
-> +		goto err_ocs;
-> +
-> +	err = devm_add_action_or_reset(dev, of_changeset_cleanup, ocs);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> +	mdiodev = fwnode_mdio_find_device(fwnode);
-
-fwnode_mdio_find_device() is unavailable for linking if PHYLIB is a module
-(and PCS is built-in).
-
-> +	if (mdiodev) {
-> +		/* Clear that pesky PHY flag so we can match PCS drivers */
-> +		device_lock(&mdiodev->dev);
-> +		mdiodev->flags &= ~MDIO_DEVICE_FLAG_PHY;
-> +		device_unlock(&mdiodev->dev);
-> +		pcsdev = &mdiodev->dev;
-> +	} else {
-> +		pcsdev = get_device(fwnode->dev);
-> +		if (!pcsdev)
-> +			return ERR_PTR(-EPROBE_DEFER);
-> +	}
-> +
-> +	err = device_reprobe(pcsdev);
-> +	put_device(pcsdev);
-> +	if (err)
-> +		return ERR_PTR(err);
-> +
-> +	return _pcs_get_tail(dev, fwnode, NULL);
-> +
-> +err_ocs:
-> +	of_changeset_destroy(ocs);
-> +	kfree(ocs);
-> +	return ERR_PTR(err);
-> +#else
-> +	return _pcs_get_tail(dev, fwnode, NULL);
-> +#endif
-> +}
-> +EXPORT_SYMBOL_GPL(pcs_get_by_fwnode_compat);
-
-...
