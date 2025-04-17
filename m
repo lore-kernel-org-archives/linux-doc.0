@@ -1,33 +1,33 @@
-Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80CA425290D;
-	Thu, 17 Apr 2025 14:56:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D6D26289
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 15:05:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744901788; cv=none; b=uuO6jBOPtAE6aQ/kCD7fcba8vm8CrPU+LYFzZ0NWhlPIbK/EXFR+gVnk5KnEWvHzc2Sz2C8mu9FQ5CmK9uWqoLodqipwUSRQTUY1ZUZIJrz7wp0es7XXF3xXSUrR8orCstlLWYRw4uGHgeotJnf7d3KLxNcjZzeGu3L32GcPUWg=
+	t=1744902335; cv=none; b=NjVBFTtjsQNT+D8MrbOW45zOIBaZqLZfY9+U0FX7ZE6R0YyUnC2SPwz8z6Z1B/lnInHDYrJx5Rjt1WruH3NOdLPOkdIweYIJzFpjxzvSvT4dvsGsWyeyZdVFSc/aut4ecxKmBYuZF4c4X1URy4bG1njaqOHI35ZonF+2UGSdK2U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744901788; c=relaxed/simple;
-	bh=f4VpzSQyVEUlcA1+rjMRBX3EraHdMKhtBG0f6HU2uVw=;
+	s=arc-20240116; t=1744902335; c=relaxed/simple;
+	bh=mYnYDBhB4iVZK8o+WurggM8h518uosFxtFofEwgMFJk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mPNzq+bLmZM330qfkMUYQfXXXjJvvMF7LCJoFRYduCVaTnc/QJtWKCwmch8Us978ZuWMwk3FqNTwhjuVPb7Gr5uRpfUUjG3/F+C9SfV4KTQjex6NBgUmWlk9iMl486bY1vEHOKFrEpaccWPxfpYAetbdOGvGNwH/VVPfymW51h0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=sY1NNLk0; arc=none smtp.client-ip=91.218.175.182
+	 In-Reply-To:Content-Type; b=W/QGmaS6m0w790WzX83rQX5dLiTQm4NaplzQ/qJqUUxLraU2C8kK8ngTw7H9gQPB0HwjzcF1bqebnS0ny0CWSqbXjlZVwps38Yci1ZzAFokkG89oh2XlmNJnK8zO4EkpL6ojvyWJXfENZkFTRgHNv1CcPlY4Wh2wve7FDNBIxoE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Gx2EOvec; arc=none smtp.client-ip=91.218.175.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="sY1NNLk0"
-Message-ID: <98dbfe79-9ee7-40bc-85bd-3401310eacdd@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Gx2EOvec"
+Message-ID: <0bd8a9c0-4824-4c1f-bf32-ac1e57e2bea0@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744901774;
+	t=1744902330;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=Vsd90iGqEiz0A9QChGUBF3bflV2hP/cb0UB54Xwa7Tw=;
-	b=sY1NNLk0YIdyxJQQOgJAjXS66bA5VAnKAXwf4PoZ48Ji39UuHwbu//2Jp6SRtxHKNvuAWx
-	16XuJ7HIETX5RmDsHhZkG5y74pyC7Z9obM1sHaHSnVv65OXtCsvm2vERQpk5pPkr7lb5z2
-	9RvUfAz5CHoWo0jNgJzngl5KTQyV5uA=
-Date: Thu, 17 Apr 2025 10:56:08 -0400
+	bh=Bc/VJlIB1nkTBkSY664JrQaUk9ZbIGdSI77xWP1fgzk=;
+	b=Gx2EOvecFX1YSCE2w7PHZ/6VtyfbUSI5OUa3vxOiUi2wmTDB7y24xmHILDDJG6cZ8JHhv/
+	a4tsWC+uc5kUBai1CA+GAeMimVvW43hXMvp/hW1AtbJHuxntjNYOMuLM/0sLl0GFKbSvCD
+	P6/I3yDf5FUW2PZlKNnoiNXbDlu3IPE=
+Date: Thu, 17 Apr 2025 11:05:24 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -46,16 +46,16 @@ Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
  linux-doc@vger.kernel.org
 References: <20250415193323.2794214-1-sean.anderson@linux.dev>
  <20250415193323.2794214-4-sean.anderson@linux.dev>
- <20250417083559.GA2430521@horms.kernel.org>
+ <20250417091936.GB2430521@horms.kernel.org>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20250417083559.GA2430521@horms.kernel.org>
+In-Reply-To: <20250417091936.GB2430521@horms.kernel.org>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 X-Migadu-Flow: FLOW_OUT
 
-On 4/17/25 04:35, Simon Horman wrote:
+On 4/17/25 05:19, Simon Horman wrote:
 > On Tue, Apr 15, 2025 at 03:33:15PM -0400, Sean Anderson wrote:
 >> This adds support for getting PCS devices from the device tree. PCS
 >> drivers must first register with phylink_register_pcs. After that, MAC
@@ -80,173 +80,190 @@ On 4/17/25 04:35, Simon Horman wrote:
 > 
 > Hi Sean,
 > 
-> Overall this looks quite clean to me.
-> Please find minor some nits flagged by tooling below.
+> I noticed a few build problems after sending my previous email.
 > 
->> +/**
->> + * struct pcs_wrapper - Wrapper for a registered PCS
->> + * @pcs: the wrapping PCS
->> + * @refcnt: refcount for the wrapper
->> + * @list: list head for pcs_wrappers
->> + * @dev: the device associated with this PCS
->> + * @fwnode: this PCS's firmware node; typically @dev.fwnode
->> + * @wrapped: the backing PCS
->> + */
->> +struct pcs_wrapper {
->> +	struct phylink_pcs pcs;
->> +	refcount_t refcnt;
->> +	struct list_head list;
->> +	struct device *dev;
->> +	struct fwnode_handle *fwnode;
->> +	struct phylink_pcs *wrapped;
->> +};
+> I was able to exercise them using variants of the following to
+> generate small configs. I include this here in case it is useful to you.
 > 
-> I think that wrapped needs an __rcu annotation.
+> make tinyconfig
 > 
-> Flagged by Sparse.
+> cat >> .config << __EOF__
+> CONFIG_MODULES=y
+> CONFIG_NET=y
+> CONFIG_NETDEVICES=y
+> CONFIG_PCS=y
+> CONFIG_PHYLIB=m
+> __EOF__
 > 
-> ...
-
-Will add.
-
->> +static int pcs_post_config(struct phylink_pcs *pcs,
->> +			   phy_interface_t interface)
->> +{
->> +	struct pcs_wrapper *wrapper = pcs_to_wrapper(pcs);
+> cat >> .config << __EOF__
+> CONFIG_OF=y
+> CONFIG_OF_UNITTEST=y
+> CONFIG_OF_DYNAMIC=y
+> __EOF__
 > 
-> The line above dereferences pcs.
-> 
->> +	struct phylink_pcs *wrapped;
->> +	int ret, idx;
->> +
->> +	idx = srcu_read_lock(&pcs_srcu);
->> +
->> +	wrapped = srcu_dereference(wrapper->wrapped, &pcs_srcu);
->> +	if (pcs && wrapped->ops->pcs_post_config)
-> 
-> But here it is assumed that pcs may be NULL.
-> This does not seem consistent.
-> 
-> Flagged by Smatch.
-
-This should be if(wrapped && ...
-
->> +		ret = wrapped->ops->pcs_post_config(wrapped, interface);
->> +	else
->> +		ret = 0;
->> +
->> +	srcu_read_unlock(&pcs_srcu, idx);
->> +	return ret;
->> +}
+> yes "" | make oldconfig
 > 
 > ...
 > 
->> +/**
->> + * pcs_unregister() - unregister a PCS
->> + * @pcs: a PCS previously registered with pcs_register()
->> + */
->> +void pcs_unregister(struct phylink_pcs *pcs)
->> +{
->> +	struct pcs_wrapper *wrapper;
->> +
->> +	mutex_lock(&pcs_mutex);
->> +	list_for_each_entry(wrapper, &pcs_wrappers, list) {
->> +		if (wrapper->wrapped == pcs)
-> 
-> Assuming that rcu_access_pointer() works with srcu,
-> I think that this should be:
-> 
-> 		if (rcu_access_pointer(wrapper->wrapped) == pcs)
-> 
-> Also flagged by Sparse
-
-OK
-
->> +			goto found;
->> +	}
->> +
->> +	mutex_unlock(&pcs_mutex);
->> +	WARN(1, "trying to unregister an already-unregistered PCS\n");
->> +	return;
->> +
->> +found:
->> +	list_del(&wrapper->list);
->> +	mutex_unlock(&pcs_mutex);
->> +
->> +	put_device(wrapper->dev);
->> +	fwnode_handle_put(wrapper->fwnode);
->> +	rcu_replace_pointer(wrapper->wrapped, NULL, true);
->> +	synchronize_srcu(&pcs_srcu);
->> +
->> +	if (!wrapper->pcs.poll)
->> +		phylink_pcs_change(&wrapper->pcs, false);
->> +	if (refcount_dec_and_test(&wrapper->refcnt))
->> +		kfree(wrapper);
->> +}
->> +EXPORT_SYMBOL_GPL(pcs_unregister);
->> +
->> +static void devm_pcs_unregister(void *pcs)
->> +{
->> +	pcs_unregister(pcs);
->> +}
->> +
->> +/**
->> + * devm_pcs_register - resource managed pcs_register()
-> 
-> nit: devm_pcs_register_full
-> 
->      Flagged by W=1 builds, and ./scripts/kernel-doc -none
-
-OK
-
->> + * @dev: device that is registering this PCS
->> + * @fwnode: The PCS's firmware node; typically @dev.fwnode
->> + * @pcs: the PCS to register
->> + *
->> + * Managed pcs_register(). For PCSs registered by this function,
->> + * pcs_unregister() is automatically called on driver detach. See
->> + * pcs_register() for more information.
->> + *
->> + * Return: 0 on success, or -errno on failure
->> + */
->> +int devm_pcs_register_full(struct device *dev, struct fwnode_handle *fwnode,
+>> diff --git a/drivers/net/pcs/core.c b/drivers/net/pcs/core.c
 > 
 > ...
-> 
+
+Thanks, I was able to reproduce/fix these issues.
+
+How did you find these? By inspection?
+
+I often end up missing build issues like this because I mostly
+test with everything enabled.
+
+--Sean
+
 >> +/**
->> + * pcs_find_fwnode() - Find a PCS's fwnode
->> + * @mac_node: The fwnode referencing the PCS
+>> + * _pcs_get() - Get a PCS from a fwnode property
+>> + * @dev: The device to get a PCS for
+>> + * @fwnode: The fwnode to find the PCS with
 >> + * @id: The name of the PCS to get. May be %NULL to get the first PCS.
 >> + * @fallback: An optional fallback property to use if pcs-handle is absent
 >> + * @optional: Whether the PCS is optional
 >> + *
->> + * Find a PCS's fwnode, as referenced by @mac_node. This fwnode can later be
->> + * used with _pcs_get_tail() to get the actual PCS. ``pcs-handle-names`` is
->> + * used to match @id, then the fwnode is found using ``pcs-handle``.
+>> + * Find a PCS referenced by @mac_node and return a reference to it. Every call
+>> + * to _pcs_get_by_fwnode() must be balanced with one to pcs_put().
 >> + *
->> + * This function is internal to the PCS subsystem from a consumer
->> + * point-of-view. However, it may be used to implement fallbacks for legacy
->> + * behavior in PCS providers.
->> + *
->> + * Return: %NULL if @optional is set and the PCS cannot be found. Otherwise,
->> + * *       returns a PCS if found or an error pointer on failure.
+>> + * Return: a PCS if found, %NULL if not, or an error pointer on failure
 >> + */
->> +struct fwnode_handle *pcs_find_fwnode(const struct fwnode_handle *mac_node,
->> +				      const char *id, const char *fallback,
->> +				      bool optional)
+>> +struct phylink_pcs *_pcs_get(struct device *dev, struct fwnode_handle *fwnode,
+>> +			     const char *id, const char *fallback,
+>> +			     bool optional)
 >> +{
->> +	int index;
 >> +	struct fwnode_handle *pcs_fwnode;
+>> +	struct phylink_pcs *pcs;
+>> +
+>> +	pcs_fwnode = pcs_find_fwnode(fwnode, id, fallback, optional);
+>> +	if (IS_ERR(pcs_fwnode))
+>> +		return ERR_CAST(pcs_fwnode);
+>> +
+>> +	pcs = _pcs_get_tail(dev, pcs_fwnode, NULL);
+>> +	fwnode_handle_put(pcs_fwnode);
+>> +	return pcs;
+>> +}
+>> +EXPORT_SYMBOL_GPL(_pcs_get);
+>> +
+>> +static __maybe_unused void of_changeset_cleanup(void *data)
+>> +{
+>> +	struct of_changeset *ocs = data;
 > 
-> Reverse xmas tree here please.
+> Code in pcs_get_by_fwnode_compat is conditionally compiled
+> based on CONFIG_OF_DYNAMIC. I think that is needed here too,
+> because of_changeset_revert() doesn't exist unless CONFIG_OF_DYNAMIC is set.
+> 
+>> +
+>> +	if (WARN(of_changeset_revert(ocs),
+>> +		 "could not revert changeset; leaking memory\n"))
+>> +		return;
+>> +
+>> +	of_changeset_destroy(ocs);
+>> +	kfree(ocs);
+>> +}
+>> +
+>> +/**
+>> + * pcs_get_by_fwnode_compat() - Get a PCS with a compatibility fallback
+>> + * @dev: The device requesting the PCS
+>> + * @fwnode: The &struct fwnode_handle of the PCS itself
+>> + * @fixup: Callback to fix up @fwnode for compatibility
+>> + * @data: Passed to @fixup
+>> + *
+>> + * This function looks up a PCS and retries on failure after fixing up @fwnode.
+>> + * It is intended to assist in backwards-compatible behavior for drivers that
+>> + * used to create a PCS directly from a &struct device_node. This function
+>> + * should NOT be used in new drivers.
+>> + *
+>> + * @fixup modifies a devicetree changeset to create any properties necessary to
+>> + * bind the PCS's &struct device_node. At the very least, it should use
+>> + * of_changeset_add_prop_string() to add a compatible property.
+>> + *
+>> + * Note that unlike pcs_get_by_fwnode, @fwnode is the &struct fwnode_handle of
+>> + * the PCS itself, and not that of the requesting device. @fwnode could be
+>> + * looked up with pcs_find_fwnode() or determined by some other means for
+>> + * compatibility.
+>> + *
+>> + * Return: A PCS on success or an error pointer on failure
+>> + */
+>> +struct phylink_pcs *
+>> +pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
+>> +			 int (*fixup)(struct of_changeset *ocs,
+>> +				      struct device_node *np, void *data),
+>> +			 void *data)
+>> +{
+>> +#ifdef CONFIG_OF_DYNAMIC
+>> +	struct mdio_device *mdiodev;
+>> +	struct of_changeset *ocs;
+>> +	struct phylink_pcs *pcs;
+>> +	struct device_node *np;
+>> +	struct device *pcsdev;
+>> +	int err;
+>> +
+>> +	/* First attempt */
+>> +	pcs = _pcs_get_tail(dev, fwnode, NULL);
+>> +	if (PTR_ERR(pcs) != -EPROBE_DEFER)
+>> +		return pcs;
+>> +
+>> +	/* No luck? Maybe there's no compatible... */
+>> +	np = to_of_node(fwnode);
+>> +	if (!np || of_property_present(np, "compatible"))
+>> +		return pcs;
+>> +
+>> +	/* OK, let's try fixing things up */
+>> +	pr_warn("%pOF is missing a compatible\n", np);
+>> +	ocs = kmalloc(sizeof(*ocs), GFP_KERNEL);
+>> +	if (!ocs)
+>> +		return ERR_PTR(-ENOMEM);
+>> +
+>> +	of_changeset_init(ocs);
+>> +	err = fixup(ocs, np, data);
+>> +	if (err)
+>> +		goto err_ocs;
+>> +
+>> +	err = of_changeset_apply(ocs);
+>> +	if (err)
+>> +		goto err_ocs;
+>> +
+>> +	err = devm_add_action_or_reset(dev, of_changeset_cleanup, ocs);
+>> +	if (err)
+>> +		return ERR_PTR(err);
+>> +
+>> +	mdiodev = fwnode_mdio_find_device(fwnode);
+> 
+> fwnode_mdio_find_device() is unavailable for linking if PHYLIB is a module
+> (and PCS is built-in).
+> 
+>> +	if (mdiodev) {
+>> +		/* Clear that pesky PHY flag so we can match PCS drivers */
+>> +		device_lock(&mdiodev->dev);
+>> +		mdiodev->flags &= ~MDIO_DEVICE_FLAG_PHY;
+>> +		device_unlock(&mdiodev->dev);
+>> +		pcsdev = &mdiodev->dev;
+>> +	} else {
+>> +		pcsdev = get_device(fwnode->dev);
+>> +		if (!pcsdev)
+>> +			return ERR_PTR(-EPROBE_DEFER);
+>> +	}
+>> +
+>> +	err = device_reprobe(pcsdev);
+>> +	put_device(pcsdev);
+>> +	if (err)
+>> +		return ERR_PTR(err);
+>> +
+>> +	return _pcs_get_tail(dev, fwnode, NULL);
+>> +
+>> +err_ocs:
+>> +	of_changeset_destroy(ocs);
+>> +	kfree(ocs);
+>> +	return ERR_PTR(err);
+>> +#else
+>> +	return _pcs_get_tail(dev, fwnode, NULL);
+>> +#endif
+>> +}
+>> +EXPORT_SYMBOL_GPL(pcs_get_by_fwnode_compat);
+> 
+> ...
 
-OK
-
-> Edward Cree's xmastree tool can be helpful:
-> https://github.com/ecree-solarflare/xmastree
-
-I wonder if we could get this into checkpatch...
-
-Thanks for the review.
-
---Sean
