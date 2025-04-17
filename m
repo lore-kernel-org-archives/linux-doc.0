@@ -1,301 +1,153 @@
-Received: from mail-ed1-f73.google.com (mail-ed1-f73.google.com [209.85.208.73])
+Received: from smtp-out1.suse.de (smtp-out1.suse.de [195.135.223.130])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D0922512E5
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 14:25:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.73
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C74252916
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 14:27:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.135.223.130
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744899961; cv=none; b=ajvdk4hn6q9n+i4CgksHDDhlNEOSxRbKtfjpCR0/VTMv0NCFxRo4OFPLBFMcsX5a2lcQYK7H7Xo2rmG2Blzd7GrbmfrhjJ/WFdTO5yVrUOIOD8NohGtSL27pNCivmvNAW5ErCikzmmhZTpl5CaJzNc3b2YQm4ffpIFdQe5dE+E8=
+	t=1744900047; cv=none; b=mr0FOMeZ+iISAD9z3KauHND4MLpCBouxSVtOU+EdP6osXj96FWHDZD+ESmdYpyVwAY6AdRYZth9gQL4J9zFd2vgnHguS+IYl7QlNrTAEVrCTzvLcwFsbzoA7D5U+IDLgyuVoenWwTvYRDwN8Y9hQZekEfHYBFsDH39hMSozIU/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744899961; c=relaxed/simple;
-	bh=9+7vjTgR6tOQBxCEXpe9sEq8U3zVklK5iZhpXv4zvQk=;
-	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=K/amcLFWiXlzLqleVsJ/9N9e0du2weg4miDEN1++8xExUqZbp9pVevfQLArYYvGd1llDJU0gnJNoDbnYH8O69z5bDjz4DMrhl7BoovrrjTvVbVBOgoEAv77B6CHZNXhSxqnS4djZHB90B9KtX2rLZYxkUV5Nzp0GjjiItylY1Y8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mclapinski.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rbXeIrKS; arc=none smtp.client-ip=209.85.208.73
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mclapinski.bounces.google.com
+	s=arc-20240116; t=1744900047; c=relaxed/simple;
+	bh=/wlRLlvGCRJyQcf8KfFhaL1Dra4/nZn492rCe1AyKNw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=C7iy4fRfToH7UiKyfpef1dVmzgd72Iw/7tUxmWo57TdF4qrZ9Gd8HFfy8cEx+Ybl8qspmH9gV+vBQZT7rAANXLW04pbNZqnwosuvY06W6rMUkFj/sxZSmTxTavwGR5/h/S/fGzncuSsaAx0WIjeYs4zVJwhg0g3diXJosBaOBx4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de; spf=pass smtp.mailfrom=suse.de; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q5TEdOCv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xdvRs3fs; dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b=Q5TEdOCv; dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b=xdvRs3fs; arc=none smtp.client-ip=195.135.223.130
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=suse.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rbXeIrKS"
-Received: by mail-ed1-f73.google.com with SMTP id 4fb4d7f45d1cf-5e6d978792dso786450a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 07:25:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744899957; x=1745504757; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=H+sdaqbuJVHJwWuSmsh/GQYswrYAxKRQh26GCaZXhok=;
-        b=rbXeIrKSY/Ff+9Ci02eGxUEnuvDiVWbTrzlPtJ9Pibc/3urGW8uWcQ9DFqpFnD9/k0
-         +s9LUWApF5c8TtkzISC+EmQw6vKw1vWtFVfwD0eDMpRnRUddMSkgL8wowvN6e+7fVO8i
-         YqVWbY65WeI9v6TgKmdufr8BJfruTVE/aVgoVocIZlgRNNIE6e3CVFDB9JlB0o0XjH4s
-         /01QS+fi4Hm3aB2EYPfF3RcTcDOHAg38bmxMaq6IlRBASDOaPDqYLNXUR4irevNDhXnP
-         oE4g/GwZZ7SJjmsODFnaSKLOBpVt0StNL3/GWKmNolm8qukI6cN5ROgsNQ3qLwrQVF9t
-         77lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744899957; x=1745504757;
-        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=H+sdaqbuJVHJwWuSmsh/GQYswrYAxKRQh26GCaZXhok=;
-        b=Z/IvLGLShE8kXyTkLBkxn9o//uDps+zlUgYzxuoIg/GXB0ebDr4LRj/cT4fRbLMVi3
-         YWkGb3wJepl2NlD60LRKvKpnS/CrT6gQte5wSDWIVC5PjC8VBBhUj9pxDYFA3oBwz/sU
-         SdtCv/sAu399eldFZC3zxfbyKXVYGn+B2nESwedKAn4mUh0tl/KjJHRsYR7d+z986bdk
-         A/kMO7kAna2/49FB6DQlRY6Wtvsb9GTxgIJj5IHlm5WojGLpPzn9VAcN1kQe1/dWXkgx
-         LEko/8M1g+PJN+8oqtB2V7s/MzJ1uE5snDF2zFbjkIkynp5D3dIlWV0TwePiE85NCuR8
-         bMCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXUZTgY12Jana1r4YBbEa2igmkiC/ZvVcgoHq7mi9LB80W30kmeI3GWCjXf+KN9oxEGGYxM9cA9mVI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy16YlUPutK5m4QhfAciVFpkirx6cW49odGQJaAOr+qZOcrRdPR
-	9JZ8k3569PD7hPuP2NgMzmRN/+UeS1WrBVRffpdz7mianWIvlZGKj47MDFPzBZCEkwCnC0S1ph3
-	arFu86lJBHXowe1q34g==
-X-Google-Smtp-Source: AGHT+IGBqy5TobEpyVuaQspyqyuO7ng/tNpB3r9xw3JUF5HoHKa35Wf85wBwTqhq1424irAfhUpw80t6e7qsEfOU
-X-Received: from edyv23.prod.google.com ([2002:a05:6402:1857:b0:5ec:9a93:5aac])
- (user=mclapinski job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6402:354e:b0:5f3:816b:c0cc with SMTP id 4fb4d7f45d1cf-5f4b7204c76mr5985652a12.10.1744899957654;
- Thu, 17 Apr 2025 07:25:57 -0700 (PDT)
-Date: Thu, 17 Apr 2025 16:25:25 +0200
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q5TEdOCv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xdvRs3fs";
+	dkim=pass (1024-bit key) header.d=suse.de header.i=@suse.de header.b="Q5TEdOCv";
+	dkim=permerror (0-bit key) header.d=suse.de header.i=@suse.de header.b="xdvRs3fs"
+Received: from imap1.dmz-prg2.suse.org (imap1.dmz-prg2.suse.org [IPv6:2a07:de40:b281:104:10:150:64:97])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by smtp-out1.suse.de (Postfix) with ESMTPS id D6BF821169;
+	Thu, 17 Apr 2025 14:27:23 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744900043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OTOlmfXBkX0z6KmD/qDsm4EQbX4+4WK/B07AutJC1Pg=;
+	b=Q5TEdOCvrv31wuwYUSI8WZfsWmyBIRRfe5jW71exn0imyeLWRqBFYrXvq+6SlawXugtrmv
+	YGXDIJhdai088tEq3QoOoudK685SZBxN2YQbnn866J2THlzDHP2nS/7Oi40bIjWtYLBIjM
+	Gnz9TibTf2ZD0QLkU/h2CHaKYfM4Zn8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744900043;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OTOlmfXBkX0z6KmD/qDsm4EQbX4+4WK/B07AutJC1Pg=;
+	b=xdvRs3fsdGoldkFuNlF4tNwJG0SS2LfIxMJZ43WYkcwCwjawCiI/y2FGsKmxZdFA0om3KW
+	TUSURhstwlZzdmBg==
+Authentication-Results: smtp-out1.suse.de;
+	dkim=pass header.d=suse.de header.s=susede2_rsa header.b=Q5TEdOCv;
+	dkim=pass header.d=suse.de header.s=susede2_ed25519 header.b=xdvRs3fs
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.de; s=susede2_rsa;
+	t=1744900043; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OTOlmfXBkX0z6KmD/qDsm4EQbX4+4WK/B07AutJC1Pg=;
+	b=Q5TEdOCvrv31wuwYUSI8WZfsWmyBIRRfe5jW71exn0imyeLWRqBFYrXvq+6SlawXugtrmv
+	YGXDIJhdai088tEq3QoOoudK685SZBxN2YQbnn866J2THlzDHP2nS/7Oi40bIjWtYLBIjM
+	Gnz9TibTf2ZD0QLkU/h2CHaKYfM4Zn8=
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=suse.de;
+	s=susede2_ed25519; t=1744900043;
+	h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+	 mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=OTOlmfXBkX0z6KmD/qDsm4EQbX4+4WK/B07AutJC1Pg=;
+	b=xdvRs3fsdGoldkFuNlF4tNwJG0SS2LfIxMJZ43WYkcwCwjawCiI/y2FGsKmxZdFA0om3KW
+	TUSURhstwlZzdmBg==
+Received: from imap1.dmz-prg2.suse.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	by imap1.dmz-prg2.suse.org (Postfix) with ESMTPS id 83D1B137CF;
+	Thu, 17 Apr 2025 14:27:22 +0000 (UTC)
+Received: from dovecot-director2.suse.de ([2a07:de40:b281:106:10:150:64:167])
+	by imap1.dmz-prg2.suse.org with ESMTPSA
+	id Wrc0HcoPAWiOUwAAD6G6ig
+	(envelope-from <pfalcato@suse.de>); Thu, 17 Apr 2025 14:27:22 +0000
+Date: Thu, 17 Apr 2025 15:27:16 +0100
+From: Pedro Falcato <pfalcato@suse.de>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: corbet@lwn.net, tsbogend@alpha.franken.de, akpm@linux-foundation.org, 
+	jeffxu@chromium.org, lorenzo.stoakes@oracle.com, kees@kernel.org, 
+	Liam.Howlett@oracle.com, hca@linux.ibm.com, takumaw1990@gmail.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mips@vger.kernel.org, 
+	thomas.weissschuh@linutronix.de, tglx@linutronix.de, namcao@linutronix.de, zhanjun@uniontech.com, 
+	niecheng1@uniontech.com, guanwentao@uniontech.com, Erpeng Xu <xuerpeng@uniontech.com>
+Subject: Re: [PATCH] mseal sysmap: enable mips with LOONGSON64
+Message-ID: <dpagj64oai5yn45poxfr36jtliwpbueu3pvhbrb5flxgu7hnql@7rarpfgkf6wz>
+References: <7EB087B72C4FBDD3+20250417132410.404043-1-wangyuli@uniontech.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-X-Mailer: git-send-email 2.49.0.777.g153de2bbd5-goog
-Message-ID: <20250417142525.78088-1-mclapinski@google.com>
-Subject: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure many
- regions per e820 entry
-From: Michal Clapinski <mclapinski@google.com>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: nvdimm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, Michal Clapinski <mclapinski@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7EB087B72C4FBDD3+20250417132410.404043-1-wangyuli@uniontech.com>
+X-Rspamd-Queue-Id: D6BF821169
+X-Spam-Level: 
+X-Spamd-Result: default: False [-4.01 / 50.00];
+	BAYES_HAM(-3.00)[99.99%];
+	NEURAL_HAM_LONG(-1.00)[-1.000];
+	MID_RHS_NOT_FQDN(0.50)[];
+	NEURAL_HAM_SHORT(-0.20)[-1.000];
+	R_DKIM_ALLOW(-0.20)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	MIME_GOOD(-0.10)[text/plain];
+	MX_GOOD(-0.01)[];
+	FUZZY_BLOCKED(0.00)[rspamd.com];
+	RCVD_VIA_SMTP_AUTH(0.00)[];
+	ARC_NA(0.00)[];
+	MIME_TRACE(0.00)[0:+];
+	MISSING_XM_UA(0.00)[];
+	RCPT_COUNT_TWELVE(0.00)[20];
+	FREEMAIL_ENVRCPT(0.00)[gmail.com];
+	DNSWL_BLOCKED(0.00)[2a07:de40:b281:104:10:150:64:97:from];
+	TO_DN_SOME(0.00)[];
+	FROM_HAS_DN(0.00)[];
+	FREEMAIL_CC(0.00)[lwn.net,alpha.franken.de,linux-foundation.org,chromium.org,oracle.com,kernel.org,linux.ibm.com,gmail.com,vger.kernel.org,linutronix.de,uniontech.com];
+	RCVD_TLS_ALL(0.00)[];
+	FROM_EQ_ENVFROM(0.00)[];
+	TO_MATCH_ENVRCPT_ALL(0.00)[];
+	RCVD_COUNT_TWO(0.00)[2];
+	DKIM_SIGNED(0.00)[suse.de:s=susede2_rsa,suse.de:s=susede2_ed25519];
+	DKIM_TRACE(0.00)[suse.de:+]
+X-Rspamd-Server: rspamd2.dmz-prg2.suse.org
+X-Rspamd-Action: no action
+X-Spam-Score: -4.01
+X-Spam-Flag: NO
 
-Currently, the user has to specify each memory region to be used with
-nvdimm via the memmap parameter. Due to the character limit of the
-command line, this makes it impossible to have a lot of pmem devices.
-This new parameter solves this issue by allowing users to divide
-one e820 entry into many nvdimm regions.
+On Thu, Apr 17, 2025 at 09:24:10PM +0800, WangYuli wrote:
+> Provide support for CONFIG_MSEAL_SYSTEM_MAPPINGS on mips with
+> CPU_LOONGSON64, covering the vdso.
+> 
+> NOTE:
+>   There is significant diversity among devices within the MIPS
+> architecture, which extends to their kernel code implementations.
+>   My testing capabilities are limited to Loongson 3A4000/3B4000
+> CPUs.
+>   Consequently, I have not enabled mseal sysmap support for the
+> entirety of mips64, as I lack the necessary devices for testing.
+>
 
-This change is needed for the hypervisor live update. VMs' memory will
-be backed by those emulated pmem devices. To support various VM shapes
-I want to create devdax devices at 1GB granularity similar to hugetlb.
+I strongly suggest we don't do this kind of stuff. Lets keep things simple and either:
 
-It's also possible to expand this parameter in the future,
-e.g. to specify the type of the device (fsdax/devdax).
+1) Check that there's no problem for _all_ variations of the arch. Then enable
+   ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS.
+2) If not checking everything, then don't do any sort of enabling.
 
-Signed-off-by: Michal Clapinski <mclapinski@google.com>
----
-v2: Fixed a crash when pmem parameter is omitted.
----
- .../admin-guide/kernel-parameters.txt         |   7 +
- drivers/nvdimm/e820.c                         | 149 +++++++++++++++++-
- 2 files changed, 153 insertions(+), 3 deletions(-)
+It should help reduce confusion.
 
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index fb8752b42ec85..63af03eb850ed 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -3849,6 +3849,13 @@
- 
- 	n2=		[NET] SDL Inc. RISCom/N2 synchronous serial card
- 
-+	nd_e820.pmem=ss[KMG],nn[KMG]
-+			Divide one e820 entry specified by memmap=x!ss
-+			(that is starting at ss) into pmem devices of size nn.
-+			There can be only one pmem parameter per one e820
-+			entry. The size of the e820 entry has to be divisible
-+			by the device size.
-+
- 	netdev=		[NET] Network devices parameters
- 			Format: <irq>,<io>,<mem_start>,<mem_end>,<name>
- 			Note that mem_start is often overloaded to mean
-diff --git a/drivers/nvdimm/e820.c b/drivers/nvdimm/e820.c
-index 41c67dfa80158..b5559e2e6fc9f 100644
---- a/drivers/nvdimm/e820.c
-+++ b/drivers/nvdimm/e820.c
-@@ -8,6 +8,87 @@
- #include <linux/libnvdimm.h>
- #include <linux/module.h>
- #include <linux/numa.h>
-+#include <linux/moduleparam.h>
-+#include <linux/xarray.h>
-+
-+#define MAX_PMEM_ARGUMENTS 32
-+
-+static char *pmem[MAX_PMEM_ARGUMENTS];
-+static int pmem_count;
-+
-+static int pmem_param_set(const char *arg, const struct kernel_param *kp)
-+{
-+	int rc;
-+	struct kernel_param kp_new;
-+
-+	kp_new.name = kp->name;
-+	kp_new.arg = &pmem[pmem_count];
-+	rc = param_set_charp(arg, &kp_new);
-+	if (rc)
-+		return rc;
-+	++pmem_count;
-+	return 0;
-+}
-+
-+static void pmem_param_free(void *arg)
-+{
-+	int i;
-+
-+	for (i = 0; i < pmem_count; ++i)
-+		param_free_charp(&pmem[i]);
-+
-+	pmem_count = 0;
-+}
-+
-+static const struct kernel_param_ops pmem_param_ops = {
-+	.set =		pmem_param_set,
-+	.free =		pmem_param_free,
-+};
-+module_param_cb(pmem, &pmem_param_ops, NULL, 0);
-+
-+struct pmem_entry {
-+	unsigned long region_size;
-+};
-+
-+static int parse_one_pmem_arg(struct xarray *xarray, char *p)
-+{
-+	int rc = -EINVAL;
-+	char *oldp;
-+	unsigned long start;
-+	struct pmem_entry *entry = kmalloc(sizeof(*entry), GFP_KERNEL);
-+
-+	if (!entry)
-+		return -ENOMEM;
-+
-+	oldp = p;
-+	start = memparse(p, &p);
-+	if (p == oldp || *p != ',') {
-+		pr_err("Can't parse pmem start: %s\n", oldp);
-+		goto err;
-+	}
-+	++p;
-+
-+	oldp = p;
-+	entry->region_size = memparse(p, &p);
-+	if (p == oldp || (*p != ',' && *p != '\0')) {
-+		pr_err("Can't parse pmem region size: %s\n", oldp);
-+		goto err;
-+	}
-+
-+	if (*p != '\0')
-+		pr_warn("Unexpected parameters in pmem arg: %s\n", p);
-+
-+	rc = xa_err(xa_store(xarray, start, entry, GFP_KERNEL));
-+	if (rc) {
-+		pr_err("Failed to store 0x%lx in xarray, error %d\n", start, rc);
-+		goto err;
-+	}
-+	return 0;
-+
-+err:
-+	kfree(entry);
-+	return rc;
-+}
- 
- static void e820_pmem_remove(struct platform_device *pdev)
- {
-@@ -16,10 +97,9 @@ static void e820_pmem_remove(struct platform_device *pdev)
- 	nvdimm_bus_unregister(nvdimm_bus);
- }
- 
--static int e820_register_one(struct resource *res, void *data)
-+static int register_one_pmem(struct resource *res, struct nvdimm_bus *nvdimm_bus)
- {
- 	struct nd_region_desc ndr_desc;
--	struct nvdimm_bus *nvdimm_bus = data;
- 	int nid = phys_to_target_node(res->start);
- 
- 	memset(&ndr_desc, 0, sizeof(ndr_desc));
-@@ -32,12 +112,64 @@ static int e820_register_one(struct resource *res, void *data)
- 	return 0;
- }
- 
-+struct walk_data {
-+	struct xarray *pmem_xarray;
-+	struct nvdimm_bus *nvdimm_bus;
-+};
-+
-+static int e820_handle_one_entry(struct resource *res, void *data)
-+{
-+	struct walk_data *walk_data = data;
-+	struct resource res_local;
-+	struct pmem_entry *entry;
-+	unsigned long entry_size = resource_size(res);
-+	int rc;
-+
-+	entry = xa_load(walk_data->pmem_xarray, res->start);
-+
-+	if (!entry)
-+		return register_one_pmem(res, walk_data->nvdimm_bus);
-+
-+	if (entry_size % entry->region_size != 0) {
-+		pr_err("Entry size %lu is not divisible by region size %lu\n",
-+		       entry_size, entry->region_size);
-+		return -EINVAL;
-+	}
-+
-+	res_local.start = res->start;
-+	res_local.end = res->start + entry->region_size - 1;
-+	while (res_local.end <= res->end) {
-+		rc = register_one_pmem(&res_local, walk_data->nvdimm_bus);
-+		if (rc)
-+			return rc;
-+
-+		res_local.start += entry->region_size;
-+		res_local.end += entry->region_size;
-+	}
-+
-+	return 0;
-+}
-+
-+static void free_pmem_xarray(struct xarray *pmem_xarray)
-+{
-+	unsigned long start;
-+	struct pmem_entry *entry;
-+
-+	xa_for_each(pmem_xarray, start, entry) {
-+		kfree(entry);
-+	}
-+	xa_destroy(pmem_xarray);
-+}
-+
- static int e820_pmem_probe(struct platform_device *pdev)
- {
- 	static struct nvdimm_bus_descriptor nd_desc;
- 	struct device *dev = &pdev->dev;
- 	struct nvdimm_bus *nvdimm_bus;
-+	struct xarray pmem_xarray;
-+	struct walk_data walk_data = {.pmem_xarray = &pmem_xarray};
- 	int rc = -ENXIO;
-+	int i;
- 
- 	nd_desc.provider_name = "e820";
- 	nd_desc.module = THIS_MODULE;
-@@ -46,8 +178,19 @@ static int e820_pmem_probe(struct platform_device *pdev)
- 		goto err;
- 	platform_set_drvdata(pdev, nvdimm_bus);
- 
-+	xa_init(&pmem_xarray);
-+	for (i = 0; i < pmem_count; i++) {
-+		rc = parse_one_pmem_arg(&pmem_xarray, pmem[i]);
-+		if (rc != 0 && rc != -EINVAL) {
-+			free_pmem_xarray(&pmem_xarray);
-+			goto err;
-+		}
-+	}
-+
-+	walk_data.nvdimm_bus = nvdimm_bus;
- 	rc = walk_iomem_res_desc(IORES_DESC_PERSISTENT_MEMORY_LEGACY,
--			IORESOURCE_MEM, 0, -1, nvdimm_bus, e820_register_one);
-+		IORESOURCE_MEM, 0, -1, &walk_data, e820_handle_one_entry);
-+	free_pmem_xarray(&pmem_xarray);
- 	if (rc)
- 		goto err;
- 	return 0;
+And, to be clear for folks not following mseal, this feature is rather small and not a
+priority in any way (and will not be enabled in linux distros for a whole bunch of years,
+due to the current situation being unworkable for !chromeOS). There's really no rush
+in having this enabled for all architectures.
+
 -- 
-2.49.0.777.g153de2bbd5-goog
-
+Pedro
