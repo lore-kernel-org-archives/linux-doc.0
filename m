@@ -1,104 +1,93 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out28-1.mail.aliyun.com (out28-1.mail.aliyun.com [115.124.28.1])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0BC7E1;
-	Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 334A32DFA4B;
+	Thu, 17 Apr 2025 06:11:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.28.1
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744865815; cv=none; b=pCWvIOA6IG9oxd8zkrOgYtkv5YBfO+8KcYu3v8lxF+f+dkT2Ev95Co9lQsotpo0BOk7jRqKM1RaRXqkN3aA/bID/pd6D0nL4xwjv4QNcnBrieAzjNCPzGzC+NFO++03CDUW6uKpLxsu5IvqU+58ymS8ucrdOldEzH+mAQmhn3Vs=
+	t=1744870301; cv=none; b=PVnaUd2jamsgCrV65C1sppbw67acBk6qXXjaMvVM1HtSUKMYEFXFLvy2D6QTTqRnyurS7NQf5F/rbV4GXjeVr/TN7eH0jJBFBRlfwes6CE8nJpWu75q5JVzBkv27sNc97IpzCbc1qkK7srCSYsSOgTwMB6mfwDeGtVTyn7+vfvY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744865815; c=relaxed/simple;
-	bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=rWKMO0b93ZID1JEDvMH7fJCtHcYZbyaOQMzwBZS95dtijVIZ3rfWCpYsjRTKhKOhqPom2u5bLMvpksu2qCgu2Cqf/40z4Uwu8DvrjYJhH01y2FfQmRsdmaQtEM2td/CxDObXPoqr0BzY+EaTnpcyyOEwtzXND4lpuRSOs4JuEkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOzRgPEl; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOzRgPEl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E02C4CEF5;
-	Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744865814;
-	bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=jOzRgPElQp93kazf5N8ZLE36wCfnQfc/BSR1PlnioJ+7xdRk/0WpJnnsRx/Qdnl3o
-	 QpoKwWCrQbBa35QDzAuN8O+WySYMdVszRRxxefobklHRgptRnAr9N/cvTItH5K3/bU
-	 PUkAcpByBZVvHhFqutwjajJg9UDcRXKrLsMR+SAhss/UbgROw+hEjVgK9P3oNEOeHl
-	 hqFVia1DUWziQGWUlU7f5L5+aDdBCeCUV1fRR3b/1zRVuKM0erDMlzF+WnAOL9rswi
-	 1fOlEWuqztK1v1I1R/zYPiqzRkkTfVsS31CyQqcwepARS0SyFv13Gals0JpgopaI0u
-	 q9VAL+9UW8ARA==
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-47663aeff1bso4087991cf.0;
-        Wed, 16 Apr 2025 21:56:54 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCUHXMtYooPqjcEFpYqr3uxPBIN50Af2LZSdTz5pCBvMQZKHYO52O8l46WS3wD/9HDZFkGJB89d2BOej8L8=@vger.kernel.org, AJvYcCUZOFVGalkX9xDA2M+Wce5BV7WEO8xJy5m+WR84Wx24J5qkT3KCeIJuT07+XkcCszCsKA8=@vger.kernel.org, AJvYcCVB5D3V+MQ7PntTR7BPadsT+ObAgEq3O3BmHMEXJcvO7+CnURvdUO5QQy63BYn+qGa2D0oSNyj2p4s9c7AKtOxb@vger.kernel.org, AJvYcCVBO9b6sWSGaU2AsJ62NLdT/G25017EReOIUKOBnjvRtDixiydlnyXdtaZsEBrPzJqnf/XMRgt0HvzcKfN3@vger.kernel.org, AJvYcCWFzL+kqO5byZbmU+FIvOPYObCH60ll47n3yV7c74Bv5JPoiDYHMOZNKZprFXDyZuobK87necDmk7/g@vger.kernel.org
-X-Gm-Message-State: AOJu0YztLT6HEQJrAhjJigdriIjWUyTB/gkWKekWo9WFxKvNZ3eIFoF+
-	2ou4ig2wX0VCw6VpbovuQ4OdTk5dMqBcbA6Ms/v534pJPnQ+sH9NK/Nre2WjWiyCpjj0VTczQJN
-	Vygy9zfdIzgTmrAmw5fmIvkMKn8Y=
-X-Google-Smtp-Source: AGHT+IFj9gpXjOfNBYbsZP+Vn5QpEwyj6N1RuCl0FwfJ9EBQ3/JCBLMKfIVXQXchSLXzLc6c/p6NnT4JZBn0Ik2MUXE=
-X-Received: by 2002:a05:622a:650:b0:474:db2f:bd32 with SMTP id
- d75a77b69052e-47ad810c870mr59493241cf.38.1744865813457; Wed, 16 Apr 2025
- 21:56:53 -0700 (PDT)
+	s=arc-20240116; t=1744870301; c=relaxed/simple;
+	bh=kgZhkApVvXyr4ZTTDLeZEnQIzIKe2sIDfbZoq5Z1UpE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=CESLL0mMJzmfrjyM2mPM7zu/TVpQghy74aZxRDnezN9rSV34uZ+yBG6uXavbqmN4x+Jz2NGDueN45+52vq/Jdx3hEA7VY4i3jtC322CCo0w16bQ/8B325zDwk16Cjq9q9Qpg6059HS/XpwxHXnIbKoaJQV/zsJ6neNrHXbbsgHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motor-comm.com; spf=pass smtp.mailfrom=motor-comm.com; arc=none smtp.client-ip=115.124.28.1
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=motor-comm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=motor-comm.com
+Received: from 10.0.2.15(mailfrom:Frank.Sae@motor-comm.com fp:SMTPD_---.cPFBVRS_1744869966 cluster:ay29)
+          by smtp.aliyun-inc.com;
+          Thu, 17 Apr 2025 14:06:07 +0800
+Message-ID: <4ad68dae-311f-4cdd-a6f8-0229f069ece3@motor-comm.com>
+Date: Thu, 17 Apr 2025 14:06:05 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
- <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
- <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
- <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
- <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com> <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
-In-Reply-To: <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
-From: Song Liu <song@kernel.org>
-Date: Wed, 16 Apr 2025 21:56:42 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
-X-Gm-Features: ATxdqUEk4T3fY6FmmJQdbVRkM42dn04Z_qBTtTJMviwnBymsHkeSKzqSCEwNWdE
-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 00/14] yt6801: Add Motorcomm yt6801 PCIe
+ driver
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>,
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+ Heiner Kallweit <hkallweit1@gmail.com>,
+ "David S . Miller" <davem@davemloft.net>, Eric Dumazet
+ <edumazet@google.com>, netdev@vger.kernel.org,
+ Masahiro Yamada <masahiroy@kernel.org>, Parthiban.Veerasooran@microchip.com,
+ linux-kernel@vger.kernel.org,
+ "andrew+netdev @ lunn . ch" <andrew+netdev@lunn.ch>, lee@trager.us,
+ horms@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+ geert+renesas@glider.be, xiaogang.fan@motor-comm.com,
+ fei.zhang@motor-comm.com, hua.sun@motor-comm.com
+References: <20250408092835.3952-1-Frank.Sae@motor-comm.com>
+ <Z_T6vv013jraCzSD@shell.armlinux.org.uk>
+ <da434f13-fb08-4036-96ed-7de579cb9ddc@motor-comm.com>
+ <4fac4c4f-543b-4887-ace9-d264a0e5b0f2@lunn.ch>
+Content-Language: en-US
+From: Frank Sae <Frank.Sae@motor-comm.com>
+In-Reply-To: <4fac4c4f-543b-4887-ace9-d264a0e5b0f2@lunn.ch>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
-[...]
-> >
-> > Here is another rookie question, it appears to me there is a file descr=
-iptor
-> > associated with each DMA buffer, can we achieve the same goal with
-> > a task-file iterator?
->
-> That would find almost all of them, but not the kernel-only
-> allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
-> If there's a leak, it's likely to show up in kernel_rss because some
-> driver forgot to release its reference(s).) Also wouldn't that be a
-> ton more iterations since we'd have to visit every FD to find the
-> small portion that are dmabufs? I'm not actually sure if buffers that
-> have been mapped, and then have had their file descriptors closed
-> would show up in task_struct->files; if not I think that would mean
-> scanning both files and vmas for each task.
 
-I don't think scanning all FDs to find a small portion of specific FDs
-is a real issue. We have a tool that scans all FDs in the system and
-only dump data for perf_event FDs. I think it should be easy to
-prototype a tool by scanning all files and all vmas. If that turns out
-to be very slow, which I highly doubt will be, we can try other
-approaches.
 
-OTOH, I am wondering whether we can build a more generic iterator
-for a list of objects. Adding a iterator for each important kernel lists
-seems not scalable in the long term.
+On 2025/4/14 04:33, Andrew Lunn wrote:
+> On Fri, Apr 11, 2025 at 05:50:55PM +0800, Frank Sae wrote:
+>>
+>>
+>> On 2025/4/8 18:30, Russell King (Oracle) wrote:
+>>> On Tue, Apr 08, 2025 at 05:28:21PM +0800, Frank Sae wrote:
+>>>> This series includes adding Motorcomm YT6801 Gigabit ethernet driver
+>>>>  and adding yt6801 ethernet driver entry in MAINTAINERS file.
+>>>> YT6801 integrates a YT8531S phy.
+>>>
+>>> What is different between this and the Designware GMAC4 core supported
+>>> by drivers/net/ethernet/stmicro/stmmac/ ?
+>>>
+>>
+>> We support more features: NS, RSS, wpi, wol pattern and aspm control.
+> 
+> Details please as to why these preventing the stmmac driver from being
+> used? Our default opinion will be that you will extend that stmmac
+> driver. In order to change that, you need to give us deep technical
+> arguments why it cannot be done.
+> 
 
-Thanks,
-Song
+After internal discussion, we have decided to temporarily suspend upstream.
+Thanks again!
+
+>>> Looking at the register layout, it looks very similar. The layout of the
+>>> MAC control register looks similar. The RX queue and PMT registers are
+>>> at the same relative offset. The MDIO registers as well.
+>>>
+>>> Can you re-use the stmmac driver?
+>>>
+>>
+>> I can not re-use the stmmac driver, because pcie and ephy can not work well on
+>> the stmmac driver.
+> 
+> Please could you explain that in detail. What exactly does not work?
+> What is stmmac_pci.c about if not PCI?
+> 
+> 	Andrew
