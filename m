@@ -1,109 +1,104 @@
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55D679F2
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 04:41:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C0BC7E1;
+	Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744864874; cv=none; b=NJv7NY3hx/98eWA2/3Mb5JUFw3TuJIOs90ecMHPe8xhk/Y1B0riPiJQymfhr9lzEDM48TZznepemmaBE2WFdniayTDtiWVQlfFuODSjbwrHSD/oD/A5eR4jabpaaRGQd23bglqwqxJhTtynMkTDxsD738a1o/Ap+mub0GEojdIw=
+	t=1744865815; cv=none; b=pCWvIOA6IG9oxd8zkrOgYtkv5YBfO+8KcYu3v8lxF+f+dkT2Ev95Co9lQsotpo0BOk7jRqKM1RaRXqkN3aA/bID/pd6D0nL4xwjv4QNcnBrieAzjNCPzGzC+NFO++03CDUW6uKpLxsu5IvqU+58ymS8ucrdOldEzH+mAQmhn3Vs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744864874; c=relaxed/simple;
-	bh=SPeJW8O/RdyKgGzZdcpOtGY1BN9HvfKy7ydyqtr/PlM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=RRcbV8UBclPGDr+toIeq3O7WjrBpt1AruaYH97dcRM3AncK0Kt4r3roaRwvbCD9Z237mL8PntXm7nDXTfQh7pxl5usG4NIRr2Sr1Pa+t3SetZiJpNz/rcIFSKP9GHX+h/FmSfxbFarXZUPvji2Zv/SS8oV3ZaFrj+CoxCyj3KQ8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wc9NaWYy; arc=none smtp.client-ip=209.85.216.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1744865815; c=relaxed/simple;
+	bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=rWKMO0b93ZID1JEDvMH7fJCtHcYZbyaOQMzwBZS95dtijVIZ3rfWCpYsjRTKhKOhqPom2u5bLMvpksu2qCgu2Cqf/40z4Uwu8DvrjYJhH01y2FfQmRsdmaQtEM2td/CxDObXPoqr0BzY+EaTnpcyyOEwtzXND4lpuRSOs4JuEkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=jOzRgPEl; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wc9NaWYy"
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso232892a91.2
-        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 21:41:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744864872; x=1745469672; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=StTtcZEL8yuxE8J2mkGpzTNue0dDQ/MJGGswTzHY9b8=;
-        b=Wc9NaWYydXVPhnfu4GiffbN/Qhn7zlGN4oeKKFZ3Wgm/Ep0W5+Nnsobc7nTwUZC4y+
-         nsM6WpK1u7kP37SHWpZhje2qBLaq/kXOGctU692HUeA6efi3r7pKA4Eh5x9yZ796GVQH
-         eD294EUGl4F/zSqzhntB/oqG6sbL6i9cb3MGFQ6b9zHYFHhRuMoEz0FIAib1gOlyIqKo
-         1qBi6apBOA+UEZEMzq+14uzW6dhk0TIQd/gYTJe4YSE5cpSArKByQ63/CJpdoimnLtED
-         5aHFFIj5JlxYRrsQBKPDAstYVR4/SZ5G+0J8cwo2pVIEppc0hZ4eA2DRHkhThWrrVm1L
-         G5jg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744864872; x=1745469672;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=StTtcZEL8yuxE8J2mkGpzTNue0dDQ/MJGGswTzHY9b8=;
-        b=RlSugwRCj2PeVR2SKwv8hKPhQ4n/m/YqHp7lCniFxTgQKp00A22sSJddHFQEq0KzAq
-         3Sc7WDubMfiTrC7NZ+MqLwMpkezAXcvLwXTudT5CA9nr/Yh34YQR7tqX3wlbqHeiiT8n
-         hMm6TF2ZkIpdOJ4fmvUIxZG9+pIwi2VJ045ycZBjdwuS/kTq55twBBSAg+9Awil3QETc
-         ar4vH9q2YlUjM7CbDTp+Vn0ieHb6SqrCvp72JQDeQ5GxM2aEVyiYm5H/Xa7QA391w51S
-         u31x6r1GBgOVFlA7gDYNljyWeS7UAolgvuIzfku8bomvuc6kY/zd86MGARZT+khziZau
-         0uag==
-X-Forwarded-Encrypted: i=1; AJvYcCVzwrJ5EU3NPE9Q7RGS6ap67UwPG6TzItkAlPgPwENBfB52y5IlGnI2hNBEe1WJSe4Wk8ZoC3A6AAk=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJLBdN2qUHFpLylpA++WDFzeN0Q9A2aJiAH849mI2L6T2xreTt
-	giHSKN6Emtyi9JOdtr4YQCiG51NiQ/6nchsXUjzDAIf6emyEd3rntRSl6lBqQEk=
-X-Gm-Gg: ASbGncssZ3He7zlhDeDtMtv6zucVAKzlkfuxx7q2a/bN8jNCFgzvV7JbGnF4vcy0QDP
-	JwERc+JPo3a/GdPUGbWJn2zVwUq0KKX9QlzJee1q86HE20aRnxllj3tGMI1grBms+fAj1R+mY6x
-	rwK641yplxhDe8s7OKoVv5YljFhtOA66fyDUZuvo4kihW0bJgPOTm0HWGHBJSOyl5WlUmmqymAN
-	GtNVpxHQXbuEv1fXgkACXts44nYC8seBUeNMvyO6b9RmRF9xMVKVNAYjxVKBPPEmRD/pFYlxymx
-	tVYpnrPDM+vAbtN8oG1KUDRHOg0+ViRs9WfB5t0QcA==
-X-Google-Smtp-Source: AGHT+IHSwNZXRlBErUquc9s/KXGJ/tJ0ZSJY//U3+xrEDFrzroEcRYfbd88YerCo8sKgIpeIi1M9yQ==
-X-Received: by 2002:a17:90b:5864:b0:2fe:b470:dde4 with SMTP id 98e67ed59e1d1-30863f198c7mr8175815a91.12.1744864872142;
-        Wed, 16 Apr 2025 21:41:12 -0700 (PDT)
-Received: from localhost ([122.172.83.32])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308613cb765sm2573852a91.43.2025.04.16.21.41.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 21:41:11 -0700 (PDT)
-Date: Thu, 17 Apr 2025 10:11:09 +0530
-From: Viresh Kumar <viresh.kumar@linaro.org>
-To: Miguel Ojeda <ojeda@kernel.org>
-Cc: Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
-	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
-	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
-	Benno Lossin <benno.lossin@proton.me>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
-	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	patches@lists.linux.dev
-Subject: Re: [PATCH] docs: rust: explain that `///` vs. `//` applies to
- private items too
-Message-ID: <20250417044109.3enslespfaifjw7o@vireshk-i7>
-References: <20250416112454.2503872-1-ojeda@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="jOzRgPEl"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 63E02C4CEF5;
+	Thu, 17 Apr 2025 04:56:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744865814;
+	bh=tmm+QbmYJM9NZANVpptZlZJKOk0h1i4DjoknpPROUPw=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=jOzRgPElQp93kazf5N8ZLE36wCfnQfc/BSR1PlnioJ+7xdRk/0WpJnnsRx/Qdnl3o
+	 QpoKwWCrQbBa35QDzAuN8O+WySYMdVszRRxxefobklHRgptRnAr9N/cvTItH5K3/bU
+	 PUkAcpByBZVvHhFqutwjajJg9UDcRXKrLsMR+SAhss/UbgROw+hEjVgK9P3oNEOeHl
+	 hqFVia1DUWziQGWUlU7f5L5+aDdBCeCUV1fRR3b/1zRVuKM0erDMlzF+WnAOL9rswi
+	 1fOlEWuqztK1v1I1R/zYPiqzRkkTfVsS31CyQqcwepARS0SyFv13Gals0JpgopaI0u
+	 q9VAL+9UW8ARA==
+Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-47663aeff1bso4087991cf.0;
+        Wed, 16 Apr 2025 21:56:54 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCUHXMtYooPqjcEFpYqr3uxPBIN50Af2LZSdTz5pCBvMQZKHYO52O8l46WS3wD/9HDZFkGJB89d2BOej8L8=@vger.kernel.org, AJvYcCUZOFVGalkX9xDA2M+Wce5BV7WEO8xJy5m+WR84Wx24J5qkT3KCeIJuT07+XkcCszCsKA8=@vger.kernel.org, AJvYcCVB5D3V+MQ7PntTR7BPadsT+ObAgEq3O3BmHMEXJcvO7+CnURvdUO5QQy63BYn+qGa2D0oSNyj2p4s9c7AKtOxb@vger.kernel.org, AJvYcCVBO9b6sWSGaU2AsJ62NLdT/G25017EReOIUKOBnjvRtDixiydlnyXdtaZsEBrPzJqnf/XMRgt0HvzcKfN3@vger.kernel.org, AJvYcCWFzL+kqO5byZbmU+FIvOPYObCH60ll47n3yV7c74Bv5JPoiDYHMOZNKZprFXDyZuobK87necDmk7/g@vger.kernel.org
+X-Gm-Message-State: AOJu0YztLT6HEQJrAhjJigdriIjWUyTB/gkWKekWo9WFxKvNZ3eIFoF+
+	2ou4ig2wX0VCw6VpbovuQ4OdTk5dMqBcbA6Ms/v534pJPnQ+sH9NK/Nre2WjWiyCpjj0VTczQJN
+	Vygy9zfdIzgTmrAmw5fmIvkMKn8Y=
+X-Google-Smtp-Source: AGHT+IFj9gpXjOfNBYbsZP+Vn5QpEwyj6N1RuCl0FwfJ9EBQ3/JCBLMKfIVXQXchSLXzLc6c/p6NnT4JZBn0Ik2MUXE=
+X-Received: by 2002:a05:622a:650:b0:474:db2f:bd32 with SMTP id
+ d75a77b69052e-47ad810c870mr59493241cf.38.1744865813457; Wed, 16 Apr 2025
+ 21:56:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250416112454.2503872-1-ojeda@kernel.org>
+References: <20250414225227.3642618-1-tjmercier@google.com>
+ <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
+ <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com>
+ <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
+ <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
+ <CAPhsuW7xvSYjWvy8K9Ev_tMwDRy2dpEiBcHYai3n-wAa0xvLow@mail.gmail.com> <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+In-Reply-To: <CABdmKX1p0KgbipTSW1Ywi4bTBabQmsg21gA14Bp5atYHg8FeXQ@mail.gmail.com>
+From: Song Liu <song@kernel.org>
+Date: Wed, 16 Apr 2025 21:56:42 -0700
+X-Gmail-Original-Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
+X-Gm-Features: ATxdqUEk4T3fY6FmmJQdbVRkM42dn04Z_qBTtTJMviwnBymsHkeSKzqSCEwNWdE
+Message-ID: <CAPhsuW4f2=M_K553+BVnGJq=ddZ7sXj4CfCAHeYQ=4cpihBCzA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
+To: "T.J. Mercier" <tjmercier@google.com>
+Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
+	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
+	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
+	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
+	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
+	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
+	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
+	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
+	jolsa@kernel.org, mykolal@fb.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 16-04-25, 13:24, Miguel Ojeda wrote:
-> Sometimes kernel developers use `//` for documenting private items,
-> since those do not get rendered at the moment.
-> 
-> That is reasonable, but the intention behind `///` (and `//!`) vs. `//`
-> is to convey the distinction between documentation and other kinds of
-> comments, such as implementation details or TODOs.
-> 
-> It also increases consistency with the public items and thus e.g. allows
-> to change visibility of an item with less changed involved.
+On Wed, Apr 16, 2025 at 7:09=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
+ wrote:
+>
+> On Wed, Apr 16, 2025 at 6:26=E2=80=AFPM Song Liu <song@kernel.org> wrote:
+[...]
+> >
+> > Here is another rookie question, it appears to me there is a file descr=
+iptor
+> > associated with each DMA buffer, can we achieve the same goal with
+> > a task-file iterator?
+>
+> That would find almost all of them, but not the kernel-only
+> allocations. (kernel_rss in the dmabuf_dump output I attached earlier.
+> If there's a leak, it's likely to show up in kernel_rss because some
+> driver forgot to release its reference(s).) Also wouldn't that be a
+> ton more iterations since we'd have to visit every FD to find the
+> small portion that are dmabufs? I'm not actually sure if buffers that
+> have been mapped, and then have had their file descriptors closed
+> would show up in task_struct->files; if not I think that would mean
+> scanning both files and vmas for each task.
 
-                                            changes ?
+I don't think scanning all FDs to find a small portion of specific FDs
+is a real issue. We have a tool that scans all FDs in the system and
+only dump data for perf_event FDs. I think it should be easy to
+prototype a tool by scanning all files and all vmas. If that turns out
+to be very slow, which I highly doubt will be, we can try other
+approaches.
 
-> It is not just useful for human readers, but also tooling. For instance,
-> we may want to eventually generate documentation for private items
-> (perhaps as a toggle in the HTML UI). On top of that, `rustdoc` lints
-> as usual for those, too, so we may want to do it even if we do not use
-> the result.
-> 
-> Thus document this explicitly.
+OTOH, I am wondering whether we can build a more generic iterator
+for a list of objects. Adding a iterator for each important kernel lists
+seems not scalable in the long term.
 
-Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
-
--- 
-viresh
+Thanks,
+Song
