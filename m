@@ -1,159 +1,196 @@
-Received: from smtpbg150.qq.com (smtpbg150.qq.com [18.132.163.193])
+Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010008.outbound.protection.outlook.com [52.103.68.8])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7DB2250F8;
-	Thu, 17 Apr 2025 13:26:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=18.132.163.193
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744896376; cv=none; b=ftrGBcD5sJx1C5SsMwGnXKQTv58ka28F7hVFfFxPdkA+7HcK0rvOJrY42hf2d9vcoAZfN0/ntHWeIHWEXjWDcQcKoHuYOPltzMJfk2lbvAHvaYu+WS7OXx0nRER/6XzZY+wWPfng0osxK+coviVEjKLn2h0g8tDTfIXGfBNtYMg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744896376; c=relaxed/simple;
-	bh=Fq7IdhdrnNct8iqWEVHnFE0MFeEMqOyDb8u/JYxncXo=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Ma39oz2YrOUd4qzVMdiR5HB3U43PB/60AQN2FqPK3Qe/ovJGaMb0a5vjlH68oB72UzqbfpD9qABU2Iyy1amuxKe928MHmxVYTPtU9FFTTub2hwLRDHcg0eSPMauHUd2xUuPhZE3KDYdmtzo6ZDvKo8po8s+9/7sOFEQs35MxjpE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=Z5w3AX3q; arc=none smtp.client-ip=18.132.163.193
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 78EB624EF69;
+	Thu, 17 Apr 2025 13:53:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.8
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744898027; cv=fail; b=H3f1lL6n5YoM1kohXx3EcHUARxxeP+AMzyvRWaWQmrG04GySp99ZcMPvLv2H+4xLqIs95B0GPSaT35zg4D8ePh5cIofS0aiBAO5EV2eXkZdY8WHO5hafjntXjNqx2MfK5RsA0J8BP6qWCVcPiaxmpFGtuiyXA5F8x0ZI8BdPP0k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744898027; c=relaxed/simple;
+	bh=D9148XpWLcfMfc3K1t/J595w5WOgWKY315fKGyjwwlk=;
+	h=Message-ID:Date:Subject:From:To:Cc:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=XCS23zQh36udKjKgziYkO+yf47Yf1tkmzElVcQkAPkd1Lq63PZvnfQPzaukXD0r8PJwJdBG2eH3XYL3iUCHsU1Mr8rgCZtKPgaBx9AaQgobUnoFKehuzyog+cB31n/Z2KdcXVTFVRyNA4OBMixh7WUevSSk7IohKGq757TeyPeU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=gq8kjB7m; arc=fail smtp.client-ip=52.103.68.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="Z5w3AX3q"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1744896350;
-	bh=XxR2ZHiLVR1ar1sC2oj9zb4tbB77P/btLN2y/3RrHb0=;
-	h=From:To:Subject:Date:Message-ID:MIME-Version;
-	b=Z5w3AX3qNbWE9BHreocOXmzJj3A7K3JI4mwq6LyftTa+T+HZXoxNRGjNrqd/J45Iv
-	 61B4q5tvy7ycXFQgUgyvpwarl2k2qiDRU/G1FyxCeYMQLdT4W5J3BdAWjGXa+8b01j
-	 YpFjrB4eexSvbztrfL+WICpHSLBUW0xSKG7kzgAI=
-X-QQ-mid: zesmtpip2t1744896298t85e739b0
-X-QQ-Originating-IP: LtLexsaQxwKAHGWspoZ7PEzBQe1WlPqyohCnjpVi16s=
-Received: from localhost.localdomain ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Thu, 17 Apr 2025 21:24:55 +0800 (CST)
-X-QQ-SSF: 0002000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 16509579133343517929
-EX-QQ-RecipientCnt: 20
-From: WangYuli <wangyuli@uniontech.com>
-To: corbet@lwn.net,
-	tsbogend@alpha.franken.de
-Cc: akpm@linux-foundation.org,
-	jeffxu@chromium.org,
-	lorenzo.stoakes@oracle.com,
-	kees@kernel.org,
-	Liam.Howlett@oracle.com,
-	wangyuli@uniontech.com,
-	hca@linux.ibm.com,
-	takumaw1990@gmail.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mips@vger.kernel.org,
-	thomas.weissschuh@linutronix.de,
-	tglx@linutronix.de,
-	namcao@linutronix.de,
-	zhanjun@uniontech.com,
-	niecheng1@uniontech.com,
-	guanwentao@uniontech.com,
-	Erpeng Xu <xuerpeng@uniontech.com>
-Subject: [PATCH] mseal sysmap: enable mips with LOONGSON64
-Date: Thu, 17 Apr 2025 21:24:10 +0800
-Message-ID: <7EB087B72C4FBDD3+20250417132410.404043-1-wangyuli@uniontech.com>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="gq8kjB7m"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=XpQrlIKDG7S8mBK9U+vNj1qN3K8eLLVHofL4pBpLgEqYSVS5yyyTQ2F1qDEFiKu6oHcSK06v79WvInvArd2u7TH5hIyDV8zJClKgu2vfjw5zItNo6YvhouyMc9zUNHnut/esGezTe7HGMOmppZjA35jL2sZA2c/qpk3h7pw8GTXAdqJKJ8splQ4Eizf5XSXw6VmET7p78HYAvxJTDASGUsYkh4hsINEMN0OGTc8fE8clw6P+mq0x9pi95emM0oc+nFuYxYgq81bkKg3BHjY6bI+7s4zL/79Y4p2PBmIVuIn1pgxoMtl3G7Whs5Wdk07Rt5ZwTwOshEXhZ7GjgqasLg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=5LEnAgQJuvKUFiLLMCrN6FVU4qYHyIpXSU8RxZLp/Ow=;
+ b=rln04w3qmCivz0gF1gXSdrEzgNfB5jx/n5kHwZEkTIfR6Jnz5G88lUqbRLHHJ+4xbx1OyS7SSy7o0MpKj3j1nzbHSYNa1MhpO8yS69P7M7nfklhiE2WuDwEtKQbeXMz9MiPC1tRYbplUsGE7qWPTvDiabL0JXEjqFK4BTOYCg6hnFAmLpnwrKztosXKu48vnK300O8whuQBU6WMWBLZSGQjzzdXR6DnSAVet3IArc6ocsbbRzGF/R+CNa+ZrhmcnZJy1kQIsROT2RKMduI82eQ2kZOQ/YjYpq6c2k4cOW9HfterPGoULK/0e7lj35cqfgM34kWHLZfsfcIkCaXfc9g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
+ dkim=none; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=5LEnAgQJuvKUFiLLMCrN6FVU4qYHyIpXSU8RxZLp/Ow=;
+ b=gq8kjB7m95GwhiWwUfYBhaz78coh4mVh2mO2ILla0KxAllMspk4CTw+SSVz9GoMVIDQa4oO18bwulo7W8WibGPp1MC/X2KyJL7SQid+ENTaIkpliAuGOmfLTMfbk7CoVNfLzT8tTVKwo+v2/rnNfEhlKV96FljtMh0o42JVVCNB+JH3+PNNJDmsw8cR7cTeOWgJtdDAA+1e/f0tjQjxqYC9VasHYIeW8iYTTkiVquGyC557ifjQ8SzMcucZU7ByEQN48WvjX7Vivk13gh8beB9v3M4x/c7J1jTwL7HipbmCCxBe9m22+S+Tnm/WYjcP9+YpQW1XEcPAURIFzDq9x8g==
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
+ by MAZPR01MB7214.INDPRD01.PROD.OUTLOOK.COM (2603:1096:a01:52::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.22; Thu, 17 Apr
+ 2025 13:53:36 +0000
+Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8632.035; Thu, 17 Apr 2025
+ 13:53:35 +0000
+Message-ID:
+ <PN3PR01MB9597D506487C3133B0358CE5B8BC2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Date: Thu, 17 Apr 2025 19:23:15 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/3] Use proper printk format in appletbdrm
+From: Aditya Garg <gargaditya08@live.com>
+To: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
+ airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
+ Steven Rostedt <rostedt@goodmis.org>,
+ Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+ Sergey Senozhatsky <senozhatsky@chromium.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
+ apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
+ lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ Hector Martin <marcan@marcan.st>,
+ Asahi Linux Mailing List <asahi@lists.linux.dev>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Language: en-US
+In-Reply-To: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4P287CA0121.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:2b2::8) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:f7::14)
+X-Microsoft-Original-Message-ID:
+ <c68243cf-8d30-4069-a33b-52a1fbf5c3d0@live.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: MZqCzNCKZzA8shl6Scu7inVgMrHsqaT5zreO+30jgecaDaySn7iNzCTl
-	s6tHaTudRJU2DgB55bZaB79xuD5LVY0D9b4InOpMuKDwCGJIWkCKx48/9G5sCw4bM3Cp/zi
-	2CGjq0+tSj2dfek2Vbq/s2nkhOIBXN7LTZQK+dkneFAQwtHTr0RkGwAtvfJj4zDbT61XMF7
-	uUG2ly54lXpFd5aedYipi58xRylJdrTIxv7GNNGW76FFplKQx8jhzwSc1Oc1lHuwzsJ5UJE
-	DK2o2CZAcBKw+RWGjlvczWFiTX4XlA1ZoJZJ01nrJGnE5Q0Ra4yhA/eYBeyAfIcZeXwPmcg
-	07o3tnA8ffsLEvIybQAVzSf+T05cFpkZCN4iaPrZ5AwN1kalH3JHjsm/ZjUd+CbH6yIQeds
-	03eQnApVvtQH6XkF9sRpBfgZyDS8oaHJzpaF23w2YfcJNC2g+TlEsiaT62RpgQ1dBZO/F1c
-	PAQpDn48DeZZVWOc+ll++Uy26QetjTi1u5YeMyVQBX5fJLGeV32BEaD7k6x/Y8wHYNmSiHI
-	SrX5KzLZZpTjiIULPh2Ru7k65SEQTTmZmp4SlCzvFuH/06YBQRWxGx+MbyOx5V4WAAE9TGn
-	bXBLrYHQjrTz2kGxjMXF2pyJBJQwo0yMBy5JXRyufF0pLjoY6jkl72xDRi+Kv1O51QGJTx4
-	ylIoO4kvCGsTv65TSAbwblAVUpNTw34pWWOeTfaQz7nw9SvvfazADa1uO4bPScVM3KZy1wn
-	Erd2Ku8TwjcOxeAUXzpuN+ZFIogunOuC/9ruF65fdUbuS2UJc3xTVbaf2cd3PKAvFTyEH+A
-	rTt4n8Z5Bt+u0Y4FX4FJxBQBaxorChOep7YKcpAHVM0p8D3cwSVwzZ9Twnk/KLbrZBUUX2Z
-	vQ0BlaQ0jXXAv7cL+jkQ9WAKfScYRTc1yyW6cMJHNYY3w798E9PQ/Gt+RFV1/YUldZVhy2a
-	DC2isu3IakcsBQaVahlMuZHXIinn/9Tx0acd1tTJvcKtQPMEiORg7Tiff7d9oj+nCeecsLL
-	9wjk+DBzX/jMWApXUxtd4r0V8kFIt2eQ9BkxFSvMq1e0xYqv1sTdiAAzoMuP3Xn3S45d8Fz
-	YQUEwBKtk/L
-X-QQ-XMRINFO: M/715EihBoGSf6IYSX1iLFg=
-X-QQ-RECHKSPAM: 0
+X-MS-Exchange-MessageSentRepresentingType: 1
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|MAZPR01MB7214:EE_
+X-MS-Office365-Filtering-Correlation-Id: 76f3785c-1c66-4d04-6e5f-08dd7db73f79
+X-Microsoft-Antispam:
+	BCL:0;ARA:14566002|19110799003|8060799006|15080799006|5072599009|461199028|7092599003|6090799003|440099028|1602099012|10035399004|4302099013|3412199025;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?R21HZlc3Tm5RVGhBaVpIbE5sZy8wcnNYSmR3WEpvVWNZNDJtMDU2bmlUY2N6?=
+ =?utf-8?B?dlpIQ0ZQVTJldFBUalByaEs2aXZNbXd4V1ZIbXllR2REZ2ZCeEwyejVhbmRE?=
+ =?utf-8?B?aUk4RmxnSys4ZXh1YW1IN1FMUnJJalNsZzRxc2hRTVcxZE8xbkxZNEFtMDlI?=
+ =?utf-8?B?TlBGRkF0eDlUY2haa1RuVEpRSGZqUEdaenR1Z1dVVkdmRndCWDM0Q1cvbTVj?=
+ =?utf-8?B?ODl6MzdZekk4ZTk4OXpVamp6eldKVWdJeG1jaitESFFZSlMybUlkN043NkpL?=
+ =?utf-8?B?b2hPUVhQVmdkSnZ0ZmJ4OExWaWMvYkczdTZHaCtKWSsvMjV1THNndUNYOU1V?=
+ =?utf-8?B?SkUzK083eTVJbGhQSWpVdGk1ekp2NlFFc0pETVdEbGFhYjlZTWlmMExMd3dN?=
+ =?utf-8?B?YUE3ZUpDRkx5M29pOHZodlRKVmN5SnNIU0R0Smc2MGQ1RU1rREdPdkxiTWhD?=
+ =?utf-8?B?RzFQQXVyMUhHUytsL1A4eE5LWDVQNlp5L0dlbTY0NkhDblpHdXdnZVNtVkll?=
+ =?utf-8?B?U3c2QUlNeWlORHJvYWpkaVdyZG40YWcyZ0ZJbnZaMW9TeVlNaWZkaUxTNnor?=
+ =?utf-8?B?ZE1Oa2RqanlERktneDBBWGc4UTJMcjJEOStXNVRnQWFLb0lWOWxPTk9ZWExO?=
+ =?utf-8?B?M25aTGtjbUFhN2FmcDBCZkJ3QzNPNWVxK2kzR3RnSnd6R1FlQ0RUTmdEd3Zu?=
+ =?utf-8?B?bzQvQk9heHBhOVQ0djFQcE9PUXVlMDBTVnJ2dmRKTFpYNlUyOHFuMnVjbkhh?=
+ =?utf-8?B?MjJKZk5rVUxackpLNVZ2Y1FjcW1xVzBreEFvMUZOM1k0UEdJbVBRa04xZHRt?=
+ =?utf-8?B?VEZoLzVTQnVDTUhrekY5cHFNdEhWZXQxOC9yVjlJaWVzb2NhWEdvZHhBYkIw?=
+ =?utf-8?B?VkNXK2pHN1RCNVRiSlZUWEVuaFZuWnZCZ09hVU1mR2VtL1YwOWkxU2F0azJT?=
+ =?utf-8?B?OVY2WFZHa1pRYmpZdkFmN3YrbFk4OUpESW1hQWlkMVUrZ2pYS1ltZnNNK2Z2?=
+ =?utf-8?B?VlQwRGhQUVpuakhOVmI4SHNUWmxEQWhtZnhDcjZ6em1ybUZ1K2ttTWY0NnM0?=
+ =?utf-8?B?ZWlpZTJZdElla2x3bm5mVUN6dTI2cjFEa0trdmZtOW5MdDRibGgrWFNkZWUz?=
+ =?utf-8?B?cGxOSCsvc0ZLeE9YTXJUajBOWVV3NWh2Y1lTTldWbWVtSnVmbzFBd1c0OGNS?=
+ =?utf-8?B?RlE1aVR6RUU5bnkyTWMvUnQyUXpIaENqcmJjVjFpSHY3UWt3a0dmUkZHcEdM?=
+ =?utf-8?B?UmZWT2oxbUNQL0x4UTZQU3VKcjVzUjhpNldhYWNaVjdnakRrYkNETXdlSUNk?=
+ =?utf-8?B?ZzFyT2oyOFlVU2d6ZGtqZkdiaGpscjI3ako3TjdkU24zTUZLVWE3SnZqVUF2?=
+ =?utf-8?B?UHBhRUQwYmdwMkNWY3pmQVExaXhoakw1eEk0S2hMSDd6TkU5Qm51NmlRN2k1?=
+ =?utf-8?B?ckNmNEVOczh2TXZ0Yy9LcTFLVUYxYlJzL1FXTDdwekNFYzUzV3hjODlNalRn?=
+ =?utf-8?B?eXFQVmRpanM2QnU3K1I2Q0duVzd5OUxmWG9PTEFTempUVklDVndIVUM4TjlH?=
+ =?utf-8?B?ZURhVS9oTE83dDBvOGUxRVh0OHl3bkFqNkJpN25kbUpoWDRia3RWaEFDYUQ4?=
+ =?utf-8?B?R0Z3NGI4WHlTSGE1b3lyTVh6ZFpiTEJYRHM1Q0ZEUmJrSzJESTI2c243UXlF?=
+ =?utf-8?B?bDJnc0JaWHBGOVh6bVpVdVpQTkpVWFJIYzExMVJ6TzJJc1A3dFVRRGVKNGV3?=
+ =?utf-8?Q?3mHiTzwxq1A3lQz37I=3D?=
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?NE9HSk5SaWV2THkrdG0rVUpnMGN1TjFNbTdlMjNQKzJ6bEdCb3UyNVo2R3E4?=
+ =?utf-8?B?ZjBNb2tKSlZMdEJrZWVKN1RnYlBHNUJFRjhmd1dMTDQrOVgyL1pCVi9xOE9C?=
+ =?utf-8?B?c3BnOWR3VUhkSTdtaW1oczdYQWRNVklaTnpKT1VZWEs0VDRScDFZb2dOY2Rw?=
+ =?utf-8?B?WTBEcWVZTjVyeUhpUDdlTzhoODJyT1BFcExMcDFHVHIrWVVaUTNvdzM3c3hp?=
+ =?utf-8?B?SWk4V2tXZGJWYUFDVVNIMlhKaHBXbEkvMkpTTGd6R29hTW5Ca09yV1lEUlhM?=
+ =?utf-8?B?VDZ2TmRaUnZMVVVoSUROYmFwUEJEbzhocGhvb1hLQ1JueUhjR0tOTnZhRW1M?=
+ =?utf-8?B?WlVQRXU4ZkRDRUVFVW1KTFVtQ1l1Si9TUjRLbDhlRFZkNEM3dmR2bnQ2dUh6?=
+ =?utf-8?B?TTBESHZoRXZMRFRjVFFtY2NMaXM1SCtjNUE2Q3cxNnQvckVOczhOMXo5V1ht?=
+ =?utf-8?B?Y1p5Nkg5VkNCbnZmL0NNS3VpOUhEVVc2dnZxVVdpek81SnVPOEFDVXZFTk1x?=
+ =?utf-8?B?aHRFK241WDJMR1VlcTI1WW1pVit1Sjg0d0FFaDR4QlQzTHVwTVdnamtSWk1w?=
+ =?utf-8?B?T2VZMW1yMGJ4R1VONlNBQlpWNXFyWUtybWN6ZjJuMHVaVFdweU5VaHpXcU9n?=
+ =?utf-8?B?WVNoekpMeW1SZXJBdW9GT1RhRitYcGpxUDA2WG1DNFNCVWFaSHkxdWxxRnUx?=
+ =?utf-8?B?c29lN1FlUDVWS05OZVJlVThRQVBsN1d2OWgxUmRFcHo2emc3aHB6TEdhMm5t?=
+ =?utf-8?B?bHZUS1lnRi9HQmhnOUNDVHQwTnJEMUtIa2F6VXljeW1TL1ZlN0dWZHl3Q0w3?=
+ =?utf-8?B?UWlncUlBeFlTSGxSNXhFOUNnaDZtNG5SVGtRT1pEc1hITm95UTVYb0U1VUFz?=
+ =?utf-8?B?SVY2UHQyTmpGRkMrZmE3cnhiWHdtYnRNREYvR0U3TkZPcG1CVHQrd2FvSnVW?=
+ =?utf-8?B?NVJVNVpXbWl4RSsvajZROFFtd1NMRkZCOTd2aDJhTHQzZUhiRVZ0NHZSR0RN?=
+ =?utf-8?B?dlBEa1hDL283SUQ2dktBRFk0WFB3SkpnSjcyd1prL0NUbXFsWjZHeWNuRzQ3?=
+ =?utf-8?B?SmlkdzQ0NWxDWVJwbFBlNjBxcERzR05xRDFQaHlpM1I1QjF3c3d1WFA4R2Yw?=
+ =?utf-8?B?ZlkrS2hwaFUvSTRFU0J5N1p0cVNYUG0zb295UW1TZ1h6cFRXRyt1WW1Td0p0?=
+ =?utf-8?B?Wlc5ZzExRys3K3dQL3BleTVYQzNRaWVRSnlaTXduMUVvd0pyVnVvOEVDb2gz?=
+ =?utf-8?B?eTBCZlZHQkZqcnBPcWtBTmpsMndFNXFJN3pFLzFvTnVlTkxXWEtUbFZGeUF5?=
+ =?utf-8?B?UmJmQ2pqMGp2R2M2VlNUY1B1bzFRVE1BcXh6ZTk3dGlFTzArQk1GMzlHOWtl?=
+ =?utf-8?B?NFJCZ3lrRlgveE93QUdLczNnbldwaWhiUVV1dVM4UUs2Wkwya3RLMzFpc3V1?=
+ =?utf-8?B?UHd1cU40MkFLR3AzRDRDeVlNMkxCcDJ2c1VCU1NrVnpNd3M1aTNTOTNZWC8v?=
+ =?utf-8?B?WU9GR0hVdTVMN1R6YWwyT21tQ0NVc2UxVEs3N1JpWVpnaDZid2pFU2oxdzB5?=
+ =?utf-8?B?TDJWL3lqUWI3WlRWQjN4QldrWXhJQ2RFU2swR2R4OUg5cHlJYUJrMCtqdFdw?=
+ =?utf-8?B?VFZTK25QTStIZjdwcDY0SWhOZzBVckVMQ2pvUjduSUdyN29TM21xUUcwVDZX?=
+ =?utf-8?B?WDRTUGM1UWFSWTNuNFU0bVltZVlTM1R4TWxCTjZSNWRQaXFXN0cxMDYwQlZm?=
+ =?utf-8?Q?d2CTomo957vFPv4WOrwVsAPOGnUncfRt65Uhhmy?=
+X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
+X-MS-Exchange-CrossTenant-Network-Message-Id: 76f3785c-1c66-4d04-6e5f-08dd7db73f79
+X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 13:53:35.7207
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
+	00000000-0000-0000-0000-000000000000
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAZPR01MB7214
 
-Provide support for CONFIG_MSEAL_SYSTEM_MAPPINGS on mips with
-CPU_LOONGSON64, covering the vdso.
 
-NOTE:
-  There is significant diversity among devices within the MIPS
-architecture, which extends to their kernel code implementations.
-  My testing capabilities are limited to Loongson 3A4000/3B4000
-CPUs.
-  Consequently, I have not enabled mseal sysmap support for the
-entirety of mips64, as I lack the necessary devices for testing.
+Hi
 
-Tested-by: Erpeng Xu <xuerpeng@uniontech.com>
-Tested-by: WangYuli <wangyuli@uniontech.com>
-Signed-off-by: WangYuli <wangyuli@uniontech.com>
----
-NOTE:
-  1. As I am unaware whether other 64-bit MIPS devices function
-properly, I have not yet modified the MIPS status in
-mseal_sys_mappings/arch-support.txt.
-  2. From my perspective, it appears that this architecture also
-does not rely on remapping the VDSO, VVAR, or any other special
-mapping. Nevertheless, I believe it would be best to get further
-confirmation from more expert individuals such as Lorenzo Stoakes
-and Thomas Bogendoerfer.
----
- Documentation/userspace-api/mseal.rst | 2 +-
- arch/mips/Kconfig                     | 1 +
- arch/mips/kernel/vdso.c               | 3 ++-
- 3 files changed, 4 insertions(+), 2 deletions(-)
+On 08-04-2025 12:17 pm, Aditya Garg wrote:
+> The vsprint patch was originally being sent as a seperate patch [1], and
+> I was waiting it to be taken up. But as suggested by Petr, I'm sending
+> them via DRM.
+> 
+> v2:
+> Remove printf tests, will merge later through Kees' tree
+> 
+> v3:
+> Re-add printf tests, since 6.15-rc1 has the necessary commits merged now.
+> 
+> v4:
+> Do changes requested by Andy and add Petr's review to printf patch.
+> 
+> Link: https://lore.kernel.org/lkml/1A03A5B4-93AC-4307-AE6A-4A4C4B7E9472@live.com/ [1]
+> 
+> Aditya Garg (2):
+>   printf: add tests for generic FourCCs
+>   drm/appletbdrm: use %p4cl instead of %p4cc
+> 
+> Hector Martin (1):
+>   lib/vsprintf: Add support for generic FourCCs by extending %p4cc
+> 
+>  Documentation/core-api/printk-formats.rst | 32 +++++++++++++++++++
+>  drivers/gpu/drm/tiny/appletbdrm.c         |  4 +--
+>  lib/tests/printf_kunit.c                  | 39 +++++++++++++++++++----
+>  lib/vsprintf.c                            | 35 ++++++++++++++++----
+>  scripts/checkpatch.pl                     |  2 +-
+>  5 files changed, 96 insertions(+), 16 deletions(-)
+> 
 
-diff --git a/Documentation/userspace-api/mseal.rst b/Documentation/userspace-api/mseal.rst
-index ea9b11a0bd89..968a6db8afb7 100644
---- a/Documentation/userspace-api/mseal.rst
-+++ b/Documentation/userspace-api/mseal.rst
-@@ -144,7 +144,7 @@ Use cases
-   architecture.
- 
-   The following architectures currently support this feature: x86-64, arm64,
--  loongarch and s390.
-+  loongarch, mips64el (loongson3) and s390.
- 
-   WARNING: This feature breaks programs which rely on relocating
-   or unmapping system mappings. Known broken software at the time
-diff --git a/arch/mips/Kconfig b/arch/mips/Kconfig
-index fc0772c1bad4..055a185deb07 100644
---- a/arch/mips/Kconfig
-+++ b/arch/mips/Kconfig
-@@ -25,6 +25,7 @@ config MIPS
- 	select ARCH_USE_QUEUED_RWLOCKS
- 	select ARCH_USE_QUEUED_SPINLOCKS
- 	select ARCH_SUPPORTS_HUGETLBFS if CPU_SUPPORTS_HUGEPAGES
-+	select ARCH_SUPPORTS_MSEAL_SYSTEM_MAPPINGS if CPU_LOONGSON64
- 	select ARCH_WANT_DEFAULT_TOPDOWN_MMAP_LAYOUT if MMU
- 	select ARCH_WANT_IPC_PARSE_VERSION
- 	select ARCH_WANT_LD_ORPHAN_WARN
-diff --git a/arch/mips/kernel/vdso.c b/arch/mips/kernel/vdso.c
-index de096777172f..6221f2dcedb1 100644
---- a/arch/mips/kernel/vdso.c
-+++ b/arch/mips/kernel/vdso.c
-@@ -167,7 +167,8 @@ int arch_setup_additional_pages(struct linux_binprm *bprm, int uses_interp)
- 	/* Map VDSO image. */
- 	vma = _install_special_mapping(mm, vdso_addr, image->size,
- 				       VM_READ | VM_EXEC |
--				       VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC,
-+				       VM_MAYREAD | VM_MAYWRITE | VM_MAYEXEC |
-+				       VM_SEALED_SYSMAP,
- 				       &image->mapping);
- 	if (IS_ERR(vma)) {
- 		ret = PTR_ERR(vma);
--- 
-2.49.0
+Can I have a feedback from some DRM maintainer on this? AFAIK merge window is over for some time now. It's been more than a week and last time when I submitted, it just stayed in the mailing list without any feedback.
 
+Thanks
+Aditya
