@@ -1,196 +1,307 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15E9C7081E
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 00:20:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D8DE35979
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 00:20:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744849207; cv=none; b=QqYaGPy+FOJHfmb3MpX7oE/MnyRHCNKG3pSMzrUy/nlcOxDSztz1iUKa75hUYe1ojS9VjUlx2hS97oM3OhyNLHkQNKU7bVKZT2/TMqR1rF6ZCV8Mcazts/3TA+7gsOug6uT10A9O2AUTIrAn4RvYkJvWjyyKFpAE13KcIKls8DQ=
+	t=1744849219; cv=none; b=TiD/sUPER05HXAWNriKnTMkGciP4cYuTYXC8RMyPEeGWC3jr9+bHdRHFYbzv+6U7bKXwYFBRdlF1EfBxtpVMSw4r3fGgncEwx3BAWDxL/hW3zmL6mY31izCDfFdYKzqOmm/KYjrGypYJE4h9DO+C7QcUSkzCdI44Xaj/BkuEIAA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744849207; c=relaxed/simple;
-	bh=cofQXT3z3Mwr5nPA9bW8cMfDUEu36bkQcINug2a+CJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=gdq1ZQ0osYGGoqH2l6Ecm5o/IhE04M2vP/qPvQ47MkYi4oYoOCgY7d8jFnVvihK/tYfsLwuNWxWlVK/0kos9qhwSbnoXbfHTD1Y9sXU4Tkqdce21W5xaIztRZYLlFDThWsbviTx5XDXD4Zis+n8b3qM6+vhk78gNnNYzfwTZaHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=HCJcIVro; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1744849219; c=relaxed/simple;
+	bh=VIhQDfOv4IpfLi52JRSPPyC9HdVrUMOh8rCGdLv9FZg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=YJ2dsDN/ZLH8eI1Dm0DduwaWPN+E/nTynoR2OZ95QwvljodNl+vgtNa6yBaLDQYMDBrDeNMuBvuw7wNqIblfQgELBIb7C3nr1J8qSXQXNFQhWoHVyAjO1OouAhaJaMV/cPT5Y/IXAKhjwYC3BL8Z+wlVpPiqnzbFMtWhq9KKByU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=DsDFPJnX; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="HCJcIVro"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744849205;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=T90LCrJZAPUEyLfMWog/+6biSrJXKfE1zcoM8kFo7hQ=;
-	b=HCJcIVrob9tBZsJpTcocTKw/6SpSTkheZzDH7jnvn3QQPQ8S7pRI6y/fXhWylvMkoIm9cD
-	4sq3b5bFdCCQLcqafYRT5UqEyFu67tXXC6Y2bktN6zercjTuJgY4llhwZfDcFuwnUWpIg/
-	qxVwU/vU9+3fzyYmZfE+vTY2nrnWYZI=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-687-wmrC2r89NbChm7BLbFOqFA-1; Wed,
- 16 Apr 2025 20:20:01 -0400
-X-MC-Unique: wmrC2r89NbChm7BLbFOqFA-1
-X-Mimecast-MFC-AGG-ID: wmrC2r89NbChm7BLbFOqFA_1744849198
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 6B223195609F;
-	Thu, 17 Apr 2025 00:19:57 +0000 (UTC)
-Received: from h1.redhat.com (unknown [10.22.88.34])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 06E0C19560A3;
-	Thu, 17 Apr 2025 00:19:47 +0000 (UTC)
-From: Nico Pache <npache@redhat.com>
-To: linux-mm@kvack.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Cc: akpm@linux-foundation.org,
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="DsDFPJnX"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-224171d6826so3616805ad.3
+        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 17:20:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1744849215; x=1745454015; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=0LpL1W/MZ3a7Wv8qXchE+uWbYiPFTnb2TuJIHKKI9cg=;
+        b=DsDFPJnXfoZSTJjyzBHBFOv3EOLrR55q4TZ/7My6E1qAvmajiw2PvCWcsUYfBPM7fH
+         Fi+grNcZL5SPFeZ5cVjPYrobHSuaPAYMa63EyteLBjvmc7YgW6JvQSe1nsiUIU8fQGbC
+         28hXwSQ1JI0UpfLinw7y37CjoQqaA3ZB09NC0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744849215; x=1745454015;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=0LpL1W/MZ3a7Wv8qXchE+uWbYiPFTnb2TuJIHKKI9cg=;
+        b=Ey+iYK06c4ZfiEJQ/FV1dmu/b4WdTOUllbSZU/CkqSSzUBDW3uRx9UvgJj5eLOpzma
+         EwITjLTUL11FwiJheG+34jdYP8KgK0iajvhRcjzicScIgpos46JtP76RwezgOlw+xyr6
+         TzltpCueqlCUvp6AKjuIklFPHRyKcKrrR85pIksPMm7fBuy+Yom6JFUlIOUn1Ujurlzs
+         MS3fuoACZrAAtK8nPJi9eVwmx7njVapq22CURCkNiKUxKK96N4zDRI5rb+UV9mAJDBei
+         5WF1PkbEJtaEButv/MKi22eB6E/UTN5TINaOiP/fBkNpXSv8NWazhmLLIzTVBkVlMGgT
+         6Ffw==
+X-Forwarded-Encrypted: i=1; AJvYcCXpGFksb6qvSxKqm3A80oXYtqds5+qGz+Ous6JS+0G+L52bT5C18I+3iSSCYHcvGLu9pw5KtX2wfAw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxxKEIVTYns/HtoMA7wUwyucrSXZxMc61pH3khv9u7QcHA7Tllb
+	pP1L5qqApBTYNaQTixtKp8mu5KkH1LqMmMX3AZnTGCKmmR7bxzBDj5GRhDkq5A==
+X-Gm-Gg: ASbGncvOs6hMKsJ3yNG9ce06QuP81gTm7qfjILofNJ+9MR+x9laMAyKAJCmuCeu9Dhp
+	J2pToEn6XMnS8l9np4CeLtrc1x7GvUqsB/gR/mhkuBXg3syoea9WdjdP170WpLML8WZHeWME4J2
+	I4vOlwcHSHohi/iakQAF3vr3wxk/rNpyuVwPvofzNzWlZXX3X77pqKaL2aI+F6wmFAku29Y27tG
+	that1vU7oNlhewt/UZ81/XOHwVRswdCjZgrZRXHvhb9PUBZYhVQQH7RJAmxpYnY75AluEqSO3j/
+	4ug1EwK1W8PGSq2CzfuG+6GRNBZsRJkOk3Td6YfA6k4DFdPUQ1XLgJMGS0kFpJpi8NSlukQpRkF
+	GDrwA2E1JXiCPDUBVE0CBVdKamvE1psrENSwDaGfgJ7I=
+X-Google-Smtp-Source: AGHT+IE7067i0aLqVkLUhlivNU388j1/WhiH6agXwQW0hoDF6BSFOxE4tA0UJ/fMOqUGaVIpti23Bg==
+X-Received: by 2002:a17:902:ccc2:b0:220:efc8:60b1 with SMTP id d9443c01a7336-22c3597ee16mr60558635ad.39.1744849215364;
+        Wed, 16 Apr 2025 17:20:15 -0700 (PDT)
+Received: from li-cloudtop.c.googlers.com.com (132.197.125.34.bc.googleusercontent.com. [34.125.197.132])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c33f1cd87sm20719205ad.73.2025.04.16.17.20.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 17:20:14 -0700 (PDT)
+From: Li Li <dualli@chromium.org>
+To: dualli@google.com,
 	corbet@lwn.net,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	david@redhat.com,
-	baohua@kernel.org,
-	baolin.wang@linux.alibaba.com,
-	ryan.roberts@arm.com,
-	willy@infradead.org,
-	peterx@redhat.com,
-	shuah@kernel.org,
-	ziy@nvidia.com,
-	wangkefeng.wang@huawei.com,
-	usamaarif642@gmail.com,
-	sunnanyong@huawei.com,
-	vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com,
-	yang@os.amperecomputing.com,
-	kirill.shutemov@linux.intel.com,
-	aarcange@redhat.com,
-	raquini@redhat.com,
-	dev.jain@arm.com,
-	anshuman.khandual@arm.com,
-	catalin.marinas@arm.com,
-	tiwai@suse.de,
-	will@kernel.org,
-	dave.hansen@linux.intel.com,
-	jack@suse.cz,
-	cl@gentwo.org,
-	jglisse@google.com,
+	davem@davemloft.net,
+	edumazet@google.com,
+	kuba@kernel.org,
+	pabeni@redhat.com,
+	donald.hunter@gmail.com,
+	gregkh@linuxfoundation.org,
+	arve@android.com,
+	tkjos@android.com,
+	maco@android.com,
+	joel@joelfernandes.org,
+	brauner@kernel.org,
+	cmllamas@google.com,
 	surenb@google.com,
-	zokeefe@google.com,
-	hannes@cmpxchg.org,
-	rientjes@google.com,
-	mhocko@suse.com,
-	rdunlap@infradead.org
-Subject: [PATCH v4 2/4] mm: document (m)THP defer usage
-Date: Wed, 16 Apr 2025 18:18:44 -0600
-Message-ID: <20250417001846.81480-3-npache@redhat.com>
-In-Reply-To: <20250417001846.81480-1-npache@redhat.com>
-References: <20250417001846.81480-1-npache@redhat.com>
+	omosnace@redhat.com,
+	shuah@kernel.org,
+	arnd@arndb.de,
+	masahiroy@kernel.org,
+	bagasdotme@gmail.com,
+	horms@kernel.org,
+	tweek@google.com,
+	paul@paul-moore.com,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	netdev@vger.kernel.org,
+	selinux@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	hridya@google.com
+Cc: smoreland@google.com,
+	ynaffit@google.com,
+	kernel-team@android.com
+Subject: [PATCH RESEND v17 0/3] binder: report txn errors via generic netlink
+Date: Wed, 16 Apr 2025 17:20:01 -0700
+Message-ID: <20250417002005.2306284-1-dualli@chromium.org>
+X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-The new defer option for (m)THPs allows for a more conservative
-approach to (m)THPs. Document its usage in the transhuge admin-guide.
+From: Li Li <dualli@google.com>
 
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 31 ++++++++++++++++------
- 1 file changed, 23 insertions(+), 8 deletions(-)
+=== Notes for resending the patchset ===
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index 06814e05e1d5..38e1778d9eaa 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -88,8 +88,9 @@ In certain cases when hugepages are enabled system wide, application
- may end up allocating more memory resources. An application may mmap a
- large region but only touch 1 byte of it, in that case a 2M page might
- be allocated instead of a 4k page for no good. This is why it's
--possible to disable hugepages system-wide and to only have them inside
--MADV_HUGEPAGE madvise regions.
-+possible to disable hugepages system-wide, only have them inside
-+MADV_HUGEPAGE madvise regions, or defer them away from the page fault
-+handler to khugepaged.
- 
- Embedded systems should enable hugepages only inside madvise regions
- to eliminate any risk of wasting any precious byte of memory and to
-@@ -99,6 +100,15 @@ Applications that gets a lot of benefit from hugepages and that don't
- risk to lose memory by using hugepages, should use
- madvise(MADV_HUGEPAGE) on their critical mmapped regions.
- 
-+Applications that would like to benefit from THPs but would still like a
-+more memory conservative approach can choose 'defer'. This avoids
-+inserting THPs at the page fault handler unless they are MADV_HUGEPAGE.
-+Khugepaged will then scan the mappings for potential collapses into (m)THP
-+pages. Admins using this the 'defer' setting should consider
-+tweaking khugepaged/max_ptes_none. The current default of 511 may
-+aggressively collapse your PTEs into PMDs. Lower this value to conserve
-+more memory (i.e., max_ptes_none=64).
-+
- .. _thp_sysfs:
- 
- sysfs
-@@ -109,11 +119,14 @@ Global THP controls
- 
- Transparent Hugepage Support for anonymous memory can be entirely disabled
- (mostly for debugging purposes) or only enabled inside MADV_HUGEPAGE
--regions (to avoid the risk of consuming more memory resources) or enabled
--system wide. This can be achieved per-supported-THP-size with one of::
-+regions (to avoid the risk of consuming more memory resources), deferred to
-+khugepaged, or enabled system wide.
-+
-+This can be achieved per-supported-THP-size with one of::
- 
- 	echo always >/sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/enabled
- 	echo madvise >/sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/enabled
-+	echo defer >/sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/enabled
- 	echo never >/sys/kernel/mm/transparent_hugepage/hugepages-<size>kB/enabled
- 
- where <size> is the hugepage size being addressed, the available sizes
-@@ -136,6 +149,7 @@ The top-level setting (for use with "inherit") can be set by issuing
- one of the following commands::
- 
- 	echo always >/sys/kernel/mm/transparent_hugepage/enabled
-+	echo defer >/sys/kernel/mm/transparent_hugepage/enabled
- 	echo madvise >/sys/kernel/mm/transparent_hugepage/enabled
- 	echo never >/sys/kernel/mm/transparent_hugepage/enabled
- 
-@@ -282,7 +296,8 @@ of small pages into one large page::
- A higher value leads to use additional memory for programs.
- A lower value leads to gain less thp performance. Value of
- max_ptes_none can waste cpu time very little, you can
--ignore it.
-+ignore it. Consider lowering this value when using
-+``transparent_hugepage=defer``
- 
- ``max_ptes_swap`` specifies how many pages can be brought in from
- swap when collapsing a group of pages into a transparent huge page::
-@@ -307,14 +322,14 @@ Boot parameters
- 
- You can change the sysfs boot time default for the top-level "enabled"
- control by passing the parameter ``transparent_hugepage=always`` or
--``transparent_hugepage=madvise`` or ``transparent_hugepage=never`` to the
--kernel command line.
-+``transparent_hugepage=madvise`` or ``transparent_hugepage=defer`` or
-+``transparent_hugepage=never`` to the kernel command line.
- 
- Alternatively, each supported anonymous THP size can be controlled by
- passing ``thp_anon=<size>[KMG],<size>[KMG]:<state>;<size>[KMG]-<size>[KMG]:<state>``,
- where ``<size>`` is the THP size (must be a power of 2 of PAGE_SIZE and
- supported anonymous THP)  and ``<state>`` is one of ``always``, ``madvise``,
--``never`` or ``inherit``.
-+``defer``, ``never`` or ``inherit``.
- 
- For example, the following will set 16K, 32K, 64K THP to ``always``,
- set 128K, 512K to ``inherit``, set 256K to ``madvise`` and 1M, 2M
+Resend the v17 patchset (no code change) to linux-security-module per request.
+https://lore.kernel.org/all/9a4b0f45-1eb5-4eb7-b120-6b50ea0d4835@schaufler-ca.com/
+
+In short, the kernel patchset includes 3 patches and a cover letter:
+ - [PATCH v17 0/3] binder: report txn errors via generic netlink
+ - [PATCH v17 1/3] lsm, selinux: Add setup_report permission to binder
+ - [PATCH v17 2/3] binder: report txn errors via generic netlink
+ - [PATCH v17 3/3] binder: transaction report binder_features flag
+
+The corresponding test (for https://github.com/SELinuxProject/selinux-testsuite)
+and its dependency (for https://github.com/SELinuxProject/refpolicy):
+ - [PATCH] binder: add setup_report permission
+ - [PATCH v2] policy,tests: add test for new permission binder:setup_report
+
+=== Notes END ===
+
+It's a known issue that neither the frozen processes nor the system
+administration process of the OS can correctly deal with failed binder
+transactions. The reason is that there's no reliable way for the user
+space administration process to fetch the binder errors from the kernel
+binder driver.
+
+Android is such an OS suffering from this issue. Since cgroup freezer
+was used to freeze user applications to save battery, innocent frozen
+apps have to be killed when they receive sync binder transactions or
+when their async binder buffer is running out.
+
+This patch introduces the Linux generic netlink messages into the binder
+driver so that the Linux/Android system administration process can
+listen to important events and take corresponding actions, like stopping
+a broken app from attacking the OS by sending huge amount of spamming
+binder transactiions.
+
+The 1st version uses a global generic netlink for all binder contexts,
+raising potential security concerns. There were a few other feedbacks
+like request to kernel docs and test code. The thread can be found at
+https://lore.kernel.org/lkml/20240812211844.4107494-1-dualli@chromium.org/
+
+The 2nd version fixes those issues and has been tested on the latest
+version of AOSP. See https://r.android.com/3305462 for how userspace is
+going to use this feature and the test code. It can be found at
+https://lore.kernel.org/lkml/20241011064427.1565287-1-dualli@chromium.org/
+
+The 3rd version replaces the handcrafted netlink source code with the
+netlink protocal specs in YAML. It also fixes the documentation issues.
+https://lore.kernel.org/lkml/20241021182821.1259487-1-dualli@chromium.org/
+
+The 4th version just containsi trivial fixes, making the subject of the
+patch aligned with the subject of the cover letter.
+https://lore.kernel.org/lkml/20241021191233.1334897-1-dualli@chromium.org/
+
+The 5th version incorporates the suggested fixes to the kernel doc and
+the init function. It also removes the unsupported uapi-header in YAML
+that contains "/" for subdirectory.
+https://lore.kernel.org/lkml/20241025075102.1785960-1-dualli@chromium.org/
+
+The 6th version has some trivial kernel doc fixes, without modifying
+any other source code.
+https://lore.kernel.org/lkml/20241028101952.775731-1-dualli@chromium.org/
+
+The 7th version breaks the binary struct netlink message into individual
+attributes to better support automatic error checking. Thanks Jakub for
+improving ynl-gen.
+https://lore.kernel.org/all/20241031092504.840708-1-dualli@chromium.org/
+
+The 8th version solves the multi-genl-family issue by demuxing the
+messages based on a new context attribute. It also improves the YAML
+spec to be consistent with netlink tradition. A Huge 'Thank You' to
+Jakub who taught me a lot about the netlink protocol!
+https://lore.kernel.org/all/20241113193239.2113577-1-dualli@chromium.org/
+
+The 9th version only contains a few trivial fixes, removing a redundant
+pr_err and unnecessary payload check. The ynl-gen patch to allow uapi
+header in sub-dirs has been merged so it's no longer included in this
+patch set.
+https://lore.kernel.org/all/20241209192247.3371436-1-dualli@chromium.org/
+
+The 10th version renames binder genl to binder netlink, improves the
+readability of the kernel doc and uses more descriptive variable names.
+The function binder_add_device() is moved out to a new commit per request.
+It also fixes a warning about newline used in NL_SET_ERR_MSG.
+Thanks Carlos for his valuable suggestions!
+https://lore.kernel.org/all/20241212224114.888373-1-dualli@chromium.org/
+
+The 11th version simplifies the yaml filename to avoid redundant words in
+variable names. This also makes binder netlink yaml more aligned with
+other existing netlink specs. Another trivial change is to use reverse
+xmas tree for function variables.
+https://lore.kernel.org/all/20241218203740.4081865-1-dualli@chromium.org/
+
+The 12th version makes Documentation/admin-guide/binder_netlink.rst aligned
+with the binder netlink yaml change introduced in the 11th revision. It
+doesn't change any source code.
+https://lore.kernel.org/all/20241218212935.4162907-1-dualli@chromium.org/
+
+The 13th version removes the unnecessary dependency to binder file ops.
+Now the netlink configuration is reset using sock_priv_destroy. It also
+requires CAP_NET_ADMIN to send commands to the driver. One of the
+patches ("binderfs: add new binder devices to binder_devices") has been
+merged to linux-next. To avoid conflict, switch to linux-next master
+branch and remove the merged one. Adding sock_priv into netlink spec
+results in CFI failure, which is fixed by the new trampoline patches.
+https://lore.kernel.org/all/20250115102950.563615-1-dualli@chromium.org/
+
+The 14th version fix the code style issue by wrapping the sock priv
+in a separate struct, as suggested by Jakub. The other 2 patches are
+no longer included in this patchset as the equvilent fix has already
+been merged to upstream linux master branch, as well as net & net-next.
+This version has already been rebased to TOT of linux-next.
+https://lore.kernel.org/all/20250118080939.2835687-1-dualli@chromium.org/
+
+The 15th version switches from unicast to multicast per feedback and
+feature requriements from binder users. With this change, multiple user
+space processes can listen to the binder reports from the kernel driver
+at the same time. To receive the multicast messages, those user space
+processs should query the mcast group id and join the mcast group. In
+the previous unicast solution, a portid is saved in the kernel driver to
+prevent unauthorized process to send commands to the kernel driver. In
+this multicast solution, this is replaced by a new "setup_report"
+permission in the "binder" class. Meanwhile, the sock_priv_destroy
+callback and CAP_NET_ADMIN restriction are no longer required in favor
+of the multicast solution and the new "setup_report" permission.
+https://lore.kernel.org/all/20250226192047.734627-1-dualli@chromium.org/
+
+The 16th version fixes the build error when CONFIG_SECURITY is disabled.
+There's no other changes. Thank you, kernel test robot <lkp@intel.com>!
+https://lore.kernel.org/all/20250303200212.3294679-1-dualli@chromium.org/
+
+The 17th version corrects the issue in binder_find_proc() that multiple
+binder_proc instances might match the same pid. It also simplifies the
+parameters of binder_netlink_report(). This patchset also includes a
+patch to SELinuxProject/refpolicy for the new permission and another
+patch to SELinuxProject/selinux-testsuite to test this new permission.
+
+v1: add a global binder genl socket for all contexts
+v2: change to per-context binder genl for security reason
+    replace the new ioctl with a netlink command
+    add corresponding doc Documentation/admin-guide/binder_genl.rst
+    add user space test code in AOSP
+v3: use YNL spec (./tools/net/ynl/ynl-regen.sh)
+    fix documentation index
+v4: change the subject of the patch and remove unsed #if 0
+v5: improve the kernel doc and the init function
+    remove unsupported uapi-header in YAML
+v6: fix some trivial kernel doc issues
+v7: break the binary struct binder_report into individual attributes
+v8: use multiplex netlink message in a unified netlink family
+    improve the YAML spec to be consistent with netlink tradition
+v9: remove unnecessary check to netlink flags and message payloads
+v10: improve the readability of kernel doc and variable names
+v11: rename binder_netlinnk.yaml to binder.yaml
+     use reverse xmas tree for function variables
+v12: make kernel doc aligned with source code
+v13: use sock_priv_destroy to cleanup netlink
+     require CAP_NET_ADMIN to send netlink commands
+     add trampolines in ynl-gen to fix CFI failure
+v14: wrap the sock priv in a separate struct
+v15: switch from unicast to multicast netlink message
+     add a "setup_report" permission in the "binder" class
+     add generic_netlink to binder_features
+v16: fix build error with CONFIG_SECURITY disabled
+v17: deal with multiple binder_proc with the same pid
+     simplify parameters of binder_netlink_report()
+     add test for the new permission binder:setup_report
+
+Li Li (2):
+  binder: report txn errors via generic netlink
+  binder: transaction report binder_features flag
+
+Thiébaud Weksteen (1):
+  lsm, selinux: Add setup_report permission to binder
+
+ Documentation/admin-guide/binder_netlink.rst  | 108 +++++++++
+ Documentation/admin-guide/index.rst           |   1 +
+ Documentation/netlink/specs/binder.yaml       | 116 ++++++++++
+ drivers/android/Kconfig                       |   1 +
+ drivers/android/Makefile                      |   2 +-
+ drivers/android/binder.c                      | 215 +++++++++++++++++-
+ drivers/android/binder_internal.h             |  16 ++
+ drivers/android/binder_netlink.c              |  46 ++++
+ drivers/android/binder_netlink.h              |  23 ++
+ drivers/android/binder_trace.h                |  35 +++
+ drivers/android/binderfs.c                    |   8 +
+ include/linux/lsm_hook_defs.h                 |   1 +
+ include/linux/security.h                      |   6 +
+ include/uapi/linux/android/binder_netlink.h   |  57 +++++
+ security/security.c                           |  13 ++
+ security/selinux/hooks.c                      |   7 +
+ security/selinux/include/classmap.h           |   3 +-
+ .../filesystems/binderfs/binderfs_test.c      |   1 +
+ 18 files changed, 653 insertions(+), 6 deletions(-)
+ create mode 100644 Documentation/admin-guide/binder_netlink.rst
+ create mode 100644 Documentation/netlink/specs/binder.yaml
+ create mode 100644 drivers/android/binder_netlink.c
+ create mode 100644 drivers/android/binder_netlink.h
+ create mode 100644 include/uapi/linux/android/binder_netlink.h
+
+
+base-commit: 5b37f7bfff3b1582c34be8fb23968b226db71ebd
 -- 
-2.48.1
+2.49.0.805.g082f7c87e0-goog
 
