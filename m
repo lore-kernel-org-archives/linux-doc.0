@@ -1,269 +1,231 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E7D6D26289
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 15:05:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744902335; cv=none; b=NjVBFTtjsQNT+D8MrbOW45zOIBaZqLZfY9+U0FX7ZE6R0YyUnC2SPwz8z6Z1B/lnInHDYrJx5Rjt1WruH3NOdLPOkdIweYIJzFpjxzvSvT4dvsGsWyeyZdVFSc/aut4ecxKmBYuZF4c4X1URy4bG1njaqOHI35ZonF+2UGSdK2U=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744902335; c=relaxed/simple;
-	bh=mYnYDBhB4iVZK8o+WurggM8h518uosFxtFofEwgMFJk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=W/QGmaS6m0w790WzX83rQX5dLiTQm4NaplzQ/qJqUUxLraU2C8kK8ngTw7H9gQPB0HwjzcF1bqebnS0ny0CWSqbXjlZVwps38Yci1ZzAFokkG89oh2XlmNJnK8zO4EkpL6ojvyWJXfENZkFTRgHNv1CcPlY4Wh2wve7FDNBIxoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=Gx2EOvec; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0970F252295;
+	Thu, 17 Apr 2025 15:09:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.16
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1744902556; cv=fail; b=UNDx5DrkaT0czi0gq4kf0byzr+X9dj9FXxBoRqjxNgcRXSQqEaRRimI+s5Z8SaqVvY4gSAkU2jMk7USN3Ht5YTH4vxGkBDVZxA9tQWpG82DwGMK6q/MUzSOFaJiTrv22or1XJI/eDJud4pUoVdFdLAzh5OlOykDmyHyp4xOuGQg=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1744902556; c=relaxed/simple;
+	bh=5+dmQ81Vozjdq6FNoJyaTxPmA+y7dFKDi8IBcFGT/lY=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Tme8Ylk+vbp+pJhYOGcgS03vn/HV4xRcohtqlAxZxREAc1sZpsKG+SZxTOeVkegmnPhvdte89hgL/VP6eMoxiRwNjQVMjqlgwUnPx3Jwadcm5PbZfBURrKgZNXUEuYwN4hkXUiTUwzOK47SzOkCl2jMMDDTPkTolfbgqUEJQRQ0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MVzSU5S/; arc=fail smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="Gx2EOvec"
-Message-ID: <0bd8a9c0-4824-4c1f-bf32-ac1e57e2bea0@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1744902330;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Bc/VJlIB1nkTBkSY664JrQaUk9ZbIGdSI77xWP1fgzk=;
-	b=Gx2EOvecFX1YSCE2w7PHZ/6VtyfbUSI5OUa3vxOiUi2wmTDB7y24xmHILDDJG6cZ8JHhv/
-	a4tsWC+uc5kUBai1CA+GAeMimVvW43hXMvp/hW1AtbJHuxntjNYOMuLM/0sLl0GFKbSvCD
-	P6/I3yDf5FUW2PZlKNnoiNXbDlu3IPE=
-Date: Thu, 17 Apr 2025 11:05:24 -0400
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MVzSU5S/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1744902555; x=1776438555;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=5+dmQ81Vozjdq6FNoJyaTxPmA+y7dFKDi8IBcFGT/lY=;
+  b=MVzSU5S/OdW8v31HHOTuFmgFRXJo+vhNgfWRuYL4jVDI9AGlZ6x6beVt
+   l/R4DxikgPsG1phe0QXWq2ugeYL1zSo5YXcCKkrrze9gj0A6OkND4Z5SM
+   lYk/CE077REe1QMLjDODioZz0JhmXzSwTPfph+Z4TWUGDsuSFN51nqvDv
+   22A9tAbxhnufW/QGPuPbimNyH4eesO+bYXD0/KpFm8y42FUBG9R68pMhG
+   rWwZ+uDU2HRVXSWJhrCx/LUhoVDEWNBmFAogJLz5GD8OKr/l6+DwNBcqH
+   EIPPhEw2Yv6rBig8a6Oxgfp4iF+OOnjmQ36yB1mIcKbG4cZf4TxXlB/wK
+   g==;
+X-CSE-ConnectionGUID: mSsb6pfnQ8OPb0CM2L8a1g==
+X-CSE-MsgGUID: Ewy4Ovp5QV+7+f62w2GMrA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11406"; a="34110250"
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="34110250"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 08:09:14 -0700
+X-CSE-ConnectionGUID: NnJEsx7eRamWmPl/FC9YbQ==
+X-CSE-MsgGUID: kOgJeajBTj+DQAGlpXc8Og==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,219,1739865600"; 
+   d="scan'208";a="130794556"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 Apr 2025 08:09:13 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 17 Apr 2025 08:09:12 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 17 Apr 2025 08:09:12 -0700
+Received: from NAM04-BN8-obe.outbound.protection.outlook.com (104.47.74.43) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 17 Apr 2025 08:09:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=YRBc5Z4Sm3iFpJwYH20/ipqFINTMzaHdviYtj6rUSJb5MwGHJL1/zryB1NSzIxyGlDtt+HiQzCIeGVYQuU1hkaTMdFzbiTnuqULEnNOHWkbM8E32fFNwOUlG7rSbiUr4ysMIlgk76owLU3A6jp4hVWkkrs2gAVMKKVGIgqwIeiUmfkRbjOKaW1B+Nh8B7xO9f0+f6FiZXGWLiYaLY8CBXqfFHNAQGMJfUA1pUD0Y6Wcc8qTh5S2jA+Hitv55DOUbY40IIZPkBT4qIrTMtYmiW73EDgH3egROPIAPiFZ00Ui8+KgogR8bzHWjgur1scjT1Nqd2kpTcHfa53KIrP/e5w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6Xg2x3sq6KQU9vpBP+avTX1tIqikHJbZZREn2rm/220=;
+ b=voLxt/ZYRckC/e92qP/nllGiZlZncmnTAHe8whe00GQqRqggTRwPdKpEzy/kIphIt8qw2O0GfrTk8lxj14sLnODqj0KYiADFE8AR2e5NSce2eBave9iV+1ZpKHp0VGelDjJD3KbRzOzgMRiPjjMjXuyoozaJtL5TE0d1x4Yp1q+IuQMQ+uNd7CG2R7mYD4J91rgWjtS41+WK9ZcTJFKJO5sP2p5+ztujsTjW4TkyatWyZX315z0OG2Q82jkntz1vrBCxp1CtRPfFqDeaM1CtJKqAlPIt8FlCD/GMBObStHlTN0ncn8eKDt6ApcEEWr9iRi81cJcIAnxyEx7eCGPbkQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA3PR11MB9109.namprd11.prod.outlook.com (2603:10b6:208:572::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.22; Thu, 17 Apr
+ 2025 15:09:09 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.8632.030; Thu, 17 Apr 2025
+ 15:09:09 +0000
+Message-ID: <2aff0d11-91c1-4a3e-92e0-0ae49c804549@intel.com>
+Date: Thu, 17 Apr 2025 08:09:06 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v12 20/26] x86/resctrl: Provide interface to update the
+ event configurations
+To: <babu.moger@amd.com>, <tony.luck@intel.com>, <peternewman@google.com>
+CC: <corbet@lwn.net>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <paulmck@kernel.org>, <akpm@linux-foundation.org>,
+	<thuth@redhat.com>, <rostedt@goodmis.org>, <ardb@kernel.org>,
+	<gregkh@linuxfoundation.org>, <daniel.sneddon@linux.intel.com>,
+	<jpoimboe@kernel.org>, <alexandre.chartre@oracle.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <thomas.lendacky@amd.com>,
+	<perry.yuan@amd.com>, <seanjc@google.com>, <kai.huang@intel.com>,
+	<xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>, <xin3.li@intel.com>,
+	<ebiggers@google.com>, <xin@zytor.com>, <sohil.mehta@intel.com>,
+	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <eranian@google.com>
+References: <cover.1743725907.git.babu.moger@amd.com>
+ <d18beb9ca31eb013405677792377542e609ea693.1743725907.git.babu.moger@amd.com>
+ <7be35258-f913-4111-b5da-c4173615cf18@intel.com>
+ <7423145d-7de7-4414-85be-b7325c01b437@amd.com>
+ <fda6c46d-c01c-494f-a2ba-efbcb1f331b4@intel.com>
+ <c3c54172-087e-4a53-bd66-7849402f4a55@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <c3c54172-087e-4a53-bd66-7849402f4a55@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: MW4PR03CA0038.namprd03.prod.outlook.com
+ (2603:10b6:303:8e::13) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [net-next PATCH v3 03/11] net: pcs: Add subsystem
-To: Simon Horman <horms@kernel.org>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Russell King <linux@armlinux.org.uk>, upstream@airoha.com,
- Christian Marangi <ansuelsmth@gmail.com>, linux-kernel@vger.kernel.org,
- Kory Maincent <kory.maincent@bootlin.com>,
- Heiner Kallweit <hkallweit1@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-References: <20250415193323.2794214-1-sean.anderson@linux.dev>
- <20250415193323.2794214-4-sean.anderson@linux.dev>
- <20250417091936.GB2430521@horms.kernel.org>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-In-Reply-To: <20250417091936.GB2430521@horms.kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA3PR11MB9109:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1cf109ab-af1a-443b-b137-08dd7dc1cd94
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QVQzMmgrY2F2SUhIaE1NMXFoU0tEOXFEVHEybUdBd25zSmgrOHJ4QzYyNVVx?=
+ =?utf-8?B?eUlDb3doYXliK0VaZVFvSUJzQ3JzSndFcm1tbk45QVNReWt2Sit0bFRqTGl2?=
+ =?utf-8?B?ckduaFI1VVdHVkc1b0dsNVlzQ2tTemREeVoza3BjeitJSkhNSWg1aSsrL1pH?=
+ =?utf-8?B?UEUwWDNnSEV1UDZCOEVGdDBBT2VuaHJqYnNocGxaUXJ5TUh0WG00Sm13dnFy?=
+ =?utf-8?B?U3l6cnYvSWJsTVgvamVaTmtYejcvWTlqOXF1RW9BcC9aUVZkTmZYT1dxaENZ?=
+ =?utf-8?B?ZEZ0d1lQSDBZcHF5eGhnalV1K01QaFE1Ykplak51WVh3UlF3a1lPYUtZTE45?=
+ =?utf-8?B?VXk4NjByeTJSVUtLWldSdGR2REljeEJlN1E2eU82OFEwRS9TajJzdFZ0Ykhk?=
+ =?utf-8?B?dVFHblF2cXFVbGxuYmZsbGh6VFRwbGNnYXdDRmpZOVBIM2M5bWpuUW1HQ3pM?=
+ =?utf-8?B?bTRPM1JwQWtLZWk5YnFZUzFPSmZFaXowc2pFZnJoemdPUGIzTWh5R0U1T2tY?=
+ =?utf-8?B?U0RIdm1aL0Y4L0VRejcyUFRzdjVhdG1kWTdUOU1nKzBXTXlaYlpYV081aHpq?=
+ =?utf-8?B?NklvSDF4MGxJYjZMSGhKYVRCZWZOZ0wxN05HdWJidXhPZmhTZXJGVFVpWW0r?=
+ =?utf-8?B?N0xaUWdxTE5LYnJEREU2K3pteCthd0VCS25iR3dYbDhxODhNL0t3NzhZZklq?=
+ =?utf-8?B?OSt0L29xeEkvMVJRbnQvNjFSd01ycVNRTENiV2JadE1zaVRZMFJFUVZTSXJN?=
+ =?utf-8?B?czdnNDZmUVVab25oMlZTR1RCc1RwU2ZHTkNlT1VTamVWUDVjTGh1U1hNZFJt?=
+ =?utf-8?B?dzgyS0R3RXJwR1B4YW9ld3B0bFkrZmo5RTloMi94Y0xCdi9zYkh6aUdFZjY1?=
+ =?utf-8?B?V0dmRFQwUnFlc1ZmZ2Q0YWE5aXpJYldnMG53YmY0WmVsTmUrdkZlNkpaMjJv?=
+ =?utf-8?B?SGJUaUJKeUt4bk03c0dUWExvWGV2MFUxc0orRkRjamRQTlhLSzB5STMzd2h1?=
+ =?utf-8?B?U1hVRTJRZlByNXJaRWFrMU15R0loK09ZK21WbDFwNk5rdXhSOSt6SGx2LzhG?=
+ =?utf-8?B?MkxGWWhkaUMwenZlc08veHJaYS9XN1BqbTk5QkNDZmtqZGVyM1ZuWHBTQTVM?=
+ =?utf-8?B?dXpkK2h1akdLelhyWFV1R3lUeHhTcXdIVE1DNGlnLzBuVjRHRTQ4T3VYQTUz?=
+ =?utf-8?B?UDcyNDlLTVZrNVhBbU1keWJSQytIeVlycnNHdUdmUTB4K2l3NWc4U09oSC9y?=
+ =?utf-8?B?WmhaYU1pcHVDSFlwRlNMaXJzZ1lzd2RxS2pqQTVyL3ZudHgvc1NLVVJxdlNw?=
+ =?utf-8?B?d1RCYjlDNDlyTWpHcVF2bW5pQmlmR2RpV3dMYitLTHBrM2M1bWRKWG1tVnhT?=
+ =?utf-8?B?SzRJUkhJS0FhVnJ6L3drdDlaQ01qaGJtTEZ5Y1FHNXRheDkwMkE1MWtBSy9F?=
+ =?utf-8?B?VTIwUURCVGhYV01aaDEzSUpVN3l5eXFaQjB0Ykw1cXBQTlBnak9CWEkyd2lh?=
+ =?utf-8?B?WUVXbk9jaTZuV3RQU0hGU1dHSE8xaCt6Z2VKVWRSM0UzRXZYbUFzMnlNR3I4?=
+ =?utf-8?B?b3g1YWdNRE9PMnRBbXZFazBsRDE2YlZyRUNiY2tyaUhpTEtPbmtzK3dEYlFY?=
+ =?utf-8?B?RnNVVXJQdDcwNHhXdURTT2xZU1YwVUl1S1l6SWFTTDdKMnVmS1dDajloZUhR?=
+ =?utf-8?B?Y0NHVmpFWnpRUDRtcmtpcWhOT1RybWJJaG0rL3E0SGo4NUpFM1p2dnRXemti?=
+ =?utf-8?B?dmNCb2MvR241eVRMQ2RsbXVYVkkwdDN6NE1DS0VkdmM0c2Rqc2NMMUgxNUdK?=
+ =?utf-8?B?MEx4OStFQzBmWllRRlUwQVY3VTJMWis2MURsYlp2MFJmSVNaaVlLRFpJeHJ2?=
+ =?utf-8?B?QVVYTUlWZXR3T0IwKzUyVzd1UFJhNW1LTkozU3FLM2NIRVJOV3U2Y1pMV0Na?=
+ =?utf-8?Q?CswRBwy/uIY=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?T2RiblJtUVV3Q0RZZjlpZDVTemFEUkFkb2pERTlleGptTDIwbGMzQTVoNjBD?=
+ =?utf-8?B?a0xCSEpudkN4ZFdTdjgvT2Q0a01CWVBnMDIzMURpQkxCaUVKTjZPV0dNNVUy?=
+ =?utf-8?B?N003T3JCdWYrNE9ZWDYwbmtSNjRielhuMEZMQWgwSEZKL215T0hqL1grRERh?=
+ =?utf-8?B?azE2TWM5NFhKdGxxRlpRbXk1ZnRWYjFteFlHZStLVGxVOWVyaTdYWXYzWkZQ?=
+ =?utf-8?B?UkhiZHVYVXdHYzJQcEZsNW9uYk5BN3JRTFhoU2oxT2JzZ1hla1BEVGovU2RX?=
+ =?utf-8?B?UUw5YWFZV2ROWVZsSS9yZElXRkZlZkthVDdLTXZqL2x2d2p1OGtIc0F3RFgy?=
+ =?utf-8?B?NHZyWXJNdWNJbmd5NExGUkh6TmlkR2Z6ZlB6TVhYby9vSHpFWE4yOUZUU2dK?=
+ =?utf-8?B?OXdySVBmK0JZbnRrcDZPSm1qSTN0cExRbkhGd0ZzbVAxQ01OczM3Vll3WTNa?=
+ =?utf-8?B?UExCVWRmdmFmeWg4US9malV5SFcyOHEwbVA4L3A4WHdvMDJkTGNuK2RkUDZs?=
+ =?utf-8?B?UmxHam9xRzFYdTZoZE9QVmJYWUtQOWhJTkc1TXdSUHNNbkdzZkM2NTg3WkhW?=
+ =?utf-8?B?Zlp1Sk44dWhOczVZd05leVdBRFpwNStieWhPOHdqWmlZTlhxbzlsUCs5OFRy?=
+ =?utf-8?B?NkprdW4xUnY0RDlzMnpMMGJuM3FYNG1RcnZNdTMyOGVsWXJhNjZXYnBCVXg5?=
+ =?utf-8?B?WGNTZWhyTlMxTjJFODJjQktRRTRUcm9qT0ZaVkltS21uWEJjU1BDa3FlWnI5?=
+ =?utf-8?B?UDUrT0FrRVYwS2hNMlhXV3NINmpscE1mSHdMeWRaVk0vNkU0NUkxMjVvcnRw?=
+ =?utf-8?B?SDZNZlBVNGNGeldNYXUrcnZOWk9MTGZOOUxaUk1ST2IvZDdzd0Rvcnpad1VX?=
+ =?utf-8?B?ZlBkMm8wQUl5d1Rwdy85SEswSGdqbmlFbzFDanRBN09FK3hUMlRVN2tGaEcx?=
+ =?utf-8?B?K0lzU1JBRHZBTjFPbU9zM3VVZ2k2TFFNRVZ5NERRMXdTdGhSYzI0bldINENS?=
+ =?utf-8?B?dXVxTFhtZUZCRVVEcFNncHJvamhEcE5ZUk9US21GWWFlOGthTVdOc3gwY1Fo?=
+ =?utf-8?B?bWdJTHZyQ2ZTSlFsSnJWV1RPOFNCcjJQMjROSGEyZ0hwaWZwblRCTUpJbkJB?=
+ =?utf-8?B?NUJnUTh4YmRWNEZXaStzbmZWeFRCZUg0bGlwRktaMkZOK2V0QWhZOCt6RVVj?=
+ =?utf-8?B?ak9Db01JNWtVL05rZHdFTWRQYTVURnFiejFiNCtGOGFPN0JWZXJSZkJNMkJp?=
+ =?utf-8?B?NUljaUZEMEp6SlYrL0Nzam8zL2h0Mi9JOUtKSjlxZGZ1eTVEQ21ZYnBkaVVH?=
+ =?utf-8?B?ajNoVnVLRm9YTGJlNytod2NLRHBORDUrY0s0N0Z4NzRFOFJPcHFiOSt4OGNJ?=
+ =?utf-8?B?aXVIMThtQ2M1S1VUTklDd1B4R3VxWWxaTW5URE5PWWlDS0FmOTZYT3ltc01V?=
+ =?utf-8?B?VnJ6dEl2MkNFRTdsZmMvMEJrSTE4WVNVMHJvMnl5V0FNRWxzWndCVnNEN2dB?=
+ =?utf-8?B?bU5PWkJvNGQxRmU2UGhhTjFjUnBKbzE2b1FpaVVLa3Rldlo3RHNzdWhlZmwr?=
+ =?utf-8?B?ZUpsZjBET0hWN2FOdnljbjBlNzdpNWNpcmFpNWhvQmtDTm95U3NyODVqd1Bh?=
+ =?utf-8?B?eHFkaTNFM255OEg1WWdmYmlMWG1lS0p0bXNTM04rcGpVK2g1QiswbEgwamU1?=
+ =?utf-8?B?SHJrQi9rb082TFFmSU0wbnFuZHFOaStwb1N1TXJ2Zm9QeGxzOGJTYXdlRERl?=
+ =?utf-8?B?cytVd2NDckVTN3ZYZVBZZjRoQWEyQnJOZ0dGL0pRRDF3RkNVVERDb3J4OG1x?=
+ =?utf-8?B?Z3hQQ1JlZEhEQXZMQnlIb2V6bFV1Ny8xUWxjSkdnbXRrbURxVFlNMThLYVVo?=
+ =?utf-8?B?TzRRUUdZZmpHY1BqZHkrU05GWHZ6cXlWemY0NlByYW5JbUxZdENPZDRac0Yz?=
+ =?utf-8?B?amtDcmk5R0lTK2dIekE2d2JPbEJaUVMzOTNZOWp4ZGtXUnBjT09LaTY3Znpk?=
+ =?utf-8?B?bzAvYVpKd0Y5em5hdXFFRCtzL2kxMTV0ZWtSNnpjWkI2Z3JIbXJ1Z2NZT2xP?=
+ =?utf-8?B?V3lwSGhoV2xlaU9wNUxSM3dJSlUxKzVwQ01mdklDVG1XakM2bkNxTERIbUNP?=
+ =?utf-8?B?V0FzakpjWERnRmZTbk5kN3NMdUd6bUNaVlhTUmdlTkdLZWRSTnVUVjYzNUdj?=
+ =?utf-8?B?OUE9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1cf109ab-af1a-443b-b137-08dd7dc1cd94
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Apr 2025 15:09:09.0333
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: FFhr47DehLuGDot0XJFCJt91dugeSTBKUSjC/Wv7N1ztxAbpofOOJP3wZWAiUqIT0gXjArvKv+PVkDpYgF9AqhW6cNDgcsHDGNrJSjw59kE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9109
+X-OriginatorOrg: intel.com
 
-On 4/17/25 05:19, Simon Horman wrote:
-> On Tue, Apr 15, 2025 at 03:33:15PM -0400, Sean Anderson wrote:
->> This adds support for getting PCS devices from the device tree. PCS
->> drivers must first register with phylink_register_pcs. After that, MAC
->> drivers may look up their PCS using phylink_get_pcs.
->> 
->> We wrap registered PCSs in another PCS. This wrapper PCS is refcounted
->> and can outlive the wrapped PCS (such as if the wrapped PCS's driver is
->> unbound). The wrapper forwards all PCS callbacks to the wrapped PCS,
->> first checking to make sure the wrapped PCS still exists. This design
->> was inspired by Bartosz Golaszewski's talk at LPC [1].
->> 
->> pcs_get_by_fwnode_compat is a bit hairy, but it's necessary for
->> compatibility with existing drivers, which often attach to (devicetree)
->> nodes directly. We use the devicetree changeset system instead of
->> adding a (secondary) software node because mdio_bus_match calls
->> of_driver_match_device to match devices, and that function only works on
->> devicetree nodes.
->> 
->> [1] https://lpc.events/event/17/contributions/1627/
->> 
->> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
-> 
-> Hi Sean,
-> 
-> I noticed a few build problems after sending my previous email.
-> 
-> I was able to exercise them using variants of the following to
-> generate small configs. I include this here in case it is useful to you.
-> 
-> make tinyconfig
-> 
-> cat >> .config << __EOF__
-> CONFIG_MODULES=y
-> CONFIG_NET=y
-> CONFIG_NETDEVICES=y
-> CONFIG_PCS=y
-> CONFIG_PHYLIB=m
-> __EOF__
-> 
-> cat >> .config << __EOF__
-> CONFIG_OF=y
-> CONFIG_OF_UNITTEST=y
-> CONFIG_OF_DYNAMIC=y
-> __EOF__
-> 
-> yes "" | make oldconfig
-> 
-> ...
-> 
->> diff --git a/drivers/net/pcs/core.c b/drivers/net/pcs/core.c
-> 
-> ...
+Hi Babu,
 
-Thanks, I was able to reproduce/fix these issues.
+On 4/17/25 7:34 AM, Moger, Babu wrote:
+> On 4/16/25 13:52, Reinette Chatre wrote:
+>>
+>> Below is a start of trying to address this but I think more refinement is needed (other
+>> possible terms for "transactions" could perhaps be "data sources"? ... what do you think?):
+>>
+>> 	"The read/write event_filter file contains the configuration of the event
+>> 	 that reflects which transactions(?) are being counted by it."
+>>
+> 
+> How about?
+> 
+> "The read/write event_filter file contains the configuration of the event
+> that reflects which memory transactions are being counted by it."
+> 
 
-How did you find these? By inspection?
+Looks good to me. Perhaps "being" can be dropped? Thank you.
 
-I often end up missing build issues like this because I mostly
-test with everything enabled.
-
---Sean
-
->> +/**
->> + * _pcs_get() - Get a PCS from a fwnode property
->> + * @dev: The device to get a PCS for
->> + * @fwnode: The fwnode to find the PCS with
->> + * @id: The name of the PCS to get. May be %NULL to get the first PCS.
->> + * @fallback: An optional fallback property to use if pcs-handle is absent
->> + * @optional: Whether the PCS is optional
->> + *
->> + * Find a PCS referenced by @mac_node and return a reference to it. Every call
->> + * to _pcs_get_by_fwnode() must be balanced with one to pcs_put().
->> + *
->> + * Return: a PCS if found, %NULL if not, or an error pointer on failure
->> + */
->> +struct phylink_pcs *_pcs_get(struct device *dev, struct fwnode_handle *fwnode,
->> +			     const char *id, const char *fallback,
->> +			     bool optional)
->> +{
->> +	struct fwnode_handle *pcs_fwnode;
->> +	struct phylink_pcs *pcs;
->> +
->> +	pcs_fwnode = pcs_find_fwnode(fwnode, id, fallback, optional);
->> +	if (IS_ERR(pcs_fwnode))
->> +		return ERR_CAST(pcs_fwnode);
->> +
->> +	pcs = _pcs_get_tail(dev, pcs_fwnode, NULL);
->> +	fwnode_handle_put(pcs_fwnode);
->> +	return pcs;
->> +}
->> +EXPORT_SYMBOL_GPL(_pcs_get);
->> +
->> +static __maybe_unused void of_changeset_cleanup(void *data)
->> +{
->> +	struct of_changeset *ocs = data;
-> 
-> Code in pcs_get_by_fwnode_compat is conditionally compiled
-> based on CONFIG_OF_DYNAMIC. I think that is needed here too,
-> because of_changeset_revert() doesn't exist unless CONFIG_OF_DYNAMIC is set.
-> 
->> +
->> +	if (WARN(of_changeset_revert(ocs),
->> +		 "could not revert changeset; leaking memory\n"))
->> +		return;
->> +
->> +	of_changeset_destroy(ocs);
->> +	kfree(ocs);
->> +}
->> +
->> +/**
->> + * pcs_get_by_fwnode_compat() - Get a PCS with a compatibility fallback
->> + * @dev: The device requesting the PCS
->> + * @fwnode: The &struct fwnode_handle of the PCS itself
->> + * @fixup: Callback to fix up @fwnode for compatibility
->> + * @data: Passed to @fixup
->> + *
->> + * This function looks up a PCS and retries on failure after fixing up @fwnode.
->> + * It is intended to assist in backwards-compatible behavior for drivers that
->> + * used to create a PCS directly from a &struct device_node. This function
->> + * should NOT be used in new drivers.
->> + *
->> + * @fixup modifies a devicetree changeset to create any properties necessary to
->> + * bind the PCS's &struct device_node. At the very least, it should use
->> + * of_changeset_add_prop_string() to add a compatible property.
->> + *
->> + * Note that unlike pcs_get_by_fwnode, @fwnode is the &struct fwnode_handle of
->> + * the PCS itself, and not that of the requesting device. @fwnode could be
->> + * looked up with pcs_find_fwnode() or determined by some other means for
->> + * compatibility.
->> + *
->> + * Return: A PCS on success or an error pointer on failure
->> + */
->> +struct phylink_pcs *
->> +pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
->> +			 int (*fixup)(struct of_changeset *ocs,
->> +				      struct device_node *np, void *data),
->> +			 void *data)
->> +{
->> +#ifdef CONFIG_OF_DYNAMIC
->> +	struct mdio_device *mdiodev;
->> +	struct of_changeset *ocs;
->> +	struct phylink_pcs *pcs;
->> +	struct device_node *np;
->> +	struct device *pcsdev;
->> +	int err;
->> +
->> +	/* First attempt */
->> +	pcs = _pcs_get_tail(dev, fwnode, NULL);
->> +	if (PTR_ERR(pcs) != -EPROBE_DEFER)
->> +		return pcs;
->> +
->> +	/* No luck? Maybe there's no compatible... */
->> +	np = to_of_node(fwnode);
->> +	if (!np || of_property_present(np, "compatible"))
->> +		return pcs;
->> +
->> +	/* OK, let's try fixing things up */
->> +	pr_warn("%pOF is missing a compatible\n", np);
->> +	ocs = kmalloc(sizeof(*ocs), GFP_KERNEL);
->> +	if (!ocs)
->> +		return ERR_PTR(-ENOMEM);
->> +
->> +	of_changeset_init(ocs);
->> +	err = fixup(ocs, np, data);
->> +	if (err)
->> +		goto err_ocs;
->> +
->> +	err = of_changeset_apply(ocs);
->> +	if (err)
->> +		goto err_ocs;
->> +
->> +	err = devm_add_action_or_reset(dev, of_changeset_cleanup, ocs);
->> +	if (err)
->> +		return ERR_PTR(err);
->> +
->> +	mdiodev = fwnode_mdio_find_device(fwnode);
-> 
-> fwnode_mdio_find_device() is unavailable for linking if PHYLIB is a module
-> (and PCS is built-in).
-> 
->> +	if (mdiodev) {
->> +		/* Clear that pesky PHY flag so we can match PCS drivers */
->> +		device_lock(&mdiodev->dev);
->> +		mdiodev->flags &= ~MDIO_DEVICE_FLAG_PHY;
->> +		device_unlock(&mdiodev->dev);
->> +		pcsdev = &mdiodev->dev;
->> +	} else {
->> +		pcsdev = get_device(fwnode->dev);
->> +		if (!pcsdev)
->> +			return ERR_PTR(-EPROBE_DEFER);
->> +	}
->> +
->> +	err = device_reprobe(pcsdev);
->> +	put_device(pcsdev);
->> +	if (err)
->> +		return ERR_PTR(err);
->> +
->> +	return _pcs_get_tail(dev, fwnode, NULL);
->> +
->> +err_ocs:
->> +	of_changeset_destroy(ocs);
->> +	kfree(ocs);
->> +	return ERR_PTR(err);
->> +#else
->> +	return _pcs_get_tail(dev, fwnode, NULL);
->> +#endif
->> +}
->> +EXPORT_SYMBOL_GPL(pcs_get_by_fwnode_compat);
-> 
-> ...
+Reinette
+ 
 
