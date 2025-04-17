@@ -1,150 +1,256 @@
-Received: from whm50.louhi.net (whm50.louhi.net [77.240.19.51])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B001F3FE3;
-	Thu, 17 Apr 2025 08:38:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=77.240.19.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9487A22A811;
+	Thu, 17 Apr 2025 09:19:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744879119; cv=none; b=O4fkuV07l9UqHAUM+TCwwUlVypP0O9C0zgrCMhIbqoRlzjvHqrr4Gph8LCmE6Z1SBq8HMv6JsiIoV3Cpw9jlIqwjXlC16IdHfLZnU0JFT3mxlFLQ0ojp3l4OCobas6SAyWNM/mP5Nq8xaGy6GiUhMGcHxkT53633C9WCkIZEgBY=
+	t=1744881583; cv=none; b=poT0aBVt15wMBFvZmXRjAqOwYOMTUwbyMhhwLkYtdSLxDt1olwRq70Hi4GBnixAKOM5/HwTvfVNLv+shl3+haWpQmq2yUHfaQtYlEPkgxF6ArrtLzC28lLXymgmTbO8eq/d7RpJ4J6DaQOyjGZuy0C4OwtmCcnayWYOEVFKIX10=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744879119; c=relaxed/simple;
-	bh=ljAD6u3BTfar5hXZAEU0HuTjF5bJj9Q73ndaZdBq8qY=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=uNGvWsQPxuk1Kd0vVDTXVrBM4umC6/YA9FyqzEnJrcLYMw/rOaGafFVmZD2xyCQ1AOEVOvEkky6vgDOuiAm3sWQy1OKlH0UaTE2/julTe+TwpAfvabxpwoJRB+I78wJP8FcU6PIwLVHYyY0npmtYdydEHe0E/aAufLgUz/Qbjck=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=haloniitty.fi; spf=pass smtp.mailfrom=haloniitty.fi; dkim=pass (2048-bit key) header.d=haloniitty.fi header.i=@haloniitty.fi header.b=FbEkHgJq; arc=none smtp.client-ip=77.240.19.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=haloniitty.fi
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=haloniitty.fi
+	s=arc-20240116; t=1744881583; c=relaxed/simple;
+	bh=Rd8dR5mrLxtA4cWdfHrGRP8CZ4syR8GqQIiI8cKDki4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Hkf7Vj5LJfpyOxou0AoQOh2TvG7BnyiAVohMZ886Q5I7X/82jWjE9/8aiSQnrMCqNj70mPOSRbFlebpP3wgxrEEcSLWx5jGXrIwr4rW74v06GJeAxj4DmbXkVqXXjNrL06WEUkNriA0R9d2/qBPLmafb98o77YYYzTOLD13OTVU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FD9KAabj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=haloniitty.fi header.i=@haloniitty.fi header.b="FbEkHgJq"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=haloniitty.fi; s=default; h=Content-Type:MIME-Version:References:
-	In-Reply-To:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=vfkQR8RmeVBACYHQDoFaf/rNFZ28qvsQUmCIhcTbncY=; b=FbEkHgJq72Xk4x4fpExao3EZpK
-	uH0p43RjTNm32vg9GpN9VNgS/3H/CAgcMv7oYs2vgw4yuOwIaROqm1ywlhKvaVeSP10TxGdh6jbxj
-	r2rYJu3PrE2d4Tb7XilZPrJfQE1aR7HMMqJjopLUY/WTbziYR28W17ZMLtNNdn/d84zqPE3V0a6LD
-	uqXBZ/KwVTkn61NNuFLcF5I4LVc7a9aWFQBv70rJeygjMejfZjrnalbP3BlarK3es659zqISGYsyr
-	im4TYza4htwW95hzvQdd+o5UfRmbNcCnnqER90VlgzRyzQgvRtAW96eH4RRaPrzYUOqBAVqzqkpfx
-	6CvuyyGA==;
-Received: from [194.136.85.206] (port=44006 helo=eldfell)
-	by whm50.louhi.net with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.98.1)
-	(envelope-from <pekka.paalanen@haloniitty.fi>)
-	id 1u5KlW-000000006Bz-0Pv4;
-	Thu, 17 Apr 2025 11:38:34 +0300
-Date: Thu, 17 Apr 2025 11:38:27 +0300
-From: Pekka Paalanen <pekka.paalanen@haloniitty.fi>
-To: Louis Chauvet <louis.chauvet@bootlin.com>
-Cc: Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
- <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten
- Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, rdunlap@infradead.org, arthurgrillo@riseup.net,
- Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, Rodrigo
- Siqueira <siqueira@igalia.com>, Simona Vetter <simona.vetter@ffwll.ch>,
- dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
- jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
- thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
- nicolejadeyee@google.com, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v18 1/8] drm/vkms: Document pixel_argb_u16
-Message-ID: <20250417113827.7c69631a@eldfell>
-In-Reply-To: <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
-References: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
-	<20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
-X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FD9KAabj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 61089C4CEEE;
+	Thu, 17 Apr 2025 09:19:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744881581;
+	bh=Rd8dR5mrLxtA4cWdfHrGRP8CZ4syR8GqQIiI8cKDki4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=FD9KAabj+GLPxJZyVB0XxL2tOJpdpCb0zHp5EfdMtghZZs0tI8Hr4DRmvItDg+FXw
+	 R+VcjgwKDgKZ10FCnp0bUto0evEKZdxSfn/Fiu1kWfxZIPoOKEpKfWL7SR7xZHAL21
+	 aE/vkmF6ddvoJ/ZJ7LFX/C7vimUg+qaKsrjRqKgLc2tpBPYewyC4J9odk7emTJHq30
+	 5mcNDuWxHiSQIXNbe1ykg/u2pCznT2z+GbEiOFYTxtLvFMM9in7h7Z+OLropK5DqWT
+	 lq/TAxo8X9NLowo93xVCB+awHqAygPv0kON9wIi0iErpsaGtIlXcprl0tyPkX8OfKE
+	 7cgDHC7sYVm8g==
+Date: Thu, 17 Apr 2025 10:19:36 +0100
+From: Simon Horman <horms@kernel.org>
+To: Sean Anderson <sean.anderson@linux.dev>
+Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>, upstream@airoha.com,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [net-next PATCH v3 03/11] net: pcs: Add subsystem
+Message-ID: <20250417091936.GB2430521@horms.kernel.org>
+References: <20250415193323.2794214-1-sean.anderson@linux.dev>
+ <20250415193323.2794214-4-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/jzgf=84qHh/HA3ewyHp0VfJ";
- protocol="application/pgp-signature"; micalg=pgp-sha256
-X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
-X-AntiAbuse: Primary Hostname - whm50.louhi.net
-X-AntiAbuse: Original Domain - vger.kernel.org
-X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
-X-AntiAbuse: Sender Address Domain - haloniitty.fi
-X-Get-Message-Sender-Via: whm50.louhi.net: authenticated_id: pekka.paalanen@haloniitty.fi
-X-Authenticated-Sender: whm50.louhi.net: pekka.paalanen@haloniitty.fi
-X-Source: 
-X-Source-Args: 
-X-Source-Dir: 
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250415193323.2794214-4-sean.anderson@linux.dev>
 
---Sig_/jzgf=84qHh/HA3ewyHp0VfJ
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, Apr 15, 2025 at 03:33:15PM -0400, Sean Anderson wrote:
+> This adds support for getting PCS devices from the device tree. PCS
+> drivers must first register with phylink_register_pcs. After that, MAC
+> drivers may look up their PCS using phylink_get_pcs.
+> 
+> We wrap registered PCSs in another PCS. This wrapper PCS is refcounted
+> and can outlive the wrapped PCS (such as if the wrapped PCS's driver is
+> unbound). The wrapper forwards all PCS callbacks to the wrapped PCS,
+> first checking to make sure the wrapped PCS still exists. This design
+> was inspired by Bartosz Golaszewski's talk at LPC [1].
+> 
+> pcs_get_by_fwnode_compat is a bit hairy, but it's necessary for
+> compatibility with existing drivers, which often attach to (devicetree)
+> nodes directly. We use the devicetree changeset system instead of
+> adding a (secondary) software node because mdio_bus_match calls
+> of_driver_match_device to match devices, and that function only works on
+> devicetree nodes.
+> 
+> [1] https://lpc.events/event/17/contributions/1627/
+> 
+> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
 
-On Tue, 15 Apr 2025 15:55:32 +0200
-Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+Hi Sean,
 
-> The meaning of each member of the structure was not specified. To clarify
-> the format used and the reason behind those choices, add some
-> documentation.
->=20
-> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
-> ---
->  drivers/gpu/drm/vkms/vkms_drv.h | 17 +++++++++++++++++
->  1 file changed, 17 insertions(+)
->=20
-> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
-drv.h
-> index a74a7fc3a056..3b7b46dd026f 100644
-> --- a/drivers/gpu/drm/vkms/vkms_drv.h
-> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
-> @@ -45,6 +45,23 @@ struct vkms_frame_info {
->  	unsigned int rotation;
->  };
-> =20
+I noticed a few build problems after sending my previous email.
+
+I was able to exercise them using variants of the following to
+generate small configs. I include this here in case it is useful to you.
+
+make tinyconfig
+
+cat >> .config << __EOF__
+CONFIG_MODULES=y
+CONFIG_NET=y
+CONFIG_NETDEVICES=y
+CONFIG_PCS=y
+CONFIG_PHYLIB=m
+__EOF__
+
+cat >> .config << __EOF__
+CONFIG_OF=y
+CONFIG_OF_UNITTEST=y
+CONFIG_OF_DYNAMIC=y
+__EOF__
+
+yes "" | make oldconfig
+
+...
+
+> diff --git a/drivers/net/pcs/core.c b/drivers/net/pcs/core.c
+
+...
+
 > +/**
-> + * struct pixel_argb_u16 - Internal representation of a pixel color.
-> + * @a: Alpha component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + * @r: Red component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + * @g: Green component value, stored in 16 bits, without padding, using
-> + *     machine endianness
-> + * @b: Blue component value, stored in 16 bits, without padding, using
-> + *     machine endianness
+> + * _pcs_get() - Get a PCS from a fwnode property
+> + * @dev: The device to get a PCS for
+> + * @fwnode: The fwnode to find the PCS with
+> + * @id: The name of the PCS to get. May be %NULL to get the first PCS.
+> + * @fallback: An optional fallback property to use if pcs-handle is absent
+> + * @optional: Whether the PCS is optional
 > + *
-> + * The goal of this structure is to keep enough precision to ensure
-> + * correct composition results in VKMS and simplifying color
-> + * manipulation by splitting each component into its own field.
-> + * Caution: the byte ordering of this structure is machine-dependent,
-> + * you can't cast it directly to AR48 or xR48.
+> + * Find a PCS referenced by @mac_node and return a reference to it. Every call
+> + * to _pcs_get_by_fwnode() must be balanced with one to pcs_put().
+> + *
+> + * Return: a PCS if found, %NULL if not, or an error pointer on failure
 > + */
->  struct pixel_argb_u16 {
->  	u16 a, r, g, b;
->  };
->=20
+> +struct phylink_pcs *_pcs_get(struct device *dev, struct fwnode_handle *fwnode,
+> +			     const char *id, const char *fallback,
+> +			     bool optional)
+> +{
+> +	struct fwnode_handle *pcs_fwnode;
+> +	struct phylink_pcs *pcs;
+> +
+> +	pcs_fwnode = pcs_find_fwnode(fwnode, id, fallback, optional);
+> +	if (IS_ERR(pcs_fwnode))
+> +		return ERR_CAST(pcs_fwnode);
+> +
+> +	pcs = _pcs_get_tail(dev, pcs_fwnode, NULL);
+> +	fwnode_handle_put(pcs_fwnode);
+> +	return pcs;
+> +}
+> +EXPORT_SYMBOL_GPL(_pcs_get);
+> +
+> +static __maybe_unused void of_changeset_cleanup(void *data)
+> +{
+> +	struct of_changeset *ocs = data;
 
-Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+Code in pcs_get_by_fwnode_compat is conditionally compiled
+based on CONFIG_OF_DYNAMIC. I think that is needed here too,
+because of_changeset_revert() doesn't exist unless CONFIG_OF_DYNAMIC is set.
 
+> +
+> +	if (WARN(of_changeset_revert(ocs),
+> +		 "could not revert changeset; leaking memory\n"))
+> +		return;
+> +
+> +	of_changeset_destroy(ocs);
+> +	kfree(ocs);
+> +}
+> +
+> +/**
+> + * pcs_get_by_fwnode_compat() - Get a PCS with a compatibility fallback
+> + * @dev: The device requesting the PCS
+> + * @fwnode: The &struct fwnode_handle of the PCS itself
+> + * @fixup: Callback to fix up @fwnode for compatibility
+> + * @data: Passed to @fixup
+> + *
+> + * This function looks up a PCS and retries on failure after fixing up @fwnode.
+> + * It is intended to assist in backwards-compatible behavior for drivers that
+> + * used to create a PCS directly from a &struct device_node. This function
+> + * should NOT be used in new drivers.
+> + *
+> + * @fixup modifies a devicetree changeset to create any properties necessary to
+> + * bind the PCS's &struct device_node. At the very least, it should use
+> + * of_changeset_add_prop_string() to add a compatible property.
+> + *
+> + * Note that unlike pcs_get_by_fwnode, @fwnode is the &struct fwnode_handle of
+> + * the PCS itself, and not that of the requesting device. @fwnode could be
+> + * looked up with pcs_find_fwnode() or determined by some other means for
+> + * compatibility.
+> + *
+> + * Return: A PCS on success or an error pointer on failure
+> + */
+> +struct phylink_pcs *
+> +pcs_get_by_fwnode_compat(struct device *dev, struct fwnode_handle *fwnode,
+> +			 int (*fixup)(struct of_changeset *ocs,
+> +				      struct device_node *np, void *data),
+> +			 void *data)
+> +{
+> +#ifdef CONFIG_OF_DYNAMIC
+> +	struct mdio_device *mdiodev;
+> +	struct of_changeset *ocs;
+> +	struct phylink_pcs *pcs;
+> +	struct device_node *np;
+> +	struct device *pcsdev;
+> +	int err;
+> +
+> +	/* First attempt */
+> +	pcs = _pcs_get_tail(dev, fwnode, NULL);
+> +	if (PTR_ERR(pcs) != -EPROBE_DEFER)
+> +		return pcs;
+> +
+> +	/* No luck? Maybe there's no compatible... */
+> +	np = to_of_node(fwnode);
+> +	if (!np || of_property_present(np, "compatible"))
+> +		return pcs;
+> +
+> +	/* OK, let's try fixing things up */
+> +	pr_warn("%pOF is missing a compatible\n", np);
+> +	ocs = kmalloc(sizeof(*ocs), GFP_KERNEL);
+> +	if (!ocs)
+> +		return ERR_PTR(-ENOMEM);
+> +
+> +	of_changeset_init(ocs);
+> +	err = fixup(ocs, np, data);
+> +	if (err)
+> +		goto err_ocs;
+> +
+> +	err = of_changeset_apply(ocs);
+> +	if (err)
+> +		goto err_ocs;
+> +
+> +	err = devm_add_action_or_reset(dev, of_changeset_cleanup, ocs);
+> +	if (err)
+> +		return ERR_PTR(err);
+> +
+> +	mdiodev = fwnode_mdio_find_device(fwnode);
 
-Thanks,
-pq
+fwnode_mdio_find_device() is unavailable for linking if PHYLIB is a module
+(and PCS is built-in).
 
---Sig_/jzgf=84qHh/HA3ewyHp0VfJ
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
+> +	if (mdiodev) {
+> +		/* Clear that pesky PHY flag so we can match PCS drivers */
+> +		device_lock(&mdiodev->dev);
+> +		mdiodev->flags &= ~MDIO_DEVICE_FLAG_PHY;
+> +		device_unlock(&mdiodev->dev);
+> +		pcsdev = &mdiodev->dev;
+> +	} else {
+> +		pcsdev = get_device(fwnode->dev);
+> +		if (!pcsdev)
+> +			return ERR_PTR(-EPROBE_DEFER);
+> +	}
+> +
+> +	err = device_reprobe(pcsdev);
+> +	put_device(pcsdev);
+> +	if (err)
+> +		return ERR_PTR(err);
+> +
+> +	return _pcs_get_tail(dev, fwnode, NULL);
+> +
+> +err_ocs:
+> +	of_changeset_destroy(ocs);
+> +	kfree(ocs);
+> +	return ERR_PTR(err);
+> +#else
+> +	return _pcs_get_tail(dev, fwnode, NULL);
+> +#endif
+> +}
+> +EXPORT_SYMBOL_GPL(pcs_get_by_fwnode_compat);
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmgAvgMACgkQI1/ltBGq
-qqfYEQ/9HwV+VLsSdbGlDhk4ejPGt3Zh3ZdAIsaFj+2Z3BWdmhhhuH9TOOs6ye0U
-DB1zaGhAFNdmrRYs1bB43MkBNCXTxnBWl+Bah4w7p1VpUeRAggNpaLJiYvrQAQCA
-asD47WDDhiIhHUjT0aVb4Qy7K9o2J3Bbks3Al/OsLdb0twT7KtEb5NAp3klZpFtv
-cUkeNHB5vA4EuVg1//JeQC0sr1SQZeLXeM7YAxc5QS9Xu3afgm6RAMDJvozLGtLX
-1RXNCNUXv31cYa+C0HEt8TcpstNrmYD+q5y1r5THJzqzp+elV2P/laPg+rB+nH6m
-JOHAljF+P7PeMfLLeiA/gdZxTAiJLziODbGhAu3cN4gCkjFm+9F60i8znpc0qA6B
-L4kenehoZ83niUlHRlbDoc8yb3VLJlfILfDmqNVAchV+kgA5DnLyWl+PlQFPLN40
-6r9l7zgXaFozbpRtTR5jNnMUdlUm0mWC7v83StSFuukiyv1051pLdkEUW1i5IEhM
-FSbX8NSiQnDYUWgGqLf2HFP03DoqQdgDfcXo9hUQcjajgoOJK9/xfyAV3sGSl+Kq
-WTR9052jqEh6ABkMy6qR6BA2gl7XHRl5OUuVyf4/CuzbFAVuXm4bigQZJx+CDe5E
-NvO2cKpW/PB+2Ic+RCVKneC3UOxcuBzV4vH0N0epI3uSEXY+sww=
-=S4YC
------END PGP SIGNATURE-----
-
---Sig_/jzgf=84qHh/HA3ewyHp0VfJ--
+...
