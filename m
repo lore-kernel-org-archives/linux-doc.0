@@ -1,223 +1,318 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D703813A87C
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 00:20:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDF50161321
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 00:20:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744849220; cv=none; b=VWkFuDWzbG+jQB3lEDjERBeH1TUPSays1miB6DdmeuyYoAMz/TLAva7bALgGTjkb8uq/yDJj7W8yEBd3GcOlsD4GRJO4QhQaM0wXV9XGFzPMb7BKa9uXE5/fzSmpToFHyYuNoQGQgsLbFFyWA8kGU3xcqrAKgHumbYxATNt9XrA=
+	t=1744849220; cv=none; b=tkSgOB/q6n+TlmzsTxMqVcXDt2DGU3Pssuc12cJ2qs0BDxOa3JiSwEkaChJifBBvr9Sb7QaoEhA1ojFK64oHWQ7aFpJCIcE8eGnPHA7mdExHdDqeAXZ/dwLPpDcQMNaax0KYlsUMuvk3iE5RWi3oTZtNXOrd4gy8/micWKgxZnM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1744849220; c=relaxed/simple;
-	bh=Xn0fhZah7VNoPSuth3cgN/5HbXDJG8TMVcqhWqJBa5s=;
+	bh=XISuESK73OE0cGQUSmH3MWiiWeZkzQzLF/btVh6CIG4=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=aSo+at2acycB8HHCQwm96/DoiQvKoJyf85uLIEeFzo8LYIesRrO5MX8DBhYcuoh2UuJXDSZ2qIj63OvAwdxZkbTWpRse/cYVVIJjDCgyhUgW91Atac8gqhk75GP/tFOwHHDDVNuc/s7+iw4jAOtQaACnHdNDPfYz+K0HizYUs+g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=ev6SCRPW; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
+	 MIME-Version; b=fsQt/ZuNIat3ffZwkS+MIVLR9hCV0QYbE0QXYc5zCg4X1qOx+Ps9EhabL82yVMowSJqkZAxjsJw6Tzl7c+ikr610J9/Nx77fDV/knxdLq17CKJLuMxpQdJphHta+Xan24/PgpR6Gnb8v+I7J8zrYzpKL0XMjgkmXhLyXNQ8eVqs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Kmhl9tDT; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="ev6SCRPW"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-226185948ffso2538295ad.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 17:20:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google; t=1744849217; x=1745454017; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=p53AigewFBsQmQbaVqLDW/4G17Cug0mvmUxIn4ebZoc=;
-        b=ev6SCRPW5IDRwKA3f4otld0MqAVnhpehg8ZRX/H/ecVikSm5TxsCSQpORlo4/3W5jJ
-         nb36KCOPVV1w6DRDhDWIftZfNPNxLWgJ730iFXnMbpK3IpenbgXNeHIe7uN7NMCSojwU
-         ploYl4Q2nbzHNtsYsdwvskVHDgNfj55FnlzDI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744849217; x=1745454017;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=p53AigewFBsQmQbaVqLDW/4G17Cug0mvmUxIn4ebZoc=;
-        b=RWJ7y0R92FtUDmdPjW8jDE29c9iJ37kR+ADVaKI44g0ocZ3zfheNZbsojIizW7+DRO
-         EKyhPEbLmSEFqkA0eEPGFaYC+SG5k4MXiFBBmioqAedtsftZFQJpp1QwSPXBcqdBdF9B
-         6Roubi2pFnpXipULjIlCvnbpawgMBsLz6qJuz/+lJdmyugTYXd0LVA1C0bkIf5AZsP8I
-         w313ibN3qdxV1lrW7Aw/G+/aDl6kDxZPQ7NFy2SaGwf9ccw2pDVXyDKSXfJFzXPBh5La
-         /etGCSftN716OvI7TtSXiYqmFLyjjCxO1gJeKnrt8AIvlcFYcTnOSkAuK+zvl/4sMNyh
-         e0KA==
-X-Forwarded-Encrypted: i=1; AJvYcCUswonHQCKPAcc2mPxvSJEK2tBUzDmvgolNOyK5lAB+v9xKv8dIouKKh7xBO+UrcqBmOXGwL5vCQD4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwdtBwWbItPjSMEVJx3Dt+Q7g5F4eDF8/yBkwCIiBPCDr3BGQY6
-	PCFu1xluTEsDkrrigilschhRK2P84QB6K30zo1Cx7tG6mygS929EAEuLR5DrRg==
-X-Gm-Gg: ASbGnct8teNkHs4dA6YtayYtWO1Xmsf9S3Zszi8btrML69PktWrXf1YbhToAa+dTsrC
-	vc8tmZ/lBH+AFMC5lk241Sv0qCO4IP3mWd1mFD1uzHZsOLzJpSd6x+qd9euexHu8bDbbIBPxHxr
-	7doQ3S9lvdpYkqHb/SdYWiohr3v5R3d2Fa+NZnD/p80DsCBWKoXwjVfgRBUaJM+B8yId8I6TGuF
-	uFEbfzcG3M1XbpNw02bCc48reYPSPi34YE0Db9HrIkcPFzs2mivy4yqe0IAm9847YhvH8ZSMQRf
-	qXVrcDclIlt1jf98MTMjGXJPB7Nk+tHAmbXOhM2TYjmz1GBX5BAh/1FPr0FI+bQJyDr2+wtlsS2
-	Ucyii9jF5ZvTatu4wZLG2Yp3TvLJzQOZk
-X-Google-Smtp-Source: AGHT+IGNOO4PihoQLJC4VWdU+RdzRjOAKlmBvKQqMIYr7rV7iQC39qD2+3dZngycgcfs6Xuy7d4Cjg==
-X-Received: by 2002:a17:902:f686:b0:223:42ca:10ef with SMTP id d9443c01a7336-22c35984391mr59251915ad.43.1744849217023;
-        Wed, 16 Apr 2025 17:20:17 -0700 (PDT)
-Received: from li-cloudtop.c.googlers.com.com (132.197.125.34.bc.googleusercontent.com. [34.125.197.132])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c33f1cd87sm20719205ad.73.2025.04.16.17.20.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Apr 2025 17:20:16 -0700 (PDT)
-From: Li Li <dualli@chromium.org>
-To: dualli@google.com,
-	corbet@lwn.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com,
-	donald.hunter@gmail.com,
-	gregkh@linuxfoundation.org,
-	arve@android.com,
-	tkjos@android.com,
-	maco@android.com,
-	joel@joelfernandes.org,
-	brauner@kernel.org,
-	cmllamas@google.com,
-	surenb@google.com,
-	omosnace@redhat.com,
-	shuah@kernel.org,
-	arnd@arndb.de,
-	masahiroy@kernel.org,
-	bagasdotme@gmail.com,
-	horms@kernel.org,
-	tweek@google.com,
-	paul@paul-moore.com,
-	linux-kernel@vger.kernel.org,
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Kmhl9tDT"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744849218;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=m/aa301+ZC5m1Jmr7HKjW+aJT0ZB78SKeCvyWSDZD8g=;
+	b=Kmhl9tDTJ3L4rv1I00vZhUYZ2SXsGxLPdzew1LnMTzP8+VkP7KwDWrYJmbLS5TVi9DU+M+
+	gusWR3z/1kAvW6KkNfz7zjsUQGFzWsmiF0K0j4OVsjXAwdpf6AY0hx7u4HS3p/N9PsRBUK
+	Hm1yF3HTn5ZpNyp9oPueU68dJk6CYk4=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-195-XyJ2qnAJPimeKMMSR_u8JQ-1; Wed,
+ 16 Apr 2025 20:20:12 -0400
+X-MC-Unique: XyJ2qnAJPimeKMMSR_u8JQ-1
+X-Mimecast-MFC-AGG-ID: XyJ2qnAJPimeKMMSR_u8JQ_1744849208
+Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id CED4019560BB;
+	Thu, 17 Apr 2025 00:20:07 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.88.34])
+	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id BEB1519560B9;
+	Thu, 17 Apr 2025 00:19:57 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
-	netdev@vger.kernel.org,
-	selinux@vger.kernel.org,
-	linux-security-module@vger.kernel.org,
-	hridya@google.com
-Cc: smoreland@google.com,
-	ynaffit@google.com,
-	kernel-team@android.com
-Subject: [PATCH RESEND v17 1/3] lsm, selinux: Add setup_report permission to binder
-Date: Wed, 16 Apr 2025 17:20:02 -0700
-Message-ID: <20250417002005.2306284-2-dualli@chromium.org>
-X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
-In-Reply-To: <20250417002005.2306284-1-dualli@chromium.org>
-References: <20250417002005.2306284-1-dualli@chromium.org>
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	corbet@lwn.net,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	ryan.roberts@arm.com,
+	willy@infradead.org,
+	peterx@redhat.com,
+	shuah@kernel.org,
+	ziy@nvidia.com,
+	wangkefeng.wang@huawei.com,
+	usamaarif642@gmail.com,
+	sunnanyong@huawei.com,
+	vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com,
+	yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com,
+	aarcange@redhat.com,
+	raquini@redhat.com,
+	dev.jain@arm.com,
+	anshuman.khandual@arm.com,
+	catalin.marinas@arm.com,
+	tiwai@suse.de,
+	will@kernel.org,
+	dave.hansen@linux.intel.com,
+	jack@suse.cz,
+	cl@gentwo.org,
+	jglisse@google.com,
+	surenb@google.com,
+	zokeefe@google.com,
+	hannes@cmpxchg.org,
+	rientjes@google.com,
+	mhocko@suse.com,
+	rdunlap@infradead.org
+Subject: [PATCH v4 3/4] khugepaged: add defer option to mTHP options
+Date: Wed, 16 Apr 2025 18:18:45 -0600
+Message-ID: <20250417001846.81480-4-npache@redhat.com>
+In-Reply-To: <20250417001846.81480-1-npache@redhat.com>
+References: <20250417001846.81480-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
 
-From: Thiébaud Weksteen <tweek@google.com>
+Now that we have defer to globally disable THPs at fault time, lets add
+a defer setting to the mTHP options. This will allow khugepaged to
+operate at that order, while avoiding it at PF time.
 
-Introduce a new permission "setup_report" to the "binder" class.
-This persmission controls the ability to set up the binder generic
-netlink driver to report certain binder transactions.
-
-Signed-off-by: Thiébaud Weksteen <tweek@google.com>
-Signed-off-by: Li Li <dualli@google.com>
+Signed-off-by: Nico Pache <npache@redhat.com>
 ---
- include/linux/lsm_hook_defs.h       |  1 +
- include/linux/security.h            |  6 ++++++
- security/security.c                 | 13 +++++++++++++
- security/selinux/hooks.c            |  7 +++++++
- security/selinux/include/classmap.h |  3 ++-
- 5 files changed, 29 insertions(+), 1 deletion(-)
+ include/linux/huge_mm.h |  5 +++++
+ mm/huge_memory.c        | 38 +++++++++++++++++++++++++++++++++-----
+ mm/khugepaged.c         | 10 +++++-----
+ 3 files changed, 43 insertions(+), 10 deletions(-)
 
-diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-index bf3bbac4e02a..795a507db537 100644
---- a/include/linux/lsm_hook_defs.h
-+++ b/include/linux/lsm_hook_defs.h
-@@ -33,6 +33,7 @@ LSM_HOOK(int, 0, binder_transfer_binder, const struct cred *from,
- 	 const struct cred *to)
- LSM_HOOK(int, 0, binder_transfer_file, const struct cred *from,
- 	 const struct cred *to, const struct file *file)
-+LSM_HOOK(int, 0, binder_setup_report, const struct cred *to)
- LSM_HOOK(int, 0, ptrace_access_check, struct task_struct *child,
- 	 unsigned int mode)
- LSM_HOOK(int, 0, ptrace_traceme, struct task_struct *parent)
-diff --git a/include/linux/security.h b/include/linux/security.h
-index cc9b54d95d22..fe600fb37c98 100644
---- a/include/linux/security.h
-+++ b/include/linux/security.h
-@@ -338,6 +338,7 @@ int security_binder_transfer_binder(const struct cred *from,
- 				    const struct cred *to);
- int security_binder_transfer_file(const struct cred *from,
- 				  const struct cred *to, const struct file *file);
-+int security_binder_setup_report(const struct cred *to);
- int security_ptrace_access_check(struct task_struct *child, unsigned int mode);
- int security_ptrace_traceme(struct task_struct *parent);
- int security_capget(const struct task_struct *target,
-@@ -657,6 +658,11 @@ static inline int security_binder_transfer_file(const struct cred *from,
- 	return 0;
- }
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index b88cc3154ec0..a4c87d80badc 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -96,6 +96,7 @@ extern struct kobj_attribute thpsize_shmem_enabled_attr;
+ #define TVA_SMAPS		(1 << 0)	/* Will be used for procfs */
+ #define TVA_IN_PF		(1 << 1)	/* Page fault handler */
+ #define TVA_ENFORCE_SYSFS	(1 << 2)	/* Obey sysfs configuration */
++#define TVA_IN_KHUGEPAGE	((1 << 2) | (1 << 3)) /* Khugepaged defer support */
  
-+static inline int security_binder_setup_report(const struct cred *to)
-+{
-+	return 0;
-+}
-+
- static inline int security_ptrace_access_check(struct task_struct *child,
- 					     unsigned int mode)
+ #define thp_vma_allowable_order(vma, vm_flags, tva_flags, order) \
+ 	(!!thp_vma_allowable_orders(vma, vm_flags, tva_flags, BIT(order)))
+@@ -182,6 +183,7 @@ extern unsigned long transparent_hugepage_flags;
+ extern unsigned long huge_anon_orders_always;
+ extern unsigned long huge_anon_orders_madvise;
+ extern unsigned long huge_anon_orders_inherit;
++extern unsigned long huge_anon_orders_defer;
+ 
+ static inline bool hugepage_global_enabled(void)
  {
-diff --git a/security/security.c b/security/security.c
-index fb57e8fddd91..5acf364e610f 100644
---- a/security/security.c
-+++ b/security/security.c
-@@ -1043,6 +1043,19 @@ int security_binder_transfer_file(const struct cred *from,
- 	return call_int_hook(binder_transfer_file, from, to, file);
- }
- 
-+/**
-+ * security_binder_setup_report() - Check if binder report is allowed
-+ * @to: receiving process
-+ *
-+ * Check whether @to is allowed to set up binder reports.
-+ *
-+ * Return: Returns 0 if permission is granted.
-+ */
-+int security_binder_setup_report(const struct cred *to)
-+{
-+	return call_int_hook(binder_setup_report, to);
-+}
+@@ -306,6 +308,9 @@ unsigned long thp_vma_allowable_orders(struct vm_area_struct *vma,
+ 	/* Optimization to check if required orders are enabled early. */
+ 	if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
+ 		unsigned long mask = READ_ONCE(huge_anon_orders_always);
 +
- /**
-  * security_ptrace_access_check() - Check if tracing is allowed
-  * @child: target process
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index 595ceb314aeb..f02249345c4b 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -2103,6 +2103,12 @@ static int selinux_binder_transfer_file(const struct cred *from,
- 			    &ad);
- }
++		if ((tva_flags & TVA_IN_KHUGEPAGE) == TVA_IN_KHUGEPAGE)
++			mask |= READ_ONCE(huge_anon_orders_defer);
+ 		if (vm_flags & VM_HUGEPAGE)
+ 			mask |= READ_ONCE(huge_anon_orders_madvise);
+ 		if (hugepage_global_always() || hugepage_global_defer() ||
+diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+index 568ae2363959..f10d307091d8 100644
+--- a/mm/huge_memory.c
++++ b/mm/huge_memory.c
+@@ -81,6 +81,7 @@ unsigned long huge_zero_pfn __read_mostly = ~0UL;
+ unsigned long huge_anon_orders_always __read_mostly;
+ unsigned long huge_anon_orders_madvise __read_mostly;
+ unsigned long huge_anon_orders_inherit __read_mostly;
++unsigned long huge_anon_orders_defer __read_mostly;
+ static bool anon_orders_configured __initdata;
  
-+static int selinux_binder_setup_report(const struct cred *to)
-+{
-+	return avc_has_perm(current_sid(), cred_sid(to), SECCLASS_BINDER,
-+			    BINDER__SETUP_REPORT, NULL);
-+}
-+
- static int selinux_ptrace_access_check(struct task_struct *child,
- 				       unsigned int mode)
+ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+@@ -505,13 +506,15 @@ static ssize_t anon_enabled_show(struct kobject *kobj,
+ 	const char *output;
+ 
+ 	if (test_bit(order, &huge_anon_orders_always))
+-		output = "[always] inherit madvise never";
++		output = "[always] inherit madvise defer never";
+ 	else if (test_bit(order, &huge_anon_orders_inherit))
+-		output = "always [inherit] madvise never";
++		output = "always [inherit] madvise defer never";
+ 	else if (test_bit(order, &huge_anon_orders_madvise))
+-		output = "always inherit [madvise] never";
++		output = "always inherit [madvise] defer never";
++	else if (test_bit(order, &huge_anon_orders_defer))
++		output = "always inherit madvise [defer] never";
+ 	else
+-		output = "always inherit madvise [never]";
++		output = "always inherit madvise defer [never]";
+ 
+ 	return sysfs_emit(buf, "%s\n", output);
+ }
+@@ -527,25 +530,36 @@ static ssize_t anon_enabled_store(struct kobject *kobj,
+ 		spin_lock(&huge_anon_orders_lock);
+ 		clear_bit(order, &huge_anon_orders_inherit);
+ 		clear_bit(order, &huge_anon_orders_madvise);
++		clear_bit(order, &huge_anon_orders_defer);
+ 		set_bit(order, &huge_anon_orders_always);
+ 		spin_unlock(&huge_anon_orders_lock);
+ 	} else if (sysfs_streq(buf, "inherit")) {
+ 		spin_lock(&huge_anon_orders_lock);
+ 		clear_bit(order, &huge_anon_orders_always);
+ 		clear_bit(order, &huge_anon_orders_madvise);
++		clear_bit(order, &huge_anon_orders_defer);
+ 		set_bit(order, &huge_anon_orders_inherit);
+ 		spin_unlock(&huge_anon_orders_lock);
+ 	} else if (sysfs_streq(buf, "madvise")) {
+ 		spin_lock(&huge_anon_orders_lock);
+ 		clear_bit(order, &huge_anon_orders_always);
+ 		clear_bit(order, &huge_anon_orders_inherit);
++		clear_bit(order, &huge_anon_orders_defer);
+ 		set_bit(order, &huge_anon_orders_madvise);
+ 		spin_unlock(&huge_anon_orders_lock);
++	} else if (sysfs_streq(buf, "defer")) {
++		spin_lock(&huge_anon_orders_lock);
++		clear_bit(order, &huge_anon_orders_always);
++		clear_bit(order, &huge_anon_orders_inherit);
++		clear_bit(order, &huge_anon_orders_madvise);
++		set_bit(order, &huge_anon_orders_defer);
++		spin_unlock(&huge_anon_orders_lock);
+ 	} else if (sysfs_streq(buf, "never")) {
+ 		spin_lock(&huge_anon_orders_lock);
+ 		clear_bit(order, &huge_anon_orders_always);
+ 		clear_bit(order, &huge_anon_orders_inherit);
+ 		clear_bit(order, &huge_anon_orders_madvise);
++		clear_bit(order, &huge_anon_orders_defer);
+ 		spin_unlock(&huge_anon_orders_lock);
+ 	} else
+ 		ret = -EINVAL;
+@@ -1002,7 +1016,7 @@ static char str_dup[PAGE_SIZE] __initdata;
+ static int __init setup_thp_anon(char *str)
  {
-@@ -7295,6 +7301,7 @@ static struct security_hook_list selinux_hooks[] __ro_after_init = {
- 	LSM_HOOK_INIT(binder_transaction, selinux_binder_transaction),
- 	LSM_HOOK_INIT(binder_transfer_binder, selinux_binder_transfer_binder),
- 	LSM_HOOK_INIT(binder_transfer_file, selinux_binder_transfer_file),
-+	LSM_HOOK_INIT(binder_setup_report, selinux_binder_setup_report),
+ 	char *token, *range, *policy, *subtoken;
+-	unsigned long always, inherit, madvise;
++	unsigned long always, inherit, madvise, defer;
+ 	char *start_size, *end_size;
+ 	int start, end, nr;
+ 	char *p;
+@@ -1014,6 +1028,8 @@ static int __init setup_thp_anon(char *str)
+ 	always = huge_anon_orders_always;
+ 	madvise = huge_anon_orders_madvise;
+ 	inherit = huge_anon_orders_inherit;
++	defer = huge_anon_orders_defer;
++
+ 	p = str_dup;
+ 	while ((token = strsep(&p, ";")) != NULL) {
+ 		range = strsep(&token, ":");
+@@ -1053,18 +1069,28 @@ static int __init setup_thp_anon(char *str)
+ 				bitmap_set(&always, start, nr);
+ 				bitmap_clear(&inherit, start, nr);
+ 				bitmap_clear(&madvise, start, nr);
++				bitmap_clear(&defer, start, nr);
+ 			} else if (!strcmp(policy, "madvise")) {
+ 				bitmap_set(&madvise, start, nr);
+ 				bitmap_clear(&inherit, start, nr);
+ 				bitmap_clear(&always, start, nr);
++				bitmap_clear(&defer, start, nr);
+ 			} else if (!strcmp(policy, "inherit")) {
+ 				bitmap_set(&inherit, start, nr);
+ 				bitmap_clear(&madvise, start, nr);
+ 				bitmap_clear(&always, start, nr);
++				bitmap_clear(&defer, start, nr);
++			} else if (!strcmp(policy, "defer")) {
++				bitmap_set(&defer, start, nr);
++				bitmap_clear(&madvise, start, nr);
++				bitmap_clear(&always, start, nr);
++				bitmap_clear(&inherit, start, nr);
+ 			} else if (!strcmp(policy, "never")) {
+ 				bitmap_clear(&inherit, start, nr);
+ 				bitmap_clear(&madvise, start, nr);
+ 				bitmap_clear(&always, start, nr);
++				bitmap_clear(&defer, start, nr);
++
+ 			} else {
+ 				pr_err("invalid policy %s in thp_anon boot parameter\n", policy);
+ 				goto err;
+@@ -1075,6 +1101,8 @@ static int __init setup_thp_anon(char *str)
+ 	huge_anon_orders_always = always;
+ 	huge_anon_orders_madvise = madvise;
+ 	huge_anon_orders_inherit = inherit;
++	huge_anon_orders_defer = defer;
++
+ 	anon_orders_configured = true;
+ 	return 1;
  
- 	LSM_HOOK_INIT(ptrace_access_check, selinux_ptrace_access_check),
- 	LSM_HOOK_INIT(ptrace_traceme, selinux_ptrace_traceme),
-diff --git a/security/selinux/include/classmap.h b/security/selinux/include/classmap.h
-index 5665aa5e7853..de7e28572fda 100644
---- a/security/selinux/include/classmap.h
-+++ b/security/selinux/include/classmap.h
-@@ -133,7 +133,8 @@ const struct security_class_mapping secclass_map[] = {
- 	{ "kernel_service", { "use_as_override", "create_files_as", NULL } },
- 	{ "tun_socket", { COMMON_SOCK_PERMS, "attach_queue", NULL } },
- 	{ "binder",
--	  { "impersonate", "call", "set_context_mgr", "transfer", NULL } },
-+	  { "impersonate", "call", "set_context_mgr", "transfer",
-+	    "setup_report", NULL } },
- 	{ "cap_userns", { COMMON_CAP_PERMS, NULL } },
- 	{ "cap2_userns", { COMMON_CAP2_PERMS, NULL } },
- 	{ "sctp_socket",
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index 38643a681ba5..f9faff6917d3 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -491,7 +491,7 @@ void khugepaged_enter_vma(struct vm_area_struct *vma,
+ {
+ 	if (!test_bit(MMF_VM_HUGEPAGE, &vma->vm_mm->flags) &&
+ 	    hugepage_pmd_enabled()) {
+-		if (thp_vma_allowable_order(vma, vm_flags, TVA_ENFORCE_SYSFS,
++		if (thp_vma_allowable_order(vma, vm_flags, TVA_IN_KHUGEPAGE,
+ 					    PMD_ORDER))
+ 			__khugepaged_enter(vma->vm_mm);
+ 	}
+@@ -955,7 +955,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+ 				   struct collapse_control *cc, int order)
+ {
+ 	struct vm_area_struct *vma;
+-	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
++	unsigned long tva_flags = cc->is_khugepaged ? TVA_IN_KHUGEPAGE  : 0;
+ 
+ 	if (unlikely(khugepaged_test_exit_or_disable(mm)))
+ 		return SCAN_ANY_PROCESS;
+@@ -1430,7 +1430,7 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
+ 	bool writable = false;
+ 	int chunk_none_count = 0;
+ 	int scaled_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER);
+-	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
++	unsigned long tva_flags = cc->is_khugepaged ? TVA_IN_KHUGEPAGE : 0;
+ 	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+ 
+ 	result = find_pmd_or_thp_or_none(mm, address, &pmd);
+@@ -2550,7 +2550,7 @@ static int khugepaged_collapse_single_pmd(unsigned long addr,
+ {
+ 	int result = SCAN_FAIL;
+ 	struct mm_struct *mm = vma->vm_mm;
+-	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
++	unsigned long tva_flags = cc->is_khugepaged ? TVA_IN_KHUGEPAGE : 0;
+ 
+ 	if (thp_vma_allowable_order(vma, vma->vm_flags,
+ 					tva_flags, PMD_ORDER)) {
+@@ -2635,7 +2635,7 @@ static unsigned int khugepaged_scan_mm_slot(unsigned int pages, int *result,
+ 			break;
+ 		}
+ 		if (!thp_vma_allowable_order(vma, vma->vm_flags,
+-					TVA_ENFORCE_SYSFS, PMD_ORDER)) {
++					TVA_IN_KHUGEPAGE, PMD_ORDER)) {
+ skip:
+ 			progress++;
+ 			continue;
 -- 
-2.49.0.805.g082f7c87e0-goog
+2.48.1
 
