@@ -1,137 +1,200 @@
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E110219A75
-	for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 23:40:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 28D46A31
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 00:06:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744846838; cv=none; b=mm/juYE9pOy8Pw6YcZ3Rnkv+Kgb373ZPwT8weW5fAW1hu15lTFRY+qmWqmsSX9gYyGmIe+qKOg00apkQbtG8ynSY7j4qAgpTB1u4+WiVBI42KT4ZiEgGmz2l5iPmSDSUf7Z1sQm9remqjrXMNZnn8eizrTZMjJ2LN0sfSnnnNzA=
+	t=1744848373; cv=none; b=ITZwzhPOOWJGf29pUrz2XzyjvDNJ4/5IqnFrA7Ef9PvtRmXYGaRBE0H7Fg8lEE6HAJJiCyW+1+1ffbjC5EFYs9Hxvzotl8JawSAAkB8U5Sw978u+QI/xJcPiLeCBsCmlAz1oyTPwO5m9niED30dJXiY2rfXBM7iBjUXTKgS/Bog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744846838; c=relaxed/simple;
-	bh=6Mxjt3rihuzILbcLl043WrZ7HaX9/u729SBhzDpJcjw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lB/QjuIsWr+7RL+0phg8rI3/+UMjPRpEbWNgrc4eUS3QF8gKriEvis+bVDfnEswAPlGb5+xIpKNui37Fi9ePR9+VyWH8vC6EfpAtisEv710MzqQRc7t50H47uChZsHpXrEN7jXYlHrz76M47XRC2j8s/Nu5aYRE5KC3D+9h4MsE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ch8in/eh; arc=none smtp.client-ip=209.85.128.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1744848373; c=relaxed/simple;
+	bh=3m1FD33ptXaajV2JQ4XPTy7HNb1qF966UeYdVzGBjEw=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=pfAkP950upk/QuKNcrf7XdXXhXGMXSr3aXBtHiRYbLQEgpi8iBc3ffqujKRbwmLBdItJTqFrwYAeEZQa2/BcUkTM7v9UgFEBJwa3JKZPBXci9iquODZ+vSX3MTSFmnzfM6+9dUwX3HV/FaMl9FMW4b/4T8AnsJcrEFcaiMlUpWs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=T2fMmDmS; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ch8in/eh"
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-43cfe808908so28005e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 16:40:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1744846835; x=1745451635; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=6Mxjt3rihuzILbcLl043WrZ7HaX9/u729SBhzDpJcjw=;
-        b=Ch8in/eh3ikaKrLW1WquO1Qu7R15IWcKwsqxcI4AXdM+nY4ks5HEojSssKb6uX5VYB
-         YcJ+BtKD7odQgXwJLQUpGYk4FX9Qpub/q5u8dCmeVz7FF6pUZMmSY6MR+jnD5fh9OMLw
-         c2dcmFmsig2d7azQCOuz6WfB4myhN6cumc2k11KWHdbIn+qWKkJwi0FulYQ8UQmg+LkZ
-         Ah+dVxv8ckXzJRGF4X4So4jzLkBGF1cw7GNMhXbTeZJfTwuNhBpOV7rCytVDhHoj0V31
-         TilqLxYuEvsJllVh5jWaWa8f4H+naD0BcOXeV5ZMaVmVe33JENh0SU73UVJTBO7PEKLr
-         L+og==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744846835; x=1745451635;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=6Mxjt3rihuzILbcLl043WrZ7HaX9/u729SBhzDpJcjw=;
-        b=Z8s0ShrJ15bSiyrTsh0uJhLcFuBcois3AgkSTei/SL1J+kJEZGik+1yHWrOFBGxXF6
-         5Vwq0bPc6Zx9OCgRC9Tp2Ffxr1y2x8tE1emBoNKcKcrBIetqo12KZWb4jxBw44vUq/LU
-         hDR1KmG4/I3y+ncJCOk2b8is85ack0lZjy3UVXoAAtLzRz9MGw0JiZ618x5ZVXP+as7N
-         ARL5zX6sKg13XPHPpYIp7VThm8GoOd+UT47h2yz37WB7AriU6hZGbfYpsNgd2UdqHwNt
-         X4ptPdH0UA9C7jjU49EIvRjsod2oy9dHpD5U4aik7a93xzZMdhefSc/DyjPFEXnTWejI
-         Nn4w==
-X-Forwarded-Encrypted: i=1; AJvYcCWKz8KhmgA2Ba6Qnp+SFICdsD7hzXr7AQoJKfn9Jq0psT+bPk/rGGUrbTkIT37t3ptqMS+f0NdxTbY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzwFI6tF+xKYiV4r+vppMcAIJINXinaEPMyEB9PEbM422Vsh0dO
-	pscaTG/0AxKwddQ45dYaR7eTzw2SiABbhcS23HPCopFIJAZ1FSO8lPlu3lyPBHciB0neyPlS8Mj
-	7vJ6ANkE1uE8pbEGyxbFeG+E0JyGrR6pkTj7h
-X-Gm-Gg: ASbGncsZhPZMO5rXaQMDHk4Pljw2tBNTFqkJqor/zndg5eyGzadn/6l2W8D+lP5da84
-	FV9XkX4CrTn9UtU9AykiqLwK8mPMnsqt9vRjNgcKOzWsC3EHifYTodVyfSvQHL0EYGA5YjzneUa
-	W5QUVn0GmP/0v+0EYXR6Lxkz3qrucFmQYEN3zNlEiVbXtc4JkHCX4=
-X-Google-Smtp-Source: AGHT+IHYwzghKbnTQryW+DgZnRoQaoVXvuuAUTPz6qIMWx+I2V7QXqmb5/BgPuRKmM0AahWplsMUsAlWl25L3C8nIj0=
-X-Received: by 2002:a05:600c:1910:b0:43d:409c:6142 with SMTP id
- 5b1f17b1804b1-44062a3eddamr573455e9.0.1744846834549; Wed, 16 Apr 2025
- 16:40:34 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="T2fMmDmS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1744848369;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=lZzURqEH2m3la60MQH0q6mI1PM9pKq3/kimYAOnNk7o=;
+	b=T2fMmDmSUMOTxKxfU/LfeZ6CTf7sDKyT6GGg0k7K2KTy65atk35jFanHmzipbgbGdeNUa6
+	gh9+WJ7ClJstBmBSuVn6jkNViUL+AZd8hGRJUsI2cxjvozcOsaSJBK0rvCG3sjwpd0rU58
+	dheRKvSVYBoTSkHWSsRIphCCHBmUdkg=
+Received: from mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-370-gSEb2mDWOaCD-kmCEKxNWA-1; Wed,
+ 16 Apr 2025 20:06:06 -0400
+X-MC-Unique: gSEb2mDWOaCD-kmCEKxNWA-1
+X-Mimecast-MFC-AGG-ID: gSEb2mDWOaCD-kmCEKxNWA_1744848360
+Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id E45421955DC5;
+	Thu, 17 Apr 2025 00:05:58 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.88.34])
+	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id F1B30180045B;
+	Thu, 17 Apr 2025 00:05:47 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-trace-kernel@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	corbet@lwn.net,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	ryan.roberts@arm.com,
+	willy@infradead.org,
+	peterx@redhat.com,
+	ziy@nvidia.com,
+	wangkefeng.wang@huawei.com,
+	usamaarif642@gmail.com,
+	sunnanyong@huawei.com,
+	vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com,
+	yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com,
+	aarcange@redhat.com,
+	raquini@redhat.com,
+	dev.jain@arm.com,
+	anshuman.khandual@arm.com,
+	catalin.marinas@arm.com,
+	tiwai@suse.de,
+	will@kernel.org,
+	dave.hansen@linux.intel.com,
+	jack@suse.cz,
+	cl@gentwo.org,
+	jglisse@google.com,
+	surenb@google.com,
+	zokeefe@google.com,
+	hannes@cmpxchg.org,
+	rientjes@google.com,
+	mhocko@suse.com,
+	rdunlap@infradead.org
+Subject: [PATCH v4 00/12] khugepaged: mTHP support
+Date: Wed, 16 Apr 2025 18:02:26 -0600
+Message-ID: <20250417000238.74567-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW6sgGvjeAcciskmGO7r6+eeDo_KVS3y7C8fCDPptzCebw@mail.gmail.com>
- <CABdmKX0bgxZFYuvQvQPK0AnAHEE3FebY_eA1+Vo=ScH1MbfzMg@mail.gmail.com> <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
-In-Reply-To: <CAPhsuW72Q2--E9tQQY8xADghTV6bYy9vHpFQoCWNh0V_QBWafA@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Wed, 16 Apr 2025 16:40:22 -0700
-X-Gm-Features: ATxdqUFLZu_g7cAHhskZ0L5MamFR6bpu5Vd8u8TDIC07BpRPPZAKqsf2Wefu0qw
-Message-ID: <CABdmKX1tDv3fSFURDN7=txFSbQ1xTjp8ZhLP8tFAvLcO9_-4_A@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Song Liu <song@kernel.org>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On Wed, Apr 16, 2025 at 4:08=E2=80=AFPM Song Liu <song@kernel.org> wrote:
->
-> On Wed, Apr 16, 2025 at 3:51=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> [...]
-> > >
-> > > IIUC, the iterator simply traverses elements in a linked list. I feel=
- it is
-> > > an overkill to implement a new BPF iterator for it.
-> >
-> > Like other BPF iterators such as kmem_cache_iter or task_iter.
-> > Cgroup_iter iterates trees instead of lists. This is iterating over
-> > kernel objects just like the docs say, "A BPF iterator is a type of
-> > BPF program that allows users to iterate over specific types of kernel
-> > objects". More complicated iteration should not be a requirement here.
-> >
-> > > Maybe we simply
-> > > use debugging tools like crash or drgn for this? The access with
-> > > these tools will not be protected by the mutex. But from my personal
-> > > experience, this is not a big issue for user space debugging tools.
-> >
-> > drgn is *way* too slow, and even if it weren't the dependencies for
-> > running it aren't available. crash needs debug symbols which also
-> > aren't available on user builds. This is not just for manual
-> > debugging, it's for reporting memory use in production. Or anything
-> > else someone might care to extract like attachment info or refcounts.
->
-> Could you please share more information about the use cases and
-> the time constraint here, and why drgn is too slow. Is most of the delay
-> comes from parsing DWARF? This is mostly for my curiosity, because
-> I have been thinking about using drgn to do some monitoring in
-> production.
->
-> Thanks,
-> Song
+The following series provides khugepaged and madvise collapse with the
+capability to collapse regions to mTHPs.
 
-These RunCommands have 10 second timeouts for example. It's rare that
-I see them get exceeded but it happens occasionally.:
-https://cs.android.com/android/platform/superproject/main/+/main:frameworks=
-/native/cmds/dumpstate/dumpstate.cpp;drc=3D98bdc04b7658fde0a99403fc052d1d18=
-e7d48ea6;l=3D2008
+To achieve this we generalize the khugepaged functions to no longer depend
+on PMD_ORDER. Then during the PMD scan, we keep track of chunks of pages
+(defined by KHUGEPAGED_MTHP_MIN_ORDER) that are utilized. This info is
+tracked using a bitmap. After the PMD scan is done, we do binary recursion
+on the bitmap to find the optimal mTHP sizes for the PMD range. The
+restriction on max_ptes_none is removed during the scan, to make sure we
+account for the whole PMD range. When no mTHP size is enabled, the legacy
+behavior of khugepaged is maintained. max_ptes_none will be scaled by the
+attempted collapse order to determine how full a THP must be to be
+eligible. If a mTHP collapse is attempted, but contains swapped out, or
+shared pages, we dont perform the collapse.
 
-The last time I used drgn (admittedly back in 2023) it took over a
-minute to iterate through less than 200 cgroups. I'm not sure what the
-root cause of the slowness was, but I'd expect the DWARF processing to
-be done up-front once and the slowness I experienced was not just at
-startup. Eventually I switched over to tracefs for that issue, which
-we still use for some telemetry.
+With the default max_ptes_none=511, the code should keep its most of its
+original behavior. To exercise mTHP collapse we need to set
+max_ptes_none<=255. With max_ptes_none > HPAGE_PMD_NR/2 you will
+experience collapse "creep" and constantly promote mTHPs to the next
+available size.
 
-Other uses are by statsd for telemetry, memory reporting on app kills
-or death, and for "dumpsys meminfo".
+Patch 1:     Some refactoring to combine madvise_collapse and khugepaged
+Patch 2:     Refactor/rename hpage_collapse
+Patch 3-5:   Generalize khugepaged functions for arbitrary orders
+Patch 6-9:   The mTHP patches
+Patch 10-11: Tracing/stats
+Patch 12:    Documentation
 
-Thanks,
-T.J.
+---------
+ Testing
+---------
+- Built for x86_64, aarch64, ppc64le, and s390x
+- selftests mm
+- I created a test script that I used to push khugepaged to its limits
+   while monitoring a number of stats and tracepoints. The code is
+   available here[1] (Run in legacy mode for these changes and set mthp
+   sizes to inherit)
+   The summary from my testings was that there was no significant
+   regression noticed through this test. In some cases my changes had
+   better collapse latencies, and was able to scan more pages in the same
+   amount of time/work, but for the most part the results were consistent.
+- redis testing. I tested these changes along with my defer changes
+  (see followup post for more details).
+- some basic testing on 64k page size.
+- lots of general use.
+
+Changes since V3:
+- Rebased onto mm-unstable
+   commit 0e68b850b1d3 ("vmalloc: use atomic_long_add_return_relaxed()")
+- small changes to Documentation
+
+Changes since V2:
+- corrected legacy behavior for khugepaged and madvise_collapse
+- added proper mTHP stat tracking
+- Minor changes to prevent a nested lock on non-split-lock arches
+- Took Devs version of alloc_charge_folio as it has the proper stats
+- Skip cases were trying to collapse to a lower order would still fail
+- Fixed cases were the bitmap was not being updated properly
+- Moved Documentation update to this series instead of the defer set
+- Minor bugs discovered during testing and review
+- Minor "nit" cleanup
+
+
+Changes since V1 [2]:
+- Minor bug fixes discovered during review and testing
+- removed dynamic allocations for bitmaps, and made them stack based
+- Adjusted bitmap offset from u8 to u16 to support 64k pagesize.
+- Updated trace events to include collapsing order info.
+- Scaled max_ptes_none by order rather than scaling to a 0-100 scale.
+- No longer require a chunk to be fully utilized before setting the bit.
+   Use the same max_ptes_none scaling principle to achieve this.
+- Skip mTHP collapse that requires swapin or shared handling. This helps
+   prevent some of the "creep" that was discovered in v1.
+
+[1] - https://gitlab.com/npache/khugepaged_mthp_test
+[2] - https://lore.kernel.org/lkml/20250108233128.14484-1-npache@redhat.com/
+
+Dev Jain (1):
+  khugepaged: generalize alloc_charge_folio()
+
+Nico Pache (11):
+  introduce khugepaged_collapse_single_pmd to unify khugepaged and
+    madvise_collapse
+  khugepaged: rename hpage_collapse_* to khugepaged_*
+  khugepaged: generalize hugepage_vma_revalidate for mTHP support
+  khugepaged: generalize __collapse_huge_page_* for mTHP support
+  khugepaged: introduce khugepaged_scan_bitmap for mTHP support
+  khugepaged: add mTHP support
+  khugepaged: skip collapsing mTHP to smaller orders
+  khugepaged: avoid unnecessary mTHP collapse attempts
+  khugepaged: improve tracepoints for mTHP orders
+  khugepaged: add per-order mTHP khugepaged stats
+  Documentation: mm: update the admin guide for mTHP collapse
+
+ Documentation/admin-guide/mm/transhuge.rst |  10 +-
+ include/linux/huge_mm.h                    |   5 +
+ include/linux/khugepaged.h                 |   4 +
+ include/trace/events/huge_memory.h         |  34 +-
+ mm/huge_memory.c                           |  11 +
+ mm/khugepaged.c                            | 457 ++++++++++++++-------
+ 6 files changed, 369 insertions(+), 152 deletions(-)
+
+-- 
+2.48.1
+
