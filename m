@@ -1,153 +1,141 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from bali.collaboradmins.com (bali.collaboradmins.com [148.251.105.195])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2C38190485
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 10:28:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 646AA1E5B75;
+	Thu, 17 Apr 2025 11:18:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.251.105.195
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744885720; cv=none; b=HbsoZVbLTBshYmsiW0gF5QZFcjo28cGDe3Gz1iXqcqmH6WeGA/9gOepy0Zxj9zqql9OyvW6hR8ySOCxm3zTUcCtgCbJ7sixa/tZvfpAzR8+eShKWcm7dyqj+3k6v44mQ1DQg1v7si+cSjYm2Tbb7Nemlwp7yGHHD7uAHsFGcut8=
+	t=1744888690; cv=none; b=k11ZeI9hEF7MKiJv8yN28tXIjKIG4Q4IQ0iedsXMSZO2xTXK6O1dowNuwA3oT4HPCl2/+eXd7XdH05tXFOeav0FMnv8pJotQlShWFJ7SQ0vll70mkJBFK5z/OivLursVrl42ZINhRDQc44IXK2tCZuGl+uJw7F71dHm/45pNrOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744885720; c=relaxed/simple;
-	bh=wEhVd9cWfcz7UKfL/cKiF1HIKxbw8iqDGQuIlkpMAqo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=WClZ8UQYfFjgdlhY850Cw812U4kysQ3NbC4zEaeCR9/QIFnynHhwkijkOAp1/twnDJGeJn3sNqMeeXQv0sCogpeHMO4heDNLXo7vSDmu/fDRe2Qb3+QRCMmjx0kfifAiS6ddF+RKUY1VnBMf37oCFosOmjU2f51JA6DBn32gTmE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=KYeaWOzC; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1744888690; c=relaxed/simple;
+	bh=pIx30SYmPcLMwjnOJCXjCtiSvSinRAlBsyynbG/px7I=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tSb7qMRfnHKRYBfQRYVI9guP2oYJjBKnND2AwCSrM78EmQiAtgMIKUpuQaA3/i65/I3jHOVhU3XJHGmGZ2CSFSuRSvr4K0kRyE2gw/7xfwfEXOyawROXw0dvqs1kQokZPybJY4DJ82OYMxZdhwSJqbof1/QUez6gt+2M9LMH7mQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b=HqsxTzDR; arc=none smtp.client-ip=148.251.105.195
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="KYeaWOzC"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1744885717;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=JYR6737R9PdlNQuW82+z1wwa0+J91c+dkKgGkvTEGCQ=;
-	b=KYeaWOzCs4N254saVB3Gy8kZ47c7z1v937fKo/L5NqcgQLnu+Nyk9yYLC87LqRw07YCjq9
-	SPhRE9Ob66FCYD03081BB4wbguwf3pCdQ13HPbynuwo8P7FIyYD/GMInHijd6x5tVGwh/9
-	SnW/MkpGac5vmBIUln1vTZ8+2N7aGVU=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-451-NtMYKtjBNjKebngvWK2zkw-1; Thu, 17 Apr 2025 06:28:36 -0400
-X-MC-Unique: NtMYKtjBNjKebngvWK2zkw-1
-X-Mimecast-MFC-AGG-ID: NtMYKtjBNjKebngvWK2zkw_1744885716
-Received: by mail-qk1-f200.google.com with SMTP id af79cd13be357-7c548e16909so44875285a.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 03:28:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744885716; x=1745490516;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=JYR6737R9PdlNQuW82+z1wwa0+J91c+dkKgGkvTEGCQ=;
-        b=dbSwGozhYGWxc6IYwEyydA/7VLpVKeOO/gbYXiZdMDzmOchfhpOWEUUVxJ64XtHXRs
-         5hzbE4E9VwswxfBRSMbfY1L0+pYSDYnkZK+XCDMhzeAhxHwuz1nFsb74uV4aISq/Vvj4
-         BqmUr74V0IJdGGi9PmkZIDst+n8tf8rPpN0VPaDb4+eisu10sPvKYNnY/LGR3tvp8ykh
-         fQijPmszJGrioOrFMRIE66JX1Cq0CWNfE0l22nspP7emXsqZHvCiprBckdynSUgLRv/i
-         XSfkG7sMr5+QQjNgwfUf2o4YkenE9d+rPBkBp0dFafRPW2kr5b7cGoHtBO3K2L2i7/ih
-         n/jg==
-X-Forwarded-Encrypted: i=1; AJvYcCXeFvwCErr45ALInIxumRyRyp4lhxhpZaC1KkNCJP02bswkU6bTpYVTPZj85h/+9oUcf/pqt/Tv/bY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxyPLCp/KfaAIHacyfbLdbnNZD1zq2Q8K5Y/k8M3yQMFQD/FddX
-	xaFdI/twqqKOHs2FYQeaSUPt5McnXy4nm9RPYeYJYz71sQ8RoAExfWayWvi0dlxLzrdAhND94sd
-	gaqvxOrVvBj4EgN2Fwanv2K06/pg3JeLjQczZ4WZtQObCC9f1e/nb7/btCw==
-X-Gm-Gg: ASbGncs23thAEeseXQVJz2P3D4OcVvg1Kyadc9BwzNLUeYWjcMdCKRwqLGGWNVi+iVB
-	vainlhYQ5t8ymiZsGNdIM9gNDcamijth8SNJL4MkeaLUlH2N1pgsWa60/I+lDpV7AFPdCgqQle6
-	DeCLJ7V0q6t/Wk/7y9KDFxoXzO+sVA9PbrKJu9skWVciRUqIRV+ePfI8Sbx5bGeZGiyzz/b7upp
-	B9Hl0PTXH1Bxn+DJlRNwrlCbFYNliPO4LtaZUH+oTYjo+J82OZY+kzKJDHEL17R0NtThBoO1aDU
-	gE1Uw+p3k2551JT0ggBR8e/teZyFxTK4FhhVPEcXdg==
-X-Received: by 2002:a05:620a:454f:b0:7c5:602f:51fc with SMTP id af79cd13be357-7c91906563bmr852556585a.44.1744885715931;
-        Thu, 17 Apr 2025 03:28:35 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEqzTf66yKPKOlZDjn6KCEnTCMGlag6Vhw4gC6r0xHrSuqE8PUM4LdRh5W3NOMjL3tUjQDzgg==
-X-Received: by 2002:a05:620a:454f:b0:7c5:602f:51fc with SMTP id af79cd13be357-7c91906563bmr852552185a.44.1744885715635;
-        Thu, 17 Apr 2025 03:28:35 -0700 (PDT)
-Received: from [192.168.88.253] (146-241-55-253.dyn.eolo.it. [146.241.55.253])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c7a89424c1sm1168102885a.3.2025.04.17.03.28.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Apr 2025 03:28:35 -0700 (PDT)
-Message-ID: <7c9ace30-a973-444c-ba9c-96272474a76d@redhat.com>
-Date: Thu, 17 Apr 2025 12:28:30 +0200
+	dkim=pass (2048-bit key) header.d=collabora.com header.i=@collabora.com header.b="HqsxTzDR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=collabora.com;
+	s=mail; t=1744888686;
+	bh=pIx30SYmPcLMwjnOJCXjCtiSvSinRAlBsyynbG/px7I=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=HqsxTzDR/J9DfS2czs/FsVn3vHsQxvSZvFO/OO1Wb7UVrQluMPKWsFjEPsMfCSG24
+	 SYZIxGMxbatIxvPH0B3fcUx4TYq0qiG4Xnim+9BHnlGQg0fnAvcmz/a6E3+ocQzts4
+	 EK/ilN109yBxzxYZ77mXF908jSIjhud6Rlt42B5UQN3aTDnTdcCN1SJ5AVfrwud9zT
+	 BYerv8erU8M7NaROUrYZKNlznoiFIxLaaf2EBRnY125ge83HgTdN61M3w5npCmdN2A
+	 hl+9hXUAYoOmSLnpAyNUoyrVve5A4ZjR//WZfJD4eg3QnyHOUt3VIy4OOd6qmIghc2
+	 BvOut837N1FGQ==
+Received: from eldfell (unknown [194.136.85.206])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange ECDHE (prime256v1) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(No client certificate requested)
+	(Authenticated sender: pq)
+	by bali.collaboradmins.com (Postfix) with ESMTPSA id 800EF17E0702;
+	Thu, 17 Apr 2025 13:18:05 +0200 (CEST)
+Date: Thu, 17 Apr 2025 14:17:42 +0300
+From: Pekka Paalanen <pekka.paalanen@collabora.com>
+To: Louis Chauvet <louis.chauvet@bootlin.com>
+Cc: Melissa Wen <melissa.srw@gmail.com>, =?UTF-8?B?TWHDrXJh?= Canal
+ <mairacanal@riseup.net>, Haneen Mohammed <hamohammed.sa@gmail.com>, Maarten
+ Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
+ <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
+ <airlied@gmail.com>, rdunlap@infradead.org, arthurgrillo@riseup.net,
+ Jonathan Corbet <corbet@lwn.net>, Simona Vetter <simona@ffwll.ch>, Rodrigo
+ Siqueira <siqueira@igalia.com>, Simona Vetter <simona.vetter@ffwll.ch>,
+ dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+ jeremie.dautheribes@bootlin.com, miquel.raynal@bootlin.com,
+ thomas.petazzoni@bootlin.com, seanpaul@google.com, marcheu@google.com,
+ nicolejadeyee@google.com, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v18 1/8] drm/vkms: Document pixel_argb_u16
+Message-ID: <20250417141742.13f5ef5b@eldfell>
+In-Reply-To: <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
+References: <20250415-yuv-v18-0-f2918f71ec4b@bootlin.com>
+ <20250415-yuv-v18-1-f2918f71ec4b@bootlin.com>
+X-Mailer: Claws Mail 4.1.1 (GTK 3.24.38; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next 4/4] checkpatch: check for comment explaining
- rgmii(|-rxid|-txid) PHY modes
-To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
- Andrew Lunn <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>,
- Dwaipayan Ray <dwaipayanray1@gmail.com>,
- Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>,
- Jonathan Corbet <corbet@lwn.net>, Nishanth Menon <nm@ti.com>,
- Vignesh Raghavendra <vigneshr@ti.com>,
- Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>,
- Tero Kristo <kristo@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux@ew.tq-group.com
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
- <16a08c72ec6cf68bbe55b82d6fb2f12879941f16.1744710099.git.matthias.schiffer@ew.tq-group.com>
- <9d73f6ac-9fee-446b-b011-e664a7311eca@lunn.ch>
- <659d6affd7c58474c4bca5c92fc762925591d0d9.camel@ew.tq-group.com>
- <9e0e6365a2c0151c819e442775ece37353468d91.camel@ew.tq-group.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <9e0e6365a2c0151c819e442775ece37353468d91.camel@ew.tq-group.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; boundary="Sig_/nveQePa.E8Kg=XOOwz44OOU";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On 4/15/25 3:37 PM, Matthias Schiffer wrote:
-> On Tue, 2025-04-15 at 15:36 +0200, Matthias Schiffer wrote:
->> On Tue, 2025-04-15 at 15:20 +0200, Andrew Lunn wrote:
->>>
->>>> +  **UNCOMMENTED_RGMII_MODE**
->>>> +    Historially, the RGMII PHY modes specified in Device Trees have been
->>>> +    used inconsistently, often referring to the usage of delays on the PHY
->>>> +    side rather than describing the board.
->>>> +
->>>> +    PHY modes "rgmii", "rgmii-rxid" and "rgmii-txid" modes require the clock
->>>> +    signal to be delayed on the PCB; this unusual configuration should be
->>>> +    described in a comment. If they are not (meaning that the delay is realized
->>>> +    internally in the MAC or PHY), "rgmii-id" is the correct PHY mode.
->>>
->>> It is unclear to me how much ctx_has_comment() will return. Maybe
->>> include an example here of how it should look. I'm assuming:
->>>
->>> /* RGMII delays added via PCB traces */
->>> &enet2 {
->>>     phy-mode = "rgmii";
->>>     status = "okay";
->>>
->>> fails, but
->>>
->>> &enet2 {
->>>     /* RGMII delays added via PCB traces */
->>>     phy-mode = "rgmii";
->>>     status = "okay";
->>>
->>> passes?
->>
->> Yes, it works like that. I can't claim to fully understand the checkpatch code
->> handling comments, but I copied it from other similar checks and tested it on a
->> few test patches.
->>
->> One thing to note is that I implemented it as a CHK() and not a WARN() because
->> that's what is used for other comment checks like DATA_RACE - meaning it will
->> only trigger with --strict.
-> 
-> Oops, DATA_RACE is actually a WARN(). I must have copied it from some other
-> comment check that uses CHK(). Let me know which you want me to use.
+--Sig_/nveQePa.E8Kg=XOOwz44OOU
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-I think it's better if this will trigger on plain invocation, so that
-there are more chances people are going to actually notice/correct the
-thing before the actual submission.
+On Tue, 15 Apr 2025 15:55:32 +0200
+Louis Chauvet <louis.chauvet@bootlin.com> wrote:
+
+> The meaning of each member of the structure was not specified. To clarify
+> the format used and the reason behind those choices, add some
+> documentation.
+>=20
+> Signed-off-by: Louis Chauvet <louis.chauvet@bootlin.com>
+> ---
+>  drivers/gpu/drm/vkms/vkms_drv.h | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/drivers/gpu/drm/vkms/vkms_drv.h b/drivers/gpu/drm/vkms/vkms_=
+drv.h
+> index a74a7fc3a056..3b7b46dd026f 100644
+> --- a/drivers/gpu/drm/vkms/vkms_drv.h
+> +++ b/drivers/gpu/drm/vkms/vkms_drv.h
+> @@ -45,6 +45,23 @@ struct vkms_frame_info {
+>  	unsigned int rotation;
+>  };
+> =20
+> +/**
+> + * struct pixel_argb_u16 - Internal representation of a pixel color.
+> + * @a: Alpha component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + * @r: Red component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + * @g: Green component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + * @b: Blue component value, stored in 16 bits, without padding, using
+> + *     machine endianness
+> + *
+> + * The goal of this structure is to keep enough precision to ensure
+> + * correct composition results in VKMS and simplifying color
+> + * manipulation by splitting each component into its own field.
+> + * Caution: the byte ordering of this structure is machine-dependent,
+> + * you can't cast it directly to AR48 or xR48.
+> + */
+>  struct pixel_argb_u16 {
+>  	u16 a, r, g, b;
+>  };
+>=20
+
+Reviewed-by: Pekka Paalanen <pekka.paalanen@collabora.com>
+
+(re-sent through a different address due issues on my side)
+
 
 Thanks,
+pq
 
-Paolo
+--Sig_/nveQePa.E8Kg=XOOwz44OOU
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEJQjwWQChkWOYOIONI1/ltBGqqqcFAmgA41YACgkQI1/ltBGq
+qqcfxA/+OXLBuBSJvoooK+lerZpTOF2iJfnkCPol8TAjAV80M3WTeB5xpwR4tTTT
+X9AfjBb1fGGLrZLjecePmWR0WASrPxs6uv7EKGKQM9rh46mBlYw5q4P4S+oKEqkm
+IqStqCS7CPOmsXZ37l9eCnFXNOJLrkxRsus4R1oTpKYVPfV7Ieo3ZkTtVvo1+npY
+gmntW4FMU6j8Y8V2fGdrKz25C6fKpHMJZOczJCGWHYlbPZdwW5JrV39bQ74Ek/1i
+w45m8gKwHtDcg2mi/QfVVeNQl/PKWTCpPEcmJ/H3+K4Rhrp5uRfQsIXJwPZ1khZP
+DPINt1cIjpaO80e2Pw678PILxizzp8AkQgXBdY3+QCM8xkRiztZB74HU6aO93h4/
++Lxr25ZbDKWiubolZsviVSngk+C+VWO1wnhRhNgKwXqZbLTPPvKd6FJ37AhOVyj+
+tWJW+ZWzuOHswXcED0nH6lYL3DDdIJp9aBOy7kAmcqCqZW9FumjVD2QADHDTJoVx
+LeJCEXsDkxDagMZvX1tYNGUrqyWo9vZsV9ZAmHdi5d9vSaY+fADJ1UGLVXalkCEt
+VAyEv/qj1lDyFEaP8BEKtGPa2sySA6CDvq3qy8La9edDQW73VjGV53m5p2sVUmk1
+J0Hy9QNRCJynt/jJUsK2ClPhjlw4ceasvDl5sl+LnfCkkJNioP0=
+=ZyjJ
+-----END PGP SIGNATURE-----
+
+--Sig_/nveQePa.E8Kg=XOOwz44OOU--
