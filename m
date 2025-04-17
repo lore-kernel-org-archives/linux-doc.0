@@ -1,227 +1,299 @@
-Received: from mail-ed1-f48.google.com (mail-ed1-f48.google.com [209.85.208.48])
+Received: from mail-ej1-f74.google.com (mail-ej1-f74.google.com [209.85.218.74])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06EC6218EB8
-	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 09:25:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D8C0A55
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 09:44:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.74
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744881949; cv=none; b=sXFjxtZkKuNXhBK4KDFwwDNkHQ4Jy/PoOB6fn+MRKe2ZA43LutQ2N80n2X2GBHofebv+mrq7MobKLcGblihLIg7c6rKF00N8wHzu6AUbn39HKXaep02SqoY4EJIz5wH3kbStvUxoxUr1OlHKUKIs431QZJwHOjakgxnUFljs7/4=
+	t=1744883094; cv=none; b=fZgixhZY1d0Q1UFec9GW/8J7QjZsqha5AorVmYaT8MC4NQqOYUItcMVlsdYFsbrmkpcqzMTPxzQMCxCyBJ2c8StEWuHcbNvErMVPQkM2oQWbIY34b8u+8AgSa2ldHoOi2ehm/B1wuCH6ioXvnXVYSFYHDOKKhxiv5EDARw1pk6U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744881949; c=relaxed/simple;
-	bh=e/oRy53W5i+7IG/wMwBVb4X925eCUkKPvvLvpxZ9kOI=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=UtJKzY2sS1dv+sDXlo4Eg1dAxnrLb2Qhne0VrqoOeCwk6rzJCVCMUteLyemocqiFbNZwiBT5BJGInLgZq/5+/4mpvuBeyY2yITlVZH3KcxAbTX5LWJXRJlYgQlFnQrVqTNzAgcD7wPaRZGn7fpIukFZlBVXD5lLe0G+vsW8hF6I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=mKVZJQjH; arc=none smtp.client-ip=209.85.208.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1744883094; c=relaxed/simple;
+	bh=DZ7q0YDfE7N1bPL/mA+UEDFwjr40WMySwkGTehTFR3o=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=hF8IergoYw3T8fjaKAoj4pmx31pU+Q2qF+RbCt/9QdrrX+MqwwMxs2R1vq4SzzIyA3AFK5X5HnHyLF7NKciGNbMDtdx16N70NsHaB/udO1KgCJkCeyLNKTMU5mHEP5hbJYixFvJMMTGDaLvEQjHM8zs7JB8iyDkAQiAckuXuZdA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--mclapinski.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=NbfquUS4; arc=none smtp.client-ip=209.85.218.74
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--mclapinski.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="mKVZJQjH"
-Received: by mail-ed1-f48.google.com with SMTP id 4fb4d7f45d1cf-5f4c30f8570so1185793a12.2
-        for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 02:25:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="NbfquUS4"
+Received: by mail-ej1-f74.google.com with SMTP id a640c23a62f3a-ac28f255a36so50790266b.3
+        for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 02:44:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1744881945; x=1745486745; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=QrSfDTj8BEF3kjwsmuGGuGpkcd9XmrYmUx8LIf1Kk9Y=;
-        b=mKVZJQjHI9jVHF2r0oeEP4XJRDPWTnY2w8GDwdiEUrVf7N0GEJvXXnzJYhYEQFaGm3
-         hGTaAuUqtuOj9c6yv4Ptjhe/yLcw3urtl8erhpXhJ5mGJwMaErVGxi2NPBqKQnPtU+7g
-         OkvT8IqPZW6ozLkaDKxDxo8LY+UYq9Ny0ApDSGFH2Rjf74h+FfXHjzvathqo2ejJTAT8
-         P72sH4e61yJhBb2mSI0pCP7o8Y23xK6AqHSiOle/BsqqgWwCoMNcd5cyUqoXTiPHVTK2
-         3i4WyP0aDBj0boZi4csRBumWZEgbx5BlqABiBon3eKN9veuyteqEFEbnSh5P7iSfKT+Z
-         Nxuw==
+        d=google.com; s=20230601; t=1744883091; x=1745487891; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=wD7Qk4RrTd9xfQxmaol+oD/P6dpfTs5U+U+3JhrL4nM=;
+        b=NbfquUS4AEZ82PG/scRkg544v26Qxe9aMHqw5doSQmmFoQC8KhcfKaAR9MNzsE6dz9
+         pkblckiCXvE9ssUOUTib6oouBQHuqFqNlJzXn1XBLIzSMnkqhrLAMrRAm5/3jaGAQ5PW
+         Ad0x5VAcJ56hfZ/EK+tycYpgLgt46meAQIXJ7tS7Ve8BXbLJqUKxdZ2NyJLdUXp/vw5S
+         5F0oiqWz1v0OgMwtQo0jrW+1LafWdNvBQg78/IH7UASptIbV6qn2SLshPeENIh7pYa3/
+         lf2dp2TiTmZiWnlzk+0ZIjrBJu9z5wbR8mhPkyrz+FoP0EGqmej2lOhh2v7/kIe6b/av
+         Q+aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744881945; x=1745486745;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=QrSfDTj8BEF3kjwsmuGGuGpkcd9XmrYmUx8LIf1Kk9Y=;
-        b=tgByB45lebIU5EnuGSQK7nq080tV1c2qLQVBSibZDDlegA1o2xx4HBzWAsuLG4JEmy
-         KTvFSxfy7U2N4fJKnxsLeTFzFzlsX9m5Xa/r80/AVABH2DPQh8KOmgqJpSpUeiU80pv1
-         FHZ2BIOpmaVn/3Yc1PXkhgj5loH6NwH0UEyMht/4KwwN7YD0xzmIpkL7p+1yCjtYa781
-         FuWJVrDxJByf/PyiRSWoCKDgR2hi3daHlrZuK2tCaMQeijqgSeCx/9GRlp+xetKJCzLM
-         GOAWIjGQoQwhOR1YI+oWtXEMyKAfUTdAavlE81eydlABLvlHJaH/W5UUMu4p1RCjfsBx
-         McWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXvoundbUKOBABP4pvut9vWOoeZ2EGDCi93UnEYlavBUCNdHMJoWai4QI5YY0Rveq/Wv58wRcf9Vjw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwJtIWdzkl/u/P06t0JFRFks4U1CqKSI8E72PcK7xCyHzuI1Vn8
-	YWGhLJlHbu3vEj0MLU7TMI7viBHofUeEuH8+1pduFsDQVtG+uY+MRHBRhuGZgII=
-X-Gm-Gg: ASbGncswbu4xYF/xN2laZOvRMFih0CZXVAcZYPM8/jkkmyB9oRl8YN0/UlAmFQjPwNh
-	FbKl+3hM4bLVrfe+Jl5SecYe1IwcOLoxGR1qCNlvqc6DeSC6c3KIAXldjWp0hYb2T0RSdbn+6+K
-	6RiURMB93Ze6/xM46yDId166NOTQyS7MIFGowLre004dClcdluCZP+V5tI0k3BocLnU4JblmI5D
-	/DcjsV263CpIVgtBAJTZ1VhkcGJfCwWP3yvS663gFoe69M87zWxuHNSCGqMWD/4+O9RyVLmN6cC
-	u7j1C/AJkPCRZ6IstuIPiHl0lcmSf68aYn4GzqvqUgSz45EXb1hQSWNbU04vwiZFAMCNAzV6lg3
-	QmOSdo3g=
-X-Google-Smtp-Source: AGHT+IHyMvSRKBCCa4SYcTzYCD71vauhiKEz3DIVlJPHPwMSp9FaDUkQ+4RwVXm4gSqRx6WK9VUjWQ==
-X-Received: by 2002:a05:6402:3490:b0:5ec:cc79:84f5 with SMTP id 4fb4d7f45d1cf-5f4b71e7b0fmr4913234a12.7.1744881945063;
-        Thu, 17 Apr 2025 02:25:45 -0700 (PDT)
-Received: from localhost (p200300f65f13aa0400000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f13:aa04::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id 4fb4d7f45d1cf-5f36f06b244sm10008358a12.45.2025.04.17.02.25.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Apr 2025 02:25:44 -0700 (PDT)
-From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] pwm: Fix various formatting issues in kernel-doc
-Date: Thu, 17 Apr 2025 11:25:34 +0200
-Message-ID: <20250417092535.2669166-2-u.kleine-koenig@baylibre.com>
-X-Mailer: git-send-email 2.47.2
+        d=1e100.net; s=20230601; t=1744883091; x=1745487891;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=wD7Qk4RrTd9xfQxmaol+oD/P6dpfTs5U+U+3JhrL4nM=;
+        b=IdYQYJOryBYltPcMtqTpJHG/dDuAbB8lhjXW+NCLzRQ2lPU06UumOrHNSPR4BZbgof
+         x15vOUkY6jvX7ikOpA+BBa/Yn5C3x9iln1Vg8OekM4yYwVSHp7CcDUTgMUOVX7gqiLMB
+         /FnDJEkKi4AbQSlOSauF/oKnI7arhVSdxPkALX06wbMAGeswXQ3ICor/XnW7BdwLKKA2
+         rb2IsOzKzP/r3Ex6wtLYwFATaG4f5aOMo5KkcUPKBgd7Yi6hBOJE1Be3TjBWPJVUxIdU
+         oiHue9Fo1KX9HtA02nyCpGeIsWziN4hxv/3saECCVnUIAz6/zHd51mod6YHIlvbnHfVY
+         VZ1g==
+X-Forwarded-Encrypted: i=1; AJvYcCWvtMXlOOvmZQSRmqhJgGdFcFYop9ZJEcQ/28/ELtFuL3wqjt7zvXkB8MDF8r4kmFzauzg/Z0aKg/o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdOaG2dPGDtvMo3QazcamInyRo9DNHPUUXHlD0gB87KYQfq6eV
+	tBj/g56gs7XL9k3nr0E8kIoYejqeuatMnRcB5zUhI1qiq7LymFYQ/4Q+4B0GboXwBKYqQdP1fUz
+	EirRgp79SccE1C9Ld0A==
+X-Google-Smtp-Source: AGHT+IF3ziPzRL1h03+T3uQPQ+OVjHXAwzHdaqiQIAuXSzMcxLZdGld+ARV/oDwmpyIVSm/HF3CzkYqt6bQHayeI
+X-Received: from edra24.prod.google.com ([2002:aa7:d918:0:b0:5ec:d794:927f])
+ (user=mclapinski job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6402:3549:b0:5e1:dac1:fa22 with SMTP id 4fb4d7f45d1cf-5f4b75dd0b8mr3938873a12.21.1744883091409;
+ Thu, 17 Apr 2025 02:44:51 -0700 (PDT)
+Date: Thu, 17 Apr 2025 11:44:32 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Developer-Signature: v=1; a=openpgp-sha256; l=6030; i=u.kleine-koenig@baylibre.com; h=from:subject; bh=e/oRy53W5i+7IG/wMwBVb4X925eCUkKPvvLvpxZ9kOI=; b=owEBbQGS/pANAwAKAY+A+1h9Ev5OAcsmYgBoAMkP8pZPT8sLqgGKRckugfZ4OMwoSMLdJOm+P fR6AMHJEy6JATMEAAEKAB0WIQQ/gaxpOnoeWYmt/tOPgPtYfRL+TgUCaADJDwAKCRCPgPtYfRL+ TqmDB/90UyPHpS30gIML7SfaHGqM9OXo0YTRJ8FQrbDzXkPAfa5TbafL2V23dpPOir96dsp6RlM ckHUGC7fRgbVUHUECMGPr0RqHGAHBXXpIfOpG5/xTp+5tIf4dm1XL1HP22XwFzXgMLnveihsSWc BdSCXD6QnTZJZI8TGz3LaDtDCWZquOdmJBCGXDg9rhBGktYZM9ZWW53JlnCFeCsx34swTZBOVtO QlKJcSINcVzMVkyMaaKTW7EGvM4szHloBuvGz++STjOMIsghorlrCrZTjv7+jZS9PqRC+W7Z7mq q6j+g9A4FPPhqvxe3+AnLxo2f90LHhGW2TgF2lib2eH+QdzE
-X-Developer-Key: i=u.kleine-koenig@baylibre.com; a=openpgp; fpr=0D2511F322BFAB1C1580266BE2DCDD9132669BD6
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.777.g153de2bbd5-goog
+Message-ID: <20250417094432.3690181-1-mclapinski@google.com>
+Subject: [PATCH 1/1] libnvdimm/e820: Add a new parameter to configure many
+ regions per e820 entry
+From: Michal Clapinski <mclapinski@google.com>
+To: Pasha Tatashin <pasha.tatashin@soleen.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Ira Weiny <ira.weiny@intel.com>, Jonathan Corbet <corbet@lwn.net>
+Cc: nvdimm@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Michal Clapinski <mclapinski@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Add Return and (where interesting) Context sections, fix some formatting
-and drop documenting the internal function __pwm_apply().
+Currently, the user has to specify each memory region to be used with
+nvdimm via the memmap parameter. Due to the character limit of the
+command line, this makes it impossible to have a lot of pmem devices.
+This new parameter solves this issue by allowing users to divide
+one e820 entry into many nvdimm regions.
 
-Signed-off-by: Uwe Kleine-König <u.kleine-koenig@baylibre.com>
+This change is needed for the hypervisor live update. VMs' memory will
+be backed by those emulated pmem devices. To support various VM shapes
+I want to create devdax devices at 1GB granularity similar to hugetlb.
+
+It's also possible to expand this parameter in the future,
+e.g. to specify the type of the device (fsdax/devdax).
+
+Signed-off-by: Michal Clapinski <mclapinski@google.com>
 ---
-Hello Jonathan,
+ .../admin-guide/kernel-parameters.txt         |   7 +
+ drivers/nvdimm/e820.c                         | 149 +++++++++++++++++-
+ 2 files changed, 153 insertions(+), 3 deletions(-)
 
-while looking into the warning that Stephen reported in
-https://lore.kernel.org/linux-next/20250417162700.728e14e5@canb.auug.org.au,
-I found a few more issues fixed here.
-
-I intend to merge this via my pwm tree, but getting a confirmation (or critic)
-from someone who knows kernel-doc better than me would be great.
-
-Best regards
-Uwe
-
- drivers/pwm/core.c  | 30 ++++++++++++++++++++++--------
- include/linux/pwm.h |  8 +++++---
- 2 files changed, 27 insertions(+), 11 deletions(-)
-
-diff --git a/drivers/pwm/core.c b/drivers/pwm/core.c
-index 079964961bd8..447077776bce 100644
---- a/drivers/pwm/core.c
-+++ b/drivers/pwm/core.c
-@@ -222,8 +222,10 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
-  * Note however that the world doesn't stop turning when you call it, so when
-  * doing
-  *
-- * 	pwm_round_waveform_might_sleep(mypwm, &wf);
-- * 	pwm_set_waveform_might_sleep(mypwm, &wf, true);
-+ * .. code-block:: C
-+ *
-+ *   pwm_round_waveform_might_sleep(mypwm, &wf);
-+ *   pwm_set_waveform_might_sleep(mypwm, &wf, true);
-  *
-  * the latter might fail, e.g. because an input clock changed its rate between
-  * these two calls and the waveform determined by
-@@ -233,8 +235,9 @@ static int __pwm_write_waveform(struct pwm_chip *chip, struct pwm_device *pwm, c
-  * value (in the order period_length_ns, duty_length_ns and then
-  * duty_offset_ns). Only if this isn't possible, a value might grow.
-  *
-- * Returns 0 on success, 1 if at least one value had to be rounded up or a
-+ * Returns: 0 on success, 1 if at least one value had to be rounded up or a
-  * negative errno.
-+ * Context: May sleep.
-  */
- int pwm_round_waveform_might_sleep(struct pwm_device *pwm, struct pwm_waveform *wf)
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index fb8752b42ec85..63af03eb850ed 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -3849,6 +3849,13 @@
+ 
+ 	n2=		[NET] SDL Inc. RISCom/N2 synchronous serial card
+ 
++	nd_e820.pmem=ss[KMG],nn[KMG]
++			Divide one e820 entry specified by memmap=x!ss
++			(that is starting at ss) into pmem devices of size nn.
++			There can be only one pmem parameter per one e820
++			entry. The size of the e820 entry has to be divisible
++			by the device size.
++
+ 	netdev=		[NET] Network devices parameters
+ 			Format: <irq>,<io>,<mem_start>,<mem_end>,<name>
+ 			Note that mem_start is often overloaded to mean
+diff --git a/drivers/nvdimm/e820.c b/drivers/nvdimm/e820.c
+index 41c67dfa80158..581fe01553a22 100644
+--- a/drivers/nvdimm/e820.c
++++ b/drivers/nvdimm/e820.c
+@@ -8,6 +8,87 @@
+ #include <linux/libnvdimm.h>
+ #include <linux/module.h>
+ #include <linux/numa.h>
++#include <linux/moduleparam.h>
++#include <linux/xarray.h>
++
++#define MAX_PMEM_ARGUMENTS 32
++
++static char *pmem[MAX_PMEM_ARGUMENTS];
++static int pmem_count;
++
++static int pmem_param_set(const char *arg, const struct kernel_param *kp)
++{
++	int rc;
++	struct kernel_param kp_new;
++
++	kp_new.name = kp->name;
++	kp_new.arg = &pmem[pmem_count];
++	rc = param_set_charp(arg, &kp_new);
++	if (rc)
++		return rc;
++	++pmem_count;
++	return 0;
++}
++
++static void pmem_param_free(void *arg)
++{
++	int i;
++
++	for (i = 0; i < pmem_count; ++i)
++		param_free_charp(&pmem[i]);
++
++	pmem_count = 0;
++}
++
++static const struct kernel_param_ops pmem_param_ops = {
++	.set =		pmem_param_set,
++	.free =		pmem_param_free,
++};
++module_param_cb(pmem, &pmem_param_ops, NULL, 0);
++
++struct pmem_entry {
++	unsigned long region_size;
++};
++
++static int parse_one_pmem_arg(struct xarray *xarray, char *p)
++{
++	int rc = -EINVAL;
++	char *oldp;
++	unsigned long start;
++	struct pmem_entry *entry = kmalloc(sizeof(*entry), GFP_KERNEL);
++
++	if (!entry)
++		return -ENOMEM;
++
++	oldp = p;
++	start = memparse(p, &p);
++	if (p == oldp || *p != ',') {
++		pr_err("Can't parse pmem start: %s\n", oldp);
++		goto err;
++	}
++	++p;
++
++	oldp = p;
++	entry->region_size = memparse(p, &p);
++	if (p == oldp || (*p != ',' && *p != '\0')) {
++		pr_err("Can't parse pmem region size: %s\n", oldp);
++		goto err;
++	}
++
++	if (*p != '\0')
++		pr_warn("Unexpected parameters in pmem arg: %s\n", p);
++
++	rc = xa_err(xa_store(xarray, start, entry, GFP_KERNEL));
++	if (rc) {
++		pr_err("Failed to store 0x%lx in xarray, error %d\n", start, rc);
++		goto err;
++	}
++	return 0;
++
++err:
++	kfree(entry);
++	return rc;
++}
+ 
+ static void e820_pmem_remove(struct platform_device *pdev)
  {
-@@ -291,6 +294,9 @@ EXPORT_SYMBOL_GPL(pwm_round_waveform_might_sleep);
-  *
-  * Stores the current configuration of the PWM in @wf. Note this is the
-  * equivalent of pwm_get_state_hw() (and not pwm_get_state()) for pwm_waveform.
-+ *
-+ * Returns: 0 on success or a negative errno
-+ * Context: May sleep.
-  */
- int pwm_get_waveform_might_sleep(struct pwm_device *pwm, struct pwm_waveform *wf)
- {
-@@ -406,6 +412,10 @@ static int __pwm_set_waveform(struct pwm_device *pwm,
-  * Note that even with exact = true, some rounding by less than 1 is
-  * possible/needed. In the above example requesting .period_length_ns = 94 and
-  * exact = true, you get the hardware configured with period = 93.5 ns.
-+ *
-+ * Returns: 0 on succes, 1 if was rounded up (if !@exact) or no perfect match was
-+ * possible (if @exact), or a negative errno
-+ * Context: May sleep.
-  */
- int pwm_set_waveform_might_sleep(struct pwm_device *pwm,
- 				 const struct pwm_waveform *wf, bool exact)
-@@ -565,11 +575,6 @@ static bool pwm_state_valid(const struct pwm_state *state)
- 	return true;
+@@ -16,10 +97,9 @@ static void e820_pmem_remove(struct platform_device *pdev)
+ 	nvdimm_bus_unregister(nvdimm_bus);
  }
  
--/**
-- * __pwm_apply() - atomically apply a new state to a PWM device
-- * @pwm: PWM device
-- * @state: new state to apply
-- */
- static int __pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
+-static int e820_register_one(struct resource *res, void *data)
++static int register_one_pmem(struct resource *res, struct nvdimm_bus *nvdimm_bus)
  {
- 	struct pwm_chip *chip;
-@@ -678,6 +683,9 @@ static int __pwm_apply(struct pwm_device *pwm, const struct pwm_state *state)
-  * Cannot be used in atomic context.
-  * @pwm: PWM device
-  * @state: new state to apply
-+ *
-+ * Returns: 0 on success, or a negative errno
-+ * Context: May sleep.
-  */
- int pwm_apply_might_sleep(struct pwm_device *pwm, const struct pwm_state *state)
+ 	struct nd_region_desc ndr_desc;
+-	struct nvdimm_bus *nvdimm_bus = data;
+ 	int nid = phys_to_target_node(res->start);
+ 
+ 	memset(&ndr_desc, 0, sizeof(ndr_desc));
+@@ -32,12 +112,64 @@ static int e820_register_one(struct resource *res, void *data)
+ 	return 0;
+ }
+ 
++struct walk_data {
++	struct xarray *pmem_xarray;
++	struct nvdimm_bus *nvdimm_bus;
++};
++
++static int e820_handle_one_entry(struct resource *res, void *data)
++{
++	struct walk_data *walk_data = data;
++	struct resource res_local;
++	struct pmem_entry *entry;
++	unsigned long entry_size = resource_size(res);
++	int rc;
++
++	entry = xa_load(walk_data->pmem_xarray, res->start);
++
++	if (!entry)
++		return register_one_pmem(res, data);
++
++	if (entry_size % entry->region_size != 0) {
++		pr_err("Entry size %lu is not divisible by region size %lu\n",
++		       entry_size, entry->region_size);
++		return -EINVAL;
++	}
++
++	res_local.start = res->start;
++	res_local.end = res->start + entry->region_size - 1;
++	while (res_local.end <= res->end) {
++		rc = register_one_pmem(&res_local, walk_data->nvdimm_bus);
++		if (rc)
++			return rc;
++
++		res_local.start += entry->region_size;
++		res_local.end += entry->region_size;
++	}
++
++	return 0;
++}
++
++static void free_pmem_xarray(struct xarray *pmem_xarray)
++{
++	unsigned long start;
++	struct pmem_entry *entry;
++
++	xa_for_each(pmem_xarray, start, entry) {
++		kfree(entry);
++	}
++	xa_destroy(pmem_xarray);
++}
++
+ static int e820_pmem_probe(struct platform_device *pdev)
  {
-@@ -719,6 +727,9 @@ EXPORT_SYMBOL_GPL(pwm_apply_might_sleep);
-  * Not all PWM devices support this function, check with pwm_might_sleep().
-  * @pwm: PWM device
-  * @state: new state to apply
-+ *
-+ * Returns: 0 on success, or a negative errno
-+ * Context: Any
-  */
- int pwm_apply_atomic(struct pwm_device *pwm, const struct pwm_state *state)
- {
-@@ -792,6 +803,9 @@ EXPORT_SYMBOL_GPL(pwm_get_state_hw);
-  * This function will adjust the PWM config to the PWM arguments provided
-  * by the DT or PWM lookup table. This is particularly useful to adapt
-  * the bootloader config to the Linux one.
-+ *
-+ * Returns: 0 on success or a negative error code on failure.
-+ * Context: May sleep.
-  */
- int pwm_adjust_config(struct pwm_device *pwm)
- {
-diff --git a/include/linux/pwm.h b/include/linux/pwm.h
-index bf0469b2201d..63a17d2b4ec8 100644
---- a/include/linux/pwm.h
-+++ b/include/linux/pwm.h
-@@ -218,6 +218,8 @@ static inline void pwm_init_state(const struct pwm_device *pwm,
-  *
-  * pwm_get_state(pwm, &state);
-  * duty = pwm_get_relative_duty_cycle(&state, 100);
-+ *
-+ * Returns: rounded relative duty cycle multiplied by @scale
-  */
- static inline unsigned int
- pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
-@@ -244,8 +246,8 @@ pwm_get_relative_duty_cycle(const struct pwm_state *state, unsigned int scale)
-  * pwm_set_relative_duty_cycle(&state, 50, 100);
-  * pwm_apply_might_sleep(pwm, &state);
-  *
-- * This functions returns -EINVAL if @duty_cycle and/or @scale are
-- * inconsistent (@scale == 0 or @duty_cycle > @scale).
-+ * Returns: 0 on success or ``-EINVAL`` if @duty_cycle and/or @scale are
-+ * inconsistent (@scale == 0 or @duty_cycle > @scale)
-  */
- static inline int
- pwm_set_relative_duty_cycle(struct pwm_state *state, unsigned int duty_cycle,
-@@ -351,7 +353,7 @@ struct pwm_chip {
-  * pwmchip_supports_waveform() - checks if the given chip supports waveform callbacks
-  * @chip: The pwm_chip to test
-  *
-- * Returns true iff the pwm chip support the waveform functions like
-+ * Returns: true iff the pwm chip support the waveform functions like
-  * pwm_set_waveform_might_sleep() and pwm_round_waveform_might_sleep()
-  */
- static inline bool pwmchip_supports_waveform(struct pwm_chip *chip)
-
-base-commit: fbf1880bada00ad44bffcc8b4f5fed95b47891dd
+ 	static struct nvdimm_bus_descriptor nd_desc;
+ 	struct device *dev = &pdev->dev;
+ 	struct nvdimm_bus *nvdimm_bus;
++	struct xarray pmem_xarray;
++	struct walk_data walk_data = {.pmem_xarray = &pmem_xarray};
+ 	int rc = -ENXIO;
++	int i;
+ 
+ 	nd_desc.provider_name = "e820";
+ 	nd_desc.module = THIS_MODULE;
+@@ -46,8 +178,19 @@ static int e820_pmem_probe(struct platform_device *pdev)
+ 		goto err;
+ 	platform_set_drvdata(pdev, nvdimm_bus);
+ 
++	xa_init(&pmem_xarray);
++	for (i = 0; i < pmem_count; i++) {
++		rc = parse_one_pmem_arg(&pmem_xarray, pmem[i]);
++		if (rc != 0 && rc != -EINVAL) {
++			free_pmem_xarray(&pmem_xarray);
++			goto err;
++		}
++	}
++
++	walk_data.nvdimm_bus = nvdimm_bus;
+ 	rc = walk_iomem_res_desc(IORES_DESC_PERSISTENT_MEMORY_LEGACY,
+-			IORESOURCE_MEM, 0, -1, nvdimm_bus, e820_register_one);
++		IORESOURCE_MEM, 0, -1, &walk_data, e820_handle_one_entry);
++	free_pmem_xarray(&pmem_xarray);
+ 	if (rc)
+ 		goto err;
+ 	return 0;
 -- 
-2.47.2
+2.49.0.777.g153de2bbd5-goog
 
