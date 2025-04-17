@@ -1,106 +1,236 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F6481B4F0A;
-	Thu, 17 Apr 2025 02:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id C30CD1922FB;
+	Thu, 17 Apr 2025 02:20:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744855796; cv=none; b=C1qAiGm4N0CnpLOmuudYk6dekBun9OzPYxQ2o3mYebklLCFn812YR+rXrCzYQYwfXq+r26bao9R0qqnPgeZ9Fj/hG8FIZvpEXheDwKjJ2772ug2EYyoRdPuCL/BCFLJUqOIvXov0MenbJahr+N0S5BVNJyGEorKUCbvHaknTRAY=
+	t=1744856428; cv=none; b=HlhGo49DL9f7uyKyydPa1WgOqHv2HMOSmP7Yk7CrWdU/mgapvKuv4KUJnJ1XOXXGQS0n1yL2PS3ExMZVfsRBtt7+b40CwUkTz7e4RZSaFqauRzxEdzUuBmOKFn3FRlp5zpm/vEI9LP343ZhUlpIPtZi9xQhOy4TGpkA5HyzDAjc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744855796; c=relaxed/simple;
-	bh=wHr76QDxAEhZIgg5qTMRJYLiwzN19Xu4Le/+lGtj+4g=;
-	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
-	 In-Reply-To:To:Cc; b=fGkk3+RWf/WDJoXX99/4j3/00vD/aaByKXGOSrC+38PM4AG2vj7JTVgQeJikVkNlVQWxuBNxTUvAtXl6STzjxV9hLvEJLH11mn43zH1ukUiLe/4/zKRm8nhi+T1UhSYVbgghutKDwB+7feAOfipgD+yTbbzLFxuRadYo3zhda4I=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=iQ9o21z9; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="iQ9o21z9"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 002A0C4CEE2;
-	Thu, 17 Apr 2025 02:09:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744855796;
-	bh=wHr76QDxAEhZIgg5qTMRJYLiwzN19Xu4Le/+lGtj+4g=;
-	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
-	b=iQ9o21z9HOmDHCvnLSa358y5knRsR0tpZLYmmYayPG0gy+FLk7xLkOrG75Xn3VnpS
-	 y9rhJmMRJUbaUet5aYzUmpwTnY6s5qta0hVdwSTicrrtZOo6UsVlxsWzVlG2kG0hDl
-	 yr1SfrVSJumRSDO7bpzYjKOkdhzh7JNE57NRu/fEQF7rV8vLA+nnTI8sAqPN/gP3+c
-	 tbhW616lyKZtk7//PJSoTmSvTD+kzLUkm7U8TAFV7HW85ei6YHmD7awKWnFsINi7My
-	 nfOz9vBMjZ+JcNCxSu6EnyMRS75BVWPM1217o31eCCpW8JJL6gJuWKrhSCflqxIdmG
-	 yEHDC5B8LoZJQ==
-Received: from [10.30.226.235] (localhost [IPv6:::1])
-	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 33D333822D5A;
-	Thu, 17 Apr 2025 02:10:35 +0000 (UTC)
-Content-Type: text/plain; charset="utf-8"
+	s=arc-20240116; t=1744856428; c=relaxed/simple;
+	bh=rhvCIqQEwxBgv4DhjWDvEpT8TN1nGrgFuyPNSSHoA9M=;
+	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
+	 In-Reply-To:Content-Type; b=csGX5O5VJKKvSDgcv8Qxc6x4XFW0ldKnffoYLY0zOki9Nq2P5+z1LiLzamV60nvgjyLpxVa/6CGM9gHKwNp2TDDAKsQ8nuk9PYHYa+5qHApijeghYPzmab76/xwY9t/rIEFBkQzPimlJN5NRNXpL8JAZCEBHL55WwbCfe2bUYvY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
+Received: from loongson.cn (unknown [10.20.42.24])
+	by gateway (Coremail) with SMTP id _____8BxrOJkZQBoLabAAA--.17906S3;
+	Thu, 17 Apr 2025 10:20:20 +0800 (CST)
+Received: from [10.20.42.24] (unknown [10.20.42.24])
+	by front1 (Coremail) with SMTP id qMiowMDxvhtfZQBo_kOHAA--.20302S3;
+	Thu, 17 Apr 2025 10:20:17 +0800 (CST)
+Subject: Re: [PATCH v2 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
+To: Thomas Gleixner <tglx@linutronix.de>, chenhuacai@kernel.org,
+ kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org, si.yanteng@linux.dev,
+ jiaxun.yang@flygoat.com, peterz@infradead.org, wangliupu@loongson.cn,
+ lvjianmin@loongson.cn, maobibo@loongson.cn, siyanteng@cqsoftware.com.cn,
+ gaosong@loongson.cn, yangtiezhu@loongson.cn
+Cc: loongarch@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250331064116.32540-1-zhangtianyang@loongson.cn>
+ <20250331064116.32540-3-zhangtianyang@loongson.cn> <87ldskwdyb.ffs@tglx>
+From: Tianyang Zhang <zhangtianyang@loongson.cn>
+Message-ID: <a916e71b-de79-391a-55be-f8d7583ca344@loongson.cn>
+Date: Thu, 17 Apr 2025 10:19:39 +0800
+User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
+ Thunderbird/68.7.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+In-Reply-To: <87ldskwdyb.ffs@tglx>
+Content-Type: text/plain; charset=gbk; format=flowed
 Content-Transfer-Encoding: 8bit
-Subject: Re: [PATCH net-next v2 00/15][pull request] ixgbe: Add basic devlink
- support
-From: patchwork-bot+netdevbpf@kernel.org
-Message-Id: 
- <174485583401.3565086.14830971497597731589.git-patchwork-notify@kernel.org>
-Date: Thu, 17 Apr 2025 02:10:34 +0000
-References: <20250415221301.1633933-1-anthony.l.nguyen@intel.com>
-In-Reply-To: <20250415221301.1633933-1-anthony.l.nguyen@intel.com>
-To: Tony Nguyen <anthony.l.nguyen@intel.com>
-Cc: davem@davemloft.net, kuba@kernel.org, pabeni@redhat.com,
- edumazet@google.com, andrew+netdev@lunn.ch, netdev@vger.kernel.org,
- jedrzej.jagielski@intel.com, przemyslaw.kitszel@intel.com, jiri@resnulli.us,
- horms@kernel.org, corbet@lwn.net, linux-doc@vger.kernel.org
+Content-Language: en-US
+X-CM-TRANSID:qMiowMDxvhtfZQBo_kOHAA--.20302S3
+X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
+X-Coremail-Antispam: 1Uk129KBj93XoWxCFWfWw48uw1DXF4kCF13ZFc_yoWrKF1DpF
+	yUGay2yayrXF4UWr10gF4DAFWIqr48GrZrKrWrGa43A3sI9r1xCF10grya9F95Crn5CF12
+	vF4jvrZ7ur1DJFXCm3ZEXasCq-sJn29KB7ZKAUJUUUUD529EdanIXcx71UUUUU7KY7ZEXa
+	sCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29KBjDU
+	0xBIdaVrnRJUUUPYb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26cxKx2
+	IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vEj48v
+	e4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Gr0_Xr1l84ACjcxK6xIIjxv20xvEc7CjxVAFwI
+	0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAFwI0_
+	GcCE3s1ln4kS14v26r126r1DM2AIxVAIcxkEcVAq07x20xvEncxIr21l57IF6xkI12xvs2
+	x26I8E6xACxx1l5I8CrVACY4xI64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1q6rW5
+	McIj6I8E87Iv67AKxVWUJVW8JwAm72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IY64vIr41lc7
+	I2V7IY0VAS07AlzVAYIcxG8wCY1x0262kKe7AKxVWUtVW8ZwCF04k20xvY0x0EwIxGrwCF
+	x2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVWUAVWUtwC20s026c02F40E14v26r
+	1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAFwI0_GFv_WrylIxkGc2Ij
+	64vIr41lIxAIcVC0I7IYx2IY67AKxVWUCVW8JwCI42IY6xIIjxv20xvEc7CjxVAFwI0_Gr
+	0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF
+	0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0xZFpf9x07jnEfOUUUUU=
 
-Hello:
+Hi, Thomas
 
-This series was applied to netdev/net-next.git (main)
-by Tony Nguyen <anthony.l.nguyen@intel.com>:
+ÔÚ 2025/4/1 ÏÂÎç3:14, Thomas Gleixner Ð´µÀ:
+> On Mon, Mar 31 2025 at 14:41, Tianyang Zhang wrote:
+>>   	irq_data_update_effective_affinity(data, cpumask_of(cpu));
+>> @@ -242,6 +233,7 @@ static void avecintc_irq_dispatch(struct irq_desc *desc)
+>>   		d = this_cpu_read(irq_map[vector]);
+>>   		if (d) {
+>>   			generic_handle_irq_desc(d);
+>> +
+> Stray newline.
+OK, I got it
+>
+>>   		} else {
+>> +
+>> +static void invalid_enqueue(struct redirect_queue *rqueue, struct irde_inv_cmd *cmd)
+>> +{
+>> +	struct irde_inv_cmd *inv_addr;
+>> +	u32 tail;
+>> +
+>> +	guard(raw_spinlock_irqsave)(&rqueue->lock);
+>> +
+>> +	while (invalid_queue_is_full(rqueue->node, &tail))
+>> +		cpu_relax();
+>> +
+>> +	inv_addr = (struct irde_inv_cmd *)(rqueue->base + tail * sizeof(struct irde_inv_cmd));
+>> +	memcpy(inv_addr, cmd, sizeof(struct irde_inv_cmd));
+>> +	tail = (tail + 1) % INVALID_QUEUE_SIZE;
+>> +
+>> +	wmb();
+> Undocumented memory barrier.
+OK , I got it
+>
+>> +
+>> +	iocsr_write32(tail, LOONGARCH_IOCSR_REDIRECT_CQT);
+>> +}
+>> +
+>> +static void smp_call_invalid_enqueue(void *arg)
+>> +{
+>> +	struct smp_invalid_arg *s_arg = (struct smp_invalid_arg *)arg;
+>> +
+>> +	invalid_enqueue(s_arg->queue, s_arg->cmd);
+>> +}
+>> +
+>> +static void irde_invlid_entry_node(struct redirect_item *item)
+>> +{
+>> +	struct redirect_queue *rqueue;
+>> +	struct smp_invalid_arg arg;
+>> +	struct irde_inv_cmd cmd;
+>> +	volatile u64 raddr = 0;
+>> +	int node = item->table->node, cpu;
+>> +
+>> +	rqueue = &(irde_descs[node].inv_queue);
+>> +	cmd.cmd_info = 0;
+>> +	cmd.index.type = INVALID_INDEX;
+>> +	cmd.index.need_notice = 1;
+>> +	cmd.index.index = item->index;
+>> +	cmd.notice_addr = (u64)(__pa(&raddr));
+>> +
+>> +	if (cpu_to_node(smp_processor_id()) == node)
+>> +		invalid_enqueue(rqueue, &cmd);
+>> +	else {
+> if () lacks brackets
+OK , I got it
+>
+>> +		for_each_cpu(cpu, cpumask_of_node(node)) {
+>> +			if (cpu_online(cpu))
+>> +				break;
+>> +		}
+>> +		arg.queue = rqueue;
+>> +		arg.cmd = &cmd;
+>> +		smp_call_function_single(cpu, smp_call_invalid_enqueue, &arg, 0);
+>> +	}
+>> +
+>> +	while (!raddr)
+>> +		cpu_relax();
+>> +
+>> +}
+>
+>> +static int redirect_table_free(struct redirect_item *item)
+>> +{
+>> +	struct redirect_table *ird_table;
+>> +	struct redirect_entry *entry;
+>> +	unsigned long flags;
+>> +
+>> +	ird_table = item->table;
+>> +
+>> +	entry = item->entry;
+>> +	memset(entry, 0, sizeof(struct redirect_entry));
+>> +
+>> +	raw_spin_lock_irqsave(&ird_table->lock, flags);
+>> +	bitmap_release_region(ird_table->bitmap, item->index, 0);
+>> +	raw_spin_unlock_irqrestore(&ird_table->lock, flags);
+> 	scoped_guard(raw_spinlock_irqsave, &ird_table->lock)
+> 		bitmap_release_region(ird_table->bitmap, item->index, 0);
 
-On Tue, 15 Apr 2025 15:12:43 -0700 you wrote:
-> Jedrzej Jagielski says:
-> 
-> Create devlink specific directory for more convenient future feature
-> development.
-> 
-> Flashing and reloading are supported only by E610 devices.
-> 
-> [...]
+Initially, I thought there were no complex branches here, so I directly 
+used raw_spin_lock_irqsave.
 
-Here is the summary with links:
-  - [net-next,v2,01/15] devlink: add value check to devlink_info_version_put()
-    https://git.kernel.org/netdev/net-next/c/8982fc03fd63
-  - [net-next,v2,02/15] ixgbe: wrap netdev_priv() usage
-    https://git.kernel.org/netdev/net-next/c/fd5ef5203ce6
-  - [net-next,v2,03/15] ixgbe: add initial devlink support
-    https://git.kernel.org/netdev/net-next/c/a0285236ab93
-  - [net-next,v2,04/15] ixgbe: add handler for devlink .info_get()
-    https://git.kernel.org/netdev/net-next/c/f6b588af3d57
-  - [net-next,v2,05/15] ixgbe: add E610 functions for acquiring flash data
-    https://git.kernel.org/netdev/net-next/c/5f214150c76d
-  - [net-next,v2,06/15] ixgbe: read the OROM version information
-    https://git.kernel.org/netdev/net-next/c/70db0788a262
-  - [net-next,v2,07/15] ixgbe: read the netlist version information
-    https://git.kernel.org/netdev/net-next/c/904c2b4c0b48
-  - [net-next,v2,08/15] ixgbe: add .info_get extension specific for E610 devices
-    https://git.kernel.org/netdev/net-next/c/8210ff738077
-  - [net-next,v2,09/15] ixgbe: add E610 functions getting PBA and FW ver info
-    https://git.kernel.org/netdev/net-next/c/4654ec6194b2
-  - [net-next,v2,10/15] ixgbe: extend .info_get() with stored versions
-    https://git.kernel.org/netdev/net-next/c/6eae2aeb60b6
-  - [net-next,v2,11/15] ixgbe: add device flash update via devlink
-    https://git.kernel.org/netdev/net-next/c/a0f45672d5e1
-  - [net-next,v2,12/15] ixgbe: add support for devlink reload
-    https://git.kernel.org/netdev/net-next/c/c9e563cae19e
-  - [net-next,v2,13/15] ixgbe: add FW API version check
-    https://git.kernel.org/netdev/net-next/c/b5aae90b6b36
-  - [net-next,v2,14/15] ixgbe: add E610 implementation of FW recovery mode
-    https://git.kernel.org/netdev/net-next/c/29cb3b8d95c7
-  - [net-next,v2,15/15] ixgbe: add support for FW rollback mode
-    https://git.kernel.org/netdev/net-next/c/4811b0c220f2
+However, considering the unified code style, scoped_guard is more 
+appropriate
 
-You are awesome, thank you!
--- 
-Deet-doot-dot, I am a bot.
-https://korg.docs.kernel.org/patchwork/pwbot.html
+>
+>> +static int redirect_set_affinity(struct irq_data *data, const struct cpumask *dest, bool force)
+>> +{
+>> +	struct redirect_item *item = data->chip_data;
+>> +	struct avecintc_data *adata;
+>> +	int ret;
+>> +
+>> +	ret = irq_chip_set_affinity_parent(data, dest, force);
+>> +	if (ret == IRQ_SET_MASK_OK_DONE)
+>> +		return IRQ_SET_MASK_OK;
+> Again bracket rules. Also what is this return value ranslation about?
 
+My initial aim was to keep the return value consistent with the previous 
+one.
+
+I'll study the differences between the two return values and make 
+appropriate changes. Thank you.
+
+>
+>> +	else if (ret) {
+>> +		pr_err("IRDE:set_affinity error %d\n", ret);
+>> +		return ret;
+>> +	}
+>> +
+>> +	adata = irq_data_get_avec_data(data);
+>> +
+>> +	redirect_domain_prepare_entry(item, adata);
+>> +
+>> +	irde_invlid_entry_node(item);
+> This cannot work when irde_invlid_entry_node() goes into the SMP
+> function call path, because smp_call_function_single() cannot be invoked
+> with interrupts disabled.
+My oversight. This approach is indeed risky. I'll rethink the design. 
+Thanks for your advice.
+>> +{
+>> +	struct redirect_table *ird_table;
+>> +	struct avecintc_data *avec_data;
+>> +	struct irq_data *irq_data;
+>> +	int ret, i, node;
+>> +
+>> +#ifdef CONFIG_NUMA
+>> +	node = ((msi_alloc_info_t *)arg)->desc->dev->numa_node;
+> Bah.
+>
+>> +#else
+>> +	node = 0;
+>> +#endif
+>          msi_alloc_info_t *info = arg;
+>
+>          node = dev_to_node(info->desc->dev);
+This is appropriate and safe. Thank you.
+>
+>> +static int redirect_table_init(int node)
+>> +{
+>> +	struct redirect_table *ird_table = &(irde_descs[node].ird_table);
+>> +	struct page *pages;
+>> +	unsigned long *bitmap;
+> Use proper reverse fir tree ordering
+>
+> Thanks,
+>
+>          tglx
+
+I'll strive to fix other code style issues.
+
+Thank you for your reply.
+
+Tianyang
 
