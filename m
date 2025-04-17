@@ -1,80 +1,109 @@
-Received: from mail.loongson.cn (mail.loongson.cn [114.242.206.163])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5F16F185935;
-	Thu, 17 Apr 2025 02:21:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=114.242.206.163
+Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C55D679F2
+	for <linux-doc@vger.kernel.org>; Thu, 17 Apr 2025 04:41:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744856502; cv=none; b=bCF/mHm7N7gnIrLtns8+eWbHVbQP0RRVKczinRcMbfKhRznXP/LP9Xf0V017C1dw1XvA0/NESNSjj/inbCHpW3TPKTuLInGKQg8BnBC5j5cyaaeChbJtPBxshWGQK0L4PXRkMF+kWGXWs+hjUQ3Vi3HyyhDgvAufnJb5DseiwRM=
+	t=1744864874; cv=none; b=NJv7NY3hx/98eWA2/3Mb5JUFw3TuJIOs90ecMHPe8xhk/Y1B0riPiJQymfhr9lzEDM48TZznepemmaBE2WFdniayTDtiWVQlfFuODSjbwrHSD/oD/A5eR4jabpaaRGQd23bglqwqxJhTtynMkTDxsD738a1o/Ap+mub0GEojdIw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744856502; c=relaxed/simple;
-	bh=V2KrCMHax9m0AVZunKMyeYhMXeu9u8+9Jc67ojto8wo=;
-	h=Subject:To:Cc:References:From:Message-ID:Date:MIME-Version:
-	 In-Reply-To:Content-Type; b=CxLJJDKLt6vn/PMJf9J+rPOeKOYFukSIhUUXiTG0JdbzEX7i5g2AnUCMih/Uym+zHCE++y9DF6rSufvucqimMiT4wLDQzJEcUX4FMaMBYMgrUaMGJ0O1Aow1ZFoLzcCZ1E/A6O0FhNX3uZcrm2r0//1jAwADMxpy6InHGtM8ioA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn; spf=pass smtp.mailfrom=loongson.cn; arc=none smtp.client-ip=114.242.206.163
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=loongson.cn
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=loongson.cn
-Received: from loongson.cn (unknown [10.20.42.24])
-	by gateway (Coremail) with SMTP id _____8CxieCvZQBolqbAAA--.12862S3;
-	Thu, 17 Apr 2025 10:21:35 +0800 (CST)
-Received: from [10.20.42.24] (unknown [10.20.42.24])
-	by front1 (Coremail) with SMTP id qMiowMDxvhurZQBoX0SHAA--.20310S3;
-	Thu, 17 Apr 2025 10:21:32 +0800 (CST)
-Subject: Re: [PATCH v2 2/2] irq/irq-loongarch-ir:Add Redirect irqchip support
-To: Huacai Chen <chenhuacai@kernel.org>
-Cc: kernel@xen0n.name, corbet@lwn.net, alexs@kernel.org,
- si.yanteng@linux.dev, tglx@linutronix.de, jiaxun.yang@flygoat.com,
- peterz@infradead.org, wangliupu@loongson.cn, lvjianmin@loongson.cn,
- maobibo@loongson.cn, siyanteng@cqsoftware.com.cn, gaosong@loongson.cn,
- yangtiezhu@loongson.cn, loongarch@lists.linux.dev,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250331064116.32540-1-zhangtianyang@loongson.cn>
- <20250331064116.32540-3-zhangtianyang@loongson.cn>
- <CAAhV-H5a_220F2sXYRgZM2BHPMuL=K7TaP3gtPiFnw5m6=Qevw@mail.gmail.com>
-From: Tianyang Zhang <zhangtianyang@loongson.cn>
-Message-ID: <7502f96f-14b1-deac-bd4e-f2ad6c719465@loongson.cn>
-Date: Thu, 17 Apr 2025 10:20:55 +0800
-User-Agent: Mozilla/5.0 (X11; Linux mips64; rv:68.0) Gecko/20100101
- Thunderbird/68.7.0
+	s=arc-20240116; t=1744864874; c=relaxed/simple;
+	bh=SPeJW8O/RdyKgGzZdcpOtGY1BN9HvfKy7ydyqtr/PlM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RRcbV8UBclPGDr+toIeq3O7WjrBpt1AruaYH97dcRM3AncK0Kt4r3roaRwvbCD9Z237mL8PntXm7nDXTfQh7pxl5usG4NIRr2Sr1Pa+t3SetZiJpNz/rcIFSKP9GHX+h/FmSfxbFarXZUPvji2Zv/SS8oV3ZaFrj+CoxCyj3KQ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Wc9NaWYy; arc=none smtp.client-ip=209.85.216.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Wc9NaWYy"
+Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3018e2d042bso232892a91.2
+        for <linux-doc@vger.kernel.org>; Wed, 16 Apr 2025 21:41:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744864872; x=1745469672; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=StTtcZEL8yuxE8J2mkGpzTNue0dDQ/MJGGswTzHY9b8=;
+        b=Wc9NaWYydXVPhnfu4GiffbN/Qhn7zlGN4oeKKFZ3Wgm/Ep0W5+Nnsobc7nTwUZC4y+
+         nsM6WpK1u7kP37SHWpZhje2qBLaq/kXOGctU692HUeA6efi3r7pKA4Eh5x9yZ796GVQH
+         eD294EUGl4F/zSqzhntB/oqG6sbL6i9cb3MGFQ6b9zHYFHhRuMoEz0FIAib1gOlyIqKo
+         1qBi6apBOA+UEZEMzq+14uzW6dhk0TIQd/gYTJe4YSE5cpSArKByQ63/CJpdoimnLtED
+         5aHFFIj5JlxYRrsQBKPDAstYVR4/SZ5G+0J8cwo2pVIEppc0hZ4eA2DRHkhThWrrVm1L
+         G5jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744864872; x=1745469672;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=StTtcZEL8yuxE8J2mkGpzTNue0dDQ/MJGGswTzHY9b8=;
+        b=RlSugwRCj2PeVR2SKwv8hKPhQ4n/m/YqHp7lCniFxTgQKp00A22sSJddHFQEq0KzAq
+         3Sc7WDubMfiTrC7NZ+MqLwMpkezAXcvLwXTudT5CA9nr/Yh34YQR7tqX3wlbqHeiiT8n
+         hMm6TF2ZkIpdOJ4fmvUIxZG9+pIwi2VJ045ycZBjdwuS/kTq55twBBSAg+9Awil3QETc
+         ar4vH9q2YlUjM7CbDTp+Vn0ieHb6SqrCvp72JQDeQ5GxM2aEVyiYm5H/Xa7QA391w51S
+         u31x6r1GBgOVFlA7gDYNljyWeS7UAolgvuIzfku8bomvuc6kY/zd86MGARZT+khziZau
+         0uag==
+X-Forwarded-Encrypted: i=1; AJvYcCVzwrJ5EU3NPE9Q7RGS6ap67UwPG6TzItkAlPgPwENBfB52y5IlGnI2hNBEe1WJSe4Wk8ZoC3A6AAk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJLBdN2qUHFpLylpA++WDFzeN0Q9A2aJiAH849mI2L6T2xreTt
+	giHSKN6Emtyi9JOdtr4YQCiG51NiQ/6nchsXUjzDAIf6emyEd3rntRSl6lBqQEk=
+X-Gm-Gg: ASbGncssZ3He7zlhDeDtMtv6zucVAKzlkfuxx7q2a/bN8jNCFgzvV7JbGnF4vcy0QDP
+	JwERc+JPo3a/GdPUGbWJn2zVwUq0KKX9QlzJee1q86HE20aRnxllj3tGMI1grBms+fAj1R+mY6x
+	rwK641yplxhDe8s7OKoVv5YljFhtOA66fyDUZuvo4kihW0bJgPOTm0HWGHBJSOyl5WlUmmqymAN
+	GtNVpxHQXbuEv1fXgkACXts44nYC8seBUeNMvyO6b9RmRF9xMVKVNAYjxVKBPPEmRD/pFYlxymx
+	tVYpnrPDM+vAbtN8oG1KUDRHOg0+ViRs9WfB5t0QcA==
+X-Google-Smtp-Source: AGHT+IHSwNZXRlBErUquc9s/KXGJ/tJ0ZSJY//U3+xrEDFrzroEcRYfbd88YerCo8sKgIpeIi1M9yQ==
+X-Received: by 2002:a17:90b:5864:b0:2fe:b470:dde4 with SMTP id 98e67ed59e1d1-30863f198c7mr8175815a91.12.1744864872142;
+        Wed, 16 Apr 2025 21:41:12 -0700 (PDT)
+Received: from localhost ([122.172.83.32])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-308613cb765sm2573852a91.43.2025.04.16.21.41.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Apr 2025 21:41:11 -0700 (PDT)
+Date: Thu, 17 Apr 2025 10:11:09 +0530
+From: Viresh Kumar <viresh.kumar@linaro.org>
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?utf-8?B?QmrDtnJu?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	patches@lists.linux.dev
+Subject: Re: [PATCH] docs: rust: explain that `///` vs. `//` applies to
+ private items too
+Message-ID: <20250417044109.3enslespfaifjw7o@vireshk-i7>
+References: <20250416112454.2503872-1-ojeda@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <CAAhV-H5a_220F2sXYRgZM2BHPMuL=K7TaP3gtPiFnw5m6=Qevw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
-X-CM-TRANSID:qMiowMDxvhurZQBoX0SHAA--.20310S3
-X-CM-SenderInfo: x2kd0wxwld05hdqjqz5rrqw2lrqou0/
-X-Coremail-Antispam: 1Uk129KBjDUn29KB7ZKAUJUUUUU529EdanIXcx71UUUUU7KY7
-	ZEXasCq-sGcSsGvfJ3Ic02F40EFcxC0VAKzVAqx4xG6I80ebIjqfuFe4nvWSU5nxnvy29K
-	BjDU0xBIdaVrnRJUUUPKb4IE77IF4wAFF20E14v26r1j6r4UM7CY07I20VC2zVCF04k26c
-	xKx2IYs7xG6rWj6s0DM7CIcVAFz4kK6r1Y6r17M28lY4IEw2IIxxk0rwA2F7IY1VAKz4vE
-	j48ve4kI8wA2z4x0Y4vE2Ix0cI8IcVAFwI0_Xr0_Ar1l84ACjcxK6xIIjxv20xvEc7CjxV
-	AFwI0_Gr0_Cr1l84ACjcxK6I8E87Iv67AKxVW0oVCq3wA2z4x0Y4vEx4A2jsIEc7CjxVAF
-	wI0_GcCE3s1le2I262IYc4CY6c8Ij28IcVAaY2xG8wAqjxCEc2xF0cIa020Ex4CE44I27w
-	Aqx4xG64xvF2IEw4CE5I8CrVC2j2WlYx0E2Ix0cI8IcVAFwI0_Jw0_WrylYx0Ex4A2jsIE
-	14v26r4j6F4UMcvjeVCFs4IE7xkEbVWUJVW8JwACjcxG0xvEwIxGrwCYjI0SjxkI62AI1c
-	AE67vIY487MxAIw28IcxkI7VAKI48JMxAqzxv262kKe7AKxVWUAVWUtwCF54CYxVCY1x02
-	62kKe7AKxVWUtVW8ZwCFx2IqxVCFs4IE7xkEbVWUJVW8JwCFI7km07C267AKxVW8ZVWrXw
-	C20s026c02F40E14v26r1j6r18MI8I3I0E7480Y4vE14v26r106r1rMI8E67AF67kF1VAF
-	wI0_GFv_WrylIxkGc2Ij64vIr41lIxAIcVC0I7IYx2IY67AKxVW8JVW5JwCI42IY6xIIjx
-	v20xvEc7CjxVAFwI0_Gr0_Cr1lIxAIcVCF04k26cxKx2IYs7xG6r1j6r1xMIIF0xvEx4A2
-	jsIE14v26r4j6F4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_Gr0_Gr1UYxBIdaVFxhVjvjDU0x
-	ZFpf9x07josjUUUUUU=
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250416112454.2503872-1-ojeda@kernel.org>
 
-Hi, Huacai
+On 16-04-25, 13:24, Miguel Ojeda wrote:
+> Sometimes kernel developers use `//` for documenting private items,
+> since those do not get rendered at the moment.
+> 
+> That is reasonable, but the intention behind `///` (and `//!`) vs. `//`
+> is to convey the distinction between documentation and other kinds of
+> comments, such as implementation details or TODOs.
+> 
+> It also increases consistency with the public items and thus e.g. allows
+> to change visibility of an item with less changed involved.
 
-在 2025/4/1 下午8:30, Huacai Chen 写道:
-> +static const struct irq_domain_ops redirect_domain_ops = {
-> +       .alloc          = redirect_alloc,
-> +       .free           = redirect_free,
-> Since this patch needs a new version, you can rename
-> redirect_alloc/redirect_free to
-> redirect_domain_alloc/redirect_domain_free as other loongson specific
-> drivers.
->
-> Huacai
+                                            changes ?
 
-Ok, I got it
+> It is not just useful for human readers, but also tooling. For instance,
+> we may want to eventually generate documentation for private items
+> (perhaps as a toggle in the HTML UI). On top of that, `rustdoc` lints
+> as usual for those, too, so we may want to do it even if we do not use
+> the result.
+> 
+> Thus document this explicitly.
 
+Reviewed-by: Viresh Kumar <viresh.kumar@linaro.org>
+
+-- 
+viresh
