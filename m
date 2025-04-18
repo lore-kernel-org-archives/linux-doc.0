@@ -1,16 +1,16 @@
 Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F59275104
-	for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 12:35:21 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CB21224F6
+	for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 13:16:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744979723; cv=none; b=TBd+nU/86atmm7xEBwoUeV2vqG4jeOqA3JulY3ZUdaqO7jEMKBwTwmqLYAQnYkotZ6Zg8olUDG7q05buDUCLALuklYN8ytC6JrA7fnJvmE+GwY7Lftwy4qbuRpIhH/Cbb6BJ1Styl07tF7Cv3hFsNbUm4MmZr4nogpuIj5R3F1o=
+	t=1744982163; cv=none; b=V6lzi3de1a/gCP92zUiedCEVXY1AuIMbOj2Jx857C1FvTN4vSRrvW6DN5TV3FXrpCCydPLnf/AOk1cJan280bm3y/z7crsvE7wdffvOV1t2qKeK9YQxEgCDQS3vaaHsNmVZLFnfpgTjPeuf32zGQ16NE/lkNRRjzoq4/Fa4J66c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744979723; c=relaxed/simple;
-	bh=xmwFZCDc34oHE5AD99Vf6E43LGCmHVxXRWIjmxgTa98=;
+	s=arc-20240116; t=1744982163; c=relaxed/simple;
+	bh=+djVvdSNuaymyUfZkP99AGfNBP3zW9u0oGBoR/UZwm8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QRII8efTSLh4MJObmT2OoMM4fLu82M4zMxNMwTRwugDSPvPK5Nubeapk66hTPW84Msfwcvb2nEsJECDIqizriWL0QwnFWzfBevXWi2+BJjBKWg1etLKitL/1xETeTfUwSKDSzAucFzbE7wY8Q7e16iWHROy5uUfkgd/UfEH4U3I=
+	 Content-Type:Content-Disposition:In-Reply-To; b=SKli/Om68awiplXPsT2AEfJdyB8Bav+4IkA5PexnNpNt2zmMM4nptzXW+I0VRIq2u8im4w7agFcuw7mcP1E8hrOpdJ0jTbW3ILpeS1N+pF+iyrDPbUzZEBctz16a4T1xj/RWpR3y42n7f6a/Cjh23QPA5p8H/dLQVrLPTjukank=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
@@ -18,18 +18,18 @@ Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
 	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
 	(Exim 4.92)
 	(envelope-from <ore@pengutronix.de>)
-	id 1u5kvh-0001rH-NB; Fri, 18 Apr 2025 14:34:49 +0200
+	id 1u5lZE-00067D-Tg; Fri, 18 Apr 2025 15:15:40 +0200
 Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
 	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
 	(Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1u5kvh-000uqO-0x;
-	Fri, 18 Apr 2025 14:34:49 +0200
+	id 1u5lZD-000v99-2x;
+	Fri, 18 Apr 2025 15:15:39 +0200
 Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
 	(envelope-from <ore@pengutronix.de>)
-	id 1u5kvh-007qLn-0K;
-	Fri, 18 Apr 2025 14:34:49 +0200
-Date: Fri, 18 Apr 2025 14:34:49 +0200
+	id 1u5lZD-007qmJ-2O;
+	Fri, 18 Apr 2025 15:15:39 +0200
+Date: Fri, 18 Apr 2025 15:15:39 +0200
 From: Oleksij Rempel <o.rempel@pengutronix.de>
 To: Kory Maincent <kory.maincent@bootlin.com>
 Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
@@ -52,11 +52,11 @@ Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
 	kernel@pengutronix.de,
 	Maxime Chevallier <maxime.chevallier@bootlin.com>,
 	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v8 10/13] net: pse-pd: pd692x0: Add support for
- controller and manager power supplies
-Message-ID: <aAJG6bgx_sF60vpk@pengutronix.de>
+Subject: Re: [PATCH net-next v8 12/13] net: pse-pd: tps23881: Add support for
+ static port priority feature
+Message-ID: <aAJQe9Far8lCTzCT@pengutronix.de>
 References: <20250416-feature_poe_port_prio-v8-0-446c39dc3738@bootlin.com>
- <20250416-feature_poe_port_prio-v8-10-446c39dc3738@bootlin.com>
+ <20250416-feature_poe_port_prio-v8-12-446c39dc3738@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -65,7 +65,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250416-feature_poe_port_prio-v8-10-446c39dc3738@bootlin.com>
+In-Reply-To: <20250416-feature_poe_port_prio-v8-12-446c39dc3738@bootlin.com>
 X-Sent-From: Pengutronix Hildesheim
 X-URL: http://www.pengutronix.de/
 X-Accept-Language: de,en
@@ -75,18 +75,26 @@ X-SA-Exim-Mail-From: ore@pengutronix.de
 X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
 X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Wed, Apr 16, 2025 at 03:44:25PM +0200, Kory Maincent wrote:
+On Wed, Apr 16, 2025 at 03:44:27PM +0200, Kory Maincent wrote:
 > From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 > 
-> Add support for managing the VDD and VDDA power supplies for the PD692x0
-> PSE controller, as well as the VAUX5 and VAUX3P3 power supplies for the
-> PD6920x PSE managers.
+> This patch enhances PSE callbacks by introducing support for the static
+> port priority feature. It extends interrupt management to handle and report
+> detection, classification, and disconnection events. Additionally, it
+> introduces the pi_get_pw_req() callback, which provides information about
+> the power requested by the Powered Devices.
 > 
+> Interrupt support is essential for the proper functioning of the TPS23881
+> controller. Without it, after a power-on (PWON), the controller will
+> no longer perform detection and classification. This could lead to
+> potential hazards, such as connecting a non-PoE device after a PoE device,
+> which might result in magic smoke.
+
+Yey! There are never too many warnings! :D
+
 > Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
 Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
-
-Thank you!
 -- 
 Pengutronix e.K.                           |                             |
 Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
