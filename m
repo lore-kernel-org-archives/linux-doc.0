@@ -1,106 +1,94 @@
-Received: from mail-pf1-f173.google.com (mail-pf1-f173.google.com [209.85.210.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73B6126B2D0;
-	Fri, 18 Apr 2025 12:32:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8F59275104
+	for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 12:35:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744979555; cv=none; b=AoC0fHXvX00gmKPTOyrt8LJEbOOtl74nDgr1v2MYCyfi5HLkaLEsP/cQHbJYpzh5THJeE4SN6QwYHuvlTiSpCxrQTl1sG8kAlmiW7o03X3EzTiKIKjL8U3KUrXTsYXxYnfFmzAHWQmHaB5M7i1rWmZCcewXbs/IyI4l5XuuDP0w=
+	t=1744979723; cv=none; b=TBd+nU/86atmm7xEBwoUeV2vqG4jeOqA3JulY3ZUdaqO7jEMKBwTwmqLYAQnYkotZ6Zg8olUDG7q05buDUCLALuklYN8ytC6JrA7fnJvmE+GwY7Lftwy4qbuRpIhH/Cbb6BJ1Styl07tF7Cv3hFsNbUm4MmZr4nogpuIj5R3F1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744979555; c=relaxed/simple;
-	bh=fi1DbYhlrqF0U7IzqDP/M+/r8vdH95UNS8kWonbjyGg=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KIoZhD7Ffg+M/xPJWapzig5LnZlDBmnFwb1A28LzfMaVvQ6WzJsT4ZgDCzZKJCmHEW608XXt0z+40IDuqLLiJIxTdy2AtkTdrYWrK/z1Va8WIBp5RTOaeTugf9+H5DebNpKS6ecAxkEaWqygH7IElXDPE+WemuVbi0I6XqGBb04=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=AG4qW+0i; arc=none smtp.client-ip=209.85.210.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="AG4qW+0i"
-Received: by mail-pf1-f173.google.com with SMTP id d2e1a72fcca58-736a72220edso1749800b3a.3;
-        Fri, 18 Apr 2025 05:32:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1744979554; x=1745584354; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=4uxNqOBD/ogCW1O0rrQ2A0HcfFujRPCySOpF/YO01oA=;
-        b=AG4qW+0iMjdDMp9h8+u/8MODMx2ZhRnrNeqNWksxxmnvYLNp1sN4cPNqgxJBWkQHHw
-         6ja9kaz4Q5fz4VjSFoqmUKZeGQbCa5MpqyumvCPwfXpggT9WqPVXrihSm6janzBMx1CX
-         QahHls910enJIkb/u6kPH7kZ9EqesycJDcnqFE0q+OOiA3HMPiOVjVeakoi/lbPr4Cjd
-         OH3ErFFt9pia9G3CJL80MeQHQRPI40Y0lC78IBPn165jnjxBbcTiPNLFYjPB6FrNnIQQ
-         OZEpshOMLzwQFEUo4i4UG9KzJMrFW9AIXX/IL3hoMw5zYNyxzSTxDyk9XU+zwlcGeNY3
-         2rNg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744979554; x=1745584354;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=4uxNqOBD/ogCW1O0rrQ2A0HcfFujRPCySOpF/YO01oA=;
-        b=vRmpnqsDdwES8Ved1XXA5WUyZ10QGRrfzKC7wL3blLScA8gKL5v/MChN//vVrA58JX
-         PjzAE4lZkddCOZn7MnP3IOQ2LYM/gYYp7Ht06SJCdFHCqweGYynyQ5LcPVk3+LqNBEGI
-         nfVOhDuuv635V/J2tVPFk2JgChEeufkmiafBUro3mG948rWOeWmzVipinSCsOmOaQXU5
-         v8oZ/7P6l3zq4qLXCYRGN06eJp/5AV19PIs4V5ksGZOohlP1xEVY934cbAlRz/oKDS5t
-         fGR7AbxWu9NwDyxLeqga8HbNv3RZ3K9OYBGaksOWM47Mxgf6MD/RvHko6vsJ8cYLNaEy
-         6CzQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU20zLeXPB6GHQ2HsaK94sCZjgarLZMO/rUlfvYKDUbvUXJhMceLe2uGCrH1Rrb5m1146TokGcTkJ8vxtQ=@vger.kernel.org, AJvYcCWTnfrUz8cv0ZcTGkQumsnERYk9lbIbL4WUP/5Dr6x49QCDiwTyAEFZ2i+aQBTsGnKTcB/RTnkd+Ht5DA==@vger.kernel.org, AJvYcCWdV06fK+ZAcwDMQvkyDhOH3GBiXD9UptK+gwwd9kbw3U+jFwcnfhckNRfVvzmH4Fj94KY=@vger.kernel.org, AJvYcCWu25HxhOwetbOX2cRRICTSRLul3OhmhQfq8b+6qSBpGOzodaY4rCV6B62MQHS8a9oK3jkn0ZoW1Oqd@vger.kernel.org, AJvYcCXUgGTrkNaeV1NRXsKeQuskAw/PFFcRNiB7ojigcp9xA8oHm9qxjNedjcZBfg1EGI9WeyoFxcVe2af8swZL@vger.kernel.org, AJvYcCXZYDcsUiaWnvJKYozdMCulF7X59X7RJV2i4AUqdK4JEV4vGK2c+4o5AzgJHt4cuqSs6vqZ0XaJ9xEQ@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywwe1rsioiPYtQHWizUlzgI4WF5R0IfOLDoO16JpxiBcx/gR2gE
-	+0tqo2v6GT1CgKTiv1QV8DkQ+fAE5beAuCg8uMfoO5sxpdUuM35UQ4MMXjaWZk0B1PFyeXG8SvN
-	tgEost9lgnBY6YGHrFMONnhDQJ4w=
-X-Gm-Gg: ASbGnctUBpR+gUSetI7U5hzaGXrS3uz79DnUr/DNOUwx3Bf5/joR9nuD2B4BvIjq1Rs
-	O5BCvJUlt9JUUp0K3EF9UlJJFcV7bWGvhPZqT7c0ocqvWAzcfl+KiD4ryHSx318uij79oWZjx+7
-	0c2dFb/ojfP3WnyGglLH6TOtwjh+nMA/px9LL7b6Ro/glkvc6LB+zYPzaC
-X-Google-Smtp-Source: AGHT+IE6KPLtDnTScFEtJJlvCdwmMFGgLV6Sh+PZ7MHmYiMb3jtvP1cSpc1ynbu9LO+7GJYkCunnvOZCbjH4BPDTV0s=
-X-Received: by 2002:a17:90b:2e03:b0:2fc:c262:ef4b with SMTP id
- 98e67ed59e1d1-3087bb6f117mr4849982a91.18.1744979553652; Fri, 18 Apr 2025
- 05:32:33 -0700 (PDT)
+	s=arc-20240116; t=1744979723; c=relaxed/simple;
+	bh=xmwFZCDc34oHE5AD99Vf6E43LGCmHVxXRWIjmxgTa98=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QRII8efTSLh4MJObmT2OoMM4fLu82M4zMxNMwTRwugDSPvPK5Nubeapk66hTPW84Msfwcvb2nEsJECDIqizriWL0QwnFWzfBevXWi2+BJjBKWg1etLKitL/1xETeTfUwSKDSzAucFzbE7wY8Q7e16iWHROy5uUfkgd/UfEH4U3I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u5kvh-0001rH-NB; Fri, 18 Apr 2025 14:34:49 +0200
+Received: from pty.whiteo.stw.pengutronix.de ([2a0a:edc0:2:b01:1d::c5])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u5kvh-000uqO-0x;
+	Fri, 18 Apr 2025 14:34:49 +0200
+Received: from ore by pty.whiteo.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u5kvh-007qLn-0K;
+	Fri, 18 Apr 2025 14:34:49 +0200
+Date: Fri, 18 Apr 2025 14:34:49 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Kory Maincent <kory.maincent@bootlin.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Donald Hunter <donald.hunter@gmail.com>,
+	Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+	Simon Horman <horms@kernel.org>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Liam Girdwood <lgirdwood@gmail.com>,
+	Mark Brown <broonie@kernel.org>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	Kyle Swenson <kyle.swenson@est.tech>,
+	Dent Project <dentproject@linuxfoundation.org>,
+	kernel@pengutronix.de,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next v8 10/13] net: pse-pd: pd692x0: Add support for
+ controller and manager power supplies
+Message-ID: <aAJG6bgx_sF60vpk@pengutronix.de>
+References: <20250416-feature_poe_port_prio-v8-0-446c39dc3738@bootlin.com>
+ <20250416-feature_poe_port_prio-v8-10-446c39dc3738@bootlin.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1744825142.git.leon@kernel.org> <670389227a033bd5b7c5aa55191aac9943244028.1744825142.git.leon@kernel.org>
- <1284adf3-7e93-4530-9921-408c5eaeb337@kernel.org>
-In-Reply-To: <1284adf3-7e93-4530-9921-408c5eaeb337@kernel.org>
-From: Kanchan Joshi <joshiiitr@gmail.com>
-Date: Fri, 18 Apr 2025 18:02:08 +0530
-X-Gm-Features: ATxdqUGyYBEsfK-IN2nZn9q0XDVh1xSRZINsNgbIk6fSYXOiPXAs6WAhmbL1EUw
-Message-ID: <CA+1E3r+9kEs-fqND-VD+y6FWfiGqr1vN8M0GufD3oHdwLdFcrQ@mail.gmail.com>
-Subject: Re: [PATCH v8 24/24] nvme-pci: optimize single-segment handling
-To: Damien Le Moal <dlemoal@kernel.org>
-Cc: Leon Romanovsky <leon@kernel.org>, Marek Szyprowski <m.szyprowski@samsung.com>, 
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>, 
-	Kanchan Joshi <joshi.k@samsung.com>, Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>, 
-	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>, Robin Murphy <robin.murphy@arm.com>, 
-	Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>, 
-	Bjorn Helgaas <bhelgaas@google.com>, Logan Gunthorpe <logang@deltatee.com>, 
-	Yishai Hadas <yishaih@nvidia.com>, 
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>, Kevin Tian <kevin.tian@intel.com>, 
-	Alex Williamson <alex.williamson@redhat.com>, =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-block@vger.kernel.org, 
-	linux-rdma@vger.kernel.org, iommu@lists.linux.dev, 
-	linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org, 
-	kvm@vger.kernel.org, linux-mm@kvack.org, 
-	Niklas Schnelle <schnelle@linux.ibm.com>, Chuck Lever <chuck.lever@oracle.com>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Matthew Wilcox <willy@infradead.org>, 
-	Dan Williams <dan.j.williams@intel.com>, Chaitanya Kulkarni <kch@nvidia.com>, 
-	Nitesh Shetty <nj.shetty@samsung.com>, Leon Romanovsky <leonro@nvidia.com>, vishak.g@samsung.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20250416-feature_poe_port_prio-v8-10-446c39dc3738@bootlin.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL: http://www.pengutronix.de/
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-> > +     if (nr_segments == 1 && (iod->flags & IOD_SINGLE_SEGMENT)) {
->
-> nvme_pci_setup_prps() calls nvme_try_setup_prp_simple() which sets
-> IOD_SINGLE_SEGMENT if and only if the req has a single phys segment. So why do
-> you need to count the segments again here ? Looking at the flag only should be
-> enough, no ?
+On Wed, Apr 16, 2025 at 03:44:25PM +0200, Kory Maincent wrote:
+> From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
+> 
+> Add support for managing the VDD and VDDA power supplies for the PD692x0
+> PSE controller, as well as the VAUX5 and VAUX3P3 power supplies for the
+> PD6920x PSE managers.
+> 
+> Signed-off-by: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-Yes, the flag will be enough.
-I started with nr_segments first, but felt the need of a flag when I
-reached to handle the unmap part.
+Reviewed-by: Oleksij Rempel <o.rempel@pengutronix.de>
 
-This can be changed if the series requires an iteration.
-Or I can do this as part of the cleanup which I anyway need to do to
-replace the "iod->aborted" field with a flag.
-
+Thank you!
 -- 
-Kanchan
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
