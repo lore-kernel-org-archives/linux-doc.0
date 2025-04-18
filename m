@@ -1,64 +1,57 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3923B335BA;
-	Fri, 18 Apr 2025 20:13:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D4B1C2324;
+	Fri, 18 Apr 2025 20:27:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745007203; cv=none; b=uw4KYO7LZ0EYdam3VyCaGAwDuQCncxuv2yru05KvvSzrMtFvD7KeW+5/rmA30cjLtfuwaZbwZHJNGY5ac6ewfk1T6hzvcPCGEmbMHjLAZ9bt4jFs2Ujsm+GoGxo1fCO+ujDZ0cQxmg2P+K/Jr8hlrDzm3Od6YqP265xSWV+XS2Y=
+	t=1745008034; cv=none; b=UA13YIQ8+Jil3xWJA5FXnK/6cXpYEO//d1cWBQS6D+6kymY59rbbBX2MfZnojBZUpniVHqh03Ixr+62fbIKKWae27p/3G3I63nrHRrLcakCyPx+5Xmjdn1Xd1F0QhSeDH3KflYuABpMymuY4otbxXf5JlQGxjTtbi4kpuydkVqY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745007203; c=relaxed/simple;
-	bh=BVnZkjjSv9MWVlNg/FhLx0h58zSUOIcwkn/bPbmUKkY=;
+	s=arc-20240116; t=1745008034; c=relaxed/simple;
+	bh=CrhsFFq5IyqJkiDJlv+lg+3v62q3lDf7I+FQDCU5DC0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XaB/AfibOCBG5xKIxKB2XkRmfvNFAZeu3xX7RRzMaaqVdMYOPivI1f+y5XaQ6r796iuWw06uo1JHNtJ/0xlI31XtpTkraNDcsT68P6J2YMNYx9ktum/A/89jXZzDJlGP/QgyleXgV2N3W6bZ5Clo4Wt7zseWIsS0R/ZqpghHBiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IleN+pZ3; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=CmBIONihiZ6CnG1IwFE2SiVFirV5YITcr3KsN2TZHDmdV6IyP5EHcZrs1JvFagVcOqxt1ogQoU18aDx4R3TXIKTfym2AOkSASAul6ZIvKbXtgkpmaKaVl3hPwHeaFtPPIJiexO1vTfHf3xmAvibMuU3TDqTGlK6td6jywNPespA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=eXr9MTqd; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IleN+pZ3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8F90EC4CEE2;
-	Fri, 18 Apr 2025 20:13:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745007202;
-	bh=BVnZkjjSv9MWVlNg/FhLx0h58zSUOIcwkn/bPbmUKkY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IleN+pZ3cxJ75hjLuM7eHCurpvJEerxB1r3RthS3MTd8IPL8VffVGe0SpwrzIhNAV
-	 IhOPw6Qfd3kYmDxxtW+OxfB82G9V/3ocNP7X9c+hVg38BOBPK8KgawxiE1nS9KHcPd
-	 yOyGdJRaqkGxSe7a57XPYEwmHHahwxQ/bpkIIkaf2jdsRmO/eT1iqblFSHZLKO5TW6
-	 YnBurIWzQBCwXR+kLlwFseJsbgn6wba0/eJ5A2/RA+fQx+NxUa6RQio9yLds7iOTBc
-	 Ido92N6j2dynDfmxLcpFGEWRQvcD4/gnd525/3KQDXVreFN73AVCuW54LEvEE+IZdt
-	 xvkM7DWO8cyNg==
-Date: Fri, 18 Apr 2025 13:13:20 -0700
-From: Kees Cook <kees@kernel.org>
-To: Harry Yoo <harry.yoo@oracle.com>
-Cc: Petr Mladek <pmladek@suse.com>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	David Rientjes <rientjes@google.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andreas Hindborg <a.hindborg@kernel.org>,
-	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
-	linux-hardening@vger.kernel.org
-Subject: Re: [PATCH v2] slab: Decouple slab_debug and no_hash_pointers
-Message-ID: <202504181307.254F81843@keescook>
-References: <20250415170232.it.467-kees@kernel.org>
- <aAEM73DrpbzdZF92@harry>
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="eXr9MTqd"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=O79Q8up6Gy2hEMjnQITer5PbKSEwN1Pzj/8/BV+JwL4=; b=eXr9MTqdlq9ohs6A/9h4SUfc9g
+	URu7Pe6Rtniim9/50hbZjCEspUSIRrZO5c9vO9opoZKrVynLKH9QDhASi6zX8s/JuB2EXl8pSjeFd
+	4uRDz54ZFiqqTWqM6a9mWuCLl3uFlJ1Ac970YA9oSySo6C68axjiaA/PpkNPO9mijY90=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u5sIZ-009wCP-5d; Fri, 18 Apr 2025 22:26:55 +0200
+Date: Fri, 18 Apr 2025 22:26:55 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+Cc: Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+Message-ID: <94075f0a-6e17-4106-879e-3aa5193f9ef2@lunn.ch>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,68 +60,60 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aAEM73DrpbzdZF92@harry>
+In-Reply-To: <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
 
-On Thu, Apr 17, 2025 at 11:15:11PM +0900, Harry Yoo wrote:
-> On Tue, Apr 15, 2025 at 10:02:33AM -0700, Kees Cook wrote:
-> > Some system owners use slab_debug=FPZ (or similar) as a hardening option,
-> > but do not want to be forced into having kernel addresses exposed due
-> > to the implicit "no_hash_pointers" boot param setting.[1]
+On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
+> As discussed [1], the comments for the different rgmii(-*id) modes do not
+> accurately describe what these values mean.
 > 
-> Is this behavior documented somewhere or it's only in the code?
-> I couldn't find anything other than the code.
-
-Hmm, that's an excellent point. I don't see any mention of it in
-kernel-parameters.txt. Perhaps this?
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 4568572205ee..982e6511a225 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -6483,6 +6483,10 @@
- 			Documentation/mm/slub.rst.
- 			(slub_debug legacy name also accepted for now)
- 
-+			Using this option implies the "no_hash_pointers"
-+			option which can be undone by adding the
-+			"hash_pointers=always" option.
-+
- 	slab_max_order= [MM]
- 			Determines the maximum allowed order for slabs.
- 			A high setting may cause OOMs due to memory
-
+> As the Device Tree is primarily supposed to describe the hardware and not
+> its configuration, the different modes need to distinguish board designs
+> (if a delay is built into the PCB using different trace lengths); whether
+> a delay is added on the MAC or the PHY side when needed should not matter.
 > 
-> > Introduce the "hash_pointers" boot param, which defaults to "auto"
-> > (the current behavior), but also includes "always" (forcing on hashing
-> > even when "slab_debug=..." is defined), and "never". The existing
-> > "no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
-> > 
-> > This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
-> > 
-> > Link: https://github.com/KSPP/linux/issues/368  [1]
-> > Fixes: 792702911f58 ("slub: force on no_hash_pointers when slub_debug is enabled")
-> > Co-developed-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-> > Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-> > Acked-by: Vlastimil Babka <vbabka@suse.cz>
-> > Acked-by: David Rientjes <rientjes@google.com>
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> > Signed-off-by: Kees Cook <kees@kernel.org>
-> > ---
+> Unfortunately, implementation in MAC drivers is somewhat inconsistent
+> where a delay is fixed or configurable on the MAC side. As a first step
+> towards sorting this out, improve the documentation.
 > 
-> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+> Link: https://lore.kernel.org/lkml/d25b1447-c28b-4998-b238-92672434dc28@lunn.ch/ [1]
+> Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+> ---
+>  .../bindings/net/ethernet-controller.yaml        | 16 +++++++++-------
+>  1 file changed, 9 insertions(+), 7 deletions(-)
 > 
-> By the way, while this patch does not change existing behavior of
-> slub_debug implying no_hash_pointers, kmem_cache_init() is not the only
-> place that enables slub_debug_enabled static key.
-> 
-> Maybe we should update __kmem_cache_create_args() too?
-> (in a separate patch)
+> diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> index 45819b2358002..2ddc1ce2439a6 100644
+> --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> @@ -74,19 +74,21 @@ properties:
+>        - rev-rmii
+>        - moca
+>  
+> -      # RX and TX delays are added by the MAC when required
+> +      # RX and TX delays are part of the board design (through PCB traces). MAC
+> +      # and PHY must not add delays.
+>        - rgmii
+>  
+> -      # RGMII with internal RX and TX delays provided by the PHY,
+> -      # the MAC should not add the RX or TX delays in this case
+> +      # RGMII with internal RX and TX delays provided by the MAC or PHY. No
+> +      # delays are included in the board design; this is the most common case
+> +      # in modern designs.
+>        - rgmii-id
+>  
+> -      # RGMII with internal RX delay provided by the PHY, the MAC
+> -      # should not add an RX delay in this case
+> +      # RGMII with internal RX delay provided by the MAC or PHY. TX delay is
+> +      # part of the board design.
+>        - rgmii-rxid
+>  
+> -      # RGMII with internal TX delay provided by the PHY, the MAC
+> -      # should not add an TX delay in this case
+> +      # RGMII with internal TX delay provided by the MAC or PHY. RX delay is
+> +      # part of the board design.
 
-The state of pointer hashing should not change after boot. (It is
-intentionally designed to use __ro_after_init.) Honestly, I'd prefer
-that slab_debug was not tied to no_hash_pointers at all...
+This looks good to me. There is nothing here which is Linux specific.
 
--Kees
+Reviewed-by: Andrew Lunn <andrew@lunn.ch>
 
--- 
-Kees Cook
+    Andrew
