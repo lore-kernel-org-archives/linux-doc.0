@@ -1,139 +1,162 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 434591EE7BE;
-	Fri, 18 Apr 2025 09:47:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD3E2566E3
+	for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 10:08:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744969661; cv=none; b=BTonbPF98QFwwlfpvMCtE7FGJwRh8Yf3BbmWrAZM5aIkezhEEXnb84HQQ5fRIsKjiFecpqh+tU21MFsnSCRSDKpukT5SA4A/NwlDXikXY7uTCeV3u1lp0FLSbHTUIZp3sWp8LfzVVqRHwHc4usijR64b7aBG4X/VGglShqF+a9o=
+	t=1744970921; cv=none; b=iL+1+fpTRjU+/vTO7G5KKp9/EZ7sD63OZM5Wz31unbh+1FFcHxpuasXKgKjqyZT9KxkUnsQYjgmI0exZUovDXBdND1I8ECGYMQI/4TOBaodTbYqC/6K/DtSnp+tZIUstJg25ye5uvFDuzP/3X24YpEkKCIOCWCdgbqBZo7zhOoc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744969661; c=relaxed/simple;
-	bh=8jwykI53JCNbaSypwuG+RWUMk7PeGrgRcv18YEGTuFY=;
+	s=arc-20240116; t=1744970921; c=relaxed/simple;
+	bh=+RdKaGSYUCfEJiJFPdvtZA8GDr+MXvsxZc3B1z2ldAc=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a/JCenbUYEkub8XdJKGoHgms66Tg4EuayP2kpZ4eUUSqmNeULcep/Ry/6coc2DCdSCJTkL6zMxI94fmf28SKnK3LAWDj5e08O1Upf3IJvT4rZiNY9/nYwYQmWk+JsEbnq6V+auk0amIg8T7cREJffuHZUU74M92sJSjcBOVXR3s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XploiAhZ; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=GhQ6ihLqYlBb47r90yS5Hsa6DubsghiTJliy7qxkdypnHekHQKZpC1+WHAYuzmGgh+P6/H/rjP8x3ZIqfMFUE2iBFGxJGfktmTnlLrJLlilkvApNarZH96VecAuAz1P0Yxu0y9gS/pVvVmmI3JGNBdo90LadHYPtbQOHnEhZuaY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=MHcTT8YH; arc=none smtp.client-ip=209.85.221.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XploiAhZ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 07008C4CEE2;
-	Fri, 18 Apr 2025 09:47:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1744969660;
-	bh=8jwykI53JCNbaSypwuG+RWUMk7PeGrgRcv18YEGTuFY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=XploiAhZxHhhESDDOzs6niwDsMekhlSF0KLhLxU2wLsTxoVAeV58dtipiIl03XwBi
-	 pJwtAevjn8/bzF+azjXZhGxhvKuzNr1Ty1KpSfbgpIxK2ze8HwsrUHTltTbuIjiW6a
-	 TF0YAZnAiL+OWrOZv9wJvP5WDFT0Hj4hdcEbgQ9mGy2gMW0ige/oE/b/EoZLL562Mh
-	 Bn84R7NUJ95LnA3tdArAj/agRtmkw/0m3EaIsSF4o8Y1OEAglxES+nLywxxXi54cME
-	 YZQJfSaaTe3kAqnaVi0qUqngAEReZcwyFYxyBDM+Tg9k82vuV2E4pHMh9bUl1XCUz2
-	 4qz8CTkM+tw3g==
-Date: Fri, 18 Apr 2025 10:47:35 +0100
-From: Simon Horman <horms@kernel.org>
-To: Sean Anderson <sean.anderson@linux.dev>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Russell King <linux@armlinux.org.uk>, upstream@airoha.com,
-	Christian Marangi <ansuelsmth@gmail.com>,
-	linux-kernel@vger.kernel.org,
-	Kory Maincent <kory.maincent@bootlin.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [net-next PATCH v3 03/11] net: pcs: Add subsystem
-Message-ID: <20250418094735.GA2676982@horms.kernel.org>
-References: <20250415193323.2794214-1-sean.anderson@linux.dev>
- <20250415193323.2794214-4-sean.anderson@linux.dev>
- <20250417091936.GB2430521@horms.kernel.org>
- <0bd8a9c0-4824-4c1f-bf32-ac1e57e2bea0@linux.dev>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="MHcTT8YH"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-39c266c1389so1193882f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 03:08:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1744970917; x=1745575717; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=S/qSOlMwG1tBEqwfJZ1I0Em2NJMBVmrSeT8vIpdwl2s=;
+        b=MHcTT8YHqz0sPIsVXD3PjHYlZOJYmOSryhjogdewJJh/JRO/PPQEfABxDHFbvXi2z/
+         TxSJ2GVuBkflbuZF7FZDkphpx7k0tlWQrr34twF3Bzt9HG497z2zFqaf/eOZGo/m2tS0
+         c0kj+c29EqVoTgAgOATw0xgb+uwucPZrO7NX7qmOq1CbsphQQvlu+UsV0RTWJjt4UHoR
+         dVaB5GbGhPT8xIBh5fe6PCHMaLVPW9MR6+hL+kLLib5xzbJVi0mISRG1w+/U/iri6xGI
+         sKM0NXpXqyIOmScvXHoeLpfYRwL11ocwK8AuYrp14HpLc3L2ek5zTly0vsym/qAQkYqi
+         jwLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1744970917; x=1745575717;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=S/qSOlMwG1tBEqwfJZ1I0Em2NJMBVmrSeT8vIpdwl2s=;
+        b=LxFOTYQKEtrhvgjajJ3V3iNWOx31KKUfE64RpsikCIECPE98VZvT5ZD2hOXTQJOB6Y
+         eQBSb6y8Eer32tDikrH6nlgCzjp64c9IXFXrZ0faB3XKRNXX37ozhNNs3AYr5Bw1g0xa
+         HVB4r/m9ZFb/RfFrcMjrwyS0OvBGtZc5uyy4wdQiQB19bt/clOchd3MyBnBQoBInT7r6
+         cznCCrQciqw4HJkrb7qJkOfC7R3psKcmab0JFi9Hhn0bZkkiyTWCE5G1cxRza9Sh3dfj
+         iB4zfgTkdhwMLRZXffsJA1jnUK6yIv1Zt//DAhKrxpYDvQl3OsYxGFTeLL/sOZp7BNfq
+         npHg==
+X-Forwarded-Encrypted: i=1; AJvYcCVvwpFBN6xiZBSLCnPEuI0kc/2omHVlf3WWsYqrictCyzkpGsbcdTSsiLJZLS+zvCKT7OkU4KpnzcA=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzJYMPjzk6xSowCpl3NEnhsuWCBLsb0Bid/fNtz2NyZSsYPeYcn
+	lb3QGC4iiCIvXfD54mDL7530rNorsq12QIC103JbeBlWk4oAKeeBZ4FSeVV+OHk=
+X-Gm-Gg: ASbGncs5UYleR9zwrzGIWxDyXllVpjseuOZvb4rF7oDNfZL3QHCH0McLOlwHIjNboZn
+	18gz3q0iqZQEKK4ljVn2dsOTgYwzv9aurpfVPZHH0xoX/kHtbSCk1weuldbEEW4JlT5j3vKd5+3
+	yxh4VFPBLqL9377h5wM6LEtO3WaXE3nEEEDfKxVXRWUP2E8zcFyIzFYlgIZWbAgbW5gx5OxvYZi
+	6WRZoY4v+XpOWgNJ0gsxPrWNKZig2vtxGqp7HKPt/TfZjDJNsyUF//YZJ0f356w6bNNMYofb3o6
+	ImJuNUY87MkblcCKg+ukVK4AbPcqYBrEqVjubSij1xwJdFXdIsGO0hbD8K/drmxPiHfvfrMImwE
+	aDz0=
+X-Google-Smtp-Source: AGHT+IG1L3VfWz9J+obAaFerB2Z59MsSd2dFbffUprl7yAb1d+1L7oSTlRW/aqUm+C4DsUsSsv8Z1w==
+X-Received: by 2002:a5d:6da1:0:b0:39e:e259:91fd with SMTP id ffacd0b85a97d-39efba3cbbbmr1721753f8f.17.1744970916627;
+        Fri, 18 Apr 2025 03:08:36 -0700 (PDT)
+Received: from mai.linaro.org (146725694.box.freepro.com. [130.180.211.218])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa4207fcsm2342052f8f.19.2025.04.18.03.08.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 18 Apr 2025 03:08:36 -0700 (PDT)
+Date: Fri, 18 Apr 2025 12:08:34 +0200
+From: Daniel Lezcano <daniel.lezcano@linaro.org>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Luca Ceresoli <luca.ceresoli@bootlin.com>,
+	"Rafael J. Wysocki" <rafael@kernel.org>,
+	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
+	Florian Fainelli <florian.fainelli@broadcom.com>,
+	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
+	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
+	Binbin Zhou <zhoubinbin@loongson.cn>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Michael Turquette <mturquette@baylibre.com>,
+	Stephen Boyd <sboyd@kernel.org>,
+	Geert Uytterhoeven <geert+renesas@glider.be>,
+	Liu Ying <victor.liu@nxp.com>, linux-clk@vger.kernel.org,
+	linux-pm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] vsprintf: remove redundant and unused %pCn format
+ specifier
+Message-ID: <aAIkouhM_ePdhgJY@mai.linaro.org>
+References: <20250311-vsprintf-pcn-v2-0-0af40fc7dee4@bootlin.com>
+ <20250311-vsprintf-pcn-v2-2-0af40fc7dee4@bootlin.com>
+ <Z9BKW_06nLAOzYfY@pathway.suse.cz>
+ <20250407184647.3b72de47@booty>
+ <Z_TRZSxwzfAZ9u6I@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <0bd8a9c0-4824-4c1f-bf32-ac1e57e2bea0@linux.dev>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <Z_TRZSxwzfAZ9u6I@pathway.suse.cz>
 
-On Thu, Apr 17, 2025 at 11:05:24AM -0400, Sean Anderson wrote:
-> On 4/17/25 05:19, Simon Horman wrote:
-> > On Tue, Apr 15, 2025 at 03:33:15PM -0400, Sean Anderson wrote:
-> >> This adds support for getting PCS devices from the device tree. PCS
-> >> drivers must first register with phylink_register_pcs. After that, MAC
-> >> drivers may look up their PCS using phylink_get_pcs.
-> >> 
-> >> We wrap registered PCSs in another PCS. This wrapper PCS is refcounted
-> >> and can outlive the wrapped PCS (such as if the wrapped PCS's driver is
-> >> unbound). The wrapper forwards all PCS callbacks to the wrapped PCS,
-> >> first checking to make sure the wrapped PCS still exists. This design
-> >> was inspired by Bartosz Golaszewski's talk at LPC [1].
-> >> 
-> >> pcs_get_by_fwnode_compat is a bit hairy, but it's necessary for
-> >> compatibility with existing drivers, which often attach to (devicetree)
-> >> nodes directly. We use the devicetree changeset system instead of
-> >> adding a (secondary) software node because mdio_bus_match calls
-> >> of_driver_match_device to match devices, and that function only works on
-> >> devicetree nodes.
-> >> 
-> >> [1] https://lpc.events/event/17/contributions/1627/
-> >> 
-> >> Signed-off-by: Sean Anderson <sean.anderson@linux.dev>
+On Tue, Apr 08, 2025 at 09:33:57AM +0200, Petr Mladek wrote:
+> On Mon 2025-04-07 18:46:47, Luca Ceresoli wrote:
+> > Hello Petr, Daniel,
 > > 
-> > Hi Sean,
+> > On Tue, 11 Mar 2025 15:36:11 +0100
+> > Petr Mladek <pmladek@suse.com> wrote:
 > > 
-> > I noticed a few build problems after sending my previous email.
+> > > On Tue 2025-03-11 10:21:23, Luca Ceresoli wrote:
+> > > > %pC and %pCn print the same string, and commit 900cca294425 ("lib/vsprintf:
+> > > > add %pC{,n,r} format specifiers for clocks") introducing them does not
+> > > > clarify any intended difference. It can be assumed %pC is a default for
+> > > > %pCn as some other specifiers do, but not all are consistent with this
+> > > > policy. Moreover there is now no other suffix other than 'n', which makes a
+> > > > default not really useful.
+> > > > 
+> > > > All users in the kernel were using %pC except for one which has been
+> > > > converted. So now remove %pCn and all the unnecessary extra code and
+> > > > documentation.
+> > > > 
+> > > > Acked-by: Stephen Boyd <sboyd@kernel.org>
+> > > > Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+> > > > Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>  
+> > > 
+> > > Makes sense. Looks and works well, so:
+> > > 
+> > > Reviewed-by: Petr Mladek <pmladek@suse.com>
+> > > Tested-by: Petr Mladek <pmladek@suse.com>
+> > > 
+> > > Daniel, if I get it correctly, you have already taken the 1st patch.
+> > > Would you mind to take also this patch using the same tree, please?
+> > > Otherwise, we would need to coordinate pull requests in the upcoming
+> > > merge window ;-)
 > > 
-> > I was able to exercise them using variants of the following to
-> > generate small configs. I include this here in case it is useful to you.
-> > 
-> > make tinyconfig
-> > 
-> > cat >> .config << __EOF__
-> > CONFIG_MODULES=y
-> > CONFIG_NET=y
-> > CONFIG_NETDEVICES=y
-> > CONFIG_PCS=y
-> > CONFIG_PHYLIB=m
-> > __EOF__
-> > 
-> > cat >> .config << __EOF__
-> > CONFIG_OF=y
-> > CONFIG_OF_UNITTEST=y
-> > CONFIG_OF_DYNAMIC=y
-> > __EOF__
-> > 
-> > yes "" | make oldconfig
-> > 
-> > ...
-> > 
-> >> diff --git a/drivers/net/pcs/core.c b/drivers/net/pcs/core.c
-> > 
-> > ...
+> > I see none of these two patches in linux-next.
 > 
-> Thanks, I was able to reproduce/fix these issues.
+> I see.
 > 
-> How did you find these? By inspection?
+> > Anything I should do? Resend? Or just wait a bit more?
 > 
-> I often end up missing build issues like this because I mostly
-> test with everything enabled.
+> Daniel,	Rafael, Zhang, Lukasz,
+> 
+> would you like to take both patches via the linux-pm.git thermal tree?
+> Or should I take both patches via the printk tree?
+> Both ways work for me.
 
-Hi Sean,
+I'll take care of them now
 
-The issue regarding fwnode_mdio_find_device and PHYLIB as a module
-came up with an automated allmodconfig W=1 build.
+Thanks for the heads up
 
-I came across the other issue, regarding CONFIG_OF_DYNAMIC, while
-investigating the PHYLIB issue.  Basically running allmodconfig takes ages
-on my development machine.  So I wanted to try coming up with a small
-config, based on tinyconfig, that would reproduce the PHYLIB issue. And on
-the way there - as you can see artifacts of in the configuration commands
-above - I hit the CONFIG_OF_DYNAMIC issue.
+  -- Daniel
 
-My take on this is that it's good to test allmodconfig, although the build
-can take ages. Especially if there is any risk of link failures. And, as
-for other cases, perhaps there are standard ones that are worth exercising,
-like with/without IPv6 support (probably not relevant to this patchset).
-But otherwise I think we get down to waiting for the bots (or someone on
-the ML) to happen to come across a broken (random?) configuration.
+-- 
 
-...
+ <http://www.linaro.org/> Linaro.org │ Open source software for ARM SoCs
+
+Follow Linaro:  <http://www.facebook.com/pages/Linaro> Facebook |
+<http://twitter.com/#!/linaroorg> Twitter |
+<http://www.linaro.org/linaro-blog/> Blog
