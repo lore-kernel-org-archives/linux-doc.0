@@ -1,90 +1,62 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C278F26FD90
-	for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 10:10:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF5AAFBF6;
+	Fri, 18 Apr 2025 11:16:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1744971051; cv=none; b=TFB0o3PisXaykeF1z5pexzEl4PfoPNJOijtWby4ALkGFnPgl+dGysYmAJRbVXCNUEJipCNttwz5OFyktWwHhllybidG840Fum6rcJKQ4aTOGuy2E/y4FkgzolVFDHPFdIWIIE4tHCR7kEvnEZFDzGlZEnNK5groGdqDphLbTv9Y=
+	t=1744975003; cv=none; b=rmKS1kt8eK8wFfK4A7NUeeCIvGvM1gQ7T9v2JzMB7fgRGrrXYkR/r1M6AoT2JA22U0OUSNDpmQrdAGHNjlD1pcWxrkExCQOAg20bw4IFTJE0/4Xq1W34wkvKE8WXP6LeJLtZDhpWtifrBlvPIaEp7gGdLsuuUy2bHYgLM/kKB24=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1744971051; c=relaxed/simple;
-	bh=oxo8zJvG+XexDH4GV9ba7u6yzdBoFEqWEzjIqCoHiyU=;
+	s=arc-20240116; t=1744975003; c=relaxed/simple;
+	bh=dvINVulNQm/q8ensffkaywCQHGoNQIxMaLroxrA224U=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=GNvuL8SHuk3/KJ7kElyzHxR5YHvCeEZjvXA2SPBKWAk4GmfkLrBhRgb5pnrC4hw7YLoMd4YSJqSHL6rLb678Df901Ghd5//TUmW7bR5g2SCc/RkWhd9H9+hcYn5Osyd46waByK3lQiqidbWxFYzUg8GFmoYFgXq5nFCDTp0w0Lc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=AeueT/YR; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=b/5vpN6LpKLsC7yWUFgdUXOSTE5lsE+Ul0a2+NQHxGOnwuqv4iOeC9pUbSoD8qM9LwNITTl25bsrrlzWc+aRKRVvUOur0T8JUEXaPJJ/4uMn+aHMdj68BW3L113543BpnYya668P4ccOMq0It+Y325Iz3tQ+nNnDT/H6sS4DFfE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WQ/C0ZYE; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="AeueT/YR"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3913958ebf2so1606084f8f.3
-        for <linux-doc@vger.kernel.org>; Fri, 18 Apr 2025 03:10:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1744971048; x=1745575848; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=ozue1u0UD/lMowwm+i9KBTDQgenusJImLUvjM+8MVbc=;
-        b=AeueT/YRylIPJ4g7w6ZwgV6AQL7LGieRpYSklr8yT3XahUT6A+CLnlOkEHkhSbQ2tD
-         5w4A/NeCYYu+iFcDCzmuvGGiekZ1mmmj4OC8qGP1PuXUwfMFWCbGqwfoCsfMQQ2KBqQK
-         ScLmUMDtaJgEeuGiMQcA4Gkp/MMXblHmgfCrFfVB1ULR3TShILgPmTURHMZWUCs0SMuJ
-         JIlPM0M3uiCv40EnQ+ySuxnb6evXCm4/vjVLLez95dKtspZhl8yJPQqNY9ifwETSNAS8
-         rFx7Aw+ZkW2uRb4tdoS4vu15aHYOFE8+M4mJGw1427BqruQPTYnuH2dzkrtil+msdrl1
-         f9IA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1744971048; x=1745575848;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ozue1u0UD/lMowwm+i9KBTDQgenusJImLUvjM+8MVbc=;
-        b=mdBltJEb98FiWZr2VFDpH5gyzpBz9WpHEzBkSTdVldyNne895uqbg3o+xGc5MfJ/Xf
-         RmKmj+oDJ38i0+jlI/dzQIwymGD/vHZ0bFH1fehsbp01VKNbNgskIiXVa8oeARsDQ6k2
-         cJSa0jG9NMD8PlMGZYqjlEBp08BqlX6RMbZnL7/kefLB1BHMjK3LSOI3poKS/fqCUwGC
-         3nZ1Ntd+FzEw3u3snPats7GxaKXuJJOWsDInXopL2RuP1qWR/9JN9kKdCfPUqWN9rk4T
-         PIimldhh334RwkBU6L+tQoCBhScopEEBtR0eJ5uNdq4wBG1VJc8EfnGD5yvIq6emoqdI
-         qnFA==
-X-Forwarded-Encrypted: i=1; AJvYcCUprrBpvips9OiWJZPY0OSwj/fC2rw94s7wQrFwUAn1ClnXnTXnVfOQ4LvrMHX40ibzfb0/lBfHNgM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPEU1Fas4GkHzEBWXwcxw1X247v6ir36jtvRf+dvQh9sKQES7g
-	pnR9VvVU0Juj7OR1dNp8UZAU4lFfiOw7E71PzlSmTgGhOq+0bMvV4mRrPhG3TpA=
-X-Gm-Gg: ASbGnct5fRTI+VvTdCqbl+ei38P8A4ubr+TeuWwWbwJMycyIUFxzLzNXT1Oc/N5AAO+
-	I4r7NtRVBhf+MqHdwV0wbohEMxbQa/2a0Vecimv46UaOLHj8PyOZGBur4zDkkg73ZdhiYT1slW8
-	Rv3mWQ0pys7pkxtW1e2LGJlKu4VrwKZUL/krRn8PiPYKHWc0YwwXGbszWZbbaFYk1Vsmu8rUsti
-	QTTZx5v5GLt2cFc8QXdidRj2UTy9TAf+niEyTYBdUKL2mwzbeZn0/BUq+BBBZJNpAwoa6paGert
-	zBfmNqycqNGXbRbooH7wXbtgs0Y4ySY8+GFUCFJS1zOERmteOfTYa66AE8QMC8DA7dDdOVFyq77
-	7x1E=
-X-Google-Smtp-Source: AGHT+IGMO5NilTQ/i8XjooFiGASJrvfFcSDr2VmmYPyU7LJt3JOcj+Z5vFGa9j6IQlSeom/a+LiTrg==
-X-Received: by 2002:a5d:6da6:0:b0:39d:724f:a8ec with SMTP id ffacd0b85a97d-39efbace5efmr1565326f8f.44.1744971048079;
-        Fri, 18 Apr 2025 03:10:48 -0700 (PDT)
-Received: from mai.linaro.org (146725694.box.freepro.com. [130.180.211.218])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5d69bbsm16142205e9.34.2025.04.18.03.10.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Apr 2025 03:10:47 -0700 (PDT)
-Date: Fri, 18 Apr 2025 12:10:45 +0200
-From: Daniel Lezcano <daniel.lezcano@linaro.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>,
-	Zhang Rui <rui.zhang@intel.com>, Lukasz Luba <lukasz.luba@arm.com>,
-	Florian Fainelli <florian.fainelli@broadcom.com>,
-	Ray Jui <rjui@broadcom.com>, Scott Branden <sbranden@broadcom.com>,
-	Broadcom internal kernel review list <bcm-kernel-feedback-list@broadcom.com>,
-	Petr Mladek <pmladek@suse.com>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WQ/C0ZYE"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 900E0C4CEE2;
+	Fri, 18 Apr 2025 11:16:42 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1744975003;
+	bh=dvINVulNQm/q8ensffkaywCQHGoNQIxMaLroxrA224U=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=WQ/C0ZYEmhZxfgAy6oSrCwtec97rYq+IQy72i0QXVT4Nic+OEanmNLKKsvIIV8Ekj
+	 1x7gsGqeeh1osAlFFL0KDLYmWqa0wjQIuod7vLi1OTJlGC5z4qe7QRZ5wj4SS2nqE7
+	 +SH+NS44ZZFAhuBE2ycaahgJLhmerUsAv+G4MIEsX1IMHt8ijPEtQJjO7xQyt6BtQo
+	 tyiaXeqr34eQH5l7zL728IAWC+FUE2oBIwfQLJxm+CM1SCDOXGLW0mSvG5V+8GFATT
+	 SZvt1I0LYqXvIMwiZgIyzpqRSI5Z5otseG0yxNbcvWknZp/i/ZkFcDocEdXEtgjD/p
+	 CTvTVJqZ7YpdQ==
+Date: Fri, 18 Apr 2025 14:16:39 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Cc: Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
 	Andrew Morton <akpm@linux-foundation.org>,
-	Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>,
-	Binbin Zhou <zhoubinbin@loongson.cn>,
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-	Michael Turquette <mturquette@baylibre.com>,
-	Stephen Boyd <sboyd@kernel.org>,
-	Geert Uytterhoeven <geert+renesas@glider.be>,
-	Liu Ying <victor.liu@nxp.com>, linux-clk@vger.kernel.org,
-	linux-pm@vger.kernel.org, linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2 0/2] vsprintf: remove redundant %pCn format specifier
-Message-ID: <aAIlJaZlBxympZDx@mai.linaro.org>
-References: <20250311-vsprintf-pcn-v2-0-0af40fc7dee4@bootlin.com>
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v8 00/24] Provide a new two step DMA mapping API
+Message-ID: <20250418111639.GB199604@unreal>
+References: <cover.1744825142.git.leon@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -93,27 +65,25 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250311-vsprintf-pcn-v2-0-0af40fc7dee4@bootlin.com>
+In-Reply-To: <cover.1744825142.git.leon@kernel.org>
 
-On Tue, Mar 11, 2025 at 10:21:21AM +0100, Luca Ceresoli wrote:
-> There are two printk format specifiers for clocks: %pC and %pCn, and they
-> print exactly the same string. Geert confirmed the intended reason for
-> having two was that %pC would act as a default, like some (but not all)
-> formats do. However there seem to be no advantage in having two instead of
-> one, especially now that there is no other %pC specifier since commit
-> 666902e42fd8 ("lib/vsprintf: Remove atomic-unsafe support for %pCr").
+On Fri, Apr 18, 2025 at 09:47:30AM +0300, Leon Romanovsky wrote:
+> Following recent on site LSF/MM 2025 [1] discussion, the overall
+> response was extremely positive with many people expressed their
+> desire to see this series merged, so they can base their work on it.
 > 
-> Definitely having two without properly documenting they do the same creates
-> misunderstandings [0].
-> 
-> Since %pCn is used in a single place, replace it with %pC and remove %pCn
-> to simplify such format specifiers implementation and avoid
-> misunderstandings.
-> 
-> [0] https://lore.kernel.org/dri-devel/f8df2b5e-b005-4ada-8108-159b2b94a72e@nxp.com/
-> 
-> Signed-off-by: Luca Ceresoli <luca.ceresoli@bootlin.com>
-> ---
+> It includes, but not limited:
+>  * Luis's "nvme-pci: breaking the 512 KiB max IO boundary":
+>    https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+>  * Chuck's NFS conversion to use one structure (bio_vec) for all types
+>    of RPC transports:
+>    https://lore.kernel.org/all/913df4b4-fc4a-409d-9007-088a3e2c8291@oracle.com
+>  * Matthew's vision for the world without struct page:
+>    https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
 
-Applied, thanks
+The link here should be https://lore.kernel.org/all/Z-WRQOYEvOWlI34w@casper.infradead.org/
 
+>  * Confidential computing roadmap from Dan:
+>    https://lore.kernel.org/all/6801a8e3968da_71fe29411@dwillia2-xfh.jf.intel.com.notmuch
+
+Thanks
