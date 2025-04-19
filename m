@@ -1,163 +1,509 @@
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2CDE9141987;
-	Sat, 19 Apr 2025 18:43:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 473B4189906;
+	Sat, 19 Apr 2025 19:03:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745088192; cv=none; b=Pt7kMkE1vAzT7mYE1QU2ElW5rHQweh9m/5ofLdHdA+lbvVEHPVxynKYpCAewq9s64jX6oElT32jEh1cvzDVnDhAW2GwFCdw6pmZ64ISkfi1y+5sq38Pu3Vc6k3nbpQq0L9Hf9W8CNp9VlCw8SfbBoLGYmnwBNM+PhjP0wGkMmeU=
+	t=1745089393; cv=none; b=N8PkQZoeNJIi6DxVytXdek7ZnhsmujghqD+iJBWIhx1p2ai98hx0RB0ACb6NvNh8WJYaw0pvaMpOC7QiJi4dFgZo2fHY2I7T9o1xWz/98S863eQPURMb4suAKisQXsWPlgSRzvxCZ1mWnKOeGlIXDZZTqmV1hx15xJx1BYjMYvo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745088192; c=relaxed/simple;
-	bh=/IK6cg2GHIIyrcAJnvyMkeViVUMZrJYg2RkAOBwS19A=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=PgcGGZVADuxzmCgmBcbaz6DRuU3H8A7W352nbGZJaEtJqrvnsPqu9fos9ylF/9dI5Hmi9BuPbCzxh0rTgFXO7YH6gQdIEvNvZbuoa6YwG0IzDT+R3/0/4c+/AyyZtNnfh969ZADOF6BCrLTAuvVDwx6tWtcaWDKLDXKGDl0g2Es=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=RHMe1IHR; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1745089393; c=relaxed/simple;
+	bh=katT5kliIICOtirlQwBv+OMm4d5Rm0kDRuwNNkCHKW0=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=CB3ETyUL1yJHIyD2VlXmkFsPnzZ2lrdMwRo6VVgJbbgqS7UdIhMoSQt35/fxSofi5uL84C1Z5IyS1liW37295WlAMpJNATPvGcF6450iP4CIyhN0OlaLaSZAkepCWyMdItVCVJW8CLBxjYHt7hVW3MtjwkYHHm6YTRY+cokBJRA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WCzjuVim; arc=none smtp.client-ip=209.85.208.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="RHMe1IHR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1745088187;
-	bh=/IK6cg2GHIIyrcAJnvyMkeViVUMZrJYg2RkAOBwS19A=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=RHMe1IHRKB26uNfJlBF7ALgONSElkWQ6KKW0bT2wodynaC/EV91ZGZT25zwOKcgUI
-	 AsNItyW4QJsECEFjsFIXN7LheApxWUGpEuTQCcC/zQkkiZIcAg02HQltXw1Ki7rif9
-	 0Nz3S0r1TQCKxqHmhJw7Mw1fAwjURiR+UyQJawYU=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id 709701C0094;
-	Sat, 19 Apr 2025 14:43:06 -0400 (EDT)
-Message-ID: <64859c5c8fd969186c1997a340ed6307e2c70f06.camel@HansenPartnership.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet
- <corbet@lwn.net>, David Howells <dhowells@redhat.com>, Herbert Xu
- <herbert@gondor.apana.org.au>, "David S. Miller" <davem@davemloft.net>,
- Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge
- E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>,
- Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>,
- Shuah Khan <shuah@kernel.org>, =?ISO-8859-1?Q?Micka=EBl_Sala=FCn?=
- <mic@digikod.net>,  =?ISO-8859-1?Q?G=FCnther?= Noack <gnoack@google.com>,
- Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,  Bill Wendling
- <morbo@google.com>, Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen
- <jarkko@kernel.org>,  Jan Stancek <jstancek@redhat.com>, Neal Gompa
- <neal@gompa.dev>, linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- keyrings@vger.kernel.org,  linux-crypto@vger.kernel.org,
- linux-security-module@vger.kernel.org,  linux-kbuild@vger.kernel.org,
- linux-kselftest@vger.kernel.org,  bpf@vger.kernel.org,
- llvm@lists.linux.dev, nkapron@google.com, teknoraver@meta.com, 
- roberto.sassu@huawei.com, xiyou.wangcong@gmail.com
-Date: Sat, 19 Apr 2025 14:43:05 -0400
-In-Reply-To: <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
-	 <20250404215527.1563146-2-bboscaccy@linux.microsoft.com>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WCzjuVim"
+Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5f4ca707e31so4142854a12.2;
+        Sat, 19 Apr 2025 12:03:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745089389; x=1745694189; darn=vger.kernel.org;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7Mf0LPoDiGeCgyBur/YV8BMdSw27MvkR9reXhITuAkk=;
+        b=WCzjuVim9+7+5UEIT8UcUyN+1Mk0iH5gGmIcrgFAeShGcmp55DbE6sl30Wy9jXgCOX
+         8XWLW0DOKKYXdhY9CozfKjRqhQ4Ln+QR42ABp59JuZe74gAkTSOEzeT8xkKD/E3lpRSg
+         BaTTm48U6xoBLqn4bUSP2wKx1LHltx++7i0EVT0WD3wZROtn59WxmUBAHBLpH+CejTMx
+         vALMWwphAexyxdFGBtVPMKyEMaHPxRDRD6wfJk8WIwkEp4IXMkVj/kKNEps7md/rmztA
+         Pe2NyT/4JxDdV49T9mkysBIG7o2gvJCZT3fNB1OZWe8G7yRGAf6lVm7iPP5Q99V9ForR
+         +dXQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745089389; x=1745694189;
+        h=cc:to:message-id:content-transfer-encoding:mime-version:subject
+         :date:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7Mf0LPoDiGeCgyBur/YV8BMdSw27MvkR9reXhITuAkk=;
+        b=b7qpbPa5V9mgk6OE9DlP0FZVUzojBP16ttiU2fUrL5t0ZMQ7//6oTSlUhuqXzYSblL
+         1xWJhoAjx1mzgDntsjFy5EU8jNKsfx2yiv4SYGx66bnNc1vEyN8Z7D3jpSufIElaEu3l
+         DkATYXJ8pqMDuJHbPnsB1pO74olaeELqbrUMWN++sG8lFZs+/ooQb5yUI6lNKPmUa3jS
+         2pD3Nh8thJVXT9W+/FzJxiSOsEDtYO8T6xOlPeVV9Wb/VN4qYrUVKyOwnFGtDNU5q8Av
+         f5JImwNmPYNseZ2CKyoEQsD27djZHBe+o5Jb/FjoUmMOP7ddpn1RmeaN/eDcWvqPdE/l
+         ozCA==
+X-Forwarded-Encrypted: i=1; AJvYcCVSxlUY+MLZxkiaCN4SJvjUn9aAIuvDeAFzRu4zdI76p1lU8gXbn9WfF5EVAd5FzH1k2kSzxiwJ3x4=@vger.kernel.org, AJvYcCXWjspsetGCv8F2waboS3uyHFPxLmB8QGWbK9NQE/Vd/+4/n6uEHwKCYHgQBf7HjyVrBTIINjx7YWLORr8W@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx7NKGxNOqJTgG6NMpJ6QNkYXHINFTCeM6NtILG1pLP6KNTbTSA
+	XajgQvCkFM3YsAxcYEJu2g+tgTX9OEQqEGsyZP7BQFK1xlJGcZvW
+X-Gm-Gg: ASbGncsfIppm+sryLktAnrdzuPjmA9AduCkk0WQwaiAuq4aFSI3Otr1+oiaXYXB/hCJ
+	FumX4mIc8ob0mPfy4JU5dlla3gWmlXdq+lXB9k0awiOc+qNh2B7SVnv2DXx+egsr9i9CJTKzo4H
+	fdq6O9ZC5wu0W6ZJFTVDa/eHgvY+LXx2vkWCGxy4Uc9ctkhBhER4Ulc+Hli6dVhvXV3IsLXaNIs
+	Q7Ranv/xLuAulmwYVoKqZ5aD9ZXfXeA2FadQEBKFlmtiy0eqRgvfBq8WDIZ1rNerAgzfgNAB9Qk
+	GnffTbYqdwO7RdGbRzfSORBF5nui8ywEHhQGGYk=
+X-Google-Smtp-Source: AGHT+IEZHSgrEtSGG0Xy5gzRL08GrAJxgK/wVoBJGacUsXUbeg3cnjQIaCs8LtfLeti77li3r6ZF4w==
+X-Received: by 2002:a05:6402:4409:b0:5f0:a6bd:78d3 with SMTP id 4fb4d7f45d1cf-5f628625467mr4748327a12.34.1745089389089;
+        Sat, 19 Apr 2025 12:03:09 -0700 (PDT)
+Received: from [127.0.1.1] ([46.53.242.22])
+        by smtp.googlemail.com with ESMTPSA id 4fb4d7f45d1cf-5f62554b300sm2478510a12.6.2025.04.19.12.03.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Apr 2025 12:03:07 -0700 (PDT)
+From: Dzmitry Sankouski <dsankouski@gmail.com>
+Date: Sat, 19 Apr 2025 22:03:03 +0300
+Subject: [PATCH v5] hwmon: (max77705) add initial support
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250419-initial-support-for-max77705-sensors-v5-1-4504a9b48ba1@gmail.com>
+X-B4-Tracking: v=1; b=H4sIAGbzA2gC/43PQW7DIBAF0KtErEs1DGCsrnqPqgsMQ4IUGwccK
+ 1XkuxcnC7dZefln8f6fOyuUIxX2cbizTHMsMQ016LcDcyc7HIlHXzNDQA0CJY9DnKI983Idx5Q
+ nHlLmvb0ZY0DzQkNJuXDrQRiwTpDTrFJjphBvj5qv72fOdLnWtmk7nmKZUv55TJnFen22Iup9r
+ bPggmNHjWpMg20Hn8fexvO7Sz1bC2bcUAlqJ4oV1a1HBOOMxO4VlRuqYO9SWVHSoVHBOQ+gX1H
+ 1BxW4E1Xr+6RcwKa10v97f1mWXx+ZwpHsAQAA
+To: Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
+ Jonathan Corbet <corbet@lwn.net>, Chanwoo Choi <cw00.choi@samsung.com>, 
+ Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Dzmitry Sankouski <dsankouski@gmail.com>
+X-Mailer: b4 0.14.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1745089387; l=11894;
+ i=dsankouski@gmail.com; s=20240619; h=from:subject:message-id;
+ bh=katT5kliIICOtirlQwBv+OMm4d5Rm0kDRuwNNkCHKW0=;
+ b=KIMm4vLyFQ6cfLr5FoU7wjLOY0T10QwnQ2TeA9scMWFYUfAqJM1LErsZVV4k3hDPVcM7eOsuh
+ FSAZMV8BDHVCKC88oSNjL5A0+4lgVYWx5wQU/Pe+UQrZN40Rx/W6LZk
+X-Developer-Key: i=dsankouski@gmail.com; a=ed25519;
+ pk=YJcXFcN1EWrzBYuiE2yi5Mn6WLn6L1H71J+f7X8fMag=
 
-On Fri, 2025-04-04 at 14:54 -0700, Blaise Boscaccy wrote:
-[...]
-> diff --git a/include/linux/kernel_read_file.h
-> b/include/linux/kernel_read_file.h
-> index 90451e2e12bd..7ed9337be542 100644
-> --- a/include/linux/kernel_read_file.h
-> +++ b/include/linux/kernel_read_file.h
-> @@ -14,6 +14,7 @@
-> =C2=A0	id(KEXEC_INITRAMFS, kexec-initramfs)	\
-> =C2=A0	id(POLICY, security-policy)		\
-> =C2=A0	id(X509_CERTIFICATE, x509-certificate)	\
-> +	id(EBPF, ebpf)				\
+Add support for max77705 hwmon. Includes charger input, system bus, and
+vbyp measurements.
 
-This causes a BUILD_BUG_ON for me in security/selinux/hooks.c with
-CONFIG_SECURITY_SELINUX=3Dy because READING_MAX_ID and LOADING_MAX_ID
-become 8.
+Signed-off-by: Dzmitry Sankouski <dsankouski@gmail.com>
+---
+Maxim MAX77705 is a Companion Power Management and Type-C interface IC.
+It includes charger and fuel gauge blocks, and is capable of measuring
+charger input current, system bus volatage and current, and bypass
+voltage.
 
-Below is what I had to do to get the compile to work.
+Add support for mentioned measurements.
+---
+Changes in v5:
+- fix compile warning
+- review fixes
+- Link to v4: https://lore.kernel.org/r/20250412-initial-support-for-max77705-sensors-v4-1-2e4cf268a3d0@gmail.com
 
-Regards,
+Changes in v4:
+- Fix review comments.
+- Link to v3: https://lore.kernel.org/r/20250405-initial-support-for-max77705-sensors-v3-1-e5f64fccd005@gmail.com
 
-James
+Changes in v3:
+- Fix review comments.
+- Fix v2 changed message.
+- Link to v2: https://lore.kernel.org/r/20250304-initial-support-for-max77705-sensors-v2-1-58d2207c732b@gmail.com
+
+Changes in v2:
+- Fix review comments.
+- Link to v1: https://lore.kernel.org/r/20250225-initial-support-for-max77705-sensors-v1-1-2be6467628b0@gmail.com
+---
+Changes in v5:
+- remove now unneeded max77705_hwmon_readable_table
+- remove channel num check in max77705_is_visible, since there's only 2
+  channels
+- make is_signed bool
+- remove is_signed: pass is_signed as true/false
+
+Changes in v4:
+- documentation: "===" line is as long as the text
+- simplify the dependency to depends on MFD_MAX77705
+- cleanup headers
+- sign_extend current measurements - add 'is_signed' parameter to
+  max77705_read_and_convert function
+- replace ARRAY_SIZE(voltage_channel_desc) to 2
+- remove last blank line
+
+Changes in v3:
+- change resolution type to u32
+- pass regmap from parent
+- rebase on latest linux-next, containg max77705 driver
+
+Changes in v2:
+- sort headers alphabetically
+- swap curr channel info, to align indeces with channel_desc struct
+- reword coverletter
+- fix checkpatch --strict warnings
+- remove struct max77705_hwmon, use regmap directly
+- move register validation logic to is_visible function
+- move common register reading and converting logic to separate function
+- remove unnessesary {} in if statement
+- s/i2c->dev/pdev->dev in dev_err_probe
+---
+ Documentation/hwmon/index.rst    |   1 +
+ Documentation/hwmon/max77705.rst |  39 ++++++++++++++++++++++++++++++++++
+ MAINTAINERS                      |   7 ++++++
+ drivers/hwmon/Kconfig            |   9 ++++++++
+ drivers/hwmon/Makefile           |   1 +
+ drivers/hwmon/max77705-hwmon.c   | 229 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 6 files changed, 286 insertions(+)
+
+diff --git a/Documentation/hwmon/index.rst b/Documentation/hwmon/index.rst
+index f0ddf6222c44..764c1c91ed70 100644
+--- a/Documentation/hwmon/index.rst
++++ b/Documentation/hwmon/index.rst
+@@ -161,6 +161,7 @@ Hardware Monitoring Kernel Drivers
+    max6639
+    max6650
+    max6697
++   max77705
+    max8688
+    mc13783-adc
+    mc34vr500
+diff --git a/Documentation/hwmon/max77705.rst b/Documentation/hwmon/max77705.rst
+new file mode 100644
+index 000000000000..4a7680a340e1
+--- /dev/null
++++ b/Documentation/hwmon/max77705.rst
+@@ -0,0 +1,39 @@
++.. SPDX-License-Identifier: GPL-2.0
++
++Kernel driver max77705
++======================
++
++Supported chips:
++
++  * Maxim Integrated MAX77705
++
++    Prefix: 'max77705'
++
++    Addresses scanned: none
++
++    Datasheet: Not available
++
++Authors:
++      - Dzmitry Sankouski <dsankouski@gmail.com>
++
++Description
++-----------
++
++The MAX77705 PMIC provides current and voltage measurements besides fuelgauge:
++- chip input current
++- system bus current and voltage
++- VBYP voltage
++
++Sysfs Attributes
++----------------
++
++================= ========================================
++in1_label         "vbyp"
++in1_input         Measured chip vbyp voltage
++in2_label         "vsys"
++in2_input         Measured chip system bus voltage
++curr1_label       "iin"
++curr1_input       Measured chip input current.
++curr2_label       "isys"
++curr2_input       Measured chip system bus current.
++================= ========================================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 78467ad7a8fe..2e1e5233a011 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -18369,6 +18369,13 @@ S:	Maintained
+ F:	Documentation/hwmon/pc87427.rst
+ F:	drivers/hwmon/pc87427.c
+ 
++MAX77705 HARDWARE MONITORING DRIVER
++M:	Dzmitry Sankouski <dsankouski@gmail.com>
++L:	linux-hwmon@vger.kernel.org
++S:	Maintained
++F:	Documentation/hwmon/max77705.rst
++F:	drivers/hwmon/max77705-hwmon.c
++
+ PCA9532 LED DRIVER
+ M:	Riku Voipio <riku.voipio@iki.fi>
+ S:	Maintained
+diff --git a/drivers/hwmon/Kconfig b/drivers/hwmon/Kconfig
+index f91f713b0105..7109f252dab4 100644
+--- a/drivers/hwmon/Kconfig
++++ b/drivers/hwmon/Kconfig
+@@ -1308,6 +1308,15 @@ config SENSORS_MAX31790
+ 	  This driver can also be built as a module. If so, the module
+ 	  will be called max31790.
+ 
++config SENSORS_MAX77705
++	tristate "MAX77705 current and voltage sensor"
++	depends on MFD_MAX77705
++	help
++	  If you say yes here you get support for MAX77705 sensors connected with I2C.
++
++	  This driver can also be built as a module. If so, the module
++	  will be called max77705-hwmon.
++
+ config SENSORS_MC34VR500
+ 	tristate "NXP MC34VR500 hardware monitoring driver"
+ 	depends on I2C
+diff --git a/drivers/hwmon/Makefile b/drivers/hwmon/Makefile
+index 766c652ef22b..22ceebf10299 100644
+--- a/drivers/hwmon/Makefile
++++ b/drivers/hwmon/Makefile
+@@ -161,6 +161,7 @@ obj-$(CONFIG_SENSORS_MAX6650)	+= max6650.o
+ obj-$(CONFIG_SENSORS_MAX6697)	+= max6697.o
+ obj-$(CONFIG_SENSORS_MAX31790)	+= max31790.o
+ obj-$(CONFIG_MAX31827) += max31827.o
++obj-$(CONFIG_SENSORS_MAX77705) += max77705-hwmon.o
+ obj-$(CONFIG_SENSORS_MC13783_ADC)+= mc13783-adc.o
+ obj-$(CONFIG_SENSORS_MC34VR500)	+= mc34vr500.o
+ obj-$(CONFIG_SENSORS_MCP3021)	+= mcp3021.o
+diff --git a/drivers/hwmon/max77705-hwmon.c b/drivers/hwmon/max77705-hwmon.c
+new file mode 100644
+index 000000000000..17fc0764b01b
+--- /dev/null
++++ b/drivers/hwmon/max77705-hwmon.c
+@@ -0,0 +1,229 @@
++// SPDX-License-Identifier: GPL-2.0
++/*
++ *  MAX77705 voltage and current hwmon driver.
++ *
++ *  Copyright (C) 2025 Dzmitry Sankouski <dsankouski@gmail.com>
++ */
++
++#include <linux/err.h>
++#include <linux/hwmon-sysfs.h>
++#include <linux/hwmon.h>
++#include <linux/kernel.h>
++#include <linux/mfd/max77705-private.h>
++#include <linux/platform_device.h>
++#include <linux/regmap.h>
++
++struct channel_desc {
++	u8 reg;
++	u8 avg_reg;
++	const char *const label;
++	// register resolution. nano Volts for voltage, nano Amperes for current
++	u32 resolution;
++};
++
++static const struct channel_desc current_channel_desc[] = {
++	{
++		.reg = IIN_REG,
++		.label = "IIN_REG",
++		.resolution = 125000
++	},
++	{
++		.reg = ISYS_REG,
++		.avg_reg = AVGISYS_REG,
++		.label = "ISYS_REG",
++		.resolution = 312500
++	}
++};
++
++static const struct channel_desc voltage_channel_desc[] = {
++	{
++		.reg = VBYP_REG,
++		.label = "VBYP_REG",
++		.resolution = 427246
++	},
++	{
++		.reg = VSYS_REG,
++		.label = "VSYS_REG",
++		.resolution = 156250
++	}
++};
++
++static const struct regmap_range max77705_hwmon_readable_ranges[] = {
++	regmap_reg_range(AVGISYS_REG,	AVGISYS_REG + 1),
++	regmap_reg_range(IIN_REG,	IIN_REG + 1),
++	regmap_reg_range(ISYS_REG,	ISYS_REG + 1),
++	regmap_reg_range(VBYP_REG,	VBYP_REG + 1),
++	regmap_reg_range(VSYS_REG,	VSYS_REG + 1),
++};
++
++static int max77705_read_and_convert(struct regmap *regmap, u8 reg, u32 res,
++				     bool is_signed, long *val)
++{
++	int ret;
++	u32 regval;
++
++	ret = regmap_read(regmap, reg, &regval);
++	if (ret < 0)
++		return ret;
++
++	if (is_signed)
++		*val = mult_frac((long)sign_extend32(regval, 15), res, 1000000);
++	else
++		*val = mult_frac((long)regval, res, 1000000);
++
++	return 0;
++}
++
++static umode_t max77705_is_visible(const void *data,
++				   enum hwmon_sensor_types type,
++				   u32 attr, int channel)
++{
++	switch (type) {
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_input:
++		case hwmon_in_label:
++			return 0444;
++		default:
++			break;
++		}
++		break;
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_curr_input:
++		case hwmon_in_label:
++			return 0444;
++		case hwmon_curr_average:
++			if (current_channel_desc[channel].avg_reg)
++				return 0444;
++			break;
++		default:
++			break;
++		}
++		break;
++	default:
++		break;
++	}
++	return 0;
++}
++
++static int max77705_read_string(struct device *dev, enum hwmon_sensor_types type, u32 attr,
++				int channel, const char **buf)
++{
++	switch (type) {
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_in_label:
++			*buf = current_channel_desc[channel].label;
++			return 0;
++		default:
++			return -EOPNOTSUPP;
++		}
++
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_label:
++			*buf = voltage_channel_desc[channel].label;
++			return 0;
++		default:
++			return -EOPNOTSUPP;
++		}
++	default:
++		return -EOPNOTSUPP;
++	}
++}
++
++static int max77705_read(struct device *dev, enum hwmon_sensor_types type,
++			 u32 attr, int channel, long *val)
++{
++	struct regmap *regmap = dev_get_drvdata(dev);
++	u8 reg;
++	u32 res;
++
++	switch (type) {
++	case hwmon_curr:
++		switch (attr) {
++		case hwmon_curr_input:
++			reg = current_channel_desc[channel].reg;
++			res = current_channel_desc[channel].resolution;
++
++			return max77705_read_and_convert(regmap, reg, res, true, val);
++		case hwmon_curr_average:
++			reg = current_channel_desc[channel].avg_reg;
++			res = current_channel_desc[channel].resolution;
++
++			return max77705_read_and_convert(regmap, reg, res, true, val);
++		default:
++			return -EOPNOTSUPP;
++		}
++
++	case hwmon_in:
++		switch (attr) {
++		case hwmon_in_input:
++			reg = voltage_channel_desc[channel].reg;
++			res = voltage_channel_desc[channel].resolution;
++
++			return max77705_read_and_convert(regmap, reg, res, false, val);
++		default:
++			return -EOPNOTSUPP;
++		}
++	default:
++		return -EOPNOTSUPP;
++	}
++
++	return 0;
++}
++
++static const struct hwmon_ops max77705_hwmon_ops = {
++	.is_visible = max77705_is_visible,
++	.read = max77705_read,
++	.read_string = max77705_read_string,
++};
++
++static const struct hwmon_channel_info *max77705_info[] = {
++	HWMON_CHANNEL_INFO(in,
++			   HWMON_I_INPUT | HWMON_I_LABEL,
++			   HWMON_I_INPUT | HWMON_I_LABEL
++			),
++	HWMON_CHANNEL_INFO(curr,
++			   HWMON_C_INPUT | HWMON_C_LABEL,
++			   HWMON_C_INPUT | HWMON_C_AVERAGE | HWMON_C_LABEL
++			),
++	NULL
++};
++
++static const struct hwmon_chip_info max77705_chip_info = {
++	.ops = &max77705_hwmon_ops,
++	.info = max77705_info,
++};
++
++static int max77705_hwmon_probe(struct platform_device *pdev)
++{
++	struct device *hwmon_dev;
++	struct regmap *regmap;
++
++	regmap = dev_get_regmap(pdev->dev.parent, NULL);
++	if (!regmap)
++		return -ENODEV;
++
++	hwmon_dev = devm_hwmon_device_register_with_info(&pdev->dev, "max77705", regmap,
++							 &max77705_chip_info, NULL);
++	if (IS_ERR(hwmon_dev))
++		return dev_err_probe(&pdev->dev, PTR_ERR(hwmon_dev),
++				"Unable to register hwmon device\n");
++
++	return 0;
++};
++
++static struct platform_driver max77705_hwmon_driver = {
++	.driver = {
++		.name = "max77705-hwmon",
++	},
++	.probe = max77705_hwmon_probe,
++};
++
++module_platform_driver(max77705_hwmon_driver);
++
++MODULE_AUTHOR("Dzmitry Sankouski <dsankouski@gmail.com>");
++MODULE_DESCRIPTION("MAX77705 monitor driver");
++MODULE_LICENSE("GPL");
 
 ---
+base-commit: a4cda136f021ad44b8b52286aafd613030a6db5f
+change-id: 20250123-initial-support-for-max77705-sensors-ad0170ac1ec5
 
-diff --git a/security/selinux/hooks.c b/security/selinux/hooks.c
-index e7a7dcab81db..9a7ed0b4b08d 100644
---- a/security/selinux/hooks.c
-+++ b/security/selinux/hooks.c
-@@ -4133,7 +4133,7 @@ static int selinux_kernel_read_file(struct file *file=
-,
- {
- 	int rc =3D 0;
-=20
--	BUILD_BUG_ON_MSG(READING_MAX_ID > 7,
-+	BUILD_BUG_ON_MSG(READING_MAX_ID > 8,
- 			 "New kernel_read_file_id introduced; update SELinux!");
-=20
- 	switch (id) {
-@@ -4158,6 +4158,10 @@ static int selinux_kernel_read_file(struct file *fil=
-e,
- 		rc =3D selinux_kernel_load_from_file(file,
- 						SYSTEM__X509_CERTIFICATE_LOAD);
- 		break;
-+	case READING_EBPF:
-+		rc =3D selinux_kernel_load_from_file(file,
-+						SYSTEM__EBPF_LOAD);
-+		break;
- 	default:
- 		break;
- 	}
-@@ -4169,7 +4173,7 @@ static int selinux_kernel_load_data(enum kernel_load_=
-data_id id, bool contents)
- {
- 	int rc =3D 0;
-=20
--	BUILD_BUG_ON_MSG(LOADING_MAX_ID > 7,
-+	BUILD_BUG_ON_MSG(LOADING_MAX_ID > 8,
- 			 "New kernel_load_data_id introduced; update SELinux!");
-=20
- 	switch (id) {
-@@ -4195,6 +4199,10 @@ static int selinux_kernel_load_data(enum kernel_load=
-_data_id id, bool contents)
- 		rc =3D selinux_kernel_load_from_file(NULL,
- 						SYSTEM__X509_CERTIFICATE_LOAD);
- 		break;
-+	case LOADING_EBPF:
-+		rc =3D selinux_kernel_load_from_file(NULL,
-+						   SYSTEM__EBPF_LOAD);
-+		break;
- 	default:
- 		break;
- 	}
-diff --git a/security/selinux/include/classmap.h b/security/selinux/include=
-/classmap.h
-index 04a9b480885e..671db23451df 100644
---- a/security/selinux/include/classmap.h
-+++ b/security/selinux/include/classmap.h
-@@ -65,7 +65,7 @@ const struct security_class_mapping secclass_map[] =3D {
- 	  { "ipc_info", "syslog_read", "syslog_mod", "syslog_console",
- 	    "module_request", "module_load", "firmware_load",
- 	    "kexec_image_load", "kexec_initramfs_load", "policy_load",
--	    "x509_certificate_load", NULL } },
-+	    "x509_certificate_load", "ebpf_load", NULL } },
- 	{ "capability", { COMMON_CAP_PERMS, NULL } },
- 	{ "filesystem",
- 	  { "mount", "remount", "unmount", "getattr", "relabelfrom",
+Best regards,
+-- 
+Dzmitry Sankouski <dsankouski@gmail.com>
 
