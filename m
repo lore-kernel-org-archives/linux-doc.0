@@ -1,117 +1,85 @@
-Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C78D515;
-	Sun, 20 Apr 2025 02:34:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EC9A1EDA27;
+	Sun, 20 Apr 2025 07:09:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745116459; cv=none; b=gsyho8UdIik3W43YVk+SlOV4qVsngoRQgzi8SqjNYCeEkHrOdF9tLoJ6oLmSStw3a6dZ0ZxJXpK+Q057E9F0941NTpoMHdPxKGJ1ExWkv8hud+PPYmj9xRclk3RyCPUFEzf2td5UaX8ZrgSGtrL4nOkMJQQu1vBJwUwYuBYeJyE=
+	t=1745132992; cv=none; b=Wq+dCA2qI5tTq5LkoU1VgacLUtKSHJ5d25cgtvsZ5uIo5icHH9cKdmyjqCCAdlX16XGc9qYnhWAI3lVjJfymyg3uxXSSUmGFH3GXSQPxNNGf5K2XOi6i88+wVxoT2ivpEUCZ9Xww0Ij6yT3EHEW2YdwhplMnih3fPwY93DysTv4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745116459; c=relaxed/simple;
-	bh=zpRG+4ESqx8weMv/lLvyN70WbZRncAlm97xmEM8W+zo=;
+	s=arc-20240116; t=1745132992; c=relaxed/simple;
+	bh=DnPJAtQCAT1601If/hRz83wTZ4UHqcQsShHrfo6H7rM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mQ3B8vT/nH3X8ETdSkhRTgfmZt7I/P8oiO/gjOCXMgerQUempUY4/e2LsYkOx6j0sLuU4H7538R1KlShcvKNurZ5J4jVnEebw3x+7dAY0yrkh/ZiTBdVX6TOKOoLaEKpBdtVfz9+SFgusvGVb8kO0Gry81SUWbElkFWQQlBoXrg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aYs2DN2H; arc=none smtp.client-ip=209.85.215.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hNT2VaoMwH/yFx+hEwwhHAISx952WB6Zkjmh2hXQXi2d0kw5+qSM0Pb+sJUAvqZWu9rQcOlvCMgWxJvrofwfu4gdfCEwir364NAX3G3/a8V9FKWrJyKNtjsAjzIgtaCxEr2vQhf1c37dOkoAGpa7h0TulajmXKwaRuuMV0P8kPM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RDz9qVfp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aYs2DN2H"
-Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-af51596da56so2363593a12.0;
-        Sat, 19 Apr 2025 19:34:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745116457; x=1745721257; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Cer7pacIvzGQHZLSRkFuB7iMRA/qUESA+zB+RrPnUOs=;
-        b=aYs2DN2HDv7zd4jqBfl/QQZJZJONrVY6DNuvOwY7G+tU3CsAWcLenY/BebTaERZMDm
-         7W/1JzNbYSLnRJu2oAMmuEi/eMsnIjneRnGrSXLRoAzKPyCAa8vcBxhTAMLjnLA/YWY6
-         cYyCwzSMvOIbQo71VUCkZBa7Qiezjijn4A78DnVHOXjPMyGYOQ+6mTYq0Bu+XsfG07uZ
-         oLEieoEZm836Aa5SJUQxdWqmkP5RGR/lsvTrbEOKV+IjiLGbLxWRDryN2JVerrwI0wti
-         NCUhby/rtrX/g5czDS/9wH6oj7qyiOHA6bqoF3yMbluUI1iLWFkE1bZ2aZ6rsd+JR92+
-         Jz9g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745116457; x=1745721257;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Cer7pacIvzGQHZLSRkFuB7iMRA/qUESA+zB+RrPnUOs=;
-        b=C7Cbe9UJ8XFxZBeHjtAFgIi+xWdNJ8eJuxkVqEZWQfdUOVAfJqe1DKhpZu6MaqVcVH
-         YWJLNOiWDDq8frW6OnJrtrtgU09e8r4rXKyYIfEGCMs+0cg8JmQ3sAbKeYXGxkZs8eJL
-         IrV7HcWGA8w/sw4O+HsvUFqaggobjDjHcRNaoLZt4MMZxUrG444QC7XhkoKr7vsMpfAL
-         YhCPVweoXCwJYJ4M5TqwCBT/m03g0tbZJHNSjOK0H+O2KK0fMoBVBNxFqtb1rYr0pD4F
-         C+nVL/YQSTICygKjihGnCTthUAOoJ6BAXDF4PyT8J6XdjXpqa9B94k0mScCovWEgzJo4
-         9Nig==
-X-Forwarded-Encrypted: i=1; AJvYcCUgYOpVZA8G9RAdkev5S7X0tX63G/zWpoKsnTkrkZ6yk7jFkWwcEAzYcuvMjeYPXYcjatqzP5HRFCU=@vger.kernel.org, AJvYcCWjtWT/INhDZU7wjM0nVRcN7eIjyBEouQ9aqqgI0rw8BQ5mGJ0pigobJgUYAeDstY8zIWxbWZjx4X+5P9Hf@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx8kqjp7vzJCmWZMTXmFJAdMoSdX52fLtpUGAt/1Ff0Grr1Yz35
-	qJRXN4A+FChBGomRD1741j1cZP8Ac/7bOltW6pI1IUykG2VLU/DU
-X-Gm-Gg: ASbGnct02TO0Zmfa2GnOp1oWETxuSp1RBoMveRThUB1WEM07i7wt/otab/snQuQZX8f
-	1YJHSxl01+28vr8hxfLo7Uuie5AoB7RL9UIdBP0zEQZDZc7WO3ihYtZtjHsFH0PH5lS9+kvQI2J
-	ghP+22qiYbqKoMNA0HY+zOAnBNHIQ3kPA3LSeZu2yWqjWj7miLdgwbIpVUg0EbcFTQ00E48EmXA
-	u+pVA6Zbk8VmHfq40KE6Gc7CDOVN4KhgWGH7BtGRN7tH7ZEc45kUR66ih/nE8QhMQgx5qkYh1E7
-	DJwicQ88ltlu95Y1v6pROUbf+3hUV39rmBNwBuGd
-X-Google-Smtp-Source: AGHT+IEDZ1t1jMw2FiN3A0cP9gyJ3a09UAw7Kj90kwun9fTwMj5UtoOryCIOPgp/BHuqqhth5Rto+A==
-X-Received: by 2002:a17:902:ce8c:b0:224:160d:3f54 with SMTP id d9443c01a7336-22c535ad0f8mr114306245ad.31.1745116457247;
-        Sat, 19 Apr 2025 19:34:17 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8c05dcsm3962485b3a.27.2025.04.19.19.34.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Apr 2025 19:34:16 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 7EE8F43F1C0F; Sun, 20 Apr 2025 09:34:10 +0700 (WIB)
-Date: Sun, 20 Apr 2025 09:34:10 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Joel Savitz <jsavitz@redhat.com>, linux-kernel@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] docs: namespace: Tweak and reword resource control doc
-Message-ID: <aARdIqU6Y7baKrSk@archie.me>
-References: <20250419150428.1129352-1-jsavitz@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RDz9qVfp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 858A7C4CEE2;
+	Sun, 20 Apr 2025 07:09:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745132991;
+	bh=DnPJAtQCAT1601If/hRz83wTZ4UHqcQsShHrfo6H7rM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RDz9qVfpkRY4EAI36WaskxJdBPEHUlHFbAqFkCaVljTQw2lc/CZWqFZnCOm8MUu+u
+	 UrnadqItcqjJX8psssUB220xLgoCNkTErsCMMfM+LcQNv/lN9+7iyBAixDzSSYRERs
+	 9QvymfQ6DxqnBDFAPnDfrK3vcmVwiHkXZQebyeCwLRbHisYArdA1/1Ng8W7pTvxGdN
+	 ExFInLH9/9MK/zmr0slhL5h+cLRxxF3IiVZqx3CiPDDOuIqmNXHF3wJ8GD6rscX14G
+	 v8WEpFME6iQdRojmcM1vpWqjFnfXt8wLrQZoE00EvORp7GOiurN3OrarLMgd6b2C6G
+	 j2uwfP3dJ++Dg==
+Date: Sun, 20 Apr 2025 10:09:46 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v8 20/24] blk-mq: add scatterlist-less DMA mapping helpers
+Message-ID: <20250420070946.GA10635@unreal>
+References: <cover.1744825142.git.leon@kernel.org>
+ <87b151a3791d71e58ec6f1b42bcf5fe06304cf80.1744825142.git.leon@kernel.org>
+ <65b0070e-3386-4725-8e8a-15b0409b8368@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="26tnTgdynCWnioaZ"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250419150428.1129352-1-jsavitz@redhat.com>
+In-Reply-To: <65b0070e-3386-4725-8e8a-15b0409b8368@oracle.com>
 
+On Fri, Apr 18, 2025 at 11:33:09PM +0530, ALOK TIWARI wrote:
+> 
+> 
+> > + * Start DMA mapping @req to @dma_dev.  @state and @iter are provided by the
+> > + * caller and don't need to be initialized.  @state needs to be stored for use
+> > + * at unmap time, @iter is only needed at map time.
+> > + *
+> > + * Returns %false if there is no segment to map, including due to an error, or
+> > + * %true it it did map a segment.
+> 
+> typo - it it -> if it
 
---26tnTgdynCWnioaZ
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Sat, Apr 19, 2025 at 11:04:28AM -0400, Joel Savitz wrote:
-> -There are a lot of kinds of objects in the kernel that don't have
-> -individual limits or that have limits that are ineffective when a set
-> -of processes is allowed to switch user ids.  With user namespaces
-> -enabled in a kernel for people who don't trust their users or their
-> -users programs to play nice this problems becomes more acute.
-> +The kernel contains many kinds of objects that either don't have
-> +individual limits or that have limits which are ineffective when
-> +a set of processes is allowed to switch their UID. On a system
-> +where there admins don't trust their users or their users' programs,
-> +user namespaces expose the system to potential misuse of resources.
-
-Do you mean "when there are admins who don't trust ..." or "where admins do=
-n't
-trust ..."?
-
-Confused...
-
---=20
-An old man doll... just what I always wanted! - Clara
-
---26tnTgdynCWnioaZ
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaARdHAAKCRD2uYlJVVFO
-ozKKAP4y74GboL6dwb9pcAYpiirdpARFK999Ta1CwtOXo0RM0QEA9jSOmOeXnBP4
-DOBtXmaFFeijLoNfkB//yZnQQGGxAAg=
-=OvWN
------END PGP SIGNATURE-----
-
---26tnTgdynCWnioaZ--
+Thanks, will fix all types on my dma-split-wip branch.
