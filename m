@@ -1,268 +1,247 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA8941D5ADE;
-	Sun, 20 Apr 2025 20:41:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2E8B158218;
+	Sun, 20 Apr 2025 21:07:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745181722; cv=none; b=SH5ijCkj1QwcSQNU0OdW1MP/BGLPzKIoyYS+OWmWKmNemfPeFSigD9nS1STDxm0lPYzrlx//MGDmsUWGuQ3EGMWHpQNo/qRuqWx46kIyQJQnWYJWPhmkpEvIlJ/qYAuI+sUgPTr6vzkv7vFmH0TPp9bJRG24iIEyv6RVyCF48tc=
+	t=1745183279; cv=none; b=oYf91fwFLE7RiXZ5jZxRMS659V16s7IRUdBrNN23utMCIUL4oOwSi9TsTrMlFq9Mbrvlh2aQeWpzwTfBjWLa8pgGcJzON+qBjiX4Gzsjg07SqL3HgAjVkhJgSt/b15qEevlg1bTdQ3A8M8RXVUB4Zb790/jqnasUjFJaVUR915Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745181722; c=relaxed/simple;
-	bh=teQPYuDz9tTXi8mi2szKpSwzk5F4fW9V3LeXAakuhBs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BlkKda0UJRKfiqJBUg2aSpPDrxJN9zs1H3RGhm/rLLwxtszqPfafv6hPIXdgk9A9biftV0zS4xSCbtIkrcTDjEmDxsfHTc58KqilTtM2eHddEL73naGuTAMFy+elwtbR4O50zAlkGifi5kPn2MZWFhezQ35wBj78nxkqBiI8Y1M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=pLX+Ns2N; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1745183279; c=relaxed/simple;
+	bh=jnfN/yETuQM9TPVDOvaU8IS8oqMugDy5Wob05rlDJ8M=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=CFpzDVJYFycu6ifWp7Bf5CxE1fGFrAdD88sWIJLv0yauN8+pveVC3WYGKWP2/iK5fUjSMyrxx+xUD5eZTfdd6zyJZnXYD60DTTyiqVD0QZ+lTm7IHpRYzV+FPtHSjzPmn/S1mr3JbEy4syPrxswl1w3OmXBQZhNUCHTp+UJDYFY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=GQBSdIzd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="pLX+Ns2N"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=ddnYJVKGQ10tJFcHzN/bceP5e/6UXo4rMFvf/KYGMfI=; b=pLX+Ns2NbpfoEuE5
-	gp7T3CUbHxzcS9K/krAKZ2zOj+zWH3j/30Ev4ntqndF7WY1HXy/NEU83MlqTgMcMtGpJjiER8Q5xO
-	Qfur9+92fuNrwZ1YEsl1/w0eEJe3pJMIL2Tn0FukB/WzyDjMpKnbS4vtyuVP2axIhKXrCCCZRp6+2
-	xQeNXVecc9y5sMv7v05NBxG5N6vs0BSYlcKlGjNBtZG107y0aF1SwHnlExG6NCpPFCU7Sudg/3vfS
-	W6iIeVz5B5tvdyA/Kjk+3p5dvB38vi+QaqnU7Nt+KkDSnpMyPDagZ7OZgZHPuTGwHg9yyOoVWnWHD
-	oa8T++GNh5UhZrqEFA==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1u6bU2-00Ck84-36;
-	Sun, 20 Apr 2025 20:41:46 +0000
-From: linux@treblig.org
-To: andersson@kernel.org,
-	mathieu.poirier@linaro.org
-Cc: corbet@lwn.net,
-	linux-remoteproc@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH] rpmsg: core:  Remove deadcode
-Date: Sun, 20 Apr 2025 21:41:46 +0100
-Message-ID: <20250420204146.154807-1-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="GQBSdIzd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CF7B2C4CEE2;
+	Sun, 20 Apr 2025 21:07:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1745183279;
+	bh=jnfN/yETuQM9TPVDOvaU8IS8oqMugDy5Wob05rlDJ8M=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GQBSdIzd6C3GPSthGTZENs7007kCQHh2D8/03/XuOXO18Lr+SLPAJA31nxkELzDkS
+	 Eo27CllHSH/La4mCfyKcillpPprUiY2ZFbG5QOfOnFdHaZBrfKekF+WOPv5FbGKJdz
+	 VRfwa97Gk0CDAqr/hesNFyMMDMtHsbOxcErrKJ3Y=
+Date: Sun, 20 Apr 2025 14:07:58 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: linux@treblig.org
+Cc: andriy.shevchenko@linux.intel.com, viro@zeniv.linux.org.uk,
+ corbet@lwn.net, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
+Message-Id: <20250420140758.601ae8abaa03aacb33ce7084@linux-foundation.org>
+In-Reply-To: <20250418234932.490863-1-linux@treblig.org>
+References: <20250418234932.490863-1-linux@treblig.org>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+On Sat, 19 Apr 2025 00:49:32 +0100 linux@treblig.org wrote:
 
-rpmsg_send_offchannel() and rpmsg_trysend_offchannel() have been
-unused since they were added in 2011's
-commit bcabbccabffe ("rpmsg: add virtio-based remote processor messaging
-bus")
+> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> 
+> The last use of relay_late_setup_files() was removed in 2018
+> by commit 2b47733045aa ("drm/i915/guc: Merge log relay file and channel
+> creation")
+> 
+> Remove it and the helper it used.
+> 
+> relay_late_setup_files() was used for eventually registering
+> 'buffer only' channels.  With it gone, delete the docs that
+> explain how to do that.   Which suggests it should be possible
+> to lose the 'has_base_filename' flags.
+> 
+> (Are there any other uses??)
+> 
 
-Remove them and associated docs.
+For some reason get_maintainer points at Al and Andy for relay.c but my
+mental rolodex thinks "Axboe".
 
-I suspect this means the trysend_offchannel and send_offchannel
-member function pointers and the virtio implementation of them can be
-removed as well, but haven't yet gone that far.
+Jens, does this look OK?
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- Documentation/staging/rpmsg.rst | 46 ------------------------
- drivers/rpmsg/rpmsg_core.c      | 63 ---------------------------------
- include/linux/rpmsg.h           | 22 ------------
- 3 files changed, 131 deletions(-)
-
-diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
-index 3713adaa1608..40282cca86ca 100644
---- a/Documentation/staging/rpmsg.rst
-+++ b/Documentation/staging/rpmsg.rst
-@@ -110,31 +110,6 @@ or a timeout of 15 seconds elapses. When the latter happens,
- The function can only be called from a process context (for now).
- Returns 0 on success and an appropriate error value on failure.
- 
--::
--
--  int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
--							void *data, int len);
--
--
--sends a message across to the remote processor, using the src and dst
--addresses provided by the user.
--
--The caller should specify the endpoint, the data it wants to send,
--its length (in bytes), and explicit source and destination addresses.
--The message will then be sent to the remote processor to which the
--endpoint's channel belongs, but the endpoint's src and channel dst
--addresses will be ignored (and the user-provided addresses will
--be used instead).
--
--In case there are no TX buffers available, the function will block until
--one becomes available (i.e. until the remote processor consumes
--a tx buffer and puts it back on virtio's used descriptor ring),
--or a timeout of 15 seconds elapses. When the latter happens,
---ERESTARTSYS is returned.
--
--The function can only be called from a process context (for now).
--Returns 0 on success and an appropriate error value on failure.
--
- ::
- 
-   int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len);
-@@ -173,27 +148,6 @@ return -ENOMEM without waiting until one becomes available.
- The function can only be called from a process context (for now).
- Returns 0 on success and an appropriate error value on failure.
- 
--::
--
--  int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
--							void *data, int len);
--
--
--sends a message across to the remote processor, using source and
--destination addresses provided by the user.
--
--The user should specify the channel, the data it wants to send,
--its length (in bytes), and explicit source and destination addresses.
--The message will then be sent to the remote processor to which the
--channel belongs, but the channel's src and dst addresses will be
--ignored (and the user-provided addresses will be used instead).
--
--In case there are no TX buffers available, the function will immediately
--return -ENOMEM without waiting until one becomes available.
--
--The function can only be called from a process context (for now).
--Returns 0 on success and an appropriate error value on failure.
--
- ::
- 
-   struct rpmsg_endpoint *rpmsg_create_ept(struct rpmsg_device *rpdev,
-diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
-index 207b64c0a2fe..6ee36adcbdba 100644
---- a/drivers/rpmsg/rpmsg_core.c
-+++ b/drivers/rpmsg/rpmsg_core.c
-@@ -193,38 +193,6 @@ int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst)
- }
- EXPORT_SYMBOL(rpmsg_sendto);
- 
--/**
-- * rpmsg_send_offchannel() - send a message using explicit src/dst addresses
-- * @ept: the rpmsg endpoint
-- * @src: source address
-- * @dst: destination address
-- * @data: payload of message
-- * @len: length of payload
-- *
-- * This function sends @data of length @len to the remote @dst address,
-- * and uses @src as the source address.
-- * The message will be sent to the remote processor which the @ept
-- * endpoint belongs to.
-- * In case there are no TX buffers available, the function will block until
-- * one becomes available, or a timeout of 15 seconds elapses. When the latter
-- * happens, -ERESTARTSYS is returned.
-- *
-- * Can only be called from process context (for now).
-- *
-- * Return: 0 on success and an appropriate error value on failure.
-- */
--int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
--			  void *data, int len)
--{
--	if (WARN_ON(!ept))
--		return -EINVAL;
--	if (!ept->ops->send_offchannel)
--		return -ENXIO;
--
--	return ept->ops->send_offchannel(ept, src, dst, data, len);
--}
--EXPORT_SYMBOL(rpmsg_send_offchannel);
--
- /**
-  * rpmsg_trysend() - send a message across to the remote processor
-  * @ept: the rpmsg endpoint
-@@ -301,37 +269,6 @@ __poll_t rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
- }
- EXPORT_SYMBOL(rpmsg_poll);
- 
--/**
-- * rpmsg_trysend_offchannel() - send a message using explicit src/dst addresses
-- * @ept: the rpmsg endpoint
-- * @src: source address
-- * @dst: destination address
-- * @data: payload of message
-- * @len: length of payload
-- *
-- * This function sends @data of length @len to the remote @dst address,
-- * and uses @src as the source address.
-- * The message will be sent to the remote processor which the @ept
-- * endpoint belongs to.
-- * In case there are no TX buffers available, the function will immediately
-- * return -ENOMEM without waiting until one becomes available.
-- *
-- * Can only be called from process context (for now).
-- *
-- * Return: 0 on success and an appropriate error value on failure.
-- */
--int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
--			     void *data, int len)
--{
--	if (WARN_ON(!ept))
--		return -EINVAL;
--	if (!ept->ops->trysend_offchannel)
--		return -ENXIO;
--
--	return ept->ops->trysend_offchannel(ept, src, dst, data, len);
--}
--EXPORT_SYMBOL(rpmsg_trysend_offchannel);
--
- /**
-  * rpmsg_set_flow_control() - request remote to pause/resume transmission
-  * @ept:	the rpmsg endpoint
-diff --git a/include/linux/rpmsg.h b/include/linux/rpmsg.h
-index 90d8e4475f80..fb7ab9165645 100644
---- a/include/linux/rpmsg.h
-+++ b/include/linux/rpmsg.h
-@@ -184,13 +184,9 @@ struct rpmsg_endpoint *rpmsg_create_ept(struct rpmsg_device *,
- 
- int rpmsg_send(struct rpmsg_endpoint *ept, void *data, int len);
- int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
--int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
--			  void *data, int len);
- 
- int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len);
- int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
--int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
--			     void *data, int len);
- 
- __poll_t rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
- 			poll_table *wait);
-@@ -271,15 +267,6 @@ static inline int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len,
- 
- }
- 
--static inline int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src,
--					u32 dst, void *data, int len)
--{
--	/* This shouldn't be possible */
--	WARN_ON(1);
--
--	return -ENXIO;
--}
--
- static inline int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len)
- {
- 	/* This shouldn't be possible */
-@@ -297,15 +284,6 @@ static inline int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data,
- 	return -ENXIO;
- }
- 
--static inline int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src,
--					   u32 dst, void *data, int len)
--{
--	/* This shouldn't be possible */
--	WARN_ON(1);
--
--	return -ENXIO;
--}
--
- static inline __poll_t rpmsg_poll(struct rpmsg_endpoint *ept,
- 				      struct file *filp, poll_table *wait)
- {
--- 
-2.49.0
-
+> ---
+>  Documentation/filesystems/relay.rst |  10 ---
+>  include/linux/relay.h               |   3 -
+>  kernel/relay.c                      | 111 +---------------------------
+>  3 files changed, 1 insertion(+), 123 deletions(-)
+> 
+> diff --git a/Documentation/filesystems/relay.rst b/Documentation/filesystems/relay.rst
+> index 04ad083cfe62..292ba8492aeb 100644
+> --- a/Documentation/filesystems/relay.rst
+> +++ b/Documentation/filesystems/relay.rst
+> @@ -301,16 +301,6 @@ user-defined data with a channel, and is immediately available
+>  (including in create_buf_file()) via chan->private_data or
+>  buf->chan->private_data.
+>  
+> -Buffer-only channels
+> ---------------------
+> -
+> -These channels have no files associated and can be created with
+> -relay_open(NULL, NULL, ...). Such channels are useful in scenarios such
+> -as when doing early tracing in the kernel, before the VFS is up. In these
+> -cases, one may open a buffer-only channel and then call
+> -relay_late_setup_files() when the kernel is ready to handle files,
+> -to expose the buffered data to the userspace.
+> -
+>  Channel 'modes'
+>  ---------------
+>  
+> diff --git a/include/linux/relay.h b/include/linux/relay.h
+> index 72b876dd5cb8..b3224111d074 100644
+> --- a/include/linux/relay.h
+> +++ b/include/linux/relay.h
+> @@ -159,9 +159,6 @@ struct rchan *relay_open(const char *base_filename,
+>  			 size_t n_subbufs,
+>  			 const struct rchan_callbacks *cb,
+>  			 void *private_data);
+> -extern int relay_late_setup_files(struct rchan *chan,
+> -				  const char *base_filename,
+> -				  struct dentry *parent);
+>  extern void relay_close(struct rchan *chan);
+>  extern void relay_flush(struct rchan *chan);
+>  extern void relay_subbufs_consumed(struct rchan *chan,
+> diff --git a/kernel/relay.c b/kernel/relay.c
+> index 5ac7e711e4b6..c0c93a04d4ce 100644
+> --- a/kernel/relay.c
+> +++ b/kernel/relay.c
+> @@ -452,7 +452,7 @@ int relay_prepare_cpu(unsigned int cpu)
+>  
+>  /**
+>   *	relay_open - create a new relay channel
+> - *	@base_filename: base name of files to create, %NULL for buffering only
+> + *	@base_filename: base name of files to create
+>   *	@parent: dentry of parent directory, %NULL for root directory or buffer
+>   *	@subbuf_size: size of sub-buffers
+>   *	@n_subbufs: number of sub-buffers
+> @@ -465,10 +465,6 @@ int relay_prepare_cpu(unsigned int cpu)
+>   *	attributes specified.  The created channel buffer files
+>   *	will be named base_filename0...base_filenameN-1.  File
+>   *	permissions will be %S_IRUSR.
+> - *
+> - *	If opening a buffer (@parent = NULL) that you later wish to register
+> - *	in a filesystem, call relay_late_setup_files() once the @parent dentry
+> - *	is available.
+>   */
+>  struct rchan *relay_open(const char *base_filename,
+>  			 struct dentry *parent,
+> @@ -540,111 +536,6 @@ struct rchan_percpu_buf_dispatcher {
+>  	struct dentry *dentry;
+>  };
+>  
+> -/* Called in atomic context. */
+> -static void __relay_set_buf_dentry(void *info)
+> -{
+> -	struct rchan_percpu_buf_dispatcher *p = info;
+> -
+> -	relay_set_buf_dentry(p->buf, p->dentry);
+> -}
+> -
+> -/**
+> - *	relay_late_setup_files - triggers file creation
+> - *	@chan: channel to operate on
+> - *	@base_filename: base name of files to create
+> - *	@parent: dentry of parent directory, %NULL for root directory
+> - *
+> - *	Returns 0 if successful, non-zero otherwise.
+> - *
+> - *	Use to setup files for a previously buffer-only channel created
+> - *	by relay_open() with a NULL parent dentry.
+> - *
+> - *	For example, this is useful for perfomring early tracing in kernel,
+> - *	before VFS is up and then exposing the early results once the dentry
+> - *	is available.
+> - */
+> -int relay_late_setup_files(struct rchan *chan,
+> -			   const char *base_filename,
+> -			   struct dentry *parent)
+> -{
+> -	int err = 0;
+> -	unsigned int i, curr_cpu;
+> -	unsigned long flags;
+> -	struct dentry *dentry;
+> -	struct rchan_buf *buf;
+> -	struct rchan_percpu_buf_dispatcher disp;
+> -
+> -	if (!chan || !base_filename)
+> -		return -EINVAL;
+> -
+> -	strscpy(chan->base_filename, base_filename, NAME_MAX);
+> -
+> -	mutex_lock(&relay_channels_mutex);
+> -	/* Is chan already set up? */
+> -	if (unlikely(chan->has_base_filename)) {
+> -		mutex_unlock(&relay_channels_mutex);
+> -		return -EEXIST;
+> -	}
+> -	chan->has_base_filename = 1;
+> -	chan->parent = parent;
+> -
+> -	if (chan->is_global) {
+> -		err = -EINVAL;
+> -		buf = *per_cpu_ptr(chan->buf, 0);
+> -		if (!WARN_ON_ONCE(!buf)) {
+> -			dentry = relay_create_buf_file(chan, buf, 0);
+> -			if (dentry && !WARN_ON_ONCE(!chan->is_global)) {
+> -				relay_set_buf_dentry(buf, dentry);
+> -				err = 0;
+> -			}
+> -		}
+> -		mutex_unlock(&relay_channels_mutex);
+> -		return err;
+> -	}
+> -
+> -	curr_cpu = get_cpu();
+> -	/*
+> -	 * The CPU hotplug notifier ran before us and created buffers with
+> -	 * no files associated. So it's safe to call relay_setup_buf_file()
+> -	 * on all currently online CPUs.
+> -	 */
+> -	for_each_online_cpu(i) {
+> -		buf = *per_cpu_ptr(chan->buf, i);
+> -		if (unlikely(!buf)) {
+> -			WARN_ONCE(1, KERN_ERR "CPU has no buffer!\n");
+> -			err = -EINVAL;
+> -			break;
+> -		}
+> -
+> -		dentry = relay_create_buf_file(chan, buf, i);
+> -		if (unlikely(!dentry)) {
+> -			err = -EINVAL;
+> -			break;
+> -		}
+> -
+> -		if (curr_cpu == i) {
+> -			local_irq_save(flags);
+> -			relay_set_buf_dentry(buf, dentry);
+> -			local_irq_restore(flags);
+> -		} else {
+> -			disp.buf = buf;
+> -			disp.dentry = dentry;
+> -			smp_mb();
+> -			/* relay_channels_mutex must be held, so wait. */
+> -			err = smp_call_function_single(i,
+> -						       __relay_set_buf_dentry,
+> -						       &disp, 1);
+> -		}
+> -		if (unlikely(err))
+> -			break;
+> -	}
+> -	put_cpu();
+> -	mutex_unlock(&relay_channels_mutex);
+> -
+> -	return err;
+> -}
+> -EXPORT_SYMBOL_GPL(relay_late_setup_files);
+> -
+>  /**
+>   *	relay_switch_subbuf - switch to a new sub-buffer
+>   *	@buf: channel buffer
+> -- 
+> 2.49.0
