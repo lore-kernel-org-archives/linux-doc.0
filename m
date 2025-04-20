@@ -1,136 +1,117 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f177.google.com (mail-pg1-f177.google.com [209.85.215.177])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AAE715CD74;
-	Sat, 19 Apr 2025 19:46:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56C78D515;
+	Sun, 20 Apr 2025 02:34:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745091988; cv=none; b=lLaQ3kNXU+GXEY/oMzNaEg/54MfYrvp1FQ3d1HZOPnUuo5J7IlyKxGnrqb4oU9CT6dfIm4VtGpO/YDT6fxplYOWagl4zjjXiPShZA611WxFQ3bmnKJS1T1b2u6a3qx1aEm5+fbCtrMAnu7RXTxis/ibXvZmrxCA2jaO10j+0rmU=
+	t=1745116459; cv=none; b=gsyho8UdIik3W43YVk+SlOV4qVsngoRQgzi8SqjNYCeEkHrOdF9tLoJ6oLmSStw3a6dZ0ZxJXpK+Q057E9F0941NTpoMHdPxKGJ1ExWkv8hud+PPYmj9xRclk3RyCPUFEzf2td5UaX8ZrgSGtrL4nOkMJQQu1vBJwUwYuBYeJyE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745091988; c=relaxed/simple;
-	bh=74mO15uFIckJUXnXnTZxaEJt7loiHy0xGNx6hkYoLZA=;
-	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=ZyZYC28UjUw0VtHpSJWUlz7oOHs1LGHIpOnVIEFtZPJ0rE+qMyBp2YaF2SNX2vfGKA85d6xW4xg/CdfvQz1XVMxOQIHln0Yrnz1wegRRiZ0OhxJ5CmTSmPmF3J/lk0YcijzgcSncmUmGW/nnvZk5YsIqwuccJEBhv8Z2ZIPWD70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HCwfrPct; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745116459; c=relaxed/simple;
+	bh=zpRG+4ESqx8weMv/lLvyN70WbZRncAlm97xmEM8W+zo=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mQ3B8vT/nH3X8ETdSkhRTgfmZt7I/P8oiO/gjOCXMgerQUempUY4/e2LsYkOx6j0sLuU4H7538R1KlShcvKNurZ5J4jVnEebw3x+7dAY0yrkh/ZiTBdVX6TOKOoLaEKpBdtVfz9+SFgusvGVb8kO0Gry81SUWbElkFWQQlBoXrg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=aYs2DN2H; arc=none smtp.client-ip=209.85.215.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HCwfrPct"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id B07C8C4CEE7;
-	Sat, 19 Apr 2025 19:46:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745091987;
-	bh=74mO15uFIckJUXnXnTZxaEJt7loiHy0xGNx6hkYoLZA=;
-	h=From:Subject:Date:To:Cc:Reply-To:From;
-	b=HCwfrPctLCTsWA+uXc4CGeVYSg/Bjs6JeROHrYRKpfFcWnNHiZbh0A1PxSNiRc+Ci
-	 ralXOP6QbVoPf058iXXlg4R+nVPdAKD41w2ZzZ0xhHprbL8HAMNZUyLpq4yKoYRXnV
-	 +Y0rQhccLF1VKwVCdFaUN9M7wWgUQFT+mwggd9dhJNd1FbbKA7PGwbYMm84oSz+A/h
-	 Yg3AW3rSEfhjBmGEh4+rDjW20EH/uxSN+p+TFvHYKm+qeUtn+JGntE4YCvSuwO1Q33
-	 aThFwcmNRmC3v/L1gcc1D96Beb9c/SNdOkCWkPpn/WnG/yTLmktVbAQ5I13svlGwjr
-	 npG/dsST80VPQ==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A503C369CF;
-	Sat, 19 Apr 2025 19:46:27 +0000 (UTC)
-From: David Heidelberg via B4 Relay <devnull+david.ixit.cz@kernel.org>
-Subject: [PATCH v5 0/2] Add support for sound profile switching and
- leverage for OnePlus 6 slider
-Date: Sat, 19 Apr 2025 21:46:23 +0200
-Message-Id: <20250419-op6-tri-state-v5-0-443127078517@ixit.cz>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="aYs2DN2H"
+Received: by mail-pg1-f177.google.com with SMTP id 41be03b00d2f7-af51596da56so2363593a12.0;
+        Sat, 19 Apr 2025 19:34:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745116457; x=1745721257; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=Cer7pacIvzGQHZLSRkFuB7iMRA/qUESA+zB+RrPnUOs=;
+        b=aYs2DN2HDv7zd4jqBfl/QQZJZJONrVY6DNuvOwY7G+tU3CsAWcLenY/BebTaERZMDm
+         7W/1JzNbYSLnRJu2oAMmuEi/eMsnIjneRnGrSXLRoAzKPyCAa8vcBxhTAMLjnLA/YWY6
+         cYyCwzSMvOIbQo71VUCkZBa7Qiezjijn4A78DnVHOXjPMyGYOQ+6mTYq0Bu+XsfG07uZ
+         oLEieoEZm836Aa5SJUQxdWqmkP5RGR/lsvTrbEOKV+IjiLGbLxWRDryN2JVerrwI0wti
+         NCUhby/rtrX/g5czDS/9wH6oj7qyiOHA6bqoF3yMbluUI1iLWFkE1bZ2aZ6rsd+JR92+
+         Jz9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745116457; x=1745721257;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Cer7pacIvzGQHZLSRkFuB7iMRA/qUESA+zB+RrPnUOs=;
+        b=C7Cbe9UJ8XFxZBeHjtAFgIi+xWdNJ8eJuxkVqEZWQfdUOVAfJqe1DKhpZu6MaqVcVH
+         YWJLNOiWDDq8frW6OnJrtrtgU09e8r4rXKyYIfEGCMs+0cg8JmQ3sAbKeYXGxkZs8eJL
+         IrV7HcWGA8w/sw4O+HsvUFqaggobjDjHcRNaoLZt4MMZxUrG444QC7XhkoKr7vsMpfAL
+         YhCPVweoXCwJYJ4M5TqwCBT/m03g0tbZJHNSjOK0H+O2KK0fMoBVBNxFqtb1rYr0pD4F
+         C+nVL/YQSTICygKjihGnCTthUAOoJ6BAXDF4PyT8J6XdjXpqa9B94k0mScCovWEgzJo4
+         9Nig==
+X-Forwarded-Encrypted: i=1; AJvYcCUgYOpVZA8G9RAdkev5S7X0tX63G/zWpoKsnTkrkZ6yk7jFkWwcEAzYcuvMjeYPXYcjatqzP5HRFCU=@vger.kernel.org, AJvYcCWjtWT/INhDZU7wjM0nVRcN7eIjyBEouQ9aqqgI0rw8BQ5mGJ0pigobJgUYAeDstY8zIWxbWZjx4X+5P9Hf@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx8kqjp7vzJCmWZMTXmFJAdMoSdX52fLtpUGAt/1Ff0Grr1Yz35
+	qJRXN4A+FChBGomRD1741j1cZP8Ac/7bOltW6pI1IUykG2VLU/DU
+X-Gm-Gg: ASbGnct02TO0Zmfa2GnOp1oWETxuSp1RBoMveRThUB1WEM07i7wt/otab/snQuQZX8f
+	1YJHSxl01+28vr8hxfLo7Uuie5AoB7RL9UIdBP0zEQZDZc7WO3ihYtZtjHsFH0PH5lS9+kvQI2J
+	ghP+22qiYbqKoMNA0HY+zOAnBNHIQ3kPA3LSeZu2yWqjWj7miLdgwbIpVUg0EbcFTQ00E48EmXA
+	u+pVA6Zbk8VmHfq40KE6Gc7CDOVN4KhgWGH7BtGRN7tH7ZEc45kUR66ih/nE8QhMQgx5qkYh1E7
+	DJwicQ88ltlu95Y1v6pROUbf+3hUV39rmBNwBuGd
+X-Google-Smtp-Source: AGHT+IEDZ1t1jMw2FiN3A0cP9gyJ3a09UAw7Kj90kwun9fTwMj5UtoOryCIOPgp/BHuqqhth5Rto+A==
+X-Received: by 2002:a17:902:ce8c:b0:224:160d:3f54 with SMTP id d9443c01a7336-22c535ad0f8mr114306245ad.31.1745116457247;
+        Sat, 19 Apr 2025 19:34:17 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8c05dcsm3962485b3a.27.2025.04.19.19.34.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Apr 2025 19:34:16 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 7EE8F43F1C0F; Sun, 20 Apr 2025 09:34:10 +0700 (WIB)
+Date: Sun, 20 Apr 2025 09:34:10 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Joel Savitz <jsavitz@redhat.com>, linux-kernel@vger.kernel.org
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v2] docs: namespace: Tweak and reword resource control doc
+Message-ID: <aARdIqU6Y7baKrSk@archie.me>
+References: <20250419150428.1129352-1-jsavitz@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAI/9A2gC/22MywrCMBBFf0VmbUISkz5c+R/iIrRjOyBNmcRgK
- f130+4El+dyz1khIhNGuJ5WYMwUKUwF3PkE3einAQX1hcEo45TVrQhzJRKTiMknFNhrr5zXWhs
- HxZkZn/Q5evdH4ZFiCrwc+Wz3FbqQkaWu6loZY7WVAyUZw4J8I37J8Q27mC+/56pxqtHtn/O2b
- V9r8B5LxgAAAA==
-X-Change-ID: 20250419-op6-tri-state-ed1a05a11125
-To: Dmitry Torokhov <dmitry.torokhov@gmail.com>, 
- Jonathan Corbet <corbet@lwn.net>, Jiri Kosina <jikos@kernel.org>, 
- Benjamin Tissoires <bentiss@kernel.org>, 
- Bjorn Andersson <andersson@kernel.org>, 
- Konrad Dybcio <konradybcio@kernel.org>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>
-Cc: linux-input@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
- devicetree@vger.kernel.org, Gergo Koteles <soyer@irl.hu>, 
- David Heidelberg <david@ixit.cz>, Casey Connolly <casey@connolly.tech>, 
- Konrad Dybcio <konradybcio@kernel.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1873; i=david@ixit.cz;
- h=from:subject:message-id;
- bh=74mO15uFIckJUXnXnTZxaEJt7loiHy0xGNx6hkYoLZA=;
- b=owEBbQKS/ZANAwAIAWACP8TTSSByAcsmYgBoA/2SkOtINWWfOxhOqR6NZROxrKFHxdFskpbDu
- FNfy0HVQp+JAjMEAAEIAB0WIQTXegnP7twrvVOnBHRgAj/E00kgcgUCaAP9kgAKCRBgAj/E00kg
- ch7gD/429cSbsyDMFzlPEAsnkV+EoxRbi5H+Z04vttfsz+8YGmbLxZg5h3i99laliyXP1HJMBAT
- 3zU/FYdRCH9O1xGML3n/I4Wb44Eno8gXsIcVdD5cZ5VQD+GBo7yEG2IWOoin+spVc9jjCr4oSmA
- E0JoGJdlzKuGJ8K0Anf4XenzGfkzo7gOBms9e4qCWOoyrxzXIlBBpJJGP+cwkBYW/tSYEsRb3On
- tcTElPPAIH98+2W35Q31o/3FKPZBejQfDGkR0g0H+fhC7zlpdwpVJ6FhXhAzr+O5scECjnA46nA
- 3s/n0ZWsaI7CREY9BQnfqOrGXTbe4/rnQgFymttWICI5HIZmQp6dE1h4xxKX8Oo1hDPpSN/ofSf
- jW0trUt4jp++VLAMdRn1sQp1gpidEwzfQR4u1WaUuImEh6UK4wPA+hwf1VPuAXBzlmDuPUBGgJU
- w4YEv23EuurQkX0UEbj2GRT0DQakl+t9fdKjDRRm24Z80dBKuJ2rSJ0ve/kjJ1mbj8AhT3a9BkD
- 0stv+1V3vmWx/EH31W7fojf6KWwfBsjcoPhjMmv6t+DBc3NQlILPBuknrDcYb9ulA33zdfYYV2A
- 1yKnNX/IoI8NTaAvWG3VJivL9wIJXx7i4rlFAdVI9I9aaHwxxUkDGUO5+Xei7eW399gF9x8AnLV
- bd6PX14Edlsf4jQ==
-X-Developer-Key: i=david@ixit.cz; a=openpgp;
- fpr=D77A09CFEEDC2BBD53A7047460023FC4D3492072
-X-Endpoint-Received: by B4 Relay for david@ixit.cz/default with auth_id=355
-X-Original-From: David Heidelberg <david@ixit.cz>
-Reply-To: david@ixit.cz
-
-This code was tested for two years within the downstream Snapdragon 845 tree.
-It is now perfectly integrated with feedbackd in the Phosh environment.
-
-Changes in v5:
-- Dropped merged
-  "Input: gpio-keys - add support for linux,input-value DTS property"
-- Link to v4: https://lore.kernel.org/all/cover.1677022414.git.soyer@irl.hu/
-
-Changes in v4:
-- DTS: use default debounce-interval, order alphabetically
-- Link to v3: https://lore.kernel.org/lkml/cover.1676850819.git.soyer@irl.hu/
-
-Changes in v3:
-- rename tri-state-key to alert-slider, fix DTS warnings,
-
-Changes in v2:
-- rebase to qcom/for-next
-add SND_PROFILE_* identifiers to input-event-codes.h
-
-Gergo Koteles (3):
-  Input: gpio-keys - add support for linux,input-value DTS property
-  Input: add ABS_SND_PROFILE
-  arm64: dts: qcom: sdm845-oneplus: add alert-slider
-
- Documentation/input/event-codes.rst           |  6 +++
- .../boot/dts/qcom/sdm845-oneplus-common.dtsi  | 39 ++++++++++++++++++-
- drivers/hid/hid-debug.c                       |  1 +
- drivers/input/keyboard/gpio_keys.c            |  3 ++
- include/uapi/linux/input-event-codes.h        |  9 +++++
- 5 files changed, 56 insertions(+), 2 deletions(-)
-
---
-2.39.2
-
-base-commit: 02ac8d2a011b630481d959298a1cc76ca0717f3e
----
-Gergo Koteles (2):
-      Input: add ABS_SND_PROFILE
-      arm64: dts: qcom: sdm845-oneplus: Add alert-slider
-
- Documentation/input/event-codes.rst                |  6 ++++
- .../arm64/boot/dts/qcom/sdm845-oneplus-common.dtsi | 39 ++++++++++++++++++++--
- drivers/hid/hid-debug.c                            |  1 +
- include/uapi/linux/input-event-codes.h             |  9 +++++
- 4 files changed, 53 insertions(+), 2 deletions(-)
----
-base-commit: bc8aa6cdadcc00862f2b5720e5de2e17f696a081
-change-id: 20250419-op6-tri-state-ed1a05a11125
-
-Best regards,
--- 
-David Heidelberg <david@ixit.cz>
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="26tnTgdynCWnioaZ"
+Content-Disposition: inline
+In-Reply-To: <20250419150428.1129352-1-jsavitz@redhat.com>
 
 
+--26tnTgdynCWnioaZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Sat, Apr 19, 2025 at 11:04:28AM -0400, Joel Savitz wrote:
+> -There are a lot of kinds of objects in the kernel that don't have
+> -individual limits or that have limits that are ineffective when a set
+> -of processes is allowed to switch user ids.  With user namespaces
+> -enabled in a kernel for people who don't trust their users or their
+> -users programs to play nice this problems becomes more acute.
+> +The kernel contains many kinds of objects that either don't have
+> +individual limits or that have limits which are ineffective when
+> +a set of processes is allowed to switch their UID. On a system
+> +where there admins don't trust their users or their users' programs,
+> +user namespaces expose the system to potential misuse of resources.
+
+Do you mean "when there are admins who don't trust ..." or "where admins do=
+n't
+trust ..."?
+
+Confused...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--26tnTgdynCWnioaZ
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaARdHAAKCRD2uYlJVVFO
+ozKKAP4y74GboL6dwb9pcAYpiirdpARFK999Ta1CwtOXo0RM0QEA9jSOmOeXnBP4
+DOBtXmaFFeijLoNfkB//yZnQQGGxAAg=
+=OvWN
+-----END PGP SIGNATURE-----
+
+--26tnTgdynCWnioaZ--
