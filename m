@@ -1,461 +1,313 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2055.outbound.protection.outlook.com [40.107.220.55])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F5CE1DDE9;
-	Mon, 21 Apr 2025 22:31:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745274689; cv=none; b=HKvGlD9sT16e6a+gfTkCT1ZGFIcTd7fQyl/sGrBZ4BAXOphyyUhChVzBMuia2Dn5VuF0mLOmKa4nn42zhvFGZ6MxzSoz3H0H+rd8V2PKZ2/22QtvYIGzj3y30EGEY/jCNGg+QNZ5rXMnvaW5d4A0DRsp7CmhVJwv6ibgDbO8Jww=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745274689; c=relaxed/simple;
-	bh=uGFWn0NUS4a5+jnrhvCn5EEH3bytpObjuMaQuFtN32E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qTpYcuNLPL6+wcyvqmNnufzehj3UOTvmyBgpmxwK0J4vFBRncu086Rkhv2JxoK0xYmDvVqncv4oDRNkTvU+Wm9eboGoATyBboiygZtu+szSZ5mErLaeQCF9c8K8kMOjVaiHLN91VECp4VYnlU8MafOSdUYGhEE/+HDw98nTFueE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=O6EPPCAR; arc=none smtp.client-ip=209.85.167.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE8651D90AD;
+	Mon, 21 Apr 2025 22:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.55
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745275459; cv=fail; b=Fkls3am42BLwOKHJFUQ3OQaygAdNy6jhubquHg3EQomesUg4IBFfThaQ+pMcz01qxk3UXZlhFIGsEs3VYWiEJwOgMsgzRqCfbzj7y10CG9QJXsbu9fwvT14/uzyo7EMxtFn4a/aODYso2BhMmwhtcg5k2ePqOgzdtoFBAUxRrX8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745275459; c=relaxed/simple;
+	bh=R0mjWVBOhzd5iwZIgV4MRtDXtXN1T/knIf0jcwNHtZY=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=XjemsmIaUk3DIgPVAXZRhnx/i0AhuGxvi0fQmNoO3tCJhl+LNuZ9gIAjrCiD5kBB9ez3z20NeeV4Zk946rzSM6Qk0Y87YMizauksBpz5R1mFyKCIeeUZawk1ZslxlGNlDZvfKX5+spjG2f7jtGvqzGylEi3dOE6qCAOGzcBBr1Q=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=jUEM8I7Y; arc=fail smtp.client-ip=40.107.220.55
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="O6EPPCAR"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3fea0363284so2814716b6e.1;
-        Mon, 21 Apr 2025 15:31:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745274686; x=1745879486; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=FXKF5DBzjOcQxYz/UT5w1r9XYBX2zcol6RnXk0eA+E4=;
-        b=O6EPPCARjxuVG3LaTplQgem3Ax8XZq8Ed5ITKwSACdL+Woi5+WSgKe2tjEbb1tJ6p+
-         gnthO2knzYcb7lJdnUo5OB5jN/dBqjeZwgjaXk1d7IWbW8+che8zj2upq0/UPh3VAVSJ
-         RRwo8zoX3l+9CS2zZn3NBpDny/558E+NgV1xaqfT1IddgILjBUCQ7Fb+cRcL+IoVHhrp
-         AO6CLZPp9dA4XXWjQHHUiFbJJIIyWXpMnBHvEfl7aHHUXy3VYvXuqwgNptfjhcM8u1ck
-         hnUMlwcmkq6xMw52RrvIizg49DYkoeWIqzuBqh/t+TNa2tDhSxK4S9rHFxbYvMcecS2P
-         Lv1w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745274686; x=1745879486;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=FXKF5DBzjOcQxYz/UT5w1r9XYBX2zcol6RnXk0eA+E4=;
-        b=HCk0GNt++0Bs8pFzVYbfOVH1zoonvzC+qOfsM457Vcc43m80yZyeHUNCd5qws3KY8q
-         5oI5VrIuITIVmKvkPmH6AlvDrJeBbJWU9hsiOKoV2bHGiRiaFoK3BcNPiSFhrAW6SeFM
-         s4CyHUXNQHxup9jhoMqRLFqW7FQUa9Wtvcz58Ht/bQNK0ogjBinzq23y9XvVaMWqnoB8
-         PHs4ABH16MbWYPtm7Bot4Wy628NpyQF73R1XO3w8ktWT8n+B2h9QCsCgyX8Djp+pymOT
-         U1V5TyPNbfLCg3OXuXjiFgM8zqRWJ0XFiO9xD+IsMwECEVmo0r97VE3v5Ko9yR/P41SM
-         LFVQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUVsfV+hMyi8a85gocctCnod10wYR8DKVhaJtJcab+sqq/FO4+q+30m34cqvNqLoWPlIVqXlHngWcRgMQzg@vger.kernel.org, AJvYcCUyIDpFHE4B8nETzI5Q+FtkjqoEWXiE3Vq1m8iFKnjtrz0s8fFvFUA06zLALKj0AbPsmySdOLUYiwGF@vger.kernel.org, AJvYcCVBmkhbiLYwF8Xm8Nr0+D5z/9QeksZ5pq7JqQ4tI04jfLJO3Gsxn0YBiE7n45vzXWGkeLQY4T3fj5o=@vger.kernel.org, AJvYcCX7lsEZM9d9/f+5bC9oMULPqTB4N/zo002B8A34UJQFsiNEjcYnOqBPF9xR2bsbRYnIow4/GQrQ1p8IBG6feA==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxkLsHDqI3P53KraLWeYOcMZYOH/Tp+C25uHK2qjYrN83AhpYvq
-	2eZGgtug2qnHZa8Pir7OYL36OVHipwDS28KL5nOEeQm8pW/ivKDd
-X-Gm-Gg: ASbGnctqhIZwtRwEO2mCTc5SyMYVOVjJKpubmet6KCB2iDayQ1FsEIvCftdvLXjKRk4
-	5xjAtW0TXXjvFNCnEThAox3bZ7F8tnkPFDDfo7+6jV/W9w8iTi2T+JmST2v7FVdDpEQU1w9j+ku
-	pTnG9hCTts+wtD02fTnAt4d5M2+szCin98UD9DoPNCD3xk4v4SX6qcZ61CAVCUoMPCrUOsSs5AK
-	3Ms8ppbNtymszftOam/24tGIz0cUysch6fl2iDcMZCTvvJ2w+uecAqao3SUvLqeuruQqrpZgqJr
-	TQxWiNva3hc7HAR2e6NP2Rxd7I523QIC+BpV9MHPV3F7UGaNHBOIW0ttDkI+
-X-Google-Smtp-Source: AGHT+IFt5wHsCjSlpFEFUHVsJUEoyStNlvmXw+Gm+ahrEHq6vasyVcDWIICCWhEq6uDb8143Fpvq+w==
-X-Received: by 2002:a05:6808:6a93:b0:3f9:176a:3958 with SMTP id 5614622812f47-401bcd13721mr8780591b6e.11.1745274686223;
-        Mon, 21 Apr 2025 15:31:26 -0700 (PDT)
-Received: from Borg-550.local ([2603:8080:1500:3d89:c191:629b:fde5:2f06])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-401bf081e2asm1742687b6e.36.2025.04.21.15.31.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 15:31:25 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 21 Apr 2025 17:31:22 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Dan Williams <dan.j.williams@intel.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Luis Henriques <luis@igalia.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
-Message-ID: <44so2lrfvu6v6m2zdrldyosgkgaszsone4on3duql4yphfoorn@shdy4ibm4zle>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421013346.32530-14-john@groves.net>
- <20250421215719.GK25659@frogsfrogsfrogs>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="jUEM8I7Y"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=TpDcCzm9jscLM99S74F/lYBn/t2+N9LLkypfZl7AtJ6FUqie5kG7SKlqj9iPUc7NASEhXlu1oZlsX1W7V8CB4+ycYBR1nxhhC1zEvFg4YvRojtp/biPPhneWeORjJ+JkiEzpkJt7DaYQzNhIWiv3da46CFzk6r69dwe0so4y6v4SliIVb6+rrWCUpOllG4F+iUAkvVCRs3baxiWLeOADj2zz3s+A4hc0jHY3SbdtUBXfWsSpSDDKOjaFtIuf9Pe70VBek/OCnWcug8d38hdEeGRw2ai3DrfzEDA5AsjGL6chwjlTcJuajiV3h4BX6xFTp0jO4jKmxD6t6+m5zPgmOA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=jLsENG1eHSNJaNUMHCR/j6mo4ak9sZ6yav8Qqvzn1NI=;
+ b=aoVnMFLf0YIkotTb7kFIxocSzUPmAoK7PVCkio76z895JvlurnUpQ9KLeqrrg5u1enzODAK4vHxJ6sKN71w6gTcAdudAcS9HvQ64BowKBYYcBo0fyLB8BuVKKh8AP9SF/LglJiC9iA6gbzpYs5GvdJoSUt5Kvih2yRtgZb7a2MeHG+P7Fueh6ilrYl61QgkR2g/1/x1HOqgTps0v4Ul3rAI6msuheXyhem4aYVoMpwuRdZtYJQNNyo/KSqrFbq2xbQzxv5Le7WvwH305HqHHQu3IvxBPbBvJ8x06YTIOkdY9ZcAzCoU9gHz/OWDtmFIXAuVsJmzOt3NUNaEICTJfPw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=intel.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=jLsENG1eHSNJaNUMHCR/j6mo4ak9sZ6yav8Qqvzn1NI=;
+ b=jUEM8I7YeaYIMyx7Pe6VzX2AjOQf6KlroxBJ0GAK5FUyCrsbZa5GqN1nvN/wlR5GMCVYh8UpJ8eHnXst7U4KWhch6qTW04f+y/G0h2zPqSYfzgYH9vkydTeCM8AyF7goEg4ZgkGn5FpsrxqUQf0doSuu0EvMWm9PGkV6a+cLoio=
+Received: from BL1PR13CA0335.namprd13.prod.outlook.com (2603:10b6:208:2c6::10)
+ by DS2PR12MB9592.namprd12.prod.outlook.com (2603:10b6:8:27c::15) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Mon, 21 Apr
+ 2025 22:44:10 +0000
+Received: from BN3PEPF0000B372.namprd21.prod.outlook.com
+ (2603:10b6:208:2c6:cafe::23) by BL1PR13CA0335.outlook.office365.com
+ (2603:10b6:208:2c6::10) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.33 via Frontend Transport; Mon,
+ 21 Apr 2025 22:44:10 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ BN3PEPF0000B372.mail.protection.outlook.com (10.167.243.169) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8699.1 via Frontend Transport; Mon, 21 Apr 2025 22:44:10 +0000
+Received: from bmoger-ubuntu.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Mon, 21 Apr
+ 2025 17:44:08 -0500
+From: Babu Moger <babu.moger@amd.com>
+To: <tony.luck@intel.com>, <reinette.chatre@intel.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>
+CC: <babu.moger@amd.com>, <corbet@lwn.net>, <x86@kernel.org>, <hpa@zytor.com>,
+	<akpm@linux-foundation.org>, <paulmck@kernel.org>, <rostedt@goodmis.org>,
+	<thuth@redhat.com>, <ardb@kernel.org>, <gregkh@linuxfoundation.org>,
+	<thomas.lendacky@amd.com>, <mario.limonciello@amd.com>, <perry.yuan@amd.com>,
+	<seanjc@google.com>, <kai.huang@intel.com>, <xiaoyao.li@intel.com>,
+	<kan.liang@linux.intel.com>, <riel@surriel.com>, <xin3.li@intel.com>,
+	<xin@zytor.com>, <sohil.mehta@intel.com>, <ak@linux.intel.com>,
+	<ebiggers@google.com>, <andrew.cooper3@citrix.com>, <gautham.shenoy@amd.com>,
+	<Xiaojian.Du@amd.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <james.morse@arm.com>, <fenghuay@nvidia.com>,
+	<peternewman@google.com>
+Subject: [PATCH v4 0/8] Support L3 Smart Data Cache Injection Allocation Enforcement (SDCIAE)
+Date: Mon, 21 Apr 2025 17:43:44 -0500
+Message-ID: <cover.1745275431.git.babu.moger@amd.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250421215719.GK25659@frogsfrogsfrogs>
-
-On 25/04/21 02:57PM, Darrick J. Wong wrote:
-> On Sun, Apr 20, 2025 at 08:33:40PM -0500, John Groves wrote:
-> > On completion of GET_FMAP message/response, setup the full famfs
-> > metadata such that it's possible to handle read/write/mmap directly to
-> > dax. Note that the devdax_iomap plumbing is not in yet...
-> > 
-> > Update MAINTAINERS for the new files.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  MAINTAINERS               |   9 +
-> >  fs/fuse/Makefile          |   2 +-
-> >  fs/fuse/dir.c             |   3 +
-> >  fs/fuse/famfs.c           | 344 ++++++++++++++++++++++++++++++++++++++
-> >  fs/fuse/famfs_kfmap.h     |  63 +++++++
-> >  fs/fuse/fuse_i.h          |  16 +-
-> >  fs/fuse/inode.c           |   2 +-
-> >  include/uapi/linux/fuse.h |  42 +++++
-> >  8 files changed, 477 insertions(+), 4 deletions(-)
-> >  create mode 100644 fs/fuse/famfs.c
-> >  create mode 100644 fs/fuse/famfs_kfmap.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 00e94bec401e..2a5a7e0e8b28 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -8808,6 +8808,15 @@ F:	Documentation/networking/failover.rst
-> >  F:	include/net/failover.h
-> >  F:	net/core/failover.c
-> >  
-> > +FAMFS
-> > +M:	John Groves <jgroves@micron.com>
-> > +M:	John Groves <John@Groves.net>
-> > +L:	linux-cxl@vger.kernel.org
-> > +L:	linux-fsdevel@vger.kernel.org
-> > +S:	Supported
-> > +F:	fs/fuse/famfs.c
-> > +F:	fs/fuse/famfs_kfmap.h
-> > +
-> >  FANOTIFY
-> >  M:	Jan Kara <jack@suse.cz>
-> >  R:	Amir Goldstein <amir73il@gmail.com>
-> > diff --git a/fs/fuse/Makefile b/fs/fuse/Makefile
-> > index 3f0f312a31c1..65a12975d734 100644
-> > --- a/fs/fuse/Makefile
-> > +++ b/fs/fuse/Makefile
-> > @@ -16,5 +16,5 @@ fuse-$(CONFIG_FUSE_DAX) += dax.o
-> >  fuse-$(CONFIG_FUSE_PASSTHROUGH) += passthrough.o
-> >  fuse-$(CONFIG_SYSCTL) += sysctl.o
-> >  fuse-$(CONFIG_FUSE_IO_URING) += dev_uring.o
-> > -
-> > +fuse-$(CONFIG_FUSE_FAMFS_DAX) += famfs.o
-> >  virtiofs-y := virtio_fs.o
-> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
-> > index ae135c55b9f6..b28a1e912d6b 100644
-> > --- a/fs/fuse/dir.c
-> > +++ b/fs/fuse/dir.c
-> > @@ -405,6 +405,9 @@ fuse_get_fmap(struct fuse_mount *fm, struct inode *inode, u64 nodeid)
-> >  	fmap_size = args.out_args[0].size;
-> >  	pr_notice("%s: nodei=%lld fmap_size=%ld\n", __func__, nodeid, fmap_size);
-> >  
-> > +	/* Convert fmap into in-memory format and hang from inode */
-> > +	famfs_file_init_dax(fm, inode, fmap_buf, fmap_size);
-> > +
-> >  	return 0;
-> >  }
-> >  #endif
-> > diff --git a/fs/fuse/famfs.c b/fs/fuse/famfs.c
-> > new file mode 100644
-> > index 000000000000..e62c047d0950
-> > --- /dev/null
-> > +++ b/fs/fuse/famfs.c
-> > @@ -0,0 +1,344 @@
-> > +// SPDX-License-Identifier: GPL-2.0
-> > +/*
-> > + * famfs - dax file system for shared fabric-attached memory
-> > + *
-> > + * Copyright 2023-2025 Micron Technology, Inc.
-> > + *
-> > + * This file system, originally based on ramfs the dax support from xfs,
-> > + * is intended to allow multiple host systems to mount a common file system
-> > + * view of dax files that map to shared memory.
-> > + */
-> > +
-> > +#include <linux/fs.h>
-> > +#include <linux/mm.h>
-> > +#include <linux/dax.h>
-> > +#include <linux/iomap.h>
-> > +#include <linux/path.h>
-> > +#include <linux/namei.h>
-> > +#include <linux/string.h>
-> > +
-> > +#include "famfs_kfmap.h"
-> > +#include "fuse_i.h"
-> > +
-> > +
-> > +void
-> > +__famfs_meta_free(void *famfs_meta)
-> > +{
-> > +	struct famfs_file_meta *fmap = famfs_meta;
-> > +
-> > +	if (!fmap)
-> > +		return;
-> > +
-> > +	if (fmap) {
-> > +		switch (fmap->fm_extent_type) {
-> > +		case SIMPLE_DAX_EXTENT:
-> > +			kfree(fmap->se);
-> > +			break;
-> > +		case INTERLEAVED_EXTENT:
-> 
-> Are interleaved extents not DAX extents?  Why does one constant refer to
-> DAX but the other does not?
-
-All extents are DAX. Naming evolved over 2+ years, and could be cleaned up.
-
-> 
-> > +			if (fmap->ie)
-> > +				kfree(fmap->ie->ie_strips);
-> > +
-> > +			kfree(fmap->ie);
-> > +			break;
-> > +		default:
-> > +			pr_err("%s: invalid fmap type\n", __func__);
-> > +			break;
-> > +		}
-> > +	}
-> > +	kfree(fmap);
-> > +}
-> > +
-> > +static int
-> > +famfs_check_ext_alignment(struct famfs_meta_simple_ext *se)
-> > +{
-> > +	int errs = 0;
-> > +
-> > +	if (se->dev_index != 0)
-> > +		errs++;
-> > +
-> > +	/* TODO: pass in alignment so we can support the other page sizes */
-> > +	if (!IS_ALIGNED(se->ext_offset, PMD_SIZE))
-> > +		errs++;
-> > +
-> > +	if (!IS_ALIGNED(se->ext_len, PMD_SIZE))
-> > +		errs++;
-> > +
-> > +	return errs;
-> > +}
-> > +
-> > +/**
-> > + * famfs_meta_alloc() - Allocate famfs file metadata
-> > + * @metap:       Pointer to an mcache_map_meta pointer
-> > + * @ext_count:  The number of extents needed
-> > + */
-> > +static int
-> > +famfs_meta_alloc_v3(
-> 
-> Err, what's with "v3"?  This is a new fs, right?
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B372:EE_|DS2PR12MB9592:EE_
+X-MS-Office365-Filtering-Correlation-Id: 520e5644-ae86-40ec-e79b-08dd81260830
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|376014|7416014|36860700013|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?GJ0ynsRgmHcE2M31fQrgC4PZ0ewBJWRtoJB8peOWH+kpQ4G28HL934k9fjp9?=
+ =?us-ascii?Q?MTGpC1+UmwxqTjzZCnxr5jLsBGH8MOt8RilCw0kns8ENUB9k6MjgDFVL+PLQ?=
+ =?us-ascii?Q?2/aD12Roi7HAOjYHlVAyHWHr0V3GK0yl7fwG82MT5e5pjwl88+2qifdA+Vbn?=
+ =?us-ascii?Q?q0EbR6VgQafLfkdqNK5FQ9o3ulpfu/l7AwCfV6OzEjWeWASu/bE5XOibj7Yt?=
+ =?us-ascii?Q?cmXsr1W+NHi+UpsECYXmX5IQGVhC1fLf5Hsv6sfTQcOhRNFvx2CLuNy6DaC9?=
+ =?us-ascii?Q?HqmxkwwoUyEDSS9SczclA8QnbNLn9JTU1YGN2z5HujpZPnOTmKvYPsRAFN4x?=
+ =?us-ascii?Q?uTSYFwlaacKBVHYkOtzqDnW33X1r81xt0saz7pXuN8b3uEvLXTLOXN5GiYHC?=
+ =?us-ascii?Q?glc1go4Qv7IPWzSLUbMW8zGJnSAnhnzSVlgtgCZydYh3guUAk/Eb9mUCKecd?=
+ =?us-ascii?Q?hKJ7QQoyyp9/lPyeDRaaO3yBvGqRKpEFe21G2lFsT3ioXlOBibWlBBa0sK05?=
+ =?us-ascii?Q?OCauvLBP+QUUP1/EDs18NIxHFMl/2vivRHd0Kr0fUtchtNB8GFlu6R8joDM+?=
+ =?us-ascii?Q?p7mtZAYbWZ57Ii4tTua8xNxc0t9PGg9wM8578xwctvV3xkHygTVLqPJuvUqj?=
+ =?us-ascii?Q?UaH/nQL0DaXyqePdCn7UeHFcOr52v+LQoraVjEffRZucfW5NGiAcjSXog7uH?=
+ =?us-ascii?Q?ht9p5JqUp0GqzjPMUBhiVMnvwz7Ztf5sfy3ucjJ1ajIpfSgezrUtbKhtWeCd?=
+ =?us-ascii?Q?MQpjWP8QpnzbPOmanhmmqN8NLhgZSz2PRePrK+pav2N5A0Cey9PBa7YxPFFO?=
+ =?us-ascii?Q?Tf6mJ8ZPnczEykoyrRUWoL7sEK/uFmMUBq8W5aTKcoInypjMGsgg7/9sqVjZ?=
+ =?us-ascii?Q?0HanGm+VOtKyYIxuJM2MG3mKMmH2RVlnD5yn+fIm9sNvHivsc61B9sVjaaEL?=
+ =?us-ascii?Q?/bvrv++C6En3tUS45l8cd+sF1QotIFBpGHsiibXWN0DIDwIQlhsnNp4wDozC?=
+ =?us-ascii?Q?uvr0myA3x86HGiAXFfeRoYc4uY+s7zZu7UDX9zEb/3NT35sJeS48VM9G7szl?=
+ =?us-ascii?Q?rfYNW7Jl4kHxrQ7jESBovSJo5CNkW2t/mUjajfyv6vU/RmRR8NkE+yzucOn4?=
+ =?us-ascii?Q?HGtb51+tKIDIv0iI7oB82PShBY4TWZtceavz/OsweoLKFvrIigHnqiT5tLZm?=
+ =?us-ascii?Q?Cozq3Xa6UINO+G4yk+J1+MUnqYmRyilTiw20B9amZn8Kvmd/hCjNqaqvTUG/?=
+ =?us-ascii?Q?bCMr2hF78nJ+W2ON90COC2k2PqJFWUtX/rfixA1h4MfmI9HbuaBz4FZhqCAF?=
+ =?us-ascii?Q?wgTMXoaXYdoz37sJBGRz8HUK7olsgVRFx69vfor/oyhJxdf3x5dv/xeDxP4O?=
+ =?us-ascii?Q?wQL5DTpBmg9pTHCFgIPOCw7S1O2U6r0LTdbuLcX5DsxpTabp/T5JbU66RxJk?=
+ =?us-ascii?Q?e+suffMxHSOkZMDeCD84dszXACPVV10bdpePxBaVlL0LjfUm64vcuCif/Ak8?=
+ =?us-ascii?Q?1kHniEO4UeripF4=3D?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(376014)(7416014)(36860700013)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 22:44:10.2171
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 520e5644-ae86-40ec-e79b-08dd81260830
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B372.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS2PR12MB9592
 
 
-Um, been working on this for 2+ years so there's a not-very-public legacy.
-But I agree naming should be cleaned up.
+This series adds the support for L3 Smart Data Cache Injection Allocation
+Enforcement (SDCIAE) to resctrl infrastructure. It is refered to as "io_alloc"
+in resctrl subsystem.
 
-> 
-> > +	void *fmap_buf,
-> > +	size_t fmap_buf_size,
-> > +	struct famfs_file_meta **metap)
-> > +{
-> > +	struct famfs_file_meta *meta = NULL;
-> > +	struct fuse_famfs_fmap_header *fmh;
-> > +	size_t extent_total = 0;
-> > +	size_t next_offset = 0;
-> > +	int errs = 0;
-> > +	int i, j;
-> > +	int rc;
-> > +
-> > +	fmh = (struct fuse_famfs_fmap_header *)fmap_buf;
-> > +
-> > +	/* Move past fmh in fmap_buf */
-> > +	next_offset += sizeof(*fmh);
-> > +	if (next_offset > fmap_buf_size) {
-> > +		pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
-> > +		       __func__, __LINE__, next_offset, fmap_buf_size);
-> > +		rc = -EINVAL;
-> > +		goto errout;
-> > +	}
-> > +
-> > +	if (fmh->nextents < 1) {
-> > +		pr_err("%s: nextents %d < 1\n", __func__, fmh->nextents);
-> > +		rc = -EINVAL;
-> > +		goto errout;
-> > +	}
-> > +
-> > +	if (fmh->nextents > FUSE_FAMFS_MAX_EXTENTS) {
-> > +		pr_err("%s: nextents %d > max (%d) 1\n",
-> > +		       __func__, fmh->nextents, FUSE_FAMFS_MAX_EXTENTS);
-> > +		rc = -E2BIG;
-> > +		goto errout;
-> > +	}
-> > +
-> > +	meta = kzalloc(sizeof(*meta), GFP_KERNEL);
-> > +	if (!meta)
-> > +		return -ENOMEM;
-> > +	meta->error = false;
-> > +
-> > +	meta->file_type = fmh->file_type;
-> > +	meta->file_size = fmh->file_size;
-> > +	meta->fm_extent_type = fmh->ext_type;
-> > +
-> > +	switch (fmh->ext_type) {
-> > +	case FUSE_FAMFS_EXT_SIMPLE: {
-> > +		struct fuse_famfs_simple_ext *se_in;
-> > +
-> > +		se_in = (struct fuse_famfs_simple_ext *)(fmap_buf + next_offset);
-> > +
-> > +		/* Move past simple extents */
-> > +		next_offset += fmh->nextents * sizeof(*se_in);
-> > +		if (next_offset > fmap_buf_size) {
-> > +			pr_err("%s:%d: fmap_buf underflow offset/size %ld/%ld\n",
-> > +			       __func__, __LINE__, next_offset, fmap_buf_size);
-> > +			rc = -EINVAL;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		meta->fm_nextents = fmh->nextents;
-> > +
-> > +		meta->se = kcalloc(meta->fm_nextents, sizeof(*(meta->se)),
-> > +				   GFP_KERNEL);
-> > +		if (!meta->se) {
-> > +			rc = -ENOMEM;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		if ((meta->fm_nextents > FUSE_FAMFS_MAX_EXTENTS) ||
-> 
-> FUSE_FAMFS_MAX_EXTENTS is 2?  I gather that simple files in famfs refer
-> to contiguous regions, but why two mappings?
+Upcoming AMD hardware implements Smart Data Cache Injection (SDCI).
+Smart Data Cache Injection (SDCI) is a mechanism that enables direct
+insertion of data from I/O devices into the L3 cache. By directly caching
+data from I/O devices rather than first storing the I/O data in DRAM, SDCI
+reduces demands on DRAM bandwidth and reduces latency to the processor
+consuming the I/O data.
 
-There is no forward-looking, or even current-term reason why it should be 
-limited to 2; But famfs files are strictly pre-allocated, so it takes some 
-special code to test the multi-extent code paths. We do that internally, 
-hence 2 (rather than 1).
+The SDCIAE (SDCI Allocation Enforcement) PQE feature allows system software
+to control the portion of the L3 cache used for SDCI devices.
 
-Where we do exercise much bigger lists of the same extents in in interleaved
-setups - where the limit is higher.
+When enabled, SDCIAE forces all SDCI lines to be placed into the L3 cache
+partitions identified by the highest-supported L3_MASK_n register, where n
+is the maximum supported CLOSID.
 
-But dialing it up or even removing the limit provided the GET_FMAP message
-validates should be fine.
+The feature details are documented in the APM listed below [1].
+[1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+Publication # 24593 Revision 3.41 section 19.4.7 L3 Smart Data Cache
+Injection Allocation Enforcement (SDCIAE)
+Link: https://bugzilla.kernel.org/show_bug.cgi?id=206537
 
-> 
-> > +		    (meta->fm_nextents < 1)) {
-> > +			rc = -EINVAL;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		for (i = 0; i < fmh->nextents; i++) {
-> > +			meta->se[i].dev_index  = se_in[i].se_devindex;
-> > +			meta->se[i].ext_offset = se_in[i].se_offset;
-> > +			meta->se[i].ext_len    = se_in[i].se_len;
-> > +
-> > +			/* Record bitmap of referenced daxdev indices */
-> > +			meta->dev_bitmap |= (1 << meta->se[i].dev_index);
-> > +
-> > +			errs += famfs_check_ext_alignment(&meta->se[i]);
-> 
-> Shouldn't you bail out at the first bad mapping?
+The feature requires linux support of TPH (TLP Processing Hints).
+The support is available in linux kernel after the commit
+48d0fd2b903e3 ("PCI/TPH: Add TPH documentation")
 
-Probably yes; need to dredge old memory about this...
+The patches are based on top of commit
+84c319145cbad6 Merge branch into ("tip/master: 'x86/nmi'")
 
-> 
-> > +			extent_total += meta->se[i].ext_len;
-> > +		}
-> 
-> I took a look at what's already in uapi/linux/fuse.h and saw that
-> there are two operations -- FUSE_{SETUP,REMOVE}MAPPING.  Those two fuse
-> upcalls seem to manage an interval tree in struct fuse_inode_dax, which
-> is used to feed fuse_iomap_begin.  Can you reuse this existing uapi
-> instead of defining a new one that's already pretty similar?
+# Linux Implementation
 
-OK, so the pre-existing DAX stuff in fuse is for virtiofs, which is doing
-a very narrow thing (which I don't understand completely, but Stefan is
-on this thread - though if I were him I might not be paying attention :)
-My net assessment: the pre-existing fuse dax stuff was not a viable platform
-for a file system with many files.
+Feature adds following interface files when the resctrl "io_alloc" feature is
+supported on L3 resource:
 
-I initially implemented famfs as a standalone file system (patches easy
-to find, and there are branches in my github kernel repos - including one
-called famfs_dual that has BOTH). The existing DAX stuff in fuse is quite
-different from the fs-dax interface that xfs uses - and has no notify_failure
-etc.
+/sys/fs/resctrl/info/L3/io_alloc: Report the feature status. Enable/disable the
+				  feature by writing to the interface.
 
-> 
-> I'm wondering why create all this new code when fuse/dax.c already seems
-> to have the ability to cache mappings and pass them to dax_iomap_rw
-> without restrictions on the number of mappings and all that?
-> 
-> Maybe you're trying to avoid runtime upcalls, but then I would think
-> that you could teach the fuse/dax.c mapping code to pin the mappings
-> if there aren't that many of them in the first place, rather than
-> reinventing mappings?
-> 
-> It occurred to me (perhaps naively) that maybe you created FUSE_GETFMAP
-> because of this interleaving thing because it's probably faster to
-> upload a template for that than it would be to upload a large number of
-> mappings.  But I don't really grok why the interleaving exists, though I
-> guess it's for memory controllers interleaving memory devices or
-> something for better throughput?
+/sys/fs/resctrl/info/L3/io_alloc_cbm:  List the Capacity Bit Masks (CBMs) available
+				       for I/O devices when io_alloc feature is enabled.
+				       Configure the CBM by writing to the interface.
 
-In famfsv1 (the standalone version), user space "pushed" mappings into
-the kernel, but fuse doesn't do it that way. It wants to do readdir, lookup,
-etc. So GET_FMAP was the answer I came up with - and so far it works fine.
+# Examples:
 
-> 
-> I also see that famfs_meta_to_dax_offset does a linear walk of the
-> mapping array, which does not seem like it will be inefficient when
-> there are many mappings.
+a. Check if io_alloc feature is available
+	#mount -t resctrl resctrl /sys/fs/resctrl/
 
-Right, that's no big deal. And if there's only one extent (or if the extents
-are fixed-size), it's order 1.
+	# cat /sys/fs/resctrl/info/L3/io_alloc
+	disabled
 
-> 
-> > +		break;
-> > +	}
-> > +
-> > +	case FUSE_FAMFS_EXT_INTERLEAVE: {
-> > +		s64 size_remainder = meta->file_size;
-> > +		struct fuse_famfs_iext *ie_in;
-> > +		int niext = fmh->nextents;
-> > +
-> > +		meta->fm_niext = niext;
-> > +
-> > +		/* Allocate interleaved extent */
-> > +		meta->ie = kcalloc(niext, sizeof(*(meta->ie)), GFP_KERNEL);
-> > +		if (!meta->ie) {
-> > +			rc = -ENOMEM;
-> > +			goto errout;
-> > +		}
-> > +
-> > +		/*
-> > +		 * Each interleaved extent has a simple extent list of strips.
-> > +		 * Outer loop is over separate interleaved extents
-> 
-> Hmm, so there's no checking on fmh->nextents here, so I guess we can
-> have as many sets of interleaved extents as we want?  Each with up to 16
-> simple mappings?
-> 
-> --D
+b. Enable the io_alloc feature. 
 
-OK, so I'm remembering a bit more about the legacy around extent limits. 
-There are some MVP simplifications in the famfs metadata log format 
-(which is orthogonal to the message and in-memory metadata formats here). 
-An fmap in the log (a third format, but there is at least one more :-/) 
-is a fully dimensioned compound structure that you can call sizeof on. 
-So that is the second reason (in addition to preallocation) why we didn't 
-need many extents.
+	# echo 1 > /sys/fs/resctrl/info/L3/io_alloc 
+	# cat /sys/fs/resctrl/info/L3/io_alloc
+	enabled
 
-Also, when we resolve file offsets to dax offsets, limit and validity
-checking was already done when the GET_FMAP message was ingested.
+c. Check the CBM values for the io_alloc feature.
 
-I think for fuse famfs, that can be relaxed and ignored - especially if 
-you're gonna test it :D.
+	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
+	L3:0=ffff;1=ffff
 
-Thanks for the review eyeballs, and let me know if you wanna talk through
-some of this stuff.
+d. Change the CBM value for the domain 1:
+	# echo L3:1=FF > /sys/fs/resctrl/info/L3/io_alloc_cbm
 
-Regards,
-John
+	# cat /sys/fs/resctrl/info/L3/io_alloc_cbm 
+	L3:0=ffff;1=00ff
+
+d. Disable io_alloc feature and exit.
+
+	# echo 0 > /sys/fs/resctrl/info/L3/io_alloc 
+	# cat /sys/fs/resctrl/info/L3/io_alloc
+	disabled
+
+	#umount /sys/fs/resctrl/
+
+---
+v4: The "io_alloc" interface will report "enabled/disabled/not supported"
+    instead of 0 or 1..
+
+    Updated resctrl_io_alloc_closid_get() to verify the max closid availability
+    using closids_supported().
+
+    Updated the documentation for "shareable_bits" and "bit_usage".
+
+    NOTE: io_alloc is about specific CLOS. rdt_bit_usage_show() is not designed
+    handle bit_usage for specific CLOS. Its about overall system. So, we cannot
+    really tell the user which CLOS is shared across both hardware and software.
+    This is something we need to discuss.
+
+    Introduced io_alloc_init() to initialize fflags.
+
+    Printed the group name when io_alloc enablement fails to help user.
+    
+    Added rdtgroup_mutex before rdt_last_cmd_puts() in resctrl_io_alloc_cbm_show().
+    Returned -ENODEV when resource type is CDP_DATA.
+
+    Kept the resource name while printing the CBM (L3:0=ffff) that way we dont have
+    to change show_doms() just for this feature and it is consistant across all the
+    schemata display.
+
+    Added new patch to call parse_cbm() directly to avoid code duplication.
+
+    Checked all the series(v1-v3) again to verify if I missed any comment.
+
+v3: Rewrote commit log for the last 3 patches. Changed the text to bit
+    more generic than the AMD specific feature. Added AMD feature
+    specifics in the end.
+
+    Renamed the rdt_get_sdciae_alloc_cfg() to rdt_set_io_alloc_capable().
+    Renamed the _resctrl_io_alloc_enable() to _resctrl_sdciae_enable()
+    as it is arch specific.
+
+    Changed the return to void in _resctrl_sdciae_enable() instead of int.
+ 
+    The number of CLOSIDs is determined based on the minimum supported
+    across all resources (in closid_init). It needs to match the max
+    supported on the resource. Added the check to verify if MAX CLOSID
+    availability on the system.
+
+    Added CDP check to make sure io_alloc is configured in CDP_CODE.
+    Highest CLOSID corresponds to CDP_CODE. 
+
+    Added resctrl_io_alloc_closid_free() to free the io_alloc CLOSID.
+
+    Added errors in few cases when CLOSID allocation fails.
+    Fixes splat reported when info/L3/bit_usage is accesed when io_alloc is enabled.
+    https://lore.kernel.org/lkml/SJ1PR11MB60837B532254E7B23BC27E84FC052@SJ1PR11MB6083.namprd11.prod.outlook.com/
+
+v2: Added dependancy on X86_FEATURE_CAT_L3
+    Removed the "" in CPU feature definition.
+
+    Changed sdciae_capable to io_alloc_capable to make it as generic feature.
+    Moved io_alloc_capable field in struct resctrl_cache.
+
+    Changed the name of few arch functions similar to ABMC series.
+    resctrl_arch_get_io_alloc_enabled()
+    resctrl_arch_io_alloc_enable()
+
+    Renamed the feature to "io_alloc".
+    Added generic texts for the feature in commit log and resctrl.rst doc.
+    Added resctrl_io_alloc_init_cat() to initialize io_alloc to default values
+    when enabled.
+    Fixed io_alloc interface to show only on L3 resource.
+    Added the locks while processing io_alloc CBMs.
+
+Previous versions:
+v3: https://lore.kernel.org/lkml/cover.1738272037.git.babu.moger@amd.com/
+v2: https://lore.kernel.org/lkml/cover.1734556832.git.babu.moger@amd.com/
+v1: https://lore.kernel.org/lkml/cover.1723824984.git.babu.moger@amd.com/
 
 
+Babu Moger (8):
+  x86/cpufeatures: Add support for L3 Smart Data Cache Injection
+    Allocation Enforcement
+  x86/resctrl: Add SDCIAE feature in the command line options
+  x86/resctrl: Detect io_alloc feature
+  x86/resctrl: Implement "io_alloc" enable/disable handlers
+  x86/resctrl: Add user interface to enable/disable io_alloc feature
+  x86/resctrl: Introduce interface to display io_alloc CBMs
+  x86/resctrl: Modify rdt_parse_data to pass mode and CLOSID
+  x86/resctrl: Introduce interface to modify io_alloc Capacity Bit Masks
+
+ .../admin-guide/kernel-parameters.txt         |   2 +-
+ Documentation/arch/x86/resctrl.rst            |  55 +++
+ arch/x86/include/asm/cpufeatures.h            |   1 +
+ arch/x86/include/asm/msr-index.h              |   1 +
+ arch/x86/kernel/cpu/cpuid-deps.c              |   1 +
+ arch/x86/kernel/cpu/resctrl/core.c            |   9 +
+ arch/x86/kernel/cpu/resctrl/ctrlmondata.c     |  35 +-
+ arch/x86/kernel/cpu/resctrl/internal.h        |  19 +
+ arch/x86/kernel/cpu/resctrl/rdtgroup.c        | 372 +++++++++++++++++-
+ arch/x86/kernel/cpu/scattered.c               |   1 +
+ include/linux/resctrl.h                       |  12 +
+ 11 files changed, 487 insertions(+), 21 deletions(-)
+
+-- 
+2.34.1
 
