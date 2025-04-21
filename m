@@ -1,183 +1,93 @@
-Received: from smtp.smtpout.orange.fr (smtp-27.smtpout.orange.fr [80.12.242.27])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D187DA92E;
-	Mon, 21 Apr 2025 10:01:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.27
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D0491D54D8;
+	Mon, 21 Apr 2025 10:18:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745229684; cv=none; b=ks4tFRLrdQ3XoLb04CakU4W/DR76gJWtiZQJTkTTKChu7lvBiwxxi/COfkvSBAwgQpImNYl8lrq+cLfQxIyN88LavP/Ehi3UaEXFC43DEXG3u5G9ZgRqUmk7qY8G7udwyKPJ2jqosqsPODa1NPSE38XKsgp5v+9ppN64QpgB5CA=
+	t=1745230738; cv=none; b=dUoULh0DsfcO+Deh/N9nnV/0iyjQAaq3lBrL0h1ObspXXDRb2RLJkzTjc0SFGtfLQpTMRdVNdPW7DTFxBBXQrST3Oj5gfw/QbTgf9ogy4rOFYbRu0caKQsMoaccG2rXz86hsx5566L57BYkWLMshMsoUqflSr3c0TIgo0m1PX9U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745229684; c=relaxed/simple;
-	bh=oGkBMnPlWAAjsXcjxrVpQDeRO42P/LgMECqNM7eHB3s=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CHeXyX4wqlj+Vt69D7GZeoxJV+Z6AKene6erH+tdg4E3gW8Fs8pvqOGttqyS1xUahyFqRmNQN10JBsXrDzkLUi6Vuex8LNieYxDrs7hw4m6FVA27WQIsk4ujPRN+wSl42jCi4ovwOuUU2MZ4/x7m+1KGAJfzURjO3E9KgruehYE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=Jr9bFziy; arc=none smtp.client-ip=80.12.242.27
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1745230738; c=relaxed/simple;
+	bh=8Ffn2L/E0jE5G4k79DkPy1qxCBgnq2nUNskI3OC5VYc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EW2WChxTpkmWDM42DAGGyYijBtvyKM+oy7+xNiQtR4kVy3vR6IvGEvBwpivZPrIA03fkJsnx0Mp7Kq42eHwV7vk94e19M0HcKBZqunEsLtKtCrbuGhCoxOkQkiXl+6IjUCnNb81Jkq5Yk6CTC/tQZ8aRuquL06uEPohmvu6cepk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vIvT1Q2b; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="Jr9bFziy"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id 6nodu94BFBkGO6nogufHf5; Mon, 21 Apr 2025 11:52:02 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1745229122;
-	bh=wZeewDiYHHmFq11xB3jS4aVNbHi62o7MBMuIWgCm9oY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=Jr9bFziyT71sudM8/yGIqqBbNHxEobp6eP7D3Tt69vg8+TOSGezbr9ZMQVzN2k/qX
-	 tVO5dwV5Uy5Sc1mGcmXwDBWIlBjpuWGimGW0DTu50DiC07WPP7JHhrmrWfGGpP7sKy
-	 JsEDxnUGj31jXzNcnGWSRcDYna3oGfAZOrdZUSfYuBn5Em8Fwti67VsVEL9lSHLISx
-	 qSpc/Q1KjTVco2rb5nTyaDkCvho1RU5i+/AN9VudW8PoZXsMUSUzzI0ytqCNPzvcJt
-	 3Q31TZfQUmZhpiAtCPXjG2eM0wM0NUKkcdLm5lmQBs68bAPR/59G7cQQyRzPZHwlXM
-	 gyBmAA4YiViZA==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Mon, 21 Apr 2025 11:52:02 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <f7b99e11-c331-4613-8112-4fb5387649e8@wanadoo.fr>
-Date: Mon, 21 Apr 2025 11:51:50 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vIvT1Q2b"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D2A7AC4CEE4;
+	Mon, 21 Apr 2025 10:18:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745230738;
+	bh=8Ffn2L/E0jE5G4k79DkPy1qxCBgnq2nUNskI3OC5VYc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=vIvT1Q2b+urrArvw0pMf7nki2sOwhMimV+cTWMMxX2mdc7xoOo73naTPPmuav+9UT
+	 y2v9P5elcn4StqqYSTIFW4ljb0Qn0PcVgR7WN7YMgwRDpFmTSCLZH16XKzT9tMlPgF
+	 xuZF5kNkJLmBrtqgVrOgaCIiccOV5a4QZofRqKLwjJqI3R898RBLaH3mPT3Z1W5IZE
+	 Ww3TlB9j04jXctgTguQFCredejFVaRGmryL4IFT08RGNrtAIkty9VWuYx4BKgRhCph
+	 lcG7Pi8Q0qQWMnbUeecWd55ncbeq2fQfF5g5LhchReHmN1sSeYh52Ixq6BNTKNyuHe
+	 kObt26Hr32aVw==
+Date: Mon, 21 Apr 2025 15:48:48 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v3 01/11] tee: allow a driver to allocate a tee_device
+ without a pool
+Message-ID: <aAYbiAOyYkYob3rU@sumit-X1>
+References: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-0-7f457073282d@oss.qualcomm.com>
+ <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-1-7f457073282d@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v11 1/1] hinic3: module initialization and tx/rx
- logic
-To: Gur Stavi <gur.stavi@huawei.com>, Fan Gong <gongfan1@huawei.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
- Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
- Simon Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
- linux-doc@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
- Xin Guo <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>,
- Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
- Shi Jing <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>,
- Lee Trager <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>,
- Suman Ghosh <sumang@marvell.com>,
- Przemek Kitszel <przemyslaw.kitszel@intel.com>,
- Joe Damato <jdamato@fastly.com>
-References: <cover.1745221384.git.gur.stavi@huawei.com>
- <60ec4dd1d484d9df8cdb8310980676bb2f6c5559.1745221384.git.gur.stavi@huawei.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <60ec4dd1d484d9df8cdb8310980676bb2f6c5559.1745221384.git.gur.stavi@huawei.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250327-qcom-tee-using-tee-ss-without-mem-obj-v3-1-7f457073282d@oss.qualcomm.com>
 
-Le 21/04/2025 à 09:47, Gur Stavi a écrit :
-> From: Fan Gong <gongfan1@huawei.com>
+On Thu, Mar 27, 2025 at 07:47:23PM -0700, Amirreza Zarrabi wrote:
+> A TEE driver doesn't always need to provide a pool if it doesn't
+> support memory sharing ioctls and can allocate memory for TEE
+> messages in another way. Although this is mentioned in the
+> documentation for tee_device_alloc(), it is not handled correctly.
 > 
-> This is [1/3] part of hinic3 Ethernet driver initial submission.
-> With this patch hinic3 is a valid kernel module but non-functional
-> driver.
-> 
-> The driver parts contained in this patch:
-> Module initialization.
-> PCI driver registration but with empty id_table.
-> Auxiliary driver registration.
-> Net device_ops registration but open/stop are empty stubs.
-> tx/rx logic.
-> 
-> All major data structures of the driver are fully introduced with the
-> code that uses them but without their initialization code that requires
-> management interface with the hw.
-> 
-> Co-developed-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: Xin Guo <guoxin09@huawei.com>
-> Signed-off-by: Fan Gong <gongfan1@huawei.com>
-> Co-developed-by: Gur Stavi <gur.stavi@huawei.com>
-> Signed-off-by: Gur Stavi <gur.stavi@huawei.com>
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
 > ---
+>  drivers/tee/tee_core.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 
-Hi,
+Reviewed-by: Sumit Garg <sumit.garg@oss.qualcomm.com>
 
-a few nitpick, should it help and in case of a v12.
+-Sumit
 
-
-> +static const struct auxiliary_device_id hinic3_nic_id_table[] = {
-> +	{
-> +		.name = HINIC3_NIC_DRV_NAME ".nic",
-> +	},
-> +	{},
-
-Unneeded trailing , after a terminator.
-
-> +};
-
-...
-
-> +int hinic3_alloc_txqs(struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	struct hinic3_hwdev *hwdev = nic_dev->hwdev;
-> +	u16 q_id, num_txqs = nic_dev->max_qps;
-> +	struct pci_dev *pdev = nic_dev->pdev;
-> +	struct hinic3_txq *txq;
-> +	u64 txq_size;
-> +
-> +	txq_size = num_txqs * sizeof(*nic_dev->txqs);
-> +	if (!txq_size) {
-
-I think that if (!num_txqs) would be enough.
-
-> +		dev_err(hwdev->dev, "Cannot allocate zero size txqs\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	nic_dev->txqs = kzalloc(txq_size, GFP_KERNEL);
-
-and kcalloc() could be used here. (even if it is trivial that it can not 
-overflow)
-
-> +	if (!nic_dev->txqs)
-> +		return -ENOMEM;
-> +
-> +	for (q_id = 0; q_id < num_txqs; q_id++) {
-> +		txq = &nic_dev->txqs[q_id];
-> +		txq->netdev = netdev;
-> +		txq->q_id = q_id;
-> +		txq->q_depth = nic_dev->q_params.sq_depth;
-> +		txq->q_mask = nic_dev->q_params.sq_depth - 1;
-> +		txq->dev = &pdev->dev;
-> +	}
-> +
-> +	return 0;
-> +}
-
-...
-
-> +netdev_tx_t hinic3_xmit_frame(struct sk_buff *skb, struct net_device *netdev)
-> +{
-> +	struct hinic3_nic_dev *nic_dev = netdev_priv(netdev);
-> +	u16 q_id = skb_get_queue_mapping(skb);
-> +	struct hinic3_txq *txq;
-> +
-> +	if (unlikely(!netif_carrier_ok(netdev))) {
-> +		dev_kfree_skb_any(skb);
-> +		return NETDEV_TX_OK;
-
-Why not goto err_drop_pkt;?
-
-> +	}
-> +
-> +	if (unlikely(q_id >= nic_dev->q_params.num_qps)) {
-> +		txq = &nic_dev->txqs[0];
-
-Why update txd? It won't be used after the goto.
-
-> +		goto err_drop_pkt;
-> +	}
-> +	txq = &nic_dev->txqs[q_id];
-> +
-> +	return hinic3_send_one_skb(skb, netdev, txq);
-> +
-> +err_drop_pkt:
-> +	dev_kfree_skb_any(skb);
-> +	return NETDEV_TX_OK;
-> +}
-
-...
-
-CJ
+> diff --git a/drivers/tee/tee_core.c b/drivers/tee/tee_core.c
+> index d113679b1e2d..24edce4cdbaa 100644
+> --- a/drivers/tee/tee_core.c
+> +++ b/drivers/tee/tee_core.c
+> @@ -888,7 +888,7 @@ struct tee_device *tee_device_alloc(const struct tee_desc *teedesc,
+>  
+>  	if (!teedesc || !teedesc->name || !teedesc->ops ||
+>  	    !teedesc->ops->get_version || !teedesc->ops->open ||
+> -	    !teedesc->ops->release || !pool)
+> +	    !teedesc->ops->release)
+>  		return ERR_PTR(-EINVAL);
+>  
+>  	teedev = kzalloc(sizeof(*teedev), GFP_KERNEL);
+> 
+> -- 
+> 2.34.1
+> 
+> 
