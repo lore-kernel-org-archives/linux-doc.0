@@ -1,87 +1,106 @@
-Received: from out-174.mta0.migadu.com (out-174.mta0.migadu.com [91.218.175.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87CC513D503
-	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 14:30:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1F827463
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 14:56:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745245858; cv=none; b=uTRw8OMTEYgRyhOoDaRXwoXgaG4heW7j7n5C8euxZEpV+OD0Y5x43wRfSkLE55RW+IbfmpoP/SKJewuJ3HrjYuQPRfFwr7WhbzyQcqll7b+HpTMAPY7KNQCai0xcWNBVPcX4iRd8k+8sSB+3ash8KElX9Lu7f6FbVldtcuQ2VGY=
+	t=1745247366; cv=none; b=tZhkXByRftgMxgWEOCePyXPaRyaqzEpCzBaUdbA+O5L8U0Ll7KPMKIpSaWmrq5IA5hGtxBmb8fY2kr8xPvnRbDZNM+jKXcVNloRw12TPXf9RxKXbvnNQzFF+3Os3yt6mCTsfuLD8eernRJk5w+0b/NZbrgmz7y36qkUlRHfKiSM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745245858; c=relaxed/simple;
-	bh=GhE+7yJlZPXfDXcKbz8rIU+n/bOKRUbbW8k0nBGxPcY=;
-	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
-	 MIME-Version:Content-Type; b=KvvSFzdpYTkuXfc+lTjkvfkqGDi+fqpNy1MxqVdLm33dmJqqaLO2XLKCxs8tkKDfy1XsGNr+dAbtUwuLII6ZTbqK63QBsTVJz7gfNlWz38Qcd4U4rcLJTcJD687IPWeUz1xpeCkhvrrjGcNz+kqg4oLlteiciS7WRp8N2Pr1Ut4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=PVB98+6o; arc=none smtp.client-ip=91.218.175.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
+	s=arc-20240116; t=1745247366; c=relaxed/simple;
+	bh=ELRmkTdRqMv3QmAXEhzU+df4jLtDbLH6i9rhrVJgjrk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ecoO82LpCuZyVH/XFfxhBiwztXyuEdkrahaWgHDsjE/XE1W7TLuUC4JRydg9B+EvrFgJdqTaN/tEKu9aSz+xXKQB8bSD4YopgCN5CxyUMdWmbCH0D98NiEg2uct2iy2eDvvt6CPvowKTUVoe0eiBNeGtPcSq8dotxo98HfXiph0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=f5r1s4EH; arc=none smtp.client-ip=209.85.160.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="PVB98+6o"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
-	s=key1; t=1745245843;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Qsv9H0ash+njBouLPA0/pRo+0GrFRby9AbDJsN0GOKE=;
-	b=PVB98+6oxX50Q9XW+Za3dp/6aoF6QIsk+GkQG+RhwgAuqCO/PRha/bOC32n/j4OBZ2Vp5l
-	fj5ukLpZ9H+rapRiCP5KjSosPe2nVRabrAJJSHJwKEIXCN4UK+uS8J+ghdAdvV4jg9S4e2
-	CxoRLNJNJm/OrHZWBTn0zEdDROUIwv06M8rN+lHSNNb0uwvhL9qM3lLyrKX3o/ryPZFwWT
-	8FT3DAjMxF7MrDxL8cFiXiDx1lrHCr8ZN9RnZsDc4eNxY6heu9v5jy6Yg7lMS8gof37QZ2
-	MzD1LcaBxhJid07mg0m6tHJLgIqQEKNj2tEMr3UFqGv1DiXsGU/ioB/KoLyOHA==
-From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
-To: Petr Mladek <pmladek@suse.com>, 
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>, 
- Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>, 
- airlied@redhat.com, Simona Vetter <simona@ffwll.ch>, 
- Steven Rostedt <rostedt@goodmis.org>, 
- Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
- Sergey Senozhatsky <senozhatsky@chromium.org>, 
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>, 
- apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com, 
- lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com, 
- Aditya Garg <gargaditya08@live.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- Hector Martin <marcan@marcan.st>, 
- Asahi Linux Mailing List <asahi@lists.linux.dev>
-In-Reply-To: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Subject: Re: [PATCH v4 0/3] Use proper printk format in appletbdrm
-Message-Id: <174524583908.462870.16724111514713149267.b4-ty@rosenzweig.io>
-Date: Mon, 21 Apr 2025 10:30:39 -0400
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="f5r1s4EH"
+Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4769b16d4fbso21380901cf.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 07:56:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1745247363; x=1745852163; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ELRmkTdRqMv3QmAXEhzU+df4jLtDbLH6i9rhrVJgjrk=;
+        b=f5r1s4EHUsSKsKyl1yI0fQHcAxCTZeDS55jthIPbYizhG+niM/IpLvKeSEC1Ikp+Nc
+         5ezosHfsIIy2OwIsaPX8ND06iX4MhMQ3PTFV64HGQKVfR7ynOAOMgzgmceD9Y5vJ4GcG
+         B/M2ZpV4xvgUVyYsuJwZvf4rM7CKaY51EFRDgC54EtpzGh+6TzJGR8M3U2ce7ja4qrd7
+         bkLCSG4/FY/06kK7XdOM33pGGTv/zsND8nBlaBFtIKjvogtGe+EyBvieeDkUmDvBJakI
+         Jn7Mcv/fCHPpdlvsgONRRXiff+gcYkoUkt5OupdElIWT51nkCtOhZEDkTX9rJKXHgoPy
+         XIPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745247363; x=1745852163;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ELRmkTdRqMv3QmAXEhzU+df4jLtDbLH6i9rhrVJgjrk=;
+        b=X0UzWdrXN3uTD23sXs3PzUczf152+9RmaFfOLTsoWeVhIKN4YBR33kFan8Yg6HhO9/
+         rrnuErpwOuOi5mfcjFEihBMGt2N8BlarvXRkKIcCLlOZuAqk4vm0ncBtU4qINo3iaeTN
+         5V2uxCYvWhU0gTKNjc3VJBhfV7W9s6bOPMRfe56vjhzRPrH+f0kvkl+73sNKMfPNvQgg
+         RpLOxaIDKNl6XXKIKYs5fQ3AfPI7jimoVncYoniOVUkw5P7tbSNkng+/ZTyD4MuSOrCC
+         rvtO+aQ0JAe55V7PStYqScReKCqwFqqUsvjR/+aDAPrWupOsaCvtqfCuUMmA4vNYxTiN
+         HW5w==
+X-Forwarded-Encrypted: i=1; AJvYcCUb0p8wAf+kogVTYMnS3KlvfjiMC0V1oB8U3BZ7NDI223rtSA32XBSkXC8F+2htqsKPR4lOn1cDYKE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyZpRd+KV3In+hDNxUG5lWvCMIo2fgtUg/YC4CuOFCXUn+6jI/c
+	3cvlqGn4+T4KPgzsb97XKa9QN1vpZxahXyGygDMdEID8ypc3mAdqVFZx/vCw6dAfLe6lu8gIHRF
+	FSCdOahvC9EVSGMsqVjtYvhfy8q5aaqM7vmPNAw==
+X-Gm-Gg: ASbGncuA5reSbMzom+FLVPIbkBA7xyD7pG04bngkMTSxfWyGf15JJEfWRW5UPJdBAwU
+	VfAoo5A9yuGowqa05nfoMOiMAHypf3Z/51xEUu+tWC7hUTMh6g1HZrn37m8i6rO9WsvSF4QuWbV
+	o2sOehu6wUl9IoDjVZT2k=
+X-Google-Smtp-Source: AGHT+IG7rZTE99WK1bHTOSOgL8Ei1b2E10Kh9ByX6KEwCjeK4vA8bx+QufdyTPIfemEXj3xR90xjsvbo9nLMMoN+O1w=
+X-Received: by 2002:ac8:5946:0:b0:476:83d6:75ed with SMTP id
+ d75a77b69052e-47aec4c3d0cmr197368441cf.34.1745247363105; Mon, 21 Apr 2025
+ 07:56:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250417142525.78088-1-mclapinski@google.com> <6805a8382627f_18b6012946a@iweiny-mobl.notmuch>
+In-Reply-To: <6805a8382627f_18b6012946a@iweiny-mobl.notmuch>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Mon, 21 Apr 2025 10:55:25 -0400
+X-Gm-Features: ATxdqUG02lj5rHej_8Beu9BNKw0fpQPgfWQ79J7N0ZJ28950dBS1dnNGeIj5FpI
+Message-ID: <CA+CK2bD8t+s7gFGDCdqA8ZaoS3exM-_9N01mYY3OB4ryBGSCEQ@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure
+ many regions per e820 entry
+To: Ira Weiny <ira.weiny@intel.com>
+Cc: Michal Clapinski <mclapinski@google.com>, Dan Williams <dan.j.williams@intel.com>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Sun, Apr 20, 2025 at 10:06=E2=80=AFPM Ira Weiny <ira.weiny@intel.com> wr=
+ote:
+>
+> Michal Clapinski wrote:
+> > Currently, the user has to specify each memory region to be used with
+> > nvdimm via the memmap parameter. Due to the character limit of the
+> > command line, this makes it impossible to have a lot of pmem devices.
+> > This new parameter solves this issue by allowing users to divide
+> > one e820 entry into many nvdimm regions.
+> >
+> > This change is needed for the hypervisor live update. VMs' memory will
+> > be backed by those emulated pmem devices. To support various VM shapes
+> > I want to create devdax devices at 1GB granularity similar to hugetlb.
+>
+> Why is it not sufficient to create a region out of a single memmap range
+> and create multiple 1G dax devices within that single range?
 
-On Tue, 08 Apr 2025 12:17:13 +0530, Aditya Garg wrote:
-> The vsprint patch was originally being sent as a seperate patch [1], and
-> I was waiting it to be taken up. But as suggested by Petr, I'm sending
-> them via DRM.
-> 
-> v2:
-> Remove printf tests, will merge later through Kees' tree
-> 
-> [...]
+This method implies using the ndctl tool to create regions and convert
+them to dax devices from userspace. This does not work for our use
+case. We must have these 1 GB regions available during boot because we
+do not want to lose memory for a devdax label. I.e., if fsdax is
+created during boot (i.e. default pmem format), it does not have a
+label. However, if it is created from userspace, we create a label
+with partition properties, UUID, etc. Here, we need to use kernel
+parameters to specify the properties of the pmem devices during boot
+so they can persist across reboots without losing any memory to
+labels.
 
-Applied, thanks!
-
-[1/3] lib/vsprintf: Add support for generic FourCCs by extending %p4cc
-      commit: 1938479b2720ebc05aab349c7dc0a53921ff7c87
-[2/3] printf: add tests for generic FourCCs
-      commit: 403ff8fd2dbf5066128af4d1fde76c35a800369d
-[3/3] drm/appletbdrm: use %p4cl instead of %p4cc
-      commit: a49ce9cc85a82d5c5d65186f5a8fda0ebfcff571
-
-Best regards,
--- 
-Alyssa Rosenzweig <alyssa@rosenzweig.io>
-
+Pasha
