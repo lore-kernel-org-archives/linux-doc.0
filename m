@@ -1,107 +1,108 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF07E33EC
-	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 16:14:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 04ACC19CD1D
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 16:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745252090; cv=none; b=LUs8fh18UM7gYj625LDk4+s5Royx36XOp7IJT9cSwi0RRyDkIyiq6qirLRXOrWE/2+cCft/FmJ0P8Iws8ozlygd5rxj88j8z5FWOqZlaa1mg/SryP151Gb1SlG95jMN/uPbToAN1NbZ6ipWMBNxdSSaZY3ARm7YCO5XLLrFBGU8=
+	t=1745252252; cv=none; b=LSS2zUhhGBzDcXCtuWB0Q9KFgC19+zwv7pPkgdRJVKorMxjrDEoSggMciQ3JNLePjl88Fl5/z6uRUGzbHpQ2hlmjSgqMbFw9/1zAjBgADb8c/ka/ZMdRbN7zIjiUkBdMUemBhnB3F/3hwltaZ6v72Zb5sdpgjxR8FjmaxdzEm8Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745252090; c=relaxed/simple;
-	bh=3OzJIct5NNohS8iztusylrQAVzv+H+U90LXJuOtw0HU=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=JN/W0YV8D/EV6TRcp5fEeIR/hyK5Jb02Vt5zxZqRaGl9abETRplcGjOoMMTXy2kaLK8mF3OOrizK4Jucbp9YjryyRhfBXF06FyHBk1HMmxZ7gpohsKlaB514+8ACWyzqHQlUmcabk9S2W/dlX17qsZCJR3ASfvgLNex9XMLpFtY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OhcKxM0l; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1745252252; c=relaxed/simple;
+	bh=1Mxdzu3Dy35vNGbmZ1vQdpiZUkKpIxDbzfQOEgcte8Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=O/YWUBAs25r/cL8jJgORbcd2i7yGzWwE6xbwvDENkvW6iYJuQlNcvLRgMEY9isoxchZhbKWY6f6ohS/zQIa4Q69cjrWeYmyA41DnmbENcyiYjsoPBL3XQ80X5fRGLDhIwgFBhS0Gqvjm+vPKUSExOcf3PyTlxuNuORt4wm9A5uU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ex8v9B/U; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OhcKxM0l"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ex8v9B/U"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745252087;
+	s=mimecast20190719; t=1745252249;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=G5X+2ZlQnphn009uh8TNhZMqD/l/s48KrnuuAvbgBdg=;
-	b=OhcKxM0lU/+Fvujyp4KRZlzgaPCeqxhdw2rp8CW+mi2ewLovPcmNoANZLtYmP6QVGHMAGH
-	47hk8+ijmYBHuAHfAncHt/enlQJnETr6AfSTZktX0somFArnO98sSUP5n+gQwncp6wkIn5
-	ppU4JbWjB/Sx+eaxyVExAhShwYWM8Sc=
-Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
- [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-660-ZnGgkciqN_6P7WAdYu1NZA-1; Mon, 21 Apr 2025 12:14:45 -0400
-X-MC-Unique: ZnGgkciqN_6P7WAdYu1NZA-1
-X-Mimecast-MFC-AGG-ID: ZnGgkciqN_6P7WAdYu1NZA_1745252085
-Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-ab39f65dc10so557456766b.1
-        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 09:14:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745252084; x=1745856884;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=G5X+2ZlQnphn009uh8TNhZMqD/l/s48KrnuuAvbgBdg=;
-        b=M9rhxHbMBsSZ8vP7hzfbG3bWD/fJZ/EP/rRsdiWaSld675KUkSmuwsbSygxOrqNVJe
-         GdnRpiQ3lxnNZKt1pxn6Nyfc1S/HzLTeS0ZrCF6klGSszICJ/KPxIpmsaQlvQpJUygSQ
-         QBIrDuc1y/I8Xr7s0gcAMZN4Q3Ho2broYtmQIDkR0/iQ5uRLwftWimC2n0h5EOjJ4Cve
-         9+HeFmk0WgR5nYbgEVRI9rPkWG/v95NxdyJT9qvVNxWjeRbEPxE9arSqiYwDrBJyv33x
-         +UZDx7wA8c7UdbHpASaolJJcpyA1FJHN5S3gcJk7mkOmfTidR507qnL4HM1LO8aS/Ihv
-         cn6g==
-X-Forwarded-Encrypted: i=1; AJvYcCU60TOtvFD36fGZ79haeQdUcUKUS+onRE8pRPT1/lAcgVA0A2UuspD1e2NU2N4ruUwvqhzqyrJbxEc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxWT0qokZq+kDhE59WkwgDMxHH4sy3Dk3IHsHzCFZN3irXwuKrc
-	084Ub0DBCOfTKLX14SuKgeHLxEhLe5RDgCV8SPMFxmYCH8o6kvk/Y+adzsN0DI4Mz+h/QDWbdza
-	JEj6jSKE/DE3XY0rMUqPf6aprxQc2jkc5VDe2tjXHO04WRSxAsK3kzyyryFY3xUXHg1q1FBz9w0
-	jf22m+ofs1olr89ilVpu5EnohGBTD88Ygdm+oW9WkZm4Y=
-X-Gm-Gg: ASbGncua6zBiqmUwGROMcsR2oM+mGEXjTR4faPm0xe3Qx+Rp5rsfP5Xzybe3DJ1iN1Y
-	KpLfl+ZuT8Imsgx93a19kO+aaeuWUzwfMGbvMtaT5OJs3alHWkWmobgX3lqBhjcy+aC0tY8jCOT
-	s+sZlIFdnjK961hvA1gbviwtH+
-X-Received: by 2002:a17:906:230f:b0:acb:5343:e75 with SMTP id a640c23a62f3a-acb74b8d0f8mr834620166b.34.1745252084366;
-        Mon, 21 Apr 2025 09:14:44 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IE3knQnWs2HodTUZGMoQRi1KMOmBwYSeJ3JQerwCdZYdiYgbg8sjwHlind4UuvyOig6HuCxOnlIKs7cZ/5/2VM=
-X-Received: by 2002:a17:906:230f:b0:acb:5343:e75 with SMTP id
- a640c23a62f3a-acb74b8d0f8mr834618266b.34.1745252083995; Mon, 21 Apr 2025
- 09:14:43 -0700 (PDT)
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=AxyLW5sq+o6vn0oRNHNlsA+8mL41449UYQjhSR/iYXk=;
+	b=Ex8v9B/UGzNppCN3aPA6+7FekSUkSOVp0QPSXo72czsrxbFgNp0qqe6r+QyvXcU9GC0xgu
+	dZB5etw3Tdu+HNaPYnrMLMOXT6oxh0CwYaamIqcim191IG4uBcryNNLXSVS0VQNJIqcryK
+	ofSThoKQC5wIa4pn2mY0RzWUbE9nmZE=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-647-xSX_DSPfMgS-vDxGLqpAcA-1; Mon,
+ 21 Apr 2025 12:17:28 -0400
+X-MC-Unique: xSX_DSPfMgS-vDxGLqpAcA-1
+X-Mimecast-MFC-AGG-ID: xSX_DSPfMgS-vDxGLqpAcA_1745252247
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 0C0191956088;
+	Mon, 21 Apr 2025 16:17:27 +0000 (UTC)
+Received: from fedora.redhat.com (unknown [10.22.65.113])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0AFC430001A2;
+	Mon, 21 Apr 2025 16:17:25 +0000 (UTC)
+From: Joel Savitz <jsavitz@redhat.com>
+To: linux-kernel@vger.kernel.org
+Cc: Joel Savitz <jsavitz@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v3] docs: namespace: Tweak and reword resource control doc
+Date: Mon, 21 Apr 2025 12:17:23 -0400
+Message-ID: <20250421161723.1138903-1-jsavitz@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250419150428.1129352-1-jsavitz@redhat.com> <aARdIqU6Y7baKrSk@archie.me>
-In-Reply-To: <aARdIqU6Y7baKrSk@archie.me>
-From: Joel Savitz <jsavitz@redhat.com>
-Date: Mon, 21 Apr 2025 12:14:27 -0400
-X-Gm-Features: ATxdqUE8VsYRGIOl4n4_wfC9xgagr25hIczQvW3IExl_6xXwE5I_-E7vVODx-10
-Message-ID: <CAL1p7m6VGRDBrt89_5zqXzFgfZqm3mjmwH5WEn270Rwb49H7Dw@mail.gmail.com>
-Subject: Re: [PATCH v2] docs: namespace: Tweak and reword resource control doc
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-On Sat, Apr 19, 2025 at 10:34=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.co=
-m> wrote:
->
-> On Sat, Apr 19, 2025 at 11:04:28AM -0400, Joel Savitz wrote:
-> > -There are a lot of kinds of objects in the kernel that don't have
-> > -individual limits or that have limits that are ineffective when a set
-> > -of processes is allowed to switch user ids.  With user namespaces
-> > -enabled in a kernel for people who don't trust their users or their
-> > -users programs to play nice this problems becomes more acute.
-> > +The kernel contains many kinds of objects that either don't have
-> > +individual limits or that have limits which are ineffective when
-> > +a set of processes is allowed to switch their UID. On a system
-> > +where there admins don't trust their users or their users' programs,
-> > +user namespaces expose the system to potential misuse of resources.
->
-> Do you mean "when there are admins who don't trust ..." or "where admins =
-don't
-> trust ..."?
+Fix the document title and reword the phrasing to active voice.
 
-I meant to write "the admins", my bad.
+Signed-off-by: Joel Savitz <jsavitz@redhat.com>
+---
+Changes since v2:
+- Fix another typo
+Changes since v1:
+- Fix spelling of resource
 
->
-> Confused...
->
-> --
-> An old man doll... just what I always wanted! - Clara
+ .../namespaces/resource-control.rst           | 24 +++++++++----------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/Documentation/admin-guide/namespaces/resource-control.rst b/Documentation/admin-guide/namespaces/resource-control.rst
+index 369556e00f0c..553a44803231 100644
+--- a/Documentation/admin-guide/namespaces/resource-control.rst
++++ b/Documentation/admin-guide/namespaces/resource-control.rst
+@@ -1,17 +1,17 @@
+-===========================
+-Namespaces research control
+-===========================
++====================================
++User namespaces and resource control
++====================================
+ 
+-There are a lot of kinds of objects in the kernel that don't have
+-individual limits or that have limits that are ineffective when a set
+-of processes is allowed to switch user ids.  With user namespaces
+-enabled in a kernel for people who don't trust their users or their
+-users programs to play nice this problems becomes more acute.
++The kernel contains many kinds of objects that either don't have
++individual limits or that have limits which are ineffective when
++a set of processes is allowed to switch their UID. On a system
++where the admins don't trust their users or their users' programs,
++user namespaces expose the system to potential misuse of resources.
+ 
+-Therefore it is recommended that memory control groups be enabled in
+-kernels that enable user namespaces, and it is further recommended
+-that userspace configure memory control groups to limit how much
+-memory user's they don't trust to play nice can use.
++In order to mitigate this, we recommend that admins enable memory
++control groups on any system that enables user namespaces.
++Furthermore, we recommend that admins configure the memory control
++groups to limit the maximum memory usable by any untrusted user.
+ 
+ Memory control groups can be configured by installing the libcgroup
+ package present on most distros editing /etc/cgrules.conf,
+-- 
+2.45.2
 
