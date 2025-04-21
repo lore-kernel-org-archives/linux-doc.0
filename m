@@ -1,165 +1,331 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 727D41E3DFE;
-	Mon, 21 Apr 2025 17:58:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 559051D5CF2
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 18:05:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745258327; cv=none; b=tqSa0+cXT5DX8ZpW9YzxAgtuC54FhRMhDnPZKhZCVCgiCdwRrtnyBgql1gCQUcqCMdzrK1fsGRHCD/EXrIBKCKXBR5pZN6O6+R69pYow2ok1sSw8QkzU90Xi8dCpo2UmfOzlwZEMZYXOdj6N8Ngeysj4Ny1qsfBewM80i6fFG1M=
+	t=1745258719; cv=none; b=j9Pxx+0mstS97x/eTK/P6t+RgQ62tm1LUmjN4FG2UraOLV0HMifN9JTMrIokmAyLv2ZLPJkrDGFJtcGg6zy/uDA6laeZiuSFb5xfyG9E5HQltnGg+0NTfgcZV5Fv3yl3fy6CR7x8zfszzHE1W23UwMgk2+x03aVeALzvyZHMUOk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745258327; c=relaxed/simple;
-	bh=iKIM2wKqUtlQpc6gV5GRUWYsCL1lGfAXIG3wkd4PEmE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WYkdg89n9utejp+aL/edMzTl7J80Dbtrsw09WPCO8HDgXaUrpBTs1YFO1r1cyJsbAuscXIB+JOsyWsBZYPYpfqSpcasBJC3IfUROOsI6/P2EJXTuxyf4qCNQHhWppSTgAtulIH+YfAeXcfo8CrDkWKVT/ImrqXV+J9g1jljow1Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fQOe5UJB; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745258719; c=relaxed/simple;
+	bh=qGgJymgZyzfYkWI9uvVgSpOlA7nuXmcfvo3qhmYbHOI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=gPfCXk+iOu/oo4QvJqT0MqN8w7SVgCslCblJlNGwjGGYcJ7pHNx0m2Xe4jqThbk9MJ/A6dI+PgjGdEc/g1lOZCD8pgOBr39hjLTdw0mLuOXgGZPhEByCsTxM1n8ODTVEFiYuieFRoYWs8omGEoltyIZthzA7CGqUQ3lwSgnbJTU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=jGWvZEXb; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fQOe5UJB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D93CBC4CEF0;
-	Mon, 21 Apr 2025 17:58:45 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745258325;
-	bh=iKIM2wKqUtlQpc6gV5GRUWYsCL1lGfAXIG3wkd4PEmE=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=fQOe5UJBrN84MHjBsV4gZyvpFqNidQ0PK7bygae3TpkuylyQXD4DWemS+wperSZGW
-	 T763QBAhUMxnT9fMd5JS72o/dAWEd+DmceHwOJOULQ0foD8B8WjYikr6XNoo4EAqoG
-	 uy/96sik7tEzG68I1QTqGVtOGsvs4UQGwMWbzhHvGCINbEHsGgFGCtKuoh+A9j3B+M
-	 nGYCvHXr/SD1QOcziiDVcesttQspk5JWZlzP4YVzTm4V/ZeGw0lWjU8ACPX6ilnuDT
-	 OAdyNjNoc/BV47bbfPOLzAxbLGosAjjlVooB7iHZRwuFCXDcUmy045B2lRHnb1vc6p
-	 3EuE6WYexzGuw==
-Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-47690a4ec97so45468461cf.2;
-        Mon, 21 Apr 2025 10:58:45 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU4kNg558HQ6NIK5qEVwqJyn94l+1bBOT4VoFFHYWnVRJlMbRv12zpdqkqJ5tpr36IOaI/Qmwpvy+hoSdXB@vger.kernel.org, AJvYcCWdtDJMd9v8wWeLNRMA0hhkZvJ4S7mkVKa0phx93NSih+QJKqphjOnAktVACT91GfsY6AU=@vger.kernel.org, AJvYcCX52d+W/TK+I5nBeaRkiR8Pc0ks6R+XNHocNxvcQhtp1JoCPo75+eBvVlwAk1/10ERjFM36zYEzXP49lAlcSzw+@vger.kernel.org, AJvYcCXWQkKxBGC8jgJZqYcxuLpXmnEUkYqBGEs8y1/s6oC+J5ynlOvJVwKJinVsQ3NeAVDhpQiAvRdVq3O5/Fo=@vger.kernel.org, AJvYcCXZREugiNpBktheiCiMxKXhzjEs70dm65jsVW9zmJfcles+fEMNMpnBCdkD0cXMM+6k7n5usDyszDtR@vger.kernel.org
-X-Gm-Message-State: AOJu0YwBuJBDvTqudqIT0X17K7Lsf9lls//OWJIxDxYbfilmar0yWrhW
-	IxL7BEhazlxUMOJ6VAt5K5IKtFenGyqsKE8IXPifiwbEDlJlZsxdPJbUv4zM/Rz3BEkQGuRyDFF
-	zRmgbst1CQbt+IHFSLan01ZoEr0c=
-X-Google-Smtp-Source: AGHT+IE8HckTVa/ODHOBBiUx6mnBjmKzUKUF5RXS/PyOXaTpOyGidFR0Ah5YtlEwxLCsr1VDuIEeUXoMGTa7dTtikss=
-X-Received: by 2002:ac8:5fc6:0:b0:479:be67:3bd2 with SMTP id
- d75a77b69052e-47aec3cb8f4mr213100921cf.23.1745258324932; Mon, 21 Apr 2025
- 10:58:44 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="jGWvZEXb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745258716;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eVvKIhcDUigy61iYir4MfxXVC274WCrw45kaD6hp0uk=;
+	b=jGWvZEXbad2iULzI22+yZmmxQH2PjAeNfP4fjaDQp3GORjyc6EqU+Ei//kPFs2ggLxNqFl
+	p0UNdtIgdcLMuFgkbzyOIYivmVX1+antMv+gxF8RTqa06ppNFKZLjIrx26N36Ov5cBRjOI
+	eq6IXq52VlzoqiOBjmoVpWBpFsRNUZM=
+Received: from mail-qt1-f200.google.com (mail-qt1-f200.google.com
+ [209.85.160.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-463-art2TNnpP5iHVwOuL1KiMQ-1; Mon, 21 Apr 2025 14:05:14 -0400
+X-MC-Unique: art2TNnpP5iHVwOuL1KiMQ-1
+X-Mimecast-MFC-AGG-ID: art2TNnpP5iHVwOuL1KiMQ_1745258714
+Received: by mail-qt1-f200.google.com with SMTP id d75a77b69052e-47b36edcdb1so13501801cf.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 11:05:14 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745258714; x=1745863514;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=eVvKIhcDUigy61iYir4MfxXVC274WCrw45kaD6hp0uk=;
+        b=xMou7JOHxEXN7wcyOVjau6WtbVJIFifp3VnV8BYFdGgw8/Hlc28W7WukT/jgVTTDAy
+         ++ebK28zvBFJ0uDA0qmHo92xA0W6CnMZnSRRGwzlnlweUVCDACu5E/SEasg6gc+Oy/VL
+         SNDZSoLXaAASSsHk6i8VETBMYobvNgRiwyAj6glsnKjDJBeRfL0Ga9ANZwwIHijBwfCG
+         K5lg4lqhsKmD6Ool+yxqRqy9b/I49gM4iDggLfWNC15VwKUHSnpHfNv0/4Q8fwj+2uOr
+         3y2SDckzOhl4h5WFYJlUtOxJruWtoG5TxwMPssjzgoUYEfyLEDB5yEOkEPAawEePYSQB
+         EWYg==
+X-Forwarded-Encrypted: i=1; AJvYcCV6E8lthn5oiA6pT1doNewANeCw3TPgAzOeYW+pPScAHJCQXGX5b2TBPtTKAGg9QMzau4Y6k9oM6Dg=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyi3W+c/nudYRKEyXhtChSt6JYBBlg+Mo3O4sR2yakyz0+JPL7l
+	jKFtyyoMejyWrW6l8apwyvu5HgbOqZgKszfPVQGsD80SFH0swkQsXU0Lv46OaatFFPvVI/lTeFW
+	YlkHPYTK70E3QQuukhMX+eMI53QQPRU2Umf1DYUk4V7XbTcYZb0QJsiXXMw==
+X-Gm-Gg: ASbGncuChCw963XAk3+uxghkLd+PJBDzMuixOzArvrt1Ll2m3VX1vq+CplmwSCS3xiP
+	lRgeCpFeu/T7DIf92FPzTBiY7Ordc563K66mU3wwSGCuMamj2pgM/pm9Pwy/+6/q28Jy4d6ZP7i
+	CfOvGAzQX2fCvjXknbbB1WYVeLnA3Jy8WtspyXR+0hNOszGC1TMZuYeYEmHdOT95N4zRy7kfV4f
+	zCkx+Y9egMzdGyLAN2M5FBFPEBA88/8r/eulowEV7cV8oV488/K0IDkBCBxW4wtWOzvs616jPlA
+	m9RNuYmLbIMbH61sK60eBqEdCTk+41JVjgeL/51i3cqeZCG1Z6WNoQ==
+X-Received: by 2002:a05:622a:130a:b0:476:7e72:3538 with SMTP id d75a77b69052e-47aec4c5b9bmr257980561cf.50.1745258714106;
+        Mon, 21 Apr 2025 11:05:14 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEzSdW6NS+1cQtXXq3zs8Ag1p4QSDq3hHqyATaMXHMXhtpgSTpQ221iJSeiQeHxMsRVOyUsJw==
+X-Received: by 2002:a05:622a:130a:b0:476:7e72:3538 with SMTP id d75a77b69052e-47aec4c5b9bmr257979471cf.50.1745258713436;
+        Mon, 21 Apr 2025 11:05:13 -0700 (PDT)
+Received: from athena.aquini.home (c-76-23-219-111.hsd1.me.comcast.net. [76.23.219.111])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47ae9cfa2ccsm45046821cf.67.2025.04.21.11.05.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Apr 2025 11:05:12 -0700 (PDT)
+Date: Mon, 21 Apr 2025 14:05:10 -0400
+From: Rafael Aquini <raquini@redhat.com>
+To: Kees Cook <kees@kernel.org>
+Cc: Petr Mladek <pmladek@suse.com>,
+	Sergio Perez Gonzalez <sperezglz@gmail.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	David Rientjes <rientjes@google.com>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Harry Yoo <harry.yoo@oracle.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Christoph Lameter <cl@linux.com>, Pekka Enberg <penberg@kernel.org>,
+	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+	Roman Gushchin <roman.gushchin@linux.dev>,
+	"Paul E. McKenney" <paulmck@kernel.org>,
+	Thomas Huth <thuth@redhat.com>,
+	"Borislav Petkov (AMD)" <bp@alien8.de>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Tamir Duberstein <tamird@gmail.com>,
+	Alice Ryhl <aliceryhl@google.com>,
+	Stephen Boyd <swboyd@chromium.org>, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org,
+	linux-hardening@vger.kernel.org
+Subject: Re: [PATCH v3] slab: Decouple slab_debug and no_hash_pointers
+Message-ID: <aAaI1sJdna67WCaf@athena.aquini.home>
+References: <20250421165508.make.689-kees@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com> <20250414225227.3642618-3-tjmercier@google.com>
-In-Reply-To: <20250414225227.3642618-3-tjmercier@google.com>
-From: Song Liu <song@kernel.org>
-Date: Mon, 21 Apr 2025 10:58:33 -0700
-X-Gmail-Original-Message-ID: <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
-X-Gm-Features: ATxdqUHDDdbJSbksFn4UCdL4tiOhDhDWdHN22eHXld_HEyeHr-qDylZwsTxwC7Y
-Message-ID: <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: sumit.semwal@linaro.org, christian.koenig@amd.com, ast@kernel.org, 
-	daniel@iogearbox.net, andrii@kernel.org, martin.lau@linux.dev, 
-	skhan@linuxfoundation.org, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250421165508.make.689-kees@kernel.org>
 
-On Mon, Apr 14, 2025 at 3:53=E2=80=AFPM T.J. Mercier <tjmercier@google.com>=
- wrote:
->
-> The dmabuf iterator traverses the list of all DMA buffers. The list is
-> maintained only when CONFIG_DEBUG_FS is enabled.
->
-> DMA buffers are refcounted through their associated struct file. A
-> reference is taken on each buffer as the list is iterated to ensure each
-> buffer persists for the duration of the bpf program execution without
-> holding the list mutex.
->
-> Signed-off-by: T.J. Mercier <tjmercier@google.com>
+On Mon, Apr 21, 2025 at 09:55:12AM -0700, Kees Cook wrote:
+> Some system owners use slab_debug=FPZ (or similar) as a hardening option,
+> but do not want to be forced into having kernel addresses exposed due
+> to the implicit "no_hash_pointers" boot param setting.[1]
+> 
+> Introduce the "hash_pointers" boot param, which defaults to "auto"
+> (the current behavior), but also includes "always" (forcing on hashing
+> even when "slab_debug=..." is defined), and "never". The existing
+> "no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
+> 
+> This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
+> 
+> Link: https://github.com/KSPP/linux/issues/368 [1]
+> Fixes: 792702911f58 ("slub: force on no_hash_pointers when slub_debug is enabled")
+> Co-developed-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
+> Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
+> Acked-by: Vlastimil Babka <vbabka@suse.cz>
+> Acked-by: David Rientjes <rientjes@google.com>
+> Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
+> Acked-by: Rafael Aquini <raquini@redhat.com>
+> Tested-by: Petr Mladek <pmladek@suse.com>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Kees Cook <kees@kernel.org>
 > ---
->  include/linux/btf_ids.h  |   1 +
->  kernel/bpf/Makefile      |   3 +
->  kernel/bpf/dmabuf_iter.c | 130 +++++++++++++++++++++++++++++++++++++++
->  3 files changed, 134 insertions(+)
->  create mode 100644 kernel/bpf/dmabuf_iter.c
->
-> diff --git a/include/linux/btf_ids.h b/include/linux/btf_ids.h
-> index 139bdececdcf..899ead57d89d 100644
-> --- a/include/linux/btf_ids.h
-> +++ b/include/linux/btf_ids.h
-> @@ -284,5 +284,6 @@ extern u32 bpf_cgroup_btf_id[];
->  extern u32 bpf_local_storage_map_btf_id[];
->  extern u32 btf_bpf_map_id[];
->  extern u32 bpf_kmem_cache_btf_id[];
-> +extern u32 bpf_dmabuf_btf_id[];
-
-This is not necessary. See below.
-
->
->  #endif
-> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> index 70502f038b92..5b30d37ef055 100644
-> --- a/kernel/bpf/Makefile
-> +++ b/kernel/bpf/Makefile
-> @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
->  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
->  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
->  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
-> +ifeq ($(CONFIG_DEBUG_FS),y)
-> +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
-> +endif
->
->  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
->  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
-> diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
-> new file mode 100644
-> index 000000000000..b4b8be1d6aa4
-> --- /dev/null
-> +++ b/kernel/bpf/dmabuf_iter.c
-
-Maybe we should add this file to drivers/dma-buf. I would like to
-hear other folks thoughts on this.
-
-> @@ -0,0 +1,130 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright (c) 2025 Google LLC */
-> +#include <linux/bpf.h>
-> +#include <linux/btf_ids.h>
-> +#include <linux/dma-buf.h>
-> +#include <linux/kernel.h>
-> +#include <linux/seq_file.h>
+>  v3: add docs about implicit "no_hash_pointers" when using "slab_debug" (harry.yoo)
+>  v2: https://lore.kernel.org/all/20250415170232.it.467-kees@kernel.org/
+>  v1: https://lore.kernel.org/lkml/20250410174428.work.488-kees@kernel.org/
+> ---
+>  .../admin-guide/kernel-parameters.txt         | 38 ++++++++----
+>  include/linux/sprintf.h                       |  2 +-
+>  lib/vsprintf.c                                | 61 +++++++++++++++++--
+>  mm/slub.c                                     |  5 +-
+>  4 files changed, 86 insertions(+), 20 deletions(-)
+> 
+> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> index d9fd26b95b34..cb12531b2100 100644
+> --- a/Documentation/admin-guide/kernel-parameters.txt
+> +++ b/Documentation/admin-guide/kernel-parameters.txt
+> @@ -1795,6 +1795,27 @@
+>  			backtraces on all cpus.
+>  			Format: 0 | 1
+>  
+> +	hash_pointers=
+> +			[KNL,EARLY]
+> +			By default, when pointers are printed to the console
+> +			or buffers via the %p format string, that pointer is
+> +			"hashed", i.e. obscured by hashing the pointer value.
+> +			This is a security feature that hides actual kernel
+> +			addresses from unprivileged users, but it also makes
+> +			debugging the kernel more difficult since unequal
+> +			pointers can no longer be compared. The choices are:
+> +			Format: { auto | always | never }
+> +			Default: auto
 > +
-> +BTF_ID_LIST_GLOBAL_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
-
-Use BTF_ID_LIST_SINGLE(), then we don't need this in btf_ids.h
-
-> +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_buf =
-*dmabuf)
+> +			auto   - Hash pointers unless slab_debug is enabled.
+> +			always - Always hash pointers (even if slab_debug is
+> +				 enabled).
+> +			never  - Never hash pointers. This option should only
+> +				 be specified when debugging the kernel. Do
+> +				 not use on production kernels. The boot
+> +				 param "no_hash_pointers" is an alias for
+> +				 this mode.
 > +
-> +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos)
+>  	hashdist=	[KNL,NUMA] Large hashes allocated during boot
+>  			are distributed across NUMA nodes.  Defaults on
+>  			for 64-bit NUMA, off otherwise.
+> @@ -4117,18 +4138,7 @@
+>  
+>  	no_hash_pointers
+>  			[KNL,EARLY]
+> -			Force pointers printed to the console or buffers to be
+> -			unhashed.  By default, when a pointer is printed via %p
+> -			format string, that pointer is "hashed", i.e. obscured
+> -			by hashing the pointer value.  This is a security feature
+> -			that hides actual kernel addresses from unprivileged
+> -			users, but it also makes debugging the kernel more
+> -			difficult since unequal pointers can no longer be
+> -			compared.  However, if this command-line option is
+> -			specified, then all normal pointers will have their true
+> -			value printed. This option should only be specified when
+> -			debugging the kernel.  Please do not use on production
+> -			kernels.
+> +			Alias for "hash_pointers=never".
+>  
+>  	nohibernate	[HIBERNATION] Disable hibernation and resume.
+>  
+> @@ -6478,6 +6488,10 @@
+>  			Documentation/mm/slub.rst.
+>  			(slub_debug legacy name also accepted for now)
+>  
+> +			Using this option implies the "no_hash_pointers"
+> +			option which can be undone by adding the
+> +			"hash_pointers=always" option.
+> +
+>  	slab_max_order= [MM]
+>  			Determines the maximum allowed order for slabs.
+>  			A high setting may cause OOMs due to memory
+> diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
+> index 51cab2def9ec..521bb2cd2648 100644
+> --- a/include/linux/sprintf.h
+> +++ b/include/linux/sprintf.h
+> @@ -22,7 +22,7 @@ __scanf(2, 0) int vsscanf(const char *, const char *, va_list);
+>  
+>  /* These are for specific cases, do not use without real need */
+>  extern bool no_hash_pointers;
+> -int no_hash_pointers_enable(char *str);
+> +void hash_pointers_finalize(bool slub_debug);
+>  
+>  /* Used for Rust formatting ('%pA') */
+>  char *rust_fmt_argument(char *buf, char *end, const void *ptr);
+> diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> index 01699852f30c..22cbd75266ef 100644
+> --- a/lib/vsprintf.c
+> +++ b/lib/vsprintf.c
+> @@ -60,6 +60,20 @@
+>  bool no_hash_pointers __ro_after_init;
+>  EXPORT_SYMBOL_GPL(no_hash_pointers);
+>  
+> +/*
+> + * Hashed pointers policy selected by "hash_pointers=..." boot param
+> + *
+> + * `auto`   - Hashed pointers enabled unless disabled by slub_debug_enabled=true
+> + * `always` - Hashed pointers enabled unconditionally
+> + * `never`  - Hashed pointers disabled unconditionally
+> + */
+> +enum hash_pointers_policy {
+> +	HASH_PTR_AUTO = 0,
+> +	HASH_PTR_ALWAYS,
+> +	HASH_PTR_NEVER
+> +};
+> +static enum hash_pointers_policy hash_pointers_mode __initdata;
+> +
+>  noinline
+>  static unsigned long long simple_strntoull(const char *startp, char **endp, unsigned int base, size_t max_chars)
+>  {
+> @@ -2271,12 +2285,23 @@ char *resource_or_range(const char *fmt, char *buf, char *end, void *ptr,
+>  	return resource_string(buf, end, ptr, spec, fmt);
+>  }
+>  
+> -int __init no_hash_pointers_enable(char *str)
+> +void __init hash_pointers_finalize(bool slub_debug)
+>  {
+> -	if (no_hash_pointers)
+> -		return 0;
+> +	switch (hash_pointers_mode) {
+> +	case HASH_PTR_ALWAYS:
+> +		no_hash_pointers = false;
+> +		break;
+> +	case HASH_PTR_NEVER:
+> +		no_hash_pointers = true;
+> +		break;
+> +	case HASH_PTR_AUTO:
+> +	default:
+> +		no_hash_pointers = slub_debug;
+> +		break;
+> +	}
+>  
+> -	no_hash_pointers = true;
+> +	if (!no_hash_pointers)
+> +		return;
+>  
+>  	pr_warn("**********************************************************\n");
+>  	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
+> @@ -2289,11 +2314,39 @@ int __init no_hash_pointers_enable(char *str)
+>  	pr_warn("** the kernel, report this immediately to your system   **\n");
+>  	pr_warn("** administrator!                                       **\n");
+>  	pr_warn("**                                                      **\n");
+> +	pr_warn("** Use hash_pointers=always to force this mode off      **\n");
+> +	pr_warn("**                                                      **\n");
+>  	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
+>  	pr_warn("**********************************************************\n");
+> +}
+> +
+> +static int __init hash_pointers_mode_parse(char *str)
 > +{
-> +       struct dma_buf *dmabuf, *ret =3D NULL;
+> +	if (!str) {
+> +		pr_warn("Hash pointers mode empty; falling back to auto.\n");
+> +		hash_pointers_mode = HASH_PTR_AUTO;
+> +	} else if (strncmp(str, "auto", 4) == 0)   {
+> +		pr_info("Hash pointers mode set to auto.\n");
+> +		hash_pointers_mode = HASH_PTR_AUTO;
+> +	} else if (strncmp(str, "never", 5) == 0) {
+> +		pr_info("Hash pointers mode set to never.\n");
+> +		hash_pointers_mode = HASH_PTR_NEVER;
+> +	} else if (strncmp(str, "always", 6) == 0) {
+> +		pr_info("Hash pointers mode set to always.\n");
+> +		hash_pointers_mode = HASH_PTR_ALWAYS;
+> +	} else {
+> +		pr_warn("Unknown hash_pointers mode '%s' specified; assuming auto.\n", str);
+> +		hash_pointers_mode = HASH_PTR_AUTO;
+> +	}
+>  
+>  	return 0;
+>  }
+> +early_param("hash_pointers", hash_pointers_mode_parse);
 > +
-> +       if (*pos) {
-> +               *pos =3D 0;
-> +               return NULL;
-> +       }
-> +       /* Look for the first buffer we can obtain a reference to.
-> +        * The list mutex does not protect a dmabuf's refcount, so it can=
- be
-> +        * zeroed while we are iterating. Therefore we cannot call get_dm=
-a_buf()
-> +        * since the caller of this program may not already own a referen=
-ce to
-> +        * the buffer.
-> +        */
+> +static int __init no_hash_pointers_enable(char *str)
+> +{
+> +	return hash_pointers_mode_parse("never");
+> +}
+>  early_param("no_hash_pointers", no_hash_pointers_enable);
+>  
+>  /*
+> diff --git a/mm/slub.c b/mm/slub.c
+> index b46f87662e71..f3d61b330a76 100644
+> --- a/mm/slub.c
+> +++ b/mm/slub.c
+> @@ -6314,9 +6314,8 @@ void __init kmem_cache_init(void)
+>  	if (debug_guardpage_minorder())
+>  		slub_max_order = 0;
+>  
+> -	/* Print slub debugging pointers without hashing */
+> -	if (__slub_debug_enabled())
+> -		no_hash_pointers_enable(NULL);
+> +	/* Inform pointer hashing choice about slub debugging state. */
+> +	hash_pointers_finalize(__slub_debug_enabled());
+>  
+>  	kmem_cache_node = &boot_kmem_cache_node;
+>  	kmem_cache = &boot_kmem_cache;
+> -- 
+> 2.34.1
+> 
+> 
+Acked-by: Rafael Aquini <raquini@redhat.com>
 
-We should use kernel comment style for new code. IOW,
-/*
- * Look for ...
- */
-
-
-Thanks,
-Song
-
-[...]
