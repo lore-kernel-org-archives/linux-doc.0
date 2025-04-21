@@ -1,127 +1,72 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1761220C47B;
-	Mon, 21 Apr 2025 11:01:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A380613C918
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 12:05:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745233301; cv=none; b=nef6MzPl18KKKFTHWdZqB2vok8FYW7LotnhuodiGfw4mPLcOT6uZWJKedmYwtfCZ8iUG2tE85Yj8W12JqctGuF7n5at4P9gHx8X9QjG9JbrAwTZmN3WNwLER4sJcFqqxZLgSKx8zZA2LwRipTB75/4JX2clG7DljdvoCtVVGUO0=
+	t=1745237138; cv=none; b=ZEkCPYOLoUGocovciM3aDgjWwmhNAdIT6xbgP645vHih96f1QmXaykXkr7CQ9Kc7xA5l3JVUSY0VYSmKB2SgUEU9XxJb+BqrnKMEvOFOuBgAHiP1lrkJAWfi0Zv6tEfk92NHWqYXI6fOWf7e53dfCY70m1p1fDFSNt2Jx53a9cQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745233301; c=relaxed/simple;
-	bh=cAvMCgZP+MhJK/LXW4szC3CbZw7bAtxZrpSXA2BIccM=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=O7M1g1Koxo+Fjur4drEW+X5RhauaucLTcgDY21609o/Y17zNON8T0k+vmwmZ+dlt1x77J/JLkeFrJqFlZnpPR4P0X3liH0naKEb8bWDkdV8tvDC1JET6gm6qS8zU4UP58I6MQeCQ09XBTHn4flyOgslU4wkk6Cx2xzTZnNfzeVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gXLECnaN; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745237138; c=relaxed/simple;
+	bh=2PHBdSKyaQPqlbSM8yTXUcYGGEk2cPFa1bPGHgLQCq4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Qw0C7GfkspgT1WAYaW33+NlJ4Rd+PwrLi0pzX7tcnSoOfgwtBXt5wuQERW7ZHBIpk9DvZY7Di0ZGblJ/atM8foh7l850bAAViLrUzwefnHfJjLKlvRPpateXk7orvQ43o4V2HCW5/7yj6LrwltspExDiFANCBSpiV4jdbogGx98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=yY26akcF; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gXLECnaN"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AFF0C4CEE4;
-	Mon, 21 Apr 2025 11:01:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745233300;
-	bh=cAvMCgZP+MhJK/LXW4szC3CbZw7bAtxZrpSXA2BIccM=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=gXLECnaNhfDMCU2Q7DjLyyWR7aHYJf76zyRgnckXAnDpVOv+SXJ8PREme97O+kR3r
-	 G0r42n7CrTB2m70Bu8ogXt9DbntJHe6nQ/yT2chNDTaQO0UCcfXP8Tu0aKW1P7mUhS
-	 /+EDxlRkAhuaXC8M6Po+uaPwIf1Of1DvC2SZdxM+0PHR6LpDlN8a0CAfFYIamNReQL
-	 h8fsOQbWkFt7Zus5kVslWN3qCCH+oHblirP/HY3oYRt9HndjiA/TbmnJY3CVexsd4Y
-	 RS/hZNQV3RjD1wsX/xMEnDiUsXJhHPNMYHf4deewDA23yGpAKWdKVRCj7N89zjFsMD
-	 02tr/2W2QAGwg==
-Date: Mon, 21 Apr 2025 12:01:33 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Nuno =?UTF-8?B?U8Oh?= <noname.nuno@gmail.com>
-Cc: Angelo Dureghello <adureghello@baylibre.com>, Nuno =?UTF-8?B?U8Oh?= 
- <nuno.sa@analog.com>, David Lechner	 <dlechner@baylibre.com>, Andy
- Shevchenko <andy@kernel.org>, Jonathan Corbet  <corbet@lwn.net>, Jonathan
- Cameron <Jonathan.Cameron@huawei.com>, linux-iio@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- sfr@canb.auug.org.au
-Subject: Re: [PATCH] docs: iio: ad3552r: fix malformed table
-Message-ID: <20250421120133.370cad4c@jic23-huawei>
-In-Reply-To: <087b28aeecb54645a52627d84291a5ed6d309011.camel@gmail.com>
-References: <20250415-wip-bl-ad3552r-fix-doc-table-v1-1-717ffd320c9d@baylibre.com>
-	<087b28aeecb54645a52627d84291a5ed6d309011.camel@gmail.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="yY26akcF"
+Date: Mon, 21 Apr 2025 08:05:25 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1745237132;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=2PHBdSKyaQPqlbSM8yTXUcYGGEk2cPFa1bPGHgLQCq4=;
+	b=yY26akcF3YSEbswfNsM1neBZz9PdHg6FanKmv3WRpHj5kqVxQU/52gQm+0XFOpgHPlWl3j
+	55keSs8zD4EcgGpUIwE7T8pI3cumhjd6NDlEKluh3T6w72pxICvZHPuKMyF1kbORFC+lC6
+	aXGa8V1pJVPF2NXWhXbJAs5WMeGlKpbbR3kYvgO6p5u1ls9PFWTLxTfPNE/wo/gMVOkBuI
+	EgHrQNaY+ZZ+S8N0adh6tEikecCYBQo7webOJ9l+jqft2lxi1YzB27OUKb1ta/fpx4PiQX
+	QS6W+ZimsdM3EBpXZ/g5a53FXN1kB006Jb5Doz8tKY33vGppRjcEW6wjb8uHlw==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: Petr Mladek <pmladek@suse.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4 0/3] Use proper printk format in appletbdrm
+Message-ID: <aAY0hRvNCi0y6rlt@blossom>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597D506487C3133B0358CE5B8BC2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PN3PR01MB9597D506487C3133B0358CE5B8BC2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, 15 Apr 2025 10:08:09 +0100
-Nuno S=C3=A1 <noname.nuno@gmail.com> wrote:
+> Can I have a feedback from some DRM maintainer on this? AFAIK merge window is over for some time now. It's been more than a week and last time when I submitted, it just stayed in the mailing list without any feedback.
 
-> On Tue, 2025-04-15 at 09:44 +0200, Angelo Dureghello wrote:
-> > From: Angelo Dureghello <adureghello@baylibre.com>
-> >=20
-> > Fix malformed table.
-> >=20
-> > Fixes: 9a259b51e3ea ("docs: iio: add documentation for ad3552r driver")
-> > Signed-off-by: Angelo Dureghello <adureghello@baylibre.com>
-> > --- =20
->=20
-> Reviewed-by: Nuno S=C3=A1 <nuno.sa@analog.com>
-I forgot to say I applied this a while back. Just noticed status was wrong =
-in
-patchwork!
+DRM hides the merge window from committers so that's not super relevant.
 
-Jonathan
-
->=20
-> > Fix malformed table.
-> > ---
-> > =C2=A0Documentation/iio/ad3552r.rst | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/iio/ad3552r.rst b/Documentation/iio/ad3552r.=
-rst
-> > index
-> > 582507abe8c4c2ecb51a1f8389d7deec44d20222..f5d59e4e86c7ec8338f3f4e82d7a0=
-7587e3d
-> > 8404 100644
-> > --- a/Documentation/iio/ad3552r.rst
-> > +++ b/Documentation/iio/ad3552r.rst
-> > @@ -56,7 +56,7 @@ specific debugfs path ``/sys/kernel/debug/iio/iio:dev=
-iceX``.
-> > =C2=A0| Debugfs device files=C2=A0 |
-> > Description=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > =C2=A0+-----------------------+----------------------------------------=
-------------
-> > --+
-> > =C2=A0| data_source=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0 | The used data source,
-> > as=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > -|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ``normal`=
-`, ``ramp-16bit``,
-> > etc.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > +|=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | ``normal`=
-`, ``ramp-16bit``,
-> > etc.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |
-> > =C2=A0+-----------------------+----------------------------------------=
-------------
-> > --+
-> > =C2=A0| data_source_available | The available data
-> > sources.=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0 |
-> > =C2=A0+-----------------------+----------------------------------------=
-------------
-> > --+
-> >=20
-> > ---
-> > base-commit: 31c52fe3b2efeebfc72cc5336653baaa9889b41e
-> > change-id: 20250415-wip-bl-ad3552r-fix-doc-table-589293c9b860
-> >=20
-> > Best regards, =20
-
+I am a DRM committer and can pick this up if necessary but it's not
+clear to me what's going thru with DRM vs elsewhere.
