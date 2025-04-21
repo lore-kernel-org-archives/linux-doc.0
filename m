@@ -1,329 +1,165 @@
-Received: from mail-ot1-f45.google.com (mail-ot1-f45.google.com [209.85.210.45])
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8484921CA1C;
-	Mon, 21 Apr 2025 22:00:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0DA2E21D3FB
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 22:04:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745272842; cv=none; b=nQU3wamcxNfZe9LoAetAGYUuu2nE7ix86ZzmeFmzzBjpov/BMGhESstzmYWOqYbN3iLD5bCapmHk8aygeA6Mv+xrGZ4wT9Br3HfX3tZFT/8WV13NQBO0jQJ9hj2bXrp7Va0qjySjEws3smcpa8w2RRbR3WRQoHfTzDWm1KxWHjM=
+	t=1745273049; cv=none; b=TBMKybxRflBh3sPh0gN0IAos63NsIVgywOl1tboArd8c5D2O2p0OaM7FcBjjduDkFWd7TkRaMJiEsaiMWe8XoFJksPPbpWI0ytH0OXzUDuvmUN+yn+/DYxUTCeJPg4vR0zZalNThw1kOw2HlHJKJVqmRoq9B2DpRXQTTve7k0oY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745272842; c=relaxed/simple;
-	bh=6hzwII5miKQuG6SXtRPdqY/6kuFLzBriuYqkXPya9AA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=WyRdYApSxEFtso2Zt+N+2CeiAK4zQOKk4AV5R52IKmUiXzELrGDKJ1OmD3Q/uRswPm/yV0AR/U6e6m49mxM5VSZyv0hJZj3t1w0rvC2iXx81Pq1Za3EaMR6+C2I0QLtaPLJnmMIqebu3C0O3X4iLDOgeG8A/tw84R1ft5Qc2r+w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=chEjKIMF; arc=none smtp.client-ip=209.85.210.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745273049; c=relaxed/simple;
+	bh=+muycKiBaV5UQqyraI1xwjnbIAioVU0Qup0KnvqWYU8=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VAAxUTad/NaM6hnk5lNi6twMDzbL67/wIcRLrOQMRAsDhiqYfMsACPDSbZ/rMC4w2S2Pbc2obmxz2yMRqnKlWEe4uDlTFwOuBNaWmoTDsmEdRiCuGjyO3nqRRFZPi7EB0jb6KCsJL/ZwtP+M9lj8R7vd0Ns9hh1AIZ5h0ssbLWM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=TM0jYe6K; arc=none smtp.client-ip=209.85.128.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="chEjKIMF"
-Received: by mail-ot1-f45.google.com with SMTP id 46e09a7af769-72bceb93f2fso2882888a34.0;
-        Mon, 21 Apr 2025 15:00:39 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="TM0jYe6K"
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-6ff37565154so39895727b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 15:04:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745272838; x=1745877638; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=lXpQqv5uH3F8h/08supf4MY46lZuUGYq1TQBRFda+64=;
-        b=chEjKIMFwgGrKvJAmvLrJg3wAAzQoRZgjrZiiTmbqcY6mcEtRiFqVNQJWYg29AyN2A
-         bvKDbbSP6ygHf+q4dd58cz4wo1jpXP1eZGr9b0gQqS0t/YH6XD/mbD1OyEbCpl+72bfu
-         P1+fOYys1TYcGQn3kGyoc+lyP6GgrIQvDveM3Uux/VHnhdOAp4ARYeWn48sBDLOCxoPC
-         A2dMeq7alPXIlT++2DeFg1XVb2K2N+AD0bAsgVbWEl0lDePSs/zpkaGf4P8/iq7wUWR2
-         bmqpQDkVLPcm4RMMxu55GvX0wGsA2Ijr2pdOpRZ2wY1lZNPK7HP6e6TokKi4BOwW1xtK
-         5j8Q==
+        d=paul-moore.com; s=google; t=1745273046; x=1745877846; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=zJkBF2Iq9gEiEg9l+Unpndzsq5ns/iefqc51nXn2fRQ=;
+        b=TM0jYe6KZQyjxuohb24LcAj0BwGkJx71bYweV1zBZAi5uSods9LE7nYSYB1weQAJyA
+         Asb3SNeaVe0WNePwYwLlc587gtrepTlWlFyQI7UVxBJV6w4goVbXoPrJ0DFzCTjj3yT9
+         gfR7Oo7ioVNRFiJGTyzI0VvU8FKpw//ZJh9tYCUKeTlAvD+xzihdwZSTl7dig7sbgpVp
+         ZpM8Sd01p7AgiTdwukFEyS2IwOVYdrtBnZk98SewZ8NkMNAuq4Iio5UMOAA+xWWLJ7Sw
+         /r7LHhjsmDL9n9lv1o0MmTvFgCOzTZcDqqKACG77tU57Y3oHtX8pnnQALz81AvoNuz9G
+         fsbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745272838; x=1745877638;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1745273046; x=1745877846;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=lXpQqv5uH3F8h/08supf4MY46lZuUGYq1TQBRFda+64=;
-        b=MlG4zjjOkwi91k3UdlvO8SW7v1Q9pwFXmFDE14GN2YWcKshT/boXwFmbjr0E5BQ8Gu
-         4O5R33TkowWRRrFMSSmF+qnp7MHW1+404CJf8TKq/coghofCUkBx144fGImZahGpA4FA
-         AEwSa7AZzyD37/t4N3rW7tVhwdJNJbrlAO+0XkHMz4V/kkdviu32A5mal9gEHmijovME
-         CGm83bWnzaYcnUDnjlRynBGij4ZGDVxbSuxG6mrInX8XBLR2WqmsJo57qcNL1hdPVNCK
-         78dNqVlY1C8OGEZe3JxLys51pSRzg8AoXKf5HLb79X+p9gUYGGlSIIfb6UchxijJtmGC
-         9CYA==
-X-Forwarded-Encrypted: i=1; AJvYcCVDKTNOWjNSDBKTI1n9rAI7Z3zUL1MUKsRIkvv7zCH15CG4tW70aGUSQ5pZ+Yn2iq/peuFGREAZ+QIi@vger.kernel.org, AJvYcCVuB3qfNNNLbLqcdf5pbGbQ9Ldwf6tminskACW+UGQgSHVp2dF+6aUNU9wGoOS3IsuHFq7rhJK++2Mf95Ah6A==@vger.kernel.org, AJvYcCXQI8opUT9NPJ3gQGgDsm7Q6Al1bHrTUxPLwDGBo3/O0HpapkRIXHXEj2F8Kexd1s458HVtIpDh68QXoBt0@vger.kernel.org, AJvYcCXtKi9n80T0uEW0MwiHeXw75P+wYQE1FLQ6grld3ifIPjTIwQfoZY3GucNxLBU27z0HvnILbU5lHwA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzkvGRp3OWApR9a3zjgbaCnSK7I4XA0N1XcgPAC8Y9Kv34gF8Iy
-	A15SCwcmdTlYe8Eo7xlMy3I6iS8QEBKqwU9b8QPLZsmthwTT/RRx
-X-Gm-Gg: ASbGncvXpXBB74NJUw8uVmdz3KC5m4s8h4taNK8YtsYNT+dPuBBc0FHF+PSGWNC16GG
-	E7KQQ+Aa25oDW9x3QGZ3A6vV4TyqGbzp79zMkRmNmUcic9UUPMN67h+lOMBpujb4cVDSYxH819h
-	Yh4fqkl8zSajUq6JY2bDpPEBJ5kobCEJnS7Woux0Yzc3wIspP5zBTOXi5/rHOYJSiKOhQaauA8+
-	FBt1rZY4/mqI3p3dTpHFRoLoMXVG1pFjt8VtIlbqymSPDZfGnGHtq2pwrTb+rv8JrWiPni4BOhZ
-	aOk+QQT088WsNkfb1azD9fHY58v/Wbu4Zs2sxAuGFoF+yr3q8nwFaOUlCjb2
-X-Google-Smtp-Source: AGHT+IEDVc4jFKpog8BpBULIi4CIUTHFtA+7oU94cglSMMNMU/TJsJw7dEoU6QcfZkab31kBcOgZtg==
-X-Received: by 2002:a05:6830:4111:b0:72b:974f:de49 with SMTP id 46e09a7af769-73005edb682mr8224337a34.7.1745272838287;
-        Mon, 21 Apr 2025 15:00:38 -0700 (PDT)
-Received: from Borg-550.local ([2603:8080:1500:3d89:c191:629b:fde5:2f06])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7300489de9esm1633128a34.63.2025.04.21.15.00.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 15:00:37 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 21 Apr 2025 17:00:35 -0500
-From: John Groves <John@groves.net>
-To: "Darrick J. Wong" <djwong@kernel.org>
-Cc: Dan Williams <dan.j.williams@intel.com>, 
-	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	Luis Henriques <luis@igalia.com>, Randy Dunlap <rdunlap@infradead.org>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC PATCH 00/19] famfs: port into fuse
-Message-ID: <37ss7esexgblholq5wc5caeizhcjpjhjxsghqjtkxjqri4uxjp@gixtdlggap5i>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421182758.GJ25659@frogsfrogsfrogs>
+        bh=zJkBF2Iq9gEiEg9l+Unpndzsq5ns/iefqc51nXn2fRQ=;
+        b=cpRkKJ767cA8e3n9QDjO6S/JHqdzKv0kfO9Z5LegF5v4PODOM/ZzSA85v0Q6DuMWAK
+         R5IwcX1Y0eUxRlmHf8YzFuQwg1Jjz5C0Q1Ine4AgJIeNnwZ+rUcitNxFIR2Pke+6Vp44
+         GwqYOiiHRiJ2n/sxpqchAWaTtxcTsVRkoIvse9lemfBjrpyRXZpaecibg7wzzYcU1Jya
+         Zkuu67vJUTEVMaEEnHWwKqd97zsnaZ/Dt3PM9Z+3GJHjgmGBTS2svO4iQMZrTdUECoUh
+         nOQ8HFKnTRkU433rEs7AL9xDEMCCaPvGP0rC0iOtQxKFTXxvDYb26O8eMlQZWmezv9qL
+         KAJA==
+X-Forwarded-Encrypted: i=1; AJvYcCWwn42s2I9Be0XuiP9+eegJympoK9mB8NysBA8j2FhuusP/4/9Z1NJoHSKlUbwpaXqEcUv+F5nriNc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwKgdDtAxNo1F9Ip4ExMNqtBjHefLTEtSHAXICnUg6Ra2dbR+SV
+	YjkqsSPZB1mbRDsEn8AFrl8TDU0Km/VzIKFtsMUnx4T/+ZA0R8mhPBkrFPw8m0bo7SwASlFoTT3
+	9qSMYt3i1m+ejmdgRw2kV/8opCshiZgwN9/Xy
+X-Gm-Gg: ASbGncvxKSbrfN+NPMIfwUdnr9W1avaG6zubcDwIus9ClyKJpb1GYKwv4q4B12leK1Q
+	kQ01cFXC7Z1PwSPKzoUiGqFgXNwUjohbHcfbfwHzr/1b6XE0RhEOM1XKxVG2XQ0yecTtrd0MW24
+	QyrCz9sP7/VqdGv9cMcvpWmQ==
+X-Google-Smtp-Source: AGHT+IFjErmdtD9yYgSCvg50nxSRhAaGxDl0MNp2zLoVowjSrOfaMAYKD0cmZ307fSWsTGOXpc7lz6KmktYrMh1O/kc=
+X-Received: by 2002:a05:690c:380a:b0:706:aedf:4d91 with SMTP id
+ 00721157ae682-706cccfa7f8mr180651297b3.14.1745273045751; Mon, 21 Apr 2025
+ 15:04:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250421182758.GJ25659@frogsfrogsfrogs>
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+ <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+ <87friajmd5.fsf@microsoft.com> <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+ <87a58hjune.fsf@microsoft.com> <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
+ <87y0w0hv2x.fsf@microsoft.com> <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
+In-Reply-To: <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 21 Apr 2025 18:03:54 -0400
+X-Gm-Features: ATxdqUFcqFjq20jX5yxtvOH3DHCD3LQ0LRd6y2kU6Qtvx6XNCs0BPjy44J04_l4
+Message-ID: <CAHC9VhS0kQf1mdrvdrs4F675ZbGh9Yw8r2noZqDUpOxRYoTL8Q@mail.gmail.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
+	David Howells <dhowells@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	keyrings@vger.kernel.org, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
+	LSM List <linux-security-module@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
+	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Cong Wang <xiyou.wangcong@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 25/04/21 11:27AM, Darrick J. Wong wrote:
-> On Sun, Apr 20, 2025 at 08:33:27PM -0500, John Groves wrote:
-> > Subject: famfs: port into fuse
-> > 
-> > This is the initial RFC for the fabric-attached memory file system (famfs)
-> > integration into fuse. In order to function, this requires a related patch
-> > to libfuse [1] and the famfs user space [2]. 
-> > 
-> > This RFC is mainly intended to socialize the approach and get feedback from
-> > the fuse developers and maintainers. There is some dax work that needs to
-> > be done before this should be merged (see the "poisoned page|folio problem"
-> > below).
-> 
-> Note that I'm only looking at the fuse and iomap aspects of this
-> patchset.  I don't know the devdax code at all.
-> 
-> > This patch set fully works with Linux 6.14 -- passing all existing famfs
-> > smoke and unit tests -- and I encourage existing famfs users to test it.
-> > 
-> > This is really two patch sets mashed up:
-> > 
-> > * The patches with the dev_dax_iomap: prefix fill in missing functionality for
-> >   devdax to host an fs-dax file system.
-> > * The famfs_fuse: patches add famfs into fs/fuse/. These are effectively
-> >   unchanged since last year.
-> > 
-> > Because this is not ready to merge yet, I have felt free to leave some debug
-> > prints in place because we still find them useful; those will be cleaned up
-> > in a subsequent revision.
-> > 
-> > Famfs Overview
-> > 
-> > Famfs exposes shared memory as a file system. Famfs consumes shared memory
-> > from dax devices, and provides memory-mappable files that map directly to
-> > the memory - no page cache involvement. Famfs differs from conventional
-> > file systems in fs-dax mode, in that it handles in-memory metadata in a
-> > sharable way (which begins with never caching dirty shared metadata).
-> > 
-> > Famfs started as a standalone file system [3,4], but the consensus at LSFMM
-> > 2024 [5] was that it should be ported into fuse - and this RFC is the first
-> > public evidence that I've been working on that.
-> 
-> This is very timely, as I just started looking into how I might connect
-> iomap to fuse so that most of the hot IO path continues to run in the
-> kernel, and userspace block device filesystem drivers merely supply the
-> file mappings to the kernel.  In other words, we kick the metadata
-> parsing craziness out of the kernel.
+On Mon, Apr 21, 2025 at 4:13=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+> On Wed, Apr 16, 2025 at 10:31=E2=80=AFAM Blaise Boscaccy
+> <bboscaccy@linux.microsoft.com> wrote:
+> >
+> > > Hacking into bpf internal objects like maps is not acceptable.
+> >
+> > We've heard your concerns about kern_sys_bpf and we agree that the LSM
+> > should not be calling it. The proposal in this email should meet both o=
+f
+> > our needs
+> > https://lore.kernel.org/bpf/874iypjl8t.fsf@microsoft.com/
 
-Coool!
+...
 
-> 
-> > The key performance requirement is that famfs must resolve mapping faults
-> > without upcalls. This is achieved by fully caching the file-to-devdax
-> > metadata for all active files. This is done via two fuse client/server
-> > message/response pairs: GET_FMAP and GET_DAXDEV.
-> 
-> Heh, just last week I finally got around to laying out how I think I'd
-> want to expose iomap through fuse to allow ->iomap_begin/->iomap_end
-> upcalls to a fuse server.  Note that I've done zero prototyping but
-> "upload all the mappings at open time" seems like a reasonable place for
-> me to start looking, especially for a filesystem with static mappings.
-> 
-> I think what I want to try to build is an in-kernel mapping cache (sort
-> of like the one you built), only with upcalls to the fuse server when
-> there is no mapping information for a given IO.  I'd probably want to
-> have a means for the fuse server to put new mappings into the cache, or
-> invalidate existing mappings.
-> 
-> (famfs obviously is a simple corner-case of that grandiose vision, but I
-> still have a long way to get to my larger vision so don't take my words
-> as any kind of requirement.)
-> 
-> > Famfs remains the first fs-dax file system that is backed by devdax rather
-> > than pmem in fs-dax mode (hence the need for the dev_dax_iomap fixups).
-> > 
-> > Notes
-> > 
-> > * Once the dev_dax_iomap patches land, I suspect it may make sense for
-> >   virtiofs to update to use the improved interface.
-> > 
-> > * I'm currently maintaining compatibility between the famfs user space and
-> >   both the standalone famfs kernel file system and this new fuse
-> >   implementation. In the near future I'll be running performance comparisons
-> >   and sharing them - but there is no reason to expect significant degradation
-> >   with fuse, since famfs caches entire "fmaps" in the kernel to resolve
-> 
-> I'm curious to hear what you find, performance-wise. :)
-> 
-> >   faults with no upcalls. This patch has a bit too much debug turned on to
-> >   to that testing quite yet. A branch 
-> 
-> A branch ... what?
+> Calling bpf_map_get() and
+> map->ops->map_lookup_elem() from a module is not ok either.
 
-I trail off sometimes... ;)
+A quick look uncovers code living under net/ which calls into these APIs.
 
-> 
-> > * Two new fuse messages / responses are added: GET_FMAP and GET_DAXDEV.
-> > 
-> > * When a file is looked up in a famfs mount, the LOOKUP is followed by a
-> >   GET_FMAP message and response. The "fmap" is the full file-to-dax mapping,
-> >   allowing the fuse/famfs kernel code to handle read/write/fault without any
-> >   upcalls.
-> 
-> Huh, I'd have thought you'd wait until FUSE_OPEN to start preloading
-> mappings into the kernel.
+> lskel doing skel_map_freeze is not solving the issue.
+> It is still broken from TOCTOU pov.
+> freeze only makes a map readonly to user space.
+> Any program can still read/write it.
 
-That may be a better approach. Miklos and I discussed it during LPC last year, 
-and thought both were options. Having implemented it at LOOKUP time, I think
-moving it to open might avoid my READDIRPLUS problem (which is that RDP is a
-mashup of READDIR and LOOKUP), therefore might need to add the GET_FMAP
-payload. Moving GET_FMAP to open time, would break that connection in a good
-way, I think.
+When you say "any program" you are referring to any BPF program loaded
+into the kernel, correct?  At least that is my understanding of
+"freezing" a BPF map, while userspace is may be unable to modify the
+map's contents, it is still possible for a BPF program to modify it.
+If I'm mistaken, I would appreciate a pointer to a correct description
+of map freezing.
 
-> 
-> > * After each GET_FMAP, the fmap is checked for extents that reference
-> >   previously-unknown daxdevs. Each such occurence is handled with a
-> >   GET_DAXDEV message and response.
-> 
-> I hadn't figured out how this part would work for my silly prototype.
-> Just out of curiosity, does the famfs fuse server hold an open fd to the
-> storage, in which case the fmap(ping) could just contain the open fd?
-> 
-> Where are the mappings that are sent from the fuse server?  Is that
-> struct fuse_famfs_simple_ext?
+Assuming the above is correct, that a malicious bit of code running in
+kernel context could cause mischief, isn't a new concern, and in fact
+it is one of the reasons why Hornet is valuable.  Hornet allows
+admins/users to have some assurance that the BPF programs they load
+into their system come from a trusted source (trusted not to
+intentionally do Bad Things in the kernel) and haven't been modified
+to do Bad Things (like modify lskel maps).
 
-See patch 17 or fs/fuse/famfs_kfmap.h for the fmap metadata explanation. 
-Famfs currently supports either simple extents (daxdev, offset, length) or 
-interleaved ones (which describe each "strip" as a simple extent). I think 
-the explanation in famfs_kfmap.h is pretty clear.
+> One needs to think of libbpf equivalent loaders in golang and rust.
+...
+> systemd is also using an old style bpf progs written in bpf assembly.
 
-A key question is whether any additional basic metadata abstractions would
-be needed - because the kernel needs to understand the full scheme.
+I've briefly talked with Blaise about the systemd issue in particular,
+and I believe there are some relatively easy ways to work around the
+ELF issue in the current version of Hornet.  I know Blaise is tied up
+for the next couple of days on another fire, but I'm sure the next
+revision will have a solution for this.
 
-With disaggregated memory, the interleave approach is nice because it gets
-aggregated performance and resolving a file offset to daxdev offset is order
-1.
+> Introduction of lskel back in 2021 was the first step towards signing
+> (as the commit log clearly states).
+> lskel approach is likely a solution for a large class of bpf users,
+> but not for all. It won't work for bpftrace and bcc.
 
-Oh, and there are two fmap formats (ok, more, but the others are legacy ;).
-The fmaps-in-messages structs are currently in the famfs section of
-include/uapi/linux/fuse.h. And the in-memory version is in 
-fs/fuse/famfs_kfmap.h. The former will need to be a versioned interface.
-(ugh...)
+As most everyone on the To/CC line already knows, Linux kernel
+development is often iterative.  Not only is it easier for the kernel
+devs to develop and review incremental additions to functionality, it
+also enables a feedback loop where users can help drive the direction
+of the functionality as it is built.  I view Hornet as an iterative
+improvement, building on the lskel concept, that helps users towards
+their goal of load time verification of code running inside the
+kernel.  Hornet, as currently described, may not be the solution for
+everything, but it can be the solution for something that users are
+desperately struggling with today and as far as I'm concerned, that is
+a good thing worth supporting.
 
-> 
-> > * Daxdevs are stored in a table (which might become an xarray at some point).
-> >   When entries are added to the table, we acquire exclusive access to the
-> >   daxdev via the fs_dax_get() call (modeled after how fs-dax handles this
-> >   with pmem devices). famfs provides holder_operations to devdax, providing
-> >   a notification path in the event of memory errors.
-> > 
-> > * If devdax notifies famfs of memory errors on a dax device, famfs currently
-> >   bocks all subsequent accesses to data on that device. The recovery is to
-> >   re-initialize the memory and file system. Famfs is memory, not storage...
-> 
-> Ouch. :)
-
-Cautious initial approach (i.e. I'm trying not to scare people too much ;) 
-
-> 
-> > * Because famfs uses backing (devdax) devices, only privileged mounts are
-> >   supported.
-> > 
-> > * The famfs kernel code never accesses the memory directly - it only
-> >   facilitates read, write and mmap on behalf of user processes. As such,
-> >   the RAS of the shared memory affects applications, but not the kernel.
-> > 
-> > * Famfs has backing device(s), but they are devdax (char) rather than
-> >   block. Right now there is no way to tell the vfs layer that famfs has a
-> >   char backing device (unless we say it's block, but it's not). Currently
-> >   we use the standard anonymous fuse fs_type - but I'm not sure that's
-> >   ultimately optimal (thoughts?)
-> 
-> Does it work if the fusefs server adds "-o fsname=<devdax cdev>" to the
-> fuse_args object?  fuse2fs does that, though I don't recall if that's a
-> reasonable thing to do.
-
-The kernel needs to "own" the dax devices. fs-dax on pmem/block calls
-fs_dax_get_by_bdev() and passes in holder_operations - which are used for
-error upcalls, but also effect exclusive ownership. 
-
-I added fs_dax_get() since the bdev version wasn't really right or char
-devdax. But same holder_operations.
-
-I had originally intended to pass in "-o daxdev=<cdev>", but famfs needs to
-span multiple daxdevs, in order to interleave for performance. The approach
-of retrieving them with GET_DAXDEV handles the generalized case, so "-o"
-just amounts to a second way to do the same thing.
-
-"But wait"... I thought. Doesn't the "-o" approach get the primary daxdev
-locked up sooner, which might be good? Well, no, because famfs creates a
-couple of meta files during mount .meta/.superblock and .meta/.log - and 
-those are guaranteed to reference the primary daxdev. So I concluded the -o
-approach wasn't worth the trouble (though it's not *much* trouble).
-
-> 
-> > The "poisoned page|folio problem"
-> > 
-> > * Background: before doing a kernel mount, the famfs user space [2] validates
-> >   the superblock and log. This is done via raw mmap of the primary devdax
-> >   device. If valid, the file system is mounted, and the superblock and log
-> >   get exposed through a pair of files (.meta/.superblock and .meta/.log) -
-> >   because we can't be using raw device mmap when a file system is mounted
-> >   on the device. But this exposes a devdax bug and warning...
-> > 
-> > * Pages that have been memory mapped via devdax are left in a permanently
-> >   problematic state. Devdax sets page|folio->mapping when a page is accessed
-> >   via raw devdax mmap (as famfs does before mount), but never cleans it up.
-> >   When the pages of the famfs superblock and log are accessed via the "meta"
-> >   files after mount, we see a WARN_ONCE() in dax_insert_entry(), which
-> >   notices that page|folio->mapping is still set. I intend to address this
-> >   prior to asking for the famfs patches to be merged.
-> > 
-> > * Alistair Popple's recent dax patch series [6], which has been merged
-> >   for 6.15, addresses some dax issues, but sadly does not fix the poisoned
-> >   page|folio problem - its enhanced refcount checking turns the warning into
-> >   an error.
-> > 
-> > * This 6.14 patch set disables the warning; a proper fix will be required for
-> >   famfs to work at all in 6.15. Dan W. and I are actively discussing how to do
-> >   this properly...
-> > 
-> > * In terms of the correct functionality of famfs, the warning can be ignored.
-> > 
-> > References
-> > 
-> > [1] - https://github.com/libfuse/libfuse/pull/1200
-> > [2] - https://github.com/cxl-micron-reskit/famfs
-> 
-> Thanks for posting links, I'll have a look there too.
-> 
-> --D
-> 
-
-I'm happy to talk if you wanna kick ideas around.
-
-Cheers,
-John
-
+--=20
+paul-moore.com
