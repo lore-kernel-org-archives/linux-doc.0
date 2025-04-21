@@ -1,106 +1,271 @@
-Received: from mail-qt1-f173.google.com (mail-qt1-f173.google.com [209.85.160.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3C1F827463
-	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 14:56:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 32430184;
+	Mon, 21 Apr 2025 15:17:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745247366; cv=none; b=tZhkXByRftgMxgWEOCePyXPaRyaqzEpCzBaUdbA+O5L8U0Ll7KPMKIpSaWmrq5IA5hGtxBmb8fY2kr8xPvnRbDZNM+jKXcVNloRw12TPXf9RxKXbvnNQzFF+3Os3yt6mCTsfuLD8eernRJk5w+0b/NZbrgmz7y36qkUlRHfKiSM=
+	t=1745248641; cv=none; b=QUpUvWZOSypTIobkMcDNS7XCb7K9n//QMOr4Gpv75lyX6uVeU+8oEyFNRWhtg6JYmcCSy6k0VXdyHqpKH0EdnI1uzXvUc8gKh6Heo3uIpmwxr8FoyWWeo2IJr2cELJSKMUp8s5UfVcDjUy7EShWVaDgZcyIomYcwPH1uHXyJYQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745247366; c=relaxed/simple;
-	bh=ELRmkTdRqMv3QmAXEhzU+df4jLtDbLH6i9rhrVJgjrk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=ecoO82LpCuZyVH/XFfxhBiwztXyuEdkrahaWgHDsjE/XE1W7TLuUC4JRydg9B+EvrFgJdqTaN/tEKu9aSz+xXKQB8bSD4YopgCN5CxyUMdWmbCH0D98NiEg2uct2iy2eDvvt6CPvowKTUVoe0eiBNeGtPcSq8dotxo98HfXiph0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=f5r1s4EH; arc=none smtp.client-ip=209.85.160.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1745248641; c=relaxed/simple;
+	bh=gExts8hN026UkLytr9zkYUmL6B8PuMW88zMsupQBzlc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=acFRIfyBGjci9iAGXVDr4abvJHNVExS3dDdpqRn5as07RUIWivQGXmqA3XELIKyWVdknYbelNZ0C+0JRR0XIbqTyaSXs2EgMBKYE7u8XSwjuPPEEp0Bf7WQpFfZ3fYZWwM2O/GFR8nRfCoT/vhAQE3eqQkICDaUStGgWgPFEViY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=kfiwpdZo; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="f5r1s4EH"
-Received: by mail-qt1-f173.google.com with SMTP id d75a77b69052e-4769b16d4fbso21380901cf.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 07:56:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1745247363; x=1745852163; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ELRmkTdRqMv3QmAXEhzU+df4jLtDbLH6i9rhrVJgjrk=;
-        b=f5r1s4EHUsSKsKyl1yI0fQHcAxCTZeDS55jthIPbYizhG+niM/IpLvKeSEC1Ikp+Nc
-         5ezosHfsIIy2OwIsaPX8ND06iX4MhMQ3PTFV64HGQKVfR7ynOAOMgzgmceD9Y5vJ4GcG
-         B/M2ZpV4xvgUVyYsuJwZvf4rM7CKaY51EFRDgC54EtpzGh+6TzJGR8M3U2ce7ja4qrd7
-         bkLCSG4/FY/06kK7XdOM33pGGTv/zsND8nBlaBFtIKjvogtGe+EyBvieeDkUmDvBJakI
-         Jn7Mcv/fCHPpdlvsgONRRXiff+gcYkoUkt5OupdElIWT51nkCtOhZEDkTX9rJKXHgoPy
-         XIPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745247363; x=1745852163;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ELRmkTdRqMv3QmAXEhzU+df4jLtDbLH6i9rhrVJgjrk=;
-        b=X0UzWdrXN3uTD23sXs3PzUczf152+9RmaFfOLTsoWeVhIKN4YBR33kFan8Yg6HhO9/
-         rrnuErpwOuOi5mfcjFEihBMGt2N8BlarvXRkKIcCLlOZuAqk4vm0ncBtU4qINo3iaeTN
-         5V2uxCYvWhU0gTKNjc3VJBhfV7W9s6bOPMRfe56vjhzRPrH+f0kvkl+73sNKMfPNvQgg
-         RpLOxaIDKNl6XXKIKYs5fQ3AfPI7jimoVncYoniOVUkw5P7tbSNkng+/ZTyD4MuSOrCC
-         rvtO+aQ0JAe55V7PStYqScReKCqwFqqUsvjR/+aDAPrWupOsaCvtqfCuUMmA4vNYxTiN
-         HW5w==
-X-Forwarded-Encrypted: i=1; AJvYcCUb0p8wAf+kogVTYMnS3KlvfjiMC0V1oB8U3BZ7NDI223rtSA32XBSkXC8F+2htqsKPR4lOn1cDYKE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyZpRd+KV3In+hDNxUG5lWvCMIo2fgtUg/YC4CuOFCXUn+6jI/c
-	3cvlqGn4+T4KPgzsb97XKa9QN1vpZxahXyGygDMdEID8ypc3mAdqVFZx/vCw6dAfLe6lu8gIHRF
-	FSCdOahvC9EVSGMsqVjtYvhfy8q5aaqM7vmPNAw==
-X-Gm-Gg: ASbGncuA5reSbMzom+FLVPIbkBA7xyD7pG04bngkMTSxfWyGf15JJEfWRW5UPJdBAwU
-	VfAoo5A9yuGowqa05nfoMOiMAHypf3Z/51xEUu+tWC7hUTMh6g1HZrn37m8i6rO9WsvSF4QuWbV
-	o2sOehu6wUl9IoDjVZT2k=
-X-Google-Smtp-Source: AGHT+IG7rZTE99WK1bHTOSOgL8Ei1b2E10Kh9ByX6KEwCjeK4vA8bx+QufdyTPIfemEXj3xR90xjsvbo9nLMMoN+O1w=
-X-Received: by 2002:ac8:5946:0:b0:476:83d6:75ed with SMTP id
- d75a77b69052e-47aec4c3d0cmr197368441cf.34.1745247363105; Mon, 21 Apr 2025
- 07:56:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="kfiwpdZo"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 18CA5C4CEE4;
+	Mon, 21 Apr 2025 15:17:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745248640;
+	bh=gExts8hN026UkLytr9zkYUmL6B8PuMW88zMsupQBzlc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=kfiwpdZoQHWUxxruVQBYPK45hGSCKgLQvZ9Lk31PbdjCvCGKsN+jz64gG0u6hSj7T
+	 62Aitl1Wwg7HaNq1s5URC8ekBv3VXtB+EuYQPro2DGCSnLBfqTO3kNxoKS9r0jdIdj
+	 jNjmv0kRVyQj5rxRd7haMXhuA+HRyrxA5nLUDZtv38wlQPFJKqQXmIQSQQEVrbaYi+
+	 vCLIra4epM8Pl/ZHYvjeZe1U8L2Rx+BLOX12mcY6WgJOi3gehTsTb7McIG/jX3Jjvc
+	 vPdetHf9nvdJxvGCHgdbIJhdYkm9HCPGX7KZb4x5ds7zlVlbP0gguIkJSmbEhSFbf1
+	 oxUA7SuohlpWw==
+Date: Mon, 21 Apr 2025 16:17:13 +0100
+From: Simon Horman <horms@kernel.org>
+To: Li Li <dualli@chromium.org>
+Cc: dualli@google.com, corbet@lwn.net, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	donald.hunter@gmail.com, gregkh@linuxfoundation.org,
+	arve@android.com, tkjos@android.com, maco@android.com,
+	joel@joelfernandes.org, brauner@kernel.org, cmllamas@google.com,
+	surenb@google.com, omosnace@redhat.com, shuah@kernel.org,
+	arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com,
+	tweek@google.com, paul@paul-moore.com, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, netdev@vger.kernel.org,
+	selinux@vger.kernel.org, linux-security-module@vger.kernel.org,
+	hridya@google.com, smoreland@google.com, ynaffit@google.com,
+	kernel-team@android.com
+Subject: Re: [PATCH RESEND v17 2/3] binder: report txn errors via generic
+ netlink
+Message-ID: <20250421151713.GP2789685@horms.kernel.org>
+References: <20250417002005.2306284-1-dualli@chromium.org>
+ <20250417002005.2306284-3-dualli@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417142525.78088-1-mclapinski@google.com> <6805a8382627f_18b6012946a@iweiny-mobl.notmuch>
-In-Reply-To: <6805a8382627f_18b6012946a@iweiny-mobl.notmuch>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Mon, 21 Apr 2025 10:55:25 -0400
-X-Gm-Features: ATxdqUG02lj5rHej_8Beu9BNKw0fpQPgfWQ79J7N0ZJ28950dBS1dnNGeIj5FpI
-Message-ID: <CA+CK2bD8t+s7gFGDCdqA8ZaoS3exM-_9N01mYY3OB4ryBGSCEQ@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure
- many regions per e820 entry
-To: Ira Weiny <ira.weiny@intel.com>
-Cc: Michal Clapinski <mclapinski@google.com>, Dan Williams <dan.j.williams@intel.com>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250417002005.2306284-3-dualli@chromium.org>
 
-On Sun, Apr 20, 2025 at 10:06=E2=80=AFPM Ira Weiny <ira.weiny@intel.com> wr=
-ote:
->
-> Michal Clapinski wrote:
-> > Currently, the user has to specify each memory region to be used with
-> > nvdimm via the memmap parameter. Due to the character limit of the
-> > command line, this makes it impossible to have a lot of pmem devices.
-> > This new parameter solves this issue by allowing users to divide
-> > one e820 entry into many nvdimm regions.
-> >
-> > This change is needed for the hypervisor live update. VMs' memory will
-> > be backed by those emulated pmem devices. To support various VM shapes
-> > I want to create devdax devices at 1GB granularity similar to hugetlb.
->
-> Why is it not sufficient to create a region out of a single memmap range
-> and create multiple 1G dax devices within that single range?
+On Wed, Apr 16, 2025 at 05:20:03PM -0700, Li Li wrote:
+> From: Li Li <dualli@google.com>
+> 
+> Introduce generic netlink messages into the binder driver so that the
+> Linux/Android system administration processes can listen to important
+> events and take corresponding actions, like stopping a broken app from
+> attacking the OS by sending huge amount of spamming binder transactions.
+> 
+> The binder netlink sources and headers are automatically generated from
+> the corresponding binder netlink YAML spec. Don't modify them directly.
+> 
+> Signed-off-by: Li Li <dualli@google.com>
 
-This method implies using the ndctl tool to create regions and convert
-them to dax devices from userspace. This does not work for our use
-case. We must have these 1 GB regions available during boot because we
-do not want to lose memory for a devdax label. I.e., if fsdax is
-created during boot (i.e. default pmem format), it does not have a
-label. However, if it is created from userspace, we create a label
-with partition properties, UUID, etc. Here, we need to use kernel
-parameters to specify the properties of the pmem devices during boot
-so they can persist across reboots without losing any memory to
-labels.
+Hi Li Li,
 
-Pasha
+> diff --git a/drivers/android/binder.c b/drivers/android/binder.c
+
+...
+
+>  static void binder_transaction(struct binder_proc *proc,
+>  			       struct binder_thread *thread,
+>  			       struct binder_transaction_data *tr, int reply,
+> @@ -3683,10 +3764,14 @@ static void binder_transaction(struct binder_proc *proc,
+>  		return_error_line = __LINE__;
+>  		goto err_copy_data_failed;
+>  	}
+> -	if (t->buffer->oneway_spam_suspect)
+> +	if (t->buffer->oneway_spam_suspect) {
+>  		tcomplete->type = BINDER_WORK_TRANSACTION_ONEWAY_SPAM_SUSPECT;
+> -	else
+> +		if (binder_netlink_enabled(proc, BINDER_FLAG_SPAM))
+> +			binder_netlink_report(context, BR_ONEWAY_SPAM_SUSPECT,
+> +					      reply, t);
+> +	} else {
+>  		tcomplete->type = BINDER_WORK_TRANSACTION_COMPLETE;
+> +	}
+>  	t->work.type = BINDER_WORK_TRANSACTION;
+>  
+>  	if (reply) {
+> @@ -3736,8 +3821,12 @@ static void binder_transaction(struct binder_proc *proc,
+>  		 * process and is put in a pending queue, waiting for the target
+>  		 * process to be unfrozen.
+>  		 */
+> -		if (return_error == BR_TRANSACTION_PENDING_FROZEN)
+> +		if (return_error == BR_TRANSACTION_PENDING_FROZEN) {
+>  			tcomplete->type = BINDER_WORK_TRANSACTION_PENDING;
+> +			if (binder_netlink_enabled(proc, BINDER_FLAG_ASYNC_FROZEN))
+> +				binder_netlink_report(context, return_error,
+> +						      reply, t);
+> +		}
+>  		binder_enqueue_thread_work(thread, tcomplete);
+>  		if (return_error &&
+>  		    return_error != BR_TRANSACTION_PENDING_FROZEN)
+> @@ -3799,6 +3888,10 @@ static void binder_transaction(struct binder_proc *proc,
+
+The code preceding this hunk looks like this:
+
+err_alloc_tcomplete_failed:
+	if (trace_binder_txn_latency_free_enabled())
+		binder_txn_latency_free(t);
+	kfree(t);
+	binder_stats_deleted(BINDER_STAT_TRANSACTION);
+err_alloc_t_failed:
+err_bad_todo_list:
+err_bad_call_stack:
+err_empty_call_stack:
+err_dead_binder:
+err_invalid_target_handle:
+	if (target_node) {
+		binder_dec_node(target_node, 1, 0);
+		binder_dec_node_tmpref(target_node);
+	}
+
+1. The labels err_bad_todo_list, err_bad_call_stack,
+   err_empty_call_stack, and err_invalid_target_handle may
+   be jumped to before t is initialised.
+
+2. In the err_alloc_tcomplete_failed label t is kfree'd.
+
+However, the call to binder_netlink_report below will dereference t.
+
+Flagged by Smatch.
+
+>  		binder_dec_node_tmpref(target_node);
+>  	}
+>  
+> +	if (binder_netlink_enabled(proc, BINDER_FLAG_FAILED))
+> +		binder_netlink_report(context, return_error,
+> +				      reply, t);
+> +
+>  	binder_debug(BINDER_DEBUG_FAILED_TRANSACTION,
+>  		     "%d:%d transaction %s to %d:%d failed %d/%d/%d, code %u size %lld-%lld line %d\n",
+>  		     proc->pid, thread->pid, reply ? "reply" :
+
+...
+
+> +/**
+> + * binder_nl_report_setup_doit() - netlink .doit handler
+> + * @skb:	the metadata struct passed from netlink driver
+> + * @info:	the generic netlink struct passed from netlink driver
+> + *
+> + * Implements the .doit function to process binder netlink commands.
+> + */
+> +int binder_nl_report_setup_doit(struct sk_buff *skb, struct genl_info *info)
+> +{
+> +	struct binder_context *context = NULL;
+> +	struct binder_device *device;
+> +	struct binder_proc *proc;
+> +	u32 flags, pid;
+> +	bool found;
+> +	void *hdr;
+> +	int ret;
+> +
+> +	ret = security_binder_setup_report(current_cred());
+> +	if (ret < 0) {
+> +		NL_SET_ERR_MSG(info->extack, "Permission denied");
+> +		return ret;
+> +	}
+> +
+> +	if (nla_len(info->attrs[BINDER_A_CMD_CONTEXT])) {
+> +		/* Search the specified binder context */
+> +		hlist_for_each_entry(device, &binder_devices, hlist) {
+> +			if (!nla_strcmp(info->attrs[BINDER_A_CMD_CONTEXT],
+> +					device->context.name)) {
+> +				context = &device->context;
+> +				break;
+> +			}
+> +		}
+> +
+> +		if (!context) {
+> +			NL_SET_ERR_MSG(info->extack, "Invalid binder context");
+> +			return -EINVAL;
+> +		}
+> +	}
+> +
+> +	pid = nla_get_u32(info->attrs[BINDER_A_CMD_PID]);
+> +	flags = nla_get_u32(info->attrs[BINDER_A_CMD_FLAGS]);
+> +
+> +	if (!pid) {
+> +		if (!context) {
+> +			NL_SET_ERR_MSG(info->extack,
+> +				       "Invalid binder context and pid");
+> +			return -EINVAL;
+> +		}
+> +
+> +		/* Set the global flags for the whole binder context */
+> +		context->report_flags = flags;
+> +	} else {
+> +		/* Set the per-process flags */
+> +		found = false;
+> +		mutex_lock(&binder_procs_lock);
+> +		hlist_for_each_entry(proc, &binder_procs, proc_node) {
+> +			if (proc->pid == pid
+> +			    && (proc->context == context || !context)) {
+> +				proc->report_flags = flags;
+> +				found = true;
+> +			}
+> +		}
+> +		mutex_unlock(&binder_procs_lock);
+> +
+> +		if (!found) {
+> +			NL_SET_ERR_MSG_FMT(info->extack,
+> +					   "Invalid binder report pid %u",
+> +					   pid);
+> +			return -EINVAL;
+> +		}
+> +	}
+
+Within the above conditions it is assumed that context may be NULL.
+
+> +
+> +	skb = genlmsg_new(GENLMSG_DEFAULT_SIZE, GFP_KERNEL);
+> +	if (!skb) {
+> +		pr_err("Failed to alloc binder netlink reply message\n");
+> +		return -ENOMEM;
+> +	}
+> +
+> +	hdr = genlmsg_iput(skb, info);
+> +	if (!hdr)
+> +		goto free_skb;
+> +
+> +	if (nla_put_string(skb, BINDER_A_CMD_CONTEXT, context->name) ||
+
+But here context is dereferenced unconditionally.
+This does not seem consistent.
+
+Flagged by Smatch.
+
+> +	    nla_put_u32(skb, BINDER_A_CMD_PID, pid) ||
+> +	    nla_put_u32(skb, BINDER_A_CMD_FLAGS, flags))
+> +		goto cancel_skb;
+> +
+> +	genlmsg_end(skb, hdr);
+> +
+> +	if (genlmsg_reply(skb, info)) {
+> +		pr_err("Failed to send binder netlink reply message\n");
+> +		return -EFAULT;
+> +	}
+> +
+> +	return 0;
+> +
+> +cancel_skb:
+> +	pr_err("Failed to add reply attributes to binder netlink message\n");
+> +	genlmsg_cancel(skb, hdr);
+> +free_skb:
+> +	pr_err("Free binder netlink reply message on error\n");
+> +	nlmsg_free(skb);
+> +	ret = -EMSGSIZE;
+> +
+> +	return ret;
+> +}
+
+...
