@@ -1,164 +1,131 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2742DDBE;
-	Mon, 21 Apr 2025 14:08:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5720F83A14
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 14:14:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745244525; cv=none; b=KdJedJzrhSfbWxOl86KZicaLU6Hsaj72euK8AaaqSndbLpR8VLEG+SHH3Kc97RQG1u/5TdNF5vPOftCsUsMQFxPzJZwaYRI3i8IO/AhV9sqjNZ/Vgz0LwN7jv6hCO/DCi5Ha3CWFEwl9FInruuUvuanXJSENI0bgt5pdhsSC0a0=
+	t=1745244897; cv=none; b=b+bsfk+nEguj088Nv2/Lh7Mp1Z5TLOgteZoMIA4CRGxLitkdDSjXpP/Mrb5sGw+hRRPl5Bc9ZL9va/QJ7+u1ydCoxfZ2oWyW0D6ows40GlEJUu5zFhmrim7HjSm6e0EUkkfp0sWVZz/aBecaPdgd8+bi+VX3CAbPxH3wGKmgqlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745244525; c=relaxed/simple;
-	bh=y+u9o3uYT+ExmvtSXbLZr8bAFVgoBqK/gneBhs8PZLk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=glRW3uMvVRee8JF1emTXrCF5XeV5m+hVP74PWYsOkaOmK2cXAXigSCefr69wbOxf3Hjf3eiJewMWP+k+3Jsg6k10nNC8b0ZJYCyYZHnLjGL4lTPYYAJ0xqtem8nQ0YrJyn9ZIv0a7Z0lv/ILLbp3jUP7bX+sN7QYadMaNKjmi+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ee9IrGNV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745244897; c=relaxed/simple;
+	bh=MiHZ0TZLJAnpgW7IuP7V1rNCVEWEj2CMr1JZ0gSvWd0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=cIWGkJ0EFlfFueXmPP4D7UFHyttj36seFkxfzNMyeqppvATPX/ZMEjlz/itxBtqtea/5Lt0iDhxCFUhog1ocilrdTM6h2YASRU5Y3xsbzlLXyxcwHEMeHBFesR7/39kpVR0+7f8mUMsrR0i/mIjQupsjGmQR8hlCnDIbv2LptHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=DUxLKrMS; arc=none smtp.client-ip=209.85.128.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ee9IrGNV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4EA64C4CEE4;
-	Mon, 21 Apr 2025 14:08:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745244524;
-	bh=y+u9o3uYT+ExmvtSXbLZr8bAFVgoBqK/gneBhs8PZLk=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ee9IrGNVBY468I0nIZFGOEwSSO4iJvmV3Vd8XmWujePOkW+RQw0qoTf5gPE74TnZX
-	 C8qwUs7dBOH7vUuZLAMHPY+whZ5y16Alj+g6qhK4NH9aSW8/lQwyAugMGUmHKBPgkX
-	 Ts1mQDeM8F3kFazN6V7zQoAIWI9/BkSajNLajuJFM0ROiLpWxVBeDRz0eNKGLZmJSl
-	 jLi7vAzRyzF0K2AP8N2qSWfhDO6AFW5+6nFbaFugRIYCz8i1SYJEZgZLK5F91i+MwP
-	 7PLXue2MFhNahQ6ie5tjBbSvEt2QfpqOrxjN8pZJABKrBwRH6YHk0J4IJEkLmDcQTW
-	 sZljmP2HBMWYw==
-Date: Mon, 21 Apr 2025 15:08:36 +0100
-From: Simon Horman <horms@kernel.org>
-To: Larysa Zaremba <larysa.zaremba@intel.com>
-Cc: intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Mustafa Ismail <mustafa.ismail@intel.com>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Lee Trager <lee@trager.us>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Wenjun Wu <wenjun1.wu@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
-	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
-	Emil Tantilov <emil.s.tantilov@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Josh Hay <joshua.a.hay@intel.com>,
-	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
-	"Singhai, Anjali" <anjali.singhai@intel.com>,
-	Phani R Burra <phani.r.burra@intel.com>
-Subject: Re: [PATCH iwl-next 03/14] libeth: add PCI device initialization
- helpers to libeth
-Message-ID: <20250421140836.GH2789685@horms.kernel.org>
-References: <20250408124816.11584-1-larysa.zaremba@intel.com>
- <20250408124816.11584-4-larysa.zaremba@intel.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="DUxLKrMS"
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso39576795e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 07:14:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745244892; x=1745849692; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=iId3OO4iPPoDitEFGGflVRfgetsV2ygJtDXi0T0AxTY=;
+        b=DUxLKrMSTJO2QAKjvNsZArojkfz5cOYedE2hlOXSEqGAo8F+moisG/cOkqNIhWCbrU
+         nrRmJzw0D84IOA+ZG0CNMnRPVuh3gdRkh7pL2FyCmnR/dlMJrdOqM8Z0mTVHm16YwcvG
+         fk2hZc7Qk8H0dpY5LACh2ehgwX3965+dgiHcHbp6PVUlPXF7C2xFmnYsdqv63T/3ijBX
+         cObfyIvbU4BeBQJPE2+CunfR4fG0e7OxW0fS5lkg6jlQ5S05FAoaZVBwi1Aji1rdNw2B
+         leE+n0FZVMXmyul1pIybwQr8qAu6rNFDa9MDF1kPmDRQU5EweowfuIdc1LBKk0n8M78P
+         BBrQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745244892; x=1745849692;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=iId3OO4iPPoDitEFGGflVRfgetsV2ygJtDXi0T0AxTY=;
+        b=Cz4TNZsBPFLd3A15VaCiX6ukrwkpQBoVTAZ0e6tPzsl4MYjn3BSNKzRYrbHTutXLM0
+         vyEJbdfMdtpESkeq9WDfk1L9TwaWLpxgSPY/fT8ij2Y+xVarVdgueuV8jZigmFeZLq71
+         uaSEkeUWO4tuLCmzf5xiTWnh+ZlfO2VZAWlzR0pPNOCRBPQ+1IQjxkkJv1Uxm0hyo9ak
+         OihxnFocOFrsJyzxZW5cIWHd/PrvQNRfSQMTNw32QAlBps/wAuOJPPBG2SNaQfsDvx3x
+         c331eV8Fum6H20g4bQnYuFpWQeISh90VJEEbBV1TjzzBs73jC12tvkGmSTfLFJTITaGJ
+         kPvg==
+X-Forwarded-Encrypted: i=1; AJvYcCXeDbCeyGLT0S1YKJOu8jLWxFcdompQd/U3d+YSrbIz8uzKxuiCzSUW/7mTdAwnhQEM4pjLMb/wBc0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyaE13RPIMC3lJjhmwjvcAIARFkUSvDS8HXE+Ldb7QczRjG9D+6
+	1kiEQkM520Y0e5meT7/UgewPFOeASp5DwqSXynKcbufqA9wE5qfi5zpBlzrKID/yT9YJqyvfS4q
+	K
+X-Gm-Gg: ASbGncv+w2IjVEt03So2uFeIPMwhfuqRR/za5uEdA+PFkDv3icx3WBnZc6Gj0xHdaaN
+	9apDJMV6ANHj4annt+INeAACtlMGDeQAsvzXxEBTu6obuwfTRGxXSrOhUSWn0hHKytSCLYJhO+q
+	i5BicZEiM5KSuNq3NJAbMpn12dWALAFoinF1X7PrHtCuCSE4o1tioY9HhRe//d0ZGCkUqppxHgd
+	rr2Qu7NjkYY1MUOn0WpalC0jDFDujGvSfV4n2Sw4Jauifo0rrhB/Y7B9eRjfIa5P1yNcN2YJ4CF
+	KkxE6ml5f+DYX1Yju5gKscCd5XQkjbSdI0UU5RksuIeF/tc/k5xK2H6cx+p9QXu9dD5YvVDctnc
+	yAvhoTKrs
+X-Google-Smtp-Source: AGHT+IG7GDN4v2GYmvAvZdURoHs4uth6LMLhvKJsf8zWUpG9THKVhntnk/wGfEVNyfGlNchCxTCbDw==
+X-Received: by 2002:a05:600c:4ecc:b0:43c:f969:13c0 with SMTP id 5b1f17b1804b1-4406ac17729mr92801105e9.29.1745244892524;
+        Mon, 21 Apr 2025 07:14:52 -0700 (PDT)
+Received: from localhost.localdomain (176-147-145-44.abo.bbox.fr. [176.147.145.44])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4403605892fsm116767405e9.2.2025.04.21.07.14.51
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Apr 2025 07:14:51 -0700 (PDT)
+From: Alexandre Ghiti <alexghiti@rivosinc.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Alexandre Ghiti <alex@ghiti.fr>,
+	linux-doc@vger.kernel.org,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org
+Cc: Alexandre Ghiti <alexghiti@rivosinc.com>
+Subject: [PATCH] riscv: hwprobe: export Zabha extension
+Date: Mon, 21 Apr 2025 16:14:13 +0200
+Message-Id: <20250421141413.394444-1-alexghiti@rivosinc.com>
+X-Mailer: git-send-email 2.39.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250408124816.11584-4-larysa.zaremba@intel.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 08, 2025 at 02:47:49PM +0200, Larysa Zaremba wrote:
-> From: Phani R Burra <phani.r.burra@intel.com>
-> 
-> Add memory related support functions for drivers to access MMIO space and
-> allocate/free dma buffers.
-> 
-> Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-> Signed-off-by: Phani R Burra <phani.r.burra@intel.com>
-> Co-developed-by: Victor Raj <victor.raj@intel.com>
-> Signed-off-by: Victor Raj <victor.raj@intel.com>
-> Co-developed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> Signed-off-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> Co-developed-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+Export Zabha through the hwprobe syscall.
 
-...
+Signed-off-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+---
+ Documentation/arch/riscv/hwprobe.rst  | 4 ++++
+ arch/riscv/include/uapi/asm/hwprobe.h | 1 +
+ arch/riscv/kernel/sys_hwprobe.c       | 1 +
+ 3 files changed, 6 insertions(+)
 
-> diff --git a/drivers/net/ethernet/intel/libeth/pci.c b/drivers/net/ethernet/intel/libeth/pci.c
+diff --git a/Documentation/arch/riscv/hwprobe.rst b/Documentation/arch/riscv/hwprobe.rst
+index f60bf5991755..a4998ad2dfe0 100644
+--- a/Documentation/arch/riscv/hwprobe.rst
++++ b/Documentation/arch/riscv/hwprobe.rst
+@@ -271,6 +271,10 @@ The following keys are defined:
+   * :c:macro:`RISCV_HWPROBE_EXT_ZICBOM`: The Zicbom extension is supported, as
+        ratified in commit 3dd606f ("Create cmobase-v1.0.pdf") of riscv-CMOs.
+ 
++  * :c:macro:`RISCV_HWPROBE_EXT_ZABHA`: The Zabha extension is supported as
++       ratified in commit 49f49c842ff9 ("Update to Rafified state") of
++       riscv-zabha.
++
+ * :c:macro:`RISCV_HWPROBE_KEY_CPUPERF_0`: Deprecated.  Returns similar values to
+      :c:macro:`RISCV_HWPROBE_KEY_MISALIGNED_SCALAR_PERF`, but the key was
+      mistakenly classified as a bitmask rather than a value.
+diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+index 3c2fce939673..fca15f2bf6f3 100644
+--- a/arch/riscv/include/uapi/asm/hwprobe.h
++++ b/arch/riscv/include/uapi/asm/hwprobe.h
+@@ -81,6 +81,7 @@ struct riscv_hwprobe {
+ #define		RISCV_HWPROBE_EXT_ZICBOM	(1ULL << 55)
+ #define		RISCV_HWPROBE_EXT_ZAAMO		(1ULL << 56)
+ #define		RISCV_HWPROBE_EXT_ZALRSC	(1ULL << 57)
++#define		RISCV_HWPROBE_EXT_ZABHA		(1ULL << 58)
+ #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+ #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+ #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+index 249aec8594a9..ed3123396a96 100644
+--- a/arch/riscv/kernel/sys_hwprobe.c
++++ b/arch/riscv/kernel/sys_hwprobe.c
+@@ -96,6 +96,7 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+ 		 * presence in the hart_isa bitmap, are made.
+ 		 */
+ 		EXT_KEY(ZAAMO);
++		EXT_KEY(ZABHA);
+ 		EXT_KEY(ZACAS);
+ 		EXT_KEY(ZALRSC);
+ 		EXT_KEY(ZAWRS);
+-- 
+2.39.2
 
-...
-
-> +/**
-> + * __libeth_pci_map_mmio_region - map PCI device MMIO region
-> + * @mmio_info: struct to store the mapped MMIO region
-> + * @offset: MMIO region start offset
-> + * @size: MMIO region size
-> + * @num_args: number of additional arguments present
-> + *
-> + * Return: true on success, false on memory map failure.
-> + */
-> +bool __libeth_pci_map_mmio_region(struct libeth_mmio_info *mmio_info,
-> +				  resource_size_t offset,
-> +				  resource_size_t size, int num_args, ...)
-> +{
-> +	struct pci_dev *pdev = mmio_info->pdev;
-> +	struct libeth_pci_mmio_region *mr;
-> +	resource_size_t pa;
-> +	void __iomem *va;
-> +	int bar_idx = 0;
-> +	va_list args;
-> +
-> +	if (num_args) {
-> +		va_start(args, num_args);
-> +		bar_idx = va_arg(args, int);
-> +		va_end(args);
-> +	}
-> +
-> +	mr = libeth_find_mmio_region(&mmio_info->mmio_list, offset, bar_idx);
-> +	if (mr) {
-> +		pci_warn(pdev, "Mapping of BAR%u with offset %llu already exists\n",
-> +			 bar_idx, offset);
-
-Hi Phani, Larysa, all,
-
-I think that the format specifier here should be %zu rather than %llu.
-
-On ARM W=1 builds gcc 14.2.0 flags this as follows:
-
-    CALL    scripts/checksyscalls.sh
-    CC      drivers/net/ethernet/intel/libeth/pci.o
-  In file included from ./include/linux/device.h:15,
-                   from ./include/linux/pci.h:37,
-                   from ./include/net/libeth/pci.h:7,
-                   from drivers/net/ethernet/intel/libeth/pci.c:4:
-  .../pci.c: In function '__libeth_pci_map_mmio_region':
-  .../pci.c:92:32: warning: format '%llu' expects argument of type 'long long unsigned int', but argument 4 has type 'resource_size_t' {aka 'unsigned int'} [-Wformat=]
-     92 |                 pci_warn(pdev, "Mapping of BAR%u with offset %llu already exists\n",
-        |                                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-  .../dev_printk.h:110:30: note: in definition of macro 'dev_printk_index_wrap'
-    110 |                 _p_func(dev, fmt, ##__VA_ARGS__);                       \
-        |                              ^~~
-  .../dev_printk.h:156:61: note: in expansion of macro 'dev_fmt'
-    156 |         dev_printk_index_wrap(_dev_warn, KERN_WARNING, dev, dev_fmt(fmt), ##__VA_ARGS__)
-        |                                                             ^~~~~~~
-  .../pci.h:2704:41: note: in expansion of macro 'dev_warn'
-   2704 | #define pci_warn(pdev, fmt, arg...)     dev_warn(&(pdev)->dev, fmt, ##arg)
-        |                                         ^~~~~~~~
-  .../pci.c:92:17: note: in expansion of macro 'pci_warn'
-     92 |                 pci_warn(pdev, "Mapping of BAR%u with offset %llu already exists\n",
-        |                 ^~~~~~~~
-  .../pci.c:92:65: note: format string is defined here
-     92 |                 pci_warn(pdev, "Mapping of BAR%u with offset %llu already exists\n",
-        |                                                              ~~~^
-        |                                                                 |
-        |                                                                 long long unsigned int
-        |                                                              %u
