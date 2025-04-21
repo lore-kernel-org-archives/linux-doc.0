@@ -1,294 +1,197 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2086.outbound.protection.outlook.com [40.107.95.86])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 505407D3F4;
-	Mon, 21 Apr 2025 16:55:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745254518; cv=none; b=l6DcaM8nRNMynfGmetDI/sPLBYzwO5h4VK2IBP4l1Q9QEfQLEkdVXw67tjxeykQd0OO4bh+ocGj+m8gTO567Rl3ocfG7i1xJmvMXH1Vzod7XLp+m/TlPGHcbAK8oEeDOPjIy31XL2h3rJRCDvvWsJlBPlbknKjIWqwsNCclxjOA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745254518; c=relaxed/simple;
-	bh=iS0I9IX2sFCSsXL/t1+wx5auONRvDGG0fRjH5jXkuQk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=eXQE9FxzH1tLMKjg3UjjgCPiKhMy/D9rvUNwgSXqpmHBZsHoiwsqqBfYdsDE1iW7rmvUbl+TBi2qwAFR5qkfTh0Dh7BtiYt15Lm9lLXBeyR9II05jcCtT23As1bMX1CpO/+GQB6C0QW8PI3NmdBMXc9gdX/KkwglgFQ4IVjw5TA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HEQ/+Bnl; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B50984039;
+	Mon, 21 Apr 2025 17:24:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.86
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745256251; cv=fail; b=sqFINQ99mXEiI39ObVgM3OCD8+0nsFW4kLfziijNt9b09X8nXYq3YRg3kF8CsQzELaXvo+iOlnQPUOMhJRZMTy2aUm47Ih/fWi8JRJrEv5jV9pG1ZKUUPYo99N14hCCXcGaEfZ3IaKdTuTtDH5RxIEIGUImW/9da5wu6t38X0fQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745256251; c=relaxed/simple;
+	bh=gwdpVzro4f9uhRpO5LqhcqQUYq/vwTy4xR9nx3U5CHw=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=DPWmKa9w+bQ66RbFMCbnhMEM6uVDDmBTbso8L5WyLt0nThdOhit7DlFIqWoXYGQSykUNwUnb0eTSgP2eDlZXw6jaRBG/X4ytFMRTiZbwjJcXBL9tjS7BrAkp/mmV9PJtH/FPFEzARdKy4l8RLqdog+zfJT+HixqtRzl/DvrONbM=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=lR/YQvsy; arc=fail smtp.client-ip=40.107.95.86
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HEQ/+Bnl"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A1809C4CEE4;
-	Mon, 21 Apr 2025 16:55:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745254517;
-	bh=iS0I9IX2sFCSsXL/t1+wx5auONRvDGG0fRjH5jXkuQk=;
-	h=From:To:Cc:Subject:Date:From;
-	b=HEQ/+Bnljgi00rzGfwQQ4rzbZdPoy6U4YfVEDaSaWmnWI9juv9NOFrQokwSQ31r8S
-	 00dXshXMLhkJ+1rahKpfDjjrWwtz/ysxDf+6q3RPy3g0dWGgQTMqzRvttaDadrCtwL
-	 qVA3GpiiZc9MVsm1V9Pms/TNCEfNoGbSoZ+wA8rbQN7U2XMISYmVkuzndAoAdpIlFb
-	 r/9JALcDB1QcDJt0KyJcJmZxT0LAyhsx2kgIu+AUvMnv8DuPp8kbXce/PM1+b7iUd6
-	 jCWDjxqDoG4xht9HCjXxewUUzBapczQxOMWJ8NzL/5sULwrx6q5dpEP4xNqhfGBf7D
-	 edYENDkQNoniw==
-From: Kees Cook <kees@kernel.org>
-To: Petr Mladek <pmladek@suse.com>
-Cc: Kees Cook <kees@kernel.org>,
-	Sergio Perez Gonzalez <sperezglz@gmail.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	David Rientjes <rientjes@google.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Harry Yoo <harry.yoo@oracle.com>,
-	Rafael Aquini <raquini@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Christoph Lameter <cl@linux.com>,
-	Pekka Enberg <penberg@kernel.org>,
-	Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	"Paul E. McKenney" <paulmck@kernel.org>,
-	Thomas Huth <thuth@redhat.com>,
-	"Borislav Petkov (AMD)" <bp@alien8.de>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Tamir Duberstein <tamird@gmail.com>,
-	Alice Ryhl <aliceryhl@google.com>,
-	Stephen Boyd <swboyd@chromium.org>,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-hardening@vger.kernel.org
-Subject: [PATCH v3] slab: Decouple slab_debug and no_hash_pointers
-Date: Mon, 21 Apr 2025 09:55:12 -0700
-Message-Id: <20250421165508.make.689-kees@kernel.org>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="lR/YQvsy"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bllOGq9mtAH+O4WXAOu8FijF2fXg0MF4if52CnTwy+C9qvgD0mb0rCh+DDf3Cptci9MX7baBdCXy7Vx/zho20ofaZK34xhJci60HRkM+8qwiQmZGgqnkMMlXoZis4XWp7v5G0MWqL9R2D8ZdkPGEIgXBR5E7SlATP7WMEvro38gcPs9UnWIKw4hDz6FH/zXVLTqqh/3NgejJv/ciRUWi2ll2z3HV9A7HVwy3RC1pFvyeMvAIvHlbhcMmw4kis7IlryOhtXpPS5sJBjFKzOwCu8y+JpnmHIhbU3HIgXaoDhB5z1nL803nq6qvPeXg2L3Wn2Gn4ohVkzh+F7igTWRn1w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Op9MqUSJ2NT7wXR656liCNBkij73C90uIHfmxS/FYmY=;
+ b=np3n0RWuhmSJiuU0fgCEaBs7eljYdlK/H1765d6IoDZdHk+IeakdFc4pkr8JOFr52ygngN3DFQTgBkQWULsR84Fht/ABnpcoiEHR+anROcOOI1+R+NIHIxAhWnrV8qF0voJWPJMMu8twmw+VmAE4ZWXztlZdNo2X2Bqdk+cuV27S1dPmR6aqs13gDeLI26wdh4N+Q9uDC2OI2wDjomou1KUmcvBpsNhe9R1L9iaVqKDVNzvmME4+RdRmQkVZtH6ZSjRSNwaKfhUBwTZZhBxXclM3ejCB51sdKLxQhGSWZNhIncuL+HlCWVISxEEecyiu5k8D1UePrP3E/05ymyr70g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.161) smtp.rcpttodomain=intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Op9MqUSJ2NT7wXR656liCNBkij73C90uIHfmxS/FYmY=;
+ b=lR/YQvsy+P2prhNyTwkBRFomUtxi07WyGaUeKiC7irL+HFGXye9hpd4QQNPmjJn0bnLmsw7Ji5nv5fSXw8AnnmLxvHXLiYx13fTYLvMOHTsipmH8A08WO4HoDZTMWeLYAfp07kiP2QclUmqhVtxWMIQwDAjtL6/+hBzVXMWh5XdAQVavTcUwELsxVtKGEdq/FD857hYySb5QiCjrQOTIngtSo1X0YQDq0uMiH2yy3zNbMghFcG4/mWUNDYD9SpaW3Hl5DqPToakXRm+Bnp3SzbbjS95IAtAPDkYgKZuRAODWo9TKneZasAbagzTP44FPP7GfxxBAnuR4HccscPbkag==
+Received: from SJ0PR03CA0175.namprd03.prod.outlook.com (2603:10b6:a03:338::30)
+ by DS0PR12MB8444.namprd12.prod.outlook.com (2603:10b6:8:128::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8632.36; Mon, 21 Apr
+ 2025 17:24:06 +0000
+Received: from SJ1PEPF00001CE6.namprd03.prod.outlook.com
+ (2603:10b6:a03:338:cafe::bd) by SJ0PR03CA0175.outlook.office365.com
+ (2603:10b6:a03:338::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.33 via Frontend Transport; Mon,
+ 21 Apr 2025 17:24:05 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.161) by
+ SJ1PEPF00001CE6.mail.protection.outlook.com (10.167.242.22) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.12 via Frontend Transport; Mon, 21 Apr 2025 17:24:05 +0000
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
+ (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 21 Apr
+ 2025 10:23:55 -0700
+Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail205.nvidia.com
+ (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 21 Apr
+ 2025 10:23:55 -0700
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com (10.129.68.6)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Mon, 21 Apr 2025 10:23:53 -0700
+Date: Mon, 21 Apr 2025 10:23:51 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>, "robin.murphy@arm.com"
+	<robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, "vdumpa@nvidia.com"
+	<vdumpa@nvidia.com>, "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+	"shuah@kernel.org" <shuah@kernel.org>, "praan@google.com" <praan@google.com>,
+	"nathan@kernel.org" <nathan@kernel.org>, "peterz@infradead.org"
+	<peterz@infradead.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
+	"jsnitsel@redhat.com" <jsnitsel@redhat.com>, "mshavit@google.com"
+	<mshavit@google.com>, "zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>
+Subject: Re: [PATCH v1 10/16] iommufd: Add mmap interface
+Message-ID: <aAZ/Jx1ST+llBL2Q@Asurada-Nvidia>
+References: <cover.1744353300.git.nicolinc@nvidia.com>
+ <c332a8701959c098f747dd8e8fa083ceda2bf2c3.1744353300.git.nicolinc@nvidia.com>
+ <BN9PR11MB527664BDB7933FA0B7981EE68CB82@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=8609; i=kees@kernel.org; h=from:subject:message-id; bh=iS0I9IX2sFCSsXL/t1+wx5auONRvDGG0fRjH5jXkuQk=; b=owGbwMvMwCVmps19z/KJym7G02pJDBlsFfkRtxzucF1bXNfZ/STmaC3/poZAvv5nTEZlv2dce +y1uLito5SFQYyLQVZMkSXIzj3OxeNte7j7XEWYOaxMIEMYuDgFYCI95owMs+6sMnQuY/21ZUXp Rd3/ihzcx47ey1x4+d5ML991+a8yghkZ9imJL9dZ8n7zFNnXnHVFb7ecfH4l9xEz///YV7FNXz8 ZswAA
-X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB527664BDB7933FA0B7981EE68CB82@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE6:EE_|DS0PR12MB8444:EE_
+X-MS-Office365-Filtering-Correlation-Id: 245e07b8-f2ea-43fd-67ba-08dd80f95154
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?0IZcIclehyMHc9v2WZ4XoqZ91fSbgZySp5iB/S8gXNJIXrpw/pi2kCDVCi1f?=
+ =?us-ascii?Q?+E2E5Kv/nufMVjh5DIVNn7yhESnmxSFKdrAJPatgNTZV8WX3Z9M6El2csrRy?=
+ =?us-ascii?Q?X9Gdep0ZCOEk3OWgNCSfRtQLQrxVdcpaPotbG+0bqy3QQAVDRtkxAYrBZ0R8?=
+ =?us-ascii?Q?FhT/THWnY+8B5q+LoJxBRrOtJaRobW3AmmgNwA5PVGZjRhrb00KHcO/ULB4v?=
+ =?us-ascii?Q?57SiZVDbi/7vneAXOFlUIxde8LWM5cdsMXiBrsw1hJmMQ9jKfVNEFO90dDyv?=
+ =?us-ascii?Q?TIUJC/elOrZBZ7OBmn+WwdnNuYmsPZwo75Rxk0ep4KwYgDg+RkMpBJLbgtSa?=
+ =?us-ascii?Q?DgOwz1kzZIpZyfwF0+jWIkbkHRh7rx7OGa3ghU/KsAODQ9r9S9zWDGwe051/?=
+ =?us-ascii?Q?emH4fPJsOaXxojcicP4ODhyz00OKXunr+1ggsbNpAbQtYROLsZ1BSSbMzmU/?=
+ =?us-ascii?Q?q4WbIQygJfbyomD/Cm/jpKFaLGU6ifHnCvivTmWznlVtWUlkOzWELJv/jiUU?=
+ =?us-ascii?Q?LxAPfYUTX0b9NC48UqoAdtJGl1totRECJVBjE9FKtiLJLYP1v2slfdS7ppAq?=
+ =?us-ascii?Q?wBmebJN+w7Urh/6JQuagru7rjBS0JOkmKZkxQ8UsVynRHPm21iXfNfCmvP/F?=
+ =?us-ascii?Q?qhH6SOk24p9IG3t7xW5L8qN9Dlh9OVgw5EjMTrFHkGMeWdDSNUDGAWpLlncl?=
+ =?us-ascii?Q?ujzYgUuuTgw7cNEfOpFvR6/6wMcDqorGg2OzuYzoZ+qKtyTGweqfKmdBhvAS?=
+ =?us-ascii?Q?yHqmPhsL3++OPE9xhALsd7Zn997qeBIyhoZYRvj081Ueionu2NzyM2mdCFLp?=
+ =?us-ascii?Q?26DG9sDWiorCELvbkE34z3Wj2J2XJrlkNHvm4K/ACki1vLmEFKXzlsO3qjIX?=
+ =?us-ascii?Q?e9DCb8Y6SC9CA1tAVlt/xGs9stKaxKEArhYobyUrYsWfZlVaAHP/8RqsKDQw?=
+ =?us-ascii?Q?ik0Unl3azXv9B7voJEtPVl5SSGWsDZWLcyl7Rghhnds7mHKl6QTXUTddSwSc?=
+ =?us-ascii?Q?RJ+ZDubHqjPzyNCgL99vv8zWH/M36osvUPn7eoVIhQoLeuG0/ICAuCX6cyHj?=
+ =?us-ascii?Q?aqwiQDZmqvQJNvo/iLWJsedtFDICQoHuHL1oGMvjZ1EigUN2PfsmPw4Sxcqq?=
+ =?us-ascii?Q?x6AUQmXlGfGu4d/Ww1pYYbThAvEc1TdXv96GAtPxqvrIlp+RAOxinVVtoIWw?=
+ =?us-ascii?Q?6jIm0F6FBQD2MCQv0x1xvgXhjeFuBGfUx8e6Jhhw6SK8z1eJXZkNCb0417Ap?=
+ =?us-ascii?Q?YsgcJoI3C+1GU+mmgpwBibgCT4rlZb9HbNaqqgFVwnP9i8+ZBl+QTOfbAAVD?=
+ =?us-ascii?Q?T1w/xNw+31gAbUFKpfTEIT8QtluVjWbsRmk/TuRz8VAZcTXcfu8Emgh9baKd?=
+ =?us-ascii?Q?EXjk8whHvMEm35zxHRL0bdQJuS8GtAvr/0KeWGn8/OqkHBYGrK9sgs14DR/l?=
+ =?us-ascii?Q?2VM+GWvxbbBR/+J+U1x0NNLFXrld+kUYNBpsklRbWY9wwK46FYeR+E8IFUpT?=
+ =?us-ascii?Q?W5KGyakZa5nSXSk3Izd9ibThqSmNr0epW8zl?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Apr 2025 17:24:05.6020
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 245e07b8-f2ea-43fd-67ba-08dd80f95154
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	SJ1PEPF00001CE6.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8444
 
-Some system owners use slab_debug=FPZ (or similar) as a hardening option,
-but do not want to be forced into having kernel addresses exposed due
-to the implicit "no_hash_pointers" boot param setting.[1]
+On Mon, Apr 21, 2025 at 08:16:54AM +0000, Tian, Kevin wrote:
+> > From: Nicolin Chen <nicolinc@nvidia.com>
+> > Sent: Friday, April 11, 2025 2:38 PM
+> > 
+> > For vIOMMU passing through HW resources to user space (VMs), add an
+> > mmap
+> > infrastructure to map a region of hardware MMIO pages. The addr and size
+> > should be given previously via a prior IOMMU_VIOMMU_ALLOC ioctl in some
+> > output fields of the structure.
+> 
+> According to the code the addr must be the immap_id given by previous
+> alloc but size can be any as long as it doesn't exceed the physical length.
 
-Introduce the "hash_pointers" boot param, which defaults to "auto"
-(the current behavior), but also includes "always" (forcing on hashing
-even when "slab_debug=..." is defined), and "never". The existing
-"no_hash_pointers" boot param becomes an alias for "hash_pointers=never".
+Yea, though I start to wonder if we should simply close the window
+by forcing the full range..
 
-This makes it possible to boot with "slab_debug=FPZ hash_pointers=always".
+I changed the kdoc of the iommufd_fops_mmap():
 
-Link: https://github.com/KSPP/linux/issues/368 [1]
-Fixes: 792702911f58 ("slub: force on no_hash_pointers when slub_debug is enabled")
-Co-developed-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-Signed-off-by: Sergio Perez Gonzalez <sperezglz@gmail.com>
-Acked-by: Vlastimil Babka <vbabka@suse.cz>
-Acked-by: David Rientjes <rientjes@google.com>
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Reviewed-by: Harry Yoo <harry.yoo@oracle.com>
-Acked-by: Rafael Aquini <raquini@redhat.com>
-Tested-by: Petr Mladek <pmladek@suse.com>
-Reviewed-by: Petr Mladek <pmladek@suse.com>
-Signed-off-by: Kees Cook <kees@kernel.org>
----
- v3: add docs about implicit "no_hash_pointers" when using "slab_debug" (harry.yoo)
- v2: https://lore.kernel.org/all/20250415170232.it.467-kees@kernel.org/
- v1: https://lore.kernel.org/lkml/20250410174428.work.488-kees@kernel.org/
----
- .../admin-guide/kernel-parameters.txt         | 38 ++++++++----
- include/linux/sprintf.h                       |  2 +-
- lib/vsprintf.c                                | 61 +++++++++++++++++--
- mm/slub.c                                     |  5 +-
- 4 files changed, 86 insertions(+), 20 deletions(-)
-
-diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index d9fd26b95b34..cb12531b2100 100644
---- a/Documentation/admin-guide/kernel-parameters.txt
-+++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -1795,6 +1795,27 @@
- 			backtraces on all cpus.
- 			Format: 0 | 1
- 
-+	hash_pointers=
-+			[KNL,EARLY]
-+			By default, when pointers are printed to the console
-+			or buffers via the %p format string, that pointer is
-+			"hashed", i.e. obscured by hashing the pointer value.
-+			This is a security feature that hides actual kernel
-+			addresses from unprivileged users, but it also makes
-+			debugging the kernel more difficult since unequal
-+			pointers can no longer be compared. The choices are:
-+			Format: { auto | always | never }
-+			Default: auto
-+
-+			auto   - Hash pointers unless slab_debug is enabled.
-+			always - Always hash pointers (even if slab_debug is
-+				 enabled).
-+			never  - Never hash pointers. This option should only
-+				 be specified when debugging the kernel. Do
-+				 not use on production kernels. The boot
-+				 param "no_hash_pointers" is an alias for
-+				 this mode.
-+
- 	hashdist=	[KNL,NUMA] Large hashes allocated during boot
- 			are distributed across NUMA nodes.  Defaults on
- 			for 64-bit NUMA, off otherwise.
-@@ -4117,18 +4138,7 @@
- 
- 	no_hash_pointers
- 			[KNL,EARLY]
--			Force pointers printed to the console or buffers to be
--			unhashed.  By default, when a pointer is printed via %p
--			format string, that pointer is "hashed", i.e. obscured
--			by hashing the pointer value.  This is a security feature
--			that hides actual kernel addresses from unprivileged
--			users, but it also makes debugging the kernel more
--			difficult since unequal pointers can no longer be
--			compared.  However, if this command-line option is
--			specified, then all normal pointers will have their true
--			value printed. This option should only be specified when
--			debugging the kernel.  Please do not use on production
--			kernels.
-+			Alias for "hash_pointers=never".
- 
- 	nohibernate	[HIBERNATION] Disable hibernation and resume.
- 
-@@ -6478,6 +6488,10 @@
- 			Documentation/mm/slub.rst.
- 			(slub_debug legacy name also accepted for now)
- 
-+			Using this option implies the "no_hash_pointers"
-+			option which can be undone by adding the
-+			"hash_pointers=always" option.
-+
- 	slab_max_order= [MM]
- 			Determines the maximum allowed order for slabs.
- 			A high setting may cause OOMs due to memory
-diff --git a/include/linux/sprintf.h b/include/linux/sprintf.h
-index 51cab2def9ec..521bb2cd2648 100644
---- a/include/linux/sprintf.h
-+++ b/include/linux/sprintf.h
-@@ -22,7 +22,7 @@ __scanf(2, 0) int vsscanf(const char *, const char *, va_list);
- 
- /* These are for specific cases, do not use without real need */
- extern bool no_hash_pointers;
--int no_hash_pointers_enable(char *str);
-+void hash_pointers_finalize(bool slub_debug);
- 
- /* Used for Rust formatting ('%pA') */
- char *rust_fmt_argument(char *buf, char *end, const void *ptr);
-diff --git a/lib/vsprintf.c b/lib/vsprintf.c
-index 01699852f30c..22cbd75266ef 100644
---- a/lib/vsprintf.c
-+++ b/lib/vsprintf.c
-@@ -60,6 +60,20 @@
- bool no_hash_pointers __ro_after_init;
- EXPORT_SYMBOL_GPL(no_hash_pointers);
- 
 +/*
-+ * Hashed pointers policy selected by "hash_pointers=..." boot param
++ * Kernel driver must first do iommufd_ctx_alloc_mmap() to register an mmappable
++ * MMIO region to the iommufd core to receive an "immap_id". Then, driver should
++ * report to user space this immap_id and the size of the registered MMIO region
++ * for @vm_pgoff and @size of an mmap() call, via an IOMMU_VIOMMU_ALLOC ioctl in
++ * the output fields of its driver-type data structure.
 + *
-+ * `auto`   - Hashed pointers enabled unless disabled by slub_debug_enabled=true
-+ * `always` - Hashed pointers enabled unconditionally
-+ * `never`  - Hashed pointers disabled unconditionally
++ * Note the @size is allowed to be smaller than the registered size as a partial
++ * mmap starting from the registered base address.
 + */
-+enum hash_pointers_policy {
-+	HASH_PTR_AUTO = 0,
-+	HASH_PTR_ALWAYS,
-+	HASH_PTR_NEVER
-+};
-+static enum hash_pointers_policy hash_pointers_mode __initdata;
-+
- noinline
- static unsigned long long simple_strntoull(const char *startp, char **endp, unsigned int base, size_t max_chars)
- {
-@@ -2271,12 +2285,23 @@ char *resource_or_range(const char *fmt, char *buf, char *end, void *ptr,
- 	return resource_string(buf, end, ptr, spec, fmt);
- }
- 
--int __init no_hash_pointers_enable(char *str)
-+void __init hash_pointers_finalize(bool slub_debug)
- {
--	if (no_hash_pointers)
--		return 0;
-+	switch (hash_pointers_mode) {
-+	case HASH_PTR_ALWAYS:
-+		no_hash_pointers = false;
-+		break;
-+	case HASH_PTR_NEVER:
-+		no_hash_pointers = true;
-+		break;
-+	case HASH_PTR_AUTO:
-+	default:
-+		no_hash_pointers = slub_debug;
-+		break;
-+	}
- 
--	no_hash_pointers = true;
-+	if (!no_hash_pointers)
-+		return;
- 
- 	pr_warn("**********************************************************\n");
- 	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
-@@ -2289,11 +2314,39 @@ int __init no_hash_pointers_enable(char *str)
- 	pr_warn("** the kernel, report this immediately to your system   **\n");
- 	pr_warn("** administrator!                                       **\n");
- 	pr_warn("**                                                      **\n");
-+	pr_warn("** Use hash_pointers=always to force this mode off      **\n");
-+	pr_warn("**                                                      **\n");
- 	pr_warn("**   NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE NOTICE   **\n");
- 	pr_warn("**********************************************************\n");
-+}
-+
-+static int __init hash_pointers_mode_parse(char *str)
-+{
-+	if (!str) {
-+		pr_warn("Hash pointers mode empty; falling back to auto.\n");
-+		hash_pointers_mode = HASH_PTR_AUTO;
-+	} else if (strncmp(str, "auto", 4) == 0)   {
-+		pr_info("Hash pointers mode set to auto.\n");
-+		hash_pointers_mode = HASH_PTR_AUTO;
-+	} else if (strncmp(str, "never", 5) == 0) {
-+		pr_info("Hash pointers mode set to never.\n");
-+		hash_pointers_mode = HASH_PTR_NEVER;
-+	} else if (strncmp(str, "always", 6) == 0) {
-+		pr_info("Hash pointers mode set to always.\n");
-+		hash_pointers_mode = HASH_PTR_ALWAYS;
-+	} else {
-+		pr_warn("Unknown hash_pointers mode '%s' specified; assuming auto.\n", str);
-+		hash_pointers_mode = HASH_PTR_AUTO;
-+	}
- 
- 	return 0;
- }
-+early_param("hash_pointers", hash_pointers_mode_parse);
-+
-+static int __init no_hash_pointers_enable(char *str)
-+{
-+	return hash_pointers_mode_parse("never");
-+}
- early_param("no_hash_pointers", no_hash_pointers_enable);
- 
- /*
-diff --git a/mm/slub.c b/mm/slub.c
-index b46f87662e71..f3d61b330a76 100644
---- a/mm/slub.c
-+++ b/mm/slub.c
-@@ -6314,9 +6314,8 @@ void __init kmem_cache_init(void)
- 	if (debug_guardpage_minorder())
- 		slub_max_order = 0;
- 
--	/* Print slub debugging pointers without hashing */
--	if (__slub_debug_enabled())
--		no_hash_pointers_enable(NULL);
-+	/* Inform pointer hashing choice about slub debugging state. */
-+	hash_pointers_finalize(__slub_debug_enabled());
- 
- 	kmem_cache_node = &boot_kmem_cache_node;
- 	kmem_cache = &boot_kmem_cache;
--- 
-2.34.1
 
+> > +/* Entry for iommufd_ctx::mt_mmap */
+> > +struct iommufd_mmap {
+> > +	unsigned long pfn_start;
+> > +	unsigned long pfn_end;
+> > +	bool is_io;
+> > +};
+> 
+> what is the point of 'is_io' here? Do you intend to allow userspace to
+> mmap anonymous memory via iommufd?
+> 
+> anyway for now the only user in this series always sets it to true.
+> 
+> I'd suggest to remove it until there is a real need.
+
+Done.
+
+Thanks
+Nicolin
