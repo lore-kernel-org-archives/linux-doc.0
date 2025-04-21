@@ -1,104 +1,156 @@
-Received: from mail-oo1-f42.google.com (mail-oo1-f42.google.com [209.85.161.42])
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C05F51F03EF;
-	Mon, 21 Apr 2025 21:00:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75AAB20D4FA
+	for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 21:00:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.43
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745269226; cv=none; b=VjW4EUR3WpvK3xEnrtaIcepD618R1ZSktfLQOTHmDFnMKCYlgrRWYEpr4jwy4XRTRcDwnWYb3IDwkybPulhj6jNrAgDaqUzcXzlXHaBZcIFHL1mjqX3IAijNGHkyC2cMum2aqmSqTEqfiewr7BaDdF17BJ16YaZOFjmnmOvRFOM=
+	t=1745269261; cv=none; b=KtB+cv8p12xcc6Jl+OmykNPQ6pDounSfyJjuUDaQucDb3g6b5f6tQOfTImaaC6HGPMQnYXumvHA8a6ITW05DRcIyGkWsLI8C7rB9iqYED5SU7/BX3KQQ5yramxP9tXmDOF6Ys6Mmulm5Zdr5gmLooLxqr4fQC1Kx+oF23tptaJE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745269226; c=relaxed/simple;
-	bh=lGsrYSNcKG8qfiaikDbbRwogHHQDp6DKS6+nvftTpcI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=fhh7c6x+FvuK7PJJ0f4FO7LAAZteTjCSxEwnJkBjXre7H/mnBDN20fwFxlYoLHkQ5kzZxOgowCrvtkc1fOl6dksR5z+N4FJVuQwtbSoJK6plpskP8Y9Dw6EQjn2hmD7DRwF2bdFhLp1XXkVUPcX4bOhfMU8twDEMzqq7FoYN28g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KNF/ul5a; arc=none smtp.client-ip=209.85.161.42
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745269261; c=relaxed/simple;
+	bh=t0reQejpEy+awsYTb53wJTJbKqsU4iiO5Emdqd80b5Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=C2gm3+VSqeqbuakKQXTL2niPzzUo8pJ5Yk1+jWT+eB5u/FwbvUM0F00c1Tvtd23MTl3ALHfSY320zaTug+XoRPHqUHG+uGfm7B0+IH4LApKiDdGOEZw2QO8nsGal0OGfrkGiKAiY8a7bNGQSPEc+eaVmL/4ulO2szUaRWffCbaM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=dKecW/Vz; arc=none smtp.client-ip=209.85.128.43
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KNF/ul5a"
-Received: by mail-oo1-f42.google.com with SMTP id 006d021491bc7-60402c94319so2197690eaf.1;
-        Mon, 21 Apr 2025 14:00:24 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="dKecW/Vz"
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso44566045e9.1
+        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 14:00:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745269224; x=1745874024; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=POBPLlOljVBDgxUS6PxzvxfjfLb9G+KKgkGlb9c3n64=;
-        b=KNF/ul5ay5nFFlP3uPYnkWkBxLD+q2ue0+v1Goi5mvYOVQr1esADDRnVuRQl0QcUdI
-         s6/QEvml3NGusqkX6o8ITVBygPvBlyPROPZjQOAgz1h5ka6wS34UhZXhckv5wWUemjLx
-         9/LrUlLExzlxn06XNsfE2Hv9ADxdTeuzh1m9UctP97fska/PUqVmV/iH/HrnqrnVk2/L
-         vay7UN6u+L+1P0zrzVI0ook080KgkSuQNoWyOCWxuz6nNsdrpYPY77EbOgFoPCtB2xkL
-         pQGQjfS5Mmudrnku7o0Dxuga6DMy6OIP/FOg8Z4IbOK+ZZkC1ztdtBwyz86L+3e7MMPC
-         WgPg==
+        d=citrix.com; s=google; t=1745269258; x=1745874058; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
+        bh=t0reQejpEy+awsYTb53wJTJbKqsU4iiO5Emdqd80b5Q=;
+        b=dKecW/VziLc/w0jqpdp4qJMXiFKlfT1BHWF+iC/hH3tcBd2ig16irXyNLZuA67QWKv
+         2rAmInde9YHDowejHpcfNjooGw0wIen65ek5zBw8wq8aEM3CHeUqKpZrmjBgQ4ONo+73
+         nOHSa8VdaMbfEVud/s+keIh7/cgsjITKplv6w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745269224; x=1745874024;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=POBPLlOljVBDgxUS6PxzvxfjfLb9G+KKgkGlb9c3n64=;
-        b=lYe1PnUaPXKVmHncoA8Vxadr0TYdbId3YGOqmDGMQAVptkngBkJcIQ3VC/wm2OFzMM
-         DEW5UNnT9ApJmygt5ULzapKInAZptKtKiA9upuHjvuqvNcuHvAJfkLaZXiKW2hQYjdkY
-         44n7erWA8rxgo1s3cGnzGIrmFp9Psria/1uwJ60trp07F75PqXPFF0TqMYrVfbrSD3C2
-         nzvUpd32Ssh3tbNwRhq9UtsOmJMN+eQZjt/FM9Igk32nrf67rzD6o3UbxtiybEYl19CH
-         U8iNfUin088b921H4SZA5wysRuzZDSl1JFXf1ZXKakRSDQHesT8TRKAwLWrrroVe3+VA
-         cu2g==
-X-Forwarded-Encrypted: i=1; AJvYcCUKV9WBQGDEOIerqzxMrHzslx8/UOjAOTaiAjgElkPZlg7quAlNeOCtkVQOiQf7AqirQE5wgVwYxdgOvSXCQw==@vger.kernel.org, AJvYcCUw4fx54k3HF7hKGgXn6SdM95TNxoNJ9+JybJUs3ekyUxAozrxMwkkDgedpGShU6hYlXSoxGNV1fZAIAY8N@vger.kernel.org, AJvYcCVRex6v6LJ+uHomeg6IsbDlIQfsSSmkwvEp6E0SOhaO3/JSVosW/ES2s77oHUxU5btgzA8A3thvN5Q=@vger.kernel.org, AJvYcCVsvZ+eJeHzOFwMeZnokDtq81LyvUg9+cfSdvR/QZ2C08/Vz1d4rUXLC9kjvkV9lF9n9m71Cn8fUeoY@vger.kernel.org
-X-Gm-Message-State: AOJu0YxzGQZIUe/KzbsOnPMT8xHcof/xXpTgbJlNODbgtQp6HqkX9XHK
-	JMKxlC3TizaULZI1QIDBdGcwvx5B2WxftRwk1fEn2VkUXPVcfj3L
-X-Gm-Gg: ASbGnctEXtwQXRAyUZaQJ6sMektpIifSDYCQIOxzsW+EcAclbsIS760Aqz461uUZUoZ
-	Dj6FzCYlQBv2CMx77VKCmtaJS+9JbAy5koPSUJFL6sLrSwN6B7m+McEkHKCAz0n5ONTGQfv1gDX
-	EQGiW4lJxru+y49uyPe6HCFW+0ZoDrbp1o3cr/xboPHTKuJ6zfOsLMDqiMKPpd6YAXrOzQpopzh
-	iDi6XOgzkagYc11N+32B22gDB5KcwFgRq6m8Tg6+vRU40iixwhoPyDWiVa5J8nTt4ZjYW5bJVzP
-	Xzg5yHWd8A9YzTnxCD2i9okofrHLyQFZR2PScv85lnacxhyGB4Zf1nxiumSS
-X-Google-Smtp-Source: AGHT+IFhWik0dvo5nbC73OtnpAgOzCCxlIuY5TcJavE3QjUL4HXTbUVWDwb/kdN4looh8mC60vBqqQ==
-X-Received: by 2002:a05:6871:c70a:b0:2cc:3586:294f with SMTP id 586e51a60fabf-2d526a28b26mr7572447fac.9.1745269223691;
-        Mon, 21 Apr 2025 14:00:23 -0700 (PDT)
-Received: from Borg-550.local ([2603:8080:1500:3d89:c191:629b:fde5:2f06])
-        by smtp.gmail.com with ESMTPSA id 586e51a60fabf-2d52135b8b4sm2121868fac.17.2025.04.21.14.00.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Apr 2025 14:00:23 -0700 (PDT)
-Sender: John Groves <grovesaustin@gmail.com>
-Date: Mon, 21 Apr 2025 16:00:21 -0500
-From: John Groves <John@groves.net>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: Dan Williams <dan.j.williams@intel.com>, 
-	Miklos Szeredi <miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>, 
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Luis Henriques <luis@igalia.com>, 
-	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
-	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org, 
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>, 
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan Hajnoczi <shajnocz@redhat.com>, 
-	Joanne Koong <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC PATCH 17/19] famfs_fuse: Add famfs metadata documentation
-Message-ID: <f27nf7ac2lopba4tnakkxx2zvnlmntfvk2olrxyz7yv4ywrufb@cwobadow6gxs>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421013346.32530-18-john@groves.net>
- <f0b218f4-7379-4fa5-93e4-a1c9dd4c411c@infradead.org>
+        d=1e100.net; s=20230601; t=1745269258; x=1745874058;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=t0reQejpEy+awsYTb53wJTJbKqsU4iiO5Emdqd80b5Q=;
+        b=KR+ZZg2rXfgO1YJEj20yHDF0mDjfViQ2r4TmAsR0XHWubAlgMYl2dx8H7igMGxJGBg
+         UaHL6Kvivn/k5RnZuwO2zfcdnqz72mFvx+lUT3l3Dbf/zHDzP+DJkfE6Ef0AFbKRx5H7
+         G1pDO/EtziQ8CTN16zOeJczXvolrQ3d3YcmNd0TcCqpzjuRWqzWGzXsYfrHODZQMDihJ
+         my1bNSZRUQiRtmp1IqP+8G5w1Y3AqDgpcOmCQFqf4+Gq01PHSbcDzsALaWAV5ksgvsOZ
+         nvCqO5LQ4GYnrt4Wv7Bp6s2TmTaVcbZNNO55dBcXpJ2olOb1LXVSaBLuW55Wn9//q6KH
+         ybwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWt342Mpl4/kyTbHW7GrRKIsnDDVSCQY8kWe4jH0mIxU+Q6ID6zQAcS0etj3cVD52dwhkmN21HeDlc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzR9WnhveQBcyyQWiiJDyTU6KlBGSSOCVrdtRn3Zbn1LcByVmg4
+	jL+jAXPilaYTQtDo8WnGs0tWFTV0uzWeaTAwm8Ktbwyqc7U/NAefjrJLOPn9pF4=
+X-Gm-Gg: ASbGncsQG8piey3A231R5BC94G3NktRQ37FyBHjKNKkqM8KvLJNod+o/Ww7idG7bjlu
+	gqd/FyGQuN9aaoLb8r6VUu67wA76MazkH2rvq0GstaUyfA8SIDKa+9QLfSjRGSgA/U8kskSODJy
+	Bp61S9rnj/knof0i+hCMCfsHF5xP1ueCEsFlIEzDC8CFxr9DSrZjsCQbJo8v9xwAMWyCdCiUIYu
+	GB4F2+f35QFvwpDgcBcgHJwqpO8cXoTlz2+UeuTXprAyUoowkzWhMp5EmmK6NjwgEyM8tsnxGqa
+	CXATh+mrUv+kjICWBx6ENnp+ooz1WMJzdQwgK7j+UpIc7WHyohj4kw==
+X-Google-Smtp-Source: AGHT+IEqZcEurBsEwpQNvMEBz98hVptC58D9hX1qopJkxrFk/Vkqpzpoey4oDYw4HKljgsecLmBIZw==
+X-Received: by 2002:a05:600c:1c12:b0:43e:ee80:c233 with SMTP id 5b1f17b1804b1-4406ac20146mr103140445e9.32.1745269257767;
+        Mon, 21 Apr 2025 14:00:57 -0700 (PDT)
+Received: from [192.168.86.29] ([83.104.178.215])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5acc5dsm150288735e9.9.2025.04.21.14.00.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Apr 2025 14:00:56 -0700 (PDT)
+Message-ID: <693a7733-0e03-4236-bdd1-13441b1ca3a5@citrix.com>
+Date: Mon, 21 Apr 2025 22:00:54 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f0b218f4-7379-4fa5-93e4-a1c9dd4c411c@infradead.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+To: Dave Hansen <dave.hansen@intel.com>,
+ Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev
+Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ trenchboot-devel@googlegroups.com
+References: <20250421162712.77452-1-ross.philipson@oracle.com>
+ <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com>
+Content-Language: en-GB
+From: Andrew Cooper <andrew.cooper3@citrix.com>
+Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
+ 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
+ 6+ahAA==
+In-Reply-To: <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On 25/04/20 08:51PM, Randy Dunlap wrote:
-> 
-> 
+On 21/04/2025 9:52 pm, Dave Hansen wrote:
+> On 4/21/25 09:26, Ross Philipson wrote:
+>> The larger focus of the TrenchBoot project (https://github.com/TrenchBoot) is to
+>> enhance the boot security and integrity in a unified manner.
+> Hey Folks,
+>
+> It isn't immediately apparent what these 5,000 lines of code do which is
+> new, why they are important to users and who will use them. I've
+> wondered this from v1 and I was hoping it would have gotten better by
+> v14, but alas...
+>
+> Purely from the amount of interest and review tags and the whole "v14"
+> thing, it doesn't look like this is very important to anyone. Not to be
+> to flippant about it, but if nobody else cares, why should I (or the
+> other x86 maintainers)?
 
-good edits... 
+The very-tl;dr is:
 
-Caching them into a branch for the next versions
+This is an implementation of Intel TXT which isn't a piece of
+abandonware with unaddressed CVEs (i.e. isn't tboot).
 
-Thank you!
+AMD and ARM support of equivalent technologies will be coming next.
 
-John
-
+~Andrew
