@@ -1,127 +1,177 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A06DF510;
-	Tue, 22 Apr 2025 10:16:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2360420DD7D
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 10:17:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745316987; cv=none; b=q2XAkkTSvKg3RxoBWrSqoVcbZztP/fgGtJQa+MCySmnFes1KIFI7rsXpJrxCyJwj0HA8p7o9uFhgqewWA+0Elh7SmWVBT/Jy61RyyYF8TDF4o4wrnyBWgOdU3uX5PMXBs/rr8si6hnzg8y/rRcf6C+6ocWISejli454ALKcxY3M=
+	t=1745317073; cv=none; b=QhPbqC6IPz/DqSeJ9MAbtBGNbykQg66d9uQVVGWJOAW9/aU7qMquqlA6d/rBZrk0PgJbuFY8I5IaCrqAQENzdDsqt0DLY6dKJ2mdtocQII/uZ551TYtZ7/BBU2NZcUPx66HV4rBA9ZbEjUjcMh9ael7J+Enl6uagMU5FpBTTAEM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745316987; c=relaxed/simple;
-	bh=wWjKBX2zeekrjYxCeQgtVm5V/GoHtzZQlT8JVvJNDWk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pINYpaGxRCybjPRASnierEmuA539BLEP1o46+a4bjErG6gGeVN7iES2A4x1csWaUbbm3BJ029dJK/n7603ABy9JELTCB/RUf6NVR+kkdwFdF9WFtmBtbuWzGsGTIAA7+NCKUGcOLrAIvHt9/UkA8SZznxkP2M3fdb8MK84CQQbo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PJmtq8bG; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745317073; c=relaxed/simple;
+	bh=eEoQfmmABCHvojNLudV31VngPDmfK2fp9xWJpCXogBI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eQCNrA3QhfZk3e93IzxjvSVDwrbzUafS+uVAFPQtBx6jRg+qkGKy9+94hc+qfptxg8wgiBSMkW/b1d4AkfO8CzX5xAHn0gxA6qjOp/wNAyroWp5/yMNkllnrWlVn6r8ewQV1jsXMesZr0A98z77CO39Va5SyzO+Clu1UzhOmp5Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=DR+rBiFT; arc=none smtp.client-ip=209.85.214.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PJmtq8bG"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745316986; x=1776852986;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=wWjKBX2zeekrjYxCeQgtVm5V/GoHtzZQlT8JVvJNDWk=;
-  b=PJmtq8bGCja3G5VPd96LQFIi1PAaj5jo6fd+DVKjchWYEBeSNLpE7lc3
-   z5ME8ba/PWvTg6ijdAJ4ojZfASnPU55VsvwTEnI6zpmmgm0k6tUjVUTP1
-   hFhRCbr+mPtRbMAVIqaIBmtaKjMiv9bf4VS1ITpMPX+bh/edk3mdBaYqE
-   UfWAaxU3JEu/ZAUJgWslZacj4kQ+ksLNvhqz+SYsND6RNVTm+QkbfX9RG
-   yZS6oPgd4OvhTVvLraHZ4QRhKUA8eXWZ+/GQ2T7XUkcE6TIQtZexOJ41G
-   fX86OB6KRKsZPUk6Ie3tuYjZYdOjw2u81z9DfonABeVcrEwuBxzzhqOaw
-   Q==;
-X-CSE-ConnectionGUID: hm8sOjwMQpCcczQqFgITYg==
-X-CSE-MsgGUID: 0oc2Us8NR2CYrP5W/mN0cw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="58244146"
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="58244146"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 03:16:25 -0700
-X-CSE-ConnectionGUID: wGdjKXAeT1SkyB2PVG1zzA==
-X-CSE-MsgGUID: 97t2Opq9TX+hchHBw8+i/Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="132513185"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 03:16:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1u7Afm-0000000EhIi-3puL;
-	Tue, 22 Apr 2025 13:16:14 +0300
-Date: Tue, 22 Apr 2025 13:16:14 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
-	alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
-	Sven Peter <sven@svenpeter.dev>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Aun-Ali Zaidi <admin@kodeit.net>,
-	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
-	Simona Vetter <simona@ffwll.ch>,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-	Sergey Senozhatsky <senozhatsky@chromium.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
-	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
-	Kees Cook <kees@kernel.org>, tamird@gmail.com,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
-	Asahi Linux Mailing List <asahi@lists.linux.dev>,
-	netdev <netdev@vger.kernel.org>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-Message-ID: <aAdsbgx53ZbdvB6p@smile.fi.intel.com>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
- <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="DR+rBiFT"
+Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22928d629faso46791035ad.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 03:17:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745317071; x=1745921871; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=X00I2bs07xTT0JGn+iRC8lIN0+rPW4VodnvME71Mc4w=;
+        b=DR+rBiFTDQ02CG5jgmqdbeQODyy5NqmoKx3UjfcPQVEHgHqvU+ieoB7Nru5mSGXIBe
+         58M1bC8WWpD3IOrY43N+M4mfglusQNWvU2YB57wDiRMqtfDb82bWDWofk/qWOETQaiSx
+         vHUNh1SNiTQk2Ni5CLTpr/hlX9aR2hG6whV0WhLDrl6AR+o5MKtbK4ZtCASvA75SzgYC
+         5qxCiCDva6vj1CmLOz0E0JniHPz/D66LujHGBoyq4iJxZ4tI6r/dTTlXcs+rJXVez8gi
+         w9V+wAQlrorEJ2ioyN4yao/DsBZj2XIMfyn/Emd+9u2LFZqFV6wRk4ylR9Bvb/mmo4Bg
+         FZnA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745317071; x=1745921871;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=X00I2bs07xTT0JGn+iRC8lIN0+rPW4VodnvME71Mc4w=;
+        b=DoL06G2SjNhqfI6t6mq1yqG0ap/xpcJcF0dFXQ4XNPzBkDl+3RiX6UqHhlt/sALmM/
+         ZhVpUTeXm51RX2bf5W4Zjtb7IJ7zUjo7jS6YlViI7wr6ctq1i4kU+x04/iNElBG2CQF2
+         FyamfUvprSCHGrdl9itnozXpRy8AoJWgCLPJIaDr/mm2NVpgI7SqlThqlBQEdPhhZvTX
+         etNWxXbp5/vUq6HpMxeHUoSJrI1WnyjvuPO3JVj9A/pW9YOjGQxaSoU8ntgNUsR7g/gW
+         l4vklEPZE6Z/OlQGN083Yz4Hh1tAvOBJkpBI+e/KmRxHOyc+KIoNFeiGsz+DnkKWkdor
+         8LeA==
+X-Forwarded-Encrypted: i=1; AJvYcCWvgAwx3TD61z0BEwIRMsld/0mL6wUVnvulWCjmFgl8gCvLK5nq+G0fijIQq4pU7b0xmExdg0SIQrk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw2NPmiij2SSv11/YdppC7xixS5aqa2qGmD63K1iDx4+p9VHayo
+	028TIugxBFckkM76fO5DQnlPF15U4YRUkhQMxY0SLhsRbGG01yysi94SP0/wNvc=
+X-Gm-Gg: ASbGncuiKJeEkCFTccQG3zRtm4WoaVGFOPvqNStMCNTbeG2lLUn+PEQgIAgWwr/hzJ1
+	9PeOcy9V/l+DYqi72HOEGlihrmo/iqJsdoiLkLYk+/4fX4Qgn2ub1Xo3hckiZuVNWIPLjyd3wfV
+	HSUqw4HCqNtkOOORMcMsFRhHfzuUZg0vaIKjW5KmMXog7wlxtNqCPHXOtR90AIyoDlmf3gNgYP4
+	yaA4/3K/6eDFEgMFIAlsG159i9Vo3paIK3ed195tPjEa4mZ9NkZ6fY1CvdVOG1Q8WLGuYQH+pJ1
+	6KeFYH83F2vLh/07UN4wYWWbJD25HUOe7JPygGOOIyiaZ7I9BoMmDhmkW0NcSsuayj2I2kWLcZn
+	VsTDaWRIoPg==
+X-Google-Smtp-Source: AGHT+IF66lPXUZ8d1HsX69+jyxVc1Jh9SjZT766uy6dI5gqKQ1najh//E0HYQ7PJOsBvmK715VAAPg==
+X-Received: by 2002:a17:902:d489:b0:224:e33:8896 with SMTP id d9443c01a7336-22c53285bbbmr210518825ad.11.1745317071386;
+        Tue, 22 Apr 2025 03:17:51 -0700 (PDT)
+Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8bf794sm8493042b3a.10.2025.04.22.03.17.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Apr 2025 03:17:50 -0700 (PDT)
+Message-ID: <6e2ed6a9-aed0-4727-b1e3-903d3a7751b5@rivosinc.com>
+Date: Tue, 22 Apr 2025 12:17:41 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 1/5] riscv: misaligned: factorize trap handling
+To: Peter Zijlstra <peterz@infradead.org>
+Cc: Alexandre Ghiti <alex@ghiti.fr>,
+ "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
+ open list <linux-kernel@vger.kernel.org>,
+ "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
+ "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
+ Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Shuah Khan <shuah@kernel.org>, Andrew Jones <ajones@ventanamicro.com>,
+ Samuel Holland <samuel.holland@sifive.com>
+References: <20250414123543.1615478-1-cleger@rivosinc.com>
+ <20250414123543.1615478-2-cleger@rivosinc.com>
+ <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr>
+ <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com>
+ <20250422094419.GC14170@noisy.programming.kicks-ass.net>
+Content-Language: en-US
+From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+In-Reply-To: <20250422094419.GC14170@noisy.programming.kicks-ass.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Tue, Apr 22, 2025 at 10:43:59AM +0200, Geert Uytterhoeven wrote:
-> On Tue, 22 Apr 2025 at 10:30, Aditya Garg <gargaditya08@live.com> wrote:
-> > On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
-> > > On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
 
-...
 
-> > Originally, it was %p4cr (reverse-endian), but on the request of the
-> > maintainers, it was changed to %p4cn.
+On 22/04/2025 11:44, Peter Zijlstra wrote:
+> On Tue, Apr 22, 2025 at 09:57:12AM +0200, Clément Léger wrote:
+>>
+>>
+>> On 21/04/2025 09:06, Alexandre Ghiti wrote:
+>>> Hi Clément,
+>>>
+>>>
+>>> On 14/04/2025 14:34, Clément Léger wrote:
+>>>> misaligned accesses traps are not nmi and should be treated as normal
+>>>> one using irqentry_enter()/exit().
+>>>
+>>>
+>>> All the traps that come from kernel mode are treated as nmi as it was
+>>> suggested by Peter here: https://lore.kernel.org/linux-riscv/
+>>> Yyhv4UUXuSfvMOw+@hirez.programming.kicks-ass.net/
+>>>
+>>> I don't know the differences between irq_nmi_entry/exit() and irq_entry/
+>>> exit(), so is that still correct to now treat the kernel traps as non-nmi?
+>>
+>> Hi Alex,
+>>
+>> Actually, this discussion was raised on a previous series [1] by Maciej
+>> which replied that we should actually reenable interrupt depending on
+>> the state that was interrupted. Looking at other architecture/code, it
+>> seems like treating misaligned accesses as NMI is probably not the right
+>> way. For instance, loongarch treats them as normal IRQ using a
+>> irqentry_enter()/exit() and reenabling IRQS if possible.
 > 
-> Ah, I found it[1]:
+> So, a trap that happens in kernel space while IRQs are disabled, SHOULD
+> really be NMI-like.
 > 
-> | so, it needs more information that this mimics htonl() / ntohl() for
-> networking.
+> You then have a choice, make all such traps from kernel space NMI-like;
+> this makes it easy on the trap handler, since the context is always the
+> same. Mistakes are 'easy' to find.
 > 
-> IMHO this does not mimic htonl(), as htonl() is a no-op on big-endian.
-> while %p4ch and %p4cl yield different results on big-endian.
-> 
-> > So here network means reverse of host, not strictly big-endian.
-> 
-> Please don't call it "network byte order" if that does not have the same
-> meaning as in the network subsystem.
-> 
-> Personally, I like "%p4r" (reverse) more...
-> (and "%p4ch" might mean human-readable ;-)
+> Or,.. do funny stuff and only make it NMI like if IRQs were disabled.
+> Which gives inconsistent context for the handler and you'll find
+> yourself scratching your head at some point in the future wondering why
+> this one rare occasion goes BOOM.
 
-It will confuse the reader. h/r is not very established pair. If you really
-wont see h/n, better to drop them completely for now then. Because I'm against
-h/r pair.
+Hi Peter,
 
-> [1] https://lore.kernel.org/all/Z8B6DwcRbV-8D8GB@smile.fi.intel.com
+Yeah agreed, that might be hazardous.
 
+> 
+> x86 mostly does the first, any trap that can happen with IRQs disabled
+> is treated unconditionally as NMI like. The obvious exception is
+> page-fault, but that already has a from-non-preemptible-context branch
+> that is 'careful'.
+> 
+> As to unaligned traps from kernel space, I would imagine they mostly BUG
+> the kernel, except when there's an exception entry for that location, in
+> which case it might do a fixup?
 
--- 
-With Best Regards,
-Andy Shevchenko
+The misaligned access exception handling currently handles misaligned
+access for the kernel as well (except if explicitly disabled).
+
+> 
+> 
+> Anyway, the reason these exceptions should be NMI like, is because
+> interrupts are not allowed to nest. Notably something like:
+> 
+> 
+>   raw_spin_lock_irqsave(&foo);
+>   <IRQ>
+>     raw_spin_lock_irqsave(&foo);
+>     ...
+> 
+> Is an obvious problem. Exceptions that can run while IRQs are disabled,
+> must not use locks -- treating them as NMI-like (they are non-maskable
+> after all), ensures this.
+
+As said in my previous reply, the misaligned handling code does not
+currently access any locks (when handling kernel misaligned accesses)
+and is self contained. That being said, that assumption might not be
+true in future so that might be better to take your approach and treat
+the misaligned access like an NMI.
+
+Thanks,
+
+Clément
 
 
