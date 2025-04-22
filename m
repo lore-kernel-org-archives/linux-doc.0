@@ -1,177 +1,220 @@
-Received: from mail-pl1-f180.google.com (mail-pl1-f180.google.com [209.85.214.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2360420DD7D
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 10:17:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB8D920C03F
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 10:20:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745317073; cv=none; b=QhPbqC6IPz/DqSeJ9MAbtBGNbykQg66d9uQVVGWJOAW9/aU7qMquqlA6d/rBZrk0PgJbuFY8I5IaCrqAQENzdDsqt0DLY6dKJ2mdtocQII/uZ551TYtZ7/BBU2NZcUPx66HV4rBA9ZbEjUjcMh9ael7J+Enl6uagMU5FpBTTAEM=
+	t=1745317245; cv=none; b=PNH8FUOaIhGsocRBFI9DXpthnt2VRynq8lG6mjI2hIsW8EbF9FxcHuSP+BGAZyy0HOA3xXOy3Mb+VfDvkEBktTPw6t3W0FeANytCYx+EsqF7frdaaSmrDS70N9AilX67NIl2JjyR19H7b8sVQRZDoxqjNI1BsTAA0g3PoGhmumo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745317073; c=relaxed/simple;
-	bh=eEoQfmmABCHvojNLudV31VngPDmfK2fp9xWJpCXogBI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=eQCNrA3QhfZk3e93IzxjvSVDwrbzUafS+uVAFPQtBx6jRg+qkGKy9+94hc+qfptxg8wgiBSMkW/b1d4AkfO8CzX5xAHn0gxA6qjOp/wNAyroWp5/yMNkllnrWlVn6r8ewQV1jsXMesZr0A98z77CO39Va5SyzO+Clu1UzhOmp5Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=DR+rBiFT; arc=none smtp.client-ip=209.85.214.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1745317245; c=relaxed/simple;
+	bh=yg+c2UCJeuy5r4oHtXQrwXmPqBpaiKr61unzuNIJWfc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=hxE2SqmzQV8H8T0Ayggd1/FmCPS4OCkjvpyycGAoh/ppxl9340mzeHYEJ2cHnFa+dhRgpS44+2CCXBDlnezSuBk87wyX9gltMM7n87AaxEq0LAMXJq1WKcb0/bOen/1Rk4PE+VFhUQiLdUuaFk5mjnj94g1GYsM6dzJ0gZ4MC/A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OVGh4lWH; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="DR+rBiFT"
-Received: by mail-pl1-f180.google.com with SMTP id d9443c01a7336-22928d629faso46791035ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 03:17:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745317071; x=1745921871; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=X00I2bs07xTT0JGn+iRC8lIN0+rPW4VodnvME71Mc4w=;
-        b=DR+rBiFTDQ02CG5jgmqdbeQODyy5NqmoKx3UjfcPQVEHgHqvU+ieoB7Nru5mSGXIBe
-         58M1bC8WWpD3IOrY43N+M4mfglusQNWvU2YB57wDiRMqtfDb82bWDWofk/qWOETQaiSx
-         vHUNh1SNiTQk2Ni5CLTpr/hlX9aR2hG6whV0WhLDrl6AR+o5MKtbK4ZtCASvA75SzgYC
-         5qxCiCDva6vj1CmLOz0E0JniHPz/D66LujHGBoyq4iJxZ4tI6r/dTTlXcs+rJXVez8gi
-         w9V+wAQlrorEJ2ioyN4yao/DsBZj2XIMfyn/Emd+9u2LFZqFV6wRk4ylR9Bvb/mmo4Bg
-         FZnA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OVGh4lWH"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745317242;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=cDzjuAw8gyec0UtcHaMK8ay4lrVZAz455CrMeb1zHOU=;
+	b=OVGh4lWHLMMvMFxGOtgQoO6qCZJhgprXKOkraLIgxy4f4exuk7JsUCRioqrj45ZgFMugdI
+	bF/9cSEfqUpnpClywu6NN7uIvgHa4/G9t6R1IdUEWHNLVV5Jn5B8lQdbZ8IFjcqJ4vq9Vf
+	g8aIhM+BqeubZWUAwBMFy7FJRrZqWAU=
+Received: from mail-ej1-f71.google.com (mail-ej1-f71.google.com
+ [209.85.218.71]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-331-ry9-R5VTPju98AiSNwV-rQ-1; Tue, 22 Apr 2025 06:20:41 -0400
+X-MC-Unique: ry9-R5VTPju98AiSNwV-rQ-1
+X-Mimecast-MFC-AGG-ID: ry9-R5VTPju98AiSNwV-rQ_1745317240
+Received: by mail-ej1-f71.google.com with SMTP id a640c23a62f3a-ac297c7a0c2so319603066b.3
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 03:20:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745317071; x=1745921871;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=X00I2bs07xTT0JGn+iRC8lIN0+rPW4VodnvME71Mc4w=;
-        b=DoL06G2SjNhqfI6t6mq1yqG0ap/xpcJcF0dFXQ4XNPzBkDl+3RiX6UqHhlt/sALmM/
-         ZhVpUTeXm51RX2bf5W4Zjtb7IJ7zUjo7jS6YlViI7wr6ctq1i4kU+x04/iNElBG2CQF2
-         FyamfUvprSCHGrdl9itnozXpRy8AoJWgCLPJIaDr/mm2NVpgI7SqlThqlBQEdPhhZvTX
-         etNWxXbp5/vUq6HpMxeHUoSJrI1WnyjvuPO3JVj9A/pW9YOjGQxaSoU8ntgNUsR7g/gW
-         l4vklEPZE6Z/OlQGN083Yz4Hh1tAvOBJkpBI+e/KmRxHOyc+KIoNFeiGsz+DnkKWkdor
-         8LeA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvgAwx3TD61z0BEwIRMsld/0mL6wUVnvulWCjmFgl8gCvLK5nq+G0fijIQq4pU7b0xmExdg0SIQrk=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw2NPmiij2SSv11/YdppC7xixS5aqa2qGmD63K1iDx4+p9VHayo
-	028TIugxBFckkM76fO5DQnlPF15U4YRUkhQMxY0SLhsRbGG01yysi94SP0/wNvc=
-X-Gm-Gg: ASbGncuiKJeEkCFTccQG3zRtm4WoaVGFOPvqNStMCNTbeG2lLUn+PEQgIAgWwr/hzJ1
-	9PeOcy9V/l+DYqi72HOEGlihrmo/iqJsdoiLkLYk+/4fX4Qgn2ub1Xo3hckiZuVNWIPLjyd3wfV
-	HSUqw4HCqNtkOOORMcMsFRhHfzuUZg0vaIKjW5KmMXog7wlxtNqCPHXOtR90AIyoDlmf3gNgYP4
-	yaA4/3K/6eDFEgMFIAlsG159i9Vo3paIK3ed195tPjEa4mZ9NkZ6fY1CvdVOG1Q8WLGuYQH+pJ1
-	6KeFYH83F2vLh/07UN4wYWWbJD25HUOe7JPygGOOIyiaZ7I9BoMmDhmkW0NcSsuayj2I2kWLcZn
-	VsTDaWRIoPg==
-X-Google-Smtp-Source: AGHT+IF66lPXUZ8d1HsX69+jyxVc1Jh9SjZT766uy6dI5gqKQ1najh//E0HYQ7PJOsBvmK715VAAPg==
-X-Received: by 2002:a17:902:d489:b0:224:e33:8896 with SMTP id d9443c01a7336-22c53285bbbmr210518825ad.11.1745317071386;
-        Tue, 22 Apr 2025 03:17:51 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8bf794sm8493042b3a.10.2025.04.22.03.17.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 03:17:50 -0700 (PDT)
-Message-ID: <6e2ed6a9-aed0-4727-b1e3-903d3a7751b5@rivosinc.com>
-Date: Tue, 22 Apr 2025 12:17:41 +0200
+        d=1e100.net; s=20230601; t=1745317240; x=1745922040;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=cDzjuAw8gyec0UtcHaMK8ay4lrVZAz455CrMeb1zHOU=;
+        b=vvHzT6HK9SXgJbj0cKHbuoUXbDOkUDv/FmoeURc+V0Yu36fLWC9jiF+VJzovKLLMZx
+         /pWZf2Tt9ym6m8FjrvPIEqv6dUgFwEAxTM59cbQK3HkV1Edexd70DFRdldH6XAV03q/2
+         kJLYm53Li0sCWN2UJ6CZzQg7amfTpiKoCfAXOQ5SCX6+H4QmTcYPM19HaJQJqtxFo1H+
+         MGv6RQ/f1UV8ulCrC7zENNg1Jocih3zi5nYjm2De7iX3HTt4Ky9yXPcHvmPlS4G9DXei
+         03deIvZd0zSmF3pfBaeODxGLnuPvIKWPCShWFuIXiJDX6hLzlgRtAklhaENsBbth8icy
+         c1dQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVlfNFh96qhUiKcFrykscGedCGGey9nFcNgCzrn2mHKo9TkeqtHg4OSlOkH+V8r9CAoRljY3D7DQn0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCKoczOfSVGUZTxrflCS5uwu49+SVcFQeWS5t2/xWiaErINswP
+	xnjzkoW2fL2F+TifN1Q0XWqM5ULStpM8psQRgneM1k8t9pg/o87K8eDl596cHWKnAgKcE+X6WHt
+	y+uHG7uvYwbnVrnlmkFDqrVImLQLJ/glhLKL9V/NJT8W+sKrbkkv8mI6UKw==
+X-Gm-Gg: ASbGncs3RuVJYolOr7suU3G3VjVgSgVZLUuEjY98zJF6AdBb77w/muAFkF147xWGrfz
+	NDmuhR72nsBDeHFXqiCMT2zMNdsHMIi35/g8jTn/ogLwm2SMGtopwPoPJMlsdYTg0lepISW9PEp
+	Sp30KtvkAFADQbXTIA3cIgd8o7IKW5X5Pdv0Rfoe0MSV4SvtDLRf/O9V3ND2/IL/LFnvyxIq3yU
+	LFhMxdKteIJO7FZIAQqEVO2ZvMF47958upYDpYxgR8urGPHiQ1pVKZh74+4FsTLCy831Tch+EAy
+	O561MNdvzGUYnnz6rg==
+X-Received: by 2002:a17:907:72ce:b0:ac6:fec7:34dd with SMTP id a640c23a62f3a-acb74e09f3fmr1184069166b.52.1745317240073;
+        Tue, 22 Apr 2025 03:20:40 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IHS+uMA1StUCAyrk69fQ00I3GurylSo4xmtvYwqLxjQJ/N/RmIisq+dh9LxGK6QS38KW2+XjA==
+X-Received: by 2002:a17:907:72ce:b0:ac6:fec7:34dd with SMTP id a640c23a62f3a-acb74e09f3fmr1184065566b.52.1745317239418;
+        Tue, 22 Apr 2025 03:20:39 -0700 (PDT)
+Received: from sgarzare-redhat ([193.207.201.224])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb8f2019dbsm473147666b.158.2025.04.22.03.20.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Apr 2025 03:20:38 -0700 (PDT)
+Date: Tue, 22 Apr 2025 12:20:29 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Ross Philipson <ross.philipson@oracle.com>
+Cc: linux-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
+	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org, 
+	mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, 
+	jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, ebiederm@xmission.com, 
+	dwmw2@infradead.org, baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com, 
+	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com
+Subject: Re: [PATCH v14 16/19] tpm, tpm_tis: Allow locality to be set to a
+ different value
+Message-ID: <4w5oshnh6opkrhngzy74cagd7vio45wz6cv3ltmowfbcipdjvs@rijgzlucl6jd>
+References: <20250421162712.77452-1-ross.philipson@oracle.com>
+ <20250421162712.77452-17-ross.philipson@oracle.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] riscv: misaligned: factorize trap handling
-To: Peter Zijlstra <peterz@infradead.org>
-Cc: Alexandre Ghiti <alex@ghiti.fr>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
- Shuah Khan <shuah@kernel.org>, Andrew Jones <ajones@ventanamicro.com>,
- Samuel Holland <samuel.holland@sifive.com>
-References: <20250414123543.1615478-1-cleger@rivosinc.com>
- <20250414123543.1615478-2-cleger@rivosinc.com>
- <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr>
- <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com>
- <20250422094419.GC14170@noisy.programming.kicks-ass.net>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <20250422094419.GC14170@noisy.programming.kicks-ass.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20250421162712.77452-17-ross.philipson@oracle.com>
 
+On Mon, Apr 21, 2025 at 09:27:09AM -0700, Ross Philipson wrote:
+>DRTM needs to be able to set the locality used by kernel. Provide
+>a one-shot function tpm_chip_set_locality() for the purpose.
+>
+>Signed-off-by: Ross Philipson <ross.philipson@oracle.com>
+>Signed-off-by: Jarkko Sakkinen <jarkko@kernel.org>
+>---
+> drivers/char/tpm/tpm-chip.c     | 34 ++++++++++++++++++++++++++++++++-
+> drivers/char/tpm/tpm_tis_core.c |  2 ++
+> include/linux/tpm.h             |  4 ++++
+> 3 files changed, 39 insertions(+), 1 deletion(-)
+>
+>diff --git a/drivers/char/tpm/tpm-chip.c b/drivers/char/tpm/tpm-chip.c
+>index e25daf2396d3..a603f0dadd43 100644
+>--- a/drivers/char/tpm/tpm-chip.c
+>+++ b/drivers/char/tpm/tpm-chip.c
+>@@ -44,7 +44,7 @@ static int tpm_request_locality(struct tpm_chip *chip)
+> 	if (!chip->ops->request_locality)
+> 		return 0;
+>
+>-	rc = chip->ops->request_locality(chip, 0);
+>+	rc = chip->ops->request_locality(chip, chip->kernel_locality);
+> 	if (rc < 0)
+> 		return rc;
+>
+>@@ -380,6 +380,7 @@ struct tpm_chip *tpm_chip_alloc(struct device *pdev,
+> 	}
+>
+> 	chip->locality = -1;
+>+	chip->kernel_locality = 0;
+> 	return chip;
+>
+> out:
+>@@ -695,3 +696,34 @@ void tpm_chip_unregister(struct tpm_chip *chip)
+> 	tpm_del_char_device(chip);
+> }
+> EXPORT_SYMBOL_GPL(tpm_chip_unregister);
+>+
+>+/**
+>+ * tpm_chip_set_locality() - Set the TPM locality kernel uses
+>+ * @chip:	&tpm_chip instance
+>+ * @locality:   new locality
+>+ *
+>+ * This a one-shot function. Returns zero or POSIX error on failure.
+>+ */
+>+int tpm_chip_set_locality(struct tpm_chip *chip, u8 locality)
+>+{
+>+	int ret;
+>+
+>+	if (locality < 0 || locality >= TPM_MAX_LOCALITY)
 
+Since `locality` is unsigned, we can skip the `locality < 0` check.
 
-On 22/04/2025 11:44, Peter Zijlstra wrote:
-> On Tue, Apr 22, 2025 at 09:57:12AM +0200, Clément Léger wrote:
->>
->>
->> On 21/04/2025 09:06, Alexandre Ghiti wrote:
->>> Hi Clément,
->>>
->>>
->>> On 14/04/2025 14:34, Clément Léger wrote:
->>>> misaligned accesses traps are not nmi and should be treated as normal
->>>> one using irqentry_enter()/exit().
->>>
->>>
->>> All the traps that come from kernel mode are treated as nmi as it was
->>> suggested by Peter here: https://lore.kernel.org/linux-riscv/
->>> Yyhv4UUXuSfvMOw+@hirez.programming.kicks-ass.net/
->>>
->>> I don't know the differences between irq_nmi_entry/exit() and irq_entry/
->>> exit(), so is that still correct to now treat the kernel traps as non-nmi?
->>
->> Hi Alex,
->>
->> Actually, this discussion was raised on a previous series [1] by Maciej
->> which replied that we should actually reenable interrupt depending on
->> the state that was interrupted. Looking at other architecture/code, it
->> seems like treating misaligned accesses as NMI is probably not the right
->> way. For instance, loongarch treats them as normal IRQ using a
->> irqentry_enter()/exit() and reenabling IRQS if possible.
-> 
-> So, a trap that happens in kernel space while IRQs are disabled, SHOULD
-> really be NMI-like.
-> 
-> You then have a choice, make all such traps from kernel space NMI-like;
-> this makes it easy on the trap handler, since the context is always the
-> same. Mistakes are 'easy' to find.
-> 
-> Or,.. do funny stuff and only make it NMI like if IRQs were disabled.
-> Which gives inconsistent context for the handler and you'll find
-> yourself scratching your head at some point in the future wondering why
-> this one rare occasion goes BOOM.
+>+		return -EINVAL;
+>+
+>+	ret = tpm_try_get_ops(chip);
+>+	if (ret)
+>+		return ret;
+>+
+>+	if (!(chip->flags & TPM_CHIP_FLAG_SET_LOCALITY_ENABLED)) {
+>+		tpm_put_ops(chip);
+>+		return -EINVAL;
 
-Hi Peter,
-
-Yeah agreed, that might be hazardous.
-
-> 
-> x86 mostly does the first, any trap that can happen with IRQs disabled
-> is treated unconditionally as NMI like. The obvious exception is
-> page-fault, but that already has a from-non-preemptible-context branch
-> that is 'careful'.
-> 
-> As to unaligned traps from kernel space, I would imagine they mostly BUG
-> the kernel, except when there's an exception entry for that location, in
-> which case it might do a fixup?
-
-The misaligned access exception handling currently handles misaligned
-access for the kernel as well (except if explicitly disabled).
-
-> 
-> 
-> Anyway, the reason these exceptions should be NMI like, is because
-> interrupts are not allowed to nest. Notably something like:
-> 
-> 
->   raw_spin_lock_irqsave(&foo);
->   <IRQ>
->     raw_spin_lock_irqsave(&foo);
->     ...
-> 
-> Is an obvious problem. Exceptions that can run while IRQs are disabled,
-> must not use locks -- treating them as NMI-like (they are non-maskable
-> after all), ensures this.
-
-As said in my previous reply, the misaligned handling code does not
-currently access any locks (when handling kernel misaligned accesses)
-and is self contained. That being said, that assumption might not be
-true in future so that might be better to take your approach and treat
-the misaligned access like an NMI.
+IIUC this operation is allowed only one time.
+So, this case seems more like an operation that's not allowed because 
+it's already been done, so what about returning "-EPERM".
 
 Thanks,
+Stefano
 
-Clément
-
+>+	}
+>+
+>+	chip->kernel_locality = locality;
+>+	chip->flags &= ~TPM_CHIP_FLAG_SET_LOCALITY_ENABLED;
+>+	tpm_put_ops(chip);
+>+
+>+	return 0;
+>+}
+>+EXPORT_SYMBOL_GPL(tpm_chip_set_locality);
+>diff --git a/drivers/char/tpm/tpm_tis_core.c b/drivers/char/tpm/tpm_tis_core.c
+>index 222081e5c7f7..2bc0cf46adbf 100644
+>--- a/drivers/char/tpm/tpm_tis_core.c
+>+++ b/drivers/char/tpm/tpm_tis_core.c
+>@@ -1124,6 +1124,8 @@ int tpm_tis_core_init(struct device *dev, struct 
+>tpm_tis_data *priv, int irq,
+> 	if (IS_ERR(chip))
+> 		return PTR_ERR(chip);
+>
+>+	chip->flags |= TPM_CHIP_FLAG_SET_LOCALITY_ENABLED;
+>+
+> #ifdef CONFIG_ACPI
+> 	chip->acpi_dev_handle = acpi_dev_handle;
+> #endif
+>diff --git a/include/linux/tpm.h b/include/linux/tpm.h
+>index 86fe8f6a2d52..884791acba2e 100644
+>--- a/include/linux/tpm.h
+>+++ b/include/linux/tpm.h
+>@@ -207,6 +207,8 @@ struct tpm_chip {
+>
+> 	/* active locality */
+> 	int locality;
+>+	/* the locality used by kernel */
+>+	u8 kernel_locality;
+>
+> #ifdef CONFIG_TCG_TPM2_HMAC
+> 	/* details for communication security via sessions */
+>@@ -355,6 +357,7 @@ enum tpm_chip_flags {
+> 	TPM_CHIP_FLAG_SUSPENDED			= BIT(8),
+> 	TPM_CHIP_FLAG_HWRNG_DISABLED		= BIT(9),
+> 	TPM_CHIP_FLAG_DISABLE			= BIT(10),
+>+	TPM_CHIP_FLAG_SET_LOCALITY_ENABLED	= BIT(11),
+> };
+>
+> #define to_tpm_chip(d) container_of(d, struct tpm_chip, dev)
+>@@ -448,6 +451,7 @@ static inline u32 tpm2_rc_value(u32 rc)
+> extern int tpm_is_tpm2(struct tpm_chip *chip);
+> extern __must_check int tpm_try_get_ops(struct tpm_chip *chip);
+> extern void tpm_put_ops(struct tpm_chip *chip);
+>+int tpm_chip_set_locality(struct tpm_chip *chip, u8 locality);
+> extern ssize_t tpm_transmit_cmd(struct tpm_chip *chip, struct tpm_buf *buf,
+> 				size_t min_rsp_body_length, const char *desc);
+> extern int tpm_pcr_read(struct tpm_chip *chip, u32 pcr_idx,
+>-- 
+>2.39.3
+>
+>
 
