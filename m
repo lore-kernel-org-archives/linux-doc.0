@@ -1,143 +1,130 @@
-Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+Received: from mail-lj1-f179.google.com (mail-lj1-f179.google.com [209.85.208.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7139C1A23A1
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 02:38:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7386963CB;
+	Tue, 22 Apr 2025 02:52:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745289503; cv=none; b=R99kiAo4RZe5tL1DW2/QtBWcKVbPJgKf934rp89gwqeCuqz/pLG/Rz3D77Z4E6frKcv5R8JqTEc0jfz2qUxbUVU9VjLcq+SHYgPyKEgyvmLpZ6PVpYZDcLUQ0pOOrtH54E4pOS3cZV+6l9LkGUjttaM/L6D4AhRDUQciVjd8umE=
+	t=1745290360; cv=none; b=edqn/gbdviimOZGgDv2cJ50wAECGOcJEDgxAuUeVOV1URyUBHi3wdR6wDldyegcAppkPjbF32yD/eC6FKdAxFSW00cMoNY9kARnVBRTgJd5cWrZ8W7lWhv8/QvKT8tlCM/oqaySzg8eSecRrC0tMGGtYZ5cvQnhGVc+vfcG2ogY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745289503; c=relaxed/simple;
-	bh=m1yMCm5BRURQkTkthO160wuOl1r+JBDJ8JKG9mL70Ps=;
+	s=arc-20240116; t=1745290360; c=relaxed/simple;
+	bh=HzcXYKkb+gxiz/CypYGdA3srGhWNtD6xPuF1s4YZSJE=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=jDg/fRWnKLJtzIjgGLMxSWUfCwpRyy2FD4bhETCqDw7R3tKign6JqPn8v9Tjw0Wf66W/NevAhcm5scPpWeTxIDfP4EGIa1zGlwf7/DQ35380UzcpDQCWTfbre1DfbKW09gySAAd8wOBxOVGtCZf1fZgLu8I7JpO9Pexn8S1Qc/o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Tor8XHRm; arc=none smtp.client-ip=209.85.219.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=a5gqjiKwHgbR0dmkl2YaxgiKsz3cpPB5+H6Yfaqlhpar8H5QQ/ezQWxwh6P61UiXVt/1Dfv5aFHjauwjuX7TXEJX+PloZiKN3Q2eGPjCcmf6wyV2h1H3Z7lMOibC80zNnBM+lfEfS8DBQuJVk7T8G//gv7DzqKNwVMXrGj/wFbQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=hjVEM4Jz; arc=none smtp.client-ip=209.85.208.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Tor8XHRm"
-Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so3405332276.2
-        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 19:38:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="hjVEM4Jz"
+Received: by mail-lj1-f179.google.com with SMTP id 38308e7fff4ca-30bef9b04adso43297051fa.1;
+        Mon, 21 Apr 2025 19:52:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1745289500; x=1745894300; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1745290356; x=1745895156; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=m7eAi0OH7b5xLzSVXwOwnWLVsbzyannU+ufJsFO8uuE=;
-        b=Tor8XHRmHO8OGMWZ1tYU9UXptIchkli1Ae/YISB0al4DpG0LpP/kjgdsNViQ1t9Ztw
-         sCK4KbAaZT7eP/t7zF6tXqinpqSBQ3BnatQTxJRfOoTs1hu5Rgg4WSm/1XA0OFk6usNc
-         zgxxbjZM9rLJjsY9NlVFSfVSqwrsCBvHBdMn0NpLeItEdyxVgoA2qo/nhwEAX7fNL4DE
-         ZTGCQtS1MZWdeYd5dfV6udH8EcuNjZCtzCzmCgTDGncF3UE+MpcHyCj9sRUVyjyE8NF4
-         JkZsUJ42yGLGuuQLJ9msb0lY9uJ0ynoViFZGne8rOikKoDKfeEjNd9IFzegsSxg+t8rc
-         gAlg==
+        bh=Gi94xerXwlRjfGn0o2uKZl55G3YIPKTGeFv4COfN76c=;
+        b=hjVEM4JzvDsKZ04e9DBUpM8G74L/aNCRKBOhDoxahr6Xs4128NYbqQu+HR6YvS8omf
+         Y/2gYOhH0wU2PQOdud6nBfjmkbW9w38qkeauhPpsj/Rezht7Cws8xQA5vT28iwS/Depk
+         ABxY9zoHGucle3EZQSwpWjFecmssg6QszLb3YbDcM72I+3GJeUVSe52nE0ZWlk58c+sc
+         vy9D4rpr6T7S+Qt4FLUtqyh4JAdNdNgKYN/2DPxTqklU9uqSQyIeegHYqPE0HlONoRMp
+         puSyrwElMlNb5SbjgEdmMTYBK9RQGl1cCSA+vRK8AwLtMEOWGt569eYr1KCCN+jYEVBS
+         0kHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745289500; x=1745894300;
+        d=1e100.net; s=20230601; t=1745290356; x=1745895156;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=m7eAi0OH7b5xLzSVXwOwnWLVsbzyannU+ufJsFO8uuE=;
-        b=F9+0JobsyGFHHt9ms5AcRpeoVRLSWD4PII6/zd+N3/w5xevYq0mbrV69pgiHQ8k8Xv
-         VhuJIcUtjzVgvbN0I7nm/0myL3lYHIUaIoR+EXXXtKOYK1ftgTPusLV+RdBit7l/+yEO
-         k+67pqrAf03/yp0lM3g9l4xgSqCx1NKP3kBK80a8VuT3An05KsLuwlJYLYwW0c/Huifo
-         Z2XfO/IagJSJva6b2RtKFxfEsL6Wobjaj+0NPZaJFVIgsZ8DF+a8zcxbbqRAHxZelkO8
-         kbAh188A3kVOiBxKv6Iz52u5hyQL13uic/9/nzfmwI7VYgIXEflPrqhdZpO28pu//UJX
-         VJZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVzWKdQNwCyhNXqQpTDgOrdXS3zy0y/GRmV82C+TDaTepxW9U+GFK3RFU0drlFcMJCm/yHqWLEg3uU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy2h3bmj1unTauRoQKUFSfV16BOrworLUgMgwL91sdFUEcgjtSR
-	55B73WtVvh+lkrIiqkskbPwaQh0CHcTvLjfr8Zi18dp1M+iZ3E8ixJQIHfFU5vW8UUZ6BhJtOyo
-	UWKVpsHFc1YjFg9oI5HzPbWmeI987OckuHSSD
-X-Gm-Gg: ASbGncvDn2bOOg1LTeTI9d2ouIhXZi4anRjxKz/wLkSVsXRIC+LFBNrrQXs45GiFRdJ
-	Wz/JLmyjOwibSukF6feEGEt68NgxFJx4XO0ZNCv+KfOzQD9dJ2NH79iizO+UOD28fJk9sn9bSdg
-	978MHyZEMrBIpRiXtza9PX5bEM9hqH7R46
-X-Google-Smtp-Source: AGHT+IEBsF+GdUC/ycqCwWJCqQEPIgxnxovCs8VulAPF24hG16HtUyXji535ndx9u4H0Zeebq7vBj70AA6oUc8NrXEc=
-X-Received: by 2002:a05:6902:1588:b0:e72:9562:7638 with SMTP id
- 3f1490d57ef6-e7297eae346mr19133785276.39.1745289500228; Mon, 21 Apr 2025
- 19:38:20 -0700 (PDT)
+        bh=Gi94xerXwlRjfGn0o2uKZl55G3YIPKTGeFv4COfN76c=;
+        b=QlQz0R/09gw7AFMQnjxl86heXhlre7hu7/nHR3j3laJ0W8ZinSqm47pWzoPbU1zNtP
+         lN3CgIZ2O4sgzCrqTTVzZ2m/V+p6+XaAsLs3BZmzhQT+5yGq/SjJK0ul2gTTqeqlsjkp
+         EspTfpeGr6G9Bxqre4dqAcRRO8rfPq4fY7yisPhZ8LTdS7dgZM+1rIy4GhwUOae0WZXl
+         6+Gqj/RN8jmEqPybPHMoQa89w7PNHMiQ++JVJQjoSB25TFCfKNEZHitJUBDZQzvMgB5t
+         y/iyhoYEDuLUOeFOvyGbpZmiN758a1uUey2SMNGUtN1IfMK5x34ybOrLHxlcc6t3mSik
+         0x/g==
+X-Forwarded-Encrypted: i=1; AJvYcCUGuL3Pm1svzhkUC1DRw/aDsg2GuPVb2gDJ2yr9+yYSAoxOclppZfMTDdS4yrPQRpj2vFFczrfGiA8P@vger.kernel.org, AJvYcCUUQqPUkPeaxvDNvyTFlh3G716ADIXmcv4UcDkBcU9vdwZqR2LN+q+U5y+SauZi7CvqndWqUxb6@vger.kernel.org, AJvYcCUuCcYoKavlQPuKFvvJpn5yK8uiKSi1ILiw/2eWCXqW3BYfPubm9mdBtprq0OWQD5EhLiZaCnq1onodj/AS1g==@vger.kernel.org, AJvYcCVKGudPHuJIp/KSq8eRk6Cer6cfYaZZB5/e79yP2jvi2cCd5BlmQzB/T2cgkjsj813lKkPkJ9V+4ZQ8@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx/AF/SOCOCoDrUsD3YUqZq3DTELHkgoBS6LzDaaPqz6UMEeqUz
+	BUyT7z/W4TykpM4WV+m7xt2ufFAifJV5n1L3JEVq+IraYCJD7uz2RwoYBKWv7fdRokbMTFoAzj8
+	8By1ZDB4g7JANS1PuVXwb2BQT24I=
+X-Gm-Gg: ASbGncuzNZJEGmXa6lrdR9PFP+kES7DYbX+BzXFTswNKp3ofFydSqYHCyvkCi0rqyNV
+	U3EMsrfanpaMLq0yAilCAlu8ZQz8+aLzknUh7gebllFgjC3WW/pQu8y8MYFXUeiHYWymSi9BF74
+	2tvH+dM27KNa7/Yx+Mv9ROyA==
+X-Google-Smtp-Source: AGHT+IH0pobsEDhqgBiMybJBGFfzBmfi5gN6IfXj2PvvL+H/tCa0V7Nz3x0A1J61ubY6QCw1vhCT8drwcXBS924Rd8o=
+X-Received: by 2002:a2e:bccc:0:b0:30d:626e:d031 with SMTP id
+ 38308e7fff4ca-31090575a6cmr50253431fa.33.1745290356289; Mon, 21 Apr 2025
+ 19:52:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
- <87friajmd5.fsf@microsoft.com> <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
- <87a58hjune.fsf@microsoft.com> <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
- <87y0w0hv2x.fsf@microsoft.com> <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
- <CAHC9VhS0kQf1mdrvdrs4F675ZbGh9Yw8r2noZqDUpOxRYoTL8Q@mail.gmail.com> <CAADnVQK7kyBso6bNEtNyC6zTBDuBv-K-c4a9KBVid+B405VX6Q@mail.gmail.com>
-In-Reply-To: <CAADnVQK7kyBso6bNEtNyC6zTBDuBv-K-c4a9KBVid+B405VX6Q@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 21 Apr 2025 22:38:09 -0400
-X-Gm-Features: ATxdqUG68qWAXIVdhOvLBjOhkCBCyDq8PvskWDE6YshFl7NEp_uX0oI69pZKXTU
-Message-ID: <CAHC9VhQE6xXQ1E1hmWzbrPNyVh_gKsp8U_GnPYr=0gS_RMATWQ@mail.gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
-	David Howells <dhowells@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
-	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>
+References: <20250303163014.1128035-1-david@redhat.com> <20250303163014.1128035-14-david@redhat.com>
+ <CAMgjq7D+ea3eg9gRCVvRnto3Sv3_H3WVhupX4e=k8T5QAfBHbw@mail.gmail.com>
+ <c7e85336-5e34-4dd9-950f-173f48ff0be1@redhat.com> <da399be3-4219-4ccf-a41d-9db7e1e45c14@redhat.com>
+ <CAMgjq7CcSZf0be+OwttyzC3ZQJWZPOtDK1AtXvaPkuVuVk-XOg@mail.gmail.com>
+In-Reply-To: <CAMgjq7CcSZf0be+OwttyzC3ZQJWZPOtDK1AtXvaPkuVuVk-XOg@mail.gmail.com>
+From: Kairui Song <ryncsn@gmail.com>
+Date: Tue, 22 Apr 2025 10:52:19 +0800
+X-Gm-Features: ATxdqUHu3Nlmi6Itb7v_9fuAuittkhb0QfY9n7T_xMcN79HZG93lA6soH-RwJPY
+Message-ID: <CAMgjq7B_7jb9MRt+npesVhz1QV3sZ_6qzZQKHKP5J3rGVNJv6w@mail.gmail.com>
+Subject: Re: [PATCH v3 13/20] mm: Copy-on-Write (COW) reuse support for
+ PTE-mapped THP
+To: David Hildenbrand <david@redhat.com>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	cgroups@vger.kernel.org, linux-mm@kvack.org, linux-fsdevel@vger.kernel.org, 
+	linux-api@vger.kernel.org, Andrew Morton <akpm@linux-foundation.org>, 
+	"Matthew Wilcox (Oracle)" <willy@infradead.org>, Tejun Heo <tj@kernel.org>, Zefan Li <lizefan.x@bytedance.com>, 
+	Johannes Weiner <hannes@cmpxchg.org>, =?UTF-8?Q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, Muchun Song <muchun.song@linux.dev>, 
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, 
+	Vlastimil Babka <vbabka@suse.cz>, Jann Horn <jannh@google.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Apr 21, 2025 at 7:48=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
-> On Mon, Apr 21, 2025 at 3:04=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
-wrote:
-> > On Mon, Apr 21, 2025 at 4:13=E2=80=AFPM Alexei Starovoitov
-> > <alexei.starovoitov@gmail.com> wrote:
-> > > On Wed, Apr 16, 2025 at 10:31=E2=80=AFAM Blaise Boscaccy
-> > > <bboscaccy@linux.microsoft.com> wrote:
-> > > >
-> > > > > Hacking into bpf internal objects like maps is not acceptable.
-> > > >
-> > > > We've heard your concerns about kern_sys_bpf and we agree that the =
-LSM
-> > > > should not be calling it. The proposal in this email should meet bo=
-th of
-> > > > our needs
-> > > > https://lore.kernel.org/bpf/874iypjl8t.fsf@microsoft.com/
-> >
-> > ...
-> >
-> > > Calling bpf_map_get() and
-> > > map->ops->map_lookup_elem() from a module is not ok either.
-> >
-> > A quick look uncovers code living under net/ which calls into these API=
-s.
+On Sun, Apr 20, 2025 at 12:35=E2=80=AFAM Kairui Song <ryncsn@gmail.com> wro=
+te:
 >
-> and your point is ?
+> On Sun, Apr 20, 2025 at 12:32=E2=80=AFAM David Hildenbrand <david@redhat.=
+com> wrote:
+> >
+> > On 19.04.25 18:25, David Hildenbrand wrote:
+> >
+> > Oh, re-reading the condition 3 times, I realize that the sanity check i=
+s wrong ...
+> >
+> > diff --git a/mm/memory.c b/mm/memory.c
+> > index 037b6ce211f1f..a17eeef3f1f89 100644
+> > --- a/mm/memory.c
+> > +++ b/mm/memory.c
+> > @@ -3789,7 +3789,7 @@ static bool __wp_can_reuse_large_anon_folio(struc=
+t folio *folio,
+> >
+> >          /* Stabilize the mapcount vs. refcount and recheck. */
+> >          folio_lock_large_mapcount(folio);
+> > -       VM_WARN_ON_ONCE(folio_large_mapcount(folio) < folio_ref_count(f=
+olio));
+> > +       VM_WARN_ON_ONCE(folio_large_mapcount(folio) > folio_ref_count(f=
+olio));
+>
+> Ah, now it makes sense to me now :)
+>
+> Thanks for the quick response.
+>
+> >
+> >          if (folio_test_large_maybe_mapped_shared(folio))
+> >                  goto unlock;
+> >
+> > Our refcount must be at least the mapcount, that's what we want to asse=
+rt.
+> >
+> > Can you test and send a fix patch if that makes it fly for you?
+>
+> Sure I'll keep the testing, I think it will just fix it, I have a few
+> WARN_ON_FOLIO reports all reporting mapcount is smaller than refcount.
 
-Simply the observation that the APIs you've mentioned are currently
-being used by code living under net/; you're free to take from that
-whatever you will.
+Hi David,
 
-> Again, Nack to hacking into bpf internals from LSM,
-> module or kernel subsystem.
-
-I heard you the first time and rest assured I've noted your general
-objection regarding use of the BPF API.  I'm personally still
-interested in seeing a v3 before deciding on next steps as there were
-a number of other issues mentioned during the v2 review that need
-attention.  I would encourage you to continue to participate in future
-reviews of Hornet, but of course that is entirely up to you.  In the
-absence of any additional review feedback, I'll preserve your NACK if
-we ever get to a point that your comments are worth mentioning.
-
---
-paul-moore.com
+I'm no longer seeing any warning after this, it fixed the problem well.
