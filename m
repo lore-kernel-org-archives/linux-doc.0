@@ -1,127 +1,134 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0CA33CA64;
-	Tue, 22 Apr 2025 09:44:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 567772147F9;
+	Tue, 22 Apr 2025 10:12:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745315068; cv=none; b=ToaddV7KsndIg84IEZtQXSVKUNogYbiyENY7dF0r7l172dC9Lzd3dAZYpr9/iMZINmLfBTG22EQEzKXA6oqzgWJC6kEGpTo/9/ENBGCy2b6Jw6Axzy7xv0Y7S+V2xZ5NFPGyuUzNf2g2TKHjt/mvQL3gwjxyXGBQezMiVy5gg4A=
+	t=1745316768; cv=none; b=htd/V3uC1jWKYcDFGoG4r00ovRcSnvUE7V6BsQ4X8SVFlYDcqF+0WoJv319erKwcM7Dihwlg958Kzkrbs7gc1YuITA2yUI+h5I5ufb9RYv7Si3FjJrSm98erEzDf2I2cbQzn7NZ7I/luReUowgv/9q+lLOKN9VdX/a2MaszQ2VM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745315068; c=relaxed/simple;
-	bh=oE5GrOEZEQBZhOL5FiYD1yV7nLx+NTx0xzcMqnXHZ4U=;
+	s=arc-20240116; t=1745316768; c=relaxed/simple;
+	bh=2byMCT2UXAQEqRdRAb3OfR+0lpTtdVkjJBC2mX8NiIU=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ad+9fu1czOzYyRHkxS0l2JBmkGAghKLU29rcCg1RCuW5NNVzFODlmiQ38YkiEAKhN03SAgWOt+UnpEQLripzaK9J/ntjFeQpFIxsYI0dK24W9fiilnV0ZKul4BVf3Iy1u8NeIvULwE3cX8mYaYc3E6tb0tSw0qaeeOvs+mgbT5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=T5UQ3UXL; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	 Content-Type:Content-Disposition:In-Reply-To; b=QbPRmQNi1ZC4C5Ekfymy3zcJbrmaV3TQcbDCVmc0VZkHuRSO2SwPEnHQHNx7P8TGlHe0/UprzuJ9lMM4epoTm57UcycuFP5N6tf2T+GzRkFDrtjlmAgf14EQFJKVJpnDn+a0Dn79fMyK5r+jaPbeX4LTONd/70uk+O707ywWqKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aCYI1D+2; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="T5UQ3UXL"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Transfer-Encoding:
-	Content-Type:MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=mGbqpudR0f2iSYHQuMr6RO+VDWZ/K/atXWkQYmqqhDA=; b=T5UQ3UXLQpNmK7rF6aWvOm0hqj
-	L/2+7nQcxtJqOXFVasHCfAEvHz7YhOnWbtmvIRsdJ4Upjhxk4hAwr7LcCTUkdY64AH3Rv0laU6kQH
-	uWFPiWaF9/BDGJAbWVoSd1p3hzatqnKcIRNCSStg/oeRoHYpDqnLJ+6pcKC9e7Tk9pb+Rpih3XJ/o
-	PDQz/8vzf0yCCaC+0XZPG7frxwN5i7npXUwpMeReUh1NYfax/PV4asf0du/xOgivmIkObzpWX5C8z
-	rswplBGTlhRZbDWnfCZAqu3DeI2IUcTGk6Ty/EFnlgTU9qLMYxNkdJEf3JNlps+Jcn4DSplBMY5eE
-	I6dKzO0Q==;
-Received: from 77-249-17-252.cable.dynamic.v4.ziggo.nl ([77.249.17.252] helo=noisy.programming.kicks-ass.net)
-	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1u7AAt-00000004KFU-41jO;
-	Tue, 22 Apr 2025 09:44:20 +0000
-Received: by noisy.programming.kicks-ass.net (Postfix, from userid 1000)
-	id 6AE3D3003C4; Tue, 22 Apr 2025 11:44:19 +0200 (CEST)
-Date: Tue, 22 Apr 2025 11:44:19 +0200
-From: Peter Zijlstra <peterz@infradead.org>
-To: =?iso-8859-1?Q?Cl=E9ment_L=E9ger?= <cleger@rivosinc.com>
-Cc: Alexandre Ghiti <alex@ghiti.fr>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>,
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aCYI1D+2"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745316767; x=1776852767;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=2byMCT2UXAQEqRdRAb3OfR+0lpTtdVkjJBC2mX8NiIU=;
+  b=aCYI1D+2NFIlsPBPY5Rec4GxBn7qrue3vd/UE4YMrXZD4vge6CuZaT4p
+   q4wf2c19DddcWA2lzRyHrFKRMGCOeaCISPKNgpPAiBi36FFCj02oIqB1G
+   /AAo8WHAvs2r/qyzZq+24bN/yYDC9+Yplt6OLRkE+j0QW+s20JV/+K3Eb
+   Jx+5+wrEOMBVdbq/ij5lL4L474IVZzUplfaoDJHHSVYtr1IbDU41Nspz3
+   1Rsz5ldrbwqC//4kv5jj8dU2l01fw/svpaBgQtGqDrV3DYqCGjjdRIf9C
+   VJy9tOR+bnXCROSKgHLodISxngI7QVXSkhR0AW3T7WrzST9TDGOqm3mW6
+   A==;
+X-CSE-ConnectionGUID: VvWwo+UOQdyuXGhtOULGdw==
+X-CSE-MsgGUID: PbWCr3hqRFWr8sK5zf2qoQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="58235925"
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
+   d="scan'208";a="58235925"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 03:12:46 -0700
+X-CSE-ConnectionGUID: h/zCbvGBTniHa9U1JGfM6g==
+X-CSE-MsgGUID: PkmUI5iaQnKd3WFy8LqqTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
+   d="scan'208";a="131721202"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 03:12:41 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u7AcG-0000000EhFh-0niq;
+	Tue, 22 Apr 2025 13:12:36 +0300
+Date: Tue, 22 Apr 2025 13:12:35 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>,
+	alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Shuah Khan <shuah@kernel.org>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Samuel Holland <samuel.holland@sifive.com>
-Subject: Re: [PATCH 1/5] riscv: misaligned: factorize trap handling
-Message-ID: <20250422094419.GC14170@noisy.programming.kicks-ass.net>
-References: <20250414123543.1615478-1-cleger@rivosinc.com>
- <20250414123543.1615478-2-cleger@rivosinc.com>
- <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr>
- <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com>
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <aAdrkxhHaEpdl05d@smile.fi.intel.com>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com>
+In-Reply-To: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, Apr 22, 2025 at 09:57:12AM +0200, Clément Léger wrote:
+On Tue, Apr 22, 2025 at 10:07:33AM +0200, Geert Uytterhoeven wrote:
+> On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+
+...
+
+> > +Generic FourCC code
+> > +-------------------
+> > +
+> > +::
+> > +       %p4c[hnlb]      gP00 (0x67503030)
+> > +
+> > +Print a generic FourCC code, as both ASCII characters and its numerical
+> > +value as hexadecimal.
+> > +
+> > +The generic FourCC code is always printed in the big-endian format,
+> > +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> > +
+> > +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> > +endianness is used to load the stored bytes. The data might be interpreted
+> > +using the host byte order, network byte order, little-endian, or big-endian.
+> > +
+> > +Passed by reference.
+> > +
+> > +Examples for a little-endian machine, given &(u32)0x67503030::
+> > +
+> > +       %p4ch   gP00 (0x67503030)
+> > +       %p4cn   00Pg (0x30305067)
+> > +       %p4cl   gP00 (0x67503030)
+> > +       %p4cb   00Pg (0x30305067)
+> > +
+> > +Examples for a big-endian machine, given &(u32)0x67503030::
+> > +
+> > +       %p4ch   gP00 (0x67503030)
+> > +       %p4cn   00Pg (0x30305067)
 > 
-> 
-> On 21/04/2025 09:06, Alexandre Ghiti wrote:
-> > Hi Clément,
-> > 
-> > 
-> > On 14/04/2025 14:34, Clément Léger wrote:
-> >> misaligned accesses traps are not nmi and should be treated as normal
-> >> one using irqentry_enter()/exit().
-> > 
-> > 
-> > All the traps that come from kernel mode are treated as nmi as it was
-> > suggested by Peter here: https://lore.kernel.org/linux-riscv/
-> > Yyhv4UUXuSfvMOw+@hirez.programming.kicks-ass.net/
-> > 
-> > I don't know the differences between irq_nmi_entry/exit() and irq_entry/
-> > exit(), so is that still correct to now treat the kernel traps as non-nmi?
-> 
-> Hi Alex,
-> 
-> Actually, this discussion was raised on a previous series [1] by Maciej
-> which replied that we should actually reenable interrupt depending on
-> the state that was interrupted. Looking at other architecture/code, it
-> seems like treating misaligned accesses as NMI is probably not the right
-> way. For instance, loongarch treats them as normal IRQ using a
-> irqentry_enter()/exit() and reenabling IRQS if possible.
+> This doesn't look right to me, as network byte order is big endian?
+> Note that I didn't check the code.
 
-So, a trap that happens in kernel space while IRQs are disabled, SHOULD
-really be NMI-like.
+Yes, network is big endian and this seems right to me. What is the confusion?
 
-You then have a choice, make all such traps from kernel space NMI-like;
-this makes it easy on the trap handler, since the context is always the
-same. Mistakes are 'easy' to find.
+> > +       %p4cl   00Pg (0x30305067)
+> > +       %p4cb   gP00 (0x67503030)
 
-Or,.. do funny stuff and only make it NMI like if IRQs were disabled.
-Which gives inconsistent context for the handler and you'll find
-yourself scratching your head at some point in the future wondering why
-this one rare occasion goes BOOM.
-
-x86 mostly does the first, any trap that can happen with IRQs disabled
-is treated unconditionally as NMI like. The obvious exception is
-page-fault, but that already has a from-non-preemptible-context branch
-that is 'careful'.
-
-As to unaligned traps from kernel space, I would imagine they mostly BUG
-the kernel, except when there's an exception entry for that location, in
-which case it might do a fixup?
+-- 
+With Best Regards,
+Andy Shevchenko
 
 
-Anyway, the reason these exceptions should be NMI like, is because
-interrupts are not allowed to nest. Notably something like:
-
-
-  raw_spin_lock_irqsave(&foo);
-  <IRQ>
-    raw_spin_lock_irqsave(&foo);
-    ...
-
-Is an obvious problem. Exceptions that can run while IRQs are disabled,
-must not use locks -- treating them as NMI-like (they are non-maskable
-after all), ensures this.
