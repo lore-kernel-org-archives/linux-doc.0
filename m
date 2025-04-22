@@ -1,171 +1,116 @@
-Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+Received: from mail-ej1-f45.google.com (mail-ej1-f45.google.com [209.85.218.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E232367D9;
-	Tue, 22 Apr 2025 08:14:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90322F3E;
+	Tue, 22 Apr 2025 08:16:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745309679; cv=none; b=G3pLo+gZmWqTovU7vxl0O5prnyPsotwGqAr94PArG7ScKye+yzS6jOpKIWDS2x32Vr7xKwfBv/z7jxiIdD/YIj/uK+hUimUZOATZq/zKkUbWw5Q+/evgnHnK/5oAzaGTeqD63EHgcygDfSEJa3108pb9RC5GQtZ5If/IFgaMBg8=
+	t=1745309792; cv=none; b=dHcXZE+G5MWfBGWfcIXcqWtGUmhuz5OI4kXN5pvWRVn6f3h/+VX2zavO/4COdwCjF3pFcGPRApItzphy/tLDlD4P/5oqWY8go83dhlLj5MHTuolk6pCQKpUa3h95Skr9t1Y20q7GdQjr+srg6+4hGksb6VDY9Zx27vQDTlPRJho=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745309679; c=relaxed/simple;
-	bh=583NgnkZC2ZT7AwTWERouOxzfLOJBfqNK35QOwK3mdk=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=J/mHjXjAoiTsHj19/O/ZgsL4+J2mXoqhIoKRNzkZ4mOwi2JaqCAVBvsBfX837SfZWeqSfmKuGaJyAM2Vjmow3EOAu8DWGwGWQt1HYOZrXegl34pIGSj8T/D5QmNbUzLI8zi/49z8XqpjAjZkfJp8lY+srVEFKUHVkItHXTvY8Xs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+	s=arc-20240116; t=1745309792; c=relaxed/simple;
+	bh=IxR9R4dznHC7A3UhAAi8NByT8Ge6lacYIRr4lsdjXE0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=OWMzOz7hEA5laGuiV4IF7y48uC/o9n+5VuONFx/tbw0mvDpk4ZcM96Yfi2K0lzogGFanMRnrBqmU1iKTx1xCf3lDsnjr5N7z9/u9pWaIr2sw539fItMYWr2dDf4p1hWEWJ7cHzJKMAsrWqOY5QLJMTN8CaLPkscWXmLkj5py/wI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NA+VTaMG; arc=none smtp.client-ip=209.85.218.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7302a769534so938026a34.1;
-        Tue, 22 Apr 2025 01:14:37 -0700 (PDT)
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NA+VTaMG"
+Received: by mail-ej1-f45.google.com with SMTP id a640c23a62f3a-ac339f53df9so828304166b.1;
+        Tue, 22 Apr 2025 01:16:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745309789; x=1745914589; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=cOlwuce44vKtv1OuDBF9isVVZKdS5EgivWfm0t2JhLQ=;
+        b=NA+VTaMG5Jd5S6hrAveld3neuGsqIXH/L8IQqWYkNHxVuDghVQekrvl/3qEJojJbrZ
+         XI5m/gGP8j6eKOSG6DFR19G5zKPoHaxWu8be6OT9tMZmjD4BYLDkcN3gb8GhPDDXHuP5
+         lZ8IoqWyl9wCMJYVi1oPKiU/ZNd3J2j2HyWziXSxhnSU0JaLgmTu+lHrbPFnnUYv38qM
+         JoGh7u1W37TaqcywpU66pyb/dApCB5gc5KlFAZB5KPml14sSib+K9rG7CuKXKEZENdbL
+         lp4JW5hz1bm4BrOukiu4VsrKwynJdumNgySHPpmlDU7j4tM02fASaNMFCIO0Rx6oUGmp
+         KcTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745309676; x=1745914476;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=i8c8ma1h4TTKBEevU7DpgPt28PGW8UxGjza0Ib9e0KQ=;
-        b=ZzjvGHF5MbYq9CZXi9+tDaimNNmRrDh8ks7oRO7D/K5PYAviQXLf0VMqppXuyuyP2o
-         A/lDxLydO2TBimRxiTR2a51ij56wKc23d/8lybpdULphXvZNt4GIEFLsbJxiq4pvZCyp
-         4thZH0RgxzZxiY403TVWjO/8VB1dbMRr9RDRjj7K2asto2OUBU0w+q/N586y+SxENsy0
-         iLfh+7x1zzOyArQfxHx5f+r8nmw3Yp4ymgF5QzI0i+IapEkvdHo4QEYnT1nTVL42yqCN
-         yngN4iDqKzB1QbOc2eP53Wl3f5ZkdSdpMY79wsLc3F5AGErkzdk8cu3X3u+Hc3f4wbpS
-         MXcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVnbWwsuwUheZmKccDlxp1JxjSkI1TjobsAJ8hotX+YVCrbEpdRirUjuLQOvyR8trAKZLmMszU9s4dloPil@vger.kernel.org, AJvYcCWKa5OJRISAQ0nUU24gtm2OHuXaUGdjqERXOELQ5mJRsSE8lCevIAovFdt63hI0kYq1P0D78nrHWe8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwrFiZGoSYlhwY8MuFJEuGVLXGUTPW/nCBIkDprMgzROg6yHYMC
-	ARjDiwoVUF0HYojmCkw5m9Nav4Pv6sspMCt48xbzgGfq4+jzh2j3vwKEaFFt
-X-Gm-Gg: ASbGncsLG+xUSsri2LhPJgCYgwmm9LdUH0NukcEo3MOy+fi6Ps9L6BUrL/dJqiVX2nS
-	OuwSSp9E2DLtTME/MSVZUR6SufR3LNRH72SY23tYpIjhqZC11pgn9HwodoF3li+YgzS0iTlv0/I
-	svrS465/ejZ6bd5wIWnF95AzCfB7T6XhreZwO6pRfHEWuCn1+NrkmSCluSIDyMi8h7fWYc9rLsq
-	wScQ2aW+OvVgLsVEhfUi8XPysTcFlBEgH+Bm3CVDkGDRhXbozxGAEOMiQQpk4QqZzD4oBEFlKyq
-	9Zb6Uj379nBTpXoF5kfVDdQH9DfmHMZpseLqP8GyEiZN1oi0aU4mrski/ZH9zVmBsJW21Z3819d
-	IOCI=
-X-Google-Smtp-Source: AGHT+IEvQAyr1Pd9r90vUvMHKjHLZOY6rOJktS7bSdwdJwvpzN6O861WyOOqxV+2HCqsWJzsgBii8g==
-X-Received: by 2002:a05:6830:2713:b0:72b:9506:8db1 with SMTP id 46e09a7af769-730061f15f1mr8821685a34.4.1745309676112;
-        Tue, 22 Apr 2025 01:14:36 -0700 (PDT)
-Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com. [209.85.161.43])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7300489de9esm1869598a34.63.2025.04.22.01.14.35
+        d=1e100.net; s=20230601; t=1745309789; x=1745914589;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=cOlwuce44vKtv1OuDBF9isVVZKdS5EgivWfm0t2JhLQ=;
+        b=GlkNBoOMf1eZi46VsEq1+11Ju7yltK7Lj6oCG+0ctnC17ZBOSmzIrQMrBchGnrA7sk
+         lv0jkVYM9y7EoxF9HtGXOcJQHcuQJP2G6XdqjWmuJumOL4TpokSxx1H4a1Zz8rbeDt4v
+         AvdFCQOtT8bJHwOiEKd+8wbLQtUGd3ypQwPh5YL60zCCiKn2NO0sbyhkMIYiN3Cn5PUv
+         Pkk4R0ZeTSLMBa60VkpVYWfHpesywm7LzcVOFoEeoqwY+r/YnRW/qUu+Rt1lvZmfOQek
+         zupT7NPQM6LXj0xxnswzMhW4SIRfVzSLDRgsp4lXUTB/rOQu9DT2dYQ/bUixKwwA1gGO
+         aOxA==
+X-Forwarded-Encrypted: i=1; AJvYcCV7ySgTppYCT1s/9mo7lwv7A654rXDrFcVVcEi4k94VC02f7scUUPhl2Ex/yl8XkTAtapRI@vger.kernel.org, AJvYcCVJE+ZeFwSSi7uASHkkMkxF79kLb/PAn4IVnL4Qx4TNX3mcHdIu4BvBub1M3l2Fqebc0qpqIGPQbiav@vger.kernel.org, AJvYcCVivvua8bq+MOaFmJqyF0Ht5ndA9dQ1x1ija//9eGIPNgD3S1hVaftIvqOUC9DKMgsYjuldUemAZNdmNP+rMTBr@vger.kernel.org, AJvYcCVroBig5FWPglu9lbLgg3SbM+Tl0xte7cT6v2hXqs7FJjznoGJ0beFLSZ/exW/cJi/csXdeG0uQSXEYkIyM@vger.kernel.org, AJvYcCWH3Iz6v/EmZuE1nGWFTbsmmeklluFubRdE0JdjuJWADxohQKQKqabLhhtRDhwz2g4/1CIWujH4@vger.kernel.org, AJvYcCX0Q1ok3Y3PwEJT8/KFc0u5ZEHyteMAr9/h8sbvuwT/Z1OdwgnFSBgvKKhl4gnEVbP1qe/B1Asfkw==@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywtir3K1vLec5Steeamrmr0/q2eMM009bbMD5ASLgwUbtaia389
+	b7Ryes+DxxOkgjKnLgmvXh7JAGjwXmjo4CBV5tb3M3gkIeWa/xke
+X-Gm-Gg: ASbGncvAbXPaUzb+R9CWOK7VYjHczqcEChuD1fFvRL1klzHAqDdtIy5/imtpfmQSO06
+	z1wGw2iDSoGmfHdhIBsC1C9CS/9/s3dZxqcWJbNXDbbUW8/gjo76JWjXnM9K2YtbpmltdZffnUl
+	I8jZDLMCUnWLIB/B3hzpHyrXn30q4lPj7PA3pobucm3KsodCMRnHeHg2fmTiuEx9aDku9tIZzii
+	X6t8J+MZY6MpP4B8mTtYuj8vFKn2BbpD9CIx1va9+UDwrI1/fUMs06pL+LzSqZ8uQiHK3NDyOdQ
+	tixvJXD7uX8/SObDlTK5J7fUTfL6GvSUZB0abzgP1nig4xTo5lHoRA==
+X-Google-Smtp-Source: AGHT+IEoDhdUk4JqptbNDk1DSYTZqleRkQiE6D7lLk3MmjHoZyxA8pbW4BbGT1g4lHeJT+lVTudacg==
+X-Received: by 2002:a17:907:7f88:b0:acb:5f9a:72f4 with SMTP id a640c23a62f3a-acb74b8368dmr1158109666b.30.1745309788661;
+        Tue, 22 Apr 2025 01:16:28 -0700 (PDT)
+Received: from ?IPV6:2620:10d:c096:325::158? ([2620:10d:c092:600::1:558d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb8cca2323sm471150066b.181.2025.04.22.01.16.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 01:14:35 -0700 (PDT)
-Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-605fda00c30so1940027eaf.1;
-        Tue, 22 Apr 2025 01:14:35 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCXnsj7URHDv+ba18nrG2OtS6C7Ynl+AAps+QmGffPzdLJpxYOy4VAEreq+CF2S1RzZZei9y9hzeT/o=@vger.kernel.org, AJvYcCXsD4TZkedWYQ9yNs12ihq/zZ932nsTzTrq4eFP/7tkpU6H9z7BpDduZ/0Slu3TdBQKWYEL7KXUmJc3RcCB@vger.kernel.org
-X-Received: by 2002:a05:6102:5f09:b0:4bb:c24b:b644 with SMTP id
- ada2fe7eead31-4cb802080d4mr7323250137.20.1745309264946; Tue, 22 Apr 2025
- 01:07:44 -0700 (PDT)
+        Tue, 22 Apr 2025 01:16:27 -0700 (PDT)
+Message-ID: <f7a96367-1bb0-4ed2-8fbf-af7558fccc20@gmail.com>
+Date: Tue, 22 Apr 2025 09:17:43 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-In-Reply-To: <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Tue, 22 Apr 2025 10:07:33 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
-X-Gm-Features: ATxdqUEkl9rVCtzV1tSRbSe8H75mXfNa-MVqCJWBKpRzjTvK50pHzHN-MSLc5t4
-Message-ID: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-To: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>
-Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>, 
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Sven Peter <sven@svenpeter.dev>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>, 
-	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com, Simona Vetter <simona@ffwll.ch>, 
-	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
-	Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, joe@perches.com, 
-	dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
-	tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	Asahi Linux Mailing List <asahi@lists.linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 1/9] netmem: add niov->type attribute to
+ distinguish different net_iov types
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ io-uring@vger.kernel.org, virtualization@lists.linux.dev,
+ kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+ David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+References: <20250417231540.2780723-1-almasrymina@google.com>
+ <20250417231540.2780723-2-almasrymina@google.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <20250417231540.2780723-2-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Hi Aditya, Hector,
+On 4/18/25 00:15, Mina Almasry wrote:
+> Later patches in the series adds TX net_iovs where there is no pp
+> associated, so we can't rely on niov->pp->mp_ops to tell what is the
+> type of the net_iov.
 
-On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
-> From: Hector Martin <marcan@marcan.st>
->
-> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
-> it's useful to be able to print generic 4-character codes formatted as
-> an integer. Extend it to add format specifiers for printing generic
-> 32-bit FourCCs with various endian semantics:
->
-> %p4ch   Host byte order
-> %p4cn   Network byte order
-> %p4cl   Little-endian
-> %p4cb   Big-endian
->
-> The endianness determines how bytes are interpreted as a u32, and the
-> FourCC is then always printed MSByte-first (this is the opposite of
-> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
-> allow printing LSByte-first FourCCs stored in host endian order
-> (other than the hex form being in character order, not the integer
-> value).
->
-> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
-> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
-> Tested-by: Petr Mladek <pmladek@suse.com>
-> Signed-off-by: Hector Martin <marcan@marcan.st>
-> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+That's fine, but that needs a NULL pp check in io_uring as well,
+specifically in io_zcrx_recv_frag().
 
-Thanks for your patch, which is now commit 1938479b2720ebc0
-("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
-in drm-misc-next/
-
-> --- a/Documentation/core-api/printk-formats.rst
-> +++ b/Documentation/core-api/printk-formats.rst
-> @@ -648,6 +648,38 @@ Examples::
->         %p4cc   Y10  little-endian (0x20303159)
->         %p4cc   NV12 big-endian (0xb231564e)
->
-> +Generic FourCC code
-> +-------------------
-> +
-> +::
-> +       %p4c[hnlb]      gP00 (0x67503030)
-> +
-> +Print a generic FourCC code, as both ASCII characters and its numerical
-> +value as hexadecimal.
-> +
-> +The generic FourCC code is always printed in the big-endian format,
-> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
-> +
-> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
-> +endianness is used to load the stored bytes. The data might be interpreted
-> +using the host byte order, network byte order, little-endian, or big-endian.
-> +
-> +Passed by reference.
-> +
-> +Examples for a little-endian machine, given &(u32)0x67503030::
-> +
-> +       %p4ch   gP00 (0x67503030)
-> +       %p4cn   00Pg (0x30305067)
-> +       %p4cl   gP00 (0x67503030)
-> +       %p4cb   00Pg (0x30305067)
-> +
-> +Examples for a big-endian machine, given &(u32)0x67503030::
-> +
-> +       %p4ch   gP00 (0x67503030)
-> +       %p4cn   00Pg (0x30305067)
-
-This doesn't look right to me, as network byte order is big endian?
-Note that I didn't check the code.
-
-> +       %p4cl   00Pg (0x30305067)
-> +       %p4cb   gP00 (0x67503030)
-> +
->  Rust
->  ----
->
-
-Gr{oetje,eeting}s,
-
-                        Geert
+You can also move it to struct net_iov_area and check niov->owner->type
+instead. It's a safer choice than aliasing with struct page, there is
+no cost as you're loading ->owner anyway (e.g. for
+net_iov_virtual_addr()), and it's better in terms of normalisation /
+not unnecessary duplicating it, assuming we'll never have niovs of
+different types bound to the same struct net_iov_area.
 
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+Pavel Begunkov
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
