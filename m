@@ -1,119 +1,171 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com [209.85.210.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5BF2550CB;
-	Tue, 22 Apr 2025 07:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85E232367D9;
+	Tue, 22 Apr 2025 08:14:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745308664; cv=none; b=MqKebkE+4K3MeiwvJJfjGqFamsxH0slHzUrUTr5Fvr23byQRSYAtA0BlTCriSDvYcrtvFUHoa+/EazWZ9w6RCoAwPmI7193nw6hIIluCrZhvXtxWsxj4ZZrGkY4YK0Ry+Otamx6CAIbtp5mCSsXUSfY7cGzEhCAskYI4dJ56LGc=
+	t=1745309679; cv=none; b=G3pLo+gZmWqTovU7vxl0O5prnyPsotwGqAr94PArG7ScKye+yzS6jOpKIWDS2x32Vr7xKwfBv/z7jxiIdD/YIj/uK+hUimUZOATZq/zKkUbWw5Q+/evgnHnK/5oAzaGTeqD63EHgcygDfSEJa3108pb9RC5GQtZ5If/IFgaMBg8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745308664; c=relaxed/simple;
-	bh=/lTSfM6Y/HISGvvFEVe3OPn45W9JT8OSQOcThg92+mw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jvpQ4dVsiaGfKvPdmD5X0ALFZgYr9puanPh4fxDz/HEj0GzmHHrTJjW6EfHOFJefjichLVV9Opa1sjRXA+0CHdg+WTB4hLvjHNu+54+ab/xXohjRZ9RXBWNtCee+/5AH2mKVG41e7EzWagzk3tRi1bv0mV4Kc7mQ7QKCKQ96rXk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hv5iWqod; arc=none smtp.client-ip=192.198.163.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hv5iWqod"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745308663; x=1776844663;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=/lTSfM6Y/HISGvvFEVe3OPn45W9JT8OSQOcThg92+mw=;
-  b=Hv5iWqod06gdT5NsWNoxKFkLSmvCo6uE/yY3jMvI5z52sdWqeNN/fgi4
-   c99FZq8X6KLTLUnsYgCmXGISXtT8vV1FlzVFppkh89EU0vThGBnVbeiY2
-   Lm5dq8/82d1FCXdMZUqxh4xY+WRxTJhrFSI+5heTU5+pSaTGlx5xtLDcr
-   lq5fqK5nEhDsYN7Vjr5tkW3RuQ3ba6VCubYUKCNDHcDCTbjpg5pW0/F1s
-   ND8cjTAPSnM/F9LsRxup4H46jtwkrZ0232VycMaRCqrvEh72jR6carr2h
-   fG25k/yfLa47rAYyhV/gcZFOo1OsUzOCWS0AaP4XhXEeoVNDxv4ohDpbQ
-   Q==;
-X-CSE-ConnectionGUID: tq1hDP6ATqOPN26irKqN0w==
-X-CSE-MsgGUID: qNsyz1wdRrGUEmtrkVnpqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="45975715"
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="45975715"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 00:57:42 -0700
-X-CSE-ConnectionGUID: VwpwCzHATKWg4vMQsHRvBA==
-X-CSE-MsgGUID: rRtq3f3OR6ypAGEepqkY5Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
-   d="scan'208";a="132482014"
-Received: from smile.fi.intel.com ([10.237.72.58])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 00:57:37 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1u78VZ-0000000EfNZ-26c4;
-	Tue, 22 Apr 2025 10:57:33 +0300
-Date: Tue, 22 Apr 2025 10:57:33 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
-	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-	linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
-	Jani Nikula <jani.nikula@linux.intel.com>,
-	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Masahiro Yamada <masahiroy@kernel.org>,
-	Maxime Ripard <mripard@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas.schier@linux.dev>,
-	Rodrigo Vivi <rodrigo.vivi@intel.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	Tvrtko Ursulin <tursulin@ursulin.net>,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-Message-ID: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
-References: <cover.1744789777.git.mchehab+huawei@kernel.org>
- <4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
- <87bjspzd4e.fsf@trenco.lwn.net>
+	s=arc-20240116; t=1745309679; c=relaxed/simple;
+	bh=583NgnkZC2ZT7AwTWERouOxzfLOJBfqNK35QOwK3mdk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=J/mHjXjAoiTsHj19/O/ZgsL4+J2mXoqhIoKRNzkZ4mOwi2JaqCAVBvsBfX837SfZWeqSfmKuGaJyAM2Vjmow3EOAu8DWGwGWQt1HYOZrXegl34pIGSj8T/D5QmNbUzLI8zi/49z8XqpjAjZkfJp8lY+srVEFKUHVkItHXTvY8Xs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ot1-f53.google.com with SMTP id 46e09a7af769-7302a769534so938026a34.1;
+        Tue, 22 Apr 2025 01:14:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745309676; x=1745914476;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=i8c8ma1h4TTKBEevU7DpgPt28PGW8UxGjza0Ib9e0KQ=;
+        b=ZzjvGHF5MbYq9CZXi9+tDaimNNmRrDh8ks7oRO7D/K5PYAviQXLf0VMqppXuyuyP2o
+         A/lDxLydO2TBimRxiTR2a51ij56wKc23d/8lybpdULphXvZNt4GIEFLsbJxiq4pvZCyp
+         4thZH0RgxzZxiY403TVWjO/8VB1dbMRr9RDRjj7K2asto2OUBU0w+q/N586y+SxENsy0
+         iLfh+7x1zzOyArQfxHx5f+r8nmw3Yp4ymgF5QzI0i+IapEkvdHo4QEYnT1nTVL42yqCN
+         yngN4iDqKzB1QbOc2eP53Wl3f5ZkdSdpMY79wsLc3F5AGErkzdk8cu3X3u+Hc3f4wbpS
+         MXcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVnbWwsuwUheZmKccDlxp1JxjSkI1TjobsAJ8hotX+YVCrbEpdRirUjuLQOvyR8trAKZLmMszU9s4dloPil@vger.kernel.org, AJvYcCWKa5OJRISAQ0nUU24gtm2OHuXaUGdjqERXOELQ5mJRsSE8lCevIAovFdt63hI0kYq1P0D78nrHWe8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwrFiZGoSYlhwY8MuFJEuGVLXGUTPW/nCBIkDprMgzROg6yHYMC
+	ARjDiwoVUF0HYojmCkw5m9Nav4Pv6sspMCt48xbzgGfq4+jzh2j3vwKEaFFt
+X-Gm-Gg: ASbGncsLG+xUSsri2LhPJgCYgwmm9LdUH0NukcEo3MOy+fi6Ps9L6BUrL/dJqiVX2nS
+	OuwSSp9E2DLtTME/MSVZUR6SufR3LNRH72SY23tYpIjhqZC11pgn9HwodoF3li+YgzS0iTlv0/I
+	svrS465/ejZ6bd5wIWnF95AzCfB7T6XhreZwO6pRfHEWuCn1+NrkmSCluSIDyMi8h7fWYc9rLsq
+	wScQ2aW+OvVgLsVEhfUi8XPysTcFlBEgH+Bm3CVDkGDRhXbozxGAEOMiQQpk4QqZzD4oBEFlKyq
+	9Zb6Uj379nBTpXoF5kfVDdQH9DfmHMZpseLqP8GyEiZN1oi0aU4mrski/ZH9zVmBsJW21Z3819d
+	IOCI=
+X-Google-Smtp-Source: AGHT+IEvQAyr1Pd9r90vUvMHKjHLZOY6rOJktS7bSdwdJwvpzN6O861WyOOqxV+2HCqsWJzsgBii8g==
+X-Received: by 2002:a05:6830:2713:b0:72b:9506:8db1 with SMTP id 46e09a7af769-730061f15f1mr8821685a34.4.1745309676112;
+        Tue, 22 Apr 2025 01:14:36 -0700 (PDT)
+Received: from mail-oo1-f43.google.com (mail-oo1-f43.google.com. [209.85.161.43])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7300489de9esm1869598a34.63.2025.04.22.01.14.35
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Apr 2025 01:14:35 -0700 (PDT)
+Received: by mail-oo1-f43.google.com with SMTP id 006d021491bc7-605fda00c30so1940027eaf.1;
+        Tue, 22 Apr 2025 01:14:35 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCXnsj7URHDv+ba18nrG2OtS6C7Ynl+AAps+QmGffPzdLJpxYOy4VAEreq+CF2S1RzZZei9y9hzeT/o=@vger.kernel.org, AJvYcCXsD4TZkedWYQ9yNs12ihq/zZ932nsTzTrq4eFP/7tkpU6H9z7BpDduZ/0Slu3TdBQKWYEL7KXUmJc3RcCB@vger.kernel.org
+X-Received: by 2002:a05:6102:5f09:b0:4bb:c24b:b644 with SMTP id
+ ada2fe7eead31-4cb802080d4mr7323250137.20.1745309264946; Tue, 22 Apr 2025
+ 01:07:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bjspzd4e.fsf@trenco.lwn.net>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+In-Reply-To: <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 22 Apr 2025 10:07:33 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+X-Gm-Features: ATxdqUEkl9rVCtzV1tSRbSe8H75mXfNa-MVqCJWBKpRzjTvK50pHzHN-MSLc5t4
+Message-ID: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+To: Aditya Garg <gargaditya08@live.com>, Hector Martin <marcan@marcan.st>
+Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>, 
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Sven Peter <sven@svenpeter.dev>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>, 
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com, Simona Vetter <simona@ffwll.ch>, 
+	Steven Rostedt <rostedt@goodmis.org>, Rasmus Villemoes <linux@rasmusvillemoes.dk>, 
+	Sergey Senozhatsky <senozhatsky@chromium.org>, Jonathan Corbet <corbet@lwn.net>, 
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com, joe@perches.com, 
+	dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, 
+	tamird@gmail.com, Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	Asahi Linux Mailing List <asahi@lists.linux.dev>
+Content-Type: text/plain; charset="UTF-8"
 
-On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
-> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
-> > On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:
-> >> 
-> >> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
-> >> when W=1. Due to Python's normal behavior, its JIT compiler will create
-> >> a bytecode and store it under scripts/lib/*/__pycache__. 
-> >> 
-> >> As one may be using O= and even having the sources on a read-only mount
-> >> point, disable its creation during build time.
-> >
-> > Would it be possible to properly support O= and create pyc / pycache
-> > inside the object/output dir?
-> 
-> I have to confess, I've been wondering if we should be treating the .pyc
-> files like we treat .o files or other intermediate products.  Rather
-> than trying to avoid their creation entirely, perhaps we should just be
-> sure they end up in the right place and are properly cleaned up...?
-> 
-> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
-> should do the trick?
+Hi Aditya, Hector,
 
-It's not so easy. The Python is written in a way that it thinks it will never
-runs object files separately from the source. Hence that variable sets only
-the folder per script as _home_ for the cache. It's completely unusable. They
-took it wrong. It still can be _painfully_ used, but it will make Makefiles
-uglier.
+On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
+> From: Hector Martin <marcan@marcan.st>
+>
+> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
+> it's useful to be able to print generic 4-character codes formatted as
+> an integer. Extend it to add format specifiers for printing generic
+> 32-bit FourCCs with various endian semantics:
+>
+> %p4ch   Host byte order
+> %p4cn   Network byte order
+> %p4cl   Little-endian
+> %p4cb   Big-endian
+>
+> The endianness determines how bytes are interpreted as a u32, and the
+> FourCC is then always printed MSByte-first (this is the opposite of
+> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
+> allow printing LSByte-first FourCCs stored in host endian order
+> (other than the hex form being in character order, not the integer
+> value).
+>
+> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Petr Mladek <pmladek@suse.com>
+> Tested-by: Petr Mladek <pmladek@suse.com>
+> Signed-off-by: Hector Martin <marcan@marcan.st>
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
+
+Thanks for your patch, which is now commit 1938479b2720ebc0
+("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
+in drm-misc-next/
+
+> --- a/Documentation/core-api/printk-formats.rst
+> +++ b/Documentation/core-api/printk-formats.rst
+> @@ -648,6 +648,38 @@ Examples::
+>         %p4cc   Y10  little-endian (0x20303159)
+>         %p4cc   NV12 big-endian (0xb231564e)
+>
+> +Generic FourCC code
+> +-------------------
+> +
+> +::
+> +       %p4c[hnlb]      gP00 (0x67503030)
+> +
+> +Print a generic FourCC code, as both ASCII characters and its numerical
+> +value as hexadecimal.
+> +
+> +The generic FourCC code is always printed in the big-endian format,
+> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
+> +
+> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
+> +endianness is used to load the stored bytes. The data might be interpreted
+> +using the host byte order, network byte order, little-endian, or big-endian.
+> +
+> +Passed by reference.
+> +
+> +Examples for a little-endian machine, given &(u32)0x67503030::
+> +
+> +       %p4ch   gP00 (0x67503030)
+> +       %p4cn   00Pg (0x30305067)
+> +       %p4cl   gP00 (0x67503030)
+> +       %p4cb   00Pg (0x30305067)
+> +
+> +Examples for a big-endian machine, given &(u32)0x67503030::
+> +
+> +       %p4ch   gP00 (0x67503030)
+> +       %p4cn   00Pg (0x30305067)
+
+This doesn't look right to me, as network byte order is big endian?
+Note that I didn't check the code.
+
+> +       %p4cl   00Pg (0x30305067)
+> +       %p4cb   gP00 (0x67503030)
+> +
+>  Rust
+>  ----
+>
+
+Gr{oetje,eeting}s,
+
+                        Geert
 
 -- 
-With Best Regards,
-Andy Shevchenko
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
