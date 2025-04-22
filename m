@@ -1,61 +1,61 @@
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A54027CCC7
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 11:32:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C3E327D76A
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 11:32:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745321541; cv=none; b=ia3MrqIlQADTRgX/w744HtyLq5TUbQiJDZBRe9PXI5eku3VGQ5SKG+PpYfiA2S8wN5xa+x8ehswTrGoT4ULpztdIfCS7V1nQXeAP0T7Mvg+iqYy+ucTSYTpW6UuE3GlvZU7evGIo7mUkZpoZY4/YTgiPuIex5VawMYJ4dwS8eJI=
+	t=1745321544; cv=none; b=b9zVv5rWe8VTs4jnREiCnAPg7fc5EBM/8LfvIkBqrE2ZK6jsXvL5UwJ9QSFZDPGRJ4KZ6Vs9o2s49rDRqs3BdMRAuvamgtgq1fdTqZvehcNr7LJAU+qwrn/5b7JXgFHGJ9d9ROZR3VIHWCcrlclyll3dxjCluCjb8wmmaJy456Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745321541; c=relaxed/simple;
-	bh=pBi1MUo8cyhJVlwqE0as22e2neYDMnkEOd5dFu8AL0U=;
+	s=arc-20240116; t=1745321544; c=relaxed/simple;
+	bh=ZEfuO89SqASiM7GrCPCbp+s2T96g+unLkUU0ynS0zgo=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=L8BrjhJnOnub6UGfLRTJMYL0/8JweGfKGtbtYniNh0se+jVuUd5EzRh3jHdjFoI6T/YUiPjw33ve9h4h8uT0+iwzegWojX4JBrtbFjFIbGxRvtsXg52kV1fhBxVKQjZogeEUCiImxfcVM8bYTbKoQYCJ5ZLY4UCd8Mpw2qEmDVc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=KYPl6CiW; arc=none smtp.client-ip=209.85.221.44
+	 MIME-Version; b=ghhkVHdTIC6VS6vkVURqaTPrhc8UtREhXF14nXM3GsrOrdg6iqvC4GHnNX6zAQHOr7eYMd35jK/8AytoKFS5+LYN/UFmpryw4VoTxhGPfTMeTXgLvydWBIPxSRGRWiMFQTzab/bv8JjsvIuM8iTB7shKHpLjFl1RZGKeWXZcEm4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=GU7LQMgm; arc=none smtp.client-ip=209.85.221.54
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="KYPl6CiW"
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3913958ebf2so4499422f8f.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 04:32:18 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="GU7LQMgm"
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c1ee0fd43so4565175f8f.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 04:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745321537; x=1745926337; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1745321541; x=1745926341; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=jy9n9cFpVQUkUpiWIEsm4sdpu3oKdgg9Qw5HeontsNc=;
-        b=KYPl6CiWNaoCBimlWWGfgTjsi76msswKk699gf2ZPm42O+rozUPrSO+49drweDDGHn
-         X9KXjPBPmL4eewNa2tTeuuNnEToxiSvFR5Y4tiEN8sbNfZilc6B8lyEzA23iCYNPoIp9
-         KQQcHXBcq3nM4042JgS0AtFjyBU1c55z3l8AH1qzPUXV4ha6rdKY3UMETJF0uuP304QG
-         L9QBOoJWWUbb8X4c5zz7Bbbltum1D2Z5q1VgloYhv53O+vnKZFMPFxJcY9kd10jN1Uen
-         wx+eGM1HtyRcNo53C42tZ6InADhlwgDVW3R3WBAWvbWlb5PnN85al+ttdhZo+3ggmvwo
-         +1XA==
+        bh=x9mhCj0ekrSAhKxeAdIDKoiXrDacQrSQO5Vuilr0jZM=;
+        b=GU7LQMgmVIJUSoeSNKjC7TGDQUXttCYFRYCb7dKAB517LiucoTqHa1XD52VppNUgiI
+         k9WitxHy7GgbkMEkvLBQ1Pw4hQpkb0LVC6pxCgoD6n7xlSlepDZLunog2+WIH/HGgwFV
+         LwBxkQzSP5SjEz3RaagwxzxlHJh8oXFcvCosbzmTdlLSVMdEQk92aNWK1z7aISTcENYz
+         dqoMlzowXCbN1kcIcYpeythaRyqehNbVDS/8t2wV9A97vfvyc6jGuTph8ygJxdUFMaBx
+         ub+eohfH4xUBSyvOutGu+E3tE2nKEnXywM5bw+50I+8nxd1Zx6Wx61fznsDgen2/BtWI
+         kaDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745321537; x=1745926337;
+        d=1e100.net; s=20230601; t=1745321541; x=1745926341;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=jy9n9cFpVQUkUpiWIEsm4sdpu3oKdgg9Qw5HeontsNc=;
-        b=DoSJpa9vtIa1+j3Dp+yB9OmqGnlO4ecXWtp/AUUXVzXMMThLQVf9dPOi1XECX/xjRZ
-         bEMNEazDLj6t48twZimW+ZPzoJ+74YMLqGwDJEFf7q8msue8fGAJgvzJAbeFkP/rifqu
-         AoFe4qRBzA9mwxQi5FnS71XfcpPPY5rd7enY+oTnKcHRxPck17bcHqi/CURhRgchNnRl
-         OKumvw0AfJS29oho/4tOp3aNoaAVbtMEwwno2wkDtTjI/tbV2oMiLB2CdXKZCZu6ZT6d
-         hB4cC/NrS6v8KNgQhyzmbolp13iaINIebiYGRkjabTgQZWpsLS0t9Q/h0lZXky2ITipB
-         K9JQ==
-X-Gm-Message-State: AOJu0YxDBiAAXDbq6PTiOAEWV13XxEaP6oOp1qmPP3IYnlWvVE/ttDd5
-	gLxvv6oab+fJhTja6T+06YOmgqvrfPB3Zosu0h607iXqCwqAWVcQhD8r/hnLTEg=
-X-Gm-Gg: ASbGnctIqinxj5DjCrqjlkFyxQzLJgohV9Pzu7aJWbCQMCIIL9AUWHN7uf6qdM4GdEB
-	7q8VCgC5+QZ0EByMyJG3YGzZF7K98ljAOxjOsy5yBaUepLFZjZ6BWaD0J0r866O9qSvN3d/WvWk
-	GAMcsFJSd7g1nWVlAjYau3PxqD8bc4nr2oa6ra36VZ3eiRe7tpxgnKzrnraZTi/6WFRbsyfsQBb
-	r89xgaOsNkghrEEi2AmlYxodJirbA+Q15mlw620YKhr8uPyHyKELyj2h012mzV8E3GHHeeZM5DX
-	VFZXgZSQJKXASQQ/1oVByanC6YRRWEbNsS63VFpVaLgitb1uQrf805GtuWN4d/Y=
-X-Google-Smtp-Source: AGHT+IENApvlIOcfQcL0LZP5BuyV0lmfNKeMfWGxAbuT+pNZSoLQJuZ1V8if61aOzV5wetgPKLvcAw==
-X-Received: by 2002:a05:6000:2510:b0:390:f9a5:bd79 with SMTP id ffacd0b85a97d-39efba5a86fmr12045598f8f.26.1745321537318;
-        Tue, 22 Apr 2025 04:32:17 -0700 (PDT)
+        bh=x9mhCj0ekrSAhKxeAdIDKoiXrDacQrSQO5Vuilr0jZM=;
+        b=VRscERhQl9jCwGjJ733esIlOCy2YupfcSyTkk6tjNlvoYSeHl0JZ7pRllUVsx5ZZmD
+         UoA6tFrQA/AEU+BtenYIaCsg5QCgHxFIeo12XfpBcL6v/OAJGjvK0F8fNQPwdYk1mzF9
+         st7Uq9xh9d2pvX4z9oEMKa8EL3pFW+tdcfseTFvnF2jWxeKv/slHpJz9uEBSCyw0ZDhY
+         NjO6e3vPd+nFyiTNhb6umW5UJf8VgcKGSiWqpQs2dZDu/ndXLRkEGetVfVdkqRV88Dcs
+         /L0d6/9x4zgVI5V8nzZsPOZC+kUAIxiAubNqZ0heHybn1UkGZF+xtf38X1oKw1ZPFXyl
+         nQeg==
+X-Gm-Message-State: AOJu0YwKW0vgEu9I3/Ewe6/1FuvCdH86uNZYD2dhS26V+k6qpTdBYVQV
+	7sGs6x3Y/dGXGORKjOtGRcMgws9u601edmX6Vz+fpgeqFi7ISEFEgq8j67QacCo=
+X-Gm-Gg: ASbGncvJOslpYjHq2I15go0HD/sWzjlDigmqkETXOwd3igKLdvnT/LIOKDnmsqUfpyF
+	QRu0+WsDMF1QQf75qC1KLHwIbnqkchZOwPW5KoUBcGa79LDi4UnMXpRx+E62xdFxi0l+DBZgO0G
+	pUSZsy7o9jGR+ZbYpxH1m5Dm6JrXuFBm3Gc3MkhpHWEGRLHMIhPiOyHCRCdinRasjWf0ydvPs77
+	7/A8IBUp+qf+/CLxFN1GpQZOKoV6w6dFWEBEoGVNBRi+QyMMa3h8YOEQ+nv2lrSpOTjnCBOybsp
+	YLqxIpvykfHeaieruPo/zXPcoJMm3Ew7oXclqSEgCo6O9e0QfTUg
+X-Google-Smtp-Source: AGHT+IETnKdGNbtMn7JPOPRBj99xAT5wJXNpOwUNB001P6TYN6eu4ikfra2LHHxXB1sLzvhGYsSz8g==
+X-Received: by 2002:a05:6000:1ac9:b0:39b:fa24:950a with SMTP id ffacd0b85a97d-39efbadeb66mr12760697f8f.36.1745321540656;
+        Tue, 22 Apr 2025 04:32:20 -0700 (PDT)
 Received: from eugen-station.. ([2a02:2f0a:131e:0:1820:da87:73b1:d80c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa49312fsm14907887f8f.70.2025.04.22.04.32.15
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa49312fsm14907887f8f.70.2025.04.22.04.32.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 04:32:16 -0700 (PDT)
+        Tue, 22 Apr 2025 04:32:20 -0700 (PDT)
 From: Eugen Hristev <eugen.hristev@linaro.org>
 To: linux-kernel@vger.kernel.org,
 	linux-arm-msm@vger.kernel.org,
@@ -76,9 +76,9 @@ Cc: linux-doc@vger.kernel.org,
 	dietmar.eggemann@arm.com,
 	juri.lelli@redhat.com,
 	eugen.hristev@linaro.org
-Subject: [RFC][PATCH 05/14] Documentation: kmemdump: add section for coreimage ELF
-Date: Tue, 22 Apr 2025 14:31:47 +0300
-Message-ID: <20250422113156.575971-6-eugen.hristev@linaro.org>
+Subject: [RFC][PATCH 07/14] printk: add kmsg_kmemdump_register
+Date: Tue, 22 Apr 2025 14:31:49 +0300
+Message-ID: <20250422113156.575971-8-eugen.hristev@linaro.org>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20250422113156.575971-1-eugen.hristev@linaro.org>
 References: <20250422113156.575971-1-eugen.hristev@linaro.org>
@@ -90,30 +90,72 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Add section describing the utility of coreimage ELF generation for kmemdump.
+Add kmsg_kmemdump_register, which registers prb, log_buf and infos/descs
+to kmemdump.
+This will allow kmemdump to be able to dump specific log buffer areas on
+demand.
 
 Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
 ---
- Documentation/debug/kmemdump.rst | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/linux/kmsg_dump.h |  6 ++++++
+ kernel/printk/printk.c    | 13 +++++++++++++
+ 2 files changed, 19 insertions(+)
 
-diff --git a/Documentation/debug/kmemdump.rst b/Documentation/debug/kmemdump.rst
-index dfee755a1be1..b67dc166905a 100644
---- a/Documentation/debug/kmemdump.rst
-+++ b/Documentation/debug/kmemdump.rst
-@@ -17,6 +17,12 @@ kmemdump allows a backend to be connected, this backend interfaces a
- specific hardware that can debug or dump the memory registered into
- kmemdump.
+diff --git a/include/linux/kmsg_dump.h b/include/linux/kmsg_dump.h
+index 6055fc969877..cbe76c94710b 100644
+--- a/include/linux/kmsg_dump.h
++++ b/include/linux/kmsg_dump.h
+@@ -80,6 +80,8 @@ int kmsg_dump_register(struct kmsg_dumper *dumper);
  
-+kmemdump can also prepare specific regions of the kernel that can be
-+put together to form a minimal core image file. To achieve this, the first
-+region is an ELF header with program headers for each region, and specific
-+ELF NOTE section with vmcoreinfo. To enable this feature, use
-+`CONFIG_DRIVER_KMEMDUMP_COREIMAGE`.
+ int kmsg_dump_unregister(struct kmsg_dumper *dumper);
+ 
++void kmsg_kmemdump_register(void);
 +
- kmemdump Internals
- =============
+ const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason);
+ #else
+ static inline void kmsg_dump_desc(enum kmsg_dump_reason reason, const char *desc)
+@@ -112,6 +114,10 @@ static inline int kmsg_dump_unregister(struct kmsg_dumper *dumper)
+ 	return -EINVAL;
+ }
  
++static inline void kmsg_kmemdump_register(void)
++{
++}
++
+ static inline const char *kmsg_dump_reason_str(enum kmsg_dump_reason reason)
+ {
+ 	return "Disabled";
+diff --git a/kernel/printk/printk.c b/kernel/printk/printk.c
+index 057db78876cd..cf4aa86ef7af 100644
+--- a/kernel/printk/printk.c
++++ b/kernel/printk/printk.c
+@@ -48,6 +48,7 @@
+ #include <linux/sched/clock.h>
+ #include <linux/sched/debug.h>
+ #include <linux/sched/task_stack.h>
++#include <linux/kmemdump.h>
+ 
+ #include <linux/uaccess.h>
+ #include <asm/sections.h>
+@@ -4650,6 +4651,18 @@ int kmsg_dump_register(struct kmsg_dumper *dumper)
+ }
+ EXPORT_SYMBOL_GPL(kmsg_dump_register);
+ 
++void kmsg_kmemdump_register(void)
++{
++	kmemdump_register("log_buf", (void *)log_buf_addr_get(), log_buf_len_get());
++	kmemdump_register("prb", (void *)&prb, sizeof(prb));
++	kmemdump_register("prb", (void *)prb, sizeof(*prb));
++	kmemdump_register("prb_descs", (void *)_printk_rb_static_descs,
++			  sizeof(_printk_rb_static_descs));
++	kmemdump_register("prb_infos", (void *)_printk_rb_static_infos,
++			  sizeof(_printk_rb_static_infos));
++}
++EXPORT_SYMBOL_GPL(kmsg_kmemdump_register);
++
+ /**
+  * kmsg_dump_unregister - unregister a kmsg dumper.
+  * @dumper: pointer to the kmsg_dumper structure
 -- 
 2.43.0
 
