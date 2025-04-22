@@ -1,113 +1,163 @@
-Received: from mail-il1-f175.google.com (mail-il1-f175.google.com [209.85.166.175])
+Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F168D297A49
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 17:22:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3CAF11DDC28
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 17:43:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745342548; cv=none; b=XAT8srWbMByPL7I61rvn9YUlRgzKh8shLF6Qd1zmo0ks6bbjkpcXrGY9d8B94N9UiHGPa6Kvny0ZpvF+RQzJw6YVXRZ8ntvZfM/vSDTezaBXoQTdcpjr5MYX/5H/nWcD4z3TJpOhDjpvxsxud2GdJLw8csRNjuioXgoiqTS7vAs=
+	t=1745343832; cv=none; b=b4ArB5pENCTCRnpwa1Mdf7ikpNcfB0DAAVtnwzu+C851B3Qe4q0kEK7rUlFLrRnAwv7OF8rRWBd7lr8RjUBBzZpobNI7sHcROnfHr5cB4l6ol7C9ZQzqitM6sA1cZBI+I1+aai0Dl9FG0GsQXNUEwU3r7POm1TBo3qmf/bNv8Mw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745342548; c=relaxed/simple;
-	bh=IVKmtnl0CuSeKzy2LoPtM1CzEBbUr6f+uIDvOhT0w6A=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Pl2xOTQ32A1cVuCVzNmwgRGGDDInO7JoKAugxakLHBIVzJ3yNLq1Mg7vXHVE9//IbG0CjsKRo8LNm9Vu8kDAFFxUYttkMNb1plFU2iUceZgtTgPYwolmtqvB67FiLIvo7MEYT+9hmqjs5K4lXBUqb7bFizjCXeE5g97VVKgRWkA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org; spf=pass smtp.mailfrom=linuxfoundation.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Mjar0eqv; arc=none smtp.client-ip=209.85.166.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linuxfoundation.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linuxfoundation.org
+	s=arc-20240116; t=1745343832; c=relaxed/simple;
+	bh=zcVb6Cfxy75Ob1kNh4bYs664zPYBcfFrxG08qGEETk4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=saTHYuNOb9fvANLO2c2g7pRJcHaD4nHfuUfS5B5SFOD6ZWKWVr3YUB1WOYnTCGmRhqb+QaZX7F3VV2Z23irIHPjy6djtkR2/afLPV+AbkwOi+JNHe5OQloVV/qLNkKrEESuNOoknTHeb4IxWVXZjR+r7w4k70xvkoZ0PQsJIP9U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Z5MRyVtm; arc=none smtp.client-ip=209.85.214.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Mjar0eqv"
-Received: by mail-il1-f175.google.com with SMTP id e9e14a558f8ab-3d57143ee39so43677125ab.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 10:22:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Z5MRyVtm"
+Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2264c9d0295so22065ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 10:43:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1745342544; x=1745947344; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=hkAUgf7o9174Xt7OJxnzGn8DVp99mUV+yeckC0IzEpI=;
-        b=Mjar0eqvUIZy6+HdRLXyaUH5XAHgjgKrx3m3tsQNPXhne+5NfN1osL9IS2DJs6Kkbc
-         cxzdGqW3zpY8Ef0k3pcBF+mLOfh/a8MbkapduGrRG1AfVBf9/Q5t+31w+503OCYA3ZR7
-         x1VjEAv0B7NnFwN4L2NToYm6sMFotl3Ifz9KA=
+        d=google.com; s=20230601; t=1745343829; x=1745948629; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=0nQBVslpgDVVhWwmvHoRlwAkP6zwHezc78dd9O+zlzs=;
+        b=Z5MRyVtmSJelRcKJ/A0VjB5ggn4Owq7/VIWqWFmreFFhO6SVN9Bh382JLue/LLmSR3
+         q59KyHXAxCh3SKWUIGcQfaZFpVm1vGgDUqi03+19CQ+CzzU2uMr3D7mA/yu6HqTTI0To
+         ASIyWuCX79VGbHhV/t0tlswUyJfs6gxYR3t3zExOg+ZK3c9vZHKmpFKlNj0BxdVAp9eZ
+         uTZvHDBfMur2sqAmdANBq7Q4AtRWVwvXSSDmmjOzev/4Tm2+Qi7m0bKMXrXWg0n/LnJI
+         1GcweZihXZtL6+Zy/mteHZx9jZvPBxUrF9/BI/IbnRiX3IB+Eej6QBZmoUUtboCTIMJo
+         TOnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745342544; x=1745947344;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=hkAUgf7o9174Xt7OJxnzGn8DVp99mUV+yeckC0IzEpI=;
-        b=evK77/ZcPk8Ek7kiwn+sMOCCCw0crzoq0ZSAwm0sfDJv4lw5B0eaI1bV1cZMJt//EB
-         2Y3kJKlaybNrF3naAI0vPuKXX2VxKJWAqIg21ErsRFcpltl1pgT3q2j4L3AX0iocDBfi
-         TPtG/i8oPIArNW1upzuBnmCfPtR5rJXP59JyPqNNKYrbBRumN0yJX+K6OgTXxdEQeHXG
-         pTToj9vszISZAWgiMfACo4urTp/ASZ4xgELXoQQabTPBmHsVSo6Sa++V526UN18Jr5Ho
-         gn6u74F2V6dsqM1sZtUKybdSQ8AM0MnAwVpVjDRndn1qw7kuDLr0qQd7E9A+rqek67pL
-         We8Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV38DR64t07GA8aNyyuFGkovq1kPrsWe7c7LfXIKRMmskuwEF3yW9wa6CkK98LTjK0wxZCJGiOZNoU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxi6497PtSEqnivwBVpS7UjCIpDsQcNFqooaqXftNUfAnxp8AhD
-	d1fvjIg7jhsSvoKFEb9Xnxo3ewiYLwaINIKDqgJjy13aPZgdufDdGpyGg2T6wvc=
-X-Gm-Gg: ASbGncsw/JEl6jxUx5NUQaXFLvMZablamK+ZfYaXLZxkNmEasJx8+7A1/DDBmGoweGQ
-	tDFbKohRLKa88xF8RbFvfNfF8FJH9nnDxREo7cNM0Nnul6ASUbCxMVSp0GW2JprXCb6CROKCkBP
-	WtP0KUGSbSdJxz2v3N2oo67q0b1RJdq5IyDQe2Gerrqr9DavAEciXKn59GzkXTWC4kPVAZMo4mq
-	mx0DxvoKHHrGFkYL5bO4CBWWWk4RNjwjQHmaGriYvGgJiA6uuK156HhJIefCR2goXYfjHFhWkP7
-	g+1ASbv7uyzMrHzpOYwM6zNnHqTVVGsOJ1EYIJEu6Inc7so1Xdw=
-X-Google-Smtp-Source: AGHT+IE71zm3tSH11gi9dlOtDjUjFPo0zzmKI8+I+3NL1G/VlFknKvZ87QsjPqIzLuitgX80ZXmglg==
-X-Received: by 2002:a92:ca45:0:b0:3d8:2023:d057 with SMTP id e9e14a558f8ab-3d88edbfb8dmr124783085ab.11.1745342543932;
-        Tue, 22 Apr 2025 10:22:23 -0700 (PDT)
-Received: from [192.168.1.14] ([38.175.170.29])
-        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3d821ec1e98sm23429555ab.54.2025.04.22.10.22.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 10:22:21 -0700 (PDT)
-Message-ID: <577ea8a9-dada-49dc-9c4f-6f82c94c0a1c@linuxfoundation.org>
-Date: Tue, 22 Apr 2025 11:22:20 -0600
+        d=1e100.net; s=20230601; t=1745343829; x=1745948629;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=0nQBVslpgDVVhWwmvHoRlwAkP6zwHezc78dd9O+zlzs=;
+        b=BJjzc3Vj+xWFZmZp1dB/QtNPb9Jm7/l12sjf7IEww6vfZ6faayY23hmIQGF9eEWUsW
+         VbuA6aRa0APXM84ITjxkrBAHuD0fRci75Wuky06UwZt8fN+jWubRy1VPAK4BUr+g9pSE
+         /aEm/vFUv27odNU2z3Vp4oyJMuFyV+YEEexMugmJqv0PGGHLdz6WkbIotSG8YRRHwfQi
+         bodSGzqJ967757YVvuK51Ic/iqhvlVB7XC+OSRNmpW7JHTNONy6LonCkBLtyxls7SsgQ
+         E5/L+/cuAP+VXDpq2WS3NRg5kP1wkRqRYsYWN0Of/yMyocvgs1cpw3PrbLU2iyE01Hwm
+         tbWg==
+X-Forwarded-Encrypted: i=1; AJvYcCXOwpWWSTJjwvwv+axsLCrQ42vEQDOqfwJvsBcPD0h/6WsL1EVms8i1bfvORaZyVo6VG+jS81S6m5U=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzojfn3QwVT9jIcyGNPqPbuTogL6PI+bWbM5B8brgx91JgYcoq6
+	zDHfrnAmwGmjCUd8g+rk7/hAFxaGK8oMfxGdulTPeAKh24mKGDjn1YqZXKxPE4nUfBNQ2TCi8pE
+	hAK0bAFLQY8fUBZHBeRxwN7wMGwclNJZf4U1t
+X-Gm-Gg: ASbGncsyfKz10QIV4n9hf1CLicJAsRlwP/xM2wf5PwKd5iff3tbqDllvrUZSVYNOkjH
+	K7BhZwWsshZ8OtJ8X6Sz3214BwCrAh4LG1pllBKSG8G8L8Wr7oloo7QjXpD5yNCBLvgFcteeMAV
+	VWkZo7zsqjAyn1Yhe2A0gGCjDYRjTF6BTP5rmWn4zdZ2UkzQ1mXFAZ
+X-Google-Smtp-Source: AGHT+IGSKGIgLM9bohGpvqQzDuyOGN9Dox9hCzuEhi9yioRJmO0B7Hjp5oQ00AwnuEeP5W6trjfsTXRGJyVju6gMOtY=
+X-Received: by 2002:a17:903:1a4d:b0:215:42a3:e844 with SMTP id
+ d9443c01a7336-22c54562829mr9132085ad.17.1745343829160; Tue, 22 Apr 2025
+ 10:43:49 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [patch] Documentation:fixed a small typo in
- Documentation/hid/hiddev.rst:11
-To: Tinu Kuriakose <tinuk11c@gmail.com>, Jonathan Corbet <corbet@lwn.net>
-Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- Shuah Khan <skhan@linuxfoundation.org>
-References: <CAC=vsvAv88P7Z_as3k0ceRNCy5Jq-1Y8ge=XPaRXcT4uzi1XBA@mail.gmail.com>
-Content-Language: en-US
-From: Shuah Khan <skhan@linuxfoundation.org>
-In-Reply-To: <CAC=vsvAv88P7Z_as3k0ceRNCy5Jq-1Y8ge=XPaRXcT4uzi1XBA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+References: <20250417231540.2780723-1-almasrymina@google.com> <20250417231540.2780723-8-almasrymina@google.com>
+In-Reply-To: <20250417231540.2780723-8-almasrymina@google.com>
+From: Harshitha Ramamurthy <hramamurthy@google.com>
+Date: Tue, 22 Apr 2025 10:43:38 -0700
+X-Gm-Features: ATxdqUEoZbftW3pP1LK4aYTjtkb7qLFfr67voRhIGom_RJK1JmrrX3YpsAjUeYk
+Message-ID: <CAEAWyHckGSYEMDqVDT0u7pFCpO9fmXpEDb7-YV87pu+R+ytxOw@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 7/9] gve: add netmem TX support to GVE DQO-RDA mode
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
+	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
+	Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
+	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
+	Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/19/25 08:51, Tinu Kuriakose wrote:
->  From 4264e1e8a827998708e532f4a843a20115e92c5f Mon Sep 17 00:00:00 2001
-> From: tinukcheriya <tinuk11c@gmail.com <mailto:tinuk11c@gmail.com>>
-> Date: Sat, 19 Apr 2025 20:12:37 +0530
-> Subject: [PATCH] docs : hid : fix spell error at line 12 in hid-alps.rst
-> 
-> Signed-off-by: tinukcheriya <tinuk11c@gmail.com <mailto:tinuk11c@gmail.com>>
-
-Run get_maintainers script for full list of people to send the patches to.
-Added Documentation maintainer and linux-doc list.
-
-You might have to send the RESEND the patch with cc and to the right
-set of people.
-
+On Thu, Apr 17, 2025 at 4:15=E2=80=AFPM Mina Almasry <almasrymina@google.co=
+m> wrote:
+>
+> Use netmem_dma_*() helpers in gve_tx_dqo.c DQO-RDA paths to
+> enable netmem TX support in that mode.
+>
+> Declare support for netmem TX in GVE DQO-RDA mode.
+>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+>
 > ---
->   Documentation/hid/hid-alps.rst | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/hid/hid-alps.rst b/Documentation/hid/hid-alps.rst
-> index 767c96bcbb7c..94382bb0ada4 100644
-> --- a/Documentation/hid/hid-alps.rst
-> +++ b/Documentation/hid/hid-alps.rst
-> @@ -9,7 +9,7 @@ Currently ALPS HID driver supports U1 Touchpad device.
->   U1 device basic information.
-> 
->   ========== ======
-> -Vender ID 0x044E
-> +Vendor ID 0x044E
->   Product ID 0x120B
->   Version ID 0x0121
->   ========== ======
-> -- 
-> 2.25.1
+>
+> v4:
+> - New patch
+> ---
+>  drivers/net/ethernet/google/gve/gve_main.c   | 4 ++++
+>  drivers/net/ethernet/google/gve/gve_tx_dqo.c | 8 +++++---
+>  2 files changed, 9 insertions(+), 3 deletions(-)
+>
+> diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/eth=
+ernet/google/gve/gve_main.c
+> index 8aaac9101377..430314225d4d 100644
+> --- a/drivers/net/ethernet/google/gve/gve_main.c
+> +++ b/drivers/net/ethernet/google/gve/gve_main.c
+> @@ -2665,6 +2665,10 @@ static int gve_probe(struct pci_dev *pdev, const s=
+truct pci_device_id *ent)
+>
+>         dev_info(&pdev->dev, "GVE version %s\n", gve_version_str);
+>         dev_info(&pdev->dev, "GVE queue format %d\n", (int)priv->queue_fo=
+rmat);
+> +
+> +       if (!gve_is_gqi(priv) && !gve_is_qpl(priv))
+> +               dev->netmem_tx =3D true;
+> +
 
-thanks,
--- Shuah
+a nit: but it would fit in better and be more uniform if this is set
+earlier in the function where other features are set for the
+net_device.
+
+>         gve_clear_probe_in_progress(priv);
+>         queue_work(priv->gve_wq, &priv->service_task);
+>         return 0;
+> diff --git a/drivers/net/ethernet/google/gve/gve_tx_dqo.c b/drivers/net/e=
+thernet/google/gve/gve_tx_dqo.c
+> index 2eba868d8037..a27f1574a733 100644
+> --- a/drivers/net/ethernet/google/gve/gve_tx_dqo.c
+> +++ b/drivers/net/ethernet/google/gve/gve_tx_dqo.c
+> @@ -660,7 +660,8 @@ static int gve_tx_add_skb_no_copy_dqo(struct gve_tx_r=
+ing *tx,
+>                         goto err;
+>
+>                 dma_unmap_len_set(pkt, len[pkt->num_bufs], len);
+> -               dma_unmap_addr_set(pkt, dma[pkt->num_bufs], addr);
+> +               netmem_dma_unmap_addr_set(skb_frag_netmem(frag), pkt,
+> +                                         dma[pkt->num_bufs], addr);
+>                 ++pkt->num_bufs;
+>
+>                 gve_tx_fill_pkt_desc_dqo(tx, desc_idx, skb, len, addr,
+> @@ -1038,8 +1039,9 @@ static void gve_unmap_packet(struct device *dev,
+>         dma_unmap_single(dev, dma_unmap_addr(pkt, dma[0]),
+>                          dma_unmap_len(pkt, len[0]), DMA_TO_DEVICE);
+>         for (i =3D 1; i < pkt->num_bufs; i++) {
+> -               dma_unmap_page(dev, dma_unmap_addr(pkt, dma[i]),
+> -                              dma_unmap_len(pkt, len[i]), DMA_TO_DEVICE)=
+;
+> +               netmem_dma_unmap_page_attrs(dev, dma_unmap_addr(pkt, dma[=
+i]),
+> +                                           dma_unmap_len(pkt, len[i]),
+> +                                           DMA_TO_DEVICE, 0);
+>         }
+>         pkt->num_bufs =3D 0;
+>  }
+> --
+> 2.49.0.805.g082f7c87e0-goog
+>
