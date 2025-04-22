@@ -1,223 +1,119 @@
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F18B22A4D6
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 07:57:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB5BF2550CB;
+	Tue, 22 Apr 2025 07:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745308637; cv=none; b=aPm5LfhX8Yt838OJm4ECHwQwOQazmCl3Pn7RK7E2NiCX4DABY5R/23F0QlqNUz8yNv1V1gnO74gCJQrLQAixfNc+QWZs7hEaSH8SiycN/DI+2ylrEq7Qk/sijCDAbbeFlmT+p7qAtlIkk/F/AnObrlhlGKnmjDfv1zxdyEj2+Hw=
+	t=1745308664; cv=none; b=MqKebkE+4K3MeiwvJJfjGqFamsxH0slHzUrUTr5Fvr23byQRSYAtA0BlTCriSDvYcrtvFUHoa+/EazWZ9w6RCoAwPmI7193nw6hIIluCrZhvXtxWsxj4ZZrGkY4YK0Ry+Otamx6CAIbtp5mCSsXUSfY7cGzEhCAskYI4dJ56LGc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745308637; c=relaxed/simple;
-	bh=W6fiirVxDej/XyiK9p1ILMBMNLmS8HDMUagTWQuqTDQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=juGWRwFhS6yoxijcQMfEqpP5q+nyTingQECiOyjwIuGYxntnX6pyPySUBHwphwGYserh0M25n2iB8TF5ofNfnYtlJEzQjhE/wq5ytf82Gl+irBbjrise6ondEzSUsrS44w8SM7+lS/qxvfsyWX/dEmNrgPNK+texabXKWtc6oAI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=M691sO3x; arc=none smtp.client-ip=209.85.128.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1745308664; c=relaxed/simple;
+	bh=/lTSfM6Y/HISGvvFEVe3OPn45W9JT8OSQOcThg92+mw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jvpQ4dVsiaGfKvPdmD5X0ALFZgYr9puanPh4fxDz/HEj0GzmHHrTJjW6EfHOFJefjichLVV9Opa1sjRXA+0CHdg+WTB4hLvjHNu+54+ab/xXohjRZ9RXBWNtCee+/5AH2mKVG41e7EzWagzk3tRi1bv0mV4Kc7mQ7QKCKQ96rXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Hv5iWqod; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="M691sO3x"
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf3192f3bso47920345e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 00:57:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745308633; x=1745913433; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=EqBOHlwj4256j3dBDjYtf6K6K4BniWJZiGKAMEj4vds=;
-        b=M691sO3xTi7Jzd+ly4D7LcCoHV3DDMjrtH4LCxW+4o468T5+onnhBbB/0t7nE88Fjv
-         YIezrgi+oDbDJ0qGOXd8Uf08hWaGOUWHhgxLR2KvH9Fy4tjAOq4emnwNYF0E80tMkjMX
-         VueV87n91mW0S2gweXv9hSCuWHZjmrJyUGjC+cb838W/D2/oepI56hLjvccrujsFpYTc
-         5rvILSSOiVexy1juMW5l1KsdVDOqGdbHo7sX0ladIEHYA5ZOsBbqHOndgfID5A0jueB0
-         kgc0ZvhtLncVrqp96LK3kOTaXbPBHywOQR/CISLODw81npnDGiOSuN3I/lYM5nVxS3Ft
-         ELmw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745308633; x=1745913433;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=EqBOHlwj4256j3dBDjYtf6K6K4BniWJZiGKAMEj4vds=;
-        b=c29xcaaqUHNQ7FpWhEmKXJj58FzCuU4sQ5NU44XWmF/jmFWip40Kr8yUc43rLw+BIb
-         iKRFBDTPLZxRVEJ3Mtl2mErft083pZM/KUAkwyJ3mWdgO2fJVRK3VmukMfoPR3GTQNU+
-         weW/S5Lpxj4+ZppqUMtnlfm+HeG9IWxSQ3z2zsRENyWdnqcosDzuKqzXA2H7GT9EvzZP
-         auKuURvva0lqYePCh0T6vJGfhmGVNygYK3TAek5Qz6e6UlEaiEdR4yByxckq5X7DDNZf
-         TmIpgNf8LuAz6oiSEOgv+pMRidn3aGGBfhB0NcjyzohjHnONMjUI4zdUQdTufZ21DPId
-         iC5g==
-X-Forwarded-Encrypted: i=1; AJvYcCVKKZJGfoDeZ0zMG/1pI3uY+8aGstuudigNKPRaejbyhJGnko5uhCPrMu9WMbIeZE35oqwqYc35/HU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyybm+UyzXG/cfIGZxWEUfKTb/7pfYDLmx3JJUTvtLehaae4tHM
-	tCBukPnPtg9Rn+Hm0cBnTttF576xDjusb7UPC5wTpKDW7PzA7psTSYxuBHGdWWs=
-X-Gm-Gg: ASbGncvDD5Xr/e2o3o5i+yK+KY1fSuRQotL8CTSAv1AHpe922sE2fR3rU82qLwGmRo/
-	SaCKM9tL+PUPpajamlWxW6h1iwi3avx+ax42BS+5JVqLyKJqNAVzZRKVDvkN6PRzHLAnZbXte+K
-	duXuZ29MRST5wUsNztWIT2WFZBSvrrntdQZKLrj1i311R+lsMZbfUIUCDfGNGk0Z9ZDB1EeI+n9
-	28swrXD4630ZmmvOfI7fLR7wj4r9r5RSrmfD7PWbxNBlTbwUmi2jtdrgUUGlcpqydJQ2DoFEM7r
-	aaD/h+D2+A1U+68TWzgl0aZU6ZIROwxHggnlXilKAfNVeLq37Hmg3/CGMYRkMvvJlu2nJwlN+o7
-	0apovLuij5w==
-X-Google-Smtp-Source: AGHT+IGhvdPbJvZOktQCBqw/2wUTXP1WKMQk4VP2N0DETPu5Pgx5Z2h8MnL3dE4kU4vPi/MEVPmpBQ==
-X-Received: by 2002:a05:600c:1547:b0:439:6118:c188 with SMTP id 5b1f17b1804b1-4406aba756emr107164305e9.19.1745308633516;
-        Tue, 22 Apr 2025 00:57:13 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5d7a3dsm160623495e9.38.2025.04.22.00.57.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 00:57:12 -0700 (PDT)
-Message-ID: <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com>
-Date: Tue, 22 Apr 2025 09:57:12 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Hv5iWqod"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745308663; x=1776844663;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=/lTSfM6Y/HISGvvFEVe3OPn45W9JT8OSQOcThg92+mw=;
+  b=Hv5iWqod06gdT5NsWNoxKFkLSmvCo6uE/yY3jMvI5z52sdWqeNN/fgi4
+   c99FZq8X6KLTLUnsYgCmXGISXtT8vV1FlzVFppkh89EU0vThGBnVbeiY2
+   Lm5dq8/82d1FCXdMZUqxh4xY+WRxTJhrFSI+5heTU5+pSaTGlx5xtLDcr
+   lq5fqK5nEhDsYN7Vjr5tkW3RuQ3ba6VCubYUKCNDHcDCTbjpg5pW0/F1s
+   ND8cjTAPSnM/F9LsRxup4H46jtwkrZ0232VycMaRCqrvEh72jR6carr2h
+   fG25k/yfLa47rAYyhV/gcZFOo1OsUzOCWS0AaP4XhXEeoVNDxv4ohDpbQ
+   Q==;
+X-CSE-ConnectionGUID: tq1hDP6ATqOPN26irKqN0w==
+X-CSE-MsgGUID: qNsyz1wdRrGUEmtrkVnpqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11410"; a="45975715"
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
+   d="scan'208";a="45975715"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 00:57:42 -0700
+X-CSE-ConnectionGUID: VwpwCzHATKWg4vMQsHRvBA==
+X-CSE-MsgGUID: rRtq3f3OR6ypAGEepqkY5Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,230,1739865600"; 
+   d="scan'208";a="132482014"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 00:57:37 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u78VZ-0000000EfNZ-26c4;
+	Tue, 22 Apr 2025 10:57:33 +0300
+Date: Tue, 22 Apr 2025 10:57:33 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+	Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>,
+	Jani Nikula <jani.nikula@linux.intel.com>,
+	Joonas Lahtinen <joonas.lahtinen@linux.intel.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Maxime Ripard <mripard@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Rodrigo Vivi <rodrigo.vivi@intel.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Tvrtko Ursulin <tursulin@ursulin.net>,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
+ kernel
+Message-ID: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
+ <4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
+ <87bjspzd4e.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/5] riscv: misaligned: factorize trap handling
-To: Alexandre Ghiti <alex@ghiti.fr>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Shuah Khan <shuah@kernel.org>,
- Andrew Jones <ajones@ventanamicro.com>,
- Samuel Holland <samuel.holland@sifive.com>,
- Peter Zijlstra <peterz@infradead.org>
-References: <20250414123543.1615478-1-cleger@rivosinc.com>
- <20250414123543.1615478-2-cleger@rivosinc.com>
- <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87bjspzd4e.fsf@trenco.lwn.net>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-
-
-On 21/04/2025 09:06, Alexandre Ghiti wrote:
-> Hi Clément,
+On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+> > On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:
+> >> 
+> >> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
+> >> when W=1. Due to Python's normal behavior, its JIT compiler will create
+> >> a bytecode and store it under scripts/lib/*/__pycache__. 
+> >> 
+> >> As one may be using O= and even having the sources on a read-only mount
+> >> point, disable its creation during build time.
+> >
+> > Would it be possible to properly support O= and create pyc / pycache
+> > inside the object/output dir?
 > 
+> I have to confess, I've been wondering if we should be treating the .pyc
+> files like we treat .o files or other intermediate products.  Rather
+> than trying to avoid their creation entirely, perhaps we should just be
+> sure they end up in the right place and are properly cleaned up...?
 > 
-> On 14/04/2025 14:34, Clément Léger wrote:
->> misaligned accesses traps are not nmi and should be treated as normal
->> one using irqentry_enter()/exit().
-> 
-> 
-> All the traps that come from kernel mode are treated as nmi as it was
-> suggested by Peter here: https://lore.kernel.org/linux-riscv/
-> Yyhv4UUXuSfvMOw+@hirez.programming.kicks-ass.net/
-> 
-> I don't know the differences between irq_nmi_entry/exit() and irq_entry/
-> exit(), so is that still correct to now treat the kernel traps as non-nmi?
+> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
+> should do the trick?
 
-Hi Alex,
+It's not so easy. The Python is written in a way that it thinks it will never
+runs object files separately from the source. Hence that variable sets only
+the folder per script as _home_ for the cache. It's completely unusable. They
+took it wrong. It still can be _painfully_ used, but it will make Makefiles
+uglier.
 
-Actually, this discussion was raised on a previous series [1] by Maciej
-which replied that we should actually reenable interrupt depending on
-the state that was interrupted. Looking at other architecture/code, it
-seems like treating misaligned accesses as NMI is probably not the right
-way. For instance, loongarch treats them as normal IRQ using a
-irqentry_enter()/exit() and reenabling IRQS if possible.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-Moreover, it looks like to me that misaligned access traps are similar
-(in the way they can be handled) to how the page fault are handled in
-RISC-V. It uses irqentry_enter()/exit() and reenables interrupts if
-needed. Additionally, the misaligned access handling does will not take
-any locks if handling a misaligned access taken while in kernel so even
-if we interrupt a kernel critical section that does not have interrupts
-disable, we are good to go. But my understanding might be wrong as well
-and I might be missing specific cases :)
-
-Thanks,
-
-Clément
-
-https://lore.kernel.org/lkml/alpine.DEB.2.21.2501070143250.18889@angie.orcam.me.uk/
-[1]
-
-> 
-> Thanks,
-> 
-> Alex
-> 
-> 
->> Since both load/store and user/kernel
->> should use almost the same path and that we are going to add some code
->> around that, factorize it.
->>
->> Signed-off-by: Clément Léger<cleger@rivosinc.com>
->> ---
->>   arch/riscv/kernel/traps.c | 49 ++++++++++++++++-----------------------
->>   1 file changed, 20 insertions(+), 29 deletions(-)
->>
->> diff --git a/arch/riscv/kernel/traps.c b/arch/riscv/kernel/traps.c
->> index 8ff8e8b36524..55d9f3450398 100644
->> --- a/arch/riscv/kernel/traps.c
->> +++ b/arch/riscv/kernel/traps.c
->> @@ -198,47 +198,38 @@ asmlinkage __visible __trap_section void
->> do_trap_insn_illegal(struct pt_regs *re
->>   DO_ERROR_INFO(do_trap_load_fault,
->>       SIGSEGV, SEGV_ACCERR, "load access fault");
->>   -asmlinkage __visible __trap_section void
->> do_trap_load_misaligned(struct pt_regs *regs)
->> +enum misaligned_access_type {
->> +    MISALIGNED_STORE,
->> +    MISALIGNED_LOAD,
->> +};
->> +
->> +static void do_trap_misaligned(struct pt_regs *regs, enum
->> misaligned_access_type type)
->>   {
->> -    if (user_mode(regs)) {
->> -        irqentry_enter_from_user_mode(regs);
->> +    irqentry_state_t state = irqentry_enter(regs);
->>   +    if (type ==  MISALIGNED_LOAD) {
->>           if (handle_misaligned_load(regs))
->>               do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
->> -                  "Oops - load address misaligned");
->> -
->> -        irqentry_exit_to_user_mode(regs);
->> +                      "Oops - load address misaligned");
->>       } else {
->> -        irqentry_state_t state = irqentry_nmi_enter(regs);
->> -
->> -        if (handle_misaligned_load(regs))
->> +        if (handle_misaligned_store(regs))
->>               do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
->> -                  "Oops - load address misaligned");
->> -
->> -        irqentry_nmi_exit(regs, state);
->> +                      "Oops - store (or AMO) address misaligned");
->>       }
->> +
->> +    irqentry_exit(regs, state);
->>   }
->>   -asmlinkage __visible __trap_section void
->> do_trap_store_misaligned(struct pt_regs *regs)
->> +asmlinkage __visible __trap_section void
->> do_trap_load_misaligned(struct pt_regs *regs)
->>   {
->> -    if (user_mode(regs)) {
->> -        irqentry_enter_from_user_mode(regs);
->> -
->> -        if (handle_misaligned_store(regs))
->> -            do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
->> -                "Oops - store (or AMO) address misaligned");
->> -
->> -        irqentry_exit_to_user_mode(regs);
->> -    } else {
->> -        irqentry_state_t state = irqentry_nmi_enter(regs);
->> -
->> -        if (handle_misaligned_store(regs))
->> -            do_trap_error(regs, SIGBUS, BUS_ADRALN, regs->epc,
->> -                "Oops - store (or AMO) address misaligned");
->> +    do_trap_misaligned(regs, MISALIGNED_LOAD);
->> +}
->>   -        irqentry_nmi_exit(regs, state);
->> -    }
->> +asmlinkage __visible __trap_section void
->> do_trap_store_misaligned(struct pt_regs *regs)
->> +{
->> +    do_trap_misaligned(regs, MISALIGNED_STORE);
->>   }
->> +
->>   DO_ERROR_INFO(do_trap_store_fault,
->>       SIGSEGV, SEGV_ACCERR, "store (or AMO) access fault");
->>   DO_ERROR_INFO(do_trap_ecall_s,
 
