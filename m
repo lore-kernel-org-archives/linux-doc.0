@@ -1,116 +1,149 @@
-Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9906727CCE2
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 13:02:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15079281360
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 13:11:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745326975; cv=none; b=WEgLCvcO0ccztxhrbkAtJSpKchCMiHN7mzgkx4zAFKZbiB/lsO/Nkq7lP9jVADU6l8RCb5FboT70FV5SeEvoOKXCnTEgIho9uCl9xqfpAit/UBEp67kuWKdGQl0ueUKqj9YNeyYDGOZiXyyh8mBPIjhWz5gwIk5Wb3zh4SsHUL0=
+	t=1745327481; cv=none; b=U8aeEa2XMSDOFL+rIPVbhN8zP/aYpsMR/ltPl07CbneXomwmR6kGM5aR15RzzdbIP+1+d3BctTxy1ZJCK1bHL3bY8B5//vwZibeoSJMi2G1xiD6/tN2iJ+ArxFeSKOwB0GepcwvsrzpWWwAg5Q0R2NHA211rVjSxGQsGDi25dxQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745326975; c=relaxed/simple;
-	bh=CcuddQ4PiIhvayVUlUxXnUoZdkIiFG/Q5E0gd5Fmocc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=fsroTF3zSgpjYaz3bBbh1efBZLqh4CJDK1mmMVNcqbEiUxpsjyooyrzqoI132+W1s7YWL18njvmnTIHvldG5Ge0O12QM0DCBb6Jt6Jf5SnaTEXthYiyMrupTp2tOWdZ+dU/CWXEbb3k18FUyy63NReoeKfTEtZslWeyaJ6B10F4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=45.249.212.191
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4Zhj5s6BVNz1R7bX;
-	Tue, 22 Apr 2025 21:00:49 +0800 (CST)
-Received: from kwepemo200002.china.huawei.com (unknown [7.202.195.209])
-	by mail.maildlp.com (Postfix) with ESMTPS id 32DAB1A016C;
-	Tue, 22 Apr 2025 21:02:49 +0800 (CST)
-Received: from [10.174.179.13] (10.174.179.13) by
- kwepemo200002.china.huawei.com (7.202.195.209) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 22 Apr 2025 21:02:48 +0800
-Message-ID: <9f731254-ccd3-5fde-a5a8-c2771a308588@huawei.com>
-Date: Tue, 22 Apr 2025 21:02:47 +0800
+	s=arc-20240116; t=1745327481; c=relaxed/simple;
+	bh=5VUtM3MlpqncXQIwvD7wi3URCc9M4jwjzUC4MjA9r/s=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VLUYtToF22UAjKL0NeC7npfcy0gK+Ge8+qu8+RJJTCERTKTIhN2HNjJFPXnHME9UAxZYag0RQkyHHwx9aBJaXtVIE5FOXTnwvH39OjS4D/zlMRmWO/3Wpzf09BR4tLEGYJ2o3nMRVBARRKztwPFwX4DVRPHaWJBhAaoT+APROI8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=Uh72IyAS; arc=none smtp.client-ip=209.85.160.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="Uh72IyAS"
+Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4775ccf3e56so64524291cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 06:11:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1745327477; x=1745932277; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5VUtM3MlpqncXQIwvD7wi3URCc9M4jwjzUC4MjA9r/s=;
+        b=Uh72IyASRgdaf8QMQ+bh3cB49SM62BgjLio56IXrkB0nBwHCnkUzJAhDZxN8sTAMLB
+         mcZQwpRJ+v6rfI1XegbMvAgxHGGXjcb4wyItOFakUM271huw5cO5jne5EVfrrNJ1Sbcr
+         eMiw1FqHZbcvJD83jt+9X0mcpndbcdyBnpdo3vVSC+Wp1q3yUAuLLqZuU5dDgpbLmzvz
+         gfpMjh7xr28pGyY7NZ7xQV+2B+kIeTSZljlUeXXysk6U/3iChM3eqRwm0GGft6fGhuDY
+         /HbHrXdOt38R0mpvRoaQV6SYVlnAXJdkapQuVj2YXHaJHWzlWOM1jPD13b5wJdX7j1Ql
+         b/eA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745327477; x=1745932277;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5VUtM3MlpqncXQIwvD7wi3URCc9M4jwjzUC4MjA9r/s=;
+        b=NPE/dZ03Gl/51ULtrZ8MeFtqArDoZZH1JLrzxiNya9zEyajNlpP6zNLKUor4lxRXvR
+         AX4CJxjiK9JRulyIooy7SITLLrUiRNdM9X+WZdM9wWf8epg/890z+1tvJb/m5/CVrelf
+         8kcZmCyK/nEdVPt2dHM37kP2rCXN5TC4iNWg4rriNBzwqw+cTQ6E7CenPxulpTdGTxCW
+         PKbT06sMFLI7Rr2/pazFrzVgWFBHUUE4ga5pQWNDfEa+R1XZCO9hyqLBTV4AA7hyJ0IU
+         tRZJ+fRamV3s43N2FR2VQjBKDbwNRzv5CDHsAVilx04QAi8lhGVt2fsLG5BG76DvRtNm
+         shSA==
+X-Forwarded-Encrypted: i=1; AJvYcCXcjPsCuexIIEcbPskTopHZYd03wgRc69LxoPn51tqL8iOIGUck3xJRvqRh1SnsTDEXuiOBbT/e25Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQ4Be37hsctyLxB6AScEpZBe88uFErVI+IbwYjkF4hoQAQV6qd
+	3qpxbjmkm9vfKQV24waiZbh8iSz66rY+ercuvF6yyYibPMxEbnEqFqqAM14wb/+1tJZdOPuPRqD
+	y3uIksBPhyzA9r8I9aufmN/QjIbCIW99ldd1BKg==
+X-Gm-Gg: ASbGncvaXk46mv35Po9KBXOBx8EJCFRxlwCOKeo9MzehcseRKTrVIQECTGNTXKQ3Fe4
+	abCI6RojBHy3h+W388RbEUIRMtl4PTtLs7RJ+2cu8kWyMTXQBwgr2TVLDIwc17HQRSZBDX1HLPt
+	75Q369YjqKWA0WWZKL8rw=
+X-Google-Smtp-Source: AGHT+IEgeN5s3ZfRGLUDH5gOqfcD4s6TEi5D0C2g77HjKlzUHwkH9XonjRLYuHi/ar2d9oTr5N5VxEPTjm/oRIIx8No=
+X-Received: by 2002:a05:622a:1c19:b0:477:84f5:a0b with SMTP id
+ d75a77b69052e-47ae96515c1mr280374181cf.2.1745327476964; Tue, 22 Apr 2025
+ 06:11:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:102.0) Gecko/20100101
- Thunderbird/102.15.1
-Subject: Re: [RFC PATCH] docs: hugetlbpage.rst: add free surplus huge pages
- description
-To: <osalvador@suse.de>, <muchun.song@linux.dev>, <akpm@linux-foundation.org>,
-	<david@redhat.com>, <corbet@lwn.net>
-CC: <linux-mm@kvack.org>, <linux-doc@vger.kernel.org>,
-	<wangkefeng.wang@huawei.com>
-References: <20250419073214.2688926-1-tujinjiang@huawei.com>
-From: Jinjiang Tu <tujinjiang@huawei.com>
-In-Reply-To: <20250419073214.2688926-1-tujinjiang@huawei.com>
-Content-Type: text/plain; charset="UTF-8"; format=flowed
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: dggems703-chm.china.huawei.com (10.3.19.180) To
- kwepemo200002.china.huawei.com (7.202.195.209)
+References: <20250417142525.78088-1-mclapinski@google.com> <6806d2d6f2aed_71fe294ed@dwillia2-xfh.jf.intel.com.notmuch>
+In-Reply-To: <6806d2d6f2aed_71fe294ed@dwillia2-xfh.jf.intel.com.notmuch>
+From: Pasha Tatashin <pasha.tatashin@soleen.com>
+Date: Tue, 22 Apr 2025 09:10:39 -0400
+X-Gm-Features: ATxdqUHTas6nxRBSgtwdGV4WIXumv0Kkcfrqb-O571C2uYrggyHxMo9DW-cOmcA
+Message-ID: <CA+CK2bD9QF-8dxd92UBoyvO0rBJ3uTN27pXzO2bALw4v_2D_8g@mail.gmail.com>
+Subject: Re: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure
+ many regions per e820 entry
+To: Dan Williams <dan.j.williams@intel.com>
+Cc: Michal Clapinski <mclapinski@google.com>, Vishal Verma <vishal.l.verma@intel.com>, 
+	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
+	Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-
-在 2025/4/19 15:32, Jinjiang Tu 写道:
-
-Hi
-
-> When echo 0 > /proc/sys/vm/nr_hugepages is concurrent with freeing in-use
-> huge pages to the huge page pool, some free huge pages may fail to be
-> destroyed and accounted as surplus. The counts are like below:
+On Mon, Apr 21, 2025 at 7:21=E2=80=AFPM Dan Williams <dan.j.williams@intel.=
+com> wrote:
 >
->    HugePages_Total: 1024
->    HugePages_Free: 1024
->    HugePages_Surp: 1024
+> Michal Clapinski wrote:
+> > Currently, the user has to specify each memory region to be used with
+> > nvdimm via the memmap parameter. Due to the character limit of the
+> > command line, this makes it impossible to have a lot of pmem devices.
+> > This new parameter solves this issue by allowing users to divide
+> > one e820 entry into many nvdimm regions.
+> >
+> > This change is needed for the hypervisor live update. VMs' memory will
+> > be backed by those emulated pmem devices. To support various VM shapes
+> > I want to create devdax devices at 1GB granularity similar to hugetlb.
 >
-> When set_max_huge_pages() decrease the pool size, it first return free
-> pages to the buddy allocator, and then account other pages as surplus.
-> Between the two steps, the hugetlb_lock is released to free memory and
-> require the hugetlb_lock again. If another process free huge pages to the
-> pool between the two steps, these free huge pages will be accounted as
-> surplus.
+> This looks fairly straightforward, but if this moves forward I would
+> explicitly call the parameter something like "split" instead of "pmem"
+> to align it better with its usage.
+>
+> However, while this is expedient I wonder if you would be better
+> served with ACPI table injection to get more control and configuration
+> options...
+>
+> > It's also possible to expand this parameter in the future,
+> > e.g. to specify the type of the device (fsdax/devdax).
+>
+> ...for example, if you injected or customized your BIOS to supply an
+> ACPI NFIT table you could get to deeper degrees of customization without
+> wrestling with command lines. Supply an ACPI NFIT that carves up a large
+> memory-type range into an aribtrary number of regions. In the NFIT there
+> is a natural place to specify whether the range gets sent to PMEM. See
+> call to nvdimm_pmem_region_create() near NFIT_SPA_PM in
+> acpi_nfit_register_region()", and "simply" pick a new guid to signify
+> direct routing to device-dax. I say simply, but that implies new ACPI
+> NFIT driver plumbing for the new mode.
+>
+> Another overlooked detail about NFIT is that there is an opportunity to
+> determine cases where the platform might have changed the physical
+> address map from one boot to the next. In other words, I cringe at the
+> fragility of memmap=3D, but I understand that it has the benefit of being
+> simple. See the "nd_set cookie" concept in
+> acpi_nfit_init_interleave_set().
 
-I think this is a constraint of interface nr_hugepages, this interface couldn't
-guarantee all huge pages will be freed. How do you think about it?
+I also dislike the potential fragility of the memmap=3D parameter;
+however, in our environment, kernel parameters are specifically
+crafted for target machine configurations and supplied separately from
+the kernel binary, giving us good control.
 
-Thanks.
+Regarding the ACPI NFIT suggestion: Our use case involves reusing the
+same physical machines (with unchanged firmware) for various
+configurations (similar to loaning them out). An advantage for us is
+that switching the machine's role only requires changing the kernel
+parameters. The ACPI approach, potentially requiring firmware changes,
+would break this dynamic reconfiguration.
 
-> Besides, Free surplus huge pages come from failing to restore vmemmap.
->
-> Once the two situation occurs, users couldn't directly shrink the huge
-> page pool via echo 0 > nr_hugepages, should use one of the two ways to
-> destroy these free surplus huge pages:
->   1) echo $nr_surplus > nr_hugepages to convert the surplus free huge pages
-> to persistent free huge pages first, and then echo 0 > nr_hugepages to
-> destroy these huge pages.
->   2) allocate these free surplus huge pages, and will try to destroy them
-> when freeing them.
->
-> However, there is no documentation to describe it, users may be confused
-> and don't know how to handle in such case. So update the documention.
->
-> Signed-off-by: Jinjiang Tu <tujinjiang@huawei.com>
-> ---
->   Documentation/admin-guide/mm/hugetlbpage.rst | 11 +++++++++++
->   1 file changed, 11 insertions(+)
->
-> diff --git a/Documentation/admin-guide/mm/hugetlbpage.rst b/Documentation/admin-guide/mm/hugetlbpage.rst
-> index 67a941903fd2..0456cefae039 100644
-> --- a/Documentation/admin-guide/mm/hugetlbpage.rst
-> +++ b/Documentation/admin-guide/mm/hugetlbpage.rst
-> @@ -239,6 +239,17 @@ this condition holds--that is, until ``nr_hugepages+nr_overcommit_hugepages`` is
->   increased sufficiently, or the surplus huge pages go out of use and are freed--
->   no more surplus huge pages will be allowed to be allocated.
->   
-> +Caveat: Shrinking the persistent huge page pool via ``nr_hugepages`` may be
-> +concurrent with freeing in-use huge pages to the huge page pool, leading to some
-> +huge pages are still in the huge page pool and accounted as surplus. Besides,
-> +When the feature of freeing unused vmemmap pages associated with each hugetlb page
-> +is enabled, free huge page may be accounted as surplus too. In such two cases, users
-> +couldn't directly shrink the huge page pool via echo 0 to ``nr_hugepages``, should
-> +echo $nr_surplus to ``nr_hugepages`` to convert the surplus free huge pages to
-> +persistent free huge pages first, and then echo 0 to ``nr_hugepages`` to destroy
-> +these huge pages. Another way to destroy is allocating these free surplus huge
-> +pages and these huge pages will be tried to destroy when they are freed.
-> +
->   With support for multiple huge page pools at run-time available, much of
->   the huge page userspace interface in ``/proc/sys/vm`` has been duplicated in
->   sysfs.
+As I understand, using ACPI injection instead of firmware change
+doesn't eliminate fragility concerns either. We would still need to
+carefully reserve the specific physical range for a particular machine
+configuration, and it also adds a dependency on managing and packaging
+an external NFIT injection file and process. We have a process for
+kernel parameters but doing this externally would complicate things
+for us.
+
+Also, I might be missing something, but I haven't found a standard way
+to automatically create devdax devices using NFIT injection. Our
+current plan is to expand the proposed kernel parameter. We are
+working on making it default to creating either fsdax or devdax type
+regions, without requiring explicit labels, and ensuring these regions
+remain stable across kexec as long as the kernel parameter itself
+doesn't change (in a way kernel parameters take the role of the
+labels).
+
+Pasha
