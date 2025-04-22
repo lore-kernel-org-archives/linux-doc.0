@@ -1,199 +1,164 @@
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011033.outbound.protection.outlook.com [52.103.68.33])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 816B4290BC8;
-	Tue, 22 Apr 2025 15:28:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.33
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745335713; cv=fail; b=LOnn8pBMAqVQzwJS5iED70sDOtwLJfvZ9JHSgbxkTq9qEOUXfNG0buMlcwTRAHW4nj8DAuqwDigzPV+SkREzDw+2DsWn7YBMz7k19EEo/XR8igoPX+80vs2hUYQ8tgrIGsu03aZsgJJ01J1zK3kXDHAU3aXsshb6r13bysWjNas=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745335713; c=relaxed/simple;
-	bh=ynz4rPTX94/brRBECOsM+aeGZYEOqNxUsYBqawk/ibU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=o+Z1u/f70sT06VfJ0IW96F/fiql81tiQY2PrcqQlsIxQoIMxHvSd/f3enKydW3taxA+kEZJP7ftvq2jKsbjrqvtirzw5Oh6ZYfni57xMr8jHA4pEOgTKdjMXz8fiMPmiZo6kPXMHqyrZ2sR64EoQrmhpOCCMme6FUP1dijDrXuM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=WuTyJ6f1; arc=fail smtp.client-ip=52.103.68.33
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A0F284B5D;
+	Tue, 22 Apr 2025 15:31:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745335889; cv=none; b=OcUE71CRK+Pml86J9QnwAaNrOheULqsHj85w+qtIwVgIqH+Oj/gpuATzMjCkGX/Nqb9QNqOSi9wAiEnwgXycL/nO7kxjQHpO//pD9/9Feb/RWdtWVPoFfiUQ/2gEZeCaUWwnIhWLCHVNFnYnJ0qczrIh7kn+b7ICfP87t/orhGE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745335889; c=relaxed/simple;
+	bh=MQNQkrPPcC7LKPOQVQW5RB7uvEPTiEv7n5ZEWn92mSM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kM9j+GvpoDrhA6G0kmFlodPde+c5BlLsbZD0evpOs2eYjqm+0qHjhOVFN3AJZPuTuUX052MAuzw7Lu7DxHMnF5WI+KnPgnaKW16wTkYs2yRGcLIzcgMUHlyusSx38G9QgxMLOVKPIlzhxKVFqUDjGWPVazO03O4mEiSdSN7YGSw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=fYDmlBUq; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="WuTyJ6f1"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FBuRDvJsdHCyZio9wfHhaUIgn1aIOyIVrjV2B2v9ZHMyBIFKPLcvkXpx+V0Sk1Xj+Er4y7K2fxaMYDgNQiBK8DMjFWXeOBEBb5tmb74/XlM4g0oX3OPmFpFdNzFy5MGJwpGI+XXmthn0/3q5OR9mmzudOc3bjEJsPAC5xQv/Ntq94jXlJ80JyUPtHzZ9tjgzJ/CWigLYCgLY/vImaD0LMb27EPt9KdRzgpqPBaKa3vbMt5EU1LP3F+mVdHqBMFXe4TfRJysFEgXc/tocQ6KwLJmW9OGGrmE8REj3AdniZ42DuKEXIzTruPVgB3+F4lP1fbsJlXxzi4youkkT4EiJHw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CPTFtERnovtt18Wt92Gp3DEKmhZm46vwLzZ24LqM1Ps=;
- b=quHHZLYeWGFb7/UprxxbLRslGM3WfwdLuSCX2ZOlcxJ/eDj5w/Hg0Y+nUWjllWssPEXolp+Hk9/f7cierXBWFEXDfQvlkMGRBCwNmBOmFL2y7RHkyqmAvgo1/Bt8npQ0F++EeCBW5T5RzK6wy8dAGQccGiZ0u0rPLjqOvbHkCTEFlHJvBs/nNpYPfX7/aya1C66V9vrxHzIPfnCw3ArkAQEClOf9QrW9QuPoLIjaZ7tVe3ySLtkNa4mV0RbYRpq4c6+aU09TzE0Kb3U7pAePwrb8wbvEEcSnma+d30pbUH+mRJwImqep9TucpsOQS9QrSjoeSdv6t4pD5EaR64rnRw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CPTFtERnovtt18Wt92Gp3DEKmhZm46vwLzZ24LqM1Ps=;
- b=WuTyJ6f1rT0rCgKmr3iO5vADlbisdJF++70L7AcMakvfq4VoLs0/beH2Lfd23d5FG7XObdHY/61J4NSuFznwM7YitKjf/umX34laOB0SWl7fuL8dKU0QLuhIH8/yBQdNgBlgKHDC4WqKVGZNDNZwp/T5a0+JS731gGEb4wj5NFxDG4HR6DKuBoazR+YpyAgMc0SJEY5p8JmCT3AAObgEFb0ZsU63zdEPGYMv2pbewSROAB7PVzO3C4dOWApamGTbaCr9/O0kduyfcNk/P+Jps++7vswgdBQ7I107d57ulxglS6W/jjsX3J70VT9hl3byX6SOAYy5d5+v10YI9fUAyw==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN0PR01MB9381.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:10e::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Tue, 22 Apr
- 2025 15:28:21 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8655.031; Tue, 22 Apr 2025
- 15:28:21 +0000
-Message-ID:
- <PN3PR01MB9597F37026275E5CF1DC3353B8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Tue, 22 Apr 2025 20:58:17 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc: Geert Uytterhoeven <geert@linux-m68k.org>,
- Hector Martin <marcan@marcan.st>, alyssa@rosenzweig.io,
- Petr Mladek <pmladek@suse.com>, Sven Peter <sven@svenpeter.dev>,
- Thomas Zimmermann <tzimmermann@suse.de>, Aun-Ali Zaidi <admin@kodeit.net>,
- Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
- Simona Vetter <simona@ffwll.ch>, Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
- lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- netdev <netdev@vger.kernel.org>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
- <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
- <aAdsbgx53ZbdvB6p@smile.fi.intel.com>
- <CAMuHMdXuM5wBoAeJXK+rTp5Ok8U87NguVGm+dng5WOWaP3O54w@mail.gmail.com>
- <PN3PR01MB9597D8AE22D48C7A5D351ABBB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <aAe0O50RmUw3k0o9@smile.fi.intel.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <aAe0O50RmUw3k0o9@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4PR01CA0081.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:26d::10) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <5d47d3a8-ab3f-46d5-bf80-5f150f118a0e@live.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="fYDmlBUq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=Td9goxiMzFg+ZSKQu8L6C/qdbNZNgQG5kJwAGOsifSk=; b=fYDmlBUq82sXEic7j3/kGcqQpl
+	OWpUsCDPaMShS8xWRkUPGWrCVyks24gtdDpLWO2D+2J9m3/UgH9oQfhy3a8kexUxaTAkIxN7dlCen
+	4WVxkNoAXeg/tfyXZ1Jb2t4rg2NebadOY5agbKK9CDsk5e8BFlnFzuXoTcy5VPjnMUezYTlZp9CfQ
+	LK/x1B2YiTPVJnlJow/0npfaDe3NLEz+/14FVj4VDfCmVxsnmCqrFwNXVkQw8RkzlfQm+Srhz0QNR
+	3IAPK7F8AuYhyGVcJDTuYSl2J36+WOlw8AuK9w1NTZxbvOLfKVLMIEB6Kli7PwRtbNQchfwb+CHfP
+	hLX2YCRw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:37550)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1u7FaT-0004dS-1a;
+	Tue, 22 Apr 2025 16:31:05 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1u7FaO-0007a1-1j;
+	Tue, 22 Apr 2025 16:31:00 +0100
+Date: Tue, 22 Apr 2025 16:31:00 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+Message-ID: <aAe2NFFrcXDice2Z@shell.armlinux.org.uk>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <aAaafd8LZ3Ks-AoT@shell.armlinux.org.uk>
+ <a53b5f22-d603-4b7d-9765-a1fc8571614d@lunn.ch>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN0PR01MB9381:EE_
-X-MS-Office365-Filtering-Correlation-Id: d7ffae44-bc6d-4ba9-ce34-08dd81b2508a
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|19110799003|8060799006|7092599003|15080799006|6090799003|5072599009|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QU5aSTlkQWJFdUVnQWF4K244K0h1Um1URHg1YmhyZm8wZi9PMU5BT1pRWTM5?=
- =?utf-8?B?cEc0eEFmdjl2UERaeVBUUENFUXBDeCtOcE9lUUp5d3A5U1dIREpYWjFDc2tG?=
- =?utf-8?B?NUJ6NnBJelZueklnNmRFN3RNLzlsbm1XVEc3a3Jid0k3L21LRG5acTYvL2I3?=
- =?utf-8?B?eFVFbjhkbkJoRWZlSXUwNVZxN3Vock9jQVhnMW93ZzFtZFJDN3JuOXd1cHhO?=
- =?utf-8?B?TW93TXo4ekhhcEVhVXNYZHgzaldXaGxIMU1wWFlUYUNyMW9EQVFmQWVzSXA0?=
- =?utf-8?B?a2lzaG9lRFI2aXdxaFhZTnZINVNzbHNWenA4Znp5S2luRzBHTXlkVUFVT3VR?=
- =?utf-8?B?RjZJSnVCYm5rTVJjNi9ZMXBBNmwwZjl0OFBBNytVNkJaaVljWVZyQ2MwaUFz?=
- =?utf-8?B?M0RIZlJuc3pWSjgyTmJMYU5weFFRZHE5ajVaTjBYcFMwejkycVVmMHBTUFJi?=
- =?utf-8?B?Q2hKVkFZTmh6bnpSUXZCb29Ha29CSGhmYUxsblF6M2k3Z211YmhzdVpWQlY0?=
- =?utf-8?B?eitTRFBTVjhwQzhCTFIydnhveEs2OHVOZzdoZkJ3ZUxCMmtUcjZNQWZMUjJU?=
- =?utf-8?B?MEZVWkF5NjdZL21iL2lwSDZHS0NERGlCb3V3MDJPNDRQS0N6d0M2RDViS3pW?=
- =?utf-8?B?ODQ3RFdNR3EyM0VjdnpqN3lDYnQrU0ZIbHhMOWVGb1NQejU1MTRBSXE1TUxI?=
- =?utf-8?B?Zk9ISW9vNDZWZTVCM2xBbVk0ZzNBQTJCN2dEbGc1cDBIWkwrOGdpQ21NWWVY?=
- =?utf-8?B?K0ZSbHFCWnQ5MW5ub0ZpcWdxOHh6VlV5Ymp4anhJV0xYQ3haWVdYV2U1ZXRt?=
- =?utf-8?B?UkM0SVVPODkxeTVZR3AwNzg3aENsdzMrc1ZlNlk0SitPaHEyS3JndGV0bXJa?=
- =?utf-8?B?UkJUSStzeTRmUXpjRTlkWFVSaTVmNm1TSC8wWUM3K1doV2xUN1Z4UFBoVmZC?=
- =?utf-8?B?Rk9NSWlTNnNUblIrL3AwNzhjQzU2aFVHTjNJaUhXVS9mMkJQMmNKLzJOWFFn?=
- =?utf-8?B?eEdWZEkrMkxENlg3V2o1ZEE2R0cxVjRIWDVSbkxGK25kRG1lZHdwbTlQc0NP?=
- =?utf-8?B?QjkyMVNpRkJteWhlWmxzYmFFZ2V0RGw0dVgwZkNRMlprWGhwRnR0WkNLc3Jp?=
- =?utf-8?B?K2h3bndtRFBZeWZjaUh0N09XS29yZWVwOStoZkpMeklJSXN1RWNtRXJqRFZn?=
- =?utf-8?B?RElMc3JKN05hOVZTOGxndDlKeXBFSTNiYkhGOXUrbnZLd2NnVWtIODdSc0V6?=
- =?utf-8?B?WmtDSi93Y0l0RndJV0NSWm9mNVZDZUNFdHh0Q3crcHkxTmdCVW45cnhKTTJL?=
- =?utf-8?B?TW1mME52TWo1WHJDc1RhSVJoWWpwa2Q1MHZwRW01bTdtSVpJeEh2SmZTQTJG?=
- =?utf-8?B?My9mM2NISHVGN2lRZUlkUCsrNmNHa2F5N0daU05GenBySWVEa0FYUmdwYnF1?=
- =?utf-8?B?eTJyRm5EQndxMWdCaUVnSGhVMDV6TU81aW5kRzlvbDIwRWJxdmJ0dWNmcEox?=
- =?utf-8?B?Q2FKTU5ONHZXdCtvTm54L05MQkdLUDBKU1hlNEI4eTJvUEkxRCtSWjloTVNV?=
- =?utf-8?B?TCtUQT09?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?SW1EVmpPMHhTOFZBUiswbUx3Q3ZzUG53RzNVYitzUUhnTm81dFoweUNjM1Q4?=
- =?utf-8?B?V1hVZS9IZEdyVmExRUJJMS8xWGRpeTcwWFFsVmlQVGRtTkRvb0ljbThocVpF?=
- =?utf-8?B?ZXFhN1lKL3ozeXNBd2krbVc5NTIvOTczYVN2enBQai9ZRDl5d1NnR3cvdVFY?=
- =?utf-8?B?V2hJMTJlaHpnOHJDODFCZkZ6Yld3TnQ3bnl4djhUV3d4NFZYVFFDSWVTczZS?=
- =?utf-8?B?dktWU1o2Z2tZb0JKcld0bWZMNGtKamVVSnpSY096TitJSzV1OFlaVUR3RDlB?=
- =?utf-8?B?bEQ2NDRTdGNaNW1nZWltUStiYjl6WCtFQkJ2YkNFOXZQQUsySkhiZXpkWmRW?=
- =?utf-8?B?WDJVTHAySFNHY1J2VzFkYkk1b3pEVmpkTm9wL0RmR1dzcTczZUF6RjFYRlUz?=
- =?utf-8?B?K1YxbWY1WlZGb1JuQzlQV1hvWlN4eGFkY2NGbEdyOEdlSWFZeEpRaU5pYU1R?=
- =?utf-8?B?WUNPaFlTRGNwSEhRcGNCN2tWbzJCWVlNOTRvZHdsYS91VTl5d09WTU0yQkQw?=
- =?utf-8?B?WlhrNVZpL1o2TUNEc1p3RDBLTHVFcXFsMURuYndweG9hcjZYaHNEVHBuN3pV?=
- =?utf-8?B?eHdkT3UvSXpaWk1wWWU2ZC9tOWxjZjNFTWdpVndZOEtFSnRTam90VkNodHdG?=
- =?utf-8?B?SFdUQVJuQ0hTeXpoUGY2R1IyWFFMK3hOSG9FRlN1UGg3UnFzcGxpSFc3NlhE?=
- =?utf-8?B?QXZjUFlRSnFYRHB3aW5waUl2emIrd1k0bmFacEx1ZU43QXRicGI4N2l5OGt3?=
- =?utf-8?B?aDBMcEpmeDJwNEkxZWVIMTJ0Q25TUCtseHpWN3JBeXp3YjZYVU1CalJJM2h5?=
- =?utf-8?B?REhwZVJWSDVaVlI1dlp6Z29sQ3hrc3JiME42dUc2eURmVm45Z3hPQlRGQmox?=
- =?utf-8?B?amdTeUswYXhnNFU0ei9ad0lkVjAwbVZEcDEyd05QdVEyVTlkSzl3ck5RUHpp?=
- =?utf-8?B?aEgzNjNBWkxiYnpMQ0x5aVBqbWtsWXJ6d0t1QW5ibGY3YzQwWk9iTjhIUldw?=
- =?utf-8?B?cEFGRXJTZW81dHpHTEU0OTZwelExVmYvRVp5R0NuRW1vZS9WeUdNWmpybG00?=
- =?utf-8?B?Z3hpWTBXN1hKZTFVVnRQRDJTN2R0ekxnMUxkQnVMenYzeFg3WFBNZzdwTTNU?=
- =?utf-8?B?NkVtQThxTmRtTkF6TGF3Y2ZMS3c1bER5Wk1YaExVRm8wK3JMbjJEQnBnRTlR?=
- =?utf-8?B?OThMQjdla2pOQ3FoZEFWUWl1V3lrejBkM0l2dHVqTE5HeXJCQnoxMG5mR25p?=
- =?utf-8?B?bTlVMlpGWUlkTTJvU29BZDJ5UzlxdXlzU0szdW5jYTBHKzJRVEk0a0RLTkZX?=
- =?utf-8?B?bzZrTUR6UmdjQ2x6QVdLcWVobitJbWFOL2liS0QzakhBYUxWZW5lN2lPdmZB?=
- =?utf-8?B?ZWVZelVENEVSTy85UGVJczh1YUhjRjVTdkw5ZXVxUDI2aDQ2aVVLZnMrMXAr?=
- =?utf-8?B?dmZlZ2FaSXdrSWYxUkxBZ054VTNILzVYT0FENkdWdmcvNG56TENMQ2w5UUEx?=
- =?utf-8?B?aGVwVjNxMk1iSjN1OXZ5aGZ0MjZ6bWoxWlpHYklCOVVFM1hxVGh3RDRhLy9i?=
- =?utf-8?B?MXNwUktpOXVRU0YwY24xMjFTelppSFZHK1FaKzhZRkNPNGZ1bmtRb2lPSkZR?=
- =?utf-8?B?UDV2WEJjZ29ERlprVnRkL2E3U2Y1RWF5SXJaNnJlYk5SU2d1NkRjeVlKMDl0?=
- =?utf-8?B?SVNFV01Vc1lMMlI4VEdrQm9BNFBLckg0THhxWHQrd0xQbFQyWkF3bk9XTWUw?=
- =?utf-8?Q?QJCQbFZo2WD0ITboxE=3D?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: d7ffae44-bc6d-4ba9-ce34-08dd81b2508a
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 15:28:21.3884
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN0PR01MB9381
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a53b5f22-d603-4b7d-9765-a1fc8571614d@lunn.ch>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
-
-
-On 22-04-2025 08:52 pm, Andy Shevchenko wrote:
-> On Tue, Apr 22, 2025 at 08:45:31PM +0530, Aditya Garg wrote:
->> On 22-04-2025 04:02 pm, Geert Uytterhoeven wrote:
->>> On Tue, 22 Apr 2025 at 12:16, Andy Shevchenko
->>> <andriy.shevchenko@linux.intel.com> wrote:
+On Tue, Apr 22, 2025 at 05:00:37PM +0200, Andrew Lunn wrote:
+> On Mon, Apr 21, 2025 at 08:20:29PM +0100, Russell King (Oracle) wrote:
+> > On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
+> > > diff --git a/Documentation/devicetree/bindings/net/ethernet-controller.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > > index 45819b2358002..2ddc1ce2439a6 100644
+> > > --- a/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > > +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
+> > > @@ -74,19 +74,21 @@ properties:
+> > >        - rev-rmii
+> > >        - moca
+> > >  
+> > > -      # RX and TX delays are added by the MAC when required
+> > > +      # RX and TX delays are part of the board design (through PCB traces). MAC
+> > > +      # and PHY must not add delays.
+> > >        - rgmii
+> > >  
+> > > -      # RGMII with internal RX and TX delays provided by the PHY,
+> > > -      # the MAC should not add the RX or TX delays in this case
+> > > +      # RGMII with internal RX and TX delays provided by the MAC or PHY. No
+> > > +      # delays are included in the board design; this is the most common case
+> > > +      # in modern designs.
+> > >        - rgmii-id
+> > >  
+> > > -      # RGMII with internal RX delay provided by the PHY, the MAC
+> > > -      # should not add an RX delay in this case
+> > > +      # RGMII with internal RX delay provided by the MAC or PHY. TX delay is
+> > > +      # part of the board design.
+> > >        - rgmii-rxid
+> > >  
+> > > -      # RGMII with internal TX delay provided by the PHY, the MAC
+> > > -      # should not add an TX delay in this case
+> > > +      # RGMII with internal TX delay provided by the MAC or PHY. RX delay is
+> > > +      # part of the board design.
+> > >        - rgmii-txid
+> > >        - rtbi
+> > >        - smii
+> > 
+> > Sorry, but I don't think this wording improves the situation - in fact,
+> > I think it makes the whole thing way more confusing.
+> > 
+> > Scenario 1: I'm a network device driver author. I read the above, Okay,
+> > I have a RGMII interface, but I need delays to be added. I'll detect
+> > when RGMII-ID is used, and cause the MAC driver to add the delays, but
+> > still pass PHY_INTERFACE_MODE_RGMII_ID to phylib.
+> > 
+> > Scenario 2: I'm writing a DT file for a board. Hmm, so if I specify
+> > rgmii because the delays are implemented in the traces, but I need to
+> > fine-tune them. However, the documentation says that delays must not
+> > be added by the MAC or the PHY so how do I adjust them. I know, I'll
+> > use rgmii-id because that allows delays!
+> > 
+> > I suspect neither of these two are really want you mean, but given
+> > this wording, that's exactly where it leads - which is more
+> > confusion and less proper understanding.
 > 
-> ...
-> 
->>> I am not against h/n in se, but I am against bad/confusing naming.
->>> The big question is: should it print
->>>   (A) the value in network byte order, or
->>>   (B) the reverse of host byte order?
->>>
->>> If the answer is (A), I see no real reason to have %p4n, as %p4b prints
->>> the exact same thing.  Moreover, it leaves us without a portable
->>> way to print values in reverse without the caller doing an explicit
->>> __swab32() (which is not compatible with the %p pass-by-pointer
->>> calling convention).
->>>
->>> If the answer is (B), "%p4n using network byte order" is bad/confusing
->>> naming.
->>
->> The answer is definitely (B). As far as bad/confusing naming is concerned,
->> I'll let vsprintf maintainers decide. As far as usage is concerned, %p4cl
->> is used in appletbdrm and %p4ch is used in to be upstreamed soon smc driver
->> by Asahi Linux.
-> 
-> Can it use %p4cb? Or in another word,
-> why does it require "host" representation?
+> These DT documents are supposed to be normative and OS agnostic. I
+> wounder what the DT Maintainers will say if we add an Informative
+> section afterwards giving a detailed description of how Linux actually
+> implements these normative statements? It will need to open with a
+> clear statement that it is describing Linux behaviour, and other OSes
+> can implement the normative part in other ways and still be compliant,
+> but that Linux has seen a lot of broken implementations and so wants
+> to add Informative information to guide Linux developers.
 
-Sven might know why. He is already CCed.
+Well, looking at ePAPR, the only thing that was defined back then was
+the presence of a property to describe the interface type between the
+ethernet device and PHY. The values were left to the implementation
+to decide upon, but with some recommendations.
 
+What that means is that the values to this property are not part of
+the DT standard, but are a matter for the implementation.
+
+However, with the yaml stuff, if that is basically becoming "DT
+specification" then it needs to be clearly defined what each value
+actually means for the system, and not this vague airy-fairy thing
+we have now.
+
+We've learnt the hard way in the kernel where that gets us with
+the number of back-compat breaking changes we've had to make where
+the RGMII delays have been totally wrongly interpreted and leaving
+it vague means that other implementations will suffer the same pain.
+
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
