@@ -1,204 +1,108 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E52A62DEB83
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 21:10:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900E27BF6C;
+	Tue, 22 Apr 2025 21:26:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745356223; cv=none; b=lTh6UIZ6eEXvMneXQUwnSpVi3sJbdsDDxv7/OfUHC34meEwiGYnW1a/IxXBXb5S2st8ANOSTtdclj371eVBXgpqdkEcX9QE0f0z19+Be+hfKiJl5lenn9cDtOeaW+cY2wVbNxYBhr+O9GltRH+m1tG3gHAAegeVNhsiLxUjthjg=
+	t=1745357208; cv=none; b=AhnwQtnhlYIiIu0f+LDAmcOZP/c9z+jZh1kH3iXl0YQqiOAILkMmujo9LUdQhI4mDSzL46uwdIv2o0tP1cCRoYLS4gHvGumG+4+/DWV9XG+kgjXxAPZ+DYA2rZNXiVbZNfXb8gLU8eVmNay3MhbVLVHZ16hro1W3N0f0mT432+g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745356223; c=relaxed/simple;
-	bh=DGei0lrNYocjpAo+fluDzi6pCQENfL0ofHkr/7MyVCc=;
+	s=arc-20240116; t=1745357208; c=relaxed/simple;
+	bh=9Hc5x03Xt6Q8VLLhD3mCqz80+X90ssoJI+f+CleuBKQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=lWCd8pd328B72uYWBqe102bMP1KLlEzzfi0IGMCzeRjcP7cwCq5Vg9xnAiyF1TNt9VlymA8EiMXO+bZujF9/LEQ/e6S9OxjYNwNj+LR6EmzMENiSZFxjB0KqScesnfpow+QBNpJKSZaFP8Ls/6vigR0ZlXsgMcL4nzVDsFhah4s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=gkTb8zm2; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=CWULsCDlsA6NjI6l15OKCCNWfvEzxZtYfwUcSg44X/hE+IDYSWO1u10Ug6UH07RR93Mje0vFqb7morL0SfBRrtAB6289RUVc2UH3TV0g42kDHlNORFdF/WQ5jbLIHvN+q3jq8VyDX1Bhcrx5zbSkxVsGYwN34rsl76JJXtxIFHk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/D7yWRx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="gkTb8zm2"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2240aad70f2so75105ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 14:10:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745356221; x=1745961021; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=P7kxTjGBKB0aUEv3DpjjmftGzp6kA+GSoHXFlnyGsDM=;
-        b=gkTb8zm2CyA7ntRa3aTsez52qSIVwAk3fZlk5npkOMuMl51y0eVARx8qiSvxtMEn82
-         TVg4ZYJ4reXvPRkKGdNuGaRk743KSKz1dktQR2WK7rG6eraQAAUgppCC369xSh1K63af
-         9EWLflP0rxE52O0+ZV9atxXuNaEixcDtl6KOu6qtj+ztvrLw31xKL+BW1+8F8Yz6BWt5
-         4/PTlbLiWwgERn/DgY7aeRB5v9qFVwwTg8DK7/0CKQrZ/pmLi0Rxv4pS1Aq0aBvRGyta
-         TTp1vFaYcuqn3xN0Lt9DeYtk+iK32vwyDB4/pPgKhrXnpUGHcnZAiY83sV815qp+ow0R
-         E//A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745356221; x=1745961021;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=P7kxTjGBKB0aUEv3DpjjmftGzp6kA+GSoHXFlnyGsDM=;
-        b=dChhDXPTYb4k/XthDU3xATjLZ70xa/eUOSMQtzA6asuwOwmpSysDncwV0yVFt0/w7J
-         8qHA7Ti7l7s1qKk9DhZ77jZ7q3kueZbil61jWreFrrQtQF+V/7LXhIflWIk5VOD9DV5l
-         rpIccAkL2I9glkqZwFdMjxbn5zMfz3RWJcJrhbJQsjI+vcm/AZFboZHpn3JQxlXxKNMp
-         YwPdY4GLmW1NzFIXEgwAussf9litZtWbUFCyhw+xuDbYPfs+uR0lnq+Gy08hiMOz9f6K
-         FXc5P5vs/SrZAzhEcBw2T7IOB1Nuzz2Zc0j/BEUegtxec0t7fc7m9ihwCS1BQTw0L3Jl
-         /niw==
-X-Forwarded-Encrypted: i=1; AJvYcCVWKRzYEunjJIYQ90cvkgDNIHPLhodzqHW9Zz8v+XslzHU6jrGLjJbOLgsSAuxoAYCgDsNTraupVQQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCTcYzb6fjDwgUXHILn3rEWgGxQPAZMKPxHHFdT6ZO97CqaKKg
-	yzv3fke4gn8W9iTgVX6/3bJbOEoUd7MD5oOM4Z/brOP4xRG5Ox+sHMyPneKIgS+8EolK+PsKdHp
-	p8Za6lJ8wpDeO2vKO0XpRNz7MOrnZuALNGm2g
-X-Gm-Gg: ASbGnctqHxR2n23JwkmoKp7rR9LRcVkJPyxAUIJYnIRRQfWbsjmDK3DmrkCJiEJfmbq
-	RlDjzLURi6/k/5dLqvAyaIlYLfgPbYwSgpPp+q6BjPnBjapoNf6I68jqThEWWaHoLn6RQbJvNXm
-	jWK8EOUN//ZfrjwDdcKypP5/i94tj516uLFJL4jF6y8gN2B9gYRDU5
-X-Google-Smtp-Source: AGHT+IH158SP9GigskzwrjsRVwtmkJmUMnK2yFgK5B4j6Q7h/21qQMUx52O/Zx9vaqWSN5WxUUUx40w0l4D2Gn/nHjY=
-X-Received: by 2002:a17:903:440b:b0:21f:465d:c588 with SMTP id
- d9443c01a7336-22da2b93ca8mr912615ad.14.1745356220781; Tue, 22 Apr 2025
- 14:10:20 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/D7yWRx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B45C4CEEE;
+	Tue, 22 Apr 2025 21:26:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745357207;
+	bh=9Hc5x03Xt6Q8VLLhD3mCqz80+X90ssoJI+f+CleuBKQ=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=h/D7yWRxhbT0Tokd9yCp1wg9xCgigqp3o/yVm8u9b06tDs17VYlkXgDU2aKW+tBEW
+	 yCFBWgaWcd9omhGXkDuPp7Lt9n5PqXhp+tTGMo9ams2ktewBPqhsq1gZcpvy0FHL19
+	 Kzfr1/T+J+vS0tqDyftCuRmUR5Qdukw/vc+WnDWc8OJCiw4ChzEg9UgCLeqUobbDHt
+	 fT9OYOrU03U/lBXrwh75XJJ+nGMz7uFFqrzPHi4ccGmIRSkGGIoHkpoDTdGy1jf0zq
+	 7UYuaRvxExEQ/uuuaiRPfMFtyeRRyXUuO5bVqNWk3tNUQfdJkgjjHHwRz4FIW7A464
+	 Gfm/LQFCLpQ5w==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30beedb99c9so50351021fa.3;
+        Tue, 22 Apr 2025 14:26:47 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWDUcVVNRQnN2IT6VWNi4mXWG9DG3NwDWkL3fzCUiM8mxQZ9Y8ccXmqKio+OGwWcEr1pwdDRB3n5BFNEbboTY3E@vger.kernel.org, AJvYcCXfx3pDb2VjpVHaNRMIN73R3z9zeaAPpn731wi0CBpnVcijy1OcKQQFlzhvz1ofGjP1cFDl8WaGbeuh@vger.kernel.org, AJvYcCXguiuURkAiuUi5TsxwbleVbpC/BORoTWk8EZlPHxFqa3qN7+EgqbsIcgA64nN/15bC3/X1DgC7rYfT@vger.kernel.org, AJvYcCXr7xnIpX+TISLPgVyUcYwNxC2hLHgCRFp1vpOpoM6ISlYukdYGVcfvqRQLQ7Ok5R7cy7eum11+4JI2CV0=@vger.kernel.org, AJvYcCXtckLoJHtP0/8PhTSLP2vuLkvTE+HOqEftGH7eRZXJldmtA47l0eBGpOG7DzqsvAyQtHkAyxnsxlhvvPfQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyopMAqU9lSHwq2Egq0c8g65s3lnz9zXd2VF4SbTELY3tMLgycz
+	NKLv2oj0dWyPitlipHC1K3pEU2+dXUzgdUSQekLFbHnaILFO/aeougusmeJyRa3drg/lDv/w54w
+	8B1gN+MZ4KnL/mbULwGWMub1+vaw=
+X-Google-Smtp-Source: AGHT+IHNjwddJlnhR8ziXrRYCvaKzZHBeDFB7aTS+2S6/Juebmx60PYYbz8oxxdYeTQFH7iZZN2OhK0zcRmnc7XV21k=
+X-Received: by 2002:a2e:9586:0:b0:310:749c:f8da with SMTP id
+ 38308e7fff4ca-310905bac8fmr43410821fa.22.1745357206245; Tue, 22 Apr 2025
+ 14:26:46 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417231540.2780723-1-almasrymina@google.com>
- <20250417231540.2780723-3-almasrymina@google.com> <484ecaad-56de-4c0d-b7fa-a3337557b0bf@gmail.com>
- <CAHS8izPw9maOMqLALTLc22eOKnutyLK9azOs4FzO1pfaY8xE6g@mail.gmail.com>
- <957b74ed-f29c-4bb8-b819-af4e1168d6c1@gmail.com> <CAHS8izM8+zG6KOhV7ysTsCj_PEty5eL+P+uUxTZhdsOSZTwmow@mail.gmail.com>
- <c0bd45f7-0325-4e4b-b0ea-ccae24a1eabd@gmail.com> <8c1c6405-1e60-4512-a675-4c00b00d400a@gmail.com>
-In-Reply-To: <8c1c6405-1e60-4512-a675-4c00b00d400a@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 22 Apr 2025 14:10:07 -0700
-X-Gm-Features: ATxdqUGGcVSR15YZdMmTAEwjNhzjDLr5MPRZuyqszCuepKJwAh2SaRe-PxHXBXc
-Message-ID: <CAHS8izPGuF1PxfdmXUC1XJHpmRqotXh=vUY_a-AEHdAgPmLQ1g@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 2/9] net: add get_netmem/put_netmem support
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
-	Samiullah Khawaja <skhawaja@google.com>
+References: <20250421162712.77452-1-ross.philipson@oracle.com>
+ <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com> <c05731ae-bcf1-4747-b64c-0f4b79f3587f@citrix.com>
+In-Reply-To: <c05731ae-bcf1-4747-b64c-0f4b79f3587f@citrix.com>
+From: Ard Biesheuvel <ardb@kernel.org>
+Date: Tue, 22 Apr 2025 23:26:35 +0200
+X-Gmail-Original-Message-ID: <CAMj1kXHNpxTqm5hOcxdKRnE58WLmhJo0Rk5pvVGyAtkkki6bvg@mail.gmail.com>
+X-Gm-Features: ATxdqUE-wCQ698lYIM2xY-XaLjiHODMSR6r5gfRYGnF_Ynuwr3onsuyDzkvTRu8
+Message-ID: <CAMj1kXHNpxTqm5hOcxdKRnE58WLmhJo0Rk5pvVGyAtkkki6bvg@mail.gmail.com>
+Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+To: Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Dave Hansen <dave.hansen@intel.com>, Ross Philipson <ross.philipson@oracle.com>, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	kexec@lists.infradead.org, linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
+	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, 
+	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, mjg59@srcf.ucam.org, 
+	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org, 
+	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
+	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
+	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
+	kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 22, 2025 at 1:03=E2=80=AFPM Pavel Begunkov <asml.silence@gmail.=
-com> wrote:
+On Tue, 22 Apr 2025 at 20:17, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
 >
-> On 4/22/25 20:47, Pavel Begunkov wrote:
-> > On 4/22/25 19:30, Mina Almasry wrote:
-> >> On Tue, Apr 22, 2025 at 11:19=E2=80=AFAM Pavel Begunkov <asml.silence@=
-gmail.com> wrote:
-> >>>
-> >>> On 4/22/25 14:56, Mina Almasry wrote:
-> >>>> On Tue, Apr 22, 2025 at 1:43=E2=80=AFAM Pavel Begunkov <asml.silence=
-@gmail.com> wrote:
-> >>>>>
-> >>>>> On 4/18/25 00:15, Mina Almasry wrote:
-> >>>>>> Currently net_iovs support only pp ref counts, and do not support =
-a
-> >>>>>> page ref equivalent.
-> >>>>>
-> >>>>> Makes me wonder why it's needed. In theory, nobody should ever be
-> >>>>> taking page references without going through struct ubuf_info
-> >>>>> handling first, all in kernel users of these pages should always
-> >>>>> be paired with ubuf_info, as it's user memory, it's not stable,
-> >>>>> and without ubuf_info the user is allowed to overwrite it.
-> >>>>>
-> >>>>
-> >>>> The concern about the stability of the from-userspace data is alread=
-y
-> >>>> called out in the MSG_ZEROCOPY documentation that we're piggybacking
-> >>>> devmem TX onto:
-> >>>
-> >>> Sure, I didn't object that. There is no problem as long as the
-> >>> ubuf_info semantics is followed, which by extension mean that
-> >>> any ref manipulation should already be gated on ubuf_info, and
-> >>> there should be no need in changing generic paths.
-> >>>
-> >>
-> >> I'm sorry I'm not following. skb_frag_ref is how the net stack obtains
-> >> references on an skb_frag, regardless on whether the frag is a
-> >> MSG_ZEROCOPY one with ubuf info, or a regular tx frag without a
-> >> ubuf_info, or even an io_uring frag which I think have the
-> >
-> > Yep
-> >
-> >> msg->ubuf_info like we discussed previously. I don't see the net stack
-> >> in the current code special casing how it obtains refs on frags, and I
-> >> don't see the need to add special casing. Can you elaborate in more
-> >
-> > You'll be special casing it either way, it's probably unavoidable,
-> > just here it is in put/get_netmem.
-> >
-> >> detail what is the gating you expect, and why? Are you asking that I
-> >> check the skb has a ubuf_info before allowing to grab the reference on
-> >> the dmabuf binding? Or something else?
-> >
-> > get_page() already shouldn't be a valid operation for ubuf backed frags
-> > apart from few cases where frags are copied/moved together with ubuf.
-
-This is where I'm not following. Per the v5 changelog of this commit,
-all these skb_helpers hit skb_frag_ref (which is just get_page
-underneath):
-
-tcp_grow_skb, __skb_zcopy_downgrade_managed, __pskb_copy_fclone,
-  pskb_expand_head, skb_zerocopy, skb_split, pksb_carve_inside_header,
-  pskb_care_inside_nonlinear, tcp_clone_payload, skb_segment, skb_shift,
-  skb_try_coalesce.
-
-I don't see many of them opt-out of skb_frag_ref if the skb is
-unreadable or has ubuf_info. Are you saying all/most/some of these
-callers are invalid?  I tend to assume merged code is the correct one
-unless I have ample expertise to say otherwise.
-
-> > The frags are essentially bundled with ubuf and shouldn't exist without
-> > it, because otherwise user can overwrite memory with all the following
-> > nastiness. If there are some spots violating that, I'd rather say they
-> > should be addressed.
-> >
-> > Instead of adding net_iov / devmem handling in generic paths affecting
-> > everyone, you could change those functions where it's get_page() are
-> > called legitimately. The niov/devmem part of get/put_netmem doesn't
-> > even have the same semantics as the page counterparts as it cannot
-> > prevent from reallocation. That might be fine, but it's not clear
+> On 21/04/2025 9:52 pm, Dave Hansen wrote:
+> > Purely from the amount of interest and review tags and the whole "v14"
+> > thing, it doesn't look like this is very important to anyone. Not to be
+> > to flippant about it, but if nobody else cares, why should I (or the
+> > other x86 maintainers)?
 >
-> Actually, maybe it's not that exclusive to netiov, same reallocation
-> argument is true for user pages, even though they're reffed
-> separately.
+> There are several downstreams already using this as a part of their
+> overall system security, one example being
+> https://www.qubes-os.org/doc/anti-evil-maid/
 >
-> It might be fine to leave this approach, while suboptimal it should
-> be easier for you. Depends on how folks feel about the extra
-> overhead in the normal tx path.
->
+> It's all giant out-of-tree patch series (in multiple projects; Grub,
+> Xen, iPXE too).
 
-Right, I think there is only 2 ways to handle all the code paths in
-the tcp stack that hit skb_frag_ref:
+... and this is the main problem: All the existing protocols and
+layering go straight out the window, and are replaced with bespoke
+alternatives, for booting but also for secondary bringup, etc etc
 
-1. We go over all of them and make sure they're unreachable for unreadable =
-skbs:
+Conceptually, the secure launch could be performed under the hood,
+e.g., during ExitBootServices() when doing EFI boot, and the OS would
+have to be none the wiser (or at least, not need 100s of additional
+lines of opaque assembly to be able to operate in this mode).
 
-if (!skb_frags_readable()) return; // or something
+The fact that all these components need such intrusive changes in
+order to orchestrate this pivot to the reduced TCB constitutes a
+spectacular failure in design IMO, but AIUI, the software side is not
+really at fault here: the layering violations are intrinsic to the
+hardware support in the CPU. I'm sure Andy or others on cc can
+elaborate on this, as they have done many times already.
 
-2. or, we just add net_iov support in skb_frag_ref.
+So if that is true (I'm not a x86 uarch expert by any measure), then
+pushing back on this series on the basis that it is ugly and intrusive
+is not really reasonable. From security pov, I think D-RTM is an
+important feature and it deserves to be upstream if it is used widely
+in the field.
 
-This patch series does the latter, which IMO is much preferred.
-
-FWIW I'm surprised that adding net_iov support to skb_frag_ref/unref
-is facing uncertainty. I've added net_iov support for many skb helpers
-in commit 65249feb6b3df ("net: add support for skbs with unreadable
-frags") and commit 9f6b619edf2e8 ("net: support non paged skb frags").
-skb_frag_ref/unref is just 1 helper I "missed" because it's mostly
-(but not entirely) used by the TX path.
-
---=20
-Thanks,
-Mina
+OTOH, if the arm64 implementation (which is still on the drawing
+board) bears any resemblance at all to the x86 version, it can be
+considered NACKed already.
