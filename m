@@ -1,251 +1,107 @@
-Received: from PNYPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19010000.outbound.protection.outlook.com [52.103.68.0])
+Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CD2C296165;
-	Tue, 22 Apr 2025 08:30:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.0
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745310615; cv=fail; b=uVSW+6l7N2+FNoFdRSp+cZqhjg6tXtf9YrlfDBn8a4phxCpqwyGvxE847iS16O9Vaw7StQVekIOCcXs6NV70MDHEx0uyQgZ4edG1vaSVNRtEsg9KwoeHx+S5NWxKV845Aues6cZM3ozbk+EQjNkx0lZdk/WFBthGibSIjtUDuKs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745310615; c=relaxed/simple;
-	bh=xJ4Yqrjf/HqWAWNnUX+UnmaG/HpVGJnfvxi4sebFXro=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=MMnnrlBdZ52ECOPNBEuUGfIc5fNmkyLgFVKwyRgXTmsBZfKrdIbZe0CrBiapSS8gprcD1QXraaryNfAp0JcdJKrCuHFXeMZHcA/z+3vfQGRpbH4cGuOWihzJ6ChI+rrPwwlqpVG7HYlr0l61SUJ+6nlkfdqDBb47oyCwAW4zEYo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=JNSlZw1l; arc=fail smtp.client-ip=52.103.68.0
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC1222A1ED;
+	Tue, 22 Apr 2025 08:38:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745311102; cv=none; b=JI3UOSKW9c3A9tdjhOu0fHJvgteWHuQKowqCasdKm7ZNOtJ4A3ti0FA3xh2fIAuPve9QIrVo3mno5qEtK5Ju+ZO8fio2S3fG32QN4uXEuxUL56UaNjxpQLvPBAfSXO0Dm1PGIkCEO6UuhGWO7sx4EwZOBmefK7gHw3MRSeODiKk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745311102; c=relaxed/simple;
+	bh=p8VDFnBBLQB+c84WukX9np3V2pQTHpPbephzaUIJxy4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=rTQbBDfTAqfSdgzqAkaa0iCnb4MrpmqG5+RQpDFJ7lGuIp72RTXaFZt/Fm1zz04vEn/EzyJr+uvFTluiEDHQSSGAYnA+MSguPGY5bZ3xHAED3A9HWqmvkU20YJB0y2qlHO9D/133840/mk1B/JXIHWLSOKJKe9ND8TYQcNywSEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=pY1FOnwL; arc=none smtp.client-ip=78.32.30.218
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="JNSlZw1l"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t3dGkOCIeoRxsF62+NwjWqiUJ1SnhBR38ZplLtdH3Wit0TT9gTJ8okT6BIiD3NioaVId/NGWUKCwTsW5mCM9fDTWNvkdPZpLKzI+VFO847KzzP4TvZcx00KrXalkayschIEi/wZgWhZrlzX3LWAhUSv12BQ+fEnHoF5XsbPN7lyfQ44/a2xV3ziULhPwkRDOybwNGvNQx5gMYBMNMcDbWlz63zpDIqgQFo5L9RHY2m+i6/ML9NBIKAwQf8EgMqLBq4ZZXPtnHMGt3uejoQ8GtrCmxvpqWHhw1+Qd5WKiTPvgsdHg5MxzhPoGkpKJL68oBsfK+2tj693e/rYImTrHlA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=e4MVuYhk59MIDXtBDW7oQHPIQ3QFj9hh2GXnA329RJE=;
- b=pSFMUOzUo0iYrJaEiQ+mAPbVYAE4JcLfBFl4kzjO+oNvE+JlZuAi0xtIOVttKFKdUJCysCtJE0PBLJTJplVjNsFwnEY0v6W6k+4CMzbfQet0QGoa4uWKeP9Et+gzlM5gGSG4JOKbWeQxJZG1/KsjeSMawQWGQxhKLr7G7BSK+x8QrLiDzAANnVAoeuaRSX8VIdUR/VGesXM/XhgaEvU8XNevKPoPPys5W/GoFdAbtgvhqCrC1RLLSsKjBMO/CbEHVuUbb/9ZnYSg/+8QGHeXbZl4xLV9v4qULoVnHs8B1qpGxstmpTAl+BwK4aG40NMeHV1aPK6fg12XGdCXlFr4lA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=e4MVuYhk59MIDXtBDW7oQHPIQ3QFj9hh2GXnA329RJE=;
- b=JNSlZw1lWW4f+HeS2ef52p3FurfUklXBLkX2XHj0UHa1Wl5RKTjXZDpRhCv8g9zV9x5esVBwSuARmpRmDqxU2m9+Puj9rygOa62djtDArykuYTjhRQOwFfPva14JfC0iagIpHLeRKVZ+CptUI6MZEH6hBhl/b2vwPrEFf39lr9rLZAEsc8qvfF7pR9FPKYcfd234gFqwqEdbSM1q4x8BQOGlHeTrXTTY8bgkaCsHCuLQGC5o5CwnXZLa4RdL1z3rtNt//RSI4EANZMQG3XQ5zTaPYDx3ULLd/+yshc7QIRaPd0RfJwen1Sip3RZ9k1SXgQvElOTEJTdyLnel/TGHCQ==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN2PPFCAA8F9158.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c04:1::5a8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.22; Tue, 22 Apr
- 2025 08:30:03 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8655.031; Tue, 22 Apr 2025
- 08:30:03 +0000
-Message-ID:
- <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Tue, 22 Apr 2025 13:59:57 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
- extending %p4cc
-To: Geert Uytterhoeven <geert@linux-m68k.org>,
- Hector Martin <marcan@marcan.st>
-Cc: alyssa@rosenzweig.io, Petr Mladek <pmladek@suse.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
- airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
- Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
- lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com,
- Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Asahi Linux Mailing List <asahi@lists.linux.dev>
-References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
- <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0180.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:be::17) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <a511caca-ce0f-4a1a-81dc-c2faf7caa563@live.com>
+	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="pY1FOnwL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
+	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
+	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
+	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=o0w6pamxCxDKHzVZmfTHs/uYuK6PeXKb0434M6fEc3M=; b=pY1FOnwL/S8J3yGEKh1QZZ5tZL
+	Vp5eQoQWU2/fdqKvavzm9zcqh0HuU5etRNXQGprVs9hiAsBfNYdPqrgId2x5g/Xe0bKHniIm2xhvE
+	8qg3NSfGSBE/rkWYZks9XUrVuCuPYpQP1SMdO3Ip+CZZ50Utq3eo9em0yld9lfynz3LfK+NJMuc+A
+	ZqdNlAzkl5OT2o8YyCKMhreS5amF8eK3LuM7nR4+SHjRhbC9YRoQ1WMob9krsSoaaSnHEVBf1u6/r
+	YxqplweIaUZVt50eYcclgDhxG7A5F7pkPpGykSHp04WnpNU8QIqCrDU0sf7ITae99C+JYPuZxBI4C
+	vfDNrPJw==;
+Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:42670)
+	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <linux@armlinux.org.uk>)
+	id 1u798f-00042g-1a;
+	Tue, 22 Apr 2025 09:37:57 +0100
+Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
+	(envelope-from <linux@shell.armlinux.org.uk>)
+	id 1u798X-0007KW-2n;
+	Tue, 22 Apr 2025 09:37:49 +0100
+Date: Tue, 22 Apr 2025 09:37:49 +0100
+From: "Russell King (Oracle)" <linux@armlinux.org.uk>
+To: Siddharth Vadapalli <s-vadapalli@ti.com>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+Message-ID: <aAdVXQhR7-mYl783@shell.armlinux.org.uk>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN2PPFCAA8F9158:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3f4f6130-76a3-4370-d188-08dd8177e116
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|6090799003|5072599009|8060799006|15080799006|7092599003|461199028|19110799003|3412199025|440099028;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?azFHNDN4bUZTL3BRcWEwdkhQYys3MGc3ckpXUjNPSDR1eDdPNCtGZ0hmQmRv?=
- =?utf-8?B?M0twVE5wdWtYSGY0QitYbmRmMWVxa09EZnpBeW4rcStJV0JmWFk4ZzVwbjYy?=
- =?utf-8?B?S2FlWDEyTndXZTJWb0gza2hyMjZlbVNHNS9Ic09IOW9HbS9tUER6NUR4Tlkw?=
- =?utf-8?B?WkQwTUtUUVBwdEZRclRBaS9xVXU0YWMyVnZ0N0NsOHplbFl1TElyaURFdFUy?=
- =?utf-8?B?UnJuKzJZdEoxejMvOTdTZ0Vsd2VWUkF5Und0YnVQWTlHbXgyRGJseTJzY1lN?=
- =?utf-8?B?bzlMeUtuazAyUEltYXFZbzNnK3huWERPZHgrR1A0dk1pNG9VQzhvMnFQeFQy?=
- =?utf-8?B?dUx1SEg1WG1aRFZMOTc2RXRyZklwMDBqWEpoVjdJdjNPOTVVcVpnbWd2a3RK?=
- =?utf-8?B?cjhYazgxdlZhNEpocjJhTHFnZmx6SXRTeEdSTTUxU0xQUjRScXJnZmJFUUxG?=
- =?utf-8?B?eVZjOVVQc2F1anFMaERqd003Q0hSZlZDeWNmOUN6RTF4dWJISW52dGJtZmJt?=
- =?utf-8?B?YkxNR1RKUTVSeG5aSHdzTkVMT0loQmZMc2JVNWNqcnNTd0RXcWY5UmtUeVRo?=
- =?utf-8?B?dmgyak1oWmI2K3N6MFF6d2JFWHNzWXdtTDVMRjB3M1lMeW50RWpseFZZanJy?=
- =?utf-8?B?Ri9LaHNsUzJhOXlmeFAzMUFsQU50Q2dYaU5abkFCWTNONnNubUk1ODRJRy93?=
- =?utf-8?B?MGdwWE1uazV3TytZVjFjam1YajhsakMybzhOVmM3VW5UR1dZV21sUzRQenUr?=
- =?utf-8?B?eE9aZVNkVEY1TWxIRWNmN2VnS2RMY0svVnZBYXlHQnlQYnFzUUVxb0VoQVBq?=
- =?utf-8?B?VWtGV1BYTktSdjZwNUNhUkRLT0hmWTVjcG5rd3hEQ0JYMHNwcVROeDNId1cw?=
- =?utf-8?B?M0xXRnlwNXlKb1lIZEFoOWxtSG9uMG5zSVdJREplVmZaU1J4S2RoYXVrQXdN?=
- =?utf-8?B?aC9XaWdFSVk3QXFBMGRranNUWnROaTNDSUZrUEdNZDFlOC85a2VSeU4xaXVV?=
- =?utf-8?B?Zlk3YXlQQXBaZ01yNjBRQUMrT3BtZnIzcWNCUUdRTzRXTDFRYnN0ZmtocGMx?=
- =?utf-8?B?dEVPcjNTQXlNSEoyUjJab2svQ3hTbm5kdmgwc0p0T1ZPVEs2TyszZUpXZEU4?=
- =?utf-8?B?bndTSG8vVG9SV2JzWTVsWWdHRWR2djBFajB1K2ZhaHRvMkZsMExBM2hOa1lK?=
- =?utf-8?B?RGhkemE1ZXNYUXBOSEpDcGwzTmZsN25neGFyTXk2RGFoWFJ1TUh3dTJQdkRN?=
- =?utf-8?B?ZEd1RzdjUkplMUM5TCttS1l3MUE2MzBHU3BOVTYxcmhjMHdLWld0eEllbHdn?=
- =?utf-8?B?Q0diWW9UdEdWODVVcXhkY1dQcDlqajN0andaZ3VrZWNlR0lrTDZvcmVpWmd6?=
- =?utf-8?B?QWxJRHR5NUxLd3duNXZRM1JEM2phY093Q003QzRLNnlkbnpXOFNkU3RFNWpE?=
- =?utf-8?B?WnIrQ2VBWlZ3R3Uwa2lNUWR5T0YzNHorZXFvSFpvNm9sTTdtV2pJRGZRNUM5?=
- =?utf-8?B?Z2lLSTNuLzJUZDUzZHBRWm9YU1QwSjRWUE8wRGhHT0FVelZTSVYvQjlQOXJC?=
- =?utf-8?B?NTZaUT09?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OUZhTnlsdDJFclRuYnE5NkZvVHNhcVBucDlOSGNRQkc3bE5hR0pNRmRyUTdG?=
- =?utf-8?B?NjRUVUVNTEVPak5md3F5NTZWaEE1MXUzZ2lva09mOFY5RFdtYS9VRldrWDli?=
- =?utf-8?B?QmIzTkx0UVR0RFJIVG8ycG8vcWJkY3d6WXhHbHdOSzRudUlNc2RHbWdkSHU4?=
- =?utf-8?B?WUZGRkZweHNPWnBwVmFERS9SZkJzanFDQXkraUdVZEJFVEVyTlhOV01VeFN0?=
- =?utf-8?B?K3BqVXh4dElGMDdEQXdiaUlaemRRLzNlcG1UbUpEZU0vY3N0cFVLTjBTVlJr?=
- =?utf-8?B?ZXRRV3RmYWNPbWtlR2pHTVhpMXluM0owVnFSMk94ZHNCRklLcXBrS2Y5ZkVJ?=
- =?utf-8?B?UnNKeElSekk5TXdRUGdSZFpSNXliVG9WNTVkZFB2OWYxUkNacXloc1JoZlEx?=
- =?utf-8?B?aGxxY1ZPWFRTd0JJWVZ6THRvUjM5RlFDbW41c3UrdndmaGpQZjE5ejlMMTJD?=
- =?utf-8?B?MW1XV1phVFQvVHR3TjA0UTdOeUhtdWhlTUtWQ2NSSzFVeFI0UjdhQkZZcWho?=
- =?utf-8?B?VVBQTjZFTHpjR0NxMjk3OVkrNXpkdGxZcFYxQ0lsNjZQZHllTW9UTitwR3Z2?=
- =?utf-8?B?aEVabDVFcDdteFhhTDkzZHlSSzBaS29XNWhuWGR1ODhseFo0N0lIQjY0ODhY?=
- =?utf-8?B?MnhXYkd5U1VlR2xFR2JUclBtY3Y5M1hjcXNlNzErdlo2M0VxeUorVDhTSUdO?=
- =?utf-8?B?Q1RpWnhldHRtZy94a3BDNFRvTVQyT3plQzY1aVg3a0ttakdoV1VUMmJkVngw?=
- =?utf-8?B?SFF2ellJQzZNZmRiMStJSGZOSDhkaVFXeVFPVWw2WU1qM21YV0xyNXRlS1Nk?=
- =?utf-8?B?cFdtSmVsL2IxczlwTWgrYmt6dGtrOVNlVWJOZElLTXN0Zm85Q1VCZHFsQjR5?=
- =?utf-8?B?a0JrUGE4UjBhNTZFeU9IYzJLRHc5TC85SHg5Wkc3K0t1L1pTZzRXSU5EYytT?=
- =?utf-8?B?WEZmV0Y1Nk1ZbmZCWU1Lc1hRTzlWTnlTNzZvUmZRYTJ5aXFiU3dhckhEZWZT?=
- =?utf-8?B?dG5aYnhVbU05c1VPYVZPQmJsYjRNc05uTzdycTRoaUZlT3BIbjhJT2JLQllL?=
- =?utf-8?B?SkswWEVzU3FKNTlWS3ltS0hkYW81akpkOVZ4WHYxWUVxQ1d3ZVNzSFJEZDNY?=
- =?utf-8?B?ZkNoQ2l0cjRNaWZ3eDBkVFJZSDM4aXZwTjd6Z2ZDUzNRRzhVWkRpekxxN21E?=
- =?utf-8?B?aWxMSjJIM05JR0UvbFNTeGJwRUZ4b0J0enkxcDUwWFFNSFYvS1l3cEU0eGxx?=
- =?utf-8?B?RjVQUk1yNnduN09zb1N3L01rSURyZjR0My9qSVJ2c1dBZXlaWGVXNEN5bEhj?=
- =?utf-8?B?TE9XK21QUFNhTERMV2ZDeGgrOVRXMy9aMGJYbnN3cHFHRXEvWG5pbkh6NkZ5?=
- =?utf-8?B?aHVLQ1ZaeXlEMHd0NTBrSklNOGpCbEpwd29OREovVDVKRzFDR0FyM2RwQktq?=
- =?utf-8?B?SEtvNnhORUdIT2EvWm10QUQ1ZWVPVzRRVlM4Z1NhcWV2c29ZZ3NKWDY3R1pz?=
- =?utf-8?B?Y0x4Z0RmKzdYV1p5bjg1b1JDY0k4YUREcUdlQld0WW9pUm11eTVCR2dneFhs?=
- =?utf-8?B?dFpRbXc5MUJZenBVZ3Q3d1pLbjB3NXVkalpCcThQZDFqSDBWbjdpdjRDY3p5?=
- =?utf-8?B?YU1KYjJHY0dkSkdPTmQ1bzB6TjZPb0Nra0NORys3bDFLY3Q4c0wzWXdwSitS?=
- =?utf-8?B?ZVI2WmhQK0pCUTNUNW1TcUJwY05FdDdxaUQ0ZkxoY0sySGMzTUtzd3NQdGU4?=
- =?utf-8?Q?RLnyT5v6Y4F/FsSCw44dL1maWSPPbZqpceurztn?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3f4f6130-76a3-4370-d188-08dd8177e116
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Apr 2025 08:30:03.6232
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN2PPFCAA8F9158
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
+Sender: Russell King (Oracle) <linux@armlinux.org.uk>
 
+On Tue, Apr 15, 2025 at 04:06:31PM +0530, Siddharth Vadapalli wrote:
+> On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
+> > As discussed [1], the comments for the different rgmii(-*id) modes do not
+> > accurately describe what these values mean.
+> > 
+> > As the Device Tree is primarily supposed to describe the hardware and not
+> > its configuration, the different modes need to distinguish board designs
+> 
+> If the Ethernet-Controller (MAC) is integrated in an SoC (as is the case
+> with CPSW Ethernet Switch), and, given that "phy-mode" is a property
+> added within the device-tree node of the MAC, I fail to understand how
+> the device-tree can continue "describing" hardware for different board
+> designs using the same SoC (unchanged MAC HW).
+> 
+> How do we handle situations where a given MAC supports various
+> "phy-modes" in HW? Shouldn't "phy-modes" then be a "list" to technically
+> descibe the HW? Even if we set aside the "rgmii" variants that this
+> series is attempting to address, the CPSW MAC supports "sgmii", "qsgmii"
+> and "usxgmii/xfi" as well.
 
+phy-mode is quite simply the operating mode for the link between the PHY
+and the MAC, and depends how the PHY is wired to the MAC.
 
-On 22-04-2025 01:37 pm, Geert Uytterhoeven wrote:
-> Hi Aditya, Hector,
-> 
-> On Tue, 8 Apr 2025 at 08:48, Aditya Garg <gargaditya08@live.com> wrote:
->> From: Hector Martin <marcan@marcan.st>
->>
->> %p4cc is designed for DRM/V4L2 FourCCs with their specific quirks, but
->> it's useful to be able to print generic 4-character codes formatted as
->> an integer. Extend it to add format specifiers for printing generic
->> 32-bit FourCCs with various endian semantics:
->>
->> %p4ch   Host byte order
->> %p4cn   Network byte order
->> %p4cl   Little-endian
->> %p4cb   Big-endian
->>
->> The endianness determines how bytes are interpreted as a u32, and the
->> FourCC is then always printed MSByte-first (this is the opposite of
->> V4L/DRM FourCCs). This covers most practical cases, e.g. %p4cn would
->> allow printing LSByte-first FourCCs stored in host endian order
->> (other than the hex form being in character order, not the integer
->> value).
->>
->> Acked-by: Rasmus Villemoes <linux@rasmusvillemoes.dk>
->> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
->> Reviewed-by: Petr Mladek <pmladek@suse.com>
->> Tested-by: Petr Mladek <pmladek@suse.com>
->> Signed-off-by: Hector Martin <marcan@marcan.st>
->> Signed-off-by: Aditya Garg <gargaditya08@live.com>
-> 
-> Thanks for your patch, which is now commit 1938479b2720ebc0
-> ("lib/vsprintf: Add support for generic FourCCs by extending %p4cc")
-> in drm-misc-next/
-> 
->> --- a/Documentation/core-api/printk-formats.rst
->> +++ b/Documentation/core-api/printk-formats.rst
->> @@ -648,6 +648,38 @@ Examples::
->>         %p4cc   Y10  little-endian (0x20303159)
->>         %p4cc   NV12 big-endian (0xb231564e)
->>
->> +Generic FourCC code
->> +-------------------
->> +
->> +::
->> +       %p4c[hnlb]      gP00 (0x67503030)
->> +
->> +Print a generic FourCC code, as both ASCII characters and its numerical
->> +value as hexadecimal.
->> +
->> +The generic FourCC code is always printed in the big-endian format,
->> +the most significant byte first. This is the opposite of V4L/DRM FourCCs.
->> +
->> +The additional ``h``, ``n``, ``l``, and ``b`` specifiers define what
->> +endianness is used to load the stored bytes. The data might be interpreted
->> +using the host byte order, network byte order, little-endian, or big-endian.
->> +
->> +Passed by reference.
->> +
->> +Examples for a little-endian machine, given &(u32)0x67503030::
->> +
->> +       %p4ch   gP00 (0x67503030)
->> +       %p4cn   00Pg (0x30305067)
->> +       %p4cl   gP00 (0x67503030)
->> +       %p4cb   00Pg (0x30305067)
->> +
->> +Examples for a big-endian machine, given &(u32)0x67503030::
->> +
->> +       %p4ch   gP00 (0x67503030)
->> +       %p4cn   00Pg (0x30305067)
-> 
-> This doesn't look right to me, as network byte order is big endian?
-> Note that I didn't check the code.
+The list of modes that a MAC supports is dependent on its hardware
+design and is generally known by the MAC driver without need to specify
+it firmware.
 
-Originally, it was %p4cr (reverse-endian), but on the request of the maintainers, it was changed to %p4cn.
-
-So here network means reverse of host, not strictly big-endian.
-
-> 
->> +       %p4cl   00Pg (0x30305067)
->> +       %p4cb   gP00 (0x67503030)
->> +
->>  Rust
->>  ----
->>
-> 
-> Gr{oetje,eeting}s,
-> 
->                         Geert
-> 
-
+-- 
+RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
+FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
