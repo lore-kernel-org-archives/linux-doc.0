@@ -1,129 +1,115 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF2A281535
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 14:03:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88B728C5C5;
+	Tue, 22 Apr 2025 14:40:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745330622; cv=none; b=JY6N7CkdIDOXsKD3JfdX/ZC5HsOuiAA6I+lWwSbjbOP6MLtjqOo62BU5cmv55HKLAlvw01lJ//k5kVuxBCZY+tnQVycZeJ5snUV+p/GX9o2Xd67uGHhCGf4+Of7PcOIIWPKqLI26yjGXp5LE8jKRrZQQe8q09e7X844jsrEZNAo=
+	t=1745332846; cv=none; b=VmoetwgB6NtQHn7EH/9oG08jp+TFRE2NKLewYTyfa/Z1MO7+d4I+CpEQwH3nzebgHE3QJjl59mGWBvi+YBXcKS53iPP2ryLL2AbYDFJK1mAZ4lWW9gHAFkGFjrglk8dAId/o7GygeAfJ8bn+uft7dKCLKvNNG5wiEcjcb2I+mmM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745330622; c=relaxed/simple;
-	bh=DI5wbiqZFhNjcg4g07wsE2rRpyR+Bg6kHqEcrbHze4Y=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iY4cBDbujO+Nes4MsZboMvTUdbOvh9Zmds2NldWNaozShYXrDh1kkGlpfTFO1dn2JB80MoH9zOv22qbuTgIdrHhbben9l5qxMwRF6E6S6WqK7Z5EVebbN7yCNqcElgyvAm827sQ4pSB35X+VCIJJyGMyS1GKPqIQ7aDLD5ZoC2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=diHRM3SS; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1745332846; c=relaxed/simple;
+	bh=M9Zr7hxLPheS12ZSZNWK5qMbOtisljKEvNuI/iEukEk=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nlIEiEMb9l14rdR/cwvLq9yosAgSfbmVz/9v8x4ekioyMGmh2ZznPzGPRYmybkBHrfBN9I2kPygN7ZANGjjGFz6EKJG1LbVjBzbfOIeSuEXgQh4rDJ2D3CGoQuWeo71FTLugIU0dy1VvgjdbaErz/HJEb8FoHy2yWQEP/BASIZg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=LNDMR9KG; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="diHRM3SS"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2240aad70f2so182635ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 07:03:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745330620; x=1745935420; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=wxtxQ2q5f2CesvMzHl2K/43Dvf+KKs8Sp+BtzyImVRI=;
-        b=diHRM3SSYX1rhVTrFh85dMgmHNY8sO2ecyPwPFFxn5sQbKf8uyHGCTCokaasiZyg6F
-         VKxRmeoGqd8z3gNfYfdYx9nRIt0sO2m4rZspMiU89vOTce8M36DF/iBjf+yUOw63OKP3
-         hITordz6p0dyt9ILX6PjDqmdftBpNagsZ2+9Q43sianlor0YDckrxv6UHr73LrRP40nl
-         0RhaPUqvIJhdfxVTKdVpFekbtxJ6p6mBz3v5CgPtgZJFLkFtAW0VeT+gmLV9s0iEgJ0l
-         8gyzbdup2vQ5J4dKQketbtzn+Miv5FOylJYS/7yQo/70s3oaoMk8nilN940PIjwG8SKq
-         /+mg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745330620; x=1745935420;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=wxtxQ2q5f2CesvMzHl2K/43Dvf+KKs8Sp+BtzyImVRI=;
-        b=vF2mrYMiKH0fvpsgd3/YPsMQhBVcAh0EopxkkiLp5OLIiDEKQsm8aWfo4JzAvIc5a/
-         NVcw/WDDC3MTGQo1nZamBYlvqwz2HRIZzFsvngK4ZRNoAVSv/8SmgZsUPBZqUYpCmwtn
-         PafCWgsa6wtZ5n18r8Jd0kn7jg2u39z+NzGlM95tYpuLVQrl7e7sBfigBRM18JL6dfA6
-         KblWmJRyGQiXiTKJbQILZq+5UHvagDpz7KkC1NukJJ8KUheW24EGEf8hzXif03YA2LHs
-         MBBj7werDTc+EzdZ202RsHH1ZRVosyy+LtVQAypS63p1tt/AXg3o+BmKoYucEBWw8CgX
-         NeyA==
-X-Forwarded-Encrypted: i=1; AJvYcCWbOf3772tHBjWOq98MUJG2hXBr+Ten7/9vUiRoMt02gTFxVcRf3U/HVvIaetkRkzuC7rB/k6wI6RM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YymMsiYat1LavmCDQvVcTVp6S47pMN4Q3SiblJ6Y3+2urIPoOwx
-	1UXYfRH+GC5KVvhVm0RbWaxU7OFsl2oanasky+3rIxdH6LEPuLGOzJt/DEmsATWTtwl4PVGdtNO
-	88g3pxB6QX/XGM5ibHjLR03WCC8iOOer9a7DH
-X-Gm-Gg: ASbGncu7oqAkxCc32idkd1JN5jNsBmuIYRVvBB6lxk5gg6cau2zjKxFsZf4/g7zf3v5
-	sXHTQn6MVGgKKAIkX00UwKkZgJ96hCHEMlue465rjglos3mvlDWxE0MIq04Ihwl43bBwQGadqFg
-	Pg1C/rVGXfqem/P1o0tEOhA5Z4fOGLDGaxBA==
-X-Google-Smtp-Source: AGHT+IG0i+651pdR53K0l/n7uIQCSuRiQEGLD3Fi7ND1TmWV2npssXiwnzzo30HBpgP42jyUy2IALw8wxWFt/Kz8RzE=
-X-Received: by 2002:a17:902:ebc3:b0:22c:33b4:c2ed with SMTP id
- d9443c01a7336-22c52a93c28mr10089535ad.26.1745330619867; Tue, 22 Apr 2025
- 07:03:39 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="LNDMR9KG"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=W0S8t/6FGxg47c0LEtOaE/CH+Zrp13P24zwNFo5jGGw=; b=LNDMR9KGZUOWw2nq8JndcvNeF/
+	UlrAChAS6n9brfhMKUvxfErkEiAKWZfUakTgo1Kkbz1sy/lTjGFy4FUuQ/j1f6howOfcfwKPT3E3w
+	xIqAYCKilAfznPhLUM091UBTLzpjpG4jgH+P8NwnhBhr/88g68aCbnmxfY71+QOETvkc=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1u7EnR-00ADBy-Ka; Tue, 22 Apr 2025 16:40:25 +0200
+Date: Tue, 22 Apr 2025 16:40:25 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: "Russell King (Oracle)" <linux@armlinux.org.uk>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Roger Quadros <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org, devicetree@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+Message-ID: <d79ed229-f0b7-441a-b075-31fd2b2f8fe6@lunn.ch>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <6be3bdbe-e87e-4e83-9847-54e52984c645@ti.com>
+ <cd483b43465d6e50b75f0b11d0fae57251cdc3db.camel@ew.tq-group.com>
+ <5d74d4b2-f442-4cb8-910e-cb1cc7eb2b3d@ti.com>
+ <b53fba84c8435859a40288f3a12db40685b8863a.camel@ew.tq-group.com>
+ <aAdZoMge_CKtqokU@shell.armlinux.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417231540.2780723-1-almasrymina@google.com>
- <20250417231540.2780723-2-almasrymina@google.com> <f7a96367-1bb0-4ed2-8fbf-af7558fccc20@gmail.com>
-In-Reply-To: <f7a96367-1bb0-4ed2-8fbf-af7558fccc20@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 22 Apr 2025 07:03:26 -0700
-X-Gm-Features: ATxdqUHgiM0jEZwKYWOLJlVXJ7i1N-PNg4kE-n9ns-g62S6RZ7kqQTTDhmeVqPw
-Message-ID: <CAHS8izMFxDG5E07ZdqnDH_2D_g1fW8X0M7u3gGyV8efzxDNZbg@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 1/9] netmem: add niov->type attribute to
- distinguish different net_iov types
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
-	Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aAdZoMge_CKtqokU@shell.armlinux.org.uk>
 
-On Tue, Apr 22, 2025 at 1:16=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
-com> wrote:
->
-> On 4/18/25 00:15, Mina Almasry wrote:
-> > Later patches in the series adds TX net_iovs where there is no pp
-> > associated, so we can't rely on niov->pp->mp_ops to tell what is the
-> > type of the net_iov.
->
-> That's fine, but that needs a NULL pp check in io_uring as well,
-> specifically in io_zcrx_recv_frag().
->
+> I'm hoping that Andrew will read my email form yesterday and reconsider
+> because to me this is a backwards step
 
-I think you mean this update in the code:
+I will get back to that in a minute.
 
-if (!niov->pp || niov->pp->mp_ops !=3D &io_uring_pp_zc_ops ||
-    io_pp_to_ifq(niov->pp) !=3D ifq)
-return -EFAULT;
+> > On Linux, there currently isn't a way for the MAC driver to query from the PHY
+> > whether it could include the delays itself. My assumption is that most PHYs
+> > either don't have internal delays, or the delays are configurable.
+> 
+> motorcomm, dp83tg720, icplus, marvell, dp 838678, adin, micrel, tja11xx,
+> vitesse, dp83822, mscc, at803x, microchip_t1, broadcom, dp83869,
+> intel-xway, realtek all do handle internal delays. I haven't checked
+> whether there are PHYs that don't - that's harder because we don't know
+> whether PHYs that don't mention RGMII in the driver actually support
+> RGMII or not.
 
-Yes, thanks, will do.
+I did look through this once. There are no PHYs with Linux drivers
+which support any of the RGMII without supporting all 4 RGMII
+modes. So we should just assume all RGMII PHYs can add the delays.
 
-> You can also move it to struct net_iov_area and check niov->owner->type
-> instead. It's a safer choice than aliasing with struct page, there is
-> no cost as you're loading ->owner anyway (e.g. for
-> net_iov_virtual_addr()), and it's better in terms of normalisation /
-> not unnecessary duplicating it, assuming we'll never have niovs of
-> different types bound to the same struct net_iov_area.
->
+If i remember the history correctly, Renesas built an RDK with a PHY
+which did not support RGMII delays. So they where forced to do the
+delays in the MAC. But it seems like mainline support for that PHY
+never happened.
 
-Putting it in niov->owner->type is an alternative approach. I don't
-see a strong reason to go with one over the other. I'm thinking there
-will be fast code paths that want to know the type of the frag or skb
-and don't need the owner, so it will be good to save loading another
-cacheline. We have more space in struct net_iov than we know what to
-do with anyway.
+> 
+> > If this is
+> > the case, having the MAC add them in internal-delay modes and not adding them on
+> > the PHY side would be the best default (also for PHY-less/fixed-link setups,
+> > which should be handled like a PHY without internal delay capabilities.)
+> 
+> See my "advanced" use case above. We do have drivers doing that.
 
+I agree with Russell here, it is the worse default, not the best
+default. It makes it different to nearly every other MAC driver. It
+needs extra work in the MAC, which most MAC drivers get wrong. They
+also tend not to call out they have done it different to every other
+MAC driver in Linux, and so it does not get the needed extra review,
+and so is broken. I also think there is some 'vendor SDK' mentality
+here. Our MAC can do this, our SDK allows it, the Linux driver must
+have it and use it. Pretty much all hardware has features which never
+get used, but vendors sometimes have issues with just leaving it
+unused.
 
---
-Thanks,
-Mina
+	Andrew
