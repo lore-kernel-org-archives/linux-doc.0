@@ -1,108 +1,142 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5900E27BF6C;
-	Tue, 22 Apr 2025 21:26:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB6511E5B85
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 21:30:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745357208; cv=none; b=AhnwQtnhlYIiIu0f+LDAmcOZP/c9z+jZh1kH3iXl0YQqiOAILkMmujo9LUdQhI4mDSzL46uwdIv2o0tP1cCRoYLS4gHvGumG+4+/DWV9XG+kgjXxAPZ+DYA2rZNXiVbZNfXb8gLU8eVmNay3MhbVLVHZ16hro1W3N0f0mT432+g=
+	t=1745357459; cv=none; b=ZCdICiDLEVdPdRyB6LD4J+yjCLPZ5OQTw1eieelIHEUDh24Gzgpg20vAKVQW7NrUR0Pa0nMqCSl89FjlngrmmZiP99IsF7/ib/J9qnfgTqT/Oyd0VFyxNJUKs0wtRvuNyYMVTvpgFyLdrLdLrJfAdNT4RbL1dGZxAYiwFx4O/Jk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745357208; c=relaxed/simple;
-	bh=9Hc5x03Xt6Q8VLLhD3mCqz80+X90ssoJI+f+CleuBKQ=;
+	s=arc-20240116; t=1745357459; c=relaxed/simple;
+	bh=QgWx/mGTOHW5+7tGU+2WKWru7coX4Xp6cIn7ZGTb7ls=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=CWULsCDlsA6NjI6l15OKCCNWfvEzxZtYfwUcSg44X/hE+IDYSWO1u10Ug6UH07RR93Mje0vFqb7morL0SfBRrtAB6289RUVc2UH3TV0g42kDHlNORFdF/WQ5jbLIHvN+q3jq8VyDX1Bhcrx5zbSkxVsGYwN34rsl76JJXtxIFHk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=h/D7yWRx; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=em3Kjd1aKMj5/sQl1sjoO3GfIyokDfXQzkamlfywrjvwKFctNNEBcOK7P2v+gybpKkdeLdSTw07uPOiXLYsRRjrpHpxwSru67bHRjPf5LfuJ2fVpYTlGoG1lQPK+db3JHbEnZC+yXyaq5YGIDgT++xFI2tL/PvIoSDiLms6hfpQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=GB7eL9mu; arc=none smtp.client-ip=209.85.214.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="h/D7yWRx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B45C4CEEE;
-	Tue, 22 Apr 2025 21:26:47 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745357207;
-	bh=9Hc5x03Xt6Q8VLLhD3mCqz80+X90ssoJI+f+CleuBKQ=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=h/D7yWRxhbT0Tokd9yCp1wg9xCgigqp3o/yVm8u9b06tDs17VYlkXgDU2aKW+tBEW
-	 yCFBWgaWcd9omhGXkDuPp7Lt9n5PqXhp+tTGMo9ams2ktewBPqhsq1gZcpvy0FHL19
-	 Kzfr1/T+J+vS0tqDyftCuRmUR5Qdukw/vc+WnDWc8OJCiw4ChzEg9UgCLeqUobbDHt
-	 fT9OYOrU03U/lBXrwh75XJJ+nGMz7uFFqrzPHi4ccGmIRSkGGIoHkpoDTdGy1jf0zq
-	 7UYuaRvxExEQ/uuuaiRPfMFtyeRRyXUuO5bVqNWk3tNUQfdJkgjjHHwRz4FIW7A464
-	 Gfm/LQFCLpQ5w==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30beedb99c9so50351021fa.3;
-        Tue, 22 Apr 2025 14:26:47 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWDUcVVNRQnN2IT6VWNi4mXWG9DG3NwDWkL3fzCUiM8mxQZ9Y8ccXmqKio+OGwWcEr1pwdDRB3n5BFNEbboTY3E@vger.kernel.org, AJvYcCXfx3pDb2VjpVHaNRMIN73R3z9zeaAPpn731wi0CBpnVcijy1OcKQQFlzhvz1ofGjP1cFDl8WaGbeuh@vger.kernel.org, AJvYcCXguiuURkAiuUi5TsxwbleVbpC/BORoTWk8EZlPHxFqa3qN7+EgqbsIcgA64nN/15bC3/X1DgC7rYfT@vger.kernel.org, AJvYcCXr7xnIpX+TISLPgVyUcYwNxC2hLHgCRFp1vpOpoM6ISlYukdYGVcfvqRQLQ7Ok5R7cy7eum11+4JI2CV0=@vger.kernel.org, AJvYcCXtckLoJHtP0/8PhTSLP2vuLkvTE+HOqEftGH7eRZXJldmtA47l0eBGpOG7DzqsvAyQtHkAyxnsxlhvvPfQ@vger.kernel.org
-X-Gm-Message-State: AOJu0YyopMAqU9lSHwq2Egq0c8g65s3lnz9zXd2VF4SbTELY3tMLgycz
-	NKLv2oj0dWyPitlipHC1K3pEU2+dXUzgdUSQekLFbHnaILFO/aeougusmeJyRa3drg/lDv/w54w
-	8B1gN+MZ4KnL/mbULwGWMub1+vaw=
-X-Google-Smtp-Source: AGHT+IHNjwddJlnhR8ziXrRYCvaKzZHBeDFB7aTS+2S6/Juebmx60PYYbz8oxxdYeTQFH7iZZN2OhK0zcRmnc7XV21k=
-X-Received: by 2002:a2e:9586:0:b0:310:749c:f8da with SMTP id
- 38308e7fff4ca-310905bac8fmr43410821fa.22.1745357206245; Tue, 22 Apr 2025
- 14:26:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="GB7eL9mu"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2240aad70f2so79815ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 14:30:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745357457; x=1745962257; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Svf2ygZXkmCy0ML2RTDTzsfPn2nyYFTdu9KxKlqPAMw=;
+        b=GB7eL9muGEq2eNRHjsAa5UlA8JCZVgnhmydKuptdQE9PiUvhitHuM6+nHl7k4fP6j0
+         I1jbWoTqUSt+FBJJaRSjdH//1cpvP5jqCQBqH6Cegb+j9XcV09M2zJ61iTqdndkB2aAp
+         GjZeu9EJk9PDm2NXxkTw13580cEMqXX6LzjP+eNIcgm7B8o1g2Ynh1vfZD+6byvbhdvF
+         YobfiM53q1xsDnAryKQdgc/W+m4KICbdn4qvcZ858aOU4Zr5hJDE6mKVvNt+q56YV+Iy
+         YrzRZIYrJvekbfs9gUk1fb1ocKhivgNcDljcEx5YFVx3CsDIJ+AOZJgpbo9sfxw/sABW
+         bGWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745357457; x=1745962257;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Svf2ygZXkmCy0ML2RTDTzsfPn2nyYFTdu9KxKlqPAMw=;
+        b=ZDwYQgEJq41ugZOTYdbStunKLxDX21mSLtqWH0Noj5/rXdZDYDzObn9jPolLpV6bxa
+         qF9e2cJUSBWZGyN47zIu54XyFRnbB2KgI5IPghq5V2OInEQyOjqotkS6kWSV2U5ZAUXF
+         FIbbj9LotVaxEYXe6FUPenkEvm2ft5gD4glunIQqHJOJObVPElJmsZSL1ZXy8b0Q07mR
+         wCSuJlMxnhWS5h9IczNQ+dCm5E3mSTyPdAlPUBznEWb2TuuFyflMmnX8+NTqX6BqVjDL
+         ynkop4OWeg03/wBSiqVl/nB7M2VpP1rngoggpTn7Af45sjyI/B01s1XYC+h1P6gyKMIQ
+         8+5A==
+X-Forwarded-Encrypted: i=1; AJvYcCWy3gNN3NeV6rLWBbEMmeFEhX56GUKNLaPdkZD5Ln3nNr6GxuH44Pou+SHMh0g6pmHnLixGymQDU98=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxWqqUL8vBr+TpdYqffmm2WMxtE95+p0ChAYSrGRXFMHB/FoO6W
+	aoNRvNpMRK69TxUtVE+PDIvjNNbKyEYpouNEQnUGrutC2e/73l6bZJtb8o+OW92jT/N26RdZxh/
+	aTCS8KQxnB7w+lK4hub8HYYYmmA9EGkDOOl99
+X-Gm-Gg: ASbGnctHsBrYT98638rr78uHhXlNZUjQbi8pU0jxt55d6Td0vN2ixx/Ip4in9lDfsJG
+	VIPXdHb54yj/gOJQ+7/zEGy/ZOIvkMJCgm1boLwfloMOH/o+7sCJX8Uyi5cMKdtLkRslWVvEnbf
+	osqRnYLD7mfrp0liz/w0noM2+t9elgvo+qp/KmuRpNeZxxrCfl1E9y
+X-Google-Smtp-Source: AGHT+IEsxPoKV42ELz4r3PlLIa9B44ITOq/P7IHVyPrE3pHPM2hSBs7ANYJO9Qlwme81VQmpCIMF5XJigErG9Bs9itA=
+X-Received: by 2002:a17:903:f8b:b0:21f:3c4a:136f with SMTP id
+ d9443c01a7336-22da2c11b3emr916085ad.28.1745357456832; Tue, 22 Apr 2025
+ 14:30:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250421162712.77452-1-ross.philipson@oracle.com>
- <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com> <c05731ae-bcf1-4747-b64c-0f4b79f3587f@citrix.com>
-In-Reply-To: <c05731ae-bcf1-4747-b64c-0f4b79f3587f@citrix.com>
-From: Ard Biesheuvel <ardb@kernel.org>
-Date: Tue, 22 Apr 2025 23:26:35 +0200
-X-Gmail-Original-Message-ID: <CAMj1kXHNpxTqm5hOcxdKRnE58WLmhJo0Rk5pvVGyAtkkki6bvg@mail.gmail.com>
-X-Gm-Features: ATxdqUE-wCQ698lYIM2xY-XaLjiHODMSR6r5gfRYGnF_Ynuwr3onsuyDzkvTRu8
-Message-ID: <CAMj1kXHNpxTqm5hOcxdKRnE58WLmhJo0Rk5pvVGyAtkkki6bvg@mail.gmail.com>
-Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
- kernel support
-To: Andrew Cooper <andrew.cooper3@citrix.com>
-Cc: Dave Hansen <dave.hansen@intel.com>, Ross Philipson <ross.philipson@oracle.com>, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, linux-integrity@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	kexec@lists.infradead.org, linux-efi@vger.kernel.org, iommu@lists.linux.dev, 
-	dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, mjg59@srcf.ucam.org, 
-	James.Bottomley@hansenpartnership.com, peterhuewe@gmx.de, jarkko@kernel.org, 
-	jgg@ziepe.ca, luto@amacapital.net, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
-	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
-	kanth.ghatraju@oracle.com, trenchboot-devel@googlegroups.com
+References: <20250417231540.2780723-1-almasrymina@google.com>
+ <20250417231540.2780723-8-almasrymina@google.com> <CAEAWyHckGSYEMDqVDT0u7pFCpO9fmXpEDb7-YV87pu+R+ytxOw@mail.gmail.com>
+In-Reply-To: <CAEAWyHckGSYEMDqVDT0u7pFCpO9fmXpEDb7-YV87pu+R+ytxOw@mail.gmail.com>
+From: Mina Almasry <almasrymina@google.com>
+Date: Tue, 22 Apr 2025 14:30:44 -0700
+X-Gm-Features: ATxdqUF6FGOZDMaVY4FPxfYTFEWH1OIzJQfd7hMv2NVJ5VM5o9Gd234gao1kzAo
+Message-ID: <CAHS8izNZXmG0bi15DpmX2EcococF2swM83Urk19aQBvz=z3nUQ@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 7/9] gve: add netmem TX support to GVE DQO-RDA mode
+To: Harshitha Ramamurthy <hramamurthy@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
+	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
+	Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
+	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
+	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
+	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
+	Samiullah Khawaja <skhawaja@google.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, 22 Apr 2025 at 20:17, Andrew Cooper <andrew.cooper3@citrix.com> wrote:
+On Tue, Apr 22, 2025 at 10:43=E2=80=AFAM Harshitha Ramamurthy
+<hramamurthy@google.com> wrote:
 >
-> On 21/04/2025 9:52 pm, Dave Hansen wrote:
-> > Purely from the amount of interest and review tags and the whole "v14"
-> > thing, it doesn't look like this is very important to anyone. Not to be
-> > to flippant about it, but if nobody else cares, why should I (or the
-> > other x86 maintainers)?
+> On Thu, Apr 17, 2025 at 4:15=E2=80=AFPM Mina Almasry <almasrymina@google.=
+com> wrote:
+> >
+> > Use netmem_dma_*() helpers in gve_tx_dqo.c DQO-RDA paths to
+> > enable netmem TX support in that mode.
+> >
+> > Declare support for netmem TX in GVE DQO-RDA mode.
+> >
+> > Signed-off-by: Mina Almasry <almasrymina@google.com>
+> >
+> > ---
+> >
+> > v4:
+> > - New patch
+> > ---
+> >  drivers/net/ethernet/google/gve/gve_main.c   | 4 ++++
+> >  drivers/net/ethernet/google/gve/gve_tx_dqo.c | 8 +++++---
+> >  2 files changed, 9 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/e=
+thernet/google/gve/gve_main.c
+> > index 8aaac9101377..430314225d4d 100644
+> > --- a/drivers/net/ethernet/google/gve/gve_main.c
+> > +++ b/drivers/net/ethernet/google/gve/gve_main.c
+> > @@ -2665,6 +2665,10 @@ static int gve_probe(struct pci_dev *pdev, const=
+ struct pci_device_id *ent)
+> >
+> >         dev_info(&pdev->dev, "GVE version %s\n", gve_version_str);
+> >         dev_info(&pdev->dev, "GVE queue format %d\n", (int)priv->queue_=
+format);
+> > +
+> > +       if (!gve_is_gqi(priv) && !gve_is_qpl(priv))
+> > +               dev->netmem_tx =3D true;
+> > +
 >
-> There are several downstreams already using this as a part of their
-> overall system security, one example being
-> https://www.qubes-os.org/doc/anti-evil-maid/
+> a nit: but it would fit in better and be more uniform if this is set
+> earlier in the function where other features are set for the
+> net_device.
 >
-> It's all giant out-of-tree patch series (in multiple projects; Grub,
-> Xen, iPXE too).
 
-... and this is the main problem: All the existing protocols and
-layering go straight out the window, and are replaced with bespoke
-alternatives, for booting but also for secondary bringup, etc etc
+Thanks for taking a look. I actually thought about that while trying
+to implement this, but AFAIU (correct if wrong), gve_is_gqi and
+gve_is_qpl need priv to be initialized, so this feature set must be
+performed after gve_init_priv in this function. I suppose this feature
+checking maybe can be put before register_netdev. Do you prefer that?
 
-Conceptually, the secure launch could be performed under the hood,
-e.g., during ExitBootServices() when doing EFI boot, and the OS would
-have to be none the wiser (or at least, not need 100s of additional
-lines of opaque assembly to be able to operate in this mode).
 
-The fact that all these components need such intrusive changes in
-order to orchestrate this pivot to the reduced TCB constitutes a
-spectacular failure in design IMO, but AIUI, the software side is not
-really at fault here: the layering violations are intrinsic to the
-hardware support in the CPU. I'm sure Andy or others on cc can
-elaborate on this, as they have done many times already.
-
-So if that is true (I'm not a x86 uarch expert by any measure), then
-pushing back on this series on the basis that it is ugly and intrusive
-is not really reasonable. From security pov, I think D-RTM is an
-important feature and it deserves to be upstream if it is used widely
-in the field.
-
-OTOH, if the arm64 implementation (which is still on the drawing
-board) bears any resemblance at all to the x86 version, it can be
-considered NACKed already.
+--=20
+Thanks,
+Mina
