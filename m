@@ -1,142 +1,172 @@
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7EA510A1F
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 19:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A35D1D63C2;
+	Tue, 22 Apr 2025 20:03:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745351854; cv=none; b=fbxb+kwvvdyk2mfnBj4i/Pj++s/FOtCRekrcrS8x3lTMMxJngVGL69zWtaRr5qsJsbTumTzxKE55PZheuwl+8KcmKT1VjINBNceL1r4HUfn4LZQrqaNcworGNs9IQPl+wOdIT9G8qRM6O0zqzwtJlXssQEBPy6SXCQUO1ULQo3U=
+	t=1745352211; cv=none; b=OHFujGanj7vNY68PKaic31KMPjy7yHiqaXp34HSOQLFw8JvdYfH3kehFO8pleFlQUPXQPRcxBr1LJYJa81MgBpC8LlkGylS0OoPHK9OGHQDiq8Hx9FmuaLWg999xyBI5KuCXSje+M0IUI24o1BGpI3MebUOLDz7FmdaSiAEq1jo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745351854; c=relaxed/simple;
-	bh=CTVA2mrAn/AMpQDf5O262gMMZUU1TRh2/DuID8H/EP8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=GKE5ptcRgVwS5DqIL8RT7ZnFqkT1X0TjkK97Pv/VQtqN6+FNwqxiVeUnjkS/sERzqCMpL9vmEHJXf/Hkhs43sdXKkiMEu9C2EzMxjOyB/1c5bZw5Gp9W0+atsPrC5YWEq15XLZ/l3gcZStbSL+25Ao21PwdmndKfzqOqam335W8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=4B1Eex4/; arc=none smtp.client-ip=209.85.128.48
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1745352211; c=relaxed/simple;
+	bh=flx1X1PjzPEns4chd4qdAsjn7Uq40UIGYu9K3jmqWtc=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=kAzP34Jo0+NIaZw/qfyDBlyZ34cUBC2oj6YhVGl6HdZB0VmxCdIDXziOJ3m1NPvGNn8iCjri92Ln6WPD9fALE04/w2XOT3ZUJzxRevpxYoa82LWW1eb2/jCybMRdpSDI8ShTpOzu5Ba/N/jSbwr37pw6scDhQ67Q8NbpCW45NbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=kdQudz1p; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="4B1Eex4/"
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso1525e9.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 12:57:32 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="kdQudz1p"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-3a064a3e143so593275f8f.3;
+        Tue, 22 Apr 2025 13:03:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745351851; x=1745956651; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
-        b=4B1Eex4/sKIjSHTFcN7ivYU9jkqma/S+wCqJszDrDsbomeZ7jSa7sHhmoTHczx93pj
-         qlDzKqMtIRnu2/0T+d5oKrTUb9Tbf6xin53LT0l9bZCZZHrPcxMXnuDEj+6Nm4nu+1jE
-         uHAiL7TOfm7ruXz3kDJgwtJgtxvFaLoAU/gkx6v0jTCUEaQKQpNi58BYlZ6E0xQNUe0Q
-         fYw4CuYzu7fHI5cqImmY31nJDE0vAkVOdGBCop0FVeaQGGgIe3kFgTf+QOszgHcoR69D
-         csk5aJ37+Lm+VBRBrBbAnlMwkE4YbkO/YKyJOw0qY19xvRArLkDXFD4RrNcNsGFlWPLT
-         2yrA==
+        d=gmail.com; s=20230601; t=1745352207; x=1745957007; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=UKj7RHO7Q2wBMbkNPnOSKUZxAmZQvo37ML03ejRqDVw=;
+        b=kdQudz1pBFJT49QLKwT/YheepFl2ji6UOVJ2SYk974gd7rO/gOGopHTQH9EyFKdgW4
+         B/eKTRe2htUA45TzE1/KiMmgiXP1hhNdLaLqmqQS0/SkAcClTrUiY8UWoXl0l2SvxvEm
+         e+x21/409z/gLwULXYXwPhEoUGB0bFGdCQjBYqNA6+Oo91iQqPQgRgSFxtal7LZdCKjt
+         j+tfNaxs0gIbo9s+B+OmxMXMOEL34H4/bvDufQANn7uk99xwpXsOI36TKCiUT7tz0DwQ
+         qPuuV1fb2W7cyqb+8c2mOpeM4zM0xw4I7D1P0SbYKR9RxITasoAqJJlkJxXLi3h3ilLJ
+         vAsw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745351851; x=1745956651;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=o+8WoEV+fhr75HFqg9zZSA4L2nRl0GyEtZHiF2PswuY=;
-        b=NDYZc1RnPLAOFvED2yHQcTt561nyhcTaaw7tmzlyuygrPcObifPAqpc0m0EsU9tMS8
-         W24h5x4X6RcE9yOsEUDfUUINEmxfGm1XcdoyBZEZ9IiruMRm4zWOrZKLENS8lI87GSsv
-         8bnOP7eLldxV1yStAlJjFIaAJ2vLl6KkOg4oAEs8iPxEP1N0xX+u0SpTFdO7WE8RIczI
-         NtYf0bCWTKqmcnoq84gavQjpJ2s0ZdzVKgkXVm6u2zEGd6wEv6myJruorEi6Yt2CMXab
-         nbH7yWUWfNfQQu9C0rHxq/lhJqpltVNwRVDks58w5Ylk1vgFdDL/cnnoT1vFxaCMjJmK
-         xN3w==
-X-Forwarded-Encrypted: i=1; AJvYcCVBdh1bzLYk4cKU41oky+1DnWsJk7F6VlqHgbPy4SD/N7HTs9XShOUOYWOF2xvK6mnsEZCoDff0Ugs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+CRCIcvYMpe8KB2gKpuhYbM/yRln7loU0le5pLglRn95SdsoP
-	/asnsvGuG9xcFO1dq4vqWT2ZIdtdMg/tbfjM3VTPtwsVNiCP+2AE7OMqs/qu0iiEg5gryijOhkz
-	jv/e7sL1lUd9j77bbZxWa02FAJVS1MmYflC3d
-X-Gm-Gg: ASbGncvHKxhsdFXZ3D4bYeXBrw5IHTw0Pty6dDhLDvGozGZPYD/ygKh2o9R3RRFaDkz
-	w5OoZPUB0VQ+bih3iOu8AWDYBiy+cDQwSQOZizNzKa3Gix71+xE9XuG1bzBrJxIqCICBVxuEIKS
-	ud4iLJBfYXpw2CodK+x6gi0xKvzn/qjLOidzXwsnt/iwxmDYM6zvo3eJNj5BfFkvY=
-X-Google-Smtp-Source: AGHT+IHUmXBjG9n60eY/loYKceaeQypFwnBTAsAPzYJ5PJ5nFZ7ErzebtVx7FMQxwUfLtBAv12j9WXMAZTzYMIU/Svk=
-X-Received: by 2002:a05:600c:259:b0:439:8d84:32ff with SMTP id
- 5b1f17b1804b1-44091b78f2dmr168325e9.3.1745351850985; Tue, 22 Apr 2025
- 12:57:30 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745352207; x=1745957007;
+        h=content-transfer-encoding:in-reply-to:content-language:references
+         :cc:to:from:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=UKj7RHO7Q2wBMbkNPnOSKUZxAmZQvo37ML03ejRqDVw=;
+        b=SDGVoVJ5p1JXpv5xaCzlCpO2tZZ5M5sOgSpMsHSzva1AucxZftsliM0ghlRyanCKsZ
+         QiZwY9Bv3X2Wys+1jJkIl2jLXgAERXTjc2VVsZMLlOKtS3Yz9EnCd9jk5HjpyhQ6ZwmV
+         QRyrtqb93gtVHuBJPuY7v76TsIfkUHz6hNb+8LEbvNhS8Co/9XbYDlgnthNFQh2tUDzg
+         jPKSAavGdJhaqK/NXn1PqveJGm2DfJY+hfc5vL8jFGefsVjWypLT8sgGi65t2mD3b9OF
+         4NgZYSGMs52Ax/2FlFwYDqSxc6iPE19UHuZt6KsFaNcTlOE0IzoY/HDX9wXkuUjiV7X8
+         5LFg==
+X-Forwarded-Encrypted: i=1; AJvYcCVIRwenq5R3cxDnR7mHZIpPMMcTlA5Cov4vraYGWIvEa0lTouSzXUkBTEhjc1R/rQOUhyQDj0SkBw==@vger.kernel.org, AJvYcCVQqvkBNYERy562sFa8Q5e8fIggsl32dqUtH/SPcL9P/w6TvL/RiZ0/TfuFZFFBJ5ldcHxguLv31gs1D0c7@vger.kernel.org, AJvYcCVtAXa/m5SaF7E1K0KKN0IAlQmvs6svvw3iq1RJ8mTKrrDD9PpefE3wcSxTTPkdob7riIgA@vger.kernel.org, AJvYcCX3Aj5l1y129Rkh4HPsVcdftMErKNMKrsB5D/Db05P1UtPoszFGFXwFZ5Y1arLulHtOGXevQUQIT2Ab@vger.kernel.org, AJvYcCXNKSx/XcliFw6fXx92q0tYsC87z+wtrVVU6wjplOXl25Ax7UBfUe+4E4HpWjpOr1PTiLOG72crnDXBXCrZU7DW@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzoahi49ahjIbjuNagMrEWIQDUyYbR9QYsD6cQXrwxGF3UCqXG2
+	7OJ46Eq0DVEBDZGdi8aKFvl1Vhh4nrsYyw3F5Yxf7XOxTUta/swf
+X-Gm-Gg: ASbGncvM5+FhiUe6Qda+SCrzkctI+hwTiEZdNCC/BM3tZrnjaNK/2w+4u24+aRCnzvB
+	2ChfIVrgAKAjbQg62kTjMV7FKeaYSBZKcMPATFWbtKUu5jBd8MeG0bmHe6aiK3OtDecdb9l4Vnl
+	hxRjMnn5RhpbUUsP6h7hDKRAI1LM91Q68nlYw9nFW9XB0FCMcQ80yhJiHhuLe23bYXzJELazaUg
+	h+YSsPC8XoyonsRYkhSeMn9KEB/4Rf7/Y059H+7unAOOROskQwzRdCp7Imij1ZLuV/OciqrG+oZ
+	VuLcoe1YOJcb9ImdypkdWi+LkSKra8dBrFx+V7ySodx+/CAQ
+X-Google-Smtp-Source: AGHT+IF+gc5hNP3PcfsbBN/YhSJuJTKdae8tm4WgIVh9uwA2+dAe4gQLce8qN+vp5i5Phgl0ysqOIA==
+X-Received: by 2002:a05:6000:4a11:b0:39c:dcc:f589 with SMTP id ffacd0b85a97d-39efba3d0d6mr13189843f8f.20.1745352207445;
+        Tue, 22 Apr 2025 13:03:27 -0700 (PDT)
+Received: from [192.168.8.100] ([85.255.235.90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa43319csm16518816f8f.38.2025.04.22.13.03.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Apr 2025 13:03:26 -0700 (PDT)
+Message-ID: <8c1c6405-1e60-4512-a675-4c00b00d400a@gmail.com>
+Date: Tue, 22 Apr 2025 21:04:40 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
- <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com> <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
-In-Reply-To: <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Tue, 22 Apr 2025 12:57:18 -0700
-X-Gm-Features: ATxdqUHMQq2PHoV14JDZonbBE5auIlNOjBV31C8667rOy5nLy9RJngJSN6-OcnY
-Message-ID: <CABdmKX1aMuyPTNXD72wXyXAfOi6f58DfcaBDh6uDo0EQ7pKChw@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Cc: Song Liu <song@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, android-mm@google.com, simona@ffwll.ch, 
-	Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>, 
-	Mykola Lysenko <mykolal@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 2/9] net: add get_netmem/put_netmem support
+From: Pavel Begunkov <asml.silence@gmail.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, io-uring@vger.kernel.org,
+ virtualization@lists.linux.dev, kvm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+ David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+References: <20250417231540.2780723-1-almasrymina@google.com>
+ <20250417231540.2780723-3-almasrymina@google.com>
+ <484ecaad-56de-4c0d-b7fa-a3337557b0bf@gmail.com>
+ <CAHS8izPw9maOMqLALTLc22eOKnutyLK9azOs4FzO1pfaY8xE6g@mail.gmail.com>
+ <957b74ed-f29c-4bb8-b819-af4e1168d6c1@gmail.com>
+ <CAHS8izM8+zG6KOhV7ysTsCj_PEty5eL+P+uUxTZhdsOSZTwmow@mail.gmail.com>
+ <c0bd45f7-0325-4e4b-b0ea-ccae24a1eabd@gmail.com>
+Content-Language: en-US
+In-Reply-To: <c0bd45f7-0325-4e4b-b0ea-ccae24a1eabd@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 21, 2025 at 4:39=E2=80=AFPM Alexei Starovoitov
-<alexei.starovoitov@gmail.com> wrote:
->
-> On Mon, Apr 21, 2025 at 1:40=E2=80=AFPM T.J. Mercier <tjmercier@google.co=
-m> wrote:
-> >
-> > > > new file mode 100644
-> > > > index 000000000000..b4b8be1d6aa4
-> > > > --- /dev/null
-> > > > +++ b/kernel/bpf/dmabuf_iter.c
-> > >
-> > > Maybe we should add this file to drivers/dma-buf. I would like to
-> > > hear other folks thoughts on this.
-> >
-> > This is fine with me, and would save us the extra
-> > CONFIG_DMA_SHARED_BUFFER check that's currently needed in
-> > kernel/bpf/Makefile but would require checking CONFIG_BPF instead.
-> > Sumit / Christian any objections to moving the dmabuf bpf iterator
-> > implementation into drivers/dma-buf?
->
-> The driver directory would need to 'depends on BPF_SYSCALL'.
-> Are you sure you want this?
-> imo kernel/bpf/ is fine for this.
+On 4/22/25 20:47, Pavel Begunkov wrote:
+> On 4/22/25 19:30, Mina Almasry wrote:
+>> On Tue, Apr 22, 2025 at 11:19 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>>
+>>> On 4/22/25 14:56, Mina Almasry wrote:
+>>>> On Tue, Apr 22, 2025 at 1:43 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>>>>
+>>>>> On 4/18/25 00:15, Mina Almasry wrote:
+>>>>>> Currently net_iovs support only pp ref counts, and do not support a
+>>>>>> page ref equivalent.
+>>>>>
+>>>>> Makes me wonder why it's needed. In theory, nobody should ever be
+>>>>> taking page references without going through struct ubuf_info
+>>>>> handling first, all in kernel users of these pages should always
+>>>>> be paired with ubuf_info, as it's user memory, it's not stable,
+>>>>> and without ubuf_info the user is allowed to overwrite it.
+>>>>>
+>>>>
+>>>> The concern about the stability of the from-userspace data is already
+>>>> called out in the MSG_ZEROCOPY documentation that we're piggybacking
+>>>> devmem TX onto:
+>>>
+>>> Sure, I didn't object that. There is no problem as long as the
+>>> ubuf_info semantics is followed, which by extension mean that
+>>> any ref manipulation should already be gated on ubuf_info, and
+>>> there should be no need in changing generic paths.
+>>>
+>>
+>> I'm sorry I'm not following. skb_frag_ref is how the net stack obtains
+>> references on an skb_frag, regardless on whether the frag is a
+>> MSG_ZEROCOPY one with ubuf info, or a regular tx frag without a
+>> ubuf_info, or even an io_uring frag which I think have the
+> 
+> Yep
+> 
+>> msg->ubuf_info like we discussed previously. I don't see the net stack
+>> in the current code special casing how it obtains refs on frags, and I
+>> don't see the need to add special casing. Can you elaborate in more
+> 
+> You'll be special casing it either way, it's probably unavoidable,
+> just here it is in put/get_netmem.
+> 
+>> detail what is the gating you expect, and why? Are you asking that I
+>> check the skb has a ubuf_info before allowing to grab the reference on
+>> the dmabuf binding? Or something else?
+> 
+> get_page() already shouldn't be a valid operation for ubuf backed frags
+> apart from few cases where frags are copied/moved together with ubuf.
+> The frags are essentially bundled with ubuf and shouldn't exist without
+> it, because otherwise user can overwrite memory with all the following
+> nastiness. If there are some spots violating that, I'd rather say they
+> should be addressed.
+> 
+> Instead of adding net_iov / devmem handling in generic paths affecting
+> everyone, you could change those functions where it's get_page() are
+> called legitimately. The niov/devmem part of get/put_netmem doesn't
+> even have the same semantics as the page counterparts as it cannot
+> prevent from reallocation. That might be fine, but it's not clear
 
-I don't have a strong preference so either way is fine with me. The
-main difference I see is maintainership.
+Actually, maybe it's not that exclusive to netiov, same reallocation
+argument is true for user pages, even though they're reffed
+separately.
 
-> You also probably want
-> .feature                =3D BPF_ITER_RESCHED
-> in bpf_dmabuf_reg_info.
+It might be fine to leave this approach, while suboptimal it should
+be easier for you. Depends on how folks feel about the extra
+overhead in the normal tx path.
 
-Thank you, this looks like a good idea.
+-- 
+Pavel Begunkov
 
-> Also have you considered open coded iterator for dmabufs?
-> Would it help with the interface to user space?
-
-I read through the open coded iterator patches, and it looks like they
-would be slightly more efficient by avoiding seq_file overhead. As far
-as the interface to userspace, for the purpose of replacing what's
-currently exposed by CONFIG_DMABUF_SYSFS_STATS I don't think there is
-a difference. However it looks like if I were to try to replace all of
-our userspace analysis of dmabufs with a single bpf program then an
-open coded iterator would make that much easier. I had not considered
-attempting that.
-
-One problem I see with open coded iterators is that support is much
-more recent (2023 vs 2020). We support longterm stable kernels (back
-to 5.4 currently but probably 5.10 by the time this would be used), so
-it seems like it would be harder to backport the kernel support for an
-open-coded iterator that far since it only goes back as far as 6.6
-now. Actually it doesn't look like it is possible while also
-maintaining the stable ABI we provide to device vendors. Which means
-we couldn't get rid of the dmabuf sysfs stats userspace dependency
-until 6.1 EOL in Dec. 2027. :\ So I'm in favor of a traditional bpf
-iterator here for now.
