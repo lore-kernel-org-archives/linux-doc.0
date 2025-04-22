@@ -1,97 +1,89 @@
-Received: from mail-pl1-f181.google.com (mail-pl1-f181.google.com [209.85.214.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A295B281367;
-	Tue, 22 Apr 2025 13:25:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F741280CC8;
+	Tue, 22 Apr 2025 13:30:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745328340; cv=none; b=HoqvZuY4OlxGg7YCm3sOl3Z8lwm9zbwcsZRl+YGhrlf9qbUv9jRdLn4TbI7XZW3fIkYqPlBPueFPn3u9hbE8ZqmHDFV5cy94ap4WIpSWmgoC8UplUuKpTpq7js+lhHhYlOzQxN4S/PB2SB3s1EdqHdPMK4jYoRgGOpOp+pM4Qn8=
+	t=1745328642; cv=none; b=SPtg5P8GUviPu2uqPF4dFtAVi+Xx1OFU9FbsLqqeQG9Un2CSyHGL0BvhRhDdMco2IHwHopsseZ+q+OKDnz/tqce9jgKSwo6klEctjOT3sYnW89XAbvfsOzyCxCwQ0WEtHEYcbcNt4qL4/84hCzTCsywLR3nQazBO44FAkIKUuqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745328340; c=relaxed/simple;
-	bh=sIwen7WsPPQoT2R+raijeINXf73DVD6D+YM6rXvMk9s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=u3PfQt9fj8tOFB8K/rZCOqSoTPX5kjD8sVn4rquLmMO5KYOneU+9YO5m/vmDGmasFPSN5dWUtnCiG9s/kFNDnPzxxMCDRUPzntDjFwvkSYbv3TBGUkVbrEm/VfB6i9N2Pub92Lx7k9iUN5dZVxPZUyXy3G7Wcvzf0mz+zb0//r4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IKyCoDN/; arc=none smtp.client-ip=209.85.214.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745328642; c=relaxed/simple;
+	bh=675nI73TK3yzWzYYdekYDaWI36QZ+fU5y2hIwCEJcK4=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=JjdON0N/eqFoZT3F32PebkysUm23CtHMg+FNh0z/gAXLBjbQirudiBKEbgOpDwDxFQtgnkOKpsT2Z8P4FJOY1uvoGcfxj8y8mTrpmZ0uEe7DLo3tsBkasqivBc46UYbSpoRyH7ZcmUCXLnlRCR3Uj3mK8MUJYcGrvvPV6Z0gjo0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=OlZqMMca; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IKyCoDN/"
-Received: by mail-pl1-f181.google.com with SMTP id d9443c01a7336-2241053582dso71492745ad.1;
-        Tue, 22 Apr 2025 06:25:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745328338; x=1745933138; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=qtV3DhJOKkxTU+wj+E4JlDxdRWyHpER3HDjZAA/FV7w=;
-        b=IKyCoDN/IeeTKiGFOjyDcTekwRltrjOKEBMNHYACg23hJAwHWXn33/qNmAvRnaYjFK
-         gpVk7OZDwu2M1PgV8G+UcSD3ITOUalTStVKaGg5cObjAB7Ih6d0QXqHTqNs0S1570td+
-         V6BGK3ZcRdB3UJFyCPn7iPsrTBH2ebVj5dF6hdUuzg0ByZEZj4ZTVmGJa3lH01m3FPg3
-         YtSjPX1KAfnBgTXAWl3feQK4RJRqmVE08qGxXgMUiJ+jMczbUEh6GlWmz8SgYfRlGQp6
-         xI7fhzR6QyOo441xQ+Xdj4PZCHa7I1N+9KF/LOWQnuF16k9dccXXihEIzQRp9CQ4lCpc
-         t2lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745328338; x=1745933138;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:sender:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=qtV3DhJOKkxTU+wj+E4JlDxdRWyHpER3HDjZAA/FV7w=;
-        b=gq9lPkoa76OCfFaZmfAXW3fqp93d9khCRCHK0DOOyJc+mFIyZCH0qcjz4vzF9O3TMI
-         7AVXNtqRdYGFO4+fx3yC5MgUaVU+wnAidZBlsGhe4OIBw4qmWibKxhoCE/6JOJHIiSNR
-         9EIMoKd6jcoOhun8gFEnx1WNLf2c0CIK+uIYSva8XfRwOzIKS0XamihRpqKDyQoQp2Kk
-         dd5Ms/Jj1dwtvyeqgReNb12xQ9uUHWNp9AHcqojVuE7uqCQT79DssnJJP+jRSwMC20aR
-         Yzsr6pC4XamA+rD9JopA1h2+li5W2Rko8ivR3t60IFGv8p9Ku64YeJl/QjI4uXXDKYRV
-         mhvA==
-X-Forwarded-Encrypted: i=1; AJvYcCVMt+FKzO2EPVZq8DHmstkUSe//YpOpaOmMjMNWzlEWYOJORaDeT6gr8BSJNyDETVNMXDd8sbwZQA6P@vger.kernel.org, AJvYcCVmwZlZhW0RLNAt6wG69p3t937yNE8ryBbknDeJTjToT1srQvNiOpOjkeU82AdwSY5zaKIeqaoZnWDk@vger.kernel.org, AJvYcCWSynwR+ReBPuT/l5VdfwNjvR/9yQX+uQuNfrP7q9EULqurSZtTGTnqNnvvxw/zp7lUL5NfhFqJuChp@vger.kernel.org, AJvYcCXOKfj6NiwJCRMBlduskGYilkAjYr1XuUcogq/LugI0YtBdWS7LawcVEL7Cz74Ch5/a7dFx+z6EnfAe2gBE@vger.kernel.org, AJvYcCXv5+tIR9jSD5rtGFjwd2LOkvx5ABMq1OTHIzE/nmqyJyMIY2DXpmfYVodcrfIXLOrfpdZSaQSZ24OIoyQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzrI0QxXMH9hDDmIlijwK2WsjOh8G/mC+foXKOqOw7Puw/+qZ05
-	IZpPrt+nVc1Dg0jzoJ1TojEipImXOMZuk63yoPy0K0YDJqQUnSDZ
-X-Gm-Gg: ASbGncukDpFP9uukr+0Dd1cthoz/GgHmiRZ0C70lL715jQQPhWtcsa0L2CLSZGjhduL
-	oR5MXpNXwLX/wNmdlPcpu3zRRwLOzfM6nY+qC6gdu3sQLn1Uru0Lrr1xGCmzGb7UA94+letTPvq
-	YKNtt5VLxh5PQL+t801eRdzYCgARcFpRzYz9dD3r9566ik3ExPLY752+TZsVIghD4bdWqd4Jc8U
-	44TpNahBy7JXlJqFQRA+FX7q+MMC4CZlEHtRDD3pyQXNOFqUXjIrB6zBSVPJyr7hHJIWQganJWH
-	TO+F5B/WsMMBZ0WSRfJfPbxpM5MLeE2/OOIJciM2602qw0iCDC2kZ718173p+1En
-X-Google-Smtp-Source: AGHT+IF788IeKgjdtqU+/vaSukLZXfULJRHLvzd/tFEY8O9tspAjkjBGc1I1/V+TOAmDpvF1epaJaA==
-X-Received: by 2002:a17:902:d58b:b0:220:c86d:d7eb with SMTP id d9443c01a7336-22c5360454cmr242767575ad.36.1745328337792;
-        Tue, 22 Apr 2025 06:25:37 -0700 (PDT)
-Received: from server.roeck-us.net ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50bf5929sm84380785ad.104.2025.04.22.06.25.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 06:25:37 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Date: Tue, 22 Apr 2025 06:25:36 -0700
-From: Guenter Roeck <linux@roeck-us.net>
-To: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Conor Dooley <conor+dt@kernel.org>,
-	Jean Delvare <jdelvare@suse.com>, Jonathan Corbet <corbet@lwn.net>,
-	Delphine CC Chiu <Delphine_CC_Chiu@wiwynn.com>,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-i2c@vger.kernel.org
-Subject: Re: [PATCH v3 2/2] hwmon: (pmbus/lt3074): add support for lt3074
-Message-ID: <9ee5014d-7403-4eba-908f-8c1d10b102aa@roeck-us.net>
-References: <20250421-upstream-lt3074-v3-0-71636322f9fe@analog.com>
- <20250421-upstream-lt3074-v3-2-71636322f9fe@analog.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="OlZqMMca"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 4561541058
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1745328640; bh=S8E9dCL2t2/JovDkCNE7YlquaFlBHiJ3Hvfqf4qvr2Y=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=OlZqMMcaBZWoHS3co3iNgHkdqedc880EqwruJ7CsAHqO1gPBMlJFb5gotxlXNgoDU
+	 itWmT8essp0GnlOKlYcDTXczvUhwVBVWIhlhMxQF2iutiCh3TfkLjiAnt5FXJZEfLp
+	 l+Cmg1AVY7x3+LWW0xN3TWxdKruVrrh22lt05Hpy/aZuxZ/9SoAa1nNivPwI1pihX1
+	 i2kBTfo6W33vhDO5Vmcuibdi8YWwtv0XCTvZ/6/Nzv8Syn6LFKPdNqgn9BK8hSvSSh
+	 knz23BcW+bddW1ryvL6njppZVsAioit6yPdKKe6G8QRKvYGx1ucaEkwHbcnVB3C4IK
+	 dun6ClhqSX/Og==
+Received: from localhost (unknown [IPv6:2601:280:4600:2da9::1fe])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 4561541058;
+	Tue, 22 Apr 2025 13:30:40 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: I Hsin Cheng <richard120310@gmail.com>, tytso@mit.edu
+Cc: adilger.kernel@dilger.ca, linux-ext4@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev, I Hsin
+ Cheng <richard120310@gmail.com>
+Subject: Re: [PATCH] docs: ext4: Ammend white space
+In-Reply-To: <20250422055702.451729-1-richard120310@gmail.com>
+References: <20250422055702.451729-1-richard120310@gmail.com>
+Date: Tue, 22 Apr 2025 07:30:39 -0600
+Message-ID: <87zfg8uxvk.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250421-upstream-lt3074-v3-2-71636322f9fe@analog.com>
+Content-Type: text/plain
 
-On Mon, Apr 21, 2025 at 08:18:19PM +0800, Cedric Encarnacion wrote:
-> Add hardware monitoring and regulator support for LT3074. The LT3074 is an
-> ultrafast, ultralow noise 3A, 5.5V dropout linear regulator. The PMBus
-> serial interface allows telemetry for input/output voltage, bias voltage,
-> output current, and die temperature.
-> 
-> Reviewed-by: Guenter Roeck <linux@roeck-us.net>
-> Signed-off-by: Cedric Encarnacion <cedricjustine.encarnacion@analog.com>
+I Hsin Cheng <richard120310@gmail.com> writes:
 
-Applied.
+> There should be a white space between the words "block" and "size",
+> instead of writing them together as "blocksize". Ammend a white space
+> between them.
+>
+> Signed-off-by: I Hsin Cheng <richard120310@gmail.com>
+> ---
+>  Documentation/filesystems/ext4/blockgroup.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
+> diff --git a/Documentation/filesystems/ext4/blockgroup.rst b/Documentation/filesystems/ext4/blockgroup.rst
+> index ed5a5cac6d40..32a66a956f31 100644
+> --- a/Documentation/filesystems/ext4/blockgroup.rst
+> +++ b/Documentation/filesystems/ext4/blockgroup.rst
+> @@ -108,7 +108,7 @@ block groups which can be described by a single block group descriptor
+>  block. Since the size of the block group descriptor structure is 64
+>  bytes, a meta-block group contains 16 block groups for filesystems with
+>  a 1KB block size, and 64 block groups for filesystems with a 4KB
+> -blocksize. Filesystems can either be created using this new block group
+> +block size. Filesystems can either be created using this new block group
+>  descriptor layout, or existing filesystems can be resized on-line, and
+>  the field s_first_meta_bg in the superblock will indicate the first
+>  block group using this new layout.
+
+Thank you for working to improve the documentation!
+
+If you dig through our documentation, you will see that "blocksize" is
+fairly common usage.  Changing them all will result in a fair amount of
+churn without much in the way of benefit in either readability or
+accuracy.  May I politely suggest focusing on the many real problems our
+documentation has instead?
 
 Thanks,
-Guenter
+
+jon
