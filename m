@@ -1,731 +1,917 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8A9B2292918
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 16:24:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 617A7212FBF;
+	Tue, 22 Apr 2025 16:33:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745339074; cv=none; b=S4FlUXV1F0XE9vrlPsNEuYpbuJcIQdOzVKTDjhEGU7ab1f/q52+fCpIr9iPr9ALpHR0Tt7WuvUi0gEg41PBk68IObDRQszqSsSzo5KPYFVir5txQUACTkFi35OVOR3qz7HNjNFhI9ZGD4M9SDPUgv5WpE5jgMtU4uHyzQy2sTWM=
+	t=1745339598; cv=none; b=HRxYdLMj2bsr6joisTG1kiiqZmK02EXtVpyMP2oHHJVnIh439jd8HJFRoveBeUQOREq5r6/S6aiJONXxoUT8j7izunkQxoF978/Zz9aYkRI0qGy1pQX+Z0pJetKSJkSWAhbX7gvkntxyxxZfup9hKUf/SfbPUZaQXZXKlQvMwJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745339074; c=relaxed/simple;
-	bh=0g+Edh6USTpd5ihh7LZYyx43fibTQ4c1N1dVq2+90nw=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=AJKqgqJQ1HGj+8SzTtSzrQlZbMNUPukdU4TkurTps+Pca9wst6VYjPlWfSHhn3REiToryLpc1Iu33KhkGvPYML6mZw326nbqCNDXznLkz0pT3z6M7hyHmu12NIyZM7aJLB0hX0Wzn8PUNWqXXQZsn1bKDVWqtg9a11reoPskkpw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ArdoCi13; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ArdoCi13"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-224191d92e4so53269625ad.3
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 09:24:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745339071; x=1745943871; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dIpUsARUWkMqbtxQjxYky+3G1SaiCnjwvQ5qtBxu/rw=;
-        b=ArdoCi136dYwy132S0I51/4lEu2Hg0UVbq0G3tSB/umzRHAqnf1jwrFxhk0JVQXeh/
-         uliEmqtZm3IXazrVdHznt4cY9z0LSCaXzi9BJo1cNzePpSjzn5PoNVt5KQtj8We0oaYW
-         0JTgSTwf90S2QA/582/ngu7OcsdpSyxvJGdGkC6PK4GY2E2eKnqSBia7aKXHo+v6BQDF
-         rLGYxs1BDBNbvDSu+Itk3jyJ7zeyWgpvEmS/VueBuZ1gglQu8BIltiHAFKKJ7kNuQPGz
-         I2A7RAgtKxFZYZPRjYPrLXGM5w+FNXzETpSB9Nrq1DshkUFLj7xxG011xXmXnP7+8wua
-         AiZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745339071; x=1745943871;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=dIpUsARUWkMqbtxQjxYky+3G1SaiCnjwvQ5qtBxu/rw=;
-        b=GUnBEzDQxna8uEtix7AVgwLpSS31tXOaN9bWCrt2l0lL8y1SJVrhqvKfAjLuBSLVqP
-         x5UGLVJxdLkHfuha45UKn9djbheqqBv8E2otBhao4vmas9xV52ac598Fy2GeWy/z/jbB
-         4+MHtVqeidEgy2RDGIv3aZwMvyzEDBitU7oTvjAgc6pVEb6yaJzIncMwwlmW4ZVhOzTP
-         QVxpsTIr9JIqm2EVPigrAN3HtUlQXntILhy+ajpUc1h1FB2dCz9akJ8C89WMqxLJrvyo
-         kvmJ4TXfa+3SQYb4MSfKuZOYmFl7VpvufpgpYPhrgkpNezkH/k5zZ73+/+IJZmS/Zvbp
-         PWAA==
-X-Gm-Message-State: AOJu0YzUomroXuA820sy1zUWxbHrkdWOwBP45eXtyZCcceJqZqxeSH+P
-	SlUlaEuVLkYMeSwQy8Sp8pRZ71zhr4PycRC1/t+rWgDo980qZYxlRP3Sc9RplBfA+gjF55hzK7h
-	CQZg=
-X-Gm-Gg: ASbGnctOlrQR331Z8p5+lZn75g4ke+waw6PgbyPn3Cy/2KNJBsUUiB2gQ83OY9foi5D
-	XFo4n4hLjZ/H+tACkuIGxS5F08QBd8Epy4Uccs6gN80L7kesFPceNOweShq7YYb0LP0Znpuac46
-	ZYE2GzRY8Sj8fTa32SoQZv8GWOTJgjjnJEhLzCSvuxV5tIC5b/J3oOamMl3QaCmbDjAn0NU1vxa
-	+BcjmXIXDOhAryp85rh1tiY2n2/jkDYSV9CrVWZkBtQzd0JDyuPyVUwm/QrPQF9pbDMKiF6tpju
-	FwGujz0TCzDrek3yfvGQwjwE0SuoM94ipwa/5SmGoA==
-X-Google-Smtp-Source: AGHT+IF27p3zRzBn7tVyZ2nbLjKWuCssaT8xxvcRNL8ikODLRqgzKD8UEBD+PG4GKuDln1XyBArFOA==
-X-Received: by 2002:a17:903:46c8:b0:224:584:6eef with SMTP id d9443c01a7336-22c53606ee5mr272754465ad.41.1745339071041;
-        Tue, 22 Apr 2025 09:24:31 -0700 (PDT)
-Received: from carbon-x1.. ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73dbf8e13e1sm8850825b3a.46.2025.04.22.09.24.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Apr 2025 09:24:30 -0700 (PDT)
-From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
-To: linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list),
-	linux-riscv@lists.infradead.org (open list:RISC-V ARCHITECTURE),
-	linux-kselftest@vger.kernel.org (open list:KERNEL SELFTEST FRAMEWORK)
-Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	s=arc-20240116; t=1745339598; c=relaxed/simple;
+	bh=u3cF0Mo2Bw7M6p+sQNOBt/FD6MnbO0aHMW6uX/ggRZc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=r1mYy6WKRaUT1R97gJnSzlWtneSTNAfuMK/KwSC+fnZprveWeZS55lu2dhrUVHQg2c8nrMDqdwyguKNSTpluo1SaWdFphcLnaXAbjbA39RPwqI7jozbh+2abFI9r3u90qeI6Yd3Mp94cjjBlKfGebwiXtdEYbK5pWW2O41jn1U0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: S6XiziiiRE6uJwMNE1MRZA==
+X-CSE-MsgGUID: KQSyVCMxSjeH1DhRi2FNHw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="57891793"
+X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; 
+   d="scan'208";a="57891793"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 09:33:15 -0700
+X-CSE-ConnectionGUID: mBNZD8b+RbCVT77eR7nR1Q==
+X-CSE-MsgGUID: i8TJH0pzQMi8aU97TPvvpA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,231,1739865600"; 
+   d="scan'208";a="137042752"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 09:33:11 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1u7GYV-0000000EmPT-3CM5;
+	Tue, 22 Apr 2025 19:33:07 +0300
+Date: Tue, 22 Apr 2025 19:33:07 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Jonathan Cameron <jic23@kernel.org>,
+	Lars-Peter Clausen <lars@metafoo.de>,
+	Michael Hennerich <Michael.Hennerich@analog.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>,
-	Shuah Khan <shuah@kernel.org>,
-	Andrew Jones <ajones@ventanamicro.com>,
-	Samuel Holland <samuel.holland@sifive.com>
-Subject: [PATCH v2 5/5] selftests: riscv: add misaligned access testing
-Date: Tue, 22 Apr 2025 18:23:12 +0200
-Message-ID: <20250422162324.956065-6-cleger@rivosinc.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250422162324.956065-1-cleger@rivosinc.com>
-References: <20250422162324.956065-1-cleger@rivosinc.com>
+	David Lechner <dlechner@baylibre.com>,
+	Nuno =?iso-8859-1?Q?S=E1?= <nuno.sa@analog.com>,
+	Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= <ukleinek@kernel.org>,
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-pwm@vger.kernel.org
+Subject: Re: [PATCH v2 5/5] iio: adc: add support for ad4052
+Message-ID: <aAfEw-2D4tjLJtAN@smile.fi.intel.com>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-5-638af47e9eb3@analog.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250422-iio-driver-ad4052-v2-5-638af47e9eb3@analog.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-This selftest tests (almost) all the currently emulated instruction
-(except for the RV32 compressed ones which are left as a future
-exercise for a RV32 user). For the FPU instructions, all the FPU
-registers are tested.
+On Tue, Apr 22, 2025 at 01:34:50PM +0200, Jorge Marques wrote:
+> The AD4052/AD4058/AD4050/AD4056 are versatile, 16-bit/12-bit,
+> successive approximation register (SAR) analog-to-digital converter (ADC)
+> that enables low-power, high-density data acquisition solutions without
+> sacrificing precision.
+> This ADC offers a unique balance of performance and power efficiency,
+> plus innovative features for seamlessly switching between high-resolution
+> and low-power modes tailored to the immediate needs of the system.
+> The AD4052/AD4058/AD4050/AD4056 are ideal for battery-powered,
+> compact data acquisition and edge sensing applications.
 
-Signed-off-by: Clément Léger <cleger@rivosinc.com>
----
- .../selftests/riscv/misaligned/.gitignore     |   1 +
- .../selftests/riscv/misaligned/Makefile       |  12 +
- .../selftests/riscv/misaligned/common.S       |  33 +++
- .../testing/selftests/riscv/misaligned/fpu.S  | 180 +++++++++++++
- tools/testing/selftests/riscv/misaligned/gp.S | 103 +++++++
- .../selftests/riscv/misaligned/misaligned.c   | 254 ++++++++++++++++++
- 6 files changed, 583 insertions(+)
- create mode 100644 tools/testing/selftests/riscv/misaligned/.gitignore
- create mode 100644 tools/testing/selftests/riscv/misaligned/Makefile
- create mode 100644 tools/testing/selftests/riscv/misaligned/common.S
- create mode 100644 tools/testing/selftests/riscv/misaligned/fpu.S
- create mode 100644 tools/testing/selftests/riscv/misaligned/gp.S
- create mode 100644 tools/testing/selftests/riscv/misaligned/misaligned.c
+...
 
-diff --git a/tools/testing/selftests/riscv/misaligned/.gitignore b/tools/testing/selftests/riscv/misaligned/.gitignore
-new file mode 100644
-index 000000000000..5eff15a1f981
---- /dev/null
-+++ b/tools/testing/selftests/riscv/misaligned/.gitignore
-@@ -0,0 +1 @@
-+misaligned
-diff --git a/tools/testing/selftests/riscv/misaligned/Makefile b/tools/testing/selftests/riscv/misaligned/Makefile
-new file mode 100644
-index 000000000000..1aa40110c50d
---- /dev/null
-+++ b/tools/testing/selftests/riscv/misaligned/Makefile
-@@ -0,0 +1,12 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2021 ARM Limited
-+# Originally tools/testing/arm64/abi/Makefile
-+
-+CFLAGS += -I$(top_srcdir)/tools/include
-+
-+TEST_GEN_PROGS := misaligned
-+
-+include ../../lib.mk
-+
-+$(OUTPUT)/misaligned: misaligned.c fpu.S gp.S
-+	$(CC) -g3 -static -o$@ -march=rv64imafdc $(CFLAGS) $(LDFLAGS) $^
-diff --git a/tools/testing/selftests/riscv/misaligned/common.S b/tools/testing/selftests/riscv/misaligned/common.S
-new file mode 100644
-index 000000000000..8fa00035bd5d
---- /dev/null
-+++ b/tools/testing/selftests/riscv/misaligned/common.S
-@@ -0,0 +1,33 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2025 Rivos Inc.
-+ *
-+ * Authors:
-+ *     Clément Léger <cleger@rivosinc.com>
-+ */
-+
-+.macro lb_sb temp, offset, src, dst
-+	lb \temp, \offset(\src)
-+	sb \temp, \offset(\dst)
-+.endm
-+
-+.macro copy_long_to temp, src, dst
-+	lb_sb \temp, 0, \src, \dst,
-+	lb_sb \temp, 1, \src, \dst,
-+	lb_sb \temp, 2, \src, \dst,
-+	lb_sb \temp, 3, \src, \dst,
-+	lb_sb \temp, 4, \src, \dst,
-+	lb_sb \temp, 5, \src, \dst,
-+	lb_sb \temp, 6, \src, \dst,
-+	lb_sb \temp, 7, \src, \dst,
-+.endm
-+
-+.macro sp_stack_prologue offset
-+	addi sp, sp, -8
-+	sub sp, sp, \offset
-+.endm
-+
-+.macro sp_stack_epilogue offset
-+	add sp, sp, \offset
-+	addi sp, sp, 8
-+.endm
-diff --git a/tools/testing/selftests/riscv/misaligned/fpu.S b/tools/testing/selftests/riscv/misaligned/fpu.S
-new file mode 100644
-index 000000000000..d008bff58310
---- /dev/null
-+++ b/tools/testing/selftests/riscv/misaligned/fpu.S
-@@ -0,0 +1,180 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2025 Rivos Inc.
-+ *
-+ * Authors:
-+ *     Clément Léger <cleger@rivosinc.com>
-+ */
-+
-+#include "common.S"
-+
-+#define CASE_ALIGN		4
-+
-+.macro fpu_load_inst fpreg, inst, precision, load_reg
-+.align CASE_ALIGN
-+	\inst \fpreg, 0(\load_reg)
-+	fmv.\precision fa0, \fpreg
-+	j 2f
-+.endm
-+
-+#define flw(__fpreg) fpu_load_inst __fpreg, flw, s, s1
-+#define fld(__fpreg) fpu_load_inst __fpreg, fld, d, s1
-+#define c_flw(__fpreg) fpu_load_inst __fpreg, c.flw, s, s1
-+#define c_fld(__fpreg) fpu_load_inst __fpreg, c.fld, d, s1
-+#define c_fldsp(__fpreg) fpu_load_inst __fpreg, c.fldsp, d, sp
-+
-+.macro fpu_store_inst fpreg, inst, precision, store_reg
-+.align CASE_ALIGN
-+	fmv.\precision \fpreg, fa0
-+	\inst \fpreg, 0(\store_reg)
-+	j 2f
-+.endm
-+
-+#define fsw(__fpreg) fpu_store_inst __fpreg, fsw, s, s1
-+#define fsd(__fpreg) fpu_store_inst __fpreg, fsd, d, s1
-+#define c_fsw(__fpreg) fpu_store_inst __fpreg, c.fsw, s, s1
-+#define c_fsd(__fpreg) fpu_store_inst __fpreg, c.fsd, d, s1
-+#define c_fsdsp(__fpreg) fpu_store_inst __fpreg, c.fsdsp, d, sp
-+
-+.macro fp_test_prologue
-+	move s1, a1
-+	/*
-+	 * Compute jump offset to store the correct FP register since we don't
-+	 * have indirect FP register access (or at least we don't use this
-+	 * extension so that works on all archs)
-+	 */
-+	sll t0, a0, CASE_ALIGN
-+	la t2, 1f
-+	add t0, t0, t2
-+	jr t0
-+.align	CASE_ALIGN
-+1:
-+.endm
-+
-+.macro fp_test_prologue_compressed
-+	/* FP registers for compressed instructions starts from 8 to 16 */
-+	addi a0, a0, -8
-+	fp_test_prologue
-+.endm
-+
-+#define fp_test_body_compressed(__inst_func) \
-+	__inst_func(f8); \
-+	__inst_func(f9); \
-+	__inst_func(f10); \
-+	__inst_func(f11); \
-+	__inst_func(f12); \
-+	__inst_func(f13); \
-+	__inst_func(f14); \
-+	__inst_func(f15); \
-+2:
-+
-+#define fp_test_body(__inst_func) \
-+	__inst_func(f0); \
-+	__inst_func(f1); \
-+	__inst_func(f2); \
-+	__inst_func(f3); \
-+	__inst_func(f4); \
-+	__inst_func(f5); \
-+	__inst_func(f6); \
-+	__inst_func(f7); \
-+	__inst_func(f8); \
-+	__inst_func(f9); \
-+	__inst_func(f10); \
-+	__inst_func(f11); \
-+	__inst_func(f12); \
-+	__inst_func(f13); \
-+	__inst_func(f14); \
-+	__inst_func(f15); \
-+	__inst_func(f16); \
-+	__inst_func(f17); \
-+	__inst_func(f18); \
-+	__inst_func(f19); \
-+	__inst_func(f20); \
-+	__inst_func(f21); \
-+	__inst_func(f22); \
-+	__inst_func(f23); \
-+	__inst_func(f24); \
-+	__inst_func(f25); \
-+	__inst_func(f26); \
-+	__inst_func(f27); \
-+	__inst_func(f28); \
-+	__inst_func(f29); \
-+	__inst_func(f30); \
-+	__inst_func(f31); \
-+2:
-+.text
-+
-+#define __gen_test_inst(__inst, __suffix) \
-+.global test_ ## __inst; \
-+test_ ## __inst:; \
-+	fp_test_prologue ## __suffix; \
-+	fp_test_body ## __suffix(__inst); \
-+	ret
-+
-+#define gen_test_inst_compressed(__inst) \
-+	.option arch,+c; \
-+	__gen_test_inst(c_ ## __inst, _compressed)
-+
-+#define gen_test_inst(__inst) \
-+	.balign 16; \
-+	.option push; \
-+	.option arch,-c; \
-+	__gen_test_inst(__inst, ); \
-+	.option pop
-+
-+.macro fp_test_prologue_load_compressed_sp
-+	copy_long_to t0, a1, sp
-+.endm
-+
-+.macro fp_test_epilogue_load_compressed_sp
-+.endm
-+
-+.macro fp_test_prologue_store_compressed_sp
-+.endm
-+
-+.macro fp_test_epilogue_store_compressed_sp
-+	copy_long_to t0, sp, a1
-+.endm
-+
-+#define gen_inst_compressed_sp(__inst, __type) \
-+	.global test_c_ ## __inst ## sp; \
-+	test_c_ ## __inst ## sp:; \
-+		sp_stack_prologue a2; \
-+		fp_test_prologue_## __type ## _compressed_sp; \
-+		fp_test_prologue_compressed; \
-+		fp_test_body_compressed(c_ ## __inst ## sp); \
-+		fp_test_epilogue_## __type ## _compressed_sp; \
-+		sp_stack_epilogue a2; \
-+		ret
-+
-+#define gen_test_load_compressed_sp(__inst) gen_inst_compressed_sp(__inst, load)
-+#define gen_test_store_compressed_sp(__inst) gen_inst_compressed_sp(__inst, store)
-+
-+/*
-+ * float_fsw_reg - Set a FP register from a register containing the value
-+ * a0 = FP register index to be set
-+ * a1 = addr where to store register value
-+ * a2 = address offset
-+ * a3 = value to be store
-+ */
-+gen_test_inst(fsw)
-+
-+/*
-+ * float_flw_reg - Get a FP register value and return it
-+ * a0 = FP register index to be retrieved
-+ * a1 = addr to load register from
-+ * a2 = address offset
-+ */
-+gen_test_inst(flw)
-+
-+gen_test_inst(fsd)
-+#ifdef __riscv_compressed
-+gen_test_inst_compressed(fsd)
-+gen_test_store_compressed_sp(fsd)
-+#endif
-+
-+gen_test_inst(fld)
-+#ifdef __riscv_compressed
-+gen_test_inst_compressed(fld)
-+gen_test_load_compressed_sp(fld)
-+#endif
-diff --git a/tools/testing/selftests/riscv/misaligned/gp.S b/tools/testing/selftests/riscv/misaligned/gp.S
-new file mode 100644
-index 000000000000..f53f4c6d81dd
---- /dev/null
-+++ b/tools/testing/selftests/riscv/misaligned/gp.S
-@@ -0,0 +1,103 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+/*
-+ * Copyright (c) 2025 Rivos Inc.
-+ *
-+ * Authors:
-+ *     Clément Léger <cleger@rivosinc.com>
-+ */
-+
-+#include "common.S"
-+
-+.text
-+
-+.macro __gen_test_inst inst, src_reg
-+	\inst a2, 0(\src_reg)
-+	move a0, a2
-+.endm
-+
-+.macro gen_func_header func_name, rvc
-+	.option arch,\rvc
-+	.global test_\func_name
-+	test_\func_name:
-+.endm
-+
-+.macro gen_test_inst inst
-+	.option push
-+	gen_func_header \inst, -c
-+	__gen_test_inst \inst, a0
-+	.option pop
-+	ret
-+.endm
-+
-+.macro __gen_test_inst_c name, src_reg
-+	.option push
-+	gen_func_header c_\name, +c
-+	 __gen_test_inst c.\name, \src_reg
-+	.option pop
-+	ret
-+.endm
-+
-+.macro gen_test_inst_c name
-+ 	__gen_test_inst_c \name, a0
-+.endm
-+
-+
-+.macro gen_test_inst_load_c_sp name
-+	.option push
-+	gen_func_header c_\name\()sp, +c
-+	sp_stack_prologue a1
-+	copy_long_to t0, a0, sp
-+	c.ldsp a0, 0(sp)
-+	sp_stack_epilogue a1
-+	.option pop
-+	ret
-+.endm
-+
-+.macro lb_sp_sb_a0 reg, offset
-+	lb_sb \reg, \offset, sp, a0
-+.endm
-+
-+.macro gen_test_inst_store_c_sp inst_name
-+	.option push
-+	gen_func_header c_\inst_name\()sp, +c
-+	/* Misalign stack pointer */
-+	sp_stack_prologue a1
-+	/* Misalign access */
-+	c.sdsp a2, 0(sp)
-+	copy_long_to t0, sp, a0
-+	sp_stack_epilogue a1
-+	.option pop
-+	ret
-+.endm
-+
-+
-+ /*
-+ * a0 = addr to load from
-+ * a1 = address offset
-+ * a2 = value to be loaded
-+ */
-+gen_test_inst lh
-+gen_test_inst lhu
-+gen_test_inst lw
-+gen_test_inst lwu
-+gen_test_inst ld
-+#ifdef __riscv_compressed
-+gen_test_inst_c lw
-+gen_test_inst_c ld
-+gen_test_inst_load_c_sp ld
-+#endif
-+
-+/*
-+ * a0 = addr where to store value
-+ * a1 = address offset
-+ * a2 = value to be stored
-+ */
-+gen_test_inst sh
-+gen_test_inst sw
-+gen_test_inst sd
-+#ifdef __riscv_compressed
-+gen_test_inst_c sw
-+gen_test_inst_c sd
-+gen_test_inst_store_c_sp sd
-+#endif
-+
-diff --git a/tools/testing/selftests/riscv/misaligned/misaligned.c b/tools/testing/selftests/riscv/misaligned/misaligned.c
-new file mode 100644
-index 000000000000..c66aa87ec03e
---- /dev/null
-+++ b/tools/testing/selftests/riscv/misaligned/misaligned.c
-@@ -0,0 +1,254 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Copyright (c) 2025 Rivos Inc.
-+ *
-+ * Authors:
-+ *     Clément Léger <cleger@rivosinc.com>
-+ */
-+#include <signal.h>
-+#include <stdio.h>
-+#include <stdlib.h>
-+#include <linux/ptrace.h>
-+#include "../../kselftest_harness.h"
-+
-+#include <stdlib.h>
-+#include <stdio.h>
-+#include <stdint.h>
-+#include <float.h>
-+#include <errno.h>
-+#include <math.h>
-+#include <string.h>
-+#include <signal.h>
-+#include <stdbool.h>
-+#include <unistd.h>
-+#include <inttypes.h>
-+#include <ucontext.h>
-+
-+#include <sys/prctl.h>
-+
-+#define stringify(s) __stringify(s)
-+#define __stringify(s) #s
-+
-+#define VAL16	0x1234
-+#define VAL32	0xDEADBEEF
-+#define VAL64	0x45674321D00DF789
-+
-+#define VAL_float	78951.234375
-+#define VAL_double	567890.512396965789589290
-+
-+static bool float_equal(float a, float b)
-+{
-+	float scaled_epsilon;
-+	float difference = fabsf(a - b);
-+
-+	// Scale to the largest value.
-+	a = fabsf(a);
-+	b = fabsf(b);
-+	if (a > b)
-+		scaled_epsilon = FLT_EPSILON * a;
-+	else
-+		scaled_epsilon = FLT_EPSILON * b;
-+
-+	return difference <= scaled_epsilon;
-+}
-+
-+static bool double_equal(double a, double b)
-+{
-+	double scaled_epsilon;
-+	double difference = fabsf(a - b);
-+
-+	// Scale to the largest value.
-+	a = fabs(a);
-+	b = fabs(b);
-+	if (a > b)
-+		scaled_epsilon = DBL_EPSILON * a;
-+	else
-+		scaled_epsilon = DBL_EPSILON * b;
-+
-+	return difference <= scaled_epsilon;
-+}
-+
-+#define fpu_load_proto(__inst, __type) \
-+extern __type test_ ## __inst(unsigned long fp_reg, void *addr, unsigned long offset, __type value)
-+
-+fpu_load_proto(flw, float);
-+fpu_load_proto(fld, double);
-+fpu_load_proto(c_flw, float);
-+fpu_load_proto(c_fld, double);
-+fpu_load_proto(c_fldsp, double);
-+
-+#define fpu_store_proto(__inst, __type) \
-+extern void test_ ## __inst(unsigned long fp_reg, void *addr, unsigned long offset, __type value)
-+
-+fpu_store_proto(fsw, float);
-+fpu_store_proto(fsd, double);
-+fpu_store_proto(c_fsw, float);
-+fpu_store_proto(c_fsd, double);
-+fpu_store_proto(c_fsdsp, double);
-+
-+#define gp_load_proto(__inst, __type) \
-+extern __type test_ ## __inst(void *addr, unsigned long offset, __type value)
-+
-+gp_load_proto(lh, uint16_t);
-+gp_load_proto(lhu, uint16_t);
-+gp_load_proto(lw, uint32_t);
-+gp_load_proto(lwu, uint32_t);
-+gp_load_proto(ld, uint64_t);
-+gp_load_proto(c_lw, uint32_t);
-+gp_load_proto(c_ld, uint64_t);
-+gp_load_proto(c_ldsp, uint64_t);
-+
-+#define gp_store_proto(__inst, __type) \
-+extern void test_ ## __inst(void *addr, unsigned long offset, __type value)
-+
-+gp_store_proto(sh, uint16_t);
-+gp_store_proto(sw, uint32_t);
-+gp_store_proto(sd, uint64_t);
-+gp_store_proto(c_sw, uint32_t);
-+gp_store_proto(c_sd, uint64_t);
-+gp_store_proto(c_sdsp, uint64_t);
-+
-+#define TEST_GP_LOAD(__inst, __type_size)					\
-+TEST(gp_load_ ## __inst)							\
-+{										\
-+	int offset, ret;							\
-+	uint8_t buf[16] __attribute__((aligned(16)));				\
-+										\
-+	ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);			\
-+	ASSERT_EQ(ret, 0);							\
-+										\
-+	for (offset = 1; offset < __type_size / 8; offset++) {			\
-+		uint ## __type_size ## _t val = VAL ## __type_size;		\
-+		uint ## __type_size ## _t *ptr = (uint ## __type_size ## _t *) (buf + offset); \
-+		memcpy(ptr, &val, sizeof(val));					\
-+		val = test_ ## __inst(ptr, offset, val);			\
-+		EXPECT_EQ(VAL ## __type_size, val);				\
-+	}									\
-+}
-+
-+TEST_GP_LOAD(lh, 16);
-+TEST_GP_LOAD(lhu, 16);
-+TEST_GP_LOAD(lw, 32);
-+TEST_GP_LOAD(lwu, 32);
-+TEST_GP_LOAD(ld, 64);
-+#ifdef __riscv_compressed
-+TEST_GP_LOAD(c_lw, 32);
-+TEST_GP_LOAD(c_ld, 64);
-+TEST_GP_LOAD(c_ldsp, 64);
-+#endif
-+
-+#define TEST_GP_STORE(__inst, __type_size)					\
-+TEST(gp_load_ ## __inst)							\
-+{										\
-+	int offset, ret;							\
-+	uint8_t buf[16] __attribute__((aligned(16)));				\
-+										\
-+	ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);			\
-+	ASSERT_EQ(ret, 0);							\
-+										\
-+	for (offset = 1; offset < __type_size / 8; offset++) {			\
-+		uint ## __type_size ## _t val = VAL ## __type_size;		\
-+		uint ## __type_size ## _t *ptr = (uint ## __type_size ## _t *) (buf + offset); \
-+		memset(ptr, 0, sizeof(val));					\
-+		test_ ## __inst(ptr, offset, val);				\
-+		memcpy(&val, ptr, sizeof(val));					\
-+		EXPECT_EQ(VAL ## __type_size, val);				\
-+	}									\
-+}
-+TEST_GP_STORE(sh, 16);
-+TEST_GP_STORE(sw, 32);
-+TEST_GP_STORE(sd, 64);
-+#ifdef __riscv_compressed
-+TEST_GP_STORE(c_sw, 32);
-+TEST_GP_STORE(c_sd, 64);
-+TEST_GP_STORE(c_sdsp, 64);
-+#endif
-+
-+#define __TEST_FPU_LOAD(__type, __inst, __reg_start, __reg_end)			\
-+TEST(fpu_load_ ## __inst)							\
-+{										\
-+	int i, ret, offset, fp_reg;						\
-+	uint8_t buf[16] __attribute__((aligned(16)));				\
-+										\
-+	ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);			\
-+	ASSERT_EQ(ret, 0);							\
-+										\
-+	for (fp_reg = __reg_start; fp_reg < __reg_end; fp_reg++) {		\
-+		for (offset = 1; offset < 4; offset++) {			\
-+			void *load_addr = (buf + offset);			\
-+			__type val = VAL_ ## __type ;				\
-+										\
-+			memcpy(load_addr, &val, sizeof(val));			\
-+			val = test_ ## __inst(fp_reg, load_addr, offset, val);	\
-+			EXPECT_TRUE(__type ##_equal(val, VAL_## __type));	\
-+		}								\
-+	}									\
-+}
-+#define TEST_FPU_LOAD(__type, __inst) \
-+	__TEST_FPU_LOAD(__type, __inst, 0, 32)
-+#define TEST_FPU_LOAD_COMPRESSED(__type, __inst) \
-+	__TEST_FPU_LOAD(__type, __inst, 8, 16)
-+
-+TEST_FPU_LOAD(float, flw)
-+TEST_FPU_LOAD(double, fld)
-+#ifdef __riscv_compressed
-+TEST_FPU_LOAD_COMPRESSED(double, c_fld)
-+TEST_FPU_LOAD_COMPRESSED(double, c_fldsp)
-+#endif
-+
-+#define __TEST_FPU_STORE(__type, __inst, __reg_start, __reg_end)		\
-+TEST(fpu_store_ ## __inst)							\
-+{										\
-+	int i, ret, offset, fp_reg;						\
-+	uint8_t buf[16] __attribute__((aligned(16)));				\
-+										\
-+	ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);			\
-+	ASSERT_EQ(ret, 0);							\
-+										\
-+	for (fp_reg = __reg_start; fp_reg < __reg_end; fp_reg++) {		\
-+		for (offset = 1; offset < 4; offset++) {			\
-+										\
-+			void *store_addr = (buf + offset);			\
-+			__type val = VAL_ ## __type ;				\
-+										\
-+			test_ ## __inst(fp_reg, store_addr, offset, val);	\
-+			memcpy(&val, store_addr, sizeof(val));			\
-+			EXPECT_TRUE(__type ## _equal(val, VAL_## __type));	\
-+		}								\
-+	}									\
-+}
-+#define TEST_FPU_STORE(__type, __inst) \
-+	__TEST_FPU_STORE(__type, __inst, 0, 32)
-+#define TEST_FPU_STORE_COMPRESSED(__type, __inst) \
-+	__TEST_FPU_STORE(__type, __inst, 8, 16)
-+
-+TEST_FPU_STORE(float, fsw)
-+TEST_FPU_STORE(double, fsd)
-+#ifdef __riscv_compressed
-+TEST_FPU_STORE_COMPRESSED(double, c_fsd)
-+TEST_FPU_STORE_COMPRESSED(double, c_fsdsp)
-+#endif
-+
-+TEST_SIGNAL(gen_sigbus, SIGBUS)
-+{
-+	uint32_t *ptr;
-+	uint8_t buf[16] __attribute__((aligned(16)));
-+	int ret;
-+
-+	ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_SIGBUS);
-+	ASSERT_EQ(ret, 0);
-+
-+	ptr = (uint32_t *)(buf + 1);
-+	*ptr = 0xDEADBEEFULL;
-+}
-+
-+int main(int argc, char **argv)
-+{
-+	int ret, val;
-+
-+	ret = prctl(PR_GET_UNALIGN, &val);
-+	if (ret == -1 && errno == EINVAL)
-+		ksft_exit_skip("SKIP GET_UNALIGN_CTL not supported\n");
-+
-+	exit(test_harness_run(argc, argv));
-+}
++ array_size.h
+
+> +#include <linux/bitfield.h>
+
++ bitops.h
++ completion.h
+
+> +#include <linux/delay.h>
+
++ dev_printk.h
++ err.h
+
+> +#include <linux/gpio/consumer.h>
+> +#include <linux/iio/buffer.h>
+> +#include <linux/iio/buffer-dmaengine.h>
+> +#include <linux/iio/events.h>
+> +#include <linux/iio/iio.h>
+> +#include <linux/iio/sysfs.h>
+> +#include <linux/interrupt.h>
+
++ jiffies.h
++ math.h
+
+> +#include <linux/pm_runtime.h>
+
++ property.h
+
+> +#include <linux/pwm.h>
+> +#include <linux/regmap.h>
+> +#include <linux/spi/spi.h>
+> +#include <linux/spi/offload/consumer.h>
+> +#include <linux/spi/offload/provider.h>
+
++ string.h
++ types.h
+
++ asm/byteorder.h
+
+...
+
+> +#define AD4052_FS(g)		((&ad4052_conversion_freqs[AD4052_FS_OFFSET(g)]))
+
+Why double parentheses? What does this mean?
+
+...
+
+> +#define AD4052_FS_LEN(g)	(ARRAY_SIZE(ad4052_conversion_freqs) - (AD4052_FS_OFFSET(g)))
+
+Too many parentheses.
+
+...
+
+> +static const struct iio_event_spec ad4052_events[] = {
+> +	{
+> +		.type = IIO_EV_TYPE_THRESH,
+> +		.dir = IIO_EV_DIR_EITHER,
+> +		.mask_shared_by_all = BIT(IIO_EV_INFO_ENABLE)
+
+Leave trailing comma.
+
+> +	},
+> +	{
+> +		.type = IIO_EV_TYPE_THRESH,
+> +		.dir = IIO_EV_DIR_RISING,
+> +		.mask_shared_by_all = BIT(IIO_EV_INFO_VALUE) |
+> +				      BIT(IIO_EV_INFO_HYSTERESIS)
+
+Ditto.
+
+> +	},
+> +	{
+> +		.type = IIO_EV_TYPE_THRESH,
+> +		.dir = IIO_EV_DIR_FALLING,
+> +		.mask_shared_by_all = BIT(IIO_EV_INFO_VALUE) |
+> +				      BIT(IIO_EV_INFO_HYSTERESIS)
+
+Ditto.
+
+> +	}
+> +};
+
+...
+
+> +static const char *const ad4052_conversion_freqs[] = {
+> +	"2000000", "1000000", "300000", "100000", "33300",
+> +	"10000", "3000", "500", "333", "250", "200",
+> +	"166", "140", "124", "111",
+
+Better to format with equal amount of members per line (usually power-of-two)
+with a comment.
+
+	"2000000", "1000000", "300000", "100000",	/*  0 -  3 */
+	"33300", "10000", "3000", "500",		/*  4 -  7 */
+	"333", "250", "200", "166",			/*  8 - 11 */
+	"140", "124", "111",				/* 12 - 15 */
+
+And why these are string literals?
+
+> +};
+
+...
+
+> +static ssize_t ad4052_events_frequency_show(struct device *dev,
+> +					    struct device_attribute *attr,
+> +					    char *buf)
+> +{
+> +	struct ad4052_state *st = iio_priv(dev_to_iio_dev(dev));
+> +
+> +	return sprintf(buf, "%s\n", ad4052_conversion_freqs[st->events_frequency]);
+
+You should use sysfs_emit() from sysfs.h.
+
+> +}
+
+...
+
+> +static ssize_t ad4052_events_frequency_available_show(struct device *dev,
+> +						      struct device_attribute *attr,
+> +						      char *buf)
+> +{
+> +	struct ad4052_state *st = iio_priv(dev_to_iio_dev(dev));
+> +	int len = 0;
+> +
+> +	for (u8 i = AD4052_FS_OFFSET(st->grade);
+> +	     i < AD4052_FS_LEN(st->grade); i++)
+> +		len += sprintf(buf + len, "%s ", ad4052_conversion_freqs[i]);
+> +
+> +	return sprintf(buf + len, "\n") + len;
+
+sysfs_emit_at(). Use of sprintf() is quite wrong here even if don't care about
+sysfs_emit*() APIs.
+
+> +}
+
+> +static IIO_DEVICE_ATTR(sampling_frequency, 0644,
+> +		       ad4052_events_frequency_show,
+> +		       ad4052_events_frequency_store, 0);
+> +
+> +static IIO_DEVICE_ATTR(sampling_frequency_available, 0444,
+> +		       ad4052_events_frequency_available_show,
+> +		       NULL, 0);
+
+Please, move each of them closer to the callback. Also, why not
+IIO_DEVICE_ATTR_RO() to begin with?
+
+...
+
+> +static struct attribute *ad4052_event_attributes[] = {
+> +	&iio_dev_attr_sampling_frequency.dev_attr.attr,
+> +	&iio_dev_attr_sampling_frequency_available.dev_attr.attr,
+> +	NULL,
+
+No comma in terminator entry.
+
+> +};
+
+...
+
+> +static void ad4052_update_xfer_raw(struct iio_dev *indio_dev,
+> +				   struct iio_chan_spec const *chan)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	const struct iio_scan_type *scan_type;
+> +	struct spi_transfer *xfer = &st->xfer;
+> +
+> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+
+> +
+
+Unneeded blank line.
+
+> +	if (IS_ERR(scan_type))
+> +		return;
+> +
+> +	xfer->bits_per_word = scan_type->realbits;
+> +	xfer->len = BITS_TO_BYTES(scan_type->storagebits);
+> +}
+> +
+> +static int ad4052_update_xfer_offload(struct iio_dev *indio_dev,
+> +				      struct iio_chan_spec const *chan)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	const struct iio_scan_type *scan_type;
+> +	struct spi_transfer *xfer = &st->xfer;
+> +
+> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+> +
+
+Ditto.
+
+> +	if (IS_ERR(scan_type))
+> +		return PTR_ERR(scan_type);
+> +
+> +	xfer = &st->offload_xfer;
+> +	xfer->bits_per_word = scan_type->realbits;
+> +	xfer->len = BITS_TO_BYTES(scan_type->storagebits);
+> +
+> +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer, 1);
+> +	st->offload_msg.offload = st->offload;
+> +
+> +	return spi_optimize_message(st->spi, &st->offload_msg);
+> +}
+
+...
+
+> +static int ad4052_set_oversampling_ratio(struct iio_dev *indio_dev,
+> +					 const struct iio_chan_spec *chan,
+> +					 unsigned int val)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	if ((val) < 1 || (val) > BIT(st->chip->max_avg + 1))
+
+Too many parentheses.
+
+> +		return -EINVAL;
+> +
+> +	/* 1 disables oversampling */
+> +	if (val == 1) {
+> +		st->mode = AD4052_SAMPLE_MODE;
+> +	} else {
+> +		val = ilog2(val);
+> +		st->mode = AD4052_BURST_AVERAGING_MODE;
+> +		ret = regmap_write(st->regmap, AD4052_REG_AVG_CONFIG, val - 1);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	ad4052_update_xfer_raw(indio_dev, chan);
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int ad4052_get_oversampling_ratio(struct ad4052_state *st,
+> +					 unsigned int *val)
+> +{
+> +	int ret;
+> +
+> +	if (st->mode == AD4052_SAMPLE_MODE) {
+> +		*val = 1;
+> +		return 0;
+> +	}
+> +
+> +	ret = regmap_read(st->regmap, AD4052_REG_AVG_CONFIG, val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*val = BIT(*val + 1);
+
+Please, introduce a local variable and use it. This one looks bad because it
+will write into output knowing when it's an error case.
+
+> +	return 0;
+> +}
+
+...
+
+> +static int ad4052_set_sampling_freq(struct ad4052_state *st, unsigned int freq)
+> +{
+> +	struct pwm_state pwm_st;
+> +
+> +	if (freq <= 0 || freq > AD4052_MAX_RATE(st->grade))
+
+in_range() from minmax.h?
+
+> +		return -EINVAL;
+> +
+> +	pwm_get_state(st->cnv_pwm, &pwm_st);
+> +	pwm_st.period = DIV_ROUND_UP_ULL(NSEC_PER_SEC, freq);
+> +	return pwm_apply_might_sleep(st->cnv_pwm, &pwm_st);
+> +}
+
+...
+
+> +static int ad4052_soft_reset(struct ad4052_state *st)
+> +{
+> +	int ret;
+> +
+> +	memset(st->buf_reset_pattern, 0xFF, sizeof(st->buf_reset_pattern));
+> +	for (int i = 0; i < 3; i++)
+> +		st->buf_reset_pattern[6 * (i + 1) - 1] = 0xFE;
+
+Only three times and simple oneliner, can we unroll the loop and show
+the indices explicitly? It will help a lot in understanding what the actual
+pattern is.
+
+> +	ret = spi_write(st->spi, st->buf_reset_pattern,
+> +			sizeof(st->buf_reset_pattern));
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Wait AD4052 reset delay */
+> +	fsleep(5000);
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int ad4052_setup(struct iio_dev *indio_dev,
+> +			struct iio_chan_spec const *chan)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	const struct iio_scan_type *scan_type;
+> +
+> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
+
+> +
+
+Unneeded blank line.
+
+> +	if (IS_ERR(scan_type))
+> +		return PTR_ERR(scan_type);
+> +
+> +	u8 val = FIELD_PREP(AD4052_GP_CONF_MODE_MSK_0, AD4052_GP_INTR) |
+> +		 FIELD_PREP(AD4052_GP_CONF_MODE_MSK_1, AD4052_GP_DRDY);
+> +	int ret;
+> +
+> +	ret = regmap_update_bits(st->regmap, AD4052_REG_GP_CONF,
+> +				 AD4052_GP_CONF_MODE_MSK_1 | AD4052_GP_CONF_MODE_MSK_0,
+> +				 val);
+> +	if (ret)
+> +		return ret;
+> +
+> +	val = FIELD_PREP(AD4052_INTR_CONF_EN_MSK_0, (AD4052_INTR_EN_EITHER)) |
+> +	      FIELD_PREP(AD4052_INTR_CONF_EN_MSK_1, (AD4052_INTR_EN_NEITHER));
+> +
+> +	ret = regmap_update_bits(st->regmap, AD4052_REG_INTR_CONF,
+> +				 AD4052_INTR_CONF_EN_MSK_0 | AD4052_INTR_CONF_EN_MSK_1,
+> +				 val);
+> +	if (ret)
+> +		return ret;
+
+> +	val = 0;
+> +	if (scan_type->sign == 's')
+> +		val |= AD4052_ADC_MODES_DATA_FORMAT;
+> +
+> +	st->data_format = val;
+
+Why not simply:
+
+	if (scan_type->sign == 's')
+		st->data_format = val | AD4052_ADC_MODES_DATA_FORMAT;
+	else
+		st->data_format = 0;
+
+?
+
+> +	if (st->grade == AD4052_500KSPS) {
+> +		ret = regmap_write(st->regmap, AD4052_REG_TIMER_CONFIG,
+> +				   FIELD_PREP(AD4052_TIMER_CONFIG_FS_MASK,
+> +					      AD4052_TIMER_CONFIG_300KSPS));
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return regmap_write(st->regmap, AD4052_REG_ADC_MODES, val);
+> +}
+
+...
+
+> +static int ad4052_request_irq(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	struct device *dev = &st->spi->dev;
+
+> +	int ret = 0;
+
+Why an assignment?
+
+> +	ret = fwnode_irq_get_byname(dev_fwnode(&st->spi->dev), "gp0");
+> +	if (ret <= 0)
+> +		return ret ? ret : -EINVAL;
+> +
+> +	ret = devm_request_threaded_irq(dev, ret, NULL,
+> +					ad4052_irq_handler_thresh,
+> +					IRQF_ONESHOT, indio_dev->name,
+> +					indio_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = fwnode_irq_get_byname(dev_fwnode(&st->spi->dev), "gp1");
+> +	if (ret <= 0)
+
+Ahy comparison to 0?
+
+> +		return ret ? ret : -EINVAL;
+
+This is not needed in such a form. Please, read the above API's doc and act
+accordingly.
+
+> +	st->gp1_irq = ret;
+> +	return devm_request_threaded_irq(dev, ret, NULL,
+> +					 ad4052_irq_handler_drdy,
+> +					 IRQF_ONESHOT, indio_dev->name,
+> +					 st);
+> +}
+
+...
+
+> +static int __ad4052_read_chan_raw(struct ad4052_state *st, int *val)
+> +{
+> +	struct spi_device *spi = st->spi;
+> +	int ret;
+
+> +	struct spi_transfer t_cnv = {
+> +		.len = 0
+
+Missing comma, but...
+
+> +	};
+
+This all is not needed, just make it
+
+	struct spi_transfer t_cnv = {};
+
+> +	reinit_completion(&st->completion);
+> +
+> +	if (st->cnv_gp) {
+> +		gpiod_set_value_cansleep(st->cnv_gp, 1);
+
+No delay?
+
+> +		gpiod_set_value_cansleep(st->cnv_gp, 0);
+> +	} else {
+> +		ret = spi_sync_transfer(spi, &t_cnv, 1);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +	/*
+> +	 * Single sample read should be used only for oversampling and
+> +	 * sampling frequency pairs that take less than 1 sec.
+> +	 */
+> +	ret = wait_for_completion_timeout(&st->completion,
+> +					  msecs_to_jiffies(1000));
+
+Where msec_to_jiffies() is defined?
+
+> +	if (!ret)
+> +		return -ETIMEDOUT;
+> +
+> +	ret = spi_sync_transfer(spi, &st->xfer, 1);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (st->xfer.len == 2) {
+> +		*val = be16_to_cpu(st->d16);
+> +		if (st->data_format & AD4052_ADC_MODES_DATA_FORMAT)
+> +			*val = sign_extend32(*val, 15);
+
+Where sign_extend32() is defined?
+
+> +	} else {
+> +		*val = be32_to_cpu(st->d32);
+> +		if (st->data_format & AD4052_ADC_MODES_DATA_FORMAT)
+> +			*val = sign_extend32(*val, 23);
+> +	}
+> +
+> +	return ret;
+> +}
+
+...
+
+> +static int ad4052_read_raw(struct iio_dev *indio_dev,
+> +			   struct iio_chan_spec const *chan,
+> +			   int *val, int *val2, long mask)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	struct pwm_state pwm_st;
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +
+> +	if (st->wait_event) {
+
+> +		iio_device_release_direct(indio_dev);
+> +		return -EBUSY;
+
+Inconsistent approach, use the same goto.
+
+> +	}
+> +
+> +	switch (mask) {
+> +	case IIO_CHAN_INFO_RAW:
+> +		ret = ad4052_read_chan_raw(indio_dev, val);
+> +		if (ret)
+> +			goto out_release;
+> +		ret = IIO_VAL_INT;
+> +		break;
+> +	case IIO_CHAN_INFO_OVERSAMPLING_RATIO:
+> +		ret = ad4052_get_oversampling_ratio(st, val);
+> +		if (ret)
+> +			goto out_release;
+> +		ret = IIO_VAL_INT;
+> +		break;
+> +	case IIO_CHAN_INFO_SAMP_FREQ:
+> +		ret = pwm_get_state_hw(st->cnv_pwm, &pwm_st);
+> +		if (ret)
+> +			goto out_release;
+> +
+> +		if (!pwm_st.enabled)
+> +			pwm_get_state(st->cnv_pwm, &pwm_st);
+> +
+> +		*val = DIV_ROUND_UP_ULL(NSEC_PER_SEC, pwm_st.period);
+> +
+> +		ret = IIO_VAL_INT;
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +	}
+> +
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret;
+
+You may have a great deal of reducing or at least making this readable if split
+to two, one is claim_direct wrapped.
+
+> +}
+> +
+> +static int ad4052_write_raw(struct iio_dev *indio_dev,
+> +			    struct iio_chan_spec const *chan, int val,
+> +			    int val2, long info)
+
+Ditto for the above function. At least try and see the result. I believe that
+it might even shrink number of LoCs.
+
+...
+
+> +static int ad4052_monitor_mode_disable(struct ad4052_state *st)
+> +{
+> +	int ret;
+> +
+> +	pm_runtime_mark_last_busy(&st->spi->dev);
+> +	pm_runtime_put_autosuspend(&st->spi->dev);
+> +
+> +	ret = ad4052_exit_command(st);
+
+> +
+
+Unneeded blank line.
+
+> +	if (ret)
+> +		pm_runtime_resume_and_get(&st->spi->dev);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	u8 reg, size = 1;
+
+Make size assignment explicit in each case, it will help a lot for both:
+maintaining in long term and reading the code.
+
+> +	int ret;
+> +
+> +	if (!iio_device_claim_direct(indio_dev))
+> +		return -EBUSY;
+> +
+> +	if (st->wait_event) {
+> +		iio_device_release_direct(indio_dev);
+> +		return -EBUSY;
+> +	}
+> +
+> +	switch (info) {
+> +	case IIO_EV_INFO_VALUE:
+> +		if (dir == IIO_EV_DIR_RISING)
+> +			reg = AD4052_REG_MAX_LIMIT;
+> +		else
+> +			reg = AD4052_REG_MIN_LIMIT;
+> +		size = 2;
+> +		break;
+> +	case IIO_EV_INFO_HYSTERESIS:
+> +		if (dir == IIO_EV_DIR_RISING)
+> +			reg = AD4052_REG_MAX_HYST;
+> +		else
+> +			reg = AD4052_REG_MIN_HYST;
+> +		break;
+> +	default:
+> +		ret = -EINVAL;
+> +		goto out_release;
+> +	}
+> +
+> +	ret = regmap_bulk_read(st->regmap, reg, &st->d32, size);
+> +	if (ret)
+> +		goto out_release;
+> +
+> +	if (reg == AD4052_REG_MAX_LIMIT || reg == AD4052_REG_MIN_LIMIT) {
+> +		*val = be16_to_cpu(st->d16);
+> +		if (st->data_format & AD4052_ADC_MODES_DATA_FORMAT)
+> +			*val = sign_extend32(*val, 11);
+
+Better pattern is to use local variable and assign if and only if the function
+returns success.
+
+> +	} else {
+> +		*val = be32_to_cpu(st->d32);
+> +	}
+> +
+> +out_release:
+> +	iio_device_release_direct(indio_dev);
+> +	return ret ? ret : IIO_VAL_INT;
+
+Again, try with a wrapper.
+
+> +}
+
+...
+
+> +static int ad4052_write_event_value(struct iio_dev *indio_dev,
+> +				    const struct iio_chan_spec *chan,
+> +				    enum iio_event_type type,
+> +				    enum iio_event_direction dir,
+> +				    enum iio_event_info info, int val,
+> +				    int val2)
+
+Same comments as per previous one.
+
+> +static int ad4052_buffer_predisable(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	int ret;
+> +
+> +	pwm_disable(st->cnv_pwm);
+> +
+> +	spi_offload_trigger_disable(st->offload, st->offload_trigger);
+> +	spi_unoptimize_message(&st->offload_msg);
+> +	enable_irq(st->gp1_irq);
+> +
+> +	ret = ad4052_exit_command(st);
+
+You leave IRQ enabled even in error case, is it on purpose?
+
+> +	pm_runtime_mark_last_busy(&st->spi->dev);
+> +	pm_runtime_put_autosuspend(&st->spi->dev);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +static int ad4052_request_offload(struct iio_dev *indio_dev)
+> +{
+> +	struct ad4052_state *st = iio_priv(indio_dev);
+> +	struct device *dev = &st->spi->dev;
+> +	struct dma_chan *rx_dma;
+> +	struct spi_offload_trigger_info trigger_info = {
+> +		.fwnode = dev_fwnode(dev),
+> +		.ops = &ad4052_offload_trigger_ops,
+> +		.priv = st,
+> +	};
+> +	struct pwm_state pwm_st;
+> +	int ret;
+> +
+> +	indio_dev->setup_ops = &ad4052_buffer_setup_ops;
+> +
+> +	ret = devm_spi_offload_trigger_register(dev, &trigger_info);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "failed to register offload trigger\n");
+
+One line?
+
+> +	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
+> +							   SPI_OFFLOAD_TRIGGER_DATA_READY);
+> +	if (IS_ERR(st->offload_trigger))
+> +		return PTR_ERR(st->offload_trigger);
+> +
+> +	st->cnv_pwm = devm_pwm_get(dev, NULL);
+> +	if (IS_ERR(st->cnv_pwm))
+> +		return dev_err_probe(dev, PTR_ERR(st->cnv_pwm),
+> +				     "failed to get CNV PWM\n");
+
+Can be one line (you already have above 91 character long line).
+
+> +	pwm_init_state(st->cnv_pwm, &pwm_st);
+> +
+> +	pwm_st.enabled = false;
+> +	pwm_st.duty_cycle = AD4052_T_CNVH_NS * 2;
+
+> +	pwm_st.period = DIV_ROUND_UP_ULL(NSEC_PER_SEC,
+> +					 AD4052_MAX_RATE(st->grade));
+
+It can be one line (83 characters).
+
+
+> +	ret = pwm_apply_might_sleep(st->cnv_pwm, &pwm_st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "failed to apply CNV PWM\n");
+> +
+> +	ret = devm_add_action_or_reset(dev, ad4052_pwm_disable, st->cnv_pwm);
+> +	if (ret)
+> +		return ret;
+> +
+> +	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
+> +	if (IS_ERR(rx_dma))
+> +		return PTR_ERR(rx_dma);
+> +
+> +	return devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
+> +							   IIO_BUFFER_DIRECTION_IN);
+> +}
+
+...
+
+> +static int ad4052_probe(struct spi_device *spi)
+> +{
+> +	const struct ad4052_chip_info *chip;
+> +	struct device *dev = &spi->dev;
+> +	struct iio_dev *indio_dev;
+> +	struct ad4052_state *st;
+
+> +	int ret = 0;
+
+What is this for?
+
+> +	chip = spi_get_device_match_data(spi);
+> +	if (!chip)
+> +		return dev_err_probe(dev, -ENODEV,
+> +				     "Could not find chip info data\n");
+> +
+> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
+> +	if (!indio_dev)
+> +		return -ENOMEM;
+> +
+> +	st = iio_priv(indio_dev);
+> +	st->spi = spi;
+> +	spi_set_drvdata(spi, st);
+> +	init_completion(&st->completion);
+> +
+> +	st->regmap = devm_regmap_init_spi(spi, &ad4052_regmap_config);
+> +	if (IS_ERR(st->regmap))
+> +		return dev_err_probe(dev, PTR_ERR(st->regmap),
+> +				     "Failed to initialize regmap\n");
+> +
+> +	st->mode = AD4052_SAMPLE_MODE;
+> +	st->wait_event = false;
+> +	st->chip = chip;
+> +	st->grade = chip->prod_id <= 0x75 ? AD4052_2MSPS : AD4052_500KSPS;
+> +	st->oversampling_frequency = AD4052_FS_OFFSET(st->grade);
+> +	st->events_frequency = AD4052_FS_OFFSET(st->grade);
+> +
+> +	st->cnv_gp = devm_gpiod_get_optional(dev, "cnv", GPIOD_OUT_LOW);
+> +	if (IS_ERR(st->cnv_gp))
+> +		return dev_err_probe(dev, PTR_ERR(st->cnv_gp),
+> +				     "Failed to get cnv gpio\n");
+> +
+> +	indio_dev->modes = INDIO_BUFFER_HARDWARE | INDIO_DIRECT_MODE;
+> +	indio_dev->num_channels = 1;
+> +	indio_dev->info = &ad4052_info;
+> +	indio_dev->name = chip->name;
+> +
+> +	st->offload = devm_spi_offload_get(dev, spi, &ad4052_offload_config);
+> +	if (IS_ERR(st->offload))
+> +		return PTR_ERR(st->offload);
+
+> +	if (ret && ret != -ENODEV)
+> +		return dev_err_probe(dev, ret, "Failed to get offload\n");
+
+Huh?! Leftover?
+
+> +	if (ret == -ENODEV) {
+> +		st->offload_trigger = NULL;
+> +		indio_dev->channels = chip->channels;
+
+How this is not a dead code, please?
+
+> +	} else {
+> +		indio_dev->channels = chip->offload_channels;
+> +		ret = ad4052_request_offload(indio_dev);
+> +		if (ret)
+> +			return dev_err_probe(dev, ret,
+> +					     "Failed to configure offload\n");
+> +	}
+> +
+> +	st->xfer.rx_buf = &st->d32;
+> +
+> +	ret = ad4052_soft_reset(st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret, "AD4052 failed to soft reset\n");
+> +
+> +	ret = ad4052_check_ids(st);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "AD4052 fields assertions failed\n");
+> +
+> +	ret = ad4052_setup(indio_dev, indio_dev->channels);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS,
+> +			   AD4052_DEVICE_STATUS_DEVICE_RESET);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ad4052_request_irq(indio_dev);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ad4052_update_xfer_raw(indio_dev, indio_dev->channels);
+> +
+> +	pm_runtime_set_active(dev);
+> +	ret = devm_pm_runtime_enable(dev);
+> +	if (ret)
+> +		return dev_err_probe(dev, ret,
+> +				     "Failed to enable pm_runtime\n");
+> +
+> +	pm_runtime_set_autosuspend_delay(dev, 1000);
+> +	pm_runtime_use_autosuspend(dev);
+> +
+> +	return devm_iio_device_register(dev, indio_dev);
+> +}
+
+...
+
+> +static int ad4052_runtime_resume(struct device *dev)
+> +{
+> +	struct ad4052_state *st = dev_get_drvdata(dev);
+> +	int ret;
+> +
+> +	ret = regmap_write(st->regmap, AD4052_REG_DEVICE_CONFIG,
+> +			   FIELD_PREP(AD4052_DEVICE_CONFIG_POWER_MODE_MSK, 0));
+> +	return ret;
+
+Redundant local variable.
+
+> +}
+
 -- 
-2.49.0
+With Best Regards,
+Andy Shevchenko
+
 
