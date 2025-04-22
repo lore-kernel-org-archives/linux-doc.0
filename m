@@ -1,62 +1,64 @@
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58E5D2980A7
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 18:17:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0D4461DE3D9;
+	Tue, 22 Apr 2025 18:19:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745345868; cv=none; b=TGQtUI9Zyow1cKveqMwpPcXxQCr1GqskMnFAYYbDyjH6zAr6QnyEetHKCAht3Anl0z81RYP4J5SRx9zMaq6yhFJv0FYGwt+84wDizufiy1Dxf2I9Vjz8OjsyIz6wYj2frZiTJ6V0EfiuOJEAS4Sk+Q7VE0XPETo+qoQpP/yX5bc=
+	t=1745345989; cv=none; b=tfyVdJWp4TU9/UifsfyZBu+KYkG/Npd3U5ElhsbnI3g02SLbyLxN1szcMmXAq4YDtUtsT1mxFVN204C/1JZFHHcKEZgLa9r6ICeNglEmQN0LYlTxghR8UrkyH8SBS06y91Z4DBalcZlj5qNMS84hO931QOBzesUtVjQrLHAi1Ig=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745345868; c=relaxed/simple;
-	bh=IdFsdaUTDRdghsX8VxeZ/2CwFZKCgCoBXb6SP0DHe8w=;
+	s=arc-20240116; t=1745345989; c=relaxed/simple;
+	bh=8wYCXgZqpbTDarUW031W7MRIpH1sLDyCBxxD/Ri5fVI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=a+ZBLGm7rHCkk0pbajA0rNsI5v8IxY7Aq0HDaOZk3lB+odoK+JOtVk7sgSf+GDn0SFuQV5o7TCv0P5jzv1ODTpa1ee6WWk5LTZQPoM1AaO3fpQbR6ee4JZl1coyEM2pKlhGA3q4wt4Ej/ISWrQdBVc8f/IzJnR8UhT2E8lnmIOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com; spf=pass smtp.mailfrom=cloud.com; dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b=MR39QwKd; arc=none smtp.client-ip=209.85.128.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=citrix.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=cloud.com
+	 In-Reply-To:Content-Type; b=SvjIBfT0r70IrK53zYIB3mj1zPNkZ+xQI2flM3Pqqu5c6G8o+teNkogr18wsueL37pDTsRnbLW7IPl7ad7ium3LSk5OqPRfA62txIcTyO1rcexfGRBTNQuQrIGGK4nbeP/ucMeQz1z6wZ25m/rOzdEHmdOnZqKhSRDjo2fHukxo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fFI41pZM; arc=none smtp.client-ip=209.85.221.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=citrix.com header.i=@citrix.com header.b="MR39QwKd"
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-440685d6afcso52133405e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 11:17:46 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fFI41pZM"
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-39c30d9085aso4112410f8f.1;
+        Tue, 22 Apr 2025 11:19:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=citrix.com; s=google; t=1745345865; x=1745950665; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=IdFsdaUTDRdghsX8VxeZ/2CwFZKCgCoBXb6SP0DHe8w=;
-        b=MR39QwKdTZf97qUao1OOktR4IOOeezi9QcWxba8PDqj58jDSlESHAdFOIinEPlDxKb
-         64yGwcf4wcOdweJxyTsTaqU28ZWYhD3t0G9ruyz5wW7GuIkX8+3ia11Tsq9zGEx3lZmT
-         gnhXBQl/jsxKepnd5jpoGunwnTsZVt2aL8vvc=
+        d=gmail.com; s=20230601; t=1745345986; x=1745950786; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=V4wU0CuSU6YOeYRo+NJ/4ERb7AGDM75DMO3ccWS5aBc=;
+        b=fFI41pZMhvq9311eYU4XvdZK2X1BiSZ1kDpnO5pI2gDW8zfhCC0yLORqDWQm+cVbwV
+         4FBBoAquFYU8e3xZWbSfYXS6qHEPNsmdaCoGa/Saj9W1n2npjclApBTCMcHB3jfZBN0d
+         VWb+DIdeQmgAcXdSDiX3XGPUq2jHa5OiEnzNItTNmj2AehqvZYog1cGUEhyETtmlywch
+         59SzQn9A8hoTCNX7njFf8HsC7FOGJKj9BMehhy+yesUQtbMYDouPVeB+Bjymw01lj9+P
+         qwkZVntm+FXp6RFLVWmwYDPFGL3RyWiXPbEfxy0XrcCPjMxLAgSpIYjNHSJcPdmJccqB
+         j+aw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745345865; x=1745950665;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IdFsdaUTDRdghsX8VxeZ/2CwFZKCgCoBXb6SP0DHe8w=;
-        b=RuQocUaQEb4SejV6KzKGFMzn8emZ3vhq8cTT+GYlGzYJgmKaWoU7JhO3fN51JOuTgC
-         XpYqNnvzO6hcsPITxcllB/zaA18zGolIc6Eok/pqYGqmdm2OCnKU6u6sYT+N4WZSBKv8
-         MPPMnHKKBtFEEzZSzRaMU6yCD0GB8yO4HOYSjjR0b5Zuuk5Xj/2RuJKMUl81970QPz5X
-         dLM9Sbyuiuhj8LQbuPFUtfuBS7Rwh+9F6hMpdYPiqmxpK/UdkGHdjIIIV0P1qqdo85ZQ
-         P3+8kBV4Ci0uR8FQVi5C8C1edi+13reD9kN4LQe77EY6/9LB1lvwDmaXDgNgo4BcXRzb
-         9tRQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWaKGLL9v8nX+oDUPUl5kZYCfeh+6SUFXT4e+EdQihCwXv80RYGKSSoRWEogl4EmhfXF/vpbNNue/M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwWQAGPi2betvxj9qjYfDp8Oej1PextFmfcNZ8oCkGbjXu5e/TU
-	8lkm7XzJ7ENVbhRd4L3niG6uTaSBUeuzdT7y+ZaLUEL69zJUXvoNzgR0/RdlGOc=
-X-Gm-Gg: ASbGncuzqlgzMBzCZKZgrcUsvWhuTe2DAaFLw7x452jvtDG6LYvEIqcEhQ8YTs822UE
-	yGlqYrVrojIU2T8NXR4zXRvSvOGEoXHUUMypOrjgeZjx8CEcuNWnAGI9I1CLXld1sQtjdqnjTqV
-	zKKaqenr64nRjnHDOfVG9NmnUXtLR8EmODFx3MugqFEmV8wOPlHqlW3Hsb6kCKXqpVz1bWSsjHE
-	vgw9YEPJ7Ioxni+d4TH3T+HJb2XccXi44Dmmkz7Yyuim0CTDw0uUtnHkqz4+m/e5/xQp2/RXl+f
-	UIwULyG3NKsZTpBew29BZAyQL2BeYwKLJHkWrxsPG2GF8S7pKFBBJA==
-X-Google-Smtp-Source: AGHT+IGCIWX5BVPPocsuZVlCHJEPbcYq+xpC2dCnc+JUo1mNSZJLBXsvA5T5y7KuBkfqLGA1fxMXKA==
-X-Received: by 2002:a05:600c:4708:b0:43d:300f:fa4a with SMTP id 5b1f17b1804b1-4406ab97c6cmr143192845e9.12.1745345864518;
-        Tue, 22 Apr 2025 11:17:44 -0700 (PDT)
-Received: from [192.168.86.29] ([83.104.178.215])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4406d5bbcfesm186100505e9.23.2025.04.22.11.17.43
+        d=1e100.net; s=20230601; t=1745345986; x=1745950786;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=V4wU0CuSU6YOeYRo+NJ/4ERb7AGDM75DMO3ccWS5aBc=;
+        b=nG5GkK3X1xxyvWyRJ5BdeDKu/Cwd27DAf5JB457CiekWUmTAju3b+LV64z4s2bql+h
+         F1XlVWraXqz5XjWmxc+Mc/78ktXfLCrtRn8rpxVCBILUZ1eq57q3C6Akpk9pq8uJvMDP
+         q17h3yDyIUHS0/8QJR+Ka/u6T3B0sNNkZ7vRmJxm4Faos4FCdi/uG0Z7F3OlR1iHFAUy
+         BXje57bZHi0hHfknjo/tp46KNKHWgCZSPBSkXYAyRIp1RsgAlKgP5TceFYaNXWE21xs6
+         NiCqps4HKxoBpOgoT3dofi4VAyG5SaY1W4/DoZgttL/7Z0570dlO84ZVj000qzJhBhMv
+         7SVA==
+X-Forwarded-Encrypted: i=1; AJvYcCUalTr0SqmQ+M0qZkJ+cF4twPxat8QzHRVnGb9K36KXO0j5GSfDSIwvgBH2Ifi3PRhTyqcCZ1xlfw==@vger.kernel.org, AJvYcCVr0v4E/k5cN/LtiU66QTL7KzM1cO2wq4UDAmocoJi8zXvZMt1b5/bYIPqcZD+iPOAm26v1TG53EBuCCGZG@vger.kernel.org, AJvYcCXHL+z3FYAO5kIOgLOr8Dw5WBJ21Qu49RFPVRFvQorpzfAR7Ip6QfhwnqUFyByBInXeiYtx7FvDSByjlbBsWkcx@vger.kernel.org, AJvYcCXQlEO2y1AZ2dLVvsDgN1IXq6h4z5Jus6HTODNJj1+kVVjABalKFfhyE8WQyXj1bO/zRiafMO7uSdGm@vger.kernel.org, AJvYcCXj97CHAyEOSRGYxLpeuXvSiIA9uT+rIZq8f9sC5ZvAH1VGgfwL11ONLtqCeX1i/MFNvRis@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzr3f+2OSHGdggGyghjI+XMLYZgX5sDXJkQlYLsQaIJwZIE/V3Y
+	4M6eAR4aepdqRTTjJmRJVAu/QoN6XZp2v+f1i7JrcPSZusr4v8Zv
+X-Gm-Gg: ASbGnctB1REMRlqbKwxTauF7PbUgBbMegdUSNH8LVyMyo2X1Pvx2gqEe1BO3nlryH3R
+	mt+6GCe7s+0dUVulcYLg5b30q7MkJJK1k7YpAyCGcQDzseQvxmzd90NMnuYnnHM6qGwY8dE/WSF
+	cTkPH8/2YBgJvCYCr8zEo9T7Wb7/MPSgXU1sHfjkEytdfLiD2qYYpB3Qfea6WS+IhKAFgWikJXx
+	3S2b1crxehpHPkiT/rrPnu0waFjwtR/TZJ+SkYpUR6u4yFW7YL9JCQUNAajqWEorZegib1N9teF
+	DQ/xifZq+TbRiPVKbE1ThvlzTQhVoVBDbVf5jLsEY9m+6E77
+X-Google-Smtp-Source: AGHT+IGsGcBMmgVltHKkfzj/5mF0Ny9f6RgMByhyMlB833FKD6rDdwvWOUJDBJsAjsbBce/iJtRETg==
+X-Received: by 2002:a5d:584e:0:b0:39c:140c:25e with SMTP id ffacd0b85a97d-39efba560b1mr12910171f8f.24.1745345986104;
+        Tue, 22 Apr 2025 11:19:46 -0700 (PDT)
+Received: from [192.168.8.100] ([85.255.235.90])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-39efa42082csm15911065f8f.3.2025.04.22.11.19.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Apr 2025 11:17:44 -0700 (PDT)
-Message-ID: <c05731ae-bcf1-4747-b64c-0f4b79f3587f@citrix.com>
-Date: Tue, 22 Apr 2025 19:17:42 +0100
+        Tue, 22 Apr 2025 11:19:45 -0700 (PDT)
+Message-ID: <957b74ed-f29c-4bb8-b819-af4e1168d6c1@gmail.com>
+Date: Tue, 22 Apr 2025 19:20:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -64,84 +66,60 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
- kernel support
-To: Dave Hansen <dave.hansen@intel.com>,
- Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev
-Cc: dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- trenchboot-devel@googlegroups.com
-References: <20250421162712.77452-1-ross.philipson@oracle.com>
- <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com>
-Content-Language: en-GB
-From: Andrew Cooper <andrew.cooper3@citrix.com>
-Autocrypt: addr=andrew.cooper3@citrix.com; keydata=
- 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
- 6+ahAA==
-In-Reply-To: <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com>
-Content-Type: text/plain; charset=UTF-8
+Subject: Re: [PATCH net-next v9 2/9] net: add get_netmem/put_netmem support
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, io-uring@vger.kernel.org,
+ virtualization@lists.linux.dev, kvm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+ David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+References: <20250417231540.2780723-1-almasrymina@google.com>
+ <20250417231540.2780723-3-almasrymina@google.com>
+ <484ecaad-56de-4c0d-b7fa-a3337557b0bf@gmail.com>
+ <CAHS8izPw9maOMqLALTLc22eOKnutyLK9azOs4FzO1pfaY8xE6g@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izPw9maOMqLALTLc22eOKnutyLK9azOs4FzO1pfaY8xE6g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 21/04/2025 9:52 pm, Dave Hansen wrote:
-> Purely from the amount of interest and review tags and the whole "v14"
-> thing, it doesn't look like this is very important to anyone. Not to be
-> to flippant about it, but if nobody else cares, why should I (or the
-> other x86 maintainers)?
+On 4/22/25 14:56, Mina Almasry wrote:
+> On Tue, Apr 22, 2025 at 1:43 AM Pavel Begunkov <asml.silence@gmail.com> wrote:
+>>
+>> On 4/18/25 00:15, Mina Almasry wrote:
+>>> Currently net_iovs support only pp ref counts, and do not support a
+>>> page ref equivalent.
+>>
+>> Makes me wonder why it's needed. In theory, nobody should ever be
+>> taking page references without going through struct ubuf_info
+>> handling first, all in kernel users of these pages should always
+>> be paired with ubuf_info, as it's user memory, it's not stable,
+>> and without ubuf_info the user is allowed to overwrite it.
+>>
+> 
+> The concern about the stability of the from-userspace data is already
+> called out in the MSG_ZEROCOPY documentation that we're piggybacking
+> devmem TX onto:
 
-There are several downstreams already using this as a part of their
-overall system security, one example being
-https://www.qubes-os.org/doc/anti-evil-maid/
+Sure, I didn't object that. There is no problem as long as the
+ubuf_info semantics is followed, which by extension mean that
+any ref manipulation should already be gated on ubuf_info, and
+there should be no need in changing generic paths.
 
-It's all giant out-of-tree patch series (in multiple projects; Grub,
-Xen, iPXE too).  Ross and others are trying to be good open source
-citizen and put it upstream where yet-more downstreams can benefit too.
+-- 
+Pavel Begunkov
 
-~Andrew
