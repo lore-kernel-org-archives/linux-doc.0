@@ -1,149 +1,191 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15079281360
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 13:11:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA2CD281531;
+	Tue, 22 Apr 2025 13:23:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745327481; cv=none; b=U8aeEa2XMSDOFL+rIPVbhN8zP/aYpsMR/ltPl07CbneXomwmR6kGM5aR15RzzdbIP+1+d3BctTxy1ZJCK1bHL3bY8B5//vwZibeoSJMi2G1xiD6/tN2iJ+ArxFeSKOwB0GepcwvsrzpWWwAg5Q0R2NHA211rVjSxGQsGDi25dxQ=
+	t=1745328195; cv=none; b=py5+m0BnDOyC9TVl/4x8GqjJvkDZDJiIidUFl1S+6HVy9HNiT/7RlBEvKFRd2gJvJFEB/vCUXH7r1tmNbwr0eeU4Vi2MKBtek8ob09cb+y+5PaRAJIp0PY+O1LotfA7t9Et+V0o+oGETlfyhoxppr0St3H7FSRJz4NMXIsHItUI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745327481; c=relaxed/simple;
-	bh=5VUtM3MlpqncXQIwvD7wi3URCc9M4jwjzUC4MjA9r/s=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=VLUYtToF22UAjKL0NeC7npfcy0gK+Ge8+qu8+RJJTCERTKTIhN2HNjJFPXnHME9UAxZYag0RQkyHHwx9aBJaXtVIE5FOXTnwvH39OjS4D/zlMRmWO/3Wpzf09BR4tLEGYJ2o3nMRVBARRKztwPFwX4DVRPHaWJBhAaoT+APROI8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=Uh72IyAS; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
+	s=arc-20240116; t=1745328195; c=relaxed/simple;
+	bh=gy6Olu40Q32dv7dOUthyDjtLAO+g9DTM0EkTOoNgrF4=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=U+S5UFdljGGS2mor0758q17fBlETlv/y8HeygYDx6OUirHlcLW4ALaiaeUZIHGo6jibqLroUV63pDjVIIgvhEHLivWIg+MeqIXT4GBhV2tK1HZydg3lzF9X9NHLNMRlxTTRAHjzTpoj+WrHm5gNWcVgrYYf0hr7tVajc9xKqkyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ADbJt6TW; arc=none smtp.client-ip=209.85.216.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="Uh72IyAS"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-4775ccf3e56so64524291cf.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 06:11:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ADbJt6TW"
+Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-2ff85fec403so5503264a91.1;
+        Tue, 22 Apr 2025 06:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1745327477; x=1745932277; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5VUtM3MlpqncXQIwvD7wi3URCc9M4jwjzUC4MjA9r/s=;
-        b=Uh72IyASRgdaf8QMQ+bh3cB49SM62BgjLio56IXrkB0nBwHCnkUzJAhDZxN8sTAMLB
-         mcZQwpRJ+v6rfI1XegbMvAgxHGGXjcb4wyItOFakUM271huw5cO5jne5EVfrrNJ1Sbcr
-         eMiw1FqHZbcvJD83jt+9X0mcpndbcdyBnpdo3vVSC+Wp1q3yUAuLLqZuU5dDgpbLmzvz
-         gfpMjh7xr28pGyY7NZ7xQV+2B+kIeTSZljlUeXXysk6U/3iChM3eqRwm0GGft6fGhuDY
-         /HbHrXdOt38R0mpvRoaQV6SYVlnAXJdkapQuVj2YXHaJHWzlWOM1jPD13b5wJdX7j1Ql
-         b/eA==
+        d=gmail.com; s=20230601; t=1745328193; x=1745932993; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=aefdfmkdPPazfnx4OKlatxNvwNlWxlEorRtBR+QDCQk=;
+        b=ADbJt6TWDCnPAQOXDz3PFG0/4LAj50UWCb6uLul3QwFqXNG7hu0gdyvl2urnc2K1FM
+         yTCQdhC43f6CVlG0SEFSYw+S4f1ocppyMpVtuXjLSd+96dChrUVqpj8J+CFbzkrLy3dZ
+         J9S3IDcp3J+dpfvvFU/CiCshlkMEbb/Eir/MhpuVFMIE2rhnsQxQ53t3olORh+yvPYFx
+         8oHCzEV9O+PA3UqhGll8iIoJUZGyA4L4aEi/IeuRZDyBo5gqbKW392AZxcXFoyvOvJ3I
+         C2LG/X3+JGFk/RH9I7OrrWLeXxF4OEljOUty4R4+xmlxW6RuXm6hc2uIEjjTBkGiD5tw
+         eNjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745327477; x=1745932277;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5VUtM3MlpqncXQIwvD7wi3URCc9M4jwjzUC4MjA9r/s=;
-        b=NPE/dZ03Gl/51ULtrZ8MeFtqArDoZZH1JLrzxiNya9zEyajNlpP6zNLKUor4lxRXvR
-         AX4CJxjiK9JRulyIooy7SITLLrUiRNdM9X+WZdM9wWf8epg/890z+1tvJb/m5/CVrelf
-         8kcZmCyK/nEdVPt2dHM37kP2rCXN5TC4iNWg4rriNBzwqw+cTQ6E7CenPxulpTdGTxCW
-         PKbT06sMFLI7Rr2/pazFrzVgWFBHUUE4ga5pQWNDfEa+R1XZCO9hyqLBTV4AA7hyJ0IU
-         tRZJ+fRamV3s43N2FR2VQjBKDbwNRzv5CDHsAVilx04QAi8lhGVt2fsLG5BG76DvRtNm
-         shSA==
-X-Forwarded-Encrypted: i=1; AJvYcCXcjPsCuexIIEcbPskTopHZYd03wgRc69LxoPn51tqL8iOIGUck3xJRvqRh1SnsTDEXuiOBbT/e25Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQ4Be37hsctyLxB6AScEpZBe88uFErVI+IbwYjkF4hoQAQV6qd
-	3qpxbjmkm9vfKQV24waiZbh8iSz66rY+ercuvF6yyYibPMxEbnEqFqqAM14wb/+1tJZdOPuPRqD
-	y3uIksBPhyzA9r8I9aufmN/QjIbCIW99ldd1BKg==
-X-Gm-Gg: ASbGncvaXk46mv35Po9KBXOBx8EJCFRxlwCOKeo9MzehcseRKTrVIQECTGNTXKQ3Fe4
-	abCI6RojBHy3h+W388RbEUIRMtl4PTtLs7RJ+2cu8kWyMTXQBwgr2TVLDIwc17HQRSZBDX1HLPt
-	75Q369YjqKWA0WWZKL8rw=
-X-Google-Smtp-Source: AGHT+IEgeN5s3ZfRGLUDH5gOqfcD4s6TEi5D0C2g77HjKlzUHwkH9XonjRLYuHi/ar2d9oTr5N5VxEPTjm/oRIIx8No=
-X-Received: by 2002:a05:622a:1c19:b0:477:84f5:a0b with SMTP id
- d75a77b69052e-47ae96515c1mr280374181cf.2.1745327476964; Tue, 22 Apr 2025
- 06:11:16 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745328193; x=1745932993;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=aefdfmkdPPazfnx4OKlatxNvwNlWxlEorRtBR+QDCQk=;
+        b=bSgFe31ke+cwFoQq0NFXpS9315iYlXWcD5VBGbvWdI7gaeo9g0QXjk58WyIlwOLDWm
+         34Y6zPZPdqlVqXBgqRftvM5BD+dmcOEqPmFSaT97y980V/SgaCWSx0NgS/NQlhMlcKye
+         NIZ79AKPNhTfOaxMYuvCnqugtEHpYQrrtyx1BqA8yfqs/3YZqWbEMhpieZVSBs9ALbjb
+         L/TRU/PvGsq7e7B+eVVTp+0hAU3J10+6UEjX6Y+ZHJ/c/KwjJ4u/JSQWZZqkGpWZYpEV
+         v181RzEGIi4JYf2gRUjES74G55/bUVxgayXZ6cWL8sPqGED92gWxACz2+TXCCYjbfKzi
+         pCcw==
+X-Forwarded-Encrypted: i=1; AJvYcCU+CvlK5Pli5uJerkcQzsTDlDQ6yPd4m0dfESxiWAgn5X+zKreNfB25dkJ5gRFAQHW2KLdK/C6WftSU@vger.kernel.org, AJvYcCV13IJxwHAjtwJ9ujDXjnHsKR3JGazK6YYcvJN5/OHhN0V/cjDrUsJer20r+daeRDZmobC4D7uTnpvD5LXz@vger.kernel.org, AJvYcCX8b3aPc4Y2dG/QNHs7z+zGZfNPnx5nHiXVmeXAwt0djjPEQ/busZSwyufKL2mM1jPqu7b5a7HS/i9mVpQ=@vger.kernel.org, AJvYcCXGquCRwm5jFPWe26U5m3XUPO5foHNW1z+2AJuxjgaLgdTyAcWmjpRaRNYP1/NB+KsYaN/rfNSeEN0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyLgFkjmWbC8rNd5I7lEaW0kj2osI6woGA6byPKbKI6DKBfqNrA
+	pg0NMwofO+X1RTJdHZYyobW3LwuuvygiR1shJOHiiNH5dKKHIAoHHmVAlQ==
+X-Gm-Gg: ASbGncuCK0Db9klSrvnhXmhLoJanhExTdebh8pjnW3sfwmwqh0V0dK2TYZAO6bco1tN
+	SnDiAvr0xQ8+OEF9RbweSiBY5Bn6fJg5+ICE0xKKSdPtKd8hPEc3cpfN20zb3VZkRBYRMBxLizx
+	Iz/yM/D3/yEBFLydadkaAfncNVH52PYM9SGeNmYa6sq4a2PaX4JYtMIYWY/cpnaNfSpiM4R2Vh9
+	i3oZ7DSRHt6GeVE3gkoFiKMSIbb8zVzTQ0dazPps8JVkhqSCHbO43XD7s8i+wHRiwW3WJIudy7l
+	qZZPgYz44UPDNTUDjPpbqsVrykcyfNSiUvYUSNMoSg4i/I5Gp4gEZhwqtzJ3vAUV7UXsjsnfBhL
+	C9xZqXSmPZNF9IA==
+X-Google-Smtp-Source: AGHT+IHCoPsQu4MKAY49hgZZoGck3wP17GXNMe1UnALlNStOtO0vX+U+4vL7NK08n9PmxQZrsZctQQ==
+X-Received: by 2002:a17:90a:fc44:b0:2fa:2268:1af4 with SMTP id 98e67ed59e1d1-30879ac20b7mr23686062a91.7.1745328192990;
+        Tue, 22 Apr 2025 06:23:12 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3087df0acb6sm8607765a91.12.2025.04.22.06.23.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 22 Apr 2025 06:23:12 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <010b64c7-13da-49a6-b91c-b70bca6375e8@roeck-us.net>
+Date: Tue, 22 Apr 2025 06:23:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417142525.78088-1-mclapinski@google.com> <6806d2d6f2aed_71fe294ed@dwillia2-xfh.jf.intel.com.notmuch>
-In-Reply-To: <6806d2d6f2aed_71fe294ed@dwillia2-xfh.jf.intel.com.notmuch>
-From: Pasha Tatashin <pasha.tatashin@soleen.com>
-Date: Tue, 22 Apr 2025 09:10:39 -0400
-X-Gm-Features: ATxdqUHTas6nxRBSgtwdGV4WIXumv0Kkcfrqb-O571C2uYrggyHxMo9DW-cOmcA
-Message-ID: <CA+CK2bD9QF-8dxd92UBoyvO0rBJ3uTN27pXzO2bALw4v_2D_8g@mail.gmail.com>
-Subject: Re: [PATCH v2 1/1] libnvdimm/e820: Add a new parameter to configure
- many regions per e820 entry
-To: Dan Williams <dan.j.williams@intel.com>
-Cc: Michal Clapinski <mclapinski@google.com>, Vishal Verma <vishal.l.verma@intel.com>, 
-	Dave Jiang <dave.jiang@intel.com>, Ira Weiny <ira.weiny@intel.com>, 
-	Jonathan Corbet <corbet@lwn.net>, nvdimm@lists.linux.dev, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 0/2] Add support for LT3074 low voltage linear
+ regulator
+To: "Encarnacion, Cedric justine" <Cedricjustine.Encarnacion@analog.com>,
+ Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+ Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+Cc: "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-hwmon@vger.kernel.org" <linux-hwmon@vger.kernel.org>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-i2c@vger.kernel.org" <linux-i2c@vger.kernel.org>
+References: <20250421-upstream-lt3074-v3-0-71636322f9fe@analog.com>
+ <a10230ba-1ffd-4dc2-96ce-3aaee2e30015@roeck-us.net>
+ <PH0PR03MB69384B9ADED36F0E0EC5C73C8EBB2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <PH0PR03MB69384B9ADED36F0E0EC5C73C8EBB2@PH0PR03MB6938.namprd03.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 21, 2025 at 7:21=E2=80=AFPM Dan Williams <dan.j.williams@intel.=
-com> wrote:
->
-> Michal Clapinski wrote:
-> > Currently, the user has to specify each memory region to be used with
-> > nvdimm via the memmap parameter. Due to the character limit of the
-> > command line, this makes it impossible to have a lot of pmem devices.
-> > This new parameter solves this issue by allowing users to divide
-> > one e820 entry into many nvdimm regions.
-> >
-> > This change is needed for the hypervisor live update. VMs' memory will
-> > be backed by those emulated pmem devices. To support various VM shapes
-> > I want to create devdax devices at 1GB granularity similar to hugetlb.
->
-> This looks fairly straightforward, but if this moves forward I would
-> explicitly call the parameter something like "split" instead of "pmem"
-> to align it better with its usage.
->
-> However, while this is expedient I wonder if you would be better
-> served with ACPI table injection to get more control and configuration
-> options...
->
-> > It's also possible to expand this parameter in the future,
-> > e.g. to specify the type of the device (fsdax/devdax).
->
-> ...for example, if you injected or customized your BIOS to supply an
-> ACPI NFIT table you could get to deeper degrees of customization without
-> wrestling with command lines. Supply an ACPI NFIT that carves up a large
-> memory-type range into an aribtrary number of regions. In the NFIT there
-> is a natural place to specify whether the range gets sent to PMEM. See
-> call to nvdimm_pmem_region_create() near NFIT_SPA_PM in
-> acpi_nfit_register_region()", and "simply" pick a new guid to signify
-> direct routing to device-dax. I say simply, but that implies new ACPI
-> NFIT driver plumbing for the new mode.
->
-> Another overlooked detail about NFIT is that there is an opportunity to
-> determine cases where the platform might have changed the physical
-> address map from one boot to the next. In other words, I cringe at the
-> fragility of memmap=3D, but I understand that it has the benefit of being
-> simple. See the "nd_set cookie" concept in
-> acpi_nfit_init_interleave_set().
+On 4/22/25 03:09, Encarnacion, Cedric justine wrote:
+>> From: Guenter Roeck <groeck7@gmail.com> On Behalf Of Guenter Roeck
+>> Sent: Monday, April 21, 2025 9:23 PM
+>> To: Encarnacion, Cedric justine <Cedricjustine.Encarnacion@analog.com>; Rob
+>> Herring <robh@kernel.org>; Krzysztof Kozlowski <krzk+dt@kernel.org>; Conor
+>> Dooley <conor+dt@kernel.org>; Jean Delvare <jdelvare@suse.com>; Jonathan
+>> Corbet <corbet@lwn.net>; Delphine CC Chiu <Delphine_CC_Chiu@Wiwynn.com>
+>> Cc: devicetree@vger.kernel.org; linux-kernel@vger.kernel.org; linux-
+>> hwmon@vger.kernel.org; linux-doc@vger.kernel.org; linux-i2c@vger.kernel.org
+>> Subject: Re: [PATCH v3 0/2] Add support for LT3074 low voltage linear regulator
+>>
+>> [External]
+>>
+>> On 4/21/25 05:18, Cedric Encarnacion wrote:
+>>> Introduce hardware monitoring and regulator support for LT3074. The
+>>> component is an ultrafast, ultralow noise 3A, 5.5V dropout linear
+>>> regulator with a PMBus serial interface that allows telemetry for
+>>> input/output voltage, output current, and die temperature. It has a
+>>> single channel and requires a bias voltage which can be monitored via
+>>> manufacturer-specific registers.
+>>>
+>>> Signed-off-by: Cedric Encarnacion
+>>> <cedricjustine.encarnacion@analog.com>
+>>> ---
+>>> Changes in v3:
+>>> -
+>>>    * Non-nested dt-binding regulator support.
+>>>    * PMBUS_REGULATOR_ONE("vout") ->
+>> PMBUS_REGULATOR_ONE("regulator").
+>>>      New macro needs node-name to be matched.
+>>>
+>>
+>> Does that mean we can (and maybe should) drop the name parameter of that
+>> macro ?
+>>
+>> This isn't affecting this patch. If needed I'll do that separately.
+>> Just asking.
+> 
+> This is used by regulator_desc->of_match to match a node name in dt. By
+> dropping the name, does this mean the of_match won't be assigned, or
+> of_match="some-default-regulator-name"? I did some tests, and it appears
+> the regulators dt properties can only be parsed when the name parameter
+> exists, and name parameter == node-name. I have tried simply removing the
+> of_match assignment from the regulator_desc macro, but it does not work in
+> my case.
+> 
 
-I also dislike the potential fragility of the memmap=3D parameter;
-however, in our environment, kernel parameters are specifically
-crafted for target machine configurations and supplied separately from
-the kernel binary, giving us good control.
+No, I was wondering if the name parameter always needs to be "regulator".
+I did not (want to) suggest that the name should be dropped from the structure,
+only if it always needs to be "regulator". If it always needs to be "regulator",
+it could be hard-coded and would not have to be a macro parameter.
 
-Regarding the ACPI NFIT suggestion: Our use case involves reusing the
-same physical machines (with unchanged firmware) for various
-configurations (similar to loaning them out). An advantage for us is
-that switching the machine's role only requires changing the kernel
-parameters. The ACPI approach, potentially requiring firmware changes,
-would break this dynamic reconfiguration.
+Sorry for the confusion. Just forget that I asked.
 
-As I understand, using ACPI injection instead of firmware change
-doesn't eliminate fragility concerns either. We would still need to
-carefully reserve the specific physical range for a particular machine
-configuration, and it also adds a dependency on managing and packaging
-an external NFIT injection file and process. We have a process for
-kernel parameters but doing this externally would complicate things
-for us.
+Guenter
 
-Also, I might be missing something, but I haven't found a standard way
-to automatically create devdax devices using NFIT injection. Our
-current plan is to expand the proposed kernel parameter. We are
-working on making it default to creating either fsdax or devdax type
-regions, without requiring explicit labels, and ensuring these regions
-remain stable across kexec as long as the kernel parameter itself
-doesn't change (in a way kernel parameters take the role of the
-labels).
-
-Pasha
