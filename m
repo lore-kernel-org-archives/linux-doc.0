@@ -1,194 +1,143 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f182.google.com (mail-yb1-f182.google.com [209.85.219.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965A817A2F6;
-	Tue, 22 Apr 2025 02:12:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7139C1A23A1
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 02:38:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745287969; cv=none; b=nqMXkjz5n6Wd68sTMb3IBcHBShFL7f92DV68SosU0YOR6P7LM/46E4zi6dhlYfZSkINFPdd+qX7DHcMUaTEb5z5dolyl7VQyLoM7gLHnX1vQSoPMpqu/DqVMYmkWOUhdyK827eOyOUBIG84J16KHJiLS7PIzNiGBjGippuzl5bM=
+	t=1745289503; cv=none; b=R99kiAo4RZe5tL1DW2/QtBWcKVbPJgKf934rp89gwqeCuqz/pLG/Rz3D77Z4E6frKcv5R8JqTEc0jfz2qUxbUVU9VjLcq+SHYgPyKEgyvmLpZ6PVpYZDcLUQ0pOOrtH54E4pOS3cZV+6l9LkGUjttaM/L6D4AhRDUQciVjd8umE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745287969; c=relaxed/simple;
-	bh=yEJ886LT/vO8/ZoQLLdlXxwV0nBH2cLO3gCdar/nAnc=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mNjEvkMjkEylDUTtTnmevsjDAhpT70Fn0aOWV/eClzpdFI3v70mwL85JtlO3Yftq9fvqQJxu8dptgVKrS2PG2Tixql0Ax6SGJsbn2w7Eer54Ay8J4BNlTCzkm7pWC4VhkFXjHfDelcSjHqJKf0vIRSPC4xfkVOPzQ+S+9g8aCu4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=MuprIwlX; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1745289503; c=relaxed/simple;
+	bh=m1yMCm5BRURQkTkthO160wuOl1r+JBDJ8JKG9mL70Ps=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jDg/fRWnKLJtzIjgGLMxSWUfCwpRyy2FD4bhETCqDw7R3tKign6JqPn8v9Tjw0Wf66W/NevAhcm5scPpWeTxIDfP4EGIa1zGlwf7/DQ35380UzcpDQCWTfbre1DfbKW09gySAAd8wOBxOVGtCZf1fZgLu8I7JpO9Pexn8S1Qc/o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=Tor8XHRm; arc=none smtp.client-ip=209.85.219.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="MuprIwlX"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=wyZ/GIFXWPHTuL2Tu+Fi0aXA2J/TiF9Y2weWF8VNT4I=; b=MuprIwlXMMmaf9/2/jcapMA7I5
-	ZopGYeyHm1xekgwyCCVIwo15p8o3Vc2N3rfSMbYziBUV0OIVTUk7JZ9DUOkV2DdTdK+eAHObnhO5N
-	oJztEsqs/nDdkQhmM+6dqnSQwO0Dzo5cjaEYcNXkjroNX5zbNqwvLDzxVCDC+SCNjmi5iTJ0VvWok
-	hyovOAFrrtw9qAIU9ehansmLxnqXPCIqI9rW9rKSIu9wlmKiK4mWjVlUoBXjmOx3KKTSxmaE13qdB
-	hX6odUkTTeh8IYaExLm3N/r3hZtFbBrpkCJ5qk+Xh4SNRNpk6fooMZtYEKbauD1Z47lFYA/GpnldE
-	bNoxvSOA==;
-Received: from [50.39.124.201] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1u7361-0000000B7zG-0Q3i;
-	Tue, 22 Apr 2025 02:12:17 +0000
-Message-ID: <db2415e3-0ee7-4b72-ac6b-4c7cda875dd3@infradead.org>
-Date: Mon, 21 Apr 2025 19:10:40 -0700
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="Tor8XHRm"
+Received: by mail-yb1-f182.google.com with SMTP id 3f1490d57ef6-e455bf1f4d3so3405332276.2
+        for <linux-doc@vger.kernel.org>; Mon, 21 Apr 2025 19:38:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1745289500; x=1745894300; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=m7eAi0OH7b5xLzSVXwOwnWLVsbzyannU+ufJsFO8uuE=;
+        b=Tor8XHRmHO8OGMWZ1tYU9UXptIchkli1Ae/YISB0al4DpG0LpP/kjgdsNViQ1t9Ztw
+         sCK4KbAaZT7eP/t7zF6tXqinpqSBQ3BnatQTxJRfOoTs1hu5Rgg4WSm/1XA0OFk6usNc
+         zgxxbjZM9rLJjsY9NlVFSfVSqwrsCBvHBdMn0NpLeItEdyxVgoA2qo/nhwEAX7fNL4DE
+         ZTGCQtS1MZWdeYd5dfV6udH8EcuNjZCtzCzmCgTDGncF3UE+MpcHyCj9sRUVyjyE8NF4
+         JkZsUJ42yGLGuuQLJ9msb0lY9uJ0ynoViFZGne8rOikKoDKfeEjNd9IFzegsSxg+t8rc
+         gAlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745289500; x=1745894300;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=m7eAi0OH7b5xLzSVXwOwnWLVsbzyannU+ufJsFO8uuE=;
+        b=F9+0JobsyGFHHt9ms5AcRpeoVRLSWD4PII6/zd+N3/w5xevYq0mbrV69pgiHQ8k8Xv
+         VhuJIcUtjzVgvbN0I7nm/0myL3lYHIUaIoR+EXXXtKOYK1ftgTPusLV+RdBit7l/+yEO
+         k+67pqrAf03/yp0lM3g9l4xgSqCx1NKP3kBK80a8VuT3An05KsLuwlJYLYwW0c/Huifo
+         Z2XfO/IagJSJva6b2RtKFxfEsL6Wobjaj+0NPZaJFVIgsZ8DF+a8zcxbbqRAHxZelkO8
+         kbAh188A3kVOiBxKv6Iz52u5hyQL13uic/9/nzfmwI7VYgIXEflPrqhdZpO28pu//UJX
+         VJZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVzWKdQNwCyhNXqQpTDgOrdXS3zy0y/GRmV82C+TDaTepxW9U+GFK3RFU0drlFcMJCm/yHqWLEg3uU=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy2h3bmj1unTauRoQKUFSfV16BOrworLUgMgwL91sdFUEcgjtSR
+	55B73WtVvh+lkrIiqkskbPwaQh0CHcTvLjfr8Zi18dp1M+iZ3E8ixJQIHfFU5vW8UUZ6BhJtOyo
+	UWKVpsHFc1YjFg9oI5HzPbWmeI987OckuHSSD
+X-Gm-Gg: ASbGncvDn2bOOg1LTeTI9d2ouIhXZi4anRjxKz/wLkSVsXRIC+LFBNrrQXs45GiFRdJ
+	Wz/JLmyjOwibSukF6feEGEt68NgxFJx4XO0ZNCv+KfOzQD9dJ2NH79iizO+UOD28fJk9sn9bSdg
+	978MHyZEMrBIpRiXtza9PX5bEM9hqH7R46
+X-Google-Smtp-Source: AGHT+IEBsF+GdUC/ycqCwWJCqQEPIgxnxovCs8VulAPF24hG16HtUyXji535ndx9u4H0Zeebq7vBj70AA6oUc8NrXEc=
+X-Received: by 2002:a05:6902:1588:b0:e72:9562:7638 with SMTP id
+ 3f1490d57ef6-e7297eae346mr19133785276.39.1745289500228; Mon, 21 Apr 2025
+ 19:38:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 18/19] famfs_fuse: Add documentation
-To: John Groves <John@Groves.net>, Dan Williams <dan.j.williams@intel.com>,
- Miklos Szeredi <miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>
-Cc: John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
- Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>,
- Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
- Alexander Viro <viro@zeniv.linux.org.uk>,
- Christian Brauner <brauner@kernel.org>, "Darrick J . Wong"
- <djwong@kernel.org>, Luis Henriques <luis@igalia.com>,
- Jeff Layton <jlayton@kernel.org>, Kent Overstreet
- <kent.overstreet@linux.dev>, Petr Vorel <pvorel@suse.cz>,
- Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev,
- linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org,
- Amir Goldstein <amir73il@gmail.com>,
- Jonathan Cameron <Jonathan.Cameron@huawei.com>,
- Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong
- <joannelkoong@gmail.com>, Josef Bacik <josef@toxicpanda.com>,
- Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421013346.32530-19-john@groves.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250421013346.32530-19-john@groves.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
+ <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
+ <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
+ <87friajmd5.fsf@microsoft.com> <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
+ <87a58hjune.fsf@microsoft.com> <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
+ <87y0w0hv2x.fsf@microsoft.com> <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
+ <CAHC9VhS0kQf1mdrvdrs4F675ZbGh9Yw8r2noZqDUpOxRYoTL8Q@mail.gmail.com> <CAADnVQK7kyBso6bNEtNyC6zTBDuBv-K-c4a9KBVid+B405VX6Q@mail.gmail.com>
+In-Reply-To: <CAADnVQK7kyBso6bNEtNyC6zTBDuBv-K-c4a9KBVid+B405VX6Q@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Mon, 21 Apr 2025 22:38:09 -0400
+X-Gm-Features: ATxdqUG68qWAXIVdhOvLBjOhkCBCyDq8PvskWDE6YshFl7NEp_uX0oI69pZKXTU
+Message-ID: <CAHC9VhQE6xXQ1E1hmWzbrPNyVh_gKsp8U_GnPYr=0gS_RMATWQ@mail.gmail.com>
+Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
+	David Howells <dhowells@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
+	"David S. Miller" <davem@davemloft.net>, James Morris <jmorris@namei.org>, 
+	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
+	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	keyrings@vger.kernel.org, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
+	LSM List <linux-security-module@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
+	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
+	Cong Wang <xiyou.wangcong@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Mon, Apr 21, 2025 at 7:48=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+> On Mon, Apr 21, 2025 at 3:04=E2=80=AFPM Paul Moore <paul@paul-moore.com> =
+wrote:
+> > On Mon, Apr 21, 2025 at 4:13=E2=80=AFPM Alexei Starovoitov
+> > <alexei.starovoitov@gmail.com> wrote:
+> > > On Wed, Apr 16, 2025 at 10:31=E2=80=AFAM Blaise Boscaccy
+> > > <bboscaccy@linux.microsoft.com> wrote:
+> > > >
+> > > > > Hacking into bpf internal objects like maps is not acceptable.
+> > > >
+> > > > We've heard your concerns about kern_sys_bpf and we agree that the =
+LSM
+> > > > should not be calling it. The proposal in this email should meet bo=
+th of
+> > > > our needs
+> > > > https://lore.kernel.org/bpf/874iypjl8t.fsf@microsoft.com/
+> >
+> > ...
+> >
+> > > Calling bpf_map_get() and
+> > > map->ops->map_lookup_elem() from a module is not ok either.
+> >
+> > A quick look uncovers code living under net/ which calls into these API=
+s.
+>
+> and your point is ?
 
+Simply the observation that the APIs you've mentioned are currently
+being used by code living under net/; you're free to take from that
+whatever you will.
 
-On 4/20/25 6:33 PM, John Groves wrote:
-> Add Documentation/filesystems/famfs.rst and update MAINTAINERS
-> 
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  Documentation/filesystems/famfs.rst | 142 ++++++++++++++++++++++++++++
->  Documentation/filesystems/index.rst |   1 +
->  MAINTAINERS                         |   1 +
->  3 files changed, 144 insertions(+)
->  create mode 100644 Documentation/filesystems/famfs.rst
-> 
-> diff --git a/Documentation/filesystems/famfs.rst b/Documentation/filesystems/famfs.rst
-> new file mode 100644
-> index 000000000000..b6b3500b6905
-> --- /dev/null
-> +++ b/Documentation/filesystems/famfs.rst
-> @@ -0,0 +1,142 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +.. _famfs_index:
-> +
-> +==================================================================
-> +famfs: The fabric-attached memory file system
-> +==================================================================
-> +
-> +- Copyright (C) 2024-2025 Micron Technology, Inc.
-> +
-> +Introduction
-> +============
-> +Compute Express Link (CXL) provides a mechanism for disaggregated or
-> +fabric-attached memory (FAM). This creates opportunities for data sharing;
-> +clustered apps that would otherwise have to shard or replicate data can
-> +share one copy in disaggregated memory.
-> +
-> +Famfs, which is not CXL-specific in any way, provides a mechanism for
-> +multiple hosts to concurrently access data in shared memory, by giving it
-> +a file system interface. With famfs, any app that understands files can
-> +access data sets in shared memory. Although famfs supports read and write,
-> +the real point is to support mmap, which provides direct (dax) access to
-> +the memory - either writable or read-only.
-> +
-> +Shared memory can pose complex coherency and synchronization issues, but
-> +there are also simple cases. Two simple and eminently useful patterns that
-> +occur frequently in data analytics and AI are:
-> +
-> +* Serial Sharing - Only one host or process at a time has access to a file
-> +* Read-only Sharing - Multiple hosts or processes share read-only access
-> +  to a file
-> +
-> +The famfs fuse file system is part of the famfs framework; User space
+> Again, Nack to hacking into bpf internals from LSM,
+> module or kernel subsystem.
 
-                                                              user
+I heard you the first time and rest assured I've noted your general
+objection regarding use of the BPF API.  I'm personally still
+interested in seeing a v3 before deciding on next steps as there were
+a number of other issues mentioned during the v2 review that need
+attention.  I would encourage you to continue to participate in future
+reviews of Hornet, but of course that is entirely up to you.  In the
+absence of any additional review feedback, I'll preserve your NACK if
+we ever get to a point that your comments are worth mentioning.
 
-> +components [1] handle metadata allocation and distribution, and provide a
-> +low-level fuse server to expose files that map directly to [presumably
-> +shared] memory.
-> +
-> +The famfs framework manages coherency of its own metadata and structures,
-> +but does not attempt to manage coherency for applications.
-> +
-> +Famfs also provides data isolation between files. That is, even though
-> +the host has access to an entire memory "device" (as a devdax device), apps
-> +cannot write to memory for which the file is read-only, and mapping one
-> +file provides isolation from the memory of all other files. This is pretty
-> +basic, but some experimental shared memory usage patterns provide no such
-> +isolation.
-> +
-> +Principles of Operation
-> +=======================
-> +
-> +Famfs is a file system with one or more devdax devices as a first-class
-> +backing device(s). Metadata maintenance and query operations happen
-> +entirely in user space.
-> +
-> +The famfs low-level fuse server daemon provides file maps (fmaps) and
-> +devdax device info to the fuse/famfs kernel component so that
-> +read/write/mapping faults can be handled without up-calls for all active
-> +files.
-> +
-> +The famfs user space is responsible for maintaining and distributing
-> +consistent metadata. This is currently handled via an append-only
-> +metadata log within the memory, but this is orthogonal to the fuse/famfs
-> +kernel code.
-> +
-> +Once instantiated, "the same file" on each host points to the same shared
-> +memory, but in-memory metadata (inodes, etc.) is ephemeral on each host
-> +that has a famfs instance mounted. Use cases are free to allow or not
-> +allow mutations to data on a file-by-file basis.
-> +
-> +When an app accesses a data object in a famfs file, there is no page cache
-> +involvement. The CPU cache is loaded directly from the shared memory. In
-> +some use cases, this is an enormous reduction read amplification compared
-> +to loading an entire page into the page cache.
-> +
-> +
-> +Famfs is Not a Conventional File System
-> +---------------------------------------
-> +
-> +Famfs files can be accessed by conventional means, but there are
-> +limitations. The kernel component of fuse/famfs is not involved in the
-> +allocation of backing memory for files at all; the famfs user space
-> +creates files and responds as a low-level fuse server with fmaps and
-> +devdax device info upon request.
-> +
-> +Famfs differs in some important ways from conventional file systems:
-> +
-> +* Files must be pre-allocated by the famfs framework; Allocation is never
-
-                                                         allocation
-
-> +  performed on (or after) write.
-> +* Any operation that changes a file's size is considered to put the file
-> +  in an invalid state, disabling access to the data. It may be possible to
-> +  revisit this in the future. (Typically the famfs user space can restore
-> +  files to a valid state by replaying the famfs metadata log.)
-> +
-> +Famfs exists to apply the existing file system abstractions to shared
-> +memory so applications and workflows can more easily adapt to an
-> +environment with disaggregated shared memory.
-
-
--- 
-~Randy
-
+--
+paul-moore.com
