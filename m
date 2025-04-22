@@ -1,58 +1,58 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 021AD284B5C
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 13:56:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEF2A281535
+	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 14:03:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745330194; cv=none; b=c88AHrPtk8PV5oKjxp3cGPzTSfFYbLCAHh0b9e6E7kLwR5S8hdMi3omT+suFyYXZ8awKLzKnmStYl3ZUUdV3JE0RFWjZZOlqYdnk0GDvMC9tXtiy3pvJy/VRqQGEkhEQcazVEav3NCVbaeH0PRcv/aU9w5L/O1gzCnaO4C7ulD8=
+	t=1745330622; cv=none; b=JY6N7CkdIDOXsKD3JfdX/ZC5HsOuiAA6I+lWwSbjbOP6MLtjqOo62BU5cmv55HKLAlvw01lJ//k5kVuxBCZY+tnQVycZeJ5snUV+p/GX9o2Xd67uGHhCGf4+Of7PcOIIWPKqLI26yjGXp5LE8jKRrZQQe8q09e7X844jsrEZNAo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745330194; c=relaxed/simple;
-	bh=5UhTPLXTy54HSw4bbuMVr6NHCHxgfaB24c/UygOGD5o=;
+	s=arc-20240116; t=1745330622; c=relaxed/simple;
+	bh=DI5wbiqZFhNjcg4g07wsE2rRpyR+Bg6kHqEcrbHze4Y=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RHdEDju54i7fk7k5kf5kvDH6E7rb5dJKGF79rdOnEsW5/5vr8QizxGTANr3hGlus+X1hozJZsagrmm2smsheNdflEuDo4/SX1VIvMd4I3OhPSsUQIWogHRV/+28G6utET9hiDZrFAAYA2T8T6v30Gogys5NSO0ZEMKJqfiw7CLo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=F12AWa1h; arc=none smtp.client-ip=209.85.214.171
+	 To:Cc:Content-Type; b=iY4cBDbujO+Nes4MsZboMvTUdbOvh9Zmds2NldWNaozShYXrDh1kkGlpfTFO1dn2JB80MoH9zOv22qbuTgIdrHhbben9l5qxMwRF6E6S6WqK7Z5EVebbN7yCNqcElgyvAm827sQ4pSB35X+VCIJJyGMyS1GKPqIQ7aDLD5ZoC2Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=diHRM3SS; arc=none smtp.client-ip=209.85.214.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="F12AWa1h"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2242ac37caeso119075ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 06:56:31 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="diHRM3SS"
+Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2240aad70f2so182635ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 07:03:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745330191; x=1745934991; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1745330620; x=1745935420; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=5UhTPLXTy54HSw4bbuMVr6NHCHxgfaB24c/UygOGD5o=;
-        b=F12AWa1haXcsCudCgDYHjn2nNfZXI3lbEma09OMg5nCnR7GzJuX8RBzTsy+aLZxnlP
-         G3KDr+MgQbOHQschhs2yKHUMROZvYMDuvkA2dOkccaWcJNess9Hp4TfbIqXjoGqli4kI
-         +U9yYc2mKurzkivWGlJqXif6GYJ28rvsIfCD8cvv2EBltZDLmnDViJWWOYnCPSJ5BWuB
-         strzglMGQBpP7YIbUEyB4vnYUBvjCuH11iIdAWWRCHUyZW75wzZPWGy2NSd8M+g+HmdR
-         NoRgXS6T12hgTXSfSz24ARES3ZTJvZXG0GmbkKSy5ko8M/v0HdSGZMmYcx/neG7gmt9c
-         YyDw==
+        bh=wxtxQ2q5f2CesvMzHl2K/43Dvf+KKs8Sp+BtzyImVRI=;
+        b=diHRM3SSYX1rhVTrFh85dMgmHNY8sO2ecyPwPFFxn5sQbKf8uyHGCTCokaasiZyg6F
+         VKxRmeoGqd8z3gNfYfdYx9nRIt0sO2m4rZspMiU89vOTce8M36DF/iBjf+yUOw63OKP3
+         hITordz6p0dyt9ILX6PjDqmdftBpNagsZ2+9Q43sianlor0YDckrxv6UHr73LrRP40nl
+         0RhaPUqvIJhdfxVTKdVpFekbtxJ6p6mBz3v5CgPtgZJFLkFtAW0VeT+gmLV9s0iEgJ0l
+         8gyzbdup2vQ5J4dKQketbtzn+Miv5FOylJYS/7yQo/70s3oaoMk8nilN940PIjwG8SKq
+         /+mg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745330191; x=1745934991;
+        d=1e100.net; s=20230601; t=1745330620; x=1745935420;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=5UhTPLXTy54HSw4bbuMVr6NHCHxgfaB24c/UygOGD5o=;
-        b=ZmimZ39vxEmlCXaJElswnFYnmI6JbojPubB6SVFekF81j3+SuNPexr/Gb9YrWqG9nj
-         KP9altt9whmCRUYCGiqGEhHw7MAJ6KcvZ6oTi8opWRJzNwZ3BCniwvqHpqaBfDBFHmGK
-         HY5pxxjFkEGpmLGCGVPTQUQjv5fKU3gsx/GZXHpO02hRgkA0pa0iub0zyNezKCt7SPqw
-         WCMK35TBiiAONRu04Gjyx0OTBLTtKu1Gxw206AUG693ujgMPE9Yr6Qhcc3yXZC/44z19
-         EettASsJ7AeQ6TsuK/htFQf8iqla+V9vJd2xv2Yfohu6MZxvH9Lhi1xK5R0sCBK7qIcy
-         u6og==
-X-Forwarded-Encrypted: i=1; AJvYcCWq3tLhVHMhplg5Yj0ZXbcnQOUvuX3qi0d19tQG9nB9hYDIFD5JzwqgxKIEHQTiczKugBJoq7wYoWM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwZJnpcs26fp2IN35Z4PScLczIXMch8fNUYUxyIirAzgoaQ/cOb
-	KXRxT//HpirPd5O/NnHPTdCttMRpM2Ghp96zpvRx0RAb8wAaAe74hQ4FVnxBKYWU+db3Tm6kogD
-	jy5ooY808yooVqO9m+/NuN6ceyQRb3s25EQOd
-X-Gm-Gg: ASbGncu4kAAFyYGY+VoYopqi+IDWvH13xeiPhH4+0/ul6HLz5icbIo2htNWn7zLNm4t
-	tlvL70Lt/W+2M95BynCSJGSVt9DNqvz8Vi6xMdBUE55FjUrj2VA+Kv2QvBT83IOZNYrrCvVzyEn
-	7rhBmHHWHvjSmtxsWckwANXuw=
-X-Google-Smtp-Source: AGHT+IH/hAru3MKmJ60Z25FXBslSMx5hLypeOWFuJfnaTmWFJ711/aVQCwonng9BnnPokRail3ZgA21iLnH/6NJDRM0=
-X-Received: by 2002:a17:902:ce0a:b0:220:ce33:6385 with SMTP id
- d9443c01a7336-22c54797b1bmr9643675ad.9.1745330190914; Tue, 22 Apr 2025
- 06:56:30 -0700 (PDT)
+        bh=wxtxQ2q5f2CesvMzHl2K/43Dvf+KKs8Sp+BtzyImVRI=;
+        b=vF2mrYMiKH0fvpsgd3/YPsMQhBVcAh0EopxkkiLp5OLIiDEKQsm8aWfo4JzAvIc5a/
+         NVcw/WDDC3MTGQo1nZamBYlvqwz2HRIZzFsvngK4ZRNoAVSv/8SmgZsUPBZqUYpCmwtn
+         PafCWgsa6wtZ5n18r8Jd0kn7jg2u39z+NzGlM95tYpuLVQrl7e7sBfigBRM18JL6dfA6
+         KblWmJRyGQiXiTKJbQILZq+5UHvagDpz7KkC1NukJJ8KUheW24EGEf8hzXif03YA2LHs
+         MBBj7werDTc+EzdZ202RsHH1ZRVosyy+LtVQAypS63p1tt/AXg3o+BmKoYucEBWw8CgX
+         NeyA==
+X-Forwarded-Encrypted: i=1; AJvYcCWbOf3772tHBjWOq98MUJG2hXBr+Ten7/9vUiRoMt02gTFxVcRf3U/HVvIaetkRkzuC7rB/k6wI6RM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YymMsiYat1LavmCDQvVcTVp6S47pMN4Q3SiblJ6Y3+2urIPoOwx
+	1UXYfRH+GC5KVvhVm0RbWaxU7OFsl2oanasky+3rIxdH6LEPuLGOzJt/DEmsATWTtwl4PVGdtNO
+	88g3pxB6QX/XGM5ibHjLR03WCC8iOOer9a7DH
+X-Gm-Gg: ASbGncu7oqAkxCc32idkd1JN5jNsBmuIYRVvBB6lxk5gg6cau2zjKxFsZf4/g7zf3v5
+	sXHTQn6MVGgKKAIkX00UwKkZgJ96hCHEMlue465rjglos3mvlDWxE0MIq04Ihwl43bBwQGadqFg
+	Pg1C/rVGXfqem/P1o0tEOhA5Z4fOGLDGaxBA==
+X-Google-Smtp-Source: AGHT+IG0i+651pdR53K0l/n7uIQCSuRiQEGLD3Fi7ND1TmWV2npssXiwnzzo30HBpgP42jyUy2IALw8wxWFt/Kz8RzE=
+X-Received: by 2002:a17:902:ebc3:b0:22c:33b4:c2ed with SMTP id
+ d9443c01a7336-22c52a93c28mr10089535ad.26.1745330619867; Tue, 22 Apr 2025
+ 07:03:39 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,13 +60,14 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 References: <20250417231540.2780723-1-almasrymina@google.com>
- <20250417231540.2780723-3-almasrymina@google.com> <484ecaad-56de-4c0d-b7fa-a3337557b0bf@gmail.com>
-In-Reply-To: <484ecaad-56de-4c0d-b7fa-a3337557b0bf@gmail.com>
+ <20250417231540.2780723-2-almasrymina@google.com> <f7a96367-1bb0-4ed2-8fbf-af7558fccc20@gmail.com>
+In-Reply-To: <f7a96367-1bb0-4ed2-8fbf-af7558fccc20@gmail.com>
 From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 22 Apr 2025 06:56:17 -0700
-X-Gm-Features: ATxdqUFU-Nv8GeoWu8ltonWAw6xNaP21dKReuqOOxLDIWBd4SeZRRiQwqzNABOY
-Message-ID: <CAHS8izPw9maOMqLALTLc22eOKnutyLK9azOs4FzO1pfaY8xE6g@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 2/9] net: add get_netmem/put_netmem support
+Date: Tue, 22 Apr 2025 07:03:26 -0700
+X-Gm-Features: ATxdqUHgiM0jEZwKYWOLJlVXJ7i1N-PNg4kE-n9ns-g62S6RZ7kqQTTDhmeVqPw
+Message-ID: <CAHS8izMFxDG5E07ZdqnDH_2D_g1fW8X0M7u3gGyV8efzxDNZbg@mail.gmail.com>
+Subject: Re: [PATCH net-next v9 1/9] netmem: add niov->type attribute to
+ distinguish different net_iov types
 To: Pavel Begunkov <asml.silence@gmail.com>
 Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
 	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
@@ -87,49 +88,42 @@ Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 22, 2025 at 1:43=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
+On Tue, Apr 22, 2025 at 1:16=E2=80=AFAM Pavel Begunkov <asml.silence@gmail.=
 com> wrote:
 >
 > On 4/18/25 00:15, Mina Almasry wrote:
-> > Currently net_iovs support only pp ref counts, and do not support a
-> > page ref equivalent.
+> > Later patches in the series adds TX net_iovs where there is no pp
+> > associated, so we can't rely on niov->pp->mp_ops to tell what is the
+> > type of the net_iov.
 >
-> Makes me wonder why it's needed. In theory, nobody should ever be
-> taking page references without going through struct ubuf_info
-> handling first, all in kernel users of these pages should always
-> be paired with ubuf_info, as it's user memory, it's not stable,
-> and without ubuf_info the user is allowed to overwrite it.
+> That's fine, but that needs a NULL pp check in io_uring as well,
+> specifically in io_zcrx_recv_frag().
 >
 
-The concern about the stability of the from-userspace data is already
-called out in the MSG_ZEROCOPY documentation that we're piggybacking
-devmem TX onto:
+I think you mean this update in the code:
 
-https://www.kernel.org/doc/html/v4.15/networking/msg_zerocopy.html
+if (!niov->pp || niov->pp->mp_ops !=3D &io_uring_pp_zc_ops ||
+    io_pp_to_ifq(niov->pp) !=3D ifq)
+return -EFAULT;
 
-Basically the userspace passes the memory to the kernel and waits for
-a notification for when it's safe to reuse/overwrite the data. I don't
-know that it's a security concern. Basically if the userspace modifies
-the data before it gets the notification from the kernel, then it will
-mess up its own TX. The notification is sent by the kernel to the
-userspace when the skb is freed I believe, at that point it's safe to
-reuse the buffer as the kernel no longer needs it for TX.
+Yes, thanks, will do.
 
-For devmem we do need to pin the binding until all TX users are done
-with it, so get_netmem will increase the refcount on the binding to
-keep it alive until the net stack is done with it.
-
-> Maybe there are some gray area cases like packet inspection or
-> tracing? However in this case, after the ubuf_info is dropped, the
-> user can overwrite the memory with its secrets. Definitely iffy
-> in security terms.
+> You can also move it to struct net_iov_area and check niov->owner->type
+> instead. It's a safer choice than aliasing with struct page, there is
+> no cost as you're loading ->owner anyway (e.g. for
+> net_iov_virtual_addr()), and it's better in terms of normalisation /
+> not unnecessary duplicating it, assuming we'll never have niovs of
+> different types bound to the same struct net_iov_area.
 >
 
-You can look at all the callers of skb_frag_ref to see all the code
-paths that grab a page ref on the frag today. There is also an
-inspection by me in the v5 changelog.
+Putting it in niov->owner->type is an alternative approach. I don't
+see a strong reason to go with one over the other. I'm thinking there
+will be fast code paths that want to know the type of the frag or skb
+and don't need the owner, so it will be good to save loading another
+cacheline. We have more space in struct net_iov than we know what to
+do with anyway.
 
 
---=20
+--
 Thanks,
 Mina
