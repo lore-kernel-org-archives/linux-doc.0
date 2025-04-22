@@ -1,128 +1,107 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D11BC2D9979
-	for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 20:46:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD0BA2DA8E7;
+	Tue, 22 Apr 2025 20:59:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745354800; cv=none; b=j7Rd7VwP3yLJlvopHtgrAuUlxzVTp/vFuBrWVebuaL0oxAkBECBzUhZMINK555w0rpio4eOOCPZfD1KvjjJ4W3C1RD64V3eWaXbnqlqWOf6kJ5+KkDHb2wRq+wx2M+L6SKW6zs7ck6nugAWJeymw0VpqlOcl0ORm3kf2DomSNE4=
+	t=1745355602; cv=none; b=qxfuS4h1fLLu60Mcm1mBrKrJfkNEyLoO/ycsNiT4cJTIJ/LmVJB7E82r6b9/2GoLpCD6EXBEWTip7MBEJzCa13zux6uzrncpO2pklVaG0/HOdBIYp1S9MtWZfaTSiwQVc6a000goOe5OG2GhTjqARC10fTojozdXOMwtDpsBhtY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745354800; c=relaxed/simple;
-	bh=AepzvkTaXC3tf015Trnt4kidHqKonWdB6m9AqTJB5Is=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=u4H4M+oBcNIhts4v7vdSZDliwPhGMdsxL4ZiXFvDHyNyfrh1nOprB41ggdnKm+8IG6uoon/EpujwegmCvGRsL5V7fGE1SQoAgSAwP9teALqgXPSZHgesAzz0ZE+qm2NpfRhjYlayDo864L1kgJ3STpP5piUdpmh4HY+VojU8ADA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=maDEm0/9; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1745355602; c=relaxed/simple;
+	bh=uam3gb5IbWJBT9+xbLlD9Gwv4AiCNpeJITFhF6gzeyw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=kWGA7eT1kLxwp4drLZCBGvoGTadFU1g/NIsIc+TyRhfwCd+GrDVycd1Wn6jkdXTYgVcvg3RmQc0TsyZtTRJDM/UrE+caJl9eG2fuTEnEeT1+GBXUsIufIpBUj027mkIVJ5OEuLpo4PHBqOfE/L1FEF2+tRj0XVZxdT8mk60pco8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=oA1tUWXX; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="maDEm0/9"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2264c9d0295so66655ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 22 Apr 2025 13:46:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745354798; x=1745959598; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=0hbnVvENaVU3NRLrUDXLjqPtRsqZnanRvkC7zMsTFmw=;
-        b=maDEm0/9uQs9/f9YyauaANBQvRiwE/gBMcs2NalSOx2kq7A9HxYvAFgU6uBag79YDM
-         zhP8YHIrVOHPphcC182uhhXJnm1Bh4R1RaL1BmUhtTwn20leEt5B2+Yy6WZCF2jQNWYG
-         a53e6R4X7AIHFD2r2iuUkFWwwqRcWh1hcVKnIz7Yz8hwp+0KlUNbVPKoYSwyo6/C17tm
-         Xpxswaob9wTMBlgp30y03vJo+sd4/odiRz2MZVdNat1YJALG2hEN4VUnT9tF1qvhZgjr
-         FR2N2NbZHEbYtIT/PYY4CZBl4kW/A2noNHH+lBCys5kiYlM6UZqwMnhC8ou48Aw8sWgF
-         Jtlg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745354798; x=1745959598;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=0hbnVvENaVU3NRLrUDXLjqPtRsqZnanRvkC7zMsTFmw=;
-        b=kcbFlXPl97V7rRkJ5izwwFvzcgNpt8pNUmn2UEdz5aLNarS/PWS+Qv+D2knlv5mOPf
-         38qt5ymjugIKY49pMwMV+MH84FSsRp+Arnc38gw2sWIoLgXbH6xMRZxpdI+RFxV+EHW4
-         RQ3E7m9mJRsOqbjz78799xQmJcencE/SibaRSTyDj0Ep6kTwHUmNncADV2ROEr97EwBp
-         YTAu1kVxwZVdeoKtRGvUf1MwvrtoimOvVCbUVD1J89KI4e30LKopSu7njoAV36+O8n7K
-         mx2xsw95/yNZTepK6wEBfJQ0uOCRDp15k4rmtYNdebz1N7qbbFacCsHVLHHiBR8d3FDV
-         VFhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWit+WPkGIafKn7tIWTNi7UHsaFQLMdCiY8FM4TWRRgnhILuJsRMn5x1bXLMvJpp2UfYSGPD/0v43M=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykQ2Hu3ZHNe+NS204zcgtPhqB1P/JoZ3hCZ4TlxzaY11HchrUV
-	BXz3Pa7IgCyX3zkngraX6V9X8+5K54yYw0jrozm+44XA9x7kf4mTMnLpKOCEI7nPGB8k+4mLdcr
-	TXiAQlw0NO4t9xSpfIJf5PSqVYjl5Peo/eFqp
-X-Gm-Gg: ASbGncumrNg78hBl96iZ+qYilba857k0VjazgCsbd980h9D0QZuPq3AnPGQiRjGZ8fQ
-	s9Xi7yCPn24RXFBGxfOirRcqhXxTc1483OhTToQaB0s5WPZaTTu0nbtE9RiJLOGoTXfVcnSI7KF
-	ykEBGP2IEkLK4YNFgnwEPo4OPlIN8E5nBHvCp8OoXd2/UxqAlJ5AFH
-X-Google-Smtp-Source: AGHT+IEri+jHg7nzBWYce/s95T8w1odDrVsc9bNQomfJRGLKE9zLufWZUYri8enjRiH0NTmCrON34chxcEP4+8+fy1g=
-X-Received: by 2002:a17:902:f78d:b0:224:1fb:7b65 with SMTP id
- d9443c01a7336-22da2c3fe23mr741975ad.22.1745354797940; Tue, 22 Apr 2025
- 13:46:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="oA1tUWXX"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=+FsFGnaVIo4H6AjpaQpT7Z75xpMCOgoIe2eqxjLwdv4=; b=oA1tUWXXGbOEP9pn
+	//RCDTN+bxWHlJuNofsOyGKv6c3K3Zh+l0vWVtOHfTjmd6IJe/nIcxWIljoU4/kUdP9auQXUUAFQu
+	7gLfXrvlI4SMFVF9V0WP1Gtp4s5HT97tBk2e39qzrGhWa7sBlEtQsSrQAJm3zHs8U/zpRC+co/Fz5
+	rkUUsllSsvisS5KvXyiAHoRDrYoVza/hQ46nre0oPB+Mgzj73SuZoznGEC+rrdbdF53fl0zm9WLSC
+	nVypVSnejAqdTTwaTkM+RrFx8KhJALRTYntJpeZ+cWruiTjBbJUJResYV5AP46A/E4QxYus12kQ2o
+	gZfxaqLBzccUKGqLCg==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1u7KiL-00DArE-06;
+	Tue, 22 Apr 2025 20:59:33 +0000
+Date: Tue, 22 Apr 2025 20:59:32 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Simon Horman <horms@kernel.org>
+Cc: dhowells@redhat.com, marc.dionne@auristor.com, davem@davemloft.net,
+	edumazet@google.com, kuba@kernel.org, pabeni@redhat.com,
+	corbet@lwn.net, linux-afs@lists.infradead.org,
+	netdev@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH net-next] rxrpc: Remove deadcode
+Message-ID: <aAgDNMfgd6z3tKEb@gallifrey>
+References: <20250417153232.32139-1-linux@treblig.org>
+ <20250422182229.GM2843373@horms.kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250417231540.2780723-1-almasrymina@google.com>
- <20250417231540.2780723-2-almasrymina@google.com> <f7a96367-1bb0-4ed2-8fbf-af7558fccc20@gmail.com>
- <CAHS8izMFxDG5E07ZdqnDH_2D_g1fW8X0M7u3gGyV8efzxDNZbg@mail.gmail.com> <5d2f86ce-e2bb-406a-8d53-58a464958d2d@gmail.com>
-In-Reply-To: <5d2f86ce-e2bb-406a-8d53-58a464958d2d@gmail.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Tue, 22 Apr 2025 13:46:24 -0700
-X-Gm-Features: ATxdqUFHY8ewiDnZPwv9bGxstV-8bLqJUqf0obD0wDTOy1se33mAidQpqaIoPl0
-Message-ID: <CAHS8izMZbt=NAK0GF6VqJNBRKy+iZQGMFG+jFJEesbz=5RiLXg@mail.gmail.com>
-Subject: Re: [PATCH net-next v9 1/9] netmem: add niov->type attribute to
- distinguish different net_iov types
-To: Pavel Begunkov <asml.silence@gmail.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>, 
-	"Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
-	Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <20250422182229.GM2843373@horms.kernel.org>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 20:59:06 up 349 days,  8:13,  1 user,  load average: 0.02, 0.01,
+ 0.00
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-On Tue, Apr 22, 2025 at 12:52=E2=80=AFPM Pavel Begunkov <asml.silence@gmail=
-.com> wrote:
->
-> On 4/22/25 15:03, Mina Almasry wrote:
-> > On Tue, Apr 22, 2025 at 1:16=E2=80=AFAM Pavel Begunkov <asml.silence@gm=
-ail.com> wrote:
-> >>
-> >> On 4/18/25 00:15, Mina Almasry wrote:
-> >>> Later patches in the series adds TX net_iovs where there is no pp
-> >>> associated, so we can't rely on niov->pp->mp_ops to tell what is the
-> >>> type of the net_iov.
-> >>
-> >> That's fine, but that needs a NULL pp check in io_uring as well,
-> >> specifically in io_zcrx_recv_frag().
-> >>
-> >
-> > I think you mean this update in the code:
-> >
-> > if (!niov->pp || niov->pp->mp_ops !=3D &io_uring_pp_zc_ops ||
-> >      io_pp_to_ifq(niov->pp) !=3D ifq)
-> > return -EFAULT;
-> >
-> > Yes, thanks, will do.
->
-> That will work. I'm assuming that those pp-less niovs can
-> end up in the rx path. I think it was deemed not impossible,
-> right?
->
+* Simon Horman (horms@kernel.org) wrote:
+> On Thu, Apr 17, 2025 at 04:32:32PM +0100, linux@treblig.org wrote:
+> > From: "Dr. David Alan Gilbert" <linux@treblig.org>
+> > 
+> > Remove three functions that are no longer used.
+> > 
+> > rxrpc_get_txbuf() last use was removed by 2020's
+> > commit 5e6ef4f1017c ("rxrpc: Make the I/O thread take over the call and
+> > local processor work")
+> > 
+> > rxrpc_kernel_get_epoch() last use was removed by 2020's
+> > commit 44746355ccb1 ("afs: Don't get epoch from a server because it may be
+> > ambiguous")
+> > 
+> > rxrpc_kernel_set_max_life() last use was removed by 2023's
+> > commit db099c625b13 ("rxrpc: Fix timeout of a call that hasn't yet been
+> > granted a channel")
+> > 
+> > Both of the rxrpc_kernel_* functions were documented.  Remove that
+> > documentation as well as the code.
+> > 
+> > Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
+> 
+> Hi David,
 
-I'm not sure these pp-less niovs can ever end up in the RX path, but
-I'm not sure, and I guess better safe than sorry. We usually get
-yelled at for defensive checks but I don't think this one is too
-defensive. There could be a path where a TX skb somehow ends up here.
+Hi Simon,
 
---
-Thanks,
-Mina
+> This patch doesn't apply to net-next.  Probably because of commit
+> 23738cc80483 ("rxrpc: Pull out certain app callback funcs into an ops
+> table"). So please rebase and repost.
+
+Yeh no problem.
+
+> But other than that, this patch looks good to me.
+
+> Reviewed-by: Simon Horman <horms@kernel.org>
+
+Thanks!
+
+Dave
+> 
+> ...
+> 
+> -- 
+> pw-bot: changes-requested
+-- 
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
