@@ -1,167 +1,140 @@
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90F591F1513;
-	Tue, 22 Apr 2025 23:01:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C554C1F1520;
+	Tue, 22 Apr 2025 23:21:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745362865; cv=none; b=YueWqgxHvLVbF9Cda8axlOMLEtwTLV+1Fw9pa4l08AHUj8ZIZM3BfmkVjUeYXGh+QAz00D/JCkJLUQi4R4XLzwQBYQLho59k6dshuCcrKQXARn/s6gHChtnRQUJYJbF9zo9L6wHCiZFIb1jB8/HVtiu8YzxdWuF0dt7rPC29RdA=
+	t=1745364105; cv=none; b=ipMJVUDyuhXyhlJLALXiQ7R6jP44ns+J3p35+q69Esp1CriCobI6QJEtI8DopgidjnAQoV4w7nXDfXYIJtfkOC18iA/ZB6oN7k4DLgxX2Myw0pPoaSqmplM92ksl8aEr3WAA1gP9wkEzScntaJ29FJr+Y/Sx+rIGpVKsfCzTvF4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745362865; c=relaxed/simple;
-	bh=8JLF2kTnUxbyf0UW2316oQSHAYFIYLkSY+DWIkmWLOQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=nTrRNaYtk40s7XM7tRHkpL/Kod3t7/4GlUKkjDralBaVz5b6DdX5Os8W/WnBeodwUfxz2jROgRissFvVYDp6DiCd/7gdJTOxglLd6E9W6Yx9vQA8iABdUdV1rsIWDF718+ZtTpzymcn0oM6NiQtzbCQwMRxW2lka7eJSbZSSMBk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Pfq9132/; arc=none smtp.client-ip=209.85.221.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745364105; c=relaxed/simple;
+	bh=I3FRn9V4QunPjjOssRfPaYzgF9xMtfcBnivCd43Spdc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=fxRXu/w++eocR8Pg39/YBddBI2bS9rXMWTnbwVhFcsnxmE4XeSh4I1SSVYOexKm1klfsiJc3/nxz7S3OVpEUX4IkshfIoEK/uZR5QQekm6nqjmptaWayj3RGuK2uaJ6i/rq+2aq0UXDfEKKYQ3WrDKpdAyaI6sYDx07mdyBNoH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AlQ+QcqC; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Pfq9132/"
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-39efc1365e4so2074374f8f.1;
-        Tue, 22 Apr 2025 16:01:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745362862; x=1745967662; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5DZZs3urMIkgKkax6S198AR9JC9qXI5Y4B01yv+Q6cc=;
-        b=Pfq9132/PjhJwq3WGF+mT9DBmJDwBGb8glcX7P+SyBY3pba9HjnoWSdB3pgLiwnJJR
-         +2bDM/qYxY6H0gjoF5B2TWenmjUCNY09+7oO/Ug/UGOacIgkop+PbhJQFm7+9Ft1c3IT
-         Qiv2bOMxHaOhntm2IYffB7hAkfguc1cbVKeUx/KDXCa+53LP+ecAfjQaW8Ie8XBQuxda
-         Z+nAkvLsDB7xPrvZhk2rmOhP7zXiamBdJx8BjzX0HwX2cFO5Il0NxgL3Mq5ZcuAtFx4J
-         sKEDIbKfF34LKeFTbdoRF7hH+NE14waCxpgrw9pFgnYnItGcFE+ItToUy5ceTXU3g+DT
-         lKQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745362862; x=1745967662;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5DZZs3urMIkgKkax6S198AR9JC9qXI5Y4B01yv+Q6cc=;
-        b=J4DTII4Jdz45/K3P79r8L3zg9qAtiyZlTLuz1QyRXEmM2ng5t0bHZE/WQXhJBjcF4M
-         242NV0pg6P2IBVMqLa2/xTvE6Qtr87vH0z1usX6SXIXuswHcBG0Q/No7qBQV+Ly67wx3
-         UnF/58N1WGwPnO9HwhFi05l0kX+fiYdCgulsLnWFd77cF9aDLD1n45dHD8mZ78Bw8URb
-         9M7iU5fYcKbRPOmyU3sR/8YktXjM8wTg7IUqqV34SC0y3iGPh7xzwmGdzp945Oa30VPA
-         wpJvlVQE4lG/cwIlZPA3KaR4iSi+Aw6/zHZXeHHJDv56/5Atvk3YDS1XatMCpSi3WXkQ
-         WYmQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUFFa6BxPvBAn/KQ0Wtoc0pKo88RJl2Xcy1eBaplOUvJXCZclAe9vJZLYwpRq9BjhOnp8bkOxYV4xHHmWI=@vger.kernel.org, AJvYcCUTpH20dLPnwyDAjMHoQv8oCt9IiSvfZvQcdhK3/gIf0tRqrC1c+dxfi1RD84ssb/TiKiSo93L+AsQ2NZu1@vger.kernel.org, AJvYcCVGkd6S9C+aSJ5ODVdM4d+U6htSpQHKQrNG1yjDnL2TroOxUo16sWB8hS24zAlhjA7ikCaJvj5w/RI68weu6Z9Q@vger.kernel.org, AJvYcCW1QHMsP/gJdAAHk0l2t6jInP2uGCWE9Xbe9MN10rBNfwX/legrzFNnpG8cUFfCLiAS5gw=@vger.kernel.org, AJvYcCWU4jLV8aWI4aGdOha7dc+PQLEEkHrodj5y8bRk4RwgDEido3gVo7tqjfI80vqSFRshRo6PUa+o6G4l@vger.kernel.org
-X-Gm-Message-State: AOJu0YzvARnjr7LmBFUco04rDfjevlvs3z6Tic31vt9kFSNcBBNdVt7g
-	rMNO4wssghAnd5wmVAqx7Rb1/0CNh66A38/Ax5jTzpzUKJdP7egycx2Y8HYEWR0zQSfmX0xiuIz
-	msM4uwKvY1eAvn57FjvvQ8nx/KS4=
-X-Gm-Gg: ASbGncuroFtncHULWIfWhjVRSkqKXbcVoDu+4PHc5s7SjMxGmwTBn56wXC+l/agGPmk
-	wjIDhOtyiN66RSOm2+Jxv/itJMlDgNC3xsI7RUpZ4kj7P0/JANEdMaQDPXg4b+XulktaMLuVdHP
-	ksTEn98mmDfLBI95zAQWC5XodQHJr9axXh+a5byw==
-X-Google-Smtp-Source: AGHT+IGt6+T2kc0TlT5ebzJdvJefOqUojkLn0RGemaQgYEJUKgmj/RrlmcHqYXf+vn/5+dgoo13LpO7auPqItYTUqRE=
-X-Received: by 2002:a5d:5983:0:b0:39f:ef3:b51b with SMTP id
- ffacd0b85a97d-39f0ef3b57amr4988601f8f.32.1745362861514; Tue, 22 Apr 2025
- 16:01:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AlQ+QcqC"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745364104; x=1776900104;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=I3FRn9V4QunPjjOssRfPaYzgF9xMtfcBnivCd43Spdc=;
+  b=AlQ+QcqCv88QdqrzQ+U1xDJ7djCxcAyDujj6qeQ8npEv8K9JM3xp7a1h
+   mKV9AQRcrtug6CGO+If9pINISodY3XIIZo1n5KgFbAxXDxA9wNMpo8b9o
+   S1TH3sOifSsguP0nxwKw70vgocfKbqLCVKgEKI8Z9rFRzxzdlBGpMQ5Ur
+   BWfoxzntbKF+VC1Li7IdN6JALDIeVG+rezxSNKCFYZAQxHPL/MxlbxXHl
+   FTiHwTIIJnZUAAtvOtQobmYCdAFNSJinp3A09F7PQ7c+AWuE0aP6fWy28
+   ilLPlMuBqpz9gUhKXg6r35UleQC96Qj+8xdo84bSCt7Sv45MNE8AQTPfg
+   g==;
+X-CSE-ConnectionGUID: uWqwB6STR3Wky607cwlxPQ==
+X-CSE-MsgGUID: cl/++OftTQm4hGhC86KN8w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11411"; a="58304977"
+X-IronPort-AV: E=Sophos;i="6.15,232,1739865600"; 
+   d="scan'208";a="58304977"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 16:21:43 -0700
+X-CSE-ConnectionGUID: ufnuimT7QoqBYrhz93UrSA==
+X-CSE-MsgGUID: /P3uTzH2TLu3tjp7t8QXOQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,232,1739865600"; 
+   d="scan'208";a="133094837"
+Received: from bkammerd-mobl.amr.corp.intel.com (HELO [10.124.221.25]) ([10.124.221.25])
+  by orviesa008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Apr 2025 16:21:38 -0700
+Message-ID: <87336151-efad-42fb-b48c-0f8a0ec736e8@intel.com>
+Date: Tue, 22 Apr 2025 16:21:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250414225227.3642618-1-tjmercier@google.com>
- <20250414225227.3642618-3-tjmercier@google.com> <CAPhsuW54g5YCmLVX=cc3m2nfQTZrMH+6ZMBgouEMMfqcccOtww@mail.gmail.com>
- <CABdmKX1OqLLsY5+LSMU-c=DDUxTFaivNcyXG3ntD8D0ty1Pwig@mail.gmail.com>
- <CAADnVQ+0PXgm_VuSJDKwr9iomxFLuG-=Chi2Ya3k0YPnKaex_w@mail.gmail.com> <CABdmKX1aMuyPTNXD72wXyXAfOi6f58DfcaBDh6uDo0EQ7pKChw@mail.gmail.com>
-In-Reply-To: <CABdmKX1aMuyPTNXD72wXyXAfOi6f58DfcaBDh6uDo0EQ7pKChw@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Tue, 22 Apr 2025 16:00:50 -0700
-X-Gm-Features: ATxdqUFV6-ZmprAqwitymw1JEAl4xKZ0kwOCrx-SEEYutS3W3o6khh6mDKj5Uhw
-Message-ID: <CAADnVQ+AesNdq_LB+MWxLnHbU08Zrn-8VgwY4+0PKuk7PmRd+w@mail.gmail.com>
-Subject: Re: [PATCH 2/4] bpf: Add dmabuf iterator
-To: "T.J. Mercier" <tjmercier@google.com>
-Cc: Song Liu <song@kernel.org>, Sumit Semwal <sumit.semwal@linaro.org>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Alexei Starovoitov <ast@kernel.org>, Daniel Borkmann <daniel@iogearbox.net>, 
-	Andrii Nakryiko <andrii@kernel.org>, Martin KaFai Lau <martin.lau@linux.dev>, 
-	Shuah Khan <skhan@linuxfoundation.org>, LKML <linux-kernel@vger.kernel.org>, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, android-mm@google.com, simona@ffwll.ch, 
-	Jonathan Corbet <corbet@lwn.net>, Eduard <eddyz87@gmail.com>, 
-	Yonghong Song <yonghong.song@linux.dev>, John Fastabend <john.fastabend@gmail.com>, 
-	KP Singh <kpsingh@kernel.org>, Stanislav Fomichev <sdf@fomichev.me>, Jiri Olsa <jolsa@kernel.org>, 
-	Mykola Lysenko <mykolal@fb.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+To: Ard Biesheuvel <ardb@kernel.org>,
+ Andrew Cooper <andrew.cooper3@citrix.com>
+Cc: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
+ x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
+ linux-efi@vger.kernel.org, iommu@lists.linux.dev,
+ dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
+ bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com,
+ mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
+ peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
+ nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
+ corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
+ baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
+ trenchboot-devel@googlegroups.com
+References: <20250421162712.77452-1-ross.philipson@oracle.com>
+ <d96f9c5e-64ed-4c28-a8ad-e22daea19742@intel.com>
+ <c05731ae-bcf1-4747-b64c-0f4b79f3587f@citrix.com>
+ <CAMj1kXHNpxTqm5hOcxdKRnE58WLmhJo0Rk5pvVGyAtkkki6bvg@mail.gmail.com>
+From: Dave Hansen <dave.hansen@intel.com>
+Content-Language: en-US
+Autocrypt: addr=dave.hansen@intel.com; keydata=
+ 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
+In-Reply-To: <CAMj1kXHNpxTqm5hOcxdKRnE58WLmhJo0Rk5pvVGyAtkkki6bvg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, Apr 22, 2025 at 12:57=E2=80=AFPM T.J. Mercier <tjmercier@google.com=
-> wrote:
->
-> On Mon, Apr 21, 2025 at 4:39=E2=80=AFPM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> >
-> > On Mon, Apr 21, 2025 at 1:40=E2=80=AFPM T.J. Mercier <tjmercier@google.=
-com> wrote:
-> > >
-> > > > > new file mode 100644
-> > > > > index 000000000000..b4b8be1d6aa4
-> > > > > --- /dev/null
-> > > > > +++ b/kernel/bpf/dmabuf_iter.c
-> > > >
-> > > > Maybe we should add this file to drivers/dma-buf. I would like to
-> > > > hear other folks thoughts on this.
-> > >
-> > > This is fine with me, and would save us the extra
-> > > CONFIG_DMA_SHARED_BUFFER check that's currently needed in
-> > > kernel/bpf/Makefile but would require checking CONFIG_BPF instead.
-> > > Sumit / Christian any objections to moving the dmabuf bpf iterator
-> > > implementation into drivers/dma-buf?
-> >
-> > The driver directory would need to 'depends on BPF_SYSCALL'.
-> > Are you sure you want this?
-> > imo kernel/bpf/ is fine for this.
->
-> I don't have a strong preference so either way is fine with me. The
-> main difference I see is maintainership.
->
-> > You also probably want
-> > .feature                =3D BPF_ITER_RESCHED
-> > in bpf_dmabuf_reg_info.
->
-> Thank you, this looks like a good idea.
->
-> > Also have you considered open coded iterator for dmabufs?
-> > Would it help with the interface to user space?
->
-> I read through the open coded iterator patches, and it looks like they
-> would be slightly more efficient by avoiding seq_file overhead. As far
-> as the interface to userspace, for the purpose of replacing what's
-> currently exposed by CONFIG_DMABUF_SYSFS_STATS I don't think there is
-> a difference. However it looks like if I were to try to replace all of
-> our userspace analysis of dmabufs with a single bpf program then an
-> open coded iterator would make that much easier. I had not considered
-> attempting that.
->
-> One problem I see with open coded iterators is that support is much
-> more recent (2023 vs 2020). We support longterm stable kernels (back
-> to 5.4 currently but probably 5.10 by the time this would be used), so
-> it seems like it would be harder to backport the kernel support for an
-> open-coded iterator that far since it only goes back as far as 6.6
-> now. Actually it doesn't look like it is possible while also
-> maintaining the stable ABI we provide to device vendors. Which means
-> we couldn't get rid of the dmabuf sysfs stats userspace dependency
-> until 6.1 EOL in Dec. 2027. :\ So I'm in favor of a traditional bpf
-> iterator here for now.
+On 4/22/25 14:26, Ard Biesheuvel wrote:
+> So if that is true (I'm not a x86 uarch expert by any measure), then
+> pushing back on this series on the basis that it is ugly and intrusive
+> is not really reasonable. From security pov, I think D-RTM is an
+> important feature and it deserves to be upstream if it is used widely
+> in the field.
 
-Fair enough, but please implement both and backport only
-the old style pinned iterator.
-The code will be mostly shared between them.
-bpf_iter_dmabuf_new/_next will be more flexible with more
-options to return data to user space. Like android can invent
-their own binary format. Pack into it in a bpf prog, send to
-bpf ringbuf and unmarshal efficiently in user space.
-Instead of being limited to text output that pinned iterators
-are supposed to do usually.
-You can do binary with bpf_seq_write() too, but it's rare.
+BTW, I'm not pushing back on it for being intrusive. It's actually not
+_that_ intrusive. Most of it sits off on the side. It looked like it had
+a parallel boot entry point, for instance, that is separate from but
+shouldn't break the normal entry points.
 
-Also please provide full bpf prog that you'll use in production
-in a selftest instead of trivial:
-+SEC("iter/dmabuf")
-+int dmabuf_collector(struct bpf_iter__dmabuf *ctx)
-
-just to make sure it's tested end to end and future changes
-won't break it.
-
-pw-bot: cr
+BTW. it sounds like folks are pretty unhappy with Intel here on a bunch
+of levels. It's not my personal hardware design or anything, so please
+don't pull any punches. If Intel screwed up here and that's why we need
+5,000 lines of arguably duplicate functionality, then please say so.
+You're not going to hurt my feelings.
