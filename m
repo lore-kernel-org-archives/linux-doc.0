@@ -1,248 +1,169 @@
-Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2070.outbound.protection.outlook.com [40.107.102.70])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8280426A0AB;
-	Wed, 23 Apr 2025 07:30:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745393412; cv=none; b=ZeiAM0ZLNploGQupcki2heJkk3xr5m0gWYsacfIiznTZev88LEqpJSEc5qZ4QM+5h6dE5EDKrnMipEo03jHjQ2OaPyu5fwuBGmp5LXFgOjB7j2lguUvzeULmX1+TKnDOX9Z2S+6VW5K0dnK7NKasl0I3I5k2r5dERBlMXkKA6SA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745393412; c=relaxed/simple;
-	bh=o+phP31kmrAYsA7kQQZnwNWQ6u/lBY83aHaSbMuUKkU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SJCFhcBgL4VYef/Xw9sIVSYQJhR2LPlfhgOxuu/2+U4SW4/anTaa18f/tvPaYQOdeiEf/W25gt7LY6VCfp6cKNaVkBFY9wAe/tRTHycQvLk+l2hIrk6nFby31RkNdzV/eF9Iog0/fEOXvwhHfQP+fceQUZ98LpmtuE+VKL479go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=s4yOJDK4; arc=none smtp.client-ip=115.124.30.113
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338EC249E5;
+	Wed, 23 Apr 2025 07:45:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.70
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745394342; cv=fail; b=QRfWMbI3JedpKWPAscF+qQFyVu9sYTH7Agl+fKphfjgbvSovt1GcGPeKCWanZiQE3LUMOZBDfNmYppW8XS+GjNX7whhUS0Ao+RK4p3VzUd+QiKf5B5mCv7BNoJcMGKJFLTsPpncwhiEZXPBF5NkiR8pCtYY2iFvMqkvTQjt9ZrM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745394342; c=relaxed/simple;
+	bh=A4wQkUfk5wsgsbGyW+FiqJFt3RP5M8TAidGnLhTnm2U=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jej/6HmV81Vveb7L7J0kcSBK1XB94VtMyiQnryG6u+ZyvUAnOHeMXSFyMTxTyzII8eA97TLJ1bE3RQ2uZFANfsTG4FrX9OE01rK5ZkY7MYCstnrigwPMKTnIq2LfHdMu5zHOvsixIHbn53pc1T+MA8iIh8JjwofwDWBTHKVw1xg=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rkPMDIwq; arc=fail smtp.client-ip=40.107.102.70
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="s4yOJDK4"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1745393406; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=lH4lDINRe2o7t1vSewfvz5VOPesF2wiTgnlvHI8Ti7Y=;
-	b=s4yOJDK4EVklcxUrVbpwCkhrArbBuH1BZn2dLeKsJAKBARNsh0UvndxnnijhwTAcpAjzzDaQDUQR8kMhbZPza0ymsN0EIBg3mmAgTP8z1jKsdGX9xjMS/52zHKr4YbEURQ1OTaFYMVtoKLqh4odcChasPsiuyLhFirFm6Bxacno=
-Received: from 30.74.144.121(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WXtXXfj_1745393402 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 23 Apr 2025 15:30:03 +0800
-Message-ID: <e4e4aaae-92be-4cd2-9435-dccad99961bf@linux.alibaba.com>
-Date: Wed, 23 Apr 2025 15:30:02 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rkPMDIwq"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=wcWRp57vlpMlePaDtLR/wmCAJ8vOZCxQ4Oq7IkdBOeWxnRpS+T4HLkNBazVU8mcVVND3MGKV+xWgVRL3xQ2FzqFwX5M0BCwmC31qN54bp5eoSa4APgYVVQV4kg5NmFZcQuKEmAXY13V9xJwXw58V7cf3QnRW/XNZI2s7RP5vg8A8OCvzMOTrLU1Jf/mFyyrgrbLCmQu8q+1iL1KyeVCmQI2fb1CBlllY3oyDgwi6wCzFrJhAQ3uskkQgdTJcQhylOy/DAvQfCEmmrSjOoc70PitnlAe/O0/bY2jwkhRPpf6pxr7KV9XO3Jgijh2Hs2h1gH9VunRnkpq6jecGPlOthw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=64RdGmRYqp/sSMpHw4BhOUZBLE4NLGggS7HwZ9PNQrg=;
+ b=W1UNBOOnfG8ktjKeVkAb69WYCwiZcVfCod4Crs0anWuJLgtcZelPOLPggWo5C5YGYIxsrRJGbq+EV4Me53FNvCXdd8oYWw/1gUl3dTZ9YqKzYDBWycKBxyKTjdGYh+6KBuoOeYRpyliz9ezuoPdu5DSrNtVxHa7SIxNq75hqomGvFhXGPTGrbTw0w4D2hy+WKo7j6t9IuyGZ57+daWPEUcSCknvYVbPmvZ317wbk2stS5iyLHoH0EbnCqDTH9pb8kVH2mZyqUzKpudOj3VUCjrMrRlDD8RWLDOv+2ZCK8GniJ5N/utZsRJXr9niOBFzHFzEYUQ8XSaycK9hbGU/Lmg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=64RdGmRYqp/sSMpHw4BhOUZBLE4NLGggS7HwZ9PNQrg=;
+ b=rkPMDIwqbQY08ICHSECRkeWhLnP8GfXEwQ7Bm0E6MIaXV5IoWmAj7+DgUZpYE/8j6PXr1TVGVHDAbu1A55oQCGajWfbSO8Ujt/8PuOTuZ1Asit7PklSVlowfSM6QBs9OeZZ4sWeCgnB/vlnzGK6VBrcqblLMqScoQpc1drhhthhUwQKosKo3Xg94I10zhPq2kXEDcd8OLPz3d/bjc1ixCf4gQ9mr/rPN7F471RmJxJ9HOVVsDZPyPrYYsoW5oPQi0KRCBdSKw6CHE3ojbuKsZSmT9KD5k7+RJjHZ3YAELtkq9WQsrnMkHNo8nFHHphbApp7w13nn1VKUgSH6gnoPhg==
+Received: from BL1PR13CA0160.namprd13.prod.outlook.com (2603:10b6:208:2bd::15)
+ by IA1PR12MB9466.namprd12.prod.outlook.com (2603:10b6:208:595::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Wed, 23 Apr
+ 2025 07:45:36 +0000
+Received: from BL02EPF0002992E.namprd02.prod.outlook.com
+ (2603:10b6:208:2bd:cafe::3) by BL1PR13CA0160.outlook.office365.com
+ (2603:10b6:208:2bd::15) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.23 via Frontend Transport; Wed,
+ 23 Apr 2025 07:45:36 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ BL02EPF0002992E.mail.protection.outlook.com (10.167.249.59) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.12 via Frontend Transport; Wed, 23 Apr 2025 07:45:36 +0000
+Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 23 Apr
+ 2025 00:45:18 -0700
+Received: from drhqmail203.nvidia.com (10.126.190.182) by
+ drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 23 Apr 2025 00:45:18 -0700
+Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com
+ (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Wed, 23 Apr 2025 00:45:16 -0700
+Date: Wed, 23 Apr 2025 00:45:14 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Vasant Hegde <vasant.hegde@amd.com>
+CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <praan@google.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <jsnitsel@redhat.com>,
+	<mshavit@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>
+Subject: Re: [PATCH v1 00/16] iommufd: Add vIOMMU infrastructure (Part-4
+ vCMDQ)
+Message-ID: <aAiaiomYczA22xik@Asurada-Nvidia>
+References: <cover.1744353300.git.nicolinc@nvidia.com>
+ <a0c248f0-71ff-4477-98ec-1bbd52eda566@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 05/12] khugepaged: generalize __collapse_huge_page_*
- for mTHP support
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
- peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250417000238.74567-1-npache@redhat.com>
- <20250417000238.74567-6-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250417000238.74567-6-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <a0c248f0-71ff-4477-98ec-1bbd52eda566@amd.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BL02EPF0002992E:EE_|IA1PR12MB9466:EE_
+X-MS-Office365-Filtering-Correlation-Id: 92e077c5-227a-4d3c-eacb-08dd823ad5ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?ptrrVyCrjwBxyOQgE3gVxguJHyGHuJObClihX3QFBca7TAjHnd8GRLtiCfHF?=
+ =?us-ascii?Q?SLCMxNfk3JxnnKydWk8ICZK3vFEXhL5riYj8EpJkXC2BesKrAbm2AHhnbr6C?=
+ =?us-ascii?Q?2FqjEyO+3SMq0EjfXpfOtGsGVVzyAjfeuT3P9OB15bBKeoeOfFxnESEJGM4W?=
+ =?us-ascii?Q?1Z+PSc9Bm2oHJVn29Y5Vy2JL0Dhuo9Dfk9fQr9v77uCDB4yPFaWZdcoj0Rpk?=
+ =?us-ascii?Q?L3ZtlgxCbc3o5En+4Cq7vFKWSF/KgRa2rE5/SAkWyUvK5srbaukpTj47mZKL?=
+ =?us-ascii?Q?B3LGdO8kk8JbCjBY33LDXxJiu9DJiiwUo3+rTpxF384XitDjv2plKUwYIxXR?=
+ =?us-ascii?Q?/WM9/Iir0LKwb/uWUUr/MCsErSJRCZJL6TqI7UDv5E8ouKRZu83vpn0kpFKz?=
+ =?us-ascii?Q?yvtoe2hrIxS4GJH3PtlAeBGUkA4pFzkB/3N2pXrrUI2P3u24I+pHCQzmzK9M?=
+ =?us-ascii?Q?OKpLhUXrwaivy1J5Ka/wW9o+AWEEq0az05EI+X/B+2w5FxJoS+s+trkMSARK?=
+ =?us-ascii?Q?5pC4MbrG93KJFD1yR6sPZ1LbEE9u1hmJ3djEzW1Acbtnall1lGY4grtRbQUo?=
+ =?us-ascii?Q?OiFdvlbTXWVtbqMWGSMt9TesWV4wfM9SuJrvLu6kXWzZ3ECRO+EBfcJ0g/VF?=
+ =?us-ascii?Q?b4LibpvV+L+89QZj8R4YdqzaqGggZ6cSXAFDl4/bwsnZDKz3PGbyMOODTIqn?=
+ =?us-ascii?Q?hVLCtyAglxVU3KBb4AqaBCn8tUSi8ICUkUKL2NhR3veN9ll/p3fQ+M/tZpgx?=
+ =?us-ascii?Q?OIoPUAnj+xZZCakH9Cdtc1Cqfz5xyxMCakgOiaVN+IPj74keH0+1tmodfI9C?=
+ =?us-ascii?Q?o1+U8LHoA147mnq9p7tkt6elGiYAj34+UYn/crWDdsN8MkVmrO2/FmMSAX6Z?=
+ =?us-ascii?Q?YQw+S1VF1XdJKIE2qpYovxwgXdPLNbX+R7M/04T0n1+NZ1avq8FO8T/BfEnv?=
+ =?us-ascii?Q?s0VnBzd4s7NG3IKIEYNJjnCsMs4GH9ylWlJpK+McPzOyo6XXa3c4WLAr58n/?=
+ =?us-ascii?Q?Zyu7olkQ/nxfe4RnhepugXFq9qugkX5vmi812fBR7O/iNXqRorFAIYifrvJy?=
+ =?us-ascii?Q?SLRMErL2SAFK1n5jjVQLX7ydQrierS64iO+o2am7PHNhGfPm2OPy+js9/m2I?=
+ =?us-ascii?Q?htENRTfWZgYlmYXoIL1zyIpgl+DrE0QHRGsovsXXP4Du0BsslzLYHt1IZ17G?=
+ =?us-ascii?Q?n22yuNM4cNL8jjT2VNq5hcVeA05xGvh2meLPGH4VeKDcFYqqg0d6ry8MHn4P?=
+ =?us-ascii?Q?JnC9kDc0wAHlkVqq3qo8z7P4ChfD1PrKn9dYMkWbnmjc6YduN4OUmpH1P9ww?=
+ =?us-ascii?Q?nZMbqWTwinilyH4Edc/doJioOoHGs5a8x3OYHq5OguGGw8tGZKIphsypxzX6?=
+ =?us-ascii?Q?dH5D3cq53sqqKXyHRjDXX1aY8AmBT/dPm49VMGqSPThDmeVkM31npDeG1q9I?=
+ =?us-ascii?Q?tXqZCw2oxO8Fl0nzbDlssSTF/DQU0VWMFcq1jaQN+NshQfHUwt0a2kAyfFow?=
+ =?us-ascii?Q?s39sAT2CVNCEgqWmwZOWbnYcD6FOAKs1eRMu?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 07:45:36.4526
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 92e077c5-227a-4d3c-eacb-08dd823ad5ff
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BL02EPF0002992E.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9466
 
-
-
-On 2025/4/17 08:02, Nico Pache wrote:
-> generalize the order of the __collapse_huge_page_* functions
-> to support future mTHP collapse.
+On Wed, Apr 23, 2025 at 12:58:19PM +0530, Vasant Hegde wrote:
+> On 4/11/2025 12:07 PM, Nicolin Chen wrote:
+> > The vIOMMU object is designed to represent a slice of an IOMMU HW for its
+> > virtualization features shared with or passed to user space (a VM mostly)
+> > in a way of HW acceleration. This extended the HWPT-based design for more
+> > advanced virtualization feature.
+> > 
+> > A vCMDQ introduced by this series as a part of the vIOMMU infrastructure
+> > represents a HW supported queue/buffer for VM to use exclusively, e.g.
+> >   - NVIDIA's virtual command queue
+> >   - AMD vIOMMU's command buffer
 > 
-> mTHP collapse can suffer from incosistant behavior, and memory waste
-> "creep". disable swapin and shared support for mTHP collapse.
-> 
-> No functional changes in this patch.
-> 
-> Co-developed-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->   mm/khugepaged.c | 46 ++++++++++++++++++++++++++++------------------
->   1 file changed, 28 insertions(+), 18 deletions(-)
-> 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index 883e9a46359f..5e9272ab82da 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -565,15 +565,17 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   					unsigned long address,
->   					pte_t *pte,
->   					struct collapse_control *cc,
-> -					struct list_head *compound_pagelist)
-> +					struct list_head *compound_pagelist,
-> +					u8 order)
->   {
->   	struct page *page = NULL;
->   	struct folio *folio = NULL;
->   	pte_t *_pte;
->   	int none_or_zero = 0, shared = 0, result = SCAN_FAIL, referenced = 0;
->   	bool writable = false;
-> +	int scaled_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
->   
-> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
-> +	for (_pte = pte; _pte < pte + (1 << order);
->   	     _pte++, address += PAGE_SIZE) {
->   		pte_t pteval = ptep_get(_pte);
->   		if (pte_none(pteval) || (pte_present(pteval) &&
-> @@ -581,7 +583,7 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   			++none_or_zero;
->   			if (!userfaultfd_armed(vma) &&
->   			    (!cc->is_khugepaged ||
-> -			     none_or_zero <= khugepaged_max_ptes_none)) {
-> +			     none_or_zero <= scaled_none)) {
->   				continue;
->   			} else {
->   				result = SCAN_EXCEED_NONE_PTE;
-> @@ -609,8 +611,8 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
->   		/* See hpage_collapse_scan_pmd(). */
->   		if (folio_maybe_mapped_shared(folio)) {
->   			++shared;
-> -			if (cc->is_khugepaged &&
-> -			    shared > khugepaged_max_ptes_shared) {
-> +			if (order != HPAGE_PMD_ORDER || (cc->is_khugepaged &&
-> +			    shared > khugepaged_max_ptes_shared)) {
->   				result = SCAN_EXCEED_SHARED_PTE;
->   				count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
->   				goto out;
-> @@ -711,13 +713,14 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
->   						struct vm_area_struct *vma,
->   						unsigned long address,
->   						spinlock_t *ptl,
-> -						struct list_head *compound_pagelist)
-> +						struct list_head *compound_pagelist,
-> +						u8 order)
->   {
->   	struct folio *src, *tmp;
->   	pte_t *_pte;
->   	pte_t pteval;
->   
-> -	for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
-> +	for (_pte = pte; _pte < pte + (1 << order);
->   	     _pte++, address += PAGE_SIZE) {
->   		pteval = ptep_get(_pte);
->   		if (pte_none(pteval) || is_zero_pfn(pte_pfn(pteval))) {
-> @@ -764,7 +767,8 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->   					     pmd_t *pmd,
->   					     pmd_t orig_pmd,
->   					     struct vm_area_struct *vma,
-> -					     struct list_head *compound_pagelist)
-> +					     struct list_head *compound_pagelist,
-> +					     u8 order)
->   {
->   	spinlock_t *pmd_ptl;
->   
-> @@ -781,7 +785,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->   	 * Release both raw and compound pages isolated
->   	 * in __collapse_huge_page_isolate.
->   	 */
-> -	release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
-> +	release_pte_pages(pte, pte + (1 << order), compound_pagelist);
->   }
->   
->   /*
-> @@ -802,7 +806,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
->   static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->   		pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
->   		unsigned long address, spinlock_t *ptl,
-> -		struct list_head *compound_pagelist)
-> +		struct list_head *compound_pagelist, u8 order)
->   {
->   	unsigned int i;
->   	int result = SCAN_SUCCEED;
-> @@ -810,7 +814,7 @@ static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->   	/*
->   	 * Copying pages' contents is subject to memory poison at any iteration.
->   	 */
-> -	for (i = 0; i < HPAGE_PMD_NR; i++) {
-> +	for (i = 0; i < (1 << order); i++) {
->   		pte_t pteval = ptep_get(pte + i);
->   		struct page *page = folio_page(folio, i);
->   		unsigned long src_addr = address + i * PAGE_SIZE;
-> @@ -829,10 +833,10 @@ static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
->   
->   	if (likely(result == SCAN_SUCCEED))
->   		__collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
-> -						    compound_pagelist);
-> +						    compound_pagelist, order);
->   	else
->   		__collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
-> -						 compound_pagelist);
-> +						 compound_pagelist, order);
->   
->   	return result;
->   }
-> @@ -1000,11 +1004,11 @@ static int check_pmd_still_valid(struct mm_struct *mm,
->   static int __collapse_huge_page_swapin(struct mm_struct *mm,
->   				       struct vm_area_struct *vma,
->   				       unsigned long haddr, pmd_t *pmd,
-> -				       int referenced)
-> +				       int referenced, u8 order)
->   {
->   	int swapped_in = 0;
->   	vm_fault_t ret = 0;
-> -	unsigned long address, end = haddr + (HPAGE_PMD_NR * PAGE_SIZE);
-> +	unsigned long address, end = haddr + (PAGE_SIZE << order);
->   	int result;
->   	pte_t *pte = NULL;
->   	spinlock_t *ptl;
-> @@ -1035,6 +1039,12 @@ static int __collapse_huge_page_swapin(struct mm_struct *mm,
->   		if (!is_swap_pte(vmf.orig_pte))
->   			continue;
->   
-> +		/* Dont swapin for mTHP collapse */
-> +		if (order != HPAGE_PMD_ORDER) {
-> +			result = SCAN_EXCEED_SWAP_PTE;
-> +			goto out;
-> +		}
+> I assume we can pass multiple buffer details (like GPA, size) from guest to
+> hypervisor. Is that correct understanding?
 
-IMO, this check should move into hpage_collapse_scan_pmd(), that means 
-if we scan the swap ptes for mTHP collapse, then we can return 
-'SCAN_EXCEED_SWAP_PTE' to abort the collapse earlier.
+Yes. The NVIDIA model passes through a Virtual-Interface to a VM,
+and the VM can allocate and map multiple command queues (buffers)
+to the V-Interface, by providing each command queue info in:
 
-The logic is the same as how you handle the shared ptes for mTHP.
++struct iommu_vcmdq_tegra241_cmdqv {
++	__u32 vcmdq_id;
++	__u32 vcmdq_log2size;		// size
++	__aligned_u64 vcmdq_base;	// GPA
+ };
 
->   		vmf.pte = pte;
->   		vmf.ptl = ptl;
->   		ret = do_swap_page(&vmf);
-> @@ -1154,7 +1164,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   		 * that case.  Continuing to collapse causes inconsistency.
->   		 */
->   		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
-> -						     referenced);
-> +				referenced, HPAGE_PMD_ORDER);
->   		if (result != SCAN_SUCCEED)
->   			goto out_nolock;
->   	}
-> @@ -1201,7 +1211,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
->   	if (pte) {
->   		result = __collapse_huge_page_isolate(vma, address, pte, cc,
-> -						      &compound_pagelist);
-> +					&compound_pagelist, HPAGE_PMD_ORDER);
->   		spin_unlock(pte_ptl);
->   	} else {
->   		result = SCAN_PMD_NULL;
-> @@ -1231,7 +1241,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   
->   	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
->   					   vma, address, pte_ptl,
-> -					   &compound_pagelist);
-> +					   &compound_pagelist, HPAGE_PMD_ORDER);
->   	pte_unmap(pte);
->   	if (unlikely(result != SCAN_SUCCEED))
->   		goto out_up_write;
+Thanks
+Nicolin
