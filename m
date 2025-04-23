@@ -1,292 +1,195 @@
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2045.outbound.protection.outlook.com [40.107.243.45])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C7C426E165
-	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 11:43:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745408633; cv=none; b=DdxdTSBVmOXPUOQ+ebTLkU6CG5rQMgxigdtaVISruPKzVHedduxWpIc3bvTklAPkYJUJ0s5PHasoAVmViyRKiGG5ZSJ2xks3sMslXgeO3aM/QHmDf8k7Q0l6K0u3+t9BH8awy5t7o+83VlaINEKi9AODL9+S3FXv6uiEgHVlpCA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745408633; c=relaxed/simple;
-	bh=uzWbCi9TXEAXgunb2Qtsp6JSa7zp75gqpV21uRdaNLc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cztqACXB21N6WzCsk8Sy9oz5RnIMPnzf9dawWFz+zyNIGMLEh3Y1W3beufuBWE40aRcc9uctmDbbOlLmKznxgItMN/KFa+mpiglUgqD/sNNuDhFoWg3iAFN+YYY+0gvwl5ZHskuG4vgLkawOMAPOaf5AH5n0Gry1f+PV1iK1K7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=LVg9Ozwb; arc=none smtp.client-ip=209.85.128.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 717CF20F09B;
+	Wed, 23 Apr 2025 11:55:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.45
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745409358; cv=fail; b=JzqU2mh2Vq+NNojBEsPVaQmwAqjzEltTXU7OpRbHr7I2djYRU/TrM4bc+x6VDie3IyZlICUazZFXAFFel9zW0a/br48XP/ZT1PnF7tey2qotvPEknFrHF/VUff4XB6QHiQgMpCEN/8EDk12bUi45lmmJhIGoDf2QqKLRXwcnl+k=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745409358; c=relaxed/simple;
+	bh=sD16Yn3dMKEZiddsSBB+0rLwJry3Lf+FfnE2TUTL2MM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=N7WsZ1IciRpRM8oADrW8R9kboeAxK/79SSKAwL4CDmw3Hq6rZVXp1Ljkhd5Xj3yBmwXwY8mFM4j1Xa+YdtwEPB8SO11z5GfqG5wUMIg0mf3wvCHqO7KRIDavhkRAWsSE8qv0NPUU25PF7+g5kIIaJ9kPLH7ivjljO30UyhNRxCI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=kh5T/+b0; arc=fail smtp.client-ip=40.107.243.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="LVg9Ozwb"
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-702599fa7c5so6580347b3.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 04:43:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=broadcom.com; s=google; t=1745408629; x=1746013429; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=iwiaf9zutIVy1TtTm817//nH8l15Qh5NWYvJgJM/HkQ=;
-        b=LVg9Ozwb+Bv2iNeOLQIj6nRxJajhOjx7XwISDAMKt3t6IuxA6JuALDGTi08ypMGAGH
-         KxPSPInONWLjokVc0gUwcwde5bRK/dydiWKDYvH4lWoTjjsCZQ1/Y11qM4ySbELWvzhE
-         kHDlpiQkG4vWC4YNlQ5rfCVRcbBWXYJz07nWY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745408629; x=1746013429;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=iwiaf9zutIVy1TtTm817//nH8l15Qh5NWYvJgJM/HkQ=;
-        b=d/hkVA4ZLT6UvtKD7DWQqo/IoeS5tTG/q3Scc4dmcBb1KxNb95XBH4dovFGFis9NBV
-         5k0OFhafAMpDuPG7nXULpEHYqcmuhIYzeLdvJnlaQg4U8CdvjPEL8k5KA+2YnhjY6Wd2
-         kJGNlGPyZ9k3iLUjadqoivgao/gfR0eg9iE/7N6GcfbN9hhX6ICkjwX64m86cbj7TskN
-         M/y4UXNegGUYvwTRIRhoGlZSokHenVvLeIUgD7gCQBxMLQUJyI75/qOImCnQqOAANyps
-         4y2SQiDWjlNU23WRWhyq03Tu36sm7F8649UCFkO1YlJUYxR6UPQqehDdDa/buZ4U6iYe
-         apZg==
-X-Forwarded-Encrypted: i=1; AJvYcCVK8HoVliK14PrJlCQVDTqt3H8qrWR8cXbqtrj0gr4K8eLSYzOjubSheloms0DQURVicvv5R9C+e+M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy7JynJy8EWz7A9b5xVugIM2q+GmYtcZ33bndXiw7yso5+wGddO
-	kNCftSL4O7H4fTH59+SQBDgbnSvv2sS4XqETBmoF5uKwSEJtsCElZX3bfPLIcrwjCUCdJ1mgT3r
-	y9mRZUUmdR4HMYh9eJzaMAGKGiaoHTOfrqflW
-X-Gm-Gg: ASbGncuGnhVnJXcHf0fW7Mk2/rJ1HWBM8YLVPlAaNGTLWHBmuvl7ZUnL9bec5PBwo2I
-	9hPDo4ptbBmpBNC9Am6kXAvsyWiF6L8MnlRnqtsH6blbwLZO9fP5fCBLbbD9Em+KlxR8LBzv2kS
-	+KNiD3N7gkHwA4XnoC6gdZGO+b7nDkd2tRjw==
-X-Google-Smtp-Source: AGHT+IHYYQIJDBLxM+xrIQQFlLdWbn/W1y6jVyaniIuu6etcEXgr2BDONC/8d70bN3XsrHwevCfS+LNWBYX5gRSA3QY=
-X-Received: by 2002:a05:690c:b87:b0:705:6afe:4580 with SMTP id
- 00721157ae682-70823f245f4mr30995067b3.19.1745408629559; Wed, 23 Apr 2025
- 04:43:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="kh5T/+b0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BO931/JYrMuc39mvjVrpEaYsoIUoeSnkv7s6VdVRbgu/LUG1u+ZWgccWBlFtVkPLcy/w/bWR0u3cK8DJlRU1FEpBIMFMDKOmajDficMC/sCjg0XpzYQbd3p+4t0+umi3O15SEYCu5Pfk3oeY74tQ3onlnpYJhZ3Opjf0YsFhC/BEqr+LzrOqI2Bo3N/NdZX4b7NWXVUzm7Ied6FZJj3lr0NMA2GT8fSfiqA5+SZyLiHudS5U5+FpqqNlrZobLvPVPUI+DJtNIEXjKK0/W0AKzAXgLlj8FNU6KgpHD5Jy9ND+GA2EwIF6e4yzWVsWWbDF08gm2dff27z0FKaYoKdyJA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=c+XiOrnZpE6WuyXIiLGzlzPZHFQqLlnM01GU229a5yo=;
+ b=W+4NuEwFDd3kdVjA/U2oQH5qzDD6mceRkKo+Z8OkjWbiIndE9nJ5FiNqPr8TrXXaqsL0jW/8DAoI3K5mfVSPERJyf4CPQ05wA8dT+RQH766J+c+GzO4nRPdPTlrzDuwMF4JAMguMRARDoqLzy38ns/G+m6ZigWNvwpUPulql1j0zYOBa0pFlXgsSFD6t8jTR3Uv+ZGaFx6wYUkmZWVt/85U1hqzAQxFrO6O3a9c1lXfrcUS2d1OzYAk67CB5Gzq/VfziRHRJtnrwZ2Z2EFb5RTzljeZjGOr2D0oqUK29GUUnUT6DcYCJlYvXXQbaSHpw/pprybfoS3wNKxpaqNOo5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c+XiOrnZpE6WuyXIiLGzlzPZHFQqLlnM01GU229a5yo=;
+ b=kh5T/+b0KWfcg1bkCrKsRKOBfDabliObZ5sPqX576iB+/FjgVRoAJLRePWhemIoPPmlYVoI53kvV8duScFSv+P1nmtTmlKSGChMYWltKssbbDaW4xTNB8EX/MxLoddMx+bUxgiuinkp/ap6kR8NE1X3qDjUixM1OA6JYgYSlNEQ0qLO7Ly6feqMkKFPCmbwokOKdrws3/Dkd02eAUdulVftUlvKdCugig7XdUOGknnQZ+It6q6P4bb/G+Ow7WhVkCVK63ztLCl6fUeHNYZyOGOwBB1PCZwCaA36qkA3uCb41ySMse28pBKUUQJYJx3jXjaJ1ybuvMJQu8qMEYDx1dQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by CH3PR12MB9284.namprd12.prod.outlook.com (2603:10b6:610:1c7::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.35; Wed, 23 Apr
+ 2025 11:55:52 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8632.030; Wed, 23 Apr 2025
+ 11:55:52 +0000
+Date: Wed, 23 Apr 2025 08:55:51 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: "Tian, Kevin" <kevin.tian@intel.com>
+Cc: Nicolin Chen <nicolinc@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"joro@8bytes.org" <joro@8bytes.org>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"praan@google.com" <praan@google.com>,
+	"nathan@kernel.org" <nathan@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"Liu, Yi L" <yi.l.liu@intel.com>,
+	"jsnitsel@redhat.com" <jsnitsel@redhat.com>,
+	"mshavit@google.com" <mshavit@google.com>,
+	"zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v1 15/16] iommu/tegra241-cmdqv: Add user-space use support
+Message-ID: <20250423115551.GC1648741@nvidia.com>
+References: <cover.1744353300.git.nicolinc@nvidia.com>
+ <30c7aff68c35040ee637629cb9fc2b6e7f83f76c.1744353300.git.nicolinc@nvidia.com>
+ <BN9PR11MB52768197516FB895146A12078CB82@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <aAaY+f2/jw9NaIWF@Asurada-Nvidia>
+ <BN9PR11MB5276220C7B2C5743DC8364CB8CBA2@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BN9PR11MB5276220C7B2C5743DC8364CB8CBA2@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-ClientProxiedBy: MN2PR03CA0008.namprd03.prod.outlook.com
+ (2603:10b6:208:23a::13) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250422161304.579394-1-zack.rusin@broadcom.com>
- <20250422161304.579394-5-zack.rusin@broadcom.com> <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
-In-Reply-To: <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
-From: Zack Rusin <zack.rusin@broadcom.com>
-Date: Wed, 23 Apr 2025 07:43:38 -0400
-X-Gm-Features: ATxdqUGoL409v7JXApk5wQQc2m0USD_kCTvkOpwzs01ZCx-WGqGP3vfxWdC_H-M
-Message-ID: <CABQX2QMznYZiVm40Ligq+pFKmEkVpScW+zcKYbPpGgm0=S2Xkg@mail.gmail.com>
-Subject: Re: [PATCH v2 4/5] KVM: x86: Add support for legacy VMware backdoors
- in nested setups
-To: Xin Li <xin@zytor.com>
-Cc: linux-kernel@vger.kernel.org, Doug Covelli <doug.covelli@broadcom.com>, 
-	Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Sean Christopherson <seanjc@google.com>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
-	boundary="0000000000005efbf20633709d8a"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|CH3PR12MB9284:EE_
+X-MS-Office365-Filtering-Correlation-Id: d724e292-cd1d-406a-e438-08dd825dcbea
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|1800799024|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?B1SI80xwaGN6yxnm9WgUsjHGHsq5UZOS2SjCEIDRrX1XrOIpFg8JEYbK0yX5?=
+ =?us-ascii?Q?DgF0l0il+hlBBiV1embD1egDgf85syzn41hJjJRvkinFXZIDvLKBQ/4kqek6?=
+ =?us-ascii?Q?XiTUY9NBnVwCHxq/423aurxhl+pmBMmJtorZ7PVUcFq6zXWkQTYIAs0zCz1e?=
+ =?us-ascii?Q?WhTED4qMkWKqrF/GFIpP+ZpxtN23JNQ1gEVP39n42obw3R0J5aX6tEcMMB/a?=
+ =?us-ascii?Q?Hw4k0KXaN5zz9BZViFapDyC0lWJm7F1YCEPCebzhlRvfLyqCx0GNjacnkMLL?=
+ =?us-ascii?Q?9k8oKv28U5pQ88XichqS5gYQKqqYJkG+C2bzTjRV/9cd6q3Ar9WMHM7/QvQj?=
+ =?us-ascii?Q?USbHAS+gIGjByZFg2UmUq8qn9+R2/9u6rVVv041DHNnEgob+3xlzTPLNonPy?=
+ =?us-ascii?Q?l6oNfsfgYmmb/N/McL9ECr21n9ixPXzEuZWH4eTpXHOA97n9W2vqp4BF+x20?=
+ =?us-ascii?Q?UWVPqN/v5tf1O3DbBsNttSfv2ShfnltcpkMpbS7218yDpEMRo+xon6mK7W6l?=
+ =?us-ascii?Q?QuCBJdHMNqRvTQhPBKR1IIVgkkEWmON3WEB483aRvUtgdWHv9RG9XFvJumYa?=
+ =?us-ascii?Q?lw/+hVihjjnJAhmKcUHJBQ7IhRbvGog7mun2kmfvMB8f3Km9ORAUaE+MMDq3?=
+ =?us-ascii?Q?3zo5AJ3XDdPJvOSBXRuGOf2hbAl0da3+zAkQoXMwgSrYtChuXe8xJ+Ks4FEN?=
+ =?us-ascii?Q?MkP+/r/bZXBfaynGTKEz8pXHZCNyQQCSdy2/G3OyOmnaFz9tTp/6zugTvCum?=
+ =?us-ascii?Q?c4mtHAa7UYE3rbcvVKf7oucvRLIwxyn9ylj9LzYMMFuK28grhpINj5/0rw+7?=
+ =?us-ascii?Q?pBi4CCwDzqmkqe9u7mZsuHSiVdFrxkHkNiIfHpIaI/buHkncsJaiAjuLmKhZ?=
+ =?us-ascii?Q?Cwntpag0B04fFggdGWrear0qy/WViJuS7mTOoLNsKvLV2cvqkkYL8KiCI2bF?=
+ =?us-ascii?Q?VuGVbw08TXhAp9QIq1gfUpK0jlCbneFIhIuetiBo9uN5jo63j5B2Yx7A7ajK?=
+ =?us-ascii?Q?gNEUKjE5GocHu5PRDxjYdL4k5eBYFERu9QOSOFKlFd53A0d5BMfRGlUTODq6?=
+ =?us-ascii?Q?k0WhtQj7c2omjVGIG3kkQBQ0Scz+xEUQlDZaSeCIgOgC94l7JlvWWEyrrJaP?=
+ =?us-ascii?Q?Sk6Dta6dXqnOPchbBUoso5kdt0T7zFolrt1vqKQ9bTcwr6uqw475UomsfVKK?=
+ =?us-ascii?Q?VdFtqYF1Wnpy+nT42mQX1qeb96bUPdE2Fj4CBn7R8DTA2oaPq2WcYVCvyG7p?=
+ =?us-ascii?Q?/PCYmnwjZ2AlQO7VP0G9LqYhZ5xJ5VV6B2cz9b6hZigXc7RJThKGGDL4GBBS?=
+ =?us-ascii?Q?SDgnBU0lbku5F0Msb20AodlrIDGavl9nFMtX4EGrgbGLEzXJgRj/er+Cgutb?=
+ =?us-ascii?Q?Bthk3rCzii9LyUagr7HhdQmAjiJMZnW56wjMLEEjtXMuayN+PGdIBVjiSZP9?=
+ =?us-ascii?Q?35M1MBmoZ94=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?hVFmE2hQKr5Jf+jkRHiW6FLTSAKcwJ6w/YloX/7vUW+sJvcq+gbb7BpIiu7B?=
+ =?us-ascii?Q?VgtXEE7dGIrwdU5dUctK384XL6KpWKCwGxRcUGwHDA0cL8EKHW1h/wb3PhKi?=
+ =?us-ascii?Q?jmAwyz+yr+LSI9KaGa2ApOxq7AAkTCHkP7vOXwoqt4hcwh+h8XK6qgRNOH7k?=
+ =?us-ascii?Q?oU1hJLtYI1cjPfJj2+h7RRXmZGWvW96vcboJeBet0UMsrTvm8UYX6ySNN02P?=
+ =?us-ascii?Q?+aqQO73RkXZnk+Cht/TztHGDMzjDSLK2tzNbOsQvV0c/eT2WMxUIgY+Dz7aI?=
+ =?us-ascii?Q?H3g2+HDptKLDfDbkAM1bZcU1MG6kPbdSYBmaOgKXymB66ZVU8Jkv2OmMqqZc?=
+ =?us-ascii?Q?P2k37e6h+nWF2AQmhyQyw3BK0zu9fpIwhyiA+pDykIk2VrBGMeb8HbYOoX4B?=
+ =?us-ascii?Q?C5DJ0TaIYpkBlDmYFqKeC0Gow5fBRVAR7hPPF9u/OV+KPLGcuC49mCjnZcpq?=
+ =?us-ascii?Q?zO3/ZwiCaNUXhb8N6/61Autp4kx5QnqdT5xo4q4rUjOaOCMKuRWDPXX/qqrg?=
+ =?us-ascii?Q?aUWipgJ87dE1Scbae8Y1rr1N8SRQxv8btk9xikrBJRnIULeuvvob2RL80+Z8?=
+ =?us-ascii?Q?A3nCTLz277E4342oblAQkqAHIGRwEt+qar/wbvWjFMZ+MMwvocZUAxObny8r?=
+ =?us-ascii?Q?RGIKlewgcIBsPTlltHF7Y1CkzOtQsM2vCdcE4nl2eWh6MiD3unuNdvqnX/Px?=
+ =?us-ascii?Q?oeENq29VAhMfzFYlyuSmkVMOFdlbyIl+XjXZKf+CqRpFemx46LduU0gsrfd4?=
+ =?us-ascii?Q?JQ52coO1JBplKhgqK14oqxkcq1juFfqzFVRbK0zjl85HmdHEOLPpJ2zwjcq9?=
+ =?us-ascii?Q?pPgnC7nrNflkcpHDIfwDQ1/P+o9NcDXvht7GF/msjxSFygqBEQ0YIlrjZDzh?=
+ =?us-ascii?Q?1NAUYRy5PnldLSV3TspWslogk31XIzdyJ3Ocrnaj1CIJcv/5NwKrEHXQyM6j?=
+ =?us-ascii?Q?yxN2dnDNZNzWLa7U0WbdrR7PQut5s5M+KtuZQP71DcLktl61QO1KUIjNzjlf?=
+ =?us-ascii?Q?NOEnHxIZlizWo0XsaLhAUclVxnKEa3vMV+Xi+lXSPLCRz/aWsncrPphZ0TKT?=
+ =?us-ascii?Q?7m+0mLZSyaZmpBpmGJSCVW/JBqfCuYIKqMYyNutH4+ZW98jzDXWqOCIwr3+S?=
+ =?us-ascii?Q?BffhqHCK9RTfWAr+0hAgB1Vg9NIKpxmioPPVqcx6eKkhFNY38MD4uZwz6MPT?=
+ =?us-ascii?Q?76XegKIqukCJlRxqYwFmCrf4fBEFud92DuiyH6qTHJivY4Fbgnyn0svmXO9q?=
+ =?us-ascii?Q?OjSvhEd6w3TygSgcWlUlRb/hODCgQP15RINYpIXHHAsmydeYFH1nui7wRZDQ?=
+ =?us-ascii?Q?RiwhFVPaIse93EI2Q/ioJnFs8nqQmh87JghNdEOup550wsnjA/ZC7E4Y/85q?=
+ =?us-ascii?Q?3bPOKlqkbKoWqlmx46Km1szCbbgmKvjB8hwBGBpwGvFj2CTatmYvIOF0eh9X?=
+ =?us-ascii?Q?+d3xbw25W1t6dw7dXm4FK5U4mVmrSSs8UBS8A3AJimzJhBeKVqarFOkh+VTc?=
+ =?us-ascii?Q?maPIJhJ/b/5NUcWGAI/NLk6/JaprtWAn3UOlk5+pljg/T0ihscatLxhnaBc7?=
+ =?us-ascii?Q?GEFuDBGijy18Plgxmg3kOrSgh+1mZgdTxMLse314?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d724e292-cd1d-406a-e438-08dd825dcbea
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 11:55:52.3104
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Jv2Ba+okItAPqUI2+066uoj1ws9VQxeGevCfkN70inbvJncPC5bRrpYbRpkUPFHD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9284
 
---0000000000005efbf20633709d8a
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Wed, Apr 23, 2025 at 08:05:49AM +0000, Tian, Kevin wrote:
 
-On Wed, Apr 23, 2025 at 3:56=E2=80=AFAM Xin Li <xin@zytor.com> wrote:
->
-> On 4/22/2025 9:12 AM, Zack Rusin wrote:
-> > Allow handling VMware backdoors by the L0 monitor. This is required on
-> > setups running Windows VBS, where the L1 will be running Hyper-V which
-> > can't handle VMware backdoors. Thus on Windows VBS legacy VMware backdo=
-or
-> > calls issued by the userspace will end up in Hyper-V (L1) and endup
-> > throwing an error.
-> > Add a KVM cap that, in nested setups, allows the legacy VMware backdoor
-> > to be handled by the L0 monitor. Thanks to this we can make sure that
-> > VMware backdoor is always handled by the correct monitor.
-> >
-> > Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> > Cc: Doug Covelli <doug.covelli@broadcom.com>
-> > Cc: Paolo Bonzini <pbonzini@redhat.com>
-> > Cc: Jonathan Corbet <corbet@lwn.net>
-> > Cc: Sean Christopherson <seanjc@google.com>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Borislav Petkov <bp@alien8.de>
-> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > Cc: x86@kernel.org
-> > Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > Cc: Zack Rusin <zack.rusin@broadcom.com>
-> > Cc: kvm@vger.kernel.org
-> > Cc: linux-doc@vger.kernel.org
-> > Cc: linux-kernel@vger.kernel.org
-> > ---
-> >   Documentation/virt/kvm/api.rst  | 14 +++++++++++
-> >   arch/x86/include/asm/kvm_host.h |  1 +
-> >   arch/x86/kvm/Kconfig            |  1 +
-> >   arch/x86/kvm/kvm_vmware.h       | 42 ++++++++++++++++++++++++++++++++=
-+
-> >   arch/x86/kvm/svm/nested.c       |  6 +++++
-> >   arch/x86/kvm/svm/svm.c          |  3 ++-
-> >   arch/x86/kvm/vmx/nested.c       |  6 +++++
-> >   arch/x86/kvm/x86.c              |  8 +++++++
-> >   include/uapi/linux/kvm.h        |  1 +
-> >   9 files changed, 81 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/ap=
-i.rst
-> > index 6d3d2a509848..55bd464ebf95 100644
-> > --- a/Documentation/virt/kvm/api.rst
-> > +++ b/Documentation/virt/kvm/api.rst
-> > @@ -8322,6 +8322,20 @@ userspace handling of hypercalls is discouraged.=
- To implement
-> >   such functionality, use KVM_EXIT_IO (x86) or KVM_EXIT_MMIO
-> >   (all except s390).
-> >
-> > +7.39 KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0
-> > +------------------------------------------
-> > +
-> > +:Architectures: x86
-> > +:Parameters: args[0] whether the feature should be enabled or not
-> > +:Returns: 0 on success.
-> > +
-> > +Capability allows VMware backdoors to be handled by L0 when running
-> > +on nested configurations. This is required when, for example
-> > +running Windows guest with Hyper-V VBS enabled - in that configuration
-> > +the VMware backdoor calls issued by VMware tools would endup in Hyper-=
-V
-> > +(L1) which doesn't handle VMware backdoor. Enable this option to have
-> > +VMware backdoor sent to L0 monitor.
-> > +
-> >   8. Other capabilities.
-> >   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> >
->
-> You're not basing the patch set on v6.15-rcX?
+> It's not a good idea having the kernel trust the VMM. 
 
-It was rebased on top of v6.14.
+It certainly shouldn't trust it, but it can validate the VMM's choice
+and generate a failure if it isn't good.
 
-> > diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> > index 300cef9a37e2..5dc57bc57851 100644
-> > --- a/arch/x86/kvm/x86.c
-> > +++ b/arch/x86/kvm/x86.c
-> > @@ -4653,6 +4653,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm,=
- long ext)
-> >   #ifdef CONFIG_KVM_VMWARE
-> >       case KVM_CAP_X86_VMWARE_BACKDOOR:
-> >       case KVM_CAP_X86_VMWARE_HYPERCALL:
-> > +     case KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0:
-> >   #endif
-> >               r =3D 1;
-> >               break;
-> > @@ -6754,6 +6755,13 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
-> >               kvm->arch.vmware.hypercall_enabled =3D cap->args[0];
-> >               r =3D 0;
-> >               break;
-> > +     case KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0:
-> > +             r =3D -EINVAL;
-> > +             if (cap->args[0] & ~1)
->
-> Replace ~1 with a macro for better readability please.
+> Also I'm not
+> sure the contiguity is guaranteed all the time with huge page
+> (e.g. if just using THP).
 
-Are you sure about that? This code is already used elsewhere in the
-file  (for KVM_CAP_EXIT_ON_EMULATION_FAILURE) so, ignoring the fact
-that it's arguable whether IS_ZERO_OR_ONE is more readable than & ~1,
-if we use a macro for the vmware caps and not for
-KVM_CAP_EXIT_ON_EMULATION_FAILURE then the code would be inconsistent
-and that decreases the readability.
+If things are aligned then the contiguity will work out. Ie a 64K
+aligned allocation on a 2M GPA is fine. I don't think there are
+edge cases where a GPA will be fragmented. It does rely on the VMM
+always getting some kind of huge page and then pinning it in iommufd.
 
-Or are you saying that since I'm already there you'd like to see a
-completely separate patch that defines some kind of IS_ZERO_OR_ONE
-macro for KVM, use it for KVM_CAP_EXIT_ON_EMULATION_FAILURE and, once
-that lands then I can make use of it in this series?
+IMHO this is bad HW design, but it is what it is..
 
-z
+> btw does smmu only read the cmdq or also update some fields
+> in the queue? If the latter, then it also brings a security hole 
+> as a malicious  VMM could violate the contiguity requirement
+> to instruct the smmu to touch pages which don't belong to 
+> it...
 
---0000000000005efbf20633709d8a
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Description: S/MIME Cryptographic Signature
+This really must be prevented. I haven't looked closely here, but the
+GPA -> PA mapping should go through the IOAS and that should generate
+a page list and that should be validated for contiguity.
 
-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
-6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
-SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
-uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
-Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
-b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
-dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
-BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
-Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
-oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
-A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
-A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
-s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
-SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
-QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
-fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
-iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
-3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
-91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
-06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
-b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
-VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
-VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
-QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIK/l
-Ix4b9HecLXaeyIHa8rLy3yA4U30g0x2wzjO2hAciMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
-HAYJKoZIhvcNAQkFMQ8XDTI1MDQyMzExNDM0OVowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
-ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
-YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAEunuJNhOTmg8l8DR2yQvJf8ASf7hECdTxIUOu+h
-IXwIoRiMSE3zrCxi9la0SxeX1mBtvZ0yxX2QoIXbGzRRe1/FDcyLv48KY6epWmojdWo/tdSf3KAY
-tTlvXClGLLND9piyu+RZMl97w9rqcRvvCHeSnoQmFSO28RNcq7QAkJNRT44nmDT3nTgWfcLIQyO/
-PltgEGJdADg0hyVF7nKyHidTYmEPhmAPEChR1U/Ked8MPwWrEBihMLgdagmUTh3g3Ks0brC4imOW
-b5ltRrzfsBjiYLUIwVG8UJJwUUchgsE6L+GpfhSRrlTRY7bCYcSRYLwkyux21pOYTgbpYte4REk=
---0000000000005efbf20633709d8a--
+It also needs to act like a mdev and lock down the part of the IOAS
+that provides that memory so the pin can't be released and UAF things.
+
+Jason
