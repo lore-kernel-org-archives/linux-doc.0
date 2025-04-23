@@ -1,173 +1,142 @@
-Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A4D228EC;
-	Wed, 23 Apr 2025 01:36:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CA7B31AB531;
+	Wed, 23 Apr 2025 01:46:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745372181; cv=none; b=YG53BQsR/82lzNgaDsQy/Aa+L/48hGAbdGFyAB6wqdaXjbZsaBJT/VzNUkua+kGliCpUSKKL4lJaGRyywZsXTIepuNw+AILGppYSj0DZn24A20bAxklThHJXEXYeD6JUg+qs9A7mXPiQUEgh8YMoYrAD4tE52o/6u6AQlVGjf+4=
+	t=1745372817; cv=none; b=dbkLgRioJzJd+46e8skW1hwKn0bqbavhKR4szFwDUD1ZC/TXS59jx2+rfPyuplZpckWF8J2XwiBTXwcMfDeVQsfRTBxTwOgnTFs+ErY5+QiUZ1kIoDRdvqLf2aZCgTA0JKneNWoe+t3xX8cOGMsaXy5MvaM5eV9FTw2OAD2WyNE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745372181; c=relaxed/simple;
-	bh=UNUzIQyqmwpZ9sBm60WtCTjqwiWikkrXeZHbhkw7c8w=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=MGDBYVVFdQ2sNr0kbZKMsYF/byIlpMql0r8qGLmWBUhLSItoONibN4g8x5/W+jR7T6xgKgqdWcsl/GWwrWiklR8DX3ZtArHezB31zzJL4tC3mY4soaUQ/K1B5oi7y7htdprt6+1K9BPeug5eAJM8nnjLlGeZFYIpMYquIiCLynw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MglYp341; arc=none smtp.client-ip=209.85.160.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745372817; c=relaxed/simple;
+	bh=XK3FxcfPRrVzroQ7c0AV9eMTMdqfJkImOgwNNMVGqQc=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=H5+B4oDLU232ImAn5SGE3E/AUcshxDbkhdMv/Y7HA+qVUgk6MvGtGznSyRycqFpo8cadvr1W0OyP65eXpwGMMVBpqeEfiseavH1SLiu816UGtADj0/4vfzybv3KIj1RJF5iq/Qh8Ox+iN+HpNRj5iB2KZG+pzoDUOy9X8q/fpwo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tevmzr8o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MglYp341"
-Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-47ae894e9b7so96680291cf.3;
-        Tue, 22 Apr 2025 18:36:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745372179; x=1745976979; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YDT0JiTKLEu56zROMSHzh4vPHYYpIB515ncCYLjb8lQ=;
-        b=MglYp3412YP1PUHQAaYmbLnsujuoiDGO8Gak6afbc3glJbMxAmv5mXh2vb1PbMU05f
-         jHa0F9DzxyUfywlCsXVqU2JWqYcaL5ud88jRzDse38diurM5lCNNpN5/uaHG3kBtqqEa
-         /Ey4Fpu7GJnTeP1uWCiUei49kBFW4MBNdpbxns9QPb1YtlYXtate4OeQHsYVj8+K9mj5
-         Hcl6P9z4uI4jrh83A4SKru2cY8RsM+UOZGqA/etzLwL4L8foSXwebIkCpNTPXaBx+iD2
-         R+Cr3jJXKhV9w9fC2m5Bgt0F2c+HEHSOR1aUt9kg9XqnJTPw7jei1XPnMaKZvStOLZmQ
-         dE+A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745372179; x=1745976979;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=YDT0JiTKLEu56zROMSHzh4vPHYYpIB515ncCYLjb8lQ=;
-        b=twersfGzXwny4QvM2wJW2LxkVsL25glXuJasWA0WmI9ezDy6E7MMV0L3ROl5hVB+Fx
-         6B72opRU4gpLufCWKIMGtMbm22KLaDZH6x4g/+sc0eqUX6BvrU31agkbgHA36oQNcleC
-         PAynUjVS90gjf6b+f6+p3yPKWl3pOXwfA9jtFFn8s3ZMEzA8n9ZZndJpM+jAMIyL3PFj
-         gbUpF3Q4SuDX8DCKKy/datQW59NvTRbAKm8NCQVJykd5uxGbav9XCFdASuScGYxamw6h
-         pbOlD+gYAaQkEu6Fr+Auowg+XD8XPb1ruuVBLS5d0UWVC5bq2m2OOoTvqFeW3yWWiOSP
-         rUJg==
-X-Forwarded-Encrypted: i=1; AJvYcCUDVG2PT0gvCUV4aEZakQ7jRGVeEL4/aFnvTsLchNc8YP3juWVBQVQYfG1dNVMnxXfXH14X1a3WN853VoT2@vger.kernel.org, AJvYcCWdNgo7LCMcWFWj14URy9kgMdy9Es/nDEXge2v5Cxoj05cRQNpQLVM7gmIB6zRdA1sh34d2BUeeu6E=@vger.kernel.org, AJvYcCWpPDjVu4JGR/hjythYzW8uOMtvWc/NKH7+r3wPdifK4Wd0XXypL41k1aY4xfSf+bZX6jjepRRkpGMr@vger.kernel.org, AJvYcCXQNOCo/JrFMD/LaWcGUFIuVx5ZXntqxS59U3iDCzX5/GrSXDiamXohOwxwtcYW5TUJKFv2bDZRzityMUZfng==@vger.kernel.org
-X-Gm-Message-State: AOJu0YwQiMtdfh8VT5u4yiXIO+3DsnX2XX05P3mzK1NVAPiZFsuFff3h
-	kNkUdojUkf01fXtYPP9sIO0bEE8ES4BhoAmZQI4P0wLMxAkTGUrKgrVBtvzvBA74Biw1M7NBZaP
-	MjAQwPwpjbup4e9chV6WMLH/LGIc=
-X-Gm-Gg: ASbGnctTmuYZfXcowV/KuT+UvKzTFPecQryLM90A4eHoSLc3jnY+O7pvjTlt03OWGoE
-	cxcuYDXOKdcmxeRwyivldOhdZGGq/2+IoZhqfPJcFjSGYfpvho6PR8KpGbuGlHsO7iY9fiY0zZQ
-	rZzVAi/nZ3U/FG93KFLgKfZWD+gsl5zB/GcLLDT9cpuIqbWRR9
-X-Google-Smtp-Source: AGHT+IHlzbvrCevbApD7jzszD6VGDVewMdGYPbCuvZGd+5reLhfdOJmEbpvrMu7I8oAOdE1MkMv/KOclzr8B5UZ2tug=
-X-Received: by 2002:a05:622a:2c1:b0:476:8a1d:f18e with SMTP id
- d75a77b69052e-47aec49fef3mr297955681cf.36.1745372179161; Tue, 22 Apr 2025
- 18:36:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tevmzr8o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71275C4CEE9;
+	Wed, 23 Apr 2025 01:46:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745372817;
+	bh=XK3FxcfPRrVzroQ7c0AV9eMTMdqfJkImOgwNNMVGqQc=;
+	h=From:To:Cc:Subject:Date:From;
+	b=tevmzr8okz3O0u6F/0nkeIbleh5PVcswU4rW00i9LcdC02aScSmReCGg/6Yq9JuFo
+	 xpi1Lzu/765KvIyN+GIFhtrjiVjBjMrKztROHpKZsaSo/Sjj4JQMciZnPzGQsoR4KO
+	 c9ZcSPoAncVuNCDZQyzeoZRxBPWdQ2R7oNqzX4dodrv00N6U4vpbIFT418lJi9hJ5X
+	 4qVF/vK8f8F8M9Cb/tGHlF3BxMfOlqOClYEUiI94F16bOTLdWfU4B2uYAvyfISi5FU
+	 vjy1FQXX4LpiSyDaJAPmPwXO3H5Ql964Q1PPJ1Zh7kyPgLLUSwyk5GOBoQ/O0Z4vET
+	 fkGMsy6ISiQFQ==
+From: Mario Limonciello <superm1@kernel.org>
+To: Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Mario Limonciello <mario.limonciello@amd.com>,
+	Perry Yuan <perry.yuan@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Huang Rui <ray.huang@amd.com>,
+	"Gautham R . Shenoy" <gautham.shenoy@amd.com>,
+	"Rafael J . Wysocki" <rafael@kernel.org>,
+	Viresh Kumar <viresh.kumar@linaro.org>,
+	platform-driver-x86@vger.kernel.org (open list:AMD HETERO CORE HARDWARE FEEDBACK DRIVER),
+	linux-kernel@vger.kernel.org (open list:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-pm@vger.kernel.org (open list:AMD PSTATE DRIVER)
+Subject: [PATCH v9 00/13] Add support for AMD hardware feedback interface
+Date: Tue, 22 Apr 2025 20:46:18 -0500
+Message-ID: <20250423014631.3224338-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250421013346.32530-1-john@groves.net> <20250421013346.32530-11-john@groves.net>
-In-Reply-To: <20250421013346.32530-11-john@groves.net>
-From: Joanne Koong <joannelkoong@gmail.com>
-Date: Tue, 22 Apr 2025 18:36:08 -0700
-X-Gm-Features: ATxdqUG7M4Ilbi4JBAoLnTSvKlGK4nbtG_HG8a5cZaDG6t4Rd0KpBRJjL7Ttc8I
-Message-ID: <CAJnrk1aROUeJY2g8vHtTgVc=mb+1+7jhJE=B3R0qV_=o6jjNTA@mail.gmail.com>
-Subject: Re: [RFC PATCH 10/19] famfs_fuse: Basic fuse kernel ABI enablement
- for famfs
-To: John Groves <John@groves.net>
-Cc: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi <miklos@szeredb.hu>, 
-	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
-	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
-	"Darrick J . Wong" <djwong@kernel.org>, Luis Henriques <luis@igalia.com>, 
-	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
-	Kent Overstreet <kent.overstreet@linux.dev>, Petr Vorel <pvorel@suse.cz>, 
-	Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
-	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
-	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
-	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
-	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Sun, Apr 20, 2025 at 6:34=E2=80=AFPM John Groves <John@groves.net> wrote=
-:
->
-> * FUSE_DAX_FMAP flag in INIT request/reply
->
-> * fuse_conn->famfs_iomap (enable famfs-mapped files) to denote a
->   famfs-enabled connection
->
-> Signed-off-by: John Groves <john@groves.net>
-> ---
->  fs/fuse/fuse_i.h          | 3 +++
->  fs/fuse/inode.c           | 5 +++++
->  include/uapi/linux/fuse.h | 2 ++
->  3 files changed, 10 insertions(+)
->
-> diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
-> index e04d160fa995..b2c563b1a1c8 100644
-> --- a/fs/fuse/fuse_i.h
-> +++ b/fs/fuse/fuse_i.h
-> @@ -870,6 +870,9 @@ struct fuse_conn {
->         /* Use io_uring for communication */
->         unsigned int io_uring;
->
-> +       /* dev_dax_iomap support for famfs */
-> +       unsigned int famfs_iomap:1;
-> +
->         /** Maximum stack depth for passthrough backing files */
->         int max_stack_depth;
->
-> diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
-> index 29147657a99f..5c6947b12503 100644
-> --- a/fs/fuse/inode.c
-> +++ b/fs/fuse/inode.c
-> @@ -1392,6 +1392,9 @@ static void process_init_reply(struct fuse_mount *f=
-m, struct fuse_args *args,
->                         }
->                         if (flags & FUSE_OVER_IO_URING && fuse_uring_enab=
-led())
->                                 fc->io_uring =3D 1;
-> +                       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX) &&
-> +                                      flags & FUSE_DAX_FMAP)
-> +                               fc->famfs_iomap =3D 1;
->                 } else {
->                         ra_pages =3D fc->max_read / PAGE_SIZE;
->                         fc->no_lock =3D 1;
-> @@ -1450,6 +1453,8 @@ void fuse_send_init(struct fuse_mount *fm)
->                 flags |=3D FUSE_SUBMOUNTS;
->         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
->                 flags |=3D FUSE_PASSTHROUGH;
-> +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
-> +               flags |=3D FUSE_DAX_FMAP;
->
->         /*
->          * This is just an information flag for fuse server. No need to c=
-heck
-> diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> index 5e0eb41d967e..f9e14180367a 100644
-> --- a/include/uapi/linux/fuse.h
-> +++ b/include/uapi/linux/fuse.h
-> @@ -435,6 +435,7 @@ struct fuse_file_lock {
->   *                 of the request ID indicates resend requests
->   * FUSE_ALLOW_IDMAP: allow creation of idmapped mounts
->   * FUSE_OVER_IO_URING: Indicate that client supports io-uring
-> + * FUSE_DAX_FMAP: kernel supports dev_dax_iomap (aka famfs) fmaps
->   */
->  #define FUSE_ASYNC_READ                (1 << 0)
->  #define FUSE_POSIX_LOCKS       (1 << 1)
-> @@ -482,6 +483,7 @@ struct fuse_file_lock {
->  #define FUSE_DIRECT_IO_RELAX   FUSE_DIRECT_IO_ALLOW_MMAP
->  #define FUSE_ALLOW_IDMAP       (1ULL << 40)
->  #define FUSE_OVER_IO_URING     (1ULL << 41)
-> +#define FUSE_DAX_FMAP          (1ULL << 42)
+From: Mario Limonciello <mario.limonciello@amd.com>
 
-There's also a protocol changelog at the top of this file that tracks
-any updates made to the uapi. We should probably also update that to
-include this?
+The AMD Heterogeneous core design and Hardware Feedback Interface (HFI)
+provide behavioral classification of tasks.
+
+Threads are classified during runtime into enumerated classes.
+Currently, the driver supports 3 classes (0 through 2). These classes
+represent thread performance/power characteristics that may benefit from
+special scheduling behaviors. The real-time thread classification is
+consumed by the operating system and is used to inform the scheduler of
+where the thread should be placed for optimal performance or energy efficiency.
+
+The thread classification can be used to helps to select CPU from a ranking table
+that describes an efficiency and performance ranking for each classification from
+two dimensions.
+
+The ranking data provided by the ranking table are numbers ranging from 0 to 255,
+where a higher performance value indicates higher performance capability and a higher
+efficiency value indicates greater efficiency. All the CPU cores are ranked into
+different class IDs. Within each class ranking, the cores may have different ranking
+values. Therefore, picking from each classification ID will later allow the scheduler
+to select the best core while threads are classified into the specified workload class.
+
+This series was originally submitted by Perry Yuan [1] but he is now doing a different
+role and he asked me to take over.
+
+Link: https://lore.kernel.org/all/cover.1724748733.git.perry.yuan@amd.com/
+
+On applicable hardware this series has between a 2% and 5% improvement across various
+benchmarks.
+
+There is however a cost associated with clearing history on the process context switch.
+On average it increases the delay by 119ns, and also has a wider range in delays
+(the standard deviation is 25% greater).
+
+---
+v9
+ * Fix a logic error with mapping APIC entries
+ * Adopt all feedback from v8
+ * Rebase on latest tip/master
+
+Mario Limonciello (5):
+  MAINTAINERS: Add maintainer entry for AMD Hardware Feedback Driver
+  cpufreq/amd-pstate: Disable preferred cores on designs with workload
+    classification
+  platform/x86/amd: hfi: Set ITMT priority from ranking data
+  platform/x86/amd: hfi: Add debugfs support
+  x86/itmt: Add debugfs file to show core priorities
+
+Perry Yuan (8):
+  Documentation: x86: Add AMD Hardware Feedback Interface documentation
+  x86/msr-index: define AMD heterogeneous CPU related MSR
+  platform/x86: hfi: Introduce AMD Hardware Feedback Interface Driver
+  platform/x86: hfi: parse CPU core ranking data from shared memory
+  platform/x86: hfi: init per-cpu scores for each class
+  platform/x86: hfi: add online and offline callback support
+  platform/x86: hfi: add power management callback
+  x86/process: Clear hardware feedback history for AMD processors
+
+ Documentation/arch/x86/amd-hfi.rst    | 133 +++++++
+ Documentation/arch/x86/index.rst      |   1 +
+ MAINTAINERS                           |   9 +
+ arch/x86/include/asm/msr-index.h      |   5 +
+ arch/x86/kernel/itmt.c                |  23 ++
+ arch/x86/kernel/process_64.c          |   4 +
+ drivers/cpufreq/amd-pstate.c          |   6 +
+ drivers/platform/x86/amd/Kconfig      |   1 +
+ drivers/platform/x86/amd/Makefile     |   1 +
+ drivers/platform/x86/amd/hfi/Kconfig  |  18 +
+ drivers/platform/x86/amd/hfi/Makefile |   7 +
+ drivers/platform/x86/amd/hfi/hfi.c    | 550 ++++++++++++++++++++++++++
+ 12 files changed, 758 insertions(+)
+ create mode 100644 Documentation/arch/x86/amd-hfi.rst
+ create mode 100644 drivers/platform/x86/amd/hfi/Kconfig
+ create mode 100644 drivers/platform/x86/amd/hfi/Makefile
+ create mode 100644 drivers/platform/x86/amd/hfi/hfi.c
 
 
-Thanks,
-Joanne
->
->  /**
->   * CUSE INIT request/reply flags
-> --
-> 2.49.0
->
+base-commit: 7ab869c799fc0fb22f9b4c2f36aaa603d9c7cc9d
+-- 
+2.43.0
+
