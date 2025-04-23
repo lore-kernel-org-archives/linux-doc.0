@@ -1,173 +1,242 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2D2128DF1F
-	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 18:26:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0EC1B14900B;
+	Wed, 23 Apr 2025 18:31:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745432788; cv=none; b=acftspMT3pV8AIxnjhZcZvuSn5w6kk6eUZwLJOUYfT+T6+LqhiS+iY8+mdxu3H8V+NQmKxQgesVrCBhIyem6i2dWHKtMRZblp5gSbnWD3ApVHYaQpR3xXznuLAJBcZFvnAzfzHXkdps5u1FZuHdXwX0a1vsm214HX7dHx9tXwKY=
+	t=1745433085; cv=none; b=qpHLbWiuyATxcpG83f2C3sweGU2Dtakw+rGIHcjicO3G1LyRObNUDR2FQt1QVZnoiIV9BPzE2I5wGmR0U8E3yEza9l2GmdygXxykTOjJa4Lo66dLiNviK2cNyn7I7HeMO7nxJ4PDOsE4Hu7u92lldPfddWIGwge6eatoqRpee98=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745432788; c=relaxed/simple;
-	bh=PH84kld/sKE+RhISrTjG1cjFnL0yLAXB9xK4PwFZaMY=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=KeahUSapy1w+NXH4usTlsQKi/f/vyz6a6dsing7Xd3JD6OO5w9YVCy7zwsgj3zKDLzgxTjmvvDmcU/d6R0gWYddAqLkCsTcA5D6OL5CeZeFKhCj/Df3W3YmGOBKFtz307/KZNdCpWSHrCBzI73KSFyFzwuo9t0hyFabp3ZRUkOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2gq+VKrr; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1745433085; c=relaxed/simple;
+	bh=tJBn0sbdCDEFGfNg120jO88woAsVmT552TfvpbvWXyo=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:From:To:Cc:
+	 References:In-Reply-To; b=ZUI/gFNLwHxXBHDK0SGl5Pw2r6AEu2K6J6fvgh1ZpUJzoiXL77Ty3inrtrrmSjtx1yJmzI9N1BZKYCk7O/MGlaL+C5GOTP3rGHobm0vnGgQ3OWBvBAnH3ZKOzciHoNrM3nQExOib/xyG6ZGfCSx/kdjgUm2zqAh8HoOSaWcGKgI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=bcgI1gCg; arc=none smtp.client-ip=209.85.216.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2gq+VKrr"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2263428c8baso21285ad.1
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 11:26:26 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="bcgI1gCg"
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-2ff85fec403so1329542a91.1;
+        Wed, 23 Apr 2025 11:31:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745432786; x=1746037586; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1745433083; x=1746037883; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=l0kIM1GyroCk3zmwGLYPwDaNY7xBbvOnwGmlKqF+IzQ=;
-        b=2gq+VKrrvYaucHZKTwwnsDTcguRUJEnVD9Vc+V+V+MMaMRFvued3L8zrmZcBRrQhmM
-         3AQIXkghMRWBlDpmF3Y442RrEa/yOvEGpOXH7jvF2ImyjOhm7ldwlQpVsBBVnrbMBR32
-         oxkxBsygVehWGacZv3UxJmwvCv8bQOs6VYYwjIT31stc15bCYMBoYmLXxFC4CJxX6ijX
-         un5EOHJeYtHksDBCZLviXLlVLbxF+jjTZIB70cLEkBjcWWDUtXCQHSne9rRrpLVlVfXm
-         TvbupkYn09GYXohrSzKoO8ejUQwj+0XW+4JQzbpUFtXTG2WA2y4toln7Vk5BwsR+pHxz
-         m5TQ==
+        bh=cOpQeKb3vixx81nI9GHXsTk9qiiQQKOXE/nG8kKovQA=;
+        b=bcgI1gCgRpEsoG/X2cNMAmoOd6LX9CC7i1NNGugvhJ5d/WyqhZmFJpJ7j50yGv/2UW
+         ZOrkthQZXIvgWZBUJt0q3WJTioWXLPUE1ZASz0D+goo9xFGSmZ7d3Ogf3IFnd6VrTwYD
+         abcNDTS4If7DugBTFie2yvddfb5DKeiKIsmUYdAYB67JXLFPaYigaQbXBgBukAsVHioZ
+         5rjsyJbH2mIXq3l52EwgC2GpVBAzzQI2iO9BqA5mVS1Kd/UWg7ph6e+IqQB9fRruv4ow
+         Bp/m6CH0Fo9oKQSY7lktY1MRJPjRQWfJLxo36Wvh/yfWmzif09s63J1jtcakAiuF35vd
+         3YlQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745432786; x=1746037586;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=l0kIM1GyroCk3zmwGLYPwDaNY7xBbvOnwGmlKqF+IzQ=;
-        b=LqKfWf68dplXJ/GG04Um4klxtebiNIcBR6gRzh048nIsz36MYgJbpdkXLW+6t0s5nY
-         evkZbi9bLw+st34uThxJYcR9XfAeMibLSpvXSp4eFyghGr/8jYFMrafap+LyUvM22l/e
-         ThKNd140bbIB2lR2DH5GyJTfqXuBfHuDazxtyDsX5JqEuOqcMq5xUM8sG/0WpCtNN5Qp
-         BquYVe924DSVycf3bNj42OIE1wuL6IqEjJWLyY7LmoGoghnYbF8WXDgUNY9v7jLYYj7J
-         SLiSHWQQaQPYvpwQzM9VSnxKQ84eS1Yb3q1V/ZGadpwSrct60ltSgjdrysqQySSsMgKF
-         nLjQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUit876B6IS5fGFGiec09NeVedEOp8j+cm0ffeKm1pfO2Refa7yRtvGE484hu1ZqyQZMbzYbIiWTHA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxKkAj6WpFwwb8ITsCFG7VwM5JfbDW3V2U4EyVX8GP4LEcq7eKu
-	rn2CxAS9300GmVM/z07tvJOqTLmI5zMNylrRhfblXWxh0C/AE3g98OsXfHFfkB0LwIlo6UzNheW
-	57C7a5trYNLhziMGY1is0oV3oD37HtUf7CDKH
-X-Gm-Gg: ASbGncvFf9A4yE630jwXmIUUy0hOgSYOuP9w7fvZ69SEiQKX0GbLBM2sSvq+7KAWBnr
-	mD3q/g6khERi84/pUe5Lyv3Iwt03ML60m8ImzoWNkJQvLDaVEOG+Nl3g4HVtZ2zhFXbPF8QY5XB
-	mOntE6Kr8h6Kea0ZLOboroZe4+GlHsMUVE8SRSa/z6Qxq33vpkEzRoWzU=
-X-Google-Smtp-Source: AGHT+IFz1R1LxqWEGYRLYWO5W96XWnv2bqJz15jEINPSBmb87YsKZWzWOfr6fveduQ8KQij52ltnpYxHcWerkniTavs=
-X-Received: by 2002:a17:903:3bce:b0:215:8232:5596 with SMTP id
- d9443c01a7336-22db218a627mr293845ad.16.1745432785574; Wed, 23 Apr 2025
- 11:26:25 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745433083; x=1746037883;
+        h=in-reply-to:references:cc:to:from:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=cOpQeKb3vixx81nI9GHXsTk9qiiQQKOXE/nG8kKovQA=;
+        b=SFbVjwWjb5BhTEkAWw5xt+Fgxy2XKMAfT9o1nzryjRzghOLlfGc26fuIrO8sZ/jlDc
+         ByegdsQhbM/HVwVupRTcCnDcz28QyrIuc4GET9aw9D+hcs4MpdzbgkOo7n6jz3WNKRTb
+         BxG2LgBG3H/4cwLD2fJeMEQIImyFv0fXHgI+yszNPW2nnVxCrAcW125QcPRXScmK2Q3r
+         tLobjM06gzmDdaOhSmLadIvb3FI9L5icb1kbeUeVM5IFeIXPCavHMYMvqnmAAYCIXFmw
+         9G/2WZipsq/Z0WQTbguzTf3c+0Ib7LCixFKtWDSoRRyhXnOjKw4FckOac0mB1zSqq9D4
+         C7XQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUQWO47ZtJHFByJNyICNqPDKMJYw/4A4OiY0x7zJADfcgm+ZfOaAu9utTpdKJ2nwz8c2xdV0Ji8f8nvpLQ=@vger.kernel.org, AJvYcCV2NPwgNfsN4tJKaa0pjptK5ZiioiOyZVCUSFQq1rhN4G+HBtsoiMCqTGLF7dJiijXJ9vVqMxidW/Iql48=@vger.kernel.org, AJvYcCWFcbvXnR7BfOAUxcj9WK63fzt3K/exnQ6FKWTP6q5lVPCF6yjW0tcBHuX7uKYqLUam/+Q+5F7XUA3ryNQcxfpBoirHbw==@vger.kernel.org, AJvYcCWU6RCNqr6Kh6CuOO14CkSrijPo9g2AqCqoaJu7UJo8YdlJAw9lGiupLsoz5QAEO4D75lYVNV2kRxqK@vger.kernel.org
+X-Gm-Message-State: AOJu0YwNnUer6kmvyqV4XFf7hgcwg6QYFht/x5XkIn1Je+DF8BDYbyVr
+	jufMbwzagJHmvTRskJONBi6NU3o0y9ZX2xEmnLenHbBYns4d1ghi
+X-Gm-Gg: ASbGncuPbUAPL5F+kQJThMpHXAaAKVM4OOBnBwZ4junpqW0opgvD2LFp9NmW9zmLI8S
+	CQfPuVJAgtq58aSXxqZKpLtTIT65jZJ3zL8E4wmL43yc16qxTxoQ1+DzlZhK683iQqd1hwUHxRk
+	uBgXJ2eySGBwIGv/twERJgXWxqrQAWhZ3BjqHXCmRl8Z+U6YLkxPLX5TPbOCXzBmbYrjlU0mh08
+	QNHpRssmxJBv6Ot+sj4eiCayFOHSE5DyyWEiZMQLj7fFWIG/msufIRzLFJ+YyKvtRcomBqnDt6n
+	vL9woy/9Itx3/hqhawoogG5mYDzNRa+C37c7AV9z6Wqz
+X-Google-Smtp-Source: AGHT+IEHrNiRnTXjVPBRN3km9ezXq9nftJR+dFDQktX4gOLxCfeSk1aB3DWtqmO/wcVrpprP5KJBrA==
+X-Received: by 2002:a17:90b:58ed:b0:2fa:2133:bc87 with SMTP id 98e67ed59e1d1-309ec5e69fdmr363341a91.6.1745433083197;
+        Wed, 23 Apr 2025 11:31:23 -0700 (PDT)
+Received: from localhost ([181.91.133.137])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309e0d06b13sm1984557a91.43.2025.04.23.11.31.18
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 11:31:22 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-References: <20250423031117.907681-1-almasrymina@google.com> <20250423031117.907681-8-almasrymina@google.com>
-In-Reply-To: <20250423031117.907681-8-almasrymina@google.com>
-From: Harshitha Ramamurthy <hramamurthy@google.com>
-Date: Wed, 23 Apr 2025 11:26:14 -0700
-X-Gm-Features: ATxdqUHnKDzCBYG80n4IAQ6Tqlf6P8u3mDu-47naFBmrHiwPtX2MRzVq-LrB7oQ
-Message-ID: <CAEAWyHdYEzHLbW1Z=nS1yGdnbFA2HU7wb4nFZ1TmqGaUZoq9Tg@mail.gmail.com>
-Subject: Re: [PATCH net-next v10 7/9] gve: add netmem TX support to GVE
- DQO-RDA mode
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, Donald Hunter <donald.hunter@gmail.com>, 
-	Jakub Kicinski <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
-	Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, dw@davidwei.uk, 
-	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
-	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 23 Apr 2025 15:31:17 -0300
+Message-Id: <D9E8DY5E0CTO.2O6K5NWUGKA6Z@gmail.com>
+Subject: Re: [PATCH 6/7] platform/x86/dell: alienware-wmi: update sysfs
+ visibility macros
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "David E. Box" <david.e.box@linux.intel.com>, <corbet@lwn.net>,
+ <bhelgaas@google.com>, <hdegoede@redhat.com>,
+ <ilpo.jarvinen@linux.intel.com>, <vkoul@kernel.org>,
+ <yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+ <sanyog.r.kale@intel.com>, <gregkh@linuxfoundation.org>,
+ <rafael@kernel.org>, <dakr@kernel.org>, <dan.j.williams@intel.com>,
+ <andriy.shevchenko@linux.intel.com>
+Cc: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+ <linux-pci@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+ <Dell.Client.Kernel@dell.com>, <linux-sound@vger.kernel.org>
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250423175040.784680-1-david.e.box@linux.intel.com>
+ <20250423175040.784680-7-david.e.box@linux.intel.com>
+In-Reply-To: <20250423175040.784680-7-david.e.box@linux.intel.com>
 
-On Tue, Apr 22, 2025 at 8:11=E2=80=AFPM Mina Almasry <almasrymina@google.co=
-m> wrote:
+On Wed Apr 23, 2025 at 2:50 PM -03, David E. Box wrote:
+> Replace deprecated visibility macros and align group naming with new API.
 >
-> Use netmem_dma_*() helpers in gve_tx_dqo.c DQO-RDA paths to
-> enable netmem TX support in that mode.
+> In alienware-wmi-base.c, use NAMED_ATTRIBUTE_GROUP_COMBO_VISIBLE(rgb_zone=
+s)
+> to define the rgb_zones attribute group concisely. To preserve the existi=
+ng
+> userspace ABI, rename zone_attr_visible and rgb_zones_attr_visible to
+> zone_group_visible and rgb_zones_group_visible, respectively, to reflect =
+the
+> 'rgb_zones' group.
 >
-> Declare support for netmem TX in GVE DQO-RDA mode.
+> In alienware-wmi-wmax.c, replace DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() with
+> the renamed DEFINE_SYSFS_GROUP_VISIBILITY() macro for the hdmi, amplifier=
+,
+> and deepsleep attributes to match the updated API.
 >
-> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> While here, add missing sysfs.h include and sort headers alphabetically. =
+No
+> functional changes are intended.
 >
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+
+Thanks! I like these new macros.
+
+Reviewed-by: Kurt Borja <kuurtb@gmail.com>
+
+Small comment bellow.
+
 > ---
+>  .../platform/x86/dell/alienware-wmi-base.c    | 23 ++++++++-----------
+>  .../platform/x86/dell/alienware-wmi-wmax.c    |  7 +++---
+>  2 files changed, 13 insertions(+), 17 deletions(-)
 >
-> v10:
-> - Move setting dev->netmem_tx to right after priv is initialized
->   (Harshitha)
->
-> v4:
-> - New patch
-> ---
->  drivers/net/ethernet/google/gve/gve_main.c   | 4 ++++
->  drivers/net/ethernet/google/gve/gve_tx_dqo.c | 8 +++++---
->  2 files changed, 9 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/net/ethernet/google/gve/gve_main.c b/drivers/net/eth=
-ernet/google/gve/gve_main.c
-> index 8aaac91013777..b49c74620799e 100644
-> --- a/drivers/net/ethernet/google/gve/gve_main.c
-> +++ b/drivers/net/ethernet/google/gve/gve_main.c
-> @@ -2659,12 +2659,16 @@ static int gve_probe(struct pci_dev *pdev, const =
-struct pci_device_id *ent)
->         if (err)
->                 goto abort_with_wq;
->
-> +       if (!gve_is_gqi(priv) && !gve_is_qpl(priv))
-> +               dev->netmem_tx =3D true;
-> +
->         err =3D register_netdev(dev);
->         if (err)
->                 goto abort_with_gve_init;
->
->         dev_info(&pdev->dev, "GVE version %s\n", gve_version_str);
->         dev_info(&pdev->dev, "GVE queue format %d\n", (int)priv->queue_fo=
-rmat);
-> +
-nit: accidental extra empty line, but
-
-Acked-by: Harshitha Ramamurthy <hramamurthy@google.com>
-
->         gve_clear_probe_in_progress(priv);
->         queue_work(priv->gve_wq, &priv->service_task);
->         return 0;
-> diff --git a/drivers/net/ethernet/google/gve/gve_tx_dqo.c b/drivers/net/e=
-thernet/google/gve/gve_tx_dqo.c
-> index 2eba868d80370..a27f1574a7337 100644
-> --- a/drivers/net/ethernet/google/gve/gve_tx_dqo.c
-> +++ b/drivers/net/ethernet/google/gve/gve_tx_dqo.c
-> @@ -660,7 +660,8 @@ static int gve_tx_add_skb_no_copy_dqo(struct gve_tx_r=
-ing *tx,
->                         goto err;
->
->                 dma_unmap_len_set(pkt, len[pkt->num_bufs], len);
-> -               dma_unmap_addr_set(pkt, dma[pkt->num_bufs], addr);
-> +               netmem_dma_unmap_addr_set(skb_frag_netmem(frag), pkt,
-> +                                         dma[pkt->num_bufs], addr);
->                 ++pkt->num_bufs;
->
->                 gve_tx_fill_pkt_desc_dqo(tx, desc_idx, skb, len, addr,
-> @@ -1038,8 +1039,9 @@ static void gve_unmap_packet(struct device *dev,
->         dma_unmap_single(dev, dma_unmap_addr(pkt, dma[0]),
->                          dma_unmap_len(pkt, len[0]), DMA_TO_DEVICE);
->         for (i =3D 1; i < pkt->num_bufs; i++) {
-> -               dma_unmap_page(dev, dma_unmap_addr(pkt, dma[i]),
-> -                              dma_unmap_len(pkt, len[i]), DMA_TO_DEVICE)=
-;
-> +               netmem_dma_unmap_page_attrs(dev, dma_unmap_addr(pkt, dma[=
-i]),
-> +                                           dma_unmap_len(pkt, len[i]),
-> +                                           DMA_TO_DEVICE, 0);
->         }
->         pkt->num_bufs =3D 0;
+> diff --git a/drivers/platform/x86/dell/alienware-wmi-base.c b/drivers/pla=
+tform/x86/dell/alienware-wmi-base.c
+> index 64562b92314f..ee41892e562c 100644
+> --- a/drivers/platform/x86/dell/alienware-wmi-base.c
+> +++ b/drivers/platform/x86/dell/alienware-wmi-base.c
+> @@ -10,10 +10,11 @@
+> =20
+>  #include <linux/acpi.h>
+>  #include <linux/cleanup.h>
+> -#include <linux/module.h>
+> -#include <linux/platform_device.h>
+>  #include <linux/dmi.h>
+>  #include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/sysfs.h>
+>  #include "alienware-wmi.h"
+> =20
+>  MODULE_AUTHOR("Mario Limonciello <mario.limonciello@outlook.com>");
+> @@ -326,8 +327,8 @@ static ssize_t lighting_control_state_store(struct de=
+vice *dev,
+> =20
+>  static DEVICE_ATTR_RW(lighting_control_state);
+> =20
+> -static umode_t zone_attr_visible(struct kobject *kobj,
+> -				 struct attribute *attr, int n)
+> +static umode_t rgb_zones_attr_visible(struct kobject *kobj,
+> +				      struct attribute *attr, int n)
+>  {
+>  	if (n < alienfx->num_zones + 1)
+>  		return attr->mode;
+> @@ -335,13 +336,12 @@ static umode_t zone_attr_visible(struct kobject *ko=
+bj,
+>  	return 0;
 >  }
-> --
-> 2.49.0.805.g082f7c87e0-goog
->
+> =20
+> -static bool zone_group_visible(struct kobject *kobj)
+> +static bool rgb_zones_group_visible(struct kobject *kobj)
+>  {
+>  	return alienfx->num_zones > 0;
+>  }
+> -DEFINE_SYSFS_GROUP_VISIBLE(zone);
+> =20
+> -static struct attribute *zone_attrs[] =3D {
+> +static struct attribute *rgb_zones_attrs[] =3D {
+>  	&dev_attr_lighting_control_state.attr,
+>  	&dev_attr_zone00.attr,
+>  	&dev_attr_zone01.attr,
+> @@ -349,12 +349,7 @@ static struct attribute *zone_attrs[] =3D {
+>  	&dev_attr_zone03.attr,
+>  	NULL
+>  };
+> -
+> -static struct attribute_group zone_attribute_group =3D {
+> -	.name =3D "rgb_zones",
+> -	.is_visible =3D SYSFS_GROUP_VISIBLE(zone),
+> -	.attrs =3D zone_attrs,
+> -};
+> +NAMED_ATTRIBUTE_GROUP_COMBO_VISIBLE(rgb_zones);
+> =20
+>  /*
+>   * LED Brightness (Global)
+> @@ -410,7 +405,7 @@ static int alienfx_probe(struct platform_device *pdev=
+)
+>  }
+> =20
+>  static const struct attribute_group *alienfx_groups[] =3D {
+> -	&zone_attribute_group,
+> +	&rgb_zones_group,
+>  	WMAX_DEV_GROUPS
+>  	NULL
+>  };
+> diff --git a/drivers/platform/x86/dell/alienware-wmi-wmax.c b/drivers/pla=
+tform/x86/dell/alienware-wmi-wmax.c
+> index 0c3be03385f8..559415849bcc 100644
+> --- a/drivers/platform/x86/dell/alienware-wmi-wmax.c
+> +++ b/drivers/platform/x86/dell/alienware-wmi-wmax.c
+> @@ -13,6 +13,7 @@
+>  #include <linux/dmi.h>
+>  #include <linux/moduleparam.h>
+>  #include <linux/platform_profile.h>
+> +#include <linux/sysfs.h>
+
+JFYI, this line conflicts with linux-next.
+
+--=20
+ ~ Kurt
+
+>  #include <linux/wmi.h>
+>  #include "alienware-wmi.h"
+> =20
+> @@ -356,7 +357,7 @@ static bool hdmi_group_visible(struct kobject *kobj)
+>  {
+>  	return alienware_interface =3D=3D WMAX && alienfx->hdmi_mux;
+>  }
+> -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(hdmi);
+> +DEFINE_SYSFS_GROUP_VISIBILITY(hdmi);
+> =20
+>  static struct attribute *hdmi_attrs[] =3D {
+>  	&dev_attr_cable.attr,
+> @@ -404,7 +405,7 @@ static bool amplifier_group_visible(struct kobject *k=
+obj)
+>  {
+>  	return alienware_interface =3D=3D WMAX && alienfx->amplifier;
+>  }
+> -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(amplifier);
+> +DEFINE_SYSFS_GROUP_VISIBILITY(amplifier);
+> =20
+>  static struct attribute *amplifier_attrs[] =3D {
+>  	&dev_attr_status.attr,
+> @@ -475,7 +476,7 @@ static bool deepsleep_group_visible(struct kobject *k=
+obj)
+>  {
+>  	return alienware_interface =3D=3D WMAX && alienfx->deepslp;
+>  }
+> -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(deepsleep);
+> +DEFINE_SYSFS_GROUP_VISIBILITY(deepsleep);
+> =20
+>  static struct attribute *deepsleep_attrs[] =3D {
+>  	&dev_attr_deepsleep.attr,
+
