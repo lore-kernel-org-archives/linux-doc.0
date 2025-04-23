@@ -1,306 +1,211 @@
-Received: from mx07-00178001.pphosted.com (mx08-00178001.pphosted.com [91.207.212.93])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A48C71E1E1B;
-	Wed, 23 Apr 2025 07:22:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.207.212.93
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745392923; cv=none; b=t9t+N2/Hi1JaGb+UQq3vwiu3ypJMYaamSSd/ZJUb3fz9zME6RJRFEWym4kUlzT7LvS0PPU+f3oBfxpoimbTMiQ8j+lEB1xpcOKJ4XzpoCfO4BWvzdSV74yesgsoyui23ITX63WQoCXqJd8TV0uNwNYyHJm1rY1fShsCNp/J5do4=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745392923; c=relaxed/simple;
-	bh=mCHNrJx2OXmmlNCO1RdGINSUwa/TdSOBqAY8r9vs+eI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=m7A86CU5ankgcmIxpCRBtQTxgypAbnd1TfWalwwKGiDvad29/JF2XcblYP+3motvV+vp7FF0O7aruF0zm9HCXJHzH7FIDT/pcjW32xnr0pzph9/qJIYRkb8qyqhCOka/VvNVPm2tPTXrIep0ZWOxBTJDWUZKh1k7xBQi/619JaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com; spf=pass smtp.mailfrom=foss.st.com; dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b=yi/izMcI; arc=none smtp.client-ip=91.207.212.93
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=foss.st.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=foss.st.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9FC241DEFE7;
+	Wed, 23 Apr 2025 07:28:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745393318; cv=fail; b=YpHJJSrL8MmPHjqlS+z+/kYH+2bxj3RDQeOyDreDRi86e2Owlq/5sjrd5dxHYVbY3N5lQWzlWexlLcL6vqc5PvSTCEFeDETp9dshxTTQ78zmjSMsCyv5KogxJBJQHbzHyUD3qf7yEU5BIWWb/Sd9N6cdNEfoE6tjciv5IdWUthk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745393318; c=relaxed/simple;
+	bh=4Dpc/xqBoHhS/1bBumSdYhd3LN3wn87wVM9r5nuSdaA=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=o+Hk3AAwZ2MQyxuLNgy8AZQptrJ1u8Zt0bdj2Pv8ua+W7dxj9PSvLIsnqBmBCLYxSSPItYM82NmND8Nad+1n8+sI/ZAyZvOdgLMabThij8+QGdsGxGnH7tbjEizF2xFZe0IZhd1ZtzI7rd+xS67xrl1jzrOb/MWKVJuEQUQr7v4=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=EBmODrpN; arc=fail smtp.client-ip=40.107.92.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=foss.st.com header.i=@foss.st.com header.b="yi/izMcI"
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-	by mx07-00178001.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53N6iMai016682;
-	Wed, 23 Apr 2025 09:21:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foss.st.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=selector1; bh=
-	oz186CoW0SK4vdktfWzxbngjxDVHLIW2MQ5lAkHyRTo=; b=yi/izMcIM8bA++XQ
-	qCxgQYc7IR9w6QJz8/5kbWJN9ZvXvsAJGHu0B6o3CiixBggQL3c0d2WtErXdg7Fb
-	A0KCbgW7C4/B/i0eQ97HTLw7XB08OXyZonT2xxH77mJAFLYttZHsIIL1QYDbt3rK
-	YvDPM3TovVtUDOuLsXZN3oYl03y0DCBybt3UBjxWo4ynR36+WsknbH2kpr9TRZMF
-	UgD05x7QnWZbvJsfx3TNMXdavSgpVrk7w4LTtYhyJF8Gbssgso7XhvZZC0wqhRRY
-	CjZ7GxaTKp3goIClEpp31/Z9FAfSwzmOBR+kJTyj73bTqam1DMoRV56sexw0VfSN
-	KCSIdQ==
-Received: from beta.dmz-ap.st.com (beta.dmz-ap.st.com [138.198.100.35])
-	by mx07-00178001.pphosted.com (PPS) with ESMTPS id 466jjx9rnr-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 23 Apr 2025 09:21:41 +0200 (MEST)
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-	by beta.dmz-ap.st.com (STMicroelectronics) with ESMTP id 8690540078;
-	Wed, 23 Apr 2025 09:20:13 +0200 (CEST)
-Received: from Webmail-eu.st.com (eqndag1node4.st.com [10.75.129.133])
-	by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id C1547932A52;
-	Wed, 23 Apr 2025 09:15:16 +0200 (CEST)
-Received: from SAFDAG1NODE1.st.com (10.75.90.17) by EQNDAG1NODE4.st.com
- (10.75.129.133) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Apr
- 2025 09:15:16 +0200
-Received: from [10.48.86.121] (10.48.86.121) by SAFDAG1NODE1.st.com
- (10.75.90.17) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Apr
- 2025 09:15:15 +0200
-Message-ID: <60e77932-9be7-443d-aed9-2b54945fdce6@foss.st.com>
-Date: Wed, 23 Apr 2025 09:15:15 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="EBmODrpN"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=awYoRaxB28Br2zv6Gt5eHE+dYfYL1BkygSbGCn6+hq1mpBzshA6A47zt8iWxKS9eqXt357nTGSbvvXkvG1bymfkRw2iMqYXQL4RAAx8GMe05ADQQBoL62DWp0OMTCbRtABLo6Rz7E/XD8MYG0yFoSYajxanWQeKuB0za6wIVRfC9H9cx/rvWES7oFtxwKCy1LWGHbvUoXMrCyK27Sw0q/ASOIgllhRNQVqC4hBWvcwjAVwIxQVu7Xz4tRHYHZFxBPvc8Ya2IK6+uaXDYXS0hkKwozc2QOQOMiaLA/UlCWcZ0G87+p0Geg+6QWtimnLz7q685l1Nj69EEjw1hLgO/Ag==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Bdhh5JefwpRcfi6y+kOaF7PRXXMg4siUZ75Q4XkyPNc=;
+ b=eFmANI1UKA0ANnSck5hnRD/i7dJHBMuzyUsBjqG4OaAGW1JohUvKDcd07lcV+D6WUbXr7rYOmFufEYR5R/GQjZH2bXACdJUwIYILxgcbcreK3dbkeTQHJQhpkgz383VEKMU66bEkEVKiDcm/fJbqs/nKKYAq/pEaRWPiedhq2hfVOci2iw46zEFx+Jz7y7TECI8yyEOd2eBkNhCXYsWlhiyovkSy6BusTpayUXJXbERo7oOnDqTSOKqzaK5Vc4Fcn84g9mX6dKgIH1ZSf+fJHHOwjTwS/3SUyE7OnmRlT3dvM9alGO1DOIDmACMzFePBx10qnOGdvqcGFIB3lh6nHg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Bdhh5JefwpRcfi6y+kOaF7PRXXMg4siUZ75Q4XkyPNc=;
+ b=EBmODrpNnZwDdGyIAjnzryggT9Tv+rYmCDMvGvE8VLiJheUiEFxumE9dhQ0g0pjitIQKkYE0Ismyl8NftJjpHjbuuXpopIhAsL5sEZZEDNnq4CCdwkYCaeotP7YP2yFy47F7zRdXJYo4P6KW7quJj9yEMRG0ZZx9788zBrp3eHw=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
+ CY5PR12MB6201.namprd12.prod.outlook.com (2603:10b6:930:26::16) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8655.35; Wed, 23 Apr 2025 07:28:33 +0000
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8678.021; Wed, 23 Apr 2025
+ 07:28:33 +0000
+Message-ID: <a0c248f0-71ff-4477-98ec-1bbd52eda566@amd.com>
+Date: Wed, 23 Apr 2025 12:58:19 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 00/16] iommufd: Add vIOMMU infrastructure (Part-4
+ vCMDQ)
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com,
+ corbet@lwn.net, will@kernel.org
+Cc: robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
+ vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org, praan@google.com,
+ nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
+ jsnitsel@redhat.com, mshavit@google.com, zhangzekun11@huawei.com,
+ iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ patches@lists.linux.dev
+References: <cover.1744353300.git.nicolinc@nvidia.com>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <cover.1744353300.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0210.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:e9::19) To DS7PR12MB6048.namprd12.prod.outlook.com
+ (2603:10b6:8:9f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] rpmsg: core: Remove deadcode
-To: <linux@treblig.org>, <andersson@kernel.org>, <mathieu.poirier@linaro.org>
-CC: <corbet@lwn.net>, <linux-remoteproc@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250420204146.154807-1-linux@treblig.org>
-Content-Language: en-US
-From: Arnaud POULIQUEN <arnaud.pouliquen@foss.st.com>
-Organization: STMicroelectronics
-In-Reply-To: <20250420204146.154807-1-linux@treblig.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: EQNCAS1NODE4.st.com (10.75.129.82) To SAFDAG1NODE1.st.com
- (10.75.90.17)
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.68.34
- definitions=2025-04-23_05,2025-04-22_01,2024-11-22_01
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|CY5PR12MB6201:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1c285b28-dca7-467c-8296-08dd823873a7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?TnZhOCt3M2VWOFJQbzF1a3FZRC8yS2lQa0R4QWhmbDNMcXRWRkJHV1hSTU1Q?=
+ =?utf-8?B?U2Y0L0k4enRpb24xcDVOZjh5ZUdidXRUMEx6TjBHUnk2bzgzRGE3Vk9HZlU4?=
+ =?utf-8?B?eFBOUlcvOFFQY0tRdkJ6S1Z4Z05jVDZTaDM3Vit6Y25lVzFSVjFtMFROTi9U?=
+ =?utf-8?B?MnI0MkgxeDV6WEtQVFg1akwwSTlma0dZd1NlMlJoZExOQng1TlI0SGxPMkJ3?=
+ =?utf-8?B?cTlKU09UazczcWNUcW13Uktwb0pHZ1d1WmVzdng3Tk9iUTVISCtrSEQvMXcy?=
+ =?utf-8?B?YjUvQURKNkwvbUsvQWRwclNNTmwrWnBIS0FjVU04c0kyTmFPeEZKbUZIcXFk?=
+ =?utf-8?B?UTMraE5uUVcxN3pwVHNFTk5lRTR4NFNWZzA0T0tBZUhBNjBiK2lkNCsrT2FN?=
+ =?utf-8?B?L3VsV3pzQXFqVStKU3QzZlY1Y29QQllCaVhUaTNaSnF6TUVVbHNzTlhGeHMv?=
+ =?utf-8?B?bHNyRHJNTnhlSURkTE9VY1ZxQmU5TTVaSFpFMDYyT1BrRXdURFNFQ2xCY3pw?=
+ =?utf-8?B?QXlwUnFQSGQwcXFPNDJqeGRaK2xyUmxNRUpac1lPY1h0VzBTeDJqMWhHc0Fo?=
+ =?utf-8?B?clFRU3d3enM2K01kOXRpUkUwRm9Jejk2UUtsYTV0VWZVTW95eHp4NHZPTSsx?=
+ =?utf-8?B?RTI5a0RNenVwNjNWVThoZG5Kb29jT2x6c2xJZ2NtNlJtL1NPMWhrTDh2bnFW?=
+ =?utf-8?B?aGFGRWFkRmh3dDFvN2UwbytBTFMxMFlvMmFRc3RvTEVPUG9RenlWbVBWMm04?=
+ =?utf-8?B?WVdJUXo2dUYzZE5KWUlBSWt2VzMrWXBZdm1jUXFwTVFWOGlwNC8rMTVyUkFh?=
+ =?utf-8?B?QnFvdzd4ZHpPNTJDd0pRb0xLbkVDd1RGRzdxbjVQRE03TCs0UXd1TkV4eC9Y?=
+ =?utf-8?B?dGEySk5pNjNqL1ZBM0RvM1BtMEs3SHJLRGJSZ3dZa0plMExzaVN3NDdDWWR0?=
+ =?utf-8?B?QU1CMFVOSFhYbFl4UHpiQk0wZ3I0QWl4SXJMOWhQWGNUYWE1VGlaSnlOUDFU?=
+ =?utf-8?B?bUx0ZTVjWFgrTGk2NjhJR3lhekk3bWlpNzFobjk5QU9vcU15K0tpNW1RMVVG?=
+ =?utf-8?B?RmJzTC92NE1BMUpyY1RGTW5PYTVwK3lJZ2swOWFaNFo0ZmF3akI4WW1oY0ZO?=
+ =?utf-8?B?VlVoeGxMYnRrRXJUU1FFRHIwLzVBUmZqUHF4a09pZFZneW90SzkxZUF6cWtZ?=
+ =?utf-8?B?ZVV6TzJ6aHJqdEh0MGNCQTEzRlhKTDFzOXFhcVlRWFpuMk5KNXd0bStvMGRa?=
+ =?utf-8?B?TmV5dWMveGZ6SExuK3dySTNjUGVTbnFqMjY4YWZnOTd1U0FsRDhjS2dQMHlT?=
+ =?utf-8?B?QVFDc1lqV0JOSHhyWFJ1YTJqRUZDUEVPSjVmRGpiMDFXck5IZWQ2OVJPcTM2?=
+ =?utf-8?B?UXNibzNyMVN4MFNMOXdMejY2TFFmdEx6OU5JaUVaOGZUQUpvVWNmQ3BJTVIx?=
+ =?utf-8?B?QXBTcnBIYW5SUW40cS8yNTlMWVFzRGl2WENwSk9HaTB4aWlSUnVaOHVUY3Qw?=
+ =?utf-8?B?cE9xZDRhbXhBQXROSFhBSXNSNStmbkJDL1FwUTh0RDJvd2E5cFFFS2VjSzNp?=
+ =?utf-8?B?RVNFNUxqQ3h2QXNpOHBicVlYdXlBWkRWRlE1eHQycTdNTkpiV0NUL0JlUFB5?=
+ =?utf-8?B?WVJ5ZnpIdXNpRjgyK3FIa1B3Qkh2Y2hWbk9xMmlZMzAvbFFMM09CTEhROW50?=
+ =?utf-8?B?OVNLTkZuejN4YS9rYW1GdTYwRDFrcXJISDIrWTQxSkt4ekVNMU9kQVpTRnhp?=
+ =?utf-8?B?a0JIN0txNi9iUGFnSFZlSUU0T2cxcXJ1TElJT3JLckpPS0RGVXJnNEFxa3dm?=
+ =?utf-8?B?R3RZTFUwM2d6RjNZVWdxMnk2YUlaU2FoQXFoQmhXWDd6cVQxbWV4U2NDem4v?=
+ =?utf-8?B?MytyZU54N05JbWtDbE1EMG5rR1crRFp3bGlYeU9zZ2FFRWJJdUV6aTNEdGoz?=
+ =?utf-8?Q?8fY2LwnOkZA=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?cDgyYmJZR3NVV01VVjhaczNQN045OGlZQUZvdTF1SHYrNXZyYWtWelFwVytP?=
+ =?utf-8?B?dUZObE5velozTjRmK0hXcFYxWmlxa2ovbHIzeGd1V1hNQW5PelFPM3ZwOVpM?=
+ =?utf-8?B?ZkhOMGswQUEvYk8walhNTGIwL1JpNGNYNS9Ea3JGVDdJOUVSSm9ITDAxbmdM?=
+ =?utf-8?B?YXFHd0hLNnFmcmozdGY2SlR1ZlBrcWdMbE12cC9DWitLQUI3M1hMQ0J3QW5S?=
+ =?utf-8?B?Y0psRnlrNjVwR0g2NGhCZ2lMcTlOblpsM1RiK0VzaGRLaEdQQjA4VGI5czQ2?=
+ =?utf-8?B?WFFrOUxhdG1TL0h1TXBRRkw5TDBKUkdVOXhZM3QxREdXS1N0MmNPWHJzNXM5?=
+ =?utf-8?B?MHQxWWFWTi9MaWFIVmxQVGp1S2VxOWVOMEpTeDdsYzNsMm8xTWo3YnRNakh5?=
+ =?utf-8?B?RGM0NFYweEUzNEdHbFRVbkhkQnltWjNaTlZ6RWxSS0tWZ2I2eVgzZWYwYXhJ?=
+ =?utf-8?B?TWJWYzEremc5OEx0MmlxQ25OSVBTUnJmdnlURkdzTTM0ZzF6enc5Rmt4aGlj?=
+ =?utf-8?B?SGJvY3pRcFJ6blBrWE1CVDVKYVlmZXI1aER5eXVZNGEvNU5JQWtFbEgySUpz?=
+ =?utf-8?B?MnphQmY2SzluNU5LdUxLekRYT01HaFdQeFVJL0N3aTdSa3FvaFl2dWZycFEz?=
+ =?utf-8?B?N0FIZ3AxWnRVMC9oa3B2RUxwejJPTkFlL1pZSzlWd3V4UEYvYkRaQStBWm9s?=
+ =?utf-8?B?S3RybUcwZWV0QnlZZG1Eb1pwS3NoUzFGa1FPTDlDQVV3bEVWeDBaemxORzlU?=
+ =?utf-8?B?bnVLbVVITUgxVVdBMTYvTUZZcXRMTDhVSHVJKzJlbDY2a1ZnL3VHQWljM3JT?=
+ =?utf-8?B?VnJpbHhiV3RlNHBUVHR5b29veURZdGJzN1JERDNNdnUxVnpNVGZqTW9URTVT?=
+ =?utf-8?B?dFdYdWN0QkFEVEhPcDR1VmN2SjdEZmVyZ0RGdHFhTUhzTFdIYzNyRERoSFUv?=
+ =?utf-8?B?Y2FwWFlZd3VIR3NmZGNZT2pPZ0hxWmxTcTZQM1JvM1ZLb2ZFZzF2YVdLcjhO?=
+ =?utf-8?B?VHU0Rm5kUThxc1J2dGUrVXR3RWhiSzA5MWRYaTJqeDU1cktTMmFTZDBLbDRU?=
+ =?utf-8?B?cDVPN0hWVGtlU3BiTkNyWHROS2p6ZnBxMW9ibWJYYmxnaC9UaGs1cklYZnk0?=
+ =?utf-8?B?K0Q2a0RLZlh5d3hsYXVCdDA3TmxHc1JiVDZmL2diMDdDalM2dVFCQlh6OGpu?=
+ =?utf-8?B?MHJDdHpIQ3pGck0zSjFZbHBGa0NYcXloRG1GL1owY0ZBOURQdksxOEhxR0hW?=
+ =?utf-8?B?am1jSTI3ZCtWVGdDajB2RGhTZmpma0hEbWhqY3BnMlE5cWlBLzVYdWd3S0Mv?=
+ =?utf-8?B?WlNRU1VSeHR5VEhqUjhHSkdpc3p4d1pBaGg3RU9vVWJCWkhiZzF2U1luZnpi?=
+ =?utf-8?B?Sk1Lb2E1OVY1RStVM1ZGcjV5K3NSL055MDZLcXNFbU0zaTBEQkYyNko2VkRS?=
+ =?utf-8?B?bmlVL2JPSEZDOGFuZHAzSlpodW5wM0VUZXVpOWlXVmg3cUZ3algvbjhyQUta?=
+ =?utf-8?B?SjQyUjdkaWlXejY0dVpEOFlMWG9qK2JkckNEaVdwd29ZOE03SXJyY09TR3VL?=
+ =?utf-8?B?YkZJWkZsMzI1azZQZ0tDQy82OUdzZ0J3NDJrVVhab1VTazBNblVaaEZsT29X?=
+ =?utf-8?B?RUxIRmQyVGlrSXpEU1J3SENzbmR3dmNqZElnZGVIbjlVaWNaZDNjQnJVNy9P?=
+ =?utf-8?B?a1NkSUNHdk1PMnYzNTdIS2djcHk0Y3oxNU5NUWU4Q3FVcW4vbE5zNnlrb0c3?=
+ =?utf-8?B?OGVoRGN4YkdjcDkzQWpQZW9TTDV3NFozOURlNjJuYUIrdmlkQlRPR3BtdWoz?=
+ =?utf-8?B?QXR5V3NmNDkzUThPNzNQWXhtN2NrMUJRVUgrZUV0RE9DRGY4Vml5b29sUFNj?=
+ =?utf-8?B?THg5ZFpYWU1GZWlJNFY2VFFRUW1nMDlWTUl6ajlML2s5dHVKRGNGbk15NkZJ?=
+ =?utf-8?B?dmJwci9hWGk5QjYwTzlyS3VYWTNkNCt3MXA4cUhiRDQzOHlCYUpiV1pFVVl5?=
+ =?utf-8?B?dFVJWU1CN2M5ODROV3VPWkJoV0RaV2x5NlNCTDlzM0QxVkxTUGhMdERwQ1BG?=
+ =?utf-8?B?Uk1ObXZYRmdxUTN6d2ZPbzg1T0ZsNkJJMU9vQ3k5ZzBuakNNS09qQnNESEt5?=
+ =?utf-8?Q?/pQ9hmMQbDXksKuSaPIpgsH6U?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1c285b28-dca7-467c-8296-08dd823873a7
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 07:28:33.1288
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 5zfOXiRMB8a3Wo8EkXZA3n1eF2Jj4OMXYCeSKAJTBlyvauFQ10Pb8oTzoKtqutb5wcJfAmqD9zyjSv8o7xJ1YA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CY5PR12MB6201
 
-Hello,
+Hi Nicolin,
 
-On 4/20/25 22:41, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
+
+On 4/11/2025 12:07 PM, Nicolin Chen wrote:
+> The vIOMMU object is designed to represent a slice of an IOMMU HW for its
+> virtualization features shared with or passed to user space (a VM mostly)
+> in a way of HW acceleration. This extended the HWPT-based design for more
+> advanced virtualization feature.
 > 
-> rpmsg_send_offchannel() and rpmsg_trysend_offchannel() have been
-> unused since they were added in 2011's
-> commit bcabbccabffe ("rpmsg: add virtio-based remote processor messaging
-> bus")
+> A vCMDQ introduced by this series as a part of the vIOMMU infrastructure
+> represents a HW supported queue/buffer for VM to use exclusively, e.g.
+>   - NVIDIA's virtual command queue
+>   - AMD vIOMMU's command buffer
+
+I assume we can pass multiple buffer details (like GPA, size) from guest to
+hypervisor. Is that correct understanding?
+
+
+> either of which is an IOMMU HW feature to directly load and execute cache
+> invalidation commands issued by a guest kernel, to shoot down TLB entries
+> that HW cached for guest-owned stage-1 page table entries. This is a big
+> improvement since there is no VM Exit during an invalidation, compared to
+> the traditional invalidation pathway by trapping a guest-own invalidation
+> queue and forwarding those commands/requests to the host kernel that will
+> eventually fill a HW-owned queue to execute those commands.
 > 
-> Remove them and associated docs.
-> 
-> I suspect this means the trysend_offchannel and send_offchannel
-> member function pointers and the virtio implementation of them can be
-> removed as well, but haven't yet gone that far.
+> Thus, a vCMDQ object, as an initial use case, is all about a guest-owned
+> HW command queue that VMM can allocate/configure depending on the request
+> from a guest kernel. Introduce a new IOMMUFD_OBJ_VCMDQ and its allocator
+> IOMMUFD_CMD_VCMDQ_ALLOC allowing VMM to forward the IOMMU-specific queue
+> info, such as queue base address, size, and etc.
+> > Meanwhile, a guest-owned command queue needs the kernel (a command queue
+> driver) to control the queue by reading/writing its consumer and producer
+> indexes, which means the command queue HW allows the guest kernel to get
+> a direct R/W access to those registers. Introduce an mmap infrastructure
+> to the iommufd core so as to support pass through a piece of MMIO region
+> from the host physical address space to the guest physical address space.
+> The VMA info (vm_pgoff/size) used by an mmap must be pre-allocated during
+> the IOMMUFD_CMD_VCMDQ_ALLOC and given those info to the user space as an
+> output driver-data by the IOMMUFD_CMD_VCMDQ_ALLOC. So, this requires a
+> driver-specific user data support by a vIOMMU object.
 
-It seems to me that this API is not safe as it allows an endpoint to usurp the
-identity of another one thanks to the source address.
+Nice! Thanks.
 
-So, +1 to remove it.
-
-That said, to complete the remove it would be nice to also remove associated ops
-declared in rpmsg_endpoint_ops and implemented in virtio_rpmsg_bus.c.
-
-Regards,
-Arnaud
+-Vasant
 
 
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  Documentation/staging/rpmsg.rst | 46 ------------------------
->  drivers/rpmsg/rpmsg_core.c      | 63 ---------------------------------
->  include/linux/rpmsg.h           | 22 ------------
->  3 files changed, 131 deletions(-)
-> 
-> diff --git a/Documentation/staging/rpmsg.rst b/Documentation/staging/rpmsg.rst
-> index 3713adaa1608..40282cca86ca 100644
-> --- a/Documentation/staging/rpmsg.rst
-> +++ b/Documentation/staging/rpmsg.rst
-> @@ -110,31 +110,6 @@ or a timeout of 15 seconds elapses. When the latter happens,
->  The function can only be called from a process context (for now).
->  Returns 0 on success and an appropriate error value on failure.
->  
-> -::
-> -
-> -  int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -							void *data, int len);
-> -
-> -
-> -sends a message across to the remote processor, using the src and dst
-> -addresses provided by the user.
-> -
-> -The caller should specify the endpoint, the data it wants to send,
-> -its length (in bytes), and explicit source and destination addresses.
-> -The message will then be sent to the remote processor to which the
-> -endpoint's channel belongs, but the endpoint's src and channel dst
-> -addresses will be ignored (and the user-provided addresses will
-> -be used instead).
-> -
-> -In case there are no TX buffers available, the function will block until
-> -one becomes available (i.e. until the remote processor consumes
-> -a tx buffer and puts it back on virtio's used descriptor ring),
-> -or a timeout of 15 seconds elapses. When the latter happens,
-> --ERESTARTSYS is returned.
-> -
-> -The function can only be called from a process context (for now).
-> -Returns 0 on success and an appropriate error value on failure.
-> -
->  ::
->  
->    int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len);
-> @@ -173,27 +148,6 @@ return -ENOMEM without waiting until one becomes available.
->  The function can only be called from a process context (for now).
->  Returns 0 on success and an appropriate error value on failure.
->  
-> -::
-> -
-> -  int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -							void *data, int len);
-> -
-> -
-> -sends a message across to the remote processor, using source and
-> -destination addresses provided by the user.
-> -
-> -The user should specify the channel, the data it wants to send,
-> -its length (in bytes), and explicit source and destination addresses.
-> -The message will then be sent to the remote processor to which the
-> -channel belongs, but the channel's src and dst addresses will be
-> -ignored (and the user-provided addresses will be used instead).
-> -
-> -In case there are no TX buffers available, the function will immediately
-> -return -ENOMEM without waiting until one becomes available.
-> -
-> -The function can only be called from a process context (for now).
-> -Returns 0 on success and an appropriate error value on failure.
-> -
->  ::
->  
->    struct rpmsg_endpoint *rpmsg_create_ept(struct rpmsg_device *rpdev,
-> diff --git a/drivers/rpmsg/rpmsg_core.c b/drivers/rpmsg/rpmsg_core.c
-> index 207b64c0a2fe..6ee36adcbdba 100644
-> --- a/drivers/rpmsg/rpmsg_core.c
-> +++ b/drivers/rpmsg/rpmsg_core.c
-> @@ -193,38 +193,6 @@ int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst)
->  }
->  EXPORT_SYMBOL(rpmsg_sendto);
->  
-> -/**
-> - * rpmsg_send_offchannel() - send a message using explicit src/dst addresses
-> - * @ept: the rpmsg endpoint
-> - * @src: source address
-> - * @dst: destination address
-> - * @data: payload of message
-> - * @len: length of payload
-> - *
-> - * This function sends @data of length @len to the remote @dst address,
-> - * and uses @src as the source address.
-> - * The message will be sent to the remote processor which the @ept
-> - * endpoint belongs to.
-> - * In case there are no TX buffers available, the function will block until
-> - * one becomes available, or a timeout of 15 seconds elapses. When the latter
-> - * happens, -ERESTARTSYS is returned.
-> - *
-> - * Can only be called from process context (for now).
-> - *
-> - * Return: 0 on success and an appropriate error value on failure.
-> - */
-> -int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -			  void *data, int len)
-> -{
-> -	if (WARN_ON(!ept))
-> -		return -EINVAL;
-> -	if (!ept->ops->send_offchannel)
-> -		return -ENXIO;
-> -
-> -	return ept->ops->send_offchannel(ept, src, dst, data, len);
-> -}
-> -EXPORT_SYMBOL(rpmsg_send_offchannel);
-> -
->  /**
->   * rpmsg_trysend() - send a message across to the remote processor
->   * @ept: the rpmsg endpoint
-> @@ -301,37 +269,6 @@ __poll_t rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
->  }
->  EXPORT_SYMBOL(rpmsg_poll);
->  
-> -/**
-> - * rpmsg_trysend_offchannel() - send a message using explicit src/dst addresses
-> - * @ept: the rpmsg endpoint
-> - * @src: source address
-> - * @dst: destination address
-> - * @data: payload of message
-> - * @len: length of payload
-> - *
-> - * This function sends @data of length @len to the remote @dst address,
-> - * and uses @src as the source address.
-> - * The message will be sent to the remote processor which the @ept
-> - * endpoint belongs to.
-> - * In case there are no TX buffers available, the function will immediately
-> - * return -ENOMEM without waiting until one becomes available.
-> - *
-> - * Can only be called from process context (for now).
-> - *
-> - * Return: 0 on success and an appropriate error value on failure.
-> - */
-> -int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -			     void *data, int len)
-> -{
-> -	if (WARN_ON(!ept))
-> -		return -EINVAL;
-> -	if (!ept->ops->trysend_offchannel)
-> -		return -ENXIO;
-> -
-> -	return ept->ops->trysend_offchannel(ept, src, dst, data, len);
-> -}
-> -EXPORT_SYMBOL(rpmsg_trysend_offchannel);
-> -
->  /**
->   * rpmsg_set_flow_control() - request remote to pause/resume transmission
->   * @ept:	the rpmsg endpoint
-> diff --git a/include/linux/rpmsg.h b/include/linux/rpmsg.h
-> index 90d8e4475f80..fb7ab9165645 100644
-> --- a/include/linux/rpmsg.h
-> +++ b/include/linux/rpmsg.h
-> @@ -184,13 +184,9 @@ struct rpmsg_endpoint *rpmsg_create_ept(struct rpmsg_device *,
->  
->  int rpmsg_send(struct rpmsg_endpoint *ept, void *data, int len);
->  int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
-> -int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -			  void *data, int len);
->  
->  int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len);
->  int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
-> -int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -			     void *data, int len);
->  
->  __poll_t rpmsg_poll(struct rpmsg_endpoint *ept, struct file *filp,
->  			poll_table *wait);
-> @@ -271,15 +267,6 @@ static inline int rpmsg_sendto(struct rpmsg_endpoint *ept, void *data, int len,
->  
->  }
->  
-> -static inline int rpmsg_send_offchannel(struct rpmsg_endpoint *ept, u32 src,
-> -					u32 dst, void *data, int len)
-> -{
-> -	/* This shouldn't be possible */
-> -	WARN_ON(1);
-> -
-> -	return -ENXIO;
-> -}
-> -
->  static inline int rpmsg_trysend(struct rpmsg_endpoint *ept, void *data, int len)
->  {
->  	/* This shouldn't be possible */
-> @@ -297,15 +284,6 @@ static inline int rpmsg_trysendto(struct rpmsg_endpoint *ept, void *data,
->  	return -ENXIO;
->  }
->  
-> -static inline int rpmsg_trysend_offchannel(struct rpmsg_endpoint *ept, u32 src,
-> -					   u32 dst, void *data, int len)
-> -{
-> -	/* This shouldn't be possible */
-> -	WARN_ON(1);
-> -
-> -	return -ENXIO;
-> -}
-> -
->  static inline __poll_t rpmsg_poll(struct rpmsg_endpoint *ept,
->  				      struct file *filp, poll_table *wait)
->  {
