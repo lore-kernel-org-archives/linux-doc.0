@@ -1,76 +1,207 @@
-Received: from verein.lst.de (verein.lst.de [213.95.11.211])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F3B4F296D05;
-	Wed, 23 Apr 2025 15:47:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=213.95.11.211
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399C7288C80
+	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 15:54:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745423240; cv=none; b=DfVx9em+BQayu6b50vimGdhj2TQJ1ahPDRW4GMRrahnaAOCSZ4yNg6m0QIdKcC3fkfFL3TD50PRL1035cNKmli4q2S5YRDrNfod0w5lIhe7fPeEmjCZmZN5LU5HfHCfbwrF6mZVINusEXsV67p/z6OmeQ+7hopalwX2piOmh/xI=
+	t=1745423675; cv=none; b=BMpRuc8tfosG/eWQR/UNWjqwrQL4/e1uZ0s5GQss6NCh4QY8YQBAZaPvO0/7ZkPiympci4NS+Mwm9J5hQQ7/9oOlPRxJ7Ug0Xtweei9KntZH5FHZGZ35JrPkk9t3MkNxpDdlQCcKlWkg/eMt25t8mawdG4blio2PN3SguKMCeJQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745423240; c=relaxed/simple;
-	bh=d0E+HtNmdn/LhlxxF/h1C5SJbuFpS6D0hMGAOAoU4xM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rrkh6bFRR5ynbbwrsgCDcgOccElvNR8M494sc0lAf50mG07s1SBBKdBzPdNA3agjI5YSvJsplYRxi8XG/de6A9LeX7Tbx2LfkgNQejx1LwnSKI1BjlNDW6yeMns++hORZ0Vy/gCq+2vf05xB9esRKM4FpKDhkB5FqU6N0CBij8Y=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de; spf=pass smtp.mailfrom=lst.de; arc=none smtp.client-ip=213.95.11.211
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lst.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lst.de
-Received: by verein.lst.de (Postfix, from userid 2407)
-	id 8A79D68C4E; Wed, 23 Apr 2025 17:47:12 +0200 (CEST)
-Date: Wed, 23 Apr 2025 17:47:12 +0200
-From: Christoph Hellwig <hch@lst.de>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Jake Edge <jake@lwn.net>,
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Nitesh Shetty <nj.shetty@samsung.com>
-Subject: Re: [PATCH v9 23/24] nvme-pci: convert to blk_rq_dma_map
-Message-ID: <20250423154712.GA32009@lst.de>
-References: <cover.1745394536.git.leon@kernel.org> <7c5c5267cba2c03f6650444d4879ba0d13004584.1745394536.git.leon@kernel.org> <20250423092437.GA1895@lst.de> <20250423100314.GH48485@unreal>
+	s=arc-20240116; t=1745423675; c=relaxed/simple;
+	bh=f+VP0NPD5jNHuEDDOfpUYceTIOhV/Rt5Z0A8AQ2izAo=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=IABPOaqaDhgyaxLL+sLSfEdTA573Kw5b8BokjdUHWFfDezp7VK6e/oNVjR7inrC84bSDqtSPNUknaAkjMC2r/bKruqNi+YkOszNtjZyOo63ghpx7BRtO+tFMs5HUS2/bqXMR8TcZNzh/0ONB3vu1xacXL++2Dg7dErwpcUKjycc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tcgbARPV; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tcgbARPV"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-736cd36189bso8704309b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 08:54:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745423673; x=1746028473; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=+mc9z1PuhiHedW9jAFmuOWVP2itkaushPzad2KkMGss=;
+        b=tcgbARPV4iIx1laSSqByM2aBqqgD7tGIFwsCtV5uoSThPqy/beP5J98Lc7exPc9bZR
+         eS2YIYL4VaIPZiROGcm9X46QR7jqLu22MbBF9Av34WZGoN+rjxd3qGi5BXYG6dQ1+ida
+         YcJ9ZPYfyj+sE0fEtjutAiitkw4J+BBlFS524bQ8W+6QmL6SY3/nep944rKHIehkb+M4
+         YQjXpqZpxVWccTwKkRTGxIqI7TtlJPpLxkHiJg71gF40eZRZTlMnfgC1nYPXKCAspvpB
+         FqG0DPPRaWsq/GdAhUGGxYHc5SENVK+KZB7xekra+afp0hx/O0t2TMPM12DRQSACQ1B+
+         FzEg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745423673; x=1746028473;
+        h=content-transfer-encoding:cc:to:from:subject:message-id:references
+         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=+mc9z1PuhiHedW9jAFmuOWVP2itkaushPzad2KkMGss=;
+        b=BwwLACJO1uVobN6qp+cctkAw3GO6o8NeLpuTvNClgoJdcb+QXUWiJe9AA6ICd4AG9/
+         sUjW7Gdy2XGQuuJvSBpYZtW5aSR1A09HQNP3MN0JlFNWEuL0QP0KHS6nhtDBv+s3N6B4
+         4HRqbYYkey7qXUzdqRWcKFJs5rMfNZc1lJQ2QVqsLn9vx9OyGNRdrczR/dLuWhJg/csL
+         qydzGZRj+1cuJfX1zfOaiqPz2BUs7iXdUAtOliZXkdvDVHu8XNpW+5EdINpA7EZRN1pA
+         hCvSsjMGEqL8tQl2eYLb0Q41BqbuSpWAr0qzg752UsVvUtv1Mfs8sHZSe78NYWROkqkw
+         D2Ug==
+X-Forwarded-Encrypted: i=1; AJvYcCXaJef/rEjsQwOoWJre36Kf6aTqhvlYK2cSnsWRUI/f6Bqya14a0MIIsSF/hR+ac9x3qjm84cutEJ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyHse03psfuLm3CJCKqlRPh+HbNQqKNCjHJuI5AtWfwgl0ry968
+	z4J3qp/4Ka5X0HbD9rOdBjId6S5Ucw885rfvztVyTtRDF+cj115+UBXs7AJrwtDXopvbCiu45eV
+	/Pg==
+X-Google-Smtp-Source: AGHT+IHgTggejAFEgcZTd/pUvQPX6XzW17AT6knE+s0SYYVGMUts32i/fFAkytyUefVrtBWGMlB9ZWVuG7o=
+X-Received: from pfbem8.prod.google.com ([2002:a05:6a00:3748:b0:739:9e9:feea])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:a81:b0:736:5545:5b84
+ with SMTP id d2e1a72fcca58-73dc14536b9mr27349625b3a.3.1745423673477; Wed, 23
+ Apr 2025 08:54:33 -0700 (PDT)
+Date: Wed, 23 Apr 2025 08:54:31 -0700
+In-Reply-To: <CABQX2QNDmXizUDP_sckvfaM9OBTxHSr0ESgJ_=Z_5RiODfOGsg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250423100314.GH48485@unreal>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+Mime-Version: 1.0
+References: <20250422161304.579394-1-zack.rusin@broadcom.com>
+ <20250422161304.579394-5-zack.rusin@broadcom.com> <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
+ <CABQX2QMznYZiVm40Ligq+pFKmEkVpScW+zcKYbPpGgm0=S2Xkg@mail.gmail.com>
+ <aAjrOgsooR4RYIJr@google.com> <CABQX2QNDmXizUDP_sckvfaM9OBTxHSr0ESgJ_=Z_5RiODfOGsg@mail.gmail.com>
+Message-ID: <aAkNN029DIxYay-j@google.com>
+Subject: Re: [PATCH v2 4/5] KVM: x86: Add support for legacy VMware backdoors
+ in nested setups
+From: Sean Christopherson <seanjc@google.com>
+To: Zack Rusin <zack.rusin@broadcom.com>
+Cc: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org, 
+	Doug Covelli <doug.covelli@broadcom.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 23, 2025 at 01:03:14PM +0300, Leon Romanovsky wrote:
-> On Wed, Apr 23, 2025 at 11:24:37AM +0200, Christoph Hellwig wrote:
-> > I don't think the meta SGL handling is quite right yet, and the
-> > single segment data handling also regressed.  Totally untested
-> > patch below, I'll try to allocate some testing time later today.
-> 
-> Christoph,
-> 
-> Can we please progress with the DMA patches and leave NVMe for later?
-> NVMe is one the users for new DMA API, let's merge API first.
+On Wed, Apr 23, 2025, Zack Rusin wrote:
+> On Wed, Apr 23, 2025 at 9:31=E2=80=AFAM Sean Christopherson <seanjc@googl=
+e.com> wrote:
+> > Heh, KVM_CAP_EXIT_ON_EMULATION_FAILURE is the odd one out.  Even if tha=
+t weren't
+> > the case, this is one of the situations where diverging from the existi=
+ng code is
+> > desirable, because the existing code is garbage.
+> >
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~kvm_caps.supported_=
+quirks)
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_X2APIC_API_VALI=
+D_FLAGS)
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~kvm_get_allowed_dis=
+able_exits())
+> > arch/x86/kvm/x86.c:                 (cap->args[0] & ~KVM_X86_DISABLE_EX=
+ITS_PAUSE))
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_MSR_EXIT_REASON=
+_VALID_MASK)
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_BUS_LOCK_DETECT=
+ION_VALID_MODE)
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_EXIT_HYPERCALL_=
+VALID_MASK) {
+> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~1)
+> > arch/x86/kvm/x86.c:             if (!enable_pmu || (cap->args[0] & ~KVM=
+_CAP_PMU_VALID_MASK))
+> > arch/x86/kvm/x86.c:             if ((u32)cap->args[0] & ~KVM_X86_NOTIFY=
+_VMEXIT_VALID_BITS)
+> > virt/kvm/kvm_main.c:            if (cap->flags || (cap->args[0] & ~allo=
+wed_options))
+>=20
+> That's because none of those other options are boolean, right? I
+> assumed that the options that have valid masks use defines but
+> booleans use ~1 because (val & ~1) makes it obvious to the reader that
+> the option is in fact a boolean in a way that (val &
+> ~KVM_SOME_VALID_BITS) can not.
 
-We'll need to merge the block/nvme patches through the block tree
-anyway to avoid merges from hell, so yes.
+The entire reason when KVM checks and enforces cap->args[0] is so that KVM =
+can
+expand the capability's functionality in the future.  Whether or not a capa=
+bility
+is *currently* a boolean, i.e. only has one supported flag, is completely i=
+rrelevant.
 
+KVM has burned itself many times over by not performing checks, e.g. is how=
+ we
+ended up with things like KVM_CAP_DISABLE_QUIRKS2.
+
+> > > Or are you saying that since I'm already there you'd like to see a
+> > > completely separate patch that defines some kind of IS_ZERO_OR_ONE
+> > > macro for KVM, use it for KVM_CAP_EXIT_ON_EMULATION_FAILURE and, once
+> > > that lands then I can make use of it in this series?
+> >
+> > Xin is suggesting that you add a macro in arch/x86/include/uapi/asm/kvm=
+.h to
+> > #define which bits are valid and which bits are reserved.
+> >
+> > At a glance, you can kill multiple birds with one stone.  Rather than a=
+dd three
+> > separate capabilities, add one capability and then a variety of flags. =
+ E.g.
+> >
+> > #define KVM_X86_VMWARE_HYPERCALL        _BITUL(0)
+> > #define KVM_X86_VMWARE_BACKDOOR         _BITUL(1)
+> > #define KVM_X86_VMWARE_NESTED_BACKDOOR  _BITUL(2)
+> > #define KVM_X86_VMWARE_VALID_FLAGS      (KVM_X86_VMWARE_HYPERCALL |
+> >                                          KVM_X86_VMWARE_BACKDOOR |
+> >                                          KVM_X86_VMWARE_NESTED_BACKDOOR=
+)
+> >
+> >         case KVM_CAP_X86_VMWARE_EMULATION:
+> >                 r =3D -EINVAL;
+> >                 if (cap->args[0] & ~KVM_X86_VMWARE_VALID_FLAGS)
+> >                         break;
+> >
+> >                 mutex_lock(&kvm->lock);
+> >                 if (!kvm->created_vcpus) {
+> >                         if (cap->args[0] & KVM_X86_VMWARE_HYPERCALL)
+> >                                 kvm->arch.vmware.hypercall_enabled =3D =
+true;
+> >                         if (cap->args[0] & KVM_X86_VMWARE_BACKDOOR)
+> >                                 kvm->arch.vmware.backdoor_enabled;
+> >                         if (cap->args[0] & KVM_X86_VMWARE_NESTED_BACKDO=
+OR)
+> >                                 kvm->arch.vmware.nested_backdoor_enable=
+d =3D true;
+> >                         r =3D 0;
+> >                 }
+> >                 mutex_unlock(&kvm->lock);
+> >                 break;
+> >
+> > That approach wouldn't let userspace disable previously enabled VMware =
+capabilities,
+> > but unless there's a use case for doing so, that should be a non-issue.
+>=20
+> I'd say that if we desperately want to use a single cap for all of
+> these then I'd probably prefer a different approach because this would
+> make vmware_backdoor_enabled behavior really wacky.
+
+How so?  If kvm.enable_vmware_backdoor is true, then the backdoor is enable=
+d
+for all VMs, else it's disabled by default but can be enabled on a per-VM b=
+asis
+by the new capability.
+
+> It's the one that currently can only be set via kernel boot flags, so hav=
+ing
+> systems where the boot flag is on and disabling it on a per-vm basis make=
+s
+> sense and breaks with this.
+
+We could go this route, e.g. KVM does something similar for PMU virtualizat=
+ion.
+But the key difference is that enable_pmu is enabled by default, whereas
+enable_vmware_backdoor is disabled by default.  I.e. it makes far more sens=
+e for
+the capability to let userspace opt-in, as opposed to opt-out.
+
+> I'd probably still write the code to be able to disable/enable all of the=
+m
+> because it makes sense for vmware_backdoor_enabled.
+
+Again, that's not KVM's default, and it will never be KVM's default.  Unles=
+s there
+is a concrete use case for disabling features after *userspace* has opted-i=
+n,
+just make them one-way 0=3D>1 transitions so as to keep KVM's implementatio=
+n as
+simple as possible.
