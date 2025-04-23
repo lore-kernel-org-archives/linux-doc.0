@@ -1,31 +1,48 @@
-Received: from out30-99.freemail.mail.aliyun.com (out30-99.freemail.mail.aliyun.com [115.124.30.99])
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BAF82676D1;
-	Wed, 23 Apr 2025 06:55:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.99
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F59428F1;
+	Wed, 23 Apr 2025 07:05:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745391362; cv=none; b=ByNkPAuSByu3y2BGS7zccs2H7/ECMOu/p1xEio5SACv14x2xRZPimhT3rRIhNVtfCSUM5f4UvOnkoxe95RI30Dps615SKI9UQ6WuIVea0SIXM6F6A6wOZY/Op7hbCZzRYwqF06CH1kNSPOsI/RN0oni2slXXdtMIoaJMhSCYgzI=
+	t=1745391909; cv=none; b=lFdpkStHvd96mFkP29i+65T+E3NRacJWgVWSkoc2gGn7XtFf8j1WH6Pb8SIriIuHAsnln7cw+YJrkGgqCJ9UMNSz+tpNDxi/U6zcoiXtd0QsP6wwF6pdyFzLip/7nG6IgUViS8786bzheqt7m/vtLjBW3vzarpNAZggTL2lPeA8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745391362; c=relaxed/simple;
-	bh=3i7r/58CtDZFupNSmZUcH6QLoYJHCa1IatB2xCxRyRs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=Ow+jMrIk95gBzwQ6RJnUIBLvQNTxF4DIAPUcQpL167eZELDY/2kQRQ1gGyfhR4O8OLBfMZxS/js2FlumQzFyG7HoodEbKoGeNLakA16KW00WqsdjSYMAS+yjpQs3a6wtmK/JNRTJTjpmJMVlM7VoYdk0MpAW8sbfLdQVveDVOTI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=EEK6Wc0j; arc=none smtp.client-ip=115.124.30.99
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1745391909; c=relaxed/simple;
+	bh=D+P7ur/vwKX0dY6+j01f0h5JOwkYmjANaOOZHqX3JiA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=pjZwCUHwe27U6UrleDrRSGLU7OFDWpMGK5DkFkz+vquQI+XjW/N1Z+j1zTxb44xpkVToq9aaEpPCVXcIcSjw3FdbDgZlQV0onmwP9c5vTjzVovqXFRqPtnbFYMXF382XPWfdoyif9fE66GS1tDKb5m8vQG5EgS/F6LM9wQarEAw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=HPpFHJbs; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="EEK6Wc0j"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1745391356; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=H1skONK6cs8UBil9X8sWmmdRUJr3xZeKqf2Y3Px4r6c=;
-	b=EEK6Wc0jZrd0zYtCVb8w0ejHkm0uon0l9OSofXYYotzP3g3d2i2pqlGvHy6/a4k0BziLSYE6FqssVrzOwdXEJzlc+ij6EI4/cw5ZUBgnnHMm2eysBpis2dKypJqfh76VLi721aPnThVA5ACvJooMobHqaUaSF/J8e+mQovTslE8=
-Received: from 30.74.144.121(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WXtS1Fp_1745391352 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 23 Apr 2025 14:55:53 +0800
-Message-ID: <821dc0ef-faf9-460e-8396-2c0fdf3f6e94@linux.alibaba.com>
-Date: Wed, 23 Apr 2025 14:55:52 +0800
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="HPpFHJbs"
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53N0iLmg022331;
+	Wed, 23 Apr 2025 07:04:39 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	DXs+2X22CNIfmNCVhg97ldAwTjAoi/RHfs7pocm68rY=; b=HPpFHJbssP7T5kYH
+	BNxsx8ElUHeCg7E62rJt1P52xqRL1fOs1txhXZGRK3K9voYk5BZnkJBCpafq7F/9
+	8LB/aIhFnATHzf3AUjEWwqdrO4WtAD2bh7OEkCS1yQju2REvk1s+oo0x/pUQPaNy
+	QFk6hK1NEVWslrzOMrN5kdBK7BEvhR+KVq7SrFc4LonLqkqKB3vga5AOCJGra+ya
+	evLm+J6hRnBvmrgt9AsKQ2uEJnaL9CgVi1Eb1P37KV+FgX10lqVsMs5mYKBc+1vN
+	o5HJhUo4iokMBDSEvBGHu9sRChKo1A2brmEXUdyms17PbA7zKLl4rWOMmQ/SPN+f
+	mm07CA==
+Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 466jh1164v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Apr 2025 07:04:39 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 53N74cSZ016287
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 23 Apr 2025 07:04:38 GMT
+Received: from [10.110.52.190] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 23 Apr
+ 2025 00:04:37 -0700
+Message-ID: <c75d2cc2-e7f7-4de4-8d3d-81c3cf8ff973@quicinc.com>
+Date: Wed, 23 Apr 2025 00:04:36 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -33,98 +50,82 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 03/12] khugepaged: generalize hugepage_vma_revalidate
- for mTHP support
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
- peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250417000238.74567-1-npache@redhat.com>
- <20250417000238.74567-4-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250417000238.74567-4-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Subject: Re: [RFC][PATCH 00/14] introduce kmemdump
+To: Eugen Hristev <eugen.hristev@linaro.org>, <linux-kernel@vger.kernel.org>,
+        <linux-arm-msm@vger.kernel.org>, <andersson@kernel.org>
+CC: <linux-doc@vger.kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
+        <mingo@redhat.com>, <rostedt@goodmis.org>, <john.ogness@linutronix.de>,
+        <senozhatsky@chromium.org>, <pmladek@suse.com>, <peterz@infradead.org>,
+        <mojha@qti.qualcomm.com>, <linux-arm-kernel@lists.infradead.org>,
+        <vincent.guittot@linaro.org>, <konradybcio@kernel.org>,
+        <dietmar.eggemann@arm.com>, <juri.lelli@redhat.com>
+References: <20250422113156.575971-1-eugen.hristev@linaro.org>
+Content-Language: en-US
+From: Trilok Soni <quic_tsoni@quicinc.com>
+In-Reply-To: <20250422113156.575971-1-eugen.hristev@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-GUID: WG7qYevMhuvSAnvTpD6mvm3ky2sWWyNl
+X-Authority-Analysis: v=2.4 cv=OY6YDgTY c=1 sm=1 tr=0 ts=68089107 cx=c_pps a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17 a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=COk6AnOGAAAA:8
+ a=oZ8wWTcPSBrqPQfBPqMA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: WG7qYevMhuvSAnvTpD6mvm3ky2sWWyNl
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDIzMDA0NiBTYWx0ZWRfX0TwZpL0SAicz oF4+evXSmwb+4LqxonlhNM/2Pc0LZLhrfKbOUZFe88P71mC4iyFnITKZSulYzUwJEld+jDIUeUJ THtFecDN/No+OXk5RiG7AMgR7aNDRbupscYOxnQFxR+pyrX78qy5u/XmRy9s91zgoZT2TDYQdBF
+ cZliSTsNqg4xWCq4u1o8jwcLDjR4mSpVn5PP5AP5R1UN/28ARiNsdBIAsyrPddyzH/ExDx2ZUNZ 5BN3OMmJGm6jyzFJHngqIl47sD8q67ovCjvzvqCGDKxwd8m+tUeHBOeSh+vzh44JrwaorO7Kc4z /t4jFPSm0x1f7Ag98UOGqE/8Nnli8QfvFmjxTgYQGSH6pKORYcFnNFLcrKPK7o5rZZ2MTdw3YQl
+ +lXeRaEf2NtKnxdn5XNByYsixOSYMx+r8rtcqhxFn45H5ewVVMm1lu0RtzO6BPpvPf221yJK
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.680,FMLib:17.12.68.34
+ definitions=2025-04-23_05,2025-04-22_01,2024-11-22_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 impostorscore=0
+ lowpriorityscore=0 suspectscore=0 mlxscore=0 clxscore=1011 malwarescore=0
+ mlxlogscore=797 phishscore=0 priorityscore=1501 spamscore=0 adultscore=0
+ bulkscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
+ definitions=main-2504230046
 
-
-
-On 2025/4/17 08:02, Nico Pache wrote:
-> For khugepaged to support different mTHP orders, we must generalize this
-> function for arbitrary orders.
+On 4/22/2025 4:31 AM, Eugen Hristev wrote:
+> kmemdump is a mechanism which allows the kernel to mark specific memory
+> areas for dumping or specific backend usage.
+> Once regions are marked, kmemdump keeps an internal list with the regions
+> and registers them in the backend.
+> Further, depending on the backend driver, these regions can be dumped using
+> firmware or different hardware block.
+> Regions being marked beforehand, when the system is up and running, there
+> is no need nor dependency on a panic handler, or a working kernel that can
+> dump the debug information.
+> The kmemdump approach works when pstore, kdump, or another mechanism do not.
+> Pstore relies on persistent storage, a dedicated RAM area or flash, which
+> has the disadvantage of having the memory reserved all the time, or another
+> specific non volatile memory. Some devices cannot keep the RAM contents on
+> reboot so ramoops does not work. Some devices do not allow kexec to run
+> another kernel to debug the crashed one.
+> For such devices, that have another mechanism to help debugging, like
+> firmware, kmemdump is a viable solution.
 > 
-> No functional change in this patch.
+> kmemdump can create a core image, similar with /proc/vmcore, with only
+> the registered regions included. This can be loaded into crash tool/gdb and
+> analyzed.
+> To have this working, specific information from the kernel is registered,
+> and this is done at kmemdump init time, no need for the kmemdump user to
+> do anything.
 > 
-> Co-developed-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Dev Jain <dev.jain@arm.com>
-> Signed-off-by: Nico Pache <npache@redhat.com>
-
-LGTM.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-
-> ---
->   mm/khugepaged.c | 12 ++++++------
->   1 file changed, 6 insertions(+), 6 deletions(-)
+> The implementation is based on the initial Pstore/directly mapped zones
+> published as an RFC here:
+> https://lore.kernel.org/all/20250217101706.2104498-1-eugen.hristev@linaro.org/
 > 
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index b6281c04f1e5..54d7f43da69c 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -920,7 +920,7 @@ static int khugepaged_find_target_node(struct collapse_control *cc)
->   static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
->   				   bool expect_anon,
->   				   struct vm_area_struct **vmap,
-> -				   struct collapse_control *cc)
-> +				   struct collapse_control *cc, int order)
->   {
->   	struct vm_area_struct *vma;
->   	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
-> @@ -932,9 +932,9 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
->   	if (!vma)
->   		return SCAN_VMA_NULL;
->   
-> -	if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
-> +	if (!thp_vma_suitable_order(vma, address, order))
->   		return SCAN_ADDRESS_RANGE;
-> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, PMD_ORDER))
-> +	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, order))
->   		return SCAN_VMA_CHECK;
->   	/*
->   	 * Anon VMA expected, the address may be unmapped then
-> @@ -1130,7 +1130,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   		goto out_nolock;
->   
->   	mmap_read_lock(mm);
-> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
-> +	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, HPAGE_PMD_ORDER);
->   	if (result != SCAN_SUCCEED) {
->   		mmap_read_unlock(mm);
->   		goto out_nolock;
-> @@ -1164,7 +1164,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   	 * mmap_lock.
->   	 */
->   	mmap_write_lock(mm);
-> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
-> +	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, HPAGE_PMD_ORDER);
->   	if (result != SCAN_SUCCEED)
->   		goto out_up_write;
->   	/* check if the pmd is still valid */
-> @@ -2790,7 +2790,7 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
->   			mmap_read_lock(mm);
->   			mmap_locked = true;
->   			result = hugepage_vma_revalidate(mm, addr, false, &vma,
-> -							 cc);
-> +							 cc, HPAGE_PMD_ORDER);
->   			if (result  != SCAN_SUCCEED) {
->   				last_fail = result;
->   				goto out_nolock;
+> The back-end implementation for qcom_smem is based on the minidump
+> patch series and driver written by Mukesh Ojha, thanks:
+> https://lore.kernel.org/lkml/20240131110837.14218-1-quic_mojha@quicinc.com/
+> 
+> I appreciate the feedback on this series, I know it is a longshot, and there
+> is a lot to improve, but I hope I am on the right track.
+
+
+Is there any way to demonstrate this framework on non-Qualcomm device? Like any
+other ARM device from TI, NXP etc; x86/RISC-V based device is also fine.
+
+-- 
+---Trilok Soni
