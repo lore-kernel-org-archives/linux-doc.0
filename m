@@ -1,131 +1,195 @@
-Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF73928CF5A
-	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 15:10:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEE7C27F4D1;
+	Wed, 23 Apr 2025 15:11:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745421044; cv=none; b=J6hCF4ndbwbjjWVAurmukTqLB5Fqg7O26sLmJgORTT3LDrI2ofKv9k0gGosjeGEgdBabKdJqI9XgonKHmgDKB7CQmjlE3CSoG+w37pqt75oyCLVFbS5eJrHKpx/x+2vx9bLS2J8fyOBjkvWWY53vf0+igSHgKYAi5s66Vxf6WSs=
+	t=1745421107; cv=none; b=idLeB2rdmi13x62tsJ5eDMs32GNMJ2rHKIqwlv2rYZo0Zc+M5N5FHM7Nw8AUxJJ0kprF1TPri7QWfR2q22EeNyJCK9QcAsJuk1CQCtIBBYayKKWKWfKX4Ko77Iq5v4aaB5uuAdUvgxs93Xbu6EToOayl69ZNo93ApbUX2hJD2lA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745421044; c=relaxed/simple;
-	bh=uFV3fDxHeTVor0I1L/M53Jf1QkJJii9mgN/m4+mnqe0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=YuA61bkbo3M5IiWQCccVoeHOlLl3OH7pd56Q2+AlYYCp1ug4Bg5qBy7CYySU5hYw5j2lgcEeXwl6oCMdxeouufIGDcOsphBahMhsEQHXEKKiGiAl52MUwcqtKWMKdjauGurFfAHTIlsXLB1JMiCdRA2mXScqotsx8ApvYO60uFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=BV467kOY; arc=none smtp.client-ip=209.85.128.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1745421107; c=relaxed/simple;
+	bh=7DTSy5c0LEFq6TqHnzfnsQmzUsM4pf25hH2RxLEG93Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=VsEcSOy+JeYra2YSoGa0J8cei+Xx2igNPCWQen0onmweNHG/JudpLqLmG5kQMkpsMXsAZL3DBTdO7yRr1fDTSQtoxSl7F5I8DeLjWJp4ezbdIio05LswDYY4HqKOXV7a6HKbLyxDc53QiPokQfYI1c0jIbtR8KrKrcWLSQRGOUI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=0hvFVCAT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="BV467kOY"
-Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-6ff37565232so55227727b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 08:10:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1745421041; x=1746025841; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ppDTLRNI5D/DHlJ104+9klrOmugo96Z4EzkqmTSr+tw=;
-        b=BV467kOYvg9v1zan0/6j+x47F8k96sTz/PYM0TdS2w+WeWy7o3I1OK3YpPMw2RYbPn
-         YBo32qVaE2CpT/F0kqYkX6ESu30MQ5Zs4SVO6Ngktc83G8A9DZ52LypKy6vxTaZRnDXv
-         nCvVf9KcnMy3bFIrmJSvtCa5JU5K5bavjj3/uG/IgXj26dO++/pnJtPQzyTlTur5U5E4
-         M27BjyuJxCnK+1YTgD8oA2zvnQoEkgi2Yr8lPHPA/hYOeURaQ2HMRRPT45VNgrE6JOba
-         JVDZYlvx1cuiQ5EbAJTRGFyV9ytozEWODCcZLDQ6CJLlgX0C1fzENfaWaSI3Jc1TGnDg
-         AhnA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745421041; x=1746025841;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ppDTLRNI5D/DHlJ104+9klrOmugo96Z4EzkqmTSr+tw=;
-        b=km3G/oMyhWVfCYjkIBCAIaIwWLhPIj6v0WnuTfe0qYY8l1QOV9GF7qoohgfaPwbUI4
-         opsHkM+j+2ISw7y6oi9REiH/MgI1fQM9RGJZ+2pRRoSKIhPc0dVZVKKrWDpFe1Rc9hy5
-         3pDHDb8JFA8ah0OTHCM+2XoGQQJdc1uTVgcnOCux0YFxQJlyyfSWf0qWNNPE27U6BAmH
-         nhpM4czlaEd5OJpBzUTKkrfDdkKSnokKQNszCsu5rNDDkaOL0Mrh/TAEYKvhyehDmnib
-         oW6HGDXwf6kJaPHkoF4wkkcQ9XeHm32yOYTtexbe14KTFDlcpWD3f313+kFcOb3L2LYy
-         Oo4g==
-X-Forwarded-Encrypted: i=1; AJvYcCXv9eJQsND7zecevumPrC3UQ5OUfixnxTE/O5QPU9x7HGelBHf9Z5xoDwZjjPZZdPmDDhZXnvYfDS4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx4oE6klTK/d0XkIUvVVry2iEfY+Jo2J4mtEqXnivOR5TIIusdy
-	+l9dtkF/rU2eLo3EfnYr9n2Ta6bk8RmMKhNvAqG/iA8D/D1MIdf8H6nfQ5jYOhQ3stC35qaXbmx
-	6VcF0ERdFU/y7117clI6yrbcWUWzloFY8lfi1
-X-Gm-Gg: ASbGncuCeNsqOc2YqMoXJUtqMIX/bJKpUAko+tpv8HnEyCrVoL6ru6UdsPovhh4Wdu8
-	W1OQrIZ1NlKbFSqpziYDejcZWFHdMRKkMfzrq7tGbbAM8A+HghnzMX2QnLnRnNLFNug4vnfMjnh
-	zk245FmpsAJVwfj9XXSDlLs1hTPBYtGmOh
-X-Google-Smtp-Source: AGHT+IHNlf00p8r3DHcmCpgY+IFBhYtAhRgyVsFb6FFk96MPIernB0HKWY5qgWQbLL58D4kTom9itSs/0uIOQcHE5fg=
-X-Received: by 2002:a05:690c:6801:b0:6fd:33a5:59a with SMTP id
- 00721157ae682-706ccd1a5ccmr309843197b3.18.1745421040868; Wed, 23 Apr 2025
- 08:10:40 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="0hvFVCAT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A40FC4CEE2;
+	Wed, 23 Apr 2025 15:11:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1745421107;
+	bh=7DTSy5c0LEFq6TqHnzfnsQmzUsM4pf25hH2RxLEG93Q=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=0hvFVCAT5jtCig0nLcR7J+2P1wXVGhGv9rr1fqWPCDQqC+r/7lY6jONUP0bL1ytgl
+	 5mFUJqmXQQe+4u9tGT5X8/QqouQIk1PlkkqIa90I1ICOq8vw+QED7eZHLF8F1SngTk
+	 3vQDZQF1wXYC9QPBtFNzmVYq8r7P2N/Ly4RFZTd0=
+From: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To: stable@vger.kernel.org
+Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	patches@lists.linux.dev,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
+	Rob Herring <robh@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	kvmarm@lists.linux.dev,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>
+Subject: [PATCH 6.12 192/223] arm64/boot: Enable EL2 requirements for FEAT_PMUv3p9
+Date: Wed, 23 Apr 2025 16:44:24 +0200
+Message-ID: <20250423142624.996855042@linuxfoundation.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250423142617.120834124@linuxfoundation.org>
+References: <20250423142617.120834124@linuxfoundation.org>
+User-Agent: quilt/0.68
+X-stable: review
+X-Patchwork-Hint: ignore
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250404215527.1563146-1-bboscaccy@linux.microsoft.com>
- <20250404215527.1563146-2-bboscaccy@linux.microsoft.com> <CAADnVQJyNRZVLPj_nzegCyo+BzM1-whbnajotCXu+GW+5-=P6w@mail.gmail.com>
- <87semdjxcp.fsf@microsoft.com> <CAADnVQ+JGfwRgsoe2=EHkXdTyQ8ycn0D9nh1k49am++4oXUPHg@mail.gmail.com>
- <87friajmd5.fsf@microsoft.com> <CAADnVQKb3gPBFz+n+GoudxaTrugVegwMb8=kUfxOea5r2NNfUA@mail.gmail.com>
- <87a58hjune.fsf@microsoft.com> <CAADnVQ+LMAnyT4yV5iuJ=vswgtUu97cHKnvysipc6o7HZfEbUA@mail.gmail.com>
- <87y0w0hv2x.fsf@microsoft.com> <CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGmRAjbusQ@mail.gmail.com>
- <2bd95ca78e836db0775da8237792e8448b8eec62.camel@HansenPartnership.com>
-In-Reply-To: <2bd95ca78e836db0775da8237792e8448b8eec62.camel@HansenPartnership.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Wed, 23 Apr 2025 11:10:29 -0400
-X-Gm-Features: ATxdqUEil0O912atUTQeKlUUv4Sfsc4c76L7yegeINodkXYOkWCpNQ86Ynaeoaw
-Message-ID: <CAHC9VhTi6+CHD9OtWj5=pPDrtwF+S9yfBOKqghe=9wXmd7jrxA@mail.gmail.com>
-Subject: Re: [PATCH v2 security-next 1/4] security: Hornet LSM
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Blaise Boscaccy <bboscaccy@linux.microsoft.com>, Jonathan Corbet <corbet@lwn.net>, 
-	David Howells <dhowells@redhat.com>, Herbert Xu <herbert@gondor.apana.org.au>, 
-	"David S. Miller" <davem@davemloft.net>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Shuah Khan <shuah@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	=?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	Jan Stancek <jstancek@redhat.com>, Neal Gompa <neal@gompa.dev>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, bpf <bpf@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, nkapron@google.com, 
-	Matteo Croce <teknoraver@meta.com>, Roberto Sassu <roberto.sassu@huawei.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Wed, Apr 23, 2025 at 10:12=E2=80=AFAM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
-> On Mon, 2025-04-21 at 13:12 -0700, Alexei Starovoitov wrote:
-> [...]
-> > Calling bpf_map_get() and
-> > map->ops->map_lookup_elem() from a module is not ok either.
->
-> I don't understand this objection.  The program just got passed in to
-> bpf_prog_load() as a set of attributes which, for a light skeleton,
-> directly contain the code as a blob and have the various BTF
-> relocations as a blob in a single element array map.  I think everyone
-> agrees that the integrity of the program would be compromised by
-> modifications to the relocations, so the security_bpf_prog_load() hook
-> can't make an integrity determination without examining both.  If the
-> hook can't use the bpf_maps.. APIs directly is there some other API it
-> should be using to get the relocations, or are you saying that the
-> security_bpf_prog_load() hook isn't fit for purpose and it should be
-> called after the bpf core has loaded the relocations so they can be
-> provided to the hook as an argument?
->
-> The above, by the way, is independent of signing, because it applies to
-> any determination that might be made in the security_bpf_prog_load()
-> hook regardless of purpose.
+6.12-stable review patch.  If anyone has any objections, please let me know.
 
-I've also been worrying that some of the unspoken motivation behind
-the objection is simply that Hornet is not BPF.  If/when we get to a
-point where Hornet is sent up to Linus and Alexei's objection to the
-Hornet LSM inspecting BPF maps stands, it seems as though *any* LSM,
-including BPF LSMs, would need to be prevented from accessing BPF
-maps.  I'm fairly certain no one wants to see it come to that.
+------------------
 
---=20
-paul-moore.com
+From: Anshuman Khandual <anshuman.khandual@arm.com>
+
+commit 858c7bfcb35e1100b58bb63c9f562d86e09418d9 upstream.
+
+FEAT_PMUv3p9 registers such as PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1
+access from EL1 requires appropriate EL2 fine grained trap configuration
+via FEAT_FGT2 based trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2.
+Otherwise such register accesses will result in traps into EL2.
+
+Add a new helper __init_el2_fgt2() which initializes FEAT_FGT2 based fine
+grained trap control registers HDFGRTR2_EL2 and HDFGWTR2_EL2 (setting the
+bits nPMICNTR_EL0, nPMICFILTR_EL0 and nPMUACR_EL1) to enable access into
+PMICNTR_EL0, PMICFILTR_EL0, and PMUACR_EL1 registers.
+
+Also update booting.rst with SCR_EL3.FGTEn2 requirement for all FEAT_FGT2
+based registers to be accessible in EL2.
+
+Cc: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Marc Zyngier <maz@kernel.org>
+Cc: Oliver Upton <oliver.upton@linux.dev>
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-doc@vger.kernel.org
+Cc: linux-kernel@vger.kernel.org
+Cc: kvmarm@lists.linux.dev
+Fixes: 0bbff9ed8165 ("perf/arm_pmuv3: Add PMUv3.9 per counter EL0 access control")
+Fixes: d8226d8cfbaf ("perf: arm_pmuv3: Add support for Armv9.4 PMU instruction counter")
+Tested-by: Rob Herring (Arm) <robh@kernel.org>
+Reviewed-by: Rob Herring (Arm) <robh@kernel.org>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Link: https://lore.kernel.org/r/20250227035119.2025171-1-anshuman.khandual@arm.com
+Signed-off-by: Catalin Marinas <catalin.marinas@arm.com>
+Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+---
+ Documentation/arch/arm64/booting.rst |   22 ++++++++++++++++++++++
+ arch/arm64/include/asm/el2_setup.h   |   25 +++++++++++++++++++++++++
+ arch/arm64/tools/sysreg              |    1 +
+ 3 files changed, 48 insertions(+)
+
+--- a/Documentation/arch/arm64/booting.rst
++++ b/Documentation/arch/arm64/booting.rst
+@@ -285,6 +285,12 @@ Before jumping into the kernel, the foll
+ 
+     - SCR_EL3.FGTEn (bit 27) must be initialised to 0b1.
+ 
++  For CPUs with the Fine Grained Traps 2 (FEAT_FGT2) extension present:
++
++  - If EL3 is present and the kernel is entered at EL2:
++
++    - SCR_EL3.FGTEn2 (bit 59) must be initialised to 0b1.
++
+   For CPUs with support for HCRX_EL2 (FEAT_HCX) present:
+ 
+   - If EL3 is present and the kernel is entered at EL2:
+@@ -379,6 +385,22 @@ Before jumping into the kernel, the foll
+ 
+     - SMCR_EL2.EZT0 (bit 30) must be initialised to 0b1.
+ 
++  For CPUs with the Performance Monitors Extension (FEAT_PMUv3p9):
++
++ - If EL3 is present:
++
++    - MDCR_EL3.EnPM2 (bit 7) must be initialised to 0b1.
++
++ - If the kernel is entered at EL1 and EL2 is present:
++
++    - HDFGRTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
++    - HDFGRTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
++    - HDFGRTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
++
++    - HDFGWTR2_EL2.nPMICNTR_EL0 (bit 2) must be initialised to 0b1.
++    - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
++    - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
++
+   For CPUs with Memory Copy and Memory Set instructions (FEAT_MOPS):
+ 
+   - If the kernel is entered at EL1 and EL2 is present:
+--- a/arch/arm64/include/asm/el2_setup.h
++++ b/arch/arm64/include/asm/el2_setup.h
+@@ -215,6 +215,30 @@
+ .Lskip_fgt_\@:
+ .endm
+ 
++.macro __init_el2_fgt2
++	mrs	x1, id_aa64mmfr0_el1
++	ubfx	x1, x1, #ID_AA64MMFR0_EL1_FGT_SHIFT, #4
++	cmp	x1, #ID_AA64MMFR0_EL1_FGT_FGT2
++	b.lt	.Lskip_fgt2_\@
++
++	mov	x0, xzr
++	mrs	x1, id_aa64dfr0_el1
++	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMUVer_SHIFT, #4
++	cmp	x1, #ID_AA64DFR0_EL1_PMUVer_V3P9
++	b.lt	.Lskip_pmuv3p9_\@
++
++	orr	x0, x0, #HDFGRTR2_EL2_nPMICNTR_EL0
++	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
++	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
++.Lskip_pmuv3p9_\@:
++	msr_s   SYS_HDFGRTR2_EL2, x0
++	msr_s   SYS_HDFGWTR2_EL2, x0
++	msr_s   SYS_HFGRTR2_EL2, xzr
++	msr_s   SYS_HFGWTR2_EL2, xzr
++	msr_s   SYS_HFGITR2_EL2, xzr
++.Lskip_fgt2_\@:
++.endm
++
+ .macro __init_el2_nvhe_prepare_eret
+ 	mov	x0, #INIT_PSTATE_EL1
+ 	msr	spsr_el2, x0
+@@ -240,6 +264,7 @@
+ 	__init_el2_nvhe_idregs
+ 	__init_el2_cptr
+ 	__init_el2_fgt
++	__init_el2_fgt2
+ .endm
+ 
+ #ifndef __KVM_NVHE_HYPERVISOR__
+--- a/arch/arm64/tools/sysreg
++++ b/arch/arm64/tools/sysreg
+@@ -1238,6 +1238,7 @@ UnsignedEnum	11:8	PMUVer
+ 	0b0110	V3P5
+ 	0b0111	V3P7
+ 	0b1000	V3P8
++	0b1001	V3P9
+ 	0b1111	IMP_DEF
+ EndEnum
+ UnsignedEnum	7:4	TraceVer
+
+
