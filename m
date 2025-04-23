@@ -1,207 +1,118 @@
-Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 399C7288C80
-	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 15:54:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A1C07280CFF;
+	Wed, 23 Apr 2025 16:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745423675; cv=none; b=BMpRuc8tfosG/eWQR/UNWjqwrQL4/e1uZ0s5GQss6NCh4QY8YQBAZaPvO0/7ZkPiympci4NS+Mwm9J5hQQ7/9oOlPRxJ7Ug0Xtweei9KntZH5FHZGZ35JrPkk9t3MkNxpDdlQCcKlWkg/eMt25t8mawdG4blio2PN3SguKMCeJQ=
+	t=1745425812; cv=none; b=T8G+dlvloVjkJm+Fmqq/z27/vZd0k5W7ytfhFmAQkX/wOywc/p5vl8CeB4QCBv4oEXtYkmmLATTvSEXo/F3OTH6TvrWtziOypS4BT5Apeo7sREXKXoFVFQwywZ3zR7aSQRfm1evklhb2DzVilGNpsKqS1Gt1Z2PIgklHOLVN6Go=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745423675; c=relaxed/simple;
-	bh=f+VP0NPD5jNHuEDDOfpUYceTIOhV/Rt5Z0A8AQ2izAo=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=IABPOaqaDhgyaxLL+sLSfEdTA573Kw5b8BokjdUHWFfDezp7VK6e/oNVjR7inrC84bSDqtSPNUknaAkjMC2r/bKruqNi+YkOszNtjZyOo63ghpx7BRtO+tFMs5HUS2/bqXMR8TcZNzh/0ONB3vu1xacXL++2Dg7dErwpcUKjycc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=tcgbARPV; arc=none smtp.client-ip=209.85.210.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1745425812; c=relaxed/simple;
+	bh=blCd0egQnP2RQ1crpeuSGS0mStW2KuzlnHkxCncnzPw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iKgS5smwznVkQtQCJ8BL5b/qDd2hL3WaB+aUHtHWAAAatbJl6M4auOZCUaZ3oAQiiXkfIOk1QTpz87B5+7+MqqwIdcv8D+MpWdUeNsN3hplAbjAWabp6AJvP56/+/cVHtRzN9SqDRVMsiFp/mivJ71DwRFpQXlKll5Uz2yJrPfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=UtkWTpV1; arc=none smtp.client-ip=198.175.65.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="tcgbARPV"
-Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-736cd36189bso8704309b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 08:54:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745423673; x=1746028473; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=+mc9z1PuhiHedW9jAFmuOWVP2itkaushPzad2KkMGss=;
-        b=tcgbARPV4iIx1laSSqByM2aBqqgD7tGIFwsCtV5uoSThPqy/beP5J98Lc7exPc9bZR
-         eS2YIYL4VaIPZiROGcm9X46QR7jqLu22MbBF9Av34WZGoN+rjxd3qGi5BXYG6dQ1+ida
-         YcJ9ZPYfyj+sE0fEtjutAiitkw4J+BBlFS524bQ8W+6QmL6SY3/nep944rKHIehkb+M4
-         YQjXpqZpxVWccTwKkRTGxIqI7TtlJPpLxkHiJg71gF40eZRZTlMnfgC1nYPXKCAspvpB
-         FqG0DPPRaWsq/GdAhUGGxYHc5SENVK+KZB7xekra+afp0hx/O0t2TMPM12DRQSACQ1B+
-         FzEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745423673; x=1746028473;
-        h=content-transfer-encoding:cc:to:from:subject:message-id:references
-         :mime-version:in-reply-to:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=+mc9z1PuhiHedW9jAFmuOWVP2itkaushPzad2KkMGss=;
-        b=BwwLACJO1uVobN6qp+cctkAw3GO6o8NeLpuTvNClgoJdcb+QXUWiJe9AA6ICd4AG9/
-         sUjW7Gdy2XGQuuJvSBpYZtW5aSR1A09HQNP3MN0JlFNWEuL0QP0KHS6nhtDBv+s3N6B4
-         4HRqbYYkey7qXUzdqRWcKFJs5rMfNZc1lJQ2QVqsLn9vx9OyGNRdrczR/dLuWhJg/csL
-         qydzGZRj+1cuJfX1zfOaiqPz2BUs7iXdUAtOliZXkdvDVHu8XNpW+5EdINpA7EZRN1pA
-         hCvSsjMGEqL8tQl2eYLb0Q41BqbuSpWAr0qzg752UsVvUtv1Mfs8sHZSe78NYWROkqkw
-         D2Ug==
-X-Forwarded-Encrypted: i=1; AJvYcCXaJef/rEjsQwOoWJre36Kf6aTqhvlYK2cSnsWRUI/f6Bqya14a0MIIsSF/hR+ac9x3qjm84cutEJ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHse03psfuLm3CJCKqlRPh+HbNQqKNCjHJuI5AtWfwgl0ry968
-	z4J3qp/4Ka5X0HbD9rOdBjId6S5Ucw885rfvztVyTtRDF+cj115+UBXs7AJrwtDXopvbCiu45eV
-	/Pg==
-X-Google-Smtp-Source: AGHT+IHgTggejAFEgcZTd/pUvQPX6XzW17AT6knE+s0SYYVGMUts32i/fFAkytyUefVrtBWGMlB9ZWVuG7o=
-X-Received: from pfbem8.prod.google.com ([2002:a05:6a00:3748:b0:739:9e9:feea])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a05:6a00:a81:b0:736:5545:5b84
- with SMTP id d2e1a72fcca58-73dc14536b9mr27349625b3a.3.1745423673477; Wed, 23
- Apr 2025 08:54:33 -0700 (PDT)
-Date: Wed, 23 Apr 2025 08:54:31 -0700
-In-Reply-To: <CABQX2QNDmXizUDP_sckvfaM9OBTxHSr0ESgJ_=Z_5RiODfOGsg@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="UtkWTpV1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745425811; x=1776961811;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=blCd0egQnP2RQ1crpeuSGS0mStW2KuzlnHkxCncnzPw=;
+  b=UtkWTpV1tuWRuDbrzuP3PhYgWNeeFvumhMG2II5EFyB3BApBQ91g3Ef3
+   L25vZMFsbNjBhyN0hXakSnx3998+kwjmpbr9vkiHSUmhoRozenjQCurKI
+   Uc6KRyvSD1sv2+0DjAyZcFRhL2iljy58IT+dJ9+gY0G+8HfrpOEV7OBU3
+   eHpDLLxh9bJSmx4B4GmgWsodyzaBC/txr1Ydo5Ny8h4hrCIU/5GgkMgRy
+   vUhoQ3fMwVuIjrFyo44NcSlOD2ahMqzVj6x8t0ABe16VTD++nF/JRuE2S
+   C/rkXitN6z2wC6GmXCPV/nFrSHcwErHRmxVnAE3Ov0ArbV3XIO9IIpPv6
+   g==;
+X-CSE-ConnectionGUID: 1iBrGGOrRmSe+lT4mk2ubA==
+X-CSE-MsgGUID: vGPxNNKBRzeI0Wy/PI/H3w==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="50691995"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="50691995"
+Received: from orviesa005.jf.intel.com ([10.64.159.145])
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 09:30:10 -0700
+X-CSE-ConnectionGUID: AOZmElnvQS6Bz4a7vmV+Lg==
+X-CSE-MsgGUID: k1cYvI4HTxyrG+74eZSxKw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="137527738"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa005.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 09:29:42 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1u7cyf-0000000F7DT-2dhw;
+	Wed, 23 Apr 2025 19:29:37 +0300
+Date: Wed, 23 Apr 2025 19:29:37 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Geert Uytterhoeven <geert@linux-m68k.org>
+Cc: Petr Mladek <pmladek@suse.com>, Aditya Garg <gargaditya08@live.com>,
+	Hector Martin <marcan@marcan.st>, alyssa@rosenzweig.io,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	netdev <netdev@vger.kernel.org>
+Subject: Re: [PATCH v4 1/3] lib/vsprintf: Add support for generic FourCCs by
+ extending %p4cc
+Message-ID: <aAkVcaRrMmqXRSFz@smile.fi.intel.com>
+References: <PN3PR01MB9597382EFDE3452410A866AEB8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB9597B01823415CB7FCD3BC27B8B52@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com>
+ <PN3PR01MB9597B3AE75E009857AA12D4DB8BB2@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <CAMuHMdWpqHLest0oqiB+hG47t=G7OScLmHz5zr2u0ZgED_+Obg@mail.gmail.com>
+ <aAjthvTuIeUIO4CT@pathway.suse.cz>
+ <CAMuHMdXuawN0eC0yO40-zrz70TH-3_Y-CFSy6=hHCCMLAPvU5w@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250422161304.579394-1-zack.rusin@broadcom.com>
- <20250422161304.579394-5-zack.rusin@broadcom.com> <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
- <CABQX2QMznYZiVm40Ligq+pFKmEkVpScW+zcKYbPpGgm0=S2Xkg@mail.gmail.com>
- <aAjrOgsooR4RYIJr@google.com> <CABQX2QNDmXizUDP_sckvfaM9OBTxHSr0ESgJ_=Z_5RiODfOGsg@mail.gmail.com>
-Message-ID: <aAkNN029DIxYay-j@google.com>
-Subject: Re: [PATCH v2 4/5] KVM: x86: Add support for legacy VMware backdoors
- in nested setups
-From: Sean Christopherson <seanjc@google.com>
-To: Zack Rusin <zack.rusin@broadcom.com>
-Cc: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org, 
-	Doug Covelli <doug.covelli@broadcom.com>, Paolo Bonzini <pbonzini@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAMuHMdXuawN0eC0yO40-zrz70TH-3_Y-CFSy6=hHCCMLAPvU5w@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, Apr 23, 2025, Zack Rusin wrote:
-> On Wed, Apr 23, 2025 at 9:31=E2=80=AFAM Sean Christopherson <seanjc@googl=
-e.com> wrote:
-> > Heh, KVM_CAP_EXIT_ON_EMULATION_FAILURE is the odd one out.  Even if tha=
-t weren't
-> > the case, this is one of the situations where diverging from the existi=
-ng code is
-> > desirable, because the existing code is garbage.
-> >
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~kvm_caps.supported_=
-quirks)
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_X2APIC_API_VALI=
-D_FLAGS)
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~kvm_get_allowed_dis=
-able_exits())
-> > arch/x86/kvm/x86.c:                 (cap->args[0] & ~KVM_X86_DISABLE_EX=
-ITS_PAUSE))
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_MSR_EXIT_REASON=
-_VALID_MASK)
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_BUS_LOCK_DETECT=
-ION_VALID_MODE)
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_EXIT_HYPERCALL_=
-VALID_MASK) {
-> > arch/x86/kvm/x86.c:             if (cap->args[0] & ~1)
-> > arch/x86/kvm/x86.c:             if (!enable_pmu || (cap->args[0] & ~KVM=
-_CAP_PMU_VALID_MASK))
-> > arch/x86/kvm/x86.c:             if ((u32)cap->args[0] & ~KVM_X86_NOTIFY=
-_VMEXIT_VALID_BITS)
-> > virt/kvm/kvm_main.c:            if (cap->flags || (cap->args[0] & ~allo=
-wed_options))
->=20
-> That's because none of those other options are boolean, right? I
-> assumed that the options that have valid masks use defines but
-> booleans use ~1 because (val & ~1) makes it obvious to the reader that
-> the option is in fact a boolean in a way that (val &
-> ~KVM_SOME_VALID_BITS) can not.
+On Wed, Apr 23, 2025 at 04:50:02PM +0200, Geert Uytterhoeven wrote:
+> On Wed, 23 Apr 2025 at 15:39, Petr Mladek <pmladek@suse.com> wrote:
+> > On Tue 2025-04-22 10:43:59, Geert Uytterhoeven wrote:
 
-The entire reason when KVM checks and enforces cap->args[0] is so that KVM =
-can
-expand the capability's functionality in the future.  Whether or not a capa=
-bility
-is *currently* a boolean, i.e. only has one supported flag, is completely i=
-rrelevant.
+...
 
-KVM has burned itself many times over by not performing checks, e.g. is how=
- we
-ended up with things like KVM_CAP_DISABLE_QUIRKS2.
+> > The problem is that the semantic is not the same. The modifiers affect
+> > the output ordering of IPv4 addresses while they affect the reading order
+> > in case of FourCC code.
+> 
+> Note that for IPv4 addresses we have %pI4, which BTW also takes [hnbl]
+> modifiers.
 
-> > > Or are you saying that since I'm already there you'd like to see a
-> > > completely separate patch that defines some kind of IS_ZERO_OR_ONE
-> > > macro for KVM, use it for KVM_CAP_EXIT_ON_EMULATION_FAILURE and, once
-> > > that lands then I can make use of it in this series?
-> >
-> > Xin is suggesting that you add a macro in arch/x86/include/uapi/asm/kvm=
-.h to
-> > #define which bits are valid and which bits are reserved.
-> >
-> > At a glance, you can kill multiple birds with one stone.  Rather than a=
-dd three
-> > separate capabilities, add one capability and then a variety of flags. =
- E.g.
-> >
-> > #define KVM_X86_VMWARE_HYPERCALL        _BITUL(0)
-> > #define KVM_X86_VMWARE_BACKDOOR         _BITUL(1)
-> > #define KVM_X86_VMWARE_NESTED_BACKDOOR  _BITUL(2)
-> > #define KVM_X86_VMWARE_VALID_FLAGS      (KVM_X86_VMWARE_HYPERCALL |
-> >                                          KVM_X86_VMWARE_BACKDOOR |
-> >                                          KVM_X86_VMWARE_NESTED_BACKDOOR=
-)
-> >
-> >         case KVM_CAP_X86_VMWARE_EMULATION:
-> >                 r =3D -EINVAL;
-> >                 if (cap->args[0] & ~KVM_X86_VMWARE_VALID_FLAGS)
-> >                         break;
-> >
-> >                 mutex_lock(&kvm->lock);
-> >                 if (!kvm->created_vcpus) {
-> >                         if (cap->args[0] & KVM_X86_VMWARE_HYPERCALL)
-> >                                 kvm->arch.vmware.hypercall_enabled =3D =
-true;
-> >                         if (cap->args[0] & KVM_X86_VMWARE_BACKDOOR)
-> >                                 kvm->arch.vmware.backdoor_enabled;
-> >                         if (cap->args[0] & KVM_X86_VMWARE_NESTED_BACKDO=
-OR)
-> >                                 kvm->arch.vmware.nested_backdoor_enable=
-d =3D true;
-> >                         r =3D 0;
-> >                 }
-> >                 mutex_unlock(&kvm->lock);
-> >                 break;
-> >
-> > That approach wouldn't let userspace disable previously enabled VMware =
-capabilities,
-> > but unless there's a use case for doing so, that should be a non-issue.
->=20
-> I'd say that if we desperately want to use a single cap for all of
-> these then I'd probably prefer a different approach because this would
-> make vmware_backdoor_enabled behavior really wacky.
+Ouch, now I think I understand your complain. You mean that the behaviour of
+h/n here is different to what it is for IPv4 case?
 
-How so?  If kvm.enable_vmware_backdoor is true, then the backdoor is enable=
-d
-for all VMs, else it's disabled by default but can be enabled on a per-VM b=
-asis
-by the new capability.
+> > Avoid the confusion by replacing the "n" modifier with "hR", aka
+> > reverse host ordering.
 
-> It's the one that currently can only be set via kernel boot flags, so hav=
-ing
-> systems where the boot flag is on and disabling it on a per-vm basis make=
-s
-> sense and breaks with this.
+Not ideal, but better than 'h'ost / 'r'everse pair. Not giving a tag and not
+objecting either if there is a consensus.
 
-We could go this route, e.g. KVM does something similar for PMU virtualizat=
-ion.
-But the key difference is that enable_pmu is enabled by default, whereas
-enable_vmware_backdoor is disabled by default.  I.e. it makes far more sens=
-e for
-the capability to let userspace opt-in, as opposed to opt-out.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> I'd probably still write the code to be able to disable/enable all of the=
-m
-> because it makes sense for vmware_backdoor_enabled.
 
-Again, that's not KVM's default, and it will never be KVM's default.  Unles=
-s there
-is a concrete use case for disabling features after *userspace* has opted-i=
-n,
-just make them one-way 0=3D>1 transitions so as to keep KVM's implementatio=
-n as
-simple as possible.
