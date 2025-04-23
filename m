@@ -1,115 +1,122 @@
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2FEBE1EF094
-	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 09:30:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A89925C81E;
+	Wed, 23 Apr 2025 09:30:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745400651; cv=none; b=TjtMdcodJEgdwy0OK/NQi8zz0NWFvPJ2cAlHlLztv0o+EjoRXMyfVn0P9dcaEHOVmq/MVfqGAqjzOsfju0gfQa/HRBoSuMu/xPiT2/vUNrumfI1xxlNbLaED1gg3k54GaQFZjhO8ExNWBgA3kMLy3xgrxXbODdJITbAjxWfF1v0=
+	t=1745400655; cv=none; b=QfGB/2E5wioFFxY7Io5Q/7me6ifSqWoPVVyJw/F91lp2ZRIvbNfFKZILC3UEqD76SLPnHk00dvI8vJRAQB9bHJU70ZQEiNzbKPtD+tepKMZkSQ7Cy7UrBGBCTbjDMtpTXKR3/Nfnfy28PP4XGT1qxYsPZmbg6k/J8kt1QJb3d7o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745400651; c=relaxed/simple;
-	bh=zc2MpuZxPkZe2TmeryHW7kMkIaIoao0VsaUCv0wGt0Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DnLKbwkeVKwS6cr+qQCdRHhhI2VX+p3ssSSNfqtooDOa1rO7MiU0E/p9pY0J2rSnF0FBZPMgLwecAFZDfWB9S7tCA5eBJORO4bBiVa2Hpb0SuMT2r3w5PomJfaGiMjyNV3sa7ZmnzsqYxOBXfnWnv1ZDBECquyOJ23pWmSsGQqg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=w3ty2l1e; arc=none smtp.client-ip=209.85.128.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1745400655; c=relaxed/simple;
+	bh=dETYs6PNtbqc+HtknRC8dknf43oYws7PKuhbwZxPIoo=;
+	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
+	 In-Reply-To:Content-Type; b=gtc0lh1cci+ZRIaHzeDlANvaJvDEe1i5X8foDNu89ksT56jZ8hvr79DUSg06wyrLHTD0mnhQnRY/tPg9yko704lfiPq1XpOZrNk0cFRkpa2VYHc330MbJn6lQl0Ki5Lj607bzBckz3fbqqoifHD7fWV08EiS1e7wgr7sqBQPjmY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8ygT4bg; arc=none smtp.client-ip=209.85.214.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="w3ty2l1e"
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-43690d4605dso49156325e9.0
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 02:30:48 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8ygT4bg"
+Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2279915e06eso64075595ad.1;
+        Wed, 23 Apr 2025 02:30:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745400647; x=1746005447; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zc2MpuZxPkZe2TmeryHW7kMkIaIoao0VsaUCv0wGt0Y=;
-        b=w3ty2l1eCTaxcf1SRcZW8b1fKDc+2Y34kqEDnWT/ktV/egVYu/88/pLxkdK/xqgVMd
-         UdbvsLgjL9QbKWTM5eoM94DMS94BhIciVJ3rw6XOhuQN/BaejshvB2BEPYsuwoNA32Z8
-         qUetHSrvAq3RmjGPcpqVmLbENf/1XCPF7mzSXZKb1YPIBd2l5qL4lcaUuMa4cR//dCq7
-         1eR4Jq5zhBLKJvskr7SLBUT7AuVZ/4ldx6nrXvVR9smj9+R+KuNuNP7FRezSf1jjosYI
-         uP6bn9XF0nzF45KSS3j4jHemLDwFmbdM3p9TrylZTRCcd/ofDMFuh0h2s3Yc/XLUH3av
-         Zc9g==
+        d=gmail.com; s=20230601; t=1745400653; x=1746005453; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=muxam2SUiy8I7jXTK3ORRV5V0hJy9KAAZUT8IGI2dzg=;
+        b=l8ygT4bgyOH/Pbkq7haLSXy/uY31VS2VyQ7yW/zjfDn6fiddXG+gO1w0dUDis599jf
+         VZEUyTmCXEmtQU00XmN5OWlGv96dqvlKQbASSoIk0bBeBvw2khDw+pk15UT8VJYqfmID
+         /7Zm5QEaVdgrmtSRBEYLtRHkAiZVZaskbxhI0dBS9csCnASWvUozhfhewp+VJTliAxV4
+         v7IEVeFri0aDOmpst/UyZuizBUaqoMKys9e+L/OV/bF7xmX4iEq6iiOorrzAOkiT6fl8
+         r2aB9DNIhRdB8kNzuKXsyjm5hHcEupkD/esq7sD9AUfHBFG+RCBV3Fg/Fw3BQzv9o3ux
+         16lQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745400647; x=1746005447;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zc2MpuZxPkZe2TmeryHW7kMkIaIoao0VsaUCv0wGt0Y=;
-        b=duJfbPk3r6pvsanoBC609thXVmmhsV/xvJXOgwE+CiDsvBV5DiI82nKEiKjf6i2FFd
-         rzoha0iCzM60Su/+H2OxZmSXHbI57ef4WwdZ0FuXYfwMYlEb+KvXgc7BjrLHbaVufgXi
-         iOSKgEZ6RoODjZs841dpr7D2YZTkn1Vqph1D3lAyB5Entx3qy60hK9PEcBnj6o2joZ3w
-         uEvoNefu9D963o7PUNgIFfcX6YEIsxVV1o2poQ7EonsIa8PbGBwPl4cykBMv7ss/SL/5
-         vVryLVbcHixymVjSiBBl32XmqHWrSXkbmFNkg/sXKuCsJDEQKCqxtn0g8Rl1aEQk4ii+
-         c6+w==
-X-Forwarded-Encrypted: i=1; AJvYcCXVKCIHSxqxPMb2TTE+cOaq9JUU3cLlVxg/esiMTrjXlvhYEuTjZBOfhS0qntlCaawvpI2EwHXKz+g=@vger.kernel.org
-X-Gm-Message-State: AOJu0YywW+cQtXFvRlSXQOChHVhONCJHkFE5cjmDhxvRjkYfqQtymdWr
-	Sv8/yq9md/P5xemAGxU36T3im52ElKr5OoOel2VD71yrq4O5UVI1C8CYpEdcHaY=
-X-Gm-Gg: ASbGncvDTCAG+TXAix5UAn6z+X0zMATZ27OVNeb1eKTkokzEjgmzaSYcN3xDnXyuUNm
-	9tpS6MU9i9zofxrNcSMRhlvUfgoxJ5g9DRBgD+/ZSzGTdSzEw/KL2r7np02GpyfO9pH9ysGANIu
-	l9WjYvnlk8UbPx4QsOFNygpjejkh8S2PJxrcE8Q+7jqcye3A4UMl+RPjH1PKRTEhiqSQ7mtUn8S
-	P09ol7K8AXsY4LxcObOv/RfDY1n622CrbFChUxPr2pMBmR3HSfpz3ess7/JvTwr3Gl7WAeMuB5l
-	HqYBccUH+v0+nQ0qnxbJFSixNR3184yiAiUbh5LSvNxztndZekojOvsTO19Q85H5ELWCgGowUHF
-	OZZ8nKP0=
-X-Google-Smtp-Source: AGHT+IGYIRlaO8pPs6VOM1lbH32BnRzuDrN5uMW+rN4dGUiqnfcKg1oyd237URbM2+ibr1QQs7FIDw==
-X-Received: by 2002:a05:600c:4e8f:b0:43d:47e:3205 with SMTP id 5b1f17b1804b1-4406ab99521mr154772095e9.11.1745400647431;
-        Wed, 23 Apr 2025 02:30:47 -0700 (PDT)
-Received: from localhost (p200300f65f00780800000000000001b9.dip0.t-ipconnect.de. [2003:f6:5f00:7808::1b9])
-        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-44092b0a4b5sm19262045e9.0.2025.04.23.02.30.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 02:30:46 -0700 (PDT)
-Date: Wed, 23 Apr 2025 11:30:44 +0200
-From: Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@baylibre.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-pwm@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] pwm: Fix various formatting issues in kernel-doc
-Message-ID: <sctvatvjz2wf73nunz6lrp6z52qw26bkbeb5yeq5yfz5vwpv5i@gfaxoo67dcr2>
-References: <20250417181611.2693599-2-u.kleine-koenig@baylibre.com>
+        d=1e100.net; s=20230601; t=1745400653; x=1746005453;
+        h=content-transfer-encoding:in-reply-to:from:content-language:subject
+         :references:cc:to:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=muxam2SUiy8I7jXTK3ORRV5V0hJy9KAAZUT8IGI2dzg=;
+        b=XvbZqk0+Oj8KJalRZKkwnVPvRnHzw+nX7pj4X47qCwUKhi5LeoS6Fq6Y6oGQencI0Z
+         V/L1M5Y0wBVv1sR/npjYi0nddgf9bKDgEE8EbwAOsYIkz7OOTwwp2ZdAkvr9hL0C/l88
+         Q5XjdVYjUv31rovg14Nb3q25uLJ4JOxZrDSdlUtTKSuLVo2xjbMmIzH8UcYNBks0A8BA
+         5h7FCDigSrzLZJav+vsxbZ7XAEOZRMjVFxqHM6leQ/hhxawy8UliC1cbuyq//jbGcpEY
+         UUDY1EakhgRdeHw/IHxVwALhLYbA63hu+VbEEtklUVtgjHU/VR7n0uwuCBuvJQjssuKT
+         Lftw==
+X-Forwarded-Encrypted: i=1; AJvYcCWQu2BdOdZiozwvRe4AkPYmtPeTEAKHA9Rb0YhkTu0scnwpRPYPzbQ5FClYaIpj7XQdBeSfjoNYERQ=@vger.kernel.org, AJvYcCWT9JxuNLEd1MxCZHtx0w6GYsKOFFuloKsVBqec6E65ACG/h4biMxJ3K0HJt3XvqL0xj1Uj25ccTQg8XPd/@vger.kernel.org, AJvYcCX5bHMFeR/+lH+SGlUzXP/IA/EFBS6aEXxspGbzGvnU0zUIi3HcZ7/B3TtdeX11sC8Y7FIs5Lwa8Y1JX7Z3@vger.kernel.org
+X-Gm-Message-State: AOJu0YyY+RvOMgcnofJlqF+Vix84cIVroMYi8MEvLQ38alRmhYc53uyS
+	gh3LRCiAvQ/9mr9//4x5OpH+iZreZQToI1WKgJ/BvEMN3AU9dNUw
+X-Gm-Gg: ASbGncu6fKngRrWGx6izUqZtMVlck36/8nJ6T2FgNjIyDd05CN6DHCh/tQtLg5WJHLx
+	Qqka0EmlWFlsypzkYdnlZ1NTqSg5UA/bij8I8qm0qvfz8pcKgSz8bNSkiclsTFE3/xsyqC0/qxs
+	lI6196JOoHB7Mi4Y4nNQokP0Wb5dzmIuCwZZ6nvD5RoHXqhXNk5ZFglQ/3URBh3HMDiNgrC07/b
+	XZBDFggFHYlCefl1HdPrKr+ajD6f+GA4COK55/vvvoq28tjaZlPaKVQB/xmYG8emLhR6qdOI8B+
+	3zPtzUsATaWAJpcOqz55+4uvz0SmQyPcmkAbcOTEjhIgiOoD0hK94/aqWHQ+JME52LfTeqrwpgX
+	uy8oZMeXk9fM=
+X-Google-Smtp-Source: AGHT+IG88n4B+Zz7jvsF/amnEc51F/XmSyRSZhLIy5SSMySrK3N+aaQMKVm7LW4VWbvpbZndJX7ocw==
+X-Received: by 2002:a17:903:98c:b0:224:1780:c1ec with SMTP id d9443c01a7336-22c5360dc12mr325231335ad.35.1745400653408;
+        Wed, 23 Apr 2025 02:30:53 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50eb64fbsm99667675ad.158.2025.04.23.02.30.48
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 02:30:52 -0700 (PDT)
+Message-ID: <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
+Date: Wed, 23 Apr 2025 18:30:48 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="264cylunhiihawgp"
-Content-Disposition: inline
-In-Reply-To: <20250417181611.2693599-2-u.kleine-koenig@baylibre.com>
+User-Agent: Mozilla Thunderbird
+To: andriy.shevchenko@intel.com
+Cc: airlied@gmail.com, corbet@lwn.net, dmitry.baryshkov@oss.qualcomm.com,
+ dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+ jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+ linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+ linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+ masahiroy@kernel.org, mchehab+huawei@kernel.org, mripard@kernel.org,
+ nathan@kernel.org, nicolas.schier@linux.dev, rodrigo.vivi@intel.com,
+ simona@ffwll.ch, tursulin@ursulin.net, tzimmermann@suse.de
+References: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
+Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
+ kernel
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
+Hi Andy,
 
---264cylunhiihawgp
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] pwm: Fix various formatting issues in kernel-doc
-MIME-Version: 1.0
+On Tue, 22 Apr 2025 10:57:33 +0300, Andy Shevchenko wrote:
+> On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
+>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+[...]
 
-Hello,
+>> > Would it be possible to properly support O= and create pyc / pycache
+>> > inside the object/output dir?
+>> 
+>> I have to confess, I've been wondering if we should be treating the .pyc
+>> files like we treat .o files or other intermediate products.  Rather
+>> than trying to avoid their creation entirely, perhaps we should just be
+>> sure they end up in the right place and are properly cleaned up...?
+>> 
+>> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
+>> should do the trick?
+> 
+> It's not so easy. The Python is written in a way that it thinks it will never
+> runs object files separately from the source. Hence that variable sets only
+> the folder per script as _home_ for the cache. It's completely unusable. They
+> took it wrong. It still can be _painfully_ used, but it will make Makefiles
+> uglier.
 
-On Thu, Apr 17, 2025 at 08:16:11PM +0200, Uwe Kleine-K=F6nig wrote:
-> Add Return and (where interesting) Context sections, fix some formatting
-> and drop documenting the internal function __pwm_apply().
->=20
-> Signed-off-by: Uwe Kleine-K=F6nig <u.kleine-koenig@baylibre.com>
+But, PYTHONPYCACHEPREFIX can be set as an environment variable.
 
-Applied to
-https://git.kernel.org/pub/scm/linux/kernel/git/ukleinek/linux.git pwm/for-=
-next
+For example, try:
 
-Uwe
+    export PYTHONPYCACHEPREFIX="$HOME/.cache/__pycache__"
 
---264cylunhiihawgp
-Content-Type: application/pgp-signature; name="signature.asc"
+Wouldn't it be good enough for you?
 
------BEGIN PGP SIGNATURE-----
+Regards,
+Akira
 
-iQEzBAABCgAdFiEEP4GsaTp6HlmJrf7Tj4D7WH0S/k4FAmgIs0EACgkQj4D7WH0S
-/k4omggAkZzdVzAoG/HbIWHoh9BD931ApKqoWmJNziXZWSpOiYDPgzZvtfRcYzsy
-TWbnv6sqRQExDd611KHQWsgRttwGqTLGRggkz91PbxE0l8Hlyx1Bva8GY6fC0NSx
-Q3Jl9O81y54ydQEUM2cxmxJS8xOjCxEoWA0d9698fPDN/aDEdcHmDupqCN0KSjOi
-+hX1VMkV11byKq3WbdM3uUhz9BdbFNTq5DXyAeNn5Hg6dO0MdX/vb1A+IP8M0T+n
-ahuctCxXpWp26zio3ZwXxEZ5iWOx+FmH50ScSMEcOlDnfIxSaxgH0a3sIzcqvIHn
-M8GpwlkX6vQcWzY5awzdGT7n6kOj8A==
-=dB7L
------END PGP SIGNATURE-----
-
---264cylunhiihawgp--
