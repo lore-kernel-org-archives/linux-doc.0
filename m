@@ -1,313 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out30-124.freemail.mail.aliyun.com (out30-124.freemail.mail.aliyun.com [115.124.30.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 678EC2749EC;
-	Wed, 23 Apr 2025 08:15:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C93C328A1F4;
+	Wed, 23 Apr 2025 08:25:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745396136; cv=none; b=GYXJPOw2eiVz5F1f5DVMcpwVAJ63C5Ab/G3CgkQ8SmfH/YB9iXiu/XCK9bRsYlEodG47hxNnUhD6n8wN/fgGoRFRHHKAq3ZenZsGL7RjODHsgFQ/JNsGmcK2yG2F+5VQ/aBn4tzQIiNB1Oo1W2kQmhMchIAUGHhsC8l7Pw8eSOI=
+	t=1745396718; cv=none; b=CdGcRQrusX4fHqwo2lIomT9Lr1yEJD92w38jsGZKP7Nv4/iu61/0JokPn3wi5L4RvWzJ4OTaf47OkRoUNx4KbFJPNEynb0nA19q+S3Cy9/p6m2JDzA82tOXS7H7OE0WxuYsmO/y1N3RBQFEUUzNPzVRdQlUiKQutp3supn4gQZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745396136; c=relaxed/simple;
-	bh=ZE/m4wI1ph0h7rG40pku32JCR3EN9MIKEzOdQT6q1LI=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LhsMfGn+ALGdDwkWgdV49QW70w07F4w6vIaCYuC8pk6FyN+XpOiWw5BJHxCEFp5n8oAtmlGkhKmHJ8rKIHhkKPNEdatg/Mr8r7VDrsyLFgBgK7ZmVypQ8BXAA+1HTkLEcP55KYu0ArsPNZOpjAb1kg5dk3g2GGuChonEFe+6l94=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5gnr8EL; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745396718; c=relaxed/simple;
+	bh=oXHCS/VqMYe3x7z4Ob0yZ3WF4U8nzcqp4nKg/2yC0fQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gls4X4rOSaGQP6FFyW0+CoQtfPeuxw9q+pEKHR/+5m7we5Vl0YZoMIAEtaSWoDmd6h2nLsX/EKxPS0+6STiuqVXmS+oObIgdhYBdBYYjuJCSAxLrMsFyxc3DBSASarC4M7JVUz/102pZrnwdt80JlwnrqWofhOz9lzzpk16pDMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=VT3dScX+; arc=none smtp.client-ip=115.124.30.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5gnr8EL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 34D3CC4CEE2;
-	Wed, 23 Apr 2025 08:15:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745396136;
-	bh=ZE/m4wI1ph0h7rG40pku32JCR3EN9MIKEzOdQT6q1LI=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=L5gnr8ELzuRM0jLcY/k1+4/4J4woQsbBEVR8YeNu7Jv/Hoa0yPtwdBQr/pH/SBVFH
-	 9OQ6obw1D7NZco5Sk6xNnQ998+8LG7U2rVEMfZC9rnmgOA08PUWIYN4nBN5Owx9VO4
-	 xhXvFYMmALmTArNT8NQMftlISubSM/SEdZabrouhUDEE+GzsX+x28U77UvmHvSuc7T
-	 1JJ0HsZ2TWujQHNRYvfeKd6d+GjCkg05ILaF+N0aSgDSNIey7yM/Ifaf1YHCCYfDux
-	 lVwYj/idlOQadwNvXBrwYAiuaVNkxuDQTv8MT5CfozqnvElf3nj/PC1xu7BNVbcQm0
-	 4IghMky2KwcCQ==
-From: Leon Romanovsky <leon@kernel.org>
-To: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>,
-	Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>
-Cc: Jake Edge <jake@lwn.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Jason Gunthorpe <jgg@ziepe.ca>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>,
-	Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>,
-	Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org,
-	linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev,
-	linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org,
-	kvm@vger.kernel.org,
-	linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>
-Subject: [PATCH v9 22/24] nvme-pci: use a better encoding for small prp pool allocations
-Date: Wed, 23 Apr 2025 11:13:13 +0300
-Message-ID: <973ed41249e12766383b3cedac799692f9bda3b8.1745394536.git.leon@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <cover.1745394536.git.leon@kernel.org>
-References: <cover.1745394536.git.leon@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="VT3dScX+"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1745396711; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=5h+k2wbF4kzuCsYfv9KUS0UYTa/NR4y+C+q8jVAnr4Y=;
+	b=VT3dScX++o3UucKSZ98k/zOe4MgniLUg81oNpOozSkFJ9OmuKU98vF3LiibJ4keeGZV8rdwWq6246PR1J+Iny9jlR2qnGjnVisxEviMRXg3mv0J5/QoZkRYAQ/JemBuIAYGWuRcphdcmEC2KTFsiljlTc6EwGD8F/F6Ja5n8OQw=
+Received: from 30.74.144.121(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WXtk4mp_1745396707 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Wed, 23 Apr 2025 16:25:08 +0800
+Message-ID: <bed086c2-d1fd-457b-ad3f-b97ebd5695db@linux.alibaba.com>
+Date: Wed, 23 Apr 2025 16:25:06 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 05/12] khugepaged: generalize __collapse_huge_page_*
+ for mTHP support
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
+ baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
+ peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
+ usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org
+References: <20250417000238.74567-1-npache@redhat.com>
+ <20250417000238.74567-6-npache@redhat.com>
+ <e4e4aaae-92be-4cd2-9435-dccad99961bf@linux.alibaba.com>
+ <CAA1CXcBsjAVdu4RWAYJC82Wm3o=OY_Z6iyEu0YNuiC5grG_z-Q@mail.gmail.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <CAA1CXcBsjAVdu4RWAYJC82Wm3o=OY_Z6iyEu0YNuiC5grG_z-Q@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-From: Christoph Hellwig <hch@lst.de>
 
-There is plenty of unused space in the iod next to nr_descriptors.
-Add a separate flag to encode that the transfer is using the full
-page sized pool, and use a normal 0..n count for the number of
-descriptors.
 
-Signed-off-by: Christoph Hellwig <hch@lst.de>
-Tested-by: Jens Axboe <axboe@kernel.dk>
-[ Leon: changed original bool variable to be flag as was proposed by Kanchan ]
-Signed-off-by: Kanchan Joshi <joshi.k@samsung.com>
-Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
----
- drivers/nvme/host/pci.c | 93 ++++++++++++++++++++---------------------
- 1 file changed, 46 insertions(+), 47 deletions(-)
+On 2025/4/23 16:00, Nico Pache wrote:
+> On Wed, Apr 23, 2025 at 1:30 AM Baolin Wang
+> <baolin.wang@linux.alibaba.com> wrote:
+>>
+>>
+>>
+>> On 2025/4/17 08:02, Nico Pache wrote:
+>>> generalize the order of the __collapse_huge_page_* functions
+>>> to support future mTHP collapse.
+>>>
+>>> mTHP collapse can suffer from incosistant behavior, and memory waste
+>>> "creep". disable swapin and shared support for mTHP collapse.
+>>>
+>>> No functional changes in this patch.
+>>>
+>>> Co-developed-by: Dev Jain <dev.jain@arm.com>
+>>> Signed-off-by: Dev Jain <dev.jain@arm.com>
+>>> Signed-off-by: Nico Pache <npache@redhat.com>
+>>> ---
+>>>    mm/khugepaged.c | 46 ++++++++++++++++++++++++++++------------------
+>>>    1 file changed, 28 insertions(+), 18 deletions(-)
+>>>
+>>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>>> index 883e9a46359f..5e9272ab82da 100644
+>>> --- a/mm/khugepaged.c
+>>> +++ b/mm/khugepaged.c
+>>> @@ -565,15 +565,17 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>>>                                        unsigned long address,
+>>>                                        pte_t *pte,
+>>>                                        struct collapse_control *cc,
+>>> -                                     struct list_head *compound_pagelist)
+>>> +                                     struct list_head *compound_pagelist,
+>>> +                                     u8 order)
+>>>    {
+>>>        struct page *page = NULL;
+>>>        struct folio *folio = NULL;
+>>>        pte_t *_pte;
+>>>        int none_or_zero = 0, shared = 0, result = SCAN_FAIL, referenced = 0;
+>>>        bool writable = false;
+>>> +     int scaled_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - order);
+>>>
+>>> -     for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
+>>> +     for (_pte = pte; _pte < pte + (1 << order);
+>>>             _pte++, address += PAGE_SIZE) {
+>>>                pte_t pteval = ptep_get(_pte);
+>>>                if (pte_none(pteval) || (pte_present(pteval) &&
+>>> @@ -581,7 +583,7 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>>>                        ++none_or_zero;
+>>>                        if (!userfaultfd_armed(vma) &&
+>>>                            (!cc->is_khugepaged ||
+>>> -                          none_or_zero <= khugepaged_max_ptes_none)) {
+>>> +                          none_or_zero <= scaled_none)) {
+>>>                                continue;
+>>>                        } else {
+>>>                                result = SCAN_EXCEED_NONE_PTE;
+>>> @@ -609,8 +611,8 @@ static int __collapse_huge_page_isolate(struct vm_area_struct *vma,
+>>>                /* See hpage_collapse_scan_pmd(). */
+>>>                if (folio_maybe_mapped_shared(folio)) {
+>>>                        ++shared;
+>>> -                     if (cc->is_khugepaged &&
+>>> -                         shared > khugepaged_max_ptes_shared) {
+>>> +                     if (order != HPAGE_PMD_ORDER || (cc->is_khugepaged &&
+>>> +                         shared > khugepaged_max_ptes_shared)) {
+>>>                                result = SCAN_EXCEED_SHARED_PTE;
+>>>                                count_vm_event(THP_SCAN_EXCEED_SHARED_PTE);
+>>>                                goto out;
+>>> @@ -711,13 +713,14 @@ static void __collapse_huge_page_copy_succeeded(pte_t *pte,
+>>>                                                struct vm_area_struct *vma,
+>>>                                                unsigned long address,
+>>>                                                spinlock_t *ptl,
+>>> -                                             struct list_head *compound_pagelist)
+>>> +                                             struct list_head *compound_pagelist,
+>>> +                                             u8 order)
+>>>    {
+>>>        struct folio *src, *tmp;
+>>>        pte_t *_pte;
+>>>        pte_t pteval;
+>>>
+>>> -     for (_pte = pte; _pte < pte + HPAGE_PMD_NR;
+>>> +     for (_pte = pte; _pte < pte + (1 << order);
+>>>             _pte++, address += PAGE_SIZE) {
+>>>                pteval = ptep_get(_pte);
+>>>                if (pte_none(pteval) || is_zero_pfn(pte_pfn(pteval))) {
+>>> @@ -764,7 +767,8 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>>>                                             pmd_t *pmd,
+>>>                                             pmd_t orig_pmd,
+>>>                                             struct vm_area_struct *vma,
+>>> -                                          struct list_head *compound_pagelist)
+>>> +                                          struct list_head *compound_pagelist,
+>>> +                                          u8 order)
+>>>    {
+>>>        spinlock_t *pmd_ptl;
+>>>
+>>> @@ -781,7 +785,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>>>         * Release both raw and compound pages isolated
+>>>         * in __collapse_huge_page_isolate.
+>>>         */
+>>> -     release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
+>>> +     release_pte_pages(pte, pte + (1 << order), compound_pagelist);
+>>>    }
+>>>
+>>>    /*
+>>> @@ -802,7 +806,7 @@ static void __collapse_huge_page_copy_failed(pte_t *pte,
+>>>    static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+>>>                pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+>>>                unsigned long address, spinlock_t *ptl,
+>>> -             struct list_head *compound_pagelist)
+>>> +             struct list_head *compound_pagelist, u8 order)
+>>>    {
+>>>        unsigned int i;
+>>>        int result = SCAN_SUCCEED;
+>>> @@ -810,7 +814,7 @@ static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+>>>        /*
+>>>         * Copying pages' contents is subject to memory poison at any iteration.
+>>>         */
+>>> -     for (i = 0; i < HPAGE_PMD_NR; i++) {
+>>> +     for (i = 0; i < (1 << order); i++) {
+>>>                pte_t pteval = ptep_get(pte + i);
+>>>                struct page *page = folio_page(folio, i);
+>>>                unsigned long src_addr = address + i * PAGE_SIZE;
+>>> @@ -829,10 +833,10 @@ static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+>>>
+>>>        if (likely(result == SCAN_SUCCEED))
+>>>                __collapse_huge_page_copy_succeeded(pte, vma, address, ptl,
+>>> -                                                 compound_pagelist);
+>>> +                                                 compound_pagelist, order);
+>>>        else
+>>>                __collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
+>>> -                                              compound_pagelist);
+>>> +                                              compound_pagelist, order);
+>>>
+>>>        return result;
+>>>    }
+>>> @@ -1000,11 +1004,11 @@ static int check_pmd_still_valid(struct mm_struct *mm,
+>>>    static int __collapse_huge_page_swapin(struct mm_struct *mm,
+>>>                                       struct vm_area_struct *vma,
+>>>                                       unsigned long haddr, pmd_t *pmd,
+>>> -                                    int referenced)
+>>> +                                    int referenced, u8 order)
+>>>    {
+>>>        int swapped_in = 0;
+>>>        vm_fault_t ret = 0;
+>>> -     unsigned long address, end = haddr + (HPAGE_PMD_NR * PAGE_SIZE);
+>>> +     unsigned long address, end = haddr + (PAGE_SIZE << order);
+>>>        int result;
+>>>        pte_t *pte = NULL;
+>>>        spinlock_t *ptl;
+>>> @@ -1035,6 +1039,12 @@ static int __collapse_huge_page_swapin(struct mm_struct *mm,
+>>>                if (!is_swap_pte(vmf.orig_pte))
+>>>                        continue;
+>>>
+>>> +             /* Dont swapin for mTHP collapse */
+>>> +             if (order != HPAGE_PMD_ORDER) {
+>>> +                     result = SCAN_EXCEED_SWAP_PTE;
+>>> +                     goto out;
+>>> +             }
+>>
+>> IMO, this check should move into hpage_collapse_scan_pmd(), that means
+>> if we scan the swap ptes for mTHP collapse, then we can return
+>> 'SCAN_EXCEED_SWAP_PTE' to abort the collapse earlier.
+> I dont think this is correct. We currently abort if the global
+> max_swap_ptes or max_shared_ptes is exceeded during the PMD scan.
+> However if those pass (and we dont collapse at the PMD level), we will
+> continue to mTHP collapses. Then during the isolate function we check
+> for shared ptes in this specific mTHP range and abort if there's a
+> shared ptes. For swap we only know that some pages in the PMD are
+> unmapped, but we arent sure which, so we have to try and fault the
+> PTEs, and if it's a swap pte, and we are on mTHP collapse, we abort
+> the collapse attempt. So having swap/shared PTEs in the PMD scan, does
+> not indicate that ALL mTHP collapses will fail, but some will.
 
-diff --git a/drivers/nvme/host/pci.c b/drivers/nvme/host/pci.c
-index 638e759b29ad..7e93536d01cb 100644
---- a/drivers/nvme/host/pci.c
-+++ b/drivers/nvme/host/pci.c
-@@ -44,6 +44,7 @@
- #define NVME_MAX_SEGS	128
- #define NVME_MAX_META_SEGS 15
- #define NVME_MAX_NR_DESCRIPTORS	5
-+#define NVME_SMALL_DESCRIPTOR_SIZE 256
- 
- static int use_threaded_interrupts;
- module_param(use_threaded_interrupts, int, 0444);
-@@ -219,6 +220,10 @@ struct nvme_queue {
- 	struct completion delete_done;
- };
- 
-+enum {
-+	IOD_LARGE_DESCRIPTORS = 1, /* uses the full page sized descriptor pool */
-+};
-+
- /*
-  * The nvme_iod describes the data in an I/O.
-  */
-@@ -226,8 +231,8 @@ struct nvme_iod {
- 	struct nvme_request req;
- 	struct nvme_command cmd;
- 	bool aborted;
--	/* # of PRP/SGL descriptors: (0 for small pool) */
--	s8 nr_descriptors;
-+	u8 nr_descriptors;	/* # of PRP/SGL descriptors */
-+	unsigned int flags;
- 	unsigned int dma_len;	/* length of single DMA segment mapping */
- 	dma_addr_t first_dma;
- 	dma_addr_t meta_dma;
-@@ -529,13 +534,27 @@ static inline bool nvme_pci_use_sgls(struct nvme_dev *dev, struct request *req,
- 	return true;
- }
- 
--static void nvme_free_prps(struct nvme_dev *dev, struct request *req)
-+static inline struct dma_pool *nvme_dma_pool(struct nvme_dev *dev,
-+		struct nvme_iod *iod)
-+{
-+	if (iod->flags & IOD_LARGE_DESCRIPTORS)
-+		return dev->prp_page_pool;
-+	return dev->prp_small_pool;
-+}
-+
-+static void nvme_free_descriptors(struct nvme_dev *dev, struct request *req)
- {
- 	const int last_prp = NVME_CTRL_PAGE_SIZE / sizeof(__le64) - 1;
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
- 	dma_addr_t dma_addr = iod->first_dma;
- 	int i;
- 
-+	if (iod->nr_descriptors == 1) {
-+		dma_pool_free(nvme_dma_pool(dev, iod), iod->descriptors[0],
-+				dma_addr);
-+		return;
-+	}
-+
- 	for (i = 0; i < iod->nr_descriptors; i++) {
- 		__le64 *prp_list = iod->descriptors[i];
- 		dma_addr_t next_dma_addr = le64_to_cpu(prp_list[last_prp]);
-@@ -558,15 +577,7 @@ static void nvme_unmap_data(struct nvme_dev *dev, struct request *req)
- 	WARN_ON_ONCE(!iod->sgt.nents);
- 
- 	dma_unmap_sgtable(dev->dev, &iod->sgt, rq_dma_dir(req), 0);
--
--	if (iod->nr_descriptors == 0)
--		dma_pool_free(dev->prp_small_pool, iod->descriptors[0],
--			      iod->first_dma);
--	else if (iod->nr_descriptors == 1)
--		dma_pool_free(dev->prp_page_pool, iod->descriptors[0],
--			      iod->first_dma);
--	else
--		nvme_free_prps(dev, req);
-+	nvme_free_descriptors(dev, req);
- 	mempool_free(iod->sgt.sgl, dev->iod_mempool);
- }
- 
-@@ -588,7 +599,6 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 		struct request *req, struct nvme_rw_command *cmnd)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct dma_pool *pool;
- 	int length = blk_rq_payload_bytes(req);
- 	struct scatterlist *sg = iod->sgt.sgl;
- 	int dma_len = sg_dma_len(sg);
-@@ -596,7 +606,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 	int offset = dma_addr & (NVME_CTRL_PAGE_SIZE - 1);
- 	__le64 *prp_list;
- 	dma_addr_t prp_dma;
--	int nprps, i;
-+	int i;
- 
- 	length -= (NVME_CTRL_PAGE_SIZE - offset);
- 	if (length <= 0) {
-@@ -618,27 +628,23 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 		goto done;
- 	}
- 
--	nprps = DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE);
--	if (nprps <= (256 / 8)) {
--		pool = dev->prp_small_pool;
--		iod->nr_descriptors = 0;
--	} else {
--		pool = dev->prp_page_pool;
--		iod->nr_descriptors = 1;
--	}
-+	if (DIV_ROUND_UP(length, NVME_CTRL_PAGE_SIZE) >
-+	    NVME_SMALL_DESCRIPTOR_SIZE / sizeof(__le64))
-+		iod->flags |= IOD_LARGE_DESCRIPTORS;
- 
--	prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
--	if (!prp_list) {
--		iod->nr_descriptors = -1;
-+	prp_list = dma_pool_alloc(nvme_dma_pool(dev, iod), GFP_ATOMIC,
-+			&prp_dma);
-+	if (!prp_list)
- 		return BLK_STS_RESOURCE;
--	}
--	iod->descriptors[0] = prp_list;
-+	iod->descriptors[iod->nr_descriptors++] = prp_list;
- 	iod->first_dma = prp_dma;
- 	i = 0;
- 	for (;;) {
- 		if (i == NVME_CTRL_PAGE_SIZE >> 3) {
- 			__le64 *old_prp_list = prp_list;
--			prp_list = dma_pool_alloc(pool, GFP_ATOMIC, &prp_dma);
-+
-+			prp_list = dma_pool_alloc(dev->prp_page_pool,
-+					GFP_ATOMIC, &prp_dma);
- 			if (!prp_list)
- 				goto free_prps;
- 			iod->descriptors[iod->nr_descriptors++] = prp_list;
-@@ -665,7 +671,7 @@ static blk_status_t nvme_pci_setup_prps(struct nvme_dev *dev,
- 	cmnd->dptr.prp2 = cpu_to_le64(iod->first_dma);
- 	return BLK_STS_OK;
- free_prps:
--	nvme_free_prps(dev, req);
-+	nvme_free_descriptors(dev, req);
- 	return BLK_STS_RESOURCE;
- bad_sgl:
- 	WARN(DO_ONCE(nvme_print_sgl, iod->sgt.sgl, iod->sgt.nents),
-@@ -694,7 +700,6 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 		struct request *req, struct nvme_rw_command *cmd)
- {
- 	struct nvme_iod *iod = blk_mq_rq_to_pdu(req);
--	struct dma_pool *pool;
- 	struct nvme_sgl_desc *sg_list;
- 	struct scatterlist *sg = iod->sgt.sgl;
- 	unsigned int entries = iod->sgt.nents;
-@@ -709,21 +714,13 @@ static blk_status_t nvme_pci_setup_sgls(struct nvme_dev *dev,
- 		return BLK_STS_OK;
- 	}
- 
--	if (entries <= (256 / sizeof(struct nvme_sgl_desc))) {
--		pool = dev->prp_small_pool;
--		iod->nr_descriptors = 0;
--	} else {
--		pool = dev->prp_page_pool;
--		iod->nr_descriptors = 1;
--	}
-+	if (entries > NVME_SMALL_DESCRIPTOR_SIZE / sizeof(*sg_list))
-+		iod->flags |= IOD_LARGE_DESCRIPTORS;
- 
--	sg_list = dma_pool_alloc(pool, GFP_ATOMIC, &sgl_dma);
--	if (!sg_list) {
--		iod->nr_descriptors = -1;
-+	sg_list = dma_pool_alloc(nvme_dma_pool(dev, iod), GFP_ATOMIC, &sgl_dma);
-+	if (!sg_list)
- 		return BLK_STS_RESOURCE;
--	}
--
--	iod->descriptors[0] = sg_list;
-+	iod->descriptors[iod->nr_descriptors++] = sg_list;
- 	iod->first_dma = sgl_dma;
- 
- 	nvme_pci_sgl_set_seg(&cmd->dptr.sgl, sgl_dma, entries);
-@@ -915,7 +912,8 @@ static blk_status_t nvme_prep_rq(struct nvme_dev *dev, struct request *req)
- 	blk_status_t ret;
- 
- 	iod->aborted = false;
--	iod->nr_descriptors = -1;
-+	iod->nr_descriptors = 0;
-+	iod->flags = 0;
- 	iod->sgt.nents = 0;
- 	iod->meta_sgt.nents = 0;
- 
-@@ -2833,7 +2831,7 @@ static int nvme_disable_prepare_reset(struct nvme_dev *dev, bool shutdown)
- 
- static int nvme_setup_prp_pools(struct nvme_dev *dev)
- {
--	size_t small_align = 256;
-+	size_t small_align = NVME_SMALL_DESCRIPTOR_SIZE;
- 
- 	dev->prp_page_pool = dma_pool_create("prp list page", dev->dev,
- 						NVME_CTRL_PAGE_SIZE,
-@@ -2841,12 +2839,13 @@ static int nvme_setup_prp_pools(struct nvme_dev *dev)
- 	if (!dev->prp_page_pool)
- 		return -ENOMEM;
- 
-+	BUILD_BUG_ON(NVME_SMALL_DESCRIPTOR_SIZE != 256);
- 	if (dev->ctrl.quirks & NVME_QUIRK_DMAPOOL_ALIGN_512)
--		small_align = 512;
-+		small_align *= 2;
- 
- 	/* Optimisation for I/Os between 4k and 128k */
- 	dev->prp_small_pool = dma_pool_create("prp list 256", dev->dev,
--						256, small_align, 0);
-+						NVME_SMALL_DESCRIPTOR_SIZE, small_align, 0);
- 	if (!dev->prp_small_pool) {
- 		dma_pool_destroy(dev->prp_page_pool);
- 		return -ENOMEM;
--- 
-2.49.0
+Yes, you are right! I misread the code (I thought the changes were in 
+hpage_collapse_scan_pmd()). Sorry for the noise. Feel free to add:
 
+Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
