@@ -1,183 +1,338 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C884276024;
-	Wed, 23 Apr 2025 07:56:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0E1427978B
+	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 08:00:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745395005; cv=none; b=PUE6goAafDs4OqSLroAX9/q+Eaqoxvc/HVO1q0QvwWGcPYfTpHPeq0vALR6Y61kX/6RYdCEH1hkRIuItfW2/8MmEJERIwoHywPxjyKHKlEAGQ6V4Uji3txLDzQec5gw9xhOys0AyFeStHW1Bfkm70JdypOAcN8c6UKVnwO90Hs4=
+	t=1745395235; cv=none; b=tbU3ZkuI6vkI+vhNQORqvYb0SMAtdCFnEl0dUw+ZJHWvvRT+gg8Nvi20WMv0Qn/JYdfMw2ZFV84imz/3Iw1jT+MEDuX6kiH+hMUTm4IpuYE6cPz4nekGfxNOnbs+fG5jP/hZe6d6gQgyXcEwzwZg8zmjgvYoQOrKzcK51KVoH0M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745395005; c=relaxed/simple;
-	bh=3ROjFLRtDQpKqU5sUZYxIcu+y5AbhHrnpWcsJ/Zgjas=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jGm6Qc66pNb5Tvy4qVvw/HS8LbEXv8JYv7bWbYpinPZEuiC0xAd5qbkhkCLlGauhh9Er8cxi0z4jx1kMAMrakVDopsogfm7XnL/sflyTnzWYkHW7bpZ4kHe30JpNAjfMqnra8crtAv0DD9K6djUU59jcKWDXTdpWyQFuxokxIP8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=aE3LBD+s; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1745395235; c=relaxed/simple;
+	bh=CG9gdIK65YymTmQgFg6PHvGy4WTKKFxCr9FsnVLGWZA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YGOUnOaQ9fxZrkq0Bui7DMxcjidkwuEeZBvchneOXFURpMoypOJmBQhYhei3JZfzK26KvnjVerargq8yZ8Iyk7jYCFmfWX2MPZsQoasBnZb7Hsib3f8GpO0VT3bcW7vF6Biocwzh9S9fmo2cXgFyHmGwmQkD6+Eyx6yiO1eKWEE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=UPybJl3f; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="aE3LBD+s"
-Received: from [192.168.7.202] ([71.202.166.45])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53N7uBoV3119852
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Wed, 23 Apr 2025 00:56:12 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53N7uBoV3119852
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1745394975;
-	bh=LV4/6zX3QPMww5e/UsTXLMcNjFZYEA1V4I6Dl3psGlk=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=aE3LBD+sbGzJoCaP0U4TSgem2sj9X5F2EUjTr9I41Yn00qAtH+J43Qh1li+dchB7q
-	 +1Gj8OUZdCMIx6ynsU/QF45WHYqmrbHvAlr+QYSM+zEio3U+MvSQf4AXJtQZyF/3li
-	 ExwCskjw2SfD+458eyhstGvCJSlwO9val7w3JhzR2n0qqPM9Luc8RomhbFnXjsrTYJ
-	 J8urbqSA1MNRKs+D3yko6hS6jjvd//z1nBk63OOw0B34E94M2nqGeMOIbdXUMiHbUo
-	 jyfr7leDcp8LIG3Lr0t1IeA8uRBK2qVubqVoGiv5YeQINNCwu29B7dJxXvRgOLG9Q7
-	 wZbbF8Pn/L0nw==
-Message-ID: <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
-Date: Wed, 23 Apr 2025 00:56:10 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="UPybJl3f"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745395231;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Pq6JJyE1lUcScUvzEi1AKzoi0Ad5IMEJ+LYrlFPu2HM=;
+	b=UPybJl3fQgPtw5Yzxtw6ci06OoWOe+3fBnC1uVINQveItLM+D3XsJ4mnQJeCkFJ1JgqAGP
+	qjKaUYRmjI7CfY2OXlcwJogqKOOdu7993PvU8PSwipLmGZe+pV83pGXgfZgCLnUybTmgLY
+	4j6L/9SjcJB2Koq0JWNoFiqmdHk8J48=
+Received: from mail-yb1-f199.google.com (mail-yb1-f199.google.com
+ [209.85.219.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-356-Vad0wcVVPzGCQHu527QDCg-1; Wed, 23 Apr 2025 04:00:30 -0400
+X-MC-Unique: Vad0wcVVPzGCQHu527QDCg-1
+X-Mimecast-MFC-AGG-ID: Vad0wcVVPzGCQHu527QDCg_1745395229
+Received: by mail-yb1-f199.google.com with SMTP id 3f1490d57ef6-e6dfe7fe81aso8410951276.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 01:00:30 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745395229; x=1746000029;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Pq6JJyE1lUcScUvzEi1AKzoi0Ad5IMEJ+LYrlFPu2HM=;
+        b=YV+m771KY/mQ35gOM0P3/YB0XeTd2X/tQOmVhfZ7yTzTWfTvQ3u5vOt23c6uTpst96
+         FjdShF75pJrZ64BP9weBPdm9FT9jSV9PGdcbdVAIsYvNW6Fhlgy0PPU2UbdcAR+FIVow
+         oAqc5s6KM/de8V6g1NBA9xiGhoyuOfuk9yHFO8TZUroLjLqA5pEad7FtlRMeT9qm2a3V
+         K+Aa7Bswch9p2+ceSIL59W8XoquGKGAw1dvw6YtVpTfu2/ZyMLL/pL4KQn47KzLGGBgp
+         JEff4bbgVF0+7G9Qhz8aUkzdu5sethqTDOvQr2zwMgEJkHkHTaEtx58LRUqVWG4LjIgg
+         UoWA==
+X-Forwarded-Encrypted: i=1; AJvYcCWhAfntdOFa6kMR/6aBqZSTjdA4Y3mVHdq3PB0F/3GoZ4CuYQTySzHDxSURMnArm+irkAPBYJCxz5k=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwuEeu2XfUc6Tsp214nDaHIRdTr8oBAteb5jQjaBxrc+pBmDo0m
+	0eTja6SnYbCVAoXozTAP4h4+Z2Oi1HT5R333crKw6dWMYkvuRTIA7zjB90tlzCwsgXzluN+QrP9
+	76ydHdJ+PggkdW5pgRz6JBHPFy3F2UJ6WbhPWqTPu412tQFtYmBSq0Z6UpNs1RP4RXgPHc13y3U
+	QryIjKA0nxwsD/91Ze4y112yjHCQb/DnI3
+X-Gm-Gg: ASbGncvilUzSZoYInTCUXyP0lLzDrw3C2N2wCS8k0BlODYN7ijLPlF3jTq4M7run6zF
+	T6QiWKPDihtetPzncF9VcCb4Jqz/ldSgrcDYIWlHv/OmLuryeA+zviv8uw8UTiD2Mw+YUyP719Q
+	edI0ehA68=
+X-Received: by 2002:a05:6902:2306:b0:e63:eea5:814e with SMTP id 3f1490d57ef6-e7297f18e96mr24243743276.49.1745395229321;
+        Wed, 23 Apr 2025 01:00:29 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGcCTPjpedjmo/EmBXv6tqxaN45OKrfhHIsGnEdaHOpFxJwDplUSiSoY/A69k8zpRkhmzh2clsKJrIlRgmJNzc=
+X-Received: by 2002:a05:6902:2306:b0:e63:eea5:814e with SMTP id
+ 3f1490d57ef6-e7297f18e96mr24243654276.49.1745395228492; Wed, 23 Apr 2025
+ 01:00:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] KVM: x86: Add support for legacy VMware backdoors
- in nested setups
-To: Zack Rusin <zack.rusin@broadcom.com>, linux-kernel@vger.kernel.org
-Cc: Doug Covelli <doug.covelli@broadcom.com>,
-        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
-        Sean Christopherson <seanjc@google.com>,
-        Thomas Gleixner
- <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
-        linux-doc@vger.kernel.org
-References: <20250422161304.579394-1-zack.rusin@broadcom.com>
- <20250422161304.579394-5-zack.rusin@broadcom.com>
-Content-Language: en-US
-From: Xin Li <xin@zytor.com>
-Autocrypt: addr=xin@zytor.com; keydata=
- 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
- l75w1xInsg==
-In-Reply-To: <20250422161304.579394-5-zack.rusin@broadcom.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+References: <20250417000238.74567-1-npache@redhat.com> <20250417000238.74567-6-npache@redhat.com>
+ <e4e4aaae-92be-4cd2-9435-dccad99961bf@linux.alibaba.com>
+In-Reply-To: <e4e4aaae-92be-4cd2-9435-dccad99961bf@linux.alibaba.com>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 23 Apr 2025 02:00:02 -0600
+X-Gm-Features: ATxdqUGNjJmmO8jrL1BN9O1IFvnBok1I_See3e65e9BAIwYYolf-6xO9jl5pg2k
+Message-ID: <CAA1CXcBsjAVdu4RWAYJC82Wm3o=OY_Z6iyEu0YNuiC5grG_z-Q@mail.gmail.com>
+Subject: Re: [PATCH v4 05/12] khugepaged: generalize __collapse_huge_page_*
+ for mTHP support
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com, 
+	baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org, 
+	peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com, 
+	tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, 
+	cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com, 
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, 
+	rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 4/22/2025 9:12 AM, Zack Rusin wrote:
-> Allow handling VMware backdoors by the L0 monitor. This is required on
-> setups running Windows VBS, where the L1 will be running Hyper-V which
-> can't handle VMware backdoors. Thus on Windows VBS legacy VMware backdoor
-> calls issued by the userspace will end up in Hyper-V (L1) and endup
-> throwing an error.
-> Add a KVM cap that, in nested setups, allows the legacy VMware backdoor
-> to be handled by the L0 monitor. Thanks to this we can make sure that
-> VMware backdoor is always handled by the correct monitor.
-> 
-> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
-> Cc: Doug Covelli <doug.covelli@broadcom.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: Sean Christopherson <seanjc@google.com>
-> Cc: Thomas Gleixner <tglx@linutronix.de>
-> Cc: Ingo Molnar <mingo@redhat.com>
-> Cc: Borislav Petkov <bp@alien8.de>
-> Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> Cc: x86@kernel.org
-> Cc: "H. Peter Anvin" <hpa@zytor.com>
-> Cc: Zack Rusin <zack.rusin@broadcom.com>
-> Cc: kvm@vger.kernel.org
-> Cc: linux-doc@vger.kernel.org
-> Cc: linux-kernel@vger.kernel.org
-> ---
->   Documentation/virt/kvm/api.rst  | 14 +++++++++++
->   arch/x86/include/asm/kvm_host.h |  1 +
->   arch/x86/kvm/Kconfig            |  1 +
->   arch/x86/kvm/kvm_vmware.h       | 42 +++++++++++++++++++++++++++++++++
->   arch/x86/kvm/svm/nested.c       |  6 +++++
->   arch/x86/kvm/svm/svm.c          |  3 ++-
->   arch/x86/kvm/vmx/nested.c       |  6 +++++
->   arch/x86/kvm/x86.c              |  8 +++++++
->   include/uapi/linux/kvm.h        |  1 +
->   9 files changed, 81 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
-> index 6d3d2a509848..55bd464ebf95 100644
-> --- a/Documentation/virt/kvm/api.rst
-> +++ b/Documentation/virt/kvm/api.rst
-> @@ -8322,6 +8322,20 @@ userspace handling of hypercalls is discouraged. To implement
->   such functionality, use KVM_EXIT_IO (x86) or KVM_EXIT_MMIO
->   (all except s390).
->   
-> +7.39 KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0
-> +------------------------------------------
-> +
-> +:Architectures: x86
-> +:Parameters: args[0] whether the feature should be enabled or not
-> +:Returns: 0 on success.
-> +
-> +Capability allows VMware backdoors to be handled by L0 when running
-> +on nested configurations. This is required when, for example
-> +running Windows guest with Hyper-V VBS enabled - in that configuration
-> +the VMware backdoor calls issued by VMware tools would endup in Hyper-V
-> +(L1) which doesn't handle VMware backdoor. Enable this option to have
-> +VMware backdoor sent to L0 monitor.
-> +
->   8. Other capabilities.
->   ======================
->   
+On Wed, Apr 23, 2025 at 1:30=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2025/4/17 08:02, Nico Pache wrote:
+> > generalize the order of the __collapse_huge_page_* functions
+> > to support future mTHP collapse.
+> >
+> > mTHP collapse can suffer from incosistant behavior, and memory waste
+> > "creep". disable swapin and shared support for mTHP collapse.
+> >
+> > No functional changes in this patch.
+> >
+> > Co-developed-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >   mm/khugepaged.c | 46 ++++++++++++++++++++++++++++------------------
+> >   1 file changed, 28 insertions(+), 18 deletions(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 883e9a46359f..5e9272ab82da 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -565,15 +565,17 @@ static int __collapse_huge_page_isolate(struct vm=
+_area_struct *vma,
+> >                                       unsigned long address,
+> >                                       pte_t *pte,
+> >                                       struct collapse_control *cc,
+> > -                                     struct list_head *compound_pageli=
+st)
+> > +                                     struct list_head *compound_pageli=
+st,
+> > +                                     u8 order)
+> >   {
+> >       struct page *page =3D NULL;
+> >       struct folio *folio =3D NULL;
+> >       pte_t *_pte;
+> >       int none_or_zero =3D 0, shared =3D 0, result =3D SCAN_FAIL, refer=
+enced =3D 0;
+> >       bool writable =3D false;
+> > +     int scaled_none =3D khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER =
+- order);
+> >
+> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR;
+> > +     for (_pte =3D pte; _pte < pte + (1 << order);
+> >            _pte++, address +=3D PAGE_SIZE) {
+> >               pte_t pteval =3D ptep_get(_pte);
+> >               if (pte_none(pteval) || (pte_present(pteval) &&
+> > @@ -581,7 +583,7 @@ static int __collapse_huge_page_isolate(struct vm_a=
+rea_struct *vma,
+> >                       ++none_or_zero;
+> >                       if (!userfaultfd_armed(vma) &&
+> >                           (!cc->is_khugepaged ||
+> > -                          none_or_zero <=3D khugepaged_max_ptes_none))=
+ {
+> > +                          none_or_zero <=3D scaled_none)) {
+> >                               continue;
+> >                       } else {
+> >                               result =3D SCAN_EXCEED_NONE_PTE;
+> > @@ -609,8 +611,8 @@ static int __collapse_huge_page_isolate(struct vm_a=
+rea_struct *vma,
+> >               /* See hpage_collapse_scan_pmd(). */
+> >               if (folio_maybe_mapped_shared(folio)) {
+> >                       ++shared;
+> > -                     if (cc->is_khugepaged &&
+> > -                         shared > khugepaged_max_ptes_shared) {
+> > +                     if (order !=3D HPAGE_PMD_ORDER || (cc->is_khugepa=
+ged &&
+> > +                         shared > khugepaged_max_ptes_shared)) {
+> >                               result =3D SCAN_EXCEED_SHARED_PTE;
+> >                               count_vm_event(THP_SCAN_EXCEED_SHARED_PTE=
+);
+> >                               goto out;
+> > @@ -711,13 +713,14 @@ static void __collapse_huge_page_copy_succeeded(p=
+te_t *pte,
+> >                                               struct vm_area_struct *vm=
+a,
+> >                                               unsigned long address,
+> >                                               spinlock_t *ptl,
+> > -                                             struct list_head *compoun=
+d_pagelist)
+> > +                                             struct list_head *compoun=
+d_pagelist,
+> > +                                             u8 order)
+> >   {
+> >       struct folio *src, *tmp;
+> >       pte_t *_pte;
+> >       pte_t pteval;
+> >
+> > -     for (_pte =3D pte; _pte < pte + HPAGE_PMD_NR;
+> > +     for (_pte =3D pte; _pte < pte + (1 << order);
+> >            _pte++, address +=3D PAGE_SIZE) {
+> >               pteval =3D ptep_get(_pte);
+> >               if (pte_none(pteval) || is_zero_pfn(pte_pfn(pteval))) {
+> > @@ -764,7 +767,8 @@ static void __collapse_huge_page_copy_failed(pte_t =
+*pte,
+> >                                            pmd_t *pmd,
+> >                                            pmd_t orig_pmd,
+> >                                            struct vm_area_struct *vma,
+> > -                                          struct list_head *compound_p=
+agelist)
+> > +                                          struct list_head *compound_p=
+agelist,
+> > +                                          u8 order)
+> >   {
+> >       spinlock_t *pmd_ptl;
+> >
+> > @@ -781,7 +785,7 @@ static void __collapse_huge_page_copy_failed(pte_t =
+*pte,
+> >        * Release both raw and compound pages isolated
+> >        * in __collapse_huge_page_isolate.
+> >        */
+> > -     release_pte_pages(pte, pte + HPAGE_PMD_NR, compound_pagelist);
+> > +     release_pte_pages(pte, pte + (1 << order), compound_pagelist);
+> >   }
+> >
+> >   /*
+> > @@ -802,7 +806,7 @@ static void __collapse_huge_page_copy_failed(pte_t =
+*pte,
+> >   static int __collapse_huge_page_copy(pte_t *pte, struct folio *folio,
+> >               pmd_t *pmd, pmd_t orig_pmd, struct vm_area_struct *vma,
+> >               unsigned long address, spinlock_t *ptl,
+> > -             struct list_head *compound_pagelist)
+> > +             struct list_head *compound_pagelist, u8 order)
+> >   {
+> >       unsigned int i;
+> >       int result =3D SCAN_SUCCEED;
+> > @@ -810,7 +814,7 @@ static int __collapse_huge_page_copy(pte_t *pte, st=
+ruct folio *folio,
+> >       /*
+> >        * Copying pages' contents is subject to memory poison at any ite=
+ration.
+> >        */
+> > -     for (i =3D 0; i < HPAGE_PMD_NR; i++) {
+> > +     for (i =3D 0; i < (1 << order); i++) {
+> >               pte_t pteval =3D ptep_get(pte + i);
+> >               struct page *page =3D folio_page(folio, i);
+> >               unsigned long src_addr =3D address + i * PAGE_SIZE;
+> > @@ -829,10 +833,10 @@ static int __collapse_huge_page_copy(pte_t *pte, =
+struct folio *folio,
+> >
+> >       if (likely(result =3D=3D SCAN_SUCCEED))
+> >               __collapse_huge_page_copy_succeeded(pte, vma, address, pt=
+l,
+> > -                                                 compound_pagelist);
+> > +                                                 compound_pagelist, or=
+der);
+> >       else
+> >               __collapse_huge_page_copy_failed(pte, pmd, orig_pmd, vma,
+> > -                                              compound_pagelist);
+> > +                                              compound_pagelist, order=
+);
+> >
+> >       return result;
+> >   }
+> > @@ -1000,11 +1004,11 @@ static int check_pmd_still_valid(struct mm_stru=
+ct *mm,
+> >   static int __collapse_huge_page_swapin(struct mm_struct *mm,
+> >                                      struct vm_area_struct *vma,
+> >                                      unsigned long haddr, pmd_t *pmd,
+> > -                                    int referenced)
+> > +                                    int referenced, u8 order)
+> >   {
+> >       int swapped_in =3D 0;
+> >       vm_fault_t ret =3D 0;
+> > -     unsigned long address, end =3D haddr + (HPAGE_PMD_NR * PAGE_SIZE)=
+;
+> > +     unsigned long address, end =3D haddr + (PAGE_SIZE << order);
+> >       int result;
+> >       pte_t *pte =3D NULL;
+> >       spinlock_t *ptl;
+> > @@ -1035,6 +1039,12 @@ static int __collapse_huge_page_swapin(struct mm=
+_struct *mm,
+> >               if (!is_swap_pte(vmf.orig_pte))
+> >                       continue;
+> >
+> > +             /* Dont swapin for mTHP collapse */
+> > +             if (order !=3D HPAGE_PMD_ORDER) {
+> > +                     result =3D SCAN_EXCEED_SWAP_PTE;
+> > +                     goto out;
+> > +             }
+>
+> IMO, this check should move into hpage_collapse_scan_pmd(), that means
+> if we scan the swap ptes for mTHP collapse, then we can return
+> 'SCAN_EXCEED_SWAP_PTE' to abort the collapse earlier.
+I dont think this is correct. We currently abort if the global
+max_swap_ptes or max_shared_ptes is exceeded during the PMD scan.
+However if those pass (and we dont collapse at the PMD level), we will
+continue to mTHP collapses. Then during the isolate function we check
+for shared ptes in this specific mTHP range and abort if there's a
+shared ptes. For swap we only know that some pages in the PMD are
+unmapped, but we arent sure which, so we have to try and fault the
+PTEs, and if it's a swap pte, and we are on mTHP collapse, we abort
+the collapse attempt. So having swap/shared PTEs in the PMD scan, does
+not indicate that ALL mTHP collapses will fail, but some will.
 
-You're not basing the patch set on v6.15-rcX?
+This may make more sense as you continue to review the series!
 
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 300cef9a37e2..5dc57bc57851 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -4653,6 +4653,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
->   #ifdef CONFIG_KVM_VMWARE
->   	case KVM_CAP_X86_VMWARE_BACKDOOR:
->   	case KVM_CAP_X86_VMWARE_HYPERCALL:
-> +	case KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0:
->   #endif
->   		r = 1;
->   		break;
-> @@ -6754,6 +6755,13 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
->   		kvm->arch.vmware.hypercall_enabled = cap->args[0];
->   		r = 0;
->   		break;
-> +	case KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0:
-> +		r = -EINVAL;
-> +		if (cap->args[0] & ~1)
+>
+> The logic is the same as how you handle the shared ptes for mTHP.>
+> >               vmf.pte =3D pte;
+> >               vmf.ptl =3D ptl;
+> >               ret =3D do_swap_page(&vmf);
+> > @@ -1154,7 +1164,7 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >                * that case.  Continuing to collapse causes inconsistenc=
+y.
+> >                */
+> >               result =3D __collapse_huge_page_swapin(mm, vma, address, =
+pmd,
+> > -                                                  referenced);
+> > +                             referenced, HPAGE_PMD_ORDER);
+> >               if (result !=3D SCAN_SUCCEED)
+> >                       goto out_nolock;
+> >       }
+> > @@ -1201,7 +1211,7 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >       pte =3D pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+> >       if (pte) {
+> >               result =3D __collapse_huge_page_isolate(vma, address, pte=
+, cc,
+> > -                                                   &compound_pagelist)=
+;
+> > +                                     &compound_pagelist, HPAGE_PMD_ORD=
+ER);
+> >               spin_unlock(pte_ptl);
+> >       } else {
+> >               result =3D SCAN_PMD_NULL;
+> > @@ -1231,7 +1241,7 @@ static int collapse_huge_page(struct mm_struct *m=
+m, unsigned long address,
+> >
+> >       result =3D __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+> >                                          vma, address, pte_ptl,
+> > -                                        &compound_pagelist);
+> > +                                        &compound_pagelist, HPAGE_PMD_=
+ORDER);
+> >       pte_unmap(pte);
+> >       if (unlikely(result !=3D SCAN_SUCCEED))
+> >               goto out_up_write;
+>
 
-Replace ~1 with a macro for better readability please.
