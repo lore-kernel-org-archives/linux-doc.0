@@ -1,281 +1,150 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2066.outbound.protection.outlook.com [40.107.212.66])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f42.google.com (mail-ej1-f42.google.com [209.85.218.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E787526C3A6;
-	Wed, 23 Apr 2025 10:32:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.66
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745404351; cv=fail; b=bseN+tRndr9Pna0PovaTx0vWLcfPjmMEUQ2qnqPzkWZRffcM90XNy0s7YK/i6UaLk0U2G9cnTxWYV+j1X6AeErl0dpiqFsx7lLCGldQlM7AhsbfGITNQ+b55ZTORLmWJMOLj1QEbu0OdZcEyhjuTudguLuOJJ17xJLSCCGnxg44=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745404351; c=relaxed/simple;
-	bh=qFXxzj1wSIv0dUTpeodhNPDQUa5MmWSI4zNDTxic1uY=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LOCMOb8vt4yZJQBXgDyYgPcjgHETv8il6jVQBU6tbkQuxVZ5830KiFI8VwErRHDxGbCmbPgRntnpLg1tCFazClvLKDQsd4/EkwPdmIvHCFOY0R3VtsAPmng/DB8HWnx1K5OU4CWJtDiGbBpZz3uklrHDPcIrxc3FR8EqwilFWBY=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=YClNIcU3; arc=fail smtp.client-ip=40.107.212.66
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90438645;
+	Wed, 23 Apr 2025 10:48:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.42
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745405294; cv=none; b=hjBhT7cnFNcv//uaT18PFLVZG20VWFW4gUL/dRV1muOeorklZgLgeyN2mK/f02VUYM93n4+RW5RmGn5sIF3/4OOYZsgMlcxala4Q1NblgTg5ZLgE3bTlrwUDp97UfPVDRkXZs00JvyzeKRR6zdQcpaimekurLB2uOyAA6wyASv4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745405294; c=relaxed/simple;
+	bh=QBBn9vTmnK8rVIlRrvQjN8xkipKr+QbWyEEEv7UESDY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=NyeMTHGqagBtnbYr71nF424nsVeeg4lqV9H7HWRuBdg88iaTwZn2Frbluu6X5gDXbHfgG2EVBg1OyYH963k3oo/BiJQi3G6R0D/YhrmoXRc/7RzlJv9q/obDMxyFTxXamR4ATZjLGkZxnGxsvgdI1UdgBdHCwykaoKgDCMOAXvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=VgvUxBX7; arc=none smtp.client-ip=209.85.218.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="YClNIcU3"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=WBmzwGQMyHE/ErHJUXgz1ACabZq8jrl6QIIXOpyMq6PHQ9gzq8ofNDQEfhH0t71RvOP2OxO1lUemSsteRwKepYqIhTzVX9m34ymvYVy9lHHEmpRvy9nwLgNHcOtsEO3u7rOISeF8ZssctKb/lxRCELf+VLzu8g0Us0HyKxvcg0055fAuPtlDrlhbs0NZm6uYer3lmF5pETmpIdRVk6tVX8jqQtpVfy6tfhtfVvhc5aYZjGqWvqmtJ07D7djZsH3r3fusDqeiKTpsNUZsKHigoTB5UJeHE9gYm1JeUsloG7LVdw8X4tJ1A0ceL9J4dWcDe/hX2duPNFf2N/MrtHodcA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=YDfs5+dicFbMEZ+n16V4zDkx0r0vuiD32oqywwP8Wyg=;
- b=rplWZNtuNcrLXkKG0jFMCEty9APO1P9a8yc9R+xe6/9K7KqKgD+dplSLLCVMIX58JroR8S4ikz0B5d/zyMPq+s1AT/9nRX6cFmQ9wsBJtkXcPTqNA871nMMoumC4V2OewQR5fCYRq+WRqSQgkpEcfoKTo92C1vAVvJQKf8LVFip93QN+A3yYMgAzLE7AwgQdVPX0yOq7kB7xjg4UoryrsUwnQHOo0mEG36ed5BWw4vsWOHE7qZJ4pdVKCAa/uFF2HnkCmnAiFLQ+XojLGotOUuccNLDzH7eVZuofSvoZl0HT/hAVm//akRiSQgbLS3CQJj7KFq6fJxmUBhMe0EkI1Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=davemloft.net smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=YDfs5+dicFbMEZ+n16V4zDkx0r0vuiD32oqywwP8Wyg=;
- b=YClNIcU3PeHj9O2phcdxq3DV7xSxuyWKEFtgvWyNkslzcnLdCtGBZaiAYtoG/YV+ulUghMruPNZYrSix/SWj0Bh6ClX3V4PbuhCKXUFklTO/yQV0gL5TNvhf8OjgBvifKJ8U1Zd3XVBk9WwMT0U1vjFnsFHmCqyu/tvokNbeuLM=
-Received: from CH0PR03CA0258.namprd03.prod.outlook.com (2603:10b6:610:e5::23)
- by DS0PR12MB8043.namprd12.prod.outlook.com (2603:10b6:8:14d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.34; Wed, 23 Apr
- 2025 10:32:23 +0000
-Received: from CH3PEPF00000009.namprd04.prod.outlook.com
- (2603:10b6:610:e5:cafe::9e) by CH0PR03CA0258.outlook.office365.com
- (2603:10b6:610:e5::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Wed,
- 23 Apr 2025 10:32:23 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
-Received: from SATLEXMB03.amd.com (165.204.84.17) by
- CH3PEPF00000009.mail.protection.outlook.com (10.167.244.36) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8655.12 via Frontend Transport; Wed, 23 Apr 2025 10:32:23 +0000
-Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 23 Apr
- 2025 05:32:17 -0500
-Received: from xhdipdslab48.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
- (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
- Transport; Wed, 23 Apr 2025 05:32:12 -0500
-From: Abhijit Gangurde <abhijit.gangurde@amd.com>
-To: <shannon.nelson@amd.com>, <brett.creeley@amd.com>, <davem@davemloft.net>,
-	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
-	<corbet@lwn.net>, <jgg@ziepe.ca>, <leon@kernel.org>, <andrew+netdev@lunn.ch>
-CC: <allen.hubbe@amd.com>, <nikhil.agarwal@amd.com>,
-	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Abhijit Gangurde
-	<abhijit.gangurde@amd.com>
-Subject: [PATCH 14/14] RDMA/ionic: Add Makefile/Kconfig to kernel build environment
-Date: Wed, 23 Apr 2025 15:59:13 +0530
-Message-ID: <20250423102913.438027-15-abhijit.gangurde@amd.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250423102913.438027-1-abhijit.gangurde@amd.com>
-References: <20250423102913.438027-1-abhijit.gangurde@amd.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="VgvUxBX7"
+Received: by mail-ej1-f42.google.com with SMTP id a640c23a62f3a-ac3b12e8518so1015933466b.0;
+        Wed, 23 Apr 2025 03:48:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745405291; x=1746010091; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yW3Ewl9XC1g0tqlHWENmHDvEOdSUdHOSXTlz2TpUlQc=;
+        b=VgvUxBX7vTM0r2bj2dFyo8yJFi+Ea5noljGABIYpREsNbCunDQj2xgK5AlOarTmyBH
+         NgamrjLxq12t1ee6ure23084joLR/c4xhdR8QRUdlfBa2T70VneQo0qb56o/8tJnjGnq
+         cKUb+E2+BECgtwAwleomTaCwBy1smXoYX8gAU+uQm5JpzBWadUTP7ElQHxnWgyjpIUNG
+         qVIYu2wroxf/PJm7SEyBDm6y4Eh8OQ6SzSvbXYqRLPTNSUk6uhZc/4nqBiY4HpQA5Hc6
+         5xzfR/yE1UokMN7zhTNnigENHECBbxAY+bG9nrtrjY1nZP2lZvFIbZpBRD30pZOrc44b
+         4yPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745405291; x=1746010091;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yW3Ewl9XC1g0tqlHWENmHDvEOdSUdHOSXTlz2TpUlQc=;
+        b=ti771MtiwXhNhj3eRikGjaZYmDiu2hO4uidPSYDZmQh0+T0VShHc0WVEId06DS9VVK
+         FDx/6dkMNdLzKy+/1VqfPblbVIVcsEczesiFrhx+ndh1v6hQu/7YIDeqjBGWnlOFXVqy
+         cezEPUBq+Ku0JmYViIZzZS4cNVVBCboecexoFJ9rtreSKrtVo78t5AtbshsF2aafknsP
+         fDmZV9FdpQampSNDrjDKoDVvIfN/8a8YuwEuUPwVrICMJPD6pfgL6x/R9LbUxqVLhUtT
+         xJD+Qu3BC49O6PoxXe3FULUM3v68KtkD2kmUuS/j/DlFQwmxc8BjKGmi0xjCtdPJYm4+
+         xCYw==
+X-Forwarded-Encrypted: i=1; AJvYcCUwXAhdrGU3mfGOGDpVFd7hEYKaWvtPyfwjCphXYcEo/ZnCxWabqsZGhnXxgZEvzG6o4k/ABx21N5CH@vger.kernel.org, AJvYcCVAEEcUi1ju5kfrqVHUYOsxnlyHzP4Tg1mPej7rX3vgZSvcSwDmFAorVND5olKOPSZ76TpZamQXSA==@vger.kernel.org, AJvYcCVYvN+tb4cuKCFUyEVbyc2ApRXWZBUsjhq+KHSRRIqdlWeZnQ8kuLncRcol5OSlr7e+BpJwRI8rgDtqXysy@vger.kernel.org, AJvYcCXjkiuFWTQlA8eu3xCBFgYiFDYBpMgMbCtklL6sRf1U6AiQ3n9FmFoilDehV5tByURQtoiGJgTGnJTpL1QVzNqn@vger.kernel.org, AJvYcCXo2yudBq+kcO17evophJZ73LPv0bc4L4axo3cbL3YRxCGQ/+hfIJJt8rSnMLHeZOcoIKf7@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzm5eyTPyL2uLxt5NvN9F2jYzQgWCQkl6Lb/xBZElQNZkMg5Mde
+	dB+scppkH7AJnXxRGlAh+/Sw4UijPWH2lc25aOmSI2CPaL2DLYhq
+X-Gm-Gg: ASbGncsFeoIaWwnetB6qbq2OQ2lM3K8wyEJBUm92rOK2G9Rwb133F0PCSd7Lj0P9BSA
+	RT22wSCMdguwwiGoNvV29OMJWR3IuVungpi+i1xrz4LAC2useXqh8b8jK6zaGJvoEBXwBvSqia6
+	Zc0/e+QwVeYhpV1fyb6kifUbztcuxy0pPmFOoavghYa2wzYJh5cAfF9sEVigAsT6VUYpLo8ctDF
+	eG189lqt1lOt+paGfPxPio9vmg2CMHbt/K9qyqrprVNO+HL0nDzg6GfxF9DoxWkv1vQ3kIdop4J
+	soK8Wxl7Yfh5C0o2NjV6+RznIQFQ4LqCT3tCg3BI/mxmC/8eKpI=
+X-Google-Smtp-Source: AGHT+IGSOkms0vGWAQQk5LDkY0uQOFjlrtaq8CZWRZeiflOHa+/oqFgsKRBzQiPT5EoHF60fgvH8Mw==
+X-Received: by 2002:a17:907:1c21:b0:ab7:1012:3ccb with SMTP id a640c23a62f3a-acb74b2e84cmr1451252366b.14.1745405290671;
+        Wed, 23 Apr 2025 03:48:10 -0700 (PDT)
+Received: from [192.168.8.100] ([148.252.144.224])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6ef9669csm780506166b.161.2025.04.23.03.48.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 23 Apr 2025 03:48:09 -0700 (PDT)
+Message-ID: <97fd3326-94d0-4d85-bb33-802ed88fcbda@gmail.com>
+Date: Wed, 23 Apr 2025 11:49:23 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-Received-SPF: None (SATLEXMB03.amd.com: abhijit.gangurde@amd.com does not
- designate permitted sender hosts)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PEPF00000009:EE_|DS0PR12MB8043:EE_
-X-MS-Office365-Filtering-Correlation-Id: ca7053c0-1098-40da-1501-08dd8252225a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|1800799024|7416014|82310400026|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?fI7kkuFiJcLicxLVzOsAJS6fGGUvJTwr8QCRAR15r/qvQPNuRWlNaO9RzloT?=
- =?us-ascii?Q?zl0lI3UDKCVq9DBon25+atQI1yR11M7Tfyj+aNpiBFzVu6VycMrchybuVX4n?=
- =?us-ascii?Q?ETQiHeprQ88sXQKSo8JwnqlqIWI+XQQm9k9mbIB5B166uFPYtaw2FpCmwmy4?=
- =?us-ascii?Q?isyNedES3TLwXMWe/9ckXiGK5E2TVmCeNtOSupJ7dojefel9nTbOI9wacBt2?=
- =?us-ascii?Q?HG6TySpkN1ewxOSl7ecoWxob3F1tJ/K8KIcf6KKoIMgv2wmWu8lr3eWXMiua?=
- =?us-ascii?Q?EOnqObJyC4JWuFOQUzEfAq+78EfsDRG6nyyIheJPLpimG0EUFaVPNnjbwM09?=
- =?us-ascii?Q?XWCcquZtd/dmo1YIu8JKoRQ9/7CbAnzautxRq7xYF8bEnor7XqlN6rILQANI?=
- =?us-ascii?Q?zLk1REK89KXC1kvAUtAkailO6OmUixzrTvLlE41zPpD12krfna0M0oMegWqe?=
- =?us-ascii?Q?dGA+FHSsDD95ENthZakgo25zgE05ASikhdan2J4sgu6JI3LF/iNSugWh9xzN?=
- =?us-ascii?Q?LsKVzgHgE0vm08f2eNF+PKRPqJsLGPnjfJ643GtHqAKxfY9sxuV1++oioHKO?=
- =?us-ascii?Q?FdKMvtab7vsA05HddhUCLWYbtC/GMm5fvjKUmsC6CSFtcAWxd3nC4GwU3JiR?=
- =?us-ascii?Q?ORA9aDSpaAUHcdyJ4TF8jTxM6fMmL1dd4uoBLeh/olPoN5Ogka75SPJ1IN/P?=
- =?us-ascii?Q?v8ITt7Wf3tAkzi/Lm3UrwGV8qWHG0gVdhkfiMUPL0AvGNfb1LaxSw9mOaQSn?=
- =?us-ascii?Q?z2Y7TLwvDbLAl+eBNbaauJK+fUi3Pk9FnxQw/E6omegkbP+1Mnjg0ItGYI6G?=
- =?us-ascii?Q?IgoQdHXvQuAG8Af9RaASherK19ImlO/tUBoLGKKmRKuvTG0H90FgsNx0kHSv?=
- =?us-ascii?Q?MQkzXo6cIo3IbxjNNc+9ngEoYg/RGWJBEKnw5aqUYtUQtv7OH9o75FKytDGe?=
- =?us-ascii?Q?4rlD87Lcum9mJ/bmeEnPHp+7AUxvodH9m5MgW/wOtv/3BoQda2d873+RBRHF?=
- =?us-ascii?Q?/N6LPsb7DYfTZZN5pEXhEmR+s1mivDpBmXvKrDiXF0n4MnL7tQqxK7A1PGvM?=
- =?us-ascii?Q?mSQH5bO3HKXMASxJYOi5z8qH3QTzOt1va6gJmjGGt75s44hQIyW1N3VhmVdi?=
- =?us-ascii?Q?Wg6qP5WP6Tk/ggyxrcS9iPOTFpUbB8dPyYOmc6aw0ZVWMYIVx1pFyPnRcdLU?=
- =?us-ascii?Q?3osyiM4o0ufPGvgyEPBTbbWO8DttB7ma1PGSAAvNcgEGo3N55g8tx+c3tr7s?=
- =?us-ascii?Q?B+iQvoI9U/U+nEfcjMFHbfyyaiH1Np3yeW8JaUvVpfdv219orKtqx5lsJ1gm?=
- =?us-ascii?Q?p3a72NbjLaM3/XDSRssIIZ88KQVSKrgcLUVDo+BzZXkllbpMwW5ONQ96Q/g4?=
- =?us-ascii?Q?7Rodp0FK9Wf2pA2C2TYdNHIUNC8KNt9N8BvUNJWplvaSNquHE5f/JCmYRuyQ?=
- =?us-ascii?Q?8H6zTWGdtGXawlr00E7HMw0UfDoU9RzQiwTsW6ughXMcW9+20j5QE2Xzmv4q?=
- =?us-ascii?Q?J2PFdkeA4Y9mIaS0d2NHy4U8G4ClKzS89FVNbJ6LO0D1WyTEsFbsb3erOg?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(82310400026)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 10:32:23.1111
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ca7053c0-1098-40da-1501-08dd8252225a
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH3PEPF00000009.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB8043
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 2/9] net: add get_netmem/put_netmem support
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, io-uring@vger.kernel.org,
+ virtualization@lists.linux.dev, kvm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+ David Ahern <dsahern@kernel.org>, Neal Cardwell <ncardwell@google.com>,
+ "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>,
+ Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?=
+ <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+References: <20250417231540.2780723-1-almasrymina@google.com>
+ <20250417231540.2780723-3-almasrymina@google.com>
+ <484ecaad-56de-4c0d-b7fa-a3337557b0bf@gmail.com>
+ <CAHS8izPw9maOMqLALTLc22eOKnutyLK9azOs4FzO1pfaY8xE6g@mail.gmail.com>
+ <957b74ed-f29c-4bb8-b819-af4e1168d6c1@gmail.com>
+ <CAHS8izM8+zG6KOhV7ysTsCj_PEty5eL+P+uUxTZhdsOSZTwmow@mail.gmail.com>
+ <c0bd45f7-0325-4e4b-b0ea-ccae24a1eabd@gmail.com>
+ <8c1c6405-1e60-4512-a675-4c00b00d400a@gmail.com>
+ <CAHS8izPGuF1PxfdmXUC1XJHpmRqotXh=vUY_a-AEHdAgPmLQ1g@mail.gmail.com>
+Content-Language: en-US
+From: Pavel Begunkov <asml.silence@gmail.com>
+In-Reply-To: <CAHS8izPGuF1PxfdmXUC1XJHpmRqotXh=vUY_a-AEHdAgPmLQ1g@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Add ionic to the kernel build environment.
+On 4/22/25 22:10, Mina Almasry wrote:
+...
+>>> Instead of adding net_iov / devmem handling in generic paths affecting
+>>> everyone, you could change those functions where it's get_page() are
+>>> called legitimately. The niov/devmem part of get/put_netmem doesn't
+>>> even have the same semantics as the page counterparts as it cannot
+>>> prevent from reallocation. That might be fine, but it's not clear
+>>
+>> Actually, maybe it's not that exclusive to netiov, same reallocation
+>> argument is true for user pages, even though they're reffed
+>> separately.
+>>
+>> It might be fine to leave this approach, while suboptimal it should
+>> be easier for you. Depends on how folks feel about the extra
+>> overhead in the normal tx path.
+>>
+> 
+> Right, I think there is only 2 ways to handle all the code paths in
+> the tcp stack that hit skb_frag_ref:
+> 
+> 1. We go over all of them and make sure they're unreachable for unreadable skbs:
+> 
+> if (!skb_frags_readable()) return; // or something
+> 
+> 2. or, we just add net_iov support in skb_frag_ref.
+> 
+> This patch series does the latter, which IMO is much preferred.
+> 
+> FWIW I'm surprised that adding net_iov support to skb_frag_ref/unref
+> is facing uncertainty. I've added net_iov support for many skb helpers
+> in commit 65249feb6b3df ("net: add support for skbs with unreadable
+> frags") and commit 9f6b619edf2e8 ("net: support non paged skb frags").
+> skb_frag_ref/unref is just 1 helper I "missed" because it's mostly
+> (but not entirely) used by the TX path.
 
-Co-developed-by: Allen Hubbe <allen.hubbe@amd.com>
-Signed-off-by: Allen Hubbe <allen.hubbe@amd.com>
-Signed-off-by: Abhijit Gangurde <abhijit.gangurde@amd.com>
----
- .../ethernet/pensando/ionic_rdma.rst          | 43 +++++++++++++++++++
- MAINTAINERS                                   | 10 +++++
- drivers/infiniband/Kconfig                    |  1 +
- drivers/infiniband/hw/Makefile                |  1 +
- drivers/infiniband/hw/ionic/Kconfig           | 17 ++++++++
- drivers/infiniband/hw/ionic/Makefile          |  7 +++
- 6 files changed, 79 insertions(+)
- create mode 100644 Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
- create mode 100644 drivers/infiniband/hw/ionic/Kconfig
- create mode 100644 drivers/infiniband/hw/ionic/Makefile
+It'd have looked completely different if you did it back then, which
+is the same semantics mismatch I mentioned. For pp rx niovs it'd
+have incremented the niovs ref pinning that specific niov down
+and preventing reallocation (by pp), and that with no devmem specific
+code sticking into generic code.
+This patch adds a 3rd way to refcount a frag (after page refs and
+pp_ref_count), which is why it attracted attention.
 
-diff --git a/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst b/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-new file mode 100644
-index 000000000000..80c4d9876d3e
---- /dev/null
-+++ b/Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-@@ -0,0 +1,43 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+============================================================
-+Linux Driver for the AMD Pensando(R) Ethernet adapter family
-+============================================================
-+
-+AMD Pensando RDMA driver.
-+Copyright (C) 2018-2025, Advanced Micro Devices, Inc.
-+
-+Contents
-+========
-+
-+- Identifying the Adapter
-+- Enabling the driver
-+- Support
-+
-+Identifying the Adapter
-+=======================
-+
-+See Documentation/networking/device_drivers/ethernet/pensando/ionic.rst
-+for more information on identifying the adapter.
-+
-+Enabling the driver
-+===================
-+
-+The driver is enabled via the standard kernel configuration system,
-+using the make command::
-+
-+  make oldconfig/menuconfig/etc.
-+
-+The driver is located in the menu structure at:
-+
-+  -> Device Drivers
-+    -> InfiniBand support
-+      -> AMD Pensando DSC RDMA/RoCE Support
-+
-+Support
-+=======
-+
-+For general Linux rdma support, please use the rdma mailing
-+list, which is monitored by AMD Pensando personnel::
-+
-+  linux-rdma@vger.kernel.org
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 76ee6f5004ef..23505a0bb272 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1154,6 +1154,16 @@ F:	Documentation/networking/device_drivers/ethernet/amd/pds_core.rst
- F:	drivers/net/ethernet/amd/pds_core/
- F:	include/linux/pds/
- 
-+AMD PENSANDO RDMA DRIVER
-+M:	Abhijit Gangurde <abhijit.gangurde@amd.com>
-+M:	Allen Hubbe <allen.hubbe@amd.com>
-+L:	linux-rdma@vger.kernel.org
-+S:	Maintained
-+F:	Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
-+F:	drivers/infiniband/hw/ionic/
-+F:	include/linux/ionic/
-+F:	include/uapi/rdma/ionic-abi.h
-+
- AMD PMC DRIVER
- M:	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>
- L:	platform-driver-x86@vger.kernel.org
-diff --git a/drivers/infiniband/Kconfig b/drivers/infiniband/Kconfig
-index a5827d11e934..f3035edfb742 100644
---- a/drivers/infiniband/Kconfig
-+++ b/drivers/infiniband/Kconfig
-@@ -85,6 +85,7 @@ source "drivers/infiniband/hw/efa/Kconfig"
- source "drivers/infiniband/hw/erdma/Kconfig"
- source "drivers/infiniband/hw/hfi1/Kconfig"
- source "drivers/infiniband/hw/hns/Kconfig"
-+source "drivers/infiniband/hw/ionic/Kconfig"
- source "drivers/infiniband/hw/irdma/Kconfig"
- source "drivers/infiniband/hw/mana/Kconfig"
- source "drivers/infiniband/hw/mlx4/Kconfig"
-diff --git a/drivers/infiniband/hw/Makefile b/drivers/infiniband/hw/Makefile
-index aba96ca9bce5..c30489902653 100644
---- a/drivers/infiniband/hw/Makefile
-+++ b/drivers/infiniband/hw/Makefile
-@@ -15,3 +15,4 @@ obj-$(CONFIG_INFINIBAND_HNS_HIP08)	+= hns/
- obj-$(CONFIG_INFINIBAND_QEDR)		+= qedr/
- obj-$(CONFIG_INFINIBAND_BNXT_RE)	+= bnxt_re/
- obj-$(CONFIG_INFINIBAND_ERDMA)		+= erdma/
-+obj-$(CONFIG_INFINIBAND_IONIC)		+= ionic/
-diff --git a/drivers/infiniband/hw/ionic/Kconfig b/drivers/infiniband/hw/ionic/Kconfig
-new file mode 100644
-index 000000000000..023a7fcdacb8
---- /dev/null
-+++ b/drivers/infiniband/hw/ionic/Kconfig
-@@ -0,0 +1,17 @@
-+# SPDX-License-Identifier: GPL-2.0
-+# Copyright (C) 2018-2025, Advanced Micro Devices, Inc.
-+
-+config INFINIBAND_IONIC
-+	tristate "AMD Pensando DSC RDMA/RoCE Support"
-+	depends on NETDEVICES && ETHERNET && PCI && INET && 64BIT
-+	select NET_VENDOR_PENSANDO
-+	select IONIC
-+	help
-+	  This enables RDMA/RoCE support for the AMD Pensando family of
-+	  Distributed Services Cards (DSCs).
-+
-+	  To learn more, visit our website at
-+	  <https://www.amd.com/en/products/accelerators/pensando.html>.
-+
-+	  To compile this driver as a module, choose M here. The module
-+	  will be called ionic_rdma.
-diff --git a/drivers/infiniband/hw/ionic/Makefile b/drivers/infiniband/hw/ionic/Makefile
-new file mode 100644
-index 000000000000..d8787ba09c0a
---- /dev/null
-+++ b/drivers/infiniband/hw/ionic/Makefile
-@@ -0,0 +1,7 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_INFINIBAND_IONIC)	+= ionic_rdma.o
-+
-+ionic_rdma-y :=	\
-+	ionic_ibdev.o ionic_queue.o ionic_pgtbl.o ionic_res.o ionic_admin.o \
-+	ionic_controlpath.o ionic_datapath.o ionic_hw_stats.o
 -- 
-2.34.1
+Pavel Begunkov
 
