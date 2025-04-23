@@ -1,649 +1,329 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51606EEAB;
-	Wed, 23 Apr 2025 16:35:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A844A26561E
+	for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 16:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745426157; cv=none; b=nWUpwaX1sreUiNdSxPHHWdV7IknvfwEtkGYxcZUUBcjQHqH4vRAssQ+NIB40fnpbuLDE279Fzngx1kHsO3j7ptst9N9TH6cLfHsoBCnc7f16NTBCU0xZbEgoZsf+CJEH060pk2crUj11Zs4KxU5vyl6zv8WO3Bs/g1WC21SVzrc=
+	t=1745427527; cv=none; b=BTdDU91WQhHZI8BEo1hlTZGjfEGX+vPxWZ+i9Kg9NzKIpeSbnp7RisXOtZJ6rXrOONIaTzYZ805vDqRiWAk/tMANcoQluv7beK8zlUVFk8yZ3ibH32+hsLh0kvWnjpQp71t4dA9XKaDDPISao2ZPLCbxEGOI7i6W9rmBnpHx914=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745426157; c=relaxed/simple;
-	bh=bA7q0WUuzC+yd95l/Xzo66kcScmAuxKZZQimfRM3Adg=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=JQR+nt0axFVwyCPmMGp1H8o+swnlQppQO8rYFxyg/3vgGrBf4w6sWnW2WxDOLb+Y4JnV0wpzUWGxbXdup2iuTPNvhfUgagrkjCE3lEoA//sTMFCufdWpR1bUDCdztyXONA9837fPECC31aoiez+NTbdVhSEPJMN4Kzr4Vy9hZmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZjPkl5PL1z6M4lw;
-	Thu, 24 Apr 2025 00:31:43 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
-	by mail.maildlp.com (Postfix) with ESMTPS id 3F95514020A;
-	Thu, 24 Apr 2025 00:35:53 +0800 (CST)
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.195.32.89) by
- frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 23 Apr 2025 18:35:51 +0200
-From: <shiju.jose@huawei.com>
-To: <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-CC: <bp@alien8.de>, <rafael@kernel.org>, <tony.luck@intel.com>,
-	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
-	<mchehab@kernel.org>, <jonathan.cameron@huawei.com>, <linux-mm@kvack.org>,
-	<linuxarm@huawei.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
-	<Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
-	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
-	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
-	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
-	<dferguson@amperecomputing.com>, <wbs@os.amperecomputing.com>,
-	<nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
-	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
-	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
-Subject: [PATCH v4 3/3] ras: mem: Add memory ACPI RAS2 driver
-Date: Wed, 23 Apr 2025 17:35:10 +0100
-Message-ID: <20250423163511.1412-4-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20250423163511.1412-1-shiju.jose@huawei.com>
-References: <20250423163511.1412-1-shiju.jose@huawei.com>
+	s=arc-20240116; t=1745427527; c=relaxed/simple;
+	bh=+9309wG6HYj9uFp/aCp8SmtLqTi5bMYQthQXeSVGF5M=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=YCA1DEsS9TtJOdpdl+7Rzq4erbtU9Tz/SrTL48wg0TJoKVyzu/oAzgLrPbTYcrbQZxHagMGpFxYkl+rWeAulOT2LU5fUnn+CaoOOWSYaQlmI2twTpsCkQQvdMXEu7tgG2S7+eMKt+9KVfYv/FM0/MKiIP4M9qu1TktW1zEJoSO4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com; spf=fail smtp.mailfrom=broadcom.com; dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b=CD1j45sr; arc=none smtp.client-ip=209.85.128.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=broadcom.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=broadcom.com header.i=@broadcom.com header.b="CD1j45sr"
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-7040ac93c29so1469907b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 09:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=broadcom.com; s=google; t=1745427524; x=1746032324; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=XM46Jn5zjP32r1mI6/pffzoekZsUCAWKd89M72WNjSU=;
+        b=CD1j45sr3FSvRNbMlOXeEpTxCOUchQGR+S9WBpyWcQIt4hvvr35NxB0x/NxlBJlfS7
+         rbVdVUButROIXWrbglJLf1lAGu420Sj1YIT56z3lN0BqfhyYoEJDVUgAS17jqpKkuqCe
+         dydRb3UTpjfsVhRqddfkNX5eIko4HxlygkULA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745427524; x=1746032324;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=XM46Jn5zjP32r1mI6/pffzoekZsUCAWKd89M72WNjSU=;
+        b=O9753yAv2AhfB9BD9JNJzGj3QbWogRKTlaT7sJiYDGtrcY14t7hGpeNohWdxtKeth8
+         lUAEekwpN+Tc2xGzXaLqF0rX5KkpkYrrHIMnTlFMhWE7XcgDBsDUOf/FHLhJiQFJn1os
+         w41Q2uLpBiPSEgFNHtQYj7KL8NA3q9mAe6SyyN8kYCHHQX1NjO9FipuYk1Ylsxs5wV69
+         5cI1179NllI9aqWp7HRpHmH8p3ThUuQc2cfLavDpv5pskzQlzSAYvCFCvqrTffTlXTv7
+         TQiZ0ru5sVylkR9maKjMIOh0RZkOWCrBGCsnMh37m8PSuN3H89qXk7hMCgU9eDajLGzD
+         9kcw==
+X-Forwarded-Encrypted: i=1; AJvYcCVyOKUSSjVPbID1wV2PBGMdzahbR73mNXjuxmTw7zASSrA3a+22WVF41s72wSojViXYsDNfYtpNLUQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyFkl0rjMEUZWskiISuffFdXLIHgoCzgho1sxluGfM+cCIkl1nZ
+	d/QjxMBHJdGkUk0PZSXsdCyFM1PsmQogykkk5EwOE6vPolIc0DAcJ8ABRHazNwb4jAlHs52G7fv
+	UNGBU80VGukuZq9Ug3/CC0yD3lAF/OVbW88/B
+X-Gm-Gg: ASbGncusBO7sN0XmvEJ0T+8adYAJmgB4mmjF0fN5EmvTBwg4HN0N8QknPpX77knV/XZ
+	DN4EHjBQB+4n7tljyJXz/QYgFkf9Ftl+Hsl9xlP6TW97AayMsyoky/FAUTL86MsvtEcthCocgaR
+	yNae1FUn5GggD9SsocodUUtZs=
+X-Google-Smtp-Source: AGHT+IFZQyxjqYrUesRt8QUNMGHcWI9NzYMj3bs8zwAjQkhD5HAZhlgsNyXFxQ0aKndetcIyLanDkuaC36kyR2JtHyA=
+X-Received: by 2002:a05:690c:968c:b0:6f9:7b99:8a29 with SMTP id
+ 00721157ae682-706cdbbc6eamr252873387b3.34.1745427524473; Wed, 23 Apr 2025
+ 09:58:44 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: lhrpeml500003.china.huawei.com (7.191.162.67) To
- frapeml500007.china.huawei.com (7.182.85.172)
+References: <20250422161304.579394-1-zack.rusin@broadcom.com>
+ <20250422161304.579394-5-zack.rusin@broadcom.com> <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
+ <CABQX2QMznYZiVm40Ligq+pFKmEkVpScW+zcKYbPpGgm0=S2Xkg@mail.gmail.com>
+ <aAjrOgsooR4RYIJr@google.com> <CABQX2QNDmXizUDP_sckvfaM9OBTxHSr0ESgJ_=Z_5RiODfOGsg@mail.gmail.com>
+ <aAkNN029DIxYay-j@google.com>
+In-Reply-To: <aAkNN029DIxYay-j@google.com>
+From: Zack Rusin <zack.rusin@broadcom.com>
+Date: Wed, 23 Apr 2025 12:58:32 -0400
+X-Gm-Features: ATxdqUGPIdiMBMGwq_SanvxlI7YJq-9AUJAWEGcxqONPSX-FHzSK8-WHCUeDg8A
+Message-ID: <CABQX2QPUsKfkKYKnXG01A-jEu_7dbY7qBnEHyhYJnsSXD-jqng@mail.gmail.com>
+Subject: Re: [PATCH v2 4/5] KVM: x86: Add support for legacy VMware backdoors
+ in nested setups
+To: Sean Christopherson <seanjc@google.com>
+Cc: Xin Li <xin@zytor.com>, linux-kernel@vger.kernel.org, 
+	Doug Covelli <doug.covelli@broadcom.com>, Paolo Bonzini <pbonzini@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
+	Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: multipart/signed; protocol="application/pkcs7-signature"; micalg=sha-256;
+	boundary="0000000000009ac64106337503c5"
 
-From: Shiju Jose <shiju.jose@huawei.com>
+--0000000000009ac64106337503c5
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Memory ACPI RAS2 auxiliary driver binds to the auxiliary device
-add by the ACPI RAS2 table parser.
+On Wed, Apr 23, 2025 at 11:54=E2=80=AFAM Sean Christopherson <seanjc@google=
+.com> wrote:
+>
+> On Wed, Apr 23, 2025, Zack Rusin wrote:
+> > On Wed, Apr 23, 2025 at 9:31=E2=80=AFAM Sean Christopherson <seanjc@goo=
+gle.com> wrote:
+> > > Heh, KVM_CAP_EXIT_ON_EMULATION_FAILURE is the odd one out.  Even if t=
+hat weren't
+> > > the case, this is one of the situations where diverging from the exis=
+ting code is
+> > > desirable, because the existing code is garbage.
+> > >
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~kvm_caps.supporte=
+d_quirks)
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_X2APIC_API_VA=
+LID_FLAGS)
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~kvm_get_allowed_d=
+isable_exits())
+> > > arch/x86/kvm/x86.c:                 (cap->args[0] & ~KVM_X86_DISABLE_=
+EXITS_PAUSE))
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_MSR_EXIT_REAS=
+ON_VALID_MASK)
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_BUS_LOCK_DETE=
+CTION_VALID_MODE)
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~KVM_EXIT_HYPERCAL=
+L_VALID_MASK) {
+> > > arch/x86/kvm/x86.c:             if (cap->args[0] & ~1)
+> > > arch/x86/kvm/x86.c:             if (!enable_pmu || (cap->args[0] & ~K=
+VM_CAP_PMU_VALID_MASK))
+> > > arch/x86/kvm/x86.c:             if ((u32)cap->args[0] & ~KVM_X86_NOTI=
+FY_VMEXIT_VALID_BITS)
+> > > virt/kvm/kvm_main.c:            if (cap->flags || (cap->args[0] & ~al=
+lowed_options))
+> >
+> > That's because none of those other options are boolean, right? I
+> > assumed that the options that have valid masks use defines but
+> > booleans use ~1 because (val & ~1) makes it obvious to the reader that
+> > the option is in fact a boolean in a way that (val &
+> > ~KVM_SOME_VALID_BITS) can not.
+>
+> The entire reason when KVM checks and enforces cap->args[0] is so that KV=
+M can
+> expand the capability's functionality in the future.  Whether or not a ca=
+pability
+> is *currently* a boolean, i.e. only has one supported flag, is completely=
+ irrelevant.
+>
+> KVM has burned itself many times over by not performing checks, e.g. is h=
+ow we
+> ended up with things like KVM_CAP_DISABLE_QUIRKS2.
+>
+> > > > Or are you saying that since I'm already there you'd like to see a
+> > > > completely separate patch that defines some kind of IS_ZERO_OR_ONE
+> > > > macro for KVM, use it for KVM_CAP_EXIT_ON_EMULATION_FAILURE and, on=
+ce
+> > > > that lands then I can make use of it in this series?
+> > >
+> > > Xin is suggesting that you add a macro in arch/x86/include/uapi/asm/k=
+vm.h to
+> > > #define which bits are valid and which bits are reserved.
+> > >
+> > > At a glance, you can kill multiple birds with one stone.  Rather than=
+ add three
+> > > separate capabilities, add one capability and then a variety of flags=
+.  E.g.
+> > >
+> > > #define KVM_X86_VMWARE_HYPERCALL        _BITUL(0)
+> > > #define KVM_X86_VMWARE_BACKDOOR         _BITUL(1)
+> > > #define KVM_X86_VMWARE_NESTED_BACKDOOR  _BITUL(2)
+> > > #define KVM_X86_VMWARE_VALID_FLAGS      (KVM_X86_VMWARE_HYPERCALL |
+> > >                                          KVM_X86_VMWARE_BACKDOOR |
+> > >                                          KVM_X86_VMWARE_NESTED_BACKDO=
+OR)
+> > >
+> > >         case KVM_CAP_X86_VMWARE_EMULATION:
+> > >                 r =3D -EINVAL;
+> > >                 if (cap->args[0] & ~KVM_X86_VMWARE_VALID_FLAGS)
+> > >                         break;
+> > >
+> > >                 mutex_lock(&kvm->lock);
+> > >                 if (!kvm->created_vcpus) {
+> > >                         if (cap->args[0] & KVM_X86_VMWARE_HYPERCALL)
+> > >                                 kvm->arch.vmware.hypercall_enabled =
+=3D true;
+> > >                         if (cap->args[0] & KVM_X86_VMWARE_BACKDOOR)
+> > >                                 kvm->arch.vmware.backdoor_enabled;
+> > >                         if (cap->args[0] & KVM_X86_VMWARE_NESTED_BACK=
+DOOR)
+> > >                                 kvm->arch.vmware.nested_backdoor_enab=
+led =3D true;
+> > >                         r =3D 0;
+> > >                 }
+> > >                 mutex_unlock(&kvm->lock);
+> > >                 break;
+> > >
+> > > That approach wouldn't let userspace disable previously enabled VMwar=
+e capabilities,
+> > > but unless there's a use case for doing so, that should be a non-issu=
+e.
+> >
+> > I'd say that if we desperately want to use a single cap for all of
+> > these then I'd probably prefer a different approach because this would
+> > make vmware_backdoor_enabled behavior really wacky.
+>
+> How so?  If kvm.enable_vmware_backdoor is true, then the backdoor is enab=
+led
+> for all VMs, else it's disabled by default but can be enabled on a per-VM=
+ basis
+> by the new capability.
 
-Driver uses a PCC subspace for communicating with the ACPI compliant
-platform.
+Like you said if  kvm.enable_vmware_backdoor is true, then it's
+enabled for all VMs, so it'd make sense to allow disabling it on a
+per-vm basis on those systems.
+Just like when the kvm.enable_vmware_backdoor is false, the cap can be
+used to enable it on a per-vm basis.
 
-Device with ACPI RAS2 scrub feature registers with EDAC device driver,
-which retrieves the scrub descriptor from EDAC scrub and exposes
-the scrub control attributes for RAS2 scrub instance to userspace in
-/sys/bus/edac/devices/acpi_ras_mem0/scrubX/.
+> > It's the one that currently can only be set via kernel boot flags, so h=
+aving
+> > systems where the boot flag is on and disabling it on a per-vm basis ma=
+kes
+> > sense and breaks with this.
+>
+> We could go this route, e.g. KVM does something similar for PMU virtualiz=
+ation.
+> But the key difference is that enable_pmu is enabled by default, whereas
+> enable_vmware_backdoor is disabled by default.  I.e. it makes far more se=
+nse for
+> the capability to let userspace opt-in, as opposed to opt-out.
+>
+> > I'd probably still write the code to be able to disable/enable all of t=
+hem
+> > because it makes sense for vmware_backdoor_enabled.
+>
+> Again, that's not KVM's default, and it will never be KVM's default.
 
-Co-developed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Tested-by: Daniel Ferguson <danielf@os.amperecomputing.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- Documentation/edac/scrub.rst |  76 +++++++
- drivers/ras/Kconfig          |  11 +
- drivers/ras/Makefile         |   1 +
- drivers/ras/acpi_ras2.c      | 406 +++++++++++++++++++++++++++++++++++
- include/acpi/ras2.h          |  16 ++
- 5 files changed, 510 insertions(+)
- create mode 100644 drivers/ras/acpi_ras2.c
+All I'm saying is that you can enable it on a whole system via the
+boot flags and on the systems on which it has been turned on it'd make
+sense to allow disabling it on a per-vm basis. Anyway, I'm sure I can
+make it work correctly under any constraints, so let me try to
+understand the issue because I'm not sure what we're solving here. Is
+the problem the fact that we have three caps and instead want to
+squeeze all of the functionality under one cap?
 
-diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
-index daab929cdba1..171d70bff731 100644
---- a/Documentation/edac/scrub.rst
-+++ b/Documentation/edac/scrub.rst
-@@ -264,3 +264,79 @@ Sysfs files are documented in
- `Documentation/ABI/testing/sysfs-edac-scrub`
- 
- `Documentation/ABI/testing/sysfs-edac-ecs`
-+
-+Examples
-+--------
-+
-+The usage takes the form shown in these examples:
-+
-+1. ACPI RAS2
-+
-+1.1 On demand scrubbing for a specific memory region.
-+
-+1.1.1. Query what is device default/current scrub cycle setting.
-+
-+       Applicable to both on-demand and background scrubbing.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-+
-+36000
-+
-+1.1.2 Query the range of device supported scrub cycle for a memory region.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/min_cycle_duration
-+
-+3600
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/max_cycle_duration
-+
-+86400
-+
-+1.1.3. Program scrubbing for the memory region in RAS2 device to repeat every
-+43200 seconds (half a day).
-+
-+# echo 43200 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-+
-+1.1.4. Program address and size of the memory region to scrub
-+
-+Readback 'addr', non-zero - demand scrub is in progress, zero - scrub is finished.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/addr
-+
-+0
-+
-+Write 'size' of the memory region to scrub.
-+
-+# echo 0x300000 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/size
-+
-+Write 'addr' starts demand scrubbing, please make sure other attributes are
-+set prior to that.
-+
-+# echo 0x200000 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/addr
-+
-+Readback 'addr', non-zero - demand scrub is in progress, zero - scrub is finished.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/addr
-+
-+0x200000
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/addr
-+
-+0
-+
-+1.2 Background scrubbing the entire memory
-+
-+1.2.3 Query the status of background scrubbing.
-+
-+# cat /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
-+
-+0
-+
-+1.2.4. Program background scrubbing for RAS2 device to repeat in every 21600
-+seconds (quarter of a day).
-+
-+# echo 21600 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/current_cycle_duration
-+
-+1.2.5. Start 'background scrubbing'.
-+
-+# echo 1 > /sys/bus/edac/devices/acpi_ras_mem0/scrub0/enable_background
-diff --git a/drivers/ras/Kconfig b/drivers/ras/Kconfig
-index fc4f4bb94a4c..a88002f1f462 100644
---- a/drivers/ras/Kconfig
-+++ b/drivers/ras/Kconfig
-@@ -46,4 +46,15 @@ config RAS_FMPM
- 	  Memory will be retired during boot time and run time depending on
- 	  platform-specific policies.
- 
-+config MEM_ACPI_RAS2
-+	tristate "Memory ACPI RAS2 driver"
-+	depends on ACPI_RAS2
-+	depends on EDAC
-+	depends on EDAC_SCRUB
-+	help
-+	  The driver binds to the platform device added by the ACPI RAS2
-+	  table parser. Use a PCC channel subspace for communicating with
-+	  the ACPI compliant platform to provide control of memory scrub
-+	  parameters to the user via the EDAC scrub.
-+
- endif
-diff --git a/drivers/ras/Makefile b/drivers/ras/Makefile
-index 11f95d59d397..a0e6e903d6b0 100644
---- a/drivers/ras/Makefile
-+++ b/drivers/ras/Makefile
-@@ -2,6 +2,7 @@
- obj-$(CONFIG_RAS)	+= ras.o
- obj-$(CONFIG_DEBUG_FS)	+= debugfs.o
- obj-$(CONFIG_RAS_CEC)	+= cec.o
-+obj-$(CONFIG_MEM_ACPI_RAS2)	+= acpi_ras2.o
- 
- obj-$(CONFIG_RAS_FMPM)	+= amd/fmpm.o
- obj-y			+= amd/atl/
-diff --git a/drivers/ras/acpi_ras2.c b/drivers/ras/acpi_ras2.c
-new file mode 100644
-index 000000000000..4d9cfd3bdf45
---- /dev/null
-+++ b/drivers/ras/acpi_ras2.c
-@@ -0,0 +1,406 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * ACPI RAS2 memory driver
-+ *
-+ * Copyright (c) 2024-2025 HiSilicon Limited.
-+ *
-+ */
-+
-+#define pr_fmt(fmt)	"ACPI RAS2 MEMORY: " fmt
-+
-+#include <linux/bitfield.h>
-+#include <linux/edac.h>
-+#include <linux/platform_device.h>
-+#include <acpi/ras2.h>
-+
-+#define RAS2_SUPPORT_HW_PARTOL_SCRUB BIT(0)
-+#define RAS2_TYPE_PATROL_SCRUB 0x0000
-+
-+#define RAS2_GET_PATROL_PARAMETERS 0x01
-+#define RAS2_START_PATROL_SCRUBBER 0x02
-+#define RAS2_STOP_PATROL_SCRUBBER 0x03
-+
-+/*
-+ * RAS2 patrol scrub
-+ */
-+#define RAS2_PS_SC_HRS_IN_MASK GENMASK(15, 8)
-+#define RAS2_PS_EN_BACKGROUND BIT(0)
-+#define RAS2_PS_SC_HRS_OUT_MASK GENMASK(7, 0)
-+#define RAS2_PS_MIN_SC_HRS_OUT_MASK GENMASK(15, 8)
-+#define RAS2_PS_MAX_SC_HRS_OUT_MASK GENMASK(23, 16)
-+#define RAS2_PS_FLAG_SCRUB_RUNNING BIT(0)
-+
-+#define RAS2_SCRUB_NAME_LEN 128
-+#define RAS2_HOUR_IN_SECS 3600
-+
-+enum ras2_od_scrub_status {
-+	OD_SCRUB_STS_IDLE,
-+	OD_SCRUB_STS_INIT,
-+	OD_SCRUB_STS_ACTIVE,
-+};
-+
-+struct acpi_ras2_ps_shared_mem {
-+	struct acpi_ras2_shmem common;
-+	struct acpi_ras2_patrol_scrub_param params;
-+};
-+
-+#define TO_ACPI_RAS2_PS_SHMEM(_addr) \
-+	container_of(_addr, struct acpi_ras2_ps_shared_mem, common)
-+
-+static int ras2_is_patrol_scrub_support(struct ras2_mem_ctx *ras2_ctx)
-+{
-+	struct acpi_ras2_shmem __iomem *common = (void *)ras2_ctx->comm_addr;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	common->set_caps[0] = 0;
-+
-+	return common->features[0] & RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+}
-+
-+static int ras2_update_patrol_scrub_params_cache(struct ras2_mem_ctx *ras2_ctx)
-+{
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
-+		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	int ret;
-+
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	ps_sm->params.command = RAS2_GET_PATROL_PARAMETERS;
-+
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(ras2_ctx->dev, "failed to read parameters\n");
-+		return ret;
-+	}
-+
-+	ras2_ctx->min_scrub_cycle = FIELD_GET(RAS2_PS_MIN_SC_HRS_OUT_MASK,
-+					      ps_sm->params.scrub_params_out);
-+	ras2_ctx->max_scrub_cycle = FIELD_GET(RAS2_PS_MAX_SC_HRS_OUT_MASK,
-+					      ps_sm->params.scrub_params_out);
-+	ras2_ctx->scrub_cycle_hrs = FIELD_GET(RAS2_PS_SC_HRS_OUT_MASK,
-+					      ps_sm->params.scrub_params_out);
-+	if (ras2_ctx->bg_scrub) {
-+		ras2_ctx->base = 0;
-+		ras2_ctx->size = 0;
-+		ras2_ctx->od_scrub_sts = OD_SCRUB_STS_IDLE;
-+		return 0;
-+	}
-+
-+	if  (ps_sm->params.flags & RAS2_PS_FLAG_SCRUB_RUNNING) {
-+		ras2_ctx->base = ps_sm->params.actl_addr_range[0];
-+		ras2_ctx->size = ps_sm->params.actl_addr_range[1];
-+	} else if (ras2_ctx->od_scrub_sts != OD_SCRUB_STS_INIT) {
-+		/*
-+		 * When demand scrubbing is finished driver resets actual
-+		 * address range to 0 when readback. Otherwise userspace
-+		 * assumes demand scrubbing is in progress.
-+		 */
-+		ras2_ctx->base = 0;
-+		ras2_ctx->size = 0;
-+		ras2_ctx->od_scrub_sts = OD_SCRUB_STS_IDLE;
-+	}
-+
-+	return 0;
-+}
-+
-+/* Context - PCC lock must be held */
-+static int ras2_get_patrol_scrub_running(struct ras2_mem_ctx *ras2_ctx,
-+					 bool *running)
-+{
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
-+		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	int ret;
-+
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	ps_sm->params.command = RAS2_GET_PATROL_PARAMETERS;
-+
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(ras2_ctx->dev, "failed to read parameters\n");
-+		return ret;
-+	}
-+
-+	*running = ps_sm->params.flags & RAS2_PS_FLAG_SCRUB_RUNNING;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_read_min_scrub_cycle(struct device *dev, void *drv_data,
-+					      u32 *min)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*min = ras2_ctx->min_scrub_cycle * RAS2_HOUR_IN_SECS;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_read_max_scrub_cycle(struct device *dev, void *drv_data,
-+					      u32 *max)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*max = ras2_ctx->max_scrub_cycle * RAS2_HOUR_IN_SECS;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_cycle_read(struct device *dev, void *drv_data,
-+				    u32 *scrub_cycle_secs)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*scrub_cycle_secs = ras2_ctx->scrub_cycle_hrs * RAS2_HOUR_IN_SECS;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_cycle_write(struct device *dev, void *drv_data,
-+				     u32 scrub_cycle_secs)
-+{
-+	u8 scrub_cycle_hrs = scrub_cycle_secs / RAS2_HOUR_IN_SECS;
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	bool running;
-+	int ret;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ret = ras2_get_patrol_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	if (running)
-+		return -EBUSY;
-+
-+	if (scrub_cycle_hrs < ras2_ctx->min_scrub_cycle ||
-+	    scrub_cycle_hrs > ras2_ctx->max_scrub_cycle)
-+		return -EINVAL;
-+
-+	ras2_ctx->scrub_cycle_hrs = scrub_cycle_hrs;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_read_addr(struct device *dev, void *drv_data, u64 *base)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	int ret;
-+
-+	/*
-+	 * When BG scrubbing is enabled the actual address range is not valid.
-+	 * Return -EBUSY now unless find out a method to retrieve actual full PA range.
-+	 */
-+	if (ras2_ctx->bg_scrub)
-+		return -EBUSY;
-+
-+	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+	if (ret)
-+		return ret;
-+
-+	*base = ras2_ctx->base;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_read_size(struct device *dev, void *drv_data, u64 *size)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	int ret;
-+
-+	if (ras2_ctx->bg_scrub)
-+		return -EBUSY;
-+
-+	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+	if (ret)
-+		return ret;
-+
-+	*size = ras2_ctx->size;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_write_addr(struct device *dev, void *drv_data, u64 base)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
-+		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	bool running;
-+	int ret;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	if (ras2_ctx->bg_scrub)
-+		return -EBUSY;
-+
-+	if (!base || !ras2_ctx->size) {
-+		dev_warn(ras2_ctx->dev,
-+			 "%s: Invalid address range, base=0x%llx size=0x%llx\n",
-+			 __func__, base, ras2_ctx->size);
-+		return -ERANGE;
-+	}
-+
-+	ret = ras2_get_patrol_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	if (running)
-+		return -EBUSY;
-+
-+	ps_sm->params.scrub_params_in &= ~RAS2_PS_SC_HRS_IN_MASK;
-+	ps_sm->params.scrub_params_in |= FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK,
-+						    ras2_ctx->scrub_cycle_hrs);
-+	ps_sm->params.req_addr_range[0] = base;
-+	ps_sm->params.req_addr_range[1] = ras2_ctx->size;
-+	ps_sm->params.scrub_params_in &= ~RAS2_PS_EN_BACKGROUND;
-+	ps_sm->params.command = RAS2_START_PATROL_SCRUBBER;
-+
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(ras2_ctx->dev, "Failed to start demand scrubbing\n");
-+		return ret;
-+	}
-+	ras2_ctx->od_scrub_sts = OD_SCRUB_STS_ACTIVE;
-+
-+	return ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+}
-+
-+static int ras2_hw_scrub_write_size(struct device *dev, void *drv_data, u64 size)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	bool running;
-+	int ret;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ret = ras2_get_patrol_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	if (running)
-+		return -EBUSY;
-+
-+	if (!size) {
-+		dev_warn(dev, "%s: Invalid address range size=0x%llx\n",
-+			 __func__, size);
-+		return -EINVAL;
-+	}
-+
-+	ras2_ctx->size = size;
-+	ras2_ctx->od_scrub_sts = OD_SCRUB_STS_INIT;
-+
-+	return 0;
-+}
-+
-+static int ras2_hw_scrub_set_enabled_bg(struct device *dev, void *drv_data, bool enable)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+	struct acpi_ras2_ps_shared_mem __iomem *ps_sm =
-+		TO_ACPI_RAS2_PS_SHMEM(ras2_ctx->comm_addr);
-+	bool running;
-+	int ret;
-+
-+	guard(mutex)(ras2_ctx->pcc_lock);
-+	ps_sm->common.set_caps[0] = RAS2_SUPPORT_HW_PARTOL_SCRUB;
-+	ret = ras2_get_patrol_scrub_running(ras2_ctx, &running);
-+	if (ret)
-+		return ret;
-+
-+	if (enable) {
-+		if (ras2_ctx->bg_scrub || running)
-+			return -EBUSY;
-+		ps_sm->params.req_addr_range[0] = 0;
-+		ps_sm->params.req_addr_range[1] = 0;
-+		ps_sm->params.scrub_params_in &= ~RAS2_PS_SC_HRS_IN_MASK;
-+		ps_sm->params.scrub_params_in |= FIELD_PREP(RAS2_PS_SC_HRS_IN_MASK,
-+							    ras2_ctx->scrub_cycle_hrs);
-+		ps_sm->params.command = RAS2_START_PATROL_SCRUBBER;
-+	} else {
-+		if (!ras2_ctx->bg_scrub)
-+			return -EPERM;
-+		ps_sm->params.command = RAS2_STOP_PATROL_SCRUBBER;
-+	}
-+
-+	ps_sm->params.scrub_params_in &= ~RAS2_PS_EN_BACKGROUND;
-+	ps_sm->params.scrub_params_in |= FIELD_PREP(RAS2_PS_EN_BACKGROUND,
-+						    enable);
-+	ret = ras2_send_pcc_cmd(ras2_ctx, PCC_CMD_EXEC_RAS2);
-+	if (ret) {
-+		dev_err(ras2_ctx->dev, "Failed to %s background scrubbing\n",
-+			str_enable_disable(enable));
-+		return ret;
-+	}
-+
-+	if (enable) {
-+		ras2_ctx->bg_scrub = true;
-+		/* Update the cache to account for rounding of supplied parameters and similar */
-+		ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+	} else {
-+		ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+		ras2_ctx->bg_scrub = false;
-+	}
-+
-+	return ret;
-+}
-+
-+static int ras2_hw_scrub_get_enabled_bg(struct device *dev, void *drv_data, bool *enabled)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = drv_data;
-+
-+	*enabled = ras2_ctx->bg_scrub;
-+
-+	return 0;
-+}
-+
-+static const struct edac_scrub_ops ras2_scrub_ops = {
-+	.read_addr = ras2_hw_scrub_read_addr,
-+	.read_size = ras2_hw_scrub_read_size,
-+	.write_addr = ras2_hw_scrub_write_addr,
-+	.write_size = ras2_hw_scrub_write_size,
-+	.get_enabled_bg = ras2_hw_scrub_get_enabled_bg,
-+	.set_enabled_bg = ras2_hw_scrub_set_enabled_bg,
-+	.get_min_cycle = ras2_hw_scrub_read_min_scrub_cycle,
-+	.get_max_cycle = ras2_hw_scrub_read_max_scrub_cycle,
-+	.get_cycle_duration = ras2_hw_scrub_cycle_read,
-+	.set_cycle_duration = ras2_hw_scrub_cycle_write,
-+};
-+
-+static int ras2_probe(struct auxiliary_device *auxdev,
-+		      const struct auxiliary_device_id *id)
-+{
-+	struct ras2_mem_ctx *ras2_ctx = container_of(auxdev, struct ras2_mem_ctx, adev);
-+	struct edac_dev_feature ras_features;
-+	char scrub_name[RAS2_SCRUB_NAME_LEN];
-+	int ret;
-+
-+	if (!ras2_is_patrol_scrub_support(ras2_ctx))
-+		return -EOPNOTSUPP;
-+
-+	ret = ras2_update_patrol_scrub_params_cache(ras2_ctx);
-+	if (ret)
-+		return ret;
-+
-+	sprintf(scrub_name, "acpi_ras_mem%d", ras2_ctx->id);
-+
-+	ras_features.ft_type	= RAS_FEAT_SCRUB;
-+	ras_features.instance	= ras2_ctx->instance;
-+	ras_features.scrub_ops	= &ras2_scrub_ops;
-+	ras_features.ctx	= ras2_ctx;
-+
-+	return edac_dev_register(&auxdev->dev, scrub_name, NULL, 1,
-+				 &ras_features);
-+}
-+
-+static const struct auxiliary_device_id ras2_mem_dev_id_table[] = {
-+	{ .name = RAS2_AUX_DEV_NAME "." RAS2_MEM_DEV_ID_NAME, },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(auxiliary, ras2_mem_dev_id_table);
-+
-+static struct auxiliary_driver ras2_mem_driver = {
-+	.name = RAS2_MEM_DEV_ID_NAME,
-+	.probe = ras2_probe,
-+	.id_table = ras2_mem_dev_id_table,
-+};
-+module_auxiliary_driver(ras2_mem_driver);
-+
-+MODULE_IMPORT_NS("ACPI_RAS2");
-+MODULE_DESCRIPTION("ACPI RAS2 memory driver");
-+MODULE_LICENSE("GPL");
-diff --git a/include/acpi/ras2.h b/include/acpi/ras2.h
-index f8937069cd4a..fe011c079dda 100644
---- a/include/acpi/ras2.h
-+++ b/include/acpi/ras2.h
-@@ -34,6 +34,14 @@ struct device;
-  * @pcc_subspace:	Pointer to local data structure for PCC communication
-  * @pcc_lock:		Pointer to PCC lock to provide mutually exclusive access
-  *			to PCC channel subspace
-+ * @instance:		Feature instance
-+ * @base:		Base address of the memory region to scrub
-+ * @size:		Size of the memory region to scrub
-+ * @scrub_cycle_hrs:	Current scrub rate in hours
-+ * @min_scrub_cycle:	Minimum scrub rate supported
-+ * @max_scrub_cycle:	Maximum scrub rate supported
-+ * @od_scrub_sts:	Status of demand scrubbing (memory region)
-+ * @bg_scrub:		Status of background patrol scrubbing
-  */
- struct ras2_mem_ctx {
- 	int				id;
-@@ -42,6 +50,14 @@ struct ras2_mem_ctx {
- 	struct device			*dev;
- 	void				*pcc_subspace;
- 	struct mutex			*pcc_lock;
-+	u8				instance;
-+	u64				base;
-+	u64				size;
-+	u8				scrub_cycle_hrs;
-+	u8				min_scrub_cycle;
-+	u8				max_scrub_cycle;
-+	u8				od_scrub_sts;
-+	bool				bg_scrub;
- };
- 
- #ifdef CONFIG_ACPI_RAS2
--- 
-2.43.0
+z
 
+--0000000000009ac64106337503c5
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Description: S/MIME Cryptographic Signature
+
+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
+6U6qgI8F5eiKsQyE0HgYrQJx/sDs9LLVZlaNiA3U8M8CgEnb8VhuH3BN/yXphhEQdJXb1TyaJA60
+SmHcZdEQZbl4EjwUcs3UIowmI/Mhi7ADQB7VNsO/BaOVBEQk53xH+4djY/cg7jvqTTeliY05j2Yx
+uwwXcDC4mWjGzxAT5DVqC8fKQvon1uc2heorHb555+sLdwYxAgMBAAGjggHYMIIB1DAOBgNVHQ8B
+Af8EBAMCBaAwgZMGCCsGAQUFBwEBBIGGMIGDMEYGCCsGAQUFBzAChjpodHRwOi8vc2VjdXJlLmds
+b2JhbHNpZ24uY29tL2NhY2VydC9nc2djY3I2c21pbWVjYTIwMjMuY3J0MDkGCCsGAQUFBzABhi1o
+dHRwOi8vb2NzcC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMwZQYDVR0gBF4wXDAJ
+BgdngQwBBQMBMAsGCSsGAQQBoDIBKDBCBgorBgEEAaAyCgMCMDQwMgYIKwYBBQUHAgEWJmh0dHBz
+Oi8vd3d3Lmdsb2JhbHNpZ24uY29tL3JlcG9zaXRvcnkvMAkGA1UdEwQCMAAwQQYDVR0fBDowODA2
+oDSgMoYwaHR0cDovL2NybC5nbG9iYWxzaWduLmNvbS9nc2djY3I2c21pbWVjYTIwMjMuY3JsMCIG
+A1UdEQQbMBmBF3phY2sucnVzaW5AYnJvYWRjb20uY29tMBMGA1UdJQQMMAoGCCsGAQUFBwMEMB8G
+A1UdIwQYMBaAFAApNp5ceroPry1QLdugI4UYsKCSMB0GA1UdDgQWBBQNDn2m/OLuDx9YjEqPLCDB
+s/VKNTANBgkqhkiG9w0BAQsFAAOCAgEAF463syOLTQkWZmEyyR60W1sM3J1cbnMRrBFUBt3S2NTY
+SJ2NAvkTAxbPoOhK6IQdaTyrWi8xdg2tftr5FC1bOSUdxudY6dipq2txe7mEoUE6VlpJid/56Mo4
+QJRb6YiykQeIfoJiYMKsyuXWsTB1rhQxlxfnaFxi8Xy3+xKAeX68DcsHG3ZU0h1beBURA44tXcz6
+fFDNPQ2k6rWDFz+XNN2YOPqfse2wEm3DXpqNT79ycU7Uva7e51b8XdbmJ6XVzUFmWzhjXy5hvV8z
+iF+DvP+KT1/bjO6aNL2/3PWiy1u6xjnWvobHuAYVrXxQ5wzk8aPOnED9Q8pt2nqk/UIzw2f67Cn9
+3CxrVqXUKm93J+rupyKVTGgKO9T1ODVPo665aIbM72RxSI9Wsofatm2fo8DWOkrfs29pYfy6eECl
+91qfFMl+IzIVfDgIrEX6gSngJ2ZLaG6L+/iNrUxHxxsaUmyDwBbTfjYwr10H6NKES3JaxVRslnpF
+06HTTciJNx2wowbYF1c+BFY4r/19LHygijIVa+hZEgNuMrVLyAamaAKZ1AWxTdv8Q/eeNN3Myq61
+b1ykTSPCXjBq/03CMF/wT1wly16jYjLDXZ6II/HYyJt34QeqnBENU9zXTc9RopqcuHD2g+ROT7lI
+VLi5ffzC8rVliltTltbYPc7F0lAvGKAxggJXMIICUwIBATBiMFIxCzAJBgNVBAYTAkJFMRkwFwYD
+VQQKExBHbG9iYWxTaWduIG52LXNhMSgwJgYDVQQDEx9HbG9iYWxTaWduIEdDQyBSNiBTTUlNRSBD
+QSAyMDIzAgxhPxw+eieHWB40hPkwDQYJYIZIAWUDBAIBBQCggccwLwYJKoZIhvcNAQkEMSIEIM3+
+B6y9H07cql6H2MO/+8zIstEbCeb6doynR2O1+dfAMBgGCSqGSIb3DQEJAzELBgkqhkiG9w0BBwEw
+HAYJKoZIhvcNAQkFMQ8XDTI1MDQyMzE2NTg0NFowXAYJKoZIhvcNAQkPMU8wTTALBglghkgBZQME
+ASowCwYJYIZIAWUDBAEWMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzALBgkqhkiG9w0BAQcwCwYJ
+YIZIAWUDBAIBMA0GCSqGSIb3DQEBAQUABIIBAJI2IbdGvdut20sP8kf1taobvEKIFoqcKfXG5AFB
+iP22g5WGY+ZGP/YVYSnGeSw2ZxoGOYjQ0iEgAtf/7XNRRyk4sdtQx1mQynuGiFJpg+GNUBwpaIfD
+ONXQ/8UVEQnTwudt9j/fVQqlacmRHmj/zTmgKoPgAgrNTpYsY9FiaYnxVewcQRBcjmMNXqlFh3x/
+Ztcpkj8uF8xGtaLnTKP4D+UVOKRYTH+a48zQ6TMj9O0BGvaTq/jBMeJXLGALmDrernABBVyFG2i7
+dfa+s8pPTORQgupt3v1k/h14yXnoZt66KYIV+3L6oN3WEYLLNLLKZhB/InjXmXfyHGQ+IYSnawc=
+--0000000000009ac64106337503c5--
