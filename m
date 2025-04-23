@@ -1,169 +1,183 @@
-Received: from NAM04-DM6-obe.outbound.protection.outlook.com (mail-dm6nam04on2070.outbound.protection.outlook.com [40.107.102.70])
+Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 338EC249E5;
-	Wed, 23 Apr 2025 07:45:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.102.70
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745394342; cv=fail; b=QRfWMbI3JedpKWPAscF+qQFyVu9sYTH7Agl+fKphfjgbvSovt1GcGPeKCWanZiQE3LUMOZBDfNmYppW8XS+GjNX7whhUS0Ao+RK4p3VzUd+QiKf5B5mCv7BNoJcMGKJFLTsPpncwhiEZXPBF5NkiR8pCtYY2iFvMqkvTQjt9ZrM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745394342; c=relaxed/simple;
-	bh=A4wQkUfk5wsgsbGyW+FiqJFt3RP5M8TAidGnLhTnm2U=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jej/6HmV81Vveb7L7J0kcSBK1XB94VtMyiQnryG6u+ZyvUAnOHeMXSFyMTxTyzII8eA97TLJ1bE3RQ2uZFANfsTG4FrX9OE01rK5ZkY7MYCstnrigwPMKTnIq2LfHdMu5zHOvsixIHbn53pc1T+MA8iIh8JjwofwDWBTHKVw1xg=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rkPMDIwq; arc=fail smtp.client-ip=40.107.102.70
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C884276024;
+	Wed, 23 Apr 2025 07:56:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745395005; cv=none; b=PUE6goAafDs4OqSLroAX9/q+Eaqoxvc/HVO1q0QvwWGcPYfTpHPeq0vALR6Y61kX/6RYdCEH1hkRIuItfW2/8MmEJERIwoHywPxjyKHKlEAGQ6V4Uji3txLDzQec5gw9xhOys0AyFeStHW1Bfkm70JdypOAcN8c6UKVnwO90Hs4=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745395005; c=relaxed/simple;
+	bh=3ROjFLRtDQpKqU5sUZYxIcu+y5AbhHrnpWcsJ/Zgjas=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jGm6Qc66pNb5Tvy4qVvw/HS8LbEXv8JYv7bWbYpinPZEuiC0xAd5qbkhkCLlGauhh9Er8cxi0z4jx1kMAMrakVDopsogfm7XnL/sflyTnzWYkHW7bpZ4kHe30JpNAjfMqnra8crtAv0DD9K6djUU59jcKWDXTdpWyQFuxokxIP8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=aE3LBD+s; arc=none smtp.client-ip=198.137.202.136
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rkPMDIwq"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wcWRp57vlpMlePaDtLR/wmCAJ8vOZCxQ4Oq7IkdBOeWxnRpS+T4HLkNBazVU8mcVVND3MGKV+xWgVRL3xQ2FzqFwX5M0BCwmC31qN54bp5eoSa4APgYVVQV4kg5NmFZcQuKEmAXY13V9xJwXw58V7cf3QnRW/XNZI2s7RP5vg8A8OCvzMOTrLU1Jf/mFyyrgrbLCmQu8q+1iL1KyeVCmQI2fb1CBlllY3oyDgwi6wCzFrJhAQ3uskkQgdTJcQhylOy/DAvQfCEmmrSjOoc70PitnlAe/O0/bY2jwkhRPpf6pxr7KV9XO3Jgijh2Hs2h1gH9VunRnkpq6jecGPlOthw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=64RdGmRYqp/sSMpHw4BhOUZBLE4NLGggS7HwZ9PNQrg=;
- b=W1UNBOOnfG8ktjKeVkAb69WYCwiZcVfCod4Crs0anWuJLgtcZelPOLPggWo5C5YGYIxsrRJGbq+EV4Me53FNvCXdd8oYWw/1gUl3dTZ9YqKzYDBWycKBxyKTjdGYh+6KBuoOeYRpyliz9ezuoPdu5DSrNtVxHa7SIxNq75hqomGvFhXGPTGrbTw0w4D2hy+WKo7j6t9IuyGZ57+daWPEUcSCknvYVbPmvZ317wbk2stS5iyLHoH0EbnCqDTH9pb8kVH2mZyqUzKpudOj3VUCjrMrRlDD8RWLDOv+2ZCK8GniJ5N/utZsRJXr9niOBFzHFzEYUQ8XSaycK9hbGU/Lmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=64RdGmRYqp/sSMpHw4BhOUZBLE4NLGggS7HwZ9PNQrg=;
- b=rkPMDIwqbQY08ICHSECRkeWhLnP8GfXEwQ7Bm0E6MIaXV5IoWmAj7+DgUZpYE/8j6PXr1TVGVHDAbu1A55oQCGajWfbSO8Ujt/8PuOTuZ1Asit7PklSVlowfSM6QBs9OeZZ4sWeCgnB/vlnzGK6VBrcqblLMqScoQpc1drhhthhUwQKosKo3Xg94I10zhPq2kXEDcd8OLPz3d/bjc1ixCf4gQ9mr/rPN7F471RmJxJ9HOVVsDZPyPrYYsoW5oPQi0KRCBdSKw6CHE3ojbuKsZSmT9KD5k7+RJjHZ3YAELtkq9WQsrnMkHNo8nFHHphbApp7w13nn1VKUgSH6gnoPhg==
-Received: from BL1PR13CA0160.namprd13.prod.outlook.com (2603:10b6:208:2bd::15)
- by IA1PR12MB9466.namprd12.prod.outlook.com (2603:10b6:208:595::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Wed, 23 Apr
- 2025 07:45:36 +0000
-Received: from BL02EPF0002992E.namprd02.prod.outlook.com
- (2603:10b6:208:2bd:cafe::3) by BL1PR13CA0160.outlook.office365.com
- (2603:10b6:208:2bd::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.23 via Frontend Transport; Wed,
- 23 Apr 2025 07:45:36 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- BL02EPF0002992E.mail.protection.outlook.com (10.167.249.59) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8655.12 via Frontend Transport; Wed, 23 Apr 2025 07:45:36 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 23 Apr
- 2025 00:45:18 -0700
-Received: from drhqmail203.nvidia.com (10.126.190.182) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 23 Apr 2025 00:45:18 -0700
-Received: from Asurada-Nvidia (10.127.8.12) by mail.nvidia.com
- (10.126.190.182) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Wed, 23 Apr 2025 00:45:16 -0700
-Date: Wed, 23 Apr 2025 00:45:14 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<shuah@kernel.org>, <praan@google.com>, <nathan@kernel.org>,
-	<peterz@infradead.org>, <yi.l.liu@intel.com>, <jsnitsel@redhat.com>,
-	<mshavit@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>
-Subject: Re: [PATCH v1 00/16] iommufd: Add vIOMMU infrastructure (Part-4
- vCMDQ)
-Message-ID: <aAiaiomYczA22xik@Asurada-Nvidia>
-References: <cover.1744353300.git.nicolinc@nvidia.com>
- <a0c248f0-71ff-4477-98ec-1bbd52eda566@amd.com>
+	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="aE3LBD+s"
+Received: from [192.168.7.202] ([71.202.166.45])
+	(authenticated bits=0)
+	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 53N7uBoV3119852
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
+	Wed, 23 Apr 2025 00:56:12 -0700
+DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 53N7uBoV3119852
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
+	s=2025042001; t=1745394975;
+	bh=LV4/6zX3QPMww5e/UsTXLMcNjFZYEA1V4I6Dl3psGlk=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=aE3LBD+sbGzJoCaP0U4TSgem2sj9X5F2EUjTr9I41Yn00qAtH+J43Qh1li+dchB7q
+	 +1Gj8OUZdCMIx6ynsU/QF45WHYqmrbHvAlr+QYSM+zEio3U+MvSQf4AXJtQZyF/3li
+	 ExwCskjw2SfD+458eyhstGvCJSlwO9val7w3JhzR2n0qqPM9Luc8RomhbFnXjsrTYJ
+	 J8urbqSA1MNRKs+D3yko6hS6jjvd//z1nBk63OOw0B34E94M2nqGeMOIbdXUMiHbUo
+	 jyfr7leDcp8LIG3Lr0t1IeA8uRBK2qVubqVoGiv5YeQINNCwu29B7dJxXvRgOLG9Q7
+	 wZbbF8Pn/L0nw==
+Message-ID: <a803c925-b682-490f-8cd9-ca8d4cc599aa@zytor.com>
+Date: Wed, 23 Apr 2025 00:56:10 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <a0c248f0-71ff-4477-98ec-1bbd52eda566@amd.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BL02EPF0002992E:EE_|IA1PR12MB9466:EE_
-X-MS-Office365-Filtering-Correlation-Id: 92e077c5-227a-4d3c-eacb-08dd823ad5ff
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|7416014|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ptrrVyCrjwBxyOQgE3gVxguJHyGHuJObClihX3QFBca7TAjHnd8GRLtiCfHF?=
- =?us-ascii?Q?SLCMxNfk3JxnnKydWk8ICZK3vFEXhL5riYj8EpJkXC2BesKrAbm2AHhnbr6C?=
- =?us-ascii?Q?2FqjEyO+3SMq0EjfXpfOtGsGVVzyAjfeuT3P9OB15bBKeoeOfFxnESEJGM4W?=
- =?us-ascii?Q?1Z+PSc9Bm2oHJVn29Y5Vy2JL0Dhuo9Dfk9fQr9v77uCDB4yPFaWZdcoj0Rpk?=
- =?us-ascii?Q?L3ZtlgxCbc3o5En+4Cq7vFKWSF/KgRa2rE5/SAkWyUvK5srbaukpTj47mZKL?=
- =?us-ascii?Q?B3LGdO8kk8JbCjBY33LDXxJiu9DJiiwUo3+rTpxF384XitDjv2plKUwYIxXR?=
- =?us-ascii?Q?/WM9/Iir0LKwb/uWUUr/MCsErSJRCZJL6TqI7UDv5E8ouKRZu83vpn0kpFKz?=
- =?us-ascii?Q?yvtoe2hrIxS4GJH3PtlAeBGUkA4pFzkB/3N2pXrrUI2P3u24I+pHCQzmzK9M?=
- =?us-ascii?Q?OKpLhUXrwaivy1J5Ka/wW9o+AWEEq0az05EI+X/B+2w5FxJoS+s+trkMSARK?=
- =?us-ascii?Q?5pC4MbrG93KJFD1yR6sPZ1LbEE9u1hmJ3djEzW1Acbtnall1lGY4grtRbQUo?=
- =?us-ascii?Q?OiFdvlbTXWVtbqMWGSMt9TesWV4wfM9SuJrvLu6kXWzZ3ECRO+EBfcJ0g/VF?=
- =?us-ascii?Q?b4LibpvV+L+89QZj8R4YdqzaqGggZ6cSXAFDl4/bwsnZDKz3PGbyMOODTIqn?=
- =?us-ascii?Q?hVLCtyAglxVU3KBb4AqaBCn8tUSi8ICUkUKL2NhR3veN9ll/p3fQ+M/tZpgx?=
- =?us-ascii?Q?OIoPUAnj+xZZCakH9Cdtc1Cqfz5xyxMCakgOiaVN+IPj74keH0+1tmodfI9C?=
- =?us-ascii?Q?o1+U8LHoA147mnq9p7tkt6elGiYAj34+UYn/crWDdsN8MkVmrO2/FmMSAX6Z?=
- =?us-ascii?Q?YQw+S1VF1XdJKIE2qpYovxwgXdPLNbX+R7M/04T0n1+NZ1avq8FO8T/BfEnv?=
- =?us-ascii?Q?s0VnBzd4s7NG3IKIEYNJjnCsMs4GH9ylWlJpK+McPzOyo6XXa3c4WLAr58n/?=
- =?us-ascii?Q?Zyu7olkQ/nxfe4RnhepugXFq9qugkX5vmi812fBR7O/iNXqRorFAIYifrvJy?=
- =?us-ascii?Q?SLRMErL2SAFK1n5jjVQLX7ydQrierS64iO+o2am7PHNhGfPm2OPy+js9/m2I?=
- =?us-ascii?Q?htENRTfWZgYlmYXoIL1zyIpgl+DrE0QHRGsovsXXP4Du0BsslzLYHt1IZ17G?=
- =?us-ascii?Q?n22yuNM4cNL8jjT2VNq5hcVeA05xGvh2meLPGH4VeKDcFYqqg0d6ry8MHn4P?=
- =?us-ascii?Q?JnC9kDc0wAHlkVqq3qo8z7P4ChfD1PrKn9dYMkWbnmjc6YduN4OUmpH1P9ww?=
- =?us-ascii?Q?nZMbqWTwinilyH4Edc/doJioOoHGs5a8x3OYHq5OguGGw8tGZKIphsypxzX6?=
- =?us-ascii?Q?dH5D3cq53sqqKXyHRjDXX1aY8AmBT/dPm49VMGqSPThDmeVkM31npDeG1q9I?=
- =?us-ascii?Q?tXqZCw2oxO8Fl0nzbDlssSTF/DQU0VWMFcq1jaQN+NshQfHUwt0a2kAyfFow?=
- =?us-ascii?Q?s39sAT2CVNCEgqWmwZOWbnYcD6FOAKs1eRMu?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(7416014)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Apr 2025 07:45:36.4526
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92e077c5-227a-4d3c-eacb-08dd823ad5ff
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BL02EPF0002992E.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB9466
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 4/5] KVM: x86: Add support for legacy VMware backdoors
+ in nested setups
+To: Zack Rusin <zack.rusin@broadcom.com>, linux-kernel@vger.kernel.org
+Cc: Doug Covelli <doug.covelli@broadcom.com>,
+        Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>,
+        Sean Christopherson <seanjc@google.com>,
+        Thomas Gleixner
+ <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+        Borislav Petkov <bp@alien8.de>,
+        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+        "H. Peter Anvin" <hpa@zytor.com>, kvm@vger.kernel.org,
+        linux-doc@vger.kernel.org
+References: <20250422161304.579394-1-zack.rusin@broadcom.com>
+ <20250422161304.579394-5-zack.rusin@broadcom.com>
+Content-Language: en-US
+From: Xin Li <xin@zytor.com>
+Autocrypt: addr=xin@zytor.com; keydata=
+ xsDNBGUPz1cBDACS/9yOJGojBFPxFt0OfTWuMl0uSgpwk37uRrFPTTLw4BaxhlFL0bjs6q+0
+ 2OfG34R+a0ZCuj5c9vggUMoOLdDyA7yPVAJU0OX6lqpg6z/kyQg3t4jvajG6aCgwSDx5Kzg5
+ Rj3AXl8k2wb0jdqRB4RvaOPFiHNGgXCs5Pkux/qr0laeFIpzMKMootGa4kfURgPhRzUaM1vy
+ bsMsL8vpJtGUmitrSqe5dVNBH00whLtPFM7IbzKURPUOkRRiusFAsw0a1ztCgoFczq6VfAVu
+ raTye0L/VXwZd+aGi401V2tLsAHxxckRi9p3mc0jExPc60joK+aZPy6amwSCy5kAJ/AboYtY
+ VmKIGKx1yx8POy6m+1lZ8C0q9b8eJ8kWPAR78PgT37FQWKYS1uAroG2wLdK7FiIEpPhCD+zH
+ wlslo2ETbdKjrLIPNehQCOWrT32k8vFNEMLP5G/mmjfNj5sEf3IOKgMTMVl9AFjsINLHcxEQ
+ 6T8nGbX/n3msP6A36FDfdSEAEQEAAc0WWGluIExpIDx4aW5Aenl0b3IuY29tPsLBDQQTAQgA
+ NxYhBIUq/WFSDTiOvUIqv2u9DlcdrjdRBQJlD89XBQkFo5qAAhsDBAsJCAcFFQgJCgsFFgID
+ AQAACgkQa70OVx2uN1HUpgv/cM2fsFCQodLArMTX5nt9yqAWgA5t1srri6EgS8W3F+3Kitge
+ tYTBKu6j5BXuXaX3vyfCm+zajDJN77JHuYnpcKKr13VcZi1Swv6Jx1u0II8DOmoDYLb1Q2ZW
+ v83W55fOWJ2g72x/UjVJBQ0sVjAngazU3ckc0TeNQlkcpSVGa/qBIHLfZraWtdrNAQT4A1fa
+ sWGuJrChBFhtKbYXbUCu9AoYmmbQnsx2EWoJy3h7OjtfFapJbPZql+no5AJ3Mk9eE5oWyLH+
+ QWqtOeJM7kKvn/dBudokFSNhDUw06e7EoVPSJyUIMbYtUO7g2+Atu44G/EPP0yV0J4lRO6EA
+ wYRXff7+I1jIWEHpj5EFVYO6SmBg7zF2illHEW31JAPtdDLDHYcZDfS41caEKOQIPsdzQkaQ
+ oW2hchcjcMPAfyhhRzUpVHLPxLCetP8vrVhTvnaZUo0xaVYb3+wjP+D5j/3+hwblu2agPsaE
+ vgVbZ8Fx3TUxUPCAdr/p73DGg57oHjgezsDNBGUPz1gBDAD4Mg7hMFRQqlzotcNSxatlAQNL
+ MadLfUTFz8wUUa21LPLrHBkUwm8RujehJrzcVbPYwPXIO0uyL/F///CogMNx7Iwo6by43KOy
+ g89wVFhyy237EY76j1lVfLzcMYmjBoTH95fJC/lVb5Whxil6KjSN/R/y3jfG1dPXfwAuZ/4N
+ cMoOslWkfZKJeEut5aZTRepKKF54T5r49H9F7OFLyxrC/uI9UDttWqMxcWyCkHh0v1Di8176
+ jjYRNTrGEfYfGxSp+3jYL3PoNceIMkqM9haXjjGl0W1B4BidK1LVYBNov0rTEzyr0a1riUrp
+ Qk+6z/LHxCM9lFFXnqH7KWeToTOPQebD2B/Ah5CZlft41i8L6LOF/LCuDBuYlu/fI2nuCc8d
+ m4wwtkou1Y/kIwbEsE/6RQwRXUZhzO6llfoN96Fczr/RwvPIK5SVMixqWq4QGFAyK0m/1ap4
+ bhIRrdCLVQcgU4glo17vqfEaRcTW5SgX+pGs4KIPPBE5J/ABD6pBnUUAEQEAAcLA/AQYAQgA
+ JhYhBIUq/WFSDTiOvUIqv2u9DlcdrjdRBQJlD89ZBQkFo5qAAhsMAAoJEGu9DlcdrjdR4C0L
+ /RcjolEjoZW8VsyxWtXazQPnaRvzZ4vhmGOsCPr2BPtMlSwDzTlri8BBG1/3t/DNK4JLuwEj
+ OAIE3fkkm+UG4Kjud6aNeraDI52DRVCSx6xff3bjmJsJJMb12mWglN6LjdF6K+PE+OTJUh2F
+ dOhslN5C2kgl0dvUuevwMgQF3IljLmi/6APKYJHjkJpu1E6luZec/lRbetHuNFtbh3xgFIJx
+ 2RpgVDP4xB3f8r0I+y6ua+p7fgOjDLyoFjubRGed0Be45JJQEn7A3CSb6Xu7NYobnxfkwAGZ
+ Q81a2XtvNS7Aj6NWVoOQB5KbM4yosO5+Me1V1SkX2jlnn26JPEvbV3KRFcwV5RnDxm4OQTSk
+ PYbAkjBbm+tuJ/Sm+5Yp5T/BnKz21FoCS8uvTiziHj2H7Cuekn6F8EYhegONm+RVg3vikOpn
+ gao85i4HwQTK9/D1wgJIQkdwWXVMZ6q/OALaBp82vQ2U9sjTyFXgDjglgh00VRAHP7u1Rcu4
+ l75w1xInsg==
+In-Reply-To: <20250422161304.579394-5-zack.rusin@broadcom.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 23, 2025 at 12:58:19PM +0530, Vasant Hegde wrote:
-> On 4/11/2025 12:07 PM, Nicolin Chen wrote:
-> > The vIOMMU object is designed to represent a slice of an IOMMU HW for its
-> > virtualization features shared with or passed to user space (a VM mostly)
-> > in a way of HW acceleration. This extended the HWPT-based design for more
-> > advanced virtualization feature.
-> > 
-> > A vCMDQ introduced by this series as a part of the vIOMMU infrastructure
-> > represents a HW supported queue/buffer for VM to use exclusively, e.g.
-> >   - NVIDIA's virtual command queue
-> >   - AMD vIOMMU's command buffer
+On 4/22/2025 9:12 AM, Zack Rusin wrote:
+> Allow handling VMware backdoors by the L0 monitor. This is required on
+> setups running Windows VBS, where the L1 will be running Hyper-V which
+> can't handle VMware backdoors. Thus on Windows VBS legacy VMware backdoor
+> calls issued by the userspace will end up in Hyper-V (L1) and endup
+> throwing an error.
+> Add a KVM cap that, in nested setups, allows the legacy VMware backdoor
+> to be handled by the L0 monitor. Thanks to this we can make sure that
+> VMware backdoor is always handled by the correct monitor.
 > 
-> I assume we can pass multiple buffer details (like GPA, size) from guest to
-> hypervisor. Is that correct understanding?
+> Signed-off-by: Zack Rusin <zack.rusin@broadcom.com>
+> Cc: Doug Covelli <doug.covelli@broadcom.com>
+> Cc: Paolo Bonzini <pbonzini@redhat.com>
+> Cc: Jonathan Corbet <corbet@lwn.net>
+> Cc: Sean Christopherson <seanjc@google.com>
+> Cc: Thomas Gleixner <tglx@linutronix.de>
+> Cc: Ingo Molnar <mingo@redhat.com>
+> Cc: Borislav Petkov <bp@alien8.de>
+> Cc: Dave Hansen <dave.hansen@linux.intel.com>
+> Cc: x86@kernel.org
+> Cc: "H. Peter Anvin" <hpa@zytor.com>
+> Cc: Zack Rusin <zack.rusin@broadcom.com>
+> Cc: kvm@vger.kernel.org
+> Cc: linux-doc@vger.kernel.org
+> Cc: linux-kernel@vger.kernel.org
+> ---
+>   Documentation/virt/kvm/api.rst  | 14 +++++++++++
+>   arch/x86/include/asm/kvm_host.h |  1 +
+>   arch/x86/kvm/Kconfig            |  1 +
+>   arch/x86/kvm/kvm_vmware.h       | 42 +++++++++++++++++++++++++++++++++
+>   arch/x86/kvm/svm/nested.c       |  6 +++++
+>   arch/x86/kvm/svm/svm.c          |  3 ++-
+>   arch/x86/kvm/vmx/nested.c       |  6 +++++
+>   arch/x86/kvm/x86.c              |  8 +++++++
+>   include/uapi/linux/kvm.h        |  1 +
+>   9 files changed, 81 insertions(+), 1 deletion(-)
+> 
+> diff --git a/Documentation/virt/kvm/api.rst b/Documentation/virt/kvm/api.rst
+> index 6d3d2a509848..55bd464ebf95 100644
+> --- a/Documentation/virt/kvm/api.rst
+> +++ b/Documentation/virt/kvm/api.rst
+> @@ -8322,6 +8322,20 @@ userspace handling of hypercalls is discouraged. To implement
+>   such functionality, use KVM_EXIT_IO (x86) or KVM_EXIT_MMIO
+>   (all except s390).
+>   
+> +7.39 KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0
+> +------------------------------------------
+> +
+> +:Architectures: x86
+> +:Parameters: args[0] whether the feature should be enabled or not
+> +:Returns: 0 on success.
+> +
+> +Capability allows VMware backdoors to be handled by L0 when running
+> +on nested configurations. This is required when, for example
+> +running Windows guest with Hyper-V VBS enabled - in that configuration
+> +the VMware backdoor calls issued by VMware tools would endup in Hyper-V
+> +(L1) which doesn't handle VMware backdoor. Enable this option to have
+> +VMware backdoor sent to L0 monitor.
+> +
+>   8. Other capabilities.
+>   ======================
+>   
 
-Yes. The NVIDIA model passes through a Virtual-Interface to a VM,
-and the VM can allocate and map multiple command queues (buffers)
-to the V-Interface, by providing each command queue info in:
+You're not basing the patch set on v6.15-rcX?
 
-+struct iommu_vcmdq_tegra241_cmdqv {
-+	__u32 vcmdq_id;
-+	__u32 vcmdq_log2size;		// size
-+	__aligned_u64 vcmdq_base;	// GPA
- };
+> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
+> index 300cef9a37e2..5dc57bc57851 100644
+> --- a/arch/x86/kvm/x86.c
+> +++ b/arch/x86/kvm/x86.c
+> @@ -4653,6 +4653,7 @@ int kvm_vm_ioctl_check_extension(struct kvm *kvm, long ext)
+>   #ifdef CONFIG_KVM_VMWARE
+>   	case KVM_CAP_X86_VMWARE_BACKDOOR:
+>   	case KVM_CAP_X86_VMWARE_HYPERCALL:
+> +	case KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0:
+>   #endif
+>   		r = 1;
+>   		break;
+> @@ -6754,6 +6755,13 @@ int kvm_vm_ioctl_enable_cap(struct kvm *kvm,
+>   		kvm->arch.vmware.hypercall_enabled = cap->args[0];
+>   		r = 0;
+>   		break;
+> +	case KVM_CAP_X86_VMWARE_NESTED_BACKDOOR_L0:
+> +		r = -EINVAL;
+> +		if (cap->args[0] & ~1)
 
-Thanks
-Nicolin
+Replace ~1 with a macro for better readability please.
