@@ -1,122 +1,105 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5A89925C81E;
-	Wed, 23 Apr 2025 09:30:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8DFD71F1534;
+	Wed, 23 Apr 2025 09:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745400655; cv=none; b=QfGB/2E5wioFFxY7Io5Q/7me6ifSqWoPVVyJw/F91lp2ZRIvbNfFKZILC3UEqD76SLPnHk00dvI8vJRAQB9bHJU70ZQEiNzbKPtD+tepKMZkSQ7Cy7UrBGBCTbjDMtpTXKR3/Nfnfy28PP4XGT1qxYsPZmbg6k/J8kt1QJb3d7o=
+	t=1745402211; cv=none; b=U9pgdnQzthZrd79xHRU/Q1EJgC5WSXxiJ0HJ9lXRGiD8g5DZyUUmw0m8E+1/vXyOt4d4q6hRAi2hY35+VlPSEha6sP8JR7l6eAw/BzKOd+kupQfyrMSFy5FlbrxNK4lfrkakbEAH3Xs72i0i3RZf9zf0odCt/Ik8F+dzE/84ii8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745400655; c=relaxed/simple;
-	bh=dETYs6PNtbqc+HtknRC8dknf43oYws7PKuhbwZxPIoo=;
-	h=Message-ID:Date:MIME-Version:To:Cc:References:Subject:From:
-	 In-Reply-To:Content-Type; b=gtc0lh1cci+ZRIaHzeDlANvaJvDEe1i5X8foDNu89ksT56jZ8hvr79DUSg06wyrLHTD0mnhQnRY/tPg9yko704lfiPq1XpOZrNk0cFRkpa2VYHc330MbJn6lQl0Ki5Lj607bzBckz3fbqqoifHD7fWV08EiS1e7wgr7sqBQPjmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=l8ygT4bg; arc=none smtp.client-ip=209.85.214.177
+	s=arc-20240116; t=1745402211; c=relaxed/simple;
+	bh=5yZBvNuVYmifPJSDr+HNB9Vckbn3EBGqIJPHXQ/LNEQ=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Viq8jcZsXIHJtQdxFlfbwUkOeQuDZ5BcKM2bojB+zujOhEt2gYTsxG5v611CFNc6pd3A42IEgAglH0IDx51EnzkIin4TwDtMoFZkBmNPP1l1RgzaBpb2D7eOY/U13Bin7I8NLtvl/A5TYaycB5uCb1sKFXvaKVMiGdwSvu4ABG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DZ0gOEqh; arc=none smtp.client-ip=209.85.218.52
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="l8ygT4bg"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2279915e06eso64075595ad.1;
-        Wed, 23 Apr 2025 02:30:54 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DZ0gOEqh"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ace333d5f7bso230640366b.3;
+        Wed, 23 Apr 2025 02:56:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745400653; x=1746005453; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=muxam2SUiy8I7jXTK3ORRV5V0hJy9KAAZUT8IGI2dzg=;
-        b=l8ygT4bgyOH/Pbkq7haLSXy/uY31VS2VyQ7yW/zjfDn6fiddXG+gO1w0dUDis599jf
-         VZEUyTmCXEmtQU00XmN5OWlGv96dqvlKQbASSoIk0bBeBvw2khDw+pk15UT8VJYqfmID
-         /7Zm5QEaVdgrmtSRBEYLtRHkAiZVZaskbxhI0dBS9csCnASWvUozhfhewp+VJTliAxV4
-         v7IEVeFri0aDOmpst/UyZuizBUaqoMKys9e+L/OV/bF7xmX4iEq6iiOorrzAOkiT6fl8
-         r2aB9DNIhRdB8kNzuKXsyjm5hHcEupkD/esq7sD9AUfHBFG+RCBV3Fg/Fw3BQzv9o3ux
-         16lQ==
+        d=gmail.com; s=20230601; t=1745402208; x=1746007008; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=YwA18LRT0uq0phnjE2h0pHsa2q7k3j4dQrZL4VXB764=;
+        b=DZ0gOEqh2sv8fymphGg+oYyMPr6qXUKndIN01QZS0YJO0olIPPUWcQMiiKPzSFOZAu
+         rdZP0TrX6qleq35VlD5LVXU1u/ubXxkueTBv72pmT+8xXlvvS1hoIjcVE9xtd3VTGbEe
+         1Ohtp5remuDPW/TuPIeIoMGcJ+hp3slLnBzk1i1tolbjP51p0DPys0jY0tpnhzSM0x2X
+         AcC1a2RQp3hmC3m9ybD1UB3kze7XExrHsc+JSvIerRbTA/JrvTrd1V1KcKzg3Um1hcv6
+         TB4PHeMHQOQCZkztfD1+m6KbwEimUCQc1VBg9OtJvgRCw6bopy2yXIkeRud/BXkmVLSX
+         ju6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745400653; x=1746005453;
-        h=content-transfer-encoding:in-reply-to:from:content-language:subject
-         :references:cc:to:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=muxam2SUiy8I7jXTK3ORRV5V0hJy9KAAZUT8IGI2dzg=;
-        b=XvbZqk0+Oj8KJalRZKkwnVPvRnHzw+nX7pj4X47qCwUKhi5LeoS6Fq6Y6oGQencI0Z
-         V/L1M5Y0wBVv1sR/npjYi0nddgf9bKDgEE8EbwAOsYIkz7OOTwwp2ZdAkvr9hL0C/l88
-         Q5XjdVYjUv31rovg14Nb3q25uLJ4JOxZrDSdlUtTKSuLVo2xjbMmIzH8UcYNBks0A8BA
-         5h7FCDigSrzLZJav+vsxbZ7XAEOZRMjVFxqHM6leQ/hhxawy8UliC1cbuyq//jbGcpEY
-         UUDY1EakhgRdeHw/IHxVwALhLYbA63hu+VbEEtklUVtgjHU/VR7n0uwuCBuvJQjssuKT
-         Lftw==
-X-Forwarded-Encrypted: i=1; AJvYcCWQu2BdOdZiozwvRe4AkPYmtPeTEAKHA9Rb0YhkTu0scnwpRPYPzbQ5FClYaIpj7XQdBeSfjoNYERQ=@vger.kernel.org, AJvYcCWT9JxuNLEd1MxCZHtx0w6GYsKOFFuloKsVBqec6E65ACG/h4biMxJ3K0HJt3XvqL0xj1Uj25ccTQg8XPd/@vger.kernel.org, AJvYcCX5bHMFeR/+lH+SGlUzXP/IA/EFBS6aEXxspGbzGvnU0zUIi3HcZ7/B3TtdeX11sC8Y7FIs5Lwa8Y1JX7Z3@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY+RvOMgcnofJlqF+Vix84cIVroMYi8MEvLQ38alRmhYc53uyS
-	gh3LRCiAvQ/9mr9//4x5OpH+iZreZQToI1WKgJ/BvEMN3AU9dNUw
-X-Gm-Gg: ASbGncu6fKngRrWGx6izUqZtMVlck36/8nJ6T2FgNjIyDd05CN6DHCh/tQtLg5WJHLx
-	Qqka0EmlWFlsypzkYdnlZ1NTqSg5UA/bij8I8qm0qvfz8pcKgSz8bNSkiclsTFE3/xsyqC0/qxs
-	lI6196JOoHB7Mi4Y4nNQokP0Wb5dzmIuCwZZ6nvD5RoHXqhXNk5ZFglQ/3URBh3HMDiNgrC07/b
-	XZBDFggFHYlCefl1HdPrKr+ajD6f+GA4COK55/vvvoq28tjaZlPaKVQB/xmYG8emLhR6qdOI8B+
-	3zPtzUsATaWAJpcOqz55+4uvz0SmQyPcmkAbcOTEjhIgiOoD0hK94/aqWHQ+JME52LfTeqrwpgX
-	uy8oZMeXk9fM=
-X-Google-Smtp-Source: AGHT+IG88n4B+Zz7jvsF/amnEc51F/XmSyRSZhLIy5SSMySrK3N+aaQMKVm7LW4VWbvpbZndJX7ocw==
-X-Received: by 2002:a17:903:98c:b0:224:1780:c1ec with SMTP id d9443c01a7336-22c5360dc12mr325231335ad.35.1745400653408;
-        Wed, 23 Apr 2025 02:30:53 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22c50eb64fbsm99667675ad.158.2025.04.23.02.30.48
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Apr 2025 02:30:52 -0700 (PDT)
-Message-ID: <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
-Date: Wed, 23 Apr 2025 18:30:48 +0900
+        d=1e100.net; s=20230601; t=1745402208; x=1746007008;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=YwA18LRT0uq0phnjE2h0pHsa2q7k3j4dQrZL4VXB764=;
+        b=TctyH2t2OMMrUvSR1ZBKO4NitDJRDLxx7h+/wPmRXE6ZAUNqKDTWaG6r/9hL7CTM3t
+         098mqFc9qSYUvoMTxjOfs1RgAAaAN8BBO1VmzhpjUzXoaGPWT2j3i6a4YIVoh5HUx7P7
+         vWhFP/dq0LNzmwdgAsprEAELsVKTkCeGFgaqvQx0QILGuxPHXHtFlIf9aRM2eTeBD80w
+         IGx1Hjc9SI5UPnTtNL/aLOV+n0PfylwakGTCHA052CvQzRpYnYscZo8f5h/j4qdRAK/s
+         89+AjwZUCBzAHn2EIbKwkR4pKhVfVfAZgh34u3GnY7inNhAIs/yobiDS1OLvybLSqeSz
+         ArqA==
+X-Forwarded-Encrypted: i=1; AJvYcCUWslcR4rm0VN4kprXvyc/RCr7p2oIM3RUuSufCVUtHzvlaf/9R/wsLM6FNq2RKB0TzvFjdleEGJBMMRUOa@vger.kernel.org, AJvYcCUag+WowCHr5wN8ORy6UgrMQPcXcjSX7G34oNZufMAA/5dGEKuGw4NucXJlP5/azoo1TPcE/X9sjJLl@vger.kernel.org, AJvYcCXaA2aH1f9bXtmSfeSm2kgqfV7TayvRztwfwttgmrQuRVbeCfEHXNcclUioFKyQ2OzjkaF4kHF3zis=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxuHGBcsssw/3w0SCeFFPrmiKoNQ6SlfvOWvVJEQci15CrqnXDY
+	y/96OwJzpIgIac8iLieNeoSh2dilNRLejFrYVGjiNkpKLqIqOjmT
+X-Gm-Gg: ASbGncsBm+ochraNGbYqPjqdykfF7Krm/mg/1sisBkCoUzsS9MaCiO7R1Z5WLpZ1PyD
+	acBjI6snzk8TzgRofa3RzQHSDf9PoMPKPcitO+9gqTXVvuEOsHEokkw2JoTrEjaApEHc9eTDyWn
+	K4grsOC1apbDncP4QOQSmQGA9WJwDU3zF4jgLBlA6vkE+HDHMMB1kutIIrGndInSyxNZRb+hKdu
+	56aTaLY60EOWura7uz3nRWlAvp20frvwVtWNcEnefFDguerGyvF2wRPjT9Kec6Gre2oZ3HtGtDq
+	wER8DrQBgHDFrY5wfa2V6SjML9q8qCwANCD3/Qmt4DITOQk0XsQfLhTkXjLxrCRFI7E=
+X-Google-Smtp-Source: AGHT+IEtOoJSaHh13UT19v8/zmlhQZa1pyS18v5YTBOq5/OCSUsJPtlqQbjbpBqmKCino8dWIpCXdA==
+X-Received: by 2002:a17:907:9407:b0:ac7:391b:e688 with SMTP id a640c23a62f3a-acb74e6f381mr1506718066b.58.1745402207508;
+        Wed, 23 Apr 2025 02:56:47 -0700 (PDT)
+Received: from A13PC04R.einet.ad.eivd.ch ([185.144.39.75])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-acb6eefc782sm773431066b.87.2025.04.23.02.56.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 02:56:46 -0700 (PDT)
+From: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+To: 
+Cc: rick.wertenbroek@heig-vd.ch,
+	dlemoal@kernel.org,
+	Rick Wertenbroek <rick.wertenbroek@gmail.com>,
+	Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+	=?UTF-8?q?Krzysztof=20Wilczy=C5=84ski?= <kw@linux.com>,
+	Kishon Vijay Abraham I <kishon@kernel.org>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-pci@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH] Documentation: Fix path for NVMe PCI endpoint target driver
+Date: Wed, 23 Apr 2025 11:56:43 +0200
+Message-Id: <20250423095643.490495-1-rick.wertenbroek@gmail.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-To: andriy.shevchenko@intel.com
-Cc: airlied@gmail.com, corbet@lwn.net, dmitry.baryshkov@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- masahiroy@kernel.org, mchehab+huawei@kernel.org, mripard@kernel.org,
- nathan@kernel.org, nicolas.schier@linux.dev, rodrigo.vivi@intel.com,
- simona@ffwll.ch, tursulin@ursulin.net, tzimmermann@suse.de
-References: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-Hi Andy,
+The path for the driver points to an non-existant file.
+Update path with the correct file: drivers/nvme/target/pci-epf.c
 
-On Tue, 22 Apr 2025 10:57:33 +0300, Andy Shevchenko wrote:
-> On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
->> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
-[...]
+Signed-off-by: Rick Wertenbroek <rick.wertenbroek@gmail.com>
+---
+ Documentation/PCI/endpoint/pci-nvme-function.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
->> > Would it be possible to properly support O= and create pyc / pycache
->> > inside the object/output dir?
->> 
->> I have to confess, I've been wondering if we should be treating the .pyc
->> files like we treat .o files or other intermediate products.  Rather
->> than trying to avoid their creation entirely, perhaps we should just be
->> sure they end up in the right place and are properly cleaned up...?
->> 
->> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
->> should do the trick?
-> 
-> It's not so easy. The Python is written in a way that it thinks it will never
-> runs object files separately from the source. Hence that variable sets only
-> the folder per script as _home_ for the cache. It's completely unusable. They
-> took it wrong. It still can be _painfully_ used, but it will make Makefiles
-> uglier.
-
-But, PYTHONPYCACHEPREFIX can be set as an environment variable.
-
-For example, try:
-
-    export PYTHONPYCACHEPREFIX="$HOME/.cache/__pycache__"
-
-Wouldn't it be good enough for you?
-
-Regards,
-Akira
+diff --git a/Documentation/PCI/endpoint/pci-nvme-function.rst b/Documentation/PCI/endpoint/pci-nvme-function.rst
+index df57b8e7d066..a68015317f7f 100644
+--- a/Documentation/PCI/endpoint/pci-nvme-function.rst
++++ b/Documentation/PCI/endpoint/pci-nvme-function.rst
+@@ -8,6 +8,6 @@ PCI NVMe Function
+ 
+ The PCI NVMe endpoint function implements a PCI NVMe controller using the NVMe
+ subsystem target core code. The driver for this function resides with the NVMe
+-subsystem as drivers/nvme/target/nvmet-pciep.c.
++subsystem as drivers/nvme/target/pci-epf.c.
+ 
+ See Documentation/nvme/nvme-pci-endpoint-target.rst for more details.
+-- 
+2.25.1
 
