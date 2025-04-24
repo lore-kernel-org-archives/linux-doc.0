@@ -1,63 +1,63 @@
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D327B4F1
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:57:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B689927BF92
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:59:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745499464; cv=none; b=DpJuQAClff0m63+OmLms09tFYOj7CYi7ZAbICZbn8Bx9bi1Wqmd8Mjaed/d7LtMmMbwpZY1Sk93BJ8ZCxteuIQ4pZswhg3uc5Wi6k8AjKteVwxNSpZlVI9aYvC0SOMTB0AT/1kNq/RvNUIxZ1mR98ax1ZAm4KkWqndfbsiH/RIs=
+	t=1745499591; cv=none; b=dl8E54KXV/SUucC8/O/VcUSkbFTxyU3R/gnawX7zi7Ts359B40c2DcMpuIuSkmHYtVfpp3liBa4naQXLyINWsjK7m0bM/WLdnGC19ri4fMvFZs7VRrfD+MUYe5xvU6DXnbRpT7MGIrOaudPf/X/yspy5QcfKi/IQTq84fjnPcyM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745499464; c=relaxed/simple;
-	bh=reTdbb+6O0sXBwedeFukDBYju2S+gng4mftDGCp7r68=;
+	s=arc-20240116; t=1745499591; c=relaxed/simple;
+	bh=LgOj32ZR2p1Cbcje8X1KxFsR/LzGtQoiCDWTf+/EkPA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mf9sVIG714XM29KiUEdGz3GrprqWo2D6hDbTHjTvPU9akFzn5zZhGFphZ6SVcv0nCg7xcV3z47vDzc21nvuue1IAz5uSy6wcmLhIeALNdLcuZHn5Rbt6wFJUOEWrIEsMmCf0MRHTa4a44se4VhCFPlNiZPT+i+hm0SX+NSN/eF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=nI2wKPbP; arc=none smtp.client-ip=209.85.221.49
+	 Content-Type:Content-Disposition:In-Reply-To; b=t7KqVQjhJigk354xIrZobGlCXY34nBplHcylZwBGB9CsvUr08VD8clZr42MwCNbmurK01Sl2rpmfeF+wWllTAO5+/Rp2pLbAWVsZcx/7oKiUePxqw6rn+rOjKK/QvsWrDWBKSJijzUgmxgIq0Oe1HUGkRbudi80h6tIp+1DUylo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Ubxf29LP; arc=none smtp.client-ip=209.85.128.41
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="nI2wKPbP"
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3914bc3e01aso604969f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:57:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Ubxf29LP"
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-43cfe63c592so9699505e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:59:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1745499461; x=1746104261; darn=vger.kernel.org;
+        d=ventanamicro.com; s=google; t=1745499588; x=1746104388; darn=vger.kernel.org;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=oPQSBVtSMsvYsAl+gZRdiR2fvyhUD5u3wJ4ZqhPNu8A=;
-        b=nI2wKPbPDt/hA2aXCHz+p57vALDN2e0hpjTHegksYqxT2aEG28AMjyogp5hLa/Se7J
-         RvMfNz+b/RK0nTGxhlIWSa9mUUQCwCjv1UaOAm4gBFxAscrFmuRqNUDXmsIO/BEfEbqa
-         xPgRj74zkANoWWlSUcFp1weo3fvKoFhAkgSlQV6ZqY4XkxNKS8AW88ToTpcs74wRtf6N
-         y+u+JySzY/KXJl0fmBuovbx+mL7K5497jTjUbj6HnczAvxg50JIDFLl80A9dSapQzSxF
-         Dt0IVrBcAC3fZmvjDj1Ik3cB4QINSqsHPaf7F1tGy8JBh5+Y6fBc3d1N3vhbyHDQGcuR
-         PhCA==
+        bh=Pq4MolfPNd+K5bSXscDIAMqQ5BwEg88636RxK2hmqJg=;
+        b=Ubxf29LPg56+SuNDmTNIM7CqasNp8TvS65zZ5/oqSkKEi35gNq8tdC8VCq2glypxmd
+         anJIMVX0qkj8JNXxVOtvv9DoJFOFObWDkfIklQ1XLmtCzWAOGzY4n+sNH3J0/IbSOf8B
+         rccyIqlQTOssIsqDWR36Xw41P/AFw8DtFqmIiG8kk74Z0mzZkTIdIxwH1O/uysHgnSiv
+         YNi1WWiMuVX4FE5oJWQePbO8+XHxwik9hn6SvPudtN1ih+RaKmLDttL9TPoEs8mRNqXW
+         GOghE80joL3RPi5dKD6vYi49SxZC/hmF6tcAcFNjhR+3HxbefyC6PI28yFesIPXMKmhc
+         2bYQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745499461; x=1746104261;
+        d=1e100.net; s=20230601; t=1745499588; x=1746104388;
         h=in-reply-to:content-transfer-encoding:content-disposition
          :mime-version:references:message-id:subject:cc:to:from:date
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=oPQSBVtSMsvYsAl+gZRdiR2fvyhUD5u3wJ4ZqhPNu8A=;
-        b=PnpyupMT656Kikoqdj0P9fZ7tqEiJQkzJjy2xbW50BlyZQjCSajmvebvGyKHjMyNHr
-         emHCGS6le0RMQrQsFccSWcNkQM9xPXu7kovT/baxaohJETs3VHeDvhN4TqJekvR4yZLC
-         HbBVFViM62w/7dvK87gZ65QT9niHiYxShmc05+oqbbg7yLynXBkEx9KoC7AcdxlOoVM1
-         hElvGZZJvH0v79iljxjWG0ODSFzFH2XkXRHE9NZTN6vAS1fti2aN2j/nZAfoXiZ1mPZ0
-         /1erRARicQLZmjA/Abmcwzv+zqD2V8yvkW6aEri9fKcQRBu/nasbtb8hORzdgqYJSrqa
-         436w==
-X-Forwarded-Encrypted: i=1; AJvYcCXtn2E9tXfLtAn995eVxVrgwodTHzn6k0h3iUkvpjjsbNdP2NBJXFgBV9XXgta3mRES/1KpJkxAQaM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yws6iTSOZhtta/d65dl0FJ9QpwFVlO80uf79a3skS9ZY483o7V+
-	gcd0ixdMWbnGtZzCxEq0X5RRxHdE6ZvlQlRgdv48vmsVAou2getp1M8NKl/giKw=
-X-Gm-Gg: ASbGnctBceaqAfSsgxhrzca50vfzj1BVAnWAK5O8jAJiK89XuUcAxFTyWQ7oA9211jf
-	VH5tArB0l3fiL8yUJdEsF4uRzwqhrhXFsiXaCLRiRqWS2NKz+t3M6Gj6jssocZZLjqXJrYi5wxT
-	/qOIb4N8Ou+ffLSUJ1LFbeqItj8iAm+aJqxYeSmJvnDndzr8zUxJpP63f8lYimbEzQL+plJiQ8B
-	Z3Aubzr8dYoQdEwGkffmrOM8MuAVzJf00YpthdW+UanuKN9p2LfjSZBdTt4Tj/3n7Px4Bs2KyEE
-	1LJOk7v+9/f6tXjU6RNBleS6hvIU
-X-Google-Smtp-Source: AGHT+IGWv3/WPoD+1AaHzmJVHKE9pYWAl7MImqfR1l23ycVK/8svQHojX4uoV4n0a06YqpUIKi6wnQ==
-X-Received: by 2002:a05:6000:1e48:b0:391:3cb7:d441 with SMTP id ffacd0b85a97d-3a06cf5f657mr1695750f8f.25.1745499461227;
-        Thu, 24 Apr 2025 05:57:41 -0700 (PDT)
+        bh=Pq4MolfPNd+K5bSXscDIAMqQ5BwEg88636RxK2hmqJg=;
+        b=M842rPILvVgBAZC8OZ7NaMhLw1AbH1hCMo2dvVu+8NvMJ0CdDp+2CP2tV/z6eQX5BW
+         vdjTpNPK1rK4X6LKfNKLctp0trf/rn7Mw3tXhnPZUoZRb2s17iZrSI+EJUBiu5lGKq07
+         2htP6Bfh2Xt28KkbpYr9HbD1KJ2czoap7pYE01zzVo2e9RrdlZu2LP1MD9NvmRPl96jC
+         pPGBmLMAZYDoPlpxeWnthm9KVC2YwoVOPZ3RxHXAyxGZLqHA6EBlkcLz1Jm3K1rzTdBK
+         nddsoms3qoKuHwtsP7DGKM2Srie5hA+F8eIWnuu7bVAqcj5NGqcBiH5G3aqhJ+CjxmT3
+         bziA==
+X-Forwarded-Encrypted: i=1; AJvYcCVh0jIKlhfADCDskx21wdBhEuloecgaUt9SBV426Tq19qEdOoinCebGkXG6VQ2ur4X5gJ7H6bcIewY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyV1qToZwUytkSz/ZdWPUW99cSFGidJ5EYXQtlH0/r61VFINCOh
+	uobzVz6AELKfUi4HnuTho2Jk4jctJDyjbIt+lJ/keYLhpov/kA5xReRMwigTMk0=
+X-Gm-Gg: ASbGncvjah6v2rZ7+N02rpE14x+hU3dhxPMS9DMVMHlzFrZv65cL4PTLCLVVxBiWNCl
+	3IdaeATxmIlYid7R5dH7wmYKjQt96SghAy8MRVO+m+0P5yLGq1Sb94muSU5TZUwtpelMs4OV7Lx
+	yHQcRCyxonq2aCGGPoUPrXPM82vVGuhCzyrzwGcZ3VkVJuSvDBsp+GXuwk53UhwehynG7mFptNd
+	6F4pFrR+iiBjzZGe5IHcovd10kAgGCBP4br8+IcnNE0NXVvEdAx74oP7EanGtwkIyLLz+Fwpn64
+	M/o/CSPIq89vDoLA7gMXIcikeuTP
+X-Google-Smtp-Source: AGHT+IFsbpbMlf/oHa4o+M5HvcWy8tOY+l/DnXhzIG3RxZPMjwPTQ6efidUI/BlzMjp/KIlBUhnJsw==
+X-Received: by 2002:a05:600c:3b9b:b0:43d:db5:7b21 with SMTP id 5b1f17b1804b1-4409bdaf8fcmr14760305e9.28.1745499587910;
+        Thu, 24 Apr 2025 05:59:47 -0700 (PDT)
 Received: from localhost ([2a02:8308:a00c:e200::f716])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d54f019sm2068909f8f.96.2025.04.24.05.57.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2ac26dsm20167525e9.21.2025.04.24.05.59.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 05:57:40 -0700 (PDT)
-Date: Thu, 24 Apr 2025 14:57:39 +0200
+        Thu, 24 Apr 2025 05:59:47 -0700 (PDT)
+Date: Thu, 24 Apr 2025 14:59:46 +0200
 From: Andrew Jones <ajones@ventanamicro.com>
 To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
 Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
@@ -66,12 +66,12 @@ Cc: Paul Walmsley <paul.walmsley@sifive.com>,
 	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
 	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
 	Samuel Holland <samuel.holland@sifive.com>
-Subject: Re: [PATCH v5 03/13] riscv: sbi: add FWFT extension interface
-Message-ID: <20250424-dc96e54988e25abfc2bb9cf8@orel>
+Subject: Re: [PATCH v5 04/13] riscv: sbi: add SBI FWFT extension calls
+Message-ID: <20250424-27a672c1da15353051b52c59@orel>
 References: <20250417122337.547969-1-cleger@rivosinc.com>
- <20250417122337.547969-4-cleger@rivosinc.com>
- <20250424-c85c9d2f189fe4470038b519@orel>
- <67e81f13-5e5e-4630-9a3f-73856b952e6e@rivosinc.com>
+ <20250417122337.547969-5-cleger@rivosinc.com>
+ <20250424-c0700f89bcd29438d6d8d65c@orel>
+ <f6c5c92d-73aa-41a7-99bb-f95e388ea294@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -81,64 +81,41 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <67e81f13-5e5e-4630-9a3f-73856b952e6e@rivosinc.com>
+In-Reply-To: <f6c5c92d-73aa-41a7-99bb-f95e388ea294@rivosinc.com>
 
-On Thu, Apr 24, 2025 at 02:32:01PM +0200, Clément Léger wrote:
+On Thu, Apr 24, 2025 at 02:35:02PM +0200, Clément Léger wrote:
 > 
 > 
-> On 24/04/2025 13:00, Andrew Jones wrote:
-> > On Thu, Apr 17, 2025 at 02:19:50PM +0200, Clément Léger wrote:
-> >> This SBI extensions enables supervisor mode to control feature that are
-> >> under M-mode control (For instance, Svadu menvcfg ADUE bit, Ssdbltrp
-> >> DTE, etc). Add an interface to set local features for a specific cpu
-> >> mask as well as for the online cpu mask.
+> On 24/04/2025 13:06, Andrew Jones wrote:
+> > On Thu, Apr 17, 2025 at 02:19:51PM +0200, Clément Léger wrote:
+> >> Add FWFT extension calls. This will be ratified in SBI V3.0 hence, it is
+> >> provided as a separate commit that can be left out if needed.
 > >>
 > >> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> >> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > >> ---
-> >>  arch/riscv/include/asm/sbi.h | 17 +++++++++++
-> >>  arch/riscv/kernel/sbi.c      | 57 ++++++++++++++++++++++++++++++++++++
-> >>  2 files changed, 74 insertions(+)
+> >>  arch/riscv/kernel/sbi.c | 20 +++++++++++++++++++-
+> >>  1 file changed, 19 insertions(+), 1 deletion(-)
 > >>
-> >> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
-> >> index 7ec249fea880..c8eab315c80e 100644
-> >> --- a/arch/riscv/include/asm/sbi.h
-> >> +++ b/arch/riscv/include/asm/sbi.h
-> >> @@ -503,6 +503,23 @@ int sbi_remote_hfence_vvma_asid(const struct cpumask *cpu_mask,
-> >>  				unsigned long asid);
-> >>  long sbi_probe_extension(int ext);
+> >> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
+> >> index 379981c2bb21..7b062189b184 100644
+> >> --- a/arch/riscv/kernel/sbi.c
+> >> +++ b/arch/riscv/kernel/sbi.c
+> >> @@ -299,6 +299,8 @@ static int __sbi_rfence_v02(int fid, const struct cpumask *cpu_mask,
+> >>  	return 0;
+> >>  }
 > >>  
-> >> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags);
-> >> +int sbi_fwft_local_set_cpumask(const cpumask_t *mask, u32 feature,
-> >> +			       unsigned long value, unsigned long flags);
+> >> +static bool sbi_fwft_supported;
 > > 
-> > I'm confused by the naming that includes 'local' and 'cpumask' together
-> > and...
-> > 
-> >> +/**
-> >> + * sbi_fwft_local_set() - Set a feature on all online cpus
-> >> + * @feature: The feature to be set
-> >> + * @value: The feature value to be set
-> >> + * @flags: FWFT feature set flags
-> >> + *
-> >> + * Return: 0 on success, appropriate linux error code otherwise.
-> >> + */
-> >> +static inline int sbi_fwft_local_set(u32 feature, unsigned long value,
-> >> +				     unsigned long flags)
-> >> +{
-> >> +	return sbi_fwft_local_set_cpumask(cpu_online_mask, feature, value, flags);
-> > 
-> > ...that something named with just 'local' is applied to all online cpus.
-> > I've always considered 'local' functions to only affect the calling cpu.
+> > At some point we may want an SBI extension bitmap, but this is only the
+> > second SBI extension supported boolean that I'm aware of, so I guess we're
+> > still OK for now.
 > 
-> Yeah I thought of that as well, local here refers to the fact that this
-> function applies for a local feature (as described in the SBI
-> documentation) but agreed that it's really missleading. Any idea for a
-> better naming ?
+> That seems reasonable to have a bitmap rather than duplicating
+> *ext*_supported. If that's something that bothers you, I can take care
+> of it and use a bitmap. SSE will also have a sse_supported boolean but
+> in it's own driver file though.
 
-I'd drop 'local' from these names and when we deal with global features we
-can add 'global' to their function names. If we really must have something
-now, then maybe 'per_cpu' instead of 'local'.
+Up to you. We can always do it later.
 
 Thanks,
 drew
