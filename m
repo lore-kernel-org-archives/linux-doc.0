@@ -1,198 +1,244 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+Received: from mail-pf1-f172.google.com (mail-pf1-f172.google.com [209.85.210.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 694051F3FC2
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 04:03:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E1C981B4F1F
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 04:44:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745467401; cv=none; b=JkHaVsiKwF5usj3acll+AzuSCiyI5/AX1Dm6X+1RHg0alhviqSOGWohcHmQ33qthd7FWcAOxiHGV1XTtJzMRIlqr6BnP+lJcfWShP4gfocnU673ipt7s8A8T1ICu3Q28uVJbp5yka/WE9FQZqbOu1xfBwQSBfxxr2KpM4JMAzlc=
+	t=1745469856; cv=none; b=VZO7oq+xDrTjJRNYz2N85jixDMqYfkdKIbGq6koKXoTNYlRLiaqn9UfztffK0u27Z+teNPcbIYMdFhWrGku4poiMXoTorQnjDfyexvxyPuAJGbuyerLpgdUK9ZoHFbDLJG77mCt2PrhbOe8WVbgsTLviZVKWjuPbI0WXYFelB1I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745467401; c=relaxed/simple;
-	bh=7NgBY2/M7RX3ZWIExGTnoM9nMea+0yUh7UHHWuhJ4Bk=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=c8twfxipHUiItLkWNsRQXSNuJKxpogGbMDlzcTOZvds+geM2wREHS5UBRZyjalVbfYaapLLV6qRoVbitTDnbns7d3gycnN7687ElX3m/RmY6IpdrF1rM1177GF0NTd1iA0sQXVuE92XqmcNFDUr070APkX28ELAcOzTQThvyZs4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=jZ1c4KMv; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
+	s=arc-20240116; t=1745469856; c=relaxed/simple;
+	bh=scumeHQ1EWeXtDCiWxXsvS1GGnP6lxnjhn7+ttz3yqE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ootaW36Qj61wRK6kL4U74pf6zT2PQLOpnDogqphY54frLqTwKmmAZGrIifqLg3QcLHtpo1+0LQ7ispkSsEMRBR6DGg5zIsqWwFkkkW2LPhL2WpxPZuxqtCeynddbyMoQ0d+Fql/eBr00dCGvc1VNFtK/pW4+j1aHSjyMQM0Nuag=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=ZjA4nAE5; arc=none smtp.client-ip=209.85.210.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="jZ1c4KMv"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-73c205898aaso401068b3a.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 21:03:19 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="ZjA4nAE5"
+Received: by mail-pf1-f172.google.com with SMTP id d2e1a72fcca58-7376e311086so668603b3a.3
+        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 21:44:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745467399; x=1746072199; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dm+KUe9Ww/e6Vyl6aeeJ+DObwsjW8ys4qGoTcP5xOok=;
-        b=jZ1c4KMvnZuK3XFchcG5cPV675VfERwiiWWxLd19118Uwd0SbJFwp9AwAuV/hLOXh+
-         bz+tHL5BcMMDgQ5Q1rNeVobOLq+dUmTgNJXow+jPCYJIzlGoGtIJngvXusdIMQI7k/hp
-         4EnZHsWQJ21hZ7IDc8ZmV+apDzoZG+gRDXhJO9U3taJRoYc9VQ7hnzNxaJ0bfiyppOhA
-         i66ukbAHnMrUXEIsPxGOrMMRlveNhK5k1R0LKRUKY5nZXDvUKQirVe6WWYUzpN8pXGtK
-         r7J2DrNB1e6wIuXtQI74OeFkLIH7ANM/R8Hwa8odp86xeqr8rCe9OZcP8K/Uwf0eA57+
-         hn3w==
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745469854; x=1746074654; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=d8Qiq1brGqi76YM1jZPx/K29TOoSYoqtc1NwyaTJxB8=;
+        b=ZjA4nAE5C43SKeMg2lonMk0udTssP7uWcQGLa0ByW/qtijdIvBtCJFJykP47pThHrl
+         uhmqJuWDfESGeJPodQLWjKUthkZOQQrTNvFswyRpSC+FNa2D8pbwV0i+vj1Sr3wkBFuE
+         tmgnibOExIPfmGIgP/GatTadLh+QQUvKpZ8JMfhHOi6ub8spvTqyUB36pZAq2SD1lFrS
+         a6MidcIQmCSwxDs+xz2fQ9mXiKkysadTbj1iycRBhjX+W56deBL3vIW4LM7EnWxb54RR
+         pWXRq9oudnEw4nKJCH0Gh5JgtcRaapN2llz645Waw8/wZhztoYZ2M0bXJ9vU7uMO/MfJ
+         6ZmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745467399; x=1746072199;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Dm+KUe9Ww/e6Vyl6aeeJ+DObwsjW8ys4qGoTcP5xOok=;
-        b=nSoc3kAdnk54y1/APgqPtH1JgRxHnnsSjRoipvS1sKMVVeLSGEc/jKhU25tVrIfGK7
-         rjM+AqU8qcUGTC3eGXPEAEOKoqykzx2VTsNJO/RrqBBcLXsQKvxVz5T7N6oh1MIGzWds
-         GTdWg74kRCz2nZHE/pOMZKWoag4cI2h+CJXEWsijunCFaHhJYEQtRJELDp6xXOZoQfX/
-         dmkNGmAf7FsYodoBpoAuCQtzHrlHLk44NdvVHDS5Dcx41wKp5NStosSnYcqEAgw69qjS
-         u8c8sFbNTvle7L1/rbGJRdn/5oVgu7WSkUfR2fGs7TdScPDyF/mn/IietKl5UypyPZgz
-         0tgQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmF/T6yUlTKtJW4CYS7ezFXTO9QzteFY9B38BYSug/YnnLBHZX6fAk/5rpmuyYhXZZqn+M9J3PIbM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNZsHkIfhh81sjMnRpSIi/MpzX+sAqBFBhEiifxLog9Tz7SLsI
-	snAk4T7n6ARdzJyrq+fKqY27zekHLRLU/aXLC7Tn1FpzRQ6HW4hAs2XCLjIFT34YfKWoN+dxsyf
-	t3TneebUNE0mmR9BY7kD1hg==
-X-Google-Smtp-Source: AGHT+IFLPIU2yWmxJxJgjQYe70sSW4SkHs7h5xwWXVAjgbGENSUaZlxA7iNR4GkvJCd9MTDUDy3y/0RyI7kIx5Ea4g==
-X-Received: from pfx55.prod.google.com ([2002:a05:6a00:a477:b0:736:4ad6:1803])
- (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
- 2002:a05:6a21:2d04:b0:1f5:619a:7f4c with SMTP id adf61e73a8af0-20444f2d5a0mr1681293637.29.1745467398744;
- Wed, 23 Apr 2025 21:03:18 -0700 (PDT)
-Date: Thu, 24 Apr 2025 04:03:00 +0000
-In-Reply-To: <20250424040301.2480876-1-almasrymina@google.com>
+        d=1e100.net; s=20230601; t=1745469854; x=1746074654;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=d8Qiq1brGqi76YM1jZPx/K29TOoSYoqtc1NwyaTJxB8=;
+        b=vuaXAEnwWO8RPX432FF0jwpzxV2KU575XUgYEbKJlSSeaQYpDEwwSDan0BFDom33Ed
+         wdR6qjyMu08chX+QfDXQMR2vFQ4E0aecVoESo6cnsm/zHxLlBuKzqCXTYgBYTPHgXaec
+         j+X7/TQ1glZP9eeCkFldKayxrAo3hwdb3zT+TLRLJ+eec+X7d3MXIOybAsZqMXHRW95u
+         MPEY5qApVySGwVQmiEJp6dq6RfFpBHmAUUdi3NR9wpi562s5BxQN11/zyUCJUC91xmBZ
+         0p+1+iQpOhLM1CsQUer/xu/uTY+s8CNUF86pikOjLpKikdzeyVnPKhYZ/X58NcWLGY3W
+         ZI8w==
+X-Forwarded-Encrypted: i=1; AJvYcCVZd8J/k+1a0AemuIEKUmif2Kb1fHf+ec2OFvX/+oOPrTMaQ6LT45PSYhRpT74zQUY1eTEfx+1jOcM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxS8G0vIzS2LpC3Oajfxlyf9OnGSHP8+mQ1fqH0t855YtECN4Ps
+	xLeTsQKZgsl7i48W07k7z/qbdZbx5KIMgTfSSTOyDYi/TcONG6RF5gvcSUeW6/0=
+X-Gm-Gg: ASbGncttFEo3P4j4S+c0YBgkhpjKCZSN9C+3fvoctML8fUImp/poAq71lc3KAEr2Twj
+	VPhQj97YRKR2OfTyyVPm2Lgvxt4aUMdSQWEIeG3mLXJnG2cz8DOMzDI18LKq+3oplEcOE1uNMzR
+	3lh26cnYqJYcm227KRzQljsOxNSaRa9qPEvrHhWDnPvflWYWgwU5fIajJAgd0BbT8Wrke+vLfwE
+	aJmKGpYzUgoKcbRWJen3nXvhSYQOAymA77C/KErx2pXw/AmdFSgKQGeqxb3K+xtSmeHHbdevmKn
+	HfTJUBvcLadaVHUg94gHD4lr6LqlKiivimJrIpRdJshwfQMjouo=
+X-Google-Smtp-Source: AGHT+IEitFVHRTgSCgRhWMe9hU5oQbZR2x7Kpm268qxNcn6QnDdeucUqxqlmgTha+1K/W91b8N7XWQ==
+X-Received: by 2002:a05:6a00:2182:b0:736:73ad:365b with SMTP id d2e1a72fcca58-73e246647e4mr1767338b3a.14.1745469854052;
+        Wed, 23 Apr 2025 21:44:14 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a6aa52sm463483b3a.94.2025.04.23.21.44.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 23 Apr 2025 21:44:13 -0700 (PDT)
+Date: Wed, 23 Apr 2025 21:44:09 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com,
+	linux-riscv <linux-riscv-bounces@lists.infradead.org>
+Subject: Re: [PATCH v12 12/28] riscv: Implements arch agnostic shadow stack
+ prctls
+Message-ID: <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
+ <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250424040301.2480876-1-almasrymina@google.com>
-X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
-Message-ID: <20250424040301.2480876-9-almasrymina@google.com>
-Subject: [PATCH net-next v11 8/8] net: check for driver support in netmem TX
-From: Mina Almasry <almasrymina@google.com>
-To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org
-Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
-	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
-	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
-	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
-	Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
-	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, sdf@fomichev.me, dw@davidwei.uk, 
-	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
-	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
-Content-Type: text/plain; charset="UTF-8"
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
 
-We should not enable netmem TX for drivers that don't declare support.
+On Thu, Apr 10, 2025 at 11:45:58AM +0200, Radim Krčmář wrote:
+>2025-03-14T14:39:31-07:00, Deepak Gupta <debug@rivosinc.com>:
+>> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/usercfi.h
+>> @@ -14,7 +15,8 @@ struct kernel_clone_args;
+>>  struct cfi_status {
+>>  	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
+>> -	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 1);
+>> +	unsigned long ubcfi_locked : 1;
+>> +	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
+>
+>The rsvd field shouldn't be necessary as the container for the bitfield
+>is 'unsigned long' sized.
+>
+>Why don't we use bools here, though?
+>It might produce a better binary and we're not hurting for struct size.
 
-Check for driver netmem TX support during devmem TX binding and fail if
-the driver does not have the functionality.
+If you remember one of the previous patch discussion, this goes into
+`thread_info` Don't want to bloat it. Even if we end shoving into task_struct,
+don't want to bloat that either. I can just convert it into bitmask if
+bitfields are an eyesore here.
 
-Check for driver support in validate_xmit_skb as well.
+>
+>> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
+>> @@ -24,6 +24,16 @@ bool is_shstk_enabled(struct task_struct *task)
+>> +bool is_shstk_allocated(struct task_struct *task)
+>> +{
+>> +	return task->thread_info.user_cfi_state.shdw_stk_base ? true : false;
+>
+>I think that the following is clearer:
+>
+>  return task->thread_info.user_cfi_state.shdw_stk_base
+>
+>(Similar for all other implicit conversion ternaries.)
 
-Signed-off-by: Mina Almasry <almasrymina@google.com>
-Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+Hmm... noted.
 
----
+>
+>> @@ -42,6 +52,26 @@ void set_active_shstk(struct task_struct *task, unsigned long shstk_addr)
+>> +void set_shstk_status(struct task_struct *task, bool enable)
+>> +{
+>> +	if (!cpu_supports_shadow_stack())
+>> +		return;
+>> +
+>> +	task->thread_info.user_cfi_state.ubcfi_en = enable ? 1 : 0;
+>> +
+>> +	if (enable)
+>> +		task->thread.envcfg |= ENVCFG_SSE;
+>> +	else
+>> +		task->thread.envcfg &= ~ENVCFG_SSE;
+>> +
+>> +	csr_write(CSR_ENVCFG, task->thread.envcfg);
+>
+>There is a new helper we could reuse for this:
+>
+>  envcfg_update_bits(task, ENVCFG_SSE, enable ? ENVCFG_SSE : 0);
 
-v8:
-- Rebase on latest net-next and resolve conflict.
-- Remove likely (Paolo)
+Yeah it's in switch_to.h header. I'll think about it.
 
-v5: https://lore.kernel.org/netdev/20250227041209.2031104-8-almasrymina@google.com/
-- Check that the dmabuf mappings belongs to the specific device the TX
-  is being sent from (Jakub)
+>
+>> +}
+>> @@ -262,3 +292,83 @@ void shstk_release(struct task_struct *tsk)
+>> +int arch_set_shadow_stack_status(struct task_struct *t, unsigned long status)
+>> +{
+>> +	/* Request is to enable shadow stack and shadow stack is not enabled already */
+>> +	if (enable_shstk && !is_shstk_enabled(t)) {
+>> +		/* shadow stack was allocated and enable request again
+>> +		 * no need to support such usecase and return EINVAL.
+>> +		 */
+>> +		if (is_shstk_allocated(t))
+>> +			return -EINVAL;
+>> +
+>> +		size = calc_shstk_size(0);
+>> +		addr = allocate_shadow_stack(0, size, 0, false);
+>
+>Why don't we use the userspace-allocated stack?
+>
+>I'm completely missing the design idea here...  Userspace has absolute
+>over the shadow stack pointer CSR, so we don't need to do much in Linux:
+>
+>1. interface to set up page tables with -W- PTE and
+>2. interface to control senvcfg.SSE.
+>
+>Userspace can do the rest.
 
-v4:
-- New patch
+Design is like following:
 
----
- net/core/dev.c         | 34 ++++++++++++++++++++++++++++++++--
- net/core/devmem.h      |  6 ++++++
- net/core/netdev-genl.c |  7 +++++++
- 3 files changed, 45 insertions(+), 2 deletions(-)
+When a user task wants to enable shadow stack for itself, it has to issue
+a syscall to kernel (like this prctl). Now it can be done independently by
+user task by first issuing `map_shadow_stack`, then asking kernel to light
+up envcfg bit and eventually when return to usermode happens, it can write
+to CSR. It is no different from doing all of the above together in single
+`prctl` call. They are equivalent in that nature.
 
-diff --git a/net/core/dev.c b/net/core/dev.c
-index d1a8cad0c99c4..66f0c122de80e 100644
---- a/net/core/dev.c
-+++ b/net/core/dev.c
-@@ -3896,12 +3896,42 @@ int skb_csum_hwoffload_help(struct sk_buff *skb,
- }
- EXPORT_SYMBOL(skb_csum_hwoffload_help);
- 
-+static struct sk_buff *validate_xmit_unreadable_skb(struct sk_buff *skb,
-+						    struct net_device *dev)
-+{
-+	struct skb_shared_info *shinfo;
-+	struct net_iov *niov;
-+
-+	if (likely(skb_frags_readable(skb)))
-+		goto out;
-+
-+	if (!dev->netmem_tx)
-+		goto out_free;
-+
-+	shinfo = skb_shinfo(skb);
-+
-+	if (shinfo->nr_frags > 0) {
-+		niov = netmem_to_net_iov(skb_frag_netmem(&shinfo->frags[0]));
-+		if (net_is_devmem_iov(niov) &&
-+		    net_devmem_iov_binding(niov)->dev != dev)
-+			goto out_free;
-+	}
-+
-+out:
-+	return skb;
-+
-+out_free:
-+	kfree_skb(skb);
-+	return NULL;
-+}
-+
- static struct sk_buff *validate_xmit_skb(struct sk_buff *skb, struct net_device *dev, bool *again)
- {
- 	netdev_features_t features;
- 
--	if (!skb_frags_readable(skb))
--		goto out_kfree_skb;
-+	skb = validate_xmit_unreadable_skb(skb, dev);
-+	if (unlikely(!skb))
-+		goto out_null;
- 
- 	features = netif_skb_features(skb);
- 	skb = validate_xmit_vlan(skb, features);
-diff --git a/net/core/devmem.h b/net/core/devmem.h
-index 67168aae5e5b3..919e6ed28fdcd 100644
---- a/net/core/devmem.h
-+++ b/net/core/devmem.h
-@@ -229,6 +229,12 @@ net_devmem_get_niov_at(struct net_devmem_dmabuf_binding *binding, size_t addr,
- {
- 	return NULL;
- }
-+
-+static inline struct net_devmem_dmabuf_binding *
-+net_devmem_iov_binding(const struct net_iov *niov)
-+{
-+	return NULL;
-+}
- #endif
- 
- #endif /* _NET_DEVMEM_H */
-diff --git a/net/core/netdev-genl.c b/net/core/netdev-genl.c
-index 292606df834de..84c033574eb16 100644
---- a/net/core/netdev-genl.c
-+++ b/net/core/netdev-genl.c
-@@ -979,6 +979,13 @@ int netdev_nl_bind_tx_doit(struct sk_buff *skb, struct genl_info *info)
- 		goto err_unlock_netdev;
- 	}
- 
-+	if (!netdev->netmem_tx) {
-+		err = -EOPNOTSUPP;
-+		NL_SET_ERR_MSG(info->extack,
-+			       "Driver does not support netmem TX");
-+		goto err_unlock_netdev;
-+	}
-+
- 	binding = net_devmem_bind_dmabuf(netdev, DMA_TO_DEVICE, dmabuf_fd,
- 					 info->extack);
- 	if (IS_ERR(binding)) {
--- 
-2.49.0.805.g082f7c87e0-goog
+Background is that x86 followed this because x86 had workloads/binaries/
+functions with (deep)recursive functions and thus by default were forced
+to always allocate shadow stack to be of the same size as data stack. To
+reduce burden on userspace for determining and then allocating same size
+(size of data stack) shadow stack, prctl would do the job of calculating
+default shadow stack size (and reduce programming error in usermode). arm64
+followed the suite. I don't want to find out what's the compatiblity issues
+we will see and thus just following the suite (given that both approaches
+are equivalent). Take a look at static `calc_shstk_size(unsigned long size)`.
 
+Coming back to your question of why not allowing userspace to manage its
+own shadow stack. Answer is that it can manage its own shadow stack. If it
+does, it just have to be aware of size its allocating for shadow stack.
+
+There is already a patch series going on to manage this using clone3.
+https://lore.kernel.org/all/20250408-clone3-shadow-stack-v15-4-3fa245c6e3be@kernel.org/
+
+I fully expect green thread implementations in rust/go or swapcontext
+based thread management doing this on their own.
+
+Current design is to ensure existing apps dont have to change a lot in
+userspace and by default kernel gives compatibility. Anyone else wanting
+to optimize the usage of shadow stack can do so with current design.
+
+- 
+>
+>> +int arch_lock_shadow_stack_status(struct task_struct *task,
+>> +				  unsigned long arg)
+>> +{
+>> +	/* If shtstk not supported or not enabled on task, nothing to lock here */
+>> +	if (!cpu_supports_shadow_stack() ||
+>> +	    !is_shstk_enabled(task) || arg != 0)
+>> +		return -EINVAL;
+>
+>The task might want to prevent shadow stack from being enabled?
+
+But Why would it want to do that? Task can simply not issue the prctl. There
+are glibc tunables as well using which it can be disabled.
+
+>
+>Thanks.
