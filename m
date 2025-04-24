@@ -1,191 +1,211 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A7B9A225407
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 11:34:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05ED218821
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 11:52:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745494465; cv=none; b=aatPKZKvBsbzYKQXhMFlUZw2IFlJNXLlNl4HQl41iqqJiERdWf+4E+R0X3ddpEKc4JfMJQqRyV02EnfZl4ZgU5i3gufzQX0TgT+LemAgTKocDe6v2LKJ1MUoxzklEqcVZoCzx9TWTCsmDNZDKp45zLPYKtxVTJ/47cPt4laLhM4=
+	t=1745495567; cv=none; b=KN/t58W5NFgphfKCmQiUqUliquM7LN/f9Mjd9mrx+FKlojsAt75eLSPhcejPQTN2mGC06cv1vxXMyAVgzhfURz+b+DzaXFP9ohHJrWyyVexli2doBG1d7clzciAOxrAff4aBZPXMSJ5Zo+HBU9pDpAU2Mw762tLIek+U1GsJ+U8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745494465; c=relaxed/simple;
-	bh=IXZ8njn3lHnMF+wZnne8sz6AGB4un/zdAulPyviKX2U=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K9o2MOUhXejpuJU0uQhgb4pn1Yx6vSs5Ne5Ce/ZgZq/5tTLiZ3IBiG/B2EoM7ft65CuF67GtyR3DwHTI1Z6G5i4dmCBqAv+5lcEK4ArRw9tVyqW3r/RtPXOAas+hs84H7gFLsFGjw6rsXCSW3ZLNdsGNd2S0xnGp+ztxqQbzJ/Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=FGyyfJ3z; arc=none smtp.client-ip=209.85.221.53
+	s=arc-20240116; t=1745495567; c=relaxed/simple;
+	bh=DjB6yBsMl6lrqs3kS6J4Z5q3FIya7mHUZ9ybBLQq0UM=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=qXjdD5j1jc3CKZMod2BXSEDUJ44AeCZgQTUPmr0zygMP5uB+Zu6GnQ/ww1Xw/3Hd0aOtaMseqgYnPOAXYBplwzDbp/ThcMLZHTZBe65eB8WkChBwtG1UfJNc1T22l3maKzZRjzE0G2QphOLNLgMsD9Ien5E7BNxX8YcZo/JpxAA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=bxkmDyDA; arc=none smtp.client-ip=209.85.128.53
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="FGyyfJ3z"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39c1efc457bso602211f8f.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 04:34:23 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="bxkmDyDA"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-440668acbf3so1375585e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 04:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1745494462; x=1746099262; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=8kNEaxbnoW9g1fYmJXQwSNKTdFbvmREbcFtvdLnT5Xc=;
-        b=FGyyfJ3zg9bv6mloDJ2FkB2yKg3eCFZBZzb60PEmUrgTOvN+NHVnzs/bxebUlVPYr4
-         L9IB4We2faZXga9kaduTRsNiDGFaMFnOFvA8kJgTvo1qdhniaZvBIH4EvtY/hD8SCSzX
-         gVF5JMFsSTetIM9xznaCFyoaUljkjGVD7fUR6gp7t4nt80FdPBm5Hq+AV0qcMi6RqNao
-         mz/WXQkm+4axtum9KMbIByJJ+Cyd3pIz+cJMOYSFMOHLVAy/KlgrHEuPob3Jx3K9dpVY
-         fojQl77MQQwRfLguAdJ89kmk5UP/6ISH0HCRqnL/fqKgUGLrbgs9iHXudcdVLBczXbMW
-         KZHg==
+        d=ventanamicro.com; s=google; t=1745495564; x=1746100364; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=s+dd0LSkGUj1HE7Y4OEfSLazS5H3NN900Vi5gbnC580=;
+        b=bxkmDyDArMx0OqwBa+08lv4xzsGf09Af9eKmh54vpjoHPwLrnysj0ZYaflCREJRWts
+         AKiNtHz8cjrkSf0Lbb9NetGIph216zEBEWzP4tv3W681HV5wi6Pp5fu3AOMHWAxsuhky
+         MxMQgFjVqxRF0xd+zaK7mTBfYwRrP4UBVdRwSiirZT5trdIhjcLA6DBFRwemvpMjtxhV
+         0f/32r5EV8BffeBi7CqmwagilSyuDkE1jLzZxQNIIHhBudYRKIkuEuJyTaBt13eqcawp
+         jOABUZF8+8WhJiIA/bf0daBGvGLUfzHDtR59SpViLKNZNAEJI6hfWU7YLCcb4fS26KIL
+         Zj4w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745494462; x=1746099262;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=8kNEaxbnoW9g1fYmJXQwSNKTdFbvmREbcFtvdLnT5Xc=;
-        b=kz09VpuTCY5k1M8vSzEjYqibaB4x94tzRaj3bezRuhW7Tv2FXpBeEGob/OsLHMC6vq
-         ysBLnbJUjJTi8E/pel+t44ltLFKIqYb7p+a16YmHSOlsLNrJU0+8LzwSy5kVzTUzjsRp
-         3GKIbfpztsC2j21seFWw2fFyBmFzLUvBEv9q+CGVB1sWGHVSxWUiE82SbM9mXnET1LDY
-         bozApJQdGHjwqwNvd0D1WUx5Xgkr5eowgF/6y3LxPiWEthQWQaUAza6z3C5jwJnCktlE
-         1l+WcdyYGPUqnRTu0hdf5OE8PV4XGlzfbV+SCh1JMxKIGiyvU3RcMq9fWcj3g/WWWAAl
-         Fe6w==
-X-Forwarded-Encrypted: i=1; AJvYcCUxfPB5qbh4CF59wyUZ7wOnuIPV0j32E4uloPtek2qktmtJgJP4OOX/i+/P4sLFPOEKXBogBi/Fxrs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwIuRX7RLXR1MTF3Eth6s566ZgrrtA+VYdaMC948v7GeIzVX9rh
-	UD6cZ7lmtQrr1v86aZs4m9rV7l4XI/ZNo2M1R79Omf9XB1n+U1IYC82tiWOqWCs=
-X-Gm-Gg: ASbGncvZd6q3b8wJ4sVcwTnDW5cIff6H9htONPTuHZ761ouoM/iRKpLx5H1sJGq/Ue5
-	DhhMC5xqgvxBp6jR/UFcUZKaEJHaH95ZAP0vugRmK/mEdRnMlWyVLhhpRiO9wurxYcK+Vuz39+4
-	pkjJeGP7tAXv6ohSoE8IsfYITMcYC+eh+rvON5/rdo6acty86GK1NN1ttHN8pkp2YudO6rT35E3
-	dFgUXQjDIBN9HiI0qAwZmeRPdECBoNTL6SKw+HDLkSLefjMZkIDlV8T2/JIK9DJ5IumOJKsCx2b
-	D/38GSDII9xB4DBcNvNRF5SOgNAm
-X-Google-Smtp-Source: AGHT+IH+Hg3/PqfVx4rNvlrTeNa+fBCY/aumfjJWzS9tER7WilSZAHlxfjRytvmLaoteiiEk+m6uJg==
-X-Received: by 2002:a5d:4a8e:0:b0:39a:c9d9:877b with SMTP id ffacd0b85a97d-3a06cf5f4fcmr1401332f8f.27.1745494461931;
-        Thu, 24 Apr 2025 04:34:21 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200::f716])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d4bf781sm1830579f8f.37.2025.04.24.04.34.21
+        d=1e100.net; s=20230601; t=1745495564; x=1746100364;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=s+dd0LSkGUj1HE7Y4OEfSLazS5H3NN900Vi5gbnC580=;
+        b=ivavhUQ2N28CkP7Ww/2Ndgzp4GIWJk6nfHVztONBkon2j/R72ExX65U0Irw1g/xRp1
+         RzGdgabYMQSHz07UXEtY4QQcuw/2d+velW2wDBkzAeBEwjUHFjuMVWvIicQ6Y078C8h0
+         aT4nRYOfXaE619afdkOGiy7tCyIWGTDQhqWQQX0CSKkeiWDkkrK+wO3LNVcFPZjXrdPB
+         cM5jvixM+9kOAFoS8ipKBgxbNPWyzQZutOqq8HA1hTQ7euz6XSeLQuKihqfpujc9VwfP
+         MEMRabwA6KcI+o4nQMwO/e7rP6WCHEMo4tLMZAv5FUfTMV7I+A+RfthSATY98uKPjim7
+         X+6w==
+X-Forwarded-Encrypted: i=1; AJvYcCX7nG03S5dQQ2dWgW2CxZRJX6Hl7Sk0sTPqiZ0JBMbEesWaNltkbzvpp/VI5MIfLZWFObpBrxexjY8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxz8Q3hDutucJcngk1GHrOpIct8/uL4dWgvJphOHiUGE9h0JH6n
+	bGEI0rEJMDxZhr9BPO24NLECZrvUqJWVBTVVMxM+xinTp2KhWXPPglWZah8AsOI=
+X-Gm-Gg: ASbGncsiQuLHNGUJplSrAM7PsFvtMThKxoCF770EVrn4derOPoWG6soElETRXeLBWjV
+	TzBgXm+dw4vUH+BfLpiueQodsJKTQ8oxYb+DMry8Pl0CW/fRFZ/wvYEG4S0yFvB5lAsLo9ZSgxm
+	485Hw887fGHiBffuUkgmnXmB0bdjDwS94TfFEe6C2tSDhthzovKhYABLvKNhjq9LHukfrSQz4Ia
+	lcHt0IqyZsnYgMnchZrpd+eLeCqZOO6vbUKPtkBpxpl+V7tDLKKIsGynChYqB4aWOR6elORl7ta
+	15r4JaQMVVSvhjLOTq7zizsd2fUn9qjpSqMrkD8/CiFRjHf2
+X-Google-Smtp-Source: AGHT+IF8wqwUphleYE2qKoazIUMOkR8h6x1rMfa0xrlvKXCx8csAkRx3P4JsSRpMyeAudqq5D+3jRA==
+X-Received: by 2002:a5d:6d8a:0:b0:3a0:678f:ddd8 with SMTP id ffacd0b85a97d-3a06cf5262cmr625001f8f.2.1745495563895;
+        Thu, 24 Apr 2025 04:52:43 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d5323casm1860957f8f.75.2025.04.24.04.52.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 04:34:21 -0700 (PDT)
-Date: Thu, 24 Apr 2025 13:34:20 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	Samuel Holland <samuel.holland@sifive.com>, Deepak Gupta <debug@rivosinc.com>
-Subject: Re: [PATCH v5 13/13] RISC-V: KVM: add support for
- SBI_FWFT_MISALIGNED_DELEG
-Message-ID: <20250424-ae24464169f7143c509cbab5@orel>
-References: <20250417122337.547969-1-cleger@rivosinc.com>
- <20250417122337.547969-14-cleger@rivosinc.com>
+        Thu, 24 Apr 2025 04:52:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250417122337.547969-14-cleger@rivosinc.com>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Apr 2025 13:52:43 +0200
+Message-Id: <D9EUJBQ5OHN0.2KUJHGXK262TR@ventanamicro.com>
+Subject: Re: [PATCH v12 05/28] riscv: usercfi state for task and
+ save/restore of CSR_SSP on trap entry/exit
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
+ <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
+ <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
+ "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
+ Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <broonie@kernel.org>, <rick.p.edgecombe@intel.com>,
+ "Zong Li" <zong.li@sifive.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+To: "Deepak Gupta" <debug@rivosinc.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-5-e51202b53138@rivosinc.com>
+ <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
+ <aAl_HRk49lnseiio@debug.ba.rivosinc.com>
+In-Reply-To: <aAl_HRk49lnseiio@debug.ba.rivosinc.com>
 
-On Thu, Apr 17, 2025 at 02:20:00PM +0200, Clément Léger wrote:
-> SBI_FWFT_MISALIGNED_DELEG needs hedeleg to be modified to delegate
-> misaligned load/store exceptions. Save and restore it during CPU
-> load/put.
-> 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->  arch/riscv/kvm/vcpu.c          |  3 +++
->  arch/riscv/kvm/vcpu_sbi_fwft.c | 36 ++++++++++++++++++++++++++++++++++
->  2 files changed, 39 insertions(+)
-> 
-> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
-> index 542747e2c7f5..d98e379945c3 100644
-> --- a/arch/riscv/kvm/vcpu.c
-> +++ b/arch/riscv/kvm/vcpu.c
-> @@ -646,6 +646,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->  {
->  	void *nsh;
->  	struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
-> +	struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
->  
->  	vcpu->cpu = -1;
->  
-> @@ -671,6 +672,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->  		csr->vstval = nacl_csr_read(nsh, CSR_VSTVAL);
->  		csr->hvip = nacl_csr_read(nsh, CSR_HVIP);
->  		csr->vsatp = nacl_csr_read(nsh, CSR_VSATP);
-> +		cfg->hedeleg = nacl_csr_read(nsh, CSR_HEDELEG);
->  	} else {
->  		csr->vsstatus = csr_read(CSR_VSSTATUS);
->  		csr->vsie = csr_read(CSR_VSIE);
-> @@ -681,6 +683,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->  		csr->vstval = csr_read(CSR_VSTVAL);
->  		csr->hvip = csr_read(CSR_HVIP);
->  		csr->vsatp = csr_read(CSR_VSATP);
-> +		cfg->hedeleg = csr_read(CSR_HEDELEG);
->  	}
->  }
->  
-> diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> index b0f66c7bf010..237edaefa267 100644
-> --- a/arch/riscv/kvm/vcpu_sbi_fwft.c
-> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> @@ -14,6 +14,8 @@
->  #include <asm/kvm_vcpu_sbi.h>
->  #include <asm/kvm_vcpu_sbi_fwft.h>
->  
-> +#define MIS_DELEG (BIT_ULL(EXC_LOAD_MISALIGNED) | BIT_ULL(EXC_STORE_MISALIGNED))
-> +
->  struct kvm_sbi_fwft_feature {
->  	/**
->  	 * @id: Feature ID
-> @@ -68,7 +70,41 @@ static bool kvm_fwft_is_defined_feature(enum sbi_fwft_feature_t feature)
->  	return false;
->  }
->  
-> +static bool kvm_sbi_fwft_misaligned_delegation_supported(struct kvm_vcpu *vcpu)
-> +{
-> +	return misaligned_traps_can_delegate();
-> +}
-> +
-> +static long kvm_sbi_fwft_set_misaligned_delegation(struct kvm_vcpu *vcpu,
-> +					struct kvm_sbi_fwft_config *conf,
-> +					unsigned long value)
-> +{
-> +	if (value == 1)
-> +		csr_set(CSR_HEDELEG, MIS_DELEG);
-> +	else if (value == 0)
-> +		csr_clear(CSR_HEDELEG, MIS_DELEG);
-> +	else
-> +		return SBI_ERR_INVALID_PARAM;
-> +
-> +	return SBI_SUCCESS;
-> +}
-> +
-> +static long kvm_sbi_fwft_get_misaligned_delegation(struct kvm_vcpu *vcpu,
-> +					struct kvm_sbi_fwft_config *conf,
-> +					unsigned long *value)
-> +{
-> +	*value = (csr_read(CSR_HEDELEG) & MIS_DELEG) != 0;
-
-This should be
-
-  (csr_read(CSR_HEDELEG) & MIS_DELEG) == MIS_DELEG;
-
-> +
-> +	return SBI_SUCCESS;
-> +}
-> +
->  static const struct kvm_sbi_fwft_feature features[] = {
-> +	{
-> +		.id = SBI_FWFT_MISALIGNED_EXC_DELEG,
-> +		.supported = kvm_sbi_fwft_misaligned_delegation_supported,
-> +		.set = kvm_sbi_fwft_set_misaligned_delegation,
-> +		.get = kvm_sbi_fwft_get_misaligned_delegation,
-> +	},
->  };
->  
->  static struct kvm_sbi_fwft_config *
-> -- 
-> 2.49.0
+2025-04-23T17:00:29-07:00, Deepak Gupta <debug@rivosinc.com>:
+> On Thu, Apr 10, 2025 at 01:04:39PM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
+te:
+>>2025-03-14T14:39:24-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/=
+asm/thread_info.h
+>>> @@ -62,6 +62,9 @@ struct thread_info {
+>>>  	long			user_sp;	/* User stack pointer */
+>>>  	int			cpu;
+>>>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+>>> +#ifdef CONFIG_RISCV_USER_CFI
+>>> +	struct cfi_status	user_cfi_state;
+>>> +#endif
+>>
+>>I don't think it makes sense to put all the data in thread_info.
+>>kernel_ssp and user_ssp is more than enough and the rest can comfortably
+>>live elsewhere in task_struct.
+>>
+>>thread_info is supposed to be as small as possible -- just spanning
+>>multiple cache-lines could be noticeable.
 >
+> I can change it to only include only `user_ssp`, base and size.
 
-Thanks,
-drew
+No need for base and size either -- we don't touch that in the common
+exception code.
+
+> But before we go there, see below:
+>
+> $ pahole -C thread_info kbuild/vmlinux
+> struct thread_info {
+>          long unsigned int          flags;                /*     0     8 =
+*/
+>          int                        preempt_count;        /*     8     4 =
+*/
+>
+>          /* XXX 4 bytes hole, try to pack */
+>
+>          long int                   kernel_sp;            /*    16     8 =
+*/
+>          long int                   user_sp;              /*    24     8 =
+*/
+>          int                        cpu;                  /*    32     4 =
+*/
+>
+>          /* XXX 4 bytes hole, try to pack */
+>
+>          long unsigned int          syscall_work;         /*    40     8 =
+*/
+>          struct cfi_status          user_cfi_state;       /*    48    32 =
+*/
+>          /* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
+>          long unsigned int          a0;                   /*    80     8 =
+*/
+>          long unsigned int          a1;                   /*    88     8 =
+*/
+>          long unsigned int          a2;                   /*    96     8 =
+*/
+>
+>          /* size: 104, cachelines: 2, members: 10 */
+>          /* sum members: 96, holes: 2, sum holes: 8 */
+>          /* last cacheline: 40 bytes */
+> };
+>
+> If we were to remove entire `cfi_status`, it would still be 72 bytes (88 =
+bytes
+> if shadow call stack were enabled) and already spans across two cacheline=
+s.
+
+It has only 64 bytes of data without shadow call stack, but it wasted 8
+bytes on the holes.
+a2 is somewhat an outlier that is not used most exception paths and
+excluding it makes everything fit nicely even now.
+
+> if shadow call stack were enabled) and already spans across two cacheline=
+s. I
+> did see the comment above that it should fit inside a cacheline. Although=
+ I
+> assumed its stale comment given that it already spans across cacheline an=
+d I
+> didn't see any special mention in commit messages of changes which grew t=
+his
+> structure above one cacheline. So I assumed this was a stale comment.
+>
+> On the other hand, whenever enable/lock bits are checked, there is a high
+> likelyhood that user_ssp and other fields are going to be accessed and
+> thus it actually might be helpful to have it all in one cacheline during
+> runtime.
+
+Yes, although accessing enable/lock bits will be relatively rare.
+It seems better to have the overhead during thread setup, rather than on
+every trap.
+
+> So I am not sure if its helpful sticking to the comment which already is =
+stale.
+
+We could fix the holes and also use sp instead of a0 in the
+new_vmalloc_check, so everything would fit better.
+
+We are really close to fitting into a single cache-line, so I'd prefer
+if shadow stack only filled thread_info with data that is used very
+often in the exception handling code.
+
+I think we could do without user_sp in thread_info as well, so there are
+other packing options.
+
+Btw. could ssp be added to pt_regs?
+
+Thanks.
