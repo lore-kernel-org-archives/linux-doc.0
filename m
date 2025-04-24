@@ -1,204 +1,431 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 254E9203706;
-	Thu, 24 Apr 2025 08:21:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.18
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745482921; cv=fail; b=rsuH/CINgnUbI768M8DUP56ipUlQQoBqTGREA86hdHhsY+NM+hFu5cqOuew5koVXiNmRxTIiZ5vTDuAZWZbJn5Qe3I0PklCiTgkxhna7oa/otbJYeB6IXf4VPnQvghsDzBDTG2TUEPfyXi7r9VTPTkh56bnfeOqaaWCuO2ivlWw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745482921; c=relaxed/simple;
-	bh=d5qs9SKZLoEq1JZ57sAK811EuzRB6kSqNGo6QB64neI=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=SmmsFYmS5o0PE3spLhLj/Y65rs/p1Zso/ZzBO+xwWORapLXtp0piY7vaFiwRUPR3CU29YNa/2tSPwlMAqweQxNGB6wMTRhAWWj/GtO2A9sfhQkAz3a2qFusoF51d06rpokCfQjAibWcXOzVOxUZSQCmfZ/+EdlROfzTApUWRT6g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SSHH1G+f; arc=fail smtp.client-ip=192.198.163.18
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B715579E
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 08:33:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745483613; cv=none; b=fPMcoYkS7zS18vN7VWY+8n7U5u9Zc/380+1rtiIe1NR2NugRRb3qw7YjQyzdzZ75HbvG2DvXDk5W+v+hGRWhLj2Gd0Y3QfCY7ak0rSaWDRCbrXUAScQEAk/5PImMmyKE4uZcucAIEoOo7m/5fXktz5OF/GWvSVbyWy6+7na6XuQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745483613; c=relaxed/simple;
+	bh=VujbCGAaGG7cRp8yjEqmGFE0PIqyYkh9yqPNfDkSDQQ=;
+	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
+	 To:Cc:Content-Type; b=KAFfR7EBKAYaAmGVT+abFfvl144jUATIZeUCKGEG8PnnXdirvPoDYWBZpZz6kP9MtOhrQMGfwGoYaWERLvv0Fh1PRRXmz+LOeDE5YiNcNXhc0F5WlNhlelRv0xd0uD1zQE8LX4d9ekuZQCYqb3sd4cP9MDtPJhcCZL9SSfP3utY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LKXKfP0r; arc=none smtp.client-ip=209.85.210.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SSHH1G+f"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745482920; x=1777018920;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=d5qs9SKZLoEq1JZ57sAK811EuzRB6kSqNGo6QB64neI=;
-  b=SSHH1G+fnh4A/yjcl1ZOC87RjEFzpOCZT1JxoimeTl4o97SLwaDdpOf3
-   LIs2qw3sQp1PeqJ+8uP765V/rBvl1iL5SjpY5XD+H2YeKHkNja+DyfL//
-   om0Xpcj3kbmNVlAHhe10UbvIhWv9qMmNgYD7Qug0Z93Y0O8pYM9LvDVaG
-   m/49c6Mhq+HxdcrdDvi2QBQTCB1tld8KMK+vq4jM8U8g6VQ7DCcIxQm+Z
-   FGD5h8gZ2/7i6Lc6RWnKb/t+DsD/gyBAAJIIkFnDEsVky60YoWgUy+ZF8
-   cJfVjlhzaU1zbRjnwVvkj4u6aBxyQ0rxS3iD8oLVnhJzHQjQVUZhLe6Wn
-   g==;
-X-CSE-ConnectionGUID: gZ9PXQX4S1y9kJhGHOHh9Q==
-X-CSE-MsgGUID: H87UwlhISDmM/a0ILXg37w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46334260"
-X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="46334260"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 01:21:59 -0700
-X-CSE-ConnectionGUID: PwTLXDpDQTifkg6MSNLN+w==
-X-CSE-MsgGUID: wcnsX9xhR8GbNnw1aCNSLA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
-   d="scan'208";a="132526945"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 01:21:58 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 24 Apr 2025 01:21:58 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 24 Apr 2025 01:21:58 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.176)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 24 Apr 2025 01:21:55 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R50/i8qsf/Sao8eQRfl3gEPhlZfWkT28hUnS2rXNYm3sPQfq/3huzyB35UmfAPzgiZqKy+qYlQ4xV1QvK66chdyVTi3LTjk+/jWarFb3pjRvm/0le6WHSTjInS6S0c0GAyq/dL74Z1uzfWmFZxWLeF/LFA4XyN7eMc3P+nZjabhhLObwmLmJNbWGDr9eJo3qXMzsK9f7uAscmQ34/HODUbeGvOQytL+nUowx/NjVG2bs2dr/wpK2nPy99w3I2SrKvUhRR8wQUHCiUXUwab0ENRP5tIJL18vzn2T4gQGBpMcEEGUhVJTiTtbT46a3AOucvIz8FXWv9+vOIXqXnzp1iA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=d5qs9SKZLoEq1JZ57sAK811EuzRB6kSqNGo6QB64neI=;
- b=E5mqL3KmX110OQi01NrQNxVzth4sFLQdzeDUpCsR7X7bF/5d4XZAqgzr4eMN9BOREv/E/XR27YWB10Adu2rzu9Y28AuaWIQd6WAMW4/TUyfHYwt8z5ORi1/cMaIYP7NO4XjaozCASRRqE2pR1i+5RFpyZFCiMCBK3qCzkk9dlhN6Z6BYr9M3i7lTSS9+H76lLg6oDcv+zcjBHMNE+1IFtM4FDSDI5ryhmctyAvs07Fa9GZMQamDfs4cYw9h2YXwsX1hyoDsv9nPHnetlPvWQOxcgr+nkXEI9i6SYaj/7HSB3TDz2vS18PvQf3WGplIksu5aVXDaevuwA8alk3uIW7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by MN0PR11MB6109.namprd11.prod.outlook.com (2603:10b6:208:3cf::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Thu, 24 Apr
- 2025 08:21:08 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%6]) with mapi id 15.20.8678.021; Thu, 24 Apr 2025
- 08:21:08 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org" <will@kernel.org>
-CC: "robin.murphy@arm.com" <robin.murphy@arm.com>, "joro@8bytes.org"
-	<joro@8bytes.org>, "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
-	"vdumpa@nvidia.com" <vdumpa@nvidia.com>, "jonathanh@nvidia.com"
-	<jonathanh@nvidia.com>, "shuah@kernel.org" <shuah@kernel.org>,
-	"praan@google.com" <praan@google.com>, "nathan@kernel.org"
-	<nathan@kernel.org>, "peterz@infradead.org" <peterz@infradead.org>, "Liu, Yi
- L" <yi.l.liu@intel.com>, "jsnitsel@redhat.com" <jsnitsel@redhat.com>,
-	"mshavit@google.com" <mshavit@google.com>, "zhangzekun11@huawei.com"
-	<zhangzekun11@huawei.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>
-Subject: RE: [PATCH v1 00/16] iommufd: Add vIOMMU infrastructure (Part-4
- vCMDQ)
-Thread-Topic: [PATCH v1 00/16] iommufd: Add vIOMMU infrastructure (Part-4
- vCMDQ)
-Thread-Index: AQHbqqxdsJmQH6O5h0yGESWTIdpR6LOyjaKw
-Date: Thu, 24 Apr 2025 08:21:08 +0000
-Message-ID: <BN9PR11MB52761DAB62D3A4D3F6B53F698C852@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <cover.1744353300.git.nicolinc@nvidia.com>
-In-Reply-To: <cover.1744353300.git.nicolinc@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|MN0PR11MB6109:EE_
-x-ms-office365-filtering-correlation-id: 46965d15-ec5b-4b93-db57-08dd8308f6e8
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?Xzo0f6+yVEdOBfVkxZTtaadyMoml74/QimbuvZc/Pl7u7lMSTzY6gUsjEv32?=
- =?us-ascii?Q?xdjKPttKdJXiCLmp+zgAcH2EW5vWsgYep/j9WImB/L9GGYeS0mM/FhYGm4Mh?=
- =?us-ascii?Q?xZKyMM4NFk551oNbPQLDSgbIOsCrgOrX7w/4iWatZupwUq7djJsVkmRkFPwE?=
- =?us-ascii?Q?eVswKu2FTf5kzkbSyDaX0rpLsJlnS66/VOVGxaU4PBcjfaKZU0r68LkLP3gy?=
- =?us-ascii?Q?QmaiLqaMrFL0l5u4NPWX5J8B8OHLeaseQmjq4B0DW/ZwXTxFKITls2UNltcQ?=
- =?us-ascii?Q?KO0jAdeT9733BfNq50F7viy5YlrB1CdHblRGSahs7EdWz92t5hqOIqPYOQ5e?=
- =?us-ascii?Q?o3JanUPQMm2OMAT6gb6oRlskBdgnjiZ09NIU0PtOXYfIOYDC59stU/GnrPXT?=
- =?us-ascii?Q?xWsWPtWWogiUfjzuiGUeyyLYTxnUCTAXoxesSzvE4HQXPQejZb92UMVkqw9u?=
- =?us-ascii?Q?m3nZzmtsLRI90ouDCnHSCiRQnlPGx0hzPwB0BMo/yiQ3Cvz0rWJvJYd3XVGS?=
- =?us-ascii?Q?T3WW7QWlgmVM+chu7ZladC8CnxLm3RHqzcXz8IpdCIr87VoVuP5wuwzNP/xY?=
- =?us-ascii?Q?jwPmcOUqh+hAG/HtReJ7Nf5yvxM+9klpgSutYDT6TnRFlLYj0Ilb31WyddH+?=
- =?us-ascii?Q?vIrhQ8JUKSlA4hdLkg7u3K1u4pr3aHObs7LCAWaSIzIR8SwgYj4qnhkIa9UA?=
- =?us-ascii?Q?arXqLz3DfrWy7k2HDlhgx76in8giXYQRXRj0aKW/Ti52xpnTDsjg1YQONhql?=
- =?us-ascii?Q?i8WJP1pxk8U0zr9QehjGI12xHRV7BWM9P7GluyOBQ7wDoZbarAwjrKu9VKMn?=
- =?us-ascii?Q?gqD122C88ZextUV0u3ye8r18GhOCCpfU2o4EYszgccJItyTExyTRKCDQYZV/?=
- =?us-ascii?Q?EFAeSn44d4qKSxS84tiqDDMEmwPRkO9UvtWMxuth0CPoevSXc4pvCRP9TSX1?=
- =?us-ascii?Q?rnXDMwovafSf14dEa6jVxgsRqY/ojQAZvqhkfO/6qO6MKrsBY1P5L3YT1NUV?=
- =?us-ascii?Q?NfDcSvIczF6wR/Wssk9w9xGVvJxSD0pn7LMaBxPchPsnXwSfoti5NrGWp3uq?=
- =?us-ascii?Q?kDqcMAPGQmJad2epC8SWSx9VDWmvHOJHGrF/QlOAdo3ShZcwiuFHtWpE7JSL?=
- =?us-ascii?Q?7R2vpIFOjAclZFfQhh5c9mBGZBVedbt2k8hVj3dGIn4cXUxsIeFlGGQoeeRC?=
- =?us-ascii?Q?Wgk3CXszbqwYCYHn+KaFEe//BJjcv0HevFD+Wez+w5n9uGqiWCJRJoFYnNB2?=
- =?us-ascii?Q?txJiaCOlITSO1N/NQuZ1X5BgIfTgJgyDONDKHqwTYG4RKU6WPYdwbqnZpjlc?=
- =?us-ascii?Q?PZQAaF87sRMlMQVv4LLi3WWVHP/R22wvIR9X1AC+Osls8wQq/aJbLFflSW6W?=
- =?us-ascii?Q?i+By6HHHBLLwp+fgLZ2vLOYC0c3BaUVuePbXjpBs7T3qHWLylMneLkkJFIcU?=
- =?us-ascii?Q?xF2dT0HgSUf8HyQSg09hJQa8dPe5Q5RaFKgKO0XqBWKDClR/17rYIscu0vYe?=
- =?us-ascii?Q?33Ihpp/hiTad5pE=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?kzmQmWBsEVliD3AuDe5WLX+raAJh28SYCysgW04w/3VXg206hfO6LEEb4bY+?=
- =?us-ascii?Q?K01of2svX005fmr5Kb8Our3G9QJLOo8pe8Rn1Lfxj11EuO0b3DsbIBL1e/mj?=
- =?us-ascii?Q?Zjaxna5BKr7XFgDKLOaYsy7lfTSff9qirNDDnSrUwLWiVtd70okTKXv4qT3f?=
- =?us-ascii?Q?pp2An1zJX1XblJLe3XWv49+AWSyOf8Q9q6lDKocl8s1lqCsAHrngSbZSWRRG?=
- =?us-ascii?Q?sGJ2XqIiOMTbkclPFsk5JChYRhmOYkih7BlZ9+sr7mV86McFqhvqyhh1Rsux?=
- =?us-ascii?Q?axwgH24Ckkq6dCB/hZRP56LVNVVe5oYXWhJgSNdo7918dMgMDovI/n8CzTvg?=
- =?us-ascii?Q?fvb6lLyf8l8NCtO438gixzq4+2jMQYGpOIAfaDAhTaHF1iZxBEu6hh8qF9H+?=
- =?us-ascii?Q?kvdRisuln7TB9ltTmgjQ+KmWWHGlV+TA6oPzg0+snRNu/27icORMtOIzP718?=
- =?us-ascii?Q?Dkj/sF2Vk24l+vM0IMcv2qULOJ6mmcROjohgOSjF+8zQd0ync1anfJPB2YJF?=
- =?us-ascii?Q?jQ+BFJW7wL007Yn8SUSkAdUYuV73XqBIyclEabCI6PmyFcCguodxkDqxUUKK?=
- =?us-ascii?Q?IS7z0PTJTsALM9GHaIWG2IYajb8XpFLWRxGURjt6EowQnAaQHRQd771Nozo7?=
- =?us-ascii?Q?hHZXWmTTa2g5/H3+CVWT0Zd7XpaGl4thKoxcBiQPPpiDuO3+Tt4c/9aF/d4U?=
- =?us-ascii?Q?vixbdIMc8hR74UfMLQXUHrhC9nG/Sb7ijBKMfyxmGQ89Li6sev+qih57+vRe?=
- =?us-ascii?Q?9IFxM1ferYsOIJhoYyvdEpmhQ+bvRGuoFwQ+ixZseVgXFxwt5S9jeZJNPQ/z?=
- =?us-ascii?Q?WQltcp1H8D4ey47sZHRbC9ERndQc9wmN3UGQW1xbTZsNTkRWvOImon+73ZJh?=
- =?us-ascii?Q?G2EZr68uMdlZUgUvpXiE3E8ArAf+0Vhgih0zm9DlQzc42kCOS4Q8wJp/HTc5?=
- =?us-ascii?Q?8kEWJCLBYaHmf6OUVYIucaP21Z+7mppTS5lquVi+vx9Mt7eRde0fQ9piKBJq?=
- =?us-ascii?Q?rZJiilGkIj9IBa+iJyrpigaRiWEiqPa3s6ZmlMyiHf0s4G3YNU00TZg3CZA5?=
- =?us-ascii?Q?CyH+EfZjflxTIfPDWKbpR/EDyYmyG4KDzc9sYj38FZ3GVkyt016cUSnjCBja?=
- =?us-ascii?Q?A/gjfsmpoqhd2cerdMnmLuYutZFmwwcr2ph0nTAnzkguJ5EwSvypYKU4sRSZ?=
- =?us-ascii?Q?WrhMef3LaUBBe/F+6YVvspDEksdYfKtEJwslrrN1wZ370feHVkGRucxw11mn?=
- =?us-ascii?Q?HEHhnwYBaz0i5CBv/yD+IaI0OEWlyCUkGRxn1tljARutJOE4xyGIaBaiM4a7?=
- =?us-ascii?Q?60zMRoxgKBt9dCe6Lr+nn5F+Nq7JNzn1C7L8VqWfvFJnV8O03Co94aE8xoda?=
- =?us-ascii?Q?6geE+Z72ZS2Ny9KNmMP+jzpH3hzs+6r/2YSrXryEe0ts/I6WNSBdCq+WMH1C?=
- =?us-ascii?Q?lLqZhEUgnYIVPtaPnJiICX2Qp5FtDgbtYjRMLXI9uU8PQ5iWdSOvxV5/2P3t?=
- =?us-ascii?Q?WyDtIb5R+FGDI6aXnATMnWLFCfymqe7Rmu2aZGQqB4LNu+QLxgz3eUEHUv9H?=
- =?us-ascii?Q?Mcs2qOVvq0mgLPHPbCR7a7qwwXYh1cmuWjBONxeX?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LKXKfP0r"
+Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-736cd27d51fso665206b3a.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 01:33:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745483611; x=1746088411; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7VEVoe4uPheIEiVrtKTo6u/lqrEMNwyEPBA44TaHZQ=;
+        b=LKXKfP0roVrRBQbF6wa0gMJxO1EukCHSW3WnFP4hS2Rfb1pK8O8IOucglFAbzD8Hep
+         jFsCl8I6O3rzNfidX2/C/LGGe3njkGr8lClSz2Mjcsf3KrsJpPrJV/b7uO45r7RUZcUJ
+         /6V7m8JgLXuMv/ZJQbMDsjTCCOVhgIT4cPdhTmtTA9qDqKJUkATOxy8rpFK9fbArRd9R
+         JlvEoqUKy893VKA/NC0xBgGmV9EbjV2nmGnEK2krVw/xC/ySa9dTxi88hCGYSFig40cz
+         wJblOSSv5a+2DQCYRqw48U1BZg+yEd68EAAiZZ3/oSYB94z8BHE9uLFAkwdI3dAGQOU+
+         O/6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745483611; x=1746088411;
+        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
+         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=l7VEVoe4uPheIEiVrtKTo6u/lqrEMNwyEPBA44TaHZQ=;
+        b=I+9dnbaXDTani9fIIeuwEc0s1aBMn5SwVd9rQR3AC61utHxHQi2Ql4IHeCSKoBfFHU
+         fZLkRn9Nwy3o82aH/n6tEe2cq4Zb8vgugHxRzs8e9uwpLfq74dNfSvOv6e7JLy0DNezB
+         bRpw827Ow/csMOkcLrYdGIT5h0/xN1r+wPM60r1klx5frZEwDPT96uEYGADAZ8ZMDptK
+         moNuqizpoW302y3INHb5VXCs9qTpue5JUfZlvymJUjDM5u9stdj6jd13c3ghuqncjO/G
+         Nm789v9tGESALLJSe5ImsvJwZTyGgShlkoSifxJNHUtsImt9PqA+4PTdoLgZncxv3H6f
+         JziA==
+X-Forwarded-Encrypted: i=1; AJvYcCVtNTzwrhWyXY4d5Ut7W4vG+jpC9ry32g07ovkQUAaMZFFXjm1KQ8uexqL8b1BEJaOGGtcVfGl/PrM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCYj0kNxpHxAAy7sgyXHxqUc25GVz7frUnQKFqgHjh1IVALt+M
+	R9UYpaPCcGsU5X9sr6zk9uZh8nWrc4UaDK617VwIZ1gP1vtJk6Vv8vDPGctK2rRp5e01x9brp20
+	kh9qjBIHYgGF9JhhBwQ==
+X-Google-Smtp-Source: AGHT+IGq6BVgM0IDW8HPijQuQX/f2OnqSI5HlIuEOLmb+TLuZj1I3Q9W3Aia7/3MIxDmrcexsVPCuLlX+IzwZqzj
+X-Received: from pjuw16.prod.google.com ([2002:a17:90a:d610:b0:2ff:6e58:8a03])
+ (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a17:90b:584c:b0:305:5f28:2d5c with SMTP id 98e67ed59e1d1-309ed27d7b1mr3055392a91.15.1745483611167;
+ Thu, 24 Apr 2025 01:33:31 -0700 (PDT)
+Date: Thu, 24 Apr 2025 01:32:58 -0700
+In-Reply-To: <aAeaJ2iqkrv_ffhT@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 46965d15-ec5b-4b93-db57-08dd8308f6e8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Apr 2025 08:21:08.1614
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: vZshWecIdnDY7RTjXZZmZbuTtylAm3ENX3VJ8pULB9xFiYR52tApS0gytI7CVnleXlcqR2RC3T2UeTl9XDqJNA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR11MB6109
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+References: <aAeaJ2iqkrv_ffhT@kernel.org>
+X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
+Message-ID: <20250424083258.2228122-1-changyuanl@google.com>
+Subject: Re: [PATCH v6 12/14] memblock: add KHO support for reserve_mem
+From: Changyuan Lyu <changyuanl@google.com>
+To: rppt@kernel.org, akpm@linux-foundation.org
+Cc: anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com, 
+	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com, 
+	changyuanl@google.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com, 
+	graf@amazon.com, hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org, 
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
+	luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com, 
+	pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org, 
+	ptyadav@amazon.de, robh@kernel.org, rostedt@goodmis.org, saravanak@google.com, 
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	will@kernel.org, x86@kernel.org
+Content-Type: text/plain; charset="UTF-8"
 
-> From: Nicolin Chen <nicolinc@nvidia.com>
-> Sent: Friday, April 11, 2025 2:38 PM
->=20
-[...]
-> This is a big
-> improvement since there is no VM Exit during an invalidation, compared to
-> the traditional invalidation pathway by trapping a guest-own invalidation
-> queue and forwarding those commands/requests to the host kernel that will
-> eventually fill a HW-owned queue to execute those commands.
->=20
+On Tue, Apr 22, 2025 at 16:31:19 +0300, Mike Rapoport <rppt@kernel.org> wrote:
+> On Thu, Apr 10, 2025 at 10:37:43PM -0700, Changyuan Lyu wrote:
+> > [...]
+> > +static struct notifier_block reserve_mem_kho_nb = {
+> > +	.notifier_call = reserve_mem_kho_notifier,
+> > +};
+> > +
+> > +static void __init prepare_kho_fdt(void)
+> > +{
+> > +	int err = 0, i;
+> > +	void *fdt;
+> > +
+> > +	if (!reserved_mem_count)
+> > +		return;
+>
+> It's better to have this check in reserve_mem_init() before registering kho
+> notifier.
 
-any data to show how big the improvements could be in major
-IOMMU usages (kernel dma, user dma and sva)?
+Sounds good!
+
+> > +
+> > +	kho_fdt = alloc_page(GFP_KERNEL);
+> > +	if (!kho_fdt) {
+> > +		kho_fdt = ERR_PTR(-ENOMEM);
+>
+> Do we really care about having errno in kho_fdt? I think NULL would work
+> just fine.
+
+I was originally using ERR_PTR(-ENOMEM) and NULL to differentiate the following
+2 cases:
+
+1. prepare_kho_fdt() failed,
+2. reserved_mem_count == 0, so no memblock FDT was created.
+
+Based on the suggestion above, since now we only register the notifier when
+reserved_mem_count == 0, case 2 shall never happen. So NULL is enough.
+
+> > +		return;
+>
+> And actually, it makes sense to me to return -ENOMEM here and let
+> reserve_mem_init() bail out before registering notifier if fdt preparation
+> failed.
+>
+> That will save the checks in reserve_mem_kho_finalize() because it would be
+> called only if we have reserve_mem areas and fdt is ready.
+>
+
+Sounds good!
+
+> > +	}
+> > +
+> > +	fdt = page_to_virt(kho_fdt);
+> > +
+> > +	err |= fdt_create(fdt, PAGE_SIZE);
+> > +	err |= fdt_finish_reservemap(fdt);
+> > +
+> > +	err |= fdt_begin_node(fdt, "");
+> > +	err |= fdt_property_string(fdt, "compatible", MEMBLOCK_KHO_NODE_COMPATIBLE);
+> > +	for (i = 0; i < reserved_mem_count; i++) {
+> > +		struct reserve_mem_table *map = &reserved_mem_table[i];
+> > +
+> > +		err |= fdt_begin_node(fdt, map->name);
+> > +		err |= fdt_property_string(fdt, "compatible", RESERVE_MEM_KHO_NODE_COMPATIBLE);
+> > +		err |= fdt_property(fdt, "start", &map->start, sizeof(map->start));
+> > +		err |= fdt_property(fdt, "size", &map->size, sizeof(map->size));
+> > +		err |= fdt_end_node(fdt);
+> > +	}
+> > +	err |= fdt_end_node(fdt);
+> > +
+> > +	err |= fdt_finish(fdt);
+> > +
+> > +	if (err) {
+> > +		pr_err("failed to prepare memblock FDT for KHO: %d\n", err);
+> > +		put_page(kho_fdt);
+> > +		kho_fdt = ERR_PTR(-EINVAL);
+> > +	}
+> > +}
+> > +
+> > +static int __init reserve_mem_init(void)
+> > +{
+> > +	if (!kho_is_enabled())
+> > +		return 0;
+> > +
+> > +	prepare_kho_fdt();
+> > +
+> > +	return register_kho_notifier(&reserve_mem_kho_nb);
+> > +}
+> > +late_initcall(reserve_mem_init);
+> > +
+> > +static void *kho_fdt_in __initdata;
+> > +
+> > +static void *__init reserve_mem_kho_retrieve_fdt(void)
+> > +{
+> > +	phys_addr_t fdt_phys;
+> > +	struct folio *fdt_folio;
+> > +	void *fdt;
+> > +	int err;
+> > +
+> > +	err = kho_retrieve_subtree(MEMBLOCK_KHO_FDT, &fdt_phys);
+> > +	if (err) {
+> > +		if (err != -ENOENT)
+> > +			pr_warn("failed to retrieve FDT '%s' from KHO: %d\n",
+> > +				MEMBLOCK_KHO_FDT, err);
+> > +		return ERR_PTR(err);
+>
+> Wouldn't just 'return NULL' work here?
+
+If we have multiple `reserve_mem` in the kernel command line,
+reserve_mem_kho_revive() will also be called multiple times. However
+reserve_mem_kho_retrieve_fdt() should only be called once.
+
+Here I am returning the ERR_PTR(err) such that if the first
+reserve_mem_kho_retrieve_fdt() failed, subsequent reserve_mem_kho_revive()
+can tell that reserve_mem_kho_retrieve_fdt() has failed so no need to try it
+again. If we return NULL here, subsequent reserve_mem_kho_revive() would find
+kho_fdt_in == NULL, and it could not tell whether it was due to previously
+failed reserve_mem_kho_retrieve_fdt(), or it is the first
+reserve_mem_kho_revive().
+
+> > +	}
+> > +
+> > +	fdt_folio = kho_restore_folio(fdt_phys);
+> > +	if (!fdt_folio) {
+> > +		pr_warn("failed to restore memblock KHO FDT (0x%llx)\n", fdt_phys);
+> > +		return ERR_PTR(-EFAULT);
+> > +	}
+> > +
+> > +	fdt = page_to_virt(folio_page(fdt_folio, 0));
+>
+> 	fdt = folio_address(folio);
+
+Fixed.
+
+> > +
+> > +	err = fdt_node_check_compatible(fdt, 0, MEMBLOCK_KHO_NODE_COMPATIBLE);
+> > +	if (err) {
+> > +		pr_warn("FDT '%s' is incompatible with '%s': %d\n",
+> > +			MEMBLOCK_KHO_FDT, MEMBLOCK_KHO_NODE_COMPATIBLE, err);
+> > +		return ERR_PTR(-EINVAL);
+> > +	}
+> > +
+> > +	return fdt;
+> > +}
+> > +
+> > +static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
+> > +					  phys_addr_t align)
+> > +{
+> > +	int err, len_start, len_size, offset;
+> > +	const phys_addr_t *p_start, *p_size;
+> > +	const void *fdt;
+> > +
+> > +	if (!kho_fdt_in)
+> > +		kho_fdt_in = reserve_mem_kho_retrieve_fdt();
+>
+> I'd invert this and move to reserve_mem_kho_retrieve_fdt(), so there it
+> would be
+>
+> 	if (kho_fdt_in)
+> 		return kho_fdt_in;
+>
+> 	/* actually retrieve the fdt */
+> 	kho_fdt_in = fdt;
+>
+> 	return fdt;
+>
+> and here
+>
+> 	fdt = reserve_mem_kho_retrieve_fdt();
+> 	if (!fdt)
+> 		return false;
+
+Ah Ok, this is more elegant!
+
+> > +
+> > +	if (IS_ERR(kho_fdt_in))
+> > +		return false;
+> > +
+> > +	fdt = kho_fdt_in;
+> > +
+> >[...]
+> > --
+> > 2.49.0.604.gff1f9ca942-goog
+> >
+>
+> --
+> Sincerely yours,
+> Mike.
+
+Best,
+Changyuan
+
+---- 8< ----
+From 7ad4379062aa9709d3702bfc53d237d0c1a4e326 Mon Sep 17 00:00:00 2001
+From: Changyuan Lyu <changyuanl@google.com>
+Date: Thu, 24 Apr 2025 01:10:24 -0700
+Subject: [PATCH] fixup! memblock: add KHO support for reserve_mem
+
+This patch includes the suggested changes from
+https://lore.kernel.org/lkml/aAeaJ2iqkrv_ffhT@kernel.org/ and can be
+squashed with "memblock: add KHO support for reserve_mem".
+
+Fixes: 2e257a656639 ("memblock: add KHO support for reserve_mem")
+Suggested-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
+Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+---
+ mm/memblock.c | 69 +++++++++++++++++++++++++--------------------------
+ 1 file changed, 34 insertions(+), 35 deletions(-)
+
+diff --git a/mm/memblock.c b/mm/memblock.c
+index 3571a859f2fe1..d38a72f07ea0c 100644
+--- a/mm/memblock.c
++++ b/mm/memblock.c
+@@ -2490,15 +2490,6 @@ static int reserve_mem_kho_finalize(struct kho_serialization *ser)
+ {
+ 	int err = 0, i;
+
+-	if (!reserved_mem_count)
+-		return NOTIFY_DONE;
+-
+-	if (IS_ERR(kho_fdt)) {
+-		err = PTR_ERR(kho_fdt);
+-		pr_err("memblock FDT was not prepared successfully: %d\n", err);
+-		return notifier_from_errno(err);
+-	}
+-
+ 	for (i = 0; i < reserved_mem_count; i++) {
+ 		struct reserve_mem_table *map = &reserved_mem_table[i];
+
+@@ -2528,19 +2519,14 @@ static struct notifier_block reserve_mem_kho_nb = {
+ 	.notifier_call = reserve_mem_kho_notifier,
+ };
+
+-static void __init prepare_kho_fdt(void)
++static int __init prepare_kho_fdt(void)
+ {
+ 	int err = 0, i;
+ 	void *fdt;
+
+-	if (!reserved_mem_count)
+-		return;
+-
+ 	kho_fdt = alloc_page(GFP_KERNEL);
+-	if (!kho_fdt) {
+-		kho_fdt = ERR_PTR(-ENOMEM);
+-		return;
+-	}
++	if (!kho_fdt)
++		return -ENOMEM;
+
+ 	fdt = page_to_virt(kho_fdt);
+
+@@ -2565,18 +2551,30 @@ static void __init prepare_kho_fdt(void)
+ 	if (err) {
+ 		pr_err("failed to prepare memblock FDT for KHO: %d\n", err);
+ 		put_page(kho_fdt);
+-		kho_fdt = ERR_PTR(-EINVAL);
++		kho_fdt = NULL;
+ 	}
++
++	return err;
+ }
+
+ static int __init reserve_mem_init(void)
+ {
+-	if (!kho_is_enabled())
++	int err;
++
++	if (!kho_is_enabled() || !reserved_mem_count)
+ 		return 0;
+
+-	prepare_kho_fdt();
++	err = prepare_kho_fdt();
++	if (err)
++		return err;
++
++	err = register_kho_notifier(&reserve_mem_kho_nb);
++	if (err) {
++		put_page(kho_fdt);
++		kho_fdt = NULL;
++	}
+
+-	return register_kho_notifier(&reserve_mem_kho_nb);
++	return err;
+ }
+ late_initcall(reserve_mem_init);
+
+@@ -2586,33 +2584,38 @@ static void *__init reserve_mem_kho_retrieve_fdt(void)
+ {
+ 	phys_addr_t fdt_phys;
+ 	struct folio *fdt_folio;
+-	void *fdt;
+ 	int err;
+
++	if (kho_fdt_in)
++		return kho_fdt_in;
++
+ 	err = kho_retrieve_subtree(MEMBLOCK_KHO_FDT, &fdt_phys);
+ 	if (err) {
+ 		if (err != -ENOENT)
+ 			pr_warn("failed to retrieve FDT '%s' from KHO: %d\n",
+ 				MEMBLOCK_KHO_FDT, err);
+-		return ERR_PTR(err);
++		goto out;
+ 	}
+
+ 	fdt_folio = kho_restore_folio(fdt_phys);
+ 	if (!fdt_folio) {
+ 		pr_warn("failed to restore memblock KHO FDT (0x%llx)\n", fdt_phys);
+-		return ERR_PTR(-EFAULT);
++		err = -EFAULT;
++		goto out;
+ 	}
+
+-	fdt = page_to_virt(folio_page(fdt_folio, 0));
++	kho_fdt_in = folio_address(fdt_folio);
+
+-	err = fdt_node_check_compatible(fdt, 0, MEMBLOCK_KHO_NODE_COMPATIBLE);
++	err = fdt_node_check_compatible(kho_fdt_in, 0, MEMBLOCK_KHO_NODE_COMPATIBLE);
+ 	if (err) {
+ 		pr_warn("FDT '%s' is incompatible with '%s': %d\n",
+ 			MEMBLOCK_KHO_FDT, MEMBLOCK_KHO_NODE_COMPATIBLE, err);
+-		return ERR_PTR(-EINVAL);
++		err = -EFAULT;
+ 	}
+-
+-	return fdt;
++out:
++	if (err)
++		kho_fdt_in = ERR_PTR(err);
++	return kho_fdt_in;
+ }
+
+ static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
+@@ -2622,14 +2625,10 @@ static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
+ 	const phys_addr_t *p_start, *p_size;
+ 	const void *fdt;
+
+-	if (!kho_fdt_in)
+-		kho_fdt_in = reserve_mem_kho_retrieve_fdt();
+-
+-	if (IS_ERR(kho_fdt_in))
++	fdt = reserve_mem_kho_retrieve_fdt();
++	if (IS_ERR(fdt))
+ 		return false;
+
+-	fdt = kho_fdt_in;
+-
+ 	offset = fdt_subnode_offset(fdt, 0, name);
+ 	if (offset < 0) {
+ 		pr_warn("FDT '%s' has no child '%s': %d\n",
+--
+2.49.0.805.g082f7c87e0-goog
