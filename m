@@ -1,241 +1,200 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2088.outbound.protection.outlook.com [40.107.243.88])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE79C15C15F
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 13:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745501820; cv=none; b=C/IW5NqfOZPzWzwqbsTNia2A9BQjWRJvQ9Srca1qIJ3dhISSypyDmrv38/nSoZvgPsySgvGE6r836g4cOZ1QCg4C6NG67IvzfyrbFQ2SSUuNWz8CbADH62sLLX2WZYdFyCsOgAuBGM26VaPMT3log66UTzu2ScPUyFmjp63bGFk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745501820; c=relaxed/simple;
-	bh=mJgp6Mchv4iv2by+fPTrmWpvDmstqIj/vVuuTYwKWrc=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=SdOUKYmVsJAbV67s0IU6C5iKVuHQkkfelqBvx7hqsFYg3eHduGUstmynugHhlPEPrzvb5krrWUXT3xYM09yr4dDN4Vqw0+Epzb+cYFSdnxGQGWoN1VGXy6b04TUBVFbaJpRyCo7CyV23OT9GOhNVWOnTO6LXB+rblmP7hL9nzOo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=STPhnhl3; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C0EAF19E967;
+	Thu, 24 Apr 2025 13:40:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.88
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745502058; cv=fail; b=PJi5TeTpTtrYycyZoBkzQtvFRJOWMJD9fhYDiZ+o1oW/qDVQzWS6sQCUEYOTegwdVWH8AdZThZ6Ndk4uxPfQ5gpzEelOagQ0nCbciyfPGRoYwQGOj65QyE9yj0+Jh0nv4N+UcboXo4hTvQrfwU+aPCch4U19sJ2UhNlnHIDn/2U=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745502058; c=relaxed/simple;
+	bh=m1wxva/gfGi536UoO+NxDwhYy3cGqUknJ515j/4oYTA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=s9prcn8LHBTIq/pn5B8+heXCpWNmRaZsvDSm5H+vaAlY8aCw6foSciQ7+OoH8xC+VQHm4JjWSwW3jWTPrG9jk4eISLFhyzlMmp2mekHaHfmYlV4Em2j6pWe8KNQczbG2bZ3r6wV/NOwnm+SdNjkTO9I/DRMSRaTOXl/NJas2AeY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=KVNeOeiQ; arc=fail smtp.client-ip=40.107.243.88
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="STPhnhl3"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3912387cf48so38085f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 06:36:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1745501816; x=1746106616; darn=vger.kernel.org;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=u72nfMy9zYS5aW9xBcDq6LESieHcry02Dg/8XEt7OSw=;
-        b=STPhnhl3MTSastFv/OTSfSJnvslCvjVFt8jQhYjLvJcAvNTMw2P95yoTCq7JNMH3oB
-         ZiHZePSZTKb8HQPOF2FZj7lJcheeYAM9TZI4ywWPoJDKd+qnWzhYDa3b6brXchZ2gz1A
-         iOds1IBKHaBEtEMgAZHyp7VnSGreB1libYVDSk0VW24DaFN57lhhD4mNPToS/FGOySVe
-         OBCN8JXd+nYE3DmFRwi/qQAIjBWxS9rSeLtljz+7N0EWc5IgDelmDHVKWrdW+BDfo+fC
-         NEF2idC69hqasCOrs8POBpnilmFdiY2QJvnVbXouIESH4LHz2D50/QSNyQ8cimsa/YYW
-         tMmA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745501816; x=1746106616;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=u72nfMy9zYS5aW9xBcDq6LESieHcry02Dg/8XEt7OSw=;
-        b=oSYPmLOqifQuNA0cuR+KZSn8o1RYb04nVWHIMPAFUNE4NvSR+HkENnHZGHFaaemlGV
-         w71K9loWDTInJxV95U7TQM+OvLx1EBa+uVmT5BbCJl4/e9Z8wvouhAQYqSvC9vkFYO+U
-         B6zIPFVFds1MmJYffCzBjbKxQpbzukTcNGmt8IFlsjfLAhKaAzyCjSw9cEZYMyUgDs1Q
-         L17gCbuNHg0+QnpodONdcgHl6MoX1Z8E2P2cQwpkx6YVhnotMHiTB+4bfiR/n+Z9gKbN
-         +zTl1Gjrx5XMqaUCmRpP8eaZDTewtkgZJMK5hlLRr8cw5E9yBKebx339n9Mh8+OxNFQD
-         /QhQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVwXDrJ7BUDtg1fs7cqN46R3S0nT4AqDJzBB9pKdexL7kwGNZHiKsM0BeDgbLlbSNLSKMP6Ll94e6A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMVwO25PjQAJlYL8ImIrYEOD5UR08ZceuIdH7tPCt2sVy5jK9T
-	XTD6K2KgyveF9BfNaGIUGqwY3RIU20GdysB2lYYVNZ3QpR44TtzySKs3r/SfAHc=
-X-Gm-Gg: ASbGncsz8Xsa1tEOuUru0jQH4p550b0BON5qaqeOupVxHsn3jAIKrTcTCnrqM8Lbc54
-	D5V+4HSLOaBVYaWPoU/vyBnfWDv5Ee68MR2b32kBgScN9NbV222GhgVY777hgbpgbTzQRKCv2hi
-	J+akW75U12OoR2LPctQodyCq95w2srmdoaVTGO9Phl/XigvoGQp/0xFGqdou1dVfHIl2bnzLs3S
-	YXjcThEmkjJ285tf9F5XQonohZ5dzJrRryl69SA0/Jq21Y0sUmHAQdQDj14U26WKB0FTrO4BpnV
-	VYnyURWzagK0711IvCzBeMMY4EZ5MZxVPi+mdbkCy64XmzDI
-X-Google-Smtp-Source: AGHT+IEvTiSK1Lb+RPBdQ/DuDmeOaJEszTrN5CFCiZtbJdEyNkpwKicv/xW9sGpiPTRfU1AmU+RxSg==
-X-Received: by 2002:a05:6000:2483:b0:3a0:65ab:89d5 with SMTP id ffacd0b85a97d-3a06cfaf02fmr812129f8f.15.1745501815962;
-        Thu, 24 Apr 2025 06:36:55 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d4c30d7sm2135597f8f.44.2025.04.24.06.36.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 06:36:55 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="KVNeOeiQ"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bJ3/dP55o0bneCIOJvuh7X9OeuVYxfLv1RDothYmtksRnJt4OmD9TslDh7HwLDUTxx9NMn4BHnJJuNc60paXj7//rJGhxidifvlsRIOWmUcmBKhrBHi7C2mAUxS3708yI7Vp22/CDlZ1TNJgvblILQsg39ynGqXjVFRqCApUBjBHOuleYc44vP4OcNli17vM2nvVbh/XtfioysZrVINWyJ0P8rZGrBYZB6QvEf9J3BOTVRmRYjzwhUIdbrGAUlTQrJ3pamxYPYwXAaga+YMT0i8mLtu85nEVtexFwzd3cjVbu3yha5z0+loZO10HIFpNhEJTItI5dzh38Tpv3ALCUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/+gQGH+XDK8FvmDQoOQshiJA34I+izjI3i95dApyE6E=;
+ b=JEL7x7qEWtMU9gbkhQ1POx3xSbb9mMaRV4p7VArvktGHNIA8aJOwhsSy1yAA0Ycv55gUTgpYpy2jp64qUqk6sljPVJI0TY99FqlmNOXJslaHQ2er2xjrZ/RKzrsDVrqT3cgYYZz1N1mbRVFYYuMPyoVTFLui5/0JGN/b4n7HJEzT76tBZvkfrDJOV0YthqFgiVWErovP4vGyJo6cKm2Bj6GtA9afEKmFmwwtEea13he80sdSt/eQAidQktzkplkOtXFaNKaQiGfbOYit133ogp0BfB9QWg7MAQHsDe2Tk5JAwYkr8SYlrtnKavQz2n/38e8SM3RaR3FvhDmyOf9qWw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/+gQGH+XDK8FvmDQoOQshiJA34I+izjI3i95dApyE6E=;
+ b=KVNeOeiQqcod1JH4bskA287DFx64znoP9SQWKkWwYk6z7T/ehXsIjEE22pD2e2tkNIVYhgCIyIAWLt5mjeKnV0QyoVJcadZV9pKedooULJsMEx3l6dUayFWERwaFa0oaCM6lI+TxU49DFb6IMOna2JR6RN9XWJ5vOqSHbF0kWSY3Dc0c/jEmdkOy6VX4bIFlOTZi41Fzd85g8utI55CU5FuSmAhQu4yrLD+f3oWtIzKyLnRx6/GZMs09kHHExn+GQS5Lcz2EytzTGFczdE0Xm+fqrsPS/lX+y5dfXL2eRMYROkLmms4pYOKiqZcIkXXDIn0goIf90CH+Zc+OdiPCqA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by MW4PR12MB6826.namprd12.prod.outlook.com (2603:10b6:303:20c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.26; Thu, 24 Apr
+ 2025 13:40:51 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%4]) with mapi id 15.20.8632.030; Thu, 24 Apr 2025
+ 13:40:50 +0000
+Date: Thu, 24 Apr 2025 10:40:49 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: "Tian, Kevin" <kevin.tian@intel.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>,
+	"robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"joro@8bytes.org" <joro@8bytes.org>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+	"vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+	"shuah@kernel.org" <shuah@kernel.org>,
+	"praan@google.com" <praan@google.com>,
+	"nathan@kernel.org" <nathan@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>,
+	"Liu, Yi L" <yi.l.liu@intel.com>,
+	"jsnitsel@redhat.com" <jsnitsel@redhat.com>,
+	"mshavit@google.com" <mshavit@google.com>,
+	"zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org" <linux-arm-kernel@lists.infradead.org>,
+	"linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+	"linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+	"patches@lists.linux.dev" <patches@lists.linux.dev>
+Subject: Re: [PATCH v1 15/16] iommu/tegra241-cmdqv: Add user-space use support
+Message-ID: <20250424134049.GP1648741@nvidia.com>
+References: <cover.1744353300.git.nicolinc@nvidia.com>
+ <30c7aff68c35040ee637629cb9fc2b6e7f83f76c.1744353300.git.nicolinc@nvidia.com>
+ <BN9PR11MB52768197516FB895146A12078CB82@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <aAaY+f2/jw9NaIWF@Asurada-Nvidia>
+ <BN9PR11MB5276220C7B2C5743DC8364CB8CBA2@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <20250423115551.GC1648741@nvidia.com>
+ <aAkyAbO5UQRySizN@Asurada-Nvidia>
+ <20250423231333.GN1648741@nvidia.com>
+ <aAnfiUk1TTlkpkRE@Asurada-Nvidia>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aAnfiUk1TTlkpkRE@Asurada-Nvidia>
+X-ClientProxiedBy: BL1PR13CA0290.namprd13.prod.outlook.com
+ (2603:10b6:208:2bc::25) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Apr 2025 15:36:54 +0200
-Message-Id: <D9EWR3RQK0FD.3GF55KNS53YSR@ventanamicro.com>
-Subject: Re: [PATCH v12 12/28] riscv: Implements arch agnostic shadow stack
- prctls
-Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
- <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
- <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
- Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
- <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
- "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
- Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
- <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
- <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
- <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
- <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "linux-riscv"
- <linux-riscv-bounces@lists.infradead.org>
-To: "Deepak Gupta" <debug@rivosinc.com>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
- <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
- <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
-In-Reply-To: <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MW4PR12MB6826:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0ac21b74-76fb-42ed-46c1-08dd8335a07d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?W44sR1P6hBhlg0+vtpIKFA3z2vrUeHL46a8A2jympX/IIpmflqQ4W7OMsPEI?=
+ =?us-ascii?Q?8tG1H8FsEe6MqIKz00D6zYq469H0neepEUzfmOm83/P/ggkmcFY1ZKU7O5l6?=
+ =?us-ascii?Q?Sy+EMhMQpAYIxHyHrCi7DilVbpPmRA1SqzMBqPxWzAWyQBmQWoNyaOSAEsQr?=
+ =?us-ascii?Q?XTWS2rLDxqnqD5DZmIAh+tRfQVJYpRXfiunrIGwpBoFK6A39uKIua0pyy6zJ?=
+ =?us-ascii?Q?kJx/51oZMAx89ZTV1B3cRlff+W4msjDmCu+ey3IV/Ret/y874q5IrkmjQdP+?=
+ =?us-ascii?Q?J5jnt/KFspRV64jG9d1GOSwt4EUstXtql+h0XobfXbd3kGczQ/RrfTmKGIx0?=
+ =?us-ascii?Q?NJ01ddx9b0ixKDueh61z7i0U36e84Z3hIYjhvY5qBzXkjn8ZtQHSR9MZp+IS?=
+ =?us-ascii?Q?cW6hoGjcZOdOXy7kIpuwU0hLd2QAJ78iaIHcJ2NaCjm6WLR9uPjwS/O5MIvJ?=
+ =?us-ascii?Q?Aw1UayHgok6HUZQnlmLzE7SOSCLoGY3H421OpefLsfBiF6bKjSk0cbO8T5ew?=
+ =?us-ascii?Q?JP6+T62bl+0Vn7Flt3ehO8aBnc7oRgtoGXvtwGUE8sx5f/hmUiZfDZpN/P9C?=
+ =?us-ascii?Q?Av8tDu1mpK68BoN9vt0XaUjfbjjm4QFeZ6f1ycSciYCLe+zLVpCOYYYFu9mT?=
+ =?us-ascii?Q?Ut32ydKCccVt3fCAq7bmL3qYfEuwcp2HbFUT9+82OKzPCEB7HCBJ4yfW9Gud?=
+ =?us-ascii?Q?s86/vqcXj8b8BEAI7oxPxGj01xoY/sQ90Jv++u9HYQWKAcHYZp0aWEWRNhLG?=
+ =?us-ascii?Q?4CdLniMcEMtnd/wlV/eKRhTfMdo70AgXuKSAJJDj5PhFuq2EgVO337JtwkfF?=
+ =?us-ascii?Q?oCHa7eRzaBVcakZcqRtTwUHxh1P0XJvLxgsejnDWX5xDmOi+sc7rybN6P8rt?=
+ =?us-ascii?Q?oEvi0+RR0GFXfetB7xqIj3/5RL+0wOrxNRvMxSwYyyWYLTIIjaGfWDKegdhD?=
+ =?us-ascii?Q?iOV5EtPfs8LdMEuf0o3UGy2AVCJLHy6Z27Q0Vxzyp/VvJB1a3XIY6owA34oz?=
+ =?us-ascii?Q?2YgcTwczHrpIwqv3pEwpQIvWuWGllg7kTB3lTXZEnzUgY5WCx8+11Fy/HPcP?=
+ =?us-ascii?Q?p4fWqxd539WKq7KerOVcLK9mt45xUEwKwu4eOeRuLOkV44n6tu+ZBewNtI9s?=
+ =?us-ascii?Q?8zttqxULIerST7urN8F0e5yBM4AaTBArDZ3uF8N21CnGrEJgo4u7WvmvVi4f?=
+ =?us-ascii?Q?y1CVJ9RCydL4iXub7zpXIXjgcWRSKX9Cszwqka4g3zZhfINfARX9Tt6cLlP9?=
+ =?us-ascii?Q?4d6s8jLC3ORKnGYzG1p+IKBI/pC10wdzormRuv67QL7cm0on9TRoP96/WIVI?=
+ =?us-ascii?Q?1Mg5kL78HhdUyhI2jdjscFQNr3N9bm+wjYCwt3ZSw4/aihvznx2LC/fipXcs?=
+ =?us-ascii?Q?xcyGKnaSrb2e42SqMGyOQrRZkViQs4BOKWc4KzMK1gwBl1JU7r8bdEVrvBRZ?=
+ =?us-ascii?Q?Y8F/8eaGoWs=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?a1B0T/TpbGYrdzzO2e5mgVxdeqyfxqwFZbc5lPfSkHmL/XEOtt1+SV7S51JP?=
+ =?us-ascii?Q?wxKntflLtRD40+/aeU4HtfkCbSFbLkMduWsldP4sk+J4j5vNgWo/IZbQd1xa?=
+ =?us-ascii?Q?tdMSo7NJbmZBABMAyJ9XMRUzGzYVLaf+fi+eYD2uj8Orsp6juE+764lAK7FG?=
+ =?us-ascii?Q?zry5h+4H5DqCnw+3NqBm6td9OL9XdKMwlc7DY71VNYQjdoqF8DknUYuGWJ5L?=
+ =?us-ascii?Q?/rFCsmMjYvIRGfAj2plpDaOlvNCBy9ABvQTfyp4fVZ03e0q37KUu3GOYN/sq?=
+ =?us-ascii?Q?RMJaQzuRe4CxPmmWpnYJUyFnqWr/iG60oVKV4HJeCRa7VKR6iMni7UOz8PTJ?=
+ =?us-ascii?Q?+159k4wM1fFjx6Bj695f4IQ2LhiSR09YyVAtqT6zosYLmo5gz4yrUN1HTjXV?=
+ =?us-ascii?Q?2AXwuuziJFQDaF7GxEj54bzEMbNdcR9bZlwZex2Zdqxevh87svtbFs/7xC1J?=
+ =?us-ascii?Q?S9sNoBrL7FNLjhDN2tnNkutkAW5HfWgiiwzr2fuwhQgKT2nGKgLilKywT+Zy?=
+ =?us-ascii?Q?nKfT0UrJFc5LBKUP6GANTBiQU1KYna8lhJC5q/e3h13i5yPalt/uxpG16opd?=
+ =?us-ascii?Q?Kferw8U+hYFSJoG3ami7LeZciKDAp/Txq4Nbi+YQAt7j+v9y++vHnYXnZUuz?=
+ =?us-ascii?Q?+nR4UqCL1qW89PH+Nt0UPiZwfAIbAxId1vd2GIl+NwAwPH/tyUlHSWBEYMQT?=
+ =?us-ascii?Q?+wH44rWK4pxcHvwV9Ezh1CG1uLDFvzhdLm/Hy3TFLRebMoOilJ4HFJisIbQL?=
+ =?us-ascii?Q?qjY2ZurxZxyxz1HHY9Khxnsc5LaDXWdafQLWUw+KrZIqpTm8e2SpFYMEv+Ze?=
+ =?us-ascii?Q?0R8MeWvaTNs7ZEnchn33X1Tw34ZxHgxL63q3G1e70mrMn+w7d2SeosTeEfdK?=
+ =?us-ascii?Q?I6EBgqmeYVknx1/1UGv2JG0DnKRN1eipM3BZt5eZjpm21mHxwFcyi7EBHrnU?=
+ =?us-ascii?Q?iAKQeVWhZSK5ONiUw6QcHwRNNxwh3+CFiKzgHCp05YKCJ8eDWcXQpQ1f8a+k?=
+ =?us-ascii?Q?Br/+sWCx7kQEytygJaNw/YYgCBBBv695XznKeOpa5ESN9mkD3BIA0SCSEZpD?=
+ =?us-ascii?Q?Q/3i2Tjb+hHbJobbGPCnrnyUl8mjwCjsJQx4Ntzpn4pvvQKtXBUzaBaliQTE?=
+ =?us-ascii?Q?Ukk72YUhkjcF6i8bjZrNr04FEA5CcLIoEur9bwkXmcdgf3FUshM0Xvy+u7zb?=
+ =?us-ascii?Q?wnZZMI0HGxaPLAyQaaRp/h3z8qwhODEtQkt88bIDtq/6bzT8Ltc7Nuc5kqMb?=
+ =?us-ascii?Q?cmirykkT/8bEp/plxtji3sjwZkdiABIRTqkZaoahuvvIq5dshAc8vdcZOb9M?=
+ =?us-ascii?Q?OfUTwgN7pLGEVRprKZdy3CERCo9ptPIRi97RFPMxDKcVSFcXZm0iTHy3mkwW?=
+ =?us-ascii?Q?/CDgH7N58U3/ueBX9v1Efp66WESaKRdWgh6anhbOihVtJkFo6Dc50SwklOKN?=
+ =?us-ascii?Q?0iwUBD1a2JLJDO6ecEaG+kG3BlQTo6O0OxLQtCHk/nzRwQGX4Y0aHuba0fBI?=
+ =?us-ascii?Q?4StLM3Uul5Gt33CG4eNutCUDO//l+948Uak4ds6/qvrM23z74WKYgjMfLMBa?=
+ =?us-ascii?Q?mlLKFR1JPoobDL8NR+vi0FsuFNwvqCnCSrRAmWns?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0ac21b74-76fb-42ed-46c1-08dd8335a07d
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 13:40:50.8205
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Dq+XVQzJ23j6dGgSgwD8vSMEcglvbf6usa3HVgZGu6WP/JJzp2W2Cjez/MYYVsve
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB6826
 
-2025-04-23T21:44:09-07:00, Deepak Gupta <debug@rivosinc.com>:
-> On Thu, Apr 10, 2025 at 11:45:58AM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
-te:
->>2025-03-14T14:39:31-07:00, Deepak Gupta <debug@rivosinc.com>:
->>> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/=
-usercfi.h
->>> @@ -14,7 +15,8 @@ struct kernel_clone_args;
->>>  struct cfi_status {
->>>  	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
->>> -	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 1);
->>> +	unsigned long ubcfi_locked : 1;
->>> +	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
->>
->>The rsvd field shouldn't be necessary as the container for the bitfield
->>is 'unsigned long' sized.
->>
->>Why don't we use bools here, though?
->>It might produce a better binary and we're not hurting for struct size.
->
-> If you remember one of the previous patch discussion, this goes into
-> `thread_info` Don't want to bloat it. Even if we end shoving into task_st=
-ruct,
-> don't want to bloat that either. I can just convert it into bitmask if
-> bitfields are an eyesore here.
+On Wed, Apr 23, 2025 at 11:51:53PM -0700, Nicolin Chen wrote:
+> On Wed, Apr 23, 2025 at 08:13:33PM -0300, Jason Gunthorpe wrote:
+> > On Wed, Apr 23, 2025 at 11:31:29AM -0700, Nicolin Chen wrote:
+> > 
+> > > > It also needs to act like a mdev and lock down the part of the IOAS
+> > > > that provides that memory so the pin can't be released and UAF things.
+> > > 
+> > > If I capture this correctly, the GPA->PA mapping is already done
+> > > at the IOAS level for the S2 HWPT/domain, i.e. pages are already
+> > > pinned. So we just need to a pair of for-driver APIs to validate
+> > > the contiguity and refcount pages calling iopt_area_add_access().
+> > 
+> > Yes, adding an access is the key thing, the access will give you a
+> > page list which you can validate, but it also provides a way to
+> > synchronize if a hostile userspace does an unmap.
+> 
+> The new APIs are very like iommufd_access_pin/unpin_pages(). But
+> to reduce the amount of code that we have to share with driver.o,
+> I added a smaller iopt_area_get/put_access() that gets an access
+> and increases/decreases the refcounts only.
 
-  "unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);"
+Maybe the access should be obtained by the core code to avoid the
+driver.o bloating? All the cmdq types need a memory buffer, right?
+Perhaps that should just be generalized
 
-is an eyesore that defines exactly the same as the two lines alone
+> Meanwhile, I am thinking if we could use the known S2 domain to
+> translate the GPAs to PAs for the contiguity test, which feels a
+> little cleaner to do in an IOMMU driver v.s. with a page list?
 
-  unsigned long ubcfi_en : 1;
-  unsigned long ubcfi_locked : 1;
+You still need the access, and the access already generates a page
+list..
 
-That one should be removed.
-
-If we have only 4 bits in 4/8 bytes, then bitfields do generate worse
-code than 4 bools and a 0/4 byte hole.  The struct size stays the same.
-
-I don't care much about the switch to bools, though, because this code
-is not called often.
-
->>> @@ -262,3 +292,83 @@ void shstk_release(struct task_struct *tsk)
->>> +int arch_set_shadow_stack_status(struct task_struct *t, unsigned long =
-status)
->>> +{
->>> +	/* Request is to enable shadow stack and shadow stack is not enabled =
-already */
->>> +	if (enable_shstk && !is_shstk_enabled(t)) {
->>> +		/* shadow stack was allocated and enable request again
->>> +		 * no need to support such usecase and return EINVAL.
->>> +		 */
->>> +		if (is_shstk_allocated(t))
->>> +			return -EINVAL;
->>> +
->>> +		size =3D calc_shstk_size(0);
->>> +		addr =3D allocate_shadow_stack(0, size, 0, false);
->>
->>Why don't we use the userspace-allocated stack?
->>
->>I'm completely missing the design idea here...  Userspace has absolute
->>over the shadow stack pointer CSR, so we don't need to do much in Linux:
->>
->>1. interface to set up page tables with -W- PTE and
->>2. interface to control senvcfg.SSE.
->>
->>Userspace can do the rest.
->
-> Design is like following:
->
-> When a user task wants to enable shadow stack for itself, it has to issue
-> a syscall to kernel (like this prctl). Now it can be done independently b=
-y
-> user task by first issuing `map_shadow_stack`, then asking kernel to ligh=
-t
-> up envcfg bit and eventually when return to usermode happens, it can writ=
-e
-> to CSR. It is no different from doing all of the above together in single
-> `prctl` call. They are equivalent in that nature.
->
-> Background is that x86 followed this because x86 had workloads/binaries/
-> functions with (deep)recursive functions and thus by default were forced
-> to always allocate shadow stack to be of the same size as data stack. To
-> reduce burden on userspace for determining and then allocating same size
-> (size of data stack) shadow stack, prctl would do the job of calculating
-> default shadow stack size (and reduce programming error in usermode). arm=
-64
-> followed the suite. I don't want to find out what's the compatiblity issu=
-es
-> we will see and thus just following the suite (given that both approaches
-> are equivalent). Take a look at static `calc_shstk_size(unsigned long siz=
-e)`.
->
-> Coming back to your question of why not allowing userspace to manage its
-> own shadow stack. Answer is that it can manage its own shadow stack. If i=
-t
-> does, it just have to be aware of size its allocating for shadow stack.
-
-It's just that userspace cannot prevent allocation of the default stack
-when enabling it, which is the weird part to me.
-The allocate and enable syscalls could have been nicely composable.
-
-> There is already a patch series going on to manage this using clone3.
-> https://lore.kernel.org/all/20250408-clone3-shadow-stack-v15-4-3fa245c6e3=
-be@kernel.org/
-
-A new ioctl does seem to solve most of the practical issues, thanks.
-
-> I fully expect green thread implementations in rust/go or swapcontext
-> based thread management doing this on their own.
->
-> Current design is to ensure existing apps dont have to change a lot in
-> userspace and by default kernel gives compatibility. Anyone else wanting
-> to optimize the usage of shadow stack can do so with current design.
-
-Right, changing rlimit_stack around shadow stack allocation is not the
-most elegant way, but it does work.
-
->>> +int arch_lock_shadow_stack_status(struct task_struct *task,
->>> +				  unsigned long arg)
->>> +{
->>> +	/* If shtstk not supported or not enabled on task, nothing to lock he=
-re */
->>> +	if (!cpu_supports_shadow_stack() ||
->>> +	    !is_shstk_enabled(task) || arg !=3D 0)
->>> +		return -EINVAL;
->>
->>The task might want to prevent shadow stack from being enabled?
->
-> But Why would it want to do that? Task can simply not issue the prctl. Th=
-ere
-> are glibc tunables as well using which it can be disabled.
-
-The task might do it as some last resort to prevent a buggy code from
-enabling shadow stacks that would just crash.  Or whatever complicated
-reason userspace can think of.
-
-It's more the other way around.  I wonder why we're removing this option
-when we don't really care what userspace does to itself.
-I think it's complicating the kernel without an obvious gain.
+Jason
