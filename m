@@ -1,90 +1,171 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C25E35BAF0;
-	Thu, 24 Apr 2025 16:19:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3412F28467A
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 16:41:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745511564; cv=none; b=arBc70UEnzCp8Ah7gc8Li0it3LAWMVLlL9zTEmCMQoB7fmHjXOsAY0Rp82RWnlBKhRfSsMX7A8xrSWvZnhP8sqU5C/PpRBBkCDpXjJWcNv2MsmUr4GiaqNW8YGfdnGo55a5l3KnujMSduS3W9w8O77nyaNZbl1Q50vqyfSX7hME=
+	t=1745512918; cv=none; b=TrAZ2S1SPoDflaHatf8sSEtA1vUUAlxa2PPRwzXLCZYOVtKOMqOtYOOZG/21p7NJ2rhMrb+fwdicdarHqID7INzrIkMd43SE8RWDsyszDmBJ+J+nymO8aL1ZT0pnZrIpUkQ+x0J5su7YxSTwMMJpAN8lnkcUe2X9U/214Z746RY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745511564; c=relaxed/simple;
-	bh=+Y1jvfEONZooX3pKUDxCf9/Wv4C6eUcEzi7EbFL7LTY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=S2yiXWA1+IFoT2FyztAVfANyZgGIq+tEv6uouhQaYcTbSFp+plwiWAE6Ghshmn/2ltxPtUURRlK+1HJ4qGUnLfCU312oGeQwT0H3+DsyV7PWiKyNQZbpR/XjwG9D/zrPl9AV8vZeKuTTFYs98XigI4ier24Yl5t6Vlkzm9zx2xM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=LBn4GPYh; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1745512918; c=relaxed/simple;
+	bh=vye0Q+xd1G2Olnf5Qkr8nib/GWDRlQm+UGeZYjZUyDA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SWh9f1sLEWmVYofcoUrXNhEB3do+pJOY0+3BHNDdhsZZAASxcLS5l+1NEvt3om8+LYAlvwNq1tNBaKgTREcu5Rf8fzcKH7vWf5ugqhLwkggZYvJF7J0vL2TPaYkqBEKhE2bpEPmyfIVTEgEXfGtWat/MUvhhMX5m1C5inieDe1A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=vt7T0uzd; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="LBn4GPYh"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 7C94141062
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1745511555; bh=X1RVPsXPN4ul2u8BOsbJ4LQIS55aq/P6e52DgvXJLwA=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=LBn4GPYhE9zxMOlt/nhNIQpnavWp6nkhJyBG3cBRGWCHmuqSiRWARvjF2hgMuAzHu
-	 /wK2biBJNp0tHH7Es0qNleFin5GAKuG/kO5bkq/EieucPv06tGud9ThbSjmbHi1uSD
-	 HtJW1Lm199zBh7oa+QZz4m4WsvakLw4ttrpyYY2TytsrBlLw+P5y4zdZJ9wLsVsYkq
-	 mil5aVf7Azg23+85qD6RzyyBwISda6PRIwSQ+1INau8EEpsWvXVMRjAPN4DoLsQfqw
-	 BNPfP1pD7TDnP4n5M+H07F7iXDihtojJaTzanyrAtLa24vX2oqgENqOtp3U/RIpC5b
-	 zma+akQALvQeA==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 7C94141062;
-	Thu, 24 Apr 2025 16:19:15 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>
-Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
- linux-kernel@vger.kernel.org, David Airlie <airlied@gmail.com>, Jani
- Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
- <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v4 0/4] Don't create Python bytecode when building the
- kernel
-In-Reply-To: <cover.1745453655.git.mchehab+huawei@kernel.org>
-References: <cover.1745453655.git.mchehab+huawei@kernel.org>
-Date: Thu, 24 Apr 2025 10:19:14 -0600
-Message-ID: <87v7qtzg59.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="vt7T0uzd"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af579e46b5dso876172a12.3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 09:41:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745512916; x=1746117716; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=k6m4QSCkOjvBeG8/Kperh6wZuRGbtha7PIChY6FuIlM=;
+        b=vt7T0uzd3xCze3Zzyzjt6oEBKu5b2AaMF+bEL0x1WfJmo4ncPEEJHxQG9zfcis/Kwx
+         xahjvt8L0fz/GsUWvTYMadKC40Y3zgw5Vj/Bg/B+E9IfGRpYntx5JPA6qXHyXJywlCbw
+         biLB7vMtyYOyIxwfNlsW2xGWIxIU7Mq8SCI1F/1SnDyWqTzKzLDLl3U6wnksQ8jZfj77
+         3YYI4PhAenG/mAaDMYSsi4PkpMu/k1Hi7XbYXadK3K3CXlDrvFtQjLVaFQ/APbqalqcZ
+         uGCMIyBp0jytuhdm4FN+sbkfo2YPgMosChYFZjXIJ7F2OiHQNGi0YRlu1TUMK5rxwd2g
+         fGkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745512916; x=1746117716;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=k6m4QSCkOjvBeG8/Kperh6wZuRGbtha7PIChY6FuIlM=;
+        b=w8OhY942+c2i3QA4wzYbKkm7oN32G18peYpqhq8Ily1qFur+yN2UiOLayBZF//KRbP
+         3v6Q5z5ArPSwtA5F+cKWoSGdTEO8dRmPkFp/v+EU1hSK4jBY/an2J363IgJq38lQwE6J
+         XYMA5FLqNdZgQZ32Hr8iPvPBUU/21eAGI6qychikxZTjiWRDHZsCW2WXHwS8MsIqaVZo
+         0NdwAXqA30dlnSr51wd8tQ0c4rXSXPwv4yQAR0GM0zZmASW6BSJPVFvdSiB6hCjNYsNn
+         xgCIjpQNfuKfB6XdnhRBAdHOkyURFzSY60sqzs1RHDCM0MH8yw7WBjQ5mI1jAyhiC5P4
+         FTrA==
+X-Forwarded-Encrypted: i=1; AJvYcCV451oYG0BlGA57MgCXJsDAFqmNIynOD8XsKzUie+zlaIDQTqMlM8Vc1Pcdf9ocySiCCIHZSdYV5ro=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySPdE7g8ew1Y2ESbrVbBwPekJytBAXR2IdGFs28EjVMeVWvjo9
+	k72m5YMYPS0zAHtICv00CpIi61JYHJ5gC4w/gcUVaUJKRu8OhqZw9zHV7Qtw6z8=
+X-Gm-Gg: ASbGncvRyVmV9QPPX4i2bBGJwExMEnIa67gwwMndSN2hDlfGYuhzaMAQ0DfGH21GRRi
+	6QdsPIEl31ZIHzNgkNcwQV2sk5KbPUDFWCEVd7ZqBF/KwFLJD8ajpYQSczPCZ9hHylB6avvB98+
+	sn7OcmymU1Pr3JINdVAGoea4ccuUepRxhW8jbspPUTlnhEh0sfNxqParBuRmUsQnTzB7jv9T2TJ
+	txuum73BaF/37QK6xRK8tk+XT7b27M+ixD8PYCyGMeszJ/mSln15xgVuqhVF5NTA/0lj/va1h4L
+	roewuJnjQIVQmTiWpX0wfko7JajDKEmvasRcRheic47p846iJbc=
+X-Google-Smtp-Source: AGHT+IGxyp+KENwVEkLGrt7S8pn2vlKD8bBJVWEd1Iv8ULUIPojD/9R2kqNR1Mge6+txkrxVbJHCXA==
+X-Received: by 2002:a05:6a21:6d8e:b0:1f5:8072:d7f3 with SMTP id adf61e73a8af0-20444fc0e44mr4794400637.30.1745512916109;
+        Thu, 24 Apr 2025 09:41:56 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b15f76f48b2sm1462741a12.8.2025.04.24.09.41.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 09:41:55 -0700 (PDT)
+Date: Thu, 24 Apr 2025 09:41:51 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Miquel =?iso-8859-1?Q?Sabat=E9_Sol=E0?= <mikisabate@gmail.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+	Zong Li <zong.li@sifive.com>
+Subject: Re: [PATCH v13 20/28] riscv/hwprobe: zicfilp / zicfiss enumeration
+ in hwprobe
+Message-ID: <aAppz5o2i4SQKU2z@debug.ba.rivosinc.com>
+References: <20250424-v5_user_cfi_series-v13-0-971437de586a@rivosinc.com>
+ <20250424-v5_user_cfi_series-v13-20-971437de586a@rivosinc.com>
+ <680a0cd4.050a0220.296475.3867@mx.google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <680a0cd4.050a0220.296475.3867@mx.google.com>
 
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
-
-> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
-> when W=1. Due to Python's normal behavior, its JIT compiler will create
-> a bytecode and store it under scripts/lib/*/__pycache__.  As one may be using
-> O= and even having the sources on a read-only mount point, disable its
-> creation during build time.
+On Thu, Apr 24, 2025 at 12:05:04PM +0200, Miquel Sabaté Solà wrote:
+>On dj., d’abr. 24 2025, Deepak Gupta wrote:
 >
-> This is done by adding PYTHONDONTWRITEBYTECODE=1 on every place
-> where the script is called within Kbuild and when called via another script.
->  
-> This only solves half of the issue though, as one may be manually running
-> the script by hand, without asking Python to not store any bytecode.
-> This should be OK, but afterwards, git status will list the __pycache__ as
-> not committed. To prevent that, add *.pyc to .gitignore.
+>Hello,
 >
-> This series contain 4 patches:
+>> Adding enumeration of zicfilp and zicfiss extensions in hwprobe syscall.
+>>
+>> Reviewed-by: Zong Li <zong.li@sifive.com>
+>> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>> ---
+>>  arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
+>>  arch/riscv/kernel/sys_hwprobe.c       | 2 ++
+>>  2 files changed, 4 insertions(+)
+>>
+>> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/uapi/asm/hwprobe.h
+>> index c3c1cc951cb9..c1b537b50158 100644
+>> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+>> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+>> @@ -73,6 +73,8 @@ struct riscv_hwprobe {
+>>  #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
+>>  #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
+>>  #define		RISCV_HWPROBE_EXT_SUPM		(1ULL << 49)
+>> +#define		RISCV_HWPROBE_EXT_ZICFILP	(1ULL << 50)
+>> +#define		RISCV_HWPROBE_EXT_ZICFISS	(1ULL << 51)
 >
-> - patch 1 adjusts a variable that pass extra data to scripts/kerneldoc.py;
-> - patch 2moves scripts/kernel-doc location to the main makefile
->   and exports it, as scripts/Makefile.build will need it;
-> - patch 3 disables __pycache__ generation and ensure that the entire Kbuild
->   will use KERNELDOC var for the location of kernel-doc;
-> - patch 4 adds *.pyc at the list of object files to be ignored.
+>Notice that, as it stands in Linux v6.15-rc, this will conflict with the
+>values for Zicntr and Zihpm. See 4458b8f68dc7 ("riscv: hwprobe: export
+>Zicntr and Zihpm extensions"). I'd say that you should update these
+>values.
 
-I've applied the set, thanks.
+Got it. Noted for next version.
 
-jon
+>
+>>  #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+>>  #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+>>  #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+>> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwprobe.c
+>> index bcd3b816306c..d802ff707913 100644
+>> --- a/arch/riscv/kernel/sys_hwprobe.c
+>> +++ b/arch/riscv/kernel/sys_hwprobe.c
+>> @@ -108,6 +108,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pair,
+>>  		EXT_KEY(ZCB);
+>>  		EXT_KEY(ZCMOP);
+>>  		EXT_KEY(ZICBOZ);
+>> +		EXT_KEY(ZICFILP);
+>> +		EXT_KEY(ZICFISS);
+>>  		EXT_KEY(ZICOND);
+>>  		EXT_KEY(ZIHINTNTL);
+>>  		EXT_KEY(ZIHINTPAUSE);
+>
+>Greetings,
+>Miquel
+
+
