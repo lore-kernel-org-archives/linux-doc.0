@@ -1,72 +1,70 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19071F75A9;
-	Thu, 24 Apr 2025 08:46:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EC0A2101AE;
+	Thu, 24 Apr 2025 09:28:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745484392; cv=none; b=pL9DsDAkCX/fxLcXEJxof8o9OgwUfHfuBYY6ZPZS4okvKofoHWnXxbbTudwOx9yKStz+nl/1B/bnLPyTqiXPECu/YLMiVoet7M61JIeA5a+fxiMzuhItLS366x1L8moLq3kNNXI/9srDg5U8ENc2K2HCwM+D1xBlyxp77Fnc8Mo=
+	t=1745486927; cv=none; b=IrElMYpUMCn/31YgUUeUmpN1XepG+4oOu1Q6sXLGjXtt+veCVtsYJXqJ8IFCd6279nG1zISh4wvBVA9pJxTQ92Gi6DTq6KHzK04s/A/o93dGrxmNwCiIXb7sUg03LFspjuyv1DVGu5/0pt9gKxL/zH+lUkMcTXVHAPNNx4H+cww=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745484392; c=relaxed/simple;
-	bh=ki3q6dIyPVLY9OlwYT9gx2mvHOve0ih8UQqOIXQy4sw=;
+	s=arc-20240116; t=1745486927; c=relaxed/simple;
+	bh=lvBQ66pt/udkrLBjna1M6i4Wpfg3z6AE7kjI76to8a0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=jwQxNc/ZuT3VuulgzV2KYPEtABJ4/9dQc8PpG6UTr1vR0kb0kMiATqo2p3awTQc/Lj1BdgDs5Zc6nTeeDU+WbrtfK5NK8Ui8Wc3i9tx6jmv3oiUNM/5ZS1H5bvCWjH+LYA+dq+1zbZJVB2IN/BC6oHREtYldPLccPYer0w+CZ7Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSR+lBTu; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=k0wvTW2gftlK1hUMlmIons9sxTDB7JfNstJ8uIKb5xd6v/2SiKgMQ8KaJdGGLAlFc3X3mhmrTGjO+6HFdggVdK0mGqhEVHxg/g9qexftbK63RdylvFttRNT/rR2Gy4cEXFtKsO0NBjmxURWsb/AN5vMq/O5Bmpt1n8jSf2LwHNo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Zw1plqQ9; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSR+lBTu"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F4A0C4CEED;
-	Thu, 24 Apr 2025 08:46:31 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745484392;
-	bh=ki3q6dIyPVLY9OlwYT9gx2mvHOve0ih8UQqOIXQy4sw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uSR+lBTuzs9lAfUp6ETUwd/e83HDQBPN+bi2x6d+WcXRuXqISLxR1KnZmPcANDNPl
-	 XcusVwWrcgl5ZwxaQMTClZZp6wv04VyBadsXr0ChBep2yGTn0yT6aRBkv0qe3YHnsu
-	 Xbfy/GOWPkZiF5ouAX9EAiGXmE23jYsBtArkcpCT8edU46pm2SHyttUmmiowtlF9le
-	 jBdsLZ0dV8tCc+abgC1OkQo4yqWtl296bgiFLL3P131EcMwOFukXU6T1YRIKWY0DCS
-	 vfhRiecYS5EGzJ47VScGPAGcWrDrAIXqhECCrbNzQ/i5dx+Y8dYPFcg8gKvkI2s3k1
-	 MO9hwaOX8jurQ==
-Date: Thu, 24 Apr 2025 11:46:26 +0300
-From: Leon Romanovsky <leon@kernel.org>
-To: Christoph Hellwig <hch@lst.de>
-Cc: Jason Gunthorpe <jgg@ziepe.ca>,
-	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 10/24] mm/hmm: let users to tag specific PFN with DMA
- mapped bit
-Message-ID: <20250424084626.GQ48485@unreal>
-References: <cover.1745394536.git.leon@kernel.org>
- <0a7c1e06269eee12ff8912fe0da4b7692081fcde.1745394536.git.leon@kernel.org>
- <7185c055-fc9e-4510-a9bf-6245673f2f92@redhat.com>
- <20250423181706.GT1213339@ziepe.ca>
- <36891b0e-d5fa-4cf8-a181-599a20af1da3@redhat.com>
- <20250423233335.GW1213339@ziepe.ca>
- <20250424080744.GP48485@unreal>
- <20250424081101.GA22989@lst.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Zw1plqQ9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745486925; x=1777022925;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=lvBQ66pt/udkrLBjna1M6i4Wpfg3z6AE7kjI76to8a0=;
+  b=Zw1plqQ91yolxXUehoph/l8mrRsvnXusNg+ieZVuxR2mtv/qPrdXt6/o
+   txxdjHD9S1s/cgbQax/U0CWPm0YsIbxc6fnpUk6i1/pYUa+71j+ohf9cI
+   NUgQtgTovcBcHRgXnuFaVK61Txmv7G22d74XAFKBNKGNQHgxpWu7dhW20
+   C/Uqo+V+X0ADDQAyAbfiN1IHlurGbTDS1oJfxv+WzmVw/xhCM35fiF+HB
+   hGRtzMY0cjURD6j481cahF1p6IITdYwAnpH2PWRJbPXK7wS30dI2xyLNh
+   jew/8KGVOcDk19RhvklRFq/13bjMCPcsQLXHGJGygVYLcA+yN3opssRoe
+   Q==;
+X-CSE-ConnectionGUID: KEXe05ccTFuwKF4lHqcyWA==
+X-CSE-MsgGUID: 7GpuFiK1S8GnrVAljkGl9Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="58481361"
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="58481361"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 02:28:44 -0700
+X-CSE-ConnectionGUID: Wep8dTg7TPKjSc7+x7CFww==
+X-CSE-MsgGUID: LaIxPgO8Shi/KWEgmHWHfA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="132446437"
+Received: from smile.fi.intel.com ([10.237.72.58])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 02:28:40 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u7ssm-0000000FW1S-1urP;
+	Thu, 24 Apr 2025 12:28:36 +0300
+Date: Thu, 24 Apr 2025 12:28:36 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Akira Yokosawa <akiyks@gmail.com>
+Cc: airlied@gmail.com, corbet@lwn.net, dmitry.baryshkov@oss.qualcomm.com,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+	masahiroy@kernel.org, mchehab+huawei@kernel.org, mripard@kernel.org,
+	nathan@kernel.org, nicolas.schier@linux.dev, rodrigo.vivi@intel.com,
+	simona@ffwll.ch, tursulin@ursulin.net, tzimmermann@suse.de
+Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
+ kernel
+Message-ID: <aAoERIArkvj497ns@smile.fi.intel.com>
+References: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
+ <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
+ <aAkV6Kl3BX1TmMxl@smile.fi.intel.com>
+ <5a8f0fc7-a2aa-4554-a603-3537d735dc9f@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,45 +73,59 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250424081101.GA22989@lst.de>
+In-Reply-To: <5a8f0fc7-a2aa-4554-a603-3537d735dc9f@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Apr 24, 2025 at 10:11:01AM +0200, Christoph Hellwig wrote:
-> On Thu, Apr 24, 2025 at 11:07:44AM +0300, Leon Romanovsky wrote:
-> > > I see, so yes order occupies 5 bits [-4,-5,-6,-7,-8] and the
-> > > DMA_MAPPED overlaps, it should be 9 not 7 because of the backwardness.
+On Thu, Apr 24, 2025 at 11:07:05AM +0900, Akira Yokosawa wrote:
+> On Wed, 23 Apr 2025 19:31:36 +0300, Andy Shevchenko wrote:
+> > On Wed, Apr 23, 2025 at 06:30:48PM +0900, Akira Yokosawa wrote:
+> >> On Tue, 22 Apr 2025 10:57:33 +0300, Andy Shevchenko wrote:
+> >>> On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
+> >>>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+
+[...]
+
+> >>>>> Would it be possible to properly support O= and create pyc / pycache
+> >>>>> inside the object/output dir?
+> >>>>
+> >>>> I have to confess, I've been wondering if we should be treating the .pyc
+> >>>> files like we treat .o files or other intermediate products.  Rather
+> >>>> than trying to avoid their creation entirely, perhaps we should just be
+> >>>> sure they end up in the right place and are properly cleaned up...?
+> >>>>
+> >>>> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
+> >>>> should do the trick?
+> >>>
+> >>> It's not so easy. The Python is written in a way that it thinks it will never
+> >>> runs object files separately from the source. Hence that variable sets only
+> >>> the folder per script as _home_ for the cache. It's completely unusable. They
+> >>> took it wrong. It still can be _painfully_ used, but it will make Makefiles
+> >>> uglier.
+> >>
+> >> But, PYTHONPYCACHEPREFIX can be set as an environment variable.
+> >>
+> >> For example, try:
+> >>
+> >>     export PYTHONPYCACHEPREFIX="$HOME/.cache/__pycache__"
+> >>
+> >> Wouldn't it be good enough for you?
 > > 
-> > Thanks for the fix.
+> > Of course not. We have _many_ scripts in python in kernel and having a cache
+> > there for _all_ of them is simply WRONG. You never know what clashes can be
+> > there with two complicated enough scripts which may have same module names,
+> > etc.
 > 
-> Maybe we can use the chance to make the scheme less fragile?  i.e.
-> put flags in the high bits and derive the first valid bit from the
-> pfn order?
+> Interesting...
 > 
+> I'm suspecting you replied without having tried the setting...
 
-It can be done too. This is what I got:
+I tried before, but I admit, that I have missed something. It was a mess
+in that case. Now I probably can't repeat as I don't remember what was
+the environment and settings I had that time. I'm really glad to see it
+is working this way!
 
-   38 enum hmm_pfn_flags {
-   39         /* Output fields and flags */
-   40         HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
-   41         HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
-   42         HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
-   43         /*
-   44          * Sticky flags, carried from input to output,
-   45          * don't forget to update HMM_PFN_INOUT_FLAGS
-   46          */
-   47         HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 4),
-   48         HMM_PFN_P2PDMA     = 1UL << (BITS_PER_LONG - 5),
-   49         HMM_PFN_P2PDMA_BUS = 1UL << (BITS_PER_LONG - 6),
-   50
-   51         HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 11),
-   52
-   53         /* Input flags */
-   54         HMM_PFN_REQ_FAULT = HMM_PFN_VALID,
-   55         HMM_PFN_REQ_WRITE = HMM_PFN_WRITE,
-   56
-   57         HMM_PFN_FLAGS = ~((1UL << HMM_PFN_ORDER_SHIFT) - 1),
-   58 };
+-- 
+With Best Regards,
+Andy Shevchenko
 
-So now, we just need to move HMM_PFN_ORDER_SHIFT if we add new flags
-and HMM_PFN_FLAGS will be updated automatically.
 
-Thanks
