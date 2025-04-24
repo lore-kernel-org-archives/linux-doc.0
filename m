@@ -1,54 +1,74 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76A0A1805B;
-	Thu, 24 Apr 2025 15:58:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C4E361624C5;
+	Thu, 24 Apr 2025 16:01:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745510335; cv=none; b=fpegwjEk4S/QdObmfAcAXIVztP6rajaZ6U7rzwMxnayB+N3kPJOhnIXRe9rwm9V48c/H7iOKGMiUwFpAUQ8mGuajCQGyR0uKJTkutXvbzcXUlfmpLZZ4iKvgYWAke8VNENKHByDnHkfS4YyaqeRYtgXgj584n8l35lmBpIBF160=
+	t=1745510503; cv=none; b=sOkGLJ35SfzSdUYtXLM8RJfIqhzDWNlta9AVA3plZwuYiQP20fv3ujizaYiqdJui37qYKj79cMkIdNNvU/EyhCTlgvXBcjwMPDqFRmlggmjrx8M8SQlJgUhwosUeEzZdjE2LflSk8xJopoaHCPyZfByRmkA+Val5aohHTmwXlhQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745510335; c=relaxed/simple;
-	bh=eJFkFffhcbeDBBA0kOMtPz5wF3uo+4JXiBmQfdEyYGc=;
+	s=arc-20240116; t=1745510503; c=relaxed/simple;
+	bh=2EsFN3KQzZNWveqPmKQ2uvMTlzDkWMvMTWZFw/RE+lA=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=vB2iR2XG3CfISUTDafkFz1hReLdrqOaZTstT7hEACLS+O7xENN/dadJXl9g9q0myWVODHFVCArpNih/sBxnROJnbS9vbXagG3raFCq7LmRlLuY1xhstWHzs0iCMrgLF3YXiYVwfGCsnEfAlxmLlVlXIy5FzHnYWhTb2gZS/PPW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=paqWNiCU; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZtRbC4VExiZsdjzvG8UG2eu+yKX0RgLLt/SHGz72DeOR+w7LL0DlkTE+nhQ8biME4RvOyXyzrjZZM/H7qhfOvnwLY+57lOlYe0RZu3Pq8LbB83KNrLSzFh0PeOYd1r9gfX4JpKYs1GKoeNwsz8EHYtXo63qP4xLPhM/QP+L2Ry4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Wm8VevHV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="paqWNiCU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 50E3FC4CEE3;
-	Thu, 24 Apr 2025 15:58:51 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Wm8VevHV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8C5C2C4CEE3;
+	Thu, 24 Apr 2025 16:01:42 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745510334;
-	bh=eJFkFffhcbeDBBA0kOMtPz5wF3uo+4JXiBmQfdEyYGc=;
+	s=k20201202; t=1745510503;
+	bh=2EsFN3KQzZNWveqPmKQ2uvMTlzDkWMvMTWZFw/RE+lA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=paqWNiCUlCeU+xEIkBRi1KMIGIo72dekIVNFBglJCFGgzzyWGt/D69BmDf1YcCQ3O
-	 LTqE1CkooTA86vT3BIi8uE8d6JU+yd1AXlNbrSMPkXjq8EZyJA07CgtH/v6rvmNi1P
-	 R+caiUO8PJPrGv5Aem1J8yYl1MiVdII5fxTUBnkPwD6LKx/uhS/7FF4vmeVWSrK/5R
-	 HnROmeIqIEk76g20Qh5JTzC4w7D47LJovXW/nualNxpZpF/ah6BUFylXU4eE5g55UK
-	 P9gq1wgbiE+JE3o3v+e7ZZHLasnsUgB1BuOBB8MPbJuf79t2SAn9h94e/6R7kOpqfB
-	 xKlWbToSmkmgg==
-Date: Thu, 24 Apr 2025 17:58:48 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Mario Limonciello <superm1@kernel.org>
-Cc: Borislav Petkov <bp@alien8.de>, Jean Delvare <jdelvare@suse.com>,
-	Andi Shyti <andi.shyti@kernel.org>,
-	Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	Hans de Goede <hdegoede@redhat.com>,
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
-	open list <linux-kernel@vger.kernel.org>,
-	"open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
-	"open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH v5 0/5] AMD Zen debugging documentation
-Message-ID: <aApfuIX5T5brIdsL@gmail.com>
-References: <20250422234830.2840784-1-superm1@kernel.org>
+	b=Wm8VevHVEohfFXx1uchcfmtL+zcZ6xSp9jmMA3lzuk8AwHIyLQmcHNh0McnSrCcx3
+	 lIkmFdP+VzpGEpwEKphWvTET5ebVyPTPFMB80cvGgeYljv5/yF/In310jRDQC6j3Xe
+	 enCjXdYVPMQ3v7aENOXrr8Z1Q/znZ+vOdsJ5KN84mcOFLlEP45lED6O7qLOvupMMaK
+	 lBtmEryEpv3oaYU2xAYKqHcEOWsb8P+1vrzSoARX2cvfIjSdXU2qZFlV+DPcWa735h
+	 beec4plnuKPHYBuMtW0ndvkO/fM+I0YWu6BDRZ5NUppB0Cqwzxtn9QVLIFtHY5tX8k
+	 eFD7fbEi5hXLw==
+Date: Thu, 24 Apr 2025 19:01:38 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Christoph Hellwig <hch@lst.de>,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v9 10/24] mm/hmm: let users to tag specific PFN with DMA
+ mapped bit
+Message-ID: <20250424160138.GT48485@unreal>
+References: <0a7c1e06269eee12ff8912fe0da4b7692081fcde.1745394536.git.leon@kernel.org>
+ <7185c055-fc9e-4510-a9bf-6245673f2f92@redhat.com>
+ <20250423181706.GT1213339@ziepe.ca>
+ <36891b0e-d5fa-4cf8-a181-599a20af1da3@redhat.com>
+ <20250423233335.GW1213339@ziepe.ca>
+ <20250424080744.GP48485@unreal>
+ <20250424081101.GA22989@lst.de>
+ <20250424084626.GQ48485@unreal>
+ <20250424120703.GY1213339@ziepe.ca>
+ <20250424125052.GS48485@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -57,34 +77,53 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250422234830.2840784-1-superm1@kernel.org>
+In-Reply-To: <20250424125052.GS48485@unreal>
 
-
-* Mario Limonciello <superm1@kernel.org> wrote:
-
-> From: Mario Limonciello <mario.limonciello@amd.com>
+On Thu, Apr 24, 2025 at 03:50:52PM +0300, Leon Romanovsky wrote:
+> On Thu, Apr 24, 2025 at 09:07:03AM -0300, Jason Gunthorpe wrote:
+> > On Thu, Apr 24, 2025 at 11:46:26AM +0300, Leon Romanovsky wrote:
+> > > On Thu, Apr 24, 2025 at 10:11:01AM +0200, Christoph Hellwig wrote:
+> > > > On Thu, Apr 24, 2025 at 11:07:44AM +0300, Leon Romanovsky wrote:
+> > > > > > I see, so yes order occupies 5 bits [-4,-5,-6,-7,-8] and the
+> > > > > > DMA_MAPPED overlaps, it should be 9 not 7 because of the backwardness.
+> > > > > 
+> > > > > Thanks for the fix.
+> > > > 
+> > > > Maybe we can use the chance to make the scheme less fragile?  i.e.
+> > > > put flags in the high bits and derive the first valid bit from the
+> > > > pfn order?
+> > >
+> > > It can be done too. This is what I got:
+> > 
+> > Use genmask:
 > 
-> Introduce documentation for debugging some issues on AMD zen hardware.
-> As one of the debugging techniques read and add information for
-> S5_RESET_STATUS register.
+> I can do it too, will change.
+
+If you don't mind, I'll stick with my previous proposal.
+
+GENMASK() alone is not enough and the best solution will include use
+of FIELD_GET FIELD_PREP mocros. IMHO, that will make code unreadable.
+The simple, clean and reliable bitfield OR operations much better fit
+here.
+
+Thanks
+
 > 
-> Mario Limonciello (4):
->   Documentation: Add AMD Zen debugging document
->   i2c: piix4: Depends on X86
->   i2c: piix4: Move SB800_PIIX4_FCH_PM_ADDR definition to amd/fch.h
->   platform/x86/amd: pmc: use FCH_PM_BASE definition
+> > 
+> > enum hmm_pfn_flags {
+> > 	HMM_FLAGS_START = BITS_PER_LONG - PAGE_SHIFT,
+> > 	HMM_PFN_FLAGS = GENMASK(BITS_PER_LONG - 1, HMM_FLAGS_START),
+> > 
+> > 	/* Output fields and flags */
+> > 	HMM_PFN_VALID = 1UL << HMM_FLAGS_START + 0,
+> > 	HMM_PFN_WRITE = 1UL << HMM_FLAGS_START + 1,
+> > 	HMM_PFN_ERROR = 1UL << HMM_FLAGS_START + 2,
+> > 	HMM_PFN_ORDER_MASK = GENMASK(HMM_FLAGS_START + 7, HMM_FLAGS_START + 3),
+> > 
+> > 	/* Input flags */
+> > 	HMM_PFN_REQ_FAULT = HMM_PFN_VALID,
+> > 	HMM_PFN_REQ_WRITE = HMM_PFN_WRITE,
+> > };
+> > 
+> > Jason
 > 
-> Yazen Ghannam (1):
->   x86/CPU/AMD: Print the reason for the last reset
-
-So it looks like there's no new objections/feedback, and to
-get the ball rolling, I've applied these 3 preparatory patches
-to tip:x86/platform, to get them tested more widely:
-
-   i2c: piix4: Make CONFIG_I2C_PIIX4 dependent on CONFIG_X86
-   i2c: piix4, x86/platform: Move the SB800 PIIX4 FCH definitions to <asm/amd/fch.h>
-   platform/x86/amd/pmc: Use FCH_PM_BASE definition
-
-Thanks,
-
-	Ingo
