@@ -1,234 +1,117 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B0FED8C0B
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 00:24:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1252701BF;
+	Thu, 24 Apr 2025 00:31:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745454243; cv=none; b=tpq1WnR8QYwRhStlMZQPGAFTdCGRm69KzemDpB6IBoRKzZxLsi5wl8BgaV7zpBjlObSc9Pl08Kuq8GbrdLZFioFL//+q8FoFvuaGtmfM5/kSxAoY27J/4AWjuy+HvyzbyOKV7LBVvcB9LbUvuizPGzkUzGmQAtW0uqlau4E5NYE=
+	t=1745454700; cv=none; b=a12943dyPNley1qGKB6ANoNHWlg1JS/+YIM3AbZ4seunq5l7PhRHiX1o7HM46pIXXOl3Q+9De73t7zCn7dPQ4Uh37VDDJUBkPXMCCJO0MpOjDgY3kNKaBSz4ITiazYJ+LQcZIZ0ZccHM0KgMYgirR/oyQuwimfzULzxFvMvzqEI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745454243; c=relaxed/simple;
-	bh=crPxcnf9+OekJ0yxWQkSZVs8fIhnC61OsBU4Yac1+T0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=knctQRua1MODyGx8rXJAQEYfQErENZV6k9mmMQsL3i72z3izGqKiI5B0OiGx4WmQbdNorn3vNahF+f1+zH271KYfDEjUdRqLMM1oNIHOREDYl31xwiLYhcgUVAHpzUwpDEmo6Q/JxBVoOr/O48RPNNd/qVUVVe0SrIIDBhQxwJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=GZA3w2dg; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1745454700; c=relaxed/simple;
+	bh=Ga4t6ugV8zqmuUfvWiT3IWeSKoulLQekoUS3Y/ImDnw=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=rhDNu5t9RdhWLsocDd11Q9AoO9Uq+UVcsfqZWdmimIi25BCxKJf+Ldlhjs04rvxse11I8fisseEvYPhP7ZD8mBstcZtJM0vUB2j7qooM3o1jYy0Z5qg2zaqzTQUE3ADz2GnHESq1jPs9GHQ06r/PPTpz8bQsN+oo3UXQYGGN7Hc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnazM4dL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="GZA3w2dg"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-22423adf751so4504845ad.2
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 17:24:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745454241; x=1746059041; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=lGbM0o/TGPFqR3aQeqhm8zgtQt8YivoCdhsm3mycjoo=;
-        b=GZA3w2dgGW8YMq0XVdH2+lQC+vKKLrrn7g6YoibqT5TiQDXC7ubvAqIzI+hVn9b796
-         p+mtsu5ZtljLsBu24+nupMyIdZPqT+6R761m/fNAXtrFXOw9B3F0yRJ9AQJUiiGKvCZq
-         wJ9ldSyDoYsHootW3/3GC9LXfqxE1wfQ0NFdhjLtZwRMW+VCr6kwjG6ofmkeUpCw60kR
-         D6HKqAVZiBrdwJSbOg5B9jaM3D68GkVFaBhu3PWfEcjU5Nz9Quj5xcqXLA1CP53w17eg
-         6DFHFfxMr0AkR9RFPPpm2+tlxxv7tPUGP8HcpPmSceHOatP/yfboxcHRf2guwmxHNQ14
-         pzrw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745454241; x=1746059041;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lGbM0o/TGPFqR3aQeqhm8zgtQt8YivoCdhsm3mycjoo=;
-        b=LKCablSwODZGvgR8u/AC2/Gvjxd1C1Vg9lD/o/fkFkTO5kSZwt62ZkfzRjvRtrA7zZ
-         8g4uJp/vJpU51Fm8UL/J+vfiy1U7hNt2GJ+UH04nTgTXp4jrxgxNs3CP8oqIg+Xmv3Rw
-         QjLhrJmwTZUS4FopfWrrqIi+P3Ngx6pP+tEldObd0mWT40eVa4MYao7PoYQ9xcfWWh4B
-         p25hSL1hCsubAAVYyZ6Y4PtjRnDnTnWhatYM7jojXNCWkg8A/xVWBB0cuHQfi97ROqih
-         gtGFR2mRZdCt7/cUJaIqBBS/CyndNQpYCyWIi0mMjezM58joKtIJ1EBahLimjljhzxqc
-         Ri8A==
-X-Forwarded-Encrypted: i=1; AJvYcCXNTfKWpqUvnI5Nl3JZRSmmqKnP4zrGFNOcat9SoLrlAbFIcM0/U96n+SCm+ITKwRsK3aqUmCvWqZ0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwvpCEWr2i08aRqYZDLJnHtRdRqO6GLho0x7xMLD1IBTx2kg1jY
-	FvHoOBIF4rAxtRjtc0VTOtYf4eH6i0kpVXIKnVVEPYGQEocxEKt4TazzAVwuCMM=
-X-Gm-Gg: ASbGncuuHK+zRtB9B4zRhyoRxYj92OBjnAkZtXn3ozRHi0o0DMLI4HBvsEbD3hr7dWJ
-	5mmFE4pF+Wh92MHHrSRxcmAk1h+wwlgtrBKneu4DzU+0WT2T7JbaoWmjqm4DX5o1t1pQmTrmUql
-	X00ehDTm7TvfVvY5ulLtfftZsOQ6UyigA2YlCmRpPsNKB4xF2F+mJ9dQMOBtfhr2dxkpXxhEND2
-	bvIBKEx3j+g0c0PPqcvDey16Hq64G6yHZ9nIEV4QNd4E7S2DsvA/peBkEYMowgB6x6TfeYTk35n
-	VsSau8QBH+xZnW/jTdv4+YEGZ2Vqo0Ga/BejMSVg0K8P6ecl5fU=
-X-Google-Smtp-Source: AGHT+IGyYV/yzfLVnA9w34LRw7jQyIRxTFaioHQFl6p52L2kjU27J0WT2xyCuQTG4x/GFtq73xmJJA==
-X-Received: by 2002:a17:903:1103:b0:22c:3609:97ed with SMTP id d9443c01a7336-22db3c3a039mr6299555ad.30.1745454240827;
-        Wed, 23 Apr 2025 17:24:00 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5103259sm672675ad.185.2025.04.23.17.23.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 17:24:00 -0700 (PDT)
-Date: Wed, 23 Apr 2025 17:23:56 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, Zong Li <zong.li@sifive.com>,
-	linux-riscv <linux-riscv-bounces@lists.infradead.org>
-Subject: Re: [PATCH v12 05/28] riscv: usercfi state for task and save/restore
- of CSR_SSP on trap entry/exit
-Message-ID: <aAmEnK0vSgZZOORL@debug.ba.rivosinc.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-5-e51202b53138@rivosinc.com>
- <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnazM4dL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39655C4CEE2;
+	Thu, 24 Apr 2025 00:31:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745454699;
+	bh=Ga4t6ugV8zqmuUfvWiT3IWeSKoulLQekoUS3Y/ImDnw=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=GnazM4dLMIjk4TycpzjmVcI8buSnuluUwvELckUC+JcLXF4FJp9NN8Q19dYGaAKfh
+	 F6nSySL6sJVbyKsO3wEAjDckE2Mu4HwUunCv23iHZE4G2cACYXkJtypWqXGk2tb3FV
+	 VgwLCTDQbAg2u2Vxp5403v3d/v8XhUSqJ2pkZJP6aImJQJ2m2gk253fpguC1wF1RRH
+	 IWrJ2vvM1zyCur3ESuqbHIoib7LW04pNhuqrMoNOPy3D+d6iCUVIrWsVPaSsFX53/U
+	 KSCffp0OUuZG37aY5Pvih6Z/dS4fwnZWXaeUdDCkxGOCmRZF7tiCzi8q3H8Ivoh1Fu
+	 mXhAzMRnlNZTw==
+Date: Thu, 24 Apr 2025 08:31:25 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Andy
+ Shevchenko <andriy.shevchenko@intel.com>, David Airlie <airlied@gmail.com>,
+ Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
+ <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
+ <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
+ Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
+ Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
+ <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
+ intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
+Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
+ kernel
+Message-ID: <20250424083125.1c8a0d24@sal.lan>
+In-Reply-To: <87bjspzd4e.fsf@trenco.lwn.net>
+References: <cover.1744789777.git.mchehab+huawei@kernel.org>
+	<4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
+	<87bjspzd4e.fsf@trenco.lwn.net>
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Sorry forgot to respond to rest of your comments on this thread.
+Em Mon, 21 Apr 2025 10:35:29 -0600
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
+> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+> 
+> > On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:  
+> >> 
+> >> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
+> >> when W=1. Due to Python's normal behavior, its JIT compiler will create
+> >> a bytecode and store it under scripts/lib/*/__pycache__. 
+> >> 
+> >> As one may be using O= and even having the sources on a read-only mount
+> >> point, disable its creation during build time.  
+> >
+> > Would it be possible to properly support O= and create pyc / pycache
+> > inside the object/output dir?  
+> 
+> I have to confess, I've been wondering if we should be treating the .pyc
+> files like we treat .o files or other intermediate products.  Rather
+> than trying to avoid their creation entirely, perhaps we should just be
+> sure they end up in the right place and are properly cleaned up...?
 
-On Thu, Apr 10, 2025 at 01:04:39PM +0200, Radim Krčmář wrote:
->2025-03-14T14:39:24-07:00, Deepak Gupta <debug@rivosinc.com>:
->> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
->> @@ -62,6 +62,9 @@ struct thread_info {
->>  	long			user_sp;	/* User stack pointer */
->>  	int			cpu;
->>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
->> +#ifdef CONFIG_RISCV_USER_CFI
->> +	struct cfi_status	user_cfi_state;
->> +#endif
+I sent a v4 of the series disabling *.pyc creation, basically placing
+*.pyc at the right place on .gitignore.
 
-<... snipped ...>
+That's said, I agree that the best would be to use PYTHONPYCACHEPREFIX,
+placing the intermediate products altogether with O= results. There is
+however something we need to deal with. To follow our building system
+to the letter, if we have *.py files at scripts/lib/kdoc, the intermediate
+files should be at: either:
 
->
->
->> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
->> @@ -147,6 +147,20 @@ SYM_CODE_START(handle_exception)
->>
->>  	REG_L s0, TASK_TI_USER_SP(tp)
->>  	csrrc s1, CSR_STATUS, t0
->> +	/*
->> +	 * If previous mode was U, capture shadow stack pointer and save it away
->> +	 * Zero CSR_SSP at the same time for sanitization.
->> +	 */
->> +	ALTERNATIVE("nop; nop; nop; nop",
->> +				__stringify(			\
->> +				andi s2, s1, SR_SPP;	\
->> +				bnez s2, skip_ssp_save;	\
->> +				csrrw s2, CSR_SSP, x0;	\
->> +				REG_S s2, TASK_TI_USER_SSP(tp); \
->> +				skip_ssp_save:),
->> +				0,
->> +				RISCV_ISA_EXT_ZICFISS,
->> +				CONFIG_RISCV_USER_CFI)
->
->(I'd prefer this closer to the user_sp and kernel_sp swap, it's breaking
-> the flow here.  We also already know if we've returned from userspace
-> or not even without SR_SPP, but reusing the information might tangle
-> the logic.)
+	- {outdir}/scripts/lib/kdoc; or: 
+	- {outdir}/scripts/lib/kdoc/__pycache__ 
 
-If CSR_SCRATCH was 0, then we would be coming from kernel else flow goes
-to `.Lsave_context`. If we were coming from kernel mode, then eventually
-flow merges to `.Lsave_context`.
+The same shall happen for all other places including Documentation/sphinx.
+In the specific case of Sphinx extensions, it would mean that it would
+produce *.pyc for both scripts/lib/*/*.py and Documentation/sphinx.
+No idea how to make Python to do that without doing some horrible tricks.
 
-So we will be saving CSR_SSP on all kernel -- > kernel trap handling. That
-would be unnecessary. IIRC, this was one of the first review comments in
-early RFC series of these patch series (to not touch CSR_SSP un-necessarily)
+An alternate approach would be to store all of them at the same place, like:
 
-We can avoid that by ensuring when we branch by determining if we are coming
-from user to something like `.Lsave_ssp` which eventually merges into
-".Lsave_context". And if we were coming from kernel then we would branch to
-`.Lsave_context` and thus skipping ssp save logic. But # of branches it
-introduces in early exception handling is equivalent to what current patches
-do. So I don't see any value in doing that.
+	- {outdir}/__pycache__ 
 
-Let me know if I am missing something.
+The problem is that, if we end having two scripts with the same name, and
+using PYTHONPYCACHEPREFIX would place both of them at the same place, we'll
+have troubles.
 
->
->>  	csrr s2, CSR_EPC
->>  	csrr s3, CSR_TVAL
->>  	csrr s4, CSR_CAUSE
->> @@ -236,6 +250,18 @@ SYM_CODE_START_NOALIGN(ret_from_exception)
->>  	csrw CSR_SCRATCH, tp
->> +
->> +	/*
->> +	 * Going back to U mode, restore shadow stack pointer
->> +	 */
-I can remove my comment because it's obvious.
+IMO, let's apply this series first, and then see if we can replace patch 3
+with another one using PYTHONPYCACHEPREFIX, after we're sure that there's
+a way for it to do the right thing.
 
->
->Are we?  I think we can be just as well returning back to kernel-space.
->Similar to how we can enter the exception handler from kernel-space.
+> 
+> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
+> should do the trick?
 
-Yes we are. See excerpt from `ret_from_exception` in `entry.S`
-
-"""
-SYM_CODE_START_NOALIGN(ret_from_exception)
-	REG_L s0, PT_STATUS(sp)
-#ifdef CONFIG_RISCV_M_MODE
-	/* the MPP value is too large to be used as an immediate arg for addi */
-	li t0, SR_MPP
-	and s0, s0, t0
-#else
-	andi s0, s0, SR_SPP
-#endif
-	bnez s0, 1f
-
-<... snipped ...>
-
-	/*
-	 * Going back to U mode, restore shadow stack pointer
-	 */
-	ALTERNATIVE("nops(2)",
-				__stringify(			\
-				REG_L s3, TASK_TI_USER_SSP(tp); \
-				csrw CSR_SSP, s3),
-				0,
-				RISCV_ISA_EXT_ZICFISS,
-				CONFIG_RISCV_USER_CFI)
-
-1:
-#ifdef CONFIG_RISCV_ISA_V_PREEMPTIVE
-	move a0, sp
-	call riscv_v_context_nesting_end
-
-<... snipped ...>
-
-"""
-
-
->
->> +	ALTERNATIVE("nop; nop",
->> +				__stringify(					\
->> +				REG_L s3, TASK_TI_USER_SSP(tp); \
->> +				csrw CSR_SSP, s3),
->> +				0,
->> +				RISCV_ISA_EXT_ZICFISS,
->> +				CONFIG_RISCV_USER_CFI)
->> +
->
->Thanks.
+Regards,
+Mauro
