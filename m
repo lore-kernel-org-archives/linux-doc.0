@@ -1,176 +1,355 @@
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC04922DFA4
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:16:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8A4E502B1;
+	Thu, 24 Apr 2025 12:21:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745496997; cv=none; b=kch82fCcn87BejNtjBDZqfDQ3oLpF1x72P3ELAKBtfSfB7ITScPdrnG0MPEeUmxV81gAN5d/z4ydY+zpvxqXpLmkCG1pxT8i5gEpwOjt86JUNGFoRLBFpsEUSN2o7MFpilBzfmqMvbHIei1Fa0LcESaibXXZiRpWp5AvsccOISU=
+	t=1745497317; cv=none; b=HpKzsLjdE2e3epleNpjZqZF4TYnq1HIWLrY+1QxWEI3x7sP9SVPFSSgBRkTn0XVwKwFmTCOany8MMVyF+WSc7ZD/vxYb3BTjPYMPtN00kT+pL6YSlNaRcBiEYsPgOFf8QcKb1rT4mX4Nd0p3IXOugnq6Y3gJUX9M76HkawvpOy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745496997; c=relaxed/simple;
-	bh=Uyv4cF6roX/rqkabZ8AOPchJ7yqQ3BZD7UJEcGbUnSY=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
-	 References:In-Reply-To; b=HYN82DU6o5OzkhPqSPINbBuaaRTpjZDS9srjpHbDbzSFCZnk2Tz+kx8DODFEokIMYpAi7ZsoxNlblJ6EwRFdMI8xdQdWdaA69AX+javzOr2MweEIORK0Iezok4u7a2kvihgvMcPixzrtxKC1CYEnMrawLQ97bmVe8/jfbFuJKjU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Wsmpr30p; arc=none smtp.client-ip=209.85.221.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+	s=arc-20240116; t=1745497317; c=relaxed/simple;
+	bh=M7139PzVyYycpaeFCqj8wuCKkvCagsdDr6j8nz7nMT0=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KTLtcdhhMF4PVBHJc0WUKJyRbyJ4mRnW13Cs09L9mTyT7O4r76l+iybNepyVWOOXlN305FQ336+VnqWaZb4csCU7DrgkeAS5ob0GDOsGv/hUPLgf9VGcc+u6Z5Rhzu3rk96AfOGKX4GYdoV2z/Q4sTIzZ7Ji/3vhCmgjtGtuJT4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=ZI8b75Rw; arc=none smtp.client-ip=115.124.30.119
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Wsmpr30p"
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3913290f754so122565f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:16:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1745496993; x=1746101793; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:from:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=byLZxcTmkHUnhPkEGnhkt8kzHy94FpcWiEA8cXwsuq0=;
-        b=Wsmpr30poYCAfYRyzPvB/UKdx7aMJQxZiKrY6+7Fc+wqkXq2JKC92pP40TNuGLyznO
-         J0k6TPUycyj4xKJygrOkgJk/JNY0LqKpStnlGWO/IlKB/P+X7otxfD+C0HW2Tj3FcThj
-         frwGBAfNIV9V+6ueHR8SSBmJRwFoeyxh5WmOpqNqXukH7UUrWVf3aIC6chBZnN8yuZV6
-         wLqVhy7qbDlMLeBgCohY47FBJCuCpkhev4pydU2sbHWCx+kdbE6mmKpZFtnb1feB3NaE
-         P293PgLgv1M6vw2Ik/rc0f7Ed7209rI3ZW3YyQUm3KzBOsACaPukRZ78rCU3jE20BX2B
-         /UIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745496993; x=1746101793;
-        h=in-reply-to:references:subject:from:to:cc:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=byLZxcTmkHUnhPkEGnhkt8kzHy94FpcWiEA8cXwsuq0=;
-        b=ZOUUQWNB02Ls1jRQ8apCVqGPMdSF50X7q/YoqGrLlcfKk2hJwl0z8zslBGSheh4+rR
-         mKJhMe9QktHAs7jBLcHelXZjd7ZiU1ZBWFbO71BaVuXoW4cWxcZxH7btVb/WLKEjSR2v
-         3R01L3KIrI2S9wh9N7a711DYHEjLljZ6V39KZ5gzFuJyv2Uv1YzMk3zy0nXEVMDlPSOH
-         3eWWJTKYbfPqWT4MVGCSmEN/psuO2sJS25drjVljxEEmwhpmnQ5PxdYzeABVVYe+7Nzw
-         WbI/rUjlpXiqe5qgcWEFgRc9VauGa0OktnTsxjT9snDmI9TzErvpE01J4w13CqAD5DG6
-         wq/A==
-X-Forwarded-Encrypted: i=1; AJvYcCX5tK5lvKTpffRv6O1qzPR252ZTlW//R4U9IEOptkJgiCPQ5ZUSRC4zR0T7axvUStPtiJxYkjLxb6A=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz8qWXuMPifBGb2K7ZFVEHCZAm/woGirFnp47Z+OGHaKEWgUQ4/
-	t3sW5yrzM1YzPptxBN1iIHdd6SOpNnjoIRfHLqzsVfj1eQdazcPpkn2+8z3ekAU=
-X-Gm-Gg: ASbGnct1EMqB1FqSV9up7pjSE7XH0gVOq2yo1/n2m6XDCIZeYH7tpZ+psefalq8hWve
-	PZK+Mocf+dgYM2cSUZEi1FLlXwlsZk1+YyL664tffWl+1DtEMzNElC01t8ixC9fXG5lyGOOxV3r
-	ocjwdICFkz7MfvUK3UNs3t8tIVuNchF48iycfGGhsdiJ0FqcZF+ckOBR4N5u02quENOmq/r0BU1
-	VHUlhvhl/MSzMbL9FyY+TXjuN6uAVms7iI95VZf45CNN+4CHd+vKfolo/xY/Xoxj9L5aie1cqzz
-	mjThG3YScksTzgp5p3Y3M1Bcb7HrdPqILl7/siTqx0gkaKLQ
-X-Google-Smtp-Source: AGHT+IERZA3DYVew3V/bn5OiODM5GwUm1JM3y/BJyY+6CSbEdsIoN7nn+jjX5wED4r1h6h8dKZG5oA==
-X-Received: by 2002:a05:6000:40da:b0:39c:12ce:697 with SMTP id ffacd0b85a97d-3a06cf5cb78mr706514f8f.7.1745496993026;
-        Thu, 24 Apr 2025 05:16:33 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d5326casm1929903f8f.64.2025.04.24.05.16.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 05:16:32 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="ZI8b75Rw"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1745497308; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=96rZkPR8RJnCqVOLwUnJiqjdHf3YOUV8iWh99OEjfFk=;
+	b=ZI8b75RwNdn+zpP62lJ28pPSrjjlhRUs9Kq/1qLYBpnRlAwn4qHpuPMX6xHKYl7pmoslFw5Oi71UGLo8w+irKTjioB6w1Ko2XugtcCUhBqeTykh68neMIg5vnDjgK7W3vAK+b3NlkxnaT0Roktqp5nLKj+F5/2K/lQSENei3EL0=
+Received: from 192.168.1.7(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WXzOB6s_1745497303 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Thu, 24 Apr 2025 20:21:45 +0800
+Message-ID: <3f52af67-489d-46b0-867f-202b59864692@linux.alibaba.com>
+Date: Thu, 24 Apr 2025 20:21:43 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Apr 2025 14:16:32 +0200
-Message-Id: <D9EV1K8ZQQJR.20CRTYLQBN9UE@ventanamicro.com>
-Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
- <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
- <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
- Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
- <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
- "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
- Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
- <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
- <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
- <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
- <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "Zong Li"
- <zong.li@sifive.com>, "linux-riscv"
- <linux-riscv-bounces@lists.infradead.org>
-To: "Deepak Gupta" <debug@rivosinc.com>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
-Subject: Re: [PATCH v12 05/28] riscv: usercfi state for task and
- save/restore of CSR_SSP on trap entry/exit
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-5-e51202b53138@rivosinc.com>
- <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
- <aAmEnK0vSgZZOORL@debug.ba.rivosinc.com>
-In-Reply-To: <aAmEnK0vSgZZOORL@debug.ba.rivosinc.com>
+MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 07/12] khugepaged: add mTHP support
+To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-trace-kernel@vger.kernel.org
+Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
+ baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
+ peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
+ usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org
+References: <20250417000238.74567-1-npache@redhat.com>
+ <20250417000238.74567-8-npache@redhat.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <20250417000238.74567-8-npache@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-2025-04-23T17:23:56-07:00, Deepak Gupta <debug@rivosinc.com>:
-> On Thu, Apr 10, 2025 at 01:04:39PM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
-te:
->>2025-03-14T14:39:24-07:00, Deepak Gupta <debug@rivosinc.com>:
->>> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
->>> @@ -147,6 +147,20 @@ SYM_CODE_START(handle_exception)
->>>
->>>  	REG_L s0, TASK_TI_USER_SP(tp)
->>>  	csrrc s1, CSR_STATUS, t0
->>> +	/*
->>> +	 * If previous mode was U, capture shadow stack pointer and save it a=
-way
->>> +	 * Zero CSR_SSP at the same time for sanitization.
->>> +	 */
->>> +	ALTERNATIVE("nop; nop; nop; nop",
->>> +				__stringify(			\
->>> +				andi s2, s1, SR_SPP;	\
->>> +				bnez s2, skip_ssp_save;	\
->>> +				csrrw s2, CSR_SSP, x0;	\
->>> +				REG_S s2, TASK_TI_USER_SSP(tp); \
->>> +				skip_ssp_save:),
->>> +				0,
->>> +				RISCV_ISA_EXT_ZICFISS,
->>> +				CONFIG_RISCV_USER_CFI)
->>
->>(I'd prefer this closer to the user_sp and kernel_sp swap, it's breaking
->> the flow here.  We also already know if we've returned from userspace
->> or not even without SR_SPP, but reusing the information might tangle
->> the logic.)
->
-> If CSR_SCRATCH was 0, then we would be coming from kernel else flow goes
-> to `.Lsave_context`. If we were coming from kernel mode, then eventually
-> flow merges to `.Lsave_context`.
->
-> So we will be saving CSR_SSP on all kernel -- > kernel trap handling. Tha=
-t
-> would be unnecessary. IIRC, this was one of the first review comments in
-> early RFC series of these patch series (to not touch CSR_SSP un-necessari=
-ly)
->
-> We can avoid that by ensuring when we branch by determining if we are com=
-ing
-> from user to something like `.Lsave_ssp` which eventually merges into
-> ".Lsave_context". And if we were coming from kernel then we would branch =
-to
-> `.Lsave_context` and thus skipping ssp save logic. But # of branches it
-> introduces in early exception handling is equivalent to what current patc=
-hes
-> do. So I don't see any value in doing that.
->
-> Let me know if I am missing something.
 
-Right, it's hard to avoid the extra branches.
 
-I think we could modify the entry point (STVEC), so we start at
-different paths based on kernel/userspace trap and only jump once to the
-common code, like:
+On 2025/4/17 08:02, Nico Pache wrote:
+> Introduce the ability for khugepaged to collapse to different mTHP sizes.
+> While scanning PMD ranges for potential collapse candidates, keep track
+> of pages in KHUGEPAGED_MIN_MTHP_ORDER chunks via a bitmap. Each bit
+> represents a utilized region of order KHUGEPAGED_MIN_MTHP_ORDER ptes. If
+> mTHPs are enabled we remove the restriction of max_ptes_none during the
+> scan phase so we dont bailout early and miss potential mTHP candidates.
+> 
+> After the scan is complete we will perform binary recursion on the
+> bitmap to determine which mTHP size would be most efficient to collapse
+> to. max_ptes_none will be scaled by the attempted collapse order to
+> determine how full a THP must be to be eligible.
+> 
+> If a mTHP collapse is attempted, but contains swapped out, or shared
+> pages, we dont perform the collapse.
+> 
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>   mm/khugepaged.c | 122 ++++++++++++++++++++++++++++++++++--------------
+>   1 file changed, 88 insertions(+), 34 deletions(-)
+> 
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 83230e9cdf3a..ece39fd71fe6 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -1136,13 +1136,14 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   {
+>   	LIST_HEAD(compound_pagelist);
+>   	pmd_t *pmd, _pmd;
+> -	pte_t *pte;
+> +	pte_t *pte, mthp_pte;
+>   	pgtable_t pgtable;
+>   	struct folio *folio;
+>   	spinlock_t *pmd_ptl, *pte_ptl;
+>   	int result = SCAN_FAIL;
+>   	struct vm_area_struct *vma;
+>   	struct mmu_notifier_range range;
+> +	unsigned long _address = address + offset * PAGE_SIZE;
+>   
+>   	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+>   
+> @@ -1158,12 +1159,13 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   		*mmap_locked = false;
+>   	}
+>   
+> -	result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+> +	result = alloc_charge_folio(&folio, mm, cc, order);
+>   	if (result != SCAN_SUCCEED)
+>   		goto out_nolock;
+>   
+>   	mmap_read_lock(mm);
+> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, HPAGE_PMD_ORDER);
+> +	*mmap_locked = true;
+> +	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, order);
+>   	if (result != SCAN_SUCCEED) {
+>   		mmap_read_unlock(mm);
+>   		goto out_nolock;
+> @@ -1181,13 +1183,14 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   		 * released when it fails. So we jump out_nolock directly in
+>   		 * that case.  Continuing to collapse causes inconsistency.
+>   		 */
+> -		result = __collapse_huge_page_swapin(mm, vma, address, pmd,
+> -				referenced, HPAGE_PMD_ORDER);
+> +		result = __collapse_huge_page_swapin(mm, vma, _address, pmd,
+> +				referenced, order);
+>   		if (result != SCAN_SUCCEED)
+>   			goto out_nolock;
+>   	}
+>   
+>   	mmap_read_unlock(mm);
+> +	*mmap_locked = false;
+>   	/*
+>   	 * Prevent all access to pagetables with the exception of
+>   	 * gup_fast later handled by the ptep_clear_flush and the VM
+> @@ -1197,7 +1200,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   	 * mmap_lock.
+>   	 */
+>   	mmap_write_lock(mm);
+> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, HPAGE_PMD_ORDER);
+> +	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, order);
+>   	if (result != SCAN_SUCCEED)
+>   		goto out_up_write;
+>   	/* check if the pmd is still valid */
+> @@ -1208,11 +1211,12 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   	vma_start_write(vma);
+>   	anon_vma_lock_write(vma->anon_vma);
+>   
+> -	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, address,
+> -				address + HPAGE_PMD_SIZE);
+> +	mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, _address,
+> +				_address + (PAGE_SIZE << order));
+>   	mmu_notifier_invalidate_range_start(&range);
+>   
+>   	pmd_ptl = pmd_lock(mm, pmd); /* probably unnecessary */
+> +
+>   	/*
+>   	 * This removes any huge TLB entry from the CPU so we won't allow
+>   	 * huge and small TLB entries for the same virtual address to
+> @@ -1226,10 +1230,10 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   	mmu_notifier_invalidate_range_end(&range);
+>   	tlb_remove_table_sync_one();
+>   
+> -	pte = pte_offset_map_lock(mm, &_pmd, address, &pte_ptl);
+> +	pte = pte_offset_map_lock(mm, &_pmd, _address, &pte_ptl);
+>   	if (pte) {
+> -		result = __collapse_huge_page_isolate(vma, address, pte, cc,
+> -					&compound_pagelist, HPAGE_PMD_ORDER);
+> +		result = __collapse_huge_page_isolate(vma, _address, pte, cc,
+> +					&compound_pagelist, order);
+>   		spin_unlock(pte_ptl);
+>   	} else {
+>   		result = SCAN_PMD_NULL;
+> @@ -1258,8 +1262,8 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   	anon_vma_unlock_write(vma->anon_vma);
+>   
+>   	result = __collapse_huge_page_copy(pte, folio, pmd, _pmd,
+> -					   vma, address, pte_ptl,
+> -					   &compound_pagelist, HPAGE_PMD_ORDER);
+> +					   vma, _address, pte_ptl,
+> +					   &compound_pagelist, order);
+>   	pte_unmap(pte);
 
-  SYM_CODE_START(handle_exception_kernel)
-    /* kernel setup magic */
-    j handle_exception_common
-  SYM_CODE_START(handle_exception_user)
-    /* userspace setup magic */
-  handle_exception_common:
+pte is unmapped here, but...
 
-This is not a suggestion for this series.  I would be perfectly happy
-with just a cleaner code.
+>   	if (unlikely(result != SCAN_SUCCEED))
+>   		goto out_up_write;
+> @@ -1270,20 +1274,35 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>   	 * write.
+>   	 */
+>   	__folio_mark_uptodate(folio);
+> -	pgtable = pmd_pgtable(_pmd);
+> -
+> -	_pmd = folio_mk_pmd(folio, vma->vm_page_prot);
+> -	_pmd = maybe_pmd_mkwrite(pmd_mkdirty(_pmd), vma);
+> -
+> -	spin_lock(pmd_ptl);
+> -	BUG_ON(!pmd_none(*pmd));
+> -	folio_add_new_anon_rmap(folio, vma, address, RMAP_EXCLUSIVE);
+> -	folio_add_lru_vma(folio, vma);
+> -	pgtable_trans_huge_deposit(mm, pmd, pgtable);
+> -	set_pmd_at(mm, address, pmd, _pmd);
+> -	update_mmu_cache_pmd(vma, address, pmd);
+> -	deferred_split_folio(folio, false);
+> -	spin_unlock(pmd_ptl);
+> +	if (order == HPAGE_PMD_ORDER) {
+> +		pgtable = pmd_pgtable(_pmd);
+> +		_pmd = folio_mk_pmd(folio, vma->vm_page_prot);
+> +		_pmd = maybe_pmd_mkwrite(pmd_mkdirty(_pmd), vma);
+> +
+> +		spin_lock(pmd_ptl);
+> +		BUG_ON(!pmd_none(*pmd));
+> +		folio_add_new_anon_rmap(folio, vma, _address, RMAP_EXCLUSIVE);
+> +		folio_add_lru_vma(folio, vma);
+> +		pgtable_trans_huge_deposit(mm, pmd, pgtable);
+> +		set_pmd_at(mm, address, pmd, _pmd);
+> +		update_mmu_cache_pmd(vma, address, pmd);
+> +		deferred_split_folio(folio, false);
+> +		spin_unlock(pmd_ptl);
+> +	} else { //mTHP
 
-Would it be possible to hide the ALTERNATIVE ugliness behind a macro and
-move it outside the code block that saves pt_regs?
+(Nit: use '/* xxx */' format)
 
-Thanks.
+> +		mthp_pte = mk_pte(&folio->page, vma->vm_page_prot);
+> +		mthp_pte = maybe_mkwrite(pte_mkdirty(mthp_pte), vma);
+> +
+> +		spin_lock(pmd_ptl);
+> +		folio_ref_add(folio, (1 << order) - 1);
+> +		folio_add_new_anon_rmap(folio, vma, _address, RMAP_EXCLUSIVE);
+> +		folio_add_lru_vma(folio, vma);
+> +		set_ptes(vma->vm_mm, _address, pte, mthp_pte, (1 << order));
+
+You still used the unmapped pte? Looks incorrect to me.
+
+> +		update_mmu_cache_range(NULL, vma, _address, pte, (1 << order));
+> +
+> +		smp_wmb(); /* make pte visible before pmd */
+> +		pmd_populate(mm, pmd, pmd_pgtable(_pmd));
+> +		spin_unlock(pmd_ptl);
+> +	}
+>   
+>   	folio = NULL;
+>   
+> @@ -1364,31 +1383,58 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
+>   {
+>   	pmd_t *pmd;
+>   	pte_t *pte, *_pte;
+> +	int i;
+>   	int result = SCAN_FAIL, referenced = 0;
+>   	int none_or_zero = 0, shared = 0;
+>   	struct page *page = NULL;
+>   	struct folio *folio = NULL;
+>   	unsigned long _address;
+> +	unsigned long enabled_orders;
+>   	spinlock_t *ptl;
+>   	int node = NUMA_NO_NODE, unmapped = 0;
+> +	bool is_pmd_only;
+>   	bool writable = false;
+> -
+> +	int chunk_none_count = 0;
+> +	int scaled_none = khugepaged_max_ptes_none >> (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER);
+> +	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
+>   	VM_BUG_ON(address & ~HPAGE_PMD_MASK);
+>   
+>   	result = find_pmd_or_thp_or_none(mm, address, &pmd);
+>   	if (result != SCAN_SUCCEED)
+>   		goto out;
+>   
+> +	bitmap_zero(cc->mthp_bitmap, MAX_MTHP_BITMAP_SIZE);
+> +	bitmap_zero(cc->mthp_bitmap_temp, MAX_MTHP_BITMAP_SIZE);
+>   	memset(cc->node_load, 0, sizeof(cc->node_load));
+>   	nodes_clear(cc->alloc_nmask);
+> +
+> +	enabled_orders = thp_vma_allowable_orders(vma, vma->vm_flags,
+> +		tva_flags, THP_ORDERS_ALL_ANON);
+> +
+> +	is_pmd_only = (enabled_orders == (1 << HPAGE_PMD_ORDER));
+> +
+>   	pte = pte_offset_map_lock(mm, pmd, address, &ptl);
+>   	if (!pte) {
+>   		result = SCAN_PMD_NULL;
+>   		goto out;
+>   	}
+>   
+> -	for (_address = address, _pte = pte; _pte < pte + HPAGE_PMD_NR;
+> -	     _pte++, _address += PAGE_SIZE) {
+> +	for (i = 0; i < HPAGE_PMD_NR; i++) {
+> +		/*
+> +		 * we are reading in KHUGEPAGED_MIN_MTHP_NR page chunks. if
+> +		 * there are pages in this chunk keep track of it in the bitmap
+> +		 * for mTHP collapsing.
+> +		 */
+> +		if (i % KHUGEPAGED_MIN_MTHP_NR == 0) {
+> +			if (chunk_none_count <= scaled_none)
+> +				bitmap_set(cc->mthp_bitmap,
+> +					   i / KHUGEPAGED_MIN_MTHP_NR, 1);
+> +
+> +			chunk_none_count = 0;
+> +		}
+> +
+> +		_pte = pte + i;
+> +		_address = address + i * PAGE_SIZE;
+>   		pte_t pteval = ptep_get(_pte);
+>   		if (is_swap_pte(pteval)) {
+>   			++unmapped;
+> @@ -1411,10 +1457,11 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
+>   			}
+>   		}
+>   		if (pte_none(pteval) || is_zero_pfn(pte_pfn(pteval))) {
+> +			++chunk_none_count;
+>   			++none_or_zero;
+>   			if (!userfaultfd_armed(vma) &&
+> -			    (!cc->is_khugepaged ||
+> -			     none_or_zero <= khugepaged_max_ptes_none)) {
+> +			    (!cc->is_khugepaged || !is_pmd_only ||
+> +				none_or_zero <= khugepaged_max_ptes_none)) {
+>   				continue;
+>   			} else {
+>   				result = SCAN_EXCEED_NONE_PTE;
+> @@ -1510,6 +1557,7 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
+>   								     address)))
+>   			referenced++;
+>   	}
+> +
+>   	if (!writable) {
+>   		result = SCAN_PAGE_RO;
+>   	} else if (cc->is_khugepaged &&
+> @@ -1522,8 +1570,12 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
+>   out_unmap:
+>   	pte_unmap_unlock(pte, ptl);
+>   	if (result == SCAN_SUCCEED) {
+> -		result = collapse_huge_page(mm, address, referenced,
+> -					    unmapped, cc, mmap_locked, HPAGE_PMD_ORDER, 0);
+> +		result = khugepaged_scan_bitmap(mm, address, referenced, unmapped, cc,
+> +			       mmap_locked, enabled_orders);
+> +		if (result > 0)
+> +			result = SCAN_SUCCEED;
+> +		else
+> +			result = SCAN_FAIL;
+>   	}
+>   out:
+>   	trace_mm_khugepaged_scan_pmd(mm, &folio->page, writable, referenced,
+> @@ -2479,11 +2531,13 @@ static int khugepaged_collapse_single_pmd(unsigned long addr,
+>   			fput(file);
+>   			if (result == SCAN_PTE_MAPPED_HUGEPAGE) {
+>   				mmap_read_lock(mm);
+> +				*mmap_locked = true;
+>   				if (khugepaged_test_exit_or_disable(mm))
+>   					goto end;
+>   				result = collapse_pte_mapped_thp(mm, addr,
+>   								 !cc->is_khugepaged);
+>   				mmap_read_unlock(mm);
+> +				*mmap_locked = false;
+>   			}
+>   		} else {
+>   			result = khugepaged_scan_pmd(mm, vma, addr,
