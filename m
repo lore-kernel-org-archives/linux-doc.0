@@ -1,235 +1,372 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5403C2820D5
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 17:56:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1F04818D;
+	Thu, 24 Apr 2025 18:00:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745517401; cv=none; b=GEk3xKD9rjcRNF0rixHq6RatcsxV88N2p9x/gInBzEqQclN5bz4Hlp61LbFspskYXyCVW9huRxuVt0tbXN8fRCXxaMrqy6d41DnLs3RJPUM2t3y642BMrA1u65yYGeFUklazeUHOwjUU0tea1o8Yvs7km3aEmgeIGBTWT4GwIHo=
+	t=1745517641; cv=none; b=nEeKaJLi4lpGQF4fbvrtB68cihGCWqehuZGCjqYToPhiuEm8khvN/zze8vVYJR5zrzj1eZV50D6Q3t9JVn5+5ATw6y/CjBiqR+fnK/AdZClKJ6rwpzxud1FlICDcBQfkSmgmy5yqZjabtziexLWGmKslRuK0nnnYztBrs3RObQM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745517401; c=relaxed/simple;
-	bh=H+WVN8dXMu4VVGlDt8K/6nV5Fu+NlPxMpEedLUpBf70=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=uRpvjNIV9MyeODROnkJUgQ/AmAmDBaOhEohgLEZmwuDHNQ5je4H0D4xxf9bfVSIabYvgFkzaFA/4qSfVWBZGa2dG7v0po5/b+ZAIT6FXRwSLr3SFHcfEZH0Mef6gxLDpJAyfusf3Yl8luuFomFUvxm1Wmrq49UyGPd1ryerWmpY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=HBBpqt9K; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1745517641; c=relaxed/simple;
+	bh=wXVXiBcaT8kUSl6ozwFJgRrV38JNFM9UkJOF7lOGlAo=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=VQrxjjfO1DHlWz4QuGBpZw0dCXNI0uEkG9OZ9e3+Up/ngTaGXenMhVMckMy2ZLegU+ILHzRtjaP+iVK5FSdGqXDFPUu308sVvGhuig0yB0HsS1EdLxkJ11qbEq73PqSdl2zlWixWh7dRNf5JKDOLq7GJB/A9McEpO9xQvXmcGG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=CLWzb1JA; arc=none smtp.client-ip=185.138.42.100
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="HBBpqt9K"
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7399a2dc13fso1822633b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 10:56:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745517398; x=1746122198; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=KOLy/80XFfLxXJDNfbBZwCZ4HqYR8Mbf5OU8mj5q3uc=;
-        b=HBBpqt9KIGTf8v2jOqTTdlAfcz9kwaqf7mHomP6hOLCcRR+I0n097mmb1YKNakIQuq
-         oOcwwBNZ0MTG28FUnEgX0VCbDAGGKbyyES4CDzuRecLikf8Jyr+4puwFYpaBt3iLSMjt
-         n05XoaDgzqjvldrrcuKVPTYsnoIGaGyXh+Gx6A4j5E3FABylK4dv8PwhtNWpIaTeyz3k
-         Wz8iat9Z8M4S1wFKPNnXW9gTYnCcev5DNO7f4lOFR7gBR++EoS76otidVRlqUIPBYmd+
-         +C8q8MPSYL9xDEbraGgXX8v7w1y7RiGq6uWO7P1dDBYbWGGZJgOBcs0xWwQ7AAuJZ3gI
-         zjwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745517398; x=1746122198;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=KOLy/80XFfLxXJDNfbBZwCZ4HqYR8Mbf5OU8mj5q3uc=;
-        b=VzXQvy/BrqaUx+HmroOR1ouFSv6LrmMC1YtJmDRhuL6I8lx26Iy74F3O2om4qg4NbW
-         UxMaY/3GDcRDYgoIxi9eq4YW6ZFblhSJ+FRvg2f4hAcRfsuI2/brGstw6g5czb25HPBk
-         2PE6rm56vLff6YjExHMwl52bS7Wi/eSxjk4USnCGxvy2xBkQ8fc1N+PDjVHFk2LAZlkY
-         2kNlN4VeJBEcaMA+P6ayFlamRhh3GRl8mL3Dpx6dDe1xP5dsMkAFixUZG6+EWNDjE/MV
-         MdAYjKvQR/0oooQmSpxe185WVua4Ieh1ga1eMVwh7zkssZsUa9HrEux/UoAZlLt9AjoS
-         FdWQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVEPVCQI3I9Ph/Rrez2n+XhNzGKEpY6SotCRm4CXfV/lnGJ+4DOZK7jtUqAQ/g+NpCswZO4UooQpOs=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSXnQ8dF+lrbn6CoT0yvHy/GtFSTpO7NAiMPYnoFhKqnhWXOK5
-	nwnOVW7hvNETABM31mT73n4YR8XSgHY1gQwpwuS2m7H0ds3lEukdQEdBRPa2qJY=
-X-Gm-Gg: ASbGncu6dV9wJyDl6cb27jDo9n1b6d0DwEVhDOxDTK59wowaheWoUjOn+calenE63fV
-	tXA9YIF5GecPw01R4Rirtof7YaG5++b5Sx5ZjTKbYpMUcIaXKRGVnc3lEScVIPiNCe1m/0OlwD1
-	6ysxS7Fqp/oWFImB+lmBexBfRq1NnPmqEGXZUrrarwGc2dEZaio08deX/gPCDqnuBGy8JNQ5Zjk
-	e0kTLBFW49ZkONZdh5Xln+353Pqss/w6uVm2+n95uxt7Lr7sjk9jV9xVI3aZMOPBZvBIH7jfN+z
-	UhDptx6ZY+CpQWE9PnVJT4mdgxUDvNq2nHf29MmiFKjrA6KlCGs=
-X-Google-Smtp-Source: AGHT+IEvwKAWcL1BB3CDYo6zsE5OWQQndt5nVMjDwtZXDpnZ2rdOW1imvzSm4O5fk1CTzTK9UpqvkQ==
-X-Received: by 2002:a05:6a00:1744:b0:735:d89c:4b8e with SMTP id d2e1a72fcca58-73e32fbafeemr709517b3a.5.1745517398496;
-        Thu, 24 Apr 2025 10:56:38 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a9940esm1697082b3a.129.2025.04.24.10.56.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 10:56:38 -0700 (PDT)
-Date: Thu, 24 Apr 2025 10:56:34 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, broonie@kernel.org, rick.p.edgecombe@intel.com,
-	Zong Li <zong.li@sifive.com>,
-	linux-riscv <linux-riscv-bounces@lists.infradead.org>
-Subject: Re: [PATCH v12 05/28] riscv: usercfi state for task and save/restore
- of CSR_SSP on trap entry/exit
-Message-ID: <aAp7Un415hNqtshd@debug.ba.rivosinc.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-5-e51202b53138@rivosinc.com>
- <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
- <aAl_HRk49lnseiio@debug.ba.rivosinc.com>
- <D9EUJBQ5OHN0.2KUJHGXK262TR@ventanamicro.com>
+	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="CLWzb1JA"
+Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
+	by linux1587.grserver.gr (Postfix) with ESMTPSA id AF75E2E095CB;
+	Thu, 24 Apr 2025 21:00:25 +0300 (EEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
+	s=default; t=1745517627;
+	bh=GlNV9X+Men1fnwHlTrr4ZkODMjQtIgVNREterS4XY/E=;
+	h=Received:From:Subject:To;
+	b=CLWzb1JAW1Wd2a0C4iVc0LSRUErUqe0h+k4rYOzQjaXL0egZFbednkKhhURq5pH7l
+	 PmRCnkfufUY6mnIXRxGp4gjUkgWAqm63sUnlSbMCV3e8hdiqagJb0Wtz5viCjEOQiQ
+	 +USnSUMi6vETqPnNO5hhsyRZFbkaVP1i1Sb+ZQDc=
+Authentication-Results: linux1587.grserver.gr;
+        spf=pass (sender IP is 209.85.208.171) smtp.mailfrom=lkml@antheas.dev smtp.helo=mail-lj1-f171.google.com
+Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
+Received: by mail-lj1-f171.google.com with SMTP id
+ 38308e7fff4ca-30effbfaf4aso15275311fa.3;
+        Thu, 24 Apr 2025 11:00:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1;
+ AJvYcCUoXmZuG7VclC25tVmU0/ZAwiW/GcUZXs0rcnvED1cPv625yMoHHhtprdzZsoMUOYLMPhuuCWH4fs5/MVc=@vger.kernel.org,
+ AJvYcCVAXWgePNh8lZ2LbP6zlkcL1o9i9vaT0nfrKjPoHlOjBAhuktd4rT8de+UO/Bml1r8Qw8KbgBnizeI=@vger.kernel.org,
+ AJvYcCVlap5UZwIxektN31J0RgO7hMCBEr7yNxlgYmvt1hL5sdeJK4MU75qpywNsOq6hK+85y0+rbBroGfuCg6PX@vger.kernel.org,
+ AJvYcCWCxzsPAyh4JdBaA9iMMjk1vQ2onL6ivOcjaG0QAUwlXr8CC7x30cyiXLtCFWuqxkuyL2vwbTjyekM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxpcNbCY6C0o44pjKvpeyPlIQBqo4Kzit44athT/VE1bPGT7sD
+	kTZmILzReJ1f4mw8XXNWkgonxKO7ffGzryRkO8RhIA/KGMcwsPENv3aVipsrFASOunVWKjGOOc3
+	ZEJgH7rfag2/zJnEUw//OYMNj9zk=
+X-Google-Smtp-Source: 
+ AGHT+IEmybHK9qK/iNL+lfdSvkpcrcZAIEeN1JzwolnD9DD0AGkNZ7A/0vDOLIP9WbLqVuCZXs0BXPfgdGOTzBSFeso=
+X-Received: by 2002:a05:651c:30c7:b0:30b:bdb0:f09d with SMTP id
+ 38308e7fff4ca-318a9290baemr2166501fa.32.1745517624762; Thu, 24 Apr 2025
+ 11:00:24 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D9EUJBQ5OHN0.2KUJHGXK262TR@ventanamicro.com>
+References: <20250417175310.3552671-1-lkml@antheas.dev>
+ <20250417175310.3552671-15-lkml@antheas.dev>
+ <5423a653-01ac-95d2-fa52-31d849df65ef@linux.intel.com>
+In-Reply-To: <5423a653-01ac-95d2-fa52-31d849df65ef@linux.intel.com>
+From: Antheas Kapenekakis <lkml@antheas.dev>
+Date: Thu, 24 Apr 2025 20:00:13 +0200
+X-Gmail-Original-Message-ID: 
+ <CAGwozwEmiUtFndi3KaGKN_8MocpJj1R21ENbnjEeyBco8P3KSg@mail.gmail.com>
+X-Gm-Features: ATxdqUEdCuA2SywZgU3HQI01EQTNyti1S8-lsgIlU9vTG1xvzz6lZvEXEDS_gc8
+Message-ID: 
+ <CAGwozwEmiUtFndi3KaGKN_8MocpJj1R21ENbnjEeyBco8P3KSg@mail.gmail.com>
+Subject: Re: [PATCH v9 14/15] platform/x86: oxpec: Add charge threshold and
+ behaviour to OneXPlayer
+To: =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: platform-driver-x86@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-pm@vger.kernel.org,
+	Guenter Roeck <linux@roeck-us.net>, Jean Delvare <jdelvare@suse.com>,
+ Jonathan Corbet <corbet@lwn.net>,
+	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
+ Derek J Clark <derekjohn.clark@gmail.com>,
+	Kevin Greenberg <kdgreenberg234@protonmail.com>,
+ Joshua Tam <csinaction@pm.me>,
+	Parth Menon <parthasarathymenon@gmail.com>, Eileen <eileen@one-netbook.com>,
+	LKML <linux-kernel@vger.kernel.org>, sre@kernel.org, linux@weissschuh.net,
+	Hans de Goede <hdegoede@redhat.com>, mario.limonciello@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-PPP-Message-ID: 
+ <174551762615.4416.1266339814403532511@linux1587.grserver.gr>
+X-PPP-Vhost: antheas.dev
+X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
+X-Virus-Status: Clean
 
-On Thu, Apr 24, 2025 at 01:52:43PM +0200, Radim Krčmář wrote:
->2025-04-23T17:00:29-07:00, Deepak Gupta <debug@rivosinc.com>:
->> On Thu, Apr 10, 2025 at 01:04:39PM +0200, Radim Krčmář wrote:
->>>2025-03-14T14:39:24-07:00, Deepak Gupta <debug@rivosinc.com>:
->>>> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/include/asm/thread_info.h
->>>> @@ -62,6 +62,9 @@ struct thread_info {
->>>>  	long			user_sp;	/* User stack pointer */
->>>>  	int			cpu;
->>>>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
->>>> +#ifdef CONFIG_RISCV_USER_CFI
->>>> +	struct cfi_status	user_cfi_state;
->>>> +#endif
->>>
->>>I don't think it makes sense to put all the data in thread_info.
->>>kernel_ssp and user_ssp is more than enough and the rest can comfortably
->>>live elsewhere in task_struct.
->>>
->>>thread_info is supposed to be as small as possible -- just spanning
->>>multiple cache-lines could be noticeable.
->>
->> I can change it to only include only `user_ssp`, base and size.
+On Thu, 24 Apr 2025 at 15:49, Ilpo J=C3=A4rvinen
+<ilpo.jarvinen@linux.intel.com> wrote:
 >
->No need for base and size either -- we don't touch that in the common
->exception code.
-
-got it.
-
+> On Thu, 17 Apr 2025, Antheas Kapenekakis wrote:
 >
->> But before we go there, see below:
->>
->> $ pahole -C thread_info kbuild/vmlinux
->> struct thread_info {
->>          long unsigned int          flags;                /*     0     8 */
->>          int                        preempt_count;        /*     8     4 */
->>
->>          /* XXX 4 bytes hole, try to pack */
->>
->>          long int                   kernel_sp;            /*    16     8 */
->>          long int                   user_sp;              /*    24     8 */
->>          int                        cpu;                  /*    32     4 */
->>
->>          /* XXX 4 bytes hole, try to pack */
->>
->>          long unsigned int          syscall_work;         /*    40     8 */
->>          struct cfi_status          user_cfi_state;       /*    48    32 */
->>          /* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
->>          long unsigned int          a0;                   /*    80     8 */
->>          long unsigned int          a1;                   /*    88     8 */
->>          long unsigned int          a2;                   /*    96     8 */
->>
->>          /* size: 104, cachelines: 2, members: 10 */
->>          /* sum members: 96, holes: 2, sum holes: 8 */
->>          /* last cacheline: 40 bytes */
->> };
->>
->> If we were to remove entire `cfi_status`, it would still be 72 bytes (88 bytes
->> if shadow call stack were enabled) and already spans across two cachelines.
+> > With the X1 (AMD), OneXPlayer added a charge limit and charge inhibit
+> > feature to their devices. Charge limit allows for choosing an arbitrary
+> > battery charge setpoint in percentages. Charge ihibit allows to instruc=
+t
+> > the device to stop charging either when it is awake or always.
+> >
+> > This feature was then extended for the F1Pro as well. OneXPlayer also
+> > released BIOS updates for the X1 Mini, X1 (Intel), and F1 devices that
+> > add support for this feature. Therefore, enable it for all F1 and
+> > X1 devices.
+> >
+> > Reviewed-by: Thomas Wei=C3=9Fschuh <linux@weissschuh.net>
+> > Reviewed-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> > Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+> > ---
+> >  drivers/platform/x86/Kconfig |   1 +
+> >  drivers/platform/x86/oxpec.c | 155 ++++++++++++++++++++++++++++++++++-
+> >  2 files changed, 155 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfi=
+g
+> > index 739740c4bb535..6c9e64a03aaef 100644
+> > --- a/drivers/platform/x86/Kconfig
+> > +++ b/drivers/platform/x86/Kconfig
+> > @@ -1204,6 +1204,7 @@ config SEL3350_PLATFORM
+> >  config OXP_EC
+> >       tristate "OneXPlayer EC platform control"
+> >       depends on ACPI_EC
+> > +     depends on ACPI_BATTERY
+> >       depends on HWMON
+> >       depends on X86
+> >       help
+> > diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.=
+c
+> > index f0b9fff704de2..ce20bf70027df 100644
+> > --- a/drivers/platform/x86/oxpec.c
+> > +++ b/drivers/platform/x86/oxpec.c
+> > @@ -24,6 +24,7 @@
+> >  #include <linux/module.h>
+> >  #include <linux/platform_device.h>
+> >  #include <linux/processor.h>
+> > +#include <acpi/battery.h>
+> >
+> >  /* Handle ACPI lock mechanism */
+> >  static u32 oxp_mutex;
+> > @@ -60,6 +61,7 @@ enum oxp_board {
+> >  };
+> >
+> >  static enum oxp_board board;
+> > +static struct device *oxp_dev;
+> >
+> >  /* Fan reading and PWM */
+> >  #define OXP_SENSOR_FAN_REG             0x76 /* Fan reading is 2 regist=
+ers long */
+> > @@ -93,6 +95,23 @@ static enum oxp_board board;
+> >  #define OXP_X1_TURBO_LED_OFF           0x01
+> >  #define OXP_X1_TURBO_LED_ON            0x02
+> >
+> > +/* Battery extension settings */
+> > +#define EC_CHARGE_CONTROL_BEHAVIOURS (BIT(POWER_SUPPLY_CHARGE_BEHAVIOU=
+R_AUTO)             | \
+> > +                                      BIT(POWER_SUPPLY_CHARGE_BEHAVIOU=
+R_INHIBIT_CHARGE)    | \
 >
->It has only 64 bytes of data without shadow call stack, but it wasted 8
->bytes on the holes.
->a2 is somewhat an outlier that is not used most exception paths and
->excluding it makes everything fit nicely even now.
-
-But we can't exclude shadow call stack. It'll lead to increased size if that
-config is selected. A solution has to work for all the cases and not half
-hearted effort.
-
+> Please change the endings to:
 >
->> if shadow call stack were enabled) and already spans across two cachelines. I
->> did see the comment above that it should fit inside a cacheline. Although I
->> assumed its stale comment given that it already spans across cacheline and I
->> didn't see any special mention in commit messages of changes which grew this
->> structure above one cacheline. So I assumed this was a stale comment.
->>
->> On the other hand, whenever enable/lock bits are checked, there is a high
->> likelyhood that user_ssp and other fields are going to be accessed and
->> thus it actually might be helpful to have it all in one cacheline during
->> runtime.
+> ...) | <tabs>\
 >
->Yes, although accessing enable/lock bits will be relatively rare.
->It seems better to have the overhead during thread setup, rather than on
->every trap.
+> > +                                      BIT(POWER_SUPPLY_CHARGE_BEHAVIOU=
+R_INHIBIT_CHARGE_AWAKE))
+> > +
+> > +#define OXP_X1_CHARGE_LIMIT_REG      0xA3 /* X1 charge limit (%) */
+> > +#define OXP_X1_CHARGE_INHIBIT_REG     0xA4 /* X1 bypass charging */
 >
->> So I am not sure if its helpful sticking to the comment which already is stale.
+> Please use tabs for aligning the values (there were a few other defines
+> in the earlier patches with spaces too). (I know the earlier ones used
+> space but they don't seem to be in the same group so lets just move to
+> tabs with new stuff, optionally, you can add a patch to change also the
+> pre-existing ones to use space).
 >
->We could fix the holes and also use sp instead of a0 in the
->new_vmalloc_check, so everything would fit better.
+> > +
+> > +#define OXP_X1_CHARGE_INHIBIT_MASK_AWAKE 0x01
+> > +/*
+> > + * X1 Mask is 0x0A, OneXFly F1Pro is just 0x02
+> > + * but the extra bit on the X1 does nothing.
 >
->We are really close to fitting into a single cache-line, so I'd prefer
->if shadow stack only filled thread_info with data that is used very
->often in the exception handling code.
-
-I don't get what's the big deal if it results in two cachelines. We can
-(re)organize data structure in a way the most frequently accessed members are
-together in a single cacheline. We just need to find those members.
-
-In the hot path of exception handling, I see accesses to pt_regs on stack as
-well. These are definitley different cacheline than thread_info.
-
-I understand the argument of one member field crossing into two cachelines can
-have undesired perf effects. I do not understand reasoning that thread_info
-exactly has to fit inside one cacheline.
-
-If this was always supposed to fit in a single cacheline, clearly this
-invariant isn't/wasn't maintained as changes trickled in. I would like to see
-what maintainers have to say or someone who did data analysis on this.
-
-
+> Reflow to fill 80 chars.
 >
->I think we could do without user_sp in thread_info as well, so there are
->other packing options.
-
-Sure, probably somewhere in task_struct. But fact of the matter is that it has
-to be saved/restore during exception entry/exit. But then load/store to
-task_struct is essentially a different cachline. Not sure what we will achieve
-here?
-
+> > + */
+> > +#define OXP_X1_CHARGE_INHIBIT_MASK_OFF 0x02
+> > +#define OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS (OXP_X1_CHARGE_INHIBIT_MASK_=
+AWAKE | \
+> > +     OXP_X1_CHARGE_INHIBIT_MASK_OFF)
 >
->Btw. could ssp be added to pt_regs?
+> Align to (.
 
-I had that earlier. It breaks user abi. And it was a no go.
+I made the corrections.
 
+Should I send a revision now or wait?
+
+Antheas
+
+> --
+>  i.
 >
->Thanks.
+> > +
+> >  static const struct dmi_system_id dmi_table[] =3D {
+> >       {
+> >               .matches =3D {
+> > @@ -507,6 +526,129 @@ static ssize_t tt_led_show(struct device *dev,
+> >
+> >  static DEVICE_ATTR_RW(tt_led);
+> >
+> > +/* Callbacks for charge behaviour attributes */
+> > +static bool oxp_psy_ext_supported(void)
+> > +{
+> > +     switch (board) {
+> > +     case oxp_x1:
+> > +     case oxp_fly:
+> > +             return true;
+> > +     default:
+> > +             break;
+> > +     }
+> > +     return false;
+> > +}
+> > +
+> > +static int oxp_psy_ext_get_prop(struct power_supply *psy,
+> > +                                    const struct power_supply_ext *ext=
+,
+> > +                                    void *data,
+> > +                                    enum power_supply_property psp,
+> > +                                    union power_supply_propval *val)
+> > +{
+> > +     long raw_val;
+> > +     int ret;
+> > +
+> > +     switch (psp) {
+> > +     case POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD:
+> > +             ret =3D read_from_ec(OXP_X1_CHARGE_LIMIT_REG, 1, &raw_val=
+);
+> > +             if (ret)
+> > +                     return ret;
+> > +             if (raw_val < 0 || raw_val > 100)
+> > +                     return -EINVAL;
+> > +             val->intval =3D raw_val;
+> > +             return 0;
+> > +     case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
+> > +             ret =3D read_from_ec(OXP_X1_CHARGE_INHIBIT_REG, 1, &raw_v=
+al);
+> > +             if (ret)
+> > +                     return ret;
+> > +             if ((raw_val & OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS) =3D=3D
+> > +                 OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS)
+> > +                     val->intval =3D POWER_SUPPLY_CHARGE_BEHAVIOUR_INH=
+IBIT_CHARGE;
+> > +             else if ((raw_val & OXP_X1_CHARGE_INHIBIT_MASK_AWAKE) =3D=
+=3D
+> > +                      OXP_X1_CHARGE_INHIBIT_MASK_AWAKE)
+> > +                     val->intval =3D POWER_SUPPLY_CHARGE_BEHAVIOUR_INH=
+IBIT_CHARGE_AWAKE;
+> > +             else
+> > +                     val->intval =3D POWER_SUPPLY_CHARGE_BEHAVIOUR_AUT=
+O;
+> > +             return 0;
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +}
+> > +
+> > +static int oxp_psy_ext_set_prop(struct power_supply *psy,
+> > +                                    const struct power_supply_ext *ext=
+,
+> > +                                    void *data,
+> > +                                    enum power_supply_property psp,
+> > +                                    const union power_supply_propval *=
+val)
+> > +{
+> > +     long raw_val;
+> > +
+> > +     switch (psp) {
+> > +     case POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD:
+> > +             if (val->intval > 100)
+> > +                     return -EINVAL;
+> > +             return write_to_ec(OXP_X1_CHARGE_LIMIT_REG, val->intval);
+> > +     case POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR:
+> > +             switch (val->intval) {
+> > +             case POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO:
+> > +                     raw_val =3D 0;
+> > +                     break;
+> > +             case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE_AWAKE:
+> > +                     raw_val =3D OXP_X1_CHARGE_INHIBIT_MASK_AWAKE;
+> > +                     break;
+> > +             case POWER_SUPPLY_CHARGE_BEHAVIOUR_INHIBIT_CHARGE:
+> > +                     raw_val =3D OXP_X1_CHARGE_INHIBIT_MASK_ALWAYS;
+> > +                     break;
+> > +             default:
+> > +                     return -EINVAL;
+> > +             }
+> > +
+> > +             return write_to_ec(OXP_X1_CHARGE_INHIBIT_REG, raw_val);
+> > +     default:
+> > +             return -EINVAL;
+> > +     }
+> > +}
+> > +
+> > +static int oxp_psy_prop_is_writeable(struct power_supply *psy,
+> > +                                         const struct power_supply_ext=
+ *ext,
+> > +                                         void *data,
+> > +                                         enum power_supply_property ps=
+p)
+> > +{
+> > +     return true;
+> > +}
+> > +
+> > +static const enum power_supply_property oxp_psy_ext_props[] =3D {
+> > +     POWER_SUPPLY_PROP_CHARGE_BEHAVIOUR,
+> > +     POWER_SUPPLY_PROP_CHARGE_CONTROL_END_THRESHOLD,
+> > +};
+> > +
+> > +static const struct power_supply_ext oxp_psy_ext =3D {
+> > +     .name                   =3D "oxp-charge-control",
+> > +     .properties             =3D oxp_psy_ext_props,
+> > +     .num_properties         =3D ARRAY_SIZE(oxp_psy_ext_props),
+> > +     .charge_behaviours      =3D EC_CHARGE_CONTROL_BEHAVIOURS,
+> > +     .get_property           =3D oxp_psy_ext_get_prop,
+> > +     .set_property           =3D oxp_psy_ext_set_prop,
+> > +     .property_is_writeable  =3D oxp_psy_prop_is_writeable,
+> > +};
+> > +
+> > +static int oxp_add_battery(struct power_supply *battery, struct acpi_b=
+attery_hook *hook)
+> > +{
+> > +     return power_supply_register_extension(battery, &oxp_psy_ext, oxp=
+_dev, NULL);
+> > +}
+> > +
+> > +static int oxp_remove_battery(struct power_supply *battery, struct acp=
+i_battery_hook *hook)
+> > +{
+> > +     power_supply_unregister_extension(battery, &oxp_psy_ext);
+> > +     return 0;
+> > +}
+> > +
+> > +static struct acpi_battery_hook battery_hook =3D {
+> > +     .add_battery    =3D oxp_add_battery,
+> > +     .remove_battery =3D oxp_remove_battery,
+> > +     .name           =3D "OneXPlayer Battery",
+> > +};
+> > +
+> >  /* PWM enable/disable functions */
+> >  static int oxp_pwm_enable(void)
+> >  {
+> > @@ -847,11 +989,22 @@ static int oxp_platform_probe(struct platform_dev=
+ice *pdev)
+> >  {
+> >       struct device *dev =3D &pdev->dev;
+> >       struct device *hwdev;
+> > +     int ret;
+> >
+> > +     oxp_dev =3D dev;
+> >       hwdev =3D devm_hwmon_device_register_with_info(dev, "oxp_ec", NUL=
+L,
+> >                                                    &oxp_ec_chip_info, N=
+ULL);
+> >
+> > -     return PTR_ERR_OR_ZERO(hwdev);
+> > +     if (IS_ERR(hwdev))
+> > +             return PTR_ERR(hwdev);
+> > +
+> > +     if (oxp_psy_ext_supported()) {
+> > +             ret =3D devm_battery_hook_register(dev, &battery_hook);
+> > +             if (ret)
+> > +                     return ret;
+> > +     }
+> > +
+> > +     return 0;
+> >  }
+> >
+> >  static struct platform_driver oxp_platform_driver =3D {
+> >
