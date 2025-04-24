@@ -1,221 +1,119 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2076.outbound.protection.outlook.com [40.107.236.76])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F63A20F09A;
-	Thu, 24 Apr 2025 08:42:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.76
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745484169; cv=fail; b=KjbJkKx+AXJrw/n69AX8AUTEqJO6yOxdq1AEaGDSQ0BewVF2O4+VUO8pPV/083N6TGCd64Hy+m40qQ8N2fxkmrQfIlwZAXvVFd/umNt18uDNp0jSxVs2/5S61X687PBlWe8qAw+tng9WEGF71Y/CXACtjelaw3I+gm0pihhd6tU=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745484169; c=relaxed/simple;
-	bh=qoiJO9HcS/TEf0vW4btwcB3QAkgCb89uW7Ico+MZJS8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=HMr7N3QKl45bn1SrTCCuHfMKe35bnDtCC2mFs9SfH6nxUfB5Ka0KjC0rCQZUa9PbKY9FLpfSG0ZowbQeNsT/s/HlJ+JUbplo3jUH/elAJ0hL1HxTf9iKlGnlktgBFEC03ViOs9ZCPhRM/VEz04ih8CVHfidlysovmtZVkMTWGVM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=31uQnfkz; arc=fail smtp.client-ip=40.107.236.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C19071F75A9;
+	Thu, 24 Apr 2025 08:46:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745484392; cv=none; b=pL9DsDAkCX/fxLcXEJxof8o9OgwUfHfuBYY6ZPZS4okvKofoHWnXxbbTudwOx9yKStz+nl/1B/bnLPyTqiXPECu/YLMiVoet7M61JIeA5a+fxiMzuhItLS366x1L8moLq3kNNXI/9srDg5U8ENc2K2HCwM+D1xBlyxp77Fnc8Mo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745484392; c=relaxed/simple;
+	bh=ki3q6dIyPVLY9OlwYT9gx2mvHOve0ih8UQqOIXQy4sw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=jwQxNc/ZuT3VuulgzV2KYPEtABJ4/9dQc8PpG6UTr1vR0kb0kMiATqo2p3awTQc/Lj1BdgDs5Zc6nTeeDU+WbrtfK5NK8Ui8Wc3i9tx6jmv3oiUNM/5ZS1H5bvCWjH+LYA+dq+1zbZJVB2IN/BC6oHREtYldPLccPYer0w+CZ7Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uSR+lBTu; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="31uQnfkz"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rQ3aEQe+yLlljKDmuKFLCNo3QZdIS+SS7TeUgkQSfIBWV6nup3JLy1+y0uNeJdpBX6ByfnYUG5aVJjKqVXGesekjbW64zDFiVlYni+EJf7TzmDwADmQa4bWDN7t0xGZMXckm6KVqp0ojqtun2V8ABLg/0HggwGwNtwtqnxAwBUoqu0Hp+845bmU132ipIuMGUPcQgLM83vat3NMNFMDiPuEhOO7NublWGam0r2JM5ejzrHSa4WspvYcUDpXnZv1nYOpEEAnBBFi7ynvwiPeiPd5hTqgO9GGFYVomg6vGTORchdowNKav9GY3arT7HVJrxGfmc+Is4zinjT3j0Am5tA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nKFgSU+/n1w4KGuub1OiuFuizuepUpoFBaPgg06u1ro=;
- b=hxAurpG2C7HR1RhiFZwbV9RciTnWVFyK+iUEtbzGC+iJbAcKNLqa0eky2eranReZf/GE9/2aECToQZDpjwOA5Kl7lkgDWQS2ocE7vd/PK8GAvloaT//w3J+o4wafXo7rppBEZFXUh5kkfvajKMz3JPQNX/taT3UpnyXxc2C7vL6Dc93QxGD+7QDb4HyIgmSiVfRceb7F0gbGPzTWPVoyYNZG1bhE1zg60h/e419ELXXGtwVqiCmh+4G4U3xMA+LLJyMUYjB26IamNej3Yi/OcWojikgWIilynf61ALq6T2E9fglJoLP02VPb4iqbZL7GQYM8NRvd2ZjwAqIdGcnmsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nKFgSU+/n1w4KGuub1OiuFuizuepUpoFBaPgg06u1ro=;
- b=31uQnfkznuaYIEy7Q9zwqXRWym8BZVnKOUbKuwEPn1hoaAPvzqd8Wa7Q4WXjU3StcUFJX8KcvcQDFzU576rYisGjrjXZLmk5JxSWV+7IOREgkCUyEGZKew0LTyUSgQGchYHSTIGtxQ0qXv+7EikBzeFp03rJSdctEqUi/foqbmM=
-Received: from BL6PEPF00016416.NAMP222.PROD.OUTLOOK.COM
- (2603:10b6:22e:400:0:1004:0:4) by CH2PR12MB4293.namprd12.prod.outlook.com
- (2603:10b6:610:7e::19) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8655.36; Thu, 24 Apr
- 2025 08:42:41 +0000
-Received: from BN2PEPF000055E0.namprd21.prod.outlook.com
- (2a01:111:f403:c803::8) by BL6PEPF00016416.outlook.office365.com
- (2603:1036:903:4::a) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8632.36 via Frontend Transport; Thu,
- 24 Apr 2025 08:42:41 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000055E0.mail.protection.outlook.com (10.167.245.10) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8699.1 via Frontend Transport; Thu, 24 Apr 2025 08:42:41 +0000
-Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 24 Apr
- 2025 03:42:34 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
- Corbet" <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>, "Danilo
- Krummrich" <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Lucas
- Stach" <l.stach@pengutronix.de>, =?UTF-8?q?Ma=C3=ADra=20Canal?=
-	<mcanal@igalia.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
-Date: Thu, 24 Apr 2025 10:38:21 +0200
-Message-ID: <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uSR+lBTu"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6F4A0C4CEED;
+	Thu, 24 Apr 2025 08:46:31 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745484392;
+	bh=ki3q6dIyPVLY9OlwYT9gx2mvHOve0ih8UQqOIXQy4sw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=uSR+lBTuzs9lAfUp6ETUwd/e83HDQBPN+bi2x6d+WcXRuXqISLxR1KnZmPcANDNPl
+	 XcusVwWrcgl5ZwxaQMTClZZp6wv04VyBadsXr0ChBep2yGTn0yT6aRBkv0qe3YHnsu
+	 Xbfy/GOWPkZiF5ouAX9EAiGXmE23jYsBtArkcpCT8edU46pm2SHyttUmmiowtlF9le
+	 jBdsLZ0dV8tCc+abgC1OkQo4yqWtl296bgiFLL3P131EcMwOFukXU6T1YRIKWY0DCS
+	 vfhRiecYS5EGzJ47VScGPAGcWrDrAIXqhECCrbNzQ/i5dx+Y8dYPFcg8gKvkI2s3k1
+	 MO9hwaOX8jurQ==
+Date: Thu, 24 Apr 2025 11:46:26 +0300
+From: Leon Romanovsky <leon@kernel.org>
+To: Christoph Hellwig <hch@lst.de>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>,
+	Mika =?iso-8859-1?Q?Penttil=E4?= <mpenttil@redhat.com>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
+	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v9 10/24] mm/hmm: let users to tag specific PFN with DMA
+ mapped bit
+Message-ID: <20250424084626.GQ48485@unreal>
+References: <cover.1745394536.git.leon@kernel.org>
+ <0a7c1e06269eee12ff8912fe0da4b7692081fcde.1745394536.git.leon@kernel.org>
+ <7185c055-fc9e-4510-a9bf-6245673f2f92@redhat.com>
+ <20250423181706.GT1213339@ziepe.ca>
+ <36891b0e-d5fa-4cf8-a181-599a20af1da3@redhat.com>
+ <20250423233335.GW1213339@ziepe.ca>
+ <20250424080744.GP48485@unreal>
+ <20250424081101.GA22989@lst.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000055E0:EE_|CH2PR12MB4293:EE_
-X-MS-Office365-Filtering-Correlation-Id: b533277e-6afb-4fc2-aaaa-08dd830bf98f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|376014|7416014|82310400026|36860700013|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?NXREZEMzMmwzdFZ3TDE4TC9Sd0VaK0w2eHdDSUMweU5IMDJpNzhwblVkdFJB?=
- =?utf-8?B?ZG92ZFhUbTlSV3d1MkhkSE1ab3ByS0FMVE5rM2RHWUVIUjRtbEUrMnM1VzJv?=
- =?utf-8?B?bG13TjN6S05Nb1I5eS9ZbWRTTU1JU081TStSLzcvNWQ3Rzc5azBtUUZzK3lG?=
- =?utf-8?B?UWcvK3cyN21lQmttUTFwQjRyOWUzMjZCU2hTREhtMng4SDlHaDk0cll4bVpV?=
- =?utf-8?B?RnBJWCt5Z05DZjNuQ1VXWCt3bHhMaUljUVJGcHlMdlNwMnErdEFrWE1mWDd4?=
- =?utf-8?B?aVdlTkMxYkJJVUFLSENhOTE2aEgwV015TldOQWtTL3QzTWRxajN0K1B0UXNw?=
- =?utf-8?B?VEgveWhHc0xSeFdFU3o3ZlJwbzFsb3F0d2YwdTVyU1hHTlhraWo4ODl0MlNU?=
- =?utf-8?B?ZERzSlQwM3MzQzR0TkFwVDE5UnZOQXlDSUxTMDlMcDV1dGZzUEdxSkRNSTBx?=
- =?utf-8?B?Q3hGNXhFcXNGRWJiYys3NVh6ZkZSSGQ2OTB0cEpIT0hYSWc1azdLVGlSL3BV?=
- =?utf-8?B?ZEpwcHlTVHl2YzV3NThKcVFrbnBmaGljQkdzeEdWYWtjRWptODN5ck1zRW04?=
- =?utf-8?B?NWN3VHBxN0VvRW1HRkVyNEE1OFVhRkRabUI1dk5pZW5lVW9UdXdEWUI4SUgy?=
- =?utf-8?B?YjRLZVZteVk1blgzMkdQUUVSODN4U1p6bGdSTFhheTNqTzRlWCtZVXByOVFk?=
- =?utf-8?B?MERTTkg1aGFyVkkyWWNwU1BkZ2VaaFhuZDFwdi9WbmRSRVBpd1ZZU3c3akVh?=
- =?utf-8?B?TFAxc1ROY1dOTU90RVhXS1h3LzlJK0JzVTUxTVgxZ2ZBNHMrN2FQN2hkeDg5?=
- =?utf-8?B?S3ZYbVZHT29kK3FjZW5QaXRUU2dJTnh6cm1WQkcxeTVoN2VGNktTNm9LOW96?=
- =?utf-8?B?Z3dkMyttUEQ4TE54K1RYR1Y2VUVUM1Y1T0JSb2dpek5kZ3VTMzlxMG9CU0sz?=
- =?utf-8?B?VWhHRHhkZStwYno3SkRpeE0wcEc5TFUwdzJ6aFpJM1IzdS9WUVREOVl1Tzgy?=
- =?utf-8?B?d1dobGhidlFGZEhBbS9NTGRxZWIrcXpqWEVRUUJWdGRtVGRqMDNwdDZySjhQ?=
- =?utf-8?B?WERJdFFGRmRpMjA5akllRERtM2xyTnhLTXNndnh5Q2JNVEZSTnlKcmZkT3Bz?=
- =?utf-8?B?WTJzcFRIcnlVS3hrbHNiTTVDZmZ1SVNUTzMzem1ZYVlUY0xrK2dGSGFhZWZy?=
- =?utf-8?B?NnVtVXQybHJZTDJSY2I3RlRTdjJhOFhOSmNuZUtZZlFPSU40SEYrcUNuOGxj?=
- =?utf-8?B?QjJIVk1sYXFKOVV3UHd0QmxZbEh4TVgwNDB6eFV0MmdrWHVYb0NUY1RLWlE3?=
- =?utf-8?B?QWtGK201UWJtRm1YMEh0YzlONHlYQzBjRWp5dVErTmZoV0tkNm52LytWM2l4?=
- =?utf-8?B?WU9PamtCNUsxb0lzWE5uS3lYWDVMS3EzK2wrSkw0bUdtQnlPdk9CS2JhdFdk?=
- =?utf-8?B?bFl6aHU5eFg2NmNHUUZVeEFEUUdmenJEY0xHbTRkNmZYOTR3dmVtWThPVEJY?=
- =?utf-8?B?YXo4TkUvcGRpbUYzbEU1cGtNMmdxS3YrNFV5bHBjQ0JZT09zd1hpWU5nQitQ?=
- =?utf-8?B?VCtndldFY0QzQkZYeHFscllHNVpZMDY1YnNjTkIzSU5zVklHQ0pMUFFySkZE?=
- =?utf-8?B?b2g1OTB4VjRrbjhVKy9SVklUUVNlV2M4OCtoNjQ3K2preUw3cEdaZEFBcTZa?=
- =?utf-8?B?dXdadno3eHpHVzBwZllSaUFjdU0rMDJsN0hGMVppbE9iM2QwNVRwb3EvT3Fy?=
- =?utf-8?B?Zm9UdXR5eWJvWnpxNEMvb0U0V0paZWM3RGpaTjdnVzRBd21MU3h0TTlwTXhw?=
- =?utf-8?B?U25xaWJpRmlzODJCZWJxM1JQaUNJUUZraERYVGhZNDhrbEZHWUJlZlRpVDZt?=
- =?utf-8?B?TlI1ZUovL1FCb1hPQ21NMmVaTDhQZyt4cEVrbVU2L3phaVNVN3M3UnBBZW1X?=
- =?utf-8?B?SVcrRjkxb3gxN3FzK0pQeXVDMXlLNlRWak5XQjUwTmViKzVZNmp2Yi9pNkxt?=
- =?utf-8?B?MmtmT09QREZQb3FQU1dINmIrUGVyUTFVTzUvWkpydzU5QnpNOEppNWtHNjND?=
- =?utf-8?B?aXd0RlhhV1JPU1piL2J3MTN1Tnh5dGV1UDVUdz09?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(7416014)(82310400026)(36860700013)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 08:42:41.0868
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b533277e-6afb-4fc2-aaaa-08dd830bf98f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000055E0.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR12MB4293
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424081101.GA22989@lst.de>
 
-This commit adds a document section in drm-uapi.rst about tracepoints,
-and mark the events gpu_scheduler_trace.h as stable uAPI.
+On Thu, Apr 24, 2025 at 10:11:01AM +0200, Christoph Hellwig wrote:
+> On Thu, Apr 24, 2025 at 11:07:44AM +0300, Leon Romanovsky wrote:
+> > > I see, so yes order occupies 5 bits [-4,-5,-6,-7,-8] and the
+> > > DMA_MAPPED overlaps, it should be 9 not 7 because of the backwardness.
+> > 
+> > Thanks for the fix.
+> 
+> Maybe we can use the chance to make the scheme less fragile?  i.e.
+> put flags in the high bits and derive the first valid bit from the
+> pfn order?
+> 
 
-The goal is to explicitly state that tools can rely on the fields,
-formats and semantics of these events.
+It can be done too. This is what I got:
 
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- Documentation/gpu/drm-uapi.rst                | 19 +++++++++++++++++++
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 19 +++++++++++++++++++
- 2 files changed, 38 insertions(+)
+   38 enum hmm_pfn_flags {
+   39         /* Output fields and flags */
+   40         HMM_PFN_VALID = 1UL << (BITS_PER_LONG - 1),
+   41         HMM_PFN_WRITE = 1UL << (BITS_PER_LONG - 2),
+   42         HMM_PFN_ERROR = 1UL << (BITS_PER_LONG - 3),
+   43         /*
+   44          * Sticky flags, carried from input to output,
+   45          * don't forget to update HMM_PFN_INOUT_FLAGS
+   46          */
+   47         HMM_PFN_DMA_MAPPED = 1UL << (BITS_PER_LONG - 4),
+   48         HMM_PFN_P2PDMA     = 1UL << (BITS_PER_LONG - 5),
+   49         HMM_PFN_P2PDMA_BUS = 1UL << (BITS_PER_LONG - 6),
+   50
+   51         HMM_PFN_ORDER_SHIFT = (BITS_PER_LONG - 11),
+   52
+   53         /* Input flags */
+   54         HMM_PFN_REQ_FAULT = HMM_PFN_VALID,
+   55         HMM_PFN_REQ_WRITE = HMM_PFN_WRITE,
+   56
+   57         HMM_PFN_FLAGS = ~((1UL << HMM_PFN_ORDER_SHIFT) - 1),
+   58 };
 
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..4863a4deb0ee 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -693,3 +693,22 @@ dma-buf interoperability
- 
- Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
- information on how dma-buf is integrated and exposed within DRM.
-+
-+
-+Trace events
-+============
-+
-+See Documentation/trace/tracepoints.rst for information about using
-+Linux Kernel Tracepoints.
-+In the DRM subsystem, some events are considered stable uAPI to avoid
-+breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
-+cannot be removed, nor their formatting updated. Adding new fields is
-+possible, under the normal uAPI requirements.
-+
-+Stable uAPI events
-+------------------
-+
-+From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-+
-+.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+   :doc: uAPI trace events
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 781b20349389..7e840d08ef39 100644
---- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -32,6 +32,25 @@
- #define TRACE_SYSTEM gpu_scheduler
- #define TRACE_INCLUDE_FILE gpu_scheduler_trace
- 
-+/**
-+ * DOC: uAPI trace events
-+ *
-+ * ``drm_sched_job_queue``, ``drm_sched_job_run``, ``drm_sched_job_add_dep``,
-+ * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are considered
-+ * stable uAPI.
-+ *
-+ * Common trace events attributes:
-+ *
-+ * * ``dev``   - the dev_name() of the device running the job.
-+ *
-+ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
-+ *   uniquely identifies where the job is going to be executed.
-+ *
-+ * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
-+ *   &drm_sched_fence.finished
-+ *
-+ */
-+
- DECLARE_EVENT_CLASS(drm_sched_job,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
- 	    TP_ARGS(sched_job, entity),
--- 
-2.43.0
+So now, we just need to move HMM_PFN_ORDER_SHIFT if we add new flags
+and HMM_PFN_FLAGS will be updated automatically.
 
+Thanks
