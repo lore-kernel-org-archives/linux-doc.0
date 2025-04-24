@@ -1,248 +1,241 @@
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C45AF14D2B7
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 13:33:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE79C15C15F
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 13:36:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745501638; cv=none; b=aP2rGi+6Hk0Q8wYWe2I5FB4vrzSfFUKf7CMldiv22Q4O5sB6wcxMlZDFxUnf4qz+2GzDMWB866cOAmgcjqr1RNNFy1POYwgRYHRiu2i6ezlLGkMMUBHIGSzaPQ1mKQPJokxwyMtyeWuwbBCE9rWA+fTjcemfji7fE8XgSxJUNZQ=
+	t=1745501820; cv=none; b=C/IW5NqfOZPzWzwqbsTNia2A9BQjWRJvQ9Srca1qIJ3dhISSypyDmrv38/nSoZvgPsySgvGE6r836g4cOZ1QCg4C6NG67IvzfyrbFQ2SSUuNWz8CbADH62sLLX2WZYdFyCsOgAuBGM26VaPMT3log66UTzu2ScPUyFmjp63bGFk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745501638; c=relaxed/simple;
-	bh=PmojUCnrJqdi6ctPr2LDOJj4If88C0jCyODfzBPkVZw=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=hRqCAwzZVtBSRqwuihEUJ5DvFq/sYnDrB3JgX/QUab/FJRnjK6d0HnPelKzUx7KaciVtA9hcX7SNnlgZrKu6/xaTRvisbSbwIuvgzE2UfmFEhGQjSBP5NrQ/agXdJw1f+IGtSRZIBMALMEm8d+sduXOZmcwueNuBbOb8W6Ai4NI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=HffbYUUv; arc=none smtp.client-ip=209.85.216.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1745501820; c=relaxed/simple;
+	bh=mJgp6Mchv4iv2by+fPTrmWpvDmstqIj/vVuuTYwKWrc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=SdOUKYmVsJAbV67s0IU6C5iKVuHQkkfelqBvx7hqsFYg3eHduGUstmynugHhlPEPrzvb5krrWUXT3xYM09yr4dDN4Vqw0+Epzb+cYFSdnxGQGWoN1VGXy6b04TUBVFbaJpRyCo7CyV23OT9GOhNVWOnTO6LXB+rblmP7hL9nzOo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=STPhnhl3; arc=none smtp.client-ip=209.85.221.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="HffbYUUv"
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-309f3bf23b8so234392a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 06:33:53 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="STPhnhl3"
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3912387cf48so38085f8f.3
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 06:36:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1745501633; x=1746106433; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+        d=ventanamicro.com; s=google; t=1745501816; x=1746106616; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=xAd6NcWDbAEkgnYX5ETwh+0vWLsl9guxGLJqEAiLt0U=;
-        b=HffbYUUvoCFOU/h1qQUwRgPCJYaEXF6WlbwroPu7WNatjmO+rR7vEKUAHsCGxrjaKa
-         IP4REwSUPXNyfOih2HIZZ4ML1UNtSnmUi4X72GlVYngk5pfAYupFLZgWt8wSwFx7G3K3
-         IMd8Rd1DN6wxLMnW09sP+pXJMcWd2uEoW6Ao5Mt953OrGLLnId8zjsWnDBM8KmVD9OVq
-         xQdz1Dq83Hb96ZLT99TfzqjgOYJlCc6fNO7LYU5rFNlZXFJ4vMR+7QM/9wismHzvQ97k
-         LJJ7QOvW6dpT469Hdsfljux+lYexR6E8fuHHd4QK1LHR3ZWeCG1j1+k2d91BfISS0RxD
-         2IAQ==
+        bh=u72nfMy9zYS5aW9xBcDq6LESieHcry02Dg/8XEt7OSw=;
+        b=STPhnhl3MTSastFv/OTSfSJnvslCvjVFt8jQhYjLvJcAvNTMw2P95yoTCq7JNMH3oB
+         ZiHZePSZTKb8HQPOF2FZj7lJcheeYAM9TZI4ywWPoJDKd+qnWzhYDa3b6brXchZ2gz1A
+         iOds1IBKHaBEtEMgAZHyp7VnSGreB1libYVDSk0VW24DaFN57lhhD4mNPToS/FGOySVe
+         OBCN8JXd+nYE3DmFRwi/qQAIjBWxS9rSeLtljz+7N0EWc5IgDelmDHVKWrdW+BDfo+fC
+         NEF2idC69hqasCOrs8POBpnilmFdiY2QJvnVbXouIESH4LHz2D50/QSNyQ8cimsa/YYW
+         tMmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745501633; x=1746106433;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xAd6NcWDbAEkgnYX5ETwh+0vWLsl9guxGLJqEAiLt0U=;
-        b=bG3aTfMwxGKZsdfwT2gP2Cxv2hwdpS6m1+0CkaESS4zintyHTPj3fRJ7j7CZqun28U
-         5S5JEAdMzO3U+NFMNCGUDZUgwUEWDY4FAya7bLx87IB3otnbMSFc3Ebk6Cs9hfY/LQHR
-         FPFTNhUKJLCxfLFoVTmlJpHlfd7l2EMRwV1CzhUpWG50BZL84yCwS98yEmeeLiZL1pY4
-         NoBwGwkGlOS2iq63vi2/Uafub2eZARNOkuCtAyt/C3jH5uq1uQ7uYQk5lt0ix3ebcs2h
-         7EnwT5ntYH/v4WDIcsVK5r2gQ/Ht5bqvE0XqywUvN6UmxcPZ3/FbIxrhegZO5L4DKI1o
-         MAcQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWlt74l9+25MnVx0bZEm7IW3Ar5iphdpIUDKOX0MCOElxjlXvEG6a/1gKaJeREV0M9hK6sYsnIzt3c=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwekB7tebqfwZocQeMOxkOgw0aZHv/jrI/eVuTKM6KQZVv3L75U
-	+ZgenIX5lQfOOFe43rxChoMoeUAZ4fJAAs6rb5isvvl7QhL7sUsqmUML5DmpwiA=
-X-Gm-Gg: ASbGncsed8M4q0qykqNG/tNorgT8CEPRXoTuZ52eC+YiCaObAs0GQ80Gagg1kqJf+jW
-	OPQJKOWj/x2stagfSkei8xXZwBP6e4i1vK+/AvN7xEljMov4xPji+1mtitnpfbGogYPApAFYx1E
-	26Vl1LJVHKOLRWZwLf8X8YMMfEOUg789rH3kiTiDYurkC/0071G4GJyVlbzrvBnNXfrBxzMXwN6
-	eiG03baxJ0TiY4twoPdQImH9jRgymVh9bHZ+pWDz9Xi343DEAXCfJrXa1A6WMi4kBjSe/SZSsbU
-	L5CWzz2LmhAsVH2cGFjwmdTAMJV2LBKHB8Pv/K/c1Qxk9pPgecZSkkwInagxuYPQr7VPwt4Ak1f
-	5WHOrvX/Qj/Sjr6AWHDrrDyqudfCxwfGpqA6m4tBBK9ICqjs/pJYeSbq0
-X-Google-Smtp-Source: AGHT+IE5MxG2v6sAMsA9v4eeCn0OWfJW+7T9eGpMN/cvo+iq3Qr4O9mPR89K/lfCHHiHtXjigxiacQ==
-X-Received: by 2002:a17:90b:2d10:b0:2f5:88bb:12f with SMTP id 98e67ed59e1d1-309ed28e9f7mr3454247a91.21.1745501632892;
-        Thu, 24 Apr 2025 06:33:52 -0700 (PDT)
-Received: from localhost.localdomain (60-248-18-139.hinet-ip.hinet.net. [60.248.18.139])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef0d5c72sm1321147a91.43.2025.04.24.06.33.51
+        d=1e100.net; s=20230601; t=1745501816; x=1746106616;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=u72nfMy9zYS5aW9xBcDq6LESieHcry02Dg/8XEt7OSw=;
+        b=oSYPmLOqifQuNA0cuR+KZSn8o1RYb04nVWHIMPAFUNE4NvSR+HkENnHZGHFaaemlGV
+         w71K9loWDTInJxV95U7TQM+OvLx1EBa+uVmT5BbCJl4/e9Z8wvouhAQYqSvC9vkFYO+U
+         B6zIPFVFds1MmJYffCzBjbKxQpbzukTcNGmt8IFlsjfLAhKaAzyCjSw9cEZYMyUgDs1Q
+         L17gCbuNHg0+QnpodONdcgHl6MoX1Z8E2P2cQwpkx6YVhnotMHiTB+4bfiR/n+Z9gKbN
+         +zTl1Gjrx5XMqaUCmRpP8eaZDTewtkgZJMK5hlLRr8cw5E9yBKebx339n9Mh8+OxNFQD
+         /QhQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVwXDrJ7BUDtg1fs7cqN46R3S0nT4AqDJzBB9pKdexL7kwGNZHiKsM0BeDgbLlbSNLSKMP6Ll94e6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxMVwO25PjQAJlYL8ImIrYEOD5UR08ZceuIdH7tPCt2sVy5jK9T
+	XTD6K2KgyveF9BfNaGIUGqwY3RIU20GdysB2lYYVNZ3QpR44TtzySKs3r/SfAHc=
+X-Gm-Gg: ASbGncsz8Xsa1tEOuUru0jQH4p550b0BON5qaqeOupVxHsn3jAIKrTcTCnrqM8Lbc54
+	D5V+4HSLOaBVYaWPoU/vyBnfWDv5Ee68MR2b32kBgScN9NbV222GhgVY777hgbpgbTzQRKCv2hi
+	J+akW75U12OoR2LPctQodyCq95w2srmdoaVTGO9Phl/XigvoGQp/0xFGqdou1dVfHIl2bnzLs3S
+	YXjcThEmkjJ285tf9F5XQonohZ5dzJrRryl69SA0/Jq21Y0sUmHAQdQDj14U26WKB0FTrO4BpnV
+	VYnyURWzagK0711IvCzBeMMY4EZ5MZxVPi+mdbkCy64XmzDI
+X-Google-Smtp-Source: AGHT+IEvTiSK1Lb+RPBdQ/DuDmeOaJEszTrN5CFCiZtbJdEyNkpwKicv/xW9sGpiPTRfU1AmU+RxSg==
+X-Received: by 2002:a05:6000:2483:b0:3a0:65ab:89d5 with SMTP id ffacd0b85a97d-3a06cfaf02fmr812129f8f.15.1745501815962;
+        Thu, 24 Apr 2025 06:36:55 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d4c30d7sm2135597f8f.44.2025.04.24.06.36.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 06:33:52 -0700 (PDT)
-From: Chiang Brian <chiang.brian@inventec.com>
-X-Google-Original-From: Chiang Brian <chiang.brian@inventec.corp-partner.google.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Date: Thu, 24 Apr 2025 21:25:37 +0800
-Message-Id: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250424132538.2004510-1-chiang.brian@inventec.corp-partner.google.com>
-References: <20250424132538.2004510-1-chiang.brian@inventec.corp-partner.google.com>
+        Thu, 24 Apr 2025 06:36:55 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Apr 2025 15:36:54 +0200
+Message-Id: <D9EWR3RQK0FD.3GF55KNS53YSR@ventanamicro.com>
+Subject: Re: [PATCH v12 12/28] riscv: Implements arch agnostic shadow stack
+ prctls
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
+ <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
+ <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
+ "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
+ Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
+ <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+To: "Deepak Gupta" <debug@rivosinc.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
+ <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
+ <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
+In-Reply-To: <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
 
-From: Chiang Brian <chiang.brian@inventec.com>
+2025-04-23T21:44:09-07:00, Deepak Gupta <debug@rivosinc.com>:
+> On Thu, Apr 10, 2025 at 11:45:58AM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
+te:
+>>2025-03-14T14:39:31-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/=
+usercfi.h
+>>> @@ -14,7 +15,8 @@ struct kernel_clone_args;
+>>>  struct cfi_status {
+>>>  	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
+>>> -	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 1);
+>>> +	unsigned long ubcfi_locked : 1;
+>>> +	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
+>>
+>>The rsvd field shouldn't be necessary as the container for the bitfield
+>>is 'unsigned long' sized.
+>>
+>>Why don't we use bools here, though?
+>>It might produce a better binary and we're not hurting for struct size.
+>
+> If you remember one of the previous patch discussion, this goes into
+> `thread_info` Don't want to bloat it. Even if we end shoving into task_st=
+ruct,
+> don't want to bloat that either. I can just convert it into bitmask if
+> bitfields are an eyesore here.
 
-The TPS53685 is a fully AMD SVI3 compliant step down
-controller with trans-inductor voltage regulator
-(TLVR) topology support, dual channels, built-in
-non-volatile memory (NVM), PMBus interface, and
-full compatible with TI NexFET smart power
-stages.
-Add support for it to the tps53679 driver.
+  "unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);"
 
-Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
----
-V5 -> V6:
-	1. Add information about tps53685 into tps53679.rst
-	2. Add additional flags when identifing the chip as tps53685
-	3. Adjust length once returned device id is terminated by null character
-V4 -> V5: 
-	1. document the compatible of tps53685 into dt-bindings
-	2. add the buffer length as argument for %*ph
-	3. Add Changelog
-V3 -> V4: 
-	1. Add length comparison into the comparison of "id",or it may be true when 
-	   the substring of "id" matches device id. 
-	2. Restore `return 0;` in `tps53679_identify_chip()`
-V2 -> V3:
-	1. Remove the length comparsion in the comparison of "id".
-V1 -> V2: 
-	1. Modify subject and description to meet requirements
-	2. Add "tps53685" into enum chips with numeric order
-	3. Modify the content of marco "TPS53681_DEVICE_ID" from 0x81 to "\x81"
-	   Add marco "TPS53685_DEVICE_ID" with content "TIShP"
-	4. Modify the type of "id" from u16 to char* in `tps53679_identify_chip()`
-	5. Modify the comparison of "id". It will be true if the string "id" matches 
-	   device ID and compare with type char*,
-	6. Add the length comparsion into the comparison of "id".
-	7. Modify "len" as return code in `tps53679_identify_chip()`
-	8. Output device error log with %*ph, instead of 0x%x\n" 
-	9. Use existing tps53679_identify_multiphase() with argument 
-	   "TPS53685_DEVICE_ID" in tps53685_identify() rather than creating one
-	   tps53685_identify_multiphase()
+is an eyesore that defines exactly the same as the two lines alone
 
- Documentation/hwmon/tps53679.rst |  8 +++++++
- drivers/hwmon/pmbus/tps53679.c   | 36 +++++++++++++++++++++++++++-----
- 2 files changed, 39 insertions(+), 5 deletions(-)
+  unsigned long ubcfi_en : 1;
+  unsigned long ubcfi_locked : 1;
 
-diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps53679.rst
-index 3b9561648c24..dd5e4a37375d 100644
---- a/Documentation/hwmon/tps53679.rst
-+++ b/Documentation/hwmon/tps53679.rst
-@@ -43,6 +43,14 @@ Supported chips:
- 
-     Datasheet: https://www.ti.com/lit/gpn/TPS53681
- 
-+  * Texas Instruments TPS53685
-+
-+    Prefix: 'tps53685'
-+
-+    Addresses scanned: -
-+
-+    Datasheet: https://www.ti.com/lit/gpn/TPS53685
-+
-   * Texas Instruments TPS53688
- 
-     Prefix: 'tps53688'
-diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
-index 63524dff5e75..01fefaef1688 100644
---- a/drivers/hwmon/pmbus/tps53679.c
-+++ b/drivers/hwmon/pmbus/tps53679.c
-@@ -16,7 +16,7 @@
- #include "pmbus.h"
- 
- enum chips {
--	tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
-+	tps53647, tps53667, tps53676, tps53679, tps53681, tps53685, tps53688
- };
- 
- #define TPS53647_PAGE_NUM		1
-@@ -31,7 +31,8 @@ enum chips {
- #define TPS53679_PROT_VR13_5MV		0x07 /* VR13.0 mode, 5-mV DAC */
- #define TPS53679_PAGE_NUM		2
- 
--#define TPS53681_DEVICE_ID		0x81
-+#define TPS53681_DEVICE_ID     "\x81"
-+#define TPS53685_DEVICE_ID     "TIShP"
- 
- #define TPS53681_PMBUS_REVISION		0x33
- 
-@@ -86,10 +87,12 @@ static int tps53679_identify_phases(struct i2c_client *client,
- }
- 
- static int tps53679_identify_chip(struct i2c_client *client,
--				  u8 revision, u16 id)
-+				  u8 revision, char *id)
- {
- 	u8 buf[I2C_SMBUS_BLOCK_MAX];
- 	int ret;
-+	int buf_len;
-+	int id_len;
- 
- 	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
- 	if (ret < 0)
-@@ -102,8 +105,14 @@ static int tps53679_identify_chip(struct i2c_client *client,
- 	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
- 	if (ret < 0)
- 		return ret;
--	if (ret != 1 || buf[0] != id) {
--		dev_err(&client->dev, "Unexpected device ID 0x%x\n", buf[0]);
-+
-+	/* Adjust length if null terminator if present */
-+	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
-+
-+	id_len = strlen(id);
-+
-+	if (buf_len != id_len || strncmp(id, buf, id_len)) {
-+		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
- 		return -ENODEV;
- 	}
- 	return 0;
-@@ -138,6 +147,16 @@ static int tps53679_identify(struct i2c_client *client,
- 	return tps53679_identify_mode(client, info);
- }
- 
-+static int tps53685_identify(struct i2c_client *client,
-+				 struct pmbus_driver_info *info)
-+{
-+	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
-+			 PMBUS_HAVE_STATUS_INPUT;
-+	info->format[PSC_VOLTAGE_OUT] = linear;
-+	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
-+					   TPS53685_DEVICE_ID);
-+}
-+
- static int tps53681_identify(struct i2c_client *client,
- 			     struct pmbus_driver_info *info)
- {
-@@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
- 		info->identify = tps53681_identify;
- 		info->read_word_data = tps53681_read_word_data;
- 		break;
-+	case tps53685:
-+	    info->pages = TPS53679_PAGE_NUM;
-+	    info->identify = tps53685_identify;
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-@@ -277,6 +300,7 @@ static const struct i2c_device_id tps53679_id[] = {
- 	{"tps53676", tps53676},
- 	{"tps53679", tps53679},
- 	{"tps53681", tps53681},
-+	{"tps53685", tps53685},
- 	{"tps53688", tps53688},
- 	{}
- };
-@@ -289,6 +313,7 @@ static const struct of_device_id __maybe_unused tps53679_of_match[] = {
- 	{.compatible = "ti,tps53676", .data = (void *)tps53676},
- 	{.compatible = "ti,tps53679", .data = (void *)tps53679},
- 	{.compatible = "ti,tps53681", .data = (void *)tps53681},
-+	{.compatible = "ti,tps53685", .data = (void *)tps53685},
- 	{.compatible = "ti,tps53688", .data = (void *)tps53688},
- 	{}
- };
--- 
-2.43.0
+That one should be removed.
 
+If we have only 4 bits in 4/8 bytes, then bitfields do generate worse
+code than 4 bools and a 0/4 byte hole.  The struct size stays the same.
+
+I don't care much about the switch to bools, though, because this code
+is not called often.
+
+>>> @@ -262,3 +292,83 @@ void shstk_release(struct task_struct *tsk)
+>>> +int arch_set_shadow_stack_status(struct task_struct *t, unsigned long =
+status)
+>>> +{
+>>> +	/* Request is to enable shadow stack and shadow stack is not enabled =
+already */
+>>> +	if (enable_shstk && !is_shstk_enabled(t)) {
+>>> +		/* shadow stack was allocated and enable request again
+>>> +		 * no need to support such usecase and return EINVAL.
+>>> +		 */
+>>> +		if (is_shstk_allocated(t))
+>>> +			return -EINVAL;
+>>> +
+>>> +		size =3D calc_shstk_size(0);
+>>> +		addr =3D allocate_shadow_stack(0, size, 0, false);
+>>
+>>Why don't we use the userspace-allocated stack?
+>>
+>>I'm completely missing the design idea here...  Userspace has absolute
+>>over the shadow stack pointer CSR, so we don't need to do much in Linux:
+>>
+>>1. interface to set up page tables with -W- PTE and
+>>2. interface to control senvcfg.SSE.
+>>
+>>Userspace can do the rest.
+>
+> Design is like following:
+>
+> When a user task wants to enable shadow stack for itself, it has to issue
+> a syscall to kernel (like this prctl). Now it can be done independently b=
+y
+> user task by first issuing `map_shadow_stack`, then asking kernel to ligh=
+t
+> up envcfg bit and eventually when return to usermode happens, it can writ=
+e
+> to CSR. It is no different from doing all of the above together in single
+> `prctl` call. They are equivalent in that nature.
+>
+> Background is that x86 followed this because x86 had workloads/binaries/
+> functions with (deep)recursive functions and thus by default were forced
+> to always allocate shadow stack to be of the same size as data stack. To
+> reduce burden on userspace for determining and then allocating same size
+> (size of data stack) shadow stack, prctl would do the job of calculating
+> default shadow stack size (and reduce programming error in usermode). arm=
+64
+> followed the suite. I don't want to find out what's the compatiblity issu=
+es
+> we will see and thus just following the suite (given that both approaches
+> are equivalent). Take a look at static `calc_shstk_size(unsigned long siz=
+e)`.
+>
+> Coming back to your question of why not allowing userspace to manage its
+> own shadow stack. Answer is that it can manage its own shadow stack. If i=
+t
+> does, it just have to be aware of size its allocating for shadow stack.
+
+It's just that userspace cannot prevent allocation of the default stack
+when enabling it, which is the weird part to me.
+The allocate and enable syscalls could have been nicely composable.
+
+> There is already a patch series going on to manage this using clone3.
+> https://lore.kernel.org/all/20250408-clone3-shadow-stack-v15-4-3fa245c6e3=
+be@kernel.org/
+
+A new ioctl does seem to solve most of the practical issues, thanks.
+
+> I fully expect green thread implementations in rust/go or swapcontext
+> based thread management doing this on their own.
+>
+> Current design is to ensure existing apps dont have to change a lot in
+> userspace and by default kernel gives compatibility. Anyone else wanting
+> to optimize the usage of shadow stack can do so with current design.
+
+Right, changing rlimit_stack around shadow stack allocation is not the
+most elegant way, but it does work.
+
+>>> +int arch_lock_shadow_stack_status(struct task_struct *task,
+>>> +				  unsigned long arg)
+>>> +{
+>>> +	/* If shtstk not supported or not enabled on task, nothing to lock he=
+re */
+>>> +	if (!cpu_supports_shadow_stack() ||
+>>> +	    !is_shstk_enabled(task) || arg !=3D 0)
+>>> +		return -EINVAL;
+>>
+>>The task might want to prevent shadow stack from being enabled?
+>
+> But Why would it want to do that? Task can simply not issue the prctl. Th=
+ere
+> are glibc tunables as well using which it can be disabled.
+
+The task might do it as some last resort to prevent a buggy code from
+enabling shadow stacks that would just crash.  Or whatever complicated
+reason userspace can think of.
+
+It's more the other way around.  I wonder why we're removing this option
+when we don't really care what userspace does to itself.
+I think it's complicating the kernel without an obvious gain.
