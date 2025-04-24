@@ -1,254 +1,337 @@
-Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
+Received: from mail-pf1-f201.google.com (mail-pf1-f201.google.com [209.85.210.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3D919383A5
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 03:17:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF90219D884
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 04:03:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745464625; cv=none; b=OMw5LBhAgVs6MAD4jO83ot12vfAYOlwgPmMbJF82IVigqPy5vrDKr1vsMyTAy3WMF7HK2nr2rrS79MaSvyej2hBwVEyyg5MzHYh4EDTnm6eQlAzKeLTPnN31tPWXwF/GXIVK6pgxSjoHt9UPWyaf7a+ZFiIEIObyvQaf6emvv40=
+	t=1745467386; cv=none; b=h7iyzuS1mZuBV5pdCV72Bkjwo6wMlc6KeSRIH+ur0L0tl0cvQdX2z3kQvhdQEE/4iyelSXL++QRZk5jGqX/EtBpnD+ZAxi40+SJhrQmM1eZ26NIqrg/7IUUTOqs3tA6ot/Pe1uoHNTFNCHctsn65cbr0O/dh3bc0lqdsTaBED0c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745464625; c=relaxed/simple;
-	bh=UVCFOg19+s13dmCTwGHiyBdefPnTw16zPmpkfRlg8hA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NlBVQiHaNDPlZiLiASKtmk3hRp34ETtgCNOQo8NuHmYBuadV03O4TTfsjwU2JSw+8v0zXxRmW06LAwOEzn3WwZ+YrQVQdBlwD/eyM9zneKUiuI+jhDDYgXwmpYmrM9GZaHRC/GZjHh6jXeeVgh+XeBcYz9jTWIEsVsNGofesDfA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=kL521BJ1; arc=none smtp.client-ip=209.85.210.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1745467386; c=relaxed/simple;
+	bh=zt6yYBvh0d8AfeUCUhVJzGOK4AHq2m+OxMp5MyPKv78=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=o8n2gVlL+pllerhjgp1F80q9slls8m2vguIAqjx3iOGMI8XJTLeAat1DbwqC7goWQBhdQsMkGSSsGm+WZdHZBsxBt0G5+0oFverNkQRP/PQpMNZ+fp66Kh6ySUMqpqyUj9hj9IFmLSAgROvycHAQ7xDTbkr2KDMdrDFK9WMebKc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=i6dMpZRk; arc=none smtp.client-ip=209.85.210.201
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="kL521BJ1"
-Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-736a7e126c7so411961b3a.3
-        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 20:17:03 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="i6dMpZRk"
+Received: by mail-pf1-f201.google.com with SMTP id d2e1a72fcca58-73c205898aaso400908b3a.2
+        for <linux-doc@vger.kernel.org>; Wed, 23 Apr 2025 21:03:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745464622; x=1746069422; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=XUAwJhWsStgPPiYel2m5dmuZ8PujmZM+CaGE2sUsiqI=;
-        b=kL521BJ1GCIh/6lApmzBn9i2whQlemVa9/Exj/8nk2M90qz/RlpVMtbsyxMmxh9SdM
-         6a6KF+tHiHMn/sJYVfJbI0F8h+a1kK0il/Zyv2/aBl/ffi8WFvVJlAojLzyCNrYSCITG
-         zigNEJySmaSRFJ41TwLE+wYQSn+VAadnGYF3z8tp/Nk49W5XF4fzRjucmpipPvzQBeKQ
-         WJcIRQAuMeLDZKSqthk3gWD2wNrA2+r4VOfvLrGI/WSDwFY4jb5gh+A5KatKo7LKlep1
-         uqK/9UhmbOi10zO5fB+kLWqRq5bSO6d6G/kSSbaAwtKOdUgICn6KdthBXCkKEcT86d2i
-         XR7Q==
+        d=google.com; s=20230601; t=1745467383; x=1746072183; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=D09PgC93ZS3ZLjn25gSS3hEDnTkEIUuDkcd6alRURFw=;
+        b=i6dMpZRkkDo2wKUbCEIwWpz7I099pcApFod+bCfDnDcc5R1swKN1/NRGq0NCj8JQRc
+         l/YqGihTrI8k0MUKOFcdOS0R1IgY2y/IUbUrLRymiBkVNPuuUkm11J6l2c0t2UDtFTRn
+         WeKyoMaAQx2X2jD4gdJlb71dWoN8KCqa01P3Q9BKA3qtOK7RVIB6Nsx2iu/KcuO8jYBY
+         huoK91iSI2TMSXuRgaunxFQET5+PHSKodzAPOwJ7OG+HVHxSu1DBLZ1aog6TxbX2vh1I
+         Ha+ORSVCZ6+XZFPqKoC4HP7/s3NUdcfYsTsbQaEF13UeRYxXnZ7Xnr/uX4y6sujhd1Vv
+         KgCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745464622; x=1746069422;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=XUAwJhWsStgPPiYel2m5dmuZ8PujmZM+CaGE2sUsiqI=;
-        b=bOzE8zAUeJc/O+LCz28x+GKU99T9QhkgyFv8e1YvUxmVYfRuVARNyPCeE2YGKVXZ53
-         HmAtuqfaKpmEVnHarSShDhSXq1vomZtlqcf/WwJdUGAPSUP0BiYCimfu5q8rN4uVDrNx
-         4xz7Au3Vdv4V6Ia3S9Y5m9LY/iNSc3nn2BaCWTkJBa7SiNf0/i08flLJf+kmAIxtEvn7
-         /NLfLyMQJ8/eug0NdSUTB/csymLim90Fp+iXxncrx1+lAGJLQz3xnavOlZwJ1Gagyq9y
-         EDiX1YJOpDJgxqqSTa3QBEVz2DSuyxOMWtPB+vGZcStgDQRP1B+TTMcdgZaGCEtUek5p
-         1NkQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVxLQ+PU2VHDsE9sm4wv4yU5Q72FdxA7E8Pd+GoiVf5L7U2plpAkVE92VqVLDQGkEeFP31VcO8kuhM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxaqQoNbJBnQpU5sSoDs+jJBvrbBoi0FHL+LEDXgHCWCW/FLlSB
-	OrbLCc2I9zZ3COZEDDPSTK3pTwXoH+2gPrIZIyq6vY6aC2QmgjWoryL50EiZ1nQ=
-X-Gm-Gg: ASbGncsHEcSPkdOFePp52eEopa+Eu9GUhj1L03bwt4qQJ5kTuHjEHWvxEeIZ6qNplrl
-	V/iQrts9jWiybzc92svp78ehiJIBdzdTwfsXqHHpcXBp/gpadAOg+htpHcsfAbrPbkNtUACJDxf
-	DJOQMIPlcwFsjN3yqmO/tU/NPHuVgJmqeedIPl9FXwuR68GBdkp2/Vd7y0aFnk7Blyl99rEvN2Q
-	C2zTlLEw7o/QGOVkJMabU+uh1entW9Kepab4VM3PbFjx8ZxcoUURheP4DYouP7AyT0YzGpqNf4x
-	GGtXcnbR3TXTXclMM9sCsEpotFLzcYjyEd5MwlwHfj0Rovm6bM4=
-X-Google-Smtp-Source: AGHT+IHFdvA0DlIcVCkE1m7fhwPnPK/+qUF0hzp1UIxp5PRqy2sOJJ28/GW1knmKmyzytkf5QLtSrA==
-X-Received: by 2002:a05:6a20:9f4f:b0:1f5:9208:3ad6 with SMTP id adf61e73a8af0-20444f9f316mr1339520637.41.1745464622463;
-        Wed, 23 Apr 2025 20:17:02 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25941fd9sm354190b3a.53.2025.04.23.20.16.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Apr 2025 20:17:02 -0700 (PDT)
-Date: Wed, 23 Apr 2025 20:16:58 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com, Zong Li <zong.li@sifive.com>,
-	linux-riscv <linux-riscv-bounces@lists.infradead.org>
-Subject: Re: [PATCH v12 10/28] riscv/mm: Implement map_shadow_stack() syscall
-Message-ID: <aAmtKhlwKV7oz7RF@debug.ba.rivosinc.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-10-e51202b53138@rivosinc.com>
- <D92VAWLM8AGD.3CF1VH6NYHCYV@ventanamicro.com>
+        d=1e100.net; s=20230601; t=1745467383; x=1746072183;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=D09PgC93ZS3ZLjn25gSS3hEDnTkEIUuDkcd6alRURFw=;
+        b=eJJwM4OGIey8TyF9ZVeAmMgANplyCb8vLwR1H1abV+w2USlbe/rbvdyCJZgBqDrtzB
+         JixIjZibTTEbGOaVnr266kikEWesWa+MZU17KEdXsl3nZYE+ypC6Gyk6m+39L9gtjyoG
+         XcPwRnhxEtoZlphFJv0E3lxZCTI05oKSTpjEG3gTbXu8nshCjhMj1QET4/ogsfD92sVh
+         dPhjMoKszEh8XpAln/jioTVeilOm8ivM88GkKM1J4bukAfTWDXom9pasxdYK4v50YRbz
+         tXS+n2JZbYZO4LobDJEr4ouMZroo/0Gi96n46Ur4sODuExEGYEqVguKw/NETEo3vddM4
+         Z9DA==
+X-Forwarded-Encrypted: i=1; AJvYcCWEbVOSc6q8sIM1g2kTWg6FjRwzo+LV8YNm6SUjdCdWIMjfIpjU8cJZCi53645ooeC9plQS1y4dA78=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyqXKwwSv0W5dVW1OUvqKDprmhW3UzYDOythyMYf+kcCHcj+uSC
+	ShE7BzO198jQdF25lr/1NtApkUUwLbLmKmSqrGHyftqVkICK6gJUrYomejAZ9x1TpEra7ZnQ1pw
+	Ls65lekVp8/vi3215DNYAhw==
+X-Google-Smtp-Source: AGHT+IHoYiJAViOyibsmWNa7O71nPYflx8ZwtWAOGvKQYrLpeEes5pAjno8XPyEp9J+g4sJP6zp56GC4j/ih4PdS9g==
+X-Received: from pfblc5.prod.google.com ([2002:a05:6a00:4f45:b0:73e:1cf2:cd5c])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a00:ac86:b0:73c:3060:d53 with SMTP id d2e1a72fcca58-73e24ac977amr1627489b3a.18.1745467382895;
+ Wed, 23 Apr 2025 21:03:02 -0700 (PDT)
+Date: Thu, 24 Apr 2025 04:02:52 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D92VAWLM8AGD.3CF1VH6NYHCYV@ventanamicro.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
+Message-ID: <20250424040301.2480876-1-almasrymina@google.com>
+Subject: [PATCH net-next v11 0/8] Device memory TCP TX
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
+	virtualization@lists.linux.dev, kvm@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, sdf@fomichev.me, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Thu, Apr 10, 2025 at 11:56:44AM +0200, Radim Krčmář wrote:
->2025-03-14T14:39:29-07:00, Deepak Gupta <debug@rivosinc.com>:
->> As discussed extensively in the changelog for the addition of this
->> syscall on x86 ("x86/shstk: Introduce map_shadow_stack syscall") the
->> existing mmap() and madvise() syscalls do not map entirely well onto the
->> security requirements for shadow stack memory since they lead to windows
->> where memory is allocated but not yet protected or stacks which are not
->> properly and safely initialised. Instead a new syscall map_shadow_stack()
->> has been defined which allocates and initialises a shadow stack page.
->>
->> This patch implements this syscall for riscv. riscv doesn't require token
->> to be setup by kernel because user mode can do that by itself. However to
->> provide compatibility and portability with other architectues, user mode
->> can specify token set flag.
->
->RISC-V shadow stack could use mmap() and madvise() perfectly well.
+v11: https://lore.kernel.org/netdev/20250423031117.907681-1-almasrymina@google.com/
 
-Deviating from what other arches are doing will create more thrash. I expect
-there will be merging of common logic between x86, arm64 and riscv. Infact I
-did post one such RFC patch set last year (didn't follow up on it). Using
-`mmap/madvise` defeats that purpose of creating common logic between arches.
+Addressed a couple of nits and collected Acked-by from Harshitha
+(thanks!)
 
-There are pitfalls as mentioned with respect to mmap/madivse because of
-unique nature of shadow stack. And thus it was accepted to create a new syscall
-to create such mappings. RISC-V will stick to that.
+v10: https://lore.kernel.org/netdev/20250417231540.2780723-1-almasrymina@google.com/
 
->Userspace can always initialize the shadow stack properly and the shadow
->stack memory is never protected from other malicious threads.
+Addressed comments following conversations with Pavel, Stan, and
+Harshitha. Thank you guys for the reviews again. Overall minor changes:
 
-Shadow stack memory is protected from inadvertent stores (be it same thread
-or a different thread in same address space). Malicious code which can do
-`sspush/ssamoswap` already assumes that code integrity policies are broken.
+Changelog:
+- Check for !niov->pp in io_zcrx_recv_frag, just in case we end up with
+  a TX niov in that path (Pavel).
+- Fix locking case in !netif_device_present (Jakub/Stan).
 
->
->I think that the compatibility argument is reasonable.  We'd need to
->modify the other syscalls to allow a write-only mapping anyway.
+v9: https://lore.kernel.org/netdev/20250415224756.152002-1-almasrymina@google.com/
+
+Changelog:
+- Use priv->bindings list instead of sock_bindings_list. This was missed
+  during the rebase as the bindings have been updated to use
+  priv->bindings recently (thanks Stan!)
+
+v8: https://lore.kernel.org/netdev/20250308214045.1160445-1-almasrymina@google.com/
+
+Only address minor comments on V7
+
+Changelog:
+- Use netdev locking instead of rtnl_locking to match rx path.
+- Now that iouring zcrx is in net-next, use NET_IOV_IOURING instead of
+  NET_IOV_UNSPECIFIED.
+- Post send binding to net_devmem_dmabuf_bindings after it's been fully
+  initialized (Stan).
+
+v7: https://lore.kernel.org/netdev/20250227041209.2031104-1-almasrymina@google.com/
+===
+
+Changelog:
+- Check the dmabuf net_iov binding belongs to the device the TX is going
+  out on. (Jakub)
+- Provide detailed inspection of callsites of
+  __skb_frag_ref/skb_page_unref in patch 2's changelog (Jakub)
+
+v6: https://lore.kernel.org/netdev/20250222191517.743530-1-almasrymina@google.com/
+===
+
+v6 has no major changes. Addressed a few issues from Paolo and David,
+and collected Acks from Stan. Thank you everyone for the review!
+
+Changes:
+- retain behavior to process MSG_FASTOPEN even if the provided cmsg is
+  invalid (Paolo).
+- Rework the freeing of tx_vec slightly (it now has its own err label).
+  (Paolo).
+- Squash the commit that makes dmabuf unbinding scheduled work into the
+  same one which implements the TX path so we don't run into future
+  errors on bisecting (Paolo).
+- Fix/add comments to explain how dmabuf binding refcounting works
+  (David).
+
+v5: https://lore.kernel.org/netdev/20250220020914.895431-1-almasrymina@google.com/
+===
+
+v5 has no major changes; it clears up the relatively minor issues
+pointed out to in v4, and rebases the series on top of net-next to
+resolve the conflict with a patch that raced to the tree. It also
+collects the review tags from v4.
+
+Changes:
+- Rebase to net-next
+- Fix issues in selftest (Stan).
+- Address comments in the devmem and netmem driver docs (Stan and Bagas)
+- Fix zerocopy_fill_skb_from_devmem return error code (Stan).
+
+v4: https://lore.kernel.org/netdev/20250203223916.1064540-1-almasrymina@google.com/
+===
+
+v4 mainly addresses the critical driver support issue surfaced in v3 by
+Paolo and Stan. Drivers aiming to support netmem_tx should make sure not
+to pass the netmem dma-addrs to the dma-mapping APIs, as these dma-addrs
+may come from dma-bufs.
+
+Additionally other feedback from v3 is addressed.
+
+Major changes:
+- Add helpers to handle netmem dma-addrs. Add GVE support for
+  netmem_tx.
+- Fix binding->tx_vec not being freed on error paths during the
+  tx binding.
+- Add a minimal devmem_tx test to devmem.py.
+- Clean up everything obsolete from the cover letter (Paolo).
+
+v3: https://patchwork.kernel.org/project/netdevbpf/list/?series=929401&state=*
+===
+
+Address minor comments from RFCv2 and fix a few build warnings and
+ynl-regen issues. No major changes.
+
+RFC v2: https://patchwork.kernel.org/project/netdevbpf/list/?series=920056&state=*
+=======
+
+RFC v2 addresses much of the feedback from RFC v1. I plan on sending
+something close to this as net-next  reopens, sending it slightly early
+to get feedback if any.
+
+Major changes:
+--------------
+
+- much improved UAPI as suggested by Stan. We now interpret the iov_base
+  of the passed in iov from userspace as the offset into the dmabuf to
+  send from. This removes the need to set iov.iov_base = NULL which may
+  be confusing to users, and enables us to send multiple iovs in the
+  same sendmsg() call. ncdevmem and the docs show a sample use of that.
+
+- Removed the duplicate dmabuf iov_iter in binding->iov_iter. I think
+  this is good improvment as it was confusing to keep track of
+  2 iterators for the same sendmsg, and mistracking both iterators
+  caused a couple of bugs reported in the last iteration that are now
+  resolved with this streamlining.
+
+- Improved test coverage in ncdevmem. Now multiple sendmsg() are tested,
+  and sending multiple iovs in the same sendmsg() is tested.
+
+- Fixed issue where dmabuf unmapping was happening in invalid context
+  (Stan).
+
+====================================================================
+
+The TX path had been dropped from the Device Memory TCP patch series
+post RFCv1 [1], to make that series slightly easier to review. This
+series rebases the implementation of the TX path on top of the
+net_iov/netmem framework agreed upon and merged. The motivation for
+the feature is thoroughly described in the docs & cover letter of the
+original proposal, so I don't repeat the lengthy descriptions here, but
+they are available in [1].
+
+Full outline on usage of the TX path is detailed in the documentation
+included with this series.
+
+Test example is available via the kselftest included in the series as well.
+
+The series is relatively small, as the TX path for this feature largely
+piggybacks on the existing MSG_ZEROCOPY implementation.
+
+Patch Overview:
+---------------
+
+1. Documentation & tests to give high level overview of the feature
+   being added.
+
+1. Add netmem refcounting needed for the TX path.
+
+2. Devmem TX netlink API.
+
+3. Devmem TX net stack implementation.
+
+4. Make dma-buf unbinding scheduled work to handle TX cases where it gets
+   freed from contexts where we can't sleep.
+
+5. Add devmem TX documentation.
+
+6. Add scaffolding enabling driver support for netmem_tx. Add helpers, driver
+feature flag, and docs to enable drivers to declare netmem_tx support.
+
+7. Guard netmem_tx against being enabled against drivers that don't
+   support it.
+
+8. Add devmem_tx selftests. Add TX path to ncdevmem and add a test to
+   devmem.py.
+
+Testing:
+--------
+
+Testing is very similar to devmem TCP RX path. The ncdevmem test used
+for the RX path is now augemented with client functionality to test TX
+path.
+
+* Test Setup:
+
+Kernel: net-next with this RFC and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Performance results are not included with this version, unfortunately.
+I'm having issues running the dma-buf exporter driver against the
+upstream kernel on my test setup. The issues are specific to that
+dma-buf exporter and do not affect this patch series. I plan to follow
+up this series with perf fixes if the tests point to issues once they're
+up and running.
+
+Special thanks to Stan who took a stab at rebasing the TX implementation
+on top of the netmem/net_iov framework merged. Parts of his proposal [2]
+that are reused as-is are forked off into their own patches to give full
+credit.
+
+[1] https://lore.kernel.org/netdev/20240909054318.1809580-1-almasrymina@google.com/
+[2] https://lore.kernel.org/netdev/20240913150913.1280238-2-sdf@fomichev.me/T/#m066dd407fbed108828e2c40ae50e3f4376ef57fd
+
+Cc: sdf@fomichev.me
+Cc: asml.silence@gmail.com
+Cc: dw@davidwei.uk
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Victor Nogueira <victor@mojatatu.com>
+Cc: Pedro Tammela <pctammela@mojatatu.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>
 
 
->
->> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
->> +static noinline unsigned long amo_user_shstk(unsigned long *addr, unsigned long val)
->> +{
->> +	/*
->> +	 * Never expect -1 on shadow stack. Expect return addresses and zero
->> +	 */
->> +	unsigned long swap = -1;
->> +	__enable_user_access();
->> +	asm goto(
->> +		".option push\n"
->> +		".option arch, +zicfiss\n"
->
->Shouldn't compiler accept ssamoswap.d opcode even without zicfiss arch?
+Mina Almasry (7):
+  netmem: add niov->type attribute to distinguish different net_iov
+    types
+  net: add get_netmem/put_netmem support
+  net: devmem: Implement TX path
+  net: add devmem TCP TX documentation
+  net: enable driver support for netmem TX
+  gve: add netmem TX support to GVE DQO-RDA mode
+  net: check for driver support in netmem TX
 
-Its illegal instruction if shadow stack aren't available. Current toolchain
-emits it only if zicfiss is specified in march.
+Stanislav Fomichev (1):
+  net: devmem: TCP tx netlink api
 
->
->> +		"1: ssamoswap.d %[swap], %[val], %[addr]\n"
->> +		_ASM_EXTABLE(1b, %l[fault])
->> +		RISCV_ACQUIRE_BARRIER
->
->Why is the barrier here?
-
-IIRC, I was following `arch_cmpxchg_acquire`.
-But I think that's not needed. 
-What we are doing is `arch_xchg_relaxed` and barrier is not needed.
-
-I did consider adding it to arch/riscv/include/asm/cmpxchg.h but there is
-limited usage of this primitive and thus kept it limited to usercfi.c
-
-Anyways I'll re-spin removing the barrier.
-
->
->> +		".option pop\n"
->> +		: [swap] "=r" (swap), [addr] "+A" (*addr)
->> +		: [val] "r" (val)
->> +		: "memory"
->> +		: fault
->> +		);
->> +	__disable_user_access();
->> +	return swap;
->> +fault:
->> +	__disable_user_access();
->> +	return -1;
->
->I think we should return 0 and -EFAULT.
->We can ignore the swapped value, or return it through a pointer.
-
-Consumer of this detects -1 and then return -EFAULT.
-We would eventually need this when creating shadow stack tokens for
-kernel shadow stack. I believe `-1` is safe return value which can't
-be construed as negative kernel address (-EFAULT will be)
+ Documentation/netlink/specs/netdev.yaml       |  12 ++
+ Documentation/networking/devmem.rst           | 150 +++++++++++++++++-
+ .../networking/net_cachelines/net_device.rst  |   1 +
+ Documentation/networking/netdev-features.rst  |   5 +
+ Documentation/networking/netmem.rst           |  23 ++-
+ drivers/net/ethernet/google/gve/gve_main.c    |   3 +
+ drivers/net/ethernet/google/gve/gve_tx_dqo.c  |   8 +-
+ include/linux/netdevice.h                     |   2 +
+ include/linux/skbuff.h                        |  17 +-
+ include/linux/skbuff_ref.h                    |   4 +-
+ include/net/netmem.h                          |  34 +++-
+ include/net/sock.h                            |   1 +
+ include/uapi/linux/netdev.h                   |   1 +
+ io_uring/zcrx.c                               |   3 +-
+ net/core/datagram.c                           |  48 +++++-
+ net/core/dev.c                                |  34 +++-
+ net/core/devmem.c                             | 133 +++++++++++++---
+ net/core/devmem.h                             |  83 ++++++++--
+ net/core/netdev-genl-gen.c                    |  13 ++
+ net/core/netdev-genl-gen.h                    |   1 +
+ net/core/netdev-genl.c                        |  80 +++++++++-
+ net/core/skbuff.c                             |  48 +++++-
+ net/core/sock.c                               |   6 +
+ net/ipv4/ip_output.c                          |   3 +-
+ net/ipv4/tcp.c                                |  50 ++++--
+ net/ipv6/ip6_output.c                         |   3 +-
+ net/vmw_vsock/virtio_transport_common.c       |   5 +-
+ tools/include/uapi/linux/netdev.h             |   1 +
+ 28 files changed, 699 insertions(+), 73 deletions(-)
 
 
->
->> +}
->> +
->> +static unsigned long allocate_shadow_stack(unsigned long addr, unsigned long size,
->> +					   unsigned long token_offset, bool set_tok)
->> +{
->> +	int flags = MAP_ANONYMOUS | MAP_PRIVATE;
->
->Is MAP_GROWSDOWN pointless?
+base-commit: abcec3ed92fca92cd81d743bb8a5409da73b7560
+-- 
+2.49.0.805.g082f7c87e0-goog
 
-Not sure. Didn't see that in x86 or arm64 shadow stack creation.
-Let me know if its useful.
-
->
->> +	struct mm_struct *mm = current->mm;
->> +	unsigned long populate, tok_loc = 0;
->> +
->> +	if (addr)
->> +		flags |= MAP_FIXED_NOREPLACE;
->> +
->> +	mmap_write_lock(mm);
->> +	addr = do_mmap(NULL, addr, size, PROT_READ, flags,
->
->PROT_READ implies VM_READ, so won't this select PAGE_COPY in the
->protection_map instead of PAGE_SHADOWSTACK?
-
-PROT_READ is pointless here and redundant. I haven't checked if I remove it
-what happens.
-
-`VM_SHADOW_STACK` takes precedence (take a look at pte_mkwrite and pmd_mkwrite.
-Only way `VM_SHADOW_STACK` is possible in vmflags is via `map_shadow_stack` or
-`fork/clone` on existing task with shadow stack enabled.
-
-In a nutshell user can't specify `VM_SHADOW_STACK` directly (indirectly via
-map_shadow_stack syscall or fork/clone) . But if set in vmaflags then it'll
-take precedence.
-
->
->Wouldn't avoiding VM_READ also allow us to get rid of the ugly hack in
->pte_mkwrite?  (VM_WRITE would naturally select the right XWR flags.)
-
->
->> +		       VM_SHADOW_STACK | VM_WRITE, 0, &populate, NULL);
->> +	mmap_write_unlock(mm);
->> +
->> +SYSCALL_DEFINE3(map_shadow_stack, unsigned long, addr, unsigned long, size, unsigned int, flags)
->> +{
->> [...]
->> +	if (addr && (addr & (PAGE_SIZE - 1)))
->
->if (!PAGE_ALIGNED(addr))
