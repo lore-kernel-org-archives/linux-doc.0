@@ -1,402 +1,188 @@
-Received: from fllvem-ot03.ext.ti.com (fllvem-ot03.ext.ti.com [198.47.19.245])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E545819CC3D;
-	Thu, 24 Apr 2025 09:54:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.19.245
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72A3C221293;
+	Thu, 24 Apr 2025 10:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745488453; cv=none; b=GZfPvQ4SwVThLL3ECRv3anqwRiSk3eaqZQrX20bopI/QGX8iLqlTp+MOraHp5+0gHC+bJ7x1tOKrrnRM3F8jwjqvHNBL6orByPoSA/PztsTqqFJvok2SlJasAiwq/ImD32TsYCF6mx+QSaZbqt5FAjVnHQwLFzEMti1QyhCNVRs=
+	t=1745489113; cv=none; b=WY02tkq3SDQw7bshysTLO6avuXlcy4Pjyigs49kdnlG7DcVJrXL5QKmAw/qWWgtOfCoYgPo0XG8gPCdsDvK/xiYQbMCSDq1t3vTWAeE8aVzRe0mK5MueKTTn1qjHYNL6ixkOjiqxV/8QkKVyWbQ0NRsW/6+8IqRNzfGcW7WUIjo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745488453; c=relaxed/simple;
-	bh=ZV2EU0lS5UbkQEDKIMlLp8H7/VASWeIN55PoSggIycY=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=l9sYHlfJNE/4HwPR2JMICff88e7LnNAeyLCXqOELpxQK1m2jPk8xYqDRZyCBuRRTrYL4oJunKtT8g/ae6UNf25qdfeL+DHMC2DlP70wLAsdZiC+AtizEaNjxw63P088ZR7u0xAY8+REZcfXVjXqA35FpfkhnyoRLoU9cYxuCWc0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GPU2vGO7; arc=none smtp.client-ip=198.47.19.245
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1745489113; c=relaxed/simple;
+	bh=mWVeHiPGYUguH8fvx/E8hT4+JBANZnv7XHKFn5RtBkE=;
+	h=Message-ID:From:To:Cc:Subject:In-Reply-To:References:Date:
+	 MIME-Version:Content-Type; b=Fb2aR+EZB87pQkPGn+Z9IrCBtuDoVZMPRKv9HI4jxp4vCMV8QNwgBV5771rzvUatviDIGuaOLd72dZE8X5sANGumanPmw4xacqbp46gUQszoMZsSrFpkh2DogOipA9MnbDAUXwvG3wFaUF1b2RWrM6ruonkHXBkwPP5m+TuRe+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=F9VIUzC4; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GPU2vGO7"
-Received: from lelv0266.itg.ti.com ([10.180.67.225])
-	by fllvem-ot03.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53O9rLn61823416
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 24 Apr 2025 04:53:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1745488401;
-	bh=Z6vAvY6wUi4QuG5rrF2KhxpeZXkQGT1PaOJZ62tuOIQ=;
-	h=From:To:CC:Subject:Date;
-	b=GPU2vGO7CtlJfPhBIk7463bycm1+DXX+RJKzHTpIIy5M8eZGqaaK/xzfrMoubZ7mp
-	 /okyAUW84DTvUhyocTjTKfoXd2POG1fJ+/WYQeT6m/wbjKVWGidogOT9SdGHKP//C9
-	 mE1nlb05S07LGShl9r5DynJb5sm+coDaZO5Vb59A=
-Received: from DFLE100.ent.ti.com (dfle100.ent.ti.com [10.64.6.21])
-	by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53O9rLas068950
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Thu, 24 Apr 2025 04:53:21 -0500
-Received: from DFLE105.ent.ti.com (10.64.6.26) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Thu, 24
- Apr 2025 04:53:20 -0500
-Received: from lelvsmtp6.itg.ti.com (10.180.75.249) by DFLE105.ent.ti.com
- (10.64.6.26) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Thu, 24 Apr 2025 04:53:20 -0500
-Received: from lelv0854.itg.ti.com (lelv0854.itg.ti.com [10.181.64.140])
-	by lelvsmtp6.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53O9rKQx014724;
-	Thu, 24 Apr 2025 04:53:20 -0500
-Received: from localhost (danish-tpc.dhcp.ti.com [10.24.69.25])
-	by lelv0854.itg.ti.com (8.14.7/8.14.7) with ESMTP id 53O9rJRI020685;
-	Thu, 24 Apr 2025 04:53:20 -0500
-From: MD Danish Anwar <danishanwar@ti.com>
-To: Dan Carpenter <dan.carpenter@linaro.org>,
-        Meghana Malladi
-	<m-malladi@ti.com>, Lee Trager <lee@trager.us>,
-        Madhavan Srinivasan
-	<maddy@linux.ibm.com>,
-        Arnd Bergmann <arnd@arndb.de>, Michael Ellerman
-	<mpe@ellerman.id.au>,
-        Andrew Lunn <andrew+netdev@lunn.ch>,
-        Roger Quadros
-	<rogerq@kernel.org>,
-        MD Danish Anwar <danishanwar@ti.com>,
-        Jonathan Corbet
-	<corbet@lwn.net>, Simon Horman <horms@kernel.org>,
-        Paolo Abeni
-	<pabeni@redhat.com>, Jakub Kicinski <kuba@kernel.org>,
-        Eric Dumazet
-	<edumazet@google.com>,
-        "David S. Miller" <davem@davemloft.net>
-CC: <linux-arm-kernel@lists.infradead.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <netdev@vger.kernel.org>, <srk@ti.com>,
-        Vignesh
- Raghavendra <vigneshr@ti.com>
-Subject: [PATCH net-next v3] net: ti: icssg-prueth: Add ICSSG FW Stats
-Date: Thu, 24 Apr 2025 15:23:16 +0530
-Message-ID: <20250424095316.2643573-1-danishanwar@ti.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="F9VIUzC4"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so5367925e9.0;
+        Thu, 24 Apr 2025 03:05:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745489110; x=1746093910; darn=vger.kernel.org;
+        h=mime-version:date:user-agent:references:organization:in-reply-to
+         :subject:cc:to:from:message-id:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=c5AFW0Sl5/PIEX/fz2VgnHx4IggLIWYC9XsMAjjZFis=;
+        b=F9VIUzC4R1x3wRb1Q/2Cfv0SWEsNZMg03PKo8AAlHQxW+5sHDl4uFy/znkWTll6yd8
+         Gzd/FRJGot0iAXm2i6Lum/PFQlFa+SYuJe7BCn3/zh8axbi37tf6okQ9qGp57oXpTEpx
+         PiYPwKotu/BPYEULRhWX8/59NkoSA59cDo4VWSsqnfMYvDW4qRZedUd0VmT5KFBfLM1b
+         6kMWeX/aJd7yUReOo6LoL4pE5qBdJPO7c/cORJSvE0fk9qa37hey3aAOBKC0FGfX7kVk
+         Ksm43w/y6qBYfKYCrY2z1fgn7grLI5V9igtc+31ypKM84UbQdci1jZJ4pTaKxJx5XSj5
+         EC9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745489110; x=1746093910;
+        h=mime-version:date:user-agent:references:organization:in-reply-to
+         :subject:cc:to:from:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=c5AFW0Sl5/PIEX/fz2VgnHx4IggLIWYC9XsMAjjZFis=;
+        b=inBJqQS8/yvqvBEOOo7c8+fOmF4FjopJZ/MBeS5+L1pKrQHUsD/bWyd+QwBVYeBDnF
+         pA/LeHU0wBXEXmQgqoVj88qDqy19OA9y5UA+t6iXxz41hwm1al19JonCqJu1PKAp7u3W
+         Z4T+fRaOpFz8Lo15U1GkWHCJY4yfUenb9M2NvR3UKcdR382rY77QR9OHJT6bJ8O6uDLe
+         AIvyldj3Rhem7Dr2sgPJZp1nwhkrHkcUpOTqjT4FyL1rBbma86SLXm8cjxwZ8P/1eHCh
+         0HJJUenF6GchPksQcy+ZDXDdYgnTsYcBXZr1s+D0BxbTuh8QSuB/BMRZCsExuMFVJLxv
+         VVpQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5EEfr4AVLDNzkLtr6irmJTjFfXGwKfVwI6vPPz2EpgLeZM9KZrmmtyPl6B/OmrBzjU1camv6t+xrakO/7vSQ=@vger.kernel.org, AJvYcCUMlnS1PP4QXF1CBLbopM7lRZfcDr480B/W+ccHZeSUBmxpMRaU+zKfEO/oDJBAteEAa96hZkHXQKej@vger.kernel.org, AJvYcCV9U0xoqkALseM9fkTGjSmErY/ZY/sInwY9jUwOU5AX0dVG88XDAplRSUPzJGZEDwxeUJnAK9ecs9zj7Q==@vger.kernel.org, AJvYcCVktqAIYuuOrCPmAfHtXM6/iN748RO6WuzFo/uLbZygrEcIx5qaGJrHdjNbaDI2U/rp9gSa3gA/AYcIySo3@vger.kernel.org, AJvYcCVlUkdd0THXRsoxM69gyxNYTsfzwvkaVeAlRLNwdhpX/IvYxiBuNMgUmqd16l5oc2cNAnp4g7L18c2toK8CjaGH@vger.kernel.org, AJvYcCW+gnvYhcVrAdxmRmZIj3lZmGXAKVg8xHs8RkyuvwZJ9+vukY+XDJnzsbW4+xu84+I4MojZVYcAkLBhV8xFzA==@vger.kernel.org, AJvYcCWT26vfHXuxf4ZdkGUnR0Fwep0u6pIVYxTGIRy79hG3zka7ozAicBbrnsX5MhJxulqu2/6V32ssVyKy@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyf9gYh1pOmzAaKRQv64pHb4wl02Vk569heqiCyyvEduVOmAKXj
+	QUspaPsUSBXYs396FzBJ3YztaHBpqPG//7EhyTG07peTSlbb36Cr
+X-Gm-Gg: ASbGnctNUvv4/ZeKyBFenOpUmxle3iJx97Dl7Xj/h+D1ZWowwG0iKl74TB/oIxmY5w6
+	otu4eYqoJbVV5Bxf4SwgjgQe1Yk2BE5EtpGf3yROmPIghCsTBaofZpJn1jlOew1/fZKk4bkfh8M
+	jFBebWBsfswGIc3Z59nJIt3R+/Uw+fewmt/WopX+fV9ry+EVqwIGcoZaK0JKOrrD1KNO86XHYJF
+	rwYB43uas5dlrK+PtlNoN5NL2/KwUZXt0QrWx9Cub9un+oUhlSyRFrdnRkkNXqPncRbgB86z9fQ
+	MihP9QnaEcil8CSIDHQBWuz9ezM5mjPIBGylLKbzKJjW
+X-Google-Smtp-Source: AGHT+IFyhtL9Ef7Md+k5uRJ2uRcIXFYfZUHtQ6CdgOkpuVG7jZDLW9qm2lmSxi2HeBkY7L0FMNMN5g==
+X-Received: by 2002:a05:600c:1913:b0:43b:d0fe:b8ac with SMTP id 5b1f17b1804b1-4409bdaac04mr20233865e9.30.1745489109241;
+        Thu, 24 Apr 2025 03:05:09 -0700 (PDT)
+Received: from localhost ([37.72.3.43])
+        by smtp.gmail.com with UTF8SMTPSA id 5b1f17b1804b1-4409d29bf8fsm14517845e9.1.2025.04.24.03.05.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 03:05:08 -0700 (PDT)
+Message-ID: <680a0cd4.050a0220.296475.3867@mx.google.com>
+X-Google-Original-Message-ID: <87ecxhg9in.fsf@>
+From: =?utf-8?Q?Miquel_Sabat=C3=A9_Sol=C3=A0?= <mikisabate@gmail.com>
+To: Deepak Gupta <debug@rivosinc.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>,  Ingo Molnar <mingo@redhat.com>,
+  Borislav Petkov <bp@alien8.de>,  Dave Hansen
+ <dave.hansen@linux.intel.com>,  x86@kernel.org,  "H. Peter Anvin"
+ <hpa@zytor.com>,  Andrew Morton <akpm@linux-foundation.org>,  "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>,  Vlastimil Babka <vbabka@suse.cz>,
+  Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,  Paul Walmsley
+ <paul.walmsley@sifive.com>,  Palmer Dabbelt <palmer@dabbelt.com>,  Albert
+ Ou <aou@eecs.berkeley.edu>,  Conor Dooley <conor@kernel.org>,  Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>,  Arnd
+ Bergmann <arnd@arndb.de>,  Christian Brauner <brauner@kernel.org>,  Peter
+ Zijlstra <peterz@infradead.org>,  Oleg Nesterov <oleg@redhat.com>,  Eric
+ Biederman <ebiederm@xmission.com>,  Kees Cook <kees@kernel.org>,  Jonathan
+ Corbet <corbet@lwn.net>,  Shuah Khan <shuah@kernel.org>,  Jann Horn
+ <jannh@google.com>,  Conor Dooley <conor+dt@kernel.org>,  Miguel Ojeda
+ <ojeda@kernel.org>,  Alex Gaynor <alex.gaynor@gmail.com>,  Boqun Feng
+ <boqun.feng@gmail.com>,  Gary Guo <gary@garyguo.net>,  =?utf-8?Q?Bj=C3=B6?=
+ =?utf-8?Q?rn?= Roy Baron
+ <bjorn3_gh@protonmail.com>,  Benno Lossin <benno.lossin@proton.me>,
+  Andreas Hindborg <a.hindborg@kernel.org>,  Alice Ryhl
+ <aliceryhl@google.com>,  Trevor Gross <tmgross@umich.edu>,
+  linux-kernel@vger.kernel.org,  linux-fsdevel@vger.kernel.org,
+  linux-mm@kvack.org,  linux-riscv@lists.infradead.org,
+  devicetree@vger.kernel.org,  linux-arch@vger.kernel.org,
+  linux-doc@vger.kernel.org,  linux-kselftest@vger.kernel.org,
+  alistair.francis@wdc.com,  richard.henderson@linaro.org,
+  jim.shu@sifive.com,  andybnac@gmail.com,  kito.cheng@sifive.com,
+  charlie@rivosinc.com,  atishp@rivosinc.com,  evan@rivosinc.com,
+  cleger@rivosinc.com,  alexghiti@rivosinc.com,  samitolvanen@google.com,
+  broonie@kernel.org,  rick.p.edgecombe@intel.com,
+  rust-for-linux@vger.kernel.org,  Zong Li <zong.li@sifive.com>
+Subject: Re: [PATCH v13 20/28] riscv/hwprobe: zicfilp / zicfiss enumeration
+ in hwprobe
+In-Reply-To: <20250424-v5_user_cfi_series-v13-20-971437de586a@rivosinc.com>
+	(Deepak Gupta's message of "Thu, 24 Apr 2025 00:20:35 -0700")
+Organization: Linux Private Site
+References: <20250424-v5_user_cfi_series-v13-0-971437de586a@rivosinc.com>
+	<20250424-v5_user_cfi_series-v13-20-971437de586a@rivosinc.com>
+User-Agent: mu4e 1.12.9; emacs 30.1
+Date: Thu, 24 Apr 2025 12:05:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+Content-Type: multipart/signed; boundary="=-=-=";
+	micalg=pgp-sha512; protocol="application/pgp-signature"
 
-The ICSSG firmware maintains set of stats called PA_STATS.
-Currently the driver only dumps 4 stats. Add support for dumping more
-stats.
+--=-=-=
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The offset for different stats are defined as MACROs in icssg_switch_map.h
-file. All the offsets are for Slice0. Slice1 offsets are slice0 + 4.
-The offset calculation is taken care while reading the stats in
-emac_update_hardware_stats().
+On dj., d=E2=80=99abr. 24 2025, Deepak Gupta wrote:
 
-The statistics are documented in
-Documentation/networking/device_drivers/icssg_prueth.rst
+Hello,
 
-Reviewed-by: Simon Horman <horms@kernel.org>
-Signed-off-by: MD Danish Anwar <danishanwar@ti.com>
----
-v2 - v3:
-*) Included different firmware maintained error counters in the aggregate
-rx_errors / rx_dropped / tx_errors / tx_dropped statistics as suggested by
-Jakub Kicinski <kuba@kernel.org>
-*) Rebased on the latest net-next
+> Adding enumeration of zicfilp and zicfiss extensions in hwprobe syscall.
+>
+> Reviewed-by: Zong Li <zong.li@sifive.com>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
+>  arch/riscv/include/uapi/asm/hwprobe.h | 2 ++
+>  arch/riscv/kernel/sys_hwprobe.c       | 2 ++
+>  2 files changed, 4 insertions(+)
+>
+> diff --git a/arch/riscv/include/uapi/asm/hwprobe.h b/arch/riscv/include/u=
+api/asm/hwprobe.h
+> index c3c1cc951cb9..c1b537b50158 100644
+> --- a/arch/riscv/include/uapi/asm/hwprobe.h
+> +++ b/arch/riscv/include/uapi/asm/hwprobe.h
+> @@ -73,6 +73,8 @@ struct riscv_hwprobe {
+>  #define		RISCV_HWPROBE_EXT_ZCMOP		(1ULL << 47)
+>  #define		RISCV_HWPROBE_EXT_ZAWRS		(1ULL << 48)
+>  #define		RISCV_HWPROBE_EXT_SUPM		(1ULL << 49)
+> +#define		RISCV_HWPROBE_EXT_ZICFILP	(1ULL << 50)
+> +#define		RISCV_HWPROBE_EXT_ZICFISS	(1ULL << 51)
 
-v1 - v2:
-*) Created icssg_prueth.rst and added Documentation of firmware statistics
-as suggested by Jakub Kicinski <kuba@kernel.org>
-*) Removed unimplemented preemption statistics.
-*) Collected RB tag from Simon Horman <horms@kernel.org>
+Notice that, as it stands in Linux v6.15-rc, this will conflict with the
+values for Zicntr and Zihpm. See 4458b8f68dc7 ("riscv: hwprobe: export
+Zicntr and Zihpm extensions"). I'd say that you should update these
+values.
 
-v1 - https://lore.kernel.org/all/20250227093712.2130561-1-danishanwar@ti.com/
-v2 - https://lore.kernel.org/all/20250305111608.520042-1-danishanwar@ti.com/
+>  #define RISCV_HWPROBE_KEY_CPUPERF_0	5
+>  #define		RISCV_HWPROBE_MISALIGNED_UNKNOWN	(0 << 0)
+>  #define		RISCV_HWPROBE_MISALIGNED_EMULATED	(1 << 0)
+> diff --git a/arch/riscv/kernel/sys_hwprobe.c b/arch/riscv/kernel/sys_hwpr=
+obe.c
+> index bcd3b816306c..d802ff707913 100644
+> --- a/arch/riscv/kernel/sys_hwprobe.c
+> +++ b/arch/riscv/kernel/sys_hwprobe.c
+> @@ -108,6 +108,8 @@ static void hwprobe_isa_ext0(struct riscv_hwprobe *pa=
+ir,
+>  		EXT_KEY(ZCB);
+>  		EXT_KEY(ZCMOP);
+>  		EXT_KEY(ZICBOZ);
+> +		EXT_KEY(ZICFILP);
+> +		EXT_KEY(ZICFISS);
+>  		EXT_KEY(ZICOND);
+>  		EXT_KEY(ZIHINTNTL);
+>  		EXT_KEY(ZIHINTPAUSE);
 
- .../device_drivers/ethernet/index.rst         |  1 +
- .../ethernet/ti/icssg_prueth.rst              | 56 ++++++++++++++++++
- drivers/net/ethernet/ti/icssg/icssg_common.c  | 24 +++++++-
- drivers/net/ethernet/ti/icssg/icssg_prueth.h  |  2 +-
- drivers/net/ethernet/ti/icssg/icssg_stats.c   |  8 +--
- drivers/net/ethernet/ti/icssg/icssg_stats.h   | 58 ++++++++++++-------
- .../net/ethernet/ti/icssg/icssg_switch_map.h  | 33 +++++++++++
- 7 files changed, 151 insertions(+), 31 deletions(-)
- create mode 100644 Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst
+Greetings,
+Miquel
 
-diff --git a/Documentation/networking/device_drivers/ethernet/index.rst b/Documentation/networking/device_drivers/ethernet/index.rst
-index 05d822b904b4..f9ed93c1da35 100644
---- a/Documentation/networking/device_drivers/ethernet/index.rst
-+++ b/Documentation/networking/device_drivers/ethernet/index.rst
-@@ -55,6 +55,7 @@ Contents:
-    ti/cpsw_switchdev
-    ti/am65_nuss_cpsw_switchdev
-    ti/tlan
-+   ti/icssg_prueth
-    wangxun/txgbe
-    wangxun/ngbe
- 
-diff --git a/Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst b/Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst
-new file mode 100644
-index 000000000000..da21ddf431bb
---- /dev/null
-+++ b/Documentation/networking/device_drivers/ethernet/ti/icssg_prueth.rst
-@@ -0,0 +1,56 @@
-+.. SPDX-License-Identifier: GPL-2.0
-+
-+==============================================
-+Texas Instruments ICSSG PRUETH ethernet driver
-+==============================================
-+
-+:Version: 1.0
-+
-+ICSSG Firmware
-+==============
-+
-+Every ICSSG core has two Programmable Real-Time Unit(PRUs), two auxiliary
-+Real-Time Transfer Unit (RTUs), and two Transmit Real-Time Transfer Units
-+(TX_PRUs). Each one of these runs its own firmware. The firmwares combnined are
-+referred as ICSSG Firmware.
-+
-+Firmware Statistics
-+===================
-+
-+The ICSSG firmware maintains certain statistics which are dumped by the driver
-+via ``ethtool -S <interface>``
-+
-+These statistics are as follows,
-+
-+ - ``FW_RTU_PKT_DROP``: Diagnostic error counter which increments when RTU drops a locally injected packet due to port being disabled or rule violation.
-+ - ``FW_Q0_OVERFLOW``: TX overflow counter for queue0
-+ - ``FW_Q1_OVERFLOW``: TX overflow counter for queue1
-+ - ``FW_Q2_OVERFLOW``: TX overflow counter for queue2
-+ - ``FW_Q3_OVERFLOW``: TX overflow counter for queue3
-+ - ``FW_Q4_OVERFLOW``: TX overflow counter for queue4
-+ - ``FW_Q5_OVERFLOW``: TX overflow counter for queue5
-+ - ``FW_Q6_OVERFLOW``: TX overflow counter for queue6
-+ - ``FW_Q7_OVERFLOW``: TX overflow counter for queue7
-+ - ``FW_DROPPED_PKT``: This counter is incremented when a packet is dropped at PRU because of rule violation.
-+ - ``FW_RX_ERROR``: Incremented if there was a CRC error or Min/Max frame error at PRU
-+ - ``FW_RX_DS_INVALID``: Incremented when RTU detects Data Status invalid condition
-+ - ``FW_TX_DROPPED_PACKET``: Counter for packets dropped via TX Port
-+ - ``FW_TX_TS_DROPPED_PACKET``: Counter for packets with TS flag dropped via TX Port
-+ - ``FW_INF_PORT_DISABLED``: Incremented when RX frame is dropped due to port being disabled
-+ - ``FW_INF_SAV``: Incremented when RX frame is dropped due to Source Address violation
-+ - ``FW_INF_SA_DL``: Incremented when RX frame is dropped due to Source Address being in the denylist
-+ - ``FW_INF_PORT_BLOCKED``: Incremented when RX frame is dropped due to port being blocked and frame being a special frame
-+ - ``FW_INF_DROP_TAGGED`` : Incremented when RX frame is dropped for being tagged
-+ - ``FW_INF_DROP_PRIOTAGGED``: Incremented when RX frame is dropped for being priority tagged
-+ - ``FW_INF_DROP_NOTAG``: Incremented when RX frame is dropped for being untagged
-+ - ``FW_INF_DROP_NOTMEMBER``: Incremented when RX frame is dropped for port not being member of VLAN
-+ - ``FW_RX_EOF_SHORT_FRMERR``: Incremented if End Of Frame (EOF) task is scheduled without seeing RX_B1
-+ - ``FW_RX_B0_DROP_EARLY_EOF``: Incremented when frame is dropped due to Early EOF
-+ - ``FW_TX_JUMBO_FRM_CUTOFF``: Incremented when frame is cut off to prevent packet size > 2000 Bytes
-+ - ``FW_RX_EXP_FRAG_Q_DROP``: Incremented when express frame is received in the same queue as the previous fragment
-+ - ``FW_RX_FIFO_OVERRUN``: RX fifo overrun counter
-+ - ``FW_CUT_THR_PKT``: Incremented when a packet is forwarded using Cut-Through forwarding method
-+ - ``FW_HOST_RX_PKT_CNT``: Number of valid packets sent by Rx PRU to Host on PSI
-+ - ``FW_HOST_TX_PKT_CNT``: Number of valid packets copied by RTU0 to Tx queues
-+ - ``FW_HOST_EGRESS_Q_PRE_OVERFLOW``: Host Egress Q (Pre-emptible) Overflow Counter
-+ - ``FW_HOST_EGRESS_Q_EXP_OVERFLOW``: Host Egress Q (Pre-emptible) Overflow Counter
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_common.c b/drivers/net/ethernet/ti/icssg/icssg_common.c
-index b4be76e13a2f..79f2d86acf21 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_common.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_common.c
-@@ -1318,10 +1318,28 @@ void icssg_ndo_get_stats64(struct net_device *ndev,
- 	stats->rx_over_errors = emac_get_stat_by_name(emac, "rx_over_errors");
- 	stats->multicast      = emac_get_stat_by_name(emac, "rx_multicast_frames");
- 
--	stats->rx_errors  = ndev->stats.rx_errors;
--	stats->rx_dropped = ndev->stats.rx_dropped;
-+	stats->rx_errors  = ndev->stats.rx_errors +
-+			    emac_get_stat_by_name(emac, "FW_RX_ERROR") +
-+			    emac_get_stat_by_name(emac, "FW_RX_EOF_SHORT_FRMERR") +
-+			    emac_get_stat_by_name(emac, "FW_RX_B0_DROP_EARLY_EOF") +
-+			    emac_get_stat_by_name(emac, "FW_RX_EXP_FRAG_Q_DROP") +
-+			    emac_get_stat_by_name(emac, "FW_RX_FIFO_OVERRUN");
-+	stats->rx_dropped = ndev->stats.rx_dropped +
-+			    emac_get_stat_by_name(emac, "FW_DROPPED_PKT") +
-+			    emac_get_stat_by_name(emac, "FW_INF_PORT_DISABLED") +
-+			    emac_get_stat_by_name(emac, "FW_INF_SAV") +
-+			    emac_get_stat_by_name(emac, "FW_INF_SA_DL") +
-+			    emac_get_stat_by_name(emac, "FW_INF_PORT_BLOCKED") +
-+			    emac_get_stat_by_name(emac, "FW_INF_DROP_TAGGED") +
-+			    emac_get_stat_by_name(emac, "FW_INF_DROP_PRIOTAGGED") +
-+			    emac_get_stat_by_name(emac, "FW_INF_DROP_NOTAG") +
-+			    emac_get_stat_by_name(emac, "FW_INF_DROP_NOTMEMBER");
- 	stats->tx_errors  = ndev->stats.tx_errors;
--	stats->tx_dropped = ndev->stats.tx_dropped;
-+	stats->tx_dropped = ndev->stats.tx_dropped +
-+			    emac_get_stat_by_name(emac, "FW_RTU_PKT_DROP") +
-+			    emac_get_stat_by_name(emac, "FW_TX_DROPPED_PACKET") +
-+			    emac_get_stat_by_name(emac, "FW_TX_TS_DROPPED_PACKET") +
-+			    emac_get_stat_by_name(emac, "FW_TX_JUMBO_FRM_CUTOFF");
- }
- EXPORT_SYMBOL_GPL(icssg_ndo_get_stats64);
- 
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_prueth.h b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-index b6be4aa57a61..23c465f1ce7f 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-+++ b/drivers/net/ethernet/ti/icssg/icssg_prueth.h
-@@ -54,7 +54,7 @@
- 
- #define ICSSG_MAX_RFLOWS	8	/* per slice */
- 
--#define ICSSG_NUM_PA_STATS	4
-+#define ICSSG_NUM_PA_STATS	32
- #define ICSSG_NUM_MIIG_STATS	60
- /* Number of ICSSG related stats */
- #define ICSSG_NUM_STATS (ICSSG_NUM_MIIG_STATS + ICSSG_NUM_PA_STATS)
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.c b/drivers/net/ethernet/ti/icssg/icssg_stats.c
-index 6f0edae38ea2..e8241e998aa9 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_stats.c
-+++ b/drivers/net/ethernet/ti/icssg/icssg_stats.c
-@@ -11,7 +11,6 @@
- 
- #define ICSSG_TX_PACKET_OFFSET	0xA0
- #define ICSSG_TX_BYTE_OFFSET	0xEC
--#define ICSSG_FW_STATS_BASE	0x0248
- 
- static u32 stats_base[] = {	0x54c,	/* Slice 0 stats start */
- 				0xb18,	/* Slice 1 stats start */
-@@ -46,9 +45,8 @@ void emac_update_hardware_stats(struct prueth_emac *emac)
- 
- 	if (prueth->pa_stats) {
- 		for (i = 0; i < ARRAY_SIZE(icssg_all_pa_stats); i++) {
--			reg = ICSSG_FW_STATS_BASE +
--			      icssg_all_pa_stats[i].offset *
--			      PRUETH_NUM_MACS + slice * sizeof(u32);
-+			reg = icssg_all_pa_stats[i].offset +
-+			      slice * sizeof(u32);
- 			regmap_read(prueth->pa_stats, reg, &val);
- 			emac->pa_stats[i] += val;
- 		}
-@@ -80,7 +78,7 @@ int emac_get_stat_by_name(struct prueth_emac *emac, char *stat_name)
- 	if (emac->prueth->pa_stats) {
- 		for (i = 0; i < ARRAY_SIZE(icssg_all_pa_stats); i++) {
- 			if (!strcmp(icssg_all_pa_stats[i].name, stat_name))
--				return emac->pa_stats[icssg_all_pa_stats[i].offset / sizeof(u32)];
-+				return emac->pa_stats[i];
- 		}
- 	}
- 
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_stats.h b/drivers/net/ethernet/ti/icssg/icssg_stats.h
-index e88b919f532c..5ec0b38e0c67 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_stats.h
-+++ b/drivers/net/ethernet/ti/icssg/icssg_stats.h
-@@ -155,24 +155,10 @@ static const struct icssg_miig_stats icssg_all_miig_stats[] = {
- 	ICSSG_MIIG_STATS(tx_bytes, true),
- };
- 
--/**
-- * struct pa_stats_regs - ICSSG Firmware maintained PA Stats register
-- * @fw_rx_cnt: Number of valid packets sent by Rx PRU to Host on PSI
-- * @fw_tx_cnt: Number of valid packets copied by RTU0 to Tx queues
-- * @fw_tx_pre_overflow: Host Egress Q (Pre-emptible) Overflow Counter
-- * @fw_tx_exp_overflow: Host Egress Q (Express) Overflow Counter
-- */
--struct pa_stats_regs {
--	u32 fw_rx_cnt;
--	u32 fw_tx_cnt;
--	u32 fw_tx_pre_overflow;
--	u32 fw_tx_exp_overflow;
--};
--
--#define ICSSG_PA_STATS(field)			\
--{						\
--	#field,					\
--	offsetof(struct pa_stats_regs, field),	\
-+#define ICSSG_PA_STATS(field)	\
-+{				\
-+	#field,			\
-+	field,			\
- }
- 
- struct icssg_pa_stats {
-@@ -181,10 +167,38 @@ struct icssg_pa_stats {
- };
- 
- static const struct icssg_pa_stats icssg_all_pa_stats[] = {
--	ICSSG_PA_STATS(fw_rx_cnt),
--	ICSSG_PA_STATS(fw_tx_cnt),
--	ICSSG_PA_STATS(fw_tx_pre_overflow),
--	ICSSG_PA_STATS(fw_tx_exp_overflow),
-+	ICSSG_PA_STATS(FW_RTU_PKT_DROP),
-+	ICSSG_PA_STATS(FW_Q0_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q1_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q2_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q3_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q4_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q5_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q6_OVERFLOW),
-+	ICSSG_PA_STATS(FW_Q7_OVERFLOW),
-+	ICSSG_PA_STATS(FW_DROPPED_PKT),
-+	ICSSG_PA_STATS(FW_RX_ERROR),
-+	ICSSG_PA_STATS(FW_RX_DS_INVALID),
-+	ICSSG_PA_STATS(FW_TX_DROPPED_PACKET),
-+	ICSSG_PA_STATS(FW_TX_TS_DROPPED_PACKET),
-+	ICSSG_PA_STATS(FW_INF_PORT_DISABLED),
-+	ICSSG_PA_STATS(FW_INF_SAV),
-+	ICSSG_PA_STATS(FW_INF_SA_DL),
-+	ICSSG_PA_STATS(FW_INF_PORT_BLOCKED),
-+	ICSSG_PA_STATS(FW_INF_DROP_TAGGED),
-+	ICSSG_PA_STATS(FW_INF_DROP_PRIOTAGGED),
-+	ICSSG_PA_STATS(FW_INF_DROP_NOTAG),
-+	ICSSG_PA_STATS(FW_INF_DROP_NOTMEMBER),
-+	ICSSG_PA_STATS(FW_RX_EOF_SHORT_FRMERR),
-+	ICSSG_PA_STATS(FW_RX_B0_DROP_EARLY_EOF),
-+	ICSSG_PA_STATS(FW_TX_JUMBO_FRM_CUTOFF),
-+	ICSSG_PA_STATS(FW_RX_EXP_FRAG_Q_DROP),
-+	ICSSG_PA_STATS(FW_RX_FIFO_OVERRUN),
-+	ICSSG_PA_STATS(FW_CUT_THR_PKT),
-+	ICSSG_PA_STATS(FW_HOST_RX_PKT_CNT),
-+	ICSSG_PA_STATS(FW_HOST_TX_PKT_CNT),
-+	ICSSG_PA_STATS(FW_HOST_EGRESS_Q_PRE_OVERFLOW),
-+	ICSSG_PA_STATS(FW_HOST_EGRESS_Q_EXP_OVERFLOW),
- };
- 
- #endif /* __NET_TI_ICSSG_STATS_H */
-diff --git a/drivers/net/ethernet/ti/icssg/icssg_switch_map.h b/drivers/net/ethernet/ti/icssg/icssg_switch_map.h
-index 424a7e945ea8..490a9cc06fb0 100644
---- a/drivers/net/ethernet/ti/icssg/icssg_switch_map.h
-+++ b/drivers/net/ethernet/ti/icssg/icssg_switch_map.h
-@@ -231,4 +231,37 @@
- /* Start of 32 bits PA_STAT counters */
- #define PA_STAT_32b_START_OFFSET                           0x0080
- 
-+#define FW_RTU_PKT_DROP			0x0088
-+#define FW_Q0_OVERFLOW			0x0090
-+#define FW_Q1_OVERFLOW			0x0098
-+#define FW_Q2_OVERFLOW			0x00A0
-+#define FW_Q3_OVERFLOW			0x00A8
-+#define FW_Q4_OVERFLOW			0x00B0
-+#define FW_Q5_OVERFLOW			0x00B8
-+#define FW_Q6_OVERFLOW			0x00C0
-+#define FW_Q7_OVERFLOW			0x00C8
-+#define FW_DROPPED_PKT			0x00F8
-+#define FW_RX_ERROR			0x0100
-+#define FW_RX_DS_INVALID		0x0108
-+#define FW_TX_DROPPED_PACKET		0x0110
-+#define FW_TX_TS_DROPPED_PACKET		0x0118
-+#define FW_INF_PORT_DISABLED		0x0120
-+#define FW_INF_SAV			0x0128
-+#define FW_INF_SA_DL			0x0130
-+#define FW_INF_PORT_BLOCKED		0x0138
-+#define FW_INF_DROP_TAGGED		0x0140
-+#define FW_INF_DROP_PRIOTAGGED		0x0148
-+#define FW_INF_DROP_NOTAG		0x0150
-+#define FW_INF_DROP_NOTMEMBER		0x0158
-+#define FW_RX_EOF_SHORT_FRMERR		0x0188
-+#define FW_RX_B0_DROP_EARLY_EOF		0x0190
-+#define FW_TX_JUMBO_FRM_CUTOFF		0x0198
-+#define FW_RX_EXP_FRAG_Q_DROP		0x01A0
-+#define FW_RX_FIFO_OVERRUN		0x01A8
-+#define FW_CUT_THR_PKT			0x01B0
-+#define FW_HOST_RX_PKT_CNT		0x0248
-+#define FW_HOST_TX_PKT_CNT		0x0250
-+#define FW_HOST_EGRESS_Q_PRE_OVERFLOW	0x0258
-+#define FW_HOST_EGRESS_Q_EXP_OVERFLOW	0x0260
-+
- #endif /* __NET_TI_ICSSG_SWITCH_MAP_H  */
+--=-=-=
+Content-Type: application/pgp-signature; name="signature.asc"
 
-base-commit: 07e32237ed9d3f5815fb900dee9458b5f115a678
--- 
-2.34.1
+-----BEGIN PGP SIGNATURE-----
 
+iQJJBAEBCgAzFiEEG6U8esk9yirP39qXlr6Mb9idZWUFAmgKDNAVHG1pa2lzYWJh
+dGVAZ21haWwuY29tAAoJEJa+jG/YnWVlMe8P/3GWvWsJksgXvOwVEdZk24vFu0lQ
+heUgo5llXNYRxNaU0iBfZ3qVuWR1WIoDsFnd6EzvAM4/miQK/jOfgb4/xOXls+Ah
+qzj0dMvXuLWIRfEom5PhWxW9Tevfl90Pk/TkkzvmaA0t4D/eEvKOsFEFpLFFnP+t
+/fCiUbrVg7ahnA0Z9vBA7oLJt9NNks7FOSFH3ZmiJLI82sTMOnQKxGe+GHy0bUc+
+0pwUt3aeugR6ZciXnDq4Gfj5m8zBxHgCpGnSNk9eQTtrXXPHcrRBDHAIFESssje8
+TaZzLO4+jKovhY6jicjetbtiLYyldXkOz01R49CcxwVlAD5fxgNYpcHu3jnjx+Hw
+wSHeMcyjabQHhBop019M9OAFIBQPIKS1B6y570G+M+t19H22083cwGIdLqIYAOfv
+3Gml165o3Sl0NPVV/SnNaW/0mxlZq4Y9wXHbnNEJ1JMJlbNYJJeKPvvcPGD9xsgb
+iqT5gFNPh4w6OWM34Pb25D6Q1PNlKy8BX9DPgaRlKyRNNutuqJg5x7PK6LN7t4gR
+gjrvXyVDQ2rWt1JnR6lq87uVLvuwRC6YEZJIOZ59k4bWzhwvl23a93wACN0PJyKg
+yUcHgDHSscAYTxSkOSAWX6Kkh7pg9aiZ3hHYyeI4wKuot02nuZzZZ1/iigfX0X8x
+PAoq2NET1dRPiyaZ
+=JubY
+-----END PGP SIGNATURE-----
+--=-=-=--
