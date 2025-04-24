@@ -1,113 +1,130 @@
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BF4071AED5C;
-	Thu, 24 Apr 2025 10:24:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C047DA6D
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 11:00:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745490287; cv=none; b=oymrijihsY1QTC6WioDggbnFtXR/NfGFO+D78+5UfXLMC6sa9H90yRSgenVElQEO3ck2jyRVQU90q9DNV9qOMJ4KqSNpaGbmczYGsOdc9Lx9iRuLoccKwJF05NfvKSxf/x6N4pvt78zPwkvzLb1C+5M1XGJ0KMdiJGlLF+Vqgek=
+	t=1745492456; cv=none; b=UrlxAzHtPT0lDh6AEOXutKnAu+CIw+s9szyonNmtgdPffaQ2Jp1l6WyliU9mJ2TMko/PQL2h0QW6tGZh9eNS6V+2SREA3F8X4mtHsv8nBAMoOjrLdPKP9EVsxht/tnpOmPqtysGRfYa6dTT7QqZDc+idNgl7+OYeRkWqGVtIMO8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745490287; c=relaxed/simple;
-	bh=xRGlQ+YuAfq0yjKo537Wvq+MxdVlDxgBBdCxFEB1sqw=;
-	h=From:To:Cc:Subject:In-Reply-To:Date:Message-ID:References:
-	 MIME-Version:Content-Type; b=fhNS0nuufWD/2erYPvzrm24NnzJJLljVmz+6E8T028BPLZmaa2M/hSGDzMf6VBJRio/UKyR0afZblPM4H1jbVt+4wZqClYHVIdRiopih2WiNqwpB8w8wZi9IYEAKLpdLj4ThKCkUQfFDb+OhJ5FRn2nYhgCz2S9cXPDkqLMgl/E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RzgpgHEW; arc=none smtp.client-ip=209.85.221.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745492456; c=relaxed/simple;
+	bh=ilVhurOAgxRINQp4J4plZnQ/Sve+oq9bjuZtm3BKBho=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=HoU3lsxioIXKnW5YPhUeb43qqkxwdg7fUUV0F/cGick1dbpsUt3H/tLSjaUzAgHPsdf/v/CGtJhZjiOzKG7rO3Q1ARW4UwKCzHpJhnThnrbExEV7883MgjZhr8m1EneeLTOLEOMxLn8UOibKyIFAb8tZkHq5JUAKUxZN37sH6pM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Efqg4ej0; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RzgpgHEW"
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-39129fc51f8so658757f8f.0;
-        Thu, 24 Apr 2025 03:24:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Efqg4ej0"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf06eabdaso7715155e9.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 04:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745490284; x=1746095084; darn=vger.kernel.org;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=xRGlQ+YuAfq0yjKo537Wvq+MxdVlDxgBBdCxFEB1sqw=;
-        b=RzgpgHEWA8qQetLQSrwWiOGfWTGwLA6ArjRUvGU7JtwK/q5BjJnXFBF+oGWjVs4oEm
-         e2jLEVgBmaPbZ6slJVBnJZSAJLFcbwhAQOc/CVdvPKvStaI+w0YTe7+sNadU7F4ZkJnH
-         QEcTjyBEjYXjYe+3gN6Kdts5CbohE2Dr1uhjLhKsupBgZkQ9NnwsEpYNE0VML9mUOrmE
-         Qj5a6lii00eg29QxE4dLW4Zuzq1+h3f8OTUyCLCTjWu7oA06t+2P8MiCJ671sP54/rGP
-         iErA5LoSviEovRF4U9OvK+iDscgD9FQ5XWHv0RlxANgrIn+293FosHp9cgH8pvX4XBqB
-         keBw==
+        d=ventanamicro.com; s=google; t=1745492451; x=1746097251; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=zHHJnHHyOrnNtHHA6vr6DrZ0IO7tPD+NYSLx8YKZu70=;
+        b=Efqg4ej0lfczL7FUZMe+hb4klNfVw/eDNsSA+9s0AdXbElMqmfSag5n8/TalQ4w67U
+         rYN0sFThg8wrStkkiUfwGCTGnU6FCTOK27qaeiA5YrPR1prbXomZx3wkyWFhhULs6p+s
+         e+rDC7xWWv5L8pP0W2VgLErtPHmcCWM89Av8+km5aujoYhqgM5pDHkZcHMlV1CRGzMct
+         o824a2B4a24tvH/2Z6ozeTJbefOZ4O6ACD+9hCcd20FUkvOnS5gIhuCu6ob2/Npc8G3u
+         5rjNFcXH3GTFfIMZw3F38cnncuzVp0g+eM3lKdBqPJhljMeoFyhvG1snvHKaWPaYAmaX
+         nFNw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745490284; x=1746095084;
-        h=mime-version:user-agent:references:message-id:date:in-reply-to
-         :subject:cc:to:from:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xRGlQ+YuAfq0yjKo537Wvq+MxdVlDxgBBdCxFEB1sqw=;
-        b=dhnuwwXV83FcCKFW4fmpb4uat7d6QjM5qXl50JWHFvSafXlmwyxzJWZQZxj5aReQpn
-         djsZpfZ8o6yE2DwYswA52TwHFhek2w9USgteCp3iECIhayAqFq+yuAeQZoTAznPbPKKm
-         zZw9tFjEkOM8GLWVe0AahKW1SeYR+nX3VUUhJ4/oYboHiuEBBBKPYTzwZmrkXsQcOEmx
-         wdk4bWVg3EXbwOeyOSJGOk8CBUa18ZP0pQZx8QaCWqVxO2oNovgTXzphM34e3n2DRNWS
-         +KJQ2xDLLm30zHyFKTuFeOHPuaNREzeLgMVXFX+kyDPTbHO3H/eH32ITmrxrNF1K4dN5
-         d/hA==
-X-Forwarded-Encrypted: i=1; AJvYcCURZD/iiSkYM5jq7zc8hPo5yyTEB0bOFOyeF+GArJ3XfBMsqXlcw5HGnFb9twEJvNGPzAdz4XSkZadtkyx2gPrh@vger.kernel.org, AJvYcCVYa8gwn7OLIrf+6fr6XP2fB/sMA8hgSaCvzJ5t1KwjQRcI4Glm4eN1Px378nUk1+zMx7LGtCyNFunVR8FZ@vger.kernel.org, AJvYcCW7cirSayhcy6QbZ15JbSll151ih6Sn5SLwJx6hEWsf3pscj9JIjbeC0knxi7DbHaea0zICVz3uJsf8@vger.kernel.org, AJvYcCWTpl7WibZmDd7mYbOf2Ar9f/KMa+wpGUV1j3YF6/yL2Bh7Mza98yZZeAYmV+zM9Nk3nwNC@vger.kernel.org, AJvYcCXic7Dr+Ubb0rDt9AFxTS54UNA/eXr9Hty6DJA/6WGIPcLaJMQzbQd/b/TFbPplmJW555n+nN6cdQ==@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx1PBt0m+5F9XucEx9qyiICPcE2oeBFsXdt035xFCGiFuXlekTt
-	l+EQb4MAktEBfQxFx6Y+h3rrn0Xt1taz9ulGZkipsR7u6GqFniX6
-X-Gm-Gg: ASbGncv8zjOh2Ql26IxT/ZQJ3f+Yhn/1xGKvV0RGbeRSdnfkUqJOhIgT1sZgePInHbO
-	5MPaK9pp+2tq0RjX5cub7RR4cKfJSCl284eVclQ90N3CIBGBU9Z7kFCS6axwVYaF5v+62O4Gvzn
-	jtavxQFkrj+4V0ZTpi3bARrWKcGyoHdKaNbNkUPD8cLDMc6l60pO1V75hcCx8jyOwkiPeoX6PCI
-	KZTKiRnHS+on3Y6AFeDBgBIz+fIj5uFwn+ZiVD3YWUzi8kSPvr3fWqvZ/Sf/xZTa5mDGb8yz41c
-	1iEw74yY2VZUUhP4AHxJ/cxYeBWyPkmwjE9BMbrxr7UbQL7Cb4S1xsmEy2c=
-X-Google-Smtp-Source: AGHT+IHEb3DW07bLAA/VXg08jEDjB059mOzNk65AI9NhSRJOViAxq2muSv9evi1rARkf40X091csiA==
-X-Received: by 2002:a5d:5983:0:b0:39e:e438:8e4b with SMTP id ffacd0b85a97d-3a06cfab546mr1827774f8f.50.1745490283934;
-        Thu, 24 Apr 2025 03:24:43 -0700 (PDT)
-Received: from imac ([2a02:8010:60a0:0:7d34:7f0d:292f:fa10])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d569b38sm1578696f8f.100.2025.04.24.03.24.42
+        d=1e100.net; s=20230601; t=1745492451; x=1746097251;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=zHHJnHHyOrnNtHHA6vr6DrZ0IO7tPD+NYSLx8YKZu70=;
+        b=Z7ePGqd9pyLFLwjMNeYO5yUUTJUE6585f6WGeVWZ9F/P/Ivbycuieply/BpLqOEO7W
+         abaODagllSG2fXz0Xen6VhrBWSbPwJnWDmLZlpi33LHpkF0Hu8lYMlD3g4Ljt15VoJ9v
+         5bVM+rMoBaQkbgOpGppH1CnFJqWkzN+VtezTZ5fJwSmXkeewwKrk9siDYHGzL3jIdhOJ
+         633PFFAzNqPjQULwR02j4Kgl0P6G83Gm4ny3DlSS1S9RjOWKaBV3g1atUTtamiybls7R
+         syXCPWHmHIKX6+Eqi25cy1OVSVbSUc0tWi4ErzFoC7pMvn0U0WH+zh4Ud43MUtPYuBiD
+         OCJQ==
+X-Forwarded-Encrypted: i=1; AJvYcCXFSfsYJ87Bv6mZ6ovJnnhijbxa0o55GmRqdSger2hJ9/dVITXpPe4B2IvZ5ht7A/erw3pg2gNOzZ4=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy++ju2RyHaKK/m6w1UZViiZGn3EZ6XQpp3hWXyZER4FHT8qJUq
+	qwkwLWdo8DSWy6YnjB12kX20hNVrr262FNI+2aBRewuvMYchvoBA6ppMdX+Dm3UGb/AUwXhP0sC
+	Pi0o=
+X-Gm-Gg: ASbGnctByBOl/WiBoxUn5FCMa5e4G/zkSCFJF5NYrmJlJIVzHzB60Vll0AqsROfLwv9
+	nTtQ4+t0nCDoD9sjvIJTvhlFBu78Rf8zVAeH+ZNOiZ0YOZVtgYglXYq+urJrouyGKzMJpPNs0Gz
+	KDHyAIpFNvQ20JIZHZdQOFvI+3l4OBm0GxgZqV76XGPnZ9DZIkaKQ8tBjSjaMKz8AU0JslVP9/X
+	qivEaTjzvcR+aRFI3HPgO8+cpRb4s2+VLfVrrLa+kKwOuqud40UhOBmLh2Sr+RQ/XOyJCInwgOO
+	+0E/gWgJG47Gv+J1VE1yO8MSRFdhCPSVrNaYexA=
+X-Google-Smtp-Source: AGHT+IGP6Ut82q/OqGuYzCaYu8ri2NvYSY5EYxmJ9hg0Kbk3eysivoE/mXbwZrGhC5aaW7QaraDYhg==
+X-Received: by 2002:a05:600c:3b9a:b0:439:9424:1b70 with SMTP id 5b1f17b1804b1-4409bd8a761mr17964535e9.30.1745492451468;
+        Thu, 24 Apr 2025 04:00:51 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200::f716])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2d8479sm16884645e9.29.2025.04.24.04.00.50
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 03:24:43 -0700 (PDT)
-From: Donald Hunter <donald.hunter@gmail.com>
-To: Mina Almasry <almasrymina@google.com>
-Cc: netdev@vger.kernel.org,  linux-kernel@vger.kernel.org,
-  linux-doc@vger.kernel.org,  io-uring@vger.kernel.org,
-  virtualization@lists.linux.dev,  kvm@vger.kernel.org,
-  linux-kselftest@vger.kernel.org,  Jakub Kicinski <kuba@kernel.org>,
-  "David S. Miller" <davem@davemloft.net>,  Eric Dumazet
- <edumazet@google.com>,  Paolo Abeni <pabeni@redhat.com>,  Simon Horman
- <horms@kernel.org>,  Jonathan Corbet <corbet@lwn.net>,  Andrew Lunn
- <andrew+netdev@lunn.ch>,  Jeroen de Borst <jeroendb@google.com>,
-  Harshitha Ramamurthy <hramamurthy@google.com>,  Kuniyuki Iwashima
- <kuniyu@amazon.com>,  Willem de Bruijn <willemb@google.com>,  Jens Axboe
- <axboe@kernel.dk>,  Pavel Begunkov <asml.silence@gmail.com>,  David Ahern
- <dsahern@kernel.org>,  Neal Cardwell <ncardwell@google.com>,  Stefan
- Hajnoczi <stefanha@redhat.com>,  Stefano Garzarella <sgarzare@redhat.com>,
-  "Michael S. Tsirkin" <mst@redhat.com>,  Jason Wang <jasowang@redhat.com>,
-  Xuan Zhuo <xuanzhuo@linux.alibaba.com>,  Eugenio =?utf-8?Q?P=C3=A9rez?=
- <eperezma@redhat.com>,  Shuah Khan <shuah@kernel.org>,  sdf@fomichev.me,
-  dw@davidwei.uk,  Jamal Hadi Salim <jhs@mojatatu.com>,  Victor Nogueira
- <victor@mojatatu.com>,  Pedro Tammela <pctammela@mojatatu.com>,  Samiullah
- Khawaja <skhawaja@google.com>
-Subject: Re: [PATCH net-next v10 3/9] net: devmem: TCP tx netlink api
-In-Reply-To: <CAHS8izNUOO-X0WHFTMd3_yEjCDu4sPYADE1oDEtWTYFNNMB5wQ@mail.gmail.com>
-	(Mina Almasry's message of "Wed, 23 Apr 2025 10:59:17 -0700")
-Date: Thu, 24 Apr 2025 10:06:42 +0100
-Message-ID: <m21ptiszbx.fsf@gmail.com>
-References: <20250423031117.907681-1-almasrymina@google.com>
-	<20250423031117.907681-4-almasrymina@google.com>
-	<m2y0vrtd5i.fsf@gmail.com>
-	<CAHS8izNUOO-X0WHFTMd3_yEjCDu4sPYADE1oDEtWTYFNNMB5wQ@mail.gmail.com>
-User-Agent: Gnus/5.13 (Gnus v5.13)
+        Thu, 24 Apr 2025 04:00:51 -0700 (PDT)
+Date: Thu, 24 Apr 2025 13:00:50 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH v5 03/13] riscv: sbi: add FWFT extension interface
+Message-ID: <20250424-c85c9d2f189fe4470038b519@orel>
+References: <20250417122337.547969-1-cleger@rivosinc.com>
+ <20250417122337.547969-4-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250417122337.547969-4-cleger@rivosinc.com>
 
-Mina Almasry <almasrymina@google.com> writes:
->>
->> The bind-rx op has "flags: [ admin-perm ]", should bind-tx also?
->
-> The omission of admin-perm for tx is intentional.
->
-> Binding a dmabuf to an rx queue should and is a privileged operation,
-> because basically the application doing the binding is taking
-> ownership of this rx queue. For TX, no such queue ownership is being
-> taken. The TX binding just gives the netdevice access to the dmabuf
-> dma-addresses so the netdevice can send from there. It's very similar
-> to a normal dma-map with normal memory. There is no need for privilege
-> checks.
+On Thu, Apr 17, 2025 at 02:19:50PM +0200, Clément Léger wrote:
+> This SBI extensions enables supervisor mode to control feature that are
+> under M-mode control (For instance, Svadu menvcfg ADUE bit, Ssdbltrp
+> DTE, etc). Add an interface to set local features for a specific cpu
+> mask as well as for the online cpu mask.
+> 
+> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>  arch/riscv/include/asm/sbi.h | 17 +++++++++++
+>  arch/riscv/kernel/sbi.c      | 57 ++++++++++++++++++++++++++++++++++++
+>  2 files changed, 74 insertions(+)
+> 
+> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+> index 7ec249fea880..c8eab315c80e 100644
+> --- a/arch/riscv/include/asm/sbi.h
+> +++ b/arch/riscv/include/asm/sbi.h
+> @@ -503,6 +503,23 @@ int sbi_remote_hfence_vvma_asid(const struct cpumask *cpu_mask,
+>  				unsigned long asid);
+>  long sbi_probe_extension(int ext);
+>  
+> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags);
+> +int sbi_fwft_local_set_cpumask(const cpumask_t *mask, u32 feature,
+> +			       unsigned long value, unsigned long flags);
 
-Thanks for the explanation. I couldn't find any mention of ownership in
-the docs.
+I'm confused by the naming that includes 'local' and 'cpumask' together
+and...
+
+> +/**
+> + * sbi_fwft_local_set() - Set a feature on all online cpus
+> + * @feature: The feature to be set
+> + * @value: The feature value to be set
+> + * @flags: FWFT feature set flags
+> + *
+> + * Return: 0 on success, appropriate linux error code otherwise.
+> + */
+> +static inline int sbi_fwft_local_set(u32 feature, unsigned long value,
+> +				     unsigned long flags)
+> +{
+> +	return sbi_fwft_local_set_cpumask(cpu_online_mask, feature, value, flags);
+
+...that something named with just 'local' is applied to all online cpus.
+I've always considered 'local' functions to only affect the calling cpu.
+
+Thanks,
+drew
