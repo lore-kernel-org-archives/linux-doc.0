@@ -1,53 +1,41 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E1252701BF;
-	Thu, 24 Apr 2025 00:31:39 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 660BB1CD1F;
+	Thu, 24 Apr 2025 00:44:08 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745454700; cv=none; b=a12943dyPNley1qGKB6ANoNHWlg1JS/+YIM3AbZ4seunq5l7PhRHiX1o7HM46pIXXOl3Q+9De73t7zCn7dPQ4Uh37VDDJUBkPXMCCJO0MpOjDgY3kNKaBSz4ITiazYJ+LQcZIZ0ZccHM0KgMYgirR/oyQuwimfzULzxFvMvzqEI=
+	t=1745455449; cv=none; b=Zc9ybV9gGQ1DUu3YiA9dQR43JTXjRywar4zu3+DZr4u7YMDPBVd/Mg/7hWm93xiiuNtIpvMN9sjy0ENZqZqIWrbJfU9A6PbXQAnU76Bapf5ZpqbrXGVV1qgs1CqSQC70rJDn7vFo2fYrTDORj6nfBDtxAZ80jGYvHnCNiGHvTYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745454700; c=relaxed/simple;
-	bh=Ga4t6ugV8zqmuUfvWiT3IWeSKoulLQekoUS3Y/ImDnw=;
+	s=arc-20240116; t=1745455449; c=relaxed/simple;
+	bh=9RqTBVvafFjbkjBVSdY6jeYYwZvIr/H3q0ESUZUpBEE=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=rhDNu5t9RdhWLsocDd11Q9AoO9Uq+UVcsfqZWdmimIi25BCxKJf+Ldlhjs04rvxse11I8fisseEvYPhP7ZD8mBstcZtJM0vUB2j7qooM3o1jYy0Z5qg2zaqzTQUE3ADz2GnHESq1jPs9GHQ06r/PPTpz8bQsN+oo3UXQYGGN7Hc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GnazM4dL; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=G51eJIX1B/gaG2Ryfnxs3dPf35KtaaxAl1fTHFSXE2WMf7unGNxxsF8NRs2a3WNZtrGMdQgCRVji8U50+OwUyWYv70RhFECK0MmcI3HXQRS0sO49rgZmdka4ng5+y2Ks1Kx+IS0pIajwA2I1mSh3FtdCiCqQC/S8t0WFcWiv9X0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YTb24ePK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GnazM4dL"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39655C4CEE2;
-	Thu, 24 Apr 2025 00:31:31 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YTb24ePK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57FEDC4CEEA;
+	Thu, 24 Apr 2025 00:44:07 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745454699;
-	bh=Ga4t6ugV8zqmuUfvWiT3IWeSKoulLQekoUS3Y/ImDnw=;
+	s=k20201202; t=1745455448;
+	bh=9RqTBVvafFjbkjBVSdY6jeYYwZvIr/H3q0ESUZUpBEE=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=GnazM4dLMIjk4TycpzjmVcI8buSnuluUwvELckUC+JcLXF4FJp9NN8Q19dYGaAKfh
-	 F6nSySL6sJVbyKsO3wEAjDckE2Mu4HwUunCv23iHZE4G2cACYXkJtypWqXGk2tb3FV
-	 VgwLCTDQbAg2u2Vxp5403v3d/v8XhUSqJ2pkZJP6aImJQJ2m2gk253fpguC1wF1RRH
-	 IWrJ2vvM1zyCur3ESuqbHIoib7LW04pNhuqrMoNOPy3D+d6iCUVIrWsVPaSsFX53/U
-	 KSCffp0OUuZG37aY5Pvih6Z/dS4fwnZWXaeUdDCkxGOCmRZF7tiCzi8q3H8Ivoh1Fu
-	 mXhAzMRnlNZTw==
-Date: Thu, 24 Apr 2025 08:31:25 +0800
+	b=YTb24ePKqA7OB68SC3BHkiV/rJR69IaSgpfyXzwBwGzwTSvm4yNuY+e8TbHTLKwZK
+	 f22XqAwdfvoQHJbz4WDrRpCI5GL+S7nVrUWYXcHcF/twsMwS+0iI6pT55KKIUopox3
+	 mU8RDYAlYonHIbvd4sLKlu6v+tOIbminefcraDL2YEYzGb1PJd4EedNg+XZaFo0fow
+	 zr+l/k+sBwiCfXc1kZPAMYM7RZm9PDjqVecI8F1t3+OQKqvpbuT1Cz+NDJ2hBB8CBK
+	 tKBgRtv5HDDHRGPzfvWCYDNqOtrEvGUHAW9tEiQVZ2qXF98WDZQbJ1gffplNsFOUqT
+	 a/k2AdeDVTIjw==
+Date: Thu, 24 Apr 2025 08:43:58 +0800
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: Jonathan Corbet <corbet@lwn.net>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>, Linux Doc Mailing
- List <linux-doc@vger.kernel.org>, linux-kernel@vger.kernel.org, Andy
- Shevchenko <andriy.shevchenko@intel.com>, David Airlie <airlied@gmail.com>,
- Jani Nikula <jani.nikula@linux.intel.com>, Joonas Lahtinen
- <joonas.lahtinen@linux.intel.com>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>, Masahiro Yamada
- <masahiroy@kernel.org>, Maxime Ripard <mripard@kernel.org>, Nathan
- Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
- Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter <simona@ffwll.ch>,
- Thomas Zimmermann <tzimmermann@suse.de>, Tvrtko Ursulin
- <tursulin@ursulin.net>, dri-devel@lists.freedesktop.org,
- intel-gfx@lists.freedesktop.org, linux-kbuild@vger.kernel.org
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-Message-ID: <20250424083125.1c8a0d24@sal.lan>
-In-Reply-To: <87bjspzd4e.fsf@trenco.lwn.net>
-References: <cover.1744789777.git.mchehab+huawei@kernel.org>
-	<4k2arpghozy5fjrjove6nrh24qth3yp4educuso4y47gk7gycd@ol27dzrba55d>
-	<87bjspzd4e.fsf@trenco.lwn.net>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/4] Improve Sphinx kerneldoc extension
+Message-ID: <20250424084358.1cfc1455@sal.lan>
+In-Reply-To: <87jz7dxvgu.fsf@trenco.lwn.net>
+References: <cover.1744685912.git.mchehab+huawei@kernel.org>
+	<87jz7dxvgu.fsf@trenco.lwn.net>
 X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -58,60 +46,84 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-Em Mon, 21 Apr 2025 10:35:29 -0600
+Em Mon, 21 Apr 2025 11:42:09 -0600
 Jonathan Corbet <corbet@lwn.net> escreveu:
 
-> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 > 
-> > On Wed, Apr 16, 2025 at 03:51:03PM +0800, Mauro Carvalho Chehab wrote:  
-> >> 
-> >> As reported by Andy, the Kernel build system runs kernel-doc script for DRM,
-> >> when W=1. Due to Python's normal behavior, its JIT compiler will create
-> >> a bytecode and store it under scripts/lib/*/__pycache__. 
-> >> 
-> >> As one may be using O= and even having the sources on a read-only mount
-> >> point, disable its creation during build time.  
+> > Hi Jon,
 > >
-> > Would it be possible to properly support O= and create pyc / pycache
-> > inside the object/output dir?  
+> > As promised, this series improves the Sphinx kerneldoc extension making it using the
+> > kernel-doc.py classes directly if available.
+> >
+> > The script still supports excecuting kernel-doc via shell, and, in verbose mode, it will
+> > show the command line arguments to run kernel-doc manually, even when the Python
+> > classes are used. The idea is that the command line verbose will help to eventually
+> > debug issues if one needs to run kernel-doc.py manually. 
+> >
+> > On other words, after this series, if one does:
+> >
+> > 	make htmldocs KERNELDOC=scripts/kernel-doc.py
+> >
+> > Or, simply (as internally KERNELDOC is set to scripts/kernel-doc.py):
+> >
+> > 	make htmldocs
+> >
+> > It will use the Python classes instead of running a subprocess.
+> >
+> > If one uses, instead:
+> >
+> > 	make htmldocs KERNELDOC=scripts/kernel-doc
+> > or:
+> > 	make htmldocs KERNELDOC=scripts/kernel-doc.pl
+> >
+> > As the file extension doesn't end with .py, it will excecute the Python or the Perl
+> > version of kernel-doc via a subprocess.
+> >
+> > On this version, I opted to re-create the Python objects for every single kernel-doc
+> > line, so no caches from past runs are used. I'm working on a version that will cache
+> > results, but it is currently causing some regressions. So, let's do the changes
+> > step-by-step, applying first this improvement patch series.
+> >
+> > PS.: the first patches on this series are addressing some some bugs and one
+> > improvement that I noticed while debugging the patch changing kerneldoc
+> > Sphinx extension.
+> >
+> > Mauro Carvalho Chehab (4):
+> >   scripts/lib/kdoc/kdoc_files.py: don't try to join None
+> >   scripts/lib/kdoc/kdoc_parser.py: move states to a separate class
+> >   scripts:kdoc_files.py: use glob for export_file seek
+> >   docs: sphinx: kerneldoc: Use python class if available
+> >
+> >  Documentation/sphinx/kerneldoc.py | 138 ++++++++++++++++++++++++++++--
+> >  scripts/lib/kdoc/kdoc_files.py    |  11 ++-
+> >  scripts/lib/kdoc/kdoc_parser.py   | 119 ++++++++++++++------------
+> >  3 files changed, 200 insertions(+), 68 deletions(-)  
 > 
-> I have to confess, I've been wondering if we should be treating the .pyc
-> files like we treat .o files or other intermediate products.  Rather
-> than trying to avoid their creation entirely, perhaps we should just be
-> sure they end up in the right place and are properly cleaned up...?
-
-I sent a v4 of the series disabling *.pyc creation, basically placing
-*.pyc at the right place on .gitignore.
-
-That's said, I agree that the best would be to use PYTHONPYCACHEPREFIX,
-placing the intermediate products altogether with O= results. There is
-however something we need to deal with. To follow our building system
-to the letter, if we have *.py files at scripts/lib/kdoc, the intermediate
-files should be at: either:
-
-	- {outdir}/scripts/lib/kdoc; or: 
-	- {outdir}/scripts/lib/kdoc/__pycache__ 
-
-The same shall happen for all other places including Documentation/sphinx.
-In the specific case of Sphinx extensions, it would mean that it would
-produce *.pyc for both scripts/lib/*/*.py and Documentation/sphinx.
-No idea how to make Python to do that without doing some horrible tricks.
-
-An alternate approach would be to store all of them at the same place, like:
-
-	- {outdir}/__pycache__ 
-
-The problem is that, if we end having two scripts with the same name, and
-using PYTHONPYCACHEPREFIX would place both of them at the same place, we'll
-have troubles.
-
-IMO, let's apply this series first, and then see if we can replace patch 3
-with another one using PYTHONPYCACHEPREFIX, after we're sure that there's
-a way for it to do the right thing.
-
+> I've applied the series.
 > 
-> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
-> should do the trick?
+> I do note that the default "make htmldocs" build time is reliably slower
+> than with KERNELDOC=scripts/kernel-doc, I'd be curious to understand
+> why.
+> 
+>         External kdoc:  170s
+>         w/classes:	186s
+
+I noticed that. My guess is that this has to do with Python's big lock
+(GIL). When it uses processes, there won't be any internal locks, as
+kernel-doc will run independently. There is an effort for Python to get
+rid of GIL, but it seems GIL-less threads won't be default on version 3.14.
+
+-
+
+That's said, please notice that I intend to work on some patches that
+will optimize that. Right now, on some places, the same file is processed
+multiple times. By using the classes, we can cache the processing results
+the first time and then re-use them every time a kernel-doc tag for the
+same file is found within Documentation.
+
+This is easier said than done. I did one attempt to do that, but it ended
+causing troubles. So, I'm working on a new version of it.
 
 Regards,
 Mauro
