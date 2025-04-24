@@ -1,240 +1,144 @@
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7859F27CB33
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:51:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 073D327B4F1
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:57:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.49
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745499104; cv=none; b=KQUlyPS2gVNYmg4h7t7gwthvlqJ1lQVUDG860oIWxx37JBCHmjlKHwPXXNeONmIYPetKb7hCs3JcY9/jI2Zpx+zJtjFYf11DHRrv8cbylBzCbUMnRWPYs4lJnJIZEfuRT62fdfIuQSV8Nlz5PncBPccM9o2ngtIS+AKxZG+VOEI=
+	t=1745499464; cv=none; b=DpJuQAClff0m63+OmLms09tFYOj7CYi7ZAbICZbn8Bx9bi1Wqmd8Mjaed/d7LtMmMbwpZY1Sk93BJ8ZCxteuIQ4pZswhg3uc5Wi6k8AjKteVwxNSpZlVI9aYvC0SOMTB0AT/1kNq/RvNUIxZ1mR98ax1ZAm4KkWqndfbsiH/RIs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745499104; c=relaxed/simple;
-	bh=YasCWAy3v55s89pMoa3ranL51jlpEy9fj4l4xNuEECQ=;
-	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
-	 References:In-Reply-To; b=VCA1z3M1ip5BCKfekV2KshcPBtYfJittvN+q32zTRilKXkyY53+p3PluaejcmnbGxIyFqNLpAUweni7Yc/wO+xkuJ8TalOqB5HJ00y03xt/r9Sxy1k/kEw8t9YsGKA+fwMXM5n7PoRV6ZjFkkSRPuUUiCTasOhW25/U7AG0SKS8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=AYhgthY5; arc=none smtp.client-ip=209.85.128.42
+	s=arc-20240116; t=1745499464; c=relaxed/simple;
+	bh=reTdbb+6O0sXBwedeFukDBYju2S+gng4mftDGCp7r68=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=mf9sVIG714XM29KiUEdGz3GrprqWo2D6hDbTHjTvPU9akFzn5zZhGFphZ6SVcv0nCg7xcV3z47vDzc21nvuue1IAz5uSy6wcmLhIeALNdLcuZHn5Rbt6wFJUOEWrIEsMmCf0MRHTa4a44se4VhCFPlNiZPT+i+hm0SX+NSN/eF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=nI2wKPbP; arc=none smtp.client-ip=209.85.221.49
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="AYhgthY5"
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfe99f2a7so1520475e9.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:51:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="nI2wKPbP"
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-3914bc3e01aso604969f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:57:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1745499101; x=1746103901; darn=vger.kernel.org;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=MLukpWT5NNOxSvsbTFh0JQPpU9SQzhdcC+2BWmCpzxc=;
-        b=AYhgthY5jad5RAK6lPwJjWxOTuABxtdCTU5adNG80frqMjhaPv++bPYW+Mo5dBlYty
-         rHWLQ7xmIaj/k/bMYj4dq1x0FlrNLSRD7dp3X0abKHAM/ut1XHJCuQfZjXPHDa7D2/uu
-         V0tBbW+2d/ScTBdSoNtId0mOGRP5x9P1dFS82PqPfOcjxLkylsWNUS+uzs452nsJpxYz
-         8ZlTU0TJpF/DD1/rw5e61zruX41sRlxN+FXwWxCPdFmGgo1b0LHVfpIai7bLJK+g1NNo
-         +R7xaWa9FyNJRli7ZnMHMKZzHLN4nWLY/9I7W81tGZk7uAZP09UWQiu7RcZ8z6zHlieo
-         4kUQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745499101; x=1746103901;
-        h=in-reply-to:references:from:to:cc:subject:message-id:date
-         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+        d=ventanamicro.com; s=google; t=1745499461; x=1746104261; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
          :cc:subject:date:message-id:reply-to;
-        bh=MLukpWT5NNOxSvsbTFh0JQPpU9SQzhdcC+2BWmCpzxc=;
-        b=U+MJmHWgnIW8JcfEaA2nbEbJ4XQtr4JILbgnHYgdyNAU0x12aC8PW7bLpiOXvFZnyE
-         gNTZXbRBIOGvoRPebmOvnm2THpnMg+l+YGJWGtt7rsIvnCHBr4r4eSXsN3g+ZuxZ+vuU
-         uHBCScmrXxqrbBXm1Sv4l8yXDh5KMue0xEfin+vDsRmllWkertSLsSb2BpPRcOVlFj+F
-         RPYaUWJY7Lrqp+4yv4JSqtdIuyi3Xiy4/It1AVGCtjPTo5TKMoCGSdFJG0sv078hmtFx
-         g6YGCJVn07qG7M37mD+NV9d6ZZgqRlKSJXsM41StNKD1o9g6gNzPyGdsxGHuvYulpUCN
-         +hFw==
-X-Forwarded-Encrypted: i=1; AJvYcCX+TgPPNrRKwhj6idiVuuACwcgefoPyVWoyMJw8lZ1emvS6DaAXTNTpZDOkugi4hhh0/Fj3+ujWk18=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyV9MPrz5dnkBsQegsOcwZ+UFp2Z9rfOji62+cJaOU1T9ss1moM
-	ncOvlrIWwNDhCx0nPi9XYUixtH3pAT8p8ZBWBfIehXqC4ky/CMM34JabDMajbK8=
-X-Gm-Gg: ASbGncth30Ye5GRQKOzI2Bf1MbveS79UvB47gm7d4zmitzE+0qvHOblipNHiC4aPOT7
-	WYTs7LFy/cVTQupU9nIWwOmlD8x6WRmXRe0nU0iiWLMsUB5bVDf6wUBxWSjOo7fuTkuc9B44i9k
-	XmfWqSCYhhPxegH6ZJVf5/UO7HTXchmbJqTEd0GgZIkSL3LKyYperNhcAfhwG8tNycbv8dWDWXv
-	k0ZVwrf/GYyzqYiSj2QbSk+HTI16MCJndrajif32q+O7D7Fw06qh71j91rv4M7GpNFwovqVPLBp
-	hCpOwPcab79OJ+24Uv4ODDzqMMhlckeIC67mcCYNSc9ps/2y
-X-Google-Smtp-Source: AGHT+IEM7f4Ug05qJLQixhJCwrNUQhZVnfUcKsq0i+OggaoW7x6aAvFNMmOAKB/VOVrygSxaqnTFQw==
-X-Received: by 2002:a05:600c:3d89:b0:439:8c80:6aee with SMTP id 5b1f17b1804b1-4409bd8d808mr9055605e9.4.1745499100564;
-        Thu, 24 Apr 2025 05:51:40 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d29b8efsm20710185e9.6.2025.04.24.05.51.40
+        bh=oPQSBVtSMsvYsAl+gZRdiR2fvyhUD5u3wJ4ZqhPNu8A=;
+        b=nI2wKPbPDt/hA2aXCHz+p57vALDN2e0hpjTHegksYqxT2aEG28AMjyogp5hLa/Se7J
+         RvMfNz+b/RK0nTGxhlIWSa9mUUQCwCjv1UaOAm4gBFxAscrFmuRqNUDXmsIO/BEfEbqa
+         xPgRj74zkANoWWlSUcFp1weo3fvKoFhAkgSlQV6ZqY4XkxNKS8AW88ToTpcs74wRtf6N
+         y+u+JySzY/KXJl0fmBuovbx+mL7K5497jTjUbj6HnczAvxg50JIDFLl80A9dSapQzSxF
+         Dt0IVrBcAC3fZmvjDj1Ik3cB4QINSqsHPaf7F1tGy8JBh5+Y6fBc3d1N3vhbyHDQGcuR
+         PhCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745499461; x=1746104261;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oPQSBVtSMsvYsAl+gZRdiR2fvyhUD5u3wJ4ZqhPNu8A=;
+        b=PnpyupMT656Kikoqdj0P9fZ7tqEiJQkzJjy2xbW50BlyZQjCSajmvebvGyKHjMyNHr
+         emHCGS6le0RMQrQsFccSWcNkQM9xPXu7kovT/baxaohJETs3VHeDvhN4TqJekvR4yZLC
+         HbBVFViM62w/7dvK87gZ65QT9niHiYxShmc05+oqbbg7yLynXBkEx9KoC7AcdxlOoVM1
+         hElvGZZJvH0v79iljxjWG0ODSFzFH2XkXRHE9NZTN6vAS1fti2aN2j/nZAfoXiZ1mPZ0
+         /1erRARicQLZmjA/Abmcwzv+zqD2V8yvkW6aEri9fKcQRBu/nasbtb8hORzdgqYJSrqa
+         436w==
+X-Forwarded-Encrypted: i=1; AJvYcCXtn2E9tXfLtAn995eVxVrgwodTHzn6k0h3iUkvpjjsbNdP2NBJXFgBV9XXgta3mRES/1KpJkxAQaM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yws6iTSOZhtta/d65dl0FJ9QpwFVlO80uf79a3skS9ZY483o7V+
+	gcd0ixdMWbnGtZzCxEq0X5RRxHdE6ZvlQlRgdv48vmsVAou2getp1M8NKl/giKw=
+X-Gm-Gg: ASbGnctBceaqAfSsgxhrzca50vfzj1BVAnWAK5O8jAJiK89XuUcAxFTyWQ7oA9211jf
+	VH5tArB0l3fiL8yUJdEsF4uRzwqhrhXFsiXaCLRiRqWS2NKz+t3M6Gj6jssocZZLjqXJrYi5wxT
+	/qOIb4N8Ou+ffLSUJ1LFbeqItj8iAm+aJqxYeSmJvnDndzr8zUxJpP63f8lYimbEzQL+plJiQ8B
+	Z3Aubzr8dYoQdEwGkffmrOM8MuAVzJf00YpthdW+UanuKN9p2LfjSZBdTt4Tj/3n7Px4Bs2KyEE
+	1LJOk7v+9/f6tXjU6RNBleS6hvIU
+X-Google-Smtp-Source: AGHT+IGWv3/WPoD+1AaHzmJVHKE9pYWAl7MImqfR1l23ycVK/8svQHojX4uoV4n0a06YqpUIKi6wnQ==
+X-Received: by 2002:a05:6000:1e48:b0:391:3cb7:d441 with SMTP id ffacd0b85a97d-3a06cf5f657mr1695750f8f.25.1745499461227;
+        Thu, 24 Apr 2025 05:57:41 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200::f716])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d54f019sm2068909f8f.96.2025.04.24.05.57.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 05:51:40 -0700 (PDT)
+        Thu, 24 Apr 2025 05:57:40 -0700 (PDT)
+Date: Thu, 24 Apr 2025 14:57:39 +0200
+From: Andrew Jones <ajones@ventanamicro.com>
+To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
+Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
+	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
+	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
+	Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH v5 03/13] riscv: sbi: add FWFT extension interface
+Message-ID: <20250424-dc96e54988e25abfc2bb9cf8@orel>
+References: <20250417122337.547969-1-cleger@rivosinc.com>
+ <20250417122337.547969-4-cleger@rivosinc.com>
+ <20250424-c85c9d2f189fe4470038b519@orel>
+ <67e81f13-5e5e-4630-9a3f-73856b952e6e@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Apr 2025 14:51:39 +0200
-Message-Id: <D9EVSGGM0XDE.25R31NY7EQTJX@ventanamicro.com>
-Subject: Re: [PATCH v12 10/28] riscv/mm: Implement map_shadow_stack()
- syscall
-Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
- <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
- <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
- <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
- Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
- "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
- <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
- Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
- Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
- "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
- "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
- "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
- "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
- Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
- <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
- <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
- <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
- <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
- <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
- <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
- <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
- <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "Zong Li"
- <zong.li@sifive.com>, "linux-riscv"
- <linux-riscv-bounces@lists.infradead.org>
-To: "Deepak Gupta" <debug@rivosinc.com>
-From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-10-e51202b53138@rivosinc.com>
- <D92VAWLM8AGD.3CF1VH6NYHCYV@ventanamicro.com>
- <aAmtKhlwKV7oz7RF@debug.ba.rivosinc.com>
-In-Reply-To: <aAmtKhlwKV7oz7RF@debug.ba.rivosinc.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <67e81f13-5e5e-4630-9a3f-73856b952e6e@rivosinc.com>
 
-2025-04-23T20:16:58-07:00, Deepak Gupta <debug@rivosinc.com>:
-> On Thu, Apr 10, 2025 at 11:56:44AM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
-te:
->>2025-03-14T14:39:29-07:00, Deepak Gupta <debug@rivosinc.com>:
->>> As discussed extensively in the changelog for the addition of this
->>> syscall on x86 ("x86/shstk: Introduce map_shadow_stack syscall") the
->>> existing mmap() and madvise() syscalls do not map entirely well onto th=
-e
->>> security requirements for shadow stack memory since they lead to window=
-s
->>> where memory is allocated but not yet protected or stacks which are not
->>> properly and safely initialised. Instead a new syscall map_shadow_stack=
-()
->>> has been defined which allocates and initialises a shadow stack page.
->>>
->>> This patch implements this syscall for riscv. riscv doesn't require tok=
-en
->>> to be setup by kernel because user mode can do that by itself. However =
-to
->>> provide compatibility and portability with other architectues, user mod=
-e
->>> can specify token set flag.
->>
->>RISC-V shadow stack could use mmap() and madvise() perfectly well.
->
-> Deviating from what other arches are doing will create more thrash. I exp=
-ect
-> there will be merging of common logic between x86, arm64 and riscv. Infac=
-t I
-> did post one such RFC patch set last year (didn't follow up on it). Using
-> `mmap/madvise` defeats that purpose of creating common logic between arch=
-es.
->
-> There are pitfalls as mentioned with respect to mmap/madivse because of
-> unique nature of shadow stack. And thus it was accepted to create a new s=
-yscall
-> to create such mappings. RISC-V will stick to that.
+On Thu, Apr 24, 2025 at 02:32:01PM +0200, Clément Léger wrote:
+> 
+> 
+> On 24/04/2025 13:00, Andrew Jones wrote:
+> > On Thu, Apr 17, 2025 at 02:19:50PM +0200, Clément Léger wrote:
+> >> This SBI extensions enables supervisor mode to control feature that are
+> >> under M-mode control (For instance, Svadu menvcfg ADUE bit, Ssdbltrp
+> >> DTE, etc). Add an interface to set local features for a specific cpu
+> >> mask as well as for the online cpu mask.
+> >>
+> >> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> >> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> >> ---
+> >>  arch/riscv/include/asm/sbi.h | 17 +++++++++++
+> >>  arch/riscv/kernel/sbi.c      | 57 ++++++++++++++++++++++++++++++++++++
+> >>  2 files changed, 74 insertions(+)
+> >>
+> >> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+> >> index 7ec249fea880..c8eab315c80e 100644
+> >> --- a/arch/riscv/include/asm/sbi.h
+> >> +++ b/arch/riscv/include/asm/sbi.h
+> >> @@ -503,6 +503,23 @@ int sbi_remote_hfence_vvma_asid(const struct cpumask *cpu_mask,
+> >>  				unsigned long asid);
+> >>  long sbi_probe_extension(int ext);
+> >>  
+> >> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags);
+> >> +int sbi_fwft_local_set_cpumask(const cpumask_t *mask, u32 feature,
+> >> +			       unsigned long value, unsigned long flags);
+> > 
+> > I'm confused by the naming that includes 'local' and 'cpumask' together
+> > and...
+> > 
+> >> +/**
+> >> + * sbi_fwft_local_set() - Set a feature on all online cpus
+> >> + * @feature: The feature to be set
+> >> + * @value: The feature value to be set
+> >> + * @flags: FWFT feature set flags
+> >> + *
+> >> + * Return: 0 on success, appropriate linux error code otherwise.
+> >> + */
+> >> +static inline int sbi_fwft_local_set(u32 feature, unsigned long value,
+> >> +				     unsigned long flags)
+> >> +{
+> >> +	return sbi_fwft_local_set_cpumask(cpu_online_mask, feature, value, flags);
+> > 
+> > ...that something named with just 'local' is applied to all online cpus.
+> > I've always considered 'local' functions to only affect the calling cpu.
+> 
+> Yeah I thought of that as well, local here refers to the fact that this
+> function applies for a local feature (as described in the SBI
+> documentation) but agreed that it's really missleading. Any idea for a
+> better naming ?
 
-Ok.
+I'd drop 'local' from these names and when we deal with global features we
+can add 'global' to their function names. If we really must have something
+now, then maybe 'per_cpu' instead of 'local'.
 
->>> diff --git a/arch/riscv/kernel/usercfi.c b/arch/riscv/kernel/usercfi.c
->>> +static noinline unsigned long amo_user_shstk(unsigned long *addr, unsi=
-gned long val)
->>> +{
->>> +	/*
->>> +	 * Never expect -1 on shadow stack. Expect return addresses and zero
->>> +	 */
->>> +	unsigned long swap =3D -1;
->>> +	__enable_user_access();
->>> +	asm goto(
->>> +		".option push\n"
->>> +		".option arch, +zicfiss\n"
->>
->>Shouldn't compiler accept ssamoswap.d opcode even without zicfiss arch?
->
-> Its illegal instruction if shadow stack aren't available. Current toolcha=
-in
-> emits it only if zicfiss is specified in march.
-
-Oof, I'll look why arch is being used like that, thanks.
-
-(I thought arch is only for compiler generated code, so assembly
- mnemonics would always be defined if the compiler knows them.)
-
->>
->>> +		".option pop\n"
->>> +		: [swap] "=3Dr" (swap), [addr] "+A" (*addr)
->>> +		: [val] "r" (val)
->>> +		: "memory"
->>> +		: fault
->>> +		);
->>> +	__disable_user_access();
->>> +	return swap;
->>> +fault:
->>> +	__disable_user_access();
->>> +	return -1;
->>
->>I think we should return 0 and -EFAULT.
->>We can ignore the swapped value, or return it through a pointer.
->
-> Consumer of this detects -1 and then return -EFAULT.
-> We would eventually need this when creating shadow stack tokens for
-> kernel shadow stack. I believe `-1` is safe return value which can't
-> be construed as negative kernel address (-EFAULT will be)
-
-I believe it as well, but I don't see a reason why we need to risk it
-when we can return the stack value though a pointer and have simple
-success/failure return value.
-
->>> +}
->>> +
->>> +static unsigned long allocate_shadow_stack(unsigned long addr, unsigne=
-d long size,
->>> +					   unsigned long token_offset, bool set_tok)
->>> +{
->>> +	int flags =3D MAP_ANONYMOUS | MAP_PRIVATE;
->>
->>Is MAP_GROWSDOWN pointless?
->
-> Not sure. Didn't see that in x86 or arm64 shadow stack creation.
-> Let me know if its useful.
-
-It is for automated growing of the stack.  I think that the default
-stack is pointlessly large already, and if other arches don't do it, so
-we can probably follow their design here as well...
-
->>> +	struct mm_struct *mm =3D current->mm;
->>> +	unsigned long populate, tok_loc =3D 0;
->>> +
->>> +	if (addr)
->>> +		flags |=3D MAP_FIXED_NOREPLACE;
->>> +
->>> +	mmap_write_lock(mm);
->>> +	addr =3D do_mmap(NULL, addr, size, PROT_READ, flags,
->>
->>PROT_READ implies VM_READ, so won't this select PAGE_COPY in the
->>protection_map instead of PAGE_SHADOWSTACK?
->
-> PROT_READ is pointless here and redundant. I haven't checked if I remove =
-it
-> what happens.
->
-> `VM_SHADOW_STACK` takes precedence (take a look at pte_mkwrite and pmd_mk=
-write.
-> Only way `VM_SHADOW_STACK` is possible in vmflags is via `map_shadow_stac=
-k` or
-> `fork/clone` on existing task with shadow stack enabled.
->
-> In a nutshell user can't specify `VM_SHADOW_STACK` directly (indirectly v=
-ia
-> map_shadow_stack syscall or fork/clone) . But if set in vmaflags then it'=
-ll
-> take precedence.
-
-Yeah, I don't like that ugly special case at all, so I was hoping we
-could somehow avoid it. :)
+Thanks,
+drew
