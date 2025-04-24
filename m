@@ -1,94 +1,137 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2347157A67
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:23:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B72E822D780
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:23:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745497388; cv=none; b=O6aaeiVoBSG9Fy5VKzJJKvGfmlqctSSKbGvw2Og/7S/yDF7+8tabZFgAezPZbvi7s+LFMw7DAw+jk6HBkfkBfDbjyLXVMhZ2oqq5yfVHx0u2T1lbiCDtanlkrhKngXpTqOcYV/I5Ne6+umottXWqfQmNEPxHS249XerSXGMnVpY=
+	t=1745497421; cv=none; b=WeI2ifMbuxeRH4nnLAZv83yRYU9iQoWY46ovsSlNXrmUnWp+fb9WRmWkMCoVMudBdac4JucWv4ow72uT1G6jz0EpqerAgXHRv5O3v54xwdZ0L+j/zgqX6b3NDc98LqUtgR5U1KEnKQTLMHCay6M45YdOLlww+H+aWIMSPpyIAP4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745497388; c=relaxed/simple;
-	bh=e6TIk1k6gaYrJri9pmd1FONaT03IBpI7iPR3MjIaPbc=;
-	h=From:In-Reply-To:References:To:Cc:Subject:MIME-Version:
-	 Content-Type:Date:Message-ID; b=MDPngnOPiAge31nc9W2bx0Zi4s5wONsNqkuu3bFYAo3b5i2aScBe95TYaW7nvf9KcARvSgPPLasr55a5mGaZPTcaAznWvdsQAvM6jLcMzbsg8lZUhAi4M1x61oPyfZK4k6xmFYUgwSHOGzWloZGUXiq/SzyPEtePdWwBOMUDTWk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=PRfkWqoP; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1745497421; c=relaxed/simple;
+	bh=mb4owV23IIKFPA0348nV5wGPHZz3gEvC8g/fsUHVCgA=;
+	h=Mime-Version:Content-Type:Date:Message-Id:To:From:Subject:Cc:
+	 References:In-Reply-To; b=I6MVUxAtqMrsX+04yTQ7z1b1k4yl9Vb+m/+Qj1KzTC49ee7z4vxgj7TJWzDQrNGfzFbE+LbLQdxYYAb5JE4gPyy8NPQGrHvMiN2FyxPRRjUGOg9/uin9aRGGHgVRKJoiamWeg4c4r5IM98lKXQutbvF6vAhG9i0uV/9OvnzEClU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=mhvDkXpr; arc=none smtp.client-ip=209.85.128.50
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="PRfkWqoP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745497385;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Y7Ap0RPtUmDAb/aCd6HFvT2KxgtdQAWYYK6uDU1o8uU=;
-	b=PRfkWqoPgr0Bnyo1Yr2NNwc+IAKh555qqf6lNMqfrUz+bqdFHN5Z3tYNk6vmp/oQz8wuRL
-	+n9amrfhcN6hKGo5uoGXjXuBim0VQ3SYWRiT/hBn5cEOHblJWXSnSzMiuqAo/T/C0oWkcY
-	J3EgYUqQBF/Xz/ipdzEgdr0aJJHfEkU=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-151-6UyWrLWYO1--sLyphaECkg-1; Thu,
- 24 Apr 2025 08:23:01 -0400
-X-MC-Unique: 6UyWrLWYO1--sLyphaECkg-1
-X-Mimecast-MFC-AGG-ID: 6UyWrLWYO1--sLyphaECkg_1745497379
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 552AE1800360;
-	Thu, 24 Apr 2025 12:22:59 +0000 (UTC)
-Received: from warthog.procyon.org.uk (unknown [10.42.28.16])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 0E097180047F;
-	Thu, 24 Apr 2025 12:22:54 +0000 (UTC)
-Organization: Red Hat UK Ltd. Registered Address: Red Hat UK Ltd, Amberley
-	Place, 107-111 Peascod Street, Windsor, Berkshire, SI4 1TE, United
-	Kingdom.
-	Registered in England and Wales under Company Registration No. 3798903
-From: David Howells <dhowells@redhat.com>
-In-Reply-To: <20250422235147.146460-1-linux@treblig.org>
-References: <20250422235147.146460-1-linux@treblig.org>
-To: linux@treblig.org
-Cc: dhowells@redhat.com, horms@kernel.org, marc.dionne@auristor.com,
-    davem@davemloft.net, edumazet@google.com, kuba@kernel.org,
-    pabeni@redhat.com, corbet@lwn.net, linux-afs@lists.infradead.org,
-    netdev@vger.kernel.org, linux-doc@vger.kernel.org,
-    linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v2] rxrpc: Remove deadcode
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="mhvDkXpr"
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-440668acbf3so1423215e9.0
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1745497418; x=1746102218; darn=vger.kernel.org;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nffUUxHQRUxihyV+Es46LKx5IUoFWP6+nxUCQrf1fjs=;
+        b=mhvDkXprQtheM2R2TQkjwyIwHPj/Flc53DbFs1ggfPvNPOtZUwTMqHejND99lMyASB
+         fJ+W3zMl4kYtmyflhE1ioeLlZ6kaIY7kKgDir8C70ev2fNC0wK1H2EwP9socGF7QuLlg
+         q7KmZ/sZk6bFZzhY4F7EbEpDDWV55SaAgKcC4UB54UnLjqEL4KCxIBDeCMywZAVwg0f2
+         qS7wd/HTrDCoS/ZU9yL9RoJVeeH+X08FFKG2j8ErtQ69Oz2V/0+3d4QcaIJYLKQ+RXNs
+         mzePApqiRMFNVnJ28teIBT+uUUkqv7p5hMMyLkS537fu3ufE4owY0a5pG2E6a4D4UKiq
+         LL6A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745497418; x=1746102218;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=nffUUxHQRUxihyV+Es46LKx5IUoFWP6+nxUCQrf1fjs=;
+        b=ddLw/ZbNf7H7cnOMMxrHOKTr8eGLcVwXOT9RQHZRczw2pawbO9F2cttiD0fJvBWBtX
+         04n7SUZBcwlxwDbm2JvchFfg3C9yGce7MpdeyUwROn8nV+yYOHdc7Zx8XKWl7iaACZND
+         NWGefoyVCiNA3nOu2/QqiyCbnwYy/s7oqJOzgINbFdxvERnbE4o8rcW0rnvufYoEPoLz
+         s8l6GbeY4KtvNV6GE64B4EnxdZLFKvCI23fSBFbxWQMwuFifTbQuO6GCZEEHwwbLUz8d
+         5CgpfYQJIy18yxYgKg2ubV7WNBfpX+x07pWXxQUZ3cn3/PLDo6FTXG0OdRkVTDWp1W07
+         myaw==
+X-Forwarded-Encrypted: i=1; AJvYcCXNd7NttP3d2h2b+DVCzKDPZPqVqwxxMBfLpt7F9Iy4y2B5zXyrT20gKbaiWsdvU/WHmUQ1cIHEld0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzC5Fe2vGglAkxJ/g1MQ/vcU3UCcJIOZr6VLnWVBatCOohCYeQq
+	FKRUNsq+9xCVMFV/wIqpSX06flQyZIObfRM/zU2mVquPo/KeOl5phOIpqZQBzrU=
+X-Gm-Gg: ASbGncuQGaVr1ZL5QehwHKCfKphRIxf29tEx2rCGu1yAgpFItld3YRpQv9NKYoNGOTY
+	AW4N2ha/VPwnh2795EFPAC90DHIHQFQmQgq3RTU61VidGjlhZM7Kn7BortESIO/1S4VoYA3vegf
+	yDTIbRRiUuxF6SbqnVJ7oRHeKu4tnJkN1VC0DANFYKpDo7xWWvZI5kgnCJsulh2kyOWAiyEuOQe
+	ZKZJMgYrU592pFmsS85r2W01oI/rk0P64W/YB9LAKb8e8t4Aikok2kXQ1br1I0IHSzjx4scQGDJ
+	JhIiAEasKdxN8cfox78IUnHoCzP8LciBpgnsVubfh03/OObcrb5qgZqqAr8=
+X-Google-Smtp-Source: AGHT+IFvpk8fVElfDmbD5bbQ4KBSF4oRicSe9nZGd6eQAPt/95H7RizUp5Ju8acqfaiZr/JLSD9aIA==
+X-Received: by 2002:a05:600c:3516:b0:440:58d1:7ec3 with SMTP id 5b1f17b1804b1-4409bda5fadmr8020715e9.6.1745497417906;
+        Thu, 24 Apr 2025 05:23:37 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d29bfc4sm20203525e9.8.2025.04.24.05.23.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Apr 2025 05:23:37 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-ID: <3098547.1745497373.1@warthog.procyon.org.uk>
-Date: Thu, 24 Apr 2025 13:22:53 +0100
-Message-ID: <3098548.1745497373@warthog.procyon.org.uk>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Apr 2025 14:23:37 +0200
+Message-Id: <D9EV6ZHETDM6.36DJZQTQ487O1@ventanamicro.com>
+To: "Deepak Gupta" <debug@rivosinc.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+Subject: Re: [PATCH v12 06/28] riscv/mm : ensure PROT_WRITE leads to VM_READ
+ | VM_WRITE
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
+ <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
+ <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
+ "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
+ Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
+ <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "Zong Li"
+ <zong.li@sifive.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-6-e51202b53138@rivosinc.com>
+ <D92VG9GT3W5D.2B71FBI67EYJ6@ventanamicro.com>
+ <aAmJweehK4ntbVoO@debug.ba.rivosinc.com>
+In-Reply-To: <aAmJweehK4ntbVoO@debug.ba.rivosinc.com>
 
-linux@treblig.org wrote:
+2025-04-23T17:45:53-07:00, Deepak Gupta <debug@rivosinc.com>:
+> On Thu, Apr 10, 2025 at 12:03:44PM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
+te:
+>>2025-03-14T14:39:25-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>> diff --git a/arch/riscv/kernel/sys_riscv.c b/arch/riscv/kernel/sys_risc=
+v.c
+>>> @@ -16,6 +17,15 @@ static long riscv_sys_mmap(unsigned long addr, unsig=
+ned long len,
+>>> +	/*
+>>> +	 * If PROT_WRITE is specified then extend that to PROT_READ
+>>> +	 * protection_map[VM_WRITE] is now going to select shadow stack encod=
+ings.
+>>> +	 * So specifying PROT_WRITE actually should select protection_map [VM=
+_WRITE | VM_READ]
+>>> +	 * If user wants to create shadow stack then they should use `map_sha=
+dow_stack` syscall.
+>>> +	 */
+>>> +	if (unlikely((prot & PROT_WRITE) && !(prot & PROT_READ)))
+>>> +		prot |=3D PROT_READ;
+>>
+>>Why isn't the previous hunk be enough?  (Or why don't we do just this?)
+>>
+>>riscv_sys_mmap() eventually calls arch_calc_vm_prot_bits(), so I'd
+>>rather fix each code path just once.
+>
+> You're right. Above hunk (arch/riscv/include/asm/mman.h) alone should be =
+enough.
+> I did this change in `sys_riscv.c` out of caution. If it feels like un-ne=
+cessary,
+> I'll remove it. No hard feelings either way.
 
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> Remove three functions that are no longer used.
-> 
-> rxrpc_get_txbuf() last use was removed by 2020's
-> commit 5e6ef4f1017c ("rxrpc: Make the I/O thread take over the call and
-> local processor work")
-> 
-> rxrpc_kernel_get_epoch() last use was removed by 2020's
-> commit 44746355ccb1 ("afs: Don't get epoch from a server because it may be
-> ambiguous")
-> 
-> rxrpc_kernel_set_max_life() last use was removed by 2023's
-> commit db099c625b13 ("rxrpc: Fix timeout of a call that hasn't yet been
-> granted a channel")
-> 
-> Both of the rxrpc_kernel_* functions were documented.  Remove that
-> documentation as well as the code.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-
-Acked-by: David Howells <dhowells@redhat.com>
-
+I think it makes the code harder to reason about.  Here it is not clear
+why this caller of ksys_mmap_pgoff() has to do this, while others don't.
