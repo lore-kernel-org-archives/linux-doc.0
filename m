@@ -1,195 +1,297 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2082.outbound.protection.outlook.com [40.107.92.82])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89E66221FA5;
-	Thu, 24 Apr 2025 11:22:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745493728; cv=fail; b=S+ZbwGUtDDATM4cz5Hw8e9AvL6wh8r9O8Y7JM8o3CYrocabjcEmoS/phlRFtlzxqRl4VO8eamzsZikMkXfwHVsPdB70xMYn0O6KecxaMcTFtqdGAEgWi249/aH0WkjyV01KX7gpaG66qQEV5+1vSnRjfDNdWZjJ5k9BLyCNpj+g=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745493728; c=relaxed/simple;
-	bh=VkPOFTaNwwLRAOuKxrHHlLDgHiUslgaO74uf5Sit5ds=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=p1tbNYFX9jjLeQnVXzy4dOGHZhpbIFtuu0rwloXEIuNjQBAZmV/udes5qLjULMjkcFSxQtuRnKMEX+3EkETzhwbt+dOJTRaLMVCiiq/ke5nNcu7EJc9Mp6KQdPZKyziZ8BoiOZmD6IclNOMs3XbrVClQZgN02tBag+maI0u1ATk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=D7W5BIEo; arc=fail smtp.client-ip=40.107.92.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50D38229B01;
+	Thu, 24 Apr 2025 11:32:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745494374; cv=none; b=MRYC8mDwGQw4VLNcW90+pQQFVTN8ChBtEiGsEcj5x5Gv89WFGvpgJoD7el8EdnrRccQCyJ+q/Vq5EMT85+810AHSwadgfgYRZiq/A9nDbXStDrhf2jIsPvbJJj7mkTpM9uDZxBNIyynIY3FagFozopouEW3iDDfY6NZz5lhywGY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745494374; c=relaxed/simple;
+	bh=JGwozXvGLUYRAhQYuo/5Es9lkizURDNr3Wu4FgAGM3A=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=JktPtfDlJ/lQIHk7SNmBu+/BmOUuGMETCJAxYgihES8T8GfGnyRPAzkKMI2wWUenPC4lPw7DPiH1lK0OkzOqEG1EeOpwd9KJ7M5TcE6+o8rNN2oh1UpwMNTHlW1Q9LaSuzKXZ4nEuTa7YshR33VenCJbKVccuNeftjDHPweX1g0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ub17vUfq; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="D7W5BIEo"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=IfnGVheLFSEsjnALUBSfQ4CWS0Bl/ZDtSm6QSaYzKDToExuyzNtzALChHnr5o+SS2pcWa0SKwgWSLXWXg7wajHksJoCdWG6ynTi+WsZWVBpzGczTbE8+/wsNrZ8184pfpXQu+rr+NoNzEeDZ4eneRNuqD92P7ciqxynA9bMz5ckwVkXIxCQ6tIymnPCqTBf5spZYm88M80OObRjt4HEALQrfGYa5Kwq5770yl7E/eTQ8BZvv6TvWWOnFS/NLP4ffrralrnJwYjWBmNC2II+ehh4m5QDzF/WhHXxMSw2VPCd5RbRpFB1saW7rAYfcnzL9gr/+j/zwxzymLVie50TNRQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5N9qvmKlKUcH4UNe3dZodxTZAnAONhKL0ClOo5n+q2o=;
- b=gPKffut1lLu95BDzhvdDety57Ob60xzDrlhGjGU/76U8N53JW2JqWWoQ2q/XLrbdRuLAZasUrsBpKYePydssNOkjdNqIUbTIyCQt7vtOuPCwxQN01pO6LtMKVqzj3+U5FIUwcgOHrjFdWbTmD3aYcj0zifaEP0P6xOFfWTaQWcplACRgn9AIwUU9j9t0ezelNJOa3m8e/rtWoRXwcWUww8RfRZ54t35SFlhybXdnVf0BheUihtHEt6kdN8Q956Dzd4axOPgZheMnyBXD9GGtRLl/Y+Ed6UcqH9xQqPGIQKk3UUdC2DF3Y2wPPEk0614cXlcIlDTr11Qcvhrlm7072Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5N9qvmKlKUcH4UNe3dZodxTZAnAONhKL0ClOo5n+q2o=;
- b=D7W5BIEoefuc/JnbwzYK0S90lBLfdkfHmWRD93KVTpoUClp4ibBgYn0oYjzzkNHCBduYWIl4+nIGUDylkb59EUYg7x5TacbWAcIX8X/g4DZBR5E1czUGRtgJlfYQC8/5DMYZk17hXry2YvQZJatIYaM1rB6N/NR3oC2Hovat5t8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
- DS0PR12MB9040.namprd12.prod.outlook.com (2603:10b6:8:f5::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.23; Thu, 24 Apr 2025 11:22:02 +0000
-Received: from DS7PR12MB6048.namprd12.prod.outlook.com
- ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
- ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8678.021; Thu, 24 Apr 2025
- 11:22:02 +0000
-Message-ID: <8dfb4ad6-5e98-4050-9cb1-888c01340ee8@amd.com>
-Date: Thu, 24 Apr 2025 16:51:48 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 00/16] iommufd: Add vIOMMU infrastructure (Part-4
- vCMDQ)
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
- robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
- vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org, praan@google.com,
- nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
- jsnitsel@redhat.com, mshavit@google.com, zhangzekun11@huawei.com,
- iommu@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
- patches@lists.linux.dev
-References: <cover.1744353300.git.nicolinc@nvidia.com>
- <a0c248f0-71ff-4477-98ec-1bbd52eda566@amd.com>
- <aAiaiomYczA22xik@Asurada-Nvidia>
-Content-Language: en-US
-From: Vasant Hegde <vasant.hegde@amd.com>
-In-Reply-To: <aAiaiomYczA22xik@Asurada-Nvidia>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4P287CA0036.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:26f::6) To DS7PR12MB6048.namprd12.prod.outlook.com
- (2603:10b6:8:9f::5)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ub17vUfq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745494372; x=1777030372;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=JGwozXvGLUYRAhQYuo/5Es9lkizURDNr3Wu4FgAGM3A=;
+  b=Ub17vUfqn+pmoPLA+LQPqLP3hVVOf4ptsuRXCXQlZam/jWDOteArWY0F
+   xbTXiVvB/ddashyRRvmZmCBJno1eiuIh1f7nQyp15Dhd0FAKQVMimQgNw
+   mRORDIjllAEcEMWbcmysWO6qOHHaCTdKxqquip6Ad+rBa4xtknNoGV3Ot
+   I/vxNtmyxsDs2rz5kE9JCun9aAHP728L6O5RFLNNIG81r/+RCy9dWPtF/
+   DLZRuiX6e8Z3i5MS9olxuERMqdQL/LaqM/X5nWR7t5997uN46tHNSnwxM
+   yl6svLs1i0p4UI28uozKAF/6Az3a6CIisFEt8BDIzTtMI66KbKNXhc2Qn
+   w==;
+X-CSE-ConnectionGUID: QPNPcAJ8S+CjPox0YX93Pw==
+X-CSE-MsgGUID: snRgH8XqRWyFYu7n0ieR1Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="57771139"
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="57771139"
+Received: from fmviesa005.fm.intel.com ([10.60.135.145])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Apr 2025 04:32:51 -0700
+X-CSE-ConnectionGUID: JPMUmLKPRn+4S9U5ER2PNw==
+X-CSE-MsgGUID: Y3oAZrOUSzOaE2+/OsrqeQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,235,1739865600"; 
+   d="scan'208";a="137389329"
+Received: from irvmail002.ir.intel.com ([10.43.11.120])
+  by fmviesa005.fm.intel.com with ESMTP; 24 Apr 2025 04:32:45 -0700
+Received: from mglak.igk.intel.com (mglak.igk.intel.com [10.237.112.146])
+	by irvmail002.ir.intel.com (Postfix) with ESMTP id 2A3CE33E9B;
+	Thu, 24 Apr 2025 12:32:42 +0100 (IST)
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: intel-wired-lan@lists.osuosl.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>
+Cc: "David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Lee Trager <lee@trager.us>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Larysa Zaremba <larysa.zaremba@intel.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
+	Emil Tantilov <emil.s.tantilov@intel.com>,
+	Madhu Chittim <madhu.chittim@intel.com>,
+	Josh Hay <joshua.a.hay@intel.com>,
+	Milena Olech <milena.olech@intel.com>,
+	pavan.kumar.linga@intel.com,
+	"Singhai, Anjali" <anjali.singhai@intel.com>
+Subject: [PATCH iwl-next v2 00/14] Introduce iXD driver
+Date: Thu, 24 Apr 2025 13:32:23 +0200
+Message-ID: <20250424113241.10061-1-larysa.zaremba@intel.com>
+X-Mailer: git-send-email 2.47.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|DS0PR12MB9040:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d68c84f-9733-4d96-d138-08dd83223c46
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?aDltcVIvQlF3b2NEVFBsbUFLa1M3WjJnYVdkcmFBb2FrWVlmaVE4OEhJb3lu?=
- =?utf-8?B?ak1aSE1xRnA2WHVHcFpSVEY1a2RKYkV1cjNiQU9WaWtENEVaUjAzSUZsQzc2?=
- =?utf-8?B?MjFpK0duQXZWSzJ5U1pjUWVucVZWdlVuVjJDb2tqbzBLRXoveDU3ZGFadzZm?=
- =?utf-8?B?cG9PcklNUGswU24xdmVrMG9hT2ltOTliU25sck5BZW9mWDR1S2UwTUtCaE12?=
- =?utf-8?B?ODRPblZ1RDg5djRRSWU4a1V4OGFiaGFhaWovQmpsVDlOdkhzRTNLVFkvSkpi?=
- =?utf-8?B?eGl5YU5MT05VRjFhMjdPMXA4ZmVKQllIbzdLdUpsSXRxVGdWR3hxM1JmRVNJ?=
- =?utf-8?B?bDJvcW41MG53c2t1aXJuZ0pudTNidmloMW9pTUdocXZsWHE2RWdzUlJxV00z?=
- =?utf-8?B?ekw2UFhCY09od1dGWXlLaGkySkNTWnF3U0U5N2NtY0FpSitOcjJ4cWY0d0Rt?=
- =?utf-8?B?ZFc3MkoxTlJnVXZSdXpMZkxoMWNYZjgxUFpCNXBBNHVWa3ZNMFRCWnpkSllJ?=
- =?utf-8?B?Uy9VYmNhUHlwVmpGMjB0ZFA3L3FRM0E0ajU5ZWR3WkY2QjNtS0lzK2NMdGpp?=
- =?utf-8?B?WXRFZnJ0UkoyT1FoNVVqUWZsN1JyQVdJMDA2dExuWEZVUjJMcDZaVzByZHI0?=
- =?utf-8?B?ZEtZdGg3U0htTlRiQXJFT0h0K1IyUUplSWYzT2FiVVNHa2lRdGQ2ZHNhSkRF?=
- =?utf-8?B?SThWNTd3V2V1TWtnYVlyUEpXeXdsWjllTElaRmt1TDNHaXJrZE40QTFqdEp4?=
- =?utf-8?B?Si9xS2dza1hKYklrSDFKQ0R6dk80N05jZnlHaEljdGoyZDFCTlI0R0hxNkpl?=
- =?utf-8?B?QXljenR1V2NybFp3aS9SeHZ1WVVpd1dPOWdKVEMrR0RUVmpuYWptYWtmV0FG?=
- =?utf-8?B?QmEwcmw1YUFtZWRhelNzeDB1WE80cG1reXlucitqajh3RWthY3ZFVzJTZVFR?=
- =?utf-8?B?am83cjAyRENKT1JXbElxYlJSZ2R1dWZMZjR1SFZtcWd1M0U0dlR6QTRaa1Vl?=
- =?utf-8?B?bDIyUytrYXF1QVpmWHBWSkNtaEZkaFNvbjdCckFDcTV0WVJUcVhLWVBuUXJ2?=
- =?utf-8?B?OVVJQjIzNFpLcDJpL2VzcXNOZVhmNEJjeEZwQit2TkZ2cXJ6cHpFWFJjRjBN?=
- =?utf-8?B?aExLOTd0OW5HWXhNdTFWbVNiTm9zRFYzYThRSVlFZEFQZ2haeTcxQ3hXM3dY?=
- =?utf-8?B?aHk0TkpGaDdGbVZSTzlCRUFaWE44YjR6TVd0YmN1QnloSWZIN1I0ZmdZNG00?=
- =?utf-8?B?a2p0S3ZnSkJhd2ozaG1nTmVqNTVkcUVmNzRzUzBFU0hLV01xV0N3bFNtU0Jl?=
- =?utf-8?B?NWt3N3d6LytqMElUOS8zalh4MU5wNFF5NUNOOVZQZndKN2RxcmhKV0k2bnFZ?=
- =?utf-8?B?UjNQWnA5RGgyRTJXZnFtZithVVFka2NpOU9wNEhWb0hpWkRuaHp6a3JiSUZW?=
- =?utf-8?B?NDQzdmlZZVFPb2JhTzE2K0huSU0wTVk1V3pTNDJhS1hLSHBLMkhqdU9ndkdL?=
- =?utf-8?B?QndYaDlPUXZJdEV0ZUh6dUZDU2w4MnNSUEtJRUVmSEp4UTRBSUpBY2tEQnBr?=
- =?utf-8?B?RG9jVUNMeks3SFVDem82SG9mYk5tMitjaHYwOVk3QmNDTGRVM2V4SkZ1Slkz?=
- =?utf-8?B?SVlsNCtPTjk5Mm53RHVmRitkSnBrVkd4V2cxdUdPQ2NEazFlTDB2ZTh3YThM?=
- =?utf-8?B?WVVWTUszV1FUci9VT0VudlFnM3UyQ0loR2M0THhTbEpXV0ljL1BYRFcwc2x4?=
- =?utf-8?B?WXZNVXkzYTd1M3daVU9udGpBM3NOYnJJb1Z6ZXI3dWpYdlE2YjVTNG5vb0ti?=
- =?utf-8?B?VFZ3QzQ1eTVYWHlWbmZCeTBrdGlHTlZkb0NYdWg0aEdTWDdHL1dkWFZ6MVNE?=
- =?utf-8?B?NUp6M3VDQWNPd0NsREhSZ0RKS1JpRnRaVWVIZUVVTm1XcVpQM2hnTlg0L3BD?=
- =?utf-8?Q?aHWLdu2sMrM=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UlJIYWU3aXc2Q1FKK0pJNnRkamV3RjZJWVNSb2k1dWdaWEM0akVmU0YzTDlw?=
- =?utf-8?B?VGQ1cjFqRk13bWlFQ21aZVFUcm9zZFZ6YmFFTkdrNjJHUVV2SlY2UktHeXB3?=
- =?utf-8?B?MFRpQkIyRk5oQ3Jna2pwVjJLaFpnWDZxUVRlaCttSG84RklhbGtabXpPRS9Q?=
- =?utf-8?B?YkEvbW96dXIvYVBvM3FoQU5SM0pFd1JvZ3I0QjVmY25GaG1RY3J5dEIydW80?=
- =?utf-8?B?YytTVHRLOEtsWjY3SU5PZGljU3ppV2NHbGtrVnh4NHBaNWxzKy9qSUdNYVdC?=
- =?utf-8?B?THk4YjlTZ01BSElibEFDcXptUGZZekxqKzd0S3BJSFRDbkhuYTc3d1VFYXFU?=
- =?utf-8?B?eHhLMXlBRUlEaUZMVFIrREpqNFhncjBtOHkxaDEvb09icGYydFNENHcwdVpy?=
- =?utf-8?B?N0YrbUxGMmJQSXJIVTZRYXJpanVDYk1MM1pVSWE0VWt6c05wQThqYWpHcVBH?=
- =?utf-8?B?c2pqVjFVN05MM1JNNWpLaHduR1RXakdpcE1vVEQ1UGFaT1o5UEdqUzNIQ1FJ?=
- =?utf-8?B?TUdPQmVqa2Z2UVBPbm9rUndoZTQ1d2dadllkeTFCKzQ5cTNNZXJUYmlSdnMr?=
- =?utf-8?B?bjkveDArSTB5RDBmZ2h3MGsxZnFrZGJvdi9SS0NqNVg1cGptZW9iS3luNXVH?=
- =?utf-8?B?c0F2S1JDYkpaeHdESUx5KytZWVhvaHFPc0F2bDYxRFUrRTk0ZXdBMllyNlJL?=
- =?utf-8?B?RUNOMFN5Z2xiMG0wZE9ZLzRsVjdOMEtQZk5VSmg0Y0Y0aSt5dU4vTzBHRk9R?=
- =?utf-8?B?RjlWc3A3OVMwd3BXZmU1VXBocHNXVDZYRUFRR0NLWXViTGpkSmgzMFN1QzF0?=
- =?utf-8?B?UjUzQ2NUL1IrdkIrVEZLT1VvSW4rNWxDNTVXK1dwMzZpNTlMMXY0b2FuaElR?=
- =?utf-8?B?SkJTOHhNOGR0TUpWbFU4bmU1czZwUEp2ajVleG9rZnMxRnZqYnE0bldxVExm?=
- =?utf-8?B?b1JSL2toY1MvTG9tTm41bEFEV2ZkdjVEOGlPTk9QdUVyQ0VtNmpmNzNReVRs?=
- =?utf-8?B?Q2M0RHpaS1puSnFHNGtJaEVFREtrbG5OTjhJNUszQ1J3dlVQb1p4YW0yNTJZ?=
- =?utf-8?B?MkJ3YURXNXlrdWwrY0piMGxaNm1oVFIyN0NIbUZhTFVXL2hIUmFTNE5nQ0hE?=
- =?utf-8?B?Y201N2t1SG5ScXdIT2pTMHZEek1IaE56L0pDRElScFRSQk9TOUJ1OFNmWHZi?=
- =?utf-8?B?OHExSlBkSGlzalYyQWtBcXRuK1NPQjd3dGxpSEs3U0N3QzNPcXpHcVdXVktP?=
- =?utf-8?B?S25yaFhzTVZscWVIbE9mVVorTlBmV0N3T0hBMVA1dDZUaTRJazdZOHFvSWRP?=
- =?utf-8?B?QkpBcmNKSGhxR0h5Tk1ySGZwaktFUi9vSWc0YXllZ2RGM29JQ0gyS2dKR0Rs?=
- =?utf-8?B?NEZjWUF0OExTSnRReTFIOVF6WjloMk1SaFMydjJSL05OMHRJS0VNUlpZdG1I?=
- =?utf-8?B?RGZxK0dHK2tYL1h3VG5FOWxibXNuNnlZbHR6V2pEVlpDWit1OFNJakZzTkxw?=
- =?utf-8?B?OFJmbFZRZzR1RzVRMElwbk5mS2o0M0FhdE9VV3E2YWZDeHdCK0xzZGMyNlpB?=
- =?utf-8?B?TkFtZEhZODFjWTdLUUwzWTVnQ3pzR0NsaEhINnM2elAxRTF2L0dPUkVHR3I3?=
- =?utf-8?B?ZTJ0R2E4bFlYSERKZ2llZ1VVMHlNUVh2dHdUNG8zcnlmV0hwVldpeUpJeEVH?=
- =?utf-8?B?cDh0dy9rME1DVjFvQXBnZ21rNE5IVEphZ0Z4bGNOaFVOUmt2S3VGeHFBMlhN?=
- =?utf-8?B?RlJ3bEs3RnlTT296V3ZmS2dkY1dYc0o5N0hTWlU2UlYyWkh1V1EzL0UzQ2JE?=
- =?utf-8?B?dnB6UWh1bGY4T0JzOEJ0VGRURGUvSWZBRWo3QTE5Mmc2SG1CWFdtREJwZXRo?=
- =?utf-8?B?OVIxdmVSWTFYZ2lhMkRGclJEaG51cVV2S1VDdzFOSGVTcUNVbnJnanpSK0pO?=
- =?utf-8?B?M2hQNG9HSzVMMTI2eDA3cTRWdUdGV29EbHVNVm1xd1dQekYwaThKMmFLcm5O?=
- =?utf-8?B?aStvcmpmSzNXNXJTaGgwT1MzTkNLRTByOGpZaEJoYnE5NWNYOUdIWThodXg2?=
- =?utf-8?B?aGRkbWJRZVk0Tm1LSFozZHdEckdlcEZxa0wxUmRNaGdpMFJtT0tSRDFnSTM5?=
- =?utf-8?Q?Y/kJVmNJPAIDSzoZ3pHL+CrDl?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d68c84f-9733-4d96-d138-08dd83223c46
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 11:22:02.3417
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pMMU+WCQy+fAi3avr1eiZaDXlXY/KVw2RQvfLJf/etYmLPZeZhLdXAraHV2isDA4BH6wt2GkFCyeXXUX50biBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR12MB9040
+Content-Transfer-Encoding: 8bit
 
-On 4/23/2025 1:15 PM, Nicolin Chen wrote:
-> On Wed, Apr 23, 2025 at 12:58:19PM +0530, Vasant Hegde wrote:
->> On 4/11/2025 12:07 PM, Nicolin Chen wrote:
->>> The vIOMMU object is designed to represent a slice of an IOMMU HW for its
->>> virtualization features shared with or passed to user space (a VM mostly)
->>> in a way of HW acceleration. This extended the HWPT-based design for more
->>> advanced virtualization feature.
->>>
->>> A vCMDQ introduced by this series as a part of the vIOMMU infrastructure
->>> represents a HW supported queue/buffer for VM to use exclusively, e.g.
->>>   - NVIDIA's virtual command queue
->>>   - AMD vIOMMU's command buffer
->>
->> I assume we can pass multiple buffer details (like GPA, size) from guest to
->> hypervisor. Is that correct understanding?
-> 
-> Yes. The NVIDIA model passes through a Virtual-Interface to a VM,
-> and the VM can allocate and map multiple command queues (buffers)
-> to the V-Interface, by providing each command queue info in:
-> 
-> +struct iommu_vcmdq_tegra241_cmdqv {
-> +	__u32 vcmdq_id;
-> +	__u32 vcmdq_log2size;		// size
-> +	__aligned_u64 vcmdq_base;	// GPA
->  };
+This patch series adds the iXD driver, which supports the Intel(R)
+Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+exposed by the same card. The reason for the separation is to be able
+to offload the control plane to the host different from where the data
+plane is running.
 
-Nice. Thanks for the details.
+This is the first phase in the release of this driver where we implement the
+initialization of the core PCI driver. Subsequent phases will implement
+advanced features like usage of idpf ethernet aux device, link management,
+NVM update via devlink, switchdev port representors, data and exception path,
+flow rule programming, etc.
 
--Vasant
+The first phase entails the following aspects:
+
+1. Additional libie functionalities:
+Patches 1-6 introduces additional common library API for drivers to
+communicate with the control plane through mailbox communication.
+A control queue is a hardware interface which is used by the driver
+to interact with other subsystems (like firmware). The library APIs
+allow the driver to setup and configure the control queues to send and
+receive virtchnl messages. The library has an internal bookkeeping
+(XN API) mechanism to keep track of the send messages. It supports both
+synchronous as well as asynchronous way of handling the messages. The
+library also handles the timeout internally for synchronous messages
+using events. This reduces the driver's overhead in handling the timeout
+error cases.
+
+The current patch series supports only APIs that are needed for device
+initialization. These include APIs in the libie_pci module:
+* Allocating/freeing the DMA memory and mapping the MMIO regions for
+  BAR0, read/write APIs for drivers to access the MMIO memory
+
+and libie_cp module:
+* Control queue initialization and configuration
+* Transport initialization for bookkeeping
+* Blocking and asynchronous mailbox transactions
+
+Once the mailbox is initialized, the drivers can send and receive virtchnl
+messages to/from the control plane.
+
+The modules above are not supposed to be linked witn the main libie library,
+but do share the folder with it.
+
+2. idpf :
+Patches 7-10 refactor the idpf driver to use the libie APIs for control
+queue configuration, virtchnl transaction, device initialization and
+reset and adjust related code accordingly.
+
+3. ixd:
+Patches 11-14 add the ixd driver and implement multiple pieces of the
+initialization flow as follows:
+* Add the ability to load
+* A reset is issued to ensure a clean device state, followed by
+  initialization of the mailbox
+* Device capabilities:
+  As part of initialization, the driver has to determine what the device is
+  capable of (ex. max queues, vports, etc). This information is obtained from
+  the firmware and stored by the driver.
+* Enable initial support for the devlink interface
+
+v1->v2:
+* rename libeth_cp and libeth_pci to libie_cp and libie_pci respectively,
+  move them into an appropriate folder
+* rebase on top of recent PTP changes, this alters idpf refactor
+* update maintainers after moving headers
+* cast resource_size_t to unsigned long long when printing
+* add ixd devlink documentation into index
+* fix xn system kdoc problems
+* fix indentation in libeth_ctlq_xn_deinit()
+* fix extra kdoc member vcxn_mngr in idpf_adapter
+
+Amritha Nambiar (1):
+  ixd: add devlink support
+
+Larysa Zaremba (5):
+  idpf: make mbx_task queueing and cancelling more consistent
+  idpf: print a debug message and bail in case of non-event ctlq message
+  ixd: add basic driver framework for Intel(R) Control Plane Function
+  ixd: add reset checks and initialize the mailbox
+  ixd: add the core initialization
+
+Pavan Kumar Linga (3):
+  libeth: allow to create fill queues without NAPI
+  idpf: remove 'vport_params_reqd' field
+  idpf: refactor idpf to use libie controlq and Xn APIs
+
+Phani R Burra (3):
+  libie: add PCI device initialization helpers to libie
+  libie: add control queue support
+  libie: add bookkeeping support for control queue messages
+
+Victor Raj (2):
+  virtchnl: create 'include/linux/intel' and move necessary header files
+  virtchnl: introduce control plane version fields
+
+ .../device_drivers/ethernet/index.rst         |    1 +
+ .../device_drivers/ethernet/intel/ixd.rst     |   39 +
+ Documentation/networking/devlink/index.rst    |    1 +
+ Documentation/networking/devlink/ixd.rst      |   35 +
+ MAINTAINERS                                   |    6 +-
+ drivers/infiniband/hw/irdma/i40iw_if.c        |    2 +-
+ drivers/infiniband/hw/irdma/main.h            |    2 +-
+ drivers/infiniband/hw/irdma/osdep.h           |    2 +-
+ drivers/net/ethernet/intel/Kconfig            |    2 +
+ drivers/net/ethernet/intel/Makefile           |    1 +
+ drivers/net/ethernet/intel/i40e/i40e.h        |    4 +-
+ drivers/net/ethernet/intel/i40e/i40e_client.c |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_common.c |    2 +-
+ .../net/ethernet/intel/i40e/i40e_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/i40e/i40e_txrx.c   |    2 +-
+ .../ethernet/intel/i40e/i40e_virtchnl_pf.h    |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf.h        |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_common.c |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_main.c   |    2 +-
+ .../net/ethernet/intel/iavf/iavf_prototype.h  |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_txrx.c   |    2 +-
+ drivers/net/ethernet/intel/iavf/iavf_types.h  |    4 +-
+ .../net/ethernet/intel/iavf/iavf_virtchnl.c   |    2 +-
+ drivers/net/ethernet/intel/ice/ice.h          |    2 +-
+ drivers/net/ethernet/intel/ice/ice_common.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_idc_int.h  |    2 +-
+ drivers/net/ethernet/intel/ice/ice_txrx_lib.c |    2 +-
+ drivers/net/ethernet/intel/ice/ice_vf_lib.h   |    2 +-
+ drivers/net/ethernet/intel/ice/ice_virtchnl.h |    2 +-
+ drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+ drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+ drivers/net/ethernet/intel/idpf/idpf.h        |   47 +-
+ .../net/ethernet/intel/idpf/idpf_controlq.c   |  624 ------
+ .../net/ethernet/intel/idpf/idpf_controlq.h   |  130 --
+ .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+ .../ethernet/intel/idpf/idpf_controlq_setup.c |  171 --
+ drivers/net/ethernet/intel/idpf/idpf_dev.c    |   91 +-
+ drivers/net/ethernet/intel/idpf/idpf_lib.c    |   60 +-
+ drivers/net/ethernet/intel/idpf/idpf_main.c   |   87 +-
+ drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+ drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    4 +-
+ drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   89 +-
+ .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1670 ++++++-----------
+ .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   89 +-
+ .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  303 ++-
+ drivers/net/ethernet/intel/ixd/Kconfig        |   15 +
+ drivers/net/ethernet/intel/ixd/Makefile       |   13 +
+ drivers/net/ethernet/intel/ixd/ixd.h          |   56 +
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.c     |  148 ++
+ drivers/net/ethernet/intel/ixd/ixd_ctlq.h     |   33 +
+ drivers/net/ethernet/intel/ixd/ixd_dev.c      |   86 +
+ drivers/net/ethernet/intel/ixd/ixd_devlink.c  |  105 ++
+ drivers/net/ethernet/intel/ixd/ixd_devlink.h  |   44 +
+ drivers/net/ethernet/intel/ixd/ixd_lan_regs.h |   68 +
+ drivers/net/ethernet/intel/ixd/ixd_lib.c      |  166 ++
+ drivers/net/ethernet/intel/ixd/ixd_main.c     |  150 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.c |  178 ++
+ drivers/net/ethernet/intel/ixd/ixd_virtchnl.h |   12 +
+ drivers/net/ethernet/intel/libeth/rx.c        |    9 +-
+ drivers/net/ethernet/intel/libie/Kconfig      |   14 +
+ drivers/net/ethernet/intel/libie/Makefile     |    8 +
+ drivers/net/ethernet/intel/libie/controlq.c   | 1186 ++++++++++++
+ drivers/net/ethernet/intel/libie/pci.c        |  184 ++
+ drivers/net/ethernet/intel/libie/rx.c         |    2 +-
+ include/linux/{net => }/intel/i40e_client.h   |    0
+ include/linux/{net => }/intel/iidc.h          |    0
+ include/linux/intel/libie/controlq.h          |  421 +++++
+ include/linux/intel/libie/pci.h               |   54 +
+ include/linux/{net => }/intel/libie/rx.h      |    0
+ include/linux/{avf => intel}/virtchnl.h       |    0
+ .../idpf => include/linux/intel}/virtchnl2.h  |    6 +-
+ .../linux/intel}/virtchnl2_lan_desc.h         |    0
+ include/net/libeth/rx.h                       |    4 +-
+ 73 files changed, 3976 insertions(+), 2684 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/intel/ixd.rst
+ create mode 100644 Documentation/networking/devlink/ixd.rst
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+ delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/Kconfig
+ create mode 100644 drivers/net/ethernet/intel/ixd/Makefile
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_ctlq.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_dev.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_devlink.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lan_regs.h
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_lib.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_main.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.c
+ create mode 100644 drivers/net/ethernet/intel/ixd/ixd_virtchnl.h
+ create mode 100644 drivers/net/ethernet/intel/libie/controlq.c
+ create mode 100644 drivers/net/ethernet/intel/libie/pci.c
+ rename include/linux/{net => }/intel/i40e_client.h (100%)
+ rename include/linux/{net => }/intel/iidc.h (100%)
+ create mode 100644 include/linux/intel/libie/controlq.h
+ create mode 100644 include/linux/intel/libie/pci.h
+ rename include/linux/{net => }/intel/libie/rx.h (100%)
+ rename include/linux/{avf => intel}/virtchnl.h (100%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2.h (99%)
+ rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h (100%)
+
+-- 
+2.47.0
+
