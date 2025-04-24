@@ -1,183 +1,250 @@
-Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EFECA4A29;
-	Thu, 24 Apr 2025 02:07:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745460433; cv=none; b=Drrj7sA/HsL7gpSh6aYyTCAEKgmr1dwkSj1idgfM5iBh2YEkxC1gk5UUJckEYSpb2r3ibXwLcmtezMZ2Vai7PRV7bR7uU4rxpIzFHzxSDJ28SQ/KQ/fzIkGnsVw6lUc4VVxSdZqvVKcUhYl3COfbkDT1w4qsnSs5b38zqs3l5bY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745460433; c=relaxed/simple;
-	bh=t6RcUduhFTrU3yGEzjwI1EOIrjSudFdZ/ut9hrEsWvI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=luNx3l31paXQbGQQxtColMeJ4xbvjHwzVIC47oOcqwzxqrLRe3ej7Zac0MNazyuG8HF/pt9cODXV5huOu6pj8DDj+6MTW5yvL/DNSzcVFMX27i7ft2KrXfr4QZvjkuRlVefglnZE5hsksaWA815OsneaV4C2B68TC40V6e1yjmg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gnvrPzm9; arc=none smtp.client-ip=209.85.214.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B96E4C98;
+	Thu, 24 Apr 2025 03:01:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745463674; cv=fail; b=WIZQHa0nTeGhLXkJSP2CSiz0pzwwNQohb2y6t/8Ej6cedwuudR8tPxJ1DYCdkXZa3bWuePei9pxI7QGho3FIMDvhrX3wrcfoPxkHbXOv9hD7kwMfx3P3Z3jvkFn0BdoRjTzw7ElMk/uYFQYyJYq0+Q+gtOW0RsTdEc2xjeg2m/E=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745463674; c=relaxed/simple;
+	bh=qrdLH2nQVWEOI2xSI6PScHXV1PLQZR60cpPiQZnbMWM=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=uUppeaNrAvaAc1QGQaV7cx4SKUUkABE5IF2asmv63kwx8i86xjOxvL/bCLqdHNf5eCE303LhqMaZ8pA3Jk7zwKTS9nfnXnj7V6QKm8zgIjXlb7EY3+rnCD79Bzytcqxn4ixNmlr2jEO5lGBj4SBLLHFSRvNqUt3DtXXAhrCZ3FY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gPFWv+Dv; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gnvrPzm9"
-Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-227c7e57da2so3978165ad.0;
-        Wed, 23 Apr 2025 19:07:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745460431; x=1746065231; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=qQNbrZUbkkakbD9h0kzAkS4WI87+xA7QvTn2xWNikNQ=;
-        b=gnvrPzm9Y+mN0zgFG3gdQ3HB1r9wUVLQTWKTeEgeokjDpmJgP1/jj8jsE9wKzFuLY9
-         U/DmQyTZr7RggrvqjV7kY4MyCNXuVt4UY9sf1+QNNJnU0vDShGLkAC+5XN94/v0NUvlE
-         N0t9wXOcAsQlwaqnhtHFMoGTw7ofpcguxe0pk8IjGuKpJJfri9Kyc/ZQAoa0KLqU6OfD
-         8KP1h+OojBrSVpMvDgkauJ3nk1MU15RoMxW/4HDx11Up1A+KScz+/Sk5+gCwOmMM0WkX
-         MsehNQi9XYD5xUTd0vtWRlgHObze621irGUXnKacHELiUSan3Xu26icwAyNYToroXun6
-         et4g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745460431; x=1746065231;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=qQNbrZUbkkakbD9h0kzAkS4WI87+xA7QvTn2xWNikNQ=;
-        b=omRNkhZsNNipOB/rn1X21L0KFYFLYSO5Z6RslWSz0Fq3sjf91S2B3Lq04Oo3YWJDa1
-         Zf1UqdXgIAEXDo+CEKho8L5mgiG26wA4xCSUPjb/GmATf/ovtl58c9dupbHauj4i2f/T
-         jAAz9zQD4fgu0rijtomtP7IWjcalD/4VbLel08onnWgorpLdoAUW/yhS2n+/acbJLaDu
-         gM2RjWJJq6+v+CWOIySQFKnJAUr35HCbrHICj1ZQemIqwqvd6e8PS4tvV7/nHvAqAcG2
-         rIYTxlREzWMegCTnbT0zFDNdQIEmWHgOV5eUOe3Igqvs5/ag2dKHtQakbBRJg5XvOAbr
-         395w==
-X-Forwarded-Encrypted: i=1; AJvYcCVlhfCYCSX9y10rHGeNkJbwlsz8HD70+TRhzzE3ycCjmM8GRecmjiHlgVBs89fbmlW0cmuzqtY+pNo6DYen@vger.kernel.org, AJvYcCWE5Q0HwvB9DasxyYcr1/zVtqJLXL8N7I9FmCvmFo+ls8HHA59qStKmfNjLjnO6rElru0j9W4ZlYRYBPn4b@vger.kernel.org, AJvYcCXgGamxjFlq5RL10A7nbUmc0Osuqm1om44GSPDxKFLzcZV1TD/3T7oQRiacydDxROn5ACIbV4OIHR4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwYo0KjMaidtRXO/dNWUQW/SS0q18S1YN0B5wGMe2csXSryza/1
-	jYaUBNH8axdwssL8wMLxRlF0DeTNEeekU6CBdhVO6hzR6/F8cgkM
-X-Gm-Gg: ASbGnctw4s/GvYWIuZiGa34uAHk/eTMo+ywkdmKWG04VAbyrez5HgDzwKiTesF6tqRz
-	jmMrLILkm+2vPXY70yQlT6zxno1kjhlY0h9TCKZuYre77/Aa4V8EjrBLbWW5hBHGZbJoHMvQlJm
-	Wy74nHuZP50bKjg/GNFiTKVgg531zS1b03g4q7C6V5dgfYYU23IFNJby4v0xVhBH3FdcOiLbFXQ
-	Qm1TIAp/YO4JpCdSVh0IVSCx/bmEdZrYbx4ubmlpHWdGKh/vTi1QbzItZm9LgN+CJ9MfiwWVjTc
-	iIs84EXBddqGbjgJR9BbTeGY/PVi+rwFQYXUKmfbFJSYT34iWufvz7ljEQyXk39h+hdXt2wdjiK
-	nIWp5+ZGB8Fo=
-X-Google-Smtp-Source: AGHT+IFick/RvCWrsUpCfBaatj0rWffF+kCXlQbfG2Ln6b4jn4SMp+K32TykDwB6VaXqRnxR49uiTQ==
-X-Received: by 2002:a17:902:d4c2:b0:227:eb61:34b8 with SMTP id d9443c01a7336-22db3c0e5d8mr12065925ad.25.1745460430909;
-        Wed, 23 Apr 2025 19:07:10 -0700 (PDT)
-Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5102548sm1589505ad.168.2025.04.23.19.07.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Apr 2025 19:07:10 -0700 (PDT)
-Message-ID: <5a8f0fc7-a2aa-4554-a603-3537d735dc9f@gmail.com>
-Date: Thu, 24 Apr 2025 11:07:05 +0900
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gPFWv+Dv"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745463672; x=1776999672;
+  h=date:from:to:cc:subject:message-id:references:
+   in-reply-to:mime-version;
+  bh=qrdLH2nQVWEOI2xSI6PScHXV1PLQZR60cpPiQZnbMWM=;
+  b=gPFWv+Dv5WM9Z1beC+U9ez9Q1S/kbn79KoCxM5EgkJ6+mT1LTNqwA1I1
+   Pw8sofnBrd29T03UTM1kXEJgGVy3EAZh70/DAgDMtvrWm7sndzcNIycgp
+   TT1sFDz0zGWSqZl4FWrp9xHPE+mQSllIdLfSn7vrEewoomFY4ZS1RG2Fk
+   WolGRowaQ5K6AFiKP0zRPOxBioC0smtIh/IGjmACGjVEUVPTJ5gfSenbO
+   7MT2DHh95AStKRRE/uuCZQlakIBhwD0vEd2+aEYkV3LgnJdmnnl6HbhXf
+   2colVnJ6bD/rB0FSzgDGUVdNIOsHcCM/fVC97VV2VbUhQmolZk/JhAwq0
+   w==;
+X-CSE-ConnectionGUID: SFbKiKj+TBO7WPzyZBflYA==
+X-CSE-MsgGUID: C6hrHPsRQXG8Mr78x+zGlQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11412"; a="46951265"
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="46951265"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 20:01:11 -0700
+X-CSE-ConnectionGUID: lpWy17VtQc+wVoGynQEVdQ==
+X-CSE-MsgGUID: sVVBoj6WTdKXqLAXV3RNBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,233,1739865600"; 
+   d="scan'208";a="132793298"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Apr 2025 20:01:11 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 23 Apr 2025 20:01:10 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 23 Apr 2025 20:01:10 -0700
+Received: from NAM04-DM6-obe.outbound.protection.outlook.com (104.47.73.45) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 23 Apr 2025 20:01:09 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=QnUVwxTwRt+WhXPTt7tapFgkrdd4iX+4AykelqccoqW6aLVRkTiMRekPTp/LLowKjXtIo1QA5tLYzK4egBkhXM2HvKqxVoviPxQN1LtNEC7I5fs56BnaUvfpNk+C1KSNNKjXY4ofN5kUy9zWJ0tmRLhS7cjqAlU30VO7ZHTyq7wy5vTDMY7wXjqs+aDRxYBwEXj9gOJ1nOoIcfuVYrU4hJIQgxSWVbJiL/9v6eGrteBDnRNsQgW8q4ojHQh5ha9RDuPHtSEvT5xlme/y3F1us5RxlJ++Xxdq9C5cBgikBtg291QWOkVWfeIDTzdwzThWyWcgrw+fz4/R5svWwkWhng==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J0QVYStlJ+j4C0im4a5yinj7NBRqdSOD8EgjyDNwsi0=;
+ b=mk/qNtHRACicf0rGHlAyaM21u2zATwMka+BpauzYN6V+FpVDNa6HGp0hNKtu9M1PHLHB+Vz32gJ9az5A+iekXrgvXWXk/k1XuMqQs0DcQQE85smFwLtDz0aahGEIwhXax9x/VzwDPw/5nA/tYFjz+jzv0nkg59zh/93A8oecNYaYqIUkPMTKiBheRmJwW+Em6cKr9xVUGB+ifvuWvFrDyAGytLjK6Mv6PL9cUFeowAg9TSNvuNhfzyq/QHbkNgKEyoPTi5chbLDtprTbMzS48k6wMYvtSfT0kRDWzxti+5Px6Ap7LTpRL1ZbQYprrRfcXfTDgrK9IrTneZ4NXLMDZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com (2603:10b6:510:256::6)
+ by CH3PR11MB8519.namprd11.prod.outlook.com (2603:10b6:610:1ba::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.23; Thu, 24 Apr
+ 2025 03:01:07 +0000
+Received: from PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8]) by PH8PR11MB8107.namprd11.prod.outlook.com
+ ([fe80::6b05:74cf:a304:ecd8%4]) with mapi id 15.20.8655.031; Thu, 24 Apr 2025
+ 03:01:07 +0000
+Date: Wed, 23 Apr 2025 20:01:02 -0700
+From: Dan Williams <dan.j.williams@intel.com>
+To: "David E. Box" <david.e.box@linux.intel.com>, <corbet@lwn.net>,
+	<bhelgaas@google.com>, <kuurtb@gmail.com>, <hdegoede@redhat.com>,
+	<ilpo.jarvinen@linux.intel.com>, <vkoul@kernel.org>,
+	<yung-chuan.liao@linux.intel.com>, <pierre-louis.bossart@linux.dev>,
+	<sanyog.r.kale@intel.com>, <gregkh@linuxfoundation.org>, <rafael@kernel.org>,
+	<dakr@kernel.org>, <dan.j.williams@intel.com>,
+	<andriy.shevchenko@linux.intel.com>
+CC: <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-pci@vger.kernel.org>, <platform-driver-x86@vger.kernel.org>,
+	<Dell.Client.Kernel@dell.com>, <linux-sound@vger.kernel.org>
+Subject: Re: [PATCH 6/7] platform/x86/dell: alienware-wmi: update sysfs
+ visibility macros
+Message-ID: <6809a96e8e5b6_71fe2947b@dwillia2-xfh.jf.intel.com.notmuch>
+References: <20250423175040.784680-1-david.e.box@linux.intel.com>
+ <20250423175040.784680-7-david.e.box@linux.intel.com>
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <20250423175040.784680-7-david.e.box@linux.intel.com>
+X-ClientProxiedBy: MW2PR2101CA0015.namprd21.prod.outlook.com
+ (2603:10b6:302:1::28) To PH8PR11MB8107.namprd11.prod.outlook.com
+ (2603:10b6:510:256::6)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 0/2] Don't create Python bytecode when building the
- kernel
-To: Andy Shevchenko <andriy.shevchenko@intel.com>
-Cc: airlied@gmail.com, corbet@lwn.net, dmitry.baryshkov@oss.qualcomm.com,
- dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
- jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
- masahiroy@kernel.org, mchehab+huawei@kernel.org, mripard@kernel.org,
- nathan@kernel.org, nicolas.schier@linux.dev, rodrigo.vivi@intel.com,
- simona@ffwll.ch, tursulin@ursulin.net, tzimmermann@suse.de
-References: <aAdL7aEcbulV9lsA@smile.fi.intel.com>
- <5cc4d9dd-496e-4512-a683-272b1b84d98b@gmail.com>
- <aAkV6Kl3BX1TmMxl@smile.fi.intel.com>
-Content-Language: en-US
-From: Akira Yokosawa <akiyks@gmail.com>
-In-Reply-To: <aAkV6Kl3BX1TmMxl@smile.fi.intel.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH8PR11MB8107:EE_|CH3PR11MB8519:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1d39855b-affc-45a8-5a9b-08dd82dc41f6
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007|921020;
+X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?lNIjBPlovgjgQXhbg2KYFrmZEKLEYS+ox5NHj5SN1oQqN5+SWUmEIylepZ++?=
+ =?us-ascii?Q?TQDnp728cCOKvMhjQPGdC61aKqh8x7KlMhvlj8ADXoYIDcirCimJvJLPz9GE?=
+ =?us-ascii?Q?5gn49HQM8qvA65XF1K3mFEj2Q0mqjKUsyFTabpQJrSxM6GkVDTlnO8qC4ND8?=
+ =?us-ascii?Q?Ku9DUoxRurvVSmZv32kPdibX/AvhsgZ9HuXg59eoBlP+mTVv3MQGkXqKW+RF?=
+ =?us-ascii?Q?W5RGgIg5qKvUEJ15xRzc//x4lkzl48Hm3deYd4G0JVb1X7xY/PW6z4eMKA5V?=
+ =?us-ascii?Q?aRgDFMUHPGcwJ69oGEszhqjc2yrF0qUcp/tFHH4vSgFjl6ep8hAX3aGpCKVn?=
+ =?us-ascii?Q?r9WmvvdsbAVTC0AVbMtQIUStrm80ddTh4y2f6SPh3EuPxAroUyjpUAyptqFo?=
+ =?us-ascii?Q?rwje9CrzxIK5TP2kSpI852Le90M9batPKqwpypCDM5rACXe++u0T+eJq2k4v?=
+ =?us-ascii?Q?vP2gPyUQXNbLMsQ1dNqi/l4yB43XzL7ibvzJUiItiB3XcJzbSGN+8CehohCU?=
+ =?us-ascii?Q?HDq4vHWGSBHZfJ/zPd+1+xPit6BKhvmh/dQ4hCmZubsFeclRouUdU0mbKFel?=
+ =?us-ascii?Q?tblXXDKCMD+ciK7boysxbcMAzyBmgkpHYODcb37spQIkDA2EdwlH79EEO7zm?=
+ =?us-ascii?Q?kI8TqjVXCj7l3PwjvKitq51rjvNe06GAheHea0i2GbBail1s8mTnj3xgdzcS?=
+ =?us-ascii?Q?rsxDl/4T4n62AW1wJedEBxntiA3LoP83l4Og9WEAQ7OCuijM5M2mWq2DFJTY?=
+ =?us-ascii?Q?2EweJFnrw338Bs3RT2NqWbizZsUBVLQ8kybH2a8YwSANBJL7psfdDqjq0sBm?=
+ =?us-ascii?Q?AQOMJ/QlP8BpD4i5NTSlIkK6eL6AYIQaBOeo3KGWALvGGy5kXV1Hr+u+FRe5?=
+ =?us-ascii?Q?zYKafrkxCoMZTX+0CEoX2aTGlr769amZlv+h4oFdhYw2d/g5MPliBb4pWiQG?=
+ =?us-ascii?Q?sUB6gHPgXUL+/3Kfe9dRBzsuBap2L7xJfKqgF4hrRYSgqICvd0zlIZalKpeQ?=
+ =?us-ascii?Q?4xNnh1PjsA8/drIgnW9XtllUjcglhnA7U0TzZz+myDsMql5DNgTR74D9ofM4?=
+ =?us-ascii?Q?uHt7drgSw0KraSSd4RJLan+c1UhNJ3gaTi8a14KmRIGXz5CPlfMMyT2hpAA+?=
+ =?us-ascii?Q?hdMHh8fyI4JmbjPGKXTK7awsFC2n0vPaMfulcfKtwX5HG16Bi9GNbdw5VN3A?=
+ =?us-ascii?Q?DYX6XG6M0MzIwEeBwly2hQEOFmtm1JyQw/yURXiyhMau6xFGGtPPSO4QtRGF?=
+ =?us-ascii?Q?sF5NUdZv0BvwhK3OqtcMDcPTHbSKMhx7Zu/5EvIIohVV1RjtixDmrK3Wb1Hr?=
+ =?us-ascii?Q?7g6M6kCOSRiz28x9nq2jsINN7tD68p3GCpw5zo+BDTmMqmo5Brx1R5Tn07iV?=
+ =?us-ascii?Q?CjNRe4IjCgoW+FSp4lnY6rhg1+XeLP3JrXD2+BY0/fhcqFcqbA4768ulnBoA?=
+ =?us-ascii?Q?fMGfOv1bOG4M5W57iMYRwd38l/UFihXFo/xYpLXPEjD55WXNLrqvYA=3D=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH8PR11MB8107.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007)(921020);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?D9M+c079XPSP5o1uPzkRW5JOxiZLErOSON5AXA3PftGgDyJGWmRGm2UVA8Kt?=
+ =?us-ascii?Q?7dQtRo9MK0VE3ynygk2Q99shnQTwQVCbG/VrxbnGZ/kbVGDlu3vdsKajp3e1?=
+ =?us-ascii?Q?lJ2JfQP9qooUjA5kuJxJkVpjbxmyj8SGiLfPST4hhvC3nUDYveNxceybLijl?=
+ =?us-ascii?Q?DamJkXvrVUGYI3nHl1zPvQnA52aYVvjKDQZTeqe5JruhyzktbiEjfARexqci?=
+ =?us-ascii?Q?UJhnf32qcPmOiMkwUCY4wEKPkeVY2C0gTiRW/8UXKWd93PgEus7aGLl36Wl2?=
+ =?us-ascii?Q?6aPHl/u+0oDC5HJTm8PljoWSPDwb5daSvDjH9x1DghxKUlctJopoZ13941MF?=
+ =?us-ascii?Q?szZbLeirhggk4sur33Zc2B4XEqHZx+YkBAs0YPoKm6xXwu6qc+Y2d46G+P/8?=
+ =?us-ascii?Q?jrUNTw9Buzj03ei2i9j2BI1YEwXG88Behgd7KQuze1b9ofUwzgsnElfFhw/F?=
+ =?us-ascii?Q?bLiV0U0s1Ss+Xb6wObcrnv6IkM5US9N1GBwRaLXcdxbAgk5UiriJ9ScS0gvp?=
+ =?us-ascii?Q?ld4GwNcciL5DhSszadpxuXbJfkMX7AkEl46J6mFhQ36dchdrsWkW76bb9OQc?=
+ =?us-ascii?Q?jug2nmhdqzPp6KyNN6chVIgw4WsdGFD9p5LZj511zm2DQhNLHInSTz0YE8c6?=
+ =?us-ascii?Q?3G0KWVxfjpUN4W9QM3kz/fGBUChNHZFq6Rqecve+ZX7SKrE/QNfLwGY02tZS?=
+ =?us-ascii?Q?qCVjzoqDIE4uIdyzxAmwDSVz4Dvsmn8PfUJal57lbRxja7RDzQ1CQjk+z43W?=
+ =?us-ascii?Q?VM4Xi/H15rEGA2ZJcLjTtddvJyZsIadd8lMo+ktFSYTOWROuqx6siQK35FnW?=
+ =?us-ascii?Q?7J7Ocj+GJvKV/fOU0uxDcH8u0MsMDyfKLi+Fo7XOYsNMxSaXQZOUquY8CyQH?=
+ =?us-ascii?Q?BOCrL0o1OHK4AHfUlb6UA2az+LJX2piKjeScW4OWWrv9tb/mvwDHNcP6O6sM?=
+ =?us-ascii?Q?dcprbZc5+ErXvci00ymH6yJMpDoUvjUaE8ScQk/l0yQP/bs+s5yL1na1Hdi1?=
+ =?us-ascii?Q?lhcZZpb8pdz8z89f+XeHDtUyxkHeY2AWUpzdxpV+7GVvKXnDLBqnJMyHIFvg?=
+ =?us-ascii?Q?qmt9Av7l0F+gw6+WmUHe7yt68GXYaJJxqEvbMX2+08zG2p6nODanqTMjw1xc?=
+ =?us-ascii?Q?FZdzwW0kQX5NG9PTYrBTN8ZJSoB4/rIyueNYnph5Ajz51oNW4aof4S9NdLOe?=
+ =?us-ascii?Q?4rukn5Mr6C0sZ9PvlLe/GXKY9UX7WuGtBVQP1kikwz4HeZ00H3tENUOHq0B1?=
+ =?us-ascii?Q?s/v7JA9Z1uT+vn5W+uytySXFtCjT3g/TACm9l8l/Abo+0fIs+SIDFWsx4CqO?=
+ =?us-ascii?Q?NioUBLZa3t7lUxmY/Jm7+ZqQEVF0zFD0x3x0SQfT416pN9zVqz9IYrZk9fko?=
+ =?us-ascii?Q?fkxxA4wSaI8/6xWdlh04D/3RWnHbg4MZeydtHw2zoX9xlqh0YblCEsKtu+0l?=
+ =?us-ascii?Q?rW3Y/WGADvvH1Oq5XAj5F84QdBhLTLM2y+PGq7Pt/ibUJsMwCPhhKb3uGd3F?=
+ =?us-ascii?Q?zuGEjicxNP4rbsOyF4y3rVHupXbEflTVdodIfvQ5gzPh23cRCik0I/qIgcBD?=
+ =?us-ascii?Q?DVWawznI3NZV7ETSAYOdQEFDpLXyoSm0UAnzeW18Ur4L6GW6B1gAuHDLTsz9?=
+ =?us-ascii?Q?VA=3D=3D?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1d39855b-affc-45a8-5a9b-08dd82dc41f6
+X-MS-Exchange-CrossTenant-AuthSource: PH8PR11MB8107.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 03:01:06.9320
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: L2+Va4Ch+C62FRPrKrHlJcGm4o3r+p2HFGYIYilbSkRO9iEN7ihN1Lg0ipkwelJPs5MxDMYCiRz1ioPNYZwQDCiv/ehRaxOEf7xX/HHCjxE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB8519
+X-OriginatorOrg: intel.com
 
-On Wed, 23 Apr 2025 19:31:36 +0300, Andy Shevchenko wrote:
-> On Wed, Apr 23, 2025 at 06:30:48PM +0900, Akira Yokosawa wrote:
->> On Tue, 22 Apr 2025 10:57:33 +0300, Andy Shevchenko wrote:
->>> On Mon, Apr 21, 2025 at 10:35:29AM -0600, Jonathan Corbet wrote:
->>>> Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com> writes:
+David E. Box wrote:
+> Replace deprecated visibility macros and align group naming with new API.
 > 
-> [...]
+> In alienware-wmi-base.c, use NAMED_ATTRIBUTE_GROUP_COMBO_VISIBLE(rgb_zones)
+> to define the rgb_zones attribute group concisely. To preserve the existing
+> userspace ABI, rename zone_attr_visible and rgb_zones_attr_visible to
+> zone_group_visible and rgb_zones_group_visible, respectively, to reflect the
+> 'rgb_zones' group.
 > 
->>>>> Would it be possible to properly support O= and create pyc / pycache
->>>>> inside the object/output dir?
->>>>
->>>> I have to confess, I've been wondering if we should be treating the .pyc
->>>> files like we treat .o files or other intermediate products.  Rather
->>>> than trying to avoid their creation entirely, perhaps we should just be
->>>> sure they end up in the right place and are properly cleaned up...?
->>>>
->>>> To answer Dmitry's question, it seems that setting PYTHONPYCACHEPREFIX
->>>> should do the trick?
->>>
->>> It's not so easy. The Python is written in a way that it thinks it will never
->>> runs object files separately from the source. Hence that variable sets only
->>> the folder per script as _home_ for the cache. It's completely unusable. They
->>> took it wrong. It still can be _painfully_ used, but it will make Makefiles
->>> uglier.
->>
->> But, PYTHONPYCACHEPREFIX can be set as an environment variable.
->>
->> For example, try:
->>
->>     export PYTHONPYCACHEPREFIX="$HOME/.cache/__pycache__"
->>
->> Wouldn't it be good enough for you?
+> In alienware-wmi-wmax.c, replace DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() with
+> the renamed DEFINE_SYSFS_GROUP_VISIBILITY() macro for the hdmi, amplifier,
+> and deepsleep attributes to match the updated API.
 > 
-> Of course not. We have _many_ scripts in python in kernel and having a cache
-> there for _all_ of them is simply WRONG. You never know what clashes can be
-> there with two complicated enough scripts which may have same module names,
-> etc.
+> While here, add missing sysfs.h include and sort headers alphabetically. No
+> functional changes are intended.
 > 
+> Signed-off-by: David E. Box <david.e.box@linux.intel.com>
+> ---
+>  .../platform/x86/dell/alienware-wmi-base.c    | 23 ++++++++-----------
+>  .../platform/x86/dell/alienware-wmi-wmax.c    |  7 +++---
+>  2 files changed, 13 insertions(+), 17 deletions(-)
+> 
+> diff --git a/drivers/platform/x86/dell/alienware-wmi-base.c b/drivers/platform/x86/dell/alienware-wmi-base.c
+> index 64562b92314f..ee41892e562c 100644
+> --- a/drivers/platform/x86/dell/alienware-wmi-base.c
+> +++ b/drivers/platform/x86/dell/alienware-wmi-base.c
+> @@ -10,10 +10,11 @@
+>  
+>  #include <linux/acpi.h>
+>  #include <linux/cleanup.h>
+> -#include <linux/module.h>
+> -#include <linux/platform_device.h>
+>  #include <linux/dmi.h>
+>  #include <linux/leds.h>
+> +#include <linux/module.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/sysfs.h>
+>  #include "alienware-wmi.h"
+>  
+>  MODULE_AUTHOR("Mario Limonciello <mario.limonciello@outlook.com>");
+> @@ -326,8 +327,8 @@ static ssize_t lighting_control_state_store(struct device *dev,
+>  
+>  static DEVICE_ATTR_RW(lighting_control_state);
+>  
+> -static umode_t zone_attr_visible(struct kobject *kobj,
+> -				 struct attribute *attr, int n)
+> +static umode_t rgb_zones_attr_visible(struct kobject *kobj,
+> +				      struct attribute *attr, int n)
+>  {
+>  	if (n < alienfx->num_zones + 1)
+>  		return attr->mode;
+> @@ -335,13 +336,12 @@ static umode_t zone_attr_visible(struct kobject *kobj,
+>  	return 0;
+>  }
+>  
+> -static bool zone_group_visible(struct kobject *kobj)
+> +static bool rgb_zones_group_visible(struct kobject *kobj)
+>  {
+>  	return alienfx->num_zones > 0;
+>  }
+> -DEFINE_SYSFS_GROUP_VISIBLE(zone);
+>  
+> -static struct attribute *zone_attrs[] = {
+> +static struct attribute *rgb_zones_attrs[] = {
 
-Interesting...
+Yes, this rename is necessary to fit the scheme.
 
-I'm suspecting you replied without having tried the setting...
+Looks good,
 
-FYI, this is an excerpt from list of .pyc files under __pycache__ after
-building defconfig kernel and "make htmldocs"; and running
-
-$ find . -name *.pyc" -print" under ~/.cache/__pycache__
----------------------------------------------------------------------
-./home/.../git/linux/scripts/lib/kdoc/kdoc_files.cpython-312.pyc
-./home/.../git/linux/scripts/lib/kdoc/kdoc_parser.cpython-312.pyc
-./home/.../git/linux/scripts/lib/kdoc/kdoc_re.cpython-312.pyc
-./home/.../git/linux/scripts/lib/kdoc/kdoc_output.cpython-312.pyc
-[...]
-./usr/lib/python3.12/xml/__init__.cpython-312.pyc
-./usr/lib/python3.12/xml/parsers/expat.cpython-312.pyc
-./usr/lib/python3.12/xml/parsers/__init__.cpython-312.pyc
-./usr/lib/python3.12/xml/etree/ElementPath.cpython-312.pyc
-./usr/lib/python3.12/xml/etree/__init__.cpython-312.pyc
-./usr/lib/python3.12/xml/etree/cElementTree.cpython-312.pyc
-./usr/lib/python3.12/xml/etree/ElementTree.cpython-312.pyc
-./usr/lib/python3.12/mimetypes.cpython-312.pyc
-[...]
-./usr/lib/python3/dist-packages/sphinx/deprecation.cpython-312.pyc
-./usr/lib/python3/dist-packages/sphinx/highlighting.cpython-312.pyc
-./usr/lib/python3/dist-packages/sphinx/pycode/ast.cpython-312.pyc
-./usr/lib/python3/dist-packages/sphinx/pycode/__init__.cpython-312.pyc
-./usr/lib/python3/dist-packages/sphinx/pycode/parser.cpython-312.pyc
-./usr/lib/python3/dist-packages/sphinx/config.cpython-312.pyc
-[...]
-./home/.../sphinx-WIP/lib/python3.12/site-packages/sphinx/deprecation.cpython-312.pyc
-./home/.../sphinx-WIP/lib/python3.12/site-packages/sphinx/highlighting.cpython-312.pyc
-./home/.../sphinx-WIP/lib/python3.12/site-packages/sphinx/pycode/ast.cpython-312.pyc
-./home/.../sphinx-WIP/lib/python3.12/site-packages/sphinx/pycode/__init__.cpython-312.pyc
-./home/.../sphinx-WIP/lib/python3.12/site-packages/sphinx/pycode/parser.cpython-312.pyc
-./home/.../sphinx-WIP/lib/python3.12/site-packages/sphinx/config.cpython-312.pyc
-[...]
--------------------------------------------------------------------------
-
-As you see, each of them are stored at a path corresponding to its original
-.py file.  The final part of the excerpt came from me running in-development
-Sphinx in a python venv with the same PYTHONPYCACHEPREFIX setting.
-
-I don't see any possibility of clashes as you mentioned above, quoting again:
-
->                We have _many_ scripts in python in kernel and having a cache
-> there for _all_ of them is simply WRONG. You never know what clashes can be
-> there with two complicated enough scripts which may have same module names,
-> etc.
-
-Or my imagination might be too limited to see your point ...
-
-Regards,
-Akira
-
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
