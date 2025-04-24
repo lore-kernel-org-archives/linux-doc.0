@@ -1,147 +1,176 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50C30228CB5
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:07:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC04922DFA4
+	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 12:16:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745496426; cv=none; b=LSYPrNBs7NuD2QCnyRnsP0mp487Mb2RjTIxXxZ9gUjGVTDo83bsk5mkmi0X8/3eAStvF6WkZoBq5rOe/b5Oz1muWre/8HYtfWLOqEeEjah5IJXHnU2YSuf6IWj8mz2BV8dsx9bW2rpWyqQ7o8Ln/Ihs0+ymAA6L3U6A/nLM3wwY=
+	t=1745496997; cv=none; b=kch82fCcn87BejNtjBDZqfDQ3oLpF1x72P3ELAKBtfSfB7ITScPdrnG0MPEeUmxV81gAN5d/z4ydY+zpvxqXpLmkCG1pxT8i5gEpwOjt86JUNGFoRLBFpsEUSN2o7MFpilBzfmqMvbHIei1Fa0LcESaibXXZiRpWp5AvsccOISU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745496426; c=relaxed/simple;
-	bh=nEDDMXWDWQ8vbMZ4RzV5iFaKUbMAXslQJ0AI2qRKz1s=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nEQxKjJkp0B33Dl8Wkkqn4kNvnUlBQdgsgFgybzUQsA5LwbKbk8nzMZy150oITUhZrRu2khhUh+uhQpZAy53euOjOKmg59KeliKOZnEtsYqPDqqQvCN/F75VPKmH2hK1Ac9BoerASUK5A7FqaT+r/Rf/XdVG4Hs1o/j6OlnG8wg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=f7cJVsfp; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
+	s=arc-20240116; t=1745496997; c=relaxed/simple;
+	bh=Uyv4cF6roX/rqkabZ8AOPchJ7yqQ3BZD7UJEcGbUnSY=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Cc:To:From:Subject:
+	 References:In-Reply-To; b=HYN82DU6o5OzkhPqSPINbBuaaRTpjZDS9srjpHbDbzSFCZnk2Tz+kx8DODFEokIMYpAi7ZsoxNlblJ6EwRFdMI8xdQdWdaA69AX+javzOr2MweEIORK0Iezok4u7a2kvihgvMcPixzrtxKC1CYEnMrawLQ97bmVe8/jfbFuJKjU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=Wsmpr30p; arc=none smtp.client-ip=209.85.221.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="f7cJVsfp"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6e8ffa00555so9175676d6.0
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:07:05 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="Wsmpr30p"
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-3913290f754so122565f8f.1
+        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 05:16:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google; t=1745496424; x=1746101224; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=R6hXpeFv17Go1fQZO2l00KUq0djvqX4j0LhOJE1RpTI=;
-        b=f7cJVsfp4HZOCBfgkFOjS8VB5UTPsgQN5/v4PKJJdeYmvMHpeUUjyFBtxq625zmmXj
-         k3EsNWrVm4OjvneO9B/ZGxtL/rpaonVPAAjjGFX+l5BRWixEkwxmCTZhWGhVjWXavZvy
-         SR/X9vSe8/xbMouYwZ0dwG5aRWBzfCS3VEs2YuNNu7WhqNoJC87NmU1ITldY/q5keuFB
-         UocYb0O5T6DZQQAxBy2eHshKKb6ic/dU+u02pKYO63/pAn9VmdibNn0xnBEaWsAUreBJ
-         Z1PzPeTOw4bJhhuyXLg188k6/2/iJ0jeryJvUMqbo4ULLvgDt2S3svr6dQXCb60ytHgh
-         QMuA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745496424; x=1746101224;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=ventanamicro.com; s=google; t=1745496993; x=1746101793; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:from:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=R6hXpeFv17Go1fQZO2l00KUq0djvqX4j0LhOJE1RpTI=;
-        b=mYH5+Q47yynMaaOjyxwJqzkcSHmKYl/6aJNrR8YSt9cpf3hO9YzkpI02i7IL2MAHVu
-         Ua/3ZSHTZCgo01snCux0k7kmKkSEIZuMYLXohQOpg3lmjdjI1KedYl/l0D+JhycfSpnC
-         NBO9qEwkJWD6LEbI1DvhIbE4XdfrrqYAtqJFehfW6LjXDAs8WrgoDK8JhcmM0SmnT2bd
-         /2YVA5KGpKvmnL6EZbkBKVICB51DIxfpUYW8FiRiAkGC3Y70hDixs+Uj+DLSaGAKs43j
-         GM7sWuTbJpW0ev3PRiyjx02VMqGBj/97Czc5lorjpmUhjxF32QTAkDqePvpl8seTdX9B
-         8KLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVt6WW10ToZyQcjLXF3x+L7iFbMZLdLvxBhGuWcKz/AEBzvVRVcDldQ5pJfSTVCTIRh+7FXcV74VBQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxMJh5k67PdgGVCs9W0gEeEwhNNwy5LsjOoNijuIjRul11rjRbb
-	kEXVX0Fj2sRCFsoLbIPtyPrkTMEOpbyg+6gnqin3hFkTF/dYbiUMKzRuvbqgEZY=
-X-Gm-Gg: ASbGnctEsEyHrEg5I6OQcCDItkDJSdvG6sCdXZCbOOCno/zKOsWmqfp7fWQYOdwr81q
-	4qHRS4/LRtpgocexW7DuQ70jKoKiXJfaP/r0fcep4l9d/GVir4H4Klwo/XApsCmnGZsZtcHeqIq
-	HttUgLv5mdAnnXJmk3iMyI7HWUtfrAQtKzZfEycUh9YajPIwaw85gt28ORdk8RndSEseHq/wTFL
-	wTTxAkhMQ4rgFl87Kw6J84AMhDvnPBDH2NlRnBkEjRf6vCtupY2O5J6kGzII4cHr81CCZKK5VnL
-	Sap2M1hgR6Gg02x984YiEGqpqEBVmdlKVbCXcY5aYL7ofn3uVtEILzC1OWwamK0Z+lnidtNfk3y
-	vlB15YMOlpYyWngTf6Gw=
-X-Google-Smtp-Source: AGHT+IHFhKOxhA0o2WRAa+GJNDxvcX1iIXnEJwZa2QwM9rbiZA2VutZzFm82YY72gKJwza388e3Bog==
-X-Received: by 2002:a05:6214:518c:b0:6e6:65a6:79a4 with SMTP id 6a1803df08f44-6f4bfc85415mr35084026d6.44.1745496424198;
-        Thu, 24 Apr 2025 05:07:04 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c0aae668sm8460536d6.113.2025.04.24.05.07.03
+        bh=byLZxcTmkHUnhPkEGnhkt8kzHy94FpcWiEA8cXwsuq0=;
+        b=Wsmpr30poYCAfYRyzPvB/UKdx7aMJQxZiKrY6+7Fc+wqkXq2JKC92pP40TNuGLyznO
+         J0k6TPUycyj4xKJygrOkgJk/JNY0LqKpStnlGWO/IlKB/P+X7otxfD+C0HW2Tj3FcThj
+         frwGBAfNIV9V+6ueHR8SSBmJRwFoeyxh5WmOpqNqXukH7UUrWVf3aIC6chBZnN8yuZV6
+         wLqVhy7qbDlMLeBgCohY47FBJCuCpkhev4pydU2sbHWCx+kdbE6mmKpZFtnb1feB3NaE
+         P293PgLgv1M6vw2Ik/rc0f7Ed7209rI3ZW3YyQUm3KzBOsACaPukRZ78rCU3jE20BX2B
+         /UIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745496993; x=1746101793;
+        h=in-reply-to:references:subject:from:to:cc:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=byLZxcTmkHUnhPkEGnhkt8kzHy94FpcWiEA8cXwsuq0=;
+        b=ZOUUQWNB02Ls1jRQ8apCVqGPMdSF50X7q/YoqGrLlcfKk2hJwl0z8zslBGSheh4+rR
+         mKJhMe9QktHAs7jBLcHelXZjd7ZiU1ZBWFbO71BaVuXoW4cWxcZxH7btVb/WLKEjSR2v
+         3R01L3KIrI2S9wh9N7a711DYHEjLljZ6V39KZ5gzFuJyv2Uv1YzMk3zy0nXEVMDlPSOH
+         3eWWJTKYbfPqWT4MVGCSmEN/psuO2sJS25drjVljxEEmwhpmnQ5PxdYzeABVVYe+7Nzw
+         WbI/rUjlpXiqe5qgcWEFgRc9VauGa0OktnTsxjT9snDmI9TzErvpE01J4w13CqAD5DG6
+         wq/A==
+X-Forwarded-Encrypted: i=1; AJvYcCX5tK5lvKTpffRv6O1qzPR252ZTlW//R4U9IEOptkJgiCPQ5ZUSRC4zR0T7axvUStPtiJxYkjLxb6A=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz8qWXuMPifBGb2K7ZFVEHCZAm/woGirFnp47Z+OGHaKEWgUQ4/
+	t3sW5yrzM1YzPptxBN1iIHdd6SOpNnjoIRfHLqzsVfj1eQdazcPpkn2+8z3ekAU=
+X-Gm-Gg: ASbGnct1EMqB1FqSV9up7pjSE7XH0gVOq2yo1/n2m6XDCIZeYH7tpZ+psefalq8hWve
+	PZK+Mocf+dgYM2cSUZEi1FLlXwlsZk1+YyL664tffWl+1DtEMzNElC01t8ixC9fXG5lyGOOxV3r
+	ocjwdICFkz7MfvUK3UNs3t8tIVuNchF48iycfGGhsdiJ0FqcZF+ckOBR4N5u02quENOmq/r0BU1
+	VHUlhvhl/MSzMbL9FyY+TXjuN6uAVms7iI95VZf45CNN+4CHd+vKfolo/xY/Xoxj9L5aie1cqzz
+	mjThG3YScksTzgp5p3Y3M1Bcb7HrdPqILl7/siTqx0gkaKLQ
+X-Google-Smtp-Source: AGHT+IERZA3DYVew3V/bn5OiODM5GwUm1JM3y/BJyY+6CSbEdsIoN7nn+jjX5wED4r1h6h8dKZG5oA==
+X-Received: by 2002:a05:6000:40da:b0:39c:12ce:697 with SMTP id ffacd0b85a97d-3a06cf5cb78mr706514f8f.7.1745496993026;
+        Thu, 24 Apr 2025 05:16:33 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:b30c:ee4d:9e10:6a46])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a06d5326casm1929903f8f.64.2025.04.24.05.16.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Apr 2025 05:07:03 -0700 (PDT)
-Received: from jgg by wakko with local (Exim 4.97)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1u7vM7-00000007TSP-0PWP;
-	Thu, 24 Apr 2025 09:07:03 -0300
-Date: Thu, 24 Apr 2025 09:07:03 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Christoph Hellwig <hch@lst.de>,
-	Mika =?utf-8?B?UGVudHRpbMOk?= <mpenttil@redhat.com>,
-	Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Keith Busch <kbusch@kernel.org>,
-	Jake Edge <jake@lwn.net>, Jonathan Corbet <corbet@lwn.net>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Luis Chamberlain <mcgrof@kernel.org>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>
-Subject: Re: [PATCH v9 10/24] mm/hmm: let users to tag specific PFN with DMA
- mapped bit
-Message-ID: <20250424120703.GY1213339@ziepe.ca>
-References: <cover.1745394536.git.leon@kernel.org>
- <0a7c1e06269eee12ff8912fe0da4b7692081fcde.1745394536.git.leon@kernel.org>
- <7185c055-fc9e-4510-a9bf-6245673f2f92@redhat.com>
- <20250423181706.GT1213339@ziepe.ca>
- <36891b0e-d5fa-4cf8-a181-599a20af1da3@redhat.com>
- <20250423233335.GW1213339@ziepe.ca>
- <20250424080744.GP48485@unreal>
- <20250424081101.GA22989@lst.de>
- <20250424084626.GQ48485@unreal>
+        Thu, 24 Apr 2025 05:16:32 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250424084626.GQ48485@unreal>
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Apr 2025 14:16:32 +0200
+Message-Id: <D9EV1K8ZQQJR.20CRTYLQBN9UE@ventanamicro.com>
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
+ <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
+ <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
+ "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
+ Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
+ <broonie@kernel.org>, <rick.p.edgecombe@intel.com>, "Zong Li"
+ <zong.li@sifive.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+To: "Deepak Gupta" <debug@rivosinc.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+Subject: Re: [PATCH v12 05/28] riscv: usercfi state for task and
+ save/restore of CSR_SSP on trap entry/exit
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-5-e51202b53138@rivosinc.com>
+ <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
+ <aAmEnK0vSgZZOORL@debug.ba.rivosinc.com>
+In-Reply-To: <aAmEnK0vSgZZOORL@debug.ba.rivosinc.com>
 
-On Thu, Apr 24, 2025 at 11:46:26AM +0300, Leon Romanovsky wrote:
-> On Thu, Apr 24, 2025 at 10:11:01AM +0200, Christoph Hellwig wrote:
-> > On Thu, Apr 24, 2025 at 11:07:44AM +0300, Leon Romanovsky wrote:
-> > > > I see, so yes order occupies 5 bits [-4,-5,-6,-7,-8] and the
-> > > > DMA_MAPPED overlaps, it should be 9 not 7 because of the backwardness.
-> > > 
-> > > Thanks for the fix.
-> > 
-> > Maybe we can use the chance to make the scheme less fragile?  i.e.
-> > put flags in the high bits and derive the first valid bit from the
-> > pfn order?
+2025-04-23T17:23:56-07:00, Deepak Gupta <debug@rivosinc.com>:
+> On Thu, Apr 10, 2025 at 01:04:39PM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
+te:
+>>2025-03-14T14:39:24-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+>>> @@ -147,6 +147,20 @@ SYM_CODE_START(handle_exception)
+>>>
+>>>  	REG_L s0, TASK_TI_USER_SP(tp)
+>>>  	csrrc s1, CSR_STATUS, t0
+>>> +	/*
+>>> +	 * If previous mode was U, capture shadow stack pointer and save it a=
+way
+>>> +	 * Zero CSR_SSP at the same time for sanitization.
+>>> +	 */
+>>> +	ALTERNATIVE("nop; nop; nop; nop",
+>>> +				__stringify(			\
+>>> +				andi s2, s1, SR_SPP;	\
+>>> +				bnez s2, skip_ssp_save;	\
+>>> +				csrrw s2, CSR_SSP, x0;	\
+>>> +				REG_S s2, TASK_TI_USER_SSP(tp); \
+>>> +				skip_ssp_save:),
+>>> +				0,
+>>> +				RISCV_ISA_EXT_ZICFISS,
+>>> +				CONFIG_RISCV_USER_CFI)
+>>
+>>(I'd prefer this closer to the user_sp and kernel_sp swap, it's breaking
+>> the flow here.  We also already know if we've returned from userspace
+>> or not even without SR_SPP, but reusing the information might tangle
+>> the logic.)
 >
-> It can be done too. This is what I got:
+> If CSR_SCRATCH was 0, then we would be coming from kernel else flow goes
+> to `.Lsave_context`. If we were coming from kernel mode, then eventually
+> flow merges to `.Lsave_context`.
+>
+> So we will be saving CSR_SSP on all kernel -- > kernel trap handling. Tha=
+t
+> would be unnecessary. IIRC, this was one of the first review comments in
+> early RFC series of these patch series (to not touch CSR_SSP un-necessari=
+ly)
+>
+> We can avoid that by ensuring when we branch by determining if we are com=
+ing
+> from user to something like `.Lsave_ssp` which eventually merges into
+> ".Lsave_context". And if we were coming from kernel then we would branch =
+to
+> `.Lsave_context` and thus skipping ssp save logic. But # of branches it
+> introduces in early exception handling is equivalent to what current patc=
+hes
+> do. So I don't see any value in doing that.
+>
+> Let me know if I am missing something.
 
-Use genmask:
+Right, it's hard to avoid the extra branches.
 
-enum hmm_pfn_flags {
-	HMM_FLAGS_START = BITS_PER_LONG - PAGE_SHIFT,
-	HMM_PFN_FLAGS = GENMASK(BITS_PER_LONG - 1, HMM_FLAGS_START),
+I think we could modify the entry point (STVEC), so we start at
+different paths based on kernel/userspace trap and only jump once to the
+common code, like:
 
-	/* Output fields and flags */
-	HMM_PFN_VALID = 1UL << HMM_FLAGS_START + 0,
-	HMM_PFN_WRITE = 1UL << HMM_FLAGS_START + 1,
-	HMM_PFN_ERROR = 1UL << HMM_FLAGS_START + 2,
-	HMM_PFN_ORDER_MASK = GENMASK(HMM_FLAGS_START + 7, HMM_FLAGS_START + 3),
+  SYM_CODE_START(handle_exception_kernel)
+    /* kernel setup magic */
+    j handle_exception_common
+  SYM_CODE_START(handle_exception_user)
+    /* userspace setup magic */
+  handle_exception_common:
 
-	/* Input flags */
-	HMM_PFN_REQ_FAULT = HMM_PFN_VALID,
-	HMM_PFN_REQ_WRITE = HMM_PFN_WRITE,
-};
+This is not a suggestion for this series.  I would be perfectly happy
+with just a cleaner code.
 
-Jason
+Would it be possible to hide the ALTERNATIVE ugliness behind a macro and
+move it outside the code block that saves pt_regs?
+
+Thanks.
