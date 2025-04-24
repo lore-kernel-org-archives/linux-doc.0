@@ -1,173 +1,82 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F214E2DF68;
-	Thu, 24 Apr 2025 14:38:49 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C3AF4190664;
+	Thu, 24 Apr 2025 14:49:51 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745505530; cv=none; b=Biqrj9yPGpAE5XL+wIhARnXj3GDWbaAVQmNcgLBs4nnVKZD4WdHQXmziI81TkWByTUaLCYbAeR+fyXJ7RLEzIfMqYqgvY0PlLwkseqnHZAYIIkxnH0jXwV5jY/zZxaofTbRFkPd2U59+MDvMUeLchFDQ8spvMSsAvE/wlyPduis=
+	t=1745506191; cv=none; b=Q+gONcztBxt7L4xmxApZXNAeMt7WvhiyYZHBrLQlRZA5PC+w90mMMPWEiFzoGkH2niYuEdao0/9InB/Dd/+hHqFQCPmmzdCak4sGtnwOTHy6Sa9ISxvJadm60JpPqLqN/OhBOkQUKGDvWlo3NSNRVAk6Cq1Hy9HrWrvrkCA8jio=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745505530; c=relaxed/simple;
-	bh=WM7zfm0bT2ItDzzbHgZkWzBdQu/I59c8crE3d85m7Sg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Hs2jKbQjazKSkqt0BDPOLrrrJe66VYXTPgRRonxxb00gLtX8ct51Bgn2O6zNSimYOBJt5/CeuGgIx2D+vPtk6+WIBw5A14Jb7shCAanAc6NPmKzA5tVJ6pDW3oApXlu4stWrryYYloLVju932m8Ixo6+Rhf+S3qPArc5gNn2YFE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fJVGWmn4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745506191; c=relaxed/simple;
+	bh=k/4SzJ/S8zT753squp+17vR/XCXBVuMwAFfFZS9idHM=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=KQFqmu8pb2nvCBtxQEbuArXktCj+g7Yn7QVwglv9+6Jln5A/mv5XpCLZUvJYRkNNFxYCMeAzAQJTNqCGd0EgzO190+m0jkyWqxKKByvCuY3Tx6R+rHbgEazUF0PbgcmW3ptlbu+HXjpx/LBev29d/TgOfBXqcv7WgLXyLM3S3gU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=s0lzSHoV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fJVGWmn4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 60655C4CEE3;
-	Thu, 24 Apr 2025 14:38:49 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="s0lzSHoV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 2B440C4CEE3;
+	Thu, 24 Apr 2025 14:49:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745505529;
-	bh=WM7zfm0bT2ItDzzbHgZkWzBdQu/I59c8crE3d85m7Sg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=fJVGWmn4v45l8WbiQwosdrijUHNMc637MOvicJxYlgxabqPeQTrlGaPCp6FRNvW4t
-	 5VwyC/mU9NdVJtmH4Vuf7Qr6pY9v29qFYa12FPzKlM2an91t1wSg4+H2+klzjQzwT9
-	 hS2beHMQTDgyeic7qRYktPe1ypBYTEDPD9xfrtzMP0npkfbxngnLfDFm9ECrIqu4Ar
-	 8mxrgHrltGVe6EBrkAUzvgBR4795/tVd/is3RuDRvIRc1TrnZVIS+Z8txKTNTwoyDE
-	 H6IoCmJavtTmgwwoqwG7fl56NAwc7SG0TwW9KSoyArW/nDLh8QQHxm++8njNhHX5/h
-	 rJ23St7P5TFlA==
-Date: Thu, 24 Apr 2025 07:38:48 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: John Groves <John@groves.net>
-Cc: Dan Williams <dan.j.williams@intel.com>,
-	Miklos Szeredi <miklos@szeredb.hu>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Luis Henriques <luis@igalia.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
-Message-ID: <20250424143848.GN25700@frogsfrogsfrogs>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421013346.32530-14-john@groves.net>
- <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
+	s=k20201202; t=1745506191;
+	bh=k/4SzJ/S8zT753squp+17vR/XCXBVuMwAFfFZS9idHM=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=s0lzSHoVNVxd4EGRVcX5nwX26NYmkyiO2BN90EkHe/fQwQ91qrvlAXFKQx8yPMoce
+	 3aX74rEDRXEcPLjRXovr3zuBMyIz9WpbsSH2ADKOtwzqLlDTUQWrdx8gEKIiFIX/Fh
+	 DbghI6orUhV0Vyn+LcHOUDp6uGvb7s2eBVvf5xGsz3xgknX3U9mM/3tb7WaRo3rYZb
+	 9lp2zrf8ZJxrMC5uTPgdvqr/6X4smQVdhtjPpgF3ow2XpaOvE6REy1rztv448eJLQV
+	 2eatpAcjq73Bn8BewNnyGIqH6khPTUhPcybg4R0gGjyarVZ9syzznbn4RJ4jptels6
+	 Llbhff9R4QEmQ==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id EB0A0380CFD9;
+	Thu, 24 Apr 2025 14:50:30 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
+Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH] bpf, docs: iterator: Rectify non-standard line break
+From: patchwork-bot+netdevbpf@kernel.org
+Message-Id: 
+ <174550622958.3379613.5622744579499628281.git-patchwork-notify@kernel.org>
+Date: Thu, 24 Apr 2025 14:50:29 +0000
+References: <DB66473733449DB0+20250423030632.17626-1-wangyuli@uniontech.com>
+In-Reply-To: <DB66473733449DB0+20250423030632.17626-1-wangyuli@uniontech.com>
+To: WangYuli <wangyuli@uniontech.com>
+Cc: ast@kernel.org, daniel@iogearbox.net, andrii@kernel.org,
+ martin.lau@linux.dev, eddyz87@gmail.com, song@kernel.org,
+ yonghong.song@linux.dev, john.fastabend@gmail.com, kpsingh@kernel.org,
+ sdf@fomichev.me, haoluo@google.com, jolsa@kernel.org, corbet@lwn.net,
+ bpf@vger.kernel.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ void@manifault.com, psreep@gmail.com, yhs@fb.com, zhanjun@uniontech.com,
+ niecheng1@uniontech.com, guanwentao@uniontech.com, chenlinxuan@uniontech.com
 
-On Thu, Apr 24, 2025 at 08:43:33AM -0500, John Groves wrote:
-> On 25/04/20 08:33PM, John Groves wrote:
-> > On completion of GET_FMAP message/response, setup the full famfs
-> > metadata such that it's possible to handle read/write/mmap directly to
-> > dax. Note that the devdax_iomap plumbing is not in yet...
-> > 
-> > Update MAINTAINERS for the new files.
-> > 
-> > Signed-off-by: John Groves <john@groves.net>
-> > ---
-> >  MAINTAINERS               |   9 +
-> >  fs/fuse/Makefile          |   2 +-
-> >  fs/fuse/dir.c             |   3 +
-> >  fs/fuse/famfs.c           | 344 ++++++++++++++++++++++++++++++++++++++
-> >  fs/fuse/famfs_kfmap.h     |  63 +++++++
-> >  fs/fuse/fuse_i.h          |  16 +-
-> >  fs/fuse/inode.c           |   2 +-
-> >  include/uapi/linux/fuse.h |  42 +++++
-> >  8 files changed, 477 insertions(+), 4 deletions(-)
-> >  create mode 100644 fs/fuse/famfs.c
-> >  create mode 100644 fs/fuse/famfs_kfmap.h
-> > 
+Hello:
 
-<snip>
+This patch was applied to bpf/bpf-next.git (master)
+by Alexei Starovoitov <ast@kernel.org>:
 
-> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
-> > index d85fb692cf3b..0f6ff1ffb23d 100644
-> > --- a/include/uapi/linux/fuse.h
-> > +++ b/include/uapi/linux/fuse.h
-> > @@ -1286,4 +1286,46 @@ struct fuse_uring_cmd_req {
-> >  	uint8_t padding[6];
-> >  };
-> >  
-> > +/* Famfs fmap message components */
-> > +
-> > +#define FAMFS_FMAP_VERSION 1
-> > +
-> > +#define FUSE_FAMFS_MAX_EXTENTS 2
-> > +#define FUSE_FAMFS_MAX_STRIPS 16
+On Wed, 23 Apr 2025 11:06:32 +0800 you wrote:
+> Even though the kernel's coding-style document does not explicitly
+> state this, we generally put a newline after the semicolon of every
+> C language statement to enhance code readability.
 > 
-> FYI, after thinking through the conversation with Darrick,  I'm planning 
-> to drop FUSE_FAMFS_MAX_(EXTENTS|STRIPS) in the next version.  In the 
-> response to GET_FMAP, it's the structures below serialized into a message 
-> buffer. If it fits, it's good - and if not it's invalid. When the
-> in-memory metadata (defined in famfs_kfmap.h) gets assembled, if there is
-> a reason to apply limits it can be done - but I don't currently see a reason
-> do to that (so if I'm currently enforcing limits there, I'll probably drop
-> that.
-
-You could also define GET_FMAP to have an offset in the request buffer,
-and have the famfs daemon send back the next offset at the end of its
-reply (or -1ULL to stop).  Then the kernel can call GET_FMAP again with
-that new offset to get more mappings.
-
-Though at this point maybe it should go the /other/ way, where the fuse
-server can sends a "notification" to the kernel to populate its mapping
-data?  fuse already defines a handful of notifications for invalidating
-pagecache and directory links.
-
-(Ugly wart: notifications aren't yet implemented for the iouring channel)
-
---D
-
+> Adjust the placement of newlines to adhere to this convention.
 > 
-> > +
-> > +enum fuse_famfs_file_type {
-> > +	FUSE_FAMFS_FILE_REG,
-> > +	FUSE_FAMFS_FILE_SUPERBLOCK,
-> > +	FUSE_FAMFS_FILE_LOG,
-> > +};
-> > +
-> > +enum famfs_ext_type {
-> > +	FUSE_FAMFS_EXT_SIMPLE = 0,
-> > +	FUSE_FAMFS_EXT_INTERLEAVE = 1,
-> > +};
-> > +
-> > +struct fuse_famfs_simple_ext {
-> > +	uint32_t se_devindex;
-> > +	uint32_t reserved;
-> > +	uint64_t se_offset;
-> > +	uint64_t se_len;
-> > +};
-> > +
-> > +struct fuse_famfs_iext { /* Interleaved extent */
-> > +	uint32_t ie_nstrips;
-> > +	uint32_t ie_chunk_size;
-> > +	uint64_t ie_nbytes; /* Total bytes for this interleaved_ext; sum of strips may be more */
-> > +	uint64_t reserved;
-> > +};
-> > +
-> > +struct fuse_famfs_fmap_header {
-> > +	uint8_t file_type; /* enum famfs_file_type */
-> > +	uint8_t reserved;
-> > +	uint16_t fmap_version;
-> > +	uint32_t ext_type; /* enum famfs_log_ext_type */
-> > +	uint32_t nextents;
-> > +	uint32_t reserved0;
-> > +	uint64_t file_size;
-> > +	uint64_t reserved1;
-> > +};
-> >  #endif /* _LINUX_FUSE_H */
-> > -- 
-> > 2.49.0
-> > 
+> Reported-by: Chen Linxuan <chenlinxuan@uniontech.com>
+> Signed-off-by: WangYuli <wangyuli@uniontech.com>
+> 
+> [...]
+
+Here is the summary with links:
+  - bpf, docs: iterator: Rectify non-standard line break
+    https://git.kernel.org/bpf/bpf-next/c/4cc20482143c
+
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
+
+
