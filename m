@@ -1,431 +1,241 @@
-Received: from mail-pf1-f202.google.com (mail-pf1-f202.google.com [209.85.210.202])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2063.outbound.protection.outlook.com [40.107.92.63])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 09B715579E
-	for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 08:33:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.202
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745483613; cv=none; b=fPMcoYkS7zS18vN7VWY+8n7U5u9Zc/380+1rtiIe1NR2NugRRb3qw7YjQyzdzZ75HbvG2DvXDk5W+v+hGRWhLj2Gd0Y3QfCY7ak0rSaWDRCbrXUAScQEAk/5PImMmyKE4uZcucAIEoOo7m/5fXktz5OF/GWvSVbyWy6+7na6XuQ=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745483613; c=relaxed/simple;
-	bh=VujbCGAaGG7cRp8yjEqmGFE0PIqyYkh9yqPNfDkSDQQ=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=KAFfR7EBKAYaAmGVT+abFfvl144jUATIZeUCKGEG8PnnXdirvPoDYWBZpZz6kP9MtOhrQMGfwGoYaWERLvv0Fh1PRRXmz+LOeDE5YiNcNXhc0F5WlNhlelRv0xd0uD1zQE8LX4d9ekuZQCYqb3sd4cP9MDtPJhcCZL9SSfP3utY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=LKXKfP0r; arc=none smtp.client-ip=209.85.210.202
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5E02E213240;
+	Thu, 24 Apr 2025 08:39:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.63
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745483988; cv=fail; b=TQ6Hlg8L7f8xPRlK3hPcKxqRb4bJei5OnufpEWbQsX3/rHrjP1yPHs13SMEsLwqO6960W9al+64UHBDvOSSiH3zNct7YTglGu1Y5aqhlzdk+2bQdTe3d7l5kQlWy3ODIfAQof/n9MTjIPv/oopZvEAFfivMHHiYkqxHZ0X7Uv24=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745483988; c=relaxed/simple;
+	bh=6izECVWFKxS11cO8VX7ZCnHuchO00vsaewrBNGkgH34=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ayvex/y8mnCtTy8DNX0R81xAiJDffpmNPQGKJvN7I1u8r9JepZM4HppGYtbAzzODoAbrsJFpaKHlvAKRnz6uRBO3oNOOokKQCD/hzebjrZ8AM6Im3fBuRRNQgR9C4pcYIpqoR8aUXKbn30PwqKrCEVcrRZNnGp8Xy3kL3qmql8g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=k/CrjkOu; arc=fail smtp.client-ip=40.107.92.63
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="LKXKfP0r"
-Received: by mail-pf1-f202.google.com with SMTP id d2e1a72fcca58-736cd27d51fso665206b3a.2
-        for <linux-doc@vger.kernel.org>; Thu, 24 Apr 2025 01:33:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745483611; x=1746088411; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=l7VEVoe4uPheIEiVrtKTo6u/lqrEMNwyEPBA44TaHZQ=;
-        b=LKXKfP0roVrRBQbF6wa0gMJxO1EukCHSW3WnFP4hS2Rfb1pK8O8IOucglFAbzD8Hep
-         jFsCl8I6O3rzNfidX2/C/LGGe3njkGr8lClSz2Mjcsf3KrsJpPrJV/b7uO45r7RUZcUJ
-         /6V7m8JgLXuMv/ZJQbMDsjTCCOVhgIT4cPdhTmtTA9qDqKJUkATOxy8rpFK9fbArRd9R
-         JlvEoqUKy893VKA/NC0xBgGmV9EbjV2nmGnEK2krVw/xC/ySa9dTxi88hCGYSFig40cz
-         wJblOSSv5a+2DQCYRqw48U1BZg+yEd68EAAiZZ3/oSYB94z8BHE9uLFAkwdI3dAGQOU+
-         O/6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745483611; x=1746088411;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=l7VEVoe4uPheIEiVrtKTo6u/lqrEMNwyEPBA44TaHZQ=;
-        b=I+9dnbaXDTani9fIIeuwEc0s1aBMn5SwVd9rQR3AC61utHxHQi2Ql4IHeCSKoBfFHU
-         fZLkRn9Nwy3o82aH/n6tEe2cq4Zb8vgugHxRzs8e9uwpLfq74dNfSvOv6e7JLy0DNezB
-         bRpw827Ow/csMOkcLrYdGIT5h0/xN1r+wPM60r1klx5frZEwDPT96uEYGADAZ8ZMDptK
-         moNuqizpoW302y3INHb5VXCs9qTpue5JUfZlvymJUjDM5u9stdj6jd13c3ghuqncjO/G
-         Nm789v9tGESALLJSe5ImsvJwZTyGgShlkoSifxJNHUtsImt9PqA+4PTdoLgZncxv3H6f
-         JziA==
-X-Forwarded-Encrypted: i=1; AJvYcCVtNTzwrhWyXY4d5Ut7W4vG+jpC9ry32g07ovkQUAaMZFFXjm1KQ8uexqL8b1BEJaOGGtcVfGl/PrM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCYj0kNxpHxAAy7sgyXHxqUc25GVz7frUnQKFqgHjh1IVALt+M
-	R9UYpaPCcGsU5X9sr6zk9uZh8nWrc4UaDK617VwIZ1gP1vtJk6Vv8vDPGctK2rRp5e01x9brp20
-	kh9qjBIHYgGF9JhhBwQ==
-X-Google-Smtp-Source: AGHT+IGq6BVgM0IDW8HPijQuQX/f2OnqSI5HlIuEOLmb+TLuZj1I3Q9W3Aia7/3MIxDmrcexsVPCuLlX+IzwZqzj
-X-Received: from pjuw16.prod.google.com ([2002:a17:90a:d610:b0:2ff:6e58:8a03])
- (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:90b:584c:b0:305:5f28:2d5c with SMTP id 98e67ed59e1d1-309ed27d7b1mr3055392a91.15.1745483611167;
- Thu, 24 Apr 2025 01:33:31 -0700 (PDT)
-Date: Thu, 24 Apr 2025 01:32:58 -0700
-In-Reply-To: <aAeaJ2iqkrv_ffhT@kernel.org>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="k/CrjkOu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=LGJs90zMc1bACi2eGEiV0VbNAckeQz6pjDU5JLIBu+ZgTY7FWz0Xcz9sX3F53AyZq9uAgSwIpE+fYYXN3CMsS8nUj9CIKgcfprPoVO1jmXLyRmvZuRhBS7ilqK4sdj8nsNYz/xPak+j55Ea0D3vZhhuRrNA8NuzQCMc0hpdNsaLHR8bj/ub/pzxMiAv+F5UroL91d/cHFRyORnsg/qIA+DYdas9/e+ejB5HoM55Sc7BGSfrffA9NgWSwEplkQjgA2LwFFrkR5+5qFGJVLkqSfpWWkyKH5IZthFdgcaZSwDOVXldRMdZCSIQ0WH79HJpLf3oKMJmWcLDzKAzcfII1+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=0tSD/J5biPvWWJwRdEfa6+ZRmIYWhZ7uE7oXnoFb3No=;
+ b=UEVYpA8rThNMzqotdfDWnsfV3sMXAZ+H3aTjsa5VB2ZimgOedKi+aI+feErDrCJR1Mb5DuB3YkjWl7F0DJICYEijC08HKHHJiFmjHZ2Ow1H+Qxq472yRmHXBUeOGhyyrHWDDl5s+QQJAAJjC2FCQUXevhdPy0lKS1TT6xfOZkuzphWGdNBkVb6AFoaCcrq/JRSaUykKdyIj97x2bpnXaUhakT9StBNV1U+nJlzZ9C+NGEy0vSTZ47kF68LN8yW/X4YgnwBdvD/KZ20sg7jpzudE1VIamvZsAJaGsIwztRTxRcU97Z1u3O7267Aai1hQCjmHLM7MyWZhYPaEAAP+UYQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=igalia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=0tSD/J5biPvWWJwRdEfa6+ZRmIYWhZ7uE7oXnoFb3No=;
+ b=k/CrjkOu73xtGphmNM2f/nyjLinzWsGsQR/aSCLuJ7R8gsWUYWGqJCQTaFD/LQ82pZF5y4rhBOE5v/Ee5h2um8sxm0Epn1O4euLhS19lKWVE8kSTt1mzZ3UFC+qzdlCA8aPFOW/5QCYNoR+JsvzXAjIXKWZRaMZ887y9L8vd2UI=
+Received: from DS7PR03CA0360.namprd03.prod.outlook.com (2603:10b6:8:55::33) by
+ DM3PR12MB9288.namprd12.prod.outlook.com (2603:10b6:0:4a::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.26; Thu, 24 Apr 2025 08:39:40 +0000
+Received: from CH3PEPF00000018.namprd21.prod.outlook.com
+ (2603:10b6:8:55:cafe::91) by DS7PR03CA0360.outlook.office365.com
+ (2603:10b6:8:55::33) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.36 via Frontend Transport; Thu,
+ 24 Apr 2025 08:39:40 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CH3PEPF00000018.mail.protection.outlook.com (10.167.244.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8699.1 via Frontend Transport; Thu, 24 Apr 2025 08:39:39 +0000
+Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 24 Apr
+ 2025 03:39:29 -0500
+From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
+To:
+CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	=?UTF-8?q?Ma=C3=ADra=20Canal?= <mcanal@igalia.com>,
+	=?UTF-8?q?Thomas=20Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+	Abhinav Kumar <quic_abhinavk@quicinc.com>, Alex Deucher
+	<alexander.deucher@amd.com>, Boris Brezillon <boris.brezillon@collabora.com>,
+	Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>, "Dmitry
+ Baryshkov" <lumag@kernel.org>, Felix Kuehling <Felix.Kuehling@amd.com>,
+	"Frank Binns" <frank.binns@imgtec.com>, Jonathan Corbet <corbet@lwn.net>,
+	Liviu Dudau <liviu.dudau@arm.com>, Lizhi Hou <lizhi.hou@amd.com>, Lucas De
+ Marchi <lucas.demarchi@intel.com>, Lucas Stach <l.stach@pengutronix.de>,
+	Lyude Paul <lyude@redhat.com>, Maarten Lankhorst
+	<maarten.lankhorst@linux.intel.com>, Matt Coster <matt.coster@imgtec.com>,
+	Matthew Brost <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+	Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>, Oded Gabbay
+	<ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>, Qiang Yu
+	<yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>, Rob Herring
+	<robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>, Simona Vetter
+	<simona@ffwll.ch>, Steven Price <steven.price@arm.com>, Sumit Semwal
+	<sumit.semwal@linaro.org>, "Thomas Zimmermann" <tzimmermann@suse.de>,
+	<amd-gfx@lists.freedesktop.org>, <dri-devel@lists.freedesktop.org>,
+	<etnaviv@lists.freedesktop.org>, <freedreno@lists.freedesktop.org>,
+	<intel-xe@lists.freedesktop.org>, <lima@lists.freedesktop.org>,
+	<linaro-mm-sig@lists.linaro.org>, <linux-arm-msm@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-media@vger.kernel.org>, <nouveau@lists.freedesktop.org>
+Subject: [PATCH v9 00/10] Improve gpu_scheduler trace events + UAPI
+Date: Thu, 24 Apr 2025 10:38:12 +0200
+Message-ID: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <aAeaJ2iqkrv_ffhT@kernel.org>
-X-Mailer: git-send-email 2.49.0.805.g082f7c87e0-goog
-Message-ID: <20250424083258.2228122-1-changyuanl@google.com>
-Subject: Re: [PATCH v6 12/14] memblock: add KHO support for reserve_mem
-From: Changyuan Lyu <changyuanl@google.com>
-To: rppt@kernel.org, akpm@linux-foundation.org
-Cc: anthony.yznaga@oracle.com, arnd@arndb.de, ashish.kalra@amd.com, 
-	benh@kernel.crashing.org, bp@alien8.de, catalin.marinas@arm.com, 
-	changyuanl@google.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
-	devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com, 
-	graf@amazon.com, hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org, 
-	krzk@kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-mm@kvack.org, 
-	luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com, 
-	pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org, 
-	ptyadav@amazon.de, robh@kernel.org, rostedt@goodmis.org, saravanak@google.com, 
-	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
-	will@kernel.org, x86@kernel.org
+MIME-Version: 1.0
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
+ (10.181.40.145)
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PEPF00000018:EE_|DM3PR12MB9288:EE_
+X-MS-Office365-Filtering-Correlation-Id: 54712985-a53a-442f-999f-08dd830b8d94
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|36860700013|82310400026|1800799024|7416014|376014|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VE1QUnduWlMvMStxUzZqSWhneHVXRFlCczFJM3ZwSmhPYkNrZEZiMG9adE5D?=
+ =?utf-8?B?Mnc3dlhldFNNRk9ma3JRWlZ1Y0tMQWhzMjdzamhmV0Zld21BMVdZZHJKWjZU?=
+ =?utf-8?B?RkFoL1NJYTJLQkJ1Mm1FVitQR2E4blVsSWpkQTcySjQrQTZaZ01tVzAwKzFm?=
+ =?utf-8?B?Z1lKdjJvRm9JU0hIaVYvTENiVTFaOEhHQ3VWOFZhZWFMemlEbGRVMk4vQ3E4?=
+ =?utf-8?B?RjMrWGNXRDJkb1pNWmttWFA1RDBYUFJ0ZkE4OWI0TFZ2ZzF2L0hPa2djUWxC?=
+ =?utf-8?B?cHpEa2VHVUlpbkpiaFdvZ252aFVaeGc3cUppWHVrKytVbUMyWVQvRXV0WDFO?=
+ =?utf-8?B?Z2ZQYzk2OElkQnhINlBya2d5OE1KUUJSYnZMWGRpQkIvYmlWOFlCOENFamFM?=
+ =?utf-8?B?SmNQNnVMN0xUMG1BQkQrellhS28vTFN6VFBvTlhLMjFYR1I3aEZ6K2cxTTdW?=
+ =?utf-8?B?bFcvcFZFUmIwejVtVUVDOGdTYng5RW14YmJrcXZGL3hwbW9EL1M0M3JWVFZ5?=
+ =?utf-8?B?N3diVGErRzh3V0hJZDJoMXpMWVRTWSttZ0ZWYmVGQ3drY2RXZjRqakhoTGV0?=
+ =?utf-8?B?ZnowY1JYQW9DVGF5ZWJOTkV1b0RzeE8xRWZIUnRnam5XTnFqYjVYZG9PQ2lh?=
+ =?utf-8?B?WmpvS2phbEpyRzlaOUJvNFV4S2Y2Z3dLb2tENFFiNUdPQlJZWjZWRFprZjdi?=
+ =?utf-8?B?Q2J4OGJnQlVLUk1CY2hVTjc2eGU0cE5aREQxOXhMRXBmTXRUcTdEbTJrTm9Y?=
+ =?utf-8?B?NlF3Q2N1dDB4NTMzNWVTaE1DTzI5ZStWWXg2WnhYMmRWYnpqNmJqNmJOZWVa?=
+ =?utf-8?B?eWFIWGpHUFNYS1A4dWMvTS90SzZpNUMrL21Vb2hwVTlHVVNMV3lUMG5RZW5Y?=
+ =?utf-8?B?UjBKRG9HNkY2dFk1bXo4SEJjd0dnNytZNTYreVR4Q3VMSS9BMnNHQnlER1hk?=
+ =?utf-8?B?NEZ4dVRMKy9TWGd6VjA4N0dTOWs3eUc3OCtvUEFpY1puMmFPZUtjYmh4YlBE?=
+ =?utf-8?B?VmpiWWhVR3RQSUVncmYvTW5sVThQZEt0OEVnN1o4ZGgzenBiSXhSWGh2TGxO?=
+ =?utf-8?B?SUZzNmRWZ2YwbGhUaERIeGlmVGhDRE94MFhXRFF4dE50UUVYcEQ1TXNjL0d3?=
+ =?utf-8?B?SmNaT3VROGVVRTQxTHZaRWhiV0V5SzJKRDFxRXlqUllnN0NNb1Z3RzJJQzZu?=
+ =?utf-8?B?eVFrdjJQK3RsNkY4RXhSNjEzbWVmK1docWxzbngrTVdoNnpVaEJRMEw4Y0VZ?=
+ =?utf-8?B?UXZWUWdzUDZKS1BoU00rcFcrSWVLODlkZTd2NXVWVU51Um4wQnFaU0RpUnM0?=
+ =?utf-8?B?Q000d0NBZDF3cm9FalZYeXlWUnFFTlBBYnRRNlEvQ0dMeWZ1TzJ5a0JJS2U1?=
+ =?utf-8?B?RUU1RmFVTHQyaEVBUkNaMk1ra2hJcGdrSUdFbDJ6SSt3RC9aaUZDTFE4cUVY?=
+ =?utf-8?B?U0xGTkdhc0grYXhqeEF2TDdpT3FlZ2hqc2tKVmxOLzlFRVRVVS8xMFZ6QnFH?=
+ =?utf-8?B?NGRodE9ITy9ZT3VkdHdIVXNNN2Y0VHVtZmVBQzJmOURoV0pqSjZvaEQzK1By?=
+ =?utf-8?B?QVFmZEgyRWFGdGlON2R0STRxQ0lSNjU0bE1LMFRrS1VKSWMwZG1pK2NnZjlJ?=
+ =?utf-8?B?S0IrUnRzVHVBM2ZSNU9BU2tnb0RpRXZuQ1hKeG9pSkIza0dJYUh0M1lyRzYy?=
+ =?utf-8?B?dTlMaWtERFpNSis2QlBRQmxzdUNQNUkvOWE4Wkp3TFgzMkNITUp2SnFQbXhV?=
+ =?utf-8?B?Y3BJVy9qTU1lbzdoSi82dVhiMnB0QXhqUzUyVlJUa1I0WU80aDBld2dNaGlC?=
+ =?utf-8?B?UmNxR2pFZit4dHhPeXRSb2FVeHVKdXdTWE1kYUdmdzZWZHZWSFdzdDBUOC9k?=
+ =?utf-8?B?QVlYd08xSlBzZmpJUTZWcUErTk1XcVNaWlZyVC9nK3FoWndra1U2Q3lpdkJm?=
+ =?utf-8?B?Y2wwZzBUY1Q5U1dYa1FMckNNV1ZHbkR3dFNWOGVMcGJkU2gxa1RPRW5HcmE5?=
+ =?utf-8?B?OVJVMDNYWWt3PT0=?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(1800799024)(7416014)(376014)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Apr 2025 08:39:39.9052
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 54712985-a53a-442f-999f-08dd830b8d94
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH3PEPF00000018.namprd21.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9288
 
-On Tue, Apr 22, 2025 at 16:31:19 +0300, Mike Rapoport <rppt@kernel.org> wrote:
-> On Thu, Apr 10, 2025 at 10:37:43PM -0700, Changyuan Lyu wrote:
-> > [...]
-> > +static struct notifier_block reserve_mem_kho_nb = {
-> > +	.notifier_call = reserve_mem_kho_notifier,
-> > +};
-> > +
-> > +static void __init prepare_kho_fdt(void)
-> > +{
-> > +	int err = 0, i;
-> > +	void *fdt;
-> > +
-> > +	if (!reserved_mem_count)
-> > +		return;
->
-> It's better to have this check in reserve_mem_init() before registering kho
-> notifier.
+Hi,
 
-Sounds good!
+The initial goal of this series was to improve the drm and amdgpu
+trace events to be able to expose more of the inner workings of
+the scheduler and drivers to developers via tools.
 
-> > +
-> > +	kho_fdt = alloc_page(GFP_KERNEL);
-> > +	if (!kho_fdt) {
-> > +		kho_fdt = ERR_PTR(-ENOMEM);
->
-> Do we really care about having errno in kho_fdt? I think NULL would work
-> just fine.
+Then, the series evolved to become focused only on gpu_scheduler.
+The changes around vblank events will be part of a different
+series, as well as the amdgpu ones.
 
-I was originally using ERR_PTR(-ENOMEM) and NULL to differentiate the following
-2 cases:
+Moreover Sima suggested to make some trace events stable uAPI,
+so tools can rely on them long term.
 
-1. prepare_kho_fdt() failed,
-2. reserved_mem_count == 0, so no memblock FDT was created.
+The first patches extend and cleanup the gpu scheduler events,
+then add a documentation entry in drm-uapi.rst.
 
-Based on the suggestion above, since now we only register the notifier when
-reserved_mem_count == 0, case 2 shall never happen. So NULL is enough.
+The last 2 patches are new in v8. One is based on a suggestion
+from Tvrtko and gets rid of drm_sched_job::id. The other is a
+cleanup of amdgpu trace events to use the fence=%llu:%llu format.
 
-> > +		return;
->
-> And actually, it makes sense to me to return -ENOMEM here and let
-> reserve_mem_init() bail out before registering notifier if fdt preparation
-> failed.
->
-> That will save the checks in reserve_mem_kho_finalize() because it would be
-> called only if we have reserve_mem areas and fdt is ready.
->
+The drm_sched_job patches don't affect gpuvis which has code to parse
+the gpu_scheduler events but these events are not enabled.
 
-Sounds good!
+Changes since v8:
+* swapped patches 8 & 9
+* rebased on drm-next
 
-> > +	}
-> > +
-> > +	fdt = page_to_virt(kho_fdt);
-> > +
-> > +	err |= fdt_create(fdt, PAGE_SIZE);
-> > +	err |= fdt_finish_reservemap(fdt);
-> > +
-> > +	err |= fdt_begin_node(fdt, "");
-> > +	err |= fdt_property_string(fdt, "compatible", MEMBLOCK_KHO_NODE_COMPATIBLE);
-> > +	for (i = 0; i < reserved_mem_count; i++) {
-> > +		struct reserve_mem_table *map = &reserved_mem_table[i];
-> > +
-> > +		err |= fdt_begin_node(fdt, map->name);
-> > +		err |= fdt_property_string(fdt, "compatible", RESERVE_MEM_KHO_NODE_COMPATIBLE);
-> > +		err |= fdt_property(fdt, "start", &map->start, sizeof(map->start));
-> > +		err |= fdt_property(fdt, "size", &map->size, sizeof(map->size));
-> > +		err |= fdt_end_node(fdt);
-> > +	}
-> > +	err |= fdt_end_node(fdt);
-> > +
-> > +	err |= fdt_finish(fdt);
-> > +
-> > +	if (err) {
-> > +		pr_err("failed to prepare memblock FDT for KHO: %d\n", err);
-> > +		put_page(kho_fdt);
-> > +		kho_fdt = ERR_PTR(-EINVAL);
-> > +	}
-> > +}
-> > +
-> > +static int __init reserve_mem_init(void)
-> > +{
-> > +	if (!kho_is_enabled())
-> > +		return 0;
-> > +
-> > +	prepare_kho_fdt();
-> > +
-> > +	return register_kho_notifier(&reserve_mem_kho_nb);
-> > +}
-> > +late_initcall(reserve_mem_init);
-> > +
-> > +static void *kho_fdt_in __initdata;
-> > +
-> > +static void *__init reserve_mem_kho_retrieve_fdt(void)
-> > +{
-> > +	phys_addr_t fdt_phys;
-> > +	struct folio *fdt_folio;
-> > +	void *fdt;
-> > +	int err;
-> > +
-> > +	err = kho_retrieve_subtree(MEMBLOCK_KHO_FDT, &fdt_phys);
-> > +	if (err) {
-> > +		if (err != -ENOENT)
-> > +			pr_warn("failed to retrieve FDT '%s' from KHO: %d\n",
-> > +				MEMBLOCK_KHO_FDT, err);
-> > +		return ERR_PTR(err);
->
-> Wouldn't just 'return NULL' work here?
+Changes since v7:
+* uint64_t -> u64
+* reworked dependencies tracing (Tvrtko)
+* use common name prefix for all events (Tvrtko)
+* dropped drm_sched_job::id (Tvrtko)
 
-If we have multiple `reserve_mem` in the kernel command line,
-reserve_mem_kho_revive() will also be called multiple times. However
-reserve_mem_kho_retrieve_fdt() should only be called once.
+Useful links:
+- userspace tool using the updated events:
+https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+- v8:
+https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
 
-Here I am returning the ERR_PTR(err) such that if the first
-reserve_mem_kho_retrieve_fdt() failed, subsequent reserve_mem_kho_revive()
-can tell that reserve_mem_kho_retrieve_fdt() has failed so no need to try it
-again. If we return NULL here, subsequent reserve_mem_kho_revive() would find
-kho_fdt_in == NULL, and it could not tell whether it was due to previously
-failed reserve_mem_kho_retrieve_fdt(), or it is the first
-reserve_mem_kho_revive().
+Pierre-Eric Pelloux-Prayer (10):
+  drm/debugfs: output client_id in in drm_clients_info
+  drm/sched: store the drm client_id in drm_sched_fence
+  drm/sched: add device name to the drm_sched_process_job event
+  drm/sched: cleanup gpu_scheduler trace events
+  drm/sched: trace dependencies for gpu jobs
+  drm/sched: add the drm_client_id to the drm_sched_run/exec_job events
+  drm/sched: cleanup event names
+  drm: get rid of drm_sched_job::id
+  drm/doc: document some tracepoints as uAPI
+  drm/amdgpu: update trace format to match gpu_scheduler_trace
 
-> > +	}
-> > +
-> > +	fdt_folio = kho_restore_folio(fdt_phys);
-> > +	if (!fdt_folio) {
-> > +		pr_warn("failed to restore memblock KHO FDT (0x%llx)\n", fdt_phys);
-> > +		return ERR_PTR(-EFAULT);
-> > +	}
-> > +
-> > +	fdt = page_to_virt(folio_page(fdt_folio, 0));
->
-> 	fdt = folio_address(folio);
+ Documentation/gpu/drm-uapi.rst                |  19 ++++
+ drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 +++---
+ drivers/gpu/drm/drm_debugfs.c                 |  10 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
+ drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
+ drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
+ drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
+ drivers/gpu/drm/lima/lima_gem.c               |   2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.h             |   3 +-
+ drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+ drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+ drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
+ drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
+ drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
+ drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
+ drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
+ .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 100 +++++++++++++-----
+ drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
+ drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
+ drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
+ drivers/gpu/drm/scheduler/sched_main.c        |  11 +-
+ .../gpu/drm/scheduler/tests/mock_scheduler.c  |   2 +-
+ drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
+ drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
+ include/drm/gpu_scheduler.h                   |  13 ++-
+ 31 files changed, 184 insertions(+), 97 deletions(-)
 
-Fixed.
+-- 
+2.43.0
 
-> > +
-> > +	err = fdt_node_check_compatible(fdt, 0, MEMBLOCK_KHO_NODE_COMPATIBLE);
-> > +	if (err) {
-> > +		pr_warn("FDT '%s' is incompatible with '%s': %d\n",
-> > +			MEMBLOCK_KHO_FDT, MEMBLOCK_KHO_NODE_COMPATIBLE, err);
-> > +		return ERR_PTR(-EINVAL);
-> > +	}
-> > +
-> > +	return fdt;
-> > +}
-> > +
-> > +static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
-> > +					  phys_addr_t align)
-> > +{
-> > +	int err, len_start, len_size, offset;
-> > +	const phys_addr_t *p_start, *p_size;
-> > +	const void *fdt;
-> > +
-> > +	if (!kho_fdt_in)
-> > +		kho_fdt_in = reserve_mem_kho_retrieve_fdt();
->
-> I'd invert this and move to reserve_mem_kho_retrieve_fdt(), so there it
-> would be
->
-> 	if (kho_fdt_in)
-> 		return kho_fdt_in;
->
-> 	/* actually retrieve the fdt */
-> 	kho_fdt_in = fdt;
->
-> 	return fdt;
->
-> and here
->
-> 	fdt = reserve_mem_kho_retrieve_fdt();
-> 	if (!fdt)
-> 		return false;
-
-Ah Ok, this is more elegant!
-
-> > +
-> > +	if (IS_ERR(kho_fdt_in))
-> > +		return false;
-> > +
-> > +	fdt = kho_fdt_in;
-> > +
-> >[...]
-> > --
-> > 2.49.0.604.gff1f9ca942-goog
-> >
->
-> --
-> Sincerely yours,
-> Mike.
-
-Best,
-Changyuan
-
----- 8< ----
-From 7ad4379062aa9709d3702bfc53d237d0c1a4e326 Mon Sep 17 00:00:00 2001
-From: Changyuan Lyu <changyuanl@google.com>
-Date: Thu, 24 Apr 2025 01:10:24 -0700
-Subject: [PATCH] fixup! memblock: add KHO support for reserve_mem
-
-This patch includes the suggested changes from
-https://lore.kernel.org/lkml/aAeaJ2iqkrv_ffhT@kernel.org/ and can be
-squashed with "memblock: add KHO support for reserve_mem".
-
-Fixes: 2e257a656639 ("memblock: add KHO support for reserve_mem")
-Suggested-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
-Signed-off-by: Changyuan Lyu <changyuanl@google.com>
----
- mm/memblock.c | 69 +++++++++++++++++++++++++--------------------------
- 1 file changed, 34 insertions(+), 35 deletions(-)
-
-diff --git a/mm/memblock.c b/mm/memblock.c
-index 3571a859f2fe1..d38a72f07ea0c 100644
---- a/mm/memblock.c
-+++ b/mm/memblock.c
-@@ -2490,15 +2490,6 @@ static int reserve_mem_kho_finalize(struct kho_serialization *ser)
- {
- 	int err = 0, i;
-
--	if (!reserved_mem_count)
--		return NOTIFY_DONE;
--
--	if (IS_ERR(kho_fdt)) {
--		err = PTR_ERR(kho_fdt);
--		pr_err("memblock FDT was not prepared successfully: %d\n", err);
--		return notifier_from_errno(err);
--	}
--
- 	for (i = 0; i < reserved_mem_count; i++) {
- 		struct reserve_mem_table *map = &reserved_mem_table[i];
-
-@@ -2528,19 +2519,14 @@ static struct notifier_block reserve_mem_kho_nb = {
- 	.notifier_call = reserve_mem_kho_notifier,
- };
-
--static void __init prepare_kho_fdt(void)
-+static int __init prepare_kho_fdt(void)
- {
- 	int err = 0, i;
- 	void *fdt;
-
--	if (!reserved_mem_count)
--		return;
--
- 	kho_fdt = alloc_page(GFP_KERNEL);
--	if (!kho_fdt) {
--		kho_fdt = ERR_PTR(-ENOMEM);
--		return;
--	}
-+	if (!kho_fdt)
-+		return -ENOMEM;
-
- 	fdt = page_to_virt(kho_fdt);
-
-@@ -2565,18 +2551,30 @@ static void __init prepare_kho_fdt(void)
- 	if (err) {
- 		pr_err("failed to prepare memblock FDT for KHO: %d\n", err);
- 		put_page(kho_fdt);
--		kho_fdt = ERR_PTR(-EINVAL);
-+		kho_fdt = NULL;
- 	}
-+
-+	return err;
- }
-
- static int __init reserve_mem_init(void)
- {
--	if (!kho_is_enabled())
-+	int err;
-+
-+	if (!kho_is_enabled() || !reserved_mem_count)
- 		return 0;
-
--	prepare_kho_fdt();
-+	err = prepare_kho_fdt();
-+	if (err)
-+		return err;
-+
-+	err = register_kho_notifier(&reserve_mem_kho_nb);
-+	if (err) {
-+		put_page(kho_fdt);
-+		kho_fdt = NULL;
-+	}
-
--	return register_kho_notifier(&reserve_mem_kho_nb);
-+	return err;
- }
- late_initcall(reserve_mem_init);
-
-@@ -2586,33 +2584,38 @@ static void *__init reserve_mem_kho_retrieve_fdt(void)
- {
- 	phys_addr_t fdt_phys;
- 	struct folio *fdt_folio;
--	void *fdt;
- 	int err;
-
-+	if (kho_fdt_in)
-+		return kho_fdt_in;
-+
- 	err = kho_retrieve_subtree(MEMBLOCK_KHO_FDT, &fdt_phys);
- 	if (err) {
- 		if (err != -ENOENT)
- 			pr_warn("failed to retrieve FDT '%s' from KHO: %d\n",
- 				MEMBLOCK_KHO_FDT, err);
--		return ERR_PTR(err);
-+		goto out;
- 	}
-
- 	fdt_folio = kho_restore_folio(fdt_phys);
- 	if (!fdt_folio) {
- 		pr_warn("failed to restore memblock KHO FDT (0x%llx)\n", fdt_phys);
--		return ERR_PTR(-EFAULT);
-+		err = -EFAULT;
-+		goto out;
- 	}
-
--	fdt = page_to_virt(folio_page(fdt_folio, 0));
-+	kho_fdt_in = folio_address(fdt_folio);
-
--	err = fdt_node_check_compatible(fdt, 0, MEMBLOCK_KHO_NODE_COMPATIBLE);
-+	err = fdt_node_check_compatible(kho_fdt_in, 0, MEMBLOCK_KHO_NODE_COMPATIBLE);
- 	if (err) {
- 		pr_warn("FDT '%s' is incompatible with '%s': %d\n",
- 			MEMBLOCK_KHO_FDT, MEMBLOCK_KHO_NODE_COMPATIBLE, err);
--		return ERR_PTR(-EINVAL);
-+		err = -EFAULT;
- 	}
--
--	return fdt;
-+out:
-+	if (err)
-+		kho_fdt_in = ERR_PTR(err);
-+	return kho_fdt_in;
- }
-
- static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
-@@ -2622,14 +2625,10 @@ static bool __init reserve_mem_kho_revive(const char *name, phys_addr_t size,
- 	const phys_addr_t *p_start, *p_size;
- 	const void *fdt;
-
--	if (!kho_fdt_in)
--		kho_fdt_in = reserve_mem_kho_retrieve_fdt();
--
--	if (IS_ERR(kho_fdt_in))
-+	fdt = reserve_mem_kho_retrieve_fdt();
-+	if (IS_ERR(fdt))
- 		return false;
-
--	fdt = kho_fdt_in;
--
- 	offset = fdt_subnode_offset(fdt, 0, name);
- 	if (offset < 0) {
- 		pr_warn("FDT '%s' has no child '%s': %d\n",
---
-2.49.0.805.g082f7c87e0-goog
