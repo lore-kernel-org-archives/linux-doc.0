@@ -1,198 +1,169 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C1B1A2622
-	for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 16:39:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 524D81DE3C1;
+	Fri, 25 Apr 2025 17:08:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745599164; cv=none; b=ZmwEprWTkA88nihPlX7+lmlipnjS3sDoJw0jRaTgPetqhWJNwYri2pkjxpCWaTwWVDulq06DpMjdaPQLJ/UgEl5eWEFxdh/J6bGBLwGA0n1AyLcEutY8ZDaKXBWON09U803jxgiIgHvd3buCpUXrhitxDG0TnofG/T2hpmNX2cw=
+	t=1745600922; cv=none; b=titfBjr5G+Zr+yL8qxRP8eKORtBCdFytNy7gfkqs/1r13dcpLHN3WEKMsCO9VGKWJNP3gtmIZFfxWAWWVxZkDY2DD5tkGscqpC/03huKogwrpqj5mYVOOfsSBttd12c3QtWnPMxlX2LuQlLELEdMemcamc+4DGzWTCw6QMDZWPM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745599164; c=relaxed/simple;
-	bh=qkCd8/HmV6AfmTU+1hru+x2meizjAEoGcJvos3klyC8=;
+	s=arc-20240116; t=1745600922; c=relaxed/simple;
+	bh=3e9BUcOp9lJZgyjIMsLsCjD8rTiGOJhcb5CW+ZazBKI=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J6LA6XQ4mPTpBVpscGWwNU3XGRyCBqKd+l4M2fqaEjy5Iq0i6CAE8Mf98iLNt693kwhGT+90xJKiZqvlDkB7qF5CIqYxSUvlJZBn0VhXBLklQD6HuRgeDipcw0aV931DCSLuc7LasSYn3L2aHNs+6Qi0Ns2ECWT8klxJKn+BN3k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=h5bB/9FH; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=hQKLlvduiLQII6Dy10N23/oxWEn7RI9DE+yp6UAnPCpibNFHfrdfZxksxJDZcYNU3aQM684N6rNRpFQGulGO5AIfomhQuW09K1lYewPU+XsXU99r5faHjA/cR2xuIU51eE6sBzwdBec6JUXnF2Wi/t3UoFAi+9LECgUbf1RKVoY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SmpoDMRN; arc=none smtp.client-ip=192.198.163.16
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="h5bB/9FH"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22c336fcdaaso30667455ad.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 09:39:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745599162; x=1746203962; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=uObhd6griCLVRMAdAUyHQB5JJqltVnuTe7FYQAThLL4=;
-        b=h5bB/9FH3uuFQB9MGVTFRuKmBfYMZdnWjj+zXWRTiOZToLNMdi+oX2MEW6t/ZPmpHl
-         GK73pGy/PVb8Si66FZz5Eggh9C//4G65TVGNbv3fntfkXlfc0s129oVt105q+Cu/CRpb
-         tFgk+8ge7Nb+LoWbSpKZ6lYgW4UZ7SkwTY4Fo0YkFowVFL4l2sYOvu+0dznaZqAwJx8R
-         bjcvRsADqsfd5g4IFp8kTTsUuYraRKKQxPOecO4EVAgr0w6lVTaVfvr1qPD6oA6FmfDY
-         gNmgDyjMTHFINntIJeebAXPqCkWqkdPr9JyZPeXeLQZ5pF5swa7F5BKEbsqj94LmDd0g
-         NngA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745599162; x=1746203962;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=uObhd6griCLVRMAdAUyHQB5JJqltVnuTe7FYQAThLL4=;
-        b=LIqAuouObu0R5nf3C6q7jF26tjIuxzXO4wKMqRjsl+T30ARJbMZc/kyy0C4HO4VKuH
-         /e+B1P7jgsNHXCK8IyUXQuWfz3RRSqPB9mccbUFdYpi2Hpjo1f/VZ7U1bpCj+/W7LX8F
-         UeG5uUXytFi6XwVcmyZaiFrdXteA1GhkAFywIObZtlZsdb/9CQs+jVwBOhl3r0JKBTV0
-         QiLNjkYiWYfzzDi376TYjyAI3bqDJKIW+mFId+R1CK11f/VJtamAyB7Kf3YqESWGZf55
-         zbd4QLXDhfdyzKwo2smHM/uRbRjuOZf19XuXedYSDucMhm7cX94TPapHEy04lnesprjj
-         d+vg==
-X-Forwarded-Encrypted: i=1; AJvYcCWMfrr5PMA31bkF2avGPmJtrNksC4zm/l11qYrkRdDf0DzMSYlBbmd4PaERZqvOx+SCGGHvLItcP6Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7fTv0oDx8rcLWR8/Sx46DQmwS6px+WnQeUs598vLEFvgfCFcp
-	Mv5FgbkmhglcBLmRdaYsjY4K1uigEqGsE/SsV0mm8z6NC9wY9DzTpP6cZNsLHMo=
-X-Gm-Gg: ASbGncslamsNBBFOWzQhC8HfLb11CwfumleR3U0m5a+sonf//0nb2grHuquGRhTlGN0
-	blAoUCh6H1kE7dg5Y6UZfQmtrGAZkTvHEqgLG8Wh+aREZknCugIXsz0DZNK0AZVZByJKjXl+KDQ
-	bwQ8STvWPvHXTiFDbMqLiZ9CQhx4NE8Bp8+Ewz6pZzI2+0LYHBNkJgtKR7RTJD7fITMi1mzqE9Q
-	DZgIOuxxdx4eUctZK0PRiYI24P3ExuCXP4e/pV5vAu4MPD2vEfugDBnZt5AKWO6BY611sDkQPU3
-	JqF8ElfvIbRJh/xkCnu1d6P/s2uhQVOXNiIi4xb8rfsHCaTvvaQ=
-X-Google-Smtp-Source: AGHT+IFNazEr6ZYOzQGCXjgc58dYoHgOgILSppSPlOaxKyAejkPiwQZrkFFar4hARLXGCzwX+g5Izw==
-X-Received: by 2002:a17:903:40c9:b0:215:b9a6:5cb9 with SMTP id d9443c01a7336-22dbf4db64dmr47389315ad.5.1745599161894;
-        Fri, 25 Apr 2025 09:39:21 -0700 (PDT)
-Received: from debug.ba.rivosinc.com ([64.71.180.162])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db51028basm34556395ad.196.2025.04.25.09.39.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 09:39:21 -0700 (PDT)
-Date: Fri, 25 Apr 2025 09:39:18 -0700
-From: Deepak Gupta <debug@rivosinc.com>
-To: Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
-Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
-	Vlastimil Babka <vbabka@suse.cz>,
-	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
-	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
-	Rob Herring <robh@kernel.org>,
-	Krzysztof Kozlowski <krzk+dt@kernel.org>,
-	Arnd Bergmann <arnd@arndb.de>,
-	Christian Brauner <brauner@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Oleg Nesterov <oleg@redhat.com>,
-	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
-	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
-	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
-	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
-	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	alistair.francis@wdc.com, richard.henderson@linaro.org,
-	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
-	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
-	cleger@rivosinc.com, alexghiti@rivosinc.com,
-	samitolvanen@google.com, broonie@kernel.org,
-	rick.p.edgecombe@intel.com,
-	linux-riscv <linux-riscv-bounces@lists.infradead.org>
-Subject: Re: [PATCH v12 12/28] riscv: Implements arch agnostic shadow stack
- prctls
-Message-ID: <aAu6toR4VkcPMTlH@debug.ba.rivosinc.com>
-References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
- <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
- <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
- <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
- <D9EWR3RQK0FD.3GF55KNS53YSR@ventanamicro.com>
- <aAp_87-Xr6gn_hD7@debug.ba.rivosinc.com>
- <D9FOY8JACYTH.1FU7ZTEHFC5NI@ventanamicro.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SmpoDMRN"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745600920; x=1777136920;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=3e9BUcOp9lJZgyjIMsLsCjD8rTiGOJhcb5CW+ZazBKI=;
+  b=SmpoDMRNTAZ0smB0wve/bMA+J32vWXi2VU3iPTGCA1CA8cfZeqCpkRuj
+   Z0I5YpYPLf1DspStxS1QGinar0QIUISk49u9gtKph6eu8qkO7xn7pKfUk
+   5lW2JZ+9dXtI44gvdnfWiQ4Y7FpQApwA5a09hZmKi+6iB/wgjhwEjCtjj
+   ANQLCQvxLegt5+HKQsK68jDavKYXM4Enzh6lhVd2romuAL57lfBlXfp5i
+   Xdu6VdF2kx0/URNWlrLwhWJmAkqhdWRsNKv+DcCWYc+GAdDIqjIghdELS
+   4dRFh4sxRpQBGjmtlcP7/oh9HrGNoAA7y2BxVPgi9WA5U6jjytKXO93Q1
+   w==;
+X-CSE-ConnectionGUID: zO9Q3MJJTVy38XOzXDi3ZA==
+X-CSE-MsgGUID: 920aLyJMSEOg5rRQl0M/9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="34885685"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="34885685"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 10:08:40 -0700
+X-CSE-ConnectionGUID: LM4NqfKZTCSgdYhaGUkRAQ==
+X-CSE-MsgGUID: Vh0Xj+TdQeq6Sn+JCr3WQg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="133481210"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Apr 2025 10:08:38 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8MXS-0005NZ-27;
+	Fri, 25 Apr 2025 17:08:34 +0000
+Date: Sat, 26 Apr 2025 01:07:50 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chiang Brian <chiang.brian@inventec.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Message-ID: <202504260045.9nia3Zzl-lkp@intel.com>
+References: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <D9FOY8JACYTH.1FU7ZTEHFC5NI@ventanamicro.com>
+In-Reply-To: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 
-On Fri, Apr 25, 2025 at 01:42:44PM +0200, Radim Krčmář wrote:
->2025-04-24T11:16:19-07:00, Deepak Gupta <debug@rivosinc.com>:
->> On Thu, Apr 24, 2025 at 03:36:54PM +0200, Radim Krčmář wrote:
->>>2025-04-23T21:44:09-07:00, Deepak Gupta <debug@rivosinc.com>:
->>>> On Thu, Apr 10, 2025 at 11:45:58AM +0200, Radim Krčmář wrote:
->>>>>2025-03-14T14:39:31-07:00, Deepak Gupta <debug@rivosinc.com>:
->>>>>> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/usercfi.h
->>>>>> @@ -14,7 +15,8 @@ struct kernel_clone_args;
->>>>>>  struct cfi_status {
->>>>>>  	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
->>>>>> -	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 1);
->>>>>> +	unsigned long ubcfi_locked : 1;
->>>>>> +	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
->>>>>
->>>>>The rsvd field shouldn't be necessary as the container for the bitfield
->>>>>is 'unsigned long' sized.
->>>>>
->>>>>Why don't we use bools here, though?
->>>>>It might produce a better binary and we're not hurting for struct size.
->>>>
->>>> If you remember one of the previous patch discussion, this goes into
->>>> `thread_info` Don't want to bloat it. Even if we end shoving into task_struct,
->>>> don't want to bloat that either. I can just convert it into bitmask if
->>>> bitfields are an eyesore here.
->>>
->>>  "unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);"
->>>
->>>is an eyesore that defines exactly the same as the two lines alone
->>>
->>>  unsigned long ubcfi_en : 1;
->>>  unsigned long ubcfi_locked : 1;
->>>
->>>That one should be removed.
->>>
->>>If we have only 4 bits in 4/8 bytes, then bitfields do generate worse
->>>code than 4 bools and a 0/4 byte hole.  The struct size stays the same.
->>>
->>>I don't care much about the switch to bools, though, because this code
->>>is not called often.
->>
->> I'll remove the bitfields, have single `unsigned long cfi_control_state`
->> And do `#define RISCV_UBCFI_EN 1` and so on.
->
->I might have seemed too much against the bitfieds, sorry.  I am against
->the rsvd fields, because it is a pointless cognitive overhead and even
->this series already had a bug in them.
+Hi Chiang,
 
-Aah got it.
+kernel test robot noticed the following build errors:
 
->
->#defines should generate the same code as bitfields (worse than bools),
->so the source code is really a matter of personal preference.
->(I do prefer bitfields.)
->
->>>>>> @@ -262,3 +292,83 @@ void shstk_release(struct task_struct *tsk)
->>>>>> +int arch_lock_shadow_stack_status(struct task_struct *task,
->>>>>> +				  unsigned long arg)
->>>>>> +{
->>>>>> +	/* If shtstk not supported or not enabled on task, nothing to lock here */
->>>>>> +	if (!cpu_supports_shadow_stack() ||
->>>>>> +	    !is_shstk_enabled(task) || arg != 0)
->>>>>> +		return -EINVAL;
->>>>>
->>>>>The task might want to prevent shadow stack from being enabled?
->>>>
->>>> But Why would it want to do that? Task can simply not issue the prctl. There
->>>> are glibc tunables as well using which it can be disabled.
->>>
->>>The task might do it as some last resort to prevent a buggy code from
->>>enabling shadow stacks that would just crash.  Or whatever complicated
->>>reason userspace can think of.
->>>
->>>It's more the other way around.  I wonder why we're removing this option
->>>when we don't really care what userspace does to itself.
->>>I think it's complicating the kernel without an obvious gain.
->>
->> It just feels wierd. There isn't anything like this for other features lit-up
->> via envcfg. Does hwprobe allow this on per-task basis? I'll look into it.
->
->I think PMM doesn't allow to lock and the rest don't seem configurable
->from userspace.
->
->It's not that important and we hopefully won't be breaking any userspace
->if we decided to allow it later, so I'm fine with this version.
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on robh/for-next linus/master v6.15-rc3 next-20250424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/dt-bindings-trivial-Add-tps53685-support/20250424-222559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250424132538.2004510-2-chiang.brian%40inventec.corp-partner.google.com
+patch subject: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+config: powerpc64-randconfig-001-20250425 (https://download.01.org/0day-ci/archive/20250426/202504260045.9nia3Zzl-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504260045.9nia3Zzl-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504260045.9nia3Zzl-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> drivers/hwmon/pmbus/tps53679.c:133:50: error: incompatible integer to pointer conversion passing 'int' to parameter of type 'char *' [-Wint-conversion]
+     133 |         ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+         |                                                         ^~~~~~~~~
+   drivers/hwmon/pmbus/tps53679.c:90:26: note: passing argument to parameter 'id' here
+      90 |                                   u8 revision, char *id)
+         |                                                      ^
+>> drivers/hwmon/pmbus/tps53679.c:165:10: error: incompatible pointer to integer conversion passing 'char[2]' to parameter of type 'int' [-Wint-conversion]
+     165 |                                             TPS53681_DEVICE_ID);
+         |                                             ^~~~~~~~~~~~~~~~~~
+   drivers/hwmon/pmbus/tps53679.c:34:32: note: expanded from macro 'TPS53681_DEVICE_ID'
+      34 | #define TPS53681_DEVICE_ID     "\x81"
+         |                                ^~~~~~
+   drivers/hwmon/pmbus/tps53679.c:129:25: note: passing argument to parameter 'device_id' here
+     129 |                                         int pmbus_rev, int device_id)
+         |                                                            ^
+   2 errors generated.
+
+
+vim +133 drivers/hwmon/pmbus/tps53679.c
+
+53030bcc87e4a4 Guenter Roeck 2020-01-20  120  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  121  /*
+53030bcc87e4a4 Guenter Roeck 2020-01-20  122   * Common identification function for chips with multi-phase support.
+53030bcc87e4a4 Guenter Roeck 2020-01-20  123   * Since those chips have special configuration registers, we want to have
+53030bcc87e4a4 Guenter Roeck 2020-01-20  124   * some level of reassurance that we are really talking with the chip
+53030bcc87e4a4 Guenter Roeck 2020-01-20  125   * being probed. Check PMBus revision and chip ID.
+53030bcc87e4a4 Guenter Roeck 2020-01-20  126   */
+53030bcc87e4a4 Guenter Roeck 2020-01-20  127  static int tps53679_identify_multiphase(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  128  					struct pmbus_driver_info *info,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  129  					int pmbus_rev, int device_id)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  130  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  131  	int ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  132  
+53030bcc87e4a4 Guenter Roeck 2020-01-20 @133  	ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  134  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  135  		return ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  136  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  137  	ret = tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  138  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  139  		return ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  140  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  141  	return tps53679_identify_phases(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  142  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  143  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  144  static int tps53679_identify(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  145  			     struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  146  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  147  	return tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  148  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  149  
+a49c0dafb304b8 Chiang Brian  2025-04-24  150  static int tps53685_identify(struct i2c_client *client,
+a49c0dafb304b8 Chiang Brian  2025-04-24  151  				 struct pmbus_driver_info *info)
+a49c0dafb304b8 Chiang Brian  2025-04-24  152  {
+a49c0dafb304b8 Chiang Brian  2025-04-24  153  	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
+a49c0dafb304b8 Chiang Brian  2025-04-24  154  			 PMBUS_HAVE_STATUS_INPUT;
+a49c0dafb304b8 Chiang Brian  2025-04-24  155  	info->format[PSC_VOLTAGE_OUT] = linear;
+a49c0dafb304b8 Chiang Brian  2025-04-24  156  	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
+a49c0dafb304b8 Chiang Brian  2025-04-24  157  					   TPS53685_DEVICE_ID);
+a49c0dafb304b8 Chiang Brian  2025-04-24  158  }
+a49c0dafb304b8 Chiang Brian  2025-04-24  159  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  160  static int tps53681_identify(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  161  			     struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  162  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  163  	return tps53679_identify_multiphase(client, info,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  164  					    TPS53681_PMBUS_REVISION,
+53030bcc87e4a4 Guenter Roeck 2020-01-20 @165  					    TPS53681_DEVICE_ID);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  166  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  167  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
