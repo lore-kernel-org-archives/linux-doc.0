@@ -1,190 +1,203 @@
-Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2046.outbound.protection.outlook.com [40.107.92.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC1123236D;
-	Fri, 25 Apr 2025 10:13:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745575983; cv=none; b=htFQHbQ5aThto2HlMLaTDVnyFC096Unl3TjS7GvnfC3IUcEHjNy4diPKRmQ/LGZuh3d9m4ej36ODWAw0wjded8RawJCpXAERod3xFsyOnPMd/A/oc0pVLFGT+kAFSHIFqqn3LrPfpZZJhXWiO/F0A/xnUBTae17+VaYVnDICcQc=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745575983; c=relaxed/simple;
-	bh=Oho9zISwXumIwyreGzhuOMH64zT4cJky5KKcy9RQz80=;
-	h=Content-Type:From:Mime-Version:Subject:Message-Id:Date:Cc:To; b=ohE+OVj6kqQMULrnm3e2d/aGbkd3t1kOtfYlVoKGUZhQKcCVh6olcCz+lozfAu0L9OdmIN0q7JNAFGbrkvF9DfSpkK0i/WH5yrbUmf6cukI7RTirY751bB60gNbhCpGwiSb2OFipBwnx5+cIqxAqBuWT82B4pDm/wDhj6wDLEj8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nXpIaVTc; arc=none smtp.client-ip=209.85.221.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1D8FE218821;
+	Fri, 25 Apr 2025 10:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.46
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745576180; cv=fail; b=d3F2WKoqThENKA2bveEPMssaXGkpbCXdxjIvA2qUVOPmOqLL4PD33KI0aPeqLrCfB4bXxt6YQusSOGbYcV3F9lM6pmEcclSMd/f+8IqpMj8zp7LPsH+qunz2szQJqGUWsnWkwdUkuCquRdx46vKKxOzI+AP3wKytAyN2IwfPc18=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745576180; c=relaxed/simple;
+	bh=Ivf42Rn59R+1wgWkGXff9JpCuyDyBQGkOEVk6NUv+q8=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=oe6vktxzGF99Fzk5CHcivelRkQjn5pa1AbzKG6JQ9ydKRpi8geZFuYCOwXptIscq3nrzQ8pVyrIpNn8PFxPv9nmOPb2Hau3fwolNRYfvdSUFeh3UQ8YEQQhT5VIQJsBb8pLEnnBgE/u0IQifPjFgks677FDaqsEEBjAl265fg50=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=zaMdFz7s; arc=fail smtp.client-ip=40.107.92.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nXpIaVTc"
-Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-5259327a937so843339e0c.0;
-        Fri, 25 Apr 2025 03:13:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745575980; x=1746180780; darn=vger.kernel.org;
-        h=to:cc:date:message-id:subject:mime-version:from
-         :content-transfer-encoding:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=NxUaPsRL3DayWO3frv2ULqEXQAoXMSOznD4LncXDA04=;
-        b=nXpIaVTcHQg+xejDXFraR+p5ixEdobw/MxyybnrFVAOKhqCHqrRuqUlU4ed329FoMK
-         +hRAuPOBToW2almIVxJYryAtY/lG4+QiiMJ5WnI102+7hxYtrXM2p2FSErZGKn31jXTN
-         Vmti4obgp8qCZ+15/5SNnAreP69I0yTKxZ8lOyiXNjKhDdXS50YbhtDuFMEGWmu3HSJ3
-         EG+Vs0QvQPF32tCaLucp/hyIV7W8tWtTme0tmAO+DHkTGm9yn1s20+srvrUtA6rr9z4F
-         wwJ+QWRZ6Kfl8K68WpP6aSU3Khr4v6+mudBi7MGlcD8C1PqslS3qT7koQuXIdUhYrNAU
-         Zh/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745575980; x=1746180780;
-        h=to:cc:date:message-id:subject:mime-version:from
-         :content-transfer-encoding:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=NxUaPsRL3DayWO3frv2ULqEXQAoXMSOznD4LncXDA04=;
-        b=lL7oCEWy+i98pG7Ix5NEV4+iDdtST2N+LoEtJULkBeHTcFC77frcIARUvq4JHG8Fhj
-         0rIolRJu6HR6f5fPhiQvW4FZmyo9PF+AIfb2Eihfvzz+yZuCW9w8iYA+59WrOhCF+95H
-         5OMPIwoBa2Sm5rMsgTVqzPNundda1lhx/aRciuNwuh4yGmPCaVjkLx7mYgkGtX2he22X
-         Pw3ixqUs9tz0xyCPFEWrk2pQObkJMUp6czlGeywIu3uAOp/K2bfRs83JcrL2L0buoiZ9
-         4WVAi+xdR3+z8Vh0wbEfbYAWpP5wAtBRlul8GEm20wUvFrzBanv3qAYG0N+4dE9qqUfy
-         QnDA==
-X-Forwarded-Encrypted: i=1; AJvYcCUhnWlBpAlZ5OslfyDRapDpsrijc7/sr+zWwXRf/q20o6tUbFss0LQcMP4BFPbWz25wAc9WdTsphERX@vger.kernel.org, AJvYcCVAwbChTAYJBRcx3EMCbwuYqzDM4U4wPsLS3UItX5mEF44qfp5IoYXfwUwIRoY29hVxwaCToTarjkLcCcfPD106@vger.kernel.org, AJvYcCWXCpgy2qwOo2kvg3NiO0Mi6OdprPxfSNlh/W0qAMceJc7koYZEl+2OY3FjdYgNOLG256hslQBhk7EWnxkS@vger.kernel.org, AJvYcCWtbipKP92Gt5ZGIT2MRy4yh6BAD9OjaclANgm4PQW0j1pChioNp0fJ3lM1MAeSBUyQUcaIoZxHd5iv@vger.kernel.org, AJvYcCX9DNjKz3WKt7iQZaGb4sZRLjocSqj0J9c2dWXMvI01tIf+9NXnteWL635j3Pggz83x+/ZzpU/fs7RaaV4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzIIxXgNV5NFsvERszZyDQ+9+g1oSed4p8CUckitMnrZPNoYZpA
-	Fey9SJ+X/TosK97t3eA0eqjVu3yrenjjwwrN/yZUrNKmzo6BQUd9a4XNczKo
-X-Gm-Gg: ASbGnctpd7dfrrvFLo+WoKxiQb/uoIW9A0SYBm2XWmXgylNgYYiF2LAbIRtmWKM3BNi
-	nKzWLUWH0oHDQRn8DexbYZmHwH90Y6SDzMeM2RmaC7IBWZsVTtGhp8BKGlf/v33sAbiT3tkfEv+
-	OEkhfPLSUqCiJyEAJiBL0h69Xm2Aw7DZps2vwi8rAhDJIQsXjZPXZVgnPGufxCrUpCPCdChWuun
-	Ld9E1UdS6WZgWaX+CxCSAjSNsGfHUN/N0+CtRHvsnlBFk7qAukCkp2o908A7WmuksjCC6WHtthD
-	qIuL3a+tqDFOk+7/3YILk0aObT/iBmnOs0EF/wSIn3KEkZgUCArQf5rvV0RPsZpY5yuYRNb6/el
-	XXCPfLw9RAe6Y4oWs
-X-Google-Smtp-Source: AGHT+IGiA/Yn603iCEcUZTepPAJSDOP4M4TDfO1zGDg1GjK6jBe0wK+uDj0rtvLjSeP4gVl0jlYXxQ==
-X-Received: by 2002:a05:6122:da5:b0:50d:a31c:678c with SMTP id 71dfb90a1353d-52a89d3e399mr831693e0c.2.1745575980041;
-        Fri, 25 Apr 2025 03:13:00 -0700 (PDT)
-Received: from smtpclient.apple (216-131-82-239.nyc.as62651.net. [216.131.82.239])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-52a79f21b86sm605458e0c.9.2025.04.25.03.12.58
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Apr 2025 03:12:59 -0700 (PDT)
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-From: Rich Persaud <persaur@gmail.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="zaMdFz7s"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=q3Bv4S6S2pgBgmcXMFAjdfJAa2lQ3FieqDlGJbLYGcPKtUuMFf5ynt+QRrjjBsMjMq7AEL36IBUoIs13URokEAQQ8BJnu/AdTI48zIzLeMotnX8B1c7Mhsej4uk8aoTIM/pA7/6hlZEtBVKvKKhLDEXyle7iXa2R36XqUE/BWkFQ54JoUHafDN9HllqeViNrw2OAus3CS/RMZ4EzasqXAOHkR6alQPyTU5PkWBpjERRboDwwi9Ea0FtnF7uGexte7CCz88WNt1+zSSjHKq6QOc5O0H7jsIeq9ncvBTK8RtxNOG3yn5on1SQLXvFmTVFJBehFeosyqMW8T48UsUNaOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ITYs67pXcjasoCpsphbUMweuurc3oV5sdRj0ZbHWLtU=;
+ b=Hmo2qdMhz+DFPHhRAUvhBBfjOt4B8uTdaMQOtCUtryUXg9WU5+zmIF3WgfEVkK3Bp4W4oDpwWGvt1ACGyGdeF0wzGgGnABIIiugxcSy/IUIS81MR4l9zn4oHOntapmNS1CSzp31DPwz476v0C1K2eDf77mJfJrbH6RZJlYRROCJKMVpJI8zK6lueCLixNUYipBjuj6OXWaNAd7OWtrzWmGEnFmqCs02XVvjGwhrR0kLTwh2XnfLoHslfybYHJlDWgYYykBCw9LAnViNSSUk/eWT+GkZFGz0UQ6KhyOhcorfjfBgeBjv5s+sLHbAn8ZEIq9LwYYWKcuuHcjc5CD7LJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ITYs67pXcjasoCpsphbUMweuurc3oV5sdRj0ZbHWLtU=;
+ b=zaMdFz7svoyHmEdNTgm2DPUSOxiclfpXz/xvRS5RttTpoWg0qzNHaLjssWKQLPBiQ4Pv57TY8OkxNrQbMu+jJ36t5x1wUhMrUTYTtd4pKW0E4DQ05xvijP/rAzmWY+bISL88jQ5t6WC4iuOnjkEp0M4mb1SV01EEQlFM/eAJ7+8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB9064.namprd12.prod.outlook.com (2603:10b6:208:3a8::19)
+ by DM4PR12MB5770.namprd12.prod.outlook.com (2603:10b6:8:61::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.26; Fri, 25 Apr
+ 2025 10:16:15 +0000
+Received: from IA1PR12MB9064.namprd12.prod.outlook.com
+ ([fe80::1f25:d062:c8f3:ade3]) by IA1PR12MB9064.namprd12.prod.outlook.com
+ ([fe80::1f25:d062:c8f3:ade3%6]) with mapi id 15.20.8678.025; Fri, 25 Apr 2025
+ 10:16:15 +0000
+Message-ID: <ab361812-566e-5454-ab2c-40757a8808da@amd.com>
+Date: Fri, 25 Apr 2025 15:46:06 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:102.0) Gecko/20100101
+ Thunderbird/102.2.0
+Subject: Re: [PATCH 08/14] RDMA/ionic: Register auxiliary module for ionic
+ ethernet adapter
+Content-Language: en-US
+To: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: shannon.nelson@amd.com, brett.creeley@amd.com, davem@davemloft.net,
+ edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, corbet@lwn.net,
+ leon@kernel.org, andrew+netdev@lunn.ch, allen.hubbe@amd.com,
+ nikhil.agarwal@amd.com, linux-rdma@vger.kernel.org, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Andrew Boyer <andrew.boyer@amd.com>
+References: <20250423102913.438027-1-abhijit.gangurde@amd.com>
+ <20250423102913.438027-9-abhijit.gangurde@amd.com>
+ <20250424130813.GZ1213339@ziepe.ca>
+From: Abhijit Gangurde <abhijit.gangurde@amd.com>
+In-Reply-To: <20250424130813.GZ1213339@ziepe.ca>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0076.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:26d::7) To IA1PR12MB9064.namprd12.prod.outlook.com
+ (2603:10b6:208:3a8::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0 (1.0)
-Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux kernel support
-Message-Id: <18F9BD47-282D-4225-AB6B-FDA4AD52D7AE@gmail.com>
-Date: Fri, 25 Apr 2025 06:12:46 -0400
-Cc: Ross Philipson <ross.philipson@oracle.com>,
- linux-kernel@vger.kernel.org, x86@kernel.org,
- linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev,
- dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com,
- Sergii Dmytruk <sergii.dmytruk@3mdeb.com>, openxt@googlegroups.com
-To: Dave Hansen <dave.hansen@intel.com>
-X-Mailer: iPad Mail (22E252)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB9064:EE_|DM4PR12MB5770:EE_
+X-MS-Office365-Filtering-Correlation-Id: ccc67ff1-9576-4c4e-a883-08dd83e23625
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|366016|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?VkY2NDdrK0p0aTFOVlo2eVB1VjVucmRFUUs4aHU0RVVjUzhjNEtjVjZYeE1L?=
+ =?utf-8?B?enRWc1pRQVI4Mk8vZkI4Nm9Tcm1GUDBmQ0ZUeVZUWEJDdms5VjNEU2dUdE0x?=
+ =?utf-8?B?NGlMSFVJTVFaSnY3b2NJZEZ5ZGVsdjNRVlczdy9hZHo0bUMrTjJiTnhmY0Jj?=
+ =?utf-8?B?SWtXUDJIYWxsY0dQVDBGMnVUVHZTUWhET2xRMDRDNnROcXoycXhUN00wMXBJ?=
+ =?utf-8?B?SW0yeUxucElQTW5IQ1p0K2h5K2N4QnJSR0d3VFNsUFIrbUptQkprZXE1NVd4?=
+ =?utf-8?B?TDRHOE9jV3I0djBPVXdkTnl3UnlpYUtGRGM2cEE3cVRZVEJIcXUyNC9ETSs2?=
+ =?utf-8?B?L3orYUowQzFPa3pxNWxCZ2l6OVppY2x1K0Fja2J4N1lDK1d6QndvS0RXTkox?=
+ =?utf-8?B?SVZUaThYa1lDVTYycElncFozN3dYUHpXcXFWWkhZcWU4UkszdS9xMGNkWGEv?=
+ =?utf-8?B?VFEyRnkzM1A0Y1NYWjcwSGdWcGZNbzFJMkZwdnd1Y05peVJxWWNQLzd2aUx5?=
+ =?utf-8?B?d3Fmb2tBWnlvUW0yV1c5VWNjYk1Qc2FMSTZFZyt0eXFCc1Z6bFlrd2RNNC8w?=
+ =?utf-8?B?ai92eDhXWEl4Uy9pUmw0VDk0ZEo5bWNRa2g4OHpkUi8wbktHSERmdzJaTjZl?=
+ =?utf-8?B?SHhGcWFCeHdBS2Q2TFlHeGR6S1d3UTV1NkNMRFhydldZZ0VyTUcrWG1CZ3Vr?=
+ =?utf-8?B?ajBYRS9NQ2NSeDJ5NFA5ZWdGRkRYTnIyamxFaVdvYnhYdXFRb0E0Z0phcEV0?=
+ =?utf-8?B?WGUrbFgzQ2kxNTJQenhMVEdoQ0VJejFoVUUyTHNLVEhYdmp6cU9DOEFFbEs2?=
+ =?utf-8?B?YkltWjc0U0YvYTR6TFkzbFEya0xGWmpKbnF4RUxmSzFwWDVQTXkzZm9ERnhm?=
+ =?utf-8?B?MmhPbnFYQ0F3NGZrUEVCOGlIVUZ6d2lTbmRsdnN3eHBqdUtaQXhUM1podmxl?=
+ =?utf-8?B?amMvWjA1UnpJcDU2elY0Qk9JbjF5OEVJTXB3REM2akE1S0tDSTZUMEw0S0x4?=
+ =?utf-8?B?VVRnR3ZZZDNveE5hd3hGWU5rU3dGTkpzbzRGSzNzVnVrMUl3bTh4K2xMaTI2?=
+ =?utf-8?B?dk1ydGl3MmJQeDArdU9meGJwelExd2xRYVU2WDM2dzFEM0k5c0RBTHdJUmJW?=
+ =?utf-8?B?NExwRFdDQ2xaZC9sVnNoVVNES1hkaEhQQTB6eTh6bEhlb0l2NnkvQUZnbUlV?=
+ =?utf-8?B?cnNQM1YwVWxFSnJrekdnZWpPeEpWZmMvcTZpejY0VzhNSjhwTW1rdjZURGdI?=
+ =?utf-8?B?dGJ1bzBPNVlkZUVkVml6d1JhYXVPUXJGL1A0WnAzbVJ1STdmcDB1a3NIN0pL?=
+ =?utf-8?B?M3hXc2RhZ3hqVkFoUzZPRVp1VGcxQUFYZmNBTTVsaGR4SVNkODIrVlRyekll?=
+ =?utf-8?B?QkpqaW8xdEN3WG44UmtuSTk2MmFEV2oxNThQbG9EaDA4MmhaRkVTbkZtRTJC?=
+ =?utf-8?B?RVVaSWYvOFEyY294QmFSUGNpYTNKcmN1ZFR1aHhRRUVDVllkellkWVVwczNs?=
+ =?utf-8?B?azgxQkNjSnkvTWR1UkY4QnJGZ2hKN3pLOHpsSkgvc21PemhZVEVmZlVaUjNT?=
+ =?utf-8?B?ZVE2NTNvbnhZNTZSRTRwa2swdFNtNHVGd05tTDZvZTlhdTgvMngvdzNndGI2?=
+ =?utf-8?B?TVVpR0tHSzBNbTNDaWFSUHo3cFpxQUZ5Y0lxbllhcFFIdXdxWE9rT01yeHpW?=
+ =?utf-8?B?dnFCUWxoaURXVmVZVGlyZzhnYi94ZFphWDMvWTliUTJhOTFpYXB3aHVNWVRv?=
+ =?utf-8?B?RkxWaUVjVUdqejMra0dCK0x4UUF6SXJxUGVxQXgxdEFvVzZtQldQVnNaTWNv?=
+ =?utf-8?B?RzBVdHc2SjdpWldFblNWMzVCNUIrUUFNNkdZOTVCYXY0eWxkZ0ZUU1V0bHlx?=
+ =?utf-8?B?b3Y4ZHA1WmVVbUZFV09XQ2FoSUdJL3NJb1k3SG1MSmdxek5Ua29JTHZTSWVJ?=
+ =?utf-8?Q?KpjMMiRty64=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB9064.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(366016)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?TnhHdUJIZGRhSHcwLzl1MlRlYzhvR3l3WkpKOHllK0szUW5YR1NRdWdtQTcz?=
+ =?utf-8?B?K1Q4WlhMN1VoOU50cGhGZU9vaHpwRU9TYUNnUVoxTHRTTTFTREFic2U4QktD?=
+ =?utf-8?B?aEY3QjY5N3lka0FoVVJRNUtDcllETGlKTkJXVmpyOWtMeStPbTdya0lqZFZI?=
+ =?utf-8?B?bzJkcWovNzBuMEtRVnpHVzh4czE2OWh6ZjduVjVyZzY1ekprdkpwRlVWVVRS?=
+ =?utf-8?B?SWI2Mkd1czRqMUJaUXlVcHpwMWp5Y0lwTFBaaHhFR1BVZDBQSjdJcng4K3cy?=
+ =?utf-8?B?d0RYdUFhR2ZOUm9GMm9QenVYK3htQy90RXVBNjVOOGlUK09RUjhKU0tySHh0?=
+ =?utf-8?B?dkpnZElGYWJJeHQvVjk5cy9tT3ZVZE9SRjVSeElRVGhuTjF6SU1OUUZJdFlY?=
+ =?utf-8?B?Z3RpaEk1S1ZOL21GcDc1VlpvYVFqcmdJbXlpVCs4Vld0UTYwcCtwVUlQeUVw?=
+ =?utf-8?B?TU16QzM1eXdtSkI1ZUFsMnJUSXFzVEJ4NElxK3NsaSszY0hJc2dHaTZaWWw4?=
+ =?utf-8?B?TnIvakRKYXBaN29TdjdmVXBhSlVzcWxuOFk0YXhjbVVFSWFMQldXeWFsdHFJ?=
+ =?utf-8?B?OFhTM0svR3ROMGIvR2lwNlA0dnBDQlNpTFE4S0xMa283dE4yL0xpbmtvcXFV?=
+ =?utf-8?B?SGZNRkFTSmdCbG1VY1Q3R1cza21oQnhkSittMVZhZC81UUF6WTRqUUtudVJ0?=
+ =?utf-8?B?S2hKSi9hbjF0c1JIMHFHbEx5T3ZxTGJmVWRKM2lBWnU2b1N1TldCc0E4WDZa?=
+ =?utf-8?B?WWZ3cTd0K1RkcHpoR0NIZkxNVENwWUc2YTNFdGxlRUxHWkpTV3dKUlJnR1B0?=
+ =?utf-8?B?aHNaM2JKNHN3SXM4ZFlpM1lrZWJJbnpQQ2VDKzhzWkk5dVNpRjAzc0lRQ2U4?=
+ =?utf-8?B?TkZ5V2J6Ukc5OHlzbGdSUDJPZGtmazdoM2YwNmFEc1U4ZERNZDJlbVY0RlpI?=
+ =?utf-8?B?LzdEQ2ZWeDc4WUVUOTZoTXk5VVliSHU5UUNBVWdBL2xUdUQzQWVnRmZHbkwy?=
+ =?utf-8?B?SkJKZVQ5QW8wSWE1RnpVQXN0bE01MEhUR0xOVy9BQyt6M1BuQUpUcnRCZ1dR?=
+ =?utf-8?B?QTg5TUFTTzg5dWZQQklRN040OTFQRmRWYXl5MEdoTEh2dlJNZkVGdEl3Z25C?=
+ =?utf-8?B?a2Y4ZjlScWVWRitBV2VNY3VKVXM5YmpwVXBhTndjeU9TeTlkNzlmVUYzZWF2?=
+ =?utf-8?B?dldSUFJFK0VWMG4zaUQwN3kwVEx0Q2xydG83OGJxUnZTUE5EQWJpVGczNUZx?=
+ =?utf-8?B?b0syM1lzN1VCb3I5MFRYQlhNZ09VZWh0UVlrbm8zS3c4Y2NQWjlKZ3hTdlVE?=
+ =?utf-8?B?Y05OcVA2ZmZmdTdFR01tT3dVbmQ2MElZQ0pDSUdBOXpFdnZFaFU4NmErYTJi?=
+ =?utf-8?B?RmtUekREem55WUVkY1RjdU8zeXo3Y0pSZ05xeFk1OHZydU83OFFmaWhwRXp2?=
+ =?utf-8?B?MjNXNlM2VmREdFluUkZJb29vV09lL0hqRldtN3N5c0FwaEFVczZVVHBtLzFk?=
+ =?utf-8?B?Wk85NUxOM09BU2wxcXBLc1psTFE5SUZHNVJ4WFpJVDcwZzNNT0lTdjlhaXJH?=
+ =?utf-8?B?cEU0QlF5amdVaDYwQm1scXNuR3VzVDQvOXFNTEZyWllOMXcwSzBXa05sMU8x?=
+ =?utf-8?B?RWppZ2Y3eU1aR0xXTVErR3Fwck1rdmsrb1lPYWVRVWNRWHJzenpGOGtMQlJt?=
+ =?utf-8?B?NkJjS0JVa2Fub0tjeWpOeWI0aTBTNWZaMjh1dHdrQ3pTdE44WVpUSVdwRzJy?=
+ =?utf-8?B?aU9iWXIzdDJTSEZ6ZGRDQTVZUzhnSnphZ01YR0IyY0pqUWJ5STkvSSt1Ti90?=
+ =?utf-8?B?UkFFaXlqYkVUeU0yODlUQUFRQnZqc0pqOWFVWEUzNmlFM09Ka3Q1NG5CUE0r?=
+ =?utf-8?B?cWtPZEV0Y1V6S0dZWGRtcldObXFDc3ZLbW9tekMrRTVHL2Q3bVV6eGVlVnVo?=
+ =?utf-8?B?TWtzYmlvZEtqQTFZeGE5b09WS3BPQ21hOERSbHBrNldDbHdENTNPTmp1NnI3?=
+ =?utf-8?B?WThtZmVwM2FLRWw1REpzRjFiL2RPVTNwcTR0TzBlYmx0Skgzb3pScExxbmtz?=
+ =?utf-8?B?VzJIMUlqdzJuNGxPTkplUXkvZzhhcC9Lc21VQ3NseHlrWXl3VTNPN3NnQXpj?=
+ =?utf-8?Q?fZH1IoEFCYpencWZ0DHnZq3IG?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: ccc67ff1-9576-4c4e-a883-08dd83e23625
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB9064.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2025 10:16:15.4176
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: T8rPV/etlWB9fSV1SyU3JC79VteQNc1tor7IOB+VE48Nppfl9LbjK6TVJIWAfTRrr5SX3+v4qsTJBx7qZ/dCZg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB5770
 
-=EF=BB=BFOn Apr 24, 2025, at 2:45=E2=80=AFPM, Dave Hansen <dave.hansen@intel=
-.com> wrote:
-> =EF=BB=BFOn 4/21/25 09:26, Ross Philipson wrote:
->> This patchset provides detailed documentation of DRTM, the approach used f=
-or
->> adding the capbility, and relevant API/ABI documentation. In addition to t=
-he
->> documentation the patch set introduces Intel TXT support as the first pla=
-tform
->> for Linux Secure Launch.
->=20
-> So, I know some of the story here thanks to Andy Cooper. But the
-> elephant in the room is:
->=20
->> INTEL(R) TRUSTED EXECUTION TECHNOLOGY (TXT)
->> M:      Ning Sun <ning.sun@intel.com>
->> L:      tboot-devel@lists.sourceforge.net
->> S:      Supported
->> W:      http://tboot.sourceforge.net
->> T:      hg http://tboot.hg.sourceforge.net:8000/hgroot/tboot/tboot
->> F:      Documentation/arch/x86/intel_txt.rst
->> F:      arch/x86/kernel/tboot.c
->> F:      include/linux/tboot.h
->=20
-> Linux already supports TXT. Why do we need TrenchBoot?
+On 4/24/25 18:38, Jason Gunthorpe wrote:
+> On Wed, Apr 23, 2025 at 03:59:07PM +0530, Abhijit Gangurde wrote:
+>> +static int ionic_aux_probe(struct auxiliary_device *adev,
+>> +			   const struct auxiliary_device_id *id)
+>> +{
+>> +	struct ionic_aux_dev *ionic_adev;
+>> +	struct net_device *ndev;
+>> +	struct ionic_ibdev *dev;
+>> +
+>> +	ionic_adev = container_of(adev, struct ionic_aux_dev, adev);
+>> +	ndev = ionic_api_get_netdev_from_handle(ionic_adev->handle);
+> It must not do this, the net_device should not go into the IB driver,
+> like this that will create a huge complex tangled mess.
+>
+> The netdev(s) come in indirectly through the gid table and through the
+> net notifiers and ib_device_set_netdev() and they should only be
+> touched in paths dealing with specific areas.
+>
+> So don't use things like netdev_err, we have ib_err/dev_err and
+> related instead for IB drivers to use.
 
-One reason is to generalize DRTM support to other platforms.
+Sure. Will remove storing of net_device in the IB driver and its
+references in the next spin. Will wait for some more feedback
+before rolling out v2.
 
-RFC: Trenchboot Secure Launch DRTM for AMD SKINIT=20
-https://lore.kernel.org/lkml/cover.1734008878.git.sergii.dmytruk@3mdeb.com/
+Thanks,
+Abhijit
 
-OpenXT.org measured launch usage of tboot originated in 2012, when I was the=
- program manager for XenClient joint development [1][2] by Intel and Citrix.=
- TrenchBoot was proposed in 2018 at Platform Security Summit and evolved [3]=
- based on LKML and conference feedback. The tboot community was introduced [=
-4] to TrenchBoot in 2022.
-
-
-> I think I know the answer, but it also needs to be a part of the
-> documentation, changelogs and cover letter.
->=20
-> Also, honestly, what do you think we should do with the Linux tboot
-> code? Is everyone going to be moving over to Trenchboot
-
-OpenXT will migrate development of measured launch from tboot to TrenchBoot S=
-ecure Launch, after upstream Linux and Xen have support for both Intel and A=
-MD DRTM. Previously-deployed Intel devices using tboot, derived from OpenXT,=
- will need support until users upgrade their hardware. Qubes is integrating [=
-5] TrenchBoot into AEM (Anti Evil Maid). Since Oracle has spent several year=
-s working on this TrenchBoot series, they might use it, hopefully they can c=
-omment.=20
-
-
-> so that Linux support for TXT/tboot can just go away?
-
-[opinion]
-Which one will prevail? That may have less to do with tboot-trenchboot diffe=
-rences and more to do with AMD-Intel product marketing and OEM segmentation o=
-f DRTM features, some certified by Microsoft as "Secured Core" clients with S=
-MM attestation (Intel PPAM and AMD SMM Supervisor).
-
-Intel requires client vPro devices for TXT, but has slowly expanded the list=
- of eligible SKUs via "vPro Essentials" segmentation. AMD SKINIT is present o=
-n most processors, but DRTM currently requires a dTPM instead of the "mobile=
-" fTPM implementation in AMD PSP firmware, with dTPMs mostly present in AMD O=
-EM "PRO" or Embedded SKUs.
-
-If AMD included the full TPM 2.0 reference code in their PSP fTPM,  or if MS=
- Pluton implemented a full TPM 2.0 that was compatible with DRTM, then the n=
-umber of AMD DRTM-capable devices would be much higher than the number of In=
-tel vPro or AMD PRO devices, expanding the market for DRTM-capable software l=
-ike Linux (trenchboot) Secure Launch and Windows SystemGuard. That would inc=
-rease client adoption of trenchboot, as the only option for Linux DRTM on AM=
-D.
-
-On servers, both AMD and Intel hardware support DRTM with dTPM and other roo=
-ts of trust, but there are other launch considerations, including BMCs, SPDM=
- device attestation & vendor hypervisors.
-[/opinion]
-
-In a perfect world, Intel-signed ACM (used in TXT DRTM) binary blobs would b=
-e accompanied by public read-only source code, with reproducible builds that=
- generate those ACM blobs. In that perfect world, Intel ACM and tboot develo=
-pers would review the TrenchBoot Linux series, recommend improvements and gu=
-ide customers on migration from tboot to upstream-supported Linux DRTM. Neit=
-her has yet happened. Both would be welcome.
-
-Rich
-
-
-[1] https://www.intel.com/content/dam/www/public/us/en/documents/success-sto=
-ries/3rd-gen-core-vpro-citrix-vendor-spotlight.pdf
-
-[2] http://media12.connectedsocialmedia.com/intel/11/9510/Air_Force_Research=
-_Laboratory_Security_Collaboration_Government.pdf
-
-[3] https://trenchboot.org/events/
-
-[4] https://sourceforge.net/p/tboot/mailman/message/37631560/
-
-[5] https://blog.3mdeb.com/2023/2023-01-31-trenchboot-aem-for-qubesos/
-
+>
+>> +struct ionic_ibdev {
+>> +	struct ib_device	ibdev;
+>> +
+>> +	struct device		*hwdev;
+>> +	struct net_device	*ndev;
+> Same here, this member should not exist, and it didn't hold a
+> refcount for this pointer.
+>
+> Jason
