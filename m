@@ -1,121 +1,209 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7888221FDC
-	for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 07:46:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCAC621CC58
+	for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 08:50:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745567189; cv=none; b=mrhxpGCU7C/wwoAOB52pvk2vVswXPjGY20J8M2u1XbMPxzrgLnMgggQ8hgEKPv9CPhjANUWBLQxHqJO2CsS4UCo63dBf4XDjsJc8RrD5VWYNNKkoLijze8SOYTp4L5foIlf0PndrUvK7AG2nh5bIUDRu99LV+Ly6fOhdazu5ZCc=
+	t=1745571012; cv=none; b=tA+liyQNR7wk4LHAmp9CxvOh9bMYevouUGX1kTz2lMw5iXejGCxiIVk9rYM+csrZvSWQv8jOFNd1r+CZr7Wns9kFH4IohWTcxmKgSUknMlamvn62dHwE39mWjGzP7jHy1PYLD10PlSP+OipfORQmcmWH160lbkAYeCExQ5/jiEg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745567189; c=relaxed/simple;
-	bh=M2e5e0DbBcCkM53d/193BeEEWoXcJicJMcob4XfVxtg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=imYs6Xd+8kiQxTsyE2yxbm0AYQKLIfZBSzW55Pgsj1cm2TM1FrzmAn21P4z6mrg7NBnkwoZ0qXZM+wG7VKf0NFZeqQW4m78sjT2cpGjZ1JnChdq7Y02BXReBc3L0MIbvHhIAUgEnl8EqUsSTFXXkrJLDojxOdyG9Efboe+NfV/0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=BONzwATD; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="BONzwATD"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cf0d787eeso21576235e9.3
-        for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 00:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ventanamicro.com; s=google; t=1745567186; x=1746171986; darn=vger.kernel.org;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date:from:to
-         :cc:subject:date:message-id:reply-to;
-        bh=yalr6Bu93K2GzLCvN0XHCxzUAzn2mCxagWptxLA843Q=;
-        b=BONzwATDn/a2Jbfl2U/CRNZi6nvEygafRicZHs3E01vwo9Vk0ZH7vrqo9dHe7NAp51
-         gS/di6U0SsI2y61hjPKlZN7hHtXGxxQCTYYAVie4dgOUhY+Q7N3WXWFsB8YN55Q9i2i2
-         JTzQUtB+zF67/ain39qAEr9FBYWqwsQRfg+iIHrIaZ3G2odO5yQCBtr0IUMml9EP1bDq
-         pZpxlieYZmifYhKjSmNVmUmK+dOcxlcC/l6OdbaAssA4ntsgHsMXAk+SWpAskvjBNyul
-         8HHDB+GtNKM9Hs8rpxZeaAHMHyn9jyBJF3Jq+0ww5ss/Yx9ZAH3k/OAESYnYn+todGiu
-         X7UQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745567186; x=1746171986;
-        h=in-reply-to:content-transfer-encoding:content-disposition
-         :mime-version:references:message-id:subject:cc:to:from:date
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=yalr6Bu93K2GzLCvN0XHCxzUAzn2mCxagWptxLA843Q=;
-        b=qRQvdVGhw4XZFxtPw7D6uPB2e1eL7qBAM4RDBScgkggW0uZsya9Vf1TToG8nhCRKaO
-         tgYFkeVrd8u3JcoqQS9diIEDgaHdTCmQtZHl/NC0xZiEdrPe5uzdqONBE7UM2ZBqftRJ
-         TSMpELcg5FY6RGq6tzgu3I4nNxrd58hdxY3NRmCsnV/4fuNtUJ4L9f8LmsYVddfvy4N4
-         6+zXcOgZN9xiTdsqBnKFXkIYSgzPxWq5gXWpF8s0HwCtzNvXSWUBedGZoZ75+1T3tCln
-         TPWamNrG/5/omouAS+gz9fgGn7CwDMhyy2TYSqtlUZgHs3rIfomYKNiZA47TMIpAO6sd
-         hisw==
-X-Forwarded-Encrypted: i=1; AJvYcCXi3KgvUVbKmRg7KmPIycvNs0QXtv2B4fM/eotfzhn/s8xelRPA2ZRHroGhxEEVd7cVRlBZ+0gBBGI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyvuuaSrT1/ibXWCCBTMHuz6/Kb+InX2br4Xw9w6fsOFB1LfV+o
-	h+a9xSMaM94QrecFmAjIwLLd0+ttshMoxl8MBJYhpTwVA3QGpN4GoQt3HR1aRbQ=
-X-Gm-Gg: ASbGncunx7e04EPcfFvQVnMlidOlnqmIpaP83AWVh3iwl2EtQKKFOWfLv3F7aZlMr5X
-	zoQV1jKYGmVYORjU2aHnwv+Bto74OviIhegqs9jNvfwpKU5Rr8vaq/r109TguHe5xln+8AADykq
-	asDT8VEbxHpk1MGj68CU3YecJ8Q8nxzthyv3RDKGFcu2nV26HftJv3nHBHltpTZV5zpwV3Xw9ZD
-	QY0h9E0Npn4l/kdmphUHUyKywQtY94QN1DTESc7i9M5CwXoNPhF8M3cdEchQhYTk8gLe3Q8lIOp
-	vFa+3RFiR0PHNMIoQU6Z5JAj8+v5
-X-Google-Smtp-Source: AGHT+IGuKsjAp/bE7iMICTe5tl7fZLkgjjuJMOyAsBGa6hvpBqMsjN2EfsDi9JbPSKmGTEeYZJEdtA==
-X-Received: by 2002:a05:6000:4212:b0:38f:2ddd:a1bb with SMTP id ffacd0b85a97d-3a074e144a6mr901505f8f.8.1745567185228;
-        Fri, 25 Apr 2025 00:46:25 -0700 (PDT)
-Received: from localhost ([2a02:8308:a00c:e200::f716])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073e46c23sm1496676f8f.75.2025.04.25.00.46.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 25 Apr 2025 00:46:24 -0700 (PDT)
-Date: Fri, 25 Apr 2025 09:46:24 +0200
-From: Andrew Jones <ajones@ventanamicro.com>
-To: =?utf-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>, 
-	Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>, 
-	Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-	linux-riscv@lists.infradead.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org, kvm-riscv@lists.infradead.org, linux-kselftest@vger.kernel.org, 
-	Samuel Holland <samuel.holland@sifive.com>, Deepak Gupta <debug@rivosinc.com>
-Subject: Re: [PATCH v6 02/14] riscv: sbi: remove useless parenthesis
-Message-ID: <20250425-00fafd9027c5b1be3dd1d78e@orel>
-References: <20250424173204.1948385-1-cleger@rivosinc.com>
- <20250424173204.1948385-3-cleger@rivosinc.com>
+	s=arc-20240116; t=1745571012; c=relaxed/simple;
+	bh=JAMws/vtOTxHeLm3gccrM03foPW5z5Ne+1T0subrk1g=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=b5jW8GGGnTDM84hBhgMtUeVvbfTPbHu0xo3QUGeMZpArYq3Z+21FJdgmNfWZhsFrR+z24SOrRALLGoSpau2rb+10GDcqOW1T6TxeEMXSB4I4yWWo9oyb84V2Gcv4/sOsY3/PUBNGBskZWXsisoXEYcsukVBlggN5NbOT5/2sjaU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from drehscheibe.grey.stw.pengutronix.de ([2a0a:edc0:0:c01:1d::a2])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u8Ekm-0004ed-2U; Fri, 25 Apr 2025 10:49:48 +0200
+Received: from dude04.red.stw.pengutronix.de ([2a0a:edc0:0:1101:1d::ac])
+	by drehscheibe.grey.stw.pengutronix.de with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u8Ekh-00218p-1o;
+	Fri, 25 Apr 2025 10:49:43 +0200
+Received: from ore by dude04.red.stw.pengutronix.de with local (Exim 4.96)
+	(envelope-from <ore@pengutronix.de>)
+	id 1u8Ekh-00144S-1W;
+	Fri, 25 Apr 2025 10:49:43 +0200
+From: Oleksij Rempel <o.rempel@pengutronix.de>
+To: Woojung Huh <woojung.huh@microchip.com>,
+	Andrew Lunn <andrew@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Russell King <linux@armlinux.org.uk>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Oleksij Rempel <o.rempel@pengutronix.de>,
+	kernel@pengutronix.de,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	UNGLinuxDriver@microchip.com,
+	Simon Horman <horms@kernel.org>,
+	Maxime Chevallier <maxime.chevallier@bootlin.com>,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v1 1/1] Documentation: networking: expand and clarify EEE_GET/EEE_SET documentation
+Date: Fri, 25 Apr 2025 10:49:41 +0200
+Message-Id: <20250425084941.253961-1-o.rempel@pengutronix.de>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250424173204.1948385-3-cleger@rivosinc.com>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:c01:1d::a2
+X-SA-Exim-Mail-From: ore@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Thu, Apr 24, 2025 at 07:31:49PM +0200, Clément Léger wrote:
-> A few parenthesis in check for SBI version/extension were useless,
-> remove them.
-> 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> ---
->  arch/riscv/kernel/sbi.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
-> index 1989b8cade1b..1d44c35305a9 100644
-> --- a/arch/riscv/kernel/sbi.c
-> +++ b/arch/riscv/kernel/sbi.c
-> @@ -609,7 +609,7 @@ void __init sbi_init(void)
->  		} else {
->  			__sbi_rfence	= __sbi_rfence_v01;
->  		}
-> -		if ((sbi_spec_version >= sbi_mk_version(0, 3)) &&
-> +		if (sbi_spec_version >= sbi_mk_version(0, 3) &&
->  		    sbi_probe_extension(SBI_EXT_SRST)) {
->  			pr_info("SBI SRST extension detected\n");
->  			pm_power_off = sbi_srst_power_off;
-> @@ -617,8 +617,8 @@ void __init sbi_init(void)
->  			sbi_srst_reboot_nb.priority = 192;
->  			register_restart_handler(&sbi_srst_reboot_nb);
->  		}
-> -		if ((sbi_spec_version >= sbi_mk_version(2, 0)) &&
-> -		    (sbi_probe_extension(SBI_EXT_DBCN) > 0)) {
-> +		if (sbi_spec_version >= sbi_mk_version(2, 0) &&
-> +		    sbi_probe_extension(SBI_EXT_DBCN) > 0) {
->  			pr_info("SBI DBCN extension detected\n");
->  			sbi_debug_console_available = true;
->  		}
-> -- 
-> 2.49.0
->
+Improve the documentation for ETHTOOL_MSG_EEE_GET and ETHTOOL_MSG_EEE_SET
+to provide accurate descriptions of all netlink attributes involved.
 
-Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Signed-off-by: Oleksij Rempel <o.rempel@pengutronix.de>
+---
+ Documentation/networking/ethtool-netlink.rst | 103 ++++++++++++++++---
+ 1 file changed, 90 insertions(+), 13 deletions(-)
+
+diff --git a/Documentation/networking/ethtool-netlink.rst b/Documentation/networking/ethtool-netlink.rst
+index b6e9af4d0f1b..dfbdd99a7228 100644
+--- a/Documentation/networking/ethtool-netlink.rst
++++ b/Documentation/networking/ethtool-netlink.rst
+@@ -1215,20 +1215,65 @@ Kernel response contents:
+ 
+   =====================================  ======  ==========================
+   ``ETHTOOL_A_EEE_HEADER``               nested  request header
+-  ``ETHTOOL_A_EEE_MODES_OURS``           bool    supported/advertised modes
+-  ``ETHTOOL_A_EEE_MODES_PEER``           bool    peer advertised link modes
++  ``ETHTOOL_A_EEE_MODES_OURS``           bitset  supported/advertised modes
++  ``ETHTOOL_A_EEE_MODES_PEER``           bitset  peer advertised link modes
+   ``ETHTOOL_A_EEE_ACTIVE``               bool    EEE is actively used
+   ``ETHTOOL_A_EEE_ENABLED``              bool    EEE is enabled
+   ``ETHTOOL_A_EEE_TX_LPI_ENABLED``       bool    Tx lpi enabled
+   ``ETHTOOL_A_EEE_TX_LPI_TIMER``         u32     Tx lpi timeout (in us)
+   =====================================  ======  ==========================
+ 
+-In ``ETHTOOL_A_EEE_MODES_OURS``, mask consists of link modes for which EEE is
+-enabled, value of link modes for which EEE is advertised. Link modes for which
+-peer advertises EEE are listed in ``ETHTOOL_A_EEE_MODES_PEER`` (no mask). The
+-netlink interface allows reporting EEE status for all link modes but only
+-first 32 are provided by the ``ethtool_ops`` callback.
++Detailed behavior:
+ 
++``ETHTOOL_A_EEE_MODES_OURS`` is a bitset consisting of:
++
++ - Value: link modes that the driver intends to advertise for EEE.
++ - Mask: subset of link modes supported for EEE by the interface.
++
++The `advertised` value is stored in software and remains even if EEE is
++disabled. It can be modified independently and is preserved across toggles of
++EEE enable/disable. If ``ETHTOOL_A_EEE_ENABLED`` is false, PHY does not
++advertise EEE, but the configured value is reported.
++
++``ETHTOOL_A_EEE_MODES_PEER`` shows the peer's EEE capabilities. It is a bitset
++consisting of:
++
++ - Value: link modes that the link partner advertises for EEE.
++ - Mask: empty
++
++This value is typically reported by the hardware and may represent only a
++subset of the actual capabilities supported and advertised by the link partner.
++The local hardware may not be able to detect or represent all EEE-capable modes
++of the peer. As a result, the true EEE support on the peer side may exceed what
++is reported.
++
++``ETHTOOL_A_EEE_ACTIVE`` indicates whether EEE is currently active on the link.
++This is determined by the kernel as a combination of the currently active link
++mode, locally advertised EEE modes, and peer-advertised EEE modes:
++
++    active = (current_link_mode & advertised & link_partner)
++
++In practice, the evaluation may also depend on whether the MAC supports EEE for
++the given mode. There is mostly no hardware status bit that directly indicates
++an active EEE state. Furthermore, even if ``ETHTOOL_A_EEE_ACTIVE`` is true,
++other settings such as ``ETHTOOL_A_EEE_TX_LPI_ENABLED`` or an excessively high
++``ETHTOOL_A_EEE_TX_LPI_TIMER`` may prevent the MAC from actually entering the
++LPI state. Thus, the "active" status should be interpreted as a potential
++capability, not as a guaranteed indication of LPI activity. The only strict
++rule is that if ``ETHTOOL_A_EEE_ENABLED`` is false, then
++``ETHTOOL_A_EEE_ACTIVE`` must also be false.
++
++``ETHTOOL_A_EEE_ENABLED`` is a software-only switch that controls if the
++advertisement is programmed into hardware.
++
++``ETHTOOL_A_EEE_TX_LPI_TIMER`` defines the delay in microseconds after the last
++transmitted frame before the MAC enters the Low Power Idle (LPI) state. This
++value applies globally to all link modes, though in practice, optimal values
++may differ between modes.
++
++The netlink interface can represent link modes up to
++``__ETHTOOL_LINK_MODE_MASK_NBITS``, but traditional ioctls only support the
++first 32.
+ 
+ EEE_SET
+ =======
+@@ -1239,18 +1284,50 @@ Request contents:
+ 
+   =====================================  ======  ==========================
+   ``ETHTOOL_A_EEE_HEADER``               nested  request header
+-  ``ETHTOOL_A_EEE_MODES_OURS``           bool    advertised modes
++  ``ETHTOOL_A_EEE_MODES_OURS``           bitset  advertised modes
+   ``ETHTOOL_A_EEE_ENABLED``              bool    EEE is enabled
+   ``ETHTOOL_A_EEE_TX_LPI_ENABLED``       bool    Tx lpi enabled
+   ``ETHTOOL_A_EEE_TX_LPI_TIMER``         u32     Tx lpi timeout (in us)
+   =====================================  ======  ==========================
+ 
+-``ETHTOOL_A_EEE_MODES_OURS`` is used to either list link modes to advertise
+-EEE for (if there is no mask) or specify changes to the list (if there is
+-a mask). The netlink interface allows reporting EEE status for all link modes
+-but only first 32 can be set at the moment as that is what the ``ethtool_ops``
+-callback supports.
++Detailed behavior:
++
++``ETHTOOL_A_EEE_MODES_OURS`` can specify the list of advertised link modes.
++
++``ETHTOOL_A_EEE_ENABLED`` is a software flag that tells the kernel to prepare
++EEE functionality. If autonegotiation is enabled, this means writing the EEE
++advertisement register so that the PHY includes the EEE-capable modes in the
++autonegotiation pages it transmits. The actual advertisement set is a subset
++derived from PHY-supported modes, MAC capabilities, and possible blacklists.
++This subset can be further restricted by ``ETHTOOL_A_EEE_MODES_OURS``. If
++autonegotiation is disabled, EEE advertisement is not transmitted and EEE will
++not be negotiated or used.
++
++``ETHTOOL_A_EEE_TX_LPI_ENABLED`` controls whether the system should enter the
++Low Power Idle (LPI) state. In this state, the MAC typically notifies the PHY,
++which then transitions the medium (e.g., twisted pair) side into LPI. The exact
++behavior depends on the active link mode:
++
++ - In **100BaseT/Full**, an asymmetric LPI configuration (local off, peer on)
++   leads to asymmetric behavior: the local TX line remains active, while the RX
++   line may enter LPI.
++ - In **1000BaseT/Full**, there are no separate TX/RX lines; the wire is silent
++   only if both sides enter the LPI state.
++
++- ``ETHTOOL_A_EEE_TX_LPI_TIMER`` configures the delay after the last
++  transmitted frame before the MAC enters the LPI state. This single timer
++  value applies to all link modes, although using the same value for all modes
++  may not be optimal in practice. A value that is too high may effectively
++  prevent entry into the LPI state.
++
++.. note::
++   For EEE advertisement to take effect, PHY autonegotiation must be enabled.
++
++Limitations:
+ 
++The netlink interface allows configuring all link modes up to
++``__ETHTOOL_LINK_MODE_MASK_NBITS``, but if drivers depend on legacy
++``ethtool_ops``, only the first 32 link modes are supported.
+ 
+ TSINFO_GET
+ ==========
+-- 
+2.39.5
+
