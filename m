@@ -1,118 +1,165 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1447134CF;
-	Fri, 25 Apr 2025 18:13:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745604807; cv=none; b=NYd3SFB+ZFgmV69+3ND45EQJioGwlK8WKNK9ueWqfmCnN9bjmLJM/HdfqfYtRjYkvPKIctc3HJX6I0Q/VXetzkazhx47ZCb7dQb/SThMUvVm3+xztiqEfa6w5yfhpMtNDc7zQp6nBNtxb2BlaQr5fJgu0xjjht/3+sTp7eEMrrg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745604807; c=relaxed/simple;
-	bh=JkpxNkCzkYh0Du/1121be6BqpejJcBjTTxXTHMqZE60=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=dD+6Vlx7m9bkiPJjJiUPcELwlTAaGdMB7C1LhXwmhZhFqGUSHSWnwP5fuSXWKt3sqEBo5HVkO0lHJb5aLjbgtDWx/lAKljBRN9fbqJPniLoQl3Q4jYClhsenG4QaHXDQWP3wJjFHs8Y9eozkD/hL7reX9a6tur6FT/OGMeOtM2c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=AyJmEsca; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FD4A188733;
+	Fri, 25 Apr 2025 18:23:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745605423; cv=pass; b=Qiuv55P5m9X/4p3eGJuyynmoq3lHLz0eqBiOygePdzzEBp4tYAjAHEjzD6sO+gO85gZJf7PqwIetsYMnyRUTVj1tJnzDOj0EMBcR9qRzGapjxmY2jSxnJdI3kuuBRFMw2S6NheZ4xeVzCiH+OFT5H4UF+x4NktH4nPGjrXMwCtE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745605423; c=relaxed/simple;
+	bh=cTAlc/+Wf4vVMxPoxY1qiiaZu7vV+g+7hcErx0GI2WM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=a6mze749H7Rulpwvdk0JECzvBcpesYQ4cVnxXek1vt6PubPqdk8SbXLvvoi9dO/MwJDGyNs8eST/iB72Fn4NR5cPWivW3ff5+oFgwMYT1h2Nnf2sf/OfLchs83vSY1CzHVBcnjd9OpzzJy2auccajkBGgU3CM2doMyx8CUygIEU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=FQXA+UJm; arc=pass smtp.client-ip=136.143.184.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="AyJmEsca"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745604806; x=1777140806;
-  h=message-id:subject:from:reply-to:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=JkpxNkCzkYh0Du/1121be6BqpejJcBjTTxXTHMqZE60=;
-  b=AyJmEscaWN2JlX2usDZsDaueCuITQ4HvoOSXS/0j4teaO2u4OtA8nJzs
-   qsmMwwXC4Abz5o58qc6aliXDVoPIIovE6UaXSzCpbad47q4pBl+jUP+pd
-   XuXFSLRVnNqEjr528AH3kBEOxdRmNCJ4yOQqQSXTM1NxOVw5lLRa7o4WD
-   DgYwUVZyxdHKWoy3fzTEHqzIkmJvSYUIH+G9xosXre3vbLPHifB2l54AA
-   qmwhMUasKCjdPy4rQFZUYGGgzRGWkp19mmTgDgh+oX4vx1n105s1hAJtM
-   xkyA49A0X/GmdDx6D/jNxaxKDhVUnDto8jZoIzqpBhmbKGbrUhYjfoXs3
-   Q==;
-X-CSE-ConnectionGUID: 0jX8ZZhCTYCH9pI/ZDGhHA==
-X-CSE-MsgGUID: Z+oeGnsGQWuRNuOsN4AAyw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="64804437"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="64804437"
-Received: from fmviesa009.fm.intel.com ([10.60.135.149])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:13:25 -0700
-X-CSE-ConnectionGUID: vMfdYYlFQwmGqd0SAGxs2A==
-X-CSE-MsgGUID: TCZ9agQpQ1GCtyMidk/+YQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133903167"
-Received: from iherna2-mobl4.amr.corp.intel.com ([10.125.108.191])
-  by fmviesa009-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:13:23 -0700
-Message-ID: <5546db361d2d474b97d80345473628d0e5a55093.camel@linux.intel.com>
-Subject: Re: [PATCH 4/7] pci: doe: Replace sysfs visibility macro
-From: "David E. Box" <david.e.box@linux.intel.com>
-Reply-To: david.e.box@linux.intel.com
-To: Ilpo =?ISO-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Cc: corbet@lwn.net, bhelgaas@google.com, kuurtb@gmail.com, Hans de Goede
-	 <hdegoede@redhat.com>, vkoul@kernel.org, yung-chuan.liao@linux.intel.com, 
-	pierre-louis.bossart@linux.dev, sanyog.r.kale@intel.com, Greg Kroah-Hartman
-	 <gregkh@linuxfoundation.org>, "Rafael J. Wysocki" <rafael@kernel.org>, 
-	dakr@kernel.org, dan.j.williams@intel.com, Andy Shevchenko
-	 <andriy.shevchenko@linux.intel.com>, linux-doc@vger.kernel.org, LKML
-	 <linux-kernel@vger.kernel.org>, linux-pci@vger.kernel.org, 
-	platform-driver-x86@vger.kernel.org, Dell.Client.Kernel@dell.com, 
-	linux-sound@vger.kernel.org
-Date: Fri, 25 Apr 2025 11:13:22 -0700
-In-Reply-To: <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com>
-References: <20250423175040.784680-1-david.e.box@linux.intel.com>
-	 <20250423175040.784680-5-david.e.box@linux.intel.com>
-	 <8d261613-60d3-8825-e073-1b39daadc29a@linux.intel.com>
-Organization: David E. Box
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FQXA+UJm"
+ARC-Seal: i=1; a=rsa-sha256; t=1745605385; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=XR4vgjGGKgdTAQTS2rACu8DaNC0+4UT/y6l9t417lb2cEStrUiXb49602fgwtccUsuX6Y7kHT14MvO7LiXz/8vP2d9vyBMllb1yfwmw+lyFAzcy6j11bYeX9roXbD72We6/FhhaGdz4R22SLlAc7fOCP1UFTbutm9Mb8ATzOW+w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1745605385; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=0RChf9eM3DaEmdKL7oMWpMmY3Kl6bXdjA82ZsWOcius=; 
+	b=HeWEfNg05JGno+gblt9+NGBaOAc8R0q0ykioi6LxZ/YCrqqzWMn92WJP7wUnuLEU13sUQx4iPR0F5Y8oudQIORyGqJl3AQ9iSL4f4awb9YYVdgX3oO0WCm07xBMCeaAvUIncNk9u6U6px46oXvLSeXZ9mNfpdGv7lcXldvx9ml4=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745605385;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=0RChf9eM3DaEmdKL7oMWpMmY3Kl6bXdjA82ZsWOcius=;
+	b=FQXA+UJmtg+IY7UgzEQ+P9azZOu+hNcePPWPRlkIrfJ+s8uJDDZI/ISowa6uJow9
+	FRLma6kBaxPxT8zOpGE3SAbplMgma1cSyjpRidXiVhN8Llw9AXWiT7APRkqa5RxjwLk
+	uqkyIB9cMsYFPNm1mNRFQkNmUZ1p3tlYCA5RYoVA=
+Received: by mx.zohomail.com with SMTPS id 1745605383428608.9673402692126;
+	Fri, 25 Apr 2025 11:23:03 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 4/7] accel/rocket: Add a new driver for Rockchip's NPU
+Date: Fri, 25 Apr 2025 20:22:55 +0200
+Message-ID: <2950819.ElGaqSPkdT@workhorse>
+In-Reply-To: <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
+References:
+ <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Fri, 2025-04-25 at 13:57 +0300, Ilpo J=C3=A4rvinen wrote:
-> On Wed, 23 Apr 2025, David E. Box wrote:
->=20
-> > Replace deprecated DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE() call with the ne=
-w
-> > DEFINE_SYSFS_GROUP_VISIBILITY() helper for the pci_doe_features_sysfs g=
-roup
-> > in drivers/pci/doe.c.
-> >=20
-> > Signed-off-by: David E. Box <david.e.box@linux.intel.com>
-> > ---
-> > =C2=A0drivers/pci/doe.c | 2 +-
-> > =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/drivers/pci/doe.c b/drivers/pci/doe.c
-> > index aae9a8a00406..18b355506dc1 100644
-> > --- a/drivers/pci/doe.c
-> > +++ b/drivers/pci/doe.c
-> > @@ -119,7 +119,7 @@ static bool pci_doe_features_sysfs_group_visible(st=
-ruct
-> > kobject *kobj)
-> > =C2=A0
-> > =C2=A0	return !xa_empty(&pdev->doe_mbs);
-> > =C2=A0}
-> > -DEFINE_SIMPLE_SYSFS_GROUP_VISIBLE(pci_doe_features_sysfs)
-> > +DEFINE_SYSFS_GROUP_VISIBILITY(pci_doe_features_sysfs)
->=20
-> Hi David,
->=20
-> Is it intentional to not have semicolon at the end?
+On Tuesday, 25 February 2025 08:55:50 Central European Summer Time Tomeu Vizoso wrote:
+> This initial version supports the NPU as shipped in the RK3588 SoC and
+> described in the first part of its TRM, in Chapter 36.
+> 
+> This NPU contains 3 independent cores that the driver can submit jobs
+> to.
+> 
+> This commit adds just hardware initialization and power management.
+> 
+> v2:
+> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
+> - Add some documentation (Jeffrey Hugo)
+> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
+> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
+> - Repack structs (Jeffrey Hugo)
+> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
+> - Use devm_drm_dev_alloc (Jeffrey Hugo)
+> - Use probe log helper (Jeffrey Hugo)
+> - Introduce UABI header in a later patch (Jeffrey Hugo)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  Documentation/accel/index.rst           |    1 +
+>  Documentation/accel/rocket/index.rst    |   19 +
+>  MAINTAINERS                             |    8 +
+>  drivers/accel/Kconfig                   |    1 +
+>  drivers/accel/Makefile                  |    1 +
+>  drivers/accel/rocket/Kconfig            |   25 +
+>  drivers/accel/rocket/Makefile           |    8 +
+>  drivers/accel/rocket/rocket_core.c      |   71 +
+>  drivers/accel/rocket/rocket_core.h      |   29 +
+>  drivers/accel/rocket/rocket_device.c    |   29 +
+>  drivers/accel/rocket/rocket_device.h    |   29 +
+>  drivers/accel/rocket/rocket_drv.c       |  273 ++
+>  drivers/accel/rocket/rocket_drv.h       |   13 +
+>  drivers/accel/rocket/rocket_registers.h | 4425 +++++++++++++++++++++++++++++++
+>  14 files changed, 4932 insertions(+)
+> 
+> [...]
+> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..c22d965f20f1239a36b1d823d5fe5f372713555d
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_drv.c
+> @@ -0,0 +1,273 @@
+> [...]
+> +static int rocket_probe(struct platform_device *pdev)
+> +{
+> +	struct component_match *match = NULL;
+> +	struct device_node *core_node;
+> +
+> +	if (fwnode_device_is_compatible(pdev->dev.fwnode, "rockchip,rk3588-rknn-core"))
+> +		return component_add(&pdev->dev, &rocket_core_ops);
+> +
+> +	for_each_compatible_node(core_node, NULL, "rockchip,rk3588-rknn-core") {
+> +		if (!of_device_is_available(core_node))
+> +			continue;
+> +
+> +		drm_of_component_match_add(&pdev->dev, &match,
+> +					   component_compare_of, core_node);
+> +	}
+> +
+> +	return component_master_add_with_match(&pdev->dev, &rocket_drm_ops, match);
+> +}
 
-Hi Ilpo,
+Hi Tomeu,
 
-I was just doing a straight name swap and didn't not notice the lack of a
-semicolon. Of course, since DEFINE_SYSFS_GROUP_VISIBILITY() expands to a
-function definition, a trailing semicolon isn't necessary.
+something I've noticed while playing with this: currently, it doesn't seem like
+it's possible to support 1-core NPUs. rknn-core-top is a real core, but if no
+rknn-core is enabled beside it, it'll call component_master_add_with_match with
+match being NULL. This causes a kernel Oops.
 
-I suspect the issue is with the other instances where it was added, which m=
-akes
-the usage inconsistent. What would you suggest?
+I'm not sure what the proper fix is, since the component API doesn't seem to
+really have a consideration for a master with no other components.
 
-David
+I ran into this when I was trying to debug why I get job timeouts followed by
+a full SoC lock-up on RK3576 by running with only one of the two cores enabled.
+
+As an aside note, my throwaway rocket-on-RK3576-hacking-branch is at [1] and
+contains some changes you may want to consider for v3, e.g. [2] and [3]+[4]. In
+[4], specifically the `domain-supply` part which means the NPU regulators don't
+have to be always-on. Though feel free to pull in my entire ROCK 5B enablement
+patch.
+
+Kind regards,
+Nicolas Frattaroli, who discovered that his cat is apparently 5% space heater
+according to mobilenet while playing with this patch series.
+
+[1]: https://gitlab.collabora.com/fratti/linux/-/commits/tomeu-npu?ref_type=heads
+[2]: https://gitlab.collabora.com/fratti/linux/-/commit/73aba31a00b34c254be575b524da568e115d985d
+[3]: https://gitlab.collabora.com/fratti/linux/-/commit/bd3a7bf5054c54c2915a9dc0396730d0f24b3b7c
+[4]: https://gitlab.collabora.com/fratti/linux/-/commit/5da44d61b09c345309f76159574d447d071c295d
+
+
 
