@@ -1,139 +1,299 @@
-Received: from linux1587.grserver.gr (linux1587.grserver.gr [185.138.42.100])
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AC3A2594B4;
-	Fri, 25 Apr 2025 11:18:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.138.42.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AE3323DEB6
+	for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 11:27:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745579933; cv=none; b=iNHzg7KV9aIaKVD9ozzzkpw4EtXMDinaWgXJ1WgS4z/JQAzIEpe38De24XIninf2MXxjZif8jYpu4Tx1kfF/Q8GxjHtAKuLUhnZORDh+6OgJYVEwtYmXZd/CSNGaQXkv020wNAt4rE6t7ZaRZqGJrzrNKY9tnzbjqXA3GPpYmNs=
+	t=1745580460; cv=none; b=miqX+fztd0M7evsmSwfrbF94El1EF19fyKNTRDpMXVHEkiRunbkAZqrAfmqx/Z09g9AeI2xRIE61vJ/5ge3mkesZPGOjotLNj/MooFHaFCuOASvXIl4lYMcYP419vLDfg1w7bR/+5fkPe+2bCNKBDO1pIcBJdnrXcMlQmVH9W2c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745579933; c=relaxed/simple;
-	bh=T7PKyVUt3crhS062wcPX6RuQLioSxyB4opN5XxKCgAY=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Wx50jAkU5BEXkFCTBFqVUxM5LO0TqagfUgt/0XLmtW7xhEIn7Z9H84gIyy5BgFuh/n8t1AKqNtUKNyuG6S12r+IJAH+LRIBjNZXAAPkpegxqifMYYVD1TcUTg4msVhtavdAJ0r9XypIzwT8PxBUKTKT6akI5kp8xirgoT55q6/M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev; spf=pass smtp.mailfrom=antheas.dev; dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b=gN9XDfXO; arc=none smtp.client-ip=185.138.42.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=antheas.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=antheas.dev
+	s=arc-20240116; t=1745580460; c=relaxed/simple;
+	bh=L9I7eiN2f73J5dPVzszuLYpZejlZqjoUq0SaVPSprwE=;
+	h=Mime-Version:Content-Type:Date:Message-Id:Subject:Cc:To:From:
+	 References:In-Reply-To; b=B0b0GkUVxHPUyQxme/BKnJUCHnDM1zaqKlUVMjfDYufUlPJnyGAbd+wxdza8CjpjOGPj+oplVS5dLWkTcnbk4vsAC2QwpIO5oKpCGNt+ieUbzTvf7Kubtrt/35/ijiQLiHu8ZDxUgKUxW0BxV0GmLb4A84tQKooZvkQZ04NIE24=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=BeKf1Jbv; arc=none smtp.client-ip=209.85.221.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=antheas.dev header.i=@antheas.dev header.b="gN9XDfXO"
-Received: from localhost.localdomain (unknown [IPv6:2a02:2149:8a3b:5a00:3490:6581:3910:8337])
-	by linux1587.grserver.gr (Postfix) with ESMTPSA id 4DF772E028F6;
-	Fri, 25 Apr 2025 14:18:48 +0300 (EEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=antheas.dev;
-	s=default; t=1745579929;
-	bh=EOM7xb1wc43oU0lf5rEDD2j76CA4sncrvzR8q1EepOk=; h=From:To:Subject;
-	b=gN9XDfXO9bZuksSsw7C9sWYvNPOBsB77UZG1AoldwsHpf3RsJacLdDwCOxqYqiS+o
-	 C9HcCfuMGURG2GWy8WDQEWwLryfHeISXzXqmvquLiiHfOiyENWtNc99prITGsoQsQe
-	 Tvrg4ba7t6hVZrdU9D/N6b0yKzDVYr4tj4KkLo+o=
-Authentication-Results: linux1587.grserver.gr;
-	spf=pass (sender IP is 2a02:2149:8a3b:5a00:3490:6581:3910:8337) smtp.mailfrom=lkml@antheas.dev smtp.helo=localhost.localdomain
-Received-SPF: pass (linux1587.grserver.gr: connection is authenticated)
-From: Antheas Kapenekakis <lkml@antheas.dev>
-To: platform-driver-x86@vger.kernel.org
-Cc: linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-pm@vger.kernel.org,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jean Delvare <jdelvare@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Joaquin Ignacio Aramendia <samsagax@gmail.com>,
-	Derek J Clark <derekjohn.clark@gmail.com>,
-	Kevin Greenberg <kdgreenberg234@protonmail.com>,
-	Joshua Tam <csinaction@pm.me>,
-	Parth Menon <parthasarathymenon@gmail.com>,
-	Eileen <eileen@one-netbook.com>,
-	linux-kernel@vger.kernel.org,
-	sre@kernel.org,
-	linux@weissschuh.net,
-	ilpo.jarvinen@linux.intel.com,
-	hdegoede@redhat.com,
-	mario.limonciello@amd.com,
-	Antheas Kapenekakis <lkml@antheas.dev>
-Subject: [PATCH v10 16/16] platform/x86: oxpec: Convert defines to using tabs
-Date: Fri, 25 Apr 2025 13:18:21 +0200
-Message-ID: <20250425111821.88746-17-lkml@antheas.dev>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250425111821.88746-1-lkml@antheas.dev>
-References: <20250425111821.88746-1-lkml@antheas.dev>
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="BeKf1Jbv"
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-39ee6260fc7so131508f8f.1
+        for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 04:27:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1745580456; x=1746185256; darn=vger.kernel.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9tdcxdU/uqiM5JHIE0ih8RzkRpPBvVsrQ+sQtZ+utPU=;
+        b=BeKf1JbvEe86laQNNzzsu38dwjJfOp2oJziFAnmoWqsMbkQX7rgfKSMJBcS5wn9lX/
+         le6OTfnKYIUDlr9y9es740hx/A9QyE25H/Yy+CuZFImgWB9RUme4Zk7a2clmaukJFFFF
+         //djvxQCG2JB89Vw4/pGrhGGowVfM6p8qj5ic2tcEPQ5D13mdFo3TQoIpozBKfyOlZNm
+         sprNbfWJ6nQNdxp2NXBN4IYtQk6d5oczduvV1ZJLHEB0gAgCUSl9EZmROHTItBH2ShDh
+         2+rVqlSze0iTzP8C2PHzqtFySPVO2sfoSKtGvY4RRXwUizBClW/EBnWfPWEMPnI8AZkM
+         ddhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745580456; x=1746185256;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=9tdcxdU/uqiM5JHIE0ih8RzkRpPBvVsrQ+sQtZ+utPU=;
+        b=u4J1/WgHzfsKw4MUuVQeg7lQvWSZgP168UASiut5YtlyknKxtyq8EetojnjCeseKMh
+         8t9FPRvU5o+bf016tHQ64JfoByaUPg1oc/8Mwbg0rbrSdVmPAMOpa2k/fv6r4IYvdR62
+         +qgNiI5+NT+HBuM5A7NzeO7HGkzcyXsVsWO7lVxYyL6Y+fHfpr/u5fvbLOxonJOr6FWe
+         jpNP/ZzatEV3ie9NipuoTOy9Y7YSv6q+g6D7Ds/rfYGtIBKnYrQLsB1ti7GSy9L1m6OP
+         CmbIvBdgKjhHsbdOoit1By7l94xC1ZFca7mgYNzSWbKOU5QRIeSHh6tRwcpPaU1bER8y
+         NdOA==
+X-Forwarded-Encrypted: i=1; AJvYcCVTbIM9nCCuTE7Qt7T3t3IHIR1qf88kw0LSISz/FCAZ/Rx3jc5OLzHeu1zfulSARE7KPDDtsRDdHQU=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxQl1X2WAtoMdTtBxG63uFviDD38d+fOAMz1PyHK6eAbZeh7AuR
+	sBHyg8eXCt1wjSylG3wPBzkcEw1DrHk0XORxl038+2IKgdhge2EZj/iDk0lp6Hg=
+X-Gm-Gg: ASbGncukNIwY6tENyv7/O7FyABy/gLSzgxb6USTr4P5EwRTGorvmvFpjJOxMgvxfYed
+	4ufr0O8szeiaqBWPZdiJiSnLEjMxR6Fi7Br+pSCSrBJBygA6wz9heqmcxMVDn1OGn7Vix7vDS3E
+	a/SewTFTsYub2vVNX0fg5wMWBpNS8qIVV8AeH4FcuedBwi/CP4nEaAZplSjKtt2D3WjBuGCOgkT
+	3gKaUZKJRH/KCuwvVQF9l5XhX9iCHmC8NsftpTnBQggx164kP/zTyY2a5pJ0PZ+0ZYySBJ9fRpu
+	C15bv8jgghcKw98flXsejJVK2SKJQ8bWTyaNmOpT3H/0ga+E
+X-Google-Smtp-Source: AGHT+IEQ9pK+JKMDBMS71i2ytNl3g5Iz5jsYozyFh9v4Ot2oPm70zEuu2n9VUWJTfr8L27VdCIYOXQ==
+X-Received: by 2002:a05:6000:420e:b0:39c:1efc:44ed with SMTP id ffacd0b85a97d-3a074e42259mr527990f8f.7.1745580456083;
+        Fri, 25 Apr 2025 04:27:36 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:84a3:2b0a:bdb8:ce08])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-440a536a02csm22002045e9.27.2025.04.25.04.27.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 04:27:35 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-PPP-Message-ID: 
- <174557992913.23354.14997138938371653254@linux1587.grserver.gr>
-X-PPP-Vhost: antheas.dev
-X-Virus-Scanned: clamav-milter 0.103.11 at linux1587.grserver.gr
-X-Virus-Status: Clean
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 25 Apr 2025 13:27:34 +0200
+Message-Id: <D9FOMMGOGOZS.FN9LKYJAB9PD@ventanamicro.com>
+Subject: Re: [PATCH v12 05/28] riscv: usercfi state for task and
+ save/restore of CSR_SSP on trap entry/exit
+Cc: "Thomas Gleixner" <tglx@linutronix.de>, "Ingo Molnar"
+ <mingo@redhat.com>, "Borislav Petkov" <bp@alien8.de>, "Dave Hansen"
+ <dave.hansen@linux.intel.com>, <x86@kernel.org>, "H. Peter Anvin"
+ <hpa@zytor.com>, "Andrew Morton" <akpm@linux-foundation.org>, "Liam R.
+ Howlett" <Liam.Howlett@oracle.com>, "Vlastimil Babka" <vbabka@suse.cz>,
+ "Lorenzo Stoakes" <lorenzo.stoakes@oracle.com>, "Paul Walmsley"
+ <paul.walmsley@sifive.com>, "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert
+ Ou" <aou@eecs.berkeley.edu>, "Conor Dooley" <conor@kernel.org>, "Rob
+ Herring" <robh@kernel.org>, "Krzysztof Kozlowski" <krzk+dt@kernel.org>,
+ "Arnd Bergmann" <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>,
+ "Peter Zijlstra" <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>,
+ "Eric Biederman" <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann
+ Horn" <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <broonie@kernel.org>, <rick.p.edgecombe@intel.com>,
+ "Zong Li" <zong.li@sifive.com>, "linux-riscv"
+ <linux-riscv-bounces@lists.infradead.org>
+To: "Deepak Gupta" <debug@rivosinc.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-5-e51202b53138@rivosinc.com>
+ <D92WQWAUQYY4.2ED8JAFBDHGRN@ventanamicro.com>
+ <aAl_HRk49lnseiio@debug.ba.rivosinc.com>
+ <D9EUJBQ5OHN0.2KUJHGXK262TR@ventanamicro.com>
+ <aAp7Un415hNqtshd@debug.ba.rivosinc.com>
+In-Reply-To: <aAp7Un415hNqtshd@debug.ba.rivosinc.com>
 
-The defines used spaces previously. Convert all of them to use tabs.
+2025-04-24T10:56:34-07:00, Deepak Gupta <debug@rivosinc.com>:
+> On Thu, Apr 24, 2025 at 01:52:43PM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
+te:
+>>2025-04-23T17:00:29-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>> On Thu, Apr 10, 2025 at 01:04:39PM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 w=
+rote:
+>>>>2025-03-14T14:39:24-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>>>> diff --git a/arch/riscv/include/asm/thread_info.h b/arch/riscv/includ=
+e/asm/thread_info.h
+>>>>> @@ -62,6 +62,9 @@ struct thread_info {
+>>>>>  	long			user_sp;	/* User stack pointer */
+>>>>>  	int			cpu;
+>>>>>  	unsigned long		syscall_work;	/* SYSCALL_WORK_ flags */
+>>>>> +#ifdef CONFIG_RISCV_USER_CFI
+>>>>> +	struct cfi_status	user_cfi_state;
+>>>>> +#endif
+>>>>
+>>>>I don't think it makes sense to put all the data in thread_info.
+>>>>kernel_ssp and user_ssp is more than enough and the rest can comfortabl=
+y
+>>>>live elsewhere in task_struct.
+>>>>
+>>>>thread_info is supposed to be as small as possible -- just spanning
+>>>>multiple cache-lines could be noticeable.
+>>>
+>>> I can change it to only include only `user_ssp`, base and size.
+>>
+>>No need for base and size either -- we don't touch that in the common
+>>exception code.
+>
+> got it.
+>
+>>
+>>> But before we go there, see below:
+>>>
+>>> $ pahole -C thread_info kbuild/vmlinux
+>>> struct thread_info {
+>>>          long unsigned int          flags;                /*     0     =
+8 */
+>>>          int                        preempt_count;        /*     8     =
+4 */
+>>>
+>>>          /* XXX 4 bytes hole, try to pack */
+>>>
+>>>          long int                   kernel_sp;            /*    16     =
+8 */
+>>>          long int                   user_sp;              /*    24     =
+8 */
+>>>          int                        cpu;                  /*    32     =
+4 */
+>>>
+>>>          /* XXX 4 bytes hole, try to pack */
+>>>
+>>>          long unsigned int          syscall_work;         /*    40     =
+8 */
+>>>          struct cfi_status          user_cfi_state;       /*    48    3=
+2 */
+>>>          /* --- cacheline 1 boundary (64 bytes) was 16 bytes ago --- */
+>>>          long unsigned int          a0;                   /*    80     =
+8 */
+>>>          long unsigned int          a1;                   /*    88     =
+8 */
+>>>          long unsigned int          a2;                   /*    96     =
+8 */
+>>>
+>>>          /* size: 104, cachelines: 2, members: 10 */
+>>>          /* sum members: 96, holes: 2, sum holes: 8 */
+>>>          /* last cacheline: 40 bytes */
+>>> };
+>>>
+>>> If we were to remove entire `cfi_status`, it would still be 72 bytes (8=
+8 bytes
+>>> if shadow call stack were enabled) and already spans across two cacheli=
+nes.
+>>
+>>It has only 64 bytes of data without shadow call stack, but it wasted 8
+>>bytes on the holes.
+>>a2 is somewhat an outlier that is not used most exception paths and
+>>excluding it makes everything fit nicely even now.
+>
+> But we can't exclude shadow call stack. It'll lead to increased size if t=
+hat
+> config is selected. A solution has to work for all the cases and not half
+> hearted effort.
 
-Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
----
- drivers/platform/x86/oxpec.c | 36 ++++++++++++++++++------------------
- 1 file changed, 18 insertions(+), 18 deletions(-)
+We could drop a0 or user_sp and place the two ints next to each other,
+saving at least 16 bytes.
 
-diff --git a/drivers/platform/x86/oxpec.c b/drivers/platform/x86/oxpec.c
-index 692a6d6d08316..a07ba9c2fe4f5 100644
---- a/drivers/platform/x86/oxpec.c
-+++ b/drivers/platform/x86/oxpec.c
-@@ -64,36 +64,36 @@ static enum oxp_board board;
- static struct device *oxp_dev;
- 
- /* Fan reading and PWM */
--#define OXP_SENSOR_FAN_REG             0x76 /* Fan reading is 2 registers long */
--#define OXP_2_SENSOR_FAN_REG           0x58 /* Fan reading is 2 registers long */
--#define OXP_SENSOR_PWM_ENABLE_REG      0x4A /* PWM enable is 1 register long */
--#define OXP_SENSOR_PWM_REG             0x4B /* PWM reading is 1 register long */
--#define PWM_MODE_AUTO                  0x00
--#define PWM_MODE_MANUAL                0x01
-+#define OXP_SENSOR_FAN_REG		0x76 /* Fan reading is 2 registers long */
-+#define OXP_2_SENSOR_FAN_REG		0x58 /* Fan reading is 2 registers long */
-+#define OXP_SENSOR_PWM_ENABLE_REG	0x4A /* PWM enable is 1 register long */
-+#define OXP_SENSOR_PWM_REG		0x4B /* PWM reading is 1 register long */
-+#define PWM_MODE_AUTO			0x00
-+#define PWM_MODE_MANUAL			0x01
- 
- /* OrangePi fan reading and PWM */
--#define ORANGEPI_SENSOR_FAN_REG        0x78 /* Fan reading is 2 registers long */
--#define ORANGEPI_SENSOR_PWM_ENABLE_REG 0x40 /* PWM enable is 1 register long */
--#define ORANGEPI_SENSOR_PWM_REG        0x38 /* PWM reading is 1 register long */
-+#define ORANGEPI_SENSOR_FAN_REG		0x78 /* Fan reading is 2 registers long */
-+#define ORANGEPI_SENSOR_PWM_ENABLE_REG	0x40 /* PWM enable is 1 register long */
-+#define ORANGEPI_SENSOR_PWM_REG		0x38 /* PWM reading is 1 register long */
- 
- /* Turbo button takeover function
-  * Different boards have different values and EC registers
-  * for the same function
-  */
--#define OXP_TURBO_SWITCH_REG           0xF1 /* Mini Pro, OneXFly, AOKZOE */
--#define OXP_2_TURBO_SWITCH_REG         0xEB /* OXP2 and X1 */
--#define OXP_MINI_TURBO_SWITCH_REG      0x1E /* Mini AO7 */
-+#define OXP_TURBO_SWITCH_REG		0xF1 /* Mini Pro, OneXFly, AOKZOE */
-+#define OXP_2_TURBO_SWITCH_REG		0xEB /* OXP2 and X1 */
-+#define OXP_MINI_TURBO_SWITCH_REG	0x1E /* Mini AO7 */
- 
--#define OXP_MINI_TURBO_TAKE_VAL        0x01 /* Mini AO7 */
--#define OXP_TURBO_TAKE_VAL             0x40 /* All other models */
-+#define OXP_MINI_TURBO_TAKE_VAL		0x01 /* Mini AO7 */
-+#define OXP_TURBO_TAKE_VAL		0x40 /* All other models */
- 
--#define OXP_TURBO_RETURN_VAL           0x00 /* Common return val */
-+#define OXP_TURBO_RETURN_VAL		0x00 /* Common return val */
- 
- /* X1 Turbo LED */
--#define OXP_X1_TURBO_LED_REG           0x57
-+#define OXP_X1_TURBO_LED_REG		0x57
- 
--#define OXP_X1_TURBO_LED_OFF           0x01
--#define OXP_X1_TURBO_LED_ON            0x02
-+#define OXP_X1_TURBO_LED_OFF		0x01
-+#define OXP_X1_TURBO_LED_ON		0x02
- 
- /* Battery extension settings */
- #define EC_CHARGE_CONTROL_BEHAVIOURS	(BIT(POWER_SUPPLY_CHARGE_BEHAVIOUR_AUTO)             | \
--- 
-2.49.0
+(user_sp, a0, a1, and a2 are just temporary storage.  I think would be
+ fine with just two temporaries + kernel_sp, to provide three registers
+ for new_vmalloc_check and we never need more.)
 
+>>> if shadow call stack were enabled) and already spans across two cacheli=
+nes. I
+>>> did see the comment above that it should fit inside a cacheline. Althou=
+gh I
+>>> assumed its stale comment given that it already spans across cacheline =
+and I
+>>> didn't see any special mention in commit messages of changes which grew=
+ this
+>>> structure above one cacheline. So I assumed this was a stale comment.
+>>>
+>>> On the other hand, whenever enable/lock bits are checked, there is a hi=
+gh
+>>> likelyhood that user_ssp and other fields are going to be accessed and
+>>> thus it actually might be helpful to have it all in one cacheline durin=
+g
+>>> runtime.
+>>
+>>Yes, although accessing enable/lock bits will be relatively rare.
+>>It seems better to have the overhead during thread setup, rather than on
+>>every trap.
+>>
+>>> So I am not sure if its helpful sticking to the comment which already i=
+s stale.
+>>
+>>We could fix the holes and also use sp instead of a0 in the
+>>new_vmalloc_check, so everything would fit better.
+>>
+>>We are really close to fitting into a single cache-line, so I'd prefer
+>>if shadow stack only filled thread_info with data that is used very
+>>often in the exception handling code.
+>
+> I don't get what's the big deal if it results in two cachelines. We can
+> (re)organize data structure in a way the most frequently accessed members=
+ are
+> together in a single cacheline. We just need to find those members.
+
+Yes, and because this patch is reorganizing the structure, I thought it
+would be better to do the analysis now, rather than to incur additional
+debt.
+
+thread_info members are accessed during the first instructions after a
+trap.  We want to maximize the chance that the execution doesn't stall
+until uarch has time to engage its crystal ball.
+
+> In the hot path of exception handling, I see accesses to pt_regs on stack=
+ as
+> well. These are definitley different cacheline than thread_info.
+
+Right, and we also access cache-lines for the code.
+
+I don't know how well each uarch keeps the early trap data/code in
+caches, but it doesn't seem like a bad idea to minimize the amount of
+cache-lines that are accessed early after trap.
+
+> I understand the argument of one member field crossing into two cacheline=
+s can
+> have undesired perf effects. I do not understand reasoning that thread_in=
+fo
+> exactly has to fit inside one cacheline.
+
+I agree that we could probably lift the constraint for some values --
+it's a lot of performance modeling and convincing, though...
+
+In this series, I think it would be good to avoid splitting kernel_sp
+and a0/a1 into two cache-lines.  kernel_sp and a0/a1 are accessed within
+the first few instructions.
+
+> If this was always supposed to fit in a single cacheline, clearly this
+> invariant isn't/wasn't maintained as changes trickled in. I would like to=
+ see
+> what maintainers have to say or someone who did data analysis on this.
+
+I don't think it is necessary to fix the rest, just not making things
+worse is already great.
+
+>>I think we could do without user_sp in thread_info as well, so there are
+>>other packing options.
+>
+> Sure, probably somewhere in task_struct. But fact of the matter is that i=
+t has
+> to be saved/restore during exception entry/exit. But then load/store to
+> task_struct is essentially a different cachline. Not sure what we will ac=
+hieve
+> here?
+
+user_sp is only temporarily storage space in thread_info.
+The sp register is restored from pt_regs, so we could refactor the code
+to drop user_sp from thread_info.
+
+e.g. use a0, a1, or a2 for the temporary storage: user_sp is not even
+the userspace sp, it is sp of the previous sp "user", which might have
+been the kernel.
+
+>>Btw. could ssp be added to pt_regs?
+>
+> I had that earlier. It breaks user abi. And it was a no go.
+
+Thanks, I was afraid of that. :)
+
+We might want to eventually push ssp to the stack to follow the same
+design for trap nesting as sp has, but that can happen when implementing
+ssp for the kernel.  Squeezing into thread_info should work for now.
