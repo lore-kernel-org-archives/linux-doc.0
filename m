@@ -1,95 +1,87 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1904E137E;
-	Fri, 25 Apr 2025 06:31:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68B6822E415;
+	Fri, 25 Apr 2025 07:13:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745562678; cv=none; b=f3QDZaD8ldOOZeDgzgxP40Up4MH6jHamwJzUyz3+xDEDV3JAviKKZWMrBc1xAqNxh6bZuK7r9D0sl9zEo6PYF5+eIOSK/AdpqirdpkNI9JL/GG4N5yOkcwpy0yZpJviVMxcVbOqFYFOsI+vIuRp2RyVW+kfBWNYClQ+Klvu7AVo=
+	t=1745565238; cv=none; b=WrevAv1g354EU4Rr5cOQn0xnGJ5A4CKvT5jCEuNI1mha+RKvKddB+sCVu+bpNCxOuQkFK6JIPxCZrgPfnWxK6Uw+XV+gZoCPpBHU/NbRemKYdbten716z+RKULfrpJUEqbf0rt9wzle1oky3UnwK9VEzA+M6ZJRgCDmeW/p5PKM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745562678; c=relaxed/simple;
-	bh=GIqQZ1dCRUDCHo4FeFANi+6joS0iyejlHj27N/oETyw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JQ5aByg2aUeLRZvQXqGhcwpdL/obUy/mV8iSCF0XFm+E1Irjo40Ns6dHbz7fWd+lfupJTVtO9yJOGmsbM1uEiLyyKzEs5Wytv4VWijmP8ecZCor8cruXJUxSzAbX1DdTTkzYHDpUomSI3Xb6AdBt7lzHOA5Hk026+jhP5VFoLkM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ofAFvxRb; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745565238; c=relaxed/simple;
+	bh=hE2LTNl6/i9rVKhkGSJYeeQV/bDrqESmfqg01MQICJ0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=uDib4YZ5g/ozIFO2pXa+F/lLmFow6Wdo0H6OME990fVCTVDaatZbiG8x2E2DBkesboLATHLlej9+yMOFyGf7chhgJPNrtwk1JmBJiou8ocFDZxCVhJ65uqwtbF9n0i5hRv4hxpNXgD/v4svie4jHWLl02ChHHvAsVuFReZJutKs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AKQZSAGb; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ofAFvxRb"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB92CC4CEE4;
-	Fri, 25 Apr 2025 06:31:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AKQZSAGb"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id CE68EC4CEE4;
+	Fri, 25 Apr 2025 07:13:57 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745562677;
-	bh=GIqQZ1dCRUDCHo4FeFANi+6joS0iyejlHj27N/oETyw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ofAFvxRb3i1wsdHnPsZon3UzTa0HMqQEAs49Z8Whb/D8lHfG5gPiZatwVWz7pB/NW
-	 dp9oTLlRjQ9fVjS6J4KItmgYIvEwGX43Ns9FUTndfBIOUBIFCLzFFvlvs8MpE0FGo/
-	 bwXc6kNmKTGh6CYL8sLsEoBumcqbn1l3cFyBPNiittw3T6RviJqRh0vBuDkl8CAiV6
-	 bdcDIzSfiFbdAAbp2wkqpMfpccQgxQiU1BpHvZbCQHeK3ql4xFSHBThRB8+ZP35ZRY
-	 3g3Vvn9ckTeisZyBBJytUOX9pIH415/yQ1zvu0pzExHTwVZBfwVYA8KXAQRM50hwOL
-	 ++ZgGFIEhlT8w==
-Date: Fri, 25 Apr 2025 06:31:15 +0000
-From: Wei Liu <wei.liu@kernel.org>
-To: Roman Kisel <romank@linux.microsoft.com>
-Cc: aleksander.lobakin@intel.com, andriy.shevchenko@linux.intel.com,
-	arnd@arndb.de, bp@alien8.de, catalin.marinas@arm.com,
-	corbet@lwn.net, dakr@kernel.org, dan.j.williams@intel.com,
-	dave.hansen@linux.intel.com, decui@microsoft.com,
-	gregkh@linuxfoundation.org, haiyangz@microsoft.com, hch@lst.de,
-	hpa@zytor.com, James.Bottomley@hansenpartnership.com,
-	Jonathan.Cameron@huawei.com, kys@microsoft.com, leon@kernel.org,
-	lukas@wunner.de, luto@kernel.org, m.szyprowski@samsung.com,
-	martin.petersen@oracle.com, mingo@redhat.com, peterz@infradead.org,
-	quic_zijuhu@quicinc.com, robin.murphy@arm.com, tglx@linutronix.de,
-	wei.liu@kernel.org, will@kernel.org, iommu@lists.linux.dev,
-	linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-doc@vger.kernel.org, linux-hyperv@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-scsi@vger.kernel.org,
-	x86@kernel.org, apais@microsoft.com, benhill@microsoft.com,
-	bperkins@microsoft.com, sunilmut@microsoft.com
-Subject: Re: [PATCH hyperv-next 1/6] Documentation: hyperv: Confidential VMBus
-Message-ID: <aAssMxyM-TBnyARj@liuwe-devbox-ubuntu-v2.tail21d00.ts.net>
-References: <20250409000835.285105-1-romank@linux.microsoft.com>
- <20250409000835.285105-2-romank@linux.microsoft.com>
+	s=k20201202; t=1745565237;
+	bh=hE2LTNl6/i9rVKhkGSJYeeQV/bDrqESmfqg01MQICJ0=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AKQZSAGb2uSYghmCImaLgqH/Bm9jZMGQLaKeN3aKl5319c9nVqoY/zrUldjUjnGkP
+	 GY19ptYj4D5rIOOkh5T+stoWHKgpjC9ug9urWlgZifiZGmM/rtVQVeMChtxBCn4TRp
+	 Ly1UnOBY4r/kibIy6rJk3jV9cnl1HTixoT07OSYHhvtsfEjhlXO+WOtS08R3Nidlgo
+	 yY/Elayaky2B+K5nFj0TwH/UyDfEUV0jCASpQH4WDyZ6RJeBIQDBF5k40zsX6SMUOP
+	 mPBtNGJsK6X0vo2MDYnt34aiLU4fQ8N0gEqpRsVL0pyLP4s1EwarPmesr1eVfnlD4D
+	 bLTG1TcZi35mQ==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1u8DFv-00000000TFx-3ppw;
+	Fri, 25 Apr 2025 15:13:51 +0800
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/3] Some small improvements for kernel-doc generation
+Date: Fri, 25 Apr 2025 15:13:37 +0800
+Message-ID: <cover.1745564565.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250409000835.285105-2-romank@linux.microsoft.com>
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-On Tue, Apr 08, 2025 at 05:08:30PM -0700, Roman Kisel wrote:
-> Define what the confidential VMBus is and describe what advantages
-> it offers on the capable hardware.
-> 
-> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
-> ---
->  Documentation/virt/hyperv/vmbus.rst | 41 +++++++++++++++++++++++++++++
->  1 file changed, 41 insertions(+)
-> 
-> diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/hyperv/vmbus.rst
-> index 1dcef6a7fda3..f600e3d09800 100644
-> --- a/Documentation/virt/hyperv/vmbus.rst
-> +++ b/Documentation/virt/hyperv/vmbus.rst
-> @@ -324,3 +324,44 @@ rescinded, neither Hyper-V nor Linux retains any state about
->  its previous existence. Such a device might be re-added later,
->  in which case it is treated as an entirely new device. See
->  vmbus_onoffer_rescind().
-> +
-> +Confidential VMBus
-> +------------------
-> +
-> +The confidential VMBus provides the control and data planes where
-> +the guest doesn't talk to either the hypervisor or the host. Instead,
-> +it relies on the trusted paravisor. The hardware (SNP or TDX) encrypts
-> +the guest memory and the register state also measuring the paravisor
-> +image via using the platform security processor to ensure trsuted and
-> +confidential computing.
-> +
-> +To support confidential communication with the paravisor, a VmBus client
+Hi Jon,
 
-Please be consistent. In this document I see VMBus and VmBus. We should
-stick with only one form.
+This series contain 3 patches for kernel-doc:
 
-Wei.
+Patch 1 creates a kernel doc class at the beginning of kerneldoc Sphinx
+module and preserves it. With that, some caching is enabled;
+Patch 2 fixes some permissions;
+Patch 3 is mostly a cleanup patch to simplify a little bit the complex parser.
+
+On my tests here, it runs about 10 seconds faster on my machine
+and I didn't notice any regressions.
+
+I guess there are still space to optimize the cache, but I don't want to
+do too much optimization on a single series.
+
+Please also notice that I didn't check the amount of memory that it is
+now consumed storing the entire kernel-doc data on a dictionary.
+I assume it is not that much, as I can still compile docs on my 16GB
+laptop.
+
+Mauro Carvalho Chehab (3):
+  docs: Sphinx: kerneldoc: only initialize kernel-doc classes once
+  scripts/lib/kdoc: change mode to 0644
+  scripts/lib/kdoc/kdoc_parser.py: move kernel entry to a class
+
+ Documentation/sphinx/kerneldoc.py |  23 ++-
+ scripts/lib/kdoc/kdoc_output.py   |   0
+ scripts/lib/kdoc/kdoc_parser.py   | 277 ++++++++++++++++--------------
+ scripts/lib/kdoc/kdoc_re.py       |   0
+ 4 files changed, 162 insertions(+), 138 deletions(-)
+ mode change 100755 => 100644 scripts/lib/kdoc/kdoc_output.py
+ mode change 100755 => 100644 scripts/lib/kdoc/kdoc_parser.py
+ mode change 100755 => 100644 scripts/lib/kdoc/kdoc_re.py
+
+-- 
+2.49.0
+
+
