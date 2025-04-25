@@ -1,177 +1,236 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E70A17081F;
-	Fri, 25 Apr 2025 14:12:55 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 655B5199E84;
+	Fri, 25 Apr 2025 16:24:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745590377; cv=none; b=AeCyd27QFyDJ/QfxOlqeuOQAHLpzWn8UD1TbLbegGCnJuK1UQXnNv5jtjeCwaiOeu/Np++yHXJkzIdJ8bGmpiDHmbJMYHK21Jmnb8b0iOmn2DQPFveQofPYHB1PoaXWjsx2iP6P7U/QAqieyWmy7AVzsBoBIr5s3BnowosoGs9M=
+	t=1745598279; cv=none; b=JSl8iFtUQVOmesRET3rzAEgmSgIWBwKAKlbTuRK5J8A0y6MMdRMSAQo1MosZQ50VlQi8G6SAB9aiFRP3M08uKoELwRJZr6NqBEpzw1pCm9UaeHB00qbYMllVCvR42RdRitm3ToHpMYLM8/54iFs3Th47HI0GssUk6T5pjkv8eo4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745590377; c=relaxed/simple;
-	bh=kQZa9H88IRjq2r7TjcONEZD3Enz3AN+e7iK0VXsD/q8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=nqmNnA3YRo7/JncLYko5/Is5jfSxHLMgKlHpfO8NJNJjE93b6KYp4oHAJjLjI5SxAA8OdPn88xF47ebDVlexBAnQn0BQ2esftieQ4Hhw1qGapB74TRvlvO5HU7LLcK8BFKEwU4IwU3Xz/+Bk51Ge/DBRSgAmuYfyrkS+wpjC6J4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MYCmwDSK; arc=none smtp.client-ip=192.198.163.7
+	s=arc-20240116; t=1745598279; c=relaxed/simple;
+	bh=NkU7tAkxyRI3+ZzeXQF0hq98MO5Gc/uMx+ZHCBqiJ0M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b7ea9fHfUFw0t09tJG9QTcxt8VHYHTEAUSaMQsGWxNuJY0JspX7Q/qf+SundOfnzCWOAR89xdaXvT5i6yr7Ne85WGuDJSQNpgSmU0mh5UFJorCA5CY+Rht3AVAWkSAYAvlDMVt4asDXgh7P3sm7qLtpRxk9JsBvc2IO5ZGWQ16E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=SdGAYdfw; arc=none smtp.client-ip=192.198.163.9
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MYCmwDSK"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="SdGAYdfw"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745590376; x=1777126376;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=kQZa9H88IRjq2r7TjcONEZD3Enz3AN+e7iK0VXsD/q8=;
-  b=MYCmwDSKkjNOrW00fDwUU+MlJg/UxLG9MaIBDP2JJkS+NuWMXKoB7btJ
-   dNHioxnEcngSZuGAEhr0PXd5gTIf+9KlJRMFLU2bO0CkyEdsFnDh0dH0R
-   PGhdcA6lUUcCIPtaEtgzgIPCPNveYE/SAbEo3/v0UrL9FSy+bJaERcRCe
-   GMs2QSGKTsjRchDaKcxbdtIs3OMXdUTeZGs2wGbgnCfo4siFrTq3d4qJL
-   z9A3qVpD451QIVBl54OdUuWXQlyYy/z+KdYDd9B4I2EIZi0oCPmJPt+Xa
-   45PtvWTL3Sp6hltL4etUOcSXTFyPK1DT8uirOVpADgeUGILxUFl5AX6pr
-   g==;
-X-CSE-ConnectionGUID: Kl0Rp0n4S/e9yJhzzc/Wpw==
-X-CSE-MsgGUID: Rpx1AYbPQXuoFi4nBhIu4Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="72628023"
+  t=1745598277; x=1777134277;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=NkU7tAkxyRI3+ZzeXQF0hq98MO5Gc/uMx+ZHCBqiJ0M=;
+  b=SdGAYdfw/tyEr1qaOvd/iC+L5x+bedyXtPaG0cPsDVkBmIZ4pDfRhTUM
+   cc62ilA7eRX7uyH5eoBYrPWnpEalPIk17W2a4FJSfZKCCWVYqm1Hq1sn9
+   Bg0PBBwOxWx9MK0NycguxVHsd/PFQ5z4dj0y5mdo8srGaSzJf6nbMFpqi
+   Dq35rxlaT6jzMEnV5km1+4w3n91XvsZja4MH9Eilg78duUBWAt3hEPsk+
+   b+yabeuVzpVzfQfVaMpYkR6PRNBX0KKA3FW/cNm6q6btsu+SEEWGcy1Wh
+   6iaFjJOgdjOvad/64NyAqOLB9VN9lpc/yNxsMzEtfLMLjrzy15YW/FGwV
+   A==;
+X-CSE-ConnectionGUID: 0Q7RCBIvSsy7NVoAjV+n5w==
+X-CSE-MsgGUID: TxCTSjgLSpauD+eCLJZBlA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="57906601"
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="72628023"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 07:12:55 -0700
-X-CSE-ConnectionGUID: gze8PSdqR4uxfgHgShwE1A==
-X-CSE-MsgGUID: b9P0pObJRQ+SXKkVkYvCRg==
+   d="scan'208";a="57906601"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 09:24:36 -0700
+X-CSE-ConnectionGUID: AB0hULXiSEiLUC0D3wqTkQ==
+X-CSE-MsgGUID: NHCw9QsNTnaRuBFdsyFb/w==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133421364"
-Received: from uaeoff-desk2.amr.corp.intel.com (HELO [10.124.222.49]) ([10.124.222.49])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 07:12:53 -0700
-Message-ID: <9b18e8e3-f3e2-48d4-839a-56e1d8f62657@intel.com>
-Date: Fri, 25 Apr 2025 07:12:51 -0700
+   d="scan'208";a="133472533"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa007.jf.intel.com with ESMTP; 25 Apr 2025 09:24:33 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8Lqp-0005LZ-13;
+	Fri, 25 Apr 2025 16:24:31 +0000
+Date: Sat, 26 Apr 2025 00:24:09 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chiang Brian <chiang.brian@inventec.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Message-ID: <202504260027.mOmzx213-lkp@intel.com>
+References: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
- kernel support
-To: Rich Persaud <persaur@gmail.com>
-Cc: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org,
- x86@kernel.org, linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-crypto@vger.kernel.org, kexec@lists.infradead.org,
- linux-efi@vger.kernel.org, iommu@lists.linux.dev,
- dpsmith@apertussolutions.com, tglx@linutronix.de, mingo@redhat.com,
- bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, ardb@kernel.org,
- mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com,
- peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net,
- nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net,
- corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org,
- baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com,
- andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com,
- Sergii Dmytruk <sergii.dmytruk@3mdeb.com>, openxt@googlegroups.com,
- "Mowka, Mateusz" <mateusz.mowka@intel.com>, Ning Sun <ning.sun@intel.com>,
- tboot-devel@lists.sourceforge.net
-References: <18F9BD47-282D-4225-AB6B-FDA4AD52D7AE@gmail.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <18F9BD47-282D-4225-AB6B-FDA4AD52D7AE@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 
-On 4/25/25 03:12, Rich Persaud wrote:
-> ﻿On Apr 24, 2025, at 2:45 PM, Dave Hansen <dave.hansen@intel.com> 
-> wrote:
->> ﻿On 4/21/25 09:26, Ross Philipson wrote:
->>> This patchset provides detailed documentation of DRTM, the 
->>> approach used for adding the capbility, and relevant API/ABI 
->>> documentation. In addition to the documentation the patch set 
->>> introduces Intel TXT support as the first platform for Linux 
->>> Secure Launch.
->> 
->> So, I know some of the story here thanks to Andy Cooper. But the 
->> elephant in the room is:
->> 
->>> INTEL(R) TRUSTED EXECUTION TECHNOLOGY (TXT) M:      Ning Sun 
->>> <ning.sun@intel.com> L:      tboot-devel@lists.sourceforge.net 
->>> S:      Supported W:      http://tboot.sourceforge.net T: hg 
->>> http://tboot.hg.sourceforge.net:8000/hgroot/tboot/tboot F: 
->>> Documentation/arch/x86/intel_txt.rst F:      arch/x86/ kernel/ 
->>> tboot.c F:      include/linux/tboot.h
->> 
->> Linux already supports TXT. Why do we need TrenchBoot?
-> 
-> One reason is to generalize DRTM support to other platforms.
+Hi Chiang,
 
-OK, but why do this in Linux as opposed to tboot? Right now, much of the
-TXT magic is done outside of the kernel. Why do it *IN* the kernel?
+kernel test robot noticed the following build errors:
 
->> Also, honestly, what do you think we should do with the Linux 
->> tboot code? Is everyone going to be moving over to Trenchboot>
-> OpenXT will migrate development of measured launch from tboot to 
-> TrenchBoot Secure Launch, after upstream Linux and Xen have support 
-> for both Intel and AMD DRTM. Previously-deployed Intel devices using
-> tboot, derived from OpenXT, will need support until users upgrade
-> their hardware.
+[auto build test ERROR on groeck-staging/hwmon-next]
+[also build test ERROR on robh/for-next linus/master v6.15-rc3 next-20250424]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Say we axed tboot support from 6.16, but merged Trenchboot. A user on
-old hardware upgrades their kernel. What happens to them?
+url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/dt-bindings-trivial-Add-tps53685-support/20250424-222559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250424132538.2004510-2-chiang.brian%40inventec.corp-partner.google.com
+patch subject: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+config: loongarch-randconfig-001-20250425 (https://download.01.org/0day-ci/archive/20250426/202504260027.mOmzx213-lkp@intel.com/config)
+compiler: loongarch64-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504260027.mOmzx213-lkp@intel.com/reproduce)
 
->> so that Linux support for TXT/tboot can just go away?
-You didn't _really_ answer the question.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504260027.mOmzx213-lkp@intel.com/
 
-Summarizing, I think you're saying that TXT/tboot Linux support can just
-go away, but it will be help if its maintainers help its users transition.
+All errors (new ones prefixed by >>):
 
-Does anybody disagree with that?
+   drivers/hwmon/pmbus/tps53679.c: In function 'tps53679_identify_multiphase':
+>> drivers/hwmon/pmbus/tps53679.c:133:57: error: passing argument 3 of 'tps53679_identify_chip' makes pointer from integer without a cast [-Wint-conversion]
+     133 |         ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+         |                                                         ^~~~~~~~~
+         |                                                         |
+         |                                                         int
+   drivers/hwmon/pmbus/tps53679.c:90:54: note: expected 'char *' but argument is of type 'int'
+      90 |                                   u8 revision, char *id)
+         |                                                ~~~~~~^~
+   drivers/hwmon/pmbus/tps53679.c: In function 'tps53681_identify':
+>> drivers/hwmon/pmbus/tps53679.c:34:32: error: passing argument 4 of 'tps53679_identify_multiphase' makes integer from pointer without a cast [-Wint-conversion]
+      34 | #define TPS53681_DEVICE_ID     "\x81"
+         |                                ^~~~~~
+         |                                |
+         |                                char *
+   drivers/hwmon/pmbus/tps53679.c:165:45: note: in expansion of macro 'TPS53681_DEVICE_ID'
+     165 |                                             TPS53681_DEVICE_ID);
+         |                                             ^~~~~~~~~~~~~~~~~~
+   drivers/hwmon/pmbus/tps53679.c:129:60: note: expected 'int' but argument is of type 'char *'
+     129 |                                         int pmbus_rev, int device_id)
+         |                                                        ~~~~^~~~~~~~~
 
-> In that perfect world, Intel ACM and tboot developers would review
-> the TrenchBoot Linux series
 
-So, I was looking on the cc list and I didn't see them on there.
-Shouldn't they be cc'd if you want them to review the series? A little
-poking at lore makes me think that they were *NEVER* cc'd.
+vim +/tps53679_identify_chip +133 drivers/hwmon/pmbus/tps53679.c
 
-Is that right, or is my lore-foo weak?
+610526527a13e4 Vadim Pasternak 2017-08-30   33  
+a49c0dafb304b8 Chiang Brian    2025-04-24  @34  #define TPS53681_DEVICE_ID     "\x81"
+a49c0dafb304b8 Chiang Brian    2025-04-24   35  #define TPS53685_DEVICE_ID     "TIShP"
+53030bcc87e4a4 Guenter Roeck   2020-01-20   36  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   37  #define TPS53681_PMBUS_REVISION		0x33
+53030bcc87e4a4 Guenter Roeck   2020-01-20   38  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   39  #define TPS53681_MFR_SPECIFIC_20	0xe4	/* Number of phases, per page */
+53030bcc87e4a4 Guenter Roeck   2020-01-20   40  
+dd43193976b9a7 Stephen Kitt    2020-08-08   41  static const struct i2c_device_id tps53679_id[];
+dd43193976b9a7 Stephen Kitt    2020-08-08   42  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   43  static int tps53679_identify_mode(struct i2c_client *client,
+610526527a13e4 Vadim Pasternak 2017-08-30   44  				  struct pmbus_driver_info *info)
+610526527a13e4 Vadim Pasternak 2017-08-30   45  {
+610526527a13e4 Vadim Pasternak 2017-08-30   46  	u8 vout_params;
+b9fa0a3acfd86c Vadim Pasternak 2020-01-13   47  	int i, ret;
+610526527a13e4 Vadim Pasternak 2017-08-30   48  
+6f944004f873e3 Guenter Roeck   2020-01-24   49  	for (i = 0; i < info->pages; i++) {
+610526527a13e4 Vadim Pasternak 2017-08-30   50  		/* Read the register with VOUT scaling value.*/
+b9fa0a3acfd86c Vadim Pasternak 2020-01-13   51  		ret = pmbus_read_byte_data(client, i, PMBUS_VOUT_MODE);
+610526527a13e4 Vadim Pasternak 2017-08-30   52  		if (ret < 0)
+610526527a13e4 Vadim Pasternak 2017-08-30   53  			return ret;
+610526527a13e4 Vadim Pasternak 2017-08-30   54  
+610526527a13e4 Vadim Pasternak 2017-08-30   55  		vout_params = ret & GENMASK(4, 0);
+610526527a13e4 Vadim Pasternak 2017-08-30   56  
+610526527a13e4 Vadim Pasternak 2017-08-30   57  		switch (vout_params) {
+610526527a13e4 Vadim Pasternak 2017-08-30   58  		case TPS53679_PROT_VR13_10MV:
+610526527a13e4 Vadim Pasternak 2017-08-30   59  		case TPS53679_PROT_VR12_5_10MV:
+b9fa0a3acfd86c Vadim Pasternak 2020-01-13   60  			info->vrm_version[i] = vr13;
+610526527a13e4 Vadim Pasternak 2017-08-30   61  			break;
+610526527a13e4 Vadim Pasternak 2017-08-30   62  		case TPS53679_PROT_VR13_5MV:
+610526527a13e4 Vadim Pasternak 2017-08-30   63  		case TPS53679_PROT_VR12_5MV:
+610526527a13e4 Vadim Pasternak 2017-08-30   64  		case TPS53679_PROT_IMVP8_5MV:
+b9fa0a3acfd86c Vadim Pasternak 2020-01-13   65  			info->vrm_version[i] = vr12;
+610526527a13e4 Vadim Pasternak 2017-08-30   66  			break;
+610526527a13e4 Vadim Pasternak 2017-08-30   67  		default:
+610526527a13e4 Vadim Pasternak 2017-08-30   68  			return -EINVAL;
+610526527a13e4 Vadim Pasternak 2017-08-30   69  		}
+b9fa0a3acfd86c Vadim Pasternak 2020-01-13   70  	}
+610526527a13e4 Vadim Pasternak 2017-08-30   71  
+610526527a13e4 Vadim Pasternak 2017-08-30   72  	return 0;
+610526527a13e4 Vadim Pasternak 2017-08-30   73  }
+610526527a13e4 Vadim Pasternak 2017-08-30   74  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   75  static int tps53679_identify_phases(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck   2020-01-20   76  				    struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck   2020-01-20   77  {
+53030bcc87e4a4 Guenter Roeck   2020-01-20   78  	int ret;
+53030bcc87e4a4 Guenter Roeck   2020-01-20   79  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   80  	/* On TPS53681, only channel A provides per-phase output current */
+53030bcc87e4a4 Guenter Roeck   2020-01-20   81  	ret = pmbus_read_byte_data(client, 0, TPS53681_MFR_SPECIFIC_20);
+53030bcc87e4a4 Guenter Roeck   2020-01-20   82  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck   2020-01-20   83  		return ret;
+53030bcc87e4a4 Guenter Roeck   2020-01-20   84  	info->phases[0] = (ret & 0x07) + 1;
+53030bcc87e4a4 Guenter Roeck   2020-01-20   85  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   86  	return 0;
+53030bcc87e4a4 Guenter Roeck   2020-01-20   87  }
+53030bcc87e4a4 Guenter Roeck   2020-01-20   88  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   89  static int tps53679_identify_chip(struct i2c_client *client,
+a49c0dafb304b8 Chiang Brian    2025-04-24   90  				  u8 revision, char *id)
+53030bcc87e4a4 Guenter Roeck   2020-01-20   91  {
+53030bcc87e4a4 Guenter Roeck   2020-01-20   92  	u8 buf[I2C_SMBUS_BLOCK_MAX];
+53030bcc87e4a4 Guenter Roeck   2020-01-20   93  	int ret;
+a49c0dafb304b8 Chiang Brian    2025-04-24   94  	int buf_len;
+a49c0dafb304b8 Chiang Brian    2025-04-24   95  	int id_len;
+53030bcc87e4a4 Guenter Roeck   2020-01-20   96  
+53030bcc87e4a4 Guenter Roeck   2020-01-20   97  	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
+53030bcc87e4a4 Guenter Roeck   2020-01-20   98  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck   2020-01-20   99  		return ret;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  100  	if (ret != revision) {
+53030bcc87e4a4 Guenter Roeck   2020-01-20  101  		dev_err(&client->dev, "Unexpected PMBus revision 0x%x\n", ret);
+53030bcc87e4a4 Guenter Roeck   2020-01-20  102  		return -ENODEV;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  103  	}
+53030bcc87e4a4 Guenter Roeck   2020-01-20  104  
+53030bcc87e4a4 Guenter Roeck   2020-01-20  105  	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
+53030bcc87e4a4 Guenter Roeck   2020-01-20  106  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck   2020-01-20  107  		return ret;
+a49c0dafb304b8 Chiang Brian    2025-04-24  108  
+a49c0dafb304b8 Chiang Brian    2025-04-24  109  	/* Adjust length if null terminator if present */
+a49c0dafb304b8 Chiang Brian    2025-04-24  110  	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
+a49c0dafb304b8 Chiang Brian    2025-04-24  111  
+a49c0dafb304b8 Chiang Brian    2025-04-24  112  	id_len = strlen(id);
+a49c0dafb304b8 Chiang Brian    2025-04-24  113  
+a49c0dafb304b8 Chiang Brian    2025-04-24  114  	if (buf_len != id_len || strncmp(id, buf, id_len)) {
+a49c0dafb304b8 Chiang Brian    2025-04-24  115  		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
+53030bcc87e4a4 Guenter Roeck   2020-01-20  116  		return -ENODEV;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  117  	}
+53030bcc87e4a4 Guenter Roeck   2020-01-20  118  	return 0;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  119  }
+53030bcc87e4a4 Guenter Roeck   2020-01-20  120  
+53030bcc87e4a4 Guenter Roeck   2020-01-20  121  /*
+53030bcc87e4a4 Guenter Roeck   2020-01-20  122   * Common identification function for chips with multi-phase support.
+53030bcc87e4a4 Guenter Roeck   2020-01-20  123   * Since those chips have special configuration registers, we want to have
+53030bcc87e4a4 Guenter Roeck   2020-01-20  124   * some level of reassurance that we are really talking with the chip
+53030bcc87e4a4 Guenter Roeck   2020-01-20  125   * being probed. Check PMBus revision and chip ID.
+53030bcc87e4a4 Guenter Roeck   2020-01-20  126   */
+53030bcc87e4a4 Guenter Roeck   2020-01-20  127  static int tps53679_identify_multiphase(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck   2020-01-20  128  					struct pmbus_driver_info *info,
+53030bcc87e4a4 Guenter Roeck   2020-01-20  129  					int pmbus_rev, int device_id)
+53030bcc87e4a4 Guenter Roeck   2020-01-20  130  {
+53030bcc87e4a4 Guenter Roeck   2020-01-20  131  	int ret;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  132  
+53030bcc87e4a4 Guenter Roeck   2020-01-20 @133  	ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+53030bcc87e4a4 Guenter Roeck   2020-01-20  134  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck   2020-01-20  135  		return ret;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  136  
+53030bcc87e4a4 Guenter Roeck   2020-01-20  137  	ret = tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck   2020-01-20  138  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck   2020-01-20  139  		return ret;
+53030bcc87e4a4 Guenter Roeck   2020-01-20  140  
+53030bcc87e4a4 Guenter Roeck   2020-01-20  141  	return tps53679_identify_phases(client, info);
+53030bcc87e4a4 Guenter Roeck   2020-01-20  142  }
+53030bcc87e4a4 Guenter Roeck   2020-01-20  143  
 
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
