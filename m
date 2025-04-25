@@ -1,236 +1,198 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.21])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C71F19F462;
-	Fri, 25 Apr 2025 16:35:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.21
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C1B1A2622
+	for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 16:39:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745598939; cv=none; b=gyRVp2R2+nZQEEx6F1w0puNFBh43pAg2ZUeYJMHGO68sDSjqSRlE0Bb2nWm38ZEPA9e+hRHv2TySG3xiO5kWj61VVrvuuCSAwrra1CQyDuUB5aIBI5hBcy1hkN5Ctxg7tvlqnRe8hOerX9fsKZsHZOV5gpAzMi3sa4y+ZsbfvEY=
+	t=1745599164; cv=none; b=ZmwEprWTkA88nihPlX7+lmlipnjS3sDoJw0jRaTgPetqhWJNwYri2pkjxpCWaTwWVDulq06DpMjdaPQLJ/UgEl5eWEFxdh/J6bGBLwGA0n1AyLcEutY8ZDaKXBWON09U803jxgiIgHvd3buCpUXrhitxDG0TnofG/T2hpmNX2cw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745598939; c=relaxed/simple;
-	bh=IwlW95eWpCO6M+vqI93vv/SoGGqqOVR+bLCM30GouPY=;
+	s=arc-20240116; t=1745599164; c=relaxed/simple;
+	bh=qkCd8/HmV6AfmTU+1hru+x2meizjAEoGcJvos3klyC8=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=SoZQSYMIwp1hqx3e/tQVwyw3xfxLH07C/WJVkXdaFy54KdyD3KXl6GBLjlah1VdhelptKcQ9Ot8QrsLEwUlQpZ7JRDZXz1KQG8dDWS9Gtw5IQVdv8ks+vVkofdNPrsY6D29D3jKJSrp012znPwF1lgpnYkYosh3zvbBYOImXmcM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jFIwDVv/; arc=none smtp.client-ip=198.175.65.21
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=J6LA6XQ4mPTpBVpscGWwNU3XGRyCBqKd+l4M2fqaEjy5Iq0i6CAE8Mf98iLNt693kwhGT+90xJKiZqvlDkB7qF5CIqYxSUvlJZBn0VhXBLklQD6HuRgeDipcw0aV931DCSLuc7LasSYn3L2aHNs+6Qi0Ns2ECWT8klxJKn+BN3k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=h5bB/9FH; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jFIwDVv/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745598937; x=1777134937;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=IwlW95eWpCO6M+vqI93vv/SoGGqqOVR+bLCM30GouPY=;
-  b=jFIwDVv/aKJhGnt94h3xE05xc+27Dj5plbykInloVZYOLWh+Wt9gX3O6
-   2Yd9LrzsowFjwQzakhmWsrk1wLluE3ooTjHt7ibTi2LqAFhhiY3IpDC09
-   /gYdkHDl11JDkAOfj/mdadFYa4ptbC8IMjYM/nPNJSjShWNb/hLrRs/l7
-   WbkN4RlZbrJyHy/rC8C5fn4/E5G1N9RrAGJFj5Jb7P+cPJ2qkCnK5sANk
-   CwOTPXth7RDhErKUHqZ5nHv6ymHbEEuthSg6iNCJVdVc6+o+ubIyo+Hvz
-   CjhBuXNCZN/YFud3uBcOHlnry1VuUyBiJ13nF3pxoxluFSwL3eIjJT6J3
-   w==;
-X-CSE-ConnectionGUID: he/oCGfWR0qo4JkIzFM3QA==
-X-CSE-MsgGUID: deGL/P33SQybS0EhQNinhw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="47179027"
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="47179027"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa113.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 09:35:37 -0700
-X-CSE-ConnectionGUID: r4Gh3fh4R3SGqCSuBywSvQ==
-X-CSE-MsgGUID: euek9dRVQ8moohYNtIqCLQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
-   d="scan'208";a="133474373"
-Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
-  by orviesa007.jf.intel.com with ESMTP; 25 Apr 2025 09:35:35 -0700
-Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1u8M1U-0005MT-0m;
-	Fri, 25 Apr 2025 16:35:32 +0000
-Date: Sat, 26 Apr 2025 00:35:20 +0800
-From: kernel test robot <lkp@intel.com>
-To: Chiang Brian <chiang.brian@inventec.com>,
-	Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>
-Cc: oe-kbuild-all@lists.linux.dev, Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Message-ID: <202504260043.Q4NkFYgs-lkp@intel.com>
-References: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="h5bB/9FH"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22c336fcdaaso30667455ad.3
+        for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 09:39:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1745599162; x=1746203962; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=uObhd6griCLVRMAdAUyHQB5JJqltVnuTe7FYQAThLL4=;
+        b=h5bB/9FH3uuFQB9MGVTFRuKmBfYMZdnWjj+zXWRTiOZToLNMdi+oX2MEW6t/ZPmpHl
+         GK73pGy/PVb8Si66FZz5Eggh9C//4G65TVGNbv3fntfkXlfc0s129oVt105q+Cu/CRpb
+         tFgk+8ge7Nb+LoWbSpKZ6lYgW4UZ7SkwTY4Fo0YkFowVFL4l2sYOvu+0dznaZqAwJx8R
+         bjcvRsADqsfd5g4IFp8kTTsUuYraRKKQxPOecO4EVAgr0w6lVTaVfvr1qPD6oA6FmfDY
+         gNmgDyjMTHFINntIJeebAXPqCkWqkdPr9JyZPeXeLQZ5pF5swa7F5BKEbsqj94LmDd0g
+         NngA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745599162; x=1746203962;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=uObhd6griCLVRMAdAUyHQB5JJqltVnuTe7FYQAThLL4=;
+        b=LIqAuouObu0R5nf3C6q7jF26tjIuxzXO4wKMqRjsl+T30ARJbMZc/kyy0C4HO4VKuH
+         /e+B1P7jgsNHXCK8IyUXQuWfz3RRSqPB9mccbUFdYpi2Hpjo1f/VZ7U1bpCj+/W7LX8F
+         UeG5uUXytFi6XwVcmyZaiFrdXteA1GhkAFywIObZtlZsdb/9CQs+jVwBOhl3r0JKBTV0
+         QiLNjkYiWYfzzDi376TYjyAI3bqDJKIW+mFId+R1CK11f/VJtamAyB7Kf3YqESWGZf55
+         zbd4QLXDhfdyzKwo2smHM/uRbRjuOZf19XuXedYSDucMhm7cX94TPapHEy04lnesprjj
+         d+vg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMfrr5PMA31bkF2avGPmJtrNksC4zm/l11qYrkRdDf0DzMSYlBbmd4PaERZqvOx+SCGGHvLItcP6Y=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz7fTv0oDx8rcLWR8/Sx46DQmwS6px+WnQeUs598vLEFvgfCFcp
+	Mv5FgbkmhglcBLmRdaYsjY4K1uigEqGsE/SsV0mm8z6NC9wY9DzTpP6cZNsLHMo=
+X-Gm-Gg: ASbGncslamsNBBFOWzQhC8HfLb11CwfumleR3U0m5a+sonf//0nb2grHuquGRhTlGN0
+	blAoUCh6H1kE7dg5Y6UZfQmtrGAZkTvHEqgLG8Wh+aREZknCugIXsz0DZNK0AZVZByJKjXl+KDQ
+	bwQ8STvWPvHXTiFDbMqLiZ9CQhx4NE8Bp8+Ewz6pZzI2+0LYHBNkJgtKR7RTJD7fITMi1mzqE9Q
+	DZgIOuxxdx4eUctZK0PRiYI24P3ExuCXP4e/pV5vAu4MPD2vEfugDBnZt5AKWO6BY611sDkQPU3
+	JqF8ElfvIbRJh/xkCnu1d6P/s2uhQVOXNiIi4xb8rfsHCaTvvaQ=
+X-Google-Smtp-Source: AGHT+IFNazEr6ZYOzQGCXjgc58dYoHgOgILSppSPlOaxKyAejkPiwQZrkFFar4hARLXGCzwX+g5Izw==
+X-Received: by 2002:a17:903:40c9:b0:215:b9a6:5cb9 with SMTP id d9443c01a7336-22dbf4db64dmr47389315ad.5.1745599161894;
+        Fri, 25 Apr 2025 09:39:21 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db51028basm34556395ad.196.2025.04.25.09.39.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 09:39:21 -0700 (PDT)
+Date: Fri, 25 Apr 2025 09:39:18 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Radim =?utf-8?B?S3LEjW3DocWZ?= <rkrcmar@ventanamicro.com>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com,
+	linux-riscv <linux-riscv-bounces@lists.infradead.org>
+Subject: Re: [PATCH v12 12/28] riscv: Implements arch agnostic shadow stack
+ prctls
+Message-ID: <aAu6toR4VkcPMTlH@debug.ba.rivosinc.com>
+References: <20250314-v5_user_cfi_series-v12-0-e51202b53138@rivosinc.com>
+ <20250314-v5_user_cfi_series-v12-12-e51202b53138@rivosinc.com>
+ <D92V2NPNZYV0.136MJ2HOK48HE@ventanamicro.com>
+ <aAnBmexbL4XmVxQk@debug.ba.rivosinc.com>
+ <D9EWR3RQK0FD.3GF55KNS53YSR@ventanamicro.com>
+ <aAp_87-Xr6gn_hD7@debug.ba.rivosinc.com>
+ <D9FOY8JACYTH.1FU7ZTEHFC5NI@ventanamicro.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
-In-Reply-To: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <D9FOY8JACYTH.1FU7ZTEHFC5NI@ventanamicro.com>
 
-Hi Chiang,
+On Fri, Apr 25, 2025 at 01:42:44PM +0200, Radim Krčmář wrote:
+>2025-04-24T11:16:19-07:00, Deepak Gupta <debug@rivosinc.com>:
+>> On Thu, Apr 24, 2025 at 03:36:54PM +0200, Radim Krčmář wrote:
+>>>2025-04-23T21:44:09-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>>> On Thu, Apr 10, 2025 at 11:45:58AM +0200, Radim Krčmář wrote:
+>>>>>2025-03-14T14:39:31-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>>>>> diff --git a/arch/riscv/include/asm/usercfi.h b/arch/riscv/include/asm/usercfi.h
+>>>>>> @@ -14,7 +15,8 @@ struct kernel_clone_args;
+>>>>>>  struct cfi_status {
+>>>>>>  	unsigned long ubcfi_en : 1; /* Enable for backward cfi. */
+>>>>>> -	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 1);
+>>>>>> +	unsigned long ubcfi_locked : 1;
+>>>>>> +	unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);
+>>>>>
+>>>>>The rsvd field shouldn't be necessary as the container for the bitfield
+>>>>>is 'unsigned long' sized.
+>>>>>
+>>>>>Why don't we use bools here, though?
+>>>>>It might produce a better binary and we're not hurting for struct size.
+>>>>
+>>>> If you remember one of the previous patch discussion, this goes into
+>>>> `thread_info` Don't want to bloat it. Even if we end shoving into task_struct,
+>>>> don't want to bloat that either. I can just convert it into bitmask if
+>>>> bitfields are an eyesore here.
+>>>
+>>>  "unsigned long rsvd : ((sizeof(unsigned long) * 8) - 2);"
+>>>
+>>>is an eyesore that defines exactly the same as the two lines alone
+>>>
+>>>  unsigned long ubcfi_en : 1;
+>>>  unsigned long ubcfi_locked : 1;
+>>>
+>>>That one should be removed.
+>>>
+>>>If we have only 4 bits in 4/8 bytes, then bitfields do generate worse
+>>>code than 4 bools and a 0/4 byte hole.  The struct size stays the same.
+>>>
+>>>I don't care much about the switch to bools, though, because this code
+>>>is not called often.
+>>
+>> I'll remove the bitfields, have single `unsigned long cfi_control_state`
+>> And do `#define RISCV_UBCFI_EN 1` and so on.
+>
+>I might have seemed too much against the bitfieds, sorry.  I am against
+>the rsvd fields, because it is a pointless cognitive overhead and even
+>this series already had a bug in them.
 
-kernel test robot noticed the following build warnings:
+Aah got it.
 
-[auto build test WARNING on groeck-staging/hwmon-next]
-[also build test WARNING on robh/for-next linus/master v6.15-rc3 next-20250424]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/dt-bindings-trivial-Add-tps53685-support/20250424-222559
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
-patch link:    https://lore.kernel.org/r/20250424132538.2004510-2-chiang.brian%40inventec.corp-partner.google.com
-patch subject: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-config: nios2-randconfig-002-20250425 (https://download.01.org/0day-ci/archive/20250426/202504260043.Q4NkFYgs-lkp@intel.com/config)
-compiler: nios2-linux-gcc (GCC) 13.3.0
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504260043.Q4NkFYgs-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202504260043.Q4NkFYgs-lkp@intel.com/
-
-All warnings (new ones prefixed by >>):
-
-   drivers/hwmon/pmbus/tps53679.c: In function 'tps53679_identify_multiphase':
->> drivers/hwmon/pmbus/tps53679.c:133:57: warning: passing argument 3 of 'tps53679_identify_chip' makes pointer from integer without a cast [-Wint-conversion]
-     133 |         ret = tps53679_identify_chip(client, pmbus_rev, device_id);
-         |                                                         ^~~~~~~~~
-         |                                                         |
-         |                                                         int
-   drivers/hwmon/pmbus/tps53679.c:90:54: note: expected 'char *' but argument is of type 'int'
-      90 |                                   u8 revision, char *id)
-         |                                                ~~~~~~^~
-   drivers/hwmon/pmbus/tps53679.c: In function 'tps53681_identify':
->> drivers/hwmon/pmbus/tps53679.c:34:32: warning: passing argument 4 of 'tps53679_identify_multiphase' makes integer from pointer without a cast [-Wint-conversion]
-      34 | #define TPS53681_DEVICE_ID     "\x81"
-         |                                ^~~~~~
-         |                                |
-         |                                char *
-   drivers/hwmon/pmbus/tps53679.c:165:45: note: in expansion of macro 'TPS53681_DEVICE_ID'
-     165 |                                             TPS53681_DEVICE_ID);
-         |                                             ^~~~~~~~~~~~~~~~~~
-   drivers/hwmon/pmbus/tps53679.c:129:60: note: expected 'int' but argument is of type 'char *'
-     129 |                                         int pmbus_rev, int device_id)
-         |                                                        ~~~~^~~~~~~~~
-
-
-vim +/tps53679_identify_chip +133 drivers/hwmon/pmbus/tps53679.c
-
-610526527a13e4 Vadim Pasternak 2017-08-30   33  
-a49c0dafb304b8 Chiang Brian    2025-04-24  @34  #define TPS53681_DEVICE_ID     "\x81"
-a49c0dafb304b8 Chiang Brian    2025-04-24   35  #define TPS53685_DEVICE_ID     "TIShP"
-53030bcc87e4a4 Guenter Roeck   2020-01-20   36  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   37  #define TPS53681_PMBUS_REVISION		0x33
-53030bcc87e4a4 Guenter Roeck   2020-01-20   38  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   39  #define TPS53681_MFR_SPECIFIC_20	0xe4	/* Number of phases, per page */
-53030bcc87e4a4 Guenter Roeck   2020-01-20   40  
-dd43193976b9a7 Stephen Kitt    2020-08-08   41  static const struct i2c_device_id tps53679_id[];
-dd43193976b9a7 Stephen Kitt    2020-08-08   42  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   43  static int tps53679_identify_mode(struct i2c_client *client,
-610526527a13e4 Vadim Pasternak 2017-08-30   44  				  struct pmbus_driver_info *info)
-610526527a13e4 Vadim Pasternak 2017-08-30   45  {
-610526527a13e4 Vadim Pasternak 2017-08-30   46  	u8 vout_params;
-b9fa0a3acfd86c Vadim Pasternak 2020-01-13   47  	int i, ret;
-610526527a13e4 Vadim Pasternak 2017-08-30   48  
-6f944004f873e3 Guenter Roeck   2020-01-24   49  	for (i = 0; i < info->pages; i++) {
-610526527a13e4 Vadim Pasternak 2017-08-30   50  		/* Read the register with VOUT scaling value.*/
-b9fa0a3acfd86c Vadim Pasternak 2020-01-13   51  		ret = pmbus_read_byte_data(client, i, PMBUS_VOUT_MODE);
-610526527a13e4 Vadim Pasternak 2017-08-30   52  		if (ret < 0)
-610526527a13e4 Vadim Pasternak 2017-08-30   53  			return ret;
-610526527a13e4 Vadim Pasternak 2017-08-30   54  
-610526527a13e4 Vadim Pasternak 2017-08-30   55  		vout_params = ret & GENMASK(4, 0);
-610526527a13e4 Vadim Pasternak 2017-08-30   56  
-610526527a13e4 Vadim Pasternak 2017-08-30   57  		switch (vout_params) {
-610526527a13e4 Vadim Pasternak 2017-08-30   58  		case TPS53679_PROT_VR13_10MV:
-610526527a13e4 Vadim Pasternak 2017-08-30   59  		case TPS53679_PROT_VR12_5_10MV:
-b9fa0a3acfd86c Vadim Pasternak 2020-01-13   60  			info->vrm_version[i] = vr13;
-610526527a13e4 Vadim Pasternak 2017-08-30   61  			break;
-610526527a13e4 Vadim Pasternak 2017-08-30   62  		case TPS53679_PROT_VR13_5MV:
-610526527a13e4 Vadim Pasternak 2017-08-30   63  		case TPS53679_PROT_VR12_5MV:
-610526527a13e4 Vadim Pasternak 2017-08-30   64  		case TPS53679_PROT_IMVP8_5MV:
-b9fa0a3acfd86c Vadim Pasternak 2020-01-13   65  			info->vrm_version[i] = vr12;
-610526527a13e4 Vadim Pasternak 2017-08-30   66  			break;
-610526527a13e4 Vadim Pasternak 2017-08-30   67  		default:
-610526527a13e4 Vadim Pasternak 2017-08-30   68  			return -EINVAL;
-610526527a13e4 Vadim Pasternak 2017-08-30   69  		}
-b9fa0a3acfd86c Vadim Pasternak 2020-01-13   70  	}
-610526527a13e4 Vadim Pasternak 2017-08-30   71  
-610526527a13e4 Vadim Pasternak 2017-08-30   72  	return 0;
-610526527a13e4 Vadim Pasternak 2017-08-30   73  }
-610526527a13e4 Vadim Pasternak 2017-08-30   74  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   75  static int tps53679_identify_phases(struct i2c_client *client,
-53030bcc87e4a4 Guenter Roeck   2020-01-20   76  				    struct pmbus_driver_info *info)
-53030bcc87e4a4 Guenter Roeck   2020-01-20   77  {
-53030bcc87e4a4 Guenter Roeck   2020-01-20   78  	int ret;
-53030bcc87e4a4 Guenter Roeck   2020-01-20   79  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   80  	/* On TPS53681, only channel A provides per-phase output current */
-53030bcc87e4a4 Guenter Roeck   2020-01-20   81  	ret = pmbus_read_byte_data(client, 0, TPS53681_MFR_SPECIFIC_20);
-53030bcc87e4a4 Guenter Roeck   2020-01-20   82  	if (ret < 0)
-53030bcc87e4a4 Guenter Roeck   2020-01-20   83  		return ret;
-53030bcc87e4a4 Guenter Roeck   2020-01-20   84  	info->phases[0] = (ret & 0x07) + 1;
-53030bcc87e4a4 Guenter Roeck   2020-01-20   85  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   86  	return 0;
-53030bcc87e4a4 Guenter Roeck   2020-01-20   87  }
-53030bcc87e4a4 Guenter Roeck   2020-01-20   88  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   89  static int tps53679_identify_chip(struct i2c_client *client,
-a49c0dafb304b8 Chiang Brian    2025-04-24   90  				  u8 revision, char *id)
-53030bcc87e4a4 Guenter Roeck   2020-01-20   91  {
-53030bcc87e4a4 Guenter Roeck   2020-01-20   92  	u8 buf[I2C_SMBUS_BLOCK_MAX];
-53030bcc87e4a4 Guenter Roeck   2020-01-20   93  	int ret;
-a49c0dafb304b8 Chiang Brian    2025-04-24   94  	int buf_len;
-a49c0dafb304b8 Chiang Brian    2025-04-24   95  	int id_len;
-53030bcc87e4a4 Guenter Roeck   2020-01-20   96  
-53030bcc87e4a4 Guenter Roeck   2020-01-20   97  	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
-53030bcc87e4a4 Guenter Roeck   2020-01-20   98  	if (ret < 0)
-53030bcc87e4a4 Guenter Roeck   2020-01-20   99  		return ret;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  100  	if (ret != revision) {
-53030bcc87e4a4 Guenter Roeck   2020-01-20  101  		dev_err(&client->dev, "Unexpected PMBus revision 0x%x\n", ret);
-53030bcc87e4a4 Guenter Roeck   2020-01-20  102  		return -ENODEV;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  103  	}
-53030bcc87e4a4 Guenter Roeck   2020-01-20  104  
-53030bcc87e4a4 Guenter Roeck   2020-01-20  105  	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
-53030bcc87e4a4 Guenter Roeck   2020-01-20  106  	if (ret < 0)
-53030bcc87e4a4 Guenter Roeck   2020-01-20  107  		return ret;
-a49c0dafb304b8 Chiang Brian    2025-04-24  108  
-a49c0dafb304b8 Chiang Brian    2025-04-24  109  	/* Adjust length if null terminator if present */
-a49c0dafb304b8 Chiang Brian    2025-04-24  110  	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
-a49c0dafb304b8 Chiang Brian    2025-04-24  111  
-a49c0dafb304b8 Chiang Brian    2025-04-24  112  	id_len = strlen(id);
-a49c0dafb304b8 Chiang Brian    2025-04-24  113  
-a49c0dafb304b8 Chiang Brian    2025-04-24  114  	if (buf_len != id_len || strncmp(id, buf, id_len)) {
-a49c0dafb304b8 Chiang Brian    2025-04-24  115  		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
-53030bcc87e4a4 Guenter Roeck   2020-01-20  116  		return -ENODEV;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  117  	}
-53030bcc87e4a4 Guenter Roeck   2020-01-20  118  	return 0;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  119  }
-53030bcc87e4a4 Guenter Roeck   2020-01-20  120  
-53030bcc87e4a4 Guenter Roeck   2020-01-20  121  /*
-53030bcc87e4a4 Guenter Roeck   2020-01-20  122   * Common identification function for chips with multi-phase support.
-53030bcc87e4a4 Guenter Roeck   2020-01-20  123   * Since those chips have special configuration registers, we want to have
-53030bcc87e4a4 Guenter Roeck   2020-01-20  124   * some level of reassurance that we are really talking with the chip
-53030bcc87e4a4 Guenter Roeck   2020-01-20  125   * being probed. Check PMBus revision and chip ID.
-53030bcc87e4a4 Guenter Roeck   2020-01-20  126   */
-53030bcc87e4a4 Guenter Roeck   2020-01-20  127  static int tps53679_identify_multiphase(struct i2c_client *client,
-53030bcc87e4a4 Guenter Roeck   2020-01-20  128  					struct pmbus_driver_info *info,
-53030bcc87e4a4 Guenter Roeck   2020-01-20  129  					int pmbus_rev, int device_id)
-53030bcc87e4a4 Guenter Roeck   2020-01-20  130  {
-53030bcc87e4a4 Guenter Roeck   2020-01-20  131  	int ret;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  132  
-53030bcc87e4a4 Guenter Roeck   2020-01-20 @133  	ret = tps53679_identify_chip(client, pmbus_rev, device_id);
-53030bcc87e4a4 Guenter Roeck   2020-01-20  134  	if (ret < 0)
-53030bcc87e4a4 Guenter Roeck   2020-01-20  135  		return ret;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  136  
-53030bcc87e4a4 Guenter Roeck   2020-01-20  137  	ret = tps53679_identify_mode(client, info);
-53030bcc87e4a4 Guenter Roeck   2020-01-20  138  	if (ret < 0)
-53030bcc87e4a4 Guenter Roeck   2020-01-20  139  		return ret;
-53030bcc87e4a4 Guenter Roeck   2020-01-20  140  
-53030bcc87e4a4 Guenter Roeck   2020-01-20  141  	return tps53679_identify_phases(client, info);
-53030bcc87e4a4 Guenter Roeck   2020-01-20  142  }
-53030bcc87e4a4 Guenter Roeck   2020-01-20  143  
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+>
+>#defines should generate the same code as bitfields (worse than bools),
+>so the source code is really a matter of personal preference.
+>(I do prefer bitfields.)
+>
+>>>>>> @@ -262,3 +292,83 @@ void shstk_release(struct task_struct *tsk)
+>>>>>> +int arch_lock_shadow_stack_status(struct task_struct *task,
+>>>>>> +				  unsigned long arg)
+>>>>>> +{
+>>>>>> +	/* If shtstk not supported or not enabled on task, nothing to lock here */
+>>>>>> +	if (!cpu_supports_shadow_stack() ||
+>>>>>> +	    !is_shstk_enabled(task) || arg != 0)
+>>>>>> +		return -EINVAL;
+>>>>>
+>>>>>The task might want to prevent shadow stack from being enabled?
+>>>>
+>>>> But Why would it want to do that? Task can simply not issue the prctl. There
+>>>> are glibc tunables as well using which it can be disabled.
+>>>
+>>>The task might do it as some last resort to prevent a buggy code from
+>>>enabling shadow stacks that would just crash.  Or whatever complicated
+>>>reason userspace can think of.
+>>>
+>>>It's more the other way around.  I wonder why we're removing this option
+>>>when we don't really care what userspace does to itself.
+>>>I think it's complicating the kernel without an obvious gain.
+>>
+>> It just feels wierd. There isn't anything like this for other features lit-up
+>> via envcfg. Does hwprobe allow this on per-task basis? I'll look into it.
+>
+>I think PMM doesn't allow to lock and the rest don't seem configurable
+>from userspace.
+>
+>It's not that important and we hopefully won't be breaking any userspace
+>if we decided to allow it later, so I'm fine with this version.
