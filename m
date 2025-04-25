@@ -1,64 +1,63 @@
-Received: from bmailout1.hostsharing.net (bmailout1.hostsharing.net [83.223.95.100])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 836421F8676;
-	Fri, 25 Apr 2025 17:21:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=83.223.95.100
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 44A31134CF;
+	Fri, 25 Apr 2025 18:10:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745601711; cv=none; b=c+1FJcIbRPOZLHqdAzVLASmdtzy53WoyfPU2vL5IlQjm6fE0Mf1SjsEtmmKxgGgRD+re5jwei2bRwUO7khK/SigR/evNNdXB01l6QVuWeXgSUbc4yij5mGnCStHAxM3A9pVzqGjfjZ0Vbs878kTWJhY2pD6mhiDr616r98jiG48=
+	t=1745604643; cv=none; b=IEycHt+qoY5RBNvECzvNDHDAJgifSDsYRvFbr0Vy5RkB3EbZOU10/iEUzsEN68uXBmWfbZwOTUwfg4KxhNX9W9z343HlPk2UZrLOx3S9Im5/krAxk9rTa060Fmf6XWqewh3QFaOW7ZEv5LZl/v6BiOSWLMT+8BF1LTKAaaTaPnQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745601711; c=relaxed/simple;
-	bh=Cku4Azk/Wps3gyHfsBQnYSugkesm+ln3JCpU+8NSloE=;
+	s=arc-20240116; t=1745604643; c=relaxed/simple;
+	bh=Ccbi8as/srm/a+25bl0H0ePfhO77Kyh3r8GHqSY5bFQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=METiqnjDFyyG0Mu6YpZgotfaF6kPFMtMjtx/dra32boJSo0dqnmzDwRM8HlPRtVksUFlxXwdSTPZIbvoC8U4zzGssql/Lsrlsp6quJfadChrtEKLT3hKU0dIyaOg2lIxECxzfJm7pI6hFMUvE27DRxAZkM+D2J12HkQZ/SnEKYY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de; spf=none smtp.mailfrom=h08.hostsharing.net; arc=none smtp.client-ip=83.223.95.100
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=wunner.de
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=h08.hostsharing.net
-Received: from h08.hostsharing.net (h08.hostsharing.net [IPv6:2a01:37:1000::53df:5f1c:0])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "*.hostsharing.net", Issuer "RapidSSL TLS RSA CA G1" (verified OK))
-	by bmailout1.hostsharing.net (Postfix) with ESMTPS id E664F2C4C3DF;
-	Fri, 25 Apr 2025 19:21:17 +0200 (CEST)
-Received: by h08.hostsharing.net (Postfix, from userid 100393)
-	id 4D50713FF05; Fri, 25 Apr 2025 19:21:45 +0200 (CEST)
-Date: Fri, 25 Apr 2025 19:21:45 +0200
-From: Lukas Wunner <lukas@wunner.de>
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: Jason Gunthorpe <jgg@nvidia.com>, changyuanl@google.com,
-	graf@amazon.com, rppt@kernel.org, rientjes@google.com,
-	corbet@lwn.net, rdunlap@infradead.org,
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com,
-	ojeda@kernel.org, aliceryhl@google.com, masahiroy@kernel.org,
-	akpm@linux-foundation.org, tj@kernel.org, yoann.congal@smile.fr,
-	mmaurer@google.com, roman.gushchin@linux.dev, chenridong@huawei.com,
-	axboe@kernel.dk, mark.rutland@arm.com, jannh@google.com,
-	vincent.guittot@linaro.org, hannes@cmpxchg.org,
-	dan.j.williams@intel.com, david@redhat.com,
-	joel.granados@kernel.org, rostedt@goodmis.org,
-	anna.schumaker@oracle.com, song@kernel.org, zhangguopeng@kylinos.cn,
-	linux@weissschuh.net, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-mm@kvack.org,
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com,
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org,
-	hpa@zytor.com, rafael@kernel.org, dakr@kernel.org,
-	bartosz.golaszewski@linaro.org, cw00.choi@samsung.com,
-	myungjoo.ham@samsung.com, yesanishhere@gmail.com,
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com,
-	aleksander.lobakin@intel.com, ira.weiny@intel.com,
-	andriy.shevchenko@linux.intel.com, leon@kernel.org,
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com,
-	stuart.w.hayes@gmail.com, jgowans@amazon.com,
-	Pratyush Yadav <ptyadav@amazon.de>
-Subject: Re: [RFC v1 1/3] luo: Live Update Orchestrator
-Message-ID: <aAvEqZZeoCo8XF0G@wunner.de>
-References: <20250320024011.2995837-1-pasha.tatashin@soleen.com>
- <20250320024011.2995837-2-pasha.tatashin@soleen.com>
- <20250320144338.GW9311@nvidia.com>
- <CA+CK2bBovJ68FPOqD5J-_xmzy_mm8gNhJW80EsWGLgq+NhuX5Q@mail.gmail.com>
- <20250320192601.GG206770@nvidia.com>
- <CA+CK2bDNoOe06bWAnAkgX-AF5zf5+KasNMeJOt3YcnHh=0893Q@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=fQG6eQqGX4ur5o6zB0x3+rXKqtpBb9CGP+EMiQvvVnrzkMvDn28zowxaXxsafadT5Wu0l1X86zHOUt581PEu2j6H4fCe6XkWlSjsXSfF0+0CdbGDKp12HUrKnKKOZAB3vY+LY9dVuKJ0Sc/0i19vaK/veWqWjqlJqGsPkC9FyF0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=h/XZEPYy; arc=none smtp.client-ip=198.175.65.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="h/XZEPYy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745604641; x=1777140641;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=Ccbi8as/srm/a+25bl0H0ePfhO77Kyh3r8GHqSY5bFQ=;
+  b=h/XZEPYyDbSHsn1Pl6ZSyk+cwCJ8pBt/bANChkGicN7qYBmJz08d+inK
+   OptkBYUlz2KGLEugbe8Aid0+Du5TjWtzMAqS3vgm8nrKqx7+40r9AdNqi
+   um4FZb4SKvZ766gVXR/xOdVJRi5fFKrRB6mPOew7RaFN+Ts7/CSrG12i2
+   bK2/6FDGPkkrLjuuey1xmeTP01qfwFUDUpvWO98rpaeZI9jjHBFE/Cref
+   dhIYmYR7wiy2J9imlOcGG+vAycoOV5/cv4WXu2Y3joSqP/61Tc1cMTajf
+   VDw2Lbn0r6zWPzeV7DcwMXURMy4gM5jGR8+GKX7nRhfFJ9v/XIUo8Gozs
+   A==;
+X-CSE-ConnectionGUID: msuy3VGESgmBLnWgJ+X9FQ==
+X-CSE-MsgGUID: 9gYxAXS3RFCD/ycqtZJ57A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11414"; a="51081899"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="51081899"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:10:35 -0700
+X-CSE-ConnectionGUID: tp6VQSH5ShqchNen0u95fw==
+X-CSE-MsgGUID: iYQ45yLeTQW6suHwiQpUGw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="163931570"
+Received: from smile.fi.intel.com ([10.237.72.55])
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 11:10:33 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u8NVN-00000000LCb-3DJm;
+	Fri, 25 Apr 2025 21:10:29 +0300
+Date: Fri, 25 Apr 2025 21:10:29 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] docs: Makefile: store __pycache__ at the output
+ directory
+Message-ID: <aAvQFen6D5ukjj-x@smile.fi.intel.com>
+References: <cover.1745539360.git.mchehab+huawei@kernel.org>
+ <1b9e7f34c1d99a27a8abb308da3221b4663b5693.1745539360.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,29 +66,20 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CA+CK2bDNoOe06bWAnAkgX-AF5zf5+KasNMeJOt3YcnHh=0893Q@mail.gmail.com>
+In-Reply-To: <1b9e7f34c1d99a27a8abb308da3221b4663b5693.1745539360.git.mchehab+huawei@kernel.org>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Thu, Mar 27, 2025 at 03:29:18PM -0400, Pasha Tatashin wrote:
-> 3. Dependency Management: The viability of preserving a specific
-> resource (file, device) will be checked when it initially requests
-> participation.
-> However, the actual dependencies will only be pulled and the final
-> ordered list assembled during the prepare phase. This avoids the churn
-> of repeatedly adding/removing dependencies as individual components
-> register.
-[...]
-> The overall preservation sequence involve processing these handles in
-> a specific order:
-> 
-> Preserved File Descriptors (e.g., memfd, kvmfd, iommufd, vfiofd)
-> Preserved Devices (ordered appropriately, leaves-to-root)
-                                            ^^^^^^^^^^^^^^
+On Fri, Apr 25, 2025 at 08:08:53AM +0800, Mauro Carvalho Chehab wrote:
+> Instead of blocking creation of *.pyc cache, store python
+> cache under Documentation/output/__pycache__
 
-Device dependencies are no longer strictly hierarchical since the
-introduction of device links.  However devices_kset->list already
-has the correct order, so if you follow that you should be fine.
-Just be careful not to assume it's always in hierarchical order.
+Do we need the below in the commit message?
+I think having statistics is enough and this can be moved to the cover letter.
 
-Thanks,
+> 109 directories, 634 files
 
-Lukas
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
