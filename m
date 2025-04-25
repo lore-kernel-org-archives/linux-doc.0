@@ -1,154 +1,317 @@
-Received: from pandora.armlinux.org.uk (pandora.armlinux.org.uk [78.32.30.218])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 89DCF21638A;
-	Fri, 25 Apr 2025 09:25:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.32.30.218
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745573119; cv=none; b=p2xyKyxeEv/XRbYHCGnjFla3byyLY8UTlcRp8OcEJHalX9u726UuErGdJBTT9OiXFACqDQewdipJUgjNjbUjka4i2kYfqznDxXLWJooRKYKJDvFvnNKyTfQBoDguMpT9ptVBQoMoggIha6e0IGOvu08R7tRmar2xo+BG5wBbkeY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745573119; c=relaxed/simple;
-	bh=cLDw/pFiQMKKNBt2vgKzSce0c1mxZowhfJuiq/FLoMg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cOOrqdjrZwI3KRTo7p1zpjuqVdxuoubpDNPqFT2iQ8cqv663QQIoc6xPHx4YHq6tvnZgoN9zCWVFK56fLnMBkcnN7QLDz0TraTzSygQTaiG6pV73BpPkux033Tu9NmBouFro7jCQrWb64VB2E4wpBR/25bDrXPjGIIo1x+EAuOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk; spf=none smtp.mailfrom=armlinux.org.uk; dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b=GziSayXt; arc=none smtp.client-ip=78.32.30.218
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=armlinux.org.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=armlinux.org.uk
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19E0E236A9C;
+	Fri, 25 Apr 2025 10:11:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.11
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745575916; cv=fail; b=UyTwLQokDSz3HxgnQojt+cMIcJOZf8io5l7EUh/mIYcA+O2cDHsvbok/QNg+PW8S9uF2h038tD40+5hukwxuhxvVP8Ru76wVSAVpnTkhJpXaNSgKBy7xzndy9alkXxEC+ZZJBOC0FZ2wx9r7oGi9mutyQJzgS0YJdNM0zuNIXCk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745575916; c=relaxed/simple;
+	bh=6YbuPoRsaoVg93fsSo3yUqOJrHnCuBRgt9funXFL7rQ=;
+	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=SlpNZEOWHBhCnKt7VmgLxTKOVOTo6L8Y+SBTE1T7kVJGgE/o7N3Yg4aW3F5HT4mEJGBaou2uZIvFkRU56mBqQe+QPnOVVcbWAZmbaWzwMWA7+ZGRvVUO0F5aHO51m2/0soQJ3ICDdiXqMjiAtRZQj7dhR8ZGzgBvEWmpUkjNXJc=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Pq8an58t; arc=fail smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=armlinux.org.uk header.i=@armlinux.org.uk header.b="GziSayXt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=armlinux.org.uk; s=pandora-2019; h=Sender:In-Reply-To:Content-Type:
-	MIME-Version:References:Message-ID:Subject:Cc:To:From:Date:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:
-	Resent-From:Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:
-	List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=lxGr4WcpRX1IjJ/LypAJtCvOD84z/5iROdqFg9S4Asc=; b=GziSayXtt09diC+kfs0/9nXHRZ
-	ieNIDpJPy1pHf705DcK2RkuJ0u2udgnRQEIg3YWp3qcbgwPStTt2CHPpGO+qKX5xUzbBv8YCm2dLn
-	q6WR2sxlJpNUW5wCuQq54EcJMFzD7gVgaOgTkO2tjg2Oj5xYut+atmYaA94Ofd2dvaZwdAgo35q/H
-	FrTDW/t1PrxTwU41GtxLo7fTFjqF8MR6Fbmcxgj7nR0voxO/sPRtmZzhlp6E3gCP7+NkHOaUadY8l
-	okMGCMPIUg0wc3OYsUmmL3ihHfp7D4n+TyfkyWj/MuxcVFiZIj/BKFm3ziDa3W1dNodxjjLLxZCPO
-	Y9rhxgcA==;
-Received: from shell.armlinux.org.uk ([fd8f:7570:feb6:1:5054:ff:fe00:4ec]:52702)
-	by pandora.armlinux.org.uk with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.96)
-	(envelope-from <linux@armlinux.org.uk>)
-	id 1u8FIn-00005f-2k;
-	Fri, 25 Apr 2025 10:24:57 +0100
-Received: from linux by shell.armlinux.org.uk with local (Exim 4.96)
-	(envelope-from <linux@shell.armlinux.org.uk>)
-	id 1u8FIh-00021A-1a;
-	Fri, 25 Apr 2025 10:24:51 +0100
-Date: Fri, 25 Apr 2025 10:24:51 +0100
-From: "Russell King (Oracle)" <linux@armlinux.org.uk>
-To: Oleksij Rempel <o.rempel@pengutronix.de>
-Cc: Woojung Huh <woojung.huh@microchip.com>, Andrew Lunn <andrew@lunn.ch>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Heiner Kallweit <hkallweit1@gmail.com>,
-	Jonathan Corbet <corbet@lwn.net>, kernel@pengutronix.de,
-	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
-	UNGLinuxDriver@microchip.com, Simon Horman <horms@kernel.org>,
-	Maxime Chevallier <maxime.chevallier@bootlin.com>,
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v1 1/1] Documentation: networking: expand and
- clarify EEE_GET/EEE_SET documentation
-Message-ID: <aAtU45S6HChgb0_V@shell.armlinux.org.uk>
-References: <20250425084941.253961-1-o.rempel@pengutronix.de>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Pq8an58t"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745575914; x=1777111914;
+  h=date:from:to:cc:subject:message-id:references:
+   content-transfer-encoding:in-reply-to:mime-version;
+  bh=6YbuPoRsaoVg93fsSo3yUqOJrHnCuBRgt9funXFL7rQ=;
+  b=Pq8an58tVT4LEVUaryEqzPBbxTyF9h+R+iqFyWqNFvrRukFY4DXoq+pT
+   rfaJMCfxjVNtwFlKA2zGaQOGE92Qfjs/ISgk+rWWzcy70GQmHtIzMDDlE
+   h12snRTT/zl8uGgQ4XrqQY42ypXR/8kv8Ojvy97hrQ9MdzzSfwLCjd4gJ
+   nxUfdjTY2spJwQUhuhuPjY7oCgkHnaYbWGL7WMbsR46zk05lclH8ZC0/8
+   AGCM831nNO3MRU1L5f5uRdqzuZD+VeDO4sovmzGR2GXcQ0EonSqo8cEln
+   FT8uUXiN3zZYClnFu1QKQTM1B4dmciPMAoqXGOXbNsv7oNjXGt9YFY9zh
+   Q==;
+X-CSE-ConnectionGUID: FwgDXcYNQs2Q/oje8yJ7CQ==
+X-CSE-MsgGUID: t1eEPZYNQL+V25iyxWBwDQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11413"; a="57433074"
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="57433074"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 03:11:53 -0700
+X-CSE-ConnectionGUID: ss4ckLMqQRyPWijGYck8+A==
+X-CSE-MsgGUID: 9YqlLvU/RR+SRxpGRuXxBA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,238,1739865600"; 
+   d="scan'208";a="133374812"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Apr 2025 03:11:52 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Fri, 25 Apr 2025 03:11:50 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 25 Apr 2025 03:11:50 -0700
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.45) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 25 Apr 2025 03:11:50 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=bN53yW/+Wr1q+PPoSv0a4TgfKmpsiCTrauXy9Ws4OXTid8TZdTegmdirDszOEc4A+7Ujam+5bJz9RiJmUK1ImgQLDNVf/XQvu/F2ZWRu69F8CnKGmhRwr/dQLP2XWaZMXpjQF0GprmIwtTV4LUHnZys50ABYSbbGNnH/3Bx1QGF5RB6vpXPm41RUCUhuwpezYbEvvStKjks5A6pKlra6hAKIp5PsZJfIwekRZ8j0vbITXdAl5oZa/B1MeqlFlKGbesuUqpdXw9jN4lvuAY1OmbV+oIsTatF43Jh0LwNrC4xwmRWe6MHEwX8NlDLdV0fJPQwaFMLCkFFnW0gcl0Ckgw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HFevWXEyztyEPORLzK48i0+RJx4H2GjVAMPdSMZ91RM=;
+ b=KMpoi6NA+bMNE7dUomXf80VhdFETeHfMrPVOrG43/xIioty9Ohq6Owo06Skg6fVGah2X23dTtDuI3Q0yWx3UvekhyO7oj0AsbxLaoJjzeGtmfzbhFdNvMCuG1MmZQzHneR+FQMoKH0M8NFY0DQup4tBDK5vVnAfkXoAaeVa/7FQ4S4ksrhM+NZvzF3KJXi61nn9IpGSeBPwrK08zvPUEzVQSRI1psgburE6aDc5/n0GYee3E7px3r0QxGoA9WRqgJHo9m6NYKxC0nH3i1W3grv9d8fwl0/bUmOM0/qMYjFjrmUiV+i5bN05Ck1shRdew+mdj7CpF2jxv1AGYFcWB0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com (2603:10b6:806:340::7)
+ by DM4PR11MB7352.namprd11.prod.outlook.com (2603:10b6:8:103::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Fri, 25 Apr
+ 2025 10:11:48 +0000
+Received: from SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::399f:ff7c:adb2:8d29]) by SN7PR11MB7540.namprd11.prod.outlook.com
+ ([fe80::399f:ff7c:adb2:8d29%4]) with mapi id 15.20.8678.025; Fri, 25 Apr 2025
+ 10:11:48 +0000
+Date: Fri, 25 Apr 2025 12:11:33 +0200
+From: Larysa Zaremba <larysa.zaremba@intel.com>
+To: Paul Menzel <pmenzel@molgen.mpg.de>
+CC: <intel-wired-lan@lists.osuosl.org>, Tony Nguyen
+	<anthony.l.nguyen@intel.com>, "David S. Miller" <davem@davemloft.net>, "Eric
+ Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
+	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
+	<corbet@lwn.net>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Jiri Pirko
+	<jiri@resnulli.us>, Tatyana Nikolova <tatyana.e.nikolova@intel.com>, "Andrew
+ Lunn" <andrew+netdev@lunn.ch>, Alexander Lobakin
+	<aleksander.lobakin@intel.com>, Michael Ellerman <mpe@ellerman.id.au>,
+	"Maciej Fijalkowski" <maciej.fijalkowski@intel.com>, Lee Trager
+	<lee@trager.us>, Madhavan Srinivasan <maddy@linux.ibm.com>, Sridhar Samudrala
+	<sridhar.samudrala@intel.com>, Jacob Keller <jacob.e.keller@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, Mateusz Polchlopek
+	<mateusz.polchlopek@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
+	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, "Karlsson, Magnus"
+	<magnus.karlsson@intel.com>, Emil Tantilov <emil.s.tantilov@intel.com>,
+	"Madhu Chittim" <madhu.chittim@intel.com>, Josh Hay <joshua.a.hay@intel.com>,
+	"Milena Olech" <milena.olech@intel.com>, <pavan.kumar.linga@intel.com>,
+	"Singhai, Anjali" <anjali.singhai@intel.com>, Michal Kubiak
+	<michal.kubiak@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v2 08/14] idpf: refactor idpf
+ to use libie controlq and Xn APIs
+Message-ID: <aAtfVAp38hKWtx-n@soc-5CG4396X81.clients.intel.com>
+References: <20250424113241.10061-1-larysa.zaremba@intel.com>
+ <20250424113241.10061-9-larysa.zaremba@intel.com>
+ <744538a0-a1f5-48a5-b454-f1a2530268b7@molgen.mpg.de>
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <744538a0-a1f5-48a5-b454-f1a2530268b7@molgen.mpg.de>
+X-ClientProxiedBy: WA0P291CA0018.POLP291.PROD.OUTLOOK.COM
+ (2603:10a6:1d0:1::15) To SN7PR11MB7540.namprd11.prod.outlook.com
+ (2603:10b6:806:340::7)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250425084941.253961-1-o.rempel@pengutronix.de>
-Sender: Russell King (Oracle) <linux@armlinux.org.uk>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SN7PR11MB7540:EE_|DM4PR11MB7352:EE_
+X-MS-Office365-Filtering-Correlation-Id: 68447a3b-34ff-4648-0bc6-08dd83e196b7
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|10070799003;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?WGZZckhkN0hDdzN2S1RhVS9iR0FNQm9teE5ETEs3U1NGMFIwMGxyR0taOE94?=
+ =?utf-8?B?V0tYeUpYQUd4QlhwS2RnUVNLZi9jT0JZeHBaU2IwaWtFV3B3M3I5ZHZzbjEr?=
+ =?utf-8?B?NWliWGZ3ZWNleTZhUjl2NVRpS0M3emk0T3c5S1l3b0ZpL2ZtSnR0UWtLdTgx?=
+ =?utf-8?B?K3BPYklkaWRIMHlUcE5hWVRrYVY4Z0Y4UjBldXZ0Vm9QQWZxVm9VT1g1Um9m?=
+ =?utf-8?B?U3VkbzFlZ1VrSG9GZXFKUWhuczBkdXphNHhOTDZyNVdhc2pwcmVoNjA2RDRU?=
+ =?utf-8?B?cUVOL2FtNmJyaXYza3hBbG8xY0s4cFZnS3VTdXdVYnlmNk1sVGdiR3F1VHU0?=
+ =?utf-8?B?Q3h3RFZnZGRscDI1RlQ4RjFzU3BQNlFwby9mdXJJNmdRMXh5VFl0Um9YK1NY?=
+ =?utf-8?B?WTAxWTIrZWtBN3lXOGpuZ1hSQ1lTTWYrb2dXZWlRRDdGT1p1WGUxcjdxeDVn?=
+ =?utf-8?B?a25WNzB4SlFTV1lIOHN1NDUwL0huTi96Y0pncCtRR2JsU29UUEkvWjdiVFov?=
+ =?utf-8?B?Z284MzJkTTVZTEVvZUFJbWdibDhEUkVHZXRGRW92djByeno2dkV3WGJpcktP?=
+ =?utf-8?B?bVE5WmxwOGIvRG5xVDNuaFRHMUJPd1A1bUdmU254bUFKRDRIN1FOMzdjQ3VT?=
+ =?utf-8?B?ZW45c3JmbENTUDRmUmY1SFlhU2hkblRINW44U3ZNWEZNK1NMRzVpTFdPOENH?=
+ =?utf-8?B?bTVmMDM1TXpRK3lXOWpua0lQSTUzZUFlVjg3YTIzVDRSSHcyVG5VcTVXZ2pR?=
+ =?utf-8?B?aDVnZnhIaEdlQ3JCS2NPNENnUzFlZHdIRmorRFRoVUsxdGJGTUFTMHZJaTVR?=
+ =?utf-8?B?SXdYOXdUVXdENG5hTmtWTTB4TS9BbnFiL0lGdEtHQko5cVAzYnJSaTJva3VI?=
+ =?utf-8?B?WTcwRDU2dEpEWnFlbE9MSGJLelJXdGZwTkVVMU00V2hFYk15WXZDZWdrY0xF?=
+ =?utf-8?B?NUJyNjIrU2pEK2ZmSndRSjROUXZ2R1JZVURtdWgrenNHWFVETUczY3ZZbEYv?=
+ =?utf-8?B?azZ6cVRFeTl2WE9JRXRzT3JJZ2s2UW9HMmVUYVNuaFZXVGdha1Y0a2UxK0lu?=
+ =?utf-8?B?S0M3SDdsMFgyTXVlMVJNenlsRXdLUldvZEJnaXlHZTVqUWt1bllEbjBkTXZZ?=
+ =?utf-8?B?MzNFMzk5dXk1T0kyUklOamJjd3hpbjUzU0dqeitSOHU0Rmt4Z1YvNUZndk5z?=
+ =?utf-8?B?UmFTRnFQVE1xUVVxdU9BV3VVM29FK1dhV3F5ODZvajdaNHNRWGxPNm5kTERT?=
+ =?utf-8?B?MFI2ZXAxRE9sczB1NzJndklrRnNDd0ZVOUVZSU5CYmJXNmRuY21LeWdjcDdx?=
+ =?utf-8?B?RWhrbGg4MTNzRC83Z2dKRlQ0cmhqeTVNTVViTERVTndRUUR2RHhPYWNudU1k?=
+ =?utf-8?B?N2hvNXhpWGtlanFWQUJLMHppUFVWaElNTzFpSXBoWXd0VVlwZzRyM0piQWtK?=
+ =?utf-8?B?aDFHYlh5SVc5WXVXckhPbVJWSmNhLzBOV05sS2RaU1hEM21CdFlEWUQ0b2pj?=
+ =?utf-8?B?eWgvbVpDbklnWHJkbjVNMUxhQnI3MElMeTFKclRlTU9mWXFQOVkwWHVwOXFU?=
+ =?utf-8?B?Q05QajUwR2FOK0sxRTd6bkpwVWpOZHN3d3dNL29CWGJwcC9vWFQ4c1RKanVM?=
+ =?utf-8?B?aEovbmcxV1dLY2lsZjdITjI5L0VvRFJtTU1zRXh3dVI0ZEdPeURTQTdqMGV0?=
+ =?utf-8?B?NDRFVHJLMU45WGdsUU9EdDRjeDNvY1duL042RG10SUd4N0JiRjd1eDJIakF0?=
+ =?utf-8?B?ZkhXSmNDYWExemIxd09mdnBHL0xEUzI3YWRNbWhQZTZSaHRVVjBXYStTczBB?=
+ =?utf-8?B?SDNuVVBCd1R4SWJOVGc0SWlhODY5M01peWJJNW1zWHRGRmR4NS8vVmRyek1J?=
+ =?utf-8?B?ZmRCcWsxRFNodEcxNnM1b1UyS2VvczAzNE9mQnQ4cGZhb1RSOXFvTnNUbU9R?=
+ =?utf-8?Q?64UJXZlHoWo=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7540.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(10070799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?NHgrWGU1ZnR5RDlUalVXdmRqU040bUdHKzNqdHl0SE42REt3elg4RkhIWVAr?=
+ =?utf-8?B?eHVOZDBsZWYyckVyc3kyby9aL1JOYXlpS2VTSS9SMVFGYUxLTmo4cllsRkcz?=
+ =?utf-8?B?bHFIZ1NxTFN3bXRuSGhqUmpWSHBmWVE5RWhNaFJBbmZtMlI1TnBJaDJWQ0hU?=
+ =?utf-8?B?R1dXWkk2eG5QeURwNkpXc0dOQ0lJMWRVc2NocVcxVUJyWjYvdURwdmxBb2w1?=
+ =?utf-8?B?THZYU3lXVWJldTM1MzhkUHpzVWRtUldtQmNKWnFlbEk5UjJaRGdFdmpVSG41?=
+ =?utf-8?B?Y1dmeFFobkdFUlFFK1hzd1puL2M1S0ErNFVUQUZlWnZFWGc0Umg4aVFzQlNK?=
+ =?utf-8?B?QjhFSXN6ejZWQmdjMkRhMU9FNXViWWpPbHpLS2RxYkhsRHJ2dkJzU3RNWldD?=
+ =?utf-8?B?Qm8yKzBodFI1dEw2SnZKZ25rWU85TlUxRmxmcll5eW5zbGJEekVIZWs0ZnNL?=
+ =?utf-8?B?VkdIT0w5U1hzVjhnRXgyTXR5QUhCOTEycDFXRktoaTNTajVFK0JPdlk1L3Jw?=
+ =?utf-8?B?M1VPZmxuOE05dzlocHkvV0lYbDFlOXd2cnhoVERWbEt0am9sdVFHckdIU1JZ?=
+ =?utf-8?B?VVV1UngxZjRwMENpRWthR2NiQTRrM3RoVjlybkZKeC9neFZuQkhOMkRGRjFO?=
+ =?utf-8?B?TlRtcHMrRmVqT2REZThHaEhqT3M5dHF6MWRsVDYxSjVIazVhRmVvdEVpZEJm?=
+ =?utf-8?B?RGJRR3RTZ011WVpCU3FvU1lWUWRpekZHbWp1WDFidEtJdy9RUFBGSHdXTm1E?=
+ =?utf-8?B?ZC83anNYUEs3UlpIemhaNzU5WU9RUzNzZU01RFdvbDZSS0tlUzQ0Y3hoS1BQ?=
+ =?utf-8?B?dm5lNStQa013ZTdGeFpyY1RDMFNnYy9lbDRMcnFhL1VQd3pOTSsrYkNZT2Rv?=
+ =?utf-8?B?MmtFbHdzVzJJWHdacmc3S1NHc3ZGOWErR2tMeGZKMVNvQlJvUHMrcSs1MlFq?=
+ =?utf-8?B?d09KcEJQajdmOGpRbG5yZFhHZFdlSk5Ga2ZqVFNZTmVUdHFQVzY2RnIwZnJ0?=
+ =?utf-8?B?cnhiT3M3N3FManFLV2M3cVR5dnVKOFNDdVAxRmU2QlNkOEptMjBuelR0NlJW?=
+ =?utf-8?B?WWhpcU9Fb1NVdGpoTTRHQTVGbk02VlNzR3dDa2cvRzBxRWtiV245Sy9ST0pM?=
+ =?utf-8?B?MExET2ZNMmpKbWN0WGJYZUg2bzR5STV5MElRNEZERVlhNmlhS2E5UUZvSURC?=
+ =?utf-8?B?U2hyQ0hCcStQT0lZOWdpaXUvTzhXQ1pzZEVHNjE2eDg4SUR4R2FVQWJCRVJl?=
+ =?utf-8?B?YXFpRU5scDJIN3o3emVDeGVaRzlIdHFXbFJ3MDZJanQyeTdqb3dVVWdtenNi?=
+ =?utf-8?B?Wks0VGlXSmZkaVk0K05iYWJIc0tmeE0vRGplQzVtblFZNXFTekZVVW92MHkz?=
+ =?utf-8?B?YnB3S3NzbnRBTlJUL1JjUTc2cDZzTVlPbURIa1ZqNk9xcVhxcEIza3YrM01q?=
+ =?utf-8?B?VlcyWmtpb0o5bm4rN2MvVFN5cDJzc1JSSWxvY1VMNC9hYTFjdEtUNVU0a2JZ?=
+ =?utf-8?B?bk55OEMwZGxpc2pLODZRb0ZiOXhwdmRqcjlKV09LSG9qd1ZQOFhtY3dSeUpD?=
+ =?utf-8?B?SjFrTnJzWFJIelFaeDdOS3NJcG4yQ0VISzVtV1ZpdFdsclpYbHFoNFlZbTFy?=
+ =?utf-8?B?Z29pVkdUMnQvZ0lHb3lXZTM1RnRmaVRRTG1uU2I1Z3hZU0JVcjcyS1lQaTA3?=
+ =?utf-8?B?YVJEZnYxdDhndEFtTjJOdk5qUFFDa3d0Yit3R2dtVlNsTWU3M25HakdtTHl0?=
+ =?utf-8?B?TlJ5Nk1mQVJEYlpjYmFCbkRnaGNjV2k3eVZ3Z0V2alNDczVvRVpEaTJZTWg3?=
+ =?utf-8?B?YTRNTlVxemVnTEViOVNGU0NuTS94ODlSMlltT3pINUNST1RDT1k0SDhycHJF?=
+ =?utf-8?B?L015RCs0bEV0ZVZ2QnpsSkptOXBtUTUxeEFHSWFFdXZweklmc3MzNUVnaUZP?=
+ =?utf-8?B?VzVveXRuckJsQmlUbUM5SnVaOVRZYk40Q3dHM3F4SUJJT2lETUhqd0xGcEVH?=
+ =?utf-8?B?dGRaT1RLNkhsT2ZHdHdoOUdMa3UxRGZEZkQ4bWt5blBVZjR1UFRXcWtvbStp?=
+ =?utf-8?B?SmxNMUR4Wjl3M3RwNjJjbW1JaWhsaVhYS3UwSkVlWFNwbVA1VWM4aFY2NjZv?=
+ =?utf-8?B?SzJKZGNDRmVTOUYxZStOcmxrNklFZ3EzWFEyQklwOHprcStYNjl3U21yZUlZ?=
+ =?utf-8?B?a1NwRGxVcmY5Tjh5Lzg0cExGc2xGNjRNS1E1OW0rWUFzaFBVY0tqbFZtYzNi?=
+ =?utf-8?B?bHE1UWVsNkFyblEzQmFOYWxZY0RRPT0=?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 68447a3b-34ff-4648-0bc6-08dd83e196b7
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7540.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Apr 2025 10:11:47.8919
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tRgaquVQzJcJGzMxsR5W4ajveLdgCcO9bgONHjDppYNTd4GUwr2b6NHBOiZGfGjNCDxj9Y+7grOdosXvNQrF0eTnvyCIDJ8pdSP2zFPnhy4=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB7352
+X-OriginatorOrg: intel.com
 
-On Fri, Apr 25, 2025 at 10:49:41AM +0200, Oleksij Rempel wrote:
-> +``ETHTOOL_A_EEE_ACTIVE`` indicates whether EEE is currently active on the link.
-> +This is determined by the kernel as a combination of the currently active link
-> +mode, locally advertised EEE modes, and peer-advertised EEE modes:
-> +
-> +    active = (current_link_mode & advertised & link_partner)
+On Thu, Apr 24, 2025 at 05:32:17PM +0200, Paul Menzel wrote:
+> Dear Larysa, dear Pavan,
+> 
+> 
+> Thank you for the patch.
+> 
+> Am 24.04.25 um 13:32 schrieb Larysa Zaremba:
+> > From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> > 
+> > Support to initialize and configure controlq, Xn manager,
+> > MMIO and reset APIs was introduced in libie. As part of it,
+> > most of the existing controlq structures are renamed and
+> > modified. Use those APIs in idpf and make all the necessary changes.
+> > 
+> > Previously for the send and receive virtchnl messages, there
+> > used to be a memcpy involved in controlq code to copy the buffer
+> > info passed by the send function into the controlq specific
+> > buffers. There was no restriction to use automatic memory
+> > in that case. The new implementation in libie removed copying
+> > of the send buffer info and introduced DMA mapping of the
+> > send buffer itself. To accommodate it, use dynamic memory for
+> > the send buffers. In case of receive, idpf receives a page pool
+> > buffer allocated by the libie and care should be taken to
+> > release it after use in the idpf.
+> > 
+> > The changes are fairly trivial and localized, with a notable exception
+> > being the consolidation of idpf_vc_xn_shutdown and idpf_deinit_dflt_mbx
+> > under the latter name. This has some additional consequences that are
+> > addressed in the following patches.
+> 
+> (You could reflow the text above to have consistent line length.)
+> 
+> Also, how can your patchset be verified?
 
-... and EEE is enabled.
+Just normal regression testing with kernel debug options enabled, a large 
+portion of the touched code is covered by just loading-unloading the driver and 
+doing a PCI reset, stuff like PTP needs to be checked separately, because it 
+heavily uses control queue itself.
 
-EEE active is more "EEE is enabled and has been successfully negotiated
-at the current link speed", rather than "the link is in LPI state"
-which I think some people have thought it meant in the past. I'm also
-wondering whether this should also include "and autonegotiation via
-ETHTOOL_SLINKSETTINGS is enabled" as that is necessary to allow the
-PHY to exchange autoneg pages which include the EEE page.
+> Does the module size change?
 
-> +Detailed behavior:
-> +
-> +``ETHTOOL_A_EEE_MODES_OURS`` can specify the list of advertised link modes.
-> +
-> +``ETHTOOL_A_EEE_ENABLED`` is a software flag that tells the kernel to prepare
-> +EEE functionality. If autonegotiation is enabled, this means writing the EEE
-> +advertisement register so that the PHY includes the EEE-capable modes in the
-> +autonegotiation pages it transmits. The actual advertisement set is a subset
-> +derived from PHY-supported modes, MAC capabilities, and possible blacklists.
-> +This subset can be further restricted by ``ETHTOOL_A_EEE_MODES_OURS``. If
-> +autonegotiation is disabled, EEE advertisement is not transmitted and EEE will
-> +not be negotiated or used.
+idpf size does decrease, but overall size increases. It was 585728B for idpf, 
+now it is 557056 + 16384 + 53248 [B], this amounts to +40KB of storage usage on 
+systems that will not use ixd.
 
-Maybe similar here.
+After
+*********
+idpf                  557056  0
+ixd                    40960  0
+libie_pci              16384  2 ixd,idpf
+libie_cp               53248  2 ixd,idpf
+libeth                 16384  2 idpf,libie_cp
 
-> +
-> +``ETHTOOL_A_EEE_TX_LPI_ENABLED`` controls whether the system should enter the
-> +Low Power Idle (LPI) state. In this state, the MAC typically notifies the PHY,
-> +which then transitions the medium (e.g., twisted pair) side into LPI. The exact
-> +behavior depends on the active link mode:
-> +
-> + - In **100BaseT/Full**, an asymmetric LPI configuration (local off, peer on)
-> +   leads to asymmetric behavior: the local TX line remains active, while the RX
-> +   line may enter LPI.
-> + - In **1000BaseT/Full**, there are no separate TX/RX lines; the wire is silent
-> +   only if both sides enter the LPI state.
+Before
+*********
+idpf                  585728  0
+libeth                 16384  1 idpf
 
-I'm not sure this belongs in the API documentation, as (1) this is part
-of the hardware specification and (2) it brings up "what about faster
-link modes" which do support EEE as well.
+> Is the
+> resource usage different for certain test cases?
+>
 
-If they're going to be looking at whether the physical signals are
-entering low power mode, they're going to have hardware to probe the
-signals, thus they've probably got hardware experience and thus would
-surely refer to the documentation to work out what's supposed to be
-happening, and probably wouldn't look at API documentation.
+We now pre-allocate small TX buffers, so that does increase the memory usage, 
+but reduces the need to allocate. This results in additional 256 * 128B of 
+memory permanently used, but our ctlq RX buffers need to be of size 4096B anyway 
+(not changed by the patchset), so this is hardly noticable.
 
-> +
-> +- ``ETHTOOL_A_EEE_TX_LPI_TIMER`` configures the delay after the last
-> +  transmitted frame before the MAC enters the LPI state. This single timer
-> +  value applies to all link modes, although using the same value for all modes
-> +  may not be optimal in practice. A value that is too high may effectively
-> +  prevent entry into the LPI state.
+The worst-case memory usage should stay almost the same + abovementioned 32KB. 
+As for the timings, we are mostly limited by the HW response time, which is far 
+from instant.
 
-As an interesting side note, stmmac defaults to one second, and it
-doesn't prevent LPI entry.
-
-Having a high value might be what an application wants - EEE introduces
-additional latency to an ethernet link, and one may wish LPI mode to be
-entered when e.g. a machine in a data centre has all users migrated off
-it, thus allowing the ethernet connection to it to fall silent.
-Otherwise one may wish the link to stay out of LPI mode, so choosing a
-high LPI timer would suit that.
-
-So, this is policy. I'm not sure statements about that should be in an
-API specification. I'm also thinking that surely one would understand
-that if one sets this to 1 second, then there needs to be no traffic
-for 1 second before the link enters LPI state.
-
-Finally, I'm wondering about the duplication of documentation between
-this document and include/uapi/linux/ethtool.h. The struct definitions
-are documented in the header file, and it seems we're describing the
-same thing in two different places which means there's a possibility
-for things to be described differently thus creating confusion. I
-think we should have only one description and reference it from
-other places.
-
--- 
-RMK's Patch system: https://www.armlinux.org.uk/developer/patches/
-FTTP is here! 80Mbps down 10Mbps up. Decent connectivity at last!
+> > Reviewed-by: Michal Kubiak <michal.kubiak@intel.com>
+> > Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+> > Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> > Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> > ---
+> >   drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
+> >   drivers/net/ethernet/intel/idpf/Makefile      |    2 -
+> >   drivers/net/ethernet/intel/idpf/idpf.h        |   42 +-
+> >   .../net/ethernet/intel/idpf/idpf_controlq.c   |  624 -------
+> >   .../net/ethernet/intel/idpf/idpf_controlq.h   |  130 --
+> >   .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
+> >   .../ethernet/intel/idpf/idpf_controlq_setup.c |  171 --
+> >   drivers/net/ethernet/intel/idpf/idpf_dev.c    |   91 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_lib.c    |   49 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_main.c   |   87 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
+> >   drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    2 +-
+> >   drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   89 +-
+> >   .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1622 ++++++-----------
+> >   .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   89 +-
+> >   .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  303 ++-
+> >   16 files changed, 886 insertions(+), 2613 deletions(-)
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
+> >   delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+> 
+> […]
+> 
+> 
+> Kind regards,
+> 
+> Paul
