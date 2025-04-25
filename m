@@ -1,167 +1,103 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f170.google.com (mail-qt1-f170.google.com [209.85.160.170])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BAC72040A8;
-	Fri, 25 Apr 2025 18:51:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745607064; cv=pass; b=fko4ZRLr5QADY26vEv0AUtD/5fzTIooGSwa+V+pCzhAf0F54bkRA5TGM54KDHUAv0Xwoxb+Qh70I7MwcV/Km/0nh9G0yFIum6fg+DXpqy4JWhEKukXlNXWxl7qZvckHKErUTje9o/T7i8BQLC+YPWP7i5RfJ5a6KuS4cNehmQyk=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745607064; c=relaxed/simple;
-	bh=WISNaajJfoVG+eHnKEldxVO6N2dbvZvArXO+fOqnRBU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=ZJfUS++sg259xieildaGPIEeQWKpz2PFBM7z69AFvUyP0pPl2UWvQ0sy5DHJIcNfOv6Ym6MQepFm4H658AzTRamVBGc6SUoSOJa4AzOOgE7r3imx/000ASmp7gHWTTxUFPjzr4szdL6WRWVwAyL5skEPTHDESmTcBPYxLOTtU8Y=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=al6VijCa; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D6261E0DD8;
+	Fri, 25 Apr 2025 20:10:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.170
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745611859; cv=none; b=mSo42aTXWdN8Vfbkic9/teAz1wfTGcmfqg5XiFymiOV0CLvL9G/aPtpYbsMjoTn5qpUIl9J3LlAQaXAljFxbPxxwDk3nGLRfbhMBGz6piEAwdHfqZb6dNA/e9OCPdoKCw+1nGKWzZ1qFJmTKJBW2P7smiFLIwRXhNfzPHOe327I=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745611859; c=relaxed/simple;
+	bh=iAN2DwDNSFYxPIFWBolUQgDP9zERohfJ0m9WxBGPsu0=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=naVr8ZXdBLAQxWow02GNJ9aVjx511PSF4Cwsm/1pUsk0ucpweMejUxP97oNueTEyeocF+fJF954O4ROHYq2+D1lQw1hrOiFeJV4y/igI5nS/BGGc2lMUO99WIL/SpAq/07eY9hsHmbcUiKqeWha9iHJdTRJpmgdRnMbrlxgH1KI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmof5/9j; arc=none smtp.client-ip=209.85.160.170
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="al6VijCa"
-ARC-Seal: i=1; a=rsa-sha256; t=1745607031; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=PZblNby2kNMGIbAGzDVzwLiumkkQhhxjcsBYLiOL8UD+2K2d0EtoWEFqnCouiiLqtOAvfl/Qhw+7qvmEi04zwvH3gzT7v2gRv8VmjCogvFNeLMBJA9qMiqWZ9iqG2AjXYrq96nDGb82ZUdbU5sz40HOAQBSt1rzPmRp5mVRpgZA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1745607031; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=87movGfsgkKvCCO2hsLlnVrga1A0glMJM4uj70IwRA4=; 
-	b=PuySUUok4jjuwpyxKWK3hE0vMWd5hkFuzO4+h/W2NcDzZDa06IfMxzwR2msIDlSuqn5ozjBaeib3XBCLDGrI3Q44MRamBuvWlDqojZmyhpCBsZ8eOgHSq7w8c0qi2wq25CojDG9oak+IcTNcav/f1CUFKHQ6lMLyuFdeFAIe7kI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745607031;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=87movGfsgkKvCCO2hsLlnVrga1A0glMJM4uj70IwRA4=;
-	b=al6VijCaLZB9Ojg/CKlBpPpTiL4L3l7bnLYNsd3XxABO+a0i9ArBlgH6/pNQgvmw
-	i2wxG3w96SF06YXzw9QwprVhD2lASN8UGy+OqLVEwhlQAKGpgTbA2Q31tFVZDA2UHlZ
-	53mE1YO5TJSM/79t3EN/Inuxk3Vm6KA0OhJHhhKQ=
-Received: by mx.zohomail.com with SMTPS id 1745607028843569.4630920933195;
-	Fri, 25 Apr 2025 11:50:28 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
-Date: Fri, 25 Apr 2025 20:50:21 +0200
-Message-ID: <14333638.uLZWGnKmhe@workhorse>
-In-Reply-To: <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
-References:
- <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <20250225-6-10-rocket-v2-1-d4dbcfafc141@tomeuvizoso.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmof5/9j"
+Received: by mail-qt1-f170.google.com with SMTP id d75a77b69052e-47691d82bfbso57082301cf.0;
+        Fri, 25 Apr 2025 13:10:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745611857; x=1746216657; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ecpi0yXmCLR/zZGykljJqIIXcXWNiToNhd/W6QWxv8E=;
+        b=dmof5/9jqh7COdX+zRatApTbdbTju86MRtN519g4va/kNn4mWSf0K1FXysTuidkh4H
+         MHvv6TUzuxRX/MfEoJfRJDGP14TNF0xfeWqH9nX/AEsdhfjseh84OA0BkC6AZDXgQ/9P
+         i7m+Dd8z6vP4LZdOZZrBsFEostE6gHQB7DoKmSVW3B0Xd0hQLd7vXjhFRFdSOz4ohyAE
+         mujIvxuG4cZuWn+7xomKbAxwFN8qUuxvYxBEVEIAkMspVzEmJrIdxGVFUTd+Vhm2Ro6i
+         0sUh7MtUJ3zDci/NLAFTOJwGdHHpp4krasEKMFr/+h8Q7FRbYeZmoIJqcbqxnMUXUjmm
+         X+uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745611857; x=1746216657;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ecpi0yXmCLR/zZGykljJqIIXcXWNiToNhd/W6QWxv8E=;
+        b=HBC4DfapU+OfPm8wSDHfTqILjciySkglQRiGqYeYByRoUKqSIiMz6Ojn8RlK0oHi8+
+         jdXd6oUfGhkv48I3epHkyTMt3IL6BV51it5iwbestca7b7sfmYG9ke38kNiFOjBmnx/t
+         s1A0N+62fI1TsqT74NIOUpZ59rrhDShOo5n05JHnkLcPXLFB5/jARcpv92kIhiD/h9CY
+         1gxhdoG2Befk4ovsHfnNsk+h1gU4wxXN+uohVdJ+hnAWnNGkDQrsi5O/qHpDB/TQUZ/6
+         gKfGJBLdgHY5WJ72gP2bhhRDHK3C29Wnx8MlWPwocYsMxt9z+TtTN1i1wiiH4e2TAquh
+         k6zg==
+X-Forwarded-Encrypted: i=1; AJvYcCUAPTPYK9ph+DE/Ark210YtaZuRqgpo9F/3mghRm2MZ1WSBLeZV9mUXN7nfn8W9Jr3EnuVRqCo4b4o=@vger.kernel.org, AJvYcCUGjQ4YWP7NpGlEN97epO1rtSnuA3wEjRxbxB1A+2HXK6AdJ1o5ON8uvdyLABbVqeLSx0pMCLBUSA7Vq6KuHcQ=@vger.kernel.org, AJvYcCVe1F6GeR2QSGmRqDsNLY6CYcuRcdrWGzpeTSR1zNpSwzBAcUk7NOQWIDMuxcAuc/k1xdBpsiZmZpaIjx4o@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyfnu4w8oyADCMKbIx1YzncCsmxXCrFQMiIWwMLvajF1W1f5mcN
+	axAnMj+Y3kVuMsaodqK9EYD8IQ8D7A6nb3zQ7G6l1OlMbhjfNCyH3uIn+szK
+X-Gm-Gg: ASbGncuB9fiY1zup8nPuZi8kM/pMWPax/NDqQp1eJ4anhvr8ugRqClnUhn1e5AbWJ2J
+	adYQLbmEAlHDIaDqy1RttpO6R8XasDMZ6r49dHJmphbYybtbigTtdpBgv39KlOT7D/PHvaNWYab
+	7aA527CsfJ3QtUAWxyxSa8wvagGC4V9nBa1EZeXbTB875IU1WEQeBN3qjZ+whg3md5MlVngkBvg
+	xmFHw9fnuJvK18JhcgdSg2aCaaph0qZXMq/1MHzz/amwrCpST1CFhPLGJmVFBEuNWHQpLMrlqpM
+	NxXRJq1jtnsS25eURsT7uBD5lqMA1sqJFyb9O3nVThJJ6WqaeKlC+Q==
+X-Google-Smtp-Source: AGHT+IGK15CnrUKC0fV/s8f5P3y85p0WFMcZtZmPPuQhAo0sC3m87Tby2FfjsYtTYV3Ows577HG95g==
+X-Received: by 2002:a05:6214:2306:b0:6f2:c81f:9ef0 with SMTP id 6a1803df08f44-6f4d1f906fbmr12015496d6.28.1745611857070;
+        Fri, 25 Apr 2025 13:10:57 -0700 (PDT)
+Received: from localhost.localdomain ([69.159.84.207])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c0aaf948sm25867756d6.110.2025.04.25.13.10.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 25 Apr 2025 13:10:56 -0700 (PDT)
+From: Ann Yun <by.ann.yun@gmail.com>
+To: jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com
+Cc: corbet@lwn.net,
+	linux-openrisc@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ann Yun <by.ann.yun@gmail.com>
+Subject: [PATCH] Documentation:openrisc: Add build instructions with initramfs
+Date: Fri, 25 Apr 2025 16:10:18 -0400
+Message-Id: <20250425201018.12756-1-by.ann.yun@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 
-On Tuesday, 25 February 2025 08:55:47 Central European Summer Time Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++++++++++++++++
->  1 file changed, 152 insertions(+)
-> 
-> diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f166cf13a9f4aa7c1901362a3f
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> @@ -0,0 +1,152 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Neural Processing Unit IP from Rockchip
-> +
-> +maintainers:
-> +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> +
-> +description:
-> +  Rockchip IP for accelerating inference of neural networks, based on NVIDIA's
-> +  open source NVDLA IP.
-> +
-> +properties:
-> +  $nodename:
-> +    pattern: '^npu-core@[a-f0-9]+$'
-> +
-> +  compatible:
-> +    oneOf:
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core-top
-> +          - const: rockchip,rknn-core-top
-> +      - items:
-> +          - enum:
-> +              - rockchip,rk3588-rknn-core
-> +          - const: rockchip,rknn-core
-> +
-> +  reg:
-> +    maxItems: 1
+Mention how to include initramfs when building the kernel
 
-Hi Tomeu,
+Signed-off-by: Ann Yun <by.ann.yun@gmail.com>
+---
+ Documentation/arch/openrisc/openrisc_port.rst | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-as you probably know, RK3576 has quite a similar NPU. This is why I'm currently
-poking at this patch series. One of the differences I ran into was that the
-IOMMU of each NPU core now sits within the reg address space range of the core
-as described by the single reg item binding and assumed by the driver.
-
-This seemed weird to me at first, since I would've guessed the cores would be
-exactly the same, but I noticed that they kind of still are; the RK3588's NPU
-also has a "hole" between 0x2000 and 0x2fff on each core, which is where RK3576
-put its IOMMU.
-
-This is some information I gleaned from the RK3588 TRM, specifically section
-36.4.1 "Internal Address Mapping", which shows where each "part" of the NPU core
-has its address space.
-
-Right now we just represent this as a single reg item per core. I've played
-with the idea of splitting this up into the distinct ranges the TRM lists and
-giving each a reg-names entry, but this would require a major rework of the
-driver from what I can tell, including to the auto-generated register header.
-
-For now, my hack on RK3576 is to just ioremap the range defined by resource 
-start to resource end inside rocket manually if I get -EBUSY trying to ioremap 
-the resource proper. This is quite an ugly hack though, it means the IOMMU node 
-still has its address overlapping with another node in the DT, and it also means 
-we have an unavoidable error message printed into the kernel log. This is also
-what the vendor driver seems to do.
-
-What do you reckon is a reg setup in the binding that is both reasonable to
-implement in the driver while accurately describing the hardware?
-
-The RK3568, which uses a similar NPU design has the IOMMU at an offset of 0xb000 
-from the core's start of PC, so probably after any core specifics but before the 
-global registers if I hazard a guess.
-
-For those without access to the TRM: splitting this up into multiple reg items
-per core precisely the way the TRM does it would result in no less than 10 reg
-items on RK3588, if I count correctly.
-
-Kind regards,
-Nicolas Frattaroli
-
+diff --git a/Documentation/arch/openrisc/openrisc_port.rst b/Documentation/arch/openrisc/openrisc_port.rst
+index a8f307a3b499..4ab28879d7ed 100644
+--- a/Documentation/arch/openrisc/openrisc_port.rst
++++ b/Documentation/arch/openrisc/openrisc_port.rst
+@@ -40,6 +40,10 @@ Build the Linux kernel as usual::
+ 	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" defconfig
+ 	make ARCH=openrisc CROSS_COMPILE="or1k-linux-"
+ 
++If you want to embed initramfs in the kernel, also pass ``CONFIG_INITRAMFS_SOURCE``. For example::
++
++	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" CONFIG_INITRAMFS_SOURCE="path/to/rootfs path/to/devnodes"
++
+ 3) Running on FPGA (optional)
+ 
+ The OpenRISC community typically uses FuseSoC to manage building and programming
+-- 
+2.37.2
 
