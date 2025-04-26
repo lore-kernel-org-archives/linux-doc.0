@@ -1,105 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qk1-f179.google.com (mail-qk1-f179.google.com [209.85.222.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E72512E7F;
-	Sat, 26 Apr 2025 15:45:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D4022FE08;
+	Sat, 26 Apr 2025 15:46:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745682334; cv=none; b=Aq0VOFnj5sWLgWUQbDJy4VNhc42LqoWVjWLszS07gvM54Jweim4jK9d0cUbfQv1p0KLflTAUql7WWhqs+1A4u52g6mv5vuSj/OVF6GIZIOhce7NNsLfqXR+LsIKc6V3AjAkeD6kKo/u2M7lrGa5Kx19OPmXSwrF79yD/dKtxe8M=
+	t=1745682416; cv=none; b=mshc16HqsT/mYHsm4uyTfjoJLpBX+Dq/yeSfLiSh8OFngVEkRhP9k4F95MJNIrcsRheKaqiBK3Fy4RGwihUbXtRaBioGNkKJlTbhhXoH+IdLxFQfa49P/hDaVRi2eEjZXMEMuP1DbW+72EV4lY10ZgyfnMyQTzrCyGuDUJ0BXoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745682334; c=relaxed/simple;
-	bh=oJgRJQeAarDSih5pb3xmukdeVC4ZewQLObQrPLvqIX4=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=fvoWACFCHqOR6u66XiSkGaUycm10dT8kYRlGhAha12mxviNvMqXYkUwxyfSU9oFIq6MWuY1B9X6tQnKAJQJKosW3cvc42oeCGApN6mLLgvU6EtgTnYl+igcvRIBsVyZKsXAxOLHKMg2ZLlIVXnaixfmcwLK6LSFEUwpfj2czViQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkJx5L1P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745682416; c=relaxed/simple;
+	bh=Rgi8sR0Scpj8W/52YnoSRB6wQD+9spWlGVgkxRZUMug=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Xgqtl4tjsObFvI0uHuy4C2WxCe4dZfviLLiZxOshGiJCTXI9F1F1RQpxFgIVAhiGyGkC8GXFTmogaI9pivw/hHnrKrcbVoBAZBsBY8E0UxlYcP4Y9qrkGQ1yEDVevVpUqAVgfPzrEfFfWH5WqtdZf4oiWKwHRKSPRaZW7VdpReg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dmWIv8rv; arc=none smtp.client-ip=209.85.222.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkJx5L1P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D244FC4CEE2;
-	Sat, 26 Apr 2025 15:45:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745682333;
-	bh=oJgRJQeAarDSih5pb3xmukdeVC4ZewQLObQrPLvqIX4=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=IkJx5L1P0ovu3NDMEJG+/TJJUt9APv+2cRlbNN8U+dBaB5oKVoFSIPvAZvf1O3AEk
-	 wxoFbELvwfwvlGH9P+2XjjwYkPNLyBAVc07QYdT366dpQAD8a72TWIIn4LWHIvlY51
-	 IVT17lsP5ZOGzDJmp5S0vDhc4NJTHJTvl0mTrxj+30BC9ZZ4UdaN2iFR3diDNMUA/K
-	 srD2IILmNdlsetXVKrXxe08LrfRnjFL9neYFAgzgpD/0CaadnnSSN8OkdTlpKaSZVU
-	 ZFjs/Jv2KXb93E+ABIMpOfhaO6fzBsUH6fAWHo4w0Iwhqi81y051CrKGRiQZFsu0D7
-	 2rTNGCLzuXBZQ==
-Date: Sat, 26 Apr 2025 16:45:24 +0100
-From: Jonathan Cameron <jic23@kernel.org>
-To: Jorge Marques <jorge.marques@analog.com>
-Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
- <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
- Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
- Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
- <andy@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
- <ukleinek@kernel.org>, <linux-iio@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
- <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>
-Subject: Re: [PATCH v2 2/5] iio: code: mark iio_dev as const in
- iio_buffer_enabled
-Message-ID: <20250426164524.166ce3c8@jic23-huawei>
-In-Reply-To: <20250422-iio-driver-ad4052-v2-2-638af47e9eb3@analog.com>
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
-	<20250422-iio-driver-ad4052-v2-2-638af47e9eb3@analog.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dmWIv8rv"
+Received: by mail-qk1-f179.google.com with SMTP id af79cd13be357-7c542ffec37so388585785a.2;
+        Sat, 26 Apr 2025 08:46:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745682414; x=1746287214; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=CIRhaM5iWyK1K3LU98ZIL/PoPZzSsE8wClvA+G8ee4E=;
+        b=dmWIv8rvqSwpDuJMMoeplDwLlz4XtcRxwPmtkyovZTFuqmAumhjYpToOAkXFMrsxre
+         vdeRISqJLXAmEnzUfLl/7jI33F15NGEtDao2uYAIrksNHO72jEquu23hQ3g7+uek1rQu
+         ViCiTqIgUN0SFys2TgKKBnhN7cwInmSdJZ7UtIuCPAptoEi/0LhVPj3RjXJD9R6H4R3j
+         9mrkpX3CGe4sVsXarDMN+ZU3No1ZV1rOUP0mgGKbw1bXhSrkJYyxU2dzpW/QzXCosGDc
+         lP7St9fzOHK41CRcaQMKepItkv+d2GQbXN5QLEnx/1a5H4HjqQUDfUgIRv0Ld32vjxVf
+         pHRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745682414; x=1746287214;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=CIRhaM5iWyK1K3LU98ZIL/PoPZzSsE8wClvA+G8ee4E=;
+        b=H+iHoCyxbEvi2l/gmzL80IQM1Fr6Qk0UZ2Bd7dWu70uBwnMgj0w1VDAn+GFYBcomYx
+         azs9sT2Ne6d76PF6npUhcCXSfQywM4HdR6J7PlMlvWlKDXpvqp4eWy31jeIdihWdoFl2
+         UtUeSTFHSSuwyUEja5gFEEwIKqxWWYQEj2vMa9ZYXou4QC7jd9Taa909VMUZvnPSEb2u
+         brqXLnmvghVddheS1s4T2YX2WWSXM3UrmRoEeU4W75CIghxKl59XvwW9kE6PyZxRmU2V
+         8QmAppjxxH+cFp+8E+qwTYdaWEMHyNzJimdaRnHZXcR9hxtqX9IlMp+bScjVegkXoRvp
+         U1Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCW19fTCyEIvlOGb8i32kxdGmEVkl2oj7rz8vt4O3JsLI0gq5WZwEhRH2Xv7tgwka9+7l9fuxse7VpF9RGtRSlI=@vger.kernel.org, AJvYcCWbEIDh31lpz5PSpcjttLLwoqtieeyFJCjpQJ7JftwAEHq6Wt8J7aNagxVNQuuJPR+p4rkOdY9OVyCL4jmW@vger.kernel.org, AJvYcCWckM13e7MKQdKBOkpYQ5xnZvywsL5pYK5n/7JZYiZtAq0w1nZvYoOQ7y2HG01HSbU/ee1QyQPGVSE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyIk38HnMrR4AwYYjS92BOpjlBFPDfcevv5wAA0rgI7zG2SdkEN
+	xqA1zz4jt7pgtrkUCFKGXjjOrnvMM/1UuTQ6204YN4qQ5AcyPu9S
+X-Gm-Gg: ASbGncuG0DN8LiIxcvnKfcQ3oTStIPNoOE/+gq2ZZwmEAY9ZsJVPIlRNTncjjzIyi7T
+	OR5cweq7Fgq1kF5HZd34N4uTXXNAgFkRNgHYbeEAXSp958tJvqoFMokgP8pWYnwlYkO59NexdS5
+	/NFZXxlT4IdPZxLeZ+uGFZ62430wV8ljbg1toThqW6y1opUc9hANZn/38jPaNLoeeOIeG7Mb0Fd
+	w6V2YFMO+I5OHD0VeYNBGFCtDeHVV3Y9m67cki5apX5n2Tvn9ffIId839DvWsNAb1tYf8EA3n5s
+	f0rcJOF25CaY0tWNjkhR9JJuJGhsmvNpFe45QTL3Y5SkR1UIGFsdhg==
+X-Google-Smtp-Source: AGHT+IGAG7Vyz7m5oLIWXmAWmffgHbM6UUmV5kNolJgcJBqni2w+s0PnDOEo9gAG9/MNL20SdUZdMA==
+X-Received: by 2002:a05:620a:bcc:b0:7c5:5296:55ba with SMTP id af79cd13be357-7c9606f525fmr1039841185a.13.1745682414177;
+        Sat, 26 Apr 2025 08:46:54 -0700 (PDT)
+Received: from localhost.localdomain ([142.198.9.156])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7c958ea36eesm361149685a.111.2025.04.26.08.46.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 26 Apr 2025 08:46:53 -0700 (PDT)
+From: Ann Yun <by.ann.yun@gmail.com>
+To: jonas@southpole.se,
+	stefan.kristiansson@saunalahti.fi,
+	shorne@gmail.com
+Cc: corbet@lwn.net,
+	linux-openrisc@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Ann Yun <by.ann.yun@gmail.com>
+Subject: [PATCH v2] Documentation:openrisc: Add build instructions with initramfs
+Date: Sat, 26 Apr 2025 11:45:44 -0400
+Message-Id: <20250426154544.15351-1-by.ann.yun@gmail.com>
+X-Mailer: git-send-email 2.37.2
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 22 Apr 2025 13:34:47 +0200
-Jorge Marques <jorge.marques@analog.com> wrote:
+Mention how to include initramfs when building the kernel and
+direct the reader to ramfs-rootfs-initramfs.rst documentation for more
+details
 
-> The iio_dev struct is never modified inside the method, mark it as
-> const.
-> This allows to be called from get_current_scan_type, and is useful
-> when the scan_type depends on the buffer state.
-Now I'm confused.   scan type is only relevant when the buffer is enabled
-so how can it change as a result of that action?
+Signed-off-by: Ann Yun <by.ann.yun@gmail.com>
+---
+V1 -> V2: Mention Documentation/filesystems/ramfs-rootfs-initramfs.rst
 
-Maybe all will become clear in later patches!
+ Documentation/arch/openrisc/openrisc_port.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-Jonathan
-
-> 
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> ---
->  drivers/iio/industrialio-core.c | 2 +-
->  include/linux/iio/iio.h         | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
-> index 178e99b111debc59a247fcc3a6037e429db3bebf..bc6a2ac6415eccf201e148ea98c0b5982787eb6d 100644
-> --- a/drivers/iio/industrialio-core.c
-> +++ b/drivers/iio/industrialio-core.c
-> @@ -212,7 +212,7 @@ EXPORT_SYMBOL_GPL(iio_device_id);
->   *
->   * Returns: True, if the buffer is enabled.
->   */
-> -bool iio_buffer_enabled(struct iio_dev *indio_dev)
-> +bool iio_buffer_enabled(const struct iio_dev *indio_dev)
->  {
->  	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
->  
-> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
-> index 638cf2420fbd85cf2924d09d061df601d1d4bb2a..88569e1a888bde4d2bfb5b9f030096af1c15d68d 100644
-> --- a/include/linux/iio/iio.h
-> +++ b/include/linux/iio/iio.h
-> @@ -629,7 +629,7 @@ struct iio_dev {
->  
->  int iio_device_id(struct iio_dev *indio_dev);
->  int iio_device_get_current_mode(struct iio_dev *indio_dev);
-> -bool iio_buffer_enabled(struct iio_dev *indio_dev);
-> +bool iio_buffer_enabled(const struct iio_dev *indio_dev);
->  
->  const struct iio_chan_spec
->  *iio_find_channel_from_si(struct iio_dev *indio_dev, int si);
-> 
+diff --git a/Documentation/arch/openrisc/openrisc_port.rst b/Documentation/arch/openrisc/openrisc_port.rst
+index a8f307a3b499..69aed4069e3b 100644
+--- a/Documentation/arch/openrisc/openrisc_port.rst
++++ b/Documentation/arch/openrisc/openrisc_port.rst
+@@ -40,6 +40,12 @@ Build the Linux kernel as usual::
+ 	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" defconfig
+ 	make ARCH=openrisc CROSS_COMPILE="or1k-linux-"
+ 
++If you want to embed initramfs in the kernel, also pass ``CONFIG_INITRAMFS_SOURCE``. For example::
++
++	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" CONFIG_INITRAMFS_SOURCE="path/to/rootfs path/to/devnodes"
++
++For more information on this, please check Documentation/filesystems/ramfs-rootfs-initramfs.rst. 
++
+ 3) Running on FPGA (optional)
+ 
+ The OpenRISC community typically uses FuseSoC to manage building and programming
+-- 
+2.37.2
 
