@@ -1,86 +1,83 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4296E282EE;
-	Sat, 26 Apr 2025 01:14:33 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B1D31E834D;
+	Sat, 26 Apr 2025 02:32:50 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745630074; cv=none; b=m2DBs4LYFiA8w7DLerNO7Vs7Xi5Xg0JVXftjMn6sgLeT88GOaS3m7lTDz1vubX1XH7HAqyXuDGPfIVdJeV9or70+DhPGrKa1xOEHdrFu+rNRu614v4YIQbsF+Jah4/7x25WmvWhx+I2Z7V67cPt1zTPXMBcGPV0N8nm0khtTZE8=
+	t=1745634771; cv=none; b=fs4VH7kMmRna2oWrUGntihuvxHH0D8Yjb6zviOFuxRpCrqyhixi0qSwIbZVUHWFycbQT1iNTtSqpENnvxOOo2uBo7MbZVqGPmA8tjDOV6FOpYI7uhX9eqg97w9JQyIe/yOPtFTY9Htw3vkq9jrxuZcUDVeXtyUqmqG2hdqwMgUQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745630074; c=relaxed/simple;
-	bh=2LCUrZMeV2HZzBU2CuLrVTRtvZm5lDggJtqpE4KrVpY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=sDlydX8SmHI4GVfZ2p3vXpALt6fWKhX42pPwm3tqxsoG4JWO+BTPEF0B+GW5pwctwdFqbSnyiLqLFjA9NekHLNqUUj3gf15ZzURD7K1yCJ+4cIQDD9n5uFhAQs17G5HH3fqzqGGWN0nT42djIzUtoEPseF/idasw7qtOYJnA2Q8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=q5DnBKuz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745634771; c=relaxed/simple;
+	bh=+RUTWIt3VFeUueyp+/LHBU7OQa1nslQTo03DjgGapQA=;
+	h=Date:From:To:Cc:Subject:Message-Id:In-Reply-To:References:
+	 Mime-Version:Content-Type; b=KZvxPmMh8fPvildNUB50dIGBJOh8LKZJLnVSTVKpTdJ4cOpiDP+pD103TAmRuZBcFzw4AwWYju6Crsa6XeJC5itsK89tIFjfPRodca2poR43PFjNS65orNctStefg8eziXAakNIwZIX5yO3R5uabW7cEg7AvuLah223sBHxSBsU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b=NV3HH5cT; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="q5DnBKuz"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D45A8C4CEE4;
-	Sat, 26 Apr 2025 01:14:32 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745630073;
-	bh=2LCUrZMeV2HZzBU2CuLrVTRtvZm5lDggJtqpE4KrVpY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=q5DnBKuzNiqtvCl6bt5OSuQ4Tc06r1bDEkNLVpzhjD6vhR5V5lliPHNnef8KwuRTG
-	 YUUrqLo48zbTsbToeDLKvt7DHSn7KOpZkaC7YPm/XMeVJox3cmAD22GhCnSbz8Hgep
-	 eMz7yioUwd3EDW+jW9mv2QPglXm4OO5jDGi7umHe0BslaXl3e3veXTl+YrY1kifVHi
-	 4XQITuMZUb873n0U8G2mYYDyiy9Fz5rUgdyja1NzYtgg1qwPX5nxLWdauAOlbasW+s
-	 3b6rwAUYeWMKhP2es1RmPrWaM/kXo2KHDrF5OfYVP4QcQ83jMavfxt/JRQoUA1WruP
-	 ddvaSB+syb4UQ==
-Date: Fri, 25 Apr 2025 18:14:31 -0700
-From: Luis Chamberlain <mcgrof@kernel.org>
-To: Leon Romanovsky <leon@kernel.org>
-Cc: Marek Szyprowski <m.szyprowski@samsung.com>,
-	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
-	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
-	Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
-	Zhu Yanjun <zyjzyj2000@gmail.com>,
-	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
-	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Logan Gunthorpe <logang@deltatee.com>,
-	Yishai Hadas <yishaih@nvidia.com>,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Kevin Tian <kevin.tian@intel.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	=?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
-	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
-	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
-	Niklas Schnelle <schnelle@linux.ibm.com>,
-	Chuck Lever <chuck.lever@oracle.com>,
-	Matthew Wilcox <willy@infradead.org>,
-	Dan Williams <dan.j.williams@intel.com>,
-	Kanchan Joshi <joshi.k@samsung.com>,
-	Chaitanya Kulkarni <kch@nvidia.com>,
-	Leon Romanovsky <leonro@nvidia.com>
-Subject: Re: [PATCH v9 06/24] iommu/dma: Factor out a iommu_dma_map_swiotlb
- helper
-Message-ID: <aAwzd_PE6U4ukQQp@bombadil.infradead.org>
-References: <cover.1745394536.git.leon@kernel.org>
- <9ef79ed6c24d12cfea7e6f491da48ae170a5f3f3.1745394536.git.leon@kernel.org>
+	dkim=pass (1024-bit key) header.d=linux-foundation.org header.i=@linux-foundation.org header.b="NV3HH5cT"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B430EC4CEE4;
+	Sat, 26 Apr 2025 02:32:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linux-foundation.org;
+	s=korg; t=1745634770;
+	bh=+RUTWIt3VFeUueyp+/LHBU7OQa1nslQTo03DjgGapQA=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=NV3HH5cTytNLqUSnhZu/e/1hOQv76j3RXu91ccBhnAZKPShm2ywlHlwxEmP2NFyJ8
+	 9mJGv0SrHBCtXVkieOdFVL+aj36B86SkAmVo+3g7zY7zwp1CWMsmr/ZbWtOT8bEZyr
+	 8NA5f5WhQqLgsoDwMQL/xkJ+DI4oOl2RlkHukU3w=
+Date: Fri, 25 Apr 2025 19:32:49 -0700
+From: Andrew Morton <akpm@linux-foundation.org>
+To: Alessandro Carminati <acarmina@redhat.com>
+Cc: linux-kselftest@vger.kernel.org, David Airlie <airlied@gmail.com>, Arnd
+ Bergmann <arnd@arndb.de>, =?ISO-8859-1?Q?Ma=EDra?= Canal
+ <mcanal@igalia.com>, Dan Carpenter <dan.carpenter@linaro.org>, Kees Cook
+ <keescook@chromium.org>, Daniel Diaz <daniel.diaz@linaro.org>, David Gow
+ <davidgow@google.com>, Arthur Grillo <arthurgrillo@riseup.net>, Brendan
+ Higgins <brendan.higgins@linux.dev>, Naresh Kamboju
+ <naresh.kamboju@linaro.org>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Ville =?ISO-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>, Daniel
+ Vetter <daniel@ffwll.ch>, Thomas Zimmermann <tzimmermann@suse.de>, Guenter
+ Roeck <linux@roeck-us.net>, Alessandro Carminati
+ <alessandro.carminati@gmail.com>, Jani Nikula <jani.nikula@intel.com>,
+ dri-devel@lists.freedesktop.org, kunit-dev@googlegroups.com,
+ linux-arch@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-parisc@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+ linux-riscv@lists.infradead.org, linux-s390@vger.kernel.org,
+ linux-sh@vger.kernel.org, loongarch@lists.linux.dev, x86@kernel.org
+Subject: Re: [PATCH v4 00/14] Add support for suppressing warning backtraces
+Message-Id: <20250425193249.78b45d2589575c15f483c3d8@linux-foundation.org>
+In-Reply-To: <20250313114329.284104-1-acarmina@redhat.com>
+References: <20250313114329.284104-1-acarmina@redhat.com>
+X-Mailer: Sylpheed 3.8.0beta1 (GTK+ 2.24.33; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <9ef79ed6c24d12cfea7e6f491da48ae170a5f3f3.1745394536.git.leon@kernel.org>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, Apr 23, 2025 at 11:12:57AM +0300, Leon Romanovsky wrote:
-> From: Christoph Hellwig <hch@lst.de>
-> 
-> Split the iommu logic from iommu_dma_map_page into a separate helper.
-> This not only keeps the code neatly separated, but will also allow for
-> reuse in another caller.
-> 
-> Signed-off-by: Christoph Hellwig <hch@lst.de>
-> Tested-by: Jens Axboe <axboe@kernel.dk>
-> Signed-off-by: Leon Romanovsky <leonro@nvidia.com>
+On Thu, 13 Mar 2025 11:43:15 +0000 Alessandro Carminati <acarmina@redhat.com> wrote:
 
-Reviewed-by: Luis Chamberlain <mcgrof@kernel.org>
+> Some unit tests intentionally trigger warning backtraces by passing bad
+> parameters to kernel API functions. Such unit tests typically check the
+> return value from such calls, not the existence of the warning backtrace.
 
-  Luis
+I've had this series in mm.git's mm-new branch for a while.  I didn't
+send it up for 6.15-rc1 due to what I believe to be unresolved review
+issues.
+
+I'll drop this v4 series.  Please resend if/when suitable.
+
+Some notes I have taken are:
+
+https://lkml.kernel.org/r/202504190918.JLNuRGVb-lkp@intel.com
+https://lkml.kernel.org/r/20250402074550.GQ5880@noisy.programming.kicks-ass.net
+#arm64-add-support-for-suppressing-warning-backtraces.patch: check review
+
+Some fixes I had merged which presumably should be carried forward are
+https://lore.kernel.org/all/20250330212934.3F898C4CEDD@smtp.kernel.org/T/
+https://lkml.kernel.org/r/20250330212739.85827C4CEDD@smtp.kernel.org
+
+Thanks.
