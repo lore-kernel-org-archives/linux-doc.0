@@ -1,99 +1,107 @@
-Received: from mail-qv1-f49.google.com (mail-qv1-f49.google.com [209.85.219.49])
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F79724EF91;
-	Sat, 26 Apr 2025 13:56:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.49
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99330A94A;
+	Sat, 26 Apr 2025 13:58:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745675791; cv=none; b=OP5pytDJgBN7eT3//4qXjbASb2lH1mbc6+pQZCxAkm8tQQ2RPcWz9nvPLS0HWmUKPGClm0JPQiSqxXbjUP/kRHSsSGlY4Sli8Un++Top7BQlPsIg2lSj84dkbVYioPPsXXyMwnYxUr2twKri/SYBPPrwmvNFdKI1M4c4iAWZj1A=
+	t=1745675921; cv=none; b=SxCmyuiFc6zgQWt9Ykv+zkR0nENSGlnOj2ps0c2F1lHIim5rVGkSIDBHS2tW/lEJw5Phkre8hI4q/H6o1kpf5BCT4VEulCVHrLMfBCp1huLgEz1u09ojeZlF6h8I5+RJ8zTEg75Pnzo89AWrZu/9eYjd2VHtbM4a3y5V6OMu17Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745675791; c=relaxed/simple;
-	bh=HjEsxHsJLRu2c1XpvTAME47d2FHhpw2EQcrOvq5s3+8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=Cwx4Y2b9kUnksYisNqVcL/P1ufpyqkkMbuGei22YsQE9kk/LWCF2a62gPx3NQEVvkDxVZHaMnFDtK1kIdXyWG5u8+QZ8I334xpTyY5q+42o/l/cFL+3qVTUHfpTI9r3hAsnBgEQvMgswme2Ad5Ck6M5HRblGUcS85ClqOMuUZ2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dn6/uUOB; arc=none smtp.client-ip=209.85.219.49
+	s=arc-20240116; t=1745675921; c=relaxed/simple;
+	bh=jcJH2uY7xwisDKTpoXiSdFpRmVUr1IsGNewM+lcU89g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=hgfxCl9z8X+23lWJxM3eAKbAUnDF/krdv1/Y474nxUX3TWqIlrV8ZAdQP7+d9Nen+ctXsgwfX2XDeCorwPaj+ZqAV9wJAuKKtM4Nf/nZ5nMekUoKeAxMgWfc6gQIAMiRxgCHKlEyMm6VBLQ1wK1eetNnYOZGW101s54GAIDfK5w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WcDOe0D9; arc=none smtp.client-ip=209.85.215.169
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dn6/uUOB"
-Received: by mail-qv1-f49.google.com with SMTP id 6a1803df08f44-6e8fce04655so35035846d6.3;
-        Sat, 26 Apr 2025 06:56:29 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WcDOe0D9"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af5085f7861so2420290a12.3;
+        Sat, 26 Apr 2025 06:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745675788; x=1746280588; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=S1n7bn3fviWPvz6Rw9RjP7e3YFwmWOwqg06fB5bOqNg=;
-        b=dn6/uUOBdNMewk5/2dEvJZsec/8Gr5sw/q82iwYZsAZKqvYE8mpyglpB0Oes9FYUVi
-         IUkZ/zK56M8DXSKHH0dwq+5OsaetKQ3F3D73YuQktHtETV2kf9wyziY04JqnDyqIcon/
-         WGCeaepikKob5rwrXWVtnS9M+XLH4Stb8mHXBiLNoJrhSISLogS57W3ri6/lMJmvr/7e
-         R/+Udvhr3VV6testPP8QBXR7oCHQqH0PBm22NbHvoBJ4tn78a5HaGFnrU5Pin8/y1VKu
-         QVraPo1Flnlt8disCT2yv5BDUCOFdpP0qMVQIdeJ8mjiTjL7bGEGhJlTsFWJ6TGrSKkO
-         9pAA==
+        d=gmail.com; s=20230601; t=1745675919; x=1746280719; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=hiGdo2FHJd8De8ADEidT5DPemaaP0nnmMXhnvOOqxuo=;
+        b=WcDOe0D9pcNnF5RHMh8yMK/5JYaPsUYCYcIaAqjh4xabQsN54pkhBs8fBtqo+SPixp
+         mynrk7ZPS3JjOCo4yjX27mpqpANQxKluI4ygrJFOtFzbx8qFhGOrRAayqVK9pLareuMn
+         YS706urO764gTyz2JmGtXxcNEi9dREnqANCD0061PQHgOG8Lszs5JuVvV0q78vc5OR5N
+         MafxtGJSClxuhm/7vFmj3s76tAZnuZegi7WCvT5rvU6+5xwt3acHar6Tw1SzLJ3d50hj
+         qvR7Ifs+Yc7NH148cutMq9EjMexVIKjgs9F8VWLkcZmWKac5uFSqLECsyAcbSzhf9jTP
+         UmPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745675788; x=1746280588;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=S1n7bn3fviWPvz6Rw9RjP7e3YFwmWOwqg06fB5bOqNg=;
-        b=N4ABIv/i1qX6+1EmfDCoShRTHdMDI5L2XlzdFI2UK93DQvecddJHxNTmzlmoMmrkce
-         KNTrLGhhfuhsCDc9GaWlXabcxWqfBnPkHKMTKKCHmZdThzUb2J5oj1dXhfY5W3CtoWTB
-         vVg41VQpeixAASSauvtDzeOjn4C0hjlvl7SVkh2QRze/deOhqMx7AfAQWhFcers0fXkc
-         WjAsHwTo1fsxEpPjTB+OAxIF1wEncqEYCQTTz0LEMkRH9sX+WtZoRWNNZxPk1CvXMEDF
-         HeGr0cEqdmB0DKT9ZBVhBZvI4c8lw9oLGJIkLREoZUi8RAIEr/MkuTEdozADNeVqC3at
-         IAsQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW+NmzjQ2AEMmfT7UDLgBJowosKaBSSOhgACtuQbrdr02EdC3opy9TEqVsg2DmV8CLcNCAh80VqPoE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YysBwzJ1iEAb0m0oNac71B9oQu+qqr8lRLJzYlOn8QpxH0rZDn1
-	YVMqNHg2KAz9mOExs+U1f510ZMbTOiqmEIM15Jd2VZ1D2UikpdjE
-X-Gm-Gg: ASbGncs2xonb34oaZAGFciavfam4NqUumzIgtEoDZFONeBmqfOe8sap+L1rWPLx5wyU
-	DRYaZeNJs9f6zWfJ71yVXt80ekNberwZOLARVWX7TbPr9wei2H9NzoHBtC2u4qScIBgDY+tmIwW
-	Ik3duA+6vbMKFsN4jzX3IzhlzWT4t4ADA1a0J3XxVQKEAziApTUlQzhSppT7PQ1Xc8X80/0893H
-	YNI+PrccN43QAwJuz6NuwNDLoWE+0H1COA90woKXXGZ6r9YDs59PpEYlrGUh1flFYk11QsyBtZp
-	oy0LT/7+jatC6qjMjPEi7a3k0j4L8AFN3iycKyyS69SomtikvnZ+qDUoOqLD9ZcZF9ye
-X-Google-Smtp-Source: AGHT+IGxsexQf4apoKG715mJ6JVUh4PQR+eAh20J9Y/sXkltg7AOkr4tsqcsJSuWQrXEQijaWg9hLQ==
-X-Received: by 2002:ad4:596a:0:b0:6f4:c8c9:c4fb with SMTP id 6a1803df08f44-6f4cb9d2178mr83177706d6.11.1745675788195;
-        Sat, 26 Apr 2025 06:56:28 -0700 (PDT)
-Received: from localhost.localdomain ([39.144.154.62])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c096eb13sm34901406d6.68.2025.04.26.06.56.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 06:56:27 -0700 (PDT)
-From: chris.wei.cui@gmail.com
-To: corbet@lwn.net,
-	linux-doc@vger.kernel.org
-Cc: linux-kernel@vger.kernel.org,
-	Cui Wei <chris.wei.cui@gmail.com>
-Subject: [PATCH] Documentation: fix speculation.rst chapter
-Date: Sat, 26 Apr 2025 21:56:09 +0800
-Message-ID: <20250426135609.735-1-chris.wei.cui@gmail.com>
-X-Mailer: git-send-email 2.43.0
+        d=1e100.net; s=20230601; t=1745675919; x=1746280719;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=hiGdo2FHJd8De8ADEidT5DPemaaP0nnmMXhnvOOqxuo=;
+        b=WSJ+K/DNkSu1OEZaPU/Cq/bOz3+N4VGk7/MAJ/JSo+37L+r3iq7gT+EHd/kmx+xQuB
+         6X+gY2V99ascUVkyc2LTrVbQe8coK51d//3u7Rtl6LXf2CNSabiqqzSCwBjB8PA4YiEX
+         1D/jjBcL4L2qxj7Fx/hfLPVnqNSN9zXYy3F549+N8d1znygbTaXqs+AT0iKfleWGJRVP
+         imrNQFp0ZOrcvPuDFHhKPOy7KpimY5OcDYnoau7nAPhZ2tTk6rzsWn8eOzNjsGVQ7dbe
+         qZk8duhUVxxcn/kA/9Ppfu7SkNFuNpQjrf2Absurozw7PYjnWVI6pN9YZnRh2feJnWyw
+         Uutw==
+X-Forwarded-Encrypted: i=1; AJvYcCUmUcek5onOZVZ6LPzihZNOYUdgd6v4rJjwWXw0tcRqtXxhttKiARbMtkAjgBDtkFgA/t04Hdm8/3TtM8T/518=@vger.kernel.org, AJvYcCV6kr448q/aqkJ6dFWG7GE8Rt3Mw/rwumBuPNvv2/ygDBkEwiifNFoPr82oicHVaImiu/kg3TVvgBDe9VPJ@vger.kernel.org, AJvYcCXf8s2LxdswYW1CYXajtWG8UQeAvLW/5vvhGJWglTfSx0raVHzQgqWlH8p3Gjq2FTUuqSP8UMwwU3A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwMICi+Z5ZFYY9zzzDv7wUDgFYyY4bpXtq6N4lintm5GFV4rBIT
+	u/o1o6UbDyVBsX0Uyfnr3wtH51Zit2rkMW7OFaj8o+dMiB6cgKa6VddeWpChdF8MTVm73EJzfYl
+	SN9yBleljOMkWHneUXyGVML3KfKUxEXpttqE=
+X-Gm-Gg: ASbGncuRo9vSg/C7X4In5+at2Q/FhnFBWe/DE/gPHJ2v7ayqb7z4B9Vfm1sUq7+jISJ
+	aoHMHuuGtNCwqERFc6xXlgIpINW9NowfvRff8+/cCXMQlk0FRgj9JUfo+8yy875Unz4gzcpxdXz
+	MkWvKWqbFN1H1NDZsRRw+ciA==
+X-Google-Smtp-Source: AGHT+IHQRfyQdCrnuIRknDKukO/4PUTw6x1XqIRIJ3y1/jSIKnziD8NYCuXTLTCYgrjJm9l1uKOVnAOp5Cj+UcTxHZM=
+X-Received: by 2002:a17:90b:47:b0:2ff:58a4:9db3 with SMTP id
+ 98e67ed59e1d1-30a013c3fdfmr4966449a91.35.1745675918898; Sat, 26 Apr 2025
+ 06:58:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20250425201018.12756-1-by.ann.yun@gmail.com> <aAyeY-cFSDuLYnJZ@antec>
+In-Reply-To: <aAyeY-cFSDuLYnJZ@antec>
+From: Ann Yun <by.ann.yun@gmail.com>
+Date: Sat, 26 Apr 2025 09:58:28 -0400
+X-Gm-Features: ATxdqUEsSIOWUKOM40YB5o8sO36FbTC11EnJNuwZDiW3l41_jTXfMS9YN9U9EaY
+Message-ID: <CAB60mtNRLstmV7c97=tUnW9GhMkn809eKHcGnA4x1iGcpGjYLQ@mail.gmail.com>
+Subject: Re: [PATCH] Documentation:openrisc: Add build instructions with initramfs
+To: Stafford Horne <shorne@gmail.com>
+Cc: jonas@southpole.se, stefan.kristiansson@saunalahti.fi, corbet@lwn.net, 
+	linux-openrisc@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-From: Cui Wei <chris.wei.cui@gmail.com>
+Hi Stafford,
 
-'Mitigating speculation side-channels' should be a chapter rather
-than title.
+I am sending my same reply to the whole group again, because I
+previously did not do "Reply All".
 
-Signed-off-by: Cui Wei <chris.wei.cui@gmail.com>
----
- Documentation/staging/speculation.rst | 1 -
- 1 file changed, 1 deletion(-)
+On Sat, Apr 26, 2025 at 4:50=E2=80=AFAM Stafford Horne <shorne@gmail.com> w=
+rote:
+>
+> I think this is good, but maybe we can mention to refer to Documentation/=
+filesystems/ramfs-rootfs-initramfs.rst
+> for more details on this?
 
-diff --git a/Documentation/staging/speculation.rst b/Documentation/staging/speculation.rst
-index 8045d99bcf12..0d526ba55d14 100644
---- a/Documentation/staging/speculation.rst
-+++ b/Documentation/staging/speculation.rst
-@@ -63,7 +63,6 @@ of an out-of-bounds address, while the second call will influence
- microarchitectural state dependent on this value. This may provide an
- arbitrary read primitive.
- 
--====================================
- Mitigating speculation side-channels
- ====================================
- 
--- 
-2.43.0
+Thanks for pointing that out. That is an excellent idea, I will add that.
 
+> Also, it may be helpful to mention we can get pre-built busybox rootfs im=
+ages
+> here:
+>
+>   https://github.com/stffrdhrn/or1k-rootfs-build/releases
+>
+> But if we do that then it would be better to show how to use thos rootfs =
+images,
+> which maybe something better we have in our openrisc/tutorials[0].
+>
+> -Stafford
+>
+> [0] https://github.com/openrisc/tutorials
+
+Exactly! I was working on a QEMU tutorial inside openrisc/tutorials
+and that prompted me to add that one line here.
+
+Ann
