@@ -1,392 +1,173 @@
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63E45296D34
-	for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 23:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AE87C360;
+	Sat, 26 Apr 2025 00:07:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745622834; cv=none; b=Kapzgj5v7y+Iw1cPKhJjrhS0L4AGbnB2aVwjV1SM9Qi79hZj7oYO0QdXb21pPPV3ai9/GivUlgFXHgOtZd3ODLk9AenxYsU24t+Pho+t1H9hyGQnBhvCpRNF/IQp7B0Z/77EZXg19EDS5y7wuU9Yv7Po00z608Nx17Tm5Kihk+0=
+	t=1745626033; cv=none; b=ZqYoiSweJ24+7XqzzTGYrx7rBf/GcdbPvc30eUFVT8haf2QU+OU0lP8TxriKXG5JLvAJy9hzUTm7eSGqJtXF1PInCKAhvA700BkG3u8+MgRC7bROftcyISLmzKpIo9U8jsCbicrqtKZnY9NHxE0883uWL9zfKntJaku2C+l2SkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745622834; c=relaxed/simple;
-	bh=PngBN4fnbURLzAySAY30tx1qdDko/K5iW4qjRDdHsFk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ADOcbQ/C5LY3GQDVTZCQvOgCWu8zclDk9LGNUPBsHncYDOKyY+PrsnqXPSH2mCYcZHTy323rJ60vi2apY4e0TUZcHfd6WYvnnUI1hrECMckQbEwrjIWfJRZpS3DB6yTkmuWRY3N318Xcds52d9Vno113tYcXGnNEHYDDU9CIMaI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=PUk2Anzp; arc=none smtp.client-ip=209.85.210.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1745626033; c=relaxed/simple;
+	bh=UoxqykoSJQYy0HuyseAsAhDvn5nbQ6gFG5I+BwMHNN4=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=BYtoEDN/LE1D0D/DTmrjBAKIzwUInvoWWRf7g2k2dJL3s4QWO4mmRXt3J3Z8OqxyXPFPQYCvzQ5ZzdKWF/OQIkfEFW4uSUd/1EYZmc+Gj3iRrcoYz7VCwiPeklUve17YrFL4GUpn5T8+UPdFqArXF9mzoUSUKi3a5Zr//u+3PfU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LyxhD+pD; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="PUk2Anzp"
-Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-72c7332128eso1780844a34.0
-        for <linux-doc@vger.kernel.org>; Fri, 25 Apr 2025 16:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745622830; x=1746227630; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=B+3rb/tLAGnvLIt9IgNGUN65XhsnftVTZknFpZtsVlw=;
-        b=PUk2AnzpMmsL9x4bI3BiNLMqjY+ETaT1qygv3AzghvWuoHExRhHuqUhxgiN59teVcV
-         g5P5CeARl53jAfoWr53r6LAoxFnGChMXWPVAPUGunXfhWMtJlTQdvGHwqIn+qPzs/nYi
-         VK444HhDkFMs56CqvyUnFHs6fzNODG2Z3Kfu/Xje/i7CVHi6NZoO5IOuf6ishTP2BYVJ
-         8xTG9Q3UIn01GKDmRswJbbGce/e4kHL2ttPjVpN4klPJ0G7wOZ10dCiiqG65VluD4Wce
-         bTHiFDfAR5U0XNRK914l0npeBo8reM4kIbj25PMyFOxGIkqs5hhLYuYu74BvaEXs/h7i
-         bc3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745622830; x=1746227630;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=B+3rb/tLAGnvLIt9IgNGUN65XhsnftVTZknFpZtsVlw=;
-        b=Jh1c6HSlARAoIj6BILLREt/CjNLYzXuqyxM3E1wC2Gmlb2MY0ZH2PHOB0vpqmeMmsl
-         TfG+bqVMpHKu7BF1/3sCR4kKzG5V/+3a02ODcYPOz0abQTun0hWgWOlr5+IXvPG25+U9
-         xZ4uxRoBh6CYNKRqsbDLoTNK/0jcatIUyjgv4vcTB0OyOnekUD+lE3a5u2TWLfV/Pccu
-         h9Xhvqw0EWftOetfs3xX1P38e35E4Y3zohol1TXGGZXhd9agW+j0w9q595mPQuzkaXz/
-         WEGEFHG55n45mBQtz/qLnYna0fx3RkzctIKjZAJ5GM1l4AQx8jSF/3F6n+yHRX3fLBoh
-         BE+g==
-X-Forwarded-Encrypted: i=1; AJvYcCX8/zxHrN7brTHOawH3okwr1eUhBytObvnwxLLcSbxcJXdDBAfGSg+EBg20rsaXkaRaJiSFMXPcd64=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxtWrbbTpR6ZPv1bL1rb3L/yWyWx71rfwaAncEEgIfB3Rbblfo4
-	ZetaBsuSRx/E5Vf/HYDO8pTSQCuwhQwMNTo3U+M+TNUZXn6XpKoaQrFIlHprGHo=
-X-Gm-Gg: ASbGncvoDAIpu4ORxoZgbZ4BE+OOuLRvBGZJ4/UVYzeV/iw0CglaGUFFsV8JkVGroaJ
-	sF9aI0vFGNtD1IsJBrlFFeGmagYMdRIV7UnQVU0RswudyWMLZxRjQeLCQQ71W07ZrWlUTxfzyOU
-	g3cvwIZoRTyzTT/cFsvuq7UZEazmSZfTPLSqkO7Vr1BZ+Qvs0SR61EmdSgscyZTv92Wa3wF1TQP
-	muKk5QxwLifcxA8Od4vvglDmB1kI0fMPBUhRYbBDsviY+dXhimzLsjvdX6TDJ5Cm/vxer9qLcQI
-	A131xdUEIqV/UplbhzG6WV6mik650FV/faL2gduxU26ZuK4lh/W9eDdXyiIn57STGM1kmtUce2H
-	ijCkuoiGlfNbA
-X-Google-Smtp-Source: AGHT+IFMv0vnj0gyPnnBDlAAtjQ4qLxNurqnITAkClibY+ZJfAW3Guzqu2qpn/vLBJV0bNHfsRHU4w==
-X-Received: by 2002:a05:6830:3816:b0:72b:9f83:1155 with SMTP id 46e09a7af769-7305c9f62bamr2552310a34.17.1745622830303;
-        Fri, 25 Apr 2025 16:13:50 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:96a3:e28:3f6:dbac? ([2600:8803:e7e4:1d00:96a3:e28:3f6:dbac])
-        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7304f19fb76sm873571a34.16.2025.04.25.16.13.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 25 Apr 2025 16:13:49 -0700 (PDT)
-Message-ID: <c82b8c53-e653-4cd3-80ef-37c5daf9314c@baylibre.com>
-Date: Fri, 25 Apr 2025 18:13:48 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LyxhD+pD"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 08D51C4CEE4;
+	Sat, 26 Apr 2025 00:07:13 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745626033;
+	bh=UoxqykoSJQYy0HuyseAsAhDvn5nbQ6gFG5I+BwMHNN4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=LyxhD+pDYH3mjbUMG//m/KUkrdANKLMw3grgt8i8YT5xwkE94n8Z2aiuf6XSevq2g
+	 cUHMR3b4atIiGWOAU3grWRCvFXXF0fcDQR09BX2ocOaaXlzO20JvFbpdLb030pXKxc
+	 iHdfSnyN+dCNzw4+GhYAxntVXppGpPrjCp0BG6a/GFkaJpRxyquZDQ14mKf65j2Sp6
+	 sygJeHT2VQPsZqXKH6uEHk75BD4CbiM1iIusPGtx9gatYZqOfJNEnMV4tOfBGZaR5I
+	 +nP5iiDOGtLZbU/uGNGP0nbT5COPK3Pp2Kkwx0/y0M6IG0h+FhlyjUZCHSUI1UE/40
+	 +hOxdd4ba+ONw==
+From: Kees Cook <kees@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Kees Cook <kees@kernel.org>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Mike Rapoport <rppt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-doc@vger.kernel.org,
+	linux-mm@kvack.org,
+	Maxime Ripard <mripard@kernel.org>,
+	Tejun Heo <tj@kernel.org>,
+	Natalie Vock <natalie.vock@gmx.de>,
+	Xavier <xavier_qy@163.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Maarten Lankhorst <dev@lankhorst.se>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Michael Kelley <mhklinux@outlook.com>,
+	Kuan-Wei Chiu <visitorckw@gmail.com>,
+	Christian Brauner <brauner@kernel.org>,
+	linux-kernel@vger.kernel.org,
+	linux-hardening@vger.kernel.org
+Subject: [PATCH] kernel-doc: Add initial binfmt docs
+Date: Fri, 25 Apr 2025 17:07:09 -0700
+Message-Id: <20250426000704.work.637-kees@kernel.org>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] iio: adc: add support for ad4052
-To: Jorge Marques <jorge.marques@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>
-Cc: linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pwm@vger.kernel.org
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-5-638af47e9eb3@analog.com>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <20250422-iio-driver-ad4052-v2-5-638af47e9eb3@analog.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-Developer-Signature: v=1; a=openpgp-sha256; l=3675; i=kees@kernel.org; h=from:subject:message-id; bh=UoxqykoSJQYy0HuyseAsAhDvn5nbQ6gFG5I+BwMHNN4=; b=owGbwMvMwCVmps19z/KJym7G02pJDBk8ymv+MN5+cXzSpIM+axNt1BPnLo44Hs5T8Nn678GH0 zgkD3m96ihlYRDjYpAVU2QJsnOPc/F42x7uPlcRZg4rE8gQBi5OAZjIp90M//StpQIm+71lj3ER dbGc5rC16sK9oG6B8NT7/3J2Vvzfb8Hwv+6MpNf2ra1yyxmT2X/2xpx7+Wv5E7U1EYcuf26KLZ2 iygQA
+X-Developer-Key: i=kees@kernel.org; a=openpgp; fpr=A5C3F68F229DD60F723E6E138972F4DFDC6DC026
+Content-Transfer-Encoding: 8bit
 
-On 4/22/25 6:34 AM, Jorge Marques wrote:
-> The AD4052/AD4058/AD4050/AD4056 are versatile, 16-bit/12-bit,
-> successive approximation register (SAR) analog-to-digital converter (ADC)
-> that enables low-power, high-density data acquisition solutions without
-> sacrificing precision.
-> This ADC offers a unique balance of performance and power efficiency,
-> plus innovative features for seamlessly switching between high-resolution
-> and low-power modes tailored to the immediate needs of the system.
-> The AD4052/AD4058/AD4050/AD4056 are ideal for battery-powered,
-> compact data acquisition and edge sensing applications.
-> 
-> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
-> ---
->  MAINTAINERS              |    1 +
->  drivers/iio/adc/Kconfig  |   14 +
->  drivers/iio/adc/Makefile |    1 +
->  drivers/iio/adc/ad4052.c | 1425 ++++++++++++++++++++++++++++++++++++++++++++++
+Adds a framework to hold the initial exec.c and binfmt_elf.c
+kernel-docs. Updates scripts/kernel-doc to allow leading whitespace so
+that embedded "DOC:" tags can be found that aren't at the start of a
+line so that in-function documentation can be found, like that recently
+marked up in binfmt_elf.c[1].
 
-This patch is way too big, so I didn't review most of it yet. But time to call
-it quits for today. In the future, it would be a lot easier for reviewers if
-you can split things into multiple patches instead of implementing all of the
-features at once. E.g. start with just a basic driver, then a patch to add
-oversampling support, then another patch to add SPI offload support. 500 lines
-is a more manageable size for review.
+Link: https://lore.kernel.org/lkml/20250425224502.work.520-kees@kernel.org/ [1]
+Signed-off-by: Kees Cook <kees@kernel.org>
+---
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Randy Dunlap <rdunlap@infradead.org>
+Cc: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Mike Rapoport <rppt@kernel.org>
+Cc: Arnd Bergmann <arnd@arndb.de>
+Cc: <linux-doc@vger.kernel.org>
+Cc: <linux-mm@kvack.org>
+---
+ Documentation/core-api/exec-binfmt.rst | 30 ++++++++++++++++++++++++++
+ Documentation/core-api/index.rst       |  1 +
+ MAINTAINERS                            |  1 +
+ scripts/kernel-doc                     |  4 ++--
+ 4 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 Documentation/core-api/exec-binfmt.rst
 
-...
+diff --git a/Documentation/core-api/exec-binfmt.rst b/Documentation/core-api/exec-binfmt.rst
+new file mode 100644
+index 000000000000..7e9b515a8107
+--- /dev/null
++++ b/Documentation/core-api/exec-binfmt.rst
+@@ -0,0 +1,30 @@
++.. SPDX-License-Identifier: GPL-2.0+
++
++======================================
++execve(2) internals and Binary Formats
++======================================
++
++Overview
++========
++To perform execve(), the kernel loads the header of a file from disk,
++searches through all binary handlers to find a match, and then builds a
++new process memory layout with the resulting binfmt, before transferring
++userspace execution control to it.
++
++ELF PIE Handling Notes
++======================
++.. kernel-doc:: fs/binfmt_elf.c
++   :doc: PIE handling
++
++brk handling
++============
++.. kernel-doc:: fs/binfmt_elf.c
++   :doc: "brk" handling
++
++Functions and structures
++========================
++.. kernel-doc:: fs/exec.c
++   :identifiers:
++
++.. kernel-doc:: fs/binfmt_elf.c
++   :identifiers:
+diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
+index e9789bd381d8..e44b9b2e60ef 100644
+--- a/Documentation/core-api/index.rst
++++ b/Documentation/core-api/index.rst
+@@ -62,6 +62,7 @@ Low level entry and exit
+    :maxdepth: 1
+ 
+    entry
++   exec-binfmt
+ 
+ Concurrency primitives
+ ======================
+diff --git a/MAINTAINERS b/MAINTAINERS
+index fa1e04e87d1d..0dca4c2cbbff 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -8820,6 +8820,7 @@ M:	Kees Cook <kees@kernel.org>
+ L:	linux-mm@kvack.org
+ S:	Supported
+ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/kees/linux.git for-next/execve
++F:	Documentation/core-api/exec-binfmt.rst
+ F:	Documentation/userspace-api/ELF.rst
+ F:	fs/*binfmt_*.c
+ F:	fs/Kconfig.binfmt
+diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+index af6cf408b96d..a2af8ac5acff 100755
+--- a/scripts/kernel-doc
++++ b/scripts/kernel-doc
+@@ -243,7 +243,7 @@ my $decl_type;
+ # Name of the kernel-doc identifier for non-DOC markups
+ my $identifier;
+ 
+-my $doc_start = '^/\*\*\s*$'; # Allow whitespace at end of comment start.
++my $doc_start = '^\s*/\*\*\s*$'; # Allow whitespace at end of comment start.
+ my $doc_end = '\*/';
+ my $doc_com = '\s*\*\s*';
+ my $doc_com_body = '\s*\* ?';
+@@ -2261,7 +2261,7 @@ sub process_file($) {
+ 
+     $section_counter = 0;
+     while (<IN_FILE>) {
+-        while (!/^ \*/ && s/\\\s*$//) {
++        while (!/^\s* \*/ && s/\\\s*$//) {
+             $_ .= <IN_FILE>;
+         }
+         # Replace tabs by spaces
+-- 
+2.34.1
 
-> +static int ad4052_update_xfer_offload(struct iio_dev *indio_dev,
-> +				      struct iio_chan_spec const *chan)
-> +{
-> +	struct ad4052_state *st = iio_priv(indio_dev);
-> +	const struct iio_scan_type *scan_type;
-> +	struct spi_transfer *xfer = &st->xfer;
-> +
-> +	scan_type = iio_get_current_scan_type(indio_dev, chan);
-> +
-> +	if (IS_ERR(scan_type))
-> +		return PTR_ERR(scan_type);
-> +
-> +	xfer = &st->offload_xfer;
-> +	xfer->bits_per_word = scan_type->realbits;
-> +	xfer->len = BITS_TO_BYTES(scan_type->storagebits);
-
-This doesn't work for oversampling. realbits may be 16 while storagebits is 32.
-But the SPI controller needs to know how many realbits-sized words to read.
-
-So this should be 
-
-	xfer->len = BITS_TO_BYTES(scan_type->realbits);
-
-
-
-> +
-> +	spi_message_init_with_transfers(&st->offload_msg, &st->offload_xfer, 1);
-> +	st->offload_msg.offload = st->offload;
-> +
-> +	return spi_optimize_message(st->spi, &st->offload_msg);
-
-I know it is like this in a few other drivers already, but I don't like having
-spi_optimize_message() in this funtion because it makes it really easy to
-forget to do have balanced calls to spi_unoptimize_message().
-
-> +}
-> +
-
-...
-
-> +static const struct iio_buffer_setup_ops ad4052_buffer_setup_ops = {
-> +	.postenable = &ad4052_buffer_postenable,
-> +	.predisable = &ad4052_buffer_predisable,
-> +};
-
-Would be nice to add "offload" to the name of this struct and the callbacks
-to make it clear that these are only for the SPI offload use case.
-
-...
-
-> +
-> +static bool ad4052_offload_trigger_match(struct spi_offload_trigger *trigger,
-> +					 enum spi_offload_trigger_type type,
-> +					 u64 *args, u32 nargs)
-> +{
-
-We should be checking the args here according to what I suggested in my reply
-to the devicetree bindings patch. Right now it is assuming that we are only
-using this for SPI offload and that the pin used is GP1 and the event is data
-read. We should at least verify that the args match those assumptions.
-
-For bonus points, we could implement allowing GPO as well.
-
-> +	return type == SPI_OFFLOAD_TRIGGER_DATA_READY;
-> +}
-> +
-> +static const struct spi_offload_trigger_ops ad4052_offload_trigger_ops = {
-> +	.match = ad4052_offload_trigger_match,
-> +};
-> +
-> +static int ad4052_request_offload(struct iio_dev *indio_dev)
-> +{
-> +	struct ad4052_state *st = iio_priv(indio_dev);
-> +	struct device *dev = &st->spi->dev;
-> +	struct dma_chan *rx_dma;
-> +	struct spi_offload_trigger_info trigger_info = {
-> +		.fwnode = dev_fwnode(dev),
-> +		.ops = &ad4052_offload_trigger_ops,
-> +		.priv = st,
-> +	};
-> +	struct pwm_state pwm_st;
-> +	int ret;
-> +
-> +	indio_dev->setup_ops = &ad4052_buffer_setup_ops;
-> +
-> +	ret = devm_spi_offload_trigger_register(dev, &trigger_info);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "failed to register offload trigger\n");
-
-Strictly speaking, the trigger-source provider is indendant of using it for
-SPI offload. I guess this is fine here for now though.
-
-> +
-> +	st->offload_trigger = devm_spi_offload_trigger_get(dev, st->offload,
-> +							   SPI_OFFLOAD_TRIGGER_DATA_READY);
-> +	if (IS_ERR(st->offload_trigger))
-> +		return PTR_ERR(st->offload_trigger);
-> +
-> +	st->cnv_pwm = devm_pwm_get(dev, NULL);
-> +	if (IS_ERR(st->cnv_pwm))
-> +		return dev_err_probe(dev, PTR_ERR(st->cnv_pwm),
-> +				     "failed to get CNV PWM\n");
-> +
-> +	pwm_init_state(st->cnv_pwm, &pwm_st);
-> +
-> +	pwm_st.enabled = false;
-> +	pwm_st.duty_cycle = AD4052_T_CNVH_NS * 2;
-> +	pwm_st.period = DIV_ROUND_UP_ULL(NSEC_PER_SEC,
-> +					 AD4052_MAX_RATE(st->grade));
-> +
-> +	ret = pwm_apply_might_sleep(st->cnv_pwm, &pwm_st);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "failed to apply CNV PWM\n");
-> +
-> +	ret = devm_add_action_or_reset(dev, ad4052_pwm_disable, st->cnv_pwm);
-> +	if (ret)
-> +		return ret;
-> +
-> +	rx_dma = devm_spi_offload_rx_stream_request_dma_chan(dev, st->offload);
-> +	if (IS_ERR(rx_dma))
-> +		return PTR_ERR(rx_dma);
-> +
-> +	return devm_iio_dmaengine_buffer_setup_with_handle(dev, indio_dev, rx_dma,
-> +							   IIO_BUFFER_DIRECTION_IN);
-> +}
-> +
-> +static int ad4052_probe(struct spi_device *spi)
-> +{
-> +	const struct ad4052_chip_info *chip;
-> +	struct device *dev = &spi->dev;
-> +	struct iio_dev *indio_dev;
-> +	struct ad4052_state *st;
-> +	int ret = 0;
-> +
-> +	chip = spi_get_device_match_data(spi);
-> +	if (!chip)
-> +		return dev_err_probe(dev, -ENODEV,
-> +				     "Could not find chip info data\n");
-> +
-> +	indio_dev = devm_iio_device_alloc(dev, sizeof(*st));
-> +	if (!indio_dev)
-> +		return -ENOMEM;
-> +
-> +	st = iio_priv(indio_dev);
-> +	st->spi = spi;
-> +	spi_set_drvdata(spi, st);
-> +	init_completion(&st->completion);
-> +
-> +	st->regmap = devm_regmap_init_spi(spi, &ad4052_regmap_config);
-> +	if (IS_ERR(st->regmap))
-> +		return dev_err_probe(dev, PTR_ERR(st->regmap),
-> +				     "Failed to initialize regmap\n");
-> +
-> +	st->mode = AD4052_SAMPLE_MODE;
-> +	st->wait_event = false;
-> +	st->chip = chip;
-> +	st->grade = chip->prod_id <= 0x75 ? AD4052_2MSPS : AD4052_500KSPS;
-> +	st->oversampling_frequency = AD4052_FS_OFFSET(st->grade);
-> +	st->events_frequency = AD4052_FS_OFFSET(st->grade);
-
-Somewhere around here, we should be turning on the power supplies. Also, it
-looks like we need some special handling to get the reference volage. If there
-is a supply connected to REF, use that, if not, use VDD which requires writing
-to a register to let the chip know.
-
-> +
-> +	st->cnv_gp = devm_gpiod_get_optional(dev, "cnv", GPIOD_OUT_LOW);
-> +	if (IS_ERR(st->cnv_gp))
-> +		return dev_err_probe(dev, PTR_ERR(st->cnv_gp),
-> +				     "Failed to get cnv gpio\n");
-> +
-> +	indio_dev->modes = INDIO_BUFFER_HARDWARE | INDIO_DIRECT_MODE;
-
-INDIO_BUFFER_HARDWARE should not be set here. If using SPI offload,
-devm_iio_dmaengine_buffer_setup_with_handle() will add it automatically.
-For non-SPI-offload operation, it should not be set.
-
-> +	indio_dev->num_channels = 1;
-> +	indio_dev->info = &ad4052_info;
-> +	indio_dev->name = chip->name;
-> +
-> +	st->offload = devm_spi_offload_get(dev, spi, &ad4052_offload_config);
-
-This
-
-> +	if (IS_ERR(st->offload))
-> +		return PTR_ERR(st->offload);
-
-should be
-
-	ret = PTR_ERR_OR_ZERO(st->offload);
-
-> +
-> +	if (ret && ret != -ENODEV)
-> +		return dev_err_probe(dev, ret, "Failed to get offload\n");
-> +
-> +	if (ret == -ENODEV) {
-> +		st->offload_trigger = NULL;
-> +		indio_dev->channels = chip->channels;
-> +	} else {
-> +		indio_dev->channels = chip->offload_channels;
-> +		ret = ad4052_request_offload(indio_dev);
-> +		if (ret)
-> +			return dev_err_probe(dev, ret,
-> +					     "Failed to configure offload\n");
-> +	}
-> +
-> +	st->xfer.rx_buf = &st->d32;
-
-I don't think we want this set globally. I.e. it doesn't make sense for SPI
-offload xfers.
-
-> +
-> +	ret = ad4052_soft_reset(st);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret, "AD4052 failed to soft reset\n");
-> +
-> +	ret = ad4052_check_ids(st);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "AD4052 fields assertions failed\n");
-> +
-> +	ret = ad4052_setup(indio_dev, indio_dev->channels);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = regmap_write(st->regmap, AD4052_REG_DEVICE_STATUS,
-> +			   AD4052_DEVICE_STATUS_DEVICE_RESET);
-
-Why not include this in ad4052_setup() or even ad4052_soft_reset()?
-
-> +	if (ret)
-> +		return ret;
-> +
-> +	ret = ad4052_request_irq(indio_dev);
-> +	if (ret)
-> +		return ret;
-> +
-> +	ad4052_update_xfer_raw(indio_dev, indio_dev->channels);
-> +
-> +	pm_runtime_set_active(dev);
-> +	ret = devm_pm_runtime_enable(dev);
-> +	if (ret)
-> +		return dev_err_probe(dev, ret,
-> +				     "Failed to enable pm_runtime\n");
-> +
-> +	pm_runtime_set_autosuspend_delay(dev, 1000);
-> +	pm_runtime_use_autosuspend(dev);
-> +
-> +	return devm_iio_device_register(dev, indio_dev);
-> +}
-> +
-> +static int ad4052_runtime_suspend(struct device *dev)
-> +{
-> +	struct ad4052_state *st = dev_get_drvdata(dev);
-> +
-> +	return regmap_write(st->regmap, AD4052_REG_DEVICE_CONFIG,
-> +			    FIELD_PREP(AD4052_DEVICE_CONFIG_POWER_MODE_MSK,
-> +				       AD4052_DEVICE_CONFIG_LOW_POWER_MODE));
-> +}
-> +
-> +static int ad4052_runtime_resume(struct device *dev)
-> +{
-> +	struct ad4052_state *st = dev_get_drvdata(dev);
-> +	int ret;
-> +
-> +	ret = regmap_write(st->regmap, AD4052_REG_DEVICE_CONFIG,
-> +			   FIELD_PREP(AD4052_DEVICE_CONFIG_POWER_MODE_MSK, 0));
-
-regmap_clear_bits() would be shorter if there isn't going to be a macro to
-explain the meaning of 0.
-
-> +	return ret;
-> +}
-> +
