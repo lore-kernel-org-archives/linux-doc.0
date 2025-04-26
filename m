@@ -1,151 +1,105 @@
-Received: from smtp.smtpout.orange.fr (smtp-75.smtpout.orange.fr [80.12.242.75])
-	(using TLSv1.2 with cipher AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF7DA13E41A;
-	Sat, 26 Apr 2025 15:14:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.12.242.75
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E72512E7F;
+	Sat, 26 Apr 2025 15:45:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745680463; cv=none; b=i5V+9Nwza6xZeBbF1R510eFFpiyhnMNZUX221CxBXprD6lUHyzlMyKkWRbuRaFT3K8YG8W1KsEZ/zd10I0dbXG6t9Xt+exll2zyQFcmEfcQ/ps91aUwQqunQt8KIBJDgXm0iqrVIqHVjIp6OtNzX5pnQGlEymiOzMMhN8/F+yV0=
+	t=1745682334; cv=none; b=Aq0VOFnj5sWLgWUQbDJy4VNhc42LqoWVjWLszS07gvM54Jweim4jK9d0cUbfQv1p0KLflTAUql7WWhqs+1A4u52g6mv5vuSj/OVF6GIZIOhce7NNsLfqXR+LsIKc6V3AjAkeD6kKo/u2M7lrGa5Kx19OPmXSwrF79yD/dKtxe8M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745680463; c=relaxed/simple;
-	bh=IWfcmPKJHXBs8q7otC+Rd8qWS2HN1vQ1l6y9dmgLnGM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=n9hC+tzGnYI/FDHaCWYZgewLOjnsgkbRU8AxljBtO4ePlCqauRX2OzCxSIxGOsChcQsImtuAhcR8GayCfNpzlZuLi3IWbT4uB5tt3doN9bQ9/8Vh406CE607muDxnnBfDK3OTtQBmacN41IYKDmo9AQoBdivQrO+BacOK/6x6Dg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr; spf=pass smtp.mailfrom=wanadoo.fr; dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b=aqZKh2uL; arc=none smtp.client-ip=80.12.242.75
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=wanadoo.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=wanadoo.fr
+	s=arc-20240116; t=1745682334; c=relaxed/simple;
+	bh=oJgRJQeAarDSih5pb3xmukdeVC4ZewQLObQrPLvqIX4=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=fvoWACFCHqOR6u66XiSkGaUycm10dT8kYRlGhAha12mxviNvMqXYkUwxyfSU9oFIq6MWuY1B9X6tQnKAJQJKosW3cvc42oeCGApN6mLLgvU6EtgTnYl+igcvRIBsVyZKsXAxOLHKMg2ZLlIVXnaixfmcwLK6LSFEUwpfj2czViQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IkJx5L1P; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=wanadoo.fr header.i=@wanadoo.fr header.b="aqZKh2uL"
-Received: from [192.168.1.37] ([90.11.132.44])
-	by smtp.orange.fr with ESMTPA
-	id 8hD8uuyJPSxyX8hDCuh2W3; Sat, 26 Apr 2025 17:13:09 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wanadoo.fr;
-	s=t20230301; t=1745680389;
-	bh=lGpF8EKyLgMCkElYaAwd2ZnEJtgke/GdzymKjUrzlVM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=aqZKh2uL+y+b2Aub09013KtAOCdfvwHnCs1YOFRkOMpkOzHgfYygb59ix86fOed/Z
-	 0a9DevAK9H5NZ5PKOWVXnAiNJCdSZlyR66ghl6FEzVwwyFDDj5D8ScupQ0HH3lajcX
-	 yYfRZX4co8wOtYe/Bmfnlmrv96J5qgOVsUu+r/gOCzzcZVSgUXa9QkJI2oieEQve0J
-	 nVXxZUfiwRQjlDk73akeFu8pOJvwe88V3wuigzVPg3oCqdR8eA5w6/ni7O8tQF2F+h
-	 K3CqdJ5NnN5vWlHR252XUnBkOA7aCDr8fFukRCjcGziJPxi1UrpugV8858pvnMdPAj
-	 qiZQMm1CyWk2A==
-X-ME-Helo: [192.168.1.37]
-X-ME-Auth: bWFyaW9uLmphaWxsZXRAd2FuYWRvby5mcg==
-X-ME-Date: Sat, 26 Apr 2025 17:13:09 +0200
-X-ME-IP: 90.11.132.44
-Message-ID: <fceb6891-2749-496a-a6d5-db0748728e8a@wanadoo.fr>
-Date: Sat, 26 Apr 2025 17:12:58 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IkJx5L1P"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D244FC4CEE2;
+	Sat, 26 Apr 2025 15:45:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745682333;
+	bh=oJgRJQeAarDSih5pb3xmukdeVC4ZewQLObQrPLvqIX4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=IkJx5L1P0ovu3NDMEJG+/TJJUt9APv+2cRlbNN8U+dBaB5oKVoFSIPvAZvf1O3AEk
+	 wxoFbELvwfwvlGH9P+2XjjwYkPNLyBAVc07QYdT366dpQAD8a72TWIIn4LWHIvlY51
+	 IVT17lsP5ZOGzDJmp5S0vDhc4NJTHJTvl0mTrxj+30BC9ZZ4UdaN2iFR3diDNMUA/K
+	 srD2IILmNdlsetXVKrXxe08LrfRnjFL9neYFAgzgpD/0CaadnnSSN8OkdTlpKaSZVU
+	 ZFjs/Jv2KXb93E+ABIMpOfhaO6fzBsUH6fAWHo4w0Iwhqi81y051CrKGRiQZFsu0D7
+	 2rTNGCLzuXBZQ==
+Date: Sat, 26 Apr 2025 16:45:24 +0100
+From: Jonathan Cameron <jic23@kernel.org>
+To: Jorge Marques <jorge.marques@analog.com>
+Cc: Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich
+ <Michael.Hennerich@analog.com>, Rob Herring <robh@kernel.org>, Krzysztof
+ Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, David Lechner <dlechner@baylibre.com>,
+ Nuno =?UTF-8?B?U8Oh?= <nuno.sa@analog.com>, Andy Shevchenko
+ <andy@kernel.org>, Uwe =?UTF-8?B?S2xlaW5lLUvDtm5pZw==?=
+ <ukleinek@kernel.org>, <linux-iio@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <devicetree@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-pwm@vger.kernel.org>
+Subject: Re: [PATCH v2 2/5] iio: code: mark iio_dev as const in
+ iio_buffer_enabled
+Message-ID: <20250426164524.166ce3c8@jic23-huawei>
+In-Reply-To: <20250422-iio-driver-ad4052-v2-2-638af47e9eb3@analog.com>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+	<20250422-iio-driver-ad4052-v2-2-638af47e9eb3@analog.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.48; x86_64-pc-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v12 4/9] net: devmem: Implement TX path
-To: Mina Almasry <almasrymina@google.com>
-Cc: andrew+netdev@lunn.ch, asml.silence@gmail.com, axboe@kernel.dk,
- corbet@lwn.net, davem@davemloft.net, donald.hunter@gmail.com,
- dsahern@kernel.org, dw@davidwei.uk, edumazet@google.com,
- eperezma@redhat.com, horms@kernel.org, hramamurthy@google.com,
- io-uring@vger.kernel.org, jasowang@redhat.com, jeroendb@google.com,
- jhs@mojatatu.com, kaiyuanz@google.com, kuba@kernel.org, kuniyu@amazon.com,
- kvm@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
- mst@redhat.com, ncardwell@google.com, netdev@vger.kernel.org,
- pabeni@redhat.com, pctammela@mojatatu.com, sdf@fomichev.me,
- sgarzare@redhat.com, shuah@kernel.org, skhawaja@google.com,
- stefanha@redhat.com, victor@mojatatu.com, virtualization@lists.linux.dev,
- willemb@google.com, xuanzhuo@linux.alibaba.com
-References: <20250425204743.617260-1-almasrymina@google.com>
- <20250425204743.617260-5-almasrymina@google.com>
-Content-Language: en-US, fr-FR
-From: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
-In-Reply-To: <20250425204743.617260-5-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Le 25/04/2025 à 22:47, Mina Almasry a écrit :
-> Augment dmabuf binding to be able to handle TX. Additional to all the RX
-> binding, we also create tx_vec needed for the TX path.
+On Tue, 22 Apr 2025 13:34:47 +0200
+Jorge Marques <jorge.marques@analog.com> wrote:
+
+> The iio_dev struct is never modified inside the method, mark it as
+> const.
+> This allows to be called from get_current_scan_type, and is useful
+> when the scan_type depends on the buffer state.
+Now I'm confused.   scan type is only relevant when the buffer is enabled
+so how can it change as a result of that action?
+
+Maybe all will become clear in later patches!
+
+Jonathan
+
 > 
-> Provide API for sendmsg to be able to send dmabufs bound to this device:
+> Signed-off-by: Jorge Marques <jorge.marques@analog.com>
+> ---
+>  drivers/iio/industrialio-core.c | 2 +-
+>  include/linux/iio/iio.h         | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> - Provide a new dmabuf_tx_cmsg which includes the dmabuf to send from.
-> - MSG_ZEROCOPY with SCM_DEVMEM_DMABUF cmsg indicates send from dma-buf.
+> diff --git a/drivers/iio/industrialio-core.c b/drivers/iio/industrialio-core.c
+> index 178e99b111debc59a247fcc3a6037e429db3bebf..bc6a2ac6415eccf201e148ea98c0b5982787eb6d 100644
+> --- a/drivers/iio/industrialio-core.c
+> +++ b/drivers/iio/industrialio-core.c
+> @@ -212,7 +212,7 @@ EXPORT_SYMBOL_GPL(iio_device_id);
+>   *
+>   * Returns: True, if the buffer is enabled.
+>   */
+> -bool iio_buffer_enabled(struct iio_dev *indio_dev)
+> +bool iio_buffer_enabled(const struct iio_dev *indio_dev)
+>  {
+>  	struct iio_dev_opaque *iio_dev_opaque = to_iio_dev_opaque(indio_dev);
+>  
+> diff --git a/include/linux/iio/iio.h b/include/linux/iio/iio.h
+> index 638cf2420fbd85cf2924d09d061df601d1d4bb2a..88569e1a888bde4d2bfb5b9f030096af1c15d68d 100644
+> --- a/include/linux/iio/iio.h
+> +++ b/include/linux/iio/iio.h
+> @@ -629,7 +629,7 @@ struct iio_dev {
+>  
+>  int iio_device_id(struct iio_dev *indio_dev);
+>  int iio_device_get_current_mode(struct iio_dev *indio_dev);
+> -bool iio_buffer_enabled(struct iio_dev *indio_dev);
+> +bool iio_buffer_enabled(const struct iio_dev *indio_dev);
+>  
+>  const struct iio_chan_spec
+>  *iio_find_channel_from_si(struct iio_dev *indio_dev, int si);
 > 
-> Devmem is uncopyable, so piggyback off the existing MSG_ZEROCOPY
-> implementation, while disabling instances where MSG_ZEROCOPY falls back
-> to copying.
 
-...
-
-> @@ -270,24 +284,34 @@ net_devmem_bind_dmabuf(struct net_device *dev, unsigned int dmabuf_fd,
->   			niov->owner = &owner->area;
->   			page_pool_set_dma_addr_netmem(net_iov_to_netmem(niov),
->   						      net_devmem_get_dma_addr(niov));
-> +			if (direction == DMA_TO_DEVICE)
-> +				binding->tx_vec[owner->area.base_virtual / PAGE_SIZE + i] = niov;
->   		}
->   
->   		virtual += len;
->   	}
->   
-> +	err = xa_alloc_cyclic(&net_devmem_dmabuf_bindings, &binding->id,
-> +			      binding, xa_limit_32b, &id_alloc_next,
-> +			      GFP_KERNEL);
-> +	if (err < 0)
-> +		goto err_free_id;
-> +
->   	return binding;
->   
-> +err_free_id:
-> +	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
-
-Not sure this is correct now that xa_alloc_cyclic() is the last function 
-which is called.
-I guess that that the last goto should be to err_free_chunks.
-
->   err_free_chunks:
->   	gen_pool_for_each_chunk(binding->chunk_pool,
->   				net_devmem_dmabuf_free_chunk_owner, NULL);
->   	gen_pool_destroy(binding->chunk_pool);
-> +err_tx_vec:
-> +	kvfree(binding->tx_vec);
->   err_unmap:
->   	dma_buf_unmap_attachment_unlocked(binding->attachment, binding->sgt,
->   					  DMA_FROM_DEVICE);
->   err_detach:
->   	dma_buf_detach(dmabuf, binding->attachment);
-> -err_free_id:
-> -	xa_erase(&net_devmem_dmabuf_bindings, binding->id);
->   err_free_binding:
->   	kfree(binding);
->   err_put_dmabuf:
-
-...
-
-> diff --git a/net/core/sock.c b/net/core/sock.c
-> index b64df2463300b..9dd2989040357 100644
-> --- a/net/core/sock.c
-> +++ b/net/core/sock.c
-> @@ -3017,6 +3017,12 @@ int __sock_cmsg_send(struct sock *sk, struct cmsghdr *cmsg,
->   		if (!sk_set_prio_allowed(sk, *(u32 *)CMSG_DATA(cmsg)))
->   			return -EPERM;
->   		sockc->priority = *(u32 *)CMSG_DATA(cmsg);
-> +		break;
-> +	case SCM_DEVMEM_DMABUF:
-> +		if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
-> +			return -EINVAL;
-> +		sockc->dmabuf_id = *(u32 *)CMSG_DATA(cmsg);
-> +
-
-Nitpick: Unneeded newline, to be consistent with the surrounding code.
-
->   		break;
->   	default:
->   		return -EINVAL;
-
-...
-
-CJ
