@@ -1,162 +1,140 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C91CC25DD1B;
-	Sat, 26 Apr 2025 17:52:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 12EC4757EA;
+	Sat, 26 Apr 2025 18:13:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745689967; cv=none; b=U3cQDMtnxb1LMr/8GEMtkz4cNDLjE1LXd4h3XmkNLDpLPyu2uOpf9lpb9P0r3O4Hg1K1UzBr+CJ6f08X9BybYVKMcYB+bwTDrSslQlo5JLLeTwaS+EL4hoNc7cxBSKqUNyFcy1rqRQNsFSklm1JEo4O+x4h3/90Nlx2BgfZT2mU=
+	t=1745691210; cv=none; b=WMXzSrkbfGjKf46dR80Us4QoOVNwobv3/OhQhGECDY5lHZShJIA9YdTsIIQBvCk+dRhb/I6RI15BtupwgimAVjb6aUhZxnvl/03DpcEJhTf/zX4wM88tqBljQQytVRAnqC7957N6Lj+r2JhnUa8jGEqj0shofproqWQf7AXbwQs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745689967; c=relaxed/simple;
-	bh=8w+rNR6eu8fY+v+RULFbSJzlXnJopNHfRtWnyLB7khA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=J+Kigylfa2EmT+KR+3N7G2mITo4hdIe8DNaduBWCX00Mjb00elr40WnJd5gwRFUKR/p9Fx1l4XvNyGEC0d8/E/btZbh5AuZuqmfBN4mnE9nAumQUUeSxGje9Z0EKF6l4rcsU2QQzonweydeO9izKZp282E8n5mWJBbjOeVJPVJQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=VsB/dk91; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1745691210; c=relaxed/simple;
+	bh=LhE4SeXnk5k636Fq+ooPMjm/NrlC4oZZROzZSTVqIvs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=OtQaHHDkVfJisqH2enJd0uUigdk+cellrk3ArP0jWT0IU++YFbAsZhSkvWotFo70Oe0K9FofLWrX+FkQEOf5m/+5aq2emmR5UZPaqnPPKFw8X6n+jcqtAHBXZ1sOVZes20pSl9lwnPeDFpJEdX4Tcygpxdkw+qQZyVU11DiMwtM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eIC0dwYr; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="VsB/dk91"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=MIME-Version:Message-ID:Date:Subject:From:Content-Type:From
-	:Subject; bh=RMpr1kjjVDMlujzzN7oLiP/WXryaePyGDqrdliHt/k4=; b=VsB/dk91gxtcR663
-	du6HypK+wTqplfOslMFi+1Xw+loPFzKehTVFd+pmrrcWtgMYaLUQT9ab+RPk6kWGJ4BEALGeUBVU7
-	AwWSt7aLTKw9nHGWXp6ClgaFH1/4wnEcGRiDyAl0EOy0w0yF3t7X/WHCx/CrmHVydmpq5D7smcd2l
-	e4sZ+JT/j2Rr2GCbzUQ/EehwYdPy3BYsf6k8CF5dTqRv/VNREdzCtOzZTFIfxSw7tz1XW/Jx7mNXf
-	sFXfgsJiB6IBjH3plkIIEfkNtzaC8aPQbR22mTVO6L0lui3lvT2GLds1jVRXHuBW/mcJMQCngR6jB
-	xfTME92v2KPLTeRTbg==;
-Received: from localhost ([127.0.0.1] helo=dalek.home.treblig.org)
-	by mx.treblig.org with esmtp (Exim 4.96)
-	(envelope-from <linux@treblig.org>)
-	id 1u8jhg-00E44n-2S;
-	Sat, 26 Apr 2025 17:52:40 +0000
-From: linux@treblig.org
-To: lgirdwood@gmail.com,
-	broonie@kernel.org
-Cc: linux-doc@vger.kernel.org,
-	corbet@lwn.net,
-	linux-kernel@vger.kernel.org,
-	"Dr. David Alan Gilbert" <linux@treblig.org>
-Subject: [PATCH 5/5] regulator: core: Remove unused regulator_set_suspend_voltage
-Date: Sat, 26 Apr 2025 18:51:43 +0100
-Message-ID: <20250426175143.128086-6-linux@treblig.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250426175143.128086-1-linux@treblig.org>
-References: <20250426175143.128086-1-linux@treblig.org>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eIC0dwYr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745691208; x=1777227208;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=LhE4SeXnk5k636Fq+ooPMjm/NrlC4oZZROzZSTVqIvs=;
+  b=eIC0dwYrx584fnOqt9SSOqLjM35RC14fkB3Tv7PnYWQ12dikt3uxRdpv
+   atGXDK6gITfsNlaO7Ui9kPtbkhHE0hfb9TgR/dBCtsukf/VfMUVlw2XIJ
+   KGv3DNRD/sycDD+UwgxnG+nN6/L3VNKmy3HkB6luzeEbDYCz6pI/ARWXv
+   y/c1ZvDl/VyEG33mDL73I4poVlmT4ay6PooALbh/3HO64igPFQIChHga3
+   Zt/rqkXUk2bNLrMBSWycse/H1dJkAY9467sp8pxXszLr5V5M6R2CZoaC+
+   AubbgODOuYUoCGheNRm/SkBkhsjK480sy4KtmTGdNh9fVW0jxLAS5YTIv
+   g==;
+X-CSE-ConnectionGUID: P5RG7YP+R8qz9tj/wi0/gw==
+X-CSE-MsgGUID: pmqfjp5iQ3Gw0EN/ublVEw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="49977645"
+X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
+   d="scan'208";a="49977645"
+Received: from fmviesa010.fm.intel.com ([10.60.135.150])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 11:13:27 -0700
+X-CSE-ConnectionGUID: OfhAktAPT46l2213WsEbAQ==
+X-CSE-MsgGUID: tOiVkebtS166gX/g5t8D8Q==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,242,1739865600"; 
+   d="scan'208";a="133657364"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa010.fm.intel.com with ESMTP; 26 Apr 2025 11:13:26 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8k1j-0005wp-2V;
+	Sat, 26 Apr 2025 18:13:23 +0000
+Date: Sun, 27 Apr 2025 02:12:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Jiawen Wu <jiawenwu@trustnetic.com>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Jakub Kicinski <kuba@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: drivers/net/ethernet/wangxun/libwx/wx_ptp.c:415: warning: This
+ comment starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202504270243.xykBkzwC-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: 2d8967e86c9b12e7b8a82a531572186b2b97e804 net: ngbe: Add support for 1PPS and TOD
+date:   9 weeks ago
+config: arm64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270243.xykBkzwC-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270243.xykBkzwC-lkp@intel.com/reproduce)
 
-regulator_set_suspend_voltage() was added as part of 2018's
-commit f7efad10b5c4 ("regulator: add PM suspend and resume hooks")
-but is unused.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270243.xykBkzwC-lkp@intel.com/
 
-Remove it, and the helpers it's the only user of.
+All warnings (new ones prefixed by >>):
 
-Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
----
- drivers/regulator/core.c           | 46 ------------------------------
- include/linux/regulator/consumer.h | 11 -------
- 2 files changed, 57 deletions(-)
+>> drivers/net/ethernet/wangxun/libwx/wx_ptp.c:415: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * When PPS is enabled, unmask the interrupt for the ClockOut
 
-diff --git a/drivers/regulator/core.c b/drivers/regulator/core.c
-index 90449f387b98..a0d740a565a6 100644
---- a/drivers/regulator/core.c
-+++ b/drivers/regulator/core.c
-@@ -446,12 +446,6 @@ int regulator_check_voltage(struct regulator_dev *rdev,
- 	return 0;
- }
- 
--/* return 0 if the state is valid */
--static int regulator_check_states(suspend_state_t state)
--{
--	return (state > PM_SUSPEND_MAX || state == PM_SUSPEND_TO_IDLE);
--}
--
- /* Make sure we select a voltage that suits the needs of all
-  * regulator consumers
-  */
-@@ -4244,46 +4238,6 @@ int regulator_set_voltage(struct regulator *regulator, int min_uV, int max_uV)
- }
- EXPORT_SYMBOL_GPL(regulator_set_voltage);
- 
--static int _regulator_set_suspend_voltage(struct regulator *regulator,
--					  int min_uV, int max_uV,
--					  suspend_state_t state)
--{
--	struct regulator_dev *rdev = regulator->rdev;
--	struct regulator_state *rstate;
--
--	rstate = regulator_get_suspend_state(rdev, state);
--	if (rstate == NULL)
--		return -EINVAL;
--
--	if (rstate->min_uV == rstate->max_uV) {
--		rdev_err(rdev, "The suspend voltage can't be changed!\n");
--		return -EPERM;
--	}
--
--	return regulator_set_voltage_unlocked(regulator, min_uV, max_uV, state);
--}
--
--int regulator_set_suspend_voltage(struct regulator *regulator, int min_uV,
--				  int max_uV, suspend_state_t state)
--{
--	struct ww_acquire_ctx ww_ctx;
--	int ret;
--
--	/* PM_SUSPEND_ON is handled by regulator_set_voltage() */
--	if (regulator_check_states(state) || state == PM_SUSPEND_ON)
--		return -EINVAL;
--
--	regulator_lock_dependent(regulator->rdev, &ww_ctx);
--
--	ret = _regulator_set_suspend_voltage(regulator, min_uV,
--					     max_uV, state);
--
--	regulator_unlock_dependent(regulator->rdev, &ww_ctx);
--
--	return ret;
--}
--EXPORT_SYMBOL_GPL(regulator_set_suspend_voltage);
--
- /**
-  * regulator_set_voltage_time - get raise/fall time
-  * @regulator: regulator source
-diff --git a/include/linux/regulator/consumer.h b/include/linux/regulator/consumer.h
-index a5479de53906..3383a6de58d1 100644
---- a/include/linux/regulator/consumer.h
-+++ b/include/linux/regulator/consumer.h
-@@ -257,10 +257,6 @@ int regulator_unregister_notifier(struct regulator *regulator,
- void devm_regulator_unregister_notifier(struct regulator *regulator,
- 					struct notifier_block *nb);
- 
--/* regulator suspend */
--int regulator_set_suspend_voltage(struct regulator *regulator, int min_uV,
--				  int max_uV, suspend_state_t state);
--
- /* driver data - core doesn't touch */
- void *regulator_get_drvdata(struct regulator *regulator);
- 
-@@ -604,13 +600,6 @@ static inline int devm_regulator_unregister_notifier(struct regulator *regulator
- 	return 0;
- }
- 
--static inline int regulator_set_suspend_voltage(struct regulator *regulator,
--						int min_uV, int max_uV,
--						suspend_state_t state)
--{
--	return -EINVAL;
--}
--
- static inline void *regulator_get_drvdata(struct regulator *regulator)
- {
- 	return NULL;
+
+vim +415 drivers/net/ethernet/wangxun/libwx/wx_ptp.c
+
+   408	
+   409	static int wx_ptp_feature_enable(struct ptp_clock_info *ptp,
+   410					 struct ptp_clock_request *rq, int on)
+   411	{
+   412		struct wx *wx = container_of(ptp, struct wx, ptp_caps);
+   413	
+   414		/**
+ > 415		 * When PPS is enabled, unmask the interrupt for the ClockOut
+   416		 * feature, so that the interrupt handler can send the PPS
+   417		 * event when the clock SDP triggers. Clear mask when PPS is
+   418		 * disabled
+   419		 */
+   420		if (rq->type != PTP_CLK_REQ_PEROUT || !wx->ptp_setup_sdp)
+   421			return -EOPNOTSUPP;
+   422	
+   423		/* Reject requests with unsupported flags */
+   424		if (rq->perout.flags & ~(PTP_PEROUT_DUTY_CYCLE |
+   425					 PTP_PEROUT_PHASE))
+   426			return -EOPNOTSUPP;
+   427	
+   428		if (rq->perout.phase.sec || rq->perout.phase.nsec) {
+   429			wx_err(wx, "Absolute start time not supported.\n");
+   430			return -EINVAL;
+   431		}
+   432	
+   433		if (rq->perout.period.sec != 1 || rq->perout.period.nsec) {
+   434			wx_err(wx, "Only 1pps is supported.\n");
+   435			return -EINVAL;
+   436		}
+   437	
+   438		if (rq->perout.flags & PTP_PEROUT_DUTY_CYCLE) {
+   439			struct timespec64 ts_on;
+   440	
+   441			ts_on.tv_sec = rq->perout.on.sec;
+   442			ts_on.tv_nsec = rq->perout.on.nsec;
+   443			wx->pps_width = timespec64_to_ns(&ts_on);
+   444		} else {
+   445			wx->pps_width = 120000000;
+   446		}
+   447	
+   448		if (on)
+   449			set_bit(WX_FLAG_PTP_PPS_ENABLED, wx->flags);
+   450		else
+   451			clear_bit(WX_FLAG_PTP_PPS_ENABLED, wx->flags);
+   452	
+   453		return wx->ptp_setup_sdp(wx);
+   454	}
+   455	
+
 -- 
-2.49.0
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
