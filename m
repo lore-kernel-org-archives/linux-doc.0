@@ -1,107 +1,156 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99330A94A;
-	Sat, 26 Apr 2025 13:58:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 599A319DF9A;
+	Sat, 26 Apr 2025 14:05:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745675921; cv=none; b=SxCmyuiFc6zgQWt9Ykv+zkR0nENSGlnOj2ps0c2F1lHIim5rVGkSIDBHS2tW/lEJw5Phkre8hI4q/H6o1kpf5BCT4VEulCVHrLMfBCp1huLgEz1u09ojeZlF6h8I5+RJ8zTEg75Pnzo89AWrZu/9eYjd2VHtbM4a3y5V6OMu17Y=
+	t=1745676313; cv=none; b=kGsPCZ2IJmZpFK506fgmAmwm+vc3l0LfCBfdmReGyb9L0wH4Xx2GjCRZO4Y6Okyy1xWMPCdH6pDGYGg1RodgY2jeeYcY1KkDCZd2zxDd0sa8SbmnPZkowgaP2z1Ww89dN5dZ3Bsph/0LHZJC5VC1CWGBwuk/LeMFpi68yhyKSzY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745675921; c=relaxed/simple;
-	bh=jcJH2uY7xwisDKTpoXiSdFpRmVUr1IsGNewM+lcU89g=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=hgfxCl9z8X+23lWJxM3eAKbAUnDF/krdv1/Y474nxUX3TWqIlrV8ZAdQP7+d9Nen+ctXsgwfX2XDeCorwPaj+ZqAV9wJAuKKtM4Nf/nZ5nMekUoKeAxMgWfc6gQIAMiRxgCHKlEyMm6VBLQ1wK1eetNnYOZGW101s54GAIDfK5w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WcDOe0D9; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745676313; c=relaxed/simple;
+	bh=4+YbDbrGVbTcVZXLZ9dgDnxjuRt9ZCVK58u0i2ZzWYs=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=YPNXrWaYOvDeKfjcc8r0w8AihbAbwvb/2sWgFog7GUOCqYRpWWyEJEzHAiXOk0iWvaCO2LZWPrreplw+2nsJChPvdwl3FF2my3zPW0OudvhabzlGCoj/+ylMPCx7l+StLCbVIrv1Oxfllv9RHg5o/0SU545uTD7UYWEkucS1CC0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=JsFTZcKc; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WcDOe0D9"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af5085f7861so2420290a12.3;
-        Sat, 26 Apr 2025 06:58:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745675919; x=1746280719; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=hiGdo2FHJd8De8ADEidT5DPemaaP0nnmMXhnvOOqxuo=;
-        b=WcDOe0D9pcNnF5RHMh8yMK/5JYaPsUYCYcIaAqjh4xabQsN54pkhBs8fBtqo+SPixp
-         mynrk7ZPS3JjOCo4yjX27mpqpANQxKluI4ygrJFOtFzbx8qFhGOrRAayqVK9pLareuMn
-         YS706urO764gTyz2JmGtXxcNEi9dREnqANCD0061PQHgOG8Lszs5JuVvV0q78vc5OR5N
-         MafxtGJSClxuhm/7vFmj3s76tAZnuZegi7WCvT5rvU6+5xwt3acHar6Tw1SzLJ3d50hj
-         qvR7Ifs+Yc7NH148cutMq9EjMexVIKjgs9F8VWLkcZmWKac5uFSqLECsyAcbSzhf9jTP
-         UmPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745675919; x=1746280719;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=hiGdo2FHJd8De8ADEidT5DPemaaP0nnmMXhnvOOqxuo=;
-        b=WSJ+K/DNkSu1OEZaPU/Cq/bOz3+N4VGk7/MAJ/JSo+37L+r3iq7gT+EHd/kmx+xQuB
-         6X+gY2V99ascUVkyc2LTrVbQe8coK51d//3u7Rtl6LXf2CNSabiqqzSCwBjB8PA4YiEX
-         1D/jjBcL4L2qxj7Fx/hfLPVnqNSN9zXYy3F549+N8d1znygbTaXqs+AT0iKfleWGJRVP
-         imrNQFp0ZOrcvPuDFHhKPOy7KpimY5OcDYnoau7nAPhZ2tTk6rzsWn8eOzNjsGVQ7dbe
-         qZk8duhUVxxcn/kA/9Ppfu7SkNFuNpQjrf2Absurozw7PYjnWVI6pN9YZnRh2feJnWyw
-         Uutw==
-X-Forwarded-Encrypted: i=1; AJvYcCUmUcek5onOZVZ6LPzihZNOYUdgd6v4rJjwWXw0tcRqtXxhttKiARbMtkAjgBDtkFgA/t04Hdm8/3TtM8T/518=@vger.kernel.org, AJvYcCV6kr448q/aqkJ6dFWG7GE8Rt3Mw/rwumBuPNvv2/ygDBkEwiifNFoPr82oicHVaImiu/kg3TVvgBDe9VPJ@vger.kernel.org, AJvYcCXf8s2LxdswYW1CYXajtWG8UQeAvLW/5vvhGJWglTfSx0raVHzQgqWlH8p3Gjq2FTUuqSP8UMwwU3A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwMICi+Z5ZFYY9zzzDv7wUDgFYyY4bpXtq6N4lintm5GFV4rBIT
-	u/o1o6UbDyVBsX0Uyfnr3wtH51Zit2rkMW7OFaj8o+dMiB6cgKa6VddeWpChdF8MTVm73EJzfYl
-	SN9yBleljOMkWHneUXyGVML3KfKUxEXpttqE=
-X-Gm-Gg: ASbGncuRo9vSg/C7X4In5+at2Q/FhnFBWe/DE/gPHJ2v7ayqb7z4B9Vfm1sUq7+jISJ
-	aoHMHuuGtNCwqERFc6xXlgIpINW9NowfvRff8+/cCXMQlk0FRgj9JUfo+8yy875Unz4gzcpxdXz
-	MkWvKWqbFN1H1NDZsRRw+ciA==
-X-Google-Smtp-Source: AGHT+IHQRfyQdCrnuIRknDKukO/4PUTw6x1XqIRIJ3y1/jSIKnziD8NYCuXTLTCYgrjJm9l1uKOVnAOp5Cj+UcTxHZM=
-X-Received: by 2002:a17:90b:47:b0:2ff:58a4:9db3 with SMTP id
- 98e67ed59e1d1-30a013c3fdfmr4966449a91.35.1745675918898; Sat, 26 Apr 2025
- 06:58:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="JsFTZcKc"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745676311; x=1777212311;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=4+YbDbrGVbTcVZXLZ9dgDnxjuRt9ZCVK58u0i2ZzWYs=;
+  b=JsFTZcKchGRKObh7hfM62xlQBUwsad9AwTSvf1abbiZpca2zqHV1Bl0n
+   K1I6pdtmOhZrPJZW2umjx3u3wSL5W0g10UTa2IbDAT7+dAnOdCdesld9S
+   clcoDIYSL4AgXaZksV44ENEyWoK5nJo8mxCenRwCCN4omBIknUK66FSBW
+   8OboQ3ae5dhea8hyUYTsLmK36WfoErkxul+D1zVTKh4mUFGVvdCYxQ+C8
+   3XEc56Sr0pRoaLGrLhzuVM/vZsuGfIZh/I8eoCAHdADeHwpHRstenzLOF
+   kbctBJ0wxmcoR/lAALgPpFo/8MCh0gcjLVmm0lnZNuFACQlO8W4h9inLY
+   g==;
+X-CSE-ConnectionGUID: AaDbeS7RTC2SPTFBATLqNw==
+X-CSE-MsgGUID: dskZVps0QnayHUDoos6CLQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="58687126"
+X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
+   d="scan'208";a="58687126"
+Received: from orviesa008.jf.intel.com ([10.64.159.148])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 07:05:10 -0700
+X-CSE-ConnectionGUID: 5wt15beaR2ePFfsRsw4AAQ==
+X-CSE-MsgGUID: 7tbyT3ixSLCWh5zNawQEfQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
+   d="scan'208";a="134107856"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by orviesa008.jf.intel.com with ESMTP; 26 Apr 2025 07:05:08 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8g9R-0005qx-2k;
+	Sat, 26 Apr 2025 14:05:05 +0000
+Date: Sat, 26 Apr 2025 22:04:30 +0800
+From: kernel test robot <lkp@intel.com>
+To: Aurabindo Pillai <aurabindo.pillai@amd.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-kernel@vger.kernel.org,
+	Alex Deucher <alexander.deucher@amd.com>, linux-doc@vger.kernel.org
+Subject: drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:79:
+ warning: This comment starts with '/**', but isn't a kernel-doc comment.
+ Refer Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202504262246.HqBWltOk-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250425201018.12756-1-by.ann.yun@gmail.com> <aAyeY-cFSDuLYnJZ@antec>
-In-Reply-To: <aAyeY-cFSDuLYnJZ@antec>
-From: Ann Yun <by.ann.yun@gmail.com>
-Date: Sat, 26 Apr 2025 09:58:28 -0400
-X-Gm-Features: ATxdqUEsSIOWUKOM40YB5o8sO36FbTC11EnJNuwZDiW3l41_jTXfMS9YN9U9EaY
-Message-ID: <CAB60mtNRLstmV7c97=tUnW9GhMkn809eKHcGnA4x1iGcpGjYLQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation:openrisc: Add build instructions with initramfs
-To: Stafford Horne <shorne@gmail.com>
-Cc: jonas@southpole.se, stefan.kristiansson@saunalahti.fi, corbet@lwn.net, 
-	linux-openrisc@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Hi Stafford,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: 08502cebee7c54d58fee0a54a98064dade4cc4de drm/amd/display: Add DCN401 dependant changes for DMCUB
+date:   1 year ago
+config: sparc64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250426/202504262246.HqBWltOk-lkp@intel.com/config)
+compiler: sparc64-linux-gcc (GCC) 7.5.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250426/202504262246.HqBWltOk-lkp@intel.com/reproduce)
 
-I am sending my same reply to the whole group again, because I
-previously did not do "Reply All".
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504262246.HqBWltOk-lkp@intel.com/
 
-On Sat, Apr 26, 2025 at 4:50=E2=80=AFAM Stafford Horne <shorne@gmail.com> w=
-rote:
->
-> I think this is good, but maybe we can mention to refer to Documentation/=
-filesystems/ramfs-rootfs-initramfs.rst
-> for more details on this?
+All warnings (new ones prefixed by >>):
 
-Thanks for pointing that out. That is an excellent idea, I will add that.
+>> drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:79: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+                    * Timeout covers both the ACK and the wait
+   drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:283: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * outbox1 wptr register is accessed without locks (dal & dc)
+   drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c:292: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * outbox1 rptr register is accessed without locks (dal & dc)
 
-> Also, it may be helpful to mention we can get pre-built busybox rootfs im=
-ages
-> here:
->
->   https://github.com/stffrdhrn/or1k-rootfs-build/releases
->
-> But if we do that then it would be better to show how to use thos rootfs =
-images,
-> which maybe something better we have in our openrisc/tutorials[0].
->
-> -Stafford
->
-> [0] https://github.com/openrisc/tutorials
 
-Exactly! I was working on a QEMU tutorial inside openrisc/tutorials
-and that prompted me to add that one line here.
+vim +79 drivers/gpu/drm/amd/amdgpu/../display/dmub/src/dmub_dcn401.c
 
-Ann
+70839da6360500 Aurabindo Pillai 2024-04-19   62  
+70839da6360500 Aurabindo Pillai 2024-04-19   63  void dmub_dcn401_reset(struct dmub_srv *dmub)
+70839da6360500 Aurabindo Pillai 2024-04-19   64  {
+70839da6360500 Aurabindo Pillai 2024-04-19   65  	union dmub_gpint_data_register cmd;
+70839da6360500 Aurabindo Pillai 2024-04-19   66  	const uint32_t timeout = 30;
+70839da6360500 Aurabindo Pillai 2024-04-19   67  	uint32_t in_reset, scratch, i;
+70839da6360500 Aurabindo Pillai 2024-04-19   68  
+70839da6360500 Aurabindo Pillai 2024-04-19   69  	REG_GET(DMCUB_CNTL2, DMCUB_SOFT_RESET, &in_reset);
+70839da6360500 Aurabindo Pillai 2024-04-19   70  
+70839da6360500 Aurabindo Pillai 2024-04-19   71  	if (in_reset == 0) {
+70839da6360500 Aurabindo Pillai 2024-04-19   72  		cmd.bits.status = 1;
+70839da6360500 Aurabindo Pillai 2024-04-19   73  		cmd.bits.command_code = DMUB_GPINT__STOP_FW;
+70839da6360500 Aurabindo Pillai 2024-04-19   74  		cmd.bits.param = 0;
+70839da6360500 Aurabindo Pillai 2024-04-19   75  
+70839da6360500 Aurabindo Pillai 2024-04-19   76  		dmub->hw_funcs.set_gpint(dmub, cmd);
+70839da6360500 Aurabindo Pillai 2024-04-19   77  
+70839da6360500 Aurabindo Pillai 2024-04-19   78  		/**
+70839da6360500 Aurabindo Pillai 2024-04-19  @79  		 * Timeout covers both the ACK and the wait
+70839da6360500 Aurabindo Pillai 2024-04-19   80  		 * for remaining work to finish.
+70839da6360500 Aurabindo Pillai 2024-04-19   81  		 *
+70839da6360500 Aurabindo Pillai 2024-04-19   82  		 * This is mostly bound by the PHY disable sequence.
+70839da6360500 Aurabindo Pillai 2024-04-19   83  		 * Each register check will be greater than 1us, so
+70839da6360500 Aurabindo Pillai 2024-04-19   84  		 * don't bother using udelay.
+70839da6360500 Aurabindo Pillai 2024-04-19   85  		 */
+70839da6360500 Aurabindo Pillai 2024-04-19   86  
+70839da6360500 Aurabindo Pillai 2024-04-19   87  		for (i = 0; i < timeout; ++i) {
+70839da6360500 Aurabindo Pillai 2024-04-19   88  			if (dmub->hw_funcs.is_gpint_acked(dmub, cmd))
+70839da6360500 Aurabindo Pillai 2024-04-19   89  				break;
+70839da6360500 Aurabindo Pillai 2024-04-19   90  		}
+70839da6360500 Aurabindo Pillai 2024-04-19   91  
+70839da6360500 Aurabindo Pillai 2024-04-19   92  		for (i = 0; i < timeout; ++i) {
+70839da6360500 Aurabindo Pillai 2024-04-19   93  			scratch = dmub->hw_funcs.get_gpint_response(dmub);
+70839da6360500 Aurabindo Pillai 2024-04-19   94  			if (scratch == DMUB_GPINT__STOP_FW_RESPONSE)
+70839da6360500 Aurabindo Pillai 2024-04-19   95  				break;
+70839da6360500 Aurabindo Pillai 2024-04-19   96  		}
+70839da6360500 Aurabindo Pillai 2024-04-19   97  
+70839da6360500 Aurabindo Pillai 2024-04-19   98  		/* Force reset in case we timed out, DMCUB is likely hung. */
+70839da6360500 Aurabindo Pillai 2024-04-19   99  	}
+70839da6360500 Aurabindo Pillai 2024-04-19  100  
+70839da6360500 Aurabindo Pillai 2024-04-19  101  	REG_UPDATE(DMCUB_CNTL2, DMCUB_SOFT_RESET, 1);
+70839da6360500 Aurabindo Pillai 2024-04-19  102  	REG_UPDATE(DMCUB_CNTL, DMCUB_ENABLE, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  103  	REG_UPDATE(MMHUBBUB_SOFT_RESET, DMUIF_SOFT_RESET, 1);
+70839da6360500 Aurabindo Pillai 2024-04-19  104  	REG_WRITE(DMCUB_INBOX1_RPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  105  	REG_WRITE(DMCUB_INBOX1_WPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  106  	REG_WRITE(DMCUB_OUTBOX1_RPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  107  	REG_WRITE(DMCUB_OUTBOX1_WPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  108  	REG_WRITE(DMCUB_OUTBOX0_RPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  109  	REG_WRITE(DMCUB_OUTBOX0_WPTR, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  110  	REG_WRITE(DMCUB_SCRATCH0, 0);
+70839da6360500 Aurabindo Pillai 2024-04-19  111  
+70839da6360500 Aurabindo Pillai 2024-04-19  112  	/* Clear the GPINT command manually so we don't reset again. */
+70839da6360500 Aurabindo Pillai 2024-04-19  113  	cmd.all = 0;
+70839da6360500 Aurabindo Pillai 2024-04-19  114  	dmub->hw_funcs.set_gpint(dmub, cmd);
+70839da6360500 Aurabindo Pillai 2024-04-19  115  }
+70839da6360500 Aurabindo Pillai 2024-04-19  116  
+
+:::::: The code at line 79 was first introduced by commit
+:::::: 70839da6360500a82e4d5f78499284474cbed7c1 drm/amd/display: Add new DCN401 sources
+
+:::::: TO: Aurabindo Pillai <aurabindo.pillai@amd.com>
+:::::: CC: Alex Deucher <alexander.deucher@amd.com>
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
