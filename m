@@ -1,72 +1,61 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B46646136;
-	Sat, 26 Apr 2025 16:16:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 175F2229B38;
+	Sat, 26 Apr 2025 16:49:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745684212; cv=none; b=vGa86Lcjrr0eU7qsSPkrCfXqNaEKOACX/1HYR3pI/tGnRfvWmgYGOmXVDpsNeGDgB9ZS7EvO32g8Ld/WRWHbRAQb+NPcoHC34VPpHCDccT3QBQbQcM0wlzD1De0+Oihhx4mDTCpzySgaQenUX6K6B8N2crd6gFzjORdmWaF7sPY=
+	t=1745686163; cv=none; b=au4RdSLukwOYN1qawkZwtp1f58H+ZhEnG0XgAHLMKYK5ilAz6iJBUuYO09begXNTCX/jOspy9BentzPcHFeBKsSP3dJuhTGxF/j3EG74c5KdW1Z+ax4hxOXsTa/5ym7ll3Ca+9gOZQVGbdAmv4tMrU6U0MGGqeCWR9Ht7knApOY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745684212; c=relaxed/simple;
-	bh=bpdkhL/t589TgFMO/E4dOwuSnMH2fQGyR4TpH9/Ocks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hROoP2yQUsGOHdK5Hp0AkZa2++aj47QhOr9g7TIlywFE7LaOLMeYE+j09+TviGc9LNVeK7w9Lhvb9QSQh54rtyjax/r34NXNol08NjAnM7m+AH/G86K6odY9WtVUg6fRPk9BC2DcBXUxiYKVD3ahUxJTqN1lzwE9P9q3M+l5O5M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lNdPcWZf; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745686163; c=relaxed/simple;
+	bh=V4+TZl8fcr9Q0wXgQgzoLtvYSlv5lmsMYdpJdBEhc/M=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=I1nRynisEfHg6Gm705ZyFml1GrU6SpEETXBYu0kUb6pQGLddWHwqjgjR0/pRkuFRnblLJkQG1q9qkjsp10Bprsy+rg9xFKGVk5WunX97vfS/JqBTKfiPCrglv6pqqrqeJN/9IMd1OX8/c9Jfbv0Q9wfCOuHxBXtWml0XHcEL8qk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RuorZh3o; arc=none smtp.client-ip=192.198.163.8
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lNdPcWZf"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43ea40a6e98so32139965e9.1;
-        Sat, 26 Apr 2025 09:16:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745684209; x=1746289009; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zp3fQrRUWHXbKvtzZBX9EuAXxb/MA/+/lmQHdJuziZU=;
-        b=lNdPcWZfUfYq/S19fUHkDyC1ScIWBdbazLuVeUFpbHzb61zVToOZVb+ePfFxWQqvpv
-         JeRW7Cgd7ct1OtZuojn+uxKV+cWF7aIZb83x0f+GOizDOx9mvS0uJTU46C1jwPH2QZ+M
-         qyox+PNCZlgbCYP2R7Knc3Wj9FMu1rx5od7aS86pdSDfxnBMInSZogJDbpYUQN8CW/7I
-         lhKuWsbe9gjWo+EYX0gf103/aMcbmmokutpsGX6sW7/us2qTQZwgRljfTUqDi+3fdKOJ
-         9A+K2wusnsgl5A7rGmXoy9I5DiIVsHal0DoKXsEn2DyekkzM4SO57J+QiAhEPCBUaD97
-         3okg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745684209; x=1746289009;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=zp3fQrRUWHXbKvtzZBX9EuAXxb/MA/+/lmQHdJuziZU=;
-        b=X+a4mgj/YULpl9UtVyDgcplKwq+dZcMZCopwkrkesInL+OkLyIO1L/RvDdVS4RXDCw
-         nSfdT4K574mE4Dj/2bh5LzLDB/dcRHUuRG4RQNxD9FgkQmBb49xArz1p6cLBWw3b9n24
-         mwMWPRto8Has7Dadjv1mkxp/ChLzbj/HdRxQEYWpJoMnkk8g9anlHyfYx6Lvm+3rBb6C
-         sd2oTszY+jwaqYG9UPhBa4RYeS3GtaZ6hm5FlyxSHWTFrkCSsQuM4snRbuFXjlo/vOwv
-         kn/mEQhMd9yzDnVJBEGfWB34kuGF13yJS3wr7oRwXpbF8ZupCa5RtjVmK+cF31Y2OfFs
-         /ZQA==
-X-Forwarded-Encrypted: i=1; AJvYcCUqMhDf9Lt+jCL18p+/EJHUyn9/lgwD/jX0a13UajU5bul509Z0qytPVHMCGyyJA2i35hs4+usKIuE=@vger.kernel.org, AJvYcCVD6OGd9XqvDkIG1onPKcEpDONxehqiRi2Crvo08+FZtN2UgaodACB4hXsGy9C1pks18hbrOyMCEaB8+Y81TB8=@vger.kernel.org, AJvYcCX0p5gfTJ4QxKXuGKeAd06RwAKFQJz/Kl2ezBvs95kbDeqkd71pg+Xdjv58ALnUw5MDeqKADBzvjcYjvGy8@vger.kernel.org
-X-Gm-Message-State: AOJu0YxTSplDFD9zQNOt+R1xljqLVVe6fnAqZe32vv3nQg7pnBFWbhp3
-	JAN4IbEh+nUXLrHpC6N7GMiNi4cMlDVzHvjdOT0RfQ57f1K+4b7m
-X-Gm-Gg: ASbGncvDXelq2/QZ4SYmC6ajQt7Gi6Vw3z7j9B/C2jNC4LicmgT6Yrdp9r+t2X48bUY
-	5qEpKc2WLgVl/X8Js4aD1FKtrZj46NEFsd306C3aY+SsxXoIBFDONT4PpZzEHlMJrR9+fGxQiiQ
-	V7kjvCV1cjz0rfjfPW5Tk10uyMn+8w6PqKim3aTuyvdHc5cEX819vKqShzMAliDkZBbupcGHgTX
-	EPAdX07/00BWqgtrd7V/yqL8KoDTDE8G5gK/1GaPLjbuHWD1yys46jyUGl1EoeQbkCl5eLVOx9o
-	tx8SmyJRvYA3fokU8GAvRF2bMXSdEmxRStG2VvixMC7+p5l2flQoB0yHXdETr8j+yd/m8e55nAP
-	jZD43
-X-Google-Smtp-Source: AGHT+IHdPYbP+AuotpFDxFO4OqA9np45IJBZfPXINItoiFYPTHkA/T3N8MrGrdrUthV76FM+9yPMdg==
-X-Received: by 2002:a05:600c:3494:b0:43d:fa:1f9a with SMTP id 5b1f17b1804b1-440ab378a92mr30724565e9.30.1745684208735;
-        Sat, 26 Apr 2025 09:16:48 -0700 (PDT)
-Received: from localhost (cpc1-brnt4-2-0-cust862.4-2.cable.virginm.net. [86.9.131.95])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4409d2a2e59sm96867715e9.16.2025.04.26.09.16.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Apr 2025 09:16:47 -0700 (PDT)
-Date: Sat, 26 Apr 2025 17:16:47 +0100
-From: Stafford Horne <shorne@gmail.com>
-To: Ann Yun <by.ann.yun@gmail.com>
-Cc: jonas@southpole.se, stefan.kristiansson@saunalahti.fi, corbet@lwn.net,
-	linux-openrisc@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] Documentation:openrisc: Add build instructions with
- initramfs
-Message-ID: <aA0G74KvymHRU44-@antec>
-References: <20250426154544.15351-1-by.ann.yun@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RuorZh3o"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745686162; x=1777222162;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=V4+TZl8fcr9Q0wXgQgzoLtvYSlv5lmsMYdpJdBEhc/M=;
+  b=RuorZh3o4TfG/BvoBnj8WtSR1WmfPrRHVyei58S3MDxpbwria70bEVvy
+   7wH5Ig2u59ET2rujYJjI8bHFLpa55iW1h59jgjwZPpsgkaD9X731/lSXI
+   JC4ijHpiLoRZHyZgW0tYvMYg6NE3gKOoZGRjG70M2sQxcIX3CwH87+y+P
+   vaBtzD4Hh4wBrgaDIAnb1wlbSaC1MTiXxjAjh9W09zWCAU0MI1JigE4J/
+   sIE6X7SLokhUdKPkCMCjYn1g2MVtPH7YOZA/TGgxZouLUsp7cTDYW2DwE
+   BigO05Dk+xS+dJX6U1Dok1vGrT/pUjvdOisVNrZ3jsWc2DKGn6LoEF9Ue
+   w==;
+X-CSE-ConnectionGUID: uazPRBJcS0uz9amC6v/THQ==
+X-CSE-MsgGUID: usijDLeyRsKyOvr66pOcmQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11415"; a="64854290"
+X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
+   d="scan'208";a="64854290"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Apr 2025 09:49:21 -0700
+X-CSE-ConnectionGUID: bYDClL1sR8SOZNQYjUs6zg==
+X-CSE-MsgGUID: YgHuZT8sQRCcqJfiOMRTTg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,241,1739865600"; 
+   d="scan'208";a="164212010"
+Received: from lkp-server01.sh.intel.com (HELO 050dd05385d1) ([10.239.97.150])
+  by fmviesa001.fm.intel.com with ESMTP; 26 Apr 2025 09:49:20 -0700
+Received: from kbuild by 050dd05385d1 with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1u8iiL-0005vP-38;
+	Sat, 26 Apr 2025 16:49:17 +0000
+Date: Sun, 27 Apr 2025 00:48:52 +0800
+From: kernel test robot <lkp@intel.com>
+To: Roger Quadros <rogerq@kernel.org>
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	linux-kernel@vger.kernel.org, Simon Horman <horms@kernel.org>,
+	linux-doc@vger.kernel.org
+Subject: drivers/net/ethernet/ti/cpsw_ale.c:1360: warning: This comment
+ starts with '/**', but isn't a kernel-doc comment. Refer
+ Documentation/doc-guide/kernel-doc.rst
+Message-ID: <202504270023.hRD576RW-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,41 +64,107 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250426154544.15351-1-by.ann.yun@gmail.com>
 
-On Sat, Apr 26, 2025 at 11:45:44AM -0400, Ann Yun wrote:
-> Mention how to include initramfs when building the kernel and
-> direct the reader to ramfs-rootfs-initramfs.rst documentation for more
-> details
-> 
-> Signed-off-by: Ann Yun <by.ann.yun@gmail.com>
-> ---
-> V1 -> V2: Mention Documentation/filesystems/ramfs-rootfs-initramfs.rst
-> 
->  Documentation/arch/openrisc/openrisc_port.rst | 6 ++++++
->  1 file changed, 6 insertions(+)
-> 
-> diff --git a/Documentation/arch/openrisc/openrisc_port.rst b/Documentation/arch/openrisc/openrisc_port.rst
-> index a8f307a3b499..69aed4069e3b 100644
-> --- a/Documentation/arch/openrisc/openrisc_port.rst
-> +++ b/Documentation/arch/openrisc/openrisc_port.rst
-> @@ -40,6 +40,12 @@ Build the Linux kernel as usual::
->  	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" defconfig
->  	make ARCH=openrisc CROSS_COMPILE="or1k-linux-"
->  
-> +If you want to embed initramfs in the kernel, also pass ``CONFIG_INITRAMFS_SOURCE``. For example::
-> +
-> +	make ARCH=openrisc CROSS_COMPILE="or1k-linux-" CONFIG_INITRAMFS_SOURCE="path/to/rootfs path/to/devnodes"
-> +
-> +For more information on this, please check Documentation/filesystems/ramfs-rootfs-initramfs.rst. 
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+head:   02ddfb981de88a2c15621115dd7be2431252c568
+commit: eb41dd76abce6a13bd7ad9c779dd560136caf60a net: ethernet: ti: cpsw_ale: add Policer and Thread control register fields
+date:   8 months ago
+config: arm64-randconfig-001-20250426 (https://download.01.org/0day-ci/archive/20250427/202504270023.hRD576RW-lkp@intel.com/config)
+compiler: clang version 16.0.6 (https://github.com/llvm/llvm-project 7cbf1a2591520c2491aa35339f227775f4d3adf6)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250427/202504270023.hRD576RW-lkp@intel.com/reproduce)
 
-This is one trailing whitespace on the above line.  Can it be removed
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202504270023.hRD576RW-lkp@intel.com/
 
--Stafford
+All warnings (new ones prefixed by >>):
 
->  3) Running on FPGA (optional)
->  
->  The OpenRISC community typically uses FuseSoC to manage building and programming
-> -- 
-> 2.37.2
-> 
+>> drivers/net/ethernet/ti/cpsw_ale.c:1360: warning: This comment starts with '/**', but isn't a kernel-doc comment. Refer Documentation/doc-guide/kernel-doc.rst
+            * REG_FIELDS not defined for this as fields cannot be correctly
+
+
+vim +1360 drivers/net/ethernet/ti/cpsw_ale.c
+
+  1319	
+  1320	static const struct reg_field ale_fields_cpsw_nu[] = {
+  1321		/* CPSW_ALE_IDVER_REG */
+  1322		[MINOR_VER]	= REG_FIELD(ALE_IDVER, 0, 7),
+  1323		[MAJOR_VER]	= REG_FIELD(ALE_IDVER, 8, 10),
+  1324		/* CPSW_ALE_STATUS_REG */
+  1325		[ALE_ENTRIES]	= REG_FIELD(ALE_STATUS, 0, 7),
+  1326		[ALE_POLICERS]	= REG_FIELD(ALE_STATUS, 8, 15),
+  1327		/* CPSW_ALE_POLICER_PORT_OUI_REG */
+  1328		[POL_PORT_MEN]	= REG_FIELD(ALE_POLICER_PORT_OUI, 31, 31),
+  1329		[POL_TRUNK_ID]	= REG_FIELD(ALE_POLICER_PORT_OUI, 30, 30),
+  1330		[POL_PORT_NUM]	= REG_FIELD(ALE_POLICER_PORT_OUI, 25, 25),
+  1331		[POL_PRI_MEN]	= REG_FIELD(ALE_POLICER_PORT_OUI, 19, 19),
+  1332		[POL_PRI_VAL]	= REG_FIELD(ALE_POLICER_PORT_OUI, 16, 18),
+  1333		[POL_OUI_MEN]	= REG_FIELD(ALE_POLICER_PORT_OUI, 15, 15),
+  1334		[POL_OUI_INDEX]	= REG_FIELD(ALE_POLICER_PORT_OUI, 0, 5),
+  1335	
+  1336		/* CPSW_ALE_POLICER_DA_SA_REG */
+  1337		[POL_DST_MEN]	= REG_FIELD(ALE_POLICER_DA_SA, 31, 31),
+  1338		[POL_DST_INDEX]	= REG_FIELD(ALE_POLICER_DA_SA, 16, 21),
+  1339		[POL_SRC_MEN]	= REG_FIELD(ALE_POLICER_DA_SA, 15, 15),
+  1340		[POL_SRC_INDEX]	= REG_FIELD(ALE_POLICER_DA_SA, 0, 5),
+  1341	
+  1342		/* CPSW_ALE_POLICER_VLAN_REG */
+  1343		[POL_OVLAN_MEN]		= REG_FIELD(ALE_POLICER_VLAN, 31, 31),
+  1344		[POL_OVLAN_INDEX]	= REG_FIELD(ALE_POLICER_VLAN, 16, 21),
+  1345		[POL_IVLAN_MEN]		= REG_FIELD(ALE_POLICER_VLAN, 15, 15),
+  1346		[POL_IVLAN_INDEX]	= REG_FIELD(ALE_POLICER_VLAN, 0, 5),
+  1347	
+  1348		/* CPSW_ALE_POLICER_ETHERTYPE_IPSA_REG */
+  1349		[POL_ETHERTYPE_MEN]	= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 31, 31),
+  1350		[POL_ETHERTYPE_INDEX]	= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 16, 21),
+  1351		[POL_IPSRC_MEN]		= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 15, 15),
+  1352		[POL_IPSRC_INDEX]	= REG_FIELD(ALE_POLICER_ETHERTYPE_IPSA, 0, 5),
+  1353	
+  1354		/* CPSW_ALE_POLICER_IPDA_REG */
+  1355		[POL_IPDST_MEN]		= REG_FIELD(ALE_POLICER_IPDA, 31, 31),
+  1356		[POL_IPDST_INDEX]	= REG_FIELD(ALE_POLICER_IPDA, 16, 21),
+  1357	
+  1358		/* CPSW_ALE_POLICER_TBL_CTL_REG */
+  1359		/**
+> 1360		 * REG_FIELDS not defined for this as fields cannot be correctly
+  1361		 * used independently
+  1362		 */
+  1363	
+  1364		/* CPSW_ALE_POLICER_CTL_REG */
+  1365		[POL_EN]		= REG_FIELD(ALE_POLICER_CTL, 31, 31),
+  1366		[POL_RED_DROP_EN]	= REG_FIELD(ALE_POLICER_CTL, 29, 29),
+  1367		[POL_YELLOW_DROP_EN]	= REG_FIELD(ALE_POLICER_CTL, 28, 28),
+  1368		[POL_YELLOW_THRESH]	= REG_FIELD(ALE_POLICER_CTL, 24, 26),
+  1369		[POL_POL_MATCH_MODE]	= REG_FIELD(ALE_POLICER_CTL, 22, 23),
+  1370		[POL_PRIORITY_THREAD_EN] = REG_FIELD(ALE_POLICER_CTL, 21, 21),
+  1371		[POL_MAC_ONLY_DEF_DIS]	= REG_FIELD(ALE_POLICER_CTL, 20, 20),
+  1372	
+  1373		/* CPSW_ALE_POLICER_TEST_CTL_REG */
+  1374		[POL_TEST_CLR]		= REG_FIELD(ALE_POLICER_TEST_CTL, 31, 31),
+  1375		[POL_TEST_CLR_RED]	= REG_FIELD(ALE_POLICER_TEST_CTL, 30, 30),
+  1376		[POL_TEST_CLR_YELLOW]	= REG_FIELD(ALE_POLICER_TEST_CTL, 29, 29),
+  1377		[POL_TEST_CLR_SELECTED]	= REG_FIELD(ALE_POLICER_TEST_CTL, 28, 28),
+  1378		[POL_TEST_ENTRY]	= REG_FIELD(ALE_POLICER_TEST_CTL, 0, 4),
+  1379	
+  1380		/* CPSW_ALE_POLICER_HIT_STATUS_REG */
+  1381		[POL_STATUS_HIT]	= REG_FIELD(ALE_POLICER_HIT_STATUS, 31, 31),
+  1382		[POL_STATUS_HIT_RED]	= REG_FIELD(ALE_POLICER_HIT_STATUS, 30, 30),
+  1383		[POL_STATUS_HIT_YELLOW]	= REG_FIELD(ALE_POLICER_HIT_STATUS, 29, 29),
+  1384	
+  1385		/* CPSW_ALE_THREAD_DEF_REG */
+  1386		[ALE_DEFAULT_THREAD_EN]		= REG_FIELD(ALE_THREAD_DEF, 15, 15),
+  1387		[ALE_DEFAULT_THREAD_VAL]	= REG_FIELD(ALE_THREAD_DEF, 0, 5),
+  1388	
+  1389		/* CPSW_ALE_THREAD_CTL_REG */
+  1390		[ALE_THREAD_CLASS_INDEX] = REG_FIELD(ALE_THREAD_CTL, 0, 4),
+  1391	
+  1392		/* CPSW_ALE_THREAD_VAL_REG */
+  1393		[ALE_THREAD_ENABLE]	= REG_FIELD(ALE_THREAD_VAL, 15, 15),
+  1394		[ALE_THREAD_VALUE]	= REG_FIELD(ALE_THREAD_VAL, 0, 5),
+  1395	};
+  1396	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
