@@ -1,109 +1,88 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59CE61A26B;
-	Sun, 27 Apr 2025 14:37:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0602810942;
+	Sun, 27 Apr 2025 14:58:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745764624; cv=none; b=GALkU2DXqJ2FB1zfIj5iH8d+U/SB6/FmRSnzZJzurNVsa46jA3RNKxEYkO+mjgXmredW7j9+sd9z8quRzUIPXIUa1ooI/3hwOq12aKUq3z8xUP5WMXsGx7Y9abrnJ4S8/zr9KibztVlc7IBKmjEkJzh4Q03weXU1NyygDYVinbQ=
+	t=1745765891; cv=none; b=quM04Es4LDh8ZqIr1P0Pm9P5PPxBkIVYNMK5MkfSb2VSTM5TebJy74PD2W3w7LX/mglj/bkrPL6ImCC38uL3srTEzovg3JqopYXow5b6BkqOM34lCp8Fxi4QPVSvdVELr5nSuhunTRICkNKfcGpP8c3NbG4Aj4yAqihoZ6Pd9W0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745764624; c=relaxed/simple;
-	bh=AMdLYG3+WT6NBLQbhEHdi3IVWXd1ydQkS0B2yNrUsqE=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=hbbG4PKAZutyfXvuy4Ye8iy4sI3X1YRNX4f0YIqxuQark/ZR/UwdQCJQrkEXIB615h5juPABB8iXHQ1Iiawq6zpmWacUxiZcigOBZeLvNdw8MgUQl5+g/j18cNgRZxb8QbxIWQqZFrML1SH4Lz8pQsCQkJYjoTHQv6cp0hPJej4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pJfI1nq7; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745765891; c=relaxed/simple;
+	bh=jg94VLsINpu8YEl40duGRf8dqgQxrXXgUAScLGneAU8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=lSBkW7ZseSSMn/cVfnLU7TMqjZJKhWNafBW9n2GSox3jXdDAfMqvcTfU7SML1JzBV0VAXUINtkY/fSPMHpyEy7lDea7JdD+Jaes4PbwJ/WiXu30KphG5tTLpu7i1AzMxrX1vTuPVtP5mM/0/U/Nmqwc2R8ClUYQu/9UjGUtaTIc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=eL+zur8z; arc=none smtp.client-ip=46.235.229.95
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pJfI1nq7"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id C833AC4CEE3;
-	Sun, 27 Apr 2025 14:37:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745764623;
-	bh=AMdLYG3+WT6NBLQbhEHdi3IVWXd1ydQkS0B2yNrUsqE=;
-	h=From:Date:Subject:To:Cc:Reply-To:From;
-	b=pJfI1nq7bGzPxvntNyepy15lbzZ9Mn2WgORpkQxHBSWFATuZc5F7OE1yp3GL6rB+i
-	 wjJPLdrb9JzQCP8WffIGn/zl3GoCNqWYfJWW2RToZRsoFHz3zvB2a9MH0UkrtcZYH6
-	 dpce3hIdojox8weJEtYnuqYW6MgVzaRlAj5X9zcCogb54hPY8WsQdCZjgdnVsONzhY
-	 sPNg4R5z7BHHyqKAIu5RP1OE5D2TwEVgtLeYERsfM67qhTyKZN14FA3M4dDnEFidRc
-	 DnIjs3HDN7dxMjVY9YTfsIKxFnhrrEkuypfnEckgDF9RImRXzFCgHZg+pz9wzAbk1Y
-	 7dFXV0zFLoLNw==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BDFEDC369D1;
-	Sun, 27 Apr 2025 14:37:03 +0000 (UTC)
-From: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>
-Date: Sun, 27 Apr 2025 22:36:59 +0800
-Subject: [PATCH net] docs: tproxy: fix code block style
+	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="eL+zur8z"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
+	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
+	:Subject; bh=KLoXnd2vz/RwoKw+jyebA+BqhR28jj4sOIBNnWN/wkw=; b=eL+zur8zvg7AgkWD
+	NwI4zPxFUD7ujB9vQ5EkogHAn6qwDNWe/y2jl/QEwN3m5EnihRXylkh37OvnLab7+VTDs7As0Mk4A
+	W1pEpv4tVnMjGlFrmiUTTKMWenqQVHNJGoT3shxBht/wHVvezd9vEq+dxcWiy3ApDz/pmufXFQVPB
+	dgICazlnB0wA/b03uuCaChife2ukqHN++OCK3Aa2Dy+UFXzcxnoT5jJkL0O33f5761FXuhQtxfxhf
+	bqaEc97lZMhuJTyxAQPyItyEId2YuWlueNM2NEh8FdUqba4WpuciIBxKi1wRr7GreOhLurnfYquMD
+	9HG8r7yTZQJ17Rw+7g==;
+Received: from dg by mx.treblig.org with local (Exim 4.96)
+	(envelope-from <dg@treblig.org>)
+	id 1u93SF-00E97A-1B;
+	Sun, 27 Apr 2025 14:58:03 +0000
+Date: Sun, 27 Apr 2025 14:58:03 +0000
+From: "Dr. David Alan Gilbert" <linux@treblig.org>
+To: Mark Brown <broonie@kernel.org>
+Cc: lgirdwood@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] Regulator deadcode cleanups
+Message-ID: <aA5F-_kJO0jFgKpQ@gallifrey>
+References: <20250426175143.128086-1-linux@treblig.org>
+ <aA5Ad6bXfH5jPiss@finisterre.sirena.org.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250427-tproxy-docs-fix-v1-1-988e94844ccb@outlook.com>
-X-B4-Tracking: v=1; b=H4sIAAtBDmgC/x2MQQqAIBAAvyJ7bqHEiPpKdEhbay8qKmGEf086z
- sDMC4kiU4JFvBDp5sTeNRg6Aeba3UnIR2OQvRx7JSfMIfry4OFNQssFjdFaWyVHNVtoVYjU9H9
- cwVGGrdYPkk9mnmYAAAA=
-X-Change-ID: 20250427-tproxy-docs-fix-ccbbbf42549f
-To: "David S. Miller" <davem@davemloft.net>, 
- Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, Levi Zim <rsworktech@outlook.com>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1174;
- i=rsworktech@outlook.com; s=not_default; h=from:subject:message-id;
- bh=cby+1jVkm77u6wkNVFnwY7Zel5ns9SwCbUFjdQo23d8=;
- b=owEBbQKS/ZANAwAIAW87mNQvxsnYAcsmYgBoDkEMC9YQa4pYiRQ4m8eDAv3pFcvx3SdQvUtxA
- t5FkHu8dVyJAjMEAAEIAB0WIQQolnD5HDY18KF0JEVvO5jUL8bJ2AUCaA5BDAAKCRBvO5jUL8bJ
- 2KgHEADOuGO9cGsSUh1JGInQtQK/Nj56a2IhHlhvZbMELaEFp7sz389+1psGnMqwmAtijjz311F
- ScH6yNQ01ox8XzUj/zHbhP7+5d3yXT1KMuyArrVWYwWkQ/3rPfOqtNxNNBTNCWVdqaW5RzT9Y+f
- u2BdaEPreaXeVkTsu5ze6vTout+y31EDzPihMqgKu5NZL6XsHt9QDSCSi9MeBCCFDpSZKzKGjrP
- 9zwR17lLhc37Z92qsSKVl+p5LOdXwAzFM/XqTTFHji1p6HUME/ygaR2RyeAfU8D1tq0Q5bSsXfm
- av6DyFc+rLqnlFAiEYA3gmjS6yndiWJOkMLPYv91+qPYAJr0pa47DCtJeH9VpXOrZhRJXlZVpNI
- 4aTZsHYqPLYPYHxecSGDJlE1v7m4jq/X2wrogJRqr/9AOES0OyRkWbtW22XPYKvW250yW+LrNB/
- Z/sY7utlfFRSLxPBVBHBMB24bxoeornVdZUwYV75RrtiSHCspMbgq/T3phsT2lj5+t8s2Ti0wRA
- 2XBXggkU5sPTaJDdqeei6a9GoAYNWlykcG+9/wU6LFx/CDDKFJS7t3pbPoW2oFINQMHjucyAsIY
- A2HVmOQ5+2x/jKEpgyjIG10C28uZDKp0YWCp1McjMBHaQahP2kXS0PQE2t+Q7GxTfLR/09LvjfQ
- IchJaG0Q92+xFyQ==
-X-Developer-Key: i=rsworktech@outlook.com; a=openpgp;
- fpr=17AADD6726DDC58B8EE5881757670CCFA42CCF0A
-X-Endpoint-Received: by B4 Relay for rsworktech@outlook.com/not_default
- with auth_id=390
-X-Original-From: Levi Zim <rsworktech@outlook.com>
-Reply-To: rsworktech@outlook.com
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <aA5Ad6bXfH5jPiss@finisterre.sirena.org.uk>
+X-Chocolate: 70 percent or better cocoa solids preferably
+X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
+X-Uptime: 14:47:03 up 354 days,  2:01,  1 user,  load average: 0.13, 0.03,
+ 0.01
+User-Agent: Mutt/2.2.12 (2023-09-09)
 
-From: Levi Zim <rsworktech@outlook.com>
+* Mark Brown (broonie@kernel.org) wrote:
+> On Sat, Apr 26, 2025 at 06:51:38PM +0100, linux@treblig.org wrote:
+> 
+> >   This is a bunch of deadcode cleanups for functions
+> > that are unused (for quite some time).
+> >   The first patch was originally sent in October last
+> > year but didn't get any traction; the rest are new.
+> 
+> Please do some analysis as to why the functions are there, don't just
+> blindly delete things.
 
-The last command is not indented thus does not show as code block when
-rendered. This patch fixes it.
+I'd appreciate some more idea of what you're after;  each patch
+shows where and when the function was added or last used.  Some have
+comments saying things like the devm_ version is being used (so it
+seemed reasonable to me to delete the plain version if no one uses it).
 
-Fixes: 4ac0b122ee63 ("docs: networking: convert tproxy.txt to ReST")
-Signed-off-by: Levi Zim <rsworktech@outlook.com>
----
- Documentation/networking/tproxy.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+For each one I've checked _when_ it was last used and not deleted
+anything that's been used in the last few years; I've not deleted
+anything which has been recently added or only recently unused.
 
-diff --git a/Documentation/networking/tproxy.rst b/Documentation/networking/tproxy.rst
-index 7f7c1ff6f159ed98d96c63d99c98ddbaefd47124..102c030e3cf06d6e9607f7668b417b99a3a62300 100644
---- a/Documentation/networking/tproxy.rst
-+++ b/Documentation/networking/tproxy.rst
-@@ -71,7 +71,7 @@ add rules like this to the iptables ruleset above::
- 
- Or the following rule to nft:
- 
--# nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
-+    # nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
- 
- Note that for this to work you'll have to modify the proxy to enable (SOL_IP,
- IP_TRANSPARENT) for the listening socket.
+That level seems to have been fine on the other ~300 clean up 
+patches other maintainers have taken; you seem to be after something
+different - I'm fine to add that if you can just explain what
+you want.
 
----
-base-commit: f73f05c6f711fd1628c7565441b9febc0c4d6c58
-change-id: 20250427-tproxy-docs-fix-ccbbbf42549f
+Just point me in the right direction and I can have more of a dig.
 
-Best regards,
+Dave
+
 -- 
-Levi Zim <rsworktech@outlook.com>
-
-
+ -----Open up your eyes, open up your mind, open up your code -------   
+/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
+\        dave @ treblig.org |                               | In Hex /
+ \ _________________________|_____ http://www.treblig.org   |_______/
