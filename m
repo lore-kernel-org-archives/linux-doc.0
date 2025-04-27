@@ -1,88 +1,94 @@
-Received: from mx.treblig.org (mx.treblig.org [46.235.229.95])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0602810942;
-	Sun, 27 Apr 2025 14:58:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.235.229.95
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F1D735280;
+	Sun, 27 Apr 2025 16:04:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745765891; cv=none; b=quM04Es4LDh8ZqIr1P0Pm9P5PPxBkIVYNMK5MkfSb2VSTM5TebJy74PD2W3w7LX/mglj/bkrPL6ImCC38uL3srTEzovg3JqopYXow5b6BkqOM34lCp8Fxi4QPVSvdVELr5nSuhunTRICkNKfcGpP8c3NbG4Aj4yAqihoZ6Pd9W0=
+	t=1745769872; cv=none; b=Gxqv0bPtxuDcVv+A+J1uBStRCP80eqLwQCYfO7ImhdGOXckpKXIZijkx9GsA9rUhC+Q4n5DUNFrE2bQat2ZZQBSG31OSRw+rrjompzWYMWuKEdqruxu85XE01uvDSbvSuxkXdHu8LMW1YUuvRMVHDqwkj5x1/pyXUov/6+sZQJ8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745765891; c=relaxed/simple;
-	bh=jg94VLsINpu8YEl40duGRf8dqgQxrXXgUAScLGneAU8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=lSBkW7ZseSSMn/cVfnLU7TMqjZJKhWNafBW9n2GSox3jXdDAfMqvcTfU7SML1JzBV0VAXUINtkY/fSPMHpyEy7lDea7JdD+Jaes4PbwJ/WiXu30KphG5tTLpu7i1AzMxrX1vTuPVtP5mM/0/U/Nmqwc2R8ClUYQu/9UjGUtaTIc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org; spf=pass smtp.mailfrom=treblig.org; dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b=eL+zur8z; arc=none smtp.client-ip=46.235.229.95
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=treblig.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=treblig.org
+	s=arc-20240116; t=1745769872; c=relaxed/simple;
+	bh=V8JOA6dRotxwbweHH8MKG8LWTT/GiyTYBk0INgJIXPk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=brMUJ7HYUdPQ8zZc0TxL2ZxHeQUWU5yBzmkHecX2SIeIS1zwoRwKrJlK1fWBMEoItuLEDmwfUekQuPaebKlJ3iTXznhttVS2NMgBhlhoSG7lPVKK6C45rErx7OtirywDy+hmSVaLMeOu5k6sNJK7y9w3S+d+ZyCxcDzd3O66xas=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=g1zjxJB6; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=treblig.org header.i=@treblig.org header.b="eL+zur8z"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=treblig.org
-	; s=bytemarkmx; h=Content-Type:MIME-Version:Message-ID:Subject:From:Date:From
-	:Subject; bh=KLoXnd2vz/RwoKw+jyebA+BqhR28jj4sOIBNnWN/wkw=; b=eL+zur8zvg7AgkWD
-	NwI4zPxFUD7ujB9vQ5EkogHAn6qwDNWe/y2jl/QEwN3m5EnihRXylkh37OvnLab7+VTDs7As0Mk4A
-	W1pEpv4tVnMjGlFrmiUTTKMWenqQVHNJGoT3shxBht/wHVvezd9vEq+dxcWiy3ApDz/pmufXFQVPB
-	dgICazlnB0wA/b03uuCaChife2ukqHN++OCK3Aa2Dy+UFXzcxnoT5jJkL0O33f5761FXuhQtxfxhf
-	bqaEc97lZMhuJTyxAQPyItyEId2YuWlueNM2NEh8FdUqba4WpuciIBxKi1wRr7GreOhLurnfYquMD
-	9HG8r7yTZQJ17Rw+7g==;
-Received: from dg by mx.treblig.org with local (Exim 4.96)
-	(envelope-from <dg@treblig.org>)
-	id 1u93SF-00E97A-1B;
-	Sun, 27 Apr 2025 14:58:03 +0000
-Date: Sun, 27 Apr 2025 14:58:03 +0000
-From: "Dr. David Alan Gilbert" <linux@treblig.org>
-To: Mark Brown <broonie@kernel.org>
-Cc: lgirdwood@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 0/5] Regulator deadcode cleanups
-Message-ID: <aA5F-_kJO0jFgKpQ@gallifrey>
-References: <20250426175143.128086-1-linux@treblig.org>
- <aA5Ad6bXfH5jPiss@finisterre.sirena.org.uk>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="g1zjxJB6"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=MPwsKOKikUI2Hbjz9HM+ALtIQrd5D4385/ERHMTCY0Y=; b=g1zjxJB6RPGKQ4LCwMZljHL1gw
+	uM9f+zmJYAJ6rzQ86RNIsle6oByl7fAxntteNqBleogvDg+mC0DI+CloD+oe6m4QZWmW57wwYs2Gn
+	T3ZEkvVf9Sqf6GupTYJral8e6Yj8uEqKlwIw78Ei+uXFOy4NDWJ9X7X/kQd5h29EV6THscMBvRk6N
+	G7ZEsIIeBDwovoN96KtO4HinIvfrMo+F6BPh0Z21HOsYF+bb03U7/3Qoem1l237xgRM82G5lxhDF0
+	64ftXik4ybmPWI8HH4W/p6hCfaNLFt1ZxJijrkFVbKs8ExDs63hGrrv+ZVJTgR/4UiY7zJqYIUZae
+	AUfeTYcg==;
+Received: from [50.39.124.201] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1u94UL-0000000CUJj-3MCO;
+	Sun, 27 Apr 2025 16:04:18 +0000
+Message-ID: <4c17ae51-475e-4bd2-8bbf-c5e3233ef319@infradead.org>
+Date: Sun, 27 Apr 2025 09:04:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <aA5Ad6bXfH5jPiss@finisterre.sirena.org.uk>
-X-Chocolate: 70 percent or better cocoa solids preferably
-X-Operating-System: Linux/6.1.0-21-amd64 (x86_64)
-X-Uptime: 14:47:03 up 354 days,  2:01,  1 user,  load average: 0.13, 0.03,
- 0.01
-User-Agent: Mutt/2.2.12 (2023-09-09)
+User-Agent: Mozilla Thunderbird
+Subject: =?UTF-8?Q?Re=3A_=5BPATCH_v8_2/5=5D_auxdisplay=3A_add_TI_LP5812_4?=
+ =?UTF-8?Q?=C3=973_Matrix_RGB_LED_Driver?=
+To: Nam Tran <trannamatk@gmail.com>, andy@kernel.org
+Cc: geert@linux-m68k.org, robh@kernel.org, krzk+dt@kernel.org,
+ conor+dt@kernel.org, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, florian.fainelli@broadcom.com,
+ bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org,
+ linux-arm-kernel@lists.infradead.org
+References: <20250427082447.138359-1-trannamatk@gmail.com>
+ <20250427082447.138359-3-trannamatk@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250427082447.138359-3-trannamatk@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-* Mark Brown (broonie@kernel.org) wrote:
-> On Sat, Apr 26, 2025 at 06:51:38PM +0100, linux@treblig.org wrote:
-> 
-> >   This is a bunch of deadcode cleanups for functions
-> > that are unused (for quite some time).
-> >   The first patch was originally sent in October last
-> > year but didn't get any traction; the rest are new.
-> 
-> Please do some analysis as to why the functions are there, don't just
-> blindly delete things.
+Hi--
 
-I'd appreciate some more idea of what you're after;  each patch
-shows where and when the function was added or last used.  Some have
-comments saying things like the devm_ version is being used (so it
-seemed reasonable to me to delete the plain version if no one uses it).
+On 4/27/25 1:24 AM, Nam Tran wrote:
+> diff --git a/drivers/auxdisplay/Kconfig b/drivers/auxdisplay/Kconfig
+> index bedc6133f970..896f02b9a06b 100644
+> --- a/drivers/auxdisplay/Kconfig
+> +++ b/drivers/auxdisplay/Kconfig
+> @@ -539,6 +539,23 @@ config ARM_CHARLCD
+>  	  line and the Linux version on the second line, but that's
+>  	  still useful.
+>  
+> +#
+> +# TI LP5812 matrix RGB LED driver section
+> +#
+> +config LP5812
 
-For each one I've checked _when_ it was last used and not deleted
-anything that's been used in the last few years; I've not deleted
-anything which has been recently added or only recently unused.
+Missing one tab of indentation on all lines below here:
 
-That level seems to have been fine on the other ~300 clean up 
-patches other maintainers have taken; you seem to be after something
-different - I'm fine to add that if you can just explain what
-you want.
-
-Just point me in the right direction and I can have more of a dig.
-
-Dave
+> +tristate "Enable LP5812 support LED matrix 4x3"
+> +depends on I2C
+> +help
+> +  If you say Y here you get support for TI LP5812 LED driver.
+> +
+> +  The LP5812 is a 4 × 3 matrix RGB LED driver with autonomous
+> +  animation engine control.
+> +
+> +  To compile this driver as a module, choose M here: the
+> +  module will be called lp5812.
+> +
+> +  If unsure, say N.
+> +
+>  endif # AUXDISPLAY
 
 -- 
- -----Open up your eyes, open up your mind, open up your code -------   
-/ Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \ 
-\        dave @ treblig.org |                               | In Hex /
- \ _________________________|_____ http://www.treblig.org   |_______/
+~Randy
+
