@@ -1,55 +1,47 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03F11175D53;
-	Mon, 28 Apr 2025 23:27:17 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7081513AC1;
+	Mon, 28 Apr 2025 23:34:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745882840; cv=none; b=NCriGQnRO/dWlqwTSA/56IrEgEPETLn4WnauPCSbj6zH1nvBLDLt5O54ddTFzWDqK1QZKcu4x1XxsC2g05OSHM5fcGeMNH3J+Ryc9pYnrL4HWtc9BQPR1+Jm/GnNnlRES1Qyz8EfLADmlRfB8vyeVL6Eq3BJhQ7dLYgwQJKqVGE=
+	t=1745883263; cv=none; b=SKtPOmI8JD/BZ18e89bFF8UMvBBflT2/ni3+rUT8mqED2eZ/awaAnu9k/BSsPwsJgCk9Aej/XvonI0hDqFjakCm4Xbv7TgdbT/bKmvO7KgUp6GKulJwOapNoZYUnCkO46kvNn25IKqzFnsFj6PmHTLHHI14gCCm31O1rfvNO8QU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745882840; c=relaxed/simple;
-	bh=fp1fyhNEcH9C3+gNY6AqPrnomJnKr4nOCRlZZrxvRlc=;
+	s=arc-20240116; t=1745883263; c=relaxed/simple;
+	bh=AiPcKT9WlAILKA7dkRyOxfiCa+OaYqnNj+CDTi9uSOc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=r26UP218aP2a+UF1wdLhoqWu7sovq7Vrk/nfLeVzsMO1ri2ZtshQ6IFjqdrQ7wdT00TlXRKKEislP3762F/fiQzpmnBUjSWdZxVcnbd2rdkdnKV7ih1vPq/U+J/dTFx4fKYaJytub8PA0HvL+qn0BbjMkUaHmb+/3aSmRZlQ130=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=sxTodg3t; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=IpUlmW/k0JobRkEdS69XQWishR1xmi9V6purlhwU9TwEbROngl/BDvaO3JaHttGgbg0+zRwyChpt+C4eJmlSPXryyO5fESpwBokW0sVMWjZtAseQk3Y+zrv4Iwt450Nrlgfv1XgGjL2oEQDF6gdTTXXNB/cyFUoxZ/8Z2zp3pDU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=rKaRmt6z; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="sxTodg3t"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net DFB5B41060
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="rKaRmt6z"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 9EAFF41060
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1745882837; bh=71FJqd39YR5/emSke+WygmuKJTkl6XtVtGtAkhKOafk=;
+	t=1745883261; bh=AiPcKT9WlAILKA7dkRyOxfiCa+OaYqnNj+CDTi9uSOc=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=sxTodg3tv9H0eES1DEvFDxhb2+Ts8f6yX4c+QsMUVDEF27SgEDGHe8uDfpPZyZBxw
-	 wNgkfpsuQqczUXyczvgVPlohqEhVUT22xUh134bjf+ddWbd96eYXHemuCkAw+17Xuo
-	 0j+TLmWxdiI4+4z57q+ZqdXLOSNl/Wd/Zxl4/tV1vpNRhbZOAUXTP230GmxdzKJ9al
-	 dQSsV06G4wgXfXoO7gyu/yG4nBFiDKYUpiA9e9YS7VjiH0IoLlhe5doc2VQyX9ylHs
-	 lXyGR6F3c244AsrRs/9KuN9oP7diab0VcHvnR5BdyF9JMfp+O3/eAXyepp10AA5w9b
-	 TeWq60Qls6+PQ==
+	b=rKaRmt6zh8+P4juhNAtJq9cQrfxJ9mofzgD0lWE6cl0tl8npDzQFF9ZjNUaBf07Qw
+	 kGsD3kbVkj7hc1lHF93goXr/cOayYLFHowSl31uQgCDzecv9CgsHhx+1mbR29ZOo1P
+	 K/LSIMDJ7RAGplL9CINkdts7ru/zIaiXROZaZK0N4LC962Ym6yQMhph0rWbkxVXK2V
+	 46h7ngoc0ix1Qetf9hD3BDHhHoFdWXAvHCMpM4hDf3reQvVfU3DYruBkg5Xql6Zfm7
+	 c+rVGCLhDitxS3r4MDPH2GgF/kdjqgg6ZSKrwj7kD5MvjyS2VslZSOXuS5TL95lPn9
+	 hyB3LS1O1MOEw==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id DFB5B41060;
-	Mon, 28 Apr 2025 23:27:16 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 9EAFF41060;
+	Mon, 28 Apr 2025 23:34:21 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Kees Cook <kees@kernel.org>
-Cc: Kees Cook <kees@kernel.org>, Andrew Morton <akpm@linux-foundation.org>,
- Randy Dunlap <rdunlap@infradead.org>, Bagas Sanjaya
- <bagasdotme@gmail.com>, Mike Rapoport <rppt@kernel.org>, Arnd Bergmann
- <arnd@arndb.de>, linux-doc@vger.kernel.org, linux-mm@kvack.org, Maxime
- Ripard <mripard@kernel.org>, Tejun Heo <tj@kernel.org>, Natalie Vock
- <natalie.vock@gmx.de>, Xavier <xavier_qy@163.com>, Samuel Holland
- <samuel.holland@sifive.com>, Maarten Lankhorst <dev@lankhorst.se>, Dan
- Williams <dan.j.williams@intel.com>, Michael Kelley
- <mhklinux@outlook.com>, Kuan-Wei Chiu <visitorckw@gmail.com>, Christian
- Brauner <brauner@kernel.org>, linux-kernel@vger.kernel.org,
- linux-hardening@vger.kernel.org
-Subject: Re: [PATCH] kernel-doc: Add initial binfmt docs
-In-Reply-To: <20250426000704.work.637-kees@kernel.org>
-References: <20250426000704.work.637-kees@kernel.org>
-Date: Mon, 28 Apr 2025 17:27:15 -0600
-Message-ID: <87selrrhnw.fsf@trenco.lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Linux Doc Mailing
+ List <linux-doc@vger.kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/3] Some small improvements for kernel-doc generation
+In-Reply-To: <cover.1745564565.git.mchehab+huawei@kernel.org>
+References: <cover.1745564565.git.mchehab+huawei@kernel.org>
+Date: Mon, 28 Apr 2025 17:34:20 -0600
+Message-ID: <87o6wfrhc3.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -58,19 +50,18 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain
 
-Kees Cook <kees@kernel.org> writes:
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-> Adds a framework to hold the initial exec.c and binfmt_elf.c
-> kernel-docs. Updates scripts/kernel-doc to allow leading whitespace so
-> that embedded "DOC:" tags can be found that aren't at the start of a
-> line so that in-function documentation can be found, like that recently
-> marked up in binfmt_elf.c[1].
+> Hi Jon,
+>
+> This series contain 3 patches for kernel-doc:
+>
+> Patch 1 creates a kernel doc class at the beginning of kerneldoc Sphinx
+> module and preserves it. With that, some caching is enabled;
+> Patch 2 fixes some permissions;
+> Patch 3 is mostly a cleanup patch to simplify a little bit the complex
+> parser
 
-Just one tiny little problem ... when you weren't looking, Mauro snuck
-in and replaced scripts/kernel-doc with a shiny new Python
-implementation.  So that part of the patch won't apply to docs-next; if
-you apply it somewhere else, the change will get lost.
-
-I figured we were going to run into at least one of these ... sorry ...
+Applied, thanks,
 
 jon
