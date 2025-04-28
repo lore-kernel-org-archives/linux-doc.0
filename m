@@ -1,255 +1,144 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 421EF1E008B;
-	Mon, 28 Apr 2025 15:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B7C827A10F
+	for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 15:44:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745854620; cv=none; b=G44oK7YAcQg1JfV2tTDGPrS9ETmdZgUxmFYOv84MFJlcYKYNZdQk1/QPDGMbagqof9AkRCNLXvBMY8dEqNtXq50TviVx7qJuTZcvn3B58OzIu7lmmXL7HNqPq93OOF6H/DxXHDEBH5tEdnEPEYe2iJf0x98IDMjGmKRJsrBxEgE=
+	t=1745855084; cv=none; b=hL8mPL1yuR+ke4Mz2k3hDWqdTJI+siNu5l8IMCydQX4bOesKPhQHCEn3zpaDX6LWwdkMwUoJigmc6LmRp7iJnQUxrA0NJHiYb+pLQ9e6pEQffyJX71S+Lu7jkziZtAbwW/RAoUC1cKJRHEAl+CuNVynsplUjsssBdzz8uCDxNQQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745854620; c=relaxed/simple;
-	bh=X4YAC7UgnFX/IJfpLFastAckdvY3Zbt3gQxxkAai4SM=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=LNlBcRaDdyihV2z3wdE1n24EfhcoHMULLHy63zk5CDA+wMRERBfvrBKEdXUY29xq5xZSWs4YkwUdfi2JAJt/kcR7ROjE5/iP1bWqqUOR3VX9JPLGLTOhNbxgDjVeapMn4VxwjnB/8IU75/QRHpcHjIX9vA5lCG3niMXm7E2l5ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0A99E15A1;
-	Mon, 28 Apr 2025 08:36:51 -0700 (PDT)
-Received: from mazurka.cambridge.arm.com (mazurka.cambridge.arm.com [10.2.80.18])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 3315B3F673;
-	Mon, 28 Apr 2025 08:36:53 -0700 (PDT)
-From: =?UTF-8?q?Miko=C5=82aj=20Lenczewski?= <miko.lenczewski@arm.com>
-To: ryan.roberts@arm.com,
-	suzuki.poulose@arm.com,
-	yang@os.amperecomputing.com,
-	corbet@lwn.net,
-	catalin.marinas@arm.com,
-	will@kernel.org,
-	jean-philippe@linaro.org,
-	robin.murphy@arm.com,
-	joro@8bytes.org,
-	akpm@linux-foundation.org,
-	paulmck@kernel.org,
-	mark.rutland@arm.com,
-	joey.gouly@arm.com,
-	maz@kernel.org,
-	james.morse@arm.com,
-	broonie@kernel.org,
-	oliver.upton@linux.dev,
-	baohua@kernel.org,
-	david@redhat.com,
-	ioworker0@gmail.com,
-	jgg@ziepe.ca,
-	nicolinc@nvidia.com,
-	mshavit@google.com,
-	jsnitsel@redhat.com,
-	smostafa@google.com,
-	kevin.tian@intel.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
-Cc: =?UTF-8?q?Miko=C5=82aj=20Lenczewski?= <miko.lenczewski@arm.com>
-Subject: [RESEND PATCH v6 3/3] arm64/mm: Elide tlbi in contpte_convert() under BBML2
-Date: Mon, 28 Apr 2025 15:35:18 +0000
-Message-ID: <20250428153514.55772-8-miko.lenczewski@arm.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250428153514.55772-2-miko.lenczewski@arm.com>
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
+	s=arc-20240116; t=1745855084; c=relaxed/simple;
+	bh=JRoFg1ifrt/ihL83AT1Ka7YY9StfO8fc3iHKwc1eEVs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=DigPUHzJ/fqCYYcQmnkT76DJ4f93wCBt7Q7/lDeANXqmsB1niJEtmZIRjk6Rt5/s3yIBZBKEylAhJ0H44f10TXNzuQp7kJa06y5iT0pUxQNuLcmpQu3CMZr3RkQniOGfIo4qbylYra/zOz7JckKTv2WUXr/4RoyQmXyzSi4ZSGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CStsB3CS; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CStsB3CS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745855082;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=pxbbN4qJN6Ru59aJPa/Q4S65KBGqqKkgsmmSWCFTdOU=;
+	b=CStsB3CSqd3kiHThrS2Aj7p7BSp8KJc9it1bS1AQMxe5s+jNFQI+6+mjzwAZTjgb/Oq/m2
+	aYEYiJ8YsTzDr7J0ZudXlEutXWOAxC+LbiwStgnfA4Gr1F3X0pPRFHhrMh6dva5Jeuc0Ye
+	BtLCzJSgO7X34+rO7G2LemMdHMp7ev0=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-493-Ove3pRy2OgapnpWJ3ySSTw-1; Mon, 28 Apr 2025 11:44:37 -0400
+X-MC-Unique: Ove3pRy2OgapnpWJ3ySSTw-1
+X-Mimecast-MFC-AGG-ID: Ove3pRy2OgapnpWJ3ySSTw_1745855077
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-708344df2a3so69697397b3.3
+        for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 08:44:37 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745855077; x=1746459877;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=pxbbN4qJN6Ru59aJPa/Q4S65KBGqqKkgsmmSWCFTdOU=;
+        b=JnvsrNaEXmoVkg32TX/RYp8uikoRSCQo8ysn+IbTCl28M6+TBKfpLmTMnALg9jqf1D
+         CNEIoq0aTfsQVHYyTMEZO7XBCuz1YkM8cA46tgMva5QSZBOi0WPGw1erQQZJUYVBLtDw
+         McpPhkbb80Y9wRsk7VtxkOZzTh9dIkT7AoFzZpvqwCNyRKWp7o4mc4LRrORoh37uz/3Q
+         sve3ACoGxoJ/Z1nU8KwYWUeACM619UoCoFr//cpEhmM95QI7ZAkTjmvY7Ayupm1Y16kj
+         rjrt9nwGdVbFWGBnu8pQWasGItdjWWrnGE8908sWGpzV/c5j06NsfRT/iYA0hrgNQUcf
+         +NcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUagQm/X4aqRTpDTHsAZ1QerSOAh/MCkw3bVJNue9MAQW/dmuynMydttvp4Noca7HiyXsenQCfJuP4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxceTppBsiDZuCIqPtqe4EAfaba95CcNy7DGpwisZEGlc5WjCrO
+	VHlv+ERYXDrgiDwJ8PhVsC4elIMQIGxg59FVckp9bCcRWgbj/+GX3zfhvNn2c9I8PVdzyuwYNiM
+	aKt/q/Es85ww3i4ShL3rGi48UEfamlUSSpt+wrIZYr/UDqfZX2r5J/NoREWuoU06uO5RPwvIfZt
+	U5sL23uoMguDHL+QIbcuzs6ay8Pb0ZImE+
+X-Gm-Gg: ASbGnctjv9/fwbRjXiotqvZr/f9it37JOASDt+OR5H1nznNaOGkmYzoiyS93dmsKvmd
+	wy24uzHJlAUT8VHYsHopW/3ZvmtAM/weRiCUPYZY5IbABEzNIY3BVmMBxiHuYX4aKbfcORbOmZa
+	/J0jhucY4=
+X-Received: by 2002:a05:690c:6b87:b0:6ef:5c57:904 with SMTP id 00721157ae682-708540ce38amr156786637b3.7.1745855076651;
+        Mon, 28 Apr 2025 08:44:36 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IH6qCK0RP1Osqb6P+Q+6TNekm7P5LWk3+X90KpMgq7ufBwRs3S0yE0ZPxUoRWXjGPRpcWW70ryslqWVN+3xc60=
+X-Received: by 2002:a05:690c:6b87:b0:6ef:5c57:904 with SMTP id
+ 00721157ae682-708540ce38amr156785937b3.7.1745855076172; Mon, 28 Apr 2025
+ 08:44:36 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250417000238.74567-1-npache@redhat.com> <20250417000238.74567-9-npache@redhat.com>
+ <fb932eac-86ce-4f7d-8eed-8dc44f5a40c1@linux.alibaba.com>
+In-Reply-To: <fb932eac-86ce-4f7d-8eed-8dc44f5a40c1@linux.alibaba.com>
+From: Nico Pache <npache@redhat.com>
+Date: Mon, 28 Apr 2025 09:44:09 -0600
+X-Gm-Features: ATxdqUE76Pjv3zn_HiGc1qM-i1cE-erjrnyMNKG7-H8ENZEIid857QeclmukKN8
+Message-ID: <CAA1CXcCEsdW+k96DX3LZ6J4MmNEnugyxCXcHkneqxV4-nahmsg@mail.gmail.com>
+Subject: Re: [PATCH v4 08/12] khugepaged: skip collapsing mTHP to smaller orders
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com, 
+	baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org, 
+	peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com, 
+	tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, 
+	cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com, 
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, 
+	rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When converting a region via contpte_convert() to use mTHP, we have two
-different goals. We have to mark each entry as contiguous, and we would
-like to smear the dirty and young (access) bits across all entries in
-the contiguous block. Currently, we do this by first accumulating the
-dirty and young bits in the block, using an atomic
-__ptep_get_and_clear() and the relevant pte_{dirty,young}() calls,
-performing a tlbi, and finally smearing the correct bits across the
-block using __set_ptes().
+On Thu, Apr 24, 2025 at 1:49=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2025/4/17 08:02, Nico Pache wrote:
+> > khugepaged may try to collapse a mTHP to a smaller mTHP, resulting in
+> > some pages being unmapped. Skip these cases until we have a way to chec=
+k
+> > if its ok to collapse to a smaller mTHP size (like in the case of a
+> > partially mapped folio).
+> >
+> > This patch is inspired by Dev Jain's work on khugepaged mTHP support [1=
+].
+> >
+> > [1] https://lore.kernel.org/lkml/20241216165105.56185-11-dev.jain@arm.c=
+om/
+> >
+> > Co-developed-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Dev Jain <dev.jain@arm.com>
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >   mm/khugepaged.c | 7 ++++++-
+> >   1 file changed, 6 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index ece39fd71fe6..383aff12cd43 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -625,7 +625,12 @@ static int __collapse_huge_page_isolate(struct vm_=
+area_struct *vma,
+> >               folio =3D page_folio(page);
+> >               VM_BUG_ON_FOLIO(!folio_test_anon(folio), folio);
+> >
+> > -             /* See hpage_collapse_scan_pmd(). */
+> > +             if (order !=3D HPAGE_PMD_ORDER && folio_order(folio) >=3D=
+ order) {
+> > +                     result =3D SCAN_PTE_MAPPED_HUGEPAGE;
+> > +                     goto out;
+> > +             }
+>
+> Should we also add this check in hpage_collapse_scan_pmd() to abort the
+> scan early?
+No I dont think so, we can't abort there because we dont know the
+attempted collapse order, and we dont want to miss potential mTHP
+collapses (by bailing out early and not populating the bitmap).
 
-This approach works fine for BBM level 0, but with support for BBM level
-2 we are allowed to reorder the tlbi to after setting the pagetable
-entries. We expect the time cost of a tlbi to be much greater than the
-cost of clearing and resetting the PTEs. As such, this reordering of the
-tlbi outside the window where our PTEs are invalid greatly reduces the
-duration the PTE are visibly invalid for other threads. This reduces the
-likelyhood of a concurrent page walk finding an invalid PTE, reducing
-the likelyhood of a fault in other threads, and improving performance
-(more so when there are more threads).
-
-Because we support via allowlist only bbml2 implementations that never
-raise conflict aborts and instead invalidate the tlb entries
-automatically in hardware, we can avoid the final flush altogether.
-
-However, avoiding the intermediate tlbi+dsb must be carefully considered
-to ensure that we remain both correct and performant. We document our
-reasoning and the expected interactions further in the contpte_convert()
-source. To do so we rely on the aarch64 spec (DDI 0487L.a D8.7.1.1)
-requirements RNGLXZ and RJQQTC to provide guarantees that the elision is
-correct.
-
-Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
----
- arch/arm64/mm/contpte.c | 139 +++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 138 insertions(+), 1 deletion(-)
-
-diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
-index bcac4f55f9c1..203357061d0a 100644
---- a/arch/arm64/mm/contpte.c
-+++ b/arch/arm64/mm/contpte.c
-@@ -68,7 +68,144 @@ static void contpte_convert(struct mm_struct *mm, unsigned long addr,
- 			pte = pte_mkyoung(pte);
- 	}
- 
--	__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
-+	/*
-+	 * On eliding the __tlb_flush_range() under BBML2+noabort:
-+	 *
-+	 * NOTE: Instead of using N=16 as the contiguous block length, we use
-+	 *       N=4 for clarity.
-+	 *
-+	 * NOTE: 'n' and 'c' are used to denote the "contiguous bit" being
-+	 *       unset and set, respectively.
-+	 *
-+	 * We worry about two cases where contiguous bit is used:
-+	 *  - When folding N smaller non-contiguous ptes as 1 contiguous block.
-+	 *  - When unfolding a contiguous block into N smaller non-contiguous ptes.
-+	 *
-+	 * Currently, the BBML0 folding case looks as follows:
-+	 *
-+	 *  0) Initial page-table layout:
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |RO,n|RO,n|RO,n|RW,n| <--- last page being set as RO
-+	 *   +----+----+----+----+
-+	 *
-+	 *  1) Aggregate AF + dirty flags using __ptep_get_and_clear():
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |  0 |  0 |  0 |  0 |
-+	 *   +----+----+----+----+
-+	 *
-+	 *  2) __flush_tlb_range():
-+	 *
-+	 *   |____ tlbi + dsb ____|
-+	 *
-+	 *  3) __set_ptes() to repaint contiguous block:
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |RO,c|RO,c|RO,c|RO,c|
-+	 *   +----+----+----+----+
-+	 *
-+	 *  4) The kernel will eventually __flush_tlb() for changed page:
-+	 *
-+	 *                  |____| <--- tlbi + dsb
-+	 *
-+	 * As expected, the intermediate tlbi+dsb ensures that other PEs
-+	 * only ever see an invalid (0) entry, or the new contiguous TLB entry.
-+	 * The final tlbi+dsb will always throw away the newly installed
-+	 * contiguous TLB entry, which is a micro-optimisation opportunity,
-+	 * but does not affect correctness.
-+	 *
-+	 * In the BBML2 case, the change is avoiding the intermediate tlbi+dsb.
-+	 * This means a few things, but notably other PEs will still "see" any
-+	 * stale cached TLB entries. This could lead to a "contiguous bit
-+	 * misprogramming" issue until the final tlbi+dsb of the changed page,
-+	 * which would clear out both the stale (RW,n) entry and the new (RO,c)
-+	 * contiguous entry installed in its place.
-+	 *
-+	 * What this is saying, is the following:
-+	 *
-+	 *  +----+----+----+----+
-+	 *  |RO,n|RO,n|RO,n|RW,n| <--- old page tables, all non-contiguous
-+	 *  +----+----+----+----+
-+	 *
-+	 *  +----+----+----+----+
-+	 *  |RO,c|RO,c|RO,c|RO,c| <--- new page tables, all contiguous
-+	 *  +----+----+----+----+
-+	 *   /\
-+	 *   ||
-+	 *
-+	 *  If both the old single (RW,n) and new contiguous (RO,c) TLB entries
-+	 *  are present, and a write is made to this address, do we fault or
-+	 *  is the write permitted (via amalgamation)?
-+	 *
-+	 * The relevant Arm ARM DDI 0487L.a requirements are RNGLXZ and RJQQTC,
-+	 * and together state that when BBML1 or BBML2 are implemented, either
-+	 * a TLB conflict abort is raised (which we expressly forbid), or will
-+	 * "produce an OA, access permissions, and memory attributes that are
-+	 * consistent with any of the programmed translation table values".
-+	 *
-+	 * That is to say, will either raise a TLB conflict, or produce one of
-+	 * the cached TLB entries, but never amalgamate.
-+	 *
-+	 * Thus, as the page tables are only considered "consistent" after
-+	 * the final tlbi+dsb (which evicts both the single stale (RW,n) TLB
-+	 * entry as well as the new contiguous (RO,c) TLB entry), omitting the
-+	 * initial tlbi+dsb is correct.
-+	 *
-+	 * It is also important to note that at the end of the BBML2 folding
-+	 * case, we are still left with potentially all N TLB entries still
-+	 * cached (the N-1 non-contiguous ptes, and the single contiguous
-+	 * block). However, over time, natural TLB pressure will cause the
-+	 * non-contiguous pte TLB entries to be flushed, leaving only the
-+	 * contiguous block TLB entry. This means that omitting the tlbi+dsb is
-+	 * not only correct, but also keeps our eventual performance benefits.
-+	 *
-+	 * For the unfolding case, BBML0 looks as follows:
-+	 *
-+	 *  0) Initial page-table layout:
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |RW,c|RW,c|RW,c|RW,c| <--- last page being set as RO
-+	 *   +----+----+----+----+
-+	 *
-+	 *  1) Aggregate AF + dirty flags using __ptep_get_and_clear():
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |  0 |  0 |  0 |  0 |
-+	 *   +----+----+----+----+
-+	 *
-+	 *  2) __flush_tlb_range():
-+	 *
-+	 *   |____ tlbi + dsb ____|
-+	 *
-+	 *  3) __set_ptes() to repaint as non-contiguous:
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |RW,n|RW,n|RW,n|RW,n|
-+	 *   +----+----+----+----+
-+	 *
-+	 *  4) Update changed page permissions:
-+	 *
-+	 *   +----+----+----+----+
-+	 *   |RW,n|RW,n|RW,n|RO,n| <--- last page permissions set
-+	 *   +----+----+----+----+
-+	 *
-+	 *  5) The kernel will eventually __flush_tlb() for changed page:
-+	 *
-+	 *                  |____| <--- tlbi + dsb
-+	 *
-+	 * For BBML2, we again remove the intermediate tlbi+dsb. Here, there
-+	 * are no issues, as the final tlbi+dsb covering the changed page is
-+	 * guaranteed to remove the original large contiguous (RW,c) TLB entry,
-+	 * as well as the intermediate (RW,n) TLB entry; the next access will
-+	 * install the new (RO,n) TLB entry and the page tables are only
-+	 * considered "consistent" after the final tlbi+dsb, so software must
-+	 * be prepared for this inconsistency prior to finishing the mm dance
-+	 * regardless.
-+	 */
-+
-+	if (!system_supports_bbml2_noabort())
-+		__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
- 
- 	__set_ptes(mm, start_addr, start_ptep, pte, CONT_PTES);
- }
--- 
-2.49.0
+-- Nico
+>
 
