@@ -1,206 +1,145 @@
-Received: from smtpbgsg2.qq.com (smtpbgsg2.qq.com [54.254.200.128])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5BA1E193062;
-	Mon, 28 Apr 2025 05:36:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=54.254.200.128
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34F982866;
+	Mon, 28 Apr 2025 07:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745818624; cv=none; b=LUd5eK7Z+s1QmizZpGdMKflJ+OWyuv+0M2THkUeR1mECLXS/pEigBE0Kn3IIzg6zZ6WFPB5W0tUrjgjeuRYkenYhC/8oH8LjlO669PUsloN+rZ2FYoxBXL7uy7jROargCcR+N4IrzRgmkYyX21v7rs5hzk7GxZgFkR349QTMRVo=
+	t=1745825727; cv=none; b=Ote06Oc9hPQTPUe+sdDwFyR0iBnRa14kczG/dt696pn5bUkDgmvj8hCJQ6RgDC4fHyFNxMijLOfB0lBdvuPJsrYyFwSe3XRfIcoBOJi9trNtSDOBU3nG7PGtwkqfdPwWRxqkhenzsMDs8goIL9qBBp+vaNo3DI+Kw53lp+1mbM4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745818624; c=relaxed/simple;
-	bh=M0LjuoqcMWHsQXSVOf8Nm3gaSAfKQYd2cE3gm/SfEyI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OIm7PxHY9o6SLek/H+ImMZtyDnNrc5eWaxN7DlGigPft8Ov0vO5U7hkSus9gOHJ6kwzpDN4axpiA7SVIaLVlM0lKHf2+whGeb3zTKGoiUz1/1e0p3orqNo0BzZC/Kd+Ls1ZkQRcgNNJ9tIkoNz7YomkeIJjAtWVP2pNtKI+f8yQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com; spf=pass smtp.mailfrom=uniontech.com; dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b=bHbEERZD; arc=none smtp.client-ip=54.254.200.128
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=uniontech.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=uniontech.com
+	s=arc-20240116; t=1745825727; c=relaxed/simple;
+	bh=mxdki93guRrPUqMnNg4vPPRG6mXLaz09PPXd+0S8V6E=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YLNibOVDvuxfTln550qTIflM5NkQJdaA377rYCqE+t9pDfcI8zov/LX7KDP+xIAaJe06CWFaUr+hGRLe4eZJzGELL+EM7aXniM4Hi3jwe2gHQ4wQ6K9xrpideK6/3Mp6wm7CZUDTMk06Xb64w1k+Ngxo/3AdyLLsD96RFXZ4lGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/o+5q3/; arc=none smtp.client-ip=192.198.163.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=uniontech.com header.i=@uniontech.com header.b="bHbEERZD"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=uniontech.com;
-	s=onoh2408; t=1745818589;
-	bh=UdjdVwsGFyMI747dVYHjmVnUn3MRQZNoNL+bE5qpgw0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:From;
-	b=bHbEERZDfMGP32wRhX/I3ZGUkT/LNuhLVwr2Hagyqtn9ksxrIM0YVirFQlHwYgS5o
-	 1C3zdqNQIpLHg/+mRTZj4HOM/PymyPpB6D06WdI4A4o5dUidIv7qXhijPEut4EHbId
-	 scK2TyQSrH33V6tO2tDpE49Cy2ZSaw35r4so1fjA=
-X-QQ-mid: zesmtpip4t1745818585t586eff5d
-X-QQ-Originating-IP: Nfbd0PJ9OcESsxwpglGPLodS1rQq/nEc/H8O2c245Pg=
-Received: from [IPV6:240e:668:120a::212:232] ( [localhost])
-	by bizesmtp.qq.com (ESMTP) with 
-	id ; Mon, 28 Apr 2025 13:36:23 +0800 (CST)
-X-QQ-SSF: 0000000000000000000000000000000
-X-QQ-GoodBg: 1
-X-BIZMAIL-ID: 17663403777538385794
-Message-ID: <8024D1C7CE1BC2F4+fb3ca587-fb54-4c3b-af44-77da7c8f4c3a@uniontech.com>
-Date: Mon, 28 Apr 2025 13:36:23 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/o+5q3/"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745825726; x=1777361726;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=mxdki93guRrPUqMnNg4vPPRG6mXLaz09PPXd+0S8V6E=;
+  b=K/o+5q3/oZSZ9H2GvLBUCgsdkIhrr7HyGZSiYuhvZJpMHF61piITfezC
+   6PTJXhm/EY6HscEGeMpWku0d+EylG+7DAqiUE6HxhQe2bFtraR4hhnU0P
+   M0t3goahERIA3ioUvKmqQwAbF8WIG4y07OyuhUoxZ16mUlcrjwX8ME7ug
+   lX6LJFk3Spn6IJQTbsvlXDr3gdeeJfL32PZYtewemEbYYWqTk6ZVNg4hG
+   /K3BNFt+/4drPHLb9vbPtW5iMNDfhg8stsijFlNe0Kkjxdh2AkC4tZWmZ
+   AJvA2QpWUS+/fXtrmwgITvjzjfgW4ualidysPT9mJn8HiOxsfElkk4lUI
+   Q==;
+X-CSE-ConnectionGUID: jcHnSpGGT5G2SK6lT6dfAA==
+X-CSE-MsgGUID: pY3iLgfvTimKgtxNqFkubg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="50058862"
+X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
+   d="scan'208";a="50058862"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:35:24 -0700
+X-CSE-ConnectionGUID: tFG6ORSjTd2nkwZlwgLrJA==
+X-CSE-MsgGUID: vdPhjXp7RgOB/g6AJCI/RQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
+   d="scan'208";a="137491544"
+Received: from smile.fi.intel.com ([10.237.72.55])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:35:19 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@intel.com>)
+	id 1u9J1I-000000011Cw-0lnE;
+	Mon, 28 Apr 2025 10:35:16 +0300
+Date: Mon, 28 Apr 2025 10:35:15 +0300
+From: Andy Shevchenko <andriy.shevchenko@intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>, airlied@gmail.com, corbet@lwn.net,
+	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
+	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
+	masahiroy@kernel.org, mripard@kernel.org, nathan@kernel.org,
+	nicolas.schier@linux.dev, rodrigo.vivi@intel.com, simona@ffwll.ch,
+	tursulin@ursulin.net, tzimmermann@suse.de
+Subject: Re: [PATCH v4 0/4] Don't create Python bytecode when building the
+ kernel
+Message-ID: <aA8vs8gw75aAfwYb@smile.fi.intel.com>
+References: <cover.1745453655.git.mchehab+huawei@kernel.org>
+ <22d7bca2-cdfb-4e06-acb2-41363ba13333@gmail.com>
+ <20250426205708.4f90a83d@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation/kernel-parameters: Update memtest parameter
-To: Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
- akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
- thuth@redhat.com, bp@alien8.de, ardb@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- chenhuacai@kernel.org, kernel@xen0n.name, loongarch@lists.linux.dev,
- tsbogend@alpha.franken.de, linux-mips@vger.kernel.org, chris@zankel.net,
- jcmvbkbc@gmail.com
-References: <0FC3D21CA22E8251+20250428034746.21216-1-wangyuli@uniontech.com>
- <b8ffdc7e-1b5b-41df-835e-c11a200d7dec@infradead.org>
-Content-Language: en-US
-From: WangYuli <wangyuli@uniontech.com>
-Autocrypt: addr=wangyuli@uniontech.com; keydata=
- xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSKP+nX39DN
- IVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAxFiEEa1GMzYeuKPkg
- qDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMBAAAKCRDF2h8wRvQL7g0UAQCH
- 3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfPbwD/SrncJwwPAL4GiLPEC4XssV6FPUAY
- 0rA68eNNI9cJLArOOARmgSyJEgorBgEEAZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7
- VTL0dvPDofBTjFYDAQgHwngEGBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIb
- DAAKCRDF2h8wRvQL7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkU
- o9ERi7qS/hbUdUgtitI89efbY0TVetgDsyeQiwU=
-In-Reply-To: <b8ffdc7e-1b5b-41df-835e-c11a200d7dec@infradead.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="------------Hk6rtjDbqvMS3GCpq8DpmwCI"
-X-QQ-SENDSIZE: 520
-Feedback-ID: zesmtpip:uniontech.com:qybglogicsvrgz:qybglogicsvrgz8a-1
-X-QQ-XMAILINFO: NyPaQtJYQgeorUhi4yGzMqOYfia0pkcETVCmcsCsFpL08dI284ZIdV/z
-	o4ar5ZBkRRuOsW+/J2qv+trfi2BweXprsJK3/Jpm+1AUrY20za3drGqdQkzRazVevPEVzbN
-	sXZ2kXWCjr6czEpLOqTENq/BjRciB5wvxmTV+Chol5OMg7LD5dD14Z2QBoqaO+jiu2gMIdL
-	Z8CTf1+MFWav7t8mdBM2lmok/E7I2wns5r2MfnVVH9yLvTeYoX3UdB3KG6QFK436lI0koje
-	QuhB5peLX01x75MTlGuYZ44PSFRC+fkmGd5mFRdpr7SctZZLHNxxWD7ZKAHR+l60LQwwr4O
-	JsDSWudPF8W1r2lvr0+PxpTeor46wuCj68dZMtTMQl+FqTK1QUlGrIk4l10TfiiOTuwXU6x
-	qpkXzt6AOJTrFZ4XWLoepRPfZDr8hGrXIcwmf5DuasvoQaKs8OTrWpgZxsE3DJ8cdzmZFwa
-	qc7rByHRzPP/x1IjDlMAZPDzZypKZ4iML8LL51EIj5BwEiCn3Ryb6sOJej/mxMOeL0mOatZ
-	9Aax8ULr+hMCcWQzul+ICbs1GoodMbnze9ALFkW765Ke/sj+aK1MP5qnsDcEOE+Cl7mb4d2
-	Q4IiuknRK4auPyM4aKuBLeXg06N/6gBb9IrMZCKbStC08uNrPMhVBbhykhlr89LTKtWZpuI
-	6Y08IB4ueXGBvzX94Vp9gAWMkb317gR0KEF7DmNtUBf4KoQ4gFGc1/V96CpA3k/9yNf4e/Q
-	BmEFKtDOZSPUFQS+SdprLs4c6eXzkWHo3QXayEvVAwVr2udmLumtH5ekQ4OkMq06Ke+E5U9
-	Bh4XlikmFLjbwv6m0VHqNxcVN46jE+jeG7neB6/hyjB9dXj74tXHIEgKWiT46smLM+giabU
-	0xth5yJHp+Z36LiyfuFknMai+bIDU1fEpNtKkfPpGohB2mpsOjN3doAaPpEt6YaHFl/7Zfy
-	ZI85WlgpIYkZbBHIFn/M40goi6ljSP3hYF0iLwcrwoqJxKCdxlbkOraRHvUh/kLsSMu63mv
-	WHVzgCuk0/T5rUhaA1Y6+LrhKdiykEDdJXwYLpyAS5qzJjNh5J
-X-QQ-XMRINFO: NyFYKkN4Ny6FSmKK/uo/jdU=
-X-QQ-RECHKSPAM: 0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250426205708.4f90a83d@sal.lan>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---------------Hk6rtjDbqvMS3GCpq8DpmwCI
-Content-Type: multipart/mixed; boundary="------------TFjB48ibnpBza0lpiW4f2rV2";
- protected-headers="v1"
-From: WangYuli <wangyuli@uniontech.com>
-To: Randy Dunlap <rdunlap@infradead.org>, corbet@lwn.net,
- akpm@linux-foundation.org, rostedt@goodmis.org, paulmck@kernel.org,
- thuth@redhat.com, bp@alien8.de, ardb@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- chenhuacai@kernel.org, kernel@xen0n.name, loongarch@lists.linux.dev,
- tsbogend@alpha.franken.de, linux-mips@vger.kernel.org, chris@zankel.net,
- jcmvbkbc@gmail.com
-Message-ID: <fb3ca587-fb54-4c3b-af44-77da7c8f4c3a@uniontech.com>
-Subject: Re: [PATCH] Documentation/kernel-parameters: Update memtest parameter
-References: <0FC3D21CA22E8251+20250428034746.21216-1-wangyuli@uniontech.com>
- <b8ffdc7e-1b5b-41df-835e-c11a200d7dec@infradead.org>
-In-Reply-To: <b8ffdc7e-1b5b-41df-835e-c11a200d7dec@infradead.org>
+On Sat, Apr 26, 2025 at 08:57:08PM +0800, Mauro Carvalho Chehab wrote:
+> Em Sat, 26 Apr 2025 11:39:05 +0900
+> Akira Yokosawa <akiyks@gmail.com> escreveu:
+> 
+> > Bothering with might-become-incompatilbe-in-the-future python environment
+> > variables in kernel Makefiles looks over-engineering to me.
+> > Also, as Mauro says in 3/4, it is incomplete in that it does not cover
+> > the cases where those scripts are invoked outside of kernel build.
+> > And it will interfere with existing developers who want the benefit of
+> > bytecode caching.
+> > 
+> > I'm not precluding the possibility of incoherent bytecode cache; for example
+> > by using a shared kernel source tree among several developers, and only
+> > one of them (owner) has a write permission of it.  In that case, said
+> > owner might update the tree without running relevant python scripts.
+> > 
+> > I don't know if python can notice outdated cache and disregard it.
+> > 
+> > In such a situation, setting PYTHONPYCACHEPREFIX as an environment
+> > variable should help, for sure, but only in such special cases.
+> > 
+> > Andy, what do you say if I ask reverts of 1/4, 2/4/, and 3/4?
+> 
+> Patches 1 and 2 are, IMO, needed anyway, as they fix a problem:
+> KERNELDOC environment is not used consistently.
+> 
+> Now, patch 3 is the one that may require more thinking.
+> 
+> I agree with Andy that, when O=<dir> is used, nothing shall be
+> written to source dir.
+> 
+> There are a couple of reasons for that:
+> 
+> 1. source dir may be read only;
+> 2. one may want to do cross compilation and use multiple output
+>    directories, one for each version;
+> 3. the source dir could be mapped via NFS to multiple machines
+>    with different architectures.
+> 
+> For (3), it could mean that multiple machines may have different
+> Python versions, so, sharing the Python bytecode from source dir doesn't
+> sound a good idea. Also, I'm not sure if the pyc from different archs
+> would be identical.
+> 
+> With that, there are two options:
+> 
+> a. disable cache;
+> b. set PYTHONCACHEPREFIX.
 
---------------TFjB48ibnpBza0lpiW4f2rV2
-Content-Type: multipart/mixed; boundary="------------RH90aBEQ6X0g71W3z0xZChr0"
+Thanks, Mauro, for replying. I'm with you on all of it.
 
---------------RH90aBEQ6X0g71W3z0xZChr0
-Content-Type: multipart/alternative;
- boundary="------------t8iLN9jjEHV14tL9F7ozjhZD"
+> We're currently doing (a). I guess everybody agrees that this is
+> is not ideal.
 
---------------t8iLN9jjEHV14tL9F7ozjhZD
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: base64
+Yes, I also prefer to have cache working if it's possible. The only BUT here is
+that users should not suffer from it.
 
-SGkgUmFuZHksDQoNCk9uIDIwMjUvNC8yOCAxMzowNSwgUmFuZHkgRHVubGFwIHdyb3RlOg0K
-PiBJdCBsb29rcyB0byBtZSBsaWtlIEFSTTY0IG5lZWRzIGl0cyBvd24gZW50cnkgYWJvdmUu
-DQoNClRoYW5rIHlvdSBmb3IgcG9pbnRpbmcgdGhhdCBvdXQhDQoNCk5ldmVydGhlbGVzcywg
-dGhpcyBhcHBlYXJzIHRvIGJlIGEgZGlmZmVyZW50IHByb2JsZW0uDQoNClVwb24gcmV2aWV3
-aW5nIHRoaXMgZG9jdW1lbnQgY2FyZWZ1bGx5LCBJIGZvdW5kIHRoYXQgd2l0aGluIHRoaXMg
-ZmlsZSwgDQp0aGVyZSBhcmUgaW5kZWVkIG90aGVyIHBhcmFtZXRlcnMgd2hlcmUgIkFSTSIg
-c2hvdWxkIGJlIGNoYW5nZWQgdG8gDQoiQVJNNjQiIG9yICJBUk02NCIgc2hvdWxkIGJlIGFk
-ZGVkLg0KDQpUaGlzIGlzIGRlZmluaXRlbHkgd29ydGggcmUtdmVyaWZ5aW5nIGFuZCBzdWJt
-aXR0aW5nIHRoZSBjaGFuZ2VzIHNlcGFyYXRlbHkuDQoNClRoYW5rcywNCi0tIA0KV2FuZ1l1
-bGkNCg==
---------------t8iLN9jjEHV14tL9F7ozjhZD
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+> So, ideally, we should move to (b). For Spinx, the easiest solution
+> is just to place it under Documentation/output, but this is not
+> generic enough: ideally, we should revert patch 3 and set
+> PYTHONCACHEPREFIX when O is used. Eventually, we can apply my
+> patch for Documentation/output, while we craft such logic.
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3DUTF=
--8">
-  </head>
-  <body>
-    <p>Hi Randy,<br>
-    </p>
-    <div class=3D"moz-cite-prefix">On 2025/4/28 13:05, Randy Dunlap wrote=
-:<span
-      style=3D"white-space: pre-wrap">
-</span></div>
-    <blockquote type=3D"cite"
-      cite=3D"mid:b8ffdc7e-1b5b-41df-835e-c11a200d7dec@infradead.org">
-      <pre wrap=3D"" class=3D"moz-quote-pre">It looks to me like ARM64 ne=
-eds its own entry above.
-</pre>
-    </blockquote>
-    <p>Thank you for pointing that out!</p>
-    <p>Nevertheless, this appears to be a different problem.</p>
-    <p>Upon reviewing this document carefully, I found that within this
-      file, there are indeed other parameters where "ARM" should be
-      changed to "ARM64" or "ARM64" should be added.</p>
-    <p>This is definitely worth re-verifying and submitting the changes
-      separately.</p>
-    <div class=3D"moz-signature">Thanks,<br>
-    </div>
-    <div class=3D"moz-signature">-- <br>
-      <meta http-equiv=3D"content-type" content=3D"text/html; charset=3DU=
-TF-8">
-      WangYuli</div>
-  </body>
-</html>
+-- 
+With Best Regards,
+Andy Shevchenko
 
---------------t8iLN9jjEHV14tL9F7ozjhZD--
 
---------------RH90aBEQ6X0g71W3z0xZChr0
-Content-Type: application/pgp-keys; name="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Disposition: attachment; filename="OpenPGP_0xC5DA1F3046F40BEE.asc"
-Content-Description: OpenPGP public key
-Content-Transfer-Encoding: quoted-printable
-
------BEGIN PGP PUBLIC KEY BLOCK-----
-
-xjMEZoEsiBYJKwYBBAHaRw8BAQdAyDPzcbPnchbIhweThfNK1tg1imM+5kgDBJSK
-P+nX39DNIVdhbmdZdWxpIDx3YW5neXVsaUB1bmlvbnRlY2guY29tPsKJBBMWCAAx
-FiEEa1GMzYeuKPkgqDuvxdofMEb0C+4FAmaBLIgCGwMECwkIBwUVCAkKCwUWAgMB
-AAAKCRDF2h8wRvQL7g0UAQCH3mrGM0HzOaARhBeA/Q3AIVfhS010a0MZmPTRGVfP
-bwD/SrncJwwPAL4GiLPEC4XssV6FPUAY0rA68eNNI9cJLArOOARmgSyJEgorBgEE
-AZdVAQUBAQdA88W4CTLDD9fKwW9PB5yurCNdWNS7VTL0dvPDofBTjFYDAQgHwngE
-GBYIACAWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCZoEsiQIbDAAKCRDF2h8wRvQL
-7sKvAP4mBvm7Zn1OUjFViwkma8IGRGosXAvMUFyOHVcl1RTgFQEAuJkUo9ERi7qS
-/hbUdUgtitI89efbY0TVetgDsyeQiwU=3D
-=3DBlkq
------END PGP PUBLIC KEY BLOCK-----
-
---------------RH90aBEQ6X0g71W3z0xZChr0--
-
---------------TFjB48ibnpBza0lpiW4f2rV2--
-
---------------Hk6rtjDbqvMS3GCpq8DpmwCI
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-wnsEABYIACMWIQRrUYzNh64o+SCoO6/F2h8wRvQL7gUCaA8T1wUDAAAAAAAKCRDF2h8wRvQL7jYY
-AQCitUPQvnSZa0VYuBIv4ZMKv1iNhr9C+0JLhXVmBxrVDQD/czRR5mngvuppzfv5jbkHleiiYMJy
-HToXvJu3qA+zjQE=
-=nbo1
------END PGP SIGNATURE-----
-
---------------Hk6rtjDbqvMS3GCpq8DpmwCI--
