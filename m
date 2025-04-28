@@ -1,135 +1,139 @@
-Received: from lelvem-ot01.ext.ti.com (lelvem-ot01.ext.ti.com [198.47.23.234])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 777EA26B962;
-	Mon, 28 Apr 2025 14:29:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.47.23.234
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33354207DEE;
+	Mon, 28 Apr 2025 14:31:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745850560; cv=none; b=K9g79Fv0kcye7b2HmZsh5gE2eixUxtKCd5DZ+1a+66B33g3XCt76fv+ZoCL2P9a6BoaCxhViYtLUY8tayNTHi03ZJuKJQRNFLEKFqBgHQQyGZ5wKPs/KBxv11XmfcyevFCfN4jSeeSKS5CxDBb1ebLaFl6FspCizkDMtlKjwsV8=
+	t=1745850697; cv=none; b=UBf03MSHCaBX69Szi1Oi+CyrWV0W2OgunfJH2Th/MOiXfuW8yGMBHkg3hmeoz5vx+svEsquxIqESc/EfgGNXI3enQ166r7Gymq6jPIyw/+Ke/vKk4nlos/wwcWPxs6opIzcRulpGm+F1a31+j4QObgprPYratDXyJA5NciYk4hE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745850560; c=relaxed/simple;
-	bh=rJLdBVQbvCv+TluCWMpZ9vIsstIJLp+u2Vh5mAtrQnQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ZiRyNJiId7z+sr3EIppydHh+GXgSfaMGIzZfycpYon07OeODiKudKtqgfUGz+TnCkbaRhNsZWjoE96oawbSigjD6gcw1JHFaqhpKQXM/RueS1nIdaVyPcb4t3wOvzEyl0j7zvSW/Qw029w+GiViRVSzaStBYOt7FICnO5Qp3mwE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com; spf=pass smtp.mailfrom=ti.com; dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b=GuTa/GwU; arc=none smtp.client-ip=198.47.23.234
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=ti.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ti.com
+	s=arc-20240116; t=1745850697; c=relaxed/simple;
+	bh=NHhnqNyU+X9x0PgjbHhqdTx3NWTApQzLscPiWXWZPWU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=MmarWhr87CMJX9l+aq2aHQjQmTWbQB0TkIwi7TKiuTPtbORX796jmOqtqgSyArxk0cj7k5eNGOJhTZFYsHCbOTO1YPQDdgVB1MLd23cYSEX3rKqmyXiEPWg97z+bDXFA7VP48kDuuTM9wPAw8du0w81Wsn2GbcztkOy81oloK5Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mqPswbcY; arc=none smtp.client-ip=209.85.210.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ti.com header.i=@ti.com header.b="GuTa/GwU"
-Received: from fllv0034.itg.ti.com ([10.64.40.246])
-	by lelvem-ot01.ext.ti.com (8.15.2/8.15.2) with ESMTPS id 53SESiWF2797224
-	(version=TLSv1.2 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Mon, 28 Apr 2025 09:28:44 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-	s=ti-com-17Q1; t=1745850524;
-	bh=RBnt6oCOdXftASOE020D1oKxhactwZNgt5XQP4zEG/g=;
-	h=Date:From:To:CC:Subject:References:In-Reply-To;
-	b=GuTa/GwUemjpMPB21SqSYZEWi8J73Q9cSTDCHdOGiWTFgWJZx3Jmjo8ep6SYaL4mT
-	 Sem9HbvtdPMacM3XxfBBejYAxRVA4XBuZ5HlbmNuysJDAgvoSPgF85+JXJcbOJjq0U
-	 jpzx7fhACyOWooFH+E1/3X3luNknWIBdRuTJfFBA=
-Received: from DFLE115.ent.ti.com (dfle115.ent.ti.com [10.64.6.36])
-	by fllv0034.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 53SESivY077126
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-	Mon, 28 Apr 2025 09:28:44 -0500
-Received: from DFLE101.ent.ti.com (10.64.6.22) by DFLE115.ent.ti.com
- (10.64.6.36) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23; Mon, 28
- Apr 2025 09:28:44 -0500
-Received: from lelvsmtp5.itg.ti.com (10.180.75.250) by DFLE101.ent.ti.com
- (10.64.6.22) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.2507.23 via
- Frontend Transport; Mon, 28 Apr 2025 09:28:44 -0500
-Received: from localhost (uda0492258.dhcp.ti.com [10.24.72.113])
-	by lelvsmtp5.itg.ti.com (8.15.2/8.15.2) with ESMTP id 53SESgc4076217;
-	Mon, 28 Apr 2025 09:28:43 -0500
-Date: Mon, 28 Apr 2025 19:58:42 +0530
-From: Siddharth Vadapalli <s-vadapalli@ti.com>
-To: Andrew Lunn <andrew@lunn.ch>
-CC: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
-        "Russell King
- (Oracle)" <linux@armlinux.org.uk>,
-        "David S. Miller" <davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
-        Paolo
- Abeni <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,
-        Krzysztof Kozlowski
-	<krzk+dt@kernel.org>,
-        Conor Dooley <conor+dt@kernel.org>,
-        Andy Whitcroft
-	<apw@canonical.com>,
-        Dwaipayan Ray <dwaipayanray1@gmail.com>,
-        Lukas Bulwahn
-	<lukas.bulwahn@gmail.com>,
-        Joe Perches <joe@perches.com>, Jonathan Corbet
-	<corbet@lwn.net>,
-        Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
-	<vigneshr@ti.com>,
-        Siddharth Vadapalli <s-vadapalli@ti.com>,
-        Roger Quadros
-	<rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <netdev@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>, <linux@ew.tq-group.com>
-Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
- update descriptions of RGMII modes
-Message-ID: <8b166e41-8d21-4519-bd59-01b5ae877655@ti.com>
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
- <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
- <aAaafd8LZ3Ks-AoT@shell.armlinux.org.uk>
- <a53b5f22-d603-4b7d-9765-a1fc8571614d@lunn.ch>
- <aAe2NFFrcXDice2Z@shell.armlinux.org.uk>
- <fdc02e46e4906ba92b562f8d2516901adc85659b.camel@ew.tq-group.com>
- <9b9fc5d0-e973-4f4f-8dd5-d3896bf29093@lunn.ch>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mqPswbcY"
+Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-736ad42dfd6so4136927b3a.3;
+        Mon, 28 Apr 2025 07:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745850694; x=1746455494; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=EGHvgmXuRyhO4FY9ie5ulcZe9dpbfqVfa/omQpTJU54=;
+        b=mqPswbcYGg8sVn/7UDHvK5aAU+GEZrHkNnDthCw2icPQ7KjEovPnUlDSSW26nIykjp
+         3xfkL6dqIbtgIHkv3WIKl52NB5LTN1qLOFKc1EmAYwXzmDA/mGQDSMLPgXk7v1F1tvDR
+         HLr27MY4PvU4GsYkB6iUS85k0d/0stQ9CgAIthmj7KJjtNysqvipGUMTHciBtE1aTn73
+         tdF64fplQ/eF1E1bhJdoPZLleKFYOI8F6eay7cL7p5BrZyBl29p5+rIFNZvCqiJpnM4s
+         K4LvYxS5F6kW8HXWg00Q0kiDCNCXqxjINBaEDYCAyiDAYaLm5WT4Dbuj1ALdCsu5ioR1
+         90Ng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745850694; x=1746455494;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=EGHvgmXuRyhO4FY9ie5ulcZe9dpbfqVfa/omQpTJU54=;
+        b=GAfwMC42Fwu1G88qhvBv1DnzDqz+06qqwmL8O9oLd85jrU5h92uWGSth07FEjmiLUD
+         LzdIkzvRNY4VTECkkXKVcuaFeyKmIF68EaibMgtTitwRLXBR54Ceu6UB74H4FWa1G1yU
+         wWIy+kvkrEUIrPSHlinQUvhSOWnBgnvBhwBPDRxMaGxNKb/sPqU/hv3LsYnlvwNhqM5d
+         J5EPtUmuzJGElIsVhRzm1rgHfcadtxY4eOTcSLnE74hvMYwu3rG9+xg5cKM5GEnDDwos
+         faK9v5Qi1mSUGYyz8MwooUZHuLXThZN23zZb+tX78x7lNXJqnewp5iwmHlTocMyDbPCa
+         +u9Q==
+X-Forwarded-Encrypted: i=1; AJvYcCWSYcI9SFBjsjQJd/F76kBSvCao3Rab7Ze5snKsYFcBNP1dra4LSRuDVJ3aa3lL8v2vRVESs4JOuavMLMDfJOal@vger.kernel.org, AJvYcCXAu8L0hFaFy6HkSgEea2Of2P2V5XCSTtA7ha+mAOzxbgS4/69pT78prIMgDN3EVjxNVMUDLmRJffhk2Lg=@vger.kernel.org, AJvYcCXFGlBNqBgulh51rhVEXpvjTEe3bN3y/6FeyT+kVrF84l1XqvKGIxIjZGJG4Ag8sdzHt2Se6ZrDJ73UY14U@vger.kernel.org, AJvYcCXwk4zrlVfhX+QFR9e1qoL1JRZUWJPn6ohd5lB4s8+BL9Ga6GXtMVY9ABMmIDs2kkhfeClyIV9BGJE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwQRj8XSHfZFNsb1TeSY1/Q5S6quL+2J9VmpNHVzUtvZbNPTPeo
+	0AgPhtYhlnpMprmzy7obftqLOXbZZp3Bt78iIeHFwpI45RcSeM7D
+X-Gm-Gg: ASbGnct1HIBuunopt/7OCJSsv76rf5FyVKcjZVIMBlfRxQnOG6uvIp9ukYyWAoBEsVN
+	x1OdwNiE82L5AuAim3Lb3JCiTO8tIEKZHP5pOIoWqECDfFouWFDklB733PDm/3HVJmnLiswHcSw
+	afOmS1Iia8TyjGysmaG7LeTU8xOtpheviBJ2pqXTVgfc+amCYps3JlPF4jdq/DB4g6b8P49zOKq
+	sT2QBPOZfx9omaEDIOmyyfEoM5bzH3dUi/dKofjDvUm187/p36F+FbGC4Q0ED+gOiRyP71MmBmg
+	Jr7HdLGOaHqgDpfHfvFuoP1MDWV6d03eeeihhtNo
+X-Google-Smtp-Source: AGHT+IGZk7PlsdCZr/j/ecR8nUYCM0KRmxVw7bgRrpwVPA2oV8otwvEl5YVA/3glGzlDDrcVC80bqA==
+X-Received: by 2002:a05:6a00:114a:b0:736:a540:c9ad with SMTP id d2e1a72fcca58-73fd9047c3fmr18100251b3a.20.1745850694197;
+        Mon, 28 Apr 2025 07:31:34 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a6a995sm8016677b3a.112.2025.04.28.07.31.32
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 07:31:33 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 6E52850790E2; Mon, 28 Apr 2025 21:31:31 +0700 (WIB)
+Date: Mon, 28 Apr 2025 21:31:31 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com,
+	kevin.tian@intel.com, corbet@lwn.net, will@kernel.org
+Cc: robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
+	vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
+	jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
+	yi.l.liu@intel.com, mshavit@google.com, praan@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v2 15/22] Documentation: userspace-api: iommufd: Update
+ vCMDQ
+Message-ID: <aA-RQwyTS1m4CuPw@archie.me>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <820dfdee121292fe4cf891feb86f82ceea521e22.1745646960.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="vD4TXIxpca4CWbLZ"
 Content-Disposition: inline
-In-Reply-To: <9b9fc5d0-e973-4f4f-8dd5-d3896bf29093@lunn.ch>
-X-C2ProcessedOrg: 333ef613-75bf-4e12-a4b1-8e3623f5dcea
+In-Reply-To: <820dfdee121292fe4cf891feb86f82ceea521e22.1745646960.git.nicolinc@nvidia.com>
 
-On Mon, Apr 28, 2025 at 04:08:10PM +0200, Andrew Lunn wrote:
-> > > However, with the yaml stuff, if that is basically becoming "DT
-> > > specification" then it needs to be clearly defined what each value
-> > > actually means for the system, and not this vague airy-fairy thing
-> > > we have now.
-> 
->  
-> > I agree with Russell that it seems preferable to make it unambiguous whether
-> > delays are added on the MAC or PHY side, in particular for fine-tuning. If
-> > anything is left to the implementation, we should make the range of acceptable
-> > driver behavior very clear in the documentation.
-> 
-> I think we should try the "Informative" route first, see what the DT
-> Maintainers think when we describe in detail how Linux interprets
-> these values.
-> 
-> I don't think a whole new set of properties will solve anything. I
-> would say the core of the problem is that there are multiple ways of
-> getting a working system, many of which don't fit the DT binding. But
-> DT developers don't care about that, they are just happy when it
-> works. Adding a different set of properties won't change that.
 
-Isn't the ambiguity arising due to an incomplete description wherein we
-are not having an accurate description for the PCB Traces?
+--vD4TXIxpca4CWbLZ
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-A complete description might be something like:
+On Fri, Apr 25, 2025 at 10:58:10PM -0700, Nicolin Chen wrote:
+> +- IOMMUFD_OBJ_VCMDQ, representing a hardware queue as a subset of a vIOM=
+MU's
+> +  virtualization feature for a VM to directly execute guest-issued comma=
+nds to
+> +  invalidate HW cache entries holding the mappings or translations of a =
+guest-
+> +  owned stage-1 page table. Along with this queue object, iommufd provid=
+es the
+> +  user space an mmap interface for VMM to mmap a physical MMIO region fr=
+om the
+> +  host physical address space to a guest physical address space, to excl=
+usively
+> +  control the allocated vCMDQ HW. Thus, when allocating a vCMDQ, the VMM=
+ must
+> +  request a pair of VMA info (vm_pgoff/size) for a later mmap call. The =
+length
+> +  argument of an mmap call could be smaller than the given size for a pa=
+ritial
+> +  mmap, but the given vm_pgoff (as the addr argument of the mmap call) s=
+hould
+"... partial mmap, ..."
+> +  never be offsetted, which also implies that the mmap will always start=
+ from
+> +  the beginning of the physical MMIO region.
+> +
+=20
+Thanks.
 
-mac {
-	pcb-traces {
-		mac-to-phy-trace-delay = <X>; // Nanoseconds
-		phy-to-mac-trace-delay = <Y>; // Nanoseconds
-	};
-	phy-mode = "rgmii-*";
-	phy-handle = <&phy>;
-};
+--=20
+An old man doll... just what I always wanted! - Clara
 
-In some designs, the "mac-to-phy-trace" and the "phy-to-mac-trace" are
-treated as a part of the MAC block for example. Depending on which block
-contains the trace, the delay is added accordingly.
+--vD4TXIxpca4CWbLZ
+Content-Type: application/pgp-signature; name=signature.asc
 
-Regards,
-Siddharth.
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaA+RQwAKCRD2uYlJVVFO
+o1eFAQCh6j1PsCslXzfPWuS46AzQ1o7ZR1WP481iUjIyZLhY3QEAixFoHFuftiEx
+UNcaIuEJ2lZEhZxTyJA7ccrRXFyIfQo=
+=VsW/
+-----END PGP SIGNATURE-----
+
+--vD4TXIxpca4CWbLZ--
