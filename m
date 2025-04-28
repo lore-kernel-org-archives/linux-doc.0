@@ -1,313 +1,121 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9B6A1FE455;
-	Mon, 28 Apr 2025 11:29:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EE479E1;
+	Mon, 28 Apr 2025 11:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745839765; cv=none; b=eXta31SYnUy3+Mx50bqN4++qSHhCHldz+weSTp8fw0JVUk3R9lFKPTTfCFnQ1HA2QoaeGSvFIZ+KoCJWPF4C/2wl7FWaFiYDGOxupwAGdgk3eaQ5WPGvJpfF2VdESRs9iRUMRqWDcMQc2yFG8kv3mUMJNmfFICB4cjEElgQewd0=
+	t=1745840071; cv=none; b=OFjGn2Qz87WBNlDY4ilkmEhbSnkkGLauqHaA0M0BmIUeRB76iiOcZN1dHFmubVVcV2FyO3DkWoQNh8gV9syiJ9yxuB16q+Dh9lrGZnq9yc0DfCR0N5iEb1ao4JjW7BZPFuNnlZiuqRTV4FlQCKDTdH4X0zl0Az7iHi6Q/lLHVvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745839765; c=relaxed/simple;
-	bh=EKKMrPej81KyZGZ10QxmC8NmDUprsyN5X1Rkw22KlT0=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=QwqdcsJKJcqzeGy4fD1dpIWs5g8N9U/BB+CuM57w6YR1bAhIL6KYUZ90MOlDwqfc8leWe0iBjORNkr5vW7JULo1mjRVCpoklfa1sMIU/XXPt/SrfFSiE/viBxQgB1yGLzJW9nWqm5/umMu7AQfNVuMRdJBZz/oSNAOvjohih3uY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=eNNzABl8; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=NPvGMTUx reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="eNNzABl8";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="NPvGMTUx"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1745839761; x=1777375761;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=Cq98/zkrJ+DPiahPHTvhxm5A2xb5KjEuYB0F+q9PQvU=;
-  b=eNNzABl8Bn1SC97VcFbvE+JDuShuNTh3IVZ1JyWNqyJKwH2LUfl6tW+G
-   eZGImIlzxdk1uN3lA7eYeqn0gJM0H30f8uil7N8NBCPThpTh3ixFZNTR4
-   3l7HhSVv9tQfa+yBOwOPaLt29KHy7TSKmJ0W8/NPo4zuhJsVWwGErdO8E
-   OTcqJI/MkG/KCIWXboGyWkujKtSE6kLDpSX0KovmM3T5D952P65KurIMv
-   aGaaYvjaQ1IfclD0OFnYeLo+chSc/m20qvciGENfc4Q7mhWnGoJlnV3Uy
-   6tfzJ77GfEW1/nfJzZySi8O/uye94z8XHIgGUElb0toUgIlb06zWdJR4x
-   A==;
-X-CSE-ConnectionGUID: wGLouyhaSEatsLIy1ZkH0g==
-X-CSE-MsgGUID: xRx/UB5jRn+RqK4JZTNLEg==
-X-IronPort-AV: E=Sophos;i="6.15,246,1739833200"; 
-   d="scan'208";a="43755037"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 28 Apr 2025 13:29:17 +0200
-X-CheckPoint: {680F668D-37-DC4DC9A0-F4F29281}
-X-MAIL-CPID: 92416D2BEC79E19CE8A8E41B1ECA48D1_0
-X-Control-Analysis: str=0001.0A006371.680F6690.0071,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8BE17160FA3;
-	Mon, 28 Apr 2025 13:29:06 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1745839753;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Cq98/zkrJ+DPiahPHTvhxm5A2xb5KjEuYB0F+q9PQvU=;
-	b=NPvGMTUxtqvAJBxAqix3003M7QATS9Znq/TCO4knfN15huoSW3V5j2X4HAUThh+O9lvImv
-	V1wmEYi66zjTLA18sas9L3bNQTlrOdTSC/g4j9rA0wCvk2KIvH1JPqgBF/xLdwlcDz4Pvu
-	OBIzRlkvjL5cCF8c/sZukesxNTA3nBoEwkIMxVXAoaTin98wNnWiIIMnRWBVR+ldpkLwAE
-	SX4mXI++KhickEdMsm+Gi6NigTSJZVcldFlGVk9F5+DdPO8/IZwYs/KvtThYRnK5622URq
-	MItqRWIZGqNs0+7eD95Qasyw8jHSdRYDcBjPCUJv5CRbv1f4sHEMyO6Ff+AjKg==
-Message-ID: <fdc02e46e4906ba92b562f8d2516901adc85659b.camel@ew.tq-group.com>
-Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
- update descriptions of RGMII modes
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>, Andrew Lunn
-	 <andrew@lunn.ch>
-Cc: "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>,  Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
- <pabeni@redhat.com>, Rob Herring <robh@kernel.org>,  Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Andy Whitcroft
- <apw@canonical.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas Bulwahn
- <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Jonathan Corbet
- <corbet@lwn.net>, Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Siddharth Vadapalli <s-vadapalli@ti.com>, Roger Quadros
- <rogerq@kernel.org>, Tero Kristo <kristo@kernel.org>,
- linux-doc@vger.kernel.org,  linux-kernel@vger.kernel.org,
- netdev@vger.kernel.org, devicetree@vger.kernel.org, 
- linux-arm-kernel@lists.infradead.org, linux@ew.tq-group.com
-Date: Mon, 28 Apr 2025 13:29:06 +0200
-In-Reply-To: <aAe2NFFrcXDice2Z@shell.armlinux.org.uk>
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	 <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	 <aAaafd8LZ3Ks-AoT@shell.armlinux.org.uk>
-	 <a53b5f22-d603-4b7d-9765-a1fc8571614d@lunn.ch>
-	 <aAe2NFFrcXDice2Z@shell.armlinux.org.uk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	s=arc-20240116; t=1745840071; c=relaxed/simple;
+	bh=FaVcAOkDQ7uwALoze+whS6FNUvEv5VQAsvSJRP865wE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kxsDF+HBBalzbKh07z5PluY8f6X0IHdoUO/TLxUfHzS31IGeLF8QIRFaKf43jgHrl/RI/b57RnOg+0zbEpHAree75avU63LEzZI9Fb3QMs8Ufb/Cm4yh9wE/f/ItGfkFmZo+zPV69XUAMlfVHMA7jbw6C/59UdEko5DuixWmdJM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86fbc8717fcso1862740241.2;
+        Mon, 28 Apr 2025 04:34:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745840066; x=1746444866;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=fsMRvP1XrPCxK2127w/cMyY/iDM/irDUSUu0quMrzrc=;
+        b=ljbPT8FOGQ6KOrBp6rf7jtA8iuHpK5XxjBzb0wUTS2z1RUrJeFQsMnN6EipDEMG8HE
+         JskdxUyLNx3fEkp8M9vTw7QFE7HRR1zDqSrBQWdupT4qetV3eRyUk/ufsqIsA/xpLNBE
+         tCPmhmRl0nZZgO4oOk6941qhy8lf2bLvpJ1mgxta1RO/+igquaYF8Z6ilP84BUD7oHzv
+         pnLXJk2mHPrgCz0AU9LaaH0nWXwNUPNzIQnnOJogkjcUcRRL2+/rdEdA3WkKpU14TJoJ
+         PFRQFqlQJdRpIsKTZANpH4r5NGnSzMEtoxLeEG5opXsX9CS2timx94gsnBffqQKlNpMr
+         XIoQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGRM4tNJdskIzdV31o1S9TN/zn4QVCxYTC8NbgokTYN+iyMNSZQTBYLc5zLMYOibdZZbo/8ElD2xRK@vger.kernel.org, AJvYcCVbSEeH2zDfsap408VLGLHJ7dqhKVGLogwi9hXRYJtEGMMVIliraWq0r9lI0YqukwF9NcHh37PJsim+LwsY@vger.kernel.org, AJvYcCXVGylk6tBo3h/lDDVhrNCq+ej9tVMEV2WEWvHTpgPpJNtpOPpeJVbnFmTEt2MvVN6p/3bvwsC8XxpV@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSZ4LrLKCWnKATBnq1IlM792z1v6qEPBi09hcnyOlVRGDWraY1
+	Wqj0EA3uYX9hTgHHnYWYNecKe1FWFvGTYWCQzRg3+3M4AsqJxgDxcg/9gSSO
+X-Gm-Gg: ASbGncsxk5tibue+AHRd2UrbpGLc+mKgAzxWKzT+/mZYYxVMq08GrCb1DU1CdFo6a8n
+	e740u2w3pMnDT40PU23lko4NVXljAI70iguiWGLn3uUFKgxLh7QY/nsrpZgE5xUBWVmEnB/ybat
+	qnQ9PPsww32aIC+4jPIzPte6i8Ngdm1hSeEehhkVUhwYdiQEI4aE0ems5Uvyfs2/m1kADD4XOgC
+	6sNMXM3H0ahiRSiQdqMSalKD0iQIw+bCJ+arSefp7OW5DglviQkpyqpCfFg++tAF3umnAIdUOCU
+	tJMAxBe+74Oshu2O8Pvolxv2JDfsKoSDINixMpv8Sji2fIgBJzE7OayM6yOeNZAFKCgvC0bk9S9
+	qJ0I=
+X-Google-Smtp-Source: AGHT+IHfaT70BX2zxXzgZktIohIRVK2xc+kZRpkl955MDRlephWB5SeZ2l9b/jRw795bawp/KBTaDQ==
+X-Received: by 2002:a05:6102:3ca8:b0:4cb:5d6c:9946 with SMTP id ada2fe7eead31-4d64078d5c3mr5227035137.10.1745840065877;
+        Mon, 28 Apr 2025 04:34:25 -0700 (PDT)
+Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4d3d75bcd02sm1864502137.28.2025.04.28.04.34.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Apr 2025 04:34:25 -0700 (PDT)
+Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86fab198f8eso1852892241.1;
+        Mon, 28 Apr 2025 04:34:25 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCURgSZcYKmPUzfqfPGdhP+BonsX9OJSvUR21BdQ1zoBcmV3rb4OrgGU1latdqcFlvALHLXgZHWTV0eR@vger.kernel.org, AJvYcCUXWUcqeAUGp6f9VNceZsZ5tI16u2FSyyKJPhAfh0Qw5FXcywpR/52YkfrcKylPY69WBhoMhTn4WUUc5E8U@vger.kernel.org, AJvYcCV62RQ/2yz7HijzsKEsBv2Bkwrp7FOdt66mxqVIn2JxqlZE6HMvRoBKjesDFDNJ4YWp/YrSaDKUkPcd@vger.kernel.org
+X-Received: by 2002:a05:6102:32c6:b0:4ba:95f1:cc83 with SMTP id
+ ada2fe7eead31-4d641f67490mr4726020137.16.1745840065194; Mon, 28 Apr 2025
+ 04:34:25 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20250427082447.138359-1-trannamatk@gmail.com> <CAHp75Vch8i50stVO6nH0Tnn=g4xSMji_iPj6q-CE1tLnvesqcQ@mail.gmail.com>
+ <aA9aTjhXHb3gddd9@duo.ucw.cz>
+In-Reply-To: <aA9aTjhXHb3gddd9@duo.ucw.cz>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Mon, 28 Apr 2025 13:34:12 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVJNPRd3GMRV3=W0vsNW+fm4up-mWPOZ_W1-wQigQj8vw@mail.gmail.com>
+X-Gm-Features: ATxdqUGozfO_A0x5sTl7wTcnhEJGNjE5AoOrad-BSBsbvNUoot5qyBGVSxOijmM
+Message-ID: <CAMuHMdVJNPRd3GMRV3=W0vsNW+fm4up-mWPOZ_W1-wQigQj8vw@mail.gmail.com>
+Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix
+ LED driver
+To: Pavel Machek <pavel@ucw.cz>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Nam Tran <trannamatk@gmail.com>, andy@kernel.org, 
+	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
+	christophe.jaillet@wanadoo.fr, corbet@lwn.net, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com, 
+	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 2025-04-22 at 16:31 +0100, Russell King (Oracle) wrote:
-> ********************
-> Achtung externe E-Mail: =C3=96ffnen Sie Anh=C3=A4nge und Links nur, wenn =
-Sie wissen, dass diese aus einer sicheren Quelle stammen und sicher sind. L=
-eiten Sie die E-Mail im Zweifelsfall zur Pr=C3=BCfung an den IT-Helpdesk we=
-iter.
-> Attention external email: Open attachments and links only if you know tha=
-t they are from a secure source and are safe. In doubt forward the email to=
- the IT-Helpdesk to check it.
-> ********************
->=20
-> On Tue, Apr 22, 2025 at 05:00:37PM +0200, Andrew Lunn wrote:
-> > On Mon, Apr 21, 2025 at 08:20:29PM +0100, Russell King (Oracle) wrote:
-> > > On Tue, Apr 15, 2025 at 12:18:01PM +0200, Matthias Schiffer wrote:
-> > > > diff --git a/Documentation/devicetree/bindings/net/ethernet-control=
-ler.yaml b/Documentation/devicetree/bindings/net/ethernet-controller.yaml
-> > > > index 45819b2358002..2ddc1ce2439a6 100644
-> > > > --- a/Documentation/devicetree/bindings/net/ethernet-controller.yam=
-l
-> > > > +++ b/Documentation/devicetree/bindings/net/ethernet-controller.yam=
-l
-> > > > @@ -74,19 +74,21 @@ properties:
-> > > >        - rev-rmii
-> > > >        - moca
-> > > > =20
-> > > > -      # RX and TX delays are added by the MAC when required
-> > > > +      # RX and TX delays are part of the board design (through PCB=
- traces). MAC
-> > > > +      # and PHY must not add delays.
-> > > >        - rgmii
-> > > > =20
-> > > > -      # RGMII with internal RX and TX delays provided by the PHY,
-> > > > -      # the MAC should not add the RX or TX delays in this case
-> > > > +      # RGMII with internal RX and TX delays provided by the MAC o=
-r PHY. No
-> > > > +      # delays are included in the board design; this is the most =
-common case
-> > > > +      # in modern designs.
-> > > >        - rgmii-id
-> > > > =20
-> > > > -      # RGMII with internal RX delay provided by the PHY, the MAC
-> > > > -      # should not add an RX delay in this case
-> > > > +      # RGMII with internal RX delay provided by the MAC or PHY. T=
-X delay is
-> > > > +      # part of the board design.
-> > > >        - rgmii-rxid
-> > > > =20
-> > > > -      # RGMII with internal TX delay provided by the PHY, the MAC
-> > > > -      # should not add an TX delay in this case
-> > > > +      # RGMII with internal TX delay provided by the MAC or PHY. R=
-X delay is
-> > > > +      # part of the board design.
-> > > >        - rgmii-txid
-> > > >        - rtbi
-> > > >        - smii
-> > >=20
-> > > Sorry, but I don't think this wording improves the situation - in fac=
-t,
-> > > I think it makes the whole thing way more confusing.
-> > >=20
-> > > Scenario 1: I'm a network device driver author. I read the above, Oka=
-y,
-> > > I have a RGMII interface, but I need delays to be added. I'll detect
-> > > when RGMII-ID is used, and cause the MAC driver to add the delays, bu=
-t
-> > > still pass PHY_INTERFACE_MODE_RGMII_ID to phylib.
-> > >=20
-> > > Scenario 2: I'm writing a DT file for a board. Hmm, so if I specify
-> > > rgmii because the delays are implemented in the traces, but I need to
-> > > fine-tune them. However, the documentation says that delays must not
-> > > be added by the MAC or the PHY so how do I adjust them. I know, I'll
-> > > use rgmii-id because that allows delays!
-> > >=20
-> > > I suspect neither of these two are really want you mean, but given
-> > > this wording, that's exactly where it leads - which is more
-> > > confusion and less proper understanding.
-> >=20
-> > These DT documents are supposed to be normative and OS agnostic. I
-> > wounder what the DT Maintainers will say if we add an Informative
-> > section afterwards giving a detailed description of how Linux actually
-> > implements these normative statements? It will need to open with a
-> > clear statement that it is describing Linux behaviour, and other OSes
-> > can implement the normative part in other ways and still be compliant,
-> > but that Linux has seen a lot of broken implementations and so wants
-> > to add Informative information to guide Linux developers.
->=20
-> Well, looking at ePAPR, the only thing that was defined back then was
-> the presence of a property to describe the interface type between the
-> ethernet device and PHY. The values were left to the implementation
-> to decide upon, but with some recommendations.
->=20
-> What that means is that the values to this property are not part of
-> the DT standard, but are a matter for the implementation.
->=20
-> However, with the yaml stuff, if that is basically becoming "DT
-> specification" then it needs to be clearly defined what each value
-> actually means for the system, and not this vague airy-fairy thing
-> we have now.
->=20
-> We've learnt the hard way in the kernel where that gets us with
-> the number of back-compat breaking changes we've had to make where
-> the RGMII delays have been totally wrongly interpreted and leaving
-> it vague means that other implementations will suffer the same pain.
+Hi Pavel,
 
-I agree with Russell that it seems preferable to make it unambiguous whethe=
-r
-delays are added on the MAC or PHY side, in particular for fine-tuning. If
-anything is left to the implementation, we should make the range of accepta=
-ble
-driver behavior very clear in the documentation.
+On Mon, 28 Apr 2025 at 12:37, Pavel Machek <pavel@ucw.cz> wrote:
+> > > This patch series adds support for the TI/National Semiconductor LP5812
+> > > 4x3 matrix RGB LED driver. The driver supports features such as autonomous
+> > > animation and time-cross-multiplexing (TCM) for dynamic LED effects.
+> > >
+> > > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > > ---
+> > > Changes in v8:
+> > > - Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+> > > - Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+> > > - Move ti,lp5812.yaml binding to auxdisplay/ directory,
+> > >   and update the title and $id to match new path.
+> > > - No functional changes to the binding itself (keep Reviewed-by).
+> > > - Update commit messages and patch titles to reflect the move.
+> > > - Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+> >
+> > Out of sudden without discussing with auxdisplay maintainers/reviewers?
+> > Thanks, no.
+> > Please, put into the cover letter the meaningful summary of what's
+> > going on and why this becomes an auxdisplay issue. Brief review of the
+> > bindings sounds more likely like LEDS or PWM subsystems.
+>
+> It is 4x3 matrix. That means it is not suitable for LEDs. I don't
+> believe it is suitable for PWM, either -- yes, it is 36 PWM outputs,
+> but...
 
-Historically, there appear to exist at least 4 different ways to handle the
-RGMII modes in MAC drivers:
+Is it intended to be used as a 4x3 matrix, or is this just an internal
+wiring detail, and should it be exposed as 12 individual LEDs instead?
 
-(I'm using the terms "id" and "noid" in the following to refer to modes wit=
-h and
-without delays independently of the direction; a single driver may fall int=
-o
-different categories for the RX and TX side)
+BTW, my first guess was that you just wanted to avoid the LED
+maintainers becoming responsible for the extensive sysfs interface ;-)
 
-1) MAC ignores the mode, does not add delays, passes the mode to the PHY
-  - Mode "noid" is used when delays are added by the PCB
-  - PHY sees the same interface mode that is specified in the DT
-  - Does not match the old wording of the DT binding docs (as the MAC never=
- adds
-    delays)
+Gr{oetje,eeting}s,
 
-2) MAC adds delays in "noid" mode, passes the mode to the PHY unchanged
-  - Delays added by the PCB can only be supported via driver-specific
-    fine-tuning properties on the MAC or PHY side
-  - Without driver-specific properties, none of the modes allow for delays =
-on
-    the PCB; every mode adds delays either on the MAC or the PHY side
-  - PHY sees the same interface mode that is specified in the DT
-  - Matches the old wording of the DT binding docs (which don't allow for d=
-elays
-    added by the PCB)
+                        Geert
 
-3) MAC has a fixed delay, but also passes the interface mode unchanged to t=
-he
-  PHY (example: TX delays in TI CPSW AM65)
-  - No support for delays on the PCB due to hardware limitation
-  - PHY sees the same interface mode that is specified in the DT
-  - For the direction in which the delays are added by the MAC, you need to
-    specify "noid" in the DT even though there is an internal delay
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-4) MAC adds delays in "id" mode and fixes it up so "noid" is passed to
-  the PHY (example: TX delays in TI ICSSG)
-  - No support for delays on the PCB due to hardware limitation
-  - PHY does NOT see the same interface mode that is specified in the DT
-  - Fine-tuning options may be confusing because of the fixup
-
-Of all of these variants:
-- 1 and 2 appear to be most common in existing MAC drivers
-- 2 and maybe 3 match the old wording of the DT binding docs
-- 1, 2 and 3 pass the interface mode unchanged to the PHY
-- 1 and 4 match my proposed new wording of the DT binding docs based on And=
-rew's
-  input
-- 1 allows for designs that have a delay on the PCB without driver-specific
-  fine-tuning
-- 2 and maybe 3 and 4 allow for designs where the PHY can't add delays and =
-none
-  exist on the PCB (or there is no PHY - could be two SoCs directly connect=
-ed
-  via RGMII, or a switch IC we can't control)
-
-And of course, things become even more muddled when driver-specific propert=
-ies
-for fine-tuning etc. are involved.
-
-Any change to existing drivers will need to be made in a backwards-compatib=
-le
-way, meaning that we can't break compatibility with old Device Trees. If we
-somehow want to clean up this mess, and also support delays on the PCB, des=
-igns
-without (configurable) PHY, and unambiguously specify where delays are adde=
-d, I
-don't think the existing rgmii(-*id) modes are going to suffice. I think
-something along the lines of the following might be a possible way forward:
-
-- Introduce new DT properties to specify whether delays should be added on =
-the
-MAC or PHY side, for RX and TX independently. Could also replace some drive=
-r-
-specific fine-tuning properties.
-- In the presence of the new properties, only "rgmii" can be specified as p=
-hy-
-mode, the delays are not part of the PHY mode property anymore
-- MAC and PHY drivers must reject delay configurations they can't satisfy
-- Not specifying the new properties results in a deprecation warning on exi=
-sting
-drivers. New drivers make the new properties mandatory.
-- Not specifying the new properties causes drivers to interpret "rgmii(-*id=
-)"
-however they have done in the past to maintain backwards compatibility
-
-Implementation of the new properties would need to be done in a way that al=
-lows
-MAC and PHY drivers to be converted one by one, and to only print deprecati=
-on
-warnings asking for the DT to be fixed once the conversion has been done.
-Attempting to specify the new properties when not both MAC and PHY driver
-support them must be rejected, so the drivers gaining support for them can'=
-t
-result in a breaking change.
-
-I would be very happy to hear some feedback on these ideas - of course,
-alternative ideas that are easier to implement would be even more welcome..=
-.
-
-Best,
-Matthias
-
-
---=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
