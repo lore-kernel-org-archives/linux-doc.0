@@ -1,162 +1,245 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C607418E02A;
-	Mon, 28 Apr 2025 16:15:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F92E27B4EC;
+	Mon, 28 Apr 2025 16:17:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745856950; cv=none; b=VlTQPLEm9jf2KOoCdvJqkiMYX5WZwwezQ1OhlXA7mOyyepmEv38wVpjcd6fpuAmPqH3holDpibOBLnGzFm/zcdv3B9pAqBvaUNr0xFj3S3eghjh9e27eLslbY7tQT8WiEWk7PcdJT3PaIPtueDfuse2FrEz3PsEwXwxyGOgsjuA=
+	t=1745857049; cv=none; b=uyCeTovZNyMrHEf5DwriqEKJKz6dQ/EFyKhXfpyUXfcgsToVfqo8GEmeI9li8rlwBYeGZUlwMT3fRapAano4IZU9HjTtRQ5tw2jwQrEcH8zyTHEyioHGLA7XyjAZtkY3j9mnhQ0YHKSD2JDfvh+i317MeKQguBfl93ZDRus0toI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745856950; c=relaxed/simple;
-	bh=iqNP0hU3IjnWmgdEg95YCQHUyyxU09ifoxYOSrBliRY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Jd6/H4dCpNnZU4M9YRnI250s7I1baO3K1jNe1dfF1jDznVkTfDT+PPdrEWTfiBULLg5FbBpvqM8prCUlALkaQUL3nd+DBC22ZJHC8F8wloG+hfshUPK5ZT+QVZd6KQsTRqHN0MaIWMKZpn6tvejJA0oW71PvjOHw3inatat0vVQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=W97oK6cg; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="W97oK6cg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80881C4CEE4;
-	Mon, 28 Apr 2025 16:15:44 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745856950;
-	bh=iqNP0hU3IjnWmgdEg95YCQHUyyxU09ifoxYOSrBliRY=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=W97oK6cgtJNEwz7oFlcr70nFNj4Po9ZAS/hCsNrAudkGxxsu8wN7r5SRbb0MqaZCY
-	 k662rjsyf+P9yksDWy1s/nsOrs2LP/rHhxXa8nbjBPvqvYgo8TQELXMQ4arsKiSWpY
-	 IbcrSbi0efDBZ9wUiMc/ft/XQxflEkhvv/KB8nP8Ty7qrTJ2LxBT2JEF5HVwNiiG0T
-	 2rN7zHKP1GPzgYiqPDtVSYjL+/sEgcB15zMPScEaMtaJA22jVo1YRT5TizQjOILy+l
-	 NnQxEBJhNNsMF2EqOXYHgufBJyLyBYxI6c7UYkaciAwQi1NXYOwdslL3nvLkYlqXtd
-	 XudoKVyVepEWw==
-Date: Mon, 28 Apr 2025 17:15:42 +0100
-From: Simon Horman <horms@kernel.org>
-To: Larysa Zaremba <larysa.zaremba@intel.com>
-Cc: intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Lee Trager <lee@trager.us>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
-	Emil Tantilov <emil.s.tantilov@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Josh Hay <joshua.a.hay@intel.com>,
-	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
-	"Singhai, Anjali" <anjali.singhai@intel.com>
-Subject: Re: [PATCH iwl-next v2 01/14] virtchnl: create 'include/linux/intel'
- and move necessary header files
-Message-ID: <20250428161542.GD3339421@horms.kernel.org>
-References: <20250424113241.10061-1-larysa.zaremba@intel.com>
- <20250424113241.10061-2-larysa.zaremba@intel.com>
+	s=arc-20240116; t=1745857049; c=relaxed/simple;
+	bh=mbJCbKc75tyXUQDVnUygIHJU5BKG8LWacJZ2nHvqLHM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=b5cU02QbpzixpXTcsQgfGbQKr6wLhagFU/5PUj6hMgWCQuBwIZfOWCHinQQ8ACklTPXk4pAzU0TbnmKeZgaLNm1ZBtCNXpJsnxSzwAL4wHCLb+zP0kr4G4X0YTh0Lz/yqNU+bXbGCOdLE4Om3qDwL3A0MnVs8wuOnOCM2Yg6o1g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6B1A1007;
+	Mon, 28 Apr 2025 09:17:18 -0700 (PDT)
+Received: from [10.57.90.155] (unknown [10.57.90.155])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C39EA3F66E;
+	Mon, 28 Apr 2025 09:17:21 -0700 (PDT)
+Message-ID: <fb0d2181-4e91-4c1a-9410-8729cbba0dfe@arm.com>
+Date: Mon, 28 Apr 2025 17:17:20 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250424113241.10061-2-larysa.zaremba@intel.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RESEND PATCH v6 3/3] arm64/mm: Elide tlbi in contpte_convert()
+ under BBML2
+Content-Language: en-GB
+To: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
+ suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
+ catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org,
+ robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
+ paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
+ maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
+ oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
+ ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com,
+ jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+References: <20250428153514.55772-2-miko.lenczewski@arm.com>
+ <20250428153514.55772-8-miko.lenczewski@arm.com>
+From: Ryan Roberts <ryan.roberts@arm.com>
+In-Reply-To: <20250428153514.55772-8-miko.lenczewski@arm.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Thu, Apr 24, 2025 at 01:32:24PM +0200, Larysa Zaremba wrote:
-> From: Victor Raj <victor.raj@intel.com>
+On 28/04/2025 16:35, Mikołaj Lenczewski wrote:
+> When converting a region via contpte_convert() to use mTHP, we have two
+> different goals. We have to mark each entry as contiguous, and we would
+> like to smear the dirty and young (access) bits across all entries in
+> the contiguous block. Currently, we do this by first accumulating the
+> dirty and young bits in the block, using an atomic
+> __ptep_get_and_clear() and the relevant pte_{dirty,young}() calls,
+> performing a tlbi, and finally smearing the correct bits across the
+> block using __set_ptes().
 > 
-> Move intel specific header files into new folder
-> include/linux/intel.
+> This approach works fine for BBM level 0, but with support for BBM level
+> 2 we are allowed to reorder the tlbi to after setting the pagetable
+> entries. We expect the time cost of a tlbi to be much greater than the
+> cost of clearing and resetting the PTEs. As such, this reordering of the
+> tlbi outside the window where our PTEs are invalid greatly reduces the
+> duration the PTE are visibly invalid for other threads. This reduces the
+> likelyhood of a concurrent page walk finding an invalid PTE, reducing
+> the likelyhood of a fault in other threads, and improving performance
+> (more so when there are more threads).
 > 
-> Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
-> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> Signed-off-by: Victor Raj <victor.raj@intel.com>
-> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> Because we support via allowlist only bbml2 implementations that never
+> raise conflict aborts and instead invalidate the tlb entries
+> automatically in hardware, we can avoid the final flush altogether.
+> 
+> However, avoiding the intermediate tlbi+dsb must be carefully considered
+> to ensure that we remain both correct and performant. We document our
+> reasoning and the expected interactions further in the contpte_convert()
+> source. To do so we rely on the aarch64 spec (DDI 0487L.a D8.7.1.1)
+> requirements RNGLXZ and RJQQTC to provide guarantees that the elision is
+> correct.
+> 
+> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+
+Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+
+It would be great to see this series merged this cycle!
+
+Thanks,
+Ryan
+
 > ---
->  MAINTAINERS                                                 | 6 +++---
->  drivers/infiniband/hw/irdma/i40iw_if.c                      | 2 +-
->  drivers/infiniband/hw/irdma/main.h                          | 2 +-
->  drivers/infiniband/hw/irdma/osdep.h                         | 2 +-
->  drivers/net/ethernet/intel/i40e/i40e.h                      | 4 ++--
->  drivers/net/ethernet/intel/i40e/i40e_client.c               | 2 +-
->  drivers/net/ethernet/intel/i40e/i40e_common.c               | 2 +-
->  drivers/net/ethernet/intel/i40e/i40e_prototype.h            | 2 +-
->  drivers/net/ethernet/intel/i40e/i40e_txrx.c                 | 2 +-
->  drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.h          | 2 +-
->  drivers/net/ethernet/intel/iavf/iavf.h                      | 2 +-
->  drivers/net/ethernet/intel/iavf/iavf_common.c               | 2 +-
->  drivers/net/ethernet/intel/iavf/iavf_main.c                 | 2 +-
->  drivers/net/ethernet/intel/iavf/iavf_prototype.h            | 2 +-
->  drivers/net/ethernet/intel/iavf/iavf_txrx.c                 | 2 +-
->  drivers/net/ethernet/intel/iavf/iavf_types.h                | 4 +---
->  drivers/net/ethernet/intel/iavf/iavf_virtchnl.c             | 2 +-
->  drivers/net/ethernet/intel/ice/ice.h                        | 2 +-
->  drivers/net/ethernet/intel/ice/ice_common.h                 | 2 +-
->  drivers/net/ethernet/intel/ice/ice_idc_int.h                | 2 +-
->  drivers/net/ethernet/intel/ice/ice_txrx_lib.c               | 2 +-
->  drivers/net/ethernet/intel/ice/ice_vf_lib.h                 | 2 +-
->  drivers/net/ethernet/intel/ice/ice_virtchnl.h               | 2 +-
->  drivers/net/ethernet/intel/idpf/idpf.h                      | 2 +-
->  drivers/net/ethernet/intel/idpf/idpf_txrx.h                 | 2 +-
->  drivers/net/ethernet/intel/libie/rx.c                       | 2 +-
->  include/linux/{net => }/intel/i40e_client.h                 | 0
->  include/linux/{net => }/intel/iidc.h                        | 0
->  include/linux/{net => }/intel/libie/rx.h                    | 0
->  include/linux/{avf => intel}/virtchnl.h                     | 0
->  .../ethernet/intel/idpf => include/linux/intel}/virtchnl2.h | 0
->  .../intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h | 0
->  32 files changed, 29 insertions(+), 31 deletions(-)
->  rename include/linux/{net => }/intel/i40e_client.h (100%)
->  rename include/linux/{net => }/intel/iidc.h (100%)
->  rename include/linux/{net => }/intel/libie/rx.h (100%)
->  rename include/linux/{avf => intel}/virtchnl.h (100%)
->  rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2.h (100%)
->  rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h (100%)
+>  arch/arm64/mm/contpte.c | 139 +++++++++++++++++++++++++++++++++++++++-
+>  1 file changed, 138 insertions(+), 1 deletion(-)
 > 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 657a67f9031e..2e2a57dfea8f 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11884,8 +11884,8 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
->  F:	Documentation/networking/device_drivers/ethernet/intel/
->  F:	drivers/net/ethernet/intel/
->  F:	drivers/net/ethernet/intel/*/
-> -F:	include/linux/avf/virtchnl.h
-> -F:	include/linux/net/intel/iidc.h
-> +F:	include/linux/intel/iidc.h
-> +F:	include/linux/intel/virtchnl.h
-
-I'm not sure that I understand the motivation for moving files out of
-include/linux/net, but I guess the answer is that my suggestion, which
-would be to move files into include/linux/net, is somehow less good.
-
-But if file are moving out of include/linux/net then I think it would
-make sense to make a corresponding update to NETWORKING DRIVERS.
-
-Also, include/linux/intel, does feel a bit too general. These files
-seem to relate to NICs (of some sort of flavour or another). But Intel
-does a lot more than make NICs.
-
+> diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
+> index bcac4f55f9c1..203357061d0a 100644
+> --- a/arch/arm64/mm/contpte.c
+> +++ b/arch/arm64/mm/contpte.c
+> @@ -68,7 +68,144 @@ static void contpte_convert(struct mm_struct *mm, unsigned long addr,
+>  			pte = pte_mkyoung(pte);
+>  	}
 >  
->  INTEL ETHERNET PROTOCOL DRIVER FOR RDMA
->  M:	Mustafa Ismail <mustafa.ismail@intel.com>
-> @@ -13534,7 +13534,7 @@ L:	netdev@vger.kernel.org
->  S:	Maintained
->  T:	git https://github.com/alobakin/linux.git
->  F:	drivers/net/ethernet/intel/libie/
-> -F:	include/linux/net/intel/libie/
-> +F:	include/linux/intel/libie/
->  K:	libie
+> -	__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
+> +	/*
+> +	 * On eliding the __tlb_flush_range() under BBML2+noabort:
+> +	 *
+> +	 * NOTE: Instead of using N=16 as the contiguous block length, we use
+> +	 *       N=4 for clarity.
+> +	 *
+> +	 * NOTE: 'n' and 'c' are used to denote the "contiguous bit" being
+> +	 *       unset and set, respectively.
+> +	 *
+> +	 * We worry about two cases where contiguous bit is used:
+> +	 *  - When folding N smaller non-contiguous ptes as 1 contiguous block.
+> +	 *  - When unfolding a contiguous block into N smaller non-contiguous ptes.
+> +	 *
+> +	 * Currently, the BBML0 folding case looks as follows:
+> +	 *
+> +	 *  0) Initial page-table layout:
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |RO,n|RO,n|RO,n|RW,n| <--- last page being set as RO
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  1) Aggregate AF + dirty flags using __ptep_get_and_clear():
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |  0 |  0 |  0 |  0 |
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  2) __flush_tlb_range():
+> +	 *
+> +	 *   |____ tlbi + dsb ____|
+> +	 *
+> +	 *  3) __set_ptes() to repaint contiguous block:
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |RO,c|RO,c|RO,c|RO,c|
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  4) The kernel will eventually __flush_tlb() for changed page:
+> +	 *
+> +	 *                  |____| <--- tlbi + dsb
+> +	 *
+> +	 * As expected, the intermediate tlbi+dsb ensures that other PEs
+> +	 * only ever see an invalid (0) entry, or the new contiguous TLB entry.
+> +	 * The final tlbi+dsb will always throw away the newly installed
+> +	 * contiguous TLB entry, which is a micro-optimisation opportunity,
+> +	 * but does not affect correctness.
+> +	 *
+> +	 * In the BBML2 case, the change is avoiding the intermediate tlbi+dsb.
+> +	 * This means a few things, but notably other PEs will still "see" any
+> +	 * stale cached TLB entries. This could lead to a "contiguous bit
+> +	 * misprogramming" issue until the final tlbi+dsb of the changed page,
+> +	 * which would clear out both the stale (RW,n) entry and the new (RO,c)
+> +	 * contiguous entry installed in its place.
+> +	 *
+> +	 * What this is saying, is the following:
+> +	 *
+> +	 *  +----+----+----+----+
+> +	 *  |RO,n|RO,n|RO,n|RW,n| <--- old page tables, all non-contiguous
+> +	 *  +----+----+----+----+
+> +	 *
+> +	 *  +----+----+----+----+
+> +	 *  |RO,c|RO,c|RO,c|RO,c| <--- new page tables, all contiguous
+> +	 *  +----+----+----+----+
+> +	 *   /\
+> +	 *   ||
+> +	 *
+> +	 *  If both the old single (RW,n) and new contiguous (RO,c) TLB entries
+> +	 *  are present, and a write is made to this address, do we fault or
+> +	 *  is the write permitted (via amalgamation)?
+> +	 *
+> +	 * The relevant Arm ARM DDI 0487L.a requirements are RNGLXZ and RJQQTC,
+> +	 * and together state that when BBML1 or BBML2 are implemented, either
+> +	 * a TLB conflict abort is raised (which we expressly forbid), or will
+> +	 * "produce an OA, access permissions, and memory attributes that are
+> +	 * consistent with any of the programmed translation table values".
+> +	 *
+> +	 * That is to say, will either raise a TLB conflict, or produce one of
+> +	 * the cached TLB entries, but never amalgamate.
+> +	 *
+> +	 * Thus, as the page tables are only considered "consistent" after
+> +	 * the final tlbi+dsb (which evicts both the single stale (RW,n) TLB
+> +	 * entry as well as the new contiguous (RO,c) TLB entry), omitting the
+> +	 * initial tlbi+dsb is correct.
+> +	 *
+> +	 * It is also important to note that at the end of the BBML2 folding
+> +	 * case, we are still left with potentially all N TLB entries still
+> +	 * cached (the N-1 non-contiguous ptes, and the single contiguous
+> +	 * block). However, over time, natural TLB pressure will cause the
+> +	 * non-contiguous pte TLB entries to be flushed, leaving only the
+> +	 * contiguous block TLB entry. This means that omitting the tlbi+dsb is
+> +	 * not only correct, but also keeps our eventual performance benefits.
+> +	 *
+> +	 * For the unfolding case, BBML0 looks as follows:
+> +	 *
+> +	 *  0) Initial page-table layout:
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |RW,c|RW,c|RW,c|RW,c| <--- last page being set as RO
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  1) Aggregate AF + dirty flags using __ptep_get_and_clear():
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |  0 |  0 |  0 |  0 |
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  2) __flush_tlb_range():
+> +	 *
+> +	 *   |____ tlbi + dsb ____|
+> +	 *
+> +	 *  3) __set_ptes() to repaint as non-contiguous:
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |RW,n|RW,n|RW,n|RW,n|
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  4) Update changed page permissions:
+> +	 *
+> +	 *   +----+----+----+----+
+> +	 *   |RW,n|RW,n|RW,n|RO,n| <--- last page permissions set
+> +	 *   +----+----+----+----+
+> +	 *
+> +	 *  5) The kernel will eventually __flush_tlb() for changed page:
+> +	 *
+> +	 *                  |____| <--- tlbi + dsb
+> +	 *
+> +	 * For BBML2, we again remove the intermediate tlbi+dsb. Here, there
+> +	 * are no issues, as the final tlbi+dsb covering the changed page is
+> +	 * guaranteed to remove the original large contiguous (RW,c) TLB entry,
+> +	 * as well as the intermediate (RW,n) TLB entry; the next access will
+> +	 * install the new (RO,n) TLB entry and the page tables are only
+> +	 * considered "consistent" after the final tlbi+dsb, so software must
+> +	 * be prepared for this inconsistency prior to finishing the mm dance
+> +	 * regardless.
+> +	 */
+> +
+> +	if (!system_supports_bbml2_noabort())
+> +		__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
 >  
->  LIBNVDIMM BTT: BLOCK TRANSLATION TABLE
+>  	__set_ptes(mm, start_addr, start_ptep, pte, CONT_PTES);
+>  }
 
-...
