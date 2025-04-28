@@ -1,69 +1,71 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6823425DCFB
-	for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 08:19:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 797C71FECB4;
+	Mon, 28 Apr 2025 09:22:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745828357; cv=none; b=kXvBtt0/lBYyakgEZgyeCJ8+vHseLf96zdsFc9GFqYKUY3fc1kwOchVbxsK7V+shIGREnk6+J9nBEZZI4WsNoL88h7JPqnXECY0W25uu2zAPOK+F3k0o6VPr0QawS9o55EsXPdIL0BMIWPZM+8qhZk59axnEtAZMW/o+pCOEiC0=
+	t=1745832167; cv=none; b=WFk/DuUhv7GAJSFzlRpvDz4IhfFH392ZK1QHdqRGNA53JF8e5Jg0kjRVRyZnx6r/Cd3Dk1LC0CSiVU/ecwY34nnna+al0VVj9v21E4pRFH2E8gY80ukIm6zNtZ6vUjG5PAdmhMZqS8UGk6qVS3MmEUhq3hfMH0Th7cU40kR7k3g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745828357; c=relaxed/simple;
-	bh=0sGaXTtD20xzhNz4rmeWyme7BvH88i16MX9d4W1Y3CQ=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LNvCHGMNT+9vEKyF453oVpBORQKFAZqFw6hcQc+r/54GrqPCrhEnc+9Ols6JgXZTJldMEY/pZ5mGI/Fi41rGG0jKLG1+MBnsw7h9N5tbaOAmcW4HWOX+SP2Uug1aCojDxRfhgRtx+7jR1VgyoqS7+0UysjOgzW9nbnSSez2291w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=mFJK0/iX; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1745832167; c=relaxed/simple;
+	bh=+JZhbba6Y94p5DrBaAJ0+6gqrs2ChpJomt6vlounvho=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=TXm1ub3OYgQXy6WsrT23q5KR0YQAmtxMF5zqSd4u6So0rPUgq0TNhI3VznkWaDBMT5WVv1bsRIBMhRlKgrHQvL39afzlF9r/tgo4kdg3fZwfYsLTsi3y6D1eJFfZek2+o8kvwpizgBBCeRuf3+cT7kEzXBbvXYnjIxYGjImZf6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L3HAKl3o; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="mFJK0/iX"
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1745828349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Fg/btEvaUcqT4NM4dYYa4R9u9WjGLVmndHIgtbzlFXc=;
-	b=mFJK0/iXSOt5fj3xjadJLjSr81Jzb3GynBBFsr5KHqT0x5plfJlh+zMBgV6u+BWLX6J/on
-	Z1DQYEu83m7V578FTrWJZp3poMihriyfGZvrhL3orFlBxG7S2JNcZZI4eCKIVrvRQeXBfN
-	tQVSe3DLCCJKPkD/jCVFYI8t/3rq36M=
-From: Jiayuan Chen <jiayuan.chen@linux.dev>
-To: bpf@vger.kernel.org
-Cc: mrpre@163.com,
-	Jiayuan Chen <jiayuan.chen@linux.dev>,
-	Alexei Starovoitov <ast@kernel.org>,
-	Daniel Borkmann <daniel@iogearbox.net>,
-	Andrii Nakryiko <andrii@kernel.org>,
-	Martin KaFai Lau <martin.lau@linux.dev>,
-	Eduard Zingerman <eddyz87@gmail.com>,
-	Song Liu <song@kernel.org>,
-	Yonghong Song <yonghong.song@linux.dev>,
-	John Fastabend <john.fastabend@gmail.com>,
-	KP Singh <kpsingh@kernel.org>,
-	Stanislav Fomichev <sdf@fomichev.me>,
-	Hao Luo <haoluo@google.com>,
-	Jiri Olsa <jolsa@kernel.org>,
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L3HAKl3o"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB19FC4CEE9;
+	Mon, 28 Apr 2025 09:22:45 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745832166;
+	bh=+JZhbba6Y94p5DrBaAJ0+6gqrs2ChpJomt6vlounvho=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L3HAKl3oxYp9ViZOT2gWLHXwJ+u36OWmAs8LS5VBGRfJxKvy5NC5yJr7YsNwlgGGS
+	 MLBspboMpGjITWJIcTBNcp6LcPaEkm5XiPNilr+4gLacsrsWQ1MRW+eI5f1AsgWmNp
+	 nvCqmAxpxtB25cHGYQbvnI/NFQQ8aMyCrpTUyW/L59P1JPrYmpwbN5iikoKaLHNQlC
+	 6/c0N/dYulh+hxBW16Pz7WcPPnU9PVcgtWPElEoO8f4L965rNh3s7GOuUZ1Xv+Gzcb
+	 nkYnWFrknpIV+0wlW3vXgylx9WDQ+mt12psyVlQ/1YP5AUSRb2Nxa+sHaFuzM8wiIm
+	 xdZgUvlls6wUQ==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>
+Cc: Jake Edge <jake@lwn.net>,
 	Jonathan Corbet <corbet@lwn.net>,
-	Jakub Sitnicki <jakub@cloudflare.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>,
-	Simon Horman <horms@kernel.org>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Willem de Bruijn <willemb@google.com>,
-	Mykola Lysenko <mykolal@fb.com>,
-	Shuah Khan <shuah@kernel.org>,
-	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-kselftest@vger.kernel.org
-Subject: [PATCH bpf-next v1 3/3] selftest/bpf/benchs: Add cpu-affinity for sockmap bench
-Date: Mon, 28 Apr 2025 16:16:54 +0800
-Message-ID: <20250428081744.52375-4-jiayuan.chen@linux.dev>
-In-Reply-To: <20250428081744.52375-1-jiayuan.chen@linux.dev>
-References: <20250428081744.52375-1-jiayuan.chen@linux.dev>
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH v10 00/24] Provide a new two step DMA mapping API
+Date: Mon, 28 Apr 2025 12:22:06 +0300
+Message-ID: <cover.1745831017.git.leon@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -71,163 +73,217 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-Add cpu-affinity for sockmap bench. Also add no-verify args to avoid
-validating data for performance enhancements.
+Following recent on site LSF/MM 2025 [1] discussion, the overall
+response was extremely positive with many people expressed their
+desire to see this series merged, so they can base their work on it.
 
-Signed-off-by: Jiayuan Chen <jiayuan.chen@linux.dev>
----
- .../selftests/bpf/benchs/bench_sockmap.c      | 35 +++++++++++++++++--
- tools/testing/selftests/bpf/bpf_kfuncs.h      |  6 ++++
- .../selftests/bpf/progs/bench_sockmap_prog.c  |  7 ++++
- 3 files changed, 45 insertions(+), 3 deletions(-)
+It includes, but not limited:
+ * Luis's "nvme-pci: breaking the 512 KiB max IO boundary":
+   https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+ * Chuck's NFS conversion to use one structure (bio_vec) for all types
+   of RPC transports:
+   https://lore.kernel.org/all/913df4b4-fc4a-409d-9007-088a3e2c8291@oracle.com
+ * Matthew's vision for the world without struct page:
+   https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+ * Confidential computing roadmap from Dan:
+   https://lore.kernel.org/all/6801a8e3968da_71fe29411@dwillia2-xfh.jf.intel.com.notmuch
 
-diff --git a/tools/testing/selftests/bpf/benchs/bench_sockmap.c b/tools/testing/selftests/bpf/benchs/bench_sockmap.c
-index 8ebf563a67a2..e004a618822a 100644
---- a/tools/testing/selftests/bpf/benchs/bench_sockmap.c
-+++ b/tools/testing/selftests/bpf/benchs/bench_sockmap.c
-@@ -43,6 +43,8 @@ enum SOCKMAP_ARG_FLAG {
- 	ARG_FW_TX_VERDICT_INGRESS,
- 	ARG_FW_TX_VERDICT_EGRESS,
- 	ARG_CTL_RX_STRP,
-+	ARG_CTL_CPU_AFFINITY,
-+	ARG_CTL_NO_VERIFY,
- 	ARG_CONSUMER_DELAY_TIME,
- 	ARG_PRODUCER_DURATION,
- };
-@@ -109,6 +111,8 @@ static struct socmap_ctx {
- 	int		delay_consumer;
- 	int		prod_run_time;
- 	int		strp_size;
-+	int		cpu_affinity;
-+	int		skip_verify;
- } ctx = {
- 	.prod_send	= 0,
- 	.user_read	= 0,
-@@ -118,6 +122,8 @@ static struct socmap_ctx {
- 	.delay_consumer = 0,
- 	.prod_run_time	= 0,
- 	.strp_size	= 0,
-+	.cpu_affinity	= 0,
-+	.skip_verify	= 0,
- };
- 
- static void bench_sockmap_prog_destroy(void)
-@@ -235,11 +241,18 @@ static int create_sockets(void)
- static void validate(void)
- {
- 	if (env.consumer_cnt != 2 || env.producer_cnt != 1 ||
--	    !env.affinity)
-+	    !env.affinity) {
-+		fprintf(stderr, "argument '-c 2 -p 1 -a' is necessary\n");
- 		goto err;
-+	}
-+
-+	if (!ctx.cpu_affinity && env.nr_cpus < 4) {
-+		fprintf(stderr, "4 CPU are needed to test cpu-affinity\n");
-+		goto err;
-+	}
-+
- 	return;
- err:
--	fprintf(stderr, "argument '-c 2 -p 1 -a' is necessary");
- 	exit(1);
- }
- 
-@@ -327,6 +340,9 @@ static void setup(void)
- 		exit(1);
- 	}
- 
-+	if (ctx.cpu_affinity)
-+		ctx.skel->data->redir_cpu = 3;
-+
- 	if (create_sockets()) {
- 		fprintf(stderr, "create_net_mode error\n");
- 		goto err;
-@@ -367,9 +383,12 @@ static void measure(struct bench_res *res)
- 
- static void verify_data(int *check_pos, char *buf, int rcv)
- {
-+	if (ctx.skip_verify)
-+		return;
-+
- 	for (int i = 0 ; i < rcv; i++) {
- 		if (buf[i] != snd_data[(*check_pos) % DATA_REPEAT_SIZE]) {
--			fprintf(stderr, "verify data fail");
-+			fprintf(stderr, "verify data fail\n");
- 			exit(1);
- 		}
- 		(*check_pos)++;
-@@ -553,6 +572,10 @@ static const struct argp_option opts[] = {
- 		"delay consumer start"},
- 	{ "producer-duration", ARG_PRODUCER_DURATION, "SEC", 0,
- 		"producer duration"},
-+	{ "cpu-affinity", ARG_CTL_CPU_AFFINITY, NULL, 0,
-+		"set cpu-affinity for sockmap backlog thread"},
-+	{ "no-verify", ARG_CTL_NO_VERIFY, NULL, 0,
-+		"skip data validation for performance enhancements"},
- 	{},
- };
- 
-@@ -571,6 +594,12 @@ static error_t parse_arg(int key, char *arg, struct argp_state *state)
- 	case ARG_CTL_RX_STRP:
- 		ctx.strp_size = strtol(arg, NULL, 10);
- 		break;
-+	case ARG_CTL_CPU_AFFINITY:
-+		ctx.cpu_affinity = 1;
-+		break;
-+	case ARG_CTL_NO_VERIFY:
-+		ctx.skip_verify = 1;
-+		break;
- 	default:
- 		return ARGP_ERR_UNKNOWN;
- 	}
-diff --git a/tools/testing/selftests/bpf/bpf_kfuncs.h b/tools/testing/selftests/bpf/bpf_kfuncs.h
-index 8215c9b3115e..173329c5d034 100644
---- a/tools/testing/selftests/bpf/bpf_kfuncs.h
-+++ b/tools/testing/selftests/bpf/bpf_kfuncs.h
-@@ -92,4 +92,10 @@ extern int bpf_set_dentry_xattr(struct dentry *dentry, const char *name__str,
- 				const struct bpf_dynptr *value_p, int flags) __ksym __weak;
- extern int bpf_remove_dentry_xattr(struct dentry *dentry, const char *name__str) __ksym __weak;
- 
-+/* Description
-+ *  Set sockmap redir cpu
-+ * Returns
-+ *  Error code
-+ */
-+extern int bpf_sk_skb_set_redirect_cpu(struct __sk_buff *skb, int redir_cpu) __ksym;
- #endif
-diff --git a/tools/testing/selftests/bpf/progs/bench_sockmap_prog.c b/tools/testing/selftests/bpf/progs/bench_sockmap_prog.c
-index 079bf3794b3a..dd1a11cb4f48 100644
---- a/tools/testing/selftests/bpf/progs/bench_sockmap_prog.c
-+++ b/tools/testing/selftests/bpf/progs/bench_sockmap_prog.c
-@@ -2,11 +2,15 @@
- #include <linux/bpf.h>
- #include <bpf/bpf_helpers.h>
- #include <bpf/bpf_endian.h>
-+#include <stdbool.h>
-+#include "bpf_kfuncs.h"
- 
- long process_byte = 0;
- int  verdict_dir = 0;
- int  dropped = 0;
- int  pkt_size = 0;
-+int  redir_cpu = -1;
-+
- struct {
- 	__uint(type, BPF_MAP_TYPE_SOCKMAP);
- 	__uint(max_entries, 20);
-@@ -33,6 +37,9 @@ int prog_skb_verdict(struct __sk_buff *skb)
- 	int one = 1;
- 	int ret =  bpf_sk_redirect_map(skb, &sock_map_rx, one, verdict_dir);
- 
-+	if (redir_cpu != -1)
-+		bpf_sk_skb_set_redirect_cpu(skb, redir_cpu);
-+
- 	if (ret == SK_DROP)
- 		dropped++;
- 	__sync_fetch_and_add(&process_byte, skb->len);
+This series is combination of effort of many people who contributed ideas,
+code and testing and I'm gratefully thankful for them.
+
+[1] https://lore.kernel.org/linux-rdma/20250122071600.GC10702@unreal/
+-----------------------------------------------------------------------
+Changelog:
+v10:
+ * Rebased on top v6.15-rc3
+ * Added Luis's tags
+ * Addressed review comments from Luis about DMA patches
+ * Removed segment size check from single-segment SGL optimization code
+ * Changed NVMe unmap data code as was suggested by Christoph
+v9: https://lore.kernel.org/all/cover.1745394536.git.leon@kernel.org/
+ * Added tested-by from Jens.
+ * Replaced is_pci_p2pdma_page(bv.bv_page) check with if
+   "(IS_ENABLED(CONFIG_PCI_P2PDMA) && (req->cmd_flags & REQ_P2PDMA))"
+   which is more aligned with the goal (do not access struct page) and
+   more efficient. This is the one line only that was changed in Jens's
+   performance testing flow, so I kept his tags as is.
+ * Restored single-segment optimization for SGL path.
+ * Added forgotten unmap of metdata SGL multi-segment flow.
+ * Split and squashed optimization patch from Kanchan.
+ * Converted "bool aborted" flag to use newly introduced flag variable.
+v8: https://lore.kernel.org/all/cover.1744825142.git.leon@kernel.org/
+ * Rebased to v6.15-rc1
+ * Added NVMe patches which are now patches and not RFC. They were in
+   RFC stage because block iterator caused to performance regression
+   for very extreme case scenario (~100M IOPS), but after Kanchan fixed
+   it, the code started to be ready for merging.
+ * @Niklas, i didn't change naming in this series as it follows iommu
+   naming format.
+v7: https://lore.kernel.org/all/cover.1738765879.git.leonro@nvidia.com/
+ * Rebased to v6.14-rc1
+v6: https://lore.kernel.org/all/cover.1737106761.git.leon@kernel.org
+ * Changed internal __size variable to u64 to properly set private flag
+   in most significant bit.
+ * Added comment about why we check DMA_IOVA_USE_SWIOTLB
+ * Break unlink loop if phys is NULL, condition which we shouldn't get.
+v5: https://lore.kernel.org/all/cover.1734436840.git.leon@kernel.org
+ * Trimmed long lines in all patches.
+ * Squashed "dma-mapping: Add check if IOVA can be used" into
+   "dma: Provide an interface to allow allocate IOVA" patch.
+ * Added tags from Christoph and Will.
+ * Fixed spelling/grammar errors.
+ * Change title from "dma: Provide an  ..." to be "dma-mapping: Provide
+   an ...".
+ * Slightly changed hmm patch to set sticky flags in one place.
+v4: https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org
+ * Added extra patch to add kernel-doc for iommu_unmap and iommu_unmap_fast
+ * Rebased to v6.13-rc1
+ * Added Will's tags
+v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
+ * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
+ * Fixed error unwind if dma_iova_sync fails in HMM.
+ * Clear all PFN flags which were set in map to make code.
+   more clean, the callers anyway cleaned them.
+ * Generalize sticky PFN flags logic in HMM.
+ * Removed not-needed #ifdef-#endif section.
+v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
+ * Fixed docs file as Randy suggested
+ * Fixed releases of memory in HMM path. It was allocated with kv..
+   variants but released with kfree instead of kvfree.
+ * Slightly changed commit message in VFIO patch.
+v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
+
+----------------------------------------------------------------------------
+ LWN coverage:
+Dancing the DMA two-step - https://lwn.net/Articles/997563/
+----------------------------------------------------------------------------
+
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
+
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the
+impossibility of improving the scatterlist.
+
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO, rlist), instead split up the DMA API
+to allow callers to bring their own data structure.
+
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
+
+In this series, examples of three different users are converted to the new API
+to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
+
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
+
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes.
+
+The whole series can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-Apr-27
+
+Thanks
+
+Christoph Hellwig (12):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
+  block: share more code for bio addition helper
+  block: don't merge different kinds of P2P transfers in a single bio
+  blk-mq: add scatterlist-less DMA mapping helpers
+  nvme-pci: remove struct nvme_descriptor
+  nvme-pci: use a better encoding for small prp pool allocations
+  nvme-pci: convert to blk_rq_dma_map
+
+Leon Romanovsky (12):
+  iommu: add kernel-doc for iommu_unmap_fast
+  dma-mapping: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+  mm/hmm: let users to tag specific PFN with DMA mapped bit
+  mm/hmm: provide generic DMA managing logic
+  RDMA/umem: Store ODP access mask information in PFN
+  RDMA/core: Convert UMEM ODP DMA mapping to caching IOVA and page
+    linkage
+  RDMA/umem: Separate implicit ODP initialization from explicit ODP
+  vfio/mlx5: Explicitly use number of pages instead of allocated length
+  vfio/mlx5: Rewrite create mkey flow to allow better code reuse
+  vfio/mlx5: Enable the DMA link API
+  nvme-pci: store aborted state in flags variable
+
+ Documentation/core-api/dma-api.rst   |  71 +++
+ block/bio.c                          |  83 ++--
+ block/blk-merge.c                    | 180 ++++++-
+ drivers/infiniband/core/umem_odp.c   | 252 ++++------
+ drivers/infiniband/hw/mlx5/mlx5_ib.h |  12 +-
+ drivers/infiniband/hw/mlx5/odp.c     |  65 ++-
+ drivers/infiniband/hw/mlx5/umr.c     |  12 +-
+ drivers/infiniband/sw/rxe/rxe_odp.c  |  18 +-
+ drivers/iommu/dma-iommu.c            | 482 +++++++++++++++---
+ drivers/iommu/iommu.c                |  84 ++--
+ drivers/nvme/host/pci.c              | 699 +++++++++++++++------------
+ drivers/pci/p2pdma.c                 |  38 +-
+ drivers/vfio/pci/mlx5/cmd.c          | 375 +++++++-------
+ drivers/vfio/pci/mlx5/cmd.h          |  35 +-
+ drivers/vfio/pci/mlx5/main.c         |  87 ++--
+ include/linux/blk-mq-dma.h           |  63 +++
+ include/linux/blk_types.h            |   2 +
+ include/linux/dma-map-ops.h          |  54 ---
+ include/linux/dma-mapping.h          |  85 ++++
+ include/linux/hmm-dma.h              |  33 ++
+ include/linux/hmm.h                  |  24 +-
+ include/linux/iommu.h                |   4 +
+ include/linux/pci-p2pdma.h           |  85 ++++
+ include/rdma/ib_umem_odp.h           |  25 +-
+ kernel/dma/direct.c                  |  44 +-
+ kernel/dma/mapping.c                 |  18 +
+ mm/hmm.c                             | 263 +++++++++-
+ 27 files changed, 2115 insertions(+), 1078 deletions(-)
+ create mode 100644 include/linux/blk-mq-dma.h
+ create mode 100644 include/linux/hmm-dma.h
+
 -- 
-2.47.1
+2.49.0
 
