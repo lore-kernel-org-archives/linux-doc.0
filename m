@@ -1,145 +1,218 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
+Received: from out-182.mta0.migadu.com (out-182.mta0.migadu.com [91.218.175.182])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C34F982866;
-	Mon, 28 Apr 2025 07:35:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3031233145;
+	Mon, 28 Apr 2025 08:18:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745825727; cv=none; b=Ote06Oc9hPQTPUe+sdDwFyR0iBnRa14kczG/dt696pn5bUkDgmvj8hCJQ6RgDC4fHyFNxMijLOfB0lBdvuPJsrYyFwSe3XRfIcoBOJi9trNtSDOBU3nG7PGtwkqfdPwWRxqkhenzsMDs8goIL9qBBp+vaNo3DI+Kw53lp+1mbM4=
+	t=1745828294; cv=none; b=dSpNL7IWeWPy4GZNpK0ujIRK0njXJ1/I3jonLaRQexwSuHKW3IMmHC7eNIYLdMdZpd99Flmm0c7GlrVVwXpoNLvkxhUngmAqf6yRsrU6SBZxW2zYtUWLXFjfUx5Zts0mUBZpIOZM32bPvu0h8u8MTFLWWst30GzHmdDnGc7y2XA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745825727; c=relaxed/simple;
-	bh=mxdki93guRrPUqMnNg4vPPRG6mXLaz09PPXd+0S8V6E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YLNibOVDvuxfTln550qTIflM5NkQJdaA377rYCqE+t9pDfcI8zov/LX7KDP+xIAaJe06CWFaUr+hGRLe4eZJzGELL+EM7aXniM4Hi3jwe2gHQ4wQ6K9xrpideK6/3Mp6wm7CZUDTMk06Xb64w1k+Ngxo/3AdyLLsD96RFXZ4lGE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=K/o+5q3/; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745828294; c=relaxed/simple;
+	bh=5MTSD89uQLdxjOEDGtXfl6lZjRZyJgPaZgvbDOijRMY=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=AfDtf2Kmuz3Ftv8Hrfd5pRu02Q9hLLIfm54w5b9uTicHEc4xB2cgn85bjIx1Nbw/OFnj4A5Cz4mL3NQ519raBjO5Yuf9r3NKIoJlX/bxkVdt+tBq+rUaR2uwv+DFhqpizI8v+gO/ot/MmYrRowFYkUCb2Zac5SCA937mw5HyQQE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=XLXd+Bzg; arc=none smtp.client-ip=91.218.175.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="K/o+5q3/"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745825726; x=1777361726;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=mxdki93guRrPUqMnNg4vPPRG6mXLaz09PPXd+0S8V6E=;
-  b=K/o+5q3/oZSZ9H2GvLBUCgsdkIhrr7HyGZSiYuhvZJpMHF61piITfezC
-   6PTJXhm/EY6HscEGeMpWku0d+EylG+7DAqiUE6HxhQe2bFtraR4hhnU0P
-   M0t3goahERIA3ioUvKmqQwAbF8WIG4y07OyuhUoxZ16mUlcrjwX8ME7ug
-   lX6LJFk3Spn6IJQTbsvlXDr3gdeeJfL32PZYtewemEbYYWqTk6ZVNg4hG
-   /K3BNFt+/4drPHLb9vbPtW5iMNDfhg8stsijFlNe0Kkjxdh2AkC4tZWmZ
-   AJvA2QpWUS+/fXtrmwgITvjzjfgW4ualidysPT9mJn8HiOxsfElkk4lUI
-   Q==;
-X-CSE-ConnectionGUID: jcHnSpGGT5G2SK6lT6dfAA==
-X-CSE-MsgGUID: pY3iLgfvTimKgtxNqFkubg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11416"; a="50058862"
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="50058862"
-Received: from fmviesa003.fm.intel.com ([10.60.135.143])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:35:24 -0700
-X-CSE-ConnectionGUID: tFG6ORSjTd2nkwZlwgLrJA==
-X-CSE-MsgGUID: vdPhjXp7RgOB/g6AJCI/RQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,245,1739865600"; 
-   d="scan'208";a="137491544"
-Received: from smile.fi.intel.com ([10.237.72.55])
-  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 00:35:19 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@intel.com>)
-	id 1u9J1I-000000011Cw-0lnE;
-	Mon, 28 Apr 2025 10:35:16 +0300
-Date: Mon, 28 Apr 2025 10:35:15 +0300
-From: Andy Shevchenko <andriy.shevchenko@intel.com>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Akira Yokosawa <akiyks@gmail.com>, airlied@gmail.com, corbet@lwn.net,
-	dri-devel@lists.freedesktop.org, intel-gfx@lists.freedesktop.org,
-	jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maarten.lankhorst@linux.intel.com,
-	masahiroy@kernel.org, mripard@kernel.org, nathan@kernel.org,
-	nicolas.schier@linux.dev, rodrigo.vivi@intel.com, simona@ffwll.ch,
-	tursulin@ursulin.net, tzimmermann@suse.de
-Subject: Re: [PATCH v4 0/4] Don't create Python bytecode when building the
- kernel
-Message-ID: <aA8vs8gw75aAfwYb@smile.fi.intel.com>
-References: <cover.1745453655.git.mchehab+huawei@kernel.org>
- <22d7bca2-cdfb-4e06-acb2-41363ba13333@gmail.com>
- <20250426205708.4f90a83d@sal.lan>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="XLXd+Bzg"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1745828280;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=zT6mOl0s4GCyENEa7GwphEh7NFPUZucu05UFLnp5u20=;
+	b=XLXd+BzgGwZWzqC4NrSvNdilihWJmLSJvnIwaG7PtmMLU8kq9oWV1hmniFuqslGUpQS6LP
+	ycoXbrc9s5XTHqgo4n5v3BxQtSyDSNO9dQ/i/KtkHfhvTxdgkAZJlMUigXDXYuwGr/1gF4
+	nDE1YTkTuz2KTmzVLPTbcljqUehaZBg=
+From: Jiayuan Chen <jiayuan.chen@linux.dev>
+To: bpf@vger.kernel.org
+Cc: mrpre@163.com,
+	Jiayuan Chen <jiayuan.chen@linux.dev>,
+	Alexei Starovoitov <ast@kernel.org>,
+	Daniel Borkmann <daniel@iogearbox.net>,
+	Andrii Nakryiko <andrii@kernel.org>,
+	Martin KaFai Lau <martin.lau@linux.dev>,
+	Eduard Zingerman <eddyz87@gmail.com>,
+	Song Liu <song@kernel.org>,
+	Yonghong Song <yonghong.song@linux.dev>,
+	John Fastabend <john.fastabend@gmail.com>,
+	KP Singh <kpsingh@kernel.org>,
+	Stanislav Fomichev <sdf@fomichev.me>,
+	Hao Luo <haoluo@google.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jakub Sitnicki <jakub@cloudflare.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Kuniyuki Iwashima <kuniyu@amazon.com>,
+	Willem de Bruijn <willemb@google.com>,
+	Mykola Lysenko <mykolal@fb.com>,
+	Shuah Khan <shuah@kernel.org>,
+	Jiapeng Chong <jiapeng.chong@linux.alibaba.com>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Subject: [PATCH bpf-next v1 0/3] bpf, sockmap: Improve performance with CPU affinity
+Date: Mon, 28 Apr 2025 16:16:51 +0800
+Message-ID: <20250428081744.52375-1-jiayuan.chen@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250426205708.4f90a83d@sal.lan>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Sat, Apr 26, 2025 at 08:57:08PM +0800, Mauro Carvalho Chehab wrote:
-> Em Sat, 26 Apr 2025 11:39:05 +0900
-> Akira Yokosawa <akiyks@gmail.com> escreveu:
-> 
-> > Bothering with might-become-incompatilbe-in-the-future python environment
-> > variables in kernel Makefiles looks over-engineering to me.
-> > Also, as Mauro says in 3/4, it is incomplete in that it does not cover
-> > the cases where those scripts are invoked outside of kernel build.
-> > And it will interfere with existing developers who want the benefit of
-> > bytecode caching.
-> > 
-> > I'm not precluding the possibility of incoherent bytecode cache; for example
-> > by using a shared kernel source tree among several developers, and only
-> > one of them (owner) has a write permission of it.  In that case, said
-> > owner might update the tree without running relevant python scripts.
-> > 
-> > I don't know if python can notice outdated cache and disregard it.
-> > 
-> > In such a situation, setting PYTHONPYCACHEPREFIX as an environment
-> > variable should help, for sure, but only in such special cases.
-> > 
-> > Andy, what do you say if I ask reverts of 1/4, 2/4/, and 3/4?
-> 
-> Patches 1 and 2 are, IMO, needed anyway, as they fix a problem:
-> KERNELDOC environment is not used consistently.
-> 
-> Now, patch 3 is the one that may require more thinking.
-> 
-> I agree with Andy that, when O=<dir> is used, nothing shall be
-> written to source dir.
-> 
-> There are a couple of reasons for that:
-> 
-> 1. source dir may be read only;
-> 2. one may want to do cross compilation and use multiple output
->    directories, one for each version;
-> 3. the source dir could be mapped via NFS to multiple machines
->    with different architectures.
-> 
-> For (3), it could mean that multiple machines may have different
-> Python versions, so, sharing the Python bytecode from source dir doesn't
-> sound a good idea. Also, I'm not sure if the pyc from different archs
-> would be identical.
-> 
-> With that, there are two options:
-> 
-> a. disable cache;
-> b. set PYTHONCACHEPREFIX.
+Abstract
+===
+This patchset improves the performance of sockmap by providing CPU affinity,
+resulting in a 1-10x increase in throughput.
 
-Thanks, Mauro, for replying. I'm with you on all of it.
 
-> We're currently doing (a). I guess everybody agrees that this is
-> is not ideal.
+Motivation
+===
+Traditional user-space reverse proxy:
 
-Yes, I also prefer to have cache working if it's possible. The only BUT here is
-that users should not suffer from it.
+              Reserve Proxy
+            _________________
+client  -> | fd1  <->  fd2   | -> server
+           |_________________|
 
-> So, ideally, we should move to (b). For Spinx, the easiest solution
-> is just to place it under Documentation/output, but this is not
-> generic enough: ideally, we should revert patch 3 and set
-> PYTHONCACHEPREFIX when O is used. Eventually, we can apply my
-> patch for Documentation/output, while we craft such logic.
+Using sockmap for reverse proxy:
+
+              Reserve Proxy
+            _________________
+client ->  |  fd1  <->  fd2  |  -> server
+         | |_________________| |
+         |      |       |      |
+         |      _________      |
+         |     | sockmap |     |
+          -->  |_________|  -->
+
+By adding fds to sockmap and using a BPF program, we can quickly forward
+data and avoid data copying between user space and kernel space.
+
+Mainstream multi-process reverse proxy applications, such as Nginx and
+HAProxy, support CPU affinity settings, which allow each process to be
+pinned to a specific CPU, avoiding conflicts between data plane processes
+and other processes, especially in multi-tenant environments.
+
+
+Current Issues
+===
+The current design of sockmap uses a workqueue to forward ingress_skb and
+wakes up the workqueue without specifying a CPU
+(by calling schedule_delayed_work()). In the current implementation of
+schedule_delayed_work, it tends to run the workqueue on the current CPU.
+
+This approach has a high probability of running on the current CPU, which
+is the same CPU that handles the net rx soft interrupt, especially for
+programs that access each other using local interfaces.
+
+The loopback driver's transmit interface, loopback_xmit(), directly calls
+__netif_rx() on the current CPU, which means that the CPU handling
+sockmap's workqueue and the client's sending CPU are the same, resulting
+in contention.
+
+For a TCP flow, if the request or response is very large, the
+psock->ingress_skb queue can become very long. When the workqueue
+traverses this queue to forward the data, it can consume a significant
+amount of CPU time.
+
+
+Solution
+===
+Configuring RPS on a loopback interface can be useful, but it will trigger
+additional softirq, and furthermore, it fails to achieve our expected
+effect of CPU isolation from other processes.
+
+Instead, we provide a kfunc that allow users to specify the CPU on which
+the workqueue runs through a BPF program.
+
+We can use the existing benchmark to test the performance, which allows
+us to evaluate the effectiveness of this optimization.
+
+Because we use local interfaces for communication and the client consumes
+a significant amount of CPU when sending data, this prevents the workqueue
+from processing ingress_skb in a timely manner, ultimately causing the
+server to fail to read data quickly.
+
+Without cpu-affinity:
+./bench sockmap -c 2 -p 1 -a --rx-verdict-ingress --no-verify
+Setting up benchmark 'sockmap'...
+create socket fd c1:14 p1:15 c2:16 p2:17
+Benchmark 'sockmap' started.
+Iter   0 ( 36.031us): Send Speed 1143.693 MB/s ... Rcv Speed  109.572 MB/s
+Iter   1 (  0.608us): Send Speed 1320.550 MB/s ... Rcv Speed   48.103 MB/s
+Iter   2 ( -5.448us): Send Speed 1314.790 MB/s ... Rcv Speed   47.842 MB/s
+Iter   3 ( -0.613us): Send Speed 1320.158 MB/s ... Rcv Speed   46.531 MB/s
+Iter   4 ( -3.441us): Send Speed 1319.375 MB/s ... Rcv Speed   46.662 MB/s
+Iter   5 (  3.764us): Send Speed 1166.667 MB/s ... Rcv Speed   42.467 MB/s
+Iter   6 ( -4.404us): Send Speed 1319.508 MB/s ... Rcv Speed   47.973 MB/s
+Summary: total trans     7758 MB ± 1293.506 MB/s
+
+Without cpu-affinity(RPS enabled):
+./bench sockmap -c 2 -p 1 -a --rx-verdict-ingress --no-verify
+Setting up benchmark 'sockmap'...
+create socket fd c1:14 p1:15 c2:16 p2:17
+Benchmark 'sockmap' started.
+Iter   0 ( 28.925us): Send Speed 1630.357 MB/s ... Rcv Speed  850.960 MB/s
+Iter   1 ( -2.042us): Send Speed 1644.564 MB/s ... Rcv Speed  822.478 MB/s
+Iter   2 (  0.754us): Send Speed 1644.297 MB/s ... Rcv Speed  850.787 MB/s
+Iter   3 (  0.159us): Send Speed 1644.429 MB/s ... Rcv Speed  850.198 MB/s
+Iter   4 ( -2.898us): Send Speed 1646.924 MB/s ... Rcv Speed  830.867 MB/s
+Iter   5 ( -0.210us): Send Speed 1649.410 MB/s ... Rcv Speed  824.246 MB/s
+Iter   6 ( -1.448us): Send Speed 1650.723 MB/s ... Rcv Speed  808.256 MB/s
+
+With cpu-affinity(RPS disabled):
+./bench sockmap -c 2 -p 1 -a --rx-verdict-ingress --no-verify --cpu-affinity
+Setting up benchmark 'sockmap'...
+create socket fd c1:14 p1:15 c2:16 p2:17
+Benchmark 'sockmap' started.
+Iter   0 ( 36.051us): Send Speed 1883.437 MB/s ... Rcv Speed 1865.087 MB/s
+Iter   1 (  1.246us): Send Speed 1900.542 MB/s ... Rcv Speed 1761.737 MB/s
+Iter   2 ( -8.595us): Send Speed 1883.128 MB/s ... Rcv Speed 1860.714 MB/s
+Iter   3 (  7.033us): Send Speed 1890.831 MB/s ... Rcv Speed 1806.684 MB/s
+Iter   4 ( -8.397us): Send Speed 1884.700 MB/s ... Rcv Speed 1973.568 MB/s
+Iter   5 ( -1.822us): Send Speed 1894.125 MB/s ... Rcv Speed 1775.046 MB/s
+Iter   6 (  4.936us): Send Speed 1877.597 MB/s ... Rcv Speed 1959.320 MB/s
+Summary: total trans    11328 MB ± 1888.507 MB/s
+
+
+Appendix
+===
+Through this optimization, we discovered that sk_mem_charge()
+and sk_mem_uncharge() have concurrency issues. The performance improvement
+brought by this optimization has made these concurrency issues more
+evident.
+
+This concurrency issue can cause the WARN_ON_ONCE(sk->sk_forward_alloc)
+check to be triggered when the socket is released. Since this patch is a
+feature-type patch and does not intend to fix this bug, I will provide
+additional patches to fix this issue later.
+
+Jiayuan Chen (3):
+  bpf, sockmap: Introduce a new kfunc for sockmap
+  bpf, sockmap: Affinitize workqueue to a specific CPU
+  selftest/bpf/benchs: Add cpu-affinity for sockmap bench
+
+ Documentation/bpf/map_sockmap.rst             | 14 +++++++
+ include/linux/skmsg.h                         | 15 +++++++
+ kernel/bpf/btf.c                              |  3 ++
+ net/core/skmsg.c                              | 10 +++--
+ net/core/sock_map.c                           | 39 +++++++++++++++++++
+ .../selftests/bpf/benchs/bench_sockmap.c      | 35 +++++++++++++++--
+ tools/testing/selftests/bpf/bpf_kfuncs.h      |  6 +++
+ .../selftests/bpf/progs/bench_sockmap_prog.c  |  7 ++++
+ 8 files changed, 122 insertions(+), 7 deletions(-)
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
+2.47.1
 
