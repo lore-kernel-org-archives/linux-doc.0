@@ -1,245 +1,135 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 3F92E27B4EC;
-	Mon, 28 Apr 2025 16:17:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ACD8084A3E;
+	Mon, 28 Apr 2025 16:37:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745857049; cv=none; b=uyCeTovZNyMrHEf5DwriqEKJKz6dQ/EFyKhXfpyUXfcgsToVfqo8GEmeI9li8rlwBYeGZUlwMT3fRapAano4IZU9HjTtRQ5tw2jwQrEcH8zyTHEyioHGLA7XyjAZtkY3j9mnhQ0YHKSD2JDfvh+i317MeKQguBfl93ZDRus0toI=
+	t=1745858267; cv=none; b=mp+XNt7FGNvGeLsxWgzPrbfckmVvu5Kol8bLqREyFBWUAZTWInYcZnW1YIdDMmVk1grBgqN7zarGyFWl0O+AtYF07TvYQStMEVFZ5dxT2+WSYuadiAAjCwlGnFo/J1rh3HUSizA43onVZp101kj5ZB5Xlob7XOpqxTT5LW3w3xo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745857049; c=relaxed/simple;
-	bh=mbJCbKc75tyXUQDVnUygIHJU5BKG8LWacJZ2nHvqLHM=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=b5cU02QbpzixpXTcsQgfGbQKr6wLhagFU/5PUj6hMgWCQuBwIZfOWCHinQQ8ACklTPXk4pAzU0TbnmKeZgaLNm1ZBtCNXpJsnxSzwAL4wHCLb+zP0kr4G4X0YTh0Lz/yqNU+bXbGCOdLE4Om3qDwL3A0MnVs8wuOnOCM2Yg6o1g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id E6B1A1007;
-	Mon, 28 Apr 2025 09:17:18 -0700 (PDT)
-Received: from [10.57.90.155] (unknown [10.57.90.155])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id C39EA3F66E;
-	Mon, 28 Apr 2025 09:17:21 -0700 (PDT)
-Message-ID: <fb0d2181-4e91-4c1a-9410-8729cbba0dfe@arm.com>
-Date: Mon, 28 Apr 2025 17:17:20 +0100
+	s=arc-20240116; t=1745858267; c=relaxed/simple;
+	bh=zyEHT53+4ffCvmFo8gh208mOKYSL0INBKJpE5tJuqSM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ooi4UzS0tvniwOWRiQz1J5Oz1SQPnjSNPRL0Ju57ScnKcvtQv+SzDtCqaNtygY250u88tiLCrIjIxbrIlYJUaIRv9PGGStyN16qi4KcNtGa4D88zxmRvl6Ww3OZWizoho5TVwYvncXy12Eyz6u2zv6ts90A+pWjKXbQAflCk+/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HIOOaaUu; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HIOOaaUu"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-736b0c68092so4409454b3a.0;
+        Mon, 28 Apr 2025 09:37:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745858265; x=1746463065; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=15l+Ck2zVP5gQKV2uGWTazJsT4fiAOxVQx+2NTaLaec=;
+        b=HIOOaaUuG5885J8fP+omv6HaVjkhN14xW3GSllcNaChwfU8GP6ms51zTPNLo6GFThD
+         pLUCEvSpEy9s1XB33g3dUWZtZk+MjV0C8IwBU8e6gZixap74hPGK0PxEMKvpt+fP2z39
+         wpRorvKEhyp4uMK+PTgFAEdt8zi2e0BAerDxv+JBLNmxh9AYF2KUvBNKvGZJOKgQImnZ
+         XAsjqVZJ+EiE4TgB2Wa1dcd5p+jQ9nqCHY8r8u29Lz77qst9V6Rl77FJzxPPt/wyC51/
+         QPKyGxaG1DAh7Cnf+qnawJfeoblKGre9iB4fz4NtI894ZcULBTT+wbvKFKg67MQM9LOr
+         j/dw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745858265; x=1746463065;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=15l+Ck2zVP5gQKV2uGWTazJsT4fiAOxVQx+2NTaLaec=;
+        b=he8MY2Vrgzy2+a0NIM54zXlT9/EF8LOiogtjibjHdO+ZAzA7WTzlTY6xryaI6hPw6F
+         cgZgVUtiy3sM8GIHJWJLYqntph75el5bzF92/1Tr8hn3fNYpM3mjmIGT88JxTUHTuFd5
+         MsGlzBRj42DG76qkzHualOVRM6NIPSq90/x5/BIHqyWkfPfC7XsGz9g662+iFrRB8bnH
+         vo96CgKO0YU+XZnv+5zB0LH2DPViDEdaQcakvwgQo+0Z8xZMyPRv+2jf6g+Jt2w9tZJB
+         ne0ZASWAv+uTaMQ7OTpQm8O1cRUf0o50SzzrYcJstccB5PXlxodlQx3Rss1jLBtk7BWo
+         l2bg==
+X-Forwarded-Encrypted: i=1; AJvYcCUB2FxFhn1fK3ttxjkiIBmvF4Do/WHP58nnyz3rZb0G66P7MBQTQNtnlaMSplsgZxS3hDoKLGXPqNfB@vger.kernel.org, AJvYcCWGU9coW0MBukiNEX5PGFqyhmUOLfTA9Kg/1gLs9Ez8vUjUgHUF4+tOT9q5mgcPfxmjeGUJy4Bmkluw@vger.kernel.org, AJvYcCXBalz45jlXTX3Jg3VfZ5FAi2d2boQrwwOu7l2aRvKzIbTnC8oC+Q+pFSiO6nLMtGh+F1yqcb6pzSJDpTVm@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLen/tnZcTaw43fEpFaVhAWd/Be5sGcRgk5gSABTanBXy0duvd
+	2MqW7hxVBey4FSVg5p0GJp+vlF1AaYXtnPtQOv9/SFasBc20vDo6
+X-Gm-Gg: ASbGnctLrj6q+SLo1NKiFFoLidoUDgMb8GoL9GhbKdI0Z8zMJBjGhYSb1WB3TGy+7vm
+	sFrRa6v9zv4WmWaAlQJUXiacmLeO4Ppyq4E2ix0WWfYbapmM+3F0eBpKKa4vcDtph8hd0IITv0k
+	qYRdsiJuPF75Q2PZkxX+UH/H5o/r2b8Re284WM1HAlIGmCPST/MiW4MxFkysFVjLxS1+aOaRUqz
+	uK4bgKaXVLg2j2IZGQv6EET8bKVBi6VrH2Bv12YAyaSF7iYO8oUKEOOLetn6x98p+/BhBm8iu1l
+	7r4hH+FAcO6SYRRBYy6QNjGUbanGUVSCVNinSJacPUf2Gu3iIJMDj8/SG2rXEQgi
+X-Google-Smtp-Source: AGHT+IGlOIxAliEh5JOjeMShPlEUUb+H4S5Pr3AtTiv9tWNQlP2KLvR8VlBIrHywr0e7xdeNjjCwnw==
+X-Received: by 2002:a05:6a00:2e88:b0:736:b101:aed3 with SMTP id d2e1a72fcca58-73fd6beb19emr14959366b3a.1.1745858264818;
+        Mon, 28 Apr 2025 09:37:44 -0700 (PDT)
+Received: from localhost.localdomain ([123.16.133.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25ac87d5sm8213532b3a.157.2025.04.28.09.37.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 09:37:44 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: andy@kernel.org
+Cc: geert@linux-m68k.org,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	corbet@lwn.net,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix LED driver
+Date: Mon, 28 Apr 2025 23:37:18 +0700
+Message-Id: <20250428163718.15918-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAHp75Vch8i50stVO6nH0Tnn=g4xSMji_iPj6q-CE1tLnvesqcQ@mail.gmail.com>
+References: <CAHp75Vch8i50stVO6nH0Tnn=g4xSMji_iPj6q-CE1tLnvesqcQ@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v6 3/3] arm64/mm: Elide tlbi in contpte_convert()
- under BBML2
-Content-Language: en-GB
-To: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
- suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
- catalin.marinas@arm.com, will@kernel.org, jean-philippe@linaro.org,
- robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
- paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
- maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
- oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
- ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com,
- jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
- <20250428153514.55772-8-miko.lenczewski@arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <20250428153514.55772-8-miko.lenczewski@arm.com>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-On 28/04/2025 16:35, Mikołaj Lenczewski wrote:
-> When converting a region via contpte_convert() to use mTHP, we have two
-> different goals. We have to mark each entry as contiguous, and we would
-> like to smear the dirty and young (access) bits across all entries in
-> the contiguous block. Currently, we do this by first accumulating the
-> dirty and young bits in the block, using an atomic
-> __ptep_get_and_clear() and the relevant pte_{dirty,young}() calls,
-> performing a tlbi, and finally smearing the correct bits across the
-> block using __set_ptes().
-> 
-> This approach works fine for BBM level 0, but with support for BBM level
-> 2 we are allowed to reorder the tlbi to after setting the pagetable
-> entries. We expect the time cost of a tlbi to be much greater than the
-> cost of clearing and resetting the PTEs. As such, this reordering of the
-> tlbi outside the window where our PTEs are invalid greatly reduces the
-> duration the PTE are visibly invalid for other threads. This reduces the
-> likelyhood of a concurrent page walk finding an invalid PTE, reducing
-> the likelyhood of a fault in other threads, and improving performance
-> (more so when there are more threads).
-> 
-> Because we support via allowlist only bbml2 implementations that never
-> raise conflict aborts and instead invalidate the tlb entries
-> automatically in hardware, we can avoid the final flush altogether.
-> 
-> However, avoiding the intermediate tlbi+dsb must be carefully considered
-> to ensure that we remain both correct and performant. We document our
-> reasoning and the expected interactions further in the contpte_convert()
-> source. To do so we rely on the aarch64 spec (DDI 0487L.a D8.7.1.1)
-> requirements RNGLXZ and RJQQTC to provide guarantees that the elision is
-> correct.
-> 
-> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+On Sun, 27 Apr 2025 Andy Shevchenko wrote:
 
-Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
-
-It would be great to see this series merged this cycle!
-
-Thanks,
-Ryan
-
-> ---
->  arch/arm64/mm/contpte.c | 139 +++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 138 insertions(+), 1 deletion(-)
+> On Sun, Apr 27, 2025 at 11:25 AM Nam Tran <trannamatk@gmail.com> wrote:
+> >
+> > This patch series adds support for the TI/National Semiconductor LP5812
+> > 4x3 matrix RGB LED driver. The driver supports features such as autonomous
+> > animation and time-cross-multiplexing (TCM) for dynamic LED effects.
+> >
+> > Signed-off-by: Nam Tran <trannamatk@gmail.com>
+> > ---
+> > Changes in v8:
+> > - Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+> > - Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+> > - Move ti,lp5812.yaml binding to auxdisplay/ directory,
+> >   and update the title and $id to match new path.
+> > - No functional changes to the binding itself (keep Reviewed-by).
+> > - Update commit messages and patch titles to reflect the move.
+> > - Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
 > 
-> diff --git a/arch/arm64/mm/contpte.c b/arch/arm64/mm/contpte.c
-> index bcac4f55f9c1..203357061d0a 100644
-> --- a/arch/arm64/mm/contpte.c
-> +++ b/arch/arm64/mm/contpte.c
-> @@ -68,7 +68,144 @@ static void contpte_convert(struct mm_struct *mm, unsigned long addr,
->  			pte = pte_mkyoung(pte);
->  	}
->  
-> -	__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
-> +	/*
-> +	 * On eliding the __tlb_flush_range() under BBML2+noabort:
-> +	 *
-> +	 * NOTE: Instead of using N=16 as the contiguous block length, we use
-> +	 *       N=4 for clarity.
-> +	 *
-> +	 * NOTE: 'n' and 'c' are used to denote the "contiguous bit" being
-> +	 *       unset and set, respectively.
-> +	 *
-> +	 * We worry about two cases where contiguous bit is used:
-> +	 *  - When folding N smaller non-contiguous ptes as 1 contiguous block.
-> +	 *  - When unfolding a contiguous block into N smaller non-contiguous ptes.
-> +	 *
-> +	 * Currently, the BBML0 folding case looks as follows:
-> +	 *
-> +	 *  0) Initial page-table layout:
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |RO,n|RO,n|RO,n|RW,n| <--- last page being set as RO
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  1) Aggregate AF + dirty flags using __ptep_get_and_clear():
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |  0 |  0 |  0 |  0 |
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  2) __flush_tlb_range():
-> +	 *
-> +	 *   |____ tlbi + dsb ____|
-> +	 *
-> +	 *  3) __set_ptes() to repaint contiguous block:
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |RO,c|RO,c|RO,c|RO,c|
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  4) The kernel will eventually __flush_tlb() for changed page:
-> +	 *
-> +	 *                  |____| <--- tlbi + dsb
-> +	 *
-> +	 * As expected, the intermediate tlbi+dsb ensures that other PEs
-> +	 * only ever see an invalid (0) entry, or the new contiguous TLB entry.
-> +	 * The final tlbi+dsb will always throw away the newly installed
-> +	 * contiguous TLB entry, which is a micro-optimisation opportunity,
-> +	 * but does not affect correctness.
-> +	 *
-> +	 * In the BBML2 case, the change is avoiding the intermediate tlbi+dsb.
-> +	 * This means a few things, but notably other PEs will still "see" any
-> +	 * stale cached TLB entries. This could lead to a "contiguous bit
-> +	 * misprogramming" issue until the final tlbi+dsb of the changed page,
-> +	 * which would clear out both the stale (RW,n) entry and the new (RO,c)
-> +	 * contiguous entry installed in its place.
-> +	 *
-> +	 * What this is saying, is the following:
-> +	 *
-> +	 *  +----+----+----+----+
-> +	 *  |RO,n|RO,n|RO,n|RW,n| <--- old page tables, all non-contiguous
-> +	 *  +----+----+----+----+
-> +	 *
-> +	 *  +----+----+----+----+
-> +	 *  |RO,c|RO,c|RO,c|RO,c| <--- new page tables, all contiguous
-> +	 *  +----+----+----+----+
-> +	 *   /\
-> +	 *   ||
-> +	 *
-> +	 *  If both the old single (RW,n) and new contiguous (RO,c) TLB entries
-> +	 *  are present, and a write is made to this address, do we fault or
-> +	 *  is the write permitted (via amalgamation)?
-> +	 *
-> +	 * The relevant Arm ARM DDI 0487L.a requirements are RNGLXZ and RJQQTC,
-> +	 * and together state that when BBML1 or BBML2 are implemented, either
-> +	 * a TLB conflict abort is raised (which we expressly forbid), or will
-> +	 * "produce an OA, access permissions, and memory attributes that are
-> +	 * consistent with any of the programmed translation table values".
-> +	 *
-> +	 * That is to say, will either raise a TLB conflict, or produce one of
-> +	 * the cached TLB entries, but never amalgamate.
-> +	 *
-> +	 * Thus, as the page tables are only considered "consistent" after
-> +	 * the final tlbi+dsb (which evicts both the single stale (RW,n) TLB
-> +	 * entry as well as the new contiguous (RO,c) TLB entry), omitting the
-> +	 * initial tlbi+dsb is correct.
-> +	 *
-> +	 * It is also important to note that at the end of the BBML2 folding
-> +	 * case, we are still left with potentially all N TLB entries still
-> +	 * cached (the N-1 non-contiguous ptes, and the single contiguous
-> +	 * block). However, over time, natural TLB pressure will cause the
-> +	 * non-contiguous pte TLB entries to be flushed, leaving only the
-> +	 * contiguous block TLB entry. This means that omitting the tlbi+dsb is
-> +	 * not only correct, but also keeps our eventual performance benefits.
-> +	 *
-> +	 * For the unfolding case, BBML0 looks as follows:
-> +	 *
-> +	 *  0) Initial page-table layout:
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |RW,c|RW,c|RW,c|RW,c| <--- last page being set as RO
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  1) Aggregate AF + dirty flags using __ptep_get_and_clear():
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |  0 |  0 |  0 |  0 |
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  2) __flush_tlb_range():
-> +	 *
-> +	 *   |____ tlbi + dsb ____|
-> +	 *
-> +	 *  3) __set_ptes() to repaint as non-contiguous:
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |RW,n|RW,n|RW,n|RW,n|
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  4) Update changed page permissions:
-> +	 *
-> +	 *   +----+----+----+----+
-> +	 *   |RW,n|RW,n|RW,n|RO,n| <--- last page permissions set
-> +	 *   +----+----+----+----+
-> +	 *
-> +	 *  5) The kernel will eventually __flush_tlb() for changed page:
-> +	 *
-> +	 *                  |____| <--- tlbi + dsb
-> +	 *
-> +	 * For BBML2, we again remove the intermediate tlbi+dsb. Here, there
-> +	 * are no issues, as the final tlbi+dsb covering the changed page is
-> +	 * guaranteed to remove the original large contiguous (RW,c) TLB entry,
-> +	 * as well as the intermediate (RW,n) TLB entry; the next access will
-> +	 * install the new (RO,n) TLB entry and the page tables are only
-> +	 * considered "consistent" after the final tlbi+dsb, so software must
-> +	 * be prepared for this inconsistency prior to finishing the mm dance
-> +	 * regardless.
-> +	 */
-> +
-> +	if (!system_supports_bbml2_noabort())
-> +		__flush_tlb_range(&vma, start_addr, addr, PAGE_SIZE, true, 3);
->  
->  	__set_ptes(mm, start_addr, start_ptep, pte, CONT_PTES);
->  }
+> Out of sudden without discussing with auxdisplay maintainers/reviewers?
+> Thanks, no.
+> Please, put into the cover letter the meaningful summary of what's
+> going on and why this becomes an auxdisplay issue. Brief review of the
+> bindings sounds more likely like LEDS or PWM subsystems.
 
+Apologies for moving the driver to auxdisplay without prior discussion with you
+and the other auxdisplay maintainers.
+
+The decision to move it was based on advice from Lee Jones (LED subsystem co-maintainer).
+He reviewed the v7 series while it was still under drivers/leds/, and explicitly recommended
+that I move it to drivers/auxdisplay/.
+Reference: https://lore.kernel.org/linux-leds/20250425101112.GB1567507@google.com/
+
+Here’s a brief summary of why LP5812 fits better in auxdisplay than in LEDS or PWM subsystems:
+- 4 outputs drive 12 LEDs (4 RGB) using time-cross-multiplexing (TCM).
+- An autonomous animation engine creates complex visual effects without CPU intervention.
+- Supports analog current control, PWM dimming up to 24kHz, de-ghosting, and phase shifting,
+  all targeting dynamic visual outputs rather than static LED states.
+
+I will prepare a v9 with an updated cover letter summarizing this background.
+I am also happy to make further adjustments based on your and other auxdisplay maintainers’ guidance.
+
+Thanks for reviewing and helping me through the submission process.
+
+Best regards,
+Nam Tran
