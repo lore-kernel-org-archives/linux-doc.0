@@ -1,178 +1,206 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2072.outbound.protection.outlook.com [40.107.236.72])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2026E1E1C3A;
-	Mon, 28 Apr 2025 17:42:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.72
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745862139; cv=fail; b=FZpjtcLWWKARszWpTvuA3qknriWl4WE/xMuVsXGe4d9PxhalWRgbVUquTLO1vxoLGsquo6OgEWabfpI0VwpY8Go/ECa0INAJe0cQRPutydci6jRUEPvpl6LqJwsf7g6ytY+ZsbZfIh7YLvJsu9+BO2Dp5wTviBtqzVVjhDWGSPc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745862139; c=relaxed/simple;
-	bh=/qhtoc3rMJ+Y8k6d4nZnl/nLCVOVhdPolpJ9uKkCF44=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=hRQ5Fyd6tztBsOjb55qIt+GIdtTEZhfswcbI7tPjx7zEDV+gz7S0Mo4iS0FSPC2/LbTUrOLz7DzwxTWynYJmgN7ZDj7emKYjjut9RXWMG6Ak+xtdjNfHiLq3JaEJ8FYW+Z8F1ZAdkr68+Hl4HBqg8VxY8vMSSdXhemF7kYA60H8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=fDYQPSfZ; arc=fail smtp.client-ip=40.107.236.72
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 46D618615A;
+	Mon, 28 Apr 2025 17:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745862324; cv=none; b=rdookYJBRhxpCErVkyO5WQClU2A7di/eXwnda+d8zuYwpOw7rjXK7pnK7JJ16cvP7bJYICHPE+dutWgEagHZUD98sr14NDmXInSueM+3Qy1fDI7aPEn1cD3kLRexyOSOUi3BW5EIi3TazvyvtV9R/XlpfezbRT6rzoai5E3oQyk=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745862324; c=relaxed/simple;
+	bh=pEkLPCxrK6MRihvOD42HM1PHWTgQhgfindR0VeQwYSE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=a1z97o0GeHFT7OfnXx0avYOnj6IWtnc+KMlW3tuyWnQ/rcvNE42ng5YzTXU0X1WPVctPhfrWJvvNMv4/iGkvDXMJN+e3cIJk68BxIQ5MdFokaTJg9971e0vaalmK5plKy/8nrNUTGo7IWJjR9wpT5zhQBw+O+WRSYkT86D0QEt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=lUpOSGmF; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="fDYQPSfZ"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lfnYG85NTjUiLJXoA4OndaiJKHE3v2BLWsVxNAcXyN/MwjTmziZlQnNTgjxxAEFo84WmWSUsn4airoukpr01+0G/II9UD6EvvzniWMLe02J/l+UwkHz4Btofqj7zyLfxSOzG+asiCYzvpQq4KN7NDdGrXkAN0t7QmUTxlMTA0FHie6YfyoBOEnFbyO67o/07Az3WqCGS8uqdR9qOxEz+LjAnMJWjVEB4gScstTslRMi2W7NBfbob1hVNgQcbCV3gbbxMqrW2otu7jz2O4oQexPVxA2cPffQl6xTDmNYjTFmII9qdD2/1+auV2YvqoH4IdpoVnAb63Jc6s5pZMfSUrw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LDwEp+ENOKgKIvko9czlqfydjWKBlL2U4wY/D4b8hVs=;
- b=IUuC18Sy9MTk7MdvQNt+/GwOaiYLYvVlPQvmeFTvF8qVPJtiAyzGWZxF3fB6vs+L4oP9WWFERrfWqYKOzhAgISpB1MVZMTLv5r8TqUKUvht7QOX1Z6KUYU/qnsrG4Bw5xhyAvqAtT5gjdp1GT0xFf3c9SugcFn/f/x0tFKNhUlYKwcAtFP0OLhSdxfdLt61ZbPkWZHi/BgQtl/FYcsyWo0W0g4sEFnN9AC+SbPoCv4i5z7wYC4po4gy3Jyrh4RypLyxOOqcvdQtNGD9ZRLEn1goECJXKIQdZ4J3hViGswjPQPT9vLgWULN73sxJAK/eqg08hEACvxdujDEb3JTD+KQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=LDwEp+ENOKgKIvko9czlqfydjWKBlL2U4wY/D4b8hVs=;
- b=fDYQPSfZhuxOrDpzMqdbEI+EoJANPlOTlv0RmDO491rUhkhKNjx6AJI3jyhEeQZsuM7z7sh3bVCp700raoTu87QamDzDPrAbZeHC9QCldP5OcgTAd27DqxznhpncjqihAanZdwqNyX9pRHMnQ/NtdUjEYXvhD03l+sxPxJJt1qSFD97H9cPN7OvtznoF0374CVvXhzCN12eA6piO5UU4sXBhBZfAuihZlR0SdJWKW/tPeBkWgMAUb4PwgZJSmlgE+HvQ0R2i9+LYCIvBnpAc10D1/w43i1mkXXUqrimUvEunLI5S5FTJSw48ypBTuThjoUd9IquQmWuWMk4YeXSUeg==
-Received: from PH7P222CA0025.NAMP222.PROD.OUTLOOK.COM (2603:10b6:510:33a::19)
- by MW4PR12MB7144.namprd12.prod.outlook.com (2603:10b6:303:21b::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Mon, 28 Apr
- 2025 17:42:10 +0000
-Received: from CO1PEPF000044FB.namprd21.prod.outlook.com
- (2603:10b6:510:33a:cafe::8f) by PH7P222CA0025.outlook.office365.com
- (2603:10b6:510:33a::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.38 via Frontend Transport; Mon,
- 28 Apr 2025 17:42:09 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CO1PEPF000044FB.mail.protection.outlook.com (10.167.241.201) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.2 via Frontend Transport; Mon, 28 Apr 2025 17:42:09 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 28 Apr
- 2025 10:41:50 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 28 Apr
- 2025 10:41:50 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.8)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 28 Apr 2025 10:41:47 -0700
-Date: Mon, 28 Apr 2025 10:41:45 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>, <bagasdotme@gmail.com>, <robin.murphy@arm.com>,
-	<joro@8bytes.org>, <thierry.reding@gmail.com>, <vdumpa@nvidia.com>,
-	<jonathanh@nvidia.com>, <shuah@kernel.org>, <jsnitsel@redhat.com>,
-	<nathan@kernel.org>, <peterz@infradead.org>, <yi.l.liu@intel.com>,
-	<mshavit@google.com>, <praan@google.com>, <zhangzekun11@huawei.com>,
-	<iommu@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<patches@lists.linux.dev>, <mochs@nvidia.com>, <alok.a.tiwari@oracle.com>,
-	<vasant.hegde@amd.com>
-Subject: Re: [PATCH v2 08/22] iommufd: Abstract iopt_pin_pages and
- iopt_unpin_pages helpers
-Message-ID: <aA+92fNNbDI3Qowk@Asurada-Nvidia>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <d44272c153e7596c3cef716044de3dc6c2a8254a.1745646960.git.nicolinc@nvidia.com>
- <376566b4-6c13-45ad-b1e5-8cfe2de437bc@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="lUpOSGmF"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745862323; x=1777398323;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=pEkLPCxrK6MRihvOD42HM1PHWTgQhgfindR0VeQwYSE=;
+  b=lUpOSGmFK+TjWHHaIOjfkzPpqLetNquFrJ885R3/3jt8aafr+xkitX3e
+   HL1UGF2yPJWVzeTmTfWQNDCrXsbKrUrJJBHGiCgsg1SPM+uJswOSy6zvZ
+   4LHZhjY3e8Fpv/eNfFhDdjwDUjiCo+Im0QilLyt+ObD1jDdYUyOBlIz4l
+   TYx/NwhIrKwjix88bzSkKR5/yJWSqQGkTx4t6yjgOPg/+6zbZAc97xj/u
+   DRcehH6F8jJtsox0G72O2DoSAGVAG9gSsMuqDhPxVWmPwaxWGPOYJx8QO
+   WBYVyEHBo2LSnyf5VrvZg3SuccgsHCy3Q4/s1b6W63ZWgzODBUPcs+HPF
+   w==;
+X-CSE-ConnectionGUID: i5MIJY+SSveniFY2r0LvOQ==
+X-CSE-MsgGUID: +wSt64SiTGCNKdRwf7tflg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="69965950"
+X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; 
+   d="scan'208";a="69965950"
+Received: from orviesa004.jf.intel.com ([10.64.159.144])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 10:45:22 -0700
+X-CSE-ConnectionGUID: 4vKxyPyFQDmXQWazhOacSQ==
+X-CSE-MsgGUID: HUp3WDwMSz+0y0oI+SX6YQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,246,1739865600"; 
+   d="scan'208";a="138582991"
+Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.109.95]) ([10.125.109.95])
+  by orviesa004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 10:45:20 -0700
+Message-ID: <2df68c68-f1a8-4327-abc9-d265326c133d@intel.com>
+Date: Mon, 28 Apr 2025 10:45:08 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <376566b4-6c13-45ad-b1e5-8cfe2de437bc@linux.intel.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PEPF000044FB:EE_|MW4PR12MB7144:EE_
-X-MS-Office365-Filtering-Correlation-Id: f6baf04d-40d2-40b1-7958-08dd867c0060
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|82310400026|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?ayzFFx1RvndeLeN5zBNomAIjkcAc7t0sfwLqedwCTp2/O3B13Vnp9eXKoyi6?=
- =?us-ascii?Q?y6xYdB4N2zC08m4Q1+U/EVm1E76PJWRSwMc6DuEMATz5/odLL4Kf1s77Nxiv?=
- =?us-ascii?Q?H8aSsUG2sGRqb+kmAC0ZLuRgbfYZXkBYy6a+KZKwhz+mNoqS5icbBJ+NLlSb?=
- =?us-ascii?Q?jqWxu/nagHWq12wtYGW/lIzh++dfcD1xwo601lp2pR28Os57Q70rrQI1SbqM?=
- =?us-ascii?Q?aJzdpyJsEQK6v/LUAc48GDS7KqxRN+8ETSHYnqqAhn/lgSaKka6QfRRFHRGz?=
- =?us-ascii?Q?T0GNmG4frAh/+jjZ5FpUMqnuhi82J049xf5EZYfRA9lPt7MMBbO4aqosx0o3?=
- =?us-ascii?Q?E2w18P+NIBSN63PnyUaUkbwOPmJ/3JPTk3xGQP0ZiTewqCSpCcQ0XTyqNxeU?=
- =?us-ascii?Q?1RCyZrqW4OdIkCvqZ/0tqzL6iCHLbo0cQ1ahmiGrzojNNyGMqTeR2ULv0AYM?=
- =?us-ascii?Q?UfO78gdjP0ZZnd5RjjICset2OHqJKYkeK1j3zWeqcxsSn4/ewg6kKDWdZAJB?=
- =?us-ascii?Q?Gv8PvJdUN72a4Is59hDkAmi6B1pmErsRK4U8GPoE2VpZ6t7xXpHmHawT4ewA?=
- =?us-ascii?Q?X5ZzxmbDPszUmBk6ioI5heJjr1AnhNZDbQ8pdxpCFAeZ13GoHWQYS8PgGQqR?=
- =?us-ascii?Q?kJnHbtcu/vLVoIFKKIdbGSU3x5f8SAgsGVz6psf8hZ1QH8BzhGqmNMlDvNJR?=
- =?us-ascii?Q?hZSW7RBdX1Aobw1lAO3RGMi1MGlsWN7tE5eIA8WXdfXDI4g06UlohwwNtmxO?=
- =?us-ascii?Q?qfw3XmySCAsqC7S86JSaIsq2UoMSV8sWyLu8B4Toz1/uR2HUDVtRNMifQYdN?=
- =?us-ascii?Q?luZXLbL0Rx63kI+WD2peNxDBhb7/g2/kdVZUau7V5d09FUVVu3mBclzGtapw?=
- =?us-ascii?Q?eoPM8UHq78LNVjCrXk7IDuyZ/VYffynn4z34nikCCuDXiW08WCE+Z9zhSHWf?=
- =?us-ascii?Q?D8y1fs4WuRScnYByCQQNobnmo5NqMKj2NoFQ7aDl1bBqar9ZkiTEK3Kq8Goh?=
- =?us-ascii?Q?49VpII4wWYsschttkMnlQtiOi4R64aFbo4Fd0znvZSSZ06RUVY5fdPDgqFui?=
- =?us-ascii?Q?s/LMnnBx6cZ37gLNBQIyLq95DZOZ9FVOrX4kktsGTybBwhAYiZrd94vXVc0T?=
- =?us-ascii?Q?G3MfonaHXtxoMbcSYsyZ2lV/gXiOw4gn3m4momMAxk38RcI5uCuZ5BP2bEX7?=
- =?us-ascii?Q?nvapuaQ5sj6EdYiqiJXWiNV5y2ZmLjDsORp+ZjrP8ijVZGSub+ZNDluwYhsw?=
- =?us-ascii?Q?xksJey4tDCzD61tmSlGrFdHbNFxe7C28+1LbtUIuSATzMXajgWjram5+zLSn?=
- =?us-ascii?Q?p2fVBgg/8Nj8vaOf5ydZiEVEfEXHs/KBlT9CenurJO8+TdSjkEJuyh2YjoBn?=
- =?us-ascii?Q?4CbHV1fzUiOeH1GcJ5hg5JOUQSWUIGFedIqH9wSnP+u/zKQWBM1kMY7R6jRT?=
- =?us-ascii?Q?cEYqdTaB/4ae2jp2q+SDYlSI3e+2kEFOF9RIrSHtfoE4otIdkitHh0tB8/VB?=
- =?us-ascii?Q?NshTLxN73gr4T1BzKE2tbPC19P13rq2TPCsp?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 17:42:09.5265
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f6baf04d-40d2-40b1-7958-08dd867c0060
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CO1PEPF000044FB.namprd21.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR12MB7144
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 1/8] EDAC: Update documentation for the CXL memory
+ patrol scrub control feature
+To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
+ dan.j.williams@intel.com, jonathan.cameron@huawei.com, dave@stgolabs.net,
+ alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com
+Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
+ tony.luck@intel.com, lenb@kernel.org, leo.duran@amd.com,
+ Yazen.Ghannam@amd.com, mchehab@kernel.org, nifan.cxl@gmail.com,
+ linuxarm@huawei.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+ roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+ wanghuiqiang@huawei.com
+References: <20250407174920.625-1-shiju.jose@huawei.com>
+ <20250407174920.625-2-shiju.jose@huawei.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250407174920.625-2-shiju.jose@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Sun, Apr 27, 2025 at 03:22:13PM +0800, Baolu Lu wrote:
-> On 4/26/25 13:58, Nicolin Chen wrote:
-> > The new vCMDQ object will be added for HW to access the guest memory for a
-> > HW-accelerated virtualization feature. It needs to ensure the guest memory
-> > pages are pinned when HW accesses them and they are contiguous in physical
-> > address space.
-> > 
-> > This is very like the existing iommufd_access_pin_pages() that outputs the
-> > pinned page list for the caller to test its contiguity.
-> > 
-> > Move those code from iommufd_access_pin/unpin_pages() and related function
-> > for a pair of iopt helpers that can be shared with the vCMDQ allocator. As
-> > the vCMDQ allocator will be a user-space triggered ioctl function, WARN_ON
-> > would not be a good fit in the new iopt_unpin_pages(), thus change them to
-> > use WARN_ON_ONCE instead.
+
+
+On 4/7/25 10:49 AM, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
 > 
-> I'm uncertain, but perhaps pr_warn_ratelimited() would be a better
-> alternative to WARN_ON() here? WARN_ON_ONCE() generates warning messages
-> with kernel call traces in the kernel messages, which might lead users
-> to believe that something serious has happened in the kernel.
+> Update the Documentation/edac/scrub.rst to include usecases and
+> policies for CXL memory device-based, CXL region-based patrol scrub
+> control and CXL Error Check Scrub (ECS).
+> 
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+> ---
+>  Documentation/edac/scrub.rst | 75 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 75 insertions(+)
+> 
+> diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
+> index daab929cdba1..6132853a02fe 100644
+> --- a/Documentation/edac/scrub.rst
+> +++ b/Documentation/edac/scrub.rst
+> @@ -264,3 +264,78 @@ Sysfs files are documented in
+>  `Documentation/ABI/testing/sysfs-edac-scrub`
+>  
+>  `Documentation/ABI/testing/sysfs-edac-ecs`
+> +
+> +Examples
+> +--------
+> +
+> +The usage takes the form shown in these examples:
+> +
+> +1. CXL memory Patrol Scrub
+> +
+> +The following are the usecases identified why we might increase the scrub rate.
+> +
+> +- Scrubbing is needed at device granularity because a device is showing
+> +  unexpectedly high errors, the scrub control needs to be at device
+> +  granularity
 
-We already have similar practice, e.g. iommufd_hwpt_nested_alloc.
+Not sure what the second part of the sentence has to do with defining the use case.
+When the per device control is detailed in 1.1, you can refer to the first use case.
 
-In my review, a WARN_ON/WARN_ON_ONCE means there is a kernel bug,
-which shouldn't occur in the first place and isn't something that
-user space should concern. In case that it is hit, a WARN_ON_ONCE
-only spits one piece of traces that is enough for kernel folks to
-identify what's wrong, while pr_warn_ratelimited would likely end
-up with periodical warnings (more lines) that are neither related
-to user space nor useful for kernel.
+> +
+> +- Scrubbing may apply to memory that isn't online at all yet.Likely this
+space after period
 
-Thanks
-Nicolin
+> +  is setting system wide defaults on boot.
+
+is a system wide default setting on boot.
+
+> +
+> +- Scrubbing at higher rate because software has decided that we want
+> +  more reliability for particular data, calling this Differentiated
+> +  Reliability.  That data sits in a region which may cover part of multiple
+> +  devices. The region interfaces are about supporting this use case.
+
+Please consider:
+Scrubbing at a higher rate because the monitor software has determined that
+more reliability is necessary for a particular data set. This is called
+Differentiated Reliability.
+
+The last sentence is not needed. When describing region scrubbing in 1.2, the third use
+case can be referred to.
+
+> +
+> +1.1. Device based scrubbing
+> +
+> +CXL memory is exposed to memory management subsystem and ultimately userspace
+> +via CXL devices.
+> +
+> +When combining control via the device interfaces and region interfaces see
+> +1.2 Region bases scrubbing.
+
+"see section 1.2 ..."
+
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-scrub`
+> +
+> +1.2. Region based scrubbing
+> +
+> +CXL memory is exposed to memory management subsystem and ultimately userspace
+> +via CXL regions. CXL Regions represent mapped memory capacity in system
+> +physical address space. These can incorporate one or more parts of multiple CXL
+> +memory devices with traffic interleaved across them. The user may want to control
+> +the scrub rate via this more abstract region instead of having to figure out the
+> +constituent devices and program them separately. The scrub rate for each device
+> +covers the whole device. Thus if multiple regions use parts of that device then
+> +requests for scrubbing of other regions may result in a higher scrub rate than
+> +requested for this specific region.
+> +
+> +Userspace must follow below set of rules on how to set the scrub rates for any
+> +mixture of requirements.
+> +
+> +1. Taking each region in turn from lowest desired scrub rate to highest and set
+> +   their scrub rates. Later regions may override the scrub rate on individual
+> +   devices (and hence potentially whole regions).
+> +
+> +2. Take each device for which enhanced scrubbing is required (higher rate) and
+> +   set those scrub rates. This will override the scrub rates of individual devices
+
+> +   leaving any that are not specifically set to scrub at the maximum rate required
+> +   for any of the regions they are involved in backing.
+
+I'm having trouble understanding what the second part of this sentence is attempting to convey.
+
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-scrub`
+> +
+> +2. CXL memory Error Check Scrub (ECS)
+> +
+> +The Error Check Scrub (ECS) feature enables a memory device to perform error
+> +checking and correction (ECC) and count single-bit errors. The associated
+> +memory controller triggers the ECS mode with a trigger sent to the memory
+> +device. However, CXL ECS control allows the user to change the attributes
+> +for error count mode and threshold for reporting errors and reset the ECS
+
+CXL ECX control allows the user to change the attributes for error count mode,
+the threshold for reporting errors, and reset the ECS counter.
+
+I think that's where the commas should go to make the sentence clearer.
+
+> +counter only. Thus, the scope of start Error Check Scrub on a memory device
+> +lies within a memory controller or platform when it is detecting unexpectedly
+> +high errors. Userspace allows to control the error count mode, threshold
+> +number of errors for a segment count indicating a number of segments
+> +having at least a threshold number of errors and reset the ECS counter.
+
+Need a comman before 'and'. Although the middle part is excessively long and hard to digest.
+Please consider rephrase.
+
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-ecs`
+
