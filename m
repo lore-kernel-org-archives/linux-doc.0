@@ -1,144 +1,195 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.8])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7FEB1A072A;
-	Mon, 28 Apr 2025 18:22:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.8
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 847401A072A
+	for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 18:29:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745864549; cv=none; b=L6DwExbZN40fLUXpaYeVhkTyO0R5V+uo93Y6oqG1REPkv3znuXtEagHnwqH7bkFb7zOjZAod3SDi+eOEEcYl/PYqgRRK0J9g0tPljZhy8K6LeYa84C+UJMtLN2hYmCp9yc3zrs4bV5E4yonAMrxRRyU8ibCuAYI/FgNgl7mF99E=
+	t=1745864973; cv=none; b=Yi+i9LNDnsoxrivX7eu5QUoO2C1+jKFmPDvs22EUhwA/F+MwviJBAHXBhTwnt9wP8+eOejulX5j0B7E4xqosIbZaHNdrV5Qr5IQeg4g1CEy2SDepIJKl4yqAKd7Sg6AUNkrQda9onhBnysqYRcDiLhftBuue//XbRNoIRp3k+Gs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745864549; c=relaxed/simple;
-	bh=HmYXJggRGYD1I4R26HOZ3P7wrMufPbzK3B6MhpkP79M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=rZA7apep774+pMRBIG5mFAgh70dG/6yKLxLS3tB3lHsf6khvQTMSCXslAiSZYjDFMD5gzqxJviXnzjNMTG2pQRMH8nXmUTGS91X/y6WLn1xyB9BhFGcdNZLlnYCYQmyqvdkMom7T3k1IHk0tV5z9LaPbTV+/DOwNFw7eUm/FkF0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=g/RTADmT; arc=none smtp.client-ip=192.198.163.8
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1745864973; c=relaxed/simple;
+	bh=p13D1eVIQwiWavUWJs1JcoUqzsrV/zu2I5OyDrzN+DA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=U4+zeuMNwp3OuPCnI1ip+8FuANjZ6hg2L+i7VnUB3aOOAhQqyM74OQofN6Z4Tn7nI9hamr2L8evq/AFo/HwF9mjCNn9TNpRqkrMMXu5Q++DuRIKrqGqyQ6Hyhq4WcY4IDPHfnxMphjtM+zBIobY78k2vNcu7ft0HEDiON3DArgw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=IHQuDnbd; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="g/RTADmT"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745864547; x=1777400547;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=HmYXJggRGYD1I4R26HOZ3P7wrMufPbzK3B6MhpkP79M=;
-  b=g/RTADmTF0erCy+zC63OI9wvsowOUGqHRuRxHLESClgD7DNTrDFGq3Ze
-   V3GIQCgweUHzuxQS8zLtHYXhe+cWKKRSy0fL7AzFLQrFL2XApjeBUhm+2
-   j+0lYyxUINGONHvQTTpsQP32K8PrNFb4XjnRgYdNPUK2/p2ni3pfU1M3e
-   YC4vB4z3JjZAndvRMIqZ6VTnEE81fx+96hQdNGWMKnz82o7SBhZ4etiP9
-   URPL7cazoFty8wR94RLw52AQJy23Uf+aEvdMpp+HnisNvNu5ladWHi9Pd
-   gY7roZrhJCZWJkqY3IPFoSvfnDxm8EGtDW7b2Ljip+wA2P/1kt30Sik+h
-   g==;
-X-CSE-ConnectionGUID: LKm0iGccQrGWza32d/UWhg==
-X-CSE-MsgGUID: ImQZFvTZQ7uZZLa8rpbiRw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="65002037"
-X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="65002037"
-Received: from orviesa001.jf.intel.com ([10.64.159.141])
-  by fmvoesa102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 11:22:26 -0700
-X-CSE-ConnectionGUID: Ca+oLJAmR1yp4vj+TBlbwg==
-X-CSE-MsgGUID: I1An/AcCT+K9563/9XOo8A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
-   d="scan'208";a="170817731"
-Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.109.95]) ([10.125.109.95])
-  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 11:22:24 -0700
-Message-ID: <b1d2a538-d4e2-457e-aed4-3ff827e2393f@intel.com>
-Date: Mon, 28 Apr 2025 11:22:23 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="IHQuDnbd"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745864969;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=vn6qN5R0W1vyV94Pxo62dc7PUSUH9kpksvjrmkO531Q=;
+	b=IHQuDnbdlL8pNreXcZ7emE1ag5jl5g9OoYJGiNSj6mm0gokQjuXIRzlXm/Nak9ry4V58+C
+	j3syju8pAkceWs26W8GzKlnc6qYvNIwPxfh1vlhOeGev2cyAfB+uGCAXDGnYhMzsR5LlNN
+	GnCso1AJ0EhR/fglu28GJ0uENcBkV2I=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-221-gKDvzwrDOpeQZ_TyPCDpuQ-1; Mon,
+ 28 Apr 2025 14:29:25 -0400
+X-MC-Unique: gKDvzwrDOpeQZ_TyPCDpuQ-1
+X-Mimecast-MFC-AGG-ID: gKDvzwrDOpeQZ_TyPCDpuQ_1745864961
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 708BE180036E;
+	Mon, 28 Apr 2025 18:29:20 +0000 (UTC)
+Received: from h1.redhat.com (unknown [10.22.65.12])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D2B9830001A2;
+	Mon, 28 Apr 2025 18:29:10 +0000 (UTC)
+From: Nico Pache <npache@redhat.com>
+To: linux-mm@kvack.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org
+Cc: akpm@linux-foundation.org,
+	corbet@lwn.net,
+	rostedt@goodmis.org,
+	mhiramat@kernel.org,
+	mathieu.desnoyers@efficios.com,
+	david@redhat.com,
+	baohua@kernel.org,
+	baolin.wang@linux.alibaba.com,
+	ryan.roberts@arm.com,
+	willy@infradead.org,
+	peterx@redhat.com,
+	shuah@kernel.org,
+	ziy@nvidia.com,
+	wangkefeng.wang@huawei.com,
+	usamaarif642@gmail.com,
+	sunnanyong@huawei.com,
+	vishal.moola@gmail.com,
+	thomas.hellstrom@linux.intel.com,
+	yang@os.amperecomputing.com,
+	kirill.shutemov@linux.intel.com,
+	aarcange@redhat.com,
+	raquini@redhat.com,
+	dev.jain@arm.com,
+	anshuman.khandual@arm.com,
+	catalin.marinas@arm.com,
+	tiwai@suse.de,
+	will@kernel.org,
+	dave.hansen@linux.intel.com,
+	jack@suse.cz,
+	cl@gentwo.org,
+	jglisse@google.com,
+	surenb@google.com,
+	zokeefe@google.com,
+	Liam.Howlett@oracle.com,
+	lorenzo.stoakes@oracle.com,
+	hannes@cmpxchg.org,
+	rientjes@google.com,
+	mhocko@suse.com,
+	rdunlap@infradead.org
+Subject: [PATCH v5 0/4] mm: introduce THP deferred setting
+Date: Mon, 28 Apr 2025 12:29:00 -0600
+Message-ID: <20250428182904.93989-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/8] cxl: Update prototype of function
- get_support_feature_info()
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
- dan.j.williams@intel.com, jonathan.cameron@huawei.com, dave@stgolabs.net,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com
-Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
- tony.luck@intel.com, lenb@kernel.org, leo.duran@amd.com,
- Yazen.Ghannam@amd.com, mchehab@kernel.org, nifan.cxl@gmail.com,
- linuxarm@huawei.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
- roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
- wanghuiqiang@huawei.com
-References: <20250407174920.625-1-shiju.jose@huawei.com>
- <20250407174920.625-3-shiju.jose@huawei.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250407174920.625-3-shiju.jose@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
+This series is a follow-up to [1], which adds mTHP support to khugepaged.
+mTHP khugepaged support is a "loose" dependency for the sysfs/sysctl
+configs to make sense. Without it global="defer" and  mTHP="inherit" case
+is "undefined" behavior.
 
+We've seen cases were customers switching from RHEL7 to RHEL8 see a
+significant increase in the memory footprint for the same workloads.
 
-On 4/7/25 10:49 AM, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
-> 
-> Add following changes to function get_support_feature_info()
-> 1. Make generic to share between cxl-fwctl and cxl-edac paths.
-> 2. Rename get_support_feature_info() to cxl_feature_info()
-> 3. Change parameter const struct fwctl_rpc_cxl *rpc_in to
->    const uuid_t *uuid.
-> 
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+Through our investigations we found that a large contributing factor to
+the increase in RSS was an increase in THP usage.
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> ---
->  drivers/cxl/core/core.h     |  2 ++
->  drivers/cxl/core/features.c | 17 +++++++----------
->  2 files changed, 9 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-> index 15699299dc11..1d96e7acf9cc 100644
-> --- a/drivers/cxl/core/core.h
-> +++ b/drivers/cxl/core/core.h
-> @@ -124,6 +124,8 @@ int cxl_acpi_get_extended_linear_cache_size(struct resource *backing_res,
->  					    int nid, resource_size_t *size);
->  
->  #ifdef CONFIG_CXL_FEATURES
-> +struct cxl_feat_entry *
-> +cxl_feature_info(struct cxl_features_state *cxlfs, const uuid_t *uuid);
->  size_t cxl_get_feature(struct cxl_mailbox *cxl_mbox, const uuid_t *feat_uuid,
->  		       enum cxl_get_feat_selection selection,
->  		       void *feat_out, size_t feat_out_size, u16 offset,
-> diff --git a/drivers/cxl/core/features.c b/drivers/cxl/core/features.c
-> index f4daefe3180e..35c91f14c761 100644
-> --- a/drivers/cxl/core/features.c
-> +++ b/drivers/cxl/core/features.c
-> @@ -355,17 +355,11 @@ static void cxlctl_close_uctx(struct fwctl_uctx *uctx)
->  {
->  }
->  
-> -static struct cxl_feat_entry *
-> -get_support_feature_info(struct cxl_features_state *cxlfs,
-> -			 const struct fwctl_rpc_cxl *rpc_in)
-> +struct cxl_feat_entry *
-> +cxl_feature_info(struct cxl_features_state *cxlfs,
-> +		 const uuid_t *uuid)
->  {
->  	struct cxl_feat_entry *feat;
-> -	const uuid_t *uuid;
-> -
-> -	if (rpc_in->op_size < sizeof(uuid))
-> -		return ERR_PTR(-EINVAL);
-> -
-> -	uuid = &rpc_in->set_feat_in.uuid;
->  
->  	for (int i = 0; i < cxlfs->entries->num_features; i++) {
->  		feat = &cxlfs->entries->ent[i];
-> @@ -547,7 +541,10 @@ static bool cxlctl_validate_set_features(struct cxl_features_state *cxlfs,
->  	struct cxl_feat_entry *feat;
->  	u32 flags;
->  
-> -	feat = get_support_feature_info(cxlfs, rpc_in);
-> +	if (rpc_in->op_size < sizeof(uuid_t))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	feat = cxl_feature_info(cxlfs, &rpc_in->set_feat_in.uuid);
->  	if (IS_ERR(feat))
->  		return false;
->  
+For workloads like MySQL, or when using allocators like jemalloc, it is
+often recommended to set /transparent_hugepages/enabled=never. This is
+in part due to performance degradations and increased memory waste.
+
+This series introduces enabled=defer, this setting acts as a middle
+ground between always and madvise. If the mapping is MADV_HUGEPAGE, the
+page fault handler will act normally, making a hugepage if possible. If
+the allocation is not MADV_HUGEPAGE, then the page fault handler will
+default to the base size allocation. The caveat is that khugepaged can
+still operate on pages that are not MADV_HUGEPAGE.
+
+This allows for three things... one, applications specifically designed to
+use hugepages will get them, and two, applications that don't use
+hugepages can still benefit from them without aggressively inserting
+THPs at every possible chance. This curbs the memory waste, and defers
+the use of hugepages to khugepaged. Khugepaged can then scan the memory
+for eligible collapsing. Lastly there is the added benefit for those who
+want THPs but experience higher latency PFs. Now you can get base page
+performance at the PF handler and Hugepage performance for those mappings
+after they collapse.
+
+Admins may want to lower max_ptes_none, if not, khugepaged may
+aggressively collapse single allocations into hugepages.
+
+TESTING:
+- Built for x86_64, aarch64, ppc64le, and s390x
+- selftests mm
+- In [1] I provided a script [2] that has multiple access patterns
+- lots of general use.
+- redis testing. This test was my original case for the defer mode. What I
+   was able to prove was that THP=always leads to increased max_latency
+   cases; hence why it is recommended to disable THPs for redis servers.
+   However with 'defer' we dont have the max_latency spikes and can still
+   get the system to utilize THPs. I further tested this with the mTHP
+   defer setting and found that redis (and probably other jmalloc users)
+   can utilize THPs via defer (+mTHP defer) without a large latency
+   penalty and some potential gains. I uploaded some mmtest results
+   here[3] which compares:
+       stock+thp=never
+       stock+(m)thp=always
+       khugepaged-mthp + defer (max_ptes_none=64)
+
+  The results show that (m)THPs can cause some throughput regression in
+  some cases, but also has gains in other cases. The mTHP+defer results
+  have more gains and less losses over the (m)THP=always case.
+
+V5 Changes:
+- rebased dependent series
+- added reviewed-by tag on 2/4
+
+V4 Changes:
+- Minor Documentation fixes
+- rebased the dependent series [1] onto mm-unstable
+    commit 0e68b850b1d3 ("vmalloc: use atomic_long_add_return_relaxed()")
+
+V3 Changes:
+- Combined the documentation commits into one, and moved a section to the
+  khugepaged mthp patchset
+
+V2 Changes:
+- base changes on mTHP khugepaged support
+- Fix selftests parsing issue
+- add mTHP defer option
+- add mTHP defer Documentation
+
+[1] - https://lore.kernel.org/lkml/20250428181218.85925-1-npache@redhat.com/
+[2] - https://gitlab.com/npache/khugepaged_mthp_test
+[3] - https://people.redhat.com/npache/mthp_khugepaged_defer/testoutput2/output.html
+
+Nico Pache (4):
+  mm: defer THP insertion to khugepaged
+  mm: document (m)THP defer usage
+  khugepaged: add defer option to mTHP options
+  selftests: mm: add defer to thp setting parser
+
+ Documentation/admin-guide/mm/transhuge.rst | 31 +++++++---
+ include/linux/huge_mm.h                    | 18 +++++-
+ mm/huge_memory.c                           | 69 +++++++++++++++++++---
+ mm/khugepaged.c                            |  8 +--
+ tools/testing/selftests/mm/thp_settings.c  |  1 +
+ tools/testing/selftests/mm/thp_settings.h  |  1 +
+ 6 files changed, 106 insertions(+), 22 deletions(-)
+
+-- 
+2.48.1
 
