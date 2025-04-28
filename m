@@ -1,261 +1,527 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2063.outbound.protection.outlook.com [40.107.237.63])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 283FB2980AA;
-	Mon, 28 Apr 2025 20:02:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.63
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745870567; cv=fail; b=LtE8DsgUhCBTxz2OLfgh8wHjwxvIFq+qH0QZe3NKMGjLOWlLDWxXF2sF2FhA1lTqSzpcb0t3XRFJtGMSy9lhIQR1adIK9W8XTTfOHVWR1YResUr9PpbOatse9fi9qYBP/pOAQ5+69X2cRcgSEQfow6OdH+a6Fg4ElhUkQWZNXTs=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745870567; c=relaxed/simple;
-	bh=/9a9u+Y0unDYMiHhgJZtzMRWS/kPxPTNQQUPln2NXhI=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=e3p+xQ60bi7XAzu3PMl9H5c0hJr5/fYxritCuSrNGDSkdF63gMSyohQBYfaMh6r+cSwDkzPhBNs3a3oY6U0XhPwL75itUDKKkK0S5aw0IiGunKWQbUPiEVPs4ZE8ZX0+z+V9DTjj1UoO9qDY3psUi8zryAYyFW9qyznRrBHdtg0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=nNrR5qyG; arc=fail smtp.client-ip=40.107.237.63
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 385681A7262;
+	Mon, 28 Apr 2025 20:14:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745871257; cv=none; b=cMJIJ5M2kThpymuLFvekyIlb82Ib26uq3M2FnuKLP4moHFcmZOPPbLWr/SzSZXowJ3P+588Yxjc+7r2TaV2bBofwx3kjReRzxViuAg+NsBhxR3i2B3v9xcsVqSq/UUXSzaiWx9XTHDMQPuN/sH+DTdEL19wZP7JKXncDJzKBVpY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745871257; c=relaxed/simple;
+	bh=jTWbJb+lEXQZP9dnjw7jiyRsnqeUGH8qRZ0vzYVWEec=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=o+HTn5JvYG4iGsCp1PQJrlXoyyY5+XeZsenxC4zuvKtNWbf+TdaYL6nKfy+Cm6Ae62iE1LfvVsDM+oqhssWajMRp1Lt+0Mkj9ukvZ/GyjRrqg8r9z+WRoIg28pxpjYO6jPZUKbRJ3bHe5DC97D6Jg6jL4+XPWvvzPZ6RRKolSyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=NWWUMq7K; arc=none smtp.client-ip=198.175.65.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="nNrR5qyG"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=tJEoo4HqdaCiyGGb306ZcQYvp4TIAScNXENVdyhiZNTB2Zh78n98GSHKcLk0oaoIaA/9g5fDFF3hvQS8ZctEC0Btel80KidwQ6hRk35Ake3yZG40sVsZ5I4HnafrOzzs3nRTS0yl0VvCU20xkfDYOFgm+EMlGrFoe4Qa8CyJdG+yTEyUHzzb+sUBJOX0YVVNIOFChWp8+LJAxFLxkEGe0hh3pDvYfBkUGexQhe6WjQKxf3Qr///q3gA0SeGL8f/QuQmjWXDx5EKQYK5U8bxooKclngxSyq3RFA8B8p+bmixzFz4GvWX1SYqKox2h1PY5pH4wnqFJNj4mQDz6CWR5Sg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J+4jt2aHKM9OQOxWZhzm58mt7UbTuOvn+tJa+Fg30QU=;
- b=njc8YWbMRvB5MPk7+1qAdl1imxNnEoc3o7cyLtUi+CVVU/Csl6iWVUcqj8LNtoW8bFSlF0Oti+DJ08LwVdOPgOVYjl9nAY66FkSz/SQwW6Kgi2Q4DXl8MjAIhRfMijvu3boDtYowfRyMMJohtlp5ssnUXLj8EEn68vT+VHqlYsh/+TauAJd/slxJrdmEMOB6Fm+gN5TB8cXjUrL9q+FP6ZTpDIs0ypFAbRhXLN+8boBN5GLU6XsOhb5KNaPPghCAK34En+MqywrbWE6DTgzOE1j8UmpixZ+06guIOltdZ5tk19u9KO1duh4pMF3b+qJ9yRzEa+VIQAimn1iQBw5kqw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J+4jt2aHKM9OQOxWZhzm58mt7UbTuOvn+tJa+Fg30QU=;
- b=nNrR5qyGr9uG2SObRjBvb7HiE7wKyfpGGsd5dGRnHWb0hp1b2sP9dsROq6Aza3xL+D7CJH1Qr705hCGudI0DMbeDsKB/bHvYK4Io+69+k6tqzah5VtLc8KoDV9u6jmA9e9aHtvtSgygx8mp8qDpNZtsG7bpF7ZScd1dgv+3BUfn268vaPwotmz+zM0yGSo1MPMFAQppHVtEkFu4qVrC87qz2BUsUsXhfmVJ/SPjEK1ikSpNk6hR06lo24ViszDLe86pTMOyYYJgbEwYUliOB+n647V79EqqCKLDeCAxf+z6iyD2IFd78KmrTWxiogT8B/ca0KnjjPH85Vvm07/5Qlw==
-Received: from CH0PR03CA0404.namprd03.prod.outlook.com (2603:10b6:610:11b::33)
- by SJ2PR12MB8009.namprd12.prod.outlook.com (2603:10b6:a03:4c7::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Mon, 28 Apr
- 2025 20:02:36 +0000
-Received: from CH2PEPF0000014A.namprd02.prod.outlook.com
- (2603:10b6:610:11b:cafe::7e) by CH0PR03CA0404.outlook.office365.com
- (2603:10b6:610:11b::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.37 via Frontend Transport; Mon,
- 28 Apr 2025 20:02:35 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- CH2PEPF0000014A.mail.protection.outlook.com (10.167.244.107) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.33 via Frontend Transport; Mon, 28 Apr 2025 20:02:35 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 28 Apr
- 2025 13:02:20 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 28 Apr
- 2025 13:02:19 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 28 Apr 2025 13:02:17 -0700
-Date: Mon, 28 Apr 2025 13:02:15 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>, <bagasdotme@gmail.com>, <robin.murphy@arm.com>,
-	<joro@8bytes.org>, <thierry.reding@gmail.com>, <vdumpa@nvidia.com>,
-	<jonathanh@nvidia.com>, <shuah@kernel.org>, <jsnitsel@redhat.com>,
-	<nathan@kernel.org>, <peterz@infradead.org>, <yi.l.liu@intel.com>,
-	<mshavit@google.com>, <praan@google.com>, <zhangzekun11@huawei.com>,
-	<iommu@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<patches@lists.linux.dev>, <mochs@nvidia.com>, <alok.a.tiwari@oracle.com>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v2 10/22] iommufd/viommmu: Add IOMMUFD_CMD_VCMDQ_ALLOC
- ioctl
-Message-ID: <aA/exylmYJhIhEVL@Asurada-Nvidia>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <094992b874190ffdcf6012104b419c8649b5e4b4.1745646960.git.nicolinc@nvidia.com>
- <b0d01609-bdda-49a3-af0c-ca828a9c4cea@amd.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="NWWUMq7K"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745871255; x=1777407255;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=jTWbJb+lEXQZP9dnjw7jiyRsnqeUGH8qRZ0vzYVWEec=;
+  b=NWWUMq7K9qdbIZyn4+uf3xufMPSM5Z/U+VppaqcO/cRSqxedp8/yM3uZ
+   8GwNTNXTsV7zNyWnG6biPywhav22DDllCL2a5Bb975ayqk9gYmDltyLxP
+   mPTBey6K5rEd5Rx0F6nA5t+DpFbCyO2EnplN910u2eu7Zzz/zjojGrSBa
+   uf5hr4vXd0Vr3qIPzBc0qP40dGpN8rh+umxKA/MU7TCTzJAVQ4u/RPozM
+   k2VjqivSiJc7glZI5+uOpPdITFgp8acpJyfOmoyT36LNbEgKKiseq8i8B
+   Hp6jpRzFVvpUAyGuNvpve9HJ/sHYQxdx5Ez65DuMMDZ/O/Ikyrir9gurN
+   g==;
+X-CSE-ConnectionGUID: Zru+8fLyScSoO7UP3IyTHg==
+X-CSE-MsgGUID: DsznE3CmRr+FPC2DLomSSQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="58846869"
+X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
+   d="scan'208";a="58846869"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 13:14:14 -0700
+X-CSE-ConnectionGUID: c/7z4qTIShW5Dg7RTuDTSA==
+X-CSE-MsgGUID: cd+Ds/M0TBikqrJ2DthBIw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,247,1739865600"; 
+   d="scan'208";a="164579332"
+Received: from cmdeoliv-mobl4.amr.corp.intel.com (HELO [10.125.109.95]) ([10.125.109.95])
+  by orviesa002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 13:14:13 -0700
+Message-ID: <0f6fd481-4a74-4461-b6a1-49a45d4e5d55@intel.com>
+Date: Mon, 28 Apr 2025 13:14:12 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <b0d01609-bdda-49a3-af0c-ca828a9c4cea@amd.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF0000014A:EE_|SJ2PR12MB8009:EE_
-X-MS-Office365-Filtering-Correlation-Id: ab83bf12-0bbf-458d-2674-08dd868f9ec7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|1800799024|376014|7416014|36860700013|13003099007;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?eygLkwFwoONFetAiaOlkvRv561Cx0cmGlBj9l1OsDspcpkRbC4mMXFWMzn4w?=
- =?us-ascii?Q?b6+FCX+JEOYra0lJP2UxF2NpJeVUhydzGt4MTy6w0JL9J5FDp+U6Ws6FqXG/?=
- =?us-ascii?Q?fz7gGu52nRDvE7DJl8RCvBg12zNAD2/64Aoz9qqVAffzEGIw1J3grBAWcfCa?=
- =?us-ascii?Q?bLB+5gXjHe9Qigvd4FiNEbvH/2KLX1+AbJ3t5xU/T4/B60ekheugIQjTvYSO?=
- =?us-ascii?Q?grAKJgcKmkHTrZME+Xm4XuI/KcARAL0MiD62E/crQVceYipCGcQO/vKZzZH+?=
- =?us-ascii?Q?oL1SmkOdOapoQaHVQ3CsGxpsNY42VvJWhjmty6Ti9bOi9eQEPOD17Rukl4XL?=
- =?us-ascii?Q?SR2gbW3T3lqR+MZOipDlWJLNLGsHLmL7jv/Lnrn7I747dKaMt59Vt5L/i9gB?=
- =?us-ascii?Q?3Kj8G0/kqv4NFsuwA5Xym2Sh4kkoBY1N5NGUvwY/JlhTcnCZvIqSzqR11gCA?=
- =?us-ascii?Q?/WQgUVYy/UdSVR2qKpKCv7OxjcXKtD9vg1vqKfvpxNdtiFz3oojifbcwcbvU?=
- =?us-ascii?Q?rICfG2YPUflbgQzjm63SnB5TV2XIWqGrLn8s7K9TfnO/pmKaJbGvhV4WByq1?=
- =?us-ascii?Q?e9xOQKkplFLXfIaRTSGsaBEoklBHjBeq5LvcUCHoi9TinHTTRh74GPlgbWd1?=
- =?us-ascii?Q?HWT1YQkBIM/NLyUDBhzUqh+5xh8CKAKrzj70nK8ZgYU3S6JsO3WZwkIj3ig8?=
- =?us-ascii?Q?sFPFCbsM4hw0Kkh0jO5bBiMdIesX3CQFks3LNY2NScqt1fnjQCB4PxXDZOEO?=
- =?us-ascii?Q?uTA6GPu+tz48rmqogxFSF4rkI0wfs4naIfoC4zqE2kL7tI8kElq5cs4eFtYv?=
- =?us-ascii?Q?fJyNAMnfgOc7BxJ+8K1hjEADKWLGKWEgWkPxc9F+M11Ec+PpZYPEtSwhP55t?=
- =?us-ascii?Q?hhnYeVFW2AL4arqZwp8E5QEbn0XlYJ5KtRLg5sph0Vz1yHngHr2RRKlQEchz?=
- =?us-ascii?Q?2OnYXVyezaw7CpESrdWvOGH/BboXDFrDfeVdxGYGrDp43OXqgULF5Lr7upy/?=
- =?us-ascii?Q?Hx03YBsurJz6x+w5BqExWTPB04hZJ3ZoFsik0uPbiUkvlMovL6T3C2XkkdTJ?=
- =?us-ascii?Q?q7WyupTNNhtF5CBsWQSHrMaYCunN2UBUR37U0IH0Y5IPiZ2y7xSPFSAgPG98?=
- =?us-ascii?Q?ap9OkMg32vdqoz+tSSOcrKBhUgp1aD5Lqoz1xASyDTi21pb0lesnFV0viWK7?=
- =?us-ascii?Q?vjYhG2IbexnDf5BgJYinyBEJbuyLyq9vrDO6W5IYDVCzpY9J8P1tc9DvTG2u?=
- =?us-ascii?Q?0iRozBy7gBw6CjK1/Q8yV5gE+YXAIzg2xOrs9RgnKlvWDqtGjpoU7X78iA3H?=
- =?us-ascii?Q?F8SdqOeK88qfjsnplCwGQSyk9WgHe7wAANX2YgRyXYsEvrc7oz4ukt7ed2JQ?=
- =?us-ascii?Q?MqKHncUAGoMwSXc06EhaeNIRJ6m5IGMsJc1vhpZ3BNJtQPzcTSesc6ZCtd6U?=
- =?us-ascii?Q?65HOJ1fuRql3jm4wIwM53rFpsbmNb8ju1lNXwtZ0UvSlRIDiD92Xxj7U8atA?=
- =?us-ascii?Q?XzqQj+IaGthosV5f0s7EkvUmU/7ZZ0z1Xqr/IStW7/npzDFYrG9+GN97Jw?=
- =?us-ascii?Q?=3D=3D?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(1800799024)(376014)(7416014)(36860700013)(13003099007);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 20:02:35.7139
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ab83bf12-0bbf-458d-2674-08dd868f9ec7
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF0000014A.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ2PR12MB8009
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 4/8] cxl/edac: Add CXL memory device ECS control
+ feature
+To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
+ dan.j.williams@intel.com, jonathan.cameron@huawei.com, dave@stgolabs.net,
+ alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com
+Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
+ tony.luck@intel.com, lenb@kernel.org, leo.duran@amd.com,
+ Yazen.Ghannam@amd.com, mchehab@kernel.org, nifan.cxl@gmail.com,
+ linuxarm@huawei.com, tanxiaofei@huawei.com, prime.zeng@hisilicon.com,
+ roberto.sassu@huawei.com, kangkang.shen@futurewei.com,
+ wanghuiqiang@huawei.com
+References: <20250407174920.625-1-shiju.jose@huawei.com>
+ <20250407174920.625-5-shiju.jose@huawei.com>
+Content-Language: en-US
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250407174920.625-5-shiju.jose@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 28, 2025 at 05:42:27PM +0530, Vasant Hegde wrote:
-> > +/**
-> > + * struct iommu_vcmdq_alloc - ioctl(IOMMU_VCMDQ_ALLOC)
-> > + * @size: sizeof(struct iommu_vcmdq_alloc)
-> > + * @flags: Must be 0
-> > + * @viommu_id: Virtual IOMMU ID to associate the virtual command queue with
-> > + * @type: One of enum iommu_vcmdq_type
-> > + * @index: The logical index to the virtual command queue per virtual IOMMU, for
-> > + *         a multi-queue model
-> > + * @out_vcmdq_id: The ID of the new virtual command queue
-> > + * @addr: Base address of the queue memory in the guest physical address space
+
+
+On 4/7/25 10:49 AM, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
 > 
-> Sorry. I didn't get this part.
+> CXL spec 3.2 section 8.2.10.9.11.2 describes the DDR5 ECS (Error Check
+> Scrub) control feature.
+> The Error Check Scrub (ECS) is a feature defined in JEDEC DDR5 SDRAM
+> Specification (JESD79-5) and allows the DRAM to internally read, correct
+> single-bit errors, and write back corrected data bits to the DRAM array
+> while providing transparency to error counts.
 > 
-> So here `addr` is command queue base address like
->  - NVIDIA's virtual command queue
->  - AMD vIOMMU's command buffer
+> The ECS control allows the requester to change the log entry type, the ECS
+> threshold count (provided the request falls within the limits specified in
+> DDR5 mode registers), switch between codeword mode and row count mode, and
+> reset the ECS counter.
 > 
-> .. and it will allocate vcmdq for each buffer type. Is that the correct
-> understanding?
-
-Yes. For AMD "vIOMMU", it needs a new type for iommufd vIOMMU:
-	IOMMU_VIOMMU_TYPE_AMD_VIOMMU,
-
-For AMD "vIOMMU" command buffer, it needs a new type too:
-	IOMMU_VCMDQ_TYPE_AMD_VIOMMU, /* Kdoc it to be Command Buffer */
-
-Then, use IOMMUFD_CMD_VIOMMU_ALLOC ioctl to allocate an vIOMMU
-obj, and use IOMMUFD_CMD_VCMDQ_ALLOC ioctl(s) to allocate vCMDQ
-objs.
-
-> In case of AMD vIOMMU, buffer base address is programmed in different register
-> (ex: MMIO Offset 0008h Command Buffer Base Address Register) and buffer
-> enable/disable is done via different register (ex: MMIO Offset 0018h IOMMU
-> Control Register). And we need to communicate both to hypervisor. Not sure this
-> API can accommodate this as addr seems to be mandatory.
-
-NVIDIA's CMDQV has all three of them too. What we do here is to
-let VMM trap the buffer base address (in guest physical address
-space) and forward it to kernel using this @addr. Then, kernel
-will translate this @addr to host physical address space, and
-program the physical address and size to the register.
-
-> [1]
-> https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_IOMMU.pdf
-
-Thanks for the doc. So, AMD has:
-
-Command Buffer Base Address Register [MMIO Offset 0008h]
-"used to program the system physical base address and size of the
- command buffer. The command buffer occupies contiguous physical
- memory starting at the programmed base address, up to the
- programmed size."
-Command Buffer Head Pointer Register [MMIO Offset 2000h]
-Command Buffer Tail Pointer Register [MMIO Offset 2008h]
-
-IIUIC, AMD should do the same: VMM traps VM's Command Buffer Base
-Address register when the guest kernel allocates a command buffer
-by programming the VM's Command Buffer Base Address register, to
-capture the guest PA and size. Then, VMM allocates a vCMDQ object
-(for this command buffer) forwarding its buffer address and size
-via @addr and @length to the host kernel. Then, the kernel should
-translate the guest PA to host PA to program the HW.
-
-We can see that the Head/Tail registers are in a different MMIO
-page (offset by two 4K pages), which is very like NVIDIA CMDQV
-that allows VMM to mmap that MMIO page of the Head/Tail registers
-for guest OS to directly control the HW (i.e. VMM doesn't trap
-these two registers.
-
-When guest OS wants to issue a new command, the guest kernel can
-just fill the guest command buffer at the entry that the Head
-register points to, and program the Tail register (backed by an
-mmap'd MMIO page), then the HW will read the programmed physical
-address from the entry (Head) till the entry (Tail) in the guest
-command buffer.
-
-> > @@ -170,3 +170,97 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *ucmd)
-> >  	iommufd_put_object(ucmd->ictx, &viommu->obj);
-> >  	return rc;
-> >  }
-> > +
-> > +void iommufd_vcmdq_destroy(struct iommufd_object *obj)
-> > +{
+> Register with EDAC device driver, which retrieves the ECS attribute
+> descriptors from the EDAC ECS and exposes the ECS control attributes to
+> userspace via sysfs. For example, the ECS control for the memory media FRU0
+> in CXL mem0 device is located at /sys/bus/edac/devices/cxl_mem0/ecs_fru0/
 > 
-> I didn't understood destroy flow in general. Can you please help me to understand:
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Reviewed-by: Fan Ni <fan.ni@samsung.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+
+Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+
+> ---
+>  drivers/cxl/Kconfig     |  17 ++
+>  drivers/cxl/core/edac.c | 363 +++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 378 insertions(+), 2 deletions(-)
 > 
-> VMM is expected to track all buffers and call this interface?  OR iommufd will
-> take care of it? What happens if VM crashes ?
+> diff --git a/drivers/cxl/Kconfig b/drivers/cxl/Kconfig
+> index af72416edcd4..51987f2a2548 100644
+> --- a/drivers/cxl/Kconfig
+> +++ b/drivers/cxl/Kconfig
+> @@ -147,6 +147,23 @@ config CXL_EDAC_SCRUB
+>  	  (e.g. scrub rates for the patrol scrub feature).
+>  	  Otherwise say 'n'.
+>  
+> +config CXL_EDAC_ECS
+> +	bool "Enable CXL Error Check Scrub (Repair)"
+> +	depends on CXL_EDAC_MEM_FEATURES
+> +	depends on EDAC_ECS
+> +	help
+> +	  The CXL EDAC ECS control is optional and allows host to
+> +	  control the ECS feature configurations of CXL memory expander
+> +	  devices.
+> +
+> +	  When enabled 'cxl_mem' EDAC devices are published with memory
+> +	  ECS control attributes as described by
+> +	  Documentation/ABI/testing/sysfs-edac-ecs.
+> +
+> +	  Say 'y' if you have an expert need to change default settings
+> +	  of a memory ECS feature established by the platform/device.
+> +	  Otherwise say 'n'.
+> +
+>  config CXL_PORT
+>  	default CXL_BUS
+>  	tristate
+> diff --git a/drivers/cxl/core/edac.c b/drivers/cxl/core/edac.c
+> index 3a4f9ed726d3..a624fc90caf9 100644
+> --- a/drivers/cxl/core/edac.c
+> +++ b/drivers/cxl/core/edac.c
+> @@ -19,7 +19,7 @@
+>  #include <cxlmem.h>
+>  #include "core.h"
+>  
+> -#define CXL_NR_EDAC_DEV_FEATURES 1
+> +#define CXL_NR_EDAC_DEV_FEATURES 2
+>  
+>  #ifdef CONFIG_CXL_EDAC_SCRUB
+>  struct cxl_patrol_scrub_context {
+> @@ -441,11 +441,361 @@ static int cxl_region_scrub_init(struct cxl_region *cxlr,
+>  }
+>  #endif /* CONFIG_CXL_EDAC_SCRUB */
+>  
+> +#ifdef CONFIG_CXL_EDAC_ECS
+> +struct cxl_ecs_context {
+> +	u16 num_media_frus;
+> +	u16 get_feat_size;
+> +	u16 set_feat_size;
+> +	u8 get_version;
+> +	u8 set_version;
+> +	u16 effects;
+> +	struct cxl_memdev *cxlmd;
+> +};
+> +
+> +/*
+> + * See CXL spec rev 3.2 @8.2.10.9.11.2 Table 8-225 DDR5 ECS Control Feature
+> + * Readable Attributes.
+> + */
+> +struct cxl_ecs_fru_rd_attrbs {
+> +	u8 ecs_cap;
+> +	__le16 ecs_config;
+> +	u8 ecs_flags;
+> +} __packed;
+> +
+> +struct cxl_ecs_rd_attrbs {
+> +	u8 ecs_log_cap;
+> +	struct cxl_ecs_fru_rd_attrbs fru_attrbs[];
+> +} __packed;
+> +
+> +/*
+> + * See CXL spec rev 3.2 @8.2.10.9.11.2 Table 8-226 DDR5 ECS Control Feature
+> + * Writable Attributes.
+> + */
+> +struct cxl_ecs_fru_wr_attrbs {
+> +	__le16 ecs_config;
+> +} __packed;
+> +
+> +struct cxl_ecs_wr_attrbs {
+> +	u8 ecs_log_cap;
+> +	struct cxl_ecs_fru_wr_attrbs fru_attrbs[];
+> +} __packed;
+> +
+> +#define CXL_ECS_LOG_ENTRY_TYPE_MASK GENMASK(1, 0)
+> +#define CXL_ECS_REALTIME_REPORT_CAP_MASK BIT(0)
+> +#define CXL_ECS_THRESHOLD_COUNT_MASK GENMASK(2, 0)
+> +#define CXL_ECS_COUNT_MODE_MASK BIT(3)
+> +#define CXL_ECS_RESET_COUNTER_MASK BIT(4)
+> +#define CXL_ECS_RESET_COUNTER 1
+> +
+> +enum {
+> +	ECS_THRESHOLD_256 = 256,
+> +	ECS_THRESHOLD_1024 = 1024,
+> +	ECS_THRESHOLD_4096 = 4096,
+> +};
+> +
+> +enum {
+> +	ECS_THRESHOLD_IDX_256 = 3,
+> +	ECS_THRESHOLD_IDX_1024 = 4,
+> +	ECS_THRESHOLD_IDX_4096 = 5,
+> +};
+> +
+> +static const u16 ecs_supp_threshold[] = {
+> +	[ECS_THRESHOLD_IDX_256] = 256,
+> +	[ECS_THRESHOLD_IDX_1024] = 1024,
+> +	[ECS_THRESHOLD_IDX_4096] = 4096,
+> +};
+> +
+> +enum {
+> +	ECS_LOG_ENTRY_TYPE_DRAM = 0x0,
+> +	ECS_LOG_ENTRY_TYPE_MEM_MEDIA_FRU = 0x1,
+> +};
+> +
+> +enum cxl_ecs_count_mode {
+> +	ECS_MODE_COUNTS_ROWS = 0,
+> +	ECS_MODE_COUNTS_CODEWORDS = 1,
+> +};
+> +
+> +static int cxl_mem_ecs_get_attrbs(struct device *dev,
+> +				  struct cxl_ecs_context *cxl_ecs_ctx,
+> +				  int fru_id, u8 *log_cap, u16 *config)
+> +{
+> +	struct cxl_memdev *cxlmd = cxl_ecs_ctx->cxlmd;
+> +	struct cxl_mailbox *cxl_mbox = &cxlmd->cxlds->cxl_mbox;
+> +	struct cxl_ecs_fru_rd_attrbs *fru_rd_attrbs;
+> +	size_t rd_data_size;
+> +	size_t data_size;
+> +
+> +	rd_data_size = cxl_ecs_ctx->get_feat_size;
+> +
+> +	struct cxl_ecs_rd_attrbs *rd_attrbs __free(kvfree) =
+> +		kvzalloc(rd_data_size, GFP_KERNEL);
+> +	if (!rd_attrbs)
+> +		return -ENOMEM;
+> +
+> +	data_size = cxl_get_feature(cxl_mbox, &CXL_FEAT_ECS_UUID,
+> +				    CXL_GET_FEAT_SEL_CURRENT_VALUE, rd_attrbs,
+> +				    rd_data_size, 0, NULL);
+> +	if (!data_size)
+> +		return -EIO;
+> +
+> +	fru_rd_attrbs = rd_attrbs->fru_attrbs;
+> +	*log_cap = rd_attrbs->ecs_log_cap;
+> +	*config = le16_to_cpu(fru_rd_attrbs[fru_id].ecs_config);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cxl_mem_ecs_set_attrbs(struct device *dev,
+> +				  struct cxl_ecs_context *cxl_ecs_ctx,
+> +				  int fru_id, u8 log_cap, u16 config)
+> +{
+> +	struct cxl_memdev *cxlmd = cxl_ecs_ctx->cxlmd;
+> +	struct cxl_mailbox *cxl_mbox = &cxlmd->cxlds->cxl_mbox;
+> +	struct cxl_ecs_fru_rd_attrbs *fru_rd_attrbs;
+> +	struct cxl_ecs_fru_wr_attrbs *fru_wr_attrbs;
+> +	size_t rd_data_size, wr_data_size;
+> +	u16 num_media_frus, count;
+> +	size_t data_size;
+> +
+> +	num_media_frus = cxl_ecs_ctx->num_media_frus;
+> +	rd_data_size = cxl_ecs_ctx->get_feat_size;
+> +	wr_data_size = cxl_ecs_ctx->set_feat_size;
+> +	struct cxl_ecs_rd_attrbs *rd_attrbs __free(kvfree) =
+> +		kvzalloc(rd_data_size, GFP_KERNEL);
+> +	if (!rd_attrbs)
+> +		return -ENOMEM;
+> +
+> +	data_size = cxl_get_feature(cxl_mbox, &CXL_FEAT_ECS_UUID,
+> +				    CXL_GET_FEAT_SEL_CURRENT_VALUE, rd_attrbs,
+> +				    rd_data_size, 0, NULL);
+> +	if (!data_size)
+> +		return -EIO;
+> +
+> +	struct cxl_ecs_wr_attrbs *wr_attrbs __free(kvfree) =
+> +		kvzalloc(wr_data_size, GFP_KERNEL);
+> +	if (!wr_attrbs)
+> +		return -ENOMEM;
+> +
+> +	/*
+> +	 * Fill writable attributes from the current attributes read
+> +	 * for all the media FRUs.
+> +	 */
+> +	fru_rd_attrbs = rd_attrbs->fru_attrbs;
+> +	fru_wr_attrbs = wr_attrbs->fru_attrbs;
+> +	wr_attrbs->ecs_log_cap = log_cap;
+> +	for (count = 0; count < num_media_frus; count++)
+> +		fru_wr_attrbs[count].ecs_config =
+> +			fru_rd_attrbs[count].ecs_config;
+> +
+> +	fru_wr_attrbs[fru_id].ecs_config = cpu_to_le16(config);
+> +
+> +	return cxl_set_feature(cxl_mbox, &CXL_FEAT_ECS_UUID,
+> +			       cxl_ecs_ctx->set_version, wr_attrbs,
+> +			       wr_data_size,
+> +			       CXL_SET_FEAT_FLAG_DATA_SAVED_ACROSS_RESET,
+> +			       0, NULL);
+> +}
+> +
+> +static u8 cxl_get_ecs_log_entry_type(u8 log_cap, u16 config)
+> +{
+> +	return FIELD_GET(CXL_ECS_LOG_ENTRY_TYPE_MASK, log_cap);
+> +}
+> +
+> +static u16 cxl_get_ecs_threshold(u8 log_cap, u16 config)
+> +{
+> +	u8 index = FIELD_GET(CXL_ECS_THRESHOLD_COUNT_MASK, config);
+> +
+> +	return ecs_supp_threshold[index];
+> +}
+> +
+> +static u8 cxl_get_ecs_count_mode(u8 log_cap, u16 config)
+> +{
+> +	return FIELD_GET(CXL_ECS_COUNT_MODE_MASK, config);
+> +}
+> +
+> +#define CXL_ECS_GET_ATTR(attrb)						    \
+> +	static int cxl_ecs_get_##attrb(struct device *dev, void *drv_data,  \
+> +				       int fru_id, u32 *val)		    \
+> +	{								    \
+> +		struct cxl_ecs_context *ctx = drv_data;			    \
+> +		u8 log_cap;						    \
+> +		u16 config;						    \
+> +		int ret;						    \
+> +									    \
+> +		ret = cxl_mem_ecs_get_attrbs(dev, ctx, fru_id, &log_cap,    \
+> +					     &config);			    \
+> +		if (ret)						    \
+> +			return ret;					    \
+> +									    \
+> +		*val = cxl_get_ecs_##attrb(log_cap, config);		    \
+> +									    \
+> +		return 0;						    \
+> +	}
+> +
+> +CXL_ECS_GET_ATTR(log_entry_type)
+> +CXL_ECS_GET_ATTR(count_mode)
+> +CXL_ECS_GET_ATTR(threshold)
+> +
+> +static int cxl_set_ecs_log_entry_type(struct device *dev, u8 *log_cap,
+> +				      u16 *config, u32 val)
+> +{
+> +	if (val != ECS_LOG_ENTRY_TYPE_DRAM &&
+> +	    val != ECS_LOG_ENTRY_TYPE_MEM_MEDIA_FRU)
+> +		return -EINVAL;
+> +
+> +	*log_cap = FIELD_PREP(CXL_ECS_LOG_ENTRY_TYPE_MASK, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cxl_set_ecs_threshold(struct device *dev, u8 *log_cap, u16 *config,
+> +				 u32 val)
+> +{
+> +	*config &= ~CXL_ECS_THRESHOLD_COUNT_MASK;
+> +
+> +	switch (val) {
+> +	case ECS_THRESHOLD_256:
+> +		*config |= FIELD_PREP(CXL_ECS_THRESHOLD_COUNT_MASK,
+> +				      ECS_THRESHOLD_IDX_256);
+> +		break;
+> +	case ECS_THRESHOLD_1024:
+> +		*config |= FIELD_PREP(CXL_ECS_THRESHOLD_COUNT_MASK,
+> +				      ECS_THRESHOLD_IDX_1024);
+> +		break;
+> +	case ECS_THRESHOLD_4096:
+> +		*config |= FIELD_PREP(CXL_ECS_THRESHOLD_COUNT_MASK,
+> +				      ECS_THRESHOLD_IDX_4096);
+> +		break;
+> +	default:
+> +		dev_dbg(dev, "Invalid CXL ECS threshold count(%d) to set\n",
+> +			val);
+> +		dev_dbg(dev, "Supported ECS threshold counts: %u, %u, %u\n",
+> +			ECS_THRESHOLD_256, ECS_THRESHOLD_1024,
+> +			ECS_THRESHOLD_4096);
+> +		return -EINVAL;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cxl_set_ecs_count_mode(struct device *dev, u8 *log_cap, u16 *config,
+> +				  u32 val)
+> +{
+> +	if (val != ECS_MODE_COUNTS_ROWS && val != ECS_MODE_COUNTS_CODEWORDS) {
+> +		dev_dbg(dev, "Invalid CXL ECS scrub mode(%d) to set\n", val);
+> +		dev_dbg(dev,
+> +			"Supported ECS Modes: 0: ECS counts rows with errors,"
+> +			" 1: ECS counts codewords with errors\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	*config &= ~CXL_ECS_COUNT_MODE_MASK;
+> +	*config |= FIELD_PREP(CXL_ECS_COUNT_MODE_MASK, val);
+> +
+> +	return 0;
+> +}
+> +
+> +static int cxl_set_ecs_reset_counter(struct device *dev, u8 *log_cap,
+> +				     u16 *config, u32 val)
+> +{
+> +	if (val != CXL_ECS_RESET_COUNTER)
+> +		return -EINVAL;
+> +
+> +	*config &= ~CXL_ECS_RESET_COUNTER_MASK;
+> +	*config |= FIELD_PREP(CXL_ECS_RESET_COUNTER_MASK, val);
+> +
+> +	return 0;
+> +}
+> +
+> +#define CXL_ECS_SET_ATTR(attrb)						    \
+> +	static int cxl_ecs_set_##attrb(struct device *dev, void *drv_data,  \
+> +					int fru_id, u32 val)		    \
+> +	{								    \
+> +		struct cxl_ecs_context *ctx = drv_data;			    \
+> +		u8 log_cap;						    \
+> +		u16 config;						    \
+> +		int ret;						    \
+> +									    \
+> +		if (!capable(CAP_SYS_RAWIO))				    \
+> +			return -EPERM;					    \
+> +									    \
+> +		ret = cxl_mem_ecs_get_attrbs(dev, ctx, fru_id, &log_cap,    \
+> +					     &config);			    \
+> +		if (ret)						    \
+> +			return ret;					    \
+> +									    \
+> +		ret = cxl_set_ecs_##attrb(dev, &log_cap, &config, val);     \
+> +		if (ret)						    \
+> +			return ret;					    \
+> +									    \
+> +		return cxl_mem_ecs_set_attrbs(dev, ctx, fru_id, log_cap,    \
+> +					      config);			    \
+> +	}
+> +CXL_ECS_SET_ATTR(log_entry_type)
+> +CXL_ECS_SET_ATTR(count_mode)
+> +CXL_ECS_SET_ATTR(reset_counter)
+> +CXL_ECS_SET_ATTR(threshold)
+> +
+> +static const struct edac_ecs_ops cxl_ecs_ops = {
+> +	.get_log_entry_type = cxl_ecs_get_log_entry_type,
+> +	.set_log_entry_type = cxl_ecs_set_log_entry_type,
+> +	.get_mode = cxl_ecs_get_count_mode,
+> +	.set_mode = cxl_ecs_set_count_mode,
+> +	.reset = cxl_ecs_set_reset_counter,
+> +	.get_threshold = cxl_ecs_get_threshold,
+> +	.set_threshold = cxl_ecs_set_threshold,
+> +};
+> +
+> +static int cxl_memdev_ecs_init(struct cxl_memdev *cxlmd,
+> +			       struct edac_dev_feature *ras_feature)
+> +{
+> +	struct cxl_ecs_context *cxl_ecs_ctx;
+> +	struct cxl_feat_entry *feat_entry;
+> +	int num_media_frus;
+> +
+> +	feat_entry =
+> +		cxl_feature_info(to_cxlfs(cxlmd->cxlds), &CXL_FEAT_ECS_UUID);
+> +	if (!feat_entry)
+> +		return -EOPNOTSUPP;
+> +
+> +	if (!(le32_to_cpu(feat_entry->flags) & CXL_FEATURE_F_CHANGEABLE))
+> +		return -EOPNOTSUPP;
+> +
+> +	num_media_frus = (le16_to_cpu(feat_entry->get_feat_size) -
+> +			  sizeof(struct cxl_ecs_rd_attrbs)) /
+> +			 sizeof(struct cxl_ecs_fru_rd_attrbs);
+> +	if (!num_media_frus)
+> +		return -EOPNOTSUPP;
+> +
+> +	cxl_ecs_ctx =
+> +		devm_kzalloc(&cxlmd->dev, sizeof(*cxl_ecs_ctx), GFP_KERNEL);
+> +	if (!cxl_ecs_ctx)
+> +		return -ENOMEM;
+> +
+> +	*cxl_ecs_ctx = (struct cxl_ecs_context){
+> +		.get_feat_size = le16_to_cpu(feat_entry->get_feat_size),
+> +		.set_feat_size = le16_to_cpu(feat_entry->set_feat_size),
+> +		.get_version = feat_entry->get_feat_ver,
+> +		.set_version = feat_entry->set_feat_ver,
+> +		.effects = le16_to_cpu(feat_entry->effects),
+> +		.num_media_frus = num_media_frus,
+> +		.cxlmd = cxlmd,
+> +	};
+> +
+> +	ras_feature->ft_type = RAS_FEAT_ECS;
+> +	ras_feature->ecs_ops = &cxl_ecs_ops;
+> +	ras_feature->ctx = cxl_ecs_ctx;
+> +	ras_feature->ecs_info.num_media_frus = num_media_frus;
+> +
+> +	return 0;
+> +}
+> +#endif /* CONFIG_CXL_EDAC_ECS */
+> +
+>  int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
+>  {
+>  	struct edac_dev_feature ras_features[CXL_NR_EDAC_DEV_FEATURES];
+>  	int num_ras_features = 0;
+> -#if defined(CONFIG_CXL_EDAC_SCRUB)
+> +#if defined(CONFIG_CXL_EDAC_SCRUB) || defined(CONFIG_CXL_EDAC_ECS)
+>  	int rc;
+>  #endif
+>  
+> @@ -458,6 +808,15 @@ int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
+>  		num_ras_features++;
+>  #endif
+>  
+> +#ifdef CONFIG_CXL_EDAC_ECS
+> +	rc = cxl_memdev_ecs_init(cxlmd, &ras_features[num_ras_features]);
+> +	if (rc < 0 && rc != -EOPNOTSUPP)
+> +		return rc;
+> +
+> +	if (rc != -EOPNOTSUPP)
+> +		num_ras_features++;
+> +#endif
+> +
+>  	char *cxl_dev_name __free(kfree) =
+>  		kasprintf(GFP_KERNEL, "cxl_%s", dev_name(&cxlmd->dev));
+>  	if (!cxl_dev_name)
 
-In a normal routine, VMM gets a vCMDQ object ID for each vCMDQ
-object it allocated. So, it should track all the IDs and release
-them when VM shuts down.
-
-The iommufd core does track all the objects that belong to an
-iommufd context (ictx), and automatically release them. But, it
-can't resolve certain dependency on other FD, e.g. vEVENTQ and
-FAULT QUEUE would return another FD that user space listens to
-and must be closed properly to destroy the QUEUE object.
-
-> > +	/* The underlying physical pages must be pinned in the IOAS */
-> > +	rc = iopt_pin_pages(&viommu->hwpt->ioas->iopt, cmd->addr, cmd->length,
-> > +			    pages, 0);
-> 
-> Why do we need this? is it not pinned already as part of vfio binding?
-
-I think this could be clearer:
-	/*
-	 * The underlying physical pages must be pinned to prevent them from
-	 * being unmapped (via IOMMUFD_CMD_IOAS_UNMAP) during the life cycle
-	 * of the vCMDQ object.
-	 */
-
-Thanks
-Nicolin
