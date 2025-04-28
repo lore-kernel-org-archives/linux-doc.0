@@ -1,121 +1,246 @@
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
+Received: from albert.telenet-ops.be (albert.telenet-ops.be [195.130.137.90])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D9EE479E1;
-	Mon, 28 Apr 2025 11:34:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B9F9C1FBEA4
+	for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 11:56:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.90
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745840071; cv=none; b=OFjGn2Qz87WBNlDY4ilkmEhbSnkkGLauqHaA0M0BmIUeRB76iiOcZN1dHFmubVVcV2FyO3DkWoQNh8gV9syiJ9yxuB16q+Dh9lrGZnq9yc0DfCR0N5iEb1ao4JjW7BZPFuNnlZiuqRTV4FlQCKDTdH4X0zl0Az7iHi6Q/lLHVvk=
+	t=1745841408; cv=none; b=Oc9LDZcBzyuqW2QsAIZ7KPxqQpfgMl83Kthvl+jGO9VvoW3KGQGvShmylk1RIRLH16DFAwMWUNPhER1i6ERBi6UjHN1oIWYiE93KX9MzfEdR1zbyx1I6AOl9O0SUoQ0VD2XN/GCOKkiTSaJanydMwLQXjFcGo6mRuUvYouvjd5c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745840071; c=relaxed/simple;
-	bh=FaVcAOkDQ7uwALoze+whS6FNUvEv5VQAsvSJRP865wE=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=kxsDF+HBBalzbKh07z5PluY8f6X0IHdoUO/TLxUfHzS31IGeLF8QIRFaKf43jgHrl/RI/b57RnOg+0zbEpHAree75avU63LEzZI9Fb3QMs8Ufb/Cm4yh9wE/f/ItGfkFmZo+zPV69XUAMlfVHMA7jbw6C/59UdEko5DuixWmdJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-86fbc8717fcso1862740241.2;
-        Mon, 28 Apr 2025 04:34:28 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745840066; x=1746444866;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=fsMRvP1XrPCxK2127w/cMyY/iDM/irDUSUu0quMrzrc=;
-        b=ljbPT8FOGQ6KOrBp6rf7jtA8iuHpK5XxjBzb0wUTS2z1RUrJeFQsMnN6EipDEMG8HE
-         JskdxUyLNx3fEkp8M9vTw7QFE7HRR1zDqSrBQWdupT4qetV3eRyUk/ufsqIsA/xpLNBE
-         tCPmhmRl0nZZgO4oOk6941qhy8lf2bLvpJ1mgxta1RO/+igquaYF8Z6ilP84BUD7oHzv
-         pnLXJk2mHPrgCz0AU9LaaH0nWXwNUPNzIQnnOJogkjcUcRRL2+/rdEdA3WkKpU14TJoJ
-         PFRQFqlQJdRpIsKTZANpH4r5NGnSzMEtoxLeEG5opXsX9CS2timx94gsnBffqQKlNpMr
-         XIoQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVGRM4tNJdskIzdV31o1S9TN/zn4QVCxYTC8NbgokTYN+iyMNSZQTBYLc5zLMYOibdZZbo/8ElD2xRK@vger.kernel.org, AJvYcCVbSEeH2zDfsap408VLGLHJ7dqhKVGLogwi9hXRYJtEGMMVIliraWq0r9lI0YqukwF9NcHh37PJsim+LwsY@vger.kernel.org, AJvYcCXVGylk6tBo3h/lDDVhrNCq+ej9tVMEV2WEWvHTpgPpJNtpOPpeJVbnFmTEt2MvVN6p/3bvwsC8XxpV@vger.kernel.org
-X-Gm-Message-State: AOJu0YxSZ4LrLKCWnKATBnq1IlM792z1v6qEPBi09hcnyOlVRGDWraY1
-	Wqj0EA3uYX9hTgHHnYWYNecKe1FWFvGTYWCQzRg3+3M4AsqJxgDxcg/9gSSO
-X-Gm-Gg: ASbGncsxk5tibue+AHRd2UrbpGLc+mKgAzxWKzT+/mZYYxVMq08GrCb1DU1CdFo6a8n
-	e740u2w3pMnDT40PU23lko4NVXljAI70iguiWGLn3uUFKgxLh7QY/nsrpZgE5xUBWVmEnB/ybat
-	qnQ9PPsww32aIC+4jPIzPte6i8Ngdm1hSeEehhkVUhwYdiQEI4aE0ems5Uvyfs2/m1kADD4XOgC
-	6sNMXM3H0ahiRSiQdqMSalKD0iQIw+bCJ+arSefp7OW5DglviQkpyqpCfFg++tAF3umnAIdUOCU
-	tJMAxBe+74Oshu2O8Pvolxv2JDfsKoSDINixMpv8Sji2fIgBJzE7OayM6yOeNZAFKCgvC0bk9S9
-	qJ0I=
-X-Google-Smtp-Source: AGHT+IHfaT70BX2zxXzgZktIohIRVK2xc+kZRpkl955MDRlephWB5SeZ2l9b/jRw795bawp/KBTaDQ==
-X-Received: by 2002:a05:6102:3ca8:b0:4cb:5d6c:9946 with SMTP id ada2fe7eead31-4d64078d5c3mr5227035137.10.1745840065877;
-        Mon, 28 Apr 2025 04:34:25 -0700 (PDT)
-Received: from mail-ua1-f43.google.com (mail-ua1-f43.google.com. [209.85.222.43])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4d3d75bcd02sm1864502137.28.2025.04.28.04.34.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Apr 2025 04:34:25 -0700 (PDT)
-Received: by mail-ua1-f43.google.com with SMTP id a1e0cc1a2514c-86fab198f8eso1852892241.1;
-        Mon, 28 Apr 2025 04:34:25 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCURgSZcYKmPUzfqfPGdhP+BonsX9OJSvUR21BdQ1zoBcmV3rb4OrgGU1latdqcFlvALHLXgZHWTV0eR@vger.kernel.org, AJvYcCUXWUcqeAUGp6f9VNceZsZ5tI16u2FSyyKJPhAfh0Qw5FXcywpR/52YkfrcKylPY69WBhoMhTn4WUUc5E8U@vger.kernel.org, AJvYcCV62RQ/2yz7HijzsKEsBv2Bkwrp7FOdt66mxqVIn2JxqlZE6HMvRoBKjesDFDNJ4YWp/YrSaDKUkPcd@vger.kernel.org
-X-Received: by 2002:a05:6102:32c6:b0:4ba:95f1:cc83 with SMTP id
- ada2fe7eead31-4d641f67490mr4726020137.16.1745840065194; Mon, 28 Apr 2025
- 04:34:25 -0700 (PDT)
+	s=arc-20240116; t=1745841408; c=relaxed/simple;
+	bh=wzm1eXQ1YFCUhGLq6tOsKVMzw5DGOSWMdTKgN5XiChM=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=YlJqzg5EaqByPQr8/7KpyI+lVIJczDGwy1E2IyHhI45BeRJetZOkhDDVNArkKfB1jxKlygTcUiglYjDpXiQYYLJlnKAiHbKwiBXpn5JXayAkzqoBSRU7jaitanLC6rzK5Diyhy2NHFkl6/z2Hi4ieGYPzzoOixrdk4GFOCTicGQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.90
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:b9c4:1670:abc0:a1fc])
+	by albert.telenet-ops.be with cmsmtp
+	id ibwc2E0084Aed8c06bwcF2; Mon, 28 Apr 2025 13:56:38 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1u9N6B-00000000F7M-0bTd;
+	Mon, 28 Apr 2025 13:56:36 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1u9N5x-00000006xI6-3POW;
+	Mon, 28 Apr 2025 13:56:21 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Srinivas Kandagatla <srini@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Arnd Bergmann <arnd@arndb.de>
+Cc: linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] nvmem: Remove unused nvmem cell table support
+Date: Mon, 28 Apr 2025 13:56:15 +0200
+Message-ID: <edc7373f33955f6dc4c9e6268afcb1a40566b39b.1745840884.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250427082447.138359-1-trannamatk@gmail.com> <CAHp75Vch8i50stVO6nH0Tnn=g4xSMji_iPj6q-CE1tLnvesqcQ@mail.gmail.com>
- <aA9aTjhXHb3gddd9@duo.ucw.cz>
-In-Reply-To: <aA9aTjhXHb3gddd9@duo.ucw.cz>
-From: Geert Uytterhoeven <geert@linux-m68k.org>
-Date: Mon, 28 Apr 2025 13:34:12 +0200
-X-Gmail-Original-Message-ID: <CAMuHMdVJNPRd3GMRV3=W0vsNW+fm4up-mWPOZ_W1-wQigQj8vw@mail.gmail.com>
-X-Gm-Features: ATxdqUGozfO_A0x5sTl7wTcnhEJGNjE5AoOrad-BSBsbvNUoot5qyBGVSxOijmM
-Message-ID: <CAMuHMdVJNPRd3GMRV3=W0vsNW+fm4up-mWPOZ_W1-wQigQj8vw@mail.gmail.com>
-Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix
- LED driver
-To: Pavel Machek <pavel@ucw.cz>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, Nam Tran <trannamatk@gmail.com>, andy@kernel.org, 
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, 
-	christophe.jaillet@wanadoo.fr, corbet@lwn.net, devicetree@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	florian.fainelli@broadcom.com, bcm-kernel-feedback-list@broadcom.com, 
-	linux-rpi-kernel@lists.infradead.org, linux-arm-kernel@lists.infradead.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 
-Hi Pavel,
+Board files are deprecated by DT, and the last user of
+nvmem_add_cell_table() was removed by commit 2af4fcc0d3574482 ("ARM:
+davinci: remove unused board support") in v6.3.  Hence remove all
+support for nvmem cell tables, and update the documentation.
 
-On Mon, 28 Apr 2025 at 12:37, Pavel Machek <pavel@ucw.cz> wrote:
-> > > This patch series adds support for the TI/National Semiconductor LP5812
-> > > 4x3 matrix RGB LED driver. The driver supports features such as autonomous
-> > > animation and time-cross-multiplexing (TCM) for dynamic LED effects.
-> > >
-> > > Signed-off-by: Nam Tran <trannamatk@gmail.com>
-> > > ---
-> > > Changes in v8:
-> > > - Move driver to drivers/auxdisplay/ instead of drivers/leds/.
-> > > - Rename files from leds-lp5812.c/.h to lp5812.c/.h.
-> > > - Move ti,lp5812.yaml binding to auxdisplay/ directory,
-> > >   and update the title and $id to match new path.
-> > > - No functional changes to the binding itself (keep Reviewed-by).
-> > > - Update commit messages and patch titles to reflect the move.
-> > > - Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
-> >
-> > Out of sudden without discussing with auxdisplay maintainers/reviewers?
-> > Thanks, no.
-> > Please, put into the cover letter the meaningful summary of what's
-> > going on and why this becomes an auxdisplay issue. Brief review of the
-> > bindings sounds more likely like LEDS or PWM subsystems.
->
-> It is 4x3 matrix. That means it is not suitable for LEDs. I don't
-> believe it is suitable for PWM, either -- yes, it is 36 PWM outputs,
-> but...
+Device drivers can still register a single cell using
+nvmem_add_one_cell() (which was not documented before).
 
-Is it intended to be used as a 4x3 matrix, or is this just an internal
-wiring detail, and should it be exposed as 12 individual LEDs instead?
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+ Documentation/driver-api/nvmem.rst | 14 ++----
+ drivers/nvmem/core.c               | 68 ------------------------------
+ include/linux/nvmem-provider.h     | 24 -----------
+ 3 files changed, 4 insertions(+), 102 deletions(-)
 
-BTW, my first guess was that you just wanted to avoid the LED
-maintainers becoming responsible for the extensive sysfs interface ;-)
-
-Gr{oetje,eeting}s,
-
-                        Geert
-
+diff --git a/Documentation/driver-api/nvmem.rst b/Documentation/driver-api/nvmem.rst
+index 5d9500d21ecc4254..790e2dc652c00c3a 100644
+--- a/Documentation/driver-api/nvmem.rst
++++ b/Documentation/driver-api/nvmem.rst
+@@ -59,10 +59,10 @@ For example, a simple nvram case::
+ 	devm_nvmem_register(&config);
+   }
+ 
+-Users of board files can define and register nvmem cells using the
+-nvmem_cell_table struct::
++Device drivers can define and register an nvmem cell using the nvmem_cell_info
++struct::
+ 
+-  static struct nvmem_cell_info foo_nvmem_cells[] = {
++  static const struct nvmem_cell_info foo_nvmem_cell = {
+ 	{
+ 		.name		= "macaddr",
+ 		.offset		= 0x7f00,
+@@ -70,13 +70,7 @@ nvmem_cell_table struct::
+ 	}
+   };
+ 
+-  static struct nvmem_cell_table foo_nvmem_cell_table = {
+-	.nvmem_name		= "i2c-eeprom",
+-	.cells			= foo_nvmem_cells,
+-	.ncells			= ARRAY_SIZE(foo_nvmem_cells),
+-  };
+-
+-  nvmem_add_cell_table(&foo_nvmem_cell_table);
++  int nvmem_add_one_cell(nvmem, &foo_nvmem_cell);
+ 
+ Additionally it is possible to create nvmem cell lookup entries and register
+ them with the nvmem framework from machine code as shown in the example below::
+diff --git a/drivers/nvmem/core.c b/drivers/nvmem/core.c
+index fff85bbf0ecd0f63..5070390c9f076a63 100644
+--- a/drivers/nvmem/core.c
++++ b/drivers/nvmem/core.c
+@@ -47,9 +47,6 @@ struct nvmem_cell {
+ static DEFINE_MUTEX(nvmem_mutex);
+ static DEFINE_IDA(nvmem_ida);
+ 
+-static DEFINE_MUTEX(nvmem_cell_mutex);
+-static LIST_HEAD(nvmem_cell_tables);
+-
+ static DEFINE_MUTEX(nvmem_lookup_mutex);
+ static LIST_HEAD(nvmem_lookup_list);
+ 
+@@ -705,41 +702,6 @@ int nvmem_unregister_notifier(struct notifier_block *nb)
+ }
+ EXPORT_SYMBOL_GPL(nvmem_unregister_notifier);
+ 
+-static int nvmem_add_cells_from_table(struct nvmem_device *nvmem)
+-{
+-	const struct nvmem_cell_info *info;
+-	struct nvmem_cell_table *table;
+-	struct nvmem_cell_entry *cell;
+-	int rval = 0, i;
+-
+-	mutex_lock(&nvmem_cell_mutex);
+-	list_for_each_entry(table, &nvmem_cell_tables, node) {
+-		if (strcmp(nvmem_dev_name(nvmem), table->nvmem_name) == 0) {
+-			for (i = 0; i < table->ncells; i++) {
+-				info = &table->cells[i];
+-
+-				cell = kzalloc(sizeof(*cell), GFP_KERNEL);
+-				if (!cell) {
+-					rval = -ENOMEM;
+-					goto out;
+-				}
+-
+-				rval = nvmem_cell_info_to_nvmem_cell_entry(nvmem, info, cell);
+-				if (rval) {
+-					kfree(cell);
+-					goto out;
+-				}
+-
+-				nvmem_cell_entry_add(cell);
+-			}
+-		}
+-	}
+-
+-out:
+-	mutex_unlock(&nvmem_cell_mutex);
+-	return rval;
+-}
+-
+ static struct nvmem_cell_entry *
+ nvmem_find_cell_entry_by_name(struct nvmem_device *nvmem, const char *cell_id)
+ {
+@@ -1024,10 +986,6 @@ struct nvmem_device *nvmem_register(const struct nvmem_config *config)
+ 			goto err_remove_cells;
+ 	}
+ 
+-	rval = nvmem_add_cells_from_table(nvmem);
+-	if (rval)
+-		goto err_remove_cells;
+-
+ 	if (config->add_legacy_fixed_of_cells) {
+ 		rval = nvmem_add_cells_from_legacy_of(nvmem);
+ 		if (rval)
+@@ -2127,32 +2085,6 @@ int nvmem_device_write(struct nvmem_device *nvmem,
+ }
+ EXPORT_SYMBOL_GPL(nvmem_device_write);
+ 
+-/**
+- * nvmem_add_cell_table() - register a table of cell info entries
+- *
+- * @table: table of cell info entries
+- */
+-void nvmem_add_cell_table(struct nvmem_cell_table *table)
+-{
+-	mutex_lock(&nvmem_cell_mutex);
+-	list_add_tail(&table->node, &nvmem_cell_tables);
+-	mutex_unlock(&nvmem_cell_mutex);
+-}
+-EXPORT_SYMBOL_GPL(nvmem_add_cell_table);
+-
+-/**
+- * nvmem_del_cell_table() - remove a previously registered cell info table
+- *
+- * @table: table of cell info entries
+- */
+-void nvmem_del_cell_table(struct nvmem_cell_table *table)
+-{
+-	mutex_lock(&nvmem_cell_mutex);
+-	list_del(&table->node);
+-	mutex_unlock(&nvmem_cell_mutex);
+-}
+-EXPORT_SYMBOL_GPL(nvmem_del_cell_table);
+-
+ /**
+  * nvmem_add_cell_lookups() - register a list of cell lookup entries
+  *
+diff --git a/include/linux/nvmem-provider.h b/include/linux/nvmem-provider.h
+index 515676ebe59875fa..615a560d9edb84d1 100644
+--- a/include/linux/nvmem-provider.h
++++ b/include/linux/nvmem-provider.h
+@@ -137,25 +137,6 @@ struct nvmem_config {
+ 	struct device		*base_dev;
+ };
+ 
+-/**
+- * struct nvmem_cell_table - NVMEM cell definitions for given provider
+- *
+- * @nvmem_name:		Provider name.
+- * @cells:		Array of cell definitions.
+- * @ncells:		Number of cell definitions in the array.
+- * @node:		List node.
+- *
+- * This structure together with related helper functions is provided for users
+- * that don't can't access the nvmem provided structure but wish to register
+- * cell definitions for it e.g. board files registering an EEPROM device.
+- */
+-struct nvmem_cell_table {
+-	const char		*nvmem_name;
+-	const struct nvmem_cell_info	*cells;
+-	size_t			ncells;
+-	struct list_head	node;
+-};
+-
+ /**
+  * struct nvmem_layout - NVMEM layout definitions
+  *
+@@ -190,9 +171,6 @@ void nvmem_unregister(struct nvmem_device *nvmem);
+ struct nvmem_device *devm_nvmem_register(struct device *dev,
+ 					 const struct nvmem_config *cfg);
+ 
+-void nvmem_add_cell_table(struct nvmem_cell_table *table);
+-void nvmem_del_cell_table(struct nvmem_cell_table *table);
+-
+ int nvmem_add_one_cell(struct nvmem_device *nvmem,
+ 		       const struct nvmem_cell_info *info);
+ 
+@@ -223,8 +201,6 @@ devm_nvmem_register(struct device *dev, const struct nvmem_config *c)
+ 	return nvmem_register(c);
+ }
+ 
+-static inline void nvmem_add_cell_table(struct nvmem_cell_table *table) {}
+-static inline void nvmem_del_cell_table(struct nvmem_cell_table *table) {}
+ static inline int nvmem_add_one_cell(struct nvmem_device *nvmem,
+ 				     const struct nvmem_cell_info *info)
+ {
 -- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+2.43.0
 
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
