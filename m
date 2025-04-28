@@ -1,250 +1,201 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (mail-mw2nam10on2060.outbound.protection.outlook.com [40.107.94.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 77C592951DF;
-	Mon, 28 Apr 2025 18:03:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745863438; cv=none; b=Thp89GhNvFGlNJJVFQqn9Sqc8bIMjtNqGocsZp0tYKDQ5SZMnaK6HNlVQ9VTrPErRo0CQHpEH8PSXp+w9V1jqjrZMQW/H6JEkbYDcBRAxUpLM7NOSOGaHHIRT093G5GzBd7JVzAcK3j4CvRjFG0wVtNgnuEqg7LlH90mbcUMNQI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745863438; c=relaxed/simple;
-	bh=3mrunX2wCW3v8UoNSP/xGZpZLdEawxATxyP2Eq6jwvA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=HIAy62xOvDIVEiy8K2lp6TIwgiyN/BKCVfnDkkVvbn3Gv+Rbgz4HMV5HBiED2D615kNwGcWRkPiT9ZF/jOZk5kEvyT+pxXOXrRdzFANlnT/nQS+t86Ldc56EmhEtI5GXanGrhkZP6haxWUWr3WRtX5h05wsgL3jIis6f64DMoMI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RNUJfWsp; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57A1C60B8A;
+	Mon, 28 Apr 2025 18:08:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.94.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745863713; cv=fail; b=dnQI43xyVP7Mx7cqPNetu07DvCaW5HygdLVK0qofDfJIshCKPejhwLuylVJlJfnVC5IFR9BmOGVPH5jrRuNYXOBiK7EeUoPBACaid46yF6lfXpev9URMQ70IOIsCkJ016st7vy3uVaMshYuQ/zoGetmNM6mVwcI4kiON/N5kLgo=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745863713; c=relaxed/simple;
+	bh=h560p+rmRbwT0rW4dgm4LNEWo7+qBy04YIAoP4hUv6M=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T8pkWqYf+pKQa+ulItWE98saVjzwY69noKqL/7uPFRzzTyRFltQfjuwzfEsT2/AuIZCkZ63bXGgfuagdGD46tKzRMSe0Ju//HlUSkzH2IWf7bTvDdPhLGG4wSF3/DnpNXyP8G/DmnIfQgCPaUuVhUcj1usCQjDyW+a0iKZF/SLk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=YVI45f6K; arc=fail smtp.client-ip=40.107.94.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RNUJfWsp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1279CC4CEE4;
-	Mon, 28 Apr 2025 18:03:51 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745863437;
-	bh=3mrunX2wCW3v8UoNSP/xGZpZLdEawxATxyP2Eq6jwvA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RNUJfWspUi7bWN54awdeqtZ35YhV76uh9X5LOJWgO7OCwYtAR0f0BAC3CU/4pecdS
-	 iYWmQ/wrPlJlb0cl5uRjCHlnne9h/wJQ1w/f39RgtheWim/kLv4ewNmHAHVTRFJS2g
-	 srScl+O4IyYI4889G9HgSu7bzb1rbhNDyfLenmk1pf9mXzTZML56oCN5hHgyMQ/UJ4
-	 vLKowqVmECRrzvfBt2GN5IHXTsE5QO87hJPTWPueOquwSezWn33DfWGRAZr+UKEu09
-	 38Nwb/pM9B8X9BzHdm5eXH33EOUe5HRGpY58Mi9k1xOH10XLSAKd5zvLIhd/oJi/FO
-	 mKbzhj3vNSz0A==
-Date: Mon, 28 Apr 2025 19:03:49 +0100
-From: Simon Horman <horms@kernel.org>
-To: Larysa Zaremba <larysa.zaremba@intel.com>
-Cc: intel-wired-lan@lists.osuosl.org,
-	Tony Nguyen <anthony.l.nguyen@intel.com>,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>,
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
-	Jiri Pirko <jiri@resnulli.us>,
-	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
-	Lee Trager <lee@trager.us>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Sridhar Samudrala <sridhar.samudrala@intel.com>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
-	Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
-	Emil Tantilov <emil.s.tantilov@intel.com>,
-	Madhu Chittim <madhu.chittim@intel.com>,
-	Josh Hay <joshua.a.hay@intel.com>,
-	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
-	"Singhai, Anjali" <anjali.singhai@intel.com>,
-	Michal Kubiak <michal.kubiak@intel.com>
-Subject: Re: [PATCH iwl-next v2 08/14] idpf: refactor idpf to use libie
- controlq and Xn APIs
-Message-ID: <20250428180349.GF3339421@horms.kernel.org>
-References: <20250424113241.10061-1-larysa.zaremba@intel.com>
- <20250424113241.10061-9-larysa.zaremba@intel.com>
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="YVI45f6K"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=aoNZLDDKLtatNhHS8A8md68FfqvY7qjqLvBeGn93DO1XhJpqOC43Y1MlY/C56yzB5un5yrsvCodToXoVP9rfhGHwKpzh6IvcgQO9mDkkr60KHjboaHUviuUFYghsmarg9M0V1uD6+r2pB/jZwbnynuipMdRLeSlANaHhpEUc6hMw4sHnIm73UGsOhRrZIMdRhpGfsLDxlJmfB7lcw02G/v9TGbPBl3nqXy2lu4d8xh2/agWezMpqK/zinzJoX61Bidip1kPb5KJX4ZgUys58HP+SRa/V1c9is0txXntQp0FFsmUuCFu2pWpDfEuYNqGWVEAStB09lGk8xiFCzqxZ+w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TvuGodlBkvUXgtEyzyJMgQuF/jmGPlK65HA2bK2CS24=;
+ b=MT9/nCIcBiANT8o//YC4jtw066v72FeAy2bWoDregqHoeeaEQdr8j3zUAk7w+sPYlHo09IYrwM557pmbCCP/q8hwDANk16yLkFRp8X/OHsUyFBmE8JdrfHC9qZG7xLoF49ayg4njhJ3UeTBRjOONiuyADW3US0FfJH1HjHk8t2t5WdBy5+0gJkn2OMdaCTSNud1jm/auhGWblq3qdsQ0MdI0sf8YGRi4juuQmSTXz9UfyvkqeZpmq6Q1QN8tGTz9LjAautjO11WtHa7i+aTJ/JNyQ746HMWxUB9uIu60G1qycrlTlU//13GyZKpWUKfdKDSfpM2/G8N+aV+00gfiww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.118.233) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=TvuGodlBkvUXgtEyzyJMgQuF/jmGPlK65HA2bK2CS24=;
+ b=YVI45f6KHNe6D1Gn76U8TOPKI7lrrJNwp3XE9VPkQAh46YUcYQ2pC3SPVXkanFEU9a4XPHdZv/KHJxd2+W0KMlccmPDYRX4FEF6PjvpCiTvqUwhbGHA6t166mykZJqeGNpc16AA0J1ZpqHhP4jRsMhZ54l8RoAEEz4VIyuOp6bWe0f7/lXflwRdCqRSAhABJULEvpKGYhD56eRXRoUqUuFlnN4M4qT64IvvUwxkJ02xV/TOXrAvYwvh8guoCv0WHwq2kdyFf6xmEWy53EfzmUyWLYBF/JTaTWVyZcgA8/OL62JfaZ24NHWMLVduWW7MJ1bUh424zTtUD++HrYNfYxg==
+Received: from CH2PR11CA0002.namprd11.prod.outlook.com (2603:10b6:610:54::12)
+ by MW6PR12MB8705.namprd12.prod.outlook.com (2603:10b6:303:24c::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.34; Mon, 28 Apr
+ 2025 18:08:25 +0000
+Received: from CH2PEPF000000A0.namprd02.prod.outlook.com
+ (2603:10b6:610:54:cafe::80) by CH2PR11CA0002.outlook.office365.com
+ (2603:10b6:610:54::12) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.41 via Frontend Transport; Mon,
+ 28 Apr 2025 18:08:24 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.118.233) by
+ CH2PEPF000000A0.mail.protection.outlook.com (10.167.244.26) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.33 via Frontend Transport; Mon, 28 Apr 2025 18:08:24 +0000
+Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
+ (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 28 Apr
+ 2025 11:08:09 -0700
+Received: from drhqmail202.nvidia.com (10.126.190.181) by
+ drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 28 Apr 2025 11:08:09 -0700
+Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com
+ (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Mon, 28 Apr 2025 11:08:07 -0700
+Date: Mon, 28 Apr 2025 11:08:05 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Baolu Lu <baolu.lu@linux.intel.com>, "Tian, Kevin" <kevin.tian@intel.com>
+CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>, "bagasdotme@gmail.com"
+	<bagasdotme@gmail.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"joro@8bytes.org" <joro@8bytes.org>, "thierry.reding@gmail.com"
+	<thierry.reding@gmail.com>, "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "shuah@kernel.org"
+	<shuah@kernel.org>, "jsnitsel@redhat.com" <jsnitsel@redhat.com>,
+	"nathan@kernel.org" <nathan@kernel.org>, "peterz@infradead.org"
+	<peterz@infradead.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
+	"mshavit@google.com" <mshavit@google.com>, "praan@google.com"
+	<praan@google.com>, "zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
+	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
+	<vasant.hegde@amd.com>
+Subject: Re: [PATCH v2 01/22] iommufd/viommu: Add driver-allocated vDEVICE
+ support
+Message-ID: <aA/EBa1wQgUQgLKj@Asurada-Nvidia>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <14781558dbc291e515b5e249535e3c08290a6792.1745646960.git.nicolinc@nvidia.com>
+ <ee9d46f2-5953-4ca4-adac-c3e35c9001a3@linux.intel.com>
+ <BN9PR11MB52768ABB21EF05E8FF0BD2588C812@BN9PR11MB5276.namprd11.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset="us-ascii"
 Content-Disposition: inline
-In-Reply-To: <20250424113241.10061-9-larysa.zaremba@intel.com>
+In-Reply-To: <BN9PR11MB52768ABB21EF05E8FF0BD2588C812@BN9PR11MB5276.namprd11.prod.outlook.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF000000A0:EE_|MW6PR12MB8705:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8868ae68-3d91-4e4a-1892-08dd867fab25
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024|13003099007|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?hw5gZ7ZAssVFBgYYGV1j8TztOIrTMeGNuXynz48s6IMmh/Phi1ls3BiZVoLR?=
+ =?us-ascii?Q?aB5+w42Qf57xJlFHOWMYxJMcyg5WOmxAxmAnOempjtSS/BwLH397bwczTK7h?=
+ =?us-ascii?Q?m5ON/N0QxgP3V6LNMbm5fUsSyZ8KuDO8Q7g6JwzV2tpEVRrQGT0mVTfIVuTV?=
+ =?us-ascii?Q?9ris+yCMSBzX3hwABkFphzrK+jUDJd1NdLJ2TTrQf/lp8YYUoI466P8HsWE5?=
+ =?us-ascii?Q?7fBzEFtjiU85H787f7C7AhZbbDxksUdz6334jY264MRlH/yEAGHHUZHtUUKt?=
+ =?us-ascii?Q?5bVAI6GY15ZjBrQgEWbCd3HWjOvBKzTzeCuofhmjWJ0kl1FmqPmdhSLGUXIN?=
+ =?us-ascii?Q?vXRhtT8/uM1AjCy6XA6IFqOzO43UMwMnRRpMklOGAv6EVbP2px/cBZq9CRy8?=
+ =?us-ascii?Q?JG4NDlDq6xj6E/9SuYFMOanymt7WaeiR2q+/blUjyIFAQ2kzNG5GcN/VNCPD?=
+ =?us-ascii?Q?52O9BgoPN48tXWlwYWcoV2KtqKWD5fOpWyquwe/Dc55vw0tZ0WynG+4VnXPc?=
+ =?us-ascii?Q?7+dDbWx6QklEZ413Vyi39lK8HZ83B5W8ZXtRcJwIf+W6uSSUiy6mTH21CSyS?=
+ =?us-ascii?Q?h1jqm85qd4eDadBsqj7ACjwCW/0w73skDh4t2nwnU/LAW6R4ExzMMiarV0cw?=
+ =?us-ascii?Q?6AOcnhnrusokFRo+KqfOqgJmW0rDxveL94d35n+hDRLi60VUS8GoQBmY7PcF?=
+ =?us-ascii?Q?yWxsi/mMqk/XlB3UNXptWnE8JxuvOLWTOCj8F31YFuefSC8yRjS8qIeHcg3j?=
+ =?us-ascii?Q?c2zexS5ln66cwOXI7b/+KTOpjp5i2+dVMdipr6nZZRraf6MxH0z9Q+MXWAzD?=
+ =?us-ascii?Q?M2cBXivMG0bvZqt5uRIwgV8RP2qfZ2VqIJV+80T6pCNVaLReLoeiuBH82waf?=
+ =?us-ascii?Q?rQkJVX8hKO4QAfe+cThUrSNISPhAAmP0Sn+wK/cMfdjLBVX+uM59abfor10e?=
+ =?us-ascii?Q?/3Nn+pqg7GCSyppk72/URm7FKymopjElet5bEA7PtlNF4BUcafZ3/+43dYgi?=
+ =?us-ascii?Q?s9fQiSsszBk0VJMWrs5lYPnWJ2FjFmeVV3snsnq5GoGyLeHMdiQhd7N3WY3N?=
+ =?us-ascii?Q?iNQYF8BR8IOhD7ZGKND9nD3XVUflR990fZLQBHEyndz/uJJlgBJuNWhYxFoO?=
+ =?us-ascii?Q?/avhkJfXMJXkDLPPVH3+/5wum1Fj13x7Ugliw/YuzL2wiPJZASsgTVpYiIj2?=
+ =?us-ascii?Q?1udKM+QtT74sQe1kFt8w0pYhyVKxSO5qMNEONVnTxcywnl+BI9/fLqYfIDMj?=
+ =?us-ascii?Q?qnc1axNCISjEVQCLJDqNRY18l7wnlaMvpjjxKWRy6CL5LxRzX0rDZKGm71zz?=
+ =?us-ascii?Q?D/xoIB3Z8JHgxlRcGjLP4tCNIvjCFt728KCcEJlk86rESCVzq7OsF/m8kKQw?=
+ =?us-ascii?Q?b23eeca5p9OMhsi0vQHdTWdfFDOyhJkcxSNojvLjMjJLfCQNqGSzVt7Yz0vk?=
+ =?us-ascii?Q?yJxijbFooDz8q/xCnbO6yrlCuIi6KHHHk23NL+pXDAkFkIxGKSGSFY9EwiMd?=
+ =?us-ascii?Q?m83LYJPfkfw3XqeAPv8CAC5YpZcxNQv2aiQmJb2eR/EtsoIwOCHlgLhB0A?=
+ =?us-ascii?Q?=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024)(13003099007)(7053199007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 18:08:24.5326
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8868ae68-3d91-4e4a-1892-08dd867fab25
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CH2PEPF000000A0.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW6PR12MB8705
 
-On Thu, Apr 24, 2025 at 01:32:31PM +0200, Larysa Zaremba wrote:
-> From: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
+On Mon, Apr 28, 2025 at 12:41:33AM +0000, Tian, Kevin wrote:
+> > From: Baolu Lu <baolu.lu@linux.intel.com>
+> > Sent: Sunday, April 27, 2025 2:24 PM
+> > 
+> > On 4/26/25 13:57, Nicolin Chen wrote:
+> > > @@ -120,6 +128,13 @@ struct iommufd_viommu {
+> > >    *                    array->entry_num to report the number of handled requests.
+> > >    *                    The data structure of the array entry must be defined in
+> > >    *                    include/uapi/linux/iommufd.h
+> > > + * @vdevice_alloc: Allocate a vDEVICE object and init its driver-level
+> > structure
+> > > + *                 or HW procedure. Note that the core-level structure is filled
+> > > + *                 by the iommufd core after calling this op. @virt_id carries a
+> > > + *                 per-vIOMMU virtual ID for the driver to initialize its HW.
+> > 
+> > I'm wondering whether the 'per-vIOMMU virtual ID' is intended to be
+> > generic for other features that might require a vdevice. I'm also not
+> > sure where this virtual ID originates when I read it here. Could it
 > 
-> Support to initialize and configure controlq, Xn manager,
-> MMIO and reset APIs was introduced in libie. As part of it,
-> most of the existing controlq structures are renamed and
-> modified. Use those APIs in idpf and make all the necessary changes.
-> 
-> Previously for the send and receive virtchnl messages, there
-> used to be a memcpy involved in controlq code to copy the buffer
-> info passed by the send function into the controlq specific
-> buffers. There was no restriction to use automatic memory
-> in that case. The new implementation in libie removed copying
-> of the send buffer info and introduced DMA mapping of the
-> send buffer itself. To accommodate it, use dynamic memory for
-> the send buffers. In case of receive, idpf receives a page pool
-> buffer allocated by the libie and care should be taken to
-> release it after use in the idpf.
-> 
-> The changes are fairly trivial and localized, with a notable exception
-> being the consolidation of idpf_vc_xn_shutdown and idpf_deinit_dflt_mbx
-> under the latter name. This has some additional consequences that are
-> addressed in the following patches.
-> 
-> Reviewed-by: Michal Kubiak <michal.kubiak@intel.com>
-> Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> ---
->  drivers/net/ethernet/intel/idpf/Kconfig       |    1 +
->  drivers/net/ethernet/intel/idpf/Makefile      |    2 -
->  drivers/net/ethernet/intel/idpf/idpf.h        |   42 +-
->  .../net/ethernet/intel/idpf/idpf_controlq.c   |  624 -------
->  .../net/ethernet/intel/idpf/idpf_controlq.h   |  130 --
->  .../ethernet/intel/idpf/idpf_controlq_api.h   |  177 --
->  .../ethernet/intel/idpf/idpf_controlq_setup.c |  171 --
->  drivers/net/ethernet/intel/idpf/idpf_dev.c    |   91 +-
->  drivers/net/ethernet/intel/idpf/idpf_lib.c    |   49 +-
->  drivers/net/ethernet/intel/idpf/idpf_main.c   |   87 +-
->  drivers/net/ethernet/intel/idpf/idpf_mem.h    |   20 -
->  drivers/net/ethernet/intel/idpf/idpf_txrx.h   |    2 +-
->  drivers/net/ethernet/intel/idpf/idpf_vf_dev.c |   89 +-
->  .../net/ethernet/intel/idpf/idpf_virtchnl.c   | 1622 ++++++-----------
->  .../net/ethernet/intel/idpf/idpf_virtchnl.h   |   89 +-
->  .../ethernet/intel/idpf/idpf_virtchnl_ptp.c   |  303 ++-
->  16 files changed, 886 insertions(+), 2613 deletions(-)
+> for PCI it's the virtual BDF in the guest PCI topology, hence provided
+> by the VMM when calling @vdevice_alloc:
 
-This patch is rather large.
-Is there a way it could be split up into more easily reviewable chunks?
+The "virtual ID" here can, but not necessarily always, be BDF.
 
->  delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.c
->  delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq.h
->  delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_api.h
->  delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_controlq_setup.c
->  delete mode 100644 drivers/net/ethernet/intel/idpf/idpf_mem.h
+Jason had remarks when we added the ioctl:
+https://lore.kernel.org/linux-iommu/20241004114147.GF1365916@nvidia.com/
 
-...
+And uAPI kdoc (include/uapi/linux/iommufd.h) has its description:
+/**
+ * struct iommu_vdevice_alloc - ioctl(IOMMU_VDEVICE_ALLOC)
+ ...
+ * @virt_id: Virtual device ID per vIOMMU, e.g. vSID of ARM SMMUv3, vDeviceID
+ *           of AMD IOMMU, and vRID of a nested Intel VT-d to a Context Table
 
-> diff --git a/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c b/drivers/net/ethernet/intel/idpf/idpf_virtchnl.c
+So, yes, here we are just forwarding that from the ioctl to viommu
+op. Perhaps I should add a line here:
+ * @vdevice_alloc: Allocate a vDEVICE object and init its driver-level
+ *                 or HW procedure. Note that the core-level structure is filled
+ *                 by the iommufd core after calling this op. @virt_id carries a
+ *                 per-vIOMMU virtual ID (refer to struct iommu_vdevice_alloc in
+ *                 include/uapi/linux/iommufd.h) for the driver to initialize its
+ *                 HW for an attached physical device.
 
-...
-
-> @@ -2520,15 +2045,18 @@ static void idpf_finalize_ptype_lookup(struct libeth_rx_pt *ptype)
->   */
->  int idpf_send_get_rx_ptype_msg(struct idpf_vport *vport)
->  {
-> -	struct virtchnl2_get_ptype_info *get_ptype_info __free(kfree) = NULL;
-> -	struct virtchnl2_get_ptype_info *ptype_info __free(kfree) = NULL;
-> +	struct libie_ctlq_xn_send_params xn_params = {
-> +		.timeout_ms	= IDPF_VC_XN_DEFAULT_TIMEOUT_MSEC,
-> +		.chnl_opcode	= VIRTCHNL2_OP_GET_PTYPE_INFO,
-> +	};
->  	struct libeth_rx_pt *ptype_lkup __free(kfree) = NULL;
-> +	struct virtchnl2_get_ptype_info *get_ptype_info;
->  	int max_ptype, ptypes_recvd = 0, ptype_offset;
->  	struct idpf_adapter *adapter = vport->adapter;
-> -	struct idpf_vc_xn_params xn_params = {};
-> +	struct virtchnl2_get_ptype_info *ptype_info;
-> +	int buf_size = sizeof(*get_ptype_info);
->  	u16 next_ptype_id = 0;
-> -	ssize_t reply_sz;
-> -	int i, j, k;
-> +	int i, j, k, err = 0;
->  
->  	if (vport->rx_ptype_lkup)
->  		return 0;
-> @@ -2542,22 +2070,11 @@ int idpf_send_get_rx_ptype_msg(struct idpf_vport *vport)
->  	if (!ptype_lkup)
->  		return -ENOMEM;
->  
-> -	get_ptype_info = kzalloc(sizeof(*get_ptype_info), GFP_KERNEL);
-> -	if (!get_ptype_info)
-> -		return -ENOMEM;
-> -
-> -	ptype_info = kzalloc(IDPF_CTLQ_MAX_BUF_LEN, GFP_KERNEL);
-> -	if (!ptype_info)
-> -		return -ENOMEM;
-> -
-> -	xn_params.vc_op = VIRTCHNL2_OP_GET_PTYPE_INFO;
-> -	xn_params.send_buf.iov_base = get_ptype_info;
-> -	xn_params.send_buf.iov_len = sizeof(*get_ptype_info);
-> -	xn_params.recv_buf.iov_base = ptype_info;
-> -	xn_params.recv_buf.iov_len = IDPF_CTLQ_MAX_BUF_LEN;
-> -	xn_params.timeout_ms = IDPF_VC_XN_DEFAULT_TIMEOUT_MSEC;
-> -
->  	while (next_ptype_id < max_ptype) {
-> +		get_ptype_info = kzalloc(buf_size, GFP_KERNEL);
-> +		if (!get_ptype_info)
-> +			return -ENOMEM;
-> +
->  		get_ptype_info->start_ptype_id = cpu_to_le16(next_ptype_id);
->  
->  		if ((next_ptype_id + IDPF_RX_MAX_PTYPES_PER_BUF) > max_ptype)
-> @@ -2567,13 +2084,15 @@ int idpf_send_get_rx_ptype_msg(struct idpf_vport *vport)
->  			get_ptype_info->num_ptypes =
->  				cpu_to_le16(IDPF_RX_MAX_PTYPES_PER_BUF);
->  
-> -		reply_sz = idpf_vc_xn_exec(adapter, &xn_params);
-> -		if (reply_sz < 0)
-> -			return reply_sz;
-> +		err = idpf_send_mb_msg(adapter, &xn_params, get_ptype_info,
-> +				       buf_size);
-> +		if (err)
-> +			goto free_tx_buf;
->  
-> +		ptype_info = xn_params.recv_mem.iov_base;
->  		ptypes_recvd += le16_to_cpu(ptype_info->num_ptypes);
->  		if (ptypes_recvd > max_ptype)
-> -			return -EINVAL;
-
-Should err be set to -EINVAL here?
-
-Flagged by Smatch.
-
-> +			goto free_rx_buf;
->  
->  		next_ptype_id = le16_to_cpu(get_ptype_info->start_ptype_id) +
->  				le16_to_cpu(get_ptype_info->num_ptypes);
-> @@ -2589,8 +2108,8 @@ int idpf_send_get_rx_ptype_msg(struct idpf_vport *vport)
->  					((u8 *)ptype_info + ptype_offset);
->  
->  			ptype_offset += IDPF_GET_PTYPE_SIZE(ptype);
-> -			if (ptype_offset > IDPF_CTLQ_MAX_BUF_LEN)
-> -				return -EINVAL;
-> +			if (ptype_offset > LIBIE_CTLQ_MAX_BUF_LEN)
-> +				goto free_rx_buf;
->  
->  			/* 0xFFFF indicates end of ptypes */
->  			if (le16_to_cpu(ptype->ptype_id_10) ==
-> @@ -2720,12 +2239,24 @@ int idpf_send_get_rx_ptype_msg(struct idpf_vport *vport)
->  
->  			idpf_finalize_ptype_lookup(&ptype_lkup[k]);
->  		}
-> +		libie_ctlq_release_rx_buf(adapter->arq,
-> +					  &xn_params.recv_mem);
-> +		if (libie_cp_can_send_onstack(buf_size))
-> +			kfree(get_ptype_info);
->  	}
->  
->  out:
->  	vport->rx_ptype_lkup = no_free_ptr(ptype_lkup);
->  
->  	return 0;
-> +
-> +free_rx_buf:
-> +	libie_ctlq_release_rx_buf(adapter->arq, &xn_params.recv_mem);
-> +free_tx_buf:
-> +	if (libie_cp_can_send_onstack(buf_size))
-> +		kfree(get_ptype_info);
-> +
-> +	return err;
->  }
->  
->  /**
-
-...
+Thanks
+Nicolin
