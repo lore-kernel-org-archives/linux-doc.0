@@ -1,175 +1,137 @@
-Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2041.outbound.protection.outlook.com [40.107.236.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 83C53184E;
-	Mon, 28 Apr 2025 17:25:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.41
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745861112; cv=fail; b=ajfFn8FSSksi7YR+h7lzQJmraKO46UThP8vNno7836fQW6KYe6Ey+r4d7V2qxO5yaJl0qwCzUkp//ms2HtALbQH5efxo272FJbSjMyLHxLG5JOGPLpTSeuhFH3k8wCXgms8/lbGW9W0rKGtwQR0vDdry3AJrMhijdKdZrUZbhBY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745861112; c=relaxed/simple;
-	bh=eaYrJrJgP8Fas88PdSvM0DbNmV2gOebulJbUVrxl+G0=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VPCDSnbfUEoLwXLz7yGU6FauyREMUrL4EqNOHwv1gLsyYWd+g3n+943K+3sSIhMxDCjMD2XMfr6F9yfxnLMz16aR9NlFnRPLYsVxYNERnCQn0rWiHlRK1sI3h51KI2DiAWT7KDTabqRyVVThzRImtD6ywP70jzFXgCubdho+E3g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=E8KsKcnW; arc=fail smtp.client-ip=40.107.236.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AABD125DD1D;
+	Mon, 28 Apr 2025 17:26:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.49
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745861215; cv=none; b=EKLyw3UZHIRqyM6w7OWe4NTu6W1Mvu+30W8PIcLS+czvIvdbqEtd2DB94//cogVE2c1x3VkgBnOiUp0Vc21i/B+XOJWMVnyZORtMcx5wMFFLys5V+iEwNushpaf+5uOm1LKBlRYh+Sz8fAopMcYEA6+GCMZxMbqa94sgal/J6hU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745861215; c=relaxed/simple;
+	bh=BAE0xjLoAFsLw6DzMRireTSZNToUHrdgumSFpIR1FzE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ePyZ9HUKH5zpCfE5iNUrnUF9r3mhVDjgFE+szrARDIKw/Qq2OOtcaXEVl8NNasJ8EyIDzZECCbsAN8SWE+so2C0/vyHCoRjWdZVwYucC/Aa0fXCBodZZ5C3wXxigqzcQduJ2GMPLsHET7ngxlGVzJ3Di50L8MUH0xfOe+nxDpZ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=k5c2Io/X; arc=none smtp.client-ip=209.85.216.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="E8KsKcnW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=s/0fwJM3siqwi636oF+NCuKFYZCFWALmKMKKxH3B7EauZlHbaRtMoDoVEBLUmTXYILxpM3VZ0v8vXtN2p2tc/u+E3zJf0CKLjJdeE07lhGlZcLdyj6obp6J85k87n3+vJcq4nN1ZqjAySlIweokxMU3jZzHb0QkqkgOcnPqoM+kViF1CcK8NALsXj00Nuaeox66kWVmmXaWGvzndALjdpvmOZZnT4oR3GauJd3UNL/rmesUMLOZu6iFK/zHA28zWYo1UmV9a2z4tnSxzXmFnBoEm02wuaPaSCIIEXF/aOP1ZTqNPxuaUakRXTnujGwl2bmFImbvYlgTCip9SVKj7JA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lLnyjLZBE+plR+ovFWLaYuB23tx6Vk0luZbAwhu1Xkw=;
- b=tEPf1TNabEbrSxGgSeHnOEtRPxGtmE4A3kZCx8iWBsL4mAzZwTq3OwA/eYKIiRpb+Ksltkvr0BXBIe25OnFfQfQqzdtuakfhKzyV/mHTKf6lF3FagsKB7Tx8Xvn02YNCiYNJh6Qh0/hbLVMuZzpwbisMYZtdbCP4fBCOLybWJYYceW6pncZ6PMsAEmVhYjhTcD2yG1KM7CXo+orImDOd0GIQGhrOR1ZqIVfqg8J6ivvcIGRDubDi2HlLgrgwTZlSq/7dpqzoT68tb/QjAOgEqVlvecvL9xWZbkZrRqfur/AUVoNzu62gVdejGceaaNS4eImu3Z6ofsLRHxJn1Z9vOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=lLnyjLZBE+plR+ovFWLaYuB23tx6Vk0luZbAwhu1Xkw=;
- b=E8KsKcnWft5hgO9gAGgH+8vjGpm7spjapW86rwmRwnR7TNvFdV7VXCwxPzQ5M/GkINooclHs/X577/IIKsxckBR0iq+qGCsXpD5jQ0JNEAzcOdziLTD5txwBnv5rWX2UoILPDVBZwXPJ4AFUZnf87eFc/cuqyekarkvyBH6USx/1gIWmNLGeQ59MSnDHgdCzAxu/CcRIwoymVk9S9681agN9E1QYJ2T13Ao+mUNaWOPr82hGa1tuXWipWxKY+zLFIIoSCdFFtBx6FQzHWr1+icLacWZ2cTO2JR8VyRY9eFx1H9pBohOoyQhYJjvSsJHJy54shoSF+Nd8ZvUBlLJG3w==
-Received: from SJ0PR13CA0016.namprd13.prod.outlook.com (2603:10b6:a03:2c0::21)
- by DS5PPF5A66AFD1C.namprd12.prod.outlook.com (2603:10b6:f:fc00::64d) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Mon, 28 Apr
- 2025 17:25:05 +0000
-Received: from SJ5PEPF000001EA.namprd05.prod.outlook.com
- (2603:10b6:a03:2c0:cafe::45) by SJ0PR13CA0016.outlook.office365.com
- (2603:10b6:a03:2c0::21) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.22 via Frontend Transport; Mon,
- 28 Apr 2025 17:25:05 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- SJ5PEPF000001EA.mail.protection.outlook.com (10.167.242.198) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8678.33 via Frontend Transport; Mon, 28 Apr 2025 17:25:05 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 28 Apr
- 2025 10:24:39 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail201.nvidia.com (10.126.190.180) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 28 Apr 2025 10:24:39 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 28 Apr 2025 10:24:37 -0700
-Date: Mon, 28 Apr 2025 10:24:35 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Baolu Lu <baolu.lu@linux.intel.com>
-CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>, <bagasdotme@gmail.com>, <robin.murphy@arm.com>,
-	<joro@8bytes.org>, <thierry.reding@gmail.com>, <vdumpa@nvidia.com>,
-	<jonathanh@nvidia.com>, <shuah@kernel.org>, <jsnitsel@redhat.com>,
-	<nathan@kernel.org>, <peterz@infradead.org>, <yi.l.liu@intel.com>,
-	<mshavit@google.com>, <praan@google.com>, <zhangzekun11@huawei.com>,
-	<iommu@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<patches@lists.linux.dev>, <mochs@nvidia.com>, <alok.a.tiwari@oracle.com>,
-	<vasant.hegde@amd.com>
-Subject: Re: [PATCH v2 05/22] iommufd: Add iommufd_struct_destroy to revert
- iommufd_viommu_alloc
-Message-ID: <aA+5009M6QTjjIpO@Asurada-Nvidia>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <3d8c60fe9f1cdaecd59ce3e395eb6ca029ca8ded.1745646960.git.nicolinc@nvidia.com>
- <9737606f-d3af-4c20-b1ce-7c705a7c8590@linux.intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="k5c2Io/X"
+Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-30363975406so677979a91.0;
+        Mon, 28 Apr 2025 10:26:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1745861213; x=1746466013; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vRRpRkZSvOkRGfLbThuRN6s/DKswi9Znb1ZKqEIbpb4=;
+        b=k5c2Io/Xvsfc40BnvKoicP0a98scV3YYmQpmgC1sgdN8mTxOQupuX/PhKYuYSEm7D4
+         8xWkEwqjBmVZiWi1otgGKAU4DBXaA0mF3zVBQiXo3AMQxLRg5b88MhszmjkYxZUCOvcU
+         WnS13vS2Os1huBHoXZJyz+MpJuq24z2MJPALXqqxzm7qpBvFz2XEqfOJV5l93JWim6Dy
+         ouP1LQAVm7BjLQzZZoSJvtEBp4uxjlL9vMDKeFEjLCJCAplK1kpiMXtth7nyXkm3CThv
+         UVSiWuygjNNtnThay9lkraNBNlNM88xiUVL6a80vGF/c0GVGRfEsmbzkvDDkLb6Vp7ji
+         bQCA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745861213; x=1746466013;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=vRRpRkZSvOkRGfLbThuRN6s/DKswi9Znb1ZKqEIbpb4=;
+        b=JmqWzMzWn/l0um8ATfeKWuq/8Hf0dSqWrVoF7y4B6PCP8/TfQQ6J6S25FLLxlQ/YQI
+         xBxKLic6xE0l11v9Bm1h14Nqqf2byV92Zk/3Ap5EP+wz+5JSSwnIYlpEq6tk1g1Ehz0O
+         YMdQ7HRuBrbv7BlkRduEglhY9crJ3+cnHDtALLZDMDnxwVjhN/TKyIZjkV6mhXota3RC
+         o2vbP973O/zMfIhq+gcc65bKLlhqhd07OH8M1TUCH8VJmWqob/etItT0BTOW1THXf2Ki
+         1awtqScs4kmeRYOYi5J5E3Vjk+9nB8X1EFLZpZbHm9/Xy6ONMoQVq1yJS63spEnyiZof
+         4oVg==
+X-Forwarded-Encrypted: i=1; AJvYcCWMfVaHMXG26apBJmdK5P5Yyf7QO2/akiR8p1OVpWClgxo9mDLXp3wUnjSc5NYEtHKvgh+DRDTxHQA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx9tDC7L/yi01Sa0DKQ6gWXI0IQG6Io8J73X3B2YKLDUtUtZPY1
+	myDmBPW7vUYebP03joneZ+Efg83+ocxWvN5PUIfLtKjSd72QQSHMWtO1zAtoVDzaARlXuDbvNzF
+	wEyZRtFMPJYnRU1R0OHQmKIOg3cY=
+X-Gm-Gg: ASbGncsIEXK3R/sW5aeSLSjcNY1Sq4cZW7B2FGo82vTmifY748u6RwejKWc8nfCc3UK
+	Tlimr+igQDh3MlOuW3F/7EJAZCxODbeeqVdf/1M53uifMLe60m/U6Ot76fV4qzKTkhTYb8ZsZhR
+	0mqBzSc6/A1+0E2Ppwjj0dFg==
+X-Google-Smtp-Source: AGHT+IHqDjJkfJR4DtyStA8z8/DstOOvTIwPHnHU+nlRgn190Mwia3pBgMb6g4BVjMeJDnyZ9gmvCov+/FaAprE4xPk=
+X-Received: by 2002:a17:90b:38c9:b0:2ff:4be6:c5bd with SMTP id
+ 98e67ed59e1d1-309f7ec76f5mr6947847a91.8.1745861212890; Mon, 28 Apr 2025
+ 10:26:52 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <9737606f-d3af-4c20-b1ce-7c705a7c8590@linux.intel.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001EA:EE_|DS5PPF5A66AFD1C:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9725e643-e74f-45f5-8339-08dd86799dbe
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|82310400026|36860700013|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?QoO+AgFx2JijW7X4Z027Yo0lp3zgvl3naK5RtatDnSaIijNwBI0g99UyEC6u?=
- =?us-ascii?Q?wnsmpB9rD6Hy68YPSfxGECUsU+zF5EsGHkqS9WlRWkKY7OaICh8f3WBkraV+?=
- =?us-ascii?Q?id8sYY4gUhA6lNAJoYR9pkgZmqVbZYRs8c6GB2pD//74N1BO/PfObcUG/Hxc?=
- =?us-ascii?Q?LzRW1M/UsVhFv2/p6jxUF2KmX7iIhLd8yGIvPQz8QhDAtuSykIGqPrWHd2PN?=
- =?us-ascii?Q?9hd9/jE+uL1Kg3U0IOZlXzHeHOtD/0iOX9z6EQaSjGmi4FgvyRWbci63IFnY?=
- =?us-ascii?Q?/ZvrOAuQCqyA4n1JnHT7BywkztQoOllbqK8BCJrFhXVQey9F+RPl7UbwQOWh?=
- =?us-ascii?Q?F2wAxDHCItC3gV/MnPdRZMQEUFGcBfgcrpsKXXejUFP/z6DcPZx7cl8RlO0p?=
- =?us-ascii?Q?SppVN+4PQBi7Oj41vNTP1fAC5Ikm5J5vdmRLWlhSt168FKHNi3JuIc3xIvk6?=
- =?us-ascii?Q?zCxxqXlLau+VzqGyeOnPfOjFH6k2bVQOkdM4pB7quxHehPiFin2xOInmhVL9?=
- =?us-ascii?Q?L0JUAu1UFvh8aHhkl+tFWMx79d6li9qcxm+/nfU5aioIXBtEgd7XCyJVV40V?=
- =?us-ascii?Q?gWgVEro7G7Vka1rIN4Oj7SNrXsmPrE95ufcccVWfxD+8EjAUtGSVSsBCnj2C?=
- =?us-ascii?Q?l9nVywP7tMzffVlFC2mT0EtGu6cbPsOUvf9Mamn8YpCcm30MEXhw+Onvii3J?=
- =?us-ascii?Q?/GbC8MqpuOgDxapL1lDWstByhxxvFBsxOS0BL0VT3wSM5kE2tvdOIHH524uY?=
- =?us-ascii?Q?ZHmrJQbjcdof6sI6ABV/M5APwM9WqEy6rIBSPoMhNmCsaLe+7C8rFEh59inm?=
- =?us-ascii?Q?aUYwzHNg5kwlcM22N4VaaIA+HeTbdoD7gkd96wsf7nE2XD86gfUBH5t2FG6k?=
- =?us-ascii?Q?hIs0ba8PcyYUXz5ya0ANB6ELA/oEzw6lu9V56d/7iOlk5HlOQogsCeWb+bnH?=
- =?us-ascii?Q?g3lokM3syuuHBzArZVt+J/C10W0TcVF5ngKVjURk6w3+VoZKA+yTsGMG5CTW?=
- =?us-ascii?Q?w7mb1qZc7pIOzBNwIPOgNMedJUL2UfhWctthKYnH+iQtfTxo/DiToNPu9bAd?=
- =?us-ascii?Q?BCGowgNoMAvSAwt5caMGWBSufE5J5LNFVQcEHtF9Eu8heXz7RIZnYUciW4aq?=
- =?us-ascii?Q?d6HXRUFdy5/FcJiIms1NUViLACpCfwxsM0CJFi6CLc+eqdIqq3JEl/5JUXe9?=
- =?us-ascii?Q?XZ+0Ap6w9okPc28v8OCmAQfCZSgmKsg2LTmlFPCu6bHzEdMcGKOlzcwPLpbs?=
- =?us-ascii?Q?RI/GhyPjm2vdDzNfUfLmfY2Ms2mRJL3XAK1s2HeZhVUo3ufHhKTU2fS4X/vI?=
- =?us-ascii?Q?YcPiPJSbgavaF9rfNxaV0P05n4dvLNy+WqeedrRgtV6A8rys5v/3XaYWi6Nu?=
- =?us-ascii?Q?O3jzkZVYmu0xiuVIottdNwWvv/37uA0kj9J5SEy0UjexBqAHJFUzNtLHYfxY?=
- =?us-ascii?Q?87Cy91Udbdu4yxJtoYqGYySPDJQlnva1Zuh2q5m/ww2HDiNmJAHC+IE1nzFO?=
- =?us-ascii?Q?mJ+YDRqM6rrx72wPZU0Neb2Qsg5d0fW//ICd?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(82310400026)(36860700013)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 17:25:05.1988
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9725e643-e74f-45f5-8339-08dd86799dbe
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001EA.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS5PPF5A66AFD1C
+References: <20250427023625.14327-2-bagasdotme@gmail.com>
+In-Reply-To: <20250427023625.14327-2-bagasdotme@gmail.com>
+From: Alex Deucher <alexdeucher@gmail.com>
+Date: Mon, 28 Apr 2025 13:26:41 -0400
+X-Gm-Features: ATxdqUHOPGCxsMpNTL-FiIUGq0AA51NTliFGGx7x0GccxVRPmLRNZoEaL_D7Qas
+Message-ID: <CADnq5_ONJ0wyExs33aSt_jWZQ9RmL2q=nE6OkzN_4HoS3vZ9+w@mail.gmail.com>
+Subject: Re: [PATCH] drm/amdgpu/userq: fix user_queue parameters list
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
+	Linux Documentation <linux-doc@vger.kernel.org>, Linux AMDGPU <amd-gfx@lists.freedesktop.org>, 
+	Linux DRI Development <dri-devel@lists.freedesktop.org>, Alex Deucher <alexander.deucher@amd.com>, 
+	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Lijo Lazar <lijo.lazar@amd.com>, 
+	Mario Limonciello <mario.limonciello@amd.com>, =?UTF-8?B?TWFyZWsgT2zFocOhaw==?= <marek.olsak@amd.com>, 
+	Thomas Zimmermann <tzimmermann@suse.de>, Ramesh Errabolu <Ramesh.Errabolu@amd.com>, 
+	Arvind Yadav <Arvind.Yadav@amd.com>, Sunil Khatri <sunil.khatri@amd.com>, 
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Sun, Apr 27, 2025 at 02:55:40PM +0800, Baolu Lu wrote:
-> On 4/26/25 13:58, Nicolin Chen wrote:
-> > An IOMMU driver that allocated a vIOMMU may want to revert the allocation,
-> > if it encounters an internal error after the allocation. So, there needs a
-> > destroy helper for drivers to use.
-> 
-> A brief explanation or a small code snippet illustrating a typical
-> allocation and potential abort scenario would be helpful.
+Applied.  Thanks.
 
-Will add the followings:
+Alex
 
-"
-For instance:
-
-static my_viommu_alloc()
-{
-	...
-	my_viommu = iommufd_vcmdq_alloc(viomm, struct my_viommu, core);
-	...
-	ret = init_my_viommu();
-	if (ret) {
-		iommufd_struct_destroy(viommu->ictx, my_viommu, core);
-		return ERR_PTR(ret);
-	}
-	return &my_viommu->core;
-}
-"
-
-Thanks
-Nicolin
+On Sat, Apr 26, 2025 at 10:37=E2=80=AFPM Bagas Sanjaya <bagasdotme@gmail.co=
+m> wrote:
+>
+> Sphinx reports htmldocs warning:
+>
+> Documentation/gpu/amdgpu/module-parameters:7: drivers/gpu/drm/amd/amdgpu/=
+amdgpu_drv.c:1119: ERROR: Unexpected indentation. [docutils]
+>
+> Fix the warning by using reST bullet list syntax for user_queue
+> parameter options, separated from preceding paragraph by a blank
+> line.
+>
+> Fixes: fb20954c9717 ("drm/amdgpu/userq: rework driver parameter")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/linux-next/20250422202956.176fb590@canb.a=
+uug.org.au/
+> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+> ---
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c | 11 ++++++-----
+>  1 file changed, 6 insertions(+), 5 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c b/drivers/gpu/drm/am=
+d/amdgpu/amdgpu_drv.c
+> index b9a1ef343c79cf..ec8057597c5aad 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c
+> @@ -1115,11 +1115,12 @@ module_param_named(rebar, amdgpu_rebar, int, 0444=
+);
+>
+>  /**
+>   * DOC: user_queue (int)
+> - * Enable user queues on systems that support user queues.
+> - * -1 =3D auto (ASIC specific default)
+> - *  0 =3D user queues disabled
+> - *  1 =3D user queues enabled and kernel queues enabled (if supported)
+> - *  2 =3D user queues enabled and kernel queues disabled
+> + * Enable user queues on systems that support user queues. Possible valu=
+es:
+> + *
+> + * - -1 =3D auto (ASIC specific default)
+> + * -  0 =3D user queues disabled
+> + * -  1 =3D user queues enabled and kernel queues enabled (if supported)
+> + * -  2 =3D user queues enabled and kernel queues disabled
+>   */
+>  MODULE_PARM_DESC(user_queue, "Enable user queues (-1 =3D auto (default),=
+ 0 =3D disable, 1 =3D enable, 2 =3D enable UQs and disable KQs)");
+>  module_param_named(user_queue, amdgpu_user_queue, int, 0444);
+>
+> base-commit: 127e612bf16726620e431b6e0f771424916492be
+> --
+> An old man doll... just what I always wanted! - Clara
+>
