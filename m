@@ -1,200 +1,122 @@
-Received: from MA0PR01CU009.outbound.protection.outlook.com (mail-southindiaazolkn19010009.outbound.protection.outlook.com [52.103.67.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f54.google.com (mail-qv1-f54.google.com [209.85.219.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7805010942;
-	Mon, 28 Apr 2025 13:03:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.67.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745845385; cv=fail; b=OHqUww7qPaXiNUaL34u6/GQDtA6vkZvIKE0JpZkQ16mbZYndborY6Q4UU11XA77v7gCahbmkFDkT1G1pnoxdUTxcILH3xdc/wAJzhgdI76ZSBjyWqhP/x6AOJWKNeoHvaFzgR0yiIk+yi3u3lIDvIDpFQyvA9c6wyYzwHMngW0Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745845385; c=relaxed/simple;
-	bh=ImiaSJpqDcc2RF6Wf/Ysry1GV5MLcvdcEEc9NtUxuqc=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=XylKToCtAvMvKpFC+PltNLYhs1cs/MSU5axDbls6MQWk13L7AL7mmYXcZI0HEKQoyuNHhcsRw9kuW15/658Y5VYKE+xx1BNsaeNKSeL7SqQ1FGDTLIEUV2g1GpRBDpp9PDIG2NHpP/K5t/v3nHDV62ui0aPb1LN6zV1CveXlLBo=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=HahQqwvc; arc=fail smtp.client-ip=52.103.67.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 174124AEE0
+	for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 13:16:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.54
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745846195; cv=none; b=Q6zQvzOaABRqybUmVwytorhleifGjfet2zHO+6Xi6lRUFxagEuMcEs2im0B8zy63STqgK5UfKEyNbXH4QCmJDChYn05RB+CCYH02gHZyKGFa/P5XEe3Em21/hxuNWh7nPaC3OOiKH+NHHq+oCXlMbVwb9vK/XYWM61TK7g9Qfyc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745846195; c=relaxed/simple;
+	bh=NW84TxEhdb7ZElUc5cFUgz5zc5jpHgx7GoeBgURA278=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b/nly2meZNNO+LCZVU5163iMP2THm7sr6xrgAK7P7ZVcKySBqobSROZOezzJN5lFIXNvPGb+mqWuyR+CTqxS8A6tKVSBW4/CdJ1RUiTAO8DQ9g0lFFrX088lCnJGxyyN2t3tkC3nmvPbJbAJH6BnloY+D33qUxjwElzILiUxaCQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca; spf=pass smtp.mailfrom=ziepe.ca; dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b=N/XOlj9E; arc=none smtp.client-ip=209.85.219.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ziepe.ca
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ziepe.ca
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="HahQqwvc"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZMAnWuDUdNoB1VUanRKxSxMb1+spHww0JMdoEuIcUd9vXnWMgj072MvIf2gocd+sifYOQWKy+DwB9B2wThIxl8dfd/+l17y2LOocf/BgVhTuULj6NdWrTKy44EvsONGtJ9j2wtfkYUO2OXnW8E/yqLCLFY9Ik+YO+pch9fYrwWnFSkcDxziepcjnvgHsXZYAE25hay+0TOvi9Cvb63pe5xGdEqlobSGY/0IJ71T268aPs1fmpf7X0fu8bBf8xoudYCiXm+NpK7GlSuGDilVGU/JQwJtEx33OOlnCES342SM1gSKI1jnlhf1XUXsSZyXchQFcyq7wdgPpNlQAdG6O8g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gv135DMHD8i6DMg5OXsDxvcEzloffMSIwhmTYUZtDcs=;
- b=QJiOgNbbXwrTIJzr0qOPc4S4oJllNAs0hBbXFrbGk23uUbeySoxoaN32H28r1UqtdfDZR5Qau4uaufwY9PJC1328L2zhmzz1fAi82fBKeluqmXokRmFQVgdI0v2sVn2oK8FDouL8vsNsbVRzkDnnFsr4kSoLK2g/8q8J8VKHOVzKeENT5XxFv0+azeQ98it8xgriiQa2lNEV1062NQqXodfdS6QyWMNEReWqdwyeZ/b2DSW+EY+Spe3Fn8ADlnOkYVoNYPqBe4WGSpufqsFPskvcEJkvGOKCfNI1HDbSHKwyRiQ0FMq+C5/lsh4rziKCH2qWieIhwxsbfS3esp2b0w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gv135DMHD8i6DMg5OXsDxvcEzloffMSIwhmTYUZtDcs=;
- b=HahQqwvctVRQvUXv2JNja6OK1WWf+o0+r/uLSsyROp+ae+1VFa/k9mfYCyoGFxY39PPn7vYGDqTwD9HcdnR0VHkKk1Kwk6UEjW6kfnSjHXBHJ0kKktR6V1bc3CwZrOnY/bNRQr5I0r3EQIKp1v12MiB0At44/iOqD5j095nj0Ca0iAlDxaJThLst4EY5aZiG3qZ/i+78sRFT47QztoE71zGsFf2j8g0DZy0oyeyTTkLrCvUG/IUe/Rwl3pI10xyrlj7QMhmgg167hu1WcL0TkSXnQUIFHqJFDGey/1jEQ1W/reSx6ADLg2Jrn2cSorXOG1cNDE9lRd7X6yuKmgjwWg==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PN3PR01MB7078.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:ad::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Mon, 28 Apr
- 2025 13:02:53 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8678.028; Mon, 28 Apr 2025
- 13:02:53 +0000
-Message-ID:
- <PN3PR01MB959730DE0A0FF281A0DC12FCB8812@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-Date: Mon, 28 Apr 2025 18:32:48 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data in
- reversed host ordering
-To: Petr Mladek <pmladek@suse.com>, alyssa@rosenzweig.io,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Sven Peter <sven@svenpeter.dev>, Thomas Zimmermann <tzimmermann@suse.de>,
- Aun-Ali Zaidi <admin@kodeit.net>, Maxime Ripard <mripard@kernel.org>,
- airlied@redhat.com, Simona Vetter <simona@ffwll.ch>,
- Steven Rostedt <rostedt@goodmis.org>,
- Rasmus Villemoes <linux@rasmusvillemoes.dk>,
- Sergey Senozhatsky <senozhatsky@chromium.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Morton <akpm@linux-foundation.org>,
- apw@canonical.com, joe@perches.com, dwaipayanray1@gmail.com,
- lukas.bulwahn@gmail.com, Kees Cook <kees@kernel.org>, tamird@gmail.com
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
- Hector Martin <marcan@marcan.st>,
- Asahi Linux Mailing List <asahi@lists.linux.dev>,
- Geert Uytterhoeven <geert@linux-m68k.org>
-References: <20250428123132.578771-1-pmladek@suse.com>
-Content-Language: en-US
-From: Aditya Garg <gargaditya08@live.com>
-In-Reply-To: <20250428123132.578771-1-pmladek@suse.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN3PR01CA0049.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:98::12) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <a93b8f18-e60e-4dfd-90dd-97a59584dc7e@live.com>
+	dkim=pass (2048-bit key) header.d=ziepe.ca header.i=@ziepe.ca header.b="N/XOlj9E"
+Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6e8ec399427so45886336d6.2
+        for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 06:16:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google; t=1745846193; x=1746450993; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=v4DHTb7AvO4YicH+xSWtDalbuQanacnJSYHX0xM691I=;
+        b=N/XOlj9EFqhqN5MhWNQAiQ+QnTjPBWKDnC0nsRikpONqYlFezdqGxS2LJY56ggJ+mt
+         JkNXx1eAXQ0xucYtxQXYDAFibfCxNIIu832IdctCno0zDAB24Bu7nvnin4U4wyxe/1kp
+         zD+0GcShK5MfbKTPnXw9UQqUrrpYggeWrFKjywHAg5ivdfg5C9jf2sa3Dcry+88GIdGk
+         xwy6i3RsslHx8Tr+MkipL2QTqCbomlv2KJr4e+MHcIkVlCutdWik/D4sEOK1yj+QVhne
+         sI+td4RlizN3PgS9Nsm6v2gQ6m6ioDYTiIXEQPA5J/ncuPm5PC/YlHCYV5OdDXtU/xl+
+         bWHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745846193; x=1746450993;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=v4DHTb7AvO4YicH+xSWtDalbuQanacnJSYHX0xM691I=;
+        b=eS3jC8n0l+8R3FOrlrsbQuSfsoxalOsn8lMEg6IigCsDVLJ1P2xtjb4EKc+EoNq5tu
+         SblyguVzb+KzBUGf3VAf7SMA7Tg/noXSdX9wkc9TmE0aHVhDDc+zNdF3gtcayo3nOhhg
+         QR8Gj1kcVox/UiwdDy9l/rsi2QrbVHt58iscaL3Wr+R/X7KAfE2IdVz+fx6SrBTOaBCX
+         iaivXBwgZV09GPqyo8md8Dybm2BhEA3lawo+OT85LVt341PoGybqk6CSTnZU1IZC1W9V
+         k1hTxScKIOBMpus+uKEu0+vFb6T83+H9GnoYjr/KIpeaX8D1iLxS9A61v6MCmnKPD2Gm
+         29Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCXVwzbTT0S60ZXWdAnB/bPI8nRN2OmhzorWyy/KGyhV3VwgdlfR9O/Xj3QkmwttV0Cxd2cYFFkcTcY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxTn8B4FMUfj7ZQLleDvhiVoKmIc4HLWCC885LnFgKU5CClSVhx
+	cU0/wKJMIibiheKY4AQ6/TEPr4E+x6WRSLS9WS6pjXgUFOs85J57Yp3odWZ8brY=
+X-Gm-Gg: ASbGncvFoNJFs2WVnU5JqJbPCgegzFIs8fqPUUF/kzahJB0km/QYcopti7Da/3Tcj1V
+	NTXbE/Uu7hZAzyfN/G0q2qhPVAVBQFH4POqfeo/hf1t2GOWe36J4pj0wdyg1QQftEt9wEZ5iW4A
+	cCTA0Jzn+CLQvY5GV81dA0UPErVd3ktFHqFnOKSxqidhDIO2i1uVLVxA86iQNeio6C+3VTy1ghv
+	RjMYsNfCnT98XKrH08vqwPw/e8LJT13cd/jcXwfbK5doinKTnNRrWXWAgnPY8uDi1mYvhUmaRXV
+	Xqdo7KC/7c8iIiHQL1xOT1btT1oMIBzMUqLzN0aPT8+NZ1eQhkuBxnOOTxubSFIaNKC8XLxnk0D
+	/SkHzsUIvH1bq2pzyEbM=
+X-Google-Smtp-Source: AGHT+IGm1OrVyo7NrhtixKONc1TT2Ec0eky4BVMvt9fZIav2cWhkRh7ddfgsBqvKXcfpG60XtXV5Kw==
+X-Received: by 2002:a05:6214:76c:b0:6f2:d367:56bf with SMTP id 6a1803df08f44-6f4cba51bd9mr207427746d6.31.1745846192886;
+        Mon, 28 Apr 2025 06:16:32 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-142-167-219-86.dhcp-dynamic.fibreop.ns.bellaliant.net. [142.167.219.86])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-6f4c74d3dcbsm53164536d6.50.2025.04.28.06.16.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Apr 2025 06:16:32 -0700 (PDT)
+Received: from jgg by wakko with local (Exim 4.97)
+	(envelope-from <jgg@ziepe.ca>)
+	id 1u9OLX-00000009TaN-1zxp;
+	Mon, 28 Apr 2025 10:16:31 -0300
+Date: Mon, 28 Apr 2025 10:16:31 -0300
+From: Jason Gunthorpe <jgg@ziepe.ca>
+To: Leon Romanovsky <leon@kernel.org>
+Cc: Luis Chamberlain <mcgrof@kernel.org>,
+	Marek Szyprowski <m.szyprowski@samsung.com>,
+	Jens Axboe <axboe@kernel.dk>, Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>, Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>, Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>, Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>, Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org, linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev, linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org, kvm@vger.kernel.org, linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: Re: [PATCH v9 07/24] dma-mapping: Implement link/unlink ranges API
+Message-ID: <20250428131631.GB1213339@ziepe.ca>
+References: <cover.1745394536.git.leon@kernel.org>
+ <2d6ca43ef8d26177d7674b9e3bdf0fe62b55a7ed.1745394536.git.leon@kernel.org>
+ <aA1iRtCsPkuprI-X@bombadil.infradead.org>
+ <20250427081312.GE5848@unreal>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PN3PR01MB7078:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0bb61416-e059-44c8-f231-08dd8654fcf9
-X-MS-Exchange-SLBlob-MailProps:
-	/UmSaZDmfYAf5TnZFQyEFYQ62+HWCaboeO3Oz2wqxcd0SvnbbjzbgGzZcpchEU/84xFkFsy2qicU6sK96xRa0QX5h2vRLKFqgt1aefA1OgfgIS0Y5L3fJTUFlSEUdfY9E+rpJJpdTTnt8aSH6v6wYaZrFQkEjVEEKgQDILLyIKGcGfBerizFFvYrkXepOB/5kship4X64bSzqlBjqa/s2bVRB2b6KKerz7eKF4blNzRt9whTiryRvGBhHdmtE4ICYwEBtAFBzIUoFq6B4d21wLU84N+kKYNaLe74KTqqZY8IOj8g3oLrM0vIs3/ZFpwjrZBafIVmUFfCXoIHbVtC2KqQeza6YSJNF4QzhwdR9EbKt3iKpK/Qcoy+b0BcuuTLYkBUbHFnsd5RcWKIifMddZL/suESbakCBeql62GVjO3Fo5sPyYGWJJcuwMibx3N+C5bVcwZv8OK7U2kgTrkUAZ52tMJFJAGYoGVC4DtGZJs3NzbXNRqezYIkjTE7dpMpD8Llsu+2AGJjOIkNsuaRUu1++zT794ovrD4K/g3oF7OHt5uM0gzHDkHyvrGIcGmN3hecKwms0PROGUBEScvQZnjpsob0wYCvN7mw6v3RQ1/4LRSv4NaDfYs54dq0eFlzDEL7DkltGQAPZI7dJ9xYyWU3OY1HGeFtu4n2SnAPnkYR0jdoBlFJjB4Jn6SfzW3MZOw/fHjZLDyM9hW9uIARZ+iNwWgix8qrYhezLXfZ3NiezxuKw2Z60PEZsOtq3rsykALFEH2eshe/zrROM+/65qyz71S7gbKw2Ue4KdqJn9DnQlSMLeLjMFiJLsGyjiv4cyk3/o+r9/XgvFn4vWhKKg==
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|19110799003|8060799006|6090799003|5072599009|15080799006|7092599003|10035399004|4302099013|440099028|3412199025|1602099012;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?QzBkRCttRzJPYUNMQmpJdW15M09Tc1U3SWNTUUxWUXdQYWpLeFpvdmM4cWFX?=
- =?utf-8?B?ZG1ZY1pFOTdDRDY3UW8zc253cHNOUEpmSExFRXJJdVM5RzdVWmFZUmJTYUpN?=
- =?utf-8?B?blhJSElMVFNLS2JvR012ZVFrV3IzdVk2alV3UUtsTUNIOXB0WHJRTXBseTJY?=
- =?utf-8?B?aExCUm1ycVMvOCtOdFV4bDRUUE9mV2Q1ektkWXV6TGU2MW9RWkl6ZTNibEpk?=
- =?utf-8?B?RUI2VUI0SFo1UGp6TDRtNDhCb2d5Wll0eVh3ZkVtSzFtNy80QjMrcHV0QURO?=
- =?utf-8?B?OWc5R1J6d1dsRXYrcWl3RDh6RXdhNmkyWENEbGRFYUpUSWNlaDhERHBwcld4?=
- =?utf-8?B?a0cvUWhUa1hxNlhITThicFJUVExlVnluekhnRVFKZzBsb3RPdTlxV1UyU01h?=
- =?utf-8?B?RzE4WTFVNCtsSkNjUXNSbWZOdzRQMmovcHUzcU5ibHd3ZDNSU01sbUFHbEtk?=
- =?utf-8?B?by9XaCswekVVcFI2QklON05XVStLZDArRUd6dlVMNURVazVxTnNoakhZV3dz?=
- =?utf-8?B?Mmc5NzN4dW4vdVp0a09PbGFBZWpxMDZrVDhzcGNwMHR2dS9XUHZLL2xFRlV5?=
- =?utf-8?B?VWk0MmN6czdtdXgwTFNGVlZ2ZlYyc2puV0pvZFp4WU5OL3dhMnhCQlR3TWxw?=
- =?utf-8?B?ZGxUNVFKR3hSS1hZbStESmM4MkxmeXdBUjAxbWN0NnJvMTE5V1BWR0ZLZmJY?=
- =?utf-8?B?QWVtd0xwNE5DMEl3MWJlaEdoS0R5THNJTUtPM0VybFVHK2xpZVp3RkZFc1Jz?=
- =?utf-8?B?UU1YQ2cxWm1KUXRaNDVlaVBQL0VyTG12V0wwZUhvZkhvdC8xdmY3MW9kVVk1?=
- =?utf-8?B?UWN2dWdmcFdNRTdmc0pVbERoZWZIcE1LcXc2R1BVbi9PTlNUS3E0amZlMmlH?=
- =?utf-8?B?OG5FbjAyQXNyeTlxRkNGUjlJVHVoR3U2QlV0VDVvbjBCbHZxZjQyd1V6eXpK?=
- =?utf-8?B?N0pqdzMxSmd5TnU3WjN6WERmaW1CRU5WKzQwM1AwcmdmMXFBTTROTHRxUnRK?=
- =?utf-8?B?WFdPMTVpbGFKbkc3VUNXdEM3Ry90ZGpBZGpZV0Zka1JyMEJLTm9jWWdwK3Zo?=
- =?utf-8?B?aGYvV3U2aGQ2USt0ZUdpTnp6blRlZFMwRkpaUDQzMGswTDNLOVloU21OVE5x?=
- =?utf-8?B?ZmxMT05pQ1hOVXd4SnF5djVISWQ5VlMvRDd2ajJtczlpZGltT1RHWG1YUGhq?=
- =?utf-8?B?Q3Iyc3U4dG5yNUkxcHRtRUJwdnBHc3N2ZHc2QnJZcXVaTy8rZHl0ajNYMUJi?=
- =?utf-8?B?aGZQQkFZODFQUlFWOUlVc0FIekladDkraTNnM2ZyNnJ0TlJHZ1pyMmFoTEl4?=
- =?utf-8?B?ZU9NclpKZkluWkdxMk11VDJNa3MrdmltdElDNTFBdFZMTU1VOCt2QkcwWDVv?=
- =?utf-8?B?NWh1RWh3UXp6dnFXSnlCYlNxR2M5TVZzSlJhb0pLL25LVlFHRDV6T1R2ZzZL?=
- =?utf-8?B?eWphcGRIK3JkcXVCYXJ4YjRSWkpUSVliYkF5S3hYbXhSQkw0MVI5TUQ2NWRO?=
- =?utf-8?B?N3FRdjRiaXM2YitoL2Y3TGxkcHRGSEQyM2Jjb3RjVDRSTHRPeW9XT3V2VG1m?=
- =?utf-8?B?Sk1sUlNMUjd6ZjZDemIzMFNFU0VDL0xaako5U3dsNWVsTitPNjI5QlIxMGFT?=
- =?utf-8?B?eno1aG9sSWYwUlZYbnFoNGRTQjNxTlJGMkg4TTE4NDI2MmJ5MEcxa0pzNS9C?=
- =?utf-8?B?K0dUckQ3eEJrWGpKUWd3Wk16d3FWTzF3dGJJRVlNRUNscEhnVkJVUnBVVzRr?=
- =?utf-8?Q?wn6P0NkCkgfJN5iXB4=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?UjRBYnlTTGVjTjRwekNkM3JDWjY0RThGNHJWcjQwdEFlNnlmbFVKL0RhNE5k?=
- =?utf-8?B?UjFRcUhkd1FnWFo3WmNFM2Rka1crbkt0UmY2aGdtK0V3NFpyNEI1VmYxYmx2?=
- =?utf-8?B?MDduQjRBcnNRM2ZXN214Y0Fqa0h4NmZLL2ZFa1JMNUROcEFQZXVrbVMraFZB?=
- =?utf-8?B?RktCMk84YXE2QUk1WXBPYkl2Nlk2bTA2VE1oSERGKzdHZFhMWEZPUDdiclhC?=
- =?utf-8?B?NzlUaEU1THVRQytVSkxGNnczK2hLQ0txVzd2YmNtY2thcVh4OU4rZkJwVG5j?=
- =?utf-8?B?QjB0Q0Q0ZVAvSDFSNHlxRkFGM1hmbElIUlB1ejliejlNcEZZSzI0Tk5KaThW?=
- =?utf-8?B?NHk1MWtKbDd5ZDRYeVdSTXNNemNVK2tyTUF4TXowOXYvUW80aGNvaVlqU3p0?=
- =?utf-8?B?aHFwNkJFNTJhY0JqK1hQWisrYzhhb0NpY21FYU5Dams0UmI1ZVJJVTdqckpx?=
- =?utf-8?B?RGJJQ1I5OXVabEJ4K2hrVlNZOUVzeG9hZnZPOUw1cXpOL2dEdk5ld0p2TmlQ?=
- =?utf-8?B?Y0lDOGp5UThQeEgycVNTT1ZMdnhLeGFmM2E1Z2NncVdRZ293Y3d2NEU0MlNi?=
- =?utf-8?B?V0M1ckFuaTd5Ykxha3VvcmN3Y2dqTVV4WUZGMnhXNkNndjQ5Sk5qSEJGRGVk?=
- =?utf-8?B?a3VPUlk4T0ZxakxzMUFPZkJlOXdMVmFmV2pzNXFKNU9YQVg5QXlZQjBEWmJy?=
- =?utf-8?B?ZVFOT3pMcXlPdEROQjhFVzlHT01nMXR3Sm9Fcm5EUnZ1dmJtRzBjQ0xMZUsz?=
- =?utf-8?B?dTNSZFNXOXFWcEQrY2xyQk5vQ0FTVnBwYkpIai9LNy82UloxVVl4OXNSQTZv?=
- =?utf-8?B?SDduai93RFpJWG41SWR5R1ZMRkl6VmF5UVZ3U0RyRGUzRHFMMVpoSjZJUHpD?=
- =?utf-8?B?REY4UERMK2o3WENaUTJicldjMkNta2VCdDdnd0VqYlRRWmdIVnNWeU5zZnJY?=
- =?utf-8?B?WWkyQnJtTlh4OGdMYW1wSlRjLzRKQi9xaDUyeEZHaFBlZ3RabitGMFNOckww?=
- =?utf-8?B?S3pzQlR4Z2pTUVFwSjBjT3F2a3pDdWYxWFVlcitnMmF4ZjFTWktqZVRhUUZD?=
- =?utf-8?B?WlM1dXR4cEpOY3Z3TGlqdE9qZTRBNzVGRXVWN0R1eXA3czBBbFJlQmZNWlJF?=
- =?utf-8?B?VGJGb2lIaTVMMGVubVU1d1YvUDBIR0ZGYUw2TlZHWWV5bVFaTWFSMlhnOC90?=
- =?utf-8?B?WSthNDFiZzdBOUNwdnhBSmhyRGdUbFZGK0JDTUV2Yy9TVkpKZDVOeUV6WWFW?=
- =?utf-8?B?U2NLbkx6c1lnZDBzM1BXRklxUEdhOVlXRXgxWG14Z2h3SjMrcUVKV1dJU09F?=
- =?utf-8?B?VWl1RUxwZGhxTWxoenhNc0ljSU5IMXJHdnM1RyttVExtVkluOTR5Um1FWFRN?=
- =?utf-8?B?ejJuZHB0amRZNmdSQ1FjaWIvUllHcnpGSVpGWlJFdWZpd1JlL2t6cHNvcy9m?=
- =?utf-8?B?VFNIUEpMVzRPdFNMbkxBbkJrREJMbnZzdEdHajFtRmI4WTlQNDFrVk9jQUoz?=
- =?utf-8?B?VCtTT2c3Z0NiMkdFaytSck1OZmdTVXk1VUVoREtwYmtQc0k2N1ZxVTY0NkZJ?=
- =?utf-8?B?cHdvc2tpZzlJNjQ3aFdnekJjcitNRmZkVkg1M2JqcnFwT2diNzFQcDEyMFRL?=
- =?utf-8?B?SmVpOGwzT2xKeTZCbzhVb3hnWUJKYjN3TU9OUFozN1hFWDE0UTlBcnVsdVYx?=
- =?utf-8?B?ZXVDckFEVVRBZ2l2bzVwaFBqUWFubllwYzVyZWdKVWtNaENWMEQ0RzdTakhx?=
- =?utf-8?Q?vj4y1FXGtvuqzGWVPdqh5ljRxcqecwpJH4Jhb/j?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0bb61416-e059-44c8-f231-08dd8654fcf9
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Apr 2025 13:02:53.8399
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN3PR01MB7078
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250427081312.GE5848@unreal>
 
+On Sun, Apr 27, 2025 at 11:13:12AM +0300, Leon Romanovsky wrote:
+> > So arch_sync_dma_for_device() is a no-op on some architectures, notably x86.
+> > So since you're doing this work and given the above pattern is common on
+> > the non iova case, we could save ourselves 2 branches checks on x86 on
+> > __dma_iova_link() and also generalize savings for the non-iova case as
+> > well. For the non-iova case we have two use cases, one with the attrs on
+> > initial mapping, and one without on subsequent sync ops. For the iova
+> > case the attr is always consistently used.
+> 
+> I want to believe that compiler will discards these "if (!coherent &&
+> !(attrs & DMA_ATTR_SKIP_CPU_SYNC)))" branch if case is empty.
 
+Yeah, I'm pretty sure it will
 
-On 28-04-2025 06:01 pm, Petr Mladek wrote:
-> The generic FourCC format always prints the data using the big endian
-> order. It is generic because it allows to read the data using a custom
-> ordering.
-> 
-> The current code uses "n" for reading data in the reverse host ordering.
-> It makes the 4 variants [hnbl] consistent with the generic printing
-> of IPv4 addresses.
-> 
-> Unfortunately, it creates confusion on big endian systems. For example,
-> it shows the data &(u32)0x67503030 as
-> 
-> 	%p4cn	00Pg (0x30305067)
-> 
-> But people expect that the ordering stays the same. The network ordering
-> is a big-endian ordering.
-> 
-> The problem is that the semantic is not the same. The modifiers affect
-> the output ordering of IPv4 addresses while they affect the reading order
-> in case of FourCC code.
-> 
-> Avoid the confusion by replacing the "n" modifier with "hR", aka
-> reverse host ordering. It is inspired by the existing %p[mM]R printf
-> format.
-> 
-> Reported-by: Geert Uytterhoeven <geert@linux-m68k.org>
-> Closes: https://lore.kernel.org/r/CAMuHMdV9tX=TG7E_CrSF=2PY206tXf+_yYRuacG48EWEtJLo-Q@mail.gmail.com
-> Signed-off-by: Petr Mladek <pmladek@suse.com>
-
-Reviewed-by: Aditya Garg <gargaditya08@live.com>
-
-> ---
-> Hi,
-> 
-> I am sending this as a proper patch. It would be nice to queue it
-> together with the other patches adding the generic printf modifiers.
+Jason
