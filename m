@@ -1,106 +1,163 @@
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com [209.85.167.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 30055241131
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 15:50:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88C8223F413;
+	Tue, 29 Apr 2025 15:53:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745941854; cv=none; b=ItEPUlfujLE5OiqMR91MIFqckiyTqWYA6/T5x93vS+op1vsSVgS7sPsuPhzv+1xAUGl4sCmqk/yv82ucywJJ2pD/hEY4+1W4JWDhKqNMqA+YCnUnB3DEDSEzNOlWWZ1Tn0nRJr4X/4Hgs+FbJN7oufk/zi4o6V3vNqGDQrhMuqs=
+	t=1745942012; cv=none; b=Z49u7vcgfP3j4OHoA4XI4n5IuFIFIBDnSKneZhBPgdfNfiZXI7udJkZFJK99rG9+WvC54fJ36LYXDikthBlO2jh9gxFopW2eCbkhtlzR4VnNo7erLOSLJS/AZugndy7yfX0kg4wybUGUyFEouI1wNB+3+jUAMjfz6nGQzvOC/bU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745941854; c=relaxed/simple;
-	bh=27sUWC+HFFtmMxGijGj3WlvDdGSGLfoqsxoR+r6qkAs=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iXxMVRUiK3pLVvdzJjxvwPzx5nLEXjHD7r7YSqxDZhnr+Wj4MyqqZCPL6QPnaAuyiCtku3spRFs68R8WLw9/mRrPyKfe1HlmYh2HDl7kSr+sf+s7eB45dUe3xfxlN6oXXJNG7L4WYCtlVLg8YRAmo4w22sb8wZF0LECyLPnkxOM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=KJhNUmxZ; arc=none smtp.client-ip=209.85.167.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
+	s=arc-20240116; t=1745942012; c=relaxed/simple;
+	bh=KUMxrCWS4kHpmdAy9k+WvcFlk1e7OoIGE+mnAbwsrzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Da8OsU1jDLbRnjeLkIVbSSNJ2AsNcBaT1EZVEH8LhwiVxQZP/y4uRW3xyelp4Aa3U5Kht0Al9VI01xvHEE+d4JtMfwk2dUEUhuiUIW4Hu7SyMqiJJBQ2PnoTLm94bkgAlEAo3q8/8KORhU3EXXDvHIsJAofQwG1mToc5E9qKKwg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bodHUhFW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="KJhNUmxZ"
-Received: by mail-oi1-f174.google.com with SMTP id 5614622812f47-3f6aa4b3a7fso1919227b6e.3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 08:50:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745941852; x=1746546652; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=5IWwy2Q6p9XeoTqr1hNsCWFixc22wa18HwPhsdqWpx4=;
-        b=KJhNUmxZUViGc4hxEpxnvJ+bCIMbraYPDqT5ZdyFX8Ivo5xaVBwDhkd3VIikEdwYFC
-         SOyuD2HLr3EFb5SHTf5MNSN6PRC02vVvxrL4jVm8qbXUAXNFYpOif7euAHdXm6RtVcl0
-         B4O6Q+S1ZkyaWB2NSdzmovVgPRI/mmjDGwb4VW2rgZPLnII0mhEm9O8JDPNY5ShZq+UT
-         7b+Z3lkFcmoKLBe5C0IUN9nF9Z7wNA2tyxnyBC5nr1WuQ3h80cW8iNVMEomtAze5n4m7
-         1cCq2UGEIi7nzYMYaKv1Ko/R32qArCPDEPgm6og26jUxR+FT/jXucH9OWbn97T91sM2J
-         m8Rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745941852; x=1746546652;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=5IWwy2Q6p9XeoTqr1hNsCWFixc22wa18HwPhsdqWpx4=;
-        b=Uhn8CiP1poOOSjoRhSLJpw/5569tKDYkVx2FDFsNPui90fW8dcYRWi5csnYWEgEvG4
-         Dncr3eyRBUjl1VO2gv2zlxv7W5pcxOX3Ns1eXBkZf+q0lUbbIlihQ6/ziPAKQQjuMl1G
-         U7hdyugHOjv5MqD7dUbPNsQpDnK6s8HxVcOTsCG4YuIb0UJFM1i94JU7K916wIGtYhpV
-         AYFiRv9NZHZmsuqaq+tI/SI15gwj9S2A0wQ+5vZUDOAKrN9JhdZcRJKIADMiZlkG8oL4
-         IuzjSIXl2R4h0DAF1nLsFEqmtoHDef2okZyfU1c+16JU4EVNDOb+/EHgkW+vhcQ1U+6I
-         8J2w==
-X-Forwarded-Encrypted: i=1; AJvYcCUJtR1Cwf65Z5oy4+305DqwiMI8kQmAlsrKZCJb7SmYOAMdMSpZWGxpWrn0iNyWHDsCfcw8E8NOAKg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwSHekUJNJoVW0DXBtZ9+kEVgme+E2T2oANNthD52djVttQE0BK
-	9fHhoxzUdyeq06AxmW1L41k0ncqGCh/X32MfEEdhUugXp6hVeSZAXTXjorIR6w0=
-X-Gm-Gg: ASbGncsGTUXwpeOxI7NlN8P2YFAmwuip8sjs3o4Yf6sholY96MBginOeR7ryme9Z5rt
-	z3lz8cMftBlGl2tWZpaGbom4rVuzeIIwucc4bL4b28kq2WbF5q1pYrpeY2DD7QzV1jIQOw0c+vx
-	+wPPgLerV7uHTiKTfQWGlb2mbPM/Kchs17vkjFrFnPPLKD41OUsd7L0cThAk7CSuann8kZMtSaz
-	WH9sK4yXnF2p2bv/oypbGaktwj8tT2A9WOX625zh4Mmq41pHGAP6zrC9SeiXhIgDobne2wqF19i
-	WxmeLw4irbvzfr3dv/CWUqBPqZNBHw6eX7MuupEeKx161hvmvRS1rLmvSgO0MxYKvCHwfGN3zLL
-	hCkYAh+vsNam9mAsvqQ==
-X-Google-Smtp-Source: AGHT+IF3YniFZktmx+wzc5Vvip+TGKj/p4EKeDpAQZouq1NsM4HgUhhkCMBt+xncFToPImadwaDMIA==
-X-Received: by 2002:a05:6808:22a1:b0:401:e933:5dd9 with SMTP id 5614622812f47-40211578670mr1858013b6e.20.1745941852264;
-        Tue, 29 Apr 2025 08:50:52 -0700 (PDT)
-Received: from ?IPV6:2600:8803:e7e4:1d00:dc17:157d:e8b2:3ad6? ([2600:8803:e7e4:1d00:dc17:157d:e8b2:3ad6])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-4021292d759sm302218b6e.27.2025.04.29.08.50.50
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Apr 2025 08:50:51 -0700 (PDT)
-Message-ID: <65cabf04-a1ef-482b-9192-d280897f2afb@baylibre.com>
-Date: Tue, 29 Apr 2025 10:50:50 -0500
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bodHUhFW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6FF31C4CEE3;
+	Tue, 29 Apr 2025 15:53:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745942011;
+	bh=KUMxrCWS4kHpmdAy9k+WvcFlk1e7OoIGE+mnAbwsrzc=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=bodHUhFWmP8Sz+DwztlGIKQ3DTG0NltdGnsHe7ni+bUP6fEyz2VjB5G4/RO632uxl
+	 Ok5eMkAxLDy3ES9iw89J6qsDeCiVWLbFAOl4I7iIfYFK1owb91ueyY3AfuR298JbVI
+	 jqUuik7hggNabBfGbkajNmHQQFzZBlSs8lHBfO7Pva49NvgOzont8BnXeZz/tZJqXY
+	 ajwCCZIduCGd8lSj7mGgCYRo7ELlsZHcloWt+J+CGNmMn65WUlzciIyiX49vYjsa1A
+	 sPAaL+CJ+s/g9wScEi5TRBzemcEql28oquwj8CODrTxymcg1tAYr9dgbCkX0CQU3qz
+	 htosilAwBJ0Dg==
+Date: Tue, 29 Apr 2025 18:53:15 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de,
+	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de,
+	catalin.marinas@arm.com, corbet@lwn.net,
+	dave.hansen@linux.intel.com, devicetree@vger.kernel.org,
+	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com,
+	hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org,
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
+	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com,
+	pbonzini@redhat.com, peterz@infradead.org, ptyadav@amazon.de,
+	robh@kernel.org, rostedt@goodmis.org, saravanak@google.com,
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de,
+	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
+Subject: Re: [PATCH v6 11/14] x86: add KHO support
+Message-ID: <aBD165pVhOIl3_by@kernel.org>
+References: <20250411053745.1817356-1-changyuanl@google.com>
+ <20250411053745.1817356-12-changyuanl@google.com>
+ <35c58191-f774-40cf-8d66-d1e2aaf11a62@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/5] docs: iio: new docs for ad4052 driver
-To: Jorge Marques <gastmaier@gmail.com>
-Cc: Jorge Marques <jorge.marques@analog.com>,
- Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
- Michael Hennerich <Michael.Hennerich@analog.com>,
- Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
- <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
- linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-4-638af47e9eb3@analog.com>
- <9f5b0709-f795-44c5-aa64-aaed81a459bf@baylibre.com>
- <nrffdb34ldh24kjphvebdnc2p466xbmay4pm6pe3nen2wftycv@uyxqjovmm726>
-From: David Lechner <dlechner@baylibre.com>
-Content-Language: en-US
-In-Reply-To: <nrffdb34ldh24kjphvebdnc2p466xbmay4pm6pe3nen2wftycv@uyxqjovmm726>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <35c58191-f774-40cf-8d66-d1e2aaf11a62@intel.com>
 
-On 4/29/25 8:49 AM, Jorge Marques wrote:
-> On Fri, Apr 25, 2025 at 04:44:20PM -0500, David Lechner wrote:
->> On 4/22/25 6:34 AM, Jorge Marques wrote:
->>> This adds a new page to document how to use the ad4052 ADC driver.
->>>
-
-...
-
->>
+On Mon, Apr 28, 2025 at 03:05:55PM -0700, Dave Hansen wrote:
+> On 4/10/25 22:37, Changyuan Lyu wrote:
+> > From: Alexander Graf <graf@amazon.com>
+> > 
+> > +#ifdef CONFIG_KEXEC_HANDOVER
+> > +static bool process_kho_entries(unsigned long minimum, unsigned long image_size)
+> > +{
+> > +	struct kho_scratch *kho_scratch;
+> > +	struct setup_data *ptr;
+> > +	int i, nr_areas = 0;
 > 
-> Sorry about this submission, this file was indeed not updated between
-> version.
+> Do these really need actual #ifdefs or will a nice IS_ENABLED() check
+> work instead?
+> 
+> > +	ptr = (struct setup_data *)(unsigned long)boot_params_ptr->hdr.setup_data;
+> 
+> What's with the double cast?
 
-No worries. We all make mistakes from time to time. :-)
+The double cast is required for this to be compiled on 32 bits (just like
+in mem_avoid_overlap). The setup_data is all u64 and to cast it to a
+pointer on 32 bit it has to go via unsigned long.
 
+If we keep actual #ifdef we can drop the double cast because KHO depends on
+CONFIG_KEXEC_FILE which is only enabled for 64 bits.
+ 
+> > diff --git a/arch/x86/kernel/kexec-bzimage64.c b/arch/x86/kernel/kexec-bzimage64.c
+> > index 68530fad05f74..518635cc0876c 100644
+> > --- a/arch/x86/kernel/kexec-bzimage64.c
+> > +++ b/arch/x86/kernel/kexec-bzimage64.c
+> > @@ -233,6 +233,31 @@ setup_ima_state(const struct kimage *image, struct boot_params *params,
+> >  #endif /* CONFIG_IMA_KEXEC */
+> >  }
+> >  
+> > +static void setup_kho(const struct kimage *image, struct boot_params *params,
+> > +		      unsigned long params_load_addr,
+> > +		      unsigned int setup_data_offset)
+> > +{
+> > +#ifdef CONFIG_KEXEC_HANDOVER
+> 
+> Can this #ifdef be replaced with IS_ENABLED()?
+
+The KHO structures in kexec image are under #ifdef, so it won't compile
+with IS_ENABLED().
+
+> > @@ -312,6 +337,13 @@ setup_boot_parameters(struct kimage *image, struct boot_params *params,
+> >  				     sizeof(struct ima_setup_data);
+> >  	}
+> >  
+> > +	if (IS_ENABLED(CONFIG_KEXEC_HANDOVER)) {
+> > +		/* Setup space to store preservation metadata */
+> > +		setup_kho(image, params, params_load_addr, setup_data_offset);
+> > +		setup_data_offset += sizeof(struct setup_data) +
+> > +				     sizeof(struct kho_data);
+> > +	}
+> 
+> This is a bit weird that it needs this IS_ENABLED() check and the
+> earlier #ifdef. But I guess  it's following the IMA_KEXEC code's pattern
+> at least.
+
+And with other #ifdefs as well :)
+
+if (IS_ENABLED()) can be dropped here, but having it makes things more
+explicit IMHO.
+ 
+> > diff --git a/arch/x86/kernel/setup.c b/arch/x86/kernel/setup.c
+> > index 766176c4f5ee8..496dae89cf95d 100644
+> > --- a/arch/x86/kernel/setup.c
+> > +++ b/arch/x86/kernel/setup.c
+> > @@ -451,6 +451,28 @@ int __init ima_get_kexec_buffer(void **addr, size_t *size)
+> >  }
+> >  #endif
+> >  
+> > +static void __init add_kho(u64 phys_addr, u32 data_len)
+> > +{
+> > +#ifdef CONFIG_KEXEC_HANDOVER
+> > +	struct kho_data *kho;
+> > +	u64 addr = phys_addr + sizeof(struct setup_data);
+> > +	u64 size = data_len - sizeof(struct setup_data);
+> > +
+> > +	kho = early_memremap(addr, size);
+> > +	if (!kho) {
+> > +		pr_warn("setup: failed to memremap kho data (0x%llx, 0x%llx)\n",
+> > +			addr, size);
+> > +		return;
+> > +	}
+> > +
+> > +	kho_populate(kho->fdt_addr, kho->fdt_size, kho->scratch_addr, kho->scratch_size);
+> > +
+> > +	early_memunmap(kho, size);
+> > +#else
+> > +	pr_warn("Passed KHO data, but CONFIG_KEXEC_HANDOVER not set. Ignoring.\n");
+> > +#endif
+> > +}
+> 
+> Please axe the #ifdef in the .c file if at all possible, just like the
+> others.
+
+This one follows IMA, but it's easy to make it IS_ENABLED(). It's really up
+to x86 folks preference.
+
+-- 
+Sincerely yours,
+Mike.
