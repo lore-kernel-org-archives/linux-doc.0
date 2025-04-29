@@ -1,133 +1,158 @@
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
+Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A947254873
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 19:01:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 21E3725F978;
+	Tue, 29 Apr 2025 19:48:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745953273; cv=none; b=aEfprM6L8ZqUIhLCUFvwn+JWErfcCFQr1hMCvhHQ6AeeUU0NGZ7CJ0f7UxkdUzalnzXL46RYBJVBcqCUs5dFo4MSyK22uQeiSon4s8TncPZZkj5r/jUFgxeMHnnC3gr0sIlDrGGnQc73Z4tfsHCAMQkuaS3zZWGY67wfzWqN9Ps=
+	t=1745956082; cv=none; b=P6Yq874zoWjmBjYXK9FM+QwTTlGxktMqyV+FD1uDLeTOQ4pGwZwCIdKOXIV4BsXkedeuqZew+yS09oTOL2aXNimqgK17hA97QPVtJEzC7mQU5OjUjzr5xrA0nJ5kiIRvBrmQ/AzqZJZ1HQTgZPkFLbnkza887H17Nsnl0aU/ozc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745953273; c=relaxed/simple;
-	bh=zlj30lyM4eVyR7FFYAFTYUbQXW6lBnZVNqgK8nT1pbA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=QUbw+4IRkX3nYphaKJlL/1U8ce7JvXosMAXzFtiRVdJOuQe8wdh4R1nsLZYs3GIFv7W5IAT7yP1WKUrWGZjzMmUH1pWQV0VWudk6W2XgC6onyizQ+qgvUMVsuCZfkvNUkZ6BBfLhtJcNbxcwzuCQKixw7AV+hnSf5Q3Apg/9b/U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=FPlSiVmX; arc=none smtp.client-ip=209.85.215.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1745956082; c=relaxed/simple;
+	bh=5sF17zBSWsEu1wpW4T/aKuh7B90BT+uOCbFZt5HIb/g=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pf5D5By8FQTpD0+R4wSxF6FBqkMIrQy1AaTNoeDDmjZLBCR7EKGEzKMdw7Z0EUHU0CEIkYeB2RdTa0/dGizarVFzNc7MRtKKXJ/6WZgZ+N754Oa6eXUWnd2MYdBUxSonPRms1dP/Saiu2QIRUUMDPKnDpXRnh+5D7Nsg8MRGKQQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WHj8wW34; arc=none smtp.client-ip=209.85.218.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="FPlSiVmX"
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-b1a1930a922so3576423a12.3
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 12:01:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WHj8wW34"
+Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-ac7bd86f637so36609366b.1;
+        Tue, 29 Apr 2025 12:48:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1745953270; x=1746558070; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=zpGa+bckbuvJP7m5D/Txn2xIA7nwgAhG2SPr14XaYzs=;
-        b=FPlSiVmXV2D2PiJFtjFaNxbF66bpD0hl/jRmRN5eFvPuwRlM/nAl1P3CXRqQuJilt/
-         uW8BE3z+hvXBIbp245h+wBX/mghclEoQubdb+lpOWKgzGesrEteH4gyJUIhSvNpuQF8z
-         hxUOU5sjGYdSUmR+BEHpOPUWwXwGG1sheifd8rqJO7dcyUh4ck7erGCN20g4tHtaXHo8
-         wnSrX1ofzZgO9uNcqbe4/ngfi45UHGimdi599pSNVmhvezpHilmthV8DUyYp2MREb1AH
-         61spxQv4bFNhU4dHgvth1wYTDZ5hvlJg+hO6nc6HLcUayDO8EpIU+9iinTmnmC8OQZjJ
-         rERg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745953270; x=1746558070;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1745956079; x=1746560879; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=zpGa+bckbuvJP7m5D/Txn2xIA7nwgAhG2SPr14XaYzs=;
-        b=M5NSS9gPExZu0y2tEl0vbtYa8ibqAIYZ3wNQ9Xo0JMs8yn8UY3mxQbYR1v1oXvDacS
-         KJzn+8z5wRN9nRRE3QD3MEow8fzqimxeB7X9p76DA2JuEKNeNbF8GuvHtHeT26zOtt1H
-         CfsR/JbdypYZuvvOYR/0M1LeeGHKydQtsLLKEm35D6J0krit4qVuRz68+Rq4d5M2RNL8
-         qNVYCNASGUEGjhgUrZIEG1epc152J9kBxquvbwfj/bZ6OAQppW4RDHRo+PjJFOIW3cyS
-         9bOy1qDQLH1GFgc/0/W79S0LC63gARWCpOsL5IBeDtHsPfC5S5NMccKyWOBC8GcxXJBQ
-         SZzA==
-X-Forwarded-Encrypted: i=1; AJvYcCU+3r8XKWqLtJlT0aeEa7mQNAjM9zjM6/9g1tHn+3kILUuZRhFXu/prO+GI0fsrZrf+Ha1KvV1Siqc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzRq2g5TL3MyDeUeg4CWD8+SKbkF+La9O4XtV0vMxQkqF4RUQnK
-	aSyjgHHSJrexbT5RfQADs9onvAGlsBvwkwI28dB+Cap58eUa8sM1496EK5jj/CU=
-X-Gm-Gg: ASbGncuY/1Xbld8DfmKRl83mCqXO1vrP3MiIyvCELAGjAb3djpKdHeCshpWtxPKXTQn
-	zOld1KBbc/74OeypDI4Km1laDNQPCZNbt8+NI1W0Uy0Acqmo/+/q67ciYMQbgADqYjSojD44hx4
-	3f10/zI8KVZVYYCZQlUZbpneq6ANEKu1qAdpkCWEgcQ9gvGtNEBgHhB5f8wRmsZMGIaluRV/aQC
-	z1H18AhDC3lZx2CkVeSuLlbBZkKGAJaycmn4FtPULqZ6qLyMbCjFh8qSd/XxpRXzJnuSKLIMFea
-	GWirva8k89SXqVaiFxh460pyFE8cGqHduybIOST+hyNC
-X-Google-Smtp-Source: AGHT+IEVtr/yC0OCZi67VUcBjFX/DwSpKJBMPsUaSpQ0/mI7DQHTRu+gj3DdEoU3UGNpoATnJz1CiQ==
-X-Received: by 2002:a17:90b:3809:b0:2ff:784b:ffe with SMTP id 98e67ed59e1d1-30a332f6e67mr387455a91.11.1745953270256;
-        Tue, 29 Apr 2025 12:01:10 -0700 (PDT)
-Received: from p14s ([2604:3d09:148c:c800:b7e6:7a64:93dc:60a1])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db4d76edcsm106398905ad.12.2025.04.29.12.01.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 12:01:09 -0700 (PDT)
-Date: Tue, 29 Apr 2025 13:01:07 -0600
-From: Mathieu Poirier <mathieu.poirier@linaro.org>
-To: linux@treblig.org
-Cc: arnaud.pouliquen@foss.st.com, andersson@kernel.org, corbet@lwn.net,
-	linux-remoteproc@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 3/3] rpmsg: Remove unused method pointers
- *send_offchannel
-Message-ID: <aBEh85gDlaEywWtX@p14s>
-References: <20250424142746.79062-1-linux@treblig.org>
- <20250424142746.79062-4-linux@treblig.org>
+        bh=31hHt99eQ7ecxAQBYo10uCFCGHQn8F86JxoMvBp/XTs=;
+        b=WHj8wW340mrXuwj0f3NAIPIvy19wrpRXOU0c+RIQ9zlE/tCq1BmYpCx0AREwpTCG2U
+         hsJpIayXJz5zk3oM2LZT00YmSmKg/Vvfe9C+OoehCQPQ3OWGfseDuEJZJL0zH4qM0oeh
+         Ox/WAnH8rhuQCGOTvf3GzN+d1ydq5V3ftzRFQ5+qVBZLaljykoiHNevHNnaUOaqARhxd
+         AEVV8Ml4p1Q4jkuvZIkHABZbr8wb7mnKPmItsqfWAwgU+jzhCUwZzOTzGgmpdaiRk51g
+         xrmXa4215VQh/00UwmqyYuEJv+HCM0eS3XvmDr7ZKSKvCabO8B1Yb64vuTbW5IZWt2ik
+         ohog==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745956079; x=1746560879;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=31hHt99eQ7ecxAQBYo10uCFCGHQn8F86JxoMvBp/XTs=;
+        b=PPukRNKcBf5kdL+40GkNZLimw48LLoS9o+PltCwpzE9ve4OJZT5NIftsaN+0Tsl7IW
+         Q+qXfMxCSHlWUvhh+yvjk56lbMZmaQnl7S7ROpbJ8w7C4Zk1NCQBK7AGry4XAFForBoJ
+         qRk10+TQOugr3r6Y0FYY32cW2XFOTawYlZYzqQWDyzuNvqMSDRifpWMQ5n5qSIrf//vX
+         MzMdh/K4YcW/FFVxAVCyPcPOyAHqlhOYKoYAzIUXz2tC2xLAGLy4+qd4XOSh6gJcYuS6
+         AaI1D7di8Q/wa9x1VEN78dd6SrVNMWiUX6IRcwdNKVOAeDS6bJQFjaoKhqvWO91F9GwP
+         oiNg==
+X-Forwarded-Encrypted: i=1; AJvYcCU8mcuR4QYY8E5n/rmtDUhZgz4s50P+IZUh17PGgzhhrtOueVouiHx/9KLoBila43d8WHhaGS5yqQsO@vger.kernel.org, AJvYcCV3VotOoRca+oFtQJLtjPI2sPd7j4J6bNn4x1N+cUEdbO/67OX09Zx8F7+En4MGn/T4jUBcV9QplhX/Mswf@vger.kernel.org, AJvYcCXhyMsblXjBRWymoOPzhliH6gMkCOdDaOWwueyC53wu3g22PPo15bF2vFtJkm6sDCNDF2fpAMDBvu/O@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx5V+gOAsEaIIrdYBnafYK2fw5TCGth03pl0Q+MxMyajTpD0vZq
+	1t6v0rrSINiyLxoJdQLluZmlL4z0Ju63wV+wU0wlWVNG5/7WrrVmcAU8tMAUOwVNrZsn0emsLnO
+	IxsWOJhMm3fatgaEcinMer3WPLzs=
+X-Gm-Gg: ASbGncvNduOQXtEfat45RheJik3xAQfe4ty/EjO8entOxlTB1dnz9ECzcPZsrlfwuNs
+	9EyYD+V2UeNC6R4dUj9dUJWTU9ZlKK8zDpfdBErKp1ZYNhn70kNwUKLMoRHdCv8/mT8Ja1EpU+i
+	ogxq8+YUBKM3LsnH3sqXn8sA==
+X-Google-Smtp-Source: AGHT+IG053NtJm0hR+FwHICAyS7gp+M4t3UZk6wbhjh4+xpcE871md/xia3GNq0/H3rfYdZZf6GCNx2EKnYMhYJ4isw=
+X-Received: by 2002:a17:907:7ba8:b0:aca:d276:fa5 with SMTP id
+ a640c23a62f3a-acedf349707mr18697166b.0.1745956078998; Tue, 29 Apr 2025
+ 12:47:58 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250424142746.79062-4-linux@treblig.org>
+References: <aA/ineUBAM5IU79J@duo.ucw.cz> <20250429170220.8145-1-trannamatk@gmail.com>
+In-Reply-To: <20250429170220.8145-1-trannamatk@gmail.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Tue, 29 Apr 2025 22:47:22 +0300
+X-Gm-Features: ATxdqUHg7vLAt0poth2caA_g2wxqIwhzv8QInVAHWSoWODRta2Iw45WeEjT2sDc
+Message-ID: <CAHp75VcVmTwS-zw=o5=m1-x0XC67BKBVWae2mMKZQH=qLCxZwg@mail.gmail.com>
+Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix
+ LED driver
+To: Nam Tran <trannamatk@gmail.com>
+Cc: pavel@ucw.cz, andy@kernel.org, geert@linux-m68k.org, robh@kernel.org, 
+	krzk+dt@kernel.org, conor+dt@kernel.org, christophe.jaillet@wanadoo.fr, 
+	corbet@lwn.net, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, florian.fainelli@broadcom.com, 
+	bcm-kernel-feedback-list@broadcom.com, linux-rpi-kernel@lists.infradead.org, 
+	linux-arm-kernel@lists.infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi,
+On Tue, Apr 29, 2025 at 8:02=E2=80=AFPM Nam Tran <trannamatk@gmail.com> wro=
+te:
+> On Mon, 28 Apr 2025 Pavel Machek wrote:
+> > > On Mon, 28 Apr 2025 Geert Uytterhoeven wrote:
+> >
+> > > > > > > - Move driver to drivers/auxdisplay/ instead of drivers/leds/=
+.
+> > > > > > > - Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+> > > > > > > - Move ti,lp5812.yaml binding to auxdisplay/ directory,
+> > > > > > >   and update the title and $id to match new path.
+> > > > > > > - No functional changes to the binding itself (keep Reviewed-=
+by).
+> > > > > > > - Update commit messages and patch titles to reflect the move=
+.
+> > > > > > > - Link to v7: https://lore.kernel.org/linux-leds/202504221901=
+21.46839-1-trannamatk@gmail.com/
+> > > > > >
+> > > > > > Out of sudden without discussing with auxdisplay maintainers/re=
+viewers?
+> > > > > > Thanks, no.
+> > > > > > Please, put into the cover letter the meaningful summary of wha=
+t's
+> > > > > > going on and why this becomes an auxdisplay issue. Brief review=
+ of the
+> > > > > > bindings sounds more likely like LEDS or PWM subsystems.
+> > > > >
+> > > > > It is 4x3 matrix. That means it is not suitable for LEDs. I don't
+> > > > > believe it is suitable for PWM, either -- yes, it is 36 PWM outpu=
+ts,
+> > > > > but...
+> > > >
+> > > > Is it intended to be used as a 4x3 matrix, or is this just an inter=
+nal
+> > > > wiring detail, and should it be exposed as 12 individual LEDs inste=
+ad?
+> > >
+> > > The 4=C3=973 matrix is a real and fundamental aspect of the LP5812=E2=
+=80=99s operation.
+> > > It is not just an internal wiring detail.
+> > > The device adopts a Time-Cross-Multiplexing (TCM) structure, where 4 =
+output
+> > > pins control 12 LED dots individually through scanning. Each pin incl=
+udes
+> > > both high-side and low-side drive circuits, meaning matrix multiplexi=
+ng is
+> > > required for proper operation =E2=80=94 it cannot be treated as 12 co=
+mpletely
+> > > independent LEDs.
+> >
+> > Scanning is really a detail.
+> >
+> > If this is used as rectangular 4x3 display, then it goes to auxdisplay.
+> >
+> > If this is used as a power LED, SD activity LED, capslock and numlock
+> > ... placed randomly all around the device, then it goes LED subsystem.
+>
+> The LP5812 is used for LED status indication in devices like smart speake=
+rs,
+> wearables, and routers, not as a structured rectangular display.
+>
+> Given that, it seems to match the LED subsystem better than auxdisplay, d=
+oesn't it?
 
-On Thu, Apr 24, 2025 at 03:27:46PM +0100, linux@treblig.org wrote:
-> From: "Dr. David Alan Gilbert" <linux@treblig.org>
-> 
-> After the previous patch, there are no implementers of the
-> send_offchannel() and trysend_offchannel() methods.
-> 
-> Remove them.
-> 
-> Signed-off-by: Dr. David Alan Gilbert <linux@treblig.org>
-> ---
->  drivers/rpmsg/rpmsg_internal.h | 6 ------
->  1 file changed, 6 deletions(-)
-> 
-> diff --git a/drivers/rpmsg/rpmsg_internal.h b/drivers/rpmsg/rpmsg_internal.h
-> index 42c7007be1b5..397e4926bd02 100644
-> --- a/drivers/rpmsg/rpmsg_internal.h
-> +++ b/drivers/rpmsg/rpmsg_internal.h
-> @@ -50,10 +50,8 @@ struct rpmsg_device_ops {
->   * @destroy_ept:	see @rpmsg_destroy_ept(), required
->   * @send:		see @rpmsg_send(), required
->   * @sendto:		see @rpmsg_sendto(), optional
-> - * @send_offchannel:	see @rpmsg_send_offchannel(), optional
->   * @trysend:		see @rpmsg_trysend(), required
->   * @trysendto:		see @rpmsg_trysendto(), optional
-> - * @trysend_offchannel:	see @rpmsg_trysend_offchannel(), optional
->   * @poll:		see @rpmsg_poll(), optional
->   * @set_flow_control:	see @rpmsg_set_flow_control(), optional
->   * @get_mtu:		see @rpmsg_get_mtu(), optional
-> @@ -67,13 +65,9 @@ struct rpmsg_endpoint_ops {
->  
->  	int (*send)(struct rpmsg_endpoint *ept, void *data, int len);
->  	int (*sendto)(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
-> -	int (*send_offchannel)(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -				  void *data, int len);
->  
->  	int (*trysend)(struct rpmsg_endpoint *ept, void *data, int len);
->  	int (*trysendto)(struct rpmsg_endpoint *ept, void *data, int len, u32 dst);
-> -	int (*trysend_offchannel)(struct rpmsg_endpoint *ept, u32 src, u32 dst,
-> -			     void *data, int len);
->  	__poll_t (*poll)(struct rpmsg_endpoint *ept, struct file *filp,
->  			     poll_table *wait);
->  	int (*set_flow_control)(struct rpmsg_endpoint *ept, bool pause, u32 dst);
+I have mixed feelings about all this. As per hardware organisation it
+sounds more like a matrix (for example. keyboard), where all entities
+are accessed on a scanline, but at the same time each of the entities
+may have orthogonal functions to each other. Have you checked with DRM
+for the sake of completeness?
+Personally I lean more to the something special, which doesn't fit
+existing subsystems. Auxdisplay subsystem more or less about special
+alphanumeric displays (with the exception of some FB kinda devices,
+that were even discussed to have drivers be removed). Also maybe FB
+might have something suitable, but in any case it looks quite
+non-standard...
 
-I'm good with this patchset.  Can you fix the last paragraph in the comment for
-function rpmsg_send_offchannel_raw() and remove the reference to "_offchannel"?
 
-Thanks,
-Mathieu
-
-> -- 
-> 2.49.0
-> 
+--=20
+With Best Regards,
+Andy Shevchenko
