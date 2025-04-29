@@ -1,152 +1,138 @@
-Received: from mail-pl1-f170.google.com (mail-pl1-f170.google.com [209.85.214.170])
+Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 523AD25F7AD
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 21:57:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.170
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA1835966;
+	Tue, 29 Apr 2025 22:03:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745963879; cv=none; b=JNZaLnDfS0oSzIfKYFKv4rNGGWHsKc9UfffgUfEw5zQdMXzsk0sAS9FoLvHBJqE+eLrQ4iyCFqgOPVSB5vZvV6W8PIOECwVPfurLekC81PMFNMIUBiKIVDP+I9HmbmzSXm92NEhACkDxjAv3On2b0x+T2JsnPCK/6x4REmIT2WU=
+	t=1745964227; cv=none; b=TeA1NtYYgPRaqg0jEKVP/yYRq2Pgu/6PjOyWM90EP4RqxRanzcnp6ouSCVxPYeCO3ObECRQAAYV4z9qLjFQLCo9g/lsyDvTBMdP9tEQeJTapd95UpEAOCdZAok/X28GRv1bHXslrtSuFs6cNtHPb8hBR2knBgUQrF/AA5emAk9A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745963879; c=relaxed/simple;
-	bh=JxqDFFtO3S8kK/E3hLQE8+QiBq8AOwa6PH5SwIKxxXU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=rV+IMIQj5ZwYeIe/zbontuiBXee1fBxQpPFZLkJ8xnHFpP+Ay8yzHpsrITOQRw/dVFwXV4u5bbkpQLjFRhIRzdByV5CVnQOkqPy5FbHorgCEwvSYhKxKPrlnJIetU2nsVw5P2jI/fPuZInc4peIIlZ1e4Y7v5d7TxsMhRiY/ygQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=g1a2S72/; arc=none smtp.client-ip=209.85.214.170
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1745964227; c=relaxed/simple;
+	bh=YWFo4xizY9VcrKOaPbSy5kzMkwMTuDcrv3mEuWOPcEI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=iq5RKv2t38547QoXOL386w4hi5yx4BzZgDfAdSdwc7x5qBRTIMj5ABuDS7hcvqnz9VMrENSLUSgrUp0aepheeLQeTQfsXJsc/IoZjEO6PJ0BOm9HvEXDdjkdC6m2+qGToDzJE8TEjzD0cKW+I22AWwVRXygyG7y3AJ7WAqe1DTY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lV1UshY8; arc=none smtp.client-ip=209.85.218.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="g1a2S72/"
-Received: by mail-pl1-f170.google.com with SMTP id d9443c01a7336-2242ac37caeso77465ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 14:57:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lV1UshY8"
+Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-acbb48bad09so1229928866b.0;
+        Tue, 29 Apr 2025 15:03:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745963876; x=1746568676; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dRuE0k+DaKR+dFrI7c28XxIZx1ZsULnIcimVdzgk9ZA=;
-        b=g1a2S72/cymW8kXsuX2UJmpNGyOr7BOSEhUThSr76hs+EfSG4XfDT+hLAlQIFIy56D
-         y9WXL+RqV29Yz48FYRPUDCQh8BQ71rX2JAnxk2LzEvWartDfX9+W3m8cMDh3q6zB1DHw
-         BtrSsdujbmr8EbQK9UCAjaF01304FkIIVKXU7BxibhSLDvnUCXCfs4AflNYgjOv/uwx+
-         0JCxZPacY7IZ8rdj4c7eoKvjxBisGQTy4p9vUgM8O6KZWTGFO2OennRqhed4iuagUPmt
-         v/6GcqrdFRsqN9kXEz0sI00V6iQOT8xPTT4dAuUYoa2PFIAX7baVUBLz/V2pesxQm1/J
-         cC7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745963876; x=1746568676;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20230601; t=1745964224; x=1746569024; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=dRuE0k+DaKR+dFrI7c28XxIZx1ZsULnIcimVdzgk9ZA=;
-        b=ZVX6or7cfYwoQNbHgBXyWfoXoqhx7qNaUq9G1MvbCRrbfGKjYr2PKG5qkWfXDbk11X
-         Lpkpg/sgnBZEtl+P/BQjX5b/KT9Z3DnSdaZkxDNLS11Tecpoxed2ArcxzdOLurxb0DAS
-         f5Mb0BN4dOABYZfit23O6L+pNo+02ut0MbhErOxhX7kFVmJzVBCM/txoUWPUKdbuLa6q
-         QhqzLD1d/QwFVqsq15g3YxfpOxr/BDF834V2aS2FsbrsEk9NEAPbo0wzU9qguDplH+Zp
-         bD6diGW9uhkLBFIGPJJYfWpi5fAO+jLS869rT2Cb6Fw3CpkC2Ph32Bx1Im12al56JIJW
-         pfvQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU7t2/fxERhSrMAYE+I3si9U8WoF77TwLZUJmCHouO/VXYzwMiArttphEwUCztHdE6+Al6yQyCQOhQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Ywaqvf0K6zA3gkouiYOIgIONdJPFL1GIPIcBBo2w4XEKpBTwb4C
-	ePOe2XOfQWjmvnZtCfP/CA0hZQZiMOgMyLdv5TPiq1b1QCs4tVxar4r/gDbbDg==
-X-Gm-Gg: ASbGncttdqar94wFaWi8zwkSG/JqTH6E6mSdewynQsmP5FvhABLfotYShe4kO07GU2I
-	p9ynST7chAxT/l2EOszRIUI7lI2qurlwbPPzQSfC7KJq/eqZBUfiu9PPBXIa6X/YBUv2RZORku0
-	VppVDTTfw0nEtxpHr1mfUc9Fs7rsYUoMozxU5TTF2ZnfOaq0+pPHmbDy1SRFMMfZgn/0d8+iM+l
-	mqoGKwgqV+0YN9FNL9uHgMT01jZ6K8lHcAl4HjFxQ5qtvahHroyyjWm/Djk5vmED5BUXR+TZDh9
-	HuqJ9HNuv0TbHOMNA+IEzal5d8aOxWvA75HwpoBa5d5eZDrKI6/tkJ7c7cfUcLV/O2caNbhqOdZ
-	C2SwhaHI=
-X-Google-Smtp-Source: AGHT+IG2GQrBKEV0sAuQTzjtnWFNlTLvqHxPy8UFJFeAPu3X8NPH7IbodXwNU55E95G96pW683QFuA==
-X-Received: by 2002:a17:902:d489:b0:220:c905:68a2 with SMTP id d9443c01a7336-22df53e1f95mr331695ad.5.1745963876294;
-        Tue, 29 Apr 2025 14:57:56 -0700 (PDT)
-Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5104ec7sm107543895ad.175.2025.04.29.14.57.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 14:57:55 -0700 (PDT)
-Date: Tue, 29 Apr 2025 21:57:45 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
-	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
-Subject: Re: [PATCH v2 13/22] iommufd: Add mmap interface
-Message-ID: <aBFLWUvzvwtFXK5z@google.com>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <7be26560c604b0cbc2fd218997b97a47e4ed11ff.1745646960.git.nicolinc@nvidia.com>
- <aBE1gUz9y415EuBQ@google.com>
- <aBE38GwvGBnpRNLc@google.com>
- <aBE47aySzDp2lsAz@Asurada-Nvidia>
- <aBE800DsAOOZ4ybv@google.com>
- <aBE/CD4Ilbydnmud@Asurada-Nvidia>
- <aBFGCxcTh54pecsk@google.com>
- <aBFIsYg+ITU8RvTT@Asurada-Nvidia>
+        bh=BUbpeTZh/O2+70pK3M2d/VVXENkGigx9cnO3sBLqmmk=;
+        b=lV1UshY8bP444rx6SdUOVBikfEfPDR2lfpPaLKeJirH3lG4twPtqKvf9JIntZm6NSg
+         pt/IUch2lTNQd1vmApBLnOQIq9xHFFpjc9LOgVqIKvptwOS8NeY77t3qKPIcR1cNWSTu
+         K3vL5zykSRzoZSY2J3Uod8hyOh5o1E3HYVNOdgAo1yrqltLnQRTK2+8Yk2lI1Gs/5XKU
+         2ZWy/G6EZsFwfMnG/rXzxiMcQ7FDwfBd3jx1DlLehu2gGZbWizYV3+VghUQhSm3vxupF
+         ZTQKhC8NpzPMnrn00d0m1HgDv0wBc/EM4jPxKUcTAWe8Tl1rBvJeTpjmRmN3lQE7OTwH
+         7UIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745964224; x=1746569024;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=BUbpeTZh/O2+70pK3M2d/VVXENkGigx9cnO3sBLqmmk=;
+        b=AELev5UnjsKSIcl/ZDl/3n+WtC6iBNWAo1IFUawibFK0aB5mstTOdFuSuNTBRS7Z+G
+         8Zmq2joL1YPjujd/wbG4g/+s3eppqLoxHInIwqkHIJKD4cfLA6/SSNPs9EJFOkp88F4O
+         wGjQYV7naIkAB33XMptfmMaJe9jwUJLCgOfoVvn72TPJPTfs5SWxjb1BWcYa+H4PBEYk
+         mmo7USaEz/X52W3vN101nua0iIobdKMXn6Mff/sLsfpAFXqrA0ycn8Exe3iHlFf69WqQ
+         HZ6hEUq396ndT1BPKfhDAElAIPjCa4RpLhhe7oaQN9AibNj0NjyKP+UG/NdpkoBW4Qko
+         rG0w==
+X-Forwarded-Encrypted: i=1; AJvYcCVH3bSXqOjUCl/kWnM258b+d5e+rIKGIBsuP/4blp7YOSVhO6QKGfFZoBDf8yvYjADbuocZdT8vBwXY@vger.kernel.org, AJvYcCVZe5F/EOL9XZnAtW3vQEZlCBnaoref9Q63czw3hnqLOSm156hBFiHrDIFa9NjZ6qAKAn+iPXAsc+hV@vger.kernel.org, AJvYcCWA79nsTiZ5IK+dQQAaS4EO0U8pyOqkmFy5elBOmL5PQGLNlga9CAdPxZmRJGIu014QrVK/VFrQwPDg@vger.kernel.org, AJvYcCXD+kTVNfyUTPP64PzuDjQZnKnyG7bPKVH7XyTDjRzLgtfmOYfla0QDtCh/Sg+16sCfY63/MYnSPfwK@vger.kernel.org, AJvYcCXSlSRXHn0blnxbvdwGHJCSbtZxgM7DsyrJyNnzPQMMS1eCKIUA3XQy6/3ls4PR+sXiu0MJGzl8G/dfxOUy@vger.kernel.org
+X-Gm-Message-State: AOJu0YzUh1YdbosR+V4JCrUFypzJV81SQMKnP/kCyfe7+8qz0Fl/Q4L2
+	aes9S8E6crmgmMGO0QtFgA8hZC9UDPbPXrYxFoXD9BXyqyK3i1XKFO7eUndUVaSsok5OOLkj+mn
+	Ztn9BRrrAWUb3nyHoKPPuCuBTn5Q=
+X-Gm-Gg: ASbGnctc2tD5gF/I1QhkDsa4YtEZR+ITk2dRLFCU/4bb6fMGLJXc7Otb+TQEq6VTKyP
+	tKX/1S01IjMlVIAiBunCW+2gQkRM2NcGrXAX+NPRaNN9dm/XUV9AidqFMHORFGv461sKWuwXN2R
+	lYwnjBF48B7HXeCDAxH7nGI+vsbTXf57oe
+X-Google-Smtp-Source: AGHT+IHx3E1TOCQoFjjfqy8I4fVZMMpJ0iKzLAhBBssx5XQ5DV5jGakXTEI7x5pRT2CHPQidhYYFIxXs+JdDfuHgysM=
+X-Received: by 2002:a17:907:2d89:b0:ac6:fe8c:e7bb with SMTP id
+ a640c23a62f3a-acee25dcd7dmr11755066b.55.1745964223811; Tue, 29 Apr 2025
+ 15:03:43 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aBFIsYg+ITU8RvTT@Asurada-Nvidia>
+References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
+ <20250422-iio-driver-ad4052-v2-1-638af47e9eb3@analog.com> <aAe6u6NhAsgjaL5_@smile.fi.intel.com>
+ <c3i7g273lgvx7rpihzq6r7exxxnglbwrqwfryyz6ciqo52tszf@cvi7pz4bmkvq> <5aa4d76f-6f16-40ae-9dbf-767c63aa0a3d@baylibre.com>
+In-Reply-To: <5aa4d76f-6f16-40ae-9dbf-767c63aa0a3d@baylibre.com>
+From: Andy Shevchenko <andy.shevchenko@gmail.com>
+Date: Wed, 30 Apr 2025 01:03:07 +0300
+X-Gm-Features: ATxdqUHBcczVvmBXvRAjBY2yw7dSAwsyZRXLvCYySReQNpkh_kytP2hJPk00epo
+Message-ID: <CAHp75VcZM+4Br2-RMKZixEd1=x3_exbWZkEFw1U_NrFtsejkUg@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] Documentation: ABI: add oversampling frequency in sysfs-bus-iio
+To: David Lechner <dlechner@baylibre.com>
+Cc: Jorge Marques <gastmaier@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
+	Jorge Marques <jorge.marques@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
+	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
+	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
+	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
+	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-pwm@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 29, 2025 at 02:46:25PM -0700, Nicolin Chen wrote:
-> On Tue, Apr 29, 2025 at 09:35:07PM +0000, Pranjal Shrivastava wrote:
-> > On Tue, Apr 29, 2025 at 02:05:12PM -0700, Nicolin Chen wrote:
-> > > On Tue, Apr 29, 2025 at 08:55:47PM +0000, Pranjal Shrivastava wrote:
-> > > > On Tue, Apr 29, 2025 at 01:39:09PM -0700, Nicolin Chen wrote:
-> > > > > On Tue, Apr 29, 2025 at 08:34:56PM +0000, Pranjal Shrivastava wrote:
-> > > > > > On Tue, Apr 29, 2025 at 08:24:33PM +0000, Pranjal Shrivastava wrote:
-> > > > > > > On Fri, Apr 25, 2025 at 10:58:08PM -0700, Nicolin Chen wrote:
-> > > > > > > > +	struct iommufd_mmap *immap;
-> > > > > > > > +	int rc;
-> > > > > > > > +
-> > > > > > > > +	if (WARN_ON_ONCE(!immap_id))
-> > > > > > > > +		return -EINVAL;
-> > > > > > > > +	if (base & ~PAGE_MASK)
-> > > > > > > > +		return -EINVAL;
-> > > > > > > > +	if (!size || size & ~PAGE_MASK)
-> > > > > > > > +		return -EINVAL;
-> > > > > > > > +
-> > > > > > > > +	immap = kzalloc(sizeof(*immap), GFP_KERNEL);
-> > > > > > > > +	if (!immap)
-> > > > > > > > +		return -ENOMEM;
-> > > > > > > > +	immap->pfn_start = base >> PAGE_SHIFT;
-> > > > > > > > +	immap->pfn_end = immap->pfn_start + (size >> PAGE_SHIFT) - 1;
-> > > > > > > > +
-> > > > > > > > +	rc = mtree_alloc_range(&ictx->mt_mmap, immap_id, immap, sizeof(immap),
-> > > > > > > 
-> > > > > > > I believe this should be sizeof(*immap) ?
-> > > > > > 
-> > > > > > Ugh, Sorry, shouldn't this be size >> PAGE_SHIFT (num_indices to alloc) ?
-> > > > > 
-> > > > > mtree_load() returns a "struct iommufd_map *" pointer.
-> > > > 
-> > > > I'm not talking about mtree_load. I meant mtree_alloc_range takes in a
-> > > > "size" parameter, which is being passed as sizeof(imap) in this patch.
-> > > > IIUC, the mtree_alloc_range, via mas_empty_area, gets a range that is
-> > > > sufficient for the given "size". 
-> > > > 
-> > > > Now in this case, "size" would be the no. of pfns which are mmap-able.
-> > > > By passing sizeof(immap), we're simply reserving sizeof(ptr) i.e. 8 pfns
-> > > > for a 64-bit machine. Whereas we really, just want to reserve a range
-> > > > for size >> PAGE_SHIFT pfns.
-> > > 
-> > > But we are not storing pfns but the immap pointer..
-> > 
-> > Ohh... so we are storing the raw pointer in the mtree.. I got confused
-> > with the `LONG_MAX >> PAGE_SHIFT`.. Sorry about the confusion!
-> 
-> Yes. We want the pointer at mtree_load(). The pfn range is for
-> validation after mtree_load(). And we are likely to stuff more
-> bits into the immap structure for other verifications.
+On Tue, Apr 29, 2025 at 6:40=E2=80=AFPM David Lechner <dlechner@baylibre.co=
+m> wrote:
+>
+> On 4/29/25 8:47 AM, Jorge Marques wrote:
+> >
+> > Hi Andy,
+> >
+> > I agree with your suggestion, and in this case the appropriate kernel
+> > version is 3.10.
+> >
+> >>
+> >>> +What:              /sys/bus/iio/devices/iio:deviceX/oversampling_fre=
+quency
+> >>> +KernelVersion:     6.15
+> >>
+> >> Then why don't you put the real version of the first release that has =
+it?
+> >>
+> >>> +Contact:   linux-iio@vger.kernel.org
+> >>> +Description:
+> >>> +           Some devices have internal clocks for oversampling.
+> >>> +           Sets the resulting frequency in Hz to trigger a conversio=
+n used by
+> >>> +           the oversampling filter.
+> >>> +           If the device has a fixed internal clock or is computed b=
+ased on
+> >>> +           the sampling frequency parameter, the parameter is read o=
+nly.
+> >>> +
+> >>> +What:              /sys/bus/iio/devices/iio:deviceX/oversampling_fre=
+quency_available
+> >>> +KernelVersion:     6.15
+> >>
+> >> Ditto.
+> >>
+> >>> +Contact:   linux-iio@vger.kernel.org
+> >>> +Description:
+> >>> +           Hardware dependent values supported by the oversampling
+> >>> +           frequency.
+>
+>
+> I don't see oversampling_frequency used in any existing driver, so how co=
+uld
+> it be introduced in kernel 3.10? I think you confuse it with
+> events/sampling_frequency.
+>
+> oversampling_frequency is new and so 6.16 should be correct if Jonathan p=
+icks
+> this up in the next few weeks, otherwise it will be 6.17.
 
-Ack. Got it.
+If this is the case, the whole commit message should be revisited.
 
-> 
-> Thanks
-> Nicolin
-
-Thanks
-Praan
+--=20
+With Best Regards,
+Andy Shevchenko
