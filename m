@@ -1,158 +1,228 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from sender3-pp-f112.zoho.com (sender3-pp-f112.zoho.com [136.143.184.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 903B72BE0EA
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 09:40:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745919642; cv=none; b=TWJZQnVJ/iEMzzoqCZ1pjCm6nI68ARmMh+48L+VNuoOPd6sok02fZDsvKFmL8GB4ojstMtMKzYruFTKSVzK9Yt3h6BwlEyfv4XyAa4f8zXxEnzpZDu+8ip8c/yiWjNaUSOlEhuZpno63AY7cCroMMW9C7ZCUL0io7lZkohepqXo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745919642; c=relaxed/simple;
-	bh=/JQROEEgImgO+JOeHRU9r6p86RRgBwjPKvd+UfNhEVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CVHSu2GxPwCLVxFveY4uoRF14RiTF3b0+gz/6x8CKtlFSOe6hLTPHtaaIYF2dtqgx8BiZH2ILb5uH29hcRYkskdgji/QlR49y1kon+MvSIrTpiuxW3x6acBGT1hAUip1NNYBnA06nRfb+95rue0keO4o1wml6X26SU2jIDvjatk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ac4x+ehR; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0A52E1FE478;
+	Tue, 29 Apr 2025 10:06:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.184.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745921165; cv=pass; b=SJrqCm3h90Btp395k64AbDx9FxSNu9XOOB21BIGQ9H8FNDVERfD5P+g327/GeM6jENU3b2jbPn2pYQ/LBUIqQcvfOPDW2bx3MUuTDRN94NuJpfJS06n1MBc5uEsQAydVrxbsPgicv8UNGaKOFZUvppGZrouD3auSbPivGkU81pM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745921165; c=relaxed/simple;
+	bh=xO1N4nuoRCCxFNHfoe4rs+JshgVbK6a3AQv8MPvyX7Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=FyyVKkdITU9fdNZVuy6IMroVQ8U+yspoekir6TFWSg3LgRZqtqw+eR2ilKFStXHslr4J3PQH37Kj6wLveD1Wo0auqYw0TPq/8FF/xuPDQMbesDR9d3cRx6BYHjcfwVfI6XKmx0Rm4KsgEsHenuWb54PiZS6QsQfQ6DLrsVYYjW0=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=ScUGTsBQ; arc=pass smtp.client-ip=136.143.184.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ac4x+ehR"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745919639;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=OlWJ5SOttcQupos3aVHbzKCM3KJZPFw+aL6yodCqXTg=;
-	b=Ac4x+ehRHx14Q5JCcul9w5kvU4IEIeUiQZjng+caE7VELBbetNBSyQFGf2fGOooOcQipP2
-	vBI2nEFWlk0JXYJ8XKa6h5kuQ8OdP9+9IYJ0HTfixlhPFafb/igyQTl/d6d+OZkiP1R2lk
-	jeEF8FSvBYuBw52nojV3Y1Pi07L8X1g=
-Received: from mail-pg1-f198.google.com (mail-pg1-f198.google.com
- [209.85.215.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-382-rPrt8f-vMHiYPXQhiDJKTg-1; Tue, 29 Apr 2025 05:40:37 -0400
-X-MC-Unique: rPrt8f-vMHiYPXQhiDJKTg-1
-X-Mimecast-MFC-AGG-ID: rPrt8f-vMHiYPXQhiDJKTg_1745919636
-Received: by mail-pg1-f198.google.com with SMTP id 41be03b00d2f7-af5156fbe79so6641753a12.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 02:40:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745919636; x=1746524436;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=OlWJ5SOttcQupos3aVHbzKCM3KJZPFw+aL6yodCqXTg=;
-        b=RB1VWTnoPs6OMTNptZyJPwM59lboJtFkBwx33+k9tuqBuwGueR9hhpPP8CPBjHMTbO
-         o0qbBLrGfXhsc/yuymBrqunGUzYwumdbK934v3G0GB2SOl8qCSGjnNfM55GmVcDHspHQ
-         A8OB7AeyZTH6Et2JomydQkmY5hnxP/UwncmZmn7wjNMRKm7b9FiZ0iYBqh7HereZRFab
-         +md52LYVjqnBwSme1NW1PmJR+FD+eIVDYhzYkto01B3VXn6HbTVgFr5/eykLxaMG2Icj
-         P6+qXG4Ljq2mE4lk8Xx2z/KgxSgiRG4vdVMVz+c5XW8VWZGns7YcyiUgrpE+HOQSZ/FU
-         8L0Q==
-X-Forwarded-Encrypted: i=1; AJvYcCWj8q6XDCpUWteleSnFdhvBiof4N2uO1zGcKPoPmkQx5o0MhTryw5sO4BC07oYojs7j40ch+I6YBac=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzPGzHWIn68pFD7SwTlGThSVMJdJ4wb34mfAqueMXHBHfe69wdM
-	DOhp7YOp946jgcVxwMiJKooD9ct3oOiMPhXZFnuJMBy9Ut0ijOcNJ3gsfS7tY5U0bQu9GnflElr
-	w6hm1DpA2kxzfc4QQQ9heqApaBKpcJes7HPW/4Vb4jvLXudJDj3y2QUuCRw==
-X-Gm-Gg: ASbGncsryz5BBdjpG9/WVB0PI06336n9AJoI3L4C6z9YfEp9fWguhSALaApop+qVYAy
-	3Y8LDdcSp956kO2itK70lKB/C0xVxBuWvm0Z5qfBZw+WDiNbWnkLYobGJbIVodQ7eG2FdqtpW0y
-	sQsyNJPkGd2FRS9ylfMxIn5HNSwDuBQxem0fGJJL66JFTJVc9wgOKtKmlCTC9WJyMTGUaBWxR5D
-	EjitHuO6prkgoVTSN8GUGJgjhu7f1UbdmM+sEfIrtvB5jLnLfGOew0Es8FanniPc85EXgRApLxz
-	Eto=
-X-Received: by 2002:a05:6a20:d48b:b0:1f5:8678:183d with SMTP id adf61e73a8af0-2046a4664c2mr16009536637.14.1745919636492;
-        Tue, 29 Apr 2025 02:40:36 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7gEjku+ZpVt/qDtNHhW6HIJZl8Z51nAZpzs1vZoq3o460vaQWQG9eqlKMDsZkZdnRqTXCEg==
-X-Received: by 2002:a05:6a20:d48b:b0:1f5:8678:183d with SMTP id adf61e73a8af0-2046a4664c2mr16009502637.14.1745919636084;
-        Tue, 29 Apr 2025 02:40:36 -0700 (PDT)
-Received: from localhost ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25aca38fsm9778532b3a.171.2025.04.29.02.40.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 02:40:35 -0700 (PDT)
-Date: Tue, 29 Apr 2025 17:40:21 +0800
-From: Coiby Xu <coxu@redhat.com>
-To: Arnaud Lefebvre <arnaud.lefebvre@clever-cloud.com>
-Cc: kexec@lists.infradead.org, Ondrej Kozina <okozina@redhat.com>, 
-	Milan Broz <gmazyland@gmail.com>, Thomas Staudt <tstaudt@de.ibm.com>, 
-	Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>, Kairui Song <ryncsn@gmail.com>, 
-	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, Dave Hansen <dave.hansen@intel.com>, 
-	Vitaly Kuznetsov <vkuznets@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v8 6/7] x86/crash: pass dm crypt keys to kdump kernel
-Message-ID: <rwetpbjimryr7g7xmdmaeuwkdasyqdpejsy4sdee3kzlssm32s@5xnznwqa3ivm>
-References: <20250207080818.129165-1-coxu@redhat.com>
- <20250207080818.129165-7-coxu@redhat.com>
- <fa6uyhukjfjgteptdpud6wd6w7yin466p3tp6rdxwbsuqgkfdc@jwgf5ztb2ni7>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="ScUGTsBQ"
+ARC-Seal: i=1; a=rsa-sha256; t=1745921137; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=jpSzhwxlzOAiAzYn1qgSNGg8hpGzpfBH9ZSCGDbaaQWaYBf+YTPl5HH5Y2t2me7v9d7Nqt9ShWyU/To8C5dpiQKL2aiNXBunoimO6cOc0f0dvRz6hN2jaAvgLenXRYp4rx0zkLJ8StgkMH3sI7h+Ow2hlEgQezjW5j4OGT9aIVM=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1745921137; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=JxbCFy+YVAok7lkWS9hgSHArZDCzdlEOMBm9HS++e8M=; 
+	b=GKpj86eYoSeNFysHu2RMVKHTLtlZZzBLvMvKoBNr7LcpO+Z4Znm7AnG7AuZ9MdQ/qdj2qKDpK/fAs72EzucerpNxuxBl4dFmgoONR6L/FT/KtbHbAadNOUR9IX3AM8qy0kWUq0YhI+kJvAHyoCKKbHcuyuWTBB3vkzeCzRrUEvs=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745921137;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=JxbCFy+YVAok7lkWS9hgSHArZDCzdlEOMBm9HS++e8M=;
+	b=ScUGTsBQeOdzXPal+jTXkQH/TtCHyCJS3xVRpl0+uUm5bDvVOrABlUbBHKOKQNex
+	CpvEWt235HdE+Hb2sFR6N01jaBy52WClbaN3+ye+vb+cQLyL8dRzGH84JXN/SQnxi/3
+	gj/y5VEPmR225Abunl34QxehV4TCifdRWstIpdhI=
+Received: by mx.zohomail.com with SMTPS id 1745921136083931.6736324937333;
+	Tue, 29 Apr 2025 03:05:36 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v2 6/7] accel/rocket: Add job submission IOCTL
+Date: Tue, 29 Apr 2025 12:05:28 +0200
+Message-ID: <2365360.ElGaqSPkdT@workhorse>
+In-Reply-To: <20250225-6-10-rocket-v2-6-d4dbcfafc141@tomeuvizoso.net>
+References:
+ <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-6-d4dbcfafc141@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <fa6uyhukjfjgteptdpud6wd6w7yin466p3tp6rdxwbsuqgkfdc@jwgf5ztb2ni7>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Apr 23, 2025 at 10:59:06PM +0200, Arnaud Lefebvre wrote:
->>diff --git a/arch/x86/kernel/kexec-bzimage64.c b/arch/x86/kernel/kexec-bzimage64.c
->>index 68530fad05f7..5604a5109858 100644
->>--- a/arch/x86/kernel/kexec-bzimage64.c
->>+++ b/arch/x86/kernel/kexec-bzimage64.c
->>@@ -76,6 +76,10 @@ static int setup_cmdline(struct kimage *image, struct boot_params *params,
->>	if (image->type == KEXEC_TYPE_CRASH) {
->>		len = sprintf(cmdline_ptr,
->>			"elfcorehdr=0x%lx ", image->elf_load_addr);
->>+
->>+		if (image->dm_crypt_keys_addr != 0)
->>+			len += sprintf(cmdline_ptr + len,
->>+					"dmcryptkeys=0x%lx ", image->dm_crypt_keys_addr);
+On Tuesday, 25 February 2025 08:55:52 Central European Summer Time Tomeu Vizoso wrote:
+> Using the DRM GPU scheduler infrastructure, with a scheduler for each
+> core.
+> 
+> Userspace can decide for a series of tasks to be executed sequentially
+> in the same core, so SRAM locality can be taken advantage of.
+> 
+> The job submission code was initially based on Panfrost.
+> 
+> v2:
+> - Remove hardcoded number of cores
+> - Misc. style fixes (Jeffrey Hugo)
+> - Repack IOCTL struct (Jeffrey Hugo)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  drivers/accel/rocket/Makefile        |   3 +-
+>  drivers/accel/rocket/rocket_core.c   |   6 +
+>  drivers/accel/rocket/rocket_core.h   |  14 +
+>  drivers/accel/rocket/rocket_device.c |   2 +
+>  drivers/accel/rocket/rocket_device.h |   2 +
+>  drivers/accel/rocket/rocket_drv.c    |  15 +
+>  drivers/accel/rocket/rocket_drv.h    |   4 +
+>  drivers/accel/rocket/rocket_job.c    | 710 +++++++++++++++++++++++++++++++++++
+>  drivers/accel/rocket/rocket_job.h    |  50 +++
+>  include/uapi/drm/rocket_accel.h      |  55 +++
+>  10 files changed, 860 insertions(+), 1 deletion(-)
 
-sprintf will return the length of dmcryptkey=xxx which will be added to
-len.
+Hi Tomeu,
 
->>	}
->>	memcpy(cmdline_ptr + len, cmdline, cmdline_len);
->>	cmdline_len += len;
-
-Then cmdline_len will included the new len.
+some more power management things I've noticed here.
 
 >
->You are adding another kernel parameter but I believe without taking its
->length into account. See the MAX_ELFCOREHDR_STR_LEN constant which is added to the
->params_cmdline_sz variable for the elfcorehdr= parameter.
+> [...]
+>
+> diff --git a/drivers/accel/rocket/rocket_job.c b/drivers/accel/rocket/rocket_job.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..25b31f28e932aaee86173b9a0962932c9c640c03
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_job.c
+>
+> [...]
+>
+> +static void
+> +rocket_reset(struct rocket_core *core, struct drm_sched_job *bad)
+> +{
+> +	bool cookie;
+> +
+> +	if (!atomic_read(&core->reset.pending))
+> +		return;
+> +
+> +	/*
+> +	 * Stop the scheduler.
+> +	 *
+> +	 * FIXME: We temporarily get out of the dma_fence_signalling section
+> +	 * because the cleanup path generate lockdep splats when taking locks
+> +	 * to release job resources. We should rework the code to follow this
+> +	 * pattern:
+> +	 *
+> +	 *	try_lock
+> +	 *	if (locked)
+> +	 *		release
+> +	 *	else
+> +	 *		schedule_work_to_release_later
+> +	 */
+> +	drm_sched_stop(&core->sched, bad);
+> +
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	if (bad)
+> +		drm_sched_increase_karma(bad);
+> +
+> +	/*
+> +	 * Mask job interrupts and synchronize to make sure we won't be
+> +	 * interrupted during our reset.
+> +	 */
+> +	rocket_write(core, REG_PC_INTERRUPT_MASK, 0x0);
+> +	synchronize_irq(core->irq);
+> +
+> +	/* Handle the remaining interrupts before we reset. */
+> +	rocket_job_handle_irq(core);
+> +
+> +	/*
+> +	 * Remaining interrupts have been handled, but we might still have
+> +	 * stuck jobs. Let's make sure the PM counters stay balanced by
+> +	 * manually calling pm_runtime_put_noidle() and
+> +	 * rocket_devfreq_record_idle() for each stuck job.
+> +	 * Let's also make sure the cycle counting register's refcnt is
+> +	 * kept balanced to prevent it from running forever
+> +	 */
+> +	spin_lock(&core->job_lock);
+> +	if (core->in_flight_job)
+> +		pm_runtime_put_noidle(core->dev);
 
-Thanks for raising the concern! I believe this issue has already been
-took care of. Please check the above two inline comments:)
+This particular line of code caused me issues when I was experimenting with the
+driver on RK3576. My current situation is that every job that gets submitted
+times out because of some IRQs never arriving, which is besides the point, but
+it did expose a power management bug here that I suspect may affect RK3588 as
+well. After like 3 timeouts, we reset again and hang in the interrupt mask write
+just a few lines above. This is because we somehow managed to get into a
+situation where this function is called with pclk disabled, and this manual
+balancing act may be part of it. Not doing the manual balancing at all here
+doesn't fix it, I had to explicitly wrap the reset function in
+pm_runtime_get_sync and pm_runtime_put_noidle to avoid having this function
+execute with disabled clocks. That seems like the "wrong solution" though
+because it means something already powered off our hardware too eagerly before
+we got the reset done.
 
+My gut instinct tells me that there's a bug here with multiple timed out jobs
+being in flight, but I'm not 100% on it. Maybe you'll be able to reproduce it
+on an RK3588 by artificially forcing all your jobs to time out with some very
+low timeout value or by masking the interrupts.
 
+> +
+> +	core->in_flight_job = NULL;
+> +	spin_unlock(&core->job_lock);
+> +
+> +	/* Proceed with reset now. */
+> +	pm_runtime_force_suspend(core->dev);
+> +	pm_runtime_force_resume(core->dev);
+
+Do we need to guarantee some sort of exclusivity here so that nothing tries to
+concurrently use the device while we're forcing it off and back on again? I'm
+unfamiliar with the drm fence stuff, so I may be overthinking this.
+
+> +
+> +	/* GPU has been reset, we can clear the reset pending bit. */
+> +	atomic_set(&core->reset.pending, 0);
+
+Nitpick: should probably be "NPU" ;)
+
+> +
+> +	/*
+> +	 * Now resubmit jobs that were previously queued but didn't have a
+> +	 * chance to finish.
+> +	 * FIXME: We temporarily get out of the DMA fence signalling section
+> +	 * while resubmitting jobs because the job submission logic will
+> +	 * allocate memory with the GFP_KERNEL flag which can trigger memory
+> +	 * reclaim and exposes a lock ordering issue.
+> +	 */
+> +	dma_fence_end_signalling(cookie);
+> +	drm_sched_resubmit_jobs(&core->sched);
+> +	cookie = dma_fence_begin_signalling();
+> +
+> +	/* Restart the scheduler */
+> +	drm_sched_start(&core->sched, 0);
+> +
+> +	dma_fence_end_signalling(cookie);
+> +}
 >
->This will (at least during my tests) truncate the cmdline given to the crash kernel because
->the next section (efi_map_offset) will have an offset starting inside the cmdline section
->and it might overwrite the end of it:
->
->kexec-bzimage64.c:480:
->params_cmdline_sz = sizeof(struct boot_params) + cmdline_len +
->			MAX_ELFCOREHDR_STR_LEN; <<< Should have + 31 here for "dmcryptkeys=0x<ptr> "
->params_cmdline_sz = ALIGN(params_cmdline_sz, 16);
->kbuf.bufsz = params_cmdline_sz + ALIGN(efi_map_sz, 16) +
->			sizeof(struct setup_data) +
->			sizeof(struct efi_setup_data) +
->			sizeof(struct setup_data) +
->			RNG_SEED_LENGTH;
->
->And I believe the buffer might be too small.
->
->Also, there is another check a few lines above that needs to take the size into account:
->
->/*
-> * In case of crash dump, we will append elfcorehdr=<addr> to
-> * command line. Make sure it does not overflow
-> */
->if (cmdline_len + MAX_ELFCOREHDR_STR_LEN > header->cmdline_size) {
->	pr_err("Appending elfcorehdr=<addr> to command line exceeds maximum allowed length\n");
->	return ERR_PTR(-EINVAL);
->}
+> [...]
 >
 
--- 
-Best regards,
-Coiby
+Kind regards,
+Nicolas Frattaroli
+
 
