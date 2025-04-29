@@ -1,121 +1,123 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 701261990D3;
-	Tue, 29 Apr 2025 07:30:19 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 293A5276026;
+	Tue, 29 Apr 2025 08:06:43 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745911819; cv=none; b=s5xXL2Wu8T810HZ5Q2boYRiWjnZdxW8paVHgayob24PXn8DlxmLF5i9FvpoaR68EHhY+2CZ+NWiGyJh0mJcxaq3Na1qeDig42kHHNn1Y6DPwMEKWYDWf4gv2yfL8qRKjEXl4T5xIqG7nCAi1Y2apqOnAL9bayVh2eb9t43bWBmo=
+	t=1745914004; cv=none; b=VTUHdUftaBZ3quiUW1qAIGqqEU0CYMv24Xdy/fftKWao4Qrn1QExWIsVQ1tfXEMuaAM/XLiwDh0kOIjMCTpxaWxAt3uOwLZiCjBDfFfWELAKcuDF+O9PRtbH9LXhdUhY7dGLWDFsTMhzJHgWML/ayKfwI+Slj9Jfp/7dhucDF/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745911819; c=relaxed/simple;
-	bh=MK2qRsy+YSNDUuvgz1V3nC2n1Q5estuIm9vk+hqa+EI=;
+	s=arc-20240116; t=1745914004; c=relaxed/simple;
+	bh=T+OFZKl+3KvYwlqOnSAJknFTlFAGkXBm4R7faZdxC7g=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FSxzA7L30/Kjlkq71GDOyMuevA/3kN7q9b1D4gXzpO74N14i9BCFV2V65s1OSFXBXgATpWca5yllqzYdJ5Cr+gPBIbHZ2HAblaVL5ilyY7fmUCma66TVQALwiRnRn3dgN7AxTp3Pby/LYoBJVrR39fpxxfxcMX1yrn9YOeIW/MQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M6eS8gjj; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=lN7jNQBcC2vaYcrmqfIxfU4vtDphl3qCOaASSQC2F+B+cthqIHlIfIczqhq4/lcr06/J3wnpd2B0yqK4QDLdRdjZ91vEKuo9aj2atRi8O+COa38ZJgXs390l+3YmQDmaH835+ZFHlIljJpEcmQrz3L0gXih3cj4nG+LgPXu92sI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=g4MP1qWh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M6eS8gjj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 80B05C4CEE3;
-	Tue, 29 Apr 2025 07:30:18 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="g4MP1qWh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1D988C4CEE3;
+	Tue, 29 Apr 2025 08:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745911818;
-	bh=MK2qRsy+YSNDUuvgz1V3nC2n1Q5estuIm9vk+hqa+EI=;
+	s=k20201202; t=1745914003;
+	bh=T+OFZKl+3KvYwlqOnSAJknFTlFAGkXBm4R7faZdxC7g=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M6eS8gjjYvDXEGvIN3fnM1fxSviv4VOr47zNBgJrpDweUjyN/lxKDt4+OCwxO/tT9
-	 Kkl0TTllDqUgIN5VIhvtnncaQW1L7i1ZT9WFXWV8GopoXkBlz0WTTqSgFV7LGP34nj
-	 0fN8U7Dpk+2YtJS0fPlEisR6pQhXFHlc5HTQZeDqiw7ATlsk6sky6Ib3ViW5GR/Y2k
-	 YOCp4iXz4HZ1oN3oWXcNB1jOxMtuX/HQogAG9D5gOtuoUumQ2XEWrO/CDYmowNR3Gi
-	 nm2rot91TU0KfI8NUhhT2MJJ7RNzeUyx4ei2PczoviYBiKAMfuKIZSUS9m7U1D1/Le
-	 sZwISJXZ6+xIA==
-Date: Tue, 29 Apr 2025 09:30:16 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Pawel Dembicki <paweldembicki@gmail.com>
-Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Greg KH <gregkh@linuxfoundation.org>, 
-	Shen Lichuan <shenlichuan@vivo.com>, 
-	Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>, Peter Zijlstra <peterz@infradead.org>, 
-	Charles Hsu <ythsu0511@gmail.com>, devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Subject: Re: [PATCH 5/5] dt-bindings: hwmon: Add bindings for mpq8785 driver
-Message-ID: <20250429-dragon-of-imaginary-blizzard-e54cbb@kuoka>
-References: <20250428221420.2077697-1-paweldembicki@gmail.com>
- <20250428221420.2077697-6-paweldembicki@gmail.com>
+	b=g4MP1qWhXsNl/uB3rPYca9oL1jVE0ekWEV6gfciWYbB1+dqLQ9mMLhKCeQ4kEML3r
+	 bJyb0LeyWTmqcsUmRVfFDi6VMDW5WBeVc88je0PluGWeRS97AYRHNXEXRaWe2ZBNUR
+	 h2P24d0Nb3ya3adWViA9y0dL9GADK0WkUOludE9eaO59e5mCjZo+20Kkb33rkTCZ3T
+	 joUB021ZBtmCwCwJ8IZUTlrvA217Wsdkv6riqQodhqkESfxv93/qyLqVSaXCE995Qd
+	 adxuArH/4q+RMu7lWE/6XP1SpcSbdgr9HJnDqYvJZCKjQED2Lf6yl72MdWWvLKHiTL
+	 2/8qg6TYlg6Ig==
+Date: Tue, 29 Apr 2025 11:06:29 +0300
+From: Mike Rapoport <rppt@kernel.org>
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org,
+	akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de,
+	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de,
+	catalin.marinas@arm.com, corbet@lwn.net,
+	dave.hansen@linux.intel.com, devicetree@vger.kernel.org,
+	dwmw2@infradead.org, ebiederm@xmission.com, graf@amazon.com,
+	hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org,
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org,
+	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com,
+	pbonzini@redhat.com, peterz@infradead.org, ptyadav@amazon.de,
+	robh@kernel.org, rostedt@goodmis.org, saravanak@google.com,
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de,
+	thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
+Subject: Re: [PATCH v6 11/14] x86: add KHO support
+Message-ID: <aBCIhQjKKyaAuvC9@kernel.org>
+References: <20250411053745.1817356-1-changyuanl@google.com>
+ <20250411053745.1817356-12-changyuanl@google.com>
+ <35c58191-f774-40cf-8d66-d1e2aaf11a62@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250428221420.2077697-6-paweldembicki@gmail.com>
+In-Reply-To: <35c58191-f774-40cf-8d66-d1e2aaf11a62@intel.com>
 
-On Tue, Apr 29, 2025 at 12:13:35AM GMT, Pawel Dembicki wrote:
-> Add device tree bindings for Monolithic Power Systems MPQ8785, MPM82504
-> and MPM3695 PMBus-compliant voltage regulators.
+On Mon, Apr 28, 2025 at 03:05:55PM -0700, Dave Hansen wrote:
+> On 4/10/25 22:37, Changyuan Lyu wrote:
+> > From: Alexander Graf <graf@amazon.com>
+> > 
+> > +/*
+> > + * If KHO is active, only process its scratch areas to ensure we are not
+> > + * stepping onto preserved memory.
+> > + */
 > 
-> These bindings also documents the optional "voltage-scale-loop" property.
+> Same thing on the imperative voice here.
 > 
-> Signed-off-by: Pawel Dembicki <paweldembicki@gmail.com>
-> ---
->  .../bindings/hwmon/pmbus/mps,mpq8785.yaml     | 54 +++++++++++++++++++
->  1 file changed, 54 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
+> I'm also not fully understanding the comment. Do these "scratch" regions
+> basically represent all the memory that's not being handed over? It's
+> not obvious.
+
+Scratch memory represents areas created at the boot of the first kernel and
+it's known that scratch areas won't contain any memory that's being handed
+over.
+ 
+> > diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
+> > index 57120f0749cc3..c314212a5ecd5 100644
+> > --- a/arch/x86/kernel/e820.c
+> > +++ b/arch/x86/kernel/e820.c
+> > @@ -1300,6 +1300,24 @@ void __init e820__memblock_setup(void)
+> >  		memblock_add(entry->addr, entry->size);
+> >  	}
+> >  
+> > +	/*
+> > +	 * At this point with KHO we only allocate from scratch memory.
+> > +	 * At the same time, we configure memblock to only allow
+> > +	 * allocations from memory below ISA_END_ADDRESS which is not
+> > +	 * a natural scratch region, because Linux ignores memory below
+> > +	 * ISA_END_ADDRESS at runtime. Beside very few (if any) early
+> > +	 * allocations, we must allocate real-mode trapoline below
 > 
-> diff --git a/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml b/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
-> new file mode 100644
-> index 000000000000..e2a3958a61fa
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
-> @@ -0,0 +1,54 @@
-> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +
+> 						trampoline ^
+> 
+> > +	 * ISA_END_ADDRESS.
+> > +	 *
+> > +	 * To make sure that we can actually perform allocations during
+> > +	 * this phase, let's mark memory below ISA_END_ADDRESS as scratch
+> > +	 * so we can allocate from there in a scratch-only world.
+> > +	 *
+> > +	 * After real mode trampoline is allocated, we clear scratch
+> > +	 * marking from the memory below ISA_END_ADDRESS
+> > +	 */
+> > +	memblock_mark_kho_scratch(0, ISA_END_ADDRESS);
+> 
+> This isn't making a whole ton of sense to me.
+> 
+> Is this *only* to facilitate possible users that need <ISA_END_ADDRESS
+> allocations? If so, please say that.
+> 
+> I _think_ this is trying to say that KHO kernels are special and are
+> trying to only allocate from scratch areas. But <ISA_END_ADDRESS
+> allocations are both necessary and not marked by KHO _as_ a scratch area
+> which causes a problem.
 
-Drop blank line.
+Yes :)
 
-> +$id: http://devicetree.org/schemas/hwmon/pmbus/mps,mpq8785.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +allOf:
-> +  - $ref: /schemas/i2c/i2c-device.yaml#
-
-From where did you take such code? Drop.
-
-> +
-> +title: Monolithic Power Systems Multiphase Voltage Regulators with PMBus
-> +
-> +maintainers:
-> +  - Charles Hsu <ythsu0511@gmail.com>
-> +
-> +description: |
-
-Drop |
-
-> +  Monolithic Power Systems digital multiphase voltage regulators with PMBus.
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - mps,mpq8785
-> +      - mps,mpm82504
-> +      - mps,mpm3695-10
-
-Keep alphabetical order
-
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  voltage-scale-loop:
-
-Missing vendor prefix, missing tests, missing property unit suffix
-(percent? bpp?)
-
-Or this should be just output voltage in microvolts.
-
-Best regards,
-Krzysztof
-
+-- 
+Sincerely yours,
+Mike.
