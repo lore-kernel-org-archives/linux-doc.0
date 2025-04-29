@@ -1,145 +1,100 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D30D18A93F;
-	Tue, 29 Apr 2025 14:39:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48526219A89;
+	Tue, 29 Apr 2025 14:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745937556; cv=none; b=QvM1B3QPCdK1xJyYOuxo9+8bkHNX8RgZNmEif++oxuC1V7yD3N4IHqgkbekZGcBxqABgLrYxJB6gpyi+ROdS/dbR5I58l/nzwdvCit/9nyCDIzMTh5xShvepWlsR1dFyj2dMePhoGkN0aCPBdBXMKRFvozmReWQIeabqayTE3RQ=
+	t=1745938038; cv=none; b=VTksXo/nCwxr8T2iHEEj/x4TatNQPS5YTHNOWowMzf6StJw6rjRCkYF1xgkAy2mbyp+R/X8HkqBx03f0O0B/jeuEL2+H+Sd1/I8SYQYSbtY+99oQ2cNDPtBfgwcauVQvipXrxJvrkRXdaqYH5eoFjKfLRaJEk1YhtFmDX4H7UcQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745937556; c=relaxed/simple;
-	bh=ZC8ueqExZjMa8LECXOCWJ/qGA+lpkuk87Elx4I4QX4M=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=M91gqtAEhrQpjV9cPXy990ge7bimTn0RFz2jEmVw2+/65kpzszd2Xsin9mo+embwBSQL5j0N14E+0pcngAONFrTsoOed90uGxnKTWFun9PRLD7keIqCHipY3kUFKsi2nIRp0XqU5gZ3v7AbAU/1tKEK1TDOxNoA5UbJ65z+BLZ0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=L4KdXSAn; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745938038; c=relaxed/simple;
+	bh=YrCTaP+tcbajXC6/b7SoFDFq5t/KwEus2QAmCVIBrgU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YQXBzOfoLe8rrRPJ298VQYEVYCjm4AFtP8l7ZquHMRpFJWe/6ZtFTxK8rda1iF+Borwxbvf3dI12bruMK7s+DU/KTLjji48x0dQoumW3g6mqoqaAG0hOUcYxgweX98ImwJf5DSWvXXdL5AI4iFtttWvLu4htymbUhj3Lk0S7ZoI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=hbR1oFYP; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="L4KdXSAn"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745937555; x=1777473555;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=ZC8ueqExZjMa8LECXOCWJ/qGA+lpkuk87Elx4I4QX4M=;
-  b=L4KdXSAnDwPt/kUjauaW8cShmbA6kao+JcBz4tGeIOYOj7WJfUObL9L3
-   X1NzGAJtVVBRhlscGZOSauJHT7H537dPiaBftTsSlWlnVEHpOZZnbYzV/
-   kBgqR6Bw4colGQz395Df/WqiHfmDScNbn3ZdJwlHBYrgKv8qI1TZME0wy
-   81fS8jjfVgQq495z7Sv4EbuNU4dhwcEI7NVwMe236pDJUolt2gvu76TMU
-   ch340Bepot0xA1bKpkZqh2HBNn9n5m/gMOw/k9LSTCqe+mzwXAbDWPe9W
-   vBOZQ540XKFUoWbAwxpwEwiPmslOar97TOyCxy13ET8abAxfuaG7pt/To
-   g==;
-X-CSE-ConnectionGUID: Ek/4+rg6SwiVt0oQQty9YA==
-X-CSE-MsgGUID: 4T252o0uTF+HCnv+KTc66w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51231565"
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="51231565"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 07:39:14 -0700
-X-CSE-ConnectionGUID: KkqNdPTISbWg3K8s1DQf+w==
-X-CSE-MsgGUID: m/Rk5MezSIKyMqFe+gT75w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,249,1739865600"; 
-   d="scan'208";a="134361173"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.244.205])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 07:39:08 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Tue, 29 Apr 2025 17:39:04 +0300 (EEST)
-To: Mario Limonciello <superm1@kernel.org>
-cc: Borislav Petkov <bp@alien8.de>, Jean Delvare <jdelvare@suse.com>, 
-    Andi Shyti <andi.shyti@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
-    Mario Limonciello <mario.limonciello@amd.com>, 
-    Yazen Ghannam <yazen.ghannam@amd.com>, 
-    Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, 
-    Dave Hansen <dave.hansen@linux.intel.com>, 
-    "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>, 
-    "H . Peter Anvin" <hpa@zytor.com>, 
-    Shyam Sundar S K <Shyam-sundar.S-k@amd.com>, 
-    Hans de Goede <hdegoede@redhat.com>, 
-    "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-    open list <linux-kernel@vger.kernel.org>, 
-    "open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>, 
-    "open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
-Subject: Re: [PATCH v5 4/5] platform/x86/amd: pmc: use FCH_PM_BASE
- definition
-In-Reply-To: <20250422234830.2840784-5-superm1@kernel.org>
-Message-ID: <21363441-13a0-b5bc-4674-238526b16b5b@linux.intel.com>
-References: <20250422234830.2840784-1-superm1@kernel.org> <20250422234830.2840784-5-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="hbR1oFYP"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39EDDC4CEE3;
+	Tue, 29 Apr 2025 14:47:14 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1745938037;
+	bh=YrCTaP+tcbajXC6/b7SoFDFq5t/KwEus2QAmCVIBrgU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=hbR1oFYPepr21AnMku8sxgvGJfsYYvl+fDZNSEjow+OM+SmnawdmzUYE6W503cQt8
+	 XZjoDeTObvh5TG7hYoRM1I4oxZUxAxaTjfJA1NwXoiMeZJwrf/fC8leQincBNcved7
+	 yP3NDUoYMLwFAh5F3o0o/MmxYtdPTDBBlEL8y7zs5hklYuV8BGzfckSbcG6qogpMVa
+	 iHNbiGVS1X/EN75MQp6WlLOtNog52OasZ3jLYJwKOIQwiFOyOzy6I+tG5h5xKDRO4X
+	 McRfIe8Isa3OaUzcWQOArxt0gUukeKzFVYMnyDILtjyd401Es3kKvyAzdQPPtMEkqS
+	 cP6smDLj3VjUA==
+Date: Tue, 29 Apr 2025 15:47:10 +0100
+From: Will Deacon <will@kernel.org>
+To: Yicong Yang <yangyicong@huawei.com>
+Cc: catalin.marinas@arm.com, maz@kernel.org, oliver.upton@linux.dev,
+	corbet@lwn.net, linux-arm-kernel@lists.infradead.org,
+	kvmarm@lists.linux.dev, linux-kselftest@vger.kernel.org,
+	linux-doc@vger.kernel.org, joey.gouly@arm.com,
+	suzuki.poulose@arm.com, yuzenghui@huawei.com, shuah@kernel.org,
+	jonathan.cameron@huawei.com, shameerali.kolothum.thodi@huawei.com,
+	linuxarm@huawei.com, prime.zeng@hisilicon.com, xuwei5@huawei.com,
+	yangyicong@hisilicon.com, tangchengchang@huawei.com,
+	broonie@kernel.org
+Subject: Re: [PATCH v2 1/6] arm64: Provide basic EL2 setup for FEAT_{LS64,
+ LS64_V} usage at EL0/1
+Message-ID: <20250429144710.GA26174@willie-the-truck>
+References: <20250331094320.35226-1-yangyicong@huawei.com>
+ <20250331094320.35226-2-yangyicong@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-352066760-1745937544=:938"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250331094320.35226-2-yangyicong@huawei.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
-
---8323328-352066760-1745937544=:938
-Content-Type: text/plain; charset=ISO-8859-15
-Content-Transfer-Encoding: QUOTED-PRINTABLE
-
-On Tue, 22 Apr 2025, Mario Limonciello wrote:
-
-> From: Mario Limonciello <mario.limonciello@amd.com>
->=20
-> The s2idle mmio quirk uses a scratch register in the FCH.
-> Adjust the code to clarify that.
->=20
-> Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
-
-This is quite trivial change, but here is this for completeness in case=20
-x86 maintainers want to have it:
-
-Acked-by: Ilpo J=E4rvinen <ilpo.jarvinen@linux.intel.com>
-
---
- i.
-
+On Mon, Mar 31, 2025 at 05:43:15PM +0800, Yicong Yang wrote:
+> From: Yicong Yang <yangyicong@hisilicon.com>
+> 
+> Instructions introduced by FEAT_{LS64, LS64_V} is controlled by
+> HCRX_EL2.{EnALS, EnASR}. Configure all of these to allow usage
+> at EL0/1.
+> 
+> This doesn't mean these instructions are always available in
+> EL0/1 if provided. The hypervisor still have the control at
+> runtime.
+> 
+> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
 > ---
-> v5:
->  * Move <asm> header after <linux> headers
-> v4:
->  * Use fch.h instead
-> ---
->  arch/x86/include/asm/amd/fch.h            | 1 +
->  drivers/platform/x86/amd/pmc/pmc-quirks.c | 3 ++-
->  2 files changed, 3 insertions(+), 1 deletion(-)
->=20
-> diff --git a/arch/x86/include/asm/amd/fch.h b/arch/x86/include/asm/amd/fc=
-h.h
-> index a5fd91ff92df3..9b32e8a03193e 100644
-> --- a/arch/x86/include/asm/amd/fch.h
-> +++ b/arch/x86/include/asm/amd/fch.h
-> @@ -8,5 +8,6 @@
->  /* register offsets from PM base */
->  #define FCH_PM_DECODEEN=09=09=090x00
->  #define FCH_PM_DECODEEN_SMBUS0SEL=09GENMASK(20, 19)
-> +#define FCH_PM_SCRATCH=09=09=090x80
-> =20
->  #endif
-> diff --git a/drivers/platform/x86/amd/pmc/pmc-quirks.c b/drivers/platform=
-/x86/amd/pmc/pmc-quirks.c
-> index b4f49720c87f6..b706b1f4d94bf 100644
-> --- a/drivers/platform/x86/amd/pmc/pmc-quirks.c
-> +++ b/drivers/platform/x86/amd/pmc/pmc-quirks.c
-> @@ -11,6 +11,7 @@
->  #include <linux/dmi.h>
->  #include <linux/io.h>
->  #include <linux/ioport.h>
-> +#include <asm/amd/fch.h>
-> =20
->  #include "pmc.h"
-> =20
-> @@ -20,7 +21,7 @@ struct quirk_entry {
->  };
-> =20
->  static struct quirk_entry quirk_s2idle_bug =3D {
-> -=09.s2idle_bug_mmio =3D 0xfed80380,
-> +=09.s2idle_bug_mmio =3D FCH_PM_BASE + FCH_PM_SCRATCH,
->  };
-> =20
->  static struct quirk_entry quirk_spurious_8042 =3D {
->=20
---8323328-352066760-1745937544=:938--
+>  arch/arm64/include/asm/el2_setup.h | 12 +++++++++++-
+>  1 file changed, 11 insertions(+), 1 deletion(-)
+> 
+> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> index ebceaae3c749..0259941602c4 100644
+> --- a/arch/arm64/include/asm/el2_setup.h
+> +++ b/arch/arm64/include/asm/el2_setup.h
+> @@ -57,9 +57,19 @@
+>          /* Enable GCS if supported */
+>  	mrs_s	x1, SYS_ID_AA64PFR1_EL1
+>  	ubfx	x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
+> -	cbz	x1, .Lset_hcrx_\@
+> +	cbz	x1, .Lskip_gcs_hcrx_\@
+>  	orr	x0, x0, #HCRX_EL2_GCSEn
+>  
+> +.Lskip_gcs_hcrx_\@:
+> +	/* Enable LS64, LS64_V if supported */
+> +	mrs_s	x1, SYS_ID_AA64ISAR1_EL1
+> +	ubfx	x1, x1, #ID_AA64ISAR1_EL1_LS64_SHIFT, #4
+> +	cbz	x1, .Lset_hcrx_\@
+> +	orr	x0, x0, #HCRX_EL2_EnALS
+> +	cmp	x1, #ID_AA64ISAR1_EL1_LS64_LS64_V
+> +	b.lt	.Lset_hcrx_\@
+> +	orr	x0, x0, #HCRX_EL2_EnASR
+
+How do these HCRX settings survive a world-switch to and from a KVM
+guest? AFAICT, the trap deactivation path there restores HCRX_HOST_FLAGS
+when returning to the host. That would mean that the GCS code is broken
+too, unless I'm missing something :/
+
+Will
