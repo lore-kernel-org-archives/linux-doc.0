@@ -1,146 +1,151 @@
-Received: from out30-119.freemail.mail.aliyun.com (out30-119.freemail.mail.aliyun.com [115.124.30.119])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F019C1C5D7D;
-	Tue, 29 Apr 2025 07:16:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.119
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D00FF1C8629;
+	Tue, 29 Apr 2025 07:25:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745910985; cv=none; b=YcFfY0/s3meZOzVRQ+iYaJdmymEuxy6TUeVWDHFzLlA+yA+Cdzs+dyuVpZvCxY8zq2rEd/vFI7lOcYVVe/fXQQqrNPQFzSU2HPA8Z3xpDMWbsW/qGEYJNmPtOjg7qws3JuVU/wUKo/YYCt0zavhBT3KTl8/MmIVJOb+Zls7hTM8=
+	t=1745911515; cv=none; b=RApZ3d3+cvjlBKIO/NIRzsxaH6qQGcbTlLZdtNXWtLyYxt9sK97eKrhOPB32eOAE2Hob8NkBoXngzazwHLHGPNgRh7HNKBzfBr39ik5le+ofZaCOoJdJAaIrjss9sfusqAefIfDw7teRpsQXUx7yAo4ipU1nJxd2ILHL0eRkhIA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745910985; c=relaxed/simple;
-	bh=mDsXvFYCqLUt6MkNyVoQCAOGXZknjiPYiw5eBAG99RA=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oPHwEUfMiJEVjg4XDVmcUDFH3mPNsvG0+Uqxdpdd3+8VvUDNUqKYG10atHYRH4kYQ+4kfOu0YrLR8DUbicWoimNnEYypV/KgSzyqwYBb10kl1U1oL7Xe6L55fPM/lWy+U1Sr2mVF3QLTUau1L2cdmA75iHbmzrle0C6FxT754zM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=w2giMlaa; arc=none smtp.client-ip=115.124.30.119
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1745911515; c=relaxed/simple;
+	bh=BTTld/avRyX9/xFUVdq/cjPb7ZmIdI1aSwabNE90ZT8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=FNRI0aiyPPKueXT3uDl1X6PumCn1nR60yv1mbSLg7/uxAnxnnz277MqjAz4QH2NFfAp4JRy/y3xPAYcyfgtOI2lxjKGBcAVb3P5rx2MTiEfY2k8SiAdAiY4REZi5+He4xdZ/ZSMRAbXS/GT99yifNq4NsfBjPP+xo9gy6KoMXJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=LkCo0zvG; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=UMBk4PSS reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="w2giMlaa"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1745910973; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=V7fNVsPJQwk08b50EHm4veDfd70FS94pJvf8TbPo+hE=;
-	b=w2giMlaajiwYE2LKJFE7DccGA4gBQUSLbJAsA5RRq0kriJztZtsJKaDflBpDJqq5tJxrjN3yJBuBLPYEbp62Hssghp5fyM94vku05MDORzbarObgPm0snpniPnhwwPvnBlIn23pEHFtK7jm1ofE6lI2zSlz42eldZAJsaHYnARI=
-Received: from 30.74.146.169(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WYcmdSq_1745910969 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Tue, 29 Apr 2025 15:16:10 +0800
-Message-ID: <ad93f480-431a-4f9b-9225-136d8c6c37df@linux.alibaba.com>
-Date: Tue, 29 Apr 2025 15:16:08 +0800
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="LkCo0zvG";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="UMBk4PSS"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1745911511; x=1777447511;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=0HTPHirUqJp7iM6IFbqXNuusghxBtTxmX3QXCCMPY0Q=;
+  b=LkCo0zvG/pzwFIaSerwZ2FJLguAyhlcG5WuaIWH3llgNYsxVc67mcLXs
+   yiyjuaWuRbyW3J8KAzF+D0ohli0eGrggnQJN9rujf13+/dbBepAfWJ8Y9
+   MoK7vO1lONECwNkOjN9J6yF54nVFcXvZ7YbDAzA0MM+SMvQruUuuYLDjL
+   qdEXUgTRfJLCeI+7/HviFVY+rldo0EBzYMDVaIzRpXd/t2H5Varw0Wzpj
+   9bWIVjPE4CVnuGlDkfdNOnjCBb5fzwb9a8bjiPwq1UkWARvdUqNoo9HGk
+   ldfOuTobUsBJQKgOSQYG+VycB+p2S3ZpXfYg3P7ymA06+MPTtEt4Djww7
+   w==;
+X-CSE-ConnectionGUID: mvncbzE7TwS02I9aCObShg==
+X-CSE-MsgGUID: Oo+CuzYXSh2hT+Oi+La46Q==
+X-IronPort-AV: E=Sophos;i="6.15,248,1739833200"; 
+   d="scan'208";a="43772696"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 29 Apr 2025 09:25:01 +0200
+X-CheckPoint: {68107ECD-32-F35B2447-E1635CDE}
+X-MAIL-CPID: 4C6EC668F1D0F19820FBD4C1ED5AF527_1
+X-Control-Analysis: str=0001.0A006376.68107EDB.007D,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E4E1E160F78;
+	Tue, 29 Apr 2025 09:24:49 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1745911497;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=0HTPHirUqJp7iM6IFbqXNuusghxBtTxmX3QXCCMPY0Q=;
+	b=UMBk4PSSN3UPAEvH64wlD/DQG63n6qyz8Vno1RD6lID08HbYoSOsULofaTdR5GBIBR3dMC
+	mFpdWkhtUDfnpSseGPOmYzTQTNSYRZ3DnFJZUo7mFx6/bijMtSUSx/fq3o1dVVYvhFNwBY
+	VReTlz6llr68OZdahRTkt+Ae95QczLZHbR+tHmrSa3Ov+pgA5/xelkQS9xi2IR7JUhnW+z
+	aBv77qSBW2cGa4CjsTUon7WSlGvklEDnBkpkK3Evpc+ilIBWeOkJZv2CEfoCLy1VBORQSo
+	1uolbaIQbqdBZjmupkWsKjxAgm+OzCBGDvoZ6yDjacJyW4yCSNwmIFAxVhla2A==
+Message-ID: <b75c6a2cf10e2acf878c38f8ca2ff46708a2c0a1.camel@ew.tq-group.com>
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Siddharth Vadapalli
+ <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, Tero Kristo
+ <kristo@kernel.org>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux@ew.tq-group.com
+Date: Tue, 29 Apr 2025 09:24:49 +0200
+In-Reply-To: <9b9fc5d0-e973-4f4f-8dd5-d3896bf29093@lunn.ch>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	 <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	 <aAaafd8LZ3Ks-AoT@shell.armlinux.org.uk>
+	 <a53b5f22-d603-4b7d-9765-a1fc8571614d@lunn.ch>
+	 <aAe2NFFrcXDice2Z@shell.armlinux.org.uk>
+	 <fdc02e46e4906ba92b562f8d2516901adc85659b.camel@ew.tq-group.com>
+	 <9b9fc5d0-e973-4f4f-8dd5-d3896bf29093@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/12] khugepaged: introduce khugepaged_scan_bitmap for
- mTHP support
-To: Nico Pache <npache@redhat.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
- akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
- peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250417000238.74567-1-npache@redhat.com>
- <20250417000238.74567-7-npache@redhat.com>
- <5de38fe3-4a73-443b-87d1-0c836ffdbe30@linux.alibaba.com>
- <CAA1CXcAiiBJ4mMp0WJUk7tWTF20guJi80P8wBh271yJ9P+c_VA@mail.gmail.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <CAA1CXcAiiBJ4mMp0WJUk7tWTF20guJi80P8wBh271yJ9P+c_VA@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-Last-TLS-Session-Version: TLSv1.3
+
+On Mon, 2025-04-28 at 16:08 +0200, Andrew Lunn wrote:
+>=20
+> > > However, with the yaml stuff, if that is basically becoming "DT
+> > > specification" then it needs to be clearly defined what each value
+> > > actually means for the system, and not this vague airy-fairy thing
+> > > we have now.
+>=20
+> =20
+> > I agree with Russell that it seems preferable to make it unambiguous wh=
+ether
+> > delays are added on the MAC or PHY side, in particular for fine-tuning.=
+ If
+> > anything is left to the implementation, we should make the range of acc=
+eptable
+> > driver behavior very clear in the documentation.
+>=20
+> I think we should try the "Informative" route first, see what the DT
+> Maintainers think when we describe in detail how Linux interprets
+> these values.
+
+Oh, we should not be Linux-specific. We should describe in detail how *any =
+OS*
+must interpret values.
+
+
+>=20
+> I don't think a whole new set of properties will solve anything. I
+> would say the core of the problem is that there are multiple ways of
+> getting a working system, many of which don't fit the DT binding. But
+> DT developers don't care about that, they are just happy when it
+> works. Adding a different set of properties won't change that.
+>=20
+> 	Andrew
+
+Hmm, considering that
+
+- interpretation of existing properties is inconsistent
+- we could like something with a consistent interpretation
+- we can't change how existing drivers interpret the properties, as that wo=
+uld
+be a breaking change,
+
+I don't think we really have any options but to introduce something new, or=
+ keep
+the inconsistent status quo.
+
+Best,
+Matthias
 
 
 
-On 2025/4/28 22:47, Nico Pache wrote:
-> On Sat, Apr 26, 2025 at 8:52 PM Baolin Wang
-> <baolin.wang@linux.alibaba.com> wrote:
->>
->>
->>
->> On 2025/4/17 08:02, Nico Pache wrote:
->>> khugepaged scans PMD ranges for potential collapse to a hugepage. To add
->>> mTHP support we use this scan to instead record chunks of utilized
->>> sections of the PMD.
->>>
->>> khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
->>> that represents chunks of utilized regions. We can then determine what
->>> mTHP size fits best and in the following patch, we set this bitmap while
->>> scanning the PMD.
->>>
->>> max_ptes_none is used as a scale to determine how "full" an order must
->>> be before being considered for collapse.
->>>
->>> When attempting to collapse an order that has its order set to "always"
->>> lets always collapse to that order in a greedy manner without
->>> considering the number of bits set.
->>>
->>> Signed-off-by: Nico Pache <npache@redhat.com>
->>> ---
->>>    include/linux/khugepaged.h |  4 ++
->>>    mm/khugepaged.c            | 94 ++++++++++++++++++++++++++++++++++----
->>>    2 files changed, 89 insertions(+), 9 deletions(-)
->>>
->>> diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
->>> index 1f46046080f5..18fe6eb5051d 100644
->>> --- a/include/linux/khugepaged.h
->>> +++ b/include/linux/khugepaged.h
->>> @@ -1,6 +1,10 @@
->>>    /* SPDX-License-Identifier: GPL-2.0 */
->>>    #ifndef _LINUX_KHUGEPAGED_H
->>>    #define _LINUX_KHUGEPAGED_H
->>> +#define KHUGEPAGED_MIN_MTHP_ORDER    2
->>
->> Why is the minimum mTHP order set to 2? IMO, the file large folios can
->> support order 1, so we don't expect to collapse exec file small folios
->> to order 1 if possible?
-> I should have been more specific in the patch notes, but this affects
-> anonymous only. I'll go over my commit messages and make sure this is
-> reflected in the next version.
-
-OK. I am looking into how to support shmem mTHP collapse based on your 
-patch series.
-
->> (PS: I need more time to understand your logic in this patch, and any
->> additional explanation would be helpful:) )
-> 
-> We are currently scanning ptes in a PMD. The core principle/reasoning
-> behind the bitmap is to keep the PMD scan while saving its state. We
-> then use this bitmap to determine which chunks of the PMD are active
-> and are the best candidates for mTHP collapse. We start at the PMD
-> level, and recursively break down the bitmap to find the appropriate
-> sizes for the bitmap.
-> 
-> looking at a simplified example: we scan a PMD and get the following
-> bitmap, 1111101101101011 (in this case MIN_MTHP_ORDER= 5, so each bit
-> == 32 ptes, in the actual set each bit == 4 ptes).
-> We would first attempt a PMD collapse, while checking the number of
-> bits set vs the max_ptes_none tunable. If those conditions arent
-> triggered, we will try the next enabled mTHP order, for each half of
-> the bitmap.
-> 
-> ie) order 8 attempt on 11111011 and order 8 attempt on 01101011.
-> 
-> If a collapse succeeds we dont keep recursing on that portion of the
-> bitmap. If not, we continue attempting lower orders.
-> 
-> Hopefully that helps you understand my logic here! Let me know if you
-> need more clarification.
-
-Thanks for your explanation. That's pretty much how I understand it.:) 
-I'll give a test for your new version.
-
-> 
-> I gave a presentation on this that might help too:
-> https://docs.google.com/presentation/d/1w9NYLuC2kRcMAwhcashU1LWTfmI5TIZRaTWuZq-CHEg/edit?usp=sharing&resourcekey=0-nBAGld8cP1kW26XE6i0Bpg
-
-Unfortunately, this link requires access permission.
+--=20
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+https://www.tq-group.com/
