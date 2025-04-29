@@ -1,138 +1,153 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
+Received: from mail-pl1-f169.google.com (mail-pl1-f169.google.com [209.85.214.169])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFA1835966;
-	Tue, 29 Apr 2025 22:03:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48D2D242D80
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 22:06:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745964227; cv=none; b=TeA1NtYYgPRaqg0jEKVP/yYRq2Pgu/6PjOyWM90EP4RqxRanzcnp6ouSCVxPYeCO3ObECRQAAYV4z9qLjFQLCo9g/lsyDvTBMdP9tEQeJTapd95UpEAOCdZAok/X28GRv1bHXslrtSuFs6cNtHPb8hBR2knBgUQrF/AA5emAk9A=
+	t=1745964366; cv=none; b=Qj4LY7ofQ6Wc0p6K4KWMJp25M1azz4kKwcLUPJt72NGbHiFMi7HsP85COv5ZLfV0Pegn8HsWx8erHsUsOpKFoC8cOuaGm0HVKIE/OCHtp9d3QSn5W981N88mg41i0ONaFEP2X+FhtiVPbAnv0cahanjZtONTbJRE9NchBB48J8Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745964227; c=relaxed/simple;
-	bh=YWFo4xizY9VcrKOaPbSy5kzMkwMTuDcrv3mEuWOPcEI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iq5RKv2t38547QoXOL386w4hi5yx4BzZgDfAdSdwc7x5qBRTIMj5ABuDS7hcvqnz9VMrENSLUSgrUp0aepheeLQeTQfsXJsc/IoZjEO6PJ0BOm9HvEXDdjkdC6m2+qGToDzJE8TEjzD0cKW+I22AWwVRXygyG7y3AJ7WAqe1DTY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=lV1UshY8; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1745964366; c=relaxed/simple;
+	bh=V0MjIrRRnJ7qPEsKlGIcg2Ppi1C1SKM7n+g7Vbf2skc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J6ApSqOESn7bmygtM06IaM7jUEjX41PihpB0VK+DXQt6UQEjXjx2OuD6d5sKsw60av4TksJy7ZWLt+du7qrV/gAY8LiPvBAb+Tg1ndl1UMA7EEGbi90bMpXJvms5g6I4Fbml9q0dLGkKngGQnBe2rth0W5zrI5+jb+iiyLBSA8Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=lPd2kfDu; arc=none smtp.client-ip=209.85.214.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="lV1UshY8"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-acbb48bad09so1229928866b.0;
-        Tue, 29 Apr 2025 15:03:45 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="lPd2kfDu"
+Received: by mail-pl1-f169.google.com with SMTP id d9443c01a7336-2263428c8baso84825ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 15:06:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745964224; x=1746569024; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=BUbpeTZh/O2+70pK3M2d/VVXENkGigx9cnO3sBLqmmk=;
-        b=lV1UshY8bP444rx6SdUOVBikfEfPDR2lfpPaLKeJirH3lG4twPtqKvf9JIntZm6NSg
-         pt/IUch2lTNQd1vmApBLnOQIq9xHFFpjc9LOgVqIKvptwOS8NeY77t3qKPIcR1cNWSTu
-         K3vL5zykSRzoZSY2J3Uod8hyOh5o1E3HYVNOdgAo1yrqltLnQRTK2+8Yk2lI1Gs/5XKU
-         2ZWy/G6EZsFwfMnG/rXzxiMcQ7FDwfBd3jx1DlLehu2gGZbWizYV3+VghUQhSm3vxupF
-         ZTQKhC8NpzPMnrn00d0m1HgDv0wBc/EM4jPxKUcTAWe8Tl1rBvJeTpjmRmN3lQE7OTwH
-         7UIA==
+        d=google.com; s=20230601; t=1745964363; x=1746569163; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=R47AcAvcUPYEXwZnHLXErEx0+JYbAettmKys/t37PLc=;
+        b=lPd2kfDuc9nZmG7xpAUOKMVxZ8EzDzMEgogY3cj6kyJDvQz1bnlw/zjrRDqTiWzupw
+         sFOWMx7C5cF+3EqP0rvBEjBgT8rOHXN+kB8Sch1EpnV/pwBRhQC4/JeQks2mchCwuv5d
+         JI/KxKN9hnBcZ4r7bCxuZ7Pl0FVQ7OJHv6pxjYKM5QVcOsn6W3/uAsUNyXRSBpvSysaT
+         HewnD01tsxuh/2t+h1WogrdylOihu1k40RH28rOmX9XX4mTNK/O2uo8BRs51lZNr9oNB
+         KOu5/YkNmSY7Lk2JGJ05sgkiSxyFCb60aH0+XynzQlXV4PMTAEMasYtYqotspOfx5LGL
+         Sn3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745964224; x=1746569024;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=BUbpeTZh/O2+70pK3M2d/VVXENkGigx9cnO3sBLqmmk=;
-        b=AELev5UnjsKSIcl/ZDl/3n+WtC6iBNWAo1IFUawibFK0aB5mstTOdFuSuNTBRS7Z+G
-         8Zmq2joL1YPjujd/wbG4g/+s3eppqLoxHInIwqkHIJKD4cfLA6/SSNPs9EJFOkp88F4O
-         wGjQYV7naIkAB33XMptfmMaJe9jwUJLCgOfoVvn72TPJPTfs5SWxjb1BWcYa+H4PBEYk
-         mmo7USaEz/X52W3vN101nua0iIobdKMXn6Mff/sLsfpAFXqrA0ycn8Exe3iHlFf69WqQ
-         HZ6hEUq396ndT1BPKfhDAElAIPjCa4RpLhhe7oaQN9AibNj0NjyKP+UG/NdpkoBW4Qko
-         rG0w==
-X-Forwarded-Encrypted: i=1; AJvYcCVH3bSXqOjUCl/kWnM258b+d5e+rIKGIBsuP/4blp7YOSVhO6QKGfFZoBDf8yvYjADbuocZdT8vBwXY@vger.kernel.org, AJvYcCVZe5F/EOL9XZnAtW3vQEZlCBnaoref9Q63czw3hnqLOSm156hBFiHrDIFa9NjZ6qAKAn+iPXAsc+hV@vger.kernel.org, AJvYcCWA79nsTiZ5IK+dQQAaS4EO0U8pyOqkmFy5elBOmL5PQGLNlga9CAdPxZmRJGIu014QrVK/VFrQwPDg@vger.kernel.org, AJvYcCXD+kTVNfyUTPP64PzuDjQZnKnyG7bPKVH7XyTDjRzLgtfmOYfla0QDtCh/Sg+16sCfY63/MYnSPfwK@vger.kernel.org, AJvYcCXSlSRXHn0blnxbvdwGHJCSbtZxgM7DsyrJyNnzPQMMS1eCKIUA3XQy6/3ls4PR+sXiu0MJGzl8G/dfxOUy@vger.kernel.org
-X-Gm-Message-State: AOJu0YzUh1YdbosR+V4JCrUFypzJV81SQMKnP/kCyfe7+8qz0Fl/Q4L2
-	aes9S8E6crmgmMGO0QtFgA8hZC9UDPbPXrYxFoXD9BXyqyK3i1XKFO7eUndUVaSsok5OOLkj+mn
-	Ztn9BRrrAWUb3nyHoKPPuCuBTn5Q=
-X-Gm-Gg: ASbGnctc2tD5gF/I1QhkDsa4YtEZR+ITk2dRLFCU/4bb6fMGLJXc7Otb+TQEq6VTKyP
-	tKX/1S01IjMlVIAiBunCW+2gQkRM2NcGrXAX+NPRaNN9dm/XUV9AidqFMHORFGv461sKWuwXN2R
-	lYwnjBF48B7HXeCDAxH7nGI+vsbTXf57oe
-X-Google-Smtp-Source: AGHT+IHx3E1TOCQoFjjfqy8I4fVZMMpJ0iKzLAhBBssx5XQ5DV5jGakXTEI7x5pRT2CHPQidhYYFIxXs+JdDfuHgysM=
-X-Received: by 2002:a17:907:2d89:b0:ac6:fe8c:e7bb with SMTP id
- a640c23a62f3a-acee25dcd7dmr11755066b.55.1745964223811; Tue, 29 Apr 2025
- 15:03:43 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1745964363; x=1746569163;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=R47AcAvcUPYEXwZnHLXErEx0+JYbAettmKys/t37PLc=;
+        b=LSfAnGuKXGEJcII/ESTs+8YYAmupXNhHTpo3rHQ2SZnBpo5C6w5JT+1+SRkx9HvEqT
+         ZRmwcYvUDyF+5OcdEckHdFakqjThJIF8I0vugCRdqApqennteLUhtRoYLfrRf7qn41Zv
+         48dS+6goa1D7uM74zYtcpAGCbEelBaJa/udEx74cbinbPAM1wXTJomYw86rUbekAmJIT
+         oidZWpP4H/ziP8uGrIt5hjLORaiMdFzpQjqJU9Wrg2fDk1P/SxlZLVJpiRlLt6fSIu15
+         h97XtbuSlCYw5zuoTr7aWNWof2PjHAzvJ+9407xkggOuJvCG8OELWlBHnbn29iQTShtj
+         BxcQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWtkRvcaseVQkXusgkSYkP5PkZMS8Ogh+BHJZgXdzo/NFInHszuTLz+eeNfGdNCUnrY42Ls/tz3G14=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwwMdSW446a+GA4vn5Y7NvlobgJLMZn1ltrJW82rx+mmenQ6H7D
+	S5XivgcsRxTVD0RNpAmQXvexV3c8D41JrqualCHUvpuocmhLTtyYi6s4yga+hQ==
+X-Gm-Gg: ASbGncvtcxbXp4NWGyptGeX6eIJiEepv81VUjRi5MnGKFEf2VCQAmKJ9wlPXLt7UDiQ
+	LjKHmpYqcXQeUmcmIo6ttEsSZFtx5hbbrfGI71g0BPPtc6LXDouhecG1oxSOlz83uH0GV36GVc5
+	o27jTcR/0jW6PV80jZQEnaZJoexgB877X2RBqDskFzRkYUpigf6y2MAMopU5BbpV4/13G7o/xma
+	2jmg/2MGdOAiDU9+1DMQsyDdSWkS6spxO8SXi/WCys/CJaNTgmnQh3KTwoC5Yr09F3r42XDbuEH
+	PFbzl1neu/G+QLiJKv1VOUWm+evOh9InmucA3Ij0G5cXp1coKjfpBcmo47IeiwYwYtEy/bdL
+X-Google-Smtp-Source: AGHT+IH6piFbPZPJtlfgLIuHdj3oSeyNguwt8iF17ao/opI6U18w7y2m7t4fquT0Dch2XSA/jTVSww==
+X-Received: by 2002:a17:903:41d1:b0:21f:2ded:bfc5 with SMTP id d9443c01a7336-22df4076324mr1004945ad.28.1745964363012;
+        Tue, 29 Apr 2025 15:06:03 -0700 (PDT)
+Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db5100aa7sm107720575ad.161.2025.04.29.15.05.57
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 15:06:02 -0700 (PDT)
+Date: Tue, 29 Apr 2025 22:05:52 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v2 19/22] iommu/tegra241-cmdqv: Simplify deinit flow in
+ tegra241_cmdqv_remove_vintf()
+Message-ID: <aBFNQFVbxyr596gB@google.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <7c180fb751def39cbc8634b08b65c3f26ad73833.1745646960.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-1-638af47e9eb3@analog.com> <aAe6u6NhAsgjaL5_@smile.fi.intel.com>
- <c3i7g273lgvx7rpihzq6r7exxxnglbwrqwfryyz6ciqo52tszf@cvi7pz4bmkvq> <5aa4d76f-6f16-40ae-9dbf-767c63aa0a3d@baylibre.com>
-In-Reply-To: <5aa4d76f-6f16-40ae-9dbf-767c63aa0a3d@baylibre.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 30 Apr 2025 01:03:07 +0300
-X-Gm-Features: ATxdqUHBcczVvmBXvRAjBY2yw7dSAwsyZRXLvCYySReQNpkh_kytP2hJPk00epo
-Message-ID: <CAHp75VcZM+4Br2-RMKZixEd1=x3_exbWZkEFw1U_NrFtsejkUg@mail.gmail.com>
-Subject: Re: [PATCH v2 1/5] Documentation: ABI: add oversampling frequency in sysfs-bus-iio
-To: David Lechner <dlechner@baylibre.com>
-Cc: Jorge Marques <gastmaier@gmail.com>, Andy Shevchenko <andy@kernel.org>, 
-	Jorge Marques <jorge.marques@analog.com>, Jonathan Cameron <jic23@kernel.org>, 
-	Lars-Peter Clausen <lars@metafoo.de>, Michael Hennerich <Michael.Hennerich@analog.com>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, =?UTF-8?B?TnVubyBTw6E=?= <nuno.sa@analog.com>, 
-	=?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= <ukleinek@kernel.org>, 
-	linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	devicetree@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-pwm@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <7c180fb751def39cbc8634b08b65c3f26ad73833.1745646960.git.nicolinc@nvidia.com>
 
-On Tue, Apr 29, 2025 at 6:40=E2=80=AFPM David Lechner <dlechner@baylibre.co=
-m> wrote:
->
-> On 4/29/25 8:47 AM, Jorge Marques wrote:
-> >
-> > Hi Andy,
-> >
-> > I agree with your suggestion, and in this case the appropriate kernel
-> > version is 3.10.
-> >
-> >>
-> >>> +What:              /sys/bus/iio/devices/iio:deviceX/oversampling_fre=
-quency
-> >>> +KernelVersion:     6.15
-> >>
-> >> Then why don't you put the real version of the first release that has =
-it?
-> >>
-> >>> +Contact:   linux-iio@vger.kernel.org
-> >>> +Description:
-> >>> +           Some devices have internal clocks for oversampling.
-> >>> +           Sets the resulting frequency in Hz to trigger a conversio=
-n used by
-> >>> +           the oversampling filter.
-> >>> +           If the device has a fixed internal clock or is computed b=
-ased on
-> >>> +           the sampling frequency parameter, the parameter is read o=
-nly.
-> >>> +
-> >>> +What:              /sys/bus/iio/devices/iio:deviceX/oversampling_fre=
-quency_available
-> >>> +KernelVersion:     6.15
-> >>
-> >> Ditto.
-> >>
-> >>> +Contact:   linux-iio@vger.kernel.org
-> >>> +Description:
-> >>> +           Hardware dependent values supported by the oversampling
-> >>> +           frequency.
->
->
-> I don't see oversampling_frequency used in any existing driver, so how co=
-uld
-> it be introduced in kernel 3.10? I think you confuse it with
-> events/sampling_frequency.
->
-> oversampling_frequency is new and so 6.16 should be correct if Jonathan p=
-icks
-> this up in the next few weeks, otherwise it will be 6.17.
+On Fri, Apr 25, 2025 at 10:58:14PM -0700, Nicolin Chen wrote:
+> The current flow of tegra241_cmdqv_remove_vintf() is:
+>  1. For each LVCMDQ, tegra241_vintf_remove_lvcmdq():
+>     a. Disable the LVCMDQ HW
+>     b. Release the LVCMDQ SW resource
+>  2. For current VINTF, tegra241_vintf_hw_deinit():
+>     c. Disable all LVCMDQ HWs
+>     d. Disable VINTF HW
+> 
+> Obviously, the step 1.a and the step 2.c are redundant.
+> 
+> Since tegra241_vintf_hw_deinit() disables all of its LVCMDQ HWs, it could
+> simplify the flow in tegra241_cmdqv_remove_vintf() by calling that first:
+>  1. For current VINTF, tegra241_vintf_hw_deinit():
+>     a. Disable all LVCMDQ HWs
+>     b. Disable VINTF HW
+>  2. Release all LVCMDQ SW resources
+> 
+> Drop tegra241_vintf_remove_lvcmdq(), and move tegra241_vintf_free_lvcmdq()
+> as the new step 2.
+> 
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+> index ba029f7d24ce..8d418c131b1b 100644
+> --- a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+> +++ b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
+> @@ -628,24 +628,17 @@ static int tegra241_cmdqv_init_vintf(struct tegra241_cmdqv *cmdqv, u16 max_idx,
+>  
+>  /* Remove Helpers */
+>  
+> -static void tegra241_vintf_remove_lvcmdq(struct tegra241_vintf *vintf, u16 lidx)
+> -{
+> -	tegra241_vcmdq_hw_deinit(vintf->lvcmdqs[lidx]);
+> -	tegra241_vintf_free_lvcmdq(vintf, lidx);
+> -}
+> -
+>  static void tegra241_cmdqv_remove_vintf(struct tegra241_cmdqv *cmdqv, u16 idx)
+>  {
+>  	struct tegra241_vintf *vintf = cmdqv->vintfs[idx];
+>  	u16 lidx;
+>  
+> +	tegra241_vintf_hw_deinit(vintf);
+> +
+>  	/* Remove LVCMDQ resources */
+>  	for (lidx = 0; lidx < vintf->cmdqv->num_lvcmdqs_per_vintf; lidx++)
+>  		if (vintf->lvcmdqs[lidx])
+> -			tegra241_vintf_remove_lvcmdq(vintf, lidx);
+> -
+> -	/* Remove VINTF resources */
+> -	tegra241_vintf_hw_deinit(vintf);
+> +			tegra241_vintf_free_lvcmdq(vintf, lidx);
+>  
+>  	dev_dbg(cmdqv->dev, "VINTF%u: deallocated\n", vintf->idx);
+>  	tegra241_cmdqv_deinit_vintf(cmdqv, idx);
 
-If this is the case, the whole commit message should be revisited.
+I don't have access to a HW spec to verify HW behaviour, but the changes
+make sense to me.
 
---=20
-With Best Regards,
-Andy Shevchenko
+Acked-by: Pranjal Shrivastava <praan@google.com>
+
+> -- 
+> 2.43.0
+> 
