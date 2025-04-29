@@ -1,212 +1,359 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.13])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f202.google.com (mail-pg1-f202.google.com [209.85.215.202])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EEDEC1D5ABF;
-	Tue, 29 Apr 2025 03:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.13
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C5A1920DD49
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 03:26:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.202
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745896519; cv=none; b=Dk4KRA5f/wqz4JGhjkmgamD3RF31cm2H26/SFwDv6ezKMJf2nY3nAUP9rHGYUzWZ9mGTR1RPJr03G5+6uM8ptOR2OLXzZxDUggisWlzG+reVdMk3ZMO2eLLkMg8KJ4VYRPJVbOIMQp+5tebf9YuI3CsSX39M+wztZynrvEGbphw=
+	t=1745897211; cv=none; b=f/H11WYTpbagB2CFKbdkedQAhjGV9CIQO1Erk9+oCIRX0sV8zPj7tczs2KFcXEG8N0GQm5uJV18ezCv6yi3lz6u0O0VV2SNoWZZLefkuVQKVqZeltYdDIYUPZxbO0SixrSGPtlL+xaJyH/HmAKMYKXKtVF7HjMKQcytVSfLoNp8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745896519; c=relaxed/simple;
-	bh=gF3+aJs3Gf/hJScKyT1fbK46ZtYQ+FrmHh+AQDsrL0w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=heqSH1TPJsLFKMaFUE/tF8+V91M7BoXGULmJ+GpR2w0no6pdGzEcwAUpSe+3l/24zDKS7d6/EIWT12IUi7fUycR0Iocp2vvn+7ThurtwuE1wU0q9DkoCqcL5LWSvYUrX+5MbeMzV3fnVQCMcuaAjy7F5guhNthMB5lmZ/1ZOmnI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Ko1kScYs; arc=none smtp.client-ip=192.198.163.13
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	s=arc-20240116; t=1745897211; c=relaxed/simple;
+	bh=pVWNnw+VrTtCs/KYH9fNRegsSM6AgJuO+C4fehW3t0s=;
+	h=Date:Mime-Version:Message-ID:Subject:From:To:Cc:Content-Type; b=kxbr4zQt28QsHXZd33Les6E3qx9Bbc4EmpHHekOjo0tq93+tK4dxwyMM9PtrN/2QzxbvigUBilp8wj/v1uecfLLh60a6+Rq9Nx427+5vQsdCbpHLFWRNzFDDQcR+tGiWUy4JpGZfdpwyL/URrvHaodA9HHU5cHevicOVimXm8wc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=2doDEciO; arc=none smtp.client-ip=209.85.215.202
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--almasrymina.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Ko1kScYs"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745896517; x=1777432517;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=gF3+aJs3Gf/hJScKyT1fbK46ZtYQ+FrmHh+AQDsrL0w=;
-  b=Ko1kScYsg+YyREB4A+YRch1TOVHQz8KWGhn4Ui5UZUtAbUzkIixv78bP
-   tXJSAHQmEb8eIu+/GG3ieYLFsMuFQR2COmLPRMX09BiOBXXDL/CjzNdHn
-   jwDDCAEFxi4fXFoPytugtHDg3E4Y3iV9VwW8eLQ+AxCoh/T/uonwZIt/g
-   eecJ7JzHceD+e8vNmIf87SOmNktZ/NYD/kfTEabHadtuCdWdpQnrtA9Ag
-   A8l1UgR31LKxhfK+uloIJg9DDyl0HJb9STYzIiwDANRcMXKu+n6fM0iDF
-   zWD/2zhQdz5jdvbUljCu3sHRwNUSoWVLY92N8JukW/abJXRIXscBYttDU
-   g==;
-X-CSE-ConnectionGUID: /+1i8YPtRcKh0efR4BJNsA==
-X-CSE-MsgGUID: naMycftATTinNUijWUxKfg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11417"; a="50164771"
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="50164771"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 20:15:16 -0700
-X-CSE-ConnectionGUID: ed4rLAGbTImlyIcMdAHXJw==
-X-CSE-MsgGUID: 8LoauE1fTyG98pnYRixuDg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,248,1739865600"; 
-   d="scan'208";a="133600998"
-Received: from allen-sbox.sh.intel.com (HELO [10.239.159.30]) ([10.239.159.30])
-  by orviesa010-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Apr 2025 20:15:07 -0700
-Message-ID: <0086302d-1cb3-43dd-a989-e4b1995a0d22@linux.intel.com>
-Date: Tue, 29 Apr 2025 11:10:54 +0800
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="2doDEciO"
+Received: by mail-pg1-f202.google.com with SMTP id 41be03b00d2f7-af972dd0cd6so3179260a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 28 Apr 2025 20:26:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745897207; x=1746502007; darn=vger.kernel.org;
+        h=cc:to:from:subject:message-id:mime-version:date:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=pAhN58w7LrRsnk32jx8DwkELByg2oiFxPx+yIaTkjK8=;
+        b=2doDEciO+QM9EQs4Y/OSwmM9d8+OND8CivRzA4Una4/zggWgwJnIWo4TH5b0uy+y5g
+         VngbUEPedtqfAEomKqJt72LCADAul+dZvY7SFkE17EWr013hvZkd1zYefxIKC3xQovJh
+         qEixyQIC8HrmCIF1yIEZZi+A6NQ/zSpTOAUAaH8FQHmbd2cbSXYZGn7NBs3CyU0rdeqm
+         Fc/LFmLcOAYrKodUXEfxgi0M5p5kS0GEVnYfO1kn8GDBGhNEzw1hQc3/TQv+9pRuRct/
+         4s5/osJpIs74gQLALRgVWIEe/8RLgRYa5pjLCKsfZV0mQ1n5SaneoYcwQ1Y/E7RCebAz
+         ueXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745897207; x=1746502007;
+        h=cc:to:from:subject:message-id:mime-version:date:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=pAhN58w7LrRsnk32jx8DwkELByg2oiFxPx+yIaTkjK8=;
+        b=Btb753DrMqmyjPFHwo+Wqg9+fUctlxjLvhWYH/yXckHAq5RueflLBxbzZnhPHdmOOd
+         pB6yVsBpZfqNpfXp6+kyIx+WnEIoNGBcYoHRiKoGHFDfVMrkXc9ok4wXbkpI8l9ezAyH
+         MeJ/kfzxpICgDn2p1+4na5e9qB+WM2c13rzF/XdxQ5JrUvWWGtxmcBlllOsOJnFXVtds
+         LHjult3zSBESrsD/e2dY1e4CzF1K1uLr830nZK6TYEDwYEbrGfHN6hi1vUfngTEWkfn3
+         UsEmiqaygr2Fubj/lDlDDAd3GmEyATobv8J2yAdIZhBMYE5UU00JSFSurGrjk/alD1m8
+         teTg==
+X-Forwarded-Encrypted: i=1; AJvYcCXkqnEgxD39pDawTrKhdRySlEWj5d/uh/7QpWMbIkrAWXByx92ExKk2hzthTs3cR9sZTeh6BpfTRow=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyz9Iu5gS483+MrNhurX/K4bUv0p1npJsYK642T7TmxWLLlS3UQ
+	x+/aZIxxKapIa9lntT6FudKVk+sIIMER/UiQGe3c2xwqb1NiXVxyaD+EMdBiRZYw5NTqapFk2Sp
+	SfPwbUvlNJzQgxlLwiePurg==
+X-Google-Smtp-Source: AGHT+IHPGrbrkLrPlxuB9ba2UkDM0NP8sdzNVktyOUF/jvXAIbAYsA2yohXW8qB/SHe824C2SSjJtCI+XZ/y6fu51w==
+X-Received: from pgcp16.prod.google.com ([2002:a63:7410:0:b0:af2:448e:a04d])
+ (user=almasrymina job=prod-delivery.src-stubby-dispatcher) by
+ 2002:a05:6a20:7fa6:b0:1f5:7f45:7f95 with SMTP id adf61e73a8af0-2093e7242afmr2572864637.27.1745897207047;
+ Mon, 28 Apr 2025 20:26:47 -0700 (PDT)
+Date: Tue, 29 Apr 2025 03:26:36 +0000
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v10 05/24] dma-mapping: Provide an interface to allow
- allocate IOVA
-To: Leon Romanovsky <leon@kernel.org>,
- Marek Szyprowski <m.szyprowski@samsung.com>, Jens Axboe <axboe@kernel.dk>,
- Christoph Hellwig <hch@lst.de>, Keith Busch <kbusch@kernel.org>
-Cc: Leon Romanovsky <leonro@nvidia.com>, Jake Edge <jake@lwn.net>,
- Jonathan Corbet <corbet@lwn.net>, Jason Gunthorpe <jgg@ziepe.ca>,
- Zhu Yanjun <zyjzyj2000@gmail.com>, Robin Murphy <robin.murphy@arm.com>,
- Joerg Roedel <joro@8bytes.org>, Will Deacon <will@kernel.org>,
- Sagi Grimberg <sagi@grimberg.me>, Bjorn Helgaas <bhelgaas@google.com>,
- Logan Gunthorpe <logang@deltatee.com>, Yishai Hadas <yishaih@nvidia.com>,
- Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
- Kevin Tian <kevin.tian@intel.com>,
- Alex Williamson <alex.williamson@redhat.com>,
- =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-block@vger.kernel.org,
- linux-rdma@vger.kernel.org, iommu@lists.linux.dev,
- linux-nvme@lists.infradead.org, linux-pci@vger.kernel.org,
- kvm@vger.kernel.org, linux-mm@kvack.org,
- Niklas Schnelle <schnelle@linux.ibm.com>,
- Chuck Lever <chuck.lever@oracle.com>, Luis Chamberlain <mcgrof@kernel.org>,
- Matthew Wilcox <willy@infradead.org>, Dan Williams
- <dan.j.williams@intel.com>, Kanchan Joshi <joshi.k@samsung.com>,
- Chaitanya Kulkarni <kch@nvidia.com>
-References: <cover.1745831017.git.leon@kernel.org>
- <30f0601d400711b3859deeb8fef3090f5b2020a4.1745831017.git.leon@kernel.org>
-Content-Language: en-US
-From: Baolu Lu <baolu.lu@linux.intel.com>
-In-Reply-To: <30f0601d400711b3859deeb8fef3090f5b2020a4.1745831017.git.leon@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.49.0.901.g37484f566f-goog
+Message-ID: <20250429032645.363766-1-almasrymina@google.com>
+Subject: [PATCH net-next v13 0/9] Device memory TCP TX
+From: Mina Almasry <almasrymina@google.com>
+To: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
+	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
+	linux-kselftest@vger.kernel.org
+Cc: Mina Almasry <almasrymina@google.com>, "David S. Miller" <davem@davemloft.net>, 
+	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+	Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+	Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy <hramamurthy@google.com>, 
+	Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
+	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
+	Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
+	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, 
+	"=?UTF-8?q?Eugenio=20P=C3=A9rez?=" <eperezma@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>, 
+	Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, sdf@fomichev.me, dw@davidwei.uk, 
+	Jamal Hadi Salim <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, 
+	Pedro Tammela <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 4/28/25 17:22, Leon Romanovsky wrote:
-> From: Leon Romanovsky<leonro@nvidia.com>
-> 
-> The existing .map_page() callback provides both allocating of IOVA
+v13: https://lore.kernel.org/netdev/20250425204743.617260-1-almasrymina@google.com/
+===
 
-.map_pages()
+Changelog:
 
-> and linking DMA pages. That combination works great for most of the
-> callers who use it in control paths, but is less effective in fast
-> paths where there may be multiple calls to map_page().
-> 
-> These advanced callers already manage their data in some sort of
-> database and can perform IOVA allocation in advance, leaving range
-> linkage operation to be in fast path.
-> 
-> Provide an interface to allocate/deallocate IOVA and next patch
-> link/unlink DMA ranges to that specific IOVA.
-> 
-> In the new API a DMA mapping transaction is identified by a
-> struct dma_iova_state, which holds some recomputed information
-> for the transaction which does not change for each page being
-> mapped, so add a check if IOVA can be used for the specific
-> transaction.
-> 
-> The API is exported from dma-iommu as it is the only implementation
-> supported, the namespace is clearly different from iommu_* functions
-> which are not allowed to be used. This code layout allows us to save
-> function call per API call used in datapath as well as a lot of boilerplate
-> code.
-> 
-> Reviewed-by: Christoph Hellwig<hch@lst.de>
-> Tested-by: Jens Axboe<axboe@kernel.dk>
-> Reviewed-by: Luis Chamberlain<mcgrof@kernel.org>
-> Signed-off-by: Leon Romanovsky<leonro@nvidia.com>
-> ---
->   drivers/iommu/dma-iommu.c   | 86 +++++++++++++++++++++++++++++++++++++
->   include/linux/dma-mapping.h | 48 +++++++++++++++++++++
->   2 files changed, 134 insertions(+)
-> 
-> diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
-> index 9ba8d8bc0ce9..d3211a8d755e 100644
-> --- a/drivers/iommu/dma-iommu.c
-> +++ b/drivers/iommu/dma-iommu.c
-> @@ -1723,6 +1723,92 @@ size_t iommu_dma_max_mapping_size(struct device *dev)
->   	return SIZE_MAX;
->   }
->   
-> +/**
-> + * dma_iova_try_alloc - Try to allocate an IOVA space
-> + * @dev: Device to allocate the IOVA space for
-> + * @state: IOVA state
-> + * @phys: physical address
-> + * @size: IOVA size
-> + *
-> + * Check if @dev supports the IOVA-based DMA API, and if yes allocate IOVA space
-> + * for the given base address and size.
-> + *
-> + * Note: @phys is only used to calculate the IOVA alignment. Callers that always
-> + * do PAGE_SIZE aligned transfers can safely pass 0 here.
+- Fix unneeded error label pointed out by Christoph, and addressed
+  nitpick.
 
-Have you considered adding a direct alignment parameter to
-dma_iova_try_alloc()? '0' simply means the default PAGE_SIZE alignment.
+v12: https://lore.kernel.org/netdev/20250423031117.907681-1-almasrymina@google.com/
+====
 
-I'm imagining that some devices might have particular alignment needs
-for better performance, especially for the ATS cache efficiency. This
-would allow those device drivers to express the requirements directly
-during iova allocation.
+No changes in v12, just restored the selftests patch I accidentally dropped in
+v11
 
-> + *
-> + * Returns %true if the IOVA-based DMA API can be used and IOVA space has been
-> + * allocated, or %false if the regular DMA API should be used.
-> + */
-> +bool dma_iova_try_alloc(struct device *dev, struct dma_iova_state *state,
-> +		phys_addr_t phys, size_t size)
-> +{
-> +	struct iommu_dma_cookie *cookie;
-> +	struct iommu_domain *domain;
-> +	struct iova_domain *iovad;
-> +	size_t iova_off;
-> +	dma_addr_t addr;
-> +
-> +	memset(state, 0, sizeof(*state));
-> +	if (!use_dma_iommu(dev))
-> +		return false;
-> +
-> +	domain = iommu_get_dma_domain(dev);
-> +	cookie = domain->iova_cookie;
-> +	iovad = &cookie->iovad;
-> +	iova_off = iova_offset(iovad, phys);
-> +
-> +	if (static_branch_unlikely(&iommu_deferred_attach_enabled) &&
-> +	    iommu_deferred_attach(dev, iommu_get_domain_for_dev(dev)))
-> +		return false;
-> +
-> +	if (WARN_ON_ONCE(!size))
-> +		return false;
-> +
-> +	/*
-> +	 * DMA_IOVA_USE_SWIOTLB is flag which is set by dma-iommu
-> +	 * internals, make sure that caller didn't set it and/or
-> +	 * didn't use this interface to map SIZE_MAX.
-> +	 */
-> +	if (WARN_ON_ONCE((u64)size & DMA_IOVA_USE_SWIOTLB))
+v11: https://lore.kernel.org/netdev/20250423031117.907681-1-almasrymina@google.com/
+====
 
-I'm a little concerned that device drivers might inadvertently misuse
-the state->__size by forgetting about the high bit being used for
-DMA_IOVA_USE_SWIOTLB. Perhaps adding a separate flag within struct
-dma_iova_state to prevent such issues?
+Addressed a couple of nits and collected Acked-by from Harshitha
+(thanks!)
 
-> +		return false;
-> +
-> +	addr = iommu_dma_alloc_iova(domain,
-> +			iova_align(iovad, size + iova_off),
-> +			dma_get_mask(dev), dev);
-> +	if (!addr)
-> +		return false;
-> +
-> +	state->addr = addr + iova_off;
-> +	state->__size = size;
-> +	return true;
-> +}
-> +EXPORT_SYMBOL_GPL(dma_iova_try_alloc);
+v10: https://lore.kernel.org/netdev/20250417231540.2780723-1-almasrymina@google.com/
+====
 
-Thanks,
-baolu
+Addressed comments following conversations with Pavel, Stan, and
+Harshitha. Thank you guys for the reviews again. Overall minor changes:
+
+Changelog:
+- Check for !niov->pp in io_zcrx_recv_frag, just in case we end up with
+  a TX niov in that path (Pavel).
+- Fix locking case in !netif_device_present (Jakub/Stan).
+
+v9: https://lore.kernel.org/netdev/20250415224756.152002-1-almasrymina@google.com/
+===
+
+Changelog:
+- Use priv->bindings list instead of sock_bindings_list. This was missed
+  during the rebase as the bindings have been updated to use
+  priv->bindings recently (thanks Stan!)
+
+v8: https://lore.kernel.org/netdev/20250308214045.1160445-1-almasrymina@google.com/
+===
+
+Only address minor comments on V7
+
+Changelog:
+- Use netdev locking instead of rtnl_locking to match rx path.
+- Now that iouring zcrx is in net-next, use NET_IOV_IOURING instead of
+  NET_IOV_UNSPECIFIED.
+- Post send binding to net_devmem_dmabuf_bindings after it's been fully
+  initialized (Stan).
+
+v7: https://lore.kernel.org/netdev/20250227041209.2031104-1-almasrymina@google.com/
+===
+
+Changelog:
+- Check the dmabuf net_iov binding belongs to the device the TX is going
+  out on. (Jakub)
+- Provide detailed inspection of callsites of
+  __skb_frag_ref/skb_page_unref in patch 2's changelog (Jakub)
+
+v6: https://lore.kernel.org/netdev/20250222191517.743530-1-almasrymina@google.com/
+===
+
+v6 has no major changes. Addressed a few issues from Paolo and David,
+and collected Acks from Stan. Thank you everyone for the review!
+
+Changes:
+- retain behavior to process MSG_FASTOPEN even if the provided cmsg is
+  invalid (Paolo).
+- Rework the freeing of tx_vec slightly (it now has its own err label).
+  (Paolo).
+- Squash the commit that makes dmabuf unbinding scheduled work into the
+  same one which implements the TX path so we don't run into future
+  errors on bisecting (Paolo).
+- Fix/add comments to explain how dmabuf binding refcounting works
+  (David).
+
+v5: https://lore.kernel.org/netdev/20250220020914.895431-1-almasrymina@google.com/
+===
+
+v5 has no major changes; it clears up the relatively minor issues
+pointed out to in v4, and rebases the series on top of net-next to
+resolve the conflict with a patch that raced to the tree. It also
+collects the review tags from v4.
+
+Changes:
+- Rebase to net-next
+- Fix issues in selftest (Stan).
+- Address comments in the devmem and netmem driver docs (Stan and Bagas)
+- Fix zerocopy_fill_skb_from_devmem return error code (Stan).
+
+v4: https://lore.kernel.org/netdev/20250203223916.1064540-1-almasrymina@google.com/
+===
+
+v4 mainly addresses the critical driver support issue surfaced in v3 by
+Paolo and Stan. Drivers aiming to support netmem_tx should make sure not
+to pass the netmem dma-addrs to the dma-mapping APIs, as these dma-addrs
+may come from dma-bufs.
+
+Additionally other feedback from v3 is addressed.
+
+Major changes:
+- Add helpers to handle netmem dma-addrs. Add GVE support for
+  netmem_tx.
+- Fix binding->tx_vec not being freed on error paths during the
+  tx binding.
+- Add a minimal devmem_tx test to devmem.py.
+- Clean up everything obsolete from the cover letter (Paolo).
+
+v3: https://patchwork.kernel.org/project/netdevbpf/list/?series=929401&state=*
+===
+
+Address minor comments from RFCv2 and fix a few build warnings and
+ynl-regen issues. No major changes.
+
+RFC v2: https://patchwork.kernel.org/project/netdevbpf/list/?series=920056&state=*
+=======
+
+RFC v2 addresses much of the feedback from RFC v1. I plan on sending
+something close to this as net-next  reopens, sending it slightly early
+to get feedback if any.
+
+Major changes:
+--------------
+
+- much improved UAPI as suggested by Stan. We now interpret the iov_base
+  of the passed in iov from userspace as the offset into the dmabuf to
+  send from. This removes the need to set iov.iov_base = NULL which may
+  be confusing to users, and enables us to send multiple iovs in the
+  same sendmsg() call. ncdevmem and the docs show a sample use of that.
+
+- Removed the duplicate dmabuf iov_iter in binding->iov_iter. I think
+  this is good improvment as it was confusing to keep track of
+  2 iterators for the same sendmsg, and mistracking both iterators
+  caused a couple of bugs reported in the last iteration that are now
+  resolved with this streamlining.
+
+- Improved test coverage in ncdevmem. Now multiple sendmsg() are tested,
+  and sending multiple iovs in the same sendmsg() is tested.
+
+- Fixed issue where dmabuf unmapping was happening in invalid context
+  (Stan).
+
+====================================================================
+
+The TX path had been dropped from the Device Memory TCP patch series
+post RFCv1 [1], to make that series slightly easier to review. This
+series rebases the implementation of the TX path on top of the
+net_iov/netmem framework agreed upon and merged. The motivation for
+the feature is thoroughly described in the docs & cover letter of the
+original proposal, so I don't repeat the lengthy descriptions here, but
+they are available in [1].
+
+Full outline on usage of the TX path is detailed in the documentation
+included with this series.
+
+Test example is available via the kselftest included in the series as well.
+
+The series is relatively small, as the TX path for this feature largely
+piggybacks on the existing MSG_ZEROCOPY implementation.
+
+Patch Overview:
+---------------
+
+1. Documentation & tests to give high level overview of the feature
+   being added.
+
+1. Add netmem refcounting needed for the TX path.
+
+2. Devmem TX netlink API.
+
+3. Devmem TX net stack implementation.
+
+4. Make dma-buf unbinding scheduled work to handle TX cases where it gets
+   freed from contexts where we can't sleep.
+
+5. Add devmem TX documentation.
+
+6. Add scaffolding enabling driver support for netmem_tx. Add helpers, driver
+feature flag, and docs to enable drivers to declare netmem_tx support.
+
+7. Guard netmem_tx against being enabled against drivers that don't
+   support it.
+
+8. Add devmem_tx selftests. Add TX path to ncdevmem and add a test to
+   devmem.py.
+
+Testing:
+--------
+
+Testing is very similar to devmem TCP RX path. The ncdevmem test used
+for the RX path is now augemented with client functionality to test TX
+path.
+
+* Test Setup:
+
+Kernel: net-next with this RFC and memory provider API cherry-picked
+locally.
+
+Hardware: Google Cloud A3 VMs.
+
+NIC: GVE with header split & RSS & flow steering support.
+
+Performance results are not included with this version, unfortunately.
+I'm having issues running the dma-buf exporter driver against the
+upstream kernel on my test setup. The issues are specific to that
+dma-buf exporter and do not affect this patch series. I plan to follow
+up this series with perf fixes if the tests point to issues once they're
+up and running.
+
+Special thanks to Stan who took a stab at rebasing the TX implementation
+on top of the netmem/net_iov framework merged. Parts of his proposal [2]
+that are reused as-is are forked off into their own patches to give full
+credit.
+
+[1] https://lore.kernel.org/netdev/20240909054318.1809580-1-almasrymina@google.com/
+[2] https://lore.kernel.org/netdev/20240913150913.1280238-2-sdf@fomichev.me/T/#m066dd407fbed108828e2c40ae50e3f4376ef57fd
+
+Cc: sdf@fomichev.me
+Cc: asml.silence@gmail.com
+Cc: dw@davidwei.uk
+Cc: Jamal Hadi Salim <jhs@mojatatu.com>
+Cc: Victor Nogueira <victor@mojatatu.com>
+Cc: Pedro Tammela <pctammela@mojatatu.com>
+Cc: Samiullah Khawaja <skhawaja@google.com>
+Cc: Kuniyuki Iwashima <kuniyu@amazon.com>
+
+
+Mina Almasry (8):
+  netmem: add niov->type attribute to distinguish different net_iov
+    types
+  net: add get_netmem/put_netmem support
+  net: devmem: Implement TX path
+  net: add devmem TCP TX documentation
+  net: enable driver support for netmem TX
+  gve: add netmem TX support to GVE DQO-RDA mode
+  net: check for driver support in netmem TX
+  selftests: ncdevmem: Implement devmem TCP TX
+
+Stanislav Fomichev (1):
+  net: devmem: TCP tx netlink api
+
+ Documentation/netlink/specs/netdev.yaml       |  12 +
+ Documentation/networking/devmem.rst           | 150 ++++++++-
+ .../networking/net_cachelines/net_device.rst  |   1 +
+ Documentation/networking/netdev-features.rst  |   5 +
+ Documentation/networking/netmem.rst           |  23 +-
+ drivers/net/ethernet/google/gve/gve_main.c    |   3 +
+ drivers/net/ethernet/google/gve/gve_tx_dqo.c  |   8 +-
+ include/linux/netdevice.h                     |   2 +
+ include/linux/skbuff.h                        |  17 +-
+ include/linux/skbuff_ref.h                    |   4 +-
+ include/net/netmem.h                          |  34 +-
+ include/net/sock.h                            |   1 +
+ include/uapi/linux/netdev.h                   |   1 +
+ io_uring/zcrx.c                               |   3 +-
+ net/core/datagram.c                           |  48 ++-
+ net/core/dev.c                                |  34 +-
+ net/core/devmem.c                             | 131 ++++++--
+ net/core/devmem.h                             |  83 ++++-
+ net/core/netdev-genl-gen.c                    |  13 +
+ net/core/netdev-genl-gen.h                    |   1 +
+ net/core/netdev-genl.c                        |  80 ++++-
+ net/core/skbuff.c                             |  48 ++-
+ net/core/sock.c                               |   6 +
+ net/ipv4/ip_output.c                          |   3 +-
+ net/ipv4/tcp.c                                |  50 ++-
+ net/ipv6/ip6_output.c                         |   3 +-
+ net/vmw_vsock/virtio_transport_common.c       |   5 +-
+ tools/include/uapi/linux/netdev.h             |   1 +
+ .../selftests/drivers/net/hw/devmem.py        |  26 +-
+ .../selftests/drivers/net/hw/ncdevmem.c       | 300 +++++++++++++++++-
+ 30 files changed, 1008 insertions(+), 88 deletions(-)
+
+
+base-commit: 0d15a26b247d25cd012134bf8825128fedb15cc9
+-- 
+2.49.0.901.g37484f566f-goog
+
