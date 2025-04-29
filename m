@@ -1,78 +1,87 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-189.mta1.migadu.com (out-189.mta1.migadu.com [95.215.58.189])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6651946B5;
-	Tue, 29 Apr 2025 13:11:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1AF6E2D0261
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 13:27:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.189
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745932284; cv=none; b=ge7gzPuPdnhXTV7uOlygB4tpB50TRjWgBG7rUV/HtGPVfxHgmjpaf7e7EI+zbUwgDcWrG7VMik3p5t/Me5qqywwy33ILpN62ShmGcvWewaVeQTQhJ0Iu1gwk/tXztGy/a5/DMfICUZ25S8AiiRgK0nTEqM6+3eptYAzloycH2lQ=
+	t=1745933243; cv=none; b=B2PZ+bJDgi56rgI2qmJVgeWPOYWO5EmsX5njDy6aUK9Er7QGSeeh/aHo9y0SnTrL2ZUKVvhYlE5TgXX6fMQIfp/KcvTvMl2CCfDB/NGSh992yGST4K5SpFxAB/hpieK8FCqldYP7lr/2wkPo3ev0YxqP8G5RQsFhBWJ67ppJ/D8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745932284; c=relaxed/simple;
-	bh=kI+xqmHWFmQhxfPWx0iSb39jTOlQwU0yc6GbWzn5/8I=;
+	s=arc-20240116; t=1745933243; c=relaxed/simple;
+	bh=/Aqmx/KEDL8nE3c+7wPazUkjWo9YcQyA4Vkyq9hRDR0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ERR7U2XZTt/kX4B4MSmUzoTAf7Oq195Vx5iASeCDnHTwJoDJPglDaZ7vsoCrjeuOQo19FEPuJPdeDFGzBbTXHpAR4AgqHyH68mBsoe94gUvIosprCA/3FJoPONQIv3JjSNXMdDNyo+eaCmuMHGFF/0x8x90jnsXka1TbDkGPvyQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=TKmx5jv0; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=JSe11AHieqgEsZSTtmUKODXv9VOi1lF2sG7V/CQbxZmExBqHVW18CNzhuADEsCOyfBopnKUJE7IFfbdTK2Dksrc9z54nPhAnQXAj7oyW7uG3mOpXh42WdwGcUUbiYzv36WRuN4niiZHmW3RQCpQ1HrM6Dil8Se4W/qfBoJmzDJ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=uHVOeubj; arc=none smtp.client-ip=95.215.58.189
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="TKmx5jv0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8BAEAC4CEE3;
-	Tue, 29 Apr 2025 13:11:22 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745932283;
-	bh=kI+xqmHWFmQhxfPWx0iSb39jTOlQwU0yc6GbWzn5/8I=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TKmx5jv0xDYfTJqlVB04Dtj2rzyVkKoBrKMzQaKaXCw9xyfbnnPG5QdhfLfgzn3gs
-	 ojz8YL5st/hhTteowfZQIcaFg2dawHr7q5aKR6BWoASjxYkKNMQhImiBYhCHnP/Raf
-	 4msIvDiY2pxY3EA03LnlD0sTqokwGcMOFOWpX1wbGJD7Q+bV6bqLO7hjei1zxMEEDH
-	 0edUdTKmWQ4cuXv2pmaHOb+J7b5bhPtTj3PyuSXQyXZc8iI5UXUg0u1mPIc1U94501
-	 ROC565/mmLH7tTh0533JgYyMO7KFY9Q8XIT7wO3KkdWfaNwaulJMYROlEFPma3cBbX
-	 UuczWNoUiJMaw==
-Date: Tue, 29 Apr 2025 14:11:19 +0100
-From: Will Deacon <will@kernel.org>
-To: Xiquan Zhang <zhangxiquan@hisilicon.com>
-Cc: catalin.marinas@arm.com, corbet@lwn.net,
-	linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, maz@kernel.org
-Subject: Re: [PATCH] Documentation (arm64):Advanced SIMD and floating point
- support condition
-Message-ID: <20250429131116.GA25912@willie-the-truck>
-References: <20250408031309.2095-1-zhangxiquan@hisilicon.com>
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="uHVOeubj"
+Date: Tue, 29 Apr 2025 09:27:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1745933236;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=gGKyjw77rWmay1DOSlZ8I5JMs4Q6+3CzvC6nIU4jMr0=;
+	b=uHVOeubjTaAxFMf5fyLHquAyLEBt2QzS6LaJIB2pb/Lyj3GGrvPyhEPsDJzxD6tTEzxEjK
+	7w3EQgRr5oPb95yGbdPQk2vBf2Uekp4PFz+2pyPFi5W6b5jRQ4Rx8dQ/gUcKx2V8DlIpa3
+	bnZeeM2ogNz6N6V9QEBmGs6Vv437mVDPN6dnSGptmk1abX3ix0mG87V8b4KDfbqrTzSias
+	3cvSnfLGNYSy6rp2dNvNxcklaCvdAuEKC/VP4uNxD2KHu/5Cq9O/OMO3g6/iLaoVurJ4Et
+	ypTMJ+mVq6PoxSMtdiWwm/p6+CJvX7QzNVPGVQEAbnbAAKnKE2u8+fYz6wkMdg==
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: Petr Mladek <pmladek@suse.com>
+Cc: Aditya Garg <gargaditya08@live.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Sven Peter <sven@svenpeter.dev>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	Aun-Ali Zaidi <admin@kodeit.net>,
+	Maxime Ripard <mripard@kernel.org>, airlied@redhat.com,
+	Simona Vetter <simona@ffwll.ch>,
+	Steven Rostedt <rostedt@goodmis.org>,
+	Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+	Sergey Senozhatsky <senozhatsky@chromium.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Andrew Morton <akpm@linux-foundation.org>, apw@canonical.com,
+	joe@perches.com, dwaipayanray1@gmail.com, lukas.bulwahn@gmail.com,
+	Kees Cook <kees@kernel.org>, tamird@gmail.com,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+	Hector Martin <marcan@marcan.st>,
+	Asahi Linux Mailing List <asahi@lists.linux.dev>,
+	Geert Uytterhoeven <geert@linux-m68k.org>
+Subject: Re: [PATCH] vsprintf: Use %p4chR instead of %p4cn for reading data
+ in reversed host ordering
+Message-ID: <aBDTrIhSmyVRJ1cv@blossom>
+References: <20250428123132.578771-1-pmladek@suse.com>
+ <aA-0MuLxVTueDAhm@blossom>
+ <PN3PR01MB959715E4B4C95911A60ED075B8812@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <aBC6f8Vmlik9ua0K@pathway.suse.cz>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20250408031309.2095-1-zhangxiquan@hisilicon.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aBC6f8Vmlik9ua0K@pathway.suse.cz>
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, Apr 08, 2025 at 11:13:09AM +0800, Xiquan Zhang wrote:
-> From: zhangyu <zhangyu550@huawei.com>
+Le Tue, Apr 29, 2025 at 01:39:43PM +0200, Petr Mladek a écrit :
+> On Mon 2025-04-28 22:38:13, Aditya Garg wrote:
+> > 
+> > 
+> > On 28-04-2025 10:30 pm, Alyssa Rosenzweig wrote:
+> > > Acked-by: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+> > > 
+> > > Since the other patches went thru drm-misc-next, I guess this should
+> > > too?
+> > 
+> > I think yes.
 > 
-> Because the kernel code cannot be started from el1
-> according to the booting.rst.
-> It is found that CPTR_EL2.FPEN is not configured.
-> After the configuration, the problem is solved.
-> 
-> Signed-off-by: zhangyu <zhangyu550@huawei.com>
-> Signed-off-by: zhangxiquan <zhangxiquan@hisilicon.com>
-> ---
->  Documentation/arch/arm64/booting.rst | 1 +
->  1 file changed, 1 insertion(+)
-> 
-> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-> index dee7b6de864f..ccefc42b51bc 100644
-> --- a/Documentation/arch/arm64/booting.rst
-> +++ b/Documentation/arch/arm64/booting.rst
-> @@ -309,6 +309,7 @@ Before jumping into the kernel, the following conditions must be met:
->    - If EL2 is present and the kernel is entered at EL1:
-> 
->      - CPTR_EL2.TFP (bit 10) must be initialised to 0b0.
-> +    - CPTR_EL2.FPEN (bit 21:20) must be initialised to 0b11.
+> Yes, it would be ideal to add this to drm-misc-next as well.
 
-Sorry, but I don't quite understand this. CPTR_EL2 has a different format
-depending on HCR_EL2.E2H and the FPEN field only exists when that bit is
-set to 1. In that case, however, why would the kernel be entered at EL1?
-
-Will
+ok, will queue this
