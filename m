@@ -1,216 +1,204 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17B6327C150;
-	Tue, 29 Apr 2025 08:14:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B45C720D4EB
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 08:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745914467; cv=none; b=jSXWnkm1skNsoP8EhjW5fLK6SK0U4LMXODYrZlBTtffkJr6dbtqS2z4glLwBIRC8e3hHv/NancEExLhEp5KBsccvf8oV8ThrM2sD7XOzTQYdLrmrQ+p1j+iX01GeyT/fHhguDb3WQbJvgHVPWDC5LHcNfr6SkkgR7eLPGumerqY=
+	t=1745915296; cv=none; b=bmMWL8Dtx7F6ac+goMT1grFspVbgGhgr1lpYN4TCbF/c8kwkZww9Ev5HU1ZoH15SWV2aGW3gDPev9IdU6tpQIPCh5LrxL6G3IYVvuR5LqWJD3kaLkQmNy9VdE+rh1ln9lPklvYd7AXngRHD3gm8rSYxU2lch9yEOY93DY64JhJA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745914467; c=relaxed/simple;
-	bh=1+DCRbeGHM7PQfOjrqPCPY/9L/UOCvZq4UXq4SRoJPs=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZKXpK7NsAqU1Qb89n0NyE/yAvx5pJY2IXkXb+2PP7ej/UFU8CVXnOZi9hGJVi1ccsxEPC7y78Sh2bg4Rg4mBlFGXlf/qr/55XFNPuuETigugqZEyhe+vchiWMtuqXcXrUDDo9yWNrk7JrPRgPz/rcRhDGJ/8S7cfa7vn6cgnzmc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=b1qucDkz; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745915296; c=relaxed/simple;
+	bh=1FsywMQHT6aCTH/4QijjV+e4uu/3MJPm0YGRHU38ci8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=o3Hro6ejRLUA0K0D74Db62pAv8iQrkAiPTrzUidiofrUJRNrcM9fTTeQv5JRQxbsQCsbF9Sy1PQN3uAz/jUSC3sTWV8/ANkFOOB1rs4hrTLKEtIWrDccN/r9cmaP32tJbxIytJkeU2e0s70Jhl9JBpcY50FQfPiS+qkHLqLyuC4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XiJ8FYkW; arc=none smtp.client-ip=209.85.214.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="b1qucDkz"
-Received: by smtp.kernel.org (Postfix) with ESMTPS id A86A2C4CEEF;
-	Tue, 29 Apr 2025 08:14:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745914466;
-	bh=1+DCRbeGHM7PQfOjrqPCPY/9L/UOCvZq4UXq4SRoJPs=;
-	h=From:Date:Subject:References:In-Reply-To:To:Cc:Reply-To:From;
-	b=b1qucDkz7iOyfooAgJMp4MXEx3oS1KevmoImMsbj45NpWetaVOTmiXIAzKbFH9v7S
-	 j2PPA3Bk1CupMxDuQpuooa7JJRhJ/Bcd/oQqB37oY5SzVGfLQZI7qybnnnoyG0LiFW
-	 9tLc6wB3H5zl1qqtL7CwBCH1QWJfJ0LYhGJ4HhyuShr+FWqfm1tEw6nB77WUw1Ufeo
-	 o2lMWjUWODwN8jK98EDf4XZfsPBi4jIigoFp3ITchgMTKguuEoZYS/PUX7uqAU/mu/
-	 J8tleYtJYBFwk1SxMVoLc8MT2nkmE6jL6QZuBiUUbX3jtNmx8ruHs0K+CaUDkUWdRj
-	 B8r0hR+JEySOg==
-Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9FE79C369DC;
-	Tue, 29 Apr 2025 08:14:26 +0000 (UTC)
-From: Sung-Chi Li via B4 Relay <devnull+lschyi.chromium.org@kernel.org>
-Date: Tue, 29 Apr 2025 16:14:23 +0800
-Subject: [PATCH 3/3] hwmon: (cros_ec) register fans into thermal framework
- cooling devices
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XiJ8FYkW"
+Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2242ac37caeso52535ad.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 01:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745915293; x=1746520093; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=D5QKxnLZKN15CjETYE0cz5F8y62z+3Lyd2c2OfhrGOQ=;
+        b=XiJ8FYkWjiPglKhfyBJ5prckcaI3Oa4QLpYgaC039SrK9qp9Jr9TccEMyia82CHt70
+         a5xfZ/lh3c3l40eIxHIBkOstUioBe4oGiLrevvU7ZQPk2UVr6cijRKI12swS64jjhI9e
+         I0GEFmeoIeUYsf0udTcxkW7/y4CdTTsmibDzvBeHuvn5hPTUdcOoa87zNc5YxD68Nmno
+         gybrcdpv7WjLxOYMP3LWlP/8et6GfwsEF8BLmhflDrJT6FUSEazYPCUfX5SU3QtLf4H3
+         oAoivNXqrEmsr/EOOqCSsg6G8HZ8aNnFAiTE+pWPzGOZUg+WvhCn44r2lvHJRqeYNxb/
+         bhww==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745915293; x=1746520093;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=D5QKxnLZKN15CjETYE0cz5F8y62z+3Lyd2c2OfhrGOQ=;
+        b=Y2A1lWrpcjIfQ7fgP5GFjyXZubumG756NGbeYviCuc2CfNNpx5Btb5GE7cn6ZhIzWm
+         OxN3gf7BU0k4e8gioKk9DEmIgp2HtApzeplOPuzMnpV2NlRfHOBuqpFQb+MjhXdvUELN
+         Hhn1Z22KtB5HtDeIxp2eYBdzeYUbSm6gIlqzGB59OH6yLl2qWNF2KF//4Tdi+jBZ3D8m
+         PET4WRz2ATj5ZWMZnYGZefGr0tkGMYZ+0grXpJeM5d88aQIDNc1H2R0SPRWG13146a69
+         GNcHLgQjItw43/Jpqnpkb5vLd/mXMQewbloNBEIYHXi561eSGMWuvLGkbCiP3t1+4BqV
+         ML7w==
+X-Forwarded-Encrypted: i=1; AJvYcCVf9ePZNVY/fkYU71ByKIzjS5yxeiG/iyDjVhxaGMky1nSjhTIj8p36qHL+JufKryug5EZCxOQsvLQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/p0UzdCvspwgrrKFwkGqiqASIA4ck0EVHNBk08sMTm3FnTijs
+	AqQqhpU/q6Yveq9xkdMNGlcoxKcTEuetKYyvO/tDa7/ma4Pwe+PY8GFwQQcaMA==
+X-Gm-Gg: ASbGncsSe3ClbAmWzIsil7rVOIN8EYQbyRu2S7zPW2sSF/xxHrytPpNAxkFBfT3prGS
+	Sw8w16gf1/L2y2htLnir0OuE0RtY0yz9b7/jMMnDgKxywORGAOwidU/uh3XZ5+qasiLVp0ZpDtW
+	jlyD6oR9TVDBCf/mXFJ3Ob0cVZl1dZqQZJ3TY6BeGdootNokdQGVM6UJPjjbuaQQxRe3bcgwqey
+	8yusRUe5grkdMu2gglPW3D6aLHxBw0PrqkCW7rP/4yTYtXN25koj4XKeB/1lq/pQuEh1usvIj3Y
+	KRVfN8F2DQ01xxL4osYf/MEOqz6h0gjJYF2p77LSoz2n08EMm2O37EsJuSeJADK8B8lbnLOm
+X-Google-Smtp-Source: AGHT+IEBLTjQEPi6T2MilTT/Y6yv+CY2P+m49PsmJxyrcH4D1FATZ6uG7LkMVqt9dbTXi33w3gHvEg==
+X-Received: by 2002:a17:902:f643:b0:223:f479:3860 with SMTP id d9443c01a7336-22de6de05c5mr2640355ad.18.1745915292715;
+        Tue, 29 Apr 2025 01:28:12 -0700 (PDT)
+Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a995edsm9628409b3a.130.2025.04.29.01.28.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 01:28:12 -0700 (PDT)
+Date: Tue, 29 Apr 2025 08:28:01 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v2 10/22] iommufd/viommmu: Add IOMMUFD_CMD_VCMDQ_ALLOC
+ ioctl
+Message-ID: <aBCNkcLp6XZpjYYT@google.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <094992b874190ffdcf6012104b419c8649b5e4b4.1745646960.git.nicolinc@nvidia.com>
+ <aA_0TV0RkVOHk7Qj@google.com>
+ <aBAEuP9962XweHPc@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250429-cros_ec_fan-v1-3-a8d9e3efbb1a@chromium.org>
-References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
-In-Reply-To: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
-To: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>, 
- =?utf-8?q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>, 
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>, 
- Jonathan Corbet <corbet@lwn.net>
-Cc: chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, 
- linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org, 
- Sung-Chi Li <lschyi@google.com>, Sung-Chi Li <lschyi@chromium.org>
-X-Mailer: b4 0.14.2
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1745914465; l=5122;
- i=lschyi@chromium.org; s=20250429; h=from:subject:message-id;
- bh=CzzdhK1tpMOhvzur2FZyTlxUzTR8H+S2R1Q7+/4BMLA=;
- b=8m4Hke9PBnFU82gso9aL9qCn+SYp3bKudu0m/mK3sHYP/lWXlxINLK68OhfWnHS5ZCDfKzj4l
- iFhG6t6mxhvB7/9mEPWNu8IE8W7tsB45j2t+IqlZeSb7T1Cb8nGaqp0
-X-Developer-Key: i=lschyi@chromium.org; a=ed25519;
- pk=9gCZPRJmYyHDt6VN9FV2UreFcUr73JFrwYvmsltW9Y8=
-X-Endpoint-Received: by B4 Relay for lschyi@chromium.org/20250429 with
- auth_id=392
-X-Original-From: Sung-Chi Li <lschyi@chromium.org>
-Reply-To: lschyi@chromium.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBAEuP9962XweHPc@Asurada-Nvidia>
 
-From: Sung-Chi Li <lschyi@chromium.org>
+On Mon, Apr 28, 2025 at 03:44:08PM -0700, Nicolin Chen wrote:
+> On Mon, Apr 28, 2025 at 09:34:05PM +0000, Pranjal Shrivastava wrote:
+> > On Fri, Apr 25, 2025 at 10:58:05PM -0700, Nicolin Chen wrote:
+> > > @@ -501,6 +504,9 @@ static const struct iommufd_object_ops iommufd_object_ops[] = {
+> > >  	[IOMMUFD_OBJ_IOAS] = {
+> > >  		.destroy = iommufd_ioas_destroy,
+> > >  	},
+> > > +	[IOMMUFD_OBJ_VCMDQ] = {
+> > > +		.destroy = iommufd_vcmdq_destroy,
+> > > +	},
+> > >  	[IOMMUFD_OBJ_VDEVICE] = {
+> > >  		.destroy = iommufd_vdevice_destroy,
+> > >  	},
+> > 
+> > When do we expect the VMM to use this ioctl? While it's spawning a new
+> > VM?
+> 
+> When guest OS clears the VCMDQ's base address register, or when
+> guest OS reboots or shuts down.
+> 
 
-Register fans connected under EC as thermal cooling devices as well, so
-these fans can then work with the thermal framework.
+Ack. So, basically any write to VCMDQ_BASE is trapped?
 
-During the driver probing phase, we will also try to register each fan
-as a thermal cooling device based on previous probe result (whether the
-there are fans connected on that channel, and whether EC supports fan
-control). The basic get max state, get current state, and set current
-state methods are then implemented as well.
+> > IIUC, one vintf can have multiple lvcmdqs and looking at the series
+> > it looks like the vcmdq_alloc allocates a single lvcmdq. Is the plan to
+> > dedicate one lvcmdq to per VM? Which means VMs can share a vintf?
+> 
+> VINTF is a vSMMU instance per SMMU. Each VINTF can have multiple
+> LVCMDQs. Each vCMDQ is allocated per IOMMUFD_CMD_VCMDQ_ALLOC. In
+> other word, VM can issue multiple IOMMUFD_CMD_VCMDQ_ALLOC calls
+> for each VTINF/vSMMU.
+> 
 
-Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
----
- Documentation/hwmon/cros_ec_hwmon.rst |  2 +
- drivers/hwmon/cros_ec_hwmon.c         | 72 +++++++++++++++++++++++++++++++++++
- 2 files changed, 74 insertions(+)
+Ack. I'm just wondering why would a single VM want more than one vCMDQ
+per vSMMU?
 
-diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-index 5b802be120438732529c3d25b1afa8b4ee353305..82c75bdaf912a116eaafa3149dc1252b3f7007d2 100644
---- a/Documentation/hwmon/cros_ec_hwmon.rst
-+++ b/Documentation/hwmon/cros_ec_hwmon.rst
-@@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
- the EC also supports setting fan PWM values and fan mode. Note that EC will
- switch fan control mode back to auto when suspended. This driver will restore
- the fan state before suspended.
-+If a fan is controllable, this driver will register that fan as a cooling device
-+in the thermal framework as well.
-diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-index 1139074d3eb003ee72bbe54a954647ced40f6d21..c38c61bba431fe25322793f7dd5db59fcc95daaf 100644
---- a/drivers/hwmon/cros_ec_hwmon.c
-+++ b/drivers/hwmon/cros_ec_hwmon.c
-@@ -12,6 +12,7 @@
- #include <linux/platform_device.h>
- #include <linux/platform_data/cros_ec_commands.h>
- #include <linux/platform_data/cros_ec_proto.h>
-+#include <linux/thermal.h>
- #include <linux/types.h>
- #include <linux/units.h>
- 
-@@ -30,6 +31,11 @@ struct cros_ec_hwmon_priv {
- 	u8 manual_fan_pwm_values[EC_FAN_SPEED_ENTRIES];
- };
- 
-+struct cros_ec_hwmon_cooling_priv {
-+	struct cros_ec_hwmon_priv *hwmon_priv;
-+	u8 index;
-+};
-+
- static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
- {
- 	int ret;
-@@ -340,6 +346,38 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
- 	NULL
- };
- 
-+static int
-+cros_ec_hwmon_cooling_get_max_state(struct thermal_cooling_device *cdev,
-+				    unsigned long *val)
-+{
-+	*val = 100;
-+	return 0;
-+}
-+
-+static int
-+cros_ec_hwmon_cooling_get_cur_state(struct thermal_cooling_device *cdev,
-+				    unsigned long *val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+	u8 raw_val;
-+	int ret = cros_ec_hwmon_read_pwm_raw_value(priv->hwmon_priv->cros_ec,
-+						   priv->index, &raw_val);
-+
-+	if (ret == 0)
-+		*val = raw_val;
-+	return ret;
-+}
-+
-+static int
-+cros_ec_hwmon_cooling_set_cur_state(struct thermal_cooling_device *cdev,
-+				    unsigned long val)
-+{
-+	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-+
-+	return cros_ec_hwmon_set_pwm_raw_value(priv->hwmon_priv, priv->index,
-+					       val);
-+}
-+
- static const struct hwmon_ops cros_ec_hwmon_ops = {
- 	.read = cros_ec_hwmon_read,
- 	.read_string = cros_ec_hwmon_read_string,
-@@ -347,6 +385,12 @@ static const struct hwmon_ops cros_ec_hwmon_ops = {
- 	.is_visible = cros_ec_hwmon_is_visible,
- };
- 
-+static const struct thermal_cooling_device_ops cros_ec_thermal_cooling_ops = {
-+	.get_max_state = cros_ec_hwmon_cooling_get_max_state,
-+	.get_cur_state = cros_ec_hwmon_cooling_get_cur_state,
-+	.set_cur_state = cros_ec_hwmon_cooling_set_cur_state,
-+};
-+
- static const struct hwmon_chip_info cros_ec_hwmon_chip_info = {
- 	.ops = &cros_ec_hwmon_ops,
- 	.info = cros_ec_hwmon_info,
-@@ -421,6 +465,33 @@ cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_hwmon_priv *priv)
- 	priv->fan_control_supported = true;
- }
- 
-+static void
-+cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-+					   struct cros_ec_hwmon_priv *priv)
-+{
-+	struct cros_ec_hwmon_cooling_priv *cpriv;
-+	size_t i;
-+
-+	if (!priv->fan_control_supported)
-+		return;
-+
-+	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-+		if (!(priv->usable_fans & BIT(i)))
-+			continue;
-+
-+		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-+		if (!cpriv)
-+			return;
-+
-+		cpriv->hwmon_priv = priv;
-+		cpriv->index = i;
-+		devm_thermal_of_cooling_device_register(
-+			dev, NULL,
-+			devm_kasprintf(dev, GFP_KERNEL, "cros-ec-fan%zu", i),
-+			cpriv, &cros_ec_thermal_cooling_ops);
-+	}
-+}
-+
- static int cros_ec_hwmon_probe(struct platform_device *pdev)
- {
- 	struct device *dev = &pdev->dev;
-@@ -452,6 +523,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
- 	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
- 	cros_ec_hwmon_probe_fans(priv);
- 	cros_ec_hwmon_probe_fan_control_supported(priv);
-+	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
- 
- 	platform_priv->hwmon_dev = devm_hwmon_device_register_with_info(
- 		dev, "cros_ec", priv, &cros_ec_hwmon_chip_info, NULL);
+> > Or do we plan to trap access to trap the access everytime the VM
+> > accesses an lvcmdq base register?
+> 
+> Yes. That's the only place the VMM can trap. All other register
+> accesses are going to the HW directly without trappings.
+> 
 
--- 
-2.49.0.901.g37484f566f-goog
+Got it.
 
+> > > diff --git a/drivers/iommu/iommufd/viommu.c b/drivers/iommu/iommufd/viommu.c
+> > > index a65153458a26..02a111710ffe 100644
+> > > --- a/drivers/iommu/iommufd/viommu.c
+> > > +++ b/drivers/iommu/iommufd/viommu.c
+> > > @@ -170,3 +170,97 @@ int iommufd_vdevice_alloc_ioctl(struct iommufd_ucmd *ucmd)
+> > >  	iommufd_put_object(ucmd->ictx, &viommu->obj);
+> > >  	return rc;
+> > >  }
+> > > +
+> > > +void iommufd_vcmdq_destroy(struct iommufd_object *obj)
+> > > +{
+> > > +	struct iommufd_vcmdq *vcmdq =
+> > > +		container_of(obj, struct iommufd_vcmdq, obj);
+> > > +	struct iommufd_viommu *viommu = vcmdq->viommu;
+> > > +
+> > > +	if (viommu->ops->vcmdq_destroy)
+> > > +		viommu->ops->vcmdq_destroy(vcmdq);
+> > > +	iopt_unpin_pages(&viommu->hwpt->ioas->iopt, vcmdq->addr, vcmdq->length);
+> > > +	refcount_dec(&viommu->obj.users);
+> > > +}
+> > > +
+> > > +int iommufd_vcmdq_alloc_ioctl(struct iommufd_ucmd *ucmd)
+> > > +{
+> > > +	struct iommu_vcmdq_alloc *cmd = ucmd->cmd;
+> > > +	struct iommufd_viommu *viommu;
+> > > +	struct iommufd_vcmdq *vcmdq;
+> > > +	struct page **pages;
+> > > +	int max_npages, i;
+> > > +	dma_addr_t end;
+> > > +	int rc;
+> > > +
+> > > +	if (cmd->flags || cmd->type == IOMMU_VCMDQ_TYPE_DEFAULT)
+> > > +		return -EOPNOTSUPP;
+> > 
+> > The cmd->type check is a little confusing here, I think we could
+> > re-order the series and add this check when we have the CMDQV type.
+> 
+> This is the patch that introduces the IOMMU_VCMDQ_TYPE_DEFAULT.
+> So, it's natural we check it here. The thing is that we have to
+> introduce something to fill the enum iommu_vcmdq_type, so that
+> it wouldn't be empty.
+> 
+> An unsupported DEFAULT type is what we have for vIOMMU/vEVENTQ
+> also.
+> 
+> A driver patch should define its own type along with the driver
+> patch. And it's what this series does. I think it's pretty clear?
+> 
 
+Alright. Agreed.
+
+> > Alternatively, we could keep this in place and
+> [..]
+> > add the driver-specific
+> > vcmdq_alloc op calls when it's added/available for Tegra CMDQV while
+> > stubbing out the rest of this function accordingly.
+> 
+> Why?
+> 
+> The vcmdq_alloc op is already introduced in the prior patch. It
+> is cleaner to keep all core code in one patch. And then another
+> tegra patch to add driver type and its support.
+> 
+
+Alright.
+
+> Thanks
+> Nicolin
+
+Thanks,
+Praan
