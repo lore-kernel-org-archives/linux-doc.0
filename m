@@ -1,62 +1,62 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358092512C6
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 17:59:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AC5B021ABC8
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 18:03:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745949585; cv=none; b=KitvfQxE39IFzxa2jiZmvK/yOoGI/yLqt+qieh+KQ8OmSuBoFGGtoklUfJbrXmwdB8woEgIO9Qy4zC881EQcUH9PdgXxsIiKOfwIpjFuOczna82wFB9qcD7ILVHewL0oRBIdXK0ALbR5BWetjS+QE3sCkWdt9LdepCRT3y9LHKo=
+	t=1745949807; cv=none; b=pZ7csLmwEgAzSA0qX7B0lpg7am9C2/FK9v09lWbz3e53AIkzsqswVWoZLAV8rIi1cBnhE96WHX4YD9SF7gAI8HBc5YXbbin0sxRjO+mXy/H0D7Zy7l2bOJQ4vn0OabLNBsWEJCxdIK6zP1pmm+HLPDpz25EsipLuKXrAKVRYjgI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745949585; c=relaxed/simple;
-	bh=d16RAGrhUAPMnh/Fm7KTz/flsdV6DTvv/njmBuuJRZU=;
+	s=arc-20240116; t=1745949807; c=relaxed/simple;
+	bh=/jKxrEccc/rxDV9flEdrkcq0R1bjej/EwSVckgQxFcs=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=f+np/1QF5pjzbGqjAtN9KveJ9EQXBag8fNit/yd0XR3LATfT+A50niQjupg5tM0Th3ml+4OWJHtK0yWSSHaVAp0CswH+NQWqxs8jo6fV0owdlcVfWcwQNS55jOFuwx94j0YpkE/18VuxzpSCanuMJeFIlLDoNigoxfnpqlPMwao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KQhkbJJc; arc=none smtp.client-ip=209.85.214.176
+	 Content-Type:Content-Disposition:In-Reply-To; b=RIzxRr0eM+OSCKqA8bXwlNSC5IvpFxk+t+7ehBxRVauzJenuOqR090k3KRxCq0J/Hx7N7gbfoLdWjlXzH6CzhkY99J8D6Q0WQpzNaKtpPkOneGRSsuR6/WeJFiLjm28hp4X2V1+Z598HA/TASXSVK7SnBZsxpz+EHu1myYwCqhk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XJyFIw0W; arc=none smtp.client-ip=209.85.214.174
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KQhkbJJc"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2264c9d0295so198285ad.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 10:59:43 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XJyFIw0W"
+Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-2264c9d0295so199275ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 11:03:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745949583; x=1746554383; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1745949805; x=1746554605; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=QZWx5YzsE6VtBscW7jSSrryOsxFdJT63HSkZNADS7Hs=;
-        b=KQhkbJJcGzLvo1uHbQJNFTjX5nhmx2MkqHc+/fEI+SDQVhwDDa4aJuzYG9YAWMFDXJ
-         3InBM0/0JGUBs5PC4mgxAWiSJb1c36oWfDT2ew1I9YnxDL2ZTQ8zD1pWCr9L71f06lwO
-         ZtOCWrpF02evC1mOVwaVLJQfTUEggPBHko60CWuu5ubPmdghKJKpf1BRd7lc2menlw9x
-         jad+/NNqrIGVDq1fU4Li03OucZdSZglhuerrOW0mcPEa7y6+mp8JDQ5vWkB8IvC9cy8G
-         MOjeGIcPEZ41HYpI+Y/vSgX4IsmyERs0orBdEo3ybUpPXXE0SyePg6/Gen8mnxpp4fM8
-         r+3g==
+        bh=5gO38QVftzp7foJd8AqWRzdImXv3oAewp8XDWFfWfG4=;
+        b=XJyFIw0WqXVVAB5105nnJ5HTLB/7M1krQYJt2wmsl61Cd9y0y7gQJ+hc266kTjRd98
+         GA0dZUH8IPjFpB3xeQrXG8DlIKm2Bw9OCVzJKXC3xUC2sF9mKKgmHjkvGtoTaNHjcg+o
+         gSN7JV2qfCr2sxAiJwbWozNlOYk41EazpNghNO+h1mbf55TfrJ8RNWzqPoGaMQV1LQpA
+         FcEvAAErdi7el76+xtKu1MHu0Qa9UY/flgM19bDvr2zHJQc+FD7FqwUraTOX71XrE4NJ
+         mOZF0ISLWI7ZXbywlj1Aq76hGnErag9DgkrRj//koa3ZvJvW50bCF6WxbfK+6kFnaeNq
+         Yb9A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745949583; x=1746554383;
+        d=1e100.net; s=20230601; t=1745949805; x=1746554605;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=QZWx5YzsE6VtBscW7jSSrryOsxFdJT63HSkZNADS7Hs=;
-        b=XwJMgeRJp5U9roQ7fv0cEHKoMXIGUbBBIxjI2ffXUcfqbIyCwI+60sQ58QHX6CRJsU
-         h2gxqxgvLoI1RUjpCzjGZnHgZeunzvkMHGs0Ndu6opBNjHKIq9AREUUHbcOwi6aUBJHZ
-         718y9hcsLM5CNidKcqYKO+gyyv/4ionBJt+YTMsjpDVHrslcKYltx9imLR7VUga2v3sS
-         +Ip7WxyJStQCq54FDmmSfAFRw6/7tSzsZc/xzmYH+Z3o4PgNnTrJTHkXubznWLI1iAM2
-         EkDoQfRWLO7Q0jZ0yQZVZRnWj5ScOg17aHJPO9vLnbDhmLpM8MxEduGAWB5pgs2osMoE
-         V3RA==
-X-Forwarded-Encrypted: i=1; AJvYcCUtyGxZT07bkBD5BIbQDbEk8rieTsZ17LLp/6OQ0Z9jdF/Xwet29Cl1mO3Tk36Evn3fU6GzTgirZgA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw0AZ1NSFNh/0rn7LlpiA+Z+PuPnPLw8ElTMFYIv6TFqpN8oirE
-	n0uhB2h3FqdWWo6m/zBlOajWj0pUKZ148qn1T+rMTPUfeljUFYQdlvPYSKfZfQ==
-X-Gm-Gg: ASbGncsgcwPloviu8sj8wut5WmbGIMBejTbttqbAJWDry4Gc6EKiyUYFur98QQQ6ag7
-	+qb/IbBEZW2AQ9wLI+XgxEQdgJVYs4epdNFiJtAeaCWoWiQ1k8B1LOM218VeX4Qt2dqfZPh/5yR
-	lwbGZXyH9bBrDhStcrcGQcBTdfJg+ggZ9sFTs3rWSH+H3s9AAMH+byRqxlJnqVoRV1WtZBW3q6l
-	GuEprBQTT+WS9Di1H4/w1WCWPdsIPo63Q8PQFkDZHLORi9VoWDlEh4L/eFVRdeLIs6TTr7wP68p
-	RlxdaydFa3aoEIymR/SvMy1nS2nhT3hHmKvDNc20wUvSFPBkN4HgEtpkIOb/Ky1OJ9+sVuSw
-X-Google-Smtp-Source: AGHT+IFpQWcmyzP1N/TbZRNb1gatjkwbbsmgC09afTOnO3GyWImnhX2qlaIfI4JGDZZ0CTRg72ZS0g==
-X-Received: by 2002:a17:903:2303:b0:215:f0c6:4dbf with SMTP id d9443c01a7336-22df3fe491emr117295ad.14.1745949583190;
-        Tue, 29 Apr 2025 10:59:43 -0700 (PDT)
+        bh=5gO38QVftzp7foJd8AqWRzdImXv3oAewp8XDWFfWfG4=;
+        b=hxXk7fyFFKsim9Wzn0+4aiYjfct2TOrSewWbf5QS5yZ35Zd7j84OpKPozzNQQnEMnZ
+         j2X+SR3CrWvGZNU1Xs2XZ1isn5Eheu+epKe6RI3e7nGEYj2/exFYyGyAbB0hqN7isH41
+         FAugXuK0vSQh5Ron12Wq4sBHLt44Fsyz13aEZVJrnc9t42WiX4bxO6Jpfb0Z3y3NMbIb
+         MSqqbFGAxfeZAGZy64So9WY9OcENOZOJaZFniKh6BOkV3i4yNVRCz9QL58teJHjWeqJI
+         2Y4G7mCyqKHVg9S9HIZOHgBRdtoJrd0bRD9SHiRKQRL3YMhCG7SvYPpjnQeTMs14qHJD
+         Z7hQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWNwkCvrlo1FrBUjMKtNG40aPuFyXVzzkVN3pwG9HoBTpXx21r+aWHHKIgVjqYOwJ9Nx36YF51Mg4o=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxwQXxtCKLVEwLZ2WInnmll1vxs15gYKuLVDgI1TfWIkqmUkzRS
+	rbLPnUFIlJONz1bho7hvz68VyCpmi+Lf5MS5WUxgbYde4UPp4CYj39oljNa4ww==
+X-Gm-Gg: ASbGnct8Xnp13FLAvoajiWF9oFoql7JGyCm5aYOUlw6rGYBH/AW8/jw8NQ2SyAYqdyd
+	syUeheAMpEZscF51ZU6Dgz1A18i+hylvmbh7fcMOYvBFDKfFVzT8oitk0lG7bOqGDpr8hhCYxuq
+	H+ATbwy8Ei/X0f3eAb4EPtYM0GZb5yryr059Gh/M3uLI/IMJVdbBBjkT7OCtK+7sk6HYfZDbj7e
+	Anu1LJsv3nBY0NMHFNG5IyJRXJBIY8vrROI3rCGvag9MLiVFsI/9a3ueQV8c5WyrlR0XeJr84UB
+	hm0J61zjHGIX6qz/nO3LNajqUJXdtlNRcCevxxWUMYXI24YXFIB/WTyp3UM5qnLvL955Fvla
+X-Google-Smtp-Source: AGHT+IHcbHv78LbKHTcjYARgVuVMIU3PlvzwcFa5Mynrm4iDVnN6pnPgBf3EmKTpPOmaL66ic8Z84Q==
+X-Received: by 2002:a17:902:f60a:b0:215:9ab0:402 with SMTP id d9443c01a7336-22df40757bemr145535ad.18.1745949804669;
+        Tue, 29 Apr 2025 11:03:24 -0700 (PDT)
 Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db510272csm105625315ad.177.2025.04.29.10.59.37
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b15faded711sm9272213a12.66.2025.04.29.11.03.19
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 10:59:42 -0700 (PDT)
-Date: Tue, 29 Apr 2025 17:59:32 +0000
+        Tue, 29 Apr 2025 11:03:24 -0700 (PDT)
+Date: Tue, 29 Apr 2025 18:03:13 +0000
 From: Pranjal Shrivastava <praan@google.com>
 To: Nicolin Chen <nicolinc@nvidia.com>
 Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
@@ -69,13 +69,14 @@ Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
 	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
 	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
 	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
-Subject: Re: [PATCH v2 11/22] iommufd: Add for-driver helpers
- iommufd_vcmdq_depend/undepend()
-Message-ID: <aBEThP2Bn0YDgXfu@google.com>
+Subject: Re: [PATCH v2 08/22] iommufd: Abstract iopt_pin_pages and
+ iopt_unpin_pages helpers
+Message-ID: <aBEUYdlCLcH70UlT@google.com>
 References: <cover.1745646960.git.nicolinc@nvidia.com>
- <a25c9454c17663f9e79b37bc2908bf3a99856be6.1745646960.git.nicolinc@nvidia.com>
- <aBDIpz7w8wxIn_AF@google.com>
- <aBEIBKdjuecVHgpU@Asurada-Nvidia>
+ <d44272c153e7596c3cef716044de3dc6c2a8254a.1745646960.git.nicolinc@nvidia.com>
+ <aA_hm_AD4Xzm3qJZ@google.com>
+ <aA/9TZq99TF+MRYv@Asurada-Nvidia>
+ <aBAQdq0jeoCdKdsC@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -84,47 +85,46 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <aBEIBKdjuecVHgpU@Asurada-Nvidia>
+In-Reply-To: <aBAQdq0jeoCdKdsC@Asurada-Nvidia>
 
-On Tue, Apr 29, 2025 at 10:10:28AM -0700, Nicolin Chen wrote:
-> On Tue, Apr 29, 2025 at 12:40:07PM +0000, Pranjal Shrivastava wrote:
-> > On Fri, Apr 25, 2025 at 10:58:06PM -0700, Nicolin Chen wrote:
-> > >  /* Caller should xa_lock(&viommu->vdevs) to protect the return value */
-> > >  struct device *iommufd_viommu_find_dev(struct iommufd_viommu *viommu,
-> > >  				       unsigned long vdev_id)
+On Mon, Apr 28, 2025 at 04:34:14PM -0700, Nicolin Chen wrote:
+> On Mon, Apr 28, 2025 at 03:12:33PM -0700, Nicolin Chen wrote:
+> > On Mon, Apr 28, 2025 at 08:14:19PM +0000, Pranjal Shrivastava wrote:
+> > > On Fri, Apr 25, 2025 at 10:58:03PM -0700, Nicolin Chen wrote:
+> > > > +	iopt_for_each_contig_area(&iter, area, iopt, iova, last_iova) {
+> > > > +		unsigned long last = min(last_iova, iopt_area_last_iova(area));
+> > > > +		unsigned long last_index = iopt_area_iova_to_index(area, last);
+> > > > +		unsigned long index =
+> > > > +			iopt_area_iova_to_index(area, iter.cur_iova);
+> > > > +
+> > > > +		if (area->prevent_access ||
+> > > 
+> > > Nit:
+> > > Shouldn't we return -EBUSY or something if (area->prevent_access == 1) ?
+> > > IIUC, this just means that an unmap attempt is in progress, hence avoid
+> > > accessing the area.
 > > 
-> > If I'm getting this right, I think we are setting up dependencies like:
-> > vcmdq[2] -> vcmdq[1] -> vcmdq[0] based on refcounts of each object,
-> > which ensures that the unmaps happen in descending order..
+> > Maybe. But this is what it was. So we need a different patch to
+> > change that.
 > 
-> Yes.
+> Rereading the code. The prevent_access is set by an unmap(), which
+> means there shouldn't be any pin() and rw() as the caller should
+> finish unmap() first.
 > 
-> > If that's right, Is it fair to have iommufd_vcmdq_depend/undepend in the
-> > core code itself? Since it's a driver-level limitation, I think we
-> > should just have iommufd_object_depend/undepend in the core code and the
-> > iommufd_vcmdq_depend/undepend can move into the CMDQV driver?
+> In the newer use case of vCMDQ, it's similar. If VMM is unmapping
+> the stage-2 mapping, it shouldn't try to allocate a vCMDQ.
 > 
-> The moment we added iommufd_object_depend/undepend, we already had
-> a blur boundary here since we had no choice to handle in the driver
-> but to ask core for help.
+> -EBUSY makes some sense, but -EINVAL could still stand.
 > 
-> The iommufd_vcmdq_depend/undepend is just a pair of macros to help
-> validating the structure inputs that are core defined. It is quite
-> fair to put next to the raw functions. I also had the notes on top
-> of the raw functions suggesting callers to use the macros instead.
-> 
+> So, I am leaving it as is, since this patch is just about moving
+> the functions for sharing.
 
-Well, yes.. in that case let's call the macros something else? The
-current names suggest that the macros only setup dependencies for vcmdq
-and not any "two sibling structures created by one of the allocators
-above" as mentioned by the note. Maybe we could rename the macro to
-something like: `iommufd_container_obj_depend`?
+Ack. I don't have a strong preference too. This should be fine, we can
+re-visit this if needed in the future.
 
-With this nit,
 Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
-> Thanks
+> 
 > Nicolin
 
-Thanks,
-Praan
+Thanks!
