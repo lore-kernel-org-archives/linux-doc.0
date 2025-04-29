@@ -1,205 +1,85 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from relay.hostedemail.com (smtprelay0011.hostedemail.com [216.40.44.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E5C8259CAF;
-	Tue, 29 Apr 2025 19:51:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06E3048CFC;
+	Tue, 29 Apr 2025 20:05:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=216.40.44.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745956287; cv=none; b=Ey3jDw61hIBsjOXc7sZ81iqIfLz5HCLegGEW1WCaIxovBslcz0xBQcICSmaSb7DuDc1zTdchb2oofLK8DUUPkYdV1Rrz2N5BHGaqRr6LoeRo0VvdF+FHpbY28DTndSvklM2wJBr1sGJj/gBWvakHKfayhKeTS+0Azx8AAHPol9k=
+	t=1745957116; cv=none; b=jw+7mjUGjDMYElDXvZ2qi9p3oSHX2ryVl7+FIdBtLrdDdTgTTE20n0FqeIzOwpl1vxUoHvV7xnpj2NilHoQlNGNbq2fk46j5LRnkXOz41FFew4xzkk4ID745ZpKP+A9ehJBdnZBbsoxLH69pdBFkdeUiy5noDygxrxHpUOqN/xU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745956287; c=relaxed/simple;
-	bh=VJTYJ+DRSOZ7GY8qrph88f8OFS52yzkIz78IYtEQHco=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cYGKlP9OOx0yKvfqrXN356HfYmX316Tq+YGnvhNmb27563Un2PTKjBhc1yr+FkYEx3unixM0no2skXYVSvJe8be7bz+zG0RWEDdL/fsAOkJSvfLM9cNQvDpeUOQklCFWEV3UIZ8a2bXQIqKhPPJVWhM0FpVV7GH1Gp4kyQcGcL4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=GcD7tVsY; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="GcD7tVsY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1745956286; x=1777492286;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=VJTYJ+DRSOZ7GY8qrph88f8OFS52yzkIz78IYtEQHco=;
-  b=GcD7tVsY1TN0SPLyuWhmiOJWcXe3tcjo+K5CYODSiGv8Pk7ZJzf2oA5g
-   06+gf6yD//TKHHAGksO4qnia4UnPF+8ZuUZorPX0Sn4FJ2tBKG69TtnXM
-   xxwsRTxrDEMEA8WhWgmD+9PFh6/H+MnPjpubsnbxr7xNMFjRNT+yd5HNZ
-   SJg5iSO9kB3lxFsVphFuKhyAyDQZeT+BWg9HufjEm+AVDAoGDpDr/QBJE
-   WybIhg8TiORrQ4Ib6KPdRl6UMtECMoE5bJuK1azQx55ykjq/KqsA3zgzP
-   fb7UZVExc14dvrEtdLsRCe3T4fg+OPd9okKxBsEz+jw4jxO8r6jKWOlN6
-   g==;
-X-CSE-ConnectionGUID: XcXhtjlMTZmC8LjrDX/wCA==
-X-CSE-MsgGUID: 995BFKt2Sxqis8TxeEVYJw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="65009684"
-X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="65009684"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Apr 2025 12:51:25 -0700
-X-CSE-ConnectionGUID: Nyl775vaQ86rWQdZs/rvnA==
-X-CSE-MsgGUID: gOyjbdY+Qn24s/zSN/8koQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,250,1739865600"; 
-   d="scan'208";a="139102749"
-Received: from stinkpipe.fi.intel.com (HELO stinkbox) ([10.237.72.74])
-  by orviesa005.jf.intel.com with SMTP; 29 Apr 2025 12:51:19 -0700
-Received: by stinkbox (sSMTP sendmail emulation); Tue, 29 Apr 2025 22:51:17 +0300
-Date: Tue, 29 Apr 2025 22:51:17 +0300
-From: Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
-To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nicolas Schier <nicolas@fjasle.eu>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v2] kbuild: make all file references relative to source
- root
-Message-ID: <aBEttQH4kimHFScx@intel.com>
-References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+	s=arc-20240116; t=1745957116; c=relaxed/simple;
+	bh=CH8sSlpxog/OcbKyxWb4I/Q8dJEc4mRErAiIp6l4Ju8=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=MDPxB+EdzJK4iGmOczDGL5E0lFT857a2Ib2oiVoKTdxwUNZSHe7AxnPdLoNDKpjeoD0VAZ4xaIvXQu0LvZPQP9BUTe5Kv3lOB7oS+wC6G/CsVOSKGl2FeMO84PjLtnYoxDOpqe0E46j2/Wht2lvhshFAEpARv2svFKeB5vr7M6M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com; spf=pass smtp.mailfrom=perches.com; arc=none smtp.client-ip=216.40.44.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=perches.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=perches.com
+Received: from omf05.hostedemail.com (a10.router.float.18 [10.200.18.1])
+	by unirelay01.hostedemail.com (Postfix) with ESMTP id 3286D1CF6EA;
+	Tue, 29 Apr 2025 17:36:00 +0000 (UTC)
+Received: from [HIDDEN] (Authenticated sender: joe@perches.com) by omf05.hostedemail.com (Postfix) with ESMTPA id 934AA20011;
+	Tue, 29 Apr 2025 17:35:50 +0000 (UTC)
+Message-ID: <1490923bf0b7d5e32ded1393c1f7a3e4e640de5b.camel@perches.com>
+Subject: Re: [PATCH] checkpatch: remove %p4cn
+From: Joe Perches <joe@perches.com>
+To: Aditya Garg <gargaditya08@live.com>, pmladek@suse.com
+Cc: admin@kodeit.net, airlied@redhat.com, akpm@linux-foundation.org, 
+	alyssa@rosenzweig.io, andriy.shevchenko@linux.intel.com, apw@canonical.com,
+ 	asahi@lists.linux.dev, corbet@lwn.net, dri-devel@lists.freedesktop.org, 
+	dwaipayanray1@gmail.com, geert@linux-m68k.org, kees@kernel.org, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	linux@rasmusvillemoes.dk, lukas.bulwahn@gmail.com, marcan@marcan.st, 
+	mripard@kernel.org, rostedt@goodmis.org, senozhatsky@chromium.org,
+ simona@ffwll.ch, 	sven@svenpeter.dev, tamird@gmail.com, tzimmermann@suse.de
+Date: Tue, 29 Apr 2025 10:35:48 -0700
+In-Reply-To: <PN3PR01MB95971954FC5E026C59B6F8EDB8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <20250428123132.578771-1-pmladek@suse.com>
+	 <PN3PR01MB95971954FC5E026C59B6F8EDB8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="ISO-8859-1"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.54.3 (3.54.3-1.fc41) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
-X-Patchwork-Hint: comment
+X-Rspamd-Queue-Id: 934AA20011
+X-Stat-Signature: ty3t4amg1am4wfranj4it66hgc5ywusk
+X-Rspamd-Server: rspamout01
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Session-ID: U2FsdGVkX1/Pi+sZD950+7lYGkQr89DieUnwzGYH3J8=
+X-HE-Tag: 1745948150-531653
+X-HE-Meta: U2FsdGVkX1/F/WflSpAiJ6Heq+tSmgatCv6cN3WW0dk6b5ZPd+jMUMgkgjrAVyTPWC1efrCNTJDnLnXh91eX/OoUJU0btcvbXg4J60vd7JqFt34/NaVW+QRRNzNuF0kha7z0aCOJ2COg6+11wgZuD5Wkuetnuh2tOR3bfaEG14K5bxuu589aJQuZvYWDkIT1pqWusGBVw0brO2eEyTKfCxszgF1+zDiCMvANHDIbyQj+boU7QSiHxFVCMNzUeqeWvHpGJMOekc7SvDDFtH+DJ+mkKclqXy6GXWFeuEh0L8GGQi07oZHfPs5cMjaFnGUG8NJdfCJSN3/s513PP4ctRcSx11Qd6FNK
 
-On Sat, Mar 15, 2025 at 02:20:14PM +0100, Thomas Weiﬂschuh wrote:
-> -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-> Other references, for example in debug information, are not affected.
-> This makes handling of file references in the compiler outputs harder to
-> use and creates problems for reproducible builds.
-> 
-> Switch to -ffile-prefix map which affects all references.
-> 
-> Also drop the documentation section advising manual specification of
-> -fdebug-prefix-map for reproducible builds, as it is not necessary
-> anymore.
-
-Hi,
-
-This broke 'objdump -S' completely for me.
-
-I see the following difference in the debug info:
--    <12>   DW_AT_name        : (indirect line string, offset: 0): drivers/gpu/drm/i915/i915_config.c
--    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x23): /home/.../src/linux-2.6/build
-+    <12>   DW_AT_name        : (indirect line string, offset: 0): ../drivers/gpu/drm/i915/i915_config.c
-+    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x26): /home/.../src/linux-2.6/build
-
-Looks like I can work around it with some combination of --prefix and
---prefix-strip, but that seems far too tedious to have to do every
-time I need to decode an oops.
-
-> 
-> Suggested-by: Ben Hutchings <ben@decadent.org.uk>
-> Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
-> Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
-> Signed-off-by: Thomas Weiﬂschuh <linux@weissschuh.net>
+On Tue, 2025-04-29 at 16:07 +0000, Aditya Garg wrote:
+> %p4cn was recently removed and replaced by %p4chR in vsprintf. So,
+> remove the check for %p4cn from checkpatch.pl.
+>=20
+> Fixes: 37eed892cc5f ("vsprintf: Use %p4chR instead of %p4cn for reading d=
+ata in reversed host ordering")
+>=20
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
 > ---
-> Changes in v2:
-> - Pick up Ack from Borislav
-> - Merge all changes into single patch
-> - Also drop link to KCFLAGS from docs
-> - Link to v1: https://lore.kernel.org/r/20250313-kbuild-prefix-map-v1-0-38cea8448c5f@weissschuh.net
-> ---
->  Documentation/kbuild/reproducible-builds.rst | 17 -----------------
->  Makefile                                     |  2 +-
->  arch/x86/boot/Makefile                       |  2 +-
->  arch/x86/boot/compressed/Makefile            |  2 +-
->  4 files changed, 3 insertions(+), 20 deletions(-)
-> 
-> diff --git a/Documentation/kbuild/reproducible-builds.rst b/Documentation/kbuild/reproducible-builds.rst
-> index f2dcc39044e66ddd165646e0b51ccb0209aca7dd..a7762486c93fcd3eba08b836bed622a41e829e41 100644
-> --- a/Documentation/kbuild/reproducible-builds.rst
-> +++ b/Documentation/kbuild/reproducible-builds.rst
-> @@ -46,21 +46,6 @@ The kernel embeds the building user and host names in
->  `KBUILD_BUILD_USER and KBUILD_BUILD_HOST`_ variables.  If you are
->  building from a git commit, you could use its committer address.
->  
-> -Absolute filenames
-> -------------------
-> -
-> -When the kernel is built out-of-tree, debug information may include
-> -absolute filenames for the source files.  This must be overridden by
-> -including the ``-fdebug-prefix-map`` option in the `KCFLAGS`_ variable.
-> -
-> -Depending on the compiler used, the ``__FILE__`` macro may also expand
-> -to an absolute filename in an out-of-tree build.  Kbuild automatically
-> -uses the ``-fmacro-prefix-map`` option to prevent this, if it is
-> -supported.
-> -
-> -The Reproducible Builds web site has more information about these
-> -`prefix-map options`_.
-> -
->  Generated files in source packages
->  ----------------------------------
->  
-> @@ -131,7 +116,5 @@ See ``scripts/setlocalversion`` for details.
->  
->  .. _KBUILD_BUILD_TIMESTAMP: kbuild.html#kbuild-build-timestamp
->  .. _KBUILD_BUILD_USER and KBUILD_BUILD_HOST: kbuild.html#kbuild-build-user-kbuild-build-host
-> -.. _KCFLAGS: kbuild.html#kcflags
-> -.. _prefix-map options: https://reproducible-builds.org/docs/build-path/
->  .. _Reproducible Builds project: https://reproducible-builds.org/
->  .. _SOURCE_DATE_EPOCH: https://reproducible-builds.org/docs/source-date-epoch/
-> diff --git a/Makefile b/Makefile
-> index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -1067,7 +1067,7 @@ endif
->  
->  # change __FILE__ to the relative path to the source directory
->  ifdef building_out_of_srctree
-> -KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
-> +KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
->  KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
->  endif
->  
-> diff --git a/arch/x86/boot/Makefile b/arch/x86/boot/Makefile
-> index 9cc0ff6e9067d574488a35573eff4d0f8449e398..f500f82864aae80deb74faa3df9a8b6333d6c4ca 100644
-> --- a/arch/x86/boot/Makefile
-> +++ b/arch/x86/boot/Makefile
-> @@ -54,7 +54,7 @@ targets += cpustr.h
->  
->  KBUILD_CFLAGS	:= $(REALMODE_CFLAGS) -D_SETUP
->  KBUILD_AFLAGS	:= $(KBUILD_CFLAGS) -D__ASSEMBLY__
-> -KBUILD_CFLAGS	+= $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
-> +KBUILD_CFLAGS	+= $(call cc-option,-ffile-prefix-map=$(srctree)/=)
->  KBUILD_CFLAGS	+= -fno-asynchronous-unwind-tables
->  KBUILD_CFLAGS	+= $(CONFIG_CC_IMPLICIT_FALLTHROUGH)
->  
-> diff --git a/arch/x86/boot/compressed/Makefile b/arch/x86/boot/compressed/Makefile
-> index 5edee7a9786c67e13c295473751b82387bcbd67e..ad324978b2e5b1b6f8be82647769c99db8257ac7 100644
-> --- a/arch/x86/boot/compressed/Makefile
-> +++ b/arch/x86/boot/compressed/Makefile
-> @@ -38,7 +38,7 @@ KBUILD_CFLAGS += -fno-stack-protector
->  KBUILD_CFLAGS += $(call cc-disable-warning, address-of-packed-member)
->  KBUILD_CFLAGS += $(call cc-disable-warning, gnu)
->  KBUILD_CFLAGS += -Wno-pointer-sign
-> -KBUILD_CFLAGS += $(call cc-option,-fmacro-prefix-map=$(srctree)/=)
-> +KBUILD_CFLAGS += $(call cc-option,-ffile-prefix-map=$(srctree)/=)
->  KBUILD_CFLAGS += -fno-asynchronous-unwind-tables
->  KBUILD_CFLAGS += -D__DISABLE_EXPORTS
->  # Disable relocation relaxation in case the link is not PIE.
-> 
-> ---
-> base-commit: a57512d6cd88eba04cdc1fb83832c00d248bd0d1
-> change-id: 20250312-kbuild-prefix-map-5ae76c209e7a
-> 
-> Best regards,
-> -- 
-> Thomas Weiﬂschuh <linux@weissschuh.net>
-> 
+>  scripts/checkpatch.pl | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
+> index 44e233b6f..f79f0a085 100755
+> --- a/scripts/checkpatch.pl
+> +++ b/scripts/checkpatch.pl
+> @@ -6891,7 +6891,7 @@ sub process {
+>  					    ($extension eq "f" &&
+>  					     defined $qualifier && $qualifier !~ /^w/) ||
+>  					    ($extension eq "4" &&
+> -					     defined $qualifier && $qualifier !~ /^c[hnlbc]/)) {
+> +					     defined $qualifier && $qualifier !~ /^c[hlbc]/)) {
 
--- 
-Ville Syrj‰l‰
-Intel
+Probably needs to be something like:
+
+					$qualifier !~ /^c(?:[hlbc]|cR)$/
+
+>  						$bad_specifier =3D $specifier;
+>  						last;
+>  					}
+
