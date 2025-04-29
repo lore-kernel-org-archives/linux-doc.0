@@ -1,181 +1,130 @@
-Received: from PNZPR01CU001.outbound.protection.outlook.com (mail-centralindiaazolkn19011036.outbound.protection.outlook.com [52.103.68.36])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B031F2459C5;
-	Tue, 29 Apr 2025 17:52:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=52.103.68.36
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745949145; cv=fail; b=k4XmiaSWqN3Za0U0/GsqPUAgFHsvF5AjbscXGXBnArGz+IlaMHITjY1/5wrd4cxQp3d4N0hqIkAp1I7AlrQS98saqP0HRVQlRUthBHwKLKn2dnUPhJAJcXxqrXY5YG4EMbjMpqm2SvB7YTUpY1hfb0TOvIpUWp33FW+4z/Vhdbo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745949145; c=relaxed/simple;
-	bh=05HMKZkAdRqK4i/AUMKeQNgO2j3CfWExtkJF/B7Htd8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=u5R6MuLIEeNvgQVM1SMV0Cqh0hFQNZhSQhckS25aLpxoBjTaoS4V9dqXcMFHy0FZmelTzvoRHP/0rRt9bNs8/HibUewPASsSRz9DgKUTpNWfzbwrSzhC+d3UdPHIqRSETcPqLm492AsBK3/OXcmcYNp9gvzd2XLpn+RGs+SlL1w=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com; spf=pass smtp.mailfrom=live.com; dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b=NrVXxajf; arc=fail smtp.client-ip=52.103.68.36
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=live.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=live.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 358092512C6
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 17:59:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745949585; cv=none; b=KitvfQxE39IFzxa2jiZmvK/yOoGI/yLqt+qieh+KQ8OmSuBoFGGtoklUfJbrXmwdB8woEgIO9Qy4zC881EQcUH9PdgXxsIiKOfwIpjFuOczna82wFB9qcD7ILVHewL0oRBIdXK0ALbR5BWetjS+QE3sCkWdt9LdepCRT3y9LHKo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745949585; c=relaxed/simple;
+	bh=d16RAGrhUAPMnh/Fm7KTz/flsdV6DTvv/njmBuuJRZU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=f+np/1QF5pjzbGqjAtN9KveJ9EQXBag8fNit/yd0XR3LATfT+A50niQjupg5tM0Th3ml+4OWJHtK0yWSSHaVAp0CswH+NQWqxs8jo6fV0owdlcVfWcwQNS55jOFuwx94j0YpkE/18VuxzpSCanuMJeFIlLDoNigoxfnpqlPMwao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=KQhkbJJc; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=live.com header.i=@live.com header.b="NrVXxajf"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BL1L9plWfslWI5QHOLUKFMx/BmTtjwemQrmsGfyJa1kGSnKbCfAkrdAnr3KIkgwdj5wAdCTZYj3+4HTpGiGioXZE12VY8TxworL2M124v7WSmoyRgCnEJcqx1HPcZk4t6yMz5CvW6laBfjZkJsdKEEJDQL/QGMWfda+HAqNw174kPkVTSH7x8Xgp2El5nOCnjQN5EDuBUtXAYzOcl6kEaeROrumY4pIHWjvboNsW3lCVuSqc80B9lVeKOMvjK0KK4tqsS4CpgNaZHMAl5JMYNlhNCQBSstpJtr44OkqZ1JMTtd1Nftzc9OeZCD/+f2yROGBwK/NVoS8h9yT8I+zPXg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EJQaxb/BgRCUSFPNKgQuHsdvyt5HoJ6xRlv7pEcW7FA=;
- b=hgrSGEqVYnUMF3C59Z0BHQj5F5sb7qA+mztm824mtEZLCQmq/n3pZdTe65RYV58NpdkNl8n/Xz7z9AWllfw2WUb5GSbaShIRE2BatMZbuOEcxngM0CAiPh6QdYI9zH7IB3vve8cYMQuKdyuBclGFEJr4HCHRBcb2tLLDLf+aYoiZJmCwuAeVZC+smp5DWNORhVfUO+wTIgRN29F+RsxD4XWUnT4nyOp3bWMMObdWD+N0OpoJSX7J2ySsoKNK5EVO4a06k++TaOmNF0YYrNHqe+XZ/cw7l8D+2eA9hMDUaX4PnkE7do9Ot8pVLymP8/oO8Bnrhwri5p201znr0XAXfw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=none; dmarc=none;
- dkim=none; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=live.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EJQaxb/BgRCUSFPNKgQuHsdvyt5HoJ6xRlv7pEcW7FA=;
- b=NrVXxajfd9CLyNVomRIVfIOf0T9g9bOEcrwWoKJjhsPv27rMWOyy06Al0m2xtxXRFk5NA8oOyhzW1PbM+bmWcwJultzPML+MgBBTyn4ZpEvShg9ooU2jxc6NaVkm0PBwKN4KOFgV/aZPtKCeRv1I1FNdvzJK9tmJX3kRQje/wRPsgzlVUsBP1koWkybxAR85hL7LFAhGD+rrbddqOo9edlOmVC1ywGLttnM7MhWA2iDCNe62Ugkzk0Zl/cAjkn1NMD8Vd0IUKodDEIaWRVfEvarGR6vWo6L91JRgehcsYN233IpPVMo4vYeHYMCrZZtARpQ+aYsfRE8vnEkKGVD/+A==
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:f7::14)
- by PNZPR01MB4493.INDPRD01.PROD.OUTLOOK.COM (2603:1096:c01:1d::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Tue, 29 Apr
- 2025 17:52:14 +0000
-Received: from PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77]) by PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- ([fe80::324:c085:10c8:4e77%5]) with mapi id 15.20.8678.028; Tue, 29 Apr 2025
- 17:52:14 +0000
-From: Aditya Garg <gargaditya08@live.com>
-To: pmladek@suse.com
-Cc: admin@kodeit.net,
-	airlied@redhat.com,
-	akpm@linux-foundation.org,
-	alyssa@rosenzweig.io,
-	andriy.shevchenko@linux.intel.com,
-	apw@canonical.com,
-	asahi@lists.linux.dev,
-	corbet@lwn.net,
-	dri-devel@lists.freedesktop.org,
-	dwaipayanray1@gmail.com,
-	gargaditya08@live.com,
-	geert@linux-m68k.org,
-	joe@perches.com,
-	kees@kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux@rasmusvillemoes.dk,
-	lukas.bulwahn@gmail.com,
-	marcan@marcan.st,
-	mripard@kernel.org,
-	rostedt@goodmis.org,
-	senozhatsky@chromium.org,
-	simona@ffwll.ch,
-	sven@svenpeter.dev,
-	tamird@gmail.com,
-	tzimmermann@suse.de
-Subject: [PATCH v2] checkpatch: remove %p4cn and add check for %p4chR
-Date: Tue, 29 Apr 2025 17:50:30 +0000
-Message-ID:
- <PN3PR01MB95970CA0E1E1972B39405B43B8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250428123132.578771-1-pmladek@suse.com>
-References: <20250428123132.578771-1-pmladek@suse.com>
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: PN5PR01CA0043.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:264::9) To PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:f7::14)
-X-Microsoft-Original-Message-ID:
- <20250429175029.56866-2-gargaditya08@live.com>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="KQhkbJJc"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2264c9d0295so198285ad.0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 10:59:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1745949583; x=1746554383; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=QZWx5YzsE6VtBscW7jSSrryOsxFdJT63HSkZNADS7Hs=;
+        b=KQhkbJJcGzLvo1uHbQJNFTjX5nhmx2MkqHc+/fEI+SDQVhwDDa4aJuzYG9YAWMFDXJ
+         3InBM0/0JGUBs5PC4mgxAWiSJb1c36oWfDT2ew1I9YnxDL2ZTQ8zD1pWCr9L71f06lwO
+         ZtOCWrpF02evC1mOVwaVLJQfTUEggPBHko60CWuu5ubPmdghKJKpf1BRd7lc2menlw9x
+         jad+/NNqrIGVDq1fU4Li03OucZdSZglhuerrOW0mcPEa7y6+mp8JDQ5vWkB8IvC9cy8G
+         MOjeGIcPEZ41HYpI+Y/vSgX4IsmyERs0orBdEo3ybUpPXXE0SyePg6/Gen8mnxpp4fM8
+         r+3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745949583; x=1746554383;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=QZWx5YzsE6VtBscW7jSSrryOsxFdJT63HSkZNADS7Hs=;
+        b=XwJMgeRJp5U9roQ7fv0cEHKoMXIGUbBBIxjI2ffXUcfqbIyCwI+60sQ58QHX6CRJsU
+         h2gxqxgvLoI1RUjpCzjGZnHgZeunzvkMHGs0Ndu6opBNjHKIq9AREUUHbcOwi6aUBJHZ
+         718y9hcsLM5CNidKcqYKO+gyyv/4ionBJt+YTMsjpDVHrslcKYltx9imLR7VUga2v3sS
+         +Ip7WxyJStQCq54FDmmSfAFRw6/7tSzsZc/xzmYH+Z3o4PgNnTrJTHkXubznWLI1iAM2
+         EkDoQfRWLO7Q0jZ0yQZVZRnWj5ScOg17aHJPO9vLnbDhmLpM8MxEduGAWB5pgs2osMoE
+         V3RA==
+X-Forwarded-Encrypted: i=1; AJvYcCUtyGxZT07bkBD5BIbQDbEk8rieTsZ17LLp/6OQ0Z9jdF/Xwet29Cl1mO3Tk36Evn3fU6GzTgirZgA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw0AZ1NSFNh/0rn7LlpiA+Z+PuPnPLw8ElTMFYIv6TFqpN8oirE
+	n0uhB2h3FqdWWo6m/zBlOajWj0pUKZ148qn1T+rMTPUfeljUFYQdlvPYSKfZfQ==
+X-Gm-Gg: ASbGncsgcwPloviu8sj8wut5WmbGIMBejTbttqbAJWDry4Gc6EKiyUYFur98QQQ6ag7
+	+qb/IbBEZW2AQ9wLI+XgxEQdgJVYs4epdNFiJtAeaCWoWiQ1k8B1LOM218VeX4Qt2dqfZPh/5yR
+	lwbGZXyH9bBrDhStcrcGQcBTdfJg+ggZ9sFTs3rWSH+H3s9AAMH+byRqxlJnqVoRV1WtZBW3q6l
+	GuEprBQTT+WS9Di1H4/w1WCWPdsIPo63Q8PQFkDZHLORi9VoWDlEh4L/eFVRdeLIs6TTr7wP68p
+	RlxdaydFa3aoEIymR/SvMy1nS2nhT3hHmKvDNc20wUvSFPBkN4HgEtpkIOb/Ky1OJ9+sVuSw
+X-Google-Smtp-Source: AGHT+IFpQWcmyzP1N/TbZRNb1gatjkwbbsmgC09afTOnO3GyWImnhX2qlaIfI4JGDZZ0CTRg72ZS0g==
+X-Received: by 2002:a17:903:2303:b0:215:f0c6:4dbf with SMTP id d9443c01a7336-22df3fe491emr117295ad.14.1745949583190;
+        Tue, 29 Apr 2025 10:59:43 -0700 (PDT)
+Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db510272csm105625315ad.177.2025.04.29.10.59.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 29 Apr 2025 10:59:42 -0700 (PDT)
+Date: Tue, 29 Apr 2025 17:59:32 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v2 11/22] iommufd: Add for-driver helpers
+ iommufd_vcmdq_depend/undepend()
+Message-ID: <aBEThP2Bn0YDgXfu@google.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <a25c9454c17663f9e79b37bc2908bf3a99856be6.1745646960.git.nicolinc@nvidia.com>
+ <aBDIpz7w8wxIn_AF@google.com>
+ <aBEIBKdjuecVHgpU@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN3PR01MB9597:EE_|PNZPR01MB4493:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0115287e-a2d9-478b-03f6-08dd87469304
-X-MS-Exchange-SLBlob-MailProps:
-	dx7TrgQSB6dEoOZOj4tPAZubvlSTC8VXA8MmqaPG/8fFjClICWiBGQfiN69UVvCHgYHPlnls6u6/RvvHhUq3rdZ+MYLx+wRnQbqdIIkS8O42CVxnalYcjjdoIXzE4lnzhETG0in5VEPEnF0go6DVC0Fy0r7wl+CI0d4yO4AArwwe0XSDf3jSx6cYyzj7UC06eox36tVeidzS8yjvH32an9KgReeZJsUKxbjUOHPdHPWApq6Y88rCwNbbcBvGHxG6cZSoCTj9onhaplSUP5hNgoGMD03wSq4PkVuMG8+leENwUEW2YfX4oJgzpAfcTDCM5LgZUTKb/VUZcQWlUplCtDOqXv+E5SnTzYZpDy/joiMvd73PzCEivobdo7d2xdmG6I8gQdVhSRzEaN2mkludulnErlCE101t671akLS9FemXzNnWpfk409VKNXN0w9FFMbFKd45GZYePczw2oquZ3/+RI+Bow+YY3Gd7iqdRH3w3h6G5sEt7DO5i1TZnnxZN0WRLsUvgDQeIYMTsUi4AqqfPlBm3gOJJ7wc9xBtTw0I2QS+8w4cu14GCcDm3Qe2mAu2IMYPf3Xc6oYtvkS9vFHdloggrWTjX88JVWkOZ2K5IQ0NW5BLy6M+oQ3Eho6y3g8PvX9Ylp7ecEk8d0V+RU1JPhZmU8Cm9mygpoJnxuLOcm0wXAc4uD/m1Hkbi4Mg0odNOdYabNQCgmCSA7hLP9Fp2KFY8nN7XSReAPPsDE1w2S9zyqJgj07SHn/1cD5pxNPH4eSbDNlM=
-X-Microsoft-Antispam:
-	BCL:0;ARA:14566002|461199028|7092599003|8060799006|15080799006|19110799003|5072599009|3412199025|440099028|1710799026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?NPBlBEyQsZ81BMQOmpW/j7JnshTMKabywN2wCFG1GrAIGFpjLXbO/vcMSAIr?=
- =?us-ascii?Q?mC9m2ogTkBaRJRDfj2o6hF5C9bvfnd+uBrn/y7RUH+VI6QH/4OFl3eF1lqqr?=
- =?us-ascii?Q?u3avdkUyvY46I13aD14vLHVg/LltNlD6g7bWYextZpO03nTeFW+cY1Bc5ab0?=
- =?us-ascii?Q?rDI9E75geuHpFJeEe3oro/HdND2ebm16oKjVsf+tu26cz7MNjfvxFlExWeqH?=
- =?us-ascii?Q?k5XjdIpd7bsI3V1oLBgrN3FeZqLZswi0n3QFZgqG9JXckGt73AmOMD30ZxyD?=
- =?us-ascii?Q?1E0r2mEFbIYdtEPYU1ag+ZSZdg42GH6kyDqzN/4Qz6qThHMrgyVJLk+Vo672?=
- =?us-ascii?Q?IWc5BGOhw/i5aT50LheVQj++2DubDUafgilzxwrERzqW7xeH4+nYtka7VxpW?=
- =?us-ascii?Q?7fm65JUAwmQuAhK/SmsuMrmyw78awjOH38ciFRzjwxx9lBnONrxpYZkZ40Cn?=
- =?us-ascii?Q?mQpNDaKktOVskwvD2/LV7E92WKDMib6ugNPmYc342EPUXMOOcCwitQ2FUM2u?=
- =?us-ascii?Q?gSGapcxajqjwVZYndxmsvZknq/7/JNA7TnwXUO2buwh8plN7E9rp5Pvq5wid?=
- =?us-ascii?Q?NxqLyVdbVwwSoTHnsJEqIuY7gCcHAL2omBrpAV/jDAtGfSXrixnXqLh8L5IB?=
- =?us-ascii?Q?CNxkAnlANLYUVXB/fIHIysDHvzHOq2/Ng7rUiSrgWB5251pyJruRVxWAGFti?=
- =?us-ascii?Q?x3BDa8NQdL0LO1t3Lem9ija81083pCq5eggApSB2HeNxhLuP8izsoFH8gt9v?=
- =?us-ascii?Q?tyYo7Hyb9KfBVvgGjaAoJSjdK10BRNnJM/MjFDrX4WLFynEoaNUXjh2KItZr?=
- =?us-ascii?Q?8nq9nahKpwJlko+hgAHop3Qr3DYtoX00HRsaSbs+T0i9TmMEFEsQsTooKtpk?=
- =?us-ascii?Q?jKIhk0tNU/lsVd4iGpYBrGaReGlHydDsZ21z67N0zuLY1gsfu5B24MM/hzNe?=
- =?us-ascii?Q?95+sGm/IadvRBTaEZ495mvHrb/lNEXBPK34XiSLubDD1+g9K0lIcixb+klg0?=
- =?us-ascii?Q?2rUhw0dH6Ahq0/QwGZLahDYX6I1UYYgnipXPkrFILVTGis8uXc5vQBLf7nGf?=
- =?us-ascii?Q?Pn2Zuvw2++zvlVQHxrTk2XGMPBNWookptz5tbLj2EPf2F/LOPyY1oULNZN8a?=
- =?us-ascii?Q?2/Abg1yD9al0++gfDKcIbbaWzvFdMaR5cQ=3D=3D?=
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?HJklBSVzF89xbnU5jzQUVpVEZoxG38YdjN1XIQP6xUqwyiYEUwiTaJ7fylyx?=
- =?us-ascii?Q?cfROwZCp1PjFyxYasdEFq2STvaoKbeM13uN2xWVKlPFciA7yr0DCnFxbYQS2?=
- =?us-ascii?Q?IFb0KfcnOcmAOYnsYoqo9RJ6IBvTCc2L29EiNCShV9rxgwrH0TUTNkPz6pN1?=
- =?us-ascii?Q?aS+6j1dE7F3kkLdfikrzkE9dE9cyujFV0yMvi/akhcXh8zhY0LOCXUurfqcI?=
- =?us-ascii?Q?mK2dOGIqk0s+H/GLc+UDvjmZ1R4Iu5vitnqADv3FuXbZDGhdjiy1l1EYsStm?=
- =?us-ascii?Q?RwZGGStJlsQ15qMARjp0AzoQX+0HSVnCe6tIZi1QlAiNltilo/M1K5iCTo2B?=
- =?us-ascii?Q?dDm8Tkh+xMbquyCIZJ4Re4AOhn4LGz2jAa/2SSLiNUrfnbhD6AaF2Zuoa0bh?=
- =?us-ascii?Q?8hbqBUA9PNkBZGYDw2OwVqM8smViNh95VpNawIOEyslWd4cIcD8GSAcnIy2K?=
- =?us-ascii?Q?WfQdWgSdq0Smb9QzZwBlSDDBrZtUPmjYb5LgOwY1mQWigk3UMGPUo1w8aVjE?=
- =?us-ascii?Q?cY6xfPU9fSXpPbKkZL+2mkaJRnZ/3LIFdz06XSAADmpV3TYPKyTBazh0yia8?=
- =?us-ascii?Q?Y+idghdE9iuL1KiBEr141ef62pfTsoHUV7/fwR3+apEbPPHRkafqf9CJzEPH?=
- =?us-ascii?Q?6dn4Pi7eYRTL8Zg98fy9bAHVHKW+Unh2MUK2eAojL59feOuEFPP5G9O5QU5q?=
- =?us-ascii?Q?26P1NopGvrYVzIstqdCOh9gQ2qYO7m2YprHrXfLd/LGe7Cu+SVhOX62h2uBR?=
- =?us-ascii?Q?mkqtY0GTYn/2ZG432MHEJYTJDniUxUxBaZm9TyjJXWWkImcM5TaraVy94n3f?=
- =?us-ascii?Q?zt9rnQrZ2jwhEBfpW8D1XkwfGma5TYa/eFqf6QAiFom0a8en3Omf8X7A1/Er?=
- =?us-ascii?Q?Y3oLMLuO7vn8W6PeKJT4BrF+xgTV4u47c/VMie3DV9MmmJPA0oYvcfDtXHxT?=
- =?us-ascii?Q?qFUFS3CUo+d66qM+b1qaNJTOyjLB/ZqtH+kshg9ErcYYjocnZ4J8oaPXE00q?=
- =?us-ascii?Q?oIv/YzVK5G2o1wRXzHHsvjHXNPivv+sDGLxuWnio9g9yUYbQfacPlUVDHAlI?=
- =?us-ascii?Q?+bjBRQj1jYsLzjbclq6PmKjCwjBX+Sr7qChsIGMFnQQ1oAg/Hz1cfd48ffYB?=
- =?us-ascii?Q?ghC7HS+0jHuJmOJ5MM6yO6g0YEE1rblSoOugicUo95FqyUkiLoLeb6Z3EOMv?=
- =?us-ascii?Q?Afu/Spea1Pz1N2TnnrVe0m2kcMRe/CBlAUOSV6C8asmgsswAqeRhrprPTWg?=
- =?us-ascii?Q?=3D?=
-X-OriginatorOrg: sct-15-20-7719-20-msonline-outlook-ae5c4.templateTenant
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0115287e-a2d9-478b-03f6-08dd87469304
-X-MS-Exchange-CrossTenant-AuthSource: PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 17:52:14.2624
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg:
-	00000000-0000-0000-0000-000000000000
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PNZPR01MB4493
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBEIBKdjuecVHgpU@Asurada-Nvidia>
 
-%p4cn was recently removed and replaced by %p4chR in vsprintf. So,
-remove the check for %p4cn from checkpatch.pl.
+On Tue, Apr 29, 2025 at 10:10:28AM -0700, Nicolin Chen wrote:
+> On Tue, Apr 29, 2025 at 12:40:07PM +0000, Pranjal Shrivastava wrote:
+> > On Fri, Apr 25, 2025 at 10:58:06PM -0700, Nicolin Chen wrote:
+> > >  /* Caller should xa_lock(&viommu->vdevs) to protect the return value */
+> > >  struct device *iommufd_viommu_find_dev(struct iommufd_viommu *viommu,
+> > >  				       unsigned long vdev_id)
+> > 
+> > If I'm getting this right, I think we are setting up dependencies like:
+> > vcmdq[2] -> vcmdq[1] -> vcmdq[0] based on refcounts of each object,
+> > which ensures that the unmaps happen in descending order..
+> 
+> Yes.
+> 
+> > If that's right, Is it fair to have iommufd_vcmdq_depend/undepend in the
+> > core code itself? Since it's a driver-level limitation, I think we
+> > should just have iommufd_object_depend/undepend in the core code and the
+> > iommufd_vcmdq_depend/undepend can move into the CMDQV driver?
+> 
+> The moment we added iommufd_object_depend/undepend, we already had
+> a blur boundary here since we had no choice to handle in the driver
+> but to ask core for help.
+> 
+> The iommufd_vcmdq_depend/undepend is just a pair of macros to help
+> validating the structure inputs that are core defined. It is quite
+> fair to put next to the raw functions. I also had the notes on top
+> of the raw functions suggesting callers to use the macros instead.
+> 
 
-Fixes: 37eed892cc5f ("vsprintf: Use %p4chR instead of %p4cn for reading data in reversed host ordering")
+Well, yes.. in that case let's call the macros something else? The
+current names suggest that the macros only setup dependencies for vcmdq
+and not any "two sibling structures created by one of the allocators
+above" as mentioned by the note. Maybe we could rename the macro to
+something like: `iommufd_container_obj_depend`?
 
-Signed-off-by: Aditya Garg <gargaditya08@live.com>
----
-v2: Add specific check for %p4chR as suggested by Joe Perches.
+With this nit,
+Reviewed-by: Pranjal Shrivastava <praan@google.com>
 
- scripts/checkpatch.pl | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> Thanks
+> Nicolin
 
-diff --git a/scripts/checkpatch.pl b/scripts/checkpatch.pl
-index 44e233b6f..d5bde8322 100755
---- a/scripts/checkpatch.pl
-+++ b/scripts/checkpatch.pl
-@@ -6891,7 +6891,7 @@ sub process {
- 					    ($extension eq "f" &&
- 					     defined $qualifier && $qualifier !~ /^w/) ||
- 					    ($extension eq "4" &&
--					     defined $qualifier && $qualifier !~ /^c[hnlbc]/)) {
-+					     defined $qualifier && $qualifier !~ /^c(?:[hlbc]|hR)$/)) {
- 						$bad_specifier = $specifier;
- 						last;
- 					}
--- 
-2.49.0
-
+Thanks,
+Praan
