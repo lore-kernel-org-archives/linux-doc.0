@@ -1,128 +1,125 @@
-Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7ED0A2253A9
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 08:31:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5868629E05C
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 09:00:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745915483; cv=none; b=m2eenFfHRn/E6jCCcqVzeEFBx23oXf80GJ2NEUbr4bLKF8qZXGUzVeA0DfL0TsP2StMAXl3gALSpqPv9OtAaqvyQByVPW7RLbQMuXobJx9yIIek2FoqD+nvj8amtZcUsYuv252fITAp3mJIIk3UTXSvbU9aSB3jtz5w3GpzTf5w=
+	t=1745917234; cv=none; b=t7NOVaYnJ3hb+LqQprsbQoKXdqQyLnGOI/Dx1m7OTmVdKNftI3tn+RnPypvi/pAz+LAwv0WcYoOT2CahqR9nSiBAKmqbUDd5QRUFCF3AcsYGdHHpVwMmX8+AcnHDi4FKRKJ6F4lbT0VmoYcufATv70SFdGdn80WmuQG/Hr3ZRoI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745915483; c=relaxed/simple;
-	bh=85qKaVraS+9MNdskLBxSjS9ktFkx0yQSDGXvIR/OvQI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KJ2kGIIiiESu7dlzIu7zgIk5NGZf/zZhwI1Venxd1uUyvbB/x5YVI1Owf3epMPbTE1U9yzgRkc6jHMcBIgOuyCEqXaGxKwxjtIRfu73azReXfQAGfKAT0Fht8VcJwo/akpBwV2de4bM2kPIWN5UvAN2ZMCVoD+DoRnH+0WY8+7A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=oAodT9uA; arc=none smtp.client-ip=209.85.214.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1745917234; c=relaxed/simple;
+	bh=2KIKuRu81xZaF2280xYX/+R5+wlu8WDBf1ye5GbVH/Q=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=laMDcZS2LDiTl9VKqlwLfMJb3KfJGsE0O1KglLAKHPzH8YjCUMpjSKkTDpTZHK7/IVZsp5eSNyPyKjVuPFy7qs8WkcH45nmA2u/qa+SXf9ngzLPBYY+fLXWhFmSL9tRk//24FWDH4PjAV82E5kEdczIqpRvXzUC7/AJJ00BtkHQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=MzsWoP1b; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="oAodT9uA"
-Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2242ac37caeso52825ad.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 01:31:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1745915481; x=1746520281; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=TNi2KjTVYx94VsJLpl+aLzT0MDWDcyauEZBdUwqWejg=;
-        b=oAodT9uAJPpRkgB3B/eY+TMN04Fr3Putxl7q1c9Y+evLoj9i/ms+hT5HWJDs1hTnOK
-         d7wuMLxYD/czi7XXAIs+5pmHtC0hnxx1y7ekzhsOrYHXspWK5JDSm8bujYtOQCQCtbkH
-         ap5kE5qJ4qsOjatA9vGFq+a6r52hqDc30+i8/EJ8Be3kEd4cDaQqDtFP8PszYpaOe6HZ
-         cLf3ZMz2D3E1t04HD8iyhPcOoCCUa/G926U42LrA5DQ7CJbB0PV4Vz9j5y6WvWwQ+4Bh
-         Xjs1lABiyE0wzToxARN4fCJLQ42WCqAwRTwVF31zt9jxP3EfB7LidjyQAmwW6wMQEpKD
-         ZQMA==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="MzsWoP1b"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1745917232;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=PCHHHLvZcH3BVlqKXz9f7p7K33kY7dzdDWtjNHcUjrA=;
+	b=MzsWoP1b+qyCz7qXJzrEMv1If0bRprgfGIQO5xl0G/tco8NYP55ROdsRVH8LP9sJsro7jv
+	XzvmzNM9lQApp1Tz4GaCCuhmn/z6LL6VhVko8p2blqD6K9SLOjgTVUuHpEhF2uQqGqlWDa
+	l2YUO1BjdSRPmSBbk5db3WEkW8oO1Zo=
+Received: from mail-ej1-f72.google.com (mail-ej1-f72.google.com
+ [209.85.218.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-187-fzSF2tSrNoq2oLK0Bw5ZVA-1; Tue, 29 Apr 2025 05:00:24 -0400
+X-MC-Unique: fzSF2tSrNoq2oLK0Bw5ZVA-1
+X-Mimecast-MFC-AGG-ID: fzSF2tSrNoq2oLK0Bw5ZVA_1745917224
+Received: by mail-ej1-f72.google.com with SMTP id a640c23a62f3a-acb2fdc6b29so129290466b.1
+        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 02:00:24 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745915481; x=1746520281;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=TNi2KjTVYx94VsJLpl+aLzT0MDWDcyauEZBdUwqWejg=;
-        b=MQtM8snLRKcmoPNoQkcvTTO8Rm8XM8WSoz1KZHkA+0AhzT1cwVL9p/Qa/IFdT63pns
-         GNOME/W6CBPRWw64D9dLken+PGalJfJQJRH5f38irtd0j2ElnriNz4XS9sh6PTBzvTB7
-         JHOZBOoQbzIz7r/mt0J0Hgmw5L6oFZY5DyQe3nnQxq5Oa3VIRRE3oQomwNi1ZJwAe9dn
-         Sx7jVN8WO2OSHvHQqziZ6VtWjbEFFCLoHPJREqIlW0hL4HyW41f5Eee7lmmeI6f0KcQW
-         4lLGGIaxmBH5/lR4ml+Z+nG0Y1DwM6pI5Zioaih/sDbVvG6tOrJRqbGCF6jnbJ6WcPsU
-         JiSg==
-X-Forwarded-Encrypted: i=1; AJvYcCXSKzwwlKMrs6TyO2Z4gPaw6i8B1xfud3Q8okRekICgE0QYg5vj113Hu02+MzBImEdEF9unlSN4kUQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0YykmjHAdA1ir8MVlGtd32xP98SW7AmKSjs0uQjROB+qOy+5+5hv
-	oUoUDA2aRFiybD3FCgmFMN/5BRGZiObPjEKpwlu5G1rTvsKtuXUBdrIe/DMi4A==
-X-Gm-Gg: ASbGncvSAKRl5RvQgEqVy+KT5Uh26WDiNY91h8lX5w1WFM/OaPtDw6UV1yacc3OP+wg
-	qkuuSuM5riOy3ch13QUT1KG/17XBgJBWA2mDtZ+sXIvZHqWCyrHZMogH83DHxCfOui6bypj1M+Y
-	qtkU7eRUYLOAOGo04sApSMcKVXwRHsi7ujA5hL34oCZw5DNuH3Vgvqwoin50ZGaWoHYHY1Kl8+t
-	Ik6jJYXMC63XSzDnIajJZgEmHeJOnvBwKvoHQVdMIX3Rrax7c0RVwLQ7n7cCdWySLYlP9SkTKFa
-	gbxL/pGrumLril0kz/VpGl4VnXrVBvoPoSfaLG7hSaHknp8tZpFJ8q7I/xcF0FDKl1i0Dpxw
-X-Google-Smtp-Source: AGHT+IEuwEN6Vz0nl2aEx/jObUHE3H07L74jGS/5bsNXpJR+QacDK6nh9jI6VmQObGdH+OZv4saKuQ==
-X-Received: by 2002:a17:903:1cd:b0:21f:465d:c588 with SMTP id d9443c01a7336-22de6c52c70mr2586365ad.14.1745915480493;
-        Tue, 29 Apr 2025 01:31:20 -0700 (PDT)
-Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-309ef124ce9sm10440195a91.34.2025.04.29.01.31.14
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 01:31:19 -0700 (PDT)
-Date: Tue, 29 Apr 2025 08:31:08 +0000
-From: Pranjal Shrivastava <praan@google.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
-	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
-	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
-	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
-Subject: Re: [PATCH v2 04/22] iommu: Add iommu_copy_struct_to_user helper
-Message-ID: <aBCOTDDC8--age-V@google.com>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <ca032e90c0241fe0653023fcb655185dba763f5f.1745646960.git.nicolinc@nvidia.com>
- <aA-_5FQK0uZPdGVA@google.com>
- <aA/HN2CV+0UQ4S9j@Asurada-Nvidia>
+        d=1e100.net; s=20230601; t=1745917223; x=1746522023;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=PCHHHLvZcH3BVlqKXz9f7p7K33kY7dzdDWtjNHcUjrA=;
+        b=SZgaQ8e7FlNgb8kr+IguNZJznOUbznkKc/qsCDdBTr8tABB20O78CI9hFnhG6pdmkc
+         bYoFczoLjfygfDza/ZjELTXnUFssoUc67Ey4Hj+HZuBIZ0G/ilIMJ8M3Z8s2VfMKMiD8
+         eao7VT8ifQ2zXV/KVNTIvJ3nmWoeqvjHNioyHgaK/bIu4QpImTThuH6dYniKmTQ25X3D
+         eRGDOd8OUv4m9TXGaZLPDe9Conm7N97k+FsBCQP1vuZCIgHtHOzloMfh8gUUOTy8GCcl
+         wMRC7vjhCvLLQ/M5hpOp/4ibYjOcuet0C3TThpB8SABQIXqjFZb9VUbYm2pXlOJuazDP
+         dr8w==
+X-Forwarded-Encrypted: i=1; AJvYcCUQLmXG6f+6rNVqJ2EyeUmOVRpna6oEYjPcsK7MXEw+XAe+rYyfzP57bwdHJSos8Td9wdBuFKHBAwY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzYGvWCFHbtWz3kJPYVw9asqp903xvzroFBdVJ3zhthO3TPzrrm
+	5do4QDG6a+65vMzx73L9lpzfD6c6xFm/DIPD1uyXs28/NIwHcnFYuZlS7/J3XAWwvYzPo+ZzrzP
+	AMgYKGgEGVS1RmEstcyy11vchTzqQvOD3pWP6f/gaXrIv3qRBiRMNFbHytQ==
+X-Gm-Gg: ASbGncvE7s2uSAP9uOgv1rJhxvZMLpP6a1KxVwtXjb2RUj3iBNpX0dvCvlbE/HysdYL
+	e37MKV5hCb+p/a1wMbu5dB892qHUUe0e0mcq5Zj8aC4pYXVvrJTyldkaRALKMDnYR1mGsm4v8Ow
+	WkRJ3NUybzEqJQ8HNGUOLeSwtoXj1FHqekeaBOaJ2++9wE6C8Lu14fXZiBd+NaUyjwlx+a5FxMr
+	pA+24ncioWw3nSYsSJ+vHXCB0jIc96yPQrGAnQLYFx4FqV6Gqg3SvrjOV3Fnuz1eE4B8QolnLid
+	TuWREr9TS9qeOs2/YlWKuIPEJJrOt5LNOHNT6HtOcypPqW0IUxczu1CIlUw=
+X-Received: by 2002:a17:907:1ca4:b0:ac7:b1eb:8283 with SMTP id a640c23a62f3a-acec6a4958dmr218813466b.17.1745917223560;
+        Tue, 29 Apr 2025 02:00:23 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IEkmrc9oaifrsbfBdKoTCsdQffffsFtg2dW8YPIfDy01PUM4CZM4fNcXpfPUjcXmTBPdpHaIA==
+X-Received: by 2002:a17:907:1ca4:b0:ac7:b1eb:8283 with SMTP id a640c23a62f3a-acec6a4958dmr218810366b.17.1745917223187;
+        Tue, 29 Apr 2025 02:00:23 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:2726:1910:4ca0:1e29:d7a3:b897? ([2a0d:3344:2726:1910:4ca0:1e29:d7a3:b897])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ace6edb1cbfsm741676566b.181.2025.04.29.02.00.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 29 Apr 2025 02:00:22 -0700 (PDT)
+Message-ID: <be2ae666-a891-4dee-8791-3773331ce7d7@redhat.com>
+Date: Tue, 29 Apr 2025 11:00:19 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aA/HN2CV+0UQ4S9j@Asurada-Nvidia>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v9 02/13] net: pse-pd: Add support for reporting
+ events
+To: Kory Maincent <kory.maincent@bootlin.com>, Andrew Lunn <andrew@lunn.ch>,
+ Oleksij Rempel <o.rempel@pengutronix.de>,
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>,
+ Jakub Kicinski <kuba@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Donald Hunter <donald.hunter@gmail.com>, Rob Herring <robh@kernel.org>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman <horms@kernel.org>,
+ Heiner Kallweit <hkallweit1@gmail.com>, Russell King
+ <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>,
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>,
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de,
+ Maxime Chevallier <maxime.chevallier@bootlin.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250422-feature_poe_port_prio-v9-0-417fc007572d@bootlin.com>
+ <20250422-feature_poe_port_prio-v9-2-417fc007572d@bootlin.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250422-feature_poe_port_prio-v9-2-417fc007572d@bootlin.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, Apr 28, 2025 at 11:21:43AM -0700, Nicolin Chen wrote:
-> On Mon, Apr 28, 2025 at 05:50:28PM +0000, Pranjal Shrivastava wrote:
-> > On Fri, Apr 25, 2025 at 10:57:59PM -0700, Nicolin Chen wrote:
-> > > Similar to the iommu_copy_struct_from_user helper receiving data from the
-> > > user space, add an iommu_copy_struct_to_user helper to report output data
-> > > back to the user space data pointer.
-> > > 
-> > > Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
-> > > Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
-> > > ---
-> > >  include/linux/iommu.h | 40 ++++++++++++++++++++++++++++++++++++++++
-> > >  1 file changed, 40 insertions(+)
-> > > 
-> > > diff --git a/include/linux/iommu.h b/include/linux/iommu.h
-> > > index ba7add27e9a0..634ff647888d 100644
-> > > --- a/include/linux/iommu.h
-> > > +++ b/include/linux/iommu.h
-> > > @@ -562,6 +562,46 @@ iommu_copy_struct_from_full_user_array(void *kdst, size_t kdst_entry_size,
-> > >  	return 0;
-> > >  }
-> > >  
-> > > +/**
-> > > + * __iommu_copy_struct_to_user - Report iommu driver specific user space data
-> > > + * @dst_data: Pointer to a struct iommu_user_data for user space data location
-> > > + * @src_data: Pointer to an iommu driver specific user data that is defined in
-> > > + *            include/uapi/linux/iommufd.h
-> > > + * @data_type: The data type of the @dst_data. Must match with @src_data.type
-> > 								   ^
-> > Nit: Must match with @dst_data type.
-> 
-> Oh, that's a copy-n-paste mistake. It should be:
->   * @data_type: The data type of the @src_data. Must match with @dst_data.type
+On 4/22/25 4:56 PM, Kory Maincent wrote:
+> +/**
+> + * pse_control_find_phy_by_id - Find PHY attached to the pse control id
+> + * @pcdev: a pointer to the PSE
+> + * @id: index of the PSE control
+> + *
+> + * Return: PHY device pointer or NULL
+> + */
+> +static struct phy_device *
+> +pse_control_find_phy_by_id(struct pse_controller_dev *pcdev, int id)
+> +{
+> +	struct pse_control *psec;
+> +
+> +	mutex_lock(&pse_list_mutex);
+> +	list_for_each_entry(psec, &pcdev->pse_control_head, list) {
+> +		if (psec->id == id) {
+> +			mutex_unlock(&pse_list_mutex);
 
-Ack, yes that's what I meant!
+AFAICS at this point 'psec' could be freed and the next statement could
+cause UaF.
 
-> 
-> Thanks!
-> Nicolin
+It looks like you should acquire a reference to the pse control?
 
-Thanks,
-Praan
+/P
+
