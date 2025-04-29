@@ -1,101 +1,119 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02C564431;
-	Tue, 29 Apr 2025 14:47:47 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5721E21504F;
+	Tue, 29 Apr 2025 14:50:12 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745938068; cv=none; b=LreflitbBeZ/H2A0/MIMDcJveFjFsNS3QE+ZAX+0kpKI5Dq/rbv3rOBkaBybiTKwd5jTjUVAYJlCdGpj2q7AbIVmnYL6KYPKhKQif6lpoNM/Ijg3CP1okGCjuQTfe/gT59kQvzVRKLqTWEc7b6GBnNucnXLgDUq5VYzPYb6eX+M=
+	t=1745938212; cv=none; b=J3GwZGgqaSbuDg3khRV4M5qWqhn304fDYDV0ZqLRra4RlklO39FwtWNdQzZPmIErrzKtDYJo/2pq8AwTE55+a+XxAulp4578YDZG9TnJ/y2GbvUKhMzLthod4zIsqtGgADEgR73VjgPuTbCzxp+xiljoGLLaz8JUkeMzOb/RxnY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745938068; c=relaxed/simple;
-	bh=MkI4ziZBimRv816hWldVx0OhLFYQifsD85oE9/WnLRo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KjaYbOogKzX+jp9vBqN1Tjiz0w7FaKYq24edlO64lZDHt0MlXJ/gboQ+dzhIvya1VX3VC5BcYRCzoLWn/XIwGSk2g1UL2bafSRSWt3Ws5z3Z6KMfTmL/6NeiPohnkX9CuCdkClTv6Xd/XNC7MgAkeESEI15aPTmG3ud5O6pki18=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=WounUNd0; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1745938212; c=relaxed/simple;
+	bh=Uy3lf6ShP5oCjnAZKa0yP+gSLA9pi9fUNrGuoryF1I4=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:To:Cc; b=JZdgS/BN/Q8AxkrIWkZHtlb2NPLdmrqViPALpwHLmSgl4/EUJjq8sg5l+TTsV9/sJs5OXgsnbqR1xpGuFzH9JYxt92fnxUsmWnN0wkiXzJV5hkFvussi/W8dguvjwVF/ncbaXan0c9VH8/+i2oG9iXlVuRerSV2y3qi57/V9y7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QfK2BZ12; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="WounUNd0"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 260D3C4CEE9;
-	Tue, 29 Apr 2025 14:47:44 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QfK2BZ12"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 1A860C4CEEE;
+	Tue, 29 Apr 2025 14:50:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1745938067;
-	bh=MkI4ziZBimRv816hWldVx0OhLFYQifsD85oE9/WnLRo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=WounUNd0eulkbpb9nJFmNARDRgOJTxWgeMgzH+GDzDf531FCG9u/sJRkf8STQXOoL
-	 83QzAImFpqMM1G17D15FJtTsD5R2wn2IrUxESFrKXDJbgRag1YixTQUbloDXDL9vKP
-	 7G03r2CI8E4gKGRiQ2KUj7OqbcnX67iSeTmYaeXJnCIRD6WXVycSpTGOnKf9z7zxW7
-	 0ki19ufPc6GaekIxi0XTBarycL659yJyvh5/dyGEXVjOretV0Lvgt4QVrAkrJLFZjY
-	 K9ViELGkkrG+xpkBX8ccC4JkJra8R3/p33ncT5agcM8OUBX+ecboK5AhAil73NpKrg
-	 N8zBNzVv/l9YA==
-Date: Tue, 29 Apr 2025 15:47:40 +0100
-From: Will Deacon <will@kernel.org>
-To: Yicong Yang <yangyicong@huawei.com>
-Cc: Suzuki K Poulose <suzuki.poulose@arm.com>, catalin.marinas@arm.com,
-	maz@kernel.org, oliver.upton@linux.dev, corbet@lwn.net,
-	linux-arm-kernel@lists.infradead.org, kvmarm@lists.linux.dev,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org,
-	yangyicong@hisilicon.com, joey.gouly@arm.com, yuzenghui@huawei.com,
-	shuah@kernel.org, jonathan.cameron@huawei.com,
-	shameerali.kolothum.thodi@huawei.com, linuxarm@huawei.com,
-	prime.zeng@hisilicon.com, xuwei5@huawei.com,
-	tangchengchang@huawei.com
-Subject: Re: [PATCH v2 1/6] arm64: Provide basic EL2 setup for FEAT_{LS64,
- LS64_V} usage at EL0/1
-Message-ID: <20250429144739.GB26174@willie-the-truck>
-References: <20250331094320.35226-1-yangyicong@huawei.com>
- <20250331094320.35226-2-yangyicong@huawei.com>
- <957ccba4-2ae1-4358-b62d-3b5c44d7f1ca@arm.com>
- <a520bb9c-839d-fd96-7ecf-365371e65e44@huawei.com>
+	s=k20201202; t=1745938212;
+	bh=Uy3lf6ShP5oCjnAZKa0yP+gSLA9pi9fUNrGuoryF1I4=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=QfK2BZ122ILkjblPC2DYF+bxXv42KhvQwhWqsSqsxuA5D74qHtB2+g1MVGuZ/LtUO
+	 XW8L9dvTznLyrJiANqh6fg5wIxTjQq9PQhQyk9xTCwgTNFRsNL6sa9oh3iTDiuAMAM
+	 lwTTmeuu+P87+9qCodwqXdDxsmLA3hqzNbwafJoozojfbXp7TDXM79cGWg/GcgO4EJ
+	 GqZQ7cPMS5RquwS9pQA1b4MvXBsKl0s0LgiizDJS7QBRU+537yYYIZIwVRGm9qkOtA
+	 ArrbcdxQ8KHhgZl6ZT8umokghx96VqCMn/+lpq6ZRbdgkgeUHRwKISX9vP/Mtnm4A/
+	 Ubv4eZG378VfA==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 113E7C369DC;
+	Tue, 29 Apr 2025 14:50:12 +0000 (UTC)
+From: Levi Zim via B4 Relay <devnull+rsworktech.outlook.com@kernel.org>
+Date: Tue, 29 Apr 2025 22:49:37 +0800
+Subject: [PATCH net v2] docs: tproxy: fix code block style
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <a520bb9c-839d-fd96-7ecf-365371e65e44@huawei.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250429-tproxy-docs-fix-v2-1-20cbe0d91827@outlook.com>
+X-B4-Tracking: v=1; b=H4sIAADnEGgC/3WNwQ7CIBBEf6XZs2taQiP15H+YHoQulqjdBpC0a
+ fh3CXeP8ybz5oBA3lGAa3OAp+SC46UEcWrAzI/lSeimkkG0om+luGBcPW87TmwCWrehMVprK0U
+ vBwtltXoquBrvsFCEscDZhch+ry+pq9VfYeqww0EpGqSSsuhv/I1v5tfZ8AfGnPMP4NGXbbUAA
+ AA=
+X-Change-ID: 20250427-tproxy-docs-fix-ccbbbf42549f
+To: "David S. Miller" <davem@davemloft.net>, 
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, 
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: netdev@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Bagas Sanjaya <bagasdotme@gmail.com>, 
+ Levi Zim <rsworktech@outlook.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1513;
+ i=rsworktech@outlook.com; s=not_default; h=from:subject:message-id;
+ bh=NKjV0mTkVlgZ5Qae4uXgQi5NGdHyS6jBKgNza+UO9ck=;
+ b=owEBbQKS/ZANAwAIAW87mNQvxsnYAcsmYgBoEOcaFCexvq7uGJB1WvGKOAK/+N2YlYX7U4MvE
+ Xj/h1GjLKuJAjMEAAEIAB0WIQQolnD5HDY18KF0JEVvO5jUL8bJ2AUCaBDnGgAKCRBvO5jUL8bJ
+ 2GzgD/9ioRWNEeQIjH1V0ALiE+1n0soTvI/Ck2yvHO7h9Byser86y8ZveLp5TV2+jvQME2HtupI
+ UecwXF/GWFqM3aWN3+D3j4bzW72yxxP+9EtL90PIiZWdB48sgGae02oMFnQIH45gISVANiWwg8Q
+ 5E/sCCopJEObePMgvy6FHgoRk6l4Qh+nxqGMYfbgpBIHoWloWy89s/+r5OFc9jJ9y5i4qkqtvZf
+ IIJH9Wm/qDX3W2gY9Q8RzIAedV2LXI44dGGEMaA5AUA8o//PvMSOjyTi1bQ9QcvIYgoS2sWVKjn
+ arViX4i3ZgTNDxcXyeE2oYNrrQ4OOQjKuAlyIkMIXWuVimRTnAvpPKBaj6h8O0iJQAJupDhhZVi
+ gfn1gpLrqENeq5nSqNrn853Bt1dU3ui+gH5xKa4vJrMckhl/R00YAXwUVNpzetuWHbvtkUxdMH6
+ qlRZxgr05Pzsursh/JK9smWnwW18I4NFfz+kjfiWrcuHgVvdzcLE4M+PKeihWxkgGKgkZSz3QIS
+ 95/wypwNELvyBbP5zgyJ+h9b7ph7mAc9dzmo+W4+Y/TBk0uKyvZV5a8bW8GGciudPG4kkhjLoRa
+ 4qEUMZAiPyWKWMSFmoLTpyY3U2RjvxJjKbNy5+cJSZmyyPBxtTbeu7BKE7qwq5CJ3Y0ziSYB1nR
+ Nt7QWQk4zLEhCtA==
+X-Developer-Key: i=rsworktech@outlook.com; a=openpgp;
+ fpr=17AADD6726DDC58B8EE5881757670CCFA42CCF0A
+X-Endpoint-Received: by B4 Relay for rsworktech@outlook.com/not_default
+ with auth_id=390
+X-Original-From: Levi Zim <rsworktech@outlook.com>
+Reply-To: rsworktech@outlook.com
 
-On Mon, Apr 07, 2025 at 11:50:45AM +0800, Yicong Yang wrote:
-> On 2025/4/3 17:04, Suzuki K Poulose wrote:
-> > On 31/03/2025 10:43, Yicong Yang wrote:
-> >> From: Yicong Yang <yangyicong@hisilicon.com>
-> >>
-> >> Instructions introduced by FEAT_{LS64, LS64_V} is controlled by
-> >> HCRX_EL2.{EnALS, EnASR}. Configure all of these to allow usage
-> >> at EL0/1.
-> >>
-> >> This doesn't mean these instructions are always available in
-> >> EL0/1 if provided. The hypervisor still have the control at
-> >> runtime.
-> >>
-> >> Signed-off-by: Yicong Yang <yangyicong@hisilicon.com>
-> >> ---
-> >>   arch/arm64/include/asm/el2_setup.h | 12 +++++++++++-
-> >>   1 file changed, 11 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> >> index ebceaae3c749..0259941602c4 100644
-> >> --- a/arch/arm64/include/asm/el2_setup.h
-> >> +++ b/arch/arm64/include/asm/el2_setup.h
-> >> @@ -57,9 +57,19 @@
-> >>           /* Enable GCS if supported */
-> >>       mrs_s    x1, SYS_ID_AA64PFR1_EL1
-> >>       ubfx    x1, x1, #ID_AA64PFR1_EL1_GCS_SHIFT, #4
-> >> -    cbz    x1, .Lset_hcrx_\@
-> >> +    cbz    x1, .Lskip_gcs_hcrx_\@
-> >>       orr    x0, x0, #HCRX_EL2_GCSEn
-> >>   +.Lskip_gcs_hcrx_\@:
-> > 
-> > minor nit: For consistency, could we rename this "set_ls64", similar to "set_hcrx" ?
-> > 
-> 
-> IIUC, set_xxx really touches the registers and skip_xxx should just check and prepare
-> the feature bits. so here using .Lskip_gcs_hrcx_\@ should be more proper and consistent
-> with other places in el2_setup.h, like __init_el2_debug/__init_el2_fgt which also use
-> .Lskip_xxx for skipping an unsupported feature?
+From: Levi Zim <rsworktech@outlook.com>
 
-fwiw, I think the label names are fine as you have them.
+The last command is not indented thus does not show as code block when
+rendered. This patch fixes it.
 
-Will
+Fixes: 4ac0b122ee63 ("docs: networking: convert tproxy.txt to ReST")
+Signed-off-by: Levi Zim <rsworktech@outlook.com>
+---
+Changes in v2:
+- Add double colons to the end of paragraph before the code block
+- Link to v1: https://lore.kernel.org/r/20250427-tproxy-docs-fix-v1-1-988e94844ccb@outlook.com
+---
+ Documentation/networking/tproxy.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/Documentation/networking/tproxy.rst b/Documentation/networking/tproxy.rst
+index 7f7c1ff6f159ed98d96c63d99c98ddbaefd47124..72ba41a10bb22b1f1054af55702423fa8086d98d 100644
+--- a/Documentation/networking/tproxy.rst
++++ b/Documentation/networking/tproxy.rst
+@@ -69,9 +69,9 @@ add rules like this to the iptables ruleset above::
+     # iptables -t mangle -A PREROUTING -p tcp --dport 80 -j TPROXY \
+       --tproxy-mark 0x1/0x1 --on-port 50080
+ 
+-Or the following rule to nft:
++Or the following rule to nft:::
+ 
+-# nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
++    # nft add rule filter divert tcp dport 80 tproxy to :50080 meta mark set 1 accept
+ 
+ Note that for this to work you'll have to modify the proxy to enable (SOL_IP,
+ IP_TRANSPARENT) for the listening socket.
+
+---
+base-commit: f73f05c6f711fd1628c7565441b9febc0c4d6c58
+change-id: 20250427-tproxy-docs-fix-ccbbbf42549f
+
+Best regards,
+-- 
+Levi Zim <rsworktech@outlook.com>
+
+
