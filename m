@@ -1,65 +1,65 @@
-Received: from mail-oi1-f181.google.com (mail-oi1-f181.google.com [209.85.167.181])
+Received: from mail-ot1-f46.google.com (mail-ot1-f46.google.com [209.85.210.46])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EBDEC22836C
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 15:40:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2BF1122E3E3
+	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 15:45:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745941219; cv=none; b=tMYni9OSmIDdKwoIP+7HHy1k0qADma34QwVLUHbdy2Bo0oOP7f5HGgmUeikaM3jgSyyxCZzhw3Wer8I/fCrWI9OHQbA08N2nRb65t8mOAXcH7nTfEQ2MaKMvpUN8alVnfg+QpxGyhMgnDGs4hAnLVYAplEcuVunPWcMvorA6a34=
+	t=1745941524; cv=none; b=DtO/BRXVZEldFc8s7wuIpfxL/7ZMvQhc0icDz7v2ePuMYyR3bsvx7r/BBAUxZfYO9agXcFPIsVGTDUT8OyOpzoJ2pa0Y4qV1+b34CNkUC8atdJHbCLjUTA9FJxOiIX2lv5sIoGqw6i4lzdTXFbtipKdsH9iJLAGjA0S6NQgoMak=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745941219; c=relaxed/simple;
-	bh=ZSlaSOOnAD2Cp1tBIlvme8AqpEDC6hlg0gqvRaVTa9g=;
+	s=arc-20240116; t=1745941524; c=relaxed/simple;
+	bh=NICjiPJUIs0TwUvIzdHa/agEllYI7LIs1dcUUmUkXOI=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SMBemEw7Bff9rfnXSUvyvjXR+0dN5rv8OI5MTzfRjeyDZsX6rn56Q710xq1SrxfC4CjDnGexVOPlzFWoWzmawNw7l50jal6MsGzXGX3pgyoJWtYHVNa4vbDTet5Igl0vQ9RsFT/xT04b0L+TPc0elQ0CQ5tUUzdZ17F52f/Gmjw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=YcjTq8pj; arc=none smtp.client-ip=209.85.167.181
+	 In-Reply-To:Content-Type; b=WAzXLZYYoSO221PQSTgc7m3MLelUAo+FTLvqBuGeguvpKFaOJDaGCX8Ofm4bBrIQfPgU5mpJ6N+OTqVgg1QHE4dc5pUJO5eZenEk6tGblr043+iAB+NHQkA8j2dDIPnUTEX7GYVCPHF/4m8QLaBttlgoCrL/ocQyKKinFRL8pCg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com; spf=pass smtp.mailfrom=baylibre.com; dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b=RL5tXUZe; arc=none smtp.client-ip=209.85.210.46
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=baylibre.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="YcjTq8pj"
-Received: by mail-oi1-f181.google.com with SMTP id 5614622812f47-3fea0363284so4130329b6e.1
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 08:40:17 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=baylibre-com.20230601.gappssmtp.com header.i=@baylibre-com.20230601.gappssmtp.com header.b="RL5tXUZe"
+Received: by mail-ot1-f46.google.com with SMTP id 46e09a7af769-7306482f958so2425089a34.0
+        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 08:45:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745941217; x=1746546017; darn=vger.kernel.org;
+        d=baylibre-com.20230601.gappssmtp.com; s=20230601; t=1745941521; x=1746546321; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IKHZLFnrfagn8Gc44g2MZTpXJ9t5oidezhlrUDWVs0Y=;
-        b=YcjTq8pjS1P3iyQIQa+y+f0PTT18kC5URqpqC9eSdoczJ6mSQCMKAsI7zZbclH4vdV
-         HqaQfHUEd7ZmdewTEWlob4/Yo7EF5XyM8iH2A4SKgdq/Der4dxzrXCW3zsXwDofH2gHj
-         3+gBjYxeR3a2bCKBoKBdhdY+hU++Cvw32RsEZ/x6ZmbGygg1VyCTEyNzKp0r+EDN6drJ
-         jjYYPGdxTvwkPHX6c5FAZ0D7+2jhC9wQLn1z5mw0SJTVzYcyzXmGZm7e1QEMOf/IIPkj
-         CTcD37u/Qmw9ggMLLHLLW7v41et1kE4yrw33wtRjv7LA17ZtgYwBPY6G5jJ9WdrBg74H
-         pSeA==
+        bh=ZVI4uRenWtRE9k6AMZ5CKSYUXQJsbDv7xP2rtKsYSZ0=;
+        b=RL5tXUZeGh9ES4n3fIB1O92769n0Kdaio0fevNW1BHL/2tKu2PqF/iGbkmLFCr/2Rd
+         0y+R+pHj01oBlnFKY0SZmsgqwZgB9NlvZDuZ4wuqR+tZHDopB2UyLUzf9OkWZE477mwc
+         OYgjVEl44V9jfMmU0LuD1WmMF6LemJ1wwe12pXmtED87hbhlOO/axf4o+XEfH+UwPZ+I
+         J4VLzFrcjVjzgQaFRysWltb1vzm5rGtgFWK/y83hIbNUREAE2AWF8Xdy1NTYbV0wyhN7
+         NYxjPaz+uCcYN6vo9owE91WK2bq9GWkYLRBJFaGx6uIRXvcvvgE+WPfg2acg/0Wh6F3q
+         Bx4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745941217; x=1746546017;
+        d=1e100.net; s=20230601; t=1745941521; x=1746546321;
         h=content-transfer-encoding:in-reply-to:content-language:from
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IKHZLFnrfagn8Gc44g2MZTpXJ9t5oidezhlrUDWVs0Y=;
-        b=Ph6FzYROKPKqgUsXPwJ+w1davC3VQLj7CuS0dlY6IQS8UxO/uToTnmuaz3CmURzyPg
-         5JhrWb/1E0i/lRV03S6ocAqLc2artCLB/PMBsRFYeat2w+G7OfRuxSW64v+CYHthAukH
-         yw1vYME35anwzjAuVzpaFgadhddr5AVlSDTt6YW1g1O/8RR1INlvJRypzfKkmPrBwCJQ
-         09cCzfSkL4h7PykBZg/tipvC9xcuUq31PNNtMl2s2tfZpXtHaV3gjLTM1m3e+CL2T0Ca
-         lDirjlhyz+F1wGz3odHdtRrKSJ14cJUP79PLVlvqpebgA1pAva0JEZMq01UJ5gi5GRau
-         zpbA==
-X-Forwarded-Encrypted: i=1; AJvYcCXsfsD9F3P6NwLKkv21IKWhbUxHK3yjGVIGqFO2Dm7V8C34eABJ6hQiFZusNiW2wKqLvXk2n1VjTBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw4/H9l99LbcpCIcQFaYey/p5WvUVbFzn3Tz6JAoGawye7uze6Q
-	8jM71ymKpkBlc0i2ViVPkjrddkfMk42oE2gF64Sjlv7smJQnyNaCSDkg3mi09D4=
-X-Gm-Gg: ASbGncsQU8dEts8cW33/S4Zxck3xp0sumZmIsnW6eaTHbKKDUEeYopx9qYVGp3aEoSM
-	M+8TVJ0xr6HXEGGMiyenbl1lsZkUVE1q4mjIgmIgX3fhfLTqMgQfqdsIqMhTWZvxWz8RbHv1UQX
-	rX1dr2fPH1MamIdwdkFfwsgCeNckW25BHFET50JRXSX52Wtx0jfmkkMoYDOs3vWvtmPcLkNy6tf
-	bJszh4+cLs0iSAYKH7e60yHzqStOeckx3NOUBGDAisZZrCop/o3U9vNk86WXl36LjCYcNuMAhLR
-	vSdpNY5Ji+FrA2JhnIYAfA/Ufc9U4Oe67ctfIlneeFNQzmEBj9zL22TsKp3Btz6kEOZzVgwtl0p
-	iiUxXOOC/mvdfGxxHYvd3slPTXPOH
-X-Google-Smtp-Source: AGHT+IEoUSoJwOEaMAzGJzx8g+iEjy8VILrk9/hm7FHFKGMS1oJnNn7zWdRkCw1+SUiqaiAkTKDS6w==
-X-Received: by 2002:a05:6808:2214:b0:400:7dd3:2dbe with SMTP id 5614622812f47-402110303f0mr1770338b6e.14.1745941216954;
-        Tue, 29 Apr 2025 08:40:16 -0700 (PDT)
+        bh=ZVI4uRenWtRE9k6AMZ5CKSYUXQJsbDv7xP2rtKsYSZ0=;
+        b=BOgo9ImPu9I6Mcp4vRduHss6eFI5HFu6HKRgjqSzwLnNB0sP1/q2sPffGCQLbQdKr4
+         c6/FFMcKaErPgMp67ADokuuUFC7akEQ5QruCMrCii2fctsPEfNQNUC2CcRV0KAHccaC0
+         AYx/L2kmI9EiEeQlsDcX2pBA2du03tDDLJP4WhIcy8yglDpSEXFD612+s++NGVvw/vVc
+         UXYuaqOsfgs2RAZsa9vHW9VshMeg1IBLlQJoqNMURc5MAZR1xRvsAh0ISF+R5THB3d+A
+         DKbCR4oYNgkCR8G/bDWPfl0dc+2z0wgM2h9/m1Q/wUMfZoQHXXniTWDnUCpTHJMK4zlE
+         0tOw==
+X-Forwarded-Encrypted: i=1; AJvYcCVmVVrAghNS6vpxCcdEsoQCbm0OyfvNOJlfJ+2VjivtOBycJBaz/c7/+es22kpYIJXA1ilfnab/QuY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz5GfW31aihLLDCmVl/jf6E4fXnvuvuBHrn4CEbzSI18Aa6DjYf
+	p/WaGptgixpBiJywJFxnAG5NQ2SQBA9aD1oJ9hIWCH1W2ccpv8/AlK/4tML9qjc=
+X-Gm-Gg: ASbGnctWvurE0fgrVF3Fg+osJ6mTx6qXnbZKVB5FfGcL7FG8uc3ttxcraUrijn42qcb
+	ePev7SNLBqBPQkNDW6crDSGCecqb2CN/mp2NqQqy1I/Gml52eklNjIuqnuyny/eQVH/jX+097rY
+	bXe1DH0F/ccAeauMMRYJTe2lgkZCO3Kb9kgdb2ycL1uDc2bcKB0mRGEDSVaAPMfqhu4eNyeNHek
+	1Jva+/0o7oVYdUiairV5lpWtnEIH2szjXGNKHpraDOEyUPO9pgdV5Qc32fjWOcdOX+IG2W5kkuw
+	fAXp8phc4x1qYyV7ykeouby5Dyb3xMoiSvbqEcdn+TVfdKEru8hl9qRrm31qCnUxD+e56DPmAhm
+	pijN+0FWZZQBdpCyxHU3p4YZTIHdc
+X-Google-Smtp-Source: AGHT+IGXSHw2bSB9WA8P9Abnr/+5jrvPGzvFtKJFd69HO6Pyrm2MursqlV+n9MiODBPVv86NHerUoA==
+X-Received: by 2002:a05:6808:10f:b0:3f9:43dd:a054 with SMTP id 5614622812f47-401fd8159d1mr6756006b6e.34.1745941521257;
+        Tue, 29 Apr 2025 08:45:21 -0700 (PDT)
 Received: from ?IPV6:2600:8803:e7e4:1d00:dc17:157d:e8b2:3ad6? ([2600:8803:e7e4:1d00:dc17:157d:e8b2:3ad6])
-        by smtp.gmail.com with ESMTPSA id 5614622812f47-40212c4d567sm293636b6e.43.2025.04.29.08.40.15
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-60687013faesm276388eaf.39.2025.04.29.08.45.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Apr 2025 08:40:16 -0700 (PDT)
-Message-ID: <5aa4d76f-6f16-40ae-9dbf-767c63aa0a3d@baylibre.com>
-Date: Tue, 29 Apr 2025 10:40:14 -0500
+        Tue, 29 Apr 2025 08:45:20 -0700 (PDT)
+Message-ID: <1b0e9003-7322-46fa-b2ba-518a142616dc@baylibre.com>
+Date: Tue, 29 Apr 2025 10:45:20 -0500
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,65 +67,82 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 1/5] Documentation: ABI: add oversampling frequency in
- sysfs-bus-iio
-To: Jorge Marques <gastmaier@gmail.com>, Andy Shevchenko <andy@kernel.org>
+Subject: Re: [PATCH v2 3/5] dt-bindings: iio: adc: Add adi,ad4052
+To: Jorge Marques <gastmaier@gmail.com>
 Cc: Jorge Marques <jorge.marques@analog.com>,
  Jonathan Cameron <jic23@kernel.org>, Lars-Peter Clausen <lars@metafoo.de>,
  Michael Hennerich <Michael.Hennerich@analog.com>,
  Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
  Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
  =?UTF-8?Q?Nuno_S=C3=A1?= <nuno.sa@analog.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <ukleinek@kernel.org>,
- linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
- devicetree@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-pwm@vger.kernel.org
+ Andy Shevchenko <andy@kernel.org>, =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?=
+ <ukleinek@kernel.org>, linux-iio@vger.kernel.org,
+ linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-pwm@vger.kernel.org
 References: <20250422-iio-driver-ad4052-v2-0-638af47e9eb3@analog.com>
- <20250422-iio-driver-ad4052-v2-1-638af47e9eb3@analog.com>
- <aAe6u6NhAsgjaL5_@smile.fi.intel.com>
- <c3i7g273lgvx7rpihzq6r7exxxnglbwrqwfryyz6ciqo52tszf@cvi7pz4bmkvq>
+ <20250422-iio-driver-ad4052-v2-3-638af47e9eb3@analog.com>
+ <88a326e7-3910-4e02-b4ba-7afe06402871@baylibre.com>
+ <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
 From: David Lechner <dlechner@baylibre.com>
 Content-Language: en-US
-In-Reply-To: <c3i7g273lgvx7rpihzq6r7exxxnglbwrqwfryyz6ciqo52tszf@cvi7pz4bmkvq>
+In-Reply-To: <hvexchm2ozsto5s2o6n5j2z3odrkbcamgmg67umd4aehwzmgie@dvtx6anioasq>
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
 
-On 4/29/25 8:47 AM, Jorge Marques wrote:
+On 4/29/25 8:48 AM, Jorge Marques wrote:
+> Hi David, 
 > 
-> Hi Andy,
+> I didn't went through your's and Jonathan's ad4052.c review yet,
+> but for the trigger-source-cells I need to dig deeper and make
+> considerable changes to the driver, as well as hardware tests.
+> My idea was to have a less customizable driver, but I get that it is
+> more interesting to make it user-definable.
+
+We don't need to make the driver support all possibilities, but the devicetree
+needs to be as complete as possible since it can't be as easily changed in the
+future.
+
+...
+
+>>
+>> Assuming the diagram at [1] is correct, for SPI offload use, we are missing:
+>>
+>>   #trigger-source-cells:
+>>     const: 2
+>>     description: |
+>>       Output pins used as trigger source.
+>>
+>>       Cell 0 defines which pin:
+>>       * 0 = GP0
+>>       * 1 = GP1
+>>
+>>       Cell 1 defines the event:
+>>       * 0 = Data ready
+>>       * 1 = Min threshold
+>>       * 2 = Max threshold
+>>       * 3 = Either threshold
+>>       * 4 = Device ready
+>>       * 5 = Device enable
+>>       * 6 = Chop control
+>>
+>> Bonus points for adding a header with macros for the arbitrary event values.
 > 
-> I agree with your suggestion, and in this case the appropriate kernel
-> version is 3.10.
+> In the sense of describing the device and not what the driver does, I
+> believe the proper mapping would be:
+> 
+>   Cell 1 defines the event:
+>   * 0 = Disabled
+>   * 1 = Data ready
+>   * 2 = Min threshold
+>   * 3 = Max threshold
+>   * 4 = Either threshold
+>   * 5 = CHOP control
+>   * 6 = Device enable
+>   * 7 = Device ready (only GP1)
+> 
+> I will investigate further this.
 > 
 >>
->>> +What:		/sys/bus/iio/devices/iio:deviceX/oversampling_frequency
->>> +KernelVersion:	6.15
->>
->> Then why don't you put the real version of the first release that has it?
->>
->>> +Contact:	linux-iio@vger.kernel.org
->>> +Description:
->>> +		Some devices have internal clocks for oversampling.
->>> +		Sets the resulting frequency in Hz to trigger a conversion used by
->>> +		the oversampling filter.
->>> +		If the device has a fixed internal clock or is computed based on
->>> +		the sampling frequency parameter, the parameter is read only.
->>> +
->>> +What:		/sys/bus/iio/devices/iio:deviceX/oversampling_frequency_available
->>> +KernelVersion:	6.15
->>
->> Ditto.
->>
->>> +Contact:	linux-iio@vger.kernel.org
->>> +Description:
->>> +		Hardware dependent values supported by the oversampling
->>> +		frequency.
 
-
-I don't see oversampling_frequency used in any existing driver, so how could
-it be introduced in kernel 3.10? I think you confuse it with
-events/sampling_frequency.
-
-oversampling_frequency is new and so 6.16 should be correct if Jonathan picks
-this up in the next few weeks, otherwise it will be 6.17.
-
+0 = Disabled doesn't make sense to me. One would just not wire up a
+trigger-source in that case.
