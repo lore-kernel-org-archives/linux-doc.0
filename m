@@ -1,161 +1,483 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2084.outbound.protection.outlook.com [40.107.92.84])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 16553253F25;
-	Tue, 29 Apr 2025 21:12:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745961180; cv=fail; b=q2sxvx8XnKVgGPYGMirc+6cUm18FqBmk1j4nBh+JrU/PjWIFlq22GUn1lbORGgLwualB7SDMzZQ1+052XhwZQ7P9nT2SKVqsm1ihL9czN7YC0Hl68YyXcLsvmGZF7ePOnsqDksmGcerNCJeifbvj0AxjOyhshyU8xZqFAHZHCdo=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745961180; c=relaxed/simple;
-	bh=VxLqrXaVqHNZPSoKe1t88jv1vTacy7OCn5dVDr8raXc=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=nGcPKIuvBrTs3U66QxqLFmns4V2Xx7Ofr1ctOXh2AlNIEK62xH0PgM96K+CfJReDzl1Ri5b1fanRJhJvqsD1fEhKzDRk1mpUhlC3Ns+F1DfvicFyqXogfed6XkwCvIqBCJhoIpbm58mr5Yyj/w7h7E2uAFLRdgJgsuUVztc9wp4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IC6SDFkt; arc=fail smtp.client-ip=40.107.92.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB572257AC6;
+	Tue, 29 Apr 2025 21:20:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745961614; cv=none; b=nbt/5m7nIPWx3fLH46l/VwF3XinIi2dA977+4ygryD7ailLft4sIEEjYbawNGYlWb6TVtU4hw8rxkvNfjZUS172c/tGvjrMO7RmLVfMY8tHVI8DQtu410DZiMJNHKHLcKC8TsE648AtvVkTPf6vXn5ev5x2tbmQ1U4RXH1bjnDg=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745961614; c=relaxed/simple;
+	bh=uJA16nsmFtrmgH1snHdvyCULE5oo8eqL1HO3uC+695Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FZuRczmDJdNjz8dKugvhOZLtIvKNa27Fh3Y0KHdXYZklWPUfvL+Wk+ZcEDS706FN7EwgNFxb7oZGD2B6vc9em7hyEqQNsDArpo7ykDBJH7XDzMDbs7PXjd2wVfayBpBWhsvOs6b/Te61y7vuZj1C8soV8NqFLhX1PL6JpRRP0t0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=ZJDA1SBs; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IC6SDFkt"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JZ2yHG+uFVo9p1nDKLgUTIrdLqfp/fA1IpcUUCrLYB7qWh+GW50ZuRHb1ES+MrAUcJOHvMsWMQOltiMxA5uQy+mm/6oDJxO1pzPyih8xmdbvjhgD79eHnCm7gMenvy0zEOjX43TCc0TFO22jyDrfwOfM2v0tOZYxmdrcijZIWExCnEpJUKItr0gmmYHTwhBBw7Gkcr9QXGSs6z5RlUI6YPxWVyE+bZWi8Qu1TiaXsgva8tLXF68KQivQf5F+eY1O++1++052ErBMJzqmWnLb2CyapKGuFchXGYM3rGcCNACNw+7kxE4X+fHzGDZZeGLzubwuSe9Uf1RhxoHAt7KpsQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=h0FrbLY+rHz3YBtwiTXqjPJN8NcbHf0UhtbppuIe1cs=;
- b=AP2JjiOMVx69zq980XhGLvDBbpNY58LhTCPYIS0gSQEIoxaU5rnm0GJIdjVd/wGh6rY6ahIOSbOuTcI0uHBEbjXedip43Cwpc+3cN3hwKWir32Tx7BgzMPlGTtQU1tE4b0tIhHwH8ljc4Qx5oPDl5sBheKF848OH2xrIpFzW4JJJbSA46EMsZKAO/4ZDypsw6nAMeufZkJeYINOn2XBnIyunfqcvsZUeORADSQD2yIhH9ejkcy33DsGZYH6u6dYijKbWvHgx7EIFvKMQG5004KpxA/803jrOVTJpksugJczq4jxoFzyzdns/rp35odqvBDZep/9zpBiDNMa6VB4Txg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=oracle.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=h0FrbLY+rHz3YBtwiTXqjPJN8NcbHf0UhtbppuIe1cs=;
- b=IC6SDFkt+MlmzWNzEwhdoc0+C8DO3BgUKvamSg2TgG3FA93m0Shy0UYsvcZAekdME7rC18ioL+0EXNQOwwM6tHOSVFMWrF5kPzT9y3xrRHSson2FVhvUD6pOpatnrDt1KSOTOvkz2oqxylVxulvghf2hnG4HXFXHx9JY3809w8H9b6GvcXAk0cEdu8tuZqVkyX84kJ9+GDgXqr0H0SFMRTEbHiBgYaDQeyqLFB2BGq56/wNEOw9weqWnQtrYk5s3wOe9lpjD/OpmNgosz1DxvcQrMAvWdQB8XvMZwr6lJ8HqsLun6t94n8tQkk8TJTCLrwfEvEa/hk+auGd/Ol4ixw==
-Received: from SJ0P220CA0026.NAMP220.PROD.OUTLOOK.COM (2603:10b6:a03:41b::30)
- by IA0PPF89A593F05.namprd12.prod.outlook.com (2603:10b6:20f:fc04::bd8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.31; Tue, 29 Apr
- 2025 21:12:55 +0000
-Received: from SJ1PEPF00001CDE.namprd05.prod.outlook.com
- (2603:10b6:a03:41b:cafe::8f) by SJ0P220CA0026.outlook.office365.com
- (2603:10b6:a03:41b::30) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.40 via Frontend Transport; Tue,
- 29 Apr 2025 21:12:54 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- SJ1PEPF00001CDE.mail.protection.outlook.com (10.167.242.6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.20 via Frontend Transport; Tue, 29 Apr 2025 21:12:54 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 29 Apr
- 2025 14:12:42 -0700
-Received: from rnnvmail203.nvidia.com (10.129.68.9) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 29 Apr
- 2025 14:12:42 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.9)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Tue, 29 Apr 2025 14:12:39 -0700
-Date: Tue, 29 Apr 2025 14:12:37 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: ALOK TIWARI <alok.a.tiwari@oracle.com>
-CC: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>, <bagasdotme@gmail.com>, <robin.murphy@arm.com>,
-	<joro@8bytes.org>, <thierry.reding@gmail.com>, <vdumpa@nvidia.com>,
-	<jonathanh@nvidia.com>, <shuah@kernel.org>, <jsnitsel@redhat.com>,
-	<nathan@kernel.org>, <peterz@infradead.org>, <yi.l.liu@intel.com>,
-	<mshavit@google.com>, <praan@google.com>, <zhangzekun11@huawei.com>,
-	<iommu@lists.linux.dev>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-arm-kernel@lists.infradead.org>,
-	<linux-tegra@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
-	<patches@lists.linux.dev>, <mochs@nvidia.com>, <vasant.hegde@amd.com>
-Subject: Re: [PATCH v2 21/22] iommu/tegra241-cmdqv: Add user-space use support
-Message-ID: <aBFAxWo4Ud1LRaTa@Asurada-Nvidia>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <b81b2332f793a9ffccc528d821f2ed3ac051f9e0.1745646960.git.nicolinc@nvidia.com>
- <39fd41e0-2218-4c70-b79c-83be3eab30e7@oracle.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="ZJDA1SBs"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1745961609;
+	bh=uJA16nsmFtrmgH1snHdvyCULE5oo8eqL1HO3uC+695Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=ZJDA1SBsYujInhG3a+UhwE+aZSO+1/fjSu98FBc9DpBNS+a86poBblqBEd+wvFQsV
+	 /Q1FyE/cuc02yjK5VBZD/a/2/X8wc3XEtj4V1szHKTgle4OJ/sWZ7H3LcPKRphyV+V
+	 cr9PL54sq4D9emAwM5cBeG2swbPSisIbe1TzUV8I=
+Date: Tue, 29 Apr 2025 23:20:09 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: lschyi@chromium.org
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <39fd41e0-2218-4c70-b79c-83be3eab30e7@oracle.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CDE:EE_|IA0PPF89A593F05:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1c3cc3f-ba1d-4e2d-9e66-08dd87629be2
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|376014|36860700013|7416014|1800799024|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?2f6nzbAf2RhaRBfahVow13rcxaD+LFOQ84r0dRavmhNI2cbtsEDqeNHna9eO?=
- =?us-ascii?Q?P215TnHncZ5VmXi5zutKtvHc0kM+PZB5jXVh31T+ga2TECQrQ8wLIBLITVmE?=
- =?us-ascii?Q?QLV0MGQVQUbOTutSptyNU8lw7tW3uLyr0ajzQ2Cj0r6/f2SLOYHlSUS95diD?=
- =?us-ascii?Q?uBslRgdnJj76qfhu17LXOmpaXZxSQRxvFC40Ace4Wyoy2dWCCgsvqmwSVbKc?=
- =?us-ascii?Q?C+VBJZXnDJyYyZCAuRamFIel3LojhsyL3Yw6gcwoRGBlhpqsFFdBVj9iVCzL?=
- =?us-ascii?Q?rbACkauCdrTGBtQhK9k+PS1MAG5g12f7tSd3VJlORp5Je/eNUQPFlPJxul6D?=
- =?us-ascii?Q?yax3WQ+026mKMb5E9ja+Zwbr32Ft+q/625bIi8+GEDWWn+GIcyaYmFRF0fmi?=
- =?us-ascii?Q?m0BNj5o3/1fu5VpON0lMTeMx4J7BeEEzzBoVW9FUCfI+Vq7RrNknusqSvhU7?=
- =?us-ascii?Q?luZMIhEOWDnvEsd1OKVCcx23vJL4TD5/ZNpJSLv77BfjtxHfktFy3sT/q6E1?=
- =?us-ascii?Q?QSrGchv90J4JQptR5ZY2qSdijiZs1bCjuNAj2mxQQ5XEgEYRKO5vQE4yA2iP?=
- =?us-ascii?Q?LizS86+kpDMwZE7wLkqTeNopwtJ/rFCDFbJ3iIQ5P++nrz/wXbJIVyM2HeSd?=
- =?us-ascii?Q?6tsDP1QVoVKlpqJM5Vtvh4Z1M4SVz6huHVYV8VSkfg4UWj4PLyqJvUU7Ljqw?=
- =?us-ascii?Q?++k4MVriObNy/e7QkEdL1ZFI/NT9q1qwB4WYS5cjiRiEOd8Uwrlc4knshGzU?=
- =?us-ascii?Q?aQ+/XLaUPJB5oPRKZ99xjeMpHzfSTrIeem0UEsh8p7GtZq07+74+aYlAEoDf?=
- =?us-ascii?Q?KETP8WrN8KV1O2yZsT7ZLHtcJ18S2qln/0kkGklECtph+tMpn9qXUCmsgzRc?=
- =?us-ascii?Q?0mL3Wmc/uYHRgIb7RyPil8YaFDjYBzro9bCxf0smVtRFHAuoTMYS7BUA83xw?=
- =?us-ascii?Q?7PgwJbF8S7+ik3hsb+PRzzJuYq71Ah1v8pSmDbIgc86RX2X93hgq0e/n51w9?=
- =?us-ascii?Q?qzQMppU+iquIKMskMGkK8ihRlPPq+ELFT0m11aRt2znG5uV9UDZrFsLLccYz?=
- =?us-ascii?Q?x3ckO7Pksmaegg3N4vuPnF74a1vaTW+q5PQU+XT3ysCiZ9kgGrn6HM4c4tqN?=
- =?us-ascii?Q?8gUJqzUDnUOnRXzJr5uHR+7avQQ2JfA28Ej7QZNaXgVwkkbRTtv4X98gohsP?=
- =?us-ascii?Q?/3Dl9gHt9GaC19dkKK25A+OwLwgEgWJ+HB/8bKtmPYYh+fwtIbtcDh3r7mC2?=
- =?us-ascii?Q?HI2rhY5w201cMK0FIxlOazeJ2PoS7FifLfLFGqhGtFGxy9UUrBIsJDvY+flp?=
- =?us-ascii?Q?ckSD8yMn0l4QZ+B62VIAyv/Nq1qQHVLWlJbNSnqv+kKtW2gMdcI3rkkjhm8O?=
- =?us-ascii?Q?2DaDrCYVtBNlsb5H8USbnSbdlukrWKrRTDJhgjNloiqYqNV+UUF8eCY//oGz?=
- =?us-ascii?Q?JEtPJqtGDn40t/E3hLKCJYVeACbZvd33ghFhNP7FUGA+zC6b/6Uv1XUSmTih?=
- =?us-ascii?Q?jvV+pNz+UeLb/m4HrB/CbT0wv4agIZknmIt2?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(36860700013)(7416014)(1800799024)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 29 Apr 2025 21:12:54.8054
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1c3cc3f-ba1d-4e2d-9e66-08dd87629be2
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CDE.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA0PPF89A593F05
+In-Reply-To: <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
 
-On Wed, Apr 30, 2025 at 01:17:48AM +0530, ALOK TIWARI wrote:
-> > +	/*
-> > +	 * @length must be a power of 2, in range of
-> > +	 *   [ 32, 1 ^ (idr[1].CMDQS + CMDQ_ENT_SZ_SHIFT) ]
+On 2025-04-29 16:14:22+0800, Sung-Chi Li via B4 Relay wrote:
+> From: Sung-Chi Li <lschyi@chromium.org>
 > 
-> 2 ^ (idr[1].CMDQS + CMDQ_ENT_SZ_SHIFT) or 1 << idr[1].CMDQS
+> Newer EC firmware supports controlling fans through host commands, so
+> adding corresponding implementations for controlling these fans in the
+> driver for other kernel services and userspace to control them.
 > 
-> > +	 */
-> > +	max_n_shift = FIELD_GET(IDR1_CMDQS,
-> > +				readl_relaxed(smmu->base + ARM_SMMU_IDR1));
+> The driver will first probe the supported host command versions (get and
+> set of fan PWM values, get and set of fan control mode) to see if the
+> connected EC fulfills the requirements of controlling the fan, then
+> exposes corresponding sysfs nodes for userspace to control the fan with
+> corresponding read and write implementations.
+> As EC will automatically change the fan mode to auto when the device is
+> suspended, the power management hooks are added as well to keep the fan
+> control mode and fan PWM value consistent during suspend and resume. As
+> we need to access the hwmon device in the power management hook, update
+> the driver by storing the hwmon device in the driver data as well.
 > 
+> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> ---
+>  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
+>  drivers/hwmon/cros_ec_hwmon.c         | 237 +++++++++++++++++++++++++++++++++-
+>  2 files changed, 237 insertions(+), 5 deletions(-)
 > 
-> LGTM, aside from a minor cosmetic thing.
+> diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+> index 47ecae983bdbef4bfcafc5dd2fff3de039f77f8e..5b802be120438732529c3d25b1afa8b4ee353305 100644
+> --- a/Documentation/hwmon/cros_ec_hwmon.rst
+> +++ b/Documentation/hwmon/cros_ec_hwmon.rst
+> @@ -23,4 +23,7 @@ ChromeOS embedded controller used in Chromebooks and other devices.
+>  
+>  The channel labels exposed via hwmon are retrieved from the EC itself.
+>  
+> -Fan and temperature readings are supported.
+> +Fan and temperature readings are supported. PWM fan control is also supported if
+> +the EC also supports setting fan PWM values and fan mode. Note that EC will
+> +switch fan control mode back to auto when suspended. This driver will restore
+> +the fan state before suspended.
+> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+> index 9991c3fa020ac859cbbff29dfb669e53248df885..1139074d3eb003ee72bbe54a954647ced40f6d21 100644
+> --- a/drivers/hwmon/cros_ec_hwmon.c
+> +++ b/drivers/hwmon/cros_ec_hwmon.c
+> @@ -17,10 +17,17 @@
+>  
+>  #define DRV_NAME	"cros-ec-hwmon"
+>  
+> +struct cros_ec_hwmon_platform_priv {
+> +	struct device *hwmon_dev;
+> +};
 
-Fixed all those and the typo in the other mail. Picked "2 ^ " btw.
+This indirection is unnecessary and only introduces a bunch of churn.
 
-Thanks
-Nicolin
+> +
+>  struct cros_ec_hwmon_priv {
+>  	struct cros_ec_device *cros_ec;
+>  	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
+>  	u8 usable_fans;
+> +	bool fan_control_supported;
+> +	u8 manual_fans; /* bits to indicate whether the fan is set to manual */
+> +	u8 manual_fan_pwm_values[EC_FAN_SPEED_ENTRIES];
+>  };
+>  
+>  static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
+> @@ -36,6 +43,51 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
+>  	return 0;
+>  }
+>  
+> +static int cros_ec_hwmon_read_pwm_raw_value(struct cros_ec_device *cros_ec,
+> +					    u8 index, u8 *pwm_value)
+> +{
+> +	struct ec_params_pwm_get_fan_duty req = {
+> +		.fan_idx = index,
+> +	};
+> +	struct ec_response_pwm_get_fan_duty resp;
+> +	int ret = cros_ec_cmd(cros_ec, 0, EC_CMD_PWM_GET_FAN_DUTY, &req,
+> +			      sizeof(req), &resp, sizeof(resp));
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*pwm_value = (u8)(le32_to_cpu(resp.percent));
+
+Weird choice to store a percentage in a u32.
+
+> +	return 0;
+> +}
+> +
+> +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec,
+> +					u8 index, u8 *pwm_value)
+> +{
+> +	int ret = cros_ec_hwmon_read_pwm_raw_value(cros_ec, index, pwm_value);
+
+The _raw_ function is unnecessary.
+
+> +
+> +	if (ret == 0)
+> +		*pwm_value = *pwm_value * 255 / 100;
+> +	return ret;
+> +}
+> +
+> +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec,
+> +					 u8 index, u8 *control_method)
+> +{
+> +	struct ec_params_auto_fan_ctrl_v2 req = {
+> +		.fan_idx = index,
+> +		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
+> +	};
+> +	struct ec_response_auto_fan_control resp;
+> +	int ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> +			      sizeof(req), &resp, sizeof(resp));
+
+Keep &foo and sizeof(foo) together on the same line please.
+
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	*control_method = (resp.is_auto) ? 2 : 1;
+
+No need for braces.
+
+> +	return 0;
+> +}
+> +
+>  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
+>  {
+>  	unsigned int offset;
+> @@ -76,6 +128,8 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+>  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+>  	int ret = -EOPNOTSUPP;
+>  	u16 speed;
+> +	u8 pwm_value;
+> +	u8 control_method;
+
+These lines were sorted.
+
+>  	u8 temp;
+>  
+>  	if (type == hwmon_fan) {
+> @@ -92,6 +146,18 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+>  			if (ret == 0)
+>  				*val = cros_ec_hwmon_is_error_fan(speed);
+>  		}
+> +	} else if (type == hwmon_pwm) {
+> +		if (attr == hwmon_pwm_enable) {
+> +			ret = cros_ec_hwmon_read_pwm_enable(
+> +				priv->cros_ec, channel, &control_method);
+> +			if (ret == 0)
+> +				*val = control_method;
+> +		} else if (attr == hwmon_pwm_input) {
+> +			ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec,
+> +							   channel, &pwm_value);
+> +			if (ret == 0)
+> +				*val = pwm_value;
+> +		}
+>  	} else if (type == hwmon_temp) {
+>  		if (attr == hwmon_temp_input) {
+>  			ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
+> @@ -124,6 +190,97 @@ static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types
+>  	return -EOPNOTSUPP;
+>  }
+>  
+> +static int cros_ec_hwmon_write_pwm_value(struct cros_ec_device *cros_ec,
+> +					     u8 index, u8 val)
+> +{
+> +	struct ec_params_pwm_set_fan_duty_v1 req = {
+> +		.percent = val,
+> +		.fan_idx = index,
+> +	};
+> +	int ret = cros_ec_cmd(cros_ec, 1, EC_CMD_PWM_SET_FAN_DUTY, &req,
+> +			      sizeof(req), NULL, 0);
+
+Declare "int ret" above.
+
+> +
+> +	if (ret < 0)
+> +		return ret;
+> +	return 0;
+> +}
+> +
+> +static int cros_ec_hwmon_set_pwm_raw_value(struct cros_ec_hwmon_priv *priv,
+> +					   u8 index, u8 val)
+> +{
+> +	int ret;
+> +
+> +	if (!(priv->manual_fans & BIT(index)))
+> +		return -ECANCELED;
+
+Weird error code.
+
+> +
+> +	ret = cros_ec_hwmon_write_pwm_value(priv->cros_ec, index, val);
+> +	if (ret == 0)
+> +		priv->manual_fan_pwm_values[index] = val;
+> +	return ret;
+> +}
+> +
+> +static int cros_ec_hwmon_set_pwm_value(struct cros_ec_hwmon_priv *priv,
+> +				       u8 index, u8 val)
+> +{
+> +	return cros_ec_hwmon_set_pwm_raw_value(priv, index,
+> +					       (((uint32_t)val) * 100 / 255));
+
+Use DIV_ROUND_CLOSEST() for division.
+
+> +}
+> +
+> +static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec,
+> +					  u8 index, u8 val)
+> +{
+> +	struct ec_params_auto_fan_ctrl_v2 req = {
+> +		.fan_idx = index,
+> +		.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
+
+Swap the two lines above.
+
+> +	};
+> +	int ret;
+> +
+> +	/* No CROS EC supports no fan speed control */
+> +	if (val == 0)
+> +		return -EOPNOTSUPP;
+> +
+> +	req.set_auto = (val != 1) ? true : false;
+> +	ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> +			  sizeof(req), NULL, 0);
+
+Use a full 100 columns.
+
+> +	if (ret < 0)
+> +		return ret;
+> +	return 0;
+> +}
+> +
+> +static int cros_ec_hwmon_set_pwm_control_method(struct cros_ec_hwmon_priv *priv,
+> +						u8 index, u8 val)
+> +{
+> +	int ret = cros_ec_hwmon_write_pwm_enable(priv->cros_ec, index, val);
+> +
+> +	if (ret == 0) {
+> +		if (val == 1)
+> +			priv->manual_fans |= BIT(index);
+> +		else
+> +			priv->manual_fans &= ~BIT(index);
+> +	}
+> +	return ret;
+> +}
+> +
+> +static int cros_ec_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+> +			       u32 attr, int channel, long val)
+> +{
+> +	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> +
+> +	if (type == hwmon_pwm) {
+> +		switch (attr) {
+> +		case hwmon_pwm_input:
+> +			return cros_ec_hwmon_set_pwm_value(priv, channel, val);
+> +		case hwmon_pwm_enable:
+> +			return cros_ec_hwmon_set_pwm_control_method(
+> +				priv, channel, val);
+
+Given that these function directly implement the hwmon ABI the names
+should match:
+cros_ec_hwmon_write_pwm_input()
+cros_ec_hwmon_write_pwn_enable()
+
+Also 100 columns. And everywhere else.
+
+> +		default:
+> +			return -EOPNOTSUPP;
+> +		}
+> +	}
+> +
+> +	return -EOPNOTSUPP;
+> +}
+> +
+>  static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
+>  					u32 attr, int channel)
+>  {
+> @@ -132,6 +289,9 @@ static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_type
+>  	if (type == hwmon_fan) {
+>  		if (priv->usable_fans & BIT(channel))
+>  			return 0444;
+> +	} else if (type == hwmon_pwm && priv->fan_control_supported) {
+> +		if (priv->usable_fans & BIT(channel))
+
+Move the test for priv->fan_control_supported into the inner if().
+
+> +			return 0644;
+>  	} else if (type == hwmon_temp) {
+>  		if (priv->temp_sensor_names[channel])
+>  			return 0444;
+> @@ -147,6 +307,11 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+>  			   HWMON_F_INPUT | HWMON_F_FAULT,
+>  			   HWMON_F_INPUT | HWMON_F_FAULT,
+>  			   HWMON_F_INPUT | HWMON_F_FAULT),
+> +	HWMON_CHANNEL_INFO(pwm,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+>  	HWMON_CHANNEL_INFO(temp,
+>  			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
+>  			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
+> @@ -178,6 +343,7 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+>  static const struct hwmon_ops cros_ec_hwmon_ops = {
+>  	.read = cros_ec_hwmon_read,
+>  	.read_string = cros_ec_hwmon_read_string,
+> +	.write = cros_ec_hwmon_write,
+>  	.is_visible = cros_ec_hwmon_is_visible,
+>  };
+>  
+> @@ -233,13 +399,35 @@ static void cros_ec_hwmon_probe_fans(struct cros_ec_hwmon_priv *priv)
+>  	}
+>  }
+>  
+> +static void
+> +cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_hwmon_priv *priv)
+> +{
+
+Would look nicer by returning the result as bool.
+
+> +	int ret;
+> +
+> +	priv->fan_control_supported = false;
+> +
+> +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_PWM_GET_FAN_DUTY);
+> +	if (ret < 0 || !(ret & EC_VER_MASK(0)))
+
+Given that these versions are used in multiple places, a #define would
+be good.
+
+> +		return;
+> +
+> +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_PWM_SET_FAN_DUTY);
+> +	if (ret < 0 || !(ret & EC_VER_MASK(1)))
+> +		return;
+> +
+> +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL);
+> +	if (ret < 0 || !(ret & EC_VER_MASK(2)))
+> +		return;
+> +
+> +	priv->fan_control_supported = true;
+> +}
+> +
+>  static int cros_ec_hwmon_probe(struct platform_device *pdev)
+>  {
+>  	struct device *dev = &pdev->dev;
+>  	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
+>  	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
+> +	struct cros_ec_hwmon_platform_priv *platform_priv;
+>  	struct cros_ec_hwmon_priv *priv;
+> -	struct device *hwmon_dev;
+>  	u8 thermal_version;
+>  	int ret;
+>  
+> @@ -251,6 +439,10 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+>  	if (thermal_version == 0)
+>  		return -ENODEV;
+>  
+> +	platform_priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> +	if (!platform_priv)
+> +		return -ENOMEM;
+> +
+>  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+>  	if (!priv)
+>  		return -ENOMEM;
+> @@ -259,11 +451,47 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+>  
+>  	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
+>  	cros_ec_hwmon_probe_fans(priv);
+> +	cros_ec_hwmon_probe_fan_control_supported(priv);
+>  
+> -	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+> -							 &cros_ec_hwmon_chip_info, NULL);
+> +	platform_priv->hwmon_dev = devm_hwmon_device_register_with_info(
+> +		dev, "cros_ec", priv, &cros_ec_hwmon_chip_info, NULL);
+> +	dev_set_drvdata(dev, platform_priv);
+
+platform_set_drvdata()/platform_get_drvdata()
+
+> -	return PTR_ERR_OR_ZERO(hwmon_dev);
+> +	return PTR_ERR_OR_ZERO(platform_priv->hwmon_dev);
+> +}
+> +
+> +static int cros_ec_hwmon_resume(struct platform_device *pdev)
+> +{
+> +	const struct cros_ec_hwmon_platform_priv *platform_priv =
+> +		dev_get_drvdata(&pdev->dev);
+> +	const struct cros_ec_hwmon_priv *priv =
+> +		dev_get_drvdata(platform_priv->hwmon_dev);
+> +	size_t i;
+> +	int ret;
+> +
+> +	if (!priv->fan_control_supported)
+> +		return 0;
+> +
+> +	/*
+> +	 * EC sets fan control to auto after suspended, restore settings to
+> +	 * before suspended.
+> +	 */
+> +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> +		if (!(priv->manual_fans & BIT(i)))
+> +			continue;
+
+Given that we can read the actual state from the EC I'd prefer to read
+it back and store it during suspend() instead of storing it during write().
+
+> +
+> +		/*
+> +		 * Setting fan PWM value to EC will change the mode to manual
+> +		 * for that fan in EC as well, so we do not need to issue a
+> +		 * separate fan mode to manual call.
+> +		 */
+> +		ret = cros_ec_hwmon_write_pwm_value(
+> +			priv->cros_ec, i, priv->manual_fan_pwm_values[i]);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  static const struct platform_device_id cros_ec_hwmon_id[] = {
+> @@ -274,6 +502,7 @@ static const struct platform_device_id cros_ec_hwmon_id[] = {
+>  static struct platform_driver cros_ec_hwmon_driver = {
+>  	.driver.name	= DRV_NAME,
+>  	.probe		= cros_ec_hwmon_probe,
+> +	.resume		= cros_ec_hwmon_resume,
+>  	.id_table	= cros_ec_hwmon_id,
+>  };
+>  module_platform_driver(cros_ec_hwmon_driver);
+> 
+> -- 
+> 2.49.0.901.g37484f566f-goog
+> 
+> 
