@@ -1,135 +1,268 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE0B6279786
-	for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 09:35:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745919351; cv=none; b=HzW2OSyq2SV25eg8VzjMfO0ueYyASa7cO18JvEgKiOgZU716AdqDVrYVOaWEl3lKks8cBJ457h5drsgKHKOzuUekGOYN6Jy3pG+NasYu/JWbRCL9nzz0FLuomQ0XLbB+mZGc1agqtPYI9wMd8FLB7cBydURucaJhPOujBSO9Y9Q=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745919351; c=relaxed/simple;
-	bh=tN2UB+TuaaaUXFFeK9YzWMWFKp9AS22wgI840ZDQ9sY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=N0UWPKtq6EBe6Fvsrpj+ObIiAfTiZFIyw+hG1nklKGgYc2TJDyVpuCjIfLg+sNqiRjvN6KTFfZQXWxGL5mYmjmU/sqNkb4uRY7+SQbrgjEM4Pq30ZxswTqcWW79eHMCbHxD+7Davp0rtb2pwRznuGCZJBii1RCsph5pnoYxEQHs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=hgmtxA4r; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF532279338;
+	Tue, 29 Apr 2025 09:40:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745919638; cv=pass; b=Vbm4IWnml/yc+MZTo0/RSTrc8w3AreS/QqhlhMJsAR6Ry7iYN8rO6tZ9+/UGqzN8HCxxueEUe8xY1kDlw1xvhu49h6ALYy/J0qPM512pNdXhjhH44dknUnqsdswbo4WAyVZs/uF0dBXPoVd86jkOJ1bECSp4WU4+0/u3wnX2Gqw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745919638; c=relaxed/simple;
+	bh=zK5JT1R+mOl1khjhnDdRHszcCX1G7PYj23hCYVADR+4=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U2zI3hV2u9YG+D3Wte/A1urYggwT0ZPM1oqGtPkJxL0acPaGdpMNr3dANS345ey3KeTgu1StIuLtBSpQZXod5wihdqV7obohrmmc9NSPslUCmU8959GzFwlED6EP0bqhe9/gblqrxIxial1fSMvjoFeehP3mp095+y0TmQUXS44=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=FUWvce3l; arc=pass smtp.client-ip=136.143.188.112
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="hgmtxA4r"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1745919349;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=5ya1y/PIPsUcPJdbK+tBdJ/PntQDR0r5QpbF6nQFyMU=;
-	b=hgmtxA4r826MYDAMoz5t2v84lqt8L/PAq0e+mBvd3Z5MjQSGj8c/o2Dsc3ZbRTdmVt1HFY
-	j95F1aJ88PnDkpU846ebXH39OKWqK8bGbt+m3pvHD/jCTLTEseon2uNDGbI1Zy95bgHCWx
-	reeJTOjpGn8m4iZEtR2KGdm0dfo11CE=
-Received: from mail-pf1-f199.google.com (mail-pf1-f199.google.com
- [209.85.210.199]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-438-QA-bjOfTMLSNGOaenrn2pQ-1; Tue, 29 Apr 2025 05:35:47 -0400
-X-MC-Unique: QA-bjOfTMLSNGOaenrn2pQ-1
-X-Mimecast-MFC-AGG-ID: QA-bjOfTMLSNGOaenrn2pQ_1745919346
-Received: by mail-pf1-f199.google.com with SMTP id d2e1a72fcca58-739764217ecso5030722b3a.0
-        for <linux-doc@vger.kernel.org>; Tue, 29 Apr 2025 02:35:47 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745919346; x=1746524146;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5ya1y/PIPsUcPJdbK+tBdJ/PntQDR0r5QpbF6nQFyMU=;
-        b=WvAJ/NVpBI6KbHqpBbk0HOIqt0DwHw7tghkAdHlR7RFPO1W0fdvEtvxq33SiAwJxz8
-         mC5cOsYxRPx9nQ5e6oIrwU9bkkRepfBvHGAFVdL6aYLJiejTTKltofjErXX9oQnLiit4
-         /KRKqdP068C0LNQDGqf3LLX3PQwuc8Q6B/nXAmc83cWLFF/IObXyHqVcPKTQeJRcbFpr
-         keQriBjDxa1Rio/WndrctbG4bldxIh8gn+z+/0s8ppYWURVM1W1kBZZ6fggeTzbiFHZH
-         QfSlrAmyhqn/TB6b4a/3RHJ74P5CWovZll/nSovnPToOv+Cr/Y8HpjYQzqd1Tpp7QR5j
-         orzA==
-X-Forwarded-Encrypted: i=1; AJvYcCUbR5htGVV+jCD0n1eIc16ztOzax6iTJ/F7QrYkLQ6kfpX23/RzD9J85A2FDYhytu0VWurPW9p39k4=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz7YDPkkzmX4D/XmwY8lom0gzo98ZvaRosImc/JyqMADjtQjIK1
-	vXyoQBcaVkdGZ2s2zX8+YBKuJ1QYkMegabrIxLaXndohMB+6M8OS8lB1rfGkwC3WJZFPjaJWNNK
-	aCBUYfm46bqq5/1nNU9tFvglsIwj2CDrRRMfFheuc9yuGb8Bn5S5Ihs6Bbg==
-X-Gm-Gg: ASbGnctIXkc2KyT6q2TghUuHGgygYjMBRLBFXPG+FeZfa19rqr7blYne3Yln5ez12u4
-	PQaTjMsx04E9ZhNHW255fwpqpQqzinwv4uUy42paRnjZZnZ9EGarBu0SNpbSdqW99wKOgHT9Ujg
-	/LUk7dN8xA0Plp/t6skngmGYquz/MIMrmKZZ9kn71qVanKxeo/1AvYTS49rL/ZpKZeHZ9YchVIT
-	XQp6m5o98vMbSvToL0sVjoTlMMEWzvbeRj+lyaTam6Q3qoyj46592Rx8GfN/dfxu5tbUMei6Y8R
-	ubw=
-X-Received: by 2002:a05:6a00:39a2:b0:73d:fdd9:a55 with SMTP id d2e1a72fcca58-74028a64220mr3881927b3a.8.1745919346341;
-        Tue, 29 Apr 2025 02:35:46 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IHcRRRYCT0Ey5PUAul1cem5LsfGawyLhW7VHOQTRyfJoa6t9dY828zqrHeMujEDVJTxyYQbsw==
-X-Received: by 2002:a05:6a00:39a2:b0:73d:fdd9:a55 with SMTP id d2e1a72fcca58-74028a64220mr3881906b3a.8.1745919345989;
-        Tue, 29 Apr 2025 02:35:45 -0700 (PDT)
-Received: from localhost ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-73e25a99a9esm9731097b3a.140.2025.04.29.02.35.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Apr 2025 02:35:45 -0700 (PDT)
-Date: Tue, 29 Apr 2025 17:34:57 +0800
-From: Coiby Xu <coxu@redhat.com>
-To: Arnaud Lefebvre <arnaud.lefebvre@clever-cloud.com>
-Cc: kexec@lists.infradead.org, Ondrej Kozina <okozina@redhat.com>, 
-	Milan Broz <gmazyland@gmail.com>, Thomas Staudt <tstaudt@de.ibm.com>, 
-	Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>, Kairui Song <ryncsn@gmail.com>, 
-	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>, 
-	linux-kernel@vger.kernel.org, x86@kernel.org, Dave Hansen <dave.hansen@intel.com>, 
-	Vitaly Kuznetsov <vkuznets@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
-	Jonathan Corbet <corbet@lwn.net>, "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v8 2/7] crash_dump: make dm crypt keys persist for the
- kdump kernel
-Message-ID: <mrvtghwiry77qwiakyjft3mt2po5rdntjrl7btlkmgnvgjrlru@lnkoytr3ozzh>
-References: <20250207080818.129165-1-coxu@redhat.com>
- <20250207080818.129165-3-coxu@redhat.com>
- <q3l724gslm3kzljjdo42l5murdw4pclpnmmtzu5jvqv4gwyxma@ek4jucbut32i>
+	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="FUWvce3l"
+ARC-Seal: i=1; a=rsa-sha256; t=1745919602; cv=none; 
+	d=zohomail.com; s=zohoarc; 
+	b=CrRxVW/rjrrTpEX877OQp09PyFktoNq4tLm8pehDoxuZm9tRiQej5iH1DAx5qDT9Lc4NOb6SmFIJhPQWWjj3NXtAVhj7dwEyFkZR+qD6SRCsZSDTo3irFeJnHxGrejqVL7as981LljIPT+GW/s6CBivRwxQj3gYeaX4+BVwzJ7M=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
+	t=1745919602; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
+	bh=hLcmBIsCACJDjUqAJtkO3HjgZL+AZDeLLjzKL5Mpp1Q=; 
+	b=GPZeeF9NHa0+ftrpZl4aZ8Mop5XFx2Ruj4qp5aB37/XaCRaadIfTDNlR2t4LuGXZAcebXlk8pR5Mhj+rsWbtSPnWUbHIcrnEvSnlGG2jGoEyw4XjVKvqCCHrL4bNDIQsz5OoEM6oSBdpbndb2kqeSi87n6aaTXIWYRJOD5iRSck=
+ARC-Authentication-Results: i=1; mx.zohomail.com;
+	dkim=pass  header.i=collabora.com;
+	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
+	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1745919602;
+	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
+	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
+	bh=hLcmBIsCACJDjUqAJtkO3HjgZL+AZDeLLjzKL5Mpp1Q=;
+	b=FUWvce3l0LAyC3oL+PJY12QkqhLVXz42z07AN6mnx/ARAY67DZuYjHPP+ne+jW8q
+	gI8fLDMp8XW+4rLBKWxRzGoc90GHy3t3UK0r6m9ZX4b/ekFufCgRHaBKLUpepFbtKtL
+	LPD2Ge/TYfWhDsirdN40DB7REFsV5aAKJ3Ago1+Q=
+Received: by mx.zohomail.com with SMTPS id 1745919600383113.998544462219;
+	Tue, 29 Apr 2025 02:40:00 -0700 (PDT)
+From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>, Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: Re: [PATCH v2 4/7] accel/rocket: Add a new driver for Rockchip's NPU
+Date: Tue, 29 Apr 2025 11:39:52 +0200
+Message-ID: <12654406.O9o76ZdvQC@workhorse>
+In-Reply-To: <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
+References:
+ <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
+ <20250225-6-10-rocket-v2-4-d4dbcfafc141@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii; format=flowed
-Content-Disposition: inline
-In-Reply-To: <q3l724gslm3kzljjdo42l5murdw4pclpnmmtzu5jvqv4gwyxma@ek4jucbut32i>
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="utf-8"
 
-On Wed, Apr 23, 2025 at 10:44:22PM +0200, Arnaud Lefebvre wrote:
->On Fri, Feb 07, 2025 at 04:08:10PM +0800, Coiby Xu wrote:
->>+config CRASH_DM_CRYPT
->>+	bool "Support saving crash dump to dm-crypt encrypted volume"
->>+	depends on KEXEC_FILE
->>+	depends on CRASH_DUMP
->>+	depends on DM_CRYPT
->>+	help
->>+	  With this option enabled, user space can intereact with
->>+	  /sys/kernel/config/crash_dm_crypt_keys to make the dm crypt keys
->>+	  persistent for the dump-capture kernel.
->>+
+On Tuesday, 25 February 2025 08:55:50 Central European Summer Time Tomeu Vizoso wrote:
+> This initial version supports the NPU as shipped in the RK3588 SoC and
+> described in the first part of its TRM, in Chapter 36.
+> 
+> This NPU contains 3 independent cores that the driver can submit jobs
+> to.
+> 
+> This commit adds just hardware initialization and power management.
+> 
+> v2:
+> - Split cores and IOMMUs as independent devices (Sebastian Reichel)
+> - Add some documentation (Jeffrey Hugo)
+> - Be more explicit in the Kconfig documentation (Jeffrey Hugo)
+> - Remove resets, as these haven't been found useful so far (Zenghui Yu)
+> - Repack structs (Jeffrey Hugo)
+> - Use DEFINE_DRM_ACCEL_FOPS (Jeffrey Hugo)
+> - Use devm_drm_dev_alloc (Jeffrey Hugo)
+> - Use probe log helper (Jeffrey Hugo)
+> - Introduce UABI header in a later patch (Jeffrey Hugo)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> ---
+>  Documentation/accel/index.rst           |    1 +
+>  Documentation/accel/rocket/index.rst    |   19 +
+>  MAINTAINERS                             |    8 +
+>  drivers/accel/Kconfig                   |    1 +
+>  drivers/accel/Makefile                  |    1 +
+>  drivers/accel/rocket/Kconfig            |   25 +
+>  drivers/accel/rocket/Makefile           |    8 +
+>  drivers/accel/rocket/rocket_core.c      |   71 +
+>  drivers/accel/rocket/rocket_core.h      |   29 +
+>  drivers/accel/rocket/rocket_device.c    |   29 +
+>  drivers/accel/rocket/rocket_device.h    |   29 +
+>  drivers/accel/rocket/rocket_drv.c       |  273 ++
+>  drivers/accel/rocket/rocket_drv.h       |   13 +
+>  drivers/accel/rocket/rocket_registers.h | 4425 +++++++++++++++++++++++++++++++
+>  14 files changed, 4932 insertions(+)
+
+Hi Tomeu,
+
+I've got some more comments on the driver, this time specific to some power
+management stuff I've noticed.
+
+> +++ b/drivers/accel/rocket/rocket_core.c
 >
->Maybe also add CONFIG_CONFIGFS_FS option? Without it this series code doesn't compile:
-
-I'll add the dependency on CONFIG_CONFIGFS_FS, thanks for your
-suggestion!
-
+> [...]
 >
->Last build lines:
+> +int rocket_core_init(struct rocket_core *core)
+> +{
+> +	struct device *dev = core->dev;
+> +	struct platform_device *pdev = to_platform_device(dev);
+> +	uint32_t version;
+> +	int err = 0;
+> +
+> +	err = rocket_clk_init(core);
+> +	if (err) {
+> +		dev_err(dev, "clk init failed %d\n", err);
+> +		return err;
+> +	}
+> +
+> +	core->iomem = devm_platform_ioremap_resource(pdev, 0);
+> +	if (IS_ERR(core->iomem))
+> +		return PTR_ERR(core->iomem);
+> +
+> +	pm_runtime_use_autosuspend(dev);
+
+We're enabling autosuspend here, but don't use
+  pm_runtime_dont_use_autosuspend(core->dev);
+in rocket_core_fini. dont_use_autosuspend is only handled for us automagically
+on driver unload if we use devm wrappers for pm_runtime_enable, so this is most
+definitely an oversight.
+
+> +	pm_runtime_set_autosuspend_delay(dev, 50); /* ~3 frames */
+
+The 50 = 3 frames thing here seems suspect. 3 frames of what, and why? If it's
+3 frames of something the hardware processed, then doesn't that depend on the
+specific hardware and its clock rate, which may change? Plus, shouldn't auto-
+suspend be blocked anyway when there's still a job processing? The RK3588 TRM
+doesn't make a mention of "frame" in the RKNN section, so if this refers to a
+specific workload then that will be another parameter.
+
+> +	pm_runtime_enable(dev);
+> +
+> +	err = pm_runtime_get_sync(dev);
+
+No error checking done here, so if a clock fails to enable, we just hang on the
+read later if it was the register's clock. Though that particular error case is
+never passed out from the runtime resume callback, which should probably be
+fixed as well. 
+
+> +
+> +	version = rocket_read(core, REG_PC_VERSION);
+> +	version += rocket_read(core, REG_PC_VERSION_NUM) & 0xffff;
+> +
+> +	pm_runtime_mark_last_busy(dev);
+> +	pm_runtime_put_autosuspend(dev);
+> +
+> +	dev_info(dev, "Rockchip NPU core %d version: %d\n", core->index, version);
+> +
+> +	return 0;
+> +}
+> +
+> +void rocket_core_fini(struct rocket_core *core)
+> +{
+> +	pm_runtime_disable(core->dev);
+> +}
 >
->   GEN     modules.builtin
->   MODPOST vmlinux.symvers
->   UPD     include/generated/utsversion.h
->   CC      init/version-timestamp.o
->   KSYMS   .tmp_vmlinux0.kallsyms.S
->   AS      .tmp_vmlinux0.kallsyms.o
->   LD      .tmp_vmlinux1
-> ld: vmlinux.o: in function `config_keys_make_item':
-> /usr/src/linux/kernel/crash_dump_dm_crypt.c:250:(.text+0x228028): undefined reference to `config_item_init_type_name'
-> ld: vmlinux.o: in function `configfs_dmcrypt_keys_init':
-> /usr/src/linux/kernel/crash_dump_dm_crypt.c:442:(.init.text+0x71e5c): undefined reference to `config_group_init'
-> ld: /usr/src/linux/kernel/crash_dump_dm_crypt.c:444:(.init.text+0x71e82): undefined reference to `configfs_register_subsystem'
-> ld: /usr/src/linux/kernel/crash_dump_dm_crypt.c:454:(.init.text+0x71ef7): undefined reference to `configfs_unregister_subsystem'
-> make[2]: *** [scripts/Makefile.vmlinux:77: vmlinux] Error 1
-> make[1]: *** [/usr/src/linux/Makefile:1226: vmlinux] Error 2
-> make: *** [Makefile:251: __sub-make] Error 2
+> [...]
+>
+> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/rocket_drv.c
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..c22d965f20f1239a36b1d823d5fe5f372713555d
+> --- /dev/null
+> +++ b/drivers/accel/rocket/rocket_drv.c
+>
+> [...]
+>
+> +static int rocket_device_runtime_resume(struct device *dev)
+> +{
+> +	struct rocket_device *rdev = dev_get_drvdata(dev);
+> +
+> +	for (unsigned int core = 0; core < rdev->num_cores; core++) {
+> +		if (dev != rdev->cores[core].dev)
+> +			continue;
+> +
+> +		if (core == 0) {
+> +			clk_prepare_enable(rdev->clk_npu);
+> +			clk_prepare_enable(rdev->pclk);
+> +		}
+> +
+> +		clk_prepare_enable(rdev->cores[core].a_clk);
+> +		clk_prepare_enable(rdev->cores[core].h_clk);
+> +	}
+> +
+> +	return 0;
+> +}
 
+Here is where we will probably want to check the return code of each
+clk_prepare_enable, and potentially do quite ugly "always return hardware to
+known state" handling if any of them fails to enable, i.e. unwind the enables
+in the function exit before returning the error code.
 
+Seems pointless because if a clock fails to enable it's a nuclear meltdown type
+situation anyway, but especially when people are writing DTSes or porting things
+to new SoCs, it can be nicer to have the driver fail rather than the whole SoC.
 
--- 
-Best regards,
-Coiby
+I do wish we had cleanup.h helpers for clock enables though...
+
+> +
+> +static int rocket_device_runtime_suspend(struct device *dev)
+> +{
+> +	struct rocket_device *rdev = dev_get_drvdata(dev);
+> +
+> +	for (unsigned int core = 0; core < rdev->num_cores; core++) {
+> +		if (dev != rdev->cores[core].dev)
+> +			continue;
+> +
+> +		clk_disable_unprepare(rdev->cores[core].a_clk);
+> +		clk_disable_unprepare(rdev->cores[core].h_clk);
+> +
+> +		if (core == 0) {
+> +			clk_disable_unprepare(rdev->pclk);
+> +			clk_disable_unprepare(rdev->clk_npu);
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +EXPORT_GPL_DEV_PM_OPS(rocket_pm_ops) = {
+> +	RUNTIME_PM_OPS(rocket_device_runtime_suspend, rocket_device_runtime_resume, NULL)
+> +	SYSTEM_SLEEP_PM_OPS(pm_runtime_force_suspend, pm_runtime_force_resume)
+> +};
+> +
+> +static struct platform_driver rocket_driver = {
+> +	.probe = rocket_probe,
+> +	.remove = rocket_remove,
+> +	.driver	 = {
+> +		.name = "rocket",
+> +		.pm = pm_ptr(&rocket_pm_ops),
+> +		.of_match_table = dt_match,
+> +	},
+> +};
+> +module_platform_driver(rocket_driver);
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_DESCRIPTION("DRM driver for the Rockchip NPU IP");
+> +MODULE_AUTHOR("Tomeu Vizoso");
+>
+> [...]
+
+I'll send a second reply with PM comments on the job stuff in the patch that
+adds it, since I found something peculiar there while experimenting on RK3576.
+
+Kind regards,
+Nicolas Frattaroli
+
 
