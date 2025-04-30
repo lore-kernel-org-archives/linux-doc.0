@@ -1,98 +1,96 @@
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CDA482899;
-	Wed, 30 Apr 2025 14:30:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E8E1B21ADC3;
+	Wed, 30 Apr 2025 14:36:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746023461; cv=none; b=sgLTHUVs3+7FJGDcrVAfzs1ZkWdMYRs6J6beap+EoqkvUo8AJrSM82EiYYb3wwsVyGhZw1H4/BVNgSnIgl3Mw6eKGhd/dMMjQAKJ0Bdd8ltVUtPgXG9buk2NLq/e+rrjClL+h3Jzv3ZRd7urN3lKZWJe+iZjlm7IW1iQ4JWcJ+Y=
+	t=1746023824; cv=none; b=BKctJPW9mAnP9JLTAqT8zBABUrOeV2gckW+6tdlGlqUMgoeHPW98fB8G3jW4wBTng6lchBt4UZkEeaHL72p7zJGnbIzD+1PYZM9hT7lZiCyLbjSIJlmLD384qS2euHJdhdWniwEJ6l53wa1PMduioqllS8JQA4KfOOAt1eoCN78=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746023461; c=relaxed/simple;
-	bh=5efKiyPEk+sdLj4zVkA91mL6EwpLaUOFiB1U2WZ/vuk=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Ys9aB5m1mbclQdAVynWllWfpcZcRCfyTl+RNrgO9KU5oFuaQSPFf/5XAK7/+a8ykmDWEWMRM8WkVnfFHT5qk4CPc9f6dmbtQTt8UVTUUHg4kBWSoCl40qOyQAmwD/fBCrllySjMjSMSvEKORGbDMF0f7GPuNj+ZzV6zg4ryUTFI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=OdmiGM1w; arc=none smtp.client-ip=209.85.221.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746023824; c=relaxed/simple;
+	bh=bqhe/3wNNetMAnct5PI5HuOKdKT6FhLcSekOS/ZFhsE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=T+c6yafwZ2HYbhpTbL6FIGMZ7ZMxNxiv82oxhltYAWA712BHri+Vl5oA7dZr+A3MpCwhqVX9UzJq6Y5MUzInRZ2HbxCB7KgsnJFFM8LEFd+Q6QxH/ha8e30P4v7sevx/IhYywV0sRo9PQWfV+VWA/hXino/OTolmtGWFq4ABDs4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=qt0JpBNR; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="OdmiGM1w"
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-39c0dfad22aso5745356f8f.2;
-        Wed, 30 Apr 2025 07:30:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746023458; x=1746628258; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=0w8UscCO5MybUIE9ef0MnKYg2PNsk1FHLto9LqecTu4=;
-        b=OdmiGM1wn5D1sH2wSyymt89dzyVY9hZbqe5aFEIjeLLKIUOgg/6Op+uQhLSGBPZNZM
-         fn8IFpCqIG45QYZ+KHZmd/BmfkWt+tmuP3LdBwnRHwy2E2QnZJv3DMiBsR3AY01fqNaY
-         e1KuDgNUKxsIYDO6XORSaOB17PPbmhaTietgtCLNBYe1w9mSOUuPOKFSzCuhZeOB8dmu
-         qedmsWFA5oFjZst1O29Nv2JnP6dA4fAFTW1wYV1OH9/tCfn1uzivAhnaSvkkmkeRWaZO
-         nv1PVzaoz9DS6xQLqogAZmtAkhHACDGcWu9c0v6LHeZX34uSIqQr/hDk83UOkykA6YWQ
-         sbJA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746023458; x=1746628258;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0w8UscCO5MybUIE9ef0MnKYg2PNsk1FHLto9LqecTu4=;
-        b=d6wfFYpxhKY7weGBAgJdqldlqKXh26mCAF9qjixvu+Qk/Aie0m6JyEFUpJo4q3GuyX
-         rQKi0kiUVuVBfaCYrAyHFJUmk4B8RGx0nhIXBRDMn8wVO9DMYdmUHpbF2eIXGgFzXG8e
-         1d2nmQow9X7P0gv6C8vhL+t7hoFsOW8SC74Tgm1va2b7xOz3izv0AdhXGoeGqx6Vm2mf
-         O3G5TPAppKvNK3pXHDn6LDwaN/Oxe4wFuGgbtQORnLV8ERElBlP9kGJ+AhOSxLh9vTfY
-         BX6dafs3l+2yOnLaYYVG6bywq0mjcDcuHTd3c94HOf5xzdXbcf2RrIAzU5kXdrskvTzL
-         9BOA==
-X-Forwarded-Encrypted: i=1; AJvYcCXApFBQC9ZZjeHJhVPbwLhVmb7jScJCiNAp8KtR3FSm1f7rMqL5Pc4ZxbYZSrnrtk/A0wh1lIUY1KUzS4Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyoQqTKZhjCj2FOxdDymp5Llgm7QqwTLlVxDb0zcL63b7Akahc4
-	e4mrYsINbzy/2W85GzlXpfwLIT+wTUEflh9LXt7jsAB/pqMNbTOTvnT5xzW1QHg=
-X-Gm-Gg: ASbGncuKvyZ/j7mm8PY7BfwU2v7v5pS1U+6z2PnHV9DZINZkbk6znSyrHB28BC87Rce
-	4BuMN/2BetnP1RQt8VI9ZSWRrF45VLrUoCLY2pMCGzOov+IG1dbijhLj5bm7s1E1KXGMHzoiq5o
-	RglaGhqLITHV2jvI4HDveUSB8Aebr/PQOnRbVjeR7VtK2mvGVcQt/97wu0l9cbNPADx4Kmp5DWy
-	28LBYPkPx99u1cZld33I4OLsBZrT/ma07qL6AuTxznSnpc6szgUZbxF58Sky2LbR7efm0Lvm05S
-	lm1O0tOuJnmgnlvWGtBSIYItc0wSuK24sW6AG4PT
-X-Google-Smtp-Source: AGHT+IEWhirat0n5nsX8ATDTnk9qmPez0mg3j9XAEmMycu763yzHSI70X3OF2jBJI0Rz5rlmIiFXaA==
-X-Received: by 2002:a05:6000:4014:b0:3a0:7a5d:96f8 with SMTP id ffacd0b85a97d-3a08f7a2755mr2747694f8f.31.1746023457400;
-        Wed, 30 Apr 2025 07:30:57 -0700 (PDT)
-Received: from sashok63.. ([46.19.86.240])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a073e5c9cdsm17064227f8f.87.2025.04.30.07.30.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 07:30:57 -0700 (PDT)
-From: Alexander Shatalin <sashatalin03@gmail.com>
-To: corbet@lwn.net
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	Alexander Shatalin <sashatalin03@gmail.com>
-Subject: [PATCH] docs: fix typo in firmware-related section
-Date: Wed, 30 Apr 2025 14:27:26 +0000
-Message-Id: <20250430142726.3276-1-sashatalin03@gmail.com>
-X-Mailer: git-send-email 2.34.1
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="qt0JpBNR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1746023812;
+	bh=bqhe/3wNNetMAnct5PI5HuOKdKT6FhLcSekOS/ZFhsE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qt0JpBNR2hK2mKSMpQBhV7DlvYlkIh8CixnfUKZGYR4vzp7g13bKclX1wami2lQRG
+	 Q0rs6uQmC8kbxpeCPq1E3oDsARy6iY5rfR2nNmYXhJUcK+/lOkdXRWoi5km0KFfbSu
+	 VAVyAcilSGw4vxeIRuSnTdzkdcIKYEETGVWVRYF0=
+Date: Wed, 30 Apr 2025 16:36:51 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Sung-Chi Li <lschyi@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 3/3] hwmon: (cros_ec) register fans into thermal
+ framework cooling devices
+Message-ID: <2518c6a3-6524-48b3-8e64-8990a61cc608@t-8ch.de>
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-3-a8d9e3efbb1a@chromium.org>
+ <ec2f7e54-0582-475d-af91-42d9be65cd3e@t-8ch.de>
+ <aBGCB6_4XR4Z-vFI@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <aBGCB6_4XR4Z-vFI@google.com>
 
-Fix a minor grammar issue by changing 'firmwares' to 'firmware' in the
-Documentation/index.rst file.
+On 2025-04-30 09:51:03+0800, Sung-Chi Li wrote:
+> On Tue, Apr 29, 2025 at 10:45:56PM +0200, Thomas Weißschuh wrote:
+> > On 2025-04-29 16:14:23+0800, Sung-Chi Li via B4 Relay wrote:
+> > > From: Sung-Chi Li <lschyi@chromium.org>
+> > > 
+> > > Register fans connected under EC as thermal cooling devices as well, so
+> > > these fans can then work with the thermal framework.
+> > > 
+> > > During the driver probing phase, we will also try to register each fan
+> > > as a thermal cooling device based on previous probe result (whether the
+> > > there are fans connected on that channel, and whether EC supports fan
+> > > control). The basic get max state, get current state, and set current
+> > > state methods are then implemented as well.
+> > 
+> > There is also HWMON_C_REGISTER_TZ, however it depends on OF.
+> > But this patch looks very generic, so maybe it makes sense to implement
+> > it in the hwmon core.
+> > 
+> 
+> Hi, the HWMON_C_REGISTER_TZ is for registering a thermal sensor, and here I
+> registered it as thermal cooling devices, so they are different. I followed
+> other hwmon drivers:
+> 
+>   - gpio-fan.c
+>   - aspeed-pwm-tacho.c
+>   - max6650.c
+>   - qnap-mcu-hwmon.c
+>   - ...
 
-Signed-off-by: Alexander Shatalin <sashatalin03@gmail.com>
----
- Documentation/index.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Indeed, sorry.
 
-diff --git a/Documentation/index.rst b/Documentation/index.rst
-index f9f525f4c0dd..c0cf79a87c3a 100644
---- a/Documentation/index.rst
-+++ b/Documentation/index.rst
-@@ -84,7 +84,7 @@ which are kept separately from the kernel's own documentation.
- Firmware-related documentation
- ==============================
- The following holds information on the kernel's expectations regarding the
--platform firmwares.
-+platform firmware.
- 
- .. toctree::
-    :maxdepth: 1
--- 
-2.34.1
+> . These hwmon drivers also manually registered other cooling devices, and that
+> makes sense to me, so I think it is good to just register cooling devices rather
+> than make big changes to hwmon core.
 
+The implementation does look like a lot of boilerplate.
+If Guenter doesn't chime in, let's stick with the current approach.
+
+> > > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > > ---
+> > >  Documentation/hwmon/cros_ec_hwmon.rst |  2 +
+> > >  drivers/hwmon/cros_ec_hwmon.c         | 72 +++++++++++++++++++++++++++++++++++
+> > >  2 files changed, 74 insertions(+)
+> > 
+> > <snip>
