@@ -1,271 +1,237 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6B8AE10A1E;
-	Wed, 30 Apr 2025 14:42:41 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5633A225D6;
+	Wed, 30 Apr 2025 14:48:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746024165; cv=none; b=XNgWrmf8fmsyPGy4UzWuO0LM07fbhZ0r1SdiAONK9hgoAkp+1IGgzfFs+wt5gWj4MyrN5Ucqf8tdcn8If8WHxDuobS2J/5/NOI1GqzX539hfp0PRee5iFjTAni2+5Kk7DNrvyPQ2+hTPxJtvrBjpwF8r5yG+BxHjz0XDQ2Njxz8=
+	t=1746024500; cv=none; b=X6jp8+4rLabWVbHBNkDuD3chBLUT7S6/w1VrvEAspDOlJ3HQI5fehNTSUw/aBgGuPl3USZVQejnD+Ll89dnx36QWDXUsxP97bVJ9PCgc1AJfEPEaYJ2f9oJExS91k8dbbAf3nnEHGqrzhlAMEeNY29gAIED1BqVA1edon7X72Mg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746024165; c=relaxed/simple;
-	bh=Xx/rlYUB9o0F+6Yp9eJc9LZSqR+bofOM7C8K2ThzjAo=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=h2krh20QwAKgE/D2bPKQh8KAi7ndrgB5JAByfRFB7tO6IE9HoMVv33VipnSUjV4vr7hhOC98O9zc9G8BSmMXf8aIUazQY6BU5+BhtI+6BTrGyJLpuATHUZbXn2G59vKBt9Iyd12racALb3aEP6B1+MAE/zgkNrPFp5l8pWzpcVo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZnfxF2yDTz67J7D;
-	Wed, 30 Apr 2025 22:40:33 +0800 (CST)
-Received: from frapeml500003.china.huawei.com (unknown [7.182.85.28])
-	by mail.maildlp.com (Postfix) with ESMTPS id E8D23140275;
-	Wed, 30 Apr 2025 22:42:38 +0800 (CST)
-Received: from localhost (10.203.177.99) by frapeml500003.china.huawei.com
- (7.182.85.28) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Wed, 30 Apr
- 2025 16:42:37 +0200
-Date: Wed, 30 Apr 2025 15:42:32 +0100
-From: Alireza Sanaee <alireza.sanaee@huawei.com>
-To: John Groves <John@Groves.net>
-CC: Dan Williams <dan.j.williams@intel.com>, Miklos Szeredi
-	<miklos@szeredb.hu>, Bernd Schubert <bschubert@ddn.com>, John Groves
-	<jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, Vishal Verma
-	<vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, "Matthew
- Wilcox" <willy@infradead.org>, Jan Kara <jack@suse.cz>, Alexander Viro
-	<viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, "Darrick J
- . Wong" <djwong@kernel.org>, Luis Henriques <luis@igalia.com>, "Randy Dunlap"
-	<rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, "Kent Overstreet"
-	<kent.overstreet@linux.dev>, Petr Vorel <pvorel@suse.cz>, "Brian Foster"
-	<bfoster@redhat.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <nvdimm@lists.linux.dev>,
-	<linux-cxl@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>, Amir Goldstein
-	<amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, Stefan
- Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, Josef
- Bacik <josef@toxicpanda.com>, "Aravind Ramesh" <arramesh@micron.com>, Ajay
- Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC PATCH 00/19] famfs: port into fuse
-Message-ID: <20250430154232.000045dd.alireza.sanaee@huawei.com>
-In-Reply-To: <20250421013346.32530-1-john@groves.net>
-References: <20250421013346.32530-1-john@groves.net>
-Organization: Huawei
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1746024500; c=relaxed/simple;
+	bh=NXBWEd1ph+eZTmeXYgMCpSBzmBMLHdzVrIkTU9qkShM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eaAGZV7+LXc/HPTGTLHi7AbIowpI7JNgCO7OfJbOmLLbqVmek1wtLhmtKCiTimmJgFS6CrfkdzuguccqTZtggNWEFvmP6AsgVSuWbh5kJwPASSZotiWLB5XMLBwCA66WVwqLLjkdkSb9kcRX48VkZKJOOwrtQugDS94cJGhhIKo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=H/ZpkXCJ; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="H/ZpkXCJ"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1746024495;
+	bh=NXBWEd1ph+eZTmeXYgMCpSBzmBMLHdzVrIkTU9qkShM=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=H/ZpkXCJtwStLZxzW1gr6Bj3nsnrDiCUr/Hvhf2R4zgIrgWARC/BANdBL1wByur2M
+	 Q2k4BghjK2NHzcDq3xDSRgVj04/s8s97l8Hd85nn5DXKFHFnxJO5FKBlx0GDIfpzRS
+	 txJXIKLi1cahLaE6xwhAGusI7oqgslzTM4MCEbGs=
+Date: Wed, 30 Apr 2025 16:48:15 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: Sung-Chi Li <lschyi@chromium.org>
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <0483bdf2-c1a2-4a8e-b0ee-b00cafdda557@t-8ch.de>
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
+ <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
+ <aBHKepQx_drHfnp8@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100002.china.huawei.com (7.191.160.241) To
- frapeml500003.china.huawei.com (7.182.85.28)
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <aBHKepQx_drHfnp8@google.com>
 
-On Sun, 20 Apr 2025 20:33:27 -0500
-John Groves <John@Groves.net> wrote:
+On 2025-04-30 15:00:10+0800, Sung-Chi Li wrote:
+> On Tue, Apr 29, 2025 at 11:20:09PM +0200, Thomas Weißschuh wrote:
+> > On 2025-04-29 16:14:22+0800, Sung-Chi Li via B4 Relay wrote:
+> > > From: Sung-Chi Li <lschyi@chromium.org>
+> > > 
+> > > Newer EC firmware supports controlling fans through host commands, so
+> > > adding corresponding implementations for controlling these fans in the
+> > > driver for other kernel services and userspace to control them.
+> > > 
+> > > The driver will first probe the supported host command versions (get and
+> > > set of fan PWM values, get and set of fan control mode) to see if the
+> > > connected EC fulfills the requirements of controlling the fan, then
+> > > exposes corresponding sysfs nodes for userspace to control the fan with
+> > > corresponding read and write implementations.
+> > > As EC will automatically change the fan mode to auto when the device is
+> > > suspended, the power management hooks are added as well to keep the fan
+> > > control mode and fan PWM value consistent during suspend and resume. As
+> > > we need to access the hwmon device in the power management hook, update
+> > > the driver by storing the hwmon device in the driver data as well.
+> > > 
+> > > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > > ---
+> > >  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
+> > >  drivers/hwmon/cros_ec_hwmon.c         | 237 +++++++++++++++++++++++++++++++++-
+> > >  2 files changed, 237 insertions(+), 5 deletions(-)
 
-> Subject: famfs: port into fuse
-> 
-> This is the initial RFC for the fabric-attached memory file system
-> (famfs) integration into fuse. In order to function, this requires a
-> related patch to libfuse [1] and the famfs user space [2]. 
-> 
-> This RFC is mainly intended to socialize the approach and get
-> feedback from the fuse developers and maintainers. There is some dax
-> work that needs to be done before this should be merged (see the
-> "poisoned page|folio problem" below).
-> 
-> This patch set fully works with Linux 6.14 -- passing all existing
-> famfs smoke and unit tests -- and I encourage existing famfs users to
-> test it.
-> 
-> This is really two patch sets mashed up:
-> 
-> * The patches with the dev_dax_iomap: prefix fill in missing
-> functionality for devdax to host an fs-dax file system.
-> * The famfs_fuse: patches add famfs into fs/fuse/. These are
-> effectively unchanged since last year.
-> 
-> Because this is not ready to merge yet, I have felt free to leave
-> some debug prints in place because we still find them useful; those
-> will be cleaned up in a subsequent revision.
-> 
-> Famfs Overview
-> 
-> Famfs exposes shared memory as a file system. Famfs consumes shared
-> memory from dax devices, and provides memory-mappable files that map
-> directly to the memory - no page cache involvement. Famfs differs
-> from conventional file systems in fs-dax mode, in that it handles
-> in-memory metadata in a sharable way (which begins with never caching
-> dirty shared metadata).
-> 
-> Famfs started as a standalone file system [3,4], but the consensus at
-> LSFMM 2024 [5] was that it should be ported into fuse - and this RFC
-> is the first public evidence that I've been working on that.
-> 
-> The key performance requirement is that famfs must resolve mapping
-> faults without upcalls. This is achieved by fully caching the
-> file-to-devdax metadata for all active files. This is done via two
-> fuse client/server message/response pairs: GET_FMAP and GET_DAXDEV.
-> 
-> Famfs remains the first fs-dax file system that is backed by devdax
-> rather than pmem in fs-dax mode (hence the need for the dev_dax_iomap
-> fixups).
-> 
-> Notes
-> 
-> * Once the dev_dax_iomap patches land, I suspect it may make sense for
->   virtiofs to update to use the improved interface.
-> 
-> * I'm currently maintaining compatibility between the famfs user
-> space and both the standalone famfs kernel file system and this new
-> fuse implementation. In the near future I'll be running performance
-> comparisons and sharing them - but there is no reason to expect
-> significant degradation with fuse, since famfs caches entire "fmaps"
-> in the kernel to resolve faults with no upcalls. This patch has a bit
-> too much debug turned on to to that testing quite yet. A branch 
-> 
-> * Two new fuse messages / responses are added: GET_FMAP and
-> GET_DAXDEV.
-> 
-> * When a file is looked up in a famfs mount, the LOOKUP is followed
-> by a GET_FMAP message and response. The "fmap" is the full
-> file-to-dax mapping, allowing the fuse/famfs kernel code to handle
-> read/write/fault without any upcalls.
-> 
-> * After each GET_FMAP, the fmap is checked for extents that reference
->   previously-unknown daxdevs. Each such occurence is handled with a
->   GET_DAXDEV message and response.
-> 
-> * Daxdevs are stored in a table (which might become an xarray at some
-> point). When entries are added to the table, we acquire exclusive
-> access to the daxdev via the fs_dax_get() call (modeled after how
-> fs-dax handles this with pmem devices). famfs provides
-> holder_operations to devdax, providing a notification path in the
-> event of memory errors.
-> 
-> * If devdax notifies famfs of memory errors on a dax device, famfs
-> currently bocks all subsequent accesses to data on that device. The
-> recovery is to re-initialize the memory and file system. Famfs is
-> memory, not storage...
-> 
-> * Because famfs uses backing (devdax) devices, only privileged mounts
-> are supported.
-> 
-> * The famfs kernel code never accesses the memory directly - it only
->   facilitates read, write and mmap on behalf of user processes. As
-> such, the RAS of the shared memory affects applications, but not the
-> kernel.
-> 
-> * Famfs has backing device(s), but they are devdax (char) rather than
->   block. Right now there is no way to tell the vfs layer that famfs
-> has a char backing device (unless we say it's block, but it's not).
-> Currently we use the standard anonymous fuse fs_type - but I'm not
-> sure that's ultimately optimal (thoughts?)
-> 
-> The "poisoned page|folio problem"
-> 
-> * Background: before doing a kernel mount, the famfs user space [2]
-> validates the superblock and log. This is done via raw mmap of the
-> primary devdax device. If valid, the file system is mounted, and the
-> superblock and log get exposed through a pair of files
-> (.meta/.superblock and .meta/.log) - because we can't be using raw
-> device mmap when a file system is mounted on the device. But this
-> exposes a devdax bug and warning...
-> 
-> * Pages that have been memory mapped via devdax are left in a
-> permanently problematic state. Devdax sets page|folio->mapping when a
-> page is accessed via raw devdax mmap (as famfs does before mount),
-> but never cleans it up. When the pages of the famfs superblock and
-> log are accessed via the "meta" files after mount, we see a
-> WARN_ONCE() in dax_insert_entry(), which notices that
-> page|folio->mapping is still set. I intend to address this prior to
-> asking for the famfs patches to be merged.
-> 
-> * Alistair Popple's recent dax patch series [6], which has been merged
->   for 6.15, addresses some dax issues, but sadly does not fix the
-> poisoned page|folio problem - its enhanced refcount checking turns
-> the warning into an error.
-> 
-> * This 6.14 patch set disables the warning; a proper fix will be
-> required for famfs to work at all in 6.15. Dan W. and I are actively
-> discussing how to do this properly...
-> 
-> * In terms of the correct functionality of famfs, the warning can be
-> ignored.
-> 
-> References
-> 
-> [1] - https://github.com/libfuse/libfuse/pull/1200
-> [2] - https://github.com/cxl-micron-reskit/famfs
-> [3]
-> - https://lore.kernel.org/linux-cxl/cover.1708709155.git.john@groves.net/ [4] - https://lore.kernel.org/linux-cxl/cover.1714409084.git.john@groves.net/
-> [5] - https://lwn.net/Articles/983105/
-> [6]
-> - https://lore.kernel.org/linux-cxl/cover.8068ad144a7eea4a813670301f4d2a86a8e68ec4.1740713401.git-series.apopple@nvidia.com/
-> 
-> 
-> John Groves (19):
->   dev_dax_iomap: Move dax_pgoff_to_phys() from device.c to bus.c
->   dev_dax_iomap: Add fs_dax_get() func to prepare dax for fs-dax usage
->   dev_dax_iomap: Save the kva from memremap
->   dev_dax_iomap: Add dax_operations for use by fs-dax on devdax
->   dev_dax_iomap: export dax_dev_get()
->   dev_dax_iomap: (ignore!) Drop poisoned page warning in fs/dax.c
->   famfs_fuse: magic.h: Add famfs magic numbers
->   famfs_fuse: Kconfig
->   famfs_fuse: Update macro s/FUSE_IS_DAX/FUSE_IS_VIRTIO_DAX/
->   famfs_fuse: Basic fuse kernel ABI enablement for famfs
->   famfs_fuse: Basic famfs mount opts
->   famfs_fuse: Plumb the GET_FMAP message/response
->   famfs_fuse: Create files with famfs fmaps
->   famfs_fuse: GET_DAXDEV message and daxdev_table
->   famfs_fuse: Plumb dax iomap and fuse read/write/mmap
->   famfs_fuse: Add holder_operations for dax notify_failure()
->   famfs_fuse: Add famfs metadata documentation
->   famfs_fuse: Add documentation
->   famfs_fuse: (ignore) debug cruft
-> 
->  Documentation/filesystems/famfs.rst |  142 ++++
->  Documentation/filesystems/index.rst |    1 +
->  MAINTAINERS                         |   10 +
->  drivers/dax/Kconfig                 |    6 +
->  drivers/dax/bus.c                   |  144 +++-
->  drivers/dax/dax-private.h           |    1 +
->  drivers/dax/device.c                |   38 +-
->  drivers/dax/super.c                 |   33 +-
->  fs/dax.c                            |    1 -
->  fs/fuse/Kconfig                     |   13 +
->  fs/fuse/Makefile                    |    4 +-
->  fs/fuse/dev.c                       |   61 ++
->  fs/fuse/dir.c                       |   74 +-
->  fs/fuse/famfs.c                     | 1105
-> +++++++++++++++++++++++++++ fs/fuse/famfs_kfmap.h               |
-> 166 ++++ fs/fuse/file.c                      |   27 +-
->  fs/fuse/fuse_i.h                    |   67 +-
->  fs/fuse/inode.c                     |   49 +-
->  fs/fuse/iomode.c                    |    2 +-
->  fs/namei.c                          |    1 +
->  include/linux/dax.h                 |    6 +
->  include/uapi/linux/fuse.h           |   63 ++
->  include/uapi/linux/magic.h          |    2 +
->  23 files changed, 1973 insertions(+), 43 deletions(-)
->  create mode 100644 Documentation/filesystems/famfs.rst
->  create mode 100644 fs/fuse/famfs.c
->  create mode 100644 fs/fuse/famfs_kfmap.h
-> 
-> 
-> base-commit: 38fec10eb60d687e30c8c6b5420d86e8149f7557
+<snip>
 
-Hi John,
+> > > +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec,
+> > > +					u8 index, u8 *pwm_value)
+> > > +{
+> > > +	int ret = cros_ec_hwmon_read_pwm_raw_value(cros_ec, index, pwm_value);
+> > 
+> > The _raw_ function is unnecessary.
+> > 
+> 
+> This is to share with the `cros_ec_hwmon_cooling_get_cur_state`, and there is a
+> unit conversion needed, so extract the same process into a _raw_ function.
 
-Apologies if the question is far off or irrelevant.
+What's the advantage of scaling the value for the cooling device?
+The hwmon core thermal zone implementation also uses the hwmon values
+directly.
 
-I am trying to understand FAMFS, and I am thinking where does FAMFS
-stand when compared to OpenSHMEM PGAS. Can't we have a OpenSHMEM-based
-shared memory implementation over CXL that serves as FAMFS?
+> > > +
+> > > +	if (ret == 0)
+> > > +		*pwm_value = *pwm_value * 255 / 100;
+> > > +	return ret;
+> > > +}
+> > > +
+> > > +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec,
+> > > +					 u8 index, u8 *control_method)
+> > > +{
+> > > +	struct ec_params_auto_fan_ctrl_v2 req = {
+> > > +		.fan_idx = index,
+> > > +		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
+> > > +	};
+> > > +	struct ec_response_auto_fan_control resp;
+> > > +	int ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> > > +			      sizeof(req), &resp, sizeof(resp));
+> > 
+> > Keep &foo and sizeof(foo) together on the same line please.
+> > 
+> 
+> This is automatically formatted by clang-format. I will keep it like this in the
+> v2 patch. If it is important for readablity, please share with me, and I will
+> update that in the v2 patch.
 
-Maybe FAMFS does more than that!?!
+It's not that important. But unfortunate that clang-format will make the
+formatting worse.
 
-Thanks,
-Alireza
+<snip>
 
+> > > +static int cros_ec_hwmon_set_pwm_raw_value(struct cros_ec_hwmon_priv *priv,
+> > > +					   u8 index, u8 val)
+> > > +{
+> > > +	int ret;
+> > > +
+> > > +	if (!(priv->manual_fans & BIT(index)))
+> > > +		return -ECANCELED;
+> > 
+> > Weird error code.
+> > 
+> 
+> Hmm, do you have some error code suggestion? I think the idea here is we will
+> reject to write the PWM value if fan is not in manual mode, and I am not sure
+> what error suits for this (is -EPERM the one to use here?).
+
+EOPNOTSUPP maybe.
+
+> 
+> > > +
+> > > +	ret = cros_ec_hwmon_write_pwm_value(priv->cros_ec, index, val);
+> > > +	if (ret == 0)
+> > > +		priv->manual_fan_pwm_values[index] = val;
+> > > +	return ret;
+> > > +}
+
+<snip>
+
+> > > +static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec,
+> > > +					  u8 index, u8 val)
+> > > +{
+> > > +	struct ec_params_auto_fan_ctrl_v2 req = {
+> > > +		.fan_idx = index,
+> > > +		.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
+> > 
+> > Swap the two lines above.
+> > 
+> 
+> Will update in v2 patch.
+> 
+> > > +	};
+> > > +	int ret;
+> > > +
+> > > +	/* No CROS EC supports no fan speed control */
+> > > +	if (val == 0)
+> > > +		return -EOPNOTSUPP;
+> > > +
+> > > +	req.set_auto = (val != 1) ? true : false;
+> > > +	ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> > > +			  sizeof(req), NULL, 0);
+> > 
+> > Use a full 100 columns.
+> > 
+> 
+> Hmm, I found the style guide actually strongly prefer 80:
+> https://www.kernel.org/doc/html/v6.14/process/coding-style.html#breaking-long-lines-and-strings
+
+I don't think it is a strong recommendation anymore.
+The hwmon core also doesn't seem to be religious about it.
+
+> > > +	if (ret < 0)
+> > > +		return ret;
+> > > +	return 0;
+> > > +}
+> > > +
+
+<snip>
+
+> > > +static int cros_ec_hwmon_resume(struct platform_device *pdev)
+> > > +{
+> > > +	const struct cros_ec_hwmon_platform_priv *platform_priv =
+> > > +		dev_get_drvdata(&pdev->dev);
+> > > +	const struct cros_ec_hwmon_priv *priv =
+> > > +		dev_get_drvdata(platform_priv->hwmon_dev);
+> > > +	size_t i;
+> > > +	int ret;
+> > > +
+> > > +	if (!priv->fan_control_supported)
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * EC sets fan control to auto after suspended, restore settings to
+> > > +	 * before suspended.
+> > > +	 */
+> > > +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> > > +		if (!(priv->manual_fans & BIT(i)))
+> > > +			continue;
+> > 
+> > Given that we can read the actual state from the EC I'd prefer to read
+> > it back and store it during suspend() instead of storing it during write().
+> > 
+> 
+> Do you mean reading fan mode and fan PWM value during suspend, or we will keep
+> updating `manual_fans` while write(), and do not cache the PWM value while
+> write()? That involves whether we need to send a get fan mode for every write
+> PWM value.
+
+This one:
+"reading fan mode and fan PWM value during suspend"
+
+> > > +
+> > > +		/*
+> > > +		 * Setting fan PWM value to EC will change the mode to manual
+> > > +		 * for that fan in EC as well, so we do not need to issue a
+> > > +		 * separate fan mode to manual call.
+> > > +		 */
+> > > +		ret = cros_ec_hwmon_write_pwm_value(
+> > > +			priv->cros_ec, i, priv->manual_fan_pwm_values[i]);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return 0;
+> > >  }
+
+<snip>
