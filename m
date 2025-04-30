@@ -1,89 +1,109 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E35235067;
-	Wed, 30 Apr 2025 12:32:29 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EFD231852
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 12:47:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746016351; cv=none; b=Y8iyYkn/NAfr5WLSPaofIJbeLgGtThbiND0Pti4C4MNpfZ3ceqCHCNaoEzEcVAeG4jiMLm5EjyD4CKJqTqadx6m7n7ip3GzH7ChtfsJRn54em6HaYhTJ3EiCP9HiNGO8cXU46cKyWZ4j6SFRhBXNk5T/JCJlKflxdYtkdvyycwc=
+	t=1746017227; cv=none; b=JLDiOc37oRFpDggSLRbo/QFcIwX1prqE1XGbRW+h5TsIfId4nLsH1/FVwJbhcNC7NiEShOH7XQZpgsU7CSyi9AbGBYfKf+VZGhFC12sgQ06ho6J4OwquOToUI1hF58nXB7eUUCL3w9KFi22s7TmMYP9OiJVhg8wStaJbMeMYs1o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746016351; c=relaxed/simple;
-	bh=nloV9YlXjFS5erx/L4R5uVw+BB0aF1r/qK/bsiQaAD8=;
+	s=arc-20240116; t=1746017227; c=relaxed/simple;
+	bh=P7wPOE00tY3qae0gS0Xvsdms81ZrmIkknzlUr0WkzwE=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=iNNXm6vYQA6bvZxH9gad/ZSNWyyGOtFEnS3LGWG9EpN2t9k5YagBgiR/QE2odCDnMGRjosINEgQ6Gx9jZQlomuZy41V3BTTY69L1T0P8YZ7or04zWTuqDX8pWM98OiqPN6EDVh8f42UBJgg0qTCmhTNuL2Lx65bJ3CBj0pYMeHY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YBaefr2H; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=bhHRv7JSjt47AiGguuevr0VVNX1noTRWvFIrzVF6Ux+GPrqi4vSd1ms5gMMpjt4Z3NGYO7/n8CQ6FNgC6Rj/C0gs1n9Iu7QfcwSre1DZnOdbeWqKMgTEhq1VDgMv1DP9y7G1SDKKKhOhocb/ORYhtlC7lQGQ73RvR4xJ8gBEBvI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QkUrTT0B; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YBaefr2H"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6FC9841087
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QkUrTT0B"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5047741ACE
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1746016348; bh=07rsvot5ahYpNd4X7E4eyB68XtcpUJCo+O5SXtg19XY=;
+	t=1746017225; bh=Bfb74/r6khWPDflOKl8lbwsOs3H7eNZ9b5KOJPNyY7o=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=YBaefr2HHGUUA3Q3I34AGKOTlMXsT2PfAaTOUMOaDa51XNqRBLos2sm66EhGkSRJg
-	 dkFtX+i2G1e5aNd3C0ct8DbwMXdm2Y7/13CRCQ/IrjmtbwpkU63ZbC2zxdCwbIe8w4
-	 FoMMy8yC9LGalQUzEh8FSeL2b1wqLkAl7tfsK9gCHuoD95kqPLfh+XUlkq4tc82j6L
-	 /2SsNjhE8JyWiwseNjSYJIFcZ3h0+5M8K5fBDD7ynGpJ+g2j/kvckhPWaeMxvEWeZm
-	 zHVy9/9UPNubXVJCjKrcmQqkaWtdQPEy9K1CWef5xus3jIwKw/b4MxtOxAxQ1JNzr0
-	 Z8tbUBc2G0LPw==
+	b=QkUrTT0BtDJxM44wNMXBx6Yl+DFPMPe97sOW3oLaUQZUN+POw82Wucy/G1NhEeRwC
+	 bBdGbIh8gZqZqWG5QEkcGCgBVa32OqLpGZ1DpgeRf9ACquujssv0lOut73gKqKgk49
+	 po/Nk0pkAI+0/KDnmdUJlvMnZvghZfrNbrW8TZw+Q6z2pHCJ2dETFdEv8XX5wT0jfO
+	 6BWFWQTnTZkUITBh3+YkGURyzfmlbPJRAT2XKDV4gfchaRziPxHAVoT9osSdx/jTz/
+	 TX1ZkxRIZP9ElIwoXSlGFMMlmBSl0fwyYduPCHK/3lEqY6RKlPXCAKQOjfAX2gHxaS
+	 UQ9J1zlyDiI3g==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 6FC9841087;
-	Wed, 30 Apr 2025 12:32:28 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 5047741ACE;
+	Wed, 30 Apr 2025 12:47:05 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- dave.jiang@intel.com, alison.schofield@intel.com,
- vishal.l.verma@intel.com, ira.weiny@intel.com, dan.j.williams@intel.com
-Subject: Re: [RFC PATCH 02/17] cxl: docs/devices - device reference and uefi
- placeholder
-In-Reply-To: <20250430001224.1028656-3-gourry@gourry.net>
-References: <20250430001224.1028656-1-gourry@gourry.net>
- <20250430001224.1028656-3-gourry@gourry.net>
-Date: Wed, 30 Apr 2025 06:32:27 -0600
-Message-ID: <87o6wdltic.fsf@trenco.lwn.net>
+To: Ming Wen <mwen@ambarella.com>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>, Long Li
+ <longli@ambarella.com>, Jian Tang <jtang@ambarella.com>, Zhao-Yang Chen
+ <zychen@ambarella.com>, Rongrong Cao <rrcao@ambarella.com>
+Subject: Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
+In-Reply-To: <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+References: <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+Date: Wed, 30 Apr 2025 06:47:04 -0600
+Message-ID: <87jz71lstz.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Gregory Price <gourry@gourry.net> writes:
+Ming Wen <mwen@ambarella.com> writes:
 
-> Add a simple device primer sufficient to understand the theory
-> of operation documentation.
+> Dear Linux Doc=E2=80=99ers:
 >
-> Add carve-out for CDAT with a TODO.
+> Nice to e-meet you! And thanks for your great contribution to Linux
+> Kernel world as always. =F0=9F=98=8A
+
+To begin with, please do not send HTML mail, it won't make it through to
+the lists.
+
+> We=E2=80=99re now working on LTS Kernel 5.15 and 6.1. Recently, we=E2=80=
+=99re trying
+> to build their Sphinx Doc.
+
+These are, of course, quite old kernels.
+
+> It is required to go with Sphinx 2.4.4, which is much lower than the
+> version(8.1.3) of ubuntu 22.04 and 24.04.
+
+Required by who?  That is an ancient version of Sphinx at this point.
+
+> PS: if going with very new version of Sphinx like 8.1.3, the final
+> output is not right(doesn=E2=80=99t have the proper decoration).
+
+Current Sphinx works fine, as far as I know; are there specific problems
+that you can report with current kernels?
+
+> To try to resolve this, we followed below way to build kernel Sphinx
+> Doc by having Sphinx to stay with 2.4.4. However, it will require
+> extra dependency packages(highlighted below in yellow) before we can
+> build the doc properly.
 >
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-> ---
->  .../driver-api/cxl/devices/device-types.rst   | 169 ++++++++++++++++++
->  Documentation/driver-api/cxl/devices/uefi.rst |   9 +
->  Documentation/driver-api/cxl/index.rst        |   2 +
->  3 files changed, 180 insertions(+)
->  create mode 100644 Documentation/driver-api/cxl/devices/device-types.rst
->  create mode 100644 Documentation/driver-api/cxl/devices/uefi.rst
+> Here, we=E2=80=99d like to check with your comments for whether it will be
+> good to merge it into the main branch for Kernel 5.15 and 6.1. If not,
+> do you have any concern on this? Or you have other better
+> options/advices for us to try? Thanks again for your time.
 
-I'm glad to see all this documentation!  One little nit...
+Again, those are very old kernels, that you are trying to make work with
+a very old version of Sphinx.  I'm not sure why those patches would be
+useful to anybody else?
 
-> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-> new file mode 100644
-> index 000000000000..e8dd051c2c71
-> --- /dev/null
-> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
-> @@ -0,0 +1,169 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +Devices and Protocols
-> +#####################
+> This email and attachments contain Ambarella Proprietary and/or Confident=
+ial
+> Information and is intended solely for the use of the individual(s) to wh=
+om it is
+> addressed. Any unauthorized review, use, disclosure, distribute, copy, or=
+ print is
+> prohibited. If you are not an intended recipient, please contact the send=
+er by reply email
+> and destroy all copies of the original message. Thank you.
 
-If you could stick with the section markup conventions we have
-established in Documentation/doc-guide/sphinx.rst, I'd appreciate it.
+This, too, is not appropriate to send within our development community.
 
 Thanks,
 
