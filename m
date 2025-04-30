@@ -1,241 +1,578 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2049.outbound.protection.outlook.com [40.107.92.49])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 429531E8335;
-	Wed, 30 Apr 2025 06:26:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745994406; cv=fail; b=fTYD6gw0at3Ycm91ipYX5x65ivxUK0ZNUhl/0jmJqHxBnGV1hLOTtfwhCB8t22WvJeoWIMyd34S55DpgugqUV9kWO+QEOfSVWTC5MZe9shP52rQGUO0Y3Zy9nEiR7HDTaCaYqRVFxdfbTFvPJHoAqB2m1SVW/Avs1+lh7hkHug0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745994406; c=relaxed/simple;
-	bh=Md0CEA9iC9dD6Ms2Kk7OMPaNXRtHaAl/xW0ePeXwMNc=;
-	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=Zs1FaUkrKhzhrnsL61jMmGseXCUBgckPxxCSPuLY+aeTK1howbx6hI9+Dz4ZgfKaNE/qIgd0KSFJ4ivcrWWiJ2GXlxI/yLA7UpNUDkl/a6tLLfosysGiotnSa75wBEj9Tx7YaDe7cr2xmV2st1TwlVUpOiufACODYbOS68pPibw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=3bJzfaBu; arc=fail smtp.client-ip=40.107.92.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE83F1E47CC
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 07:00:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745996431; cv=none; b=Ztww3SuaFAV8QrXEUtF7daERe3oyfdXptG91sBwcNHwtLcBqMQr8/4pjI7pu+qsrvjOWJClNFG85BHsm8cd9FATOLrc+2fZG79kMcSifU3HkQPWqGi33+7drLQgSmQjONKgkIwYDDl3xap6ZSToYzzsrH+l1lMkjtpRh8mSwof0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745996431; c=relaxed/simple;
+	bh=P4+x6NoZcCvwuZBPUwYyTzdgD/onYYe/0/W1ovh2cMw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=RFg0FnvXRxS9Dv5ZwCJ0quPm5PILz0U1zRPyJOdfQzj/OtO7C68gSXWSa1l2PUzF3vE31hAWK3D08qEb2PUbp/Bai3JmmRFEyDhh9Zoqb54Ubttdnx6IHzzApFvrHYPYPQDrMNQvfOQx712bVe4qAlrSHIRbPGma5dw0eKyVqXc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org; spf=pass smtp.mailfrom=chromium.org; dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b=YaJbvM7t; arc=none smtp.client-ip=209.85.215.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=chromium.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=chromium.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="3bJzfaBu"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=um2EW5nXZaLPnGvtNqJ7FXgIulhlvMZ9GSPXykWQmwhveVKByTK0+LBsPQTm3oqQR514pOz7HiD+WwWU2u3YYpkysiymXfgMDS5qgtm1RR/fpmhnFHl0tmpXL4bWz2E6i4+cNqcGvdlYunI+2iuocGlX9LlPRtA64dvA7b2FbFcwzdZMHy31iCIMsyqlf8LYkiv0hzFXMK0nc612UUX+VJmRhVmcvNhqqMsa8ketEcXZg+ZP+sz8m/q/ZsAsIO+9LBkv7E/Ks3ya0tfLK9xIftrbJ2da612vM7bBGYqPhcWuSNwxFhTTgG8VXd+JY3SRysPlHIPiUoHnSFsL+IuxBA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nydIcMmOOMgwWXL+tcDoY5uJvI/7v2BhmnXgIMVT8Ds=;
- b=vmS+uwfbyj4NaomJK3nK4FZSRAcz4AXx+SaiBZ+iS7XpRj2L9FsD/9gRSr0aKPeTRuxFMqvHvGXY6dEgttF7wvhnefqaOdXuJsuV5VrOaQctj2x2kn+NGZLrwP384TlVRM4blU57u+Jq/ZxBGc8xVuDj0jGUuxcQNCfi3S8eEtZVb+KEFO+2mA1w4PRw3w0rmxagj7XxyNXy9kQhKxUhzjwnaQmbAUdoPYvCmsDaRnMTTYhFwCWHg1MTH5fe48Sud7UXYWChin/OhRfuE8X8mDLZijZxCF5Iau4SpHbZ9c1tWdYtKjM2btnoG7gLEjLR6X/A/EakNmUxJXeDS4y+/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=infradead.org smtp.mailfrom=amd.com;
- dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
- header.from=amd.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nydIcMmOOMgwWXL+tcDoY5uJvI/7v2BhmnXgIMVT8Ds=;
- b=3bJzfaBuziQCIyNlK1M3Ut0vxc2V2BhN5My/fIegVjT3LqqkjtB0TyFsPB6DAOoFrTiMzbzrt+fsyZIXMVRe+z29o0vyWwlCQqemv2BN7QP499ea7NQIKDv+hUpJTaksfTOSaSdwyvZWpAOTZSP9SplHiNSKIWiSwO1x+Shgvsc=
-Received: from MN2PR03CA0003.namprd03.prod.outlook.com (2603:10b6:208:23a::8)
- by PH7PR12MB7987.namprd12.prod.outlook.com (2603:10b6:510:27c::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Wed, 30 Apr
- 2025 06:26:39 +0000
-Received: from BN2PEPF000044A3.namprd02.prod.outlook.com
- (2603:10b6:208:23a:cafe::dc) by MN2PR03CA0003.outlook.office365.com
- (2603:10b6:208:23a::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.37 via Frontend Transport; Wed,
- 30 Apr 2025 06:26:38 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- BN2PEPF000044A3.mail.protection.outlook.com (10.167.243.154) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8699.20 via Frontend Transport; Wed, 30 Apr 2025 06:26:38 +0000
-Received: from tapi.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 30 Apr
- 2025 01:26:35 -0500
-From: Swapnil Sapkal <swapnil.sapkal@amd.com>
-To: <peterz@infradead.org>, <corbet@lwn.net>
-CC: <kprateek.nayak@amd.com>, <gautham.shenoy@amd.com>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<swapnil.sapkal@amd.com>, Shrikanth Hegde <sshegde@linux.ibm.com>
-Subject: [PATCH] docs/sched: Make the sched-stats documentation consistent
-Date: Wed, 30 Apr 2025 06:25:59 +0000
-Message-ID: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (1024-bit key) header.d=chromium.org header.i=@chromium.org header.b="YaJbvM7t"
+Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af6a315b491so6698870a12.1
+        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 00:00:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google; t=1745996415; x=1746601215; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=CPbWBpUufAJXRCgmaKFpZrO4OcIAyFXmLS3CM4L+aHA=;
+        b=YaJbvM7tnD9rgXhut/mI0vfQ/vnvruVyHBtwGNEVcMJUam2ZXLJBK4MWUtDDgPoeVF
+         m5JyDDkaT4jrKlBcrFzKNC/byyh+A1tYdvbuIW/tsnMFvbkWyVVT9gFg+vDnOIyN0C7M
+         Ke199pp+vpfkOT4p5AGxR0B6EcjaaRdaKmvPg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1745996415; x=1746601215;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:reply-to:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=CPbWBpUufAJXRCgmaKFpZrO4OcIAyFXmLS3CM4L+aHA=;
+        b=K604Vo/9sQzdF1o5qekUypcY2LTVoFfM/kw/Iez6eJaM0U4l8Vk38t7bVqVEHovXDy
+         TKF0Oqe+NQWfqR5Khk74Eh6ae/Um3C+O3waPEg6E8WfEAfSNwOyboNzQSEH88WnbP7Hh
+         w1fxJ7f42eQxOD4NEZXHsMwBKVwEdkETNgx6EGxCd949qe2IGbpQoRb4D8DzfsFm7uo2
+         qEaGoEHxz/1i0128bA7zhSIwCpmwWPi9HREgyFR+VXSGjkcKEweryLyB77MH6+AB/NDt
+         TAeDtTsbJJsfqHS/3ZhF3S/Ft0aFs1CCuqGlkMR/Df7w8S7hHHEF+lxIgt3cb+EgOReP
+         ji/Q==
+X-Forwarded-Encrypted: i=1; AJvYcCVmtyj3MM0mNtfAGhgvad+KvjxrrB2HPHJFJj/CpxXEFQV68hZJtgmu1QVEjkE3aoGuC7pqparjii0=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzxupCvZ2iaVVxyIvsWNs+ubaojvEQhDxLr+a2qpa3o5AM0DQ1T
+	WQFYm9sPgY9+nDMiXlrrKm8fYmsUYrtyOaT7hrIqjugjnT8eTXHC68CP+oT29A==
+X-Gm-Gg: ASbGnctus1yQAnY3XYuP0P0bPLFvnK1Z+R0oBs7NWbEKOHR1GrjCpWFtfWE6qC+BWec
+	CobtsVL/igpBHAE7ep7fV5uXNmqqCDI+QabbRoB6LfS5+dzKAJdhqFWHrYwJUYWzjGAEcuPWI8L
+	MjHUbGayIVpVlJz0dtUMuvswWvJfUemOJBfcC5vi/2AJEYwdsmvaVLtRBlnI8GT6Cakckf2N3lj
+	qHp2+mJT+80F1j/8kWx1pUNFZE2UWcbVELja8ej9u5N5b+p9zILvWQ5G2Y4nRu82HdbM99Z1uXX
+	EgoLMQJxFGdui+lIycNWiFHyZOyRo9vGWOM=
+X-Google-Smtp-Source: AGHT+IEI7XaV7wr9U4vqotueCTCArwJVjrzvbJNJeXP+7i334Jq1qFsj65e9UxNCAlVo695BDp0z6g==
+X-Received: by 2002:a05:6a20:c707:b0:1fd:f8eb:d232 with SMTP id adf61e73a8af0-20aa30d375amr2531224637.24.1745996414890;
+        Wed, 30 Apr 2025 00:00:14 -0700 (PDT)
+Received: from google.com ([2401:fa00:1:10:1b33:febc:11be:910c])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74039a94d4dsm928301b3a.173.2025.04.30.00.00.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Apr 2025 00:00:14 -0700 (PDT)
+Date: Wed, 30 Apr 2025 15:00:10 +0800
+From: Sung-Chi Li <lschyi@chromium.org>
+To: Thomas =?iso-8859-1?Q?Wei=DFschuh?= <linux@weissschuh.net>
+Cc: Benson Leung <bleung@chromium.org>, Guenter Roeck <groeck@chromium.org>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>, chrome-platform@lists.linux.dev,
+	linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH 2/3] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <aBHKepQx_drHfnp8@google.com>
+Reply-To: @google.com
+References: <20250429-cros_ec_fan-v1-0-a8d9e3efbb1a@chromium.org>
+ <20250429-cros_ec_fan-v1-2-a8d9e3efbb1a@chromium.org>
+ <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SATLEXMB04.amd.com (10.181.40.145) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN2PEPF000044A3:EE_|PH7PR12MB7987:EE_
-X-MS-Office365-Filtering-Correlation-Id: ad218e76-38e0-49bb-952e-08dd87aff6f5
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?uOz2UR00rSFJKhPLQjqXgEpw1HF0PxPQHTh8FLTKlc3oGN94ebqwmpepRcko?=
- =?us-ascii?Q?Q5fTS+3sVVqmKL5m6odE7Odv+VhdLI9Ns/zFX+EYuWKmdafnwcE3dj7+n+hv?=
- =?us-ascii?Q?eAk2oiEoO4zfucBaITKq/lSlHSgoXV4UCWXzE96+rbui8wUJZlsXR9y42Qox?=
- =?us-ascii?Q?lqkU14EHBiLejND86j2jjpPvpvxyKCWk1KFlqVzSWn4RzQBnHeq9NZkByAT+?=
- =?us-ascii?Q?K5qukLOzzKiB77Xw0RoR72rku5ylsJRPpwHDcg3xUohaiwdesOrn9uPBZqpd?=
- =?us-ascii?Q?8PkIVZo/Pqb6ACbB/urUqw4W9quC8QRg5zX9601l2axrjObWV7/ixN6jyltC?=
- =?us-ascii?Q?Ohsn44h+DF2HYZmqJFKyaV6qPo4RdjPQXcePDCN8sR9l4OxC9zShKI/0dt0U?=
- =?us-ascii?Q?kPS7UN3TFrZ2Ac/89XkNqNlkw6bTL1yNYsyuIWyn1XfwKduvbMWL3X0zYRzM?=
- =?us-ascii?Q?SMcZscQNZmmnSrpVc9+JNYUsKPUAffnotYxDWt7YUDl/6mHxBtwAxnHBYDj3?=
- =?us-ascii?Q?no6h8z+3A6wKN3Oexac66NsFMQjDpOrJii/FbGNzPgsubTC852+Yz0Lf+4A2?=
- =?us-ascii?Q?rDNPwDLZ0st9zxayA5Z8in/lRd3h5XEKsgkUgHyAdAVfDwhMawDBa/9GJ0c5?=
- =?us-ascii?Q?KfJReUKy7Jse7zDu27JBEHH+0WlF2wfpSdkdt1fsNAlOJWDW1/r+wUjRgBCN?=
- =?us-ascii?Q?TWR5IJSN69/n8iB1jk0uJcMLYHQCl/sXtutvcjWXBv09fHsg5wD9wQUOA8qQ?=
- =?us-ascii?Q?1+t/zNGRNBu7OPQnrg0MMbY7HuRxtOGYQC8caGjuSjGs3dtm40jWoq8z4p/7?=
- =?us-ascii?Q?lQMjTINn4W4Wp5ZbMVFmCD1v2fWSYvG6DrjZ1kzLjxukLZsD4Jda5bBmU3+C?=
- =?us-ascii?Q?S+VBLJ/W/t0FJo2BeImqi7QMZwZcXa7zhYV3oO9BzmQdUBuaBfg5rEfoC74t?=
- =?us-ascii?Q?j+FTQIJ2T7JiaW/L4SPNBzMtV7pE0/6Ot+OO6MSQNE3J+vLqhe6ihYDPr42+?=
- =?us-ascii?Q?0faoiCwypGWmf8DQco26pic/XUpsdlVrbUm05qzorSbeSsDusu9rxY7rZn0o?=
- =?us-ascii?Q?oOLTBH2RnvhDhgUoRcklikpQJfopW+iIQ5tFq6Ytbkl5F8o5P1p0I0hXbUJ6?=
- =?us-ascii?Q?iIC8B64IGr0zWAcF8H+vZEbg0rCKbN53FmzIJv7TMao1GLpP/3DKkVcvPVT9?=
- =?us-ascii?Q?f5KotPjtz3x5hVbZ9G1bHmgFalMKaxyZh+RXoDYL5+WzbbhxJ8MxfiJf/bMJ?=
- =?us-ascii?Q?VdFAhTJWLOv4TwGJqie40aLmUx5Df/VJgp56sKe7GpZzCSHMlq/CJ3QYQD86?=
- =?us-ascii?Q?O8BRuNA05WnZFa1mJ+xAMoU1H9lO+2ELoixhnmIG3OvFFplfEuXExhkQs8Wv?=
- =?us-ascii?Q?aUSns0dj+CxCWW32ckaHuHnCdRQHR3UKgHpV5FCqMiwXpW/9XqiTqRGqdCv3?=
- =?us-ascii?Q?CRirQIzGoRmoiRCKsSWx8be1n0AEyNfhWbk5zIRunqvLICzxXTO9QUglqY53?=
- =?us-ascii?Q?c2DpgZ0C2nbEMSwaa56n2Hf44o7lA/vUvP8r?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 06:26:38.8362
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: ad218e76-38e0-49bb-952e-08dd87aff6f5
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN2PEPF000044A3.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7987
+In-Reply-To: <0933ec48-9a4b-49d0-8670-50b6ff6433f5@t-8ch.de>
 
-pull_task(), the original function to move the task from src_rq to the
-dst_rq during load balancing was renamed to move_tasks() in commit
-ddcdf6e7d991 ("sched: Rename load-balancing fields")
+On Tue, Apr 29, 2025 at 11:20:09PM +0200, Thomas Weißschuh wrote:
+> On 2025-04-29 16:14:22+0800, Sung-Chi Li via B4 Relay wrote:
+> > From: Sung-Chi Li <lschyi@chromium.org>
+> > 
+> > Newer EC firmware supports controlling fans through host commands, so
+> > adding corresponding implementations for controlling these fans in the
+> > driver for other kernel services and userspace to control them.
+> > 
+> > The driver will first probe the supported host command versions (get and
+> > set of fan PWM values, get and set of fan control mode) to see if the
+> > connected EC fulfills the requirements of controlling the fan, then
+> > exposes corresponding sysfs nodes for userspace to control the fan with
+> > corresponding read and write implementations.
+> > As EC will automatically change the fan mode to auto when the device is
+> > suspended, the power management hooks are added as well to keep the fan
+> > control mode and fan PWM value consistent during suspend and resume. As
+> > we need to access the hwmon device in the power management hook, update
+> > the driver by storing the hwmon device in the driver data as well.
+> > 
+> > Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> > ---
+> >  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
+> >  drivers/hwmon/cros_ec_hwmon.c         | 237 +++++++++++++++++++++++++++++++++-
+> >  2 files changed, 237 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
+> > index 47ecae983bdbef4bfcafc5dd2fff3de039f77f8e..5b802be120438732529c3d25b1afa8b4ee353305 100644
+> > --- a/Documentation/hwmon/cros_ec_hwmon.rst
+> > +++ b/Documentation/hwmon/cros_ec_hwmon.rst
+> > @@ -23,4 +23,7 @@ ChromeOS embedded controller used in Chromebooks and other devices.
+> >  
+> >  The channel labels exposed via hwmon are retrieved from the EC itself.
+> >  
+> > -Fan and temperature readings are supported.
+> > +Fan and temperature readings are supported. PWM fan control is also supported if
+> > +the EC also supports setting fan PWM values and fan mode. Note that EC will
+> > +switch fan control mode back to auto when suspended. This driver will restore
+> > +the fan state before suspended.
+> > diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
+> > index 9991c3fa020ac859cbbff29dfb669e53248df885..1139074d3eb003ee72bbe54a954647ced40f6d21 100644
+> > --- a/drivers/hwmon/cros_ec_hwmon.c
+> > +++ b/drivers/hwmon/cros_ec_hwmon.c
+> > @@ -17,10 +17,17 @@
+> >  
+> >  #define DRV_NAME	"cros-ec-hwmon"
+> >  
+> > +struct cros_ec_hwmon_platform_priv {
+> > +	struct device *hwmon_dev;
+> > +};
+> 
+> This indirection is unnecessary and only introduces a bunch of churn.
+> 
 
-As a part of commit 163122b7fcfa ("sched/fair: Remove
-double_lock_balance() from load_balance()"), move_task() was broken down
-into detach_tasks() and attach_tasks() pair to avoid holding locks of
-both src_rq and dst_rq at the same time during load balancing.
+Thank you, after directly storing the `priv` with platform_set_drvdata(), we
+do not need this. Will directly store the `priv` with platform_set_drvdata() and
+remove these unused code in the v2 patch.
 
-Despite the evolution of pull_task() over the years, the sched-stats
-documentation remained unchanged. Update the documentation to refer to
-detach_task() instead of pull_task() which is responsible for removing
-the task from the src_rq during load balancing.
+> > +
+> >  struct cros_ec_hwmon_priv {
+> >  	struct cros_ec_device *cros_ec;
+> >  	const char *temp_sensor_names[EC_TEMP_SENSOR_ENTRIES + EC_TEMP_SENSOR_B_ENTRIES];
+> >  	u8 usable_fans;
+> > +	bool fan_control_supported;
+> > +	u8 manual_fans; /* bits to indicate whether the fan is set to manual */
+> > +	u8 manual_fan_pwm_values[EC_FAN_SPEED_ENTRIES];
+> >  };
+> >  
+> >  static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
+> > @@ -36,6 +43,51 @@ static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index
+> >  	return 0;
+> >  }
+> >  
+> > +static int cros_ec_hwmon_read_pwm_raw_value(struct cros_ec_device *cros_ec,
+> > +					    u8 index, u8 *pwm_value)
+> > +{
+> > +	struct ec_params_pwm_get_fan_duty req = {
+> > +		.fan_idx = index,
+> > +	};
+> > +	struct ec_response_pwm_get_fan_duty resp;
+> > +	int ret = cros_ec_cmd(cros_ec, 0, EC_CMD_PWM_GET_FAN_DUTY, &req,
+> > +			      sizeof(req), &resp, sizeof(resp));
+> > +
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	*pwm_value = (u8)(le32_to_cpu(resp.percent));
+> 
+> Weird choice to store a percentage in a u32.
+> 
 
-commit 1c055a0f5d3b ("sched: Move sched domain name out of
-CONFIG_SCHED_DEBUG") moves sched domain name out of CONFIG_SCHED_DEBUG.
-Update the documentation related to that.
+Yes... that is to align with the existing `EC_CMD_PWM_SET_FAN_DUTY`.
 
-Reviewed-by: K Prateek Nayak <kprateek.nayak@amd.com>
-Suggested-by: Shrikanth Hegde <sshegde@linux.ibm.com>
-Signed-off-by: Swapnil Sapkal <swapnil.sapkal@amd.com>
----
- Documentation/scheduler/sched-stats.rst | 53 +++++++++++++++----------
- 1 file changed, 31 insertions(+), 22 deletions(-)
+> > +	return 0;
+> > +}
+> > +
+> > +static int cros_ec_hwmon_read_pwm_value(struct cros_ec_device *cros_ec,
+> > +					u8 index, u8 *pwm_value)
+> > +{
+> > +	int ret = cros_ec_hwmon_read_pwm_raw_value(cros_ec, index, pwm_value);
+> 
+> The _raw_ function is unnecessary.
+> 
 
-diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/scheduler/sched-stats.rst
-index 08b6bc9a315c..ad68cf1c99e1 100644
---- a/Documentation/scheduler/sched-stats.rst
-+++ b/Documentation/scheduler/sched-stats.rst
-@@ -86,13 +86,16 @@ Domain statistics
- -----------------
- One of these is produced per domain for each cpu described. (Note that if
- CONFIG_SMP is not defined, *no* domains are utilized and these lines
--will not appear in the output. <name> is an extension to the domain field
--that prints the name of the corresponding sched domain. It can appear in
--schedstat version 17 and above.
-+will not appear in the output.)
- 
- domain<N> <name> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 44 45
- 
--The first field is a bit mask indicating what cpus this domain operates over.
-+The <name> field prints the name of the sched domain and is only supported
-+with schedstat version >= 17. On previous versions, <cpumask> is the first
-+field.
-+
-+The <cpumask> field is a bit mask indicating what cpus this domain operates
-+over.
- 
- The next 33 are a variety of sched_balance_rq() statistics in grouped into types
- of idleness (busy, idle and newly idle):
-@@ -103,12 +106,13 @@ of idleness (busy, idle and newly idle):
-         load did not require balancing when busy
-     3)  # of times in this domain sched_balance_rq() tried to move one or
-         more tasks and failed, when the cpu was busy
--    4)  Total imbalance in load when the cpu was busy
--    5)  Total imbalance in utilization when the cpu was busy
--    6)  Total imbalance in number of tasks when the cpu was busy
--    7)  Total imbalance due to misfit tasks when the cpu was busy
--    8)  # of times in this domain pull_task() was called when busy
--    9)  # of times in this domain pull_task() was called even though the
-+    4)  Total imbalance in load in this domain when the cpu was busy
-+    5)  Total imbalance in utilization in this domain when the cpu was busy
-+    6)  Total imbalance in number of tasks in this domain when the cpu was busy
-+    7)  Total imbalance due to misfit tasks in this domain when the cpu was
-+        busy
-+    8)  # of times in this domain detach_task() was called when busy
-+    9)  # of times in this domain detach_task() was called even though the
-         target task was cache-hot when busy
-     10) # of times in this domain sched_balance_rq() was called but did not
-         find a busier queue while the cpu was busy
-@@ -121,13 +125,14 @@ of idleness (busy, idle and newly idle):
-         the load did not require balancing when the cpu was idle
-     14) # of times in this domain sched_balance_rq() tried to move one or
-         more tasks and failed, when the cpu was idle
--    15) Total imbalance in load when the cpu was idle
--    16) Total imbalance in utilization when the cpu was idle
--    17) Total imbalance in number of tasks when the cpu was idle
--    18) Total imbalance due to misfit tasks when the cpu was idle
--    19) # of times in this domain pull_task() was called when the cpu
-+    15) Total imbalance in load in this domain when the cpu was idle
-+    16) Total imbalance in utilization in this domain when the cpu was idle
-+    17) Total imbalance in number of tasks in this domain when the cpu was idle
-+    18) Total imbalance due to misfit tasks in this domain when the cpu was
-+        idle
-+    19) # of times in this domain detach_task() was called when the cpu
-         was idle
--    20) # of times in this domain pull_task() was called even though
-+    20) # of times in this domain detach_task() was called even though
-         the target task was cache-hot when idle
-     21) # of times in this domain sched_balance_rq() was called but did
-         not find a busier queue while the cpu was idle
-@@ -140,12 +145,16 @@ of idleness (busy, idle and newly idle):
-         load did not require balancing when the cpu was just becoming idle
-     25) # of times in this domain sched_balance_rq() tried to move one or more
-         tasks and failed, when the cpu was just becoming idle
--    26) Total imbalance in load when the cpu was just becoming idle
--    27) Total imbalance in utilization when the cpu was just becoming idle
--    28) Total imbalance in number of tasks when the cpu was just becoming idle
--    29) Total imbalance due to misfit tasks when the cpu was just becoming idle
--    30) # of times in this domain pull_task() was called when newly idle
--    31) # of times in this domain pull_task() was called even though the
-+    26) Total imbalance in load in this domain when the cpu was just becoming
-+        idle
-+    27) Total imbalance in utilization in this domain when the cpu was just
-+        becoming idle
-+    28) Total imbalance in number of tasks in this domain when the cpu was just
-+        becoming idle
-+    29) Total imbalance due to misfit tasks in this domain when the cpu was
-+        just becoming idle
-+    30) # of times in this domain detach_task() was called when newly idle
-+    31) # of times in this domain detach_task() was called even though the
-         target task was cache-hot when just becoming idle
-     32) # of times in this domain sched_balance_rq() was called but did not
-         find a busier queue while the cpu was just becoming idle
--- 
-2.43.0
+This is to share with the `cros_ec_hwmon_cooling_get_cur_state`, and there is a
+unit conversion needed, so extract the same process into a _raw_ function.
 
+> > +
+> > +	if (ret == 0)
+> > +		*pwm_value = *pwm_value * 255 / 100;
+> > +	return ret;
+> > +}
+> > +
+> > +static int cros_ec_hwmon_read_pwm_enable(struct cros_ec_device *cros_ec,
+> > +					 u8 index, u8 *control_method)
+> > +{
+> > +	struct ec_params_auto_fan_ctrl_v2 req = {
+> > +		.fan_idx = index,
+> > +		.cmd = EC_AUTO_FAN_CONTROL_CMD_GET,
+> > +	};
+> > +	struct ec_response_auto_fan_control resp;
+> > +	int ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> > +			      sizeof(req), &resp, sizeof(resp));
+> 
+> Keep &foo and sizeof(foo) together on the same line please.
+> 
+
+This is automatically formatted by clang-format. I will keep it like this in the
+v2 patch. If it is important for readablity, please share with me, and I will
+update that in the v2 patch.
+
+> > +
+> > +	if (ret < 0)
+> > +		return ret;
+> > +
+> > +	*control_method = (resp.is_auto) ? 2 : 1;
+> 
+> No need for braces.
+> 
+
+Will remove in the v2 patch.
+
+> > +	return 0;
+> > +}
+> > +
+> >  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
+> >  {
+> >  	unsigned int offset;
+> > @@ -76,6 +128,8 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> >  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> >  	int ret = -EOPNOTSUPP;
+> >  	u16 speed;
+> > +	u8 pwm_value;
+> > +	u8 control_method;
+> 
+> These lines were sorted.
+> 
+
+Will sort these u8 variables in the v2 patch.
+
+> >  	u8 temp;
+> >  
+> >  	if (type == hwmon_fan) {
+> > @@ -92,6 +146,18 @@ static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+> >  			if (ret == 0)
+> >  				*val = cros_ec_hwmon_is_error_fan(speed);
+> >  		}
+> > +	} else if (type == hwmon_pwm) {
+> > +		if (attr == hwmon_pwm_enable) {
+> > +			ret = cros_ec_hwmon_read_pwm_enable(
+> > +				priv->cros_ec, channel, &control_method);
+> > +			if (ret == 0)
+> > +				*val = control_method;
+> > +		} else if (attr == hwmon_pwm_input) {
+> > +			ret = cros_ec_hwmon_read_pwm_value(priv->cros_ec,
+> > +							   channel, &pwm_value);
+> > +			if (ret == 0)
+> > +				*val = pwm_value;
+> > +		}
+> >  	} else if (type == hwmon_temp) {
+> >  		if (attr == hwmon_temp_input) {
+> >  			ret = cros_ec_hwmon_read_temp(priv->cros_ec, channel, &temp);
+> > @@ -124,6 +190,97 @@ static int cros_ec_hwmon_read_string(struct device *dev, enum hwmon_sensor_types
+> >  	return -EOPNOTSUPP;
+> >  }
+> >  
+> > +static int cros_ec_hwmon_write_pwm_value(struct cros_ec_device *cros_ec,
+> > +					     u8 index, u8 val)
+> > +{
+> > +	struct ec_params_pwm_set_fan_duty_v1 req = {
+> > +		.percent = val,
+> > +		.fan_idx = index,
+> > +	};
+> > +	int ret = cros_ec_cmd(cros_ec, 1, EC_CMD_PWM_SET_FAN_DUTY, &req,
+> > +			      sizeof(req), NULL, 0);
+> 
+> Declare "int ret" above.
+> 
+
+Will update in v2 patch.
+
+> > +
+> > +	if (ret < 0)
+> > +		return ret;
+> > +	return 0;
+> > +}
+> > +
+> > +static int cros_ec_hwmon_set_pwm_raw_value(struct cros_ec_hwmon_priv *priv,
+> > +					   u8 index, u8 val)
+> > +{
+> > +	int ret;
+> > +
+> > +	if (!(priv->manual_fans & BIT(index)))
+> > +		return -ECANCELED;
+> 
+> Weird error code.
+> 
+
+Hmm, do you have some error code suggestion? I think the idea here is we will
+reject to write the PWM value if fan is not in manual mode, and I am not sure
+what error suits for this (is -EPERM the one to use here?).
+
+> > +
+> > +	ret = cros_ec_hwmon_write_pwm_value(priv->cros_ec, index, val);
+> > +	if (ret == 0)
+> > +		priv->manual_fan_pwm_values[index] = val;
+> > +	return ret;
+> > +}
+> > +
+> > +static int cros_ec_hwmon_set_pwm_value(struct cros_ec_hwmon_priv *priv,
+> > +				       u8 index, u8 val)
+> > +{
+> > +	return cros_ec_hwmon_set_pwm_raw_value(priv, index,
+> > +					       (((uint32_t)val) * 100 / 255));
+> 
+> Use DIV_ROUND_CLOSEST() for division.
+> 
+
+Will update in v2 patch.
+
+> > +}
+> > +
+> > +static int cros_ec_hwmon_write_pwm_enable(struct cros_ec_device *cros_ec,
+> > +					  u8 index, u8 val)
+> > +{
+> > +	struct ec_params_auto_fan_ctrl_v2 req = {
+> > +		.fan_idx = index,
+> > +		.cmd = EC_AUTO_FAN_CONTROL_CMD_SET,
+> 
+> Swap the two lines above.
+> 
+
+Will update in v2 patch.
+
+> > +	};
+> > +	int ret;
+> > +
+> > +	/* No CROS EC supports no fan speed control */
+> > +	if (val == 0)
+> > +		return -EOPNOTSUPP;
+> > +
+> > +	req.set_auto = (val != 1) ? true : false;
+> > +	ret = cros_ec_cmd(cros_ec, 2, EC_CMD_THERMAL_AUTO_FAN_CTRL, &req,
+> > +			  sizeof(req), NULL, 0);
+> 
+> Use a full 100 columns.
+> 
+
+Hmm, I found the style guide actually strongly prefer 80:
+https://www.kernel.org/doc/html/v6.14/process/coding-style.html#breaking-long-lines-and-strings
+
+> > +	if (ret < 0)
+> > +		return ret;
+> > +	return 0;
+> > +}
+> > +
+> > +static int cros_ec_hwmon_set_pwm_control_method(struct cros_ec_hwmon_priv *priv,
+> > +						u8 index, u8 val)
+> > +{
+> > +	int ret = cros_ec_hwmon_write_pwm_enable(priv->cros_ec, index, val);
+> > +
+> > +	if (ret == 0) {
+> > +		if (val == 1)
+> > +			priv->manual_fans |= BIT(index);
+> > +		else
+> > +			priv->manual_fans &= ~BIT(index);
+> > +	}
+> > +	return ret;
+> > +}
+> > +
+> > +static int cros_ec_hwmon_write(struct device *dev, enum hwmon_sensor_types type,
+> > +			       u32 attr, int channel, long val)
+> > +{
+> > +	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> > +
+> > +	if (type == hwmon_pwm) {
+> > +		switch (attr) {
+> > +		case hwmon_pwm_input:
+> > +			return cros_ec_hwmon_set_pwm_value(priv, channel, val);
+> > +		case hwmon_pwm_enable:
+> > +			return cros_ec_hwmon_set_pwm_control_method(
+> > +				priv, channel, val);
+> 
+> Given that these function directly implement the hwmon ABI the names
+> should match:
+> cros_ec_hwmon_write_pwm_input()
+> cros_ec_hwmon_write_pwn_enable()
+> 
+> Also 100 columns. And everywhere else.
+> 
+> > +		default:
+> > +			return -EOPNOTSUPP;
+> > +		}
+> > +	}
+> > +
+> > +	return -EOPNOTSUPP;
+> > +}
+> > +
+> >  static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_types type,
+> >  					u32 attr, int channel)
+> >  {
+> > @@ -132,6 +289,9 @@ static umode_t cros_ec_hwmon_is_visible(const void *data, enum hwmon_sensor_type
+> >  	if (type == hwmon_fan) {
+> >  		if (priv->usable_fans & BIT(channel))
+> >  			return 0444;
+> > +	} else if (type == hwmon_pwm && priv->fan_control_supported) {
+> > +		if (priv->usable_fans & BIT(channel))
+> 
+> Move the test for priv->fan_control_supported into the inner if().
+> 
+
+Will update in v2 patch.
+
+> > +			return 0644;
+> >  	} else if (type == hwmon_temp) {
+> >  		if (priv->temp_sensor_names[channel])
+> >  			return 0444;
+> > @@ -147,6 +307,11 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+> >  			   HWMON_F_INPUT | HWMON_F_FAULT,
+> >  			   HWMON_F_INPUT | HWMON_F_FAULT,
+> >  			   HWMON_F_INPUT | HWMON_F_FAULT),
+> > +	HWMON_CHANNEL_INFO(pwm,
+> > +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> > +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> > +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
+> > +			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE),
+> >  	HWMON_CHANNEL_INFO(temp,
+> >  			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
+> >  			   HWMON_T_INPUT | HWMON_T_FAULT | HWMON_T_LABEL,
+> > @@ -178,6 +343,7 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
+> >  static const struct hwmon_ops cros_ec_hwmon_ops = {
+> >  	.read = cros_ec_hwmon_read,
+> >  	.read_string = cros_ec_hwmon_read_string,
+> > +	.write = cros_ec_hwmon_write,
+> >  	.is_visible = cros_ec_hwmon_is_visible,
+> >  };
+> >  
+> > @@ -233,13 +399,35 @@ static void cros_ec_hwmon_probe_fans(struct cros_ec_hwmon_priv *priv)
+> >  	}
+> >  }
+> >  
+> > +static void
+> > +cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_hwmon_priv *priv)
+> > +{
+> 
+> Would look nicer by returning the result as bool.
+> 
+
+Will update in v2 patch.
+
+> > +	int ret;
+> > +
+> > +	priv->fan_control_supported = false;
+> > +
+> > +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_PWM_GET_FAN_DUTY);
+> > +	if (ret < 0 || !(ret & EC_VER_MASK(0)))
+> 
+> Given that these versions are used in multiple places, a #define would
+> be good.
+> 
+
+Will update in v2 patch.
+
+> > +		return;
+> > +
+> > +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_PWM_SET_FAN_DUTY);
+> > +	if (ret < 0 || !(ret & EC_VER_MASK(1)))
+> > +		return;
+> > +
+> > +	ret = cros_ec_get_cmd_versions(priv->cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL);
+> > +	if (ret < 0 || !(ret & EC_VER_MASK(2)))
+> > +		return;
+> > +
+> > +	priv->fan_control_supported = true;
+> > +}
+> > +
+> >  static int cros_ec_hwmon_probe(struct platform_device *pdev)
+> >  {
+> >  	struct device *dev = &pdev->dev;
+> >  	struct cros_ec_dev *ec_dev = dev_get_drvdata(dev->parent);
+> >  	struct cros_ec_device *cros_ec = ec_dev->ec_dev;
+> > +	struct cros_ec_hwmon_platform_priv *platform_priv;
+> >  	struct cros_ec_hwmon_priv *priv;
+> > -	struct device *hwmon_dev;
+> >  	u8 thermal_version;
+> >  	int ret;
+> >  
+> > @@ -251,6 +439,10 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+> >  	if (thermal_version == 0)
+> >  		return -ENODEV;
+> >  
+> > +	platform_priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> > +	if (!platform_priv)
+> > +		return -ENOMEM;
+> > +
+> >  	priv = devm_kzalloc(dev, sizeof(*priv), GFP_KERNEL);
+> >  	if (!priv)
+> >  		return -ENOMEM;
+> > @@ -259,11 +451,47 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
+> >  
+> >  	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
+> >  	cros_ec_hwmon_probe_fans(priv);
+> > +	cros_ec_hwmon_probe_fan_control_supported(priv);
+> >  
+> > -	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
+> > -							 &cros_ec_hwmon_chip_info, NULL);
+> > +	platform_priv->hwmon_dev = devm_hwmon_device_register_with_info(
+> > +		dev, "cros_ec", priv, &cros_ec_hwmon_chip_info, NULL);
+> > +	dev_set_drvdata(dev, platform_priv);
+> 
+> platform_set_drvdata()/platform_get_drvdata()
+> 
+
+Will update in v2 patch.
+
+> > -	return PTR_ERR_OR_ZERO(hwmon_dev);
+> > +	return PTR_ERR_OR_ZERO(platform_priv->hwmon_dev);
+> > +}
+> > +
+> > +static int cros_ec_hwmon_resume(struct platform_device *pdev)
+> > +{
+> > +	const struct cros_ec_hwmon_platform_priv *platform_priv =
+> > +		dev_get_drvdata(&pdev->dev);
+> > +	const struct cros_ec_hwmon_priv *priv =
+> > +		dev_get_drvdata(platform_priv->hwmon_dev);
+> > +	size_t i;
+> > +	int ret;
+> > +
+> > +	if (!priv->fan_control_supported)
+> > +		return 0;
+> > +
+> > +	/*
+> > +	 * EC sets fan control to auto after suspended, restore settings to
+> > +	 * before suspended.
+> > +	 */
+> > +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> > +		if (!(priv->manual_fans & BIT(i)))
+> > +			continue;
+> 
+> Given that we can read the actual state from the EC I'd prefer to read
+> it back and store it during suspend() instead of storing it during write().
+> 
+
+Do you mean reading fan mode and fan PWM value during suspend, or we will keep
+updating `manual_fans` while write(), and do not cache the PWM value while
+write()? That involves whether we need to send a get fan mode for every write
+PWM value.
+
+> > +
+> > +		/*
+> > +		 * Setting fan PWM value to EC will change the mode to manual
+> > +		 * for that fan in EC as well, so we do not need to issue a
+> > +		 * separate fan mode to manual call.
+> > +		 */
+> > +		ret = cros_ec_hwmon_write_pwm_value(
+> > +			priv->cros_ec, i, priv->manual_fan_pwm_values[i]);
+> > +		if (ret)
+> > +			return ret;
+> > +	}
+> > +
+> > +	return 0;
+> >  }
+> >  
+> >  static const struct platform_device_id cros_ec_hwmon_id[] = {
+> > @@ -274,6 +502,7 @@ static const struct platform_device_id cros_ec_hwmon_id[] = {
+> >  static struct platform_driver cros_ec_hwmon_driver = {
+> >  	.driver.name	= DRV_NAME,
+> >  	.probe		= cros_ec_hwmon_probe,
+> > +	.resume		= cros_ec_hwmon_resume,
+> >  	.id_table	= cros_ec_hwmon_id,
+> >  };
+> >  module_platform_driver(cros_ec_hwmon_driver);
+> > 
+> > -- 
+> > 2.49.0.901.g37484f566f-goog
+> > 
+> > 
