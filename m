@@ -1,242 +1,107 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7BFB253327;
-	Wed, 30 Apr 2025 10:42:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84F818641;
+	Wed, 30 Apr 2025 11:57:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746009748; cv=none; b=KD7sxyJJzl5cQW1a7LkFanHMJW/U5gGJpj/ViEXkwM+l84f5jpBiopwPMyTNU6g1GEbeEtuQIQGkgpwDMJOx/wWSgtuO+TG8n5zdPuug0XVzbqUXYz2fLMMDVTSs3gLZPTSieMrzNtvXBJ0LOqvNsCQ//aghSJU7sD5W5XoRmlw=
+	t=1746014268; cv=none; b=ZNfm8stzSuRFm57qfIWdE5iiUtJ1Vu2OdDqgGXSGcDNeSLgzZbqVnZvd9P3YCmEZk1NibDclr5i51eMK+6QVObj4b7r6XYwO41S0spXMebnEjvkNtEy0XzLJIeNeUm2lqCjaeDzCYPP9uNcjtFanFVxVRSKv6cVVzY1viaLPPuo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746009748; c=relaxed/simple;
-	bh=VOI7vS/Hx63Qc2jd9lMpXR2iXNmohRhb+XxgADkUU14=;
-	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=B+vQIfZ1Vz3dB61nLtWF6bWFI+mwTKnJA+hBFTU6xOxAU1mHvv7m+uul2IHQXQqQNmFeScS5gVBQsjdu/E0X2AIW3PujePmnYHuChsnwiq0JTw5BrPeJVst6osiOI8sGexgshRxUUm3FTRPlc0U7J9egyxXBUKgYldeu9Pp67ng=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=U2letWcU; arc=none smtp.client-ip=198.175.65.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="U2letWcU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746009746; x=1777545746;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=VOI7vS/Hx63Qc2jd9lMpXR2iXNmohRhb+XxgADkUU14=;
-  b=U2letWcUZE+S4cpQiNsf4wlcjJSNrpybqc6ssWoSxIL+kMZDxRmvrE5k
-   MPmYo5RtQ2CJpRsOfUjhypOch0lPUTMjvoDLQvldml4ULETMk73p4VmOn
-   xGnqPyJPm/K2Yv3WcE2FRpRJYuGLvK5mJDPD0qjkToX1KaI79IqCpofw8
-   HRiVCLuCBsnHooYporHyuRhmRSuJXHCkpWwZ4QPwJdqjT6+0YdFrvX08j
-   /FOR4V38yGvP9WHxSjJcH4+lCjXvNnY9T/OV18mcHVtwZvA6MmQifW/Hi
-   TvOOENFBJn2bompdFPFcO07hgKaAdmD3WerlYwZn4CDeyA2HivWHmj221
-   g==;
-X-CSE-ConnectionGUID: 1JNMoUdgQSi0rEAs64C4ZQ==
-X-CSE-MsgGUID: QkYLB4moRUaCirdNsxGx5Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="51326304"
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="51326304"
-Received: from orviesa003.jf.intel.com ([10.64.159.143])
-  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 03:42:25 -0700
-X-CSE-ConnectionGUID: yYbopDp1TwOcHFALwXyC4g==
-X-CSE-MsgGUID: vjyOm4ajRs6T5uxyOPgSmw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
-   d="scan'208";a="138899488"
-Received: from chenyu-dev.sh.intel.com ([10.239.62.107])
-  by orviesa003.jf.intel.com with ESMTP; 30 Apr 2025 03:42:20 -0700
-From: Chen Yu <yu.c.chen@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: Ingo Molnar <mingo@redhat.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mel Gorman <mgormanmgorman@suse.de>,
-	Michal Hocko <mhocko@kernel.org>,
-	Michal Koutny <mkoutny@suse.com>,
-	Muchun Song <muchun.song@linux.dev>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	"Chen, Tim C" <tim.c.chen@intel.com>,
-	Aubrey Li <aubrey.li@intel.com>,
-	Libo Chen <libo.chen@oracle.com>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Chen Yu <yu.c.chen@intel.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Madadi Vineeth Reddy <vineethr@linux.ibm.com>
-Subject: [PATCH v3] sched/numa: add statistics of numa balance task migration
-Date: Wed, 30 Apr 2025 18:36:23 +0800
-Message-Id: <20250430103623.3349842-1-yu.c.chen@intel.com>
-X-Mailer: git-send-email 2.25.1
+	s=arc-20240116; t=1746014268; c=relaxed/simple;
+	bh=pfYkqFg67CNDW2rFwmTFpnxrVjLmHA8CreXH8se/z/k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
+	 In-Reply-To:Content-Type; b=cueO1N8WvF3WE2wzjKwCnMRHrsiaeAJfN7hwCZFZ2VFfSHJ5sTplLsiFw/tgdDNjjds36YEClrlMPFGb5hhHJk0am6wMMJ/P8YkFIh1kQ2/Ehc08kYrbytxtzFA1BA1szeVHMP+RX8aD3CTYyp7Xcpr1YLwZyO5OXr+OakDX3rM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6281106F;
+	Wed, 30 Apr 2025 04:57:37 -0700 (PDT)
+Received: from [10.1.33.69] (Suzukis-MBP.cambridge.arm.com [10.1.33.69])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E63E53F673;
+	Wed, 30 Apr 2025 04:57:42 -0700 (PDT)
+Message-ID: <8c1af968-0e96-42d5-a5a6-c5581eda9f3d@arm.com>
+Date: Wed, 30 Apr 2025 12:57:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/7] Arm CoreSight: Support AUX pause and resume
+Content-Language: en-GB
+To: Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@linaro.org>,
+ James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250401180708.385396-1-leo.yan@arm.com>
+From: Suzuki K Poulose <suzuki.poulose@arm.com>
+In-Reply-To: <20250401180708.385396-1-leo.yan@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On systems with NUMA balancing enabled, it is found that tracking
-the task activities due to NUMA balancing is helpful. NUMA balancing
-has two mechanisms for task migration: one is to migrate the task to
-an idle CPU in its preferred node, the other is to swap tasks on
-different nodes if they are on each other's preferred node.
+On 01/04/2025 19:07, Leo Yan wrote:
+> This series is to enable AUX pause and resume on Arm CoreSight.
+> 
+> The first patch extracts the trace unit controlling operations to two
+> functions.  These two functions will be used by AUX pause and resume.
+> 
+> Patches 02 and 03 change the ETMv4 driver to prepare callback functions
+> for AUX pause and resume.
+> 
+> Patch 04 changes the ETM perf layer to support AUX pause and resume in a
+> perf session.  The patch 05 re-enables sinks after buffer update, based
+> on it, the patch 06 updates buffer on AUX pause occasion, which can
+> mitigate the trace data lose issue.
+> 
+> Patch 07 documents the AUX pause usages with Arm CoreSight.
+> 
+> This patch set has been verified on the Hikey960 board.
+> 
+> It is suggested to disable CPUIdle (add `nohlt` option in Linux command
+> line) when verifying this series.  ETM and funnel drivers are found
+> issues during CPU suspend and resume which will be addressed separately.
+> 
 
-The kernel already has NUMA page migration statistics in
-/sys/fs/cgroup/mytest/memory.stat and /proc/{PID}/sched,
-but does not have statistics for task migration/swap.
-Add the task migration and swap count accordingly.
+The series looks good to me, except for the comment on the Patch 1.
 
-The following two new fields:
+I would like to get an Ack from James as he has looked at in the past.
 
-numa_task_migrated
-numa_task_swapped
+Suzuki
 
-will be displayed in both
-/sys/fs/cgroup/{GROUP}/memory.stat and /proc/{PID}/sched
 
-Introducing both pertask and permemcg NUMA balancing statistics helps
-to quickly evaluate the performance and resource usage of the target
-workload. For example, the user can first identify the container which
-has high NUMA balance activity and then narrow down to a specific task
-within that group, and tune the memory policy of that task.
-In summary, it is plausible to iterate the /proc/$pid/sched to find the
-offending task, but the introduction of per memcg tasks' Numa balancing
-aggregated  activity can further help users identify the task in a
-divide-and-conquer way.
-
-Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
-Tested-by: Madadi Vineeth Reddy <vineethr@linux.ibm.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Signed-off-by: Chen Yu <yu.c.chen@intel.com>
----
-v2->v3:
-Remove unnecessary p->mm check because kernel threads are
-not supported by Numa Balancing. (Libo Chen)
-v1->v2:
-Update the Documentation/admin-guide/cgroup-v2.rst. (Michal)
----
- Documentation/admin-guide/cgroup-v2.rst | 6 ++++++
- include/linux/sched.h                   | 4 ++++
- include/linux/vm_event_item.h           | 2 ++
- kernel/sched/core.c                     | 7 +++++--
- kernel/sched/debug.c                    | 4 ++++
- mm/memcontrol.c                         | 2 ++
- mm/vmstat.c                             | 2 ++
- 7 files changed, 25 insertions(+), 2 deletions(-)
-
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 1a16ce68a4d7..d346f3235945 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1670,6 +1670,12 @@ The following nested keys are defined.
- 	  numa_hint_faults (npn)
- 		Number of NUMA hinting faults.
- 
-+	  numa_task_migrated (npn)
-+		Number of task migration by NUMA balancing.
-+
-+	  numa_task_swapped (npn)
-+		Number of task swap by NUMA balancing.
-+
- 	  pgdemote_kswapd
- 		Number of pages demoted by kswapd.
- 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index f96ac1982893..1c50e30b5c01 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -549,6 +549,10 @@ struct sched_statistics {
- 	u64				nr_failed_migrations_running;
- 	u64				nr_failed_migrations_hot;
- 	u64				nr_forced_migrations;
-+#ifdef CONFIG_NUMA_BALANCING
-+	u64				numa_task_migrated;
-+	u64				numa_task_swapped;
-+#endif
- 
- 	u64				nr_wakeups;
- 	u64				nr_wakeups_sync;
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 9e15a088ba38..91a3ce9a2687 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -66,6 +66,8 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		NUMA_HINT_FAULTS,
- 		NUMA_HINT_FAULTS_LOCAL,
- 		NUMA_PAGE_MIGRATE,
-+		NUMA_TASK_MIGRATE,
-+		NUMA_TASK_SWAP,
- #endif
- #ifdef CONFIG_MIGRATION
- 		PGMIGRATE_SUCCESS, PGMIGRATE_FAIL,
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index c81cf642dba0..25a92f2abda4 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3352,6 +3352,9 @@ void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
- #ifdef CONFIG_NUMA_BALANCING
- static void __migrate_swap_task(struct task_struct *p, int cpu)
- {
-+	__schedstat_inc(p->stats.numa_task_swapped);
-+	count_memcg_events_mm(p->mm, NUMA_TASK_SWAP, 1);
-+
- 	if (task_on_rq_queued(p)) {
- 		struct rq *src_rq, *dst_rq;
- 		struct rq_flags srf, drf;
-@@ -7953,8 +7956,8 @@ int migrate_task_to(struct task_struct *p, int target_cpu)
- 	if (!cpumask_test_cpu(target_cpu, p->cpus_ptr))
- 		return -EINVAL;
- 
--	/* TODO: This is not properly updating schedstats */
--
-+	__schedstat_inc(p->stats.numa_task_migrated);
-+	count_memcg_events_mm(p->mm, NUMA_TASK_MIGRATE, 1);
- 	trace_sched_move_numa(p, curr_cpu, target_cpu);
- 	return stop_one_cpu(curr_cpu, migration_cpu_stop, &arg);
- }
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index 56ae54e0ce6a..f971c2af7912 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -1206,6 +1206,10 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
- 		P_SCHEDSTAT(nr_failed_migrations_running);
- 		P_SCHEDSTAT(nr_failed_migrations_hot);
- 		P_SCHEDSTAT(nr_forced_migrations);
-+#ifdef CONFIG_NUMA_BALANCING
-+		P_SCHEDSTAT(numa_task_migrated);
-+		P_SCHEDSTAT(numa_task_swapped);
-+#endif
- 		P_SCHEDSTAT(nr_wakeups);
- 		P_SCHEDSTAT(nr_wakeups_sync);
- 		P_SCHEDSTAT(nr_wakeups_migrate);
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index c96c1f2b9cf5..cdaab8a957f3 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -463,6 +463,8 @@ static const unsigned int memcg_vm_event_stat[] = {
- 	NUMA_PAGE_MIGRATE,
- 	NUMA_PTE_UPDATES,
- 	NUMA_HINT_FAULTS,
-+	NUMA_TASK_MIGRATE,
-+	NUMA_TASK_SWAP,
- #endif
- };
- 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 4c268ce39ff2..ed08bb384ae4 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1347,6 +1347,8 @@ const char * const vmstat_text[] = {
- 	"numa_hint_faults",
- 	"numa_hint_faults_local",
- 	"numa_pages_migrated",
-+	"numa_task_migrated",
-+	"numa_task_swapped",
- #endif
- #ifdef CONFIG_MIGRATION
- 	"pgmigrate_success",
--- 
-2.25.1
+> Changes from v3:
+> - Re-enabled sink in buffer update callbacks (Suzuki).
+> 
+> Changes from v2:
+> - Rebased on CoreSight next branch.
+> - Dropped the uAPI 'update_buf_on_pause' and updated document
+>    respectively (Suzuki).
+> - Renamed ETM callbacks to .pause_perf() and .resume_perf() (Suzuki).
+> - Minor improvement for error handling in the AUX resume flow.
+> 
+> Changes from v1:
+> - Added validation function pointers in pause and resume APIs (Mike).
+> 
+> 
+> Leo Yan (7):
+>    coresight: etm4x: Extract the trace unit controlling
+>    coresight: Introduce pause and resume APIs for source
+>    coresight: etm4x: Hook pause and resume callbacks
+>    coresight: perf: Support AUX trace pause and resume
+>    coresight: tmc: Re-enable sink after buffer update
+>    coresight: perf: Update buffer on AUX pause
+>    Documentation: coresight: Document AUX pause and resume
+> 
+>   Documentation/trace/coresight/coresight-perf.rst   |  31 +++++++++
+>   drivers/hwtracing/coresight/coresight-core.c       |  22 +++++++
+>   drivers/hwtracing/coresight/coresight-etm-perf.c   |  84 +++++++++++++++++++++++-
+>   drivers/hwtracing/coresight/coresight-etm4x-core.c | 143 +++++++++++++++++++++++++++++------------
+>   drivers/hwtracing/coresight/coresight-etm4x.h      |   2 +
+>   drivers/hwtracing/coresight/coresight-priv.h       |   2 +
+>   drivers/hwtracing/coresight/coresight-tmc-etf.c    |   9 +++
+>   drivers/hwtracing/coresight/coresight-tmc-etr.c    |  10 +++
+>   include/linux/coresight.h                          |   4 ++
+>   9 files changed, 265 insertions(+), 42 deletions(-)
+> 
 
