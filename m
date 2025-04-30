@@ -1,225 +1,350 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70A261DFDA5
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:52:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 774542641FB
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:57:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746039128; cv=none; b=WOtzDlkJ1HW58ad+gFDLw/FFsi/vKAIQkkckMeBD1vasccVIeXo2cOo99/HXA3czZO35bFFPkN4E6B8ybbGrur/RrQ4Gq/qpUsptldMQNWyn9svhE1bKLoZqzoeNcKIWEd31CrFAko8O0e6NwGEc0PU6+qevPAlnwYgpFjJCQic=
+	t=1746039439; cv=none; b=tbIlSquW0pin5Ip4dc8m97055M92BT8n9+IzFJq3sFzOvA8MZs5+J8AEQG9gmrrJrtQ+reUzrv65jrRrFf/NXtvy4fnZR09RSZnmlhjeMyVY7+iJt5QleAe3bIC2KXr2X5/9sSVnTtg1yGzKb5TUfAYgWi/T+5uzmMFt8SHeDYI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746039128; c=relaxed/simple;
-	bh=m/8gh4C7zSRFHSMiGPx6X+dYvNjlflIkT8CNHGNdgfk=;
+	s=arc-20240116; t=1746039439; c=relaxed/simple;
+	bh=jLNxZuKdPLFzw2D37mjvFJRplwDHIVtfY9G0E4/UmiQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=fYFebdxKo5WFqu6qmcuARBlYZeCsB9aPdXqimjZF/pjkJaGtbjmjeb80zfdlprBb6Pb93+o//0AhmzMbE6dQyiD6gNpaAEnnrzSvn0z/f0nPetpUcx2+B8Hu2rQBz5P1Wal/XO0klwt0+mXweuaH7BR7GCx/w8xnnPqXNJ0KrRo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=YUcwpeAH; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=qSTZXuGHaAeBgTp/oJyzBg8z5Z5te3DozZtRQGaRPpuOovwILPTHaVRx0vCwhuVsU2u3fOkSyF1V2HE/HoB8JHCaOah6cPgqSeftE+nFvd5/b23T9iA46bup3B0ClVCRFZnOfftYsK+msHTTxJdpdQg4kDAPlG1w8A8eimolGXk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JE0nJKFr; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="YUcwpeAH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0BF0EC4CEED
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:52:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746039128;
-	bh=m/8gh4C7zSRFHSMiGPx6X+dYvNjlflIkT8CNHGNdgfk=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=YUcwpeAHiFYaL7roColVPVgqAwg083lEnwINrDeiyKWR+uemDpd0QHMv3FK3ZX0GS
-	 sK+FojiQlF1jnUcsiHm5YcMHae6e3mymWsANgGrGlCKP/E2IesOb1OO8iYUSo1SL6I
-	 OC8wm2xkw/NkgRrCwSYDMTv0ArKnUtjsf80b630SGDi5+ADkcLVrLR2k4X/Jre6kvu
-	 fG+dlQfHModH9ZO5LUhO1Wvu+709lQ3GcG9duqVsBfSD3IosqHyXfi98lAFIiLWnjL
-	 0vav5EpgHwq65nm8TzcYSI0xN4sTW6KntdL70S28zPhTjN6dVyMA88DOLt8XGpL7r4
-	 ajS0qiuVUNypg==
-Received: by mail-lf1-f52.google.com with SMTP id 2adb3069b0e04-548409cd2a8so238016e87.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 11:52:07 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU67A8NAf6BJphZh6ndAT1J1QnS0MnzdM22QJtx+Rj5Y+Y/RKBC12cOPLAsivNbxXaP3UBiCrHP+WI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1+XHLREFsO5cZcZZbqgGC0agENGOJ5OGW/U9udMow0gTWMDDO
-	YEgZxattN46wv/lVcOkvWImVUkrslJJFNESlkBPsegccTOwzppviDOjV2J0KUEGtpAfoo5YFEpZ
-	PhBdH++rFL1o1t6fSzYVm0RVYucuJ7Mwe1xK2
-X-Google-Smtp-Source: AGHT+IE0K5POXjSzi6PVmVrzzNUz5C/TwrdOq3L9wFNvUlNtX4GskbINsst/0+rP2duvkTLtKdKGSet0iv4McAObDYU=
-X-Received: by 2002:a05:6512:33cf:b0:545:c7d:1784 with SMTP id
- 2adb3069b0e04-54ea72919cemr26556e87.43.1746039126238; Wed, 30 Apr 2025
- 11:52:06 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JE0nJKFr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746039435;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=LUsQSV7GXHv6XZvszLmYUY3LtVLyDJhgpBwbERYoVrc=;
+	b=JE0nJKFrsoAdHsXW08iSyGjd7X2ntzT9ZDeYdB8vXY/J1tBn5yZ9LU+w5E6U296bK7ZVyG
+	Fd23cNtojYe5i/b0YoOEDc2QUvUd8EOrNiMVb15YyYcEeeVSL0GYhfBmqy1QSGHURko0aD
+	xKg8d/RGSuygPKa/1+ON0AY5bzcpIRc=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-193-DwSJs8VANAOUi65QiW6-pA-1; Wed, 30 Apr 2025 14:57:13 -0400
+X-MC-Unique: DwSJs8VANAOUi65QiW6-pA-1
+X-Mimecast-MFC-AGG-ID: DwSJs8VANAOUi65QiW6-pA_1746039433
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-707d49f9c3bso3595107b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 11:57:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746039433; x=1746644233;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=LUsQSV7GXHv6XZvszLmYUY3LtVLyDJhgpBwbERYoVrc=;
+        b=NEd5nATaArEXs+Jd5XAhVVPgVoL4cZUggk4dUoz6Javh9Xug4i0a0muBOWh39ZuQAh
+         OcgvwgpnuDfnCxoe3zObWy9IKiVl3CxrLkvdinuMZl0ABlSixbU2E2VZ4DF7LhPKqcdr
+         NhEQgIOij8fAzbaQSgVJMrDFiD7ofqSe9utnO3XNWq9e9p3yfLEPBMnJC0sETDQmipHd
+         AJEGDdMIWbVSQJ5FtvhOui1fFLMJ4bImlH5UQxcA/twN5HbhswU6rchUd6VpXKCICB9h
+         QNDMzHun9sD0qTIMC87vNzJEGCvG0jdrAmk/rqGOZIdXGCZvxmIgnMhu5qy+rgzeM1n7
+         u50A==
+X-Forwarded-Encrypted: i=1; AJvYcCVHBOSaoWvLh0mOe7Z1CJd3yFbxOzElWPllfbseIQyGkIRsrJUInRI9rRR+dwyfxIZBROKYhL2DiIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw7J9CJHDlYNx9jzlGKuhoMbQZitcfA3G6+INdyxXenR0c7H/nj
+	974pN5nB8Yt0tYZO36Up2KCjEkC+dQmiSSPa5xhvts8AZHYLhLULDPID9qNLONZsYPs2CVvti05
+	P/JO+A10HnRaN/8E+E+bJAkbrqhYeeTEqU59v79AJB2mX1SEiaWZ9XknQr8qhzQHi8WhQzKKQyd
+	dMoIWw09KFB/tD2ZkFMVNvilwQnberpjZ9
+X-Gm-Gg: ASbGncukpIin00qOZ51CRKTxQV3AmwoxsNnCqMg1LG/SVT+MqcFebq91LpAGy+Azwov
+	jlghL9vSIsx6GRG4KWEGFNwWn2GgsBf+wfkTSP1cfBAj7S3ANLJ6hTt5ZiQAI+BbaD9632NtSWj
+	z+BYnPrxs=
+X-Received: by 2002:a05:690c:3387:b0:6ff:1fac:c4fc with SMTP id 00721157ae682-708abe5a3e2mr67954607b3.37.1746039433175;
+        Wed, 30 Apr 2025 11:57:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFF4ZQb655eTq5ucVGhB0o4hLF87lKj2hNzrhrXVIac5oEHfdXIj33wjWB/sp/XfpX1P6jGwcuvi2204v5vWuo=
+X-Received: by 2002:a05:690c:3387:b0:6ff:1fac:c4fc with SMTP id
+ 00721157ae682-708abe5a3e2mr67954387b3.37.1746039432864; Wed, 30 Apr 2025
+ 11:57:12 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250421162712.77452-1-ross.philipson@oracle.com>
- <20250421162712.77452-19-ross.philipson@oracle.com> <CALCETrVayuzp7fstavHkx99eieUCNj3=Zt8D=WOqMnmeT6DKmQ@mail.gmail.com>
- <077163e1-b7e1-4bc9-8294-e557cc7bd78d@apertussolutions.com>
-In-Reply-To: <077163e1-b7e1-4bc9-8294-e557cc7bd78d@apertussolutions.com>
-From: Andy Lutomirski <luto@kernel.org>
-Date: Wed, 30 Apr 2025 11:51:54 -0700
-X-Gmail-Original-Message-ID: <CALCETrVfrP=RL0W1cOY1PXGAsVLgbgSVLCy+ZsDg=-rxMQ=u9w@mail.gmail.com>
-X-Gm-Features: ATxdqUFyoGR-AY1tkFj9SH8YcCxlyGufKMkkioxYlBMgz0llRYwovkkXKsIy3U0
-Message-ID: <CALCETrVfrP=RL0W1cOY1PXGAsVLgbgSVLCy+ZsDg=-rxMQ=u9w@mail.gmail.com>
-Subject: Re: [PATCH v14 18/19] x86: Secure Launch late initcall platform module
-To: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-Cc: Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
-	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
-	linux-efi@vger.kernel.org, iommu@lists.linux.dev, tglx@linutronix.de, 
-	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, 
-	ardb@kernel.org, mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, 
-	peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, nivedita@alum.mit.edu, 
-	herbert@gondor.apana.org.au, davem@davemloft.net, corbet@lwn.net, 
-	ebiederm@xmission.com, dwmw2@infradead.org, baolu.lu@linux.intel.com, 
-	kanth.ghatraju@oracle.com, andrew.cooper3@citrix.com, 
-	trenchboot-devel@googlegroups.com
+References: <20250428181218.85925-1-npache@redhat.com> <20250428181218.85925-7-npache@redhat.com>
+ <5feb1d57-e069-4469-9751-af4fb067e858@linux.alibaba.com>
+In-Reply-To: <5feb1d57-e069-4469-9751-af4fb067e858@linux.alibaba.com>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 30 Apr 2025 12:56:47 -0600
+X-Gm-Features: ATxdqUE-PCD0QbncxgpNxUZLYADdbwYq2DLcTNeaPcitp4bfk1TL01R6iHWhZ94
+Message-ID: <CAA1CXcDWX7zsW03Wwg_OHRhJ2nrt6OaLd5bn8ccX0StoN1kGUQ@mail.gmail.com>
+Subject: Re: [PATCH v5 06/12] khugepaged: introduce khugepaged_scan_bitmap for
+ mTHP support
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com, 
+	baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org, 
+	peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com, 
+	tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, 
+	cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com, 
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, 
+	rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 29, 2025 at 6:41=E2=80=AFPM Daniel P. Smith
-<dpsmith@apertussolutions.com> wrote:
+On Wed, Apr 30, 2025 at 4:08=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
 >
-> On 4/28/25 13:38, Andy Lutomirski wrote:
-> >> On Apr 21, 2025, at 9:36=E2=80=AFAM, Ross Philipson <ross.philipson@or=
-acle.com> wrote:
-> >>
-> >> =EF=BB=BFFrom: "Daniel P. Smith" <dpsmith@apertussolutions.com>
-> >>
-> >> The Secure Launch platform module is a late init module. During the
-> >> init call, the TPM event log is read and measurements taken in the
-> >> early boot stub code are located. These measurements are extended
-> >> into the TPM PCRs using the mainline TPM kernel driver.
+>
+>
+> On 2025/4/29 02:12, Nico Pache wrote:
+> > khugepaged scans anons PMD ranges for potential collapse to a hugepage.
+> > To add mTHP support we use this scan to instead record chunks of utiliz=
+ed
+> > sections of the PMD.
 > >
-> > I read through some of the TPM and TXT docs, and I haven=E2=80=99t foun=
-d a
-> > clear explanation of exactly what gets hashed into which PCR.  (Mostly
-> > because the docs are full of TXT-specific terms.)
+> > khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
+> > that represents chunks of utilized regions. We can then determine what
+> > mTHP size fits best and in the following patch, we set this bitmap whil=
+e
+> > scanning the anon PMD.
+> >
+> > max_ptes_none is used as a scale to determine how "full" an order must
+> > be before being considered for collapse.
+> >
+> > When attempting to collapse an order that has its order set to "always"
+> > lets always collapse to that order in a greedy manner without
+> > considering the number of bits set.
+> >
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+> > ---
+> >   include/linux/khugepaged.h |  4 ++
+> >   mm/khugepaged.c            | 94 ++++++++++++++++++++++++++++++++++---=
+-
+> >   2 files changed, 89 insertions(+), 9 deletions(-)
+> >
+> > diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> > index 1f46046080f5..18fe6eb5051d 100644
+> > --- a/include/linux/khugepaged.h
+> > +++ b/include/linux/khugepaged.h
+> > @@ -1,6 +1,10 @@
+> >   /* SPDX-License-Identifier: GPL-2.0 */
+> >   #ifndef _LINUX_KHUGEPAGED_H
+> >   #define _LINUX_KHUGEPAGED_H
+> > +#define KHUGEPAGED_MIN_MTHP_ORDER    2
 >
+> Still better to add some comments to explain explicitly why choose 2 as
+> the MIN_MTHP_ORDER.
+Ok i'll add a note that explicitly states that the min order of anon mTHPs =
+is 2
 >
-> For Intel TXT, the general approach is detailed in section 1.10.2 of the
-> TXT Software Development Guide[1]. I point you at the Detail and
-> Authorities Usage section because the ability to do Legacy Usage has
-> been unavailable for some time.
+> > +#define KHUGEPAGED_MIN_MTHP_NR       (1<<KHUGEPAGED_MIN_MTHP_ORDER)
+> > +#define MAX_MTHP_BITMAP_SIZE  (1 << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPA=
+GED_MIN_MTHP_ORDER))
+> > +#define MTHP_BITMAP_SIZE  (1 << (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP=
+_ORDER))
+> >
+> >   extern unsigned int khugepaged_max_ptes_none __read_mostly;
+> >   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index e21998a06253..6e67db86409a 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -94,6 +94,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, M=
+M_SLOTS_HASH_BITS);
+> >
+> >   static struct kmem_cache *mm_slot_cache __ro_after_init;
+> >
+> > +struct scan_bit_state {
+> > +     u8 order;
+> > +     u16 offset;
+> > +};
+> > +
+> >   struct collapse_control {
+> >       bool is_khugepaged;
+> >
+> > @@ -102,6 +107,18 @@ struct collapse_control {
+> >
+> >       /* nodemask for allocation fallback */
+> >       nodemask_t alloc_nmask;
+> > +
+> > +     /*
+> > +      * bitmap used to collapse mTHP sizes.
+> > +      * 1bit =3D order KHUGEPAGED_MIN_MTHP_ORDER mTHP
+> > +      */
+> > +     DECLARE_BITMAP(mthp_bitmap, MAX_MTHP_BITMAP_SIZE);
+> > +     DECLARE_BITMAP(mthp_bitmap_temp, MAX_MTHP_BITMAP_SIZE);
+> > +     struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_SIZE];
+> > +};
+> > +
+> > +struct collapse_control khugepaged_collapse_control =3D {
+> > +     .is_khugepaged =3D true,
+> >   };
+> >
+> >   /**
+> > @@ -851,10 +868,6 @@ static void khugepaged_alloc_sleep(void)
+> >       remove_wait_queue(&khugepaged_wait, &wait);
+> >   }
+> >
+> > -struct collapse_control khugepaged_collapse_control =3D {
+> > -     .is_khugepaged =3D true,
+> > -};
+> > -
+> >   static bool khugepaged_scan_abort(int nid, struct collapse_control *c=
+c)
+> >   {
+> >       int i;
+> > @@ -1118,7 +1131,8 @@ static int alloc_charge_folio(struct folio **foli=
+op, struct mm_struct *mm,
+> >
+> >   static int collapse_huge_page(struct mm_struct *mm, unsigned long add=
+ress,
+> >                             int referenced, int unmapped,
+> > -                           struct collapse_control *cc)
+> > +                           struct collapse_control *cc, bool *mmap_loc=
+ked,
+> > +                               u8 order, u16 offset)
+> >   {
+> >       LIST_HEAD(compound_pagelist);
+> >       pmd_t *pmd, _pmd;
+> > @@ -1137,8 +1151,12 @@ static int collapse_huge_page(struct mm_struct *=
+mm, unsigned long address,
+> >        * The allocation can take potentially a long time if it involves
+> >        * sync compaction, and we do not need to hold the mmap_lock duri=
+ng
+> >        * that. We will recheck the vma after taking it again in write m=
+ode.
+> > +      * If collapsing mTHPs we may have already released the read_lock=
+.
+> >        */
+> > -     mmap_read_unlock(mm);
+> > +     if (*mmap_locked) {
+> > +             mmap_read_unlock(mm);
+> > +             *mmap_locked =3D false;
+> > +     }
+> >
+> >       result =3D alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+> >       if (result !=3D SCAN_SUCCEED)
+> > @@ -1273,12 +1291,72 @@ static int collapse_huge_page(struct mm_struct =
+*mm, unsigned long address,
+> >   out_up_write:
+> >       mmap_write_unlock(mm);
+> >   out_nolock:
+> > +     *mmap_locked =3D false;
+> >       if (folio)
+> >               folio_put(folio);
+> >       trace_mm_collapse_huge_page(mm, result =3D=3D SCAN_SUCCEED, resul=
+t);
+> >       return result;
+> >   }
+> >
+> > +// Recursive function to consume the bitmap
 >
-> In section 1.10.2.1, the dialogue explains how and what the initial
-> measurement is into PCR17. After that is Table 1, which provides a
-> listing of all the measurements the ACM could make before starting the
-> MLE. Just as an FYI, on Gen 9 and later, the STM measurement will be
-> present and will be the hash of the PPAM module.[2]
+> Nit: please use '/* Xxxx */' for comments in this patch.
 >
-> Section 1.10.2.2 gives a similar treatment to PCR18.
+> > +static int khugepaged_scan_bitmap(struct mm_struct *mm, unsigned long =
+address,
+> > +                     int referenced, int unmapped, struct collapse_con=
+trol *cc,
+> > +                     bool *mmap_locked, unsigned long enabled_orders)
+> > +{
+> > +     u8 order, next_order;
+> > +     u16 offset, mid_offset;
+> > +     int num_chunks;
+> > +     int bits_set, threshold_bits;
+> > +     int top =3D -1;
+> > +     int collapsed =3D 0;
+> > +     int ret;
+> > +     struct scan_bit_state state;
+> > +     bool is_pmd_only =3D (enabled_orders =3D=3D (1 << HPAGE_PMD_ORDER=
+));
+> > +
+> > +     cc->mthp_bitmap_stack[++top] =3D (struct scan_bit_state)
+> > +             { HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0 };
+> > +
+> > +     while (top >=3D 0) {
+> > +             state =3D cc->mthp_bitmap_stack[top--];
+> > +             order =3D state.order + KHUGEPAGED_MIN_MTHP_ORDER;
+> > +             offset =3D state.offset;
+> > +             num_chunks =3D 1 << (state.order);
+> > +             // Skip mTHP orders that are not enabled
+> > +             if (!test_bit(order, &enabled_orders))
+> > +                     goto next;
+> > +
+> > +             // copy the relavant section to a new bitmap
+> > +             bitmap_shift_right(cc->mthp_bitmap_temp, cc->mthp_bitmap,=
+ offset,
+> > +                               MTHP_BITMAP_SIZE);
+> > +
+> > +             bits_set =3D bitmap_weight(cc->mthp_bitmap_temp, num_chun=
+ks);
+> > +             threshold_bits =3D (HPAGE_PMD_NR - khugepaged_max_ptes_no=
+ne - 1)
+> > +                             >> (HPAGE_PMD_ORDER - state.order);
+> > +
+> > +             //Check if the region is "almost full" based on the thres=
+hold
+> > +             if (bits_set > threshold_bits || is_pmd_only
+> > +                     || test_bit(order, &huge_anon_orders_always)) {
 >
-> [1]
-> https://www.intel.com/content/dam/www/public/us/en/documents/guides/intel=
--txt-software-development-guide.pdf
-> [2]
-> https://www.intel.com/content/dam/www/central-libraries/us/en/documents/d=
-rtm-based-computing-whitepaper.pdf
+> When testing this patch, I disabled the PMD-sized THP and enabled
+> 64K-sized mTHP, but it still attempts to collapse into a PMD-sized THP
+> (since bits_set > threshold_bits is ture). This doesn't seem reasonable?
+We are still required to have PMD enabled for mTHP collapse to work.
+It's a limitation of the current khugepaged code (it currently only
+adds mm_slots when PMD is enabled).
+We've discussed this in the past and are looking for a proper way
+forward, but the solution becomes tricky.
+
+However I'm surprised that it still collapses due to the code below.
+I'll test this out later today.
+    +             if (!test_bit(order, &enabled_orders))
+    +                     goto next;
 >
+> > +                     ret =3D collapse_huge_page(mm, address, reference=
+d, unmapped, cc,
+> > +                                     mmap_locked, order, offset * KHUG=
+EPAGED_MIN_MTHP_NR);
+> > +                     if (ret =3D=3D SCAN_SUCCEED) {
+> > +                             collapsed +=3D (1 << order);
+> > +                             continue;
+> > +                     }
+> > +             }
+> > +
+> > +next:
+> > +             if (state.order > 0) {
+> > +                     next_order =3D state.order - 1;
+> > +                     mid_offset =3D offset + (num_chunks / 2);
+> > +                     cc->mthp_bitmap_stack[++top] =3D (struct scan_bit=
+_state)
+> > +                             { next_order, mid_offset };
+> > +                     cc->mthp_bitmap_stack[++top] =3D (struct scan_bit=
+_state)
+> > +                             { next_order, offset };
+> > +                     }
+> > +     }
+> > +     return collapsed;
+> > +}
+> > +
+> >   static int khugepaged_scan_pmd(struct mm_struct *mm,
+> >                                  struct vm_area_struct *vma,
+> >                                  unsigned long address, bool *mmap_lock=
+ed,
+> > @@ -1445,9 +1523,7 @@ static int khugepaged_scan_pmd(struct mm_struct *=
+mm,
+> >       pte_unmap_unlock(pte, ptl);
+> >       if (result =3D=3D SCAN_SUCCEED) {
+> >               result =3D collapse_huge_page(mm, address, referenced,
+> > -                                         unmapped, cc);
+> > -             /* collapse_huge_page will return with the mmap_lock rele=
+ased */
+> > -             *mmap_locked =3D false;
+> > +                                         unmapped, cc, mmap_locked, HP=
+AGE_PMD_ORDER, 0);
+> >       }
+> >   out:
+> >       trace_mm_khugepaged_scan_pmd(mm, &folio->page, writable, referenc=
+ed,
 >
-> > But I=E2=80=99m really struggling to understand how the security model =
-ends up
-> > being consistent with this late_initcall thing. We measure some state
-> > into the event log, and then we do a whole bunch of things (everything
-> > from the very beginning of loading the kernel proper to the whenever
-> > in the late_initcall stage this code runs), and then we actually
-> > extend the PCRs.  It seems to me that this may involve a whole lot of
-> > crossing fingers that an attacker can=E2=80=99t find a way to get the k=
-ernel
-> > to execute code that changes the event log in memory prior to
-> > extending PCRs such that attacker-controlled values get written.  Even
-> > if the design is, in principle, sound, the attack surface seems much,
-> > much larger than it deserves to be.
 
-I hate to be obnoxious, but your email kind of exemplifies why I, and
-I think many developers, REALLY dislike the TXT and related specs.
-It's full of magic words that mean nothing to anyone not immersed in
-this particular ecosystem.
-
->
->
-> There is a more fundemental flaw to your scenario, but before covering
-> that, consider what measurements could be tampered with that are made by
-> the setup kernel:
-
-What is the "setup kernel"?  Do you mean the early code in the kernel?
-
->
->   - Kernel Setup Data
->   - TrenchBoot's SLRT
->   - Boot Params
->   - Command line
->   - EFI Memory Map
->   - EFI configuration items, populated by efi-stub (currently unused)
->   - External Ramdisk
-
-Are you saying that all of these items are measured by the early
-loader (and *not* measured by the ACM or otherwise by anything that is
-trustworthy and runs before the early code)?
-
->
-> Outside of the case of an external ramdisk, the attacker can only
-> pretend valid configuration data was passed to it.
->
-> Correct me if I am wrong, but I don't think that is what is bothering
-> you. You are either concerned with one of two cases here. Either you are
-> concerned that the attacker may be able to hide the loading of a corrupt
-> kernel or that the attacker can corrupt the kernel after loading.
-
-Here is my concern:
-
-Suppose there is a set of measurements that an attacker wants to
-replicate.  Some of these measurements are done prior to transferring
-control to the early code that's in this patchset (call these
-before-Linux measurements) and some are done by the loaded kernel
-(let's call these Linux measurements).
-
-I am concerned that the attacker will load a combination of things
-that have the correct before-Linux measurements but the wrong
-after-Linux measurements.  (Wrong in the sense that, *if those
-measurements actually landed in the PCRs, then the attacker would
-lose*.)  *But* the attacker carefully chooses what they're loading to
-gain control of the system prior to the actual PCR extension.  Then
-the attacker extends the PCR with the hash that they want to
-replicate, and the attacker wins.
-
-For the security model to make any sense at all, then it needs to be
-impossible for the attacker to gain control prior to the early kernel
-code running without changing the before-Linux measurements.  But
-there is a huge gap between when the early Linux code runs and when
-the late initcalls run, and the attacker has that entire window to
-break your security.
-
-> first case, the answer is no; the attacker cannot. The kernel and the
-> initrd if it was packed in the kernel are measured and sent to the TPM
-> by the ACM running in cache-as-ram before execution begins.
->
-> The second case is the flawed scenario, a strawman, if you will. This is
-> a runtime-integrity problem that is outside the scope/protections of
-> load-time-integrity solutions such as SRTM and DRTM. If the correct
-> kernel was loaded and measured, but an attacker already has a position
-> in the system that they can corrupt the kernel before the user-space
-> init process can be run, then they already won.
-
-I'm arguing that it seems like that this patchset has a
-runtime-integrity problem.  It's outside the scope of the TXT spec per
-se.  It's in the scope of *the Linux kernel*, and anyone who wants to
-trust that the Linux DRTM code actually works needs to factor in this
-giant weakness.
-
-And you haven't explained why there is no way for an attacker to
-corrupt the process between the early kernel code and the late
-measurement code.
-
-
-> > Is there some reason for all this complexity instead of extending the
-> > PCRs at the early stage when the measurements are taken?
->
->
-> We did have TPM logic in the setup kernel at one point. Within their
-> rights, the TPM maintainers took the position that the only TPM
-> interface logic should be the existing driver.
-
-Hey TPM maintainers, I think this is nonsense, or maybe someone has
-misinterpreted something that someone else said.  I understand that
-avoiding code duplication is nice.  I understand that, at runtime, all
-TPM access ought to go through the driver.  But, if the driver is
-incapable of working during the very very early kernel load, then
-there should be an alternate interface.  Kind of like how we have
-early_printk instead of saying "well, there should only be one printk,
-so instead of having early_printk, we'll just have a big buffer of
-messages and log them eventually".  Or kind of like how we might call
-EFI boot service functions during early boot.
-
---Andy
