@@ -1,197 +1,143 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DDB0C26561C
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:39:40 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4226018024
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:43:30 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746038382; cv=none; b=i5i1TkixKeiZWYdZj3VV+tBjQOIUC56/S+9C3juRjgL8WUWc7dUsl2Hkpt9STxTKVKPFXynm6lgH+JrFnu1VD5SIf1vyMjmZ0oof0SfFtoliUHYw2IxwjLSkmDyg8OJjfSeGZXjQoIMoRLRKRdUAtPnNzQC2XurD9O/DnpVIg+4=
+	t=1746038612; cv=none; b=H0ZGCPn5fT2a7+S4lXL17MK+0pWq7LQC4MsJKlk6pjXVPErjqUJWbswj3HaXP9/Rn2SQ47WU1QkGYjlFFO+pWc6z5Jy8Tcir9MiW+SfdoUZIQ8fZ0hKQf1hriv6wlxlLxEN0G591y9QbnzdEbfQzKabaW6CmmEQf+c0qcTXosqc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746038382; c=relaxed/simple;
-	bh=uop7LMZYuz+EVPrsb8rncMFAD0a69RO4PcxjXzb4CH0=;
+	s=arc-20240116; t=1746038612; c=relaxed/simple;
+	bh=nwMy4TfEjOLeyl5MmrHOSLVf52aNii4S6d88xbFYX+w=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=auBlN1aNzus+Eu/J5AS9KGhHKz8R4GUhUZCU+6ZPqNSg8yU7snbDF4+Ig5MujHixlRIVqibY34LJc7gbrheQPwDB8H7lwudV/dmSiFCXlBu7t+wdxi5heTfuIhx0cOsEX0Gv1tkgcn/rkq02qP9oxv937c6Hp7hb7nYXCJRbg2E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Ju8MzOi0; arc=none smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=upYL958oP/nFPaV7+PxjgDguUirtg+GBjefDvML+ZlwYPe4tKoUR33HmoPWwTtIs6ujjTfDKs5/oCihxxPrKSr4Pbe4aZqODSLzj5M1UTBunf9uKjfmILNbcHvVYYN1lkNXBPmG4aosDFq/bKkeGW5BII2JZXPhlCS922u4XjhA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=C1m5TLto; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Ju8MzOi0"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="C1m5TLto"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746038379;
+	s=mimecast20190719; t=1746038610;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=IRjxDxDhTYKrorsZixsAP5Kxt917TzYAbdZEFQfMsaE=;
-	b=Ju8MzOi0gVPKwUN/hTOvN/3OabbtNGEatok/8wuPZUgZuMgDAA7JgYEh5PvSRu2iMqi0Iz
-	rovZ0GlXEl5ATxIFWRy89SiybrslUHaBmJs0sZ/9vTd4EdMIWr796NccRxKwhzo4+S3hA4
-	yHxtTTtb6dDbwKbU/k0Bt00izdy0Rps=
+	bh=sGtyvAblPdq5h4RDZn9A53olL+bKAgVIn20wqzqV2vo=;
+	b=C1m5TLtorFiTSlC9UZcrH0bJ3FZeZsPUNnOCbnlDdzPZF6bYE7fstNff9xLOX482rDCyIY
+	pWq6Dvkr60JoB0uA8c5WlevEAIB8wia9nxVtA84HlpVSsJul+WZUDLz6e5xm8OaGu0gdTN
+	gNsxk06KCIJjrnihUSwNtphs+Nhlkro=
 Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
  [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-696-thcSIbZVNASTT2pFymfrjQ-1; Wed, 30 Apr 2025 14:39:37 -0400
-X-MC-Unique: thcSIbZVNASTT2pFymfrjQ-1
-X-Mimecast-MFC-AGG-ID: thcSIbZVNASTT2pFymfrjQ_1746038377
-Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-706b84fe6edso2831877b3.3
-        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 11:39:37 -0700 (PDT)
+ us-mta-294-odrW6zE1M1SqfMRMPp4ZmQ-1; Wed, 30 Apr 2025 14:43:28 -0400
+X-MC-Unique: odrW6zE1M1SqfMRMPp4ZmQ-1
+X-Mimecast-MFC-AGG-ID: odrW6zE1M1SqfMRMPp4ZmQ_1746038608
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-7071dd5dbc1so3252067b3.0
+        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 11:43:28 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746038377; x=1746643177;
+        d=1e100.net; s=20230601; t=1746038608; x=1746643408;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IRjxDxDhTYKrorsZixsAP5Kxt917TzYAbdZEFQfMsaE=;
-        b=uUk1TaREAbZYilZH5seGx074RSX4VsdrtCNMe6bY+fMLF1nO2kgymsy12cTdeGoOud
-         +n/JIEacns0yqeuZY5u21U6dRRbKPJg1FsMNuNCdQvp0c1u7E2tSlmExBta2qaXB8Q9z
-         SJwSYP+JE2B1M9GgXDWsvZcr6vU/yGtv/LdSA+Kw4ekO4cvQYPZBo1XVSq2NOUqAECKO
-         s0z7dSERhA9eGsnwuayi0QCKhfHKvrv+orli+0Ae2+2relcGjU3qeU1Tf79hsmdJuUMn
-         GvxhXX8CKLs2UFF+YfYsyK8WzZkQha/4xie3Zo4MBQCjRSlkSvFYsjh6wjpL3IMyo9+J
-         Jb8g==
-X-Forwarded-Encrypted: i=1; AJvYcCUXhwzEbmFI/HQ5H8f5WQTG5uN5tqGK+wD6kxCvQLoNMmVlscd/FPImZ2Z7zHTOJOh9C+i+sWaSOMs=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx99a1P6YrN8CD+1CCi60DzBNB84psnO4B4UU4SpDLQzoH4EW4+
-	nsrdOEklF+fqtY55rJi2d1qs5XlX7mDsdWYRnAjnpFOtF4/IRu9C1RBD6uKDZlyXCYctQiAyAZE
-	yh6rjLhGZp1pRFi0+JZOt7obV25CkBDvVkL+mMuwZulzSfxv8+TzEvDd5caXOfk7In3Z9jXf5cs
-	YXbZD7oLrvmjZc50FrVuVBTBT0xLuSNgZJ
-X-Gm-Gg: ASbGncvUNXaHlg2VMt1Q6l4S+cvQIXea9+N8/40MvV2pKbASBIhfNNNjXMeq5TNRhrQ
-	3LeoYexhb4BUaIVo4KgRJC+b4jROBB8/oWf8Wb4fXclAzZJd5QWkfEVLzeWrpEwbKAasVPK0eHB
-	WLRqGO8vo=
-X-Received: by 2002:a05:690c:9:b0:6fd:a226:fb6c with SMTP id 00721157ae682-708abdabf95mr62404467b3.17.1746038377163;
-        Wed, 30 Apr 2025 11:39:37 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGUG8Gr8pCuMfJMWlcmWUQoisJmUZ1EDMBMinzj6P3MiMpx3S+K06g4TgDXVqU9n7uNHGfUH5de6C068UnlTA0=
-X-Received: by 2002:a05:690c:9:b0:6fd:a226:fb6c with SMTP id
- 00721157ae682-708abdabf95mr62403917b3.17.1746038376803; Wed, 30 Apr 2025
- 11:39:36 -0700 (PDT)
+        bh=sGtyvAblPdq5h4RDZn9A53olL+bKAgVIn20wqzqV2vo=;
+        b=g7RY7GGrI6QhJLmy5ZyhuNmYANWvxozk5OpRhVbw4aeVN0+Jg6kb4jzsqlcd0X7CLr
+         OTdYsqoP0RX787m0RQkaoBfeHXcSSH/HY6TnETdzS85guFyRvikZOvPZGe419PqFLkAo
+         IfeJxrmuc9l+8Wm4P0agn5g3qP/u1rKwzbK/obdiQblgS/cA+DP664HVpNmCZS8SAGM9
+         LnANHs5qJ6yE/bHUyDB2ejaXqGjl/kiSGxrnxAaeMUqdEat858p5RF4Vhh1hm8SzViFy
+         w0EGvNPPEKo8mDEf1ZsjKvWik7yM1VpDWalrk0vrffm0fjdku7esM5p9/gO+IyLsZTfw
+         6byQ==
+X-Forwarded-Encrypted: i=1; AJvYcCW1GMkZqdlTK7OZbB8Jq5kcRHZkECPQvnPKW7+7wTSuTpabUy+VaZKrJy9w5ocIR12hFZHLtOOjpLY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxlNHm+OfnRkU2CS/obq37oRBY1ArQzHPpYIAMTpI/TtA5bfTWa
+	FMaMM7q2wuU6DOOXQN/IkCHuC57cgWJ9g/F9HKdGL3mAzU3WgumfjbFX7904wF7AQVtvAMkg2Cy
+	7xffyav4zhRn7WoxrLtQQ0P16olcZ2Uwq2/NMmquPd9Fke4lFRo4N9n9KkPLM37sZ4xS/6eWxc8
+	+wY3YSi2ISeUGh3w9EfXJlpP8infyCqWCo
+X-Gm-Gg: ASbGncuLYDFMtSaOLerTPnBxlV5G72oflT5cSwuD5UisV2UF4V16Cd6QDmgOS0072W+
+	pyUXgWhuYG4dHdJc+EQ2vhqvoZbubyrxcqglQvnOnRMVBGL6P2zuizmz/HLnpg7tULNAsaze6Na
+	vB5ypZ5Lc=
+X-Received: by 2002:a05:690c:6e01:b0:6ef:5097:5daa with SMTP id 00721157ae682-708abe4b425mr66866057b3.34.1746038608280;
+        Wed, 30 Apr 2025 11:43:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGsC2vZql3Dxhu844riBX0qx5iUsGKJcDpqIjlHOQ18tsV7lZm4AquyInHqSFrwH5gRENp1Np1sxc9yUD6IIdY=
+X-Received: by 2002:a05:690c:6e01:b0:6ef:5097:5daa with SMTP id
+ 00721157ae682-708abe4b425mr66865567b3.34.1746038608003; Wed, 30 Apr 2025
+ 11:43:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250428182904.93989-1-npache@redhat.com> <20250428182904.93989-2-npache@redhat.com>
- <B76CC5A1-D4DC-4E8B-BF5A-DFBEF13E02F5@nvidia.com>
-In-Reply-To: <B76CC5A1-D4DC-4E8B-BF5A-DFBEF13E02F5@nvidia.com>
+References: <20250428181218.85925-1-npache@redhat.com> <20250428181218.85925-10-npache@redhat.com>
+ <ba59d6aa-ade3-4440-a0ed-ef276b45f9d2@linux.alibaba.com>
+In-Reply-To: <ba59d6aa-ade3-4440-a0ed-ef276b45f9d2@linux.alibaba.com>
 From: Nico Pache <npache@redhat.com>
-Date: Wed, 30 Apr 2025 12:39:10 -0600
-X-Gm-Features: ATxdqUFWpWLVzjLTZtwA2dC3DeeBs_qZQ8boE4jqqynD0FM3HxwqQb_YeWEGAHg
-Message-ID: <CAA1CXcAHzLZaiEf+uXPqoOMWyhDsW8D23vtouGWKGdkeSdaTow@mail.gmail.com>
-Subject: Re: [PATCH v5 1/4] mm: defer THP insertion to khugepaged
-To: Zi Yan <ziy@nvidia.com>
+Date: Wed, 30 Apr 2025 12:43:01 -0600
+X-Gm-Features: ATxdqUFWtHWq5aUrqZ9Adf9gtcRPQJMwNnkBweD5j20SDmerE4jyu4OMpWWRzi8
+Message-ID: <CAA1CXcAqGxVHdwos4bdZ8kR3PS=iqs2UgQ+DKdTejo5jUm_5ww@mail.gmail.com>
+Subject: Re: [PATCH v5 09/12] khugepaged: avoid unnecessary mTHP collapse attempts
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
 Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
 	akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org, 
 	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com, 
-	baohua@kernel.org, baolin.wang@linux.alibaba.com, ryan.roberts@arm.com, 
-	willy@infradead.org, peterx@redhat.com, shuah@kernel.org, 
-	wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com, 
-	vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com, 
-	yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com, 
-	aarcange@redhat.com, raquini@redhat.com, dev.jain@arm.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, 
-	Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+	baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org, 
+	peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com, 
+	tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, 
+	cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com, 
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, 
+	rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, Apr 29, 2025 at 7:49=E2=80=AFAM Zi Yan <ziy@nvidia.com> wrote:
+On Wed, Apr 30, 2025 at 4:12=E2=80=AFAM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
 >
-> On 28 Apr 2025, at 14:29, Nico Pache wrote:
 >
-> > setting /transparent_hugepages/enabled=3Dalways allows applications
-> > to benefit from THPs without having to madvise. However, the pf handler
 >
-> s/pf/page fault
->
-> > takes very few considerations to decide weather or not to actually use =
-a
->
-> s/weather/whether
->
-> > THP. This can lead to a lot of wasted memory. khugepaged only operates
-> > on memory that was either allocated with enabled=3Dalways or MADV_HUGEP=
-AGE.
+> On 2025/4/29 02:12, Nico Pache wrote:
+> > There are cases where, if an attempted collapse fails, all subsequent
+> > orders are guaranteed to also fail. Avoid these collapse attempts by
+> > bailing out early.
 > >
-> > Introduce the ability to set enabled=3Ddefer, which will prevent THPs f=
-rom
-> > being allocated by the page fault handler unless madvise is set,
-> > leaving it up to khugepaged to decide which allocations will collapse t=
-o a
-> > THP. This should allow applications to benefits from THPs, while curbin=
-g
-> > some of the memory waste.
-> >
-> > Co-developed-by: Rafael Aquini <raquini@redhat.com>
-> > Signed-off-by: Rafael Aquini <raquini@redhat.com>
 > > Signed-off-by: Nico Pache <npache@redhat.com>
 > > ---
-> >  include/linux/huge_mm.h | 15 +++++++++++++--
-> >  mm/huge_memory.c        | 31 +++++++++++++++++++++++++++----
-> >  2 files changed, 40 insertions(+), 6 deletions(-)
+> >   mm/khugepaged.c | 17 +++++++++++++++++
+> >   1 file changed, 17 insertions(+)
 > >
-> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-> > index e3d15c737008..57e6c962afb1 100644
-> > --- a/include/linux/huge_mm.h
-> > +++ b/include/linux/huge_mm.h
-> > @@ -48,6 +48,7 @@ enum transparent_hugepage_flag {
-> >       TRANSPARENT_HUGEPAGE_UNSUPPORTED,
-> >       TRANSPARENT_HUGEPAGE_FLAG,
-> >       TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
-> > +     TRANSPARENT_HUGEPAGE_DEFER_PF_INST_FLAG,
+> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > index 86d1153ce9e8..5e6732cccb86 100644
+> > --- a/mm/khugepaged.c
+> > +++ b/mm/khugepaged.c
+> > @@ -1365,6 +1365,23 @@ static int khugepaged_scan_bitmap(struct mm_stru=
+ct *mm, unsigned long address,
+> >                               collapsed +=3D (1 << order);
+> >                               continue;
+> >                       }
+> > +                     /*
+> > +                      * Some ret values indicate all lower order will =
+also
+> > +                      * fail, dont trying to collapse smaller orders
+> > +                      */
+> > +                     if (ret =3D=3D SCAN_EXCEED_NONE_PTE ||
+> > +                             ret =3D=3D SCAN_EXCEED_SWAP_PTE ||
+> > +                             ret =3D=3D SCAN_EXCEED_SHARED_PTE ||
+> > +                             ret =3D=3D SCAN_PTE_NON_PRESENT ||
+> > +                             ret =3D=3D SCAN_PTE_UFFD_WP ||
+> > +                             ret =3D=3D SCAN_ALLOC_HUGE_PAGE_FAIL ||
+> > +                             ret =3D=3D SCAN_CGROUP_CHARGE_FAIL ||
+> > +                             ret =3D=3D SCAN_COPY_MC ||
+> > +                             ret =3D=3D SCAN_PAGE_LOCK ||
+> > +                             ret =3D=3D SCAN_PAGE_COUNT)
+> > +                             goto next;
+> > +                     else
+> > +                             break;
 >
-> What does INST mean here? Can you add one sentence on this new flag
-> in the commit log to explain what it is short for?
-"INSERT". Someone else commented on the length of this FLAG name. I
-forgot to update it.
-I can shorten it to something like ..DEFER_FLAG or DEFER_PF_FLAG
->
->
-> >       TRANSPARENT_HUGEPAGE_DEFRAG_DIRECT_FLAG,
-> >       TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_FLAG,
-> >       TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG,
-> > @@ -186,6 +187,7 @@ static inline bool hugepage_global_enabled(void)
-> >  {
-> >       return transparent_hugepage_flags &
-> >                       ((1<<TRANSPARENT_HUGEPAGE_FLAG) |
-> > +                     (1<<TRANSPARENT_HUGEPAGE_DEFER_PF_INST_FLAG) |
-> >                       (1<<TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG));
-> >  }
-> >
-> > @@ -195,6 +197,12 @@ static inline bool hugepage_global_always(void)
-> >                       (1<<TRANSPARENT_HUGEPAGE_FLAG);
-> >  }
-> >
-> > +static inline bool hugepage_global_defer(void)
-> > +{
-> > +     return transparent_hugepage_flags &
-> > +                     (1<<TRANSPARENT_HUGEPAGE_DEFER_PF_INST_FLAG);
-> > +}
-> > +
-> >  static inline int highest_order(unsigned long orders)
-> >  {
-> >       return fls_long(orders) - 1;
-> > @@ -291,13 +299,16 @@ unsigned long thp_vma_allowable_orders(struct vm_=
-area_struct *vma,
-> >                                      unsigned long tva_flags,
-> >                                      unsigned long orders)
-> >  {
-> > +     if ((tva_flags & TVA_IN_PF) && hugepage_global_defer() &&
-> > +                     !(vm_flags & VM_HUGEPAGE))
-> > +             return 0;
-> > +
-> >       /* Optimization to check if required orders are enabled early. */
-> >       if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
-> >               unsigned long mask =3D READ_ONCE(huge_anon_orders_always)=
-;
-> > -
->
-> This newline should stay, right?
-Yes, I can fix that.
->
-> The rest looks good to me. Thanks. Acked-by: Zi Yan <ziy@nvidia.com>
-Thank you!
--- Nico
->
-> Best Regards,
-> Yan, Zi
+> Better to merge this patch into patch 6, which can be helped to
+> understand your logic.
+Sounds good, it wasnt part of the original logic/RFCs so i separated
+it out to get some review on it.
 >
 
