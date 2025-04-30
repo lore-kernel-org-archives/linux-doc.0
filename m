@@ -1,75 +1,90 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2097E107
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 12:05:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4E35235067;
+	Wed, 30 Apr 2025 12:32:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746014759; cv=none; b=Q5FOT4fnTQylhJTPqrAccAp8z2Rp7zlNvKrZ9IpDXx/kNrJly9lA3tvgqNlFOgaKmNDKIj4vUXeX1/QZelHgA265wvdGDM/kAvxYMe+sS6YBr/46iVl5lJ31bm5yqh3FtcV60jMz4jFze0Em2eeMPA5Ax3E0nlb35L+YHKl1/o4=
+	t=1746016351; cv=none; b=Y8iyYkn/NAfr5WLSPaofIJbeLgGtThbiND0Pti4C4MNpfZ3ceqCHCNaoEzEcVAeG4jiMLm5EjyD4CKJqTqadx6m7n7ip3GzH7ChtfsJRn54em6HaYhTJ3EiCP9HiNGO8cXU46cKyWZ4j6SFRhBXNk5T/JCJlKflxdYtkdvyycwc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746014759; c=relaxed/simple;
-	bh=8xlTtxE3X+92aGW/fTfnR+mHT3RpJCPfsTDVXf0ahVE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=YtmKkt9M/COCuhHJR81rYRAm+abF3l4w4cMpndfyxmVENr5iQQtq/YoQT19r057Zi7OEzX3VjWCNxhczlQKKuiyoYrlGF5INA17P9coXmGqeVCuprtjQYloNWJamkHahe8s2Qr01KAP1OJJmZwh2qwtczJmIJWmZFOJcwdNthgo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Kpz7Abyt; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746016351; c=relaxed/simple;
+	bh=nloV9YlXjFS5erx/L4R5uVw+BB0aF1r/qK/bsiQaAD8=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=iNNXm6vYQA6bvZxH9gad/ZSNWyyGOtFEnS3LGWG9EpN2t9k5YagBgiR/QE2odCDnMGRjosINEgQ6Gx9jZQlomuZy41V3BTTY69L1T0P8YZ7or04zWTuqDX8pWM98OiqPN6EDVh8f42UBJgg0qTCmhTNuL2Lx65bJ3CBj0pYMeHY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=YBaefr2H; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Kpz7Abyt"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2DC9C4CEE9;
-	Wed, 30 Apr 2025 12:05:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1746014759;
-	bh=8xlTtxE3X+92aGW/fTfnR+mHT3RpJCPfsTDVXf0ahVE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Kpz7AbytcBfqrhSkZRRgvOGrdP63vUgAAWUyyTnMxUD/tm3IfTALDtkTcnmGs4e48
-	 wamDFJzYKZPnv5ZLaLdTUBNzrZWpL6t3hJ7DhkXOwiLHKIJgbfN6mtwaJ5FxFLmolC
-	 xE5qsVKremRVMdKU+g6nLj9lnu01qQILBsgVP4Mg=
-Date: Wed, 30 Apr 2025 09:30:31 +0200
-From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
-To: Timur Tabi <ttabi@nvidia.com>
-Cc: "corbet@lwn.net" <corbet@lwn.net>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
-	"rdunlap@infradead.org" <rdunlap@infradead.org>
-Subject: Re: [PATCH] docs: debugfs: do not recommend debugfs_remove_recursive
-Message-ID: <2025043059-lustfully-endurable-0efc@gregkh>
-References: <20250429173958.3973958-1-ttabi@nvidia.com>
- <2025042900-emblaze-enlarged-47e8@gregkh>
- <758ad68deb989eaf8a22ac2bd96915bed77f0f4a.camel@nvidia.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="YBaefr2H"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 6FC9841087
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1746016348; bh=07rsvot5ahYpNd4X7E4eyB68XtcpUJCo+O5SXtg19XY=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=YBaefr2HHGUUA3Q3I34AGKOTlMXsT2PfAaTOUMOaDa51XNqRBLos2sm66EhGkSRJg
+	 dkFtX+i2G1e5aNd3C0ct8DbwMXdm2Y7/13CRCQ/IrjmtbwpkU63ZbC2zxdCwbIe8w4
+	 FoMMy8yC9LGalQUzEh8FSeL2b1wqLkAl7tfsK9gCHuoD95kqPLfh+XUlkq4tc82j6L
+	 /2SsNjhE8JyWiwseNjSYJIFcZ3h0+5M8K5fBDD7ynGpJ+g2j/kvckhPWaeMxvEWeZm
+	 zHVy9/9UPNubXVJCjKrcmQqkaWtdQPEy9K1CWef5xus3jIwKw/b4MxtOxAxQ1JNzr0
+	 Z8tbUBc2G0LPw==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 6FC9841087;
+	Wed, 30 Apr 2025 12:32:28 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+ dave.jiang@intel.com, alison.schofield@intel.com,
+ vishal.l.verma@intel.com, ira.weiny@intel.com, dan.j.williams@intel.com
+Subject: Re: [RFC PATCH 02/17] cxl: docs/devices - device reference and uefi
+ placeholder
+In-Reply-To: <20250430001224.1028656-3-gourry@gourry.net>
+References: <20250430001224.1028656-1-gourry@gourry.net>
+ <20250430001224.1028656-3-gourry@gourry.net>
+Date: Wed, 30 Apr 2025 06:32:27 -0600
+Message-ID: <87o6wdltic.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <758ad68deb989eaf8a22ac2bd96915bed77f0f4a.camel@nvidia.com>
+Content-Type: text/plain
 
-On Tue, Apr 29, 2025 at 06:24:40PM +0000, Timur Tabi wrote:
-> On Tue, 2025-04-29 at 19:47 +0200, Greg Kroah-Hartman wrote:
-> > No, the other way around, we should be telling people to use
-> > debugfs_remove_recursive() instead please, and getting rid of
-> > debugfs_remove() entirely.
-> 
-> Then why was 
-> 
-> 	#define debugfs_remove_recursive debugfs_remove
-> 
-> added back in 2019, and why was that functionality *added* to debugfs_remove?
+Gregory Price <gourry@gourry.net> writes:
 
-So we didn't have 2 functions that did the same thing and no one wanted
-to sweep the tree and rename everything at that time?  I honestly don't
-remember, that was tens of thousands of patches ago :)
+> Add a simple device primer sufficient to understand the theory
+> of operation documentation.
+>
+> Add carve-out for CDAT with a TODO.
+>
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> ---
+>  .../driver-api/cxl/devices/device-types.rst   | 169 ++++++++++++++++++
+>  Documentation/driver-api/cxl/devices/uefi.rst |   9 +
+>  Documentation/driver-api/cxl/index.rst        |   2 +
+>  3 files changed, 180 insertions(+)
+>  create mode 100644 Documentation/driver-api/cxl/devices/device-types.rst
+>  create mode 100644 Documentation/driver-api/cxl/devices/uefi.rst
 
-> I recently added a patch to Nouveau that used debugfs_remove() to clean up all debugfs entries
-> specifically because it operates recursively.
+I'm glad to see all this documentation!  One little nit...
 
-That's great, I'm not objecting to that, just that we need to stick with
-one or the other and I'd prefer the "recursive" name as that makes it
-blindingly obvious what is happening here while without it, people can
-get confused.
+> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
+> new file mode 100644
+> index 000000000000..e8dd051c2c71
+> --- /dev/null
+> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
+> @@ -0,0 +1,169 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +Devices and Protocols
+> +#####################
 
-thanks,
+If you could stick with the section markup conventions we have
+established in Documentation/doc-guide/sphinx.rst, I'd appreciate it.
 
-greg k-h
+Thanks,
+
+jon
