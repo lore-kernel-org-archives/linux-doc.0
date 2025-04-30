@@ -1,62 +1,62 @@
-Received: from mail-qt1-f177.google.com (mail-qt1-f177.google.com [209.85.160.177])
+Received: from mail-qk1-f171.google.com (mail-qk1-f171.google.com [209.85.222.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5200E27A46E
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:11:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 369E42882A1
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 18:11:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746036683; cv=none; b=RH1sNFPi4FZpVqz3Z/8jQT6ncbFrctlPu3GdcEd/aAB605e6qSAoRNXxoaFjZ0QMxYnIat15b1BEWfyxz/2GBCwrccZEPR0339258FsYtFuIAG2MGqYYUl/wZ0rzHui9Cl6Jh3N+xrvauyWO3iSfdjrbgQ9vu2KyUlDqho0Xs/o=
+	t=1746036688; cv=none; b=fqP3qn7byhinexOrgVUo1/+zqaSeypsXq7OWE5ua0z1ZLmeVFJvW0/9ga14sxmhm41lb2TJj6J/NJxrG0e4zKg1tiW57ncQx8IfqYKfiFpJtQovNfThciK4bWu6wnWeXD4O54ADfPGszKU0zi/nI/OSZH3SFG5EHt5MiHvHPVkA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746036683; c=relaxed/simple;
-	bh=yfrC0Eme8BmQ1/OHJ9XQ1ZL+snR+lO3XBR/5UUcZJfg=;
+	s=arc-20240116; t=1746036688; c=relaxed/simple;
+	bh=fSoRlnSmuQfl7ZxHPvsaxZElUPVqtO8ei3VkyP+sGlc=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Qlim/rh6+hCHKV3lYXhdOEoZhFXCOEfrFEPIl3Rhj6fRmhM60hr5Vr5k/V63RAXCpl/gkYhiBf2sL2b0M2uRR6eNi4f9Oq3XBbSBJGBUZ956oKHj70EtnVxDnjh+GiG6pKM31APv6hkcqFrbF3FwOZV7JcwrABFzAEb9A5kfEXQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=jKR0MMC9; arc=none smtp.client-ip=209.85.160.177
+	 MIME-Version; b=FW9dq0C/ehHmV0wrqE4CRPEQjqsI1VcJUXnC6CmTsFrIebpDsc+n3JILwodBI+Ohd/iaODJ5yBKOFEiDLQ60dIzxKOZuAj632wWvUjBvXGcpoOArpWWlzBhK5VO/PkOYxTr99erKZtwlrNRsVK0MxbrzOoSlvHlbDevJHWR9Fg8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=fZzCLFlR; arc=none smtp.client-ip=209.85.222.171
 Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="jKR0MMC9"
-Received: by mail-qt1-f177.google.com with SMTP id d75a77b69052e-4772f48f516so14874201cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 11:11:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="fZzCLFlR"
+Received: by mail-qk1-f171.google.com with SMTP id af79cd13be357-7c59e7039eeso11187185a.2
+        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 11:11:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1746036680; x=1746641480; darn=vger.kernel.org;
+        d=gourry.net; s=google; t=1746036685; x=1746641485; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=IvC2rs3uihn14TnY/NB2X/a9ksGTd6adbUOlhi/H5xc=;
-        b=jKR0MMC9vUO+cTHFNR9O/Mq4rW9izXl1/pEOs0z9h5Zbs+UPtLWfdIdTIZOV6EUtAV
-         ohGcItTO1tBCob7Xw6kLk4qX03UHoCnoyrBUKqRoVqQBAkL/c0sZyM5M6JmNEotAJ+6W
-         4e5Z5QXrd73iVPZMiJSM6J1Kx/0Ar6FNiiw1T1quCWJPMWU5ndXntQBNhYRMa8wDWs8L
-         md/Nmajw2yHPMbRjeINPpwnbxFwVfvGqOlDgT3wnes55TKdcmbf5JjU7gDppnj74N4v9
-         2zCJa685cVyDVHMK12w9H/IyxcDKCjpLpwZTvbZGG+h5SAQXCLO+9LBlrrbMt7qSrMFh
-         wPCg==
+        bh=Tbt8tCPdtGfAIVOyjjS42F8T26gzOQDX+9RCN/0lBgM=;
+        b=fZzCLFlRj67Mt2er8z5Aw5Q5JVrmDB6JZFA5ZARFksGaSjqrWzcbdj+0fcCv/911dj
+         3FmVCqmjQlO89nzAdJ42VgFaUquyGe7bYwKpK+r0mq2hSjU6ximELepfgKqSUazxZpGW
+         nAA9rRG54GkpIjMlXfv6OHU0PEPcoiUWD5V4CIIP/o0Bnka8L1jK2ryHUHDh+qgE7GAd
+         0Ey7W68nTyJ6BC3CZX6wP2pVvM5Xrfh0lX7HxI8apFpolJ0c8S56J/qGBNQTSeObiOID
+         xXVvI285iWYu75z9hc7sUCxMIP30aZvrYupW3GoHfa/o0d1aDuBy3D9nYkLWjakvQac7
+         CxMg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746036680; x=1746641480;
+        d=1e100.net; s=20230601; t=1746036685; x=1746641485;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=IvC2rs3uihn14TnY/NB2X/a9ksGTd6adbUOlhi/H5xc=;
-        b=rwbjx50EcxWSDXAE033+msYHXFv6v5cqaLJO5cwyVUP4mZ9S3y60cQgqNRB+DvJlwo
-         Kp6T9SUBKvMLf2QHaCo+OnzzbmlFHFUxTFhniSAbSAfLxqZSPJR/nAoY+VYaXkq7bNVB
-         omiqTcbgB+bXBfDB3khXPqreVEn/49oRxfxKvFaIqWycnMcTSgAssU9nMWGkJi874FKw
-         Zs/ATEfvt7L3hgVPHHMVkg2GsyB2Ut4RLEr3lhzbQeeSDkVdhgK/5dUNc+6mAAoT/WrO
-         AYF3GtLP1CcC7dqntoJfw84G3cOCUjgK5v9JJHBCGAp29hwJk7ueTYsAg5qMju4krLUM
-         RROg==
-X-Gm-Message-State: AOJu0YxFF82YAmYJy3JcQzIT47DE5bJNkympqN9IveEhNwfUWV+Em5vV
-	BAlSBpB2tjlBPGwx3U6qsPCYxGl3aeALLLuGzUzGoN9ZhVVLcO1FTDU2RL/9Ykg=
-X-Gm-Gg: ASbGnctMwS4a34/zZRzwrdeFI0ui7yI+KnT24qTJNuXo/3T0v6SMXWpxAgWjYd0Hsj1
-	G6P7g0+8J0H4H/1IO0TsLB1kOv82j/uTvNA/j4ckVrzeK19G1VSyEgc79MwxkF223Onr5ia0iWH
-	liwRl7SpXi54aJCWmDAHEBxFikkCAXU3hYKeAZUhy7szmSNUr7nG0k1/tE/4GfCUqyS3A/PbPtg
-	Sz9WAYBuvjBztuLmTEVnOm/S3Rj2tKVoDy7IqHEEsTz0Qm8hOJmrLDucWVzJwFyA4lOGZ+y/f3C
-	rSo9jLvjw6183pTitUXobDxtWSh9Rv9QPDpwemHa8vIIXWSU0zvWWn/9ypxge34K6utzxkY4IU4
-	wLEhn43uzJCIRrU37kGfxk7Tlgwj/
-X-Google-Smtp-Source: AGHT+IFz5WPodsmmRrFPGLR1bzkZlvspw+qAXKgayP3FunFG0J4oFtDaOJOklbA327O2PgMdv3UdIg==
-X-Received: by 2002:a05:622a:228e:b0:471:80ef:35e7 with SMTP id d75a77b69052e-48ad7e8d24fmr6910221cf.4.1746036680313;
-        Wed, 30 Apr 2025 11:11:20 -0700 (PDT)
+        bh=Tbt8tCPdtGfAIVOyjjS42F8T26gzOQDX+9RCN/0lBgM=;
+        b=pNEy8ZE8lqsNT0M3kArVcBwkInG9JjjgUBvakyMRwpQjXxXA5Jmt3JXwWP3tUaUNKy
+         f2Lo8gHo79fCodrOPRHmSAnM/udCzFm5PkkPvTYjqPWYLarejNdZ8Jfn7a3k2ERAphn2
+         sB6og77m9NEF9Yfo5c8R4I8px4raeIXGYZY7RmYumqIoDLm523dgmULHPKCHWpMMJ331
+         JLpBJQDZaoUp177DY8jBaqtIQ6n1Ztw8k5J07E9Fo0tCsYsuJb+sLiLmXF4FVqMpXiVi
+         daQi/VDa7hznUNnfKo1eVsWPleQsIGSwu1p9tstmcTFVzku6oNdsFI0pl7Q2nE1DwXPY
+         jziA==
+X-Gm-Message-State: AOJu0YyB98rQeiJkKz2weftavr0hFGPHz6Hbtb2PblQwxHGbU2MQyViL
+	SJhKJlGKJuT8l6k8b0VTXuQXRBWqo1SUCVJA8PlcodYtI6osrQ6TAtVQQP5ZCPY=
+X-Gm-Gg: ASbGncvAGBMNa8nLJCYhUtFGITGCL65MHNTRO+2v6eyTR/a9GHsYqFYVCptBCFv8kGf
+	fjib/fs+Y0cp9kijoPx0DgshqLY5YTHzh0gT1+ky3MyfBk8nQhWKgOWcafrYPoW7TMRw0H4PIGt
+	S6h75nGtavPjtHLQ/ZXeNzgx5ywSgUZaB2uhMJ7undyHxPdCjH9toB4axR+g3a4hhG/HPFwpgPx
+	Zxm8TZ4BeSTc5+du9VqBDBC98GZfkipJp4cZ4DXLCylqpqBuM3kUs5QNIlIT2c60H6Sf3v/z8ID
+	0x2cR45f8fGj+LYo8+PunfDAGVJoquUQavvhMMt7NtMAZzgyTMipmbyBYLykWg+qacKUU09XQm5
+	FsI5XwCE+Ywt2ccufRhpJuNQ5KZ4I
+X-Google-Smtp-Source: AGHT+IF7lGDo2V4OWxe67pw6pes0roVjPL60qV8ZkhzEjnVw85shlE47W9reKIhwnUyuTehJMjsREw==
+X-Received: by 2002:a05:622a:4c87:b0:476:739a:5cf3 with SMTP id d75a77b69052e-489e46a4769mr63495651cf.1.1746036685174;
+        Wed, 30 Apr 2025 11:11:25 -0700 (PDT)
 Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-48a64fe04efsm5897421cf.19.2025.04.30.11.11.19
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-48a64fe04efsm5897421cf.19.2025.04.30.11.11.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 11:11:19 -0700 (PDT)
+        Wed, 30 Apr 2025 11:11:24 -0700 (PDT)
 From: Gregory Price <gourry@gourry.net>
 To: linux-cxl@vger.kernel.org
 Cc: linux-doc@vger.kernel.org,
@@ -70,9 +70,9 @@ Cc: linux-doc@vger.kernel.org,
 	ira.weiny@intel.com,
 	dan.j.williams@intel.com,
 	corbet@lwn.net
-Subject: [RFC PATCH v2 13/18] cxl: docs/allocation/page-allocator
-Date: Wed, 30 Apr 2025 14:10:43 -0400
-Message-ID: <20250430181048.1197475-14-gourry@gourry.net>
+Subject: [RFC PATCH v2 14/18] cxl: docs/allocation/reclaim
+Date: Wed, 30 Apr 2025 14:10:44 -0400
+Message-ID: <20250430181048.1197475-15-gourry@gourry.net>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <20250430181048.1197475-1-gourry@gourry.net>
 References: <20250430181048.1197475-1-gourry@gourry.net>
@@ -84,117 +84,82 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Document some interesting interactions that occur when exposing CXL
-memory capacity to page allocator.
+Document a bit about how reclaim interacts with various CXL
+configurations.
 
 Signed-off-by: Gregory Price <gourry@gourry.net>
 ---
- .../cxl/allocation/page-allocator.rst         | 86 +++++++++++++++++++
+ .../driver-api/cxl/allocation/reclaim.rst     | 51 +++++++++++++++++++
  Documentation/driver-api/cxl/index.rst        |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 Documentation/driver-api/cxl/allocation/page-allocator.rst
+ 2 files changed, 52 insertions(+)
+ create mode 100644 Documentation/driver-api/cxl/allocation/reclaim.rst
 
-diff --git a/Documentation/driver-api/cxl/allocation/page-allocator.rst b/Documentation/driver-api/cxl/allocation/page-allocator.rst
+diff --git a/Documentation/driver-api/cxl/allocation/reclaim.rst b/Documentation/driver-api/cxl/allocation/reclaim.rst
 new file mode 100644
-index 000000000000..f5b21d3eb63f
+index 000000000000..f37c8b1cc3bd
 --- /dev/null
-+++ b/Documentation/driver-api/cxl/allocation/page-allocator.rst
-@@ -0,0 +1,86 @@
++++ b/Documentation/driver-api/cxl/allocation/reclaim.rst
+@@ -0,0 +1,51 @@
 +.. SPDX-License-Identifier: GPL-2.0
 +
-+==================
-+The Page Allocator
-+==================
++=======
++Reclaim
++=======
++Another way CXL memory can be utilized *indirectly* is via the reclaim system
++in :code:`mm/vmscan.c`.  Reclaim is engaged when memory capacity on the system
++becomes pressured based on global and cgroup-local `watermark` settings.
 +
-+The kernel page allocator services all general page allocation requests, such
-+as :code:`kmalloc`.  CXL configuration steps affect the behavior of the page
-+allocator based on the selected `Memory Zone` and `NUMA node` the capacity is
-+placed in.
++In this section we won't discuss the `watermark` configurations, just how CXL
++memory can be consumed by various pieces of reclaim system.
 +
-+This section mostly focuses on how these configurations affect the page
-+allocator (as of Linux v6.15) rather than the overall page allocator behavior.
++Demotion
++========
++By default, the reclaim system will prefer swap (or zswap) when reclaiming
++memory.  Enabling :code:`kernel/mm/numa/demotion_enabled` will cause vmscan
++to opportunistically prefer distant NUMA nodes to swap or zswap, if capacity
++is available.
 +
-+NUMA nodes and mempolicy
-+========================
-+Unless a task explicitly registers a mempolicy, the default memory policy
-+of the linux kernel is to allocate memory from the `local NUMA node` first,
-+and fall back to other nodes only if the local node is pressured.
++Demotion engages the :code:`mm/memory_tier.c` component to determine the
++next demotion node.  The next demotion node is based on the :code:`HMAT`
++or :code:`CDAT` performance data.
 +
-+Generally, we expect to see local DRAM and CXL memory on separate NUMA nodes,
-+with the CXL memory being non-local.  Technically, however, it is possible
-+for a compute node to have no local DRAM, and for CXL memory to be the
-+`local` capacity for that compute node.
++cpusets.mems_allowed quirk
++--------------------------
++In Linux v6.15 and below, demotion does not respect :code:`cpusets.mems_allowed`
++when migrating pages.  As a result, if demotion is enabled, vmscan cannot
++guarantee isolation of a container's memory from nodes not set in mems_allowed.
 +
++In Linux v6.XX and up, demotion does attempt to respect
++:code:`cpusets.mems_allowed`; however, certain classes of shared memory
++originally instantiated by another cgroup (such as common libraries - e.g.
++libc) may still be demoted.  As a result, the mems_allowed interface still
++cannot provide perfect isolation from the remote nodes.
 +
-+Memory Zones
-+============
-+CXL capacity may be onlined in :code:`ZONE_NORMAL` or :code:`ZONE_MOVABLE`.
++ZSwap and Node Preference
++=========================
++In Linux v6.15 and below, ZSwap allocates memory from the local node of the
++processor for the new pages being compressed.  Since pages being compressed
++are typically cold, the result is a cold page becomes promoted - only to
++be later demoted as it ages off the LRU.
 +
-+As of v6.15, the page allocator attempts to allocate from the highest
-+available and compatible ZONE for an allocation from the local node first.
++In Linux v6.XX, ZSwap tries to prefer the node of the page being compressed
++as the allocation target for the compression page.  This helps prevernt
++thrashing.
 +
-+An example of a `zone incompatibility` is attempting to service an allocation
-+marked :code:`GFP_KERNEL` from :code:`ZONE_MOVABLE`.  Kernel allocations are
-+typically not migratable, and as a result can only be serviced from
-+:code:`ZONE_NORMAL` or lower.
-+
-+To simplify this, the page allocator will prefer :code:`ZONE_MOVABLE` over
-+:code:`ZONE_NORMAL` by default, but if :code:`ZONE_MOVABLE` is depleted, it
-+will fallback to allocate from :code:`ZONE_NORMAL`.
-+
-+
-+Zone and Node Quirks
-+====================
-+Lets consider a configuration where the local DRAM capacity is largely onlined
-+into :code:`ZONE_NORMAL`, with no :code:`ZONE_MOVABLE` capacity present. The
-+CXL capacity has the opposite configuration - all onlined in
-+:code:`ZONE_MOVABLE`.
-+
-+Under the default allocation policy, the page allocator will completely skip
-+:code:`ZONE_MOVABLE` has a valid allocation target.  This is because, as of
-+Linux v6.15, the page allocator does approximately the following: ::
-+
-+  for (each zone in local_node):
-+
-+    for (each node in fallback_order):
-+
-+      attempt_allocation(gfp_flags);
-+
-+Because the local node does not have :code:`ZONE_MOVABLE`, the CXL node is
-+functionally unreachable for direct allocation.  As a result, the only way
-+for CXL capacity to be used is via `demotion` in the reclaim path.
-+
-+This configuration also means that if the DRAM ndoe has :code:`ZONE_MOVABLE`
-+capacity - when that capacity is depleted, the page allocator will actually
-+prefer CXL :code:`ZONE_MOVABLE` pages over DRAM :code:`ZONE_NORMAL` pages.
-+
-+We may wish to invert these configurations in future Linux versions.
-+
-+If `demotion` and `swap` are disabled, Linux will begin to cause OOM crashes
-+when the DRAM nodes are depleted. This will be covered amore in depth in the
-+reclaim section.
-+
-+
-+CGroups and CPUSets
++Demotion with ZSwap
 +===================
-+Finally, assuming CXL memory is reachable via the page allocation (i.e. onlined
-+in :code:`ZONE_NORMAL`), the :code:`cpusets.mems_allowed` may be used by
-+containers to limit the accessibility of certain NUMA nodes for tasks in that
-+container.  Users may wish to utilize this in multi-tenant systems where some
-+tasks prefer not to use slower memory.
-+
-+In the reclaim section we'll discuss some limitations of this interface to
-+prevent demotions of shared data to CXL memory (if demotions are enabled).
-+
++When enabling both Demotion and ZSwap, you create a situation where ZSwap
++will prefer the slowest form of CXL memory by default until that tier of
++memory is exausted.
 diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-index f779dfb0cd64..2be2855e5870 100644
+index 2be2855e5870..a768144698e9 100644
 --- a/Documentation/driver-api/cxl/index.rst
 +++ b/Documentation/driver-api/cxl/index.rst
-@@ -46,5 +46,6 @@ that have impacts on each other.  The docs here break up configurations steps.
-    :caption: Memory Allocation
+@@ -47,5 +47,6 @@ that have impacts on each other.  The docs here break up configurations steps.
  
     allocation/dax
-+   allocation/page-allocator
+    allocation/page-allocator
++   allocation/reclaim
  
  .. only::  subproject and html
 -- 
