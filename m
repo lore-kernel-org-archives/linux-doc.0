@@ -1,107 +1,75 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id A84F818641;
-	Wed, 30 Apr 2025 11:57:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A2097E107
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 12:05:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746014268; cv=none; b=ZNfm8stzSuRFm57qfIWdE5iiUtJ1Vu2OdDqgGXSGcDNeSLgzZbqVnZvd9P3YCmEZk1NibDclr5i51eMK+6QVObj4b7r6XYwO41S0spXMebnEjvkNtEy0XzLJIeNeUm2lqCjaeDzCYPP9uNcjtFanFVxVRSKv6cVVzY1viaLPPuo=
+	t=1746014759; cv=none; b=Q5FOT4fnTQylhJTPqrAccAp8z2Rp7zlNvKrZ9IpDXx/kNrJly9lA3tvgqNlFOgaKmNDKIj4vUXeX1/QZelHgA265wvdGDM/kAvxYMe+sS6YBr/46iVl5lJ31bm5yqh3FtcV60jMz4jFze0Em2eeMPA5Ax3E0nlb35L+YHKl1/o4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746014268; c=relaxed/simple;
-	bh=pfYkqFg67CNDW2rFwmTFpnxrVjLmHA8CreXH8se/z/k=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=cueO1N8WvF3WE2wzjKwCnMRHrsiaeAJfN7hwCZFZ2VFfSHJ5sTplLsiFw/tgdDNjjds36YEClrlMPFGb5hhHJk0am6wMMJ/P8YkFIh1kQ2/Ehc08kYrbytxtzFA1BA1szeVHMP+RX8aD3CTYyp7Xcpr1YLwZyO5OXr+OakDX3rM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A6281106F;
-	Wed, 30 Apr 2025 04:57:37 -0700 (PDT)
-Received: from [10.1.33.69] (Suzukis-MBP.cambridge.arm.com [10.1.33.69])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id E63E53F673;
-	Wed, 30 Apr 2025 04:57:42 -0700 (PDT)
-Message-ID: <8c1af968-0e96-42d5-a5a6-c5581eda9f3d@arm.com>
-Date: Wed, 30 Apr 2025 12:57:42 +0100
+	s=arc-20240116; t=1746014759; c=relaxed/simple;
+	bh=8xlTtxE3X+92aGW/fTfnR+mHT3RpJCPfsTDVXf0ahVE=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=YtmKkt9M/COCuhHJR81rYRAm+abF3l4w4cMpndfyxmVENr5iQQtq/YoQT19r057Zi7OEzX3VjWCNxhczlQKKuiyoYrlGF5INA17P9coXmGqeVCuprtjQYloNWJamkHahe8s2Qr01KAP1OJJmZwh2qwtczJmIJWmZFOJcwdNthgo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=Kpz7Abyt; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="Kpz7Abyt"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C2DC9C4CEE9;
+	Wed, 30 Apr 2025 12:05:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+	s=korg; t=1746014759;
+	bh=8xlTtxE3X+92aGW/fTfnR+mHT3RpJCPfsTDVXf0ahVE=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=Kpz7AbytcBfqrhSkZRRgvOGrdP63vUgAAWUyyTnMxUD/tm3IfTALDtkTcnmGs4e48
+	 wamDFJzYKZPnv5ZLaLdTUBNzrZWpL6t3hJ7DhkXOwiLHKIJgbfN6mtwaJ5FxFLmolC
+	 xE5qsVKremRVMdKU+g6nLj9lnu01qQILBsgVP4Mg=
+Date: Wed, 30 Apr 2025 09:30:31 +0200
+From: "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To: Timur Tabi <ttabi@nvidia.com>
+Cc: "corbet@lwn.net" <corbet@lwn.net>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"viro@zeniv.linux.org.uk" <viro@zeniv.linux.org.uk>,
+	"rdunlap@infradead.org" <rdunlap@infradead.org>
+Subject: Re: [PATCH] docs: debugfs: do not recommend debugfs_remove_recursive
+Message-ID: <2025043059-lustfully-endurable-0efc@gregkh>
+References: <20250429173958.3973958-1-ttabi@nvidia.com>
+ <2025042900-emblaze-enlarged-47e8@gregkh>
+ <758ad68deb989eaf8a22ac2bd96915bed77f0f4a.camel@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/7] Arm CoreSight: Support AUX pause and resume
-Content-Language: en-GB
-To: Leo Yan <leo.yan@arm.com>, Mike Leach <mike.leach@linaro.org>,
- James Clark <james.clark@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-References: <20250401180708.385396-1-leo.yan@arm.com>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20250401180708.385396-1-leo.yan@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <758ad68deb989eaf8a22ac2bd96915bed77f0f4a.camel@nvidia.com>
 
-On 01/04/2025 19:07, Leo Yan wrote:
-> This series is to enable AUX pause and resume on Arm CoreSight.
+On Tue, Apr 29, 2025 at 06:24:40PM +0000, Timur Tabi wrote:
+> On Tue, 2025-04-29 at 19:47 +0200, Greg Kroah-Hartman wrote:
+> > No, the other way around, we should be telling people to use
+> > debugfs_remove_recursive() instead please, and getting rid of
+> > debugfs_remove() entirely.
 > 
-> The first patch extracts the trace unit controlling operations to two
-> functions.  These two functions will be used by AUX pause and resume.
+> Then why was 
 > 
-> Patches 02 and 03 change the ETMv4 driver to prepare callback functions
-> for AUX pause and resume.
+> 	#define debugfs_remove_recursive debugfs_remove
 > 
-> Patch 04 changes the ETM perf layer to support AUX pause and resume in a
-> perf session.  The patch 05 re-enables sinks after buffer update, based
-> on it, the patch 06 updates buffer on AUX pause occasion, which can
-> mitigate the trace data lose issue.
-> 
-> Patch 07 documents the AUX pause usages with Arm CoreSight.
-> 
-> This patch set has been verified on the Hikey960 board.
-> 
-> It is suggested to disable CPUIdle (add `nohlt` option in Linux command
-> line) when verifying this series.  ETM and funnel drivers are found
-> issues during CPU suspend and resume which will be addressed separately.
-> 
+> added back in 2019, and why was that functionality *added* to debugfs_remove?
 
-The series looks good to me, except for the comment on the Patch 1.
+So we didn't have 2 functions that did the same thing and no one wanted
+to sweep the tree and rename everything at that time?  I honestly don't
+remember, that was tens of thousands of patches ago :)
 
-I would like to get an Ack from James as he has looked at in the past.
+> I recently added a patch to Nouveau that used debugfs_remove() to clean up all debugfs entries
+> specifically because it operates recursively.
 
-Suzuki
+That's great, I'm not objecting to that, just that we need to stick with
+one or the other and I'd prefer the "recursive" name as that makes it
+blindingly obvious what is happening here while without it, people can
+get confused.
 
+thanks,
 
-> Changes from v3:
-> - Re-enabled sink in buffer update callbacks (Suzuki).
-> 
-> Changes from v2:
-> - Rebased on CoreSight next branch.
-> - Dropped the uAPI 'update_buf_on_pause' and updated document
->    respectively (Suzuki).
-> - Renamed ETM callbacks to .pause_perf() and .resume_perf() (Suzuki).
-> - Minor improvement for error handling in the AUX resume flow.
-> 
-> Changes from v1:
-> - Added validation function pointers in pause and resume APIs (Mike).
-> 
-> 
-> Leo Yan (7):
->    coresight: etm4x: Extract the trace unit controlling
->    coresight: Introduce pause and resume APIs for source
->    coresight: etm4x: Hook pause and resume callbacks
->    coresight: perf: Support AUX trace pause and resume
->    coresight: tmc: Re-enable sink after buffer update
->    coresight: perf: Update buffer on AUX pause
->    Documentation: coresight: Document AUX pause and resume
-> 
->   Documentation/trace/coresight/coresight-perf.rst   |  31 +++++++++
->   drivers/hwtracing/coresight/coresight-core.c       |  22 +++++++
->   drivers/hwtracing/coresight/coresight-etm-perf.c   |  84 +++++++++++++++++++++++-
->   drivers/hwtracing/coresight/coresight-etm4x-core.c | 143 +++++++++++++++++++++++++++++------------
->   drivers/hwtracing/coresight/coresight-etm4x.h      |   2 +
->   drivers/hwtracing/coresight/coresight-priv.h       |   2 +
->   drivers/hwtracing/coresight/coresight-tmc-etf.c    |   9 +++
->   drivers/hwtracing/coresight/coresight-tmc-etr.c    |  10 +++
->   include/linux/coresight.h                          |   4 ++
->   9 files changed, 265 insertions(+), 42 deletions(-)
-> 
-
+greg k-h
