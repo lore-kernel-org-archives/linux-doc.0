@@ -1,75 +1,170 @@
-Received: from out30-111.freemail.mail.aliyun.com (out30-111.freemail.mail.aliyun.com [115.124.30.111])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 35059213E61;
-	Wed, 30 Apr 2025 08:12:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.111
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 277171E4110;
+	Wed, 30 Apr 2025 08:55:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746000767; cv=none; b=CIjiCmPHVDx10GDjvenbPuV8VECTPb1jY2m5GgYOz9rMIIusI3lroL6Y9SA/UAyHtBDFcxgsFhvgPc108NjfzkB4IQlmh/9ld420SNgEXpcmba1L49n4y3cMrzkdHSk9hS+tUMi5aPJXCJWZ2TbV7sNhNbrG7GV+VbRs3FuFZ2w=
+	t=1746003353; cv=none; b=D7xXwzU68rXHSE0cwPQkLlZXF3NHD9D5uXWVIPhETYRD5T+GM+5/IXTPPOypAInLZMceIsEMe4sTJwvfj/m7Xbma/PQvJotTf/BFOS8/FPL969LncoP2uuR919DhVhoKSS8hhSgI2JRegN4o9No9IFpKwfNm3lLenElCGCIyCI0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746000767; c=relaxed/simple;
-	bh=eYjJVlbjzgOWV8shL1yP8v5QxCIcMf22qMSX7tujK78=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=iPvQZg4xjgo8u69OnR3+EaS2HZBHjDzYZ3FIYbU3t1//Mss6tgtjETuNUtoy98aMOsJj8kc8cdqN1Y6e6EJ87T3+eUOxFfnaDUBdVKIFR8KvO0jKykcZmwIvc74AGY4gc3pAwxXQ3s0Gm9szE5C/egq/azp83uXM/p8AIQ9Gj1U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=oI8Zpn62; arc=none smtp.client-ip=115.124.30.111
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1746003353; c=relaxed/simple;
+	bh=xJSCsiMDZtliKUeMolwZ4YJOBTCwMnJKsGuYigXuz80=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ICZ2mmaYwlby9scIPUIazs3qfkOOw84mPpaNo9bTq4Dnsfffq1GOL2WuFosd4C/h8WzS6dCJiShE9RpzdZLN8aTxyflU+6h+tOyN8WYMZY56CphI21eyZrbSAXmJro+FHrz1zbph8SoBz9xhkkRGxBOfKyW2IOnFDF6okSpDqOw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LI1+81mj; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="oI8Zpn62"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1746000755; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=y2Qj5eYrvgpkeWNMhAvuv8X9LmuKQMYme0a5Fz4OeB8=;
-	b=oI8Zpn62ir4XFfsxNcZLfYl8ZFSm4tZe8PKILMEOPqmscHkyxBBoDjaIJsFuO55tJf+X90Z/Z7lliwSSnFACUsWSXkfOuSOcYsbcPiMBqlMx/clTl2PlRMHde+sogm56AyVkRHn/pEaHOhiQec99h18BK+HmUyXg8aIuoSw+6qk=
-Received: from 30.74.146.9(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WYnk338_1745999810 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 30 Apr 2025 15:56:51 +0800
-Message-ID: <1df9f019-632f-4497-8320-e34ba66c1b62@linux.alibaba.com>
-Date: Wed, 30 Apr 2025 15:56:48 +0800
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LI1+81mj"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 37F93C4CEEC;
+	Wed, 30 Apr 2025 08:55:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746003353;
+	bh=xJSCsiMDZtliKUeMolwZ4YJOBTCwMnJKsGuYigXuz80=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LI1+81mjJXx23UKkeUU42/jgvJ0TacUjkeoQJ09A6EuBGvNiFLjDZU8n8Hmdyimtw
+	 nFOc0P4neTQgPtilp1PoVwE6XhA1tkA0qW3nJSnFcgB9kRxxhD2GYJR59POLppBHLf
+	 fpIXuyVkeihmh3+RF3qAi8vGaJSR8SEz81RdoGhGyoQXvRX75eM9ltt+3jktJ3hY6j
+	 W3RXh228Dy5hbwHNWI5v+3FAEtm43bgY3WDUhZn3U/0hpzNEje7+unz8fcempxxely
+	 mLecdZcVRmXHhs9B5eL22UyOYK7FSrj+0dMScbHs3GfsGD4w9AMIOPPY3DQHOKOfZu
+	 KyQj5g2Ul0wAg==
+Date: Wed, 30 Apr 2025 09:55:45 +0100
+From: Simon Horman <horms@kernel.org>
+To: Jacob Keller <jacob.e.keller@intel.com>
+Cc: Larysa Zaremba <larysa.zaremba@intel.com>,
+	intel-wired-lan@lists.osuosl.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Lee Trager <lee@trager.us>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
+	Emil Tantilov <emil.s.tantilov@intel.com>,
+	Madhu Chittim <madhu.chittim@intel.com>,
+	Josh Hay <joshua.a.hay@intel.com>,
+	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
+	"Singhai, Anjali" <anjali.singhai@intel.com>
+Subject: Re: [Intel-wired-lan] [PATCH iwl-next v2 01/14] virtchnl: create
+ 'include/linux/intel' and move necessary header files
+Message-ID: <20250430085545.GT3339421@horms.kernel.org>
+References: <20250424113241.10061-1-larysa.zaremba@intel.com>
+ <20250424113241.10061-2-larysa.zaremba@intel.com>
+ <20250428161542.GD3339421@horms.kernel.org>
+ <10fd9a4b-f071-47eb-bdde-13438218aee9@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 02/12] introduce khugepaged_collapse_single_pmd to
- unify khugepaged and madvise_collapse
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
- peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
-References: <20250428181218.85925-1-npache@redhat.com>
- <20250428181218.85925-3-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250428181218.85925-3-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <10fd9a4b-f071-47eb-bdde-13438218aee9@intel.com>
 
-
-
-On 2025/4/29 02:12, Nico Pache wrote:
-> The khugepaged daemon and madvise_collapse have two different
-> implementations that do almost the same thing.
+On Tue, Apr 29, 2025 at 11:47:58AM -0700, Jacob Keller wrote:
 > 
-> Create khugepaged_collapse_single_pmd to increase code
-> reuse and create an entry point for future khugepaged changes.
 > 
-> Refactor madvise_collapse and khugepaged_scan_mm_slot to use
-> the new khugepaged_collapse_single_pmd function.
+> On 4/28/2025 9:15 AM, Simon Horman wrote:
+> > On Thu, Apr 24, 2025 at 01:32:24PM +0200, Larysa Zaremba wrote:
+> >> From: Victor Raj <victor.raj@intel.com>
+> >>
+> >> Move intel specific header files into new folder
+> >> include/linux/intel.
+> >>
+> >> Suggested-by: Alexander Lobakin <aleksander.lobakin@intel.com>
+> >> Reviewed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
+> >> Signed-off-by: Victor Raj <victor.raj@intel.com>
+> >> Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
+> >> ---
+> >>  MAINTAINERS                                                 | 6 +++---
+> >>  drivers/infiniband/hw/irdma/i40iw_if.c                      | 2 +-
+> >>  drivers/infiniband/hw/irdma/main.h                          | 2 +-
+> >>  drivers/infiniband/hw/irdma/osdep.h                         | 2 +-
+> >>  drivers/net/ethernet/intel/i40e/i40e.h                      | 4 ++--
+> >>  drivers/net/ethernet/intel/i40e/i40e_client.c               | 2 +-
+> >>  drivers/net/ethernet/intel/i40e/i40e_common.c               | 2 +-
+> >>  drivers/net/ethernet/intel/i40e/i40e_prototype.h            | 2 +-
+> >>  drivers/net/ethernet/intel/i40e/i40e_txrx.c                 | 2 +-
+> >>  drivers/net/ethernet/intel/i40e/i40e_virtchnl_pf.h          | 2 +-
+> >>  drivers/net/ethernet/intel/iavf/iavf.h                      | 2 +-
+> >>  drivers/net/ethernet/intel/iavf/iavf_common.c               | 2 +-
+> >>  drivers/net/ethernet/intel/iavf/iavf_main.c                 | 2 +-
+> >>  drivers/net/ethernet/intel/iavf/iavf_prototype.h            | 2 +-
+> >>  drivers/net/ethernet/intel/iavf/iavf_txrx.c                 | 2 +-
+> >>  drivers/net/ethernet/intel/iavf/iavf_types.h                | 4 +---
+> >>  drivers/net/ethernet/intel/iavf/iavf_virtchnl.c             | 2 +-
+> >>  drivers/net/ethernet/intel/ice/ice.h                        | 2 +-
+> >>  drivers/net/ethernet/intel/ice/ice_common.h                 | 2 +-
+> >>  drivers/net/ethernet/intel/ice/ice_idc_int.h                | 2 +-
+> >>  drivers/net/ethernet/intel/ice/ice_txrx_lib.c               | 2 +-
+> >>  drivers/net/ethernet/intel/ice/ice_vf_lib.h                 | 2 +-
+> >>  drivers/net/ethernet/intel/ice/ice_virtchnl.h               | 2 +-
+> >>  drivers/net/ethernet/intel/idpf/idpf.h                      | 2 +-
+> >>  drivers/net/ethernet/intel/idpf/idpf_txrx.h                 | 2 +-
+> >>  drivers/net/ethernet/intel/libie/rx.c                       | 2 +-
+> >>  include/linux/{net => }/intel/i40e_client.h                 | 0
+> >>  include/linux/{net => }/intel/iidc.h                        | 0
+> >>  include/linux/{net => }/intel/libie/rx.h                    | 0
+> >>  include/linux/{avf => intel}/virtchnl.h                     | 0
+> >>  .../ethernet/intel/idpf => include/linux/intel}/virtchnl2.h | 0
+> >>  .../intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h | 0
+> >>  32 files changed, 29 insertions(+), 31 deletions(-)
+> >>  rename include/linux/{net => }/intel/i40e_client.h (100%)
+> >>  rename include/linux/{net => }/intel/iidc.h (100%)
+> >>  rename include/linux/{net => }/intel/libie/rx.h (100%)
+> >>  rename include/linux/{avf => intel}/virtchnl.h (100%)
+> >>  rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2.h (100%)
+> >>  rename {drivers/net/ethernet/intel/idpf => include/linux/intel}/virtchnl2_lan_desc.h (100%)
+> >>
+> >> diff --git a/MAINTAINERS b/MAINTAINERS
+> >> index 657a67f9031e..2e2a57dfea8f 100644
+> >> --- a/MAINTAINERS
+> >> +++ b/MAINTAINERS
+> >> @@ -11884,8 +11884,8 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/tnguy/next-queue.git
+> >>  F:	Documentation/networking/device_drivers/ethernet/intel/
+> >>  F:	drivers/net/ethernet/intel/
+> >>  F:	drivers/net/ethernet/intel/*/
+> >> -F:	include/linux/avf/virtchnl.h
+> >> -F:	include/linux/net/intel/iidc.h
+> >> +F:	include/linux/intel/iidc.h
+> >> +F:	include/linux/intel/virtchnl.h
+> > 
+> > I'm not sure that I understand the motivation for moving files out of
+> > include/linux/net, but I guess the answer is that my suggestion, which
+> > would be to move files into include/linux/net, is somehow less good.
+> > 
+> > But if file are moving out of include/linux/net then I think it would
+> > make sense to make a corresponding update to NETWORKING DRIVERS.
+> > 
+> > Also, include/linux/intel, does feel a bit too general. These files
+> > seem to relate to NICs (of some sort of flavour or another). But Intel
+> > does a lot more than make NICs.
+> > 
 > 
-> Signed-off-by: Nico Pache <npache@redhat.com>
+> 'include/linux/net/intel' seems fine to me. I agree with moving
+> virtchnl.h there since it is quite clear that any historical ambitions
+> about AVF being vendor agnostic are long dead, so having it in its own
+> 'non-intel' folder is silly.
+> 
+> Strictly speaking, I think the goal of moving the files is due to the
+> fact that a lot of the core ixd code is not really network layer but
+> instead PCI layer.
 
-LGTM.
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Sure. I was more thinking out loud in my previous email than requesting any
+action. Thanks for filling in my understanding of the situation.
+
+But could we please consider updating NETWORKING DRIVERS so
+that get_maintainers.pl can help people to CC netdev and it's maintainers
+as appropriate?
