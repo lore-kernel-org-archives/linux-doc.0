@@ -1,77 +1,83 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from vps0.lunn.ch (vps0.lunn.ch [156.67.10.101])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFC122DC760;
-	Wed, 30 Apr 2025 15:42:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3884178CC8;
+	Wed, 30 Apr 2025 16:16:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=156.67.10.101
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746027777; cv=none; b=WwD855ddNyPksHBr2O3rPXc4mMLxBdZWULdQ8tgSyTcD2QWZzj/9VQdBo7a1FqOA9Bkm3r0cx9KbqFkRRpW2kbBADQegysnCOun9Vl+JC+6cgBDBIWeSS2j/oPbqKLMk8ZkvQG+ubI1s4T/cfJuFeVaSjpbjCJJRjuIFCCncqlI=
+	t=1746029780; cv=none; b=BiXs+5wCPu37w3rH0mfeYkIY4GgMjRsWtYg+KMc7B/52ehkVpLwq2sMK3D0SUppZBxxp6sCESoUiPM9dg6NH2F9MfWipuK/S0CihKlv5Ken2dzJ7PFUQl/cRrLdhp2KDDTMaFSSfR8s66txgoNoynphMew/DHnd6aqXGbsk9CEY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746027777; c=relaxed/simple;
-	bh=cJQDxqBbZMGtPjZQq2+K0iYdq6ngOwnw5OlxsKKMBvE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Kd4TxtLjxI7gQnXLgd7iMDSwOChBNF9rVOdCgzmW0Wx3M9TPJQQEbbVFqxNwYHFi/r6Y8yAOpoL3dJZOJwRHuOcwzTOYZi4zmMcgWw2o2FJWXoEam4Nr2R63as9lmeeNiuCy9oX9j7MdLmk6IMDycj7VxZ/YSguH0DQRjNsd2dI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AXqeDL+P; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746029780; c=relaxed/simple;
+	bh=eMd2c87o8So+qenhBw3u7v5a+xmgGXAoQedapOD7Obg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=uOLDFC4B4nn+ebAewFyRqk9uSRlPRcqpxlqHWr/JbTOQ/Rh885bYCO+k/FQssfkEVVZn52rdU/o/qMzLZyGJP5KxYIa0CxsZ2wIvpMcEZp5KjGCbfhuKCW/I9Tc1fAa7imh9WCEz+VNinE1uloVKW+jAy/IqdrfBwlrp6c91lgc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch; spf=pass smtp.mailfrom=lunn.ch; dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b=l6ZVDLUp; arc=none smtp.client-ip=156.67.10.101
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lunn.ch
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lunn.ch
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AXqeDL+P"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D30F9C4CEE7;
-	Wed, 30 Apr 2025 15:42:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746027777;
-	bh=cJQDxqBbZMGtPjZQq2+K0iYdq6ngOwnw5OlxsKKMBvE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=AXqeDL+PSRG3Tc0f5RPIDwibMfgJnHJ97BlHFUG+jIJh1ZkIL7TcFZ2MMjMticjnB
-	 dtWlc6HYRG8E+qsdL/7tVLhpVgI03ae7hGQq95+fzTWB40/03WSOf/GE8SJnOWDEv6
-	 bSNC/XU32M1v7j7xrEO3kjmWMTJ6JLXak8LvCzej5FqgUGtTBPU6dv72c8akfR/tPT
-	 TTnPtJEGNoxbQE8YDfXStSFaMBIc4Ls0wHfcXS+2wCXqvdlRMwZncd/CiNLP9sQnSP
-	 rJ2FXyxPGFycantwUzUaSZr1+fi3qYpVzTlFSByav3lcNjieWWVI14t0yW7TFI+/YD
-	 NFdRILUHytf9Q==
-Date: Wed, 30 Apr 2025 17:42:52 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: Andy Shevchenko <andriy.shevchenko@intel.com>, Linux Doc Mailing List
- <linux-doc@vger.kernel.org>, Akira Yokosawa <akiyks@gmail.com>,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: Makefile: store __pycache__ at the output
- directory
-Message-ID: <20250430174252.1c3b3e09@foz.lan>
-In-Reply-To: <87jz73rg9n.fsf@trenco.lwn.net>
-References: <cover.1745539360.git.mchehab+huawei@kernel.org>
-	<1b9e7f34c1d99a27a8abb308da3221b4663b5693.1745539360.git.mchehab+huawei@kernel.org>
-	<aAvQFen6D5ukjj-x@smile.fi.intel.com>
-	<87jz73rg9n.fsf@trenco.lwn.net>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (1024-bit key) header.d=lunn.ch header.i=@lunn.ch header.b="l6ZVDLUp"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=lunn.ch;
+	s=20171124; h=In-Reply-To:Content-Disposition:Content-Type:MIME-Version:
+	References:Message-ID:Subject:Cc:To:From:Date:From:Sender:Reply-To:Subject:
+	Date:Message-ID:To:Cc:MIME-Version:Content-Type:Content-Transfer-Encoding:
+	Content-ID:Content-Description:Content-Disposition:In-Reply-To:References;
+	bh=VHw++ueBqMA9gHPPexHywPa7lWGoLeLxlqgC8EeY1Tg=; b=l6ZVDLUpbXfufkgK/4b2kUf+jE
+	nsA4cuy09Jzm8ybkngc8Pu5wOAY/mAprZYa442w/X14ne7YT0VvKpV4hEomb2YzzMpEcODfmf4bBf
+	d85owhf7d6dld/+bD84rEQUrFmpQwZ2jgahbx8NMTutobJXEnlM8qoDXRjrAlG4C3cmM=;
+Received: from andrew by vps0.lunn.ch with local (Exim 4.94.2)
+	(envelope-from <andrew@lunn.ch>)
+	id 1uAA6J-00BFbx-N9; Wed, 30 Apr 2025 18:15:59 +0200
+Date: Wed, 30 Apr 2025 18:15:59 +0200
+From: Andrew Lunn <andrew@lunn.ch>
+To: Roger Quadros <rogerq@kernel.org>
+Cc: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Andy Whitcroft <apw@canonical.com>,
+	Dwaipayan Ray <dwaipayanray1@gmail.com>,
+	Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+	Joe Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>,
+	Nishanth Menon <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>,
+	Siddharth Vadapalli <s-vadapalli@ti.com>,
+	Tero Kristo <kristo@kernel.org>, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	linux@ew.tq-group.com
+Subject: Re: [PATCH net-next 3/4] net: ethernet: ti: am65-cpsw: fixup PHY
+ mode for fixed RGMII TX delay
+Message-ID: <26696cfd-85f2-4876-9a56-f005eedc8380@lunn.ch>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <32e0dffa7ea139e7912607a08e391809d7383677.1744710099.git.matthias.schiffer@ew.tq-group.com>
+ <07c540a2-c645-460c-bfad-c9229d5d5ad0@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <07c540a2-c645-460c-bfad-c9229d5d5ad0@kernel.org>
 
-Em Mon, 28 Apr 2025 17:57:24 -0600
-Jonathan Corbet <corbet@lwn.net> escreveu:
-
-> Andy Shevchenko <andriy.shevchenko@intel.com> writes:
+On Wed, Apr 30, 2025 at 05:56:29PM +0300, Roger Quadros wrote:
+> Matthias,
 > 
-> > On Fri, Apr 25, 2025 at 08:08:53AM +0800, Mauro Carvalho Chehab wrote:  
-> >> Instead of blocking creation of *.pyc cache, store python
-> >> cache under Documentation/output/__pycache__  
-> >
-> > Do we need the below in the commit message?
-> > I think having statistics is enough and this can be moved to the cover letter.  
+> On 15/04/2025 13:18, Matthias Schiffer wrote:
+> > All am65-cpsw controllers have a fixed TX delay, so the PHY interface
+> > mode must be fixed up to account for this.
+> > 
+> > Modes that claim to a delay on the PCB can't actually work. Warn people
+> Could you please help me understand this statement? Which delay? TX or RX?
 
-Yeah, agreed.
+See if this helper:
 
-> I agree, that was a lot of stuff to get to a one-line fix; I took the
-> liberty of trimming the tree listing out.
+https://patchwork.kernel.org/project/netdevbpf/patch/20250429-v6-15-rc3-net-rgmii-delays-v1-1-f52664945741@lunn.ch/
 
-Fine for me. 
+There will be a V2 soon.
 
-> 
-> Applied, thanks.
-
-Thanks!
-
-Mauro
+      Andrew
