@@ -1,122 +1,122 @@
-Received: from mail-qt1-f180.google.com (mail-qt1-f180.google.com [209.85.160.180])
+Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB0AE25D8F6
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 14:08:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92EF254848;
+	Wed, 30 Apr 2025 14:11:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746022130; cv=none; b=P1Y8zAkkmQ+egU07tABV5FfetMUt9YGDzhvnUZTGuxsUugOWzcOtLSVAroT4D6aBxI+1qvdxv22zh5/yKckWQiVUm6ANJal736e+ZV/8cB1eXITlV8zM0h9u+JY1eGe2LjRBxB+nXzR+x9Z2jG2j27hPVoasAcxRERFU4iL7M48=
+	t=1746022268; cv=none; b=lQlQiDeGhs1hknU3GBAJenH+L2hAEsDfHgC7pJiee+mgEzYSZCC3mRpHVW9iiHFHFC5Epl12ZHN3aG5dnN7qmt/Bhfv52BYTwcu70jAa0q40g54SS5CrEysGMMIvv5vOo2jPrk7T4x2TtYHhVSwr0KdBKWCZ2Gpy3XYeu12Bpdc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746022130; c=relaxed/simple;
-	bh=nKrVXdFYKMFM9Hem9wdZl/eLQy0Q5+LZKJyIDlAU+yg=;
+	s=arc-20240116; t=1746022268; c=relaxed/simple;
+	bh=dsud/2U/NzgyuLT4SAm3RqXxWU7GCVGgm+BpDHgFKOM=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DTvmFYhPPLFHgJnC9B8sPX24ESxE4whKHvnE/ajcwNyC0Lf9N+bGQkpz5fCosMJlYv1owHTBYU/3irvoRKzTWfaTuadN67hskmPxi7pif4YlgyGTDzfROs52HJ0G31iyRQnYR1S20EkJ/jc++9/1ae4Vj2FP4AosUyswkfWetcY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=tgM3DU7V; arc=none smtp.client-ip=209.85.160.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	 Content-Type:Content-Disposition:In-Reply-To; b=ES22lZTRkfoRAb5pNwOvAVA2D3PNMlHtAno+urtWvEKP0WKMC1UAi7cjgV8EXL/5y/OZxbqblHiBFWtnBFGFF8sTxDdaKUu/auS9CF+5dUsztdO11kUxDxCXuVW54f2jl3NHoGZALovFIoPx72ZK+MR6rm30nJf7RZu00eiJSX8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q91X8Er2; arc=none smtp.client-ip=209.85.214.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="tgM3DU7V"
-Received: by mail-qt1-f180.google.com with SMTP id d75a77b69052e-476977848c4so97418511cf.1
-        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 07:08:47 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q91X8Er2"
+Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22423adf751so74399965ad.2;
+        Wed, 30 Apr 2025 07:11:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1746022126; x=1746626926; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1746022266; x=1746627066; darn=vger.kernel.org;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=M07YW4+B8fPuXiIo1oP46Lyh2gl/rW1yV/4vvxhVFu0=;
-        b=tgM3DU7V/yiErgPmL3sYrc+/gJcBnmdQtqLpiG5ZzpUTO4nB0qhB97tO4t1AeFFjxE
-         Uz0RBwvu4FnogpjCgKsXAux8lCljr0Egzz71oPfl4J5uQJM2HUxurHhxlVQBPOb4wEXw
-         rlCG3TSL4wm1BaZ2GTXB6rh4n6G6ThCHfOEJPpFeYLouR6QUYZrR7L1aNhSQnjPEEHma
-         W1l0fSz4lUnA4INQMUYFEv9jLTS1Kh54xg+/Dyw5YrYCNbx9qLcVJS/0S69kHlC9gowK
-         8Uc6FUkfRWkmd0ud/GHUP1HYVyHr/nZ5O2DFbWE3TOkDUYtts1NrXF33PPtETZWEewaF
-         iTng==
+        bh=dsud/2U/NzgyuLT4SAm3RqXxWU7GCVGgm+BpDHgFKOM=;
+        b=Q91X8Er2FWy5XuziDzEhyuXEpbFeztavwyS5Lz9NtiAw/9M0PKhS17wn6/11Fw7D01
+         pR0hHxSdaAdxpoeqp3McTIB18TKn2Lxea/vZGr0HLfCOvTiPUB0gMz4lOhs/lH09jC0H
+         hcEoZBWhMK7J9Tzj49Dx3uHdZtMK0/SXjYpIFjN9kRQALWgtWDBYW4k48fQ1CbedKbbE
+         TNqiWbS/LWvnjh3nA0CxXEOTsi+fJ646/NUx472kSSMW56l4wB/4DI1Yd909kaMWauyM
+         cjX5K/QlilZv+yXD5t4hVxW0my+RJmrrbwUYG5yifdpmWvhzivLhH4SbuIFmbYe7F3p7
+         s3+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746022126; x=1746626926;
+        d=1e100.net; s=20230601; t=1746022266; x=1746627066;
         h=in-reply-to:content-disposition:mime-version:references:message-id
          :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=M07YW4+B8fPuXiIo1oP46Lyh2gl/rW1yV/4vvxhVFu0=;
-        b=Dq9qDk7gX+fJ6PIOakIDtF/ROIwSNHiGVlvv8/IGbumUC4Sie4ZNVeyfgZtpnF0rr7
-         xMDeFOQKLND2gai7mqGnOHABXl2l3AuZZeUwNHHkhGRjp2yphX+0Ah17bqTzzj62oE0Q
-         3zSjiF5Nae0g3I6H8XTxF9hvS5Dn6VJkoEJKRfYMAuSKy87PpMALI1IGtb08PunTTMmY
-         I41pa4ep4TFZQzTzWrMIWoj8Fekv5dfljeuV3MUYYof9YwujJEG23ynuKD3x08PL4tgr
-         39lOW6w0VWQTU2+RmGcO+GdfspdIklQ1gAmBeUHtYMrGquSwO1G/imd+33K5lrW1nF3x
-         g15w==
-X-Forwarded-Encrypted: i=1; AJvYcCX5u0zMn39BISAFkR+mta9AQoxDB/mUe8Vq+rvlIWKcc2cBuJG3sV+qZ4nxZzmtreoa8nfxyWUSlZI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwM4J3LD5F+jrK/Dsydy7X7pTs8crTq613rS9mIcWnxmz0Rl0Bg
-	bUD2o+7Unrf+MVXTwhkG5Kw43C05B+v1pLOnlFAuRiVbwEQTYOOb6+k7HVMf1mc=
-X-Gm-Gg: ASbGncuyrqBpRbcgem0mBu8EzJc+cXUyh5w8DHdLYB1trGEl3Bpnh6PfTiOEypO4157
-	5PTt9M1ZO3yTJG+wLVxzX39HUl4m04aEv+NnM928zmDbBHwUSLpKnxa3BGdcUfCUUklhEhXERSd
-	Wj452IZSSQu/EL7AtM5hVHaNEW5Eh1xAx1Ru/pDZaxAvQ+l3uXQhOBWV8G7eOT0a2y7Udcypng0
-	ATm6TAdmtwJ1q6tEPM7FtFV1IdfirotAqpzYs2PXDbhkDrXKqOAZFRIxqXaskbuozmxkhhmPHIK
-	sftJVY6zsUPIV8fugM2StupER6qrSgjlJQ23MeJ8b0CXJwYm6CwyKDNcXp71eMafGObkmQU5+8W
-	lIWEBrLGhiMucN82gMeT8ZD4=
-X-Google-Smtp-Source: AGHT+IGv0sXD0ASi/qBfVsdcjg2k+/HQRGhRXeFIhGMFVJWk3UVygxCgFNpA8YzRL2WI7xwLxkotqQ==
-X-Received: by 2002:a05:622a:1b16:b0:476:9017:bbf1 with SMTP id d75a77b69052e-489c5701716mr54622501cf.46.1746022126427;
-        Wed, 30 Apr 2025 07:08:46 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-47e9f7ab516sm91730101cf.38.2025.04.30.07.08.45
+        bh=dsud/2U/NzgyuLT4SAm3RqXxWU7GCVGgm+BpDHgFKOM=;
+        b=cZfcxkImocnJydPtjxqReFU22RIrkuUl2eD7b4KzbOzUrjTSMY/xWUCjOdIgWdf/Oc
+         BYDb0tRIUYolMulSUyO9MaSUbl7ISJADOvaW+v7rRhKuXRgU0ruvjg9UG6mLWDFWHNOh
+         dihDkRJY6m2NIUnTkrXb5JvHcIH2oImPbLZUlV6Jbd8jHFP2Izri73kKjoVBT2P36uOg
+         ZLTvbVHxe6QQHNQs3ShOgrYjxgLdBWr5wnPBSqm9PFdYafEQlXx/z3k0yoVaCMC+crTa
+         w/czzJtOQbR2bNtUOJ10b1zxXDFwbTRFFQjBw+9EzQeRGF5QZVamlRSSYk0jRz3BIpV7
+         I8Ww==
+X-Forwarded-Encrypted: i=1; AJvYcCUCF3SBgOLhuk6yc9WrFAU056NM9n9XZl/YtNL0i+LnYsYDYLRDVEQVmvYnC3Ukr8Pek7YbqcDB/rIUMfof@vger.kernel.org, AJvYcCUh+dXPaUgcdngbG9Ni/IELDwv4H1tXKRkj1aMP6WxWO23YARDBys0tkp8ohymOMTwpYB7kKPvD@vger.kernel.org, AJvYcCX34bLABcwFq7lZpyTvgBt84ahJc+A8EK+I1hHDN3PwgMd3FqHRR9H057ml0aZ/hxwP6Js43x0rj9w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWwet+bh2G38ptf6a2iYDNpyPzu7gKNMmJV+dBv/cwLifCv6Oi
+	w1CZxTV2DRYWDIESMaTVG1UKDDfxp47VQRFTOpmkej+n0G7z9Qq8
+X-Gm-Gg: ASbGncuRBfVOgo3A7bzfTx+UvfFwVcOtC35n8M6vs8GiKFRVJ8zu/axNyMfFpUWK1uv
+	9yatsqrWJpTwzv/Mm5YxMwKL3rrUEZUVXpdpHlhfj0f4YgxMQQCOdg0lQIKCn/eCb/iX632epOK
+	JJfknY9c6V4WQd62y+9LgCP4QWBzlZxNcaLXzAR18uUkTWqjjCax30LymGijm19Ij1+SPd5o8Ct
+	QfBUTdSLW5swbU21GhVnXk9+oOXXR8LZ5q3LRJkCTIsJKA8G0VAQSUCPlX+msaH5aqwiLJKDfYj
+	oQq7WqFE4OCWInN32VQxNKMxy5KF9HU0YyGQkxuW
+X-Google-Smtp-Source: AGHT+IF0trVfcRYBBwO9lBLK8KETXWSFQfqRdeh2DW8hkHBJS+ZTFbNfty9mP4zPhIeEhtDyItzp+A==
+X-Received: by 2002:a17:903:4405:b0:21a:8300:b9ce with SMTP id d9443c01a7336-22df35cad23mr55838435ad.49.1746022265792;
+        Wed, 30 Apr 2025 07:11:05 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7a9fsm121976415ad.111.2025.04.30.07.11.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 07:08:46 -0700 (PDT)
-Date: Wed, 30 Apr 2025 10:08:43 -0400
-From: Gregory Price <gourry@gourry.net>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com
-Subject: Re: [RFC PATCH 02/17] cxl: docs/devices - device reference and uefi
- placeholder
-Message-ID: <aBIu63MPnZ0bGyIp@gourry-fedora-PF4VCD3F>
-References: <20250430001224.1028656-1-gourry@gourry.net>
- <20250430001224.1028656-3-gourry@gourry.net>
- <87o6wdltic.fsf@trenco.lwn.net>
+        Wed, 30 Apr 2025 07:11:04 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id 8AADD4208F70; Wed, 30 Apr 2025 21:11:02 +0700 (WIB)
+Date: Wed, 30 Apr 2025 21:11:02 +0700
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux PowerPC <linuxppc-dev@lists.ozlabs.org>,
+	Linux Networking <netdev@vger.kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Richard Cochran <richardcochran@gmail.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Haren Myneni <haren@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Andrew Donnellan <ajd@linux.ibm.com>,
+	Vamsi Attunuru <vattunuru@marvell.com>,
+	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
+	Alyssa Ross <hi@alyssa.is>, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH] Documentation: ioctl-number: Extend "Include File"
+ column width
+Message-ID: <aBIvdqKy9cCQPLox@archie.me>
+References: <20250429130524.33587-2-bagasdotme@gmail.com>
+ <66e4a803-05bd-4fbe-96bf-84415eefe412@linux.ibm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JY5zQzvXTsAY1P1v"
 Content-Disposition: inline
-In-Reply-To: <87o6wdltic.fsf@trenco.lwn.net>
+In-Reply-To: <66e4a803-05bd-4fbe-96bf-84415eefe412@linux.ibm.com>
 
-On Wed, Apr 30, 2025 at 06:32:27AM -0600, Jonathan Corbet wrote:
-> Gregory Price <gourry@gourry.net> writes:
-> 
-> > Add a simple device primer sufficient to understand the theory
-> > of operation documentation.
-> >
-> > Add carve-out for CDAT with a TODO.
-> >
-> > Signed-off-by: Gregory Price <gourry@gourry.net>
-> > ---
-> >  .../driver-api/cxl/devices/device-types.rst   | 169 ++++++++++++++++++
-> >  Documentation/driver-api/cxl/devices/uefi.rst |   9 +
-> >  Documentation/driver-api/cxl/index.rst        |   2 +
-> >  3 files changed, 180 insertions(+)
-> >  create mode 100644 Documentation/driver-api/cxl/devices/device-types.rst
-> >  create mode 100644 Documentation/driver-api/cxl/devices/uefi.rst
-> 
-> I'm glad to see all this documentation!  One little nit...
-> 
-> > diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-> > new file mode 100644
-> > index 000000000000..e8dd051c2c71
-> > --- /dev/null
-> > +++ b/Documentation/driver-api/cxl/devices/device-types.rst
-> > @@ -0,0 +1,169 @@
-> > +.. SPDX-License-Identifier: GPL-2.0
-> > +
-> > +Devices and Protocols
-> > +#####################
-> 
-> If you could stick with the section markup conventions we have
-> established in Documentation/doc-guide/sphinx.rst, I'd appreciate it.
->
 
-Will do, mostly wanted to get it out for content first. Will give it
-a once over for formatting now.
+--JY5zQzvXTsAY1P1v
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-~Gregory
+On Wed, Apr 30, 2025 at 06:38:27PM +0530, Venkat Rao Bagalkote wrote:
+>=20
+> Note: There is other patch [1] <https://lore.kernel.org/linuxppc-dev/aBHo=
+dTu4IjqzZeXb@archie.me/T/#m013297a6731d3ca3dc1e0f23d161774850d6b41c>
+> which has a different approach to fix the reported issue.
+
+Then let the maintainers decide...
+
+--=20
+An old man doll... just what I always wanted! - Clara
+
+--JY5zQzvXTsAY1P1v
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaBIvcAAKCRD2uYlJVVFO
+o/EaAPwKtcQ1wbetpC3zLm+DuLSa5qEQtOm51qI4RngKFscKnQEAmrD6Y/Ovyazo
+mBa6qHv4bKKYjW2KLekEMQyFs4iPHg0=
+=NWAu
+-----END PGP SIGNATURE-----
+
+--JY5zQzvXTsAY1P1v--
