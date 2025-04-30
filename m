@@ -1,110 +1,96 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59EFD231852
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 12:47:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A090625B1F0;
+	Wed, 30 Apr 2025 12:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746017227; cv=none; b=JLDiOc37oRFpDggSLRbo/QFcIwX1prqE1XGbRW+h5TsIfId4nLsH1/FVwJbhcNC7NiEShOH7XQZpgsU7CSyi9AbGBYfKf+VZGhFC12sgQ06ho6J4OwquOToUI1hF58nXB7eUUCL3w9KFi22s7TmMYP9OiJVhg8wStaJbMeMYs1o=
+	t=1746017287; cv=none; b=ChF+u5mQK64F4P68s8xjTGdAIgdywshecfgbiBthtIzllRYdo7YbMQcOZeIM7Uu2hvfasx+qzRFDcAa7Uk1yVA2bAdC1SG5AVajI0lwYMazMlMOGvbBLzP5S/5zoUvNfm+rHBqy2UegTL6v9Zw11pwW7aUA8DS9io1oMtDtG94U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746017227; c=relaxed/simple;
-	bh=P7wPOE00tY3qae0gS0Xvsdms81ZrmIkknzlUr0WkzwE=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=bhHRv7JSjt47AiGguuevr0VVNX1noTRWvFIrzVF6Ux+GPrqi4vSd1ms5gMMpjt4Z3NGYO7/n8CQ6FNgC6Rj/C0gs1n9Iu7QfcwSre1DZnOdbeWqKMgTEhq1VDgMv1DP9y7G1SDKKKhOhocb/ORYhtlC7lQGQ73RvR4xJ8gBEBvI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=QkUrTT0B; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1746017287; c=relaxed/simple;
+	bh=FNSfl7sJXyyMr58cTcycGqVKOnJzdf3JLX0L3/BzZRA=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=fudAn+799N//hkV84CuwQn1CspzGUY6Gr0i03hHbn3pKIvBebq0SxKXRZGgeoeKgB6eS0Q6er7KV4ybxIfY3xUI/rT/cTYyH3UFiys6V99/ZvWDXng/kEul+OZOAjTgpXYBWWZ6KoCDJfz0f+gAmwp55OZH9VT93JmfhSrGr65k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Z/+thX7a; arc=none smtp.client-ip=192.198.163.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="QkUrTT0B"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 5047741ACE
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1746017225; bh=Bfb74/r6khWPDflOKl8lbwsOs3H7eNZ9b5KOJPNyY7o=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=QkUrTT0BtDJxM44wNMXBx6Yl+DFPMPe97sOW3oLaUQZUN+POw82Wucy/G1NhEeRwC
-	 bBdGbIh8gZqZqWG5QEkcGCgBVa32OqLpGZ1DpgeRf9ACquujssv0lOut73gKqKgk49
-	 po/Nk0pkAI+0/KDnmdUJlvMnZvghZfrNbrW8TZw+Q6z2pHCJ2dETFdEv8XX5wT0jfO
-	 6BWFWQTnTZkUITBh3+YkGURyzfmlbPJRAT2XKDV4gfchaRziPxHAVoT9osSdx/jTz/
-	 TX1ZkxRIZP9ElIwoXSlGFMMlmBSl0fwyYduPCHK/3lEqY6RKlPXCAKQOjfAX2gHxaS
-	 UQ9J1zlyDiI3g==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 5047741ACE;
-	Wed, 30 Apr 2025 12:47:05 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Ming Wen <mwen@ambarella.com>, "linux-doc@vger.kernel.org"
- <linux-doc@vger.kernel.org>
-Cc: "mchehab@kernel.org" <mchehab@kernel.org>, Long Li
- <longli@ambarella.com>, Jian Tang <jtang@ambarella.com>, Zhao-Yang Chen
- <zychen@ambarella.com>, Rongrong Cao <rrcao@ambarella.com>
-Subject: Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
-In-Reply-To: <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
-References: <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
-Date: Wed, 30 Apr 2025 06:47:04 -0600
-Message-ID: <87jz71lstz.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Z/+thX7a"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746017286; x=1777553286;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=FNSfl7sJXyyMr58cTcycGqVKOnJzdf3JLX0L3/BzZRA=;
+  b=Z/+thX7a22NncWeOH5T+1628bm0rhV4isAUpES2AhcX3JUBJqgrZcnxl
+   N+MUk3eIf9/DLFsNLNi0UJ6a8gXKu8psG7tcv+49IgzOobnxpGicHexQK
+   yUQN2wKW1l4pUlaTFGQcprZ8A4KP6/hM6iIzXj5FDl17pytHgWYV0oiXD
+   GtaTOHkGbkTqwwzBpjiotagZOr7m7H/YR0tLy91t4ZQsE3V46j57FXblZ
+   d7Mc96+jwCr4bQzbnn8T6/FkGM6YLSwH6S+NoV4vZlrW+5VgDHjKCIfGz
+   eQmyDDlQLG3eIQLP9B//kh7LegF5u2jUYJC/t9zY9rk7WBD8BTnkmsp7T
+   w==;
+X-CSE-ConnectionGUID: bcCu4itLRQmyUe3LNmJ63Q==
+X-CSE-MsgGUID: wGYBAX3pR7mwG5NqwBi89Q==
+X-IronPort-AV: E=McAfee;i="6700,10204,11419"; a="58307638"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="58307638"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 05:48:04 -0700
+X-CSE-ConnectionGUID: sgyrkr1tSMy/f8/B9aXFnw==
+X-CSE-MsgGUID: 0xbFseEsT/SY1Zk732Sa5w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="134060316"
+Received: from smile.fi.intel.com ([10.237.72.55])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 05:47:59 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uA6qx-00000001d0J-0oph;
+	Wed, 30 Apr 2025 15:47:55 +0300
+Date: Wed, 30 Apr 2025 15:47:54 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Aditya Garg <gargaditya08@live.com>
+Cc: pmladek@suse.com, admin@kodeit.net, airlied@redhat.com,
+	akpm@linux-foundation.org, alyssa@rosenzweig.io, apw@canonical.com,
+	asahi@lists.linux.dev, corbet@lwn.net,
+	dri-devel@lists.freedesktop.org, dwaipayanray1@gmail.com,
+	geert@linux-m68k.org, joe@perches.com, kees@kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux@rasmusvillemoes.dk, lukas.bulwahn@gmail.com, marcan@marcan.st,
+	mripard@kernel.org, rostedt@goodmis.org, senozhatsky@chromium.org,
+	simona@ffwll.ch, sven@svenpeter.dev, tamird@gmail.com,
+	tzimmermann@suse.de
+Subject: Re: [PATCH v2] checkpatch: remove %p4cn and add check for %p4chR
+Message-ID: <aBIb-nOSUqaLgIsV@smile.fi.intel.com>
+References: <20250428123132.578771-1-pmladek@suse.com>
+ <PN3PR01MB95970CA0E1E1972B39405B43B8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <PN3PR01MB95970CA0E1E1972B39405B43B8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Ming Wen <mwen@ambarella.com> writes:
+On Tue, Apr 29, 2025 at 05:50:30PM +0000, Aditya Garg wrote:
+> %p4cn was recently removed and replaced by %p4chR in vsprintf. So,
+> remove the check for %p4cn from checkpatch.pl.
 
-> Dear Linux Doc=E2=80=99ers:
->
-> Nice to e-meet you! And thanks for your great contribution to Linux
-> Kernel world as always. =F0=9F=98=8A
+...
 
-To begin with, please do not send HTML mail, it won't make it through to
-the lists.
+> Fixes: 37eed892cc5f ("vsprintf: Use %p4chR instead of %p4cn for reading data in reversed host ordering")
 
-> We=E2=80=99re now working on LTS Kernel 5.15 and 6.1. Recently, we=E2=80=
-=99re trying
-> to build their Sphinx Doc.
+> 
 
-These are, of course, quite old kernels.
+There shouldn't be blank lines in the tag block.
 
-> It is required to go with Sphinx 2.4.4, which is much lower than the
-> version(8.1.3) of ubuntu 22.04 and 24.04.
+> Signed-off-by: Aditya Garg <gargaditya08@live.com>
 
-Required by who?  That is an ancient version of Sphinx at this point.
+-- 
+With Best Regards,
+Andy Shevchenko
 
-> PS: if going with very new version of Sphinx like 8.1.3, the final
-> output is not right(doesn=E2=80=99t have the proper decoration).
 
-Current Sphinx works fine, as far as I know; are there specific problems
-that you can report with current kernels?
-
-> To try to resolve this, we followed below way to build kernel Sphinx
-> Doc by having Sphinx to stay with 2.4.4. However, it will require
-> extra dependency packages(highlighted below in yellow) before we can
-> build the doc properly.
->
-> Here, we=E2=80=99d like to check with your comments for whether it will be
-> good to merge it into the main branch for Kernel 5.15 and 6.1. If not,
-> do you have any concern on this? Or you have other better
-> options/advices for us to try? Thanks again for your time.
-
-Again, those are very old kernels, that you are trying to make work with
-a very old version of Sphinx.  I'm not sure why those patches would be
-useful to anybody else?
-
-> This email and attachments contain Ambarella Proprietary and/or Confident=
-ial
-> Information and is intended solely for the use of the individual(s) to wh=
-om it is
-> addressed. Any unauthorized review, use, disclosure, distribute, copy, or=
- print is
-> prohibited. If you are not an intended recipient, please contact the send=
-er by reply email
-> and destroy all copies of the original message. Thank you.
-
-This, too, is not appropriate to send within our development community.
-
-Thanks,
-
-jon
