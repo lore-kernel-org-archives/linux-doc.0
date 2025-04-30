@@ -1,122 +1,75 @@
-Received: from mail-pl1-f179.google.com (mail-pl1-f179.google.com [209.85.214.179])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C92EF254848;
-	Wed, 30 Apr 2025 14:11:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDBD725F7B9
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 14:12:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746022268; cv=none; b=lQlQiDeGhs1hknU3GBAJenH+L2hAEsDfHgC7pJiee+mgEzYSZCC3mRpHVW9iiHFHFC5Epl12ZHN3aG5dnN7qmt/Bhfv52BYTwcu70jAa0q40g54SS5CrEysGMMIvv5vOo2jPrk7T4x2TtYHhVSwr0KdBKWCZ2Gpy3XYeu12Bpdc=
+	t=1746022326; cv=none; b=EfBZn3ZEYdJ5A1ZdBImtU+HFs+3IZyDxCSS8vqcX8/j7aHd5XHBufhQ1yfwAIPgLcrgO1eIcebml4JrG5F2E8/XVUrHfCzOO4avnqVkmjWxCztp90EDAHqrMVQ4gaWZkwLXSFmseTwcrYLRC/aWTqfF7ysjFQnlOpaic7+H+ORQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746022268; c=relaxed/simple;
-	bh=dsud/2U/NzgyuLT4SAm3RqXxWU7GCVGgm+BpDHgFKOM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ES22lZTRkfoRAb5pNwOvAVA2D3PNMlHtAno+urtWvEKP0WKMC1UAi7cjgV8EXL/5y/OZxbqblHiBFWtnBFGFF8sTxDdaKUu/auS9CF+5dUsztdO11kUxDxCXuVW54f2jl3NHoGZALovFIoPx72ZK+MR6rm30nJf7RZu00eiJSX8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Q91X8Er2; arc=none smtp.client-ip=209.85.214.179
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746022326; c=relaxed/simple;
+	bh=oMJaxft5rJD88DQRIAes/XrKfxlofogVTPOtzn/qlQI=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=Z2PdyWLaSc5SesFczoTLID/PHAwSE5f31KV72kzqONm0HNo4IN5bRP9KR9Sl6xNc2v//q8ucAsaM8xH4Oq/xsQ9XSmdSHsWRmx0rH48lI8iuIjAXJZx4q+pYNCIglVvirMPmdLXOHqsLYoZ8w1BIoJpE0iTEBdhCqb6gDO1EIjs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XQfC/3Wo; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Q91X8Er2"
-Received: by mail-pl1-f179.google.com with SMTP id d9443c01a7336-22423adf751so74399965ad.2;
-        Wed, 30 Apr 2025 07:11:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746022266; x=1746627066; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=dsud/2U/NzgyuLT4SAm3RqXxWU7GCVGgm+BpDHgFKOM=;
-        b=Q91X8Er2FWy5XuziDzEhyuXEpbFeztavwyS5Lz9NtiAw/9M0PKhS17wn6/11Fw7D01
-         pR0hHxSdaAdxpoeqp3McTIB18TKn2Lxea/vZGr0HLfCOvTiPUB0gMz4lOhs/lH09jC0H
-         hcEoZBWhMK7J9Tzj49Dx3uHdZtMK0/SXjYpIFjN9kRQALWgtWDBYW4k48fQ1CbedKbbE
-         TNqiWbS/LWvnjh3nA0CxXEOTsi+fJ646/NUx472kSSMW56l4wB/4DI1Yd909kaMWauyM
-         cjX5K/QlilZv+yXD5t4hVxW0my+RJmrrbwUYG5yifdpmWvhzivLhH4SbuIFmbYe7F3p7
-         s3+w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746022266; x=1746627066;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=dsud/2U/NzgyuLT4SAm3RqXxWU7GCVGgm+BpDHgFKOM=;
-        b=cZfcxkImocnJydPtjxqReFU22RIrkuUl2eD7b4KzbOzUrjTSMY/xWUCjOdIgWdf/Oc
-         BYDb0tRIUYolMulSUyO9MaSUbl7ISJADOvaW+v7rRhKuXRgU0ruvjg9UG6mLWDFWHNOh
-         dihDkRJY6m2NIUnTkrXb5JvHcIH2oImPbLZUlV6Jbd8jHFP2Izri73kKjoVBT2P36uOg
-         ZLTvbVHxe6QQHNQs3ShOgrYjxgLdBWr5wnPBSqm9PFdYafEQlXx/z3k0yoVaCMC+crTa
-         w/czzJtOQbR2bNtUOJ10b1zxXDFwbTRFFQjBw+9EzQeRGF5QZVamlRSSYk0jRz3BIpV7
-         I8Ww==
-X-Forwarded-Encrypted: i=1; AJvYcCUCF3SBgOLhuk6yc9WrFAU056NM9n9XZl/YtNL0i+LnYsYDYLRDVEQVmvYnC3Ukr8Pek7YbqcDB/rIUMfof@vger.kernel.org, AJvYcCUh+dXPaUgcdngbG9Ni/IELDwv4H1tXKRkj1aMP6WxWO23YARDBys0tkp8ohymOMTwpYB7kKPvD@vger.kernel.org, AJvYcCX34bLABcwFq7lZpyTvgBt84ahJc+A8EK+I1hHDN3PwgMd3FqHRR9H057ml0aZ/hxwP6Js43x0rj9w=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyWwet+bh2G38ptf6a2iYDNpyPzu7gKNMmJV+dBv/cwLifCv6Oi
-	w1CZxTV2DRYWDIESMaTVG1UKDDfxp47VQRFTOpmkej+n0G7z9Qq8
-X-Gm-Gg: ASbGncuRBfVOgo3A7bzfTx+UvfFwVcOtC35n8M6vs8GiKFRVJ8zu/axNyMfFpUWK1uv
-	9yatsqrWJpTwzv/Mm5YxMwKL3rrUEZUVXpdpHlhfj0f4YgxMQQCOdg0lQIKCn/eCb/iX632epOK
-	JJfknY9c6V4WQd62y+9LgCP4QWBzlZxNcaLXzAR18uUkTWqjjCax30LymGijm19Ij1+SPd5o8Ct
-	QfBUTdSLW5swbU21GhVnXk9+oOXXR8LZ5q3LRJkCTIsJKA8G0VAQSUCPlX+msaH5aqwiLJKDfYj
-	oQq7WqFE4OCWInN32VQxNKMxy5KF9HU0YyGQkxuW
-X-Google-Smtp-Source: AGHT+IF0trVfcRYBBwO9lBLK8KETXWSFQfqRdeh2DW8hkHBJS+ZTFbNfty9mP4zPhIeEhtDyItzp+A==
-X-Received: by 2002:a17:903:4405:b0:21a:8300:b9ce with SMTP id d9443c01a7336-22df35cad23mr55838435ad.49.1746022265792;
-        Wed, 30 Apr 2025 07:11:05 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22db50e7a9fsm121976415ad.111.2025.04.30.07.11.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 07:11:04 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 8AADD4208F70; Wed, 30 Apr 2025 21:11:02 +0700 (WIB)
-Date: Wed, 30 Apr 2025 21:11:02 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux PowerPC <linuxppc-dev@lists.ozlabs.org>,
-	Linux Networking <netdev@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Richard Cochran <richardcochran@gmail.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Madhavan Srinivasan <maddy@linux.ibm.com>,
-	Haren Myneni <haren@linux.ibm.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Andrew Donnellan <ajd@linux.ibm.com>,
-	Vamsi Attunuru <vattunuru@marvell.com>,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-	Alyssa Ross <hi@alyssa.is>, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH] Documentation: ioctl-number: Extend "Include File"
- column width
-Message-ID: <aBIvdqKy9cCQPLox@archie.me>
-References: <20250429130524.33587-2-bagasdotme@gmail.com>
- <66e4a803-05bd-4fbe-96bf-84415eefe412@linux.ibm.com>
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XQfC/3Wo"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 0200B41ACE
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1746021953; bh=gAIyEpOFgQMo1NuxFvk+j5GWkqaNHtD7s982210IsMM=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=XQfC/3WoJcCAN7MTR/OpLpUQkPhzuPcEWhi5GH6PeceEGmCr+RQJrfxeJkLM+sezU
+	 LUhBwonNMNQa6lvG++SW7jGanEzZf2hQJi1DW+m4WGo24ElcjodfJMR7ZEYtgcE+XX
+	 SCX0JAsEbRGKk++YGAbwZXuBwr7BeaQDDlntYPxKl/RxDOTFXgeSqT4/5rRTm6Y5kh
+	 tc1CgO0Ys0l7o8jYcsR70r69I8Si4m5RMS2V/pJj4K+nC1Me1iHkaY7SWgwEayI9xr
+	 xoNgMlbyba4scfymE7dbHh5efkeYotM0cZxgt0jr4tF/sSPk8MB0XIKsFL7meVBbQO
+	 +h2e2dmj7+2BQ==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 0200B41ACE;
+	Wed, 30 Apr 2025 14:05:52 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Ming Wen <mwen@ambarella.com>, "linux-doc@vger.kernel.org"
+ <linux-doc@vger.kernel.org>
+Cc: "mchehab@kernel.org" <mchehab@kernel.org>, Long Li
+ <longli@ambarella.com>, Jian Tang <jtang@ambarella.com>, Zhao-Yang Chen
+ <zychen@ambarella.com>, Rongrong Cao <rrcao@ambarella.com>
+Subject: RE: [EXT] Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
+In-Reply-To: <IA0PPF7478C2D3A0AF4E32EE1ADD91EBCD5DD832@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+References: <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+ <87jz71lstz.fsf@trenco.lwn.net>
+ <IA0PPF7478C2D3A0AF4E32EE1ADD91EBCD5DD832@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+Date: Wed, 30 Apr 2025 08:05:51 -0600
+Message-ID: <87bjsdlp6o.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="JY5zQzvXTsAY1P1v"
-Content-Disposition: inline
-In-Reply-To: <66e4a803-05bd-4fbe-96bf-84415eefe412@linux.ibm.com>
+Content-Type: text/plain
 
+Ming Wen <mwen@ambarella.com> writes:
 
---JY5zQzvXTsAY1P1v
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> It is required to go with Sphinx 2.4.4, which is much lower than the
+>> version(8.1.3) of ubuntu 22.04 and 24.04.
+> [Ming] To build the sphinx doc for Kernel 5.15 or 6.1, it is required to go with Sphinx 2.4.4.
 
-On Wed, Apr 30, 2025 at 06:38:27PM +0530, Venkat Rao Bagalkote wrote:
->=20
-> Note: There is other patch [1] <https://lore.kernel.org/linuxppc-dev/aBHo=
-dTu4IjqzZeXb@archie.me/T/#m013297a6731d3ca3dc1e0f23d161774850d6b41c>
-> which has a different approach to fix the reported issue.
+We recommended that version back then, mostly because the newer versions
+were slower, but it is absolutely not required.
 
-Then let the maintainers decide...
+I just did the build for 6.134 using Sphinx 7.3.7.  It emits a bunch of
+deprecation warnings, but otherwise works.
 
---=20
-An old man doll... just what I always wanted! - Clara
+There are various fixes in mainline for some of those warnings; somebody
+could certainly pick them out and ask for stable backports.  I can put
+that onto my list of things to do, but won't get there in the next few
+days.
 
---JY5zQzvXTsAY1P1v
-Content-Type: application/pgp-signature; name=signature.asc
+Thanks,
 
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaBIvcAAKCRD2uYlJVVFO
-o/EaAPwKtcQ1wbetpC3zLm+DuLSa5qEQtOm51qI4RngKFscKnQEAmrD6Y/Ovyazo
-mBa6qHv4bKKYjW2KLekEMQyFs4iPHg0=
-=NWAu
------END PGP SIGNATURE-----
-
---JY5zQzvXTsAY1P1v--
+jon
