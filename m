@@ -1,71 +1,136 @@
-Received: from out30-132.freemail.mail.aliyun.com (out30-132.freemail.mail.aliyun.com [115.124.30.132])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9938B1E1E10;
-	Wed, 30 Apr 2025 07:52:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.132
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10DD57E0E8;
+	Wed, 30 Apr 2025 07:58:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745999558; cv=none; b=HAq+p13VbyVE0zz3ie0LtUY/1PZsy6iPdLNhyeArrjyXATlG8cycxlAOJ/lBdTzCtqjBSU44w8JNhnPBx33HmOKKxgRp8AzOCnpXiKSpHXRHi313X718DAafYR2Ut4OeTpb30vLI01Fih06rJlommF8Puu1B1lGZqGxjtOxsnV4=
+	t=1745999936; cv=none; b=ZF4OkJiSBnNqDkwbuDYG3G0Qn4XPa686whil2zh4FJ9cjDJSjKiTQifq29pPZDiXSfFXeLHLJHcHme/ejvWzzwHnwHNrK+Im5azgp43qid/ke5oAyRSymQ45qVG1DM2ztEh9WVGre24bfC55JNrroGw+jE+LpWhBSSyHHrOc42g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745999558; c=relaxed/simple;
-	bh=ViuCqa1O0ArkQ3KKEAI0bCV9+N50gtg0uhrcmWdxvZ0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=fmfr1TDO9sVbSePwI862Ry5KERevvR9bZyehysAJMQLqVjMQFf2hKVqT6NwauVuNRkm5JOdIwBPG1GP1JIemZ3xSjVt1pRKV5j1+tG2Amf3Ud7AENsHdTg0QgqCbwdgqggwo7qrr9Wn3RscegyBW+tjQc24huYF042OF4K2OEWc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=EI1cFIQj; arc=none smtp.client-ip=115.124.30.132
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1745999936; c=relaxed/simple;
+	bh=cFRX/7ymuu4ViXj4PKPJ9YpybId6+ipgWQoROgASOJQ=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=k1tSO8sisFdkeOxqJYkpa9xQw83DEdUnlxl2c18MSVAnePclXSCa4uOoyqvp75ZFTwo1J3E626T+dnMbIkerqAselkP4oLRV9iX4ehuTJKjCO1XY3BWcdqDrp086AtKJ7OU/t10vY+cfS6i1ggaz/0hQhzGzAeeJwP8Op+/D6e0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=azgecay1; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="EI1cFIQj"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1745999552; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=iI6C5Rr8n73x6s2CrV03MiOdT5s35UobKP9ILv8Xhu8=;
-	b=EI1cFIQjOcxVt3EMOHhHL9lCzFRUDvRaRwdM1uCaLmN+0zuUELj7fWxTuDp7Oct0Zoyc+GBxGCWLQiodb10fhjZQ1woFljP+CidPlmKeGFP29XhZsgYcSMEHCwWXBtBgOxmvQlzYGrzkHW+qSKE+OH8f/rkEVULdmM06sGPtiJo=
-Received: from 30.74.146.9(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WYnlqwD_1745999226 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 30 Apr 2025 15:47:07 +0800
-Message-ID: <02c73c31-d52c-4ace-bc2c-eb6cd0eab253@linux.alibaba.com>
-Date: Wed, 30 Apr 2025 15:47:05 +0800
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="azgecay1"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1745999936; x=1777535936;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=cFRX/7ymuu4ViXj4PKPJ9YpybId6+ipgWQoROgASOJQ=;
+  b=azgecay1vhWBJBWkVjjI5Vd2C3PKcCYygtEB3rIF+5UKSmBKUMLqVnT4
+   mx8LHLAfuZmAJc358oml3ZD+N4IivpVXvXAIJChuKU51yvgrzEJvPId7p
+   0V/+pas+JFvTY3ykbe7rcx6FA2DxP/o92ktsT9xcSPWaqcojtnUfIsSDt
+   K1UVbaTi19arOWWRi04k4QH4vWPKOdCPgtUobsUjZy27Ai7ExcX+2NuYI
+   CxYvej+PJBsPX0aL2SL+P7OC5QWnXmOnv0WrFHcS1GC1zShMr1+/pg/Pn
+   ZBFN21Br6mnIAyA00u8wJhPRBfOJaQmOitwGysggDOjNt7ZoXUvtRDgw4
+   A==;
+X-CSE-ConnectionGUID: ZLpbKMHzSNG3FnziXKEH7A==
+X-CSE-MsgGUID: 9Pw2j40MTzmDU5trgfiUyg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11418"; a="47797783"
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="47797783"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 00:58:44 -0700
+X-CSE-ConnectionGUID: BKh+t8mQQ/OXxMR7awRQaQ==
+X-CSE-MsgGUID: BjhmomkHSFu9QPm1D3FwEw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,251,1739865600"; 
+   d="scan'208";a="165143575"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.97])
+  by smtpauth.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Apr 2025 00:58:39 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Wed, 30 Apr 2025 10:58:35 +0300 (EEST)
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>
+cc: ALOK TIWARI <alok.a.tiwari@oracle.com>, 
+    Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>, 
+    Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>, 
+    Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>, 
+    Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>, 
+    Mark Pearson <mpearson-lenovo@squebb.ca>, 
+    "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, 
+    "Cody T . -H . Chiu" <codyit@gmail.com>, 
+    John Martens <johnfanv2@gmail.com>, platform-driver-x86@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH v6 5/6] platform/x86: Add Lenovo WMI Gamezone Driver
+In-Reply-To: <F54435E0-B3F5-4F99-9184-EE4D8D54DBD6@gmail.com>
+Message-ID: <1108c3ac-4815-814d-82b0-2ba74311d883@linux.intel.com>
+References: <20250428012029.970017-1-derekjohn.clark@gmail.com> <20250428012029.970017-6-derekjohn.clark@gmail.com> <a18175cc-3513-4621-9d8d-e9556ede1022@oracle.com> <F54435E0-B3F5-4F99-9184-EE4D8D54DBD6@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 01/12] khugepaged: rename hpage_collapse_* to
- khugepaged_*
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
- peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
-References: <20250428181218.85925-1-npache@redhat.com>
- <20250428181218.85925-2-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250428181218.85925-2-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=US-ASCII
 
+On Tue, 29 Apr 2025, Derek J. Clark wrote:
 
-
-On 2025/4/29 02:12, Nico Pache wrote:
-> functions in khugepaged.c use a mix of hpage_collapse and khugepaged
-> as the function prefix.
 > 
-> rename all of them to khugepaged to keep things consistent and slightly
-> shorten the function names.
 > 
-> Signed-off-by: Nico Pache <npache@redhat.com>
+> On April 28, 2025 9:39:55 PM PDT, ALOK TIWARI <alok.a.tiwari@oracle.com> wrote:
+> >
+> >
+> >On 28-04-2025 06:48, Derek J. Clark wrote:
+> >> + * Determine if the extreme thermal mode is supported by the hardware.
+> >> + * Anything version 5 or lower does not. For devices wuth a version 6 or
+> >
+> >typo wuth
+> >
+> >> + * greater do a DMI check, as some devices report a version that supports
+> >> + * extreme mode but have an incomplete entry in the BIOS. To ensure this
+> >> + * cannot be set, quirk them to prevent assignment.
+> >> + *
+> >> + * Return: int.
+> >
+> >The function returns int.
+> >But logically it's returning boolean false, true
+> 
+> I may have overdone it by removing all bools after the v5 review as I 
+> interpreted Ilpo's comment to mean I shouldn't return any bool c types. 
+> I'll wait for them to weigh in before changing this back.
 
-Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+Hi Derek,
+
+That is certainly a misinterpretation.
+
+It's perfectly fine to return bool from a function. If there's no good 
+reason e.g. because of some API that requires int return, booleans should 
+be returned as bool.
+
+I was trying to say your kerneldoc said "Return: bool" for a function that 
+returns int. Both "bool" and "int" are C types so there was a contradition 
+in that, which is what I tried to point out. Please write "boolean" if you 
+refer to a boolean which is not "bool" typed (but consider what was said 
+above and if the type too can be changed to bool in that case).
+
+-- 
+ i.
+
+> >> + */
+> >> +static int lwmi_gz_extreme_supported(int profile_support_ver)
+> >> +{
+> >> +	const struct dmi_system_id *dmi_id;
+> >> +	struct quirk_entry *quirks;
+> >> +
+> >> +	if (profile_support_ver < 6)
+> >> +		return false;
+> >> +
+> >> +	dmi_id = dmi_first_match(fwbug_list);
+> >> +	if (!dmi_id)
+> >> +		return true;
+> >> +
+> >> +	quirks = dmi_id->driver_data;
+> >> +	return quirks->extreme_supported;
+> >> +}
+> >
+> >Thank,
+> >Alok
+> 
+> Thanks,
+> - Derek
+> 
