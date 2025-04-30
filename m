@@ -1,787 +1,290 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from mx0a-00622301.pphosted.com (mx0a-00622301.pphosted.com [205.220.163.205])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4E919227BA5;
-	Wed, 30 Apr 2025 13:09:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746018551; cv=none; b=geuVziD2uHz/+YeJ0uNpxX4TYDofwup6qixBJNzkHi5o3l1POIQgrmzg6lLuaz/+D+Tj8tu6tjFNEyECc8GlEBl8K2uFxKs6xF4H9N5l415umb2XQ2O3+ns+HC+yNsyyp3kuREzvCkhyaFyDhRpGW4cdXlHcwHMocjkqxMIicfg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746018551; c=relaxed/simple;
-	bh=Uquh9+hFThf+HLWZQBq6Ndkol17/qIWnLp3DHW0Nmig=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=pAM94EhoAaaB/kIAZviZIZKe/ZRBS0Gv4ga0XiXvT9tlnoMJsbTOtm3DOD0jZ1cdxrg3ZuA01sBTvmaXEjkalK0oXObQJv+En9aA41+zk6FSxfEOjrpnRuDTW0XV0CrSZ4z7xXrsoBBrCgkUUifLOPLARotj1doqVwnygjHAZ14=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=pDEeXYWM; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0254325C802
+	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 13:47:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.163.205
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746020855; cv=fail; b=nQ0zc2uG0cl68mlCI8LYe7e8LiCwGMlg12yWgxFbEBLhEWLEKliNs54DHiKTT9JMBxM7deDdWe0eeHvC9xdg5MacJhdjtihlUoDpKzDRzzadJ2oAgj4QQMGz5p0r3tgvPj0R5n1eDsHjvJPKLhOMkcqpbzrCrhoYjoiK8DekcZE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746020855; c=relaxed/simple;
+	bh=SR247PXObrcIbDrc64WtMKoMui/CjnAw9TQ5PouKWNM=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 MIME-Version:Content-Type; b=Lo65kooie7RwembMKqjUfTOtWAg2Fj2AN6/pcf3Umt0hVDEtWqUEB2bBnMPFji3rYXC6pkRmLT8eFLqgymlsUPsXtl2CFNGT3D7dhhKzsITyAu95OegtXJ3OD9DwVyaNz+X1MFZfOWT0RIkIIH9I9LvaSbD2K3X8bsrfj8rdbVA=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ambarella.com; spf=pass smtp.mailfrom=ambarella.com; dkim=pass (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b=MCUyoRo7; dkim=fail (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b=D2OdpOe/ reason="signature verification failed"; arc=fail smtp.client-ip=205.220.163.205
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ambarella.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ambarella.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="pDEeXYWM"
-Received: from pps.filterd (m0356516.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UAeijX010853;
-	Wed, 30 Apr 2025 13:08:37 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=XboVez
-	HAahpZsusAE6XVu9M9pVdJ4kW3iY7ZVTZZ4Uk=; b=pDEeXYWMB+X7PYCnTBhJiK
-	IJ9zRP7T7b0lH+DVN1EUnUyfCA+b0pJmyjCvuX+2RW1BTqsbnjgBR1xGrdt+qaEp
-	V2oOmwVFEkqhgxPK+JXB6oAxDeZwhOwql2utkXMRaizF49cMsL07i+4S9AxOafMc
-	zcTP17ogMvP6IUfbLFPthmRjaUZCYkoMhhYYFdI0c1vQDZlJ0sJg9WhjkVscJXuY
-	CT9ilVzQ/2E7dOLJ7bOPRsZUGa8KrDTBLH188jEbBifjafMV9eQW0RIXKonu3u9o
-	H46CKuU3Ts5kmtxttCtoRYXeFXdholRWMvPLlIG1XSLsg9ffqoTNgbICxS4w1paQ
-	==
-Received: from pps.reinject (localhost [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46bjas0mjg-1
+	dkim=pass (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b="MCUyoRo7";
+	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b="D2OdpOe/"
+Received: from pps.filterd (m0241924.ppops.net [127.0.0.1])
+	by mx0a-00622301.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 53UCt45B001049;
+	Wed, 30 Apr 2025 06:47:18 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ambarella.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	com20210415pp; bh=SR247PXObrcIbDrc64WtMKoMui/CjnAw9TQ5PouKWNM=; b=
+	MCUyoRo7d4D48t/X3VKCmhYKSgBcDetl5Eght/ucSING1BIy/8DPGdxwZTmeUERB
+	JP5gbe0UKUGBNVb4aD/SGuk7mQ/8+VlzTro/HwCpTGqxetH/jlKaWDXcSGMBYldU
+	n9rYNYD5R5ZxAYuET1ISG1CXmAp9Y2khqfDSYSrFOJKBY8VX81xm/XOE6nOqNXOS
+	k7FohHht2Xfqt07BZ13hlWmzpOMyZsl7KbuxsuBD+pyC/ajQXx7wwShlOeOszl4S
+	Ei1ITM2ZA/p72fygRMaER2HmSnQdrh730Lhtl33G0B1zBtqUCLyvQrRY7XtfQJUh
+	dZaQ7k6qVpzaq9GVs7jDbQ==
+Received: from nam04-mw2-obe.outbound.protection.outlook.com (mail-mw2nam04lp2175.outbound.protection.outlook.com [104.47.73.175])
+	by mx0a-00622301.pphosted.com (PPS) with ESMTPS id 46b6tx0dcm-1
 	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 13:08:36 +0000 (GMT)
-Received: from m0356516.ppops.net (m0356516.ppops.net [127.0.0.1])
-	by pps.reinject (8.18.0.8/8.18.0.8) with ESMTP id 53UD8a8c002985;
-	Wed, 30 Apr 2025 13:08:36 GMT
-Received: from ppma21.wdc07v.mail.ibm.com (5b.69.3da9.ip4.static.sl-reverse.com [169.61.105.91])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46bjas0mj8-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 13:08:36 +0000 (GMT)
-Received: from pps.filterd (ppma21.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma21.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 53UCIxjD000700;
-	Wed, 30 Apr 2025 13:08:35 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma21.wdc07v.mail.ibm.com (PPS) with ESMTPS id 469atpfxt9-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Wed, 30 Apr 2025 13:08:35 +0000
-Received: from smtpav02.wdc07v.mail.ibm.com (smtpav02.wdc07v.mail.ibm.com [10.39.53.229])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 53UD8YWX18678058
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Wed, 30 Apr 2025 13:08:34 GMT
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E256458058;
-	Wed, 30 Apr 2025 13:08:33 +0000 (GMT)
-Received: from smtpav02.wdc07v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id B02DB5805B;
-	Wed, 30 Apr 2025 13:08:28 +0000 (GMT)
-Received: from [9.61.255.15] (unknown [9.61.255.15])
-	by smtpav02.wdc07v.mail.ibm.com (Postfix) with ESMTP;
-	Wed, 30 Apr 2025 13:08:28 +0000 (GMT)
-Message-ID: <66e4a803-05bd-4fbe-96bf-84415eefe412@linux.ibm.com>
-Date: Wed, 30 Apr 2025 18:38:27 +0530
+	Wed, 30 Apr 2025 06:47:17 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=E/cRus1MfxiQ5vTopUAf2NSPC4otPOnrK+pjOnqzs0bZM4SpOCiWa6O3CRFOO28LLiuqJe0dcSXsMWhh1DL3gGWqB7y+4nk506EtYbJHKxLMiCPPG89NpBzMJuaVJk2tEYBpZzX/axeDnwnUXRgyfmeoXDNrm2jSa13VZqnWGIDkLLZoMs2+QkI9f4yIvGhEljd1O5njmv7jrQpgQo1+PPPwY9d20hDJh1OYMb4coAvQOitO244UjA0bhBsEmhmDoNSP5f/NmeQjsuppIZ2OAyj/eTyvhgKJIE6G5CGiUABlqSQB3vyLMwtn6NYexF/jBDDSSetSHngByMMSmTJWGQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=A6CBT81Ve2S4dFHF/GdjC+FIjXIK4QhxkgDxY1x2rrY=;
+ b=JH9O4sUpPSRd1tgj8aG8gW5/6LZ+KpA4634bsbclS+iWcEST44lHr0x3iHcA1R/Qsl/PdemJIU0QeqCJNaJr7dpAewiqWBCpF4OV0ggFU1GLTy6a0lWhw85bOJ/+2O8PKtWnFP/A9P4BOx5/RSjPLHze0FECSdhBPE4V7DZoRwPu7QIz12luBc3SvKVJAJoWYOnBCgE/1VLFMXE37zBpEn9JaTJ5k7z20Qk8mkQk/hq38RtYzuaOifa2wXtKjDQsOm6s3KO+eyHQTdZuLm5kDA2DZ4S1kEFZcp0+fdzfdaMQFpNYL7mwHFUWNnwOmZe07lnm0Yp8Dsir4Kj7SsZDEA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ambarella.com; dmarc=pass action=none
+ header.from=ambarella.com; dkim=pass header.d=ambarella.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ambarella.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=A6CBT81Ve2S4dFHF/GdjC+FIjXIK4QhxkgDxY1x2rrY=;
+ b=D2OdpOe//EhjjTo+JLWzG20dzgeHlMuA+4GrUx25EmBJaJ/L9nOiEMz2Rlhne+OjOuyESJEouejmeHxeTWugaxJw8L60dLITyTQrhcz1zzFnQjVTHhvjmST2FB2AQ1R+cHN/dDNksimAUoeDl08IEErbkR+OIfgyXfH80BK4eh92a7TqJlEM9H5FpgkE3A/2wFcjma1e3+FW613jVPXQsyxqHw1MaXwjYbAnVe2FhL0r6GVB6OiQ9YWE5zFft48hLIfPlbvEwlBL3iPg7n6HaAvc0nBXca+gAq6uhA0pERKpl1cv6eAUYg7/QLSNbTDcYlwdj0I8Gpe3oDNxBCm4Zw==
+Received: from IA0PPF7478C2D3A.namprd19.prod.outlook.com
+ (2603:10b6:20f:fc04::cb1) by SA0PR19MB4636.namprd19.prod.outlook.com
+ (2603:10b6:806:c2::11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 30 Apr
+ 2025 13:47:12 +0000
+Received: from IA0PPF7478C2D3A.namprd19.prod.outlook.com
+ ([fe80::b5a8:7a73:b555:1e87]) by IA0PPF7478C2D3A.namprd19.prod.outlook.com
+ ([fe80::b5a8:7a73:b555:1e87%7]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
+ 13:47:11 +0000
+From: Ming Wen <mwen@ambarella.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+        "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>
+CC: "mchehab@kernel.org" <mchehab@kernel.org>, Long Li <longli@ambarella.com>,
+        Jian Tang <jtang@ambarella.com>, Zhao-Yang Chen <zychen@ambarella.com>,
+        Rongrong Cao <rrcao@ambarella.com>
+Subject: RE: [EXT] Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
+Thread-Topic: [EXT] Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
+Thread-Index: Adu5CPI/xnNgIXNHREqtI6hCoIYQBwAxQcUAAAGx1wA=
+Importance: low
+X-Priority: 5
+Date: Wed, 30 Apr 2025 13:47:11 +0000
+Message-ID:
+ <IA0PPF7478C2D3A0AF4E32EE1ADD91EBCD5DD832@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+References:
+ <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
+ <87jz71lstz.fsf@trenco.lwn.net>
+In-Reply-To: <87jz71lstz.fsf@trenco.lwn.net>
+Accept-Language: zh-CN, en-US
+Content-Language: zh-CN
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: IA0PPF7478C2D3A:EE_|SA0PR19MB4636:EE_
+x-ms-office365-filtering-correlation-id: 3394af88-1729-4486-58e5-08dd87ed822b
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info:
+ =?utf-8?B?Sk5wVDZMRm5aUVBuQTZaa3ZYblFoUnFZUjkyMGVwKzZMcHJRR3pLamhrSHVt?=
+ =?utf-8?B?RGR3WEtiMERBR1RCV0dzUDUwYzB1REIrM21mbFlJSy92eGRjdks3ODVqem9D?=
+ =?utf-8?B?K1kxOVlvM0ZYNC9lR3UvTW15L0o4VUlObWEwUDJ6d2RTVW5UdmN0RER1Tng2?=
+ =?utf-8?B?WHNzckNuQ29OZmNaL2ZTR05qa1AyQUFhcUxzNzB0eitJQlJFRHB6blIzeVdZ?=
+ =?utf-8?B?elcwQkRJKzNIWW1ZcDdwRWgyT3JXcDU2M0NobEpkU2NIT05HK3dGc1UxWFJa?=
+ =?utf-8?B?ZHRpZjFaa1JRV1lrWmFiYnVJYk9QODQ1elh0WEFNYXBPNXpUc1BFeVFYTzNh?=
+ =?utf-8?B?L2Fxcm9xYlM2YWVJUTVqSmd2ODI1RHJvNWg0UnAwQVIrUmdaelVxbWtBNG12?=
+ =?utf-8?B?MWlRYzQzRmhqSGI1OE9yZzJnaEkzeWdTYzhxZjlaQ1VsUXVDNm1VUnhLRmpG?=
+ =?utf-8?B?RlVDNmcybTZkYmNmaXgzd2hwTllUOUsvSmdWTThqUjdyN3dwNmF0TVlQWGk2?=
+ =?utf-8?B?USs3eGJCdURtMjhqbzdHemt1a1Zub0JQb3lzaVI5L3ZhVG9BaHRqMml5enhF?=
+ =?utf-8?B?RnkxN0lpRWRvcnJoRGZ0RXkrdWpmVFZaaS9rSlpNOXI3eHZMZmJabVFNZ2FY?=
+ =?utf-8?B?Vk52ZzY0Q0ZWN1hCWVczdEZuL1pkMC8yK2VQdXlacEJwRzdBbzN6UVhFQklT?=
+ =?utf-8?B?cGNnUjlsbkdqL2U2dWJSU0YraThPa2U1b3pMem9kQmxoSWZUSTlMWUpNZVBU?=
+ =?utf-8?B?ZENNSGRRdXh4RnFTZlQ2cUJvUDY3eU15M3YvZHFXNnFnUEcvcFNUamRoblBr?=
+ =?utf-8?B?ZFNzbTg0U3o4ZGJQNlI4Y1pYaEJjMHd4WHFmRkNSbGVNZlNGVzQvekJFNXJN?=
+ =?utf-8?B?dVpzdVYrZ1pPRnR5YlBXQ1l3UURLL2NYYU43UDMzQlVFcmpia0V2akRDeFRm?=
+ =?utf-8?B?RUVqcW1hVGN1Q0pEd2RFR1V2ZlZkKzJuZmJ6T28xTnZNOGkxL2NYenZUbTlp?=
+ =?utf-8?B?TzRRSXBqcHlqOUFXdW93TCtZV1lUMElSM3dEbEx3OExQNnpoTXRCeHVwaHRv?=
+ =?utf-8?B?ZWdjVFBJZGNiK2UyNHByTjFsRy9iVjlPeEVhNjhkNFhBd3ZLWHkwR0FzZ1FF?=
+ =?utf-8?B?UWhMWTVRSEtObUV3ZFRGNnN5TCtPbHFyUktiWDBUQ3dNV1o4MXhCYkFlNVFj?=
+ =?utf-8?B?VDFUVmlRc0dIOHQ4dW8zQWk0YmlDbmdGTlFHNnBsVThqUHhvOXVPTE82TFd1?=
+ =?utf-8?B?ekcybFNUYS9NVlNTVHhLOEhpUG1pNktxS0lhN1ZSMWJpQnBVcFY0U2tFZ3Jy?=
+ =?utf-8?B?Z20zSHFOV2lOQTVIYVA2dVl3WmRNMHkwTkR6a1cxVlNIWDFhdWxPVFRSMEV3?=
+ =?utf-8?B?bXlrNkpqRkd0bkVDNHZsSHhkMUJoTk1pZGlPL05uWDU4NnNYNE1OVVVqR1c1?=
+ =?utf-8?B?YTNKbUpSdDNwTWFMRHFaVndrMm9IYWljc2lRRWs2eGJUd01BMXlaTjRBNTZu?=
+ =?utf-8?B?QWFTczZFanJ1MkFSdTdiVEtDN3pManlqN2hGZERHQ1g3SG5obW1YNnoxQkx5?=
+ =?utf-8?B?VTdrVlJocEZPQlR1bDZxVmNvcVprWmRUbjA0NEVIQ2FDcTltYWxneU9kQitL?=
+ =?utf-8?B?aHVkOUxRaUdwOHlNRTZuRThHSVZLUDgrUUt4KzlNanhtN0dwaUg1M0Z5VEVk?=
+ =?utf-8?B?c1hYeEJaQTdUL0JXTkFJYW90cGlEeHJFTzVBeTBKZWNEVWsyV1NzVzN4NmFT?=
+ =?utf-8?B?SWJtOTRIRWdFajRFNVI1cHJMd0RmQjRkN0RPVEE5NFBneWVlcnJ2U3ltaXlK?=
+ =?utf-8?B?a1pwWDhuVG9CWFdVaXpLamVMOHZkbWZIUitLMG9yZUEyUFQrZEd1V0NwNzFT?=
+ =?utf-8?B?TlB0TnhPaDc3elovWVN2M0xPazBpcUVtSXY1SUxhVVFpSWNsZzRybDBIZGtv?=
+ =?utf-8?B?N0NpMFExUGgrSTBiTDh1UnJ4eXU1SDlMZTQ1SUFTN3hBTGdPSkFtQk90ekZR?=
+ =?utf-8?Q?zhZH8Z9NhA51t9jvtvIYTluceHbdcc=3D?=
+x-forefront-antispam-report:
+ CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF7478C2D3A.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0:
+ =?utf-8?B?bmFwdmM3NXo1TThDRTYrb2tBak5DRGljVysxMEg0SERnTzJlelRlQ0xHd0ox?=
+ =?utf-8?B?V2ExalVteTVtODkxZURpVGlJRERyekQ4MFQrUmlxeko2WE14eElDUzEvR2Fm?=
+ =?utf-8?B?eW1JQTI5bDlCUGQzUDNhZjRXaFdMeDg5VWxENFFIL1hyczRQOXVTanBBOWdu?=
+ =?utf-8?B?UTltY3hJSEgzMDhXZ2x1YUdPRHFGQkdWL2wxbkVDSm1oQmR6VE9vdWRzck9l?=
+ =?utf-8?B?cWxjeDcvN1kybTRYbzNCQko2dkNTbTFNZlEwVE4xRk1iMXE5eHpYVVJENnBr?=
+ =?utf-8?B?S2ZjUVhpT2NpZU9NSktCdXRmREF3N3BhakcxZlpMS2thYVRPMXdiLzlSckFn?=
+ =?utf-8?B?bWdIY0VXc3ZtU0UzTktDZk0rSk55VlVLL2ZSQjBIWU91NHVsdjk3THFnKzdN?=
+ =?utf-8?B?RGVwU1VuRUdIMDJ1ZzNmMXl0b0xDMURrb3NOL3Q3Y0RDdXB0N0lVeFpKbjZF?=
+ =?utf-8?B?cVEvY0Z5TjdYNFlKRVFidmcxRndHYmEyWkgreFY3NksvU21ubmR6WWRYMi9B?=
+ =?utf-8?B?bWFTVGs1QnRJQ1J6NkF1eis3RDhOcmxEYzgvemFtSmFFYmNoenF5UWhVWTRw?=
+ =?utf-8?B?VitiVVVvZld4UUY4K3gzZkM4cWhyZWRKRzhGQ3NVRUN6VGo3N3RLWnRuTXd2?=
+ =?utf-8?B?R04vOTdRWCtCZFc1aDgxaWFpS2grODlCY0l6ZGFjbUYvVDdRRzVGOWJaTlNl?=
+ =?utf-8?B?QkZVRUhadUdLdDZwWjMwbzMxUm1aR2dxL04vTWd0elJRU0dlMGRaVUtkVVBQ?=
+ =?utf-8?B?a2puMnRESnc4UDROUzkvbzA2TGRuZ3BVWlRiRTR2OWNTaS8rNjNUSHRWUHl0?=
+ =?utf-8?B?RTBNQ25JQXpEMGJWQ0RydVNJMnZySk9rak1XcjB6RlI2YnlhSWloNFgrdGFa?=
+ =?utf-8?B?d1hCU0h6d0xLdlNSNUlWd05sWWl0bTRQejhqWkw4K1piYm94NWoxYWtzWnRx?=
+ =?utf-8?B?aFpZN3ZjUEs5QXVHYnZhL29ibmFaeFJoMmlheWRvOHlwYVh2czJURG9vNDZt?=
+ =?utf-8?B?Z3NtZWlVbXNDa0k1c25LNVFBYlE0aklQK3hFNURpa1hESHNrOFJ2enpjMWhm?=
+ =?utf-8?B?ck8wWVMvVFBpazZaU2xnSmp2U2VVUHlwNXVuWW1xUTRZZTJ3RFdTUnVvMVBE?=
+ =?utf-8?B?VW1GQ2lPUGFOdlkyMWxiQzhkNTk3MGNOa1J6WnR4aE5GVDZueXM3eGxCQUJQ?=
+ =?utf-8?B?QTFlck90QXBvK3diRk1NRFJ6Z2gwdzlvcUZhN1pjUytFYTBmVXFHdHdmcld3?=
+ =?utf-8?B?V3hxaVc3SjczcDlMc0RNSzdvdEE5YVdicnNJY0o5RnFXeVd6Wm1ocUtqdWt0?=
+ =?utf-8?B?SjZaM29td00yYk51dWgrSTY0S0NNY09SUlR4Z25QOUdRTkJkRVNmLzNMZW9I?=
+ =?utf-8?B?QUlNMG9lMEc4MkpsR1hMcCtZb3k4SE5kak1KZzI0ckV3MWpudnpzbDVxSW4r?=
+ =?utf-8?B?ZXNOc2N1N0t5SEhjOE1BaTF2OGNrUFRsNXMxL1d6MWV0RjZRQ2FnNVkyVnll?=
+ =?utf-8?B?R2Rya244TnJoRDJhaWJPcU1jZ1VFbUo2bGpLbnl3ZEtGV2VlbUJSMW1kQ0tZ?=
+ =?utf-8?B?dllFcUV0clF0TllqNTREN3FRajFaY3FpU0czamQzdHR0aTN2WU5OZ1ppdnVr?=
+ =?utf-8?B?NFpaa05wK3lMSXdZRkhuOUVZd2wxd1hDbDBrZVc4dmU0aHRxUm8wUzZSOTgz?=
+ =?utf-8?B?eE5HKzBXcDY4bHNURFh5RHFNOVI4TTFKZDRmNWlCLzZIVjU5QXVsVnpjeHZ2?=
+ =?utf-8?B?NDhhNVZHOGRBM2FwU252WmgyRlRoNlF1TXFvbGFHb0NSMVppdTVPN2ltSVM2?=
+ =?utf-8?B?bWJjNkZMbzMyNGVmdVdXdisxUENsdDlkaW9MQ09HVUlGOElwR1dlekZJcGcv?=
+ =?utf-8?B?UlpOcGNvK3NNUDcrbmxYRzBQUUU5NW9zbzZwRU1tUXU3WGY5SHlFbDIvcndl?=
+ =?utf-8?B?T0JEQU1BSUVaMHB2b3FpNkRRT1I4VXN1a0p3TUNlMVBpUExjVUtDVUVvYmlP?=
+ =?utf-8?B?eFVhT1JRVlRxamZlMHhONXdYUDhwWXh4d00yWjhZRW0yTlhQZ0I4cWVzdEoy?=
+ =?utf-8?B?NXc2NWV0bTljK1lSTU9zcWhaMitBYUFZbG5KS1g2OFZSQVY4OFhvdUpXdWpy?=
+ =?utf-8?Q?/D+Zs01oShbKpQo3R442yu/fb?=
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] Documentation: ioctl-number: Extend "Include File" column
- width
-Content-Language: en-GB
-To: Bagas Sanjaya <bagasdotme@gmail.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Documentation <linux-doc@vger.kernel.org>,
-        Linux PowerPC <linuxppc-dev@lists.ozlabs.org>,
-        Linux Networking <netdev@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-        Richard Cochran <richardcochran@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Madhavan Srinivasan <maddy@linux.ibm.com>,
-        Haren Myneni
- <haren@linux.ibm.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Vamsi Attunuru
- <vattunuru@marvell.com>,
-        Lukas Bulwahn <lukas.bulwahn@redhat.com>, Alyssa Ross <hi@alyssa.is>,
-        Stephen Rothwell <sfr@canb.auug.org.au>
-References: <20250429130524.33587-2-bagasdotme@gmail.com>
-From: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-In-Reply-To: <20250429130524.33587-2-bagasdotme@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-GUID: sJGboLIQtZtgK6bX9F95McBttcEggUy1
-X-Proofpoint-ORIG-GUID: XB_uOn3BY7BHVttiCyg22YlYXYY_pyk0
-X-Authority-Analysis: v=2.4 cv=LKNmQIW9 c=1 sm=1 tr=0 ts=681220d4 cx=c_pps a=GFwsV6G8L6GxiO2Y/PsHdQ==:117 a=GFwsV6G8L6GxiO2Y/PsHdQ==:17 a=IkcTkHD0fZMA:10 a=XR8D0OoHHMoA:10 a=VwQbUJbxAAAA:8 a=rOUgymgbAAAA:8 a=FP58Ms26AAAA:8 a=36Qj4kvwAAAA:8 a=xqzR1eaSAAAA:8
- a=a4NEJbfMAAAA:8 a=TkLiO6tdAAAA:8 a=NEAV23lmAAAA:8 a=wTc3cHO5AAAA:8 a=Ju1OUx4FAAAA:8 a=pGLkceISAAAA:8 a=QyXUC8HyAAAA:8 a=6X-EevrwAAAA:8 a=YMHlrSWeAAAA:8 a=ag1SF4gXAAAA:8 a=br60VIFoAAAA:8 a=EF7ItLl7AAAA:8 a=59Bnr_R2AAAA:8 a=p-73RYD4AAAA:8 a=84BadPHTAAAA:8
- a=Tty9oNO6AAAA:8 a=zeAeT-1tAAAA:8 a=voM4FWlXAAAA:8 a=6rqHouBjAAAA:8 a=VnNF1IyMAAAA:8 a=WgJYcGVQAAAA:8 a=7d_E57ReAAAA:8 a=zd2uoN0lAAAA:8 a=iYBMvFur5cj1qlw62OQA:9 a=QEXdDO2ut3YA:10 a=a8RXOGDryFMA:10 a=MP9ZtiD8KjrkvI0BhSjB:22 a=UklWUE76AaA7xuxiX2K1:22
- a=dV6nhpJrT-yxOfsl7Uss:22 a=j5HedEgV9xmj0QdrFjqv:22 a=baavZ0Ln-j307LZ-0_7C:22 a=w5lJx-D4kpZreUpx7M4u:22 a=57Y-CfXW99XzLu2jE1FU:22 a=PDd2vrKq2XUAlGmJVEUY:22 a=Yupwre4RP9_Eg_Bd0iYG:22 a=HrzLPDwhB63SKwEyWadd:22 a=KzV_IjdM9kfMg8rc9Rf7:22
- a=AGiTiUxUTAVOEnAwzyD-:22 a=jXqu7Ew5HFkvi6pE3bB5:22 a=Bts-Es6F1CBXvF7u4C_G:22 a=Ry2eTNIdGMwtTGQdmMb7:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDA5NCBTYWx0ZWRfX/RYFW/AtHQ4y vVsgLtDa0SlYpXp19hj2qjxzAPPS1FC9qDVWuBhU+8EH9g4KFlQbIygPld5pCo0AKI4XyiUDSZL 9Mq9LvzWLrNXMe5oaPf/UISe9qVEo/RfKP6/BYIwlQOcOjJtIy1xQy37RgSV6ydyuL/ER8uoJEg
- TVYuM3xY3//pGqqghs3TilUlr9J7ihSzO4dooBmLYrtD4xm761akZE0Hep6Stb3kDPgd/GuWRRM tVaPfar9/D8J1NHtW/7Sf7KFQol5sWdQ0P2NbGADQVSnAe8d0k/Den15DWkRLbPwUHaKlZlJtqm zzh3glRMNboE4Cdfu/z9481d/XU2Ve5U+IpxvxioAFofP7eGwc+X5Ed45bRC1Gqdn7q/kCZvMOf
- Wdu7ZlCvH/J9m9nBzibmXgBsAflwNXRCLJw3MIxm2Hubbwb5nQp/TAXP2M6Og07x16oBonse
+X-OriginatorOrg: ambarella.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: IA0PPF7478C2D3A.namprd19.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3394af88-1729-4486-58e5-08dd87ed822b
+X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2025 13:47:11.5854
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3ccd3c8d-5f7c-4eb4-ae6f-32d8c106402c
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: DQtfr6LrQI45qwVIrbvsOtveS+vW0nDGSFFh6uELr/zWMRtVFiUm0tTCY3B1H2IBa+lf9mFVC07YY6F2p5KywA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA0PR19MB4636
+X-Proofpoint-ORIG-GUID: dLpYmyOB1WUC8DM0YsEIl8Y0To84LkPk
+X-Authority-Analysis: v=2.4 cv=JdW8rVKV c=1 sm=1 tr=0 ts=681229e5 cx=c_pps a=dbfzVNK0jQbpEhEqKt7tuQ==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
+ a=XR8D0OoHHMoA:10 a=dkMdDuzY2HgA:10 a=07d9gI8wAAAA:8 a=ppJngBeKAAAA:8 a=VwQbUJbxAAAA:8 a=bPOcP376D--z2W7JVXAA:9 a=QEXdDO2ut3YA:10 a=e2CUPOnPG4QKp8I52DXD:22
+X-Proofpoint-GUID: dLpYmyOB1WUC8DM0YsEIl8Y0To84LkPk
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNDMwMDA5NyBTYWx0ZWRfX6FfF2QQWpR+E XMNsYCCJLPsx94sSGoPJWOCRv6SrSGfLo6NplZ4AFauCABDJ8+eV7Z+Ip3jqgl6smbk84WdX2f8 q36pH+UwCgntQOhe05Bl+ZqvMnidarT6wolFzMmGgCwMIPNVwATqDgAhNPButEus5ceG6bzlRBM
+ W7UeGnbenlNC2EzxMB2rOSUOc4UXZzKxSX9dLrykI/8Uch9ri+bRH75Z1lCMQgjvalXTT2xs/wk 1QpvZUxxbsvDQkoKWuap3rwlB+Nf6yt/wYUCiqyTsH3S/88w0l6VRMyZbyJh0yb43tD2IfTy00o s5wGL8SAk0Vn55YogeZGvA0TeB76OwlbmHJaMimsHXrWrUAAV35zR/nO7AUAFf0Ho5qdgW/imgJ
+ Ll4Gbj8wi2B6nmcdNqckpurucDco6ltTMAiIqooKYK6w6JgY9CWfvMoaIIhhsmzXnZJqRCCi
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-04-30_04,2025-04-24_02,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- priorityscore=1501 malwarescore=0 suspectscore=0 spamscore=0 mlxscore=0
- impostorscore=0 adultscore=0 bulkscore=0 mlxlogscore=999 clxscore=1011
- phishscore=0 classifier=spam authscore=0 authtc=n/a authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2504300094
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 clxscore=1015 suspectscore=0
+ impostorscore=0 mlxlogscore=999 adultscore=0 phishscore=0 malwarescore=0
+ lowpriorityscore=0 priorityscore=1501 bulkscore=0 spamscore=0 mlxscore=0
+ classifier=spam authscore=0 authtc=n/a authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.21.0-2504070000
+ definitions=main-2504300097
+Content-Type: text/plain; charset="utf-8"
 
-
-On 29/04/25 6:35 pm, Bagas Sanjaya wrote:
-> Stephen Rothwell reports htmldocs warning when merging powerpc tree for
-> linux-next:
->
-> Documentation/userspace-api/ioctl/ioctl-number.rst:369: ERROR: Malformed table.
-> Text in column margin in table line 301.
->
-> ====  =====  ======================================================= ================================================================
-> Code  Seq#    Include File                                           Comments
->        (hex)
-> ====  =====  ======================================================= ================================================================
-> 	.
-> 	.
-> 	.
-> 0xB2  03-05 arch/powerpc/include/uapi/asm/papr-indices.h             powerpc/pseries indices API
->                                                                       <mailto:linuxppc-dev>
-> 0xB2  06-07 arch/powerpc/include/uapi/asm/papr-platform-dump.h       powerpc/pseries Platform Dump API
->                                                                       <mailto:linuxppc-dev>
-> 0xB2  08  arch/powerpc/include/uapi/asm/papr-physical-attestation.h  powerpc/pseries Physical Attestation API
->                                                                       <mailto:linuxppc-dev>
-> 	.
-> 	.
-> 	.
-> ====  =====  ======================================================= ================================================================ [docutils]
->
-> That's because arch/powerpc/include/uapi/asm/papr-physical-attestation.h
-> now occupies the widest "Include File" column entry in ioctl number
-> table. In addition, the other papr-*.h entries in the same column aren't
-> sufficiently padded to align to the rest of column. As such, the table
-> is skipped in resulting htmldocs output.
->
-> Fix the warning by extending "Include File" column so that the
-> widest entry can fit, and by aligning the other papr-*.h entries. While
-> at it, also fix mailto: links to linuxppc-dev mailing list.
->
-> Fixes: 43d869ac25f1 ("powerpc/pseries: Define papr_indices_io_block for papr-indices ioctls")
-> Fixes: 8aa9efc0be66 ("powerpc/pseries: Add papr-platform-dump character driver for dump retrieval")
-> Fixes: 86900ab620a4 ("powerpc/pseries: Add a char driver for physical-attestation RTAS")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250429181707.7848912b@canb.auug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
->   .../userspace-api/ioctl/ioctl-number.rst      | 512 +++++++++---------
->   1 file changed, 256 insertions(+), 256 deletions(-)
->
-> diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> index 017a23aeadc329..b725186670a1d8 100644
-> --- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-> +++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-> @@ -66,343 +66,343 @@ This table lists ioctls visible from user land for Linux/x86.  It contains
->   most drivers up to 2.6.31, but I know I am missing some.  There has been
->   no attempt to list non-X86 architectures or ioctls from drivers/staging/.
->   
-> -====  =====  ======================================================= ================================================================
-> -Code  Seq#    Include File                                           Comments
-> +====  =====  =========================================================  ================================================================
-> +Code  Seq#    Include File                                              Comments
->         (hex)
-> -====  =====  ======================================================= ================================================================
-> -0x00  00-1F  linux/fs.h                                              conflict!
-> -0x00  00-1F  scsi/scsi_ioctl.h                                       conflict!
-> -0x00  00-1F  linux/fb.h                                              conflict!
-> -0x00  00-1F  linux/wavefront.h                                       conflict!
-> +====  =====  =========================================================  ================================================================
-> +0x00  00-1F  linux/fs.h                                                 conflict!
-> +0x00  00-1F  scsi/scsi_ioctl.h                                          conflict!
-> +0x00  00-1F  linux/fb.h                                                 conflict!
-> +0x00  00-1F  linux/wavefront.h                                          conflict!
->   0x02  all    linux/fd.h
->   0x03  all    linux/hdreg.h
-> -0x04  D2-DC  linux/umsdos_fs.h                                       Dead since 2.6.11, but don't reuse these.
-> +0x04  D2-DC  linux/umsdos_fs.h                                          Dead since 2.6.11, but don't reuse these.
->   0x06  all    linux/lp.h
->   0x07  9F-D0  linux/vmw_vmci_defs.h, uapi/linux/vm_sockets.h
->   0x09  all    linux/raid/md_u.h
->   0x10  00-0F  drivers/char/s390/vmcp.h
->   0x10  10-1F  arch/s390/include/uapi/sclp_ctl.h
->   0x10  20-2F  arch/s390/include/uapi/asm/hypfs.h
-> -0x12  all    linux/fs.h                                              BLK* ioctls
-> +0x12  all    linux/fs.h                                                 BLK* ioctls
->                linux/blkpg.h
->                linux/blkzoned.h
->                linux/blk-crypto.h
-> -0x15  all    linux/fs.h                                              FS_IOC_* ioctls
-> -0x1b  all                                                            InfiniBand Subsystem
-> -                                                                     <http://infiniband.sourceforge.net/>
-> +0x15  all    linux/fs.h                                                 FS_IOC_* ioctls
-> +0x1b  all                                                               InfiniBand Subsystem
-> +                                                                        <http://infiniband.sourceforge.net/>
->   0x20  all    drivers/cdrom/cm206.h
->   0x22  all    scsi/sg.h
-> -0x3E  00-0F  linux/counter.h                                         <mailto:linux-iio@vger.kernel.org>
-> +0x3E  00-0F  linux/counter.h                                            <mailto:linux-iio@vger.kernel.org>
->   '!'   00-1F  uapi/linux/seccomp.h
-> -'#'   00-3F                                                          IEEE 1394 Subsystem
-> -                                                                     Block for the entire subsystem
-> +'#'   00-3F                                                             IEEE 1394 Subsystem
-> +                                                                        Block for the entire subsystem
->   '$'   00-0F  linux/perf_counter.h, linux/perf_event.h
-> -'%'   00-0F  include/uapi/linux/stm.h                                System Trace Module subsystem
-> -                                                                     <mailto:alexander.shishkin@linux.intel.com>
-> +'%'   00-0F  include/uapi/linux/stm.h                                   System Trace Module subsystem
-> +                                                                        <mailto:alexander.shishkin@linux.intel.com>
->   '&'   00-07  drivers/firewire/nosy-user.h
-> -'*'   00-1F  uapi/linux/user_events.h                                User Events Subsystem
-> -                                                                     <mailto:linux-trace-kernel@vger.kernel.org>
-> -'1'   00-1F  linux/timepps.h                                         PPS kit from Ulrich Windl
-> -                                                                     <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
-> +'*'   00-1F  uapi/linux/user_events.h                                   User Events Subsystem
-> +                                                                        <mailto:linux-trace-kernel@vger.kernel.org>
-> +'1'   00-1F  linux/timepps.h                                            PPS kit from Ulrich Windl
-> +                                                                        <ftp://ftp.de.kernel.org/pub/linux/daemons/ntp/PPS/>
->   '2'   01-04  linux/i2o.h
-> -'3'   00-0F  drivers/s390/char/raw3270.h                             conflict!
-> -'3'   00-1F  linux/suspend_ioctls.h,                                 conflict!
-> +'3'   00-0F  drivers/s390/char/raw3270.h                                conflict!
-> +'3'   00-1F  linux/suspend_ioctls.h,                                    conflict!
->                kernel/power/user.c
-> -'8'   all                                                            SNP8023 advanced NIC card
-> -                                                                     <mailto:mcr@solidum.com>
-> +'8'   all                                                               SNP8023 advanced NIC card
-> +                                                                        <mailto:mcr@solidum.com>
->   ';'   64-7F  linux/vfio.h
->   ';'   80-FF  linux/iommufd.h
-> -'='   00-3f  uapi/linux/ptp_clock.h                                  <mailto:richardcochran@gmail.com>
-> -'@'   00-0F  linux/radeonfb.h                                        conflict!
-> -'@'   00-0F  drivers/video/aty/aty128fb.c                            conflict!
-> -'A'   00-1F  linux/apm_bios.h                                        conflict!
-> -'A'   00-0F  linux/agpgart.h,                                        conflict!
-> +'='   00-3f  uapi/linux/ptp_clock.h                                     <mailto:richardcochran@gmail.com>
-> +'@'   00-0F  linux/radeonfb.h                                           conflict!
-> +'@'   00-0F  drivers/video/aty/aty128fb.c                               conflict!
-> +'A'   00-1F  linux/apm_bios.h                                           conflict!
-> +'A'   00-0F  linux/agpgart.h,                                           conflict!
->                drivers/char/agp/compat_ioctl.h
-> -'A'   00-7F  sound/asound.h                                          conflict!
-> -'B'   00-1F  linux/cciss_ioctl.h                                     conflict!
-> -'B'   00-0F  include/linux/pmu.h                                     conflict!
-> -'B'   C0-FF  advanced bbus                                           <mailto:maassen@uni-freiburg.de>
-> -'B'   00-0F  xen/xenbus_dev.h                                        conflict!
-> -'C'   all    linux/soundcard.h                                       conflict!
-> -'C'   01-2F  linux/capi.h                                            conflict!
-> -'C'   F0-FF  drivers/net/wan/cosa.h                                  conflict!
-> +'A'   00-7F  sound/asound.h                                             conflict!
-> +'B'   00-1F  linux/cciss_ioctl.h                                        conflict!
-> +'B'   00-0F  include/linux/pmu.h                                        conflict!
-> +'B'   C0-FF  advanced bbus                                              <mailto:maassen@uni-freiburg.de>
-> +'B'   00-0F  xen/xenbus_dev.h                                           conflict!
-> +'C'   all    linux/soundcard.h                                          conflict!
-> +'C'   01-2F  linux/capi.h                                               conflict!
-> +'C'   F0-FF  drivers/net/wan/cosa.h                                     conflict!
->   'D'   all    arch/s390/include/asm/dasd.h
-> -'D'   40-5F  drivers/scsi/dpt/dtpi_ioctl.h                           Dead since 2022
-> +'D'   40-5F  drivers/scsi/dpt/dtpi_ioctl.h                              Dead since 2022
->   'D'   05     drivers/scsi/pmcraid.h
-> -'E'   all    linux/input.h                                           conflict!
-> -'E'   00-0F  xen/evtchn.h                                            conflict!
-> -'F'   all    linux/fb.h                                              conflict!
-> -'F'   01-02  drivers/scsi/pmcraid.h                                  conflict!
-> -'F'   20     drivers/video/fsl-diu-fb.h                              conflict!
-> -'F'   20     linux/ivtvfb.h                                          conflict!
-> -'F'   20     linux/matroxfb.h                                        conflict!
-> -'F'   20     drivers/video/aty/atyfb_base.c                          conflict!
-> -'F'   00-0F  video/da8xx-fb.h                                        conflict!
-> -'F'   80-8F  linux/arcfb.h                                           conflict!
-> -'F'   DD     video/sstfb.h                                           conflict!
-> -'G'   00-3F  drivers/misc/sgi-gru/grulib.h                           conflict!
-> -'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                            conflict!
-> -'H'   00-7F  linux/hiddev.h                                          conflict!
-> -'H'   00-0F  linux/hidraw.h                                          conflict!
-> -'H'   01     linux/mei.h                                             conflict!
-> -'H'   02     linux/mei.h                                             conflict!
-> -'H'   03     linux/mei.h                                             conflict!
-> -'H'   00-0F  sound/asound.h                                          conflict!
-> -'H'   20-40  sound/asound_fm.h                                       conflict!
-> -'H'   80-8F  sound/sfnt_info.h                                       conflict!
-> -'H'   10-8F  sound/emu10k1.h                                         conflict!
-> -'H'   10-1F  sound/sb16_csp.h                                        conflict!
-> -'H'   10-1F  sound/hda_hwdep.h                                       conflict!
-> -'H'   40-4F  sound/hdspm.h                                           conflict!
-> -'H'   40-4F  sound/hdsp.h                                            conflict!
-> +'E'   all    linux/input.h                                              conflict!
-> +'E'   00-0F  xen/evtchn.h                                               conflict!
-> +'F'   all    linux/fb.h                                                 conflict!
-> +'F'   01-02  drivers/scsi/pmcraid.h                                     conflict!
-> +'F'   20     drivers/video/fsl-diu-fb.h                                 conflict!
-> +'F'   20     linux/ivtvfb.h                                             conflict!
-> +'F'   20     linux/matroxfb.h                                           conflict!
-> +'F'   20     drivers/video/aty/atyfb_base.c                             conflict!
-> +'F'   00-0F  video/da8xx-fb.h                                           conflict!
-> +'F'   80-8F  linux/arcfb.h                                              conflict!
-> +'F'   DD     video/sstfb.h                                              conflict!
-> +'G'   00-3F  drivers/misc/sgi-gru/grulib.h                              conflict!
-> +'G'   00-0F  xen/gntalloc.h, xen/gntdev.h                               conflict!
-> +'H'   00-7F  linux/hiddev.h                                             conflict!
-> +'H'   00-0F  linux/hidraw.h                                             conflict!
-> +'H'   01     linux/mei.h                                                conflict!
-> +'H'   02     linux/mei.h                                                conflict!
-> +'H'   03     linux/mei.h                                                conflict!
-> +'H'   00-0F  sound/asound.h                                             conflict!
-> +'H'   20-40  sound/asound_fm.h                                          conflict!
-> +'H'   80-8F  sound/sfnt_info.h                                          conflict!
-> +'H'   10-8F  sound/emu10k1.h                                            conflict!
-> +'H'   10-1F  sound/sb16_csp.h                                           conflict!
-> +'H'   10-1F  sound/hda_hwdep.h                                          conflict!
-> +'H'   40-4F  sound/hdspm.h                                              conflict!
-> +'H'   40-4F  sound/hdsp.h                                               conflict!
->   'H'   90     sound/usb/usx2y/usb_stream.h
-> -'H'   00-0F  uapi/misc/habanalabs.h                                  conflict!
-> +'H'   00-0F  uapi/misc/habanalabs.h                                     conflict!
->   'H'   A0     uapi/linux/usb/cdc-wdm.h
-> -'H'   C0-F0  net/bluetooth/hci.h                                     conflict!
-> -'H'   C0-DF  net/bluetooth/hidp/hidp.h                               conflict!
-> -'H'   C0-DF  net/bluetooth/cmtp/cmtp.h                               conflict!
-> -'H'   C0-DF  net/bluetooth/bnep/bnep.h                               conflict!
-> -'H'   F1     linux/hid-roccat.h                                      <mailto:erazor_de@users.sourceforge.net>
-> +'H'   C0-F0  net/bluetooth/hci.h                                        conflict!
-> +'H'   C0-DF  net/bluetooth/hidp/hidp.h                                  conflict!
-> +'H'   C0-DF  net/bluetooth/cmtp/cmtp.h                                  conflict!
-> +'H'   C0-DF  net/bluetooth/bnep/bnep.h                                  conflict!
-> +'H'   F1     linux/hid-roccat.h                                         <mailto:erazor_de@users.sourceforge.net>
->   'H'   F8-FA  sound/firewire.h
-> -'I'   all    linux/isdn.h                                            conflict!
-> -'I'   00-0F  drivers/isdn/divert/isdn_divert.h                       conflict!
-> -'I'   40-4F  linux/mISDNif.h                                         conflict!
-> +'I'   all    linux/isdn.h                                               conflict!
-> +'I'   00-0F  drivers/isdn/divert/isdn_divert.h                          conflict!
-> +'I'   40-4F  linux/mISDNif.h                                            conflict!
->   'K'   all    linux/kd.h
-> -'L'   00-1F  linux/loop.h                                            conflict!
-> -'L'   10-1F  drivers/scsi/mpt3sas/mpt3sas_ctl.h                      conflict!
-> -'L'   E0-FF  linux/ppdd.h                                            encrypted disk device driver
-> -                                                                     <http://linux01.gwdg.de/~alatham/ppdd.html>
-> -'M'   all    linux/soundcard.h                                       conflict!
-> -'M'   01-16  mtd/mtd-abi.h                                           conflict!
-> +'L'   00-1F  linux/loop.h                                               conflict!
-> +'L'   10-1F  drivers/scsi/mpt3sas/mpt3sas_ctl.h                         conflict!
-> +'L'   E0-FF  linux/ppdd.h                                               encrypted disk device driver
-> +                                                                        <http://linux01.gwdg.de/~alatham/ppdd.html>
-> +'M'   all    linux/soundcard.h                                          conflict!
-> +'M'   01-16  mtd/mtd-abi.h                                              conflict!
->         and    drivers/mtd/mtdchar.c
->   'M'   01-03  drivers/scsi/megaraid/megaraid_sas.h
-> -'M'   00-0F  drivers/video/fsl-diu-fb.h                              conflict!
-> +'M'   00-0F  drivers/video/fsl-diu-fb.h                                 conflict!
->   'N'   00-1F  drivers/usb/scanner.h
->   'N'   40-7F  drivers/block/nvme.c
-> -'N'   80-8F  uapi/linux/ntsync.h                                     NT synchronization primitives
-> -                                                                     <mailto:wine-devel@winehq.org>
-> -'O'   00-06  mtd/ubi-user.h                                          UBI
-> -'P'   all    linux/soundcard.h                                       conflict!
-> -'P'   60-6F  sound/sscape_ioctl.h                                    conflict!
-> -'P'   00-0F  drivers/usb/class/usblp.c                               conflict!
-> -'P'   01-09  drivers/misc/pci_endpoint_test.c                        conflict!
-> -'P'   00-0F  xen/privcmd.h                                           conflict!
-> -'P'   00-05  linux/tps6594_pfsm.h                                    conflict!
-> +'N'   80-8F  uapi/linux/ntsync.h                                        NT synchronization primitives
-> +                                                                        <mailto:wine-devel@winehq.org>
-> +'O'   00-06  mtd/ubi-user.h                                             UBI
-> +'P'   all    linux/soundcard.h                                          conflict!
-> +'P'   60-6F  sound/sscape_ioctl.h                                       conflict!
-> +'P'   00-0F  drivers/usb/class/usblp.c                                  conflict!
-> +'P'   01-09  drivers/misc/pci_endpoint_test.c                           conflict!
-> +'P'   00-0F  xen/privcmd.h                                              conflict!
-> +'P'   00-05  linux/tps6594_pfsm.h                                       conflict!
->   'Q'   all    linux/soundcard.h
-> -'R'   00-1F  linux/random.h                                          conflict!
-> -'R'   01     linux/rfkill.h                                          conflict!
-> +'R'   00-1F  linux/random.h                                             conflict!
-> +'R'   01     linux/rfkill.h                                             conflict!
->   'R'   20-2F  linux/trace_mmap.h
->   'R'   C0-DF  net/bluetooth/rfcomm.h
->   'R'   E0     uapi/linux/fsl_mc.h
-> -'S'   all    linux/cdrom.h                                           conflict!
-> -'S'   80-81  scsi/scsi_ioctl.h                                       conflict!
-> -'S'   82-FF  scsi/scsi.h                                             conflict!
-> -'S'   00-7F  sound/asequencer.h                                      conflict!
-> -'T'   all    linux/soundcard.h                                       conflict!
-> -'T'   00-AF  sound/asound.h                                          conflict!
-> -'T'   all    arch/x86/include/asm/ioctls.h                           conflict!
-> -'T'   C0-DF  linux/if_tun.h                                          conflict!
-> -'U'   all    sound/asound.h                                          conflict!
-> -'U'   00-CF  linux/uinput.h                                          conflict!
-> +'S'   all    linux/cdrom.h                                              conflict!
-> +'S'   80-81  scsi/scsi_ioctl.h                                          conflict!
-> +'S'   82-FF  scsi/scsi.h                                                conflict!
-> +'S'   00-7F  sound/asequencer.h                                         conflict!
-> +'T'   all    linux/soundcard.h                                          conflict!
-> +'T'   00-AF  sound/asound.h                                             conflict!
-> +'T'   all    arch/x86/include/asm/ioctls.h                              conflict!
-> +'T'   C0-DF  linux/if_tun.h                                             conflict!
-> +'U'   all    sound/asound.h                                             conflict!
-> +'U'   00-CF  linux/uinput.h                                             conflict!
->   'U'   00-EF  linux/usbdevice_fs.h
->   'U'   C0-CF  drivers/bluetooth/hci_uart.h
-> -'V'   all    linux/vt.h                                              conflict!
-> -'V'   all    linux/videodev2.h                                       conflict!
-> -'V'   C0     linux/ivtvfb.h                                          conflict!
-> -'V'   C0     linux/ivtv.h                                            conflict!
-> -'V'   C0     media/si4713.h                                          conflict!
-> -'W'   00-1F  linux/watchdog.h                                        conflict!
-> -'W'   00-1F  linux/wanrouter.h                                       conflict! (pre 3.9)
-> -'W'   00-3F  sound/asound.h                                          conflict!
-> +'V'   all    linux/vt.h                                                 conflict!
-> +'V'   all    linux/videodev2.h                                          conflict!
-> +'V'   C0     linux/ivtvfb.h                                             conflict!
-> +'V'   C0     linux/ivtv.h                                               conflict!
-> +'V'   C0     media/si4713.h                                             conflict!
-> +'W'   00-1F  linux/watchdog.h                                           conflict!
-> +'W'   00-1F  linux/wanrouter.h                                          conflict! (pre 3.9)
-> +'W'   00-3F  sound/asound.h                                             conflict!
->   'W'   40-5F  drivers/pci/switch/switchtec.c
->   'W'   60-61  linux/watch_queue.h
-> -'X'   all    fs/xfs/xfs_fs.h,                                        conflict!
-> +'X'   all    fs/xfs/xfs_fs.h,                                           conflict!
->                fs/xfs/linux-2.6/xfs_ioctl32.h,
->                include/linux/falloc.h,
->                linux/fs.h,
-> -'X'   all    fs/ocfs2/ocfs_fs.h                                      conflict!
-> -'X'   01     linux/pktcdvd.h                                         conflict!
-> +'X'   all    fs/ocfs2/ocfs_fs.h                                         conflict!
-> +'X'   01     linux/pktcdvd.h                                            conflict!
->   'Z'   14-15  drivers/message/fusion/mptctl.h
-> -'['   00-3F  linux/usb/tmc.h                                         USB Test and Measurement Devices
-> -                                                                     <mailto:gregkh@linuxfoundation.org>
-> -'a'   all    linux/atm*.h, linux/sonet.h                             ATM on linux
-> -                                                                     <http://lrcwww.epfl.ch/>
-> -'a'   00-0F  drivers/crypto/qat/qat_common/adf_cfg_common.h          conflict! qat driver
-> -'b'   00-FF                                                          conflict! bit3 vme host bridge
-> -                                                                     <mailto:natalia@nikhefk.nikhef.nl>
-> -'b'   00-0F  linux/dma-buf.h                                         conflict!
-> -'c'   00-7F  linux/comstats.h                                        conflict!
-> -'c'   00-7F  linux/coda.h                                            conflict!
-> -'c'   00-1F  linux/chio.h                                            conflict!
-> -'c'   80-9F  arch/s390/include/asm/chsc.h                            conflict!
-> +'['   00-3F  linux/usb/tmc.h                                            USB Test and Measurement Devices
-> +                                                                        <mailto:gregkh@linuxfoundation.org>
-> +'a'   all    linux/atm*.h, linux/sonet.h                                ATM on linux
-> +                                                                        <http://lrcwww.epfl.ch/>
-> +'a'   00-0F  drivers/crypto/qat/qat_common/adf_cfg_common.h             conflict! qat driver
-> +'b'   00-FF                                                             conflict! bit3 vme host bridge
-> +                                                                        <mailto:natalia@nikhefk.nikhef.nl>
-> +'b'   00-0F  linux/dma-buf.h                                            conflict!
-> +'c'   00-7F  linux/comstats.h                                           conflict!
-> +'c'   00-7F  linux/coda.h                                               conflict!
-> +'c'   00-1F  linux/chio.h                                               conflict!
-> +'c'   80-9F  arch/s390/include/asm/chsc.h                               conflict!
->   'c'   A0-AF  arch/x86/include/asm/msr.h conflict!
-> -'d'   00-FF  linux/char/drm/drm.h                                    conflict!
-> -'d'   02-40  pcmcia/ds.h                                             conflict!
-> +'d'   00-FF  linux/char/drm/drm.h                                       conflict!
-> +'d'   02-40  pcmcia/ds.h                                                conflict!
->   'd'   F0-FF  linux/digi1.h
-> -'e'   all    linux/digi1.h                                           conflict!
-> -'f'   00-1F  linux/ext2_fs.h                                         conflict!
-> -'f'   00-1F  linux/ext3_fs.h                                         conflict!
-> -'f'   00-0F  fs/jfs/jfs_dinode.h                                     conflict!
-> -'f'   00-0F  fs/ext4/ext4.h                                          conflict!
-> -'f'   00-0F  linux/fs.h                                              conflict!
-> -'f'   00-0F  fs/ocfs2/ocfs2_fs.h                                     conflict!
-> +'e'   all    linux/digi1.h                                              conflict!
-> +'f'   00-1F  linux/ext2_fs.h                                            conflict!
-> +'f'   00-1F  linux/ext3_fs.h                                            conflict!
-> +'f'   00-0F  fs/jfs/jfs_dinode.h                                        conflict!
-> +'f'   00-0F  fs/ext4/ext4.h                                             conflict!
-> +'f'   00-0F  linux/fs.h                                                 conflict!
-> +'f'   00-0F  fs/ocfs2/ocfs2_fs.h                                        conflict!
->   'f'   13-27  linux/fscrypt.h
->   'f'   81-8F  linux/fsverity.h
->   'g'   00-0F  linux/usb/gadgetfs.h
->   'g'   20-2F  linux/usb/g_printer.h
-> -'h'   00-7F                                                          conflict! Charon filesystem
-> -                                                                     <mailto:zapman@interlan.net>
-> -'h'   00-1F  linux/hpet.h                                            conflict!
-> +'h'   00-7F                                                             conflict! Charon filesystem
-> +                                                                        <mailto:zapman@interlan.net>
-> +'h'   00-1F  linux/hpet.h                                               conflict!
->   'h'   80-8F  fs/hfsplus/ioctl.c
-> -'i'   00-3F  linux/i2o-dev.h                                         conflict!
-> -'i'   0B-1F  linux/ipmi.h                                            conflict!
-> +'i'   00-3F  linux/i2o-dev.h                                            conflict!
-> +'i'   0B-1F  linux/ipmi.h                                               conflict!
->   'i'   80-8F  linux/i8k.h
-> -'i'   90-9F  `linux/iio/*.h`                                         IIO
-> +'i'   90-9F  `linux/iio/*.h`                                            IIO
->   'j'   00-3F  linux/joystick.h
-> -'k'   00-0F  linux/spi/spidev.h                                      conflict!
-> -'k'   00-05  video/kyro.h                                            conflict!
-> -'k'   10-17  linux/hsi/hsi_char.h                                    HSI character device
-> -'l'   00-3F  linux/tcfs_fs.h                                         transparent cryptographic file system
-> -                                                                     <http://web.archive.org/web/%2A/http://mikonos.dia.unisa.it/tcfs>
-> -'l'   40-7F  linux/udf_fs_i.h                                        in development:
-> -                                                                     <https://github.com/pali/udftools>
-> -'m'   00-09  linux/mmtimer.h                                         conflict!
-> -'m'   all    linux/mtio.h                                            conflict!
-> -'m'   all    linux/soundcard.h                                       conflict!
-> -'m'   all    linux/synclink.h                                        conflict!
-> -'m'   00-19  drivers/message/fusion/mptctl.h                         conflict!
-> -'m'   00     drivers/scsi/megaraid/megaraid_ioctl.h                  conflict!
-> +'k'   00-0F  linux/spi/spidev.h                                         conflict!
-> +'k'   00-05  video/kyro.h                                               conflict!
-> +'k'   10-17  linux/hsi/hsi_char.h                                       HSI character device
-> +'l'   00-3F  linux/tcfs_fs.h                                            transparent cryptographic file system
-> +                                                                        <http://web.archive.org/web/%2A/http://mikonos.dia.unisa.it/tcfs>
-> +'l'   40-7F  linux/udf_fs_i.h                                           in development:
-> +                                                                        <https://github.com/pali/udftools>
-> +'m'   00-09  linux/mmtimer.h                                            conflict!
-> +'m'   all    linux/mtio.h                                               conflict!
-> +'m'   all    linux/soundcard.h                                          conflict!
-> +'m'   all    linux/synclink.h                                           conflict!
-> +'m'   00-19  drivers/message/fusion/mptctl.h                            conflict!
-> +'m'   00     drivers/scsi/megaraid/megaraid_ioctl.h                     conflict!
->   'n'   00-7F  linux/ncp_fs.h and fs/ncpfs/ioctl.c
-> -'n'   80-8F  uapi/linux/nilfs2_api.h                                 NILFS2
-> -'n'   E0-FF  linux/matroxfb.h                                        matroxfb
-> -'o'   00-1F  fs/ocfs2/ocfs2_fs.h                                     OCFS2
-> -'o'   00-03  mtd/ubi-user.h                                          conflict! (OCFS2 and UBI overlaps)
-> -'o'   40-41  mtd/ubi-user.h                                          UBI
-> -'o'   01-A1  `linux/dvb/*.h`                                         DVB
-> -'p'   00-0F  linux/phantom.h                                         conflict! (OpenHaptics needs this)
-> -'p'   00-1F  linux/rtc.h                                             conflict!
-> +'n'   80-8F  uapi/linux/nilfs2_api.h                                    NILFS2
-> +'n'   E0-FF  linux/matroxfb.h                                           matroxfb
-> +'o'   00-1F  fs/ocfs2/ocfs2_fs.h                                        OCFS2
-> +'o'   00-03  mtd/ubi-user.h                                             conflict! (OCFS2 and UBI overlaps)
-> +'o'   40-41  mtd/ubi-user.h                                             UBI
-> +'o'   01-A1  `linux/dvb/*.h`                                            DVB
-> +'p'   00-0F  linux/phantom.h                                            conflict! (OpenHaptics needs this)
-> +'p'   00-1F  linux/rtc.h                                                conflict!
->   'p'   40-7F  linux/nvram.h
-> -'p'   80-9F  linux/ppdev.h                                           user-space parport
-> -                                                                     <mailto:tim@cyberelk.net>
-> -'p'   A1-A5  linux/pps.h                                             LinuxPPS
-> -'p'   B1-B3  linux/pps_gen.h                                         LinuxPPS
-> -                                                                     <mailto:giometti@linux.it>
-> +'p'   80-9F  linux/ppdev.h                                              user-space parport
-> +                                                                        <mailto:tim@cyberelk.net>
-> +'p'   A1-A5  linux/pps.h                                                LinuxPPS
-> +'p'   B1-B3  linux/pps_gen.h                                            LinuxPPS
-> +                                                                        <mailto:giometti@linux.it>
->   'q'   00-1F  linux/serio.h
-> -'q'   80-FF  linux/telephony.h                                       Internet PhoneJACK, Internet LineJACK
-> -             linux/ixjuser.h                                         <http://web.archive.org/web/%2A/http://www.quicknet.net>
-> +'q'   80-FF  linux/telephony.h                                          Internet PhoneJACK, Internet LineJACK
-> +             linux/ixjuser.h                                            <http://web.archive.org/web/%2A/http://www.quicknet.net>
->   'r'   00-1F  linux/msdos_fs.h and fs/fat/dir.c
->   's'   all    linux/cdk.h
->   't'   00-7F  linux/ppp-ioctl.h
->   't'   80-8F  linux/isdn_ppp.h
-> -'t'   90-91  linux/toshiba.h                                         toshiba and toshiba_acpi SMM
-> -'u'   00-1F  linux/smb_fs.h                                          gone
-> -'u'   00-2F  linux/ublk_cmd.h                                        conflict!
-> -'u'   20-3F  linux/uvcvideo.h                                        USB video class host driver
-> -'u'   40-4f  linux/udmabuf.h                                         userspace dma-buf misc device
-> -'v'   00-1F  linux/ext2_fs.h                                         conflict!
-> -'v'   00-1F  linux/fs.h                                              conflict!
-> -'v'   00-0F  linux/sonypi.h                                          conflict!
-> -'v'   00-0F  media/v4l2-subdev.h                                     conflict!
-> -'v'   20-27  arch/powerpc/include/uapi/asm/vas-api.h		     VAS API
-> -'v'   C0-FF  linux/meye.h                                            conflict!
-> -'w'   all                                                            CERN SCI driver
-> -'y'   00-1F                                                          packet based user level communications
-> -                                                                     <mailto:zapman@interlan.net>
-> -'z'   00-3F                                                          CAN bus card conflict!
-> -                                                                     <mailto:hdstich@connectu.ulm.circular.de>
-> -'z'   40-7F                                                          CAN bus card conflict!
-> -                                                                     <mailto:oe@port.de>
-> -'z'   10-4F  drivers/s390/crypto/zcrypt_api.h                        conflict!
-> +'t'   90-91  linux/toshiba.h                                            toshiba and toshiba_acpi SMM
-> +'u'   00-1F  linux/smb_fs.h                                             gone
-> +'u'   00-2F  linux/ublk_cmd.h                                           conflict!
-> +'u'   20-3F  linux/uvcvideo.h                                           USB video class host driver
-> +'u'   40-4f  linux/udmabuf.h                                            userspace dma-buf misc device
-> +'v'   00-1F  linux/ext2_fs.h                                            conflict!
-> +'v'   00-1F  linux/fs.h                                                 conflict!
-> +'v'   00-0F  linux/sonypi.h                                             conflict!
-> +'v'   00-0F  media/v4l2-subdev.h                                        conflict!
-> +'v'   20-27  arch/powerpc/include/uapi/asm/vas-api.h		        VAS API
-> +'v'   C0-FF  linux/meye.h                                               conflict!
-> +'w'   all                                                               CERN SCI driver
-> +'y'   00-1F                                                             packet based user level communications
-> +                                                                        <mailto:zapman@interlan.net>
-> +'z'   00-3F                                                             CAN bus card conflict!
-> +                                                                        <mailto:hdstich@connectu.ulm.circular.de>
-> +'z'   40-7F                                                             CAN bus card conflict!
-> +                                                                        <mailto:oe@port.de>
-> +'z'   10-4F  drivers/s390/crypto/zcrypt_api.h                           conflict!
->   '|'   00-7F  linux/media.h
-> -'|'   80-9F  samples/                                                Any sample and example drivers
-> +'|'   80-9F  samples/                                                   Any sample and example drivers
->   0x80  00-1F  linux/fb.h
->   0x81  00-1F  linux/vduse.h
->   0x89  00-06  arch/x86/include/asm/sockios.h
->   0x89  0B-DF  linux/sockios.h
-> -0x89  E0-EF  linux/sockios.h                                         SIOCPROTOPRIVATE range
-> -0x89  F0-FF  linux/sockios.h                                         SIOCDEVPRIVATE range
-> +0x89  E0-EF  linux/sockios.h                                            SIOCPROTOPRIVATE range
-> +0x89  F0-FF  linux/sockios.h                                            SIOCDEVPRIVATE range
->   0x8A  00-1F  linux/eventpoll.h
->   0x8B  all    linux/wireless.h
-> -0x8C  00-3F                                                          WiNRADiO driver
-> -                                                                     <http://www.winradio.com.au/>
-> +0x8C  00-3F                                                             WiNRADiO driver
-> +                                                                        <http://www.winradio.com.au/>
->   0x90  00     drivers/cdrom/sbpcd.h
->   0x92  00-0F  drivers/usb/mon/mon_bin.c
->   0x93  60-7F  linux/auto_fs.h
-> -0x94  all    fs/btrfs/ioctl.h                                        Btrfs filesystem
-> -             and linux/fs.h                                          some lifted to vfs/generic
-> -0x97  00-7F  fs/ceph/ioctl.h                                         Ceph file system
-> -0x99  00-0F                                                          537-Addinboard driver
-> -                                                                     <mailto:buk@buks.ipn.de>
-> +0x94  all    fs/btrfs/ioctl.h                                           Btrfs filesystem
-> +             and linux/fs.h                                             some lifted to vfs/generic
-> +0x97  00-7F  fs/ceph/ioctl.h                                            Ceph file system
-> +0x99  00-0F                                                             537-Addinboard driver
-> +                                                                        <mailto:buk@buks.ipn.de>
->   0x9A  00-0F  include/uapi/fwctl/fwctl.h
-> -0xA0  all    linux/sdp/sdp.h                                         Industrial Device Project
-> -                                                                     <mailto:kenji@bitgate.com>
-> -0xA1  0      linux/vtpm_proxy.h                                      TPM Emulator Proxy Driver
-> -0xA2  all    uapi/linux/acrn.h                                       ACRN hypervisor
-> -0xA3  80-8F                                                          Port ACL  in development:
-> -                                                                     <mailto:tlewis@mindspring.com>
-> +0xA0  all    linux/sdp/sdp.h                                            Industrial Device Project
-> +                                                                        <mailto:kenji@bitgate.com>
-> +0xA1  0      linux/vtpm_proxy.h                                         TPM Emulator Proxy Driver
-> +0xA2  all    uapi/linux/acrn.h                                          ACRN hypervisor
-> +0xA3  80-8F                                                             Port ACL  in development:
-> +                                                                        <mailto:tlewis@mindspring.com>
->   0xA3  90-9F  linux/dtlk.h
-> -0xA4  00-1F  uapi/linux/tee.h                                        Generic TEE subsystem
-> -0xA4  00-1F  uapi/asm/sgx.h                                          <mailto:linux-sgx@vger.kernel.org>
-> -0xA5  01-05  linux/surface_aggregator/cdev.h                         Microsoft Surface Platform System Aggregator
-> -                                                                     <mailto:luzmaximilian@gmail.com>
-> -0xA5  20-2F  linux/surface_aggregator/dtx.h                          Microsoft Surface DTX driver
-> -                                                                     <mailto:luzmaximilian@gmail.com>
-> +0xA4  00-1F  uapi/linux/tee.h                                           Generic TEE subsystem
-> +0xA4  00-1F  uapi/asm/sgx.h                                             <mailto:linux-sgx@vger.kernel.org>
-> +0xA5  01-05  linux/surface_aggregator/cdev.h                            Microsoft Surface Platform System Aggregator
-> +                                                                        <mailto:luzmaximilian@gmail.com>
-> +0xA5  20-2F  linux/surface_aggregator/dtx.h                             Microsoft Surface DTX driver
-> +                                                                        <mailto:luzmaximilian@gmail.com>
->   0xAA  00-3F  linux/uapi/linux/userfaultfd.h
->   0xAB  00-1F  linux/nbd.h
->   0xAC  00-1F  linux/raw.h
-> -0xAD  00                                                             Netfilter device in development:
-> -                                                                     <mailto:rusty@rustcorp.com.au>
-> -0xAE  00-1F  linux/kvm.h                                             Kernel-based Virtual Machine
-> -                                                                     <mailto:kvm@vger.kernel.org>
-> -0xAE  40-FF  linux/kvm.h                                             Kernel-based Virtual Machine
-> -                                                                     <mailto:kvm@vger.kernel.org>
-> -0xAE  20-3F  linux/nitro_enclaves.h                                  Nitro Enclaves
-> -0xAF  00-1F  linux/fsl_hypervisor.h                                  Freescale hypervisor
-> -0xB0  all                                                            RATIO devices in development:
-> -                                                                     <mailto:vgo@ratio.de>
-> -0xB1  00-1F                                                          PPPoX
-> -                                                                     <mailto:mostrows@styx.uwaterloo.ca>
-> -0xB2  00     arch/powerpc/include/uapi/asm/papr-vpd.h                powerpc/pseries VPD API
-> -                                                                     <mailto:linuxppc-dev>
-> -0xB2  01-02  arch/powerpc/include/uapi/asm/papr-sysparm.h            powerpc/pseries system parameter API
-> -                                                                     <mailto:linuxppc-dev>
-> -0xB2  03-05 arch/powerpc/include/uapi/asm/papr-indices.h             powerpc/pseries indices API
-> -                                                                     <mailto:linuxppc-dev>
-> -0xB2  06-07 arch/powerpc/include/uapi/asm/papr-platform-dump.h       powerpc/pseries Platform Dump API
-> -                                                                     <mailto:linuxppc-dev>
-> -0xB2  08  arch/powerpc/include/uapi/asm/papr-physical-attestation.h  powerpc/pseries Physical Attestation API
-> -                                                                     <mailto:linuxppc-dev>
-> +0xAD  00                                                                Netfilter device in development:
-> +                                                                        <mailto:rusty@rustcorp.com.au>
-> +0xAE  00-1F  linux/kvm.h                                                Kernel-based Virtual Machine
-> +                                                                        <mailto:kvm@vger.kernel.org>
-> +0xAE  40-FF  linux/kvm.h                                                Kernel-based Virtual Machine
-> +                                                                        <mailto:kvm@vger.kernel.org>
-> +0xAE  20-3F  linux/nitro_enclaves.h                                     Nitro Enclaves
-> +0xAF  00-1F  linux/fsl_hypervisor.h                                     Freescale hypervisor
-> +0xB0  all                                                               RATIO devices in development:
-> +                                                                        <mailto:vgo@ratio.de>
-> +0xB1  00-1F                                                             PPPoX
-> +                                                                        <mailto:mostrows@styx.uwaterloo.ca>
-> +0xB2  00     arch/powerpc/include/uapi/asm/papr-vpd.h                   powerpc/pseries VPD API
-> +                                                                        <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  01-02  arch/powerpc/include/uapi/asm/papr-sysparm.h               powerpc/pseries system parameter API
-> +                                                                        <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  03-05  arch/powerpc/include/uapi/asm/papr-indices.h               powerpc/pseries indices API
-> +                                                                        <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  06-07  arch/powerpc/include/uapi/asm/papr-platform-dump.h         powerpc/pseries Platform Dump API
-> +                                                                        <mailto:linuxppc-dev@lists.ozlabs.org>
-> +0xB2  08     arch/powerpc/include/uapi/asm/papr-physical-attestation.h  powerpc/pseries Physical Attestation API
-> +                                                                        <mailto:linuxppc-dev@lists.ozlabs.org>
->   0xB3  00     linux/mmc/ioctl.h
-> -0xB4  00-0F  linux/gpio.h                                            <mailto:linux-gpio@vger.kernel.org>
-> -0xB5  00-0F  uapi/linux/rpmsg.h                                      <mailto:linux-remoteproc@vger.kernel.org>
-> +0xB4  00-0F  linux/gpio.h                                               <mailto:linux-gpio@vger.kernel.org>
-> +0xB5  00-0F  uapi/linux/rpmsg.h                                         <mailto:linux-remoteproc@vger.kernel.org>
->   0xB6  all    linux/fpga-dfl.h
-> -0xB7  all    uapi/linux/remoteproc_cdev.h                            <mailto:linux-remoteproc@vger.kernel.org>
-> -0xB7  all    uapi/linux/nsfs.h                                       <mailto:Andrei Vagin <avagin@openvz.org>>
-> -0xB8  01-02  uapi/misc/mrvl_cn10k_dpi.h                              Marvell CN10K DPI driver
-> -0xB8  all    uapi/linux/mshv.h                                       Microsoft Hyper-V /dev/mshv driver
-> -                                                                     <mailto:linux-hyperv@vger.kernel.org>
-> +0xB7  all    uapi/linux/remoteproc_cdev.h                               <mailto:linux-remoteproc@vger.kernel.org>
-> +0xB7  all    uapi/linux/nsfs.h                                          <mailto:Andrei Vagin <avagin@openvz.org>>
-> +0xB8  01-02  uapi/misc/mrvl_cn10k_dpi.h                                 Marvell CN10K DPI driver
-> +0xB8  all    uapi/linux/mshv.h                                          Microsoft Hyper-V /dev/mshv driver
-> +                                                                        <mailto:linux-hyperv@vger.kernel.org>
->   0xC0  00-0F  linux/usb/iowarrior.h
-> -0xCA  00-0F  uapi/misc/cxl.h                                         Dead since 6.15
-> +0xCA  00-0F  uapi/misc/cxl.h                                            Dead since 6.15
->   0xCA  10-2F  uapi/misc/ocxl.h
-> -0xCA  80-BF  uapi/scsi/cxlflash_ioctl.h                              Dead since 6.15
-> -0xCB  00-1F                                                          CBM serial IEC bus in development:
-> -                                                                     <mailto:michael.klein@puffin.lb.shuttle.de>
-> -0xCC  00-0F  drivers/misc/ibmvmc.h                                   pseries VMC driver
-> -0xCD  01     linux/reiserfs_fs.h                                     Dead since 6.13
-> -0xCE  01-02  uapi/linux/cxl_mem.h                                    Compute Express Link Memory Devices
-> +0xCA  80-BF  uapi/scsi/cxlflash_ioctl.h                                 Dead since 6.15
-> +0xCB  00-1F                                                             CBM serial IEC bus in development:
-> +                                                                        <mailto:michael.klein@puffin.lb.shuttle.de>
-> +0xCC  00-0F  drivers/misc/ibmvmc.h                                      pseries VMC driver
-> +0xCD  01     linux/reiserfs_fs.h                                        Dead since 6.13
-> +0xCE  01-02  uapi/linux/cxl_mem.h                                       Compute Express Link Memory Devices
->   0xCF  02     fs/smb/client/cifs_ioctl.h
->   0xDB  00-0F  drivers/char/mwave/mwavepub.h
-> -0xDD  00-3F                                                          ZFCP device driver see drivers/s390/scsi/
-> -                                                                     <mailto:aherrman@de.ibm.com>
-> +0xDD  00-3F                                                             ZFCP device driver see drivers/s390/scsi/
-> +                                                                        <mailto:aherrman@de.ibm.com>
->   0xE5  00-3F  linux/fuse.h
-> -0xEC  00-01  drivers/platform/chrome/cros_ec_dev.h                   ChromeOS EC driver
-> -0xEE  00-09  uapi/linux/pfrut.h                                      Platform Firmware Runtime Update and Telemetry
-> -0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                     sisfb (in development)
-> -                                                                     <mailto:thomas@winischhofer.net>
-> -0xF6  all                                                            LTTng Linux Trace Toolkit Next Generation
-> -                                                                     <mailto:mathieu.desnoyers@efficios.com>
-> -0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                    AMD HSMP EPYC system management interface driver
-> -                                                                     <mailto:nchatrad@amd.com>
-> +0xEC  00-01  drivers/platform/chrome/cros_ec_dev.h                      ChromeOS EC driver
-> +0xEE  00-09  uapi/linux/pfrut.h                                         Platform Firmware Runtime Update and Telemetry
-> +0xF3  00-3F  drivers/usb/misc/sisusbvga/sisusb.h                        sisfb (in development)
-> +                                                                        <mailto:thomas@winischhofer.net>
-> +0xF6  all                                                               LTTng Linux Trace Toolkit Next Generation
-> +                                                                        <mailto:mathieu.desnoyers@efficios.com>
-> +0xF8  all    arch/x86/include/uapi/asm/amd_hsmp.h                       AMD HSMP EPYC system management interface driver
-> +                                                                        <mailto:nchatrad@amd.com>
->   0xFD  all    linux/dm-ioctl.h
->   0xFE  all    linux/isst_if.h
-> -====  =====  ======================================================= ================================================================
-> +====  =====  =========================================================  ================================================================
->
-> base-commit: 86900ab620a42396a749b506d4a187820fc3fabe
-
-
-Tested this patch by applying on top of next-20250429, and this patch 
-also fixes the reported issue. Hence,
-
-
-Tested-by: Venkat Rao Bagalkote <venkat88@linux.ibm.com>
-
-
-Note: There is other patch [1] 
-<https://lore.kernel.org/linuxppc-dev/aBHodTu4IjqzZeXb@archie.me/T/#m013297a6731d3ca3dc1e0f23d161774850d6b41c> 
-which has a different approach to fix the reported issue.
-
-
-Regards,
-
-Venkat.
-
+SGkgSm9uOg0KwqANClRoYW5rcyBmb3IgdGhlIHF1aWNrIHJlc3BvbnNlLiBBbmQgd2VsbCBub3Rl
+ZCBmb3IgeW91ciBoaWdobGlnaHRzLg0KDQo+IFdl4oCZcmUgbm93IHdvcmtpbmcgb24gTFRTIEtl
+cm5lbCA1LjE1IGFuZCA2LjEuIFJlY2VudGx5LCB3ZeKAmXJlIHRyeWluZyANCj4gdG8gYnVpbGQg
+dGhlaXIgU3BoaW54IERvYy4NCltNaW5nXSBBbHRob3VnaCB0aGV5IGFyZSBvbGQsIHRoZXkgYXJl
+IHN0aWxsIExUUyB2ZXJzaW9ucy4g8J+Yig0KDQoNCj4gSXQgaXMgcmVxdWlyZWQgdG8gZ28gd2l0
+aCBTcGhpbnggMi40LjQsIHdoaWNoIGlzIG11Y2ggbG93ZXIgdGhhbiB0aGUNCj4gdmVyc2lvbig4
+LjEuMykgb2YgdWJ1bnR1IDIyLjA0IGFuZCAyNC4wNC4NCltNaW5nXSBUbyBidWlsZCB0aGUgc3Bo
+aW54IGRvYyBmb3IgS2VybmVsIDUuMTUgb3IgNi4xLCBpdCBpcyByZXF1aXJlZCB0byBnbyB3aXRo
+IFNwaGlueCAyLjQuNC4NCkJlbG93IGlzIHRoZSBweXRob24gcmVxdWlyZW1lbnRzLnR4dCBpbmNs
+dWRlZCBpbiBLZXJuZWwgNS4xNSBhbmQgNi4xDQokIGNhdCBEb2N1bWVudGF0aW9uL3NwaGlueC9y
+ZXF1aXJlbWVudHMudHh0DQojIGppbmphMj49My4xIGlzIG5vdCBjb21wYXRpYmxlIHdpdGggU3Bo
+aW54PDQuMA0KamluamEyPDMuMQ0Kc3BoaW54X3J0ZF90aGVtZQ0KU3BoaW54PT0yLjQuNA0KDQoN
+Cj4gQ3VycmVudCBTcGhpbnggd29ya3MgZmluZSwgYXMgZmFyIGFzIEkga25vdzsgYXJlIHRoZXJl
+IHNwZWNpZmljIHByb2JsZW1zIHRoYXQgeW91IGNhbiByZXBvcnQgd2l0aCBjdXJyZW50IGtlcm5l
+bHM/DQpbTWluZ10gQ291bGQgeW91IGdpdmUgYSB0cnkgYnkgYnVpbGRpbmcgdGhlIHNwaGlueCBk
+b2MgZm9yIGtlcm5lbCA1LjE1IG9yIGtlcm5lbCA2LjEgdXNpbmcgdGhlIGRlZmF1bHQgdmVyc2lv
+biBTcGhpbngobGlrZSA4LjEuMyApIG9uIHVidW50dSAyMi4wNCBvciAyNC4wND8NCkkgYmVsaWV2
+ZSB5b3Ugd2lsbCBmaW5kIHN1cnByaXNlLiDwn5iKDQoNCg0KPiBBZ2FpbiwgdGhvc2UgYXJlIHZl
+cnkgb2xkIGtlcm5lbHMsIHRoYXQgeW91IGFyZSB0cnlpbmcgdG8gbWFrZSB3b3JrIHdpdGggYSB2
+ZXJ5IG9sZCB2ZXJzaW9uIG9mIFNwaGlueC4gIEknbSBub3Qgc3VyZSB3aHkgdGhvc2UgcGF0Y2hl
+cyB3b3VsZCBiZSB1c2VmdWwgdG8gYW55Ym9keSBlbHNlPw0KW01pbmddIEkgZGVmaW5pdGVseSB3
+YW50IHRvIHRyeSB3aXRoIHRoZSBsYXRlc3QgU3BoaW54IHRvb2wuIEJ1dCB0aGUga2VybmVsIDUu
+MTUgb3IgNi4xIHJlcXVpcmVzIHVzIHRvIHVzZSAyLjQuNCwgd2hpY2ggeW91IHRoaW5rIGlzIGEg
+dmVyeSBvbGQgdmVyc2lvbiBvZiBTcGhpbnguDQpXZSBhY3R1YWxseSB0cmllZCBTcGhpbnggOC4x
+LjMgdG8gYnVpbGQgaXQgZm9yIGtlcm5lbCA1LjE1IG9yIDYuMS4gVGhlIG91dHB1dCBpcyBub3Qg
+cmlnaHQgKG5vIHByb3BlciBkZWNvcmF0aW9uIG9uIHRoZSB3ZWIgR1VJKS4NCg0KDQo+IFRoaXMg
+ZW1haWwgYW5kIGF0dGFjaG1lbnRzIGNvbnRhaW4gQW1iYXJlbGxhIFByb3ByaWV0YXJ5IGFuZC9v
+ciANCj4gQ29uZmlkZW50aWFsIEluZm9ybWF0aW9uIGFuZCBpcyBpbnRlbmRlZCBzb2xlbHkgZm9y
+IHRoZSB1c2Ugb2YgdGhlDQo+IGluZGl2aWR1YWwocykgdG8gd2hvbSBpdCBpcyBhZGRyZXNzZWQu
+IEFueSB1bmF1dGhvcml6ZWQgcmV2aWV3LCB1c2UsIA0KPiBkaXNjbG9zdXJlLCBkaXN0cmlidXRl
+LCBjb3B5LCBvciBwcmludCBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCANCj4gYW4gaW50
+ZW5kZWQgcmVjaXBpZW50LCBwbGVhc2UgY29udGFjdCB0aGUgc2VuZGVyIGJ5IHJlcGx5IGVtYWls
+IGFuZCBkZXN0cm95IGFsbCBjb3BpZXMgb2YgdGhlIG9yaWdpbmFsIG1lc3NhZ2UuIFRoYW5rIHlv
+dS4NCltNaW5nXSBKdXN0IGNoZWNrZWQgd2l0aCBvdXIgSVQgbWVtYmVycyB0byBnZXQgcmlkIG9m
+IGl0LiBMZXQgbWUga25vdyBpZiB5b3Ugc3RpbGwgY2FuIHNlZSBpdC4NCsKgDQpCZXN0IFJlZ2Fy
+ZHMhDQpNaW5nIFdlbiAo6Ze75piOKQ0KU0RLIFRlYW0gfCBBbWJhcmVsbGEgU2hhbmdoYWkNCg0K
+DQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KRnJvbTogSm9uYXRoYW4gQ29yYmV0IDxjb3Ji
+ZXRAbHduLm5ldD4gDQpTZW50OiBXZWRuZXNkYXksIEFwcmlsIDMwLCAyMDI1IDg6NDcgUE0NClRv
+OiBNaW5nIFdlbiA8bXdlbkBhbWJhcmVsbGEuY29tPjsgbGludXgtZG9jQHZnZXIua2VybmVsLm9y
+Zw0KQ2M6IG1jaGVoYWJAa2VybmVsLm9yZzsgTG9uZyBMaSA8bG9uZ2xpQGFtYmFyZWxsYS5jb20+
+OyBKaWFuIFRhbmcgPGp0YW5nQGFtYmFyZWxsYS5jb20+OyBaaGFvLVlhbmcgQ2hlbiA8enljaGVu
+QGFtYmFyZWxsYS5jb20+OyBSb25ncm9uZyBDYW8gPHJyY2FvQGFtYmFyZWxsYS5jb20+DQpTdWJq
+ZWN0OiBbRVhUXSBSZTogW0tlcm5lbCA1LjE1L0tlcm5sZSA2LjFdIEFib3V0IFNwaGlueCBEb2Mu
+DQoNCk1pbmcgV2VuIDxtd2VuQGFtYmFyZWxsYS5jb20+IHdyaXRlczoNCg0KPiBEZWFyIExpbnV4
+IERvY+KAmWVyczoNCj4NCj4gTmljZSB0byBlLW1lZXQgeW91ISBBbmQgdGhhbmtzIGZvciB5b3Vy
+IGdyZWF0IGNvbnRyaWJ1dGlvbiB0byBMaW51eCANCj4gS2VybmVsIHdvcmxkIGFzIGFsd2F5cy4g
+8J+Yig0KDQpUbyBiZWdpbiB3aXRoLCBwbGVhc2UgZG8gbm90IHNlbmQgSFRNTCBtYWlsLCBpdCB3
+b24ndCBtYWtlIGl0IHRocm91Z2ggdG8gdGhlIGxpc3RzLg0KDQo+IFdl4oCZcmUgbm93IHdvcmtp
+bmcgb24gTFRTIEtlcm5lbCA1LjE1IGFuZCA2LjEuIFJlY2VudGx5LCB3ZeKAmXJlIHRyeWluZyAN
+Cj4gdG8gYnVpbGQgdGhlaXIgU3BoaW54IERvYy4NCg0KVGhlc2UgYXJlLCBvZiBjb3Vyc2UsIHF1
+aXRlIG9sZCBrZXJuZWxzLg0KDQo+IEl0IGlzIHJlcXVpcmVkIHRvIGdvIHdpdGggU3BoaW54IDIu
+NC40LCB3aGljaCBpcyBtdWNoIGxvd2VyIHRoYW4gdGhlDQo+IHZlcnNpb24oOC4xLjMpIG9mIHVi
+dW50dSAyMi4wNCBhbmQgMjQuMDQuDQoNClJlcXVpcmVkIGJ5IHdobz8gIFRoYXQgaXMgYW4gYW5j
+aWVudCB2ZXJzaW9uIG9mIFNwaGlueCBhdCB0aGlzIHBvaW50Lg0KDQo+IFBTOiBpZiBnb2luZyB3
+aXRoIHZlcnkgbmV3IHZlcnNpb24gb2YgU3BoaW54IGxpa2UgOC4xLjMsIHRoZSBmaW5hbCANCj4g
+b3V0cHV0IGlzIG5vdCByaWdodChkb2VzbuKAmXQgaGF2ZSB0aGUgcHJvcGVyIGRlY29yYXRpb24p
+Lg0KDQpDdXJyZW50IFNwaGlueCB3b3JrcyBmaW5lLCBhcyBmYXIgYXMgSSBrbm93OyBhcmUgdGhl
+cmUgc3BlY2lmaWMgcHJvYmxlbXMgdGhhdCB5b3UgY2FuIHJlcG9ydCB3aXRoIGN1cnJlbnQga2Vy
+bmVscz8NCg0KPiBUbyB0cnkgdG8gcmVzb2x2ZSB0aGlzLCB3ZSBmb2xsb3dlZCBiZWxvdyB3YXkg
+dG8gYnVpbGQga2VybmVsIFNwaGlueCANCj4gRG9jIGJ5IGhhdmluZyBTcGhpbnggdG8gc3RheSB3
+aXRoIDIuNC40LiBIb3dldmVyLCBpdCB3aWxsIHJlcXVpcmUgDQo+IGV4dHJhIGRlcGVuZGVuY3kg
+cGFja2FnZXMoaGlnaGxpZ2h0ZWQgYmVsb3cgaW4geWVsbG93KSBiZWZvcmUgd2UgY2FuIA0KPiBi
+dWlsZCB0aGUgZG9jIHByb3Blcmx5Lg0KPg0KPiBIZXJlLCB3ZeKAmWQgbGlrZSB0byBjaGVjayB3
+aXRoIHlvdXIgY29tbWVudHMgZm9yIHdoZXRoZXIgaXQgd2lsbCBiZSANCj4gZ29vZCB0byBtZXJn
+ZSBpdCBpbnRvIHRoZSBtYWluIGJyYW5jaCBmb3IgS2VybmVsIDUuMTUgYW5kIDYuMS4gSWYgbm90
+LCANCj4gZG8geW91IGhhdmUgYW55IGNvbmNlcm4gb24gdGhpcz8gT3IgeW91IGhhdmUgb3RoZXIg
+YmV0dGVyIA0KPiBvcHRpb25zL2FkdmljZXMgZm9yIHVzIHRvIHRyeT8gVGhhbmtzIGFnYWluIGZv
+ciB5b3VyIHRpbWUuDQoNCkFnYWluLCB0aG9zZSBhcmUgdmVyeSBvbGQga2VybmVscywgdGhhdCB5
+b3UgYXJlIHRyeWluZyB0byBtYWtlIHdvcmsgd2l0aCBhIHZlcnkgb2xkIHZlcnNpb24gb2YgU3Bo
+aW54LiAgSSdtIG5vdCBzdXJlIHdoeSB0aG9zZSBwYXRjaGVzIHdvdWxkIGJlIHVzZWZ1bCB0byBh
+bnlib2R5IGVsc2U/DQoNCj4gVGhpcyBlbWFpbCBhbmQgYXR0YWNobWVudHMgY29udGFpbiBBbWJh
+cmVsbGEgUHJvcHJpZXRhcnkgYW5kL29yIA0KPiBDb25maWRlbnRpYWwgSW5mb3JtYXRpb24gYW5k
+IGlzIGludGVuZGVkIHNvbGVseSBmb3IgdGhlIHVzZSBvZiB0aGUgDQo+IGluZGl2aWR1YWwocykg
+dG8gd2hvbSBpdCBpcyBhZGRyZXNzZWQuIEFueSB1bmF1dGhvcml6ZWQgcmV2aWV3LCB1c2UsIA0K
+PiBkaXNjbG9zdXJlLCBkaXN0cmlidXRlLCBjb3B5LCBvciBwcmludCBpcyBwcm9oaWJpdGVkLiBJ
+ZiB5b3UgYXJlIG5vdCANCj4gYW4gaW50ZW5kZWQgcmVjaXBpZW50LCBwbGVhc2UgY29udGFjdCB0
+aGUgc2VuZGVyIGJ5IHJlcGx5IGVtYWlsIGFuZCBkZXN0cm95IGFsbCBjb3BpZXMgb2YgdGhlIG9y
+aWdpbmFsIG1lc3NhZ2UuIFRoYW5rIHlvdS4NCg0KVGhpcywgdG9vLCBpcyBub3QgYXBwcm9wcmlh
+dGUgdG8gc2VuZCB3aXRoaW4gb3VyIGRldmVsb3BtZW50IGNvbW11bml0eS4NCg0KVGhhbmtzLA0K
+DQpqb24NCg0KIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMjIyMj
+IyMjIyMjIyMjIyMjIyMjIyMjIyMjIw0KVGhpcyBFWFRFUk5BTCBlbWFpbCBoYXMgYmVlbiBzY2Fu
+bmVkIGJ5IFByb29mcG9pbnQgRW1haWwgUHJvdGVjdCBzZXJ2aWNlLg0KCioqKioqKioqKioqKioq
+KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioK
+VGhpcyBlbWFpbCBhbmQgYXR0YWNobWVudHMgY29udGFpbiBBbWJhcmVsbGEgUHJvcHJpZXRhcnkg
+YW5kL29yIENvbmZpZGVudGlhbCBJbmZvcm1hdGlvbiBhbmQgaXMgaW50ZW5kZWQgc29sZWx5IGZv
+ciB0aGUgdXNlIG9mIHRoZSBpbmRpdmlkdWFsKHMpIHRvIHdob20gaXQgaXMgYWRkcmVzc2VkLiBB
+bnkgdW5hdXRob3JpemVkIHJldmlldywgdXNlLCBkaXNjbG9zdXJlLCBkaXN0cmlidXRlLCBjb3B5
+LCBvciBwcmludCBpcyBwcm9oaWJpdGVkLiBJZiB5b3UgYXJlIG5vdCBhbiBpbnRlbmRlZCByZWNp
+cGllbnQsIHBsZWFzZSBjb250YWN0IHRoZSBzZW5kZXIgYnkgcmVwbHkgZW1haWwgYW5kIGRlc3Ry
+b3kgYWxsIGNvcGllcyBvZiB0aGUgb3JpZ2luYWwgbWVzc2FnZS4gVGhhbmsgeW91Lgo=
