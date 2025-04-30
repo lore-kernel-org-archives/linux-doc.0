@@ -1,97 +1,68 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EE85F3D76;
-	Wed, 30 Apr 2025 19:32:46 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 389731E5B60;
+	Wed, 30 Apr 2025 19:39:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746041567; cv=none; b=IauCc9Cc+0bm4Jev1XWBAm+LGCQZOXxrXXyRP3i+L4KTweI/Nm/x4DTMJiZMTxTOQF5BhhAEZlrfEBTUWL3ikQM/1QBg78CpyF5DXssO1Qmm45QR+eJ6HOJDhsAuC/Q17BzZ9dF4T8q06mNxC3aW5E/1rJq36YwdiqXe5nlg5+M=
+	t=1746041954; cv=none; b=cbnyYVyS0bW4ka8c7JATxUGEkKI86BiGJoEOPYn89R0P1c7bcXXmxYqdv4PXGYn+3osesYMN3uY95bQli16Dq1wHVlaDW5TTZaCsZd7zA423Kel3tGEHzd6Duij0wJgOJtRKpIRZ5xxS4cwr46ZKhVSmp39oR9En3fzE9m+5ays=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746041567; c=relaxed/simple;
-	bh=eto3ig9zOdbipNWtSXdSig+DyQCl3cdu9O7NHaZG3K0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=D5LJYHaCrExfezbnbGxzXF4GxWEVTgF+lgu6tnONbDQJMyge+tw6eDCTi4bpeJc76385MfgCYvt4K5MxN+X4yTHjMo4nj/306nivZPGbAUcR8G6r2U7ejmRYBm/9umiXJ/aKD86qjDeWQTl82kM3LBLitBxB+jFlh/UAmRHjCmY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M6+7VyHI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746041954; c=relaxed/simple;
+	bh=A5RfTs/henXYW1lD3nfgWav7+G4irmoGlcE9AyyQnqo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=csm5WQTVAK1KfID7Ja1zFAgaXl2i1ToJZ/0Ll4Y6nx54avzBRiyqnfS5wF/7nqPWSBmSZ/a+9oid7O3z0lt1EQpmHtxXOHxcTGKuwAtLV5P6ycedRiRQQBtkSEt+Vj52b5SsT/Ruyv2Eso9FA47rf5FiUguJpdg2BfmHOJPXj14=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lnnZ9hff; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M6+7VyHI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8230EC4CEE7;
-	Wed, 30 Apr 2025 19:32:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lnnZ9hff"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 666F2C4CEE7;
+	Wed, 30 Apr 2025 19:39:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746041566;
-	bh=eto3ig9zOdbipNWtSXdSig+DyQCl3cdu9O7NHaZG3K0=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=M6+7VyHI87AqgVw6moUQ8QGECLano4KjwwKDXD57m404YDGwi/WjET4Fdoj43/6I1
-	 HAyV8UJTWr8eQiyADBBrIZM5uhGkACd0PeDfB8y4eRDhrzruVewnE6Z2/8PRdr8QTL
-	 1wQSc+iF/qpfnaDtKxiUi9XffgNZLjjBVzdk7E60lf3ycm/4ZcROFOsoWGSQcTqoaL
-	 osHOPIrKVrK6MR0SQDq9riZiniaeph8FavKVU1CrclIutVLYtZIqm3mtdT6otzIDbc
-	 1MRKUo9wJB3//E+ZtxWKArBV2dujwrDQo/IZ5JbQokfPBb+OWA9e1KRAsiwmjppYgY
-	 3W12rBy/fgTDw==
-Message-ID: <4bf62335-2e67-43c5-b2dc-4b0bed0521ed@kernel.org>
-Date: Wed, 30 Apr 2025 14:32:44 -0500
+	s=k20201202; t=1746041953;
+	bh=A5RfTs/henXYW1lD3nfgWav7+G4irmoGlcE9AyyQnqo=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Date:From;
+	b=lnnZ9hff+GhLQFPjCWMr4ocKU2ubh3qsYbHP3MUOyJVt1ydAxOzJtJ+VoCM51qE6X
+	 FTya9HhvjLDjdBnY28dis7vwvJoapHXw/y51mVL0eiYfADpOEHD6wpDCQ8Fmqup+pM
+	 6K6UOqSey5xe3yKou4KmR3EWCQj1DS1Z7QJiIDmxNQHhwl38qHb1hWGnXimaxqa/sT
+	 Fa3DuF9nigigBIkezshYH39lZbZLHziT80l0dOQGR88LVCC+oIzKfqEd+351lh/Ctk
+	 6r7e7vSQ7tVFPruMgEvR2SjXwgeJOx3IVbg0IUTK6t4BAqv2KjnixYhH9BlU4GbqtP
+	 uwC1+4EalkSsg==
+From: Srinivas Kandagatla <srini@kernel.org>
+To: Jonathan Corbet <corbet@lwn.net>, Arnd Bergmann <arnd@arndb.de>, 
+ Geert Uytterhoeven <geert+renesas@glider.be>
+Cc: linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+In-Reply-To: <edc7373f33955f6dc4c9e6268afcb1a40566b39b.1745840884.git.geert+renesas@glider.be>
+References: <edc7373f33955f6dc4c9e6268afcb1a40566b39b.1745840884.git.geert+renesas@glider.be>
+Subject: Re: [PATCH] nvmem: Remove unused nvmem cell table support
+Message-Id: <174604195206.121497.8520830420812368104.b4-ty@kernel.org>
+Date: Wed, 30 Apr 2025 20:39:12 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 5/5] x86/CPU/AMD: Print the reason for the last reset
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jean Delvare <jdelvare@suse.com>, Andi Shyti <andi.shyti@kernel.org>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jonathan Corbet <corbet@lwn.net>,
- Mario Limonciello <mario.limonciello@amd.com>,
- Yazen Ghannam <yazen.ghannam@amd.com>, Thomas Gleixner <tglx@linutronix.de>,
- Ingo Molnar <mingo@redhat.com>, Dave Hansen <dave.hansen@linux.intel.com>,
- "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
- "H . Peter Anvin" <hpa@zytor.com>,
- Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
- Hans de Goede <hdegoede@redhat.com>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:I2C/SMBUS CONTROLLER DRIVERS FOR PC" <linux-i2c@vger.kernel.org>,
- "open list:AMD PMC DRIVER" <platform-driver-x86@vger.kernel.org>
-References: <20250422234830.2840784-1-superm1@kernel.org>
- <20250422234830.2840784-6-superm1@kernel.org>
- <20250430190333.GIaBJ0BWuMdZ1KNVQ7@fat_crate.local>
- <e80be47b-5f8d-409c-8c3d-cd1af46944d0@kernel.org>
- <20250430191025.GFaBJ1oQjxCuig1vS6@fat_crate.local>
- <35bae46e-3b57-438a-a561-c93868120dcb@kernel.org>
- <20250430192538.GGaBJ5MuS4CEKa4kIX@fat_crate.local>
-Content-Language: en-US
-From: Mario Limonciello <superm1@kernel.org>
-In-Reply-To: <20250430192538.GGaBJ5MuS4CEKa4kIX@fat_crate.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
+X-Mailer: b4 0.13.0
 
-On 4/30/2025 2:25 PM, Borislav Petkov wrote:
-> On Wed, Apr 30, 2025 at 02:17:43PM -0500, Mario Limonciello wrote:
->> Well with that approach once you got a known bit set you broke the loop and
->> would print a message for that known bit.  But if you have two bits set you
->> either need another loop or you only get one message print.
-> 
-> So I gather you want to print for *each* set bit?
-> 
-> If so:
-> 
-> 	for (i = 0; i <= ARRAY_SIZE(s5_reset_reason_txt); i++) {
-> 		if (!(value & BIT(i)))
-> 			continue;
-> 
-> 		if (s5_reset_reason_txt[i])
-> 			pr_info(...);
-> 	}
-> 
-> Still a lot easier instead of calling some function and dealing with from
-> which bit to start etc etc.
-> 
-> 
 
-This would work, but would still need to track if "no" known bits were 
-set to emit an "unknown" message.
+On Mon, 28 Apr 2025 13:56:15 +0200, Geert Uytterhoeven wrote:
+> Board files are deprecated by DT, and the last user of
+> nvmem_add_cell_table() was removed by commit 2af4fcc0d3574482 ("ARM:
+> davinci: remove unused board support") in v6.3.  Hence remove all
+> support for nvmem cell tables, and update the documentation.
+> 
+> Device drivers can still register a single cell using
+> nvmem_add_one_cell() (which was not documented before).
+> 
+> [...]
 
-So the loops end up being for() and check a bit or while (true) and 
-find_next_bit() and otherwise identical.
+Applied, thanks!
 
-At that point does it really buy much more than the while (true) 
-approach and find_next_bit()?
+[1/1] nvmem: Remove unused nvmem cell table support
+      commit: 1656ca6bf14d582c05a99088e0f55265e76431e1
+
+Best regards,
+-- 
+Srinivas Kandagatla <srini@kernel.org>
+
