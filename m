@@ -1,114 +1,157 @@
-Received: from jabberwock.ucw.cz (jabberwock.ucw.cz [46.255.230.98])
+Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C57CD1E98EB;
-	Wed, 30 Apr 2025 07:15:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.230.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 402D12DC78E;
+	Wed, 30 Apr 2025 07:34:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745997320; cv=none; b=PfabmcDpVOG4am49wq4oU+V2q5+jhMqg4thaq5LZSCzoMVf7ru7QWDTrdW32Cx4GzuGargiApqWhs53yx9gD723VXFdniZgdCTLJdVatg9V7wNj5V0244IvhWUpuMY+GUhnhqlhYp9FGrQGTKvjJrLLoG0qJL8OxQX6thoOxkWA=
+	t=1745998468; cv=none; b=mKinj5aBWpLYwFSvUIMed4OI4Cy5t3vuqCocUhX26j1iDfU8zfCW/LqcRlBL/ZKaiuEAsyi3HT+gBiOcHXaBVtRyweut1KWhZyjxIyeJKwfSSkuVXr/ljCsanwrtDXCWH54HZSOHC5V+kf71nQomrJZreP41VjsUX1dcvRqGIxU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745997320; c=relaxed/simple;
-	bh=PAsD7NS4YVFutLoWr6jqj6AC3UU/UXuFp0b49PB+QGY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AFw/Du8NCVt/gLnX9f7F8NFS6sNkvBu4xtmJkglnXwWN+JrojRLkWAy4fB0MHlGE+IHPBGm69lg3R2hAN1ngQdpxhJYv+edPwUGAyiO4J5I8DjkvpqEApHEgBBqS+mTklOgJiM/9VMP5GWcatM9Nr4ScEOfLUPWLgvf8O+Pckew=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz; spf=pass smtp.mailfrom=ucw.cz; dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b=e28nt/lV; arc=none smtp.client-ip=46.255.230.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ucw.cz
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ucw.cz
+	s=arc-20240116; t=1745998468; c=relaxed/simple;
+	bh=PKzz4GpXNCgGIa0rzM71L1KvZojTAwW+w9ousOBD410=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=nl/qbFN3fxI41R9Dcu//N8zV+PVPAbJmOuiYRRXrNTL5RtPZLcL3iailQAo3Ts+druNtF/yQIQ6zM7seU0kTCJSilomIWfi2omx4ZHjBlxCORuXezUCJE5eilq3OIprKTlHiVQ0CnfPjxu1eofRqVle7v8Y9/rAO+vJtfCkWlfY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=jrRARUnH; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=J9J6do0u reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=ucw.cz header.i=@ucw.cz header.b="e28nt/lV"
-Received: by jabberwock.ucw.cz (Postfix, from userid 1017)
-	id 52B511C01AA; Wed, 30 Apr 2025 09:15:08 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ucw.cz; s=gen1;
-	t=1745997308;
+	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="jrRARUnH";
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="J9J6do0u"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
+  t=1745998465; x=1777534465;
+  h=message-id:subject:from:to:cc:date:in-reply-to:
+   references:content-transfer-encoding:mime-version;
+  bh=PKzz4GpXNCgGIa0rzM71L1KvZojTAwW+w9ousOBD410=;
+  b=jrRARUnHAAMRDWfRCVCrO3C/3hak6YMoZ12DeuS+t3LrjIpUNekj7BuN
+   RUDu0+pzAmc7/Mbx5H4qmRECMzn9DfF4+AUajL8i3OWuAipgBbuudMIA9
+   +QjMaTzMMhTNoB+wVFdCauquzrNgpw/WCgsMYnv8RHbV2HwJ7aSBgLJzH
+   PnWTjxSOzVy+BJdlapVwFx0PtzWmOrC5+V4nEtzZskUU3uw6XNe1FSXNH
+   CRlysuZ4bifntKbtOoSLc7AJNqqRrhp3Vj5FfjX3ZbgAwjbI6wNsbjj+Y
+   qlPrj/2obTGZePT51OtOs+2iE4XdwAGpoPCG0A1vPdL4NDnCZnHeSc6cw
+   Q==;
+X-CSE-ConnectionGUID: qmb9bHPUQHiR/k58rQHINQ==
+X-CSE-MsgGUID: 1V3sw6rvRYuTXG+k7tCkMg==
+X-IronPort-AV: E=Sophos;i="6.15,251,1739833200"; 
+   d="scan'208";a="43800249"
+Received: from vmailcow01.tq-net.de ([10.150.86.48])
+  by mx1.tq-group.com with ESMTP; 30 Apr 2025 09:34:15 +0200
+X-CheckPoint: {6811D277-8-45F3AE15-E90F7DFA}
+X-MAIL-CPID: D0705AEC16E75CCAA574D1B56E0DBAE6_5
+X-Control-Analysis: str=0001.0A006375.6811D276.00A5,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C78C816423A;
+	Wed, 30 Apr 2025 09:33:59 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
+	s=dkim; t=1745998450;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=0uWhUtB07fuy+20OaSmbXkXnv/vhP67L+RCQmHanEtY=;
-	b=e28nt/lVW+XJbyWKMQHktS27mBX3qBE/5EeAl30/FlGEVNUc2OaCXyhF7sq4kn5mT435qz
-	mAvgP9BJAL/CACX2+38yWS3M0okLMEpwve42TUFWG3jNK/B6/vwULbF1DxRtlHfz+omiWw
-	eOmxtRcmWl1UOGZ3FqUoePo9R12vblc=
-Date: Wed, 30 Apr 2025 09:15:07 +0200
-From: Pavel Machek <pavel@ucw.cz>
-To: Nam Tran <trannamatk@gmail.com>
-Cc: andy@kernel.org, geert@linux-m68k.org, robh@kernel.org,
-	krzk+dt@kernel.org, conor+dt@kernel.org,
-	christophe.jaillet@wanadoo.fr, corbet@lwn.net,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix
- LED driver
-Message-ID: <aBHN+395kaIdbBEm@duo.ucw.cz>
-References: <aA/ineUBAM5IU79J@duo.ucw.cz>
- <20250429170220.8145-1-trannamatk@gmail.com>
+	bh=PKzz4GpXNCgGIa0rzM71L1KvZojTAwW+w9ousOBD410=;
+	b=J9J6do0u8lEE2W16t5i5xBUE6OJvrffKuBw+MpImOunqIfiVKeYE0BF1sStqNNQvxjJODt
+	UjucfkRCh+D43AMion7i5NCU+MQPz5wanjoNSfStQl3Ok8XSFJ/M1fEd7YPPhpmuI+o5VK
+	O2otQKOGgN+QE0qjCOqSKM1W+XutJD/1GguHf/QohJpOMg3+eyZ2Gk199+r6r8uGkVGwn2
+	c+ZFl7j8PZgRHcDKWYEtDfU6/9nMKpJeFzQ0ZV6KE0xynYuR9wF/Nkey4cftRH1LtdZG7m
+	1hTvePO6pVG6DhfJomE8hfZcjS0wn/daruChpIVQVj17lP3qvyeGwmV+zoK3YA==
+Message-ID: <24fab53831b359f3e3d809d22ace7572e196cdf0.camel@ew.tq-group.com>
+Subject: Re: [PATCH net-next 1/4] dt-bindings: net: ethernet-controller:
+ update descriptions of RGMII modes
+From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
+To: Andrew Lunn <andrew@lunn.ch>
+Cc: "Russell King (Oracle)" <linux@armlinux.org.uk>, "David S. Miller"
+ <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Jakub Kicinski
+ <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
+ <robh@kernel.org>,  Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, Dwaipayan Ray
+ <dwaipayanray1@gmail.com>, Lukas Bulwahn <lukas.bulwahn@gmail.com>, Joe
+ Perches <joe@perches.com>, Jonathan Corbet <corbet@lwn.net>, Nishanth Menon
+ <nm@ti.com>, Vignesh Raghavendra <vigneshr@ti.com>, Siddharth Vadapalli
+ <s-vadapalli@ti.com>, Roger Quadros <rogerq@kernel.org>, Tero Kristo
+ <kristo@kernel.org>, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, netdev@vger.kernel.org,
+ devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
+ linux@ew.tq-group.com
+Date: Wed, 30 Apr 2025 09:33:59 +0200
+In-Reply-To: <d00838cc-5035-463b-9932-491c708dc7ac@lunn.ch>
+References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	 <218a27ae2b2ef2db53fdb3573b58229659db65f9.1744710099.git.matthias.schiffer@ew.tq-group.com>
+	 <aAaafd8LZ3Ks-AoT@shell.armlinux.org.uk>
+	 <a53b5f22-d603-4b7d-9765-a1fc8571614d@lunn.ch>
+	 <aAe2NFFrcXDice2Z@shell.armlinux.org.uk>
+	 <fdc02e46e4906ba92b562f8d2516901adc85659b.camel@ew.tq-group.com>
+	 <9b9fc5d0-e973-4f4f-8dd5-d3896bf29093@lunn.ch>
+	 <b75c6a2cf10e2acf878c38f8ca2ff46708a2c0a1.camel@ew.tq-group.com>
+	 <d00838cc-5035-463b-9932-491c708dc7ac@lunn.ch>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.3-0ubuntu1 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Y8wJvSsTAszRr9tX"
-Content-Disposition: inline
-In-Reply-To: <20250429170220.8145-1-trannamatk@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 
-
---Y8wJvSsTAszRr9tX
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-Hi!
-
-> > > > Is it intended to be used as a 4x3 matrix, or is this just an inter=
-nal
-> > > > wiring detail, and should it be exposed as 12 individual LEDs inste=
-ad?
+On Tue, 2025-04-29 at 14:08 +0200, Andrew Lunn wrote:
+> On Tue, Apr 29, 2025 at 09:24:49AM +0200, Matthias Schiffer wrote:
+> > On Mon, 2025-04-28 at 16:08 +0200, Andrew Lunn wrote:
 > > >=20
-> > > The 4=C3=973 matrix is a real and fundamental aspect of the LP5812=E2=
-=80=99s operation.
-> > > It is not just an internal wiring detail.
-> > > The device adopts a Time-Cross-Multiplexing (TCM) structure, where 4 =
-output
-> > > pins control 12 LED dots individually through scanning. Each pin incl=
-udes
-> > > both high-side and low-side drive circuits, meaning matrix multiplexi=
-ng is
-> > > required for proper operation =E2=80=94 it cannot be treated as 12 co=
-mpletely
-> > > independent LEDs.
+> > > > > However, with the yaml stuff, if that is basically becoming "DT
+> > > > > specification" then it needs to be clearly defined what each valu=
+e
+> > > > > actually means for the system, and not this vague airy-fairy thin=
+g
+> > > > > we have now.
+> > >=20
+> > > =20
+> > > > I agree with Russell that it seems preferable to make it unambiguou=
+s whether
+> > > > delays are added on the MAC or PHY side, in particular for fine-tun=
+ing. If
+> > > > anything is left to the implementation, we should make the range of=
+ acceptable
+> > > > driver behavior very clear in the documentation.
+> > >=20
+> > > I think we should try the "Informative" route first, see what the DT
+> > > Maintainers think when we describe in detail how Linux interprets
+> > > these values.
 > >=20
-> > Scanning is really a detail.
-> >=20
-> > If this is used as rectangular 4x3 display, then it goes to auxdisplay.
-> >=20
-> > If this is used as a power LED, SD activity LED, capslock and numlock
-> > ... placed randomly all around the device, then it goes LED subsystem.
+> > Oh, we should not be Linux-specific. We should describe in detail how *=
+any OS*
+> > must interpret values.
 >=20
-> The LP5812 is used for LED status indication in devices like smart speake=
-rs,
-> wearables, and routers, not as a structured rectangular display.
+> There is two things here. One is related to delays on the PCB. Those
+> are OS agnostic and clearly you are describing hardware. But once you
+> get to implementing the delay in the MAC or the PHY, it is policy if
+> the PHY does it, or the MAC does it. Different OSes can have different
+> policy. We cannot force other OSes to do the same as Linux.
 
-Well, IIRC it also supports automated animations, and that does not
-make sense on LED indicators. So... what device do _you_ have and how
-exactly is it used there?
+If we want to support fine-tuning properties and other driver-specific
+attributes that rely on the specific delay mode used on the MAC or PHY side=
+, we
+must make this policy a part of the binding docs.
 
-Best regards,
-								Pavel
+Also, we make decisions how DT bindings work in Linux all the time, and oth=
+er OS
+must implement them in the same way to be compatible with Device Trees usin=
+g
+these bindings. I don't see how in this case we suddenly can't make such a
+decision.
+
+> =20
+> I drafted some text last night. I need to review it because i often
+> make typos, and then i will post it.
+
+Thanks, I'll give it a read later.
+
+Best,
+Matthias
+
 --=20
-I don't work for Nazis and criminals, and neither should you.
-Boycott Putin, Trump, and Musk!
-
---Y8wJvSsTAszRr9tX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iF0EABECAB0WIQRPfPO7r0eAhk010v0w5/Bqldv68gUCaBHN+wAKCRAw5/Bqldv6
-8vbsAJ4yWVOLyewaLjKCy5K42zX2pr7vhQCfRwpEm2TX7CnFns8+ygH5cB6Wa/I=
-=tWxB
------END PGP SIGNATURE-----
-
---Y8wJvSsTAszRr9tX--
+TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
+any
+Amtsgericht M=C3=BCnchen, HRB 105018
+Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
+neider
+https://www.tq-group.com/
