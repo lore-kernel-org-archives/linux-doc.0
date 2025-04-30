@@ -1,109 +1,94 @@
-Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D3221129C
-	for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 23:15:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 08F372222B8;
+	Wed, 30 Apr 2025 23:18:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746054918; cv=none; b=LKaMVhouiGG1DsaHk/1opUd5Q/IdhdC6a2765UQOIdEnROoJgVbv/FT4R2fBYN0xSSMD1HuaNZkpokrmR9dg2BmdDFIdmOmddJDfo55qbzF9tar0zpnMaaT5L3Cv4QksKF00VtZYVsvSGdL08MlavQcKXSI317oU7MbTMiRH0zU=
+	t=1746055112; cv=none; b=NLYaye0qxsBFwQHJrvxEQVuwRDjtsNPlvguK45PriPsS9S7zn5vmhd7W0r7YAuAtzrkiSDvf1n7ADy3WgezLp/C6MvF+ed05a73u6diF9gdYDttaj+Le6LZRxqgOesCrlAwfsUbfbn5h25WpPt+uH/LPk4fqW/LfuIxuVAmZdHM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746054918; c=relaxed/simple;
-	bh=1gkvdFh4jhIrw/MBMXml2s/AX8PO3PV1u4aAhoqRtV0=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=fsdXNBohRFImDLVTKFBVUS6gamXOvU7NriS2bLJ053zp2AIHZ7JYZosicn6y1G1tn5SOfQPGFxItb+6mz8yUzB5ERBpd3P//xzcr/jaj0bzSxn56zlzLN1JKeYZ0QRu97jBHxBPRvnr5hR7Z+FUeOaQ3ZqPT7cZSZj6rdt8NMao=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=UY324YwQ; arc=none smtp.client-ip=209.85.222.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1746055112; c=relaxed/simple;
+	bh=jai+05BP4PYbbUpkVBMdJRzYy9GRG1tw/UfTsXqDnqY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eZOAIkxrsg3tFarBrQzKkCKJX5PrZWILtG0rdJqJFFTFa5Apsrk0uF5a++r+CDOfluGbtErIjOIwcE4cPLSXw+HlUFcWL4SDiOWZG+3qY+pvKfWbILOFM+fhrJormhdZh/9EVH6rWgegvAiV7mlZlB4WyRBPbn1MtMZPii7qK5U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rVJ16W9H; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="UY324YwQ"
-Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-7c55500d08cso40323285a.0
-        for <linux-doc@vger.kernel.org>; Wed, 30 Apr 2025 16:15:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1746054914; x=1746659714; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=4qevg+gR/jQXOKEn18MBQyQWDOgs+/lqx3wMxZN8WKs=;
-        b=UY324YwQkpa5PE8XyPxuV929zu5EBhgSwBbl9DRzLcDutA0BgRJz5wSR84Fqmi1uR9
-         uZ+ExucShUBpu+MfPfauehGPNnUxSAnr0KAo6m3Bse8LFJJZkpnij13ljZG2FbnsLcP8
-         M7o9QKcQynqnws0eEUU+rDdz/qyhXaxBHIAGhZ6KrIYmUK8llHIHawO5sjJ4QUUN35pY
-         BeEJv1FQLJ0wb5ggUT6/stMqzOqs8+Fpy/tzOIywQA7qbfwzjaFZWCdPtkVlEKWHjelL
-         jxDSNK18CHs9aqu/OaYHp3mFxeoos08NsZoixGvJv0LkQjfv2CL8NXP87r1wstJ+l5ui
-         MHog==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746054914; x=1746659714;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=4qevg+gR/jQXOKEn18MBQyQWDOgs+/lqx3wMxZN8WKs=;
-        b=JFAIb/es/q5NsK177Z8jjMaI8mDcOUYz30WZTzNDkdblbFxmYnPmCkbnYwjQfGAcjG
-         N5MMzUwoTptkjf59EA/JlYn2eWnFgmrM8fTVx5Fx7bL7skSFiO8RzuIdFsjmH0GoN+f4
-         FipddLyPfAiSfzdTtY8GByfw9jB4LNp2DW+4NS0A+8TnKwjNjwa1SshlkOEIDa3uyKNV
-         GFOPw+nsu7jCxL1bgjBCWr0Wi06nOFIvsBaP/ltSxkDg1sITtertFHEwR8gIr/s7SKhd
-         Ah+42iZW0+NSuIdsslYrM7v3fu0+OqPnkb86jAXcnSGev8eQ498nunyt1HPhktBhWGW/
-         U8vg==
-X-Gm-Message-State: AOJu0YwvMsOSWz5Y+EyQS1Qhr4Cq05NINf5FatIpraJy/zeBVA+M4sbx
-	G20a+0titCnapNzAEzz+UCWCcjwf1XesBSpispRABSw3XWwrSIbmKvH0hJ7PRrA=
-X-Gm-Gg: ASbGncvkA3og1tYQPFXBHyhgKqM6IXT5npUX48NsT+KnRUC7wm3fqw2+PwufVY/yBf/
-	H7Gt7h81OXh+2aGGuJ/XfieluP6K7GyZY1rX0MUdE8BXrWxEBqy4q3ytLATb7xVrATZ4e+C5UTk
-	FVxU36oEiTtKdiNRaQANa3+36aP2YmJ/XjFUhpU8YU3pVRrfwwv71MUrXy8BVH8Zk7drqZ0w4UL
-	7R3CtWqyhU2L0JSQ6DeZFztKpp6xuRmXHsr9FycE6efMLMaNGa7nzYci55N3lks3MxUdcdDO8Qw
-	e3ag/sTi2gW2QFNP/ryMflva0QJ+s22ocFmuxhQGgmoV4k+jNiK+69qJSnJu1SMxDkgX+rT47nF
-	1sTZe110KcbsIRgFoFr8u3Zt6RSGq
-X-Google-Smtp-Source: AGHT+IGav1geRgSf7A2vLf5AOwcdw9lUMaP9D7RnYvq+QFvpuCaWOqmOKlfgU51P0IinAgHBqb/HUg==
-X-Received: by 2002:a05:620a:6183:b0:7c5:5596:8457 with SMTP id af79cd13be357-7cac76d7ab2mr754502485a.57.1746054914481;
-        Wed, 30 Apr 2025 16:15:14 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-173-79-56-208.washdc.fios.verizon.net. [173.79.56.208])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cacde764c3sm19538485a.33.2025.04.30.16.15.13
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Apr 2025 16:15:14 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com,
-	dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	corbet@lwn.net
-Subject: [PATCH FIXUP] cxl: docs - fixup cedt.rst reference in access-coordinates
-Date: Wed, 30 Apr 2025 19:15:09 -0400
-Message-ID: <20250430231509.1298122-1-gourry@gourry.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250430181048.1197475-1-gourry@gourry.net>
-References: <20250430181048.1197475-1-gourry@gourry.net>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rVJ16W9H"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id E2FC9C4CEE7;
+	Wed, 30 Apr 2025 23:18:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746055111;
+	bh=jai+05BP4PYbbUpkVBMdJRzYy9GRG1tw/UfTsXqDnqY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=rVJ16W9HisgZNJ+KL759MSIhXrv306B6JekecnMI+odRuk2CIEfLajWNkRgCGMPkA
+	 fsZgLyfNU/E8rnApLM9simfXzohYx/tASqtB43Ddg/bw1ZVqDeHAMw441Zr0Yv/P0z
+	 UIm3tkpDnkwhiafiAQYmC3J0D2uVzEyCs84uOitEr7vZq/wCl1LduyX34NnG2BOXbg
+	 Fumfd8t0jU99mYLFyt4tIlGynEaliVMn/HAury/qBBJ1S2KTyzFBn/1BpGUfXHgTPq
+	 4cxAfpeEE8A0IbudQqpVrNLW1uNmWAhjLydRTEa0I56/06Jqck/cUBsyXr8TXsPWjQ
+	 NDlzMoazP8UeQ==
+Date: Thu, 1 May 2025 08:18:27 +0900
+From: Mark Brown <broonie@kernel.org>
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: lgirdwood@gmail.com, linux-doc@vger.kernel.org, corbet@lwn.net,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 0/5] Regulator deadcode cleanups
+Message-ID: <aBKvw3KEikfdQbn7@finisterre.sirena.org.uk>
+References: <20250426175143.128086-1-linux@treblig.org>
+ <aA5Ad6bXfH5jPiss@finisterre.sirena.org.uk>
+ <aA5F-_kJO0jFgKpQ@gallifrey>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="JQcwiPjO6V0+qoNA"
+Content-Disposition: inline
+In-Reply-To: <aA5F-_kJO0jFgKpQ@gallifrey>
+X-Cookie: Well begun is half done.
 
-Remove additional acpi/ in path to cedt.rst.
 
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- Documentation/driver-api/cxl/linux/access-coordinates.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+--JQcwiPjO6V0+qoNA
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-diff --git a/Documentation/driver-api/cxl/linux/access-coordinates.rst b/Documentation/driver-api/cxl/linux/access-coordinates.rst
-index 24db5b41716a..77ba9be9af2d 100644
---- a/Documentation/driver-api/cxl/linux/access-coordinates.rst
-+++ b/Documentation/driver-api/cxl/linux/access-coordinates.rst
-@@ -25,7 +25,7 @@ asymmetry in properties does not happen and all paths to EPs are equal.
- There can be multiple switches under an RP. There can be multiple RPs under
- a CXL Host Bridge (HB). There can be multiple HBs under a CXL Fixed Memory
- Window Structure (CFMWS) in the
--Documentation/driver-api/cxl/platform/acpi/acpi/cedt.rst.
-+Documentation/driver-api/cxl/platform/acpi/cedt.rst.
- 
- An example hierarchy:
- 
--- 
-2.49.0
+On Sun, Apr 27, 2025 at 02:58:03PM +0000, Dr. David Alan Gilbert wrote:
+> * Mark Brown (broonie@kernel.org) wrote:
 
+> > Please do some analysis as to why the functions are there, don't just
+> > blindly delete things.
+
+> I'd appreciate some more idea of what you're after;  each patch
+> shows where and when the function was added or last used.  Some have
+
+Something that indicates that this is a patch written by a human rather
+than some automated noise, that considers things like API usability and
+coherence, or what people might do if the API is not available when they
+need it, rather than just mechanically churning something out.  None of
+your commit logs consider what the code you're deleting does at all.
+
+> comments saying things like the devm_ version is being used (so it
+> seemed reasonable to me to delete the plain version if no one uses it).
+
+Deleting the plain version of something where a devm version exists is
+an obvious example of making the API less coherent and hard to use,
+managed resources aren't universally appropriate and so you should
+generally be able to do the same thing with manual resource management.
+
+--JQcwiPjO6V0+qoNA
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAmgSr74ACgkQJNaLcl1U
+h9CKRQf+IxyOcYOZZEVNKf1ejElUu5O/iSUv9jTea2VN2X3zO01ywMLXKqm68lN4
+LCjIFO3b1kHwLnmY6fObyc232D7I7PC89FYGdT9vDvYihfhWoflxUi/jsDmUcPuG
+FRQhTw8fbef74yhDRR9T0DEfKl/7wUctIcnShxmKmDon9OcSa6DEOzJ/FdjoUb/M
+uPhg33bD52NH20iCekk5NKXtUsD6niYiC1NpMvJGDJXmFEUwKyzUwganHT03R28g
+9eE20N4ZaJgVmOEso5+X+Mdudunk2Vq7Zd6FtwPVl5BeTL4eSkHBXmpLaebtfZ8x
+HHEIQsGPGtP1AHE1qtMXSkU+w234sQ==
+=ej+7
+-----END PGP SIGNATURE-----
+
+--JQcwiPjO6V0+qoNA--
