@@ -1,232 +1,226 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2053.outbound.protection.outlook.com [40.107.92.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3A2C3D76;
-	Wed, 30 Apr 2025 04:10:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1745986240; cv=none; b=OtLjBUrrzjnImw3BuvSBKbAaWcHikrdIbtx+5xXsbSxUJb2PnPGPg2L+DPNy4EQl79zfMgoRf/dkYmYZXUDYJJpOWrdB/o3/lJJ4fs0YB0WAs5lqEBud7br2lhURlQfxKHQSiUQt2CfgmvohI38jMLtfFiGQ/UIAkEejr4M5u1g=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1745986240; c=relaxed/simple;
-	bh=Ox8hQA4pma2LNR/4jg74fqC+4NZYhl2GWnc8ESUhnkI=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=YCfITUxG4wd5fMDLmYHrwdURovRI2sNknMI4dKVjLMvtrc4aqeKx7tvnG7dicDywk+cBLRkLgLdw6PbCYWSd1HTMrvqBRfSNjI/+eRuJ6w5rOJzqgcWw2GMzIP4KQrRp8Ev6Sxw3+8ouBhckVP2e9n2YcB2vAihX+Urrzxk1sPU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Ew4Wgmgj; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A871E2DC775;
+	Wed, 30 Apr 2025 04:22:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.53
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1745986948; cv=fail; b=KkFCOfX/lIzzkSATGYFE2Giq2K9NiCTdWfa51J+yNHVrZh59zETPQahyXpIb2bCdkC3H+o7SQNQgIKpsX6K+zUlzGZEWCCc9z45TN45OsBa6TV41F7z40DMrUF0wET1dg33hfZvaYIb2NswcOkVPDblPKbTATeBXy232+niHEMk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1745986948; c=relaxed/simple;
+	bh=lKplf4Q+OBuYlPmsMFyTCrz99GD6uWokx4jakmZcK7k=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=F6UNoiZ25GlmBxjAwig1mEuFcfak/N+txfCoMrMC5ckE3YJ/onOLoi4Y8c0zty/TAS2v0rizs8AiUmYiBmx/5zNbHx1aZ0Nn4aBoopSOCEZXrNnqn0GjK9GyPRE1u4VDska3Ic4q+zstZp09erko1mCqJ7QzX4f+o1V7JDdnIws=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mW/7C5v0; arc=fail smtp.client-ip=40.107.92.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Ew4Wgmgj"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7376dd56eccso7255884b3a.0;
-        Tue, 29 Apr 2025 21:10:38 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1745986238; x=1746591038; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
-        bh=IyOk3rfCGqpg2h2CmgIwmApfkvduFLXUPz/5GKtOsrI=;
-        b=Ew4WgmgjKz5Nzk1W30o6ldDBprKbOEPj1nP+WPYxAZIPejM6plCGhWBka08W6eYyFF
-         suoy+vM2xHtTe+70myBnmhQSw6gbIBmq+aLIOD0GOWeQNSEwKkxuGpllLLRN0nJ7cZy8
-         fBrXv/zFQDYLxBZNH/p6iOE5qg5abkk4NsgrZ3jQYmyuBLChy34pFGNripHF+JCMhYWg
-         CqxlVpK2Ub/uKhf9UOOBYXxs0z2mn+2eNV8XiMmI1neOAGn4NLPHYXNTdJ+J9Fcl5Yyl
-         /33aLKgaX0oDE7FJ6i0k4UJXMRQvJ2vdQUati4KtDR6ubdll5hhQIYI1EoqssPbvPi0P
-         zTaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1745986238; x=1746591038;
-        h=content-transfer-encoding:in-reply-to:autocrypt:from
-         :content-language:references:cc:to:subject:user-agent:mime-version
-         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=IyOk3rfCGqpg2h2CmgIwmApfkvduFLXUPz/5GKtOsrI=;
-        b=ORJfxr+M0Sbxn001Pe+z6yDCyscFvcVyi7R5ySgeaHNYRU+eYpgsyyXkHdg8+IMXUd
-         FiN/CVV6IQrJdoLA5d6Lih9BDd2Ofz3eJHZTGxaDERvNr4wQvQli+M+lcpydWSY7A2y9
-         glWPhBt3WBQ3cMzi9zlijsWCp8MjnL9yPZiljbD5EBALobqe8UxLUSr+CHOXT6VUgHNY
-         g+IeCFFPUkXN7C0z37B6XT0pxMTNmhj921YhngQBRhQuyCxCFAIvWv/jk1Lvc/TpxnIt
-         VODaNus9G9jXgJILIofLj+Wy4rRcYS6TLRT39goaKY9JFpRBdw6in8PJfjI1ODLmqV6j
-         l1RQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVJ6oQWW7s8+lNDfONjysZGTWhBsKa4wp7nR//6JqpIrcgfIZ35bSJhjy7CjUsLLOZ55Z7hzIDB/ktMTCs=@vger.kernel.org, AJvYcCVmhoIk4nUjhikejrZdnklcQ3QPoUb3R27nXXrOL3cntdPHMzDd1THOT7NbvGSJOWuPsZHnY5azzV9Fk6Ia@vger.kernel.org, AJvYcCVxtLz5upwC6S20mjPJhM1NcS9rGyl3kX6Ar6KQpApKWYdywWUYkjlMXNC2vd++Bu3iySl5bBjER3x8@vger.kernel.org, AJvYcCXAP+dqIqWX5N8q3Vp07Fe0S5aIKGAuGpB1vlKiYtdgOzZuvuMFnRUs7XF8QGYU+njYNLOa7PK7UGLy@vger.kernel.org
-X-Gm-Message-State: AOJu0YznTlJGuP9dYeg9AROajcwV8nABtiG2nFv6alzzgf+i+KzP6eBc
-	9HrYHC/b8vB1ZKs4E9kgtJK/gDXfUTF0q6i1jZPy+1IQGC70PRrM
-X-Gm-Gg: ASbGnctCKvSeWf+DgsPSZLEiuE4qC+LjHTh6RKfDizbEPKEcOLguscPBFMCaPizrfjI
-	1GS7CVkBrIK2vlIm72CMgRUGzcsxeQcUCPaI+JCuGQqlh0BDDjqGvDqBjHjQHBA+lUEMJTd5tGo
-	hMtwX77Vfx9TGtZf7RvUyX6UUUNCiZU2aYIlDiUtarVvhMmq9wRqF5hRlfVJplqek5GJBOKj+c5
-	dcTjt4+34gK8nHXXMZwpE3OK0HYdh1Xr9nVCDOGeANbuchBHadaFFrUnZct1LyTo4iTjr/IRNPR
-	pRZ1DH/+wlP07+fUI/z4j5Cct4zDzhCz+0uO+zX3pCIrRFOtex2k4L+nGl9mEQt2HU9w/EwSb6n
-	szkhZZR9QuMYxDA==
-X-Google-Smtp-Source: AGHT+IEjFI/5NL0QMrikKzIC2Nzl+TsmbSCKE7YlFVqxsokop+vaJJb2HacY693j3bFRB8Ue7wPAwA==
-X-Received: by 2002:a05:6a00:9a2:b0:736:520a:58f9 with SMTP id d2e1a72fcca58-74038a90ac3mr2261496b3a.17.1745986238017;
-        Tue, 29 Apr 2025 21:10:38 -0700 (PDT)
-Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74039a30de0sm607874b3a.104.2025.04.29.21.10.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 29 Apr 2025 21:10:37 -0700 (PDT)
-Sender: Guenter Roeck <groeck7@gmail.com>
-Message-ID: <544a9f3d-1262-4668-90df-c767d3fe85ed@roeck-us.net>
-Date: Tue, 29 Apr 2025 21:10:35 -0700
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mW/7C5v0"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=vRjF8Z8s7B0B5y6etUhhcUaUArTloGAU46xv1TE2a44Jimp2w4Hg71E0Qx1MkJAB+H+e9zN8GpmI1e1YjnN4/HaxJsqU3muhBRgyjMSRBHb313trGO5II9FlrygzIZ2JCu8ct6P6Fu6AsmLv52OGM00ufuYrEfk41bemVBLpA6akOhlgh/zmS/oVf6tea8XxSCo7UIHEalfecDgd7kgZhVsjwUbN9wyh4ovnMXWkVpCQROB/TNELX3hAtVqyZywDLUZIKaCIpaRljgw71dDRRMA9T7yzJ9h9KtgW8Yzwk273HJtyclFPt+cZEtNIEOrsy6jGfMlxxByuCwBrcPE8CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=O5tJxQ+evYjVMmpPmqBdQCCwzS2gwUGZ22Y1x8Hvga0=;
+ b=iZ2h5YRso0mznvN7pC+cq61++BgCDcidLFJr4E8Wb+UZEuKy3uV/pyZ9qR2uVgXGvdEfBVsY+pJn4X54MpXEEwmJXbno5oW6SRKxbVKiG3y8XccaTABK5yHnwU8QAk7SN+6Za/Y8Xy7DzSUN3xC+kUd55SjK5H/GqU1OoGC/1/atkFDbWgvqCuufo+tnAZ0asNGWKWW151n18oQjVfcJ69kXC0qcmQ+cg54xtAsO6IOIYaNHmR94wM7SV6liAJByBDA2L0bgmNefJuvaMycVL+SL/Xe6F50K/65DEXgSUpzSNPd9rs+OHn34yzaH8XH51f2Usvc1HUJ8HicgM3CWUg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=O5tJxQ+evYjVMmpPmqBdQCCwzS2gwUGZ22Y1x8Hvga0=;
+ b=mW/7C5v0DompPEJMyHLJB2WRM+l9KlatO28znwOgpZhjwM8FPkReqxdcd8W/rhax0sJsdFNfy4Ew2cIGg95vxQEbyM2Ec652xdR4ikbwpa/VPXQBTtwVhmtJ26/IKxKLsxoJsLJW6Jdrm6+y2KrnJFSbh1LxhFvIo75cr6luBvc=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
+ DM3PR12MB9390.namprd12.prod.outlook.com (2603:10b6:0:42::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8678.34; Wed, 30 Apr 2025 04:22:21 +0000
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
+ 04:22:21 +0000
+Message-ID: <7c813df6-e37d-47ae-9b5a-b8735c865626@amd.com>
+Date: Wed, 30 Apr 2025 09:52:09 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/22] iommufd/viommmu: Add IOMMUFD_CMD_VCMDQ_ALLOC
+ ioctl
+To: Nicolin Chen <nicolinc@nvidia.com>, jgg@nvidia.com, kevin.tian@intel.com
+Cc: corbet@lwn.net, will@kernel.org, bagasdotme@gmail.com,
+ robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
+ vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
+ jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
+ yi.l.liu@intel.com, mshavit@google.com, praan@google.com,
+ zhangzekun11@huawei.com, iommu@lists.linux.dev, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+ linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <094992b874190ffdcf6012104b419c8649b5e4b4.1745646960.git.nicolinc@nvidia.com>
+ <b0d01609-bdda-49a3-af0c-ca828a9c4cea@amd.com>
+ <aA/exylmYJhIhEVL@Asurada-Nvidia>
+ <b8338b47-6fbf-44ac-9b99-3555997c9f36@amd.com>
+ <aBB1gLfahnLmn0N1@Asurada-Nvidia>
+ <a3860aed-5b6b-4e68-a8fd-1a6ee28ba022@amd.com>
+ <aBEI+T7P+hV8Y6tU@Asurada-Nvidia>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <aBEI+T7P+hV8Y6tU@Asurada-Nvidia>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0059.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:274::9) To DS7PR12MB6048.namprd12.prod.outlook.com
+ (2603:10b6:8:9f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 3/5] hwmon: pmbus: mpq8785: Add support for MPM3695
-To: Pawel Dembicki <paweldembicki@gmail.com>, linux-hwmon@vger.kernel.org
-Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Peter Zijlstra <peterz@infradead.org>, Greg KH <gregkh@linuxfoundation.org>,
- Shen Lichuan <shenlichuan@vivo.com>,
- =?UTF-8?Q?Uwe_Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>,
- Charles Hsu <ythsu0511@gmail.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250428221420.2077697-1-paweldembicki@gmail.com>
- <20250428221420.2077697-4-paweldembicki@gmail.com>
-Content-Language: en-US
-From: Guenter Roeck <linux@roeck-us.net>
-Autocrypt: addr=linux@roeck-us.net; keydata=
- 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
- mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
-In-Reply-To: <20250428221420.2077697-4-paweldembicki@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|DM3PR12MB9390:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3f8fae7f-392f-4c63-1e44-08dd879e999b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SnZ1ckp3NXFIUGsrQyt0anF4S1llVWNZcWtJeTB1Q3F3L2tHblJGdWFGM09r?=
+ =?utf-8?B?Z1JKL3J3SVRudVdFYU1USHNMMDNaMHFsVE9nQkZ2SWtkbkFsWG5jZ1o1L2VR?=
+ =?utf-8?B?QnUyYlNtcVJodkJrWVZ2WWxVMmN6Ky9RZmNoTjhBQ3RWS0FmSTFzNjZWbGtK?=
+ =?utf-8?B?TU43QTY1aThtUURia2dzeUJqbkdEQ1IwT3pLRmRXQ2dhbjlnT0tlZUNFRzRm?=
+ =?utf-8?B?TWljcnltTkgxR0ZrMTEvOEhBUHJYT29tdmxxSkJndmcyaEhjNzlXSkc5Unlu?=
+ =?utf-8?B?cGpYeHVNT2FEbG1ZallBTncrMGJlNjdUYWlLWE5YVlRLY1Q1c2hWSGFBWVJB?=
+ =?utf-8?B?SGNzQU56NWxzTDc4YlJrK1FySVFwRmFnbDYvcUk3R3N1OTNVaUFrblMrQnd6?=
+ =?utf-8?B?dmRLTWZ4QnROMzE2RUZCVERUWU5lTUh2MXZLSjA2bjg1Q0lXNzRRSzBDQjBG?=
+ =?utf-8?B?QjhFek5mdWNFSG9ENmtnempRMzBLM09nL2djNnhtSEJmMisyZWR2K0kvYitF?=
+ =?utf-8?B?RytvZVJFREZZZjljbW9tdG5qdzZQTXhFcWRzR0o2blVhM3J4MUxmbTBGSW0x?=
+ =?utf-8?B?MHlKNXdoendqQmorSFRFTFpRemdpRktjNUd2ZG5OVUxXTDJTR1Q0NWNWS3Zx?=
+ =?utf-8?B?a054N0hCamk0UW94TlZIYXBkYzdIL010V25NYnlGSGJtbnFwNWJ2UGtQWmdi?=
+ =?utf-8?B?bnNXR2lnNGR1U2dUUEc1ZGhwa2ZPWVk5dmUzYVhBeHJXRzFGeTU0bVFnUW9z?=
+ =?utf-8?B?MUZFMEN6Y1VwK0lzcEp2MXh0RzI3U0xWUmNmUXBXa2o3WVlwb1JDb09aR0RV?=
+ =?utf-8?B?OU1uODJRNUZSNllqa3dyRDBMTHN3STFSc1lFaEVuL005RXA3eTdORU9EQzAz?=
+ =?utf-8?B?SVZqSDhEeU14aDF6LzZHMWF3eU9SQmhJTWo4RFVyMFg3bUV2VTNyUkF3b3V4?=
+ =?utf-8?B?NmtpY0thd2NhNkhMTDlqemZlbEdQcFNFUisyWk9VUDRodXNSdWdRWlpSbjVD?=
+ =?utf-8?B?cGNjSS9UVGJPK3pOZ2o5bXBQNTFjUU5ZU3A2QXc5NU5EQUl0K2NUTEJZZ0Jj?=
+ =?utf-8?B?clZkU3NuNitMOTNnNWhrdG1ES2t0dUZkc1F3bVN6TUJBRHZFdjRtUHhwRkVG?=
+ =?utf-8?B?NzI1L2VraHI1bjZtN1l5SXJSYWVZeGxXd3ArU2xSWW94KzBjU1RxVzE2cTVK?=
+ =?utf-8?B?WkU3VkszRkhCWk1RaFZvZHdVeGZiaEE1L1krU0JtamNyZnQzZzF5S1cyRE1u?=
+ =?utf-8?B?QUp1NllCM1JrWjN2MlpxQVBpdUp4YVBTN3ZQcDNoRzhVNzNwaStlMGE1cHk0?=
+ =?utf-8?B?MmF2ZEc1VWpqU3VlRDdONUh3TkdSaXRQT25JSDZJL3RUWkoyVE5yMmdyc0Qv?=
+ =?utf-8?B?VGdGeVFSa1U3NUpta0xYTTdpYTI4d3dyc0Y1cStmQVB4dTRHL0tMUXVUdnlO?=
+ =?utf-8?B?UUgyR2lSTjNDTjljemxCT0RuQmJ4YVJCc21rNnREZ012WWZxcVBVTzE0c2VL?=
+ =?utf-8?B?STBBR0VqY0hmOUJBQjBoWU51RmVMNnN4cVpNNk5lVmZ4UzIyYnpMQWF5NlAx?=
+ =?utf-8?B?aTVUYlFUc0MxTjd6T1pMWkQvRHVNNjdPc3puK0cvZkVmYVNQMzRoM0JMUHps?=
+ =?utf-8?B?N0VUeW1sL0dKNzVsalR0STZheURBOXA1ZUJOS0FDcDMvU2ZZcERRVmpkVXhF?=
+ =?utf-8?B?OWpjejZJUHBYZ2RFTlJnM2NSSU0vdzF4dUdDT0dOb2dvdUg0WFI0RWNTQVhT?=
+ =?utf-8?B?OUY5SWdkRkF4b2h3TEEwTGRXRmpjcVlvUXVYOFZYMHV4MU1RRjRtcjIya0xr?=
+ =?utf-8?B?em5GcFpwZkxWbXhGNjdPMSthMXNyT3lZMmZNUlNvTTYwTzR2OE8wU2hrNnpI?=
+ =?utf-8?B?K1lsNGJwWGRrNEJpSWtqOUR6NzJ1M3NrMG1iaWJzU2xhRkNIeVlkT002MmhY?=
+ =?utf-8?Q?NI/621Sfj6s=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bERSM2RmTm12MkJFSStidHdLaWNpakt6UkhGVFRwczNoTkxrb3pnSzBDZUt6?=
+ =?utf-8?B?aGlGN1VWeUR5dHN3d2dLUXAzcTZCM1NjaThyS29Tbnd6QUxsMVJsMmxidHg5?=
+ =?utf-8?B?QjhzSlFab3Rwa2hwSE00RHg0dFJIbkEvTVVQNnNXTEx1RjM5bXBoS1AzUGd4?=
+ =?utf-8?B?RUxUYy82aSt3ZXA2SGxrcWNPa0RybHpQMWtyN1F5S2M2OTZsNER5dC8rN0VJ?=
+ =?utf-8?B?cjFkZ1hTV3ZuS2hYK3hlMUpONTN0RGk3Vy81OXZaYkZDUnNSRGNQbnZKREJQ?=
+ =?utf-8?B?c0VMVk5QRlJuQUhFSWgrMytWVXo1K2w2b2ppL0hNNnlWVUFZN3dPOFZRbkxI?=
+ =?utf-8?B?WThLeS94U3luWEpNeFg4OVJteCsrOTZyQkNaeVdMY0M5cnpzakhQSmswYXNv?=
+ =?utf-8?B?cXlIUlYvY0ZPbVpaSThNMnB2eDBqZFBLUnFsWnZuSldtelUvZEp4STNSeDhG?=
+ =?utf-8?B?ZWdoU0diSUYxanEvNnovNTFnb0dIelYwTWI1eXNUODM0R1BzeUtPaU9zeGNr?=
+ =?utf-8?B?MkdoeHM2bkp3TVBtYUpSc0VEUmNsNEcrMVpiRlArS2NkUHFueHRNUXpNWDZI?=
+ =?utf-8?B?eURVTjRsbkduWkpFd0tBK0I2ZzF2TkJnVTlUZGxwSzMvK0JQRURFeEFPQStw?=
+ =?utf-8?B?UjQxcE9vTHdoS1ZGTFJHVzF0QkNidVVpZ0dIdVJhZnpodDhiYXg5Q3d3NXU3?=
+ =?utf-8?B?WW1IU1FIczJybWRkV3Q0UGhqdE9WQjgzbXJnYUdEK3BsZzVtZzNBcUtnVmRY?=
+ =?utf-8?B?Z0Rob210Q1V4bCtQSFU4UVFZaStuYnFjSHpCR2tsM1dNcFo1M3RPeHhmNWhT?=
+ =?utf-8?B?QktEelJodlQ4M05GNzUwM2ZyOXBqN0ducmZHK0YwdFZUc3crUmZCTzBwZUxX?=
+ =?utf-8?B?Mlh1T2piRnY3dVAxbGVLQzZkU2lmbG00T0NmcG5LMSttQVBFUDA4cldIVUUx?=
+ =?utf-8?B?ZE1mYVRSZU0vbHptTUVjcHlQVEI4bllpT1ZKSk41a1JxZU9KNDhENmJTWDVB?=
+ =?utf-8?B?aE5vVVR3SDQvRlA4VTZOWHgwY3V2b013VzNUU3A1WWZIaVV3elNGV2w0Q2Ez?=
+ =?utf-8?B?QjZ1UmQwdUM2Yk5VS0Zmd1Q1Tk5TZk01eWVXSHM5ZUtKSFFpL0xGNXhGUk9o?=
+ =?utf-8?B?RWVuUzdBVWVjemh1WndKMXRIRFpRUUdYSVB6N0xKU3lnWFVlWFYwZEdqN2lh?=
+ =?utf-8?B?ZHdvclZneGlIWnF3QVFiMjJNT09VYmo3VFpLUm5pZkRNcHhwOWRTUUpEUVBH?=
+ =?utf-8?B?aHRTNUd0ak0xb2ErMXYrSGpTTFFzby9FV2YvYXJQd3cvV1Y4emZ2SzI5TlVI?=
+ =?utf-8?B?ODBiZ1ZjNXRhMlV2aFhXdTl1SE5tbkExbnZCTUxLWlRoc1FWcThqb2xmYnpt?=
+ =?utf-8?B?WGhISGxqTzYxU1JZZXVNTlNQanZVaWpyNVhlTVpHWFhwNkwyRVFRZFhzV05o?=
+ =?utf-8?B?OG4xZmRIdHNpdU5RcWRaTWlGeVYzaEVCYnZDVkF4b1dITU1uM1lVT2JweE1X?=
+ =?utf-8?B?SVlqMGVHYVp3eDFwN09YbmdDeXhTbnVUNHdFVHRVRjhlcG0wa1dISDY2OXlX?=
+ =?utf-8?B?VjIzNlhrUmNxS0J0dm9xK1lZbjYyaXZYRDNoOXJTNFBqc0pZM2Z2bGVoZkM1?=
+ =?utf-8?B?K25mLzViNUE0L1U0bFllUEhNR2ZqSmw1RnpmMzdEL3NORHpmbUd3TkYvMXdW?=
+ =?utf-8?B?alFaZnBOYzBvcm5IYWJpb0N2YWJxa2ZCRHJRRVV0NER2UEdDVWNmWk1qVG9W?=
+ =?utf-8?B?ekxjUUcybXA2QWFZMHh5VG0wK0FqMlFVS0dtNWUxYUR5V2dNSjNKR1N5djZ2?=
+ =?utf-8?B?bU5ZU2hNWlZ3U1ZFRXFPWUtsOVcvMkZGYTk3UzQzcUdvT0lCNkIyQ1huMmpk?=
+ =?utf-8?B?d01VWnB2SnVodHk1NEh6UzdQcUJYYUpkQXNtM01rdTFRTVFNQ3dSMnJmMmU0?=
+ =?utf-8?B?ME0zSUZieUlya0ltZnRuREd4V3lLL2VsWFc5MS9vSkVZNkhFQ2N0WWhYTlhZ?=
+ =?utf-8?B?ZjY2M2g4a2NKRG9XZnRUcHJET05CamtLVityaUVIRUJrNys0eDNzL1lMNS95?=
+ =?utf-8?B?NVpGOXoyemNNNWVMK1lUNkYzU082dExPOTBUeG03VGQ2Q2pPYzJWbkthR3Qz?=
+ =?utf-8?Q?oF9lu/FyxcoOsYec/YPIR3ejb?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3f8fae7f-392f-4c63-1e44-08dd879e999b
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 04:22:21.1750
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tU/2rJTFBQ8okASRhqCWPAH99o72rK7YlxhveVPwEfUSuUAiLSD3KdfkgockGQvNL5tKrnMpmysZcFY32U2WeA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM3PR12MB9390
 
-On 4/28/25 15:13, Pawel Dembicki wrote:
-> Add support for the Monolithic Power Systems MPM3695 device.
-> The device is PMBus compliant and shares characteristics with the
-> MPM82504.
+Hi Nicolin,
+
+
+On 4/29/2025 10:44 PM, Nicolin Chen wrote:
+> On Tue, Apr 29, 2025 at 03:52:48PM +0530, Vasant Hegde wrote:
+>> On 4/29/2025 12:15 PM, Nicolin Chen wrote:
+>>> On Tue, Apr 29, 2025 at 11:04:06AM +0530, Vasant Hegde wrote:
+>>>> On 4/29/2025 1:32 AM, Nicolin Chen wrote:
+>>>>> On Mon, Apr 28, 2025 at 05:42:27PM +0530, Vasant Hegde wrote:
+>>>>> Yes. For AMD "vIOMMU", it needs a new type for iommufd vIOMMU:
+>>>>> 	IOMMU_VIOMMU_TYPE_AMD_VIOMMU,
+>>>>>
+>>>>> For AMD "vIOMMU" command buffer, it needs a new type too:
+>>>>> 	IOMMU_VCMDQ_TYPE_AMD_VIOMMU, /* Kdoc it to be Command Buffer */
+>>>>
+>>>> You are suggesting we define one type for AMD and use it for all buffers like
+>>>> command buffer, event log, PPR buffet etc? and use iommu_vcmdq_alloc->index to
+>>>> identity different buffer type?
+>>>
+>>> We have vEVENTQ for event logging and FAULT_QUEUE for PRI, but both
+>>> are not for hardware accelerated use cases.
+>>>
+>>> I didn't check the details of AMD's event log and PPR buffers. But
+>>> they seem to be the same ring buffers and can be consumed by guest
+>>> kernel directly?
+>>
+>> Right. Event log is accelerated and consumed by guest directly. Also we have
+>> Event Log B !
+>>
+>>>
+>>> Will the hardware replace the physical device ID in the event with
+>>> the virtual device ID when injecting the event to a guest event/PPR
+>>> queue? 
+>>> If so, yea, I think you can define them separately using the> vCMDQ
+>> infrastructures:
+>>>  - IOMMU_VCMDQ_TYPE_AMD_VIOMMU_CMDBUF
+>>>  - IOMMU_VCMDQ_TYPE_AMD_VIOMMU_EVENTLOG
+>>>  - IOMMU_VCMDQ_TYPE_AMD_VIOMMU_PPRLOG
+>>> (@Kevin @Jason Hmm, in this case we might want to revert the naming
+>>>  "vCMDQ" back to "vQEUEUE", once Vasant confirms.)
 > 
-> Tested with device tree based matching.
-> 
-> Signed-off-by: Pawel Dembicki <paweldembicki@gmail.com>
-> ---
->   Documentation/hwmon/mpq8785.rst | 13 +++++++++++--
->   drivers/hwmon/pmbus/mpq8785.c   |  5 ++++-
->   2 files changed, 15 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/hwmon/mpq8785.rst b/Documentation/hwmon/mpq8785.rst
-> index be228ee58ce2..20d43b8bba97 100644
-> --- a/Documentation/hwmon/mpq8785.rst
-> +++ b/Documentation/hwmon/mpq8785.rst
-> @@ -7,6 +7,7 @@ Supported chips:
->   
->     * MPS MPQ8785
->     * MPS MPM82504
-> +  * MPS MPM3695-10
+> I think I should rename IOMMUFD_OBJ_VCMDQ back to IOMMUFD_OBJ_VQUEUE
+> since the same object fits three types of queue now in the AMD case.
 
-Why the restriction to the -10 variant ? I found four variante (-10, -20, -25, and -100).
-Unless I am missing something they all use the same parameters.
+Makes sense.
 
-Unless you have evidence that the chips are different enough to warrant separate entries,
-just refer to the chip as MPM3695 and explain in the documentation that there are four
-different variants.
+AMD architecture supports 5 buffers. In practice we have not implemented event
+log  B / PPR Log B in Linux.
+  Command buffer
+  Event Log A / B
+  PPR Log A / B
 
-Thanks,
-Guenter
 
->   
->       Prefix: 'mpq8785'
->   
-> @@ -29,6 +30,13 @@ The device can also operate in parallel with the MPM3695-100 and additional
->   MPM82504 devices to provide a higher output current. The MPM82504 operates
->   at high efficiency across a wide load range.
->   
-> +The MPM3695-10 is a scalable, ultra-thin, fully integrated power module with
-> +a PMBus interface. It offers a complete power solution that achieves up to
-> +10A of output current with excellent load and line regulation across a wide
-> +input voltage range. The device’s 2mm height enables it to be placed on the
-> +backside of a PCB for space optimization. It operates at high efficiency over
-> +a wide load range, and can be paralleled to deliver higher current.
-> +
->   The PMBus interface provides converter configurations and key parameters
->   monitoring.
->   
-> @@ -43,8 +51,9 @@ over-voltage protection (OVP), under-voltage protection (UVP), and
->   over-temperature protection (OTP).
->   
->   All supported modules require a minimal number of readily available, standard
-> -external components. The MPQ8785 is available in a TLGA (5mmx6mm) package
-> -and the MPM82504 is available in a BGA (15mmx30mmx5.18mm) package.
-> +external components. The MPQ8785 is available in a TLGA (5mmx6mm) package,
-> +the MPM82504 is available in a BGA (15mmx30mmx5.18mm) package and the MPM3695-10
-> +is available in an LGA-45 (8mmx8mmx2mm) package.
->   
->   Device compliant with:
->   
-> diff --git a/drivers/hwmon/pmbus/mpq8785.c b/drivers/hwmon/pmbus/mpq8785.c
-> index 7ee201550554..e6a643856f08 100644
-> --- a/drivers/hwmon/pmbus/mpq8785.c
-> +++ b/drivers/hwmon/pmbus/mpq8785.c
-> @@ -8,7 +8,7 @@
->   #include <linux/of_device.h>
->   #include "pmbus.h"
->   
-> -enum chips { mpq8785, mpm82504 };
-> +enum chips { mpq8785, mpm82504, mpm3695_10 };
->   
->   static int mpq8785_identify(struct i2c_client *client,
->   			    struct pmbus_driver_info *info)
-> @@ -60,6 +60,7 @@ static struct pmbus_driver_info mpq8785_info = {
->   static const struct i2c_device_id mpq8785_id[] = {
->   	{ "mpq8785", mpq8785 },
->   	{ "mpm82504", mpm82504 },
-> +	{ "mpm3695-10", mpm3695_10 },
->   	{ },
->   };
->   MODULE_DEVICE_TABLE(i2c, mpq8785_id);
-> @@ -67,6 +68,7 @@ MODULE_DEVICE_TABLE(i2c, mpq8785_id);
->   static const struct of_device_id __maybe_unused mpq8785_of_match[] = {
->   	{ .compatible = "mps,mpq8785", .data = (void *)mpq8785 },
->   	{ .compatible = "mps,mpm82504", .data = (void *)mpm82504 },
-> +	{ .compatible = "mps,mpm3695-10", .data = (void *)mpm3695_10 },
->   	{}
->   };
->   MODULE_DEVICE_TABLE(of, mpq8785_of_match);
-> @@ -92,6 +94,7 @@ static int mpq8785_probe(struct i2c_client *client)
->   
->   		break;
->   	case mpm82504:
-> +	case mpm3695_10:
->   		info->format[PSC_VOLTAGE_OUT] = direct;
->   		info->m[PSC_VOLTAGE_OUT] = 8;
->   		info->b[PSC_VOLTAGE_OUT] = 0;
-
+-Vasant
