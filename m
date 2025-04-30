@@ -1,265 +1,216 @@
-Received: from out30-130.freemail.mail.aliyun.com (out30-130.freemail.mail.aliyun.com [115.124.30.130])
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2052.outbound.protection.outlook.com [40.107.223.52])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 96DF623182C;
-	Wed, 30 Apr 2025 10:14:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.130
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746008051; cv=none; b=OagNBgWyL8uifX/RpaCkOQksYe8oI/rB9BAySfv1UBMTlT495hAvXkcjQ3ldk+7dRJI3wVv40o2nc/QMDnYzTOmUVTzgpEcGoaBKGC9JI3wjNQJfv6LpQ5DjN/W9ZrQA5igu5Dfzpr6OHzLkKx2FMvHJjet4NVv2KEe4spDc9y0=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746008051; c=relaxed/simple;
-	bh=PaCgg2vAc9k5TRrwRuFjVVCU1Q2fk54WJFzPegNvgLg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=OYDXC/xiKej/AeEeRfY2dcYCZiT9xubwQU44aGZYpKEzHHRVSALuihhrFy9fD3ikdBIr+525dokm5c8dxWDOg74prFUDZCdg28sOM1Y6A9dmXxV1w+uekqsg3F3rKIWG+3jHROVVY8+KEGpaII9aKdCaes+poC9CoFYKTLyMnWg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=BMWbgcZd; arc=none smtp.client-ip=115.124.30.130
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2AC3230BE2;
+	Wed, 30 Apr 2025 10:21:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.52
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746008502; cv=fail; b=MRM5OAKBTkJjobq8jRCdXt73djXoJdddN9KQsv8EWci7PEARJ1Us0gufa+ZZC+7WNwD7G4ywrt3sm5mVE+BuSHT3yJtqmcI544AGbfXc4ZHgqu4mliItKvzIVagI0agXYrvjJwuHEOZxgEHZ74xTBMZI0LbREjIQAiKcG6DERMw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746008502; c=relaxed/simple;
+	bh=4Yk56KgQVnnlhFek1f/1YVvlq69mR3iX7OjNV9JXcwY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=KAlfGHJKWgf7xRbNoO1QigBkOVRLFDIjkqkxtONz/xFYyDjeUlo6rB0M3fRh19Vu9sblE7s1dagjZdKWmaI00fo4sQWHQdh2klNYpwr4s1H1IOxRvB0fU7q1CAgny8IklBP97WNFyPOzwRIdRo7AXzjbyRyr/oztOJ2OwiQq65I=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=f9g8/DN5; arc=fail smtp.client-ip=40.107.223.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="BMWbgcZd"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1746008045; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=tnaZo9CZLXwjFdzNHeDmajP6DfeNAKKtcPjJNOWWJaw=;
-	b=BMWbgcZdTgHE+8VfLA94rvVzj4ObS3hAf0cEDOssfmjNtz8w8l5dB7qGoK9zsTryaINKIuLZTD+i09zEF7QOj2o0XQ40ZBxxQlAwjET3J5FgUHdtl6mx45ApzHqou1TG6ebkfmBIj2QMz6cYKL0JLR9rawqrfoxzYGXMSUTHqNE=
-Received: from 30.74.146.9(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WYoKPbi_1746007720 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Wed, 30 Apr 2025 18:08:41 +0800
-Message-ID: <5feb1d57-e069-4469-9751-af4fb067e858@linux.alibaba.com>
-Date: Wed, 30 Apr 2025 18:08:40 +0800
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="f9g8/DN5"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AnJhqNxeGNX9bAGuazsIDLoXXVhcuy0I7x+iiavHK5K7+SQ8+pGkDR5YAdkrZUkOcCOIirdI5/pZbxB3oVjtx0U/3Ok0tRf8t+JyQFnkKh6OT5TCpMTTgpGbmNc3yVH4/yyxa5pgFbIszUjIcqsrJf7K4VA6kaaXy0jFyotCms0hWtIikpUf1zqRj41/MJ1a3aa8O8JKzpmhy5H81TJBTLe5VTsBS1lroDg9w6ccugMCeaUiFAOhdDNo7T4mKy/AOvsyVJikfEJSUS9AJGwutwD5HtYFcCujuqxJNruPT6gMzgny/DYMbhloudLMgl3Tnq2s3wXEq/L+ysDCaLivzQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mZHRKRQv42WFAxuLlKP7nxFLBp2cVWMhnA3LCgC8tN4=;
+ b=R1Yjh4O73Ayu3HpGBHfQuGrzvDGAG+i0nqNlVpYAYWSx9QicnDDGKBwmYvyXh5sDSsZJoZook2S+FSKiUaBPZcdI9X00lq4Ops3QPu5zcl6dGz0zhWl1pvailYQj5aI29jC6CZ+UG1CyezD6/FRQv2unikIGk6OqN4eq0oS0DYIIquhK0uqpHgc7Bb8X1V8mIP0mIiOTOJYymESVjsRwJ8etWFcCL00qHDgqWg2r3I1eOrT+YVSmuhoWNx9qUWn38yiL2nP/ldAqLBJfGeYDdr+ulRUwwD3gXQXwrlax2TSyhqLopZg+IIVKBFw6jB/Kz1PqMOpGH/rFc7V7Cw3N0Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mZHRKRQv42WFAxuLlKP7nxFLBp2cVWMhnA3LCgC8tN4=;
+ b=f9g8/DN5C6TtZvOlc5+NcmfbUtmjynuvkqwAzEjFU2LLFlV88Sok77PbPzNIdQAWCeG7M4so39NDm8l6cODreTdJZMwWWcMn+2Ekc0KvTWhQ1VG9tQtQE4get1kY+niVlZmE7ah4VL1WwWsy9fC7mwfAp9WQNeH8s6OPNf6Ayg4=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
+ PH8PR12MB7277.namprd12.prod.outlook.com (2603:10b6:510:223::13) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.27; Wed, 30 Apr
+ 2025 10:21:37 +0000
+Received: from DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
+ ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8678.028; Wed, 30 Apr 2025
+ 10:21:37 +0000
+Message-ID: <91d1df7e-b136-4024-a1f2-20b1374ede40@amd.com>
+Date: Wed, 30 Apr 2025 15:51:25 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 10/22] iommufd/viommmu: Add IOMMUFD_CMD_VCMDQ_ALLOC
+ ioctl
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+ bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+ thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+ shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+ peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+ praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, patches@lists.linux.dev, mochs@nvidia.com,
+ alok.a.tiwari@oracle.com,
+ Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <094992b874190ffdcf6012104b419c8649b5e4b4.1745646960.git.nicolinc@nvidia.com>
+ <b0d01609-bdda-49a3-af0c-ca828a9c4cea@amd.com>
+ <aA/exylmYJhIhEVL@Asurada-Nvidia>
+ <b8338b47-6fbf-44ac-9b99-3555997c9f36@amd.com>
+ <aBB1gLfahnLmn0N1@Asurada-Nvidia>
+ <a3860aed-5b6b-4e68-a8fd-1a6ee28ba022@amd.com>
+ <aBEI+T7P+hV8Y6tU@Asurada-Nvidia>
+ <7c813df6-e37d-47ae-9b5a-b8735c865626@amd.com>
+ <aBHY8wOmpMOxelE/@Asurada-Nvidia>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <aBHY8wOmpMOxelE/@Asurada-Nvidia>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN2PR01CA0228.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:eb::16) To DS7PR12MB6048.namprd12.prod.outlook.com
+ (2603:10b6:8:9f::5)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 06/12] khugepaged: introduce khugepaged_scan_bitmap for
- mTHP support
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
- mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
- baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
- peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
- usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
- thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
- kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
- dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
- tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
- cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
-References: <20250428181218.85925-1-npache@redhat.com>
- <20250428181218.85925-7-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250428181218.85925-7-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|PH8PR12MB7277:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1a002af8-39e3-44c5-f30a-08dd87d0ca39
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|7416014|376014|366016;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?aHRDaHNSQ1RKc2dLaUI0Q01iNS9neERESGhWYXFNSU5VM20ydEZxU0JNcnh6?=
+ =?utf-8?B?c0hwUHZMSmZGQjVCR3BFa0IzRk51V0doRXVkU1h6UUpjdnIvQ3VCcjNwLzd3?=
+ =?utf-8?B?c3FmN0MrY3l2aXQ5a3UvMTNXY0NiVmtLSXJLUTNnU0RCSmRoc2hxT3VnSEo0?=
+ =?utf-8?B?OU1XV2R6amgwY3dmRW5JR1gwZXE0UERZVjlVN0ZxOW5BWXJhZ3ZjTEYzMjNn?=
+ =?utf-8?B?c0xLaS9iNEZhUVcvN3RneUV4ZmxkOER6OFdrRnVkUDgyaEFoU2VDcWZTRHV2?=
+ =?utf-8?B?dXdwSHRLdzd6WkVtS21uUFA1ZTl5WFF5bTV0ZmI5MktQRkZsd2QxanBHV0Iv?=
+ =?utf-8?B?VmJhdXNDdTA3ZEREcTlBYUlyYk1TdzdZSXo1UENzOERBbFByT2RlL1g1SEwy?=
+ =?utf-8?B?WDlXRE11T2tRUFdBRG8zbGZnaWdzRUhkYUp2RWswd3B4d2kveVpWVmxteXZL?=
+ =?utf-8?B?QkhWV1k4MGdRZmRpanVoS2NuNm5ETUlUTmRFOGFpc2ZRbSsvNzFKQm5jdFBp?=
+ =?utf-8?B?R0xnR29xSXdSNjdVdkhpcWlBM0h4Y1dmSFYwdzNwSkRPR1ExSGFzU28ramtz?=
+ =?utf-8?B?NUxvSG44Rll5LzZxclhRejNMbUVCR24xWm9EVFpVWlJpeWFhWkFObWxSMllm?=
+ =?utf-8?B?TXpETmM3Zm5lMTBuZmc0K2htY1A5dk40RWFuRmJ0U0F2N2FUUGRobm5tN3Rt?=
+ =?utf-8?B?ZWYrUHpjTE0rdm5nZCtKeEdLajR6d2hDR0NXOTEzcHdWcHdKb29CR1BVS2hq?=
+ =?utf-8?B?Znk4YUY0cms1SmZTUzgwKzNNODd2a3EwNzVjVEtVUzFVMUlVcjBmRHB5ODJT?=
+ =?utf-8?B?VUEvZWJpZU03U3V4MmJ1em8vN01RV0R6eXV3eC9JRHlHdGpoMUZNbnJhb0cw?=
+ =?utf-8?B?UjBEY0NlL2dGb3dEbm1FdE53NXozc3A1R0ltQ2JXNUdDWmNPcTNFajBQQTIv?=
+ =?utf-8?B?aXNwYXd0dm01MktPVm41QnBIVE5CVXl6aGxQMXFPVWNnVURZQVU4dVlVdjhR?=
+ =?utf-8?B?MkNGY3ZDeHltdGRVa1VKNGp6TnBldVEwMXNSVUtrUUNUQkhtb0QrOG5MS0VW?=
+ =?utf-8?B?WWUweTYrYUFMWUlxM2pEYVFYZEE3aDJTNzZYZ0N1WjB2TllQaU1NdFFCRDc4?=
+ =?utf-8?B?NUFMS21GTFZSYjgvRDhBQThLd2QrQWVPa3BuNjZ4MXFqMCtOSTQyQlhHUWlY?=
+ =?utf-8?B?ZHpDV3l6UXA4YVVERWRzOUVhNlBCVVl2NE5PM0FPUjZZdkwzZWk5LzBUd3Qr?=
+ =?utf-8?B?WTcxOUo2b0I1UFJYUHp5RXpTM0dkd1planBzTmJoZ3dVbFhQZEY3N282ZUpS?=
+ =?utf-8?B?U3RJcU9rU3RtbndNbW1VcFV3NkVSODhLdUt1VTVuekJRZy9BY1FhME1tQlZU?=
+ =?utf-8?B?amtzQmplcjVmRHF3Q1FaWHQxK3BqY3VnNXpmTmJUTW5tMng3eTBlM2FSRG1Y?=
+ =?utf-8?B?Q29tOXFjWVRoVVNLSWhiNmVwRTJibU5Na3lKYVhXNWp1REpDdVMvblB5Skh3?=
+ =?utf-8?B?RjVYaTRycDJCblVPVEk2K2o1aGpZRHNTOUxtUHdKWmtXS082Tkc0SmZPNS9r?=
+ =?utf-8?B?R0xYUUlsVUJZaDAyeWorR09WTjJGUENBcVZOV1Z0MGkzbDhnWDFodUR6WWJL?=
+ =?utf-8?B?d2lrVlNFMGhid011K3RZckc4VC9PSzNWdjhLUjVoV2t2QmZHMWN3TWhVblNR?=
+ =?utf-8?B?UTM5TUtybXQ0OUhqUW5tZ1ljRENlYWtjRXdUK1RRSHg2ZEFNcGZOZnFPdHND?=
+ =?utf-8?B?SEVQV004VW04R0RNZm9lRnNwbngzRFpmQUVPUW9yZ3dlUGdVVUZYU0xNL0hB?=
+ =?utf-8?B?bmpnamd0WGxjYi9Sc1FPUkZIcUdaemsrVysxTHJNZXIrVW5FcW1hdmxGZkR4?=
+ =?utf-8?B?SktDemt1ajYzb1ZGcVBqeGNJTFJkYXQ5MXFxMEtQTTU5anlzamVQdlk2WGJN?=
+ =?utf-8?Q?9OQnVvqfZHI=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?Tk5KZFozNjR3bURLL29odk8zTitFSFFBazF0RGVuYUJ6SXNuRGljU3ZsaDNU?=
+ =?utf-8?B?OUxKY1drbVlIVnBaWGczNEc4Q2d3RTZiaHo2U3FEQzlKaFBBQ3h5NS9qOFU2?=
+ =?utf-8?B?Uk9Zdmp0VmN5ZXhRUUR6N29wWXlURzNhRTFnSERQbWpTbElxYW0zRmxVVDRl?=
+ =?utf-8?B?VW91K2dtYmhBN3RTWUF4TVYvK3h0M2RjTXNWdXp2eUQ0MHF3R1dFQ1NIaTNP?=
+ =?utf-8?B?ZEVuTVk2cHQ2eG1BWWRKSVRPczZ4RHkxcCtuQ2p1WHJkdEsrYzYxWnp4RjBC?=
+ =?utf-8?B?K1kycmFwbVkydGhySnYyeGtXdGo5bERlZHBYWThjOVN0ZkNvd3FXa1YrTDVV?=
+ =?utf-8?B?YWdTbkJxbnZvZXJHZWljWWNuYm9kbUo1ZWxWK2lMc3BIc1AvUWJndHNNeEhY?=
+ =?utf-8?B?Qnp0NmtpQXhINGJIeXJJNkVVWXNySnpYRlhnSGt0aWhuZHFNbHVsNzJnVExG?=
+ =?utf-8?B?blJxb2lweFlrWGtyT3N1cDhIRVFQb2ovYk1WNURxdnpwbjg3WlZveDBRZkR4?=
+ =?utf-8?B?b1d4dEE3cnpSTFVFcFZ5ZGlsdTdiMUJUc3NsbEdMMWFDb2MvWlhmODBpOE5P?=
+ =?utf-8?B?QzlIZ3FuekVLNGN0UnByb1M3WHhSeGxDRHJhMEl2R25NdUo4bndUNGZOMndv?=
+ =?utf-8?B?NHZMQUt4cXJYRHpKSkUyREdGc3FOTUIyNEE3U0JlMEl2NDRLVEp0YXVQVEJq?=
+ =?utf-8?B?ZnZqM2h6b0JPTjMza3YxN2ZLeDRzOXlKK2tTbjlxaEQ0N1Rqa01LYlk4eWEz?=
+ =?utf-8?B?R2hNZWN2UDFaMThIUlllT3ArSG5FV2FSNERIVGM0RzVyZGljNnMzd2YwT3dT?=
+ =?utf-8?B?RzRoY3pGRTE0Tmx5WXk0VEVZS3FCbjN6ODdycUJnV2EyNzZ2N2RrM1F2b1Vo?=
+ =?utf-8?B?MGRHQ013NTVISlFaOUlvNkJ4K1lBN2xyMWxENlpZY01qSnpkWU5EWmF0RWZw?=
+ =?utf-8?B?dDNVNWt1dDFJQ2ZWcURmTi8zYmpETmVMNmRjd21FQVpZT2JTaGVwL2ZHUWpG?=
+ =?utf-8?B?V3B1M0tZZjhwa1RWVEkvSjBaY2taUFcwbHBVbWo2ME9SODJqNTdGcnl5VE5W?=
+ =?utf-8?B?TTI3L3IxaS93OHJMV2xvR1RnMUQya3VvRkNUOTBISjFJNUZlaUxpbTQxLzhD?=
+ =?utf-8?B?UEVlTW1CYUoyWExxWGN1MnF0b0VWcWdQTHcvM1BnUHFFdEJEbXNoTm82V29G?=
+ =?utf-8?B?cVFwWVU3V3BjcVhIZGo2dG9GelF0VkFYYnh2UjdYcVN3UXhDeU1CakcyK2hT?=
+ =?utf-8?B?YlBJZUZxTjdsWCtBczBkTEx1UmJEc2Q2eGFoOXFhekJtdTlsRDl6YUNqZEly?=
+ =?utf-8?B?VVFRRkpaS1o1Qk96Wkk3anR5anFaaDBpV1dKN0w2QzUzZFkyNzdKTFNZbmZi?=
+ =?utf-8?B?dC8wZzJuVXJrcS9CTFhRUGl3U2tkNWpYNVB6bUxYNGg2M0ppbUpDTStJYWty?=
+ =?utf-8?B?V0E0VXY0S29OZmRRQU1hbGdhVXA5dWI4MmpWRzcraGNJY3U0T01xQzBIZW12?=
+ =?utf-8?B?SjhwVzErSThGTXg5TlVDdE1TYlhvYWs4dG5FencxY3dFT2U1TVFhcnB5R0V2?=
+ =?utf-8?B?WWUwanpualNhVTI0aks2Z1FmdlBVWElaNTJJOS9PYWM5aWxxcEdRN3AyOXpL?=
+ =?utf-8?B?ak82aGNmeklyNmUzN3dLOWFpb3ZBS3QxN0RDeGpwSUN5akVBSUYyenZNQ3FZ?=
+ =?utf-8?B?VEJKdGp6SS9CUHZWSlBhRUVDLzg5aGJhcWlWREtWemhiK2ltY1pTeVpqMnhk?=
+ =?utf-8?B?WGtETllFaWZtQVJyekRJQ3VBY1JvSW1vWHZjSllFQys0M0Z5N2szcmpWdGs2?=
+ =?utf-8?B?bjNoN0tFVjYwZG0wMDBhbkJDRWF1MzUxK213eHp6K1pYVFphNGt0RzhHbnlV?=
+ =?utf-8?B?a1FwUVI1SGJNMWV2ek9GKzE0SzljMTY5NSswRHhRVFQ3U3dRQ2xNWXBZRGJG?=
+ =?utf-8?B?QTRBSlR3TDA2THBURlpWTE1hWU5ZNmgxcmZLc3ovTERZckl5eXJxMHRIY2dQ?=
+ =?utf-8?B?em1ZNS9aN3A4bnFWK3B2ZDNyZ1BISloyWktnRmtmalpmWHA2N3ZpTzFaL1dJ?=
+ =?utf-8?B?eWpvNVpOWFpKb1RvaHBRRTlIODloS3kwdHpiNTM2dnQ0T0pkcm9YajRoZnc1?=
+ =?utf-8?Q?752ONNIncED7tmUmldOCIN56s?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1a002af8-39e3-44c5-f30a-08dd87d0ca39
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Apr 2025 10:21:37.5702
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 7CGghJgdYT0+JG+V097ft0mKSYqr589tg96ZrMGzsiTHLuklNaOjYAvjsT9ttuyF78pRtIVKhXLrfqCrVpZijw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7277
 
 
 
-On 2025/4/29 02:12, Nico Pache wrote:
-> khugepaged scans anons PMD ranges for potential collapse to a hugepage.
-> To add mTHP support we use this scan to instead record chunks of utilized
-> sections of the PMD.
+On 4/30/2025 1:31 PM, Nicolin Chen wrote:
+> On Wed, Apr 30, 2025 at 09:52:09AM +0530, Vasant Hegde wrote:
+>>>>> Will the hardware replace the physical device ID in the event with
+>>>>> the virtual device ID when injecting the event to a guest event/PPR
+>>>>> queue? 
+>>>>> If so, yea, I think you can define them separately using the> vCMDQ
+>>>> infrastructures:
+>>>>>  - IOMMU_VCMDQ_TYPE_AMD_VIOMMU_CMDBUF
+>>>>>  - IOMMU_VCMDQ_TYPE_AMD_VIOMMU_EVENTLOG
+>>>>>  - IOMMU_VCMDQ_TYPE_AMD_VIOMMU_PPRLOG
+>>>>> (@Kevin @Jason Hmm, in this case we might want to revert the naming
+>>>>>  "vCMDQ" back to "vQEUEUE", once Vasant confirms.)
+>>>
+>>> I think I should rename IOMMUFD_OBJ_VCMDQ back to IOMMUFD_OBJ_VQUEUE
+>>> since the same object fits three types of queue now in the AMD case.
+>>
+>> Makes sense.
+>>
+>> AMD architecture supports 5 buffers. In practice we have not implemented event
+>> log  B / PPR Log B in Linux.
+>>   Command buffer
+>>   Event Log A / B
+>>   PPR Log A / B
 > 
-> khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
-> that represents chunks of utilized regions. We can then determine what
-> mTHP size fits best and in the following patch, we set this bitmap while
-> scanning the anon PMD.
+> I think those A/B should be dual buffers of the same type?
+
+Yes.
+
+
+
 > 
-> max_ptes_none is used as a scale to determine how "full" an order must
-> be before being considered for collapse.
-> 
-> When attempting to collapse an order that has its order set to "always"
-> lets always collapse to that order in a greedy manner without
-> considering the number of bits set.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
-> ---
->   include/linux/khugepaged.h |  4 ++
->   mm/khugepaged.c            | 94 ++++++++++++++++++++++++++++++++++----
->   2 files changed, 89 insertions(+), 9 deletions(-)
-> 
-> diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
-> index 1f46046080f5..18fe6eb5051d 100644
-> --- a/include/linux/khugepaged.h
-> +++ b/include/linux/khugepaged.h
-> @@ -1,6 +1,10 @@
->   /* SPDX-License-Identifier: GPL-2.0 */
->   #ifndef _LINUX_KHUGEPAGED_H
->   #define _LINUX_KHUGEPAGED_H
-> +#define KHUGEPAGED_MIN_MTHP_ORDER	2
+> Anyway, I have renamed all the core "vCMDQ" back to "vQUEUE" in my
+> local branch. Will send v3 in the next days.
 
-Still better to add some comments to explain explicitly why choose 2 as 
-the MIN_MTHP_ORDER.
+Sure thanks.
 
-> +#define KHUGEPAGED_MIN_MTHP_NR	(1<<KHUGEPAGED_MIN_MTHP_ORDER)
-> +#define MAX_MTHP_BITMAP_SIZE  (1 << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER))
-> +#define MTHP_BITMAP_SIZE  (1 << (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER))
->   
->   extern unsigned int khugepaged_max_ptes_none __read_mostly;
->   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
-> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> index e21998a06253..6e67db86409a 100644
-> --- a/mm/khugepaged.c
-> +++ b/mm/khugepaged.c
-> @@ -94,6 +94,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
->   
->   static struct kmem_cache *mm_slot_cache __ro_after_init;
->   
-> +struct scan_bit_state {
-> +	u8 order;
-> +	u16 offset;
-> +};
-> +
->   struct collapse_control {
->   	bool is_khugepaged;
->   
-> @@ -102,6 +107,18 @@ struct collapse_control {
->   
->   	/* nodemask for allocation fallback */
->   	nodemask_t alloc_nmask;
-> +
-> +	/*
-> +	 * bitmap used to collapse mTHP sizes.
-> +	 * 1bit = order KHUGEPAGED_MIN_MTHP_ORDER mTHP
-> +	 */
-> +	DECLARE_BITMAP(mthp_bitmap, MAX_MTHP_BITMAP_SIZE);
-> +	DECLARE_BITMAP(mthp_bitmap_temp, MAX_MTHP_BITMAP_SIZE);
-> +	struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_SIZE];
-> +};
-> +
-> +struct collapse_control khugepaged_collapse_control = {
-> +	.is_khugepaged = true,
->   };
->   
->   /**
-> @@ -851,10 +868,6 @@ static void khugepaged_alloc_sleep(void)
->   	remove_wait_queue(&khugepaged_wait, &wait);
->   }
->   
-> -struct collapse_control khugepaged_collapse_control = {
-> -	.is_khugepaged = true,
-> -};
-> -
->   static bool khugepaged_scan_abort(int nid, struct collapse_control *cc)
->   {
->   	int i;
-> @@ -1118,7 +1131,8 @@ static int alloc_charge_folio(struct folio **foliop, struct mm_struct *mm,
->   
->   static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   			      int referenced, int unmapped,
-> -			      struct collapse_control *cc)
-> +			      struct collapse_control *cc, bool *mmap_locked,
-> +				  u8 order, u16 offset)
->   {
->   	LIST_HEAD(compound_pagelist);
->   	pmd_t *pmd, _pmd;
-> @@ -1137,8 +1151,12 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   	 * The allocation can take potentially a long time if it involves
->   	 * sync compaction, and we do not need to hold the mmap_lock during
->   	 * that. We will recheck the vma after taking it again in write mode.
-> +	 * If collapsing mTHPs we may have already released the read_lock.
->   	 */
-> -	mmap_read_unlock(mm);
-> +	if (*mmap_locked) {
-> +		mmap_read_unlock(mm);
-> +		*mmap_locked = false;
-> +	}
->   
->   	result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
->   	if (result != SCAN_SUCCEED)
-> @@ -1273,12 +1291,72 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
->   out_up_write:
->   	mmap_write_unlock(mm);
->   out_nolock:
-> +	*mmap_locked = false;
->   	if (folio)
->   		folio_put(folio);
->   	trace_mm_collapse_huge_page(mm, result == SCAN_SUCCEED, result);
->   	return result;
->   }
->   
-> +// Recursive function to consume the bitmap
+-Vasant
 
-Nit: please use '/* Xxxx */' for comments in this patch.
-
-> +static int khugepaged_scan_bitmap(struct mm_struct *mm, unsigned long address,
-> +			int referenced, int unmapped, struct collapse_control *cc,
-> +			bool *mmap_locked, unsigned long enabled_orders)
-> +{
-> +	u8 order, next_order;
-> +	u16 offset, mid_offset;
-> +	int num_chunks;
-> +	int bits_set, threshold_bits;
-> +	int top = -1;
-> +	int collapsed = 0;
-> +	int ret;
-> +	struct scan_bit_state state;
-> +	bool is_pmd_only = (enabled_orders == (1 << HPAGE_PMD_ORDER));
-> +
-> +	cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
-> +		{ HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0 };
-> +
-> +	while (top >= 0) {
-> +		state = cc->mthp_bitmap_stack[top--];
-> +		order = state.order + KHUGEPAGED_MIN_MTHP_ORDER;
-> +		offset = state.offset;
-> +		num_chunks = 1 << (state.order);
-> +		// Skip mTHP orders that are not enabled
-> +		if (!test_bit(order, &enabled_orders))
-> +			goto next;
-> +
-> +		// copy the relavant section to a new bitmap
-> +		bitmap_shift_right(cc->mthp_bitmap_temp, cc->mthp_bitmap, offset,
-> +				  MTHP_BITMAP_SIZE);
-> +
-> +		bits_set = bitmap_weight(cc->mthp_bitmap_temp, num_chunks);
-> +		threshold_bits = (HPAGE_PMD_NR - khugepaged_max_ptes_none - 1)
-> +				>> (HPAGE_PMD_ORDER - state.order);
-> +
-> +		//Check if the region is "almost full" based on the threshold
-> +		if (bits_set > threshold_bits || is_pmd_only
-> +			|| test_bit(order, &huge_anon_orders_always)) {
-
-When testing this patch, I disabled the PMD-sized THP and enabled 
-64K-sized mTHP, but it still attempts to collapse into a PMD-sized THP 
-(since bits_set > threshold_bits is ture). This doesn't seem reasonable?
-
-> +			ret = collapse_huge_page(mm, address, referenced, unmapped, cc,
-> +					mmap_locked, order, offset * KHUGEPAGED_MIN_MTHP_NR);
-> +			if (ret == SCAN_SUCCEED) {
-> +				collapsed += (1 << order);
-> +				continue;
-> +			}
-> +		}
-> +
-> +next:
-> +		if (state.order > 0) {
-> +			next_order = state.order - 1;
-> +			mid_offset = offset + (num_chunks / 2);
-> +			cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
-> +				{ next_order, mid_offset };
-> +			cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
-> +				{ next_order, offset };
-> +			}
-> +	}
-> +	return collapsed;
-> +}
-> +
->   static int khugepaged_scan_pmd(struct mm_struct *mm,
->   				   struct vm_area_struct *vma,
->   				   unsigned long address, bool *mmap_locked,
-> @@ -1445,9 +1523,7 @@ static int khugepaged_scan_pmd(struct mm_struct *mm,
->   	pte_unmap_unlock(pte, ptl);
->   	if (result == SCAN_SUCCEED) {
->   		result = collapse_huge_page(mm, address, referenced,
-> -					    unmapped, cc);
-> -		/* collapse_huge_page will return with the mmap_lock released */
-> -		*mmap_locked = false;
-> +					    unmapped, cc, mmap_locked, HPAGE_PMD_ORDER, 0);
->   	}
->   out:
->   	trace_mm_khugepaged_scan_pmd(mm, &folio->page, writable, referenced,
