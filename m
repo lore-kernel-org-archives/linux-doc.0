@@ -1,188 +1,142 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15B2C20E03C;
-	Thu,  1 May 2025 09:22:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 25810224240
+	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 10:11:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.41
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746091352; cv=none; b=hAaEg3ii6B/4MTaRh8t+29HL/SBHKlOC4h9JaAMPPwg/2a2cNv3tZyBdSWJCG9s2D3R4/6ju6InIb5GJIwR6sdQz6CvByVnMLKGXhamJGsrTWKS8nXmJnCJzzPP0pDKleVvCqIyx/5xLOUMxuQH8TNVm5uZ3Y6H7hE5dgV+UKiw=
+	t=1746094302; cv=none; b=OgJddxfpwrOvC6dT6fVlTutfWX0Dm6Dcuae3OdOpvz95K8XSpM1IkBJdIfd4H7WiVk9Qp2D7pno56vKtY1yXo1WRPiP3VZlE9VxWH3cOuUtUFKX7hQDSeChL6TrST57+znrHsXcGEggSGbcFp/lDnYUJE5BvTu+Q4u3L6dbDR9g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746091352; c=relaxed/simple;
-	bh=CbLK5eBI6SpBoFGAJd1GPmKjG5IQCwEol3YbvoQJi2o=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=LhbrkfsDwBJ64kwfp6S6MaPUXyQAWaDfCBrY7pEzpaw6FbKgQ7F1IMxJ4ZD8Occnfyq4tn7+QPRWfi3vw1m6JU89vztZZvP+7FR6dkwPr8RW6AFyVUsPbbc6fo8IRKwJZ3q9Xg6BT8KK7qctQHmwCRVXNIF5RtJV9DsWNEuPY80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Zp7k2310Rz6K9Dk;
-	Thu,  1 May 2025 17:17:30 +0800 (CST)
-Received: from frapeml100008.china.huawei.com (unknown [7.182.85.131])
-	by mail.maildlp.com (Postfix) with ESMTPS id 8005814027A;
-	Thu,  1 May 2025 17:22:26 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml100008.china.huawei.com (7.182.85.131) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Thu, 1 May 2025 11:22:26 +0200
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Thu, 1 May 2025 11:22:26 +0200
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Dave Jiang <dave.jiang@intel.com>, "linux-cxl@vger.kernel.org"
-	<linux-cxl@vger.kernel.org>, "dan.j.williams@intel.com"
-	<dan.j.williams@intel.com>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	"dave@stgolabs.net" <dave@stgolabs.net>, "alison.schofield@intel.com"
-	<alison.schofield@intel.com>, "vishal.l.verma@intel.com"
-	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>
-CC: "linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bp@alien8.de"
-	<bp@alien8.de>, "tony.luck@intel.com" <tony.luck@intel.com>,
-	"lenb@kernel.org" <lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, Linuxarm
-	<linuxarm@huawei.com>, tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)"
-	<prime.zeng@hisilicon.com>, Roberto Sassu <roberto.sassu@huawei.com>,
-	"kangkang.shen@futurewei.com" <kangkang.shen@futurewei.com>, wanghuiqiang
-	<wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v3 1/8] EDAC: Update documentation for the CXL memory
- patrol scrub control feature
-Thread-Topic: [PATCH v3 1/8] EDAC: Update documentation for the CXL memory
- patrol scrub control feature
-Thread-Index: AQHbp+V7T0wqizbB2ECoSuUQBYHnIrO5WT4AgARLF/A=
-Date: Thu, 1 May 2025 09:22:25 +0000
-Message-ID: <29baba1b74af40c58c905b946680557d@huawei.com>
-References: <20250407174920.625-1-shiju.jose@huawei.com>
- <20250407174920.625-2-shiju.jose@huawei.com>
- <2df68c68-f1a8-4327-abc9-d265326c133d@intel.com>
-In-Reply-To: <2df68c68-f1a8-4327-abc9-d265326c133d@intel.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1746094302; c=relaxed/simple;
+	bh=xro0tw1q2l1svsBFyYtiwJ9jWM6cwC+eR/qw3KWcmWo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:References:Cc:From:
+	 In-Reply-To:Content-Type; b=aiosXQzRVsfsRqAGizpR95srvchIusbll3xVJhm5stHZm1hrpyQ3SAx9xF1UAcqKsibi/qM1m+J9JK/xx2A9rj63V50lMCwrWALNCna5z4eVGQXqC/rPXkskDkDaPBIZQoyeNOT67Y5vCyOGMutdlQ5lFvRW8FF6dlFf94Euw/E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Q27+VsQc; arc=none smtp.client-ip=209.85.221.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Q27+VsQc"
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-39c1ef4acf2so506642f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 03:11:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746094298; x=1746699098; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id:from
+         :to:cc:subject:date:message-id:reply-to;
+        bh=9V+xJJn9UsK/pVyATCRXO2AUd9gyP/u93ItX0cM/Mvo=;
+        b=Q27+VsQc+9PJRKnnPVC0W3gcp0SyfzHc47bfH/NyYLSDPKEA9QtISPHS/C8KTFt2gt
+         578/rq7KroLDFKDbYduS6U/09eSoG7DRB2crkXzIJQQgHNg903DyxCCC9yAc3/6Yl3L9
+         71ptoQBz1k5opPRXaQ4FszN1MX7Z8rUt72iZlWiYXmQKfkgoA1D9vXVffHNEYd3e1Ner
+         fq4/O5rhwdY+uj3+CiUOVGN65hA9Wam7jnK3ePw2PimeJQeMMlClICEtZI65PACKcgT0
+         GABKLIHh8CxRIoGtUyThjeYAwTizTwLH5/JzLjON9Vs/Ht5oK9ZQBM2o+iu9MaEX8ARC
+         aIOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746094298; x=1746699098;
+        h=content-transfer-encoding:in-reply-to:from:cc:content-language
+         :references:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=9V+xJJn9UsK/pVyATCRXO2AUd9gyP/u93ItX0cM/Mvo=;
+        b=LgndzgFk4y1ta8BLNdwmgdiQx5W1DyCmoDAXu4Ym9xaGVc497fXYkroCLHA2Nl7vvV
+         WdPQNNr+6uG44i8NaV19OW9S7K0kmUunsCyRZ836wF+F1kQ/jHfuSxDZst66rZI0cwp/
+         fbVsOx46vlkUrD6uvexUHooUbp4FF3hHo/w6/T4jyW9eEJsolWyE5sqIj/kEKGuGEGxu
+         3cTfugE6wwLICChBwJ8XEPeGazjzztYP65uXTg/2ynUGljgDtl6yTQfV2//l4yPb/doL
+         yIZaq0N8QOTEPLbAWFzz9ozCO0/Wny4VdZOG36EAJWlUI/lULQgIooEzb61g9VzAobgP
+         JXYA==
+X-Forwarded-Encrypted: i=1; AJvYcCUQRET/0HZOsHJAIy9B1YDn4aylcdXOaHwjkuLtbW6fBcD6cJpgzFocNKwA75VOcMuxdT3db4AL3sk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzorYmHf4WoG2Xolh/mnmzCZC+WjS4SrnfwnWZTdK/tYVOlA346
+	A6+qlTRYuvdfEWX7QHIcu9IpQ00vuicvYJAFUxaALSBB8XU/RtQmzKHfDM2L1Fw=
+X-Gm-Gg: ASbGncvTDOyKO0DlJz47aA8LwXD2oGkxZfejOum3+99eeJ8DvnqGtmfbcP1AYsDdcRs
+	tQU1vpWNXLTwEhGBfyu3BOafxYG4n2WVea6XXqNI4lhIW/YDpiuOFaPrxlohhY00t7u5lD1S2nD
+	cRDI0d8zq/ThZzdeyGj2EOR4IfxAhBOb9SBUZDCl+sMlijz9czSvFWCCpo0kSOlTNR06K3FzVNR
+	4rYx2pYRaxrOBToq56ZZAH0woOWgXtHgjvfEokLX4xRRgfzZVN6G3xtAFK02qW8+JFyY9TxuIn7
+	e9JL8DUctXTLWJJuaP6J21QYqTCEecTVD6z6yPhpUDI=
+X-Google-Smtp-Source: AGHT+IGdqR8qzjYLlpQD4/uFhernwMAGhF3KyzSPj/rMCAGy6rGk1PYMRuH4BRffLmFXhwB8a2kWkQ==
+X-Received: by 2002:a05:6000:2203:b0:390:f2f1:2a17 with SMTP id ffacd0b85a97d-3a09417d67dmr1700384f8f.53.1746094298398;
+        Thu, 01 May 2025 03:11:38 -0700 (PDT)
+Received: from [192.168.1.3] ([77.81.75.81])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a095a4b968sm440260f8f.45.2025.05.01.03.11.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 May 2025 03:11:37 -0700 (PDT)
+Message-ID: <2ef27237-e5b4-4c9c-9810-9d1800d96596@linaro.org>
+Date: Thu, 1 May 2025 11:11:35 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/7] Arm CoreSight: Support AUX pause and resume
+To: Leo Yan <leo.yan@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>
+References: <20250401180708.385396-1-leo.yan@arm.com>
+Content-Language: en-US
+Cc: Mike Leach <mike.leach@linaro.org>, Jonathan Corbet <corbet@lwn.net>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ coresight@lists.linaro.org, linux-arm-kernel@lists.infradead.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20250401180708.385396-1-leo.yan@arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogRGF2ZSBKaWFuZyA8ZGF2ZS5qaWFu
-Z0BpbnRlbC5jb20+DQo+U2VudDogMjggQXByaWwgMjAyNSAxODo0NQ0KPlRvOiBTaGlqdSBKb3Nl
-IDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+OyBsaW51eC1jeGxAdmdlci5rZXJuZWwub3JnOw0KPmRh
-bi5qLndpbGxpYW1zQGludGVsLmNvbTsgSm9uYXRoYW4gQ2FtZXJvbg0KPjxqb25hdGhhbi5jYW1l
-cm9uQGh1YXdlaS5jb20+OyBkYXZlQHN0Z29sYWJzLm5ldDsNCj5hbGlzb24uc2Nob2ZpZWxkQGlu
-dGVsLmNvbTsgdmlzaGFsLmwudmVybWFAaW50ZWwuY29tOyBpcmEud2VpbnlAaW50ZWwuY29tDQo+
-Q2M6IGxpbnV4LWVkYWNAdmdlci5rZXJuZWwub3JnOyBsaW51eC1kb2NAdmdlci5rZXJuZWwub3Jn
-OyBicEBhbGllbjguZGU7DQo+dG9ueS5sdWNrQGludGVsLmNvbTsgbGVuYkBrZXJuZWwub3JnOyBs
-ZW8uZHVyYW5AYW1kLmNvbTsNCj5ZYXplbi5HaGFubmFtQGFtZC5jb207IG1jaGVoYWJAa2VybmVs
-Lm9yZzsgbmlmYW4uY3hsQGdtYWlsLmNvbTsNCj5MaW51eGFybSA8bGludXhhcm1AaHVhd2VpLmNv
-bT47IHRhbnhpYW9mZWkgPHRhbnhpYW9mZWlAaHVhd2VpLmNvbT47DQo+WmVuZ3RhbyAoQikgPHBy
-aW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8gU2Fzc3UNCj48cm9iZXJ0by5zYXNzdUBo
-dWF3ZWkuY29tPjsga2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOyB3YW5naHVpcWlhbmcNCj48
-d2FuZ2h1aXFpYW5nQGh1YXdlaS5jb20+DQo+U3ViamVjdDogUmU6IFtQQVRDSCB2MyAxLzhdIEVE
-QUM6IFVwZGF0ZSBkb2N1bWVudGF0aW9uIGZvciB0aGUgQ1hMIG1lbW9yeQ0KPnBhdHJvbCBzY3J1
-YiBjb250cm9sIGZlYXR1cmUNCj4NCj4NCj4NCj5PbiA0LzcvMjUgMTA6NDkgQU0sIHNoaWp1Lmpv
-c2VAaHVhd2VpLmNvbSB3cm90ZToNCj4+IEZyb206IFNoaWp1IEpvc2UgPHNoaWp1Lmpvc2VAaHVh
-d2VpLmNvbT4NCj4+DQo+PiBVcGRhdGUgdGhlIERvY3VtZW50YXRpb24vZWRhYy9zY3J1Yi5yc3Qg
-dG8gaW5jbHVkZSB1c2VjYXNlcyBhbmQNCj4+IHBvbGljaWVzIGZvciBDWEwgbWVtb3J5IGRldmlj
-ZS1iYXNlZCwgQ1hMIHJlZ2lvbi1iYXNlZCBwYXRyb2wgc2NydWINCj4+IGNvbnRyb2wgYW5kIENY
-TCBFcnJvciBDaGVjayBTY3J1YiAoRUNTKS4NCj4+DQo+PiBTaWduZWQtb2ZmLWJ5OiBTaGlqdSBK
-b3NlIDxzaGlqdS5qb3NlQGh1YXdlaS5jb20+DQo+PiAtLS0NCj4+ICBEb2N1bWVudGF0aW9uL2Vk
-YWMvc2NydWIucnN0IHwgNzUNCj4+ICsrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysr
-Kw0KPj4gIDEgZmlsZSBjaGFuZ2VkLCA3NSBpbnNlcnRpb25zKCspDQo+Pg0KPj4gZGlmZiAtLWdp
-dCBhL0RvY3VtZW50YXRpb24vZWRhYy9zY3J1Yi5yc3QNCj4+IGIvRG9jdW1lbnRhdGlvbi9lZGFj
-L3NjcnViLnJzdCBpbmRleCBkYWFiOTI5Y2RiYTEuLjYxMzI4NTNhMDJmZSAxMDA2NDQNCj4+IC0t
-LSBhL0RvY3VtZW50YXRpb24vZWRhYy9zY3J1Yi5yc3QNCj4+ICsrKyBiL0RvY3VtZW50YXRpb24v
-ZWRhYy9zY3J1Yi5yc3QNCj4+IEBAIC0yNjQsMyArMjY0LDc4IEBAIFN5c2ZzIGZpbGVzIGFyZSBk
-b2N1bWVudGVkIGluDQo+PiBgRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9zeXNmcy1lZGFjLXNj
-cnViYA0KPj4NCj4+ICBgRG9jdW1lbnRhdGlvbi9BQkkvdGVzdGluZy9zeXNmcy1lZGFjLWVjc2AN
-Cj4+ICsNCj4+ICtFeGFtcGxlcw0KPj4gKy0tLS0tLS0tDQo+PiArDQo+PiArVGhlIHVzYWdlIHRh
-a2VzIHRoZSBmb3JtIHNob3duIGluIHRoZXNlIGV4YW1wbGVzOg0KPj4gKw0KPj4gKzEuIENYTCBt
-ZW1vcnkgUGF0cm9sIFNjcnViDQo+PiArDQo+PiArVGhlIGZvbGxvd2luZyBhcmUgdGhlIHVzZWNh
-c2VzIGlkZW50aWZpZWQgd2h5IHdlIG1pZ2h0IGluY3JlYXNlIHRoZSBzY3J1Yg0KPnJhdGUuDQo+
-PiArDQo+PiArLSBTY3J1YmJpbmcgaXMgbmVlZGVkIGF0IGRldmljZSBncmFudWxhcml0eSBiZWNh
-dXNlIGEgZGV2aWNlIGlzDQo+PiArc2hvd2luZw0KPj4gKyAgdW5leHBlY3RlZGx5IGhpZ2ggZXJy
-b3JzLCB0aGUgc2NydWIgY29udHJvbCBuZWVkcyB0byBiZSBhdCBkZXZpY2UNCj4+ICsgIGdyYW51
-bGFyaXR5DQo+DQo+Tm90IHN1cmUgd2hhdCB0aGUgc2Vjb25kIHBhcnQgb2YgdGhlIHNlbnRlbmNl
-IGhhcyB0byBkbyB3aXRoIGRlZmluaW5nIHRoZSB1c2UNCj5jYXNlLg0KPldoZW4gdGhlIHBlciBk
-ZXZpY2UgY29udHJvbCBpcyBkZXRhaWxlZCBpbiAxLjEsIHlvdSBjYW4gcmVmZXIgdG8gdGhlIGZp
-cnN0IHVzZSBjYXNlLg0KDQpIaSBEYXZlLA0KDQpUaGFua3MgZm9yIHRoZSBjb21tZW50cy4NClN1
-cmUuIEkgd2lsbCBjb3JyZWN0Lg0KPg0KPj4gKw0KPj4gKy0gU2NydWJiaW5nIG1heSBhcHBseSB0
-byBtZW1vcnkgdGhhdCBpc24ndCBvbmxpbmUgYXQgYWxsIHlldC5MaWtlbHkNCj4+ICt0aGlzDQo+
-c3BhY2UgYWZ0ZXIgcGVyaW9kDQo+DQo+PiArICBpcyBzZXR0aW5nIHN5c3RlbSB3aWRlIGRlZmF1
-bHRzIG9uIGJvb3QuDQo+DQo+aXMgYSBzeXN0ZW0gd2lkZSBkZWZhdWx0IHNldHRpbmcgb24gYm9v
-dC4NCg0KV2lsbCB1cGRhdGUuDQo+DQo+PiArDQo+PiArLSBTY3J1YmJpbmcgYXQgaGlnaGVyIHJh
-dGUgYmVjYXVzZSBzb2Z0d2FyZSBoYXMgZGVjaWRlZCB0aGF0IHdlIHdhbnQNCj4+ICsgIG1vcmUg
-cmVsaWFiaWxpdHkgZm9yIHBhcnRpY3VsYXIgZGF0YSwgY2FsbGluZyB0aGlzIERpZmZlcmVudGlh
-dGVkDQo+PiArICBSZWxpYWJpbGl0eS4gIFRoYXQgZGF0YSBzaXRzIGluIGEgcmVnaW9uIHdoaWNo
-IG1heSBjb3ZlciBwYXJ0IG9mDQo+PiArbXVsdGlwbGUNCj4+ICsgIGRldmljZXMuIFRoZSByZWdp
-b24gaW50ZXJmYWNlcyBhcmUgYWJvdXQgc3VwcG9ydGluZyB0aGlzIHVzZSBjYXNlLg0KPg0KPlBs
-ZWFzZSBjb25zaWRlcjoNCj5TY3J1YmJpbmcgYXQgYSBoaWdoZXIgcmF0ZSBiZWNhdXNlIHRoZSBt
-b25pdG9yIHNvZnR3YXJlIGhhcyBkZXRlcm1pbmVkIHRoYXQNCj5tb3JlIHJlbGlhYmlsaXR5IGlz
-IG5lY2Vzc2FyeSBmb3IgYSBwYXJ0aWN1bGFyIGRhdGEgc2V0LiBUaGlzIGlzIGNhbGxlZA0KPkRp
-ZmZlcmVudGlhdGVkIFJlbGlhYmlsaXR5Lg0KV2lsbCB1cGRhdGUuDQo+DQo+VGhlIGxhc3Qgc2Vu
-dGVuY2UgaXMgbm90IG5lZWRlZC4gV2hlbiBkZXNjcmliaW5nIHJlZ2lvbiBzY3J1YmJpbmcgaW4g
-MS4yLCB0aGUNCj50aGlyZCB1c2UgY2FzZSBjYW4gYmUgcmVmZXJyZWQgdG8uDQoNCldpbGwgZG8u
-DQo+DQo+PiArDQo+PiArMS4xLiBEZXZpY2UgYmFzZWQgc2NydWJiaW5nDQo+PiArDQo+PiArQ1hM
-IG1lbW9yeSBpcyBleHBvc2VkIHRvIG1lbW9yeSBtYW5hZ2VtZW50IHN1YnN5c3RlbSBhbmQgdWx0
-aW1hdGVseQ0KPj4gK3VzZXJzcGFjZSB2aWEgQ1hMIGRldmljZXMuDQo+PiArDQo+PiArV2hlbiBj
-b21iaW5pbmcgY29udHJvbCB2aWEgdGhlIGRldmljZSBpbnRlcmZhY2VzIGFuZCByZWdpb24NCj4+
-ICtpbnRlcmZhY2VzIHNlZQ0KPj4gKzEuMiBSZWdpb24gYmFzZXMgc2NydWJiaW5nLg0KPg0KPiJz
-ZWUgc2VjdGlvbiAxLjIgLi4uIg0KT2suDQo+DQo+PiArDQo+PiArU3lzZnMgZmlsZXMgZm9yIHNj
-cnViYmluZyBhcmUgZG9jdW1lbnRlZCBpbg0KPj4gK2BEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5n
-L3N5c2ZzLWVkYWMtc2NydWJgDQo+PiArDQo+PiArMS4yLiBSZWdpb24gYmFzZWQgc2NydWJiaW5n
-DQo+PiArDQo+PiArQ1hMIG1lbW9yeSBpcyBleHBvc2VkIHRvIG1lbW9yeSBtYW5hZ2VtZW50IHN1
-YnN5c3RlbSBhbmQgdWx0aW1hdGVseQ0KPj4gK3VzZXJzcGFjZSB2aWEgQ1hMIHJlZ2lvbnMuIENY
-TCBSZWdpb25zIHJlcHJlc2VudCBtYXBwZWQgbWVtb3J5DQo+PiArY2FwYWNpdHkgaW4gc3lzdGVt
-IHBoeXNpY2FsIGFkZHJlc3Mgc3BhY2UuIFRoZXNlIGNhbiBpbmNvcnBvcmF0ZSBvbmUNCj4+ICtv
-ciBtb3JlIHBhcnRzIG9mIG11bHRpcGxlIENYTCBtZW1vcnkgZGV2aWNlcyB3aXRoIHRyYWZmaWMg
-aW50ZXJsZWF2ZWQNCj4+ICthY3Jvc3MgdGhlbS4gVGhlIHVzZXIgbWF5IHdhbnQgdG8gY29udHJv
-bCB0aGUgc2NydWIgcmF0ZSB2aWEgdGhpcw0KPj4gK21vcmUgYWJzdHJhY3QgcmVnaW9uIGluc3Rl
-YWQgb2YgaGF2aW5nIHRvIGZpZ3VyZSBvdXQgdGhlIGNvbnN0aXR1ZW50DQo+PiArZGV2aWNlcyBh
-bmQgcHJvZ3JhbSB0aGVtIHNlcGFyYXRlbHkuIFRoZSBzY3J1YiByYXRlIGZvciBlYWNoIGRldmlj
-ZQ0KPj4gK2NvdmVycyB0aGUgd2hvbGUgZGV2aWNlLiBUaHVzIGlmIG11bHRpcGxlIHJlZ2lvbnMg
-dXNlIHBhcnRzIG9mIHRoYXQNCj4+ICtkZXZpY2UgdGhlbiByZXF1ZXN0cyBmb3Igc2NydWJiaW5n
-IG9mIG90aGVyIHJlZ2lvbnMgbWF5IHJlc3VsdCBpbiBhIGhpZ2hlcg0KPnNjcnViIHJhdGUgdGhh
-biByZXF1ZXN0ZWQgZm9yIHRoaXMgc3BlY2lmaWMgcmVnaW9uLg0KPj4gKw0KPj4gK1VzZXJzcGFj
-ZSBtdXN0IGZvbGxvdyBiZWxvdyBzZXQgb2YgcnVsZXMgb24gaG93IHRvIHNldCB0aGUgc2NydWIN
-Cj4+ICtyYXRlcyBmb3IgYW55IG1peHR1cmUgb2YgcmVxdWlyZW1lbnRzLg0KPj4gKw0KPj4gKzEu
-IFRha2luZyBlYWNoIHJlZ2lvbiBpbiB0dXJuIGZyb20gbG93ZXN0IGRlc2lyZWQgc2NydWIgcmF0
-ZSB0byBoaWdoZXN0IGFuZA0KPnNldA0KPj4gKyAgIHRoZWlyIHNjcnViIHJhdGVzLiBMYXRlciBy
-ZWdpb25zIG1heSBvdmVycmlkZSB0aGUgc2NydWIgcmF0ZSBvbiBpbmRpdmlkdWFsDQo+PiArICAg
-ZGV2aWNlcyAoYW5kIGhlbmNlIHBvdGVudGlhbGx5IHdob2xlIHJlZ2lvbnMpLg0KPj4gKw0KPj4g
-KzIuIFRha2UgZWFjaCBkZXZpY2UgZm9yIHdoaWNoIGVuaGFuY2VkIHNjcnViYmluZyBpcyByZXF1
-aXJlZCAoaGlnaGVyIHJhdGUpDQo+YW5kDQo+PiArICAgc2V0IHRob3NlIHNjcnViIHJhdGVzLiBU
-aGlzIHdpbGwgb3ZlcnJpZGUgdGhlIHNjcnViIHJhdGVzIG9mDQo+PiAraW5kaXZpZHVhbCBkZXZp
-Y2VzDQo+DQo+PiArICAgbGVhdmluZyBhbnkgdGhhdCBhcmUgbm90IHNwZWNpZmljYWxseSBzZXQg
-dG8gc2NydWIgYXQgdGhlIG1heGltdW0gcmF0ZQ0KPnJlcXVpcmVkDQo+PiArICAgZm9yIGFueSBv
-ZiB0aGUgcmVnaW9ucyB0aGV5IGFyZSBpbnZvbHZlZCBpbiBiYWNraW5nLg0KPg0KPkknbSBoYXZp
-bmcgdHJvdWJsZSB1bmRlcnN0YW5kaW5nIHdoYXQgdGhlIHNlY29uZCBwYXJ0IG9mIHRoaXMgc2Vu
-dGVuY2UgaXMNCj5hdHRlbXB0aW5nIHRvIGNvbnZleS4NCldpbGwgcmVwaHJhc2UgdGhlIHNlbnRl
-bmNlLg0KDQo+DQo+PiArDQo+PiArU3lzZnMgZmlsZXMgZm9yIHNjcnViYmluZyBhcmUgZG9jdW1l
-bnRlZCBpbg0KPj4gK2BEb2N1bWVudGF0aW9uL0FCSS90ZXN0aW5nL3N5c2ZzLWVkYWMtc2NydWJg
-DQo+PiArDQo+PiArMi4gQ1hMIG1lbW9yeSBFcnJvciBDaGVjayBTY3J1YiAoRUNTKQ0KPj4gKw0K
-Pj4gK1RoZSBFcnJvciBDaGVjayBTY3J1YiAoRUNTKSBmZWF0dXJlIGVuYWJsZXMgYSBtZW1vcnkg
-ZGV2aWNlIHRvDQo+PiArcGVyZm9ybSBlcnJvciBjaGVja2luZyBhbmQgY29ycmVjdGlvbiAoRUND
-KSBhbmQgY291bnQgc2luZ2xlLWJpdA0KPj4gK2Vycm9ycy4gVGhlIGFzc29jaWF0ZWQgbWVtb3J5
-IGNvbnRyb2xsZXIgdHJpZ2dlcnMgdGhlIEVDUyBtb2RlIHdpdGggYQ0KPj4gK3RyaWdnZXIgc2Vu
-dCB0byB0aGUgbWVtb3J5IGRldmljZS4gSG93ZXZlciwgQ1hMIEVDUyBjb250cm9sIGFsbG93cw0K
-Pj4gK3RoZSB1c2VyIHRvIGNoYW5nZSB0aGUgYXR0cmlidXRlcyBmb3IgZXJyb3IgY291bnQgbW9k
-ZSBhbmQgdGhyZXNob2xkDQo+PiArZm9yIHJlcG9ydGluZyBlcnJvcnMgYW5kIHJlc2V0IHRoZSBF
-Q1MNCj4NCj5DWEwgRUNYIGNvbnRyb2wgYWxsb3dzIHRoZSB1c2VyIHRvIGNoYW5nZSB0aGUgYXR0
-cmlidXRlcyBmb3IgZXJyb3IgY291bnQgbW9kZSwNCj50aGUgdGhyZXNob2xkIGZvciByZXBvcnRp
-bmcgZXJyb3JzLCBhbmQgcmVzZXQgdGhlIEVDUyBjb3VudGVyLg0KPg0KPkkgdGhpbmsgdGhhdCdz
-IHdoZXJlIHRoZSBjb21tYXMgc2hvdWxkIGdvIHRvIG1ha2UgdGhlIHNlbnRlbmNlIGNsZWFyZXIu
-DQoNCldpbGwgY29ycmVjdC4NCj4NCj4+ICtjb3VudGVyIG9ubHkuIFRodXMsIHRoZSBzY29wZSBv
-ZiBzdGFydCBFcnJvciBDaGVjayBTY3J1YiBvbiBhIG1lbW9yeQ0KPj4gK2RldmljZSBsaWVzIHdp
-dGhpbiBhIG1lbW9yeSBjb250cm9sbGVyIG9yIHBsYXRmb3JtIHdoZW4gaXQgaXMNCj4+ICtkZXRl
-Y3RpbmcgdW5leHBlY3RlZGx5IGhpZ2ggZXJyb3JzLiBVc2Vyc3BhY2UgYWxsb3dzIHRvIGNvbnRy
-b2wgdGhlDQo+PiArZXJyb3IgY291bnQgbW9kZSwgdGhyZXNob2xkIG51bWJlciBvZiBlcnJvcnMg
-Zm9yIGEgc2VnbWVudCBjb3VudA0KPj4gK2luZGljYXRpbmcgYSBudW1iZXIgb2Ygc2VnbWVudHMg
-aGF2aW5nIGF0IGxlYXN0IGEgdGhyZXNob2xkIG51bWJlciBvZiBlcnJvcnMNCj5hbmQgcmVzZXQg
-dGhlIEVDUyBjb3VudGVyLg0KPg0KPk5lZWQgYSBjb21tYW4gYmVmb3JlICdhbmQnLiBBbHRob3Vn
-aCB0aGUgbWlkZGxlIHBhcnQgaXMgZXhjZXNzaXZlbHkgbG9uZyBhbmQNCj5oYXJkIHRvIGRpZ2Vz
-dC4NCj5QbGVhc2UgY29uc2lkZXIgcmVwaHJhc2UuDQpTdXJlLg0KPg0KPj4gKw0KPj4gK1N5c2Zz
-IGZpbGVzIGZvciBzY3J1YmJpbmcgYXJlIGRvY3VtZW50ZWQgaW4NCj4+ICtgRG9jdW1lbnRhdGlv
-bi9BQkkvdGVzdGluZy9zeXNmcy1lZGFjLWVjc2ANCj4NCg0KVGhhbmtzLA0KU2hpanUNCg==
+
+
+On 01/04/2025 7:07 pm, Leo Yan wrote:
+> This series is to enable AUX pause and resume on Arm CoreSight.
+> 
+> The first patch extracts the trace unit controlling operations to two
+> functions.  These two functions will be used by AUX pause and resume.
+> 
+> Patches 02 and 03 change the ETMv4 driver to prepare callback functions
+> for AUX pause and resume.
+> 
+> Patch 04 changes the ETM perf layer to support AUX pause and resume in a
+> perf session.  The patch 05 re-enables sinks after buffer update, based
+> on it, the patch 06 updates buffer on AUX pause occasion, which can
+> mitigate the trace data lose issue.
+> 
+> Patch 07 documents the AUX pause usages with Arm CoreSight.
+> 
+> This patch set has been verified on the Hikey960 board.
+> 
+> It is suggested to disable CPUIdle (add `nohlt` option in Linux command
+> line) when verifying this series.  ETM and funnel drivers are found
+> issues during CPU suspend and resume which will be addressed separately.
+> 
+> Changes from v3:
+> - Re-enabled sink in buffer update callbacks (Suzuki).
+> 
+> Changes from v2:
+> - Rebased on CoreSight next branch.
+> - Dropped the uAPI 'update_buf_on_pause' and updated document
+>    respectively (Suzuki).
+> - Renamed ETM callbacks to .pause_perf() and .resume_perf() (Suzuki).
+> - Minor improvement for error handling in the AUX resume flow.
+> 
+> Changes from v1:
+> - Added validation function pointers in pause and resume APIs (Mike).
+> 
+> 
+> Leo Yan (7):
+>    coresight: etm4x: Extract the trace unit controlling
+>    coresight: Introduce pause and resume APIs for source
+>    coresight: etm4x: Hook pause and resume callbacks
+>    coresight: perf: Support AUX trace pause and resume
+>    coresight: tmc: Re-enable sink after buffer update
+>    coresight: perf: Update buffer on AUX pause
+>    Documentation: coresight: Document AUX pause and resume
+> 
+>   Documentation/trace/coresight/coresight-perf.rst   |  31 +++++++++
+>   drivers/hwtracing/coresight/coresight-core.c       |  22 +++++++
+>   drivers/hwtracing/coresight/coresight-etm-perf.c   |  84 +++++++++++++++++++++++-
+>   drivers/hwtracing/coresight/coresight-etm4x-core.c | 143 +++++++++++++++++++++++++++++------------
+>   drivers/hwtracing/coresight/coresight-etm4x.h      |   2 +
+>   drivers/hwtracing/coresight/coresight-priv.h       |   2 +
+>   drivers/hwtracing/coresight/coresight-tmc-etf.c    |   9 +++
+>   drivers/hwtracing/coresight/coresight-tmc-etr.c    |  10 +++
+>   include/linux/coresight.h                          |   4 ++
+>   9 files changed, 265 insertions(+), 42 deletions(-)
+> 
+
+Reviewed-by: James Clark <james.clark@linaro.org>
+
