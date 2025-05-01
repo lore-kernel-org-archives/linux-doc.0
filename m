@@ -1,232 +1,302 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 17016262FE0;
-	Thu,  1 May 2025 21:41:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 458AA1DD0EF
+	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 21:45:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746135720; cv=none; b=BKePd4tHHXYmTwYEB3mo9H/Cv6GySu1xd2g4dSZFW9h/E4JoW2bRO1qQ3oX8+smoZdO7sivaIchgbuO8wtQkqtd+xvWKq9W4jh2s0eyoWWlYKERpzV+Zw1mhqIgxhPsS2/0jZg8U3OnRHATAR8sr3EN0jUhnZQpJFBirLMJytPc=
+	t=1746135920; cv=none; b=qA5/VabSLPwLjqKJQsoI9/xqMMe3fUbxxyxdsEBvTJqECX/oDUequUr4mx1UN/pDFv9e1Z+6sdCoOiOP8YfYiWCt0ZcsK/A04Ek+N0UvpKKU2sYAdalU5gXvb8mSXd06Sdyqh+ZPIQJb0u6PgWKyUb74qe3BOCIio01wMoFL8u4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746135720; c=relaxed/simple;
-	bh=eXtg+nlLZ5QQgTmyAO/7UOrtplNXnw9zciPmPYfJNGU=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Q/yvL0NKeMCvzjt62VyRGCmaKRvWuGK28M73/FNzjQ7iydkDmGJixskn1aAg8z9Lz07xM3Ccby0Q1Ze9LpYeFwX0RZqaTO08VsuFRor7Cc/KNLJ+TOaQiz1mu3xIqu/1RkQI8dDzojzvaEGmYgvftDJ5EnLO3arUUwz/k57KFCM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=IT3hvlaE; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746135920; c=relaxed/simple;
+	bh=1ET9KP8RClNAfd6IrcF68azgez6qvv9QSbmxMQKduHc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=QPb6hVMPDFyWqFj2kgGm6zRAPVtnMlAcWe2EPgTFgoQxymYGY8wADNPy7J90f5ShhfI+oqN8Rs4TMbDwSJDLckrLm0d4Vo3wf2fQdYjL+WTv2ony2ozFmEgEX6k4VyiEDlaQJbsrwYk/CWLgt4wMFy5sKYNUv53S636WD3WiM7A=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=SGdzWzKI; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="IT3hvlaE"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 57AD8C4CEE3;
-	Thu,  1 May 2025 21:41:58 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746135719;
-	bh=eXtg+nlLZ5QQgTmyAO/7UOrtplNXnw9zciPmPYfJNGU=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=IT3hvlaEW1C2T6qrFAIz4OqRQisUOvw44sbkjvO6HfJS9b8gcSoQo7GcQT7A81roZ
-	 1nqepx5yNtJztOA3MuGWrpwWxd1xNopiO86qkv3rZRssBLwaY6/NZDbfYwf1oHhxQH
-	 8u1vSLEd8SNI1YbLbI0ErWa4oP7bAJFNU76Vb2c+BDr7cmcuwEZWtYNgUkD2zYY20C
-	 RcQzzGPencRwvHix/1JgrKXWz2wUFMgu+DlvJtAWeZMBTRbt5OLeEcdNfnuO5m9qm1
-	 SkpGIGKwUFKcPvRGL9h33VpmybCxIqErd/qd93cjRzJtuk0q8EoiQRBZHYYIZTO5YZ
-	 tPciEla1NT3nQ==
-From: Mario Limonciello <superm1@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Mario Limonciello <mario.limonciello@amd.com>,
-	Yazen Ghannam <yazen.ghannam@amd.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
-	"H . Peter Anvin" <hpa@zytor.com>,
-	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
-	linux-kernel@vger.kernel.org (open list)
-Subject: [PATCH v6 2/2] x86/CPU/AMD: Print the reason for the last reset
-Date: Thu,  1 May 2025 16:41:47 -0500
-Message-ID: <20250501214147.2488164-3-superm1@kernel.org>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250501214147.2488164-1-superm1@kernel.org>
-References: <20250501214147.2488164-1-superm1@kernel.org>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="SGdzWzKI"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2264c9d0295so59725ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 14:45:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746135917; x=1746740717; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=vDl1IZro28hdfrXTqI+ublfVfpbjZSHTo0z7wnsFXgQ=;
+        b=SGdzWzKIBG7U4E/uq6apsXkEdNeUSLUV4bYodU0PpCqfhhpREUJsKBA3x4dXV787ld
+         WJXxmQxvirMgDLf9j5Ewypl7WsZYJFv/YdwIN5koXj7oIc4tRb/u9Usvv1QFUCG73sxi
+         H0nmLXGqpp2FLAgrJDwW4s1G1cgrz4cjjfmhTxNLRsk2YJ3qPUoqY02YUgvw8eZW3HSS
+         goItuyOPC+NTLY4XH3wYE4MPEUcKIWA4dXrRKqIQYCbYloR8+AtMVUkZtKp6u8UMnfHZ
+         JzgEVfNnwhIe9jeG9jwOF3NgBSa0uXaGPYi9+07epYWtjV0E39sJEeWVUN8hlTP6rjFK
+         lWrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746135917; x=1746740717;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=vDl1IZro28hdfrXTqI+ublfVfpbjZSHTo0z7wnsFXgQ=;
+        b=ChY3fUYR42T8GDJtHHJxoCyytH1IS59jm31AjuNTc7mpz87Ur1OWX90rYqO7/cwNfH
+         LC0c1+ARIqj+OdIvtQ+yYvJtk9iZrqLARfXSK9XcRimAMG+eguVOzCHc5uEYT+XtEZ7D
+         5j7wpLQB/oPQQehdQ/XP5aTFtkpkfX72KcY7PxyuQg62ej73MDJHTmKyvEGuxIALiM3U
+         ip+3EuEgKsWTC5VSwROeLPVimv1maK4yPIYCGnJMjYZFLPpBPf4O8seNm5ouGG7UKpA+
+         tyH0i9xJd4i8qfBga0WUvxtd36QvKzQguwXh/9OOnxXLzMGEJwx+PL9ZnHZ/H1Xp55FV
+         NKxw==
+X-Forwarded-Encrypted: i=1; AJvYcCW1SjtNVZ53Fhrq4LuE0FUG8M8gr+7jerl1jYGnOBjfmavjnf/2k411E2NRM/D2L700LDdd1PFLuH4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxF+cJ5SLirO3EwaEQrpi0vjCdZuta0ynjdJj8HLT2KhCOICtgc
+	mcD8mLv82JPVRSpqujkqgNOBQ3fSRtKfKDhR9ntwV/HZutVwT7Z/Hepboa/dNg==
+X-Gm-Gg: ASbGncu1LJ+EIeeBrXewlrUVjf3hoYJ6fR5CEGFUSZBIVXd7uczmi2qgERa315DkqHX
+	CS/Zdr5x7/J4FqCANy8/uAWHDJ7rB7HsMKG5zXdHgkb5PSiBIeNmuchkuBMHdJSqPOn4HYZctsT
+	FBgKFNb0e5eFSDKG0surPPjNxYemper1sfj6IfDxXqp0sry1qBLRDOmIVJ9OeHbDzaLe6ZCe69L
+	L4PW9TM7EPVvmwGeX9UE9kBSHwCD5lvP2ibSp34kVWGSeL8Py5OAi29YIXmsPj+trykTjVWY6Tv
+	/XPxa3GTYGojrAvvBTrOL6cd7wBHgz30ZODDmZCTTj58IMOANO196Y9qibitkuevRe98/9oe
+X-Google-Smtp-Source: AGHT+IFDO4aRxK7rdDiW3OLELFztZLzjuq4Em6bvp1QVNrSWDT0ZuSyTrNqpv/ttZNis0GC3pYd4Tg==
+X-Received: by 2002:a17:902:dac7:b0:216:5e53:d055 with SMTP id d9443c01a7336-22e0798903bmr3390015ad.9.1746135917077;
+        Thu, 01 May 2025 14:45:17 -0700 (PDT)
+Received: from google.com (2.210.143.34.bc.googleusercontent.com. [34.143.210.2])
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-b1fa85e4ab2sm133113a12.55.2025.05.01.14.45.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 14:45:16 -0700 (PDT)
+Date: Thu, 1 May 2025 21:45:05 +0000
+From: Pranjal Shrivastava <praan@google.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v2 21/22] iommu/tegra241-cmdqv: Add user-space use support
+Message-ID: <aBPrYXixWhFRkM7q@google.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <b81b2332f793a9ffccc528d821f2ed3ac051f9e0.1745646960.git.nicolinc@nvidia.com>
+ <aBKdMaFLPFJYegIS@google.com>
+ <aBKmk6PNFreeyfLh@Asurada-Nvidia>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBKmk6PNFreeyfLh@Asurada-Nvidia>
 
-From: Yazen Ghannam <yazen.ghannam@amd.com>
+On Wed, Apr 30, 2025 at 03:39:15PM -0700, Nicolin Chen wrote:
+> On Wed, Apr 30, 2025 at 09:59:13PM +0000, Pranjal Shrivastava wrote:
+> > On Fri, Apr 25, 2025 at 10:58:16PM -0700, Nicolin Chen wrote:
+> > > The CMDQV HW supports a user-space use for virtualization cases. It allows
+> > > the VM to issue guest-level TLBI or ATC_INV commands directly to the queue
+> > > and executes them without a VMEXIT, as HW will replace the VMID field in a
+> > > TLBI command and the SID field in an ATC_INV command with the preset VMID
+> > > and SID.
+> > > 
+> > > This is built upon the vIOMMU infrastructure by allowing VMM to allocate a
+> > > VINTF (as a vIOMMU object) and assign VCMDQs (vCMDQ objects) to the VINTF.
+> > > 
+> > > So firstly, replace the standard vSMMU model with the VINTF implementation
+> > > but reuse the standard cache_invalidate op (for unsupported commands) and
+> > > the standard alloc_domain_nested op (for standard nested STE).
+> > > 
+> > > Each VINTF has two 64KB MMIO pages (128B per logical vCMDQ):
+> > >  - Page0 (directly accessed by guest) has all the control and status bits.
+> > >  - Page1 (trapped by VMM) has guest-owned queue memory location/size info.
+> > > 
+> > > VMM should trap the emulated VINTF0's page1 of the guest VM for the guest-
+> > > level VCMDQ location/size info and forward that to the kernel to translate
+> > > to a physical memory location to program the VCMDQ HW during an allocation
+> > > call. Then, it should mmap the assigned VINTF's page0 to the VINTF0 page0
+> > > of the guest VM. This allows the guest OS to read and write the guest-own
+> > > VINTF's page0 for direct control of the VCMDQ HW.
+> > > 
+> > > For ATC invalidation commands that hold an SID, it requires all devices to
+> > > register their virtual SIDs to the SID_MATCH registers and their physical
+> > > SIDs to the pairing SID_REPLACE registers, so that HW can use those as a
+> > > lookup table to replace those virtual SIDs with the correct physical SIDs.
+> > > Thus, implement the driver-allocated vDEVICE op with a tegra241_vintf_sid
+> > > structure to allocate SID_REPLACE and to program the SIDs accordingly.
+> > > 
+> > > This enables the HW accelerated feature for NVIDIA Grace CPU. Compared to
+> > > the standard SMMUv3 operating in the nested translation mode trapping CMDQ
+> > > for TLBI and ATC_INV commands, this gives a huge performance improvement:
+> > > 70% to 90% reductions of invalidation time were measured by various DMA
+> > > unmap tests running in a guest OS.
+> > > 
+> > 
+> > The write-up is super helpful to understand how the HW works from a high
+> > level. Thanks for explaining this well! :) 
+> > 
+> > I'm curious to know the DMA unmap tests that were run for perf?
+> 
+> tools/testing/selftests/dma/dma_map_benchmark.c
+> 
 
-The following register contains bits that indicate the cause for the
-previous reset.
+Ahh okay.. I thought it was something else. I guess it's worth posting
+some comparitive results in the cover letter if you prefer.
 
-        PMx000000C0 (FCH::PM::S5_RESET_STATUS)
+> > >  /**
+> > >   * struct iommu_hw_info_arm_smmuv3 - ARM SMMUv3 hardware information
+> > >   *                                   (IOMMU_HW_INFO_TYPE_ARM_SMMUV3)
+> > >   *
+> > > - * @flags: Must be set to 0
+> > > - * @impl: Must be 0
+> > > + * @flags: Combination of enum iommu_hw_info_arm_smmuv3_flags
+> > > + * @impl: Implementation-defined bits when the following flags are set:
+> > > + *        - IOMMU_HW_INFO_ARM_SMMUV3_HAS_TEGRA241_CMDQV
+> > > + *          Bits[15:12] - Log2 of the total number of SID replacements
+> > > + *          Bits[07:04] - Log2 of the total number of vCMDQs per vIOMMU
+> > > + *          Bits[03:00] - Version number for the CMDQ-V HW
+> > 
+> > Nit: It seems that we deliberately chose not to reveal `NUM_VINTF_LOG2`
+> > to the user-space. If so, maybe we shall mark those bitfields as unused
+> > or reserved for clarity? Bits[11:08] - Reserved / Unused (even 31:16).
+> 
+> I think it should have been there, but kernel should just report 0.
+>                  Bits[11:08] - Log2 of the total number of virtual interface
+> 
 
-This is useful for debug. The reasons for reset are broken into 6 high
-level categories. Decode it by category and print during boot.
+Ack.
 
-Specifics within a category are split off into debugging documentation.
+> > >   * @idr: Implemented features for ARM SMMU Non-secure programming interface
+> > >   * @iidr: Information about the implementation and implementer of ARM SMMU,
+> > >   *        and architecture version supported
+> > > @@ -952,10 +965,28 @@ struct iommu_fault_alloc {
+> > >   * enum iommu_viommu_type - Virtual IOMMU Type
+> > >   * @IOMMU_VIOMMU_TYPE_DEFAULT: Reserved for future use
+> > >   * @IOMMU_VIOMMU_TYPE_ARM_SMMUV3: ARM SMMUv3 driver specific type
+> > > + * @IOMMU_VIOMMU_TYPE_TEGRA241_CMDQV: NVIDIA Tegra241 CMDQV Extension for SMMUv3
+> > >   */
+> > >  enum iommu_viommu_type {
+> > >  	IOMMU_VIOMMU_TYPE_DEFAULT = 0,
+> > >  	IOMMU_VIOMMU_TYPE_ARM_SMMUV3 = 1,
+> > > +	IOMMU_VIOMMU_TYPE_TEGRA241_CMDQV = 2,
+> > > +};
+> > 
+> > This is a little confusing.. I understand that we need a new viommu type
+> > to copy the new struct iommu_viommu_tegra241_cmdqv b/w the user & kernel
+> > 
+> > But, in a previous patch (Add vsmmu_alloc impl op), we add a check to
+> > fallback to the standard type SMMUv3, if the impl_ops->vsmmu_alloc 
+> > returns -EOPNOTSUPP:
+> > 
+> > 	if (master->smmu->impl_ops && master->smmu->impl_ops->vsmmu_alloc)
+> > 		vsmmu = master->smmu->impl_ops->vsmmu_alloc(
+> > 			master->smmu, s2_parent, ictx, viommu_type, user_data);
+> > 	if (PTR_ERR(vsmmu) == -EOPNOTSUPP) {
+> > 		if (viommu_type != IOMMU_VIOMMU_TYPE_ARM_SMMUV3)
+> > 			return ERR_PTR(-EOPNOTSUPP);
+> > 		/* Fallback to standard SMMUv3 type if viommu_type matches */
+> > 		vsmmu = iommufd_viommu_alloc(ictx, struct arm_vsmmu, core,
+> > 					     &arm_vsmmu_ops);
+> > 
+> > Now, if we'll ALWAYS try to allocate an impl-specified vsmmu first, even
+> > when the viommu_type == IOMMU_VIOMMU_TYPE_ARM_SMMUV3, we are anyways
+> > going to return back from the impl_ops->vsmmu_alloc with -EOPNOTSUPP.
+> 
+> That's not necessarily true. An impl_ops->vsmmu_alloc can support
+> IOMMU_VIOMMU_TYPE_ARM_SMMUV3 potentially, e.g. an impl could just
+> toggle a few special bits in a register and return a valid vsmmu
+> pointer.
+> 
+> It doesn't work like this with VCMDQ as it supports its own type,
+> but for the long run I think we should pass in the standard type
+> to impl_ops->vsmmu_alloc too.
+> 
 
-The register is accessed indirectly through a "PM" port in the FCH. Use
-MMIO access in order to avoid restrictions with legacy port access.
+That makes sense. I only considered CMDQV. Thanks for the clarification!
 
-Use a late_initcall() to ensure that MMIO has been set up before trying
-to access the register.
+> > Then we'll again check if the retval was -EOPNOTSUPP and re-check the
+> > viommu_type requested.. which seems a little counter intuitive.
+> 
+> It's just prioritizing the impl_ops->vsmmu_alloc. Similar to the
+> probe, if VCMDQ is missing or encountering some initialization
+> problem, give it a chance to fallback to the standard SMMU.
+> 
 
-This register was introduced with AMD Family 17h, so avoid access on
-older families. There is no CPUID feature bit for this register.
+Ack.
 
-Signed-off-by: Yazen Ghannam <yazen.ghannam@amd.com>
-Co-developed-by: Mario Limonciello <mario.limonciello@amd.com>
-Signed-off-by: Mario Limonciello <mario.limonciello@amd.com>
----
-v6:
- * Use Boris' suggestion to not print unknown message and not rely
-   upon find_next_bit
-v4:
- * Use loop that can output multiple reasons
- * Drop "Unknown" condition and have dedicated message
-v3:
- * Align strings in the CSV and code.
- * Switch to an array of strings
- * Switch to looking up bit of first value
- * Re-order message to have number first (makes grepping easier)
- * Add x86/amd prefix to message
-v2:
- * Add string for each reason, but still include value in case multiple
-   values are set.
----
- Documentation/arch/x86/amd-debugging.rst | 41 ++++++++++++++++++
- arch/x86/include/asm/amd/fch.h           |  1 +
- arch/x86/kernel/cpu/amd.c                | 53 ++++++++++++++++++++++++
- 3 files changed, 95 insertions(+)
+> > > +	/*
+> > > +	 * @length must be a power of 2, in range of
+> > > +	 *   [ 32, 1 ^ (idr[1].CMDQS + CMDQ_ENT_SZ_SHIFT) ]
+> > > +	 */
+> > 
+> > Nit: 2 ^ (idr[1].CMDQS + CMDQ_ENT_SZ_SHIFT) to match the comment in uapi
+> 
+> Alok pointed it out too. Fixed.
+> 
 
-diff --git a/Documentation/arch/x86/amd-debugging.rst b/Documentation/arch/x86/amd-debugging.rst
-index 9bfc852606c51..d557312a35bee 100644
---- a/Documentation/arch/x86/amd-debugging.rst
-+++ b/Documentation/arch/x86/amd-debugging.rst
-@@ -319,3 +319,44 @@ messages.  To help with this, a tool has been created at
- `amd-debug-tools <https://git.kernel.org/pub/scm/linux/kernel/git/superm1/amd-debug-tools.git/about/>`_
- to help parse the messages.
- 
-+Random reboot issues
-+====================
-+When a random reboot occurs, the high-level reason for the reboot is stored
-+in a register that will persist onto the next boot.
-+
-+There are 6 classes of reasons for the reboot:
-+ * Software induced
-+ * Power state transition
-+ * Pin induced
-+ * Hardware induced
-+ * Remote reset
-+ * Internal CPU event
-+
-+.. csv-table::
-+   :header: "Bit", "Type", "Reason"
-+   :align: left
-+
-+   "0",  "Pin",      "thermal pin BP_THERMTRIP_L was tripped"
-+   "1",  "Pin",      "power button was pressed for 4 seconds"
-+   "2",  "Pin",      "shutdown pin was shorted"
-+   "4",  "Remote",   "remote ASF power off command was received"
-+   "9",  "Internal", "internal CPU thermal limit was tripped"
-+   "16", "Pin",      "system reset pin BP_SYS_RST_L was tripped"
-+   "17", "Software", "software issued PCI reset"
-+   "18", "Software", "software wrote 0x4 to reset control register 0xCF9"
-+   "19", "Software", "software wrote 0x6 to reset control register 0xCF9"
-+   "20", "Software", "software wrote 0xE to reset control register 0xCF9"
-+   "21", "Sleep",    "ACPI power state transition occurred"
-+   "22", "Pin",      "keyboard reset pin KB_RST_L was asserted"
-+   "23", "Internal", "internal CPU shutdown event occurred"
-+   "24", "Hardware", "system failed to boot before failed boot timer expired"
-+   "25", "Hardware", "hardware watchdog timer expired"
-+   "26", "Remote",   "remote ASF reset command was received"
-+   "27", "Internal", "an uncorrected error caused a data fabric sync flood event"
-+   "29", "Internal", "FCH and MP1 failed warm reset handshake"
-+   "30", "Internal", "a parity error occurred"
-+   "31", "Internal", "a software sync flood event occurred"
-+
-+This information is read by the kernel at bootup and is saved into the
-+kernel ring buffer. When a random reboot occurs this message can be helpful
-+to determine the next component to debug such an issue.
-diff --git a/arch/x86/include/asm/amd/fch.h b/arch/x86/include/asm/amd/fch.h
-index 9b32e8a03193e..4a6e1e3b685a4 100644
---- a/arch/x86/include/asm/amd/fch.h
-+++ b/arch/x86/include/asm/amd/fch.h
-@@ -9,5 +9,6 @@
- #define FCH_PM_DECODEEN			0x00
- #define FCH_PM_DECODEEN_SMBUS0SEL	GENMASK(20, 19)
- #define FCH_PM_SCRATCH			0x80
-+#define FCH_PM_S5_RESET_STATUS		0xC0
- 
- #endif
-diff --git a/arch/x86/kernel/cpu/amd.c b/arch/x86/kernel/cpu/amd.c
-index 2b36379ff675d..9a8c590456d07 100644
---- a/arch/x86/kernel/cpu/amd.c
-+++ b/arch/x86/kernel/cpu/amd.c
-@@ -9,6 +9,7 @@
- #include <linux/sched/clock.h>
- #include <linux/random.h>
- #include <linux/topology.h>
-+#include <asm/amd/fch.h>
- #include <asm/processor.h>
- #include <asm/apic.h>
- #include <asm/cacheinfo.h>
-@@ -1237,3 +1238,55 @@ void amd_check_microcode(void)
- 	if (cpu_feature_enabled(X86_FEATURE_ZEN2))
- 		on_each_cpu(zenbleed_check_cpu, NULL, 1);
- }
-+
-+static const char * const s5_reset_reason_txt[] = {
-+	[0] = "thermal pin BP_THERMTRIP_L was tripped",
-+	[1] = "power button was pressed for 4 seconds",
-+	[2] = "shutdown pin was shorted",
-+	[4] = "remote ASF power off command was received",
-+	[9] = "internal CPU thermal limit was tripped",
-+	[16] = "system reset pin BP_SYS_RST_L was tripped",
-+	[17] = "software issued PCI reset",
-+	[18] = "software wrote 0x4 to reset control register 0xCF9",
-+	[19] = "software wrote 0x6 to reset control register 0xCF9",
-+	[20] = "software wrote 0xE to reset control register 0xCF9",
-+	[21] = "ACPI power state transition occurred",
-+	[22] = "keyboard reset pin KB_RST_L was asserted",
-+	[23] = "internal CPU shutdown event occurred",
-+	[24] = "system failed to boot before failed boot timer expired",
-+	[25] = "hardware watchdog timer expired",
-+	[26] = "remote ASF reset command was received",
-+	[27] = "an uncorrected error caused a data fabric sync flood event",
-+	[29] = "FCH and MP1 failed warm reset handshake",
-+	[30] = "a parity error occurred",
-+	[31] = "a software sync flood event occurred",
-+};
-+
-+static __init int print_s5_reset_status_mmio(void)
-+{
-+	unsigned long value;
-+	void __iomem *addr;
-+	int i;
-+
-+	if (!cpu_feature_enabled(X86_FEATURE_ZEN))
-+		return 0;
-+
-+	addr = ioremap(FCH_PM_BASE + FCH_PM_S5_RESET_STATUS, sizeof(value));
-+	if (!addr)
-+		return 0;
-+
-+	value = ioread32(addr);
-+	iounmap(addr);
-+
-+	for (i = 0; i <= ARRAY_SIZE(s5_reset_reason_txt); i++) {
-+		if (!(value & BIT(i)))
-+			continue;
-+
-+		if (s5_reset_reason_txt[i])
-+			pr_info("x86/amd: Previous system reset reason [0x%08lx]: %s\n",
-+				value, s5_reset_reason_txt[i]);
-+	}
-+
-+	return 0;
-+}
-+late_initcall(print_s5_reset_status_mmio);
--- 
-2.43.0
+Thanks! I had only skimmed through Alok's comments and felt he only
+pointed it out in the uapi and not here. Sorry for overlooking that :)
 
+> > > +	vcmdq = iommufd_vcmdq_alloc(viommu, struct tegra241_vcmdq, core);
+> > > +	if (!vcmdq)
+> > > +		return ERR_PTR(-ENOMEM);
+> > > +
+> > > +	/*
+> > > +	 * HW requires to unmap LVCMDQs in descending order, so destroy() must
+> > > +	 * follow this rule. Set a dependency on its previous LVCMDQ so iommufd
+> > > +	 * core will help enforce it.
+> > > +	 */
+> > > +	if (prev) {
+> > > +		ret = iommufd_vcmdq_depend(vcmdq, prev, core);
+> > > +		if (ret)
+> > > +			goto free_vcmdq;
+> > > +	}
+> > > +	vcmdq->prev = prev;
+> > > +
+> > > +	ret = tegra241_vintf_init_lvcmdq(vintf, index, vcmdq);
+> > > +	if (ret)
+> > > +		goto free_vcmdq;
+> > > +
+> > > +	dev_dbg(cmdqv->dev, "%sallocated\n",
+> > > +		lvcmdq_error_header(vcmdq, header, 64));
+> > > +
+> > > +	tegra241_vcmdq_map_lvcmdq(vcmdq);
+> > > +
+> > > +	vcmdq->cmdq.q.q_base = q_base & VCMDQ_ADDR;
+> > > +	vcmdq->cmdq.q.q_base |= log2size;
+> > > +
+> > > +	ret = tegra241_vcmdq_hw_init_user(vcmdq);
+> > > +	if (ret)
+> > > +		goto free_vcmdq;
+> > > +	vintf->lvcmdqs[index] = vcmdq;
+> > > +
+> > > +	return &vcmdq->core;
+> > > +free_vcmdq:
+> > > +	iommufd_struct_destroy(viommu->ictx, vcmdq, core);
+> > > +	return ERR_PTR(ret);
+> > 
+> > Are we missing an undepend here?
+> 
+> Right. The iommufd_struct_destroy doesn't invoke obj->ops.abort().
+> 
+> The whole revert flow is wonky, missing all the unmap/deinit steps.
+> 
+
+Right.
+
+> > > +static void tegra241_vintf_destroy_vdevice(struct iommufd_vdevice *vdev)
+> > > +{
+> > > +	struct tegra241_vintf_sid *vsid =
+> > > +		container_of(vdev, struct tegra241_vintf_sid, core);
+> > > +	struct tegra241_vintf *vintf = vsid->vintf;
+> > > +
+> > > +	writel_relaxed(0, REG_VINTF(vintf, SID_REPLACE(vsid->idx)));
+> > > +	writel_relaxed(0, REG_VINTF(vintf, SID_MATCH(vsid->idx)));
+> > 
+> > Just a thought: Should these be writel to avoid races?
+> > Although I believe all user-queues would be free-d by this point?
+> 
+> Yea. They should be. I will change them.
+> 
+
+Ack.
+
+> Thanks
+> Nicolin
+
+Thanks
+Praan
