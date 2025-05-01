@@ -1,79 +1,79 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 92C9F211A1E
-	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 22:39:09 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C840021ADC2
+	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 22:54:03 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746139151; cv=none; b=WzYSVvrKpz/eEnapoxSIwk3ZTAlpGDhd0N2L2esiKMxSRAv8ipevhrI8Sch9I6fyGihscPY1HqMv+AYmeWdyEJ59okG5DdbfQ63nQ/rEc/qwNbvO/0uu4M/bdylCDaTkPKU2YexRcdhJXBVBZlU+vhk/xoz7ThJZ1hXSapNECgk=
+	t=1746140045; cv=none; b=rjOg3ttUy8kIHK58Zs4kFlGU8sZB/tw9TUz8uJPoR19Cs/uTEkIkDmJhI52qqOiMEZyQ4IU/LIKPFmAjVUhqt60SPpKv6h1goy9HwXOhbfeQHu6iTL/GkklseNNbOHrVSp4LVolpcyN6sH3tIU9vPS+20bMIICAr7PdUyUdJCKY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746139151; c=relaxed/simple;
-	bh=RppbyNb+qAjiwhRJhzZp/IaAnH9uKer2OYkwMPfo2Lo=;
+	s=arc-20240116; t=1746140045; c=relaxed/simple;
+	bh=7EqN3p0cTkX1ZI/wbSjgHj4rbRQELoTOTq2bsNwW5k8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=diT25z4FSWVcjKsGvm+rPVyP9eyJFg4loeFHvLxZmCPQxsrdCIQs5i9o+nWJW4hjwmhmvrtSVDLaYY5QEFsn8M7gasEAisTW3VhUkS832YQcOey3sAR/nDrXvfk319oEkJURa6AsX4/tV9MHR7VphQmdtIwTSG0LmXzEOSh0EyU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=E1KlAiHA; arc=none smtp.client-ip=170.10.133.124
+	 To:Cc:Content-Type; b=UTJnov0f0mE60HnOcZdiyZEglGvNVebmu3lAk11BjGoqrqUZa1YH7Is1Y3kFkO55GZlw69X0WevhA/JhdfxzrmHf0lh7JSoQqMbghn/WXl09jxBDGp3xiPdkmN5rYl6ZmaECTNwNA8ceQ21pRNsSjdbvdni3aWeRPWzi14Sl2Ys=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Rzr9WJ31; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="E1KlAiHA"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Rzr9WJ31"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746139148;
+	s=mimecast20190719; t=1746140042;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=r2yBC5E3ys3Bg3BEEddT6jmOEedb3warWq8gjnxAXG4=;
-	b=E1KlAiHAeOkPhQUuw4f7UqdZtxuDGBPAD21wE3/sDozVJwAtoZsah/E1FI9JWBqd7s0PPQ
-	p/TjL4PUUErE4wy0S/Whlu0hXgn7hYEstTEP1S7r7L40qsX0gl2MS/SXQlwTWQ1Aswapog
-	tDKfGXJ8t90mh9PAFRNcta5VKW6/PIE=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=KtLg0B1vrzZBeuo/C7fy1HGxDtxIeRaGRM5T8fcaxh0=;
+	b=Rzr9WJ31vCRyHJCBM9qqcQM3QQui2ALwJSkGfjuo7N6g5l+SZ8ZMr+LDwejWoD0TZrL1FF
+	G3Q2vUzExePy0TvBt6PIVSzHlkCmeixiTze4B1vdpcxA0nEJGZXk1UWoXm5rBuv22EJqQL
+	GKMOOsj5RM9Su03HrX9hkmilip+iYVw=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-372-lJ5_dXLWNg2y8JwjDpnf6A-1; Thu, 01 May 2025 18:39:07 -0400
-X-MC-Unique: lJ5_dXLWNg2y8JwjDpnf6A-1
-X-Mimecast-MFC-AGG-ID: lJ5_dXLWNg2y8JwjDpnf6A_1746139147
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-70267bb7ed8so17973617b3.1
-        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 15:39:07 -0700 (PDT)
+ us-mta-614-9synvUw8MPKvV177IpjJUg-1; Thu, 01 May 2025 18:54:01 -0400
+X-MC-Unique: 9synvUw8MPKvV177IpjJUg-1
+X-Mimecast-MFC-AGG-ID: 9synvUw8MPKvV177IpjJUg_1746140041
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-703b133f6bbso22743897b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 15:54:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746139147; x=1746743947;
+        d=1e100.net; s=20230601; t=1746140041; x=1746744841;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=r2yBC5E3ys3Bg3BEEddT6jmOEedb3warWq8gjnxAXG4=;
-        b=XyAbnnIG7hWSTAyxKpkIX5LhjSTvHr9KH+q2RJpELs0/oGX+SvM0EiD4W6AgtIFffM
-         /9ETYHA+StT2zWw5JIixPCF5OjT4j++tEqzUQat//9bBbIFClyHJ2fnZnO/sW147DX8N
-         bRaNZUKmlk/9pARjPahwkGcPok89/ii9hRTH/tWhrOZVL2aYnxW0moQhIMYMrEZprg2x
-         IT19GqpSZPAQSFFT8apAfh7aRRJgzThsnZeFS66aVpT/3VM+TfUvznSN4f2ZZOyARHKr
-         8bUKyzzpUvarg/tl7o8/MQBoufpBicDSfe13O7x84m6X5xGdZMZTtn0Wce8ZrjPB+l5u
-         b/yA==
-X-Forwarded-Encrypted: i=1; AJvYcCUdGNYJpbczG9qNcQroYVY2UrYt/SqDYsdDAFsFeJaTisr+h2+2JOTMb7dBo/L94DBp7urhEsA/dJE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzV0Rtlqu2cF6mKlrlLK1k1KjkcoUSnipDKdRUA/0rKLbJgE3fe
-	Jh2l+AhHdkJ+TQHIVyLb5IhxQcZ6fVs/i5RyKfG/9A0XB1HNyKzzPfhOoHfvBke/J+AlEmmY+xF
-	hwAYMJc2Eb7mku2pyOrzaacKjgnXzTkISu+pqWo3RJY9AJvLeHKbueGmFBUTJWg1MT7gCNuGYmN
-	4QnDzWEhCxDk1Bn7OX6ghGC/QLOQFQzVtW
-X-Gm-Gg: ASbGnctzsa5qr3wp2N7D0iDbZeyiY3QJ97CHCUz5ntUYgazS/glaEeMOptH9oUG2dGv
-	VkngttR5smc2JNcCdZuOKfyoRlqVOq62JCmtXts+FZiFij9T1DXGtPfxl15OdotCjNi2Ww5vGxR
-	gEYd8/Pr0=
-X-Received: by 2002:a05:690c:6308:b0:6ef:5c57:904 with SMTP id 00721157ae682-708cf00ed15mr13683887b3.7.1746139146852;
-        Thu, 01 May 2025 15:39:06 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEC4nzuGXKdm9CCi+P25QqFR3ZjYmkRkmMsqhwNxWF55OkciYyJXlzGZMiLbmTkRuoE+fiMnrmpXm4MtSlf8YI=
-X-Received: by 2002:a05:690c:6308:b0:6ef:5c57:904 with SMTP id
- 00721157ae682-708cf00ed15mr13683527b3.7.1746139146514; Thu, 01 May 2025
- 15:39:06 -0700 (PDT)
+        bh=KtLg0B1vrzZBeuo/C7fy1HGxDtxIeRaGRM5T8fcaxh0=;
+        b=V4ays9v0qbGoDA89wvO9jjWe+wGUNSmkyIYtIMwqVdvyLpnDk11xwNGB7AkuYZFQ9k
+         NHeZ+X6a6Gf+4uZULJaVrlUS/Niobj/TZNIQp8JKsQMz4cgiOaUM4DGl9WLFFxoNYHRH
+         e5OtKMQ8E8OsXxEsdNUnXVGfdSuz4sQ17uNN79mJloUyDVTDO+56E8mwvmWui/bTp0CJ
+         goRIGNvv8tBWkJP4G+WGbQnkWKJhpK08FwutwNuCwHcVZHqe05L7Qgc6CuKonmdyax0S
+         KZQdFlXNIV34TgHjQ78RT1lqVS00XL5bnF5RUNYyPsbgwUg7N/rXBFTNbSBe7HoBFHcT
+         koqg==
+X-Forwarded-Encrypted: i=1; AJvYcCUGeLuhMIpLAe1MG4f1GOcRWczzNqcUUaJf97CP+slS2wlPrwThlxskKsabZAsMLbSt1OOR4EtvfBE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyC8+TDaqHQ/rp1YrNoegT1F7C++nWWuF6HqJolt5V/pfYlqyrj
+	Eaq72Ua5YUh3f/Yu+045bTb3boSjxQiCNdcTDCfotf3Z8OiF32imtJf46y5fROvuG8tSV4DazdI
+	cMFhoSp3HT29swg9/GfKZ+ZLH43bbi8eI5Z5LA+FkGoc5DGd/zcj4IZCymzRLv/MPF9KIWOGqmI
+	sHNSlRLx0NY7WJ4TMYT9Ahr2jnHYjsorYc
+X-Gm-Gg: ASbGncuYua1Noja2tTziXATSChu+KXnqSXVItcaRI5IqoGdZosbe7o0N+iBtPxcwJbN
+	EXJ2jKRs6gg7b7kD033wPyM1KceMJLoIjLNZMnKyqe6aHrEf59JGSNPZ7Q8D7fVC6Tze2SRESCn
+	glYmlLLhs=
+X-Received: by 2002:a05:690c:6892:b0:708:15dd:712 with SMTP id 00721157ae682-708cee0d4e0mr15576487b3.32.1746140040870;
+        Thu, 01 May 2025 15:54:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGGPElw1UZQRMg/NB24PlPPnaQvolOetsYL1qWqN2H/DAHnfrkNvMouRvuxZDqL6cOU1L++ooR/hLBGonde+Go=
+X-Received: by 2002:a05:690c:6892:b0:708:15dd:712 with SMTP id
+ 00721157ae682-708cee0d4e0mr15576337b3.32.1746140040523; Thu, 01 May 2025
+ 15:54:00 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250428182904.93989-1-npache@redhat.com> <20250428182904.93989-3-npache@redhat.com>
- <C7A07691-E8D8-436F-AEED-8825608880CE@nvidia.com>
-In-Reply-To: <C7A07691-E8D8-436F-AEED-8825608880CE@nvidia.com>
+References: <20250428182904.93989-1-npache@redhat.com> <20250428182904.93989-4-npache@redhat.com>
+ <BE08D7F9-716B-4EE8-AC4E-2D9F4C5D4A05@nvidia.com>
+In-Reply-To: <BE08D7F9-716B-4EE8-AC4E-2D9F4C5D4A05@nvidia.com>
 From: Nico Pache <npache@redhat.com>
-Date: Thu, 1 May 2025 16:38:40 -0600
-X-Gm-Features: ATxdqUFzODQv7UTouMhQXgLjZb7TpWvXSrXYOvh_44TpwgiqkNeUNgkUVT4KXdQ
-Message-ID: <CAA1CXcAsS9VpwXir0eBvLPsdEzT369OjFqq4jMzg7CGTFGgF3w@mail.gmail.com>
-Subject: Re: [PATCH v5 2/4] mm: document (m)THP defer usage
+Date: Thu, 1 May 2025 16:53:34 -0600
+X-Gm-Features: ATxdqUG3EUSAuZQcIBHamAtOStWW2NfUYwlhaLO5OYc6mM0jjaysT4fqAsR4EYU
+Message-ID: <CAA1CXcBM5210TqVn_bE0yAxo0SR=_g4GAgZoopwSDbyFYL+pqw@mail.gmail.com>
+Subject: Re: [PATCH v5 3/4] khugepaged: add defer option to mTHP options
 To: Zi Yan <ziy@nvidia.com>
 Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
@@ -89,139 +89,75 @@ Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
 	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
 	jglisse@google.com, surenb@google.com, zokeefe@google.com, 
 	Liam.Howlett@oracle.com, lorenzo.stoakes@oracle.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org, 
-	Bagas Sanjaya <bagasdotme@gmail.com>
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, Apr 30, 2025 at 2:15=E2=80=AFPM Zi Yan <ziy@nvidia.com> wrote:
+On Wed, Apr 30, 2025 at 2:34=E2=80=AFPM Zi Yan <ziy@nvidia.com> wrote:
 >
 > On 28 Apr 2025, at 14:29, Nico Pache wrote:
 >
-> > The new defer option for (m)THPs allows for a more conservative
-> > approach to (m)THPs. Document its usage in the transhuge admin-guide.
+> > Now that we have defer to globally disable THPs at fault time, lets add
+> > a defer setting to the mTHP options. This will allow khugepaged to
+> > operate at that order, while avoiding it at PF time.
 > >
-> > Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
 > > Signed-off-by: Nico Pache <npache@redhat.com>
 > > ---
-> >  Documentation/admin-guide/mm/transhuge.rst | 31 ++++++++++++++++------
-> >  1 file changed, 23 insertions(+), 8 deletions(-)
+> >  include/linux/huge_mm.h |  5 +++++
+> >  mm/huge_memory.c        | 38 +++++++++++++++++++++++++++++++++-----
+> >  mm/khugepaged.c         |  8 ++++----
+> >  3 files changed, 42 insertions(+), 9 deletions(-)
 > >
-> > diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation=
-/admin-guide/mm/transhuge.rst
-> > index 5c63fe51b3ad..c50253357793 100644
-> > --- a/Documentation/admin-guide/mm/transhuge.rst
-> > +++ b/Documentation/admin-guide/mm/transhuge.rst
-> > @@ -88,8 +88,9 @@ In certain cases when hugepages are enabled system wi=
-de, application
-> >  may end up allocating more memory resources. An application may mmap a
-> >  large region but only touch 1 byte of it, in that case a 2M page might
-> >  be allocated instead of a 4k page for no good. This is why it's
-> > -possible to disable hugepages system-wide and to only have them inside
-> > -MADV_HUGEPAGE madvise regions.
-> > +possible to disable hugepages system-wide, only have them inside
-> > +MADV_HUGEPAGE madvise regions, or defer them away from the page fault
-> > +handler to khugepaged.
-> >
-> >  Embedded systems should enable hugepages only inside madvise regions
-> >  to eliminate any risk of wasting any precious byte of memory and to
-> > @@ -99,6 +100,15 @@ Applications that gets a lot of benefit from hugepa=
-ges and that don't
-> >  risk to lose memory by using hugepages, should use
-> >  madvise(MADV_HUGEPAGE) on their critical mmapped regions.
-> >
-> > +Applications that would like to benefit from THPs but would still like=
- a
-> > +more memory conservative approach can choose 'defer'. This avoids
-> > +inserting THPs at the page fault handler unless they are MADV_HUGEPAGE=
-.
-> > +Khugepaged will then scan the mappings for potential collapses into (m=
-)THP
+> > diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> > index 57e6c962afb1..a877c59bea67 100644
+> > --- a/include/linux/huge_mm.h
+> > +++ b/include/linux/huge_mm.h
+> > @@ -96,6 +96,7 @@ extern struct kobj_attribute thpsize_shmem_enabled_at=
+tr;
+> >  #define TVA_SMAPS            (1 << 0)        /* Will be used for procf=
+s */
+> >  #define TVA_IN_PF            (1 << 1)        /* Page fault handler */
+> >  #define TVA_ENFORCE_SYSFS    (1 << 2)        /* Obey sysfs configurati=
+on */
+> > +#define TVA_IN_KHUGEPAGE     ((1 << 2) | (1 << 3)) /* Khugepaged defer=
+ support */
 >
-> How about the text below? It explicitly states khugepaged behavior.
+> Why is TVA_IN_KHUGEPAGE a superset of TVA_ENFORCE_SYSFS? Because khugepag=
+ed
+> also obeys sysfs configuration?
+Correct! The need for a TVA_IN_KHUGEPAGED is to isolate the "deferred"
+mTHPs from being "allowed" unless we are in khugepaged.
 >
-> Khugepaged will then scan all mappings, even those not explicitly marked
-> with MADV_HUGEPAGE, for potential collapses into (m)THPs.
-
-I agree, this reads better. I can modify it on the V6 :)
+> I wonder if explicitly coding the behavior is better. For example,
+> in __thp_vma_allowable_orders(), enforce_sysfs =3D tva_flags & (TVA_ENFOR=
+CE_SYSFS | TVA_IN_KHUGEPAGE).
+I'm rather indifferent about either approach. If you (or any others)
+have a strong preference for an explicit (none-supersetted) TVA flag I
+can make the change.
 >
-> > +pages. Admins using this the 'defer' setting should consider
-> > +tweaking khugepaged/max_ptes_none. The current default of 511 may
-> > +aggressively collapse your PTEs into PMDs. Lower this value to conserv=
-e
-> > +more memory (i.e., max_ptes_none=3D64).
-> > +
-> >  .. _thp_sysfs:
 > >
-> >  sysfs
-> > @@ -109,11 +119,14 @@ Global THP controls
+> >  #define thp_vma_allowable_order(vma, vm_flags, tva_flags, order) \
+> >       (!!thp_vma_allowable_orders(vma, vm_flags, tva_flags, BIT(order))=
+)
+> > @@ -182,6 +183,7 @@ extern unsigned long transparent_hugepage_flags;
+> >  extern unsigned long huge_anon_orders_always;
+> >  extern unsigned long huge_anon_orders_madvise;
+> >  extern unsigned long huge_anon_orders_inherit;
+> > +extern unsigned long huge_anon_orders_defer;
 > >
-> >  Transparent Hugepage Support for anonymous memory can be entirely disa=
-bled
-> >  (mostly for debugging purposes) or only enabled inside MADV_HUGEPAGE
-> > -regions (to avoid the risk of consuming more memory resources) or enab=
-led
-> > -system wide. This can be achieved per-supported-THP-size with one of::
-> > +regions (to avoid the risk of consuming more memory resources), deferr=
-ed to
-> > +khugepaged, or enabled system wide.
-> > +
-> > +This can be achieved per-supported-THP-size with one of::
-> >
-> >       echo always >/sys/kernel/mm/transparent_hugepage/hugepages-<size>=
-kB/enabled
-> >       echo madvise >/sys/kernel/mm/transparent_hugepage/hugepages-<size=
->kB/enabled
-> > +     echo defer >/sys/kernel/mm/transparent_hugepage/hugepages-<size>k=
-B/enabled
-> >       echo never >/sys/kernel/mm/transparent_hugepage/hugepages-<size>k=
-B/enabled
-> >
-> >  where <size> is the hugepage size being addressed, the available sizes
-> > @@ -136,6 +149,7 @@ The top-level setting (for use with "inherit") can =
-be set by issuing
-> >  one of the following commands::
-> >
-> >       echo always >/sys/kernel/mm/transparent_hugepage/enabled
-> > +     echo defer >/sys/kernel/mm/transparent_hugepage/enabled
-> >       echo madvise >/sys/kernel/mm/transparent_hugepage/enabled
-> >       echo never >/sys/kernel/mm/transparent_hugepage/enabled
-> >
-> > @@ -286,7 +300,8 @@ of small pages into one large page::
-> >  A higher value leads to use additional memory for programs.
-> >  A lower value leads to gain less thp performance. Value of
-> >  max_ptes_none can waste cpu time very little, you can
-> > -ignore it.
-> > +ignore it. Consider lowering this value when using
-> > +``transparent_hugepage=3Ddefer``
-> >
-> >  ``max_ptes_swap`` specifies how many pages can be brought in from
-> >  swap when collapsing a group of pages into a transparent huge page::
-> > @@ -311,14 +326,14 @@ Boot parameters
-> >
-> >  You can change the sysfs boot time default for the top-level "enabled"
-> >  control by passing the parameter ``transparent_hugepage=3Dalways`` or
-> > -``transparent_hugepage=3Dmadvise`` or ``transparent_hugepage=3Dnever``=
- to the
-> > -kernel command line.
-> > +``transparent_hugepage=3Dmadvise`` or ``transparent_hugepage=3Ddefer``=
- or
-> > +``transparent_hugepage=3Dnever`` to the kernel command line.
-> >
-> >  Alternatively, each supported anonymous THP size can be controlled by
-> >  passing ``thp_anon=3D<size>[KMG],<size>[KMG]:<state>;<size>[KMG]-<size=
->[KMG]:<state>``,
-> >  where ``<size>`` is the THP size (must be a power of 2 of PAGE_SIZE an=
-d
-> >  supported anonymous THP)  and ``<state>`` is one of ``always``, ``madv=
-ise``,
-> > -``never`` or ``inherit``.
-> > +``defer``, ``never`` or ``inherit``.
-> >
-> >  For example, the following will set 16K, 32K, 64K THP to ``always``,
-> >  set 128K, 512K to ``inherit``, set 256K to ``madvise`` and 1M, 2M
+> >  static inline bool hugepage_global_enabled(void)
+> >  {
+> > @@ -306,6 +308,9 @@ unsigned long thp_vma_allowable_orders(struct vm_ar=
+ea_struct *vma,
+> >       /* Optimization to check if required orders are enabled early. */
+> >       if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
 >
-> Otherwise, LGTM. Thanks. Reviewed-by: Zi Yan <ziy@nvidia.com>
+> And code here becomes tva_flags & (TVA_ENFORCE_SYSFS | TVA_IN_KHUGEPAGE).
+or just (enforce_sysfs & vma_is_anon)  like you mentioned. Then we
+check for the TVA_IN_KHUGEPAGED before appending the defer bits.
+>
+> Otherwise, LGTM. Reviewed-by: Zi Yan <ziy@nvidia.com>
+Thanks !
 >
 > --
 > Best Regards,
