@@ -1,135 +1,81 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 337391C173F;
-	Thu,  1 May 2025 16:48:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 637A8251782;
+	Thu,  1 May 2025 20:41:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746118139; cv=none; b=ny/53gPZHmF1TFfQgMIG+RwUJlI6cgBKONqbnnaCbJkXHBXx2GwykFq63FHX1J/2gTgbmiq2pwwz+5Ooe0QNHL5YL1AwL04zJLE7YJVBWweE06x5p0xk7jszEeY/SPsbKEG735fljMd6C71kj8U5178T/ARIaVolk5y6MYxLutc=
+	t=1746132102; cv=none; b=Q9Fo3wk6Yme36RlzGkaYHGDfj/6dnk01dtd0q2YM5qS/ACWw7KAmDl4Lx+xm6N/NV4JVfie4Xou3ip1g0CvSefWZT64rbTD3zb02V1i40mXDpmg8IRCG1yXvWH1WHZyTjIK0O+839VZvnh7GmZP12EpdXQGMwaxTvfNo1yRR2zw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746118139; c=relaxed/simple;
-	bh=n+rp/1cfKWUVbAn2ayQIlXtUE0b/J4JdBnNRkRwb6x8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LmZAr/Wtw052OELEaKT/8jRtgNHE5Va96xaUmwOklI4cjNL+omoBBPKSn/8EpG6rHXVoNaS5xZNBRpHTXUnzFM4/K2D0+a3UTKAdYGUKMQLyIgTAhJtk9JB5LKusv4rEGtghixM+agoz5+u/Rwrh3xeTFcN48I2EpoA9AShb0bY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=GKucUTUN; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="GKucUTUN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1746118134;
-	bh=n+rp/1cfKWUVbAn2ayQIlXtUE0b/J4JdBnNRkRwb6x8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GKucUTUNMeD2bPB11ZzjZiqIVgo4OjcUcIqicF632tFjAi8qs9kmxPN6wwBxRtzAj
-	 9naGTZeY9bn+2boxu52Z/zGFxoKe48WMyR92EdspNOUfVwzRToN5Y7VVNMewbE9XtJ
-	 4Zk7wE8EZshmiKS8cyGJLqMsaKSQnUggdfIQsg3g=
-Date: Thu, 1 May 2025 18:48:52 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: Matthieu Baerts <matttbe@kernel.org>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>, 
-	Ben Hutchings <ben@decadent.org.uk>, Peter Oberparleiter <oberpar@linux.ibm.com>, 
-	MPTCP Linux <mptcp@lists.linux.dev>
-Subject: Re: [PATCH v2] kbuild: make all file references relative to source
- root
-Message-ID: <e3ccb1ef-1b7a-4069-960f-a6fc5353c1ce@t-8ch.de>
-References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
- <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
+	s=arc-20240116; t=1746132102; c=relaxed/simple;
+	bh=BtPow0+KK2lHjTMqWNuY7h5XMiADCfLtIfFthHm7KUU=;
+	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=KpYsuaSLHooEmb3QvMxZi2/Hd8vrQLYm0aoEHBkw8KFtEdC1StZdrw1cv4w6Av1hEqsd7u2M0e+uughzqvuMUG/1dofCwpiCKzW7AiLGM9t8QGr0inbQdKBAwpf1xTH21N2nXLirIKK4joPy8w3I22Xyzeb20FF1UNmNdb3CNtk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
+Received: by angie.orcam.me.uk (Postfix, from userid 500)
+	id AA78F92009C; Thu,  1 May 2025 22:41:31 +0200 (CEST)
+Received: from localhost (localhost [127.0.0.1])
+	by angie.orcam.me.uk (Postfix) with ESMTP id A33F492009B;
+	Thu,  1 May 2025 21:41:31 +0100 (BST)
+Date: Thu, 1 May 2025 21:41:31 +0100 (BST)
+From: "Maciej W. Rozycki" <macro@orcam.me.uk>
+To: =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>
+cc: Peter Zijlstra <peterz@infradead.org>, Alexandre Ghiti <alex@ghiti.fr>, 
+    "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+    open list <linux-kernel@vger.kernel.org>, 
+    "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>, 
+    "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+    Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
+    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
+    Shuah Khan <shuah@kernel.org>, Andrew Jones <ajones@ventanamicro.com>, 
+    Samuel Holland <samuel.holland@sifive.com>
+Subject: Re: [PATCH 1/5] riscv: misaligned: factorize trap handling
+In-Reply-To: <6e2ed6a9-aed0-4727-b1e3-903d3a7751b5@rivosinc.com>
+Message-ID: <alpine.DEB.2.21.2505012126250.31828@angie.orcam.me.uk>
+References: <20250414123543.1615478-1-cleger@rivosinc.com> <20250414123543.1615478-2-cleger@rivosinc.com> <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr> <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com> <20250422094419.GC14170@noisy.programming.kicks-ass.net>
+ <6e2ed6a9-aed0-4727-b1e3-903d3a7751b5@rivosinc.com>
+User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
 
-Hi Matthieu,
+On Tue, 22 Apr 2025, Clément Léger wrote:
 
-On 2025-04-29 18:12:29+0200, Matthieu Baerts wrote:
-> Hi Thomas, Masahiro,
-> 
-> +Cc Peter Oberparleiter, MPTCP ML
-> 
-> On 15/03/2025 14:20, Thomas Weißschuh wrote:
-> > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-> > Other references, for example in debug information, are not affected.
-> > This makes handling of file references in the compiler outputs harder to
-> > use and creates problems for reproducible builds.
+> > x86 mostly does the first, any trap that can happen with IRQs disabled
+> > is treated unconditionally as NMI like. The obvious exception is
+> > page-fault, but that already has a from-non-preemptible-context branch
+> > that is 'careful'.
 > > 
-> > Switch to -ffile-prefix map which affects all references.
-> > 
-> > Also drop the documentation section advising manual specification of
-> > -fdebug-prefix-map for reproducible builds, as it is not necessary
-> > anymore.
-> > 
-> > Suggested-by: Ben Hutchings <ben@decadent.org.uk>
-> > Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
-> > Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
-> > Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
+> > As to unaligned traps from kernel space, I would imagine they mostly BUG
+> > the kernel, except when there's an exception entry for that location, in
+> > which case it might do a fixup?
 > 
-> Thank you for having worked on that!
-> 
-> (...)
-> 
-> > diff --git a/Makefile b/Makefile
-> > index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
-> > --- a/Makefile
-> > +++ b/Makefile
-> > @@ -1067,7 +1067,7 @@ endif
-> >  
-> >  # change __FILE__ to the relative path to the source directory
-> >  ifdef building_out_of_srctree
-> > -KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
-> > +KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
-> >  KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
-> >  endif
-> 
-> Today, I noticed that my CI for the MPTCP subsystem couldn't produce
-> code coverage files like before: the source files are not found. A 'git
-> bisect' pointed me to this patch. Reverting it seems to fix the issue.
-> 
-> 
-> My CI is building the kernel out of the source tree, in ".virtme/build".
-> Before and after this patch, GCOV seems to do its job properly.
-> Capturing GCOV data with this lcov command seems OK too:
-> 
->   lcov --capture --keep-going -j "${INPUT_CPUS}" \
->      --rc geninfo_unexecuted_blocks=1 \
->      --include '/net/mptcp/' \
->      --function-coverage --branch-coverage \
->      -b "${PWD}/.virtme/build" -o kernel.lcov
-> 
-> But after this patch, lcov complains some files are not found, e.g.
-> 
->   ERROR: (source) unable to open
-> ${WORKDIR}/.virtme/build/net/mptcp/ctrl.c: No such file or directory
-> 
-> 
-> The output file is different: the path to the source file is wrong
-> because it points to the build dir. Instead of ...
-> 
->   SF:${WORKDIR}/net/mptcp/ctrl.c
-> 
-> ... now I have ...
-> 
->   SF:${WORKDIR}/.virtme/build/net/mptcp/ctrl.c
-> 
-> 
-> Are there modifications needed on GCOV side to adapt to the behaviour
-> change introduced by this patch? Or something else needed on the
-> userspace side?
+> The misaligned access exception handling currently handles misaligned
+> access for the kernel as well (except if explicitly disabled).
 
-I'd like to focus on the report from Ville Syrjälä [0] first.
-While it is easier to reproduce and investigate, I suspect the solution
-found there will also work for your usecase.
+ It's currently not clear that a kernel mode unaligned access is indeed a 
+bug, as some network protocol stacks may still rely on unaligned accesses 
+for performance reasons for the regular case where network headers do come 
+out aligned[1][2].
 
+ Hopefully not in the hardirq context though, and the usual approach is to 
+keep interrupts disabled in the emulation path if arriving from the kernel 
+mode as we don't expect kernel code to be ever paged out (the same applies 
+to all kinds of machine instruction emulation).
 
-Thomas
+References:
 
-[0] https://lore.kernel.org/lkml/aBEttQH4kimHFScx@intel.com/
+[1] "TCP SYNs broken in 2.3.41", 
+    <https://marc.info/?l=linux-kernel&m=94927689929463>
+
+[2] "Alpha: Emulate unaligned LDx_L/STx_C for data consistency", 
+    <https://lore.kernel.org/lkml/87v7rd8h99.fsf@email.froward.int.ebiederm.org/>
+
+ HTH,
+
+  Maciej
