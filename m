@@ -1,55 +1,82 @@
-Received: from angie.orcam.me.uk (angie.orcam.me.uk [78.133.224.34])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 97BAC7083A;
-	Thu,  1 May 2025 20:51:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=78.133.224.34
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 464F41DD0EF;
+	Thu,  1 May 2025 21:41:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746132719; cv=none; b=ntymFY6vCRryI46k6H9YfZFY7FYg5VdALS5B1uZyjK5vJC5BN980aZBGHRU2Wld3yztTeE0+kyUh9MrPBCjWe9kfuSgJx3g6fqYuxo7bjH8UPgdum9JmDDlk4DP5nImwdbmi4rkfWyWJy/A8WkdlEfEmDjrg8+pd//lA7aSGYgw=
+	t=1746135717; cv=none; b=ghWzoK2kP59DtSH63Nnzk05jsJ0GtRAav/HcPk7TODGv59YN1DDiXOKt3B0Y3KXqFuf1A9E5R7gPmePF8gF+WePawAuPljt6GkPEnx0YbmOBU5zIU/egT5mtY53ajombPGVpP58QhKPotaGKeg46ZrMhT/AO1uO6v40vSSAVC6A=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746132719; c=relaxed/simple;
-	bh=+NGialMhqR+6yV7Gdw6igTYq2XkmffzRHD69x5BSCaM=;
-	h=Date:From:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=hBQdO77zgyMq00XiLYzZnv3pbAa7gCaiZ8q/E+6J1pDs7itdzD3v4fncRkVdp2pWMCBNlcOUKMPTaxcBdNVoojlpNAD4lwv8GLxpBlY2DZtPYCaCYM+UpRTCe5n7+wzPfxJCDvvj+F+/2xfTtCtZ0rIoRhQ6ECZb1LPXUg7G+s4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk; spf=none smtp.mailfrom=orcam.me.uk; arc=none smtp.client-ip=78.133.224.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=orcam.me.uk
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=orcam.me.uk
-Received: by angie.orcam.me.uk (Postfix, from userid 500)
-	id CDA2E92009C; Thu,  1 May 2025 22:51:54 +0200 (CEST)
-Received: from localhost (localhost [127.0.0.1])
-	by angie.orcam.me.uk (Postfix) with ESMTP id C110F92009B;
-	Thu,  1 May 2025 21:51:54 +0100 (BST)
-Date: Thu, 1 May 2025 21:51:54 +0100 (BST)
-From: "Maciej W. Rozycki" <macro@orcam.me.uk>
-To: =?UTF-8?Q?Cl=C3=A9ment_L=C3=A9ger?= <cleger@rivosinc.com>
-cc: Peter Zijlstra <peterz@infradead.org>, Alexandre Ghiti <alex@ghiti.fr>, 
-    "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-    open list <linux-kernel@vger.kernel.org>, 
-    "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>, 
-    "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-    Jonathan Corbet <corbet@lwn.net>, Paul Walmsley <paul.walmsley@sifive.com>, 
-    Palmer Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, 
-    Shuah Khan <shuah@kernel.org>, Andrew Jones <ajones@ventanamicro.com>, 
-    Samuel Holland <samuel.holland@sifive.com>
-Subject: Re: [PATCH 1/5] riscv: misaligned: factorize trap handling
-In-Reply-To: <alpine.DEB.2.21.2505012126250.31828@angie.orcam.me.uk>
-Message-ID: <alpine.DEB.2.21.2505012150460.31828@angie.orcam.me.uk>
-References: <20250414123543.1615478-1-cleger@rivosinc.com> <20250414123543.1615478-2-cleger@rivosinc.com> <ba11b910-9959-4845-b3a3-dd9a52466823@ghiti.fr> <2c4f4422-d9c9-4d36-b0ef-f68779b91ee9@rivosinc.com> <20250422094419.GC14170@noisy.programming.kicks-ass.net>
- <6e2ed6a9-aed0-4727-b1e3-903d3a7751b5@rivosinc.com> <alpine.DEB.2.21.2505012126250.31828@angie.orcam.me.uk>
-User-Agent: Alpine 2.21 (DEB 202 2017-01-01)
+	s=arc-20240116; t=1746135717; c=relaxed/simple;
+	bh=g4aUu3QyiDLz+7Iv2E0gKO3ZOzoRf6Q8mL3Yu9HXQnA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=XwOlrXOQKvrA8mQUdNnYFZPPHWmxPQ8Mm492pfAyyo5V3VSqSAx8iqLBwFwFar56Jghyj4iERsNJ0lenNo3EObcRxOxq4Oox7U6mqKhm6Ph+WoU7bjUlK6gTYOsM5LzQmAujXNTWy56BnU4FWpVMl3BBME2KqZH0kyh4imdptp8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PIyZf4Rg; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PIyZf4Rg"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9D6EDC4CEE3;
+	Thu,  1 May 2025 21:41:54 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746135715;
+	bh=g4aUu3QyiDLz+7Iv2E0gKO3ZOzoRf6Q8mL3Yu9HXQnA=;
+	h=From:To:Cc:Subject:Date:From;
+	b=PIyZf4Rg+Lre6BKs/T+vospdRFQ1O5VCiXLjebKOjOh4S3zuoiM7xBajbfekAl7WU
+	 czomh8hvqHBPfbheYxqrFEZDEsDlD4PruRACVH+/JkDF27QyyEajh68e0YXGNvntmn
+	 KTdptYQLh533GUHOhaqy+5fch/8EDUA164n5OpsYnzhM3RFWXLzZqP6rdDOQfN07fe
+	 IVcxsK6PnqtqMIgTcn2CJOJijQa7RrLPxKnS6Ps0K9h4NYEjjoNlPZKGK1AEacOvu9
+	 rd/sgxgl5pipvKdc7ci5hqiyCsBoG0bRZfFJaPexznDgPtAc3QnM8at7f/JzapjuTC
+	 EMI0/S5LgS/yw==
+From: Mario Limonciello <superm1@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <mario.limonciello@amd.com>,
+	Yazen Ghannam <yazen.ghannam@amd.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org (maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)),
+	"H . Peter Anvin" <hpa@zytor.com>,
+	Shyam Sundar S K <Shyam-sundar.S-k@amd.com>,
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Subject: [PATCH v6 0/2] AMD Zen debugging documentation
+Date: Thu,  1 May 2025 16:41:45 -0500
+Message-ID: <20250501214147.2488164-1-superm1@kernel.org>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 
-On Thu, 1 May 2025, Maciej W. Rozycki wrote:
+From: Mario Limonciello <mario.limonciello@amd.com>
 
->  Hopefully not in the hardirq context though, and the usual approach is to 
-> keep interrupts disabled in the emulation path if arriving from the kernel 
-> mode as we don't expect kernel code to be ever paged out (the same applies 
-> to all kinds of machine instruction emulation).
+Introduce documentation for debugging some issues on AMD zen hardware.
+As one of the debugging techniques read and add information for
+S5_RESET_STATUS register.
 
- s/code/data/, obviously.
+v6:
+ * Drop pre-req patches already merged to tip.git
+ * Use Boris' suggestion for reading S5_RESET_STATUS
 
-  Maciej
+Mario Limonciello (1):
+  Documentation: Add AMD Zen debugging document
+
+Yazen Ghannam (1):
+  x86/CPU/AMD: Print the reason for the last reset
+
+ Documentation/arch/x86/amd-debugging.rst | 362 +++++++++++++++++++++++
+ Documentation/arch/x86/index.rst         |   1 +
+ Documentation/arch/x86/resume.svg        |   4 +
+ Documentation/arch/x86/suspend.svg       |   4 +
+ arch/x86/include/asm/amd/fch.h           |   1 +
+ arch/x86/kernel/cpu/amd.c                |  53 ++++
+ 6 files changed, 425 insertions(+)
+ create mode 100644 Documentation/arch/x86/amd-debugging.rst
+ create mode 100644 Documentation/arch/x86/resume.svg
+ create mode 100644 Documentation/arch/x86/suspend.svg
+
+-- 
+2.43.0
+
