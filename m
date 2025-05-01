@@ -1,232 +1,368 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2056.outbound.protection.outlook.com [40.107.237.56])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 261BF2741B2;
-	Thu,  1 May 2025 23:02:48 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.56
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746140571; cv=fail; b=GUXhrUdMAELE4m90HJr8rTJnPj2SG6mGMRX7Hl+ElNOCnTE+S7MjzA4Wex5kLKABI/r0Ys6b9cpPXGmIoRE9XuWY1ca+y7ksM7FMVhw2jkM/uEliu0RiwEvXruq6h56SofBtf1mqKjSUixDLw6JbghSbcqn1hP8QuTXjJoRNsvQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746140571; c=relaxed/simple;
-	bh=WEvvMuzWk1rRHkJO51weeyCTxyJ/4JVlAk8/EoHNCew=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=SaP8sCnE1kDHZGt6ELNarCCNCTl3W6f2ci1OBq/FRVqFDx6Yw4AIAGaR0rtmfAppuI2wuoK2ZvfvZfn3L/gldOiK/pFJXneXLPLX3OPgh3UsdDHNxHnkgzMWvKFXnsMnoPiHHLo/OkGie6O1PNGe+Ui/yDNFG6Slx+DfL/LtXbQ=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=DeN3/2bV; arc=fail smtp.client-ip=40.107.237.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E9F8257AD3
+	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 23:04:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746140650; cv=none; b=EvrtcOTvjffMAex0iT/t50Hyd3JoBplAn6L3O5PI2v8T8l3j7j4aHDfihDzGKfh9/AyzrCRjKa9gyut9vxPrHBsggZhhHl16ArzyqGUjhwCaDUm05+XmHaMXQi9FNCDEvnEGouK118j/3okS7gYQasU2onJltzeIg3kvbGKajnI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746140650; c=relaxed/simple;
+	bh=Zed98hgEej5YdeQvGjnXsbFHVBew4jn6Vqz1iR7+t08=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=O74C6wTD3/3Qt1kIA7IAhq0E3mwdUt3ULDodofc7E5QNCVda0xSlJqG05vh1lvaE2IwVlNDcz692q1NZHaWlgrH3nFe3ThcL+BclVAxB5kgSvHytkJlmAtLQQfBW4U7T5aitXxtcaGJvANPS4jbMz5OG9saV94Vu2SpekJC2pa8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZA1a526O; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="DeN3/2bV"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BdrtnF4FvHYbo0FPIQfo0JEUURaZEQjO0CcZ9YKiM5OTamahYA27V5fGccALYwvRtG7/LZVZY4R655WUn0Jit221D/bObDsVhaBsqmFkJcegj49mq+efCzbOhPoOg1p8Q3gg9u64lRWRwy6zwsCAPnwtN0uEtS6tneR/6L1lNWLvclCx/EPXjmz1zMvbi6E83Cb4vin973jPGeyRWhzTOKUTr6P9eKemb05axPN/6NQa2xjB1ZxXNddK8hcQbDTgQSMqbX/JYZ7jRSpztnQuZnLMJXk3yvMKMf+ySFJjIhwBR2F2FW0NSiERdyENAsVf6VpVrDtenAwC7PtRw/NjfQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=DruHZ3iepKcAf+LrePtJHN4EJt2ZcdyBqN033353rA8=;
- b=eYw7AFM2DFNJZyu95sz9L/KM4Yse+EaXPh4NmEHTZlMKqO2vw4CLHJ7NUgk5s9PyBPXOF0SSYzVgv2YYrmdn6btURvDzpsSVLx9TkxwseZUgohH4nQET5RVcHiSXNh1DMrIPfH9I7bQOp0Yb2OtBc0rA8mGUgVNtjUG7q3+JW2wc6OJUt76/poOZD8NOpJiNXBed9C9OvttuaMtY7PCpNifmNuD9LmBvIXxF/92aFIcA1pTGjpgb9ibmfQQ4xDbimsmjj2GxzbAOJs09SagoC4Gp30C8lvgcMD25luwQ4YnZ8y3uzkwKlSXUmYle+/lOf9hiYsnCNT9YBu30v5hLAQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=DruHZ3iepKcAf+LrePtJHN4EJt2ZcdyBqN033353rA8=;
- b=DeN3/2bVmtMs3TNtVRNDKnm3qjY5kRzx0VsOpj4FmPaAsHIU1MyzQZ0f+ys9cgF5UDsuXRST2+6ZQjw517CZTpX3Wb9rSCUMu5Pd+cfBcnM277nar/HYP8k6f2A1JUZ8SZ+jpPWxjaiNAYHCCafTusesTtpDiQqnlXjEhUV0ioPeseaCryV1hEabPiVa3xYP7RvBdjWwzY3OnhmnBcuvGjXI9iaV6MnXA3QUogJVvoVqJHSsPQq6kHrEDB7W6phU8y+ZfiouErmw4/pI4MPshHbhzZacBEjExZzNcfNLQyvaULV6HcFeMNHCwCPVHGQatBCjzttLM0fV/XBHbzvCyA==
-Received: from CH2PR02CA0019.namprd02.prod.outlook.com (2603:10b6:610:4e::29)
- by SJ0PR12MB6808.namprd12.prod.outlook.com (2603:10b6:a03:47a::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.22; Thu, 1 May
- 2025 23:02:43 +0000
-Received: from CH1PEPF0000A346.namprd04.prod.outlook.com
- (2603:10b6:610:4e:cafe::1c) by CH2PR02CA0019.outlook.office365.com
- (2603:10b6:610:4e::29) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.42 via Frontend Transport; Thu,
- 1 May 2025 23:02:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- CH1PEPF0000A346.mail.protection.outlook.com (10.167.244.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.20 via Frontend Transport; Thu, 1 May 2025 23:02:43 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 1 May 2025
- 16:02:30 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 1 May 2025 16:02:29 -0700
-Received: from Asurada-Nvidia.nvidia.com (10.127.8.14) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
- Transport; Thu, 1 May 2025 16:02:27 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>
-CC: <bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
-	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
-	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
-Subject: [PATCH v3 23/23] iommu/tegra241-cmdqv: Add IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV support
-Date: Thu, 1 May 2025 16:01:29 -0700
-Message-ID: <359be8b10c75d2831f557d21affbbd49148c88a2.1746139811.git.nicolinc@nvidia.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <cover.1746139811.git.nicolinc@nvidia.com>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZA1a526O"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746140647;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=A1cm6sslUkEIr7cc1P2Idfcz0g8cCAc/ptY5euWKSoc=;
+	b=ZA1a526OeJbmqADFTKfgpOFjEURDrPK+tmL9VP+QDFVj5n9K7yosyHIPL5jYuTpzlflAo1
+	JAejAj6hpdP2yyVi9/IPTlhPgp2XWOENaeowgtkqogDSFQONwDKYILm7vceA2ig7ym1U5e
+	WiCqokypURL/uBPbkbQ+Ka0wjQulij0=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-689-mCWodATTOYWxpH8o-hWGWg-1; Thu, 01 May 2025 19:04:06 -0400
+X-MC-Unique: mCWodATTOYWxpH8o-hWGWg-1
+X-Mimecast-MFC-AGG-ID: mCWodATTOYWxpH8o-hWGWg_1746140645
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-703b133f6bbso22841047b3.1
+        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 16:04:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746140645; x=1746745445;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=A1cm6sslUkEIr7cc1P2Idfcz0g8cCAc/ptY5euWKSoc=;
+        b=X9HJazIZBQvKqTbJo9S6IT5mNd3uJxn6L3AMMqrw5GNo0XeZGNvVORHdmMFPaRDZSU
+         5zeeDhNiD51HSdVCefcsdBsInLs7V7llCjLhOf5wweEaY5yZvelPAYyc60N3a5bKRM3g
+         8xdWH6OuDX3RzyrsOGzl+W6yDhiei4GDOXDyBFrimzEmtUUhqzbrF21RbpKTbpnM5qFv
+         +3BPcNH3sKMNrVHe7Q5EtRQfEQHOhJu0VgKhTxvij+7nfFsO97eGWOU7nyKdZhAmw2HH
+         MQRWlvzoEUmXhP6YTtDLsjGWVMhoEwDnFbmmzkfhA9geCtGL9mWMfy+kUrHRpXSGAenU
+         BcQg==
+X-Forwarded-Encrypted: i=1; AJvYcCU5XjHPq261CJpdaHV00Lqa2lZm6TpqzSpjtsjCBplkhDlv9PS4c/Xi9Uv62QViwg9uX71KE9KTaHw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwSnxqOmHxWMyWQzQfAsZ9ZSODZKKrJkZjD/7kpOYH4Nt9WiJZA
+	hHYkdeiaZGi+FbyOK7B5uIL2C8thvd7UKi54RqErFJMHFIbxxJ17Uvz7k/+qpDy6ntGiM9/hAWe
+	nA+blVB0pVmly8U1yQ8Nmq+AmBreAlQTgu4hx/t/gjsOYgL2ngJlhTq1jgzBSsX0k4t9wSXjpn/
+	zRGYXfi3j/jHqz/3Lhib+YE4dh4itQGJdO
+X-Gm-Gg: ASbGncsQJB2ElGJOagQde/YPbBfd7o9iFg1261HGU9TvYBLyNdliWzqSlPDF3a6wztu
+	RuVJUg11UEuEXRf5OTKgejBoV4BjfDKGziscP2Bmczbo2FIFVszmn1LUq5B9Uh0vuI8kyy3S68t
+	wvBM6Bl9o=
+X-Received: by 2002:a05:690c:4b8d:b0:6fe:b701:6403 with SMTP id 00721157ae682-708ced445c2mr18169617b3.11.1746140645365;
+        Thu, 01 May 2025 16:04:05 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IG4PPt+htEnHDFi8VJ7/4f0HCjmvUtUeWxvNtTltQCIXmlFtuL91m3CdXzTzWnHmvbufe0JLQaiaX2dWs8Fp9o=
+X-Received: by 2002:a05:690c:4b8d:b0:6fe:b701:6403 with SMTP id
+ 00721157ae682-708ced445c2mr18169037b3.11.1746140645026; Thu, 01 May 2025
+ 16:04:05 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A346:EE_|SJ0PR12MB6808:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61930f20-8d18-4b3f-8acd-08dd890447e1
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|7416014|376014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?Gw6iOSThdzCv8cee7l1wNA5Oc9+7NHJFi9p54wSpjvAFhI5Z4h6bgD7elRhL?=
- =?us-ascii?Q?oY+TupiM8Wurjja5zhT97r1HRPC1MjIJUYuYp+5HE7od9JnU+FHJcAxmbkIb?=
- =?us-ascii?Q?b62UsWMazD//FxTMK+q+xIrSr9U31d+sWCMzzMg1jBs8c6ky3DLeFKDyBC1T?=
- =?us-ascii?Q?pmIQchNds8uSXVPEBJ3yHvMDEwuifKcI65rKUCrckqo79IqWcSWckulZyLgp?=
- =?us-ascii?Q?ECY3wEOjLllnfpxUIlhlYEbk9CgUw91eyR+MtSaqcknZX3ZeClhS+LSeRJ4r?=
- =?us-ascii?Q?bX7SlFdXXWWV8RZrrDy4h125SAmV+FyLcLGnTxSxowUekhmRxXGBHXYhyFaM?=
- =?us-ascii?Q?zJkuwgEbjVczHPbhTF+3fAEvTGHQCPzWRYYzW+bd92aRhEOwIIUKZkI6Pc97?=
- =?us-ascii?Q?OZ/68Ve19RYurLGRG5Ptz3R3Wtk9W4CleEI/vlarjYxNnTqR0wM5sBDvfw0U?=
- =?us-ascii?Q?pTERRf4ISQx3fo29bhaz1psh5Q1viT1jdzSRkJKbaWEhJv4NS6TNPiMEKXJD?=
- =?us-ascii?Q?V5QQ0y++nBImJK4W/p1J7f8HUB9impnC2Js2aKU0NnRH9CPZCpBNcVtQLXG4?=
- =?us-ascii?Q?wlPfG5I/ZTnc1sRNbPiEjxMu+8Yc8bXfv9Paxy8E7P1DGzDxprggPdCcYG2i?=
- =?us-ascii?Q?rVkR88QGnG2JF0d5cXbWLqPJmXPIcAz6b+5zP15ApfyPxv78xJe/rgyA4Xz2?=
- =?us-ascii?Q?fJjLNXEsHYszOxnGrUAdyBN2s+GH9c2QWoHB6p+kUmp6XgFPAW1nLBuSzPjN?=
- =?us-ascii?Q?dSjD3WqWJkT/6zfb9sqbPrw/Msa5id6EHvra/lsiTXp59HjCnhxFOf24CAOB?=
- =?us-ascii?Q?KC1EtRwS4OpbSSOKHMorZ1XC5aOk9MhC5AxlEcHfM1kx8Ktbtm4iP5QdiLjp?=
- =?us-ascii?Q?h5xTUEv1DlxtZmxk6ALEKX6TwX9n8EEjiyI4vdrpZO1yLqvgJ1tbADJ1VCU9?=
- =?us-ascii?Q?9tb5GfYWb47H7FWt6WLx9+pcprW9osp7A8gqMDdEirN5BVPwX1qQV8h/ZoeC?=
- =?us-ascii?Q?v8UikeukMuO6dzRrsITKdr/YOAcGb1u6zKjgou+Fohynxq4BkrQ2AzOo3GxH?=
- =?us-ascii?Q?qiboGmUyVTo4i0fVjKp9OH3LtJTH74anAsQmWfidzEJELmSh3T6jB72dgRE8?=
- =?us-ascii?Q?64F+8u0DFIysZhvK8womv80y86Kizy7+LySsKiVgHYp7xQe2j6TnwjntPCGp?=
- =?us-ascii?Q?6aRDTcskoyIQ5DU+65szKHgma8Iwi/0v4IOfZjtBrpXRYKQXzj/rCgvqDO1f?=
- =?us-ascii?Q?4pMv0rHjeXPLHauWpTVUm7F4TsRxAq++Utd2hUZ1jFr39qPkBhls9VDfuHQp?=
- =?us-ascii?Q?cSUf91CFL0Pf3QP2x1KJKv4YAN4EpvqC/wW60Uh2jlUQ89UVsaq9CJbNOXf8?=
- =?us-ascii?Q?2pDu6mTfTvk/6CxichslfdMlwVVU6lYdcmkk4UiNzyMsZ+55p0RgPuHVsgeu?=
- =?us-ascii?Q?hlqDiVk65pjnJC5D4zDZiufBC6zPCfM+3BimWU4O9MMhti5tE563Q60Kx5mj?=
- =?us-ascii?Q?C9rRw2ueSbRjhj8au56/U8IM9zIkvvcsFH8E?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(7416014)(376014);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2025 23:02:43.4273
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61930f20-8d18-4b3f-8acd-08dd890447e1
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000A346.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6808
+References: <20250428181218.85925-1-npache@redhat.com> <20250428181218.85925-7-npache@redhat.com>
+ <5feb1d57-e069-4469-9751-af4fb067e858@linux.alibaba.com> <CAA1CXcDWX7zsW03Wwg_OHRhJ2nrt6OaLd5bn8ccX0StoN1kGUQ@mail.gmail.com>
+In-Reply-To: <CAA1CXcDWX7zsW03Wwg_OHRhJ2nrt6OaLd5bn8ccX0StoN1kGUQ@mail.gmail.com>
+From: Nico Pache <npache@redhat.com>
+Date: Thu, 1 May 2025 17:03:39 -0600
+X-Gm-Features: ATxdqUEt3vhYWwLoitGagqRQh4HfkPyKf7_z-5Q69tNkcZQTIXEL_N8yip__DSk
+Message-ID: <CAA1CXcDarV2LqLcSRpb=a_A5YFBc26dBT0cCYdLj-8jGKZ53Yw@mail.gmail.com>
+Subject: Re: [PATCH v5 06/12] khugepaged: introduce khugepaged_scan_bitmap for
+ mTHP support
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com, 
+	baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org, 
+	peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com, 
+	tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, 
+	cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com, 
+	hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com, 
+	rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a new vEVENTQ type for VINTFs that are assigned to the user space.
-Simply report the two 64-bit LVCMDQ_ERR_MAPs register values.
-
-Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-Reviewed-by: Pranjal Shrivastava <praan@google.com>
-Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+On Wed, Apr 30, 2025 at 12:56=E2=80=AFPM Nico Pache <npache@redhat.com> wro=
+te:
+>
+> On Wed, Apr 30, 2025 at 4:08=E2=80=AFAM Baolin Wang
+> <baolin.wang@linux.alibaba.com> wrote:
+> >
+> >
+> >
+> > On 2025/4/29 02:12, Nico Pache wrote:
+> > > khugepaged scans anons PMD ranges for potential collapse to a hugepag=
+e.
+> > > To add mTHP support we use this scan to instead record chunks of util=
+ized
+> > > sections of the PMD.
+> > >
+> > > khugepaged_scan_bitmap uses a stack struct to recursively scan a bitm=
+ap
+> > > that represents chunks of utilized regions. We can then determine wha=
+t
+> > > mTHP size fits best and in the following patch, we set this bitmap wh=
+ile
+> > > scanning the anon PMD.
+> > >
+> > > max_ptes_none is used as a scale to determine how "full" an order mus=
+t
+> > > be before being considered for collapse.
+> > >
+> > > When attempting to collapse an order that has its order set to "alway=
+s"
+> > > lets always collapse to that order in a greedy manner without
+> > > considering the number of bits set.
+> > >
+> > > Signed-off-by: Nico Pache <npache@redhat.com>
+> > > ---
+> > >   include/linux/khugepaged.h |  4 ++
+> > >   mm/khugepaged.c            | 94 ++++++++++++++++++++++++++++++++++-=
 ---
- include/uapi/linux/iommufd.h                  | 15 +++++++++++++
- .../iommu/arm/arm-smmu-v3/tegra241-cmdqv.c    | 22 +++++++++++++++++++
- 2 files changed, 37 insertions(+)
+> > >   2 files changed, 89 insertions(+), 9 deletions(-)
+> > >
+> > > diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+> > > index 1f46046080f5..18fe6eb5051d 100644
+> > > --- a/include/linux/khugepaged.h
+> > > +++ b/include/linux/khugepaged.h
+> > > @@ -1,6 +1,10 @@
+> > >   /* SPDX-License-Identifier: GPL-2.0 */
+> > >   #ifndef _LINUX_KHUGEPAGED_H
+> > >   #define _LINUX_KHUGEPAGED_H
+> > > +#define KHUGEPAGED_MIN_MTHP_ORDER    2
+> >
+> > Still better to add some comments to explain explicitly why choose 2 as
+> > the MIN_MTHP_ORDER.
+> Ok i'll add a note that explicitly states that the min order of anon mTHP=
+s is 2
+> >
+> > > +#define KHUGEPAGED_MIN_MTHP_NR       (1<<KHUGEPAGED_MIN_MTHP_ORDER)
+> > > +#define MAX_MTHP_BITMAP_SIZE  (1 << (ilog2(MAX_PTRS_PER_PTE) - KHUGE=
+PAGED_MIN_MTHP_ORDER))
+> > > +#define MTHP_BITMAP_SIZE  (1 << (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MT=
+HP_ORDER))
+> > >
+> > >   extern unsigned int khugepaged_max_ptes_none __read_mostly;
+> > >   #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+> > > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> > > index e21998a06253..6e67db86409a 100644
+> > > --- a/mm/khugepaged.c
+> > > +++ b/mm/khugepaged.c
+> > > @@ -94,6 +94,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash,=
+ MM_SLOTS_HASH_BITS);
+> > >
+> > >   static struct kmem_cache *mm_slot_cache __ro_after_init;
+> > >
+> > > +struct scan_bit_state {
+> > > +     u8 order;
+> > > +     u16 offset;
+> > > +};
+> > > +
+> > >   struct collapse_control {
+> > >       bool is_khugepaged;
+> > >
+> > > @@ -102,6 +107,18 @@ struct collapse_control {
+> > >
+> > >       /* nodemask for allocation fallback */
+> > >       nodemask_t alloc_nmask;
+> > > +
+> > > +     /*
+> > > +      * bitmap used to collapse mTHP sizes.
+> > > +      * 1bit =3D order KHUGEPAGED_MIN_MTHP_ORDER mTHP
+> > > +      */
+> > > +     DECLARE_BITMAP(mthp_bitmap, MAX_MTHP_BITMAP_SIZE);
+> > > +     DECLARE_BITMAP(mthp_bitmap_temp, MAX_MTHP_BITMAP_SIZE);
+> > > +     struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_SIZE];
+> > > +};
+> > > +
+> > > +struct collapse_control khugepaged_collapse_control =3D {
+> > > +     .is_khugepaged =3D true,
+> > >   };
+> > >
+> > >   /**
+> > > @@ -851,10 +868,6 @@ static void khugepaged_alloc_sleep(void)
+> > >       remove_wait_queue(&khugepaged_wait, &wait);
+> > >   }
+> > >
+> > > -struct collapse_control khugepaged_collapse_control =3D {
+> > > -     .is_khugepaged =3D true,
+> > > -};
+> > > -
+> > >   static bool khugepaged_scan_abort(int nid, struct collapse_control =
+*cc)
+> > >   {
+> > >       int i;
+> > > @@ -1118,7 +1131,8 @@ static int alloc_charge_folio(struct folio **fo=
+liop, struct mm_struct *mm,
+> > >
+> > >   static int collapse_huge_page(struct mm_struct *mm, unsigned long a=
+ddress,
+> > >                             int referenced, int unmapped,
+> > > -                           struct collapse_control *cc)
+> > > +                           struct collapse_control *cc, bool *mmap_l=
+ocked,
+> > > +                               u8 order, u16 offset)
+> > >   {
+> > >       LIST_HEAD(compound_pagelist);
+> > >       pmd_t *pmd, _pmd;
+> > > @@ -1137,8 +1151,12 @@ static int collapse_huge_page(struct mm_struct=
+ *mm, unsigned long address,
+> > >        * The allocation can take potentially a long time if it involv=
+es
+> > >        * sync compaction, and we do not need to hold the mmap_lock du=
+ring
+> > >        * that. We will recheck the vma after taking it again in write=
+ mode.
+> > > +      * If collapsing mTHPs we may have already released the read_lo=
+ck.
+> > >        */
+> > > -     mmap_read_unlock(mm);
+> > > +     if (*mmap_locked) {
+> > > +             mmap_read_unlock(mm);
+> > > +             *mmap_locked =3D false;
+> > > +     }
+> > >
+> > >       result =3D alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+> > >       if (result !=3D SCAN_SUCCEED)
+> > > @@ -1273,12 +1291,72 @@ static int collapse_huge_page(struct mm_struc=
+t *mm, unsigned long address,
+> > >   out_up_write:
+> > >       mmap_write_unlock(mm);
+> > >   out_nolock:
+> > > +     *mmap_locked =3D false;
+> > >       if (folio)
+> > >               folio_put(folio);
+> > >       trace_mm_collapse_huge_page(mm, result =3D=3D SCAN_SUCCEED, res=
+ult);
+> > >       return result;
+> > >   }
+> > >
+> > > +// Recursive function to consume the bitmap
+> >
+> > Nit: please use '/* Xxxx */' for comments in this patch.
+> >
+> > > +static int khugepaged_scan_bitmap(struct mm_struct *mm, unsigned lon=
+g address,
+> > > +                     int referenced, int unmapped, struct collapse_c=
+ontrol *cc,
+> > > +                     bool *mmap_locked, unsigned long enabled_orders=
+)
+> > > +{
+> > > +     u8 order, next_order;
+> > > +     u16 offset, mid_offset;
+> > > +     int num_chunks;
+> > > +     int bits_set, threshold_bits;
+> > > +     int top =3D -1;
+> > > +     int collapsed =3D 0;
+> > > +     int ret;
+> > > +     struct scan_bit_state state;
+> > > +     bool is_pmd_only =3D (enabled_orders =3D=3D (1 << HPAGE_PMD_ORD=
+ER));
+> > > +
+> > > +     cc->mthp_bitmap_stack[++top] =3D (struct scan_bit_state)
+> > > +             { HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0 };
+> > > +
+> > > +     while (top >=3D 0) {
+> > > +             state =3D cc->mthp_bitmap_stack[top--];
+> > > +             order =3D state.order + KHUGEPAGED_MIN_MTHP_ORDER;
+> > > +             offset =3D state.offset;
+> > > +             num_chunks =3D 1 << (state.order);
+> > > +             // Skip mTHP orders that are not enabled
+> > > +             if (!test_bit(order, &enabled_orders))
+> > > +                     goto next;
+> > > +
+> > > +             // copy the relavant section to a new bitmap
+> > > +             bitmap_shift_right(cc->mthp_bitmap_temp, cc->mthp_bitma=
+p, offset,
+> > > +                               MTHP_BITMAP_SIZE);
+> > > +
+> > > +             bits_set =3D bitmap_weight(cc->mthp_bitmap_temp, num_ch=
+unks);
+> > > +             threshold_bits =3D (HPAGE_PMD_NR - khugepaged_max_ptes_=
+none - 1)
+> > > +                             >> (HPAGE_PMD_ORDER - state.order);
+> > > +
+> > > +             //Check if the region is "almost full" based on the thr=
+eshold
+> > > +             if (bits_set > threshold_bits || is_pmd_only
+> > > +                     || test_bit(order, &huge_anon_orders_always)) {
+> >
+> > When testing this patch, I disabled the PMD-sized THP and enabled
+> > 64K-sized mTHP, but it still attempts to collapse into a PMD-sized THP
+> > (since bits_set > threshold_bits is ture). This doesn't seem reasonable=
+?
+> We are still required to have PMD enabled for mTHP collapse to work.
+> It's a limitation of the current khugepaged code (it currently only
+> adds mm_slots when PMD is enabled).
+> We've discussed this in the past and are looking for a proper way
+> forward, but the solution becomes tricky.
+>
+> However I'm surprised that it still collapses due to the code below.
+> I'll test this out later today.
 
-diff --git a/include/uapi/linux/iommufd.h b/include/uapi/linux/iommufd.h
-index e5400453a82e..6f269e3c48d5 100644
---- a/include/uapi/linux/iommufd.h
-+++ b/include/uapi/linux/iommufd.h
-@@ -1114,10 +1114,12 @@ struct iommufd_vevent_header {
-  * enum iommu_veventq_type - Virtual Event Queue Type
-  * @IOMMU_VEVENTQ_TYPE_DEFAULT: Reserved for future use
-  * @IOMMU_VEVENTQ_TYPE_ARM_SMMUV3: ARM SMMUv3 Virtual Event Queue
-+ * @IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV: NVIDIA Tegra241 CMDQV Extension IRQ
-  */
- enum iommu_veventq_type {
- 	IOMMU_VEVENTQ_TYPE_DEFAULT = 0,
- 	IOMMU_VEVENTQ_TYPE_ARM_SMMUV3 = 1,
-+	IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV = 2,
- };
- 
- /**
-@@ -1141,6 +1143,19 @@ struct iommu_vevent_arm_smmuv3 {
- 	__aligned_le64 evt[4];
- };
- 
-+/**
-+ * struct iommu_vevent_tegra241_cmdqv - Tegra241 CMDQV IRQ
-+ *                                      (IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV)
-+ * @lvcmdq_err_map: 128-bit logical vcmdq error map, little-endian.
-+ *                  (Refer to register LVCMDQ_ERR_MAPs per VINTF )
-+ *
-+ * The 128-bit register value from HW exclusively reflect the error bits for a
-+ * Virtual Interface represented by a vIOMMU object. Read and report directly.
-+ */
-+struct iommu_vevent_tegra241_cmdqv {
-+	__aligned_le64 lvcmdq_err_map[2];
-+};
-+
- /**
-  * struct iommu_veventq_alloc - ioctl(IOMMU_VEVENTQ_ALLOC)
-  * @size: sizeof(struct iommu_veventq_alloc)
-diff --git a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-index 6bbc85886f79..df0497d571a9 100644
---- a/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-+++ b/drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c
-@@ -292,6 +292,20 @@ static inline int vcmdq_write_config(struct tegra241_vcmdq *vcmdq, u32 regval)
- 
- /* ISR Functions */
- 
-+static void tegra241_vintf_user_handle_error(struct tegra241_vintf *vintf)
-+{
-+	struct iommufd_viommu *viommu = &vintf->vsmmu.core;
-+	struct iommu_vevent_tegra241_cmdqv vevent_data;
-+	int i;
-+
-+	for (i = 0; i < LVCMDQ_ERR_MAP_NUM_64; i++)
-+		vevent_data.lvcmdq_err_map[i] =
-+			readq_relaxed(REG_VINTF(vintf, LVCMDQ_ERR_MAP_64(i)));
-+
-+	iommufd_viommu_report_event(viommu, IOMMU_VEVENTQ_TYPE_TEGRA241_CMDQV,
-+				    &vevent_data, sizeof(vevent_data));
-+}
-+
- static void tegra241_vintf0_handle_error(struct tegra241_vintf *vintf)
- {
- 	int i;
-@@ -337,6 +351,14 @@ static irqreturn_t tegra241_cmdqv_isr(int irq, void *devid)
- 		vintf_map &= ~BIT_ULL(0);
- 	}
- 
-+	/* Handle other user VINTFs and their LVCMDQs */
-+	while (vintf_map) {
-+		unsigned long idx = __ffs64(vintf_map);
-+
-+		tegra241_vintf_user_handle_error(cmdqv->vintfs[idx]);
-+		vintf_map &= ~BIT_ULL(idx);
-+	}
-+
- 	return IRQ_HANDLED;
- }
- 
--- 
-2.43.0
+Following up, you are correct, if I disable the PMD size within the
+mTHP enabled settings (echo never >
+/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled) it still
+collapses to PMDs. I believe the global variable takes precedent. I'm
+not sure what the correct behavior is... I will look into it further
+
+>     +             if (!test_bit(order, &enabled_orders))
+>     +                     goto next;
+> >
+> > > +                     ret =3D collapse_huge_page(mm, address, referen=
+ced, unmapped, cc,
+> > > +                                     mmap_locked, order, offset * KH=
+UGEPAGED_MIN_MTHP_NR);
+> > > +                     if (ret =3D=3D SCAN_SUCCEED) {
+> > > +                             collapsed +=3D (1 << order);
+> > > +                             continue;
+> > > +                     }
+> > > +             }
+> > > +
+> > > +next:
+> > > +             if (state.order > 0) {
+> > > +                     next_order =3D state.order - 1;
+> > > +                     mid_offset =3D offset + (num_chunks / 2);
+> > > +                     cc->mthp_bitmap_stack[++top] =3D (struct scan_b=
+it_state)
+> > > +                             { next_order, mid_offset };
+> > > +                     cc->mthp_bitmap_stack[++top] =3D (struct scan_b=
+it_state)
+> > > +                             { next_order, offset };
+> > > +                     }
+> > > +     }
+> > > +     return collapsed;
+> > > +}
+> > > +
+> > >   static int khugepaged_scan_pmd(struct mm_struct *mm,
+> > >                                  struct vm_area_struct *vma,
+> > >                                  unsigned long address, bool *mmap_lo=
+cked,
+> > > @@ -1445,9 +1523,7 @@ static int khugepaged_scan_pmd(struct mm_struct=
+ *mm,
+> > >       pte_unmap_unlock(pte, ptl);
+> > >       if (result =3D=3D SCAN_SUCCEED) {
+> > >               result =3D collapse_huge_page(mm, address, referenced,
+> > > -                                         unmapped, cc);
+> > > -             /* collapse_huge_page will return with the mmap_lock re=
+leased */
+> > > -             *mmap_locked =3D false;
+> > > +                                         unmapped, cc, mmap_locked, =
+HPAGE_PMD_ORDER, 0);
+> > >       }
+> > >   out:
+> > >       trace_mm_khugepaged_scan_pmd(mm, &folio->page, writable, refere=
+nced,
+> >
 
