@@ -1,55 +1,55 @@
-Received: from mail-pl1-f202.google.com (mail-pl1-f202.google.com [209.85.214.202])
+Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EE6B26FD86
-	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 22:55:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.202
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7082D27C142
+	for <linux-doc@vger.kernel.org>; Thu,  1 May 2025 22:55:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746140137; cv=none; b=OjkB3omyVD2YnEGUc4Yy6ETIbyeuPz3YoSd/HV9LSJU55lO3APeECJdQ9egLsBPb3ju12+hIRSNj/elJpGhBIOTDjzWPtTi7sD1UbMJaXi1DWzA1xLjjeroVbAXH8YZ++60tkZ0scxVC/saYP7SVzMSJs7VNymVkbqAn2s0nYak=
+	t=1746140139; cv=none; b=FFMGqO0PbadbJXMgWyz3jskK+xQBTFIUoswFMgOUMXZ5Go+HCnmpAkZUoO/ldDHwPLm41+R2P1kLoN7TphwfAjmasRUKYIxtAaBBDspy8zy7pVrUVuf9bqRql+DePQsGa3wO/uveB9XaS2WZPVhRQy4VM72hWnWWSmIOOoNfln8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746140137; c=relaxed/simple;
-	bh=6CEelcqc7Be/Y9b2UjlHA3na6nY4HZwgqtUvYQYDtKo=;
+	s=arc-20240116; t=1746140139; c=relaxed/simple;
+	bh=r0t8dbEcMqv1w/C59nenzPGusmjzB82b0L1GSAI+Lbo=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=nC2UvEnGD1Lu4PszKtpgdtiCrZXLsY0e9VNE0BpGk7AWNUIpvFHupVMu6qW+d/KGpMvAG3b7b2Q93nDF6sJXzXb5KOkWVEQnPWFKGKxY0bvW8WQPjMaXRPCTeTErEjy7rBSq6EedNQP7ABS5Ame4MzH/Aos+OKz5+1AhM/8T0iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=A5RM8FDl; arc=none smtp.client-ip=209.85.214.202
+	 To:Cc:Content-Type; b=jnJ8K3IcOSYvgi2XhPh44smNQRfWpFv6gusV8HUSomdf9lpt4UDwIjkiqqPeJ93WrlU2umRVL8epeXZKwJzqAO8SH1uii2mWPi5tajLW5yOjAjMMoQorzOlQX2Jg2BURO0fxNaXmXAox7DGKjk0ZM1wxanZEE271yq8vWrlYXsY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Kkqmp5kz; arc=none smtp.client-ip=209.85.214.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--changyuanl.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="A5RM8FDl"
-Received: by mail-pl1-f202.google.com with SMTP id d9443c01a7336-225505d1ca5so13145825ad.2
-        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 15:55:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Kkqmp5kz"
+Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-2240a960f9cso14492975ad.0
+        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 15:55:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746140135; x=1746744935; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1746140137; x=1746744937; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=VphvviRpGC2WLkYAjqaiyvIFs0ocuEHMIPdUSqAExnk=;
-        b=A5RM8FDl+nKqfru7yReozhz/uubVGexmO4Rov958BxdhagnKWgWRCACnKB+xqHdKIX
-         JlzaDsZPGrVNh8uaQZ/AvVDGdZ6ziPVYnxgJqT0QH7GVHnwk7nJ2kqM/F5U3qEACOBW6
-         K+jRmVwxlJNSw+1LE3st9Nt+L0b7oqhQfwtXGiW5RXwb5nCjqO/hZIEx1/sJzQgVhXLx
-         EInpALKRAuOWA/Bzd108o+Dw0SqXMt8semtrUFHUlNWN3Kav9Wk2Cq0Se4v7cbHqGB7A
-         wrdI3wUben7D+JlHPrgvTI+lWXMfl652Aqtv1gT8OO3j6vG8dU97EH+MtzSsh/rp1ESH
-         +4ww==
+        bh=QfJbN5pyiZqNm6v1VamUb2ZbseG+vyr/qmtYL/UOqAw=;
+        b=Kkqmp5kzwIkTckP4DgfS9rdNx/nYdC/+twpBHoUoDV95Xgs6mcBFq+0oWROdvhuaCU
+         NvEbEWqx5KFCCsGxdyaPXhjv9375UOpyunTL0q0XIukN8VfCxc7uc2MMmH1wMaPOIH6n
+         YLpy8mxyJRM4V4wXYrIDigFL64nvhSW7ZXrONePxxUCPpCG5H6mT1nh5HaWzvYUbCTrc
+         mfFyHz/lMG2iDeSfa4y+YKM1Trp6woUWiQyP8McbTld8K6gePagVejRSTY4vzeh1+6cQ
+         Uqs5b0meB2fIBt71vwt6uP+8TsSTW7w/grGzC74hIhQ6KSw5kF6603l7r+zMW2uPMEQ/
+         bjHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746140135; x=1746744935;
+        d=1e100.net; s=20230601; t=1746140137; x=1746744937;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=VphvviRpGC2WLkYAjqaiyvIFs0ocuEHMIPdUSqAExnk=;
-        b=pi/AFALRx/Vqu2DR50INU/mZGsTSJx8dmRMz72P6pJP7kHO1AcrTjOzfMoeYOFnUyX
-         0uhoWYBowI/HhzpaRvlL/w21pXzj1/mLQY/ZJzYFrZ7jSULBMErJPxCpNf8V0jmWjKqI
-         sWyBCfy2HRadCvJo2ECJZbCbckZXZt2BVqLuY/INsXxhjIzhc2kkC9hm9TfpruvHvBgk
-         XA4zmkxE0ItB8dgaD2WdzZ/+Yb/QId/Ytba9OMjFPa1xV3Y5CM/YA91oKnJDmAQ2DAOO
-         AKTt6MFxBAChDlgqQRNsbJ6Sv4SRZQR6AaSFRBqrTWo3e77tXrSaJsOBHl1lLdqDAEPT
-         dtKA==
-X-Forwarded-Encrypted: i=1; AJvYcCWeFp+m6Rr8p5gQjgWsCBsJG9nhYlcCK/zTOSk7Vsu9/RJ6YrZ1xkudOgIMwhfdSc7JJ80Az5hcrno=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwkSqci+M2EvGTUoijhyCDilw6PxLdi+2y/qbQzyNcLcltTYkHj
-	x0ztyNGVeez92WBB/z5V/fjuy6XN1kQczCkZwHxrVnf2QPEfPN+w+PMtsPnmt3eHvoVjt03sCTV
-	haTPSPXQ5+SGzygFzqQ==
-X-Google-Smtp-Source: AGHT+IEUBELohUIuBjZuX1t4KvZ63Sn972imtSEYrAK4n9xeHQS/vygxbNUhLnD35SKxrJi1vU9ISpeHFRO3BtsZ
-X-Received: from plou8.prod.google.com ([2002:a17:903:1ae8:b0:220:da6b:5d08])
+        bh=QfJbN5pyiZqNm6v1VamUb2ZbseG+vyr/qmtYL/UOqAw=;
+        b=wUWiPgwKjULK/dhmvRec+jmZPU8dPjRU/gbqKQ8kIUIehO8Q2fZGzteF5eHbS/iDms
+         3udbPM3aWJff6zmkyzU9ZUi0PkHYlw2zDGPXli6hQM0hrCQfqujlG58kNZxQFnAyGGKv
+         ZDbtRxVNFOtdCN3jQrddXCfni5JAO6rFNs9V2fAuKWF9w0dah6jfFbp/UzHBOjOsrZ5H
+         6b4ystPNX9yPMaGhkHOT37BZoVhb0psmBHXmdggx86gn7PMag4g3ntGIvFepPXykb1ra
+         KtqUWYpW9hiNohihpmcdKH8ZSX2D28zQqpN4P6vGqAoyjabtaFn1KbvZRf2ELrljmwvj
+         g2Tg==
+X-Forwarded-Encrypted: i=1; AJvYcCUhDUe8zyFywB18HSMvSm/uWRal2f3xASIYRl4J3OAt2mJMlk3TLsvL7gqtOGb6Ju/0XbcXTi7V0BM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzIL0HZSfkdSPhDvF5Unbnmre38gH6R8ieQ7nAxSGFzhLJ33Wcj
+	OLQxoPtEfE18ygp5a5uv6MaWJ6cMMM+bm+iReZGFq5TGTc3tWrPMrHBZJXTRnQufT2/NNv3Sys/
+	gICyRTYJ0lpKJybnxRg==
+X-Google-Smtp-Source: AGHT+IEti7Jl7kPZOBgR2farF6AzrUQ71NZAgms5bozMIxOrugD7cn53XbT5cnCVAQHZeRCBz32iqnLauoNpF8Ul
+X-Received: from plac4.prod.google.com ([2002:a17:902:c2c4:b0:224:2ae9:b271])
  (user=changyuanl job=prod-delivery.src-stubby-dispatcher) by
- 2002:a17:903:1ab0:b0:224:24d3:60f4 with SMTP id d9443c01a7336-22e102d05f6mr12139545ad.15.1746140134934;
- Thu, 01 May 2025 15:55:34 -0700 (PDT)
-Date: Thu,  1 May 2025 15:54:20 -0700
+ 2002:a17:903:22d0:b0:22d:e458:96a5 with SMTP id d9443c01a7336-22e103d0471mr10540035ad.38.1746140136868;
+ Thu, 01 May 2025 15:55:36 -0700 (PDT)
+Date: Thu,  1 May 2025 15:54:21 -0700
 In-Reply-To: <20250501225425.635167-1-changyuanl@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
@@ -59,9 +59,9 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
 References: <20250501225425.635167-1-changyuanl@google.com>
 X-Mailer: git-send-email 2.49.0.906.g1f30a19c02-goog
-Message-ID: <20250501225425.635167-14-changyuanl@google.com>
-Subject: [PATCH v7 13/18] x86/e820: temporarily enable KHO scratch for memory
- below 1M
+Message-ID: <20250501225425.635167-15-changyuanl@google.com>
+Subject: [PATCH v7 14/18] x86/boot: make sure KASLR does not step over KHO
+ preserved memory
 From: Changyuan Lyu <changyuanl@google.com>
 To: linux-kernel@vger.kernel.org
 Cc: changyuanl@google.com, akpm@linux-foundation.org, 
@@ -80,15 +80,11 @@ Content-Type: text/plain; charset="UTF-8"
 
 From: Alexander Graf <graf@amazon.com>
 
-KHO kernels are special and use only scratch memory for memblock
-allocations, but memory below 1M is ignored by kernel after early boot
-and cannot be naturally marked as scratch.
+KHO uses "scratch regions" to bootstrap a kexec'ed kernel. These regions are
+guaranteed to not have any memory that KHO would preserve.
 
-To allow allocation of the real-mode trampoline and a few (if any) other
-very early allocations from below 1M forcibly mark the memory below 1M
-as scratch.
-
-After real mode trampoline is allocated, clear that scratch marking.
+Teach KASLR in decompression code to only consider these scratch regions
+when KHO is enabled to make sure preserved memory won't get overwritten.
 
 Signed-off-by: Alexander Graf <graf@amazon.com>
 Co-developed-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
@@ -96,52 +92,79 @@ Signed-off-by: Mike Rapoport (Microsoft) <rppt@kernel.org>
 Co-developed-by: Changyuan Lyu <changyuanl@google.com>
 Signed-off-by: Changyuan Lyu <changyuanl@google.com>
 ---
- arch/x86/kernel/e820.c   | 18 ++++++++++++++++++
- arch/x86/realmode/init.c |  2 ++
- 2 files changed, 20 insertions(+)
+ arch/x86/boot/compressed/kaslr.c | 52 +++++++++++++++++++++++++++++++-
+ 1 file changed, 51 insertions(+), 1 deletion(-)
 
-diff --git a/arch/x86/kernel/e820.c b/arch/x86/kernel/e820.c
-index 9920122018a0b..c3acbd26408ba 100644
---- a/arch/x86/kernel/e820.c
-+++ b/arch/x86/kernel/e820.c
-@@ -1299,6 +1299,24 @@ void __init e820__memblock_setup(void)
- 		memblock_add(entry->addr, entry->size);
+diff --git a/arch/x86/boot/compressed/kaslr.c b/arch/x86/boot/compressed/kaslr.c
+index f03d59ea6e40f..25de8c3e17cdb 100644
+--- a/arch/x86/boot/compressed/kaslr.c
++++ b/arch/x86/boot/compressed/kaslr.c
+@@ -760,6 +760,55 @@ static void process_e820_entries(unsigned long minimum,
  	}
- 
-+	/*
-+	 * At this point memblock is only allowed to allocate from memory
-+	 * below 1M (aka ISA_END_ADDRESS) up until direct map is completely set
-+	 * up in init_mem_mapping().
-+	 *
-+	 * KHO kernels are special and use only scratch memory for memblock
-+	 * allocations, but memory below 1M is ignored by kernel after early
-+	 * boot and cannot be naturally marked as scratch.
-+	 *
-+	 * To allow allocation of the real-mode trampoline and a few (if any)
-+	 * other very early allocations from below 1M forcibly mark the memory
-+	 * below 1M as scratch.
-+	 *
-+	 * After real mode trampoline is allocated, we clear that scratch
-+	 * marking.
-+	 */
-+	memblock_mark_kho_scratch(0, SZ_1M);
-+
- 	/*
- 	 * 32-bit systems are limited to 4BG of memory even with HIGHMEM and
- 	 * to even less without it.
-diff --git a/arch/x86/realmode/init.c b/arch/x86/realmode/init.c
-index f9bc444a3064d..9b9f4534086d2 100644
---- a/arch/x86/realmode/init.c
-+++ b/arch/x86/realmode/init.c
-@@ -65,6 +65,8 @@ void __init reserve_real_mode(void)
- 	 * setup_arch().
- 	 */
- 	memblock_reserve(0, SZ_1M);
-+
-+	memblock_clear_kho_scratch(0, SZ_1M);
  }
  
- static void __init sme_sev_setup_real_mode(struct trampoline_header *th)
++/*
++ * If KHO is active, only process its scratch areas to ensure we are not
++ * stepping onto preserved memory.
++ */
++#ifdef CONFIG_KEXEC_HANDOVER
++static bool process_kho_entries(unsigned long minimum, unsigned long image_size)
++{
++	struct kho_scratch *kho_scratch;
++	struct setup_data *ptr;
++	int i, nr_areas = 0;
++
++	ptr = (struct setup_data *)boot_params_ptr->hdr.setup_data;
++	while (ptr) {
++		if (ptr->type == SETUP_KEXEC_KHO) {
++			struct kho_data *kho = (struct kho_data *)ptr->data;
++
++			kho_scratch = (void *)kho->scratch_addr;
++			nr_areas = kho->scratch_size / sizeof(*kho_scratch);
++
++			break;
++		}
++
++		ptr = (struct setup_data *)ptr->next;
++	}
++
++	if (!nr_areas)
++		return false;
++
++	for (i = 0; i < nr_areas; i++) {
++		struct kho_scratch *area = &kho_scratch[i];
++		struct mem_vector region = {
++			.start = area->addr,
++			.size = area->size,
++		};
++
++		if (process_mem_region(&region, minimum, image_size))
++			break;
++	}
++
++	return true;
++}
++#else
++static inline bool process_kho_entries(unsigned long minimum,
++				       unsigned long image_size)
++{
++	return false;
++}
++#endif
++
+ static unsigned long find_random_phys_addr(unsigned long minimum,
+ 					   unsigned long image_size)
+ {
+@@ -775,7 +824,8 @@ static unsigned long find_random_phys_addr(unsigned long minimum,
+ 		return 0;
+ 	}
+ 
+-	if (!process_efi_entries(minimum, image_size))
++	if (!process_kho_entries(minimum, image_size) &&
++	    !process_efi_entries(minimum, image_size))
+ 		process_e820_entries(minimum, image_size);
+ 
+ 	phys_addr = slots_fetch_random();
 -- 
 2.49.0.906.g1f30a19c02-goog
 
