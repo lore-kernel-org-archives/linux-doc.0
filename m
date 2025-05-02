@@ -1,58 +1,64 @@
-Received: from mail-ed1-f43.google.com (mail-ed1-f43.google.com [209.85.208.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54D3C17A2ED
-	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 15:26:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.43
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F31917A2E1
+	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 15:30:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746199621; cv=none; b=R6yVzp543fkSDaAD/z/SHAv2vBn3O418nfIweBF6U1lixTEbjSQhxo977+FuBOdOadZ7BvdO7epbf4z9jx5DvFFU3AjbUwFY7JB8HLtllJZyxBj4koAL3CyorUlkKn9Gz0F2w0SCt0XfZOSQrZCWRbmjLCkoKSxCoZifRD86kRA=
+	t=1746199848; cv=none; b=XYIeF4U738SyqYamu2p5se3P9kL5ilOQ0cjN3RTUWcQqAAthT+SQ6TUSru3LobzTfwYou4ALTS5KITDbruubp/wKXWpf40hfha/PEHsuxEG320oZFzpiALb7bDHlg9aV4i4RKQLatTYlorQ7omaQHQq+MpLZzMq6j/KkILhQ6uk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746199621; c=relaxed/simple;
-	bh=hLW15ayYi6SnXVYov9TgVyvpQxM/q5FOvyu0WDhrQvM=;
+	s=arc-20240116; t=1746199848; c=relaxed/simple;
+	bh=BIFWU+BQxI+ybrEDzGvM0RmDpuDQig3eWd60cE/H7E8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Z48Fd+UMNOQEYqJ86TV/jv3/AhlyKUu7lYhsiF3Vi6DOsDpMLkmnsrEoo1ej4NlF0K3HwgEa27Khja+TNdvza9pzthu1UGPTFZCWZgiSIS+zLmIOpyfIBTW0TX+w6W1BrpDtSrBM9Z0/nG1BehFqLd+uEEZHbnsGAADOg2weFWI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=f4P6mFxV; arc=none smtp.client-ip=209.85.208.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	 To:Cc:Content-Type; b=GK0iY0QtoRPaRGzjTn9AY77magD8FK0JUc4950Ml/1Q9wxR4q7IrrFABkT/o6oGaHcerHfdWTxIEmMaI2FbbBFwve7KL9wYG8cRYRcKdG6Ko9hGFGQZbbDvUStD1P8i3Vq3S9x15+Fxp7dBmVRxpAUidrUgMaC+tueH4FoN7oA0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CBSBBrE+; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="f4P6mFxV"
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5f88f236167so11315a12.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 08:26:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746199616; x=1746804416; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=oHb0ZzxGlBB6NHKFNbHGJJeCMu/az8eLbQ7nlZew+9Q=;
-        b=f4P6mFxVUCALGSynr+aNUPbDuMhkmccdcmoX0DeaDsvxzPMZ50u2Kxw06RCJwvxQRi
-         5PtMUsQr1rc9wxtxCZzem27Wk7jodhAqIXv96kgom4t8dTFKzf7knl2XHJoo/rIiqGju
-         gjzeSyEmmdAe6Dx00TMW8vt9X+gzENg8Wggi/StrHKobLeRZW+yoG9VTf9YkrPTMwMRw
-         oVd2FUlfI+qTv+IpiCMny2j2iPKDjsRltS8jLFeVBmr9dFO39m3Hmqppt1sjFqXeRXWb
-         x/I7ZT6aJMwbzc+pw8PcWy+5A/sGRW5yjmBbatSwqP/MZmSuG0PZbhzMeRIw9aiSmbjZ
-         ODmQ==
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CBSBBrE+"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746199845;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xkRh4xfxcDiGVCznroJyFPZrZVvXnyniPVMlI+7tnp0=;
+	b=CBSBBrE+NpD5hFsD713SMEFfwozxWcfADa7vKAOCBwigg1dUmphk2/ETQRMnGrPNGPigW6
+	UYJ2JgWCMfaBzdvLzqlGyAuM2T4RChjKsCFgrxWRX6RcRliFUjMBgJOfABiYrpqDiRM6Hw
+	suqK9NZE0mecpkirU2F6962Vut0biwU=
+Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
+ [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-64-tFi1OQteM6up1KtcxGAfXQ-1; Fri, 02 May 2025 11:30:44 -0400
+X-MC-Unique: tFi1OQteM6up1KtcxGAfXQ-1
+X-Mimecast-MFC-AGG-ID: tFi1OQteM6up1KtcxGAfXQ_1746199843
+Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-707cf1b0ecbso31155057b3.2
+        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 08:30:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746199616; x=1746804416;
+        d=1e100.net; s=20230601; t=1746199843; x=1746804643;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=oHb0ZzxGlBB6NHKFNbHGJJeCMu/az8eLbQ7nlZew+9Q=;
-        b=eShaMzyCNqTNrcTBKWpS58569g6mrqBKOyscluFJJH5MN0xC6AKa5NiTgZQnxNAXuz
-         okijXYCXPSqMSpS7gWwjpLWPVDeDsQq12C7cWbW/rZw9xMX67Ss7VsI/KbJG3Siy6U/q
-         /tR2kT1wlSBpaaI2dDdZL5IftLSULBqOeDeQrAm3ouPvIqhd1dEvqM7aXG5WBWRt9biq
-         udadQ6SfldJzeLzDPFA8gpTCSH4IeHAoq2ElGZvQAl/ASbGI3oqtu1U3XsRtm+a2OuF5
-         A1ihguUXfcqoy8mTn3ciRYBYemq5vILk0CeUBVqnRTFl+Fpvdauhu+ylnMobiAUZQBX3
-         WXTQ==
-X-Forwarded-Encrypted: i=1; AJvYcCX7dOX6cUjqbq7GxWy0ippjr6CFMcNVNSAcKNC2elIhJ+VOX9+fVEQDYCGprhYLC2RjtBsTNZ+T6Tw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxwmsMlxShXFCoAc7f3b/x+h+/gYHDxQunhaCLFpRR+wzbYi40f
-	cr5qJG6ATDGKzlPiaUyfL+boWfLh85ZoNNsgpDX80vOQlumYlHOqpQCzqEejBv7byEIxoQdufWa
-	+bgoGpIKjHK2diYX48Gmn+R4QmaSsjtwFu/aQ
-X-Gm-Gg: ASbGncv3Yjj8kXPr3cITEUHjJZ7DHvpNuFWsTPO2fveRsoFqsFM2r6RitZAHe6lF5x0
-	Zw3Exv1bOvbc8T8hzVUXw3BVGWFYKG5yk3IRFkExaEv/PiKfjzKmESy1Zm6JIRHSQoUtqRQYiFj
-	6UgujAE6iN4oIeymPz4w0pymG2qap9zfh8Amm34oEnF8yc6OqOuQ==
-X-Google-Smtp-Source: AGHT+IE/jsfd3H3yBbKiN8dMrqyRJlNNmsTZdJpQFgt4OoMxHc8Yf7S8yh/e6oWWssFQ84fXTZBdZr1AlAKZB/MOXHQ=
-X-Received: by 2002:a50:8719:0:b0:5e5:b44c:ec8f with SMTP id
- 4fb4d7f45d1cf-5f918c0853dmr175309a12.3.1746199616297; Fri, 02 May 2025
- 08:26:56 -0700 (PDT)
+        bh=xkRh4xfxcDiGVCznroJyFPZrZVvXnyniPVMlI+7tnp0=;
+        b=VB8HqErnFe37A2Ca+ySf1NJdtBGXYmzB0KVC7jGT4vGJz2A9dxnzIMbKLthI7y4vbf
+         6j880i5v29kmj12ncW1n3zytF2nI15D4HKwVdNeI/W+kjH++zBELI1Lvoto99BnmmDbH
+         /Afndg9FljX8Ot70fLq5ddsSejhLJITETKLkcWAZjLfHngtAmTaYXeqcAtvaBvNxhjXg
+         NLUXl/g/oERzEDN38m6Q1luAZGcPBepMHals9tMP2MD/4l8k4S9NqLxM0PBZq/mfgA7T
+         VPwar3Rx9uzWO5jSVeKk4yNIExerD9VHXtvUtAua4kgngcuH0cjmEdrvTSp4la0HrHNg
+         hr9g==
+X-Forwarded-Encrypted: i=1; AJvYcCVwj8LlDTbMsK5MpTxaU69wgfAY48inlwau/WRZ8+bsucpvwA4d3M1AwSXlnzmHnAseqsAz7WaF0Tk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxSEJJBKpnyJu3AD8lytGPdrzZqqixOnN4fdoUfCb+IfL69hbbe
+	j18RveeOA02Kl+ywoe4/TtAfnzjBR8Kd6FdNumrEyDT4R2whpwe8OgP5y+Bpdx7BQyXK1oPVl/Q
+	1x3Q8OVAZlh3deUWewmHcPYk472baVwYmCtNCiEzkkhcHl7wEi8hd+3Cbgz9VI4mdcsqEZlWUTx
+	xP0PRBYt9ldMKlLDpmctHLBncockjpDcVD
+X-Gm-Gg: ASbGncvvA8t1Y/UJZmpKU3rrXyYRdSNtP8fAK5CdnU+yJyWiyAYo3jXZZQb3rn1n2hc
+	g9lF779K3cfG8Ahzkh/Uo87HhRgNsMLBPxUvBuljN2NlxjGNp/Qzt7l3kdjQA+S6XlIjMcw==
+X-Received: by 2002:a05:6902:1b8a:b0:e73:1bce:cc9 with SMTP id 3f1490d57ef6-e7565659e7fmr4340328276.41.1746199843109;
+        Fri, 02 May 2025 08:30:43 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFD6u8L0lnSuVxL/j3o/HQoXiJHgTftmzjv4yoMTN8vHad/uToYdYiOCpNgDW/bu4MUj8nb7B5bHGeWlfpjB0I=
+X-Received: by 2002:a05:6902:1b8a:b0:e73:1bce:cc9 with SMTP id
+ 3f1490d57ef6-e7565659e7fmr4340275276.41.1746199842658; Fri, 02 May 2025
+ 08:30:42 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,15 +69,15 @@ References: <20250428181218.85925-1-npache@redhat.com> <20250428181218.85925-8-n
  <CAG48ez2oge4xs1pSz_T9L46g=wQnFyC63kQKsXwbHGRWAxQ+aw@mail.gmail.com>
  <CAA1CXcBHJbs7_DGVR929NOD5G4nkJ3LguDrL9itV8-QS+BNUpg@mail.gmail.com>
  <b6093db0-9b18-4b70-81bd-6c02e80ac9fa@redhat.com> <CAG48ez0oe6oZ0QTDWr1rtUJFFTLO69sVpdoCmo+CxZUb6L1seg@mail.gmail.com>
- <b91af3df-643e-4131-96e7-2680f322194d@redhat.com>
-In-Reply-To: <b91af3df-643e-4131-96e7-2680f322194d@redhat.com>
-From: Jann Horn <jannh@google.com>
-Date: Fri, 2 May 2025 17:26:20 +0200
-X-Gm-Features: ATxdqUEpkMTf_H-rMFPW7kzp3FCFlwgrzXrEa9BFkSIOp67pix4PyNJ7gFGimKI
-Message-ID: <CAG48ez25Wo7BSt4dn3v+xO0mojvjtBpd02kaAu7kn_+AfgSrNQ@mail.gmail.com>
+ <b91af3df-643e-4131-96e7-2680f322194d@redhat.com> <CAG48ez25Wo7BSt4dn3v+xO0mojvjtBpd02kaAu7kn_+AfgSrNQ@mail.gmail.com>
+In-Reply-To: <CAG48ez25Wo7BSt4dn3v+xO0mojvjtBpd02kaAu7kn_+AfgSrNQ@mail.gmail.com>
+From: Nico Pache <npache@redhat.com>
+Date: Fri, 2 May 2025 09:30:15 -0600
+X-Gm-Features: ATxdqUER09h9rU5R_TsgAlu2Vl2YcDHMhrm313BXUDsCp0-N15muBn86mxdYUg8
+Message-ID: <CAA1CXcBn3eZpcdzsG5DRNBa+rFBg1dQjssC=SYyXW5_7fDmwXg@mail.gmail.com>
 Subject: Re: [PATCH v5 07/12] khugepaged: add mTHP support
-To: David Hildenbrand <david@redhat.com>
-Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+To: Jann Horn <jannh@google.com>
+Cc: David Hildenbrand <david@redhat.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
 	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
 	akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org, 
 	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, baohua@kernel.org, 
@@ -88,101 +94,120 @@ Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org, linux-doc@vger.kernel.or
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 2, 2025 at 5:19=E2=80=AFPM David Hildenbrand <david@redhat.com>=
- wrote:
+On Fri, May 2, 2025 at 9:27=E2=80=AFAM Jann Horn <jannh@google.com> wrote:
 >
-> On 02.05.25 14:50, Jann Horn wrote:
-> > On Fri, May 2, 2025 at 8:29=E2=80=AFAM David Hildenbrand <david@redhat.=
-com> wrote:
-> >> On 02.05.25 00:29, Nico Pache wrote:
-> >>> On Wed, Apr 30, 2025 at 2:53=E2=80=AFPM Jann Horn <jannh@google.com> =
-wrote:
-> >>>>
-> >>>> On Mon, Apr 28, 2025 at 8:12=E2=80=AFPM Nico Pache <npache@redhat.co=
+> On Fri, May 2, 2025 at 5:19=E2=80=AFPM David Hildenbrand <david@redhat.co=
 m> wrote:
-> >>>>> Introduce the ability for khugepaged to collapse to different mTHP =
-sizes.
-> >>>>> While scanning PMD ranges for potential collapse candidates, keep t=
-rack
-> >>>>> of pages in KHUGEPAGED_MIN_MTHP_ORDER chunks via a bitmap. Each bit
-> >>>>> represents a utilized region of order KHUGEPAGED_MIN_MTHP_ORDER pte=
-s. If
-> >>>>> mTHPs are enabled we remove the restriction of max_ptes_none during=
- the
-> >>>>> scan phase so we dont bailout early and miss potential mTHP candida=
-tes.
-> >>>>>
-> >>>>> After the scan is complete we will perform binary recursion on the
-> >>>>> bitmap to determine which mTHP size would be most efficient to coll=
-apse
-> >>>>> to. max_ptes_none will be scaled by the attempted collapse order to
-> >>>>> determine how full a THP must be to be eligible.
-> >>>>>
-> >>>>> If a mTHP collapse is attempted, but contains swapped out, or share=
-d
-> >>>>> pages, we dont perform the collapse.
-> >>>> [...]
-> >>>>> @@ -1208,11 +1211,12 @@ static int collapse_huge_page(struct mm_str=
-uct *mm, unsigned long address,
-> >>>>>           vma_start_write(vma);
-> >>>>>           anon_vma_lock_write(vma->anon_vma);
-> >>>>>
-> >>>>> -       mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, ad=
-dress,
-> >>>>> -                               address + HPAGE_PMD_SIZE);
-> >>>>> +       mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, _a=
-ddress,
-> >>>>> +                               _address + (PAGE_SIZE << order));
-> >>>>>           mmu_notifier_invalidate_range_start(&range);
-> >>>>>
-> >>>>>           pmd_ptl =3D pmd_lock(mm, pmd); /* probably unnecessary */
-> >>>>> +
-> >>>>>           /*
-> >>>>>            * This removes any huge TLB entry from the CPU so we won=
-'t allow
-> >>>>>            * huge and small TLB entries for the same virtual addres=
-s to
-> >>>>
-> >>>> It's not visible in this diff, but we're about to do a
-> >>>> pmdp_collapse_flush() here. pmdp_collapse_flush() tears down the
-> >>>> entire page table, meaning it tears down 2MiB of address space; and =
+> >
+> > On 02.05.25 14:50, Jann Horn wrote:
+> > > On Fri, May 2, 2025 at 8:29=E2=80=AFAM David Hildenbrand <david@redha=
+t.com> wrote:
+> > >> On 02.05.25 00:29, Nico Pache wrote:
+> > >>> On Wed, Apr 30, 2025 at 2:53=E2=80=AFPM Jann Horn <jannh@google.com=
+> wrote:
+> > >>>>
+> > >>>> On Mon, Apr 28, 2025 at 8:12=E2=80=AFPM Nico Pache <npache@redhat.=
+com> wrote:
+> > >>>>> Introduce the ability for khugepaged to collapse to different mTH=
+P sizes.
+> > >>>>> While scanning PMD ranges for potential collapse candidates, keep=
+ track
+> > >>>>> of pages in KHUGEPAGED_MIN_MTHP_ORDER chunks via a bitmap. Each b=
 it
-> >>>> assumes that the entire page table exclusively corresponds to the
-> >>>> current VMA.
-> >>>>
-> >>>> I think you'll need to ensure that the pmdp_collapse_flush() only
-> >>>> happens for full-size THP, and that mTHP only tears down individual
-> >>>> PTEs in the relevant range. (That code might get a bit messy, since
-> >>>> the existing THP code tears down PTEs in a detached page table, whil=
+> > >>>>> represents a utilized region of order KHUGEPAGED_MIN_MTHP_ORDER p=
+tes. If
+> > >>>>> mTHPs are enabled we remove the restriction of max_ptes_none duri=
+ng the
+> > >>>>> scan phase so we dont bailout early and miss potential mTHP candi=
+dates.
+> > >>>>>
+> > >>>>> After the scan is complete we will perform binary recursion on th=
 e
-> >>>> mTHP would have to do it in a still-attached page table.)
-> >>> Hi Jann!
-> >>>
-> >>> I was under the impression that this is needed to prevent GUP-fast
-> >>> races (and potentially others).
+> > >>>>> bitmap to determine which mTHP size would be most efficient to co=
+llapse
+> > >>>>> to. max_ptes_none will be scaled by the attempted collapse order =
+to
+> > >>>>> determine how full a THP must be to be eligible.
+> > >>>>>
+> > >>>>> If a mTHP collapse is attempted, but contains swapped out, or sha=
+red
+> > >>>>> pages, we dont perform the collapse.
+> > >>>> [...]
+> > >>>>> @@ -1208,11 +1211,12 @@ static int collapse_huge_page(struct mm_s=
+truct *mm, unsigned long address,
+> > >>>>>           vma_start_write(vma);
+> > >>>>>           anon_vma_lock_write(vma->anon_vma);
+> > >>>>>
+> > >>>>> -       mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, =
+address,
+> > >>>>> -                               address + HPAGE_PMD_SIZE);
+> > >>>>> +       mmu_notifier_range_init(&range, MMU_NOTIFY_CLEAR, 0, mm, =
+_address,
+> > >>>>> +                               _address + (PAGE_SIZE << order));
+> > >>>>>           mmu_notifier_invalidate_range_start(&range);
+> > >>>>>
+> > >>>>>           pmd_ptl =3D pmd_lock(mm, pmd); /* probably unnecessary =
+*/
+> > >>>>> +
+> > >>>>>           /*
+> > >>>>>            * This removes any huge TLB entry from the CPU so we w=
+on't allow
+> > >>>>>            * huge and small TLB entries for the same virtual addr=
+ess to
+> > >>>>
+> > >>>> It's not visible in this diff, but we're about to do a
+> > >>>> pmdp_collapse_flush() here. pmdp_collapse_flush() tears down the
+> > >>>> entire page table, meaning it tears down 2MiB of address space; an=
+d it
+> > >>>> assumes that the entire page table exclusively corresponds to the
+> > >>>> current VMA.
+> > >>>>
+> > >>>> I think you'll need to ensure that the pmdp_collapse_flush() only
+> > >>>> happens for full-size THP, and that mTHP only tears down individua=
+l
+> > >>>> PTEs in the relevant range. (That code might get a bit messy, sinc=
+e
+> > >>>> the existing THP code tears down PTEs in a detached page table, wh=
+ile
+> > >>>> mTHP would have to do it in a still-attached page table.)
+> > >>> Hi Jann!
+> > >>>
+> > >>> I was under the impression that this is needed to prevent GUP-fast
+> > >>> races (and potentially others).
+> > >
+> > > Why would you need to touch the PMD entry to prevent GUP-fast races f=
+or mTHP?
+> > >
+> > >>> As you state here, conceptually the PMD case is, detach the PMD, do
+> > >>> the collapse, then reinstall the PMD (similarly to how the system
+> > >>> recovers from a failed PMD collapse). I tried to keep the current
+> > >>> locking behavior as it seemed the easiest way to get it right (and =
+not
+> > >>> break anything). So I keep the PMD detaching and reinstalling for t=
+he
+> > >>> mTHP case too. As Hugh points out I am releasing the anon lock too
+> > >>> early. I will comment further on his response.
+> > >
+> > > As I see it, you're not "keeping" the current locking behavior; you'r=
+e
+> > > making a big implicit locking change by reusing a codepath designed
+> > > for PMD THP for mTHP, where the page table may not be exclusively
+> > > owned by one VMA.
 > >
-> > Why would you need to touch the PMD entry to prevent GUP-fast races for=
- mTHP?
-> >
-> >>> As you state here, conceptually the PMD case is, detach the PMD, do
-> >>> the collapse, then reinstall the PMD (similarly to how the system
-> >>> recovers from a failed PMD collapse). I tried to keep the current
-> >>> locking behavior as it seemed the easiest way to get it right (and no=
-t
-> >>> break anything). So I keep the PMD detaching and reinstalling for the
-> >>> mTHP case too. As Hugh points out I am releasing the anon lock too
-> >>> early. I will comment further on his response.
-> >
-> > As I see it, you're not "keeping" the current locking behavior; you're
-> > making a big implicit locking change by reusing a codepath designed
-> > for PMD THP for mTHP, where the page table may not be exclusively
-> > owned by one VMA.
+> > That is not the intention. The intention in this series (at least as we
+> > discussed) was to not do it across VMAs; that is considered the next
+> > logical step (which will be especially relevant on arm64 IMHO).
 >
-> That is not the intention. The intention in this series (at least as we
-> discussed) was to not do it across VMAs; that is considered the next
-> logical step (which will be especially relevant on arm64 IMHO).
+> Ah, so for now this is supposed to only work for PTEs which are in a
+> PMD which is fully covered by the VMA? So if I make a 16KiB VMA and
+> then try to collapse its contents to an order-2 mTHP page, that should
+> just not work?
+Correct! As I started in reply to Hugh, the locking conditions explode
+if we drop that requirement. A simple workaround we've considered is
+only collapsing if a single VMA intersects a PMD. I can make sure this
+is more clear in the coverletter + this patch.
 
-Ah, so for now this is supposed to only work for PTEs which are in a
-PMD which is fully covered by the VMA? So if I make a 16KiB VMA and
-then try to collapse its contents to an order-2 mTHP page, that should
-just not work?
+ Cheers,
+-- Nico
+>
+
