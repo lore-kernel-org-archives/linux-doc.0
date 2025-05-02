@@ -1,111 +1,149 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D3E572566DE
-	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 17:41:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28AE1A265E
+	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 18:25:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746207714; cv=none; b=fjEwJKBy00P45FieEKEYfsTWax2HQvKAPVK268j8JP8aMtMYO3lDHhzqPXrsxydLWL2EvTg57UwYqecjfxeGkAdF/fV5Z7UrQL/l9m9n0+dvHhjUk+w4lmjSCpZIn9bHByU74ob0aEICl+Q/s07wBPDayISLvvmO2J6M6sHUrL0=
+	t=1746210316; cv=none; b=RkEXmv4rUmObfBe6Gah4xZMDPQ208aCNWE50pK45ne6nKI+ZXZgBBMFvP1+K0mnWkpwtyXT0AhyqcZwI27HumlR9PfeQVsk8vhg2Q8ZWlWP+2CgEIQRBdg1aCYXsxio4qRueu/OXETGaFhU6zG9uFixqarBWOZSxcXZRUe0Qgog=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746207714; c=relaxed/simple;
-	bh=eLz7obv35w/u/cKxEql/UTAbQvGopYBPWu2O23zJfFE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=PxWUobkeHFq71SCUR1xGpKL7rp54LdtpMDhxyNaZ6B6qRybJD7ROppyIFqmuGbdrfN4NT7DPtHDhdIL+1+5CAeAGgo+pefhXWA7ThWyoqcjKRhzkCPxmyPyXyKGljcg8hbJhHSf6KCYIWfxHLl2yIMcXuwjuSKev6hPJhQ+GDFY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=MdQ2XScY; arc=none smtp.client-ip=91.218.175.186
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1746210316; c=relaxed/simple;
+	bh=7988R3mZpKGG6Ak4AjVYu0TJ2HcEVdVBtPTKH/kklsc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=pcj5QQ3cEP/T4IEs+dTGdszT4Zfd/xI4NALO1+SDWkOo2rsM7jSDvsBVmqwhrhm52SksWVxU9NF6k9JI72Y8njSK5OiKKKyJMsk7JsLx3bveTSviAv9ypdLqFNE4BDbjdKcVZg/Nso03FB410SBSc7JKI6GtSGT2RjuebiYsXro=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XkbS006O; arc=none smtp.client-ip=209.85.214.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="MdQ2XScY"
-Message-ID: <7590d7af-e8c3-48cd-aba2-10af4d9d909d@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746207700;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=Xff4owWgDUIlVTdiJE9nAsinQN/NlojnRKLTslMQN8U=;
-	b=MdQ2XScY0YuJgRON9Ye4a2dZ6lrHOCp7JQsLUQSjuXZectNoGme+AUXVBqAz/bLAUi84rn
-	tYk3cMji0ERwL3QX6FL0n8Dtm2D4cGvlptE8Tm+HJDb0EKSUXLT3/UAE5lO/SrfbPWesYm
-	LxlvBaN08D7jjeD+fd2fPTrHOxfw2sQ=
-Date: Fri, 2 May 2025 13:41:32 -0400
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XkbS006O"
+Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2263428c8baso14185ad.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 11:25:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1746210314; x=1746815114; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Emot1Htzetmhc9hYsA7C5Lev8H41HDZmzIfFRACzMi8=;
+        b=XkbS006OiWglzXMoAHq0vCs3PMcGVmUkA4h9xiU04TYsY4Qxw/0JjdkzjMUfd+Otno
+         rq4ERrGa3gv2axIGktsOvX9pcIqZMuOc+/Un8XhU5Vr/kBvtktS+hb91nhvl4BC7CPXQ
+         fnhl8K+sR4qJibPBRzGQfm4bpU/Ywk65AHxQP9ygvJcg2C+V+RgUF4uv+nXeEmr5Wf8C
+         R/proTwxUcNJzmZUeGvKcj3B/QBFdqR3qHOXEDu9ReMHo23MockyQNzQ08idkmqEx3UJ
+         06GQsC/+THIAsnAOznpcAT1fhhruM7jIxZTbIo/+trhjlj/WkukFJx1QWBJ5L7a8Z2OE
+         Y5KA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746210314; x=1746815114;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Emot1Htzetmhc9hYsA7C5Lev8H41HDZmzIfFRACzMi8=;
+        b=YME2Mn+FwaVed6Q9mxMyj9MrLeNKW+VQ4WhJjf2ML/8WC1syjfuhv9dySRJQWfZ2pg
+         O27wE2GVKrBjL0nzLO9rNxAzzEBrTnbqkcjwgHDkQRgdC4V6Jl4F5GxgWsUZ747VwfsM
+         5SRNB5IbHdzlag23r3fuERAi0fTg6B1iJsUVKUgmnjp3Tv2pPTZbjdx8LpT/mQ7oDjr1
+         /WB+6DmFF5KOFSHtbj8FgE4nFqInIAC8BNQ0adtwk8TJldWD84+WK5Qew5pOZu998+5Y
+         vRVwH0gZk98dOoadGiyTruADydzOVRW7CBphPl8wNzJm5/e/xKV46xoVaBZ1U3ds1nBc
+         ASLw==
+X-Forwarded-Encrypted: i=1; AJvYcCWPjv50jvxXYttICInpp07JkuE148Zk2jPAzEMTYHrL+itzqKUst+XcaityZ/Xm5yYgX2OFaWaAkqM=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx+fJpRHXzKxFY7h84xfy+oOQZKSF12InEkOMj1AOlbGbhBNo2q
+	FBGWiAE9ehQ55CT8EOhirWeVK1mPBFBL92xGf4DbSGjnkxk9Yg5HW3mCpxhSsw4CZ9nEmZrie1Z
+	3Tas1FvqNWHYtyibxq03eTGj1R2so7fDCOLxm
+X-Gm-Gg: ASbGncty6Syl2ShNfe5ShD9fdU9T4BLUKjP6Fuzskceuj8KegDrdCdzdXNsM1PBdNLb
+	QOVJKLN9Yx0vFPWnqxnXTtJ/DbY1WlIH3intTQ6vl0ZiTyUEGV4munDDR/km/LgxK+w1vMSvihO
+	dZ2wmY+YmAi/xf2s6O1MxTDbC+zxiYzJQFsm45Yql2aOZ2JatprlxF
+X-Google-Smtp-Source: AGHT+IEnS0W1NZg6BUaKBaLsmGLWSW5k5kMx7vCqjZJE1BvXZ91WD0nASnnl5YMQZHiCSuFVgwr9C6f8WFlXw0DbnC4=
+X-Received: by 2002:a17:903:1b68:b0:223:ff93:322f with SMTP id
+ d9443c01a7336-22e18a3edc1mr240885ad.2.1746210313713; Fri, 02 May 2025
+ 11:25:13 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [net-next PATCH v3 00/11] Add PCS core support
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Sean Anderson <sean.anderson@linux.dev>
-To: "Russell King (Oracle)" <linux@armlinux.org.uk>
-Cc: netdev@vger.kernel.org, Andrew Lunn <andrew+netdev@lunn.ch>,
- "David S . Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, upstream@airoha.com,
- Christian Marangi <ansuelsmth@gmail.com>, linux-kernel@vger.kernel.org,
- Kory Maincent <kory.maincent@bootlin.com>,
- Heiner Kallweit <hkallweit1@gmail.com>,
- Alexandre Belloni <alexandre.belloni@bootlin.com>,
- Alexandre Torgue <alexandre.torgue@foss.st.com>,
- Clark Wang <xiaoning.wang@nxp.com>,
- Claudiu Beznea <claudiu.beznea@microchip.com>,
- Claudiu Manoil <claudiu.manoil@nxp.com>, Conor Dooley <conor+dt@kernel.org>,
- Ioana Ciornei <ioana.ciornei@nxp.com>, Jonathan Corbet <corbet@lwn.net>,
- Joyce Ooi <joyce.ooi@intel.com>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Madalin Bucur <madalin.bucur@nxp.com>,
- Maxime Coquelin <mcoquelin.stm32@gmail.com>,
- Michal Simek <michal.simek@amd.com>,
- Nicolas Ferre <nicolas.ferre@microchip.com>,
- Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
- Rob Herring <robh+dt@kernel.org>, Rob Herring <robh@kernel.org>,
- Robert Hancock <robert.hancock@calian.com>,
- Saravana Kannan <saravanak@google.com>, UNGLinuxDriver@microchip.com,
- Vladimir Oltean <vladimir.oltean@nxp.com>, Wei Fang <wei.fang@nxp.com>,
- devicetree@vger.kernel.org, imx@lists.linux.dev,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-stm32@st-md-mailman.stormreply.com
-References: <20250415193323.2794214-1-sean.anderson@linux.dev>
- <aADzVrN1yb6UOcLh@shell.armlinux.org.uk>
- <13357f38-f27f-45b5-8c6a-9a7aca41156f@linux.dev>
- <aAEdQVd5Wn7EaxXp@shell.armlinux.org.uk>
- <8d6c8f72-a8bd-43a8-b1e6-a20cafddf804@linux.dev>
-Content-Language: en-US
-In-Reply-To: <8d6c8f72-a8bd-43a8-b1e6-a20cafddf804@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250410074721.947380-1-yeoreum.yun@arm.com> <20250410074721.947380-3-yeoreum.yun@arm.com>
+ <aBT8BWqoljvcAU_w@arm.com>
+In-Reply-To: <aBT8BWqoljvcAU_w@arm.com>
+From: Peter Collingbourne <pcc@google.com>
+Date: Fri, 2 May 2025 11:25:01 -0700
+X-Gm-Features: ATxdqUEsIDCdc1MXwbGpU0vqEfxYt1UlHJ7H90sjFz9gZvQP6g4z1_zIOkLmOYo
+Message-ID: <CAMn1gO4Ft2R+_CN+XdTsO0YpUQZN7zShMSg-XT90U698Rnifjw@mail.gmail.com>
+Subject: Re: [PATCH v3 2/3] arm64/mm/fault: use original FAR_EL1 value when
+ ARM64_MTE_FAR is supported
+To: Catalin Marinas <catalin.marinas@arm.com>
+Cc: Yeoreum Yun <yeoreum.yun@arm.com>, will@kernel.org, broonie@kernel.org, 
+	anshuman.khandual@arm.com, joey.gouly@arm.com, yury.khrustalev@arm.com, 
+	maz@kernel.org, oliver.upton@linux.dev, frederic@kernel.org, 
+	shmeerali.kolothum.thodi@huawei.com, james.morse@arm.com, 
+	mark.rutland@arm.com, huangxiaojia2@huawei.com, akpm@linux-foundation.org, 
+	surenb@google.com, robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, nd@arm.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hi Russell,
+On Fri, May 2, 2025 at 10:08=E2=80=AFAM Catalin Marinas <catalin.marinas@ar=
+m.com> wrote:
+>
+> + Peter Collingbourne as he added the SA_EXPOSE_TAGBITS flag.
+>
+> On Thu, Apr 10, 2025 at 08:47:20AM +0100, Yeoreum Yun wrote:
+> > Use the original FAR_EL1 value when an MTE tag check fault occurs,
+> > if ARM64_MTE_FAR is supported.
+> > This allows reports to include not only the logical tag (memory tag)
+> > but also the address tag information.
+> >
+> > Applications that require this information should install a signal hand=
+ler with
+> > the SA_EXPOSE_TAGBITS flag.
+> > While this introduces a minor ABI change,
+> > most applications do not set this flag and therefore will not be affect=
+ed.
+>
+> It is indeed a minor ABI in that a tag check fault resulting in a
+> signal will report the bits 63:60 as well, not just 59:56 of the address
+> (if the signal handler was registered with SA_EXPOSE_TAGBITS).
+>
+> I don't think user-space would notice but asking Peter.
 
-On 4/17/25 11:29, Sean Anderson wrote:
-> On 4/17/25 11:24, Russell King (Oracle) wrote:
->> On Thu, Apr 17, 2025 at 10:22:09AM -0400, Sean Anderson wrote:
->>> Hi Russell,
->>> 
->>> On 4/17/25 08:25, Russell King (Oracle) wrote:
->>> > On Tue, Apr 15, 2025 at 03:33:12PM -0400, Sean Anderson wrote:
->>> >> This series adds support for creating PCSs as devices on a bus with a
->>> >> driver (patch 3). As initial users,
->>> > 
->>> > As per previous, unless I respond (this response not included) then I
->>> > haven't had time to look at it - and today is total ratshit so, not
->>> > today.
->>> 
->>> Sorry if I resent this too soon. I had another look at the request for
->>> #pcs-cells [1], and determined that a simpler approach would be
->>> possible. So I wanted to resend with that change since it would let me
->>> drop the fwnode_property_get_reference_optional_args patches.
->> 
->> Please can you send them as RFC so I don't feel the pressure to say
->> something before they get merged (remember, non-RFC patches to netdev
->> get queued up in patchwork for merging.)
-> 
-> This series is marked "changes requested" in patchwork, so I don't think
-> it should get merged automatically. I won't send a v4 until you've had a
-> chance to review it.
+On Android we don't set bits 63:60 on heap addresses when MTE is
+enabled (and userspace programs aren't allowed to modify them in
+addresses they get back from the heap allocator either) so the fault
+handler should continue to see them as 0. Of course, a userspace
+program could be breaking the rules and setting those bits anyway, but
+in that case it looks like the only consequence would be that the
+error reports from the heap allocator would sometimes be missing some
+information (and this could already happen if the access results in a
+non-MTE fault) which I think is acceptable.
 
-Any chance you could review this series in the next week or so? I would
-like to send v4 in time to be reviewed before net-next closes later this
-month.
+Peter
 
---Sean
+>
+> > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
+> > ---
+> >  arch/arm64/mm/fault.c | 7 +++++--
+> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
+> > index ec0a337891dd..f21d972f99b1 100644
+> > --- a/arch/arm64/mm/fault.c
+> > +++ b/arch/arm64/mm/fault.c
+> > @@ -837,9 +837,12 @@ static int do_tag_check_fault(unsigned long far, u=
+nsigned long esr,
+> >       /*
+> >        * The architecture specifies that bits 63:60 of FAR_EL1 are UNKN=
+OWN
+> >        * for tag check faults. Set them to corresponding bits in the un=
+tagged
+> > -      * address.
+> > +      * address if ARM64_MTE_FAR isn't supported.
+> > +      * Otherwise, bits 63:60 of FAR_EL1 are KNOWN.
+> >        */
+> > -     far =3D (__untagged_addr(far) & ~MTE_TAG_MASK) | (far & MTE_TAG_M=
+ASK);
+> > +     if (!cpus_have_cap(ARM64_MTE_FAR))
+> > +             far =3D (__untagged_addr(far) & ~MTE_TAG_MASK) | (far & M=
+TE_TAG_MASK);
+> > +
+> >       do_bad_area(far, esr, regs);
+> >       return 0;
+> >  }
+> > --
+> > LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
