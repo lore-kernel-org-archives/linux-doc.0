@@ -1,149 +1,129 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
+Received: from mail-ed1-f50.google.com (mail-ed1-f50.google.com [209.85.208.50])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D28AE1A265E
-	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 18:25:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A01CA256C66
+	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 18:37:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.50
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746210316; cv=none; b=RkEXmv4rUmObfBe6Gah4xZMDPQ208aCNWE50pK45ne6nKI+ZXZgBBMFvP1+K0mnWkpwtyXT0AhyqcZwI27HumlR9PfeQVsk8vhg2Q8ZWlWP+2CgEIQRBdg1aCYXsxio4qRueu/OXETGaFhU6zG9uFixqarBWOZSxcXZRUe0Qgog=
+	t=1746211081; cv=none; b=juBFKZxhsjUIh6GN4ox4ioBr37GBVj3O6V+wHs+eXrVeXnmsByIEbcgWTavC4MVeSbt8rwr7EBnCZ9QZ442l44UA8MXz7Fjop7D+QMXjwFgBA0/AZtF7SKqEkLF+kvhaDN/A3osKuPE7+88ontTvsC+ikcBgbZ+O6Xa1zqJxft8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746210316; c=relaxed/simple;
-	bh=7988R3mZpKGG6Ak4AjVYu0TJ2HcEVdVBtPTKH/kklsc=;
+	s=arc-20240116; t=1746211081; c=relaxed/simple;
+	bh=evz0UL5GViJbQYOeXoB2+mBdr/LLmySfQf4mosHPGw0=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=pcj5QQ3cEP/T4IEs+dTGdszT4Zfd/xI4NALO1+SDWkOo2rsM7jSDvsBVmqwhrhm52SksWVxU9NF6k9JI72Y8njSK5OiKKKyJMsk7JsLx3bveTSviAv9ypdLqFNE4BDbjdKcVZg/Nso03FB410SBSc7JKI6GtSGT2RjuebiYsXro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=XkbS006O; arc=none smtp.client-ip=209.85.214.171
+	 To:Cc:Content-Type; b=BE7DEmHzQXJ4IBk+xWOsYqqM8t+GALm7SjPd13uf34epfWRRZ2edDuqVv55Kf1DsGDYCk5pCRfizQn6AkfGAyp3q1/jjdC1BX+bTQw9HV2RRdCJ5lZHGhWh9Ji3nlq64+lZzfG2xx7bk0NMMgFz+vrhfxLEFojeCUfWXr2T04hs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=dRb2ybyM; arc=none smtp.client-ip=209.85.208.50
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="XkbS006O"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2263428c8baso14185ad.1
-        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 11:25:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="dRb2ybyM"
+Received: by mail-ed1-f50.google.com with SMTP id 4fb4d7f45d1cf-5f624291db6so3596040a12.3
+        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 11:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746210314; x=1746815114; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1746211078; x=1746815878; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Emot1Htzetmhc9hYsA7C5Lev8H41HDZmzIfFRACzMi8=;
-        b=XkbS006OiWglzXMoAHq0vCs3PMcGVmUkA4h9xiU04TYsY4Qxw/0JjdkzjMUfd+Otno
-         rq4ERrGa3gv2axIGktsOvX9pcIqZMuOc+/Un8XhU5Vr/kBvtktS+hb91nhvl4BC7CPXQ
-         fnhl8K+sR4qJibPBRzGQfm4bpU/Ywk65AHxQP9ygvJcg2C+V+RgUF4uv+nXeEmr5Wf8C
-         R/proTwxUcNJzmZUeGvKcj3B/QBFdqR3qHOXEDu9ReMHo23MockyQNzQ08idkmqEx3UJ
-         06GQsC/+THIAsnAOznpcAT1fhhruM7jIxZTbIo/+trhjlj/WkukFJx1QWBJ5L7a8Z2OE
-         Y5KA==
+        bh=Szvh9FDiAeZV5KMXY9XpVOO+pU/TH0kKZBG6xbyHs1E=;
+        b=dRb2ybyM9EToZlc9rRPDDaJFSph9bO2+zPF+OGTf3OTyX7p7aVGlPWIMJl9+OwrXnt
+         Y6v3AC5oD5ubzWTPTDMssf15VOeCPSjZ+SPlFhsH286iYmHGp59r2SQfXCEI85/258a1
+         /0V6NF7ef0FgPuZpYFfE/JbYCapbpTd+YBK+EGBP+j6M0eIpuH9C5K6ucBWY9uF0IOhH
+         Ngk3Y9u8R+Sv56fVyoLjoBD9LauE6ur0SRb7nyx7SCXmTDM3Zhpd/DgdqZHq+RejkFdN
+         +jphJy/dK5xLJYAwoWtp16fTelAuoHBFSqnr0r69M77QS+7mtzoU443KMrqi9p10Oxwr
+         yJXg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746210314; x=1746815114;
+        d=1e100.net; s=20230601; t=1746211078; x=1746815878;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Emot1Htzetmhc9hYsA7C5Lev8H41HDZmzIfFRACzMi8=;
-        b=YME2Mn+FwaVed6Q9mxMyj9MrLeNKW+VQ4WhJjf2ML/8WC1syjfuhv9dySRJQWfZ2pg
-         O27wE2GVKrBjL0nzLO9rNxAzzEBrTnbqkcjwgHDkQRgdC4V6Jl4F5GxgWsUZ747VwfsM
-         5SRNB5IbHdzlag23r3fuERAi0fTg6B1iJsUVKUgmnjp3Tv2pPTZbjdx8LpT/mQ7oDjr1
-         /WB+6DmFF5KOFSHtbj8FgE4nFqInIAC8BNQ0adtwk8TJldWD84+WK5Qew5pOZu998+5Y
-         vRVwH0gZk98dOoadGiyTruADydzOVRW7CBphPl8wNzJm5/e/xKV46xoVaBZ1U3ds1nBc
-         ASLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWPjv50jvxXYttICInpp07JkuE148Zk2jPAzEMTYHrL+itzqKUst+XcaityZ/Xm5yYgX2OFaWaAkqM=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx+fJpRHXzKxFY7h84xfy+oOQZKSF12InEkOMj1AOlbGbhBNo2q
-	FBGWiAE9ehQ55CT8EOhirWeVK1mPBFBL92xGf4DbSGjnkxk9Yg5HW3mCpxhSsw4CZ9nEmZrie1Z
-	3Tas1FvqNWHYtyibxq03eTGj1R2so7fDCOLxm
-X-Gm-Gg: ASbGncty6Syl2ShNfe5ShD9fdU9T4BLUKjP6Fuzskceuj8KegDrdCdzdXNsM1PBdNLb
-	QOVJKLN9Yx0vFPWnqxnXTtJ/DbY1WlIH3intTQ6vl0ZiTyUEGV4munDDR/km/LgxK+w1vMSvihO
-	dZ2wmY+YmAi/xf2s6O1MxTDbC+zxiYzJQFsm45Yql2aOZ2JatprlxF
-X-Google-Smtp-Source: AGHT+IEnS0W1NZg6BUaKBaLsmGLWSW5k5kMx7vCqjZJE1BvXZ91WD0nASnnl5YMQZHiCSuFVgwr9C6f8WFlXw0DbnC4=
-X-Received: by 2002:a17:903:1b68:b0:223:ff93:322f with SMTP id
- d9443c01a7336-22e18a3edc1mr240885ad.2.1746210313713; Fri, 02 May 2025
- 11:25:13 -0700 (PDT)
+        bh=Szvh9FDiAeZV5KMXY9XpVOO+pU/TH0kKZBG6xbyHs1E=;
+        b=N0H4IRFi7fopBa5LQBbsazrIttwPi2jC3qomgWMOztQLLWbvMxO25jMh9uOAsV9w6A
+         4S3lvBhi3e1sryh1fSWxSumlQUfeDwUxhkR7OgV9DNy5K84h/4m1tH//wgQ/5nc5SkCx
+         iw6A/Dawh7ZKIbxHpRMrtahpKgivB9rtpGxRLen7VSJ4UscpRJZBj8n78tSkf3Hsy+kQ
+         1kdB9z8rd1Nup/7XUrgGIn4ruuEkCiXhJzwgRqPr1oJ1RokmUTXhqW0tX8CVqf4Cequd
+         pUkpuVf32hA4iCvEUv3xDmVEvvhogDpwX/ucnJPfgKQ7PbWwz5m3xGio7jg4lueAVUjG
+         lMPw==
+X-Forwarded-Encrypted: i=1; AJvYcCWVi6GIhAIUM82gSHKY6lf8jwbWJhlJ9Kp029t+v9X76vrN1diseRYIYHjruqRN9/ySe4Msx6VksSc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyO3kdzm7f8cuQBnRWJqo2pYkGGdPyZsWFwo3TLDKiNRsi37pKU
+	GlwzIWGilcozCiH0idmeKtvQJaHQ7T4kddgF8Qn/cmrJhOLKLiNJkPHAjJWI0Iyx17dz1fVHEnU
+	OvvhIbvWoEXk0WSin+TPS4v/5jmU7arpAf1yQ
+X-Gm-Gg: ASbGnctAL8Z2RJdlDo8RdYjLGreUgpsFGnqfICh8T0ysBugvPS1Z6QWvSaNXWDzuKgz
+	yEg4IaKZJzYUlc8DUEu5X7SMJkXh9ygsU3YrtaVS9DkKMjW1JuzrJ023NuCO9w12uvAgMvX8mDR
+	lN2K/RvevF70nIwt9kUWHKtJcRb9cXzibB+ZFbidbvvbiGt7OBOg==
+X-Google-Smtp-Source: AGHT+IGwGEcGt7qt4y6UtHsVIeUZAmZUDbWtJ+Ey7gGLeSPt9gI0iA5XJZYC4rzHLcT2CmY4/egmqxuj7aqEk5l5ENE=
+X-Received: by 2002:a17:907:9812:b0:acb:94d6:a841 with SMTP id
+ a640c23a62f3a-ad17ad8096cmr430432366b.16.1746211077663; Fri, 02 May 2025
+ 11:37:57 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250410074721.947380-1-yeoreum.yun@arm.com> <20250410074721.947380-3-yeoreum.yun@arm.com>
- <aBT8BWqoljvcAU_w@arm.com>
-In-Reply-To: <aBT8BWqoljvcAU_w@arm.com>
-From: Peter Collingbourne <pcc@google.com>
-Date: Fri, 2 May 2025 11:25:01 -0700
-X-Gm-Features: ATxdqUEsIDCdc1MXwbGpU0vqEfxYt1UlHJ7H90sjFz9gZvQP6g4z1_zIOkLmOYo
-Message-ID: <CAMn1gO4Ft2R+_CN+XdTsO0YpUQZN7zShMSg-XT90U698Rnifjw@mail.gmail.com>
-Subject: Re: [PATCH v3 2/3] arm64/mm/fault: use original FAR_EL1 value when
- ARM64_MTE_FAR is supported
-To: Catalin Marinas <catalin.marinas@arm.com>
-Cc: Yeoreum Yun <yeoreum.yun@arm.com>, will@kernel.org, broonie@kernel.org, 
-	anshuman.khandual@arm.com, joey.gouly@arm.com, yury.khrustalev@arm.com, 
-	maz@kernel.org, oliver.upton@linux.dev, frederic@kernel.org, 
-	shmeerali.kolothum.thodi@huawei.com, james.morse@arm.com, 
-	mark.rutland@arm.com, huangxiaojia2@huawei.com, akpm@linux-foundation.org, 
-	surenb@google.com, robin.murphy@arm.com, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, nd@arm.com
+References: <20250501225425.635167-1-changyuanl@google.com>
+ <20250501225425.635167-7-changyuanl@google.com> <20250501173557.1880f3aa8694352e0eb153b4@linux-foundation.org>
+In-Reply-To: <20250501173557.1880f3aa8694352e0eb153b4@linux-foundation.org>
+From: Changyuan Lyu <changyuanl@google.com>
+Date: Fri, 2 May 2025 11:37:20 -0700
+X-Gm-Features: ATxdqUHZQf1uwj7X5bskxFA1vT8WH6Uhw3YyifuFYUsYAjHkndnVOqhZb4vCKaQ
+Message-ID: <CAGzOjspvbMkr8b4-xy3EfGLE4nmLC8B9EPx0QYCdpoFQD-FESA@mail.gmail.com>
+Subject: Re: [PATCH v7 06/18] kexec: include asm/early_ioremap.h
+To: Andrew Morton <akpm@linux-foundation.org>
+Cc: linux-kernel@vger.kernel.org, anthony.yznaga@oracle.com, arnd@arndb.de, 
+	ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de, 
+	catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com, 
+	devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com, 
+	graf@amazon.com, hpa@zytor.com, jgowans@amazon.com, kexec@lists.infradead.org, 
+	krzk@kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-doc@vger.kernel.org, linux-mm@kvack.org, luto@kernel.org, 
+	mark.rutland@arm.com, mingo@redhat.com, pasha.tatashin@soleen.com, 
+	pbonzini@redhat.com, peterz@infradead.org, ptyadav@amazon.de, robh@kernel.org, 
+	rostedt@goodmis.org, rppt@kernel.org, saravanak@google.com, 
+	skinsburskii@linux.microsoft.com, tglx@linutronix.de, thomas.lendacky@amd.com, 
+	will@kernel.org, x86@kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 2, 2025 at 10:08=E2=80=AFAM Catalin Marinas <catalin.marinas@ar=
-m.com> wrote:
+On Thu, May 1, 2025 at 5:36=E2=80=AFPM Andrew Morton <akpm@linux-foundation=
+.org> wrote:
 >
-> + Peter Collingbourne as he added the SA_EXPOSE_TAGBITS flag.
+> On Thu,  1 May 2025 15:54:13 -0700 Changyuan Lyu <changyuanl@google.com> =
+wrote:
 >
-> On Thu, Apr 10, 2025 at 08:47:20AM +0100, Yeoreum Yun wrote:
-> > Use the original FAR_EL1 value when an MTE tag check fault occurs,
-> > if ARM64_MTE_FAR is supported.
-> > This allows reports to include not only the logical tag (memory tag)
-> > but also the address tag information.
+> > From: Arnd Bergmann <arnd@arndb.de>
 > >
-> > Applications that require this information should install a signal hand=
-ler with
-> > the SA_EXPOSE_TAGBITS flag.
-> > While this introduces a minor ABI change,
-> > most applications do not set this flag and therefore will not be affect=
-ed.
->
-> It is indeed a minor ABI in that a tag check fault resulting in a
-> signal will report the bits 63:60 as well, not just 59:56 of the address
-> (if the signal handler was registered with SA_EXPOSE_TAGBITS).
->
-> I don't think user-space would notice but asking Peter.
-
-On Android we don't set bits 63:60 on heap addresses when MTE is
-enabled (and userspace programs aren't allowed to modify them in
-addresses they get back from the heap allocator either) so the fault
-handler should continue to see them as 0. Of course, a userspace
-program could be breaking the rules and setting those bits anyway, but
-in that case it looks like the only consequence would be that the
-error reports from the heap allocator would sometimes be missing some
-information (and this could already happen if the access results in a
-non-MTE fault) which I think is acceptable.
-
-Peter
-
->
-> > Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
-> > ---
-> >  arch/arm64/mm/fault.c | 7 +++++--
-> >  1 file changed, 5 insertions(+), 2 deletions(-)
+> > The early_memremap() function is decleared in a header that is only ind=
+irectly
+> > included here:
 > >
-> > diff --git a/arch/arm64/mm/fault.c b/arch/arm64/mm/fault.c
-> > index ec0a337891dd..f21d972f99b1 100644
-> > --- a/arch/arm64/mm/fault.c
-> > +++ b/arch/arm64/mm/fault.c
-> > @@ -837,9 +837,12 @@ static int do_tag_check_fault(unsigned long far, u=
-nsigned long esr,
-> >       /*
-> >        * The architecture specifies that bits 63:60 of FAR_EL1 are UNKN=
-OWN
-> >        * for tag check faults. Set them to corresponding bits in the un=
-tagged
-> > -      * address.
-> > +      * address if ARM64_MTE_FAR isn't supported.
-> > +      * Otherwise, bits 63:60 of FAR_EL1 are KNOWN.
-> >        */
-> > -     far =3D (__untagged_addr(far) & ~MTE_TAG_MASK) | (far & MTE_TAG_M=
-ASK);
-> > +     if (!cpus_have_cap(ARM64_MTE_FAR))
-> > +             far =3D (__untagged_addr(far) & ~MTE_TAG_MASK) | (far & M=
-TE_TAG_MASK);
+> > kernel/kexec_handover.c:1116:8: error: call to undeclared function 'ear=
+ly_memremap'; ISO C99 and later do not support implicit function declaratio=
+ns [-Wimplicit-function-declaration]
+> >  1116 |         fdt =3D early_memremap(fdt_phys, fdt_len);
+> >       |               ^
+> >
+> > ...
+> >
+> > --- a/kernel/kexec_handover.c
+> > +++ b/kernel/kexec_handover.c
+> > @@ -17,6 +17,9 @@
+> >  #include <linux/memblock.h>
+> >  #include <linux/notifier.h>
+> >  #include <linux/page-isolation.h>
 > > +
-> >       do_bad_area(far, esr, regs);
-> >       return 0;
-> >  }
-> > --
-> > LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+> > +#include <asm/early_ioremap.h>
+> > +
+> >  /*
+> >   * KHO is tightly coupled with mm init and needs access to some of mm
+> >   * internal APIs.
+>
+> When resending, it's best to fold little fixes like this into the base
+> patch, along with a little note and the author's signed-off-by.
+
+Thanks for the suggestion Andrew! I will follow it next time.
+
+> I shall queue this as a fix to be folded into "kexec: add KHO parsing
+> support", thanks.
+
+
+Best,
+Changyuan
