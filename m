@@ -1,138 +1,88 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ACC81D554;
-	Fri,  2 May 2025 06:53:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584E42045B5
+	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 07:08:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746168798; cv=none; b=qVvAvWmfh0pGb1v+56+tEfcByZW96ygD2dE7c4N0C+cHK0fpawi/xWvbWEt6dSJ1F39hFRmA8KFdXCEuXvYvu2T6HE68UKr+LgdRJPiWCBkLZFYHa2ovHfppaU7QTemObD4dC5mbiPxn9DsizOc+Ot5A7T8TO0FXsAiUucotPbo=
+	t=1746169709; cv=none; b=kebShchuu89p2wJJAxiQr/c6noVDeQXrPcH9RVDr/AkhtkFTUp/ZwILxqAnKrL9pYnyaA/v3pga0sDFrTJvkAllHi9VvXkcNO6QHUX8t8si6zuja2zMm6korEp+X5kRKJwhB87TECvhEeBiBPwCcBjmZvewFapdaqBch8Ko7+jc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746168798; c=relaxed/simple;
-	bh=AEdRU+ogQrE6gQAgP/rybtN8TOhshZ7X86ciQDX554g=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=msPR/UMfLyCejRg06M6wo+pKtRMNTiBPAxVkHPQTXjXgNqa/A0sDLR1ZSn1JoD+K/BaqeNhvAsfAznKTLTdSYA/2F+aEJr6nmcjtkucmwXRXzBCdtYDui6NGPKHNntdiYKgsWfCCr64P+ity25p5dfglEUvekY2F//o9YL3hTAw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=CxKUsKab; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1746169709; c=relaxed/simple;
+	bh=9S2WjA6k7mOWQgmcdNgM8oS1sRzr6cHPt3EHGiYEcRk=;
+	h=Date:From:To:Cc:Subject:Message-ID:MIME-Version:Content-Type:
+	 Content-Disposition; b=ZMk2SAfcvi32yGAMSyzBrm5fHoEk9T/NhKlD2TU/B7rAluDBd4N6lpVIAwziG5y+2qNH1Ec+15c4MF2KpTrcyrQOLeW5Z9QcNNvM+ygy8J+m4XN9M5GrFcACcgvfcs0t6EGT3ce99YeBXifxhicdOXTmPcRdAcidD89xzo24abM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mAl+szvq; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="CxKUsKab"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1746168790;
-	bh=AEdRU+ogQrE6gQAgP/rybtN8TOhshZ7X86ciQDX554g=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=CxKUsKabvVQtCyoctO8MV2iUdgbSXO1OeNK+W2RsL9m4NVcoUrzpeI7zuNg2eC3IS
-	 ZL0Jz4TZ9bVREPe8YN+Ocj0q2Hc+biSc2XfA95gtj8Z+2GrX2G118bp/uIjQ0QmRMk
-	 XDnIezQvPUDxsyD5F02EsfUCEVYsV3PK2uLBkSiQ=
-Date: Fri, 2 May 2025 08:53:09 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, 
-	Nathan Chancellor <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, 
-	Luis Chamberlain <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, 
-	Sami Tolvanen <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, 
-	Paul Moore <paul@paul-moore.com>, James Morris <jmorris@namei.org>, 
-	"Serge E. Hallyn" <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Madhavan Srinivasan <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, 
-	Nicholas Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, 
-	Roberto Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin <dmitry.kasatkin@gmail.com>, 
-	Eric Snowberg <eric.snowberg@oracle.com>, Nicolas Schier <nicolas.schier@linux.dev>, 
-	Fabian =?utf-8?Q?Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>, Arnout Engelen <arnout@bzzt.net>, 
-	Mattia Rizzolo <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, 
-	Christian Heusel <christian@heusel.eu>, =?utf-8?B?Q8OianU=?= Mihai-Drosi <mcaju95@gmail.com>, 
-	linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arch@vger.kernel.org, 
-	linux-modules@vger.kernel.org, linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
-Message-ID: <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
- <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mAl+szvq"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746169707; x=1777705707;
+  h=date:from:to:cc:subject:message-id:mime-version;
+  bh=9S2WjA6k7mOWQgmcdNgM8oS1sRzr6cHPt3EHGiYEcRk=;
+  b=mAl+szvqIFiv/KmFCX43C7gGvd7ke1rGwL0Wo53J/UMpNNLkkGGhGeK8
+   s8zwlsTtbwAqUufplUTe5gbub/ji5CJsOmUyvN6lYTzqfvbZ26qlzAeQE
+   YjwQO+tkTD6tEva10UJL0RPv/QS+17Bm18eS7o15RYRjl7tGSOvnkHdOk
+   uMEgHcfRft6rEIK866J84DLZl2FJYcQe4jHmbyLAZ9BFpgeHw3ir74K8i
+   JfF3VTnzZvSGeLiFWMPfSrFi87MH74xYNBWBAHLztHXGVrricg+Z/LSn8
+   tBEDwRWSNkawoKE8sTpJRPuO98+7SdQTNPPmvEpiQ4ZhxVIGLnWpqNRDI
+   w==;
+X-CSE-ConnectionGUID: oCiuk3CaRWaYt24DdWY4yQ==
+X-CSE-MsgGUID: 4V5jqOniRVmvEc6oKaaRuQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58057518"
+X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
+   d="scan'208";a="58057518"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 00:08:27 -0700
+X-CSE-ConnectionGUID: t92nldQLTi+LG6lBzY8TWA==
+X-CSE-MsgGUID: IYwONpQwSaC7LL7p9MFSGA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,255,1739865600"; 
+   d="scan'208";a="134325699"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 02 May 2025 00:08:26 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uAkVT-0004b5-1G;
+	Fri, 02 May 2025 07:08:23 +0000
+Date: Fri, 2 May 2025 15:07:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org
+Subject: [robh:dt-convert-irq 8/44] htmldocs: Warning:
+ Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml references a
+ file that doesn't exist:
+ Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+Message-ID: <202505021551.YtefY5bm-lkp@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
 
-Hi James,
+tree:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git dt-convert-irq
+head:   271e22adde83e0cc6fce40f70c5f660bf1a8e2e3
+commit: 357dfc0976c9d5cd147b50d1d44d98ea75e3ff38 [8/44] dt-bindings: interrupt-controller: Convert aspeed,ast2xxx-scu-ic to DT schema
+reproduce: (https://download.01.org/0day-ci/archive/20250502/202505021551.YtefY5bm-lkp@intel.com/reproduce)
 
-On 2025-04-29 10:05:04-0400, James Bottomley wrote:
-> On Tue, 2025-04-29 at 15:04 +0200, Thomas Weißschuh wrote:
-> > The current signature-based module integrity checking has some
-> > drawbacks in combination with reproducible builds:
-> > Either the module signing key is generated at build time, which makes
-> > the build unreproducible,
-> 
-> I don't believe it does: as long as you know what the key was, which
-> you can get from the kernel keyring, you can exactly reproduce the core
-> build (it's a public key after all and really equivalent to built in
-> configuration).  Is the fact that you have to boot the kernel to get
-> the key the problem?  In which case we could insist it be shipped in
-> the kernel packaging.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505021551.YtefY5bm-lkp@intel.com/
 
-See below.
+All warnings (new ones prefixed by >>):
 
-> >  or a static key is used, which precludes rebuilds by third parties
-> > and makes the whole build and packaging process much more
-> > complicated. 
-> 
-> No, it's the same as above ... as long as you have the public key you
-> can reproduce the core build with the same end to end hash.
+>> Warning: Documentation/devicetree/bindings/mfd/aspeed,ast2x00-scu.yaml references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/aspeed,ast2xxx-scu-ic.txt
+   Warning: Documentation/devicetree/bindings/regulator/siliconmitus,sm5703-regulator.yaml references a file that doesn't exist: Documentation/devicetree/bindings/mfd/siliconmitus,sm5703.yaml
+   Warning: Documentation/hwmon/g762.rst references a file that doesn't exist: Documentation/devicetree/bindings/hwmon/g762.txt
+   Warning: Documentation/translations/ja_JP/SubmittingPatches references a file that doesn't exist: linux-2.6.12-vanilla/Documentation/dontdiff
+   Warning: Documentation/translations/ja_JP/process/submit-checklist.rst references a file that doesn't exist: Documentation/translations/ja_JP/SubmitChecklist
+   Warning: Documentation/translations/zh_CN/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
 
-While the scheme you propose does allow verification of rebuildability,
-it does not satisfy the requirements for a reproducible build as
-understood by the general reproducible builds community:
-
-	When is a build reproducible?
-
-	A build is reproducible if given the same source code, build environment
-	and build instructions, any party can recreate bit-by-bit identical
-	copies of all specified artifacts.
-
-	The relevant attributes of the build environment, the build instructions
-	and the source code as well as the expected reproducible artifacts are
-	defined by the authors or distributors. The artifacts of a build are the
-	parts of the build results that are the desired primary output.
-
-https://reproducible-builds.org/docs/definition/
-
-Specifically the output of a previous build (the public key, module
-signatures) is not available during the rebuild or verification.
-
-> However, is there also a corresponding question of how we verify
-> reproduceability of kernel builds (and the associated modules ... I
-> assume for the modules you do strip the appended signature)?
-
-Currently distros either don't enforce the reproducibility of the
-kernel package at all or disable MODULE_SIG.
-With the proposed scheme there would be no signatures on builtin modules.
-
-> I assume
-> you're going by the secure boot hash (authenticode hash of the efi stub
-> and the compressed payload which includes the key).  However, if we had
-> the vmlinux.o we could do a much more nuanced hash to verify the build,
-> say by placing the keyring data in a section that isn't hashed.
-
-The currently existing tooling does not have any nuance in its
-verifications. It just compares bit-by-bit.
-I think this is intentional as any bespoke per-package logic would
-introduce possible failure modes and stand in the way of implementing
-multiple completely independent verification toolsets.
-While bespoke tools like diffoscope exist, these are only for
-development and debugging. Not not for the reproducibiliy check itself.
-
-How to handle secure-boot with distro keys is not yet clearly defined.
-I see two possibilities, which should be possible with the proposed
-scheme, both starting with the build of an unsigned kernel package.
-Then a signature would be computed on private infrastructure and either
-* shipped in a standalone package, to be combined with the kernel when
-  that is installed to the ESP/flash etc.
-* used as input of a signed kernel package where it is combined with the
-  unsigned kernel image.
-
-
-Thomas
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
