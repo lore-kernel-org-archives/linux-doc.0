@@ -1,245 +1,262 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from out30-113.freemail.mail.aliyun.com (out30-113.freemail.mail.aliyun.com [115.124.30.113])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E26091A2541
-	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 01:13:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 435962E403;
+	Fri,  2 May 2025 01:23:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.113
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746148408; cv=none; b=Ruwi/GNU77L9eVK37xg4yQSgVqZAgQJRspS3/Har0SoTVygv9qbbrDBFBE8KwZUJxDCVswvjGe7pSslzB0340qhRqkFWFnsLfkqV2HcvUSqsZ2bYuMZZpfX2aOP1vC4bv4MgCxhNkmDjQ0GX5y6dJxr2o0HPj8CcAXx0iqbBlts=
+	t=1746149044; cv=none; b=TDrRxDzW3uKaJMm25zbyTsu8pcN2dwv26r4RGJY0X8LpitLK30A4DccpEISeCyMvW2DnD4hUCK13KRNCbaVnHjycbiyvwdD8+JfQZ+MlUge4xBbYiJMb1u/J33gu1XcAmQ02mY1y2XMjqJamlcyv4Drpl/LG3idnbj9JSXfKsj4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746148408; c=relaxed/simple;
-	bh=358HTmulVlruFMpacpjHwFNBa3gAqASZ7gNoN8s6OoA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=QPLuyVKmu4w28DU0AcUnZ9ybnbNDl5vJwkKk4aMy/C/kt4aQZiFHV4noGp02jWjL3wf/SGq8R1D49ghY0csb7cjWYPm3QSd4TE7dL9spcicSVerefgfvZUQWg3KktFPZGpHEGcfeqdfXQyQR865gweboqQCcI4/sIOCOYsyrBks=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=h22l++I0; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1746149044; c=relaxed/simple;
+	bh=mRj4fkGpGfbl8/PyU3OJoYFMz/IoqS58+i5emRF5ruo=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=dfCY0n9My0xaErCLikc0QKPT1vAhfQ/eE0XmOq0edtIFDuHnbgVRTiOqG8A8EJRo6nd685pECTA9V++KYU3pciyJxSw8IbGePMJSH9sfAE6A0I1e/FDiI2rx30ZFQY+zPUWhQIka66YWK1RxL3irJ4hmNu4ujEqRCdxy3b3kh4o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=tHVT2c4R; arc=none smtp.client-ip=115.124.30.113
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="h22l++I0"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746148405;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=/EXCS7YZfoYbLHPYyFkucRV4RaFlxZolah51T9bD/WA=;
-	b=h22l++I0BOKVDgfZZ9iqNyLdq/reU7sMwsRjjtBiKkvaLJ1uBBAANce94p6J2g+Ty2UcK9
-	aBaza88vEBqxe4lE5oCKfPaJ8LUhFT/yUt3HUmigmnrs5CDgx/s4PbVGqCWTemwPt8QsJe
-	d4UQRGxhSVoJSZ+IylLA52WoXypBrGU=
-Received: from mail-pf1-f198.google.com (mail-pf1-f198.google.com
- [209.85.210.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-56-1NNj9lOVNY6YDDssaXkSyQ-1; Thu, 01 May 2025 21:13:24 -0400
-X-MC-Unique: 1NNj9lOVNY6YDDssaXkSyQ-1
-X-Mimecast-MFC-AGG-ID: 1NNj9lOVNY6YDDssaXkSyQ_1746148404
-Received: by mail-pf1-f198.google.com with SMTP id d2e1a72fcca58-74041404f8dso1034866b3a.0
-        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 18:13:24 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746148403; x=1746753203;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=/EXCS7YZfoYbLHPYyFkucRV4RaFlxZolah51T9bD/WA=;
-        b=KcQ6gnrB0lw2Sh5bVomYLSATJP/KYWaLUQMoFj6sp5R5SkxEFK90EN/Od8zgXsLAXQ
-         xABC+leWmhG1TF31EjUcnSv9jrRiV5Y5FbgtnFx05hX6YkXxKP8jD1OIbJCliRSmBa+2
-         ggn10/g2PoUYGXXyehBhivVL48je8+AT7WMg+907tM2FE4EwPsRisc+lJvQivsxsnvXJ
-         3iycPasjb1JPlDsVBCU1pa+dpyWJLyxpzztUQLk3UD94zwXHo8phhFHlYulnGoiO/CkH
-         vpX3MN3eAv7Dl0HthPAKcRLAyg6HHuEMifAV7/bn2DIE8X2q8bzyJtfdYGxHEHAzAsv/
-         veJw==
-X-Forwarded-Encrypted: i=1; AJvYcCV7iYF4kRBfdSGUNUF9x2t4wtPFKyq6BwMvx01SuBEjYc9/Kmk4oq5QJiCw0g9QDjDTOsQE7J5+1IU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yxbl24rDjotHLNURMF+Nk19as53GZj2XspSPYjyNyoHIqXkOQEj
-	D5Jt3TMh3Y6Ctbfu88pjez2GOPQRvyMOpGXmQayzOdPkU67Oo9aHkOR0zUkrzlkfB/crLSt2OkX
-	u6jvx6wvv7ngKD5/7yAkbclORnQnfZt5tznmNgSAiG8hL9e0vLCPk5mjIIw==
-X-Gm-Gg: ASbGncuClNCGl23NjqRa6wJ5Afj9NhHTlCjGhSJ4jSGeBv0TOyNHHC3q+9ssSsTvnTL
-	1gL83BLw5cTGClqRvH1WQ9pYPCpUZP07EQyE4x/Fd/TQ1D/vxC31o9LpKWm4B2HjufXsnoFFQLu
-	6U/ZT27/AA0bUMhngJXhyt7k2z7XNt3/a9GD4oL5uWlE0M9I/EdSCVOVKonUiPnrrCoyRj7KVif
-	uiRd1hStcB1FqSncSEVeJJ2DiUwRQY6JH8ur2J4nsFJPMwhpoDKbD1VPEI+i+luCaieAEJx5+gQ
-	sno=
-X-Received: by 2002:a05:6a21:78c:b0:1f5:6b36:f574 with SMTP id adf61e73a8af0-20ce02e7da0mr1498445637.38.1746148403591;
-        Thu, 01 May 2025 18:13:23 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFU0R9cOfxCknV2YN3iEnSYLPTc4nx8JnX2KM70AD+jCoO7YKr4yHDcrBlPC1IzEWkqBT/rQg==
-X-Received: by 2002:a05:6a21:78c:b0:1f5:6b36:f574 with SMTP id adf61e73a8af0-20ce02e7da0mr1498402637.38.1746148403254;
-        Thu, 01 May 2025 18:13:23 -0700 (PDT)
-Received: from localhost ([209.132.188.88])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058d7a3b1sm357910b3a.15.2025.05.01.18.13.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 May 2025 18:13:23 -0700 (PDT)
-From: Coiby Xu <coxu@redhat.com>
-To: kexec@lists.infradead.org
-Cc: Ondrej Kozina <okozina@redhat.com>,
-	Milan Broz <gmazyland@gmail.com>,
-	Thomas Staudt <tstaudt@de.ibm.com>,
-	=?UTF-8?q?Daniel=20P=20=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
-	Kairui Song <ryncsn@gmail.com>,
-	Pingfan Liu <kernelfans@gmail.com>,
-	Baoquan He <bhe@redhat.com>,
-	Dave Young <dyoung@redhat.com>,
-	linux-kernel@vger.kernel.org,
-	x86@kernel.org,
-	Dave Hansen <dave.hansen@intel.com>,
-	Vitaly Kuznetsov <vkuznets@redhat.com>,
-	Arnaud Lefebvre <arnaud.lefebvre@clever-cloud.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Vivek Goyal <vgoyal@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>,
-	"H. Peter Anvin" <hpa@zytor.com>,
-	linux-doc@vger.kernel.org (open list:DOCUMENTATION)
-Subject: [PATCH v9 7/8] x86/crash: pass dm crypt keys to kdump kernel
-Date: Fri,  2 May 2025 09:12:41 +0800
-Message-ID: <20250502011246.99238-8-coxu@redhat.com>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250502011246.99238-1-coxu@redhat.com>
-References: <20250502011246.99238-1-coxu@redhat.com>
+	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="tHVT2c4R"
+DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=linux.alibaba.com; s=default;
+	t=1746149031; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
+	bh=nCxVZm3wSwg9n3/8gMY7iE/dhHvHfCteXR6U47l0Wpc=;
+	b=tHVT2c4RfejuQ7hzT53ZF9wwauzBPuwSPiWxIvUFpAwe/gftFzipBm4rF3/sqGb/ZyGOP6TvnBXuc8E+TxT0/gK69JnKZlOOjyPko9NPBOG4OeU3i8GMUsY7UK02pJF4ln80ApXfabz87SUlsGm/4vM+4jn3nFY30r9osf29NmI=
+Received: from 30.0.191.233(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WYtVH7S_1746149025 cluster:ay36)
+          by smtp.aliyun-inc.com;
+          Fri, 02 May 2025 09:23:47 +0800
+Message-ID: <83a66442-b7c7-42e7-af4e-fd211d8ed6f8@linux.alibaba.com>
+Date: Fri, 2 May 2025 09:23:42 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 06/12] khugepaged: introduce khugepaged_scan_bitmap for
+ mTHP support
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+ akpm@linux-foundation.org, corbet@lwn.net, rostedt@goodmis.org,
+ mhiramat@kernel.org, mathieu.desnoyers@efficios.com, david@redhat.com,
+ baohua@kernel.org, ryan.roberts@arm.com, willy@infradead.org,
+ peterx@redhat.com, ziy@nvidia.com, wangkefeng.wang@huawei.com,
+ usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com,
+ thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+ kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com,
+ dev.jain@arm.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+ tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz,
+ cl@gentwo.org, jglisse@google.com, surenb@google.com, zokeefe@google.com,
+ hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
+ rdunlap@infradead.org, lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com
+References: <20250428181218.85925-1-npache@redhat.com>
+ <20250428181218.85925-7-npache@redhat.com>
+ <5feb1d57-e069-4469-9751-af4fb067e858@linux.alibaba.com>
+ <CAA1CXcDWX7zsW03Wwg_OHRhJ2nrt6OaLd5bn8ccX0StoN1kGUQ@mail.gmail.com>
+ <CAA1CXcDarV2LqLcSRpb=a_A5YFBc26dBT0cCYdLj-8jGKZ53Yw@mail.gmail.com>
+From: Baolin Wang <baolin.wang@linux.alibaba.com>
+In-Reply-To: <CAA1CXcDarV2LqLcSRpb=a_A5YFBc26dBT0cCYdLj-8jGKZ53Yw@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-1st kernel will build up the kernel command parameter dmcryptkeys as
-similar to elfcorehdr to pass the memory address of the stored info of
-dm crypt key to kdump kernel.
 
-Signed-off-by: Coiby Xu <coxu@redhat.com>
-Acked-by: Baoquan He <bhe@redhat.com>
----
- Documentation/admin-guide/kdump/kdump.rst |  4 ++--
- arch/x86/kernel/crash.c                   | 26 +++++++++++++++++++++--
- arch/x86/kernel/kexec-bzimage64.c         | 21 ++++++++++++++++++
- 3 files changed, 47 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/admin-guide/kdump/kdump.rst b/Documentation/admin-guide/kdump/kdump.rst
-index e25edaa8e533..20fabdf6567e 100644
---- a/Documentation/admin-guide/kdump/kdump.rst
-+++ b/Documentation/admin-guide/kdump/kdump.rst
-@@ -551,8 +551,8 @@ Write the dump file to encrypted disk volume
- ============================================
- 
- CONFIG_CRASH_DM_CRYPT can be enabled to support saving the dump file to an
--encrypted disk volume. User space can interact with
--/sys/kernel/config/crash_dm_crypt_keys for setup,
-+encrypted disk volume (only x86_64 supported for now). User space can interact
-+with /sys/kernel/config/crash_dm_crypt_keys for setup,
- 
- 1. Tell the first kernel what logon keys are needed to unlock the disk volumes,
-     # Add key #1
-diff --git a/arch/x86/kernel/crash.c b/arch/x86/kernel/crash.c
-index 0be61c45400c..bcb534688dfe 100644
---- a/arch/x86/kernel/crash.c
-+++ b/arch/x86/kernel/crash.c
-@@ -278,6 +278,7 @@ static int memmap_exclude_ranges(struct kimage *image, struct crash_mem *cmem,
- 				 unsigned long long mend)
- {
- 	unsigned long start, end;
-+	int ret;
- 
- 	cmem->ranges[0].start = mstart;
- 	cmem->ranges[0].end = mend;
-@@ -286,22 +287,43 @@ static int memmap_exclude_ranges(struct kimage *image, struct crash_mem *cmem,
- 	/* Exclude elf header region */
- 	start = image->elf_load_addr;
- 	end = start + image->elf_headers_sz - 1;
--	return crash_exclude_mem_range(cmem, start, end);
-+	ret = crash_exclude_mem_range(cmem, start, end);
-+
-+	if (ret)
-+		return ret;
-+
-+	/* Exclude dm crypt keys region */
-+	if (image->dm_crypt_keys_addr) {
-+		start = image->dm_crypt_keys_addr;
-+		end = start + image->dm_crypt_keys_sz - 1;
-+		return crash_exclude_mem_range(cmem, start, end);
-+	}
-+
-+	return ret;
- }
- 
- /* Prepare memory map for crash dump kernel */
- int crash_setup_memmap_entries(struct kimage *image, struct boot_params *params)
- {
-+	unsigned int nr_ranges = 0;
- 	int i, ret = 0;
- 	unsigned long flags;
- 	struct e820_entry ei;
- 	struct crash_memmap_data cmd;
- 	struct crash_mem *cmem;
- 
--	cmem = vzalloc(struct_size(cmem, ranges, 1));
-+	/*
-+	 * Using random kexec_buf for passing dm crypt keys may cause a range
-+	 * split. So use two slots here.
-+	 */
-+	nr_ranges = 2;
-+	cmem = vzalloc(struct_size(cmem, ranges, nr_ranges));
- 	if (!cmem)
- 		return -ENOMEM;
- 
-+	cmem->max_nr_ranges = nr_ranges;
-+	cmem->nr_ranges = 0;
-+
- 	memset(&cmd, 0, sizeof(struct crash_memmap_data));
- 	cmd.params = params;
- 
-diff --git a/arch/x86/kernel/kexec-bzimage64.c b/arch/x86/kernel/kexec-bzimage64.c
-index 68530fad05f7..c71cdd8e425a 100644
---- a/arch/x86/kernel/kexec-bzimage64.c
-+++ b/arch/x86/kernel/kexec-bzimage64.c
-@@ -27,6 +27,8 @@
- #include <asm/kexec-bzimage64.h>
- 
- #define MAX_ELFCOREHDR_STR_LEN	30	/* elfcorehdr=0x<64bit-value> */
-+#define MAX_DMCRYPTKEYS_STR_LEN	31	/* dmcryptkeys=0x<64bit-value> */
-+
- 
- /*
-  * Defines lowest physical address for various segments. Not sure where
-@@ -76,6 +78,10 @@ static int setup_cmdline(struct kimage *image, struct boot_params *params,
- 	if (image->type == KEXEC_TYPE_CRASH) {
- 		len = sprintf(cmdline_ptr,
- 			"elfcorehdr=0x%lx ", image->elf_load_addr);
-+
-+		if (image->dm_crypt_keys_addr != 0)
-+			len += sprintf(cmdline_ptr + len,
-+					"dmcryptkeys=0x%lx ", image->dm_crypt_keys_addr);
- 	}
- 	memcpy(cmdline_ptr + len, cmdline, cmdline_len);
- 	cmdline_len += len;
-@@ -441,6 +447,19 @@ static void *bzImage64_load(struct kimage *image, char *kernel,
- 		ret = crash_load_segments(image);
- 		if (ret)
- 			return ERR_PTR(ret);
-+		ret = crash_load_dm_crypt_keys(image);
-+		if (ret == -ENOENT) {
-+			kexec_dprintk("No dm crypt key to load\n");
-+		} else if (ret) {
-+			pr_err("Failed to load dm crypt keys\n");
-+			return ERR_PTR(ret);
-+		}
-+		if (image->dm_crypt_keys_addr &&
-+		    cmdline_len + MAX_ELFCOREHDR_STR_LEN + MAX_DMCRYPTKEYS_STR_LEN >
-+			    header->cmdline_size) {
-+			pr_err("Appending dmcryptkeys=<addr> to command line exceeds maximum allowed length\n");
-+			return ERR_PTR(-EINVAL);
-+		}
- 	}
- #endif
- 
-@@ -468,6 +487,8 @@ static void *bzImage64_load(struct kimage *image, char *kernel,
- 	efi_map_sz = efi_get_runtime_map_size();
- 	params_cmdline_sz = sizeof(struct boot_params) + cmdline_len +
- 				MAX_ELFCOREHDR_STR_LEN;
-+	if (image->dm_crypt_keys_addr)
-+		params_cmdline_sz += MAX_DMCRYPTKEYS_STR_LEN;
- 	params_cmdline_sz = ALIGN(params_cmdline_sz, 16);
- 	kbuf.bufsz = params_cmdline_sz + ALIGN(efi_map_sz, 16) +
- 				sizeof(struct setup_data) +
--- 
-2.49.0
+On 2025/5/2 07:03, Nico Pache wrote:
+> On Wed, Apr 30, 2025 at 12:56 PM Nico Pache <npache@redhat.com> wrote:
+>>
+>> On Wed, Apr 30, 2025 at 4:08 AM Baolin Wang
+>> <baolin.wang@linux.alibaba.com> wrote:
+>>>
+>>>
+>>>
+>>> On 2025/4/29 02:12, Nico Pache wrote:
+>>>> khugepaged scans anons PMD ranges for potential collapse to a hugepage.
+>>>> To add mTHP support we use this scan to instead record chunks of utilized
+>>>> sections of the PMD.
+>>>>
+>>>> khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
+>>>> that represents chunks of utilized regions. We can then determine what
+>>>> mTHP size fits best and in the following patch, we set this bitmap while
+>>>> scanning the anon PMD.
+>>>>
+>>>> max_ptes_none is used as a scale to determine how "full" an order must
+>>>> be before being considered for collapse.
+>>>>
+>>>> When attempting to collapse an order that has its order set to "always"
+>>>> lets always collapse to that order in a greedy manner without
+>>>> considering the number of bits set.
+>>>>
+>>>> Signed-off-by: Nico Pache <npache@redhat.com>
+>>>> ---
+>>>>    include/linux/khugepaged.h |  4 ++
+>>>>    mm/khugepaged.c            | 94 ++++++++++++++++++++++++++++++++++----
+>>>>    2 files changed, 89 insertions(+), 9 deletions(-)
+>>>>
+>>>> diff --git a/include/linux/khugepaged.h b/include/linux/khugepaged.h
+>>>> index 1f46046080f5..18fe6eb5051d 100644
+>>>> --- a/include/linux/khugepaged.h
+>>>> +++ b/include/linux/khugepaged.h
+>>>> @@ -1,6 +1,10 @@
+>>>>    /* SPDX-License-Identifier: GPL-2.0 */
+>>>>    #ifndef _LINUX_KHUGEPAGED_H
+>>>>    #define _LINUX_KHUGEPAGED_H
+>>>> +#define KHUGEPAGED_MIN_MTHP_ORDER    2
+>>>
+>>> Still better to add some comments to explain explicitly why choose 2 as
+>>> the MIN_MTHP_ORDER.
+>> Ok i'll add a note that explicitly states that the min order of anon mTHPs is 2
+>>>
+>>>> +#define KHUGEPAGED_MIN_MTHP_NR       (1<<KHUGEPAGED_MIN_MTHP_ORDER)
+>>>> +#define MAX_MTHP_BITMAP_SIZE  (1 << (ilog2(MAX_PTRS_PER_PTE) - KHUGEPAGED_MIN_MTHP_ORDER))
+>>>> +#define MTHP_BITMAP_SIZE  (1 << (HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER))
+>>>>
+>>>>    extern unsigned int khugepaged_max_ptes_none __read_mostly;
+>>>>    #ifdef CONFIG_TRANSPARENT_HUGEPAGE
+>>>> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+>>>> index e21998a06253..6e67db86409a 100644
+>>>> --- a/mm/khugepaged.c
+>>>> +++ b/mm/khugepaged.c
+>>>> @@ -94,6 +94,11 @@ static DEFINE_READ_MOSTLY_HASHTABLE(mm_slots_hash, MM_SLOTS_HASH_BITS);
+>>>>
+>>>>    static struct kmem_cache *mm_slot_cache __ro_after_init;
+>>>>
+>>>> +struct scan_bit_state {
+>>>> +     u8 order;
+>>>> +     u16 offset;
+>>>> +};
+>>>> +
+>>>>    struct collapse_control {
+>>>>        bool is_khugepaged;
+>>>>
+>>>> @@ -102,6 +107,18 @@ struct collapse_control {
+>>>>
+>>>>        /* nodemask for allocation fallback */
+>>>>        nodemask_t alloc_nmask;
+>>>> +
+>>>> +     /*
+>>>> +      * bitmap used to collapse mTHP sizes.
+>>>> +      * 1bit = order KHUGEPAGED_MIN_MTHP_ORDER mTHP
+>>>> +      */
+>>>> +     DECLARE_BITMAP(mthp_bitmap, MAX_MTHP_BITMAP_SIZE);
+>>>> +     DECLARE_BITMAP(mthp_bitmap_temp, MAX_MTHP_BITMAP_SIZE);
+>>>> +     struct scan_bit_state mthp_bitmap_stack[MAX_MTHP_BITMAP_SIZE];
+>>>> +};
+>>>> +
+>>>> +struct collapse_control khugepaged_collapse_control = {
+>>>> +     .is_khugepaged = true,
+>>>>    };
+>>>>
+>>>>    /**
+>>>> @@ -851,10 +868,6 @@ static void khugepaged_alloc_sleep(void)
+>>>>        remove_wait_queue(&khugepaged_wait, &wait);
+>>>>    }
+>>>>
+>>>> -struct collapse_control khugepaged_collapse_control = {
+>>>> -     .is_khugepaged = true,
+>>>> -};
+>>>> -
+>>>>    static bool khugepaged_scan_abort(int nid, struct collapse_control *cc)
+>>>>    {
+>>>>        int i;
+>>>> @@ -1118,7 +1131,8 @@ static int alloc_charge_folio(struct folio **foliop, struct mm_struct *mm,
+>>>>
+>>>>    static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>>>>                              int referenced, int unmapped,
+>>>> -                           struct collapse_control *cc)
+>>>> +                           struct collapse_control *cc, bool *mmap_locked,
+>>>> +                               u8 order, u16 offset)
+>>>>    {
+>>>>        LIST_HEAD(compound_pagelist);
+>>>>        pmd_t *pmd, _pmd;
+>>>> @@ -1137,8 +1151,12 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>>>>         * The allocation can take potentially a long time if it involves
+>>>>         * sync compaction, and we do not need to hold the mmap_lock during
+>>>>         * that. We will recheck the vma after taking it again in write mode.
+>>>> +      * If collapsing mTHPs we may have already released the read_lock.
+>>>>         */
+>>>> -     mmap_read_unlock(mm);
+>>>> +     if (*mmap_locked) {
+>>>> +             mmap_read_unlock(mm);
+>>>> +             *mmap_locked = false;
+>>>> +     }
+>>>>
+>>>>        result = alloc_charge_folio(&folio, mm, cc, HPAGE_PMD_ORDER);
+>>>>        if (result != SCAN_SUCCEED)
+>>>> @@ -1273,12 +1291,72 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>>>>    out_up_write:
+>>>>        mmap_write_unlock(mm);
+>>>>    out_nolock:
+>>>> +     *mmap_locked = false;
+>>>>        if (folio)
+>>>>                folio_put(folio);
+>>>>        trace_mm_collapse_huge_page(mm, result == SCAN_SUCCEED, result);
+>>>>        return result;
+>>>>    }
+>>>>
+>>>> +// Recursive function to consume the bitmap
+>>>
+>>> Nit: please use '/* Xxxx */' for comments in this patch.
+>>>
+>>>> +static int khugepaged_scan_bitmap(struct mm_struct *mm, unsigned long address,
+>>>> +                     int referenced, int unmapped, struct collapse_control *cc,
+>>>> +                     bool *mmap_locked, unsigned long enabled_orders)
+>>>> +{
+>>>> +     u8 order, next_order;
+>>>> +     u16 offset, mid_offset;
+>>>> +     int num_chunks;
+>>>> +     int bits_set, threshold_bits;
+>>>> +     int top = -1;
+>>>> +     int collapsed = 0;
+>>>> +     int ret;
+>>>> +     struct scan_bit_state state;
+>>>> +     bool is_pmd_only = (enabled_orders == (1 << HPAGE_PMD_ORDER));
+>>>> +
+>>>> +     cc->mthp_bitmap_stack[++top] = (struct scan_bit_state)
+>>>> +             { HPAGE_PMD_ORDER - KHUGEPAGED_MIN_MTHP_ORDER, 0 };
+>>>> +
+>>>> +     while (top >= 0) {
+>>>> +             state = cc->mthp_bitmap_stack[top--];
+>>>> +             order = state.order + KHUGEPAGED_MIN_MTHP_ORDER;
+>>>> +             offset = state.offset;
+>>>> +             num_chunks = 1 << (state.order);
+>>>> +             // Skip mTHP orders that are not enabled
+>>>> +             if (!test_bit(order, &enabled_orders))
+>>>> +                     goto next;
+>>>> +
+>>>> +             // copy the relavant section to a new bitmap
+>>>> +             bitmap_shift_right(cc->mthp_bitmap_temp, cc->mthp_bitmap, offset,
+>>>> +                               MTHP_BITMAP_SIZE);
+>>>> +
+>>>> +             bits_set = bitmap_weight(cc->mthp_bitmap_temp, num_chunks);
+>>>> +             threshold_bits = (HPAGE_PMD_NR - khugepaged_max_ptes_none - 1)
+>>>> +                             >> (HPAGE_PMD_ORDER - state.order);
+>>>> +
+>>>> +             //Check if the region is "almost full" based on the threshold
+>>>> +             if (bits_set > threshold_bits || is_pmd_only
+>>>> +                     || test_bit(order, &huge_anon_orders_always)) {
+>>>
+>>> When testing this patch, I disabled the PMD-sized THP and enabled
+>>> 64K-sized mTHP, but it still attempts to collapse into a PMD-sized THP
+>>> (since bits_set > threshold_bits is ture). This doesn't seem reasonable?
+>> We are still required to have PMD enabled for mTHP collapse to work.
+>> It's a limitation of the current khugepaged code (it currently only
+>> adds mm_slots when PMD is enabled).
+>> We've discussed this in the past and are looking for a proper way
+>> forward, but the solution becomes tricky.
+>>
+>> However I'm surprised that it still collapses due to the code below.
+>> I'll test this out later today.
+> 
+> Following up, you are correct, if I disable the PMD size within the
+> mTHP enabled settings (echo never >
+> /sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled) it still
+> collapses to PMDs. I believe the global variable takes precedent. I'm
+> not sure what the correct behavior is... I will look into it further
+> 
+>>      +             if (!test_bit(order, &enabled_orders))
+>>      +                     goto next;
 
+IMO, we should respect the mTHP sysfs control interfaces and use the 
+'TVA_ENFORCE_SYSFS' flag when determining allowable orders through 
+thp_vma_allowable_orders().
