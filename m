@@ -1,136 +1,184 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C9F6376;
-	Fri,  2 May 2025 18:39:33 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0C69E376;
+	Fri,  2 May 2025 18:44:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746211175; cv=none; b=ZVG6S/Zt1oDd+gWtg2vrPS4Yu9QCM6WgmuS96l3bXFTXq/SGTQPbNUlYbDhfwZayFOELdAz+Ep7Qw82kQNqWoclf8lDGDZIsLszizdX4HypDcF/SFyCT82KOsuZmmpjnwFNNQYIqd44pCckv9kh//vuwC2mTTTr43I73upxnpaQ=
+	t=1746211474; cv=none; b=u3u86x7ofDZziWrhPLKlRKmdrOIvhnb0uuBisTSLE/svA9b3FRf1zDGl0A5QIWLVyLWTc5fCzaD4i/tQCcXJ2sGQcG+ULxy1PO06t5gAhapkS8mDZyMxV/JY+4rz9KDxGkhwtxWKyz+kiy/abzJHXuR1xWVl32EAwtobsLjou0I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746211175; c=relaxed/simple;
-	bh=rH0hTL/ovF1cYLOsrCSmIfftUclU8Y+oSWIs4cAcA3M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ZH0Ncto13o5rnNIm/D3tIM2TESH4wwTz34FrXnJfLwGxTwGx7lX7DTYjVPJ+CIAoxnx4bGxMh0Wnh6V8qekYW0Aki3HZO3gwJVb2TB1+QdyjKeldeBBL5g30jG7yK/6W7TpPm4ai2I1jo0lsAYtHOJbnTvAcNEmc8er8uMnWu8Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iFxzeSBv; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1746211474; c=relaxed/simple;
+	bh=LWm2Mewi0nFsm/A6RwwDy26RvhP0+n0VoXoQ4yv8rig=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=e/pjH2iw6VUElVu2h28WRYK2lx/dKLYyAsPLal7eToKdsE4kRSRc6a3VyX0s9T2rKKC74oREr6QCihxXu0Fpka3EDuwoyfbnfmrsewVa5dCg0bJRTFM5vwDM9Dt+QFKKv6UFybuH/tF4fye8jcEukcQsWgoO/Zo4K6RAVVFMZyU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=ZebQyXQN; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iFxzeSBv"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746211174; x=1777747174;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=rH0hTL/ovF1cYLOsrCSmIfftUclU8Y+oSWIs4cAcA3M=;
-  b=iFxzeSBvJF6QxSfKxd61gsPHr80B/25A1D4xun2yd57dGfLnRC168TYG
-   /V3y48IAQSN52krgepaGG1pw3Dg+BAFjWAiqy6QaXFls0xi+cbTgMQWrj
-   1xj4579aOqh8XrlscyT/fsmHbxxCnLT8K/L1LY3jEj3DkOfUG9ENyr5Ah
-   fabJhempYBTk4h31b5N0tzLtxYTbL8sQM4c7fWdB+1XM5JH3JAtcaNpG4
-   I8tJMaBhxI6NKrKI1VLcY2lkboRh80oK4G4P0ac/nz6bV6R299qMg8Cn+
-   n/a6h0g9aKNLjiIsRPyOZo67NPrJfi2257V1ehr3Le7yW9uOni70mLU+V
-   A==;
-X-CSE-ConnectionGUID: pYwrbHTfRuuwHG8+12MRRQ==
-X-CSE-MsgGUID: 1sbcc46BR2iPqRcOjD0ixA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11421"; a="35518292"
-X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
-   d="scan'208";a="35518292"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 11:39:33 -0700
-X-CSE-ConnectionGUID: q0hFwjtbQLOO4bDICzglEA==
-X-CSE-MsgGUID: j7CeDysPRziSOaNh1q4L1w==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,257,1739865600"; 
-   d="scan'208";a="134663550"
-Received: from bjrankin-mobl3.amr.corp.intel.com (HELO [10.124.220.153]) ([10.124.220.153])
-  by fmviesa007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 11:39:32 -0700
-Message-ID: <425b4cbc-d36c-42b6-9071-3e0afab91441@intel.com>
-Date: Fri, 2 May 2025 11:39:29 -0700
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="ZebQyXQN"
+Received: from narnia.corp.microsoft.com (unknown [40.78.12.133])
+	by linux.microsoft.com (Postfix) with ESMTPSA id C2C212111574;
+	Fri,  2 May 2025 11:44:29 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com C2C212111574
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1746211472;
+	bh=aEe0PfwCQ3p3kPpyx+RuNZSjsrvOc2pL1wXnh7jwV18=;
+	h=From:To:Subject:Date:From;
+	b=ZebQyXQNFVO/se60BdDeY4wGv06VFo7Ggfizpn795gClnXruqrZ2LZWKTCxrAvIx7
+	 EsftJAIyCwyPDU/Fxjd5QombyTS2FTw3NBrVGIVAtxI3Rqv+JPjlvgEMDKg4I/Jj4Y
+	 o3mmqY9LLD8zmV/n5/QyvRTHOGmkyZAf/fZMO5+4=
+From: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+To: Jonathan Corbet <corbet@lwn.net>,
+	David Howells <dhowells@redhat.com>,
+	Herbert Xu <herbert@gondor.apana.org.au>,
+	"David S. Miller" <davem@davemloft.net>,
+	Paul Moore <paul@paul-moore.com>,
+	James Morris <jmorris@namei.org>,
+	"Serge E. Hallyn" <serge@hallyn.com>,
+	Masahiro Yamada <masahiroy@kernel.org>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nicolas Schier <nicolas@fjasle.eu>,
+	Shuah Khan <shuah@kernel.org>,
+	=?UTF-8?q?Micka=C3=ABl=20Sala=C3=BCn?= <mic@digikod.net>,
+	=?UTF-8?q?G=C3=BCnther=20Noack?= <gnoack@google.com>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Bill Wendling <morbo@google.com>,
+	Justin Stitt <justinstitt@google.com>,
+	Blaise Boscaccy <bboscaccy@linux.microsoft.com>,
+	Jarkko Sakkinen <jarkko@kernel.org>,
+	Jan Stancek <jstancek@redhat.com>,
+	Neal Gompa <neal@gompa.dev>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	keyrings@vger.kernel.org,
+	linux-crypto@vger.kernel.org,
+	linux-security-module@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kselftest@vger.kernel.org,
+	bpf@vger.kernel.org,
+	llvm@lists.linux.dev,
+	nkapron@google.com,
+	teknoraver@meta.com,
+	roberto.sassu@huawei.com,
+	xiyou.wangcong@gmail.com,
+	Tyler Hicks <code@tyhicks.com>,
+	James Bottomley <James.Bottomley@hansenpartnership.com>
+Subject: [PATCH v3 0/4] Introducing Hornet LSM
+Date: Fri,  2 May 2025 11:44:06 -0700
+Message-ID: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 13/18] x86/e820: temporarily enable KHO scratch for
- memory below 1M
-To: Changyuan Lyu <changyuanl@google.com>, linux-kernel@vger.kernel.org
-Cc: akpm@linux-foundation.org, anthony.yznaga@oracle.com, arnd@arndb.de,
- ashish.kalra@amd.com, benh@kernel.crashing.org, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com,
- devicetree@vger.kernel.org, dwmw2@infradead.org, ebiederm@xmission.com,
- graf@amazon.com, hpa@zytor.com, jgowans@amazon.com,
- kexec@lists.infradead.org, krzk@kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-mm@kvack.org, luto@kernel.org, mark.rutland@arm.com, mingo@redhat.com,
- pasha.tatashin@soleen.com, pbonzini@redhat.com, peterz@infradead.org,
- ptyadav@amazon.de, robh@kernel.org, rostedt@goodmis.org, rppt@kernel.org,
- saravanak@google.com, skinsburskii@linux.microsoft.com, tglx@linutronix.de,
- thomas.lendacky@amd.com, will@kernel.org, x86@kernel.org
-References: <20250501225425.635167-1-changyuanl@google.com>
- <20250501225425.635167-14-changyuanl@google.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <20250501225425.635167-14-changyuanl@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 5/1/25 15:54, Changyuan Lyu wrote:
-> From: Alexander Graf <graf@amazon.com>
-> 
-> KHO kernels are special and use only scratch memory for memblock
-> allocations, but memory below 1M is ignored by kernel after early boot
-> and cannot be naturally marked as scratch.
-> 
-> To allow allocation of the real-mode trampoline and a few (if any) other
-> very early allocations from below 1M forcibly mark the memory below 1M
-> as scratch.
-> 
-> After real mode trampoline is allocated, clear that scratch marking.
+This patch series introduces the Hornet LSM. The goal of Hornet is to
+provide a signature verification mechanism for eBPF programs.
 
-It's much more clear now, thanks!
+eBPF has similar requirements to that of modules when it comes to
+loading: find symbol addresses, fix up ELF relocations, some struct
+field offset handling stuff called CO-RE (compile-once run-anywhere),
+and some other miscellaneous bookkeeping. During eBPF program
+compilation, pseudo-values get written to the immediate operands of
+instructions. During loading, those pseudo-values get rewritten with
+concrete addresses or data applicable to the currently running system,
+e.g., a kallsyms address or an fd for a map. This needs to happen
+before the instructions for a bpf program are loaded into the kernel
+via the bpf() syscall. Unlike modules, an in-kernel loader
+unfortunately doesn't exist. Typically, the instruction rewriting is
+done dynamically in userspace via libbpf. Since the relocations and
+instruction modifications are happening in userspace, and their values
+may change depending upon the running system, this breaks known
+signature verification mechanisms.
 
-Acked-by: Dave Hansen <dave.hansen@linux.intel.com>
+Light skeleton programs were introduced in order to support early
+loading of eBPF programs along with user-mode drivers. They utilize a
+separate eBPF program that can load a target eBPF program and perform
+all necessary relocations in-kernel without needing a working
+userspace. Light skeletons were mentioned as a possible path forward
+for signature verification.
+
+Hornet takes a simple approach to light-skeleton-based eBPF signature
+verification. A PKCS#7 signature of a data buffer containing the raw
+instructions of an eBPF program, followed by the initial values of any
+maps used by the program is used. A utility script is provided to
+parse and extract the contents of autogenerated header files created
+via bpftool. That payload can then be signed and appended to the light
+skeleton executable.
+
+Maps are checked that they are frozen to prevent TOCTOU bugs where a
+sufficiently privileged user could rewrite map data between the calls
+to BPF_PROG_LOAD and BPF_PROG_RUN. Additionally, both
+sparse-array-based and fd_array_cnt-based map fd arrays are supported
+for signature verification.
+
+References:
+  [1] https://lore.kernel.org/bpf/20220209054315.73833-1-alexei.starovoitov@gmail.com/
+  [2] https://lore.kernel.org/bpf/CAADnVQ+wPK1KKZhCgb-Nnf0Xfjk8M1UpX5fnXC=cBzdEYbv_kg@mail.gmail.com/
+
+Change list:
+- v2 -> v3
+  - Remove any and all usage of proprietary bpf APIs
+  - Add optional systemd/pid1 whitelisting
+  - Minor Makefile cleanup
+  - Fixed buffer leak
+  - Handled null current task
+  - Made magic number required
+  - Defensive checks against invalid buffer signature reads
+
+- v1 -> v2
+  - Jargon clarification, maintainer entry and a few cosmetic fixes
+
+Revisions:
+- v1
+  https://lore.kernel.org/bpf/20250321164537.16719-1-bboscaccy@linux.microsoft.com
+- v2
+  https://lore.kernel.org/linux-security-module/20250404215527.1563146-1-bboscaccy@linux.microsoft.com
+
+Blaise Boscaccy (4):
+  security: Hornet LSM
+  hornet: Introduce sign-ebpf
+  hornet: Add a light skeleton data extractor script
+  selftests/hornet: Add a selftest for the Hornet LSM
+
+ Documentation/admin-guide/LSM/Hornet.rst      |  65 +++
+ Documentation/admin-guide/LSM/index.rst       |   1 +
+ MAINTAINERS                                   |   9 +
+ crypto/asymmetric_keys/pkcs7_verify.c         |  10 +
+ include/linux/kernel_read_file.h              |   1 +
+ include/linux/verification.h                  |   1 +
+ include/uapi/linux/lsm.h                      |   1 +
+ scripts/Makefile                              |   1 +
+ scripts/hornet/Makefile                       |   5 +
+ scripts/hornet/extract-skel.sh                |  29 ++
+ scripts/hornet/sign-ebpf.c                    | 411 ++++++++++++++++++
+ security/Kconfig                              |   3 +-
+ security/Makefile                             |   1 +
+ security/hornet/Kconfig                       |  24 +
+ security/hornet/Makefile                      |   4 +
+ security/hornet/hornet_lsm.c                  | 250 +++++++++++
+ security/selinux/hooks.c                      |  12 +-
+ security/selinux/include/classmap.h           |   2 +-
+ tools/testing/selftests/Makefile              |   1 +
+ tools/testing/selftests/hornet/Makefile       |  58 +++
+ tools/testing/selftests/hornet/fail_loader.sh |   3 +
+ tools/testing/selftests/hornet/frozen_skel.h  | 393 +++++++++++++++++
+ tools/testing/selftests/hornet/loader.c       |  22 +
+ tools/testing/selftests/hornet/trivial.bpf.c  |  33 ++
+ 24 files changed, 1336 insertions(+), 4 deletions(-)
+ create mode 100644 Documentation/admin-guide/LSM/Hornet.rst
+ create mode 100644 scripts/hornet/Makefile
+ create mode 100755 scripts/hornet/extract-skel.sh
+ create mode 100644 scripts/hornet/sign-ebpf.c
+ create mode 100644 security/hornet/Kconfig
+ create mode 100644 security/hornet/Makefile
+ create mode 100644 security/hornet/hornet_lsm.c
+ create mode 100644 tools/testing/selftests/hornet/Makefile
+ create mode 100755 tools/testing/selftests/hornet/fail_loader.sh
+ create mode 100644 tools/testing/selftests/hornet/frozen_skel.h
+ create mode 100644 tools/testing/selftests/hornet/loader.c
+ create mode 100644 tools/testing/selftests/hornet/trivial.bpf.c
+
+-- 
+2.48.1
+
