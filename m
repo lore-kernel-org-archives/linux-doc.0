@@ -1,157 +1,269 @@
-Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2083.outbound.protection.outlook.com [40.107.93.83])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4EB6138385;
-	Thu,  1 May 2025 23:09:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.83
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746140988; cv=fail; b=ocuPCM+nZ1dK944YdRee67ChMd9JNgJI+n/mdAHwqTtlr8Mb0C2CquM/K0H407XK2CRq6geB86kCF/0sfr/OZdVHCeeVj9ji5tdo7S5f2Ob2yPNxMRbUEi7KsPjqJkC7OVugvo079xJp7e8exJTd8xbZ+dHKBjyvlu0iCGiVw+Y=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746140988; c=relaxed/simple;
-	bh=wDlBKyAXmBEWliQT06A95VG59amj2glkS5L8sh/2BVs=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=mqSXo0B+E52bl8cvRtBRn0RpXDEDKJnXOXpWvPPj/MxMrQPePfWtPk+3i8IpJ4c5njDOxRi9rCuWLUHobRZrsT/lM406a8lAypSTaFH9ejTOo+g+CavedQDN/8qbSt6f2wYULnDI0+q+dkXJnkzu11I/2cdwG+ncpoDmZzBaa14=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rvGeRQTW; arc=fail smtp.client-ip=40.107.93.83
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 217F2801
+	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 00:15:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746144935; cv=none; b=WsTON7EPsIsN8WP7rIYQ5GquBOMAKM1iJgcYTYBbz5/GKwDRa60jMBfPkC9yETmvpq/qWTUX1Ll98635SHFAC5ZflHQnfYT/PZbGagRCLArwfOivZDOMHKG0B0BF1/Bjavxsd1SToyan4eIAOTDwFw6RCR61j75rpiY76+MC358=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746144935; c=relaxed/simple;
+	bh=Hu9uey6Pa0D+z+erSEtVapskvsnht62al90pnI1d3to=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=SDMrbct6jOH81KmrJymSC9c5KMHxfSwQWdFTxJYiOpB23yJvrLRhyh8/NWyomS0sdOuXhXZ1tJH3H+FQJglabclHWpqdpXpDtjII0mLl0tg/pFihOK0n6dAh5h+LPqtcQk60TemyUZQojPc//DGiN+iw7Q2IWZr/kuvPmMLDE+o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=YXbInH+R; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rvGeRQTW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=gBWx9RMxvu9RcqUufkkNTYz1HqbqWWvnlYan2Zx0FyE5BJOAAN4mLwwe7jeHmZUIk4AdR2J86866RPpN6NLDzG980P8xi/ChPtkDeu/lR9PjI1j+RPAKxCk+hGKqwvQ8KQH0edudGuasrYYZ0AlQoCJHjK9FbuO4JUJAL9LkqvBHv+1u5u4DVbNTnCGWOg5Qr/qRK4Hd1hMEQTOK7wfvLXPbLL/vHmndN4uTmQ2oVQU8xhCxvvZIPWxyuPs3OQmPy5JUfXhbM4xIrnYvO/WeMo6BGy7qIWrb085aKiioDbx6HWSvpB8suY2/a6hTGaHWlVOPalngJzPaPow3qy9AAA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=tinXA2xoCQcIKMM3d3bTFYrC8mOUhqhQzr6uGnYc1y0=;
- b=DMxmch5eq5kV1uae0WEFtOwBMiKmDOHZZQSv+US2UtlmzASJkcAJydmKhNGa89m6cLWhP+bS5Uq9CHTZRu/ursutVFkmosXhst4VtKzV3juEiP4fj89Zv9UW+m+b2zpWhUm/RttlvaFLd4Mk7DipYijzSdJcf3UPC7zVXR5+wnOG724RanrXAdOmsGNHvsiSNBXF2dd1sEZeWY1a0Xewi3d8SZGgag5Z+zKdSPI9sZjjEwepD5OgvCOPwHxIe1Ms9gSpkgifx6Vq+2k/qsY11NmRh+//gdz43ErIYHDVBHJ1SP14mwa30OA1tbzUGNDQSAG+MjBx4U8G+Extchogbw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=tinXA2xoCQcIKMM3d3bTFYrC8mOUhqhQzr6uGnYc1y0=;
- b=rvGeRQTWcCPo30CsfuoMQ/gGxDTN7lPdgN7dEfPL6RXASR/BVKhwApnK+3vgG8u4hpaKzy6mH3xmWChNohcp9DbzbCO9d1xwkFwMHg63KHokRzT/V/RqfB3b73Trqz4f2WZ5KXo+KG5gmGCuoJy5gDD6LbYIysooIdPzupqng3A8/2JhRAN/IdZePkaR+p1dD65Bi9gHT+wpkXij7PzOFRx96yZBRBqBPhfyDO8mR4Z78myIxnaXp+FnjEMQfRfoKJGLMz0ODroTc9F86nJcG/oUNsRMOzZyfr4H6+58Y8e+9vc/R1rQug4MdEf/3fcR5O5XlG821jPScBFqr+N7WQ==
-Received: from CH2PR07CA0042.namprd07.prod.outlook.com (2603:10b6:610:5b::16)
- by CH3PR12MB8308.namprd12.prod.outlook.com (2603:10b6:610:131::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Thu, 1 May
- 2025 23:09:44 +0000
-Received: from DS3PEPF000099D6.namprd04.prod.outlook.com
- (2603:10b6:610:5b:cafe::8d) by CH2PR07CA0042.outlook.office365.com
- (2603:10b6:610:5b::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8655.41 via Frontend Transport; Thu,
- 1 May 2025 23:09:44 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- DS3PEPF000099D6.mail.protection.outlook.com (10.167.17.7) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.20 via Frontend Transport; Thu, 1 May 2025 23:09:43 +0000
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 1 May 2025
- 16:09:28 -0700
-Received: from rnnvmail204.nvidia.com (10.129.68.6) by rnnvmail204.nvidia.com
- (10.129.68.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Thu, 1 May
- 2025 16:09:28 -0700
-Received: from Asurada-Nvidia (10.127.8.14) by mail.nvidia.com (10.129.68.6)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Thu, 1 May 2025 16:09:25 -0700
-Date: Thu, 1 May 2025 16:09:24 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
-	<will@kernel.org>
-CC: <bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
-	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
-	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
-Subject: Re: [PATCH v3 22/23] iommu/tegra241-cmdqv: Add user-space use support
-Message-ID: <aBP/JKyZlskIdS/0@Asurada-Nvidia>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
- <5a67688a9675e7787660a51774b3213094875028.1746139811.git.nicolinc@nvidia.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="YXbInH+R"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746144931;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 in-reply-to:in-reply-to:references:references;
+	bh=nbSujQdzOlpgDul9aKhNv07DzuPDK3kC7rOVdyX4Q9k=;
+	b=YXbInH+RRnF5dinjViyFw4MJ57K8GjghdZ7Wnce54bK9HXiYESohWyxnuAdrtc6CoTcOIv
+	zIdqq5ICGmbpl8gK6tr4lhCyqiQzBzPm9M88uZndyP0n524B+WNTt/FuqdbntKP7zKQjoU
+	iegLnMeC1QgQpirfavZOMpXjGclvNws=
+Received: from mail-pf1-f200.google.com (mail-pf1-f200.google.com
+ [209.85.210.200]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-374-Hcl0SlNROuKXx3UxPJqvvQ-1; Thu, 01 May 2025 20:15:29 -0400
+X-MC-Unique: Hcl0SlNROuKXx3UxPJqvvQ-1
+X-Mimecast-MFC-AGG-ID: Hcl0SlNROuKXx3UxPJqvvQ_1746144929
+Received: by mail-pf1-f200.google.com with SMTP id d2e1a72fcca58-736cb72efd5so1329385b3a.3
+        for <linux-doc@vger.kernel.org>; Thu, 01 May 2025 17:15:29 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746144928; x=1746749728;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=nbSujQdzOlpgDul9aKhNv07DzuPDK3kC7rOVdyX4Q9k=;
+        b=giQRrIIdR+GqoaaJeaXywS10rGOz+wlBq8Tq2ceQjQt0FAFB09l7RmExZY+yR9FPBc
+         wwud0vhf/Afrp2wpAv/r5KIl7aujUvYb/RoHjTCj4fsPHiqgvSh1TxjApOhumhWBafYT
+         iv8Lz2IPlEWM/Yq6k7iPbZIsPgRv5pvQvmyunBFiEOqNKJW0x30sVkU8yx4boQkrzD/W
+         P6GmE9dH+BDrmU3EO7C9+AgdI8hg+22SOTCevJtOVmZnDNTuU8HzjKy4vjUrJFna5VUz
+         6pH7hvLfKv32EXcag1m7/gJuYGxiZAd0EQCefagy6JcmnynKrQrodfTX3o5ZtBPNaxmA
+         nBqA==
+X-Forwarded-Encrypted: i=1; AJvYcCXEAl81LIYahiNYbLPqX7ySZ0smWjqPFEe2ySPxBPH4oJ0ATCiejTLRXE4FLJGvlYXQa1+/sj5YCGk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzujJtHcdvvQEvQhQCHo7bmAkZJYfNeEkTjUKr0kRhTN+XJz/eA
+	KVS7YBHVNFz2Lm1RLH8iNkEduDTZogJbpJEzQs8+5Wiuskmxwo8QfaUK2+AXoglqZueWCxl0iqq
+	PUN/8jte3a6V3FswvQk8X5Ut5gCNXC/trT2wPott48jdKhTUfXKS2KrPJHIz+Ubt3BOnTyT4=
+X-Gm-Gg: ASbGncvfMz2XKsuFVl9itM/0AreG7/2MhwW9IvwMNed5vieGzUoYF2t6RMy+ndBzRXp
+	4hhLaaLjF8B6s8tpaAeuQGTvrL30WzTGzHlBCcn3kolyn13T3DqwGkIYAUyoy+Cx6eZ/4y8N9xw
+	9HxC0xE3gi1BUdN5ZVsXd6f6gBpydEarWRgefd5+mH2gh781fA6W/t7bNwGLBSIqA+Iyley3v84
+	+CO6sgWqj8lJHTr6TBpN199ul0bh3Rm1KBysPtzfKja+60vpLYK1xZ5QH0HfSQSj/Gc/DlPv+ik
+	OyY=
+X-Received: by 2002:a05:6a00:4482:b0:736:32d2:aa82 with SMTP id d2e1a72fcca58-74058b5afa8mr1174959b3a.23.1746144928243;
+        Thu, 01 May 2025 17:15:28 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IGy4Y5HHdUqHKiUz0kaMhKXY0SFHVwDyaNMwEA6Af6JnFYU50R/5oUIym3PoOTyiAHn9eWf0g==
+X-Received: by 2002:a05:6a00:4482:b0:736:32d2:aa82 with SMTP id d2e1a72fcca58-74058b5afa8mr1174908b3a.23.1746144927790;
+        Thu, 01 May 2025 17:15:27 -0700 (PDT)
+Received: from localhost ([209.132.188.88])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-7405902154dsm294793b3a.90.2025.05.01.17.15.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 May 2025 17:15:27 -0700 (PDT)
+Date: Fri, 2 May 2025 08:13:03 +0800
+From: Coiby Xu <coxu@redhat.com>
+To: Arnaud Lefebvre <arnaud.lefebvre@clever-cloud.com>
+Cc: kexec@lists.infradead.org, Ondrej Kozina <okozina@redhat.com>, 
+	Milan Broz <gmazyland@gmail.com>, Thomas Staudt <tstaudt@de.ibm.com>, 
+	Daniel P =?utf-8?B?LiBCZXJyYW5nw6k=?= <berrange@redhat.com>, Kairui Song <ryncsn@gmail.com>, 
+	Pingfan Liu <kernelfans@gmail.com>, Baoquan He <bhe@redhat.com>, Dave Young <dyoung@redhat.com>, 
+	linux-kernel@vger.kernel.org, x86@kernel.org, Dave Hansen <dave.hansen@intel.com>, 
+	Vitaly Kuznetsov <vkuznets@redhat.com>, Vivek Goyal <vgoyal@redhat.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Thomas Gleixner <tglx@linutronix.de>, 
+	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, "H. Peter Anvin" <hpa@zytor.com>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>
+Subject: Re: [PATCH v8 6/7] x86/crash: pass dm crypt keys to kdump kernel
+Message-ID: <q3673nazd6gsblq7ifcdwr2qcn7d6khxfk4cxpznmbhdnyyqum@o6i7udo5e7uu>
+References: <20250207080818.129165-1-coxu@redhat.com>
+ <20250207080818.129165-7-coxu@redhat.com>
+ <fa6uyhukjfjgteptdpud6wd6w7yin466p3tp6rdxwbsuqgkfdc@jwgf5ztb2ni7>
+ <rwetpbjimryr7g7xmdmaeuwkdasyqdpejsy4sdee3kzlssm32s@5xnznwqa3ivm>
+ <c2mqpzhtyrd5qzove5pa44ob2iiwdcrtnj655sozy2a4pprln7@mql5bjuwjbxs>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii; format=flowed
 Content-Disposition: inline
-In-Reply-To: <5a67688a9675e7787660a51774b3213094875028.1746139811.git.nicolinc@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS3PEPF000099D6:EE_|CH3PR12MB8308:EE_
-X-MS-Office365-Filtering-Correlation-Id: 418e9754-6edd-4a42-774d-08dd8905427d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|82310400026|376014|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?HvAMC/2GdcHF10JRjzPjFnXXKdzcZAyl8P1PiLs+s2183ag8RENcazcpPNE5?=
- =?us-ascii?Q?YLNOsZrCGce0Jf/XqtE8gBXxC31f8ufKA/581XVKMhHK/+Vfu8v6Yt4vecyl?=
- =?us-ascii?Q?6eZWO/WUc/KZUZLPfxN9edxjkXtkHH8IiP4wjculDPGBrcQaJ1tnQcregQof?=
- =?us-ascii?Q?vnaR9grqqGEOe3JSzsS3ikJf2Thr7q9sjE50Y0t1QNarfOgJBX9WR+HPUJ7Z?=
- =?us-ascii?Q?dGfMyBvT+wGCgPUr3bFLBFkt28gbBAQY/kXWytGecdyGeyv3c9QQUB2djJtA?=
- =?us-ascii?Q?T6n27niGK0BUWW++4J+PxzIVy5Fs0BNkyMhmIlO5zemM4wLrE1waa1Q6fU14?=
- =?us-ascii?Q?orNAtbCfY4VCG9jDcxMbf7SiljkG5DfjuRsq0zXt/fKjoNcsR7UfPgmW1FW5?=
- =?us-ascii?Q?S4DWEeCmVZDvyJ5E63V3jTJTPhRUkoDmb5qG1tJpau+y0V7QEqPSveVB9yMR?=
- =?us-ascii?Q?98ZA6jnghzKsauoEXgoXy1yC2TIpLLWTsC6oBFLqbXwNQwNtkozGdcj1gvGu?=
- =?us-ascii?Q?MXWJ8oQ247r/+2xK+MD10cwHTZIpZh6BFJXdIxO6ljL944eXSpMWHQuqBgWq?=
- =?us-ascii?Q?1Afr6j3AGE1OMg0FrFgD5xslzyFKn44fzBPU8avysNqf6J8vyjKQ4DAok51E?=
- =?us-ascii?Q?CxlMl3AmpfefVFmoymlCOVwBadX9pnQQEkQ+kJ6XYKdcQuUfr3CjUBXIKd3K?=
- =?us-ascii?Q?NJxdTT/ECRe1m9+2Ev7HSsfZVNp4bXeEuvDmzG7PC3fcd+SUInCf/fSTxvrM?=
- =?us-ascii?Q?y3j5m/qHj7mTBm85UvJcObCYkoax82lpujWPhll/4/ueuorN2sF1d1xLdsSC?=
- =?us-ascii?Q?GsQi9O3Wjs1mg0RhC/6l1aw7dPOfT5+Vmpe5VEPAtwyT06i5PKMBPjTqEw3a?=
- =?us-ascii?Q?+nfEXmieBArEJkylWgyQwsCxRTsVEe4w4X6Ap7Qm60O0yBUGT0/zYGsZ1HET?=
- =?us-ascii?Q?L66oYiZOjRmalb4Ei5lIocLnkJZTBH2rvAfGCuyPPSA2rQeTbjyCaR3/EoLj?=
- =?us-ascii?Q?9GeYhK0ttKddanvfgIsdGmmVMgAngauQfvwd0Lxb15x3S1RJweHoI+gzB2sN?=
- =?us-ascii?Q?Vkq0OtZCudy8w0pprLTmRU/eRQzAR7xjn3A4ZXN8mpfc2yzCsQrxQXxqv12Q?=
- =?us-ascii?Q?/eANig3A7f00B3Aac6mIaAx33EF5y6mDPMmAPJ5Njth5c260nX3/uiS/Agk4?=
- =?us-ascii?Q?TsPBKpBHVxwCiiqhRPx2esZTV3IsiLOWSxuDyABrMasxVxshFQs8S2ZEePv2?=
- =?us-ascii?Q?cIyI7RvSZpAG1LtvqxW5KOKHDDeiqttJA8kqL5c15hsuuxWdmAPZb4BXdETO?=
- =?us-ascii?Q?vRbyA8dLjuP5sDJ9sezOC2quWpIrUJU8890Nfa8jt06yPxksPhXHiPDPYDmC?=
- =?us-ascii?Q?/w+6W8MTrVkvKaklRZAAtLcwHrDlOJ+naczdL2qN1KyhxygKRJWdI6nRhFrP?=
- =?us-ascii?Q?EvIoUl2hz9eJtPz7+P5ChcjrE8wuUCC/Hgy8SHI7oEI+MDGPCLM9S0p7LrUZ?=
- =?us-ascii?Q?17WGKTTVUY3cKbj9SSHQ9bsfoY/e590JMvAy?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(82310400026)(376014)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 May 2025 23:09:43.8236
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 418e9754-6edd-4a42-774d-08dd8905427d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS3PEPF000099D6.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB8308
+In-Reply-To: <c2mqpzhtyrd5qzove5pa44ob2iiwdcrtnj655sozy2a4pprln7@mql5bjuwjbxs>
 
-On Thu, May 01, 2025 at 04:01:28PM -0700, Nicolin Chen wrote:
-> +static void tegra241_vcmdq_hw_flush_timeout(struct tegra241_vcmdq *vcmdq)
-> +{
-> +	struct arm_smmu_device *smmu = &vcmdq->cmdqv->smmu;
-> +	u64 cmd_sync[CMDQ_ENT_DWORDS] = {};
-> +
-> +	cmd_sync[0] = FIELD_PREP(CMDQ_0_OP, CMDQ_OP_CMD_SYNC) |
-> +		      FIELD_PREP(CMDQ_SYNC_0_CS, CMDQ_SYNC_0_CS_NONE);
-> +
-> +	/*
-> +	 * It does not hurt to insert another CMD_SYNC, taking adavantage of the
+On Wed, Apr 30, 2025 at 04:48:25PM +0200, Arnaud Lefebvre wrote:
+>On Tue, Apr 29, 2025 at 05:40:21PM +0800, Coiby Xu wrote:
+>>On Wed, Apr 23, 2025 at 10:59:06PM +0200, Arnaud Lefebvre wrote:
+>>>>diff --git a/arch/x86/kernel/kexec-bzimage64.c b/arch/x86/kernel/kexec-bzimage64.c
+>>>>index 68530fad05f7..5604a5109858 100644
+>>>>--- a/arch/x86/kernel/kexec-bzimage64.c
+>>>>+++ b/arch/x86/kernel/kexec-bzimage64.c
+>>>>@@ -76,6 +76,10 @@ static int setup_cmdline(struct kimage *image, struct boot_params *params,
+>>>>	if (image->type == KEXEC_TYPE_CRASH) {
+>>>>		len = sprintf(cmdline_ptr,
+>>>>			"elfcorehdr=0x%lx ", image->elf_load_addr);
+>>>>+
+>>>>+		if (image->dm_crypt_keys_addr != 0)
+>>>>+			len += sprintf(cmdline_ptr + len,
+>>>>+					"dmcryptkeys=0x%lx ", image->dm_crypt_keys_addr);
+>>
+>>sprintf will return the length of dmcryptkey=xxx which will be added to
+>>len.
+>>
+>>>>	}
+>>>>	memcpy(cmdline_ptr + len, cmdline, cmdline_len);
+>>>>	cmdline_len += len;
+>>
+>>Then cmdline_len will included the new len.
+>
+>Yes, the cmdline_len is correct. No issue there.
 
-Oh, ignore the "adavantage". Will fix in the next version.
+Thanks for confirming it!
 
-Nicolin
+>
+>>
+>>>
+>>>You are adding another kernel parameter but I believe without taking its
+>>>length into account. See the MAX_ELFCOREHDR_STR_LEN constant which is added to the
+>>>params_cmdline_sz variable for the elfcorehdr= parameter.
+>>
+>>Thanks for raising the concern! I believe this issue has already been
+>>took care of. Please check the above two inline comments:)
+>>
+>
+>I'm sorry but I don't think it is. If you look at my comments below:
+>
+>>
+>>>
+>>>This will (at least during my tests) truncate the cmdline given to the crash kernel because
+>>>the next section (efi_map_offset) will have an offset starting inside the cmdline section
+>>>and it might overwrite the end of it:
+>>>
+>>>kexec-bzimage64.c:480:
+>>>params_cmdline_sz = sizeof(struct boot_params) + cmdline_len +
+>>>			MAX_ELFCOREHDR_STR_LEN; <<< Should have + 31 here for "dmcryptkeys=0x<ptr> "
+>>>params_cmdline_sz = ALIGN(params_cmdline_sz, 16);
+>>>kbuf.bufsz = params_cmdline_sz + ALIGN(efi_map_sz, 16) +
+>>>			sizeof(struct setup_data) +
+>>>			sizeof(struct efi_setup_data) +
+>>>			sizeof(struct setup_data) +
+>>>			RNG_SEED_LENGTH;
+>>>
+>>>And I believe the buffer might be too small.
+>>>
+>>>Also, there is another check a few lines above that needs to take the size into account:
+>>>
+>>>/*
+>>>* In case of crash dump, we will append elfcorehdr=<addr> to
+>>>* command line. Make sure it does not overflow
+>>>*/
+>>>if (cmdline_len + MAX_ELFCOREHDR_STR_LEN > header->cmdline_size) {
+>>>	pr_err("Appending elfcorehdr=<addr> to command line exceeds maximum allowed length\n");
+>>>	return ERR_PTR(-EINVAL);
+>>>}
+>>>
+>>
+>
+>To try to explain a bit more, we pass a lot of arguments to the crash kernel so
+>the initrd (dracut) can mount the encrypted disk. When I run kexec using
+>the following:
+>
+>/usr/host/bin/kexec --debug --load-panic /linux-hv '--append=maxcpus=1
+>reset_devices rd.info rd.cc.kdump root=UUID=d039277c-2ee
+>3-466a-85eb-db9524398135 console=ttyS0 rd.timeout=10 rd.shell=1
+>rd.cc.kdump.encrypted
+>rd.cc.kdump.device=UUID=908234b1-c1f3-4150-bfdf-c260907a2447
+>rd.cc.kdump.keyring=cryptsetup:908234b1-c1f3-4150-bfdf-c260907a2447' --initrd
+>/crash-initrd
+>
+>kexec debug print those logs:
+>
+><snip>
+>[   53.642483] kexec-bzImage64: Loaded purgatory at 0xb6ffb000
+>[   53.642828] kexec-bzImage64: Loaded boot_param, command line and misc at
+>0xb6ff9000 bufsz=0x12f0 memsz=0x2000
+>[   53.643366] kexec-bzImage64: Loaded 64bit kernel at 0xb1000000
+>bufsz=0x16a5000 memsz=0x550d000
+>[   53.643918] kexec-bzImage64: Loaded initrd at 0xaeb90000 bufsz=0x246f2a1
+>memsz=0x246f2a1
+>[   53.644363] kexec-bzImage64: Final command line is: elfcorehdr=0x77000000
+>dmcryptkeys=0xa81fc000 maxcpus=1 reset_devices rd.info rd.cc.kdump
+>root=UUID=d039277c-2ee3-466a-85eb-db9524398135  console=ttyS0 rd.timeout=10
+>rd.shell=1 rd.cc.kdump.encrypted
+>rd.cc.kdump.device=UUID=908234b1-c1f3-4150-bfdf-c260907a2447
+>rd.cc.kdump.keyring=cryptsetup:908234b1-c1f3-4150-bfdf-c260907a2447
+><snip>
+>
+>Here, we see the full command line, as expected. But when I trigger a panic
+>using `echo c > /proc/sysrq-trigger`, the first two lines of the crash kernel
+>loading are:
+>
+>[    0.000000] Linux version 6.12.23+ (arnaud@exherbo) (gcc (GCC) 12.3.0, GNU ld
+>(GNU Binutils) 2.44) #4 SMP Wed Apr 30 16:11:39 CEST 2025
+>[    0.000000] Command line: elfcorehdr=0x77000000 dmcryptkeys=0x9ec14000
+>maxcpus=1 reset_devices rd.info rd.cc.kdump
+>root=UUID=d039277c-2ee3-466a-85eb-db9524398135 console=ttyS0 rd.timeout=10
+>rd.shell=1 rd.cc.kdump.encrypted
+>rd.cc.kdump.device=UUID=908234b1-c1f3-4150-bfdf-c260907a2447
+>rd.cc.kdump.keyring=cryptsetup:908234b1-c1f3-4150-bfdf-c26090
+>
+>You can see some of it is truncated at the end. It's missing `7a2447`. This is
+>because I guess it gets overridden.
+>
+>My comment above explains where and why it might happen. If I add the size of
+>the dmcryptkeys string length to the params_cmdline_sz variable, we should
+>allocate enough space to have it all. With the patch below, it works fine and I
+>get the full cmdline when my crash kernel boots:
+>
+>[    0.000000] Linux version 6.12.23+ (arnaud@exherbo) (gcc (GCC) 12.3.0, GNU ld
+>(GNU Binutils) 2.44) #3 SMP Thu Apr 24 16:42:18 CEST 2025
+>[    0.000000] Command line: elfcorehdr=0x77000000 dmcryptkeys=0xa81fc000
+>maxcpus=1 reset_devices rd.info rd.cc.kdump
+>root=UUID=d039277c-2ee3-466a-85eb-db9524398135 console=ttyS0 rd.timeout=10
+>rd.shell=1 rd.cc.kdump.encrypted
+>rd.cc.kdump.device=UUID=908234b1-c1f3-4150-bfdf-c260907a2447
+>rd.cc.kdump.keyring=cryptsetup:908234b1-c1f3-4150-bfdf-c260907a2447
+>
+>
+>diff --git a/arch/x86/kernel/kexec-bzimage64.c b/arch/x86/kernel/kexec-bzimage64.c
+>index 5604a5109858..06fc1f412af4 100644
+>--- a/arch/x86/kernel/kexec-bzimage64.c
+>+++ b/arch/x86/kernel/kexec-bzimage64.c
+>@@ -27,6 +27,7 @@
+> #include <asm/kexec-bzimage64.h>
+> #define MAX_ELFCOREHDR_STR_LEN	30	/* elfcorehdr=0x<64bit-value> */
+>+#define MAX_DMCRYPTKEYS_STR_LEN 31
+> /*
+>  * Defines lowest physical address for various segments. Not sure where
+>@@ -434,7 +435,7 @@ static void *bzImage64_load(struct kimage *image, char *kernel,
+> 	 * In case of crash dump, we will append elfcorehdr=<addr> to
+> 	 * command line. Make sure it does not overflow
+> 	 */
+>-	if (cmdline_len + MAX_ELFCOREHDR_STR_LEN > header->cmdline_size) {
+>+	if (cmdline_len + MAX_ELFCOREHDR_STR_LEN + MAX_DMCRYPTKEYS_STR_LEN > header->cmdline_size) {
+> 		pr_err("Appending elfcorehdr=<addr> to command line exceeds maximum allowed length\n");
+> 		return ERR_PTR(-EINVAL);
+> 	}
+>@@ -478,7 +479,7 @@ static void *bzImage64_load(struct kimage *image, char *kernel,
+> 	 */
+> 	efi_map_sz = efi_get_runtime_map_size();
+> 	params_cmdline_sz = sizeof(struct boot_params) + cmdline_len +
+>-				MAX_ELFCOREHDR_STR_LEN;
+>+				MAX_ELFCOREHDR_STR_LEN + MAX_DMCRYPTKEYS_STR_LEN;
+> 	params_cmdline_sz = ALIGN(params_cmdline_sz, 16);
+> 	kbuf.bufsz = params_cmdline_sz + ALIGN(efi_map_sz, 16) +
+> 				sizeof(struct setup_data) +
+>
+>
+>Let me know if it makes more sense!
+
+Yes, thanks for providing a crystal clear explanation and also a fix! I
+appreciate your elaboration to show me what the problem is! I'll fix it
+in v9.
+
+-- 
+Best regards,
+Coiby
+
