@@ -1,225 +1,182 @@
-Received: from mail-pf1-f171.google.com (mail-pf1-f171.google.com [209.85.210.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9B2A01DE4E6;
-	Fri,  2 May 2025 07:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 68A5B1A5BAD;
+	Fri,  2 May 2025 08:45:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746172187; cv=none; b=Xgo0PfHPtrMgk5vBm35GPZnweRCV16btCfZXu1AnmvZc5urwii1f99+n4SIuWWBdwIBCCQmTz64TOmszjIY5WAcTEUPsqoGEkuaSXDxOnXvfsGsK4c5ESWo44X42ZV8gx4Q27yDbdpq9AfvOoSx8b7c+DiwYdQBQRl0MpvOywjw=
+	t=1746175549; cv=none; b=FE2o88K7fNCF4iF7igHh5aiCnOBiA/pHBEJjspT5OwEHoT73Wt+mZ6JhiD5UnzKgKheZDHF79yv05ywk+PNpnjxyBtJamMV5/nsZ3QoULtIov3viLh7zk9CJfp15DOj7hn1n2XE6Vitx5u+sV2oEIAKkKrU/Odf3kuZFAGgyHm0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746172187; c=relaxed/simple;
-	bh=o5gSQje4Y+mu4L+6ke4nM/194PCfXVpCu14D4bT7yVI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Y6imgSPCbmirUojLfnISKlbEf9bzRs+F6yS/Su3ib0tlC67Fk8FZtgyEZDIsUqhSFSJjeG9eAfPOHtScHYi+wS1BxxtBshTJTTe+6rn4qj/bfq9f2w/pv6UKR//VlfiZkALgvyZK+c/913QvXJR94C9ZDeofPMSvtPvk7NJwFXA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=fD9T6HDo; arc=none smtp.client-ip=209.85.210.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="fD9T6HDo"
-Received: by mail-pf1-f171.google.com with SMTP id d2e1a72fcca58-736e52948ebso2285702b3a.1;
-        Fri, 02 May 2025 00:49:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746172185; x=1746776985; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=AzzJ2mwmeJGHY4ioykKRI/8ZtKwwBuIJTZhkzuibLaE=;
-        b=fD9T6HDoHuAUnU6lrlAMBTHSgrcID8+Rzd9fN1HGzi2HmWI0AU730TQ047AgTGs5h1
-         sTmufdYcXQ3WGEAcXjf8IpEJa+1VokzokueYbKekdCwDbE+dnzkuRu2L2aVqP7+81kbA
-         TXgV1Bf7c0lheGMiVzOyBm902h0bbr9OB/ZQTwkzwm2eSZZxAEmo7LuMAHdnR/D0EmTI
-         9ZM5pU0EVw2cFI+++bvFvv3S3IRAEr35D3dHawZ0gtSK1SwlSaqhnQmG55GpAKfouCRe
-         lOjwCvhmq2qnkgXu1Je0no1XsS8FvD4ONSP/N9v1sL/pgCa5yNlagGievu6nYymB3Erv
-         HV3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746172185; x=1746776985;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=AzzJ2mwmeJGHY4ioykKRI/8ZtKwwBuIJTZhkzuibLaE=;
-        b=AaJtAmSOktiz0mpntR9Bag+6VO9AGUeBY3n1fKaBPAiLfmgSxR3HWXSI+TIly13vEx
-         srARBwEb9jbV/K1yWbrJFm81R8m9EELjdD00F2rNk+mr6zJRQWucRyIo9IhuRY6mg68l
-         NbXJKp2nkKjbve0gGJllIv0iNPeOgm19yuFmey94ogX1irkNB323wTYknc78uqeM+DFc
-         ioYmtbt15HyNlSCJM7vXVzsvdYX0VbDQgyMyFGiGGCZR6ycu3Hv9VVZkFa4E2EC82aq2
-         NUuCy9E8GHpHOpPfXob2tk0cYORth/97XethJxIDqnsvuGWjHreR66FK2cDq1380WpZI
-         KbSg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRnDpxUHpFsdRNphYRJzbecLrly+gECKNLKlnUb9/v9x3r013YjlkGvuqMiSmqMtexCjuDcs9IfFE=@vger.kernel.org, AJvYcCX8XSkD4/sfdMQHs7lwn+VptgLxma6/OuisVSNjO/yPixSvvjBdo54BPG3YE36cuBgRYPE/wbTQtFkESxVz@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0W5AfPuo3NPqU+sPsF18LPxmit1SxrPUhvqEabZIBkGi7mwl6
-	GvCAyFPu/sJda1E62+l2FDnID2azEtCzNnL0g+UgADMkmx8mBKrKaOy71w==
-X-Gm-Gg: ASbGnctqbzSETTUeVrAFHpQZmmlzeJFUJA6binhaiPKb1na5cSxKcxDbdi6izK+2xGT
-	BxXhIjI71csr3I4WxGbsZT8XT5g0cHtibtVAym2ZjtkI/VJnLBXqVuB/exTVpToI1VqYnt6gDd8
-	IjGKoyRA0ApFnXfANL7P5uofjgnIDmq5w7Fu5VWs/Cwcev4KJqZaF6Z7Jqhuawr5d5jOupaziwC
-	dsCpiojVaQ/2dSmipS2dUaO5c5KoKn1tZOq4mdmMqv9A72N1cpnOkZ35FtyeJm0gRh/2HFH8Ct2
-	P0TVSOZ/pxZanYhuyM3wI/7oPs1C2glM2pcuh+1c
-X-Google-Smtp-Source: AGHT+IHoafilKSMg6oQYkCchR2ZWjqE81/BpCUb5hHit37M11UCUEseXQA29GQdjLzaIhm3aGRLtuA==
-X-Received: by 2002:a05:6a00:340c:b0:736:a8db:93b4 with SMTP id d2e1a72fcca58-7405890a9f3mr2851356b3a.2.1746172184557;
-        Fri, 02 May 2025 00:49:44 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058dbb804sm940553b3a.52.2025.05.02.00.49.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 00:49:43 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id E238E420A6AB; Fri, 02 May 2025 14:49:40 +0700 (WIB)
-Date: Fri, 2 May 2025 14:49:40 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Swapnil Sapkal <swapnil.sapkal@amd.com>, peterz@infradead.org,
-	corbet@lwn.net
-Cc: kprateek.nayak@amd.com, gautham.shenoy@amd.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shrikanth Hegde <sshegde@linux.ibm.com>
-Subject: Re: [PATCH] docs/sched: Make the sched-stats documentation consistent
-Message-ID: <aBR5FLEq66tuoEXm@archie.me>
-References: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
+	s=arc-20240116; t=1746175549; c=relaxed/simple;
+	bh=cy//1Uir4mn/RolNdw11wpctLNy6NSt4BFIPifYjB58=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lvcjr+ANo8IDKMpCLlXc2aK++23ZH6XQcRpaNBy7T/bIRzo0Wbgp3Qh3VzSSjjzzoFnbMfPMOcY2xLuvwp6+HBJ7JgX0n8KlLhg1O5PGMClJ1ay61qgT95brBjik1QropvjFOxSoW17ImPjWpVh2SvihioPgABdjHE9nzQUxMXo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Zpks86w2nz6K94W;
+	Fri,  2 May 2025 16:40:44 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id D17741400D9;
+	Fri,  2 May 2025 16:45:43 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.126.168.187) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Fri, 2 May 2025 10:45:42 +0200
+From: <shiju.jose@huawei.com>
+To: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
+	<dave@stgolabs.net>, <jonathan.cameron@huawei.com>, <dave.jiang@intel.com>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>
+CC: <linux-edac@vger.kernel.org>, <linux-doc@vger.kernel.org>, <bp@alien8.de>,
+	<tony.luck@intel.com>, <lenb@kernel.org>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <nifan.cxl@gmail.com>, <linuxarm@huawei.com>,
+	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
+	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
+Subject: [PATCH v4 0/8] cxl: support CXL memory RAS features
+Date: Fri, 2 May 2025 09:45:08 +0100
+Message-ID: <20250502084517.680-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="eU9GqSvzh0dpF/EK"
-Content-Disposition: inline
-In-Reply-To: <20250430062559.1188661-1-swapnil.sapkal@amd.com>
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
+From: Shiju Jose <shiju.jose@huawei.com>
 
---eU9GqSvzh0dpF/EK
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Support for CXL memory EDAC features: patrol scrub, ECS, soft-PPR and
+memory sparing.
 
-On Wed, Apr 30, 2025 at 06:25:59AM +0000, Swapnil Sapkal wrote:
-> diff --git a/Documentation/scheduler/sched-stats.rst b/Documentation/sche=
-duler/sched-stats.rst
-> index 08b6bc9a315c..ad68cf1c99e1 100644
-> --- a/Documentation/scheduler/sched-stats.rst
-> +++ b/Documentation/scheduler/sched-stats.rst
-> @@ -86,13 +86,16 @@ Domain statistics
->  -----------------
->  One of these is produced per domain for each cpu described. (Note that if
->  CONFIG_SMP is not defined, *no* domains are utilized and these lines
-> -will not appear in the output. <name> is an extension to the domain field
-> -that prints the name of the corresponding sched domain. It can appear in
-> -schedstat version 17 and above.
-> +will not appear in the output.)
-> =20
->  domain<N> <name> <cpumask> 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 =
-19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35 36 37 38 39 40 41 42 43 =
-44 45
-> =20
-> -The first field is a bit mask indicating what cpus this domain operates =
-over.
-> +The <name> field prints the name of the sched domain and is only support=
-ed
-> +with schedstat version >=3D 17. On previous versions, <cpumask> is the f=
-irst
-> +field.
-> +
-> +The <cpumask> field is a bit mask indicating what cpus this domain opera=
-tes
-> +over.
-> =20
->  The next 33 are a variety of sched_balance_rq() statistics in grouped in=
-to types
->  of idleness (busy, idle and newly idle):
-> @@ -103,12 +106,13 @@ of idleness (busy, idle and newly idle):
->          load did not require balancing when busy
->      3)  # of times in this domain sched_balance_rq() tried to move one or
->          more tasks and failed, when the cpu was busy
-> -    4)  Total imbalance in load when the cpu was busy
-> -    5)  Total imbalance in utilization when the cpu was busy
-> -    6)  Total imbalance in number of tasks when the cpu was busy
-> -    7)  Total imbalance due to misfit tasks when the cpu was busy
-> -    8)  # of times in this domain pull_task() was called when busy
-> -    9)  # of times in this domain pull_task() was called even though the
-> +    4)  Total imbalance in load in this domain when the cpu was busy
-> +    5)  Total imbalance in utilization in this domain when the cpu was b=
-usy
-> +    6)  Total imbalance in number of tasks in this domain when the cpu w=
-as busy
-> +    7)  Total imbalance due to misfit tasks in this domain when the cpu =
-was
-> +        busy
-> +    8)  # of times in this domain detach_task() was called when busy
-> +    9)  # of times in this domain detach_task() was called even though t=
-he
->          target task was cache-hot when busy
->      10) # of times in this domain sched_balance_rq() was called but did =
-not
->          find a busier queue while the cpu was busy
-> @@ -121,13 +125,14 @@ of idleness (busy, idle and newly idle):
->          the load did not require balancing when the cpu was idle
->      14) # of times in this domain sched_balance_rq() tried to move one or
->          more tasks and failed, when the cpu was idle
-> -    15) Total imbalance in load when the cpu was idle
-> -    16) Total imbalance in utilization when the cpu was idle
-> -    17) Total imbalance in number of tasks when the cpu was idle
-> -    18) Total imbalance due to misfit tasks when the cpu was idle
-> -    19) # of times in this domain pull_task() was called when the cpu
-> +    15) Total imbalance in load in this domain when the cpu was idle
-> +    16) Total imbalance in utilization in this domain when the cpu was i=
-dle
-> +    17) Total imbalance in number of tasks in this domain when the cpu w=
-as idle
-> +    18) Total imbalance due to misfit tasks in this domain when the cpu =
-was
-> +        idle
-> +    19) # of times in this domain detach_task() was called when the cpu
->          was idle
-> -    20) # of times in this domain pull_task() was called even though
-> +    20) # of times in this domain detach_task() was called even though
->          the target task was cache-hot when idle
->      21) # of times in this domain sched_balance_rq() was called but did
->          not find a busier queue while the cpu was idle
-> @@ -140,12 +145,16 @@ of idleness (busy, idle and newly idle):
->          load did not require balancing when the cpu was just becoming id=
-le
->      25) # of times in this domain sched_balance_rq() tried to move one o=
-r more
->          tasks and failed, when the cpu was just becoming idle
-> -    26) Total imbalance in load when the cpu was just becoming idle
-> -    27) Total imbalance in utilization when the cpu was just becoming id=
-le
-> -    28) Total imbalance in number of tasks when the cpu was just becomin=
-g idle
-> -    29) Total imbalance due to misfit tasks when the cpu was just becomi=
-ng idle
-> -    30) # of times in this domain pull_task() was called when newly idle
-> -    31) # of times in this domain pull_task() was called even though the
-> +    26) Total imbalance in load in this domain when the cpu was just bec=
-oming
-> +        idle
-> +    27) Total imbalance in utilization in this domain when the cpu was j=
-ust
-> +        becoming idle
-> +    28) Total imbalance in number of tasks in this domain when the cpu w=
-as just
-> +        becoming idle
-> +    29) Total imbalance due to misfit tasks in this domain when the cpu =
-was
-> +        just becoming idle
-> +    30) # of times in this domain detach_task() was called when newly id=
-le
-> +    31) # of times in this domain detach_task() was called even though t=
-he
->          target task was cache-hot when just becoming idle
->      32) # of times in this domain sched_balance_rq() was called but did =
-not
->          find a busier queue while the cpu was just becoming idle
+Detailed history of the complete EDAC series with CXL EDAC patches[1].
 
-LGTM, thanks!
+The code is based on [2] v6.15-rc4.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
 
---=20
-An old man doll... just what I always wanted! - Clara
+Userspace code for CXL memory repair features [3] and
+sample boot-script for CXL memory repair [4].
 
---eU9GqSvzh0dpF/EK
-Content-Type: application/pgp-signature; name=signature.asc
+[3]: https://lore.kernel.org/lkml/20250207143028.1865-1-shiju.jose@huawei.com/
+[4]: https://lore.kernel.org/lkml/20250207143028.1865-5-shiju.jose@huawei.com/
 
------BEGIN PGP SIGNATURE-----
+Changes
+=======
+v3 -> v4:
+1. Feedback from Dave Jiang on v3,
+1.1. Changes for comments in EDAC scrub documentation for CXL use cases.
+     https://lore.kernel.org/all/2df68c68-f1a8-4327-abc9-d265326c133d@intel.com/
+1.2. Changes for comments in CXL memory sparing control feature.
+     https://lore.kernel.org/all/4ee3323c-fb27-4fbe-b032-78fd54bc21a0@intel.com/
+      
+v2 -> v3:
+1. Feedback from Dan Williams on v2,
+   https://lore.kernel.org/linux-mm/20250320180450.539-1-shiju.jose@huawei.com/
+  - Modified get_support_feature_info() in fwctl series generic to use in
+    cxl/fxctl and cxl/edac and replace cxl_get_feature_entry() in the CXL edac
+    series.
+  - Add usecase note for CXL ECS in Documentation/edac/scrub.rst.
+  - Add info message when device scrub rate set by a region overwritten with a
+    local device scrub rate or another region's scrub rate.
+  - Replace 'ps' with patrol_scrub in the patrol scrub feature.
+  - Replaced usage of intermediate objects struct cxl_memdev_ps_params and
+    enum cxl_scrub_param etc for patrol scrub and did same for ECS.
+  - Rename CXL_MEMDEV_PS_* macros.
+  - Rename scrub_cycle_hrs-> scrub_cycle_hours
+  - Add if (!cxl_dev_name)
+	return -ENOMEM;  to devm_cxl_memdev_edac_register()
+  - Add  devm_cxl_region_edac_register(cxlr) for CXL_PARTMODE_PMEM case.
+  - Add separate configurations for CXL scrub, ECS and memory repair
+    CXL_EDAC_SCRUB, CXL_EDAC_ECS and CXL_EDAC_MEM_REPAIR.
+  - Add 
+       if (!capable(CAP_SYS_RAWIO))
+             return -EPERM; for set attributes callbacks for CXL scrub, ECS and
+    memory repair.  	       
+  - In patch "cxl/mbox: Add support for PERFORM_MAINTENANCE mailbox command"
+    * cxl_do_maintenance() -> cxl_perform_maintenance() and moved to cxl/core/edac.c 
+    * kmalloc() -> kvzalloc()
+  - In patch, "cxl: Support for finding memory operation attributes from the current boot"  
+    * Moved code from drivers/cxl/core/ras.c to drivers/cxl/core/edac.c
+    * Add few logics to releasing the cache to give safety with respect to error storms and burning
+    * unlimited memory. 
+    * Add estimated memory overhead expense of this feature documented in the Kconfig.
+    * Unified various names such as attr, param, attrbs throughout the patches.
+    * Moved > struct xarray rec_gen_media and struct xarray rec_dram; out of struct cxl_memdev
+      to CXL edac object, but there is required a pointer to this object in struct cxl_memdev
+      because the error records are reported and thus stored in the cxl_memdev context not
+      in the CXL EDAC context.
+      
+2. Feedback from Borislav on v2,
+  - In include/linux/edac.h 
+    Replace EDAC_PPR -> EDAC_REPAIR_PPR
+            EDAC_CACHELINE_SPARING -> EDAC_REPAIR_CACHELINE_SPARING etc.
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaBR5FAAKCRD2uYlJVVFO
-o3QKAP9Ge618P+KuauhJsx9azoMfO8C5B5lg83PuMsjz8bf2MwEA/zQ4GFbbCd+S
-ET6fGkbkSSOLFEmm5ZFvbAFPfaaCgQw=
-=TxDO
------END PGP SIGNATURE-----
+v1 -> v2:
+1. Feedback from Dan Williams on v1,
+   https://lore.kernel.org/linux-mm/20250307091137.00006a0a@huawei.com/T/
+  - Fixed lock issues in region scrubbing, added local cxl_acquire()
+    and cxl_unlock.
+  - Replaced CXL examples using cat and echo from EDAC .rst docs
+    with short description and ref to ABI docs. Also corrections
+    in existing descriptions as suggested by Dan.
+  - Add policy description for the scrub control feature.
+    However this may require inputs from CXL experts.
+  - Replaced CONFIG_CXL_RAS_FEATURES with CONFIG_CXL_EDAC_MEM_FEATURES.
+  - Few changes to depends part of CONFIG_CXL_EDAC_MEM_FEATURES.
+  - Rename drivers/cxl/core/memfeatures.c as drivers/cxl/core/edac.c
+  - snprintf() -> kasprintf() in few places.
 
---eU9GqSvzh0dpF/EK--
+2. Feedback from Alison on v1,
+  - In cxl_get_feature_entry()(patch 1), return NULL on failures and
+    reintroduced checks in cxl_get_feature_entry().
+  - Changed logic in for loop in region based scrubbing code.
+  - Replace cxl_are_decoders_committed() to cxl_is_memdev_memory_online()
+    and add as a local function to drivers/cxl/core/edac.c
+  - Changed few multiline comments to single line comments.
+  - Removed unnecessary comments from the code.
+  - Reduced line length of few macros in ECS and memory repair code.
+  - In new files, changed "GPL-2.0-or-later" -> "GPL-2.0-only".
+  - Ran clang-format for new files and updated.                                                                                                                                          
+3. Changes for feedbacks from Jonathan on v1.
+  - Changed few multiline comments to single line comments.
+
+Shiju Jose (8):
+  EDAC: Update documentation for the CXL memory patrol scrub control
+    feature
+  cxl: Update prototype of function get_support_feature_info()
+  cxl/edac: Add CXL memory device patrol scrub control feature
+  cxl/edac: Add CXL memory device ECS control feature
+  cxl/edac: Add support for PERFORM_MAINTENANCE command
+  cxl/edac: Support for finding memory operation attributes from the
+    current boot
+  cxl/edac: Add CXL memory device memory sparing control feature
+  cxl/edac: Add CXL memory device soft PPR control feature
+
+ Documentation/edac/memory_repair.rst |   31 +
+ Documentation/edac/scrub.rst         |   76 +
+ drivers/cxl/Kconfig                  |   71 +
+ drivers/cxl/core/Makefile            |    1 +
+ drivers/cxl/core/core.h              |    2 +
+ drivers/cxl/core/edac.c              | 2082 ++++++++++++++++++++++++++
+ drivers/cxl/core/features.c          |   17 +-
+ drivers/cxl/core/mbox.c              |   11 +-
+ drivers/cxl/core/memdev.c            |    1 +
+ drivers/cxl/core/region.c            |   10 +
+ drivers/cxl/cxl.h                    |   10 +
+ drivers/cxl/cxlmem.h                 |   36 +
+ drivers/cxl/mem.c                    |    4 +
+ drivers/edac/mem_repair.c            |    9 +
+ include/linux/edac.h                 |    7 +
+ 15 files changed, 2356 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/cxl/core/edac.c
+
+-- 
+2.43.0
+
