@@ -1,161 +1,365 @@
-Received: from mail-pl1-f171.google.com (mail-pl1-f171.google.com [209.85.214.171])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B5B81EDA2A
-	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 19:25:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.171
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 546151FAC48;
+	Fri,  2 May 2025 20:35:47 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746213939; cv=none; b=elXfCDO4WQBB1d4WH1G+1sBaUR5RAMcQh7rXCBk6A85oHXoCbW/+3I9g7tvUZhreOr2+ERpzzrgKVZz6EjTOyZz08WLJBUgh8T7eY1LwVwWoxHckHQ7lm1UDcqqYynNUP5DmNFJ13d7BTmzeMskHPNEJn0sHO88BBrL7dKeCDFY=
+	t=1746218148; cv=none; b=GEO8S/7qXdU9xisBCFVEPEyM6gcJTzRZJLe9KXihrPxDOEznMSIUUm0hQeiSB8v0ShE0tLzqFgq5XtVDn+06Pgvqx7PuRrQfAmKpYAoXXwCgWA/qk0E/NA6Jo5K2Xsl60kYHLaIiRiL7949FiuRMSGxTvWTzw5dsis0lvNtDPzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746213939; c=relaxed/simple;
-	bh=ZOraj867pk/cuv9sGYnTnO1GOcFc4HnKNvgp4QcVTF8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=LbBUnUAbKq8YVrBcRYDtAWuTQjRLI7AsZvQiHFwQFAY/zYrjP0VYgbqteVLgvMgK0abbsT/D5uH+FMnrRWqnriso1PKnlKEViROowdVWNM7zzuyP5R8/q6998A6lierOUzlU7Qj1RXe3/MWIKHmdtG2TZimm9DWY0vlb7z0T1sE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Ro3aLQGX; arc=none smtp.client-ip=209.85.214.171
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1746218148; c=relaxed/simple;
+	bh=+N2AWwulLSeis8cx1YIsG72P0ZZ9C4nuty7wiozK8yw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=ZvdOwAAXq0uSQTwOAtDfT2bVqqMUEqG7JrUiBloxXaiFMK6ngQjQAXD36CCyV6EXNaYmXff3Ww70OzWPm+P9zf/KgVxFX4d6dYZCdtjT3H7ehC6F6lZ2yMxi+UOHYpQliMoOvNu2r4QPkSe5BaWW8x8Q38stI5c03fkTOhmqOms=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=LxbWOqqK; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Ro3aLQGX"
-Received: by mail-pl1-f171.google.com with SMTP id d9443c01a7336-2264c9d0295so31685ad.0
-        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 12:25:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746213937; x=1746818737; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=ZOraj867pk/cuv9sGYnTnO1GOcFc4HnKNvgp4QcVTF8=;
-        b=Ro3aLQGXP8CNe9vRdK6XeulHVcTX2VBrUyrixmFqJdUgryLQtuH8O9cayvD79Dqomd
-         hHQSiFSkuPc95X4JNas9F2/1xwcaILkXQgzpKCY86CeiOFD+5Sy0rkj8IdkC9tG64AFB
-         +sLGwf0iJDKBNf46VNhOVRoslDOQ196S0dd0WmPb+3GIOS0GZsBtYyrBQgSFUD+hgnDw
-         lPFeizJfOAIUiji8A8rGz1sEsM/yvDyh8s1u+zu5Oml7qMF86VPdPkxZzBC9Ue5D6ta5
-         ogZi4kL6PgyFcScnHTl1aC7EYD3oJFVe7/pDKpJuFv0se1smNPI6iRl9/1tRg8oY0tuB
-         Q0rg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746213937; x=1746818737;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=ZOraj867pk/cuv9sGYnTnO1GOcFc4HnKNvgp4QcVTF8=;
-        b=O8EuFu4eU0z+8cSyz0r+YD7hKSG3JB4xKI8OWHmT4/iF89ndSNGKynrxhUboFoIyqT
-         ecqqm/Fn+5M0K1A7zv5aFSNe51z+aA4G4gofA931D9jsO7tAbCzTJwgvJ88Yz3aHBX5W
-         6Kgx88OWHdb7lxslpz6vOOJFdUHwuAJyOY0r4iqraEx9+qb8S+u75ATzXt8IWzDiJ1Oy
-         hmi3eF73bWCQAYl8PcZMbH0Jxi2N3dDwcgLbOQ5RPYLu1ionlWoDRkbuVNU781vewQqX
-         nCjqo99ZuTw5YN/yC29CVo9ipftpy13lpIaz1s11asTYaW+njYfUg4p0yq3Q8tiTE04g
-         BSZA==
-X-Forwarded-Encrypted: i=1; AJvYcCWvfrgYUyI8pVMnloRkzJWHzqJCxHvxHzhZosskGPTJoMYI03rlI4kN23UCTEXqKfxEg0OKKji+0z0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJHj9S/a48PqOteyV/56uQuRzEPPw/vkHP1mtI2LRIPktxYzUL
-	jNXXuqnKISrDR6AElLehz4p0RQvnWozJ5r0dPWunlQKY7FzeC/npe0qSBthEyYkGYWlDucyQuhr
-	ygRxg59Zm9YRtiR3UXzpcv9t5heKQu3gHbrHF
-X-Gm-Gg: ASbGncsaoxNAKSfjLfNHvZLnSGgFuxriYGFJDiuB85WAySicoCPrFoAvMtp8RP+xk0e
-	d1vN/szwK17YtndQhL3HNgre9kGcvknHhEixpMQhpLumdqFYqGkGwjwKSuEnQTIfk15eahwc8yH
-	Zwe4QZMWkkgxJScFf/rA655UHip/AucdrLTg==
-X-Google-Smtp-Source: AGHT+IHUOjgBbVOP8EhCotYEtz1xj8om994DHh63iGGlYgne8/oHskra7BjgsemS01jDY9TsbdDObHSsJ810l2GltBI=
-X-Received: by 2002:a17:902:ce07:b0:21f:4986:c7d5 with SMTP id
- d9443c01a7336-22e18a3edccmr455755ad.8.1746213937102; Fri, 02 May 2025
- 12:25:37 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="LxbWOqqK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B223BC4CEE4;
+	Fri,  2 May 2025 20:35:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746218147;
+	bh=+N2AWwulLSeis8cx1YIsG72P0ZZ9C4nuty7wiozK8yw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=LxbWOqqKbLFkZd9wXyr5yZ0I45GT33Ia7VwC9R+NKWNIqdGA3s/cv8/wlRbYoRyvs
+	 zrKdjxwjzUkc8Zw3gl2qs7JnWXE9qEXPcXErExcDPCAVYbhfEFdqef/EEJsE+XAndr
+	 k113XO+FahZinTORPhlV3Mndov+Zl4x9zS9D8LgeaH7JOaJiLZ5V9dbGuUmZrqC7ik
+	 jUwqtUGXVI7L1iiaPqGhgaIKDMBNipKGlvfe7YwLmxHBhSWrYOKFNOKfOEiR5zxI4M
+	 6d0x5gVve1poltaruVgoODiKA2kN7i/4XdcR1NhDpAFGJJE05hGpZZpyjl6Tqi54qf
+	 LNAkG1J5CqeFQ==
+Date: Fri, 2 May 2025 13:35:47 -0700
+From: "Darrick J. Wong" <djwong@kernel.org>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>,
+	Miklos Szeredi <miklos@szeredb.hu>,
+	Bernd Schubert <bschubert@ddn.com>,
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
+	Vishal Verma <vishal.l.verma@intel.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
+	Alexander Viro <viro@zeniv.linux.org.uk>,
+	Christian Brauner <brauner@kernel.org>,
+	Luis Henriques <luis@igalia.com>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	Jeff Layton <jlayton@kernel.org>,
+	Kent Overstreet <kent.overstreet@linux.dev>,
+	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
+	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+	Stefan Hajnoczi <shajnocz@redhat.com>,
+	Josef Bacik <josef@toxicpanda.com>,
+	Aravind Ramesh <arramesh@micron.com>,
+	Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC PATCH 12/19] famfs_fuse: Plumb the GET_FMAP message/response
+Message-ID: <20250502203547.GF1035866@frogsfrogsfrogs>
+References: <20250421013346.32530-1-john@groves.net>
+ <20250421013346.32530-13-john@groves.net>
+ <CAJnrk1ZRSoMN+jan5D9d3UYWnTVxc_5KVaBtP7JV2b+0skrBfg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250429032645.363766-1-almasrymina@google.com>
- <20250429032645.363766-5-almasrymina@google.com> <53433089-7beb-46cf-ae8a-6c58cd909e31@redhat.com>
- <fd7f21d9-3f45-4f68-85cb-dd160a0a95ca@redhat.com>
-In-Reply-To: <fd7f21d9-3f45-4f68-85cb-dd160a0a95ca@redhat.com>
-From: Mina Almasry <almasrymina@google.com>
-Date: Fri, 2 May 2025 12:25:23 -0700
-X-Gm-Features: ATxdqUFE7sBpQ0aEoZkfu-r1bro_WuWZDP8nLd_pOK-7HB7CvYHcAcfjkOn9v8E
-Message-ID: <CAHS8izPr_yt+PtG5Q++Ub=D4J=H7nP0S_7rOP9G7W=i2Zeau3g@mail.gmail.com>
-Subject: Re: [PATCH net-next v13 4/9] net: devmem: Implement TX path
-To: Paolo Abeni <pabeni@redhat.com>
-Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, io-uring@vger.kernel.org, 
-	virtualization@lists.linux.dev, kvm@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>, 
-	Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Simon Horman <horms@kernel.org>, 
-	Donald Hunter <donald.hunter@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrew Lunn <andrew+netdev@lunn.ch>, Jeroen de Borst <jeroendb@google.com>, 
-	Harshitha Ramamurthy <hramamurthy@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, 
-	Willem de Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, 
-	Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, 
-	Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang <jasowang@redhat.com>, 
-	Xuan Zhuo <xuanzhuo@linux.alibaba.com>, =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>, 
-	Stefan Hajnoczi <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>, 
-	sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>, 
-	Victor Nogueira <victor@mojatatu.com>, Pedro Tammela <pctammela@mojatatu.com>, 
-	Samiullah Khawaja <skhawaja@google.com>, Kaiyuan Zhang <kaiyuanz@google.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1ZRSoMN+jan5D9d3UYWnTVxc_5KVaBtP7JV2b+0skrBfg@mail.gmail.com>
 
-On Fri, May 2, 2025 at 4:51=E2=80=AFAM Paolo Abeni <pabeni@redhat.com> wrot=
-e:
->
-> On 5/2/25 1:47 PM, Paolo Abeni wrote:
-> > On 4/29/25 5:26 AM, Mina Almasry wrote:
-> >> Augment dmabuf binding to be able to handle TX. Additional to all the =
-RX
-> >> binding, we also create tx_vec needed for the TX path.
-> >>
-> >> Provide API for sendmsg to be able to send dmabufs bound to this devic=
-e:
-> >>
-> >> - Provide a new dmabuf_tx_cmsg which includes the dmabuf to send from.
-> >> - MSG_ZEROCOPY with SCM_DEVMEM_DMABUF cmsg indicates send from dma-buf=
-.
-> >>
-> >> Devmem is uncopyable, so piggyback off the existing MSG_ZEROCOPY
-> >> implementation, while disabling instances where MSG_ZEROCOPY falls bac=
-k
-> >> to copying.
-> >>
-> >> We additionally pipe the binding down to the new
-> >> zerocopy_fill_skb_from_devmem which fills a TX skb with net_iov netmem=
-s
-> >> instead of the traditional page netmems.
-> >>
-> >> We also special case skb_frag_dma_map to return the dma-address of the=
-se
-> >> dmabuf net_iovs instead of attempting to map pages.
-> >>
-> >> The TX path may release the dmabuf in a context where we cannot wait.
-> >> This happens when the user unbinds a TX dmabuf while there are still
-> >> references to its netmems in the TX path. In that case, the netmems wi=
-ll
-> >> be put_netmem'd from a context where we can't unmap the dmabuf, Resolv=
-e
-> >> this by making __net_devmem_dmabuf_binding_free schedule_work'd.
-> >>
-> >> Based on work by Stanislav Fomichev <sdf@fomichev.me>. A lot of the me=
-at
-> >> of the implementation came from devmem TCP RFC v1[1], which included t=
-he
-> >> TX path, but Stan did all the rebasing on top of netmem/net_iov.
-> >>
-> >> Cc: Stanislav Fomichev <sdf@fomichev.me>
-> >> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
-> >> Signed-off-by: Mina Almasry <almasrymina@google.com>
-> >> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
+On Thu, May 01, 2025 at 10:48:15PM -0700, Joanne Koong wrote:
+> On Sun, Apr 20, 2025 at 6:34 PM John Groves <John@groves.net> wrote:
 > >
-> > I'm sorry for the late feedback. A bunch of things I did not notice
-> > before...
->
-> The rest LGTM,
+> > Upon completion of a LOOKUP, if we're in famfs-mode we do a GET_FMAP to
+> > retrieve and cache up the file-to-dax map in the kernel. If this
+> > succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
+> >
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/fuse/dir.c             | 69 +++++++++++++++++++++++++++++++++++++++
+> >  fs/fuse/fuse_i.h          | 36 +++++++++++++++++++-
+> >  fs/fuse/inode.c           | 15 +++++++++
+> >  include/uapi/linux/fuse.h |  4 +++
+> >  4 files changed, 123 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > index bc29db0117f4..ae135c55b9f6 100644
+> > --- a/fs/fuse/dir.c
+> > +++ b/fs/fuse/dir.c
+> > @@ -359,6 +359,56 @@ bool fuse_invalid_attr(struct fuse_attr *attr)
+> >         return !fuse_valid_type(attr->mode) || !fuse_valid_size(attr->size);
+> >  }
+> >
+> > +#define FMAP_BUFSIZE 4096
+> > +
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +static void
+> > +fuse_get_fmap_init(
+> > +       struct fuse_conn *fc,
+> > +       struct fuse_args *args,
+> > +       u64 nodeid,
+> > +       void *outbuf,
+> > +       size_t outbuf_size)
+> > +{
+> > +       memset(outbuf, 0, outbuf_size);
+> 
+> I think we can skip the memset here since kcalloc will zero out the
+> memory automatically when the fmap_buf gets allocated
+> 
+> > +       args->opcode = FUSE_GET_FMAP;
+> > +       args->nodeid = nodeid;
+> > +
+> > +       args->in_numargs = 0;
+> > +
+> > +       args->out_numargs = 1;
+> > +       args->out_args[0].size = FMAP_BUFSIZE;
+> > +       args->out_args[0].value = outbuf;
+> > +}
+> > +
+> > +static int
+> > +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode, u64 nodeid)
+> > +{
+> > +       size_t fmap_size;
+> > +       void *fmap_buf;
+> > +       int err;
+> > +
+> > +       pr_notice("%s: nodeid=%lld, inode=%llx\n", __func__,
+> > +                 nodeid, (u64)inode);
+> > +       fmap_buf = kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
+> > +       FUSE_ARGS(args);
+> > +       fuse_get_fmap_init(fm->fc, &args, nodeid, fmap_buf, FMAP_BUFSIZE);
+> > +
+> > +       /* Send GET_FMAP command */
+> > +       err = fuse_simple_request(fm, &args);
+> 
+> I'm assuming the fmap_buf gets freed in a later patch, but for this
+> one we'll probably need a kfree(fmap_buf) here in the meantime?
+> 
+> > +       if (err) {
+> > +               pr_err("%s: err=%d from fuse_simple_request()\n",
+> > +                      __func__, err);
+> > +               return err;
+> > +       }
+> > +
+> > +       fmap_size = args.out_args[0].size;
+> > +       pr_notice("%s: nodei=%lld fmap_size=%ld\n", __func__, nodeid, fmap_size);
+> > +
+> > +       return 0;
+> > +}
+> > +#endif
+> > +
+> >  int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
+> >                      struct fuse_entry_out *outarg, struct inode **inode)
+> >  {
+> > @@ -404,6 +454,25 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+> >                 fuse_queue_forget(fm->fc, forget, outarg->nodeid, 1);
+> >                 goto out;
+> >         }
+> > +
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       if (fm->fc->famfs_iomap) {
+> > +               if (S_ISREG((*inode)->i_mode)) {
+> > +                       /* Note Lookup returns the looked-up inode in the attr
+> > +                        * struct, but not in outarg->nodeid !
+> > +                        */
+> > +                       pr_notice("%s: outarg: size=%d nodeid=%lld attr.ino=%lld\n",
+> > +                                __func__, args.out_args[0].size, outarg->nodeid,
+> > +                                outarg->attr.ino);
+> > +                       /* Get the famfs fmap */
+> > +                       fuse_get_fmap(fm, *inode, outarg->attr.ino);
+> 
+> I agree with Darrick's comment about fetching the mappings only if the
+> file gets opened. I wonder though if we could bundle the open with the
+> get_fmap so that we don't have to do an additional request / incur 2
+> extra context switches.
 
-Does this imply I should attach your Reviewed-by or Acked-by on follow
-up submissions if any? I'm happy either way, just checking.
+What's the intended lifetime of these files?  If we only have to do this
+once per file lifetime then perhaps that amortizes towards zero?  That
+said, I don't know how aggressively fuse reclaims the inode structures,
+so maybe the need to GET_FMAP is more frequent?  AFAICT the fuse code
+seems to use the regular lru so maybe that's not so bad.  But maybe the
+kernel shouldn't ask for mappings until someone tries a file IO
+operation so that walking the directory tree doesn't bog down in a bunch
+of GET_FMAP operations.
 
-> and my feedback here ranges from nit to corner-cases, so
-> we are probably better off with a follow-up than with a repost, other
-> opinions welcome!
->
+It also occurred to me just now that this is a LOOKUP operation, which
+makes me wonder what happens for the other things like .  But maybe the
+order of operations for creat() is that you tell the famfs management
+layer to create a file, it preallocates space and the directory tree,
+and later you can just resolve the pathname to open it, at which point
+fuse+famfs creates the in-kernel abstractions?
 
-Agreed a follow-up is better, but up to you and other maintainers.
-There is some mounting urgency on my side (we're in the process of
-optimistical backports and migrating the devmem TCP userspace that we
-previously open sourced to the upstream UAPI), but we'll oblige either
-way.
+> extra context switches. This seems feasible to me. When we send the
+> open request, we could check if fc->famfs_iomap is set and if so, set
+> inarg.open_flags to include FUSE_OPEN_GET_FMAP and set outarg.value to
+> an allocated buffer that holds both struct fuse_open_out and the
+> fmap_buf and adjust outarg.size accordingly. Then the server could
+> send both the open and corresponding fmap data in the reply.
 
---=20
-Thanks,
-Mina
+Alternately, we could create a fuse "notification" that really is just a
+means for the famfs open function to send mappings to the kernel.  But I
+don't know if it makes much difference for the kernel to demand-page in
+mapping information as needed vs just using GET_FMAP here.
+
+> 
+> > +               } else
+> > +                       pr_notice("%s: no get_fmap for non-regular file\n",
+> > +                                __func__);
+> > +       } else
+> > +               pr_notice("%s: fc->dax_iomap is not set\n", __func__);
+> > +#endif
+> > +
+> >         err = 0;
+> >
+> >   out_put_forget:
+> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > index 931613102d32..437177c2f092 100644
+> > --- a/fs/fuse/fuse_i.h
+> > +++ b/fs/fuse/fuse_i.h
+> > @@ -193,6 +193,10 @@ struct fuse_inode {
+> >         /** Reference to backing file in passthrough mode */
+> >         struct fuse_backing *fb;
+> >  #endif
+> > +
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       void *famfs_meta;
+> > +#endif
+> >  };
+> >
+> >  /** FUSE inode state bits */
+> > @@ -942,6 +946,8 @@ struct fuse_conn {
+> >  #endif
+> >
+> >  #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       struct rw_semaphore famfs_devlist_sem;
+> > +       struct famfs_dax_devlist *dax_devlist;
+> >         char *shadow;
+> >  #endif
+> >  };
+> > @@ -1432,11 +1438,14 @@ void fuse_free_conn(struct fuse_conn *fc);
+> >
+> >  /* dax.c */
+> >
+> > +static inline int fuse_file_famfs(struct fuse_inode *fi); /* forward */
+> > +
+> >  /* This macro is used by virtio_fs, but now it also needs to filter for
+> >   * "not famfs"
+> >   */
+> >  #define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)    \
+> > -                                       && IS_DAX(&fuse_inode->inode))
+> > +                                       && IS_DAX(&fuse_inode->inode)   \
+> > +                                       && !fuse_file_famfs(fuse_inode))
+> >
+> >  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
+> >  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
+> > @@ -1547,4 +1556,29 @@ extern void fuse_sysctl_unregister(void);
+> >  #define fuse_sysctl_unregister()       do { } while (0)
+> >  #endif /* CONFIG_SYSCTL */
+> >
+> > +/* famfs.c */
+> > +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+> > +                                                      void *meta)
+> > +{
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       return xchg(&fi->famfs_meta, meta);
+> > +#else
+> > +       return NULL;
+> > +#endif
+> > +}
+> > +
+> > +static inline void famfs_meta_free(struct fuse_inode *fi)
+> > +{
+> > +       /* Stub wil be connected in a subsequent commit */
+> > +}
+> > +
+> > +static inline int fuse_file_famfs(struct fuse_inode *fi)
+> > +{
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       return (fi->famfs_meta != NULL);
+> 
+> Does this need to be "return READ_ONCE(fi->famfs_meta) != NULL"?
+> 
+> > +#else
+> > +       return 0;
+> > +#endif
+> > +}
+> > +
+> >  #endif /* _FS_FUSE_I_H */
+> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> > index 7f4b73e739cb..848c8818e6f7 100644
+> > --- a/fs/fuse/inode.c
+> > +++ b/fs/fuse/inode.c
+> > @@ -117,6 +117,9 @@ static struct inode *fuse_alloc_inode(struct super_block *sb)
+> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> >                 fuse_inode_backing_set(fi, NULL);
+> >
+> > +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+> > +               famfs_meta_set(fi, NULL);
+> 
+> "fi->famfs_meta = NULL;" looks simpler here
+> 
+> > +
+> >         return &fi->inode;
+> >
+> >  out_free_forget:
+> > @@ -138,6 +141,13 @@ static void fuse_free_inode(struct inode *inode)
+> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> >                 fuse_backing_put(fuse_inode_backing(fi));
+> >
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       if (S_ISREG(inode->i_mode) && fi->famfs_meta) {
+> > +               famfs_meta_free(fi);
+> > +               famfs_meta_set(fi, NULL);
+> > +       }
+> > +#endif
+> > +
+> >         kmem_cache_free(fuse_inode_cachep, fi);
+> >  }
+> >
+> > @@ -1002,6 +1012,11 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> >                 fuse_backing_files_init(fc);
+> >
+> > +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)) {
+> > +               pr_notice("%s: Kernel is FUSE_FAMFS_DAX capable\n", __func__);
+> > +               init_rwsem(&fc->famfs_devlist_sem);
+> > +       }
+> 
+> Should we only init this if the server chooses to opt into famfs (eg
+> if their init reply sets the FUSE_DAX_FMAP flag)? This imo seems to
+> belong more in process_init_reply().
+
+/me has no idea what this means, but has a sneaking suspicion it'll
+become important for his science projects. ;)
+
+Though I guess for general purpose files maybe we want to allow opting
+into iomapping on a per-inode basis like the existing iomap allows.
+
+--D
+
+> 
+> Thanks,
+> Joanne
+> > +
+> >         INIT_LIST_HEAD(&fc->mounts);
+> >         list_add(&fm->fc_entry, &fc->mounts);
+> >         fm->fc = fc;
+> > diff --git a/include/uapi/linux/fuse.h b/include/uapi/linux/fuse.h
+> > index f9e14180367a..d85fb692cf3b 100644
+> > --- a/include/uapi/linux/fuse.h
+> > +++ b/include/uapi/linux/fuse.h
+> > @@ -652,6 +652,10 @@ enum fuse_opcode {
+> >         FUSE_TMPFILE            = 51,
+> >         FUSE_STATX              = 52,
+> >
+> > +       /* Famfs / devdax opcodes */
+> > +       FUSE_GET_FMAP           = 53,
+> > +       FUSE_GET_DAXDEV         = 54,
+> > +
+> >         /* CUSE specific operations */
+> >         CUSE_INIT               = 4096,
+> >
+> > --
+> > 2.49.0
+> >
+> 
