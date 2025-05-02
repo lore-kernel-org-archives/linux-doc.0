@@ -1,60 +1,71 @@
-Received: from mx0b-001b2d01.pphosted.com (mx0b-001b2d01.pphosted.com [148.163.158.5])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8D59221721;
-	Fri,  2 May 2025 11:34:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=148.163.158.5
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 015D62116F6
+	for <linux-doc@vger.kernel.org>; Fri,  2 May 2025 11:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746185667; cv=none; b=AgVE5Rrmsq/ERefuugvx+ve8pXYxPpvKmguqSLg2AIzZTzLKHQqb5TpHd3E6wjHOimT9sXQFshXnKmqyRU1yZEA4g0SuOPm9V4FSwFxiD9iNdcIn7orUSsWPCrhlKLkouNN1SoxMnHKJ8eprpekRYBqx6GELHmCxfgrziIYmrtk=
+	t=1746186434; cv=none; b=Rn0WWUPzRuNquCTK/C/d/0VoxYd7wxbY85+9CKhsABohQ3Z0dIqGAMtGQrOjtIaQAi+bPX2Z9b55HNWLA+HSepLD8lMZ8yG8P7ykZaUeiXOGCkkQevkUq/AJBqZDSWiTVsbSoWC+Yhb0jdeDWhL5hJHJ8HnGIeg2FQ1WdaSeEps=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746185667; c=relaxed/simple;
-	bh=7w60J+FKjVS3g5Z95mqPgSc2nzysE8E6h9d60GXPWus=;
+	s=arc-20240116; t=1746186434; c=relaxed/simple;
+	bh=cB2cxb192pgUkDCF/6JRnHqrlQVpXJEBsmB29jSR3dU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kQqklomM5Ul+OK0P3z9vJwsiBEpJWGTnR0Y4YxNhRVTjU5ToLdjqFSolBLa/JIhX6hHuypHqc0ZTfbXa6srljSz3hFiOTD69uym5eNdMFufbcuv+mNSyTO+DJndNZ7/8meH9teWv26AXsbpBxusYz9vHgwaBgjghw1LRM6sZJ1E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com; spf=pass smtp.mailfrom=linux.ibm.com; dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b=n4dykVL0; arc=none smtp.client-ip=148.163.158.5
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.ibm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.ibm.com
+	 In-Reply-To:Content-Type; b=Qni+VeZR5yvxhVqA7fIai7/7P7/FnzlUTcUUg5bn96o8+00KAfoBqe/uW5ea5eeUFJXKP3ArkWqQ+DJSljsEwlMbx+6foDCBg92LZqJGxvzog8aXa1QvjzbuFO9EeVp/gpTnnykoKhxZaso7LRHW/Gis2caeYd/F+jgK+F+ddHM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=fFkpBt5A; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ibm.com header.i=@ibm.com header.b="n4dykVL0"
-Received: from pps.filterd (m0360072.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 541LgHKV005395;
-	Fri, 2 May 2025 11:33:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=cc
-	:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=pp1; bh=U/RCjn
-	+HqnJhle1+I403uhVDGs5SD7lY0aQbaeLHTRw=; b=n4dykVL0IQcNXPaKnLq7cG
-	3gtrD5EZzBrZum0CwK3YW1Qvr14ruooORvgAA/9uATxdkeGGekpcKHn2n8cnBGzy
-	0YbG/PLkTKal/1VA7bwz0jmIU03yPeP/XrYjESIfaNwPlrigeiErhbYf00BE5vib
-	y8Zq1X3hN7/mF+bmtfHY70IgjOenuGLDL/xG5gyMDjG0YR9Vmf9TFhe4AfvD7/6S
-	vEup76zsqUCmiz0UcaSATsg1LfT8gpRik/3W1VC1mqiOdSDZTW0bn2Py5/tScBty
-	VL56+v9D0XQ59K+k+I7AkaWpQioIA+Fe4W9diIdsCr7Wt24fS3ogA3kIlHOFZJNg
-	==
-Received: from ppma23.wdc07v.mail.ibm.com (5d.69.3da9.ip4.static.sl-reverse.com [169.61.105.93])
-	by mx0a-001b2d01.pphosted.com (PPS) with ESMTPS id 46ch3vtntx-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 May 2025 11:33:55 +0000 (GMT)
-Received: from pps.filterd (ppma23.wdc07v.mail.ibm.com [127.0.0.1])
-	by ppma23.wdc07v.mail.ibm.com (8.18.1.2/8.18.1.2) with ESMTP id 542BG6hF001791;
-	Fri, 2 May 2025 11:33:55 GMT
-Received: from smtprelay01.wdc07v.mail.ibm.com ([172.16.1.68])
-	by ppma23.wdc07v.mail.ibm.com (PPS) with ESMTPS id 469ban1hac-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 02 May 2025 11:33:55 +0000
-Received: from smtpav04.dal12v.mail.ibm.com (smtpav04.dal12v.mail.ibm.com [10.241.53.103])
-	by smtprelay01.wdc07v.mail.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 542BXsxm25690550
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 2 May 2025 11:33:54 GMT
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5ED9E5805E;
-	Fri,  2 May 2025 11:33:54 +0000 (GMT)
-Received: from smtpav04.dal12v.mail.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DED9958052;
-	Fri,  2 May 2025 11:33:51 +0000 (GMT)
-Received: from [9.61.121.210] (unknown [9.61.121.210])
-	by smtpav04.dal12v.mail.ibm.com (Postfix) with ESMTP;
-	Fri,  2 May 2025 11:33:51 +0000 (GMT)
-Message-ID: <70e065c7-8129-4c78-a7a8-72718ceea334@linux.ibm.com>
-Date: Fri, 2 May 2025 13:33:37 +0200
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="fFkpBt5A"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746186430;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=bd+qrSUziC6Hp37oryqfJ42cozggFXlnjz2f5SA/Nlw=;
+	b=fFkpBt5ASInIcYUqC1X3F4MllL7i2sYe+cL4uM1wEdqd+zLXJjUjRDRpRdm6c3kXuNIoW0
+	ZJkymdIeCfy09v6Z2aocdpq9Y8fWGws85ch1ZUSMPRBbfLcLJXbYltsxXWk4b1Sz3+OjFd
+	92n5MHsluco0W5rRu5GrjEbz1wB7PEE=
+Received: from mail-wm1-f69.google.com (mail-wm1-f69.google.com
+ [209.85.128.69]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-460-W9j_F2UCMOWVxjruVklBqg-1; Fri, 02 May 2025 07:47:10 -0400
+X-MC-Unique: W9j_F2UCMOWVxjruVklBqg-1
+X-Mimecast-MFC-AGG-ID: W9j_F2UCMOWVxjruVklBqg_1746186429
+Received: by mail-wm1-f69.google.com with SMTP id 5b1f17b1804b1-43e9a3d2977so12983645e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 02 May 2025 04:47:09 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746186429; x=1746791229;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=bd+qrSUziC6Hp37oryqfJ42cozggFXlnjz2f5SA/Nlw=;
+        b=VLWxSvmK254ApacrrEm8xSwepvnPVZ7Zd4kBaYPZfW6FRFYZtIWTk2KZnGDGY1rJR2
+         5BsZK9zMFXeRKBPa2ULbwQZ15JIdH3ptQ0/w95Au/PBHPV8k+H+PZqsq0SGEkGewZIiz
+         bFrU39D8xRcsv+6JelqlPTtqjE9WWH4ECMCO7Uvfsh7FMCOEHtDDQJysjKJnA8vKIeR9
+         jhw/mWFgC8igQd/77Wvm/B1qeIHxN27IlISpvDc6u6dOym6G2cqDjcN4uVVN+/3jYjtO
+         lPRnCr36Uy+HkhUnb2CqJu+4p4/XiFxMUypFmB0Deb/YG3gdtJdLSSWdxK2xczF+gMX8
+         VygA==
+X-Forwarded-Encrypted: i=1; AJvYcCVgnY3Mgg5qMQbyMHRA73+lLo5uOANv0UHggL/7AQn1RvWTLzNiZCn5JxnVls1nu05cr5Kd1hLyk9Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzM000WQn82+ieWa8u3a70pJHOQCgSaLrWuWAphrEbccaAXc/EY
+	Di5f8ELF3CoC2sTSx4ze1/Z7uZNwZfQgXOOVR2vP8KeFp8qp7Rk09xJVsX5k+PMhi4sjbEOtYhy
+	souHjgJeL2l3Hb0KloN6Y7a2fzfPsnW4Uyncdq0DyaWpvm9CzsKCviKhy8g==
+X-Gm-Gg: ASbGncuAeb3oZcn5TqFkFIECsInoywKfw4M7Jn00gBEwZEjwkudTE/Jhos15FSQ2om/
+	XOuxDU84vgXZsKOT6vyIUeGcRW0hrBoKFIxUVbCdahtRjntIoNf8WmOF9RZfViuU6yuKmqL3m4O
+	kdnz0T5V+CLwVZcVGPNX42nsXH2S+NC+y1GRM0xFIXdV/OBVaiu8BdDaQ/QCcforoMp5O4oZcs9
+	jSQUtoEp9Fsx6IZgjQM8qtaLVKkVKxLhXqgyoEAaSVpWGLLHynpFNzLY+o2UswvaIUnswv4zab1
+	W7Md3t1NYPUIhKJ+OGQ=
+X-Received: by 2002:a05:600c:1907:b0:43d:aed:f7de with SMTP id 5b1f17b1804b1-441bbf31b4fmr17578895e9.21.1746186428657;
+        Fri, 02 May 2025 04:47:08 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNkSVOCPi9/Yl9G06/uxys7n8ZbaJNy9wtYWx0RJ7ALzhpTB8PeBBxho/R9jjz77v4vvgt8Q==
+X-Received: by 2002:a05:600c:1907:b0:43d:aed:f7de with SMTP id 5b1f17b1804b1-441bbf31b4fmr17578465e9.21.1746186428227;
+        Fri, 02 May 2025 04:47:08 -0700 (PDT)
+Received: from ?IPV6:2a0d:3344:246d:aa10::f39? ([2a0d:3344:246d:aa10::f39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-441b2aecc89sm87546305e9.9.2025.05.02.04.47.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 May 2025 04:47:07 -0700 (PDT)
+Message-ID: <53433089-7beb-46cf-ae8a-6c58cd909e31@redhat.com>
+Date: Fri, 2 May 2025 13:47:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -62,129 +73,179 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2] kbuild: make all file references relative to source
- root
-To: Matthieu Baerts <matttbe@kernel.org>,
-        =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>,
-        Masahiro Yamada <masahiroy@kernel.org>
-Cc: linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, Nathan Chancellor <nathan@kernel.org>,
-        Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        "H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>,
-        MPTCP Linux <mptcp@lists.linux.dev>
-References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
- <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
+Subject: Re: [PATCH net-next v13 4/9] net: devmem: Implement TX path
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ io-uring@vger.kernel.org, virtualization@lists.linux.dev,
+ kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+ Simon Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20250429032645.363766-1-almasrymina@google.com>
+ <20250429032645.363766-5-almasrymina@google.com>
 Content-Language: en-US
-From: Peter Oberparleiter <oberpar@linux.ibm.com>
-In-Reply-To: <edc50aa7-0740-4942-8c15-96f12f2acc7e@kernel.org>
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250429032645.363766-5-almasrymina@google.com>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-X-Authority-Analysis: v=2.4 cv=Z+XsHGRA c=1 sm=1 tr=0 ts=6814ada3 cx=c_pps a=3Bg1Hr4SwmMryq2xdFQyZA==:117 a=3Bg1Hr4SwmMryq2xdFQyZA==:17 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=VwQbUJbxAAAA:8 a=8T59DR07AAAA:8 a=VTue-mJiAAAA:8 a=hfMpdXb5uliVZ7BdCgcA:9
- a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10 a=nH4QB3FtVBqZfhiODIJV:22 a=S9YjYK_EKPFYWS37g-LV:22
-X-Proofpoint-ORIG-GUID: VvdH58BCApXO3aiQkWqM4QgzlyDnRmvp
-X-Proofpoint-GUID: VvdH58BCApXO3aiQkWqM4QgzlyDnRmvp
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTAyMDA4NyBTYWx0ZWRfX1f1a7KAI0ak7 na6p83njbnyNC+VVxVng+drrrGEzhU5EMR1YixM06UFLGYdQhKF7UKeqD3co0hkUUbMigxkDdVB AhYRz8LCPI5dAsW7NDQ3TPicAkSmvejTnkhh8BJivZRMFVGiMjL7r/9run5wTAZqw9vF8TeYvd2
- e6cy6qrS70N3sw9aUq5I2HnHtNPutfmZt8XLSPUeohvixNlgyZU+Lt8KnwpagFVB1emdAAAiFCM mwojYIEDizFOKDi8P8h0DSCVru9bficPcX9h3j03FDYQKqFwABBGZSW94EWZlWjP2dopXYUltoR BtXiSrEGzaxjNO2uZ72ObBQiziKMdBWKcJGoqFvPAaD4tk4k9QNKRUVqc0C88Ny0Nrjlxy2fAg5
- DNPsGQjAK23Q8/z4/keto4Q3lVgbAZ42xQrkh7na7vz8p/mJYkXAgjLwwn0APIDhOf7Gis3h
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-02_01,2025-04-30_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 bulkscore=0 adultscore=0
- suspectscore=0 lowpriorityscore=0 malwarescore=0 priorityscore=1501
- phishscore=0 impostorscore=0 mlxscore=0 mlxlogscore=999 spamscore=0
- clxscore=1011 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505020087
+Content-Transfer-Encoding: 7bit
 
-On 29.04.2025 18:12, Matthieu Baerts wrote:
-> On 15/03/2025 14:20, Thomas Weißschuh wrote:
->> -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
->> Other references, for example in debug information, are not affected.
->> This makes handling of file references in the compiler outputs harder to
->> use and creates problems for reproducible builds.
->>
->> Switch to -ffile-prefix map which affects all references.
->>
->> Also drop the documentation section advising manual specification of
->> -fdebug-prefix-map for reproducible builds, as it is not necessary
->> anymore.
->>
->> Suggested-by: Ben Hutchings <ben@decadent.org.uk>
->> Link: https://lore.kernel.org/lkml/c49cc967294f9a3a4a34f69b6a8727a6d3959ed8.camel@decadent.org.uk/
->> Acked-by: Borislav Petkov (AMD) <bp@alien8.de> # arch/x86/
->> Signed-off-by: Thomas Weißschuh <linux@weissschuh.net>
-> 
-> Thank you for having worked on that!
-> 
-> (...)
-> 
->> diff --git a/Makefile b/Makefile
->> index 5c333682dc9142b1aacfe454a5c77f5923554b7d..4f920187cee658ae4d1b807fca365f6994274828 100644
->> --- a/Makefile
->> +++ b/Makefile
->> @@ -1067,7 +1067,7 @@ endif
->>  
->>  # change __FILE__ to the relative path to the source directory
->>  ifdef building_out_of_srctree
->> -KBUILD_CPPFLAGS += $(call cc-option,-fmacro-prefix-map=$(srcroot)/=)
->> +KBUILD_CPPFLAGS += $(call cc-option,-ffile-prefix-map=$(srcroot)/=)
->>  KBUILD_RUSTFLAGS += --remap-path-prefix=$(srcroot)/=
->>  endif
-> 
-> Today, I noticed that my CI for the MPTCP subsystem couldn't produce
-> code coverage files like before: the source files are not found. A 'git
-> bisect' pointed me to this patch. Reverting it seems to fix the issue.
-> 
-> 
-> My CI is building the kernel out of the source tree, in ".virtme/build".
-> Before and after this patch, GCOV seems to do its job properly.
-> Capturing GCOV data with this lcov command seems OK too:
-> 
->   lcov --capture --keep-going -j "${INPUT_CPUS}" \
->      --rc geninfo_unexecuted_blocks=1 \
->      --include '/net/mptcp/' \
->      --function-coverage --branch-coverage \
->      -b "${PWD}/.virtme/build" -o kernel.lcov
-> 
-> But after this patch, lcov complains some files are not found, e.g.
-> 
->   ERROR: (source) unable to open
-> ${WORKDIR}/.virtme/build/net/mptcp/ctrl.c: No such file or directory
+Hi,
 
-I can confirm that the subject kernel commit breaks gcov-kernel for
-out-of-srctree builds by making it impossible for a consumer of GCOV
-data to determine the actual location of a source file without manually
-specifying it.
-
-Sample .gcno file content changes as seen with gcov-dump:
-
-- cwd: /home/.../build
-- /home/.../linux/kernel/workqueue.c:8049:19-8057:1
-+ cwd: /home/.../build
-+ kernel/workqueue.c:8049:19-8057:1
-
-> The output file is different: the path to the source file is wrong
-> because it points to the build dir. Instead of ...
+On 4/29/25 5:26 AM, Mina Almasry wrote:
+> Augment dmabuf binding to be able to handle TX. Additional to all the RX
+> binding, we also create tx_vec needed for the TX path.
 > 
->   SF:${WORKDIR}/net/mptcp/ctrl.c
+> Provide API for sendmsg to be able to send dmabufs bound to this device:
 > 
-> ... now I have ...
+> - Provide a new dmabuf_tx_cmsg which includes the dmabuf to send from.
+> - MSG_ZEROCOPY with SCM_DEVMEM_DMABUF cmsg indicates send from dma-buf.
 > 
->   SF:${WORKDIR}/.virtme/build/net/mptcp/ctrl.c
+> Devmem is uncopyable, so piggyback off the existing MSG_ZEROCOPY
+> implementation, while disabling instances where MSG_ZEROCOPY falls back
+> to copying.
 > 
+> We additionally pipe the binding down to the new
+> zerocopy_fill_skb_from_devmem which fills a TX skb with net_iov netmems
+> instead of the traditional page netmems.
 > 
-> Are there modifications needed on GCOV side to adapt to the behaviour
-> change introduced by this patch? Or something else needed on the
-> userspace side?
+> We also special case skb_frag_dma_map to return the dma-address of these
+> dmabuf net_iovs instead of attempting to map pages.
+> 
+> The TX path may release the dmabuf in a context where we cannot wait.
+> This happens when the user unbinds a TX dmabuf while there are still
+> references to its netmems in the TX path. In that case, the netmems will
+> be put_netmem'd from a context where we can't unmap the dmabuf, Resolve
+> this by making __net_devmem_dmabuf_binding_free schedule_work'd.
+> 
+> Based on work by Stanislav Fomichev <sdf@fomichev.me>. A lot of the meat
+> of the implementation came from devmem TCP RFC v1[1], which included the
+> TX path, but Stan did all the rebasing on top of netmem/net_iov.
+> 
+> Cc: Stanislav Fomichev <sdf@fomichev.me>
+> Signed-off-by: Kaiyuan Zhang <kaiyuanz@google.com>
+> Signed-off-by: Mina Almasry <almasrymina@google.com>
+> Acked-by: Stanislav Fomichev <sdf@fomichev.me>
 
-I don't see how this could be fixed by changes in userspace nor
-gcov-kernel - the source tree directory information is missing from the
-relevant data files.
+I'm sorry for the late feedback. A bunch of things I did not notice
+before...
 
--- 
-Peter Oberparleiter
-Linux on IBM Z Development - IBM Germany R&D
+> @@ -701,6 +743,8 @@ int __zerocopy_sg_from_iter(struct msghdr *msg, struct sock *sk,
+>  
+>  	if (msg && msg->msg_ubuf && msg->sg_from_iter)
+>  		ret = msg->sg_from_iter(skb, from, length);
+> +	else if (unlikely(binding))
+
+I'm unsure if the unlikely() here (and in similar tests below) it's
+worthy: depending on the actual workload this condition could be very
+likely.
+
+[...]
+> @@ -1066,11 +1067,24 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+>  	int flags, err, copied = 0;
+>  	int mss_now = 0, size_goal, copied_syn = 0;
+>  	int process_backlog = 0;
+> +	bool sockc_valid = true;
+>  	int zc = 0;
+>  	long timeo;
+>  
+>  	flags = msg->msg_flags;
+>  
+> +	sockc = (struct sockcm_cookie){ .tsflags = READ_ONCE(sk->sk_tsflags),
+> +					.dmabuf_id = 0 };
+
+the '.dmabuf_id = 0' part is not needed, and possibly the code is
+clearer without it.
+
+> +	if (msg->msg_controllen) {
+> +		err = sock_cmsg_send(sk, msg, &sockc);
+> +		if (unlikely(err))
+> +			/* Don't return error until MSG_FASTOPEN has been
+> +			 * processed; that may succeed even if the cmsg is
+> +			 * invalid.
+> +			 */
+> +			sockc_valid = false;
+> +	}
+> +
+>  	if ((flags & MSG_ZEROCOPY) && size) {
+>  		if (msg->msg_ubuf) {
+>  			uarg = msg->msg_ubuf;
+> @@ -1078,7 +1092,8 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+>  				zc = MSG_ZEROCOPY;
+>  		} else if (sock_flag(sk, SOCK_ZEROCOPY)) {
+>  			skb = tcp_write_queue_tail(sk);
+> -			uarg = msg_zerocopy_realloc(sk, size, skb_zcopy(skb));
+> +			uarg = msg_zerocopy_realloc(sk, size, skb_zcopy(skb),
+> +						    sockc_valid && !!sockc.dmabuf_id);
+
+If sock_cmsg_send() failed and the user did not provide a dmabuf_id,
+memory accounting will be incorrect.
+
+>  			if (!uarg) {
+>  				err = -ENOBUFS;
+>  				goto out_err;
+> @@ -1087,12 +1102,27 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+>  				zc = MSG_ZEROCOPY;
+>  			else
+>  				uarg_to_msgzc(uarg)->zerocopy = 0;
+> +
+> +			if (sockc_valid && sockc.dmabuf_id) {
+> +				binding = net_devmem_get_binding(sk, sockc.dmabuf_id);
+> +				if (IS_ERR(binding)) {
+> +					err = PTR_ERR(binding);
+> +					binding = NULL;
+> +					goto out_err;
+> +				}
+> +			}
+>  		}
+>  	} else if (unlikely(msg->msg_flags & MSG_SPLICE_PAGES) && size) {
+>  		if (sk->sk_route_caps & NETIF_F_SG)
+>  			zc = MSG_SPLICE_PAGES;
+>  	}
+>  
+> +	if (sockc_valid && sockc.dmabuf_id &&
+> +	    (!(flags & MSG_ZEROCOPY) || !sock_flag(sk, SOCK_ZEROCOPY))) {
+> +		err = -EINVAL;
+> +		goto out_err;
+> +	}
+> +
+>  	if (unlikely(flags & MSG_FASTOPEN ||
+>  		     inet_test_bit(DEFER_CONNECT, sk)) &&
+>  	    !tp->repair) {
+> @@ -1131,14 +1161,8 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+>  		/* 'common' sending to sendq */
+>  	}
+>  
+> -	sockc = (struct sockcm_cookie) { .tsflags = READ_ONCE(sk->sk_tsflags)};
+> -	if (msg->msg_controllen) {
+> -		err = sock_cmsg_send(sk, msg, &sockc);
+> -		if (unlikely(err)) {
+> -			err = -EINVAL;
+> -			goto out_err;
+> -		}
+> -	}
+> +	if (!sockc_valid)
+> +		goto out_err;
+
+Here 'err' could have been zeroed by tcp_sendmsg_fastopen(), and out_err
+could emit a wrong return value.
+
+Possibly it's better to keep the 'dmabuf_id' initialization out of
+sock_cmsg_send() in a separate helper could simplify the handling here?
+
+/P
+
