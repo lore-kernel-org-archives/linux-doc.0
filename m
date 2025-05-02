@@ -1,154 +1,156 @@
-Received: from mail-pl1-f174.google.com (mail-pl1-f174.google.com [209.85.214.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0E7FE1A5B88;
-	Fri,  2 May 2025 07:31:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.174
+Received: from invmail4.hynix.com (exvmail4.hynix.com [166.125.252.92])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id AA8EB26560D;
+	Fri,  2 May 2025 07:38:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=166.125.252.92
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746171079; cv=none; b=Bht+KkFO05sJsNlXffbFKEF3AJl1lrqFuhiPCOGZ+IkRtBcnHq14ZBCDS4F7W4Qx9IyGz1gxpOHfJG7MuecP0pZfeAOw6vZCFaGNNfCYdkkLVb6zPvq/Il3Qfe0R1MOk1aKCBCCPuJc3EgXZJMKKYcVP6QpTAlC9zXAjWRkIJJQ=
+	t=1746171544; cv=none; b=EPbROr8YiPFQkuUwPLslDKXsii4/Bho1zFh7xiI5tVWN4XAZMsmmE1cW3Xoti3aWJNCicpLcV2hYVKMx317IDATObv8ZGEXf5gC9fLqhGiLfKT2Laqg6GuFCBmkfgpUsgVFksGpY596lrnVB0Xp5FHS7Neb/CMyhgpAqCh97c4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746171079; c=relaxed/simple;
-	bh=wtoQr0xWC7SiqYlR1iiTaHqZi3kSYO3Wq5NsfIXggRU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NvmMyxEZ6I8jf1i09nkkDZBHazgZEK2GFDUo9cm6+kWymEougB+r2MBa2MOUXjTXHHu/N1ra2p9+slHQErc7/ig6z6ZTmh/1JquT0vijub3ISFcZdzbeN+dGilIUoZ9RD8PVkofdJ6VjmSuQXKIRkome+xhRCj+/8r97xq9tfok=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=KdqG+Fwy; arc=none smtp.client-ip=209.85.214.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="KdqG+Fwy"
-Received: by mail-pl1-f174.google.com with SMTP id d9443c01a7336-22435603572so20241505ad.1;
-        Fri, 02 May 2025 00:31:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746171077; x=1746775877; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=WhyG+qPql1C6VOEStks/G335oAHhX6Klfc0SAJXR260=;
-        b=KdqG+FwyuPZx7cr9Qv2cDQSRFJ7Ghy/9mz0uQq40At0o8lY7LzQ3NuDDlc5edKE0Tj
-         JkQ/Tvi+N/5aj1EKnd5xKpvZg/jK999Fc1mgqIds4z1z4WISOrCNBWwv/XxphBAPgCcE
-         qYaYoZu9ZdhAb3kkFVTn563I6caJmK65CvDDJBA1XqWt3lMGkfAgg5PttS4ScZj8Dgtu
-         0cQ6+/tl3cw5yIM1QclAIJIDq/xiLcqFxRyONolF2oSv/8d+Kq5eE7YpRofuZQLKMtH0
-         29Z+C1/78MMAiSISScy3XXu7IA+XFRRmeN8Pa5r2cDqS2ZijTh55gYPf9RSzM3D0Xv0v
-         t+5A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746171077; x=1746775877;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WhyG+qPql1C6VOEStks/G335oAHhX6Klfc0SAJXR260=;
-        b=ZjAuazlb4qNvgp1wj1KQhzGO0Z5YVjYa6IxnKqTlfyTFlmLRVrv5ZJ/fh4zXFmk4Jc
-         ig2el3yLoYdHukROUiwU66IyNQbSA6p0fxIxBDrbS0j/+vA/Hj/izdzbsBQ4Z4joSyQc
-         D450GdUA7xkxwfFp6WPhBvvs6jdQPcL/zyTlaKOPDAvXiWHpVkgTRu8i0MCc62uYt2r9
-         cf+zReKEDYc0R3HXADvXiNkDkLeczntFQtwXSMgFpKiGPBmztIOU2gvsuQjl5HnYOgJe
-         uDQTnBb1F28xZB/eFEzeTOjFfN2oZLJFqHNqgu9eHOHa/OIQrJQ02JaA75WfVNaGNxhN
-         Y3Dw==
-X-Forwarded-Encrypted: i=1; AJvYcCVVR30b/sHtpVdCNqUlIbchncu7XuvdOEwhlc3G3He6w7qv7DxVbx91oiEoqaBdSVpRSf3r2zy6Zzc=@vger.kernel.org, AJvYcCW1FCaK5S4AZslQmImhkquByBiQlERYmq4MgVxKKcNjAa/JVbcjepWGW2aC8fLpjt1n+/xLEOPAB9Bptp/u@vger.kernel.org, AJvYcCW72uvveCSxlRYCC6NH0+PHIhlYzw6mo9+8UtRBw1BXTGan03kzaHr6KzObY1j5MpUJeSJnd8OBHLc8TSI=@vger.kernel.org, AJvYcCXwuc/7e3mjYhvIGiCyfL4B4A2354O6BbknvxuDzOno3g0uFdCGdWwLcX8C/3TtiodTndtMKDIn810NoILlYOhX@vger.kernel.org
-X-Gm-Message-State: AOJu0YzR7Oijcb2IPNQoRM/xxe+FoNrQ6kVbE7D54h1fGICpHd4iUP3y
-	vfj0A97XP1u6PC8FN385iTp36jUkL9A34HaSvfrb+pcKBMHQHGOp
-X-Gm-Gg: ASbGncu25O3ALcydYRuE+WXqdiW4n62WZCN9g5jVUDLGG9igbNaDb2huHbg3fH0l4bT
-	/aQ9+a2e1b83EPXTOlOkomsqZ9NShRBppy78/qRR/V/KRpvWkYkah0dnm+DtQxhVYO6RTYYkQSe
-	WVoYy/Hlduxa2TeeOZWeYlvLOyM8mhDQ0IvY3LQhOsjjVvHySwZyZ3cFdt3gmUtFO6w7VmmUOdu
-	uhCRCjzpGbBcLtciBQ31DygA355hKKQdSkBp56hSGHjSUU5t3fs6tONFo3JIvVcPv/ZLInNcB50
-	Mb4uq/w1AoPO7YHrdOoocjkmdUewZ6AKlKuJw+S1
-X-Google-Smtp-Source: AGHT+IH52a6BgPoPUu5N1D3Rb40EG6pjnTkV9nhRgxYGSZyv07U3fjSm8A6SXkBygATuXX2l4VA+sQ==
-X-Received: by 2002:a17:903:2f91:b0:224:191d:8a87 with SMTP id d9443c01a7336-22e1034418bmr27532815ad.26.1746171077036;
-        Fri, 02 May 2025 00:31:17 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1522f7c8sm937775ad.228.2025.05.02.00.31.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 May 2025 00:31:15 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id B8C52420A6AB; Fri, 02 May 2025 14:31:13 +0700 (WIB)
-Date: Fri, 2 May 2025 14:31:13 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: jgg@nvidia.com, kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
-	robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
-	vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
-	jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
-	yi.l.liu@intel.com, mshavit@google.com, praan@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
-Subject: Re: [PATCH v3 16/23] Documentation: userspace-api: iommufd: Update
- vQUEUE
-Message-ID: <aBR0wWzQablOklyW@archie.me>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
- <0beddeaaa4a8a7a45ce93ff21c543ae58be64908.1746139811.git.nicolinc@nvidia.com>
- <aBRA75V9l9WlI2Q3@archie.me>
- <aBRYVkOKfFGMb5Y+@Asurada-Nvidia>
+	s=arc-20240116; t=1746171544; c=relaxed/simple;
+	bh=3pBDy7MfZQMWmnIUBoKlhRRBMazmifBwlDpOHlp3bfc=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=AjbW0l1zznY5kns7gUTSY0OgwONpmTF2idE7Cj9s82g9MDB1tqrp9C3CEb9EQopALieYomX7ZerQ3cdPeSP1m15r5bM5nZ/XzLs1mumhkov3IKLcjIvZNhLKahbdld7SbC7Xu0y9zY5CvUv9Hz1f9YMd3N23pBaWpTsctvhR6jA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com; spf=pass smtp.mailfrom=sk.com; arc=none smtp.client-ip=166.125.252.92
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=sk.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sk.com
+X-AuditID: a67dfc5b-681ff7000002311f-27-68147690cef5
+From: Yunjeong Mun <yunjeong.mun@sk.com>
+To: SeongJae Park <sj@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kernel_team@skhynix.com
+Subject: Re: [PATCH 0/7] mm/damon: auto-tune DAMOS for NUMA setups including tiered memory
+Date: Fri,  2 May 2025 16:38:48 +0900
+Message-ID: <20250502073854.1689-1-yunjeong.mun@sk.com>
+X-Mailer: git-send-email 2.48.1.windows.1
+In-Reply-To: <20250420194030.75838-1-sj@kernel.org>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="vde97DQHR/3Yogi4"
-Content-Disposition: inline
-In-Reply-To: <aBRYVkOKfFGMb5Y+@Asurada-Nvidia>
+Content-Transfer-Encoding: 8bit
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrHLMWRmVeSWpSXmKPExsXC9ZZnke7EMpEMgxsLWSzmrF/DZvHkQDuj
+	xZP/v1kt9l0Eche2LWGxuLxrDpvFvTX/WS0Of33D5MDhsWlVJ5vHpk+T2D1OzPjN4vFi80xG
+	j8V9k1k9zl2s8Pi8SS6APYrLJiU1J7MstUjfLoEro+HQM9aCVqmKyS862RoYLwp3MXJySAiY
+	SDTcXsgEYx/onw5mswloSBw8dJIZxBYRUJQ49/giaxcjFwezwAdGid2dN9lBEsICURJ9i36y
+	gtgsAqoSS45PAGrm4OAVMJdYs4AdYqamRMOle2AzOQWMJVp774DZQgI8Eq827GcEsXkFBCVO
+	znzCAmIzC8hLNG+dzQyyS0JgA5tE84rXjBCDJCUOrrjBMoGRfxaSnllIehYwMq1iFMrMK8tN
+	zMwx0cuozMus0EvOz93ECAzlZbV/oncwfroQfIhRgINRiYc3oEA4Q4g1say4MvcQowQHs5II
+	b4wBUIg3JbGyKrUoP76oNCe1+BCjNAeLkjiv0bfyFCGB9MSS1OzU1ILUIpgsEwenVAPj3G+s
+	qnd6d9+YF3SmdMcGj3u9Ltvj5q88891/zVQf6zbDTUxJaxtjn8oKrX3Vuefsh9MeM/wvhPpK
+	cEicl/7OVnOi+MWhc1xPeePvL10d//zs7RxBfoW8jcUlPM88kkSfSPx6djhkAtP+ys+nAtxX
+	TPHY59Vl5bPz+xYxoft/mtNLBffVM58zVWIpzkg01GIuKk4EAEF+ifRhAgAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFtrKLMWRmVeSWpSXmKPExsXCNUNWR3dCmUiGwYKPRhZz1q9hs3hyoJ3R
+	4sn/36wW+y4CuYfnnmS1WNi2hMXi8q45bBb31vxntTj89Q2TA6fHplWdbB6bPk1i9zgx4zeL
+	x4vNMxk9FvdNZvU4d7HCY/GLD0wenzfJBXBEcdmkpOZklqUW6dslcGU0HHrGWtAqVTH5RSdb
+	A+NF4S5GTg4JAROJA/3TmUBsNgENiYOHTjKD2CICihLnHl9k7WLk4mAW+MAosbvzJjtIQlgg
+	SqJv0U9WEJtFQFViyfEJQM0cHLwC5hJrFrBDzNSUaLh0D2wmp4CxRGvvHTBbSIBH4tWG/Ywg
+	Nq+AoMTJmU9YQGxmAXmJ5q2zmScw8sxCkpqFJLWAkWkVo0hmXlluYmaOqV5xdkZlXmaFXnJ+
+	7iZGYGAuq/0zcQfjl8vuhxgFOBiVeHgDCoQzhFgTy4orcw8xSnAwK4nwxhgAhXhTEiurUovy
+	44tKc1KLDzFKc7AoifN6hacmCAmkJ5akZqemFqQWwWSZODilGhhrU/dectgwlVte975ES2tr
+	Zf0Te+M2y0dqdobstloZ1w6cVZlu53D90L7lNrP2LrWqUS5lPSKr4PFc7dANpmPihhsNfnTY
+	N527ofLi+4ReTbcE5vuF3014G84ud4zxz/n49IX0gwu8J+4ulMyJtpD6MtXmxOIEZdO0n4fy
+	Zqy3rO47f0DGQ1+JpTgj0VCLuag4EQDjrI1SSAIAAA==
+X-CFilter-Loop: Reflected
 
+Hi SeongJae, thanks for your helpful auto-tuning patchset, which optimizes 
+the ease of used of DAMON on tiered memory systems. I have tested demotion
+mechanism with a microbenchmark and would like to share the result.
 
---vde97DQHR/3Yogi4
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Sun, 20 Apr 2025 12:40:23 -0700 SeongJae Park <sj@kernel.org> wrote:
+[..snip..]
 
-On Thu, May 01, 2025 at 10:29:58PM -0700, Nicolin Chen wrote:
-> On Fri, May 02, 2025 at 10:50:07AM +0700, Bagas Sanjaya wrote:
-> > On Thu, May 01, 2025 at 04:01:22PM -0700, Nicolin Chen wrote:
-> > > +- IOMMUFD_OBJ_VQUEUE, representing a hardware accelerated virtual qu=
-eue, as a
-> > > +  subset of IOMMU's virtualization features, for the IOMMU HW to dir=
-ectly read
-> > > +  or write the virtual queue memory owned by a guest OS. This HW-acc=
-eleration
-> > > +  allows VM to work with the IOMMU HW directly without a VM Exit, i.=
-e. reducing
-> > > +  overhead from the hypercalls. Along with this vQUEUE object, iommu=
-fd provides
-> > > +  user space an mmap interface for VMM to mmap a physical MMIO regio=
-n from the
-> > > +  host physical address space to the guest physical address space, a=
-llowing the
-> > > +  guest OS to control the allocated vQUEUE HW. Thus, when allocating=
- a vQUEUE,
-> > > +  the VMM must request a pair of VMA info (vm_pgoff/size) for an mma=
-p syscall.
-> > > +  The length argument of an mmap syscall can be smaller than the giv=
-en size for
-> > > +  a partial mmap, but the addr argument of the mmap syscall should n=
-ever offset
-> > > +  from the returned vm_pgoff, which implies that an mmap will always=
- start from
-> >=20
-> > Did you mean never be offset from returned vm_pgoff?
->=20
-> Yes. Will fix this.
->=20
-> > > +  the beginning of the physical MMIO region.
-> > > +
-> >=20
-> > Confused...
->=20
-> Meaning that VMM should just use the given vm_pgoff as is, without
-> adding any offset to the vm_pgoff.
+> Utilizing DAMON for memory tiering usually requires manual tuning and/ 
+> Evaluation Limitations
+> ----------------------
+> 
+> As mentioned above, this evaluation shows only comparison of promotion
+> mechanisms.  DAMON-based tiering is recommended to be used together with
+> reclaim-based demotion as a faster backup under significant memory
+> pressure, though.
+> 
+> >From some perspective, the modified version of Taobench may seems making
+> the picture distorted too much.  It would be better to evaluate with
+> more realistic workload, or more finely tuned micro benchmarks.
+> 
 
-Understood, thanks!
-=20
---=20
-An old man doll... just what I always wanted! - Clara
+Hardware. 
+- Node 0: 512GB DRAM
+- Node 1: 0GB (memoryless)
+- Node 2: 96GB CXL memory
 
---vde97DQHR/3Yogi4
-Content-Type: application/pgp-signature; name=signature.asc
+Kernel
+- RFC patchset on top of v6.14-rc7 
+https://lore.kernel.org/damon/20250320053937.57734-1-sj@kernel.org/
 
------BEGIN PGP SIGNATURE-----
+Workload
+- Microbenchmark creates hot and cold regions based on the specified parameters.
+  $ ./hot_cold 1g 100g
+It repetitively performs memset on a 1GB hot region, but only performs memset
+once on a 100GB cold region. 
 
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaBR0wQAKCRD2uYlJVVFO
-o2GmAQD6yTz+9Kdn/nHALYBCiSbtX+ewWJjZ0spXlFlQyWBmSgEA9HdlnssGmaCv
-oibhf/yiDjC4MkNfQVDV7Jw5qTjhagQ=
-=zmrU
------END PGP SIGNATURE-----
+DAMON setup
+- My intention is to demote most of all regions of cold memory from node 0 to 
+node 2. So, damo start with below yaml configuration:
+...
+# damo v2.7.2 from https://git.kernel.org/pub/scm/linux/kernel/git/sj/damo.git/
+   schemes:
+   - action: migrate_cold
+      target_nid: 2
+...
+      apply_interval_us: 0
+      quotas:
+        time_ms: 0 s
+        sz_bytes: 0 GiB
+        reset_interval_ms: 6 s
+        goals:
+        - metric: node_mem_free_bp 
+          target_value: 99%
+          nid: 0
+          current_value: 1
+        effective_sz_bytes: 0 B
+...
 
---vde97DQHR/3Yogi4--
+Results
+I've run the hot_cold benchmark for approximately 2 days, and have monitored 
+the memory usage of each node as follows:
+
+$ numastat -c -p hot_cold
+Per-node process memory usage (in MBs)
+PID              Node 0 Node 1 Node 2 Node 3  Total
+---------------  ------ ------ ------ ------ ------
+2689746 (watch)       2      0      0      1      3
+2690067 (hot_col 100122      0   3303      0 103426
+3770656 (watch)       0      0      0      1      1
+3770657 (sh)          2      0      0      0      2
+---------------  ------ ------ ------ ------ ------
+Total            100127      0   3303      1 103432
+
+I expected that most of cold data from node 0 would be demoted to node 2, but it isn't.
+In this situation, DAMON's variables are displayed as follows:
+
+[2067202.863431] totalram 131938449 free 84504526 used 47433923 numerator 84504526
+[2067202.863446] goal->current_value: 6404
+[2067202.863452] score: 6468
+[2067202.863455] quota->esz: 1844674407370955
+
+`score` 6468 means the goal hasn't been achieved yet, and the `quota->esz`, 
+which specifies the aggressiveness of the  demotion action, has reached 
+ULONG_MAX. However, the demotion has not occured.
+
+[..snip..]
+
+I think there may be some errors or misunderstanding in my experiment.
+I would be grateful for any insights or feedback you might have regarding these
+results.
+
+Best Regards,
+Yunjeong
+
