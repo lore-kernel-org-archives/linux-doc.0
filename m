@@ -1,500 +1,416 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B03701F76C2;
-	Fri,  2 May 2025 08:46:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746175598; cv=none; b=JkVXN9PR8FKlMstzvm50ll5RazHcp0VYR9ml4eOW/qZCrXH693NQS8fhWBIjlHwCWmQwT+iMubyp+ZsZvIbQ7Q3L2zCXEOcOGsIko3Z2NE0R67oP9dm1Cjvpx4wFmBp7Neh27H7jTJu/zXwJ6vuPlXg7QiBASF4XE7m6fvP1qkk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746175598; c=relaxed/simple;
-	bh=prcV1j3niDZ2rsDOOOOsvhTUc6G1DCH4PE0PlEobHt8=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=QQl3Puji53CrONFhpVfoPy6vpQJ/kq+mn+Xy59bZvLQiGsTiPEENCMnEykrX9OJLjP0JgSO4Ug4Zjx0xSw1+3tUthjL+ioFVrLsTkqQLldVPLsQ/SEwtqxUvHS3P2R3MaI7EIdm3jwSdJ2whhEXRtDZNSmG4YCNczciKA98oMco=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZpkxM70wKz6L4v9;
-	Fri,  2 May 2025 16:44:23 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
-	by mail.maildlp.com (Postfix) with ESMTPS id 1A8871402F5;
-	Fri,  2 May 2025 16:46:15 +0800 (CST)
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.126.168.187) by
- frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7B0A18024;
+	Fri,  2 May 2025 09:31:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746178268; cv=fail; b=aO/Ij/JPLYuyRo9RPCv0OzMEjM+78XrjZMNZrwmGrydeDHfvzLOEXLNF4AToUIyWIG8mvE1TtfgPaBlVWcXfQvh2PyGUqFByF2or9SENnCqNcm9aWmNE+hBoy6P0Wpko+JgOiefyrRsEvKpBwiaonJ4s0FZLqBVDij6Xj3AIcVs=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746178268; c=relaxed/simple;
+	bh=zOz5iXbxQjec2+VMoUkog5bMrAHiaqqgrEiD7tz3Rqo=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=O3RexSJbuoS6AZ9uKZyIKXDRkl8FIuWP+PmxgJhBwjUmgOg7RSwsr0HGYem7hx5LE6Xjt+4InrvlpmTw8uOlMNm9Q5AODfdeuY1Iq6KOhKYKVHKqc2z4YFIMafgawzp+NbcvvEaPD9gtDHgjqoG67tv/cOUfNyyQGbcyMa9vmvE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ajZ48uqK; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ajZ48uqK"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746178264; x=1777714264;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=zOz5iXbxQjec2+VMoUkog5bMrAHiaqqgrEiD7tz3Rqo=;
+  b=ajZ48uqKmaGwCEtS0Vx33ks1nONltvJLbSyojIfNvcsCHn8o+WF4M17M
+   Y2N/8ZZLBPqt9SEbeuIpz12qT12aNqWfcOZ5zSRKL4uWyYI5vvYy5X3gx
+   c+6hcwmKVx8Fcj/1vheo3ZjrqM1d6GpEbvova912bZYdSRO6VG6yHG04r
+   gaycfNVILEb6H1FXPj1HzQrH7nY6Vo2J5oiPMkEef+E58Uo4wZUmlwsbk
+   DkAbxT6Gmq/5FiR1Duf3UMTUB4qWua79kxmMT0as9E+OwqCHMgcI+EPnH
+   ScJ+AIc80VWqG/g889iptkWSttwJGYl+sLVvo44x9hrf6KxACqR1Nd2v9
+   w==;
+X-CSE-ConnectionGUID: vMwL7qNFRTKaduPZ7I5P5A==
+X-CSE-MsgGUID: WPGd5w/6QdKkYgHDWnVSTw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11420"; a="58525559"
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
+   d="scan'208";a="58525559"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 02:31:03 -0700
+X-CSE-ConnectionGUID: 6r7DiWOqQ66z4Xk0LZ2/JA==
+X-CSE-MsgGUID: GkZQv/SvSEWWQOQPP8ZScg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,256,1739865600"; 
+   d="scan'208";a="134515041"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by orviesa006.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 May 2025 02:30:32 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Fri, 2 May 2025 10:45:55 +0200
-From: <shiju.jose@huawei.com>
-To: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
-	<dave@stgolabs.net>, <jonathan.cameron@huawei.com>, <dave.jiang@intel.com>,
-	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
-	<ira.weiny@intel.com>
-CC: <linux-edac@vger.kernel.org>, <linux-doc@vger.kernel.org>, <bp@alien8.de>,
-	<tony.luck@intel.com>, <lenb@kernel.org>, <Yazen.Ghannam@amd.com>,
-	<mchehab@kernel.org>, <nifan.cxl@gmail.com>, <linuxarm@huawei.com>,
-	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
-	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
-	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
-Subject: [PATCH v4 8/8] cxl/edac: Add CXL memory device soft PPR control feature
-Date: Fri, 2 May 2025 09:45:16 +0100
-Message-ID: <20250502084517.680-9-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20250502084517.680-1-shiju.jose@huawei.com>
-References: <20250502084517.680-1-shiju.jose@huawei.com>
+ 15.2.1544.14; Fri, 2 May 2025 02:30:31 -0700
+Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Fri, 2 May 2025 02:30:31 -0700
+Received: from NAM02-BN1-obe.outbound.protection.outlook.com (104.47.51.43) by
+ edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Fri, 2 May 2025 02:30:30 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=EFRbgH0vP5PuWMjKqEqtCC+BM4mXA7HE380zFpOA3Ec5mxfpWp3aV7lWmrXk+LGuV1UTeiLoQxt8LJM5WiAwa8wxKTJtLzdcqT2tzsRR4HpWxnrsh4+VRyOiTZkzLOPqmKF/eoadhvylIGwOL24n776oHQqm+jqSSpnmrkzD6FMSSRFCeULJsO+NAy/8OLGLaGAnzNEDNbCj9VA8fWYK0yc/H4ym1pKpq4t5qAPtLvlVu+WZgMuP7Sb/0ujpY3ed5mqWVXuZ+qLAQjS6wzPQmSSeFkUFQaauAlZHkkux4NOtVNKT9L8SC5bRVPug762NbY+y4tmTcyKYCBaECYLHAQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4dqn4KCaWhgaRiXjN2HiUP1ZL3p32YyBQVlPdfhWj2Q=;
+ b=gaWOwhnqSKU/srHB9f4eYcLffPuco+QzX94giWIFTQjSyXi3/iKPs+/kiNn7MsQZFKDi3NECA2B+FjlIEO105gVi+6w1i3Ek5+3LGuWac3J4Mi2qwhIlSIT9u7saO4woZPWYKGbGaTmNPgwjKjfrZ4FyX1CzFhK9ODIHx2otV6n6sT3ZbWC6zWeDOlQldikYUt8k/LpfPmzVUj/4m9ENJQQPP9kiX1dvehKsGRYANYIbX1JyTt2ujh9wmbJCQ92ZREjKH9cH8t23Cac0M3LkBLrJRj0xeWQJMaor87PF+ALcX+sLXclFqqQQ3J4LvbvsfgtORq+pH95o0wTfCPD7hQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from DM4PR11MB6020.namprd11.prod.outlook.com (2603:10b6:8:61::19) by
+ PH7PR11MB8011.namprd11.prod.outlook.com (2603:10b6:510:24a::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Fri, 2 May
+ 2025 09:30:26 +0000
+Received: from DM4PR11MB6020.namprd11.prod.outlook.com
+ ([fe80::4af6:d44e:b6b0:fdce]) by DM4PR11MB6020.namprd11.prod.outlook.com
+ ([fe80::4af6:d44e:b6b0:fdce%5]) with mapi id 15.20.8699.022; Fri, 2 May 2025
+ 09:30:26 +0000
+Message-ID: <f024ebd4-2b18-4af5-8fc3-7b057501444b@intel.com>
+Date: Fri, 2 May 2025 17:30:14 +0800
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3] sched/numa: add statistics of numa balance task
+ migration
+To: Libo Chen <libo.chen@oracle.com>
+CC: Ingo Molnar <mingo@redhat.com>, Tejun Heo <tj@kernel.org>, Johannes Weiner
+	<hannes@cmpxchg.org>, Jonathan Corbet <corbet@lwn.net>, Mel Gorman
+	<mgormanmgorman@suse.de>, Michal Hocko <mhocko@kernel.org>, Michal Koutny
+	<mkoutny@suse.com>, Muchun Song <muchun.song@linux.dev>, Roman Gushchin
+	<roman.gushchin@linux.dev>, Shakeel Butt <shakeel.butt@linux.dev>, "Chen, Tim
+ C" <tim.c.chen@intel.com>, Aubrey Li <aubrey.li@intel.com>,
+	<cgroups@vger.kernel.org>, <linux-doc@vger.kernel.org>, <linux-mm@kvack.org>,
+	<linux-kernel@vger.kernel.org>, K Prateek Nayak <kprateek.nayak@amd.com>,
+	Madadi Vineeth Reddy <vineethr@linux.ibm.com>, Peter Zijlstra
+	<peterz@infradead.org>, Andrew Morton <akpm@linux-foundation.org>
+References: <20250430103623.3349842-1-yu.c.chen@intel.com>
+ <9a6402ca-ce63-430b-b60b-1a36971e37e4@oracle.com>
+Content-Language: en-US
+From: "Chen, Yu C" <yu.c.chen@intel.com>
+In-Reply-To: <9a6402ca-ce63-430b-b60b-1a36971e37e4@oracle.com>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SI2PR01CA0005.apcprd01.prod.exchangelabs.com
+ (2603:1096:4:191::23) To DM4PR11MB6020.namprd11.prod.outlook.com
+ (2603:10b6:8:61::19)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: lhrpeml500011.china.huawei.com (7.191.174.215) To
- frapeml500007.china.huawei.com (7.182.85.172)
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB6020:EE_|PH7PR11MB8011:EE_
+X-MS-Office365-Filtering-Correlation-Id: 8800244d-c468-4730-042b-08dd895bf878
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RE1LeUQvSVV2cnlsYUlXRHNUUEVQRUZIR1l6Mm9xVTJTU0ZoaDgvMVo2ZEg2?=
+ =?utf-8?B?ZzUxYnlTVUptdmZBVFZFMWl0WTcvRmFBaU9PQkpxeVpzMGRoU0xQclJNSnVm?=
+ =?utf-8?B?SHpsV1NVQkJGY3JHZGNRSlhRVDNYaUF4dUdvdmNZTEZyWXJweGJSN0VSZ2Zq?=
+ =?utf-8?B?RWo1Q1p6SkxQUVliaitzaW5KVHYveWZRei90SWJvRC9rd0s2RWRuQ00xRHJq?=
+ =?utf-8?B?UGl1SWZwaVRVT2QrWDBHZFMvRFFORk5aQUVCRU1vR0w4SHN1akdhNU0zaDV1?=
+ =?utf-8?B?RVErU0w0NVp0T1Yxa2VJV3JYL0RVb05xU1hwcGIwTWVxc2tRS280dlZxWnBK?=
+ =?utf-8?B?YXZCSGk4bkg4UGc2SDluZmc4OCt4ZlBIekk0Kzhsd0RHcHZLZXNlYWM3UFI0?=
+ =?utf-8?B?aG5HSWdFNUVmMmJabkhJVk5ockl0ZnkwMG8vTFk1MWdybWFSQlpvNTFjQUlv?=
+ =?utf-8?B?K0lTMFRVRVRBVzhkblFhWmthcjdCaXhzZzMxVHJVNUkyb0E4b3F3RkNMZ0xN?=
+ =?utf-8?B?QzlBckxROW5DaXA5Tk5kVFUrV1AzR1N0MWFkdEpkTnp3YzlhdTlBUkI2a0VW?=
+ =?utf-8?B?L29uRTZPL3NoYU5DQ2c0cmhLeGlVeFlENlQ0ZzRzSjBjUkVxOWZrZXljRlI2?=
+ =?utf-8?B?M2RkL2Y4QTIyTnRYa3FaUXB2ZnJhRzRocVFTR0RhRk9SU24yNXBhb0s1SW5L?=
+ =?utf-8?B?MWpuL205V0JRc0FXRkhRMlNRQkdXT1V4dEZHc1B0NnR2aklJU0JkMlhVUk80?=
+ =?utf-8?B?SE4rU1pxbEtDam9EOTZVMk5lQmNpMnhXc1oxMVRIbnRLeWVtUUYrZUhPOXR1?=
+ =?utf-8?B?aVB3dXAxc3dQNS9XZ0FJS1dEVjJxUGprODdVL1d3ZFJ2RWdvTFREWU9Fdi91?=
+ =?utf-8?B?SmFIVWppcjZjUFJLQ0VpKzlzRHZkUTZxOStuZTBCbHlESHk0UGs0dUhwcVFn?=
+ =?utf-8?B?RVFuLzE0NFlYQkJGM21GbzZGRlpZWjZWbXp4SHhFVTJhNWFLZmVUUmtPVjBW?=
+ =?utf-8?B?RGRHT2wveWRXbUV4Y2EwK2xxUXRnWkRwY05ySzV1dTY5ZG03clhjSjZrSzN2?=
+ =?utf-8?B?OVB0RUZaQUZZNlJMOUdzbXBkNEVDOHJvUzY0UmdublpaTVRXcHplVkFDaGtJ?=
+ =?utf-8?B?d1NyVWtDQXB4VDhTcEJBM0RSWjRFbE5HcWxuaGZaS1hVckh0OHRCWWFYZVNB?=
+ =?utf-8?B?SmZoa083Z1ZxK1NQMlJKajdyam9nck1aSXBtWEswcE9tRi80c2pibG03VitL?=
+ =?utf-8?B?djFML1Q5aUh0ak9tZUpySFg1UEo3UkUwMEE4bklGdVhFNVBEK3BuSVVBMisz?=
+ =?utf-8?B?My9rRGpsVlBRM3dHUU11RW1BY3JsZTZXSHFoUEtTelZUODcya3JtbkgvMVZi?=
+ =?utf-8?B?RVp0LzA2Z0c1bXFJUGJGYzZDdXdCYjNBcjMyV0FZU3k2cWhSK3lFaHhlSHUw?=
+ =?utf-8?B?bTd3aGw1anhDOXNJWTlOUWRWa25KZUFoaGZXTHN1aHU4Uk5XbmwvR0FlbG1q?=
+ =?utf-8?B?c1BBYmVaVDFOMXh5RE1KNGNrWGJIZW9yNkl5SjNLQ01sTm9NK2dHZTNUeEtV?=
+ =?utf-8?B?aTRkRDJ4Y0RldlgvVHU4RW1pTVZ2eTBxZWpHMkVsb0NRZWlocFBiWjM2aFlv?=
+ =?utf-8?B?SC9xTHZNMTk5ZDZSNmZRRHJBb1ArT3UxcG5XR3FGVzU3WVhpeCtGR2s0V0E3?=
+ =?utf-8?B?U0M1ZDBnM1EydGw0aUNRRDdqc3BGMy9MTllsY2hMSExJaFd5TVZUOXdKKzFF?=
+ =?utf-8?B?LzZHMmQrSTNZa2c3TFdLdlpucjk5eFU2aDZHTTNOdGgrV0xrZ3FSQ2xZSlBw?=
+ =?utf-8?B?NnRYUWJvK0tyU2lDcXExaXJsSkhFdXd5eTFFaEVvRlVPY1FycTlIVUpNR0F2?=
+ =?utf-8?B?Nk5HSmpwdU16d3ZtV2lQU0RGalFhVWdZVS9YYk4xaE1ZNldocmZxMFRRTzZm?=
+ =?utf-8?Q?Fo+FNQH3beE=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6020.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?VDk4YlhDOC9Yd2o3RlIzeVlGMU1kRnUzVXFxN3haeHJnVW5sQ1FDUGNZVVJP?=
+ =?utf-8?B?SFc4a3B1RGg2MVU5bi9sZ0xLVU1wZFlscG1idkpCYWw0ZWFhcU00SkdiWDJ6?=
+ =?utf-8?B?dFQvN2cwSWpYR2FLakh4U0VRYlZvVFZTZGdYMzd6cWd3ZHNYUmorNld2ZjJ1?=
+ =?utf-8?B?S2RLQWtqSjNzcjZ2blhaSGdZZnlxaXNRMkEvZmlySysxQ0tjbGJlWVg4ZUhw?=
+ =?utf-8?B?QjFwdVF3MGRkZHVrYitHc3ZqdEE0YnlZM3FWeFhtbEg3UmdwMTBxckZJUlZy?=
+ =?utf-8?B?aUY1ZHV6U3dFUCtXZXU2cUJmTmlRa2U2QmszQzFWbC9uelhLZUR3cVAxZzhm?=
+ =?utf-8?B?b0dFRjRWdlVJczdsamZVeUtMUWpaUWt4ZHFGTjVkeDZQdmt2aW85QW8vZXpJ?=
+ =?utf-8?B?eHJYWEt1aXlqaFRGQktOb3gvdE83WEpuSENIdk45eEt3Y1hwOWczeXJNNXJu?=
+ =?utf-8?B?aG8xcGMzUEcweDNKb0x0R3M3NHVqMlVzMmkrN3RlV0hCaU8zazhFNFFGZjJl?=
+ =?utf-8?B?VXNMbGxKSERBNXgwYzJKOU95VEdlcy9sWlVZYmFOUjQvNUt4bk1VRG1ueEUv?=
+ =?utf-8?B?SEU3bDJUVnREZGxnY0g1Sm9aTm1kSzMxZWdjaTRoSS9qWnR1dmZTTlhsTmlI?=
+ =?utf-8?B?OVcwY0hOYXdMOGVucHlVaER2ekVjU0UzWWRCaG42TEFIdFU5ZGJheUhDazln?=
+ =?utf-8?B?TGhpWi9ubFcrWHFIVmx2Y1Y2ZTcvdG1RQUdWM09SSUNZRWJ3eG9CUThJaHIz?=
+ =?utf-8?B?VkV1MXI1VmZZOWF5QmI0MC9rR21EcG0xRGcwYURDUWMzTjZiRFh2R3VEQUtx?=
+ =?utf-8?B?TDFxV1RqV0RPOGdLcVRLc2JadmxoLzllMUdwU1dpaWhRWDR5Ymsyb1ljb085?=
+ =?utf-8?B?a3ZHbDB0T2JTYWZWam5wUjRJSWt2amtkOVdVQjBxajF5RGdpaW81VjFlUUJj?=
+ =?utf-8?B?WnpTWC85bHlrcGI5S3d5KzVpdUJLSklZRGVBOGdLSWZHbTEwVDZRSk16R1pH?=
+ =?utf-8?B?YmYzOGREMWtra0RDUTMxWWVrWFdaTHBsWHI5L21MU0swUTNla3dFdkl0YW54?=
+ =?utf-8?B?UHpNSTkyOTljekdUMWwwUmRUVDhDUEh0NHNzays5NXg4V2RwS1pXRlhSZ2Zx?=
+ =?utf-8?B?S09UT3JSdFo0L0pyZXVSZW9sWjlvNklvd0lZeS9QQnFjSm1GUE8rRDdwUzRy?=
+ =?utf-8?B?NzlKZ1l2cWlVK3E5TW5EbFJDMitJZW5JcEV6T3A5NCtnQnBnbHZWbkFjSURM?=
+ =?utf-8?B?U2J6RU5sY2I0ZXFMaWYyVHJPYk4yZXZVUmtLOFQ5RFk1dzlabExITTFMdVRE?=
+ =?utf-8?B?UzRWNFJ6S0J6eGlPU0JtcVFZK1hqZGI5ais0VXVMU0ttQml0YzEzN2hNV0VP?=
+ =?utf-8?B?bUlQaDZuV1RyMjRaZmtCWXlWTjZ1S3RxQ2U2bXRUbDhpSm9HMG1GMTVacmRn?=
+ =?utf-8?B?ZkNYNzA1S3dlR0VvQWlxT2dDU2VvN1NFN1NuTUc0a2lvd0hXOFZMdGY5SklS?=
+ =?utf-8?B?bTN0WG9aUUZjV1pldC95STQwMVNFU2NodWMwZnVwWUhZREZ5ekNsQ2xDSDl5?=
+ =?utf-8?B?a1ZJYTF5WWYva01JbVUvcnFjREFJa3NwZkVaZTJQSnc1Tm96c0VzZko0b2hF?=
+ =?utf-8?B?UnJCd283RnNSTkVPRURVaXNnRUVNbWVRUXBqN1VKb245M2h3SFJTUWQxMlE0?=
+ =?utf-8?B?WGhNL3FrdFVIYy9pZnN2UXczazhGUGNpNVY0RFpkQVhONUlYZVVEcXE1MlRp?=
+ =?utf-8?B?UW1Dd1RDSUZ3MEZLK3BwZWY0alc5Wk5VRzI3R1QxL0NkR21nN3c4YVVUL2Y2?=
+ =?utf-8?B?Nm1RbkVXNHhsVWVJb2RHcmt5bnJKMnh6dWoyTkpYeUNrU1NpakI5UzZvenRI?=
+ =?utf-8?B?V0hhalBnWEJGL1JLZmJGSHRLQ2M1b1djM01VZnAzVVhHYjZUR0hGTjVuOUVx?=
+ =?utf-8?B?MnpHUWZKY3ZHMFZvd3N2aTdISDB6Znlnc1RmaThSZGE5NFB4aTRqRUZxaVFj?=
+ =?utf-8?B?R0ZJSHRVNWJoQjlFQUVrRHdlZTBXNXEzQVpMcFl5a2hGM1BYdTBGd2xsNkVO?=
+ =?utf-8?B?Y3BIRlVhUDZZSHQ3aWxtYUEyQk0yUTlqSlBtMzNHOERrUldWTnBVckI3YSsz?=
+ =?utf-8?Q?bvpynHMNBY0WWnRWmvoHI7ZaV?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8800244d-c468-4730-042b-08dd895bf878
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6020.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 May 2025 09:30:26.3792
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: mUMRrjEXODDfgvffWc0mE20bvmGLrVQ1ga9UCm+fQSDD6BwAMOUL4n6X/ypd7n5NEcOCbIISdqKxT8DO9nNHmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB8011
+X-OriginatorOrg: intel.com
 
-From: Shiju Jose <shiju.jose@huawei.com>
+Hi Libo,
 
-Post Package Repair (PPR) maintenance operations may be supported by CXL
-devices that implement CXL.mem protocol. A PPR maintenance operation
-requests the CXL device to perform a repair operation on its media.
-For example, a CXL device with DRAM components that support PPR features
-may implement PPR Maintenance operations. DRAM components may support two
-types of PPR, hard PPR (hPPR), for a permanent row repair, and Soft PPR
-(sPPR), for a temporary row repair. Soft PPR is much faster than hPPR,
-but the repair is lost with a power cycle.
+On 5/1/2025 3:00 PM, Libo Chen wrote:
+> Hi Chen Yu
+> 
+> On 4/30/25 03:36, Chen Yu wrote:
+>> On systems with NUMA balancing enabled, it is found that tracking
+>> the task activities due to NUMA balancing is helpful. NUMA balancing
+>> has two mechanisms for task migration: one is to migrate the task to
+>> an idle CPU in its preferred node, the other is to swap tasks on
+>> different nodes if they are on each other's preferred node.
+>>
+>> The kernel already has NUMA page migration statistics in
+>> /sys/fs/cgroup/mytest/memory.stat and /proc/{PID}/sched,
+>> but does not have statistics for task migration/swap.
+>> Add the task migration and swap count accordingly.
+>>
+>> The following two new fields:
+>>
+>> numa_task_migrated
+>> numa_task_swapped
+>>
+>> will be displayed in both
+>> /sys/fs/cgroup/{GROUP}/memory.stat and /proc/{PID}/sched
+>>
+> 
+> Both stats show up in expected places, but I notice they are also in
+> /proc/vmstat and are always 0.
+> 
+> I think you may have to add count_vm_numa_event() in migrate_task_to()
+> and __migrate_swap_task() unless there is a way to not show both stats
+> in /proc/vmstat.
+> 
+> 
 
-During the execution of a PPR Maintenance operation, a CXL memory device:
-- May or may not retain data
-- May or may not be able to process CXL.mem requests correctly, including
-the ones that target the DPA involved in the repair.
-These CXL Memory Device capabilities are specified by Restriction Flags
-in the sPPR Feature and hPPR Feature.
+Thanks for catching this. For some reasons, I added these
+"placeholders" to the vmstat but didn't populate them. Let
+me remove these items from vmstat because we mainly care
+about task activity rather than page activity(not a vm event
+I suppose) Let me have a try on this.
 
-Soft PPR maintenance operation may be executed at runtime, if data is
-retained and CXL.mem requests are correctly processed. For CXL devices with
-DRAM components, hPPR maintenance operation may be executed only at boot
-because typically data may not be retained with hPPR maintenance operation.
+>> Introducing both pertask and permemcg NUMA balancing statistics helps
+>> to quickly evaluate the performance and resource usage of the target
+>> workload. For example, the user can first identify the container which
+>> has high NUMA balance activity and then narrow down to a specific task
+>> within that group, and tune the memory policy of that task.
+>> In summary, it is plausible to iterate the /proc/$pid/sched to find the
+>> offending task, but the introduction of per memcg tasks' Numa balancing
+>> aggregated  activity can further help users identify the task in a
+>> divide-and-conquer way.
+>>
+>> Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
+>> Tested-by: Madadi Vineeth Reddy <vineethr@linux.ibm.com>
+>> Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
+>> Signed-off-by: Chen Yu <yu.c.chen@intel.com>
+>> ---
+>> v2->v3:
+>> Remove unnecessary p->mm check because kernel threads are
+>> not supported by Numa Balancing. (Libo Chen)
+>> v1->v2:
+>> Update the Documentation/admin-guide/cgroup-v2.rst. (Michal)
+>> ---
+>>   Documentation/admin-guide/cgroup-v2.rst | 6 ++++++
+>>   include/linux/sched.h                   | 4 ++++
+>>   include/linux/vm_event_item.h           | 2 ++
+>>   kernel/sched/core.c                     | 7 +++++--
+>>   kernel/sched/debug.c                    | 4 ++++
+>>   mm/memcontrol.c                         | 2 ++
+>>   mm/vmstat.c                             | 2 ++
+>>   7 files changed, 25 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+>> index 1a16ce68a4d7..d346f3235945 100644
+>> --- a/Documentation/admin-guide/cgroup-v2.rst
+>> +++ b/Documentation/admin-guide/cgroup-v2.rst
+>> @@ -1670,6 +1670,12 @@ The following nested keys are defined.
+>>   	  numa_hint_faults (npn)
+>>   		Number of NUMA hinting faults.
+>>   
+>> +	  numa_task_migrated (npn)
+>> +		Number of task migration by NUMA balancing.
+>> +
+>> +	  numa_task_swapped (npn)
+>> +		Number of task swap by NUMA balancing.
+>> +
+>>   	  pgdemote_kswapd
+>>   		Number of pages demoted by kswapd.
+>>   
+>> diff --git a/include/linux/sched.h b/include/linux/sched.h
+>> index f96ac1982893..1c50e30b5c01 100644
+>> --- a/include/linux/sched.h
+>> +++ b/include/linux/sched.h
+>> @@ -549,6 +549,10 @@ struct sched_statistics {
+>>   	u64				nr_failed_migrations_running;
+>>   	u64				nr_failed_migrations_hot;
+>>   	u64				nr_forced_migrations;
+>> +#ifdef CONFIG_NUMA_BALANCING
+>> +	u64				numa_task_migrated;
+>> +	u64				numa_task_swapped;
+>> +#endif
+>>   
+> 
+> This one is more of personal preference. I understand they show up only if
+> you turn on schedstats, but will it be better to put them in sched_show_numa()
+> so they will be printed out next to other numa stats such as numa_pages_migrated?
+> 
+> @@ -1153,6 +1153,10 @@ static void sched_show_numa(struct task_struct *p, struct seq_file *m)
+>          if (p->mm)
+>                  P(mm->numa_scan_seq);
+> 
+> +       if (schedstat_enabled()) {
+> +               P_SCHEDSTAT(numa_task_migrated);
+> +               P_SCHEDSTAT(numa_task_swapped);
+> +       }
+>          P(numa_pages_migrated);
+>          P(numa_preferred_nid);
+>          P(total_numa_faults);
+> 
+> 
 
-When a CXL device identifies error on a memory component, the device
-may inform the host about the need for a PPR maintenance operation by using
-an Event Record, where the Maintenance Needed flag is set. The Event Record
-specifies the DPA that should be repaired. A CXL device may not keep track
-of the requests that have already been sent and the information on which
-DPA should be repaired may be lost upon power cycle.
-The userspace tool requests for maintenance operation if the number of
-corrected error reported on a CXL.mem media exceeds error threshold.
+Previously, the numa_task_migrated and numa_task_swapped were
+put under the scope of schedstat_enabled() in
+proc_sched_show_task().
 
-CXL spec 3.2 section 8.2.10.7.1.2 describes the device's sPPR (soft PPR)
-maintenance operation and section 8.2.10.7.1.3 describes the device's
-hPPR (hard PPR) maintenance operation feature.
+We mainly care about task migration activity, so it is put near
+the nr_forced_migrations. When it reaches sched_show_numa(),
+P_SCHEDSTAT has been undefined. It is just simpler to do this
+directly in proc_sched_show_task() IMO.
 
-CXL spec 3.2 section 8.2.10.7.2.1 describes the sPPR feature discovery and
-configuration.
+Thanks,
+Chenyu
 
-CXL spec 3.2 section 8.2.10.7.2.2 describes the hPPR feature discovery and
-configuration.
 
-Add support for controlling CXL memory device soft PPR (sPPR) feature.
-Register with EDAC driver, which gets the memory repair attr descriptors
-from the EDAC memory repair driver and exposes sysfs repair control
-attributes for PRR to the userspace. For example CXL PPR control for the
-CXL mem0 device is exposed in /sys/bus/edac/devices/cxl_mem0/mem_repairX/
-
-Add checks to ensure the memory to be repaired is offline and originates
-from a CXL DRAM or CXL gen_media error record reported in the current boot,
-before requesting a PPR operation on the device.
-
-Note: Tested with QEMU patch for CXL PPR feature.
-https://lore.kernel.org/all/20240730045722.71482-1-dave@stgolabs.net/
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- Documentation/edac/memory_repair.rst |  10 +
- drivers/cxl/core/edac.c              | 328 ++++++++++++++++++++++++++-
- 2 files changed, 337 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/edac/memory_repair.rst b/Documentation/edac/memory_repair.rst
-index 5b1cd8297442..3a3fc11b8fea 100644
---- a/Documentation/edac/memory_repair.rst
-+++ b/Documentation/edac/memory_repair.rst
-@@ -138,5 +138,15 @@ CXL device to perform a repair operation on its media. For example, a CXL
- device with DRAM components that support memory sparing features may
- implement sparing maintenance operations.
- 
-+2. CXL memory Soft Post Package Repair (sPPR)
-+
-+Post Package Repair (PPR) maintenance operations may be supported by CXL
-+devices that implement CXL.mem protocol. A PPR maintenance operation
-+requests the CXL device to perform a repair operation on its media.
-+For example, a CXL device with DRAM components that support PPR features
-+may implement PPR Maintenance operations. Soft PPR (sPPR), is a temporary
-+row repair. Soft PPR may be faster, but the repair is lost with a power
-+cycle.
-+
- Sysfs files for memory repair are documented in
- `Documentation/ABI/testing/sysfs-edac-memory-repair`
-diff --git a/drivers/cxl/core/edac.c b/drivers/cxl/core/edac.c
-index 19a2e8d09b3d..5826b0eceb71 100644
---- a/drivers/cxl/core/edac.c
-+++ b/drivers/cxl/core/edac.c
-@@ -14,6 +14,7 @@
- #include <linux/cleanup.h>
- #include <linux/edac.h>
- #include <linux/limits.h>
-+#include <linux/unaligned.h>
- #include <linux/xarray.h>
- #include <cxl/features.h>
- #include <cxl.h>
-@@ -21,7 +22,7 @@
- #include "core.h"
- #include "trace.h"
- 
--#define CXL_NR_EDAC_DEV_FEATURES 6
-+#define CXL_NR_EDAC_DEV_FEATURES 7
- 
- static bool cxl_is_memdev_memory_online(const struct cxl_memdev *cxlmd)
- {
-@@ -1643,6 +1644,321 @@ static int cxl_memdev_sparing_init(struct cxl_memdev *cxlmd,
- 
- 	return 0;
- }
-+
-+/*
-+ * CXL memory soft PPR & hard PPR control definitions
-+ */
-+struct cxl_ppr_context {
-+	uuid_t repair_uuid;
-+	u8 instance;
-+	u16 get_feat_size;
-+	u16 set_feat_size;
-+	u8 get_version;
-+	u8 set_version;
-+	u16 effects;
-+	u8 op_class;
-+	u8 op_subclass;
-+	bool cap_dpa;
-+	bool cap_nib_mask;
-+	bool media_accessible;
-+	bool data_retained;
-+	struct cxl_memdev *cxlmd;
-+	enum edac_mem_repair_type repair_type;
-+	bool persist_mode;
-+	u64 dpa;
-+	u32 nibble_mask;
-+};
-+
-+/*
-+ * See CXL rev 3.2 @8.2.10.7.2.1 Table 8-128 sPPR Feature Readable Attributes
-+ *
-+ * See CXL rev 3.2 @8.2.10.7.2.2 Table 8-131 hPPR Feature Readable Attributes
-+ */
-+
-+#define CXL_PPR_OP_CAP_DEVICE_INITIATED BIT(0)
-+#define CXL_PPR_OP_MODE_DEV_INITIATED BIT(0)
-+
-+#define CXL_PPR_FLAG_DPA_SUPPORT_MASK BIT(0)
-+#define CXL_PPR_FLAG_NIB_SUPPORT_MASK BIT(1)
-+#define CXL_PPR_FLAG_MEM_SPARING_EV_REC_SUPPORT_MASK BIT(2)
-+#define CXL_PPR_FLAG_DEV_INITED_PPR_AT_BOOT_CAP_MASK BIT(3)
-+
-+#define CXL_PPR_RESTRICTION_FLAG_MEDIA_ACCESSIBLE_MASK BIT(0)
-+#define CXL_PPR_RESTRICTION_FLAG_DATA_RETAINED_MASK BIT(2)
-+
-+#define CXL_PPR_SPARING_EV_REC_EN_MASK BIT(0)
-+#define CXL_PPR_DEV_INITED_PPR_AT_BOOT_EN_MASK BIT(1)
-+
-+#define CXL_PPR_GET_CAP_DPA(flags) \
-+	FIELD_GET(CXL_PPR_FLAG_DPA_SUPPORT_MASK, flags)
-+#define CXL_PPR_GET_CAP_NIB_MASK(flags) \
-+	FIELD_GET(CXL_PPR_FLAG_NIB_SUPPORT_MASK, flags)
-+#define CXL_PPR_GET_MEDIA_ACCESSIBLE(restriction_flags) \
-+	(FIELD_GET(CXL_PPR_RESTRICTION_FLAG_MEDIA_ACCESSIBLE_MASK, \
-+		   restriction_flags) ^ 1)
-+#define CXL_PPR_GET_DATA_RETAINED(restriction_flags) \
-+	(FIELD_GET(CXL_PPR_RESTRICTION_FLAG_DATA_RETAINED_MASK, \
-+		   restriction_flags) ^ 1)
-+
-+struct cxl_memdev_ppr_rd_attrbs {
-+	struct cxl_memdev_repair_rd_attrbs_hdr hdr;
-+	u8 ppr_flags;
-+	__le16 restriction_flags;
-+	u8 ppr_op_mode;
-+} __packed;
-+
-+/*
-+ * See CXL rev 3.2 @8.2.10.7.1.2 Table 8-118 sPPR Maintenance Input Payload
-+ *
-+ * See CXL rev 3.2 @8.2.10.7.1.3 Table 8-119 hPPR Maintenance Input Payload
-+ */
-+struct cxl_memdev_ppr_maintenance_attrbs {
-+	u8 flags;
-+	__le64 dpa;
-+	u8 nibble_mask[3];
-+} __packed;
-+
-+static int cxl_mem_ppr_get_attrbs(struct cxl_ppr_context *cxl_ppr_ctx)
-+{
-+	size_t rd_data_size = sizeof(struct cxl_memdev_ppr_rd_attrbs);
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_mailbox *cxl_mbox = &cxlmd->cxlds->cxl_mbox;
-+	u16 restriction_flags;
-+	size_t data_size;
-+	u16 return_code;
-+
-+	struct cxl_memdev_ppr_rd_attrbs *rd_attrbs __free(kfree) =
-+		kmalloc(rd_data_size, GFP_KERNEL);
-+	if (!rd_attrbs)
-+		return -ENOMEM;
-+
-+	data_size = cxl_get_feature(cxl_mbox, &cxl_ppr_ctx->repair_uuid,
-+				    CXL_GET_FEAT_SEL_CURRENT_VALUE, rd_attrbs,
-+				    rd_data_size, 0, &return_code);
-+	if (!data_size)
-+		return -EIO;
-+
-+	cxl_ppr_ctx->op_class = rd_attrbs->hdr.op_class;
-+	cxl_ppr_ctx->op_subclass = rd_attrbs->hdr.op_subclass;
-+	cxl_ppr_ctx->cap_dpa = CXL_PPR_GET_CAP_DPA(rd_attrbs->ppr_flags);
-+	cxl_ppr_ctx->cap_nib_mask =
-+		CXL_PPR_GET_CAP_NIB_MASK(rd_attrbs->ppr_flags);
-+
-+	restriction_flags = le16_to_cpu(rd_attrbs->restriction_flags);
-+	cxl_ppr_ctx->media_accessible =
-+		CXL_PPR_GET_MEDIA_ACCESSIBLE(restriction_flags);
-+	cxl_ppr_ctx->data_retained =
-+		CXL_PPR_GET_DATA_RETAINED(restriction_flags);
-+
-+	return 0;
-+}
-+
-+static int cxl_mem_perform_ppr(struct cxl_ppr_context *cxl_ppr_ctx)
-+{
-+	struct cxl_memdev_ppr_maintenance_attrbs maintenance_attrbs;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_mem_repair_attrbs attrbs = { 0 };
-+
-+	struct rw_semaphore *region_lock __free(rwsem_read_release) =
-+		rwsem_read_intr_acquire(&cxl_region_rwsem);
-+	if (!region_lock)
-+		return -EINTR;
-+
-+	struct rw_semaphore *dpa_lock __free(rwsem_read_release) =
-+		rwsem_read_intr_acquire(&cxl_dpa_rwsem);
-+	if (!dpa_lock)
-+		return -EINTR;
-+
-+	if (!cxl_ppr_ctx->media_accessible || !cxl_ppr_ctx->data_retained) {
-+		/* Memory to repair must be offline */
-+		if (cxl_is_memdev_memory_online(cxlmd))
-+			return -EBUSY;
-+	} else {
-+		if (cxl_is_memdev_memory_online(cxlmd)) {
-+			/* Check memory to repair is from the current boot */
-+			attrbs.repair_type = CXL_PPR;
-+			attrbs.dpa = cxl_ppr_ctx->dpa;
-+			attrbs.nibble_mask = cxl_ppr_ctx->nibble_mask;
-+			if (!cxl_find_rec_dram(cxlmd, &attrbs) &&
-+			    !cxl_find_rec_gen_media(cxlmd, &attrbs))
-+				return -EINVAL;
-+		}
-+	}
-+
-+	memset(&maintenance_attrbs, 0, sizeof(maintenance_attrbs));
-+	maintenance_attrbs.flags = 0;
-+	maintenance_attrbs.dpa = cpu_to_le64(cxl_ppr_ctx->dpa);
-+	put_unaligned_le24(cxl_ppr_ctx->nibble_mask,
-+			   maintenance_attrbs.nibble_mask);
-+
-+	return cxl_perform_maintenance(&cxlmd->cxlds->cxl_mbox,
-+				       cxl_ppr_ctx->op_class,
-+				       cxl_ppr_ctx->op_subclass,
-+				       &maintenance_attrbs,
-+				       sizeof(maintenance_attrbs));
-+}
-+
-+static int cxl_ppr_get_repair_type(struct device *dev, void *drv_data,
-+				   const char **repair_type)
-+{
-+	*repair_type = edac_repair_type[EDAC_REPAIR_PPR];
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_persist_mode(struct device *dev, void *drv_data,
-+				    bool *persist_mode)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*persist_mode = cxl_ppr_ctx->persist_mode;
-+
-+	return 0;
-+}
-+
-+static int cxl_get_ppr_safe_when_in_use(struct device *dev, void *drv_data,
-+					bool *safe)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*safe = cxl_ppr_ctx->media_accessible & cxl_ppr_ctx->data_retained;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_min_dpa(struct device *dev, void *drv_data, u64 *min_dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+
-+	*min_dpa = cxlds->dpa_res.start;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_max_dpa(struct device *dev, void *drv_data, u64 *max_dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+
-+	*max_dpa = cxlds->dpa_res.end;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_dpa(struct device *dev, void *drv_data, u64 *dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*dpa = cxl_ppr_ctx->dpa;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_set_dpa(struct device *dev, void *drv_data, u64 dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+
-+	if (dpa < cxlds->dpa_res.start || dpa > cxlds->dpa_res.end)
-+		return -EINVAL;
-+
-+	cxl_ppr_ctx->dpa = dpa;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_nibble_mask(struct device *dev, void *drv_data,
-+				   u32 *nibble_mask)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*nibble_mask = cxl_ppr_ctx->nibble_mask;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_set_nibble_mask(struct device *dev, void *drv_data,
-+				   u32 nibble_mask)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	cxl_ppr_ctx->nibble_mask = nibble_mask;
-+
-+	return 0;
-+}
-+
-+static int cxl_do_ppr(struct device *dev, void *drv_data, u32 val)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	if (!cxl_ppr_ctx->dpa || val != EDAC_DO_MEM_REPAIR)
-+		return -EINVAL;
-+
-+	return cxl_mem_perform_ppr(cxl_ppr_ctx);
-+}
-+
-+static const struct edac_mem_repair_ops cxl_sppr_ops = {
-+	.get_repair_type = cxl_ppr_get_repair_type,
-+	.get_persist_mode = cxl_ppr_get_persist_mode,
-+	.get_repair_safe_when_in_use = cxl_get_ppr_safe_when_in_use,
-+	.get_min_dpa = cxl_ppr_get_min_dpa,
-+	.get_max_dpa = cxl_ppr_get_max_dpa,
-+	.get_dpa = cxl_ppr_get_dpa,
-+	.set_dpa = cxl_ppr_set_dpa,
-+	.get_nibble_mask = cxl_ppr_get_nibble_mask,
-+	.set_nibble_mask = cxl_ppr_set_nibble_mask,
-+	.do_repair = cxl_do_ppr,
-+};
-+
-+static int cxl_memdev_soft_ppr_init(struct cxl_memdev *cxlmd,
-+				    struct edac_dev_feature *ras_feature,
-+				    u8 repair_inst)
-+{
-+	struct cxl_ppr_context *cxl_sppr_ctx;
-+	struct cxl_feat_entry *feat_entry;
-+	int ret;
-+
-+	feat_entry = cxl_feature_info(to_cxlfs(cxlmd->cxlds),
-+				      &CXL_FEAT_SPPR_UUID);
-+	if (!feat_entry)
-+		return -EOPNOTSUPP;
-+
-+	if (!(le32_to_cpu(feat_entry->flags) & CXL_FEATURE_F_CHANGEABLE))
-+		return -EOPNOTSUPP;
-+
-+	cxl_sppr_ctx =
-+		devm_kzalloc(&cxlmd->dev, sizeof(*cxl_sppr_ctx), GFP_KERNEL);
-+	if (!cxl_sppr_ctx)
-+		return -ENOMEM;
-+
-+	*cxl_sppr_ctx = (struct cxl_ppr_context){
-+		.get_feat_size = le16_to_cpu(feat_entry->get_feat_size),
-+		.set_feat_size = le16_to_cpu(feat_entry->set_feat_size),
-+		.get_version = feat_entry->get_feat_ver,
-+		.set_version = feat_entry->set_feat_ver,
-+		.effects = le16_to_cpu(feat_entry->effects),
-+		.cxlmd = cxlmd,
-+		.repair_type = EDAC_REPAIR_PPR,
-+		.persist_mode = 0,
-+		.instance = repair_inst,
-+	};
-+	uuid_copy(&cxl_sppr_ctx->repair_uuid, &CXL_FEAT_SPPR_UUID);
-+
-+	ret = cxl_mem_ppr_get_attrbs(cxl_sppr_ctx);
-+	if (ret)
-+		return ret;
-+
-+	ras_feature->ft_type = RAS_FEAT_MEM_REPAIR;
-+	ras_feature->instance = cxl_sppr_ctx->instance;
-+	ras_feature->mem_repair_ops = &cxl_sppr_ops;
-+	ras_feature->ctx = cxl_sppr_ctx;
-+
-+	return 0;
-+}
- #endif /* CONFIG_CXL_EDAC_MEM_REPAIR */
- 
- int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
-@@ -1697,6 +2013,16 @@ int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
- 		repair_inst++;
- 		num_ras_features++;
- 	}
-+
-+	rc = cxl_memdev_soft_ppr_init(cxlmd, &ras_features[num_ras_features],
-+				      repair_inst);
-+	if (rc < 0 && rc != -EOPNOTSUPP)
-+		return rc;
-+
-+	if (rc != -EOPNOTSUPP) {
-+		repair_inst++;
-+		num_ras_features++;
-+	}
- #endif
- 	char *cxl_dev_name __free(kfree) =
- 		kasprintf(GFP_KERNEL, "cxl_%s", dev_name(&cxlmd->dev));
--- 
-2.43.0
-
+> Thanks,
+> Libo
+>>   	u64				nr_wakeups;
+>>   	u64				nr_wakeups_sync;
+>> diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
+>> index 9e15a088ba38..91a3ce9a2687 100644
+>> --- a/include/linux/vm_event_item.h
+>> +++ b/include/linux/vm_event_item.h
+>> @@ -66,6 +66,8 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
+>>   		NUMA_HINT_FAULTS,
+>>   		NUMA_HINT_FAULTS_LOCAL,
+>>   		NUMA_PAGE_MIGRATE,
+>> +		NUMA_TASK_MIGRATE,
+>> +		NUMA_TASK_SWAP,
+>>   #endif
+>>   #ifdef CONFIG_MIGRATION
+>>   		PGMIGRATE_SUCCESS, PGMIGRATE_FAIL,
+>> diff --git a/kernel/sched/core.c b/kernel/sched/core.c
+>> index c81cf642dba0..25a92f2abda4 100644
+>> --- a/kernel/sched/core.c
+>> +++ b/kernel/sched/core.c
+>> @@ -3352,6 +3352,9 @@ void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
+>>   #ifdef CONFIG_NUMA_BALANCING
+>>   static void __migrate_swap_task(struct task_struct *p, int cpu)
+>>   {
+>> +	__schedstat_inc(p->stats.numa_task_swapped);
+>> +	count_memcg_events_mm(p->mm, NUMA_TASK_SWAP, 1);
+>> +
+>>   	if (task_on_rq_queued(p)) {
+>>   		struct rq *src_rq, *dst_rq;
+>>   		struct rq_flags srf, drf;
+>> @@ -7953,8 +7956,8 @@ int migrate_task_to(struct task_struct *p, int target_cpu)
+>>   	if (!cpumask_test_cpu(target_cpu, p->cpus_ptr))
+>>   		return -EINVAL;
+>>   
+>> -	/* TODO: This is not properly updating schedstats */
+>> -
+>> +	__schedstat_inc(p->stats.numa_task_migrated);
+>> +	count_memcg_events_mm(p->mm, NUMA_TASK_MIGRATE, 1);
+>>   	trace_sched_move_numa(p, curr_cpu, target_cpu);
+>>   	return stop_one_cpu(curr_cpu, migration_cpu_stop, &arg);
+>>   }
+>> diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
+>> index 56ae54e0ce6a..f971c2af7912 100644
+>> --- a/kernel/sched/debug.c
+>> +++ b/kernel/sched/debug.c
+>> @@ -1206,6 +1206,10 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
+>>   		P_SCHEDSTAT(nr_failed_migrations_running);
+>>   		P_SCHEDSTAT(nr_failed_migrations_hot);
+>>   		P_SCHEDSTAT(nr_forced_migrations);
+>> +#ifdef CONFIG_NUMA_BALANCING
+>> +		P_SCHEDSTAT(numa_task_migrated);
+>> +		P_SCHEDSTAT(numa_task_swapped);
+>> +#endif
+>>   		P_SCHEDSTAT(nr_wakeups);
+>>   		P_SCHEDSTAT(nr_wakeups_sync);
+>>   		P_SCHEDSTAT(nr_wakeups_migrate);
+>> diff --git a/mm/memcontrol.c b/mm/memcontrol.c
+>> index c96c1f2b9cf5..cdaab8a957f3 100644
+>> --- a/mm/memcontrol.c
+>> +++ b/mm/memcontrol.c
+>> @@ -463,6 +463,8 @@ static const unsigned int memcg_vm_event_stat[] = {
+>>   	NUMA_PAGE_MIGRATE,
+>>   	NUMA_PTE_UPDATES,
+>>   	NUMA_HINT_FAULTS,
+>> +	NUMA_TASK_MIGRATE,
+>> +	NUMA_TASK_SWAP,
+>>   #endif
+>>   };
+>>   
+>> diff --git a/mm/vmstat.c b/mm/vmstat.c
+>> index 4c268ce39ff2..ed08bb384ae4 100644
+>> --- a/mm/vmstat.c
+>> +++ b/mm/vmstat.c
+>> @@ -1347,6 +1347,8 @@ const char * const vmstat_text[] = {
+>>   	"numa_hint_faults",
+>>   	"numa_hint_faults_local",
+>>   	"numa_pages_migrated",
+>> +	"numa_task_migrated",
+>> +	"numa_task_swapped",
+>>   #endif
+>>   #ifdef CONFIG_MIGRATION
+>>   	"pgmigrate_success",
+> 
