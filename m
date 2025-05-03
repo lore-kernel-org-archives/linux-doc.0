@@ -1,215 +1,171 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
+Received: from fout-b2-smtp.messagingengine.com (fout-b2-smtp.messagingengine.com [202.12.124.145])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1C04B1A840A;
-	Sat,  3 May 2025 07:36:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3EAE519D88F;
+	Sat,  3 May 2025 08:20:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=202.12.124.145
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746257812; cv=none; b=ddOZka5Z3KC2rxSYcpcjlr1L9Oyi7HLZO04FReZill6EQTLfiF3sPnwqrPjnH6WjW4WVdmVJatg9ApUgM7wOVQEHSgm9u5X1gHjOmo7BE0aqNBP9t+PGmqZzeWALRkznDCn7gZEh0ZAga+o7h1o6Pr/JRqUAUi9YF0/cad1Lugk=
+	t=1746260413; cv=none; b=m1q1bx20BjdgIhfO4P3s0HgHbsM/fpKrTl9CFkCjmdRU6WKoL3C57ZFw7UdS4DviHzVlTsQzYbAtYEqLDYOz5aLB/8eOYvYJTGq+AXA6WV9KQXfOEvOMTtjL5KHFIfHbn60qeHNa28NJ1Blx9jY9HR1k7pcY2DffiZWO1WlOfZA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746257812; c=relaxed/simple;
-	bh=TVRFmkhoIEa24F+uA5f7IoZ4vojB54oNc+ZZi69ynPw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=IjWv6nmRR+uf6DiuRAoxRbaDwxzSspFfU+4NGyifjpOH4bghYWnQgCx7/QP3f+G9WxEU8psUcoFx03ApQdpUNzaI+F7jEELhaFWiuj5/E41G/b+yTw3wgt0alWqLfhQAR8m2aRwL3VyiwYVvxHh5X074/43C7RPDHLBwmQU1tiU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=AW6G1eRE; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1746260413; c=relaxed/simple;
+	bh=ei8/7RiSTXiaMF7UScqRp75x2SJvv5c6SsLgsKo1TT4=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=XY26tnH6ww+E9iInIxNkH14SbQljxZNhsUeWIxz5y+EaU3jlExvZcYPIQps5TGNtgqhT94qlSnc7BS1wkhNLymcj9+p/F4IgpLjMdrQBYoWrJl66AMg9xiKayQhYEfSwHxsOSGYR10pcNq3R+kh0fendOZh8pXv6GzD/3qnNA98=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bzzt.net; spf=pass smtp.mailfrom=bzzt.net; dkim=pass (2048-bit key) header.d=bzzt.net header.i=@bzzt.net header.b=aJJGaPF7; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=PvTjBSuG; arc=none smtp.client-ip=202.12.124.145
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bzzt.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bzzt.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="AW6G1eRE"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1746257239;
-	bh=TVRFmkhoIEa24F+uA5f7IoZ4vojB54oNc+ZZi69ynPw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AW6G1eRE2BAM44E51PivMNxnNrJSwkZfqByT2RsiltnyAc/kA5SUTwRHJfMF8QDhW
-	 e9vxZtINEG6n+p3o0BPcuxfQquZjSmjgAZTFNfIJauQy0xLKonbI0L3jGB9JPDp2Lq
-	 4/NeqNRNF5G0RHOw4gLohybSx9CG6WmyzkISmZdY=
-Date: Sat, 3 May 2025 09:27:18 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: lschyi@chromium.org
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
-Subject: Re: [PATCH v2 3/3] hwmon: (cros_ec) register fans into thermal
- framework cooling devices
-Message-ID: <b2432c5c-2589-4cfe-821f-47e5128af2d0@t-8ch.de>
-References: <20250502-cros_ec_fan-v2-0-4d588504a01f@chromium.org>
- <20250502-cros_ec_fan-v2-3-4d588504a01f@chromium.org>
+	dkim=pass (2048-bit key) header.d=bzzt.net header.i=@bzzt.net header.b="aJJGaPF7";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="PvTjBSuG"
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfout.stl.internal (Postfix) with ESMTP id 1101E114021A;
+	Sat,  3 May 2025 04:20:09 -0400 (EDT)
+Received: from phl-imap-08 ([10.202.2.84])
+  by phl-compute-12.internal (MEProxy); Sat, 03 May 2025 04:20:09 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bzzt.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1746260408;
+	 x=1746346808; bh=YbA3t4O0ws4/G+0KLAK9b+z79wK2zrxCaAB1nZbeZZ0=; b=
+	aJJGaPF7fdUue464isXL5YmMzDuzeFfRcAA0wKMSkLP3aWuphivhrsMgBEmQ16I2
+	skXiyG8jkumDkHl+mZZzMdJndgcwm+Cb3kJK98qzJXanfLWONNqF4dVlWxqPFdQQ
+	W0D6JkvUXbZn03VRDfp/I8FVtPWo3OA/8bA49qoEzGBglpJ4rsE/h7mBPJKLCxXM
+	sR/9kFCYPSZETFkF2nVQPwE18X9Wy+r4lIegqls9GrzZMMDqYaJNfjXjqt5MchZX
+	ykwUvI27vV/f+G311ataVt1xXxVZ+zQrJa1RbndlWkC3rKpEfVW54gRrbQMn7g69
+	VVSWGItUEr+2kfBSSe7v8A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746260408; x=
+	1746346808; bh=YbA3t4O0ws4/G+0KLAK9b+z79wK2zrxCaAB1nZbeZZ0=; b=P
+	vTjBSuGdzuqTgkEwHI7dqZD+5GNb2UZMjiQXrZxUj+KPQWFKz2uzV77mBvOsvlkn
+	GNp2LQytg4kaoczzpI0s0PlIlKwdyduqKEuzeIN0LINtPkRutw+fPqJEUi4IEKcb
+	5pivJlpAj1m4j1aiwsq2KlwqdcT91xGe2vfrmRHJ34p2dMWqsldTrtCuaiijiIf4
+	7pEiPH26wm4bKV+E5GwKThV16eXfotsLRPbG1k05dXshvxe13DYGwYqlAh242npy
+	nm8p3SUpDJf17MZ8VWn6hHP8YHVhBdIpRuKwJRj9fQKWcu0UXQqWdUty1jldaH+r
+	zRKi/IzQFC6cV3CQJfidA==
+X-ME-Sender: <xms:ttEVaEN4-c5CykjET8U5O4qfKyTV82EMPzDgpH2MlURIPXOAshWuHQ>
+    <xme:ttEVaK-C_oGDdo2dol2NikafdeZphPbK8hFlqLLBGxjN_pxkv6E4eZ8VtdyM9X-5G
+    ZM9fDAGjRQU4U9zEl8>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvjeegkeefucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtqhertder
+    tdejnecuhfhrohhmpedftehrnhhouhhtucfgnhhgvghlvghnfdcuoegrrhhnohhuthessg
+    iiiihtrdhnvghtqeenucggtffrrghtthgvrhhnpefhveeiffelkeffueelteevieekudev
+    hffggfduledvveehjeefudehueeftdeuleenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpegrrhhnohhuthessgiiiihtrdhnvghtpdhnsggprhgt
+    phhtthhopeefiedpmhhouggvpehsmhhtphhouhhtpdhrtghpthhtohepkhhptgihrhguse
+    grrhgthhhlihhnuhigrdhorhhgpdhrtghpthhtoheprghrnhgusegrrhhnuggsrdguvgdp
+    rhgtphhtthhopegthhhrihhsthhophhhvgdrlhgvrhhohiestghsghhrohhuphdrvghupd
+    hrtghpthhtohepmhhpvgesvghllhgvrhhmrghnrdhiugdrrghupdhrtghpthhtohepughm
+    ihhtrhihrdhkrghsrghtkhhinhesghhmrghilhdrtghomhdprhgtphhtthhopehmtggrjh
+    huleehsehgmhgrihhlrdgtohhmpdhrtghpthhtohepnhhpihhgghhinhesghhmrghilhdr
+    tghomhdprhgtphhtthhopehsrghmihhtohhlvhgrnhgvnhesghhoohhglhgvrdgtohhmpd
+    hrtghpthhtohepshgvrhhgvgeshhgrlhhlhihnrdgtohhm
+X-ME-Proxy: <xmx:ttEVaLQ2ezVd3AW0DYeyq3k6apNlWDSIcWbME8z6FnOLP3G_KDW0Yw>
+    <xmx:ttEVaMtub0N_YcTjSA4MOhIRPEB4-BfDE-ToKHFozzMoZKmSOiCF_Q>
+    <xmx:ttEVaMdSZD0ig7FBV4fV5-yZ-4GcriyyGU9CrVB2S7iW8BBUcqRbhA>
+    <xmx:ttEVaA2lcKj49OvnrUhp08UM0Y0_8cPbeijTalhUCJzz_-9ZtIpxnA>
+    <xmx:uNEVaLWpRs2Cg5vusRl9jLRByoYl2wtuESQCRNFl3-PEemUef6AhZDxG>
+Feedback-ID: i8a1146c4:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 57EA118A006B; Sat,  3 May 2025 04:20:06 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250502-cros_ec_fan-v2-3-4d588504a01f@chromium.org>
+X-ThreadId: T5f9a5891fefab612
+Date: Sat, 03 May 2025 10:19:17 +0200
+From: "Arnout Engelen" <arnout@bzzt.net>
+To: "James Bottomley" <James.Bottomley@hansenpartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Luis Chamberlain" <mcgrof@kernel.org>,
+ "Petr Pavlu" <petr.pavlu@suse.com>,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Daniel Gomez" <da.gomez@samsung.com>,
+ "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Naveen N Rao" <naveen@kernel.org>, "Mimi Zohar" <zohar@linux.ibm.com>,
+ "Roberto Sassu" <roberto.sassu@huawei.com>,
+ "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
+ "Eric Snowberg" <eric.snowberg@oracle.com>,
+ "Nicolas Schier" <nicolas.schier@linux.dev>,
+ =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+ "Mattia Rizzolo" <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+ "Christian Heusel" <christian@heusel.eu>,
+ =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Message-Id: <072b392f-8122-4e4f-9a94-700dadcc0529@app.fastmail.com>
+In-Reply-To: 
+ <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
+ <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
+ <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
+Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-On 2025-05-02 13:34:47+0800, Sung-Chi Li via B4 Relay wrote:
-> From: Sung-Chi Li <lschyi@chromium.org>
-> 
-> Register fans connected under EC as thermal cooling devices as well, so
-> these fans can then work with the thermal framework.
-> 
-> During the driver probing phase, we will also try to register each fan
-> as a thermal cooling device based on previous probe result (whether the
-> there are fans connected on that channel, and whether EC supports fan
-> control). The basic get max state, get current state, and set current
-> state methods are then implemented as well.
-> 
-> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> ---
->  Documentation/hwmon/cros_ec_hwmon.rst |  2 ++
->  drivers/hwmon/cros_ec_hwmon.c         | 66 +++++++++++++++++++++++++++++++++++
->  2 files changed, 68 insertions(+)
-> 
-> diff --git a/Documentation/hwmon/cros_ec_hwmon.rst b/Documentation/hwmon/cros_ec_hwmon.rst
-> index 5b802be120438732529c3d25b1afa8b4ee353305..82c75bdaf912a116eaafa3149dc1252b3f7007d2 100644
-> --- a/Documentation/hwmon/cros_ec_hwmon.rst
-> +++ b/Documentation/hwmon/cros_ec_hwmon.rst
-> @@ -27,3 +27,5 @@ Fan and temperature readings are supported. PWM fan control is also supported if
->  the EC also supports setting fan PWM values and fan mode. Note that EC will
->  switch fan control mode back to auto when suspended. This driver will restore
->  the fan state before suspended.
-> +If a fan is controllable, this driver will register that fan as a cooling device
-> +in the thermal framework as well.
-> diff --git a/drivers/hwmon/cros_ec_hwmon.c b/drivers/hwmon/cros_ec_hwmon.c
-> index c5e42e2a03a0c8c68d3f8afbb2bb45b93a58b955..abfcf44fb7505189124e78c651b0eb1e0533b4e8 100644
-> --- a/drivers/hwmon/cros_ec_hwmon.c
-> +++ b/drivers/hwmon/cros_ec_hwmon.c
-> @@ -13,6 +13,7 @@
->  #include <linux/platform_device.h>
->  #include <linux/platform_data/cros_ec_commands.h>
->  #include <linux/platform_data/cros_ec_proto.h>
-> +#include <linux/thermal.h>
+On Fri, May 2, 2025, at 15:30, James Bottomley wrote:
+> On Fri, 2025-05-02 at 08:53 +0200, Thomas Wei=C3=9Fschuh wrote:
+> > Specifically the output of any party can recreate bit-by-bit
+> > identical copies of all specified artifacta previous build (the
+> > public key, module signatures) is not available during the rebuild or
+> > verification.
+>=20
+> You just strip the signatures before verifying reproducibility.
 
-Needs a dependency on CONFIG_THERMAL.
+If the goal is: "verify the Linux Kernel is reproducible", that could wo=
+rk.
+It gets increasingly cumbersome when you're trying to check the reproduc=
+ibility
+of some larger artifact that embeds the Linux kernel (and lots of other =
+stuff),
+like an ISO or disk image, though: you'd have to unpack/mount it, check =
+all its
+contents individually (perhaps recursively), and strip signatures in 'ju=
+st the
+right places'.
 
->  #include <linux/types.h>
->  #include <linux/units.h>
->  
-> @@ -27,6 +28,11 @@ struct cros_ec_hwmon_priv {
->  	u8 manual_fan_pwm_values[EC_FAN_SPEED_ENTRIES];
->  };
->  
-> +struct cros_ec_hwmon_cooling_priv {
-> +	struct cros_ec_hwmon_priv *hwmon_priv;
-> +	u8 index;
-> +};
-> +
->  static int cros_ec_hwmon_read_fan_speed(struct cros_ec_device *cros_ec, u8 index, u16 *speed)
->  {
->  	int ret;
-> @@ -300,6 +306,34 @@ static const struct hwmon_channel_info * const cros_ec_hwmon_info[] = {
->  	NULL
->  };
->  
-> +static int
-> +cros_ec_hwmon_cooling_get_max_state(struct thermal_cooling_device *cdev,
-> +				    unsigned long *val)
-> +{
-> +	*val = 255;
-> +	return 0;
-> +}
-> +
-> +static int cros_ec_hwmon_cooling_get_cur_state(struct thermal_cooling_device *cdev,
-> +					       unsigned long *val)
-> +{
-> +	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-> +	u8 read_val;
-> +	int ret = cros_ec_hwmon_read_pwm_value(priv->hwmon_priv->cros_ec, priv->index, &read_val);
+Writing such tooling is a chore, but of course feasible: diffoscope alre=
+ady
+comes a long way (though checking large images may take some resources).=
+ The
+problem is trusting such tooling: instead of 'simply' checking the image=
+s are
+identical, suddenly I now have to convince myself there's no shenanigans
+possible in the disk image interpretation and other check tooling, which=
+ gets
+nontrivial fast.
 
-Split declaration and assignment.
+> All current secure
+> build processes (hermetic builds, SLSA and the like) are requiring
+> output provenance (i.e. signed artifacts).  If you try to stand like
+> Canute against this tide saying "no signed builds", you're simply
+> opposing progress for the sake of it
 
-> +
-> +	if (ret == 0)
-> +		*val = read_val;
-> +	return ret;
-> +}
-> +
-> +static int cros_ec_hwmon_cooling_set_cur_state(struct thermal_cooling_device *cdev,
-> +					       unsigned long val)
-> +{
-> +	const struct cros_ec_hwmon_cooling_priv *priv = cdev->devdata;
-> +
-> +	return cros_ec_hwmon_write_pwm_input(priv->hwmon_priv->cros_ec, priv->index, val);
-> +}
-> +
->  static const struct hwmon_ops cros_ec_hwmon_ops = {
->  	.read = cros_ec_hwmon_read,
->  	.read_string = cros_ec_hwmon_read_string,
-> @@ -307,6 +341,12 @@ static const struct hwmon_ops cros_ec_hwmon_ops = {
->  	.is_visible = cros_ec_hwmon_is_visible,
->  };
->  
-> +static const struct thermal_cooling_device_ops cros_ec_thermal_cooling_ops = {
-> +	.get_max_state = cros_ec_hwmon_cooling_get_max_state,
-> +	.get_cur_state = cros_ec_hwmon_cooling_get_cur_state,
-> +	.set_cur_state = cros_ec_hwmon_cooling_set_cur_state,
-> +};
+I don't think anyone is saying 'no signed builds', but we'd enjoy being =
+able to
+keep the signatures as detached metadata instead of having to embed them=
+ into
+the 'actual' artifacts.
 
-Move this directly after the definition of the functions.
 
-> +
->  static const struct hwmon_chip_info cros_ec_hwmon_chip_info = {
->  	.ops = &cros_ec_hwmon_ops,
->  	.info = cros_ec_hwmon_info,
-> @@ -374,6 +414,31 @@ static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cro
->  	       is_cros_ec_cmd_fulfilled(cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL, 2);
->  }
->  
-> +static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-> +						       struct cros_ec_hwmon_priv *priv)
-> +{
-> +	struct cros_ec_hwmon_cooling_priv *cpriv;
-> +	size_t i;
+Kind regards,
 
-if (!IS_ENABLED(CONFIG_THERMAL))
-	return;
-
-> +
-> +	if (!priv->fan_control_supported)
-> +		return;
-> +
-> +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-> +		if (!(priv->usable_fans & BIT(i)))
-> +			continue;
-> +
-> +		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-> +		if (!cpriv)
-> +			return;
-> +
-> +		cpriv->hwmon_priv = priv;
-> +		cpriv->index = i;
-> +		devm_thermal_of_cooling_device_register(
-> +			dev, NULL, devm_kasprintf(dev, GFP_KERNEL, "cros-ec-fan%zu", i), cpriv,
-
-What happens for multiple/chained ECs? If both provide sensors the
-thermal device names will collide.
-
-Error handling for devm_kasprintf() is missing.
-
-> +			&cros_ec_thermal_cooling_ops);
-
-Error handling for devm_thermal_of_cooling_device_register() is missing.
-
-> +	}
-> +}
-> +
->  static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> @@ -402,6 +467,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  	cros_ec_hwmon_probe_fans(priv);
->  	priv->fan_control_supported =
->  		cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
-> +	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
->  
->  	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
->  							 &cros_ec_hwmon_chip_info, NULL);
-> 
-> -- 
-> 2.49.0.906.g1f30a19c02-goog
-> 
-> 
+Arnout
