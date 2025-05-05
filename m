@@ -1,31 +1,31 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39DD3AE5DA;
-	Mon,  5 May 2025 23:20:00 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2FE23BC911;
+	Mon,  5 May 2025 23:22:58 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487201; cv=none; b=ZlKBjxNRsTn2s9+h4TBg3FTvyTgIxy66B8bTIeJCzoZqhnpanFGJ3avwKvAvscYngCKdTF2yKq/TwxF1usulrxGj8Aj60z63zhusnaA/6SieEqofj1uBpGwtAlefyoit/gbBGplEbujhxqfw0U52amBmgcWKvO6hsZXDVqMXk2Q=
+	t=1746487379; cv=none; b=ZpXlxufWilcOyJ6WwFerAOl4JYPgb2W92oonDN/sKXhLFKBkxqEJqd0BH8TZEwgyxXo2ajtBmqa1OYqS5VnvQAOx3+UMuvWcO4i/ME6FMf+b91koJ55HtMC5VEOq8L6Ex+AXVlD+SK8Bb9CS/0Eoz0/7OodjJBWAvDKnrhGR280=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487201; c=relaxed/simple;
-	bh=m5oFdYjah0zImpFPmJoRoTirj9V9MipWEIBX4AF1Ht0=;
+	s=arc-20240116; t=1746487379; c=relaxed/simple;
+	bh=l/4b43+I/Q7I2hH7lNzoFB6BL9SBpXW0FY9TozswYGY=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=QmCZ8FK2b5RdKEE6I3F3jtW+G7JK7NkXHsSvjoOUPEiYAEx6QMPZnW41IAXXg40mdGqi6rWTmcZaWM7+ww4TKq/hNGZ2XjZLA10am9JvGpHyFx1Fo8mILaOTya1fGgrXXbqIMENduhHkCJeHlNXEb6BEsJj3+sFJ7g22D5AK+iw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qaPSPlZQ; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=NvH33RKJE3ahRBR6d26c/iIbSZp0JxTHdl9wL/5iYLvgqfVpHnTlMY2Ye6P6NugXJHGZRojMm2HzwF3IJI8mEpAASiFlG7O9QqrMY1KQ8dpLbbkFwrjNjHOrI/I0a44qnS7KCA8upKh9NiBD8Cs71YF4SoxOsEKx9XW4DxvHy10=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=fkjHt6OX; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qaPSPlZQ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CB6C4CEE4;
-	Mon,  5 May 2025 23:19:58 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="fkjHt6OX"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 01FB9C4CEE4;
+	Mon,  5 May 2025 23:22:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746487200;
-	bh=m5oFdYjah0zImpFPmJoRoTirj9V9MipWEIBX4AF1Ht0=;
+	s=k20201202; t=1746487378;
+	bh=l/4b43+I/Q7I2hH7lNzoFB6BL9SBpXW0FY9TozswYGY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qaPSPlZQejUTW7GqD9FJpG1q1xZbfLP15qQF/0TrRTtmXWGh+z0wWX1eGcXgk73iI
-	 3VevHVzskorIF0fvEG2tqMJQJJ+GlnKowJV/Z6ciq7Ci7LWwEz62mLsZ8k3wGyCO5e
-	 lIggvdrqpmA3uUy0o+mK72pcVu1uIruHKKJ0zMcoPIP0TYjA4wfvhB8ppfCbmya3Ny
-	 loZnh2ObAjDB2qSwx6KDi7wGntw6uR5qcM6lNBfg3wpdnurMj/N9frMQJwcuTbXS7w
-	 P5MAwOXhXnyu/GtfbNjeh0lIit1KVZrOZTnxPXx9SPxOrKO5vG6uvOdfvsXYL7LzvD
-	 n3T6F8jEWVMhg==
+	b=fkjHt6OXLQ7PlHhAbpyl+gkr7Ez/XYr5/jNsYcJ8NGE5AyTsAeKNtZXJYs8FJxLay
+	 cacAFsrAgp8MVOXslxtTFepqNd0ceNtIx9FIQhblxWQJ1Xfsr5aBdLXvH3dmAe8XlO
+	 gqScxskJMuCLRYWjXxNT3PQqlIvnrikWb9zFH/TCfDPpuWWVc9A3c0MDFII9IdCCxf
+	 eZQBXc73AjPPv7XL9wz5SPiUkKT3OTifPtRqUc68uB36EkhhsImIYerEEiOsRrdyHE
+	 gJedkpnCXuVFMfIphtp3cRPJBL+2S4VjyNprND9r8V5aX2B+kEerG2CRqHazSz1gPo
+	 cJrixvwcopogA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
@@ -43,18 +43,18 @@ Cc: Breno Leitao <leitao@debian.org>,
 	dave.hansen@linux.intel.com,
 	x86@kernel.org,
 	akpm@linux-foundation.org,
-	paulmck@kernel.org,
 	rostedt@goodmis.org,
+	paulmck@kernel.org,
 	thuth@redhat.com,
 	ardb@kernel.org,
 	gregkh@linuxfoundation.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.10 053/114] x86/bugs: Make spectre user default depend on MITIGATION_SPECTRE_V2
-Date: Mon,  5 May 2025 19:17:16 -0400
-Message-Id: <20250505231817.2697367-53-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 37/79] x86/bugs: Make spectre user default depend on MITIGATION_SPECTRE_V2
+Date: Mon,  5 May 2025 19:21:09 -0400
+Message-Id: <20250505232151.2698893-37-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250505231817.2697367-1-sashal@kernel.org>
-References: <20250505231817.2697367-1-sashal@kernel.org>
+In-Reply-To: <20250505232151.2698893-1-sashal@kernel.org>
+References: <20250505232151.2698893-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -63,7 +63,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
-X-stable-base: Linux 5.10.237
+X-stable-base: Linux 5.4.293
 Content-Transfer-Encoding: 8bit
 
 From: Breno Leitao <leitao@debian.org>
@@ -104,10 +104,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  2 files changed, 9 insertions(+), 3 deletions(-)
 
 diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-index 88110e74b3f7a..12af5b0ecc8e3 100644
+index 9975dcab99c35..6d9acc3f977b3 100644
 --- a/Documentation/admin-guide/kernel-parameters.txt
 +++ b/Documentation/admin-guide/kernel-parameters.txt
-@@ -5122,6 +5122,8 @@
+@@ -4600,6 +4600,8 @@
  
  			Selecting 'on' will also enable the mitigation
  			against user space to user space task attacks.
@@ -117,10 +117,10 @@ index 88110e74b3f7a..12af5b0ecc8e3 100644
  			Selecting 'off' will disable both the kernel and
  			the user space protections.
 diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 045ab6d0a98bb..9b3611e4cb80c 100644
+index 4f803aed2ef0e..0f523ebfbabf6 100644
 --- a/arch/x86/kernel/cpu/bugs.c
 +++ b/arch/x86/kernel/cpu/bugs.c
-@@ -1231,9 +1231,13 @@ static __ro_after_init enum spectre_v2_mitigation_cmd spectre_v2_cmd;
+@@ -1050,9 +1050,13 @@ static __ro_after_init enum spectre_v2_mitigation_cmd spectre_v2_cmd;
  static enum spectre_v2_user_cmd __init
  spectre_v2_parse_user_cmdline(void)
  {
@@ -134,7 +134,7 @@ index 045ab6d0a98bb..9b3611e4cb80c 100644
  	switch (spectre_v2_cmd) {
  	case SPECTRE_V2_CMD_NONE:
  		return SPECTRE_V2_USER_CMD_NONE;
-@@ -1246,7 +1250,7 @@ spectre_v2_parse_user_cmdline(void)
+@@ -1065,7 +1069,7 @@ spectre_v2_parse_user_cmdline(void)
  	ret = cmdline_find_option(boot_command_line, "spectre_v2_user",
  				  arg, sizeof(arg));
  	if (ret < 0)
@@ -143,7 +143,7 @@ index 045ab6d0a98bb..9b3611e4cb80c 100644
  
  	for (i = 0; i < ARRAY_SIZE(v2_user_options); i++) {
  		if (match_option(arg, ret, v2_user_options[i].option)) {
-@@ -1256,8 +1260,8 @@ spectre_v2_parse_user_cmdline(void)
+@@ -1075,8 +1079,8 @@ spectre_v2_parse_user_cmdline(void)
  		}
  	}
  
