@@ -1,256 +1,269 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1604416EB7C;
-	Mon,  5 May 2025 06:57:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.20
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746428236; cv=fail; b=MaaAriuPMq/4Nw8MHa529iL2sKbSByX4e9OnuO1GmJX9R5rl0ibljVqwN8BSlzRq8R911AuTe8xXcfhq7GnVWWk5+cv8FuU+OUN/bXwjLqMicFxC9KysC/MI1SFEcrZukjqfWjx5OW6uqLcFPbd3D/vsvvTV09KZzHrX48D31Y0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746428236; c=relaxed/simple;
-	bh=cJO1dvOh8/vnhq1c6ZJQ3JWTY/N/Y3RxyUE/8f2Ezro=;
-	h=Date:From:To:CC:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=GikIDtBZnxlIpImYdGf6UYqODs5ZvvpBFRnOgGnYUR6JpDGgxuXm68M1by4fy4kaEobaoceQdhfgwDGcJ+hYmKCvX0v25bwDsdYCK74oDW7DeLWizlP8HajgNsZhbKl/6Q3j5lagNT11kOFM2Utn6mZ5xgLBbI+pJc8vIiKu2J4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=CJcLB6ot; arc=fail smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 584EE1A3142;
+	Mon,  5 May 2025 07:01:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746428517; cv=none; b=XyMoXl2aq8DUnaoStt6cYZKUa0DGjBTTCvp6XSkjMCAPW4xEQ85//uWbwcRa9sb/EwfCJp49wEdsVDmsPJ16C89Ujbz/kEtUwaJr6OD37ip0GtR7m0LoD1zvMti4dCxeRMR/RCdivMe6vaRyxql1fkSJmt/WZ59FTs9FndpjoXE=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746428517; c=relaxed/simple;
+	bh=xT7zmcLaDxNjztgbqu/uyKMo9S/0dNYou7SkX0euza4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=acxHyP6S/jzUuinD0qzGPbmQoGUJqw9JQgAE7wajuHv8oj6nvJ4MrlnY1AD7aC+X2/+FaL7rr0A+tD5oxKs8J01i3ks4MD455IHzn+hyc9cubCwDAIFhod4Ovfluae6pmbRTysnxy66C3I+Wh7uMEdOzr+maL3WcKvuk2EqwYfc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GA5dQC7X; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="CJcLB6ot"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746428234; x=1777964234;
-  h=date:from:to:cc:subject:message-id:references:
-   in-reply-to:mime-version;
-  bh=cJO1dvOh8/vnhq1c6ZJQ3JWTY/N/Y3RxyUE/8f2Ezro=;
-  b=CJcLB6otQBjOuIOC7BZmFcy29IRReBV5qcMO2b1H2IbP3d6zqFkGiNz6
-   Ei3GeHjWQctP4HRIgUT2BWocjGznUwlsi7UyrkzNKZw0Ptos2t/HWPPrz
-   TKXLleFcwX2VIBaJye63svosouvhp6Xtd72qyI+0nNnWCGG2sBF1HX8Ut
-   Zf1wAXnhlVQ+XdPYwLU4OZZ+WhCgiXOlcJujRL8EnreWEN/yriZWWyg2n
-   8bbHZ4Uav1EO+B7sYokRnEI3heZnKayMkrKMybsIRjx8J23Dleni6mg/D
-   TfmpbaPyb75D+pwXtA+YTG4i4h7srDxYcOd2fYvrWO/grxHCEo7pzghM0
-   Q==;
-X-CSE-ConnectionGUID: nzAUGeY1QEOgy03cCcm2vg==
-X-CSE-MsgGUID: MTKdCnhYRqWhy4fVcAAorQ==
-X-IronPort-AV: E=McAfee;i="6700,10204,11423"; a="47732782"
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="47732782"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 23:57:13 -0700
-X-CSE-ConnectionGUID: xNcYS4LQQMmy1evAy48DVA==
-X-CSE-MsgGUID: 0HgTFPRKRRa5Mbefx1+jAg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,262,1739865600"; 
-   d="scan'208";a="139954297"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 May 2025 23:57:10 -0700
-Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Sun, 4 May 2025 23:57:11 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Sun, 4 May 2025 23:57:11 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.40) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Sun, 4 May 2025 23:57:08 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=kTmqj+swhj7T1C+IKUaX35BDF9U8uEQ4i/J+ah8HHGo3ex+CC33Jp2BqmqNh0lSOQHZdKo2Xufw5QEkEtU6xOudIPzoVWxkzTlU6N5WRnm7p3+Ol86XZSpVrD3uawfwibi7x9txWD8ikzHIJLCVVdf6btvpLPyxxVw8LG/dMKrscIjzeXTYHVKUFQDbYaHnd3ei6PdRRuXcNFNZbPZIqX3uini/woC9vI4piLoKHTrkmSc/vX4XaUxVq+F3nMhrr3gFVPbcU3mWb6iYIBEKrkD+hu6XAWliDvZfI3TU5+U4kHfFLKen4E2IlS5K7CNfO5MgsWHtVxnbYGy/DCpMn/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UJuQ3CauK0wOisGv/W3hyIX+x7WOcqHx4cEXKeWMSok=;
- b=cUzl/HD39qoMbJxMdWy4fXk5WUenVULA7xdOqH45DRfoabLF6/0UeqdFSOgf73pTvQJKchCsYOmoXHcmi8QbDiOn8a28nDJ10xd4ISl1ABz2FdX4rgZe8ZrFaHpSJmmVyDIg3IHwDFMk90lsPV8Ivt6V2prfEKgkoQa82j/ssTc9Gi/8d+7k/TuZB64FXPKFT2bIFgFJt2eZSLdv+KKoF5paX51yovM7dT3zWHaisRnT3pKNYN0uxfQV6gNzSylM5xHk4L9taLZjdfm8DwzkuSbwk70BFuPLkGVBq/ZMr8xXsvRyxQthP1RgplWIzd24aRSOfg6+HDmzvnIw2Meukw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from DS0PR11MB7529.namprd11.prod.outlook.com (2603:10b6:8:141::20)
- by PH0PR11MB7615.namprd11.prod.outlook.com (2603:10b6:510:26e::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.20; Mon, 5 May
- 2025 06:56:36 +0000
-Received: from DS0PR11MB7529.namprd11.prod.outlook.com
- ([fe80::d244:15cd:1060:941a]) by DS0PR11MB7529.namprd11.prod.outlook.com
- ([fe80::d244:15cd:1060:941a%5]) with mapi id 15.20.8699.026; Mon, 5 May 2025
- 06:56:36 +0000
-Date: Mon, 5 May 2025 08:56:18 +0200
-From: Larysa Zaremba <larysa.zaremba@intel.com>
-To: Simon Horman <horms@kernel.org>
-CC: <intel-wired-lan@lists.osuosl.org>, Tony Nguyen
-	<anthony.l.nguyen@intel.com>, "David S. Miller" <davem@davemloft.net>, "Eric
- Dumazet" <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>, Paolo Abeni
-	<pabeni@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Przemek Kitszel
-	<przemyslaw.kitszel@intel.com>, Jiri Pirko <jiri@resnulli.us>, "Tatyana
- Nikolova" <tatyana.e.nikolova@intel.com>, Andrew Lunn
-	<andrew+netdev@lunn.ch>, Alexander Lobakin <aleksander.lobakin@intel.com>,
-	Michael Ellerman <mpe@ellerman.id.au>, Maciej Fijalkowski
-	<maciej.fijalkowski@intel.com>, "Lee Trager" <lee@trager.us>, Madhavan
- Srinivasan <maddy@linux.ibm.com>, "Sridhar Samudrala"
-	<sridhar.samudrala@intel.com>, Jacob Keller <jacob.e.keller@intel.com>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>, Mateusz Polchlopek
-	<mateusz.polchlopek@intel.com>, Ahmed Zaki <ahmed.zaki@intel.com>,
-	<netdev@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, "Karlsson, Magnus"
-	<magnus.karlsson@intel.com>, Emil Tantilov <emil.s.tantilov@intel.com>,
-	"Madhu Chittim" <madhu.chittim@intel.com>, Josh Hay <joshua.a.hay@intel.com>,
-	"Milena Olech" <milena.olech@intel.com>, <pavan.kumar.linga@intel.com>,
-	"Singhai, Anjali" <anjali.singhai@intel.com>, Phani R Burra
-	<phani.r.burra@intel.com>
-Subject: Re: [PATCH iwl-next v2 03/14] libie: add PCI device initialization
- helpers to libie
-Message-ID: <aBhhEgEvjjsxtobY@soc-5CG4396X81.clients.intel.com>
-References: <20250424113241.10061-1-larysa.zaremba@intel.com>
- <20250424113241.10061-4-larysa.zaremba@intel.com>
- <20250428165657.GE3339421@horms.kernel.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250428165657.GE3339421@horms.kernel.org>
-X-ClientProxiedBy: VI1PR0502CA0024.eurprd05.prod.outlook.com
- (2603:10a6:803:1::37) To DS0PR11MB7529.namprd11.prod.outlook.com
- (2603:10b6:8:141::20)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GA5dQC7X"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B6BB0C4CEEE;
+	Mon,  5 May 2025 07:01:55 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746428516;
+	bh=xT7zmcLaDxNjztgbqu/uyKMo9S/0dNYou7SkX0euza4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=GA5dQC7XRq//CWQ6lAF7tc/SwEPAaS6e6g6G1SFFsCM7Bhl60xAUuUllYlIS9U/H0
+	 mS4U9roR2+Ld4LIa1Xs9MlZPlwL/jnZjY32ct9uYYDEk+/E345G1Lf/Y+weum3oyH+
+	 Ef7SU8i+3jubM+WPRCtIDu8lBF1AVoWRg8IRUI9HUtDiVROInpg6jrsx6njP6VYI5m
+	 gWteclMo7cg3QcLsWbzYARlHs+Tw9hZz7JsQ0vAQXAK9TDkpeUAbpR0vBeo6+UYHSQ
+	 HcC0I5XnWp0MMVIqkzQHlX+YHqeXH1nCWDpPufNocoKOPujmpHaQ+2LXXwY9ePC7Qq
+	 M39NGI9xwAPcA==
+From: Leon Romanovsky <leon@kernel.org>
+To: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Jens Axboe <axboe@kernel.dk>,
+	Christoph Hellwig <hch@lst.de>,
+	Keith Busch <kbusch@kernel.org>,
+	Jake Edge <jake@lwn.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Jason Gunthorpe <jgg@ziepe.ca>,
+	Zhu Yanjun <zyjzyj2000@gmail.com>,
+	Robin Murphy <robin.murphy@arm.com>,
+	Joerg Roedel <joro@8bytes.org>,
+	Will Deacon <will@kernel.org>,
+	Sagi Grimberg <sagi@grimberg.me>,
+	Bjorn Helgaas <bhelgaas@google.com>,
+	Logan Gunthorpe <logang@deltatee.com>,
+	Yishai Hadas <yishaih@nvidia.com>,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Kevin Tian <kevin.tian@intel.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	=?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-block@vger.kernel.org,
+	linux-rdma@vger.kernel.org,
+	iommu@lists.linux.dev,
+	linux-nvme@lists.infradead.org,
+	linux-pci@vger.kernel.org,
+	kvm@vger.kernel.org,
+	linux-mm@kvack.org,
+	Niklas Schnelle <schnelle@linux.ibm.com>,
+	Chuck Lever <chuck.lever@oracle.com>,
+	Luis Chamberlain <mcgrof@kernel.org>,
+	Matthew Wilcox <willy@infradead.org>,
+	Dan Williams <dan.j.williams@intel.com>,
+	Kanchan Joshi <joshi.k@samsung.com>,
+	Chaitanya Kulkarni <kch@nvidia.com>
+Subject: [PATCH v11 0/9] Provide a new two step DMA mapping API
+Date: Mon,  5 May 2025 10:01:37 +0300
+Message-ID: <cover.1746424934.git.leon@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS0PR11MB7529:EE_|PH0PR11MB7615:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a6dbfe6-984f-4d70-d78d-08dd8ba1fa00
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|10070799003|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info: =?us-ascii?Q?cZKVbUeb48PyO2YQovLb7uhw5g7nL8AGACETOH8kRPtKKnV4zzsFdzcK47eZ?=
- =?us-ascii?Q?6uk7r4xQiwGnxZQpLFMBBQEHPbF0MgfWdt4JJFS4t6V5H1RlNbuRuTG3P+Dr?=
- =?us-ascii?Q?0u8UoXUUrngEb1ytGPWzIFkEI3Ajk8aH6O1+7WnJ2vUV4ENUXRLO1CUBwOP0?=
- =?us-ascii?Q?mhDv6PSv0Qp9oP2B/8p8KCnEcP2GcQr65ud/uan5Acqox7tluCrx21vDtVIf?=
- =?us-ascii?Q?GDD1YzdIPA9vuDPzShzgvt8W/cIfYuiPi+eBk+MfdJWKK9Y4hcmrI4dlumGO?=
- =?us-ascii?Q?3uL9e03TWMcxB9Z66XwRGSKNjaPnJO0xN7p3oxGKA/qnzAzyqOx0mBvawfEW?=
- =?us-ascii?Q?zhX0a1z3zmpnn8I0gTa4RG67+E2fyqaDwG/Bb/KMtRDO/X6ekhoAfWq0es6j?=
- =?us-ascii?Q?oK/SuzrMNEYLw19xWxAZJ2x7s9S1W94uqEQ75EE7pn++pbtI1iqODwx8PxPZ?=
- =?us-ascii?Q?1R64SsaTgPnklseEKP5rk4Dbb0ZtYVNVjEXWslB+goEfln/nBSpvYIuwhCFx?=
- =?us-ascii?Q?2KxAEwAVWd8o/xNjp2NJSWg6oknBHZDCj2RIc7/tBRVERaFQPQxKaYDrofR1?=
- =?us-ascii?Q?bSy5Ad5sszMri1ArKqA/6kXymVRGIsRTlV025wKslD5eQyLSfDFnHPSI8Kn/?=
- =?us-ascii?Q?2QoMNLWx52zrDUmk87apFtArVQJqlo/MtuzcWFRX6kdt7h3FdKKIrk3pG1YG?=
- =?us-ascii?Q?Nka/rigWlq6BXILpuAr09wH0Wb1n/O+eDUkyE5+FM/pT8K64ID5zCxvZpzsr?=
- =?us-ascii?Q?p1nUlyOO3q3pcau3lq8FJ/8nYTA3f7+UU9n1yb6VZjkcFn8sb6vPb9PvMjrt?=
- =?us-ascii?Q?s3CnC276nqDcOHMaev3NpuDe2YhW1ZkaUbvmFA2IlIdNkXViKDCpcZA6QQeR?=
- =?us-ascii?Q?ewpYtjpc9rphinM3TxGTMUWYt+WKOyR6FO2/ldRUO4U3JMZ8zZdOp9L4yVJR?=
- =?us-ascii?Q?xDCVx/gl7UpxxZnBgt674zMWNqsEPsGnYvUSmTdDRkQONPypEkEIzVt0F+MA?=
- =?us-ascii?Q?CbWjcMWylgBL0j14hU2TTlO97i+XAftaepZ6+W3BvPJELQ3KXxGrcoeCiqKa?=
- =?us-ascii?Q?AnMBf0fdSTleh3KwnQRieP0mxhFNmjKwyuFqOVC3GZarytqHya6H/XISjfTD?=
- =?us-ascii?Q?gmTLwIBdxtQq6ADK3egXmTDKvHEh+B1SImyjXmfwyU2qRmqK9qsOP7IyaFso?=
- =?us-ascii?Q?lux0PetDqzB/LWzgnlVN3UPbs0fEexjrEp7tBkbQB+GM346IM+iEZ//217+c?=
- =?us-ascii?Q?+YPxnngz1EQmIrjSoWzMMMR43vG1wXFRrrOLLsw0kqP9pBPnsZgKCr/HHi9a?=
- =?us-ascii?Q?gOEy6tktCTyAHkYunmQ0NxLQh99b8e6UThviAJSc6aLnU9wUNWO+a+uWKCer?=
- =?us-ascii?Q?/7T3EQ95v2BMBfWTlxijWfceL7JROshafbx/pwM+PDHv1u3RNaTfF29cLVmk?=
- =?us-ascii?Q?4uPPy0QFVEs=3D?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7529.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(10070799003)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?us-ascii?Q?nKrd7oVgjERTy0spJCXs7eC3mF5ijgwflhM+TwME/uwfzD/xzjZGN6P+WJv8?=
- =?us-ascii?Q?ybnXjDPtQsJc9Va13cxBy4v8KEFe0xTk+1EUd8OQ7oNBZxwxiQoZaiV+upY6?=
- =?us-ascii?Q?qH+ObZAUHpnmZNm+AEbBXhfY6eB87ByYU8vu03eRrUgKGEZwNUtCSfvkhte+?=
- =?us-ascii?Q?yJczDNrTos4MDqELceewnLTwG2rVlIYpZE0og+qtYPnLCJlunSgWzQxWokK5?=
- =?us-ascii?Q?+r6hYpvIksR/ixRuD1myfriKSzicrxPXMH9lLVPmLC7SBarDodJp0FbBrVBJ?=
- =?us-ascii?Q?F0biH5MKI6qBPg2zRsNJpL1Ixm0VSCUztDr8D1r/4hMV8YMhWlPmcjXajyP3?=
- =?us-ascii?Q?fWxAi5yUiOGLzRTNTl+JngSR/sIySQ+0sU6aw525LGiUybASIvKuT5zFkGkS?=
- =?us-ascii?Q?AR2GLJiXmJow/SjrfhHvd7QiEAruEXin+LvAJXYOe4rU9woxoQl1X7IhX8Er?=
- =?us-ascii?Q?LRDxI10xYU2E90jokI4OLOVfpttalv0RhQ3eipY3Ip+1+phZUiSH3OSuX59S?=
- =?us-ascii?Q?C/hnJZvFjJ78J7GjlIXAcQUlS7zy1kQLAX6x3kaKVlqv7kUvs/vOf8/a5yea?=
- =?us-ascii?Q?gU+YfNWj8gzjZafwNF+n67QZ8n0sqCxvr4+r0gBiUfxwd0hPwPREjHtWt/oe?=
- =?us-ascii?Q?Pm60fRm7KqRePfZ3BN5B6Ryn4XHCLYXExH24qVtYrclxf6O6nDgse7ZIp0p+?=
- =?us-ascii?Q?Sg7H6KdArBIUYB0ckngVUlJIKhEWOYxRr9r6PPdp8P/b9iTu2/9t7dTP96IA?=
- =?us-ascii?Q?m21Gipvp9B6we1L7dciYWGcUenc1zAWQf+nAtKVQ/RpJvPraVbuxXs6KW3wk?=
- =?us-ascii?Q?3+gyHU36ORK+XrJiQIN4CZInL7JRaXaR3KcannVUEnkuDe1SHRcoqFhku0Ly?=
- =?us-ascii?Q?QFhubVzSXo1/8Cp4AsIkjww5BZgL2rghLSm8zLgid8aGeTmXfV80/oUnl3YC?=
- =?us-ascii?Q?j2nrMLIoTfeDAinVvuGmDta6jsVTdy7mUepQg7N7BDUGVj71pzCCCq//ngzf?=
- =?us-ascii?Q?SvVexaXck3BVRQlVXl3nrm2OB+RbH6JgkfVdjlzSYvNJzd84N5+FT603nqhP?=
- =?us-ascii?Q?kPCungNnb6zy2doDF0Hf2yHbD6xpL2W/DI1plTThVHvbzaG6zTiHGoW7d3ew?=
- =?us-ascii?Q?SXPthr+A/lPQi6O1zJDBnSfHmfRap5YEfDM12G1wbICHmDUZBR5kyZxrDfDk?=
- =?us-ascii?Q?/cXopwAewOJVN0Qmoat+L3mENdN50qce5wDrIzjs1iUUJdskADIj/DxC4YNK?=
- =?us-ascii?Q?fmL7mXtHL8FIsa7oWTcT3NMNBiXxmUtEuHfzO/XT6eniBOWJXp4w9QfyV4nq?=
- =?us-ascii?Q?Id4lmLnCekpa9JzB+X4pp2ODvAhyUVgV2ywR/jnTrTeFhJFWsktf7XqlP2a4?=
- =?us-ascii?Q?fZiec4lF7PP8ogQM5FQ+dmmT2zNUiemO11/8yX6nY90rD6gwqano2Yk5ziRh?=
- =?us-ascii?Q?P3FHl5RcjYb8+kFYhtOSwe1e2ahdY8Ya3Wx3iSOl814eEvIBN6XtYTFRxmo0?=
- =?us-ascii?Q?kv1Y9taAX2U553ZdpkDlkZNqSIMgNPFVEikZtEVWfGVZKZniLLM7zNADJgpB?=
- =?us-ascii?Q?+FGypLybIRX+bZ9yogUaBTgZsJhJCxveIHhR7RkEfEx2zx0Th0zzv7037ofs?=
- =?us-ascii?Q?eHWAY/BIH1kbwNRH8pJlXI2TPkdPlC80e+FXlUW+S3bioEEAI6l+TYEKd8+w?=
- =?us-ascii?Q?ZYd9yQ=3D=3D?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a6dbfe6-984f-4d70-d78d-08dd8ba1fa00
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7529.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 06:56:36.2417
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Xr5k3A84IBl5ZaigpbE0hU8Ep8Mc1+2XTjPqJl3hz/R6P4k1Vakkfm9QTWsMuH804Xvw3h362hHvdp5tzjjG4ryqP9G0BhANpNaq/yZBcIk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR11MB7615
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-On Mon, Apr 28, 2025 at 05:56:57PM +0100, Simon Horman wrote:
-> On Thu, Apr 24, 2025 at 01:32:26PM +0200, Larysa Zaremba wrote:
-> > From: Phani R Burra <phani.r.burra@intel.com>
-> > 
-> > Add memory related support functions for drivers to access MMIO space and
-> > allocate/free dma buffers.
-> > 
-> > Reviewed-by: Maciej Fijalkowski <maciej.fijalkowski@intel.com>
-> > Signed-off-by: Phani R Burra <phani.r.burra@intel.com>
-> > Co-developed-by: Victor Raj <victor.raj@intel.com>
-> > Signed-off-by: Victor Raj <victor.raj@intel.com>
-> > Co-developed-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> > Signed-off-by: Sridhar Samudrala <sridhar.samudrala@intel.com>
-> > Co-developed-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> > Signed-off-by: Pavan Kumar Linga <pavan.kumar.linga@intel.com>
-> > Co-developed-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> > Signed-off-by: Larysa Zaremba <larysa.zaremba@intel.com>
-> 
-> ...
-> 
-> > diff --git a/include/linux/intel/libie/pci.h b/include/linux/intel/libie/pci.h
-> 
-> ...
-> 
-> > +#define libie_pci_map_mmio_region(mmio_info, offset, size, ...)	\
-> > +	__libie_pci_map_mmio_region(mmio_info, offset, size,		\
-> > +				     COUNT_ARGS(__VA_ARGS__), ##__VA_ARGS__)
-> > +
-> > +#define libie_pci_get_mmio_addr(mmio_info, offset, ...)		\
-> > +	__libie_pci_get_mmio_addr(mmio_info, offset,			\
-> > +				   COUNT_ARGS(__VA_ARGS__), ##__VA_ARGS__)
-> 
-> Perhaps I'm missing something terribly obvious.  But it seems to me that
-> both libie_pci_map_mmio_region() and libie_pci_get_mmio_addr() are always
-> called with the same number of arguments in this patchset.
+Hi Marek,
 
-This is true.
+These are the DMA/IOMMU patches only, which have not seen functional
+changes for a while.  They are tested and reviewed and ready to merge.
 
-> And if so,
-> perhaps the va_args handling would be best dropped.
->
+We will work with relevant subsystems to merge rest of the conversion
+patches. At least some of them will be done in next cycle to reduce
+merge conflicts.
 
-For now (but this will change), we do not map BAR indexes other than zero, 
-therefore it is the default less-argument variant, this looks nicer than adding 
-', 0);'. Still, it does not feel right to hardcode the library function to use 
-BAR0 only, hence the variadic macro.
+Thanks
 
-> > +
-> > +bool __libie_pci_map_mmio_region(struct libie_mmio_info *mmio_info,
-> > +				 resource_size_t offset, resource_size_t size,
-> > +				 int num_args, ...);
-> > +void __iomem *__libie_pci_get_mmio_addr(struct libie_mmio_info *mmio_info,
-> > +					resource_size_t region_offset,
-> > +					int num_args, ...);
-> > +void libie_pci_unmap_all_mmio_regions(struct libie_mmio_info *mmio_info);
-> > +int libie_pci_init_dev(struct pci_dev *pdev);
-> > +void libie_pci_deinit_dev(struct pci_dev *pdev);
-> > +
-> > +#endif /* __LIBIE_PCI_H */
-> > -- 
-> > 2.47.0
-> > 
-> 
+=========================================================================
+Following recent on site LSF/MM 2025 [1] discussion, the overall
+response was extremely positive with many people expressed their
+desire to see this series merged, so they can base their work on it.
+
+It includes, but not limited:
+ * Luis's "nvme-pci: breaking the 512 KiB max IO boundary":
+   https://lore.kernel.org/all/20250320111328.2841690-1-mcgrof@kernel.org/
+ * Chuck's NFS conversion to use one structure (bio_vec) for all types
+   of RPC transports:
+   https://lore.kernel.org/all/913df4b4-fc4a-409d-9007-088a3e2c8291@oracle.com
+ * Matthew's vision for the world without struct page:
+   https://lore.kernel.org/all/Z-WRQOYEvOWlI34w@casper.infradead.org/
+ * Confidential computing roadmap from Dan:
+   https://lore.kernel.org/all/6801a8e3968da_71fe29411@dwillia2-xfh.jf.intel.com.notmuch
+
+This series is combination of effort of many people who contributed ideas,
+code and testing and I'm gratefully thankful for them.
+
+[1] https://lore.kernel.org/linux-rdma/20250122071600.GC10702@unreal/
+-----------------------------------------------------------------------
+Changelog:
+v11:
+ * Left only DMA/IOMMU patches to allow merge
+ * Added Baolu's ROB tags
+ * Fixed commit messages
+v10: https://lore.kernel.org/all/cover.1745831017.git.leon@kernel.org
+ * Rebased on top v6.15-rc3
+ * Added Luis's tags
+ * Addressed review comments from Luis about DMA patches
+ * Removed segment size check from single-segment SGL optimization code
+ * Changed NVMe unmap data code as was suggested by Christoph
+v9: https://lore.kernel.org/all/cover.1745394536.git.leon@kernel.org/
+ * Added tested-by from Jens.
+ * Replaced is_pci_p2pdma_page(bv.bv_page) check with if
+   "(IS_ENABLED(CONFIG_PCI_P2PDMA) && (req->cmd_flags & REQ_P2PDMA))"
+   which is more aligned with the goal (do not access struct page) and
+   more efficient. This is the one line only that was changed in Jens's
+   performance testing flow, so I kept his tags as is.
+ * Restored single-segment optimization for SGL path.
+ * Added forgotten unmap of metdata SGL multi-segment flow.
+ * Split and squashed optimization patch from Kanchan.
+ * Converted "bool aborted" flag to use newly introduced flag variable.
+v8: https://lore.kernel.org/all/cover.1744825142.git.leon@kernel.org/
+ * Rebased to v6.15-rc1
+ * Added NVMe patches which are now patches and not RFC. They were in
+   RFC stage because block iterator caused to performance regression
+   for very extreme case scenario (~100M IOPS), but after Kanchan fixed
+   it, the code started to be ready for merging.
+ * @Niklas, i didn't change naming in this series as it follows iommu
+   naming format.
+v7: https://lore.kernel.org/all/cover.1738765879.git.leonro@nvidia.com/
+ * Rebased to v6.14-rc1
+v6: https://lore.kernel.org/all/cover.1737106761.git.leon@kernel.org
+ * Changed internal __size variable to u64 to properly set private flag
+   in most significant bit.
+ * Added comment about why we check DMA_IOVA_USE_SWIOTLB
+ * Break unlink loop if phys is NULL, condition which we shouldn't get.
+v5: https://lore.kernel.org/all/cover.1734436840.git.leon@kernel.org
+ * Trimmed long lines in all patches.
+ * Squashed "dma-mapping: Add check if IOVA can be used" into
+   "dma: Provide an interface to allow allocate IOVA" patch.
+ * Added tags from Christoph and Will.
+ * Fixed spelling/grammar errors.
+ * Change title from "dma: Provide an  ..." to be "dma-mapping: Provide
+   an ...".
+ * Slightly changed hmm patch to set sticky flags in one place.
+v4: https://lore.kernel.org/all/cover.1733398913.git.leon@kernel.org
+ * Added extra patch to add kernel-doc for iommu_unmap and iommu_unmap_fast
+ * Rebased to v6.13-rc1
+ * Added Will's tags
+v3: https://lore.kernel.org/all/cover.1731244445.git.leon@kernel.org
+ * Added DMA_ATTR_SKIP_CPU_SYNC to p2p pages in HMM.
+ * Fixed error unwind if dma_iova_sync fails in HMM.
+ * Clear all PFN flags which were set in map to make code.
+   more clean, the callers anyway cleaned them.
+ * Generalize sticky PFN flags logic in HMM.
+ * Removed not-needed #ifdef-#endif section.
+v2: https://lore.kernel.org/all/cover.1730892663.git.leon@kernel.org
+ * Fixed docs file as Randy suggested
+ * Fixed releases of memory in HMM path. It was allocated with kv..
+   variants but released with kfree instead of kvfree.
+ * Slightly changed commit message in VFIO patch.
+v1: https://lore.kernel.org/all/cover.1730298502.git.leon@kernel.org
+ * Squashed two VFIO patches into one
+ * Added Acked-by/Reviewed-by tags
+ * Fix docs spelling errors
+ * Simplified dma_iova_sync() API
+ * Added extra check in dma_iova_destroy() if mapped size to make code more clear
+ * Fixed checkpatch warnings in p2p patch
+ * Changed implementation of VFIO mlx5 mlx5vf_add_migration_pages() to
+   be more general
+ * Reduced the number of changes in VFIO patch
+v0: https://lore.kernel.org/all/cover.1730037276.git.leon@kernel.org
+
+----------------------------------------------------------------------------
+ LWN coverage:
+Dancing the DMA two-step - https://lwn.net/Articles/997563/
+----------------------------------------------------------------------------
+
+Currently the only efficient way to map a complex memory description through
+the DMA API is by using the scatterlist APIs. The SG APIs are unique in that
+they efficiently combine the two fundamental operations of sizing and allocating
+a large IOVA window from the IOMMU and processing all the per-address
+swiotlb/flushing/p2p/map details.
+
+This uniqueness has been a long standing pain point as the scatterlist API
+is mandatory, but expensive to use. It prevents any kind of optimization or
+feature improvement (such as avoiding struct page for P2P) due to the
+impossibility of improving the scatterlist.
+
+Several approaches have been explored to expand the DMA API with additional
+scatterlist-like structures (BIO, rlist), instead split up the DMA API
+to allow callers to bring their own data structure.
+
+The API is split up into parts:
+ - Allocate IOVA space:
+    To do any pre-allocation required. This is done based on the caller
+    supplying some details about how much IOMMU address space it would need
+    in worst case.
+ - Map and unmap relevant structures to pre-allocated IOVA space:
+    Perform the actual mapping into the pre-allocated IOVA. This is very
+    similar to dma_map_page().
+
+The whole series can be found here:
+https://git.kernel.org/pub/scm/linux/kernel/git/leon/linux-rdma.git dma-split-May-5
+There can be found examples of three different users are converted to the new API
+to show the benefits and its versatility. Each user has a unique
+flow:
+ 1. RDMA ODP is an example of "SVA mirroring" using HMM that needs to
+    dynamically map/unmap large numbers of single pages. This becomes
+    significantly faster in the IOMMU case as the map/unmap is now just
+    a page table walk, the IOVA allocation is pre-computed once. Significant
+    amounts of memory are saved as there is no longer a need to store the
+    dma_addr_t of each page.
+ 2. VFIO PCI live migration code is building a very large "page list"
+    for the device. Instead of allocating a scatter list entry per allocated
+    page it can just allocate an array of 'struct page *', saving a large
+    amount of memory.
+ 3. NVMe PCI demonstrates how a BIO can be converted to a HW scatter
+    list without having to allocate then populate an intermediate SG table.
+
+To make the use of the new API easier, HMM and block subsystems are extended
+to hide the optimization details from the caller. Among these optimizations:
+ * Memory reduction as in most real use cases there is no need to store mapped
+   DMA addresses and unmap them.
+ * Reducing the function call overhead by removing the need to call function
+   pointers and use direct calls instead.
+
+This step is first along a path to provide alternatives to scatterlist and
+solve some of the abuses and design mistakes.
+
+Thanks
+
+Christoph Hellwig (6):
+  PCI/P2PDMA: Refactor the p2pdma mapping helpers
+  dma-mapping: move the PCI P2PDMA mapping helpers to pci-p2pdma.h
+  iommu: generalize the batched sync after map interface
+  iommu/dma: Factor out a iommu_dma_map_swiotlb helper
+  dma-mapping: add a dma_need_unmap helper
+  docs: core-api: document the IOVA-based API
+
+Leon Romanovsky (3):
+  iommu: add kernel-doc for iommu_unmap_fast
+  dma-mapping: Provide an interface to allow allocate IOVA
+  dma-mapping: Implement link/unlink ranges API
+
+ Documentation/core-api/dma-api.rst |  71 +++++
+ drivers/iommu/dma-iommu.c          | 482 +++++++++++++++++++++++++----
+ drivers/iommu/iommu.c              |  84 ++---
+ drivers/pci/p2pdma.c               |  38 +--
+ include/linux/dma-map-ops.h        |  54 ----
+ include/linux/dma-mapping.h        |  85 +++++
+ include/linux/iommu.h              |   4 +
+ include/linux/pci-p2pdma.h         |  85 +++++
+ kernel/dma/direct.c                |  44 +--
+ kernel/dma/mapping.c               |  18 ++
+ 10 files changed, 764 insertions(+), 201 deletions(-)
+
+-- 
+2.49.0
+
