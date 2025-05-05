@@ -1,179 +1,209 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2060.outbound.protection.outlook.com [40.107.244.60])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2E0B625D539;
-	Mon,  5 May 2025 20:08:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.60
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746475719; cv=fail; b=mDA3d/9eTNBUYXptN4uUswwb+i98oiRcSeicQk3BqayICcZuK6g8xQ892jiX4quA34raCDZ0sLm31+PTODTVpQj1Icme8wGthOouaYDvFEYFX8XAyT+YBqfN4/7o33CDwi7qs7XSLqCR4fjzO6cneyTlPzvNAQsRhlNjnrOFQ2M=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746475719; c=relaxed/simple;
-	bh=W6476yyJ/96afJZKXoRbZ1cboZgfGLgHZyhr0mn8WYg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=p4lcH9m5BfVFdQNAf1cf6yUyhYynAmHt2AtT9mb4/7/t82csDLtWgawCCa+YcxpFKVxH94w9wqFetCQXKzstnXuVenhs7BvlIhjoNgGwBDxlWxlnR+v2GZxgI5lyaIdqnHfjUviGeIKvMmUy/tNHu9p5U9jVW/bj53ly8YEe4Bk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cFEsnu4M; arc=fail smtp.client-ip=40.107.244.60
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7EBCC270EA6
+	for <linux-doc@vger.kernel.org>; Mon,  5 May 2025 20:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746477677; cv=none; b=RMpAd34ioSjC2cuGNgritJmDOrO2jEBysDJLQVuP5VyUAX502GB8+7DfCVW9LdVxrLjvU96Zwv7UOCjtP3hk4wbzndLvg6JbSwv4V5of2SQH3ZlVARyZKABTR85gRxz+2+uj4zlnq3ODkXLniu4ZhYcofs7mg24byaIHv33Q81k=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746477677; c=relaxed/simple;
+	bh=d8LfDvKjYkgCUCdFIUw90/ekiXyN5J8SQRenxzuFPN0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e9mth9pJ0npqoXBr9GARc56RkNmDc1T3x+CWobI+sii59TGLyEJfbYSA/Kc+ALC3W4llAobDdmhnGOsiJ8NDIHi9ZZrWg4XWsQeglPItJaO5o1fL3i8dprVTee/+faR7IZJOcw1C3x1rZmOiex3wuFRS9pqlsDolUiuhAoqrc5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Owhl5LDL; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cFEsnu4M"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=V3syL2XRARNx3aB5xrM88PvLW3+43jIgr5A92THd9c28JCIxK/mCP3W6qPESSfjkbrm4u5Q74BgJxy0UXIQCbSjaleIn3dqMgjyNBpqeEthZNRxkN7ErLTYcsxEvfpTuReayx+bQCD6SlI+AX+3i9AeFpOHuhzfbbcZrUkoRD0RFvFIuDEUzxVfbGuA4ls1jpsTMcjyruXTtdGxLjbglYAWdVpN9R7vtXa5w0a31prLLmTWLZYo5m/VZmkEDZW/xsYnud5bT7v7L1tpRGI5plTguuEqR0Pzg5YDIkudnq4aoU8P/Qk0AGIicMyDgIESCMu9ztnaTYUJynsAzow6Wzg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZJJoV9UUsoeZjNYBuBj8UVPNtIBVXFRgRqB9BC4wL+I=;
- b=IwTY6lmfoJP12iyuPAJgYTu3yelC+nmn1ZUvjaGWVZjfn9xK7GqYeofxmXyGNh4iIW9WpeoUbMucBS/akxtFHBIbp7F3mS6oL9BbeYOmvO0f3vgoGYLEyPUUrFO4nmoywURuO1TtVY2aG5tHYLLUUqO1CcggCBPQfQn7Q0+Ejd+E5y05IuCitNovpUE0bDmCVxEqX32NcA4odIkomIHhWoIhmdMN3ECxDP2fJ01fDLGwOk/HAdxVQEH9n019gr7fOxoqKKdcw3H5FoeTlpHOCpa8sWj2KuRGnkaNh8QuleZhmMReOP1WNiujrMoioZKQ3iS7kwqPPrghPgrEaJKgTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZJJoV9UUsoeZjNYBuBj8UVPNtIBVXFRgRqB9BC4wL+I=;
- b=cFEsnu4MTR5Cz65NYbybwcqNw3Ul8Tqqn8tWFCLSd9ZXhouaMaMT+dSqpstD2WibD354E2oPNmg0biS5pWJycE8lVElN8o2iFQ8C+//CPftUDxrPxgR/PEp1vevHVTYbs2TzASngRrgGMSYlU2xdn6+4/LjFz6Dmjrm3QScYNJD0W+3rg13i9KXs6QqnNMwWHGXqf6BThvXO6roAbU+LeAXgk4ze0Qr1oPa8l893c3Zgigo0Go/vidwAmJ5GfvEpbXz8kg6p8Jn9QDLeZtaq3jUJOgsq7qpIWpQPXdCKLJUuityOMrWqgIKpieHTUG0T3dmb07CztcwHSph33XLTWg==
-Received: from CH2PR15CA0027.namprd15.prod.outlook.com (2603:10b6:610:51::37)
- by CH3PR12MB9148.namprd12.prod.outlook.com (2603:10b6:610:19d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Mon, 5 May
- 2025 20:08:31 +0000
-Received: from CH2PEPF000000A0.namprd02.prod.outlook.com
- (2603:10b6:610:51:cafe::e) by CH2PR15CA0027.outlook.office365.com
- (2603:10b6:610:51::37) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.27 via Frontend Transport; Mon,
- 5 May 2025 20:08:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- CH2PEPF000000A0.mail.protection.outlook.com (10.167.244.26) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Mon, 5 May 2025 20:08:31 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 5 May 2025
- 13:08:14 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 5 May
- 2025 13:08:13 -0700
-Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 5 May 2025 13:07:44 -0700
-Date: Mon, 5 May 2025 13:07:34 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Baolu Lu <baolu.lu@linux.intel.com>, <kevin.tian@intel.com>,
-	<corbet@lwn.net>, <will@kernel.org>, <bagasdotme@gmail.com>,
-	<robin.murphy@arm.com>, <joro@8bytes.org>, <thierry.reding@gmail.com>,
-	<vdumpa@nvidia.com>, <jonathanh@nvidia.com>, <shuah@kernel.org>,
-	<jsnitsel@redhat.com>, <nathan@kernel.org>, <peterz@infradead.org>,
-	<yi.l.liu@intel.com>, <mshavit@google.com>, <praan@google.com>,
-	<zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
-Subject: Re: [PATCH v2 13/22] iommufd: Add mmap interface
-Message-ID: <aBkahmXQGxFC0Fdw@nvidia.com>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <7be26560c604b0cbc2fd218997b97a47e4ed11ff.1745646960.git.nicolinc@nvidia.com>
- <c4d03b52-422e-41ab-845b-1d2eda7ca9e2@linux.intel.com>
- <20250505165019.GM2260709@nvidia.com>
- <aBjzf9PrYnwF5uZN@nvidia.com>
- <20250505172813.GS2260709@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Owhl5LDL"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 181A4C4CEF8
+	for <linux-doc@vger.kernel.org>; Mon,  5 May 2025 20:41:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746477677;
+	bh=d8LfDvKjYkgCUCdFIUw90/ekiXyN5J8SQRenxzuFPN0=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=Owhl5LDLXkQNX7x4a0Z1G/aYlPwj725dS3lGDTCV+pR8BnaB+NmYGY89SDeQF3QeH
+	 QMcVS3pTVG7yr2bHdU7lOtM3GpgOBxthge8YONACDjcAlhOe4HTfIekToeKwPz3N+F
+	 SCvS1XUDNBQ9JydjTGHjI6amf0i1/NdehRIliJtQfQsIDhOYJyq9LDTsKQRHtbU2Kp
+	 VJmnHLfuSDXWtz/sjL8WEX+OzJduJRaezfIl3m0tVpYtQRnTmvcqfk+BJYCfe69Lou
+	 ij+YIV+P9kP38iUmIsVH/8hUm/82tum1XfYpsYxGLZYH5aF361BOrdowd6cGN/CkIz
+	 DWjJWz4Jh2/JQ==
+Received: by mail-ed1-f53.google.com with SMTP id 4fb4d7f45d1cf-5e6c18e2c7dso8872233a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 05 May 2025 13:41:17 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCWOcOAsI1OSq6neO3do9lCaUWwI7uIQJ3pgyMS+NgeVuoitEF/cUA9OcESiImfZMxQhG9zJq2f38NE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbYheIS/MNbbQnr/KIpZ0XQo5r8MbMBeZsKQNNa1EYn36vJHvO
+	VuP3VlQF2YOt7Otu+PoJM5ecAGJx28YyeVV1KqrX92ht+YpzGWMEEX7qJ5WtkSio/e/TEkJS8PJ
+	HyOjBzKgpUC/5mZlreTTFgmUeNiHlaBtC4Vrx
+X-Google-Smtp-Source: AGHT+IFfJkERYqcbzT4YQQTS+Mj+93sXv0WPP/4xBqB2yT0tfFb61yLhT9GQEjqTDYpKCZHUl0y2flUvtx0O/XgDMu4=
+X-Received: by 2002:a05:6402:280d:b0:5f9:dbc6:d363 with SMTP id
+ 4fb4d7f45d1cf-5fb70d52af5mr319781a12.32.1746477675536; Mon, 05 May 2025
+ 13:41:15 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250505172813.GS2260709@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH2PEPF000000A0:EE_|CH3PR12MB9148:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4d72e028-5bc3-4427-27b9-08dd8c109b91
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?+qJ91BnoVrz/HUFEM8SsSTbVUkTyTnPxZlYavrAUtvMlflA33dKFexF7rIlS?=
- =?us-ascii?Q?xqIC7KuaIc050VbqxfoiWQ2LgRaWCS7FLtGyh2N8U4Vu6Rfy32eLRPH4wR3S?=
- =?us-ascii?Q?cav2IAceYnRhYxdYBm0hW/k8QzwidSmjEfY4bjWZbbFtmAq2Rd6ugYexdts5?=
- =?us-ascii?Q?dbyjrSEi3hNnu8oHGJLECLnry2s6WM+E945AplMEACO8o3OmFW5Pm/W1DnYY?=
- =?us-ascii?Q?N/YVB/ISCPcgF05iSQsk/6UR52nDM22UKgd8pawtjTIGYSDZ8TJ4NiAK5kWV?=
- =?us-ascii?Q?0Gnicwy5GrmdnMrHSUwK46uaAvvB+v7ALpf8Sgy8Ii9j4GKDJpCHt6rZ+ZVR?=
- =?us-ascii?Q?mkEAP720C5fGj4GCgcAzVSXYQmdeaLtmnDj+OfBtqe+buGZB2u5KdjjE0Oya?=
- =?us-ascii?Q?SKJjkC4wGllPKkYouYk9Rmh1cNEk/h5umU/8S0OZweqDweNz0cdE/0e6b71F?=
- =?us-ascii?Q?WJxXgOgoKoGNWmYBf1ewrc3bsM57IM3kTMTp5xchQR4Zdhu7QpelM/R/hy/6?=
- =?us-ascii?Q?LSNIQYPkehvSfrLhil6/tm0njqQgae1QGYuE+hsBQGeAQWzMUfBOb7pLdAwW?=
- =?us-ascii?Q?qfRLF1By4WjqDdUUjsMUwJm6c9+N3OTaADzBrsOK86bLGlwVIlc4lj2DmwK3?=
- =?us-ascii?Q?YpMmZ1EXgJlP8AX+LF2SFvwpdBsLB3IecZ1zfykyi5EoRBoxuXbRTiHAcG/5?=
- =?us-ascii?Q?Wd0hdw6ARrsIKEO/YUx+OHoH/5aBlqM0G8PkImh3SeOxibubHUE4h72tXIVR?=
- =?us-ascii?Q?GMiS/27L7AE58gFS4mAbgPBgQPoiaun66zPWtmZP7BlJ6H0nrKzR61qJJ9bi?=
- =?us-ascii?Q?R43iQyVsmWSAGo4HRKFt5mQysMKBUmu87pg65Ru0Qg36zBdAqtfQsLfwEj9e?=
- =?us-ascii?Q?fIT4aYxmpAKDNGvMa6JVQdYUGHW4fMkNzCTPGwkKhunCIg3kyQthwUP+H1vn?=
- =?us-ascii?Q?ThvWGzLLRenG4GnwnPgvifAsZFTCCSeFFwYRogUSp5cgI63703r+pJuJWEHU?=
- =?us-ascii?Q?VpHTzaX5xAKleBN/A5rHa81WO78sguqcskUPBiM1acoksUHsM3Y0Y1bQL8RP?=
- =?us-ascii?Q?NGhlpsvtUwY1UXcO45cS0Ci0U5Fss5ZxU7ZWaMycfv+LZux1PahqzMz+PvhN?=
- =?us-ascii?Q?Ew2BS94aeWNWk4bE+phCSoxicVi5TFLGKduiZAfgRY2cFw6US1XyZhyzU2Pf?=
- =?us-ascii?Q?E3POKFuTF66e0xM7NKTsTL/wwF+vqtLkArq/N2IUdS33wSY+nR3Flq1H4PMp?=
- =?us-ascii?Q?ljmQrG/HXO258P7dYEJVVwIYwfKOlafzXkGvSAlcRPWxKycwmX+ZZaH6i18I?=
- =?us-ascii?Q?ewpBNAqPFxBoUyVFAvlxdnSIpcd+LlJkpCdXebMNLVeYU9eD7uD0lcHSNR2B?=
- =?us-ascii?Q?1YitqY6zJbb+2q1PdOQddwdfQqcv3GG1DtuqNunEWaN8y6baYsfKm8FfCMSx?=
- =?us-ascii?Q?HCoUtR2J1gED+GbijMN9/50iBpmuzVcU7b0DLYuQDHwbaIW95thT8i3yrf3q?=
- =?us-ascii?Q?cRuGu4mqI5UNCSAMPadiGeu+YK8CfJVxTsv9?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 20:08:31.2064
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4d72e028-5bc3-4427-27b9-08dd8c109b91
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH2PEPF000000A0.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9148
+References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+ <20250502210034.284051-1-kpsingh@kernel.org> <87o6w7ge3o.fsf@microsoft.com>
+In-Reply-To: <87o6w7ge3o.fsf@microsoft.com>
+From: KP Singh <kpsingh@kernel.org>
+Date: Mon, 5 May 2025 22:41:04 +0200
+X-Gmail-Original-Message-ID: <CACYkzJ7Ur4kFaGZTDvcFJpn0ZwJ9V+=3ZefUURtkrQGfa68zLg@mail.gmail.com>
+X-Gm-Features: ATxdqUF8uthsI1M39wdVx3o5QcABchfWwSxBzLmXfLY2I-_y9VLmlQgWs2T9bB0
+Message-ID: <CACYkzJ7Ur4kFaGZTDvcFJpn0ZwJ9V+=3ZefUURtkrQGfa68zLg@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
+To: Blaise Boscaccy <bboscaccy@linux.microsoft.com>
+Cc: James.Bottomley@hansenpartnership.com, bpf@vger.kernel.org, 
+	code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, dhowells@redhat.com, 
+	gnoack@google.com, herbert@gondor.apana.org.au, jarkko@kernel.org, 
+	jmorris@namei.org, jstancek@redhat.com, justinstitt@google.com, 
+	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	linux-security-module@vger.kernel.org, llvm@lists.linux.dev, 
+	masahiroy@kernel.org, mic@digikod.net, morbo@google.com, nathan@kernel.org, 
+	neal@gompa.dev, nick.desaulniers+lkml@gmail.com, nicolas@fjasle.eu, 
+	nkapron@google.com, paul@paul-moore.com, roberto.sassu@huawei.com, 
+	serge@hallyn.com, shuah@kernel.org, teknoraver@meta.com, 
+	xiyou.wangcong@gmail.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 05, 2025 at 02:28:13PM -0300, Jason Gunthorpe wrote:
-> On Mon, May 05, 2025 at 10:21:03AM -0700, Nicolin Chen wrote:
-> > > > > +void iommufd_ctx_free_mmap(struct iommufd_ctx *ictx, unsigned long immap_id)
-> > > > > +{
-> > > > > +	kfree(mtree_erase(&ictx->mt_mmap, immap_id >> PAGE_SHIFT));
-> > > > 
-> > > > MMIO lifecycle question: what happens if a region is removed from the
-> > > > maple tree (and is therefore no longer mappable), but is still mapped
-> > > > and in use by userspace?
-> > > 
-> > > I think we should probably zap it and make any existing VMAs
-> > > SIGBUS... Otherwise it is hard to reason about from the kernel side
-> > 
-> > I added in v3 a pair of open/close op that would refcount the
-> > vIOMMU object (owner of the mmap region). This would EBUSY the
-> > vIOMMU destroy ioctl that would call this function.
-> 
-> That's no good, we can't have VMAs prevent cleaning up iommufd
+On Mon, May 5, 2025 at 7:30=E2=80=AFPM Blaise Boscaccy
+<bboscaccy@linux.microsoft.com> wrote:
+>
+> KP Singh <kpsingh@kernel.org> writes:
+>
+> [...]
+>
+> > Now if you really care about the use-case and want to work with the mai=
+ntainers
+> > and implement signing for the community, here's how we think it should =
+be done:
+> >
+> > * The core signing logic and the tooling stays in BPF, something that t=
+he users
+> >   are already using. No new tooling.
+> > * The policy decision on the effect of signing can be built into variou=
+s
+> >   existing LSMs. I don't think we need a new LSM for it.
+> > * A simple UAPI (emphasis on UAPI!) change to union bpf_attr in uapi/bp=
+f.h in
+> >   the BPF_PROG_LOAD command:
+> >
+> > __aligned_u64 signature;
+> > __u32 signature_size;
+>
+> I think having some actual details on the various parties' requirements
+> here would be helpful. KP, I do look forward to seeing your design;
+> however, having code signing proposals where the capabilities are
+> dictated from above and any dissent is dismissed as "you're doing it
+> wrong" isn't going to be helpful to anyone that needs to use this in
+> practice.
 
-Hmm, would you please elaborate why?
+Please don't misrepresent the facts, you got feedback from Alexei in
+various threads, but you chose to argue on the points that were
+convenient for you (i.e. usage of BPF internal APIs) and yet you claim
+to "work with the BPF community and maintainers" by arguing instead of
+collaborating and paying attention to the feedback given to you.
 
-> objects, the right thing is to zap it with invalidate_mapping_range()
+1. https://lore.kernel.org/bpf/CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGm=
+RAjbusQ@mail.gmail.com/
 
-Also, I can't find much info about invalidate_mapping_range(). Is
-it a user space call?
+  Your solution to address the ELF loader specific issue was to just
+allow list systemd? You totally ignored the part about loaders in
+golang and Rust that do not use ELF. How is this    "directive from
+above?"
 
-I do see a few drivers defining a fault op in vm_operations_struct,
-where VM_FAULT_SIGBUS is returned when there is page backing up the
-VMAs. Is it what we need here?
+2. Alexei suggested to you in
+https://lore.kernel.org/bpf/87plhhjwqy.fsf@microsoft.com/
 
-Thanks
-Nicolin
+  "A signature for the map plus a signature for the prog
+  that is tied to a map might be a better option.
+  At map creation time the contents can be checked,
+  the map is frozen, and then the verifier can proceed
+  with prog's signature checking."
+
+You never replied to this.
+
+3. To signing the attachment points, you replied
+
+> That statement is quite questionable. Yes, IIRC you brought that up. And
+> again, runtime policy enforcement has nothing to do with proving code
+> provenance. They are completely independent concerns.
+
+The place where the BPF program is attached is a key part of the
+provenance of the BPF program and its security (and other) effects can
+vary greatly based on that. (e.g. imagine a reject all LSM program
+that is attached to the wrong LSM hook). This is why it's not the same
+as module loading.
+
+4. https://lore.kernel.org/bpf/CAADnVQKF+B_YYwOCFsPBbrTBGKe4b22WVJFb8C0PHGm=
+RAjbusQ@mail.gmail.com/
+
+Programs can still access maps, now if you combine the issue of
+ELF-less loaders and that maps are writeable from other programs as
+freezing only affects userspace (i.e. when a binary gets an FD to a
+map and tries to modify it with syscalls) your implementation fails.
+
+The reply there about trusted user-space still needs to come with
+better guarantees from the kernel, and the kernel can indeed give
+better guarantees, which we will share. The reason for this is that
+your trusted binary is not immune to attacks, and once an attacker
+gains code execution as this trusted binary, there is no containing
+the compromise.
+
+- KP
+
+>
+> Also, I don't think anyone actually cares, at least I don't, who calls
+> verify_pkcs7_signature or whatnot. Verifying signed binary blobs with a
+> private key is a solved problem and isn't really interesting.
+>
+> Our requirements for code signing are just an extension of secure boot
+> and module signing logic:
+>
+> * Prove all code running in ring zero has been signed
+> * Not trivially defeatable by root
+> * Ultimately, no trusted userspace components
+> * Secure from and not vulnerable to TOCTOU attacks
+> * Shouldn't be overly vulnerable to supply-chain attacks
+> * The signature checking logic and control paths should be human-readable
+> * Work easily and be backportable to stable kernels
+> * There should be a simple kconfig option to turn this on or off
+> * This solution needs to be in the mainline kernel
+>
+> Hornet was implemented to meet those requirements, living in the LSM
+> subsystem, written in C. As of today, one cannot accomplish those
+> requirements via BPF-LSM, which is why C was chosen.
+>
+> One can easily realize there is absolutely no way to have a single
+> one-size-fits-all signing solution for everything listed in
+> https://ebpf.io/applications/.
+>
+> If you want to go the UAPI route, I would wholeheartedly recommend
+> making it extensible and having this data be available to the policy
+> LSMs.
+>
+> enum bpf_signature_type {
+>   /* x509 signature check against program instructions only */
+>   BPF_SIGNATURE_PROG_ONLY =3D 0,
+>   /* x509 combined signature check against program instructions and used =
+maps */
+>   BPF_SIGNATURE_PROG_USED_MAPS =3D 1,
+>   /* more of these to be determined via usage */
+>   ...
+> };
+>
+> _aligned_u64 signature;
+> __u32 signature_size;
+> __u32 signature_type;
+>
+> The other option for solving this in the general is in-kernel
+> loaders. That's gotten pushback as well.
+>
+> -blaise
+>
+>
+>
+>
+>
