@@ -1,53 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E49BB28C87A;
-	Mon,  5 May 2025 22:26:43 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBA430223C;
+	Mon,  5 May 2025 22:26:53 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484004; cv=none; b=tlhLPoKbYZVE89V6KaVIKSmxXT6Kd0s7kWizWYpw4miLSnvENZ02MoWRZvK2u0jb2PsphYswLODynUe07GNtkA3JGmKbNNeqDi6pwM4jI4VwC+JYqZmxzYovwtrywMJJEAjdK0oM7Oa0RzEethYJxAH18tfxZKJHCWTB2awDBwg=
+	t=1746484013; cv=none; b=edd9/n1m8Jyng/oZ2t7DszeaohsA6wxDB3P9aA1f43Q2Iq/SexyZaINx1RfNne+/n+b34rG0olsfu494zeHu0SIkwPfzD4B5di65+TVDxZ8EskBBAb+zPdI4i+LxwmUUtGVMshCaG6Wk2Kht4cRoX3YNB8Zaz7gllewOUlyRiy4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484004; c=relaxed/simple;
-	bh=lrYYyDYMuluFlk8IbOl5KYrdzwm8zyptzBr+gqY8TiM=;
+	s=arc-20240116; t=1746484013; c=relaxed/simple;
+	bh=uV8i8xX3QK1VfInKsw8e5L4q6lQiJySUKPZUNex7KHQ=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=GFhv7elLng4lWuS85lqojhhYKMUZBANfMh/lVZKcfYo3bA3zEBO+DKk39YzDGlNslXVua39d030SAFBdMQJdhwduzz2xt/bYUhWPn3lkDSSdl3jbJk7B65yc8IfoUq5GSLwyiESy665WlGYXWA28CXRzh09gas35VQAu54sv2Fc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bVPfMzuB; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=jNURP/LDfwE2+GxuG20cvyX70zGAMY8WriuXVou/9y4nqUpIwkYoAnFu7+YJ72SDaKx4tFzdd4ebRJe98GiiaO4k0SlAi3O7RYqg58IfRpYM/wyKnQeA/RkaZs/3dPuJvNO5ZpduNBJtMuTrIU0lj8Gep4Ac4Iw9K/OdukbFtDk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpJzzTvh; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bVPfMzuB"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E91C8C4CEE4;
-	Mon,  5 May 2025 22:26:41 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpJzzTvh"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE67C4CEE4;
+	Mon,  5 May 2025 22:26:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484003;
-	bh=lrYYyDYMuluFlk8IbOl5KYrdzwm8zyptzBr+gqY8TiM=;
+	s=k20201202; t=1746484013;
+	bh=uV8i8xX3QK1VfInKsw8e5L4q6lQiJySUKPZUNex7KHQ=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=bVPfMzuBEIr6mPeVVVN/xh/0yYQO0HlwUsBe2UgAaTOsa//AbFyg8rdFUXZWcVObi
-	 GYir3bJanzGOQLbHmyciOcxHDqZ2Zmv885mep/TeNuvJdmvNMKhRUHFHxXNPAPW01i
-	 IshR0XOSeUE+FghRkijFEdsbRF5OLvlOKmMHpOOF6WJ5616cXlHUxrIKxxbuOmdeIc
-	 3q+5NboyF6FOCgkff8fiC64bX9Nm5c2B3qrAGduw4prCcyTQqXcFqdcNjru5FvYeJG
-	 hYnS3M1nJBZbXroJrExfgtStTZKWxithYkyfjHnisPkn7wq3dbuFzNSZtSSj0W4zFu
-	 R3ZK6pQ+xYJdg==
+	b=XpJzzTvhhoOhgPQNSPxkPFUqULlK/figwUt4RAy4MMZKvn4X3Q6OECRKeYqY4+c6a
+	 lGcS76L2Z3+h7Vg0bRMx0S6sINFzzQiebeoqNi+XZtN6cgoCdpgHpLQAuKXyjJLytI
+	 k5Qz5ztw7C+G8BbJSNfSgy0QB6FJV9VguJEq+G7Igdf2BKtFPWM7pAhikEkMWvkCQQ
+	 Vi410MKNilyhcSsWPZ/AbrFQR2qyGTED1sv9YFnVLdTTfk3Y0WldLMBWEvr7/WeCvx
+	 7Qw0b15T7dgr+c1w+citmrECek9i4+cTr6YcAldCVZ3ViCT/S22KbsmyCHQKAiLUrD
+	 i1YWlbx4xir2g==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Eric Dumazet <edumazet@google.com>,
-	Yong-Hao Zou <yonghaoz1994@gmail.com>,
-	Matthieu Baerts <matttbe@kernel.org>,
-	Neal Cardwell <ncardwell@google.com>,
-	Kuniyuki Iwashima <kuniyu@amazon.com>,
-	Jakub Kicinski <kuba@kernel.org>,
+Cc: Borislav Petkov <bp@alien8.de>,
+	Sean Christopherson <seanjc@google.com>,
 	Sasha Levin <sashal@kernel.org>,
-	davem@davemloft.net,
-	pabeni@redhat.com,
+	tglx@linutronix.de,
+	peterz@infradead.org,
+	jpoimboe@kernel.org,
 	corbet@lwn.net,
-	dsahern@kernel.org,
-	kerneljasonxing@gmail.com,
-	chopps@labn.net,
-	sd@queasysnail.net,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 313/642] tcp: be less liberal in TSEcr received while in SYN_RECV state
-Date: Mon,  5 May 2025 18:08:49 -0400
-Message-Id: <20250505221419.2672473-313-sashal@kernel.org>
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	pbonzini@redhat.com,
+	thomas.lendacky@amd.com,
+	mario.limonciello@amd.com,
+	perry.yuan@amd.com,
+	kai.huang@intel.com,
+	xiaoyao.li@intel.com,
+	tony.luck@intel.com,
+	xin3.li@intel.com,
+	kan.liang@linux.intel.com,
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 317/642] x86/bugs: KVM: Add support for SRSO_MSR_FIX
+Date: Mon,  5 May 2025 18:08:53 -0400
+Message-Id: <20250505221419.2672473-317-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -62,207 +67,206 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Eric Dumazet <edumazet@google.com>
+From: Borislav Petkov <bp@alien8.de>
 
-[ Upstream commit 3ba075278c11cdb19e2dbb80362042f1b0c08f74 ]
+[ Upstream commit 8442df2b49ed9bcd67833ad4f091d15ac91efd00 ]
 
-Yong-Hao Zou mentioned that linux was not strict as other OS in 3WHS,
-for flows using TCP TS option (RFC 7323)
+Add support for
 
-As hinted by an old comment in tcp_check_req(),
-we can check the TSEcr value in the incoming packet corresponds
-to one of the SYNACK TSval values we have sent.
+  CPUID Fn8000_0021_EAX[31] (SRSO_MSR_FIX). If this bit is 1, it
+  indicates that software may use MSR BP_CFG[BpSpecReduce] to mitigate
+  SRSO.
 
-In this patch, I record the oldest and most recent values
-that SYNACK packets have used.
+Enable BpSpecReduce to mitigate SRSO across guest/host boundaries.
 
-Send a challenge ACK if we receive a TSEcr outside
-of this range, and increase a new SNMP counter.
+Switch back to enabling the bit when virtualization is enabled and to
+clear the bit when virtualization is disabled because using a MSR slot
+would clear the bit when the guest is exited and any training the guest
+has done, would potentially influence the host kernel when execution
+enters the kernel and hasn't VMRUN the guest yet.
 
-nstat -az | grep TSEcrRejected
-TcpExtTSEcrRejected            0                  0.0
+More detail on the public thread in Link below.
 
-Due to TCP fastopen implementation, do not apply yet these checks
-for fastopen flows.
-
-v2: No longer use req->num_timeout, but treq->snt_tsval_first
-    to detect when first SYNACK is prepared. This means
-    we make sure to not send an initial zero TSval.
-    Make sure MPTCP and TCP selftests are passing.
-    Change MIB name to TcpExtTSEcrRejected
-
-v1: https://lore.kernel.org/netdev/CADVnQykD8i4ArpSZaPKaoNxLJ2if2ts9m4As+=Jvdkrgx1qMHw@mail.gmail.com/T/
-
-Reported-by: Yong-Hao Zou <yonghaoz1994@gmail.com>
-Signed-off-by: Eric Dumazet <edumazet@google.com>
-Reviewed-by: Matthieu Baerts (NGI0) <matttbe@kernel.org>
-Reviewed-by: Neal Cardwell <ncardwell@google.com>
-Reviewed-by: Kuniyuki Iwashima <kuniyu@amazon.com>
-Link: https://patch.msgid.link/20250225171048.3105061-1-edumazet@google.com
-Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+Co-developed-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Sean Christopherson <seanjc@google.com>
+Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
+Link: https://lore.kernel.org/r/20241202120416.6054-1-bp@kernel.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- .../networking/net_cachelines/snmp.rst        |  1 +
- include/linux/tcp.h                           |  2 ++
- include/uapi/linux/snmp.h                     |  1 +
- net/ipv4/proc.c                               |  1 +
- net/ipv4/syncookies.c                         |  1 +
- net/ipv4/tcp_input.c                          |  1 +
- net/ipv4/tcp_minisocks.c                      | 26 +++++++++++--------
- net/ipv4/tcp_output.c                         |  6 +++++
- 8 files changed, 28 insertions(+), 11 deletions(-)
+ Documentation/admin-guide/hw-vuln/srso.rst | 13 ++++++++++++
+ arch/x86/include/asm/cpufeatures.h         |  4 ++++
+ arch/x86/include/asm/msr-index.h           |  1 +
+ arch/x86/kernel/cpu/bugs.c                 | 24 ++++++++++++++++++----
+ arch/x86/kvm/svm/svm.c                     |  6 ++++++
+ arch/x86/lib/msr.c                         |  2 ++
+ 6 files changed, 46 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/networking/net_cachelines/snmp.rst b/Documentation/networking/net_cachelines/snmp.rst
-index 90ca2d92547d4..bc96efc92cf5b 100644
---- a/Documentation/networking/net_cachelines/snmp.rst
-+++ b/Documentation/networking/net_cachelines/snmp.rst
-@@ -36,6 +36,7 @@ unsigned_long  LINUX_MIB_TIMEWAITRECYCLED
- unsigned_long  LINUX_MIB_TIMEWAITKILLED
- unsigned_long  LINUX_MIB_PAWSACTIVEREJECTED
- unsigned_long  LINUX_MIB_PAWSESTABREJECTED
-+unsigned_long  LINUX_MIB_TSECR_REJECTED
- unsigned_long  LINUX_MIB_DELAYEDACKLOST
- unsigned_long  LINUX_MIB_LISTENOVERFLOWS
- unsigned_long  LINUX_MIB_LISTENDROPS
-diff --git a/include/linux/tcp.h b/include/linux/tcp.h
-index f88daaa76d836..159b2c59eb627 100644
---- a/include/linux/tcp.h
-+++ b/include/linux/tcp.h
-@@ -160,6 +160,8 @@ struct tcp_request_sock {
- 	u32				rcv_isn;
- 	u32				snt_isn;
- 	u32				ts_off;
-+	u32				snt_tsval_first;
-+	u32				snt_tsval_last;
- 	u32				last_oow_ack_time; /* last SYNACK */
- 	u32				rcv_nxt; /* the ack # by SYNACK. For
- 						  * FastOpen it's the seq#
-diff --git a/include/uapi/linux/snmp.h b/include/uapi/linux/snmp.h
-index 848c7784e684c..eb9fb776fdc3e 100644
---- a/include/uapi/linux/snmp.h
-+++ b/include/uapi/linux/snmp.h
-@@ -186,6 +186,7 @@ enum
- 	LINUX_MIB_TIMEWAITKILLED,		/* TimeWaitKilled */
- 	LINUX_MIB_PAWSACTIVEREJECTED,		/* PAWSActiveRejected */
- 	LINUX_MIB_PAWSESTABREJECTED,		/* PAWSEstabRejected */
-+	LINUX_MIB_TSECRREJECTED,		/* TSEcrRejected */
- 	LINUX_MIB_PAWS_OLD_ACK,			/* PAWSOldAck */
- 	LINUX_MIB_DELAYEDACKS,			/* DelayedACKs */
- 	LINUX_MIB_DELAYEDACKLOCKED,		/* DelayedACKLocked */
-diff --git a/net/ipv4/proc.c b/net/ipv4/proc.c
-index affd21a0f5728..10cbeb76c2745 100644
---- a/net/ipv4/proc.c
-+++ b/net/ipv4/proc.c
-@@ -189,6 +189,7 @@ static const struct snmp_mib snmp4_net_list[] = {
- 	SNMP_MIB_ITEM("TWKilled", LINUX_MIB_TIMEWAITKILLED),
- 	SNMP_MIB_ITEM("PAWSActive", LINUX_MIB_PAWSACTIVEREJECTED),
- 	SNMP_MIB_ITEM("PAWSEstab", LINUX_MIB_PAWSESTABREJECTED),
-+	SNMP_MIB_ITEM("TSEcrRejected", LINUX_MIB_TSECRREJECTED),
- 	SNMP_MIB_ITEM("PAWSOldAck", LINUX_MIB_PAWS_OLD_ACK),
- 	SNMP_MIB_ITEM("DelayedACKs", LINUX_MIB_DELAYEDACKS),
- 	SNMP_MIB_ITEM("DelayedACKLocked", LINUX_MIB_DELAYEDACKLOCKED),
-diff --git a/net/ipv4/syncookies.c b/net/ipv4/syncookies.c
-index 1948d15f1f281..25976fa7768c9 100644
---- a/net/ipv4/syncookies.c
-+++ b/net/ipv4/syncookies.c
-@@ -279,6 +279,7 @@ static int cookie_tcp_reqsk_init(struct sock *sk, struct sk_buff *skb,
- 		ireq->smc_ok = 0;
+diff --git a/Documentation/admin-guide/hw-vuln/srso.rst b/Documentation/admin-guide/hw-vuln/srso.rst
+index 2ad1c05b8c883..66af95251a3d1 100644
+--- a/Documentation/admin-guide/hw-vuln/srso.rst
++++ b/Documentation/admin-guide/hw-vuln/srso.rst
+@@ -104,7 +104,20 @@ The possible values in this file are:
  
- 	treq->snt_synack = 0;
-+	treq->snt_tsval_first = 0;
- 	treq->tfo_listener = false;
- 	treq->txhash = net_tx_rndhash();
- 	treq->rcv_isn = ntohl(th->seq) - 1;
-diff --git a/net/ipv4/tcp_input.c b/net/ipv4/tcp_input.c
-index 23cf8f4a37214..1b09b4d76c296 100644
---- a/net/ipv4/tcp_input.c
-+++ b/net/ipv4/tcp_input.c
-@@ -7089,6 +7089,7 @@ static void tcp_openreq_init(struct request_sock *req,
- 	tcp_rsk(req)->rcv_isn = TCP_SKB_CB(skb)->seq;
- 	tcp_rsk(req)->rcv_nxt = TCP_SKB_CB(skb)->seq + 1;
- 	tcp_rsk(req)->snt_synack = 0;
-+	tcp_rsk(req)->snt_tsval_first = 0;
- 	tcp_rsk(req)->last_oow_ack_time = 0;
- 	req->mss = rx_opt->mss_clamp;
- 	req->ts_recent = rx_opt->saw_tstamp ? rx_opt->rcv_tsval : 0;
-diff --git a/net/ipv4/tcp_minisocks.c b/net/ipv4/tcp_minisocks.c
-index dfdb7a4608a85..0d4ff5f2352f8 100644
---- a/net/ipv4/tcp_minisocks.c
-+++ b/net/ipv4/tcp_minisocks.c
-@@ -665,6 +665,7 @@ struct sock *tcp_check_req(struct sock *sk, struct sk_buff *skb,
- 	struct sock *child;
- 	const struct tcphdr *th = tcp_hdr(skb);
- 	__be32 flg = tcp_flag_word(th) & (TCP_FLAG_RST|TCP_FLAG_SYN|TCP_FLAG_ACK);
-+	bool tsecr_reject = false;
- 	bool paws_reject = false;
- 	bool own_req;
+    (spec_rstack_overflow=ibpb-vmexit)
  
-@@ -674,8 +675,13 @@ struct sock *tcp_check_req(struct sock *sk, struct sk_buff *skb,
++ * 'Mitigation: Reduced Speculation':
  
- 		if (tmp_opt.saw_tstamp) {
- 			tmp_opt.ts_recent = READ_ONCE(req->ts_recent);
--			if (tmp_opt.rcv_tsecr)
-+			if (tmp_opt.rcv_tsecr) {
-+				if (inet_rsk(req)->tstamp_ok && !fastopen)
-+					tsecr_reject = !between(tmp_opt.rcv_tsecr,
-+							tcp_rsk(req)->snt_tsval_first,
-+							READ_ONCE(tcp_rsk(req)->snt_tsval_last));
- 				tmp_opt.rcv_tsecr -= tcp_rsk(req)->ts_off;
-+			}
- 			/* We do not store true stamp, but it is not required,
- 			 * it can be estimated (approximately)
- 			 * from another data.
-@@ -790,18 +796,14 @@ struct sock *tcp_check_req(struct sock *sk, struct sk_buff *skb,
- 	     tcp_rsk(req)->snt_isn + 1))
- 		return sk;
++   This mitigation gets automatically enabled when the above one "IBPB on
++   VMEXIT" has been selected and the CPU supports the BpSpecReduce bit.
++
++   It gets automatically enabled on machines which have the
++   SRSO_USER_KERNEL_NO=1 CPUID bit. In that case, the code logic is to switch
++   to the above =ibpb-vmexit mitigation because the user/kernel boundary is
++   not affected anymore and thus "safe RET" is not needed.
++
++   After enabling the IBPB on VMEXIT mitigation option, the BpSpecReduce bit
++   is detected (functionality present on all such machines) and that
++   practically overrides IBPB on VMEXIT as it has a lot less performance
++   impact and takes care of the guest->host attack vector too.
  
--	/* Also, it would be not so bad idea to check rcv_tsecr, which
--	 * is essentially ACK extension and too early or too late values
--	 * should cause reset in unsynchronized states.
--	 */
--
- 	/* RFC793: "first check sequence number". */
+ In order to exploit vulnerability, an attacker needs to:
  
--	if (paws_reject || !tcp_in_window(TCP_SKB_CB(skb)->seq,
--					  TCP_SKB_CB(skb)->end_seq,
--					  tcp_rsk(req)->rcv_nxt,
--					  tcp_rsk(req)->rcv_nxt +
--					  tcp_synack_window(req))) {
-+	if (paws_reject || tsecr_reject ||
-+	    !tcp_in_window(TCP_SKB_CB(skb)->seq,
-+			   TCP_SKB_CB(skb)->end_seq,
-+			   tcp_rsk(req)->rcv_nxt,
-+			   tcp_rsk(req)->rcv_nxt +
-+			   tcp_synack_window(req))) {
- 		/* Out of window: send ACK and drop. */
- 		if (!(flg & TCP_FLAG_RST) &&
- 		    !tcp_oow_rate_limited(sock_net(sk), skb,
-@@ -810,6 +812,8 @@ struct sock *tcp_check_req(struct sock *sk, struct sk_buff *skb,
- 			req->rsk_ops->send_ack(sk, skb, req);
- 		if (paws_reject)
- 			NET_INC_STATS(sock_net(sk), LINUX_MIB_PAWSESTABREJECTED);
-+		else if (tsecr_reject)
-+			NET_INC_STATS(sock_net(sk), LINUX_MIB_TSECRREJECTED);
- 		return NULL;
+diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
+index 508c0dad116bc..43653f2704c93 100644
+--- a/arch/x86/include/asm/cpufeatures.h
++++ b/arch/x86/include/asm/cpufeatures.h
+@@ -468,6 +468,10 @@
+ #define X86_FEATURE_IBPB_BRTYPE		(20*32+28) /* MSR_PRED_CMD[IBPB] flushes all branch type predictions */
+ #define X86_FEATURE_SRSO_NO		(20*32+29) /* CPU is not affected by SRSO */
+ #define X86_FEATURE_SRSO_USER_KERNEL_NO	(20*32+30) /* CPU is not affected by SRSO across user/kernel boundaries */
++#define X86_FEATURE_SRSO_BP_SPEC_REDUCE	(20*32+31) /*
++						    * BP_CFG[BpSpecReduce] can be used to mitigate SRSO for VMs.
++						    * (SRSO_MSR_FIX in the official doc).
++						    */
+ 
+ /*
+  * Extended auxiliary flags: Linux defined - for features scattered in various
+diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
+index 72765b2fe0d87..d35519b337ba2 100644
+--- a/arch/x86/include/asm/msr-index.h
++++ b/arch/x86/include/asm/msr-index.h
+@@ -721,6 +721,7 @@
+ 
+ /* Zen4 */
+ #define MSR_ZEN4_BP_CFG                 0xc001102e
++#define MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT 4
+ #define MSR_ZEN4_BP_CFG_SHARED_BTB_FIX_BIT 5
+ 
+ /* Fam 19h MSRs */
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 4f9898836da13..fee115316dd3e 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -2526,6 +2526,7 @@ enum srso_mitigation {
+ 	SRSO_MITIGATION_SAFE_RET,
+ 	SRSO_MITIGATION_IBPB,
+ 	SRSO_MITIGATION_IBPB_ON_VMEXIT,
++	SRSO_MITIGATION_BP_SPEC_REDUCE,
+ };
+ 
+ enum srso_mitigation_cmd {
+@@ -2543,7 +2544,8 @@ static const char * const srso_strings[] = {
+ 	[SRSO_MITIGATION_MICROCODE]		= "Vulnerable: Microcode, no safe RET",
+ 	[SRSO_MITIGATION_SAFE_RET]		= "Mitigation: Safe RET",
+ 	[SRSO_MITIGATION_IBPB]			= "Mitigation: IBPB",
+-	[SRSO_MITIGATION_IBPB_ON_VMEXIT]	= "Mitigation: IBPB on VMEXIT only"
++	[SRSO_MITIGATION_IBPB_ON_VMEXIT]	= "Mitigation: IBPB on VMEXIT only",
++	[SRSO_MITIGATION_BP_SPEC_REDUCE]	= "Mitigation: Reduced Speculation"
+ };
+ 
+ static enum srso_mitigation srso_mitigation __ro_after_init = SRSO_MITIGATION_NONE;
+@@ -2582,7 +2584,7 @@ static void __init srso_select_mitigation(void)
+ 	    srso_cmd == SRSO_CMD_OFF) {
+ 		if (boot_cpu_has(X86_FEATURE_SBPB))
+ 			x86_pred_cmd = PRED_CMD_SBPB;
+-		return;
++		goto out;
  	}
  
-diff --git a/net/ipv4/tcp_output.c b/net/ipv4/tcp_output.c
-index bc95d2a5924fd..6031d7f7f5198 100644
---- a/net/ipv4/tcp_output.c
-+++ b/net/ipv4/tcp_output.c
-@@ -941,6 +941,12 @@ static unsigned int tcp_synack_options(const struct sock *sk,
- 		opts->options |= OPTION_TS;
- 		opts->tsval = tcp_skb_timestamp_ts(tcp_rsk(req)->req_usec_ts, skb) +
- 			      tcp_rsk(req)->ts_off;
-+		if (!tcp_rsk(req)->snt_tsval_first) {
-+			if (!opts->tsval)
-+				opts->tsval = ~0U;
-+			tcp_rsk(req)->snt_tsval_first = opts->tsval;
+ 	if (has_microcode) {
+@@ -2594,7 +2596,7 @@ static void __init srso_select_mitigation(void)
+ 		 */
+ 		if (boot_cpu_data.x86 < 0x19 && !cpu_smt_possible()) {
+ 			setup_force_cpu_cap(X86_FEATURE_SRSO_NO);
+-			return;
++			goto out;
+ 		}
+ 
+ 		if (retbleed_mitigation == RETBLEED_MITIGATION_IBPB) {
+@@ -2674,6 +2676,12 @@ static void __init srso_select_mitigation(void)
+ 
+ ibpb_on_vmexit:
+ 	case SRSO_CMD_IBPB_ON_VMEXIT:
++		if (boot_cpu_has(X86_FEATURE_SRSO_BP_SPEC_REDUCE)) {
++			pr_notice("Reducing speculation to address VM/HV SRSO attack vector.\n");
++			srso_mitigation = SRSO_MITIGATION_BP_SPEC_REDUCE;
++			break;
 +		}
-+		WRITE_ONCE(tcp_rsk(req)->snt_tsval_last, opts->tsval);
- 		opts->tsecr = READ_ONCE(req->ts_recent);
- 		remaining -= TCPOLEN_TSTAMP_ALIGNED;
++
+ 		if (IS_ENABLED(CONFIG_MITIGATION_IBPB_ENTRY)) {
+ 			if (has_microcode) {
+ 				setup_force_cpu_cap(X86_FEATURE_IBPB_ON_VMEXIT);
+@@ -2695,7 +2703,15 @@ static void __init srso_select_mitigation(void)
  	}
+ 
+ out:
+-	pr_info("%s\n", srso_strings[srso_mitigation]);
++	/*
++	 * Clear the feature flag if this mitigation is not selected as that
++	 * feature flag controls the BpSpecReduce MSR bit toggling in KVM.
++	 */
++	if (srso_mitigation != SRSO_MITIGATION_BP_SPEC_REDUCE)
++		setup_clear_cpu_cap(X86_FEATURE_SRSO_BP_SPEC_REDUCE);
++
++	if (srso_mitigation != SRSO_MITIGATION_NONE)
++		pr_info("%s\n", srso_strings[srso_mitigation]);
+ }
+ 
+ #undef pr_fmt
+diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
+index e67de787fc714..0660b85883de4 100644
+--- a/arch/x86/kvm/svm/svm.c
++++ b/arch/x86/kvm/svm/svm.c
+@@ -607,6 +607,9 @@ static void svm_disable_virtualization_cpu(void)
+ 	kvm_cpu_svm_disable();
+ 
+ 	amd_pmu_disable_virt();
++
++	if (cpu_feature_enabled(X86_FEATURE_SRSO_BP_SPEC_REDUCE))
++		msr_clear_bit(MSR_ZEN4_BP_CFG, MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT);
+ }
+ 
+ static int svm_enable_virtualization_cpu(void)
+@@ -684,6 +687,9 @@ static int svm_enable_virtualization_cpu(void)
+ 		rdmsr(MSR_TSC_AUX, sev_es_host_save_area(sd)->tsc_aux, msr_hi);
+ 	}
+ 
++	if (cpu_feature_enabled(X86_FEATURE_SRSO_BP_SPEC_REDUCE))
++		msr_set_bit(MSR_ZEN4_BP_CFG, MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT);
++
+ 	return 0;
+ }
+ 
+diff --git a/arch/x86/lib/msr.c b/arch/x86/lib/msr.c
+index 4bf4fad5b148e..5a18ecc04a6c3 100644
+--- a/arch/x86/lib/msr.c
++++ b/arch/x86/lib/msr.c
+@@ -103,6 +103,7 @@ int msr_set_bit(u32 msr, u8 bit)
+ {
+ 	return __flip_bit(msr, bit, true);
+ }
++EXPORT_SYMBOL_GPL(msr_set_bit);
+ 
+ /**
+  * msr_clear_bit - Clear @bit in a MSR @msr.
+@@ -118,6 +119,7 @@ int msr_clear_bit(u32 msr, u8 bit)
+ {
+ 	return __flip_bit(msr, bit, false);
+ }
++EXPORT_SYMBOL_GPL(msr_clear_bit);
+ 
+ #ifdef CONFIG_TRACEPOINTS
+ void do_trace_write_msr(unsigned int msr, u64 val, int failed)
 -- 
 2.39.5
 
