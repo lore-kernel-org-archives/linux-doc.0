@@ -1,166 +1,159 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A84393AC5A4
-	for <linux-doc@vger.kernel.org>; Mon,  5 May 2025 23:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A39DD3AE5DA;
+	Mon,  5 May 2025 23:20:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746487144; cv=none; b=mMNmE/1tSMt2gdUAepBKWOflzVczhLn/JFWqHBGmFfZaYEDnAm6qTz4dXatN6Nnj0QyJpbKZPN43MmYA9sdVEe19qPufnUfFXhZ/ViHThr4ejyiw0svpLBUJ91jGhE0v5aL5F4c8xJaXjEMkAvzaHRHJaeo+3RRY28ZL9THj08U=
+	t=1746487201; cv=none; b=ZlKBjxNRsTn2s9+h4TBg3FTvyTgIxy66B8bTIeJCzoZqhnpanFGJ3avwKvAvscYngCKdTF2yKq/TwxF1usulrxGj8Aj60z63zhusnaA/6SieEqofj1uBpGwtAlefyoit/gbBGplEbujhxqfw0U52amBmgcWKvO6hsZXDVqMXk2Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746487144; c=relaxed/simple;
-	bh=szSy1DusHGWtdc5DBdNxGyYxoEy8zsXq36nE02dq3Dw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tATVukQQhMBxy114N5tCcxwQr4/dC5B/AWdPYQTvWrs4Axl+im9ZQkAxu/dllZOXZuHQEWMwEdAfNKrDB4k/pIbwpipwCib+5q0WPpSuTfzR22dDM4lMfXvpWs6w00j0lF9Dk/F0ZNeRn5MJW112kZG4W4dDwQfyLwkvwqGBGIs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com; spf=pass smtp.mailfrom=oss.qualcomm.com; dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b=oy84eHsy; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oss.qualcomm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oss.qualcomm.com
+	s=arc-20240116; t=1746487201; c=relaxed/simple;
+	bh=m5oFdYjah0zImpFPmJoRoTirj9V9MipWEIBX4AF1Ht0=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=QmCZ8FK2b5RdKEE6I3F3jtW+G7JK7NkXHsSvjoOUPEiYAEx6QMPZnW41IAXXg40mdGqi6rWTmcZaWM7+ww4TKq/hNGZ2XjZLA10am9JvGpHyFx1Fo8mILaOTya1fGgrXXbqIMENduhHkCJeHlNXEb6BEsJj3+sFJ7g22D5AK+iw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qaPSPlZQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=qualcomm.com header.i=@qualcomm.com header.b="oy84eHsy"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 545KUEpr017718
-	for <linux-doc@vger.kernel.org>; Mon, 5 May 2025 23:19:00 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	egliTNxrRWezR2u6nVEeNELYig/MxmMlQ01oFG+bL58=; b=oy84eHsyzw4cIS4t
-	IbPIQBGACmEjACW5IsGawddvbVqI3FFn1seYPXHPptK9aK0cX84nidWwqwuonHVD
-	yMve+Sosb0N8+Kfh2UNdHWK86ZhqRJj6oV9VqndrIEsP3x/GNOmkWWnAPMNzuH/M
-	AL8M9xwo2k9cIRvghPBeEu7PVTNlMQxSfEwWTiNI2bCxvMvpwNuQPvNOvlYEyd/5
-	cGSBjVDx1pdRIbUsQdwNKnTg5KCFk/BNC2V88A+4EvHfFb1QPy/4vEBaG/gFNYjz
-	Bjm5J54h3/Jf3v/q59zx4SzPLVXtb9msx0BQ+irCq8F0p31wiIOXflDDOiJR/kDL
-	D9rRGA==
-Received: from mail-pl1-f200.google.com (mail-pl1-f200.google.com [209.85.214.200])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46e0xsv0h3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <linux-doc@vger.kernel.org>; Mon, 05 May 2025 23:19:00 +0000 (GMT)
-Received: by mail-pl1-f200.google.com with SMTP id d9443c01a7336-224347aef79so68075345ad.2
-        for <linux-doc@vger.kernel.org>; Mon, 05 May 2025 16:19:00 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746487139; x=1747091939;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=egliTNxrRWezR2u6nVEeNELYig/MxmMlQ01oFG+bL58=;
-        b=WvpUts+el34DB8PByhLPQIKKU00G33JRI/EVKfWA/CQjcNNdmnp5z8rOxTtj9sQ3JR
-         rDEH2qqeeMMtfpsWSGcpiu26jJpl0foF8gzKM36TrDA5pjGwD+dA5IaOiMDwlntwvVvm
-         ZCACtY1+dvtS2kDaLXlNh7UfWZpIYV7KMF/noO1TOJ6dFQ05h03TgVkI2GZls1qDUqZS
-         M6rGSe5Mfsze4m+UY5WxonahR9s1FsYO2LxF7BDbFjhS8ze5hVcLyVzkQMnrKc4DJFQl
-         SSVcjNLKU6swJfrW01LckiSEYIbOsWh6n+nkjMDjWfdu9N2JJyuZQR6ZmabU00Js9p6h
-         jI/Q==
-X-Forwarded-Encrypted: i=1; AJvYcCUSWapvXOUQEANDIrcnpxvekizvpkMQd3oEry3uN3fPOX1OKkVqlLBOBloN8tqIkCuEL+DoZclUDpg=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwpEewUrctjkUXq4rGbV5jtt14Knkaq28uOrb0LiE9X7KJqt5X2
-	CFdXn/HuBWKaS2yHc4Dd6VVTyjRBWpSWvxWAb65/FsFyOLiG1sFtQ4l8nKL77YDFq3SIk1c5emg
-	Y87fG4QxIMGPTY45Tyoom8MPI+bV40uY7uOL7AAjgivFWEf5Yn+PhRa8EQA==
-X-Gm-Gg: ASbGncvGH0e8415msojp9Is/k2izty2E5+c9PTvuKOnOp4W2va+GIPKz0ZMlJf4iIwI
-	EuUnFRaat73elkgdgVMzaAPoFvGaif9PvNkApFRppzQQrLMuEjCOq6P6U5NNAUlNuC0Nwl9OE6K
-	QBxVmxI+CfMWxP5gbK+Wv/xeLjaP4wGyxf0QpRbdS+eVrVdHedJB3QAYuubOi4hakXCyACJpLjF
-	s3/92enVOzQ3E2Xx9/xChiIONDzw9GFnIycxMyTmeyjKNfJa1S1b6uEITHmXt9uh1zc5/ptBz/n
-	Eq4FjS0mu9sLR/gkpEmsqsIPB8T7i9Rc6piGM6G2a0bwye+kAktDDlRA/4IBMYw2tGdlNUeZyDs
-	mn28elXFSKA==
-X-Received: by 2002:a17:903:11ce:b0:215:a179:14ca with SMTP id d9443c01a7336-22e35fa48edmr11374035ad.2.1746487138859;
-        Mon, 05 May 2025 16:18:58 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEdqr8QmR5hHl03YHuIdiZ5XDPvQLzJ8NRfBgcXvm6h4rkFqPZiU9iHtAyIKS5UBK5d6Ay3DA==
-X-Received: by 2002:a17:903:11ce:b0:215:a179:14ca with SMTP id d9443c01a7336-22e35fa48edmr11373785ad.2.1746487138404;
-        Mon, 05 May 2025 16:18:58 -0700 (PDT)
-Received: from [192.168.0.74] (n1-41-240-65.bla22.nsw.optusnet.com.au. [1.41.240.65])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1521fb3esm60612335ad.121.2025.05.05.16.18.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 05 May 2025 16:18:57 -0700 (PDT)
-Message-ID: <2a0df02a-1657-4b59-8f31-791a8aff523e@oss.qualcomm.com>
-Date: Tue, 6 May 2025 09:18:49 +1000
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qaPSPlZQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48CB6C4CEE4;
+	Mon,  5 May 2025 23:19:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746487200;
+	bh=m5oFdYjah0zImpFPmJoRoTirj9V9MipWEIBX4AF1Ht0=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=qaPSPlZQejUTW7GqD9FJpG1q1xZbfLP15qQF/0TrRTtmXWGh+z0wWX1eGcXgk73iI
+	 3VevHVzskorIF0fvEG2tqMJQJJ+GlnKowJV/Z6ciq7Ci7LWwEz62mLsZ8k3wGyCO5e
+	 lIggvdrqpmA3uUy0o+mK72pcVu1uIruHKKJ0zMcoPIP0TYjA4wfvhB8ppfCbmya3Ny
+	 loZnh2ObAjDB2qSwx6KDi7wGntw6uR5qcM6lNBfg3wpdnurMj/N9frMQJwcuTbXS7w
+	 P5MAwOXhXnyu/GtfbNjeh0lIit1KVZrOZTnxPXx9SPxOrKO5vG6uvOdfvsXYL7LzvD
+	 n3T6F8jEWVMhg==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Breno Leitao <leitao@debian.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	David Kaplan <David.Kaplan@amd.com>,
+	Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net,
+	tglx@linutronix.de,
+	bp@alien8.de,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	akpm@linux-foundation.org,
+	paulmck@kernel.org,
+	rostedt@goodmis.org,
+	thuth@redhat.com,
+	ardb@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.10 053/114] x86/bugs: Make spectre user default depend on MITIGATION_SPECTRE_V2
+Date: Mon,  5 May 2025 19:17:16 -0400
+Message-Id: <20250505231817.2697367-53-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505231817.2697367-1-sashal@kernel.org>
+References: <20250505231817.2697367-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 06/11] firmware: qcom: scm: remove unused arguments to
- the shm_brige
-To: Kuldeep Singh <quic_kuldsing@quicinc.com>,
-        Jens Wiklander <jens.wiklander@linaro.org>,
-        Sumit Garg <sumit.garg@kernel.org>,
-        Bjorn Andersson <andersson@kernel.org>,
-        Konrad Dybcio <konradybcio@kernel.org>,
-        Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
-        Apurupa Pattapu <quic_apurupa@quicinc.com>,
-        Kees Cook <kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-doc@vger.kernel.org
-References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
- <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-6-6a143640a6cb@oss.qualcomm.com>
- <246da659-2add-4ccf-b914-f737fb93f3f2@quicinc.com>
-Content-Language: en-US
-From: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-In-Reply-To: <246da659-2add-4ccf-b914-f737fb93f3f2@quicinc.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-Proofpoint-GUID: Ul5lAbSSwTy7nHxaFWOT4X8IZiDQ4byN
-X-Proofpoint-ORIG-GUID: Ul5lAbSSwTy7nHxaFWOT4X8IZiDQ4byN
-X-Authority-Analysis: v=2.4 cv=bdprUPPB c=1 sm=1 tr=0 ts=68194764 cx=c_pps
- a=IZJwPbhc+fLeJZngyXXI0A==:117 a=hi51d+lTLNy/RbqRqnOomQ==:17
- a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=P-IC7800AAAA:8 a=EUspDBNiAAAA:8
- a=S5yCOARCkap2nlZrFcEA:9 a=QEXdDO2ut3YA:10 a=uG9DUKGECoFWVXl0Dc02:22
- a=d3PnA9EDa4IxuAV0gXij:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA1MDIyMCBTYWx0ZWRfX+KCxKyvux5PQ
- 6Kh35jcCOLcYfkbMrVMzpEMjSg5hK5cNE4pA7pLkL5X6zW1MZCleKx1J6vymV3FATuIFRNMZ6Vr
- M+A/DFz7L85RNqGDIK9dsBUql7IpzuCZAjRNez2AJSZQSx2WHQxxJup00PzMftetN0FzfYyoGyO
- L69O1tNRMGyH9coslhIV2DPJrX5DMQ+ZY4cOHmYnZ8+hjWHQJBodoEDj0B5AnvskRTteOPh/5f6
- Ov7g4OAt16GnyZpFoEjVrXOuPenxq9B39LKZQhWVLevR6Fv8Q2pjmGeOF9CbrHmcDNuSgRm+0B2
- RZMJOVUWn/bjvEopvxUmR3jiaaDpDJvM2sgQDWU4R4A9YyGz7t4KPyfl4msMToZxm3+9YMqaqBs
- j0tp9wV8kdxrDsntotEOQma03fjoLIp1DsvU9Pb7YAY+udx3BuTXvUMbSV7/PQSkCDjNuql+
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-05_10,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 lowpriorityscore=0 suspectscore=0 malwarescore=0
- clxscore=1015 phishscore=0 adultscore=0 spamscore=0 impostorscore=0
- mlxlogscore=999 mlxscore=0 bulkscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.19.0-2504070000 definitions=main-2505050220
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 5.10.237
+Content-Transfer-Encoding: 8bit
 
+From: Breno Leitao <leitao@debian.org>
 
+[ Upstream commit 98fdaeb296f51ef08e727a7cc72e5b5c864c4f4d ]
 
-On 5/5/2025 8:58 PM, Kuldeep Singh wrote:
-> 
-> 
-> On 4/29/2025 11:36 AM, Amirreza Zarrabi wrote:
->> shm_bridge create/delete functions always use the scm device.
->> There is no need to pass it as an argument.
->>
->> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
-> 
-> 
-> There are 2 type of APIs exposed by tzmem driver for pool creation.
-> devm_qcom_tzmem_pool_new and qcom_tzmem_pool_new.
-> 
-> Device managed pool is created with devm_qcom_tzmem_pool_new but
-> currently qcom_scm is using it's own dev to create/delete bridge which
-> is problamatic here.
-> 
-> https://elixir.bootlin.com/linux/v6.14.5/source/drivers/firmware/qcom/qcom_scm.c#L1653
-> 
-> If pool is device managed, same dev should be used in qcom_scm to
-> create/delete bridge rather than using qcom_scm dev.
-> The dev passed as an argument to function should be used instead of
-> __scm->dev.
-> https://elixir.bootlin.com/linux/v6.14.5/source/drivers/firmware/qcom/qcom_scm.c#L1634
-> 
-> To summarize, I believe correct solution should be to pass corresponding
-> dev to bridge create/delete APIs instead of always assuming to be
-> qcom_scm dev for devm_qcom_tzmem_pool_new scenarios.
-> For qcom_tzmem_pool_new, qcom_scm/qcom_tzmem_dev can be used.
-> 
-> Bartosz/Amirreza, please share your thoughts as well.
-> 
+Change the default value of spectre v2 in user mode to respect the
+CONFIG_MITIGATION_SPECTRE_V2 config option.
 
-It is not true.
-Why should shmbridge need to have access to random devices, while the resources
-are obtained from the scm device, if any?
+Currently, user mode spectre v2 is set to auto
+(SPECTRE_V2_USER_CMD_AUTO) by default, even if
+CONFIG_MITIGATION_SPECTRE_V2 is disabled.
 
-- Amir
+Set the spectre_v2 value to auto (SPECTRE_V2_USER_CMD_AUTO) if the
+Spectre v2 config (CONFIG_MITIGATION_SPECTRE_V2) is enabled, otherwise
+set the value to none (SPECTRE_V2_USER_CMD_NONE).
+
+Important to say the command line argument "spectre_v2_user" overwrites
+the default value in both cases.
+
+When CONFIG_MITIGATION_SPECTRE_V2 is not set, users have the flexibility
+to opt-in for specific mitigations independently. In this scenario,
+setting spectre_v2= will not enable spectre_v2_user=, and command line
+options spectre_v2_user and spectre_v2 are independent when
+CONFIG_MITIGATION_SPECTRE_V2=n.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Reviewed-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: David Kaplan <David.Kaplan@amd.com>
+Link: https://lore.kernel.org/r/20241031-x86_bugs_last_v2-v2-2-b7ff1dab840e@debian.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ arch/x86/kernel/cpu/bugs.c                      | 10 +++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 88110e74b3f7a..12af5b0ecc8e3 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5122,6 +5122,8 @@
+ 
+ 			Selecting 'on' will also enable the mitigation
+ 			against user space to user space task attacks.
++			Selecting specific mitigation does not force enable
++			user mitigations.
+ 
+ 			Selecting 'off' will disable both the kernel and
+ 			the user space protections.
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 045ab6d0a98bb..9b3611e4cb80c 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1231,9 +1231,13 @@ static __ro_after_init enum spectre_v2_mitigation_cmd spectre_v2_cmd;
+ static enum spectre_v2_user_cmd __init
+ spectre_v2_parse_user_cmdline(void)
+ {
++	enum spectre_v2_user_cmd mode;
+ 	char arg[20];
+ 	int ret, i;
+ 
++	mode = IS_ENABLED(CONFIG_MITIGATION_SPECTRE_V2) ?
++		SPECTRE_V2_USER_CMD_AUTO : SPECTRE_V2_USER_CMD_NONE;
++
+ 	switch (spectre_v2_cmd) {
+ 	case SPECTRE_V2_CMD_NONE:
+ 		return SPECTRE_V2_USER_CMD_NONE;
+@@ -1246,7 +1250,7 @@ spectre_v2_parse_user_cmdline(void)
+ 	ret = cmdline_find_option(boot_command_line, "spectre_v2_user",
+ 				  arg, sizeof(arg));
+ 	if (ret < 0)
+-		return SPECTRE_V2_USER_CMD_AUTO;
++		return mode;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(v2_user_options); i++) {
+ 		if (match_option(arg, ret, v2_user_options[i].option)) {
+@@ -1256,8 +1260,8 @@ spectre_v2_parse_user_cmdline(void)
+ 		}
+ 	}
+ 
+-	pr_err("Unknown user space protection option (%s). Switching to AUTO select\n", arg);
+-	return SPECTRE_V2_USER_CMD_AUTO;
++	pr_err("Unknown user space protection option (%s). Switching to default\n", arg);
++	return mode;
+ }
+ 
+ static inline bool spectre_v2_in_eibrs_mode(enum spectre_v2_mitigation mode)
+-- 
+2.39.5
+
