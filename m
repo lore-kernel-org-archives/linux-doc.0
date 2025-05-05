@@ -1,107 +1,159 @@
-Received: from mail-pl1-f201.google.com (mail-pl1-f201.google.com [209.85.214.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AEEA33AAAC
-	for <linux-doc@vger.kernel.org>; Mon,  5 May 2025 22:37:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B7EC35C922;
+	Mon,  5 May 2025 22:47:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484641; cv=none; b=a+1rozfRo08zMV6SutS4U/J28wPEEczJqE6jn9chYHffx+7lkJMMEIlK0AfHstfvF91bdWnOfCyj0pBAE3UIvhmZhUBSsmAb9tfMfbKNV/eDcRIuv/gya8gCEEuXU5mMtJ7E1VAqbJ1v/MhDAR/mRoOLFclAU/5IXaEg48hlrOw=
+	t=1746485232; cv=none; b=ipAVcf+p82jcj+pNFX5kSAIhqn1t6Bnps3ZTBOBat4d1IqZp31NkTaWMpgLuMKrBMLCs4dy3SjFfpnPgfy1tAvq9ms3Esq4CACigmzmDp0uJLusInEqsSldGMq8p+8K1ojWvJvgHZKLZZxsCV4dBvOhVO8Y+DHD39KruqzZdnuQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484641; c=relaxed/simple;
-	bh=/qnphOBltVIWlURouKPWX5W5cAXR4gvjzHWr9irA4Ek=;
-	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=i7Uh5ruovMPhozvl21j9LYu+HCIlruzsQ0nxN8C1wQ4xyiKKtIW2G7N1RlP8Or32eRr6LTkbhNILj4d+djzT99r+ywQMx5VaOAnIJGOyeFxQOsKWmffj1dWykr0eyG4rBWzqAOnBPyakI6i5tyfkvfjFLHSpgqp3+MRBBmxOorE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mSQ1Jmp2; arc=none smtp.client-ip=209.85.214.201
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
+	s=arc-20240116; t=1746485232; c=relaxed/simple;
+	bh=+aRofnTydw/0gN9HjG+cOM9QlVVbPqlZjIdvLqzPy68=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=JA4fHriq7bUrM154mF+h0dGpGa5+2AR4Dp125io2ystE139G9aDf49eHrd0qMqyDmZ3xebso2W4SrDTqpDRiOzLIvU3GZIVSP1scBbV2rOjyfkIt181jQ0YXx8YaonqmXTziEFQEZgZAq9H7BAMROV0T9pBb1vQ5eh3enc09Mhw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AENDDxu/; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mSQ1Jmp2"
-Received: by mail-pl1-f201.google.com with SMTP id d9443c01a7336-22e327ff362so2985225ad.3
-        for <linux-doc@vger.kernel.org>; Mon, 05 May 2025 15:37:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746484639; x=1747089439; darn=vger.kernel.org;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFJXsNyYfzZ7+lko8SxLtTDp0cHIk0LkJmukv/W5L18=;
-        b=mSQ1Jmp2rgrE5W2OkOthgNRIML4koPjGLgQd+nowIF6/q6bOiL8EAMT+WtQAC92mdG
-         41Uqk04TV+rqjL3JKZLFQ/Z7fTe7ShX5JUANwHwfhBTXJFr0y/jppy7NXhSMqVTDRMar
-         oDQtMIVu4a3n9JWLSXmv70N8fAz/GuVtzaUkbvTgT6NelRf32KDNtfF30q6qo9NshDmR
-         f/jnZpPWUH9+EPQmz5e1c9vWiDVEM25hrSTTxt1DO8Hec50WuyBX75Y8SCch5VdGd1BN
-         WUV77HBJVYxZc/Dw6x8g0sf/zWvnbHJoBZ0jKbbsEwWbyeJ4Rjs92Jcw29Mm4ukQd9XH
-         FEbw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746484639; x=1747089439;
-        h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
-         :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=RFJXsNyYfzZ7+lko8SxLtTDp0cHIk0LkJmukv/W5L18=;
-        b=FUZPchi9alizT+2+OAyf1ZEPqvIgwvMNcEu5+x16o+jsFGNswGM7wDNQ5JCgjBK2qI
-         9CCcDVsDEj+daD9ordcO2QvL6wgqIOYEahl0ljLHNngr+kpZ2uRWvAFvDxPIhyZdxMWo
-         aeuvr7y6DA4km+zE68qoBgjU2zCVuFSrVbBLH9kHdFjrwTw/vPcQEwmb9scKQQfE4rnM
-         SzwXIdhhvuNzLiTMXxjSue2SDBVHEkdU+HqCnF3T1NOohM19M2QP/ndObdTum0TAiU4f
-         Hcz3OLxw+btI6Z/MzzXaEvzwk61XLsT2Sc0kZVdcyw2B9P3TuYLtYtbm8fcSfG89/EWg
-         c7mA==
-X-Forwarded-Encrypted: i=1; AJvYcCWwTlok7DvMEFNHBLjQAppaKQxaQpTUx7dRwA2fqWEqxG2D6HQi/muOstZkQ+xk7+y+hpURYdQhSEE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyQ6GmpTGWIwI/CNp0NQpEqwuO2KtufsZkOPXNyxOYd5JCwXPjX
-	1PSdI5iApUgHSHnnTZ7NVKSaCQfG138bKxufxFg+3sO9oAxQ1WDW9xM9EhnWSdev45cu1ZFYPTq
-	okw==
-X-Google-Smtp-Source: AGHT+IF7FvBz2XtjdY1Gwm2snh7AYTh3FwqQtsFxghocXrvK4VvzfqD2ppJPcFtt7H5IcBLLk5+tAerZoio=
-X-Received: from plrs9.prod.google.com ([2002:a17:902:b189:b0:223:5416:c809])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:902:f543:b0:224:2a6d:55ae
- with SMTP id d9443c01a7336-22e1eac1872mr163309125ad.48.1746484638786; Mon, 05
- May 2025 15:37:18 -0700 (PDT)
-Date: Mon, 5 May 2025 15:37:17 -0700
-In-Reply-To: <20250505221419.2672473-317-sashal@kernel.org>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AENDDxu/"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BC615C4CEE4;
+	Mon,  5 May 2025 22:47:08 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746485231;
+	bh=+aRofnTydw/0gN9HjG+cOM9QlVVbPqlZjIdvLqzPy68=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=AENDDxu/jq2m9WRLEJEEaYI22G+znvgERg3bZizQ8tti5O8NxqLRNJdlxV0TsoCd/
+	 QESjl+yPvBRLw8aWIJ6M7lqK2oa2+vaQTdH0dqoGBxj0pwlJmV9nP0cUrrT8Il1/74
+	 54pTjZoVez88ClNzPFnAnG5n+PESBiLlh5OFrKaDmks/KL0VcaG6vNGMCdmGR7Wm4h
+	 dxQk0cY1AJuUlKCQbpGYPgg7P26BVST2ogLJW7z3xBL+b8zFrRt5NytURJpnnyFwJ1
+	 ndWrWg6YpcUTDYW8GDl+xNnjvhyRJm2rlcGkldzVX9QRHBSpcmwrxAMIbTBtcU5tKI
+	 Zp1YRG728AkcQ==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: Breno Leitao <leitao@debian.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	David Kaplan <David.Kaplan@amd.com>,
+	Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net,
+	tglx@linutronix.de,
+	bp@alien8.de,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	akpm@linux-foundation.org,
+	paulmck@kernel.org,
+	rostedt@goodmis.org,
+	thuth@redhat.com,
+	ardb@kernel.org,
+	gregkh@linuxfoundation.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.12 223/486] x86/bugs: Make spectre user default depend on MITIGATION_SPECTRE_V2
+Date: Mon,  5 May 2025 18:34:59 -0400
+Message-Id: <20250505223922.2682012-223-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505223922.2682012-1-sashal@kernel.org>
+References: <20250505223922.2682012-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-References: <20250505221419.2672473-1-sashal@kernel.org> <20250505221419.2672473-317-sashal@kernel.org>
-Message-ID: <aBk9nVsmHObvxU7o@google.com>
-Subject: Re: [PATCH AUTOSEL 6.14 317/642] x86/bugs: KVM: Add support for SRSO_MSR_FIX
-From: Sean Christopherson <seanjc@google.com>
-To: Sasha Levin <sashal@kernel.org>
-Cc: linux-kernel@vger.kernel.org, stable@vger.kernel.org, 
-	Borislav Petkov <bp@alien8.de>, tglx@linutronix.de, peterz@infradead.org, 
-	jpoimboe@kernel.org, corbet@lwn.net, mingo@redhat.com, 
-	dave.hansen@linux.intel.com, x86@kernel.org, pbonzini@redhat.com, 
-	thomas.lendacky@amd.com, mario.limonciello@amd.com, perry.yuan@amd.com, 
-	kai.huang@intel.com, xiaoyao.li@intel.com, tony.luck@intel.com, 
-	xin3.li@intel.com, kan.liang@linux.intel.com, linux-doc@vger.kernel.org, 
-	kvm@vger.kernel.org
-Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.12.26
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 05, 2025, Sasha Levin wrote:
-> From: Borislav Petkov <bp@alien8.de>
-> 
-> [ Upstream commit 8442df2b49ed9bcd67833ad4f091d15ac91efd00 ]
-> 
-> Add support for
-> 
->   CPUID Fn8000_0021_EAX[31] (SRSO_MSR_FIX). If this bit is 1, it
->   indicates that software may use MSR BP_CFG[BpSpecReduce] to mitigate
->   SRSO.
-> 
-> Enable BpSpecReduce to mitigate SRSO across guest/host boundaries.
-> 
-> Switch back to enabling the bit when virtualization is enabled and to
-> clear the bit when virtualization is disabled because using a MSR slot
-> would clear the bit when the guest is exited and any training the guest
-> has done, would potentially influence the host kernel when execution
-> enters the kernel and hasn't VMRUN the guest yet.
-> 
-> More detail on the public thread in Link below.
-> 
-> Co-developed-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Sean Christopherson <seanjc@google.com>
-> Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-> Link: https://lore.kernel.org/r/20241202120416.6054-1-bp@kernel.org
-> Signed-off-by: Sasha Levin <sashal@kernel.org>
-> ---
+From: Breno Leitao <leitao@debian.org>
 
-Can we please hold off on this until the fix lands[1]?  This version introduces
-a very measurable performance regression[2] for non-KVM use cases.
+[ Upstream commit 98fdaeb296f51ef08e727a7cc72e5b5c864c4f4d ]
 
-[1] https://lore.kernel.org/all/20250502223456.887618-1-seanjc@google.com
-[2] https://www.phoronix.com/review/linux-615-amd-regression
+Change the default value of spectre v2 in user mode to respect the
+CONFIG_MITIGATION_SPECTRE_V2 config option.
+
+Currently, user mode spectre v2 is set to auto
+(SPECTRE_V2_USER_CMD_AUTO) by default, even if
+CONFIG_MITIGATION_SPECTRE_V2 is disabled.
+
+Set the spectre_v2 value to auto (SPECTRE_V2_USER_CMD_AUTO) if the
+Spectre v2 config (CONFIG_MITIGATION_SPECTRE_V2) is enabled, otherwise
+set the value to none (SPECTRE_V2_USER_CMD_NONE).
+
+Important to say the command line argument "spectre_v2_user" overwrites
+the default value in both cases.
+
+When CONFIG_MITIGATION_SPECTRE_V2 is not set, users have the flexibility
+to opt-in for specific mitigations independently. In this scenario,
+setting spectre_v2= will not enable spectre_v2_user=, and command line
+options spectre_v2_user and spectre_v2 are independent when
+CONFIG_MITIGATION_SPECTRE_V2=n.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Reviewed-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: David Kaplan <David.Kaplan@amd.com>
+Link: https://lore.kernel.org/r/20241031-x86_bugs_last_v2-v2-2-b7ff1dab840e@debian.org
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ arch/x86/kernel/cpu/bugs.c                      | 10 +++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 607a8937f1754..6e7b300b5c1d9 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6243,6 +6243,8 @@
+ 
+ 			Selecting 'on' will also enable the mitigation
+ 			against user space to user space task attacks.
++			Selecting specific mitigation does not force enable
++			user mitigations.
+ 
+ 			Selecting 'off' will disable both the kernel and
+ 			the user space protections.
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 46bddb5bb15ff..e9f3103720396 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1293,9 +1293,13 @@ static __ro_after_init enum spectre_v2_mitigation_cmd spectre_v2_cmd;
+ static enum spectre_v2_user_cmd __init
+ spectre_v2_parse_user_cmdline(void)
+ {
++	enum spectre_v2_user_cmd mode;
+ 	char arg[20];
+ 	int ret, i;
+ 
++	mode = IS_ENABLED(CONFIG_MITIGATION_SPECTRE_V2) ?
++		SPECTRE_V2_USER_CMD_AUTO : SPECTRE_V2_USER_CMD_NONE;
++
+ 	switch (spectre_v2_cmd) {
+ 	case SPECTRE_V2_CMD_NONE:
+ 		return SPECTRE_V2_USER_CMD_NONE;
+@@ -1308,7 +1312,7 @@ spectre_v2_parse_user_cmdline(void)
+ 	ret = cmdline_find_option(boot_command_line, "spectre_v2_user",
+ 				  arg, sizeof(arg));
+ 	if (ret < 0)
+-		return SPECTRE_V2_USER_CMD_AUTO;
++		return mode;
+ 
+ 	for (i = 0; i < ARRAY_SIZE(v2_user_options); i++) {
+ 		if (match_option(arg, ret, v2_user_options[i].option)) {
+@@ -1318,8 +1322,8 @@ spectre_v2_parse_user_cmdline(void)
+ 		}
+ 	}
+ 
+-	pr_err("Unknown user space protection option (%s). Switching to AUTO select\n", arg);
+-	return SPECTRE_V2_USER_CMD_AUTO;
++	pr_err("Unknown user space protection option (%s). Switching to default\n", arg);
++	return mode;
+ }
+ 
+ static inline bool spectre_v2_in_ibrs_mode(enum spectre_v2_mitigation mode)
+-- 
+2.39.5
+
