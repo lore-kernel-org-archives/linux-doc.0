@@ -1,45 +1,57 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F4692ED06B;
-	Mon,  5 May 2025 23:08:36 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9E41A2EE4BD;
+	Mon,  5 May 2025 23:09:47 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746486517; cv=none; b=ZsZb3pbSONnR8ASSDs1ULdbG9S0VA/CYeZn6UmvGp00levvi6QBEgR09lfp5TAOxIzSVCCN1IsVCxx5DU3g6OKSoCB/LDv5TjdJoDOB0V7MhbsSonXZXL4r+1MiY75FLdyuXLrDKOwDPk3fOQwHXCCaSJzxP5G9opYk1FR4NlU0=
+	t=1746486588; cv=none; b=OTZLd7a6QIrITt3hS06uxJh8lqsB0T+DjzPTgWh1mVL8NsLqlPYxgAA/rM4Q8uVrHTKd/eB1Q6Q9+CxHCth9n6+f8mq/Mc5HKbb+Ui81Nlv4esGcBxTuG3K4Imt/+/wSAOt+zQTEVpjPy4TWQjMot31Ag6Cwet6WTqw3xWaDnhg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746486517; c=relaxed/simple;
-	bh=BdDGMkVRQSddB5OCoW7MvIyZabD2y2tPLHe1rj2zxIs=;
+	s=arc-20240116; t=1746486588; c=relaxed/simple;
+	bh=qvVDqL6gViQbICr1+H/0oJTe5Yh03t6sd5cbeBkIVU4=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=k+fN+6O/Q38ZlPJomtSpAJLraSSaI7dJAMWW3MQPID9OhhUmPlvqd7l5rBH2E4a5EIVM0dsORZBhLf/2vxh5kmpW47oOaXOVVIybVscOVVGsz/jht5IIKCs15KRokcjYciiMTYxxR/djsC99sdhx5B58Os364cSiRvFnlResqf8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ewiT0d7D; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=QC7yZFQ4dz34aDm8UgXPqoLaGqOPpT8nuacqlCTie7jblW/5A+z/aiKRd5PjcwjXiYxTFwtw9nw/TE2xVzIrPhZB3EkF8LKw7VyJcpDOHT0O1xYFKQm9eMkWIVP51qZTyH5QqkJObljzEzqacJJUSkK9WGCwkkqGyEwa6ja9Arg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=UBzBKdzz; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ewiT0d7D"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 44590C4CEE4;
-	Mon,  5 May 2025 23:08:35 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="UBzBKdzz"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47A25C4CEE4;
+	Mon,  5 May 2025 23:09:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746486516;
-	bh=BdDGMkVRQSddB5OCoW7MvIyZabD2y2tPLHe1rj2zxIs=;
+	s=k20201202; t=1746486587;
+	bh=qvVDqL6gViQbICr1+H/0oJTe5Yh03t6sd5cbeBkIVU4=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ewiT0d7Dfo4yBg3PAIkItgyi9lbAgmWNZe5ARE+fmoj8gJKhWD63tX/9dp/kSj4Jz
-	 YPnsp/8FC7m+yKZ9ADGAITGDUtRZwehNssFEyvWwIP0ePDe8ho5IKJf6dX+O7C5KYS
-	 qUMtMRmnQ0ddHD/c5+bBM0pKywQ9pHH1pOdH3kgxjzwSyBiM36PQ/lVnvUUikJFwpA
-	 xLe/dRVvmxDF/8/Axt+FBgs4YXWMtJ3XDSS+tXCSVnyMRlszYctwVN8dK8/mV6xab6
-	 FfdZ8Cyy2jvgUXSxyEyI2/avY0/208WCt0YxeWsyfSbdgY6VzQyas8m+0LDzyMUDJs
-	 09f/N2qxmlmoA==
+	b=UBzBKdzzLP2YXeHLz3J6JG7X0yRTNpf26vNxpgWjPVilijh+pMzsgrYHY5D3Stxbv
+	 WM0QyriTGUIM5599Mal/auo/dJY+lFRQDvkJBK37fUwq7/03jGZHhm+vAbeasaYL2s
+	 iqlbCSTgHIZEEatWQFh1YZqbgEETIzY8NZBahEteW3mbA3GQZln0LVS+3YOSkcpats
+	 OFCor7OZ2Li7sOpQ2oJRDoV5evVoz+k6q+yO7Dv0Jo19p6KX7km8Ernx2cvtMnYWr7
+	 Gkd5YLZMd6TOAyr1dcg0TLOeIno3NhBhtxLJ5bYjngt2lImpaNc8Ctg6DmR80ktpRZ
+	 5oAoaxUx+A6JA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Kurt Borja <kuurtb@gmail.com>,
-	Guenter Roeck <linux@roeck-us.net>,
+Cc: Breno Leitao <leitao@debian.org>,
+	Ingo Molnar <mingo@kernel.org>,
+	Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+	Josh Poimboeuf <jpoimboe@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	David Kaplan <David.Kaplan@amd.com>,
 	Sasha Levin <sashal@kernel.org>,
-	jdelvare@suse.com,
 	corbet@lwn.net,
-	pali@kernel.org,
-	linux-hwmon@vger.kernel.org,
+	tglx@linutronix.de,
+	bp@alien8.de,
+	mingo@redhat.com,
+	dave.hansen@linux.intel.com,
+	x86@kernel.org,
+	akpm@linux-foundation.org,
+	paulmck@kernel.org,
+	rostedt@goodmis.org,
+	thuth@redhat.com,
+	ardb@kernel.org,
+	gregkh@linuxfoundation.org,
 	linux-doc@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.1 071/212] hwmon: (dell-smm) Increment the number of fans
-Date: Mon,  5 May 2025 19:04:03 -0400
-Message-Id: <20250505230624.2692522-71-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 6.1 103/212] x86/bugs: Make spectre user default depend on MITIGATION_SPECTRE_V2
+Date: Mon,  5 May 2025 19:04:35 -0400
+Message-Id: <20250505230624.2692522-103-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505230624.2692522-1-sashal@kernel.org>
 References: <20250505230624.2692522-1-sashal@kernel.org>
@@ -54,84 +66,94 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.1.136
 Content-Transfer-Encoding: 8bit
 
-From: Kurt Borja <kuurtb@gmail.com>
+From: Breno Leitao <leitao@debian.org>
 
-[ Upstream commit dbcfcb239b3b452ef8782842c36fb17dd1b9092f ]
+[ Upstream commit 98fdaeb296f51ef08e727a7cc72e5b5c864c4f4d ]
 
-Some Alienware laptops that support the SMM interface, may have up to 4
-fans.
+Change the default value of spectre v2 in user mode to respect the
+CONFIG_MITIGATION_SPECTRE_V2 config option.
 
-Tested on an Alienware x15 r1.
+Currently, user mode spectre v2 is set to auto
+(SPECTRE_V2_USER_CMD_AUTO) by default, even if
+CONFIG_MITIGATION_SPECTRE_V2 is disabled.
 
-Signed-off-by: Kurt Borja <kuurtb@gmail.com>
-Link: https://lore.kernel.org/r/20250304055249.51940-2-kuurtb@gmail.com
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
+Set the spectre_v2 value to auto (SPECTRE_V2_USER_CMD_AUTO) if the
+Spectre v2 config (CONFIG_MITIGATION_SPECTRE_V2) is enabled, otherwise
+set the value to none (SPECTRE_V2_USER_CMD_NONE).
+
+Important to say the command line argument "spectre_v2_user" overwrites
+the default value in both cases.
+
+When CONFIG_MITIGATION_SPECTRE_V2 is not set, users have the flexibility
+to opt-in for specific mitigations independently. In this scenario,
+setting spectre_v2= will not enable spectre_v2_user=, and command line
+options spectre_v2_user and spectre_v2 are independent when
+CONFIG_MITIGATION_SPECTRE_V2=n.
+
+Signed-off-by: Breno Leitao <leitao@debian.org>
+Signed-off-by: Ingo Molnar <mingo@kernel.org>
+Reviewed-by: Pawan Gupta <pawan.kumar.gupta@linux.intel.com>
+Acked-by: Josh Poimboeuf <jpoimboe@kernel.org>
+Cc: Peter Zijlstra <peterz@infradead.org>
+Cc: David Kaplan <David.Kaplan@amd.com>
+Link: https://lore.kernel.org/r/20241031-x86_bugs_last_v2-v2-2-b7ff1dab840e@debian.org
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/hwmon/dell-smm-hwmon.rst | 14 +++++++-------
- drivers/hwmon/dell-smm-hwmon.c         |  5 ++++-
- 2 files changed, 11 insertions(+), 8 deletions(-)
+ Documentation/admin-guide/kernel-parameters.txt |  2 ++
+ arch/x86/kernel/cpu/bugs.c                      | 10 +++++++---
+ 2 files changed, 9 insertions(+), 3 deletions(-)
 
-diff --git a/Documentation/hwmon/dell-smm-hwmon.rst b/Documentation/hwmon/dell-smm-hwmon.rst
-index d8f1d6859b964..1c12fbba440bc 100644
---- a/Documentation/hwmon/dell-smm-hwmon.rst
-+++ b/Documentation/hwmon/dell-smm-hwmon.rst
-@@ -32,12 +32,12 @@ Temperature sensors and fans can be queried and set via the standard
- =============================== ======= =======================================
- Name				Perm	Description
- =============================== ======= =======================================
--fan[1-3]_input                  RO      Fan speed in RPM.
--fan[1-3]_label                  RO      Fan label.
--fan[1-3]_min                    RO      Minimal Fan speed in RPM
--fan[1-3]_max                    RO      Maximal Fan speed in RPM
--fan[1-3]_target                 RO      Expected Fan speed in RPM
--pwm[1-3]                        RW      Control the fan PWM duty-cycle.
-+fan[1-4]_input                  RO      Fan speed in RPM.
-+fan[1-4]_label                  RO      Fan label.
-+fan[1-4]_min                    RO      Minimal Fan speed in RPM
-+fan[1-4]_max                    RO      Maximal Fan speed in RPM
-+fan[1-4]_target                 RO      Expected Fan speed in RPM
-+pwm[1-4]                        RW      Control the fan PWM duty-cycle.
- pwm1_enable                     WO      Enable or disable automatic BIOS fan
-                                         control (not supported on all laptops,
-                                         see below for details).
-@@ -93,7 +93,7 @@ Again, when you find new codes, we'd be happy to have your patches!
- ---------------------------
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index 18c8fc60db934..216f642495055 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -5765,6 +5765,8 @@
  
- The driver also exports the fans as thermal cooling devices with
--``type`` set to ``dell-smm-fan[1-3]``. This allows for easy fan control
-+``type`` set to ``dell-smm-fan[1-4]``. This allows for easy fan control
- using one of the thermal governors.
+ 			Selecting 'on' will also enable the mitigation
+ 			against user space to user space task attacks.
++			Selecting specific mitigation does not force enable
++			user mitigations.
  
- Module parameters
-diff --git a/drivers/hwmon/dell-smm-hwmon.c b/drivers/hwmon/dell-smm-hwmon.c
-index 1572b54160158..dbcb8f362061d 100644
---- a/drivers/hwmon/dell-smm-hwmon.c
-+++ b/drivers/hwmon/dell-smm-hwmon.c
-@@ -67,7 +67,7 @@
- #define I8K_POWER_BATTERY	0x01
+ 			Selecting 'off' will disable both the kernel and
+ 			the user space protections.
+diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
+index 0be0edb07a2a9..52105605e3eda 100644
+--- a/arch/x86/kernel/cpu/bugs.c
++++ b/arch/x86/kernel/cpu/bugs.c
+@@ -1262,9 +1262,13 @@ static __ro_after_init enum spectre_v2_mitigation_cmd spectre_v2_cmd;
+ static enum spectre_v2_user_cmd __init
+ spectre_v2_parse_user_cmdline(void)
+ {
++	enum spectre_v2_user_cmd mode;
+ 	char arg[20];
+ 	int ret, i;
  
- #define DELL_SMM_NO_TEMP	10
--#define DELL_SMM_NO_FANS	3
-+#define DELL_SMM_NO_FANS	4
++	mode = IS_ENABLED(CONFIG_MITIGATION_SPECTRE_V2) ?
++		SPECTRE_V2_USER_CMD_AUTO : SPECTRE_V2_USER_CMD_NONE;
++
+ 	switch (spectre_v2_cmd) {
+ 	case SPECTRE_V2_CMD_NONE:
+ 		return SPECTRE_V2_USER_CMD_NONE;
+@@ -1277,7 +1281,7 @@ spectre_v2_parse_user_cmdline(void)
+ 	ret = cmdline_find_option(boot_command_line, "spectre_v2_user",
+ 				  arg, sizeof(arg));
+ 	if (ret < 0)
+-		return SPECTRE_V2_USER_CMD_AUTO;
++		return mode;
  
- struct dell_smm_data {
- 	struct mutex i8k_mutex; /* lock for sensors writes */
-@@ -940,11 +940,14 @@ static const struct hwmon_channel_info *dell_smm_info[] = {
- 			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MIN | HWMON_F_MAX |
- 			   HWMON_F_TARGET,
- 			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MIN | HWMON_F_MAX |
-+			   HWMON_F_TARGET,
-+			   HWMON_F_INPUT | HWMON_F_LABEL | HWMON_F_MIN | HWMON_F_MAX |
- 			   HWMON_F_TARGET
- 			   ),
- 	HWMON_CHANNEL_INFO(pwm,
- 			   HWMON_PWM_INPUT | HWMON_PWM_ENABLE,
- 			   HWMON_PWM_INPUT,
-+			   HWMON_PWM_INPUT,
- 			   HWMON_PWM_INPUT
- 			   ),
- 	NULL
+ 	for (i = 0; i < ARRAY_SIZE(v2_user_options); i++) {
+ 		if (match_option(arg, ret, v2_user_options[i].option)) {
+@@ -1287,8 +1291,8 @@ spectre_v2_parse_user_cmdline(void)
+ 		}
+ 	}
+ 
+-	pr_err("Unknown user space protection option (%s). Switching to AUTO select\n", arg);
+-	return SPECTRE_V2_USER_CMD_AUTO;
++	pr_err("Unknown user space protection option (%s). Switching to default\n", arg);
++	return mode;
+ }
+ 
+ static inline bool spectre_v2_in_eibrs_mode(enum spectre_v2_mitigation mode)
 -- 
 2.39.5
 
