@@ -1,327 +1,248 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 960792638A9
-	for <linux-doc@vger.kernel.org>; Mon,  5 May 2025 17:08:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746464897; cv=none; b=fmecpj5QOdE7wpO/eXs4SAtrrbx9hi8rdWhIbuNUEcSlgjHSHbz1u0IF4SYTg2Tca5azlpTy+PVNBu4L9dw1Xte7I8mwJvLG+aFDlxDXE3SkiWNKyx1SMN7QeiVY7J5RT0deKDxUzSgeTzAy3pIY8qGdUGzTozxHOf6uE36f6DA=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746464897; c=relaxed/simple;
-	bh=Jtak9U7cc0PM/YZ1tVgC2DmN5i2AOKL8/qKOSE5THgM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=gQk5d6IPXoY03EsS706ldKoOUP1K/nCAEqmubcpG9GcDvFb1f5/CyDY1QlKuIr6uSI6UjZd1MKYOR9Vkkx3CVOy+pxAggYvcNScgCYWklNczHIyHHP+jGL0e+QSVYlMmmwJ9ESHBhr8d5LsItS8q2fT722fkeSE9YiedW87B+Tk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=Qh47oUWq; arc=none smtp.client-ip=209.85.160.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 10506190692;
+	Mon,  5 May 2025 17:15:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746465318; cv=fail; b=P1jz9ulNmrFCakeolQS97mJQx7I8vogkcWyO2VL+PEZoV6ipt4YzmfryXfavbOp0ahBtFvckfOcb8U+1HOOEitZNuIXN/Aj//cwtqObY40sOp+GsJi48ZmXhuj/LqvrUoJzaiH8MT/FW2H5TR4zpAijGsQysT9aLjwoB0ZhmPy8=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746465318; c=relaxed/simple;
+	bh=610XL47kCg3r46RnjXE3VGn2mxqCG+7jwYj4oVuIHkI=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Vz7pcWAjSeMgHdW3he+g7zd/T3GDdZkbuaqxdBRsqA5u3HjEnGAHVtCaS9iQjGaqLoqg6+ET8iql5So1NEVwqJl2nOGflEGc1Kk/I36YPlRU5ZG6rrbzYke6HFudEwgLRtGim6G2n4pyImfoyVPDfY9htsSLKB1tOfbJm7b12kk=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ByZu8Jeo; arc=fail smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="Qh47oUWq"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4774611d40bso15951cf.0
-        for <linux-doc@vger.kernel.org>; Mon, 05 May 2025 10:08:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746464894; x=1747069694; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=9Sl5qlzaLwkLoa7IyezxtoDVMCMI6oXTbeuYg/AGNhM=;
-        b=Qh47oUWqZAEM6/wEzyHqVYuvVlg74wdDTYSxMiFQsqWyrhM6l0kMewxO5T0BMNc0Lc
-         iZYwmq4cyCXM5s3VDFBzsyXYBwlh1DBdLEjL0RXxXTSKO7KodzEMhQU7O39eEOYv6EXr
-         qvuwPQG28TxxkbxjdYqTuHxEevBdnsUAOslFxn9CATq5EZnnrC+53451EyjMKH+3Bf76
-         27KcZZfiLvQC7yEi5d4SAavQwHaVrdMnn5jRoZH2TlFRA071sj/8v5fETGa1irlwHYbw
-         ZftaL9If0HjYQN2VR/5GR6+pEaUCp8e5NU0Eo8qJ0sVEM+KH6x60oQoA7MZd1okMWH0X
-         VePw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746464894; x=1747069694;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=9Sl5qlzaLwkLoa7IyezxtoDVMCMI6oXTbeuYg/AGNhM=;
-        b=AWIOC5nIemn5CLiGw8ZMNSV9YSGpNKjO5I/ygqbDTrHDBoIRnfqWHM7IQLTTJKh7++
-         OAmX7pvi+yW0xcQaCgTsS/yZ+BgiS5HC7WH43T93OZQEKPS7HwkH8tx1QLWJwDP5rmcS
-         giedX47L3Pv6qNjNGj3FVGmfGNpuqYwmc6gCXlPZa47nRP/1rY2iprU/3XYsXGLN2XcY
-         2brFKIvC1QBNYi0wScs0XzDS7+FlSTmjYnaJ5r7/yj5CIdkySfSSFD1sFYGcC0h6wy/7
-         2OPoqg/Bomy9jgopAfrMqF/3E18aWA2wMqPmH6l1+IuU5zqgfT5IFnTPJe1xffJz6ZFG
-         UoEA==
-X-Forwarded-Encrypted: i=1; AJvYcCVVgNJ7itOxyklfAzrI21SG0eBtwgWfcnHoYgSnMBXVrMeUS3nB2z2SpyH3BDAuXXWjFD3LOnFE3lo=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/PZ94U1d3cNIuXNnawLVx2LwSoGhna+46ains/e+VOaEBE3Gf
-	fr8dBeusGVMsd9uvU+aZv+CTJftws5cnSir6xo6xlopW+37QfebBVNgPgNRzJFfdjrVK9svB48r
-	Y+BgtR5WVGwlBmQdR6EPm8BSk6wEklAHJ04gYjkRnSw8fhz6WYNvOtqY=
-X-Gm-Gg: ASbGncuEIhBcSwh0pjLL7rDNMF2+rw+9ngEMolG7RLi9DlrsJO4ROM0xhnL27X98pjC
-	b561NvqTlwKJf7JKD8qwMKZgGgXAD09OW1YnQoXp/wrjCs5vHpe+XDWijfvO6Aihh78TiFq6A1E
-	sVrNk4fzSy5/etXMmxoPKy
-X-Google-Smtp-Source: AGHT+IG9RbCE3tWojEKNPQx5yfnmDPTu6+mJWO90vxaZ+aQ1eZ9nWwk/u1wfl/9Tse3jgXBFSeLavdU4iiR/L3XP6AA=
-X-Received: by 2002:a05:622a:586:b0:474:b44f:bb88 with SMTP id
- d75a77b69052e-490cdae6128mr590541cf.27.1746464894049; Mon, 05 May 2025
- 10:08:14 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ByZu8Jeo"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746465317; x=1778001317;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=610XL47kCg3r46RnjXE3VGn2mxqCG+7jwYj4oVuIHkI=;
+  b=ByZu8JeoHtY5VG6tX7YUI24jgHwmPasMFWlUywO1YJu7UvyN+XKy+rAV
+   VILtjSyKhc+nWQJ/qTYgqUnqPqOoY5jqgV19I5nwzPboMrf2BuMAhst0J
+   7QGA9elhHa4ACm6ldEpG9lh3DuuQu9FLl/wAg7fQBSSVXcKETVle/KfoA
+   25TdV1xiZB2YlmYlca/8CcT00XaHf0OI1OB/72/3vdP2CaZcy8h3GaKE6
+   zd5tTAw7VB4l1FR6U9u0gypMUzBium+3zB9aw36C6YzxCYALmUP64G0h+
+   +lUoV7VeGckM66o2GaCvdWb1LBrXFl6h0Q5ScGmctd96WBVyCwliTDRGC
+   A==;
+X-CSE-ConnectionGUID: h28BFRriSU6CrtjRChZjXg==
+X-CSE-MsgGUID: LCAa3B2SSMuScAyrff46dQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11424"; a="70590061"
+X-IronPort-AV: E=Sophos;i="6.15,264,1739865600"; 
+   d="scan'208";a="70590061"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 10:15:14 -0700
+X-CSE-ConnectionGUID: FDQadP/cSoWUhGN1TE9hEA==
+X-CSE-MsgGUID: nYhz9pGrS2SwEXlIAwMozA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,264,1739865600"; 
+   d="scan'208";a="166368426"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 May 2025 10:15:13 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Mon, 5 May 2025 10:15:13 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Mon, 5 May 2025 10:15:13 -0700
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.171)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Mon, 5 May 2025 10:15:12 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=mnBtxY8xYnwmcN+/pOf7OBYJkiWozI57bf8W6Q/q6KdMV0rBeP+DAmLG4hg55UPR94vsJi/atKxbgf3Gy8leUomo8QuA9mDn6OZulfAu7H+5/vW1asSoeP2c+j+ekyssMViSuh9u2BGTCA7HYaR1iHv1Z8WHqUqTcQwD4+Gj5lxOPpufTnKLicZyXINLUwFmvf6gqPyyJT/9FxjiyPTsk1quX1XXeLE4eKWbAYt4RAe6J7HVhpnKkyFMS0k0Wq8yXoiUvlEvJXOXbzt2GgjHYwjjOU0RHxtIZ2R3ng5BYPB6UcKMDZ6UXKZJtbo7vstmkQpbMZnjFEeQdhGo4lEihw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=atb7OmabgsEXcuuwIZGbomBfffO+UcdPrqkZMo8+kP4=;
+ b=KtVYUwW+E9yicDP8OxE3oA8xnbkLu5Uduieq2IBejmV0Hi8JSJEDQZ0KWn1nlQ9eezW8O/00KXnfGsvzfVGKNRk4el/BjYbeWbxEOV315FztEbE8RbkrCESA+lbhJipmt0XOAR8OvCyEycGzmYW0Fd/9vkWzzO1asNDkUpCWtN2OSHBQGWp9tz//dsRKgBrt5H7Wf2VM6Y7MbeuFLE3GyYZK5I1052kls+0noQ+S2ZxzeStrli+mioUk769an94y5fvJG50kv68NIMaOyKtprK3nJgoy31y0v3Ag3NBVGohM65DA0Fg40cJXrM3sNl/oEWd8UnLxBCDGVl1sLPK9/A==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA3PR11MB9087.namprd11.prod.outlook.com (2603:10b6:208:57f::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Mon, 5 May
+ 2025 17:14:51 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.8699.022; Mon, 5 May 2025
+ 17:14:51 +0000
+Message-ID: <d84d7299-d0d3-4027-b256-f1e24d8423c9@intel.com>
+Date: Mon, 5 May 2025 10:14:48 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 0/8] Support L3 Smart Data Cache Injection Allocation
+ Enforcement (SDCIAE)
+To: "Luck, Tony" <tony.luck@intel.com>, "Moger, Babu" <bmoger@amd.com>, "Babu
+ Moger" <babu.moger@amd.com>, "tglx@linutronix.de" <tglx@linutronix.de>,
+	"mingo@redhat.com" <mingo@redhat.com>, "bp@alien8.de" <bp@alien8.de>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>
+CC: "corbet@lwn.net" <corbet@lwn.net>, "x86@kernel.org" <x86@kernel.org>,
+	"hpa@zytor.com" <hpa@zytor.com>, "akpm@linux-foundation.org"
+	<akpm@linux-foundation.org>, "paulmck@kernel.org" <paulmck@kernel.org>,
+	"rostedt@goodmis.org" <rostedt@goodmis.org>, "thuth@redhat.com"
+	<thuth@redhat.com>, "ardb@kernel.org" <ardb@kernel.org>,
+	"gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
+	"thomas.lendacky@amd.com" <thomas.lendacky@amd.com>,
+	"mario.limonciello@amd.com" <mario.limonciello@amd.com>, "perry.yuan@amd.com"
+	<perry.yuan@amd.com>, "seanjc@google.com" <seanjc@google.com>, "Huang, Kai"
+	<kai.huang@intel.com>, "Li, Xiaoyao" <xiaoyao.li@intel.com>,
+	"kan.liang@linux.intel.com" <kan.liang@linux.intel.com>, "riel@surriel.com"
+	<riel@surriel.com>, "Li, Xin3" <xin3.li@intel.com>, "xin@zytor.com"
+	<xin@zytor.com>, "Mehta, Sohil" <sohil.mehta@intel.com>, "ak@linux.intel.com"
+	<ak@linux.intel.com>, "ebiggers@google.com" <ebiggers@google.com>,
+	"andrew.cooper3@citrix.com" <andrew.cooper3@citrix.com>,
+	"gautham.shenoy@amd.com" <gautham.shenoy@amd.com>, "Xiaojian.Du@amd.com"
+	<Xiaojian.Du@amd.com>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "james.morse@arm.com" <james.morse@arm.com>,
+	"fenghuay@nvidia.com" <fenghuay@nvidia.com>, "peternewman@google.com"
+	<peternewman@google.com>
+References: <cover.1745275431.git.babu.moger@amd.com>
+ <c00c00ea-a9ac-4c56-961c-dc5bf633476b@intel.com>
+ <3e0e9b68-2ebe-40f8-a840-1ad7cd3f56e0@amd.com>
+ <3ca0a5dc-ad9c-4767-9011-b79d986e1e8d@intel.com>
+ <SJ1PR11MB6083919B4628C4957D099667FC8E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <SJ1PR11MB6083919B4628C4957D099667FC8E2@SJ1PR11MB6083.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR03CA0277.namprd03.prod.outlook.com
+ (2603:10b6:a03:39e::12) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250504224149.1033867-1-tjmercier@google.com>
- <20250504224149.1033867-3-tjmercier@google.com> <26ca8ddf-0d78-462f-a47d-a1128b2e058f@amd.com>
- <CABdmKX2iNk22h-KxUr4yvZO80yeRRjMfoC7yjiZ-aR_f1k402g@mail.gmail.com> <ec43f447-095e-4baf-8610-8279b565f162@amd.com>
-In-Reply-To: <ec43f447-095e-4baf-8610-8279b565f162@amd.com>
-From: "T.J. Mercier" <tjmercier@google.com>
-Date: Mon, 5 May 2025 10:07:59 -0700
-X-Gm-Features: ATxdqUF0j9WeLA-MxEEKVNTEyhm3r86boN77kWA0rwIEETtFwZuRS9Ux9s2lLAY
-Message-ID: <CABdmKX2Tpv8vpDDZ+wcdrWuijfC1wkNhJQxVSC9trPkzBLN4tA@mail.gmail.com>
-Subject: Re: [PATCH v2 2/6] bpf: Add dmabuf iterator
-To: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Cc: sumit.semwal@linaro.org, ast@kernel.org, daniel@iogearbox.net, 
-	andrii@kernel.org, martin.lau@linux.dev, skhan@linuxfoundation.org, 
-	song@kernel.org, alexei.starovoitov@gmail.com, linux-kernel@vger.kernel.org, 
-	linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linaro-mm-sig@lists.linaro.org, linux-doc@vger.kernel.org, 
-	bpf@vger.kernel.org, linux-kselftest@vger.kernel.org, android-mm@google.com, 
-	simona@ffwll.ch, corbet@lwn.net, eddyz87@gmail.com, yonghong.song@linux.dev, 
-	john.fastabend@gmail.com, kpsingh@kernel.org, sdf@fomichev.me, 
-	jolsa@kernel.org, mykolal@fb.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA3PR11MB9087:EE_
+X-MS-Office365-Filtering-Correlation-Id: e0b1117b-987c-4970-1067-08dd8bf85895
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?QnFtTFZudWVlVUJBNVZYMUFCMEN2Z1I5RnEyOExkbk1wLzB6Zk9KSmg4QWo1?=
+ =?utf-8?B?TXhEc0UwVFUzOGM1UWxJQ3RuWGpBVk5NNDFxOGdpWHpxNVVTcFF5QVNEUFZE?=
+ =?utf-8?B?Z3QyMUc2TXRYTWp6SDdzQkF6TWh2S3M4Z09tODg2Z0V6N1lvczFCVXRHemtl?=
+ =?utf-8?B?dkUrQnJUSGUwQUNvc2xNaEhkQjkvMlg0M3dWZEJtd0Y1VFZVZzY3WFp2M1pu?=
+ =?utf-8?B?VUJaYXNUWGhWYkk2SWJHWEI2eC93M2t1YmtMVGJsaWJZdzJKSllwbW1rSGsz?=
+ =?utf-8?B?bVM0T2FibDRhN2hUaXdzaVhueTVaQW9YRGxKWlZrQXI4SDRpTHFHREZFNWdu?=
+ =?utf-8?B?WlNRell4VDRmMDNoRnZxZTZmKzVEajdKcG9tZUVjam9ueWliYjVUcGE1aGh4?=
+ =?utf-8?B?NXN2Z0NzV00wcUNmaHVLVG83SEhWMFNRT1dZb0hEWkxFdzhIWnFIUFhLVS9O?=
+ =?utf-8?B?ZS9KeHBKOXlhM1RQLzdERko4aUdkSm9HMElPZmVOcVZEQ0dVWG4xT0VmNmZG?=
+ =?utf-8?B?NzE0YXQ0Wkd2a3phUUNkYmtwOGVEKzFOenNsRmg0bEdpbWQyUGJyNnhZMjlD?=
+ =?utf-8?B?RC80N3QrbG9nZjVWUktKMFZ2RHU2TU95aUxHL1FMb2J5RkdqaVBCQXFmZHBB?=
+ =?utf-8?B?eXNGVDRsSUh2Ujc5ckNndEtWejFRNlFVb3ZHYVV5T0RBbGpkYjlKYkRSZHFS?=
+ =?utf-8?B?dW5rVXpwOHNrVjBGU2RZV0hocExFZkpZcWovN1RSeTNBSjhScXRXSGhEaWJ1?=
+ =?utf-8?B?UjZLSVUvZDlTamtYY05DRTBoSUZVVWxDVlQ4a3A5R3dIRzRZZzFYU2RaNHpk?=
+ =?utf-8?B?aHRkdTIrSytUOWUrYmh3Y3hJa0pRWGJtT0VSWXdnZ0FicVNBSUdOalo2Nk85?=
+ =?utf-8?B?L0lFVy9mQlNWWWt5S2M1VXdrK3prdlNOYVdOeHZpcE02L2ZqTDdEdjNjcHRE?=
+ =?utf-8?B?UW04TkxzcFFBNUJ4RzI3WWI3L3BpUERGZXoxRzl4R0YyRndEWU5haEpjK3Ri?=
+ =?utf-8?B?MGZJMys4ViszL0FQd2RZbWtmZFg3QkhwTHc0YzJuZXFtR2dlQVJBVTdSZmN6?=
+ =?utf-8?B?VjF6NVAxWk8rdjdQWEMvUFJaTXZ0K3lCYnZhWFJtUEN2T0tuNHl2ck9ZOGZv?=
+ =?utf-8?B?M2tQclNJd0pONUQxRFIyOThTVHluTDJGdzFYajZFeVExV3lXU0NGSUlhcXlV?=
+ =?utf-8?B?SjlBUGJHNkNXRzczWVBnV3FHZmFlVzc0SHpiend0YUt4WHZwY3JlSGFWbEg1?=
+ =?utf-8?B?UGdXbGpQbFB6cGRFNzBQZVkxOWkzUjRPUWFXWEFJY2l5RmwvQWtnL0V2cHho?=
+ =?utf-8?B?eEpidUQ2azk4UCtuWjBTdTFwMktVWnlrcWVMS1JmdVZZZWZpZGdBSEN4Qmky?=
+ =?utf-8?B?bFdVV0V4T2s2RGpvTyt4VTBRYW5wdUJLTFJDaWxIMktRNHAvYVBvRWovR0Zj?=
+ =?utf-8?B?VnJ0VHM2M1FNc2xkZmdrWEc5YjV5dU5HK2dRcUg1alZwTFVLUlhkbVlySjhU?=
+ =?utf-8?B?aFI3eTNoQjlrUFI3RXhoTjI2UDJkM3JDNlNzVXR4U0h3TVp0R2RjRE9xTE10?=
+ =?utf-8?B?UzhKU1BEUThaZ1J3MWJGMHpNTnBSR3crMWpTeW53K2lnL1Q5QnlXR0FjN0Q4?=
+ =?utf-8?B?Vnk2anpoRW9hOHFlUE5SRitWcDcyVmZuYUluaVVYQTk4Z296M3FRcXBzUjNx?=
+ =?utf-8?B?VHZrWVJ5QkY1ZVlmKzI3VU1BbDNHWHN4M2F5UjhGWG1Ib0oyMWVaaDluZU9P?=
+ =?utf-8?B?cEw3MXFwbUNDTURwUjBUdEhSaWVmM0haWFpSS1VhWEFxeTVwcFczc3dqOHJR?=
+ =?utf-8?B?VFJCV3BzemwxVWRPMzlObytZckZiRnVMbzhPd3N2QUR3c0hpZkxHTlBTcmd2?=
+ =?utf-8?B?MXFGZ29SZG50M0g4WWdCaW5qVU1lbml6TDJPVTZreHBjQ2lJRm4zSzE3cXBE?=
+ =?utf-8?Q?KblL/ISGyP4=3D?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?a0hOZzJqN1cycHY1SS9XSVJqZVdSQ3lnd0RXQVB2VkZWMnZIM3NtZUxmcnA5?=
+ =?utf-8?B?V0tEZmM5NDJITmF2U3A0NWtuODNzTTlFWGM3MnI4T1hYRW9nTXQvaEFQUzBa?=
+ =?utf-8?B?L1hmeEZ2NlNPOFVaa1daZHF1bHo1S0RYY3JadXlTeE5NcXlVTzNpY3lUZXVw?=
+ =?utf-8?B?KzFMdG0vaHE2VlB2N09HWFgxVEhQMmllejJiWFhuaStHRXU0NXlmRkNIbE15?=
+ =?utf-8?B?ZXFONXdERGZJOFArL0QxRDNmZFBZbnNwbXM1aXhEZkF0RStTVW5nTEJkRVhO?=
+ =?utf-8?B?aktwZkRqSnpaMXlOMVBSMm9OMngyVWt0N2xBVVJ2R1FiMUZCN0owZy9IVVhI?=
+ =?utf-8?B?YVcyVXBWTzJENXJrY01CSjlBWUFWcEJrQlh6dlJvYUZZaStXV3hUczVtV2Rj?=
+ =?utf-8?B?VDAxdzdWdXFsZ3dBRUxwcmhlUXBxWG85V0NUc1lYd09TY0Y3SUYyTDZYL25F?=
+ =?utf-8?B?cGw2RUpYdTdEaGppWWNWTUt6TjJUOG5kUHVQN25WMzJoUVVKMmN2V2xDc1ZD?=
+ =?utf-8?B?N1Z1M25xUW04V3pZajFIekNnSVN5MnpVdWFmbWFzLzYxSTRZd214VjBmK0ow?=
+ =?utf-8?B?QXJZZTZiMGFneXMvbHFqNkJIR0VwU212dU9JcjFsd203dTZ1MDFHWkoyL1JX?=
+ =?utf-8?B?Nm5kSmt2NEJobG5jQkJKdkZWd3BzbEZnTTNlQ0JyTEt0QXZyZEtQcjNwZno1?=
+ =?utf-8?B?Ukd5SDNZUVFMTEhPQ2ZNeE5lQThPNFMvMzZZS3dWK0wyZGdpR016VG9Va2RX?=
+ =?utf-8?B?dkxucGowSDUwbzBxY1FFdTM2ZUNTR0YwbnlIZlZzN2c5Kys5Y2sxcWR6MHNM?=
+ =?utf-8?B?ZXV2NkRmOUhJbXJPQk1jalZReUo0N0w5MVE0RVBubERZMHdhb1BuTVNmdEFx?=
+ =?utf-8?B?YzV5ZVBGUnMxMUZUbjZ0Y2taaFRlVjIzZnk3RDN1bGZkWHBUa2p2cUg1aFFT?=
+ =?utf-8?B?VlNrMWhldmlXeU45bVQrU24xeWdRaXVQVVF5R0ZiTUJ2Wm85cDA5TlpBcitv?=
+ =?utf-8?B?WnBIS1dyS213Mk5pWWp4cnhGMWdIeDhsZHlRNFZuci80cGJjYmRwY1o0UlRo?=
+ =?utf-8?B?SDkvenYwa1p2SGM4LzNZcVhqQi8zQ1UyN3JpVVFKTTE3aG4zc0RYd2FPMUtr?=
+ =?utf-8?B?K3h1SlgvSE9haTAxMklXdlBjNHFDTmFCMjFndG5MZVg5bWd4QTM4L1ZqK0l0?=
+ =?utf-8?B?ZUhNRGlScWtEcGZ1czRPOU1NYkNKRUl0eEl4U3A5Q00vQklVRXV5YXVVaG1W?=
+ =?utf-8?B?Um1GS2NIdTU1VHpPZ2ZvSTl2U2wwcGNzK2VkV3hZZ2wrUXNMQWM3eDA2ZmJY?=
+ =?utf-8?B?cW1JTzdzK2tvdHI5RXhjTTk0NmRXc0JEYlIvMzdnWjAxMUFFVHRoaEZTUFox?=
+ =?utf-8?B?ZEpja1Q3dmk2U1Bpd0UreXByUVpJbTZwWFRCT1lGbEl6bWNsb1dQTm9PbVdD?=
+ =?utf-8?B?bkMzT3ZHUHhDQjczMnV4QmtjM2daU2JTdlgzMFVHcW9DRWhod2ZINFFGMzN5?=
+ =?utf-8?B?cDdyOXlNRVBiZ3NBWU1HcHM2QUJEdkZEMHJWQlkyOFpPQThRK3A2NytvSGhN?=
+ =?utf-8?B?MHRCSksvTlJ5Tzk4YzJsY1dmTFg2cWZQV1k2V3R1ZFEyYXg3UXF5ZUZBOXg2?=
+ =?utf-8?B?ZXRFaGR4bFIyeUZNOVEycEZodzdXVVRudVk2cmppUGp4YmlLeG12WG41aFEr?=
+ =?utf-8?B?VEgxTzY3MXZ6Q3lMbmpqczZKMVdNOFBMZzh3dGovbTZmbzdFcGR4ZGxvZVJp?=
+ =?utf-8?B?QXoxZ05nOUQ1L0huaEQyL3FHTnNESzI5M0FOVUYzY3ZpMCtpdmZzNGFwangx?=
+ =?utf-8?B?bFRCOS93RWlBWEtKSVFBbW1NUkhvNGQwRndONmJEZGRLcjBHWXVnaG1nQ2pl?=
+ =?utf-8?B?MndSTkV6eFV4TUFONHB2TzJ1VzhsM1JhcjU1dktnZkdFSVlDb2dNK2lOcll3?=
+ =?utf-8?B?czVPbFZoQXdZR2VhYjkwUkJqWnR3SXg5MmROUDdpODNaZ2ZRZW9kdnk5ejFj?=
+ =?utf-8?B?ajZNRkpGUGtTZHF4WG8vTmNSdHo4NDFMcjNnTTFoT2FqTDRJd0tQb09vd0wy?=
+ =?utf-8?B?RTBpdk52ejJELzdZYy8vQkpTWkVDcnBkeXRjQWhmbTJ4ZzZyME1KWllWZ1hn?=
+ =?utf-8?B?RUkzbUtzZU5Lb2JqVnVkaWg3WWk0QU1mOFZYbWswY1RLL0kyRTVJTGllYnpt?=
+ =?utf-8?B?Mmc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: e0b1117b-987c-4970-1067-08dd8bf85895
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 17:14:51.2605
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: pc+R+pHuEwFpCSWNNEb2SEKdSnP4QCN/m7CVGkHPejwhFIr8kwbzbwI43HGgmwT3njbnb4rS47flNcrp4igblItKjLCC9Ee7J849Z0PkGHE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9087
+X-OriginatorOrg: intel.com
 
-On Mon, May 5, 2025 at 9:56=E2=80=AFAM Christian K=C3=B6nig <christian.koen=
-ig@amd.com> wrote:
->
-> On 5/5/25 18:33, T.J. Mercier wrote:
-> > On Mon, May 5, 2025 at 4:17=E2=80=AFAM Christian K=C3=B6nig <christian.=
-koenig@amd.com> wrote:
-> >>
-> >> On 5/5/25 00:41, T.J. Mercier wrote:
-> >>> The dmabuf iterator traverses the list of all DMA buffers.
-> >>>
-> >>> DMA buffers are refcounted through their associated struct file. A
-> >>> reference is taken on each buffer as the list is iterated to ensure e=
-ach
-> >>> buffer persists for the duration of the bpf program execution without
-> >>> holding the list mutex.
-> >>>
-> >>> Signed-off-by: T.J. Mercier <tjmercier@google.com>
-> >>> ---
-> >>>  kernel/bpf/Makefile      |   3 +
-> >>>  kernel/bpf/dmabuf_iter.c | 134 +++++++++++++++++++++++++++++++++++++=
-++
-> >>>  2 files changed, 137 insertions(+)
-> >>>  create mode 100644 kernel/bpf/dmabuf_iter.c
-> >>>
-> >>> diff --git a/kernel/bpf/Makefile b/kernel/bpf/Makefile
-> >>> index 70502f038b92..3a335c50e6e3 100644
-> >>> --- a/kernel/bpf/Makefile
-> >>> +++ b/kernel/bpf/Makefile
-> >>> @@ -53,6 +53,9 @@ obj-$(CONFIG_BPF_SYSCALL) +=3D relo_core.o
-> >>>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_iter.o
-> >>>  obj-$(CONFIG_BPF_SYSCALL) +=3D btf_relocate.o
-> >>>  obj-$(CONFIG_BPF_SYSCALL) +=3D kmem_cache_iter.o
-> >>> +ifeq ($(CONFIG_DMA_SHARED_BUFFER),y)
-> >>> +obj-$(CONFIG_BPF_SYSCALL) +=3D dmabuf_iter.o
-> >>> +endif
-> >>>
-> >>>  CFLAGS_REMOVE_percpu_freelist.o =3D $(CC_FLAGS_FTRACE)
-> >>>  CFLAGS_REMOVE_bpf_lru_list.o =3D $(CC_FLAGS_FTRACE)
-> >>> diff --git a/kernel/bpf/dmabuf_iter.c b/kernel/bpf/dmabuf_iter.c
-> >>> new file mode 100644
-> >>> index 000000000000..968762e11f73
-> >>> --- /dev/null
-> >>> +++ b/kernel/bpf/dmabuf_iter.c
-> >>> @@ -0,0 +1,134 @@
-> >>> +// SPDX-License-Identifier: GPL-2.0-only
-> >>> +/* Copyright (c) 2025 Google LLC */
-> >>> +#include <linux/bpf.h>
-> >>> +#include <linux/btf_ids.h>
-> >>> +#include <linux/dma-buf.h>
-> >>> +#include <linux/kernel.h>
-> >>> +#include <linux/seq_file.h>
-> >>> +
-> >>> +BTF_ID_LIST_SINGLE(bpf_dmabuf_btf_id, struct, dma_buf)
-> >>> +DEFINE_BPF_ITER_FUNC(dmabuf, struct bpf_iter_meta *meta, struct dma_=
-buf *dmabuf)
-> >>> +
-> >>> +static struct dma_buf *get_next_dmabuf(struct dma_buf *dmabuf)
-> >>> +{
-> >>> +     struct dma_buf *ret =3D NULL;
-> >>> +
-> >>> +     /*
-> >>> +      * Look for the first/next buffer we can obtain a reference to.
-> >>> +      *
-> >>> +      * The list mutex does not protect a dmabuf's refcount, so it c=
-an be
-> >>> +      * zeroed while we are iterating. We cannot call get_dma_buf() =
-since the
-> >>> +      * caller of this program may not already own a reference to th=
-e buffer.
-> >>> +      */
-> >>> +     mutex_lock(&dmabuf_list_mutex);
-> >>> +     if (dmabuf) {
-> >>
-> >> That looks like you try to mangle the start and next functionality in =
-just one function.
-> >>
-> >> I would just inline that into the dmabuf_iter_seq_start() and dmabuf_i=
-ter_seq_next() functions.
-> >
-> > Primarily this is to share between the open coded iterator (next
-> > patch) and this normal iterator since I didn't want to duplicate the
-> > same list traversal code across both of them.
->
-> Ah, ok that makes a bit more sense. It would still be nicer if it's in tw=
-o functions since the logic doesn't share anything common except for taking=
- the lock as far as I can seee.
->
-> >>
-> >>
-> >>> +             dma_buf_put(dmabuf);
-> >>> +             list_for_each_entry_continue(dmabuf, &dmabuf_list, list=
-_node) {
-> >>
-> >> That you can put the DMA-buf and then still uses it in list_for_each_e=
-ntry_continue() only works because the mutex is locked in the destroy path.
-> >
-> > Yup, this was deliberate.
-> >>
-> >>
-> >> I strongly suggest to just put those two functions into drivers/dma-bu=
-f/dma-buf.c right next to the __dma_buf_debugfs_list_add() and __dma_buf_de=
-bugfs_list_del() functions.
-> >
-> > By two functions, you mean a get_first_dmabuf(void) and a
-> > get_next_dmabuf(struct dma_buf*)? To make the dma_buf_put() call a
-> > little less scary since all the mutex ops are right there?
->
-> Yes, exactly that's the idea. The comment above is good to have as well, =
-but it only works one way.
->
-> If somebody changes the DMA-buf code without looking at this here we are =
-busted.
+Hi Tony,
 
-Sounds good, will do. Thanks.
+On 5/5/25 10:01 AM, Luck, Tony wrote:
+>> The only aspect of "closids" that has been exposed to user space thus far
+>> is the "num_closids" and in user documentation a CLOSid has been linked to the
+>> number of control groups. That is the only constraint we need to think about
+>> here. I have repeatedly asked for IO alloc connection with CLOSIDs to not be exposed
+>> to user space (yet user documentation and messages to user space keeps doing so
+>> in this series). Support for IO alloc in this way is unique to AMD. We do not want
+>> resctrl to be constrained like this if another architecture needs to support
+>> some form of IO alloc and does so in a different way.
+> 
+> This isn't unique to AMD. Intel also ties CLOSid to control features associated with
+> I/O (likewise with RMIDs for monitoring).
+> 
+> See the Intel RDT architecture specification[1] chapter 4.4:
+> 
+> " Non-CPU agent RDT uses the RMID and CLOS tags in the same way that they are used for CPU agents."
 
->
-> Regards,
-> Christian.
->
-> >>
-> >>
-> >> Apart from those style suggestions looks good to me from the technical=
- side, but I'm not an expert for the BPF stuff.
-> >>
-> >> Regards,
-> >> Christian.
-> >
-> > Thanks for your comments and reviews!
-> >
-> >>> +                     if (file_ref_get(&dmabuf->file->f_ref)) {
-> >>> +                             ret =3D dmabuf;
-> >>> +                             break;
-> >>> +                     }
-> >>> +             }
-> >>> +     } else {
-> >>> +             list_for_each_entry(dmabuf, &dmabuf_list, list_node) {
-> >>> +                     if (file_ref_get(&dmabuf->file->f_ref)) {
-> >>> +                             ret =3D dmabuf;
-> >>> +                             break;
-> >>> +                     }
-> >>> +             }
-> >>> +     }
-> >>> +     mutex_unlock(&dmabuf_list_mutex);
-> >>> +     return ret;
-> >>> +}
-> >>> +
-> >>> +static void *dmabuf_iter_seq_start(struct seq_file *seq, loff_t *pos=
-)
-> >>> +{
-> >>> +     if (*pos)
-> >>> +             return NULL;
-> >>> +
-> >>> +     return get_next_dmabuf(NULL);
-> >>> +}
-> >>> +
-> >>> +static void *dmabuf_iter_seq_next(struct seq_file *seq, void *v, lof=
-f_t *pos)
-> >>> +{
-> >>> +     struct dma_buf *dmabuf =3D v;
-> >>> +
-> >>> +     ++*pos;
-> >>> +
-> >>> +     return get_next_dmabuf(dmabuf);
-> >>> +}
-> >>> +
-> >>> +struct bpf_iter__dmabuf {
-> >>> +     __bpf_md_ptr(struct bpf_iter_meta *, meta);
-> >>> +     __bpf_md_ptr(struct dma_buf *, dmabuf);
-> >>> +};
-> >>> +
-> >>> +static int __dmabuf_seq_show(struct seq_file *seq, void *v, bool in_=
-stop)
-> >>> +{
-> >>> +     struct bpf_iter_meta meta =3D {
-> >>> +             .seq =3D seq,
-> >>> +     };
-> >>> +     struct bpf_iter__dmabuf ctx =3D {
-> >>> +             .meta =3D &meta,
-> >>> +             .dmabuf =3D v,
-> >>> +     };
-> >>> +     struct bpf_prog *prog =3D bpf_iter_get_info(&meta, in_stop);
-> >>> +
-> >>> +     if (prog)
-> >>> +             return bpf_iter_run_prog(prog, &ctx);
-> >>> +
-> >>> +     return 0;
-> >>> +}
-> >>> +
-> >>> +static int dmabuf_iter_seq_show(struct seq_file *seq, void *v)
-> >>> +{
-> >>> +     return __dmabuf_seq_show(seq, v, false);
-> >>> +}
-> >>> +
-> >>> +static void dmabuf_iter_seq_stop(struct seq_file *seq, void *v)
-> >>> +{
-> >>> +     struct dma_buf *dmabuf =3D v;
-> >>> +
-> >>> +     if (dmabuf)
-> >>> +             dma_buf_put(dmabuf);
-> >>> +}
-> >>> +
-> >>> +static const struct seq_operations dmabuf_iter_seq_ops =3D {
-> >>> +     .start  =3D dmabuf_iter_seq_start,
-> >>> +     .next   =3D dmabuf_iter_seq_next,
-> >>> +     .stop   =3D dmabuf_iter_seq_stop,
-> >>> +     .show   =3D dmabuf_iter_seq_show,
-> >>> +};
-> >>> +
-> >>> +static void bpf_iter_dmabuf_show_fdinfo(const struct bpf_iter_aux_in=
-fo *aux,
-> >>> +                                     struct seq_file *seq)
-> >>> +{
-> >>> +     seq_puts(seq, "dmabuf iter\n");
-> >>> +}
-> >>> +
-> >>> +static const struct bpf_iter_seq_info dmabuf_iter_seq_info =3D {
-> >>> +     .seq_ops                =3D &dmabuf_iter_seq_ops,
-> >>> +     .init_seq_private       =3D NULL,
-> >>> +     .fini_seq_private       =3D NULL,
-> >>> +     .seq_priv_size          =3D 0,
-> >>> +};
-> >>> +
-> >>> +static struct bpf_iter_reg bpf_dmabuf_reg_info =3D {
-> >>> +     .target                 =3D "dmabuf",
-> >>> +     .feature                =3D BPF_ITER_RESCHED,
-> >>> +     .show_fdinfo            =3D bpf_iter_dmabuf_show_fdinfo,
-> >>> +     .ctx_arg_info_size      =3D 1,
-> >>> +     .ctx_arg_info           =3D {
-> >>> +             { offsetof(struct bpf_iter__dmabuf, dmabuf),
-> >>> +               PTR_TO_BTF_ID_OR_NULL },
-> >>> +     },
-> >>> +     .seq_info               =3D &dmabuf_iter_seq_info,
-> >>> +};
-> >>> +
-> >>> +static int __init dmabuf_iter_init(void)
-> >>> +{
-> >>> +     bpf_dmabuf_reg_info.ctx_arg_info[0].btf_id =3D bpf_dmabuf_btf_i=
-d[0];
-> >>> +     return bpf_iter_reg_target(&bpf_dmabuf_reg_info);
-> >>> +}
-> >>> +
-> >>> +late_initcall(dmabuf_iter_init);
-> >>
->
+As I understand AMD uses a single specific (the highest CLOSid supported by L3)
+CLOS that is then reserved for IO allocation. While both Intel and AMD technically
+"uses CLOSid", it is done differently, no? 
+
+Specifically, is this documentation introduced in patch #5 accurate for Intel?
++		The feature routes the I/O traffic via specific CLOSID reserved
++		for io_alloc feature. By configuring the CBM (Capacity Bit Mask)
++		for the CLOSID, users can control the L3 portions available for
++		I/0 traffic. The reserved CLOSID will be excluded for group creation.
+
+Reinette
