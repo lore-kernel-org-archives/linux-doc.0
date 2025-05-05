@@ -1,58 +1,46 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CBA430223C;
-	Mon,  5 May 2025 22:26:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88A3930B26C;
+	Mon,  5 May 2025 22:28:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484013; cv=none; b=edd9/n1m8Jyng/oZ2t7DszeaohsA6wxDB3P9aA1f43Q2Iq/SexyZaINx1RfNne+/n+b34rG0olsfu494zeHu0SIkwPfzD4B5di65+TVDxZ8EskBBAb+zPdI4i+LxwmUUtGVMshCaG6Wk2Kht4cRoX3YNB8Zaz7gllewOUlyRiy4=
+	t=1746484126; cv=none; b=Z/lulld8adRtM90x90pHK+JhQDRgb1N6uq/HG1KDBRAO6jNRM99s4RWYPyVL401g3Ky8PLmalR8uL3NVP9EBy8Ok+5S9hruB0ETI8t2su28DucGL+/KwX7cv4Iu2zHVHrUx1dk31SW1iS8txAY+XEEv9oa7+gxpEeaDPINcBzhU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484013; c=relaxed/simple;
-	bh=uV8i8xX3QK1VfInKsw8e5L4q6lQiJySUKPZUNex7KHQ=;
+	s=arc-20240116; t=1746484126; c=relaxed/simple;
+	bh=k8fjQ8fvYUj8nlHhVhoy9r1NsnxC8kD+CF6PdIpcaE8=;
 	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=jNURP/LDfwE2+GxuG20cvyX70zGAMY8WriuXVou/9y4nqUpIwkYoAnFu7+YJ72SDaKx4tFzdd4ebRJe98GiiaO4k0SlAi3O7RYqg58IfRpYM/wyKnQeA/RkaZs/3dPuJvNO5ZpduNBJtMuTrIU0lj8Gep4Ac4Iw9K/OdukbFtDk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=XpJzzTvh; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=ZK4eNzbFgofaRoyppDCt4jOrelk/3R3jf6EYFyGAWyMrkxnslomb4iVrnnNj065v/dEw1i2DLCLRvumkNPKtZxR3KoH4HOtOOMDvMTl3wQPKa6uzG996Ix9FB3bAsYGNneM3Fh0puzEaO7h/VJQqr5AXeKtsjJVdoXhhz8qbCFc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Eqailmkx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="XpJzzTvh"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9EE67C4CEE4;
-	Mon,  5 May 2025 22:26:50 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Eqailmkx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id C8E05C4CEE4;
+	Mon,  5 May 2025 22:28:44 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746484013;
-	bh=uV8i8xX3QK1VfInKsw8e5L4q6lQiJySUKPZUNex7KHQ=;
+	s=k20201202; t=1746484126;
+	bh=k8fjQ8fvYUj8nlHhVhoy9r1NsnxC8kD+CF6PdIpcaE8=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=XpJzzTvhhoOhgPQNSPxkPFUqULlK/figwUt4RAy4MMZKvn4X3Q6OECRKeYqY4+c6a
-	 lGcS76L2Z3+h7Vg0bRMx0S6sINFzzQiebeoqNi+XZtN6cgoCdpgHpLQAuKXyjJLytI
-	 k5Qz5ztw7C+G8BbJSNfSgy0QB6FJV9VguJEq+G7Igdf2BKtFPWM7pAhikEkMWvkCQQ
-	 Vi410MKNilyhcSsWPZ/AbrFQR2qyGTED1sv9YFnVLdTTfk3Y0WldLMBWEvr7/WeCvx
-	 7Qw0b15T7dgr+c1w+citmrECek9i4+cTr6YcAldCVZ3ViCT/S22KbsmyCHQKAiLUrD
-	 i1YWlbx4xir2g==
+	b=EqailmkxnWuuS43LxHa9IxX9p8mhZ45dzo92ogmo5r5H6fWvUVK2yxGt+DzxpO4qk
+	 WZmwHMeF9SRCuVQzqDPU+ADSwHJA4pWB2LtjJVCPu+uAes/tQ9uUsj/U3GeS+Vu9pp
+	 ti2cx9pz8BxuBYJFQqlm1vmgC62xA6duw/qDZNpgop59xnWSMFe0w3IE9Wgfyr1mkw
+	 5pe+PJmMrX+3CBWclS/zYBHcVecmgkkf2ZaA8I+RAk08TeHLFbSWDVNQMZEsI1PDn/
+	 VCZopI1JjPymg5n0a8MZJ6z+GdZTbmz6VYN9GAJRWIGezHoqRcgaxMuFWTkTAvKLXn
+	 q5LylQivki8ZA==
 From: Sasha Levin <sashal@kernel.org>
 To: linux-kernel@vger.kernel.org,
 	stable@vger.kernel.org
-Cc: Borislav Petkov <bp@alien8.de>,
-	Sean Christopherson <seanjc@google.com>,
+Cc: Subramanian Mohan <subramanian.mohan@intel.com>,
+	Rodolfo Giometti <giometti@enneenne.com>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
 	Sasha Levin <sashal@kernel.org>,
-	tglx@linutronix.de,
-	peterz@infradead.org,
-	jpoimboe@kernel.org,
 	corbet@lwn.net,
-	mingo@redhat.com,
-	dave.hansen@linux.intel.com,
-	x86@kernel.org,
-	pbonzini@redhat.com,
-	thomas.lendacky@amd.com,
-	mario.limonciello@amd.com,
-	perry.yuan@amd.com,
-	kai.huang@intel.com,
-	xiaoyao.li@intel.com,
-	tony.luck@intel.com,
-	xin3.li@intel.com,
-	kan.liang@linux.intel.com,
-	linux-doc@vger.kernel.org,
-	kvm@vger.kernel.org
-Subject: [PATCH AUTOSEL 6.14 317/642] x86/bugs: KVM: Add support for SRSO_MSR_FIX
-Date: Mon,  5 May 2025 18:08:53 -0400
-Message-Id: <20250505221419.2672473-317-sashal@kernel.org>
+	tglx@linutronix.de,
+	mingo@kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH AUTOSEL 6.14 359/642] pps: generators: replace copy of pps-gen info struct with const pointer
+Date: Mon,  5 May 2025 18:09:35 -0400
+Message-Id: <20250505221419.2672473-359-sashal@kernel.org>
 X-Mailer: git-send-email 2.39.5
 In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
 References: <20250505221419.2672473-1-sashal@kernel.org>
@@ -67,206 +55,206 @@ X-Patchwork-Hint: Ignore
 X-stable-base: Linux 6.14.5
 Content-Transfer-Encoding: 8bit
 
-From: Borislav Petkov <bp@alien8.de>
+From: Subramanian Mohan <subramanian.mohan@intel.com>
 
-[ Upstream commit 8442df2b49ed9bcd67833ad4f091d15ac91efd00 ]
+[ Upstream commit ac9c5170a18162d45c6edd1f0fa2d2b2504bc2cb ]
 
-Add support for
+Some PPS generator drivers may need to retrieve a pointer to their
+internal data while executing the PPS generator enable() method.
 
-  CPUID Fn8000_0021_EAX[31] (SRSO_MSR_FIX). If this bit is 1, it
-  indicates that software may use MSR BP_CFG[BpSpecReduce] to mitigate
-  SRSO.
+During the driver registration the pps_gen_device pointer is returned
+from the framework, and for that reason, there is difficulty in
+getting generator driver data back in the enable function. We won't be
+able to use container_of macro as it results in static assert, and we
+might end up in using static pointer.
 
-Enable BpSpecReduce to mitigate SRSO across guest/host boundaries.
+To solve the issue and to get back the generator driver data back, we
+should not copy the struct pps_gen_source_info within the struct
+pps_gen_device during the registration stage, but simply save the
+pointer of the driver one. In this manner, driver may get a pointer
+to their internal data as shown below:
 
-Switch back to enabling the bit when virtualization is enabled and to
-clear the bit when virtualization is disabled because using a MSR slot
-would clear the bit when the guest is exited and any training the guest
-has done, would potentially influence the host kernel when execution
-enters the kernel and hasn't VMRUN the guest yet.
+struct pps_gen_foo_data_s {
+        ...
+	struct pps_gen_source_info gen_info;
+	struct pps_gen_device *pps_gen;
+	...
+};
 
-More detail on the public thread in Link below.
+static int __init pps_gen_foo_init(void)
+{
+        struct pps_gen_foo_data_s *foo;
+	...
+        foo->pps_gen = pps_gen_register_source(&foo->gen_info);
+	...
+}
 
-Co-developed-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Sean Christopherson <seanjc@google.com>
-Signed-off-by: Borislav Petkov (AMD) <bp@alien8.de>
-Link: https://lore.kernel.org/r/20241202120416.6054-1-bp@kernel.org
+Then, in the enable() method, we can retrieve the pointer to the main
+struct by using the code below:
+
+static int pps_gen_foo_enable(struct pps_gen_device *pps_gen, bool enable)
+{
+        struct pps_gen_foo_data_s *foo = container_of(pps_gen->info,
+						struct pps_gen_foo_data_s, gen_info);
+        ...
+}
+
+Signed-off-by: Rodolfo Giometti <giometti@enneenne.com>
+Tested-by: Subramanian Mohan <subramanian.mohan@intel.com>
+Suggested-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Signed-off-by: Subramanian Mohan <subramanian.mohan@intel.com>
+Link: https://lore.kernel.org/r/20250219040618.70962-2-subramanian.mohan@intel.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- Documentation/admin-guide/hw-vuln/srso.rst | 13 ++++++++++++
- arch/x86/include/asm/cpufeatures.h         |  4 ++++
- arch/x86/include/asm/msr-index.h           |  1 +
- arch/x86/kernel/cpu/bugs.c                 | 24 ++++++++++++++++++----
- arch/x86/kvm/svm/svm.c                     |  6 ++++++
- arch/x86/lib/msr.c                         |  2 ++
- 6 files changed, 46 insertions(+), 4 deletions(-)
+ Documentation/driver-api/pps.rst       |  3 +--
+ drivers/pps/generators/pps_gen-dummy.c |  2 +-
+ drivers/pps/generators/pps_gen.c       | 14 +++++++-------
+ drivers/pps/generators/sysfs.c         |  6 +++---
+ include/linux/pps_gen_kernel.h         |  4 ++--
+ 5 files changed, 14 insertions(+), 15 deletions(-)
 
-diff --git a/Documentation/admin-guide/hw-vuln/srso.rst b/Documentation/admin-guide/hw-vuln/srso.rst
-index 2ad1c05b8c883..66af95251a3d1 100644
---- a/Documentation/admin-guide/hw-vuln/srso.rst
-+++ b/Documentation/admin-guide/hw-vuln/srso.rst
-@@ -104,7 +104,20 @@ The possible values in this file are:
+diff --git a/Documentation/driver-api/pps.rst b/Documentation/driver-api/pps.rst
+index 71ad04c82d6cf..04f1b88778fc5 100644
+--- a/Documentation/driver-api/pps.rst
++++ b/Documentation/driver-api/pps.rst
+@@ -206,8 +206,7 @@ To do so the class pps-gen has been added. PPS generators can be
+ registered in the kernel by defining a struct pps_gen_source_info as
+ follows::
  
-    (spec_rstack_overflow=ibpb-vmexit)
+-    static struct pps_gen_source_info pps_gen_dummy_info = {
+-            .name                   = "dummy",
++    static const struct pps_gen_source_info pps_gen_dummy_info = {
+             .use_system_clock       = true,
+             .get_time               = pps_gen_dummy_get_time,
+             .enable                 = pps_gen_dummy_enable,
+diff --git a/drivers/pps/generators/pps_gen-dummy.c b/drivers/pps/generators/pps_gen-dummy.c
+index b284c200cbe50..55de4aecf35ed 100644
+--- a/drivers/pps/generators/pps_gen-dummy.c
++++ b/drivers/pps/generators/pps_gen-dummy.c
+@@ -61,7 +61,7 @@ static int pps_gen_dummy_enable(struct pps_gen_device *pps_gen, bool enable)
+  * The PPS info struct
+  */
  
-+ * 'Mitigation: Reduced Speculation':
+-static struct pps_gen_source_info pps_gen_dummy_info = {
++static const struct pps_gen_source_info pps_gen_dummy_info = {
+ 	.use_system_clock	= true,
+ 	.get_time		= pps_gen_dummy_get_time,
+ 	.enable			= pps_gen_dummy_enable,
+diff --git a/drivers/pps/generators/pps_gen.c b/drivers/pps/generators/pps_gen.c
+index ca592f1736f46..5b8bb454913cd 100644
+--- a/drivers/pps/generators/pps_gen.c
++++ b/drivers/pps/generators/pps_gen.c
+@@ -66,7 +66,7 @@ static long pps_gen_cdev_ioctl(struct file *file,
+ 		if (ret)
+ 			return -EFAULT;
  
-+   This mitigation gets automatically enabled when the above one "IBPB on
-+   VMEXIT" has been selected and the CPU supports the BpSpecReduce bit.
-+
-+   It gets automatically enabled on machines which have the
-+   SRSO_USER_KERNEL_NO=1 CPUID bit. In that case, the code logic is to switch
-+   to the above =ibpb-vmexit mitigation because the user/kernel boundary is
-+   not affected anymore and thus "safe RET" is not needed.
-+
-+   After enabling the IBPB on VMEXIT mitigation option, the BpSpecReduce bit
-+   is detected (functionality present on all such machines) and that
-+   practically overrides IBPB on VMEXIT as it has a lot less performance
-+   impact and takes care of the guest->host attack vector too.
+-		ret = pps_gen->info.enable(pps_gen, status);
++		ret = pps_gen->info->enable(pps_gen, status);
+ 		if (ret)
+ 			return ret;
+ 		pps_gen->enabled = status;
+@@ -76,7 +76,7 @@ static long pps_gen_cdev_ioctl(struct file *file,
+ 	case PPS_GEN_USESYSTEMCLOCK:
+ 		dev_dbg(pps_gen->dev, "PPS_GEN_USESYSTEMCLOCK\n");
  
- In order to exploit vulnerability, an attacker needs to:
+-		ret = put_user(pps_gen->info.use_system_clock, uiuarg);
++		ret = put_user(pps_gen->info->use_system_clock, uiuarg);
+ 		if (ret)
+ 			return -EFAULT;
  
-diff --git a/arch/x86/include/asm/cpufeatures.h b/arch/x86/include/asm/cpufeatures.h
-index 508c0dad116bc..43653f2704c93 100644
---- a/arch/x86/include/asm/cpufeatures.h
-+++ b/arch/x86/include/asm/cpufeatures.h
-@@ -468,6 +468,10 @@
- #define X86_FEATURE_IBPB_BRTYPE		(20*32+28) /* MSR_PRED_CMD[IBPB] flushes all branch type predictions */
- #define X86_FEATURE_SRSO_NO		(20*32+29) /* CPU is not affected by SRSO */
- #define X86_FEATURE_SRSO_USER_KERNEL_NO	(20*32+30) /* CPU is not affected by SRSO across user/kernel boundaries */
-+#define X86_FEATURE_SRSO_BP_SPEC_REDUCE	(20*32+31) /*
-+						    * BP_CFG[BpSpecReduce] can be used to mitigate SRSO for VMs.
-+						    * (SRSO_MSR_FIX in the official doc).
-+						    */
+@@ -175,7 +175,7 @@ static int pps_gen_register_cdev(struct pps_gen_device *pps_gen)
+ 	devt = MKDEV(MAJOR(pps_gen_devt), pps_gen->id);
  
- /*
-  * Extended auxiliary flags: Linux defined - for features scattered in various
-diff --git a/arch/x86/include/asm/msr-index.h b/arch/x86/include/asm/msr-index.h
-index 72765b2fe0d87..d35519b337ba2 100644
---- a/arch/x86/include/asm/msr-index.h
-+++ b/arch/x86/include/asm/msr-index.h
-@@ -721,6 +721,7 @@
+ 	cdev_init(&pps_gen->cdev, &pps_gen_cdev_fops);
+-	pps_gen->cdev.owner = pps_gen->info.owner;
++	pps_gen->cdev.owner = pps_gen->info->owner;
  
- /* Zen4 */
- #define MSR_ZEN4_BP_CFG                 0xc001102e
-+#define MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT 4
- #define MSR_ZEN4_BP_CFG_SHARED_BTB_FIX_BIT 5
- 
- /* Fam 19h MSRs */
-diff --git a/arch/x86/kernel/cpu/bugs.c b/arch/x86/kernel/cpu/bugs.c
-index 4f9898836da13..fee115316dd3e 100644
---- a/arch/x86/kernel/cpu/bugs.c
-+++ b/arch/x86/kernel/cpu/bugs.c
-@@ -2526,6 +2526,7 @@ enum srso_mitigation {
- 	SRSO_MITIGATION_SAFE_RET,
- 	SRSO_MITIGATION_IBPB,
- 	SRSO_MITIGATION_IBPB_ON_VMEXIT,
-+	SRSO_MITIGATION_BP_SPEC_REDUCE,
- };
- 
- enum srso_mitigation_cmd {
-@@ -2543,7 +2544,8 @@ static const char * const srso_strings[] = {
- 	[SRSO_MITIGATION_MICROCODE]		= "Vulnerable: Microcode, no safe RET",
- 	[SRSO_MITIGATION_SAFE_RET]		= "Mitigation: Safe RET",
- 	[SRSO_MITIGATION_IBPB]			= "Mitigation: IBPB",
--	[SRSO_MITIGATION_IBPB_ON_VMEXIT]	= "Mitigation: IBPB on VMEXIT only"
-+	[SRSO_MITIGATION_IBPB_ON_VMEXIT]	= "Mitigation: IBPB on VMEXIT only",
-+	[SRSO_MITIGATION_BP_SPEC_REDUCE]	= "Mitigation: Reduced Speculation"
- };
- 
- static enum srso_mitigation srso_mitigation __ro_after_init = SRSO_MITIGATION_NONE;
-@@ -2582,7 +2584,7 @@ static void __init srso_select_mitigation(void)
- 	    srso_cmd == SRSO_CMD_OFF) {
- 		if (boot_cpu_has(X86_FEATURE_SBPB))
- 			x86_pred_cmd = PRED_CMD_SBPB;
--		return;
-+		goto out;
+ 	err = cdev_add(&pps_gen->cdev, devt, 1);
+ 	if (err) {
+@@ -183,8 +183,8 @@ static int pps_gen_register_cdev(struct pps_gen_device *pps_gen)
+ 				MAJOR(pps_gen_devt), pps_gen->id);
+ 		goto free_ida;
  	}
- 
- 	if (has_microcode) {
-@@ -2594,7 +2596,7 @@ static void __init srso_select_mitigation(void)
- 		 */
- 		if (boot_cpu_data.x86 < 0x19 && !cpu_smt_possible()) {
- 			setup_force_cpu_cap(X86_FEATURE_SRSO_NO);
--			return;
-+			goto out;
- 		}
- 
- 		if (retbleed_mitigation == RETBLEED_MITIGATION_IBPB) {
-@@ -2674,6 +2676,12 @@ static void __init srso_select_mitigation(void)
- 
- ibpb_on_vmexit:
- 	case SRSO_CMD_IBPB_ON_VMEXIT:
-+		if (boot_cpu_has(X86_FEATURE_SRSO_BP_SPEC_REDUCE)) {
-+			pr_notice("Reducing speculation to address VM/HV SRSO attack vector.\n");
-+			srso_mitigation = SRSO_MITIGATION_BP_SPEC_REDUCE;
-+			break;
-+		}
-+
- 		if (IS_ENABLED(CONFIG_MITIGATION_IBPB_ENTRY)) {
- 			if (has_microcode) {
- 				setup_force_cpu_cap(X86_FEATURE_IBPB_ON_VMEXIT);
-@@ -2695,7 +2703,15 @@ static void __init srso_select_mitigation(void)
- 	}
- 
- out:
--	pr_info("%s\n", srso_strings[srso_mitigation]);
-+	/*
-+	 * Clear the feature flag if this mitigation is not selected as that
-+	 * feature flag controls the BpSpecReduce MSR bit toggling in KVM.
-+	 */
-+	if (srso_mitigation != SRSO_MITIGATION_BP_SPEC_REDUCE)
-+		setup_clear_cpu_cap(X86_FEATURE_SRSO_BP_SPEC_REDUCE);
-+
-+	if (srso_mitigation != SRSO_MITIGATION_NONE)
-+		pr_info("%s\n", srso_strings[srso_mitigation]);
- }
- 
- #undef pr_fmt
-diff --git a/arch/x86/kvm/svm/svm.c b/arch/x86/kvm/svm/svm.c
-index e67de787fc714..0660b85883de4 100644
---- a/arch/x86/kvm/svm/svm.c
-+++ b/arch/x86/kvm/svm/svm.c
-@@ -607,6 +607,9 @@ static void svm_disable_virtualization_cpu(void)
- 	kvm_cpu_svm_disable();
- 
- 	amd_pmu_disable_virt();
-+
-+	if (cpu_feature_enabled(X86_FEATURE_SRSO_BP_SPEC_REDUCE))
-+		msr_clear_bit(MSR_ZEN4_BP_CFG, MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT);
- }
- 
- static int svm_enable_virtualization_cpu(void)
-@@ -684,6 +687,9 @@ static int svm_enable_virtualization_cpu(void)
- 		rdmsr(MSR_TSC_AUX, sev_es_host_save_area(sd)->tsc_aux, msr_hi);
- 	}
- 
-+	if (cpu_feature_enabled(X86_FEATURE_SRSO_BP_SPEC_REDUCE))
-+		msr_set_bit(MSR_ZEN4_BP_CFG, MSR_ZEN4_BP_CFG_BP_SPEC_REDUCE_BIT);
-+
- 	return 0;
- }
- 
-diff --git a/arch/x86/lib/msr.c b/arch/x86/lib/msr.c
-index 4bf4fad5b148e..5a18ecc04a6c3 100644
---- a/arch/x86/lib/msr.c
-+++ b/arch/x86/lib/msr.c
-@@ -103,6 +103,7 @@ int msr_set_bit(u32 msr, u8 bit)
+-	pps_gen->dev = device_create(pps_gen_class, pps_gen->info.parent, devt,
+-					pps_gen, "pps-gen%d", pps_gen->id);
++	pps_gen->dev = device_create(pps_gen_class, pps_gen->info->parent, devt,
++				     pps_gen, "pps-gen%d", pps_gen->id);
+ 	if (IS_ERR(pps_gen->dev)) {
+ 		err = PTR_ERR(pps_gen->dev);
+ 		goto del_cdev;
+@@ -225,7 +225,7 @@ static void pps_gen_unregister_cdev(struct pps_gen_device *pps_gen)
+  * Return: the PPS generator device in case of success, and ERR_PTR(errno)
+  *	 otherwise.
+  */
+-struct pps_gen_device *pps_gen_register_source(struct pps_gen_source_info *info)
++struct pps_gen_device *pps_gen_register_source(const struct pps_gen_source_info *info)
  {
- 	return __flip_bit(msr, bit, true);
- }
-+EXPORT_SYMBOL_GPL(msr_set_bit);
+ 	struct pps_gen_device *pps_gen;
+ 	int err;
+@@ -235,7 +235,7 @@ struct pps_gen_device *pps_gen_register_source(struct pps_gen_source_info *info)
+ 		err = -ENOMEM;
+ 		goto pps_gen_register_source_exit;
+ 	}
+-	pps_gen->info = *info;
++	pps_gen->info = info;
+ 	pps_gen->enabled = false;
  
- /**
-  * msr_clear_bit - Clear @bit in a MSR @msr.
-@@ -118,6 +119,7 @@ int msr_clear_bit(u32 msr, u8 bit)
+ 	init_waitqueue_head(&pps_gen->queue);
+diff --git a/drivers/pps/generators/sysfs.c b/drivers/pps/generators/sysfs.c
+index faf8b1c6d2026..6d6bc0006feae 100644
+--- a/drivers/pps/generators/sysfs.c
++++ b/drivers/pps/generators/sysfs.c
+@@ -19,7 +19,7 @@ static ssize_t system_show(struct device *dev, struct device_attribute *attr,
  {
- 	return __flip_bit(msr, bit, false);
- }
-+EXPORT_SYMBOL_GPL(msr_clear_bit);
+ 	struct pps_gen_device *pps_gen = dev_get_drvdata(dev);
  
- #ifdef CONFIG_TRACEPOINTS
- void do_trace_write_msr(unsigned int msr, u64 val, int failed)
+-	return sysfs_emit(buf, "%d\n", pps_gen->info.use_system_clock);
++	return sysfs_emit(buf, "%d\n", pps_gen->info->use_system_clock);
+ }
+ static DEVICE_ATTR_RO(system);
+ 
+@@ -30,7 +30,7 @@ static ssize_t time_show(struct device *dev, struct device_attribute *attr,
+ 	struct timespec64 time;
+ 	int ret;
+ 
+-	ret = pps_gen->info.get_time(pps_gen, &time);
++	ret = pps_gen->info->get_time(pps_gen, &time);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -49,7 +49,7 @@ static ssize_t enable_store(struct device *dev, struct device_attribute *attr,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = pps_gen->info.enable(pps_gen, status);
++	ret = pps_gen->info->enable(pps_gen, status);
+ 	if (ret)
+ 		return ret;
+ 	pps_gen->enabled = status;
+diff --git a/include/linux/pps_gen_kernel.h b/include/linux/pps_gen_kernel.h
+index 022ea0ac44402..6214c8aa2e020 100644
+--- a/include/linux/pps_gen_kernel.h
++++ b/include/linux/pps_gen_kernel.h
+@@ -43,7 +43,7 @@ struct pps_gen_source_info {
+ 
+ /* The main struct */
+ struct pps_gen_device {
+-	struct pps_gen_source_info info;	/* PSS generator info */
++	const struct pps_gen_source_info *info;	/* PSS generator info */
+ 	bool enabled;				/* PSS generator status */
+ 
+ 	unsigned int event;
+@@ -70,7 +70,7 @@ extern const struct attribute_group *pps_gen_groups[];
+  */
+ 
+ extern struct pps_gen_device *pps_gen_register_source(
+-				struct pps_gen_source_info *info);
++				const struct pps_gen_source_info *info);
+ extern void pps_gen_unregister_source(struct pps_gen_device *pps_gen);
+ extern void pps_gen_event(struct pps_gen_device *pps_gen,
+ 				unsigned int event, void *data);
 -- 
 2.39.5
 
