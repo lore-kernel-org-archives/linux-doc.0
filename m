@@ -1,311 +1,325 @@
-Received: from NAM04-BN8-obe.outbound.protection.outlook.com (mail-bn8nam04on2064.outbound.protection.outlook.com [40.107.100.64])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CFEAC3103E1;
-	Mon,  5 May 2025 22:29:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.100.64
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746484188; cv=fail; b=Neg9TVOpg9NcMYS7/Afy/1yMP7UfJDwmcWtAXTNx4+dFBf13MFGk8A0cc3ppWt+cR7JxhjQPRVEg214wQSMEruq5pe/rHwxNS8Qc6oU+Smjsk7bWQYJ120S34lS1DY/jJHZHI/of2iix4Nl4sE9eUioRi/cFq84V/kWAZU08o44=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746484188; c=relaxed/simple;
-	bh=88AUQg/QHKXeLKNol3wN1QFzIQ53abuEhjJmtXqd3eQ=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=dDK4bkF966w/08WHa/bQmjruXVqFcEOZ5Nl5NY9vXuQlh3DxYjtXT4SgB1H0tsvII+p7lDYQ/cGNuPxAg+NR1KssQFhunT3aQyqF4ZXN9yYPLQUPuiNpoE+u1f5P9rrQEvGtmISrZY8mJmFa2PKfspsg+5kZtMbFIY9YM7YxIDM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=unLajIyD; arc=fail smtp.client-ip=40.107.100.64
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D72BC3110FF;
+	Mon,  5 May 2025 22:30:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746484211; cv=none; b=qNx51jrYMpadFl1Cp3aEaHfJv5OgoND6HSOmstAC+4WWdncVNwdeA123akMmpRZIEo3bxiKROzelPouS9RVpgy/+zlmAM5glK7b6B5Adisr6YLEuXQhUoYBWFNo5jkqyODMkMExApdYz2cRi3D3QDwq1/EMRCnsiMDsTVvuITmU=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746484211; c=relaxed/simple;
+	bh=dgvPtjuGZ7q7w8L/PZmwMR4Hv/4bhzdIga04ZO5cMsM=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=tOhjUvgIWgy7NwZ0T2uytY3hLFqb8EK6BABLjMBycWFP/45F3sISmChjAuPO/aXUQtbI/KSTytx9kJgmn8JUd6rrVgXnN7I9gREE+OWf6uCrzi8yl46zFRch/oW/cy4akhuVXV2sXRrh/lyGxuFV5pV5RUUcHGts8urMajF2pPQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=QFdiQ1tm; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="unLajIyD"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xdYLOoP9UMQr2aVpaolPIONq8n7vkLmiG1KiyUfak1yhUCVQYSMt2PAuE3wHbfLh/WogYdAXI7OIsocGOhWQGZ/s6FHE78hCkqiBdSSFMmxvyrUDY+1NdgdsLUWMWOJoNbeKlAMC3eGEYPdOsslYyxAUqPMZJxTpDcy0kKsxxfAD7iJUugOOTt3OF4T39itAckNp4/l8anncY1sESxrATE+tMjUXis/MMneFKJQZRN3ceqduf4ryZQDfugqZn8EDmGFcMlUIPecrk2yy9eF42Z4w2pvTKNLIJcXTlnJUZsgQsR1GX+Mz0qJTnlrLJ1mjwbyMwJHWTvg1qZV7kUOrqw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i4ACBuv+OGmjqzEZVZBKa3p47byOR0fjHAH0Gx+gbFA=;
- b=gWkLw/Z/f2NF5En0K5788NsxN6cldsYktbZ1GbwunJVV47p/1XICVbnGUJtuyWbZcdAhLoNBqh7rwhU/VgzDXlTfp6vzMFpMKknANmSbm+AzqQV7RwEE9uSSy3qUI4mqcCpmGvWDlQRZDB5LZ4ztE32OfUyAUsIIwnlmLtTCmR7KAMfVL0Ze/rmgWn5C6I6bkbUkmIXkil13EcDttwh25Msl29DcH+w0DOKkB/S7MNdzFTLwSNyBsTpcwfaH58KrQ7pS1zw6P/67twKzpbEIYJiEQ6V5gTYoSqkl1yu668w2aMALSKIicvv/18T5GIH+orlbw5zi57SSPdMINDqW9Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i4ACBuv+OGmjqzEZVZBKa3p47byOR0fjHAH0Gx+gbFA=;
- b=unLajIyDy4qlEFwK9sqC3xbUoMBXTsoJgQeX8Lhua+fN+r2pjEQv9FFvrhvwmmZFrzuwKgCF5sOBTbjzkIkGdho66RjkJATVN0U7UxYy3GO9GoYm0dOsgkB3Qlgog3F5bqRd7qFeajcbiUxsOvA7HeHl2/ebFEDnRjU6NDng8qk=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com (2603:10b6:303:2c::19)
- by PH8PR12MB7325.namprd12.prod.outlook.com (2603:10b6:510:217::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Mon, 5 May
- 2025 22:29:44 +0000
-Received: from MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87]) by MW3PR12MB4553.namprd12.prod.outlook.com
- ([fe80::b0ef:2936:fec1:3a87%7]) with mapi id 15.20.8699.019; Mon, 5 May 2025
- 22:29:44 +0000
-Message-ID: <1f6e891b-fcd9-48e5-bf85-7e30ec66374b@amd.com>
-Date: Mon, 5 May 2025 17:29:39 -0500
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 0/8] Support L3 Smart Data Cache Injection Allocation
- Enforcement (SDCIAE)
-To: Reinette Chatre <reinette.chatre@intel.com>, babu.moger@amd.com,
- tony.luck@intel.com, tglx@linutronix.de, mingo@redhat.com, bp@alien8.de,
- dave.hansen@linux.intel.com
-Cc: corbet@lwn.net, x86@kernel.org, hpa@zytor.com, akpm@linux-foundation.org,
- paulmck@kernel.org, rostedt@goodmis.org, thuth@redhat.com, ardb@kernel.org,
- gregkh@linuxfoundation.org, thomas.lendacky@amd.com,
- mario.limonciello@amd.com, perry.yuan@amd.com, seanjc@google.com,
- kai.huang@intel.com, xiaoyao.li@intel.com, kan.liang@linux.intel.com,
- riel@surriel.com, xin3.li@intel.com, xin@zytor.com, sohil.mehta@intel.com,
- ak@linux.intel.com, ebiggers@google.com, andrew.cooper3@citrix.com,
- gautham.shenoy@amd.com, Xiaojian.Du@amd.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, james.morse@arm.com, fenghuay@nvidia.com,
- peternewman@google.com
-References: <cover.1745275431.git.babu.moger@amd.com>
- <c00c00ea-a9ac-4c56-961c-dc5bf633476b@intel.com>
- <3e0e9b68-2ebe-40f8-a840-1ad7cd3f56e0@amd.com>
- <3ca0a5dc-ad9c-4767-9011-b79d986e1e8d@intel.com>
- <b6521b41-d94a-4e69-af69-ed7657569f7c@amd.com>
- <c79d7c1c-e7a0-43bd-821a-947c910cd04d@intel.com>
-Content-Language: en-US
-From: "Moger, Babu" <bmoger@amd.com>
-In-Reply-To: <c79d7c1c-e7a0-43bd-821a-947c910cd04d@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SN7PR18CA0022.namprd18.prod.outlook.com
- (2603:10b6:806:f3::21) To MW3PR12MB4553.namprd12.prod.outlook.com
- (2603:10b6:303:2c::19)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="QFdiQ1tm"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DCF53C4CEED;
+	Mon,  5 May 2025 22:30:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746484210;
+	bh=dgvPtjuGZ7q7w8L/PZmwMR4Hv/4bhzdIga04ZO5cMsM=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=QFdiQ1tmrb1yx8d8rRyOKeGD7quOlrJe9YCNMaq3GBkwzMC+oEVFmnvNRpcvkMrkg
+	 A621WfjLPySWv4HexrOcj8xRPNYKcqM7F7hkXH3amDMO2QcpcjHgwYAvM/1EeCxwm7
+	 8ZFEn+qZT7zEte7pKeBRZ2uNQmx9v891PzOYlMEnFYAfzfMwNlV2Obx1BSqAMP2gLQ
+	 mWZCXj50fnw4NcX7kOYj+okH5jO7EdHNRIGkVSZr3pwAHIf3KcylJlJCej5MZVf8BK
+	 +ZkC3vrx2s4HJzjHBjRMwjsi+gKBLIqxomuloXuGrqW0hlwywdXxaFkSWUJ3bWSvFQ
+	 /fkq3BK5Yqnig==
+From: Sasha Levin <sashal@kernel.org>
+To: linux-kernel@vger.kernel.org,
+	stable@vger.kernel.org
+Cc: =?UTF-8?q?Alexis=20Lothor=C3=A9?= <alexis.lothore@bootlin.com>,
+	Jiri Slaby <jirislaby@kernel.org>,
+	Richard Genoud <richard.genoud@bootlin.com>,
+	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+	Sasha Levin <sashal@kernel.org>,
+	corbet@lwn.net,
+	nicolas.ferre@microchip.com,
+	alexandre.belloni@bootlin.com,
+	claudiu.beznea@tuxon.dev,
+	shawnguo@kernel.org,
+	mcoquelin.stm32@gmail.com,
+	alexandre.torgue@foss.st.com,
+	john.ogness@linutronix.de,
+	pmladek@suse.com,
+	arnd@arndb.de,
+	andriy.shevchenko@linux.intel.com,
+	namcao@linutronix.de,
+	benjamin.larsson@genexis.eu,
+	schnelle@linux.ibm.com,
+	esben@geanix.com,
+	linux@rasmusvillemoes.dk,
+	marex@denx.de,
+	stefan.eichenberger@toradex.com,
+	matthias.schiffer@ew.tq-group.com,
+	jeff.johnson@oss.qualcomm.com,
+	linux@treblig.org,
+	geert+renesas@glider.be,
+	wsa+renesas@sang-engineering.com,
+	prabhakar.mahadev-lad.rj@bp.renesas.com,
+	cheick.traore@foss.st.com,
+	u.kleine-koenig@baylibre.com,
+	ben.wolsieffer@hefring.com,
+	linux-serial@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org,
+	imx@lists.linux.dev,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: [PATCH AUTOSEL 6.14 390/642] serial: mctrl_gpio: split disable_ms into sync and no_sync APIs
+Date: Mon,  5 May 2025 18:10:06 -0400
+Message-Id: <20250505221419.2672473-390-sashal@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250505221419.2672473-1-sashal@kernel.org>
+References: <20250505221419.2672473-1-sashal@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MW3PR12MB4553:EE_|PH8PR12MB7325:EE_
-X-MS-Office365-Filtering-Correlation-Id: a95f231c-4a6a-4a6b-5c99-08dd8c245578
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|7416014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?djVNUDhWVmhiUU5kNnRJY3lodXp4VENpdGJZcmNEVXZRdzhKMGJGWnZuR1pY?=
- =?utf-8?B?dTBnWG1UUzZqZnA2UVVZamNxaXh3Um8ybmFwbUwxQTNXakpRWG8zWkVucVow?=
- =?utf-8?B?NHM4c281QmpaSEZYaHV4a2kwRVFrd2pnN3pYMURCZ0FyN0d0NjgrYkZxTjhV?=
- =?utf-8?B?U21XK2JsUU5RNmJZcUtxdUViS3kwUTZrTUl6QWZCcnpQVFpiRHZjTDYwaisv?=
- =?utf-8?B?Ri9IUnluTVgwSUxWbWpJUXlvTVAzSExodWxQSytjV3lnSTQxTzVpOExPbzgv?=
- =?utf-8?B?RGlXRUQxNzk1eE9aWERWZ3dTbmFJSWZtTi9jODBWQWFPM3FEemRoMnp6Ykl1?=
- =?utf-8?B?L0JUWGJEZ1NqVVJlSnhid1l5cnBXaW0vd3JMV1pzaFo1N095VHVkUEs5QjIr?=
- =?utf-8?B?SElqQ1lXRzBVUy9YYUhmMkthd2pmSzdjQjBCWU1GRjVJMGZ5MUVuYjVsREla?=
- =?utf-8?B?KzJQcERFTStJOWcrZGU4NjF6NDNpQ09SK0NlS1J6U2xrdlpaN3AwOXIweTE4?=
- =?utf-8?B?dW5RQURCTlR0RHhCaUs1TjRQYjRiSzl2d1hBQWl4RTUyTVVKWERSZlN6elZ3?=
- =?utf-8?B?WnRBTnllSVo1YmoxNDhvdUpIVjNpRmg5SVRmblFiaFEveUJha0NXWHR6YnJ0?=
- =?utf-8?B?TzRrSkNWUGkxTU8vRjlEWEZrS2VibUR5S0p2d0swZGlSKzQxRGx3WXYvdXdE?=
- =?utf-8?B?c3VMMTZqSFRUVm5PQzlJRnRzSG5OR3h3Qk01R3Bxa01XRHhBRVowY2czN3hy?=
- =?utf-8?B?SXpDeXJKZWIzNGdpTkJESVhyWDZMemRwYXVIaWRPU0MyVy9nZXI2RERZamwr?=
- =?utf-8?B?dTN4VWFoUm1XS2tEYUVRdUUxRnZlNjdNcEJFVEZhZHoyRjNmeE9uNWpxdXNa?=
- =?utf-8?B?cm54SWN6UGs0ZHdZa0ZrdnM0VVFnaXNnNGZhR01MYzhpcEZYbWMzMkZweEdh?=
- =?utf-8?B?VDNWSnFwZWx2TnFGVmt6QllKcDFyUWdHcFJsQitCang3bW1Uc2dlVjlqMVpF?=
- =?utf-8?B?WmtzakpKQWdickJIUGlQUkFZaWhxZTcyV0VzN2djMGdCUHpjVlhpWktMVmNy?=
- =?utf-8?B?RE5oeVF4VThzWWRUYXNpQmZPb3pZVkJjdnNxNW43U01xWFpQTjlnNURuSEZk?=
- =?utf-8?B?Vi9VTXdmcDNncmJVek5zdFNpSXFhUXc5S3BRd3g5M2N0dzZkMDRpYXQ0TEdu?=
- =?utf-8?B?eGFJbHh0Rko3aFRPcEJFaG1xYjA2TElnb1l4MTBtTWRNNGkyc0JIdy9Odml4?=
- =?utf-8?B?K0tvU3hnVDRwVmVwajN4R2wwTG8zTDFBUEdTWVZ5UUpRVzJIdWh2enUzTllZ?=
- =?utf-8?B?YW9CWFJUSlR6Szk2WExnOFNzZGNwSWN6L2c0WDROaUs1TWxURUVrMC83V2ov?=
- =?utf-8?B?bFJaUEhWZGRpT3ZPSElyTE9sWkpNMW5yM21oRldSMUZmU29IQWhhNzh1YVph?=
- =?utf-8?B?dVNBT3pWanAzVytxNGdVZHJCOXJBaHdubWxHRjNHcjVpOXNRTFBFQ1BvSGpZ?=
- =?utf-8?B?L3VEUFBIOG12TUM4TVk5NUNEeWpLSkpsZ3laZG50MW8rOWZVak8raDRxdjVw?=
- =?utf-8?B?RXRmQ3JIWC9HV3hCUEdxNTVlZGR4ajZLcXlkWG5KellUaWV6MlREVjIvMEpt?=
- =?utf-8?B?YWc5ODg0MVpwUUdCVTFWZGppYU02YXBta2xYczVRTXZDYXl1YzhFcG1sWXl5?=
- =?utf-8?B?WnBLbkRjWWM4aXFRY2lQbVN4RXhlRUoyRituNDVyN2hVYmdjVUJDSXpOZWdD?=
- =?utf-8?B?Rnh1OTZyWTY5OWpkem0ra1BxbHhUTEZNWHl4ZHRLVXhLYjNkNHB2dWE0aEZQ?=
- =?utf-8?B?MFNFMVAvTyttL3U4V05rVVBIUi9LYm9UK05iS0F5V2pkUTVWRWFtTWVKQXVo?=
- =?utf-8?B?SFd1ejZlN0k3cmx1OUZNQVZKVGg1V2dTR0liZDdJWGtCM1pjbWptZnhJaWV5?=
- =?utf-8?Q?O9i698WozuE=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW3PR12MB4553.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(7416014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?aFNnSEk3SktENDY4ckZUNzhVc2VhRThUVTBETE8zdnFiWFE0cFo4YnRJcVFC?=
- =?utf-8?B?blVCb2I5WXhVb21sZmxBb0phWWRqK1MyWmMya24rTTFERG9GS1ZLTXY0MXdW?=
- =?utf-8?B?UVhzRTlGbUhldDN5SHQxRmpEVjBDcmpGVlFrWmRZQVQ4OHFwWmZZdjA1elJr?=
- =?utf-8?B?dVEwVjFuc0Q1dFZXclNudys2Zk5PbDJycGFmT2dOTVVEQlZ5YXBaaVFXTjN2?=
- =?utf-8?B?ZzI2RHdwTnU3dDJ2MzBrc1p1VWNvbnNqR2pZT05sWk1PWTMwSER0aU9TWFV4?=
- =?utf-8?B?cHluUG0xMHphalREcTJIcEZsUzRkNm01UEllMUdUaWE4b3lqaFoyc0tneEVX?=
- =?utf-8?B?Mzhxck9YZXZqWmo5TlJnZmpQTWZiUXJHN2xCaXA4Qmc3NzVhZFJ1M0Nrb3Va?=
- =?utf-8?B?TGtRQUVJT3lPSm1zbkk2cVVTemFRTTJiKzF2Y0hLNG5mNW9zbDBGY3BHSE1V?=
- =?utf-8?B?eHAxaWRDcjcxZ3VWbE9scmtmeXVDL2NkNG9rbUM3NmRtUjVPZkFWRW4wdzZu?=
- =?utf-8?B?M0tPZTI4YW9jeUJSblpCOTVyOTNBc1BuY0FMZ1pMcXFtNnlPMkdqSklLVm85?=
- =?utf-8?B?R0p0RjNzUnpKTWJyV1lJOS9JR2piT2hkeW1JOTlkb1JIQ1Nka3kxUkJCd0Yw?=
- =?utf-8?B?NmdKL2FVdUxMSFhJcEpQRkhqMVBTMmd2TGtCai9lMlVITnFnU0VrMExBWG1j?=
- =?utf-8?B?R1lEOTFudWdmRU80ZTQ2UEFaMkdIeDVkKzZxVGpHYTZhbnJRWVVGYjJMREdm?=
- =?utf-8?B?Tkl5UzE2TWc0NTQ2cnp6VGxrU1lrcWZsQlozTGoydVFSU0h2R2ZOY3UzbEl0?=
- =?utf-8?B?akcyRThHSGZZYXA3ODd6UytGMENHOFlKN3lPMm9Ja1dtTXlPeVJrZ1gwNTJo?=
- =?utf-8?B?bGpienJBbW5nTzQ1cXg3WnZXZzh6SExEWTBKWHp0aHJWM0I1dXV5SW1oZGgr?=
- =?utf-8?B?emxZZFlONmtZVmFDMWxBcGNyS1ZFTEwzWTFucW9DcDBqcEJnN1VnbFFhdWhI?=
- =?utf-8?B?NUE5QnFwOHA1cEw2ejdaQkgzUFdKTndWbC8vWXdaZCs5dCtpSVh0ZTVWWTlL?=
- =?utf-8?B?MUh5TVpTM2NnMW9uREtiZEIrdXJybWgzNVFSOHVsLytibk9lRVZ2ODAybUZk?=
- =?utf-8?B?dGJpUERDRWk2cWJlWXlKZ2hCaTk4ZlA5YzRwWXN2RzB1QVFVMy8zdzV0bW8y?=
- =?utf-8?B?ejROWUhQR2M5b0JRK09rOHZyVm9hYkpzZ2ZMdEZSUjJMbThQTXU1TFk2NXFm?=
- =?utf-8?B?UXdDbFVSaVZ0aTNIb3N2dWVWc1dVMlJnbWxnVlQ3MWFKRDhrWlZuZ2k3TitN?=
- =?utf-8?B?TmlNQ2YrbmF5K3BIcEV3TVZEZ0ZhT1BjSEdkYXdIeDVqbUdIU3J5aS9BbmNz?=
- =?utf-8?B?OWVZWDcvZ1VUV2FPNDB2U2xISmN0T0pBckFibHQzYXpMN25JZHhkb1hZT0tu?=
- =?utf-8?B?eG1YZ2JOak9HVlN6M2JDZE9obTZGVERsa1V5L2VMdzV6SERwMStlNTZ3cS9B?=
- =?utf-8?B?WGRCdTVSbWRYWmRHRjhkRXQrMHA2cVVGeUZmc0NFR0ZzY2I4Y09hTE9UU0JF?=
- =?utf-8?B?SktlOHZ4UVJzMDNVbG05aVRoaXFrQTVHMko3RUhOcXdkWnBTR0g5Yy8rOGJv?=
- =?utf-8?B?eEVzZUpka1BPaEFIOFV1azRRZGsxZ2tqODh4ODdwdmFBSU14RkNOTm1oZHQ1?=
- =?utf-8?B?aUg4aFRNRU1pcW02RTlCQXJCeGVWbVFNSEh3ZXJRY3BIYlVTdTQwUmdUVS9u?=
- =?utf-8?B?Sm5UajNhQWM4cnJxa3BIWlFJWkJ5Z0M5WTZBQTJUclBFdDdUeGpicjltNVA1?=
- =?utf-8?B?aSs5M0RKNzBsTUVCbWFrY1NURHRpOUNoblBralMrZFlMZ3hSOGpBTjZnSTFG?=
- =?utf-8?B?UGZURUY1aVpnTTNMR2hFWjhLbmlvbmpNSEFrbVFYZVNJTzl0aUN6OER2Y0or?=
- =?utf-8?B?d2FsQXFPdDlrT3lpWStzdVdNQWtabHRuRHVDUmREUm5MWDJQVktnQW5IK1M0?=
- =?utf-8?B?Vk1ScUF6aGVGZnpTNTJWejJNS04rWjFDcjVHcXBXM08xOHVVemxMNy9yVDQ1?=
- =?utf-8?B?TmVldXk1b2pZbFVZVmxqbWR5UGhZOW9reGJTRWlxWlFldThZeWlQTnhVY09l?=
- =?utf-8?Q?snMc=3D?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a95f231c-4a6a-4a6b-5c99-08dd8c245578
-X-MS-Exchange-CrossTenant-AuthSource: MW3PR12MB4553.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 22:29:43.9812
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NnWw/0DhOl95RmdW2p1rggBWwZpk3NeQTW97LBaK99SSoHDw+uvMAzM2JDzXMrw1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH8PR12MB7325
+Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
+X-stable-base: Linux 6.14.5
+Content-Transfer-Encoding: 8bit
 
-Hi Reinette,
+From: Alexis Lothoré <alexis.lothore@bootlin.com>
 
-On 5/5/2025 4:13 PM, Reinette Chatre wrote:
-> Hi Babu,
-> 
-> On 5/5/25 12:54 PM, Moger, Babu wrote:
->> On 5/5/25 11:22, Reinette Chatre wrote:
->>> On 5/2/25 5:53 PM, Moger, Babu wrote:
->>>> On 5/2/2025 4:20 PM, Reinette Chatre wrote:
->>>>> On 4/21/25 3:43 PM, Babu Moger wrote:
-> 
-> ...
-> 
->>>>>
->>>>> Then "bit_usage" will look like:
->>>>>
->>>>> # cat /sys/fs/resctrl/info/L3/bit_usage
->>>>> 0=HHHHXXXXSSSS0000
->>>>
->>>> It is confusing here. To make it clear we may have to print all the CLOSes in each domain.
->>>
->>> Could you please elaborate how this is confusing?
->>
->> # cat /sys/fs/resctrl/info/L3/bit_usage
->> 0=HHHHXXXXSSSS0000
->>
->> This may give the impression that the all CLOSes in all domains carries
->> this property, but in reality, it applies only to one CLOS(15) within each
->> domain.
->>
->> Example below....
->>
-> 
-> ...
-> 
->> Here is the behaviour after these cahnges.
->>
->> === Before io_alloc enabled==============================
->>
->> #cd /sys/fs/resctrl/L3/
->> # cat io_alloc
->> disabled
->>
->> # cat shareable_bits
->> 0  (This is always 0 for AMD)
->>
->> # cat bit_usage
->> 0=SSSSSSSSSSSSSSSS;1=SSSSSSSSSSSSSSSS;2=SSSSSSSSSSSSSSSS;3=SSSSSSSSSSSSSSSS
-> 
-> Please note that the "S" in above does not have anything to do with
-> "shareable_bits" at this point. The "S" indicates that all L3 instances
-> are currently used by software and that sharing is allowed.
-> 
-> "bit_usage" gives insight to user space how all L3 instances are used.
-> 
-> If at this point a new resource group is created and it has an "exclusive"
-> allocation then "bit_usage" will change to reflect that.  For example,
-> you can try this on the system you are testing on:
-> 
-> # echo 'L3:0=fff0;1=fff0;2=fff0;3=fff0' > /sys/fs/resctrl/schemata
-> # mkdir /sys/fs/resctrl/g1
-> # echo 'L3:0=f;1=f;2=f;3=f' > /sys/fs/resctrl/g1/schemata
-> # echo 'exclusive' > /sys/fs/resctrl/g1/mode
-> 
-> The above isolates a portion of all L3 instances for exclusive use by g1.
-> After above changes:
-> # cat /sys/fs/resctrl/info/L3/bit_usage
-> 0=SSSSSSSSSSSSEEEE;1=SSSSSSSSSSSSEEEE;2=SSSSSSSSSSSSEEEE;3=SSSSSSSSSSSSEEEE
-> 
+[ Upstream commit 1bd2aad57da95f7f2d2bb52f7ad15c0f4993a685 ]
 
-Yes. I see the same output.
+The following splat has been observed on a SAMA5D27 platform using
+atmel_serial:
 
-> Note that there is no "closid" or resource group information but instead,
-> "bit_usage" shows to user space how each cache instance is being used
-> across all resource groups and hardware (IO) allocations.
+BUG: sleeping function called from invalid context at kernel/irq/manage.c:738
+in_atomic(): 1, irqs_disabled(): 128, non_block: 0, pid: 27, name: kworker/u5:0
+preempt_count: 1, expected: 0
+INFO: lockdep is turned off.
+irq event stamp: 0
+hardirqs last  enabled at (0): [<00000000>] 0x0
+hardirqs last disabled at (0): [<c01588f0>] copy_process+0x1c4c/0x7bec
+softirqs last  enabled at (0): [<c0158944>] copy_process+0x1ca0/0x7bec
+softirqs last disabled at (0): [<00000000>] 0x0
+CPU: 0 UID: 0 PID: 27 Comm: kworker/u5:0 Not tainted 6.13.0-rc7+ #74
+Hardware name: Atmel SAMA5
+Workqueue: hci0 hci_power_on [bluetooth]
+Call trace:
+  unwind_backtrace from show_stack+0x18/0x1c
+  show_stack from dump_stack_lvl+0x44/0x70
+  dump_stack_lvl from __might_resched+0x38c/0x598
+  __might_resched from disable_irq+0x1c/0x48
+  disable_irq from mctrl_gpio_disable_ms+0x74/0xc0
+  mctrl_gpio_disable_ms from atmel_disable_ms.part.0+0x80/0x1f4
+  atmel_disable_ms.part.0 from atmel_set_termios+0x764/0x11e8
+  atmel_set_termios from uart_change_line_settings+0x15c/0x994
+  uart_change_line_settings from uart_set_termios+0x2b0/0x668
+  uart_set_termios from tty_set_termios+0x600/0x8ec
+  tty_set_termios from ttyport_set_flow_control+0x188/0x1e0
+  ttyport_set_flow_control from wilc_setup+0xd0/0x524 [hci_wilc]
+  wilc_setup [hci_wilc] from hci_dev_open_sync+0x330/0x203c [bluetooth]
+  hci_dev_open_sync [bluetooth] from hci_dev_do_open+0x40/0xb0 [bluetooth]
+  hci_dev_do_open [bluetooth] from hci_power_on+0x12c/0x664 [bluetooth]
+  hci_power_on [bluetooth] from process_one_work+0x998/0x1a38
+  process_one_work from worker_thread+0x6e0/0xfb4
+  worker_thread from kthread+0x3d4/0x484
+  kthread from ret_from_fork+0x14/0x28
 
-Ok. Got it.
+This warning is emitted when trying to toggle, at the highest level,
+some flow control (with serdev_device_set_flow_control) in a device
+driver. At the lowest level, the atmel_serial driver is using
+serial_mctrl_gpio lib to enable/disable the corresponding IRQs
+accordingly.  The warning emitted by CONFIG_DEBUG_ATOMIC_SLEEP is due to
+disable_irq (called in mctrl_gpio_disable_ms) being possibly called in
+some atomic context (some tty drivers perform modem lines configuration
+in regions protected by port lock).
 
-> 
->>
->> ==== After io_alloc enabled=================================
->>
->> # echo 1 > io_alloc
->>
->> # cat io_alloc
->> enabled
->>
->> # cat io_alloc_cbm
->> L3:0=ffff;1=ffff;2=ffff;3=ffff
->>
->> #cat bit_usage
->> 0=XXXXXXXXXXXXXXXX;1=XXXXXXXXXXXXXXXX;2=XXXXXXXXXXXXXXXX;3=XXXXXXXXXXXXXXXX
-> 
-> Looks accurate to me. It shows that both hardware and software can
-> allocate into all portions of all caches.
-> 
->>
->> ==== After changing io_alloc_cbm ============================
->>
->> #echo "L3:0=ff00;1=ff00;2=ff00;3=ff00 > io_alloc_cbm
->>
->> # cat io_alloc_cbm
->> L3:0=ff00;1=ff00;2=ff00;3=ff00
->>
->> #cat bit_usage
->> 0=XXXXXXXXSSSSSSSS;1=XXXXXXXXSSSSSSSS;2=XXXXXXXXSSSSSSSS;3=XXXXXXXXSSSSSSSS
-> 
-> Looks accurate to me.
-> 
->> =============================================================
->>
->> My concern here is, this may imply that the property is present across all
->> CLOSes in all the domains, while in fact, it only applies to a single
->> CLOS(15) within each domain.
-> 
-> If a user wants a resource group specific view then the schemata should be used.
-> "bit_usage" presents the view from the cache instance perspective and reflects
-> how each L3 cache instance is being used at that moment in time. It helps
-> system administrator answer the question "how are the caches used at the moment"?
-> "bit_usage" does so by presenting a summary of all allocations across all resource
-> groups and any hardware allocations that may exist. This file helps user space
-> to understand how the cache is being used without needing to correlate the CBMs
-> of all resource groups and IO allocations. For example, "bit_usage" is to be used
-> by system administrator to ensure cache is used optimally (for example, there are
-> no unused portions). Also, a user may be investigating a performance issue in
-> a particular resource group and "bit_usage" will help with that to see if
-> the tasks in that resource group may be competing with IO.
-> 
+Split mctrl_gpio_disable_ms into two differents APIs, a non-blocking one
+and a blocking one. Replace mctrl_gpio_disable_ms calls with the
+relevant version depending on whether the call is protected by some port
+lock.
 
-Ok, "bit_usage" is a summary across all the groups. That is a good 
-point. Thanks for the detailed explanation.
+Suggested-by: Jiri Slaby <jirislaby@kernel.org>
+Signed-off-by: Alexis Lothoré <alexis.lothore@bootlin.com>
+Acked-by: Richard Genoud <richard.genoud@bootlin.com>
+Link: https://lore.kernel.org/r/20250217-atomic_sleep_mctrl_serial_gpio-v3-1-59324b313eef@bootlin.com
+Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
+---
+ Documentation/driver-api/serial/driver.rst |  2 +-
+ drivers/tty/serial/8250/8250_port.c        |  2 +-
+ drivers/tty/serial/atmel_serial.c          |  2 +-
+ drivers/tty/serial/imx.c                   |  2 +-
+ drivers/tty/serial/serial_mctrl_gpio.c     | 34 +++++++++++++++++-----
+ drivers/tty/serial/serial_mctrl_gpio.h     | 17 +++++++++--
+ drivers/tty/serial/sh-sci.c                |  2 +-
+ drivers/tty/serial/stm32-usart.c           |  2 +-
+ 8 files changed, 47 insertions(+), 16 deletions(-)
 
-Will make those changes in next revision.
-
-Thank you.
-Babu
-
+diff --git a/Documentation/driver-api/serial/driver.rst b/Documentation/driver-api/serial/driver.rst
+index 84b43061c11be..60434f2b02863 100644
+--- a/Documentation/driver-api/serial/driver.rst
++++ b/Documentation/driver-api/serial/driver.rst
+@@ -103,4 +103,4 @@ Some helpers are provided in order to set/get modem control lines via GPIO.
+ .. kernel-doc:: drivers/tty/serial/serial_mctrl_gpio.c
+    :identifiers: mctrl_gpio_init mctrl_gpio_free mctrl_gpio_to_gpiod
+            mctrl_gpio_set mctrl_gpio_get mctrl_gpio_enable_ms
+-           mctrl_gpio_disable_ms
++           mctrl_gpio_disable_ms_sync mctrl_gpio_disable_ms_no_sync
+diff --git a/drivers/tty/serial/8250/8250_port.c b/drivers/tty/serial/8250/8250_port.c
+index 442967a6cd52d..886e40f680d45 100644
+--- a/drivers/tty/serial/8250/8250_port.c
++++ b/drivers/tty/serial/8250/8250_port.c
+@@ -1680,7 +1680,7 @@ static void serial8250_disable_ms(struct uart_port *port)
+ 	if (up->bugs & UART_BUG_NOMSR)
+ 		return;
+ 
+-	mctrl_gpio_disable_ms(up->gpios);
++	mctrl_gpio_disable_ms_no_sync(up->gpios);
+ 
+ 	up->ier &= ~UART_IER_MSI;
+ 	serial_port_out(port, UART_IER, up->ier);
+diff --git a/drivers/tty/serial/atmel_serial.c b/drivers/tty/serial/atmel_serial.c
+index f44f9d20a9744..8918fbd4bddd5 100644
+--- a/drivers/tty/serial/atmel_serial.c
++++ b/drivers/tty/serial/atmel_serial.c
+@@ -700,7 +700,7 @@ static void atmel_disable_ms(struct uart_port *port)
+ 
+ 	atmel_port->ms_irq_enabled = false;
+ 
+-	mctrl_gpio_disable_ms(atmel_port->gpios);
++	mctrl_gpio_disable_ms_no_sync(atmel_port->gpios);
+ 
+ 	if (!mctrl_gpio_to_gpiod(atmel_port->gpios, UART_GPIO_CTS))
+ 		idr |= ATMEL_US_CTSIC;
+diff --git a/drivers/tty/serial/imx.c b/drivers/tty/serial/imx.c
+index 9c59ec128bb4f..cfeb3f8cf45ea 100644
+--- a/drivers/tty/serial/imx.c
++++ b/drivers/tty/serial/imx.c
+@@ -1608,7 +1608,7 @@ static void imx_uart_shutdown(struct uart_port *port)
+ 		imx_uart_dma_exit(sport);
+ 	}
+ 
+-	mctrl_gpio_disable_ms(sport->gpios);
++	mctrl_gpio_disable_ms_sync(sport->gpios);
+ 
+ 	uart_port_lock_irqsave(&sport->port, &flags);
+ 	ucr2 = imx_uart_readl(sport, UCR2);
+diff --git a/drivers/tty/serial/serial_mctrl_gpio.c b/drivers/tty/serial/serial_mctrl_gpio.c
+index 8855688a5b6c0..ca55bcc0b6111 100644
+--- a/drivers/tty/serial/serial_mctrl_gpio.c
++++ b/drivers/tty/serial/serial_mctrl_gpio.c
+@@ -322,11 +322,7 @@ void mctrl_gpio_enable_ms(struct mctrl_gpios *gpios)
+ }
+ EXPORT_SYMBOL_GPL(mctrl_gpio_enable_ms);
+ 
+-/**
+- * mctrl_gpio_disable_ms - disable irqs and handling of changes to the ms lines
+- * @gpios: gpios to disable
+- */
+-void mctrl_gpio_disable_ms(struct mctrl_gpios *gpios)
++static void mctrl_gpio_disable_ms(struct mctrl_gpios *gpios, bool sync)
+ {
+ 	enum mctrl_gpio_idx i;
+ 
+@@ -342,10 +338,34 @@ void mctrl_gpio_disable_ms(struct mctrl_gpios *gpios)
+ 		if (!gpios->irq[i])
+ 			continue;
+ 
+-		disable_irq(gpios->irq[i]);
++		if (sync)
++			disable_irq(gpios->irq[i]);
++		else
++			disable_irq_nosync(gpios->irq[i]);
+ 	}
+ }
+-EXPORT_SYMBOL_GPL(mctrl_gpio_disable_ms);
++
++/**
++ * mctrl_gpio_disable_ms_sync - disable irqs and handling of changes to the ms
++ * lines, and wait for any pending IRQ to be processed
++ * @gpios: gpios to disable
++ */
++void mctrl_gpio_disable_ms_sync(struct mctrl_gpios *gpios)
++{
++	mctrl_gpio_disable_ms(gpios, true);
++}
++EXPORT_SYMBOL_GPL(mctrl_gpio_disable_ms_sync);
++
++/**
++ * mctrl_gpio_disable_ms_no_sync - disable irqs and handling of changes to the
++ * ms lines, and return immediately
++ * @gpios: gpios to disable
++ */
++void mctrl_gpio_disable_ms_no_sync(struct mctrl_gpios *gpios)
++{
++	mctrl_gpio_disable_ms(gpios, false);
++}
++EXPORT_SYMBOL_GPL(mctrl_gpio_disable_ms_no_sync);
+ 
+ void mctrl_gpio_enable_irq_wake(struct mctrl_gpios *gpios)
+ {
+diff --git a/drivers/tty/serial/serial_mctrl_gpio.h b/drivers/tty/serial/serial_mctrl_gpio.h
+index fc76910fb105a..79e97838ebe56 100644
+--- a/drivers/tty/serial/serial_mctrl_gpio.h
++++ b/drivers/tty/serial/serial_mctrl_gpio.h
+@@ -87,9 +87,16 @@ void mctrl_gpio_free(struct device *dev, struct mctrl_gpios *gpios);
+ void mctrl_gpio_enable_ms(struct mctrl_gpios *gpios);
+ 
+ /*
+- * Disable gpio interrupts to report status line changes.
++ * Disable gpio interrupts to report status line changes, and block until
++ * any corresponding IRQ is processed
+  */
+-void mctrl_gpio_disable_ms(struct mctrl_gpios *gpios);
++void mctrl_gpio_disable_ms_sync(struct mctrl_gpios *gpios);
++
++/*
++ * Disable gpio interrupts to report status line changes, and return
++ * immediately
++ */
++void mctrl_gpio_disable_ms_no_sync(struct mctrl_gpios *gpios);
+ 
+ /*
+  * Enable gpio wakeup interrupts to enable wake up source.
+@@ -148,7 +155,11 @@ static inline void mctrl_gpio_enable_ms(struct mctrl_gpios *gpios)
+ {
+ }
+ 
+-static inline void mctrl_gpio_disable_ms(struct mctrl_gpios *gpios)
++static inline void mctrl_gpio_disable_ms_sync(struct mctrl_gpios *gpios)
++{
++}
++
++static inline void mctrl_gpio_disable_ms_no_sync(struct mctrl_gpios *gpios)
+ {
+ }
+ 
+diff --git a/drivers/tty/serial/sh-sci.c b/drivers/tty/serial/sh-sci.c
+index b1ea48f38248e..41f987632bce8 100644
+--- a/drivers/tty/serial/sh-sci.c
++++ b/drivers/tty/serial/sh-sci.c
+@@ -2298,7 +2298,7 @@ static void sci_shutdown(struct uart_port *port)
+ 	dev_dbg(port->dev, "%s(%d)\n", __func__, port->line);
+ 
+ 	s->autorts = false;
+-	mctrl_gpio_disable_ms(to_sci_port(port)->gpios);
++	mctrl_gpio_disable_ms_sync(to_sci_port(port)->gpios);
+ 
+ 	uart_port_lock_irqsave(port, &flags);
+ 	sci_stop_rx(port);
+diff --git a/drivers/tty/serial/stm32-usart.c b/drivers/tty/serial/stm32-usart.c
+index 0854ad8c90cd2..ad06b760cfca7 100644
+--- a/drivers/tty/serial/stm32-usart.c
++++ b/drivers/tty/serial/stm32-usart.c
+@@ -944,7 +944,7 @@ static void stm32_usart_enable_ms(struct uart_port *port)
+ 
+ static void stm32_usart_disable_ms(struct uart_port *port)
+ {
+-	mctrl_gpio_disable_ms(to_stm32_port(port)->gpios);
++	mctrl_gpio_disable_ms_sync(to_stm32_port(port)->gpios);
+ }
+ 
+ /* Transmit stop */
+-- 
+2.39.5
 
