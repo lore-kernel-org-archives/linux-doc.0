@@ -1,173 +1,185 @@
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2051.outbound.protection.outlook.com [40.107.237.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 93298262FE1;
-	Mon,  5 May 2025 15:45:46 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.51
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746459951; cv=fail; b=OOEsP230JrnG8W12I1FL42Pb5jSmNz8IFu804+qpp/CajbWs58pvYm2ZG64avTDQ2Yc+T8CRglc/akeWuVai+ZyGMTcgy4EOCS5vVO54Rd8/hdzU5IKW4NJ0eSXzVgV+2Wxl+glVpDTs1wlwJvhBIskmXtpHJHvZPI+pGSwZ5to=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746459951; c=relaxed/simple;
-	bh=cYbQadj9OIg6iho3ezP5ME9KdFkDRYYFVxPV0kxtWTo=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=KhIUoex4nxpWwcQ6+rTxIhugtgRZEkR7FZzhc/U9bHWxspeSGIPJr2p6+/I08e9xmadNlDk/TOGBt0cZar+hLLOtk2zd1I5UyGm0gW0kdp9e1z5yiTyiXGKunOVXaLoBBvE8E5WcyKZ30ePcoV3uDWBjENo4aGDoxIbXxdKir+o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=NFhV5wED; arc=fail smtp.client-ip=40.107.237.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F005B259CA4
+	for <linux-doc@vger.kernel.org>; Mon,  5 May 2025 15:51:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.46
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746460285; cv=none; b=YQWH1CiHD/ZGawdlEqPTEzJjBoVMkMVCr7+VXfmXW/YJk4BOOnic4xydaikIbJ2PcnaqHGe2OtJoNk5U7IwGzO38qUUIQJ9d905+yEFet0XysRdVxE5+A6uy73XO3MAEHnW3mFyPSxwCPxHECBreJ479XT45M+W2eZAhqy+9v0o=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746460285; c=relaxed/simple;
+	bh=ajZZgUulqRNQnYH/U78ZrIlZ6v46eCd19mKY/YFXRGI=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=gheKll8RXVwNDZipbFw3aYRbkrMrk1gamo2WzH52c4THVy0hX+9N0jS3fUQHbJfBJbNr18UysE/4Jvddgk1QHKfURhujb5L4qG2KlbgleLKPqMbu6EBzaHeRyxNnb/yUApx/8YmxBvYa+Wkotj0btbZ4y4fRJR+ZI+nmWPKrwNA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=Xm40HrPN; arc=none smtp.client-ip=209.85.218.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="NFhV5wED"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GhxqNZuWVhh1cxJFmymjLupM8NEfaFd44DE3kT4XzPnUEAESeHvVFGZLJYNCtg1pE5kAJX/QX+c7+CMzZRbvL/KI751eToMqBzVounMeHp/dDchVbS6nLaKDBBOp2hIX9//7qrWKw3mJtfIRMzliDH0bnBH1u4QFOxgoSEsI7uOCS9aDhoX1HA274P0Ce0eLg1p8mnqoVDxGgGM9G/sI/ngCa2YTmOiE+W2tU4xOMy+Q4IdrM2LSBGE0MW6QwZOoYDDDbNRbtQP2WzZXi4tsYfo5nYSAkbG7nzBQvxuR2OSl9SpaSgisTmhfXDPkIbVabCbYbuIjp57xUUhwqVF7YQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=J8knYBdiqwUGKef9IhJFe3M4fBHN1+n+/XysVyvBkmA=;
- b=SlGN/BriYVrz+K1VVmQXRVSNZu0xUW057ZdpvTMkRjtL5vg8Rk25xwOq9jqca0pLip4MNpPeKyzlnu4um1Ph4Z0LJgNzm37JI9/JqEZdnoXqVF72iFaoeH13rJRRFgyuPoz8uwQ3w9eS0SidHBCdERy9I5y/GzWj+i3oxKkevnN6hGSsKe6N/eRaNYrP1Jy3RWJ4f9LaOrg+8o4n76uH+g9lNGhZC4D9Z7+3LopfSn3u0pid4dTrI9gMmOKJEpnsuQ2mqiMHqBear/JJHWwRhtJY6pvIdL8uRBUxY2I2btppgqdhA+aHJ3/8FV/0C/AaoaEWWMt1NMYz8uxzGxUgQw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=linux.intel.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=J8knYBdiqwUGKef9IhJFe3M4fBHN1+n+/XysVyvBkmA=;
- b=NFhV5wEDWHFULqDeQILZmMYt+faapg9UJyVVp/KQPjGTqrVUWEmNLOK6G9xiJMJYea1MYjTB2cl3M4klBpf1yr2VTTy7oDzrwZ2QBOsGHpTpWDy4vqGkDgKeS4kKwJevjBx8knEM2zOZsloJzcqlhRayTfMdY97NEW51u26831xfj+Ua9gqsIDGMMqnIHM7y8ZjQtweIRQ1HMyQeQm6+IwhHtP3cD9dN59HcnjRJVHTq6NOzWrezZCSkDiJaB60inSDyZJqxrOEpv2mvT/cY5LLyWAfdsrQO6tAa9fR8fFb4vqkIltiD+sIzCdr2JOcLBGLd9dJaEtYOGDrlFddXOQ==
-Received: from SJ0PR05CA0121.namprd05.prod.outlook.com (2603:10b6:a03:33d::6)
- by DS7PR12MB8371.namprd12.prod.outlook.com (2603:10b6:8:e9::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Mon, 5 May
- 2025 15:45:43 +0000
-Received: from SJ5PEPF000001D3.namprd05.prod.outlook.com
- (2603:10b6:a03:33d:cafe::44) by SJ0PR05CA0121.outlook.office365.com
- (2603:10b6:a03:33d::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.20 via Frontend Transport; Mon,
- 5 May 2025 15:45:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- SJ5PEPF000001D3.mail.protection.outlook.com (10.167.242.55) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Mon, 5 May 2025 15:45:42 +0000
-Received: from drhqmail201.nvidia.com (10.126.190.180) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 5 May 2025
- 08:45:25 -0700
-Received: from rnnvmail201.nvidia.com (10.129.68.8) by drhqmail201.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 5 May
- 2025 08:45:25 -0700
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by rnnvmail201.nvidia.com
- (10.129.68.8) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 5 May
- 2025 08:45:17 -0700
-Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.7) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 5 May 2025 08:45:15 -0700
-Date: Mon, 5 May 2025 08:45:14 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Baolu Lu <baolu.lu@linux.intel.com>, <kevin.tian@intel.com>,
-	<corbet@lwn.net>, <will@kernel.org>, <bagasdotme@gmail.com>,
-	<robin.murphy@arm.com>, <joro@8bytes.org>, <thierry.reding@gmail.com>,
-	<vdumpa@nvidia.com>, <jonathanh@nvidia.com>, <shuah@kernel.org>,
-	<jsnitsel@redhat.com>, <nathan@kernel.org>, <peterz@infradead.org>,
-	<yi.l.liu@intel.com>, <mshavit@google.com>, <praan@google.com>,
-	<zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
-Subject: Re: [PATCH v2 09/22] iommufd/viommu: Introduce IOMMUFD_OBJ_VCMDQ and
- its related struct
-Message-ID: <aBjdCnNiqFy03Rg3@nvidia.com>
-References: <cover.1745646960.git.nicolinc@nvidia.com>
- <8bab0069503fa21b48298ed2ffe29a06963f71f5.1745646960.git.nicolinc@nvidia.com>
- <28e513ec-4d8b-4967-a241-d6f63d533050@linux.intel.com>
- <aA/EoEFtbnL2+zAw@Asurada-Nvidia>
- <20250505150214.GI2260709@nvidia.com>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="Xm40HrPN"
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-acbb48bad09so848126666b.0
+        for <linux-doc@vger.kernel.org>; Mon, 05 May 2025 08:51:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1746460281; x=1747065081; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=2+3PIdJC3Ht+VlEO5rW2bxgqfN/WfvLUVhrpIT2zCns=;
+        b=Xm40HrPNoWR2GYOF4NuEWym4dNOWB2TjM/D8AT6ASyOI44YTSarEl8olVT6o5QrZVd
+         AnCsg+K6dlG3QZSpA/E2BRWwd9aBF0UHXhpZKissscaSxTFJuzZPebABmyadpPzOFTkM
+         sAGoW2dda6EejF5lCs5TzpKn5AOVc2zHHtCOAO6uXYvmIhwp4+gWSCbrQJheyLK8mpR0
+         6FCGb+cV1LrKOkvdFKemuxXeGF40gXzh0IsgfwRRxPf/N849qR8q4Ndfg7suT8nATI3s
+         bqXvF4OEdQPx0Z4ytinrX/6Wp+baxYswhMEsf0GVhPkByN4gp0gQHr++5sqNnQENULvh
+         +MmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746460281; x=1747065081;
+        h=content-transfer-encoding:in-reply-to:content-language:from
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=2+3PIdJC3Ht+VlEO5rW2bxgqfN/WfvLUVhrpIT2zCns=;
+        b=vfY/yfQAS+BqhVEjkZHX2ebdSUE/QdGWWXVOtO1hauniuT3yGYVHbwLdt5RsWN9QB2
+         OkAlBDpSkuJRYoPcZQBy4i93U3BGkv6lvNmTsUov1fioZCXDkK28jRLkkY+ECW/EylK3
+         QOG7UlvmXsEmQ74lnTzo5QbWOe6JmKigH8epN/aNJ7Jc4uO/SGeDBU6+j2QzqnlsNnoM
+         LERB6KyIbhFqnqH4Qa1RnFXEqULo6U9l+ERJjknmQrE+h85PEqOzk691mfQ6qQ7tlVSa
+         GQoxQgIgNJ13vTfBFTPb5ZnYPe5WsHuZGPFMdtfbPLzrYTEyw2SL1OTle07IrK5zgQvX
+         GnQg==
+X-Forwarded-Encrypted: i=1; AJvYcCWG0Y93vr2xqn6BOen4GSkejMw0/Gpv8YR9/AZzKX1dqJD7e0pW/24fisEfMWCa+Bxi657q1M97CEM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwD6TBl+KR9CFyTAN+79gxAXiC268f4fZz0jnp10BJnlRzRN5pu
+	dncwwKBDqrfqujXMjaNubFE91m4M1qNLLYKic3Q7H6/RgqPwtDDDuERkfQQwp/M=
+X-Gm-Gg: ASbGnctDgp4r0t3IIG5dw32bQdBoDsD62K5dud/mNPERT1LwTliP6WAGcCJwWzkhSCB
+	3EavTQR86xHAUEHZS7vPwvRV+SJWkAfBc1EGIF9A3WwWCwVH2Uh62Z5Kk4R4h2CCsuCcFEqoqef
+	eNR+ONqTm5HyfsfWsxr8SkX9smkvJ0gb7UWBJM0NMplh8IQq4RPnS1o0o2GeavjlQHXpgLHhl3o
+	xtEzGGYPg/wwaBTPpgNDSQU1EOG/6kDHlch44a/H8LaMCSqJjmPEB9U8WXCSaACEafIp/c6eM2K
+	BjxB0r/QI+Hixz+1HnD/MrFVknNjXi7mT0YNtYMin4MVxJgd
+X-Google-Smtp-Source: AGHT+IFeHXSBcW5a6cMPyYFCWSmdfc0Kw0YJs6QfCUivNSYazQwUq3W3k9Emuwo7XD2iieH/6V66Yw==
+X-Received: by 2002:a17:907:8dcb:b0:ac1:f5a4:6da5 with SMTP id a640c23a62f3a-ad1a4a8d95cmr752485666b.37.1746460281158;
+        Mon, 05 May 2025 08:51:21 -0700 (PDT)
+Received: from [192.168.0.32] ([82.76.24.202])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad1894c01c9sm516621766b.105.2025.05.05.08.51.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 05 May 2025 08:51:20 -0700 (PDT)
+Message-ID: <6ce50077-2c64-40b2-82b3-c63c16fa1898@linaro.org>
+Date: Mon, 5 May 2025 18:51:19 +0300
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250505150214.GI2260709@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ5PEPF000001D3:EE_|DS7PR12MB8371:EE_
-X-MS-Office365-Filtering-Correlation-Id: e1ea2419-656e-4c40-876c-08dd8bebe4c6
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|1800799024|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?kQHCPvFWbU17affNrpVDbvp0d6MDegiBVnyhNl5lvSo0i0BY6AfaCvudXQyN?=
- =?us-ascii?Q?RpzAjI4XOASBST87fUnxgA5fUPDhorUn34Vx8zAyofcNF/DI1LKYC7WtrPKs?=
- =?us-ascii?Q?GjI6u4FEEMzjE5Z+NUPtDjMekYLmOm4anf+5Gq/0eiI1jOytfJSxNw2KQ2B2?=
- =?us-ascii?Q?BZYkCHCQ2RSIh9VunnaITlNweVDgZXcX9uxCVdLLxnUal6eraTH+BixGiVXu?=
- =?us-ascii?Q?ga1zkY7lq1aOIu8kaYeZr7oDDgTDjA3tfonO0MKj5Xgc7CF52ryPnVQ7Ibb7?=
- =?us-ascii?Q?PwxCpxTcyCCxljLMx3QpGYm8+mQUKsb+r7ZCgF9Q0jc7vFo04cdbt0W/LHyJ?=
- =?us-ascii?Q?3R+n2UMr+mfOezOENF/av//HG16WM1je+YMEHEYkbGuqRq+Yx3pem9PeyNer?=
- =?us-ascii?Q?zSQ3jnAnbT1rRCm6V0VjLer+f0ps3ZYwgMyVFj31i1XfPRsrER/zkB/ybdhC?=
- =?us-ascii?Q?+u/jne/EYTcqd4txpn7+DqgKPGLDO3phxD6pqJVFUnJznxxX/vhex0ePKYAR?=
- =?us-ascii?Q?o3VPp/VnEx9iRuQc0PC3Aehs4wL9g/HJltNn0AGCRrMG0clVm4e2YW0G8Tt3?=
- =?us-ascii?Q?6YORtCIy594gYj+IPw4uIf3baCwJDu6Lw+UyNkF9DwaKQ7pBUX8HfqxwGXN/?=
- =?us-ascii?Q?7WVLss6Ef20YAODvHcsufROSiGJf03asPejHab8yVh2HmbRbeHRxX1wf0gyb?=
- =?us-ascii?Q?oy7xWkxYAkkXRqgv8TdEKjME4nehL/+TSF6ZHr8eMbbaex7+ZYgrwC+/cLgG?=
- =?us-ascii?Q?kChM0Y/6TGLDxg7kY4n3CseH/7rRNLtG6+I55tg5v3D4kagrso7dgY6RbQ5P?=
- =?us-ascii?Q?vKpl1Krz79jNvjPTV6d8p+YYoCy8BD2WMCTtLD8mOEkbmDuKDUaq55xqOkIg?=
- =?us-ascii?Q?PBYjuqrOZWwytb+G0Nf/5diGHmF1f5tYidRY9sjwcdQ1zQvIYEq8XrJ1ALwX?=
- =?us-ascii?Q?f+2JTJMcBDq3B5C4CLqmDkDtlvniTnzfVzaFawSC4wVuE0U6F3MwGuBmi2YH?=
- =?us-ascii?Q?RTqLyjaRkEuareEv46XTQoynYSN+vEVpxqx60DQdtM817mOecMzE/B6fNFJK?=
- =?us-ascii?Q?dUvcNm+TgxBlcb8U7bNk2J2Zl2+1gsnWnaRliurqdGbCIpEJup+OuNUiQfVz?=
- =?us-ascii?Q?iYjykPjtu3//06bq69XuXCa6qN5sbQByHnMkV8Zia8VZ2Czl2YSE4IuEjds0?=
- =?us-ascii?Q?A+QcV/wBLyKAvGxE2+bAH6PWJD2Da7iBufJPFtlVWAuyl78ScdXJcmqhkRdH?=
- =?us-ascii?Q?kVad/+HwB8ExiG9B8sJyFwg2LMhar4S1GIQQ4HLAV98zhkb3h3lIFJDROuzC?=
- =?us-ascii?Q?qEfBAXGKp5bnJQ8cP+fXX3phZFeVUevtRG4u1YR/mCKTfGEicnmJc05uzoGQ?=
- =?us-ascii?Q?sRDiIBybReipQcRMco4hxD3Z25HHoYDXksh8LIR+JsThmJvRP6/6TFsvDNCz?=
- =?us-ascii?Q?KtimWYvUhEPyH/gCAh2CF3PGtB/+1T0BDCiXFB3dZmjIekiFj6luFK36MKGm?=
- =?us-ascii?Q?oPmLQHsrEVsOPzAQij3g/lxR/lZl6LA2jTPS?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(1800799024)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 05 May 2025 15:45:42.7480
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: e1ea2419-656e-4c40-876c-08dd8bebe4c6
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ5PEPF000001D3.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8371
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC][PATCH 07/14] printk: add kmsg_kmemdump_register
+To: Petr Mladek <pmladek@suse.com>
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+ andersson@kernel.org, linux-doc@vger.kernel.org, corbet@lwn.net,
+ tglx@linutronix.de, mingo@redhat.com, rostedt@goodmis.org,
+ john.ogness@linutronix.de, senozhatsky@chromium.org, peterz@infradead.org,
+ mojha@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org,
+ vincent.guittot@linaro.org, konradybcio@kernel.org,
+ dietmar.eggemann@arm.com, juri.lelli@redhat.com
+References: <20250422113156.575971-1-eugen.hristev@linaro.org>
+ <20250422113156.575971-8-eugen.hristev@linaro.org>
+ <aBjYbXJL-GJe4Mh8@localhost.localdomain>
+From: Eugen Hristev <eugen.hristev@linaro.org>
+Content-Language: en-US
+In-Reply-To: <aBjYbXJL-GJe4Mh8@localhost.localdomain>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 05, 2025 at 12:02:14PM -0300, Jason Gunthorpe wrote:
-> On Mon, Apr 28, 2025 at 11:10:40AM -0700, Nicolin Chen wrote:
-> > > > +struct iommufd_vcmdq {
-> > > > +	struct iommufd_object obj;
-> > > > +	struct iommufd_ctx *ictx;
-> > > > +	struct iommufd_viommu *viommu;
-> > > > +	dma_addr_t addr;
-> > > 
-> > > It's better to add a comment to state that @addr is a guest physical
-> > > address. Or not?
-> > 
-> > Yea. Let's add one:
-> > 
-> > 	dma_addr_t addr; /* in guest physical address space */
+Hello Petr,
+
+Thank you for your review.
+
+On 5/5/25 18:25, Petr Mladek wrote:
+> On Tue 2025-04-22 14:31:49, Eugen Hristev wrote:
+>> Add kmsg_kmemdump_register, which registers prb, log_buf and infos/descs
+>> to kmemdump.
+>> This will allow kmemdump to be able to dump specific log buffer areas on
+>> demand.
+>>
+>> --- a/kernel/printk/printk.c
+>> +++ b/kernel/printk/printk.c
+>> @@ -4650,6 +4651,18 @@ int kmsg_dump_register(struct kmsg_dumper *dumper)
+>>  }
+>>  EXPORT_SYMBOL_GPL(kmsg_dump_register);
+>>  
+>> +void kmsg_kmemdump_register(void)
+>> +{
+>> +	kmemdump_register("log_buf", (void *)log_buf_addr_get(), log_buf_len_get());
+>> +	kmemdump_register("prb", (void *)&prb, sizeof(prb));
+>> +	kmemdump_register("prb", (void *)prb, sizeof(*prb));
 > 
-> If it is a guest physical in a nested page table it should technically
-> be u64 not dma_addr_t
+> This looks strange. "prb" is a pointer to "struct printk_ringbuffer".
+> It should be enough to register the memory with the structure.
 
-OK. Will change that in v4.
+Yes, from my perspective this should be also enough. However, when
+loading the generated core dump into crash tool , the tool first looks
+for the prb pointer itself, and then stops if the pointer is not readable.
+After the prb pointer is being found, the crash tool dereferences it ,
+and looks at the indicated address for the actual memory.
+That is why the pointer is also saved as a kmemdump region in my proof
+of concept.
 
-Thanks
-Nicolin
+> 
+>> +	kmemdump_register("prb_descs", (void *)_printk_rb_static_descs,
+>> +			  sizeof(_printk_rb_static_descs));
+>> +	kmemdump_register("prb_infos", (void *)_printk_rb_static_infos,
+>> +			  sizeof(_printk_rb_static_infos));
+> 
+> Also this looks wrong. These are static buffers which are used during
+> early boot. They might later be replaced by dynamically allocated
+> buffers when a bigger buffer is requested by "log_buf_len" command
+> line parameter.
+> 
+
+I will double check whether the crash tool looks for these symbols or
+only the memory, and come back with an answer
+
+> I think that we need to register the memory of the structure
+> and 3 more buffers. See how the bigger buffer is allocated in
+> setup_log_buf().
+> 
+> I would expect something like:
+> 
+> 	unsigned int descs_count;
+> 	unsigned long data_size;
+> 
+> 	descs_count = 2 << prb->desc_ring.count_bits;
+> 	data_size = 2 << prb->data_ring.size_bits;
+> 
+> 	kmemdump_register("prb", (void *)prb, sizeof(*prb));
+> 	kmemdump_register("prb_descs", (void *)prb->desc_ring->descs,
+> 			  descs_count * sizeof(struct prb_desc));
+> 	kmemdump_register("prb_infos", (void *)prb->desc_ring->infos,
+> 			  descs_count * sizeof(struct printk_info));
+> 	kmemdump_register("prb_data", (void *)prb->data_ring->data, data_size);
+> 
+> 
+Thank you. It may be that in my test case, the buffer was not
+extended/reallocated with a bigger one.
+
+> But I wonder if this is enough. The current crash dump code also needs
+> to export the format of the used structures, see
+> log_buf_vmcoreinfo_setup().
+
+It appears that crash tool looks for the structures into vmlinux
+symbols. It can be that this information is not available to some tools,
+or vmlinux not available, in which case all the used structures format
+and sizes need to be exported. But right now, the crash tool does not
+work without vmlinux.
+
+> 
+> Is the CONFIG_VMCORE_INFO code shared with the kmemdump, please?
+
+I believe CONFIG_KMEMDUMP_COREIMAGE should select CONFIG_VMCORE_INFO
+indeed, which is not done in my patches. Or I have not fully understood
+your question ?
+
+
+Eugen
+> 
+>> +}
+>> +EXPORT_SYMBOL_GPL(kmsg_kmemdump_register);
+>> +
+> 
+> Best Regards,
+> Petr
+
