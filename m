@@ -1,213 +1,121 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id EEA4728312C;
-	Tue,  6 May 2025 14:53:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17932797A5;
+	Tue,  6 May 2025 14:57:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746543189; cv=none; b=SBVhvSUEzbyiVeuOeIENhwigPLA/KnArZZKg7pQh5GaN3ioOVOr7tqnz0yxmNSDTxe+mzRo0ukcuko7lcidO3r5icPU2KFE0Gf0o+QNBf/0N/RlPcITCZtkwwefgGp6HrPTGcEOun42Ah3K3VdV7mnVabFkqKllT2Q8ucPj+G4Y=
+	t=1746543436; cv=none; b=YrNjx8DFknW8e5kTE/SYK9N+T74Qk0T/OZ8lFSllJ6ure2r4gwaoavnub2UuzQtV6WR1ldtOzH/ilPEPclRPBO6kjfRIiH4ZwOwXxF1uf0nNUaMaq4U9hA3sPluAxAERvM6OgQlXFnZChpMpHRcaCSm3s0llkIHFxx1jb94l4TE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746543189; c=relaxed/simple;
-	bh=sZjR7g+ytLQ85oSSAmyj70daiFNFpcO2dZT6RlYmfuU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=FFW31q9I4UQfNi2Ob+TbCSYO9CRntYSwzoS+UO3TB9RUVqC8bTzHRHc88XLLNck6txYNURE1bLP/1tZ0NEtbYbGM3dpMD8iOAgce/2HCtNS08GEntHzJFkHLOQ8mBZO9ZrQcbfzjiw+18USvwWtIGgTNWjZS5QTUtCPg8jk3r3M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 8887D339;
-	Tue,  6 May 2025 07:52:56 -0700 (PDT)
-Received: from [10.1.29.178] (XHFQ2J9959.cambridge.arm.com [10.1.29.178])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E80603F58B;
-	Tue,  6 May 2025 07:53:00 -0700 (PDT)
-Message-ID: <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
-Date: Tue, 6 May 2025 15:52:59 +0100
+	s=arc-20240116; t=1746543436; c=relaxed/simple;
+	bh=bsqqyAJp0U5RCLC80okyrbHXY7J3utSy8jIiesJ61g0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BjF1Syk8ofS1m1F0UYM0Ldpe9OxxhtY1v4Fdtu5Wx4XVj0fFr71y605D3IGwqgMAZYqiLczKUPbZUHk2clq4imRJ9buQdz+uZdSBQi5dj4fVCMgIVtdK+yKgmDbnf8V4KetSZY+vM5+O3ci0k47tESZnLgtv17/UPjlv+6Hxp7w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cE3HsRGC; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cE3HsRGC"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38291C4CEEB;
+	Tue,  6 May 2025 14:57:09 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746543434;
+	bh=bsqqyAJp0U5RCLC80okyrbHXY7J3utSy8jIiesJ61g0=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=cE3HsRGC4nh0bceeQdOwkwZd8W4wyHk3N9w5Dah5upNlqcLgosi6i8fziGSQZMdTQ
+	 raCz2h6oJF7cZGNQ61yJodIzYroWKwl4MV+zW2si+bxLydMW0rtJmmuaGTxskX6Fyn
+	 ZtIkKWTHKJO8ppUfr1tO/W2fSHyjMbPBNvK0lb2u754FHp+X6jxntLSP356MMl7n9w
+	 yeNiePFQblHK4Y0HP1lSQUxf6uPeYTo0iGC2zP8pmokhlduq50nc/0sNKY52WuVh6E
+	 49JnAh1SE3WLjQ9l0Y3Z+mQ1MiHvXvStNByIi+OCYcJ/Ybe/WmSu0aqpRaxWVDRes5
+	 /0t10m58yyzUw==
+Date: Tue, 6 May 2025 15:57:05 +0100
+From: Will Deacon <will@kernel.org>
+To: Marc Zyngier <maz@kernel.org>
+Cc: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
+	ryan.roberts@arm.com, suzuki.poulose@arm.com,
+	yang@os.amperecomputing.com, corbet@lwn.net,
+	catalin.marinas@arm.com, jean-philippe@linaro.org,
+	robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
+	paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
+	james.morse@arm.com, broonie@kernel.org, oliver.upton@linux.dev,
+	baohua@kernel.org, david@redhat.com, ioworker0@gmail.com,
+	jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com,
+	jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
+Message-ID: <20250506145705.GB1246@willie-the-truck>
+References: <20250428153514.55772-2-miko.lenczewski@arm.com>
+ <20250428153514.55772-4-miko.lenczewski@arm.com>
+ <20250506142508.GB1197@willie-the-truck>
+ <86cyclhjw0.wl-maz@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
-Content-Language: en-GB
-To: Will Deacon <will@kernel.org>,
- =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>
-Cc: suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
- catalin.marinas@arm.com, jean-philippe@linaro.org, robin.murphy@arm.com,
- joro@8bytes.org, akpm@linux-foundation.org, paulmck@kernel.org,
- mark.rutland@arm.com, joey.gouly@arm.com, maz@kernel.org,
- james.morse@arm.com, broonie@kernel.org, oliver.upton@linux.dev,
- baohua@kernel.org, david@redhat.com, ioworker0@gmail.com, jgg@ziepe.ca,
- nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com,
- smostafa@google.com, kevin.tian@intel.com, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- iommu@lists.linux.dev
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
- <20250428153514.55772-4-miko.lenczewski@arm.com>
- <20250506142508.GB1197@willie-the-truck>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <20250506142508.GB1197@willie-the-truck>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <86cyclhjw0.wl-maz@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
-On 06/05/2025 15:25, Will Deacon wrote:
-> On Mon, Apr 28, 2025 at 03:35:14PM +0000, Mikołaj Lenczewski wrote:
->> The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
->> and this commit adds a dedicated BBML2 cpufeature to test against
->> support for, as well as a kernel commandline parameter to optionally
->> disable BBML2 altogether.
->>
->> This is a system feature as we might have a big.LITTLE architecture
->> where some cores support BBML2 and some don't, but we want all cores to
->> be available and BBM to default to level 0 (as opposed to having cores
->> without BBML2 not coming online).
->>
->> To support BBML2 in as wide a range of contexts as we can, we want not
->> only the architectural guarantees that BBML2 makes, but additionally
->> want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
->> us having to prove that no recursive faults can be induced in any path
->> that uses BBML2, allowing its use for arbitrary kernel mappings.
->> Support detection of such CPUs.
->>
->> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
->> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
->> Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
->> ---
->>  .../admin-guide/kernel-parameters.txt         |  3 +
->>  arch/arm64/Kconfig                            | 19 +++++
->>  arch/arm64/include/asm/cpucaps.h              |  2 +
->>  arch/arm64/include/asm/cpufeature.h           |  5 ++
->>  arch/arm64/kernel/cpufeature.c                | 71 +++++++++++++++++++
->>  arch/arm64/kernel/pi/idreg-override.c         |  2 +
->>  arch/arm64/tools/cpucaps                      |  1 +
->>  7 files changed, 103 insertions(+)
->>
->> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
->> index d9fd26b95b34..2749c67a4f07 100644
->> --- a/Documentation/admin-guide/kernel-parameters.txt
->> +++ b/Documentation/admin-guide/kernel-parameters.txt
->> @@ -449,6 +449,9 @@
->>  	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
->>  			32 bit applications.
->>  
->> +	arm64.nobbml2	[ARM64] Unconditionally disable Break-Before-Make Level
->> +			2 support
+On Tue, May 06, 2025 at 03:51:59PM +0100, Marc Zyngier wrote:
+> On Tue, 06 May 2025 15:25:09 +0100,
+> Will Deacon <will@kernel.org> wrote:
+> > 
+> > On Mon, Apr 28, 2025 at 03:35:14PM +0000, Mikołaj Lenczewski wrote:
+> > > The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
+> > > and this commit adds a dedicated BBML2 cpufeature to test against
+> > > support for, as well as a kernel commandline parameter to optionally
+> > > disable BBML2 altogether.
+> > > 
+> > > This is a system feature as we might have a big.LITTLE architecture
+> > > where some cores support BBML2 and some don't, but we want all cores to
+> > > be available and BBM to default to level 0 (as opposed to having cores
+> > > without BBML2 not coming online).
+> > > 
+> > > To support BBML2 in as wide a range of contexts as we can, we want not
+> > > only the architectural guarantees that BBML2 makes, but additionally
+> > > want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
+> > > us having to prove that no recursive faults can be induced in any path
+> > > that uses BBML2, allowing its use for arbitrary kernel mappings.
+> > > Support detection of such CPUs.
+> > > 
+> > > Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+> > > Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+> > > ---
+> > >  .../admin-guide/kernel-parameters.txt         |  3 +
+> > >  arch/arm64/Kconfig                            | 19 +++++
+> > >  arch/arm64/include/asm/cpucaps.h              |  2 +
+> > >  arch/arm64/include/asm/cpufeature.h           |  5 ++
+> > >  arch/arm64/kernel/cpufeature.c                | 71 +++++++++++++++++++
+> > >  arch/arm64/kernel/pi/idreg-override.c         |  2 +
+> > >  arch/arm64/tools/cpucaps                      |  1 +
+> > >  7 files changed, 103 insertions(+)
+> > > 
+> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+> > > index d9fd26b95b34..2749c67a4f07 100644
+> > > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > > @@ -449,6 +449,9 @@
+> > >  	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
+> > >  			32 bit applications.
+> > >  
+> > > +	arm64.nobbml2	[ARM64] Unconditionally disable Break-Before-Make Level
+> > > +			2 support
+> > 
+> > Hmm, I'm not sure we really want this. It opens up the door for folks to
+> > pass 'id_aa64mmfr2.bbm=2' without updating the allow-list which feels
+> > like it's going to make crashes harder to reason about.
 > 
-> Hmm, I'm not sure we really want this. It opens up the door for folks to
-> pass 'id_aa64mmfr2.bbm=2' without updating the allow-list which feels
-> like it's going to make crashes harder to reason about.
-> 
-> Is there a compelling reason to add this right now?
+> Passing id_aa64mmfr2.bbm=2 shouldn't have any effect if the HW doesn't
+> advertise it already, as you can only downgrade features. Trying to
+> upgrade features should leave a nastygram in the kernel log.
 
-I don't think there is a *compelling* reason. This came about from Suzuki's
-feedback at [1]. He was keen to have a mechanism to disable BBML2 in case issues
-were found.
+Ah, thanks, I was playing around in QEMU and my CPU already had BBML2
+so I didn't spot that. In any case, I'd prefer to avoid adding the
+option unless we need it -- this thing is driven from an MIDR-based
+list and that should be maintained.
 
-But simpler is usually better; I'd be ok with removing.
-
-[1] https://lore.kernel.org/all/0ac0f1f5-e4a0-46ae-8ea0-2eba7e21a7e1@arm.com/
-
-> 
->>  	arm64.nobti	[ARM64] Unconditionally disable Branch Target
->>  			Identification support
->>  
->> diff --git a/arch/arm64/Kconfig b/arch/arm64/Kconfig
->> index a182295e6f08..613b4925ca06 100644
->> --- a/arch/arm64/Kconfig
->> +++ b/arch/arm64/Kconfig
->> @@ -2070,6 +2070,25 @@ config ARM64_TLB_RANGE
->>  	  The feature introduces new assembly instructions, and they were
->>  	  support when binutils >= 2.30.
->>  
->> +config ARM64_BBML2_NOABORT
->> +	bool "Enable support for Break-Before-Make Level 2 detection and usage"
->> +	default y
-> 
-> I don't think we need a new Kconfig option for this. It's a
-> kernel-internal detail and I'd prefer not to fragment the testing base.
-
-Fair enough. This originated based on a similar argument to above. Let's just
-remove then.
-
-> 
->> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
->> index 9c4d6d552b25..7a85a1bdc6e9 100644
->> --- a/arch/arm64/kernel/cpufeature.c
->> +++ b/arch/arm64/kernel/cpufeature.c
->> @@ -2200,6 +2200,70 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
->>  	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
->>  }
->>  
->> +static bool cpu_has_bbml2_noabort(unsigned int cpu_midr)
->> +{
->> +	/*
->> +	 * We want to allow usage of bbml2 in as wide a range of kernel contexts
->> +	 * as possible. This list is therefore an allow-list of known-good
->> +	 * implementations that both support bbml2 and additionally, fulfill the
->> +	 * extra constraint of never generating TLB conflict aborts when using
->> +	 * the relaxed bbml2 semantics (such aborts make use of bbml2 in certain
->> +	 * kernel contexts difficult to prove safe against recursive aborts).
->> +	 *
->> +	 * Note that implementations can only be considered "known-good" if their
->> +	 * implementors attest to the fact that the implementation never raises
->> +	 * TLBI conflict aborts for bbml2 mapping granularity changes.
->> +	 */
->> +	static const struct midr_range supports_bbml2_noabort_list[] = {
->> +		MIDR_REV_RANGE(MIDR_CORTEX_X4, 0, 3, 0xf),
->> +		MIDR_REV_RANGE(MIDR_NEOVERSE_V3, 0, 2, 0xf),
->> +		{}
->> +	};
->> +
->> +	return is_midr_in_range_list(cpu_midr, supports_bbml2_noabort_list);
-> 
-> This doesn't compile against latest mainline as is_midr_in_range_list()
-> no longer takes the midr.
-
-Will ask Miko to fix.
-
-> 
->> +static bool has_bbml2_noabort(const struct arm64_cpu_capabilities *caps, int scope)
->> +{
->> +	if (!IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT))
->> +		return false;
->> +
->> +	if (scope & SCOPE_SYSTEM) {
->> +		int cpu;
->> +
->> +		/*
->> +		 * We are a boot CPU, and must verify that all enumerated boot
->> +		 * CPUs have MIDR values within our allowlist. Otherwise, we do
->> +		 * not allow the BBML2 feature to avoid potential faults when
->> +		 * the insufficient CPUs access memory regions using BBML2
->> +		 * semantics.
->> +		 */
->> +		for_each_online_cpu(cpu) {
->> +			if (!cpu_has_bbml2_noabort(cpu_read_midr(cpu)))
->> +				return false;
->> +		}
-> 
-> This penalises large homogeneous systems and it feels unnecessary given
-> that we have the ability to check this per-CPU. Can you use
-> ARM64_CPUCAP_BOOT_CPU_FEATURE instead of ARM64_CPUCAP_SYSTEM_FEATURE
-> to solve this?
-
-We are trying to solve for the case where the boot CPU has BBML2 but a secondary
-CPU doesn't. (e.g. hetrogeneous system where boot CPU is big and secondary is
-little and does not advertise the feature. I can't remember if we proved there
-are real systems with this config - I have vague recollection that we did but my
-memory is poor...).
-
-My understanding is that for ARM64_CPUCAP_BOOT_CPU_FEATURE, "If the boot CPU
-has enabled this feature already, then every late CPU must have it". So that
-would exclude any secondary CPUs without BBML2 from coming online?
-
-Suzuki guided us towards this solution.
-
-How do you see this working with ARM64_CPUCAP_BOOT_CPU_FEATURE? Or do you just
-think that all systems will always be homogeneous with respect to FEAT_BBM?
-
-Thanks,
-Ryan
-
-> 
-> Will
-
+Will
