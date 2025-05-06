@@ -1,269 +1,517 @@
-Received: from mx0a-00622301.pphosted.com (mx0a-00622301.pphosted.com [205.220.163.205])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B8768263F31
-	for <linux-doc@vger.kernel.org>; Tue,  6 May 2025 10:40:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.163.205
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D4F59272E47;
+	Tue,  6 May 2025 10:50:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746528010; cv=fail; b=pRy+Kf07KSCG1fx/D+vF/O08WhY120XBtJVQkCDNh+55iaxU/40nPOeQ+GZdvuwCGQzNhKgniK6AeSdoEKDmi0OcxmLEijf27GinZYPlakGWyDS+w7FOwkakZwoxgsofKPmW9QRpT47/SEkuuxyp4klT3bMahXLNesDyR0sL4sk=
+	t=1746528607; cv=fail; b=ia3BzpIAZui+A7kMGxq8KXr8AWTL/k2AF9Z/jVB0xYTwC++XKefza91HPZ8w0TouLRAp/sFLqBvN2Q+0bljdQ+6tjgJv1d8DoLbmrmT1jxWaOFqdYNkZ6KhDD97sx32uoeR3OZTXKCS+T9yHZZaYYx48if2FKtQoAtM8Ny+ONdM=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746528010; c=relaxed/simple;
-	bh=PxS3Bvm35iUauoW2sb20DoZ7ULMeDO3cfHs5SYa+ijM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 MIME-Version:Content-Type; b=Z77xeyVXg0bmzDgAlE/Kweq8LZqBM16sWY7cF1puknyKP9mWxCEoOvSMArfffTsjXqmiThEumM/5xLVkhRsynzir/t+inqeDSJgF2iwZ8+2WqCdnitNcGWhqigOETGbQ7LZhyXoYPzIiOkUg/YYP6Pd9+no7S5FHMWZLkG7gC40=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ambarella.com; spf=pass smtp.mailfrom=ambarella.com; dkim=pass (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b=eBDLg3Vx; dkim=fail (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b=FgMuhM0D reason="signature verification failed"; arc=fail smtp.client-ip=205.220.163.205
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ambarella.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ambarella.com
+	s=arc-20240116; t=1746528607; c=relaxed/simple;
+	bh=6beNn7cgWQfut0xgH1gplizIJas5jbSrMVJUWVVktmw=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Lcw4Kopoe+Nl2e6DxsanpVJr7nRJh/6isGiLRxdpKRBjXLHLV9Jyp9k1tUvxS0icxYTVNQezQhf3+HS4cvjJO7ieX4ZMT6XfnP3sgp46lCGz+W8iMmkEMk2hTY2YRU2hXKl08N+QUdL59eRGA1tUUe/aHnJvaR0Ku/hTW0URA0A=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=cZ1Yn5k0; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=BSxcyaOX; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b="eBDLg3Vx";
-	dkim=fail reason="signature verification failed" (2048-bit key) header.d=ambarella.com header.i=@ambarella.com header.b="FgMuhM0D"
-Received: from pps.filterd (m0241924.ppops.net [127.0.0.1])
-	by mx0a-00622301.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 546A9I0q015149;
-	Tue, 6 May 2025 03:39:52 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ambarella.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	com20210415pp; bh=PxS3Bvm35iUauoW2sb20DoZ7ULMeDO3cfHs5SYa+ijM=; b=
-	eBDLg3Vxxqq1176kMU7fGosH2Br9qDaOnMsMKN0V7JkZPqieBHXzPHQ21XQZ4kM7
-	830/qyBpxrL9CTeJxYBiCeYS/B+WomuRSTTPPo10zdVoVdqES1ImogzYDP+x0AWR
-	ziRC9uERtqf96Q1bCsXLKnYBszvpx9vcWIih1qYi38DytRzmDxy/7QTbdh0ZDvne
-	oG5FJA7DOm091utVGBRA+tnfHBFQi40ZiPxjcUdTmlNxb8IXj87yDtxM8CBVxc2q
-	gL5IHo18/i4NHZcKm2YY//QInkcjWwYOx2ouDyUSJtpxDUuFccar3FpjbucXgwyx
-	EQY93JWRU3A7I6KwK/AAzA==
-Received: from nam02-dm3-obe.outbound.protection.outlook.com (mail-dm3nam02lp2041.outbound.protection.outlook.com [104.47.56.41])
-	by mx0a-00622301.pphosted.com (PPS) with ESMTPS id 46dg4ehhgn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 06 May 2025 03:39:51 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="cZ1Yn5k0";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="BSxcyaOX"
+Received: from pps.filterd (m0246632.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 546AlDKX018309;
+	Tue, 6 May 2025 10:49:46 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=pQysJPA0hFNtgBsLg3sT0B1x+/DgDJoWRMwy66z2Wuo=; b=
+	cZ1Yn5k0MPpoawOSgiWz7W0PPMcwjlV2JVjJLfs8DjKcC3w+Tweu34AFPyDAD/4N
+	oY43TSKlFvsUkQab4hZ0KizVa/v5dSWdaMP1wKJD/7R5kI19iyAqqdCMgREsBPtn
+	1mQcFAvN3FWmHhC+mavltBHJVzqncJtgpc/gfzfs2MO/3/piDhWTHrmEjeobO79E
+	od8BOvP8fdqbZsYX5TdRy9fSjimsZ41wUjX6idbBzWnsZWD/g51JBUijlfSP98ww
+	ClFsisDmCCDwb/Y9C885zFHxaHt4rrsq8rKDXAKzRkwsTiWBnnfa1T8OxAAbGbcS
+	1f9tssl5iUL1EDvMzmNOrA==
+Received: from phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta03.appoci.oracle.com [138.1.37.129])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46fgykr0aw-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 May 2025 10:49:45 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5469gvFu035282;
+	Tue, 6 May 2025 10:49:44 GMT
+Received: from co1pr03cu002.outbound.protection.outlook.com (mail-westus2azlp17010007.outbound.protection.outlook.com [40.93.10.7])
+	by phxpaimrmta03.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46d9k8umbr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 May 2025 10:49:44 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cuAEhwcjEG6tLaYmvFwrmDvpbjp4L+kfdDxR/6MPtMZFvkjQsnf6gQNnk9T/zLOOojXO+4kN2jQ0zE8gYi/vR2mOpF+8xpMuyK6rKJG/wtYIlxPynKmdX0hk0G7ecalLnJGI3QMnugEt8hVTw/uWbYu9medNIMZipMQyxutMiH4xpK0wPAg4hCHaw8dymR7E+EfTr9yw2VP7OTwAJF1d3B8B62ZAncISOUhZguwxVcFCvhLFKXVH5zV7gA4RA9c7lC8LsySqQhhpzUGb0xjCfp3leRM9mo7uSYeBvjG7QBJPQ969EUb7PsXnP7k6fYGdHz5w0NwohmUWGFy0m9U91w==
+ b=FHbJkri+9d+pzx2JaDrOmIncHfoR0dVztQZrwT+e9pzAeauOqYzt161B/ICZbBhP7OpHAttLm8HU9KRFWReJQeV6l0gwQZtAf+6YJFcBkskHagNL0eZrLPYt8HykcpoWFINN+jfYuJg0CLuPrb/x9gYi5ZMXPHtrrOqr1EOYOXEg4MYcnocu98mJkqh/m2vEZ4KscNzFUpBxuo/akjVtj4hgyxakmjpA58RtLp9s8kOWLrMUFLK7ZLd5bHkRK0MU9m/bihNlERbYHtnPZu+dcj0WKb/mrJ3KsHxq/E+OT8oxTNhQfl9mi+bNsnEkGRU1yp1DeEClfvVKWyQ2J9V6NQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CQMHzs3z/zlJOVwmpS1QH/RtE8kqkENVZ4KIX+FxWq4=;
- b=sCbsu0NvD1A+P1lvsBLdz454ODeYOSSRUa83fAyWplUuhLVCoN/9t5/iyPdkYwU/PA/0CNTTpAAZUAZyRIeGt6+813Di6+BwXTFum33GCqggMmikqkAS8I3qfjHFuhUGxQ1mV9STPv3j15284I8D48AETDrokPVYjZ6EGUNuSm/VpFGKhUfhcAFBbY1eArQtwDRLAuBdnK0DlObPJK49aVjpaNg+/Ap+d7ybVI2xgMybEDT4S760dMj4V8ZGVZtEUKSByzRBp5OXsHPxMtnuaEt5iWtIuT2d/TAPe0rAmtvQM7iZJFlwFSJHt7lGVFVEcrHZg7Qn9JpJIciS7P5w2Q==
+ bh=pQysJPA0hFNtgBsLg3sT0B1x+/DgDJoWRMwy66z2Wuo=;
+ b=kOC/KcfzqWcP1dAr8WHcezXk5W4xnzRXMcvQexOO5Mu03ZUePrpNJavRUrOfs2r9uJZDotxQJv6rGWPi6yU7d9J3LXeyqtCPpOJFIzGb8p7IZocz/muGgGQLO5oouWs3nWZGIS2PvOmS1xgGm++wIKESxyDMhKV8Gfr/QcVSztYMQRAW/ZZgWKg0FBmCljsa2tBMr5H1lbvWzDUZF90jys3PWQQUjnk1Bf66NbLgpAFoFqcqyf7ojKTDYRR57fqUoha3A98bnrRLe5GB6xEXVRFxLFUsTwgi/aWRpJlnRUYmgxY/Q9eWxewyrB1LZfl8+96f65uIaXRSw1NFPJu5mw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=ambarella.com; dmarc=pass action=none
- header.from=ambarella.com; dkim=pass header.d=ambarella.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ambarella.com;
- s=selector2;
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CQMHzs3z/zlJOVwmpS1QH/RtE8kqkENVZ4KIX+FxWq4=;
- b=FgMuhM0D5GEI7LivHweO4GMR5wJnkwwiHPJRVXGE2mWfXzfcIRabdRt4xvfy1wmZAUkcM54fP1FBbjOK/vx/ilGCKDTwv1kNWKVHG6AGIqBbilf553j3M+HQ4vcaD03w4h/TsyuAYhJ+X8FxPQo9+2MTAm0f+OYod20m+V30oSHMUle6vG1KmmGQblZFix3jH2O2GJcsDMsBZL6RrS5inlNh8iUU9kaWRQ58glRj6Rk53+cGXL+542xZbt1NbYUZMSuzcawKCCBV0Qp1hOPWU4d3nFxIHryToc/lIdMgBpKEdy9oClTFTelW0LD0bkqAwLtx+1B+zE1x+I6GBb4GLw==
-Received: from IA0PPF7478C2D3A.namprd19.prod.outlook.com
- (2603:10b6:20f:fc04::cb1) by CH2PR19MB3845.namprd19.prod.outlook.com
- (2603:10b6:610:97::12) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Tue, 6 May
- 2025 10:39:45 +0000
-Received: from IA0PPF7478C2D3A.namprd19.prod.outlook.com
- ([fe80::16c6:139e:74a9:f17e]) by IA0PPF7478C2D3A.namprd19.prod.outlook.com
- ([fe80::16c6:139e:74a9:f17e%3]) with mapi id 15.20.8699.026; Tue, 6 May 2025
- 10:39:45 +0000
-From: Ming Wen <mwen@ambarella.com>
-To: Jonathan Corbet <corbet@lwn.net>,
-        "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>
-CC: "mchehab@kernel.org" <mchehab@kernel.org>, Long Li <longli@ambarella.com>,
-        Jian Tang <jtang@ambarella.com>, Zhao-Yang Chen <zychen@ambarella.com>,
-        Rongrong Cao <rrcao@ambarella.com>
-Subject: RE: [EXT] Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
-Thread-Topic: [EXT] Re: [Kernel 5.15/Kernle 6.1] About Sphinx Doc.
-Thread-Index: Adu5CPI/xnNgIXNHREqtI6hCoIYQBwAxQcUAAAGx1wAAAQ6JgAACKvLAASRQeqA=
-Importance: low
-X-Priority: 5
-Date: Tue, 6 May 2025 10:39:45 +0000
-Message-ID:
- <IA0PPF7478C2D3ACE380061479DF07A6EE9DD892@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
-References:
- <IA0PPF7478C2D3A237C6EE1AD359301D79BDD802@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
- <87jz71lstz.fsf@trenco.lwn.net>
- <IA0PPF7478C2D3A0AF4E32EE1ADD91EBCD5DD832@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
- <87bjsdlp6o.fsf@trenco.lwn.net>
- <IA0PPF7478C2D3A47E070E5B5E2A74A7DE9DD832@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
-In-Reply-To:
- <IA0PPF7478C2D3A47E070E5B5E2A74A7DE9DD832@IA0PPF7478C2D3A.namprd19.prod.outlook.com>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: IA0PPF7478C2D3A:EE_|CH2PR19MB3845:EE_
-x-ms-office365-filtering-correlation-id: bd1f9ed2-f665-42fc-d189-08dd8c8a5138
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|366016|1800799024|376014|38070700018;
-x-microsoft-antispam-message-info:
- =?utf-8?B?Z0FoR3J1aE00REg2bkJmR2lGdUpwV1VobURZNnZEVlhFaUxya1d2NE1hYm51?=
- =?utf-8?B?S0xjVVR5Tmp2TjFjc2p2c1ZRWGtkUGhFcUUwMDhCNENJOEh6akdCdnhBdG9E?=
- =?utf-8?B?MEdKVlZ4ai80RkFtWi9UWXVCQTJtU1dyVFRHeVZoWmpRM3pGZlBXZlFNK1Yz?=
- =?utf-8?B?VEw0dHlhVkFJazR3cnM4NERTdEEwanZONi91cWtPOVFHOTdGcVFadk9pL2NE?=
- =?utf-8?B?clZoZGJScnJNUkgweXhUNERUTmtrS3Z3WFhVUFpsUUJPejlwTzhxNVlPV0M2?=
- =?utf-8?B?UDVIbWdpemdKN2VMdGFaOXk1OFdyUDRmVG1iVi9Uc1FMRU54RTlKV0VtR0JX?=
- =?utf-8?B?bnlBM0swWGliTDNBcnNxbks2RGx0SGc2d2ZxT1JXVzdoRkxWVFkxNXRJVS93?=
- =?utf-8?B?dVloVC81bDRUczJMVi9JdWQ4KzNiQmdweHV0bjdwcXdJWkxJV3RFUENCRDFS?=
- =?utf-8?B?Yi9aNlpqazRBa2FmSk5sRW9UYS93cGhDS2hjVm0vbDVQVjRTVHYrQzU0UUM1?=
- =?utf-8?B?azhURldWUTJHZWF3WXJ5MWhBQ21VMExuZWZkUlJZZTNEb1Rld0dUeEtBSlBo?=
- =?utf-8?B?TTRaU2lHNHBWZkZjY3lFNTJzdVpvYUtzK2M1NjNhK0loRjRQRE9qWHpMRGgx?=
- =?utf-8?B?MjQ1NTVHR3M3dW1hekllMlljSFh1QVppdUk2cWc0aU91WmNkWUEweTB2cHFK?=
- =?utf-8?B?MTdrc29tRWtXWDRRclVVY2srYU92REtPYUNZMzlobUs0a2xranNGLzNreW9I?=
- =?utf-8?B?ZCt3VndoRWxjSnM0MDdTZll5YnI3N3pkdDc0L05SSUtHT1VReEJZUXRiYk9X?=
- =?utf-8?B?NktBTkprSGFpa0l0LzMyOU1vTDVEZkl3YWlUYXk2dzUweXVNWGZkT2Y5c2RT?=
- =?utf-8?B?R2xEcXpwSFVzR05ZRnFXSDRaWGt3aUtNSmFhWjFxV3NjNDdlRGJqMUpsUTBD?=
- =?utf-8?B?WDNxWnRsc2VPcDRjUUkrZW91bHNadkcwcW03SStlRWgxdStVZ1FXenNDUFJX?=
- =?utf-8?B?UW9lUHNIejd0dW54SVpXRS8rU3B6TlR2c3czdDZqYWtldlBNblRyOGJGOXRm?=
- =?utf-8?B?THEvSXVvZkI5RzRVYmFEYXpLL0dSVDREQ3IwcFR6UlJBM1NidkdHUWZPdWQz?=
- =?utf-8?B?Yjl6akRoVlFDeVFvUkxNdXpOcUNLdkNwVytRZE9UakJ3c3FLMU5kUjRYajVF?=
- =?utf-8?B?NFQ4ekpRLzYvTDVIOUVJem04d3hWdzMycUJyb284MURJcThNL2prZjdNZE12?=
- =?utf-8?B?bkloZmZxQ0xsVmNoL01TY0Fyd3lWeUZLT0dVMmZUdXF2RVlVSjZmUEZMOERP?=
- =?utf-8?B?TFhJL0hvUFdVYXVmTWQ2TStDTWxRTmtsK1ZVdVhYd0dDWjEvZFhQSWVtUEhM?=
- =?utf-8?B?T2d5cUQybjFPUmNjM1hHWUV6NEg2RG8rYjlUNWE2dDg4dnpYYjhGd1g3OWFp?=
- =?utf-8?B?dlNkMzU3a3pZQmQzZXI2Nkh1cnZPQTlCRWxaWFdNTDJxMG9CSDdIZm12cEQr?=
- =?utf-8?B?SVdnbmp1cE5hRHZoT25oOHN3SEYyYjZJNGxHTDRteVZWUWIvZ2RZTXNnQ3JD?=
- =?utf-8?B?cmRSYTgxVzRMZ3dnTlpNY2ZTeHdYZkFjVk9NUENZYjJDMUpuOUljV0F2Qlor?=
- =?utf-8?B?T2VzcFcyS05JQTRQbGJtNkN3czBRRGNqdWFqRmZnaENwOU5ETGRrY0RVUmdm?=
- =?utf-8?B?U3R6cHB2UFRSK0FGY2ZidytyZ3hlUXdnSjhGRFQ5ZE5LN2ozdmhDb2ZtcWht?=
- =?utf-8?B?b3FDOG5WbVIxbk10ckYydkNWQzVXU2xPenRTRjd3TnR3ZE0rZUtWQUlHa1Jo?=
- =?utf-8?B?bEpYNVM0VGMwNXJzOHI2dnZsMXR1T1h2RnU3ZXNUQ05UWlZsOFYxdU9xekJU?=
- =?utf-8?B?aDZNMy9uTHdzUUtzeFgzY0t3T2xSbXF1aE0wN2FNZDAxUHRobUtDVkhCNVF0?=
- =?utf-8?Q?xygDyD5hWGA=3D?=
-x-forefront-antispam-report:
- CIP:255.255.255.255;CTRY:;LANG:zh-cn;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA0PPF7478C2D3A.namprd19.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(38070700018);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0:
- =?utf-8?B?T29rYmdlOW1IZzNxWkc5d1NjTndLSXdwUUhmMnU5SzN5bms5QXJkQUdDK092?=
- =?utf-8?B?QURwUDArSWxlZXFkQ2FoYU5OUW1JejdIaWY3Vm01cEJkS1lZeGFCNG9sL2pM?=
- =?utf-8?B?MjhqREpxYVcxQ1hlTERPUlJMK0V1MlVZNG5zSm1kY2EyWkJhamVBdmRlTTY0?=
- =?utf-8?B?UGJOVGlOWGFNdEFDRjc2aFhORGl0SnRzT1hMZm9iTmNhNEhpVzdKWC9CZEJH?=
- =?utf-8?B?L0pNNXFSSCswUGQ5MnlVWVZlVTZWT0grLzlGNTdZa3hDeUZxaGtPcDFsR0xr?=
- =?utf-8?B?RXllUXR3ZHBiWDIrOWprTlkvTVE0elA0ZG5kM0xjZHV0cG9JVVBISUltYy9x?=
- =?utf-8?B?STdHTnl4T2x1WS9ZdXVCSGNCYlF3UzZ4eEFoRll5alM2OVdJZWdtZDNMTWtZ?=
- =?utf-8?B?QW52REJwMlBPQmFWaUpJQjkvOU9yZlU5WFRaMnNzL0dkeHhtaFJBT1BBcEtV?=
- =?utf-8?B?dTJTdlgxc1B0L1FGak5PNVVsOE9SV0VVbWx1V0x5Q3ViYXhBUE9BVHpJRHZo?=
- =?utf-8?B?bDZ4SmVzSkNuZ2hxTFZnMlc1LzlJbXg2MUdwM1BFSWJwYTlSVEl2OUh0WnA2?=
- =?utf-8?B?VmcwNGV5UTR1Mnhoa0FzdlBGUjFhZURZU2NEN0Jrb2NBbXpjb0VDV3NZK3Nu?=
- =?utf-8?B?aEozOXowekRDMVZHSjhYYktrdVF4aFZBOXZiVnlocklBZTh4ZHliZzI3MThm?=
- =?utf-8?B?ZHpMSzNEWS9kdmxhSjBnWkdRL0E0cVZDQWJ0U2VVblVESndpUGpXTDg5TEhu?=
- =?utf-8?B?bVVsSWRQREgzd1kwZnpxaXFFVXplZDlBVFM5eEk3MlpMYURCZlJ1MjkvNTMr?=
- =?utf-8?B?by8wcXNFTENjdHlkZEIvWFUvdHZyajdGK0hVeVZOWjJweDFxeThmZ3ZZaGZR?=
- =?utf-8?B?eGh1SG5XaUpiZ2xJeTlJNW9URVZMeGI5LzJkT2Fsb3RZVlRGdmkrRmFxWGJV?=
- =?utf-8?B?Ylcxamh1Wlo0dHJzZHFrWGNXMDZ5VXYrd21WNVdZd3pkaGU0TGxnMk5OWWov?=
- =?utf-8?B?OVBUR2dKWkJYV2FrTUZ6UHBCeW82YWYvdkNVUGk1cHJsc0VRRWxuSzVRWm5G?=
- =?utf-8?B?czlSbXFWUDI1SjA3VDkwdHNsNXlTT3ZWdlVpUFptK0dQcXN5bm1Ecmp6Sllk?=
- =?utf-8?B?R0s1bnJ4NzlkR3d5T0kzaDFNOFExM3FIZURRTk9ibDZvODBhUUJtRHViNnJa?=
- =?utf-8?B?K3NmU2djU2RaSXVUcVo4WVQ3Q0MxVlhVa1J4T25qR2VKZjBPSXkzL1BaU29s?=
- =?utf-8?B?NFBKU0h5cUUvRlpUcWpWdUpwQld1cHEyTEd0b1JLMHR4bXo2YlNwV3kzaDhu?=
- =?utf-8?B?bmNyZ3QxRFB4NmNnd3FUTTUxTG4yby9Sb0RhQ2ljQTVUZXJ6TDVZN05ZREFj?=
- =?utf-8?B?OFY2Mk1odXdJNjZGSzdCT0Ixekh2RzlacW5ndktITkl5ZGdIdVdwekxnWkRk?=
- =?utf-8?B?N2k4YmNuR2RJZTd2ZVdBWDBTMnlBK0ZiOC9EL0RIT3NuNmpCSW9SQitVMkFS?=
- =?utf-8?B?dkFHelo5M1VQdW5jWnhjZ3ZBcmdsOGVUV3E2bXJhUzNDc3Q3NWg0MzF3NUx6?=
- =?utf-8?B?bytFSTIyeGFpczVSWEkwY2J6Tm14UEZOU0pvVFBWQytocCtoUTNveTZnb1RG?=
- =?utf-8?B?UkFZZFU5SFRiYlYvZkxaeWNDb2R6SXB6dlNGa0dNTUx1a1FtL09ldlBRS0c1?=
- =?utf-8?B?cDJVOEZjd0M2TmhBNW1jKzlpa0xEbFEvdVJ5S1hBcjNNTmlqNklaM2g1VkFM?=
- =?utf-8?B?d3RIOVBQWTZKSi9Sa3lhMDhFL1ljamZuaGQ4Qk5FdlVDbll0eUwwUU9qcnhB?=
- =?utf-8?B?YlVocHZiVXBianpmSVlvUHRlTXduWXhRNXdkV0duS0p3UUlPYTZqMUFyVi9W?=
- =?utf-8?B?cGd2WEI5RzV3aGZ4MTlXc3gwWkJyU0RFUTE2ck43SHRLb0NGL25jRW9pMHIz?=
- =?utf-8?B?WTA1TEV0OURwTnRWQyt0ZUFWUkpaTVFMRzB4cGU1S3FlM2JXYWhUdDlTS0pn?=
- =?utf-8?B?cllnRWVtYWZxSGJXTUYvS0pDckpUMUxJaHNWQy82alpDZFZKTE5GWWcySHdM?=
- =?utf-8?B?MUNvU2QwbzNmRDF0dXJLaXVyT2RUcHYwMXlkbzJEalYwUGJwV1ZSbFR6RzlC?=
- =?utf-8?Q?z748hdd2Js8K0mjNAclvhDdQu?=
-Content-Transfer-Encoding: base64
+ bh=pQysJPA0hFNtgBsLg3sT0B1x+/DgDJoWRMwy66z2Wuo=;
+ b=BSxcyaOXp0bPhfteTSQGMFjR6XsAv528qA+22O0I1qGoOrdPm+5mxKvOiegf0+7Fn6OhYy1l62XuzjBgoTFUbcDLAfFYqyDQk4vKjnvO+g+TB0TMzKH8FO4Hti+4n9oh2NJ8sXMApeWoohVYJ5PxWK2GBv1fbyIUZbfUMze6s9I=
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
+ by SJ0PR10MB4510.namprd10.prod.outlook.com (2603:10b6:a03:2d6::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Tue, 6 May
+ 2025 10:49:38 +0000
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c%2]) with mapi id 15.20.8699.022; Tue, 6 May 2025
+ 10:49:38 +0000
+Message-ID: <b23a54c9-ca99-4db9-a105-c0f3c000850d@oracle.com>
+Date: Tue, 6 May 2025 16:19:27 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/6] platform/x86: Add lenovo-wmi-* driver
+ Documentation
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+        Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>,
+        Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>,
+        Mia Shao <shaohz1@lenovo.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+        "Cody T . -H . Chiu" <codyit@gmail.com>,
+        John Martens <johnfanv2@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mario Limonciello <mario.limonciello@amd.com>
+References: <20250505010659.1450984-1-derekjohn.clark@gmail.com>
+ <20250505010659.1450984-2-derekjohn.clark@gmail.com>
+Content-Language: en-US
+From: ALOK TIWARI <alok.a.tiwari@oracle.com>
+In-Reply-To: <20250505010659.1450984-2-derekjohn.clark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TY2PR02CA0033.apcprd02.prod.outlook.com
+ (2603:1096:404:a6::21) To DS7PR10MB5328.namprd10.prod.outlook.com
+ (2603:10b6:5:3a6::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-OriginatorOrg: ambarella.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|SJ0PR10MB4510:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7e630fad-51f4-46d7-6812-08dd8c8bb27a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|366016|1800799024|7053199007|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?cGNWTk43N0k3T0dnTndGTVYxMHdoN2lIZGpPRlo2N3VERkpuMXZ3ZWEzUHNw?=
+ =?utf-8?B?NkN4WHRsWGRLbkp1M0RvK1J5RmdIRXNDdHRsbGhreWFtTHhlSkRuMW9JY1pn?=
+ =?utf-8?B?MGJ0QndDZSs4MVdwS0RWTTlVeDlBTFZISUl3a2wzaHMyR3VoemUydkhkeVZK?=
+ =?utf-8?B?YUp5UHFIVDJEcDgreEpFK2FoNm5JejBwWTRDSGFjdjRlVFhFazJST0NZYVdW?=
+ =?utf-8?B?bkJYYUY0bGRBdVJWWFVIZzZsVU16SURBMXdEd1NaN0RvWHRGV09zYWxxbGp3?=
+ =?utf-8?B?WTRCZVA2bks0ZEs3aGJtZkxWTnZZMTFxQk1qTWlyWUlXcGFPZlpNdm5sbERp?=
+ =?utf-8?B?TlByeFlkUXJNY3JvdUdQb0VDbiswTFNuV2krMWJZNzZteDhGamJTUHhnb0Qx?=
+ =?utf-8?B?L1VtUEp1N0VQSWVsYkozSnpSZzU5ZEViRkt2cERKd1VtWVFMbDlzSUtxdGV0?=
+ =?utf-8?B?eDVCMVFkbGk4NEs4SXdPQ1BSS2tLSGszNWk0YnJkYUJ5ZnVQa3VBdFFVeVlH?=
+ =?utf-8?B?TWhJckdDSm5tSS9HbloyVmJyaEdzMGxKOEpVcEVpTng4ZGx2SDdBL3N4Q1Va?=
+ =?utf-8?B?Vno4dysrN1FNbTRHcUxhN0FKRzdIUVhDaEU5NnVoaGdkZmdzbncrbDF1ejJ1?=
+ =?utf-8?B?bWZaUi84WFFhMTFPOFI3Z2FUTDIyYi84YkJlOG8zc0xOZXA3VW5rZG5nc2JD?=
+ =?utf-8?B?UnlKa3hDSnJVd2toeVV0NTdWY3NGZElKUW15b1A0RkNLUEttZ2dySGM1UXNP?=
+ =?utf-8?B?K0pmY3EvUzNYY2NPRHJYRVRSdnVuenhYWmh3R1Y1R2dqdDZEdUczdk04K0Fm?=
+ =?utf-8?B?RllLdmhyMXNLMm1aanJMRmRTaU9qSUJ0UGFSUG4vaUJSUkJtZzB3ODdXWm93?=
+ =?utf-8?B?VUNIdkxIK3RTZENZUURnbGZwQnZTbk1uUkNEb3dnaHByM0x4cDR4ZldIcFF5?=
+ =?utf-8?B?Lzk3dDAzcTk5SzlZbUxKRG1nWk42bm1YWmdNZ2IzOElCbHEwY1pwZGw1V3FS?=
+ =?utf-8?B?SEt1TTd2UzcvYTJiYndNZmNxZ21vZFFwTEgwTVpmTXN3U3ZJK1JGUmxHcWZD?=
+ =?utf-8?B?c1FGRmJKMjRSZ1YySDNoRlUzNW42eXJiM2hocHQrR3FaN1FoekVJRyt0ZEd0?=
+ =?utf-8?B?c09DVlRqWHB2b2JBWDZxMjVsLzlRNXhXOUROQW1KclNwM01CaEhuVTR1U1hW?=
+ =?utf-8?B?Q0h5dXREMnByZVozWDFzUUJHWnVpU1RCQm9mS2ViRFYvVVBUNnRXenhYYklz?=
+ =?utf-8?B?VzJmOVkzekZDdFQ0cXdkdWpFSElKQWdkM2hBL2MraDNwR1NFM3E0SWs5S3Yx?=
+ =?utf-8?B?TEloUmJPUmlueXdzS0RJWWdDMmJEQUpqTWlhcmc3NGxFSEl2d0s1REZxNndS?=
+ =?utf-8?B?V3N3bGVwMnFSemdLbWtscFlHL3VSYmRhOTQxVXFnVHIySVQ4SmxnYlRrUjlQ?=
+ =?utf-8?B?YThwYU56NFdJTDFwb1FzWExveVA4T1dKN2NTaG4zNkV1dHV5YUpad1pja20r?=
+ =?utf-8?B?Vit6VkRVNERHTWlmb3dOdUtERSt5bkN3WmpGZUQzSnptU2dqVUE1UnBrbHJ3?=
+ =?utf-8?B?Zk42RU5SWTZlRGxFa3BFcEtieXFoU1p3K0JxOGhwNnJManI4NFg3ZURmQnV1?=
+ =?utf-8?B?aUdqZDZsSE1wRjZlLzhGekdESzRzM0VFRWduaGVRSDFPSGJsa1BCL1NDcUtl?=
+ =?utf-8?B?YlVsa0plaVZ5MGZUaHNZenl5Zmh5Z3pNOC9QbWxMWmovcVhMNnN1cjdnVzlD?=
+ =?utf-8?B?ZDBTeFl2UmNleDVRY05yNC9JWmdUNDVYaHlnUTFDM2NiUThtU3dKRU5PdWRk?=
+ =?utf-8?Q?XP09i3ZID5KR104HCKwg7uw/CI9OqCluKB7ZU=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5328.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024)(7053199007)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?N2dIOWc3aXdpbjRQek9RcFc0SS82NU5iMWZFRXBaQnJLQWF1azZZNUdlNEx1?=
+ =?utf-8?B?dEQzZks3eDNoQmlJYkppSzY5QlR3aG9DekFqeFN1M3BKZVNQT1JnMzlWMTNq?=
+ =?utf-8?B?a1RwWGllRGFzUVIvSnVTenJ0SEQ3dUIvV0RCcU1KdjZFS3RWUTg0bnJoQlcy?=
+ =?utf-8?B?WWJ5VUYwNkdNUVhVVGlvMUFXZ2R3NVBpOGozL2VaVWFUWkNHVGFNQXRxVzhx?=
+ =?utf-8?B?RUxNVGNtNURvRUduZU9ZWjhWcEc2S3VTNnBlakx6cm90cjdGbzJRSHh5ZTVC?=
+ =?utf-8?B?UEoydnRONkFBOFFkN2VEUGVLMjNzNmcyZ2g0aTZNd2JuZ2dkVUtzVTRpUzdn?=
+ =?utf-8?B?bTJnUWIrblZDditBblBScG00RWdHMFg4aEY1RkpFL21QVTRIcjdQTnJWN2J4?=
+ =?utf-8?B?Z0l3Sm0vWnFpWk5wbTJVeXVwdk1XOHJqeERTWmlWUzF0V0NxYkEyUVhKUkRU?=
+ =?utf-8?B?aTBuRlREWENaWG5ZWDVsRmxpVEJxV21oNVlsbXFTZUxWcU1INGlWeEk1a0E0?=
+ =?utf-8?B?ZmtCYVdjdmN5amZnMlVmL05IVWp2QmxFVENod0IyUTkrVFdUam81UXNCdnhm?=
+ =?utf-8?B?cVVDTU1yNFFNNnJVck5GVmNyZWpPd3pRUzdOb2RCd0g2UHpxL21ydjVWN2tt?=
+ =?utf-8?B?ZmkwTDNVNXFwWkZxaFRyVmR4emFLUFdZaHNkcmJ4YW1YdnlobEdaUUthQXNr?=
+ =?utf-8?B?b051S3EwTzNoVHVZMUFuc1E5cEsxZWN5RGtZS2RJRFQ1M3hYZXFybnZUUlVu?=
+ =?utf-8?B?a3picTFMdGl0QWd3SHNOTjJ3elc4VXJjL2VlSnFwM2ZJczIrNHN6Y3RSTzlX?=
+ =?utf-8?B?aE9LTWYxYUdCVk9Xd0duczdlUk5uNU9qUXJDVGFJTVdkK0lSQVFlVk5GbWJt?=
+ =?utf-8?B?c3VnRjJKc1B4TEpIMHRlT01rQ1pXS00yMmE0Mlk0SnBPWG1hR1QzeEt0dGhr?=
+ =?utf-8?B?ZkdCTzhIaFhqYVNCMkhtQU9PYnl3ZTBaZnZ2a3liRlFHQXVOT3pCcWx2RlF0?=
+ =?utf-8?B?TWxmcGkwZG9QbmRYMi9HQ0FKMEkwNkpYMGU1cmRKUVVpdlE4OEZGK3N0TEda?=
+ =?utf-8?B?N2xzUWlEcS9xNGtLK2hMb1BNTVhsMzBUMTZ5YzExV3U4U2NTelZ0T1B4QUxv?=
+ =?utf-8?B?cUVJY0xLR3R4dFJERHFNbDA2RitjdnMrMGtVdFFhT0VtRVdSZytkVmlCQk9Q?=
+ =?utf-8?B?dXJNemNNUHdWTEVlVWYxZ1VKZGNyd3N3ZytiTUMyL2RqemFOZjZGSnJQbnFK?=
+ =?utf-8?B?QkxHc05PUzdzbkxQVmhoblRhNndwY0dmcktwbDRYL05qRUZFdzVFM1NkcHhG?=
+ =?utf-8?B?TjJMNFNmMW1KNHVYa3czT25BUFJKTWZXYVNheHZxZTA4eG1KS1Jia3RVRFJm?=
+ =?utf-8?B?azJCaFZkQ1pwUmNUcGRIK21TSFhEU0hqR1VZSVJ4QlhBZ0VwVG9QN21EVnIy?=
+ =?utf-8?B?bVppejk2Y0VWZzNRVm8rb0MzbmNqZ21ZdzdpZUFRY01XeFhmdm80QzNjUy8y?=
+ =?utf-8?B?dEdENUY1VXRrY2JVT2JUcTRQZE9lb2FiY1k1SkRGekZaZGJCUUlCOHhacnVY?=
+ =?utf-8?B?YlhKblhhTlY0Q1FBd3ZqS3k1Z295ckk1aDVtWW1vRnF2MDIrMllnQjNNTXVN?=
+ =?utf-8?B?UnBLQnN6N21iT1dZTC9GRjdwNHpuZElhOXVPR1NNZ0h4blZWYS9oRGxqbFB2?=
+ =?utf-8?B?cjdIaDN5RWh3b3BSOFB6NkpJOUlqRm1lM1RVd1dHWkxFbjd5Y1lxeUZvazlj?=
+ =?utf-8?B?Vk40QXAwOThEMXZ2M2haZjFOeEowZmlBV2l1eFVBdHJYK0diVnRVd09FVm5v?=
+ =?utf-8?B?OWUzZmhUU2lucjNHL3QrN09kY1lKSW9rZ3ZBWStBUlFqL21BdStZR1FUbElt?=
+ =?utf-8?B?MmdESzJIb213Uk9BZjJZL0NIQ3NpWFlBamJPaTh6alpkei9kejlyS3V4RnVN?=
+ =?utf-8?B?WjNjUzc4cnJ3akpKS05KUml2dERrUUQvN2VMdlN0MDUwMjk3QzZpUTM0RFFj?=
+ =?utf-8?B?SXc4YUh4cS92SUZBY0RhRVBCbEZia0dSZUM0Z1lMWlpxMTdBOEhGZFZJUjNC?=
+ =?utf-8?B?RGVYVHlBbENsUnV5ZkkvaEQ1NHdIVTIwcmUyaXh4bVY3SVdyT0ZYRjBFd1FT?=
+ =?utf-8?B?RkVETGltYStCbk1MY3JubmNUUDczYXdqR2haU2NkclU0Ykw2MzVTUjNXM0Zy?=
+ =?utf-8?B?N0E9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	ZTqefRII9IYi/OVOZrUGTMC4+IFSJm8asPRolvjA8mJaMRtkoXdl5Yg0Y3X0EBtzAT69EDvLNHBT1ZiZjudHn6f0CocyZTPMfa6GVnSowo9nqcQBGKvIqS5VfViTKxiWfMjTnCh1kWHFQ/jbLRK9byNUKINreAWmIBQnqLenXLAUkBVeCZmRaAkXGtPTw7jUVZFM26wCyHM8FgJEKHm959Y5Cx/ikzjgXqwG165cKB6dbRhudfPxJ2VtnPSBKk5iOVzUFuQOKwc0Zi0/ZA/BvYMwbIKpxN0P6sSw4OpV2t0Ja1Q0lPyC/Lmpdne7lSCloAU1XLBINgGW5iCrgunBV9hVvmSTOaxVD2uZzSqGaDLAi/zPsI9Yyh/oeyCManyCy3HcYy0othgxc6WvJP4gQ+oy8m2/Z72wCcTwAsfxttlDXSFUsBe8GBn+CHvaav5iTmnrknDWcrp0RDSvTMCCR7du8HNQh2hZntTNDeiINyCIYqj54eaW6pxOOubiQODMb66FIm3Vj30aetZWl2xePH/ZVpNkfomkMDvVIXSpli6Nt9Rm4duwXDYgtjg/JvbJfBfa290beCgxdHg0O7T0rea8MyhNliVXncNsbbyFz/I=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7e630fad-51f4-46d7-6812-08dd8c8bb27a
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5328.namprd10.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: IA0PPF7478C2D3A.namprd19.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: bd1f9ed2-f665-42fc-d189-08dd8c8a5138
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2025 10:39:45.2371
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 10:49:38.3093
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3ccd3c8d-5f7c-4eb4-ae6f-32d8c106402c
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: EeaDBJMMU7LtUk5sIC0ZRANdfrkIQN1zxZMyLoiQPu4pDHwvrS1YdEwVw1KAl3mpb50fUpsGbAzstcoBSxisSg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH2PR19MB3845
-X-Authority-Analysis: v=2.4 cv=SsWQ6OO0 c=1 sm=1 tr=0 ts=6819e6f7 cx=c_pps a=YTelpZo7+Gv92UPfPuytLw==:117 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10
- a=dt9VzEwgFbYA:10 a=dkMdDuzY2HgA:10 a=VwQbUJbxAAAA:8 a=yPCof4ZbAAAA:8 a=pGLkceISAAAA:8 a=07d9gI8wAAAA:8 a=ppJngBeKAAAA:8 a=PpaX1VbUAusiNUV2x3sA:9 a=QEXdDO2ut3YA:10 a=e2CUPOnPG4QKp8I52DXD:22
-X-Proofpoint-GUID: 6ZzUs5hWtLCwKX-TI_2SCNggFHnhPmGk
-X-Proofpoint-ORIG-GUID: 6ZzUs5hWtLCwKX-TI_2SCNggFHnhPmGk
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDEwMSBTYWx0ZWRfX8PdkN2IQqzdX O32mHddWCUb/MamCqZGZSsbofuH1O2OaTBEkxg9E0/s2ouUhgGkxonpq6nRMWkzgPRYQPWoqg2h hOle4HsWOw8hqC5BN9hNAICyR1GbsPZrHrVSzpp1QIuSU1Sin5xve/I08pg1cY8NpEVhuqDXfBO
- oXX38HSXdVQjlsz5EUspVlGzHTNXYTpqL733/lQIWLRtaWzm3Hppg9iTwECXlKUfOf1axNmSL+J GkiJvBnKgqYohkQk2CJXn4Bsb9yVFMChbIlmnMxG8o9stGiMZV7dbeoRVEJGpVSYax+olHGsxe4 xHUBPPcrQTixztxx+8TAw2GpSIf9eEYs8aVhEmpLkHFU0puY9nhvChjFqAND2eMgG+U/ghwBpcz
- 2rMOtcdxL2bTLHLGDhgoYvDyIO8weL2Eo2XJGLmusCp77CI/Y9cwiWYPdnZj3Rh+b1X318a/
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 3zh2DDPrY0Y8lNVlg2+nDNKwGMftVUI4fYRTHHJcnVyT8TDx/45jTT1JTICTYMA0PfIr9HQO81AxoduANDS/CqKZQtUTQvHwz2qPL4gVh8Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR10MB4510
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
  definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- phishscore=0 bulkscore=0 impostorscore=0 spamscore=0 adultscore=0
- clxscore=1015 malwarescore=0 mlxlogscore=999 suspectscore=0
- priorityscore=1501 mlxscore=0 classifier=spam authscore=0 authtc=n/a
- authcc= route=outbound adjust=0 reason=mlx scancount=1
- engine=8.21.0-2504070000 definitions=main-2505060101
-Content-Type: text/plain; charset="utf-8"
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 phishscore=0
+ malwarescore=0 spamscore=0 mlxlogscore=999 bulkscore=0 mlxscore=0
+ suspectscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2504070000 definitions=main-2505060103
+X-Authority-Analysis: v=2.4 cv=S+/ZwJsP c=1 sm=1 tr=0 ts=6819e949 b=1 cx=c_pps a=WeWmnZmh0fydH62SvGsd2A==:117 a=WeWmnZmh0fydH62SvGsd2A==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=NEAV23lmAAAA:8 a=FP58Ms26AAAA:8 a=zd2uoN0lAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=59-QbVjxAAAA:8 a=yPCof4ZbAAAA:8 a=F5y46iI6zm_em1JUFNQA:9 a=QEXdDO2ut3YA:10
+ a=IGXNCFnflQ0gJHagSJzg:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDEwMyBTYWx0ZWRfX664g5CGlYSAq XsHN+R98dhUX1S3WMFPH0FEzdu8LiCoHBjEa3yM0D6v39IV88gcIicTetc0dfD/VHgW2/1lIetW fAjSQrZgUsz5urNnnKPf4w/NhUFkKfSQduPplsaKKfknG+gJuXpzahLBZpeH6GlIrjMsQcVeU1Q
+ 1EhjpXqPUfLbldyfZFQbOYMn5TQz7asXm2FOYMhheeVzN38V9d1NtiEhvviA8oLsoPb+9E55Aw7 6aYPO8u7nBK/HjeHE+tsnvVBTFwW6+rslOL0uTkwyuMHvV3kVRiyJdX1A3eUkWlLF34fdRoGU5J PATdEK3wzdG3GBKZMLKeXYnetibW5dO24abyRbcc1nmBm7R+COwqQRYxROku/66ETZCC46L+t7P
+ mETNOJbyPwPMKRiOdNMatJrfWRw5GnfeLVlqsne8tViYuRYDAqW83nNZ11QFoa/Oi9U2ib3w
+X-Proofpoint-ORIG-GUID: N4uDauPghPnOiYn0Ly4KrpGsYpv3mykC
+X-Proofpoint-GUID: N4uDauPghPnOiYn0Ly4KrpGsYpv3mykC
 
-SGkgSm9uOg0KDQpBbnkgdXBkYXRlPyBEaWQgeW91IGhhdmUgYSBjaGFuY2UgdG8gY2hlY2sgYW5k
-IGNvbW1lbnQgb24gYmVsb3c/DQoNCkJlc3QgUmVnYXJkcyENCk1pbmcgV2VuICjpl7vmmI4pDQpT
-REsgVGVhbSB8IEFtYmFyZWxsYSBTaGFuZ2hhaQ0KDQotLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0t
-LQ0KRnJvbTogTWluZyBXZW4NClNlbnQ6IFdlZG5lc2RheSwgQXByaWwgMzAsIDIwMjUgMTE6MTYg
-UE0NClRvOiBKb25hdGhhbiBDb3JiZXQgPGNvcmJldEBsd24ubmV0PjsgbGludXgtZG9jQHZnZXIu
-a2VybmVsLm9yZw0KQ2M6IG1jaGVoYWJAa2VybmVsLm9yZzsgTG9uZyBMaSA8bG9uZ2xpQGFtYmFy
-ZWxsYS5jb20+OyBKaWFuIFRhbmcgPGp0YW5nQGFtYmFyZWxsYS5jb20+OyBaaGFvLVlhbmcgQ2hl
-biA8enljaGVuQGFtYmFyZWxsYS5jb20+OyBSb25ncm9uZyBDYW8gPHJyY2FvQGFtYmFyZWxsYS5j
-b20+DQpTdWJqZWN0OiBSRTogW0VYVF0gUmU6IFtLZXJuZWwgNS4xNS9LZXJubGUgNi4xXSBBYm91
-dCBTcGhpbnggRG9jLg0KSW1wb3J0YW5jZTogTG93DQoNCkhpIEpvbjoNCg0KUGVyZmVjdCEgVGhh
-bmtzIGZvciB0aGUgcXVpY2sgdHJ5aW5nLg0KDQpXaGVuIHlvdSBidWlsdCBmb3IgNi4xMzQgdXNp
-bmcgU3BoaW54IDcuMy43LCBkaWQgeW91IGhhdmUgYSBjaGFuY2UgdG8gY2hlY2sgdGhlIG91dHB1
-dCBvZiBTcGhpbnggZG9jPyBIb3cgYWJvdXQgdGhlIHdlYiBHVUk/IERvZXMgaXQgbG9vayB3ZWxs
-IHdpdGggdGhlIGV4cGVjdGVkIGRlY29yYXRpb24/DQpBdCBvdXIgc2lkZSwgd2UgY2FuIGJ1aWxk
-IHRoZSBTcGhpbnggZG9jIHN1Y2Nlc3NmdWxseShhbHRob3VnaCBhbHNvIHdpdGggYSBsb3Qgb2Yg
-d2FybmluZyBsaWtlIHlvdSBzYXcpIGlmIHVzaW5nIFNwaGlueCA4LjEuMy4gQnV0IHdoZW4gbG9v
-a2luZyBhdCB0aGUgd2ViIEdVSSwgaXQgaXMgbm90IHJpZ2h0LiBUaGUgZGVjb3JhdGlvbiBpcyBt
-aXNzaW5nIGFuZCB0aGUgd2ViIGxpbmsgbGF5b3V0IGlzIGFsc28gbm90IGdvb2QuDQokIGxpbnV4
-LTUuMTUvRG9jdW1lbnRhdGlvbi9vdXRwdXQvaW5kZXguaHRtbA0KDQpJZiB3ZSBzd2l0Y2ggYmFj
-ayB0byBTcGhpbnggMi40LjQgZm9sbG93aW5nIGJlbG93IG1ldGhvZCB3aXRoIGV4dHJhIGRlcGVu
-ZGVuY2llcyBhZGRlZCBpbiByZXF1aXJlbWVudHMudHh0LCB3ZSBjYW4gZ2V0IHRoZSBwZXJmZWN0
-IHdlYiBHVUkgZGVjb3JhdGlvbiBhbmQgbGF5b3V0Lg0KDQokIC91c3IvYmluL3B5dGhvbjMgLW0g
-dmVudiBzcGhpbnhfMi40LjQNCiQgLiBzcGhpbnhfMi40LjQvYmluL2FjdGl2YXRlDQokIHBpcCBp
-bnN0YWxsIC1yIC4vRG9jdW1lbnRhdGlvbi9zcGhpbngvcmVxdWlyZW1lbnRzLnR4dA0KDQpodHRw
-czovL2xvcmUua2VybmVsLm9yZy9sa21sLzUwMDQ1YWZmLTkxZjktNDgwOS1iYTNlLWI3MjJiMzI1
-ZDIzM0BvcmFjbGUuY29tL1QvDQpodHRwczovL2xvcmUua2VybmVsLm9yZy9sa21sLzIwMjQwMjI2
-MDkzODU0LjQ3ODMwLTEtbHVrYXMuYnVsd2FobkBnbWFpbC5jb20vVC8NCg0KZGlmZiAtLWdpdCBh
-L0RvY3VtZW50YXRpb24vc3BoaW54L3JlcXVpcmVtZW50cy50eHQgYi9Eb2N1bWVudGF0aW9uL3Nw
-aGlueC9yZXF1aXJlbWVudHMudHh0DQppbmRleCAyYzU3MzU0MWFiNzEyLi42ZTdlZDY0MTc0N2Y3
-IDEwMDY0NA0KLS0tIGEvRG9jdW1lbnRhdGlvbi9zcGhpbngvcmVxdWlyZW1lbnRzLnR4dA0KKysr
-IGIvRG9jdW1lbnRhdGlvbi9zcGhpbngvcmVxdWlyZW1lbnRzLnR4dA0KQEAgLTEsNCArMSwxMCBA
-QA0KIyBqaW5qYTI+PTMuMSBpcyBub3QgY29tcGF0aWJsZSB3aXRoIFNwaGlueDw0LjANCmppbmph
-MjwzLjENCnNwaGlueF9ydGRfdGhlbWUNCithbGFiYXN0ZXI8MC43LjE0DQorc3BoaW54Y29udHJp
-Yi1hcHBsZWhlbHA9PTEuMC40DQorc3BoaW54Y29udHJpYi1kZXZoZWxwPT0xLjAuMg0KK3NwaGlu
-eGNvbnRyaWItaHRtbGhlbHA9PTIuMC4xDQorc3BoaW54Y29udHJpYi1xdGhlbHA9PTEuMC4zDQor
-c3BoaW54Y29udHJpYi1zZXJpYWxpemluZ2h0bWw9PTEuMS41DQpTcGhpbng9PTIuNC40DQoNCkJl
-c3QgUmVnYXJkcyENCk1pbmcgV2VuICjpl7vmmI4pDQpTREsgVGVhbSB8IEFtYmFyZWxsYSBTaGFu
-Z2hhaQ0KDQoNCi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQpGcm9tOiBKb25hdGhhbiBDb3Ji
-ZXQgPGNvcmJldEBsd24ubmV0Pg0KU2VudDogV2VkbmVzZGF5LCBBcHJpbCAzMCwgMjAyNSAxMDow
-NiBQTQ0KVG86IE1pbmcgV2VuIDxtd2VuQGFtYmFyZWxsYS5jb20+OyBsaW51eC1kb2NAdmdlci5r
-ZXJuZWwub3JnDQpDYzogbWNoZWhhYkBrZXJuZWwub3JnOyBMb25nIExpIDxsb25nbGlAYW1iYXJl
-bGxhLmNvbT47IEppYW4gVGFuZyA8anRhbmdAYW1iYXJlbGxhLmNvbT47IFpoYW8tWWFuZyBDaGVu
-IDx6eWNoZW5AYW1iYXJlbGxhLmNvbT47IFJvbmdyb25nIENhbyA8cnJjYW9AYW1iYXJlbGxhLmNv
-bT4NClN1YmplY3Q6IFJFOiBbRVhUXSBSZTogW0tlcm5lbCA1LjE1L0tlcm5sZSA2LjFdIEFib3V0
-IFNwaGlueCBEb2MuDQoNCk1pbmcgV2VuIDxtd2VuQGFtYmFyZWxsYS5jb20+IHdyaXRlczoNCg0K
-Pj4gSXQgaXMgcmVxdWlyZWQgdG8gZ28gd2l0aCBTcGhpbnggMi40LjQsIHdoaWNoIGlzIG11Y2gg
-bG93ZXIgdGhhbiB0aGUNCj4+IHZlcnNpb24oOC4xLjMpIG9mIHVidW50dSAyMi4wNCBhbmQgMjQu
-MDQuDQo+IFtNaW5nXSBUbyBidWlsZCB0aGUgc3BoaW54IGRvYyBmb3IgS2VybmVsIDUuMTUgb3Ig
-Ni4xLCBpdCBpcyByZXF1aXJlZCB0byBnbyB3aXRoIFNwaGlueCAyLjQuNC4NCg0KV2UgcmVjb21t
-ZW5kZWQgdGhhdCB2ZXJzaW9uIGJhY2sgdGhlbiwgbW9zdGx5IGJlY2F1c2UgdGhlIG5ld2VyIHZl
-cnNpb25zIHdlcmUgc2xvd2VyLCBidXQgaXQgaXMgYWJzb2x1dGVseSBub3QgcmVxdWlyZWQuDQoN
-CkkganVzdCBkaWQgdGhlIGJ1aWxkIGZvciA2LjEzNCB1c2luZyBTcGhpbnggNy4zLjcuICBJdCBl
-bWl0cyBhIGJ1bmNoIG9mIGRlcHJlY2F0aW9uIHdhcm5pbmdzLCBidXQgb3RoZXJ3aXNlIHdvcmtz
-Lg0KDQpUaGVyZSBhcmUgdmFyaW91cyBmaXhlcyBpbiBtYWlubGluZSBmb3Igc29tZSBvZiB0aG9z
-ZSB3YXJuaW5nczsgc29tZWJvZHkgY291bGQgY2VydGFpbmx5IHBpY2sgdGhlbSBvdXQgYW5kIGFz
-ayBmb3Igc3RhYmxlIGJhY2twb3J0cy4gIEkgY2FuIHB1dCB0aGF0IG9udG8gbXkgbGlzdCBvZiB0
-aGluZ3MgdG8gZG8sIGJ1dCB3b24ndCBnZXQgdGhlcmUgaW4gdGhlIG5leHQgZmV3IGRheXMuDQoN
-ClRoYW5rcywNCg0Kam9uDQoKKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKioq
-KioqKioqKioqKioqKioqKioqKioqKioqKioqKioqKgpUaGlzIGVtYWlsIGFuZCBhdHRhY2htZW50
-cyBjb250YWluIEFtYmFyZWxsYSBQcm9wcmlldGFyeSBhbmQvb3IgQ29uZmlkZW50aWFsIEluZm9y
-bWF0aW9uIGFuZCBpcyBpbnRlbmRlZCBzb2xlbHkgZm9yIHRoZSB1c2Ugb2YgdGhlIGluZGl2aWR1
-YWwocykgdG8gd2hvbSBpdCBpcyBhZGRyZXNzZWQuIEFueSB1bmF1dGhvcml6ZWQgcmV2aWV3LCB1
-c2UsIGRpc2Nsb3N1cmUsIGRpc3RyaWJ1dGUsIGNvcHksIG9yIHByaW50IGlzIHByb2hpYml0ZWQu
-IElmIHlvdSBhcmUgbm90IGFuIGludGVuZGVkIHJlY2lwaWVudCwgcGxlYXNlIGNvbnRhY3QgdGhl
-IHNlbmRlciBieSByZXBseSBlbWFpbCBhbmQgZGVzdHJveSBhbGwgY29waWVzIG9mIHRoZSBvcmln
-aW5hbCBtZXNzYWdlLiBUaGFuayB5b3UuCg==
+
+
+On 05-05-2025 06:36, Derek J. Clark wrote:
+> Adds documentation for new lenovo-wmi drivers.
+> 
+> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+...
+> +
+> +
+> +WMI interface description
+> +=========================
+> +
+> +The WMI interface description can be decoded from the embedded binary MOF (bmof)
+> +data using the `bmfdec <https://urldefense.com/v3/__https://github.com/pali/bmfdec__;!!ACWV5N9M2RV99hQ!MsBEzFjDFpZkeq1j7_77aBEv31FIW_V_vPvnyFGNSL_ptLYWAYFj1UMisJvhsTGRq3_lh5eh5RpYWjdlZUKTA0UZ9jO_$ >`_ utility:
+> +
+> +::
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("LENOVO_GAMEZONE_DATA class"), guid("{887B54E3-DDDC-4B2C-8B88-68A26A8835D0}")]
+> +  class LENOVO_GAMEZONE_DATA {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiMethodId(4), Implemented, Description("Is SupportGpu OverClock")] void IsSupportGpuOC([out, Description("Is SupportGpu OverClock")] uint32 Data);
+> +    [WmiMethodId(11), Implemented, Description("Get AslCode Version")] void GetVersion ([out, Description("AslCode version")] UINT32 Data);
+> +    [WmiMethodId(12), Implemented, Description("Fan cooling capability")] void IsSupportFanCooling([out, Description("Fan cooling capability")] UINT32 Data);
+> +    [WmiMethodId(13), Implemented, Description("Set Fan cooling on/off")] void SetFanCooling ([in, Description("Set Fan cooling on/off")] UINT32 Data);
+> +    [WmiMethodId(14), Implemented, Description("cpu oc capability")] void IsSupportCpuOC ([out, Description("cpu oc capability")] UINT32 Data);
+> +    [WmiMethodId(15), Implemented, Description("bios has overclock capability")] void IsBIOSSupportOC ([out, Description("bios has overclock capability")] UINT32 Data);
+> +    [WmiMethodId(16), Implemented, Description("enable or disable overclock in bios")] void SetBIOSOC ([in, Description("enable or disable overclock in bios")] UINT32 Data);
+> +    [WmiMethodId(18), Implemented, Description("Get CPU temperature")] void GetCPUTemp ([out, Description("Get CPU temperature")] UINT32 Data);
+> +    [WmiMethodId(19), Implemented, Description("Get GPU temperature")] void GetGPUTemp ([out, Description("Get GPU temperature")] UINT32 Data);
+> +    [WmiMethodId(20), Implemented, Description("Get Fan cooling on/off status")] void GetFanCoolingStatus ([out, Description("Get Fan cooling on/off status")] UINT32 Data);
+> +    [WmiMethodId(21), Implemented, Description("EC support disable windows key capability")] void IsSupportDisableWinKey ([out, Description("EC support disable windows key capability")] UINT32 Data);
+> +    [WmiMethodId(22), Implemented, Description("Set windows key disable/enable")] void SetWinKeyStatus ([in, Description("Set windows key disable/enable")] UINT32 Data);
+> +    [WmiMethodId(23), Implemented, Description("Get windows key disable/enable status")] void GetWinKeyStatus ([out, Description("Get windows key disable/enable status")] UINT32 Data);
+> +    [WmiMethodId(24), Implemented, Description("EC support disable touchpad capability")] void IsSupportDisableTP ([out, Description("EC support disable touchpad capability")] UINT32 Data);
+> +    [WmiMethodId(25), Implemented, Description("Set touchpad disable/enable")] void SetTPStatus ([in, Description("Set touchpad disable/enable")] UINT32 Data);
+> +    [WmiMethodId(26), Implemented, Description("Get touchpad disable/enable status")] void GetTPStatus ([out, Description("Get touchpad disable/enable status")] UINT32 Data);
+> +    [WmiMethodId(30), Implemented, Description("Get Keyboard feature list")] void GetKeyboardfeaturelist ([out, Description("Get Keyboard feature list")] UINT32 Data);
+> +    [WmiMethodId(31), Implemented, Description("Get Memory OC Information")] void GetMemoryOCInfo ([out, Description("Get Memory OC Information")] UINT32 Data);
+> +    [WmiMethodId(32), Implemented, Description("Water Cooling feature capability")] void IsSupportWaterCooling ([out, Description("Water Cooling feature capability")] UINT32 Data);
+> +    [WmiMethodId(33), Implemented, Description("Set Water Cooling status")] void SetWaterCoolingStatus ([in, Description("Set Water Cooling status")] UINT32 Data);
+> +    [WmiMethodId(34), Implemented, Description("Get Water Cooling status")] void GetWaterCoolingStatus ([out, Description("Get Water Cooling status")] UINT32 Data);
+> +    [WmiMethodId(35), Implemented, Description("Lighting feature capability")] void IsSupportLightingFeature ([out, Description("Lighting feature capability")] UINT32 Data);
+> +    [WmiMethodId(36), Implemented, Description("Set keyboard light off or on to max")] void SetKeyboardLight ([in, Description("keyboard light off or on switch")] UINT32 Data);
+> +    [WmiMethodId(37), Implemented, Description("Get keyboard light on/off status")] void GetKeyboardLight ([out, Description("Get keyboard light on/off status")] UINT32 Data);
+> +    [WmiMethodId(38), Implemented, Description("Get Macrokey scan code")] void GetMacrokeyScancode ([in, Description("Macrokey index")] UINT32 idx, [out, Description("Scan code")] UINT32 scancode);
+> +    [WmiMethodId(39), Implemented, Description("Get Macrokey count")] void GetMacrokeyCount ([out, Description("Macrokey count")] UINT32 Data);
+> +    [WmiMethodId(40), Implemented, Description("Support G-Sync feature")] void IsSupportGSync ([out, Description("Support G-Sync feature")] UINT32 Data);
+> +    [WmiMethodId(41), Implemented, Description("Get G-Sync Status")] void GetGSyncStatus ([out, Description("Get G-Sync Status")] UINT32 Data);
+> +    [WmiMethodId(42), Implemented, Description("Set G-Sync Status")] void SetGSyncStatus ([in, Description("Set G-Sync Status")] UINT32 Data);
+> +    [WmiMethodId(43), Implemented, Description("Support Smart Fan feature")] void IsSupportSmartFan ([out, Description("Support Smart Fan feature")] UINT32 Data);
+> +    [WmiMethodId(44), Implemented, Description("Set Smart Fan Mode")] void SetSmartFanMode ([in, Description("Set Smart Fan Mode")] UINT32 Data);
+> +    [WmiMethodId(45), Implemented, Description("Get Smart Fan Mode")] void GetSmartFanMode ([out, Description("Get Smart Fan Mode")] UINT32 Data);
+> +    [WmiMethodId(46), Implemented, Description("Get Smart Fan Setting Mode")] void GetSmartFanSetting ([out, Description("Get Smart Setting Mode")] UINT32 Data);
+> +    [WmiMethodId(47), Implemented, Description("Get Power Charge Mode")] void GetPowerChargeMode ([out, Description("Get Power Charge Mode")] UINT32 Data);
+> +    [WmiMethodId(48), Implemented, Description("Get Gaming Product Info")] void GetProductInfo ([out, Description("Get Gaming Product Info")] UINT32 Data);
+> +    [WmiMethodId(49), Implemented, Description("Over Drive feature capability")] void IsSupportOD ([out, Description("Over Drive feature capability")] UINT32 Data);
+> +    [WmiMethodId(50), Implemented, Description("Get Over Drive status")] void GetODStatus ([out, Description("Get Over Drive status")] UINT32 Data);
+> +    [WmiMethodId(51), Implemented, Description("Set Over Drive status")] void SetODStatus ([in, Description("Set Over Drive status")] UINT32 Data);
+> +    [WmiMethodId(52), Implemented, Description("Set Light Control Owner")] void SetLightControlOwner ([in, Description("Set Light Control Owner")] UINT32 Data);
+> +    [WmiMethodId(53), Implemented, Description("Set DDS Control Owner")] void SetDDSControlOwner ([in, Description("Set DDS Control Owner")] UINT32 Data);
+> +    [WmiMethodId(54), Implemented, Description("Get the flag of restore OC value")] void IsRestoreOCValue ([in, Description("Clean this flag")] UINT32 idx, [out, Description("Restore oc value flag")] UINT32 Data);
+> +    [WmiMethodId(55), Implemented, Description("Get Real Thremal Mode")] void GetThermalMode ([out, Description("Real Thremal Mode")] UINT32 Data);
+
+Thremal -> Thermal
+
+> +    [WmiMethodId(56), Implemented, Description("Get the OC switch status in BIOS")] void GetBIOSOCMode ([out, Description("OC Mode")] UINT32 Data);
+
+"Get the BIOS OC switch status"
+
+> +    [WmiMethodId(59), Implemented, Description("Get hardware info support version")] void GetHardwareInfoSupportVersion ([out, Description("version")] UINT32 Data);
+> +    [WmiMethodId(60), Implemented, Description("Get Cpu core 0 max frequency")] void GetCpuFrequency ([out, Description("frequency")] UINT32 Data);
+> +    [WmiMethodId(62), Implemented, Description("Check the Adapter type fit for OC")] void IsACFitForOC ([out, Description("AC check result")] UINT32 Data);
+> +    [WmiMethodId(63), Implemented, Description("Is support IGPU mode")] void IsSupportIGPUMode ([out, Description("IGPU modes")] UINT32 Data);
+> +    [WmiMethodId(64), Implemented, Description("Get IGPU Mode Status")] void GetIGPUModeStatus([out, Description("IGPU Mode Status")] UINT32 Data);
+> +    [WmiMethodId(65), Implemented, Description("Set IGPU Mode")] void SetIGPUModeStatus([in, Description("IGPU Mode")] UINT32 mode, [out, Description("return code")] UINT32 Data);
+> +    [WmiMethodId(66), Implemented, Description("Notify DGPU Status")] void NotifyDGPUStatus([in, Description("DGPU status")] UINT32 status, [out, Description("return code")] UINT32 Data);
+> +    [WmiMethodId(67), Implemented, Description("Is changed Y log")] void IsChangedYLog([out, Description("Is changed Y Log")] UINT32 Data);
+> +    [WmiMethodId(68), Implemented, Description("Get DGPU Hardwawre ID")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")] string Data);
+
+Hardwawre -> Hardware
+
+can we Use value or status instead of generic Data where applicable to 
+convey meaning better.?
+
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Definition of CPU OC parameter list"), guid("{B7F3CA0A-ACDC-42D2-9217-77C6C628FBD2}")]
+> +  class LENOVO_GAMEZONE_CPU_OC_DATA {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("OC tune id.")] uint32 Tuneid;
+> +    [WmiDataId(2), read, Description("Default value.")] uint32 DefaultValue;
+> +    [WmiDataId(3), read, Description("OC Value.")] uint32 OCValue;
+> +    [WmiDataId(4), read, Description("Min Value.")] uint32 MinValue;
+> +    [WmiDataId(5), read, Description("Max Value.")] uint32 MaxValue;
+> +    [WmiDataId(6), read, Description("Scale Value.")] uint32 ScaleValue;
+> +    [WmiDataId(7), read, Description("OC Order id.")] uint32 OCOrderid;
+> +    [WmiDataId(8), read, Description("NON-OC Order id.")] uint32 NOCOrderid;
+> +    [WmiDataId(9), read, Description("Delay time in ms.")] uint32 Interval;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Definition of GPU OC parameter list"), guid("{887B54E2-DDDC-4B2C-8B88-68A26A8835D0}")]
+> +  class LENOVO_GAMEZONE_GPU_OC_DATA {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("P-State ID.")] uint32 PStateID;
+> +    [WmiDataId(2), read, Description("CLOCK ID.")] uint32 ClockID;
+> +    [WmiDataId(3), read, Description("Default value.")] uint32 defaultvalue;
+> +    [WmiDataId(4), read, Description("OC Offset freqency.")] uint32 OCOffsetFreq;
+> +    [WmiDataId(5), read, Description("OC Min offset value.")] uint32 OCMinOffset;
+> +    [WmiDataId(6), read, Description("OC Max offset value.")] uint32 OCMaxOffset;
+> +    [WmiDataId(7), read, Description("OC Offset Scale.")] uint32 OCOffsetScale;
+> +    [WmiDataId(8), read, Description("OC Order id.")] uint32 OCOrderid;
+> +    [WmiDataId(9), read, Description("NON-OC Order id.")] uint32 NOCOrderid;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Fancooling finish event"), guid("{BC72A435-E8C1-4275-B3E2-D8B8074ABA59}")]
+> +  class LENOVO_GAMEZONE_FAN_COOLING_EVENT: WMIEvent {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("Fancooling clean finish event")] uint32 EventId;
+
+Fancooling -> Fan cooling
+"Fan cooling completion event"
+"Fan cooling process finished event ID"
+
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Smart Fan mode change event"), guid("{D320289E-8FEA-41E0-86F9-611D83151B5F}")]
+> +  class LENOVO_GAMEZONE_SMART_FAN_MODE_EVENT: WMIEvent {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("Smart Fan Mode change event")] uint32 mode;
+> +    [WmiDataId(2), read, Description("version of FN+Q")] uint32 version;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Smart Fan setting mode change event"), guid("{D320289E-8FEA-41E1-86F9-611D83151B5F}")]
+> +  class LENOVO_GAMEZONE_SMART_FAN_SETTING_EVENT: WMIEvent {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("Smart Fan Setting mode change event")] uint32 mode;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("POWER CHARGE MODE Change EVENT"), guid("{D320289E-8FEA-41E0-86F9-711D83151B5F}")]
+> +  class LENOVO_GAMEZONE_POWER_CHARGE_MODE_EVENT: WMIEvent {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("POWER CHARGE MODE Change EVENT")] uint32 mode;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("Thermal Mode Real Mode change event"), guid("{D320289E-8FEA-41E0-86F9-911D83151B5F}")]
+> +  class LENOVO_GAMEZONE_THERMAL_MODE_EVENT: WMIEvent {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description("Thermal Mode Real Mode")] uint32 mode;
+> +  };
+> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> new file mode 100644
+> index 000000000000..d7928b8dfb4b
+> --- /dev/null
+> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+> @@ -0,0 +1,108 @@
+> +.. SPDX-License-Identifier: GPL-2.0-or-later
+> +
+> +===========================================================
+> +Lenovo WMI Interface Other Mode Driver (lenovo-wmi-other)
+> +===========================================================
+> +
+> +Introduction
+> +============
+> +Lenovo WMI Other Mode interface is broken up into multiple GUIDs,
+> +The primary Other Mode interface provides advanced power tuning features
+> +such as Package Power Tracking (PPT). It is paired with multiple data block
+> +GUIDs that provide context for the various methods.
+> +
+> +
+> +Other Mode
+> +----------
+> +
+> +WMI GUID ``DC2A8805-3A8C-41BA-A6F7-092E0089CD3B``
+> +
+> +The Other Mode WMI interface uses the firmware_attributes class to expose
+> +various WMI attributes provided by the interface in the sysfs. This enables
+> +CPU and GPU power limit tuning as well as various other attributes for
+> +devices that fall under the "Gaming Series" of Lenovo devices. Each
+> +attribute exposed by the Other Mode interface has corresponding
+> +capability data blocks which allow the driver to probe details about the
+> +attribute. Each attribute has multiple pages, one for each of the platform
+> +profiles managed by the Gamezone interface. Attributes are exposed in sysfs
+> +under the following path:
+> +
+> +::
+> +
+> +  /sys/class/firmware-attributes/lenovo-wmi-other/attributes/<attribute>/
+> +
+> +LENOVO_CAPABILITY_DATA_01
+> +-------------------------
+> +
+> +WMI GUID ``7A8F5407-CB67-4D6E-B547-39B3BE018154``
+> +
+> +The LENOVO_CAPABILITY_DATA_01 interface provides information on various
+> +power limits of integrated CPU and GPU components.
+> +
+> +Each attribute has the following properties:
+> + - current_value
+> + - default_value
+> + - display_name
+> + - max_value
+> + - min_value
+> + - scalar_increment
+> + - type
+> +
+> +The following attributes are implemented:
+> + - ppt_pl1_spl: Platform Profile Tracking Sustained Power Limit
+> + - ppt_pl2_sppt: Platform Profile Tracking Slow Package Power Tracking
+> + - ppt_pl3_fppt: Platform Profile Tracking Fast Package Power Tracking
+> +
+> +
+> +WMI interface description
+> +=========================
+> +
+> +The WMI interface description can be decoded from the embedded binary MOF (bmof)
+> +data using the `bmfdec <https://urldefense.com/v3/__https://github.com/pali/bmfdec__;!!ACWV5N9M2RV99hQ!MsBEzFjDFpZkeq1j7_77aBEv31FIW_V_vPvnyFGNSL_ptLYWAYFj1UMisJvhsTGRq3_lh5eh5RpYWjdlZUKTA0UZ9jO_$ >`_ utility:
+> +
+> +::
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("LENOVO_OTHER_METHOD class"), guid("{dc2a8805-3a8c-41ba-a6f7-092e0089cd3b}")]
+> +  class LENOVO_OTHER_METHOD {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiMethodId(17), Implemented, Description("Get Feature Value ")] void GetFeatureValue([in] uint32 IDs, [out] uint32 value);
+> +    [WmiMethodId(18), Implemented, Description("Set Feature Value ")] void SetFeatureValue([in] uint32 IDs, [in] uint32 value);
+> +    [WmiMethodId(19), Implemented, Description("Get Data By Command ")] void GetDataByCommand([in] uint32 IDs, [in] uint32 Command, [out] uint32 DataSize, [out, WmiSizeIs("DataSize")] uint32 Data[]);
+> +    [WmiMethodId(99), Implemented, Description("Get Data By Package for TAC")] void GetDataByPackage([in, Max(40)] uint8 Input[], [out] uint32 DataSize, [out, WmiSizeIs("DataSize")] uint8 Data[]);
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("LENOVO CAPABILITY DATA 00"), guid("{362a3afe-3d96-4665-8530-96dad5bb300e}")]
+> +  class LENOVO_CAPABILITY_DATA_00 {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description(" IDs.")] uint32 IDs;
+> +    [WmiDataId(2), read, Description("Capability.")] uint32 Capability;
+> +    [WmiDataId(3), read, Description("Capability Default Value.")] uint32 DefaultValue;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("LENOVO CAPABILITY DATA 01"), guid("{7a8f5407-cb67-4d6e-b547-39b3be018154}")]
+> +  class LENOVO_CAPABILITY_DATA_01 {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description(" IDs.")] uint32 IDs;
+> +    [WmiDataId(2), read, Description("Capability.")] uint32 Capability;
+> +    [WmiDataId(3), read, Description("Default Value.")] uint32 DefaultValue;
+> +    [WmiDataId(4), read, Description("Step.")] uint32 Step;
+> +    [WmiDataId(5), read, Description("Minimum Value.")] uint32 MinValue;
+> +    [WmiDataId(6), read, Description("Maximum Value.")] uint32 MaxValue;
+> +  };
+> +
+> +  [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"), Description("LENOVO CAPABILITY DATA 02"), guid("{bbf1f790-6c2f-422b-bc8c-4e7369c7f6ab}")]
+> +  class LENOVO_CAPABILITY_DATA_02 {
+> +    [key, read] string InstanceName;
+> +    [read] boolean Active;
+> +
+> +    [WmiDataId(1), read, Description(" IDs.")] uint32 IDs;
+> +    [WmiDataId(2), read, Description("Capability.")] uint32 Capability;
+> +    [WmiDataId(3), read, Description("Data Size.")] uint32 DataSize;
+> +    [WmiDataId(4), read, Description("Default Value"), WmiSizeIs("DataSize")] uint8 DefaultValue[];
+> +  };
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 1afd30d00aec..675f4b26426d 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13158,6 +13158,13 @@ S:	Maintained
+>   W:	https://urldefense.com/v3/__http://legousb.sourceforge.net/__;!!ACWV5N9M2RV99hQ!MsBEzFjDFpZkeq1j7_77aBEv31FIW_V_vPvnyFGNSL_ptLYWAYFj1UMisJvhsTGRq3_lh5eh5RpYWjdlZUKTA1y38Zxx$
+>   F:	drivers/usb/misc/legousbtower.c
+>   
+> +LENOVO WMI DRIVERS
+> +M:	Derek J. Clark <derekjohn.clark@gmail.com>
+> +L:	platform-driver-x86@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+> +F:	Documentation/wmi/devices/lenovo-wmi-other.rst
+> +
+>   LENOVO WMI HOTKEY UTILITIES DRIVER
+>   M:	Jackie Dong <xy-jackie@139.com>
+>   L:	platform-driver-x86@vger.kernel.org
+
+Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+
+Thanks,
+Alok
