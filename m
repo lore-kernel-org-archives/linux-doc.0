@@ -1,47 +1,58 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B40AB35566D;
-	Tue,  6 May 2025 01:14:12 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2606B297128;
+	Tue,  6 May 2025 01:38:00 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746494052; cv=none; b=kiuHR3VpaujvG5MWc8ntr8KVGuqYgrNyc1bFctdmXkC3wbVa/E7n97/7KZvVQXvSo54qlA/taGeDVK31Kk5ju/6dKaSa+mtFTXbtDUHJ4Mxs2rC3qTld3XaOf7a7C8zgnSj/c9fTmYFRV3wDuCLpZmIFmNpA+TDQx1/6nGb4SVE=
+	t=1746495481; cv=none; b=Xy2iGnBdSqfoJ7Wby26DGDLEq/UZHkekL2gUmJhuo3dtaFpJ8U4Io0XSu8rrHzOnlY74YWYLGr/Xkzg0ZohZXOL9qeHrpe7HoizYiRhfScjcU1SZ5HOe/7fmZqacXU9BN9Gg/inehlZU+5G83F4J16qlE6mY+Emy03jEKiykWZI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746494052; c=relaxed/simple;
-	bh=DkjqaiNHBXbV+0n9cmGdTkEwmBKD3xmvL6XjuBD/yFQ=;
+	s=arc-20240116; t=1746495481; c=relaxed/simple;
+	bh=zKECytagb87TMOLvGwWUa+PfDXa1A/lXuEpkDrkjAnM=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=mAbsvEGF2Je0Ylb3yMzVm41H6pXAhgBa3O/HpXpK2//widj/WxHda6Q3hBnsClPxavx0wWa0Fqx09dPjy+hIdAvCbF8QWPm8pbXDumTgqjpIcL8fmwmErwOtIh5DWEEprilIplSEIfTav0Vr2NRXkjivVqUnPvKxXdIFzApykp8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=p/BG53Zd; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=E6EZ+dZ+f9hOKTVe0R7h0+p/Dkze0edVobRPa0BNczcIdkxQQLkyKQm7JrX+IC6dwdd9YJAFD21QM5no9RiRrmG97l6RY7fhEr/1DgPLLeKXvW2em9w88B/2Hu7gWee7GKntQVyh/pSRmjQOZ5pyIH3mfPdMg/EPk+HwRCJ0C6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=AUcv5z9c; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="p/BG53Zd"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 95270C4CEE4;
-	Tue,  6 May 2025 01:14:11 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="AUcv5z9c"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 62AD4C4CEE4;
+	Tue,  6 May 2025 01:37:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746494052;
-	bh=DkjqaiNHBXbV+0n9cmGdTkEwmBKD3xmvL6XjuBD/yFQ=;
+	s=k20201202; t=1746495480;
+	bh=zKECytagb87TMOLvGwWUa+PfDXa1A/lXuEpkDrkjAnM=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=p/BG53ZdqJ6Wn5cParmccP7A0YFtuLl7Zz6shvfwtCSmRBLaBnQvECXAVIRYQvzwz
-	 xxWcYe7T0IHGzTfcVsFuUTaJzrnHacCQ3x22eEj7iOblx0hqu5yAjsvvCZUTxD3vH4
-	 raak2xREqdtbF7l9j2wucw0YE50WAvmUbszWJ0to4iRU08pwilXBd9+DMmMDXO0FGI
-	 y1B7yIAfc/ONISDgkyp2S4zONlX7ZeeQGq6zf6oC8HihUvO/RKocjLfccnLu3cd4lA
-	 ERyeQOwEidtPkXPnEsLgTw46BKx+Mq3GLymH+9grB4tOrlIiPWcUafC+cqjS1PV3yG
-	 eKwWF0UVSAKAA==
-Date: Mon, 5 May 2025 18:14:10 -0700
+	b=AUcv5z9ca99yIo2NLkz4SbM2b9WWkH0uw/wz4j+St1LLxEyfCJEsFq1ZdUTAa9c2L
+	 TDlUp+WqRO3spDiJ7VP6zq4YtkngpCzgRsN3AhxF+iHbRhEpHJo/NGCGI/GH8hrwir
+	 akWRoH0LOdfxi2MuogXg+4weQT1gWeuj3VxnAbtPI8laajeMTjyU2oJPsHI0FtLUlN
+	 26f/mL+aTgG6bFUz9+H/yNgZjmt9fEPOoYa+C6GN7FIUyKlwExDdKuTyScVnhiGYBJ
+	 3wSuE0Q1rlqd6GvOeqkb9nRRKhcVH1g7UT3bBvgRcbZWqs/1L0pgZ/upZbY7X5pSUU
+	 kUOM/O+IQitUQ==
+Date: Mon, 5 May 2025 18:37:58 -0700
 From: Jakub Kicinski <kuba@kernel.org>
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko
- <jiri@resnulli.us>, Rob Herring <robh@kernel.org>, Krzysztof Kozlowski
- <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, Prathosh Satish
- <Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Lee Jones
- <lee@kernel.org>, Andy Shevchenko <andy@kernel.org>, Michal Schmidt
- <mschmidt@redhat.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH net-next v6 0/8] Add Microchip ZL3073x support (part 1)
-Message-ID: <20250505181410.24b54946@kernel.org>
-In-Reply-To: <20250430101126.83708-1-ivecera@redhat.com>
-References: <20250430101126.83708-1-ivecera@redhat.com>
+To: Mina Almasry <almasrymina@google.com>
+Cc: netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, io-uring@vger.kernel.org,
+ virtualization@lists.linux.dev, kvm@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Donald Hunter <donald.hunter@gmail.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jeroen de Borst <jeroendb@google.com>, Harshitha Ramamurthy
+ <hramamurthy@google.com>, Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de
+ Bruijn <willemb@google.com>, Jens Axboe <axboe@kernel.dk>, Pavel Begunkov
+ <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>, Neal Cardwell
+ <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>, Jason Wang
+ <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>, "Eugenio
+ =?UTF-8?B?UMOpcmV6?=" <eperezma@redhat.com>, Stefan Hajnoczi
+ <stefanha@redhat.com>, Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan
+ <shuah@kernel.org>, sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim
+ <jhs@mojatatu.com>, Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>, Kaiyuan
+ Zhang <kaiyuanz@google.com>
+Subject: Re: [PATCH net-next v13 4/9] net: devmem: Implement TX path
+Message-ID: <20250505183758.7778811c@kernel.org>
+In-Reply-To: <20250429032645.363766-5-almasrymina@google.com>
+References: <20250429032645.363766-1-almasrymina@google.com>
+	<20250429032645.363766-5-almasrymina@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,21 +62,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Wed, 30 Apr 2025 12:11:18 +0200 Ivan Vecera wrote:
-> Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
-> provides DPLL and PTP functionality. This series bring first part
-> that adds the common MFD driver that provides an access to the bus
-> that can be either I2C or SPI.
-> 
-> The next part of the series is bringing the DPLL driver that will
-> covers DPLL functionality. Another series will bring PTP driver and
-> flashing capability via devlink in the MFD driver will follow soon.
-> 
-> Testing was done by myself and by Prathosh Satish on Microchip EDS2
-> development board with ZL30732 DPLL chip connected over I2C bus.
+Functionally LGTM. But I'm not sure if the discussion with Paolo is
+resolved, so here's a couple more nit picks:
 
-Looks fine now from the network-ish perspective.
-Whenever we get a green light from Lee I can put it on a stable branch
-which then both Lee and netdev can pull?
-I'll hide it from networking patchwork for now so it doesn't get
-accidentally applied..
+On Tue, 29 Apr 2025 03:26:40 +0000 Mina Almasry wrote:
+> +	case SCM_DEVMEM_DMABUF:
+> +		if (cmsg->cmsg_len != CMSG_LEN(sizeof(u32)))
+> +			return -EINVAL;
+> +		sockc->dmabuf_id = *(u32 *)CMSG_DATA(cmsg);
+> +
+>  		break;
+
+The empty line before break is very odd.
+
+> +	sockc = (struct sockcm_cookie){ .tsflags = READ_ONCE(sk->sk_tsflags),
+> +					.dmabuf_id = 0 };
+
+Too ugly to exist, either full init fits on a line or there needs to be
+a line break after {.
