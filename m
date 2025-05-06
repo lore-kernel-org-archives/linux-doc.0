@@ -1,577 +1,371 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2087.outbound.protection.outlook.com [40.107.92.87])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A4C9127AC54;
-	Tue,  6 May 2025 11:27:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.87
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33AC5278E5D;
+	Tue,  6 May 2025 11:32:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746530880; cv=fail; b=AK4X9Kbp99y7ZPkFDM/nWfS64PaZfkgu3jzerjctR6oOEHoZfqSXHT80uSg9LNJJm27AkQ0tKOzwQ1TNb8RkFrV006MAvOBkiyXsrEosvpslkHKopVO6YOfIPu0x21jCxSYwJ0PVUtpxjBSqrPhQ4tjRA0JQmESVjqP5fAIQ1+M=
+	t=1746531126; cv=fail; b=ZeLqXSxjQMOTIB2dTUUuLxtN9e1sQydSaN3TvleAqPuFULCAPMliw4YM+5jYU2dDxm7CZDxfI09PD6bmC5Eoc/AkjD/RU3lK1eaRKhInPCtgNxp/DaVhZhAouoNWj/m9sw3UAhnJcQoGZF+IweKCul/lQUUR+NrQqatkwXSuV8E=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746530880; c=relaxed/simple;
-	bh=oWhpAXSxzr4hRhZJN0WCvReM3CV26fAJ9FGSLOFnvRE=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=P7wU94n/Y8fcsgY5wDulhVBivPbYmI+BaBn7/QrwwW6QRytBhvwFBDz2bv6L45hnffGvljzm84ynWJPd2bylKuo+lGJpUp+Os7DM0YisH0/iTb18TjSdEHXXV138fbEr2YKWRXj+McCay6i/KEWpdY0o1McKKpJchyaQqI3/mBw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Kw+7oiiY; arc=fail smtp.client-ip=40.107.92.87
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	s=arc-20240116; t=1746531126; c=relaxed/simple;
+	bh=em//iLmcNmV5i8bSpBNPgbiMdJOT/X84XbKpzEYvgfY=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=ToyQkDlGuW3qgivthcxpP65YVsAkvDn0F9jmi7b7Ut7y1gXC5obFnKkecFSBzcgtGoXATF7NZ8k3i3nPJue7t5yRuWqS+WRd5C5BMJXoWjPkAYJMh6MJOJWCU2VsIgRgmETbijB33dprLJxhicZ2EMq7+eDbYgSARq5N870mkkU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=hfTqswq/; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=TLqQVZuv; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Kw+7oiiY"
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="hfTqswq/";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="TLqQVZuv"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 5469w91d020823;
+	Tue, 6 May 2025 11:31:45 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=BC+1boMNtyt7m7fJjEOwDBCL7f00LA0637yJw4wgNpI=; b=
+	hfTqswq/aa5ODkbf7C29N0eKTtOyaAH0EU+homXRV19kZO9oNomOytoorHA2HCPr
+	96HaFUkXFoNfCOphGcb08fwk9rqsdbXEBcrVAdYnx5FkZnBDpifumr0CS0qVFxt+
+	VY6Ui5qLehuCa6SJnAokRX7In5/Oj4vSricV/HbHbje1cCHiUktZjchmFHoW7r95
+	JVNAxlCnB7rIckRtLFdrlGRBm6vZh1ktogOTdftQ7SZrxKImEiQnO5cQ7VAda4uA
+	inEFCk1oY03M1wprhVN4kE+uwl78cJVngrwkiZAszsgei6fcRXTTmZD470Hd4NCl
+	Y6stCwHLffXMNE5W7gGcIg==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46fg8ag5ae-8
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 May 2025 11:31:45 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 5469pWiu037530;
+	Tue, 6 May 2025 11:22:40 GMT
+Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazlp17012033.outbound.protection.outlook.com [40.93.1.33])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46d9k8m6sn-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 06 May 2025 11:22:40 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K86lklMQjmp/M4Q/WhnWRowC3B0U3+5ri9xpS1+0/LOLC9Yqbc9BWy4FTL43F7PpHyKquzUQlpYXoEK49KeTKsp8mF52CLDeIBfNnhHvaemI79SNEcG6Qfwo/VPbXeSWrjZrUE6pSs8Om18pCak8iO5Gbr/5xtzPdV3SdY7OWbB4dMTy4Ltpbvo2uRPWdBI1Jv2hqDfP5FhzHuLNvl1dYjefuUm6Hym9jsiqN2rpQ5lsiUInTh1k1DzVuMZii+6nPv1zjBQgepXvtDacaf4cx8TYw39lE2/bmfCTh4wtfgS4vwib242ET8GLkkw4PUP5z7HCteeGGwObwBnzsi0Xhg==
+ b=utVI14+WAI20xi2mQrurABy01e0bx1ZGJe/t+FSs+hTOutPhuMNbY1uMPuinn5DmYehGpu+Lq44ZiN2EGE4wSUjrWzHHD60oU1S67IN1RlBNS05e5tcAhLHPkKDp/GXvV1RbRr+nnJiytsEjPyijqHAmqhqjKG2TVLSwB0//Tqdp7x4sU5lRtCiuK51zvr5qodfUC3RftW7FLSnnsTm4fkqIuhLVG69c7p4/XJCCDqUx8Ybp7XqNGLg6p2GiOkVERT8kVXn3/fUreqgFE+LDguxEZqKM29zbLqCGKzduaASiISapzU9k1uA+8ciRPn2MpyzjpTJe7Gxd22Z43x+kmQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=HxB5w+JLi0kgwlejSF/7asaTy44ctL1dcvR3ldNYdiY=;
- b=ExlB8ITHB9LrMwBs0e7x1csK8Vuk1GXTJk5R3vkzImLqlKvINYr5YUgGRgzPqW8I7ayYW91ZqE2AibJPPQfvAGlQM5qEzlVJyFFX+6b03q+AVNdmOJt4UNAAotsqMYjFC0jAcO2rD8fPrLWkluz0xg05x3klmJEXOlpC29J7HMJLyVmrD/1Yqos14DlzYO78NwYqGnyrbZGnLKytB5ySwoeSmKIZGkzaYFkbWK9lvmaWILQ65ggGUb4u9HqHh6fHfcmPEGrHIUFxNgfBm1O47ulgktnOPn627B4HqyYB4ZIbDxlFFZ5V/cewG38Wx/EfeD4k0OZl1Sj0XSpcgOt37w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.233) smtp.rcpttodomain=davemloft.net smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
+ bh=BC+1boMNtyt7m7fJjEOwDBCL7f00LA0637yJw4wgNpI=;
+ b=TGgcKGIxYCFy4c39KiDjtau5a6+a6LjL/D8WCwVubIbwEP548y85cpcMx7OIDeB65P/C8xLYW7roStYuhwIWELz8UtLSQo+hxSjvQOkFXSsshiY3JG+EOP0f4RGcED60tj++4autC4fbpHr5IUcEWL4oVVnRwYdqZk8tO0xY5T9QTSaT+Ow0SibLzWfq88FMbNyCSZNiHMnRhsw87SGUslvkJQr31KoSXxjoef4zrFdybRWKjser25oKIwcoTxwtT6ZqcM1maTQh3rApXPOVhQszxAVdz/eUhkZAi7Z7hfeRhvRRpxn6mPm8W3vE0ZkGCBMGN8CSZBVRWfOPDtmfmA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=HxB5w+JLi0kgwlejSF/7asaTy44ctL1dcvR3ldNYdiY=;
- b=Kw+7oiiYduXN36WkEOOyJzXes/TZm70tDmvlWDiRF2BDjHfWrp2dQ3dgUL9nXYb4F9PjLyMOCECMuedtriRYAPPnpmJltwkPlR606czGnz+94NW8kago+YajuTOC+3HpEZMbiTx+4HH/yBU9mrPUP2DXCBN4P9U0mPPZlvWPDPYtRgqk0eskovet2DEG3ZQ+1l/RdXeUqVgNgq/m9H2oEgDFwDG2uo0USOspjNGCU770YK0mw8IBi6WyK386wZzPXaVQV5M8poR4vI3pt2d/VwQ6RddPkeTLz6eBJbDJNxmvvviOyukRA07SV8LLsCUZWOoA1rFs+lI9eNt0WyIvmA==
-Received: from SJ0PR05CA0082.namprd05.prod.outlook.com (2603:10b6:a03:332::27)
- by IA1PR12MB7662.namprd12.prod.outlook.com (2603:10b6:208:425::20) with
+ bh=BC+1boMNtyt7m7fJjEOwDBCL7f00LA0637yJw4wgNpI=;
+ b=TLqQVZuvfhkgmot8I0hO2P2o3KOpGLyh/AxIJW1c1Acie4xuUOelwqYYvttTE1Gdk3RkD0UGimiBdU+LlEGMrz1Hl10WYJWdgl4OzRfmGcTnHkjF1SeFmnATM3eob5ANsAzqAxqbT4yfVul8Gp+UbKgWjZiyT6e8ilZn0WVV5JA=
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
+ by IA4PR10MB8520.namprd10.prod.outlook.com (2603:10b6:208:55d::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.24; Tue, 6 May
- 2025 11:27:46 +0000
-Received: from SJ1PEPF00001CE5.namprd03.prod.outlook.com
- (2603:10b6:a03:332:cafe::7e) by SJ0PR05CA0082.outlook.office365.com
- (2603:10b6:a03:332::27) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.22 via Frontend Transport; Tue,
- 6 May 2025 11:27:46 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.233)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.233 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.233; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.233) by
- SJ1PEPF00001CE5.mail.protection.outlook.com (10.167.242.21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Tue, 6 May 2025 11:27:45 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.6) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 6 May 2025
- 04:27:35 -0700
-Received: from drhqmail201.nvidia.com (10.126.190.180) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Tue, 6 May 2025 04:27:36 -0700
-Received: from vdi.nvidia.com (10.127.8.10) by mail.nvidia.com
- (10.126.190.180) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
- Transport; Tue, 6 May 2025 04:27:31 -0700
-From: Tariq Toukan <tariqt@nvidia.com>
-To: "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
-	Paolo Abeni <pabeni@redhat.com>, Eric Dumazet <edumazet@google.com>, "Andrew
- Lunn" <andrew+netdev@lunn.ch>
-CC: Jiri Pirko <jiri@nvidia.com>, Gal Pressman <gal@nvidia.com>, "Leon
- Romanovsky" <leonro@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>,
-	"Jiri Pirko" <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Saeed
- Mahameed <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Tariq Toukan
-	<tariqt@nvidia.com>, <netdev@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<linux-rdma@vger.kernel.org>, Moshe Shemesh <moshe@nvidia.com>, Mark Bloch
-	<mbloch@nvidia.com>, Carolina Jubran <cjubran@nvidia.com>, Cosmin Ratiu
-	<cratiu@nvidia.com>
-Subject: [PATCH net-next V8 5/5] net/mlx5: Manage TC arbiter nodes and implement full support for tc-bw
-Date: Tue, 6 May 2025 14:26:43 +0300
-Message-ID: <1746530803-450152-6-git-send-email-tariqt@nvidia.com>
-X-Mailer: git-send-email 2.8.0
-In-Reply-To: <1746530803-450152-1-git-send-email-tariqt@nvidia.com>
-References: <1746530803-450152-1-git-send-email-tariqt@nvidia.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Tue, 6 May
+ 2025 11:22:34 +0000
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c%2]) with mapi id 15.20.8699.022; Tue, 6 May 2025
+ 11:22:33 +0000
+Message-ID: <4d72694d-55d5-4275-958f-af1f49aa5775@oracle.com>
+Date: Tue, 6 May 2025 16:52:23 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 2/6] platform/x86: Add lenovo-wmi-helpers
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+        Hans de Goede <hdegoede@redhat.com>,
+        =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>, Jonathan Corbet <corbet@lwn.net>,
+        Mario Limonciello <superm1@kernel.org>, Luke Jones <luke@ljones.dev>,
+        Xino Ni <nijs1@lenovo.com>, Zhixin Zhang <zhangzx36@lenovo.com>,
+        Mia Shao <shaohz1@lenovo.com>,
+        Mark Pearson <mpearson-lenovo@squebb.ca>,
+        "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+        "Cody T . -H . Chiu" <codyit@gmail.com>,
+        John Martens <johnfanv2@gmail.com>,
+        platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mario Limonciello <mario.limonciello@amd.com>
+References: <20250505010659.1450984-1-derekjohn.clark@gmail.com>
+ <20250505010659.1450984-3-derekjohn.clark@gmail.com>
+Content-Language: en-US
+From: ALOK TIWARI <alok.a.tiwari@oracle.com>
+In-Reply-To: <20250505010659.1450984-3-derekjohn.clark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYCP301CA0069.JPNP301.PROD.OUTLOOK.COM
+ (2603:1096:405:7d::9) To DS7PR10MB5328.namprd10.prod.outlook.com
+ (2603:10b6:5:3a6::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00001CE5:EE_|IA1PR12MB7662:EE_
-X-MS-Office365-Filtering-Correlation-Id: 8ae1058b-3f4d-4e1f-14a9-08dd8c91062d
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|IA4PR10MB8520:EE_
+X-MS-Office365-Filtering-Correlation-Id: 55009c06-5b25-4fe4-4d2d-08dd8c904bfe
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|7416014|82310400026|376014|1800799024;
+	BCL:0;ARA:13230040|1800799024|7416014|376014|366016|7053199007;
 X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?bYjAnL/7JS4d3rhoLBn/nAGEbfIo8dhdYX+ySsz1Me/g5vvtlyLNGsfD/Enn?=
- =?us-ascii?Q?xbS1Lt7+WSm6bqiHcEhzc69iz9jEynhgrA1ci0HdwGDF4+RwACxwfEpsgCtv?=
- =?us-ascii?Q?5tT7J8wcmmqRJsPRAhE3WtyXBmpfM/k5sWxn1GQ37VnBw1wLB8l4l4rAOC10?=
- =?us-ascii?Q?wQFiL0ulGPnpCR56VQ9pbqMzRHfpF1J4PTJk3clRNs8i2s9DHRLUMG6yp4OM?=
- =?us-ascii?Q?C0TA+dL6l3cvY4TU245IWkad63zBkCCmxDP4iM53+LseGBi6Iv7SZweI4Wst?=
- =?us-ascii?Q?mdIguWBliDFJ1Uyf3b1+rW/LPI1NgZ95YDB7wV/77dOkn22lCHM+ZDXJBq5I?=
- =?us-ascii?Q?128oypQbVxYUmIj2x2pFsTM4kFsT9frzjDYzbtoorJOpcaxMJYmykvouE4FM?=
- =?us-ascii?Q?84yxy6Y8hfIF+IxuYiHL/MNWZAPMYMWH+PCiZYLAPRGYo5vu5NVQo8mVT9BE?=
- =?us-ascii?Q?N2DYcIQXeaU3+IhLU2mCtJgTMuM8zmYBrlcMKCYHdT7I5L1h4wTjyOLK+Hnw?=
- =?us-ascii?Q?WyPeBwKeAhh8MAOZ3tfK19tu4j8EfeB9E0zykt/1cwAjOFD7FYRk62Q3CEtl?=
- =?us-ascii?Q?/L7izSAwcCfEpp373vRcWFb/ubnQmZlg0/EnBn1n/b3MhLnjoUfNDyEhZv2o?=
- =?us-ascii?Q?XmDOnNOYZNC6ld8ECDytrQMUZH730UVweFPYHd5IXUlSdKRW3EUpdR9itbl9?=
- =?us-ascii?Q?jNJVZfvdRjqQQyixafwUZMlbpwX2clVDfiHI7UyGOD3RuVh7qFYxlRr4Ybe9?=
- =?us-ascii?Q?AWPeBtFA72QUrgcCcf+dor9BRnH6NnXM2XSdcNK//8u3gqM/xl0H/LJBoZdk?=
- =?us-ascii?Q?uJrR5jvI7tvbY5ugnEMovR2lz6fscFFBGbqsgGZTbV45lkrEesWSOXVzsiPM?=
- =?us-ascii?Q?4XgSiQPdym654i+nip46F53aRhEn/LkKmxLxJ7Wqqt9sRhcPy1XqL3edAgoP?=
- =?us-ascii?Q?rZZOCF2FIVrfzDcrUdYHbIQnxaGMWmSJGdduoVtQ0NTDDiYyipnMA1fIots9?=
- =?us-ascii?Q?M3Csw1B8ljoBg5jS9SxbcYwObtcIgfT74lpIicCFKRw23kxAJt22NjL/EXLK?=
- =?us-ascii?Q?ethR+FVcwfbLD1eNET9DMCaw3o5GTt9PREJRmp6dMI/1xBddaUIHpJveCHr3?=
- =?us-ascii?Q?0htsB4wt4WHlxerK+pYZQ5lvdyv0GuUcG+QZVVw8O5Z9QbbqNg0aIxpMuLMK?=
- =?us-ascii?Q?gKjS/ELS7Vu8hfch7Hqc+wVG+yqWrsF2KdQPoXMkw29kBPq1n0yj0JXKbkjy?=
- =?us-ascii?Q?fHXrjXbant4WH2XXyDcypTwpqqiVOx120QFWt0kaKK5YpexDxnl5cAKnMaAE?=
- =?us-ascii?Q?LBQMMS1uVQb9wL5pIqP6ArEeoUEg32UjOQBJaEjmqmGfiMVGLqtp3Kmx9b2I?=
- =?us-ascii?Q?BJEarWzR/1QD22nA9hc81J4owcS5sKJOhSnz78n6kNMrya4LfWahOEnTB6c0?=
- =?us-ascii?Q?iGaFipQsFsByO7UwdEX4xXJedwi/jmoL2V63/GADR6iuzNMgQrrR1dAzKqh9?=
- =?us-ascii?Q?taA+DdHDdvEcncq24+TAHNTJJlFEnWjegpGH?=
+	=?utf-8?B?M0cyMGJHTGRudlhvcGJ1SkZtOTh0dW1wQ0hBOFBlQ3ZkTTZmSGZBUVJzTEVH?=
+ =?utf-8?B?ei84cTZKQVNodXY0dms2S2ZvZEJ5QmlzWUVIVVdmaUJJNUZrcGJlbTJWc0tZ?=
+ =?utf-8?B?K0R5cC9RNEx6My9kUW5RMjRaOXljaTVVK2JMcThVcFR3VWJsUmNGQkJ2OUhI?=
+ =?utf-8?B?ZUNlTHIzM1BmNTZXVzFGUDVrSFc1eDg1dk85eEdKclVwNE83Z2FVb05rMlZK?=
+ =?utf-8?B?d1Eyek02YkNHaTZZWkI4M0U1cis2Q1ZZQkZVNlhaY2Zhc0ZkYkMzV1BkYUtF?=
+ =?utf-8?B?c3llNzYxYnlJajQ2S0NnbUVFaHdPMGdwNUxOMXM1ZHpDTGc4SkVNNlg3d2Er?=
+ =?utf-8?B?L2l4ZFl6RG9qVjJXUXJDYlkyK2tnTUVMbVZib3FrRWt1Z2p5QWRPUUxQTGRU?=
+ =?utf-8?B?Smh2Wm5VMEl5QUxtSzNidmVuY2ZUdk9SUWowN01CNXFRN2FlaDh3Q2pab2xJ?=
+ =?utf-8?B?Nnl6b2pFQ2RTZU9GWU9CMFhVdDNvQksybHZxWnk5azljeGRSZHZjMnp6Qis1?=
+ =?utf-8?B?dGdjMFk2Sy9XK3VuWWVQOFJ6bk1GOFRmNjltQ3lmUms4Wll2SlVBdC8zOXFG?=
+ =?utf-8?B?cGE0OHMvQXlqRlhMREdsUzFieC90dS9HTWJQd1hJSjJmK3NBMTdWelNLU2V3?=
+ =?utf-8?B?MWJtaTNHZG1pUklTZDBEY1YzN3dKdTNTL0x3cmQycHZ4NEpoQkNLbnVKR1Jn?=
+ =?utf-8?B?WWJRSkNWREhlSVlzR0xSUUtNdUdmYkhZRStFUWxQeW1PMEdKeHc0RmQ2cy8z?=
+ =?utf-8?B?Tyt1TVBKdnA5dVUvQ3lUenVQYTRYeTFWN2RIZzE3L0xBbUJnMENtY3NCRFJm?=
+ =?utf-8?B?eEJzSll2SzZhLyt3VDZNeXNnWkxBUW9zMThONU9aN01qc3FON3BtaDBRUVVV?=
+ =?utf-8?B?Z0lBd0thcWlFWVBGRkkrUVlsVFdUaER4Z0NYbUlKNUkzeERjTGF6MHRpTE5P?=
+ =?utf-8?B?UXFZNEh1U1JQcHlTc2d2ekdzMGxMTkVHMWE0Q011L084Y1RTTTMzTHUwUjY1?=
+ =?utf-8?B?eDhnWEl4Q0lhOW13c2RTeWwwb3FmclVPdHJKN3QyZ2lNWi9nU0ZkdWwwUHNp?=
+ =?utf-8?B?SWl5VnA3QnMyTG1FU055aGFRTjBHbEtkS0M4QjdqTUtaczVERmNQK0JteFh0?=
+ =?utf-8?B?ZjRoU0R5MEVqYUp6QWVlWG00WERFVmV6ajVHYTFKWUdZQnhuYlEyV3gxOGZq?=
+ =?utf-8?B?a09qYWt0Z2ZoVkhBUDZxekp4dDBDMm5lNU91dEEvbmtSWUV2UmtRbThaUW1F?=
+ =?utf-8?B?MVFHRVEzdlFKKzNjRDdZaHIzTEdlMUhSZEZWNmlkUVRncXluUGN1ZkRUeDdC?=
+ =?utf-8?B?RWdiTk41bVVRdkc2c3BZdUduZjJjUTh3YVZ3K3d4NWpaZW44WFhkZTJSeGFG?=
+ =?utf-8?B?WEZpb05qUEhHWHFnM00rVkxuTTZHcTMxb0hOVTdadGlaM250NVpOMFI1b2hm?=
+ =?utf-8?B?eEhPLzVhNWZiWUFFSE4rTEZnMkF3QXp3NGNmdWtaenFkdWtMS3Uvc2JCT0RM?=
+ =?utf-8?B?OTRBSGN0NVZCQzkwUXh6Zm9tV0VZQm5uTytIUEFjdjFkby9jdEZDODNrV2Jy?=
+ =?utf-8?B?R0EyeDc2Z29CNFo4MjR3Y2NsQ25yU0loRFNSVVErYUZVdmRTSy9FTjVPRW1T?=
+ =?utf-8?B?M1pSZXJwZFVqSFhUT2FuU1dmbXRXcnBvejVQanA1aFhQMjdTYTdBc3U3RllM?=
+ =?utf-8?B?bStyWmEvdEJIM2RZMUR2cU94Q1Y5VVpwTkdveiswSDVnN0RINHdwOHB0a2ZG?=
+ =?utf-8?B?NmlPMExkSkw3SlV1Z0I1eUtzblFSOWhtNklVUGlHMkhDTDRHeHoxRzFzMUpO?=
+ =?utf-8?B?NUFiQlFNYi9UQ0JLVElqTFh3ZmV3ajVDU3JOY2x0ZzBtd25lMkJ2SFZzWXFI?=
+ =?utf-8?B?L2xqWXdoY3RXcHRKMkxqQjZRQVlYaTRXejlHdDJCUGtMNnc9PQ==?=
 X-Forefront-Antispam-Report:
-	CIP:216.228.118.233;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge2.nvidia.com;CAT:NONE;SFS:(13230040)(36860700013)(7416014)(82310400026)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 11:27:45.7998
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5328.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?bFdjUjdKcFNiUzk1bXJWellnTE02Uk1UMWVTejhQTWpPb2Jxb05odFdZZmR5?=
+ =?utf-8?B?NG84TEJKZHNGejc0ajFLYlhjUm9RZjVOWFRhNFBvdjE3V1hvc29zNllCQzlz?=
+ =?utf-8?B?VmtQSFFWQ0FxNyszd1lUQkJ5VmtTdTBNbXljd1p1dHZtaWJqeWlqelo4bkdu?=
+ =?utf-8?B?U09NNU9SUEY0SFdLWnF5RXZVSnFhQm54c09wYnNRdnp5T09BdEhiS2FIU1Ev?=
+ =?utf-8?B?WEtRTU1DclBCSXFmR0RWaThWaEx1WFlQaXU5clQ1RG9sZFRhWkV0V2F1SE1C?=
+ =?utf-8?B?by9qWXhhWllNZ0g4am9oRU8vR3JOSTBBZWtIdEJ2TmwvaEYwYi9uMEhHb2Zp?=
+ =?utf-8?B?cGV0UWlpa3F0NGt5RTVLY0FOaHFJcy92UHpyeWNHSW93eGJ4dnV6ZHFEYUMw?=
+ =?utf-8?B?ekFzQWpNWEt6Qjg0WnVKaDhyc1U2Q1pMbzhsY29iNkhQV2JwSVFadzJMMXJE?=
+ =?utf-8?B?aFpveVNxMTh0K3hJSHYrQnkrTkVUUnB2OEk0VnkzNTY3SFJNby9nU21ta21O?=
+ =?utf-8?B?dG5DY2oyTVVPay9NdmRSQjlqNkZlMWVLbWQ1cUdERitwbk1tWDhLRVpvTEND?=
+ =?utf-8?B?NlR6ajMxNGtsaGN1T0V6UGNmOHU0WjBBemJUQ0JWSHA5V0U2d3h6bDl6ZUVF?=
+ =?utf-8?B?L0E0aUNKV25XY2VpQWd0QUJVa2o0QzVubTM0UFBtai8xVWxIYUEvZU9xWEtO?=
+ =?utf-8?B?WGRHQllScmFtVWxsT2N5ZXM3YWZhUUZhODRXZUw5akVDL3J0cDJXM0liQXB0?=
+ =?utf-8?B?dFNGZFBtQjVmN2drK3hrNUl1ZjlRZWhxaWVwOCtqTUZkYjFJNjEyRXN5S0U2?=
+ =?utf-8?B?c1RGU3ExdVRXeHQrZFhHb1k1QmlNcUZTYldSYkQzV2VoRjBGc1RzMm5UaU1x?=
+ =?utf-8?B?YWVWYVVpTDRGc3VZWWxvRld1a2F6M2ttdjkzRUNaTEhVblpRWlluRUlaVHZQ?=
+ =?utf-8?B?Y0tUK3p2dFkzd3BwN3ZINHM1L0EzdW9vWWkrMjZrbmVnZEZmeC9XNjhiTjFM?=
+ =?utf-8?B?aUNTdVpheHpVMzNlcyt5YVRnWUY3bUtKOXZYeFBoTG5sY1ZPNlZrN3VCMWE5?=
+ =?utf-8?B?NUNWTXR5OHo5Q1EwVTZVQUJoNlM1ekN1U2VOK0Z0RlgzbXFiRDdvRUh2b0Zn?=
+ =?utf-8?B?RUFrZEFGM0E3c05FTGN6QThhZHM4UFExdFUwNS9OZUl1ME9HMUtGcFVwcTMv?=
+ =?utf-8?B?Rng4dWFqU0Z3MzQyblpJdHJQVUxicUE1KzFkZ3gxNGtnNmppVnBzQW10TGZC?=
+ =?utf-8?B?T3lKZVNzNGVxRmFzQmhJU1FGeDhmSGlHWSt0TGpGU3ZUVHJHa25iMjV5cjRF?=
+ =?utf-8?B?MTBiZkdVL3BWclcyUDVPRVM3bEJyTnc0Z0hocytYem9zZDlwak4wNlJsZlli?=
+ =?utf-8?B?NXlDcUtUcEQrcVRQSU0vdVJQNnFaellZUTFVKytPTmxnR3dIRVg4MjIxbVhv?=
+ =?utf-8?B?TzUzOE5Zc0ZDTThIY3k4dEJqcm5BMjArb1NCTUgvVkNpQWVha1ZPaXpqWHdk?=
+ =?utf-8?B?MzVndERqOVIxdTVQdkdXTWZoT3daQnBSZ0FlOUhXWXQxdFBXdE9EM1JuWHA0?=
+ =?utf-8?B?OTNJWmlvbWc1KzNKQ3lMT2FDUDdBb0dFRnlKa2laZGx6YUM0bjNlaExxSk9a?=
+ =?utf-8?B?RXJIeEMzTktzQ0ZUcFp0amRiUDYybGgzdlIyYXpyTCtKUE5jMFlUdnp4eTcw?=
+ =?utf-8?B?YjNNaGpaVlhRSnhKR2JBR1FCaWV1YTYxU25TeWQ3TU16bUZuNlZjN0RTajdQ?=
+ =?utf-8?B?MlBEWktzSlIvd295cngvN29GNXloZUI2NXdaVWVVcjN1dWFhYVFLakNmU0J5?=
+ =?utf-8?B?MWFPcEoyeGEwUjlYNUJzN3JGV0ttdlF6T2FVZ2pITDdKQzBpSERzdGNQZW41?=
+ =?utf-8?B?cGJSVXZmVnV1Nk5TQmJHVWFicWh5bm5VczFaclFTQmhYTWFSRW1Od3NOYm5X?=
+ =?utf-8?B?NWFRRHlPT3QyOUw0K21yQi9YZFltVXZWYXpGcGJmeTNrdUV4c1IvT3lXUm52?=
+ =?utf-8?B?VklOSnBxL0ljOVR2UHlIRUZZUXY0TlY4Uld6UGRMeTZwNjYyL200YUJmZGNp?=
+ =?utf-8?B?T2xkMC9nczhxYmpGbktoUUxZQ1Z0NGk4MmV4WE42aXRCTDlIeG5pcjZFbFAz?=
+ =?utf-8?B?eDhEcFVCOWd4RlVWVUVGckh4cklLbHozYkl6Q0UxQkV3ZDJReVRPR3VCZjhP?=
+ =?utf-8?B?Nnc9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	kc6zxRIRuU8Lsy3frIY9OMMgRhYuTYb8SWlm1V2ZkiimikxNq+/Ldu6q8bKnjGDg4GGGun8ZXA6WY7WluSGm015kRGLFBXspBPMqEyq2R9BDXJYe/5oj/uEPzqzkI4Afda+VQNFwQTDuRxn82EmVmLGR4cNoYrSw6/HSbxPgwioT2i6VdfZj71u7b1gsQ4MuhJO6JcYP7Ei/SzmzPwLgwGrsOAUcu531MtZHiStWwR0Mk3gOB4tkIuYArgV/Tgl3g+bW24QwbSQsQERBy3iJeFcnWUFCAzuGSQKm1QUE3eMJ5vQtLjmT3lonf1SgHqxMhm7cLER4+v9B0QcB8AXWN8ivuefxXLx+eMKcL6UurnbqkKvBv9fE9EELmuIaiXkbeRRWyMo7VCoyZNlsjsF4IhvMZO4aKLjPKBODHuwZ5vhfv00ZQ8bLdFa/ccavLCZ+MlDjvTrLMtQGdCV6S7Vykb7olTzXxtUBV+0acb7YceIDgm6GGWOYC1r07xLTiC3Bhgt1juZMVHAhFqHqIpUJlt4hlw0SNHH2FC3pmmvJ94a3PMMLCx3tTzm2yFlk8oMmNp0qrPahYdu4IGSJLUJ/AOLc9RyaRoNSjKJ0o9Bifxk=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 55009c06-5b25-4fe4-4d2d-08dd8c904bfe
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5328.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 11:22:33.8810
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8ae1058b-3f4d-4e1f-14a9-08dd8c91062d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.233];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00001CE5.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR12MB7662
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HZYZLGzHeXPVOUyLd7Ds3rRFvgJdmx4yHg1IupbytjDCyfE8KlzgMUoq68/VPm1YSfY16R9F36NQxTX35Og5Tpbgp2R1oczs1DLTLNvxKO8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA4PR10MB8520
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-06_05,2025-05-05_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0 malwarescore=0
+ adultscore=0 mlxscore=0 spamscore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2504070000
+ definitions=main-2505060108
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA2MDExMSBTYWx0ZWRfX22yRDfhYRcsl f4pHVLlcZz94sLW9dWaC3xSEfFtnwDODvc+o55o4dsh+yZrDVJVdNb4bokAXIRSaKqX8qpkdrBK M00sUBTR9rHLuk4DdVU3qlxST6nhBaGlWwUuPaS0X/Tu/XxfLeyYp/PHRysEhOZnKXQAnCAtzEG
+ GDRR+aYjich5Ewu2OxyVB5aXjTVzYEUyOpPhqo1BrcwXPzBycWTAbAWKunRVoJEwolkilqbAK0X +pJGDyFMNK2UWHKHQPD+qaqRbKdYjjBVdNiSPTOBBKQaMWZm5xOtmxSzXo09K97mnGCPJlJ2VPk I3xxtjpMcxmt/tt62uYYtn7zp1NaEoBnYTGDhasAg47DhrRZ0Ksw0OcChJL3nLyTH93AdtdluF2
+ 7hz7HL9fzmJNGdV3ivsKcVzCoBZsH///axfKwBLj8xfuvFjGJqUmVwJJol9/GqDmIPsXrl2o
+X-Authority-Analysis: v=2.4 cv=GZkXnRXL c=1 sm=1 tr=0 ts=6819f321 cx=c_pps a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10
+ a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=zd2uoN0lAAAA:8 a=pGLkceISAAAA:8 a=VwQbUJbxAAAA:8 a=59-QbVjxAAAA:8 a=yPCof4ZbAAAA:8 a=8-YAVYTJbHnczm04nqUA:9 a=QEXdDO2ut3YA:10 a=IGXNCFnflQ0gJHagSJzg:22
+X-Proofpoint-GUID: bp9-zJhrv7BApGaDk6y6S3F6zEYTDhlI
+X-Proofpoint-ORIG-GUID: bp9-zJhrv7BApGaDk6y6S3F6zEYTDhlI
 
-From: Carolina Jubran <cjubran@nvidia.com>
 
-Introduce support for managing Traffic Class (TC) arbiter nodes and
-associated vports TC nodes within the E-Switch QoS hierarchy. This
-patch adds support for the new scheduling node type,
-`SCHED_NODE_TYPE_VPORTS_TC_TSAR`, and implements full support for
-setting tc-bw on both vports and nodes.
 
-Key changes include:
+On 05-05-2025 06:36, Derek J. Clark wrote:
+> Adds lenovo-wmi-helpers, which provides a common wrapper function for
+> wmidev_evaluate_method that does data validation and error handling.
+> 
+> Reviewed-by: Armin Wolf<W_Armin@gmx.de>
+> Reviewed-by: Mario Limonciello<mario.limonciello@amd.com>
+> Signed-off-by: Derek J. Clark<derekjohn.clark@gmail.com>
+> ---
+> v8: No change
+> v7:
+>   - Fix typos
+> v6:
+>   - Fix typos and rewordings from v5 review.
+> v5:
+>   - Fixes from v4 review.
+>   - Combine all previous methods into a single function that takes a
+>     buffer for the wmi method arguments.
+> v4:
+>   - Changed namespace to LENOVO_WMI_HELPERS from LENOVO_WMI.
+>   - Changed filenames to lenovo-wmi-helpers from lenovo-wmi.
+>   - Removed structs and functions implemented by other drivers.
+> ---
+>   MAINTAINERS                               |  1 +
+>   drivers/platform/x86/Kconfig              |  4 ++
+>   drivers/platform/x86/Makefile             |  1 +
+>   drivers/platform/x86/lenovo-wmi-helpers.c | 74 +++++++++++++++++++++++
+>   drivers/platform/x86/lenovo-wmi-helpers.h | 20 ++++++
+>   5 files changed, 100 insertions(+)
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.c
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.h
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 675f4b26426d..aab59a777693 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -13164,6 +13164,7 @@ L:	platform-driver-x86@vger.kernel.org
+>   S:	Maintained
+>   F:	Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>   F:	Documentation/wmi/devices/lenovo-wmi-other.rst
+> +F:	drivers/platform/x86/lenovo-wmi-helpers.*
+>   
+>   LENOVO WMI HOTKEY UTILITIES DRIVER
+>   M:	Jackie Dong<xy-jackie@139.com>
+> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfig
+> index 43407e76476b..bece1ba61417 100644
+> --- a/drivers/platform/x86/Kconfig
+> +++ b/drivers/platform/x86/Kconfig
+> @@ -459,6 +459,10 @@ config IBM_RTL
+>   	 state = 0 (BIOS SMIs on)
+>   	 state = 1 (BIOS SMIs off)
+>   
+> +config LENOVO_WMI_HELPERS
+> +	tristate
+> +	depends on ACPI_WMI
+> +
+>   config IDEAPAD_LAPTOP
+>   	tristate "Lenovo IdeaPad Laptop Extras"
+>   	depends on ACPI
+> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makefile
+> index 650dfbebb6c8..5a9f4e94f78b 100644
+> --- a/drivers/platform/x86/Makefile
+> +++ b/drivers/platform/x86/Makefile
+> @@ -69,6 +69,7 @@ obj-$(CONFIG_THINKPAD_LMI)	+= think-lmi.o
+>   obj-$(CONFIG_YOGABOOK)		+= lenovo-yogabook.o
+>   obj-$(CONFIG_YT2_1380)		+= lenovo-yoga-tab2-pro-1380-fastcharger.o
+>   obj-$(CONFIG_LENOVO_WMI_CAMERA)	+= lenovo-wmi-camera.o
+> +obj-$(CONFIG_LENOVO_WMI_HELPERS)	+= lenovo-wmi-helpers.o
+>   
+>   # Intel
+>   obj-y				+= intel/
+> diff --git a/drivers/platform/x86/lenovo-wmi-helpers.c b/drivers/platform/x86/lenovo-wmi-helpers.c
+> new file mode 100644
+> index 000000000000..93aded3d24e9
+> --- /dev/null
+> +++ b/drivers/platform/x86/lenovo-wmi-helpers.c
+> @@ -0,0 +1,74 @@
+> +// SPDX-License-Identifier: GPL-2.0-or-later
+> +/*
+> + * Lenovo Legion WMI helpers driver.
+> + *
+> + * The Lenovo Legion WMI interface is broken up into multiple GUID interfaces
+> + * that require cross-references between GUID's for some functionality. The
+> + * "Custom Mode" interface is a legacy interface for managing and displaying
+> + * CPU & GPU power and hwmon settings and readings. The "Other Mode" interface
+> + * is a modern interface that replaces or extends the "Custom Mode" interface
+> + * methods. The "Gamezone" interface adds advanced features such as fan
+> + * profiles and overclocking. The "Lighting" interface adds control of various
+> + * status lights related to different hardware components. Each of these
+> + * drivers uses a common procedure to get data from the WMI interface,
+> + * enumerated here.
+> + *
+> + * Copyright (C) 2025 Derek J. Clark<derekjohn.clark@gmail.com>
+> + */
+> +
+> +#include <linux/acpi.h>
+> +#include <linux/cleanup.h>
+> +#include <linux/errno.h>
+> +#include <linux/export.h>
+> +#include <linux/module.h>
+> +#include <linux/wmi.h>
+> +
+> +#include "lenovo-wmi-helpers.h"
+> +
+> +/**
+> + * lwmi_dev_evaluate_int() - Helper function for calling WMI methods that
+> + * return an integer.
+> + * @wdev: Pointer to the WMI device to be called.
+> + * @instance: Instance of the called method.
+> + * @method_id: WMI Method ID for the method to be called.
+> + * @buf: Buffer of all arguments for the given method_id.
+> + * @size: Length of the buffer.
+> + * @retval: Pointer for the return value to be assigned.
+> + *
+> + * Calls wmidev_evaluate_method for Lenovo WMI devices that return an ACPI
+> + * integer. Validates the return value type and assigns the value to the
+> + * retval pointer.
+> + *
+> + * Return: 0 on success, or an error code.
+> + */
+> +int lwmi_dev_evaluate_int(struct wmi_device *wdev, u8 instance, u32 method_id,
+> +			  unsigned char *buf, size_t size, u32 *retval)
+> +{
+> +	struct acpi_buffer output = { ACPI_ALLOCATE_BUFFER, NULL };
+> +	union acpi_object *ret_obj __free(kfree) = NULL;
+> +	struct acpi_buffer input = { size, buf };
+> +	acpi_status status;
+> +
+> +	status = wmidev_evaluate_method(wdev, instance, method_id, &input,
+> +					&output);
+> +
+> +	if (ACPI_FAILURE(status))
+> +		return -EIO;
+> +
+> +	if (retval) {
+> +		ret_obj = output.pointer;
+> +		if (!ret_obj)
+> +			return -ENODATA;
+> +
+> +		if (ret_obj->type != ACPI_TYPE_INTEGER)
+> +			return -ENXIO;
+> +
+> +		*retval = (u32)ret_obj->integer.value;
+> +	}
 
-- Introduced the new scheduling node type,
-  `SCHED_NODE_TYPE_VPORTS_TC_TSAR`, for managing vports within the TC
-  arbiter node.
+a '\n' before return
 
-- New helper functions for creating and destroying vports TC nodes
-  under the TC arbiter.
+> +	return 0;
+> +};
+> +EXPORT_SYMBOL_NS_GPL(lwmi_dev_evaluate_int, "LENOVO_WMI_HELPERS");
+> +
 
-- Updated the minimum rate normalization function to skip nodes of type
-  `SCHED_NODE_TYPE_VPORTS_TC_TSAR`. Vports TC TSARs have bandwidth
-  shares configured on them but not minimum rates, so their `min_rate`
-  cannot be normalized.
 
-- Implementation of `esw_qos_tc_arbiter_scheduling_setup()` and
-  `esw_qos_tc_arbiter_scheduling_teardown()` for initializing and
-  cleaning up TC arbiter scheduling elements. These functions now fully
-  support tc-bw configuration on TC arbiter nodes.
+Looks Good To Me.
 
-- Added `esw_qos_tc_arbiter_get_bw_shares()` and
-  `esw_qos_set_tc_arbiter_bw_shares()` to handle the settings of
-  bandwidth shares for vports traffic class TSARs.
+Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
 
-- Refactored `mlx5_esw_devlink_rate_node_tc_bw_set()` and
-  `mlx5_esw_devlink_rate_leaf_tc_bw_set()` to fully support configuring
-  tc-bw on devlink rate nodes and vports, respectively.
-
-- Refactored `mlx5_esw_qos_node_update_parent()` to ensure that tc-bw
-  configuration remains compatible with setting a parent on a rate
-  node, preserving level hierarchy functionality.
-
-Signed-off-by: Carolina Jubran <cjubran@nvidia.com>
-Reviewed-by: Cosmin Ratiu <cratiu@nvidia.com>
-Signed-off-by: Tariq Toukan <tariqt@nvidia.com>
----
- .../net/ethernet/mellanox/mlx5/core/esw/qos.c | 264 +++++++++++++++++-
- 1 file changed, 257 insertions(+), 7 deletions(-)
-
-diff --git a/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c b/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
-index 8893aaf32724..fac5058025ae 100644
---- a/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
-+++ b/drivers/net/ethernet/mellanox/mlx5/core/esw/qos.c
-@@ -67,6 +67,7 @@ enum sched_node_type {
- 	SCHED_NODE_TYPE_TC_ARBITER_TSAR,
- 	SCHED_NODE_TYPE_RATE_LIMITER,
- 	SCHED_NODE_TYPE_VPORT_TC,
-+	SCHED_NODE_TYPE_VPORTS_TC_TSAR,
- };
- 
- static const char * const sched_node_type_str[] = {
-@@ -75,6 +76,7 @@ static const char * const sched_node_type_str[] = {
- 	[SCHED_NODE_TYPE_TC_ARBITER_TSAR] = "TC Arbiter TSAR",
- 	[SCHED_NODE_TYPE_RATE_LIMITER] = "Rate Limiter",
- 	[SCHED_NODE_TYPE_VPORT_TC] = "vport TC",
-+	[SCHED_NODE_TYPE_VPORTS_TC_TSAR] = "vports TC TSAR",
- };
- 
- struct mlx5_esw_sched_node {
-@@ -187,6 +189,11 @@ mlx5_esw_qos_vport_get_parent(const struct mlx5_vport *vport)
- static void esw_qos_sched_elem_warn(struct mlx5_esw_sched_node *node, int err, const char *op)
- {
- 	switch (node->type) {
-+	case SCHED_NODE_TYPE_VPORTS_TC_TSAR:
-+		esw_warn(node->esw->dev,
-+			 "E-Switch %s %s scheduling element failed (tc=%d,err=%d)\n",
-+			 op, sched_node_type_str[node->type], node->tc, err);
-+		break;
- 	case SCHED_NODE_TYPE_VPORT_TC:
- 		esw_warn(node->esw->dev,
- 			 "E-Switch %s %s scheduling element failed (vport=%d,tc=%d,err=%d)\n",
-@@ -376,7 +383,13 @@ static void esw_qos_normalize_min_rate(struct mlx5_eswitch *esw,
- 		if (node->esw != esw || node->ix == esw->qos.root_tsar_ix)
- 			continue;
- 
--		esw_qos_update_sched_node_bw_share(node, divider, extack);
-+		/* Vports TC TSARs don't have a minimum rate configured,
-+		 * so there's no need to update the bw_share on them.
-+		 */
-+		if (node->type != SCHED_NODE_TYPE_VPORTS_TC_TSAR) {
-+			esw_qos_update_sched_node_bw_share(node, divider,
-+							   extack);
-+		}
- 
- 		if (list_empty(&node->children))
- 			continue;
-@@ -527,6 +540,144 @@ static void esw_qos_destroy_node(struct mlx5_esw_sched_node *node, struct netlin
- 	__esw_qos_free_node(node);
- }
- 
-+static int esw_qos_create_vports_tc_node(struct mlx5_esw_sched_node *parent,
-+					 u8 tc, struct netlink_ext_ack *extack)
-+{
-+	u32 tsar_ctx[MLX5_ST_SZ_DW(scheduling_context)] = {};
-+	struct mlx5_core_dev *dev = parent->esw->dev;
-+	struct mlx5_esw_sched_node *vports_tc_node;
-+	void *attr;
-+	int err;
-+
-+	if (!mlx5_qos_element_type_supported(
-+		dev,
-+		SCHEDULING_CONTEXT_ELEMENT_TYPE_TSAR,
-+		SCHEDULING_HIERARCHY_E_SWITCH) ||
-+	    !mlx5_qos_tsar_type_supported(dev,
-+					  TSAR_ELEMENT_TSAR_TYPE_DWRR,
-+					  SCHEDULING_HIERARCHY_E_SWITCH))
-+		return -EOPNOTSUPP;
-+
-+	vports_tc_node = __esw_qos_alloc_node(parent->esw, 0,
-+					      SCHED_NODE_TYPE_VPORTS_TC_TSAR,
-+					      parent);
-+	if (!vports_tc_node) {
-+		NL_SET_ERR_MSG_MOD(extack, "E-Switch alloc node failed");
-+		esw_warn(dev, "Failed to alloc vports TC node (tc=%d)\n", tc);
-+		return -ENOMEM;
-+	}
-+
-+	attr = MLX5_ADDR_OF(scheduling_context, tsar_ctx, element_attributes);
-+	MLX5_SET(tsar_element, attr, tsar_type, TSAR_ELEMENT_TSAR_TYPE_DWRR);
-+	MLX5_SET(tsar_element, attr, traffic_class, tc);
-+	MLX5_SET(scheduling_context, tsar_ctx, parent_element_id, parent->ix);
-+	MLX5_SET(scheduling_context, tsar_ctx, element_type,
-+		 SCHEDULING_CONTEXT_ELEMENT_TYPE_TSAR);
-+
-+	err = esw_qos_node_create_sched_element(vports_tc_node, tsar_ctx,
-+						extack);
-+	if (err)
-+		goto err_create_sched_element;
-+
-+	vports_tc_node->tc = tc;
-+
-+	return 0;
-+
-+err_create_sched_element:
-+	__esw_qos_free_node(vports_tc_node);
-+	return err;
-+}
-+
-+static void
-+esw_qos_tc_arbiter_get_bw_shares(struct mlx5_esw_sched_node *tc_arbiter_node,
-+				 u32 *tc_bw)
-+{
-+	struct mlx5_esw_sched_node *vports_tc_node;
-+
-+	list_for_each_entry(vports_tc_node, &tc_arbiter_node->children, entry)
-+		tc_bw[vports_tc_node->tc] = vports_tc_node->bw_share;
-+}
-+
-+static void
-+esw_qos_set_tc_arbiter_bw_shares(struct mlx5_esw_sched_node *tc_arbiter_node,
-+				 u32 *tc_bw, struct netlink_ext_ack *extack)
-+{
-+	struct mlx5_esw_sched_node *vports_tc_node;
-+
-+	list_for_each_entry(vports_tc_node, &tc_arbiter_node->children, entry) {
-+		u32 bw_share;
-+		u8 tc;
-+
-+		tc = vports_tc_node->tc;
-+		bw_share = tc_bw[tc] ?: MLX5_MIN_BW_SHARE;
-+		esw_qos_sched_elem_config(vports_tc_node, 0, bw_share, extack);
-+	}
-+}
-+
-+static void
-+esw_qos_destroy_vports_tc_nodes(struct mlx5_esw_sched_node *tc_arbiter_node,
-+				struct netlink_ext_ack *extack)
-+{
-+	struct mlx5_esw_sched_node *vports_tc_node, *tmp;
-+
-+	list_for_each_entry_safe(vports_tc_node, tmp,
-+				 &tc_arbiter_node->children, entry)
-+		esw_qos_destroy_node(vports_tc_node, extack);
-+}
-+
-+static int
-+esw_qos_create_vports_tc_nodes(struct mlx5_esw_sched_node *tc_arbiter_node,
-+			       struct netlink_ext_ack *extack)
-+{
-+	struct mlx5_eswitch *esw = tc_arbiter_node->esw;
-+	int err, i, num_tcs = esw_qos_num_tcs(esw->dev);
-+
-+	for (i = 0; i < num_tcs; i++) {
-+		err = esw_qos_create_vports_tc_node(tc_arbiter_node, i, extack);
-+		if (err)
-+			goto err_tc_node_create;
-+	}
-+
-+	return 0;
-+
-+err_tc_node_create:
-+	esw_qos_destroy_vports_tc_nodes(tc_arbiter_node, NULL);
-+	return err;
-+}
-+
-+static int esw_qos_create_tc_arbiter_sched_elem(
-+		struct mlx5_esw_sched_node *tc_arbiter_node,
-+		struct netlink_ext_ack *extack)
-+{
-+	u32 tsar_ctx[MLX5_ST_SZ_DW(scheduling_context)] = {};
-+	u32 tsar_parent_ix;
-+	void *attr;
-+
-+	if (!mlx5_qos_tsar_type_supported(tc_arbiter_node->esw->dev,
-+					  TSAR_ELEMENT_TSAR_TYPE_TC_ARB,
-+					  SCHEDULING_HIERARCHY_E_SWITCH)) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "E-Switch TC Arbiter scheduling element is not supported");
-+		return -EOPNOTSUPP;
-+	}
-+
-+	attr = MLX5_ADDR_OF(scheduling_context, tsar_ctx, element_attributes);
-+	MLX5_SET(tsar_element, attr, tsar_type, TSAR_ELEMENT_TSAR_TYPE_TC_ARB);
-+	tsar_parent_ix = tc_arbiter_node->parent ? tc_arbiter_node->parent->ix :
-+			 tc_arbiter_node->esw->qos.root_tsar_ix;
-+	MLX5_SET(scheduling_context, tsar_ctx, parent_element_id,
-+		 tsar_parent_ix);
-+	MLX5_SET(scheduling_context, tsar_ctx, element_type,
-+		 SCHEDULING_CONTEXT_ELEMENT_TYPE_TSAR);
-+	MLX5_SET(scheduling_context, tsar_ctx, max_average_bw,
-+		 tc_arbiter_node->max_rate);
-+	MLX5_SET(scheduling_context, tsar_ctx, bw_share,
-+		 tc_arbiter_node->bw_share);
-+
-+	return esw_qos_node_create_sched_element(tc_arbiter_node, tsar_ctx,
-+						 extack);
-+}
-+
- static struct mlx5_esw_sched_node *
- __esw_qos_create_vports_sched_node(struct mlx5_eswitch *esw, struct mlx5_esw_sched_node *parent,
- 				   struct netlink_ext_ack *extack)
-@@ -591,6 +742,9 @@ static void __esw_qos_destroy_node(struct mlx5_esw_sched_node *node, struct netl
- {
- 	struct mlx5_eswitch *esw = node->esw;
- 
-+	if (node->type == SCHED_NODE_TYPE_TC_ARBITER_TSAR)
-+		esw_qos_destroy_vports_tc_nodes(node, extack);
-+
- 	trace_mlx5_esw_node_qos_destroy(esw->dev, node, node->ix);
- 	esw_qos_destroy_node(node, extack);
- 	esw_qos_normalize_min_rate(esw, NULL, extack);
-@@ -685,13 +839,38 @@ static void esw_qos_put(struct mlx5_eswitch *esw)
- static void
- esw_qos_tc_arbiter_scheduling_teardown(struct mlx5_esw_sched_node *node,
- 				       struct netlink_ext_ack *extack)
--{}
-+{
-+	/* Clean up all Vports TC nodes within the TC arbiter node. */
-+	esw_qos_destroy_vports_tc_nodes(node, extack);
-+	/* Destroy the scheduling element for the TC arbiter node itself. */
-+	esw_qos_node_destroy_sched_element(node, extack);
-+}
- 
- static int esw_qos_tc_arbiter_scheduling_setup(struct mlx5_esw_sched_node *node,
- 					       struct netlink_ext_ack *extack)
- {
--	NL_SET_ERR_MSG_MOD(extack, "TC arbiter elements are not supported.");
--	return -EOPNOTSUPP;
-+	u32 curr_ix = node->ix;
-+	int err;
-+
-+	err = esw_qos_create_tc_arbiter_sched_elem(node, extack);
-+	if (err)
-+		return err;
-+	/* Initialize the vports TC nodes within created TC arbiter TSAR. */
-+	err = esw_qos_create_vports_tc_nodes(node, extack);
-+	if (err)
-+		goto err_vports_tc_nodes;
-+
-+	node->type = SCHED_NODE_TYPE_TC_ARBITER_TSAR;
-+
-+	return 0;
-+
-+err_vports_tc_nodes:
-+	/* If initialization fails, clean up the scheduling element
-+	 * for the TC arbiter node.
-+	 */
-+	esw_qos_node_destroy_sched_element(node, NULL);
-+	node->ix = curr_ix;
-+	return err;
- }
- 
- static int
-@@ -1064,6 +1243,7 @@ static int esw_qos_vport_update(struct mlx5_vport *vport,
- {
- 	struct mlx5_esw_sched_node *curr_parent = vport->qos.sched_node->parent;
- 	enum sched_node_type curr_type = vport->qos.sched_node->type;
-+	u32 curr_tc_bw[IEEE_8021QAZ_MAX_TCS] = {0};
- 	int err;
- 
- 	esw_assert_qos_lock_held(vport->dev->priv.eswitch);
-@@ -1075,11 +1255,23 @@ static int esw_qos_vport_update(struct mlx5_vport *vport,
- 	if (err)
- 		return err;
- 
-+	if (curr_type == SCHED_NODE_TYPE_TC_ARBITER_TSAR && curr_type == type) {
-+		esw_qos_tc_arbiter_get_bw_shares(vport->qos.sched_node,
-+						 curr_tc_bw);
-+	}
-+
- 	esw_qos_vport_disable(vport, extack);
- 
- 	err = esw_qos_vport_enable(vport, type, parent, extack);
--	if (err)
-+	if (err) {
- 		esw_qos_vport_enable(vport, curr_type, curr_parent, NULL);
-+		extack = NULL;
-+	}
-+
-+	if (curr_type == SCHED_NODE_TYPE_TC_ARBITER_TSAR && curr_type == type) {
-+		esw_qos_set_tc_arbiter_bw_shares(vport->qos.sched_node,
-+						 curr_tc_bw, extack);
-+	}
- 
- 	return err;
- }
-@@ -1563,6 +1755,8 @@ int mlx5_esw_devlink_rate_leaf_tc_bw_set(struct devlink_rate *rate_leaf,
- 					   SCHED_NODE_TYPE_TC_ARBITER_TSAR,
- 					   NULL, extack);
- 	}
-+	if (!err)
-+		esw_qos_set_tc_arbiter_bw_shares(vport_node, tc_bw, extack);
- unlock:
- 	esw_qos_unlock(esw);
- 	return err;
-@@ -1592,6 +1786,8 @@ int mlx5_esw_devlink_rate_node_tc_bw_set(struct devlink_rate *rate_node,
- 	}
- 
- 	err = esw_qos_node_enable_tc_arbitration(node, extack);
-+	if (!err)
-+		esw_qos_set_tc_arbiter_bw_shares(node, tc_bw, extack);
- unlock:
- 	esw_qos_unlock(esw);
- 	return err;
-@@ -1716,6 +1912,15 @@ int mlx5_esw_devlink_rate_leaf_parent_set(struct devlink_rate *devlink_rate,
- 	return mlx5_esw_qos_vport_update_parent(vport, node, extack);
- }
- 
-+static bool esw_qos_is_node_empty(struct mlx5_esw_sched_node *node)
-+{
-+	return list_empty(&node->children) ||
-+	       (node->type == SCHED_NODE_TYPE_TC_ARBITER_TSAR &&
-+		esw_qos_is_node_empty(
-+			list_first_entry(&node->children,
-+					 struct mlx5_esw_sched_node, entry)));
-+}
-+
- static int
- mlx5_esw_qos_node_validate_set_parent(struct mlx5_esw_sched_node *node,
- 				      struct mlx5_esw_sched_node *parent,
-@@ -1729,13 +1934,26 @@ mlx5_esw_qos_node_validate_set_parent(struct mlx5_esw_sched_node *node,
- 		return -EOPNOTSUPP;
- 	}
- 
--	if (!list_empty(&node->children)) {
-+	if (!esw_qos_is_node_empty(node)) {
- 		NL_SET_ERR_MSG_MOD(extack,
- 				   "Cannot reassign a node that contains rate objects");
- 		return -EOPNOTSUPP;
- 	}
- 
-+	if (parent && parent->type == SCHED_NODE_TYPE_TC_ARBITER_TSAR) {
-+		NL_SET_ERR_MSG_MOD(extack,
-+				   "Cannot attach a node to a parent with TC bandwidth configured");
-+		return -EOPNOTSUPP;
-+	}
-+
- 	new_level = parent ? parent->level + 1 : 2;
-+	if (node->type == SCHED_NODE_TYPE_TC_ARBITER_TSAR) {
-+		/* Increase by one to account for the vports TC scheduling
-+		 * element.
-+		 */
-+		new_level += 1;
-+	}
-+
- 	max_level = 1 << MLX5_CAP_QOS(node->esw->dev, log_esw_max_sched_depth);
- 	if (new_level > max_level) {
- 		NL_SET_ERR_MSG_MOD(extack,
-@@ -1746,6 +1964,32 @@ mlx5_esw_qos_node_validate_set_parent(struct mlx5_esw_sched_node *node,
- 	return 0;
- }
- 
-+static int
-+esw_qos_tc_arbiter_node_update_parent(struct mlx5_esw_sched_node *node,
-+				      struct mlx5_esw_sched_node *parent,
-+				      struct netlink_ext_ack *extack)
-+{
-+	struct mlx5_esw_sched_node *curr_parent = node->parent;
-+	u32 curr_tc_bw[IEEE_8021QAZ_MAX_TCS] = {0};
-+	struct mlx5_eswitch *esw = node->esw;
-+	int err;
-+
-+	esw_qos_tc_arbiter_get_bw_shares(node, curr_tc_bw);
-+	esw_qos_tc_arbiter_scheduling_teardown(node, extack);
-+	esw_qos_node_set_parent(node, parent);
-+	err = esw_qos_tc_arbiter_scheduling_setup(node, extack);
-+	if (err) {
-+		esw_qos_node_set_parent(node, curr_parent);
-+		if (esw_qos_tc_arbiter_scheduling_setup(node, extack)) {
-+			esw_warn(esw->dev, "Node restore QoS failed\n");
-+			return err;
-+		}
-+	}
-+	esw_qos_set_tc_arbiter_bw_shares(node, curr_tc_bw, extack);
-+
-+	return err;
-+}
-+
- static int esw_qos_vports_node_update_parent(struct mlx5_esw_sched_node *node,
- 					     struct mlx5_esw_sched_node *parent,
- 					     struct netlink_ext_ack *extack)
-@@ -1791,7 +2035,13 @@ static int mlx5_esw_qos_node_update_parent(struct mlx5_esw_sched_node *node,
- 
- 	esw_qos_lock(esw);
- 	curr_parent = node->parent;
--	err = esw_qos_vports_node_update_parent(node, parent, extack);
-+	if (node->type == SCHED_NODE_TYPE_TC_ARBITER_TSAR) {
-+		err = esw_qos_tc_arbiter_node_update_parent(node, parent,
-+							    extack);
-+	} else {
-+		err = esw_qos_vports_node_update_parent(node, parent, extack);
-+	}
-+
- 	if (err)
- 		goto out;
- 
--- 
-2.31.1
-
+Thanks,
+Alok
