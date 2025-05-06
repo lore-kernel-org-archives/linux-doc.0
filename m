@@ -1,160 +1,128 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8283428135A;
-	Tue,  6 May 2025 14:47:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDC0E283FC0;
+	Tue,  6 May 2025 14:52:03 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746542830; cv=none; b=riF9i06nqdBTcd0Jhh1QV295bk9dJI45Ju/GUmYEhIcEl1XNJACldUGHvJ44PPqlxrc6EFTPmmhIN7HjuzxIFSvOkt+J6ZXeQASAWPCTqsdGf0gD9MRctO1x2gt3XR4VL2D5FQ5mB46bO18vbwiV7B1VtCq/t9oFN/U1M9Tyf/w=
+	t=1746543123; cv=none; b=LWQ9jvRc8vaQ+eowKouBty7Ze92+Whp1pxjVuZ4GIRweDcNNrmtZ6ivBKJ15TPiJ2sI7v7JA+va7oeHM3yxKMkuuMkt0+2rV9uVZwzPwBVFIlsrb6/OU58K5Dx4Uaj4yn/xg877DulXmGgv/ZIdEGHvUUdzW8gH2NSQhveXRFrE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746542830; c=relaxed/simple;
-	bh=NMQ6gHoepk2Hh+GE5YhvmtUey4N6usZn6VaPR71gppg=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=k1v4k7V8zQVtxlQaQoIi1lWBDbhv0fAe37pfIx9HSGZkT5rTl7rscKQLKtQ4ofdJamXrBKYmVmiOmYKNB7JtmJduiYnGPSxEV91KgAjxoH/tqfxoTBX0PamNF/H6yLtBVOaatR6szKLRqYGfUoB/HuXehULilmsSCDDYuqmGkFo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZsLnp0cdTz6K5kv;
-	Tue,  6 May 2025 22:46:54 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 0994E14011D;
-	Tue,  6 May 2025 22:47:05 +0800 (CST)
-Received: from localhost (10.203.177.66) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 6 May
- 2025 16:47:04 +0200
-Date: Tue, 6 May 2025 15:47:02 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-CC: Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
-	Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, Joey
- Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>, James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-perf-users@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <linux-doc@vger.kernel.org>,
-	<kvmarm@lists.linux.dev>, Mark Brown <broonie@kernel.org>
-Subject: Re: [PATCH v21 0/4] arm64/perf: Enable branch stack sampling
-Message-ID: <20250506154702.00002b57@huawei.com>
-In-Reply-To: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
-References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1746543123; c=relaxed/simple;
+	bh=K+msrNcjslK8gX9r4hYRpdwGYgkStkMVQt+IJpV0k90=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Sb5AnwafSHMEQBHtvSVeXrcSF34YH3qW/ytA2fB5ZiYga8W/jwPzW3A83g0LftuMUfeqZiXpUroRiWB0bHecxEaWUi5BcUykG/hSMvsmkftjWMg8AjbrK9eOQqvru0IotpBw6lltaXVNnKIcGp9HtTUuCWXRhe7zbeXjAz1Ovyo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RVNAFcGx; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RVNAFcGx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49002C4CEE4;
+	Tue,  6 May 2025 14:52:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746543123;
+	bh=K+msrNcjslK8gX9r4hYRpdwGYgkStkMVQt+IJpV0k90=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=RVNAFcGxw3dHYXOyVRXh5fivxKa/N2jk5eKMAvqLohOS4UebVRQrVGdWVHoZgRJTv
+	 eVq6S9v7qPUlLp7O8jG2nR0PfRuQQZn4IG4n8Ftb4ml38TzmSYyqa4YwBI0wfGTkaC
+	 X4lbuLwA01LMCckukXI1VbLv38F57prx/ajNK0b/ez39T2+d4ZhxYdgq5D1ly9Gmw2
+	 +9IG3wM2dnjxxMFiVrKJhwZcb3ptz9+ga3aMhBTKeFQMhGMbhZMPLoMD4S2LQwJkXq
+	 OAAY4auq4X0QFYWLpPi3+HrDs2nzjIC8sdXdPoM2ehDVO5Asj84WtfcCvz7VfbN5Tx
+	 Sb/tZQ1xVT76g==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uCJeK-00CHhs-JT;
+	Tue, 06 May 2025 15:52:00 +0100
+Date: Tue, 06 May 2025 15:51:59 +0100
+Message-ID: <86cyclhjw0.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: Will Deacon <will@kernel.org>
+Cc: =?UTF-8?B?TWlrb8WCYWo=?= Lenczewski <miko.lenczewski@arm.com>,
+	ryan.roberts@arm.com,	suzuki.poulose@arm.com,	yang@os.amperecomputing.com,
+	corbet@lwn.net,	catalin.marinas@arm.com,	jean-philippe@linaro.org,
+	robin.murphy@arm.com,	joro@8bytes.org,	akpm@linux-foundation.org,
+	paulmck@kernel.org,	mark.rutland@arm.com,	joey.gouly@arm.com,
+	james.morse@arm.com,	broonie@kernel.org,	oliver.upton@linux.dev,
+	baohua@kernel.org,	david@redhat.com,	ioworker0@gmail.com,	jgg@ziepe.ca,
+	nicolinc@nvidia.com,	mshavit@google.com,	jsnitsel@redhat.com,
+	smostafa@google.com,	kevin.tian@intel.com,	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,	linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev
+Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
+In-Reply-To: <20250506142508.GB1197@willie-the-truck>
+References: <20250428153514.55772-2-miko.lenczewski@arm.com>
+	<20250428153514.55772-4-miko.lenczewski@arm.com>
+	<20250506142508.GB1197@willie-the-truck>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml500012.china.huawei.com (7.191.174.4) To
- frapeml500008.china.huawei.com (7.182.85.71)
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: will@kernel.org, miko.lenczewski@arm.com, ryan.roberts@arm.com, suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net, catalin.marinas@arm.com, jean-philippe@linaro.org, robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org, paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com, james.morse@arm.com, broonie@kernel.org, oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com, ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-On Mon, 07 Apr 2025 12:41:29 -0500
-"Rob Herring (Arm)" <robh@kernel.org> wrote:
+On Tue, 06 May 2025 15:25:09 +0100,
+Will Deacon <will@kernel.org> wrote:
+>=20
+> On Mon, Apr 28, 2025 at 03:35:14PM +0000, Miko=C5=82aj Lenczewski wrote:
+> > The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
+> > and this commit adds a dedicated BBML2 cpufeature to test against
+> > support for, as well as a kernel commandline parameter to optionally
+> > disable BBML2 altogether.
+> >=20
+> > This is a system feature as we might have a big.LITTLE architecture
+> > where some cores support BBML2 and some don't, but we want all cores to
+> > be available and BBM to default to level 0 (as opposed to having cores
+> > without BBML2 not coming online).
+> >=20
+> > To support BBML2 in as wide a range of contexts as we can, we want not
+> > only the architectural guarantees that BBML2 makes, but additionally
+> > want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
+> > us having to prove that no recursive faults can be induced in any path
+> > that uses BBML2, allowing its use for arbitrary kernel mappings.
+> > Support detection of such CPUs.
+> >=20
+> > Signed-off-by: Miko=C5=82aj Lenczewski <miko.lenczewski@arm.com>
+> > Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+> > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
+> > ---
+> >  .../admin-guide/kernel-parameters.txt         |  3 +
+> >  arch/arm64/Kconfig                            | 19 +++++
+> >  arch/arm64/include/asm/cpucaps.h              |  2 +
+> >  arch/arm64/include/asm/cpufeature.h           |  5 ++
+> >  arch/arm64/kernel/cpufeature.c                | 71 +++++++++++++++++++
+> >  arch/arm64/kernel/pi/idreg-override.c         |  2 +
+> >  arch/arm64/tools/cpucaps                      |  1 +
+> >  7 files changed, 103 insertions(+)
+> >=20
+> > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Document=
+ation/admin-guide/kernel-parameters.txt
+> > index d9fd26b95b34..2749c67a4f07 100644
+> > --- a/Documentation/admin-guide/kernel-parameters.txt
+> > +++ b/Documentation/admin-guide/kernel-parameters.txt
+> > @@ -449,6 +449,9 @@
+> >  	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
+> >  			32 bit applications.
+> > =20
+> > +	arm64.nobbml2	[ARM64] Unconditionally disable Break-Before-Make Level
+> > +			2 support
+>=20
+> Hmm, I'm not sure we really want this. It opens up the door for folks to
+> pass 'id_aa64mmfr2.bbm=3D2' without updating the allow-list which feels
+> like it's going to make crashes harder to reason about.
 
-> This series enables perf branch stack sampling support on arm64 via a 
-> v9.2 arch feature called Branch Record Buffer Extension (BRBE). Details 
-> on BRBE can be found in the Arm ARM[1] chapter D18.
-> 
-> I've picked up this series from Anshuman. v19 and v20 versions have been 
-> reworked quite a bit by Mark and myself. The bulk of those changes are 
-> in patch 4.
-> 
-> A git branch is here[2].
-> 
-> [1] https://developer.arm.com/documentation/ddi0487/latest/
-> [2] git://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git arm/brbe-v21
+Passing id_aa64mmfr2.bbm=3D2 shouldn't have any effect if the HW doesn't
+advertise it already, as you can only downgrade features. Trying to
+upgrade features should leave a nastygram in the kernel log.
 
-Hi Rob,
+	M.
 
-Expecting any changes on this?  Anything specific we can do to help then shout.
-
-We need to pull in the reworked version into openeuler that is carrying older
-code and would rather not do it more than once. 
-
-Jonathan
-
-> 
-> v21:
-> - Drop clean-up patches 1-7 already applied
-> - Rebase on v6.15-rc1
-> 
-> v20:
->  - https://lore.kernel.org/r/20250218-arm-brbe-v19-v20-0-4e9922fc2e8e@kernel.org
->  - Added back some of the arm64 specific exception types. The x86 IRQ 
->    branches also include other exceptions like page faults. On arm64, we 
->    can distinguish the exception types, so we do. Also, to better 
->    align with x86, we convert 'call' branches which are user to kernel 
->    to 'syscall'.
->  - Only enable exceptions and exception returns if recording kernel
->    branches (matching x86)
->  - Drop requiring event and branch privileges to match
->  - Add "branches" caps sysfs attribute like x86
->  - Reword comment about FZP and MDCR_EL2.HPMN interaction
->  - Rework BRBE invalidation to avoid invalidating in interrupt handler
->    when no handled events capture the branch stack (i.e. when there are 
->    multiple users).
->  - Also clear BRBCR_ELx bits in brbe_disable(). This is for KVM nVHE 
->    checks if BRBE is enabled.
->  - Document that MDCR_EL3.SBRBE can be 0b01 also
-> 
-> v19:
->  - https://lore.kernel.org/all/20250202-arm-brbe-v19-v19-0-1c1300802385@kernel.org/
->  - Drop saving of branch records when task scheduled out (Mark). Make 
->    sched_task() callback actually get called. Enabling requires a call 
->    to perf_sched_cb_inc(). So the saving of branch records never 
->    happened.
->  - Got rid of added armpmu ops. All BRBE support is contained within 
->    pmuv3 code.
->  - Fix freeze on overflow for VHE
->  - The cycle counter doesn't freeze BRBE on overflow, so avoid assigning
->    it when BRBE is enabled.
->  - Drop all the Arm specific exception branches. Not a clear need for
->    them.
->  - Fix handling of branch 'cycles' reading. CC field is
->    mantissa/exponent, not an integer.
->  - Rework s/w filtering to better match h/w filtering
->  - Reject events with disjoint event filter and branch filter or with 
->    exclude_host set
->  - Dropped perf test patch which has been applied for 6.14
->  - Dropped patch "KVM: arm64: Explicitly handle BRBE traps as UNDEFINED"
->    which has been applied for 6.14
-> 
-> v18:
->  - https://lore.kernel.org/all/20240613061731.3109448-1-anshuman.khandual@arm.com/
-> 
-> For v1-v17, see the above link. Not going to duplicate it all here...
-> 
-> Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
-> ---
-> Anshuman Khandual (4):
->       arm64/sysreg: Add BRBE registers and fields
->       arm64: Handle BRBE booting requirements
->       KVM: arm64: nvhe: Disable branch generation in nVHE guests
->       perf: arm_pmuv3: Add support for the Branch Record Buffer Extension (BRBE)
-> 
->  Documentation/arch/arm64/booting.rst |  21 +
->  arch/arm64/include/asm/el2_setup.h   |  86 +++-
->  arch/arm64/include/asm/kvm_host.h    |   2 +
->  arch/arm64/include/asm/sysreg.h      |  17 +-
->  arch/arm64/kvm/debug.c               |   4 +
->  arch/arm64/kvm/hyp/nvhe/debug-sr.c   |  32 ++
->  arch/arm64/kvm/hyp/nvhe/switch.c     |   2 +-
->  arch/arm64/tools/sysreg              | 132 ++++++
->  drivers/perf/Kconfig                 |  11 +
->  drivers/perf/Makefile                |   1 +
->  drivers/perf/arm_brbe.c              | 802 +++++++++++++++++++++++++++++++++++
->  drivers/perf/arm_brbe.h              |  47 ++
->  drivers/perf/arm_pmu.c               |  15 +-
->  drivers/perf/arm_pmuv3.c             | 129 +++++-
->  include/linux/perf/arm_pmu.h         |   8 +
->  15 files changed, 1287 insertions(+), 22 deletions(-)
-> ---
-> base-commit: 0af2f6be1b4281385b618cb86ad946eded089ac8
-> change-id: 20250129-arm-brbe-v19-24d5d9e5e623
-> 
-> Best regards,
-
+--=20
+Without deviation from the norm, progress is not possible.
