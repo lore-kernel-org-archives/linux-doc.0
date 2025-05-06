@@ -1,132 +1,81 @@
-Received: from mail-pl1-f177.google.com (mail-pl1-f177.google.com [209.85.214.177])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82D0D2517B7;
-	Tue,  6 May 2025 14:07:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 783331E3DF4;
+	Tue,  6 May 2025 14:19:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746540429; cv=none; b=bQheL7MvyJNCtLWangxlVRebwT/VvP2VNfahiV+2/jDUrK34QnQHOPaJmVghT/Yeeuu3znMwj0gwLVAwTLGfezJa6M31vix/LHbFVdMCBUPf74XiITf7qlrsufg2afLjfhpurL3Z/Uu+nkKzqpvT0ZNsSORlNBdQ62t42JkVS+I=
+	t=1746541198; cv=none; b=JD/gJ77kzVf8lsc8BVRIxrdL9uMeSn0z6JxidHRNuWj0IJXo3gsxEi8UMHEogn3erxLQCtnGcXgjbluOQz+0bHLEQ9i/PpcPPok4VUFvrZx44Rm6yUncpQFtNMVIFqh8vMgAY+XyjbpCYBzn+gOnVqiWRwyWKDo6Oduo/WS5p3k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746540429; c=relaxed/simple;
-	bh=WXtaGT7lF0uTLZg96UgqxuWVaRi/I0lqkAIvcA8kRHU=;
-	h=Mime-Version:Content-Type:Date:Message-Id:To:Cc:Subject:From:
-	 References:In-Reply-To; b=jikcNivgkhfMaamiIX02pumng4pD6POO39zBac9sVntTkVTH/YZSC/HYBB2w/C/sbsuye2qi8kQ8QG95E8XGnbzZ72x7mls9kAq3M9rZGjhSSa9R9o2IWlCVdb1zkXOfaVTHaM1Hm9RKOvbwhe1WTdzInafFik5opUwrFjQvFsg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JUPh0Heg; arc=none smtp.client-ip=209.85.214.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746541198; c=relaxed/simple;
+	bh=mTMRUMgR4L/7RvmPvU/2UmZ78JGiv9EeVU2GVr4rwT4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Q8xtaNeq0hUNkEtMRDzdqf/bhQGkwf9rniTGWDxdzdAVS7Cxpe5+PrIbbO/UmsI0U1VDoEzvJ765BclxBllAdkDclQnx5OnNuS23yyOuVmoE8iOuTWWt9R1aT9WRo2FXQQ6H+Kx+CBfcBWWTuJ+Oi2PCj4RtfDoQCQLpeDXhrPA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mjKpFh6x; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JUPh0Heg"
-Received: by mail-pl1-f177.google.com with SMTP id d9443c01a7336-2255003f4c6so59521695ad.0;
-        Tue, 06 May 2025 07:07:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746540428; x=1747145228; darn=vger.kernel.org;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=voe+/4nXQyObHFxQXaFicmcPG7Zm26GMrBpX4/agWt4=;
-        b=JUPh0HegpGiUAznR1cYDTADZIeot7ZxbLGCxRmI8/jzpQS12sKmFGQYXMhxKuOwAvm
-         YoAdIE5pZvqzRRWwhqDUb0ybliCybR8hp5wmUFUFLeSXJSA8Ut4RWtKESqCoiL0tI5Su
-         cC3UUf2vc+JN/S1Z2AkuqKeMaowRHpLya1qlBs28oVwEH1Hihe1efzN0jYSxQmx9x8Rc
-         QH6ZOG6OuUrF7/OS9lrtr7sqfKgvXeDL9yhBh3NOy9M/tqgW/s74cfsLwdPcFMNwH5qH
-         +BrvrImIGTmeZadiOrN4Emxrfsyg3fbq9urjx9afjVRKklTOP4uRGrovCkv0e7PGic9Q
-         Jj1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746540428; x=1747145228;
-        h=in-reply-to:references:from:subject:cc:to:message-id:date
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=voe+/4nXQyObHFxQXaFicmcPG7Zm26GMrBpX4/agWt4=;
-        b=X+fktZuDfT2vi82acUKaiuCDmeGQt3YpZa91zK3VQigV1NAaWMyfd1cmy8CbAmAdtH
-         6Xt41qWeN20o49qNhXbQt2yGhrdT7JnI9QOrvh3FXvCM237Ipb/cGk1LUC1rFVj5I1uk
-         dQpc8pZSh+Nz8W3Gm5N1nfWQF4dl2xV1ogBqLVgWSOlMkexiqZjqY5zv4/ojhKIRE18H
-         8syEeIScmteKoVre8e9Y5KIw1VzP4azcZiCzNWQn/D/jKS7fCJ1rUgN0m/QY0f6nWnZh
-         ZC4zFFpXhi/fa68VgrxVGFbodZ/GEFIrUWlat/Fe/itdqzbZtq7hWapKzNhnZmI+dtQA
-         qgZQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW7NoS73CZt9QQG2cbV1Lrm+ZPdoJ+bavOGEiYV+4T5QyWduvA3gLWxmBJi97DQwfVanPalYeSJMflSC3Nw@vger.kernel.org, AJvYcCWaWmJxi5VlyeFJ9aLCe82U+OE/gkf+N4as1/cfJGYcqcSFemJiGo+W12KMEqIC0DNxCkXEoXYqFPQ=@vger.kernel.org, AJvYcCXTv/AoRgT+vUOB+9xieiePjySoc+djV4LwRq+sgxypoE/4bnHAhlhPi0ngFgW0YY4TRAW1s2+ph5wghZV3Db9wCDENpw==@vger.kernel.org
-X-Gm-Message-State: AOJu0YxNsfM0KzV5xv1FUKZYoMc81MK2+xExTDH3/MERZJ+grXv7SQ1k
-	Ke1IYQ0l7xNpLRY/h0m6tdaBecfBlyYo8WpIPtHrjIIhuszaneDt
-X-Gm-Gg: ASbGncsUmCWxx5AueZ3M/hY3P6xraYKACiefhw9wm7H8g0/F3jMT+aOZfvHKNHBTn21
-	hY6IgkrnDt1tIH+AwiaUe/pAvg/xAvZg6ReTxEXA5Ymz/1L1zvfjRtL8t/Ci4NxFN6QgQo5kJoQ
-	VywkkzFLM6vx/A0haOnXSUUAA7r4Noby3m4mxoE0lj3G4GO9wGkexMq2DO49Azkg9w7eTeADoUZ
-	cu3Gvj3IvAnQghZRhnNBaq2R3MBwoaCJFsL4SWbAIQVkRTuQv6bZrj1EgJvFB0M+SYP36Zukgvp
-	3lgTtyhZ/UbQp9j9ADXZXRYDhW29+C8KpQ==
-X-Google-Smtp-Source: AGHT+IHKS8DeMPUm4YmUHOSkL2q7nnf6Tm5kMgFtcqfHzGGiz8KwigDUOsLjoKrhLcXsM06HMEg/QQ==
-X-Received: by 2002:a17:902:d508:b0:223:5e6a:57ab with SMTP id d9443c01a7336-22e103570bemr227935985ad.39.1746540427680;
-        Tue, 06 May 2025 07:07:07 -0700 (PDT)
-Received: from localhost ([181.91.133.137])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22e1522917asm73860675ad.201.2025.05.06.07.07.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 06 May 2025 07:07:07 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mjKpFh6x"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 0C1F0C4CEE4;
+	Tue,  6 May 2025 14:19:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746541197;
+	bh=mTMRUMgR4L/7RvmPvU/2UmZ78JGiv9EeVU2GVr4rwT4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mjKpFh6x+eNnuikWStC2X+QGu1Fl0efOWw++cCFWdpDStaJJsRlBxvrhHbsLt8th+
+	 YkqLKUIUVSIzYYURi0ngt9sUpNErDhsod0lN+41Z1wNjdrT6fI/2PH9i/5S6nLjKn4
+	 KHB0jCRiniVTa6PqaSFdT16ATwKV51S47DKjDRc8v8YLEWT4U+RpaIivsw4NxDlEMB
+	 onLFp4YsRE7SJfcz2zs/JY6b9IEvpUqOgEkiMeykztAJ48sM60fZ9v6Um2lXAcnm1T
+	 Nl74zX5JyeBVL1E0HnrCQVL8L2e3iWHfnNRZ26cMEMM1bAfrveFOSulD96tWCGnfuh
+	 i0bnNYruJw3Hg==
+Date: Tue, 6 May 2025 15:19:49 +0100
+From: Will Deacon <will@kernel.org>
+To: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>
+Cc: ryan.roberts@arm.com, suzuki.poulose@arm.com,
+	yang@os.amperecomputing.com, corbet@lwn.net,
+	catalin.marinas@arm.com, jean-philippe@linaro.org,
+	robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
+	paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
+	maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
+	oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
+	ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com,
+	mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com,
+	kevin.tian@intel.com, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+	iommu@lists.linux.dev
+Subject: Re: [RESEND PATCH v6 2/3] iommu/arm: Add BBM Level 2 smmu feature
+Message-ID: <20250506141949.GA1197@willie-the-truck>
+References: <20250428153514.55772-2-miko.lenczewski@arm.com>
+ <20250428153514.55772-6-miko.lenczewski@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-Mime-Version: 1.0
-Content-Type: multipart/signed;
- boundary=47f4e849a0bb507ec94d0535baf510c1d52cc3ad2843bfeec9b2e3d21d74;
- micalg=pgp-sha512; protocol="application/pgp-signature"
-Date: Tue, 06 May 2025 11:07:02 -0300
-Message-Id: <D9P4WPCRV2MD.VZE4Q37U0O63@gmail.com>
-To: "Derek J. Clark" <derekjohn.clark@gmail.com>, "Hans de Goede"
- <hdegoede@redhat.com>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
- <ilpo.jarvinen@linux.intel.com>
-Cc: "Armin Wolf" <W_Armin@gmx.de>, "Jonathan Corbet" <corbet@lwn.net>,
- "Mario Limonciello" <superm1@kernel.org>, "Luke Jones" <luke@ljones.dev>,
- "Xino Ni" <nijs1@lenovo.com>, "Zhixin Zhang" <zhangzx36@lenovo.com>, "Mia
- Shao" <shaohz1@lenovo.com>, "Mark Pearson" <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>, "Cody T . -H .
- Chiu" <codyit@gmail.com>, "John Martens" <johnfanv2@gmail.com>,
- <platform-driver-x86@vger.kernel.org>, <linux-doc@vger.kernel.org>,
- <linux-kernel@vger.kernel.org>, "Alok Tiwari" <alok.a.tiwari@oracle.com>
-Subject: Re: [PATCH v8 6/6] platform/x86: Add Lenovo Other Mode WMI Driver
-From: "Kurt Borja" <kuurtb@gmail.com>
-X-Mailer: aerc 0.20.1-0-g2ecb8770224a
-References: <20250505010659.1450984-1-derekjohn.clark@gmail.com>
- <20250505010659.1450984-7-derekjohn.clark@gmail.com>
-In-Reply-To: <20250505010659.1450984-7-derekjohn.clark@gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250428153514.55772-6-miko.lenczewski@arm.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 
---47f4e849a0bb507ec94d0535baf510c1d52cc3ad2843bfeec9b2e3d21d74
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-
-On Sun May 4, 2025 at 10:06 PM -03, Derek J. Clark wrote:
-> Adds lenovo-wmi-other driver which provides the Lenovo "Other Mode" WMI
-> interface that comes on some Lenovo "Gaming Series" hardware. Provides a
-> firmware-attributes class which enables the use of tunable knobs for SPL,
-> SPPT, and FPPT.
->
-> Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
-> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
-> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+On Mon, Apr 28, 2025 at 03:35:16PM +0000, Mikołaj Lenczewski wrote:
+> For supporting BBM Level 2 for userspace mappings, we want to ensure
+> that the smmu also supports its own version of BBM Level 2. Luckily, the
+> smmu spec (IHI 0070G 3.21.1.3) is stricter than the aarch64 spec (DDI
+> 0487K.a D8.16.2), so already guarantees that no aborts are raised when
+> BBM level 2 is claimed.
+> 
+> Add the feature and testing for it under arm_smmu_sva_supported().
+> 
+> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
+> Reviewed-by: Robin Murphy <robin.murphy@arm.com>
+> Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
 > ---
-...
-> +struct tunable_attr_01 ppt_pl1_spl =3D { .device_id =3D LWMI_DEVICE_ID_C=
-PU,
-> +				       .feature_id =3D LWMI_FEATURE_ID_CPU_SPL,
-> +				       .type_id =3D LWMI_TYPE_ID_NONE };
-> +struct tunable_attr_01 ppt_pl2_sppt =3D { .device_id =3D LWMI_DEVICE_ID_=
-CPU,
-> +					.feature_id =3D LWMI_FEATURE_ID_CPU_SPPT,
-> +					.type_id =3D LWMI_TYPE_ID_NONE };
-> +struct tunable_attr_01 ppt_pl3_fppt =3D { .device_id =3D LWMI_DEVICE_ID_=
-CPU,
-> +					.feature_id =3D LWMI_FEATURE_ID_CPU_FPPT,
-> +					.type_id =3D LWMI_TYPE_ID_NONE };
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3-sva.c | 3 +++
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.c     | 3 +++
+>  drivers/iommu/arm/arm-smmu-v3/arm-smmu-v3.h     | 4 ++++
+>  3 files changed, 10 insertions(+)
 
-Sparse warns about these symbols not being static.
+This looks fine to me but please note that it doesn't apply against
+mainline (v6.15-rc5).
 
---=20
- ~ Kurt
-
---47f4e849a0bb507ec94d0535baf510c1d52cc3ad2843bfeec9b2e3d21d74
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSHYKL24lpu7U7AVd8WYEM49J/UZgUCaBoXiwAKCRAWYEM49J/U
-ZsmRAPwJddV2M9l+UFAPQzb22LLuvs8fhXMzmfeYLOfGIETE4gEAjGJZT+BR9q+l
-ILyDtJolFEx6fhyTXFm1/Yf4MRNsCgo=
-=qFJI
------END PGP SIGNATURE-----
-
---47f4e849a0bb507ec94d0535baf510c1d52cc3ad2843bfeec9b2e3d21d74--
+Will
