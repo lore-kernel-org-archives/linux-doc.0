@@ -1,66 +1,65 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 49EA227A936
-	for <linux-doc@vger.kernel.org>; Tue,  6 May 2025 11:42:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEF2527B4FE
+	for <linux-doc@vger.kernel.org>; Tue,  6 May 2025 11:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746531757; cv=none; b=blzNPwG3CaNM3f5Uop7uAOyzGvHBWSCpaGSrlQWDnONYzaO/cX7Z5AyVVxIRX2QgztEMX174B39xs3Bi2diZ3oS6zP1+pxltDs8zfRuWy4xBfKwz/JIHp8bxO5wYGz9XD1ipS5xTtL9nlBbmmjHR9vBa65hqp4ZiAXPcdmblKfU=
+	t=1746531759; cv=none; b=pXVtBYaZ2oHRa6KqvoIVFw4a3J3zHHKtYB6D02ryWC7x4qdsR1mqHDuexSlLJqEfAaInUR5lrq5kEH+E78lod2B4yYL3Mt6aUCiatTy5yzbQSf9me+Cy0YDfayMkTstiP1Sl8YdVVLVzp/+TECrQCFpi8CoeiCj6WTXqd3LNLgk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746531757; c=relaxed/simple;
-	bh=gsVA8ADxmNU5sFAxcN6FUauD6AhKeHsJ1+2Sh2Sunl8=;
+	s=arc-20240116; t=1746531759; c=relaxed/simple;
+	bh=ypJv34hSI/cyQpZHsVl/I2dLtP+yiW11q72mGd7TSV0=;
 	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=ZntxLjsFzpyNTeZenUJJ2yrLF4WUAap8wGTKvTlYX0UPQXETr3peO+2E2hhcxDGeMxhrQD1fPjtjcyLfv79xusMSqBGYzct5zAtA06N1FL96Eshv9sxK32YSI+XKSTvEsWQifI89uaPl1B2tAgSHvjgHzupSWfMYj5NDL8WhqCA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=um/8Z1k5; arc=none smtp.client-ip=209.85.221.51
+	 In-Reply-To:To:Cc; b=FqIYrQqYbcsOvYBXLPAPbigBWT3zILlpQF8IrfzwPO8b1i8FtLY++AZciOgdG5GQKA7QUdcHxC/OmWS3kK3uqGa14PgPbf2IrASGacY7TDBD4fCXDpSdRAimA9hf5PP3Kgje4EBUV/IzYei9O8uE2BAU4vCB6ssXd8tFolPJKRk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=rsCyurtt; arc=none smtp.client-ip=209.85.221.44
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="um/8Z1k5"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a0adcc3e54so324784f8f.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 May 2025 04:42:34 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="rsCyurtt"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-39ee5a5bb66so3606549f8f.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 May 2025 04:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746531753; x=1747136553; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1746531755; x=1747136555; darn=vger.kernel.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=61Iqgtu46/FNdhFy61CVblGgsvlOmM6sXXaQm3S4mzk=;
-        b=um/8Z1k5zhv3S5SsgCKXeDuZI5btuRH9N1jWhKqGv7T0FnukE6DLR3Qjftr1I8ydXP
-         WTEdXp2kzRrZeTAenwTRgw5We8PtKfIDJWV+B760tpsXEMNfYtDytPIgbO3jS+8+kLrI
-         E4jDWKH4R8gMj609scv45fwoyM+CqgOcfahM+bLcCopnCoe4gkKUg4AudCEu35y5rjRI
-         fXuoRH6sB4MCknnnuGlP3E1zG6wc6Gf6juLh2nkDSyuQgNGMWZsdKkqqa+U6g6vuafYd
-         +DqVqEYqHRzMmSg6JFc2Kqcm6d8oRq+fRIHl9XqNAgXTmLsQitS1tR3+GHLJyaGfpf/l
-         9CnA==
+        bh=tr/eVzoQ45Dz9ymRgXeR+QCkRn1x7wE6DVCL1MblI/0=;
+        b=rsCyurttQ5kSBQQcqSDZ8BYa2JIZ+gjt+UKSiPUM3XnnCRWOntnZLLKe/MRqs0Fy0J
+         4H7+wKTjTkIIvg0WB+cpeaiieh6EtKG9e0A3YqSLlWb5JXMzfrPuZJCtygWy/FJmZRXR
+         OPw0FcAgV2wm1aQmXzFAzFXQe2fDyAWIR9eC6IlSWAB5nj94HcflMPn24MZtnmWufQh1
+         Te1QZ0Yw96iY4HPqFOSeAuzQEi7tbRi+b1oBEA8WrvfT8KXqfbnJQrllTxjZgc18KXml
+         Y6tsv9/vXBKR0O3EWw/2JnvMk+EFU9Ym+MEjHgK5lRJK94oaB8/nzbAXlPXHDSRsLza6
+         JmJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746531753; x=1747136553;
+        d=1e100.net; s=20230601; t=1746531755; x=1747136555;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :mime-version:subject:date:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=61Iqgtu46/FNdhFy61CVblGgsvlOmM6sXXaQm3S4mzk=;
-        b=jRTDxP6TkbJZ8Nq22gL23npdgT4tiJYK33vAEcWmYAB+Hqma3Rwfciq4ZuZqECeyB6
-         TeTP6kKMUqJFMDFSmrJE5+HkqEyDqpazNLqDqJ+xxKNjIX4up49oBHxWymbim046FRA3
-         4oDitrdG78x6FLgR1ADYjeKQNqqiZpJGl4K6dTts+T2DZuX3uW/BhiG53yX0bs8HskLW
-         yJ/zH1IRrYhfWhdaQXeKOm6NLl6N9nabp5QW4K1Y3vOWWpyk9iAp8EAtWn1gnAfO+bPe
-         10RLpxtVBrtAaq2ftdY5p/U+Tb+Ovgd9wooDFIQf7kHQQUZkik9itvADGbZx3Qq5EOlW
-         f2KA==
-X-Forwarded-Encrypted: i=1; AJvYcCVIMyC8zX+mLGMN7XQDzXVCEeem9d/vzLMpc8Pf8R5Wp3EpOdaUgeHTnZgeYw/NcrK+h4RijrRqdt8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yym7IFl2Fzre8ht0tkE35LhKV59BjpuqNWvrp/X4d/qZX0OZ4+r
-	r/fxK8/kbFvx/BYthfzLltuCB6hFNAbGN+0IfgZwjeKuqedCXVGwZlpTiVyN3Og=
-X-Gm-Gg: ASbGncukzFuIlQZuC9CGdB/hn10WQ23tIFjVCW7eIz1sSRv3BSob3P6O05rYx9uaTjH
-	Q01CIq+tE51uM7uO77IC6MItQ/dSevzNc4eVJWTu9ITpH3H+NHb26I/UU0fhhnTdnGBbE+xQ3if
-	79O6z4cSfC7H4RjnX1YRjVAVnSEFrplmoyGie4OxB7AibCMWoBFE5vFm6xJk0ehfkVdw+qv1xoe
-	MzPmuQ3ediQFvmjZNFA9lWz53Urw83amBZQ8D6jbMJRPeYe+17hJRLG2FJ5FJpgtcAYkql+pDD+
-	JjgnLC3ckcyl5XOHrGHb4fUtaHHs7itsN9qYUZHObHco4+w=
-X-Google-Smtp-Source: AGHT+IGOdg/E7hDqzaYj4d5eAC+LYCA9Y7Nh4kV6qn5WCG2sjJC4tu8qT06CrXeaclDgMwZbgMGuJw==
-X-Received: by 2002:a05:6000:402b:b0:39c:2692:4259 with SMTP id ffacd0b85a97d-3a09fd7a2d5mr9000895f8f.21.1746531753539;
-        Tue, 06 May 2025 04:42:33 -0700 (PDT)
+        bh=tr/eVzoQ45Dz9ymRgXeR+QCkRn1x7wE6DVCL1MblI/0=;
+        b=YbdPylhg7EBrWlL5JZXfUG27eFVxmIUaZ5n8zHHFiOXv0gFmrKdumCxvRAY3TrhP0b
+         o+mMlBh+SnYrf3FNjd7+1vXVYoqpBndfA1FuTzPzzyM4pcEVLtXOo638LD8KkCMXypl9
+         htVf8QKCe+GnbM+IfL/ghwH4QcW/QSysVmZzg7huUwx3ccwD1fo4Co6n9gIr6l11ybj+
+         Rr9CwI/fw44TDz4VKaeon7mG6JDAUhI6Evc1RtiyNtQr2QagTV7LP5S7+YR8UZGEgVv8
+         0jBvDyVNFoMzgyhiE+RtJ+q8mx8tRwkhNae0aaqmdd6Z/cPGfjtNyw+rq3OvaPfm0vJd
+         Mc2Q==
+X-Forwarded-Encrypted: i=1; AJvYcCU69iEoAoe6N1nG/2xMV0dwApKRlNCZ1B/+0NgrskaN3MOz1fGMnR5nK/ifebv36IyfZsnA/pjnPIY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzdLYIYPHrgbgbKBkhjQklUO3cYZm7YyHVvV3LS2tviargT5AB1
+	zF1pf4bpVuUeg8qaGtiyutO5BBzSClvt4OGPblQRABlzn7WMR3DvJkbVnQmF3tU=
+X-Gm-Gg: ASbGnctE4O6Bss3nP7jc6+e+tA5NfrAsQQULy3OaFqlyYWcbhiCiktF/GEUHb9216IO
+	oTdqlCdMDWYsBLJozKWkdCtmHXEi5k2MkCoslHXr+mcYET6ldwIxvnlrXWGxBBvoK85GIcemMzq
+	jspKV8vgYCVFLlM/U0oIZooem56Ynpm77oMPjx8OzVs13SrbJddzvZ81REeS3InBhwbVxRRvdfj
+	Bu6BW58h8Fu40PsZYHOXq3QukVmQ4ljFlnOxXIqw0gKHpVc5pF+youBRTawGmpYGmPJ+8et0hu+
+	DVeZZfuPpIcRDYolzoKq3y3X2O9ImVGeLdOKObQHeVEYQII=
+X-Google-Smtp-Source: AGHT+IEH2+KTPzukEfAEMWWhxbAHT6NzJ/G9YGCnXDbFPk9R2A+Wr+4SDydWQzAME6RiQhm5jVhrhw==
+X-Received: by 2002:a05:6000:1787:b0:39e:cbe3:881 with SMTP id ffacd0b85a97d-3a0ac0cb3afmr1864277f8f.12.1746531755089;
+        Tue, 06 May 2025 04:42:35 -0700 (PDT)
 Received: from ho-tower-lan.lan ([77.81.75.81])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099ae344esm13198473f8f.25.2025.05.06.04.42.32
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a099ae344esm13198473f8f.25.2025.05.06.04.42.33
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 04:42:33 -0700 (PDT)
+        Tue, 06 May 2025 04:42:34 -0700 (PDT)
 From: James Clark <james.clark@linaro.org>
-Date: Tue, 06 May 2025 12:41:33 +0100
-Subject: [PATCH 01/10] arm64: sysreg: Add new PMSIDR_EL1 and PMSFCR_EL1
- fields
+Date: Tue, 06 May 2025 12:41:34 +0100
+Subject: [PATCH 02/10] perf: arm_spe: Support FEAT_SPEv1p4 filters
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -69,7 +68,7 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20250506-james-perf-feat_spe_eft-v1-1-dd480e8e4851@linaro.org>
+Message-Id: <20250506-james-perf-feat_spe_eft-v1-2-dd480e8e4851@linaro.org>
 References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
 In-Reply-To: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
 To: Catalin Marinas <catalin.marinas@arm.com>, 
@@ -88,77 +87,60 @@ Cc: linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
  linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
 X-Mailer: b4 0.14.0
 
-Add new fields and registers that are introduced for the features
-FEAT_SPE_CRR (call return records), FEAT_SPE_EFT (extended filtering),
-FEAT_SPE_FPF (floating point flag), FEAT_SPE_FDS (data source
-filtering), FEAT_SPE_ALTCLK and FEAT_SPE_SME.
+FEAT_SPEv1p4 (optional from Armv8.8) adds some new filter bits, so
+remove them from the previous version's RES0 bits using
+PMSEVFR_EL1_RES0_V1P4_EXCL. It also makes some previously available bits
+unavailable again, so add those back using PMSEVFR_EL1_RES0_V1P4_INCL.
+E.g:
+
+  E[30], bit [30]
+  When FEAT_SPEv1p4 is _not_ implemented ...
+
+FEAT_SPE_V1P3 has the same filters as V1P2 so explicitly add it to the
+switch.
 
 Signed-off-by: James Clark <james.clark@linaro.org>
 ---
- arch/arm64/tools/sysreg | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ arch/arm64/include/asm/sysreg.h | 7 +++++++
+ drivers/perf/arm_spe_pmu.c      | 5 ++++-
+ 2 files changed, 11 insertions(+), 1 deletion(-)
 
-diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
-index bdf044c5d11b..80d57c83a5f5 100644
---- a/arch/arm64/tools/sysreg
-+++ b/arch/arm64/tools/sysreg
-@@ -2205,11 +2205,20 @@ Field	0	RND
- EndSysreg
+diff --git a/arch/arm64/include/asm/sysreg.h b/arch/arm64/include/asm/sysreg.h
+index 2639d3633073..e24042e914a4 100644
+--- a/arch/arm64/include/asm/sysreg.h
++++ b/arch/arm64/include/asm/sysreg.h
+@@ -354,6 +354,13 @@
+ 	(PMSEVFR_EL1_RES0_IMP & ~(BIT_ULL(18) | BIT_ULL(17) | BIT_ULL(11)))
+ #define PMSEVFR_EL1_RES0_V1P2	\
+ 	(PMSEVFR_EL1_RES0_V1P1 & ~BIT_ULL(6))
++#define PMSEVFR_EL1_RES0_V1P4_EXCL \
++	(BIT_ULL(2) | BIT_ULL(4) | GENMASK_ULL(10, 8) | GENMASK_ULL(23, 19))
++#define PMSEVFR_EL1_RES0_V1P4_INCL \
++	(GENMASK_ULL(31, 26))
++#define PMSEVFR_EL1_RES0_V1P4	\
++	(PMSEVFR_EL1_RES0_V1P4_INCL | \
++	(PMSEVFR_EL1_RES0_V1P2 & ~PMSEVFR_EL1_RES0_V1P4_EXCL))
  
- Sysreg	PMSFCR_EL1	3	0	9	9	4
--Res0	63:19
-+Res0	63:53
-+Field	52	SIMDm
-+Field	51	FPm
-+Field	50	STm
-+Field	49	LDm
-+Field	48	Bm
-+Res0	47:21
-+Field	20	SIMD
-+Field	19	FP
- Field	18	ST
- Field	17	LD
- Field	16	B
--Res0	15:4
-+Res0	15:5
-+Field	4	FDS
- Field	3	FnE
- Field	2	FL
- Field	1	FT
-@@ -2226,7 +2235,12 @@ Field	15:0	MINLAT
- EndSysreg
+ /* Buffer error reporting */
+ #define PMBSR_EL1_FAULT_FSC_SHIFT	PMBSR_EL1_MSS_SHIFT
+diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+index 3efed8839a4e..d9f6d229dce8 100644
+--- a/drivers/perf/arm_spe_pmu.c
++++ b/drivers/perf/arm_spe_pmu.c
+@@ -701,9 +701,12 @@ static u64 arm_spe_pmsevfr_res0(u16 pmsver)
+ 	case ID_AA64DFR0_EL1_PMSVer_V1P1:
+ 		return PMSEVFR_EL1_RES0_V1P1;
+ 	case ID_AA64DFR0_EL1_PMSVer_V1P2:
++	case ID_AA64DFR0_EL1_PMSVer_V1P3:
++		return PMSEVFR_EL1_RES0_V1P2;
++	case ID_AA64DFR0_EL1_PMSVer_V1P4:
+ 	/* Return the highest version we support in default */
+ 	default:
+-		return PMSEVFR_EL1_RES0_V1P2;
++		return PMSEVFR_EL1_RES0_V1P4;
+ 	}
+ }
  
- Sysreg	PMSIDR_EL1	3	0	9	9	7
--Res0	63:25
-+Res0	63:33
-+Field	32	SME
-+Field	31:28	ALTCLK
-+Field	27	FPF
-+Field	26	EFT
-+Field	25	CRR
- Field	24	PBT
- Field	23:20	FORMAT
- Enum	19:16	COUNTSIZE
-@@ -2244,7 +2258,7 @@ Enum	11:8	INTERVAL
- 	0b0111	3072
- 	0b1000	4096
- EndEnum
--Res0	7
-+Field	7	FDS
- Field	6	FnE
- Field	5	ERND
- Field	4	LDS
-@@ -2287,6 +2301,10 @@ Field	16	COLL
- Field	15:0	MSS
- EndSysreg
- 
-+Sysreg	PMSDSFR_EL1	3	0	9	10	4
-+Field	63:0	S
-+EndSysreg
-+
- Sysreg	PMBIDR_EL1	3	0	9	10	7
- Res0	63:12
- Enum	11:8	EA
 
 -- 
 2.34.1
