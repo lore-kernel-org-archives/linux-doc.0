@@ -1,121 +1,74 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from out-188.mta0.migadu.com (out-188.mta0.migadu.com [91.218.175.188])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A17932797A5;
-	Tue,  6 May 2025 14:57:14 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3252B283C82
+	for <linux-doc@vger.kernel.org>; Tue,  6 May 2025 15:40:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.188
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746543436; cv=none; b=YrNjx8DFknW8e5kTE/SYK9N+T74Qk0T/OZ8lFSllJ6ure2r4gwaoavnub2UuzQtV6WR1ldtOzH/ilPEPclRPBO6kjfRIiH4ZwOwXxF1uf0nNUaMaq4U9hA3sPluAxAERvM6OgQlXFnZChpMpHRcaCSm3s0llkIHFxx1jb94l4TE=
+	t=1746546051; cv=none; b=RuJ8DcSJBr48iac+GMhVo83AClaG+VAiMfUcvE4fa6Ov5gB9LshuFTYKC12Yqe/A2b7LeJUbmKKp2mO5OK+7QvnhZ1RCaE+qv/pjArYvHqJw2e95vVYTRy0yh7io/QsGX/mC24AzToF9RcIo/N77f/9YKSX8ZrRaAbMmKzFDfMk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746543436; c=relaxed/simple;
-	bh=bsqqyAJp0U5RCLC80okyrbHXY7J3utSy8jIiesJ61g0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=BjF1Syk8ofS1m1F0UYM0Ldpe9OxxhtY1v4Fdtu5Wx4XVj0fFr71y605D3IGwqgMAZYqiLczKUPbZUHk2clq4imRJ9buQdz+uZdSBQi5dj4fVCMgIVtdK+yKgmDbnf8V4KetSZY+vM5+O3ci0k47tESZnLgtv17/UPjlv+6Hxp7w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=cE3HsRGC; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746546051; c=relaxed/simple;
+	bh=082OGFd0YtRtIFtzua/WfoyrO3HoRqs1mD/Tio99ZG4=;
+	h=From:To:Cc:In-Reply-To:References:Subject:Message-Id:Date:
+	 MIME-Version:Content-Type; b=SySfelZQQg9Ouom6PFFsdeooDoLQb4YTmks1iU0XUyirkF57kVJ60L/WTYCnMDGomRaRRej36EDl8TkZPNDHvRgHulRs7+VJVWNlMvamgXgaLGnNynSG/GTi8ZMoWpIFTm6WaKpPO7kg1HfPLPmwkXT+KEMM4TEQGYW18/lTZrc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io; spf=pass smtp.mailfrom=rosenzweig.io; dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b=xQ+5fhAc; arc=none smtp.client-ip=91.218.175.188
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=rosenzweig.io
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rosenzweig.io
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="cE3HsRGC"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 38291C4CEEB;
-	Tue,  6 May 2025 14:57:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746543434;
-	bh=bsqqyAJp0U5RCLC80okyrbHXY7J3utSy8jIiesJ61g0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=cE3HsRGC4nh0bceeQdOwkwZd8W4wyHk3N9w5Dah5upNlqcLgosi6i8fziGSQZMdTQ
-	 raCz2h6oJF7cZGNQ61yJodIzYroWKwl4MV+zW2si+bxLydMW0rtJmmuaGTxskX6Fyn
-	 ZtIkKWTHKJO8ppUfr1tO/W2fSHyjMbPBNvK0lb2u754FHp+X6jxntLSP356MMl7n9w
-	 yeNiePFQblHK4Y0HP1lSQUxf6uPeYTo0iGC2zP8pmokhlduq50nc/0sNKY52WuVh6E
-	 49JnAh1SE3WLjQ9l0Y3Z+mQ1MiHvXvStNByIi+OCYcJ/Ybe/WmSu0aqpRaxWVDRes5
-	 /0t10m58yyzUw==
-Date: Tue, 6 May 2025 15:57:05 +0100
-From: Will Deacon <will@kernel.org>
-To: Marc Zyngier <maz@kernel.org>
-Cc: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
-	ryan.roberts@arm.com, suzuki.poulose@arm.com,
-	yang@os.amperecomputing.com, corbet@lwn.net,
-	catalin.marinas@arm.com, jean-philippe@linaro.org,
-	robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
-	paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
-	james.morse@arm.com, broonie@kernel.org, oliver.upton@linux.dev,
-	baohua@kernel.org, david@redhat.com, ioworker0@gmail.com,
-	jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com,
-	jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
-Message-ID: <20250506145705.GB1246@willie-the-truck>
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
- <20250428153514.55772-4-miko.lenczewski@arm.com>
- <20250506142508.GB1197@willie-the-truck>
- <86cyclhjw0.wl-maz@kernel.org>
+	dkim=pass (2048-bit key) header.d=rosenzweig.io header.i=@rosenzweig.io header.b="xQ+5fhAc"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=rosenzweig.io;
+	s=key1; t=1746546036;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Gwv48sU9PJ4+7zMEwJ0xKCOMMLiUiKmC1HBLpcwOGag=;
+	b=xQ+5fhAcVue/iuF+8Br2AfJk+F2PNrGTIFtgtSGXlv969wK3d7A5JS8CAPN7x83oaZcj98
+	Fjgf/tD6zhi22M7GdSK5hnUi2xVCKYcjPxZ9TojP6acImQOMyTBHo8YWcOfSntpWUymZnx
+	/M0TCEFPng0lJNhGpqKSOG+t7oDZUkm4TiaLo7e/XUn9Kz9GV0oPL4oBrXuBCXMcFp8sQM
+	vpxhdMdu2zG+kzoe0fbODuMiQ2c1RX/8+DvKZ9N2c+hrT5IpQdKUUsdtnStDtV/Wp/ULPp
+	SQ1zrqlFWqLZi3jpaui/RZscTMVxLApJrYUeGsmfpHoFZ/yAFokQgICfO2k8NQ==
+From: Alyssa Rosenzweig <alyssa@rosenzweig.io>
+To: pmladek@suse.com, Aditya Garg <gargaditya08@live.com>
+Cc: admin@kodeit.net, airlied@redhat.com, akpm@linux-foundation.org, 
+ andriy.shevchenko@linux.intel.com, apw@canonical.com, asahi@lists.linux.dev, 
+ corbet@lwn.net, dri-devel@lists.freedesktop.org, dwaipayanray1@gmail.com, 
+ geert@linux-m68k.org, joe@perches.com, kees@kernel.org, 
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ linux@rasmusvillemoes.dk, lukas.bulwahn@gmail.com, marcan@marcan.st, 
+ mripard@kernel.org, rostedt@goodmis.org, senozhatsky@chromium.org, 
+ simona@ffwll.ch, sven@svenpeter.dev, tamird@gmail.com, tzimmermann@suse.de
+In-Reply-To: <PN3PR01MB959760B89BF7E4B43852700CB8832@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+References: <20250428123132.578771-1-pmladek@suse.com>
+ <PN3PR01MB95971954FC5E026C59B6F8EDB8802@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+ <PN3PR01MB959760B89BF7E4B43852700CB8832@PN3PR01MB9597.INDPRD01.PROD.OUTLOOK.COM>
+Subject: Re: [PATCH v3] checkpatch: remove %p4cn
+Message-Id: <174654603220.12228.11601081754262000250.b4-ty@rosenzweig.io>
+Date: Tue, 06 May 2025 11:40:32 -0400
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <86cyclhjw0.wl-maz@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-Migadu-Flow: FLOW_OUT
 
-On Tue, May 06, 2025 at 03:51:59PM +0100, Marc Zyngier wrote:
-> On Tue, 06 May 2025 15:25:09 +0100,
-> Will Deacon <will@kernel.org> wrote:
-> > 
-> > On Mon, Apr 28, 2025 at 03:35:14PM +0000, Mikołaj Lenczewski wrote:
-> > > The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
-> > > and this commit adds a dedicated BBML2 cpufeature to test against
-> > > support for, as well as a kernel commandline parameter to optionally
-> > > disable BBML2 altogether.
-> > > 
-> > > This is a system feature as we might have a big.LITTLE architecture
-> > > where some cores support BBML2 and some don't, but we want all cores to
-> > > be available and BBM to default to level 0 (as opposed to having cores
-> > > without BBML2 not coming online).
-> > > 
-> > > To support BBML2 in as wide a range of contexts as we can, we want not
-> > > only the architectural guarantees that BBML2 makes, but additionally
-> > > want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
-> > > us having to prove that no recursive faults can be induced in any path
-> > > that uses BBML2, allowing its use for arbitrary kernel mappings.
-> > > Support detection of such CPUs.
-> > > 
-> > > Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
-> > > Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> > > Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
-> > > ---
-> > >  .../admin-guide/kernel-parameters.txt         |  3 +
-> > >  arch/arm64/Kconfig                            | 19 +++++
-> > >  arch/arm64/include/asm/cpucaps.h              |  2 +
-> > >  arch/arm64/include/asm/cpufeature.h           |  5 ++
-> > >  arch/arm64/kernel/cpufeature.c                | 71 +++++++++++++++++++
-> > >  arch/arm64/kernel/pi/idreg-override.c         |  2 +
-> > >  arch/arm64/tools/cpucaps                      |  1 +
-> > >  7 files changed, 103 insertions(+)
-> > > 
-> > > diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> > > index d9fd26b95b34..2749c67a4f07 100644
-> > > --- a/Documentation/admin-guide/kernel-parameters.txt
-> > > +++ b/Documentation/admin-guide/kernel-parameters.txt
-> > > @@ -449,6 +449,9 @@
-> > >  	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
-> > >  			32 bit applications.
-> > >  
-> > > +	arm64.nobbml2	[ARM64] Unconditionally disable Break-Before-Make Level
-> > > +			2 support
-> > 
-> > Hmm, I'm not sure we really want this. It opens up the door for folks to
-> > pass 'id_aa64mmfr2.bbm=2' without updating the allow-list which feels
-> > like it's going to make crashes harder to reason about.
+
+On Wed, 30 Apr 2025 19:19:08 +0530, Aditya Garg wrote:
+> %p4cn was recently removed and replaced by %p4chR in vsprintf. So,
+> remove the check for %p4cn from checkpatch.pl.
 > 
-> Passing id_aa64mmfr2.bbm=2 shouldn't have any effect if the HW doesn't
-> advertise it already, as you can only downgrade features. Trying to
-> upgrade features should leave a nastygram in the kernel log.
+> 
 
-Ah, thanks, I was playing around in QEMU and my CPU already had BBML2
-so I didn't spot that. In any case, I'd prefer to avoid adding the
-option unless we need it -- this thing is driven from an MIDR-based
-list and that should be maintained.
+Applied, thanks!
 
-Will
+[1/1] checkpatch: remove %p4cn
+      commit: a6c0a91ccb257eaec2aee080df06863ce7601315
+
+Best regards,
+-- 
+Alyssa Rosenzweig <alyssa@rosenzweig.io>
+
