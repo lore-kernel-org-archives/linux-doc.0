@@ -1,622 +1,125 @@
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (mail-dm6nam11on2084.outbound.protection.outlook.com [40.107.223.84])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f51.google.com (mail-ot1-f51.google.com [209.85.210.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5AE6225949A;
-	Tue,  6 May 2025 16:27:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.223.84
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746548839; cv=fail; b=kZal5BOh3/q22/MxC5aW4u/GDmaa24/FtZZrir//6Ta5kvhFSq78XuEvfthY3XfibKeWllkyzsnHISWFXksDRcaZ/o7JvdBDgTjrSwgxMt4p26PO4q4TmpqoB9XX6GXJxhi0Yrg4tTCP+EbMc/2mHMMqqWFlNcpmykaCFa0tvpw=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746548839; c=relaxed/simple;
-	bh=lQLu3jzRygMrTQO0fJm4OY2QQqzsd4bj1QPrbAXb4eg=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=S9N+ZJh5LPvMwMbc4xHKa1i870h9SEX5OljV2wVwTXHJFh8mk7ahcWMHw05TbTG0y7+tAM4R4ERlVJM2zdUom1MPHmks9sFmMz2qD9XVsEkbSUGFVlA8kybbta1wYM9s6xIXGeIEJxIOrumVAXWRfMsXJCewN6dqAOkJL5oDjh4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=ufsp1Ihm; arc=fail smtp.client-ip=40.107.223.84
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EECAB2853FC
+	for <linux-doc@vger.kernel.org>; Tue,  6 May 2025 16:56:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.51
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746550615; cv=none; b=RX+sIKK75zFz9ZKNogIm2OzcEtyhUhjCoxsTR6jICphNbf/RhycY0720FRR1zDIMC4D3OEM3P7Bnxtfr2FQNZFbUg9HpFzla87NvuT4jonAnQYfMNsnV3Ul2uN892IbtaKB7GV1uPvnRaUuM4cpQAEnHtXRYOO1ddHBCMnYL1UY=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746550615; c=relaxed/simple;
+	bh=UPskQvYkrxUpUKSU6eggRkM0kZhs49ZXn1vsmfjc6oI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=gB182gToaAVomh2HXBOiWsxX+eLdNrNSkNY2BI+GL0T7coRwk6hQ5hh8wDQ0X3Cq2/pwZ705hzqy1dP8PeQcTQfOgr8R08rc9e6N3aH9CEMo/QgHdMwoClAVi91Cnj/tcQY87oJkpbPKfPrPVlcLr+bxnhYZ3KgvCj5HpoeybNE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=W8FvXYTp; arc=none smtp.client-ip=209.85.210.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="ufsp1Ihm"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Me12iBm73YtDkx69ojl+swZtuvnXiymfXFnEQJZwQH4AFP/P47o16CPst23ggOYSI6ev2UNcu2/gK52v6VdaR8is+6w4z7oOngtceXbs7M9GmppAYXk3RZoR3UE6HKaAfmZjk4mi3leLQpxPzOszOvJHcwa6qIl95Mm5SX1Td8+r9O6vu7p5yxSZtYD2mmXVKFJfQyDNxiBxQZZOEjqac3sHUiZx8ZZw3fnOl7xphyNuBJJaAKGdY/G31u+dVatktE7GpKkL6JEv8PgPma4tNednne/ox1yCYccITTL4RUjY/1rzbd44pdiFnfT9uB86ajU3OIYlUW488yC4D3j0Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=C1b8J5gx/sNG19XS1PrMEkLl+F7C/y7jZZ1W/WCfAaQ=;
- b=xOf/j5MfC/m2FBilK377goxotCl6UNs+BZ24G1U2cBFSumVRYsCU+LAphbXY0IN/+SR1by4cSJVxdlS4QxhuI0qE/cRqirYaYaiUUucPQ7vbB0dQdqLkQPt8MK7yPQHUMQ0nwHSW3l0naW7EMnAQzen88EP2+H4Iz/28dMw27YJw10yBxVVIBa9PswYE4BclIcw4YSteWPoLNFDB628AEVl3Tl+jCWtvWAxiuNhDRcGoIxNrHHF+i62O2A3LAWgVS1hMSmcKbTjVghUF8MU8obCwDSMgXv6D9Le2dE0urE8W4g/LFgjsQz3b2HtpwHW0uUDNp1G6EVvGZzZoQOK+1g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.161) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=nvidia.com; dmarc=pass (p=reject sp=reject pct=100) action=none
- header.from=nvidia.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=C1b8J5gx/sNG19XS1PrMEkLl+F7C/y7jZZ1W/WCfAaQ=;
- b=ufsp1IhmA+8/dFA4ThQJpBdOd0A17u+3CSX1BtopQPt7abkJaJZD5QXeI90p57qHza59JSOa7mRGkfXIFvvztToKNPpWWy3GlsCZpfv8JAy+W+wis9rLDnc6sjAR4rf/ERHKXUPad3IU1WyPaaHDswrw+/4loIHiXQAfC4viCiugNput5Di0R0irCsuSBUpiIDPNSl2qLiLNkJbe4cvQEt2W1Zto9BSVgUeJH+11Zh92DukcPCafGlp0LI6XhBGLY42Qz6/FaTXy29Xj9n2OlUgvDM2DJHqoqu3dmS0nMmn/od9CTIJUA+XX1VrIeMg2HmcsKUtFQSrHGCQp6WyqiQ==
-Received: from BLAPR03CA0152.namprd03.prod.outlook.com (2603:10b6:208:32f::16)
- by SN7PR12MB6929.namprd12.prod.outlook.com (2603:10b6:806:263::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.20; Tue, 6 May
- 2025 16:27:04 +0000
-Received: from BN1PEPF00004681.namprd03.prod.outlook.com
- (2603:10b6:208:32f:cafe::b4) by BLAPR03CA0152.outlook.office365.com
- (2603:10b6:208:32f::16) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.32 via Frontend Transport; Tue,
- 6 May 2025 16:27:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.161)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.161 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.161; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.161) by
- BN1PEPF00004681.mail.protection.outlook.com (10.167.243.87) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Tue, 6 May 2025 16:27:03 +0000
-Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
- (10.129.200.67) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Tue, 6 May 2025
- 09:26:54 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
- (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Tue, 6 May
- 2025 09:26:46 -0700
-Received: from inno-thin-client (10.127.8.12) by mail.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server id 15.2.1544.14 via Frontend
- Transport; Tue, 6 May 2025 09:26:42 -0700
-Date: Tue, 6 May 2025 19:26:41 +0300
-From: Zhi Wang <zhiw@nvidia.com>
-To: Joel Fernandes <joelagnelf@nvidia.com>
-CC: <linux-kernel@vger.kernel.org>, Danilo Krummrich <dakr@kernel.org>, "David
- Airlie" <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, "Maarten
- Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
- Corbet" <corbet@lwn.net>, <nouveau@lists.freedesktop.org>,
-	<dri-devel@lists.freedesktop.org>, Alexandre Courbot <acourbot@nvidia.com>,
-	John Hubbard <jhubbard@nvidia.com>, Shirish Baskaran <sbaskaran@nvidia.com>,
-	Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>, "Ben
- Skeggs" <bskeggs@nvidia.com>, <rust-for-linux@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>
-Subject: Re: [PATCH v2 4/7] nova-core: docs: Document fwsec operation and
- layout
-Message-ID: <20250506192641.7872cbd0@inno-thin-client>
-In-Reply-To: <20250503040802.1411285-5-joelagnelf@nvidia.com>
-References: <20250503040802.1411285-1-joelagnelf@nvidia.com>
-	<20250503040802.1411285-5-joelagnelf@nvidia.com>
-Organization: NVIDIA
-X-Mailer: Claws Mail 4.0.0 (GTK+ 3.24.33; x86_64-pc-linux-gnu)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="W8FvXYTp"
+Received: by mail-ot1-f51.google.com with SMTP id 46e09a7af769-72c3b863b8eso2036603a34.2
+        for <linux-doc@vger.kernel.org>; Tue, 06 May 2025 09:56:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1746550612; x=1747155412; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=5Q5nunoDVPugDexOGX8IwjfNJm1uYPE1x3M/IebA2LI=;
+        b=W8FvXYTpaOdggLlNg6ugRATIcg3HPhSBk0x8h03zrrgVrkY5l0IlWovhzqzVyW5QwQ
+         3biJroK3DYBTiXYFHujl7H8iIf6LpKAiOKzj3i1TfQ+xtn2BpKar0ia+E1CAtN9dZYU6
+         foSzLfvLy9+cQMz/VTbOQhg/WX1iL3PDiUG30=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746550612; x=1747155412;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=5Q5nunoDVPugDexOGX8IwjfNJm1uYPE1x3M/IebA2LI=;
+        b=UnOuUQln5XscW5iJwgd7FF2thXLnWD3VvQ4lW3RKjEoEHs7nYWbPi9PeeOtWLrgQFx
+         WSJmD1Bh80y5G8BjC5q5u1DDZFCNqLstd0QZvGO5ACyGKfhcaw/6/KdGXcTa2RvH/W3a
+         eo+O7G1D4i6LvjXaKjxZQuGYKZc64kI/rJtxpVjnfcJtXmbTpu8GhB9Hm12yUx/PVi+z
+         XaxgY+4SCfVrrWMxUs5+hKFUUQrQdq8KKnAfaOH8PL2oJ0iQteO2nfv3T+RbK+6nIb1X
+         oIYr6UmBVxadIwQLS53k/vo6BWJcoFQ88M9J1L7ezUVOsfYDK6l6orDWX84zB3SlFOzD
+         soFg==
+X-Forwarded-Encrypted: i=1; AJvYcCU+NGJH3FPxI2++1nhGKXJOrmCbtvaSeXOVLS3589lvd93TPk8cu23OaD82//TmZAqIP91z4X1uJGI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx27FlgVIDS8+sq7xe4JSatN6opM/J8nIeT9FeMyJviif3jSXg1
+	hjZIaymXUgaD0ooZmN+jU9ZHbB2NePn7oQqZjywm+dMjztZO19p/57nW1SfeNiTy1aujemLL7Mn
+	QikKpK6hVHeDTfglngF69DguW+JbyGbIyZNf25R212WExrElP
+X-Gm-Gg: ASbGnctXU8qTZTSOPKNV3Uk8WRB0pl6dM/xaabus1rLeM0YtlD1gsqAlK+hubKhlx5R
+	FjfMyChF8fwtA17Ucu8RoI9bzcNQcSaQwFUarWXXuX5SvgUZMCrFnrTeAbKDkbwIVYA7rkH18gG
+	3InfO0TRhEV/GP1wAB7Bg=
+X-Google-Smtp-Source: AGHT+IGJjJepn0gOwuwpfhMDAKJN4TqWIaIZ7UsEzwpTg1tX++SC/L4yjFUv3kDEAUslSG6hvBlXPYOAhZxrMKo+VF4=
+X-Received: by 2002:ac8:7e96:0:b0:476:77ba:f7 with SMTP id d75a77b69052e-48e012633afmr162547871cf.34.1746550601068;
+ Tue, 06 May 2025 09:56:41 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+References: <20250421013346.32530-1-john@groves.net> <20250421013346.32530-14-john@groves.net>
+ <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
+ <20250424143848.GN25700@frogsfrogsfrogs> <5rwwzsya6f7dkf4de2uje2b3f6fxewrcl4nv5ba6jh6chk36f3@ushxiwxojisf>
+ <20250428190010.GB1035866@frogsfrogsfrogs>
+In-Reply-To: <20250428190010.GB1035866@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 6 May 2025 18:56:29 +0200
+X-Gm-Features: ATxdqUFT-fIsXKRHea9-EZCmnVWun07IHA8kCr4QDmzIP2kON1JGlU4dzmYDGDc
+Message-ID: <CAJfpegtR28rH1VA-442kS_ZCjbHf-WDD+w_FgrAkWDBxvzmN_g@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Luis Henriques <luis@igalia.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>, 0@groves.net
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: BN1PEPF00004681:EE_|SN7PR12MB6929:EE_
-X-MS-Office365-Filtering-Correlation-Id: 31866a20-ef2a-48c4-b4f0-08dd8cbad5fd
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|36860700013|7416014|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z21LcnQrSXNxQm1EbTZyWnNCeHBxUDF3UER1N01hMDN5QW5TaG42bjdmRXhq?=
- =?utf-8?B?NFlkS29VdnJyRlBHWlRqc0Mzd29qd2E2eUtSbHpITWF1c3cweTcwTnA2VlRv?=
- =?utf-8?B?Qkpob1FEd2UxaUJUQnFBSFBXMnlwMHRkOHo2VU5EUUVPU2R0R3EvV1M4bFYz?=
- =?utf-8?B?TDB6aGFlek9MYTNwMlVmQkY3dXpieURoVjg1Z29Qb0c3aldwMXZ3bkNQRzR6?=
- =?utf-8?B?a2w2ZU5NLy9lUVcxbXVZa3p6eWVreUN3RThMUVhwNmtjY2FkRVNUZjc1NHZB?=
- =?utf-8?B?WFVQSVVQRENnTjc1ZGphU0xJK0d0OTZYOG5xYXdEN09IMmxYR1IzWjhvY1FK?=
- =?utf-8?B?a25PQjc2Sks1akVJSUo1bUR6czh5WkdEWHNwVE5RSFdWZGp6bTdSZWFjT0Vw?=
- =?utf-8?B?MlFxa0dMK1ordHpkYlk5MHlkbzdiYTNFT0lvUjdRVnBrMkZjTEV5MEhvZ0dM?=
- =?utf-8?B?S0dlQkZ1ZmY0Nzl0VVUzUG9iNUE1N3dGR2NzVUU0SnVObkd0Q0ZBaUs0N29L?=
- =?utf-8?B?cGpjalNmeUl5a2FEOGVvdE1Qc3BPMTJyaWxKQ0dHdnhxM2QveHhXV0s0dXFL?=
- =?utf-8?B?TlpWNG1ncmp3VzgzOGJiT3J2dUpPTU1vMFBRcnJMNHF2QkhSSEZjQjkxbEFt?=
- =?utf-8?B?V0lySm5WdDc0NU01ajVNZkNYbFZLWGgxZEFubHNmMVd6WEUwZmE0NnhEWmtV?=
- =?utf-8?B?VTBiSk9oQ1RGS0tnWXpYOFBPdkwwZUhxZFlDMFZiaHgxbWJVSWswbjlDbWE0?=
- =?utf-8?B?aE1yVkQ3alNJYVdtYllmOFBRdlBZa2Fwd1lkaEM5TnoydFdtYUFnbWxjaFVl?=
- =?utf-8?B?MUxnNFlxdmJqTHlXdCtUbXF1bFY0cU10NU5NeERFMTU4YU1XM1FXcHVrc2Jm?=
- =?utf-8?B?NHllUDZ6Ri9VTHZvSU9iZFJndmdlOWZtSzlPSzV4b1BOeEN1NmlOU05ZRGZD?=
- =?utf-8?B?N2c5U3lDRFRFemdDTUJ3a0hLT3RsRlNGMThqcXFTUDhGRVh2TnlSRTlKU0t6?=
- =?utf-8?B?ZnNELzJ5bEY4eE50MXEra2EvbUtPR2daTDc1LzF6VldOajZ6cS9VOVVKeDA1?=
- =?utf-8?B?eXMrNDFBNC82M1BMeHVFbXdkS3M1L3JQcFdPR3duWHZyc1BXUmQ3WWVlZkFl?=
- =?utf-8?B?WmdibHVHb3dzampWY2pmTjhEam5yVTIzMjJqUFFJQWllVUVCbUhNZU1KUFFt?=
- =?utf-8?B?V3Q4eW5MaFczMFhob2VYU0dnMWI5OS9tNlRsYSt3bFNBZW05dXNWWit0MkNW?=
- =?utf-8?B?cXZFNGFTNzJFdnFpeElZVDlhSCtaRURNb2JQSkN6SWlUVGVCUGV0bGtwMEFM?=
- =?utf-8?B?NFZ3UzY5Mm5OOGlYaU1tWmxsQWlCNW9RMU1UbTIxQ1kzWmdEYm1ZT054YVNZ?=
- =?utf-8?B?UGhteExLUlRVZS8vN0FrbGdYOU5pS2R2eGUwTjBFeXMwdUdHWk9PRTF4S1RI?=
- =?utf-8?B?YmZLSkVwdGQrbWkzbjJJMThYZFNvRSswaUM1RlhieWduTVB1WDNnTXpIczZC?=
- =?utf-8?B?NTlsZk9BcjIzZEVaUFBwTW02dzVoTHgyT0FlM2NGTlN5RkMzNUplczhsUk10?=
- =?utf-8?B?MTh1U3UyYzh5ak5DWTdrczIyYXJCYVpMaVd3Z1JmejBCOUEvc2ZIZjVJbXVX?=
- =?utf-8?B?bHZpcTEzZ3hNbUNlUWxRbE4rMERyQy9HamlQb2piOVZrT0EyWStTRXZ5TlF3?=
- =?utf-8?B?Z0F6K3R0aVhObVZWeTk3bHJBQ2ZjVUVsOWN1clhBWEZBVENkd2IvVTU1cVph?=
- =?utf-8?B?SW9OWi9QcXlic3BKV21ueTVaeXhWZ3M0SFEydFdtaTcyM2FFc2JJQkdFcWJQ?=
- =?utf-8?B?aWhhOUNwajNHYkNxbVVTM0Q5WmQ1RFhwcGw1UVV0NzJ6d0tJOC9mc2pybWpz?=
- =?utf-8?B?TDcxV1czWjZoUE1GZDR0UEJRR0xaTlU3RG5WS29YMDV6Y0Faand5T1J4R0JC?=
- =?utf-8?B?SVhOcWhUT2JxQXFTOFdtYXZKNWt6TjRXSDB0dXRPTHJ4UHhaNzltM1R5dmdJ?=
- =?utf-8?B?Q3ozOUlDS3B6S1NESU9hb0RaeFZXeEZmeGpQY0VkM3k2dkRodU1YMU54d2pr?=
- =?utf-8?Q?bNceT0?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.161;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge2.nvidia.com;CAT:NONE;SFS:(13230040)(1800799024)(36860700013)(7416014)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 16:27:03.6413
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 31866a20-ef2a-48c4-b4f0-08dd8cbad5fd
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.161];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	BN1PEPF00004681.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6929
 
-On Sat,  3 May 2025 00:07:56 -0400
-Joel Fernandes <joelagnelf@nvidia.com> wrote:
+On Mon, 28 Apr 2025 at 21:00, Darrick J. Wong <djwong@kernel.org> wrote:
 
-> Add explanation of fwsec with diagrams. This helps clarify how the
-> nova-core falcon boot works.
->=20
-> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
-> ---
->  Documentation/gpu/nova/core/fwsec.rst | 180
-> ++++++++++++++++++++++++++ Documentation/gpu/nova/index.rst      |
-> 1 + 2 files changed, 181 insertions(+)
->  create mode 100644 Documentation/gpu/nova/core/fwsec.rst
->=20
-> diff --git a/Documentation/gpu/nova/core/fwsec.rst
-> b/Documentation/gpu/nova/core/fwsec.rst new file mode 100644
-> index 000000000000..bed941ac3f2b
-> --- /dev/null
-> +++ b/Documentation/gpu/nova/core/fwsec.rst
-> @@ -0,0 +1,180 @@
-> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +FWSEC (Firmware Security)
-> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D
-> +This document briefly/conceptually describes the FWSEC (Firmware
-> Security) image +and its role in the GPU boot sequence. As such, this
-> information is subject to +change in the future and is only current
-> as of the Ampere GPU family. However, +hopefully the concepts
-> described will be useful for understanding the kernel code +that
-> deals with it. All the information is derived from publicly available
-> +sources such as public drivers and documentation. +
-> +The role of FWSEC to provide secure boot, it is running in
-> Heavy-secure mode. It does +firmware verification after GPU reset and
-> load various ucode images on to the other +microcontrollers on the
-> GPU such as the PMU and GSP. +
-> +FWSEC itself is an application stored in the VBIOS ROM in the FWSEC
-> partition of +ROM (see vbios.rst for more details). It contains
-> different commands like FRTS +(Firmware Runtime Services) and SB
-> (Secure Booting other microcontrollers after +reset and loading them
-> with other non-FWSEC ucode). The kernel driver only needs to +to do
-> FRTS, since SB is already already after reset by the time the kernel
-> driver +is loaded. +
-> +The FRTS command carves out the WPR2 region (Write protected region)
-> which contains +data data required for power management. Once setup,
-repetitive word "data" ^
+> <nod> I don't know what Miklos' opinion is about having multiple
+> fusecmds that do similar things -- on the one hand keeping yours and my
+> efforts separate explodes the amount of userspace abi that everyone must
+> maintain, but on the other hand it then doesn't couple our projects
+> together, which might be a good thing if it turns out that our domain
+> models are /really/ actually quite different.
 
-> only HS mode ucode can +access it (see falcon.rst for privilege
-> levels). +
-> +The FWSEC image is located in the VBIOS ROM in the partition of the
-> ROM that contains +various ucode images (also known as applications)
-> -- one of them being FWSEC. For how +it is extracted, see vbios.rst
-> and the vbios.rs source code. +
-> +The Falcon data for each ucode images (including the FWSEC image) is
-> a combination +of headers, data sections (DMEM) and instruction code
-> sections (IMEM). All these +ucode images are stored in the same ROM
-> partition and the PMU table is used to look +up the application to
-> load it based on its application ID (see vbios.rs). +
-> +For the purposes of nova-core driver, the FWSEC contains an
-> 'application interface' +called DMEMMAPPER which is used to the
-> "FWSEC-FRTS" command (among other commands it +is capable of
-> executing). For Ampere, FWSEC is running on the GSP in Heavy-secure
-> +mode and runs FRTS. +
-> +FWSEC Memory Layout
-> +-------------------
-> +The memory layout of the FWSEC image is as follows (this is using an
-> GA-102 +Ampere GPU as an example and could vary for future GPUs and
-> is subject to change +completely, it is just provided as an example):
-> +
-> +Here is a block diagram of the FWSEC memory layout::
-> + =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90
-> + =E2=94=82                         FWSEC ROM image (type 0xE0)          =
- =E2=94=82
-> + =E2=94=82                                                              =
- =E2=94=82
-> + =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=90                          =E2=94=82
-> + =E2=94=82  =E2=94=82     PMU Falcon Ucode Table      =E2=94=82         =
-                 =E2=94=82
-> + =E2=94=82  =E2=94=82     (PmuLookupTable)            =E2=94=82         =
-                 =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82                 =
-         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 Table Header            =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - version: 0x01         =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - header_size: 6        =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - entry_size: 6         =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - entry_count: N        =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - desc_version:3(unused)=E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82                 =
-         =E2=94=82
-> + =E2=94=82  =E2=94=82         ...                     =E2=94=82         =
-                 =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82                 =
-         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 Entry for FWSEC (0x85)  =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 (PmuLookupTableEntry)   =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - app_id: 0x85 (FWSEC)  =E2=94=82 =E2=
-=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=90                     =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - target_id: 0x01 (PMU) =E2=94=82    =
-=E2=94=82    =E2=94=82                     =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - data: offset =E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=90 look up FWSEC   =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82    =E2=94=82   =
-=E2=94=82 application.    =E2=94=82
-> + =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82   =E2=94=82                 =E2=
-=94=82
-> + =E2=94=82                                         =E2=94=82   =E2=94=82=
-                 =E2=94=82
-> + =E2=94=82                                         =E2=94=82   =E2=94=82=
-                 =E2=94=82
-> + =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82   =E2=94=82                 =E2=
-=94=82
-> + =E2=94=82  =E2=94=82     FWSEC Ucode Component       =E2=94=82<=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=98   =E2=94=82                 =E2=94=82
-> + =E2=94=82  =E2=94=82     (aka Falcon data)           =E2=94=82        =
-=E2=94=82                 =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82        =E2=94=82=
-                 =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 FalconUCodeDescV3       =E2=94=82<=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98                 =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - hdr                   =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - stored_size           =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - pkc_data_offset       =E2=94=82    =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - interface_offset =E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=90         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - imem_phys_base        =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - imem_load_size        =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - imem_virt_base        =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - dmem_phys_base        =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - dmem_load_size        =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - engine_id_mask        =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - ucode_id              =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - signature_count       =E2=94=82    =
-=E2=94=82    look up sig =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - signature_versions --------------+   =
-       =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82     =E2=94=82   =
-       =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82         (no gap)                =E2=94=82     =E2=
-=94=82          =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82     =E2=94=82   =
-       =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 Signatures Section      =E2=94=82<=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=98          =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 (384 bytes per sig)     =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - RSA-3K Signature 1    =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 - RSA-3K Signature 2    =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82   ...                   =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82                =
-=E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82                                 =E2=94=82         =
-       =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82                =
-=E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 IMEM Section (Code)     =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82                         =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 Contains instruction    =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 code etc.               =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82                =
-=E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82                                 =E2=94=82         =
-       =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90    =E2=94=82                =
-=E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 DMEM Section (Data)     =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82                         =E2=94=82    =
-=E2=94=82                =E2=94=82         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=90 =E2=94=82    =E2=94=82                =E2=94=82         =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Application         =E2=94=82=
- =E2=94=82<=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98         =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Interface Table     =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 (FalconAppifHdrV1)  =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Header:             =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - version: 0x01     =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - header_size: 4    =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - entry_size: 8     =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - entry_count: N    =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82                     =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Entries:            =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90 =E2=
-=94=82 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82 DEVINIT (ID 1)  =E2=
-=94=82 =E2=94=82 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82 - id: 0x01      =E2=
-=94=82 =E2=94=82 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82 - dmemOffset X =E2=
-=94=80=E2=94=BC=E2=94=80=E2=94=BC=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=90                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98 =E2=
-=94=82 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90 =E2=
-=94=82 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82 DMEMMAPPER(ID 4)=E2=
-=94=82 =E2=94=82 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82 - id: 0x04      =E2=
-=94=82 =E2=94=82 =E2=94=82    =E2=94=82 Used only for DevInit    =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82  (NVFW_FALCON_  =E2=
-=94=82 =E2=94=82 =E2=94=82    =E2=94=82 application (not FWSEC)  =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82   APPIF_ID_DMEMMAPP=
-ER)   =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=82 - dmemOffset Y =E2=
-=94=80=E2=94=BC=E2=94=80=E2=94=BC=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=90=
-                    =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98 =E2=
-=94=82 =E2=94=82    =E2=94=82     =E2=94=82                    =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=98 =E2=94=82    =E2=94=82     =E2=94=82                    =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82                         =E2=94=82    =
-=E2=94=82     =E2=94=82                    =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=90 =E2=94=82    =E2=94=82     =E2=94=82                    =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 DEVINIT Engine      =E2=94=82=
-<=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98     =E2=94=82 Used =
-by FWSEC      =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Interface           =E2=94=82=
- =E2=94=82    =E2=94=82     =E2=94=82         app.       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=98 =E2=94=82    =E2=94=82     =E2=94=82                    =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82                         =E2=94=82    =
-=E2=94=82     =E2=94=82                    =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=90 =E2=94=82    =E2=94=82     =E2=94=82                    =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 DMEM Mapper (ID 4)  =E2=94=82=
-<=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80+=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=98                    =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 (FalconAppifDmemmapperV3)  =
-=E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - signature: "DMAP" =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - version: 0x0003   =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - Size: 64 bytes    =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - cmd_in_buffer_off =E2=94=82=
- =E2=94=82=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=90             =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - cmd_in_buffer_size=E2=94=82=
- =E2=94=82    =E2=94=82            =E2=94=82             =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - cmd_out_buffer_off=E2=94=82=
- =E2=94=82=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=90       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - cmd_out_buffer_sz =E2=94=82=
- =E2=94=82    =E2=94=82            =E2=94=82     =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - init_cmd          =E2=94=82=
- =E2=94=82    =E2=94=82            =E2=94=82     =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - features          =E2=94=82=
- =E2=94=82    =E2=94=82            =E2=94=82     =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - cmd_mask0/1       =E2=94=82=
- =E2=94=82    =E2=94=82            =E2=94=82     =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=98 =E2=94=82    =E2=94=82            =E2=94=82     =E2=94=
-=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82                         =E2=94=82    =
-=E2=94=82            =E2=94=82     =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=90 =E2=94=82    =E2=94=82            =E2=94=82     =E2=94=
-=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Command Input Buffer=E2=94=82=
-<=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=98     =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - Command data      =E2=94=82=
- =E2=94=82    =E2=94=82                  =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - Arguments         =E2=94=82=
- =E2=94=82    =E2=94=82                  =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=98 =E2=94=82    =E2=94=82                  =E2=94=82       =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82                         =E2=94=82    =
-=E2=94=82                  =E2=94=82       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=8C=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=90 =E2=94=82    =E2=94=82                  =E2=94=82       =
-=E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Command Output      =E2=94=82=
-<=E2=94=BC=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=BC=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=98       =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 Buffer              =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - Results           =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=82 - Status            =E2=94=82=
- =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=82 =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=98 =E2=94=82    =E2=94=82                          =E2=94=82
-> + =E2=94=82  =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98    =E2=94=82                 =
-         =E2=94=82
-> + =E2=94=82  =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=98                          =E2=94=82
-> + =E2=94=82                                                              =
- =E2=94=82
-> + =E2=94=94=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=
-=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=
-=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=
-=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=80=E2=94=98
-> +
-> +.. note::
-> +   The FWSEC image also plays a role in memory scrubbing (ECC
-> initialization) and VPR
-> +   (Video Protected Region) initialization as well. Before the
-> nova-core driver is even
-> +   loaded, the FWSEC image is running on the GSP in heavy-secure
-> mode. After the devinit
-> +   sequence completes, it does VRAM memory scrubbing (ECC
-> initialization). On consumer
-> +   GPUs, it scrubs only part of memory and then initiates 'async
-> scrubbing'. Before this
-> +   async scrubbing completes, the unscrubbed VRAM cannot be used for
-> allocation (thus DRM
-> +   memory allocators need to wait for this scrubbing to complete).
-> \ No newline at end of file
-> diff --git a/Documentation/gpu/nova/index.rst
-> b/Documentation/gpu/nova/index.rst index 91cc802ed94f..22e5712ac6b0
-> 100644 --- a/Documentation/gpu/nova/index.rst
-> +++ b/Documentation/gpu/nova/index.rst
-> @@ -28,4 +28,5 @@ vGPU manager VFIO driver and the nova-drm driver.
-> =20
->     core/guidelines
->     core/vbios
-> +   core/fwsec
->     core/todo
+Sharing the interface at least would definitely be worthwhile, as
+there does not seem to be a great deal of difference between the
+generic one and the famfs specific one.  Only implementing part of the
+functionality that the generic one provides would be fine.
 
+> (Especially because I suspect that interleaving is the norm for memory,
+> whereas we try to avoid that for disk filesystems.)
+
+So interleaved extents are just like normal ones except they repeat,
+right?  What about adding a special "repeat last N extent
+descriptions" type of extent?
+
+> > But the current implementation does not contemplate partially cached fmaps.
+> >
+> > Adding notification could address revoking them post-haste (is that why
+> > you're thinking about notifications? And if not can you elaborate on what
+> > you're after there?).
+>
+> Yeah, invalidating the mapping cache at random places.  If, say, you
+> implement a clustered filesystem with iomap, the metadata server could
+> inform the fuse server on the local node that a certain range of inode X
+> has been written to, at which point you need to revoke any local leases,
+> invalidate the pagecache, and invalidate the iomapping cache to force
+> the client to requery the server.
+>
+> Or if your fuse server wants to implement its own weird operations (e.g.
+> XFS EXCHANGE-RANGE) this would make that possible without needing to
+> add a bunch of code to fs/fuse/ for the benefit of a single fuse driver.
+
+Wouldn't existing invalidation framework be sufficient?
+
+Thanks,
+Miklos
