@@ -1,185 +1,736 @@
-Received: from NAM02-BN1-obe.outbound.protection.outlook.com (mail-bn1nam02on2053.outbound.protection.outlook.com [40.107.212.53])
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.22])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B2159270EA1;
-	Tue,  6 May 2025 12:01:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.212.53
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746532885; cv=fail; b=QCQ5gfsPCATbZitL2LlAVuECdKkiSArBoU7P25Ie/BwAtkfWqEYs7HDWqAc/THthRWCyvhgT2Pv9EsHfTZm/laYeyM9G6ttVqAuAyGyPGs3uqFj3kBk9JWQOhR00gywvw7tNIVB2q5EAhQ+vmWfW3HtfjdgHYMPy+z3NdffEwSc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746532885; c=relaxed/simple;
-	bh=j+GDyFcW3370BZncVpwlwvEWO/c0v5dxiAURlY60MXo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tADA/CCheySTOhZJ4wPvnAhGR+E/HOHQ+d2M3ta4LY29oGpnvsiSLMLyLZdYFjH2oeBmxdNi7Aw9VeNa0UFqG6PcugFkvzXn9sAcBDpfSwfqn13A0g7GLhU3WniCNXA5qFGWptw4uMSik0QIDM0TSeqGH4Qnf1gL2sCywg7q8dk=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=HWB+wiUO; arc=fail smtp.client-ip=40.107.212.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CB6E527F195;
+	Tue,  6 May 2025 12:13:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.22
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746533598; cv=none; b=jBJw/mlRZTae8n6smhoEPr1wZoieP2KTbIMpRixl55kkcCWBO5vhcbtXAFBKDOAXYtpqNLS0s6HJ7Ytu8qlYCbSLuZ2e90KIk+EzZN3qXxTnEBshFlKnFiqEmh7S+h4hov8SEqIdCE1wAUUpb3Gr7a+zif1HEsdO2rhCL8JVRhc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746533598; c=relaxed/simple;
+	bh=XwdzxfrxqJdAM3UjBNUoPhX4do+//GQaUlG/0rI954I=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=eCygLvipzFin+Mw3f+PXLmVAgqJ66TQ9pCGMvcTtzOqAhTIJF9CKHLG1ghcOLaIrM0cQ+u4O8nnab8anCAti0G37Nwo2yWV1seRiHtnNj4GV/I1fyBnOiSwSYiNu1cnAaVJrsd0wT1pS+7cLY/sgDZwqVrNmOBJ57a0oKanIYWw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=pXmxJ/c6; arc=none smtp.client-ip=212.227.17.22
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="HWB+wiUO"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=KmitRjFaDiOlovQHFWoJYXi64Nx5aeMqvfMbJWZuVfwvfUAUZx2m4BTEP4/HeTy7DfRvWIwlwL74R0fPAx8XGO2yZVF65FLpNbNGbz6acVPmyylbCxexDAdGzzExUOugjG9cI3BpEAop52D3Te37CXi3eRYj3a2jwUj06+d8cwtkHysEsZOeSQmEAsEvTlaHsFLkLTpMU0jtX+nMRTd2fya6XkP22txtlQxcZyTeqJIwss8ZwlNgT/m5vA6Xe+zh6tEfw0v9vaHggsPgGX04EaDw/wwRHOhPtjFDYS29l/PV+oFUBmp+Th8lRxvAi/ILmZ4vTsebuwEB1d4P3J1WzA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8rze8gXCTnTd57b7ufRUcpHbKsoNWo/O6IHP4XNRr/A=;
- b=L5LoeMuJqh2zFNYYMBMW1wH9VT3W8gJMSXGNz9Dnkd+2yJm+Q0tUB2YGxA/2L/MBEKsRw+mWPOmUrqOiX4LN4TBI6AlPI7R6SxlD62cWgWJRCpFdQJMhWt8i60FGJbORK1DZcBsYxdBmxSO/LcVhA/lyduLdyiIuagYu3Z8fpIEUzRpKmgYwRCOgNi5kVUnZtlZS5FZeREHv2VK/Kyn/n4Bp0wbBEaVHZVxemeS5RolHonpgWnXH7O6p+zC8Sd0VOn8l1NmUbrLR6Dx6GkmPUVHjFFSCZT1sQDDw3oE+m+f0dbVTU+x6io8A/7oPp2k0Jzoa8hy3s0RhYKlScnRVhw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8rze8gXCTnTd57b7ufRUcpHbKsoNWo/O6IHP4XNRr/A=;
- b=HWB+wiUOZcHDVEm5jrJvye8VqeN64THl8iTuoglkCjfv47sxobwtC42QixRqXRPFlci9YaR6hTlRTR2oU15DBiL22ziSoONTdi/629B4u1VaaEFsaKKnKqcbON9FUGlLpsANozW2JYBEPJTZMhShVQOzM1WuMGeLfXCAxEmuCp5iBofc1NJS1dkqR8ohu7kI6caasRo66TqR0HNlMjaX2eskafULMfm2JzNet21930im4/IJtAP8TaQsIPyBPPWrojh/a1yPI6AlW8rmBGiGM3jmQP0kuN3FvwOV/TiY9Ly/6U6W74FEW8LmSv3KDCOlin0hg2h6q6FqRbhwCiki/A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by SA5PPF7D510B798.namprd12.prod.outlook.com (2603:10b6:80f:fc04::8d0) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8678.33; Tue, 6 May
- 2025 12:01:16 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8699.026; Tue, 6 May 2025
- 12:01:15 +0000
-Date: Tue, 6 May 2025 09:01:14 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, kevin.tian@intel.com,
-	corbet@lwn.net, will@kernel.org, bagasdotme@gmail.com,
-	robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
-	vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
-	jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
-	yi.l.liu@intel.com, mshavit@google.com, praan@google.com,
-	zhangzekun11@huawei.com, iommu@lists.linux.dev,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
-	mochs@nvidia.com, alok.a.tiwari@oracle.com,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-Subject: Re: [PATCH v3 11/23] iommufd/viommu: Add IOMMUFD_CMD_VQUEUE_ALLOC
- ioctl
-Message-ID: <20250506120114.GV2260709@nvidia.com>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
- <1ef2e242ee1d844f823581a5365823d78c67ec6a.1746139811.git.nicolinc@nvidia.com>
- <6ffe5249-b429-435e-a780-ee90aeb3f0da@amd.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6ffe5249-b429-435e-a780-ee90aeb3f0da@amd.com>
-X-ClientProxiedBy: BL1PR13CA0127.namprd13.prod.outlook.com
- (2603:10b6:208:2bb::12) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="pXmxJ/c6"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1746533570; x=1747138370; i=w_armin@gmx.de;
+	bh=XwdzxfrxqJdAM3UjBNUoPhX4do+//GQaUlG/0rI954I=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=pXmxJ/c60ztONqEQgHMrDSy79Ug0PxpD0uKLlKwL68gWNbPyHDHGcrVWxmSl4WIE
+	 jHsYLHTeokYEMeAHL3+IPnk3B+AD1rrf2dqBH5UmFROBTrqjX7RU38N4y78FpNPcu
+	 od20wDRT5FLS9Ya/vdv4l4BHR0c+iFSQ8bXSIaZ6O4dYz/qgjRHUuM0EDFvSTPMoI
+	 RZw57b1rk5gNMZLBPcD6u3LxcZtvnd07ZG/zWTBFdCVTDTzgkHH4+9TNvrogQxlGR
+	 HvExcY/6+O4bqS4EBaEkKIkU0w0BvsPd5PkLwqXiforug2mzAPFF9UwuwrXENKkIK
+	 w4qIqjlRKAPiyY959g==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [172.16.2.70] ([141.76.8.134]) by mail.gmx.net (mrgmx104
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1M2f9b-1uBRQE48bP-0065p9; Tue, 06
+ May 2025 14:12:50 +0200
+Message-ID: <a566e56b-c5f5-456e-92e3-b0887b0f6b62@gmx.de>
+Date: Tue, 6 May 2025 14:12:45 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|SA5PPF7D510B798:EE_
-X-MS-Office365-Filtering-Correlation-Id: 61891014-ca92-44a5-0e3c-08dd8c95b409
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?1Yy7FI4kKw4CLZqGY7YDUxFu9NZtJxwGCaOP7h7a2/WM+FEMrwQtHQuuCpT+?=
- =?us-ascii?Q?xNzMs3MGaxGhbxPDjY1Jj5v1ZB/Sm75GX48kIMlndi2GoMjHGaVmSXJyve+r?=
- =?us-ascii?Q?p2yOjQxRy5c73Bi3Wo1vjmUhukcp3O9mmKM/gQLHHJMqT342PK5SJAElHoqW?=
- =?us-ascii?Q?pEpYCmnwDva1qpaLcoF5gGaGlboBeHmdUryPHZDrKm/v7lfXwzbndctYKNx5?=
- =?us-ascii?Q?F8DYbSfZEmTyFxD7kZojpr1PO0RxcDbMaUSb7DTMIIsrkjhfz4vhPzeQo88K?=
- =?us-ascii?Q?zKAxG8EqNBVHNbkCzRVFpHv45RM7QvFSfJ4ipKl9y2kXENATCbLivbw/mrQD?=
- =?us-ascii?Q?S4U6ddNcobi1jykCpHMPQ7OazSnyt5t++q3SJOyqPnBE4UyPZ2rI+c+l+UE1?=
- =?us-ascii?Q?DqFUWuo3v3ElsIivxw2eC8jdwrIEFqxioCTu8E9oUv1bTigTLcgK22K1Pj29?=
- =?us-ascii?Q?RsnoK5Lei1gDw6eJoO+2CSMUUYRhxVd3wTOAmKIGiZg4DCztxRsLjfG8nSDC?=
- =?us-ascii?Q?neUuo5DL8gvZDBKH47cR3CsdV+Soum00Zp+FnCgX3vjhMxHFl6emi6+ZxcJ3?=
- =?us-ascii?Q?hlpbeBc5d4EInl94mCoAYJDJmLNadRiZXb3RwNI2fAH5+MXEToq+p+358+v8?=
- =?us-ascii?Q?D8N74OY1GpHmMXwV50LuMDaC98sAW1KsLml+XprE+BTQW1KGtdrGprQ+s8A7?=
- =?us-ascii?Q?w5DLgn7GtfAYLW6SCUXG9YVIVa+zN661pBGhHe37PbL3Fn5SAvanh6ZxCFYV?=
- =?us-ascii?Q?DJtw+dvSsElsp/EqKrnn/wEqwuJYNmZ2DGcN0ztamWs+tQgg34c3FIqBlUxL?=
- =?us-ascii?Q?ASd1JevnLp55za0LO57nd9Rji2PtCFwwz+3ejEcnEMza3GbSjHfZijN5rgDo?=
- =?us-ascii?Q?xzkli6cm3oQ535sNMq599t5+i6leVZDdsS2gnUXDbmm1zpPNT6QJ8W0xao/g?=
- =?us-ascii?Q?/lCnpjYPbLuHzz6NTVVdhRJvWHJgfsGi9Mp+YgATmSMQaxG6WR6SWOunZOmU?=
- =?us-ascii?Q?CNDs1769yiooFf8bCjXBVkjukPStovFy6gkRzZLlk5N27UrTYC/sIy1VNnfX?=
- =?us-ascii?Q?E6Ho12Y1tretrUhqIvNm3s3ORlhYOBgqAKFGdKscYz1wBYMaVGrDBQECR6T7?=
- =?us-ascii?Q?2s7McbdwXwaWv9GNEG6Ohhf8d9pmXN6c0/OAPVywqVhMowZ/s+6B+nXw3Akc?=
- =?us-ascii?Q?44aZAxIqEW+utVGyswJq40Yx489jKNeNqchFyCRUwvYeOLrzsvW6tfpDYmtq?=
- =?us-ascii?Q?MIEczANUO5mUiULhbbglJjtCiLg1ogpRI4asRMGk9BjD1cQDMPaGItk5UbR/?=
- =?us-ascii?Q?a2tP+U5/fFXTzDfIDToarNumo0icW+WMVejJmJigBMAYEk3isJD9XDISWSwu?=
- =?us-ascii?Q?In+pr8cih4zPB1YjngYbB2PnmGIJphTtsnQZc1a57BVZEqh3LRym4xC9IRgN?=
- =?us-ascii?Q?m4xchA9PjBc=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?eWyytGrMSiPXH2nuAy8zg8BzgWmVmiahDeG+nXzf9rVCzAqaUiA3rdD5cHSI?=
- =?us-ascii?Q?xNgttLhhmnZecbp9O3L9tiMQD/r2yFufZd1vsmL4awBITJ/dB9POrY2pNtPD?=
- =?us-ascii?Q?tTxgMD5NAk0uIJ3a7sj6L8mhqwhDOibgP5zRpdCeYb3F0ncBzlj/fNMcD/ID?=
- =?us-ascii?Q?r+VwkPc3QNCapEgUVKeNyOi1nZHvzw2vIDZe/unyICQjH++ieFZ3DmvwZ2hx?=
- =?us-ascii?Q?c1IkNic8YEr79USv+md/ktMAgLY+OQpqhIVvQlSi2xdBRrv89oeotLW5NnzN?=
- =?us-ascii?Q?pFBTwcOzSLjfpEUm1veDdj8HzuRU+VnQzHRIcWqBCir8eYUa/o1y1AiHhJ0j?=
- =?us-ascii?Q?vNMw2xDLoJ8w2sCwbQo+/2WMaojSXe/LO3WgdwqhmOJ/khXmYZOrqgo2tYs2?=
- =?us-ascii?Q?gucodhZDoCYoZjjJEXMYvACUY6uOr2yLzTcQrLgrm5L6XLjgN1GgiWPX8F+F?=
- =?us-ascii?Q?K0iXWXFDxB+dVsyPbIQdNc+T6Sq6bX6oH+0Y9rq3G+bFt2yQ9q9Svb485Xsm?=
- =?us-ascii?Q?oHHTsiZPUUA60bhRfvRb9LMIKcg6TImnpkzX3VtgWB0bjUgIRGUgZKz2ioHF?=
- =?us-ascii?Q?4XOoZd4Ct7I3FXmqTL7PKcv2uaabT1XsFiwR86irKzjLrMKEpJSgkZ/8C5Xo?=
- =?us-ascii?Q?vupicr9GupTQAAdkxVku5UF5o+BMFdwYE9scnY8l9CTeqWJWNI7vVa3CtKri?=
- =?us-ascii?Q?af9blfvxk9TJwPqfNzNuT7pCSn8p8Xv4fi6r+r0QsXaXmwLFUF9Or4eo5mON?=
- =?us-ascii?Q?LXgBxhAYVZMpsvPlG51basiXqqnoNgpNlUFz3swLv+vdxXzIbHbEfJZtDZLt?=
- =?us-ascii?Q?NtyG/mePWNuWdQviD6zqcPAAu+F2Sj5PqsS0TUzIFk9dvjyfPrMNRTELn6sB?=
- =?us-ascii?Q?KfYl66te/Zz0pxscO7Zw/BfPl5cnuSmbM9z0kCg6OFSTLmveH1+9DOZPvILr?=
- =?us-ascii?Q?VX936ZJ9nXuJMiLZFFvSiX/CXiVUxC9FXHQjpY/Jf8eRuNmKmMjDsh29LDUk?=
- =?us-ascii?Q?k47DiE7Q8pYNU6yZCj+bTEA25GSIwwVYJNOMd/W3cAE7eMAO/2DBwpn4HjFT?=
- =?us-ascii?Q?3K2L6wzIuLUttmcDouMhh+Y6z8XAjcKTztRUXpesoy7PdTv43h+NylgA++Ad?=
- =?us-ascii?Q?a5QGIBHgBasWrpuu/5zRNv6l/W77F0nElqoGo/0/fbOwttL0AAbGCfKl5hn7?=
- =?us-ascii?Q?+01HQX27T73AoCy5XdM8U521kIeX6dvfzO1G/97MHvSjjuu8VFZ1wUkaPRhA?=
- =?us-ascii?Q?n3UqNBvSN498L46AfY1bpgDhmde1y51Hlq82xKSy1EXyJgpZ4htmOulzZFDk?=
- =?us-ascii?Q?BVFTZQYdLDhf4ErMuEonpHqGGPcSTIWRSJzutkvY6gW0szf4UXj46AM/MmVw?=
- =?us-ascii?Q?HVgkhPyuo5Eb1C/K/F4t0vUvElyR+GzT/C+7YQI+6owEcE02NWGlsihGwk6k?=
- =?us-ascii?Q?3W3uaU7kGfcVHey0afKTkoRGXNnYDZDbcjncS5bMn6nPL1XVQcNBIGSluAKZ?=
- =?us-ascii?Q?EqqviNAIbMZJZoDdIE2849DJ+CaEuK03vI4QvowPBKee+Pkha9Jk4AHwwmLg?=
- =?us-ascii?Q?F0o7EgNOUEypAR0iLTByJpwfFjGt1UXByEfxY7Fy?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 61891014-ca92-44a5-0e3c-08dd8c95b409
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 May 2025 12:01:15.8327
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: WDd7OUouDMi9BG238YKz2TwCPzkFWiEJq/fmFJmLMQiIS3easKppczBbXXp3TDoj
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA5PPF7D510B798
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v8 1/6] platform/x86: Add lenovo-wmi-* driver
+ Documentation
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>,
+ "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
+ Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
+ platform-driver-x86@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, Mario Limonciello <mario.limonciello@amd.com>
+References: <20250505010659.1450984-1-derekjohn.clark@gmail.com>
+ <20250505010659.1450984-2-derekjohn.clark@gmail.com>
+ <b23a54c9-ca99-4db9-a105-c0f3c000850d@oracle.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <b23a54c9-ca99-4db9-a105-c0f3c000850d@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:TtCgc5qtQoTdjmQT95qzdYJvsjTRLM9GQtQepAdeDkU4s8Yzefm
+ /qmSviBXmbFIGkW32zQpZTHk08bR6npmTSiWCN4U0XliVPQrbzjNL+CtoivkUYX6Wr9WpnE
+ zZC8BtYuhlnawS3H4zy0UQkGBR3SLCPQb56xGWhw32hqcjEhV5FLaSb35V9oZwMMyTlwbSp
+ 5LlpTvNNnnH+ycVo2vAXA==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0:Y2HD6xqcM0I=;kUGegtv2ArMoeLNKrt8Kgou2U+G
+ 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
 
-On Tue, May 06, 2025 at 02:45:00PM +0530, Vasant Hegde wrote:
-> > +/**
-> > + * struct iommu_vqueue_alloc - ioctl(IOMMU_VQUEUE_ALLOC)
-> > + * @size: sizeof(struct iommu_vqueue_alloc)
-> > + * @flags: Must be 0
-> > + * @viommu_id: Virtual IOMMU ID to associate the virtual queue with
-> > + * @type: One of enum iommu_vqueue_type
-> > + * @index: The logical index to the virtual queue per virtual IOMMU, for a multi
-> > + *         queue model
-> > + * @out_vqueue_id: The ID of the new virtual queue
-> > + * @addr: Base address of the queue memory in the guest physical address space
-> > + * @length: Length of the queue memory in the guest physical address space
-> > + *
-> > + * Allocate a virtual queue object for a vIOMMU-specific HW-acceleration feature
-> > + * that allows HW to access a guest queue memory described by @addr and @length.
-> > + * It's suggested for VMM to back the queue memory using a single huge page with
-> > + * a proper alignment for its contiguity in the host physical address space. The
-> > + * call will fail, if the queue memory is not contiguous in the physical address
-> > + * space. Upon success, its underlying physical pages will be pinned to prevent
-> > + * VMM from unmapping them in the IOAS, until the virtual queue gets destroyed.
-> > + *
-> > + * A vIOMMU can allocate multiple queues, but it must use a different @index to
-> > + * separate each allocation, e.g. VCMDQ0, VCMDQ1, ...
-> 
-> This will handle multiple queues. But AMD vIOMMU needs to comunicate certain
-> control bit setting which is not related to buffers like "Completion wait
-> interrupt".
-> 
-> How do we handle that? extend iommu_queue_alloc() or have different interface?
+Am 06.05.25 um 12:49 schrieb ALOK TIWARI:
 
-Do you need a modify queue operation?
+>
+>
+> On 05-05-2025 06:36, Derek J. Clark wrote:
+>> Adds documentation for new lenovo-wmi drivers.
+>>
+>> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+>> Reviewed-by: Mario Limonciello <mario.limonciello@amd.com>
+>> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+>> ---
+> ...
+>> +
+>> +
+>> +WMI interface description
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>> +
+>> +The WMI interface description can be decoded from the embedded=20
+>> binary MOF (bmof)
+>> +data using the `bmfdec=20
+>> <https://urldefense.com/v3/__https://github.com/pali/bmfdec__;!!ACWV5N9=
+M2RV99hQ!MsBEzFjDFpZkeq1j7_77aBEv31FIW_V_vPvnyFGNSL_ptLYWAYFj1UMisJvhsTGRq=
+3_lh5eh5RpYWjdlZUKTA0UZ9jO_$=20
+>> >`_ utility:
+>> +
+>> +::
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("LENOVO_GAMEZONE_DATA class"),=20
+>> guid("{887B54E3-DDDC-4B2C-8B88-68A26A8835D0}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_DATA {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(4), Implemented, Description("Is Suppo=
+rtGpu=20
+>> OverClock")] void IsSupportGpuOC([out, Description("Is SupportGpu=20
+>> OverClock")] uint32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(11), Implemented, Description("Get Asl=
+Code=20
+>> Version")] void GetVersion ([out, Description("AslCode version")]=20
+>> UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(12), Implemented, Description("Fan coo=
+ling=20
+>> capability")] void IsSupportFanCooling([out, Description("Fan cooling=
+=20
+>> capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(13), Implemented, Description("Set Fan=
+ cooling=20
+>> on/off")] void SetFanCooling ([in, Description("Set Fan cooling=20
+>> on/off")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(14), Implemented, Description("cpu oc =
+capability")]=20
+>> void IsSupportCpuOC ([out, Description("cpu oc capability")] UINT32=20
+>> Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(15), Implemented, Description("bios ha=
+s overclock=20
+>> capability")] void IsBIOSSupportOC ([out, Description("bios has=20
+>> overclock capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(16), Implemented, Description("enable =
+or disable=20
+>> overclock in bios")] void SetBIOSOC ([in, Description("enable or=20
+>> disable overclock in bios")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(18), Implemented, Description("Get CPU=
+=20
+>> temperature")] void GetCPUTemp ([out, Description("Get CPU=20
+>> temperature")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(19), Implemented, Description("Get GPU=
+=20
+>> temperature")] void GetGPUTemp ([out, Description("Get GPU=20
+>> temperature")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(20), Implemented, Description("Get Fan=
+ cooling=20
+>> on/off status")] void GetFanCoolingStatus ([out, Description("Get Fan=
+=20
+>> cooling on/off status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(21), Implemented, Description("EC supp=
+ort disable=20
+>> windows key capability")] void IsSupportDisableWinKey ([out,=20
+>> Description("EC support disable windows key capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(22), Implemented, Description("Set win=
+dows key=20
+>> disable/enable")] void SetWinKeyStatus ([in, Description("Set windows=
+=20
+>> key disable/enable")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(23), Implemented, Description("Get win=
+dows key=20
+>> disable/enable status")] void GetWinKeyStatus ([out, Description("Get=
+=20
+>> windows key disable/enable status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(24), Implemented, Description("EC supp=
+ort disable=20
+>> touchpad capability")] void IsSupportDisableTP ([out, Description("EC=
+=20
+>> support disable touchpad capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(25), Implemented, Description("Set tou=
+chpad=20
+>> disable/enable")] void SetTPStatus ([in, Description("Set touchpad=20
+>> disable/enable")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(26), Implemented, Description("Get tou=
+chpad=20
+>> disable/enable status")] void GetTPStatus ([out, Description("Get=20
+>> touchpad disable/enable status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(30), Implemented, Description("Get Key=
+board feature=20
+>> list")] void GetKeyboardfeaturelist ([out, Description("Get Keyboard=20
+>> feature list")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(31), Implemented, Description("Get Mem=
+ory OC=20
+>> Information")] void GetMemoryOCInfo ([out, Description("Get Memory OC=
+=20
+>> Information")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(32), Implemented, Description("Water C=
+ooling=20
+>> feature capability")] void IsSupportWaterCooling ([out,=20
+>> Description("Water Cooling feature capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(33), Implemented, Description("Set Wat=
+er Cooling=20
+>> status")] void SetWaterCoolingStatus ([in, Description("Set Water=20
+>> Cooling status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(34), Implemented, Description("Get Wat=
+er Cooling=20
+>> status")] void GetWaterCoolingStatus ([out, Description("Get Water=20
+>> Cooling status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(35), Implemented, Description("Lightin=
+g feature=20
+>> capability")] void IsSupportLightingFeature ([out,=20
+>> Description("Lighting feature capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(36), Implemented, Description("Set key=
+board light=20
+>> off or on to max")] void SetKeyboardLight ([in, Description("keyboard=
+=20
+>> light off or on switch")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(37), Implemented, Description("Get key=
+board light=20
+>> on/off status")] void GetKeyboardLight ([out, Description("Get=20
+>> keyboard light on/off status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(38), Implemented, Description("Get Mac=
+rokey scan=20
+>> code")] void GetMacrokeyScancode ([in, Description("Macrokey index")]=
+=20
+>> UINT32 idx, [out, Description("Scan code")] UINT32 scancode);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(39), Implemented, Description("Get Mac=
+rokey=20
+>> count")] void GetMacrokeyCount ([out, Description("Macrokey count")]=20
+>> UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(40), Implemented, Description("Support=
+ G-Sync=20
+>> feature")] void IsSupportGSync ([out, Description("Support G-Sync=20
+>> feature")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(41), Implemented, Description("Get G-S=
+ync Status")]=20
+>> void GetGSyncStatus ([out, Description("Get G-Sync Status")] UINT32=20
+>> Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(42), Implemented, Description("Set G-S=
+ync Status")]=20
+>> void SetGSyncStatus ([in, Description("Set G-Sync Status")] UINT32=20
+>> Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(43), Implemented, Description("Support=
+ Smart Fan=20
+>> feature")] void IsSupportSmartFan ([out, Description("Support Smart=20
+>> Fan feature")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(44), Implemented, Description("Set Sma=
+rt Fan=20
+>> Mode")] void SetSmartFanMode ([in, Description("Set Smart Fan Mode")]=
+=20
+>> UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(45), Implemented, Description("Get Sma=
+rt Fan=20
+>> Mode")] void GetSmartFanMode ([out, Description("Get Smart Fan=20
+>> Mode")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(46), Implemented, Description("Get Sma=
+rt Fan=20
+>> Setting Mode")] void GetSmartFanSetting ([out, Description("Get Smart=
+=20
+>> Setting Mode")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(47), Implemented, Description("Get Pow=
+er Charge=20
+>> Mode")] void GetPowerChargeMode ([out, Description("Get Power Charge=20
+>> Mode")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(48), Implemented, Description("Get Gam=
+ing Product=20
+>> Info")] void GetProductInfo ([out, Description("Get Gaming Product=20
+>> Info")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(49), Implemented, Description("Over Dr=
+ive feature=20
+>> capability")] void IsSupportOD ([out, Description("Over Drive feature=
+=20
+>> capability")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(50), Implemented, Description("Get Ove=
+r Drive=20
+>> status")] void GetODStatus ([out, Description("Get Over Drive=20
+>> status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(51), Implemented, Description("Set Ove=
+r Drive=20
+>> status")] void SetODStatus ([in, Description("Set Over Drive=20
+>> status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(52), Implemented, Description("Set Lig=
+ht Control=20
+>> Owner")] void SetLightControlOwner ([in, Description("Set Light=20
+>> Control Owner")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(53), Implemented, Description("Set DDS=
+ Control=20
+>> Owner")] void SetDDSControlOwner ([in, Description("Set DDS Control=20
+>> Owner")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(54), Implemented, Description("Get the=
+ flag of=20
+>> restore OC value")] void IsRestoreOCValue ([in, Description("Clean=20
+>> this flag")] UINT32 idx, [out, Description("Restore oc value flag")]=20
+>> UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(55), Implemented, Description("Get Rea=
+l Thremal=20
+>> Mode")] void GetThermalMode ([out, Description("Real Thremal Mode")]=20
+>> UINT32 Data);
+>
+> Thremal -> Thermal
 
-Jason
+Those spelling mistakes where already present inside the original MOF desc=
+ription of the WMI object, so we have to ignore
+them in order to not distort the original interface description.
+
+>
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(56), Implemented, Description("Get the=
+ OC switch=20
+>> status in BIOS")] void GetBIOSOCMode ([out, Description("OC Mode")]=20
+>> UINT32 Data);
+>
+> "Get the BIOS OC switch status"
+
+Same as above.
+
+>
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(59), Implemented, Description("Get har=
+dware info=20
+>> support version")] void GetHardwareInfoSupportVersion ([out,=20
+>> Description("version")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(60), Implemented, Description("Get Cpu=
+ core 0 max=20
+>> frequency")] void GetCpuFrequency ([out, Description("frequency")]=20
+>> UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(62), Implemented, Description("Check t=
+he Adapter=20
+>> type fit for OC")] void IsACFitForOC ([out, Description("AC check=20
+>> result")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(63), Implemented, Description("Is supp=
+ort IGPU=20
+>> mode")] void IsSupportIGPUMode ([out, Description("IGPU modes")]=20
+>> UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(64), Implemented, Description("Get IGP=
+U Mode=20
+>> Status")] void GetIGPUModeStatus([out, Description("IGPU Mode=20
+>> Status")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(65), Implemented, Description("Set IGP=
+U Mode")]=20
+>> void SetIGPUModeStatus([in, Description("IGPU Mode")] UINT32 mode,=20
+>> [out, Description("return code")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(66), Implemented, Description("Notify =
+DGPU=20
+>> Status")] void NotifyDGPUStatus([in, Description("DGPU status")]=20
+>> UINT32 status, [out, Description("return code")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(67), Implemented, Description("Is chan=
+ged Y log")]=20
+>> void IsChangedYLog([out, Description("Is changed Y Log")] UINT32 Data);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(68), Implemented, Description("Get DGP=
+U Hardwawre=20
+>> ID")] void GetDGPUHWId([out, Description("Get DGPU Hardware ID")]=20
+>> string Data);
+>
+> Hardwawre -> Hardware
+>
+> can we Use value or status instead of generic Data where applicable to=
+=20
+> convey meaning better.?
+
+Same as above.
+
+>
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("Definition of CPU OC parameter list"),=20
+>> guid("{B7F3CA0A-ACDC-42D2-9217-77C6C628FBD2}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_CPU_OC_DATA {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("OC tune id.")] ui=
+nt32 Tuneid;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(2), read, Description("Default value.")]=
+ uint32=20
+>> DefaultValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(3), read, Description("OC Value.")] uint=
+32 OCValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(4), read, Description("Min Value.")] uin=
+t32 MinValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(5), read, Description("Max Value.")] uin=
+t32 MaxValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(6), read, Description("Scale Value.")] u=
+int32=20
+>> ScaleValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(7), read, Description("OC Order id.")] u=
+int32 OCOrderid;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(8), read, Description("NON-OC Order id."=
+)] uint32=20
+>> NOCOrderid;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(9), read, Description("Delay time in ms.=
+")] uint32=20
+>> Interval;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("Definition of GPU OC parameter list"),=20
+>> guid("{887B54E2-DDDC-4B2C-8B88-68A26A8835D0}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_GPU_OC_DATA {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("P-State ID.")] ui=
+nt32 PStateID;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(2), read, Description("CLOCK ID.")] uint=
+32 ClockID;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(3), read, Description("Default value.")]=
+ uint32=20
+>> defaultvalue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(4), read, Description("OC Offset freqenc=
+y.")] uint32=20
+>> OCOffsetFreq;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(5), read, Description("OC Min offset val=
+ue.")] uint32=20
+>> OCMinOffset;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(6), read, Description("OC Max offset val=
+ue.")] uint32=20
+>> OCMaxOffset;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(7), read, Description("OC Offset Scale."=
+)] uint32=20
+>> OCOffsetScale;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(8), read, Description("OC Order id.")] u=
+int32 OCOrderid;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(9), read, Description("NON-OC Order id."=
+)] uint32=20
+>> NOCOrderid;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("Fancooling finish event"),=20
+>> guid("{BC72A435-E8C1-4275-B3E2-D8B8074ABA59}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_FAN_COOLING_EVENT: WMIEvent {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("Fancooling clean =
+finish=20
+>> event")] uint32 EventId;
+>
+> Fancooling -> Fan cooling
+> "Fan cooling completion event"
+> "Fan cooling process finished event ID"
+
+Same as above.
+
+Thanks,
+Armin Wolf
+
+>
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("Smart Fan mode change event"),=20
+>> guid("{D320289E-8FEA-41E0-86F9-611D83151B5F}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_SMART_FAN_MODE_EVENT: WMIEvent {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("Smart Fan Mode ch=
+ange event")]=20
+>> uint32 mode;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(2), read, Description("version of FN+Q")=
+] uint32=20
+>> version;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("Smart Fan setting mode change event"),=20
+>> guid("{D320289E-8FEA-41E1-86F9-611D83151B5F}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_SMART_FAN_SETTING_EVENT: WMIEvent {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("Smart Fan Setting=
+ mode change=20
+>> event")] uint32 mode;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("POWER CHARGE MODE Change EVENT"),=20
+>> guid("{D320289E-8FEA-41E0-86F9-711D83151B5F}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_POWER_CHARGE_MODE_EVENT: WMIEvent {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("POWER CHARGE MODE=
+ Change=20
+>> EVENT")] uint32 mode;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("Thermal Mode Real Mode change event"),=20
+>> guid("{D320289E-8FEA-41E0-86F9-911D83151B5F}")]
+>> +=C2=A0 class LENOVO_GAMEZONE_THERMAL_MODE_EVENT: WMIEvent {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description("Thermal Mode Real=
+ Mode")]=20
+>> uint32 mode;
+>> +=C2=A0 };
+>> diff --git a/Documentation/wmi/devices/lenovo-wmi-other.rst=20
+>> b/Documentation/wmi/devices/lenovo-wmi-other.rst
+>> new file mode 100644
+>> index 000000000000..d7928b8dfb4b
+>> --- /dev/null
+>> +++ b/Documentation/wmi/devices/lenovo-wmi-other.rst
+>> @@ -0,0 +1,108 @@
+>> +.. SPDX-License-Identifier: GPL-2.0-or-later
+>> +
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +Lenovo WMI Interface Other Mode Driver (lenovo-wmi-other)
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +
+>> +Introduction
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>> +Lenovo WMI Other Mode interface is broken up into multiple GUIDs,
+>> +The primary Other Mode interface provides advanced power tuning=20
+>> features
+>> +such as Package Power Tracking (PPT). It is paired with multiple=20
+>> data block
+>> +GUIDs that provide context for the various methods.
+>> +
+>> +
+>> +Other Mode
+>> +----------
+>> +
+>> +WMI GUID ``DC2A8805-3A8C-41BA-A6F7-092E0089CD3B``
+>> +
+>> +The Other Mode WMI interface uses the firmware_attributes class to=20
+>> expose
+>> +various WMI attributes provided by the interface in the sysfs. This=20
+>> enables
+>> +CPU and GPU power limit tuning as well as various other attributes for
+>> +devices that fall under the "Gaming Series" of Lenovo devices. Each
+>> +attribute exposed by the Other Mode interface has corresponding
+>> +capability data blocks which allow the driver to probe details about=
+=20
+>> the
+>> +attribute. Each attribute has multiple pages, one for each of the=20
+>> platform
+>> +profiles managed by the Gamezone interface. Attributes are exposed=20
+>> in sysfs
+>> +under the following path:
+>> +
+>> +::
+>> +
+>> + /sys/class/firmware-attributes/lenovo-wmi-other/attributes/<attribute=
+>/
+>> +
+>> +LENOVO_CAPABILITY_DATA_01
+>> +-------------------------
+>> +
+>> +WMI GUID ``7A8F5407-CB67-4D6E-B547-39B3BE018154``
+>> +
+>> +The LENOVO_CAPABILITY_DATA_01 interface provides information on variou=
+s
+>> +power limits of integrated CPU and GPU components.
+>> +
+>> +Each attribute has the following properties:
+>> + - current_value
+>> + - default_value
+>> + - display_name
+>> + - max_value
+>> + - min_value
+>> + - scalar_increment
+>> + - type
+>> +
+>> +The following attributes are implemented:
+>> + - ppt_pl1_spl: Platform Profile Tracking Sustained Power Limit
+>> + - ppt_pl2_sppt: Platform Profile Tracking Slow Package Power Tracking
+>> + - ppt_pl3_fppt: Platform Profile Tracking Fast Package Power Tracking
+>> +
+>> +
+>> +WMI interface description
+>> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D
+>> +
+>> +The WMI interface description can be decoded from the embedded=20
+>> binary MOF (bmof)
+>> +data using the `bmfdec=20
+>> <https://urldefense.com/v3/__https://github.com/pali/bmfdec__;!!ACWV5N9=
+M2RV99hQ!MsBEzFjDFpZkeq1j7_77aBEv31FIW_V_vPvnyFGNSL_ptLYWAYFj1UMisJvhsTGRq=
+3_lh5eh5RpYWjdlZUKTA0UZ9jO_$=20
+>> >`_ utility:
+>> +
+>> +::
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("LENOVO_OTHER_METHOD class"),=20
+>> guid("{dc2a8805-3a8c-41ba-a6f7-092e0089cd3b}")]
+>> +=C2=A0 class LENOVO_OTHER_METHOD {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(17), Implemented, Description("Get Fea=
+ture Value=20
+>> ")] void GetFeatureValue([in] uint32 IDs, [out] uint32 value);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(18), Implemented, Description("Set Fea=
+ture Value=20
+>> ")] void SetFeatureValue([in] uint32 IDs, [in] uint32 value);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(19), Implemented, Description("Get Dat=
+a By Command=20
+>> ")] void GetDataByCommand([in] uint32 IDs, [in] uint32 Command, [out]=
+=20
+>> uint32 DataSize, [out, WmiSizeIs("DataSize")] uint32 Data[]);
+>> +=C2=A0=C2=A0=C2=A0 [WmiMethodId(99), Implemented, Description("Get Dat=
+a By Package=20
+>> for TAC")] void GetDataByPackage([in, Max(40)] uint8 Input[], [out]=20
+>> uint32 DataSize, [out, WmiSizeIs("DataSize")] uint8 Data[]);
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("LENOVO CAPABILITY DATA 00"),=20
+>> guid("{362a3afe-3d96-4665-8530-96dad5bb300e}")]
+>> +=C2=A0 class LENOVO_CAPABILITY_DATA_00 {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description(" IDs.")] uint32 I=
+Ds;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(2), read, Description("Capability.")] ui=
+nt32 Capability;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(3), read, Description("Capability Defaul=
+t Value.")]=20
+>> uint32 DefaultValue;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("LENOVO CAPABILITY DATA 01"),=20
+>> guid("{7a8f5407-cb67-4d6e-b547-39b3be018154}")]
+>> +=C2=A0 class LENOVO_CAPABILITY_DATA_01 {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description(" IDs.")] uint32 I=
+Ds;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(2), read, Description("Capability.")] ui=
+nt32 Capability;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(3), read, Description("Default Value.")]=
+ uint32=20
+>> DefaultValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(4), read, Description("Step.")] uint32 S=
+tep;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(5), read, Description("Minimum Value.")]=
+ uint32=20
+>> MinValue;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(6), read, Description("Maximum Value.")]=
+ uint32=20
+>> MaxValue;
+>> +=C2=A0 };
+>> +
+>> +=C2=A0 [WMI, Dynamic, Provider("WmiProv"), Locale("MS\\0x409"),=20
+>> Description("LENOVO CAPABILITY DATA 02"),=20
+>> guid("{bbf1f790-6c2f-422b-bc8c-4e7369c7f6ab}")]
+>> +=C2=A0 class LENOVO_CAPABILITY_DATA_02 {
+>> +=C2=A0=C2=A0=C2=A0 [key, read] string InstanceName;
+>> +=C2=A0=C2=A0=C2=A0 [read] boolean Active;
+>> +
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(1), read, Description(" IDs.")] uint32 I=
+Ds;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(2), read, Description("Capability.")] ui=
+nt32 Capability;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(3), read, Description("Data Size.")] uin=
+t32 DataSize;
+>> +=C2=A0=C2=A0=C2=A0 [WmiDataId(4), read, Description("Default Value"),=
+=20
+>> WmiSizeIs("DataSize")] uint8 DefaultValue[];
+>> +=C2=A0 };
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 1afd30d00aec..675f4b26426d 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -13158,6 +13158,13 @@ S:=C2=A0=C2=A0=C2=A0 Maintained
+>> =C2=A0 W:=20
+>> https://urldefense.com/v3/__http://legousb.sourceforge.net/__;!!ACWV5N9=
+M2RV99hQ!MsBEzFjDFpZkeq1j7_77aBEv31FIW_V_vPvnyFGNSL_ptLYWAYFj1UMisJvhsTGRq=
+3_lh5eh5RpYWjdlZUKTA1y38Zxx$
+>> =C2=A0 F:=C2=A0=C2=A0=C2=A0 drivers/usb/misc/legousbtower.c
+>> =C2=A0 +LENOVO WMI DRIVERS
+>> +M:=C2=A0=C2=A0=C2=A0 Derek J. Clark <derekjohn.clark@gmail.com>
+>> +L:=C2=A0=C2=A0=C2=A0 platform-driver-x86@vger.kernel.org
+>> +S:=C2=A0=C2=A0=C2=A0 Maintained
+>> +F:=C2=A0=C2=A0=C2=A0 Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>> +F:=C2=A0=C2=A0=C2=A0 Documentation/wmi/devices/lenovo-wmi-other.rst
+>> +
+>> =C2=A0 LENOVO WMI HOTKEY UTILITIES DRIVER
+>> =C2=A0 M:=C2=A0=C2=A0=C2=A0 Jackie Dong <xy-jackie@139.com>
+>> =C2=A0 L:=C2=A0=C2=A0=C2=A0 platform-driver-x86@vger.kernel.org
+>
+> Reviewed-by: Alok Tiwari <alok.a.tiwari@oracle.com>
+>
+> Thanks,
+> Alok
+>
