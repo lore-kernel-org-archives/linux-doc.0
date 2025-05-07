@@ -1,128 +1,140 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 52C1F1519B4;
-	Wed,  7 May 2025 13:42:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8ABE28B3E9
+	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 13:56:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746625343; cv=none; b=MoregXu2QtiTsfMLeQlduJ8gkVCocRhXszjR0kNPmbkwf5rQ6LgcS4mkQRdZ9WXuLw94UewpkAyTha9dobb42mfQNSbcJnEQy+UAMesx7D5cb/rfvIG2E0Ki84P28Pb8G3/6AOtqy6cuYyj8mAQrPpy4oa4t2ilnB0fkS2eKFXo=
+	t=1746626219; cv=none; b=PfbGrM+u4q0UwmPnq8vCqyIHzckUK02w/mew9u5QwQsRbl62k891jmqDP2je/ELCIHPi/iVWouGLnOrV/JXMiOnKdREL0CBTib8ih9kB/zDkFv5dBVTh1T5B3Vu9GZSatxjN0nImFDd8EzJoGIS36mFIaAPMG/NnHVhGoXchN1g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746625343; c=relaxed/simple;
-	bh=rt0gLT/Cx6uH7xEwJf4S/Dy3MmtJMMcOxB9M2SOESBs=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=sJsBOwONCGx6zKv9GOCIKjRiwoiPaba7v2CAYETsYYuZGIsn3HBomrGZof6z5DSQ0b0YMWcY6pf8Clr0LhZCeepSlHZ1sRnFH3YZn5GlMOcaLxRr0vi14d7f6SZFjL/eWBwJvGNn24IJFhUIFQkbGDXJPePxORpS/tbsgylL/iA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=NjMWbYhz; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746626219; c=relaxed/simple;
+	bh=sGa1g1PPLfg0IIMC8cBZToyVlaK+S6WfeD7ZsrQBI2s=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=MtrEpVZUMJlCywz67WFWQNQZKAT1lq0RezvKNInU6bXrQGjdmfq8aS8DKTDoj5aUEAcW5MV5NlezmLBlui7WITIelxpB1kmeb26llI8HSlkM8HOv8XecVnzCYNGvcjS3MrUtRnB396KeWozwxV4mQD5xiOHuOWNc1dWvSo34xv4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NoHgIo8c; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="NjMWbYhz"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-acae7e7587dso1095572566b.2;
-        Wed, 07 May 2025 06:42:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746625340; x=1747230140; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Fu5jAYqPptIEmaOmMbSmkEQLD/PP47xbmK8wHBaTar4=;
-        b=NjMWbYhzKaIWQHlJa5fYGRqZnVD+kZmWMAAdCN9/RdItPoskCd7n1cqNm2Pqmd0tS3
-         qob5viQ20wRc2dts1udBep55BvUUeQ7oSOSK/Vcg2o3luusGEMr5OZ7Z4W7teitG8DI1
-         DqSqq0rCNCampJkCWeO8ySMndJ44ftKHBlvts9CLGICZvFULxZWKf1F7q0sZwip1Exw3
-         5Lm9/YGKHKlmrBX9vCScoHz+Va0EfuWd/Qt68CBCYwq5MXA2SFM99jSVULhYs9a2fr/j
-         mCaC5ePGn/dIePcL1M4tIBhg9x/3TrRWhKkucorEnQX0YLL76gkZeZQ5lWviObUm+y4t
-         h53A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746625340; x=1747230140;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Fu5jAYqPptIEmaOmMbSmkEQLD/PP47xbmK8wHBaTar4=;
-        b=JUeicqjw4iscys/t9Jej/UuVhpqXzUu6DCeDivyul5R3BhzZH0UpnKrv/g2LMHToDO
-         gLv6TU0Ovv+eWnt16LYPFlvx2Kn2HL/yumgIQLR97vyx+MW5sdCWXU7tyZIF4Dvq1hn4
-         Dv+mc3vFJdtdnnGaW5VmJfpmw+AyoXW0PpTSqY5GQ4SgOxpdQUN/bFkV3JpJr+gAf61j
-         tiU08xRnxUW1SDtuMmfIqGsMZTjz2rf1FQ5Fe/l89qLRYRLgqy2Yf0NYE7VxnPw7Grlx
-         LkKQD7Kp094r3TxYl85qnHdxs3xZlihYl2CL3dVxfsxP1vngrtQLbzKjycclMhn+E/NH
-         ClTA==
-X-Forwarded-Encrypted: i=1; AJvYcCU045O7C1Cf4vPQr4JyUbLWUOolfihdt3WgZyqELnw1qFbBGvv00uaBJKCck7qefELBTmqjmly9iT0P@vger.kernel.org, AJvYcCWvvUMp2tIySzeIsIDM5ScdTKXZe+rZE1JuEw5V9e+YNvUHcOnOuTtlCPZSFo1x22UfzL0jesRMnLr1uldF@vger.kernel.org, AJvYcCXse4FSWWDK+lMDmtxyrn/R9NG2BzlyXpa+ZbIcu6F0WxsB7sBwNXTajVFruUOOEE0c0r7kTLyqKRTd@vger.kernel.org
-X-Gm-Message-State: AOJu0YwNHjgG2dcaFtqSUUjrfbSjU/8vBdFp7Rs42FL4RTzjdc2KNN0g
-	83k6tD82aKSIVWfRH8OGSPJN6sj8htV3BilTUFPeRYU3JOXmZQyjSUhH2Bld2pJBMrWG7YPTpR7
-	JYwScjRl9FohB+beeqsqhPfys+/g=
-X-Gm-Gg: ASbGnctNEq0+Obi56T2tYiEvGxeltIzn53Wxr+SbsGRSki+PZeeel9ubg2TaqrHt6Jd
-	8prRD+gSKWdDIEfFZe4l8MSLXZUnX4oqPmEeFg6PppRAEeyzuDKDUAWjJHTT8DEzLGGI48E1/Ks
-	kuSXQdkb6ssjlWe58TtEvR6jgm
-X-Google-Smtp-Source: AGHT+IGQBtHrZwxhQakHc3ARhOEyA4EPrV8tDh/xRaawNPgEr75PKZsCLFzdhfdOeCaSHRB69AiXjNW3dOcH15xOGlY=
-X-Received: by 2002:a17:907:d507:b0:ace:3af5:1de6 with SMTP id
- a640c23a62f3a-ad1e8d2934cmr350558166b.35.1746625340440; Wed, 07 May 2025
- 06:42:20 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NoHgIo8c"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746626213;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=eCxlh7OLGZ6tmVtPGqGmXKkGEJLdZqILpcZUyhVzTuI=;
+	b=NoHgIo8c7nUwW4oX+JDBVj7cVlhRctJHYcLQ6H6/UIcBWOABeeriV5LffzlXMqqcAe0X4H
+	ALHs+aZ2cBEQ5R/e39KiKD//kxOaoeOMDbwLG2RXemZvMQ49/NRwcJ4wjde1oUkXLOAIrm
+	dPpactcJMCAecdA0TQiPsCNGgJMdCe4=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-496-slc2Hx5AOXe4P0uxASBc5Q-1; Wed,
+ 07 May 2025 09:56:47 -0400
+X-MC-Unique: slc2Hx5AOXe4P0uxASBc5Q-1
+X-Mimecast-MFC-AGG-ID: slc2Hx5AOXe4P0uxASBc5Q_1746626205
+Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BE39B1800875;
+	Wed,  7 May 2025 13:56:44 +0000 (UTC)
+Received: from [10.44.33.91] (unknown [10.44.33.91])
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 263381800268;
+	Wed,  7 May 2025 13:56:38 +0000 (UTC)
+Message-ID: <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
+Date: Wed, 7 May 2025 15:56:37 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507124358.48776-1-ivecera@redhat.com> <20250507124358.48776-9-ivecera@redhat.com>
-In-Reply-To: <20250507124358.48776-9-ivecera@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 7 May 2025 16:41:44 +0300
-X-Gm-Features: ATxdqUFuxCdQxMTUYJnn6Zn0Z-yNV6W-XdaPO6tDqq9cIe3Jt33eP9TAQnxP48o
-Message-ID: <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
  during init
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Andy Shevchenko <andy@kernel.org>, Michal Schmidt <mschmidt@redhat.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Lee Jones <lee@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250507124358.48776-1-ivecera@redhat.com>
+ <20250507124358.48776-9-ivecera@redhat.com>
+ <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
+Content-Language: en-US
+From: Ivan Vecera <ivecera@redhat.com>
+In-Reply-To: <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
 
-On Wed, May 7, 2025 at 3:45=E2=80=AFPM Ivan Vecera <ivecera@redhat.com> wro=
-te:
->
-> Register DPLL sub-devices to expose the functionality provided
-> by ZL3073x chip family. Each sub-device represents one of
-> the available DPLL channels.
 
-...
 
-> +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] =
-=3D {
-> +       { .channel =3D 0, },
-> +       { .channel =3D 1, },
-> +       { .channel =3D 2, },
-> +       { .channel =3D 3, },
-> +       { .channel =3D 4, },
-> +};
+On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
+> On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> wrote:
+>>
+>> Register DPLL sub-devices to expose the functionality provided
+>> by ZL3073x chip family. Each sub-device represents one of
+>> the available DPLL channels.
+> 
+> ...
+> 
+>> +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
+>> +       { .channel = 0, },
+>> +       { .channel = 1, },
+>> +       { .channel = 2, },
+>> +       { .channel = 3, },
+>> +       { .channel = 4, },
+>> +};
+> 
+>> +static const struct mfd_cell zl3073x_devs[] = {
+>> +       ZL3073X_CELL("zl3073x-dpll", 0),
+>> +       ZL3073X_CELL("zl3073x-dpll", 1),
+>> +       ZL3073X_CELL("zl3073x-dpll", 2),
+>> +       ZL3073X_CELL("zl3073x-dpll", 3),
+>> +       ZL3073X_CELL("zl3073x-dpll", 4),
+>> +};
+> 
+>> +#define ZL3073X_MAX_CHANNELS   5
+> 
+> Btw, wouldn't be better to keep the above lists synchronised like
+> 
+> 1. Make ZL3073X_CELL() to use indexed variant
+> 
+> [idx] = ...
+> 
+> 2. Define the channel numbers
+> 
+> and use them in both data structures.
+> 
+> ...
 
-> +static const struct mfd_cell zl3073x_devs[] =3D {
-> +       ZL3073X_CELL("zl3073x-dpll", 0),
-> +       ZL3073X_CELL("zl3073x-dpll", 1),
-> +       ZL3073X_CELL("zl3073x-dpll", 2),
-> +       ZL3073X_CELL("zl3073x-dpll", 3),
-> +       ZL3073X_CELL("zl3073x-dpll", 4),
-> +};
+WDYM?
 
-> +#define ZL3073X_MAX_CHANNELS   5
+> OTOH, I'm not sure why we even need this. If this is going to be
+> sequential, can't we make a core to decide which cell will be given
+> which id?
 
-Btw, wouldn't be better to keep the above lists synchronised like
+Just a note that after introduction of PHC sub-driver the array will 
+look like:
+static const struct mfd_cell zl3073x_devs[] = {
+        ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
+        ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
+        ZL3073X_CELL("zl3073x-dpll", 1),  // ...
+        ZL3073X_CELL("zl3073x-phc", 1),
+        ZL3073X_CELL("zl3073x-dpll", 2),
+        ZL3073X_CELL("zl3073x-phc", 2),
+        ZL3073X_CELL("zl3073x-dpll", 3),
+        ZL3073X_CELL("zl3073x-phc", 3),
+        ZL3073X_CELL("zl3073x-dpll", 4),
+        ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
+};
 
-1. Make ZL3073X_CELL() to use indexed variant
+Ivan
 
-[idx] =3D ...
-
-2. Define the channel numbers
-
-and use them in both data structures.
-
-...
-
-OTOH, I'm not sure why we even need this. If this is going to be
-sequential, can't we make a core to decide which cell will be given
-which id?
-
---
-With Best Regards,
-Andy Shevchenko
