@@ -1,312 +1,214 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 62394213E6A;
-	Wed,  7 May 2025 09:58:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0BA4438F9C;
+	Wed,  7 May 2025 10:01:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746611908; cv=none; b=WmlO4Fd/c+2PgjcNkUjFUW4paElqjU9zCAhGcHmlaxS2B+4O3UCJi65jSHTUDNfUzjHrZui9TTFhoTqQWec1xjbjXCcF4EZajOSR562CSVe+j77y0hp/d4W8KDPwLyFeSA0/nSU/ORv0sa2CFHsGzcJJpfolz7ihpYAN4w15s5M=
+	t=1746612072; cv=none; b=aRh7COTRdPp4hVJwv/gaa6jAFSmGWAZyH/4WMx0hxsFwFVoeczmoc0ZkAV4+vUBjfTbqkG/6lvxbnVmXUwWq/lm0exyTNC/TZ+u1Dn4sKoKQ/9WpKZTDxAzhi+Y8YAPbtX8b55EbNdMhJqqASsOq/M7GG4SM2A4dLRbokd7RXcI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746611908; c=relaxed/simple;
-	bh=CdsGf/7xKMmbGVYHunkGolE7VzdDVLZSB9UsioP4co0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=L1xVE/UUg9QRuNZnGmD3oK3WxDZcGlmPhFjns+6ooksmk0nUUtnZ4RSfnnfqCdHq3qNo8zrIxvBKOJIYakE/KOgPILlkj+h6vzcaR+jwlXnWSdic392bJEIefS72rZjewisVfzKBajQcQr3D7z7VaLe/XrodR5xD/ihX7ceEvo4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 19D2C1FC4;
-	Wed,  7 May 2025 02:58:15 -0700 (PDT)
-Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 286F33F5A1;
-	Wed,  7 May 2025 02:58:22 -0700 (PDT)
-From: Yeoreum Yun <yeoreum.yun@arm.com>
-To: catalin.marinas@arm.com,
-	pcc@google.com,
-	will@kernel.org,
-	broonie@kernel.org,
-	anshuman.khandual@arm.com,
-	joey.gouly@arm.com,
-	yury.khrustalev@arm.com,
-	maz@kernel.org,
-	oliver.upton@linux.dev,
-	frederic@kernel.org,
-	shmeerali.kolothum.thodi@huawei.com,
-	james.morse@arm.com,
-	mark.rutland@arm.com,
-	huangxiaojia2@huawei.com,
-	akpm@linux-foundation.org,
-	surenb@google.com,
-	robin.murphy@arm.com
-Cc: linux-arm-kernel@lists.infradead.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	Yeoreum Yun <yeoreum.yun@arm.com>
-Subject: [PATCH v4 6/6] kselftest/arm64/mte: add mtefar test on check_mmap_option
-Date: Wed,  7 May 2025 10:57:57 +0100
-Message-Id: <20250507095757.1663684-7-yeoreum.yun@arm.com>
-X-Mailer: git-send-email 2.34.1
-In-Reply-To: <20250507095757.1663684-1-yeoreum.yun@arm.com>
-References: <20250507095757.1663684-1-yeoreum.yun@arm.com>
+	s=arc-20240116; t=1746612072; c=relaxed/simple;
+	bh=GMl2/nllLTvuFU2hTjd7xVW+BOWo5nIf+NLQjpJAYv0=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=OF/TUvACTPGSRgJmuuMvGmVjPYQR6FLYdHFg5oqfvhOlWp+C+6QBGmuZ2ShaeGTHb3xonhRTbJCG75o9x4aAqQcD4WGymz2PXvLK6AbDYpdQH0kYhpKE+gpaX7zMwDbC/U5C3J0Lri0kxpCuOsIZ57soC0XczM+iMOi34Uzb1SM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cwcLj89V; arc=none smtp.client-ip=198.175.65.11
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cwcLj89V"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746612071; x=1778148071;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=GMl2/nllLTvuFU2hTjd7xVW+BOWo5nIf+NLQjpJAYv0=;
+  b=cwcLj89VGaMTlT3mplvxMj0XbRrt8F03UaOPNv46VrUYRBzgdyftRMM2
+   ps+Tu3buFypokf/ylvqssXKnOol+fjRD3sOQfxJKXyHzJoFr2UH8SpxMX
+   dC1COFcEtOSSmynfP5BmhKxTbz6+t+Xk03nWWpIn6PPgWNYP6tLL4G9LP
+   ouh70/nOf7zbBomy3Xq2SUq6k63mTwfgO+03gtH+R9GlKDJd5/ISAdv0O
+   vrgohrmOD39r43+XpINM7WMMLLqJaVzf0wQxqgq7b4kSyOXrsSN2wcZDJ
+   GqqhS7jx/05jBKqmxi4lGo8kHXIV45Zs1j3ykh7KII9mTWHPvwlF21GI1
+   w==;
+X-CSE-ConnectionGUID: oUsehqm6T/6SURxkI+TwaQ==
+X-CSE-MsgGUID: If8hppK9SoGIPftqzSt8xg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="58527561"
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="58527561"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 03:01:10 -0700
+X-CSE-ConnectionGUID: QXf8ZYXiSlSxK6s2i3mBtw==
+X-CSE-MsgGUID: vUnijq95T02E8uoSlp/6Vw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="159199367"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa002.fm.intel.com with ESMTP; 07 May 2025 03:01:04 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCbaH-0007YN-37;
+	Wed, 07 May 2025 10:01:01 +0000
+Date: Wed, 7 May 2025 18:00:14 +0800
+From: kernel test robot <lkp@intel.com>
+To: shiju.jose@huawei.com, linux-edac@vger.kernel.org,
+	linux-acpi@vger.kernel.org, linux-doc@vger.kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, bp@alien8.de, rafael@kernel.org,
+	tony.luck@intel.com, lenb@kernel.org, leo.duran@amd.com,
+	Yazen.Ghannam@amd.com, mchehab@kernel.org,
+	jonathan.cameron@huawei.com, linux-mm@kvack.org,
+	linuxarm@huawei.com, rientjes@google.com, jiaqiyan@google.com,
+	Jon.Grimm@amd.com, dave.hansen@linux.intel.com,
+	naoya.horiguchi@nec.com, james.morse@arm.com, jthoughton@google.com,
+	somasundaram.a@hpe.com, erdemaktas@google.com, pgonda@google.com,
+	duenwen@google.com, gthelen@google.com,
+	wschwartz@amperecomputing.com, dferguson@amperecomputing.com,
+	wbs@os.amperecomputing.com, nifan.cxl@gmail.com,
+	tanxiaofei@huawei.com
+Subject: Re: [PATCH v4 2/3] ACPI:RAS2: Add ACPI RAS2 driver
+Message-ID: <202505071717.QhRmXFUq-lkp@intel.com>
+References: <20250423163511.1412-3-shiju.jose@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250423163511.1412-3-shiju.jose@huawei.com>
 
-If FEAT_MTE_TAGGED_FAR (Armv8.9) is supported, bits 63:60 of the fault address
-are preserved in response to synchronous tag check faults (SEGV_MTESERR).
+Hi,
 
-This patch adds new test cases using address tags (bits 63:60),
-corresponding to each existing test in check_mmap_option.
+kernel test robot noticed the following build warnings:
 
-Signed-off-by: Yeoreum Yun <yeoreum.yun@arm.com>
----
- .../selftests/arm64/mte/check_mmap_options.c  | 132 +++++++++++-------
- 1 file changed, 80 insertions(+), 52 deletions(-)
+[auto build test WARNING on rafael-pm/linux-next]
+[also build test WARNING on linus/master v6.15-rc5]
+[cannot apply to rafael-pm/bleeding-edge next-20250506]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-diff --git a/tools/testing/selftests/arm64/mte/check_mmap_options.c b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-index a784b3a31d4f..4f26617c8e69 100644
---- a/tools/testing/selftests/arm64/mte/check_mmap_options.c
-+++ b/tools/testing/selftests/arm64/mte/check_mmap_options.c
-@@ -31,14 +31,25 @@
- #define CHECK_FILE_MEM		1
- #define CHECK_CLEAR_PROT_MTE	2
- 
-+#define ATAG_TEST_ON		1
-+#define ATAG_TEST_OFF		0
-+
- static size_t page_size;
- static int sizes[] = {
- 	1, 537, 989, 1269, MT_GRANULE_SIZE - 1, MT_GRANULE_SIZE,
- 	/* page size - 1*/ 0, /* page_size */ 0, /* page size + 1 */ 0
- };
- 
--static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
-+static int check_mte_memory(char *ptr, int size, int mode, int tag_check, int atag_test)
- {
-+	int err;
-+
-+	if (!mtefar_support && atag_test == ATAG_TEST_ON)
-+		return KSFT_SKIP;
-+
-+	if (atag_test == ATAG_TEST_ON)
-+		ptr = mte_insert_atag(ptr);
-+
- 	mte_initialize_current_context(mode, (uintptr_t)ptr, size);
- 	memset(ptr, '1', size);
- 	mte_wait_after_trig();
-@@ -64,7 +75,7 @@ static int check_mte_memory(char *ptr, int size, int mode, int tag_check)
- 	return KSFT_PASS;
- }
- 
--static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_test)
- {
- 	char *ptr, *map_ptr;
- 	int run, result, map_size;
-@@ -86,16 +97,16 @@ static int check_anonymous_memory_mapping(int mem_type, int mode, int mapping, i
- 			munmap((void *)map_ptr, map_size);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_test);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		mte_free_memory((void *)map_ptr, map_size, mem_type, false);
--		if (result == KSFT_FAIL)
--			return KSFT_FAIL;
-+		if (result != KSFT_SKIP)
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
--static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check)
-+static int check_file_memory_mapping(int mem_type, int mode, int mapping, int tag_check, int atag_test)
- {
- 	char *ptr, *map_ptr;
- 	int run, fd, map_size;
-@@ -124,7 +135,7 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, tag_check);
-+		result = check_mte_memory(ptr, sizes[run], mode, tag_check, atag_test);
- 		mte_clear_tags((void *)ptr, sizes[run]);
- 		munmap((void *)map_ptr, map_size);
- 		close(fd);
-@@ -134,7 +145,7 @@ static int check_file_memory_mapping(int mem_type, int mode, int mapping, int ta
- 	return result;
- }
- 
--static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
-+static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping, int atag_test)
- {
- 	char *ptr, *map_ptr;
- 	int run, prot_flag, result, fd, map_size;
-@@ -157,10 +168,10 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			ksft_print_msg("FAIL: mprotect not ignoring clear PROT_MTE property\n");
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_test);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 
- 		fd = create_temp_file();
- 		if (fd == -1)
-@@ -181,17 +192,17 @@ static int check_clear_prot_mte_flag(int mem_type, int mode, int mapping)
- 			close(fd);
- 			return KSFT_FAIL;
- 		}
--		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON);
-+		result = check_mte_memory(ptr, sizes[run], mode, TAG_CHECK_ON, atag_test);
- 		mte_free_memory_tag_range((void *)ptr, sizes[run], mem_type, UNDERFLOW, OVERFLOW);
- 		close(fd);
- 		if (result != KSFT_PASS)
--			return KSFT_FAIL;
-+			return result;
- 	}
- 	return KSFT_PASS;
- }
- 
- const char *format_test_name(int check_type, int mem_type, int sync,
--		       int mapping, int tag_check)
-+		       int mapping, int tag_check, int atag_test)
- {
- 	static char test_name[TEST_NAME_MAX];
- 	const char* check_type_str;
-@@ -199,6 +210,7 @@ const char *format_test_name(int check_type, int mem_type, int sync,
- 	const char* sync_str;
- 	const char* mapping_str;
- 	const char* tag_check_str;
-+	const char *atag_test_str;
- 
- 	switch (check_type) {
- 	case CHECK_ANON_MEM:
-@@ -266,9 +278,22 @@ const char *format_test_name(int check_type, int mem_type, int sync,
- 		break;
- 	}
- 
-+	switch (atag_test) {
-+	case ATAG_TEST_ON:
-+		atag_test_str = "with address tag [63:60]";
-+		break;
-+	case ATAG_TEST_OFF:
-+		atag_test_str = "without address tag [63:60]";
-+		break;
-+	default:
-+		assert(0);
-+		break;
-+	}
-+
- 	snprintf(test_name, TEST_NAME_MAX,
--	         "Check %s with %s mapping, %s mode, %s memory and %s\n",
--	         check_type_str, mapping_str, sync_str, mem_type_str, tag_check_str);
-+	         "Check %s with %s mapping, %s mode, %s memory and %s (%s)\n",
-+	         check_type_str, mapping_str, sync_str, mem_type_str,
-+	         tag_check_str, atag_test_str);
- 
- 	return test_name;
- }
-@@ -281,7 +306,8 @@ int main(int argc, char *argv[])
- 	int mem_type[] = { USE_MMAP, USE_MPROTECT };
- 	int mte_sync[] = { MTE_SYNC_ERR, MTE_ASYNC_ERR };
- 	int mapping[] = { MAP_PRIVATE, MAP_SHARED };
--	int c, mt, s, m;
-+	int atag_test[] = { ATAG_TEST_OFF, ATAG_TEST_ON };
-+	int c, mt, s, m, a;
- 
- 	err = mte_default_setup();
- 	if (err)
-@@ -295,47 +321,49 @@ int main(int argc, char *argv[])
- 	sizes[item - 2] = page_size;
- 	sizes[item - 1] = page_size + 1;
- 
--	/* Register signal handlers */
--	mte_register_signal(SIGBUS, mte_default_handler, false);
--	mte_register_signal(SIGSEGV, mte_default_handler, false);
--
- 	/* Set test plan */
--	ksft_set_plan(22);
--
--	mte_enable_pstate_tco();
--
--	evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--
--	evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--
--	mte_disable_pstate_tco();
--
--	evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--	evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF),
--		      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF));
--
--	for (c = 0 ; c < ARRAY_SIZE(check_type); c++) {
--		for (s = 0; s < ARRAY_SIZE(mte_sync); s++) {
--			for (m = 0; m < ARRAY_SIZE(mapping); m++) {
--				for (mt = 0; mt < ARRAY_SIZE(mem_type); mt++) {
--					if (check_type[c] == CHECK_ANON_MEM)
--						evaluate_test(check_anonymous_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON),
--							format_test_name(CHECK_ANON_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON));
--					else
--						evaluate_test(check_file_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON),
--							format_test_name(CHECK_FILE_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON));
-+	ksft_set_plan(44);
-+
-+	for (a = 0; a < ARRAY_SIZE(atag_test); a++) {
-+		/* Register signal handlers */
-+		mte_register_signal(SIGBUS, mte_default_handler, atag_test[a]);
-+		mte_register_signal(SIGSEGV, mte_default_handler, atag_test[a]);
-+
-+		mte_enable_pstate_tco();
-+
-+		evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+
-+		evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+
-+		mte_disable_pstate_tco();
-+
-+		evaluate_test(check_anonymous_memory_mapping(USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_ANON_MEM, USE_MMAP, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+		evaluate_test(check_file_memory_mapping(USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]),
-+			      format_test_name(CHECK_FILE_MEM, USE_MPROTECT, MTE_NONE_ERR, MAP_PRIVATE, TAG_CHECK_OFF, atag_test[a]));
-+
-+		for (c = 0 ; c < ARRAY_SIZE(check_type); c++) {
-+			for (s = 0; s < ARRAY_SIZE(mte_sync); s++) {
-+				for (m = 0; m < ARRAY_SIZE(mapping); m++) {
-+					for (mt = 0; mt < ARRAY_SIZE(mem_type); mt++) {
-+						if (check_type[c] == CHECK_ANON_MEM)
-+							evaluate_test(check_anonymous_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]),
-+								format_test_name(CHECK_ANON_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]));
-+						else
-+							evaluate_test(check_file_memory_mapping(mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]),
-+								format_test_name(CHECK_FILE_MEM, mem_type[mt], mte_sync[s], mapping[m], TAG_CHECK_ON, atag_test[a]));
-+					}
- 				}
- 			}
- 		}
--	}
- 
--	evaluate_test(check_clear_prot_mte_flag(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE),
--		      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON));
--	evaluate_test(check_clear_prot_mte_flag(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE),
--		      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON));
-+		evaluate_test(check_clear_prot_mte_flag(USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, atag_test[a]),
-+			      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MMAP, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON, atag_test[a]));
-+		evaluate_test(check_clear_prot_mte_flag(USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, atag_test[a]),
-+			      format_test_name(CHECK_CLEAR_PROT_MTE, USE_MPROTECT, MTE_SYNC_ERR, MAP_PRIVATE, TAG_CHECK_ON, atag_test[a]));
-+	}
- 
- 	mte_restore_setup();
- 	ksft_print_cnts();
+url:    https://github.com/intel-lab-lkp/linux/commits/shiju-jose-huawei-com/ACPI-ACPI-6-5-RAS2-Rename-RAS2-table-structure-and-field-names/20250424-003740
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git linux-next
+patch link:    https://lore.kernel.org/r/20250423163511.1412-3-shiju.jose%40huawei.com
+patch subject: [PATCH v4 2/3] ACPI:RAS2: Add ACPI RAS2 driver
+config: riscv-randconfig-r112-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071717.QhRmXFUq-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071717.QhRmXFUq-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071717.QhRmXFUq-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/acpi/ras2.c:143:61: sparse: sparse: incorrect type in initializer (different address spaces) @@     expected struct acpi_ras2_shmem *gen_comm_base @@     got struct acpi_ras2_shmem [noderef] __iomem *comm_addr @@
+   drivers/acpi/ras2.c:143:61: sparse:     expected struct acpi_ras2_shmem *gen_comm_base
+   drivers/acpi/ras2.c:143:61: sparse:     got struct acpi_ras2_shmem [noderef] __iomem *comm_addr
+>> drivers/acpi/ras2.c:193:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned short * @@
+   drivers/acpi/ras2.c:193:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/acpi/ras2.c:193:9: sparse:     got unsigned short *
+   drivers/acpi/ras2.c:196:9: sparse: sparse: incorrect type in argument 2 (different address spaces) @@     expected void volatile [noderef] __iomem *addr @@     got unsigned short * @@
+   drivers/acpi/ras2.c:196:9: sparse:     expected void volatile [noderef] __iomem *addr
+   drivers/acpi/ras2.c:196:9: sparse:     got unsigned short *
+
+vim +143 drivers/acpi/ras2.c
+
+   132	
+   133	/**
+   134	 * ras2_send_pcc_cmd() - Send RAS2 command via PCC channel
+   135	 * @ras2_ctx:	pointer to the RAS2 context structure
+   136	 * @cmd:	command to send
+   137	 *
+   138	 * Returns: 0 on success, an error otherwise
+   139	 */
+   140	int ras2_send_pcc_cmd(struct ras2_mem_ctx *ras2_ctx, u16 cmd)
+   141	{
+   142		struct ras2_pcc_subspace *pcc_subspace = ras2_ctx->pcc_subspace;
+ > 143		struct acpi_ras2_shmem *gen_comm_base = pcc_subspace->comm_addr;
+   144		struct mbox_chan *pcc_channel;
+   145		unsigned int time_delta;
+   146		int rc;
+   147	
+   148		rc = ras2_check_pcc_chan(pcc_subspace);
+   149		if (rc < 0)
+   150			return rc;
+   151	
+   152		pcc_channel = pcc_subspace->pcc_chan->mchan;
+   153	
+   154		/*
+   155		 * Handle the Minimum Request Turnaround Time(MRTT).
+   156		 * "The minimum amount of time that OSPM must wait after the completion
+   157		 * of a command before issuing the next command, in microseconds."
+   158		 */
+   159		if (pcc_subspace->pcc_mrtt) {
+   160			time_delta = ktime_us_delta(ktime_get(),
+   161						    pcc_subspace->last_cmd_cmpl_time);
+   162			if (pcc_subspace->pcc_mrtt > time_delta)
+   163				udelay(pcc_subspace->pcc_mrtt - time_delta);
+   164		}
+   165	
+   166		/*
+   167		 * Handle the non-zero Maximum Periodic Access Rate(MPAR).
+   168		 * "The maximum number of periodic requests that the subspace channel can
+   169		 * support, reported in commands per minute. 0 indicates no limitation."
+   170		 *
+   171		 * This parameter should be ideally zero or large enough so that it can
+   172		 * handle maximum number of requests that all the cores in the system can
+   173		 * collectively generate. If it is not, we will follow the spec and just
+   174		 * not send the request to the platform after hitting the MPAR limit in
+   175		 * any 60s window.
+   176		 */
+   177		if (pcc_subspace->pcc_mpar) {
+   178			if (pcc_subspace->mpar_count == 0) {
+   179				time_delta = ktime_ms_delta(ktime_get(),
+   180							    pcc_subspace->last_mpar_reset);
+   181				if (time_delta < 60 * MSEC_PER_SEC) {
+   182					dev_dbg(ras2_ctx->dev,
+   183						"PCC cmd not sent due to MPAR limit");
+   184					return -EIO;
+   185				}
+   186				pcc_subspace->last_mpar_reset = ktime_get();
+   187				pcc_subspace->mpar_count = pcc_subspace->pcc_mpar;
+   188			}
+   189			pcc_subspace->mpar_count--;
+   190		}
+   191	
+   192		/* Write to the shared comm region */
+ > 193		writew_relaxed(cmd, &gen_comm_base->command);
+   194	
+   195		/* Flip CMD COMPLETE bit */
+   196		writew_relaxed(0, &gen_comm_base->status);
+   197	
+   198		/* Ring doorbell */
+   199		rc = mbox_send_message(pcc_channel, &cmd);
+   200		if (rc < 0) {
+   201			dev_warn(ras2_ctx->dev,
+   202				 "Err sending PCC mbox message. cmd:%d, rc:%d\n", cmd, rc);
+   203			return rc;
+   204		}
+   205	
+   206		/*
+   207		 * If Minimum Request Turnaround Time is non-zero, we need
+   208		 * to record the completion time of both READ and WRITE
+   209		 * command for proper handling of MRTT, so we need to check
+   210		 * for pcc_mrtt in addition to CMD_READ.
+   211		 */
+   212		if (cmd == PCC_CMD_EXEC_RAS2 || pcc_subspace->pcc_mrtt) {
+   213			rc = ras2_check_pcc_chan(pcc_subspace);
+   214			if (pcc_subspace->pcc_mrtt)
+   215				pcc_subspace->last_cmd_cmpl_time = ktime_get();
+   216		}
+   217	
+   218		if (pcc_channel->mbox->txdone_irq)
+   219			mbox_chan_txdone(pcc_channel, rc);
+   220		else
+   221			mbox_client_txdone(pcc_channel, rc);
+   222	
+   223		return rc >= 0 ? 0 : rc;
+   224	}
+   225	EXPORT_SYMBOL_GPL(ras2_send_pcc_cmd);
+   226	
+
 -- 
-LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
