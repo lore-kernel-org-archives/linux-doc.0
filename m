@@ -1,106 +1,111 @@
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.18])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DD08E2B9CD;
-	Wed,  7 May 2025 13:31:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23C7128136B;
+	Wed,  7 May 2025 13:34:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.18
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746624674; cv=none; b=b7Ww3g6OAMUxUUibYKel70bIzbYVvMrxacwXN99S3waA0pJCK3lWIzU5M6T7k31l8hXIysKPo5N2tNevAgj45nKoWpLk5r8BMtIbvP3n959wD7GOPkJK7wRRh+XdFtGZGEf9joK7bTNhVk+85/4RMhZWgCCHoRoj3GY2G4Ob95c=
+	t=1746624898; cv=none; b=YVqR0Y7++Fe8dg4mAr47WEzmNLPajaS3CHXZiXnTo8kN0UZo1ENo1il+6v5DzyX+7eSWukKhJef7WSedLd9dRAtNNkf44eAQFiGw24V7oO7qu3vtNToo6x6KOrqxK+NB3xd3wPg9FSy66NfASkc9grnxwgnEu1yvmNUZdEu1/so=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746624674; c=relaxed/simple;
-	bh=chnaCVam1ojV4Gi8iMvmPIZC9wt2tOR5DhXwW1v6K6A=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oahy/V/f4n94CCs/g/5PSWIWP1R/sidSHOaP1rb4lPRSZJvLTNZBgi/bNvOVIb6c5W3vqDEQmp+ZhboQmXRP9XvMYa8NF+7VMKK9sh5afJw4j19+2hnK8SfaXRcqC7UFmkevm4b6ySb2YkRKRznxa0fJ5QMjcMmgiRxo49TChxA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=BE1mNzae; arc=none smtp.client-ip=209.85.218.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1746624898; c=relaxed/simple;
+	bh=9s/anmmmHnCBE/Juya8NxbudhVpKAE3I7ntHPIaGTeM=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=m5akgXU8PJnaSCtTLVU3wtgUa48SRSQDQSxHCjAkH+e4rlV2G8ciXd10WUIi1LjEHH7g+fuLMGC6kKkeaZMD/znJ099qwMI5Lb2O6F2se+tSSnkOROFBtxj/3jF0h0M1wp8qyar8A/yoNaIdttlNlG0noy1MTgildSH5BqbvlVE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Glyag8Un; arc=none smtp.client-ip=192.198.163.18
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="BE1mNzae"
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-ac2bb7ca40bso1188226866b.3;
-        Wed, 07 May 2025 06:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746624671; x=1747229471; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=CMLUK1+DSffFIbuoUTgm8AIQgo1jz7butcVN72PZbDo=;
-        b=BE1mNzaeZagzvBsDFWHORgX4Rh6ohg1mxRJcDocBeqIXSR3Ja4T6CI1Bi5dJ0JNOlM
-         1BK6A5M7SZQQVytYfU9lq7P/zjwDwWfsxw7yx7LtqkFEjEYnOXyAHflDxM5R7rambPwp
-         6clGF2fioUTN/oMATuAegnx3TNij2FuatBfn2hWSp5MxS40sIn7xXILcCkJAwTzvWPVP
-         Hc4dh/H5earTbhYK6uETcx2Z88yjqkDgiHc/LUlyjmVWYR+xOGzKM0HRUlZJCzTRU6hZ
-         TzssTINT0w8nBR4U2hXWGtGYC9P7Ja5voM74Ddo+zHQZhcloB5umyWI1nKvs/t7M5qVl
-         vEIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746624671; x=1747229471;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=CMLUK1+DSffFIbuoUTgm8AIQgo1jz7butcVN72PZbDo=;
-        b=lCrq1ZgU7LwVKxXcxvSqQIOXrRqRJTvzmrgyl0q7qXjJ6dBeN9QSGtt/MSqrqym+kJ
-         J981F0eRMi0TcS+TgQHQVsghGJCWR8sBnPp4caybI73yRnEGCMU9fDe5BU08TC1zyhPH
-         2qQGr0BpqDVMNQhLh1JPi3BgcBrnZjWFls+1Q5UqJqVhrG0Tq3Tc3m27CF8zkm6gLfPn
-         UPHQx0kNam/kIvE1D0LlKT801W7eYuYVjMigKQ+4N0tZSRjyeiAaDCSHeJ0T/U24SHdA
-         RuZX4BmexJ9cr9SeZkMWJgxqM4mTvQEJUGnOd5fsX9Oz2OGOyShME7kai5iJnx+ucsP4
-         TLqQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUZ5MOi78h8iXg4l1Tk4WI4Hzt17Jwed3xPARsKl56+15nLXMthnrW1n376/KmfB9EsTkvzg8lSEAus@vger.kernel.org, AJvYcCUxn0M2Z8D/VoYPhsQlkT0EiU6l3anhCWD07sAROV7Ch6LDAMeEFNKC0vnvO3j/b5U6uo3v84bzEsEV@vger.kernel.org, AJvYcCVZm6krT+ofgHLoRZ8HsXFWYUvNNJhoy/meyVCvA2Ux/gTqwdpheR2q7XTnnCuXEVh5s0P0GSHk7jqHAF6m@vger.kernel.org
-X-Gm-Message-State: AOJu0YxOqI5vZ/XE4VpqylGKn7F4f1d80euu7pP0QOoR1VDIPVsVr8TT
-	WETjZQ5mm0hdUVK+Roiq3ljZmqA7WaXmdIq/+2SV8+UX0kz7zuNHmdoI902G+IGcG20gksyASNd
-	ho1PzPo36rU8Y8bKwsgbPa4Gaql9R2Rls
-X-Gm-Gg: ASbGncveZqEua0m/USH4kAXNnTVDfn9s0ixGT8Z7e6DTFrKhjrqxTMHwWl8IBN5AecD
-	cHQVVsvIIZSvuB+sfIPbgx/0uVJXjMi5r6EY3JTUJjPmAmfSP/UyOwgVX42GOj40LHh8CC2nIJ9
-	RI72Xdkx3GD4jKb7I/qLYGXJvxw15c9psfxs8=
-X-Google-Smtp-Source: AGHT+IHNcpkL2VTtUnMUjWG5urZVwKTC1gn3U8TME2PAES3AyvskcpMcC5URq++Hrm3nPn5DpRiyiBRSbFsFOHWWB2U=
-X-Received: by 2002:a17:907:d2a:b0:ace:9d90:cdd3 with SMTP id
- a640c23a62f3a-ad1e8d0ba19mr359060266b.49.1746624670744; Wed, 07 May 2025
- 06:31:10 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Glyag8Un"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746624897; x=1778160897;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=9s/anmmmHnCBE/Juya8NxbudhVpKAE3I7ntHPIaGTeM=;
+  b=Glyag8UnW4ZmHoCFv2kda9DYoZQBIHpET9lU2Fziuwsv2B7SGljUMklO
+   CzXAwlEJw/BlDIBYegBHb6BNufvGaE7T7HANGS/zaJiiKpkyQLtXebYtO
+   fBIkNQis0SDyVEQGZSFYVXho7HmAQveQU/YMqv3w/4HKg3yCHObCZfrKQ
+   /ydfHv14q0CBYL3zbRjT/Z9zC59Wv/WX3B3dn3LzQZEPPJ0BBtP02HoZo
+   wdHOUtECWo9kKMcPkBL/jlzBWc/Pzon6HfrtvRwtEOuG20blSuiR5kZBs
+   SBAfu5xZIq68SOtRf1lfC+X3q10ALfvY1FmAKY03EwGADMz1Q8Gl93/v4
+   g==;
+X-CSE-ConnectionGUID: 5ae23F6hT/+JnrcqjFEezw==
+X-CSE-MsgGUID: xlMytwUoRjCFN9eGEok1zQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="47606971"
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="47606971"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by fmvoesa112.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 06:34:55 -0700
+X-CSE-ConnectionGUID: fT4LPrCgQimWp74WxhC1qg==
+X-CSE-MsgGUID: SgIV+25KTCG6vTtXnu+F0w==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
+   d="scan'208";a="140006944"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by fmviesa003.fm.intel.com with ESMTP; 07 May 2025 06:34:52 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCevB-0007sX-2o;
+	Wed, 07 May 2025 13:34:49 +0000
+Date: Wed, 7 May 2025 21:34:42 +0800
+From: kernel test robot <lkp@intel.com>
+To: Cyan Yang <cyan.yang@sifive.com>, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, corbet@lwn.net, paul.walmsley@sifive.com,
+	palmer@dabbelt.com, aou@eecs.berkeley.edu, alex@ghiti.fr,
+	samuel.holland@sifive.com
+Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org, Cyan Yang <cyan.yang@sifive.com>
+Subject: Re: [PATCH 02/12] riscv: Add SiFive xsfvqmaccdod and xsfvqmaccqoq
+ vendor extensions
+Message-ID: <202505072100.TZlEp8h1-lkp@intel.com>
+References: <20250418053239.4351-3-cyan.yang@sifive.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507124358.48776-1-ivecera@redhat.com> <20250507124358.48776-9-ivecera@redhat.com>
-In-Reply-To: <20250507124358.48776-9-ivecera@redhat.com>
-From: Andy Shevchenko <andy.shevchenko@gmail.com>
-Date: Wed, 7 May 2025 16:30:33 +0300
-X-Gm-Features: ATxdqUEq24ajhDXo1Kn1PDm2eAdnktBxZULVVBowv3DoAhXXZvLonCuEik0YGTw
-Message-ID: <CAHp75VcH81AHt5dw0cfYa6Wv8LwZrss9uo2x9ERfK9=47erbdA@mail.gmail.com>
-Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
- during init
-To: Ivan Vecera <ivecera@redhat.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>, 
-	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>, Jiri Pirko <jiri@resnulli.us>, 
-	Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Prathosh Satish <Prathosh.Satish@microchip.com>, "David S. Miller" <davem@davemloft.net>, 
-	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>, 
-	Lee Jones <lee@kernel.org>, Andy Shevchenko <andy@kernel.org>, Michal Schmidt <mschmidt@redhat.com>, 
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250418053239.4351-3-cyan.yang@sifive.com>
 
-On Wed, May 7, 2025 at 3:45=E2=80=AFPM Ivan Vecera <ivecera@redhat.com> wro=
-te:
->
-> Register DPLL sub-devices to expose the functionality provided
-> by ZL3073x chip family. Each sub-device represents one of
-> the available DPLL channels.
+Hi Cyan,
 
-...
+kernel test robot noticed the following build warnings:
 
-> +/**
-> + * struct zl3073x_pdata - zl3073x sub-device platform data
-> + * @channel: channel to use
-> + */
-> +struct zl3073x_pdata {
-> +       u8      channel;
-> +};
+[auto build test WARNING on robh/for-next]
+[also build test WARNING on linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-You can also use software nodes (via device properties).
+url:    https://github.com/intel-lab-lkp/linux/commits/Cyan-Yang/dt-bindings-riscv-Add-xsfvqmaccdod-and-xsfvqmaccqoq-ISA-extension-description/20250418-133832
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/robh/linux.git for-next
+patch link:    https://lore.kernel.org/r/20250418053239.4351-3-cyan.yang%40sifive.com
+patch subject: [PATCH 02/12] riscv: Add SiFive xsfvqmaccdod and xsfvqmaccqoq vendor extensions
+config: riscv-randconfig-r112-20250426 (https://download.01.org/0day-ci/archive/20250507/202505072100.TZlEp8h1-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505072100.TZlEp8h1-lkp@intel.com/reproduce)
 
-But since the current solution doesn't require any additional files or
-something like that, I don't care much.
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505072100.TZlEp8h1-lkp@intel.com/
 
---=20
-With Best Regards,
-Andy Shevchenko
+sparse warnings: (new ones prefixed by >>)
+>> arch/riscv/kernel/vendor_extensions/sifive.c:11:33: sparse: sparse: symbol 'riscv_isa_vendor_ext_sifive' was not declared. Should it be static?
+
+vim +/riscv_isa_vendor_ext_sifive +11 arch/riscv/kernel/vendor_extensions/sifive.c
+
+     9	
+    10	/* All SiFive vendor extensions supported in Linux */
+  > 11	const struct riscv_isa_ext_data riscv_isa_vendor_ext_sifive[] = {
+    12		__RISCV_ISA_EXT_DATA(xsfvqmaccdod, RISCV_ISA_VENDOR_EXT_XSFVQMACCDOD),
+    13		__RISCV_ISA_EXT_DATA(xsfvqmaccqoq, RISCV_ISA_VENDOR_EXT_XSFVQMACCQOQ),
+    14	};
+    15	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
