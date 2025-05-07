@@ -1,213 +1,160 @@
-Received: from lamorak.hansenpartnership.com (lamorak.hansenpartnership.com [198.37.111.173])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 371361917FB;
-	Wed,  7 May 2025 16:41:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.37.111.173
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B3EBA1917FB;
+	Wed,  7 May 2025 16:42:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746636093; cv=none; b=GNONW3Zza0s3edSMO/FtOT/Nx1/FzWr6qsIGHWchHAFfhFmZW05paxnfi0n+TJe3Ris0ASIUvbAmJn743ngeisWgXDNf78bly8r5R9RXc6eUtYADoxl8n71AKP9+k5oUelDY3Tx5RheaB3HGD2hdEYar9/3d1bNYoUeUu8k7BwE=
+	t=1746636168; cv=none; b=hTjXHL52yq+CSmY1UDa7yfir0vx1qg2tpbk2Uur+LBzH9aHgLYk6xWHRI2Kn+xEnS7PGSKQhetN52fPma3WHVRNbJgPdl78EpCm5mrqGCm0bKSUFPoZAijItltaxRi++Brr2rNRRvibKKCyEIaSJK0SPPykulGuWPrH9ilOYiPA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746636093; c=relaxed/simple;
-	bh=YtF/u2BZQs71NWHiTkPO/s1XFe6eOsX/UoiEOmxAKJI=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=lEUMbWwNvoBE2Lnhgt5gQeqTeDSIUnKoboEs7OYeuj6v59uO8S4eGA1EtxRdtbk0MMxqkOrwR/Fk/doABqe2WEupUyYO5V6S60Q9e5ppj5XVClfb1Zy6tXTuyW8uxMzHtocoULIScmHwHbNcyOy7arKRtvf42SJ9Ab+Tk1NU20E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com; spf=pass smtp.mailfrom=HansenPartnership.com; dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b=tJQONTwP; arc=none smtp.client-ip=198.37.111.173
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=HansenPartnership.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=HansenPartnership.com
+	s=arc-20240116; t=1746636168; c=relaxed/simple;
+	bh=GmqF0ZJgeQ9wyOYD0SQ2yXd+3NM8zKWnJXpW3wgTe6k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=Biz+WBPZlzX/7d7J+yO6jZWj3YP863o7FF7IyZPvIEp4w29VrgUM+Lo6tWD7pR1Hbtxsdt4J7amkIhl/eUlMTv/UsZAAYJyWbC1Foe76B4Mr2R12HcafO1RCpu+LLNMEkMFQcCZm/9rEEzk/WH1AcdO8Zc9avD3bYH5wGQpvcyg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QLE2837F; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=hansenpartnership.com header.i=@hansenpartnership.com header.b="tJQONTwP"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=hansenpartnership.com; s=20151216; t=1746636089;
-	bh=YtF/u2BZQs71NWHiTkPO/s1XFe6eOsX/UoiEOmxAKJI=;
-	h=Message-ID:Subject:From:To:Date:In-Reply-To:References:From;
-	b=tJQONTwPyMFnfcGqWbeiFsRZIo9xe+GLoIDeXw8pP/Nl+RI7+UJHYkTRonCSPaZZt
-	 95ndSCHTpk3QmXo5RArj1jRcuAsmehqqgjVMuqd8PRns0ewd9fPgdt0Qw1U1DtPEnO
-	 yWeMQD9kuCmHlhaTVGHejA3M22EvY2Sp0FJqd8AI=
-Received: from lingrow.int.hansenpartnership.com (unknown [IPv6:2601:5c4:4302:c21::a774])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange x25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by lamorak.hansenpartnership.com (Postfix) with ESMTPSA id BC94D1C000E;
-	Wed, 07 May 2025 12:41:28 -0400 (EDT)
-Message-ID: <7e2d25f9abb13468e5b8bb8207149999de318725.camel@HansenPartnership.com>
-Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
-From: James Bottomley <James.Bottomley@HansenPartnership.com>
-To: Arnout Engelen <arnout@bzzt.net>, Thomas =?ISO-8859-1?Q?Wei=DFschuh?=
-	 <linux@weissschuh.net>
-Cc: Masahiro Yamada <masahiroy@kernel.org>, Nathan Chancellor
- <nathan@kernel.org>, Arnd Bergmann <arnd@arndb.de>, Luis Chamberlain
- <mcgrof@kernel.org>, Petr Pavlu <petr.pavlu@suse.com>, Sami Tolvanen
- <samitolvanen@google.com>, Daniel Gomez <da.gomez@samsung.com>, Paul Moore
- <paul@paul-moore.com>, James Morris <jmorris@namei.org>, "Serge E. Hallyn"
- <serge@hallyn.com>, Jonathan Corbet <corbet@lwn.net>, Madhavan Srinivasan
- <maddy@linux.ibm.com>, Michael Ellerman <mpe@ellerman.id.au>, Nicholas
- Piggin <npiggin@gmail.com>, Christophe Leroy <christophe.leroy@csgroup.eu>,
- Naveen N Rao <naveen@kernel.org>, Mimi Zohar <zohar@linux.ibm.com>, Roberto
- Sassu <roberto.sassu@huawei.com>, Dmitry Kasatkin
- <dmitry.kasatkin@gmail.com>,  Eric Snowberg <eric.snowberg@oracle.com>,
- Nicolas Schier <nicolas.schier@linux.dev>, Fabian
- =?ISO-8859-1?Q?Gr=FCnbichler?= <f.gruenbichler@proxmox.com>, Mattia Rizzolo
- <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>, Christian Heusel
- <christian@heusel.eu>,  =?ISO-8859-1?Q?C=E2ju?= Mihai-Drosi
- <mcaju95@gmail.com>, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-arch@vger.kernel.org,
- linux-modules@vger.kernel.org,  linux-security-module@vger.kernel.org,
- linux-doc@vger.kernel.org,  linuxppc-dev@lists.ozlabs.org,
- linux-integrity@vger.kernel.org
-Date: Wed, 07 May 2025 12:41:27 -0400
-In-Reply-To: <6615efdc-3a84-4f1c-8a93-d7333bee0711@app.fastmail.com>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
-	 <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
-	 <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
-	 <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
-	 <072b392f-8122-4e4f-9a94-700dadcc0529@app.fastmail.com>
-	 <2413d57aee6d808177024e3a88aaf61e14f9ddf4.camel@HansenPartnership.com>
-	 <6615efdc-3a84-4f1c-8a93-d7333bee0711@app.fastmail.com>
-Autocrypt: addr=James.Bottomley@HansenPartnership.com;
- prefer-encrypt=mutual;
- keydata=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
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.50.3 
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QLE2837F"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-736c1cf75e4so128577b3a.2;
+        Wed, 07 May 2025 09:42:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746636166; x=1747240966; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=UrpAv5wRm5tVkVdVuPsn72RSEtYGripQsP5MpQKGhfk=;
+        b=QLE2837F05EnFqzcMIEe4W0awmV58aZUIWbjn0RALdRvxGqjIsZUaV2somrK2NeZWB
+         8ezf5iJYBrJtELFkSDYcgj/+qvQf+SVegqmX5lGQVHMcIZKmf1Y4s0Gt1z9nhFHhRK1n
+         tkiAq8UicHHUSKmkJXhrVAAvgDyIhFcampm/r3Irf5iWdgmfTeqlZevjiYsPFEJjAjpU
+         OHjU4SA0HtG5M2yv4DLx3Sqzek8xcHgxGCDq/bYM8zglj0c2zCmq8GddpJs8uhs4eZJK
+         o0qhRGOiTu4VRNSFPqjyAwETD/MqbObexa4WViqcGV6r67Yxneb22mJ5GnZSYwy1LlwO
+         HVfw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746636166; x=1747240966;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=UrpAv5wRm5tVkVdVuPsn72RSEtYGripQsP5MpQKGhfk=;
+        b=Fxe2/cLR8kwVxZ+NxVGjiDGsCwLzUVYK2Vch8Y3hOnHMo8nruGodTFGRuKlMsdcFhs
+         czgpGoPEJp+rys6PStAyxahA3OCDlCLm8yMFdJ6nB+ypaiHwopk5uwYOH+7qYhJfQok9
+         iaU0oR/2+LuqNwGng6h8otBVgu08pvszOyrddN638EDwQC09yTlbeah/8a64qvgQNd68
+         6sAhEV8UQNEgY1MSS/lQLbAu01NiQa/qEAFDxnOcdmWQgK7HnhkeYVtBDkPzF2WtfV7W
+         dfi/oAKL2ERXRRVaK5TEqTJG12Nq6S3xjITC01/SYKQcGW0IYJs7PJOMAi+51rqVNf4w
+         oLbA==
+X-Forwarded-Encrypted: i=1; AJvYcCVngyCpFWdC04dksZpeXM3yNBmb1EtCYMh1pVOXLqnOaw6MGnYVOWfEbb/brTEoDAeHcZK2pvLpisiakR2j@vger.kernel.org, AJvYcCVqaljU537LUESNlFqG+um6wx5I6ANXiea46Dt3gaDciCqbyLmpzSx/2EgcbvXgUI1PDa1mgEzeissy@vger.kernel.org, AJvYcCXfKgAJlPz5J5DC+IsZ5x9Cp+1sA6afEbJqVhzEftwUEsfw+2FEA50k58tLVjqIBGy8MeMlDeUX7cVm@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw3qCXCgjtuxjjUsCqyePedyMPin7RExsbYGG++IPzmW7lUGCBp
+	nCRUH+wX9D2zoekFSd1JHBQ6g7/abtxLFQf1voUc6JbBG9zdCD2x
+X-Gm-Gg: ASbGncuWWVIksRIJbflVsd5OTh4pxckBACg3ntj3EsaSFOT88B6dI11vqT0E1LQMKXj
+	5yA1HdS8GJ8H8P999WtdTP2rgioOe0RE6WnMyPRcEzpQuQX6qOxOyw4ipyCsWvMiWcCxUgpMeuQ
+	vMt4s86RtcPEThPsTlnM3gsRyCmMtknkV1EM39tq71wmGrdH8YjuwAr4nzs3WrPkbiW69VqDUZZ
+	UAjDCIAcXHzExwOKou4Mw3KhqcXvTI3OjIHyi/Vj1D8nIzE5r4ebHNNAsojEDaivkWu9Veq7jpb
+	x7gJN+Zq1R3KtdOjyOTr4nD/mTb2xJbIHIr7QEbiijTb7A7KnnbytJolxxyhv8rp
+X-Google-Smtp-Source: AGHT+IGJIkVx5zZt6zXCROkjsSU2I7/c8Y4B6zDviETofWcquGoGsY4tXjVou0oNL4hYBjlYRPpCgQ==
+X-Received: by 2002:a05:6a00:8d96:b0:73f:ebb:6cb2 with SMTP id d2e1a72fcca58-740a9966d64mr34295b3a.3.1746636165785;
+        Wed, 07 May 2025 09:42:45 -0700 (PDT)
+Received: from localhost.localdomain ([123.16.133.44])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74058d7b1c1sm11528004b3a.6.2025.05.07.09.42.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 May 2025 09:42:45 -0700 (PDT)
+From: Nam Tran <trannamatk@gmail.com>
+To: andy@kernel.org
+Cc: geert@linux-m68k.org,
+	pavel@ucw.cz,
+	robh@kernel.org,
+	krzk+dt@kernel.org,
+	conor+dt@kernel.org,
+	christophe.jaillet@wanadoo.fr,
+	corbet@lwn.net,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix LED driver
+Date: Wed,  7 May 2025 23:42:19 +0700
+Message-Id: <20250507164219.10083-1-trannamatk@gmail.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <CAHp75VcVmTwS-zw=o5=m1-x0XC67BKBVWae2mMKZQH=qLCxZwg@mail.gmail.com>
+References: <CAHp75VcVmTwS-zw=o5=m1-x0XC67BKBVWae2mMKZQH=qLCxZwg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-05-07 at 09:47 +0200, Arnout Engelen wrote:
-> On Tue, May 6, 2025, at 15:24, James Bottomley wrote:
-> > I'll repeat the key point again: all modern hermetic build systems
-> > come with provenance which is usually a signature.
->=20
-> I'm not sure the 'hermetic build' parallel is so applicable here:
-> typically a hermetic build will produce an artifact and a signature,
-> and when you embed that result in a larger aggregate, you only embed
-> the artifact (not the signature) and sign the aggregate.
+On Tue, 29 Apr 2025 Andy Shevchenko wrote:
 
-That depends whether you want to demonstrate the provenance of the
-result to someone consuming your aggregate or not; Some people are OK
-with the trust my signature approach, others want tracing to point of
-origin.
+> On Tue, Apr 29, 2025 at 8:02 PM Nam Tran <trannamatk@gmail.com> wrote:
+> > On Mon, 28 Apr 2025 Pavel Machek wrote:
+> > > > On Mon, 28 Apr 2025 Geert Uytterhoeven wrote:
+> > >
+> > > > > > > > - Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+> > > > > > > > - Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+> > > > > > > > - Move ti,lp5812.yaml binding to auxdisplay/ directory,
+> > > > > > > >   and update the title and $id to match new path.
+> > > > > > > > - No functional changes to the binding itself (keep Reviewed-by).
+> > > > > > > > - Update commit messages and patch titles to reflect the move.
+> > > > > > > > - Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+> > > > > > >
+> > > > > > > Out of sudden without discussing with auxdisplay maintainers/reviewers?
+> > > > > > > Thanks, no.
+> > > > > > > Please, put into the cover letter the meaningful summary of what's
+> > > > > > > going on and why this becomes an auxdisplay issue. Brief review of the
+> > > > > > > bindings sounds more likely like LEDS or PWM subsystems.
+> > > > > >
+> > > > > > It is 4x3 matrix. That means it is not suitable for LEDs. I don't
+> > > > > > believe it is suitable for PWM, either -- yes, it is 36 PWM outputs,
+> > > > > > but...
+> > > > >
+> > > > > Is it intended to be used as a 4x3 matrix, or is this just an internal
+> > > > > wiring detail, and should it be exposed as 12 individual LEDs instead?
+> > > >
+> > > > The 4×3 matrix is a real and fundamental aspect of the LP5812’s operation.
+> > > > It is not just an internal wiring detail.
+> > > > The device adopts a Time-Cross-Multiplexing (TCM) structure, where 4 output
+> > > > pins control 12 LED dots individually through scanning. Each pin includes
+> > > > both high-side and low-side drive circuits, meaning matrix multiplexing is
+> > > > required for proper operation — it cannot be treated as 12 completely
+> > > > independent LEDs.
+> > >
+> > > Scanning is really a detail.
+> > >
+> > > If this is used as rectangular 4x3 display, then it goes to auxdisplay.
+> > >
+> > > If this is used as a power LED, SD activity LED, capslock and numlock
+> > > ... placed randomly all around the device, then it goes LED subsystem.
+> >
+> > The LP5812 is used for LED status indication in devices like smart speakers,
+> > wearables, and routers, not as a structured rectangular display.
+> >
+> > Given that, it seems to match the LED subsystem better than auxdisplay, doesn't it?
+> 
+> I have mixed feelings about all this. As per hardware organisation it
+> sounds more like a matrix (for example. keyboard), where all entities
+> are accessed on a scanline, but at the same time each of the entities
+> may have orthogonal functions to each other. Have you checked with DRM
+> for the sake of completeness?
+> Personally I lean more to the something special, which doesn't fit
+> existing subsystems. Auxdisplay subsystem more or less about special
+> alphanumeric displays (with the exception of some FB kinda devices,
+> that were even discussed to have drivers be removed). Also maybe FB
+> might have something suitable, but in any case it looks quite
+> non-standard...
 
->  With module signatures, the module *and* their signatures are
-> embedded in the aggregate (e.g. ISO, disk image), which is
-> where (at least in my case) the friction comes from.
+I understand your mixed feelings about where the LP5812 fits within
+the existing subsystems.
 
-For Linux in particular, most people won't be booting any image unless
-the binary is secure boot signed, so this problem doesn't go away if
-you strip module signatures.
+While the LP5812 uses a matrix-based structure for controlling LEDs,
+it is not intended for displaying structured text or graphics. Instead,
+it controls up to 4 RGB LEDs for status indication, where each RGB LED
+consists of 3 individual color LEDs: red, green, and blue. Based on this,
+I think it aligns more closely with the LED subsystem rather than DRM or FB.
 
-> > Plus, you've got to remember that a signature is a cryptographic
-> > function of the hash over the build minus the signature.=C2=A0 You can'=
-t
-> > verify a signature unless you know how to get the build minus the
-> > signature.=C2=A0 So the process is required to be deterministic.
->=20
-> Right: there is no friction validating the module signatures, that is
-> fine. There is friction validating the aggregate artifact (e.g. ISO,
-> disk image), though, because of those signatures embedded into it.
-
-I think we understand the problem with signatures (particularly the
-ones which add entropy and can thus change every time the same object
-is signed).  However, I don't think we can accept that no signatures
-can be on the ISO ... we'll have to have at least secure boot
-signatures and if there's a way of doing that then there should be a
-way of doing other signatures.
-
-> As you mentioned earlier, of course this is *possible* to do (for
-> example by adding the signatures as inputs to the second
-> 'independent' build or by creating a hard-to-validate 'check recipe'
-> running the build in reverse). Still, checking modules at run time by
-> hash instead of by signature would be a much simpler option for such
-> scenario's.
-
-Well, my objection was merely to the description saying verifying
-reproducibility with signatures was not possible (it is).
-
-However, the problem with distros adopting an immutable hash list for
-module loading would be DKMS, but I think the distributions that go
-that route have all solved the reproducibility issues with signatures
-anyway, so perhaps that's not an issue.
-
-> > > > All current secure build processes (hermetic builds, SLSA and
-> > > > the like) are requiring output provenance (i.e. signed
-> > > > artifacts).=C2=A0 If you try to stand like Canute against this tide
-> > > > saying "no signed builds", you're simply opposing progress for
-> > > > the sake of it
-> > >=20
-> > > I don't think anyone is saying 'no signed builds', but we'd enjoy
-> > > being able to keep the signatures as detached metadata instead of
-> > > having to embed them into the 'actual' artifacts.
-> >=20
-> > We had this debate about 15 years ago when Debian first started
-> > reproducible builds for the kernel.=C2=A0 Their initial approach was
-> > detached module signatures.=C2=A0 This was the original patch set:
-> >=20
-> > https://lore.kernel.org/linux-modules/20160405001611.GJ21187@decadent.o=
-rg.uk/
-> >=20
-> > And this is the reason why Debian abandoned it:
-> >=20
-> > https://lists.debian.org/debian-kernel/2016/05/msg00384.html
->=20
-> That is interesting history, thanks for digging that up. Of the 2
-> problems Ben mentions running into there, '1' does not seem universal
-> (I think this feature is indeed mainly interesting for systems where
-> you don't _want_ anyone to be able to load locally-built modules),
-> and '2' is a problem that detached signatures have but module hashes
-> don't have.
-
-I think Debian ended up going with 2, but since they also provide DKMS
-infrastructure, hash module lists won't work for them anyway.
-
-> > The specific problem is why detached signatures are almost always a
-> > problem: after a period of time, particularly if the process for
-> > creating updated artifacts gets repeated often matching the output
-> > to the right signature becomes increasingly error prone.
->=20
-> I haven't experienced that issue with the module hashes yet.
-
-Heh, I'll repeat this question after you've done umpteen builds of the
-same kernel for debugging purposes. The problem that will bite me is
-that I often just rebuild a single module and reinsert to try to chase
-a bug down.  With this scheme I can't simply reinsert, I'd have to
-rebuild the hash list and reboot the entire vmlinux.
-
-> > Debian was, however, kind enough to attach what they currently do
-> > to get reproducible builds to the kernel documentation:
-> >=20
-> > https://docs.kernel.org/kbuild/reproducible-builds.html
->=20
-> Cool, I was aware of that page but didn't know it was initially
-> contributed by Debian.
->=20
-> > However, if you want to detach the module signatures for packaging,
-> > so the modules can go in a reproducible section and the signatures
-> > elsewhere, then I think we could accommodate that (the output of
-> > the build is actually unsigned modules, they just get signed on
-> > install).
->=20
-> At least I don't really come to this from the packaging perspective,
-> but from the "building an independently verifiable ISO/disk image"
-> perspective. Separating the modules and the signatures into separate
-> packages doesn't help me there, since they'd still both need to be
-> present on the image.
-
-So how do you cope with secure boot?  I mean if the object is to
-produce an ISO that is demonstrably reproducible but otherwise
-unusable, we can certainly script a way to excise all the signatures
-including the secure boot one.
-
-Regards,
-
-James
-
+Best regards,
+Nam Tran
