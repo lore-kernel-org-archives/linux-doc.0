@@ -1,176 +1,167 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2074.outbound.protection.outlook.com [40.107.92.74])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E17DC2798FE;
-	Wed,  7 May 2025 12:39:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.74
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746621554; cv=fail; b=LQHVEtkhPZ3klsvq7w/XV54dScq7QTGXxzW197Iif+GCUVJkk2SbW5jU34v5e0BbCtEoAKr7yz6ZCqo/ZXaooxo0+j7depBeHPwf1Qv9BMIh0DkrFX3e1wxWp/csgxnS88ceZ6KWiVv6UlvjoKeHTvf9q+iRO8FD5cRVXmIkuek=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746621554; c=relaxed/simple;
-	bh=m1w/03/MqEGTmAhsZdvxeEx1lozw60PpUMk5bVJo64M=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
-	 Content-Disposition:In-Reply-To:MIME-Version; b=tIcLY30yzLHai7euoZph8omqMokN/m8qEtlkST5lGCVNMit+kRGLnXWSBdRQbaVaItgaE55JDRwDR9atwLnDRtOCa8DJBxGI0d4YDkGkPv+mCndFOxhCdb1jv+3n0ojukK3soGomqF/G5HyuICzpKbCk+tC4QCGfU+jdm7QsrWs=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=BEsEF7x7; arc=fail smtp.client-ip=40.107.92.74
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A2391280029
+	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 12:44:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746621862; cv=none; b=Ww5REejxrSfZXf9xCYG4aFj+jIR2m8MBs0iA3ml0yjIlJcQTLRg4Z5SjnowjvLJviFB03jpXH0wksPECku4zmqcVBN+iTbRpzIBupNNz0Vip4MdHUda6z/xH8cbpk39ahXsM7bD53rHUJCYeiVUVFy8oqfoZGALyQC+HwwTEd18=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746621862; c=relaxed/simple;
+	bh=1sx4xWohZXN8qHSFKP5yp4jN8sR9lNVHiBnU+FgeCbA=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=WAX321O1Po0EWRnffBQl0UF2EHQuknzV14Ezp0qAClSKwpyurxkwNG7bTwS6CRPuvp0L7DGF0pIEWzeUP/cOFp1i86DoMXNRpKKgNX7K8MG3JMZ1a8Vrv2KHBI9lYkTQTL+JYO8tFHuGC6WIedKmynJ5pwMLvW5j+/j6wrEen+Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OSJVsLHb; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="BEsEF7x7"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=FNp0sy4W8kBy8cVxmwASiDfiWW9L4KJa3YRPqAZjwcGNRqos/rLCgg4NpSYN+wZ0wl7BoI/NtaRM85exdDJ4EXkYQ73FYmCB97oERCNpQKJt6wLuJR0ALaMIbfb2Kizv1rnCpnhcXLKzu1SmtH2j0B4jhUJYjmys5auNjj6BCucaeIK4c32kHJx8kiIu1+eNN2qGm6Ek6TlQ7HWwqFd6r42ZC0/9PDtBg/0QtHrTGZWyv5TliHvCnK/JlcNmJJqeGlqbwKc2IRQkuxCGpzT+qD1fyI7vpj9D4jiHFmzHI6P4KmWckP/DBJM0covv9Qcte5KHpsW8PmSoV6VM3qs/RA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m1w/03/MqEGTmAhsZdvxeEx1lozw60PpUMk5bVJo64M=;
- b=Ne67bjFt694jNL05zOzJUSljQVqx04rffgxNRYZAe9b3lweSORlt7O4sM9oTittwMJytyBe2bcOdVyV9QQQcufKoYSXwPRZbmQYmRNR5+gV6TCB4NzMqOY/gDUzNC9OOQC6jvqQ3FMjSIj0hcNQ5dFO6Os5ccSiYz+jNGBZ/2wTNJsMi5ei25WMxrh7UWFHGRh1fTv+0KLKdm55/gnV8uw/iBThHkejm+U4wyUsvFvcoU0ohEPoQiXPYYcvS8FdNLZkiqWHzmcfQzC9lXgwZt0NTFhVnFbj+4aMTHx57qNxk9rArqPGRmhFFKBhCXDxS5WJwupTK5Eu9o59TBn8OsA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m1w/03/MqEGTmAhsZdvxeEx1lozw60PpUMk5bVJo64M=;
- b=BEsEF7x7Tbk/C9P4+YNbk/DV8WJPuCZW9lRY1+EQE4+niQvH4KojJk+3ZdRtZLKkP2AbJtvQp5P0CRIt6TAxNxf0/tiz+2EYc6nrVo+MIy4nJbD6FXJdLkEHLmzq828BYIqz8FNM3UkylD8SLEqrAPORyJHSzVsiz4/Vzij5SqOgdqIpxyS/xuPqtkVRvEWr9f/RrdjeOR0p6TlcYgqf/oYC33y0gtVjH/af9etQfLvHZ/QPB+aANCDS50bXbox1mQEOrrw2yCHN44Sgr8zMLIaQRWu2PRw8ljQZ5izJBoeZ1FU99yCD5XALxrnDpw9qky+40dQPqJcSEKAm+trPPw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
- by MN0PR12MB5883.namprd12.prod.outlook.com (2603:10b6:208:37b::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Wed, 7 May
- 2025 12:39:03 +0000
-Received: from CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
- ([fe80::6eb6:7d37:7b4b:1732%6]) with mapi id 15.20.8699.026; Wed, 7 May 2025
- 12:39:03 +0000
-Date: Wed, 7 May 2025 09:39:01 -0300
-From: Jason Gunthorpe <jgg@nvidia.com>
-To: Nicolin Chen <nicolinc@nvidia.com>
-Cc: Pranjal Shrivastava <praan@google.com>, kevin.tian@intel.com,
-	corbet@lwn.net, will@kernel.org, bagasdotme@gmail.com,
-	robin.murphy@arm.com, joro@8bytes.org, thierry.reding@gmail.com,
-	vdumpa@nvidia.com, jonathanh@nvidia.com, shuah@kernel.org,
-	jsnitsel@redhat.com, nathan@kernel.org, peterz@infradead.org,
-	yi.l.liu@intel.com, mshavit@google.com, zhangzekun11@huawei.com,
-	iommu@lists.linux.dev, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
-	patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
-	vasant.hegde@amd.com
-Subject: Re: [PATCH v2 13/22] iommufd: Add mmap interface
-Message-ID: <20250507123901.GF90261@nvidia.com>
-References: <aBE800DsAOOZ4ybv@google.com>
- <aBE/CD4Ilbydnmud@Asurada-Nvidia>
- <aBFGCxcTh54pecsk@google.com>
- <aBFIsYg+ITU8RvTT@Asurada-Nvidia>
- <20250505165552.GN2260709@nvidia.com>
- <aBj1Av6Xaj8flMN+@nvidia.com>
- <20250505173101.GT2260709@nvidia.com>
- <aBkWoH23VysYake3@nvidia.com>
- <20250506125222.GW2260709@nvidia.com>
- <aBpjbtRgR1nK/LIm@nvidia.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aBpjbtRgR1nK/LIm@nvidia.com>
-X-ClientProxiedBy: MN2PR06CA0013.namprd06.prod.outlook.com
- (2603:10b6:208:23d::18) To CH3PR12MB8659.namprd12.prod.outlook.com
- (2603:10b6:610:17c::13)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OSJVsLHb"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746621859;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=3JB6YlvswkLiQan47acES65Z3eo/a9hM4as5zYC9wsU=;
+	b=OSJVsLHbnGPHcZNpLUojXDXKXOiI2wXESVaI19Rcm761xMFcjfYjUoac+J6AdzZ83+HAJ6
+	FvbNZghcM9Rfxu/4xnXQ+5xcJqm6rA6vsTeUXsFeH6wEA7LjaNwD28Pmz3LOjtn6EmBSSc
+	WNFhx6Ihjt7wnSipZF3ze+WsyzbyMsY=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-620-_I498agFNfyfDwMhNgONOg-1; Wed,
+ 07 May 2025 08:44:14 -0400
+X-MC-Unique: _I498agFNfyfDwMhNgONOg-1
+X-Mimecast-MFC-AGG-ID: _I498agFNfyfDwMhNgONOg_1746621852
+Received: from mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.12])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id B188C1800873;
+	Wed,  7 May 2025 12:44:11 +0000 (UTC)
+Received: from p16v.luc.cera.cz (unknown [10.44.33.91])
+	by mx-prod-int-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 876E019560A7;
+	Wed,  7 May 2025 12:44:05 +0000 (UTC)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Lee Jones <lee@kernel.org>,
+	Andy Shevchenko <andy@kernel.org>,
+	Michal Schmidt <mschmidt@redhat.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH net-next v7 0/8] Add Microchip ZL3073x support (part 1)
+Date: Wed,  7 May 2025 14:43:50 +0200
+Message-ID: <20250507124358.48776-1-ivecera@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|MN0PR12MB5883:EE_
-X-MS-Office365-Filtering-Correlation-Id: 59767179-c3e0-42d9-0a27-08dd8d642619
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?KMhzIoMl9Pl/CIY21TXXHBB5wrLhzFyByZRh0oJDaqXi04+DcevdFihqnaRj?=
- =?us-ascii?Q?9NSfbUB2zkFFSF4JbVA6bYB/wz1KNELQiARg+ksoQTR9h/j3CpPzckAuNAsT?=
- =?us-ascii?Q?NGkY+e2QSbicg73BjygsA5ewSkuCHirVIFPCcle5Xoa1QlxddWZMSPvhymve?=
- =?us-ascii?Q?Ol6WT1PwgG4iMgtaDP0+ukS5j96x0tpbBET9JveZZIXW7oBuaasdvqxcXeEg?=
- =?us-ascii?Q?fztpFLh+mFCcmCPuFPgLJuDETJQ8T7O1PLid8c6VRFM19RtITxFXkMQhrkEs?=
- =?us-ascii?Q?jkHqVcZRADUDp472lOZ5SFZnzlrZjlX7OLh8Vw4K9MnI1XDD7ogZOjhFX+hG?=
- =?us-ascii?Q?HYZVkgfsiARZS9c1rloi1+QCOKqEgqfK+6H4LyYVVNZIAomuH1j+yTqRDE3X?=
- =?us-ascii?Q?2rIDhNFGFfQwJEwp7OFmzrHg/9elT2VQ2+c8tb3FjveAE9OunPLxxN5Ow5es?=
- =?us-ascii?Q?MbwxanWSQQIIxINXtLLBawSc0d72pdj8jfr5SRuDCUo6+nadjEMljOK5K3Ee?=
- =?us-ascii?Q?Vkg0LMRbcNeZNuYNWh7NEzUiy6tJN7XqI4+RrE6V98jCN9rzFTTATcNKmHNu?=
- =?us-ascii?Q?Cbk9UCj3zmVeLbDp08uVhVvvAV0J2DkWbc3GAyk2MQGgqtMwytO6ZyxGfZ2e?=
- =?us-ascii?Q?pV1KvUtmGuWaRmSwC/9MLirvZ9KJZWwbONTACcc0g8XPLJv1VCAv9WC9Gbr9?=
- =?us-ascii?Q?risQKZecdxe/ey1sLcYFbHrgwVBwmkDsJWnEfS6j5knB5flaaeC/6zeqNPY3?=
- =?us-ascii?Q?QmyfAEN0Psao5P1ed1P+LsjiUZoId2pUfc0IVZ9pCcwHai3oMcJ8mCAkgCVH?=
- =?us-ascii?Q?bsGv6bbIw2Vmpxgm5tGxOahmG8gjpuvLYxsydur8zwR7iIiV2dWTsZcl6e1Y?=
- =?us-ascii?Q?sq4wahDkFpxVtpKjezaN1yyzRaoXc2t8A5oFVD0Wy9o/pEFinoEPZLFxdX1R?=
- =?us-ascii?Q?zzGiq/7VWlyqNok/HXFpHXjA+tQFlUejlqpjl1bmEv72SZk+lAAIvh3/eo44?=
- =?us-ascii?Q?ZVNB4vcMUs21SX1+/rOiR3TIyCcTYsM+8uzV5COhcUdvlbCuCQXkJvO4Pggu?=
- =?us-ascii?Q?sP+6S/1d1uKVbRP9HJBDZb08eXs/PXvNNOwPjqYC7lE56QNYFa/xMFM/5A9N?=
- =?us-ascii?Q?N24PGExko0Fq80H736regZ6Cx9RxP6LoYPbpti2bWolPpMFi0A87MfjU1x6C?=
- =?us-ascii?Q?I+D6wUHGElk8oZ+g2s8qB731RU2/trnWZeuopctCKAoaww6HD0kmZdYLYvnf?=
- =?us-ascii?Q?WO89WCNrGJ0cjITwGHZPWEANnaJSR+7hf51G+y+zzCuvvbJrdkvO7usmn8wD?=
- =?us-ascii?Q?gqSlX6CpLg76ez8xAh/K79RAWpIosBk8v5nstiQEm5AD/ANYIUi9OcrPbUIX?=
- =?us-ascii?Q?KvqznBSrY8iFOGb2PP0Pbaw0/3LNpvIGRPcEjxOkrvtTarua6+Um1+2TnC+W?=
- =?us-ascii?Q?2U2I7HNu7o0=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?gRBBfJSCf9zBrsUHInml9I/5EiSPapAqQcfgP46MCWi7b+cvSknYEoEZWcz5?=
- =?us-ascii?Q?QmVa6aPm1HJjSN15bghhuBgZ9pyHoIeFxKs78+1r+CghbbMoVqm3HnJSjjB5?=
- =?us-ascii?Q?eX79MWNV8gkRGUGMWrkzZJpXeoCH3qNUhK/tPozZu4j0JN7+58JPjgllCXRa?=
- =?us-ascii?Q?Fg0xx6EDVHhXdrRPi4B4Ej3Tmrsif/DjqDYHtjANQ704dh7/Ld99tH2fDEiM?=
- =?us-ascii?Q?l0T13/qW4+M4dGFl8O8LS65pmGHqJFK3KDdGPeJRcfy72mncLNU9hDo+jjCr?=
- =?us-ascii?Q?RgqeLlI41XF10FbRXo70bcRoqRDn4eDYPN9TsyBIMSq2ObMqU1OyjZ4izqdi?=
- =?us-ascii?Q?E+UcmiPOClkdelMq6oRpU+m80OOubjrkCjQ2LxxkQqeMg4gn3Q5WBW6Kwzhu?=
- =?us-ascii?Q?BJ3ZhTSqovnEP2RB0hZxhIJ0xOfAdMyYp6d0Oo/P5+q8PApA89Y/O+Y+6FnT?=
- =?us-ascii?Q?CXrUCWNe2OAhweifDoINgTkQz9fHbefiNAD6iSPFtQ9TD03Aa8fbo2mFUfv2?=
- =?us-ascii?Q?wHNfQ9tTjwist+CXPu7wShPibG+FAAbW2fZe9TnySX7PKnvnO5uw5a79kOoU?=
- =?us-ascii?Q?T0WqjIOh2PEn3OybtMwnBH5frJqnDL/NtR4XBFSer+e/wl675bra+zpf58Ye?=
- =?us-ascii?Q?P+vQm4Hjj25/FETxv/BVkyJjJFOSRv3ijL+TKq3HBdMHankAIO5FjERgi4ic?=
- =?us-ascii?Q?IBEdjJ0qzp21nP0S88FoxNUfE8W2JHCFRFGtPx8b68nZSHGUvLwtGnYsun0j?=
- =?us-ascii?Q?CFhBv9YeFBxUfxKk48HDqpkl1fTtf51XOhnMSYTJ+Pj9lY7alvk+SgXMdlu3?=
- =?us-ascii?Q?X6OIsMgoXnrtiegRXjdIltRAORgYXh+e9PXhCnAisb5L83ytq+2zXsUw/Sdm?=
- =?us-ascii?Q?EUrCLyc4RlrRjzr3tua90Qlp/a7c5b3xhik8bx/8n0OUAgP75eyxqcqZhw2e?=
- =?us-ascii?Q?QXxbcUZ+QjQ0hnagCzE6/fZ7Sx+UW5/CV/WelzxKOoqnmgTYOTQPnUVrAJpS?=
- =?us-ascii?Q?tqqOZHGpTx5icqrCT1melChJSSf+D8AaAsME9uInA+gFUnIBdb5MGNbweP6r?=
- =?us-ascii?Q?8rzo2y+24FrVrOvk2FD4398+IW3iZhdydm+bETsA5V/gJB7MEIMsLHjXPmnX?=
- =?us-ascii?Q?p3swb6bk9DaxmXi/+he44Bsc08WT65cTyPWfJCirHLHGzQf0MB/wwqb7r15s?=
- =?us-ascii?Q?WQaV67kT1nJ64KRC5gxwOHLioRuuARX+mhz/TRGSuBz9MrpqR9wyI+75xpyA?=
- =?us-ascii?Q?lkaF8qSwAabeeJmZ0geiv5KziXI8P5yj8xl/a3AaxU8bGpHl+fDYN1HbrXJB?=
- =?us-ascii?Q?fo+gzhvnleP+nB8ripaHaGrKRfp4eLklgEMtFC/hXrVuZlTWhKCkiPrA+dnX?=
- =?us-ascii?Q?zHo1yQZPvVcvHINTmUs7YScIJFjCz/kT0UKyjpBDMjRvmH/rOPyvMXSb4U77?=
- =?us-ascii?Q?lZ2ZXTX8VEWy7Jp0+9I4ES5/3GEeEC22oYgyuRrAXV4x4qrZARMBtuppqUTs?=
- =?us-ascii?Q?ntraEZblMYdvKcBKcFnPt/6jEZF4aMNKTjMTLWhK2fxzqrE48CuKWuthS/Aq?=
- =?us-ascii?Q?6nEZotfdSQwX0VhT7PIPEvBHcUJ75K1ca0leltYC?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 59767179-c3e0-42d9-0a27-08dd8d642619
-X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 12:39:03.4846
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: QVQjfGo2PVdD6yhOHEXtE0NL1UDA7Wk08zCY4Nx52qqqxl1qs45WZtDuW8USp/LC
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN0PR12MB5883
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.12
 
-On Tue, May 06, 2025 at 12:30:54PM -0700, Nicolin Chen wrote:
+Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
+provides DPLL and PTP functionality. This series bring first part
+that adds the common MFD driver that provides an access to the bus
+that can be either I2C or SPI.
 
-> So, if I understand it correctly, what we want to achieve is to
-> have maple tree to manage all PFN ranges. And each range holds
-> the same entry, a structure that we can use to verify the sanity
-> of an mmap? Let's say for PFNs A->B, the tree should store the
-> structure between index A and index B (inclusive)?
+The next part of the series is bringing the DPLL driver that will
+covers DPLL functionality. Another series will bring PTP driver and
+flashing capability via devlink in the MFD driver will follow soon.
 
-And tell you what has been mmap'd.
+Testing was done by myself and by Prathosh Satish on Microchip EDS2
+development board with ZL30732 DPLL chip connected over I2C bus.
 
-> If this is correct, mtree_alloc_range() that is given a range of
-> [0, ULONG_MAX] would allocate the PFN range from the lowest index
-> (i.e. 0) instead of PFN A?
+Patch breakdown
+===============
+Patch 1 - Common DT schema for DPLL device and pin
+Patch 2 - DT bindings for microchip,zl3073* devices
+Patch 3 - Basic support for I2C, SPI and regmap configuration
+Patch 4 - Devlink device registration and info
+Patch 5 - Helpers for reading and writing register mailboxes
+Patch 6 - Fetch invariant register values used by DPLL/PTP sub-drivers
+Patch 7 - Clock ID generation for DPLL driver
+Patch 8 - Register/create DPLL device cells
 
-mtree_alloc_range() returns a new range of PFNs that does not overlap
-with any existing range. It should always be called on O->U32_MAX (for
-32bit uapi compat) and it should always pick the range to use.
+---
+v6->v7:
+* pass channel number using platform data instead of mfd_cell->id
+v5->v6:
+* fixed devlink info firmware version to be running instead of fixed
+* added documentation for devlink info versions
+v4->v5:
+* fixed DT patches description
+* dropped mailbox API
+* added type-safe register access functions
+* added an ability to protect multi-op accesses
+v3->v4:
+* fixed shortcomings in DT patches
+* completely reworked register access
+* removed a need to manage locking during mailbox accesses by callers
+* regcache switched to maple
+* dev_err_probe() in probe path
+* static mfd cells during sub-devices registration
+v1->v3:
+* dropped macros for generating register access functions
+* register access functions are provided in <linux/mfd/zl3073x_regs.h>
+* fixed DT descriptions and compatible wildcard usage
+* reworked regmap locking
+  - regmap uses implicit locking
+  - mailbox registers are additionally protected by extra mutex
+* fixed regmap virtual address range
+* added regmap rbtree cache (only for page selector now)
+* dropped patches for exporting strnchrnul and for supporting mfg file
+  this will be maybe added later
 
-Jason
+Ivan Vecera (8):
+  dt-bindings: dpll: Add DPLL device and pin
+  dt-bindings: dpll: Add support for Microchip Azurite chip family
+  mfd: Add Microchip ZL3073x support
+  mfd: zl3073x: Add support for devlink device info
+  mfd: zl3073x: Protect operations requiring multiple register accesses
+  mfd: zl3073x: Fetch invariants during probe
+  mfd: zl3073x: Add clock_id field
+  mfd: zl3073x: Register DPLL sub-device during init
+
+ .../devicetree/bindings/dpll/dpll-device.yaml |  76 ++
+ .../devicetree/bindings/dpll/dpll-pin.yaml    |  45 +
+ .../bindings/dpll/microchip,zl30731.yaml      | 115 +++
+ Documentation/networking/devlink/index.rst    |   1 +
+ Documentation/networking/devlink/zl3073x.rst  |  37 +
+ MAINTAINERS                                   |  11 +
+ drivers/mfd/Kconfig                           |  32 +
+ drivers/mfd/Makefile                          |   5 +
+ drivers/mfd/zl3073x-core.c                    | 875 ++++++++++++++++++
+ drivers/mfd/zl3073x-i2c.c                     |  68 ++
+ drivers/mfd/zl3073x-regs.h                    |  54 ++
+ drivers/mfd/zl3073x-spi.c                     |  68 ++
+ drivers/mfd/zl3073x.h                         |  31 +
+ include/linux/mfd/zl3073x-regs.h              |  88 ++
+ include/linux/mfd/zl3073x.h                   | 202 ++++
+ 15 files changed, 1708 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/dpll/dpll-device.yaml
+ create mode 100644 Documentation/devicetree/bindings/dpll/dpll-pin.yaml
+ create mode 100644 Documentation/devicetree/bindings/dpll/microchip,zl30731.yaml
+ create mode 100644 Documentation/networking/devlink/zl3073x.rst
+ create mode 100644 drivers/mfd/zl3073x-core.c
+ create mode 100644 drivers/mfd/zl3073x-i2c.c
+ create mode 100644 drivers/mfd/zl3073x-regs.h
+ create mode 100644 drivers/mfd/zl3073x-spi.c
+ create mode 100644 drivers/mfd/zl3073x.h
+ create mode 100644 include/linux/mfd/zl3073x-regs.h
+ create mode 100644 include/linux/mfd/zl3073x.h
+
+-- 
+2.49.0
+
