@@ -1,191 +1,127 @@
-Received: from mx1.tq-group.com (mx1.tq-group.com [93.104.207.81])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1B79576410;
-	Wed,  7 May 2025 09:51:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=93.104.207.81
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id B00EE157E6B;
+	Wed,  7 May 2025 09:58:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746611502; cv=none; b=Zno64al5qw/GyHXyev6AWeOrdxhEcDGjHg9Un5MDlwQs0DfZjEfA9euSVo7nN2hoQ1rRevgOCcFDy/Tw9sCcoPCZYNtgm0Gci9V/z8VT3MwCFMmDFJjKgFzNjpVih4wXsnt5Ox9vV5Bllt94CHy0yeXjtkwURfWWVYT5sbZIIxI=
+	t=1746611888; cv=none; b=KdJqYlcIiiP3La2YFxBiJnFBTfFFA5jzfrrieWozmUU4FA9AYbctk3q2eyLprmDGlIXzJ259n0yRDkoWpnOxfO0b3tk7YsxFtj5fUac/9kXdS0G0i90pm1ywyx1UzMp8F3P4BJq5ZKVdNtGfJ/m9fyYsmD9k9hXyBIlOvEfxVVI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746611502; c=relaxed/simple;
-	bh=lkDEAQnNpFikfSxH7maKRI098GHsz70sWCLPsBCkgdw=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=gXlv/nCrooY/83gL5sczdHORWcCM4zCPQ/PwlR02Jcdee2at4eMDy+P4/USdUsgc4ID9dAFuwSrsSjqJplWgbEZkFBssU8BzDSfPP+6iBaLTeA1RK8yNqSX3d0lolFe/r5m5c0020QBd6EZyDm/Xe3jcwq+OVOU0lKo64r0jYBc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com; spf=pass smtp.mailfrom=ew.tq-group.com; dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b=byrTMmjq; dkim=fail (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b=hrgzO0Cz reason="key not found in DNS"; arc=none smtp.client-ip=93.104.207.81
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ew.tq-group.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=tq-group.com header.i=@tq-group.com header.b="byrTMmjq";
-	dkim=fail reason="key not found in DNS" (0-bit key) header.d=ew.tq-group.com header.i=@ew.tq-group.com header.b="hrgzO0Cz"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=tq-group.com; i=@tq-group.com; q=dns/txt; s=key1;
-  t=1746611499; x=1778147499;
-  h=message-id:subject:from:to:cc:date:in-reply-to:
-   references:content-transfer-encoding:mime-version;
-  bh=F/i9Jm7x0sU9sxHf9FawPOb71EGh2v9Y58NkBsYaux4=;
-  b=byrTMmjqhGmhma5cs7iqeHPgRH/lbB6wJicVkPeZfZOFaF9enUB8mNQi
-   GQRKsF/XmaBWg+ChFN5hcaXtBqbUiSIMJ8qSdNRYcXMlxcbUNrRG1pfe5
-   uncR5d7xtlK1AoHb9q3Ed9nl/lgQzeln68W4+ARWq4F6jRU2Kvj6ODVyJ
-   xcl8ndoEZWNxVuB9coO2+zgWGOON6okuWvV8g92VX3lijmW69hfaexF+b
-   8K9RmGwGZlbgEfxqLdErT3ylceUnKlU9ZMabGwtCBu0iuLR00RC80APlW
-   iMG6I1nc+/PaDjox9yEG47EWXVwH7mCtSkNgElQKrQ9YfeLbMTsyz1dmF
-   g==;
-X-CSE-ConnectionGUID: xQanc9akTUOCfAyriMNxVA==
-X-CSE-MsgGUID: qB0IcNYRTKigede2IsGhTQ==
-X-IronPort-AV: E=Sophos;i="6.15,269,1739833200"; 
-   d="scan'208";a="43931540"
-Received: from vmailcow01.tq-net.de ([10.150.86.48])
-  by mx1.tq-group.com with ESMTP; 07 May 2025 11:51:34 +0200
-X-CheckPoint: {681B2D26-1B-45F3AE15-E90F7DFA}
-X-MAIL-CPID: 2C825C19DDFDF09B778A43311167F0AF_5
-X-Control-Analysis: str=0001.0A006396.681B2D27.00A1,ss=1,re=0.000,recu=0.000,reip=0.000,cl=1,cld=1,fgs=0
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 36290161474;
-	Wed,  7 May 2025 11:51:26 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ew.tq-group.com;
-	s=dkim; t=1746611490;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=F/i9Jm7x0sU9sxHf9FawPOb71EGh2v9Y58NkBsYaux4=;
-	b=hrgzO0Cz+7eH2reXwH2XD31ZpLjhmSq/x9ISo7PGeW52JetAaTh9qN7ZM1+YF/TqCxD87z
-	QqwZegexR1DOExJowI7nqxEKLyR7ji9lI1AGa24Y+I54oYplOyrJroxr3b5/s+pKiWPt+c
-	h4ZShjpGZYBY3KKmRJeluziCP+T6CkBDFMFNeXJsAmxY74iihCd1xidC18hFX02On9amw7
-	FDd1vpvLpX5pB1ZA17G/2h/fUKxepZLUl26ZFsHryzqyAkinRovOqBxZgj/GdQn1lSW55E
-	X+SHnmoQW7CilT7u+//OOu+/42Q6ugouqbaLD4U2sr/MmTl3XZVFEfJd+TGLfA==
-Message-ID: <6e4d3127af2e2ace3fcec73eb8903c12ebcdda38.camel@ew.tq-group.com>
-Subject: Re: [PATCH net-next 2/4] dt-bindings: net: ti: k3-am654-cpsw-nuss:
- update phy-mode in example
-From: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-To: Roger Quadros <rogerq@kernel.org>
-Cc: Andrew Lunn <andrew+netdev@lunn.ch>, "David S. Miller"
- <davem@davemloft.net>,  Eric Dumazet <edumazet@google.com>, Jakub Kicinski
- <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, Rob Herring
- <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Andy Whitcroft <apw@canonical.com>, "mike .."
- <wingman205@gmx.com>, Dwaipayan Ray <dwaipayanray1@gmail.com>, Lukas
- Bulwahn <lukas.bulwahn@gmail.com>, Joe Perches <joe@perches.com>, Jonathan
- Corbet <corbet@lwn.net>, Nishanth Menon <nm@ti.com>, Vignesh Raghavendra
- <vigneshr@ti.com>, Siddharth Vadapalli <s-vadapalli@ti.com>, Tero Kristo
- <kristo@kernel.org>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  netdev@vger.kernel.org,
- devicetree@vger.kernel.org,  linux-arm-kernel@lists.infradead.org,
- linux@ew.tq-group.com
-Date: Wed, 07 May 2025 11:51:25 +0200
-In-Reply-To: <06268dcb-4a49-468e-8ebd-d9366a2cf0c2@kernel.org>
-References: <cover.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	 <4216050f7b33ce4e5ce54f32023ec6ce093bd83c.1744710099.git.matthias.schiffer@ew.tq-group.com>
-	 <06268dcb-4a49-468e-8ebd-d9366a2cf0c2@kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1 
+	s=arc-20240116; t=1746611888; c=relaxed/simple;
+	bh=K9cxH6Lgy+gO4/haZwrjVR/Rn/cETL/gHuUm+1xaY6o=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=A3t+RB2mEZbITsnV+G0cWtM8/j9twUAOG958+Yuq1RhRRAjB+A9bQu5FFEktzQvfg0THn/UF3iNaurp4jo8PdIXl6MCqcIlqEKsjUrKHu8Pmgf/ypSDBT/m3KemnUTnEyRxLR82yN5o1bbHeVxlLKAdMtT8rJ2Gpt3Md6I5TtiQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id A0D1A339;
+	Wed,  7 May 2025 02:57:55 -0700 (PDT)
+Received: from e129823.cambridge.arm.com (e129823.arm.com [10.1.197.6])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A99063F5A1;
+	Wed,  7 May 2025 02:58:02 -0700 (PDT)
+From: Yeoreum Yun <yeoreum.yun@arm.com>
+To: catalin.marinas@arm.com,
+	pcc@google.com,
+	will@kernel.org,
+	broonie@kernel.org,
+	anshuman.khandual@arm.com,
+	joey.gouly@arm.com,
+	yury.khrustalev@arm.com,
+	maz@kernel.org,
+	oliver.upton@linux.dev,
+	frederic@kernel.org,
+	shmeerali.kolothum.thodi@huawei.com,
+	james.morse@arm.com,
+	mark.rutland@arm.com,
+	huangxiaojia2@huawei.com,
+	akpm@linux-foundation.org,
+	surenb@google.com,
+	robin.murphy@arm.com
+Cc: linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Yeoreum Yun <yeoreum.yun@arm.com>
+Subject: [PATCH v4 0/6] support FEAT_MTE_TAGGED_FAR feature
+Date: Wed,  7 May 2025 10:57:51 +0100
+Message-Id: <20250507095757.1663684-1-yeoreum.yun@arm.com>
+X-Mailer: git-send-email 2.34.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: 8bit
 
-On Wed, 2025-04-30 at 17:22 +0300, Roger Quadros wrote:
->=20
-> Hi Matthias,
->=20
-> On 15/04/2025 13:18, Matthias Schiffer wrote:
-> > k3-am65-cpsw-nuss controllers have a fixed internal TX delay, so RXID
-> > mode is not actually possible and will result in a warning from the
-> > driver going forward.
-> >=20
-> > Signed-off-by: Matthias Schiffer <matthias.schiffer@ew.tq-group.com>
-> > ---
-> >  .../devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml          | 2 +-
-> >  1 file changed, 1 insertion(+), 1 deletion(-)
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nus=
-s.yaml b/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
-> > index b11894fbaec47..c8128b8ca74fb 100644
-> > --- a/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
-> > +++ b/Documentation/devicetree/bindings/net/ti,k3-am654-cpsw-nuss.yaml
-> > @@ -282,7 +282,7 @@ examples:
-> >                      ti,syscon-efuse =3D <&mcu_conf 0x200>;
-> >                      phys =3D <&phy_gmii_sel 1>;
-> > =20
-> > -                    phy-mode =3D "rgmii-rxid";
-> > +                    phy-mode =3D "rgmii-id";
-> >                      phy-handle =3D <&phy0>;
-> >                  };
-> >              };
->=20
-> FYI the following TI boards using this driver are using "rgmii-rxid".
-> Will you be sending fixes to the device trees files?
+The FEAT_MTE_TAGGED_FAR feature provides support for
+reporting all non-address bits during a synchronous MTE tag check fault.
 
+This patchset extends the reporting tag to include
+not only the memory tag (logical tag) but also the address tag via
+si_addr when FEAT_MTE_TAGGED_FAR feature is supported.
 
-Hi Roger,
+Patch Sequences
+================
 
-as written in the cover letter, I haven't fixed any DTS for now, so project=
-s
-consuming Linux's Device Tree sources (like U-Boot) have some time to updat=
-e
-their driver first (as fixing the Device Trees without updating the driver =
-would
-break Ethernet).
+Patch #1 adds cpufeature FEAT_MTE_TAGGED_FAR
 
-Once a fix has been accepted in U-Boot (and preferably after we've come to =
-an
-agreement on the open questions...) I can also send a patch to update these
-files.
+Patch #2 adds MTE_FAR hwcaps and export address tag when it supports
 
-Best,
-Matthias
+Patch #3 adds mtefar hwcap test
+
+Patch #4 prepares to add mtefar testcase
+
+Patch #5 refactor check_mmap_option with loop to add mtefar testcase
+
+Patch #6 adds mtefar test cases corresponding to
+each testcase of check_mmap_options
+
+Patch History
+================
+v3 to v4:
+  - fix hwcap string for FEAT_MTE_TAGGED_FAR
+  - split cpufeature and hwcap modification and merge hwcap's
+    modification with exporting address tag patch
+  - add mtefar testcase on check_mmap_options
+  - https://lore.kernel.org/all/20250410074721.947380-1-yeoreum.yun@arm.com/
+
+v2 to v3:
+  - Rebase to 6.15-rc1
+  - https://lore.kernel.org/all/20250403172758.67106-1-yeoreum.yun@arm.com/
+
+v1 to v2:
+  - add hwcap test for MTE_FAR feature.
+  - add MTE_FAR doc into elf_hwcap.rst
+  - https://lore.kernel.org/all/20250403142707.26397-1-yeoreum.yun@arm.com/
 
 
+Yeoreum Yun (6):
+  arm64/cpufeature: add FEAT_MTE_TAGGED_FAR feature
+  arm64: report address tag when FEAT_MTE_TAGGED_FAR is supported
+  tools/kselftest: add MTE_FAR hwcap test
+  kselftest/arm64/mte: preparation for mtefar test
+  kselftest/arm64/mte: refactor check_mmap_option test
+  kselftest/arm64/mte: add mtefar test on check_mmap_option
 
->=20
-> arch/arm64/boot/dts/ti
-> k3-am625-beagleplay.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am625-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am625-sk.dts.orig:	phy-mode =3D "rgmii-rxid";
-> k3-am62a7-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am62a-phycore-som.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am62p5-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am62p5-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am62-phycore-som.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am62-verdin-dev.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am62-verdin.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am62-verdin-ivy.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am62x-phyboard-lyra.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am62x-sk-common.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am642-evm.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am642-evm.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am642-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am642-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am642-tqma64xxl-mbax4xxl.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am642-tqma64xxl-mbax4xxl.dts:	/* phy-mode is fixed up to rgmii-rxid by=
- prueth driver to account for
-> k3-am64-phycore-som.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-am654-base-board.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am67a-beagley-ai.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am68-sk-base-board.dts:	phy-mode =3D "rgmii-rxid";
-> k3-am69-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j7200-common-proc-board.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-beagleboneai64.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-common-proc-board.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-evm-gesi-exp-board.dtso:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-evm-gesi-exp-board.dtso:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-evm-gesi-exp-board.dtso:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-evm-gesi-exp-board.dtso:	phy-mode =3D "rgmii-rxid";
-> k3-j721e-sk.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j721s2-common-proc-board.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j721s2-evm-gesi-exp-board.dtso:	phy-mode =3D "rgmii-rxid";
-> k3-j722s-evm.dts:	phy-mode =3D "rgmii-rxid";
-> k3-j784s4-j742s2-evm-common.dtsi:	phy-mode =3D "rgmii-rxid";
-> k3-j784s4-j742s2-evm-common.dtsi:	phy-mode =3D "rgmii-rxid";
->=20
+ Documentation/arch/arm64/elf_hwcaps.rst       |   3 +
+ Documentation/arch/arm64/tagged-pointers.rst  |  11 +-
+ arch/arm64/include/asm/hwcap.h                |   1 +
+ arch/arm64/include/uapi/asm/hwcap.h           |   1 +
+ arch/arm64/kernel/cpufeature.c                |   9 +
+ arch/arm64/kernel/cpuinfo.c                   |   1 +
+ arch/arm64/mm/fault.c                         |   7 +-
+ arch/arm64/tools/cpucaps                      |   1 +
+ tools/testing/selftests/arm64/abi/hwcap.c     |   6 +
+ .../selftests/arm64/mte/check_buffer_fill.c   |   2 +-
+ .../selftests/arm64/mte/check_child_memory.c  |   4 +-
+ .../arm64/mte/check_hugetlb_options.c         |   4 +-
+ .../selftests/arm64/mte/check_ksm_options.c   |   4 +-
+ .../selftests/arm64/mte/check_mmap_options.c  | 244 +++++++++++++-----
+ .../arm64/mte/check_tags_inclusion.c          |   2 +-
+ .../selftests/arm64/mte/check_user_mem.c      |   2 +-
+ .../selftests/arm64/mte/mte_common_util.c     |  70 ++++-
+ .../selftests/arm64/mte/mte_common_util.h     |   8 +-
+ tools/testing/selftests/arm64/mte/mte_def.h   |   8 +
+ 19 files changed, 291 insertions(+), 97 deletions(-)
 
---=20
-TQ-Systems GmbH | M=C3=BChlstra=C3=9Fe 2, Gut Delling | 82229 Seefeld, Germ=
-any
-Amtsgericht M=C3=BCnchen, HRB 105018
-Gesch=C3=A4ftsf=C3=BChrer: Detlef Schneider, R=C3=BCdiger Stahl, Stefan Sch=
-neider
-https://www.tq-group.com/
+--
+LEVI:{C3F47F37-75D8-414A-A8BA-3980EC8A46D7}
+
