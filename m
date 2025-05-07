@@ -1,233 +1,209 @@
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2079.outbound.protection.outlook.com [40.107.92.79])
+Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1844222D780;
-	Wed,  7 May 2025 07:42:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.79
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746603730; cv=fail; b=MLNtBmpK1p2CnpIphAsLBuq49hlzpzp3rMr3Mvl9ZLX9qlNNGipwdQym287Dawd5jxq6SsCGaBPe4Ezw4YvQWhUDYMOiRAVQZNQPjbKZ0qPQ0GiSmZizkzmLXRfSQF5YRwAO8oxPATuywL9rzueEiiJiM2Dtg34ajm/BAOLy2eg=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746603730; c=relaxed/simple;
-	bh=os3Is8MChh0V6GJttrY3/WVs1LO7eNDjZkRUyuBpu58=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=qhuEHUHV20tEVbpNkJVU90Gw88q+8Q425K7U/KRdXK25uzSHyMlG7slK67Ne9Q0FGqccOwHD4raTzy7+myoM7h6QanzK+IjgMQrezLmL8m9XXDDvg8WYXHL8Zrbsm9HhV5XXg8relboA7jvIoNwcP5DSvr7bCB7iow9rPt0e9b4=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=Nl4DgQbw; arc=fail smtp.client-ip=40.107.92.79
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05A22139DB;
+	Wed,  7 May 2025 07:49:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746604163; cv=none; b=ehNqNoT8lM9MfOtmfpeUMaF7cYfT/GsBXjxpFd5GqtER3PokFry5OR5wFymXzBUMV0jorUIQayvSlKJKpOPBC9euGZawPA2KBPLyBQpKD/IfCXq2omiv7QtLKBXyjT4VAXMVZ4uY4xeP30e7ICVLwJDSvuVkX5TKIXpEE1rY1QM=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746604163; c=relaxed/simple;
+	bh=cokU17empCsgLXMx0CVbpVm5/GG0ANMWp2T8HsVJzNA=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=uMzku4tzDet+uh9aFEl9S1kuVf81Yab5fAEl27im+55h3o6Dc6TT1aWClr6eqlmiuztHAuOxExZlkxb3ewoO4UfJIoOaTpixaBYS+EPqf5z3edRkaLoUWtuZcPy0ZL+Jfokb2zP1zri563MsmQNcSsQVvozJ9j63CFu+tpmFYYw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bzzt.net; spf=pass smtp.mailfrom=bzzt.net; dkim=pass (2048-bit key) header.d=bzzt.net header.i=@bzzt.net header.b=m6ixM4t0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kZA4fxjI; arc=none smtp.client-ip=103.168.172.159
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bzzt.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bzzt.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="Nl4DgQbw"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=mycv2iQnS0HIoPzFQozYvtAVKXgY8xyNXZuh61qmFbT6shYFljuzdlrFEMNa5Ugn2ur2JFDgZSc5ztzO3B7kcFQzwLnk1QwKstozS36kTBkmORuRZMmrvcc3UP3UWJIqOWkO1zYAqtbfLReJJSqE49SrKvNyvzsF7wWeZa9NxAb7qMcBRkIA9HlG969JSdmE8HKDpKCiz2KTPovmp7CCzV3yoZ4JX/nfMUTlAdmDAzs7D0OjJNOHBvpZFepsswSrxYH17xouayvIpDRJeVHi/DiMXfsW8gAY2zKB4zao08KC2557hMSUbOK5k9tBrGDIFEKGyHAeC6/xNJUGMwdQrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=SFmAdaqUJDVR9Ju5NFWxBHBuqOnnWh8nZe4rQupz6Zs=;
- b=YaLTKKC7ZqkRhQqA+a+gaOeI5k2Qew/h41vSrrRZnRZsOmYQft1IaL9MW14ClDkHcw/+Npvam4K1EVYasZCaAjWGuqOKJSNhSecrdvb6MsAxGf1nRfRWvs9ZFhHHJ1TJ7/h17hqgT8bYnmy/2ZtJoC8QacBxSZWWsQ5ExtkyNp4x5E8GVwwnP2uiGI7Oqaxew2aj8BhxZzfCD12OH5VhYAXJR0RKUCrdEfldGuWBV3jn3/ezKukwxDxR9+cARLSIlkda2LUq1t5JzSOFU2jNyAEARugYYQJ7uODqUAJtKBONveNfe2GqfSlvTVZtlxjGn97YYW3msrw69eYobz9XbQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SFmAdaqUJDVR9Ju5NFWxBHBuqOnnWh8nZe4rQupz6Zs=;
- b=Nl4DgQbwoSGafJjy1knjXi+c4/frssBJ/tF4eMekSQf2M9jEQtCCuQBLxVq5QcAeaPRAovDTOUNSQSjXixID9H2r+T4sZA7HqcGY23L6KgLCS6+JLk9iBq1au7+uTBMvBUgZ8lmD52TRij0frlbxlvix6uwPK5026M8rZTas2H0=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
- DM4PR12MB6469.namprd12.prod.outlook.com (2603:10b6:8:b6::6) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8699.23; Wed, 7 May 2025 07:41:59 +0000
-Received: from DS7PR12MB6048.namprd12.prod.outlook.com
- ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
- ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8699.019; Wed, 7 May 2025
- 07:41:59 +0000
-Message-ID: <eb0d3629-8663-45e9-b929-0c6edff31291@amd.com>
-Date: Wed, 7 May 2025 13:11:43 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/23] iommufd/viommu: Add IOMMUFD_CMD_VQUEUE_ALLOC
- ioctl
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, kevin.tian@intel.com, corbet@lwn.net,
- will@kernel.org, bagasdotme@gmail.com, robin.murphy@arm.com,
- joro@8bytes.org, thierry.reding@gmail.com, vdumpa@nvidia.com,
- jonathanh@nvidia.com, shuah@kernel.org, jsnitsel@redhat.com,
- nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
- mshavit@google.com, praan@google.com, zhangzekun11@huawei.com,
- iommu@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
- patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
- <1ef2e242ee1d844f823581a5365823d78c67ec6a.1746139811.git.nicolinc@nvidia.com>
- <6ffe5249-b429-435e-a780-ee90aeb3f0da@amd.com>
- <20250506120114.GV2260709@nvidia.com>
-Content-Language: en-US
-From: Vasant Hegde <vasant.hegde@amd.com>
-In-Reply-To: <20250506120114.GV2260709@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN4PR01CA0095.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:2af::10) To DS7PR12MB6048.namprd12.prod.outlook.com
- (2603:10b6:8:9f::5)
+	dkim=pass (2048-bit key) header.d=bzzt.net header.i=@bzzt.net header.b="m6ixM4t0";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kZA4fxjI"
+Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id B39121140120;
+	Wed,  7 May 2025 03:49:18 -0400 (EDT)
+Received: from phl-imap-01 ([10.202.2.91])
+  by phl-compute-12.internal (MEProxy); Wed, 07 May 2025 03:49:18 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bzzt.net; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm1; t=1746604158;
+	 x=1746690558; bh=JcQmMXNVSlii7PXek34Y/lx8uJAyMcBAejqngOH419Y=; b=
+	m6ixM4t0Bd5/+Uss2nIYQ1/8T+lGP87Kg95DJvDFeb7DqFU29pVjw++3Li/Ley4k
+	ZrzM0BTeOpxvwh0sxNtp1QLtmfEYacvZlaBLB36B/w5i+GcjjskXQ0NzqZ/J8mTP
+	0YaZMKdN2faVUFAATg5ZwGTmea9qyr9RUA6YVKZsk0Ynsui8h881co/aN0ZXJuwi
+	5Sj7qnbnfM/R3UdL8fSmn+rvlyKNZHlus1rZIwTZiL7RBtLT9PzGjn64VYzcfQcL
+	K31sNpaJp+rsMDYUDKWzrVzvYvr+Orkj6MVMJBYkLw1cNBnaMgMmUWIW90Mo1Pz8
+	Th8btXk/wU2H3HrP1aEw3A==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746604158; x=
+	1746690558; bh=JcQmMXNVSlii7PXek34Y/lx8uJAyMcBAejqngOH419Y=; b=k
+	ZA4fxjIvrDac2vbflfR/MW94tnMJZme863HxGuBbuLxnJnRgxnFSpP9pmL1bJ6Hn
+	GwrmAA0bCs013xnar98UKcdvEKlDyOMViA6Ll+6K0qq4GehsaoV25FXc095wkrfm
+	ARJbKlcWT+oSnf3JFc/90YW82bEOsZ6Q05NtJirhJsI2n6diyAXIfLOztBgceqlv
+	zMCw/UOhobb+tlAbOVIkP5KjU91f+R/jwFvELLUZ2kIUna7Kr57xbbWw1Lc+YFNc
+	9GdUEF5rtofNpvc0UeGxakfKT3O5BroTxokSKGbhNBCPSe8rxTVj1ZDoNivbyC0a
+	E10rzrUGPhBZWCiPGqFFA==
+X-ME-Sender: <xms:ehAbaFqS2VNSdrrCBKfKPArS0Gqyyqv5CLshf_qm6RWOqC7P6yzTdQ>
+    <xme:ehAbaHpIDmwdOxMLOentJK9Nd5ZQ-GbYT2KYBTe9j5pBuLP1Z84rJCkZnNpuwkFU1
+    MvZkTrEA8H9ukbh2wc>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeifedtucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhhouhhtucfgnhhgvghlvghnfdcuoegrrhhnohhuthessg
+    iiiihtrdhnvghtqeenucggtffrrghtthgvrhhnpeefgefgfeektdefkeeludetteefkeef
+    ffdvkeeujeegveethfdthfffjedvgedtueenucffohhmrghinhepkhgvrhhnvghlrdhorh
+    hgpdguvggsihgrnhdrohhrghdpvghnghgvlhgvnhdrvghunecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhhouhhtsegsiiiithdrnhgvth
+    dpnhgspghrtghpthhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehk
+    phgthihrugesrghrtghhlhhinhhugidrohhrghdprhgtphhtthhopegrrhhnugesrghrnh
+    gusgdruggvpdhrtghpthhtoheptghhrhhishhtohhphhgvrdhlvghrohihsegtshhgrhho
+    uhhprdgvuhdprhgtphhtthhopehmphgvsegvlhhlvghrmhgrnhdrihgurdgruhdprhgtph
+    htthhopegumhhithhrhidrkhgrshgrthhkihhnsehgmhgrihhlrdgtohhmpdhrtghpthht
+    ohepmhgtrghjuhelheesghhmrghilhdrtghomhdprhgtphhtthhopehnphhighhgihhnse
+    hgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhhithholhhvrghnvghnsehgohhoghhl
+    vgdrtghomhdprhgtphhtthhopehsvghrghgvsehhrghllhihnhdrtghomh
+X-ME-Proxy: <xmx:ehAbaCPQCmtU0_XRz8-vmJUTunODN6LJ5XAJdUQXl8MZC_JaCjxFOg>
+    <xmx:ehAbaA59wckYPtLYhTZVffPcvxO_BZijemUeXnd5cHTnWqBB3GWO6g>
+    <xmx:ehAbaE6X6GZm-X-h7CHtIj_tqXHUMbSzEVEZwOfDgLuZu2J5RbipmQ>
+    <xmx:ehAbaIgcx2n28RoC1hGQYgUotGxNuE0nTYRb07t4aUhf_rREVRpkqQ>
+    <xmx:fhAbaPRdhTA1xuKM3DUYaFI8sfLgbhVSaXODaU-UBjVBXGPdpqtaF29z>
+Feedback-ID: i8a1146c4:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 74285336007C; Wed,  7 May 2025 03:49:14 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|DM4PR12MB6469:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4ae513f0-67b3-4fc2-026b-08dd8d3aa5cc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|7416014|376014|1800799024;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?Z3RBYkVhM2MxVHRrYWh5dndTVWZIZ2tpbkhXNVNDc3FUUE5iZ0pYOVZSUkUr?=
- =?utf-8?B?WFJmTE9KcHBjNXMvQWVVY21STkcrQXhFbTNqWHFaU0I4ZzF5OFJsb2xrS2Rm?=
- =?utf-8?B?eEt0Sm1SRXNDck8zWlNFL1hBMHpSZDF0bnZEMXV1LzVzaTRVVzlrMTBiNmF5?=
- =?utf-8?B?SVFSQ3hrU05tbHh3V1d1TXNJYjZUS1FqNDJGNzZldlNiZTJYQjZyQWp2R0Vq?=
- =?utf-8?B?NHM3cDFzc3c4YXp0UUtqRy9BNFZoMGtVRVEvWWFoZHlKU1A1VzVDTit1c08y?=
- =?utf-8?B?MWVZWlJZK0ROU2NpcFU0RzFyRmw5Z2doSDE2a1E1TVl4YkNhU0dZeTdJS1JC?=
- =?utf-8?B?TEhDbG83bGx1Uk03UG9ITmMvRHorYkpIbUZwaU9BazA1NFlPWWN0OTNBRW5p?=
- =?utf-8?B?aU1qTWF5L0lRc2YvVEppK1VaTkxMaWxIOE01MlJOTVhOdVVRVlJHam1RbW43?=
- =?utf-8?B?TTg1ZGRUb1M3MjI5RFVGQVBIWTB1NFRmNHYwckNDR1NjWmpSdzBKR1dtU25U?=
- =?utf-8?B?TnN6Ylk1TlZHTWJkenRiTHRzV3MxNlpvSnF5UWV3c0lMTEc1WnF6a0d5N0hs?=
- =?utf-8?B?TjJnWXJwVnNUZUlLMVRRaDBFeEpJa2ZsdncwOWVkNEw4cDZpS25yaDdXaVFM?=
- =?utf-8?B?emJaU0lGbUJFbnQ0cXVYNWR4Y0RRSi83V1EwbzlYMHQ3S0VRTUxYOHd2N1BE?=
- =?utf-8?B?WW5hdjkzSGNoNGM5aVkzYjlpV20wVFg5UDJXTm9YRG5IVzV0OUJJb3QzemtD?=
- =?utf-8?B?VGJHaHlmcEUwNENDYnBRZTVPdzhYNmhrNHpLcXliYkNpL29DL0ZUU3dWNkJS?=
- =?utf-8?B?VDNDN1dJQUJQRlNVUGdMbFVRLzMvRUpoWHV6N1FmN3p3UlZqc2xldjk3WTk4?=
- =?utf-8?B?N2VteW9YODhWam94UnROZlVaYkJEUVUwcmVlN2JDRjlMMUlVNXZUL1BHMkx1?=
- =?utf-8?B?WWlrNnpPQmFmT05WdGJTQ05FT3gvN3dFaXdqTnRVa2lEajhzcVZPQWxBenda?=
- =?utf-8?B?eWZobmF1NGhzQjFiNzFHY0FHdEZ2Yjh4MldFNTQwN1NIQ0RjQW1hZDRTZUh1?=
- =?utf-8?B?RVd3dlhCaUwvN0F0NG4rN3MvelN4QXlFTVk0b2NEb1Q5TXJxK1pmSmtVeElJ?=
- =?utf-8?B?Ykw1akQwVlZKREpQZTZFd0t3dlpkV0VmczJzOEk4RFEwWm1JMVZtcTFlcGlC?=
- =?utf-8?B?cm9rbTZzbThJVFBzcUFWRmk0U2tTcVdpZDBXVjRYOWRzR1dtRVRMZy9WZGRU?=
- =?utf-8?B?L3g3dlJQbEt0TnMwS2J0aVZRWkdGNEc5aGZUYitHMFM1L21CU3dXMXRzNzMz?=
- =?utf-8?B?NVdJcy9RUy9HVGtFcXdvd3pFcHVTZjZXaFVpUnJYT3RVTklJdmlOSVZ4NHVH?=
- =?utf-8?B?NGRrc1hYTjB0YnhYRDN4U0VQcE9VYXUraEp6OVRQTjRJV1Y3WkVaN1NXbVc5?=
- =?utf-8?B?aGZ2QVRUOXZiMHZxWSthUFc0Mzg4aXlxYUFDd3Mza1N1cWZNUG5HVkl1UTIw?=
- =?utf-8?B?SGRTUnZZbXYwQjRsbW1ia2FEaUNEcEdWdUlNcTN0RHZHS0RaOUVMZWJ1Q0RU?=
- =?utf-8?B?WGtXK0FTVGRwWEVqSUFFTUV3Vk8yQ0lwMm85eWxGZUJJbkpIVllxRy9VN0VE?=
- =?utf-8?B?NmEwaWt0QVZ4VTlielhWK3k5b1ExYTEvN2NsSHlhdGcyOHord1NIQk9DN0FI?=
- =?utf-8?B?L1R4RTJyanRMUzA3STlMSFJ3ZFl2bnVBdWJtVENHbE1CSlRHN3N1TzB2ZjZ1?=
- =?utf-8?B?b2UyUTlWQXZZWUxJa2RKejE5YzJWRUVMUURuR2xWbGRTWi90YWJ2b0o0Skdt?=
- =?utf-8?B?Qi9FbWU0U2M4Y2xxY2krSkNtZFJrK3BJbjFHaUlWNVZiZ0hsSndrNFRDdlVG?=
- =?utf-8?B?cXQyV3QzZ0FyTWErUW5lRUxiTnQ0MDFadnFVekY4b0xpSUNBV2xBYS9BaDA3?=
- =?utf-8?Q?9HV+wPhXXr4=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(7416014)(376014)(1800799024);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?NjZaT0ZlSys0ZzlYYmRVMXlVdmpMcW1lWm90Y24wWnZpS0h1YUdLb0IxYjRj?=
- =?utf-8?B?NUIrTDV5aDhCZlFFdUFrR0djRzNYWTFVNjhEM0dUOGM0M1FMeHlibGtBOTA0?=
- =?utf-8?B?VTB6dHRGblZidlJDQnBTTzRTdDNwdWlzV0U3dm1FNnlvYmZBK0UwRXhLMjVs?=
- =?utf-8?B?MGE3Nm5NbEYvcERUR2h1bmVnRnprWmhrT2hQeDB3eHlPN0FmQW1vQWpsN1JJ?=
- =?utf-8?B?SEg3dTkxdTA2dUE3YnlqdWFGOG15bWpNWHNwdnppaURGdlAraFBjMWhJdzNG?=
- =?utf-8?B?V1Iwb2E3Y3oyck5mT21WMDN4di92L3duYjNIMTVQTWU1U3Y5RVMrMThGOEpw?=
- =?utf-8?B?M1FudWY3QnRickpaRE1yR0hBT1c0U0ZwUjdIU2hkMHpKZXdCTVNyWHRJUVBt?=
- =?utf-8?B?a0V0SW53NW04dWVsSlpCb3Jwcm1JNm8xSDBDQmh1RlNqU2Z1eE5EUVF0VlVN?=
- =?utf-8?B?Y1F4K1ZOZUxOTjM0ZGpOL2RaZEw2UW8zeTdRNjQxVGtlQ1h3elVyZFdOSWZ1?=
- =?utf-8?B?U2p4ZTB4aXgyVnBUb3RBMmNVSnF3MkMyRzc1SHZ4M2dxSTY5ZXZtNndTeFRO?=
- =?utf-8?B?bWtNbklEc2NETmduaS9EdEJ0ZG56QTN3Um1NV0lKK2phbGJNbzVZczZnYjVW?=
- =?utf-8?B?dmJKNlBwR3hRaXlaVGFBcmphVmRIMFJKNllYclM4dGk2NVVvVzhiMG9lUXlu?=
- =?utf-8?B?cEk3UGVPTnBKSVZGcmlUempMY0V1SzZYZ3pxKzNCbjYwdnNSSzdjSFd6Q3JJ?=
- =?utf-8?B?ZGp5ZzNMTmpuQXFCUlBWYUNYUkNYaS9HRXAzMmU5MlJQeGlBZFNEd2tsdTVp?=
- =?utf-8?B?KzBKSlMzQnBrTUZHYmt5WDBGYjBWS0lRcTJiRGFQUzU3ck9rbkJRNnFDNE5T?=
- =?utf-8?B?ZS9tRmVFTzYrRFUyTlc4MmZCaFN0VGo3OHpDWldYSFlaRWZFZFRQYlhyNUwx?=
- =?utf-8?B?ZTBMb1BaWUhBSHBCMDhFV1FnWTR1NDFTaGR6cW54eTRhZnpFVjFvZm1wTjFN?=
- =?utf-8?B?NjJabUhob0RtQmVyeDlMcU5reUtVeUJ2RFBhYUpHcWVtaUYwdkpmbytJdjVj?=
- =?utf-8?B?bk9sWlJ6d3hSK0pFUVRxVCtDRUF5bGhndDgxdmthQkpFRmJ5YkJCUGVjUFdB?=
- =?utf-8?B?SEN6Z3BiREVZcFV2SDc4V2FGR2RMK1hucWRoTGplM2ZDTThMNXhMQnQrVUFa?=
- =?utf-8?B?U1pqYVoxUzl0OGxDa1NhTjl3aEdxMUxMTUtNYXJqRzd4cnhuMjFYbHlEOEl5?=
- =?utf-8?B?V2s4TmVWTmJTT1d0bzJwNEZVNVh5dDM3UE9acGE3NXBZTk1MWVdpNTdiUC8w?=
- =?utf-8?B?Qm04WjZ6SXJVNEtUdnpQSTA1elkvb2loODh1akQwcjNxYjVEcFp0QW1CWkQ1?=
- =?utf-8?B?YVpUeHhnNE5KTVR6ZWRsK1NHeVVYN3hGWHdTV1o5SkZuK3hFOCtFKzZuUmVE?=
- =?utf-8?B?cmRxVVpieVJlTFprUWdHL0wwUncxM21KZE5JZzJSMEprNEtWZlRBMXllNWpF?=
- =?utf-8?B?eGNJbExLK3RMZjVKMmZrejBXbDR5VktReldlVURjYmxCbEplOE1OWUJkS2o0?=
- =?utf-8?B?TGl3SjMwejlYMEI3eEFIclpjS09IejFyK0UvQTVJWnluVE55TzNrVDhhcERn?=
- =?utf-8?B?ZzNqajYrUkNtR1RqUGV6YURaMUNqd3lwUDl4b1FnTUhsUWdLSjdZQXFWVlIr?=
- =?utf-8?B?elVtMHprb0hqWjBwR1NDbkUvc2VMUHpidGhLN3dwWFdOdE1Senk0OGNqamQx?=
- =?utf-8?B?R1N0alAvTVdSd0xVSHpHbkFYQmtNdlhIOFFtYlBIVzNRTW9HM0M4RzJLV1dC?=
- =?utf-8?B?OVVDblFxWnV4dndWOVpqaDd1MWNjR3pBTk4rNUhlUkMxQU9BN0Q1QXBqdVFh?=
- =?utf-8?B?RUNWVXh6TjFwREdnYkVBdENWa211ZUkzYktDMmlTL2hYa05FMUo2endzSU1j?=
- =?utf-8?B?alRzSmppYURUS0t2dXFWVEZtemdzWkpEMlI3Y3Evb0h3NGZSMkJkL3UvNzFy?=
- =?utf-8?B?b1ZlSWhBQUVnMFNqUlUwZjRhRHN4YjJkNGVxUDJrQ2lLQ0F2ekhpeTJwdWVp?=
- =?utf-8?B?TTI5TFFuYUlzS0JXYWRXdExtcnprNmMzTlNVQ2FGK1lSNXEza1JLSEsxNVNI?=
- =?utf-8?Q?19x3pQ+FmJGxqmQRgCotQ0Bdb?=
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4ae513f0-67b3-4fc2-026b-08dd8d3aa5cc
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 07:41:58.9777
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Z5brLI0CWAgwTSlhr/t09SzcSmXNftQ4lIXrdFyO0guoRzT4fXAOHsMZmbY/sinZrVLUrJ4Z7xGrnyCPqylhBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6469
+X-ThreadId: T5f9a5891fefab612
+Date: Wed, 07 May 2025 09:47:23 +0200
+From: "Arnout Engelen" <arnout@bzzt.net>
+To: "James Bottomley" <James.Bottomley@hansenpartnership.com>,
+ =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
+ "Luis Chamberlain" <mcgrof@kernel.org>,
+ "Petr Pavlu" <petr.pavlu@suse.com>,
+ "Sami Tolvanen" <samitolvanen@google.com>,
+ "Daniel Gomez" <da.gomez@samsung.com>,
+ "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
+ "Serge E. Hallyn" <serge@hallyn.com>, "Jonathan Corbet" <corbet@lwn.net>,
+ "Madhavan Srinivasan" <maddy@linux.ibm.com>,
+ "Michael Ellerman" <mpe@ellerman.id.au>,
+ "Nicholas Piggin" <npiggin@gmail.com>,
+ "Christophe Leroy" <christophe.leroy@csgroup.eu>,
+ "Naveen N Rao" <naveen@kernel.org>, "Mimi Zohar" <zohar@linux.ibm.com>,
+ "Roberto Sassu" <roberto.sassu@huawei.com>,
+ "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
+ "Eric Snowberg" <eric.snowberg@oracle.com>,
+ "Nicolas Schier" <nicolas.schier@linux.dev>,
+ =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
+ "Mattia Rizzolo" <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
+ "Christian Heusel" <christian@heusel.eu>,
+ =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
+ linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
+ linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
+Message-Id: <6615efdc-3a84-4f1c-8a93-d7333bee0711@app.fastmail.com>
+In-Reply-To: 
+ <2413d57aee6d808177024e3a88aaf61e14f9ddf4.camel@HansenPartnership.com>
+References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
+ <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
+ <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
+ <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
+ <072b392f-8122-4e4f-9a94-700dadcc0529@app.fastmail.com>
+ <2413d57aee6d808177024e3a88aaf61e14f9ddf4.camel@HansenPartnership.com>
+Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi Jason,
+On Tue, May 6, 2025, at 15:24, James Bottomley wrote:
+> I'll repeat the key point again: all modern hermetic build systems come
+> with provenance which is usually a signature.
 
+I'm not sure the 'hermetic build' parallel is so applicable here: typically a
+hermetic build will produce an artifact and a signature, and when you embed
+that result in a larger aggregate, you only embed the artifact (not the
+signature) and sign the aggregate. With module signatures, the module *and*
+their signatures are embedded in the aggregate (e.g. ISO, disk image), which is
+where (at least in my case) the friction comes from.
 
-On 5/6/2025 5:31 PM, Jason Gunthorpe wrote:
-> On Tue, May 06, 2025 at 02:45:00PM +0530, Vasant Hegde wrote:
->>> +/**
->>> + * struct iommu_vqueue_alloc - ioctl(IOMMU_VQUEUE_ALLOC)
->>> + * @size: sizeof(struct iommu_vqueue_alloc)
->>> + * @flags: Must be 0
->>> + * @viommu_id: Virtual IOMMU ID to associate the virtual queue with
->>> + * @type: One of enum iommu_vqueue_type
->>> + * @index: The logical index to the virtual queue per virtual IOMMU, for a multi
->>> + *         queue model
->>> + * @out_vqueue_id: The ID of the new virtual queue
->>> + * @addr: Base address of the queue memory in the guest physical address space
->>> + * @length: Length of the queue memory in the guest physical address space
->>> + *
->>> + * Allocate a virtual queue object for a vIOMMU-specific HW-acceleration feature
->>> + * that allows HW to access a guest queue memory described by @addr and @length.
->>> + * It's suggested for VMM to back the queue memory using a single huge page with
->>> + * a proper alignment for its contiguity in the host physical address space. The
->>> + * call will fail, if the queue memory is not contiguous in the physical address
->>> + * space. Upon success, its underlying physical pages will be pinned to prevent
->>> + * VMM from unmapping them in the IOAS, until the virtual queue gets destroyed.
->>> + *
->>> + * A vIOMMU can allocate multiple queues, but it must use a different @index to
->>> + * separate each allocation, e.g. VCMDQ0, VCMDQ1, ...
->>
->> This will handle multiple queues. But AMD vIOMMU needs to comunicate certain
->> control bit setting which is not related to buffers like "Completion wait
->> interrupt".
->>
->> How do we handle that? extend iommu_queue_alloc() or have different interface?
+> Plus, you've got to remember that a signature is a cryptographic
+> function of the hash over the build minus the signature.  You can't
+> verify a signature unless you know how to get the build minus the
+> signature.  So the process is required to be deterministic.
+
+Right: there is no friction validating the module signatures, that is fine.
+There is friction validating the aggregate artifact (e.g. ISO, disk image),
+though, because of those signatures embedded into it.
+
+As you mentioned earlier, of course this is *possible* to do (for example by
+adding the signatures as inputs to the second 'independent' build or by
+creating a hard-to-validate 'check recipe' running the build in reverse).
+Still, checking modules at run time by hash instead of by signature would be a
+much simpler option for such scenario's.
+
+> > > All current secure build processes (hermetic builds, SLSA and the
+> > > like) are requiring output provenance (i.e. signed artifacts).  If
+> > > you try to stand like Canute against this tide saying "no signed
+> > > builds", you're simply opposing progress for the sake of it
+> > 
+> > I don't think anyone is saying 'no signed builds', but we'd enjoy
+> > being able to keep the signatures as detached metadata instead of
+> > having to embed them into the 'actual' artifacts.
 > 
-> Do you need a modify queue operation?
+> We had this debate about 15 years ago when Debian first started
+> reproducible builds for the kernel.  Their initial approach was
+> detached module signatures.  This was the original patch set:
+> 
+> https://lore.kernel.org/linux-modules/20160405001611.GJ21187@decadent.org.uk/
+> 
+> And this is the reason why Debian abandoned it:
+> 
+> https://lists.debian.org/debian-kernel/2016/05/msg00384.html
 
-We have two types of operations. One that impacts the queue, other set of bits
-which doesn't operate on qeueue.
+That is interesting history, thanks for digging that up. Of the 2 problems Ben
+mentions running into there, '1' does not seem universal (I think this feature
+is indeed mainly interesting for systems where you don't _want_ anyone to be
+able to load locally-built modules), and '2' is a problem that detached
+signatures have but module hashes don't have.
 
-ex: Event log buffer
-  - We configure "MMIO Offset 0010h Event Log Base Address Register" with Base
-address and size
+> The specific problem is why detached signatures are almost always a
+> problem: after a period of time, particularly if the process for
+> creating updated artifacts gets repeated often matching the output to
+> the right signature becomes increasingly error prone.
 
-  -  MMIO Offset 0018h IOMMU Control Register
-     EventLogEn: Event log enable
-       * When guest sets this bit, qemu will trap and will send queue_alloc
-       * When guest disables this bit, qemu will trap and send vqueue_destroy
+I haven't experienced that issue with the module hashes yet.
 
-     This part is fine.
+> Debian was, however, kind enough to attach what they currently do to
+> get reproducible builds to the kernel documentation:
+> 
+> https://docs.kernel.org/kbuild/reproducible-builds.html
 
-     EventIntEn: Event log interrupt enable
-       * When guest sets this bit, qemu will trap
-       * this needs to be communicated to Host so that we can program VF Control
-BAR and enable the interrupt
+Cool, I was aware of that page but didn't know it was initially contributed by
+Debian.
 
-  - There is other bit "Completion wait interrupt enable"
-    This doesn't related to any buffer. Instead if we configure this for
-completion wait command it will generate interrupt.
+> However, if you want to detach the module signatures for packaging, so
+> the modules can go in a reproducible section and the signatures
+> elsewhere, then I think we could accommodate that (the output of the
+> build is actually unsigned modules, they just get signed on install).
 
-I am asking how do we handle above two steps? Should it be part of queue IOCTL
-or may be some other IOCTL which just passes these info to HW driver?
+At least I don't really come to this from the packaging perspective, but from
+the "building an independently verifiable ISO/disk image" perspective.
+Separating the modules and the signatures into separate packages doesn't help
+me there, since they'd still both need to be present on the image.
 
--Vasant
 
+Kind regards,
+
+-- 
+Arnout Engelen
+Engelen Open Source
+https://engelen.eu
