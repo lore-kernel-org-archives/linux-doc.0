@@ -1,264 +1,158 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C5C217733;
-	Wed,  7 May 2025 11:23:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CD2821CC45;
+	Wed,  7 May 2025 11:36:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746617014; cv=none; b=uYoOnXDvW70FymElbg+uik5iRYoz42Hg8O3IW+wl862e6ShH/+kyAPEfNSktz3kDX6OEyDeh3B4rYW1y9kFLuQqdG2NbS2Wz8GS7efLosAifSM9giO92/48Yz2DszCph2j95+ur3P7FB/IWbgOrX2e3ExH6QGbhAj5mYSd1uhvM=
+	t=1746617767; cv=none; b=gaYHGCW4RXPG5b2oPvn2dr55oCh7Svf01pLM3QTTLYxWe7FczmxphJD3iuREwlr4Js4Ccu3U5HYealb10D9797py0zB6/9HYvifRc1dDwQ6vADPxkXGEWgOv2D6yuyHacLr7bfXHuQSmmU6QGA0yLKdSEr9zpTOWL0rZOOdRGKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746617014; c=relaxed/simple;
-	bh=2cV6mIixfVbGAtm077DH6yhtQsn31YEy+En+GAgBAq4=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=HtHFqHsIbBQTfUEWDSHnJ377F//0FNwBPxC4wntgpBFuJN5POXHA9I8oDgh7Jl79jnRmdz61euEygYfWbQ7nMI763oczXG2pdSOnOUkWT/oFfs54N7cZCsPK9+LuGQvsV2l4/UL2bub6mNqiUJTsTLxmWgl8irCAm+CGVD3CZu0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MLn5rIsc; arc=none smtp.client-ip=192.198.163.14
+	s=arc-20240116; t=1746617767; c=relaxed/simple;
+	bh=49oBLtVDl/a7eoaCQ18JFPDgN5OMlYWx4iq2ZQubEEg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=noyjuJ4vza6770v1d1sf0hdLsifYkK8p6a2VfB2bZ3AXkio7dnubHN7Q0vxBiv0WJdxOroUthPx01rRP1VvfsW9CPbvAdY59J+Sf+XF4x7jhj4ibCasqSH0YNbQ+fjCSYoZ45MFODd6cBRTPYh75EI66hDCt70mbKefzEOdFsaA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=cxVwit8Y; arc=none smtp.client-ip=192.198.163.17
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MLn5rIsc"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="cxVwit8Y"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746617013; x=1778153013;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=2cV6mIixfVbGAtm077DH6yhtQsn31YEy+En+GAgBAq4=;
-  b=MLn5rIscLqolHPaYpk4YQfle7rDeCJ7JzahKLHfgEYC02Mj6t/rsZKnK
-   dw5t/aYgnS3RJS6gB4dPTrkJfWagZRsz0HgOEJ/qgQRWUSlWALIlIwEtQ
-   qOmgaXpnBhmN4Z7kJ2gg3PEA1s3GayMjpxrJCrRiHC9Nw1WgQO29vWW0k
-   3PjsDwOQo51nY5mc9f2dcPo1qy6pF+FLkjRXINvU9FaTFxEkxsy8or0Ap
-   X/g1YyMnkZunLPfvG0mkALy20MPug54eZd6+LBjZNHtqVs8vwa4BN9ZpB
-   vqTBcVfLUgOsFq/gWdtdivpYWAxYMuVQ1R/ArwFPVVvL39Obf2EY33ITG
-   g==;
-X-CSE-ConnectionGUID: 3L8OngKCREqOSMteT02imA==
-X-CSE-MsgGUID: b/MM+AgfTuGyNDCcrHE4iw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="48454987"
+  t=1746617766; x=1778153766;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=49oBLtVDl/a7eoaCQ18JFPDgN5OMlYWx4iq2ZQubEEg=;
+  b=cxVwit8Y2PifFb+5IL1q3OfndKn54YFdU9JfsFtoI7nGDbE4vMi7u7o9
+   cArlkuaMniZ7IkHIAaOr/MVmQibv9+/CIbzVEHw8qru6n00UxjyGaIv62
+   GY8ifOU4zYkp0QAZ+MMmL3QwLEJRrwstbrDXR4vc+a5Za4C1SkBW7KDku
+   un1IHo8h/6UcZ9+7nnsKR1iBW3Gg6gjCq0RstFteWDdRslVH80LFWg0U7
+   wHi4NFAsk2+LnWzgXRTYW5FewKjRGdWJiAfdHMxZiDLaoqYUeWDSSf3IH
+   jFzFkmi2MqgPTVk45gMdmvbzRMCK7rFkjO7fjHGgzZHsmoOMFgRjGowHW
+   A==;
+X-CSE-ConnectionGUID: m48hsSsuSJm9QClvODiiZg==
+X-CSE-MsgGUID: 5RyERPSfQNGFXnxaFzMp4g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="48243595"
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="48454987"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:23:32 -0700
-X-CSE-ConnectionGUID: 5khJd032RueXiauolh6A9w==
-X-CSE-MsgGUID: S/AK5p8RRH+QK2mByIzBzA==
+   d="scan'208";a="48243595"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 04:36:05 -0700
+X-CSE-ConnectionGUID: X5e6XJ8GRXaTzAwMUqYDWQ==
+X-CSE-MsgGUID: u7fHLKZYQ6a9CF74WHQAUQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,269,1739865600"; 
-   d="scan'208";a="135946740"
-Received: from chenyu-dev.sh.intel.com ([10.239.62.107])
-  by fmviesa007.fm.intel.com with ESMTP; 07 May 2025 04:23:26 -0700
-From: Chen Yu <yu.c.chen@intel.com>
-To: Peter Zijlstra <peterz@infradead.org>,
-	Andrew Morton <akpm@linux-foundation.org>
-Cc: mkoutny@suse.com,
-	Ingo Molnar <mingo@redhat.com>,
-	Tejun Heo <tj@kernel.org>,
-	Johannes Weiner <hannes@cmpxchg.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Mel Gorman <mgorman@suse.de>,
-	Michal Hocko <mhocko@kernel.org>,
-	Muchun Song <muchun.song@linux.dev>,
-	Roman Gushchin <roman.gushchin@linux.dev>,
-	Shakeel Butt <shakeel.butt@linux.dev>,
-	"Chen, Tim C" <tim.c.chen@intel.com>,
-	Aubrey Li <aubrey.li@intel.com>,
-	Libo Chen <libo.chen@oracle.com>,
-	K Prateek Nayak <kprateek.nayak@amd.com>,
-	Madadi Vineeth Reddy <vineethr@linux.ibm.com>,
-	Venkat Rao Bagalkote <venkat88@linux.ibm.com>,
-	"Jain, Ayush" <ayushjai@amd.com>,
-	cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	linux-mm@kvack.org,
-	linux-kernel@vger.kernel.org,
-	Chen Yu <yu.chen.surf@foxmail.com>,
-	Chen Yu <yu.c.chen@intel.com>
-Subject: [PATCH v4 2/2] sched/numa: add statistics of numa balance task migration
-Date: Wed,  7 May 2025 19:17:53 +0800
-Message-Id: <b285978a61e9796b503fd2f0a785306d59f01a43.1746611892.git.yu.c.chen@intel.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <cover.1746611892.git.yu.c.chen@intel.com>
-References: <cover.1746611892.git.yu.c.chen@intel.com>
+   d="scan'208";a="135841842"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 07 May 2025 04:36:03 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uCd4C-0007gv-0f;
+	Wed, 07 May 2025 11:36:00 +0000
+Date: Wed, 7 May 2025 19:35:20 +0800
+From: kernel test robot <lkp@intel.com>
+To: Chiang Brian <chiang.brian@inventec.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>
+Cc: oe-kbuild-all@lists.linux.dev, Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Message-ID: <202505071941.RISL4lFW-lkp@intel.com>
+References: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com>
 
-On systems with NUMA balancing enabled, it has been found
-that tracking task activities resulting from NUMA balancing
-is beneficial. NUMA balancing employs two mechanisms for task
-migration: one is to migrate a task to an idle CPU within its
-preferred node, and the other is to swap tasks located on
-different nodes when they are on each other's preferred nodes.
+Hi Chiang,
 
-The kernel already provides NUMA page migration statistics in
-/sys/fs/cgroup/mytest/memory.stat and /proc/{PID}/sched. However,
-it lacks statistics regarding task migration and swapping.
-Therefore, relevant counts for task migration and swapping should
-be added.
+kernel test robot noticed the following build warnings:
 
-The following two new fields:
+[auto build test WARNING on groeck-staging/hwmon-next]
+[also build test WARNING on robh/for-next linus/master v6.15-rc5 next-20250507]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-numa_task_migrated
-numa_task_swapped
+url:    https://github.com/intel-lab-lkp/linux/commits/Chiang-Brian/dt-bindings-trivial-Add-tps53685-support/20250424-222559
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/groeck/linux-staging.git hwmon-next
+patch link:    https://lore.kernel.org/r/20250424132538.2004510-2-chiang.brian%40inventec.corp-partner.google.com
+patch subject: [PATCH v6 1/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+config: riscv-randconfig-r112-20250426 (https://download.01.org/0day-ci/archive/20250507/202505071941.RISL4lFW-lkp@intel.com/config)
+compiler: riscv64-linux-gcc (GCC) 8.5.0
+reproduce: (https://download.01.org/0day-ci/archive/20250507/202505071941.RISL4lFW-lkp@intel.com/reproduce)
 
-will be shown in /sys/fs/cgroup/{GROUP}/memory.stat, /proc/{PID}/sched
-and /proc/vmstat
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505071941.RISL4lFW-lkp@intel.com/
 
-Introducing both per-task and per-memory cgroup (memcg) NUMA
-balancing statistics facilitates a rapid evaluation of the
-performance and resource utilization of the target workload.
-For instance, users can first identify the container with high
-NUMA balancing activity and then further pinpoint a specific
-task within that group, and subsequently adjust the memory policy
-for that task. In short, although it is possible to iterate through
-/proc/$pid/sched to locate the problematic task, the introduction
-of aggregated NUMA balancing activity for tasks within each memcg
-can assist users in identifying the task more efficiently through
-a divide-and-conquer approach.
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hwmon/pmbus/tps53679.c:133:57: sparse: sparse: incorrect type in argument 3 (different base types) @@     expected char *id @@     got int device_id @@
+   drivers/hwmon/pmbus/tps53679.c:133:57: sparse:     expected char *id
+   drivers/hwmon/pmbus/tps53679.c:133:57: sparse:     got int device_id
+>> drivers/hwmon/pmbus/tps53679.c:165:45: sparse: sparse: incorrect type in argument 4 (different base types) @@     expected int device_id @@     got char * @@
+   drivers/hwmon/pmbus/tps53679.c:165:45: sparse:     expected int device_id
+   drivers/hwmon/pmbus/tps53679.c:165:45: sparse:     got char *
+>> drivers/hwmon/pmbus/tps53679.c:133:57: sparse: sparse: non size-preserving integer to pointer cast
+>> drivers/hwmon/pmbus/tps53679.c:165:45: sparse: sparse: non size-preserving pointer to integer cast
 
-As Libo Chen pointed out, the memcg event relies on the text
-names in vmstat_text, and /proc/vmstat generates corresponding items
-based on vmstat_text. Thus, the relevant task migration and swapping
-events introduced in vmstat_text also need to be populated by
-count_vm_numa_event(), otherwise these values are zero in
-/proc/vmstat.
+vim +133 drivers/hwmon/pmbus/tps53679.c
 
-Tested-by: K Prateek Nayak <kprateek.nayak@amd.com>
-Tested-by: Madadi Vineeth Reddy <vineethr@linux.ibm.com>
-Acked-by: Peter Zijlstra (Intel) <peterz@infradead.org>
-Signed-off-by: Chen Yu <yu.c.chen@intel.com>
----
-v3->v4:
-Populate the /prov/vmstat otherwise the items are all zero.
-(Libo)
-v2->v3:
-Remove unnecessary p->mm check because kernel threads are
-not supported by Numa Balancing. (Libo Chen)
-v1->v2:
-Update the Documentation/admin-guide/cgroup-v2.rst. (Michal)
----
- Documentation/admin-guide/cgroup-v2.rst | 6 ++++++
- include/linux/sched.h                   | 4 ++++
- include/linux/vm_event_item.h           | 2 ++
- kernel/sched/core.c                     | 9 +++++++--
- kernel/sched/debug.c                    | 4 ++++
- mm/memcontrol.c                         | 2 ++
- mm/vmstat.c                             | 2 ++
- 7 files changed, 27 insertions(+), 2 deletions(-)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  120  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  121  /*
+53030bcc87e4a4 Guenter Roeck 2020-01-20  122   * Common identification function for chips with multi-phase support.
+53030bcc87e4a4 Guenter Roeck 2020-01-20  123   * Since those chips have special configuration registers, we want to have
+53030bcc87e4a4 Guenter Roeck 2020-01-20  124   * some level of reassurance that we are really talking with the chip
+53030bcc87e4a4 Guenter Roeck 2020-01-20  125   * being probed. Check PMBus revision and chip ID.
+53030bcc87e4a4 Guenter Roeck 2020-01-20  126   */
+53030bcc87e4a4 Guenter Roeck 2020-01-20  127  static int tps53679_identify_multiphase(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  128  					struct pmbus_driver_info *info,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  129  					int pmbus_rev, int device_id)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  130  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  131  	int ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  132  
+53030bcc87e4a4 Guenter Roeck 2020-01-20 @133  	ret = tps53679_identify_chip(client, pmbus_rev, device_id);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  134  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  135  		return ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  136  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  137  	ret = tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  138  	if (ret < 0)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  139  		return ret;
+53030bcc87e4a4 Guenter Roeck 2020-01-20  140  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  141  	return tps53679_identify_phases(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  142  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  143  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  144  static int tps53679_identify(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  145  			     struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  146  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  147  	return tps53679_identify_mode(client, info);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  148  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  149  
+a49c0dafb304b8 Chiang Brian  2025-04-24  150  static int tps53685_identify(struct i2c_client *client,
+a49c0dafb304b8 Chiang Brian  2025-04-24  151  				 struct pmbus_driver_info *info)
+a49c0dafb304b8 Chiang Brian  2025-04-24  152  {
+a49c0dafb304b8 Chiang Brian  2025-04-24  153  	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
+a49c0dafb304b8 Chiang Brian  2025-04-24  154  			 PMBUS_HAVE_STATUS_INPUT;
+a49c0dafb304b8 Chiang Brian  2025-04-24  155  	info->format[PSC_VOLTAGE_OUT] = linear;
+a49c0dafb304b8 Chiang Brian  2025-04-24  156  	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
+a49c0dafb304b8 Chiang Brian  2025-04-24  157  					   TPS53685_DEVICE_ID);
+a49c0dafb304b8 Chiang Brian  2025-04-24  158  }
+a49c0dafb304b8 Chiang Brian  2025-04-24  159  
+53030bcc87e4a4 Guenter Roeck 2020-01-20  160  static int tps53681_identify(struct i2c_client *client,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  161  			     struct pmbus_driver_info *info)
+53030bcc87e4a4 Guenter Roeck 2020-01-20  162  {
+53030bcc87e4a4 Guenter Roeck 2020-01-20  163  	return tps53679_identify_multiphase(client, info,
+53030bcc87e4a4 Guenter Roeck 2020-01-20  164  					    TPS53681_PMBUS_REVISION,
+53030bcc87e4a4 Guenter Roeck 2020-01-20 @165  					    TPS53681_DEVICE_ID);
+53030bcc87e4a4 Guenter Roeck 2020-01-20  166  }
+53030bcc87e4a4 Guenter Roeck 2020-01-20  167  
 
-diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
-index 1a16ce68a4d7..d346f3235945 100644
---- a/Documentation/admin-guide/cgroup-v2.rst
-+++ b/Documentation/admin-guide/cgroup-v2.rst
-@@ -1670,6 +1670,12 @@ The following nested keys are defined.
- 	  numa_hint_faults (npn)
- 		Number of NUMA hinting faults.
- 
-+	  numa_task_migrated (npn)
-+		Number of task migration by NUMA balancing.
-+
-+	  numa_task_swapped (npn)
-+		Number of task swap by NUMA balancing.
-+
- 	  pgdemote_kswapd
- 		Number of pages demoted by kswapd.
- 
-diff --git a/include/linux/sched.h b/include/linux/sched.h
-index f96ac1982893..1c50e30b5c01 100644
---- a/include/linux/sched.h
-+++ b/include/linux/sched.h
-@@ -549,6 +549,10 @@ struct sched_statistics {
- 	u64				nr_failed_migrations_running;
- 	u64				nr_failed_migrations_hot;
- 	u64				nr_forced_migrations;
-+#ifdef CONFIG_NUMA_BALANCING
-+	u64				numa_task_migrated;
-+	u64				numa_task_swapped;
-+#endif
- 
- 	u64				nr_wakeups;
- 	u64				nr_wakeups_sync;
-diff --git a/include/linux/vm_event_item.h b/include/linux/vm_event_item.h
-index 9e15a088ba38..91a3ce9a2687 100644
---- a/include/linux/vm_event_item.h
-+++ b/include/linux/vm_event_item.h
-@@ -66,6 +66,8 @@ enum vm_event_item { PGPGIN, PGPGOUT, PSWPIN, PSWPOUT,
- 		NUMA_HINT_FAULTS,
- 		NUMA_HINT_FAULTS_LOCAL,
- 		NUMA_PAGE_MIGRATE,
-+		NUMA_TASK_MIGRATE,
-+		NUMA_TASK_SWAP,
- #endif
- #ifdef CONFIG_MIGRATION
- 		PGMIGRATE_SUCCESS, PGMIGRATE_FAIL,
-diff --git a/kernel/sched/core.c b/kernel/sched/core.c
-index c81cf642dba0..62b033199e9c 100644
---- a/kernel/sched/core.c
-+++ b/kernel/sched/core.c
-@@ -3352,6 +3352,10 @@ void set_task_cpu(struct task_struct *p, unsigned int new_cpu)
- #ifdef CONFIG_NUMA_BALANCING
- static void __migrate_swap_task(struct task_struct *p, int cpu)
- {
-+	__schedstat_inc(p->stats.numa_task_swapped);
-+	count_vm_numa_event(NUMA_TASK_SWAP);
-+	count_memcg_event_mm(p->mm, NUMA_TASK_SWAP);
-+
- 	if (task_on_rq_queued(p)) {
- 		struct rq *src_rq, *dst_rq;
- 		struct rq_flags srf, drf;
-@@ -7953,8 +7957,9 @@ int migrate_task_to(struct task_struct *p, int target_cpu)
- 	if (!cpumask_test_cpu(target_cpu, p->cpus_ptr))
- 		return -EINVAL;
- 
--	/* TODO: This is not properly updating schedstats */
--
-+	__schedstat_inc(p->stats.numa_task_migrated);
-+	count_vm_numa_event(NUMA_TASK_MIGRATE);
-+	count_memcg_event_mm(p->mm, NUMA_TASK_MIGRATE);
- 	trace_sched_move_numa(p, curr_cpu, target_cpu);
- 	return stop_one_cpu(curr_cpu, migration_cpu_stop, &arg);
- }
-diff --git a/kernel/sched/debug.c b/kernel/sched/debug.c
-index 56ae54e0ce6a..f971c2af7912 100644
---- a/kernel/sched/debug.c
-+++ b/kernel/sched/debug.c
-@@ -1206,6 +1206,10 @@ void proc_sched_show_task(struct task_struct *p, struct pid_namespace *ns,
- 		P_SCHEDSTAT(nr_failed_migrations_running);
- 		P_SCHEDSTAT(nr_failed_migrations_hot);
- 		P_SCHEDSTAT(nr_forced_migrations);
-+#ifdef CONFIG_NUMA_BALANCING
-+		P_SCHEDSTAT(numa_task_migrated);
-+		P_SCHEDSTAT(numa_task_swapped);
-+#endif
- 		P_SCHEDSTAT(nr_wakeups);
- 		P_SCHEDSTAT(nr_wakeups_sync);
- 		P_SCHEDSTAT(nr_wakeups_migrate);
-diff --git a/mm/memcontrol.c b/mm/memcontrol.c
-index c96c1f2b9cf5..cdaab8a957f3 100644
---- a/mm/memcontrol.c
-+++ b/mm/memcontrol.c
-@@ -463,6 +463,8 @@ static const unsigned int memcg_vm_event_stat[] = {
- 	NUMA_PAGE_MIGRATE,
- 	NUMA_PTE_UPDATES,
- 	NUMA_HINT_FAULTS,
-+	NUMA_TASK_MIGRATE,
-+	NUMA_TASK_SWAP,
- #endif
- };
- 
-diff --git a/mm/vmstat.c b/mm/vmstat.c
-index 4c268ce39ff2..ed08bb384ae4 100644
---- a/mm/vmstat.c
-+++ b/mm/vmstat.c
-@@ -1347,6 +1347,8 @@ const char * const vmstat_text[] = {
- 	"numa_hint_faults",
- 	"numa_hint_faults_local",
- 	"numa_pages_migrated",
-+	"numa_task_migrated",
-+	"numa_task_swapped",
- #endif
- #ifdef CONFIG_MIGRATION
- 	"pgmigrate_success",
 -- 
-2.25.1
-
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
