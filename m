@@ -1,240 +1,336 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 083D7224B00;
-	Wed,  7 May 2025 08:00:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.12
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746604823; cv=fail; b=vBlQuKcjP5POt1Y0gPygDfdQt9sUd3Vui5Xb0JFyz0deHFSNPX5/13CoalR3qXo4bZq7UCQWIw7M+TeYXKsErXN5h/fWjk97wX16u+UnGFFRXUYgdBu+fJNqA+kVXq6jSgPKImHOcGW56ynx/GDjcs0MpahY3rS9gS/tnFmwnYE=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746604823; c=relaxed/simple;
-	bh=QB75ylNm7O/9JfKpX+4mrO20P7bZiacwwsj0falDcUM=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=WU71CyaUZjFemeTsiWGZEwuD+fBq4H1o9Q6/nL3ZB2aamRLBWhMvOmCGcBJ023ISTG6rMWOLVC45FInQBU7nziT9S0xftM9ZellXFqagbdb/BSLvdXWkyeHsX7/mH78N3vzfEhE9PUF5f02ucKCDGLFOPfz2HDMHLIfIDBRpF3o=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=IBWlcbIU; arc=fail smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8537772610;
+	Wed,  7 May 2025 08:17:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.53
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746605852; cv=none; b=F/UQlNHS3/ZQqcakvtQTZPXaHvtEQK2Kk+kDrzL7fLeo73SxcaPE4y/JT1r9F9hNmvyZ0WM0Im391NdVGCSY9fnNYQOEB7ehrAyl/6JcXfIBdD+IWwo8cz+WDIyLDcr+SYDR9FckgkixDKCzLPNt4deu9aSVRJi7IhZjk0kyGEc=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746605852; c=relaxed/simple;
+	bh=D6cma0vL5Rh++cxTISOfBfgLFkFrX0+2TyTGVxq8doY=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=qQ+CWhpdV77upQ3Hbl88GpdgUIkPym0DK6g0l8A2oNUrK/xpldswTHynQU6HXiV1zygZ0QXRgj7Gb/i+kYg9imI5mYE68t7PioK4opa7y1/HXF31L6d3gGnw5YZIAQAyGYSu36q5OldQTDaVLLY8bC+gwhfvXDoaP9QP9lCI4B4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=gFsk8/wO; arc=none smtp.client-ip=209.85.218.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="IBWlcbIU"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746604822; x=1778140822;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=QB75ylNm7O/9JfKpX+4mrO20P7bZiacwwsj0falDcUM=;
-  b=IBWlcbIUcDkjif5iB5oPk9BTTO8HBxpE/IFKevvlw+YImUoY7iTUIzgD
-   6CXXRDasfzQ/43QufjnCsUllreUbJAZCeZtTeCVWqli3M+TqUUtAM2lDW
-   zUmgOjL8D4HBwXFvojELUUEPhOEnGxcWHRrH5mEsNEExIRNLtTHEu4Xzm
-   9ff+4sFynJgxVvv1DxrVAeYsGzxvOi05QU88mwqz5KlPUKuK+y/hF5QYm
-   WDfBYnBvdN20JTE1n78NikwBPfxh9eNhJmlFzl+IRfGFVq+r2CSAkEAXQ
-   pKJ7zrPiFp1ZRvcZoqQvrqZqU/8UEEU49aBx6F5ry9XKkNTjsNhzTIEkp
-   g==;
-X-CSE-ConnectionGUID: hWv/TEhCS2C9tbzcheYa0Q==
-X-CSE-MsgGUID: qB3RLQGWTkqC89kaqpfpHw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59715550"
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="59715550"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:00:13 -0700
-X-CSE-ConnectionGUID: 0KvI3eldSqqgRN6kIrwtPQ==
-X-CSE-MsgGUID: 7AkbccmiQKizEYYLYrMkCg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
-   d="scan'208";a="135744515"
-Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 01:00:13 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Wed, 7 May 2025 01:00:12 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Wed, 7 May 2025 01:00:12 -0700
-Received: from NAM10-BN7-obe.outbound.protection.outlook.com (104.47.70.48) by
- edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Wed, 7 May 2025 01:00:12 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EElrtWKIEv7TjWUgTjHBnLJZ58Jbn9S/Lf1hhkIcokVfTpnDNWKzXL7Wrocn7LsC4zaWiUvENK/r76HScXjbdGUucFDpdK8iOhmc6dWRXRJkJ1ul3btpY+dz2JRdt/QKTy37WDnYSmFB3ihO+u5lEQxw1IlU4euJV7GIo//E/9mgpWP1ARStKXqjtV+2QJ/m+eaJ9moEj28pZqm0CzT5+JNm6btRMe9Pp3CXDuJU/XQU7Ukh2/y2pY7qmLjXO9WQHLVMsFyh6hGYx0UuWG/3nl2dTLULhQVajKJRUcd8YARGH9pd+2cFFGSfqzPo+ZexRDRwOjojSgbbvXgwdI1PhQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=QB75ylNm7O/9JfKpX+4mrO20P7bZiacwwsj0falDcUM=;
- b=yIK+C29R+JGDHBYdcs72vT3KVchCENK+9ovzYaRt/V3PX+2JLXDtNrhAwMRQGi/sB/dkcDWXTyJEAyVysi8GzgI7p1cHSx2Rfq+JYOZo5ksqNOPJjgVCp1dyJvs/wsA4cmjAPs/NcoQiZK27y2TMDQF5ePNpWK9TPkm7ozrcSrxZXhJHc9AjL1toFdRQr39Rz5V2Sk+w3SjEoq9peGxK4jpgho3c+CGCsE3BhFQuNjiWV/g7nSAcdk3ncEyhv3ssATWL99GGk4d+LWOc8+YyeuhDecn0JRx8BScc0Kq+PxzZzdlvLhKS3t5xswUjgPA+vKHzTMCnHvaL7DHrfAgvAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by SA1PR11MB8320.namprd11.prod.outlook.com (2603:10b6:806:37c::8) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Wed, 7 May
- 2025 08:00:05 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.8699.026; Wed, 7 May 2025
- 08:00:05 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Vasant Hegde <vasant.hegde@amd.com>, Jason Gunthorpe <jgg@nvidia.com>
-CC: Nicolin Chen <nicolinc@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
-	"will@kernel.org" <will@kernel.org>, "bagasdotme@gmail.com"
-	<bagasdotme@gmail.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
-	"joro@8bytes.org" <joro@8bytes.org>, "thierry.reding@gmail.com"
-	<thierry.reding@gmail.com>, "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
-	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "shuah@kernel.org"
-	<shuah@kernel.org>, "jsnitsel@redhat.com" <jsnitsel@redhat.com>,
-	"nathan@kernel.org" <nathan@kernel.org>, "peterz@infradead.org"
-	<peterz@infradead.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
-	"mshavit@google.com" <mshavit@google.com>, "praan@google.com"
-	<praan@google.com>, "zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
-	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
-	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
-	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
-	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, Suravee Suthikulpanit
-	<suravee.suthikulpanit@amd.com>
-Subject: RE: [PATCH v3 11/23] iommufd/viommu: Add IOMMUFD_CMD_VQUEUE_ALLOC
- ioctl
-Thread-Topic: [PATCH v3 11/23] iommufd/viommu: Add IOMMUFD_CMD_VQUEUE_ALLOC
- ioctl
-Thread-Index: AQHbuu0eX5Qthdj/f0ujxZMby7jsqrPFWNUAgAAucgCAAUnSgIAABE9w
-Date: Wed, 7 May 2025 08:00:05 +0000
-Message-ID: <BN9PR11MB5276295092F09A70EFC388DF8C88A@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
- <1ef2e242ee1d844f823581a5365823d78c67ec6a.1746139811.git.nicolinc@nvidia.com>
- <6ffe5249-b429-435e-a780-ee90aeb3f0da@amd.com>
- <20250506120114.GV2260709@nvidia.com>
- <eb0d3629-8663-45e9-b929-0c6edff31291@amd.com>
-In-Reply-To: <eb0d3629-8663-45e9-b929-0c6edff31291@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SA1PR11MB8320:EE_
-x-ms-office365-filtering-correlation-id: 908bd599-41c4-4e24-7f7d-08dd8d3d2d70
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
-x-microsoft-antispam-message-info: =?utf-8?B?blZJV004T2p3Yi8wRW8vbC80WmVXaXhiMDVxUFc3cHVvUHozeFRFbmtBM2Y0?=
- =?utf-8?B?M1hnTW1Sejg4aE01bzdjSGFSRVdRc0dadGVUeStGV2srN010ckhjeXF5MTJ4?=
- =?utf-8?B?MGEzbFNZMFhxbDY5cWFxT3JPeHFjR0Y0Qy9LdGhwWXEybzJrV3lvVXF3dmh4?=
- =?utf-8?B?TytydXFYbHJOcmZpNmZPMVlEYjZJSGsrRS84elRDanZtaVp5YmUwNmxwZkJj?=
- =?utf-8?B?YVo0WVlDd2VBdjdrcDRZOWVVU1oxRndzVmx0QW53Zjl2SEY2dzRTTGxVYjBT?=
- =?utf-8?B?b2pOemdYdC9USGxSUktVQ2htRHVjQVZEVTFvZTlHcDE5dUhlWkVBek9qSWdv?=
- =?utf-8?B?SlluWkQrcmdwZ2xibEgxTTFhc3dnNTExdGJyQTExanpmTDhLMjZyM0FyVktR?=
- =?utf-8?B?akpvM1hPUEJKOVl6VTdsd2xkRENVamFGYk5IVVBoVFhiNDZiY0dDazlXVmVy?=
- =?utf-8?B?WUlJaEJVTTJvZGZKNWlkRERTUHhGMU5sMyt6NEVVTlhnbllpYVRjN3F0T2ly?=
- =?utf-8?B?bW56WlFRdm10S1dHZFM1d1l2b3p4NElnVjY5VS9BYXh1Vkw5dmg1T3g2R2ZE?=
- =?utf-8?B?V1hsWklsVVAyeUs2SmhoZmpDTXFhcWtaNDZ3NzYwR3k5anVSZVQwYk11WUdl?=
- =?utf-8?B?WS9pbHpWTWxGQzRPR3lrazhQdWlLTm1jdlJ4aDVBcDJFV2NKTERZZjkybDhs?=
- =?utf-8?B?NjFJMlF5ajBpcmlFV0JiMUE2WWwzMGR1WFZwZTZ6ZG5JYmEzcWRhUCszY2V2?=
- =?utf-8?B?TVNmNDIwU2h5ZUZZalRrMndOZzEza0J6SU5VVmdBeXh0QXJidmJVNFJSSk9t?=
- =?utf-8?B?Z3hpWGlFenVvQ2pBOXdONnJ5NURJTkk1aUoweXlUVVVHc3Arbms0Y2hqL0FC?=
- =?utf-8?B?djUzaXIxSnQrTEtNa2VpQU15VEdHb1pWUjBqblh1c2lkWmRVNmI2SXhETDVU?=
- =?utf-8?B?cWNlcithSEZiY3lvTFNqMktFY2NCMHByYm5sTG9xQjlDZGVNWTJkTk9xMXVY?=
- =?utf-8?B?THVtdGltcXpUeUV2SVI1cFhBeFRmczlFaTczanRMV1ZOMmJ3dGRTRVZKc1Bx?=
- =?utf-8?B?QjkzbENnN0tJTnFaOWZuNWZPY2xSczJoQ1kwRkZjSVByYzVqWCt2VnpJV0FJ?=
- =?utf-8?B?UVAxeStsZWFIL1hXalNueDA3VXNSZ3VwSmJ2cXZJdFZBdE5FeFNVUHJLdjdG?=
- =?utf-8?B?bFRTdTUrYnFCbkpUaURUVEJoVmRRdXJHRXY0UmJkbElVK3JmWXM2MVhrVW03?=
- =?utf-8?B?b1h6UHFoZGFCOGcvWWIxd3IrSWc0TzdDcHFhVzhHWXQxdHVXcU5JMGw3Zkxu?=
- =?utf-8?B?ekFUZExzWmQreE9IUmNraGNWdzJLL2VCNEZRcXliL0RIMjl4U0JyTHp4b2Vz?=
- =?utf-8?B?SXFtenNycVBvcHNpSGl3QkwzS0Nsc2s5OFhIQTI3NzZTRFQrZy9wY3VocWhT?=
- =?utf-8?B?OGFoMWFSanViR1dvSHQzT3piZ2VSZ3BHNURZSHpidXdvcWMxcEN0bkR5QUky?=
- =?utf-8?B?WG9jVHVDbnUzNExsTG1VcUxVOTlUcmgxUDlQdVo0VFVWMlFnNDVKaXE3eVk4?=
- =?utf-8?B?SDlVdm5qNG03YjQvOG12UFdlMWQ5c0VuNDdneVVjdG5lL3lSajR0ZFYvV3dJ?=
- =?utf-8?B?ZUhncUJGV0dQRmp6VnJZaFJjeVJqTGZJZXVISXBJcXlvWXo5UXNJeFNjS3FX?=
- =?utf-8?B?ZnBqaGVCdWovcVh5cEdqK3N1SVN3SlFNOTZib1d0a2NWRzJzOEhMb2l4ejM0?=
- =?utf-8?B?K3JES3FOWnJZZ2tGUjBUK284TksreXRBcE03RXhPcy83THhYempuaDBJNVc4?=
- =?utf-8?B?alhNZFBsRTRGVXM1c3kzR1ZzcGI4NFJqdE9Qb2dPeU1oVEt4ME5CeVhacUtl?=
- =?utf-8?B?QlBZbzdOTEZqZzYwRWc2ZjI5Ums5b1RWSzIycHZqTWxkangvQndxdlp3dkY5?=
- =?utf-8?B?MXFObHBNWkZPTGxFTGU1dHE5Q0pMWGhycFpBVTNuOGVJcGhFMFdnZXhCdTZi?=
- =?utf-8?Q?VaZKjY6/x6TZ0xfkn8is6l2ZByZI1w=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?utf-8?B?Q3NPbmNwci9OMTFyaUZBUjJiU3lwUDErbko4NEk2V25pamwwVWpqVnhrV0RX?=
- =?utf-8?B?Qmk2aG13bkhieCtDa2ZTMTM2SVNXSEZMYWlCZWxMdzlvZWQ4TTV1WTlyWHZC?=
- =?utf-8?B?and0NjVpZHZuSmNCRE5kQUR2a1RITnl5ajI3OVFHVDVPQkRiK1RMUkw5bmtD?=
- =?utf-8?B?V21JeFNTMTVkVFAyR0Jwd2ExeVhpcnZHNGZZUVU5TmxBM3kwdmFhQjNMUnJm?=
- =?utf-8?B?U2RZUHZDZHhybHhLNnNFZWNqZC9ZaUxrMjJyWkxGb3R6TDlOeE5tZGxpRTBv?=
- =?utf-8?B?RTVNMEtGWnhlM1FQOU1tQm5OLzJ4b3ZXT0hQU3BVbHUrZmFlVVZtZURyUGds?=
- =?utf-8?B?MGphRGs2NkExanIrcCtrVysyMFJER0ZFOWZPNXBQOWw5bkJjN3IrM0plcEQv?=
- =?utf-8?B?ZlJVRmpQc3p6am1UaW82TlRvc1BHeHF3MDhLeStibEpiZjZURFY5NlVEMWpt?=
- =?utf-8?B?eG80endCV1F5bFltbXhWOTdzT1NycHdWMWRDYldZNVdsbHJlaXNDY3NpdHBa?=
- =?utf-8?B?eXNhTStaY3BBZmI1SHU1bEhDVDVTQzhQbFVzeUFrTEpLUXFCa3RqTlNHNk10?=
- =?utf-8?B?aUQvWWp4Z2VTTVNyeXNSQW9JSng5bnV4bnJoamVBWkIwRmlUUGVpMWttZS9i?=
- =?utf-8?B?RWU4SHF1dFB2dStYQmMzRysvVE1nNzVma2pCakdRNlpjYVVuT09jYjBWczBY?=
- =?utf-8?B?NTZwQ1oxdjNLWW5zZ0FoMXIvYUVLa3FnQ1BHNHBldG45SGdOVGpWOWJIVktB?=
- =?utf-8?B?RXNIbGFBa0NnejhKQThSSDZiRGdLRHU5bTd0RmE4ODZZYmxlVkF1N2YvdGx6?=
- =?utf-8?B?cjdtTmNiRkgxaUgyckxtSU1KbXpnZ3pGWS9KdWJwY1ZBc1QxaXRIQVJjNTBz?=
- =?utf-8?B?QTRFZzc0dVN2SS9keXR1Y0F1RDZ0RFU1RmpQa2pDc1ZOZkRBMytoakE0aUtD?=
- =?utf-8?B?WUFaYlAxeWJES0xqS0VrVXJ2bE8xYnErRXczdHVaVk9MTWdSMjlWY0J6am90?=
- =?utf-8?B?ek1HYXpQNURCTlp6S2ZjV29oTGk0ZmxkK3poaUJTSkdiSTEvNlNCbUhaZ0wv?=
- =?utf-8?B?MS95TEZHYXpuMFc0SzJOOFJ5cGQ5THFNMG16SXFUQ3A3Ukp0UTBPbi9IZmxm?=
- =?utf-8?B?L1h2cmlscVNoZkJWRWJoMWJDaHU3T1BPNS9LTDhqQUdFb2Fuc2lOa3h6RjRn?=
- =?utf-8?B?Zm84RnhnZGFhMkgzSE5tVFJRMnBpemhDZE1xQVA1Zjl2RVB6dzNzbTIxNXpz?=
- =?utf-8?B?RS9TRmY2R1JOTWtjZi8vajJTRDM3c1BHTWxTZDlpUG1ybTlhT2grTDJZZ2tu?=
- =?utf-8?B?STJjcTZrZGt5bTdMYi94UzVuNmcvZzMwSksrWWw3T0w1SXNHU0szMnhVQ05S?=
- =?utf-8?B?N2poRXJxMkthME9DdVFSZllXeHM2RjYzSSt0MHhhU2hIZnBqQ1JXUmFzNjA3?=
- =?utf-8?B?cUk2WFR1b1FibmIwalBncnJrWUN3M0pWQStxWExHdzJaK1Y0amFJRlhLaFUx?=
- =?utf-8?B?cDB4d1g4a3pYbldWWkVUMWJnakwwcUhvNFR3c1IvREpMN2RSdTloVUJYOEFD?=
- =?utf-8?B?KzhLUWhlL3AvRXgxZ2xjcWx5RW1qNVpBckswVTJmcDcyVGpMTHE3dkJEZ1p2?=
- =?utf-8?B?dTlsdTVwYlBWYTFQbm5EbC9RNC9kUXBMQjFtbTA3S240MnV5L095aERkMEpy?=
- =?utf-8?B?VVcxaU8zOU9IcEkzT1hqR0oreHNtb042d2dtQVJMb1h3cVRpVXR3OGhHUHRk?=
- =?utf-8?B?V3lNc0Y5SjRYWW9yTGNOR2ZLQlpQb3F4bFNBYzJBRGREKzZEbURSUTVyQlhF?=
- =?utf-8?B?WEF5TklMVjBaK251TWdGZm1zak9qRklHVU5NZFRWQWpBTndvVUpUYmlNelBh?=
- =?utf-8?B?N3BUNmh3OGxZeWFrVWdCelc4R3NZYjl6OXVMM0N5ZVZaNEwwUE5ieW02SkdI?=
- =?utf-8?B?ZldyRDgxMzBvbTRTclora25zMzVMUmRibUY5cTVHcHJ0NFNKY2VIbzAxc25w?=
- =?utf-8?B?OE53b2VhWlkzYmtMaEZwTnJHWHlUQXV3STRsOW1nTi9jc1hOck05TmtMdVds?=
- =?utf-8?B?Q0g2TmV4RGNScm5PTzNtZkpPWWIzaWF2UzBMbkNOVVZHYVk0QnpRczZ0MjdX?=
- =?utf-8?Q?sEHH8an09eG3b0Dg5bxBs8Xu7?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="gFsk8/wO"
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-ac34257295dso382132966b.2;
+        Wed, 07 May 2025 01:17:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746605849; x=1747210649; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=wOcMtx4PKUVaz+M3wsOZw+iCH7Jjj2//niizegtMkcE=;
+        b=gFsk8/wOcyPDH4lGf+KVwajItQ3HN5ZXDMDvBeimkCupnkVYe28+o0WCpJw8BW02bp
+         shfsh8O1V0SJ4+KdAOR7b/xYs6BfIivne9u26ZUySL9pBFBuwcIWfn+Y5xbUMWi6XfVx
+         7PUJZHuhw2wNlkMttFlX40l/knPKZ9+jKvupyCYC/9KIJMs5TeLX/XBcBcfIy+sUFkRJ
+         fZv2/TH9gvzklUHYyPNUb037OnrUJ23FBagdAJ8J9Rpor/VgpiAYFLZFFqOCI0k4bNK4
+         GJQij1xWyE6k4V27S8hBmf05k4iuzCIaGyK6Qbmud2qXS5Sy6IbIqH3KWMTlzrSnjeRs
+         q7DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746605849; x=1747210649;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=wOcMtx4PKUVaz+M3wsOZw+iCH7Jjj2//niizegtMkcE=;
+        b=BDP2civUgIXZpkETmcXIH4X1Rcgw2vJ16EjLJIpq8r3Wb43u5ZKG77B58lqJostpBr
+         YveuR5WMswRw07FzeMdvWW5Su0h4mfwz6irg4cF0s6xMs5XLx4PbUjYY2hPnMA9h2lJ1
+         IkRuaj+QHPjimsEkHo56ELXSaleKWE+yXDimvO2/RNon313LRN4dvfE4nPYIJXNTUZ2O
+         5Keyqu/AyrTmUBdhPvYBuNZeTvbU1LGBGxMLQzxZJZVPuB1ebO2D5QJ1zfmviDOk9uQV
+         xGnfw95DA1/oEuvtoMz8l3HPpdgIOH3I6QXKQ19PTRPTaXcmg+lh5B1NyhzLUEzINaVZ
+         To3g==
+X-Forwarded-Encrypted: i=1; AJvYcCUfsSDgdMYY62o2m5h7ixNzky7qLIGK1pyebczo6U0aQzBECecgIQuni6miguchDCaHkm5q85t/H+4=@vger.kernel.org, AJvYcCWWZ6s4aMO8jnZU+jtqnRwMFHP9ZcZ1D2RbJc2uQrxlab9EYg87ecOUj2lxjxEyksk2clHxBQ0bl5oTy5Osiw==@vger.kernel.org, AJvYcCWv8liTopLTboDdSfad9LCNx9YYTz/049BzGWE8LrRMer9eQMs4ARhxUGkelNEkg7UJLV2eO3W31OY4S4XQ@vger.kernel.org
+X-Gm-Message-State: AOJu0YzLJz89EHO5t8nsNUN7jK4kxDPX/ssw23MMd+nhI3UTkh4adryz
+	AMiwAYPQvoD1dcKCDmjR1hIi3baHvHofwB6WyUIPZtSR19GH0Q1ywXa26G/4GOW/PtFADLpT1QK
+	lbyfTLKRSBWfTl2iKiBdputsE2Ic=
+X-Gm-Gg: ASbGncvNzWZgJH2LIiZkES2ZxB0ylkprEyZgddysrr12lUqv0QH7sux6Siufq2ko9dS
+	AsfTw9SRqkdOz3mlv1TXLHTVeeI2gvzLyjMHZTQ2c3wd6PMfv7zOYREiY2ORdEjnhoVQsZYFQFG
+	j3UK75fPyyoNLUn4B+2tOIyQ==
+X-Google-Smtp-Source: AGHT+IEfs45lPNRVqQHY2iwgcFacb4wwkFr/FyO7PqYkYoFsuhzG2N8Ws7XweyERkxOoE/M8hr02Okqc+a42TOIBIdI=
+X-Received: by 2002:a17:907:2ce6:b0:ac7:b8d0:86c0 with SMTP id
+ a640c23a62f3a-ad1e8b936c7mr243471066b.9.1746605848173; Wed, 07 May 2025
+ 01:17:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 908bd599-41c4-4e24-7f7d-08dd8d3d2d70
-X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2025 08:00:05.0964
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: IYaKOXLIbjFk2X6gssUCjX2aEQNenRZz/iN3Hoqx+UbTHGberCktn56WPXSKox+J9ktJK/NBtXUSGTEgFsqrAQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8320
-X-OriginatorOrg: intel.com
+References: <20250507-fuse-passthrough-doc-v1-0-cc06af79c722@uniontech.com> <20250507-fuse-passthrough-doc-v1-2-cc06af79c722@uniontech.com>
+In-Reply-To: <20250507-fuse-passthrough-doc-v1-2-cc06af79c722@uniontech.com>
+From: Amir Goldstein <amir73il@gmail.com>
+Date: Wed, 7 May 2025 10:17:16 +0200
+X-Gm-Features: ATxdqUEQ2Or9YyhH4VDoUQ9y0QC0t57LMgOREmqSDmj948giV1S36Qp1iLWvIUw
+Message-ID: <CAOQ4uxiMh+3JqzqMbK+HpFt-hWaM6A2nW3UHNK9nNntDRkRBeQ@mail.gmail.com>
+Subject: Re: [PATCH 2/2] docs: filesystems: add fuse-passthrough.rst
+To: chenlinxuan@uniontech.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Bernd Schubert <bernd.schubert@fastmail.fm>, Bagas Sanjaya <bagasdotme@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-PiBGcm9tOiBWYXNhbnQgSGVnZGUgPHZhc2FudC5oZWdkZUBhbWQuY29tPg0KPiBTZW50OiBXZWRu
-ZXNkYXksIE1heSA3LCAyMDI1IDM6NDIgUE0NCj4gDQo+IEhpIEphc29uLA0KPiANCj4gDQo+IE9u
-IDUvNi8yMDI1IDU6MzEgUE0sIEphc29uIEd1bnRob3JwZSB3cm90ZToNCj4gPiBEbyB5b3UgbmVl
-ZCBhIG1vZGlmeSBxdWV1ZSBvcGVyYXRpb24/DQo+IA0KPiBXZSBoYXZlIHR3byB0eXBlcyBvZiBv
-cGVyYXRpb25zLiBPbmUgdGhhdCBpbXBhY3RzIHRoZSBxdWV1ZSwgb3RoZXIgc2V0IG9mDQo+IGJp
-dHMNCj4gd2hpY2ggZG9lc24ndCBvcGVyYXRlIG9uIHFldWV1ZS4NCj4gDQo+IGV4OiBFdmVudCBs
-b2cgYnVmZmVyDQo+ICAgLSBXZSBjb25maWd1cmUgIk1NSU8gT2Zmc2V0IDAwMTBoIEV2ZW50IExv
-ZyBCYXNlIEFkZHJlc3MgUmVnaXN0ZXIiIHdpdGgNCj4gQmFzZQ0KPiBhZGRyZXNzIGFuZCBzaXpl
-DQo+IA0KPiAgIC0gIE1NSU8gT2Zmc2V0IDAwMThoIElPTU1VIENvbnRyb2wgUmVnaXN0ZXINCj4g
-ICAgICBFdmVudExvZ0VuOiBFdmVudCBsb2cgZW5hYmxlDQo+ICAgICAgICAqIFdoZW4gZ3Vlc3Qg
-c2V0cyB0aGlzIGJpdCwgcWVtdSB3aWxsIHRyYXAgYW5kIHdpbGwgc2VuZCBxdWV1ZV9hbGxvYw0K
-PiAgICAgICAgKiBXaGVuIGd1ZXN0IGRpc2FibGVzIHRoaXMgYml0LCBxZW11IHdpbGwgdHJhcCBh
-bmQgc2VuZCB2cXVldWVfZGVzdHJveQ0KPiANCj4gICAgICBUaGlzIHBhcnQgaXMgZmluZS4NCj4g
-DQo+ICAgICAgRXZlbnRJbnRFbjogRXZlbnQgbG9nIGludGVycnVwdCBlbmFibGUNCj4gICAgICAg
-ICogV2hlbiBndWVzdCBzZXRzIHRoaXMgYml0LCBxZW11IHdpbGwgdHJhcA0KPiAgICAgICAgKiB0
-aGlzIG5lZWRzIHRvIGJlIGNvbW11bmljYXRlZCB0byBIb3N0IHNvIHRoYXQgd2UgY2FuIHByb2dy
-YW0gVkYNCj4gQ29udHJvbA0KPiBCQVIgYW5kIGVuYWJsZSB0aGUgaW50ZXJydXB0DQo+IA0KPiAg
-IC0gVGhlcmUgaXMgb3RoZXIgYml0ICJDb21wbGV0aW9uIHdhaXQgaW50ZXJydXB0IGVuYWJsZSIN
-Cj4gICAgIFRoaXMgZG9lc24ndCByZWxhdGVkIHRvIGFueSBidWZmZXIuIEluc3RlYWQgaWYgd2Ug
-Y29uZmlndXJlIHRoaXMgZm9yDQo+IGNvbXBsZXRpb24gd2FpdCBjb21tYW5kIGl0IHdpbGwgZ2Vu
-ZXJhdGUgaW50ZXJydXB0Lg0KPiANCj4gSSBhbSBhc2tpbmcgaG93IGRvIHdlIGhhbmRsZSBhYm92
-ZSB0d28gc3RlcHM/IFNob3VsZCBpdCBiZSBwYXJ0IG9mIHF1ZXVlDQo+IElPQ1RMDQo+IG9yIG1h
-eSBiZSBzb21lIG90aGVyIElPQ1RMIHdoaWNoIGp1c3QgcGFzc2VzIHRoZXNlIGluZm8gdG8gSFcg
-ZHJpdmVyPw0KPiANCg0KUHJvYmFibHkgSU9NTVVGRF9DTURfT1BUSU9OIGNhbiBzZXJ2ZXIgdGhl
-IHB1cnBvc2U/IA0K
+On Wed, May 7, 2025 at 7:17=E2=80=AFAM Chen Linxuan via B4 Relay
+<devnull+chenlinxuan.uniontech.com@kernel.org> wrote:
+>
+> From: Chen Linxuan <chenlinxuan@uniontech.com>
+>
+> Add a documentation about FUSE passthrough.
+>
+> It's mainly about why FUSE passthrough needs CAP_SYS_ADMIN.
+>
+
+Hi Chen,
+
+Thank you for this contribution!
+
+Very good summary.
+with minor nits below fix you may add to both patches:
+
+Reviewed-by: Amir Goldstein <amir73il@gmail.com>
+
+
+> Cc: Amir Goldstein <amir73il@gmail.com>
+> Cc: Bernd Schubert <bernd.schubert@fastmail.fm>
+> Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
+> ---
+>  Documentation/filesystems/fuse-passthrough.rst | 139 +++++++++++++++++++=
+++++++
+>  1 file changed, 139 insertions(+)
+>
+> diff --git a/Documentation/filesystems/fuse-passthrough.rst b/Documentati=
+on/filesystems/fuse-passthrough.rst
+> new file mode 100644
+> index 0000000000000000000000000000000000000000..f7c3b3ac08c255906ed7c9092=
+29107ff15cdb223
+> --- /dev/null
+> +++ b/Documentation/filesystems/fuse-passthrough.rst
+> @@ -0,0 +1,139 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +FUSE Passthrough
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Introduction
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +FUSE (Filesystem in Userspace) passthrough is a feature designed to impr=
+ove the
+> +performance of FUSE filesystems for I/O operations. Typically, FUSE oper=
+ations
+> +involve communication between the kernel and a userspace FUSE daemon, wh=
+ich can
+> +introduce overhead. Passthrough allows certain operations on a FUSE file=
+ to
+> +bypass the userspace daemon and be executed directly by the kernel on an
+> +underlying "backing file".
+> +
+> +This is achieved by the FUSE daemon registering a file descriptor (point=
+ing to
+> +the backing file on a lower filesystem) with the FUSE kernel module. The=
+ kernel
+> +then receives an identifier (`backing_id`) for this registered backing f=
+ile.
+> +When a FUSE file is subsequently opened, the FUSE daemon can, in its res=
+ponse to
+> +the ``OPEN`` request, include this ``backing_id`` and set the
+> +``FOPEN_PASSTHROUGH`` flag. This establishes a direct link for specific
+> +operations.
+> +
+> +Currently, passthrough is supported for operations like ``read(2)``/``wr=
+ite(2)``
+> +(via ``read_iter``/``write_iter``), ``splice(2)``, and ``mmap(2)``.
+> +
+> +Enabling Passthrough
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +To use FUSE passthrough:
+> +
+> +  1. The FUSE filesystem must be compiled with ``CONFIG_FUSE_PASSTHROUGH=
+``
+> +     enabled.
+> +  2. The FUSE daemon, during the ``FUSE_INIT`` handshake, must negotiate=
+ the
+> +     ``FUSE_PASSTHROUGH`` capability and specify its desired
+> +     ``max_stack_depth``.
+> +  3. The (privileged) FUSE daemon uses the ``FUSE_DEV_IOC_BACKING_OPEN``=
+ ioctl
+> +     on its connection file descriptor (e.g., ``/dev/fuse``) to register=
+ a
+> +     backing file descriptor and obtain a ``backing_id``.
+> +  4. When handling an ``OPEN`` or ``CREATE`` request for a FUSE file, th=
+e daemon
+> +     replies with the ``FOPEN_PASSTHROUGH`` flag set in
+> +     ``fuse_open_out::open_flags`` and provides the corresponding ``back=
+ing_id``
+> +     in ``fuse_open_out::backing_id``.
+> +  5. The FUSE daemon should eventually call ``FUSE_DEV_IOC_BACKING_CLOSE=
+`` with
+> +     the ``backing_id`` to release the kernel's reference to the backing=
+ file
+> +     when it's no longer needed for passthrough setups.
+> +
+> +Privilege Requirements
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +
+> +Setting up passthrough functionality currently requires the FUSE daemon =
+to
+> +possess the ``CAP_SYS_ADMIN`` capability. This requirement stems from se=
+veral
+> +security and resource management considerations that are actively being
+> +discussed and worked on. The primary reasons for this restriction are de=
+tailed
+> +below.
+> +
+> +Resource Accounting and Visibility
+> +----------------------------------
+> +
+> +The core mechanism for passthrough involves the FUSE daemon opening a fi=
+le
+> +descriptor to a backing file and registering it with the FUSE kernel mod=
+ule via
+> +the ``FUSE_DEV_IOC_BACKING_OPEN`` ioctl. This ioctl returns a ``backing_=
+id``
+> +associated with a kernel-internal ``struct fuse_backing`` object, which =
+holds a
+> +reference to the backing ``struct file``.
+> +
+> +A significant concern arises because the FUSE daemon can close its own f=
+ile
+> +descriptor to the backing file after registration. The kernel, however, =
+will
+> +still hold a reference to the ``struct file`` via the ``struct fuse_back=
+ing``
+> +object as long as it's associated with a ``backing_id`` (or subsequently=
+, with
+> +an open FUSE file in passthrough mode).
+> +
+> +This behavior leads to two main issues for unprivileged FUSE daemons:
+> +
+> +  1. **Invisibility to lsof and other inspection tools**: Once the FUSE
+> +     daemon closes its file descriptor, the open backing file held by th=
+e kernel
+> +     becomes "hidden." Standard tools like ``lsof``, which typically ins=
+pect
+> +     process file descriptor tables, would not be able to identify that =
+this
+> +     file is still open by the system on behalf of the FUSE filesystem. =
+This
+> +     makes it difficult for system administrators to track resource usag=
+e or
+> +     debug issues related to open files (e.g., preventing unmounts).
+> +
+> +  2. **Bypassing RLIMIT_NOFILE**: The FUSE daemon process is subject to
+> +     resource limits, including the maximum number of open file descript=
+ors
+> +     (``RLIMIT_NOFILE``). If an unprivileged daemon could register backi=
+ng files
+> +     and then close its own FDs, it could potentially cause the kernel t=
+o hold
+> +     an unlimited number of open ``struct file`` references without thes=
+e being
+> +     accounted against the daemon's ``RLIMIT_NOFILE``. This could lead t=
+o a
+> +     denial-of-service (DoS) by exhausting system-wide file resources.
+> +
+> +The ``CAP_SYS_ADMIN`` requirement acts as a safeguard against these issu=
+es,
+> +restricting this powerful capability to trusted processes.
+
+> As noted in the
+> +kernel code (``fs/fuse/passthrough.c`` in ``fuse_backing_open()``):
+
+As Bagas commented, I don't see the need to reference comments in the code
+here.
+
+> +
+> +Discussions suggest that exposing information about these backing files,=
+ perhaps
+> +through a dedicated interface under ``/sys/fs/fuse/connections/``, could=
+ be a
+> +step towards relaxing this capability. This would be analogous to how
+
+I am not sure this is helpful to have this "maybe this is how we will solve=
+ it"
+documented here.
+the idea was to document the concerns and the reasons for CAP_SYS_ADMIN.
+Now that you documented them, you can work on the solution and document
+the solution here.
+
+> +``io_uring`` exposes its "fixed files", which are also visible via ``fdi=
+nfo``
+> +and accounted under the registering user's ``RLIMIT_NOFILE``.
+
+If you want, you can leave this as a NOTE about how io_uring solves a
+similar issue.
+
+> +
+> +Filesystem Stacking and Shutdown Loops
+> +--------------------------------------
+> +
+> +Another concern relates to the potential for creating complex and proble=
+matic
+> +filesystem stacking scenarios if unprivileged users could set up passthr=
+ough.
+> +A FUSE passthrough filesystem might use a backing file that resides:
+> +
+> +  * On the *same* FUSE filesystem.
+> +  * On another filesystem (like OverlayFS) which itself might have an up=
+per or
+> +    lower layer that is a FUSE filesystem.
+> +
+> +These configurations could create dependency loops, particularly during
+> +filesystem shutdown or unmount sequences, leading to deadlocks or system
+> +instability. This is conceptually similar to the risks associated with t=
+he
+> +``LOOP_SET_FD`` ioctl, which also requires ``CAP_SYS_ADMIN``.
+> +
+> +To mitigate this, FUSE passthrough already incorporates checks based on
+> +filesystem stacking depth (``sb->s_stack_depth`` and ``fc->max_stack_dep=
+th``).
+> +For example, during the ``FUSE_INIT`` handshake, the FUSE daemon can neg=
+otiate
+> +the ``max_stack_depth`` it supports. When a backing file is registered v=
+ia
+> +``FUSE_DEV_IOC_BACKING_OPEN``, the kernel checks if the backing file's
+> +filesystem stack depth is within the allowed limit.
+> +
+> +The ``CAP_SYS_ADMIN`` requirement provides an additional layer of securi=
+ty,
+> +ensuring that only privileged users can create these potentially complex
+> +stacking arrangements.
+> +
+> +General Security Posture
+> +------------------------
+> +
+> +As a general principle for new kernel features that allow userspace to i=
+nstruct
+> +the kernel to perform direct operations on its behalf based on user-prov=
+ided
+> +file descriptors, starting with a higher privilege requirement (like
+> +``CAP_SYS_ADMIN``) is a conservative and common security practice. This =
+allows
+> +the feature to be used and tested while further security implications ar=
+e
+> +evaluated and addressed.
+
+> As Amir Goldstein mentioned in one of the discussions,
+> +there was "no proof that this is the only potential security risk" when =
+the
+> +initial privilege checks were put in place.
+> +
+
+I don't think that referencing those discussions is useful.
+They are too messy. The idea of the doc is clarity.
+It's fine to have Link: in the commit message tail for git history sake.
+
+You could instead write that a documented security model
+is needed before CAP_SYS_ADMIN can be relaxed.
+or add nothing at all, because you already documented the concerns.
+
+Thanks,
+Amir.
