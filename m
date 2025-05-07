@@ -1,209 +1,223 @@
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D05A22139DB;
-	Wed,  7 May 2025 07:49:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.159
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746604163; cv=none; b=ehNqNoT8lM9MfOtmfpeUMaF7cYfT/GsBXjxpFd5GqtER3PokFry5OR5wFymXzBUMV0jorUIQayvSlKJKpOPBC9euGZawPA2KBPLyBQpKD/IfCXq2omiv7QtLKBXyjT4VAXMVZ4uY4xeP30e7ICVLwJDSvuVkX5TKIXpEE1rY1QM=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746604163; c=relaxed/simple;
-	bh=cokU17empCsgLXMx0CVbpVm5/GG0ANMWp2T8HsVJzNA=;
-	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
-	 Subject:Content-Type; b=uMzku4tzDet+uh9aFEl9S1kuVf81Yab5fAEl27im+55h3o6Dc6TT1aWClr6eqlmiuztHAuOxExZlkxb3ewoO4UfJIoOaTpixaBYS+EPqf5z3edRkaLoUWtuZcPy0ZL+Jfokb2zP1zri563MsmQNcSsQVvozJ9j63CFu+tpmFYYw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bzzt.net; spf=pass smtp.mailfrom=bzzt.net; dkim=pass (2048-bit key) header.d=bzzt.net header.i=@bzzt.net header.b=m6ixM4t0; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=kZA4fxjI; arc=none smtp.client-ip=103.168.172.159
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=bzzt.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bzzt.net
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F286E22068E;
+	Wed,  7 May 2025 07:51:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.13
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746604287; cv=fail; b=XOUmG7Wk9ReF4bflefIjIqP0+jVoKGhL3jXOApBjg8kRIhgJ8nq+IAVN4LNdqcFBc0ieYbSbCpeMIrOO7QjphZTLwd+ohbi++InRTevYngFc4zxtlNL5EhGgjFteWri0tlci9tNn5VsryRk8A98ts+ppGpOtlZuUqpdc7MfRKZk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746604287; c=relaxed/simple;
+	bh=TnUtGs6Kq4SIUxn8t7hp/7KrAf0j6LacT71uD6d0Xvs=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=hBuBjrflmhOLNvyG0rJvEqvwKPne8SvfeFLiqr+Fk+DQWDGgRgzhogOp9mSXmFvIICgGOWWDaYkaKlGTVFdHFBz2llaH7tM2aZH5nwignn8gkMvdMLikiXkSuHYtIIfJ01dVwRX95xuIgZLQ1/uY07JBGPw/2YpaLyiUVRZ5yG8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=ilJTXEy5; arc=fail smtp.client-ip=198.175.65.13
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bzzt.net header.i=@bzzt.net header.b="m6ixM4t0";
-	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="kZA4fxjI"
-Received: from phl-compute-12.internal (phl-compute-12.phl.internal [10.202.2.52])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id B39121140120;
-	Wed,  7 May 2025 03:49:18 -0400 (EDT)
-Received: from phl-imap-01 ([10.202.2.91])
-  by phl-compute-12.internal (MEProxy); Wed, 07 May 2025 03:49:18 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bzzt.net; h=cc
-	:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm1; t=1746604158;
-	 x=1746690558; bh=JcQmMXNVSlii7PXek34Y/lx8uJAyMcBAejqngOH419Y=; b=
-	m6ixM4t0Bd5/+Uss2nIYQ1/8T+lGP87Kg95DJvDFeb7DqFU29pVjw++3Li/Ley4k
-	ZrzM0BTeOpxvwh0sxNtp1QLtmfEYacvZlaBLB36B/w5i+GcjjskXQ0NzqZ/J8mTP
-	0YaZMKdN2faVUFAATg5ZwGTmea9qyr9RUA6YVKZsk0Ynsui8h881co/aN0ZXJuwi
-	5Sj7qnbnfM/R3UdL8fSmn+rvlyKNZHlus1rZIwTZiL7RBtLT9PzGjn64VYzcfQcL
-	K31sNpaJp+rsMDYUDKWzrVzvYvr+Orkj6MVMJBYkLw1cNBnaMgMmUWIW90Mo1Pz8
-	Th8btXk/wU2H3HrP1aEw3A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1746604158; x=
-	1746690558; bh=JcQmMXNVSlii7PXek34Y/lx8uJAyMcBAejqngOH419Y=; b=k
-	ZA4fxjIvrDac2vbflfR/MW94tnMJZme863HxGuBbuLxnJnRgxnFSpP9pmL1bJ6Hn
-	GwrmAA0bCs013xnar98UKcdvEKlDyOMViA6Ll+6K0qq4GehsaoV25FXc095wkrfm
-	ARJbKlcWT+oSnf3JFc/90YW82bEOsZ6Q05NtJirhJsI2n6diyAXIfLOztBgceqlv
-	zMCw/UOhobb+tlAbOVIkP5KjU91f+R/jwFvELLUZ2kIUna7Kr57xbbWw1Lc+YFNc
-	9GdUEF5rtofNpvc0UeGxakfKT3O5BroTxokSKGbhNBCPSe8rxTVj1ZDoNivbyC0a
-	E10rzrUGPhBZWCiPGqFFA==
-X-ME-Sender: <xms:ehAbaFqS2VNSdrrCBKfKPArS0Gqyyqv5CLshf_qm6RWOqC7P6yzTdQ>
-    <xme:ehAbaHpIDmwdOxMLOentJK9Nd5ZQ-GbYT2KYBTe9j5pBuLP1Z84rJCkZnNpuwkFU1
-    MvZkTrEA8H9ukbh2wc>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgddvkeeifedtucetufdoteggodetrf
-    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
-    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
-    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
-    tddtnecuhfhrohhmpedftehrnhhouhhtucfgnhhgvghlvghnfdcuoegrrhhnohhuthessg
-    iiiihtrdhnvghtqeenucggtffrrghtthgvrhhnpeefgefgfeektdefkeeludetteefkeef
-    ffdvkeeujeegveethfdthfffjedvgedtueenucffohhmrghinhepkhgvrhhnvghlrdhorh
-    hgpdguvggsihgrnhdrohhrghdpvghnghgvlhgvnhdrvghunecuvehluhhsthgvrhfuihii
-    vgeptdenucfrrghrrghmpehmrghilhhfrhhomheprghrnhhouhhtsegsiiiithdrnhgvth
-    dpnhgspghrtghpthhtohepfeeipdhmohguvgepshhmthhpohhuthdprhgtphhtthhopehk
-    phgthihrugesrghrtghhlhhinhhugidrohhrghdprhgtphhtthhopegrrhhnugesrghrnh
-    gusgdruggvpdhrtghpthhtoheptghhrhhishhtohhphhgvrdhlvghrohihsegtshhgrhho
-    uhhprdgvuhdprhgtphhtthhopehmphgvsegvlhhlvghrmhgrnhdrihgurdgruhdprhgtph
-    htthhopegumhhithhrhidrkhgrshgrthhkihhnsehgmhgrihhlrdgtohhmpdhrtghpthht
-    ohepmhgtrghjuhelheesghhmrghilhdrtghomhdprhgtphhtthhopehnphhighhgihhnse
-    hgmhgrihhlrdgtohhmpdhrtghpthhtohepshgrmhhithholhhvrghnvghnsehgohhoghhl
-    vgdrtghomhdprhgtphhtthhopehsvghrghgvsehhrghllhihnhdrtghomh
-X-ME-Proxy: <xmx:ehAbaCPQCmtU0_XRz8-vmJUTunODN6LJ5XAJdUQXl8MZC_JaCjxFOg>
-    <xmx:ehAbaA59wckYPtLYhTZVffPcvxO_BZijemUeXnd5cHTnWqBB3GWO6g>
-    <xmx:ehAbaE6X6GZm-X-h7CHtIj_tqXHUMbSzEVEZwOfDgLuZu2J5RbipmQ>
-    <xmx:ehAbaIgcx2n28RoC1hGQYgUotGxNuE0nTYRb07t4aUhf_rREVRpkqQ>
-    <xmx:fhAbaPRdhTA1xuKM3DUYaFI8sfLgbhVSaXODaU-UBjVBXGPdpqtaF29z>
-Feedback-ID: i8a1146c4:Fastmail
-Received: by mailuser.phl.internal (Postfix, from userid 501)
-	id 74285336007C; Wed,  7 May 2025 03:49:14 -0400 (EDT)
-X-Mailer: MessagingEngine.com Webmail Interface
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="ilJTXEy5"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1746604286; x=1778140286;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=TnUtGs6Kq4SIUxn8t7hp/7KrAf0j6LacT71uD6d0Xvs=;
+  b=ilJTXEy5iTpeFinJw3WF+mBFZ2NZebykIr6zOFU9BGgBWDhsz27Zp+3w
+   tEEc/UXgDg2HKxtZAPzlMYULEIfFYeIgfcs4TDXsoGVatpNJm7SBnouxT
+   i73DqTsMjZKoF2Ff68vxXYuRGRUgFVyS/Eq12fFvTW0XqhAXKa4yZR1Dw
+   o5qEbKnlFHDa3q0erxICQ9ObIaN+Uo2qPO2MG+tBoZ/F9v/3auRMdcrEd
+   yB4IDckmQnQZkDiOJ7BzDgbGzetBidJOxN+S5/RDjBX3GgvJdQPCGypRm
+   h6MAZcC4DXfPYzMeY15ahL25g4nPguKtiPwtpXO7xT35ldYDKCVc0qPMF
+   Q==;
+X-CSE-ConnectionGUID: PcHz3hxxRmezK1hfsQQvJQ==
+X-CSE-MsgGUID: Vx6qD72FTtuJvWEeCzURZw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11425"; a="59306786"
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="59306786"
+Received: from fmviesa001.fm.intel.com ([10.60.135.141])
+  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:51:26 -0700
+X-CSE-ConnectionGUID: mECZwim5T+WDt+meLJ7DQQ==
+X-CSE-MsgGUID: 76KUHadeTOyw2FIV5BA8WQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,268,1739865600"; 
+   d="scan'208";a="166917362"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by fmviesa001.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 00:51:24 -0700
+Received: from ORSMSX902.amr.corp.intel.com (10.22.229.24) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Wed, 7 May 2025 00:51:24 -0700
+Received: from ORSEDG602.ED.cps.intel.com (10.7.248.7) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Wed, 7 May 2025 00:51:24 -0700
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (104.47.66.43) by
+ edgegateway.intel.com (134.134.137.103) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Wed, 7 May 2025 00:51:23 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AGMu3pdPt2QPKQyrtk5kWh72dzgcdpT7HJGqrga5l5f1yoy1ePqD1GjXm3onYPy+jKyO3c6YtuhSxgi1gBR4HPKKw3/ftdFeK68o5FndPb7MjeokWbUtxhjAZVRQuOCP6a1LgjWPyPZijaBCU/uhAeyvqsV56A67Qf5J4dYbgwNKg3KVBR/fZ4LAc3+Dwaph52n1GZhtQLXkyaqNCiuqUZCrN1S0qL0e0YVEODUqptAF11HdN++PB8ACYSM3ApILk3TmNYfg13urdIabo8w58nJ+f3fag0V+DOjSzAnR0rZFpEfXmpI+dd7kTuCHtoG3S852wePmoKmO1T8XpYK4NQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=TnUtGs6Kq4SIUxn8t7hp/7KrAf0j6LacT71uD6d0Xvs=;
+ b=b/nBZNqxCkfgii/uzjLRo/ACCAR/vOy/udQ/el+3DHReAjuh/V3W5db0gxL+zFZ0flDYKwXYsjFgXFLoEEb+cPFXGMr0WjMVzM30S5n3uuAN0LeRLCUPOLKXdXoJSlgEnI4+zQTb6lVzcpxkH+qTnqkL8rEEnyW/5QUjetdr8d7qd+agra3Q9zhmb7vXZT0o6YSILj3hmw1UvXaapUMriIUCexiFQQVwwJU1uyj4w5H2H82aT1QbwLCQypttNg4HdbbvnuAynE2vfb8WVWwrHsJd9svaA6TQvHyVagdqemJ4xBgnICbT+PYeMQHeE+Y8eEzQxltNlinwqVYwRNrXSA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by SA1PR11MB8320.namprd11.prod.outlook.com (2603:10b6:806:37c::8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Wed, 7 May
+ 2025 07:51:11 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%5]) with mapi id 15.20.8699.026; Wed, 7 May 2025
+ 07:51:11 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+CC: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+	"will@kernel.org" <will@kernel.org>, "bagasdotme@gmail.com"
+	<bagasdotme@gmail.com>, "robin.murphy@arm.com" <robin.murphy@arm.com>,
+	"joro@8bytes.org" <joro@8bytes.org>, "thierry.reding@gmail.com"
+	<thierry.reding@gmail.com>, "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+	"jonathanh@nvidia.com" <jonathanh@nvidia.com>, "shuah@kernel.org"
+	<shuah@kernel.org>, "jsnitsel@redhat.com" <jsnitsel@redhat.com>,
+	"nathan@kernel.org" <nathan@kernel.org>, "peterz@infradead.org"
+	<peterz@infradead.org>, "Liu, Yi L" <yi.l.liu@intel.com>,
+	"mshavit@google.com" <mshavit@google.com>, "praan@google.com"
+	<praan@google.com>, "zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+	"iommu@lists.linux.dev" <iommu@lists.linux.dev>, "linux-doc@vger.kernel.org"
+	<linux-doc@vger.kernel.org>, "linux-kernel@vger.kernel.org"
+	<linux-kernel@vger.kernel.org>, "linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
+	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
+	<vasant.hegde@amd.com>
+Subject: RE: [PATCH v2 08/22] iommufd: Abstract iopt_pin_pages and
+ iopt_unpin_pages helpers
+Thread-Topic: [PATCH v2 08/22] iommufd: Abstract iopt_pin_pages and
+ iopt_unpin_pages helpers
+Thread-Index: AQHbtnBgpkGgdbEd20qNTy9huUtOtLPFZrYQgACjfwCAAMZl4IAACA0AgAAD46A=
+Date: Wed, 7 May 2025 07:51:11 +0000
+Message-ID: <BN9PR11MB52767C9253073156A63C27B98C88A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <cover.1745646960.git.nicolinc@nvidia.com>
+ <d44272c153e7596c3cef716044de3dc6c2a8254a.1745646960.git.nicolinc@nvidia.com>
+ <BN9PR11MB52762F5A464ACC68D78465578C892@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <aBpgWNitAgNenOPY@nvidia.com>
+ <BN9PR11MB5276090879BB4C76CB27909E8C88A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <aBsNhsVryZs2c+AT@nvidia.com>
+In-Reply-To: <aBsNhsVryZs2c+AT@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SA1PR11MB8320:EE_
+x-ms-office365-filtering-correlation-id: dd4ff61a-57da-474c-b070-08dd8d3bef5c
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?WCIIB4bCt8F3pyE2pXMJss2m+Gznw8Q7rpP/sRJedvA1Ltx38H1sQmrMau6q?=
+ =?us-ascii?Q?LXPQ4dwcTbGMBcFQjL3PtP79L19i2Jjwa258yrlVotp5Nc2pB4Z59IKEqcmn?=
+ =?us-ascii?Q?fNb7nl1OZkMuOBKzCtUqmEDoIci7rbz/UE5SNnrOAaucG7g67i/UCfORoTYV?=
+ =?us-ascii?Q?3xHxyd3HnBDcpJZSrMO2prtoW1lbhRtduEXnRZYmGQxl+TvGjar8s9mmVaXh?=
+ =?us-ascii?Q?iBiaxtJe/D6cIv4MgWfk8uUkGq/06GAQuRbz81g1h/rdAYo7E6GkEH8Asuv1?=
+ =?us-ascii?Q?vBBZ6036HAw/32npCp/n/qQ6Dw+/BQgt6DRGyRGFkce1EvbeyKjX9XFwPLVg?=
+ =?us-ascii?Q?nEwrYKCRq4IufTsOYMyrddAs4cfo63x92v0GtpY8e1LZhDHMwv2gTMgMPPTL?=
+ =?us-ascii?Q?0Cnw6Co/+lZxed+XULjuIIshgcXUWfH0WtfTyVRRwdCPcbjW8MOboT+GXEJY?=
+ =?us-ascii?Q?lGwmJ9YnO+RGMffhw2vVSCELkgbhfawe1y5kwuVLWK9FdLuB/qKgWsWAX/qf?=
+ =?us-ascii?Q?JArdB1AEbtUJlyA8BFaW4lYnGHOGcW2qk4sycViGMmkKX6j70u+4ZyNqCxCq?=
+ =?us-ascii?Q?KbYD4J6oKlsgh91yGCLPqNgcTHiO1W6hctGHcdjX6stSjx4oh+f2a6FCqBlM?=
+ =?us-ascii?Q?FrIfXF+hUriWbhWl57fkTJ+rg7S/FOCiioPmymiyyrO2KGVTz9VxS7n86vWT?=
+ =?us-ascii?Q?yGcgQQpwbwpwSfH36ZS1rj5CIsQKUTG96O+rNmxukJGXfUd2Q4lT3EXjep6V?=
+ =?us-ascii?Q?i/roNCXyLv66HbU26R6owmDq+s41aAeYo8Q4gXk6mJU2obinKfxTOTv+0RFM?=
+ =?us-ascii?Q?eh0+Y3xon0edA4Vbqp78mJ4JiejoHi1svFY6PExaB6roGz7jeU6KgszdRKQt?=
+ =?us-ascii?Q?smmuitFcQx14DtRR1ya5+rKtg1M/DjfjbjRfqBOKGM8Q3kgSTGmTJrXOGZza?=
+ =?us-ascii?Q?ImCuHpnqtYCCO9qVn+qdc1NTu/kQrdunoZRzWc3AboaID0mpUNHIeg6AAWHJ?=
+ =?us-ascii?Q?A2tIEUlMqAFoAykbJxj9DynELPvhBLxlkC1SELY0DPMHpD6MflYolSK5HVOg?=
+ =?us-ascii?Q?ReQGqc6PpV7urjFYnjAYEKGwzSrmR0eSMW3kXuLL0Yapdmf8mGWmkxwgL5ys?=
+ =?us-ascii?Q?KWMbo8fsZTkXTYqY+3AhDc4juWJrxMeElIsy+9mf2YYtBVaFAomHODhgl3eb?=
+ =?us-ascii?Q?6H4fSrJxfEW/0FJcT5XeQKLDwOq0n/6zw7UNt1l7DrY+ejeal/801tzKt8G5?=
+ =?us-ascii?Q?XkQC9uyQSAzwQdTTSmOA64+GROsuu95scBE8O799o1nxcLfrc0e8M2cMCukr?=
+ =?us-ascii?Q?TBsEH2sUErwXIWqSeedi9BwPwIc0uiAAWDIkGYdT25wXJb2A1HJTR32/EWAD?=
+ =?us-ascii?Q?FUA3bOpZW/1qqc1SGK1sK+pL8nlBkT6ddprRsX1SiqvoiEMtEB+yXOLBcwGX?=
+ =?us-ascii?Q?mpYMxMwUKyERPK6KC02VexNn8OZ6NZw6PGWavaml1xWje4z9n/vp3u8HpFUp?=
+ =?us-ascii?Q?leSYakRwqpkwnU4=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?I1QiknSMw0iTNbUWRQ78ylKbAJ+pkco9afWDtEQ52JnxN2fIj6eaZ5V2e7fS?=
+ =?us-ascii?Q?RU9hheaHJAv2iThAUJXYshpo6f2Ips76rmbXbGDwiemNE9Oof3h1wZLiSGjG?=
+ =?us-ascii?Q?DVCNYs5Du2Xvb86klGHBK3hlnifmuNedQ5CXFGErDRNgOeXiN+fiS2sB/uJB?=
+ =?us-ascii?Q?96wOCQGvnKgPy7EXkirKhENz7Mr0c4qYWTrlY2QJCbtzV6O6LiiSwnc7/+Ug?=
+ =?us-ascii?Q?dQbrkuRtVKWQM/jTciFARZEgC7X6VsT7LSoH2CY1nrdEQYaeGdYXPzsDnBOW?=
+ =?us-ascii?Q?UzA+wpgt/L4C2t5WTKSJIDYUtWEQFd8MGrfzZxOEKZC5/1jvT099Q2EuvLMm?=
+ =?us-ascii?Q?1ixhS9LPz3LCxc48wAN/qDUsiWcl3z2EFfazl5RbZHrlWji8HPu0t5aDv0Tl?=
+ =?us-ascii?Q?9dHpciMXmBREDGZ5f74AHb4MuwJoX4xMm3w9i041oEc4yR1wmFjjkt1flnFV?=
+ =?us-ascii?Q?nXbmgtl0G5i0rVWAy2FgUZDBsnS9wEGeB+u5Q6GoNheFDLsCGB4UvSvQ63Dp?=
+ =?us-ascii?Q?TJylP7v955tjcz6x5zfQDrjSPewrCrnAmfsBVgn3rzmU+w5ELWr/jvEC31G3?=
+ =?us-ascii?Q?5cbaFApBSK4zpDToc5CQv2RIzKSxJU6PgnUps/RjBUmYzVUFx1BVinMlHhP8?=
+ =?us-ascii?Q?aAVd99B0yBjcVn0t19nOS40fSvMfMB6KnSsJ0L+cvaCephWr1R8fdN+o8WYR?=
+ =?us-ascii?Q?JvzyDBr7sdA6GtyFNppSCa94aF28cZapbD94uqqBFxVkE1WlEJ3DlVHZ9Nvd?=
+ =?us-ascii?Q?Pe7wJiJJecKor3do3tcTVrabfY58AAnXxw36+zYcffvrLQ1H80nJ+A7OBZ5L?=
+ =?us-ascii?Q?B4Oe8eBnT+u7iaRUiWmzaIQGY2y/rqqRd598YpHXlhobV5DOSgVszkvre7yf?=
+ =?us-ascii?Q?Biad1Vn7tM69w3TDLkDzpYqK8brTJfquXS07BB6J+hQULe92OF5yZQzx4L4+?=
+ =?us-ascii?Q?gX1MyjmggJ4/XOsu4eAMWZ/IbViblJGfeZT4/8Gg/vJwAl6mqVREaGey3H1U?=
+ =?us-ascii?Q?As1h7KbeRksZ5O2Jpd4kUN1IAPwSPd+ftceA5n+ru8gOK8PIiu7OOBeXr7jN?=
+ =?us-ascii?Q?/5/v9eaLZ8QjpXzoN1wACJ6oDqOcCmEpXBmTy0soQbitOc4Inp/ZP9daRoyU?=
+ =?us-ascii?Q?EK7NMUbgKI6M7hs0W7YRanYSV8+GFS6dQtf6Kg7hUh+PVHuQLjA1Lamm/vcQ?=
+ =?us-ascii?Q?0m/Yze+J7aUFD1YMnJqaElaMm3z5LWFyixYABXgyBi2JDPh6nFUTQDI9zaJN?=
+ =?us-ascii?Q?KLIdgD4GKj750Tw+FY0tpVCzvqQCaWLpdIeyIhJEUbkIkYRHgJW44DIvi00k?=
+ =?us-ascii?Q?TzVXOyO8yMQsB+LNm4t4EFHRJe1tbMRFY5K9LI5AVpvo+OGkT4/9uVOIn30h?=
+ =?us-ascii?Q?GKcj0SwAF76ewIJj+Dr/193aD7eS64tcTJR3mUHaeKKat/XLZtdadKgl99ch?=
+ =?us-ascii?Q?K7eXFkg1pwpWTDtCoNDQhD0MnyLJzx19fI4G6zJhraw1iTA23qEzhaW0dneg?=
+ =?us-ascii?Q?rqbjBlHhqs+NyUU8fV3XMZBqb3n5KFKDOgc1U8LwEFtuTs+p0SmzBjmc5kRU?=
+ =?us-ascii?Q?cO/AoUE2YGdPlaL+zgGFczuMLIzcMdawTZHoecje?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-ThreadId: T5f9a5891fefab612
-Date: Wed, 07 May 2025 09:47:23 +0200
-From: "Arnout Engelen" <arnout@bzzt.net>
-To: "James Bottomley" <James.Bottomley@hansenpartnership.com>,
- =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: "Masahiro Yamada" <masahiroy@kernel.org>,
- "Nathan Chancellor" <nathan@kernel.org>, "Arnd Bergmann" <arnd@arndb.de>,
- "Luis Chamberlain" <mcgrof@kernel.org>,
- "Petr Pavlu" <petr.pavlu@suse.com>,
- "Sami Tolvanen" <samitolvanen@google.com>,
- "Daniel Gomez" <da.gomez@samsung.com>,
- "Paul Moore" <paul@paul-moore.com>, "James Morris" <jmorris@namei.org>,
- "Serge E. Hallyn" <serge@hallyn.com>, "Jonathan Corbet" <corbet@lwn.net>,
- "Madhavan Srinivasan" <maddy@linux.ibm.com>,
- "Michael Ellerman" <mpe@ellerman.id.au>,
- "Nicholas Piggin" <npiggin@gmail.com>,
- "Christophe Leroy" <christophe.leroy@csgroup.eu>,
- "Naveen N Rao" <naveen@kernel.org>, "Mimi Zohar" <zohar@linux.ibm.com>,
- "Roberto Sassu" <roberto.sassu@huawei.com>,
- "Dmitry Kasatkin" <dmitry.kasatkin@gmail.com>,
- "Eric Snowberg" <eric.snowberg@oracle.com>,
- "Nicolas Schier" <nicolas.schier@linux.dev>,
- =?UTF-8?Q?Fabian_Gr=C3=BCnbichler?= <f.gruenbichler@proxmox.com>,
- "Mattia Rizzolo" <mattia@mapreri.org>, kpcyrd <kpcyrd@archlinux.org>,
- "Christian Heusel" <christian@heusel.eu>,
- =?UTF-8?Q?C=C3=A2ju_Mihai-Drosi?= <mcaju95@gmail.com>,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arch@vger.kernel.org, linux-modules@vger.kernel.org,
- linux-security-module@vger.kernel.org, linux-doc@vger.kernel.org,
- linuxppc-dev@lists.ozlabs.org, linux-integrity@vger.kernel.org
-Message-Id: <6615efdc-3a84-4f1c-8a93-d7333bee0711@app.fastmail.com>
-In-Reply-To: 
- <2413d57aee6d808177024e3a88aaf61e14f9ddf4.camel@HansenPartnership.com>
-References: <20250429-module-hashes-v3-0-00e9258def9e@weissschuh.net>
- <f1dca9daa01d0d2432c12ecabede3fa1389b1d29.camel@HansenPartnership.com>
- <840b0334-71e4-45b1-80b0-e883586ba05c@t-8ch.de>
- <b586e946c8514cecde65f98de8e19eb276c09703.camel@HansenPartnership.com>
- <072b392f-8122-4e4f-9a94-700dadcc0529@app.fastmail.com>
- <2413d57aee6d808177024e3a88aaf61e14f9ddf4.camel@HansenPartnership.com>
-Subject: Re: [PATCH v3 0/9] module: Introduce hash-based integrity checking
-Content-Type: text/plain
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dd4ff61a-57da-474c-b070-08dd8d3bef5c
+X-MS-Exchange-CrossTenant-originalarrivaltime: 07 May 2025 07:51:11.4476
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: smCkY3Eb09FPcEgYjYwieTjFQ0Fzr0jOO65ZbWOWes2D/G/q8AJErFYrB+ZwljvDBLtGRZnpPx6PSy5RYlfT1A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB8320
+X-OriginatorOrg: intel.com
 
-On Tue, May 6, 2025, at 15:24, James Bottomley wrote:
-> I'll repeat the key point again: all modern hermetic build systems come
-> with provenance which is usually a signature.
+> From: Nicolin Chen <nicolinc@nvidia.com>
+> Sent: Wednesday, May 7, 2025 3:37 PM
+>=20
+> On Wed, May 07, 2025 at 07:22:24AM +0000, Tian, Kevin wrote:
+> > > > any reason why this cannot be done by the core? all types of vcmd
+> > > > queues need to pin the guest buffer pages, no matter the IOMMU
+> > > > accesses GPA or HPA.
+>=20
+> > > But I am doing in the core. I have iopt_pin_pages() called in the
+> > > core ioctl handler iommufd_vqueue_alloc_ioctl():
+>=20
+> > IMHO we just want to keep the pin logic in the core while leaving
+> > the check of PFN continuity to the driver (or have a way for the
+> > driver to communicate such need to the core).
+> >
+> > It's possible for have an implementation with IOMMU accessing
+> > GPA of the queue which further goes through the stage-2
+> > translation. In such case it's fine to have disjointed PFNs.
+>=20
+> That makes sense. In the iommufd_viommu_ops structure, we can add
+> "u32 flag" where driver can define IOMMUFD_VQUEUE_CONTIGUOUS_PFNS?
+>=20
 
-I'm not sure the 'hermetic build' parallel is so applicable here: typically a
-hermetic build will produce an artifact and a signature, and when you embed
-that result in a larger aggregate, you only embed the artifact (not the
-signature) and sign the aggregate. With module signatures, the module *and*
-their signatures are embedded in the aggregate (e.g. ISO, disk image), which is
-where (at least in my case) the friction comes from.
-
-> Plus, you've got to remember that a signature is a cryptographic
-> function of the hash over the build minus the signature.  You can't
-> verify a signature unless you know how to get the build minus the
-> signature.  So the process is required to be deterministic.
-
-Right: there is no friction validating the module signatures, that is fine.
-There is friction validating the aggregate artifact (e.g. ISO, disk image),
-though, because of those signatures embedded into it.
-
-As you mentioned earlier, of course this is *possible* to do (for example by
-adding the signatures as inputs to the second 'independent' build or by
-creating a hard-to-validate 'check recipe' running the build in reverse).
-Still, checking modules at run time by hash instead of by signature would be a
-much simpler option for such scenario's.
-
-> > > All current secure build processes (hermetic builds, SLSA and the
-> > > like) are requiring output provenance (i.e. signed artifacts).  If
-> > > you try to stand like Canute against this tide saying "no signed
-> > > builds", you're simply opposing progress for the sake of it
-> > 
-> > I don't think anyone is saying 'no signed builds', but we'd enjoy
-> > being able to keep the signatures as detached metadata instead of
-> > having to embed them into the 'actual' artifacts.
-> 
-> We had this debate about 15 years ago when Debian first started
-> reproducible builds for the kernel.  Their initial approach was
-> detached module signatures.  This was the original patch set:
-> 
-> https://lore.kernel.org/linux-modules/20160405001611.GJ21187@decadent.org.uk/
-> 
-> And this is the reason why Debian abandoned it:
-> 
-> https://lists.debian.org/debian-kernel/2016/05/msg00384.html
-
-That is interesting history, thanks for digging that up. Of the 2 problems Ben
-mentions running into there, '1' does not seem universal (I think this feature
-is indeed mainly interesting for systems where you don't _want_ anyone to be
-able to load locally-built modules), and '2' is a problem that detached
-signatures have but module hashes don't have.
-
-> The specific problem is why detached signatures are almost always a
-> problem: after a period of time, particularly if the process for
-> creating updated artifacts gets repeated often matching the output to
-> the right signature becomes increasingly error prone.
-
-I haven't experienced that issue with the module hashes yet.
-
-> Debian was, however, kind enough to attach what they currently do to
-> get reproducible builds to the kernel documentation:
-> 
-> https://docs.kernel.org/kbuild/reproducible-builds.html
-
-Cool, I was aware of that page but didn't know it was initially contributed by
-Debian.
-
-> However, if you want to detach the module signatures for packaging, so
-> the modules can go in a reproducible section and the signatures
-> elsewhere, then I think we could accommodate that (the output of the
-> build is actually unsigned modules, they just get signed on install).
-
-At least I don't really come to this from the packaging perspective, but from
-the "building an independently verifiable ISO/disk image" perspective.
-Separating the modules and the signatures into separate packages doesn't help
-me there, since they'd still both need to be present on the image.
-
-
-Kind regards,
-
--- 
-Arnout Engelen
-Engelen Open Source
-https://engelen.eu
+that works.
