@@ -1,830 +1,331 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D6D9211278;
-	Wed,  7 May 2025 19:13:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746645213; cv=none; b=SNij9cvKlhGL7Uovzan5EeQPPOqA+l6VI1WyQSjdasjLBP4NMDjL+FIYgQ6Ho5BuIvPAvnlBZYRYu40rOtcXvAoaE1kCgIpjAr6UJkDwkZxiuNkUfKZmnkcs9T/DYVhwKupR3l26I7ebyxHCjzKTsRoHkhcx1smBr3U1cSDqs/Y=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746645213; c=relaxed/simple;
-	bh=fYeOclt3zNcak9bYKpyuSP+QsZjo1hf2ZWvAqD9+c3I=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=DpATyg7iNS1ku1bZz9V4QIAeNS6H6KoERCvvsGOI9kFC7JnKuTZBWtfz/fhdxO/Y2KNuOSosacS9PJMABdqsfwnb+jeigS9rmKpRBa3+usNJjSieEVevtc9bnXtL+ugdIEniDQgS960QSG+txawhulBbsraug4bg0GYmjWfRSlE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=mQ+e1aCK; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EA6AA2E40E;
+	Wed,  7 May 2025 19:25:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746645928; cv=fail; b=KSG5etx3ODnNnlh+PWjk7NyC5nEjHjXsDMlUWlUjDBztlfubLZE2Yre4FaPkA/R05esTc3Oxlc6QbyBQkMyYkSNJzzUv1qlYjojh+8kHi06Ph1mlnCQ/84cMZPstzPOCb7S1Msh7uGBoYHxb92ogxyhJlBGn2+RXYD1M+muzuew=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746645928; c=relaxed/simple;
+	bh=3a1SjJi+76mLjmHYkMUyYYWw8fArgaz/OHZJxT+qu4M=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=Tw/CJOXO3iFt/vrEhxKdcx+qiDa13lqVUgmiDE1PJ8vjJO0p5lEVVzkkTAqd/gDJqfZQjbtYG4RktelKdTBsBqWdB6MUZxVTvdc4gZrKVbibMO7T3LKXgaztnvU2y6DZYS7foxvX+cpRzoSNSx/rLjNoK14Ed2TzOX5UYdBOH3E=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=VZzee+7y; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=mEV3tYMP; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="mQ+e1aCK"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1746645211; x=1778181211;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=fYeOclt3zNcak9bYKpyuSP+QsZjo1hf2ZWvAqD9+c3I=;
-  b=mQ+e1aCK9y3Y5oevKSJgJ0NT3g/ucELsbvczgmr7igS2QBUicQ6XsGZa
-   xRXxEdGI61C0htYaB1YC6YQFS+Sax6ThJF+tLW67y9AHYbtx6i8PeRpG9
-   XsG+KIxBAmABgWFLGZDFtZSY7TYjmFqJZ69VeH1Z5ypoohkBd5myXtAqi
-   5s5owWN57apn9sf8o5EtQW4oJlKl3UYWPDm4G9rm9fhjWShkFV0Ck1TTZ
-   rICwxWwiOMWhzbl6zG2Ji/kUOv+AFjFBmEKBavp2CUe9Is0+VZi6Fr4k7
-   7i2jfCMuT2djf5lK1bF711icMIQK9bdH18w0jYemceg5zFYPFtRaqxpkz
-   w==;
-X-CSE-ConnectionGUID: 4y0R5FLBSRije0OMxoVeNQ==
-X-CSE-MsgGUID: cQt/fWSyQ6mGGy2ZNWiLOA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11426"; a="65811066"
-X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
-   d="scan'208";a="65811066"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 12:13:29 -0700
-X-CSE-ConnectionGUID: iMJ6rn5LShiGoFncdZadTw==
-X-CSE-MsgGUID: l86eNEeWROyfPBk0kCZVow==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,270,1739865600"; 
-   d="scan'208";a="135984836"
-Received: from mgoodin-mobl2.amr.corp.intel.com (HELO [10.125.108.17]) ([10.125.108.17])
-  by orviesa006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 May 2025 12:13:23 -0700
-Message-ID: <83f264f3-4754-4423-9814-99c37134f541@intel.com>
-Date: Wed, 7 May 2025 12:13:19 -0700
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="VZzee+7y";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="mEV3tYMP"
+Received: from pps.filterd (m0246617.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 547JHgWu015286;
+	Wed, 7 May 2025 19:25:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=
+	corp-2025-04-25; bh=minRejeA2jtGASmIXffL51c2GI8b5J/pHWbh2Q5pX+o=; b=
+	VZzee+7y3rTuNZ82eddhZNdNUiW8D/hy+VndX1ldCun1BWTtqWOG+karex30vot9
+	9HX5ZGeO1R3Z7kmr9Po2KgSGwdxo8RhJZYxRoH+jR/xipZPvLGhV86bgcP5AIqBG
+	0rOTbMBzAIhYHo9dTEUApQ6xfP8ATuBTtmf4Zw08XEKATpj/jFhkpaH9UKUU6UTe
+	D+44ktij86sGVc5HM5DHmdgc9XAfmoST7+vzobpvsyzGFb2JoijmRlBzFgbXMcQV
+	lrLt9Rb4YRkw1VBtaE/yvdDYZIAmP4m8JQhKhV36CbQoTBpxY/7LNCUDpFpDrpYb
+	tX5ONMplg+G6eyS50NhOeg==
+Received: from iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (iadpaimrmta03.appoci.oracle.com [130.35.103.27])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46gdhrr0ma-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 07 May 2025 19:25:03 +0000 (GMT)
+Received: from pps.filterd (iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com [127.0.0.1])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 547Iu3wY035473;
+	Wed, 7 May 2025 19:25:02 GMT
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazlp17011030.outbound.protection.outlook.com [40.93.13.30])
+	by iadpaimrmta03.imrmtpd1.prodappiadaev1.oraclevcn.com (PPS) with ESMTPS id 46d9kh2m3v-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Wed, 07 May 2025 19:25:01 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AuC9JKYuR7zIFOI+QXh6+T0Il8sZT2b4nSk7vlca/UmWEjGZUDg6Ljs0IzBJ6QZD1ulvg964zr6CUhzz40vEncuvm3edjfJT9H8yKfW3LgP7LNF2BZ9bwMl1zbog4i2LIjyTEpFcD+SZwrtJ0z+5LHSXsZCJwbn6UmcwM48EcZxos8LBELs/6E4OecuJUYAjoIQwrgGX/vKWjxrF6mF7+OsVq4WE0FEmfGd2/fI4CwEBKSyJDPQoTJultoxIZUqbYIOOfdfFSNL7aa+UvbRN3J6beT9NNHz1ysjc6Uk7Z7X74h9jw3Enr7InLS0nKEJ1j8PJjOXDWnYkFIgHlot6xg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=minRejeA2jtGASmIXffL51c2GI8b5J/pHWbh2Q5pX+o=;
+ b=uVjrdMIZy1iDc18IO1BP6W5Qm0UyHlPpLqsK6L8rcvlELKEbbjTQuiqjxiCo3MNT15I31+AKKqV5woqmTk4/MQXptyv5LfrFgXI2oK+m7Dzz8bRd9pCeeoUEJ0WjuRSW1Njw3PC0O5oCrnqwdieYCdqJGgFTyNUo4IfaRxtRyQuyYwJ3ZGFGdDDPngLtOxSeRW9kSg2BSYrcUeZqPOcGPc2DsZiA+xrfUrjx/cWQ1W8NTwxYQsDmU3bqblRjGbHH50MUawETIuV4Lkil6/ncYgFbg2shzHI/GudrQBA+pzqmmjWK5GSCrTQwCLx7G4p31c2KnwZ8LoR0j5QCIhZ7ow==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=minRejeA2jtGASmIXffL51c2GI8b5J/pHWbh2Q5pX+o=;
+ b=mEV3tYMPEBUuuunQ4nxZG5u2sEYSamJs4trkgxbNB+oFSBZqPfSjhLMj0x2H+0nPb9CzajAuuWVUtDS2SBNarFFtVerHgSj/+D5LGm53T62zsmAz2Td/5E0FKH/mzgXwtFU3KhGb4zvSpaYH43DQ9PYPPFf0IU3A5tahSY52PgM=
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com (2603:10b6:5:3a6::12)
+ by DM6PR10MB4395.namprd10.prod.outlook.com (2603:10b6:5:211::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Wed, 7 May
+ 2025 19:24:55 +0000
+Received: from DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c]) by DS7PR10MB5328.namprd10.prod.outlook.com
+ ([fe80::ea13:c6c1:9956:b29c%2]) with mapi id 15.20.8699.022; Wed, 7 May 2025
+ 19:24:55 +0000
+Message-ID: <830ecd3d-13d4-4f12-9fea-e20cc69d0a5c@oracle.com>
+Date: Thu, 8 May 2025 00:54:47 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v1 6/6] Documentation: kvm: new uAPI for handling SEA
+To: Jiaqi Yan <jiaqiyan@google.com>, maz@kernel.org, oliver.upton@linux.dev
+Cc: joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com,
+        catalin.marinas@arm.com, will@kernel.org, pbonzini@redhat.com,
+        corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org,
+        kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        linux-kselftest@vger.kernel.org, duenwen@google.com,
+        rananta@google.com, jthoughton@google.com
+References: <20250505161412.1926643-1-jiaqiyan@google.com>
+ <20250505161412.1926643-7-jiaqiyan@google.com>
+Content-Language: en-US
+From: ALOK TIWARI <alok.a.tiwari@oracle.com>
+In-Reply-To: <20250505161412.1926643-7-jiaqiyan@google.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: TYWPR01CA0023.jpnprd01.prod.outlook.com
+ (2603:1096:400:aa::10) To DS7PR10MB5328.namprd10.prod.outlook.com
+ (2603:10b6:5:3a6::12)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 7/8] cxl/edac: Add CXL memory device memory sparing
- control feature
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
- dan.j.williams@intel.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com
-Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
- tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com,
- mchehab@kernel.org, nifan.cxl@gmail.com, linuxarm@huawei.com,
- tanxiaofei@huawei.com, prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
- kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-References: <20250502084517.680-1-shiju.jose@huawei.com>
- <20250502084517.680-8-shiju.jose@huawei.com>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250502084517.680-8-shiju.jose@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS7PR10MB5328:EE_|DM6PR10MB4395:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0f19aefa-29db-44cc-eb19-08dd8d9cd8f4
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?WDAwSXIvY3BNQ0tXZUpzOGJENVR3ZWprWFZUanJiajVqNE0rd2ZaVXhuem0y?=
+ =?utf-8?B?MTZCb1JpRmkyc0tObVdQdE9DQ1BVdy9yQXM4YjRhMTVqRGs5eGgzUENvZE5m?=
+ =?utf-8?B?RzlDRkEvOENhUGY0T0NHQzlMbGJCMU9tNzB2Z3VIdlZJODZneTVoYkhneHE0?=
+ =?utf-8?B?SnZFbVJCWU1EcGN0ak8xdlU3Umt0dktKa3BxUUtvdG9UcEc2L2w5cU9kcnlP?=
+ =?utf-8?B?a28wZ1Vzc0JDbkxwdVlzekJnTHBTa2pIRDlTcy9rUzJNWVhERW1zVU5yVlND?=
+ =?utf-8?B?Y3BYWW5WelgzMGtDSnhxbllpU01mT2QvSW9MdmhoNFBlWkw3UVN2ekViWk1S?=
+ =?utf-8?B?amhQUGpDMDYrTTFPNUR1VTNwMXBZVDdVdmt1WGN1VjN4QXVYUjJQTWY2aVVE?=
+ =?utf-8?B?WThKSHUvK3Q1L0FDVnBIOWxmSmtYS0tZLzUzOVZ4N0xFWmRRZVMrWk1rTjdP?=
+ =?utf-8?B?dElvcVI4Nlp4MjdZbm45ZnNHZFcvcEFwOUxoREpZblV3bUtINDFMUGhPaGVV?=
+ =?utf-8?B?VzdrT1BDQy9DbmR2U3IveEhmTjc3Um1rOFpkSmU1aWgyOVBaNmdwSVB4aHda?=
+ =?utf-8?B?cUVIMERHemhIY01MWithcWJRZ0JsK2tjbEg3dFRsZjBhYStJSGY3aVpTdU5h?=
+ =?utf-8?B?YndrcUZITitVTVk1TGcrYXZkcGlGWWtOKzBxVGk3akRUcitnZkxvbDg1cHBZ?=
+ =?utf-8?B?VGFDZXNGWUUwNDc1bVd2SWhRY1hqa0RvNzJOZjdWZXdCcitJK2RabVliRVRy?=
+ =?utf-8?B?ODlXdWpvTWJMREFGS1hSaUlmM090SEplblAyT01TM0tkNnJhclNRZ0p2eE45?=
+ =?utf-8?B?b3pGMG0xWFcxdFBQL3E0U2JJZGhCc1NtbnBEcUlxVkl3Rk9kWGp6YmdrWVVM?=
+ =?utf-8?B?Y1I5SUlPd2s1UHBnakxBMmVxRCt2OWNRMmptRlFCTG1jWlRnU0F5QVV1UHBH?=
+ =?utf-8?B?Vmh6V2lqTFRtV1RIUGk3NFFsR2Nadk9EL1ExUWVIR1JKVlh1c1pVZ3FGY09S?=
+ =?utf-8?B?SmNQbXprdDVmOTZ2NHErbnd3eThlMlVEQkhDdm5hYXBldC9zMG1KUGhZLzcw?=
+ =?utf-8?B?T2xPYzVIdHNOTVZEVHY2bklnSzJDVHV5QmRyU0liV0d6Ynp3SC9DUnBqY1FM?=
+ =?utf-8?B?aW9lUEswYm1hMXNOVitPSDZ5dm9adzVMc2FNelVCWGdtUWs1RUpJM1Vtbmtq?=
+ =?utf-8?B?Q3pUdFcyb3ZyQjJNZ1hMZ01GcjhBMkxkV29WRi9QZ0UzcitWMHdyK25OeEhN?=
+ =?utf-8?B?VkRKMlpoRnBlT2dNdDJOT2ZwemxqYktUNmNaQWN1WU1uUkh2MVBPQzdMRDU1?=
+ =?utf-8?B?RERIanFWY1FZSi9nQ1VLTmNIZ3BHcW15eDlmQXhtU2FPcFNWc3hsZW5ualhh?=
+ =?utf-8?B?L3N4Nzk2QS9hU0Z4Rld5bHREd2NVaXRjMVYwWXFwSnM3L0xORDhpOVhHUGFP?=
+ =?utf-8?B?ZGNYa0tXSHJzZ3RVelF4aHRUQ080VnFwa1ZzcVc0N0V6RlB5YWJWSURua3o0?=
+ =?utf-8?B?Z2E5cVlob1pTSHE1TXJmNG1zQmpLRmkrcDhVWDlkMXlTdjVoYXh5ODBwMzFa?=
+ =?utf-8?B?SFUwLzlPT0dYOG9YMDkwRmJSNFF3Yzc1MXRVMmU2QXpRVk10aFh0cjMrUm45?=
+ =?utf-8?B?aGVIZXVsQUxiQkZtTmxpUDRyR0pSS1BnMUlJaG55NlgxemQ3Zk5uNmtSaTRX?=
+ =?utf-8?B?dFdmSkI0NDhlWTh0VitoalJNKzRWSDRVNnFxQkNRZkNNRFRTVGNGZE1oMHM0?=
+ =?utf-8?B?MXl6VkZPR0FQZUgwOUZoMUhlL1l5QThMU2RuZUFLVEVtd2Z5bXVmbXNQNnRy?=
+ =?utf-8?B?ckJ0eTNtVUdJcVdseS9QNWdyUWtpSExGNVZ4b2hNeDRrVDN5eDBsWjZrTmNF?=
+ =?utf-8?B?Z2U2OFBjS29UbHZjZlJ4ajFqNWhyaFQ2c1lNN2VGYjhLTnd2RWVTVXg2Mzd3?=
+ =?utf-8?Q?oJ2HihBhkic=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR10MB5328.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?dHBhQ2NxaXM4T0NXZ3hiMTc0aWZjbUtZYStFMDJwMkwwaWhsbEVLeWlmQTlp?=
+ =?utf-8?B?Z25EVmlkcVhMOWxhbVJscWZwV0NTTk1UREt0djJwbVYwTWRqMnV0ODN0Ylho?=
+ =?utf-8?B?YmJ6akhMeGNDVUlNV3p1N1hSejluS3pXaUFnMlJBVkQxNDJpVWVYc2UvS2Iy?=
+ =?utf-8?B?Ui9OSzVLemRITnlGL0gyd0liZExUTyticlI0bmkyMVZ1SGNCU1ltNG9iOVFL?=
+ =?utf-8?B?dk1zRmVPZUVOZTdSQnN3RTNTVXM0QW40WC9WbEdheGpKZ2oxUlBXM01rWHdN?=
+ =?utf-8?B?K3gwaWt6Mkh3eitJaEtOR2cvT21vcy9XRk5uZ1FhaVNFTkpiRmY2NU9VS1ZZ?=
+ =?utf-8?B?Qk5iTGRZQ0Ixek9UQjhqdXkwSjNwalhiajFyRlUyN01LOUhKeUJVNk91VFdl?=
+ =?utf-8?B?ZEJNT3NOQlFRNndycS96WnUra0w0NFJnbzdiRXBBQ0VicFlscjVNZUpLeDhm?=
+ =?utf-8?B?ZmxYVG9EMWViQnZiY0V2UXo3aVBjenlFaGdoeEwxN0JGTjJ5V1JGZzVqcGtu?=
+ =?utf-8?B?VDdianhxTVVkS2g4SStvcUl6OEZacUhsTWxCVTRON1Z1UklQcWxhelFhc2ZV?=
+ =?utf-8?B?TFE1emZGdVExVnRQNXlxK1YwdFlLK3JzQjNHVHpJcUxGelJuRDJVOEtOY0lS?=
+ =?utf-8?B?djZyRTlqL2dVT21OSkZWb242Zm9SNnRmK0w3bGFYN1BqU2JnVDdyRlhUNito?=
+ =?utf-8?B?bHlrT0tSSXpSUHJpQzU5TmZUTU1iYW0vMDVKNk43L0thaUoyYXdwemFna3BW?=
+ =?utf-8?B?YTdkSVFwOHlMUUROSDV1VEFVbGRQOXV1bllFZWttVXhFQ1RWbWVZYjhVbytq?=
+ =?utf-8?B?enV1ZE9pSkdFN1VIZHJhbVVBTFltKzdNUVEzMlJjV3J4Mkt0OGdEWW5vNXVQ?=
+ =?utf-8?B?TE92MGh1d1lFamFpUTVmMGx4K1FyRm45SDJqbEJnaW5oUWFsOGdoNlhtUEt2?=
+ =?utf-8?B?SXdGK1BkLzJwYW5pL2k5cjQydFY1QkNMdSs2K3lFNW0wM2NML0Z0Zmx2OWlE?=
+ =?utf-8?B?cmdHdFUzcnNGMm5VcmcxM29pSTlNdkdiY05NUHhHaFpGc3AzTkxZMWUzZjVQ?=
+ =?utf-8?B?V3FJREZpam5qSEtobHdkb0JxZExhVFlSdzlnZHVQUFpjTE1GUndPV2pkQmZ6?=
+ =?utf-8?B?WWROQzFFeUV6MERzTnFXSUJLUHJOMkV5WEVFOVBPbktkRUNkalMyWTVUWFNE?=
+ =?utf-8?B?bUhYUHhzOU85RzlmMDVCbXVaT2NMVWZtWXVTSDFMb0RYUXdKbTMxKzVOOVlK?=
+ =?utf-8?B?Q2RYcWlndHk5T2I1d0EyaktrVDgwbUpjSlJQdjAvZXE1R0N3Uk9xN0tOVWRp?=
+ =?utf-8?B?NCtKMERCaEVJUFNQbHlxRTJHL0I0K2xTeFBFMXp3VGs5YnFRUk5iMFpWQzlV?=
+ =?utf-8?B?MGt1NDNWV0ltUy9wN25wZHJDYlNmVEdCb1JoOFFJR2dNWUc5amFOZUFTMnFI?=
+ =?utf-8?B?RmozOE8xUS9IWlNjMXBERHRoMHFTMUZ1RFIvZnZxZ2tJcEgrTXFkMWJpbEdp?=
+ =?utf-8?B?eHIrYmgxV0xIeStmR0dYQm9HOStSMmRlMVUrVVk0YWtHMWI4THhLblhWdlNn?=
+ =?utf-8?B?VXFZU0tNcitlZTZRK2FWWjFJUEdQa0ZRYkJyN21xdmMrV09rREM2R1VMTDd2?=
+ =?utf-8?B?enpWeldHOTlURGQxajlxSmg4S2Q1OXI0UGw0c094SkRHRVYrdU4wcWhVTFdS?=
+ =?utf-8?B?WFI0YjNsdExlNXRza1lKTXpSeVVDTWlGSjd1QkpRYzdIb3ZYNDQxbGdqS3Bp?=
+ =?utf-8?B?WkNicnV3MlRkcndhMUF6N004ZHZ3RytaQldDNmp3WmlGT0lzWFZ0V0E4Tk5D?=
+ =?utf-8?B?Z2tMZERuNW4zN1ZRVWsvaWY1S21vVlpwRStTVDRhT0NmZHFRdVFENkRYQ2VB?=
+ =?utf-8?B?UVZrOExUbG5odnBIa0tlMDR4TEJkUWs4Sk9qWEQrbTJFWFl5SFBKZktUdVBT?=
+ =?utf-8?B?QnVlUUxnYUljcFBvVkF2U1ZiNFBRNkNObUsrcjNLRExTZmFlU0l0eEx6TmVn?=
+ =?utf-8?B?SE4yNGFGM09oRDFFcDdSUmgrdy9FSkVPSTJMdjc1MDZwSHFEQW9KWHQyUkxu?=
+ =?utf-8?B?b3hscldYeVI0eHNlWlJlZGJLbzE1QXVmWS9nL0FUeFQ1aWI0ai9Ua0c2eHFM?=
+ =?utf-8?B?UGZIdnpCWHF4K2NlcE5CdEExN1plK3hpTENjYkR2WFpYMmxJeGlDMDlxaUdh?=
+ =?utf-8?B?eEE9PQ==?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	BS+64cSJBoTulglI6ybCXxcEtoujmDaITSdIox94oME26dO9u6w4J9e1zteWkkK4AoR3H8ZRfYqhQtrWi05HSxSP48dVBNzcIPtqf2uyI7vNdIyxMyiTctFT/vBJnNhZ2Jojbwd3hpRPfLnMGBydfnlAU2EpJWx7ud7/KtuIpjbutvyyHfgCHPM20D74Szdtd4tIbUJtj0vfxtl8qk/R4HlemyIgbZFozc2rnFqZKP3StnQJ1Hwk7bJWF+zhGiZ9KkyU2PqOR3ZQDnE2g/1e4Iu81GPc6tGKbvWzo91/x8VC+ApQAHS5rddpYNoik4vfGe5zIMwMmp4q2YE6BMLXKGAX7PYgMd7hJCrdHRWS/onqj6cqrojQW7esvVOjlLR5nuFdpsa5s3kb9eGtkLE/4gWB3tpplM6lgjheLdKVy3wBqUO/PSC9DpxSI6AeT9wlEh/mCMzbXwoCCzQoZaM9gyNEI75t3e2PU7vB0kJnGnj7hFKizp+OMHUPom9OLHhSdkX4IVZH+FyfjscIgEsPzePggWS5GOcVkKoJkLWK6aM/RJTbwGwEBAYEzR9RE8NfEdcX7M5S/E+o+PvW9f9kmPxKhN22Y3cnTJXiQNfqFvg=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0f19aefa-29db-44cc-eb19-08dd8d9cd8f4
+X-MS-Exchange-CrossTenant-AuthSource: DS7PR10MB5328.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 May 2025 19:24:55.4618
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: jF2yrytiR8C1BcNE4qTh8FVaHciPTGDBOC7S6qzctH15sXt0ilgoz0joafuk3Viktc9HDt07zlUIh5u700tDTKtcTdMTwF7PXcyHnygEc9Y=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4395
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-07_06,2025-05-06_01,2025-02-21_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 bulkscore=0 suspectscore=0
+ malwarescore=0 mlxscore=0 spamscore=0 mlxlogscore=999 phishscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2504070000
+ definitions=main-2505070176
+X-Authority-Analysis: v=2.4 cv=G/EcE8k5 c=1 sm=1 tr=0 ts=681bb38f b=1 cx=c_pps a=qoll8+KPOyaMroiJ2sR5sw==:117 a=qoll8+KPOyaMroiJ2sR5sw==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=zV1IG8y9D3pZ-8S2KTMA:9 a=QEXdDO2ut3YA:10 cc=ntf awl=host:13186
+X-Proofpoint-GUID: P6epyOmxjOAoSJ-8PYJmvfJnwpSYYAGp
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA3MDE3NiBTYWx0ZWRfX9IfR7ghN1hc/ BXl+fuUSw/FHBtV9yL9rF0BI9rL9mWM/t7ryXErUUlzNVHreB1tyX+GZL75qXjCD60izXHRnofU uzYz1YXnCZMai4UHCEyMv6ilIjsp+8JqFEYuV8jxUVucXKbqdply0vuzoic/9zpl+8pMrpaiW9Y
+ lh9YYE+Ezah/vEhWsYdc/w4W+NvFOXmX9qUf6kWp/lTJ6423tgEIFJL+tNyQHAnTUQmEYMAEEps +nPzZkKiO8flANnKQhBGwpRcxqNC2Dxza7I2MXQKQfZ2EpMw0AQnBwliQgRS7JuFUdVUq6sZwzd iLj8HxMIjZMQ0L5rMU0yCdOd0FFKpLfB89Fe0RiGYdmQwDuQ60J4kiS6ca38UcC5oY0JY9fWWKh
+ XMt9/24LVbYq49FmeMvDZ/0sJMkXvP3uAdEIFdclPJZliqditvVlzxMD0bTuC8SwSo5X2cd0
+X-Proofpoint-ORIG-GUID: P6epyOmxjOAoSJ-8PYJmvfJnwpSYYAGp
+
+...
+> +Inject SError
+> +~~~~~~~~~~~~~
+> +
+>   Set the pending SError exception state for this VCPU. It is not possible to
+>   'cancel' an Serror that has been made pending.
+>   
+> -If the guest performed an access to I/O memory which could not be handled by
+> -userspace, for example because of missing instruction syndrome decode
+> -information or because there is no device mapped at the accessed IPA, then
+> -userspace can ask the kernel to inject an external abort using the address
+> -from the exiting fault on the VCPU. It is a programming error to set
+> -ext_dabt_pending after an exit which was not either KVM_EXIT_MMIO or
+> -KVM_EXIT_ARM_NISV. This feature is only available if the system supports
+> -KVM_CAP_ARM_INJECT_EXT_DABT. This is a helper which provides commonality in
+> -how userspace reports accesses for the above cases to guests, across different
+> -userspace implementations. Nevertheless, userspace can still emulate all Arm
+> -exceptions by manipulating individual registers using the KVM_SET_ONE_REG API.
+> +Inject SEA (synchronous external abort)
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +
+> +- If the guest performed an access to I/O memory which could not be handled by
+> +  userspace, for example because of missing instruction syndrome decode
+> +  information or because there is no device mapped at the accessed IPA.
+> +
+> +- If the guest consumed an uncorrected memory error, and RAS extension in the
+> +  Trusted Firmware choose to notify PE with SEA, KVM has to handle it when
+> +  host APEI is unable to claim the SEA. For the following types of faults,
+> +  if userspace enabled KVM_CAP_ARM_SEA_TO_USER, KVM returns to userspace with
+> +  KVM_EXIT_ARM_SEA:
+> +
+> +  - Synchronous external abort, not on translation table walk or hardware
+> +    update of translation table.
+> +
+> +  - Synchronous external abort on translation table walk or hardware update of
+> +    translation table, including all levels.
+> +
+> +  - Synchronous parity or ECC error on memory access, not on translation table
+> +    walk.
+> +
+> +  - Synchronous parity or ECC error on memory access on translation table walk
+> +    or hardware update of translation table, including all levels.
+> +
+> +For the cases above, userspace can ask the kernel to replay either an external
+> +data abort (by setting ext_dabt_pending) or an external instruciton abort
+
+typo instruciton -> instruction
+
+> +(by setting ext_iabt_pending) into the faulting VCPU. KVM will use the address
+> +from the exiting fault on the VCPU. Setting both ext_dabt_pending and
+> +ext_iabt_pending at the same time will return -EINVAL.
+> +
+> +It is a programming error to set ext_dabt_pending or ext_iabt_pending after an
+> +exit which was not KVM_EXIT_MMIO, KVM_EXIT_ARM_NISV or KVM_EXIT_ARM_SEA.
+> +Injecting SEA for data and instruction abort is only available if KVM supports
+> +KVM_CAP_ARM_INJECT_EXT_DABT and KVM_CAP_ARM_INJECT_EXT_IABT respectively.
+> +
+> +This is a helper which provides commonality in how userspace reports accesses
+> +for the above cases to guests, across different userspace implementations.
+> +Nevertheless, userspace can still emulate all Arm exceptions by manipulating
+> +individual registers using the KVM_SET_ONE_REG API.
+>   
+>   See KVM_GET_VCPU_EVENTS for the data structure.
+>   
+> @@ -7151,6 +7184,55 @@ The valid value for 'flags' is:
+>     - KVM_NOTIFY_CONTEXT_INVALID -- the VM context is corrupted and not valid
+>       in VMCS. It would run into unknown result if resume the target VM.
+>   
+> +::
+> +
+> +    /* KVM_EXIT_ARM_SEA */
+> +    struct {
+> +      __u64 esr;
+> +  #define KVM_EXIT_ARM_SEA_FLAG_GVA_VALID   (1ULL << 0)
+> +  #define KVM_EXIT_ARM_SEA_FLAG_GPA_VALID   (1ULL << 1)
+> +      __u64 flags;
+> +      __u64 gva;
+> +	    __u64 gpa;
+> +    } arm_sea;
+> +
+> +Used on arm64 systems. When the VM capability KVM_CAP_ARM_SEA_TO_USER is
+> +enabled, a VM exit is generated if guest caused a synchronous external abort
+> +(SEA) and the host APEI fails to handle the SEA.
+> +
+> +Historically KVM handles SEA by first delegating the SEA to host APEI as there
+> +is high chance that the SEA is caused by consuming uncorrected memory error.
+> +However, not all platforms support SEA handling in APEI, and KVM's fallback
+> +handling is to inject an async SError into the guest, which usually panics
+> +guest kernel unpleasantly. As an alternative, userspace can participate into
+> +the SEA handling by enabling KVM_CAP_ARM_SEA_TO_USER at VM creation, after
+> +querying the capability. Once enabled, when KVM has to handle the guest
+> +caused SEA, it returns to userspace with KVM_EXIT_ARM_SEA, with details
+> +about the SEA available in 'arm_sea'.
+> +
+> +The 'esr' filed holds the value of the exception syndrome register (ESR) while
+
+'esr' filed holds -> 'esr' field hold
+
+> +KVM taking the SEA, which tells userspace the character of the current SEA,
+> +such as its Exception Class, Synchronous Error Type, Fault Specific Code and
+> +so on. For more details on ESR, check the Arm Architecture Registers
+> +documentation.
+> +
+> +The 'flags' field indicates if the faulting addresses are available while
+> +taking the SEA:
+> +
+> +  - KVM_EXIT_ARM_SEA_FLAG_GVA_VALID -- the faulting guest virtual address
+> +    is valid and userspace can get its value in the 'gva' field.
+
+the 'gpa' filed -> the 'gpa' field.
+
+> +  - KVM_EXIT_ARM_SEA_FLAG_GPA_VALID -- the faulting guest physical address
+> +    is valid and userspace can get its value in the 'gpa' filed.
+> +
+> +Userspace needs to take actions to handle guest SEA synchronously, namely in
+> +the same thread that runs KVM_RUN and receives KVM_EXIT_ARM_SEA. One of the
+> +encouraged approaches is to utilize the KVM_SET_VCPU_EVENTS to inject the SEA
+> +to the faulting VCPU. This way, the guest has the opportunity to keep running
+> +and limit the blast radius of the SEA to the particular guest application that
+> +caused the SEA. If the Exception Class indicated by 'esr' field in 'arm_sea'
+> +is data abort, userspace should inject data abort. If the Exception Class is
+> +instruction abort, userspace should inject instruction abort.
 
 
-
-On 5/2/25 1:45 AM, shiju.jose@huawei.com wrote:
-> From: Shiju Jose <shiju.jose@huawei.com>
-> 
-> Memory sparing is defined as a repair function that replaces a portion of
-> memory with a portion of functional memory at that same DPA. The subclasses
-> for this operation vary in terms of the scope of the sparing being
-> performed. The cacheline sparing subclass refers to a sparing action that
-> can replace a full cacheline. Row sparing is provided as an alternative to
-> PPR sparing functions and its scope is that of a single DDR row.
-> As per CXL r3.2 Table 8-125 foot note 1. Memory sparing is preferred over
-> PPR when possible.
-> Bank sparing allows an entire bank to be replaced. Rank sparing is defined
-> as an operation in which an entire DDR rank is replaced.
-> 
-> Memory sparing maintenance operations may be supported by CXL devices
-> that implement CXL.mem protocol. A sparing maintenance operation requests
-> the CXL device to perform a repair operation on its media.
-> For example, a CXL device with DRAM components that support memory sparing
-> features may implement sparing maintenance operations.
-> 
-> The host may issue a query command by setting query resources flag in the
-> input payload (CXL spec 3.2 Table 8-120) to determine availability of
-> sparing resources for a given address. In response to a query request,
-> the device shall report the resource availability by producing the memory
-> sparing event record (CXL spec 3.2 Table 8-60) in which the Channel, Rank,
-> Nibble Mask, Bank Group, Bank, Row, Column, Sub-Channel fields are a copy
-> of the values specified in the request.
-> 
-> During the execution of a sparing maintenance operation, a CXL memory
-> device:
-> - may not retain data
-> - may not be able to process CXL.mem requests correctly.
-> These CXL memory device capabilities are specified by restriction flags
-> in the memory sparing feature readable attributes.
-> 
-> When a CXL device identifies error on a memory component, the device
-> may inform the host about the need for a memory sparing maintenance
-> operation by using DRAM event record, where the 'maintenance needed' flag
-> may set. The event record contains some of the DPA, Channel, Rank,
-> Nibble Mask, Bank Group, Bank, Row, Column, Sub-Channel fields that
-> should be repaired. The userspace tool requests for maintenance operation
-> if the 'maintenance needed' flag set in the CXL DRAM error record.
-> 
-> CXL spec 3.2 section 8.2.10.7.1.4 describes the device's memory sparing
-> maintenance operation feature.
-> 
-> CXL spec 3.2 section 8.2.10.7.2.3 describes the memory sparing feature
-> discovery and configuration.
-> 
-> Add support for controlling CXL memory device memory sparing feature.
-> Register with EDAC driver, which gets the memory repair attr descriptors
-> from the EDAC memory repair driver and exposes sysfs repair control
-> attributes for memory sparing to the userspace. For example CXL memory
-> sparing control for the CXL mem0 device is exposed in
-> /sys/bus/edac/devices/cxl_mem0/mem_repairX/
-> 
-> Use case
-> ========
-> 1. CXL device identifies a failure in a memory component, report to
->    userspace in a CXL DRAM trace event with DPA and other attributes of
->    memory to repair such as channel, rank, nibble mask, bank Group,
->    bank, row, column, sub-channel.
-> 
-> 2. Rasdaemon process the trace event and may issue query request in sysfs
-> check resources available for memory sparing if either of the following
-> conditions met.
->  - 'maintenance needed' flag set in the event record.
->  - 'threshold event' flag set for CVME threshold feature.
->  - When the number of corrected error reported on a CXL.mem media to the
->    userspace exceeds the threshold value for corrected error count defined
->    by the userspace policy.
-> 
-> 3. Rasdaemon process the memory sparing trace event and issue repair
->    request for memory sparing.
-> 
-> Kernel CXL driver shall report memory sparing event record to the userspace
-> with the resource availability in order rasdaemon to process the event
-> record and issue a repair request in sysfs for the memory sparing operation
-> in the CXL device.
-> 
-> Note: Based on the feedbacks from the community 'query' sysfs attribute is
-> removed and reporting memory sparing error record to the userspace are not
-> supported. Instead userspace issues sparing operation and kernel does the
-> same to the CXL memory device, when 'maintenance needed' flag set in the
-> DRAM event record.
-> 
-> Add checks to ensure the memory to be repaired is offline and if online,
-> then originates from a CXL DRAM error record reported in the current boot
-> before requesting a memory sparing operation on the device.
-> 
-> Note: Tested for memory sparing control feature with
->       "hw/cxl: Add memory sparing control feature"
->       Repository: "https://gitlab.com/shiju.jose/qemu.git"
->       Branch: cxl-ras-features-2024-10-24
-> 
-> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> ---
->  Documentation/edac/memory_repair.rst |  21 +
->  drivers/cxl/core/edac.c              | 548 ++++++++++++++++++++++++++-
->  drivers/edac/mem_repair.c            |   9 +
->  include/linux/edac.h                 |   7 +
->  4 files changed, 583 insertions(+), 2 deletions(-)
-> 
-> diff --git a/Documentation/edac/memory_repair.rst b/Documentation/edac/memory_repair.rst
-> index 52162a422864..5b1cd8297442 100644
-> --- a/Documentation/edac/memory_repair.rst
-> +++ b/Documentation/edac/memory_repair.rst
-> @@ -119,3 +119,24 @@ sysfs
->  
->  Sysfs files are documented in
->  `Documentation/ABI/testing/sysfs-edac-memory-repair`.
-> +
-> +Examples
-> +--------
-> +
-> +The memory repair usage takes the form shown in this example:
-> +
-> +1. CXL memory sparing
-> +
-> +Memory sparing is defined as a repair function that replaces a portion of
-> +memory with a portion of functional memory at that same DPA. The subclass
-> +for this operation, cacheline/row/bank/rank sparing, vary in terms of the
-> +scope of the sparing being performed.
-> +
-> +Memory sparing maintenance operations may be supported by CXL devices that
-> +implement CXL.mem protocol. A sparing maintenance operation requests the
-> +CXL device to perform a repair operation on its media. For example, a CXL
-> +device with DRAM components that support memory sparing features may
-> +implement sparing maintenance operations.
-> +
-> +Sysfs files for memory repair are documented in
-> +`Documentation/ABI/testing/sysfs-edac-memory-repair`
-> diff --git a/drivers/cxl/core/edac.c b/drivers/cxl/core/edac.c
-> index 02bd4c675871..19a2e8d09b3d 100644
-> --- a/drivers/cxl/core/edac.c
-> +++ b/drivers/cxl/core/edac.c
-> @@ -21,7 +21,17 @@
->  #include "core.h"
->  #include "trace.h"
->  
-> -#define CXL_NR_EDAC_DEV_FEATURES 2
-> +#define CXL_NR_EDAC_DEV_FEATURES 6
-> +
-> +static bool cxl_is_memdev_memory_online(const struct cxl_memdev *cxlmd)
-> +{
-> +	struct cxl_port *port = cxlmd->endpoint;
-> +
-> +	if (port && cxl_num_decoders_committed(port))
-> +		return true;
-> +
-> +	return false;
-> +}
->  
->  #ifdef CONFIG_CXL_EDAC_SCRUB
->  struct cxl_patrol_scrub_context {
-> @@ -1116,13 +1126,534 @@ int cxl_store_rec_dram(struct cxl_memdev *cxlmd, union cxl_event *evt)
->  	return 0;
->  }
->  EXPORT_SYMBOL_NS_GPL(cxl_store_rec_dram, "CXL");
-> +
-> +/*
-> + * CXL memory sparing control
-> + */
-> +enum cxl_mem_sparing_granularity {
-> +	CXL_MEM_SPARING_CACHELINE,
-> +	CXL_MEM_SPARING_ROW,
-> +	CXL_MEM_SPARING_BANK,
-> +	CXL_MEM_SPARING_RANK,
-> +	CXL_MEM_SPARING_MAX
-> +};
-> +
-> +struct cxl_mem_sparing_context {
-> +	struct cxl_memdev *cxlmd;
-> +	uuid_t repair_uuid;
-> +	u16 get_feat_size;
-> +	u16 set_feat_size;
-> +	u16 effects;
-> +	u8 instance;
-> +	u8 get_version;
-> +	u8 set_version;
-> +	u8 op_class;
-> +	u8 op_subclass;
-> +	bool cap_safe_when_in_use;
-> +	bool cap_hard_sparing;
-> +	bool cap_soft_sparing;
-> +	u8 channel;
-> +	u8 rank;
-> +	u8 bank_group;
-> +	u32 nibble_mask;
-> +	u64 dpa;
-> +	u32 row;
-> +	u16 column;
-> +	u8 bank;
-> +	u8 sub_channel;
-> +	enum edac_mem_repair_type repair_type;
-> +	bool persist_mode;
-> +};
-> +
-> +#define CXL_SPARING_RD_CAP_SAFE_IN_USE_MASK BIT(0)
-> +#define CXL_SPARING_RD_CAP_HARD_SPARING_MASK BIT(1)
-> +#define CXL_SPARING_RD_CAP_SOFT_SPARING_MASK BIT(2)
-> +
-> +#define CXL_SPARING_WR_DEVICE_INITIATED_MASK BIT(0)
-> +
-> +#define CXL_SPARING_QUERY_RESOURCE_FLAG BIT(0)
-> +#define CXL_SET_HARD_SPARING_FLAG BIT(1)
-> +#define CXL_SPARING_SUB_CHNL_VALID_FLAG BIT(2)
-> +#define CXL_SPARING_NIB_MASK_VALID_FLAG BIT(3)
-> +
-> +#define CXL_GET_SPARING_SAFE_IN_USE(flags) \
-> +	(FIELD_GET(CXL_SPARING_RD_CAP_SAFE_IN_USE_MASK, \
-> +		  flags) ^ 1)
-> +#define CXL_GET_CAP_HARD_SPARING(flags) \
-> +	FIELD_GET(CXL_SPARING_RD_CAP_HARD_SPARING_MASK, \
-> +		  flags)
-> +#define CXL_GET_CAP_SOFT_SPARING(flags) \
-> +	FIELD_GET(CXL_SPARING_RD_CAP_SOFT_SPARING_MASK, \
-> +		  flags)
-> +
-> +#define CXL_SET_SPARING_QUERY_RESOURCE(val) \
-> +	FIELD_PREP(CXL_SPARING_QUERY_RESOURCE_FLAG, val)
-> +#define CXL_SET_HARD_SPARING(val) \
-> +	FIELD_PREP(CXL_SET_HARD_SPARING_FLAG, val)
-> +#define CXL_SET_SPARING_SUB_CHNL_VALID(val) \
-> +	FIELD_PREP(CXL_SPARING_SUB_CHNL_VALID_FLAG, val)
-> +#define CXL_SET_SPARING_NIB_MASK_VALID(val) \
-> +	FIELD_PREP(CXL_SPARING_NIB_MASK_VALID_FLAG, val)
-> +
-> +/*
-> + * See CXL spec rev 3.2 @8.2.10.7.2.3 Table 8-134 Memory Sparing Feature
-> + * Readable Attributes.
-> + */
-> +struct cxl_memdev_repair_rd_attrbs_hdr {
-> +	u8 max_op_latency;
-> +	__le16 op_cap;
-> +	__le16 op_mode;
-> +	u8 op_class;
-> +	u8 op_subclass;
-> +	u8 rsvd[9];
-> +} __packed;
-> +
-> +struct cxl_memdev_sparing_rd_attrbs {
-> +	struct cxl_memdev_repair_rd_attrbs_hdr hdr;
-> +	u8 rsvd;
-> +	__le16 restriction_flags;
-> +} __packed;
-> +
-> +/*
-> + * See CXL spec rev 3.2 @8.2.10.7.1.4 Table 8-120 Memory Sparing Input Payload.
-> + */
-> +struct cxl_memdev_sparing_in_payload {
-> +	u8 flags;
-> +	u8 channel;
-> +	u8 rank;
-> +	u8 nibble_mask[3];
-> +	u8 bank_group;
-> +	u8 bank;
-> +	u8 row[3];
-> +	__le16 column;
-> +	u8 sub_channel;
-> +} __packed;
-> +
-> +static int
-> +cxl_mem_sparing_get_attrbs(struct cxl_mem_sparing_context *cxl_sparing_ctx)
-> +{
-> +	size_t rd_data_size = sizeof(struct cxl_memdev_sparing_rd_attrbs);
-> +	struct cxl_memdev *cxlmd = cxl_sparing_ctx->cxlmd;
-> +	struct cxl_mailbox *cxl_mbox = &cxlmd->cxlds->cxl_mbox;
-> +	u16 restriction_flags;
-> +	size_t data_size;
-> +	u16 return_code;
-> +	struct cxl_memdev_sparing_rd_attrbs *rd_attrbs __free(kfree) =
-> +		kzalloc(rd_data_size, GFP_KERNEL);
-> +	if (!rd_attrbs)
-> +		return -ENOMEM;
-> +
-> +	data_size = cxl_get_feature(cxl_mbox, &cxl_sparing_ctx->repair_uuid,
-> +				    CXL_GET_FEAT_SEL_CURRENT_VALUE, rd_attrbs,
-> +				    rd_data_size, 0, &return_code);
-> +	if (!data_size)
-> +		return -EIO;
-> +
-> +	cxl_sparing_ctx->op_class = rd_attrbs->hdr.op_class;
-> +	cxl_sparing_ctx->op_subclass = rd_attrbs->hdr.op_subclass;
-> +	restriction_flags = le16_to_cpu(rd_attrbs->restriction_flags);
-> +	cxl_sparing_ctx->cap_safe_when_in_use =
-> +		CXL_GET_SPARING_SAFE_IN_USE(restriction_flags);
-> +	cxl_sparing_ctx->cap_hard_sparing =
-> +		CXL_GET_CAP_HARD_SPARING(restriction_flags);
-> +	cxl_sparing_ctx->cap_soft_sparing =
-> +		CXL_GET_CAP_SOFT_SPARING(restriction_flags);
-> +
-> +	return 0;
-> +}
-> +
-> +static struct cxl_event_dram *
-> +cxl_mem_get_rec_dram(struct cxl_memdev *cxlmd,
-> +		     struct cxl_mem_sparing_context *ctx)
-> +{
-> +	struct cxl_mem_repair_attrbs attrbs = { 0 };
-> +
-> +	attrbs.dpa = ctx->dpa;
-> +	attrbs.channel = ctx->channel;
-> +	attrbs.rank = ctx->rank;
-> +	attrbs.nibble_mask = ctx->nibble_mask;
-> +	switch (ctx->repair_type) {
-> +	case EDAC_REPAIR_CACHELINE_SPARING:
-> +		attrbs.repair_type = CXL_CACHELINE_SPARING;
-> +		attrbs.bank_group = ctx->bank_group;
-> +		attrbs.bank = ctx->bank;
-> +		attrbs.row = ctx->row;
-> +		attrbs.column = ctx->column;
-> +		attrbs.sub_channel = ctx->sub_channel;
-> +		break;
-> +	case EDAC_REPAIR_ROW_SPARING:
-> +		attrbs.repair_type = CXL_ROW_SPARING;
-> +		attrbs.bank_group = ctx->bank_group;
-> +		attrbs.bank = ctx->bank;
-> +		attrbs.row = ctx->row;
-> +		break;
-> +	case EDAC_REPAIR_BANK_SPARING:
-> +		attrbs.repair_type = CXL_BANK_SPARING;
-> +		attrbs.bank_group = ctx->bank_group;
-> +		attrbs.bank = ctx->bank;
-> +	break;
-> +	case EDAC_REPAIR_RANK_SPARING:
-> +		attrbs.repair_type = CXL_BANK_SPARING;
-> +		break;
-> +	default:
-> +		return NULL;
-> +	}
-> +
-> +	return cxl_find_rec_dram(cxlmd, &attrbs);
-> +}
-> +
-> +static int
-> +cxl_mem_perform_sparing(struct device *dev,
-> +			struct cxl_mem_sparing_context *cxl_sparing_ctx)
-> +{
-> +	struct cxl_memdev *cxlmd = cxl_sparing_ctx->cxlmd;
-> +	struct cxl_memdev_sparing_in_payload sparing_pi;
-> +	struct cxl_event_dram *rec = NULL;
-> +	u16 validity_flags = 0;
-> +
-> +	struct rw_semaphore *region_lock __free(rwsem_read_release) =
-> +		rwsem_read_intr_acquire(&cxl_region_rwsem);
-> +	if (!region_lock)
-> +		return -EINTR;
-> +
-> +	struct rw_semaphore *dpa_lock __free(rwsem_read_release) =
-> +		rwsem_read_intr_acquire(&cxl_dpa_rwsem);
-> +	if (!dpa_lock)
-> +		return -EINTR;
-> +
-> +	if (!cxl_sparing_ctx->cap_safe_when_in_use) {
-> +		/* Memory to repair must be offline */
-> +		if (cxl_is_memdev_memory_online(cxlmd))
-> +			return -EBUSY;
-> +	} else {
-> +		if (cxl_is_memdev_memory_online(cxlmd)) {
-> +			rec = cxl_mem_get_rec_dram(cxlmd, cxl_sparing_ctx);
-> +			if (!rec)
-> +				return -EINVAL;
-> +
-> +			if (!rec->media_hdr.validity_flags)
-> +				return -EINVAL;
-> +		}
-> +	}
-> +
-> +	memset(&sparing_pi, 0, sizeof(sparing_pi));
-> +	sparing_pi.flags = CXL_SET_SPARING_QUERY_RESOURCE(0);
-> +	if (cxl_sparing_ctx->persist_mode)
-> +		sparing_pi.flags |= CXL_SET_HARD_SPARING(1);
-> +
-> +	if (rec)
-> +		validity_flags = get_unaligned_le16(rec->media_hdr.validity_flags);
-> +
-> +	switch (cxl_sparing_ctx->repair_type) {
-> +	case EDAC_REPAIR_CACHELINE_SPARING:
-> +		sparing_pi.column = cpu_to_le16(cxl_sparing_ctx->column);
-> +		if (!rec || (validity_flags & CXL_DER_VALID_SUB_CHANNEL)) {
-> +			sparing_pi.flags |= CXL_SET_SPARING_SUB_CHNL_VALID(1);
-> +			sparing_pi.sub_channel = cxl_sparing_ctx->sub_channel;
-> +		}
-> +		fallthrough;
-> +	case EDAC_REPAIR_ROW_SPARING:
-> +		put_unaligned_le24(cxl_sparing_ctx->row, sparing_pi.row);
-> +		fallthrough;
-> +	case EDAC_REPAIR_BANK_SPARING:
-> +		sparing_pi.bank_group = cxl_sparing_ctx->bank_group;
-> +		sparing_pi.bank = cxl_sparing_ctx->bank;
-> +		fallthrough;
-> +	case EDAC_REPAIR_RANK_SPARING:
-> +		sparing_pi.rank = cxl_sparing_ctx->rank;
-> +		fallthrough;
-> +	default:
-> +		sparing_pi.channel = cxl_sparing_ctx->channel;
-> +		if ((rec && (validity_flags & CXL_DER_VALID_NIBBLE)) ||
-> +		    (!rec && (!cxl_sparing_ctx->nibble_mask ||
-> +			     (cxl_sparing_ctx->nibble_mask & 0xFFFFFF)))) {
-> +			sparing_pi.flags |= CXL_SET_SPARING_NIB_MASK_VALID(1);
-> +			put_unaligned_le24(cxl_sparing_ctx->nibble_mask,
-> +					   sparing_pi.nibble_mask);
-> +		}
-> +		break;
-> +	}
-> +
-> +	return cxl_perform_maintenance(&cxlmd->cxlds->cxl_mbox,
-> +				       cxl_sparing_ctx->op_class,
-> +				       cxl_sparing_ctx->op_subclass,
-> +				       &sparing_pi, sizeof(sparing_pi));
-> +}
-> +
-> +static int cxl_mem_sparing_get_repair_type(struct device *dev, void *drv_data,
-> +					   const char **repair_type)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +
-> +	switch (ctx->repair_type) {
-> +	case EDAC_REPAIR_CACHELINE_SPARING:
-> +	case EDAC_REPAIR_ROW_SPARING:
-> +	case EDAC_REPAIR_BANK_SPARING:
-> +	case EDAC_REPAIR_RANK_SPARING:
-> +		*repair_type = edac_repair_type[ctx->repair_type];
-> +		break;
-> +	default:
-> +		return -EINVAL;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +#define CXL_SPARING_GET_ATTR(attrb, data_type)			    \
-> +	static int cxl_mem_sparing_get_##attrb(			    \
-> +		struct device *dev, void *drv_data, data_type *val) \
-> +	{							    \
-> +		struct cxl_mem_sparing_context *ctx = drv_data;	    \
-> +								    \
-> +		*val = ctx->attrb;				    \
-> +								    \
-> +		return 0;					    \
-> +	}
-> +CXL_SPARING_GET_ATTR(persist_mode, bool)
-> +CXL_SPARING_GET_ATTR(dpa, u64)
-> +CXL_SPARING_GET_ATTR(nibble_mask, u32)
-> +CXL_SPARING_GET_ATTR(bank_group, u32)
-> +CXL_SPARING_GET_ATTR(bank, u32)
-> +CXL_SPARING_GET_ATTR(rank, u32)
-> +CXL_SPARING_GET_ATTR(row, u32)
-> +CXL_SPARING_GET_ATTR(column, u32)
-> +CXL_SPARING_GET_ATTR(channel, u32)
-> +CXL_SPARING_GET_ATTR(sub_channel, u32)
-> +
-> +#define CXL_SPARING_SET_ATTR(attrb, data_type)					\
-> +	static int cxl_mem_sparing_set_##attrb(struct device *dev,		\
-> +						void *drv_data, data_type val)	\
-> +	{									\
-> +		struct cxl_mem_sparing_context *ctx = drv_data;			\
-> +										\
-> +		ctx->attrb = val;						\
-> +										\
-> +		return 0;							\
-> +	}
-> +CXL_SPARING_SET_ATTR(nibble_mask, u32)
-> +CXL_SPARING_SET_ATTR(bank_group, u32)
-> +CXL_SPARING_SET_ATTR(bank, u32)
-> +CXL_SPARING_SET_ATTR(rank, u32)
-> +CXL_SPARING_SET_ATTR(row, u32)
-> +CXL_SPARING_SET_ATTR(column, u32)
-> +CXL_SPARING_SET_ATTR(channel, u32)
-> +CXL_SPARING_SET_ATTR(sub_channel, u32)
-> +
-> +static int cxl_mem_sparing_set_persist_mode(struct device *dev, void *drv_data,
-> +					    bool persist_mode)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +
-> +	if ((persist_mode && ctx->cap_hard_sparing) ||
-> +	    (!persist_mode && ctx->cap_soft_sparing))
-> +		ctx->persist_mode = persist_mode;
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cxl_get_mem_sparing_safe_when_in_use(struct device *dev,
-> +						void *drv_data, bool *safe)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +
-> +	*safe = ctx->cap_safe_when_in_use;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cxl_mem_sparing_get_min_dpa(struct device *dev, void *drv_data,
-> +				       u64 *min_dpa)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +	struct cxl_memdev *cxlmd = ctx->cxlmd;
-> +	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-> +
-> +	*min_dpa = cxlds->dpa_res.start;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cxl_mem_sparing_get_max_dpa(struct device *dev, void *drv_data,
-> +				       u64 *max_dpa)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +	struct cxl_memdev *cxlmd = ctx->cxlmd;
-> +	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-> +
-> +	*max_dpa = cxlds->dpa_res.end;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cxl_mem_sparing_set_dpa(struct device *dev, void *drv_data, u64 dpa)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +	struct cxl_memdev *cxlmd = ctx->cxlmd;
-> +	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-> +
-> +	if (dpa < cxlds->dpa_res.start || dpa > cxlds->dpa_res.end)
-> +		return -EINVAL;
-> +
-> +	ctx->dpa = dpa;
-> +
-> +	return 0;
-> +}
-> +
-> +static int cxl_do_mem_sparing(struct device *dev, void *drv_data, u32 val)
-> +{
-> +	struct cxl_mem_sparing_context *ctx = drv_data;
-> +
-> +	if (val != EDAC_DO_MEM_REPAIR)
-> +		return -EINVAL;
-> +
-> +	return cxl_mem_perform_sparing(dev, ctx);
-> +}
-> +
-> +#define RANK_OPS                                                             \
-> +	.get_repair_type = cxl_mem_sparing_get_repair_type,                  \
-> +	.get_persist_mode = cxl_mem_sparing_get_persist_mode,                \
-> +	.set_persist_mode = cxl_mem_sparing_set_persist_mode,                \
-> +	.get_repair_safe_when_in_use = cxl_get_mem_sparing_safe_when_in_use, \
-> +	.get_min_dpa = cxl_mem_sparing_get_min_dpa,                          \
-> +	.get_max_dpa = cxl_mem_sparing_get_max_dpa,                          \
-> +	.get_dpa = cxl_mem_sparing_get_dpa,                                  \
-> +	.set_dpa = cxl_mem_sparing_set_dpa,                                  \
-> +	.get_nibble_mask = cxl_mem_sparing_get_nibble_mask,                  \
-> +	.set_nibble_mask = cxl_mem_sparing_set_nibble_mask,                  \
-> +	.get_rank = cxl_mem_sparing_get_rank,                                \
-> +	.set_rank = cxl_mem_sparing_set_rank,                                \
-> +	.get_channel = cxl_mem_sparing_get_channel,                          \
-> +	.set_channel = cxl_mem_sparing_set_channel,                          \
-> +	.do_repair = cxl_do_mem_sparing
-> +
-> +#define BANK_OPS                                                    \
-> +	RANK_OPS, .get_bank_group = cxl_mem_sparing_get_bank_group, \
-> +		.set_bank_group = cxl_mem_sparing_set_bank_group,   \
-> +		.get_bank = cxl_mem_sparing_get_bank,               \
-> +		.set_bank = cxl_mem_sparing_set_bank
-> +
-> +#define ROW_OPS                                       \
-> +	BANK_OPS, .get_row = cxl_mem_sparing_get_row, \
-> +		.set_row = cxl_mem_sparing_set_row
-> +
-> +#define CACHELINE_OPS                                               \
-> +	ROW_OPS, .get_column = cxl_mem_sparing_get_column,          \
-> +		.set_column = cxl_mem_sparing_set_column,           \
-> +		.get_sub_channel = cxl_mem_sparing_get_sub_channel, \
-> +		.set_sub_channel = cxl_mem_sparing_set_sub_channel
-> +
-> +static const struct edac_mem_repair_ops cxl_rank_sparing_ops = {
-> +	RANK_OPS,
-> +};
-> +
-> +static const struct edac_mem_repair_ops cxl_bank_sparing_ops = {
-> +	BANK_OPS,
-> +};
-> +
-> +static const struct edac_mem_repair_ops cxl_row_sparing_ops = {
-> +	ROW_OPS,
-> +};
-> +
-> +static const struct edac_mem_repair_ops cxl_cacheline_sparing_ops = {
-> +	CACHELINE_OPS,
-> +};
-> +
-> +struct cxl_mem_sparing_desc {
-> +	const uuid_t repair_uuid;
-> +	enum edac_mem_repair_type repair_type;
-> +	const struct edac_mem_repair_ops *repair_ops;
-> +};
-> +
-> +static const struct cxl_mem_sparing_desc mem_sparing_desc[] = {
-> +	{
-> +		.repair_uuid = CXL_FEAT_CACHELINE_SPARING_UUID,
-> +		.repair_type = EDAC_REPAIR_CACHELINE_SPARING,
-> +		.repair_ops = &cxl_cacheline_sparing_ops,
-> +	},
-> +	{
-> +		.repair_uuid = CXL_FEAT_ROW_SPARING_UUID,
-> +		.repair_type = EDAC_REPAIR_ROW_SPARING,
-> +		.repair_ops = &cxl_row_sparing_ops,
-> +	},
-> +	{
-> +		.repair_uuid = CXL_FEAT_BANK_SPARING_UUID,
-> +		.repair_type = EDAC_REPAIR_BANK_SPARING,
-> +		.repair_ops = &cxl_bank_sparing_ops,
-> +	},
-> +	{
-> +		.repair_uuid = CXL_FEAT_RANK_SPARING_UUID,
-> +		.repair_type = EDAC_REPAIR_RANK_SPARING,
-> +		.repair_ops = &cxl_rank_sparing_ops,
-> +	},
-> +};
-> +
-> +static int cxl_memdev_sparing_init(struct cxl_memdev *cxlmd,
-> +				   struct edac_dev_feature *ras_feature,
-> +				   const struct cxl_mem_sparing_desc *desc,
-> +				   u8 repair_inst)
-> +{
-> +	struct cxl_mem_sparing_context *cxl_sparing_ctx;
-> +	struct cxl_feat_entry *feat_entry;
-> +	int ret;
-> +
-> +	feat_entry = cxl_feature_info(to_cxlfs(cxlmd->cxlds),
-> +				      &desc->repair_uuid);
-> +	if (!feat_entry)
-> +		return -EOPNOTSUPP;
-> +
-> +	if (!(le32_to_cpu(feat_entry->flags) & CXL_FEATURE_F_CHANGEABLE))
-> +		return -EOPNOTSUPP;
-> +
-> +	cxl_sparing_ctx = devm_kzalloc(&cxlmd->dev, sizeof(*cxl_sparing_ctx),
-> +				       GFP_KERNEL);
-> +	if (!cxl_sparing_ctx)
-> +		return -ENOMEM;
-> +
-> +	*cxl_sparing_ctx = (struct cxl_mem_sparing_context){
-> +		.get_feat_size = le16_to_cpu(feat_entry->get_feat_size),
-> +		.set_feat_size = le16_to_cpu(feat_entry->set_feat_size),
-> +		.get_version = feat_entry->get_feat_ver,
-> +		.set_version = feat_entry->set_feat_ver,
-> +		.effects = le16_to_cpu(feat_entry->effects),
-> +		.cxlmd = cxlmd,
-> +		.repair_type = desc->repair_type,
-> +		.instance = repair_inst++,
-> +	};
-> +	uuid_copy(&cxl_sparing_ctx->repair_uuid, &desc->repair_uuid);
-> +
-> +	ret = cxl_mem_sparing_get_attrbs(cxl_sparing_ctx);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if ((cxl_sparing_ctx->cap_soft_sparing &&
-> +	     cxl_sparing_ctx->cap_hard_sparing) ||
-> +	    cxl_sparing_ctx->cap_soft_sparing)
-> +		cxl_sparing_ctx->persist_mode = 0;
-> +	else if (cxl_sparing_ctx->cap_hard_sparing)
-> +		cxl_sparing_ctx->persist_mode = 1;
-> +	else
-> +		return -EOPNOTSUPP;
-> +
-> +	ras_feature->ft_type = RAS_FEAT_MEM_REPAIR;
-> +	ras_feature->instance = cxl_sparing_ctx->instance;
-> +	ras_feature->mem_repair_ops = desc->repair_ops;
-> +	ras_feature->ctx = cxl_sparing_ctx;
-> +
-> +	return 0;
-> +}
->  #endif /* CONFIG_CXL_EDAC_MEM_REPAIR */
->  
->  int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
->  {
->  	struct edac_dev_feature ras_features[CXL_NR_EDAC_DEV_FEATURES];
->  	int num_ras_features = 0;
-> -#if defined(CONFIG_CXL_EDAC_SCRUB) || defined(CONFIG_CXL_EDAC_ECS)
-> +#ifdef CONFIG_CXL_EDAC_MEM_REPAIR
-> +	u8 repair_inst = 0;
-> +#endif
-> +#if defined(CONFIG_CXL_EDAC_SCRUB) || defined(CONFIG_CXL_EDAC_ECS) || \
-> +	defined(CXL_EDAC_MEM_REPAIR)
->  	int rc;
->  #endif
->  
-> @@ -1153,6 +1684,19 @@ int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
->  	cxlmd->array_err_rec = array_rec;
->  	xa_init(&array_rec->rec_gen_media);
->  	xa_init(&array_rec->rec_dram);
-> +
-> +	for (int i = 0; i < CXL_MEM_SPARING_MAX; i++) {
-> +		rc = cxl_memdev_sparing_init(cxlmd,
-> +					     &ras_features[num_ras_features],
-> +					     &mem_sparing_desc[i], repair_inst);
-> +		if (rc == -EOPNOTSUPP)
-> +			continue;
-> +		if (rc < 0)
-> +			return rc;
-> +
-> +		repair_inst++;
-> +		num_ras_features++;
-> +	}
->  #endif
->  	char *cxl_dev_name __free(kfree) =
->  		kasprintf(GFP_KERNEL, "cxl_%s", dev_name(&cxlmd->dev));
-> diff --git a/drivers/edac/mem_repair.c b/drivers/edac/mem_repair.c
-> index 3b1a845457b0..d1a8caa85369 100755
-> --- a/drivers/edac/mem_repair.c
-> +++ b/drivers/edac/mem_repair.c
-> @@ -45,6 +45,15 @@ struct edac_mem_repair_context {
->  	struct attribute_group group;
->  };
->  
-> +const char * const edac_repair_type[] = {
-> +	[EDAC_REPAIR_PPR] = "ppr",
-> +	[EDAC_REPAIR_CACHELINE_SPARING] = "cacheline-sparing",
-> +	[EDAC_REPAIR_ROW_SPARING] = "row-sparing",
-> +	[EDAC_REPAIR_BANK_SPARING] = "bank-sparing",
-> +	[EDAC_REPAIR_RANK_SPARING] = "rank-sparing",
-> +};
-> +EXPORT_SYMBOL_GPL(edac_repair_type);
-> +
->  #define TO_MR_DEV_ATTR(_dev_attr)      \
->  	container_of(_dev_attr, struct edac_mem_repair_dev_attr, dev_attr)
->  
-> diff --git a/include/linux/edac.h b/include/linux/edac.h
-> index 451f9c152c99..fa32f2aca22f 100644
-> --- a/include/linux/edac.h
-> +++ b/include/linux/edac.h
-> @@ -745,9 +745,16 @@ static inline int edac_ecs_get_desc(struct device *ecs_dev,
->  #endif /* CONFIG_EDAC_ECS */
->  
->  enum edac_mem_repair_type {
-> +	EDAC_REPAIR_PPR,
-> +	EDAC_REPAIR_CACHELINE_SPARING,
-> +	EDAC_REPAIR_ROW_SPARING,
-> +	EDAC_REPAIR_BANK_SPARING,
-> +	EDAC_REPAIR_RANK_SPARING,
->  	EDAC_REPAIR_MAX
->  };
->  
-> +extern const char * const edac_repair_type[];
-> +
->  enum edac_mem_repair_cmd {
->  	EDAC_DO_MEM_REPAIR = 1,
->  };
-
+Thanks,
+Alok
