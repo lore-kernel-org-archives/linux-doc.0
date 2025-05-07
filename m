@@ -1,49 +1,49 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C8ABE28B3E9
-	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 13:56:54 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 650BA28A1CE
+	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 14:19:46 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746626219; cv=none; b=PfbGrM+u4q0UwmPnq8vCqyIHzckUK02w/mew9u5QwQsRbl62k891jmqDP2je/ELCIHPi/iVWouGLnOrV/JXMiOnKdREL0CBTib8ih9kB/zDkFv5dBVTh1T5B3Vu9GZSatxjN0nImFDd8EzJoGIS36mFIaAPMG/NnHVhGoXchN1g=
+	t=1746627588; cv=none; b=hkiKylaPFtVne6hqF2+kGd/wJDo1cvfQtxfBDypQ+sWFVGXrbFIpPiUZtU/9olwp+UOz/5xHL+3iPGgbGQ6xHA+X1gPG2Y4gnE4EKr0jP4OzZLz5lHjAfXOZHFVcYbw42muaO/v+wEXNSYVZJCj+upuF0CHZIwQp+x24a2N8xCs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746626219; c=relaxed/simple;
-	bh=sGa1g1PPLfg0IIMC8cBZToyVlaK+S6WfeD7ZsrQBI2s=;
+	s=arc-20240116; t=1746627588; c=relaxed/simple;
+	bh=+gSWaLrlSKvjhkkdwPTUbaGH52GIa8jFvFcv1TL+Qr0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=MtrEpVZUMJlCywz67WFWQNQZKAT1lq0RezvKNInU6bXrQGjdmfq8aS8DKTDoj5aUEAcW5MV5NlezmLBlui7WITIelxpB1kmeb26llI8HSlkM8HOv8XecVnzCYNGvcjS3MrUtRnB396KeWozwxV4mQD5xiOHuOWNc1dWvSo34xv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=NoHgIo8c; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=icqapX4NK1RDF1HAqf/A+dn10eOSOcJD5k8/BmuHwcBGN1/Bl4eSbnxWKB8RXmCiMPnXMzIeBD/hVIIGpoZX1qP5eQFbi/ucX2njJvOYGfbBvx1qMZPxtVqgHvX1TSb5y7ZPoINHapTP9Pmvc8nlcwHGRABTCxJUin6HnYXSQ4k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=L2xJe1P+; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="NoHgIo8c"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="L2xJe1P+"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746626213;
+	s=mimecast20190719; t=1746627585;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=eCxlh7OLGZ6tmVtPGqGmXKkGEJLdZqILpcZUyhVzTuI=;
-	b=NoHgIo8c7nUwW4oX+JDBVj7cVlhRctJHYcLQ6H6/UIcBWOABeeriV5LffzlXMqqcAe0X4H
-	ALHs+aZ2cBEQ5R/e39KiKD//kxOaoeOMDbwLG2RXemZvMQ49/NRwcJ4wjde1oUkXLOAIrm
-	dPpactcJMCAecdA0TQiPsCNGgJMdCe4=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+	bh=MweqEOF5l5jRk/Y5461YnFfXIpxXFbmEcdriDx9b/ng=;
+	b=L2xJe1P+56VlZZk2Dvcdk3VfzSQowbu4zvfdPADBqme+bBZa6SnlpTIzaz1WGGhBQLP0iE
+	J2t3lYQ36Ueg5xFvNdk3REpbUz3AASQD1jiyfYaE6P71FCSkmdZWPqM6WC7Ngl9Idg9Qvc
+	m3iyj45BfWDD9SyX5nrsJwKgn3gjLCw=
+Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-496-slc2Hx5AOXe4P0uxASBc5Q-1; Wed,
- 07 May 2025 09:56:47 -0400
-X-MC-Unique: slc2Hx5AOXe4P0uxASBc5Q-1
-X-Mimecast-MFC-AGG-ID: slc2Hx5AOXe4P0uxASBc5Q_1746626205
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-588-MokWut8GP3WQFdyZTAATqA-1; Wed,
+ 07 May 2025 10:19:40 -0400
+X-MC-Unique: MokWut8GP3WQFdyZTAATqA-1
+X-Mimecast-MFC-AGG-ID: MokWut8GP3WQFdyZTAATqA_1746627577
 Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BE39B1800875;
-	Wed,  7 May 2025 13:56:44 +0000 (UTC)
+	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 4DEDA1956050;
+	Wed,  7 May 2025 14:19:37 +0000 (UTC)
 Received: from [10.44.33.91] (unknown [10.44.33.91])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 263381800268;
-	Wed,  7 May 2025 13:56:38 +0000 (UTC)
-Message-ID: <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
-Date: Wed, 7 May 2025 15:56:37 +0200
+	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5062D1800359;
+	Wed,  7 May 2025 14:19:31 +0000 (UTC)
+Message-ID: <7e7122b1-b5ff-4800-8e1d-b1532a7c1ecf@redhat.com>
+Date: Wed, 7 May 2025 16:19:29 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -113,28 +113,17 @@ On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
 > 
 > and use them in both data structures.
 > 
-> ...
+It could be possible to drop zl3073x_pdata array and modify ZL3073X_CELL
+this way:
 
-WDYM?
+#define ZL3073X_CHANNEL(_channel)                               \
+         &(const struct zl3073x_pdata) { .channel = _channel }
 
-> OTOH, I'm not sure why we even need this. If this is going to be
-> sequential, can't we make a core to decide which cell will be given
-> which id?
+#define ZL3073X_CELL(_name, _channel)                           \
+         MFD_CELL_BASIC(_name, NULL, ZL3073X_CHANNEL(_channel),  \
+                        sizeof(struct zl3073x_pdata), 0)
 
-Just a note that after introduction of PHC sub-driver the array will 
-look like:
-static const struct mfd_cell zl3073x_devs[] = {
-        ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
-        ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
-        ZL3073X_CELL("zl3073x-dpll", 1),  // ...
-        ZL3073X_CELL("zl3073x-phc", 1),
-        ZL3073X_CELL("zl3073x-dpll", 2),
-        ZL3073X_CELL("zl3073x-phc", 2),
-        ZL3073X_CELL("zl3073x-dpll", 3),
-        ZL3073X_CELL("zl3073x-phc", 3),
-        ZL3073X_CELL("zl3073x-dpll", 4),
-        ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
-};
+WDYT?
 
 Ivan
 
