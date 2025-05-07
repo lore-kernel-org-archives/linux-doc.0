@@ -1,37 +1,49 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9847A28C861;
-	Wed,  7 May 2025 15:49:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1D5828B7EA
+	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 16:13:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746632986; cv=none; b=e1YXQK7O0Gk6chNLQ6C8ZyloDGxg/1XqsdgLCPw/j6B6dhYc+617Pi5JjRRz/cnNlFqOZgGRXBNRAXz09ZtFmuw9t3G35eo7ozSXabN++jVqOaP6Ayogw1ity2As9Wb8AfAf3w9+jBlAhQ04YUhgSEpr+0gLkIF/WkbOjPZ+hzE=
+	t=1746634426; cv=none; b=BpgDiXy0N5LfP0cPzMr7gH47foCEIrF+lDrYAs9ZiLaFTx5LeAgQdJ+9KZ97RR6fmlxHnnp8ZedObeLR+ne38ohJXRdxVScwgs7ZQSAeu68GSRJe395bUbtmm3E4rBemu0Brt4iDAVzHMOpw/gXj3EBvI1jTUzgCuafJlFo5ENA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746632986; c=relaxed/simple;
-	bh=nNzHKx96NKIWwmqZT773FwQ0tJHihDbRn8PZQIr1ypk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=SUyjJV8xYlN58G2zdR7swQ8zrzH7WZZDPjoHzEw3XGHwSAeMJEg4HMlDAqJmHAuLLlkaEbJddx+4MNo5vxVW3EKrAgAiagVqy0iDwpXOSYyp8KCa/zWo8MsUKfwWfm0C0oOR/vu/EUCWpsn0yzil73y8mR8kFG5LC6wIQKxas7M=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HbNhBWWt; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1746634426; c=relaxed/simple;
+	bh=2ilPNKF6f/rDkMNB2UoP20P3lHsdIGcLFDsA/AUjOXo=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=Bl14RB2S6pyA0bcLbRhP+RGEDNiTnXKYxSH0AY5IIhgN0Vxj+qE7EFd9laWWkUNqyF1APpBFWwsq0utfrF9XfveTwrYw1pLQe1Qpe1ZiKe7uUwNB+qCe1ULXR6N8kJf/p9Fme4sa8wsgjkXU7XQSzt5BoHlhDrgNYxDQTcea1Rc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=JMVgn1VR; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HbNhBWWt"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=XrB6lkb4kjYGUyvVTgh7sRxO8qkr0KQ3qTvgnKF9Guw=; b=HbNhBWWte43Fv5kuCqbpHhn/3b
-	ozaiWNEm+7ZeZNWHs+UA7boIngxYZAk+/TS10Y4z7uT/jCw70n8HHsqeWCagYiShZhZDTYpR4PhMV
-	aYPFXltC2a6pIm+LHQBJfQ1PD4qsYVvSkuOqgjqOolmgriTNE1Q7LsohaUPPldbXtiCrqcUJhO3QA
-	dRkhpzH1n+45qZqRV4J/B9qwvErE51DQU5inkKyzMa7uis2XE95F3vOob2At1B4tvktlDGp225045
-	QIBqKW82DhqYGR+U3B7g0zFFTvmm6X/zDO3Q2aDcq7KRjH0t5UN7mSAMmb1zf3F37guGuosLxZ3tR
-	JSNrqzYg==;
-Received: from [50.39.124.201] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uCh1T-0000000FsKa-0PVQ;
-	Wed, 07 May 2025 15:49:27 +0000
-Message-ID: <06bcea82-11d5-4dcf-8331-c073e6d9078f@infradead.org>
-Date: Wed, 7 May 2025 08:49:20 -0700
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="JMVgn1VR"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1746634422;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=3/Vr0zVbcT7BzCMh97BIa3Lqx/NCn2qxIyCi3f2m9aU=;
+	b=JMVgn1VRARrvD2O5oQGD4PX2lVkWfYGIfOPWXuuGcXgbDvSp4Ufn2S6mkJc666fAhVPRlv
+	K0B9/IWU1M/Goul5fKpaLaMr+U7mLNY/MTbUTstn2vS3LCHucLL0sPGm8oFH/5FZgVh3ZO
+	YKfDpPUkxya/Ht9vlgtLsKx4SgJW+/0=
+Received: from mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-190-SXPiZFViOwKTJHjCPGb2vw-1; Wed,
+ 07 May 2025 12:13:36 -0400
+X-MC-Unique: SXPiZFViOwKTJHjCPGb2vw-1
+X-Mimecast-MFC-AGG-ID: SXPiZFViOwKTJHjCPGb2vw_1746634414
+Received: from mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.4])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-05.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BE1B5195608B;
+	Wed,  7 May 2025 16:13:33 +0000 (UTC)
+Received: from [10.44.33.91] (unknown [10.44.33.91])
+	by mx-prod-int-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id B246A30001A1;
+	Wed,  7 May 2025 16:13:12 +0000 (UTC)
+Message-ID: <2c41caf5-0579-42d8-8f7e-4a9b1a0baa48@redhat.com>
+Date: Wed, 7 May 2025 18:13:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -39,93 +51,123 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3] PM / sleep: add configurable delay for pm_test
-To: Zihuan Zhang <zhangzihuan@kylinos.cn>, corbet@lwn.net, rafael@kernel.org,
- len.brown@intel.com, pavel@kernel.org, akpm@linux-foundation.org,
- paulmck@kernel.org, rostedt@goodmis.org, thuth@redhat.com, bp@alien8.de,
- ardb@kernel.org, gregkh@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pm@vger.kernel.org
-References: <20250507063520.419635-1-zhangzihuan@kylinos.cn>
+Subject: Re: [PATCH net-next v8 0/8] Add Microchip ZL3073x support (part 1)
+From: Ivan Vecera <ivecera@redhat.com>
+To: netdev@vger.kernel.org
+Cc: Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Lee Jones <lee@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+ Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250507152504.85341-1-ivecera@redhat.com>
 Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250507063520.419635-1-zhangzihuan@kylinos.cn>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250507152504.85341-1-ivecera@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.4
 
-
-
-On 5/6/25 11:35 PM, Zihuan Zhang wrote:
-> This patch turns this 5 second delay into a configurable module
-> parameter, so users can determine how long to wait in this
-> pseudo-hibernate state before resuming the system.
+On 07. 05. 25 5:24 odp., Ivan Vecera wrote:
+> Add support for Microchip Azurite DPLL/PTP/SyncE chip family that
+> provides DPLL and PTP functionality. This series bring first part
+> that adds the common MFD driver that provides an access to the bus
+> that can be either I2C or SPI.
 > 
-> The configurable delay parameter has been added to suspend and
-> synchronized to hibernation.
+> The next part of the series is bringing the DPLL driver that will
+> covers DPLL functionality. Another series will bring PTP driver and
+> flashing capability via devlink in the MFD driver will follow soon.
 > 
-> Example (wait 30 seconds);
+> Testing was done by myself and by Prathosh Satish on Microchip EDS2
+> development board with ZL30732 DPLL chip connected over I2C bus.
 > 
->   # echo 30 > /sys/module/hibernate/parameters/pm_test_delay
->   # echo core > /sys/power/pm_test
+> Patch breakdown
+> ===============
+> Patch 1 - Common DT schema for DPLL device and pin
+> Patch 2 - DT bindings for microchip,zl3073* devices
+> Patch 3 - Basic support for I2C, SPI and regmap configuration
+> Patch 4 - Devlink device registration and info
+> Patch 5 - Helpers for reading and writing register mailboxes
+> Patch 6 - Fetch invariant register values used by DPLL/PTP sub-drivers
+> Patch 7 - Clock ID generation for DPLL driver
+> Patch 8 - Register/create DPLL device cells
 > 
-> Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
-
-Looks good. Thanks.
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
 > ---
-> v3:
->  - Fix the location of the hibernate.pm_test_delay parameter in
->    kernel-parameters.txt.
->  - Update ‘[hibernate]’ to ‘[HIBERNATION]’
-> v2:
->  - Fix typos.
-> ---
->  Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
->  kernel/power/hibernate.c                        | 9 +++++++--
->  2 files changed, 14 insertions(+), 2 deletions(-)
+> v7->v8:
+> * replaced zl3073x_pdata array ZL3073X_PDATA macro in patch 8
+> v6->v7:
+> * pass channel number using platform data instead of mfd_cell->id
+> v5->v6:
+> * fixed devlink info firmware version to be running instead of fixed
+> * added documentation for devlink info versions
+> v4->v5:
+> * fixed DT patches description
+> * dropped mailbox API
+> * added type-safe register access functions
+> * added an ability to protect multi-op accesses
+> v3->v4:
+> * fixed shortcomings in DT patches
+> * completely reworked register access
+> * removed a need to manage locking during mailbox accesses by callers
+> * regcache switched to maple
+> * dev_err_probe() in probe path
+> * static mfd cells during sub-devices registration
+> v1->v3:
+> * dropped macros for generating register access functions
+> * register access functions are provided in <linux/mfd/zl3073x_regs.h>
+> * fixed DT descriptions and compatible wildcard usage
+> * reworked regmap locking
+>    - regmap uses implicit locking
+>    - mailbox registers are additionally protected by extra mutex
+> * fixed regmap virtual address range
+> * added regmap rbtree cache (only for page selector now)
+> * dropped patches for exporting strnchrnul and for supporting mfg file
+>    this will be maybe added later
 > 
-> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> index d9fd26b95b34..a110cbb37f20 100644
-> --- a/Documentation/admin-guide/kernel-parameters.txt
-> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> @@ -1828,6 +1828,13 @@
->  				lz4: Select LZ4 compression algorithm to
->  				compress/decompress hibernation image.
->  
-> +	hibernate.pm_test_delay=
-> +			[HIBERNATION]
-> +			Sets the number of seconds to remain in a hibernation test
-> +			mode before resuming the system (see
-> +			/sys/power/pm_test). Only available when CONFIG_PM_DEBUG
-> +			is set. Default value is 5.
-> +
->  	highmem=nn[KMG]	[KNL,BOOT,EARLY] forces the highmem zone to have an exact
->  			size of <nn>. This works even on boxes that have no
->  			highmem otherwise. This also works to reduce highmem
-> diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
-> index 23c0f4e6cb2f..485133af884d 100644
-> --- a/kernel/power/hibernate.c
-> +++ b/kernel/power/hibernate.c
-> @@ -133,10 +133,15 @@ bool system_entering_hibernation(void)
->  EXPORT_SYMBOL(system_entering_hibernation);
->  
->  #ifdef CONFIG_PM_DEBUG
-> +static unsigned int pm_test_delay = 5;
-> +module_param(pm_test_delay, uint, 0644);
-> +MODULE_PARM_DESC(pm_test_delay,
-> +		 "Number of seconds to wait before resuming from hibernation test");
->  static void hibernation_debug_sleep(void)
->  {
-> -	pr_info("debug: Waiting for 5 seconds.\n");
-> -	mdelay(5000);
-> +	pr_info("hibernation debug: Waiting for %d second(s).\n",
-> +		pm_test_delay);
-> +	mdelay(pm_test_delay * 1000);
->  }
->  
->  static int hibernation_test(int level)
+> Ivan Vecera (8):
+>    dt-bindings: dpll: Add DPLL device and pin
+>    dt-bindings: dpll: Add support for Microchip Azurite chip family
+>    mfd: Add Microchip ZL3073x support
+>    mfd: zl3073x: Add support for devlink device info
+>    mfd: zl3073x: Protect operations requiring multiple register accesses
+>    mfd: zl3073x: Fetch invariants during probe
+>    mfd: zl3073x: Add clock_id field
+>    mfd: zl3073x: Register DPLL sub-device during init
+> 
+>   .../devicetree/bindings/dpll/dpll-device.yaml |  76 ++
+>   .../devicetree/bindings/dpll/dpll-pin.yaml    |  45 +
+>   .../bindings/dpll/microchip,zl30731.yaml      | 115 +++
+>   Documentation/networking/devlink/index.rst    |   1 +
+>   Documentation/networking/devlink/zl3073x.rst  |  37 +
+>   MAINTAINERS                                   |  11 +
+>   drivers/mfd/Kconfig                           |  32 +
+>   drivers/mfd/Makefile                          |   5 +
+>   drivers/mfd/zl3073x-core.c                    | 872 ++++++++++++++++++
+>   drivers/mfd/zl3073x-i2c.c                     |  68 ++
+>   drivers/mfd/zl3073x-regs.h                    |  54 ++
+>   drivers/mfd/zl3073x-spi.c                     |  68 ++
+>   drivers/mfd/zl3073x.h                         |  31 +
+>   include/linux/mfd/zl3073x-regs.h              |  88 ++
+>   include/linux/mfd/zl3073x.h                   | 202 ++++
+>   15 files changed, 1705 insertions(+)
+>   create mode 100644 Documentation/devicetree/bindings/dpll/dpll-device.yaml
+>   create mode 100644 Documentation/devicetree/bindings/dpll/dpll-pin.yaml
+>   create mode 100644 Documentation/devicetree/bindings/dpll/microchip,zl30731.yaml
+>   create mode 100644 Documentation/networking/devlink/zl3073x.rst
+>   create mode 100644 drivers/mfd/zl3073x-core.c
+>   create mode 100644 drivers/mfd/zl3073x-i2c.c
+>   create mode 100644 drivers/mfd/zl3073x-regs.h
+>   create mode 100644 drivers/mfd/zl3073x-spi.c
+>   create mode 100644 drivers/mfd/zl3073x.h
+>   create mode 100644 include/linux/mfd/zl3073x-regs.h
+>   create mode 100644 include/linux/mfd/zl3073x.h
 
--- 
-~Randy
+I apologize for this quick update not respecting the 24 hour grace
+period, I was not aware of such rule and otherwise I would not have been
+able to send the v8 before Monday.
+
+Ivan
+
