@@ -1,65 +1,65 @@
-Received: from mail-pj1-f74.google.com (mail-pj1-f74.google.com [209.85.216.74])
+Received: from mail-pg1-f201.google.com (mail-pg1-f201.google.com [209.85.215.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C666E623
-	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 00:05:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.74
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 754474A00
+	for <linux-doc@vger.kernel.org>; Wed,  7 May 2025 00:06:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746576354; cv=none; b=fG98doIBY3Uuqt4gPVJFLIPtLhJWD3V7u/knxOCmFEx6eKHZjcWazlPLiN9WO40p9GVRu+YKUi+5V5GqM+7NLTHhHIVb8JXbgZUTDsgZc8P//8hlNF9hVcbljRpp/kPzzDyhNiGVP+ISRn7xDDMiRlTYFknaA0xMwx1PKrV8HIA=
+	t=1746576420; cv=none; b=QeIEQxKST3X+CsV2jnZ4sye8DyxFT+2aZm6whZwvtWXJrPiIBXcrAXE4y9cFtR/CSFKC+s3OkF1btjhgNN542E99RAWkbNfMG5VmrnHHIJL9HD7JrHqVuN/Lf+sUwnbFmQgmU1aTK0Yu0VvvGY2sgPoC3++MRiKsWaxGDW+HGI8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746576354; c=relaxed/simple;
-	bh=yaCcykgp16u3flZaJJz5SvxS7btAI9N+qBqGdItQ0JU=;
+	s=arc-20240116; t=1746576420; c=relaxed/simple;
+	bh=B/Q1rqo7fV2BZ1TxyIdMZoX0YUYdDfRp12zBu+jtqb4=;
 	h=Date:In-Reply-To:Mime-Version:References:Message-ID:Subject:From:
-	 To:Cc:Content-Type; b=q7Z0RBp6kk+lBfaeMR/YszlJkSUCxKPDFU9gE1vILuAihWZISTV67rHyYi5ui6aIAKQWprUAQ1UeIjPOd3xTz/JaPszktPhR0JA3zxvOp5xaRmiMidGrCN3k/amCioReFhXyT2laRVHap+ZaunHrfzng9nEqsjTa+c9tSWUGiVk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=eF2tOBbz; arc=none smtp.client-ip=209.85.216.74
+	 To:Cc:Content-Type; b=i6LnYWfXWE0NN4rdJqFyn8RgsRk33xLfWyFEdXKHSg0amcrc7rP7eiuK8SfHg+/bMsnq+NlB3k7gFd13W3BIRlQu2bC90kLot2pVk8E1xJ1wvFvWGln8eehDjYUWUVMgywhBYrJXaKYdPpHe6MQsA4P66QbHKOwdi9Y8KQVhlIo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=rR7uu1kp; arc=none smtp.client-ip=209.85.215.201
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=flex--seanjc.bounces.google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="eF2tOBbz"
-Received: by mail-pj1-f74.google.com with SMTP id 98e67ed59e1d1-2ff6aaa18e8so4883138a91.1
-        for <linux-doc@vger.kernel.org>; Tue, 06 May 2025 17:05:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="rR7uu1kp"
+Received: by mail-pg1-f201.google.com with SMTP id 41be03b00d2f7-b1fe8e65d17so448401a12.3
+        for <linux-doc@vger.kernel.org>; Tue, 06 May 2025 17:06:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746576352; x=1747181152; darn=vger.kernel.org;
+        d=google.com; s=20230601; t=1746576418; x=1747181218; darn=vger.kernel.org;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:from:to:cc:subject:date:message-id:reply-to;
-        bh=kf6t6m3UzjOjQqBtIkrrADeHvo58X2zFNTMCoBeF4hc=;
-        b=eF2tOBbzGZO6vUIE3oglN2kxjSIr39BC7rYQf1YTL8IDzJ7+717anzomy6Jbj69ieJ
-         K8F95fCv8Q+xh8QZQOQ/Ia65J0eFHbZZ7erEIjRW4dOueXq8TZ6TEcQa2bKZtg/nDyuu
-         IR+3DYhWrmirYmOAyJHRBJHS696TlGWcAJ2clUOVp4cbjEtcx3LA307l5aPWBP9R/SU8
-         9wbwFSvwy9gk34l/fUbxa98H67qigFMvwBoOq1gNUZg4083j5yzn55MY57XCngVIz16o
-         0X9s4C6QA7dcwF4CDE0e96MieV5H+dvvQQyo+IFF88dTCwN/0GVQZcxG1eKIuQKQZzaB
-         0afA==
+        bh=btn3LhqGUmuW2q5LXm3m4DGAhqR2o0uzT2Xd87u051w=;
+        b=rR7uu1kpVYFXvhjvvl10Lxwq58At7fHL+9D6BjFYf37cuUz6bpKL4NLEXKNA+zR2kl
+         QpPSn6NpkON3DkCvAyrt4RuU4DOu4gZwaZE+OLnWvaPiNwzUkayqwsuPLanSEKXjUwQs
+         pzdPF0gwLnqp6tlm2pbS8c7VjHZE4z0Smc9AN5Rc9W0kZq0zrfsxjRphDtbvvHxfMU1Y
+         A+0SPqTDSkTMYEKIrb6RZEuoUKzSjSrpJDdLEahaLYGc+S9VcNb1OwzQseXVlI0GaayL
+         jub344ms6tnR62ey40sMOLB/e5uSsBcNj51SbY5EgMczx3VnDltPJPyTW9FJs6FxbFsJ
+         5Q7Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746576352; x=1747181152;
+        d=1e100.net; s=20230601; t=1746576418; x=1747181218;
         h=cc:to:from:subject:message-id:references:mime-version:in-reply-to
          :date:x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kf6t6m3UzjOjQqBtIkrrADeHvo58X2zFNTMCoBeF4hc=;
-        b=LbU9UdU+sK3YcBGEjPU+gYVPrDkGEOm3xuyYNiH/6C7IcffrsWviDbTgkJAC/0iJML
-         ttCajQ3ieO2FdOMd2Ct64TwKks80Srtoh+ipQy7O0aASB+6Fpg3A0fA4ONMuprvNxz37
-         oT8/QBb938GvcUEwJGPIZFSUazQEca54WciILEvod2FkD25/MLjl9DsQn6Zki7OWTGhK
-         boKwaaYYAUk6OwqgXoJS3yxAA7231q5LlpdiH6cpZx0Xm33qWULv+//HCVINpiuhVWIz
-         4mnerfFhXqNem9xaXH8fgeHX4dqc4OklyPynsC8wJMfgO8OzGhI1FEJKeS/StK5XYPEO
-         bNPg==
-X-Forwarded-Encrypted: i=1; AJvYcCVjM39jlg4g/jO4+Bneq9rZlGCNfN4cz+xEySL2PpP+jiG6sVM/i4yaq4/raBleoCfaF7o9gH+MSFM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyyPhGSYdwWO46C70li1vRdRD4yrNhob+AH1dVp/kjuiCbA5C9A
-	DuoDryJpVnsRwZ0zcZUrZujMkPTuUA2T9c0jZLRSHOaXGEWDe5xzYlKQrkv7VqY/Zt0hFlRPZFl
-	g+w==
-X-Google-Smtp-Source: AGHT+IFMFJ1FHxkmhNJJNI7L8Ht1/2Wzfj8wbIGxb39Uyx2QJZM+bpzpV88A2XUmDg8f6OQLimWa7W0pTy4=
-X-Received: from pjbnd2.prod.google.com ([2002:a17:90b:4cc2:b0:2f5:63a:4513])
- (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90a:da87:b0:2fe:b907:3b05
- with SMTP id 98e67ed59e1d1-30aac29bf2bmr1865902a91.29.1746576352169; Tue, 06
- May 2025 17:05:52 -0700 (PDT)
-Date: Tue, 6 May 2025 17:05:50 -0700
-In-Reply-To: <20250109204929.1106563-6-jthoughton@google.com>
+        bh=btn3LhqGUmuW2q5LXm3m4DGAhqR2o0uzT2Xd87u051w=;
+        b=A95icMo4ewC0OUMprtvQZvS1roOKxnLfiNnhVO4C0SI3Rl1Q4WKJp85bU3D1zUUZ2c
+         2Jre5LVrGLwTtwzUxxxeZ/++SS0Y9cpX8VcRl4Gjo42CyGi0K3WBAL0BIASR/dSx6SK9
+         QAeOd0keMCZC2I5pEyj0MAxJe6oq3y3Qxlk9vaicsy74+6a5kFSqlUGDkokup4MLZOKp
+         FaqAtxXxVVPhBNUPbZwRDM2gTSxWmwgucd62/9LVYuq6DoBtWSZDijbCFqwyMWW/VuY0
+         q1NldFd7Myr6YP0Zvl3wltz6AOYLFPpOczSqmJgiAd3psDHA6ntAJy9zQrr4l6Dqm7Nr
+         XfQg==
+X-Forwarded-Encrypted: i=1; AJvYcCV1U4j7ObxbX6biadDSPgXsy39LZZh7Tc4W4Wjgd23gxq65xjPdRTbeIGjzq8o8zoHrw0eQ/F7agJM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyXeeLc6nuxoJV5PHcDTpoHaSkTAXv0M04tFooWWKSkXSLCQhze
+	hh9KgSoz2Xt6RWf9QjSb/5XLGKVf+ZL5+yZgA7Cq44VsPtgnOGw6DNYF/8g09ty1/b0a4HN/iJR
+	5BQ==
+X-Google-Smtp-Source: AGHT+IE5kiyt3mLLPMmlAjvZ9sp27wxLvnJ1rcyvQV12u4OmcEbBS1ad1jPVl9wL0g7JEjpFk80jEUXWV/s=
+X-Received: from pjyf14.prod.google.com ([2002:a17:90a:ec8e:b0:301:4260:4d23])
+ (user=seanjc job=prod-delivery.src-stubby-dispatcher) by 2002:a17:90b:4fc5:b0:2fe:99cf:f579
+ with SMTP id 98e67ed59e1d1-30aac15ed4amr2041810a91.4.1746576417804; Tue, 06
+ May 2025 17:06:57 -0700 (PDT)
+Date: Tue, 6 May 2025 17:06:56 -0700
+In-Reply-To: <20250109204929.1106563-7-jthoughton@google.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 Mime-Version: 1.0
-References: <20250109204929.1106563-1-jthoughton@google.com> <20250109204929.1106563-6-jthoughton@google.com>
-Message-ID: <aBqj3s8THH9SFzLO@google.com>
-Subject: Re: [PATCH v2 05/13] KVM: x86/mmu: Add support for KVM_MEM_USERFAULT
+References: <20250109204929.1106563-1-jthoughton@google.com> <20250109204929.1106563-7-jthoughton@google.com>
+Message-ID: <aBqkINKO9PUAzZeS@google.com>
+Subject: Re: [PATCH v2 06/13] KVM: arm64: Add support for KVM_MEM_USERFAULT
 From: Sean Christopherson <seanjc@google.com>
 To: James Houghton <jthoughton@google.com>
 Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, 
@@ -72,108 +72,35 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Jonathan Corbet <corbet@lwn.net>, Marc 
 Content-Type: text/plain; charset="us-ascii"
 
 On Thu, Jan 09, 2025, James Houghton wrote:
-> Adhering to the requirements of KVM Userfault:
-> 
-> 1. Zap all sptes for the memslot when KVM_MEM_USERFAULT is toggled on
->    with kvm_arch_flush_shadow_memslot().
-> 2. Only all PAGE_SIZE sptes when KVM_MEM_USERFAULT is enabled (for both
->    normal/GUP memory and guest_memfd memory).
-> 3. Reconstruct huge mappings when KVM_MEM_USERFAULT is toggled off with
->    kvm_mmu_recover_huge_pages(). This is the behavior when dirty logging
->    is disabled; remain consistent with it.
-> 
-> With the new logic in kvm_mmu_slot_apply_flags(), I've simplified the
-> two dirty-logging-toggle checks into one, and I have dropped the
-> WARN_ON() that was there.
-> 
-> Signed-off-by: James Houghton <jthoughton@google.com>
-> ---
->  arch/x86/kvm/Kconfig            |  1 +
->  arch/x86/kvm/mmu/mmu.c          | 27 +++++++++++++++++++++----
->  arch/x86/kvm/mmu/mmu_internal.h | 20 +++++++++++++++---
->  arch/x86/kvm/x86.c              | 36 ++++++++++++++++++++++++---------
->  include/linux/kvm_host.h        |  5 ++++-
->  5 files changed, 71 insertions(+), 18 deletions(-)
-> 
-> diff --git a/arch/x86/kvm/Kconfig b/arch/x86/kvm/Kconfig
-> index ea2c4f21c1ca..286c6825cd1c 100644
-> --- a/arch/x86/kvm/Kconfig
-> +++ b/arch/x86/kvm/Kconfig
-> @@ -47,6 +47,7 @@ config KVM_X86
->  	select KVM_GENERIC_PRE_FAULT_MEMORY
->  	select KVM_GENERIC_PRIVATE_MEM if KVM_SW_PROTECTED_VM
->  	select KVM_WERROR if WERROR
-> +	select HAVE_KVM_USERFAULT
->  
->  config KVM
->  	tristate "Kernel-based Virtual Machine (KVM) support"
-> diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-> index 2401606db260..5cab2785b97f 100644
-> --- a/arch/x86/kvm/mmu/mmu.c
-> +++ b/arch/x86/kvm/mmu/mmu.c
-> @@ -4280,14 +4280,19 @@ static inline u8 kvm_max_level_for_order(int order)
->  	return PG_LEVEL_4K;
->  }
->  
-> -static u8 kvm_max_private_mapping_level(struct kvm *kvm, kvm_pfn_t pfn,
-> -					u8 max_level, int gmem_order)
-> +static u8 kvm_max_private_mapping_level(struct kvm *kvm,
-> +					struct kvm_memory_slot *slot,
-> +					kvm_pfn_t pfn, u8 max_level,
-> +					int gmem_order)
+> @@ -2073,6 +2080,23 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
+>  				   enum kvm_mr_change change)
 >  {
->  	u8 req_max_level;
->  
->  	if (max_level == PG_LEVEL_4K)
->  		return PG_LEVEL_4K;
->  
-> +	if (kvm_memslot_userfault(slot))
+>  	bool log_dirty_pages = new && new->flags & KVM_MEM_LOG_DIRTY_PAGES;
+> +	u32 new_flags = new ? new->flags : 0;
+> +	u32 changed_flags = (new_flags) ^ (old ? old->flags : 0);
 
-Unless I'm missing something, this can go in kvm_mmu_hugepage_adjust():
+This is a bit hard to read, and there's only one use of log_dirty_pages.  With
+zapping handled in common KVM, just do:
 
-diff --git a/arch/x86/kvm/mmu/mmu.c b/arch/x86/kvm/mmu/mmu.c
-index a4439e9e0726..49eb6b9b268c 100644
---- a/arch/x86/kvm/mmu/mmu.c
-+++ b/arch/x86/kvm/mmu/mmu.c
-@@ -3304,7 +3304,7 @@ void kvm_mmu_hugepage_adjust(struct kvm_vcpu *vcpu, struct kvm_page_fault *fault
-        if (is_error_noslot_pfn(fault->pfn))
-                return;
+@@ -2127,14 +2131,19 @@ void kvm_arch_commit_memory_region(struct kvm *kvm,
+                                   const struct kvm_memory_slot *new,
+                                   enum kvm_mr_change change)
+ {
+-       bool log_dirty_pages = new && new->flags & KVM_MEM_LOG_DIRTY_PAGES;
++       u32 old_flags = old ? old->flags : 0;
++       u32 new_flags = new ? new->flags : 0;
++
++       /* Nothing to do if not toggling dirty logging. */
++       if (!((old_flags ^ new_flags) & KVM_MEM_LOG_DIRTY_PAGES))
++               return;
  
--       if (kvm_slot_dirty_track_enabled(slot))
-+       if (kvm_slot_dirty_track_enabled(slot) || kvm_is_userfault_memslot(slot))
-                return;
+        /*
+         * At this point memslot has been committed and there is an
+         * allocated dirty_bitmap[], dirty pages will be tracked while the
+         * memory slot is write protected.
+         */
+-       if (log_dirty_pages) {
++       if (new_flags & KVM_MEM_LOG_DIRTY_PAGES) {
  
->  static inline int kvm_mmu_do_page_fault(struct kvm_vcpu *vcpu, gpa_t cr2_or_gpa,
-> diff --git a/arch/x86/kvm/x86.c b/arch/x86/kvm/x86.c
-> index 1b04092ec76a..2abb425a6514 100644
-> --- a/arch/x86/kvm/x86.c
-> +++ b/arch/x86/kvm/x86.c
-> @@ -13053,12 +13053,36 @@ static void kvm_mmu_slot_apply_flags(struct kvm *kvm,
->  	u32 new_flags = new ? new->flags : 0;
->  	bool log_dirty_pages = new_flags & KVM_MEM_LOG_DIRTY_PAGES;
->  
-> +	/*
-> +	 * When toggling KVM Userfault on, zap all sptes so that userfault-ness
-> +	 * will be respected at refault time. All new faults will only install
-> +	 * small sptes. Therefore, when toggling it off, recover hugepages.
-> +	 *
-> +	 * For MOVE and DELETE, there will be nothing to do, as the old
-> +	 * mappings will have already been deleted by
-> +	 * kvm_arch_flush_shadow_memslot().
-> +	 *
-> +	 * For CREATE, no mappings will have been created yet.
-> +	 */
-
-Eh, trim this down and the reference the comment below to explain why FLAGS_ONLY
-is the only case that needs to be handled.
-
-> +	if ((old_flags ^ new_flags) & KVM_MEM_USERFAULT &&
-> +	    (change == KVM_MR_FLAGS_ONLY)) {
-> +		if (old_flags & KVM_MEM_USERFAULT)
-> +			kvm_mmu_recover_huge_pages(kvm, new);
-> +		else
-> +			kvm_arch_flush_shadow_memslot(kvm, old);
-
-The call to kvm_arch_flush_shadow_memslot() should definitely go in common code.
-The fancy recovery logic is arch specific, but blasting the memslot when userfault
-is toggled on is not.
+                if (change == KVM_MR_DELETE)
+                        return;
