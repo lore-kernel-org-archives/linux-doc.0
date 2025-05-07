@@ -1,144 +1,129 @@
-Received: from mail-io1-f53.google.com (mail-io1-f53.google.com [209.85.166.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mailgw.kylinos.cn (mailgw.kylinos.cn [124.126.103.232])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8CFD763A9;
-	Wed,  7 May 2025 02:37:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EB59B134A8;
+	Wed,  7 May 2025 02:58:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=124.126.103.232
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746585445; cv=none; b=NNVYa7FrvA6vjyVdkbsM3gY2FzxLHWnYeGlrOcnBNEoTjo5m/xJ5Ugj1y0TYqJN6XROQbmG4acMRualYhx3LG1/jVqw2gmOJA8r0EEnTW0RfeARjeFW+YlRNxuzOUmNVjQP2I9TREDQyjFwHcLoYmZZ/d3Zb+Ct7jONZ6TlPRVc=
+	t=1746586731; cv=none; b=YaFYa4We5q50S/+rUdCk7p+pafAXXnJZNZFvkA82KspgoYjeHXWcegC1Lb3MlHKqWJoReYkZvPhDkO0yq7T0rTEnQvHr8g09zznXcXHPbIxy8svdj7Li8p3o16n8YlMSlPCbcRTo86DqouEAsEF63hn8L5y+Jo859IyIbIJ5+D4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746585445; c=relaxed/simple;
-	bh=gogz/kwTzl09lyXYhB0+fHtcF7vMgDw89ax0lZlRJFA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J5yBZWPq+xfGGudPHIkLr1qPMEl1QjIgop13oEITTmQCesZgPg7FTw6b6oeb1fgZRRyy+tPfqTFpcB3DM7imbyRsjk561Ys6tx/RN9PRyWgeT25SxsRj/ltA61nvFeB7tiunqPG1TiSdFt22vjeOSM+JJEkXP1x0Ew1NM2L0S6w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=E280pZzQ; arc=none smtp.client-ip=209.85.166.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="E280pZzQ"
-Received: by mail-io1-f53.google.com with SMTP id ca18e2360f4ac-85e46f5c50fso583358239f.3;
-        Tue, 06 May 2025 19:37:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746585443; x=1747190243; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=YqUzVFahOTWkOm+5toR1pBXsvwL7tjqr3UlY9YuFPvk=;
-        b=E280pZzQcbrMwIdTlwHcSQfMGsnIzykP6TY7cUnLMTyVawepDmvkVQF2n6U88svwCK
-         vw5nMTu+Ii+j3RznLvAnj+ZDxgyEZWkZjdogYsWFHpAyYjlkZaNOv7gKHhVbTO/vsg31
-         8OuE9OkEfKoKZISSfGDs0YJMzcCL4x4nf64yHJ2Hyx6n0x2T5fNMwGgMYPNlLhnoSY8x
-         Q5w8/QWtGyiATdxTH/FLXHLBLemCsw4pAa494wtzhUxnB2KcM2DE74TYE2fYGEsftf3W
-         WcOxRRMAUtloN9oELyE2xNqTVaDmEg7hj4ejhxkakNgg5fB+f2p8AMbqg7XAFA66n4WS
-         ESPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746585443; x=1747190243;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=YqUzVFahOTWkOm+5toR1pBXsvwL7tjqr3UlY9YuFPvk=;
-        b=cDqTxcgzZnia1QMDKGP0DhjIbnNrT1/xAy/fnWipT80lpvlgmd7b9VUuh1Kd6cTUHG
-         nMl32o+pbST2/W2PWo8Uu5S50nYFs37l7SGFAr2hgM611236ogIQSPto8PY2nKYuIFB2
-         ezghZNGJMu3hW0JEwAWKjWhd3e3Cs6n9qYWfIzjDEFuxRi+hFaxaIdZ//7/LNgl8PITN
-         ByasyXiAkQK86E+JPYQuCidoAz7e/VQprGjwCUri+jOky/YDEHmVp/8mjoUiNusm6tFn
-         iw9LN1kKXXn6a8TzrCv377yw+4BfdfVQIOmVaL6zuDYV+Mka4+T5Zv+hNtJ7m7l3cfsB
-         88NQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVRajHCDoKhi3zUWLi4iHHHW7Z4mP6Gh9Q3kqWhWnzLfY8nlE+6l14N1vwdhE6++cu+XDU2Cs1HD/5zVknXISsK@vger.kernel.org, AJvYcCVioBGYL48zz164OC7vR2UWKVexPG+man1TXEWAYw+bAvDowocTcmY54/yDjkK08+YOQtwz8+ai+LE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxlfPw0LusJFMZU3G22Llg9/9zmXDNz3UuKzGH/jhaLb8/7npJ7
-	Y4qs9VSA2PeN67DQHq5NDl3BUINwwXTN5qibZTsLkiV12QT3vuV7CtVaIg==
-X-Gm-Gg: ASbGncup7fQ8VGJ1R2/1NxrOZtiz3/CPpJy6/je3tPj7VqfjcUoSOYl4n2bbiJyTnfC
-	DQVHWkQ3S/UdtmnE+ZqHDe0GBhuYmqenzFSEv5Ii/RybXLPa5p5mm8VGzjOE75Zgw5H0CzzoMvZ
-	rxAqZa6hbLvXBWAWSMuVPOqqJOVytq2xZxpEQhhxXsErUBmszTJjSbvjiFv+j+XZYiKcWxWXGmY
-	AMUXjTcW6Neh9MOwrXKHsx82TKRojTRFQETeIVnik/W4gthpp0cie8iHk4uBEtUXCuOda/Xesxz
-	5bYTdHsmpyxoFCUD5iUPEDs4zZwwIpBGog9ydOWyU3+q/dETodk=
-X-Google-Smtp-Source: AGHT+IGAGS5jySCLGYRIxZ6mcudp65e4oJqBqIYNLeIsf5XVwvZcmPdxBTh5M0+mbZlZhv0ROYBp4g==
-X-Received: by 2002:a05:6a00:4c07:b0:73f:eeb:84bb with SMTP id d2e1a72fcca58-7409cffb1femr2113575b3a.19.1746585432232;
-        Tue, 06 May 2025 19:37:12 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74059020fb9sm9790293b3a.114.2025.05.06.19.37.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 May 2025 19:37:11 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id 41BF2423E4D9; Wed, 07 May 2025 09:37:07 +0700 (WIB)
-Date: Wed, 7 May 2025 09:37:07 +0700
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Jason Gunthorpe <jgg@nvidia.com>, Jonathan Corbet <corbet@lwn.net>,
-	iommu@lists.linux.dev, Joerg Roedel <joro@8bytes.org>,
-	Justin Stitt <justinstitt@google.com>,
-	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
-	Bill Wendling <morbo@google.com>,
-	Nathan Chancellor <nathan@kernel.org>,
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
-	Miguel Ojeda <ojeda@kernel.org>,
-	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
-	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
-	Will Deacon <will@kernel.org>
-Cc: Alexey Kardashevskiy <aik@amd.com>,
-	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
-	James Gowans <jgowans@amazon.com>,
-	Michael Roth <michael.roth@amd.com>,
-	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
-Subject: Re: [PATCH v2 02/15] genpt: Add Documentation/ files
-Message-ID: <aBrHU-OGbfqk1DSq@archie.me>
-References: <0-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
- <2-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+	s=arc-20240116; t=1746586731; c=relaxed/simple;
+	bh=MmUPH4ARy9/vAzjyU9ahx/w7xXUYQgpi4F73R0SBSnA=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=Jxt9/XMvybFRRAl9nS9nBpu1UkyLSI96f6qC0R8Tfw9eGFaW9AW2z2KE4pbVYxvPBDoZyz08w0XuhveAKo3W7ACHV0VHE5LT+5U2GSEvSJv8/6LVGBZoU6a8mEMgVTu38twHHbAOxFYkJU4s8dG1EMKj5Ye6qBY+J+NSA8OScL0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn; spf=pass smtp.mailfrom=kylinos.cn; arc=none smtp.client-ip=124.126.103.232
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kylinos.cn
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kylinos.cn
+X-UUID: 2c49f9162aef11f0b29709d653e92f7d-20250507
+X-CID-P-RULE: Release_Ham
+X-CID-O-INFO: VERSION:1.1.45,REQID:fc6c30e8-57af-4dbe-b9c6-6dd9fc0d9916,IP:0,U
+	RL:0,TC:0,Content:-5,EDM:0,RT:0,SF:0,FILE:0,BULK:0,RULE:Release_Ham,ACTION
+	:release,TS:-5
+X-CID-META: VersionHash:6493067,CLOUDID:848f288d76073cecd9c059e60a8b1d35,BulkI
+	D:nil,BulkQuantity:0,Recheck:0,SF:102,TC:nil,Content:0|50,EDM:-3,IP:nil,UR
+	L:0,File:nil,RT:nil,Bulk:nil,QS:nil,BEC:nil,COL:0,OSI:0,OSA:0,AV:0,LES:1,S
+	PR:NO,DKR:0,DKP:0,BRR:0,BRE:0,ARC:0
+X-CID-BVR: 0
+X-CID-BAS: 0,_,0,_
+X-CID-FACTOR: TF_CID_SPAM_SNR
+X-UUID: 2c49f9162aef11f0b29709d653e92f7d-20250507
+Received: from mail.kylinos.cn [(10.44.16.175)] by mailgw.kylinos.cn
+	(envelope-from <zhangzihuan@kylinos.cn>)
+	(Generic MTA)
+	with ESMTP id 1047783727; Wed, 07 May 2025 10:58:37 +0800
+Received: from mail.kylinos.cn (localhost [127.0.0.1])
+	by mail.kylinos.cn (NSMail) with SMTP id 7A81AE006100;
+	Wed,  7 May 2025 10:58:37 +0800 (CST)
+X-ns-mid: postfix-681ACC5D-342742475
+Received: from localhost.localdomain (unknown [172.25.120.24])
+	by mail.kylinos.cn (NSMail) with ESMTPA id 24B1BE0080FF;
+	Wed,  7 May 2025 10:58:34 +0800 (CST)
+From: Zihuan Zhang <zhangzihuan@kylinos.cn>
+To: corbet@lwn.net,
+	rafael@kernel.org,
+	len.brown@intel.com,
+	pavel@kernel.org,
+	akpm@linux-foundation.org,
+	paulmck@kernel.org,
+	rostedt@goodmis.org,
+	thuth@redhat.com,
+	bp@alien8.de,
+	ardb@kernel.org,
+	gregkh@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-pm@vger.kernel.org,
+	Zihuan Zhang <zhangzihuan@kylinos.cn>
+Subject: [PATCH v1] PM / sleep: add configurable delay for pm_test
+Date: Wed,  7 May 2025 10:57:06 +0800
+Message-Id: <20250507025706.311686-1-zhangzihuan@kylinos.cn>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-	protocol="application/pgp-signature"; boundary="zxkMD/BAbmzfsfUI"
-Content-Disposition: inline
-In-Reply-To: <2-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
-
-
---zxkMD/BAbmzfsfUI
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 05, 2025 at 11:18:32AM -0300, Jason Gunthorpe wrote:
-> +Since each compilation unit can only access one underlying format at a t=
-ime,
-> +code that is intended to be generic across multiple formats has to compi=
-le
-> +itself multiple times.
-> +
-> +In an implementation compilation unit the headers would normally be incl=
-uded as
-> +follows::
-> +
-> +	#include <linux/generic_pt/common.h>
-> +	#include "fmt/defs_amdv1.h"
-> +	#include "pt_defs.h"
-> +	#include "fmt/amdv1.h"
-> +	#include "pt_common.h"
-> +	#include "pt_iter.h"
+This patch turns this 5 second delay into a configurable module
+parameter, so users can determine how long to wait in this
+pseudo-hibernate state before resuming the system.
 
-What do you mean by compiling generic code multiple times? Including
-their headers at multiple places like above?
+The configurable delay parameter has been added to suspend and
+synchronized to hibernate.
 
-> +
-> +Which will build up all the definitions to operate an AMDv1 page table t=
-ype.
+Example (wait 30 seconds);
 
-"This will build up ..."
+  # echo 30 > /sys/module/hibernate/parameters/pm_test_delay
+  # echo core > /sys/power/pm_test
 
-Thanks.
+Signed-off-by: Zihuan Zhang <zhangzihuan@kylinos.cn>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 7 +++++++
+ kernel/power/hibernate.c                        | 9 +++++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentat=
+ion/admin-guide/kernel-parameters.txt
+index d9fd26b95b34..082a697a3e95 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6998,6 +6998,13 @@
+ 			/sys/power/pm_test). Only available when CONFIG_PM_DEBUG
+ 			is set. Default value is 5.
+=20
++	hibernate.pm_test_delay=3D
++			[hibernate]
++			Sets the number of seconds to remain in a suspend test
++			mode before resuming the system (see
++			/sys/power/pm_test). Only available when CONFIG_PM_DEBUG
++			is set. Default value is 5.
++
+ 	svm=3D		[PPC]
+ 			Format: { on | off | y | n | 1 | 0 }
+ 			This parameter controls use of the Protected
+diff --git a/kernel/power/hibernate.c b/kernel/power/hibernate.c
+index 23c0f4e6cb2f..da7533aab8d1 100644
+--- a/kernel/power/hibernate.c
++++ b/kernel/power/hibernate.c
+@@ -133,10 +133,15 @@ bool system_entering_hibernation(void)
+ EXPORT_SYMBOL(system_entering_hibernation);
+=20
+ #ifdef CONFIG_PM_DEBUG
++static unsigned int pm_test_delay =3D 5;
++module_param(pm_test_delay, uint, 0644);
++MODULE_PARM_DESC(pm_test_delay,
++		 "Number of seconds to wait before resuming from hibernate test");
+ static void hibernation_debug_sleep(void)
+ {
+-	pr_info("debug: Waiting for 5 seconds.\n");
+-	mdelay(5000);
++	pr_info("hibernation debug: Waiting for %d second(s).\n",
++			pm_test_delay);
++	mdelay(pm_test_delay * 1000);
+ }
+=20
+ static int hibernation_test(int level)
 --=20
-An old man doll... just what I always wanted! - Clara
+2.25.1
 
---zxkMD/BAbmzfsfUI
-Content-Type: application/pgp-signature; name=signature.asc
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaBrHTQAKCRD2uYlJVVFO
-o9AuAQDK9i2u7JfunI+32q0hoOi2Y/Pvvttw15+KmB1nTp154AD+NPBUOqUnmgTp
-ezgVGaJVimmrDW8F1Zgi1EStXo4tPQA=
-=K/NH
------END PGP SIGNATURE-----
-
---zxkMD/BAbmzfsfUI--
