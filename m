@@ -1,256 +1,269 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D0280253345;
-	Thu,  8 May 2025 15:56:45 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762F32222D7;
+	Thu,  8 May 2025 16:35:10 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746719807; cv=none; b=s54+96zooJrrWfnExpibkJdY/aC62RI9zf1TtAmycIFARFrjGW0e6syMThJlaMjpfNYGDfKNkwUPmq4j4pxo64SkEMlXy9tWlsHtXeHsj1UL5keSefhgo2Q1TqJVA35ykqL5zuUdZkyFgWvBr3HckDM/4cizv7zZJ2/ZLudHF88=
+	t=1746722110; cv=none; b=m1xpPQHA4AM2hVWXfEXRyro9TLK4SjQt4QZsY9CGEK/CePjCewx6SfZIS6dIQj93aFboRvwfF723/4BQ6V/QFCZGguEeTVlHwsYR8fRODC294OEjgVK8lMEjOSFOVjdSFLSugD2wjLLNmCFFeLDdboI3DS1pXO4zPhdMUEeb3iI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746719807; c=relaxed/simple;
-	bh=M28pVjPHrEv/rACw6iZSY40oD1Z45F5bY/GhP8fIzGA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nev9pOLLPAexidYRzI9LuBDVup4plpv/zgnY2PAOOm3BeNsGPiphE5tqu93inWlA9pFAc3lXh6iuXNY4jUEk3QY0e/o1Ufh1iNARfStOYXF/ByYUpFSFD9Z2TlEQuIHjZVKrwom7WMLnARonOizm/HCcNBSF9PBObkAfBGa2HY8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SB8DOljx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746722110; c=relaxed/simple;
+	bh=zw69N1sh7qesflqhTh0NK6JUMUolWi0TizEUEVcFxlA=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=i+SL7x7cnTWz995PklCFf4nMpx+7WLDemxK/YMcSrmOnUFu27Ao4gXF02jPpz+Y//JTcttTzb4Dd1XONqfyqJ6PqnrHMCyTIUW57UIA8k+ZaAcgnAXV/bXFsGky26tDiN7KdxLUuGRwR8Ts4OfJjQOU93VYsU1XZvdNS8ogVL0w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDbz+7F1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SB8DOljx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 32C06C4CEE7;
-	Thu,  8 May 2025 15:56:45 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDbz+7F1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B655EC4CEEB;
+	Thu,  8 May 2025 16:35:09 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746719805;
-	bh=M28pVjPHrEv/rACw6iZSY40oD1Z45F5bY/GhP8fIzGA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=SB8DOljx5L/gbsKgsDIJkdMGoXwtfwCdhXeS8geafJlSCe6ESXxMa+26O+Z4srap1
-	 NBToJBpic/fvQ2NdOX44kEsjJ8aZS9kiDpG4FXlqEpG/5kJUoS/bqD95Y31K3G0zyw
-	 O73HsnUCnug3uxjdygP95BZDeVw/9CI72sW/qlwfk2r/4cs2ntMcajnW0EmhHbUjO9
-	 wac3FnjEexTGTm/TYtHQ/FJE6RA8xZuWVq7frHC5Xj5KprzH3aahbsNTbDCEL57ASv
-	 zVbUlWCgJnyIEHfBpcL0Mh47/UdA78PDUWhErOvH0/aL3xAFSPgDhHlRCjVLGWVF6e
-	 2APLxub7qfgyA==
-Date: Thu, 8 May 2025 08:56:44 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Luis Henriques <luis@igalia.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>, 0@groves.net
-Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
-Message-ID: <20250508155644.GM1035866@frogsfrogsfrogs>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421013346.32530-14-john@groves.net>
- <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
- <20250424143848.GN25700@frogsfrogsfrogs>
- <5rwwzsya6f7dkf4de2uje2b3f6fxewrcl4nv5ba6jh6chk36f3@ushxiwxojisf>
- <20250428190010.GB1035866@frogsfrogsfrogs>
- <CAJfpegtR28rH1VA-442kS_ZCjbHf-WDD+w_FgrAkWDBxvzmN_g@mail.gmail.com>
+	s=k20201202; t=1746722110;
+	bh=zw69N1sh7qesflqhTh0NK6JUMUolWi0TizEUEVcFxlA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=NDbz+7F1512FyEYzrZEBPqSbS3DRB6QCp0TbaWZM1jE9I6oaepgzR4qL/rT9QJ8CK
+	 gi199aO6exscuDS17FWNa2gcW+og7Tqzln97CHEm82itEs/+X6Ptz+tPRU9+LtOEJ1
+	 oOyOMpX6NOSC/6ah7uH5GPge09dC1EgTzQRwf6LKPEMbJNm4TAuFzSV9at1PQTzwM8
+	 mprtj7Df6HWFMlWNZcBO0JYtAt0dvM3b7E4yTaDwq2nTWk/R5bgkpQn0Zts22wndVF
+	 gPN2CfsVrT6FOAu6kVItwjjqIRlj1LcM5T/EmS6hohDxZcFyLTKFd0AVL5PZg3aYIm
+	 kwGDhqPgXnVhw==
+From: SeongJae Park <sj@kernel.org>
+To: Yunjeong Mun <yunjeong.mun@sk.com>
+Cc: SeongJae Park <sj@kernel.org>,
+	honggyu.kim@sk.com,
+	Jonathan Corbet <corbet@lwn.net>,
+	damon@lists.linux.dev,
+	kernel-team@meta.com,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-mm@kvack.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	kernel_team@skhynix.com
+Subject: Re: [PATCH 0/7] mm/damon: auto-tune DAMOS for NUMA setups including tiered memory
+Date: Thu,  8 May 2025 09:35:06 -0700
+Message-Id: <20250508163506.56305-1-sj@kernel.org>
+X-Mailer: git-send-email 2.39.5
+In-Reply-To: <20250508092833.800-1-yunjeong.mun@sk.com>
+References: 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegtR28rH1VA-442kS_ZCjbHf-WDD+w_FgrAkWDBxvzmN_g@mail.gmail.com>
+Content-Transfer-Encoding: 8bit
 
-On Tue, May 06, 2025 at 06:56:29PM +0200, Miklos Szeredi wrote:
-> On Mon, 28 Apr 2025 at 21:00, Darrick J. Wong <djwong@kernel.org> wrote:
+On Thu,  8 May 2025 18:28:27 +0900 Yunjeong Mun <yunjeong.mun@sk.com> wrote:
+
+> Hi Seongjae, I'm sorry for the delayed response due to the holidays.
+
+No worry, hope you had a good break :)
+
 > 
-> > <nod> I don't know what Miklos' opinion is about having multiple
-> > fusecmds that do similar things -- on the one hand keeping yours and my
-> > efforts separate explodes the amount of userspace abi that everyone must
-> > maintain, but on the other hand it then doesn't couple our projects
-> > together, which might be a good thing if it turns out that our domain
-> > models are /really/ actually quite different.
+> On Fri,  2 May 2025 08:49:49 -0700 SeongJae Park <sj@kernel.org> wrote:
+> > Hi Yunjeong,
+> > 
+> > On Fri,  2 May 2025 16:38:48 +0900 Yunjeong Mun <yunjeong.mun@sk.com> wrote:
+> > 
+> > > Hi SeongJae, thanks for your helpful auto-tuning patchset, which optimizes 
+> > > the ease of used of DAMON on tiered memory systems. I have tested demotion
+> > > mechanism with a microbenchmark and would like to share the result.
+> > 
+> > Thank you for sharing your test result!
+> > 
+> > [...]
+> > > Hardware. 
+> > > - Node 0: 512GB DRAM
+> > > - Node 1: 0GB (memoryless)
+> > > - Node 2: 96GB CXL memory
+> > > 
+> > > Kernel
+> > > - RFC patchset on top of v6.14-rc7 
+> > > https://lore.kernel.org/damon/20250320053937.57734-1-sj@kernel.org/
+> > > 
+> > > Workload
+> > > - Microbenchmark creates hot and cold regions based on the specified parameters.
+> > >   $ ./hot_cold 1g 100g
+> > > It repetitively performs memset on a 1GB hot region, but only performs memset
+> > > once on a 100GB cold region. 
+> > > 
+> > > DAMON setup
+> > > - My intention is to demote most of all regions of cold memory from node 0 to 
+> > > node 2. So, damo start with below yaml configuration:
+> > > ...
+> > > # damo v2.7.2 from https://git.kernel.org/pub/scm/linux/kernel/git/sj/damo.git/
+> > >    schemes:
+> > >    - action: migrate_cold
+> > >       target_nid: 2
+> > > ...
+> > >       apply_interval_us: 0
+> > >       quotas:
+> > >         time_ms: 0 s
+> > >         sz_bytes: 0 GiB
+> > >         reset_interval_ms: 6 s
+> > >         goals:
+> > >         - metric: node_mem_free_bp 
+> > >           target_value: 99%
+> > >           nid: 0
+> > >           current_value: 1
+> > >         effective_sz_bytes: 0 B
+> > > ...
+> > 
+> > Sharing DAMON parameters you used can be helpful, thank you!  Can you further
+> > share full parameters?  I'm especially interested in how the parameters for
+> > monitoring targets and migrate_cold scheme's target access pattern, and if
+> > there are other DAMON contexts or DAMOS schemes running together.
+> > 
 > 
-> Sharing the interface at least would definitely be worthwhile, as
-> there does not seem to be a great deal of difference between the
-> generic one and the famfs specific one.  Only implementing part of the
-> functionality that the generic one provides would be fine.
+> Actually, I realized that the 'regions' field in my YAML configuration is 
+> incorrect. I've been using a configuration file that was create on another 
+> server, not the testing server.
 
-Well right now my barely functional prototype exposes this interface
-for communicating mappings to the kernel.  I've only gotten as far as
-exposing the ->iomap_{begin,end} and ->iomap_ioend calls to the fuse
-server with no caching, because the only functions I've implemented so
-far are FIEMAP, SEEK_{DATA,HOLE}, and directio.
+To my understanding, you use YAML configuration because DAMON user-space tool
+doesn't provide good interface for multiple kdamonds setup.  Starting from
+v2.7.5, DAMON user-space tool supports multiple kdamonds setup from the command
+line, and it supports setting target regions as NUMA nodes (--numa_node).
+Using those might be a better option for you.
 
-So basically the kernel sends a FUSE_IOMAP_BEGIN command with the
-desired (pos, count) file range to the fuse server, which responds with
-a struct fuse_iomap_begin_out object that is translated into a struct
-iomap.
+> As a result, the scheme is applied to wrong
+> region, causing the results to appear confusing. I've  fixed the issue and
+> confirmed that the demotion occured successfully. I'm sorry for any confusion
+> this may have caused.
 
-The fuse server then responds with a read mapping and a write mapping,
-which tell the kernel from where to read data, and where to write data.
-As a shortcut, the write mapping can be of type
-FUSE_IOMAP_TYPE_PURE_OVERWRITE to avoid having to fill out fields twice.
+Glad to hear that the issue is fixed.
 
-iomap_end is only called if there were errors while processing the
-mapping, or if the fuse server sets FUSE_IOMAP_F_WANT_IOMAP_END.
-
-iomap_ioend is called after read or write IOs complete, so that the
-filesystem can update mapping metadata (e.g. unwritten extent
-conversion, remapping after an out of place write, ondisk isize update).
-
-Some of the flags here might not be needed or workable; I was merely
-cutting and pasting the #defines from iomap.h.
-
-#define FUSE_IOMAP_TYPE_PURE_OVERWRITE	(0xFFFF) /* use read mapping data */
-#define FUSE_IOMAP_TYPE_HOLE		0	/* no blocks allocated, need allocation */
-#define FUSE_IOMAP_TYPE_DELALLOC	1	/* delayed allocation blocks */
-#define FUSE_IOMAP_TYPE_MAPPED		2	/* blocks allocated at @addr */
-#define FUSE_IOMAP_TYPE_UNWRITTEN	3	/* blocks allocated at @addr in unwritten state */
-#define FUSE_IOMAP_TYPE_INLINE		4	/* data inline in the inode */
-
-#define FUSE_IOMAP_DEV_SBDEV		(0)	/* use superblock bdev */
-
-#define FUSE_IOMAP_F_NEW		(1U << 0)
-#define FUSE_IOMAP_F_DIRTY		(1U << 1)
-#define FUSE_IOMAP_F_SHARED		(1U << 2)
-#define FUSE_IOMAP_F_MERGED		(1U << 3)
-#define FUSE_IOMAP_F_XATTR		(1U << 5)
-#define FUSE_IOMAP_F_BOUNDARY		(1U << 6)
-#define FUSE_IOMAP_F_ANON_WRITE		(1U << 7)
-
-#define FUSE_IOMAP_F_WANT_IOMAP_END	(1U << 15) /* want ->iomap_end call */
-
-#define FUSE_IOMAP_OP_WRITE		(1 << 0) /* writing, must allocate blocks */
-#define FUSE_IOMAP_OP_ZERO		(1 << 1) /* zeroing operation, may skip holes */
-#define FUSE_IOMAP_OP_REPORT		(1 << 2) /* report extent status, e.g. FIEMAP */
-#define FUSE_IOMAP_OP_FAULT		(1 << 3) /* mapping for page fault */
-#define FUSE_IOMAP_OP_DIRECT		(1 << 4) /* direct I/O */
-#define FUSE_IOMAP_OP_NOWAIT		(1 << 5) /* do not block */
-#define FUSE_IOMAP_OP_OVERWRITE_ONLY	(1 << 6) /* only pure overwrites allowed */
-#define FUSE_IOMAP_OP_UNSHARE		(1 << 7) /* unshare_file_range */
-#define FUSE_IOMAP_OP_ATOMIC		(1 << 9) /* torn-write protection */
-#define FUSE_IOMAP_OP_DONTCACHE		(1 << 10) /* dont retain pagecache */
-
-#define FUSE_IOMAP_NULL_ADDR		-1ULL	/* addr is not valid */
-
-struct fuse_iomap_begin_in {
-	uint32_t opflags;	/* FUSE_IOMAP_OP_* */
-	uint32_t reserved;
-	uint64_t ino;		/* matches st_ino provided by getattr/open */
-	uint64_t pos;		/* file position, in bytes */
-	uint64_t count;		/* operation length, in bytes */
-};
-
-struct fuse_iomap_begin_out {
-	uint64_t offset;	/* file offset of mapping, bytes */
-	uint64_t length;	/* length of both mappings, bytes */
-
-	uint64_t read_addr;	/* disk offset of mapping, bytes */
-	uint16_t read_type;	/* FUSE_IOMAP_TYPE_* */
-	uint16_t read_flags;	/* FUSE_IOMAP_F_* */
-	uint32_t read_dev;	/* FUSE_IOMAP_DEV_* */
-
-	uint64_t write_addr;	/* disk offset of mapping, bytes */
-	uint16_t write_type;	/* FUSE_IOMAP_TYPE_* */
-	uint16_t write_flags;	/* FUSE_IOMAP_F_* */
-	uint32_t write_dev;	/* FUSE_IOMAP_DEV_* */
-};
-
-struct fuse_iomap_end_in {
-	uint32_t opflags;	/* FUSE_IOMAP_OP_* */
-	uint32_t reserved;
-	uint64_t ino;		/* matches st_ino provided iomap_begin */
-	uint64_t pos;		/* file position, in bytes */
-	uint64_t count;		/* operation length, in bytes */
-	int64_t written;	/* bytes processed */
-
-	uint64_t map_length;	/* length of mapping, bytes */
-	uint64_t map_addr;	/* disk offset of mapping, bytes */
-	uint16_t map_type;	/* FUSE_IOMAP_TYPE_* */
-	uint16_t map_flags;	/* FUSE_IOMAP_F_* */
-	uint32_t map_dev;	/* FUSE_IOMAP_DEV_* */
-};
-
-/* out of place write extent */
-#define FUSE_IOMAP_IOEND_SHARED		(1U << 0)
-/* unwritten extent */
-#define FUSE_IOMAP_IOEND_UNWRITTEN	(1U << 1)
-/* don't merge into previous ioend */
-#define FUSE_IOMAP_IOEND_BOUNDARY	(1U << 2)
-/* is direct I/O */
-#define FUSE_IOMAP_IOEND_DIRECT		(1U << 3)
-
-/* is append ioend */
-#define FUSE_IOMAP_IOEND_APPEND		(1U << 15)
-
-struct fuse_iomap_ioend_in {
-	uint16_t ioendflags;	/* FUSE_IOMAP_IOEND_* */
-	uint16_t reserved;
-	int32_t error;		/* negative errno or 0 */
-	uint64_t ino;		/* matches st_ino provided iomap_begin */
-	uint64_t pos;		/* file position, in bytes */
-	uint64_t addr;		/* disk offset of new mapping, in bytes */
-	uint32_t written;	/* bytes processed */
-	uint32_t reserved1;
-};
-
-> > (Especially because I suspect that interleaving is the norm for memory,
-> > whereas we try to avoid that for disk filesystems.)
 > 
-> So interleaved extents are just like normal ones except they repeat,
-> right?  What about adding a special "repeat last N extent
-> descriptions" type of extent?
-
-Yeah, I suppose a mapping cache could do that.  From talking to John
-last week, it sounds like the mappings are supposed to be static for the
-life of the file, as opposed to ext* where truncates and fallocate can
-appear at any time.
-
-One thing I forgot to ask John -- can there be multiple sets of
-interleaved mappings per file?  e.g. the first 32g of a file are split
-between 4 memory controllers, whereas the next 64g are split between 4
-different domains?
-
-> > > But the current implementation does not contemplate partially cached fmaps.
-> > >
-> > > Adding notification could address revoking them post-haste (is that why
-> > > you're thinking about notifications? And if not can you elaborate on what
-> > > you're after there?).
-> >
-> > Yeah, invalidating the mapping cache at random places.  If, say, you
-> > implement a clustered filesystem with iomap, the metadata server could
-> > inform the fuse server on the local node that a certain range of inode X
-> > has been written to, at which point you need to revoke any local leases,
-> > invalidate the pagecache, and invalidate the iomapping cache to force
-> > the client to requery the server.
-> >
-> > Or if your fuse server wants to implement its own weird operations (e.g.
-> > XFS EXCHANGE-RANGE) this would make that possible without needing to
-> > add a bunch of code to fs/fuse/ for the benefit of a single fuse driver.
+> After fixing it up, Honggyu and I tested this patch again. I would like to
+> share two issues: 1) slow start of action, 2) action does not stop even when 
+> target is acheived. Below are the test configurations:
 > 
-> Wouldn't existing invalidation framework be sufficient?
-
-I'm a little confused, are you talking about FUSE_NOTIFY_INVAL_INODE?
-If so, then I think that's the wrong layer -- INVAL_INODE invalidates
-the page cache, whereas I'm talking about caching the file space
-mappings that iomap uses to construct bios for disk IO, and possibly
-wanting to invalidate parts of that cache to force the kernel to upcall
-the fuse server for a new mapping.
-
-(Obviously this only applies to fuse servers for ondisk filesystems.)
-
---D
-
-> Thanks,
-> Miklos
+> Hardware
+> - node 0: 64GB DRAM
+> - node 1: 0GB (memoryless)
+> - node 2: 96GB CXL memory
 > 
+> Kernel
+> - This patchset on top of v6.15-rc4
+> 
+> Workload: microbenchmark that `mmap` and `memset` once for size GB
+> $ ./mmap 50
+> 
+> DAMON setup: just one contexts and schemes.
+>     ...
+>     schemes:
+>     - action: migrate_cold
+>       target_nid: 2
+>       access_pattern:
+>         sz_bytes:
+>           min: 4.000 KiB
+>           max: max
+>         nr_accesses:
+>           min: 0 %
+>           max: 0 %
+>         age:
+>           min: 10 s
+>           max: max
+>       apply_interval_us: 0
+>       quotas:
+>         time_ms: 0 s
+>         sz_bytes: 0 GiB
+>         reset_interval_ms: 20 s
+>         goals:
+>         - metric: node_mem_free_bp
+>           target_value: 50%
+>           nid: 0
+>           current_value: 1
+>      ...
+> 
+> Two issues mentioned above are both caused by the calculation logic of 
+> `quota->esz`, which grows too slowly and increases gradually.
+> 
+> Slow start: 50GB of data is allocated on node 0, and the demotion first occurs
+> after about 15 minutes. This is because `quota->esz` is growing slowly even
+> when the `current` is lower than the `target`. 
+
+This is an intended design to avoid making unnecessary actions for only
+temporal access pattern.  On realistic workloads having a time scale, I think
+some delay is not a big problem.  I agree 15 minutes is too long, though.  But,
+the speed also depends on reset_interval_ms.  The quota grows up to 100% once
+per reset_interval_ms.  The quota size is 1 byte in minimum, so it takes at
+least 12 reset_interval_ms to make the size quota at least single 4K page size.
+Because reset_interval_ms is 20 seconds in this setup, 12 reset_interval_ms is
+four minutes (240 seconds).
+
+My intended use of resset_interval_ms is setting it just not too short, to
+reduce unnecessary quota calculation overhead.  From my perspective, 20 seconds
+feels too long.  Is there a reason to set it so long?  If there is no reason,
+I'd recommend starting with 1 second reset_interval_ms and adjust for your
+setup if it doesn't work.
+
+And I realize this would better to be documented.  I will try to make this more
+clarified on the documentation when I get time.  Please feel free to submit a
+patch if you find a time faster than me :)
+
+> 
+> Not stop: the `target` is to maintain 50% free space on node 0, which we expect
+> to be about 32GB. However, it demoted more than intended, maintaing about 90%
+> free space as follows:
+> 
+>   Per-node process memory usage (in MBs)
+>   PID           Node 0 Node 1 Node 2 Total
+>   ------------  ------ ------ ------ -----
+>   1182 (watch)       2      0      0     2
+>   1198 (mmap)     7015      0  44187 51201
+>   ------------  ------ ------ ------ -----
+>   Total           7017      0  44187 51204
+> 
+> This is becuase the `esz` decreased slowly after acheiving the `target`.
+> In the end, the demotion occured more excessively than intended.
+> 
+> We believe that the defference between `target` and `current` increases, the
+> `esz` should be raised more rapidly to increase the aggressiveness of action.
+> In the current implementation, the `esz` remains low even when the `current` is
+> below the `target`, leading to a slow start issue. Also, there is a not-stop
+> issue where high `esz` persist (decreasing slowly) even when an over_achieved
+> state. 
+
+This is yet another intended design.  The aim-oriented quota auto-tuning
+feature assumes there is an ideal amount of quota that fits for the current
+situation, that could dynamically change.  For example, proactively reclaiming
+cold memory aiming a modest level of memory pressure.
+
+For this case, I think you should have another scheme for promotion.  Please
+refer to the design and example implementation of the sample module.  Or, do
+you have a special reason to utilize only demotion scheme like this setup?  If
+so, please share.
+
+If you really need a feature that turns DAMOS on and off for given situation,
+DAMOS watermarks may be the right feature to look.  You could also override
+tuned quota from user space.  So you could monitor the free size of given NUMA
+node and set the tuned quota as zero, immediately, or jsut remove the scheme.
+
+Again, this might be due to the poor documentation.  Sorry about the poor
+documentation and thank you for letting me find this.  I'll try to make the
+documentation better.
+
+> 
+> > 
+> > Yes, as you intrpret, seems the auto-tuning is working as designed, but
+> > migration is not successfully happened.  I'm curious if migration is tried but
+> > failed.  DAMOS stats[1] may let us know that.  Can you check and share those?
+> > 
+> 
+> Thank you for providing the DAMOS stats information.
+> I will use it when analyzing with DAMON.
+
+Maybe an easiest way to monitor it is
+'damo report access --tried_regions_of X Y Z --style temperature-sz-hist'.
+
+> I would appreciate any feedback you
+> might have on the new
+> results.
+
+I wish my above replies helps a bit, and looking forward to anything I missed
+or your special reasons for your setup if you have.
+
+
+Thanks,
+SJ
+
+[...]
