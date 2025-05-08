@@ -1,207 +1,229 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2050.outbound.protection.outlook.com [40.107.244.50])
+Received: from NAM10-DM6-obe.outbound.protection.outlook.com (mail-dm6nam10on2064.outbound.protection.outlook.com [40.107.93.64])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B9F41ACED9;
-	Thu,  8 May 2025 04:47:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B3477494;
+	Thu,  8 May 2025 05:00:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.93.64
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746679637; cv=fail; b=Hzxi5/TsVF+rlC6haYq7qW4LyKMDdtHmF1vA0NI/oVDj3cEuFZ186HoLjQ6Jv49mS2ZqFgtGL6z5MmCQuc84ylYDEwEmWwSpR/GkIKgwfo8zsUEv68JNyEPrg9QyQGF12lPNod0/oXF+zZqyliewwEgpEbJI1E55Q1ah5iqP4jg=
+	t=1746680436; cv=fail; b=gyctriQUMz/ZZDwew+gujYJCf75vpcwW6SnmPQltvxcqC5FmbdGO1omGHRGkKgrMvrdyufIaGCFCcKEk6inZsCMQ6Z+orTpQsxU5DEoD7GSvv3E/9al4zvxzpgyAcTBi9Zi+JKZ1tyYF8ATj2mScZKV2PddnitCvSHDKclZbcxI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746679637; c=relaxed/simple;
-	bh=Xo6kMBy1BRKQS3DaF+4Sci3BUgeEchRNBL4cP7i2WKE=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=GjGO+70ezRi4YQK5+1rej4Ddw5f0vo33xauaEzmsK3RkjwnovBNL1yaZxefLYm3RYxspAetnf0XmbbddDxh5KC9uce9fXPC7+bduH7onYTcvzBjzmzybbCvGKxLREzx2Geo8mTGNQYjOP6zv2gWX0GVxv+PtmTMSxWXP0uKAokI=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=CIBKKxZF; arc=fail smtp.client-ip=40.107.244.50
+	s=arc-20240116; t=1746680436; c=relaxed/simple;
+	bh=1STJjpPbD12uPh63mDxQU/4dDY/pNVVBLjjjQM3NW70=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=HernxpT/OHIGfv6RRAAseOY6fOhbtRvhiMzWxZ1RiGbql223l7IvoAGsTL/SSdKuflY2KuXIFS7C1rZuzV02P/yEnRmdq7fxVprN72Otzva5vC49yULvei7I1EaJRhwLNNFhbrF8/jCO3ugGaVTYrw2SqV+K4KmR+D5X2ljzae8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=rOe5fEHp; arc=fail smtp.client-ip=40.107.93.64
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
 Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="CIBKKxZF"
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="rOe5fEHp"
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DyzQpBH8qGJXc6jgaeXFEoUA+E8wjT+4kXytReqzwFWpf1Y9jBzYjksvtavI0bUMLTavlz4x5a8haoJ8PTmHiJku3A5qevuYM3U5aIwitnGvbn1Xf/jEB3m834oGCKhVQJtsA61SsSLuPmhDfKr7E5VXgYCspEiKvh3RW5fQF1qEPMxETON7gJNw/0Si2R/K4p5x2VAjOQCQNZlq1EJjbuL7jSXgD0E6DINyCrzzAhn+cZ3Duiyb1DaLbA9OQLFLRgokqz4ShI6g1VQmlvEjXUuPh0xNxLhePjEooGZC7pg63yPJsJug95K5gcYpiLNOrJeGtR8S+OX8QDlFLCNkjA==
+ b=g4Oz2Q27uuFq4y7YyReWnMhByExjC7Gt2N7byfUmq78njUtYt6sKEp4i5Udnq5DRB+BgYi3jx2m4YjdnxH+AdPD02AmpHjtRa9AC/iBNqQiyjkuOmzo310kKaDCRsKkLSpeTfVbAPvPdURFrOHFtM1YbzQEge8r6c+UB1l2YZ/J4Upzj26uzFIpIsflk3AAItNryU5GBbp099/fIop7w7kchgATvT63tFk7ziQPQOYXnKnLIqNgyF+VOow3RjxsUKUA4/AFEZf6HcGRXmv0YkWuco0dCqXWxHAq3MuCQgiw4Lfq8zBO7bGItpq17dGbWdq7wAPffIOcoGrObgQX6Eg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jk+WTsScYu4R4h657hZvcioksK+HnEDOlPtG2NTL/cg=;
- b=vtpr55MUkHbrsx2TZY0X83+XcjwJ/LTAzJxPgSxsaAHUJ4NKSVzjVJNjlFi7xw45BfC9mFGLCINzoEEUmO5l/jmKul0aLYrc6TxNH72HERr8Brz4RRBjCuu8D12DGpaisr/qdxUKl/TqhtpjNvIkYz6lB1g0w/lgD9IKmhoeaqGg5OPUjD+w0KzE4hlIxumgRXDPzs+YkjP507gvV8cRc0dgB2IXiCaKWDGvf/hpnEwNk+alJV1AxACrPQid3W145yx9jAGHkwHX44e1qJIriT8HkuWt7i0uHOu8nCQRwwk9dgFnAYMcPi9Tcy7ec7cGVk2bC3QowvzFTESE4aMPLA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
+ bh=IZaZGJZzSyO34y296DEjy1VfwVxqgBFEmAbppQylJSQ=;
+ b=RwIdBR4IDFDCFqrC1zKiIx456zy6R9YnfFEFrR+7mMiNSpRq1I01tMsZpGCEwhdKroKABA/Nq587wlaIl1NTeJ0BpkSxbYhMRer2NOr1Roq4RiirdVIxpZ3AZcudc0iFymh+gDB0L7kDLR93zxCDgL85t//WTq1oLS9hcgVcV+gCKrDciCqkHAeExBaUpA3X7M5693nBDc/hsZqVIsL5LDqzVK3sOWfuDj6Sgq5KlwPI2rIzcjoZCR76igWQgcYZUktUCQlsl1qaZvWxWeL2trRbnTqop4Q4avokoQzmGVDXo4jFWsggoUSYw2gcQly8WAmW2M4pYQs2ESfXdZYXuw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=davemloft.net smtp.mailfrom=amd.com;
+ dmarc=pass (p=quarantine sp=quarantine pct=100) action=none
+ header.from=amd.com; dkim=none (message not signed); arc=none (0)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jk+WTsScYu4R4h657hZvcioksK+HnEDOlPtG2NTL/cg=;
- b=CIBKKxZFaLKzsnNMvMsJSlw5zMl8xBXf2aqCqAhv1mlIYQNJusj2O4B9OrjzOVnaZo7yAnx7WqPvCJVK9palN7gLA9IYl8PPB5gWqUqZ6vZuoGkZNxeXutYaB9SQwRm+w0bA529G4nlCAjm1wjwolKgro+ftb0Ren2z/YeNh064=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=amd.com;
-Received: from DS7PR12MB6048.namprd12.prod.outlook.com (2603:10b6:8:9f::5) by
- PH7PR12MB7283.namprd12.prod.outlook.com (2603:10b6:510:20a::21) with
+ bh=IZaZGJZzSyO34y296DEjy1VfwVxqgBFEmAbppQylJSQ=;
+ b=rOe5fEHpwUkDtOowKPxzgSPF/O5UAFL0rL3rsSslCy81Q1aS9pCOyiTJ+Rx+9C/2zeN8D1B7/pXdf4R/q5q6nttzB036cQ4gLIaGoUeUw0nTxi8fWMSUt5DbSQCcpa/1ZunmBhOe9jUqj9HpsVDNFtDIQkmPCPD4AQHA/YvSVmY=
+Received: from DM6PR21CA0021.namprd21.prod.outlook.com (2603:10b6:5:174::31)
+ by DS7PR12MB8371.namprd12.prod.outlook.com (2603:10b6:8:e9::18) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.21; Thu, 8 May
- 2025 04:47:09 +0000
-Received: from DS7PR12MB6048.namprd12.prod.outlook.com
- ([fe80::6318:26e5:357a:74a5]) by DS7PR12MB6048.namprd12.prod.outlook.com
- ([fe80::6318:26e5:357a:74a5%5]) with mapi id 15.20.8699.019; Thu, 8 May 2025
- 04:47:09 +0000
-Message-ID: <2356ff85-6651-47d9-90c7-f8cbf43b053b@amd.com>
-Date: Thu, 8 May 2025 10:16:51 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 11/23] iommufd/viommu: Add IOMMUFD_CMD_VQUEUE_ALLOC
- ioctl
-To: Jason Gunthorpe <jgg@nvidia.com>
-Cc: Nicolin Chen <nicolinc@nvidia.com>, kevin.tian@intel.com, corbet@lwn.net,
- will@kernel.org, bagasdotme@gmail.com, robin.murphy@arm.com,
- joro@8bytes.org, thierry.reding@gmail.com, vdumpa@nvidia.com,
- jonathanh@nvidia.com, shuah@kernel.org, jsnitsel@redhat.com,
- nathan@kernel.org, peterz@infradead.org, yi.l.liu@intel.com,
- mshavit@google.com, praan@google.com, zhangzekun11@huawei.com,
- iommu@lists.linux.dev, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-tegra@vger.kernel.org, linux-kselftest@vger.kernel.org,
- patches@lists.linux.dev, mochs@nvidia.com, alok.a.tiwari@oracle.com,
- Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>
-References: <cover.1746139811.git.nicolinc@nvidia.com>
- <1ef2e242ee1d844f823581a5365823d78c67ec6a.1746139811.git.nicolinc@nvidia.com>
- <6ffe5249-b429-435e-a780-ee90aeb3f0da@amd.com>
- <20250506120114.GV2260709@nvidia.com>
- <eb0d3629-8663-45e9-b929-0c6edff31291@amd.com>
- <20250507123103.GC90261@nvidia.com>
-Content-Language: en-US
-From: Vasant Hegde <vasant.hegde@amd.com>
-In-Reply-To: <20250507123103.GC90261@nvidia.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: PN2PR01CA0047.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:22::22) To DS7PR12MB6048.namprd12.prod.outlook.com
- (2603:10b6:8:9f::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.23; Thu, 8 May
+ 2025 05:00:28 +0000
+Received: from CY4PEPF0000E9CD.namprd03.prod.outlook.com
+ (2603:10b6:5:174:cafe::f1) by DM6PR21CA0021.outlook.office365.com
+ (2603:10b6:5:174::31) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.4 via Frontend Transport; Thu, 8
+ May 2025 05:00:27 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB03.amd.com; pr=C
+Received: from SATLEXMB03.amd.com (165.204.84.17) by
+ CY4PEPF0000E9CD.mail.protection.outlook.com (10.167.241.132) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8722.18 via Frontend Transport; Thu, 8 May 2025 05:00:27 +0000
+Received: from SATLEXMB03.amd.com (10.181.40.144) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Thu, 8 May
+ 2025 00:00:24 -0500
+Received: from xhdipdslab61.xilinx.com (10.180.168.240) by SATLEXMB03.amd.com
+ (10.181.40.144) with Microsoft SMTP Server id 15.1.2507.39 via Frontend
+ Transport; Thu, 8 May 2025 00:00:20 -0500
+From: Abhijit Gangurde <abhijit.gangurde@amd.com>
+To: <shannon.nelson@amd.com>, <brett.creeley@amd.com>, <davem@davemloft.net>,
+	<edumazet@google.com>, <kuba@kernel.org>, <pabeni@redhat.com>,
+	<corbet@lwn.net>, <jgg@ziepe.ca>, <leon@kernel.org>, <andrew+netdev@lunn.ch>
+CC: <allen.hubbe@amd.com>, <nikhil.agarwal@amd.com>,
+	<linux-rdma@vger.kernel.org>, <netdev@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>, Abhijit Gangurde
+	<abhijit.gangurde@amd.com>
+Subject: [PATCH v2 00/14] Introduce AMD Pensando RDMA driver
+Date: Thu, 8 May 2025 10:29:43 +0530
+Message-ID: <20250508045957.2823318-1-abhijit.gangurde@amd.com>
+X-Mailer: git-send-email 2.25.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+Received-SPF: None (SATLEXMB03.amd.com: abhijit.gangurde@amd.com does not
+ designate permitted sender hosts)
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS7PR12MB6048:EE_|PH7PR12MB7283:EE_
-X-MS-Office365-Filtering-Correlation-Id: 796ee058-5547-47be-f298-08dd8deb6410
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9CD:EE_|DS7PR12MB8371:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3044362e-a62c-4e61-c8ce-08dd8ded3fde
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|376014|1800799024|7416014;
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|36860700013|1800799024|376014|82310400026|921020;
 X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?cFFtdDBmckJDWGRHVWZ1dVB1WURCc3Raanh4T1dtaHZYb3hoV3piMlMxdnZw?=
- =?utf-8?B?S3JiMWs5NVlhV3FFd1oyQ3dFcWdQM0RpTzM0bDZhQjJsNjFQTnlSNXpxRnN4?=
- =?utf-8?B?T3dMV0Jzd1lxa2FPLzFsR0QwVWRZU3hnd2tjSVBlQUV2S2NERisyNjQxbGcw?=
- =?utf-8?B?R2V0czdUN0hHM1lzYmIzaDNackxYbWJkdVg2VExLbnpVYTRRR2NmblNkdFR1?=
- =?utf-8?B?MVlXcnVNbFZUbXNQdmpvTExjdGw0V2dMN0lNdC8xQVo1V2prdm5oNm0wUHcz?=
- =?utf-8?B?RHNYUWpvZ2VLSG5saUdhYUZENjJjc0J6MmRTbW56Qm93YnlhSnBQRnhPVVRS?=
- =?utf-8?B?STRndyt3NjIwd0lYREFuT2dsWkhOYU9QRWFQa0FjNHlKQTBELzVBSkRSZ0cv?=
- =?utf-8?B?YmR1YTlsZUlIUFFlakt6RzZZdEhxY3ZpdXI4c1lxK3lWdUJYL0h0WWVtcXh4?=
- =?utf-8?B?RGo2RnlJU1pNZVBYSER6bjJhbmdVRWxkdVhOVlI5eEd2YWlkT1R2cG9vb1Fl?=
- =?utf-8?B?RmxtQXFnV3JkbTNrcksvUnR2SzdoSHlDcjB0dHhCVUtOcGpBVC9FWDB4RWRC?=
- =?utf-8?B?YmY0bk4yWTlvUHRrK0ZuNlFSaThoL2tWa3J0N3UvcFgzRS8zWWI5SDJGV3A4?=
- =?utf-8?B?ZTZkbEZicmJFVEZyN09XMWtqcm5HK1RZRWdqTy9teXFRZVI5bzhHekxHdFpz?=
- =?utf-8?B?TVY5QnJHcTV3cmtza2xXYkVXRSt0Tmtob2F2aXFPWDhrWVYvQ1dVR2lBeTBh?=
- =?utf-8?B?N011cDVPdjEvOHYxQmlrdTRqM3pPOGh3UHYzWlhzdHVkNDV6cERDSnN1SEFX?=
- =?utf-8?B?aGppR05zRmFORTBCQndsOWpXOCsvVnhyVlB6K2JxbFhCTTVhUndoWHdjaHZT?=
- =?utf-8?B?b21SejZRY1oyZW5aN2xLcFIwVGplcUF4L3hxYXVPWHBSRkkrZXlaaW1YWHNL?=
- =?utf-8?B?bDVxU0kvOTFIb2N0VnR5WHVGZDRGWkVsb1ZWK0dHQ2pwZ2VWYWVrb1ZEK1Ew?=
- =?utf-8?B?cUM3dll6dFRmazNob0FIV2l0QmpQZUJ2ZE9XQlgyOEkzcE5IVVZxZDNaUnFq?=
- =?utf-8?B?UEdadnlJZmUrMjNEV3BMbzc2VzU1U0EvamYxbUt1MzBWYjNTcS9DMVYxd3Fn?=
- =?utf-8?B?b1BYS1dNYkpKTDhjVHg3ZEJDSUtDUmtTOFBYR0ZvYXNCamM2a0V6V0RnN0NE?=
- =?utf-8?B?ZkU5VHVlWTJVU1lrVkNyUnJTa1dCd2RseWVvb0kwcXdQbDVmNVpURzVzbzlm?=
- =?utf-8?B?NWFyMVFGY0xVMXZvWGlidUU0ZVNTaW9PUzlJNjVPN1h4REgyTUFIRm1GbG96?=
- =?utf-8?B?MnpOcWFwbEprWVM0U1V5NllRVTlnTGF2WFJGMGpDWnJJZVVQYlZndTRualFU?=
- =?utf-8?B?TkhDQjV3MUpTZ0lQVzI2bTlET052UW1NSGRhc1ZYWDQyMndXQ1dEK0lESVl3?=
- =?utf-8?B?angrN01QZ0NESDU5YU1Ha3hmZmdRbmZFYzJoV2ZSOExkczlyZUhLWUhXUGNq?=
- =?utf-8?B?RHdKYVF6OUlXbjJ3OWM5UHlhUWhJRTJaVkpIVW1TWEVoTzF4UE4vWUxEYWdI?=
- =?utf-8?B?NkdrbjNyQ0FROHlTckNmOFlMOGQrUmxsNlhKSGtaL0QrOVhlU2djVUtMVjlV?=
- =?utf-8?B?aHp1TVhITkhsMXFkSm1DYXNjRDduaUZuc3h4QlpWUnRtTXIyaDlGR1FYNU1R?=
- =?utf-8?B?TnRhVnAwbzRzYjhXTm93UjhyTUdoWDBFM0ZibytTWmUycU9ENEE1TnBvTUtP?=
- =?utf-8?B?Nng2bkZwbkxaa0FKOVJNeDNmSHM1cE1HamRvY3RQT0tRWUZYdXNlaEQyRVIz?=
- =?utf-8?B?SFFxc3RVVzVkNDhTRkJTUjhWZDNMeEp1V3hPTEhNaTlMN0dDK2w3UFZMRTBp?=
- =?utf-8?B?VVJTUUlzemViU2trL05hQ1A3WUVaREhIaUJBSzZOR0szYTU0TFFRQVpPbU9q?=
- =?utf-8?Q?2lQG9Rh9bH8=3D?=
+	=?utf-8?B?VEh2UHAycHJLYndoK0JZSEdZbUlPK0JJODVPbC9Dem1zd2lML2tLMmdGclZG?=
+ =?utf-8?B?SFdBWEhqb3NaUmJPblpDR21YZC9qWTA4QU00MW9NUy9uaHpycllsR2dsbitr?=
+ =?utf-8?B?SHd3ZXBMYUZPRWN4Z09PS2pWRnNtZzZOODZOZFhmcEgyWkJhSGpsRENYb0p4?=
+ =?utf-8?B?QTMreTAxVk5sQ2txT1RseHZTWjU5RjJsN250SkY1ZkxDcXlDa2E1enR5RVNS?=
+ =?utf-8?B?WXJGZFI5WVRtZllmeW1TQUlRaGVwZ1pkZFlRelBOQ3FCOTFtOTViNmdBZHly?=
+ =?utf-8?B?UXVldnAyMXNKdEp4S2syZlFRWmlxMEYvY21tMTdYcmRLZDE4STkvaTZFdysv?=
+ =?utf-8?B?ZTlLVnNka1ZiS1p1WnZVWEZCb0NHTmJJNUJNVjlpL21NWG1tRnhqMUFMaTBn?=
+ =?utf-8?B?dXljMEFuNzk5aWdCUFhobEpNUElBR0E5OU92YWQ5V01HbHVBVGo4b0VkNHpx?=
+ =?utf-8?B?N1BSN0tvVFF0V3JlWWhsZG8xTXJ3WEZIa08xUkRWM2ZXcFlwWmdYTitpeXor?=
+ =?utf-8?B?MmxVa1NxWlJGRnl2aStkcEpQRTZ2bDNYSjNBdVQ1azF2RUtxbStianlONVZa?=
+ =?utf-8?B?bEZtNEFiZVZjVVFSNlNGd3YxaUg2MFowckJIOG9icDZrZU5xRGtwUkQ0VExi?=
+ =?utf-8?B?VEFiZytEMFpYdXpVS2toSEpLUHpycE9mY1BITHgvQ3VrQTliQmdEUmdUaEpq?=
+ =?utf-8?B?VmlVQTBEbkJtNnZrc1BPOFZwL0t0M21kMzNoVXhaU2pDOGlwRjg0TndxeExz?=
+ =?utf-8?B?ZG5WRUVydTNwZ3IzSTlBM0laQlkwVzFlSFR4a0Uwelhvd0kwTDBjNUxZOWRs?=
+ =?utf-8?B?QjR5NXNYb2o5TFI4STJvbFExYkhCNFAyL3FUVFBXait0eUJEUit5dFo5N2Vy?=
+ =?utf-8?B?VWllNjlaaDZYWWRkbkt3dUNyOVFuZW5FSjZvMVFVUUhVeHpMOGx0MjFFQ2RV?=
+ =?utf-8?B?V0JKMWErVHA2bXE1VGpUeHVid3hlMUg2RFh1MXNxbWsxR3NDVGtiYnh0dmRh?=
+ =?utf-8?B?M1UwcUo4cnVyMXBuS3YyaEh4cFNQK1Q3SHRFWGdORkNCcnQvK2xYQlF5OGRE?=
+ =?utf-8?B?L25LNU9LQ1ZSSUdZeWl3ZmtVVUw3Q2lrRGR1aElVWEVGU3RzKy9MSVZJSnk0?=
+ =?utf-8?B?cldtQ3o1WS9EUElkVm1qa21TRnVhRCtLSUg1Wno4QmY4d0pLNzZHVm03a1hs?=
+ =?utf-8?B?YjlrRUw3OHc1V0NvcTUybStaL3BSZTYwdk5QdDkwcmNQZWZMQ21kTjJXUXB3?=
+ =?utf-8?B?SDBtTGpGYUZRUnlGK252YnpqSzZSUGVMemlhajVwRjFNMmFBY21hcUVoR0tw?=
+ =?utf-8?B?ak5CdTd5Rkc0a1dDYW9VUDBCZVBrc0tKS0tLaVVpTFo3eGU1ZWw1ZG9KbHdh?=
+ =?utf-8?B?OXJwbnZWTy9uNHlIRTRNWEZkcTNFYXhzS3ZqZitOcDBqUmFxU1hjVnZBQ2xG?=
+ =?utf-8?B?aGNQSW42bGZudlFPUXZSNEk5cTBseG9aTmkwbFF0azNyQ3hRS055Z3dBb0xF?=
+ =?utf-8?B?MzlkaUhYOEtoQTg5TWdZV2tFQzZiRXNpZjRzOVJnZXB6a0RzeTFaVlNrVVd4?=
+ =?utf-8?B?a05lU1ZlTjlCbGxnL3RlUlQ3bTFKalFyYUNQdFFQNEo3Um5QTFN2RG84VDBE?=
+ =?utf-8?B?SlRnZXZ1NGhreUZaRGFoYnhxbjFjb3NOZWxzeDlxdk1FbTIrZDEzd3E5b0lL?=
+ =?utf-8?B?M3dDa2ttTDVyVk5sQTJkVUJKZ1Z3Rngyd01ya0hqWE16aDlWOHE2MFN4ck9V?=
+ =?utf-8?B?UGNoNUI0MktnOVRxSTdROXgvNis5MDhXSDR6aGhxRXhFWmtIZGtLdUxFaWpM?=
+ =?utf-8?B?MTVSS2NPaVpHUTVsakRBemJ4YmtaaUxHUDI0ZlVuVnUwSkhZOCs5VDBKb1oy?=
+ =?utf-8?B?QWdpL1ZPQ0l0U3h6WnpDK2JWdkRzc0kvUVI4ZGFZWm1pMWpUTVRVY21LbVky?=
+ =?utf-8?B?TEM2OFJORm4wMXU2RkVMdmFxNzNCSnlVREhsalQzTGUvNlQ3VE1tdjE0SWdG?=
+ =?utf-8?B?Ty9vTUpYakFiaFMweWkvWTFrSUNxdnhtQmswVXROaFdDL2NtTFd3dE45Y3RC?=
+ =?utf-8?B?eUt4SjJTZVQwTUVTZzdwVzFMYmwzcnUwbFA4UT09?=
 X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS7PR12MB6048.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(7416014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?dEx1S2hnSkVrcnBZVTRWUTFFbnlNeUw5bWlLUE9ZUmZKNUt4Y0FGMXVVT0dQ?=
- =?utf-8?B?Vm1BZUdBRmNGVCswdTRKd3VMa0lKd3UxZzlDa0RYNVhCWm1KSUhPL1NQbVJ5?=
- =?utf-8?B?TTdzQi9GODJNNjFUWGQ2a0pWeVFvYSs4ZjBTOEpKMVQ2YWlwQkExY0RwV2k3?=
- =?utf-8?B?Ni8xeDYvRlBScWl4T3RIZ3Z1ZnZEOWFaUDg4ZXVXSUIzZ0FyWVNqVlVJc0hQ?=
- =?utf-8?B?Sy9WN1hFK3owVFFsTHZ6RWRBR05hem92blBDZHJnWDJEQzhnc1dqeGdmbmU5?=
- =?utf-8?B?bEdCaHhDYjEvcXVyZDF0KzFJbFoyakZONWkva3RxbHdieGttdFJwTFAyWVNm?=
- =?utf-8?B?a2pleGdKWXVlM3oyNUNyZ1FwaEhWWG9rZ3oxQTFrNFg0d2hmcDRaQ1I1T3Vn?=
- =?utf-8?B?UUprR2xjU0ZUQmVZQXdTZjdSL3JqRGtyem9iUThqQnN1dTYrMDlVYmFiZzVF?=
- =?utf-8?B?YWRRZi9IenVZMjFLcDhJcVgvVGUxd2xOSjJmUjgxOUpBdnhmMjk5N0ZzbkM5?=
- =?utf-8?B?WllwSys0alM4UEYwZU0yZGRXY2xVaU1XaWFjSDZxbk05dUdScWw2eHVXKzBQ?=
- =?utf-8?B?VzFjWThSekZ5d1kxbkM0eVg4VkpyS3k4ZkJ0d3NoTFkwc1pIcE44NGJTYkpl?=
- =?utf-8?B?bFNKNmN3NHRZdUlIMG1hSUtrUlk3czRiZVJsTExaNFRNQXBFLzkyRVNIQWdD?=
- =?utf-8?B?cVNSR1BrcHhENGJGYzRjeEJMdHFJaTFEdzNmUGlpZTlQd3NUMGxzRy9BR29J?=
- =?utf-8?B?cklaUGdIQ2VCL1UxNzQ2YnU5Wko0dHlma1gwWUNFYkhPZmRXUU12T0pGMTVi?=
- =?utf-8?B?TzNVSHhBZjVSNDlmVHJNUnJ1RnVBL0xDNE95ZmVBb1JrZWhaWkFyNHRCb0V2?=
- =?utf-8?B?YlY2SUVxLzJmcXVvV0xlSlkvQW4wWlI0c1J1M3BVbktubXJVWCtRUkp6L256?=
- =?utf-8?B?Ykwvb1RpZ0xQUUtRdC9ac0dCYURxRS9MQUp6Sk5rQXkvZGQxMWN1b1dTODE2?=
- =?utf-8?B?SjY3Q0lLTC9tb3E1d3pGK0piYzlOeGdZanFvVkpTemMzbzR1QW9nZGs2SkRm?=
- =?utf-8?B?Y21aa2JWSE5FOEQvcXJVRnpEWk45VnBocUYxUm1RK2lSTWcwd2hUU1U2QVVk?=
- =?utf-8?B?a3pGQ3FhTkJMbGpUZ2g4K0V3Mmo4Y1NxREE0QVN0R01qWGZ4Qk5aT1VwRlRT?=
- =?utf-8?B?allQUXpRVzVxWWpMZFlTc0pXZCt3emJyVWNWcFVNU3UwYk8yb2hFeTlERkdT?=
- =?utf-8?B?MGhVTjdyekt3aE1WMTgwalJuL3hnOG5nenEvRXdrbEJDYXBOamRXWThKbGZp?=
- =?utf-8?B?SDYra2Q0YkpucStWQzAxT0tEZDdsUm5Uc1paUFRLaXZ4b2pnQnZ4UlhKYUV6?=
- =?utf-8?B?MUtGNFVpZnFvLys4UFozdnpiZXNZc09KMDVtRzVCd3g5MnN5M2sxMDRyVXpt?=
- =?utf-8?B?Tk9PNEFNNWVQaFljOFQ5VTRMSXZ0OUFabXdEMFNZYTlHMWxNcmhUbXlLZ3Ni?=
- =?utf-8?B?bmtWZmhHeHNsWFUwV25SQUNDS1A3dHRVVGVydmYyZ0pLRXdjVHBQSEcra1lQ?=
- =?utf-8?B?bmhMVCtxMHd5VTVRWEs4WWtBbE9pdTdYczJaQ053aU1BZHFtUWZYNVJtb2Zw?=
- =?utf-8?B?UUQ0Uzc3ZFV6SHdLd3laa3ZOMEdycWRDQU1kWEtDckg5TWV4MlNkMEdkbVB0?=
- =?utf-8?B?Y05OZ0l1WFpTMXBwWG5qaUZ6dmpQV0lNMEd1UE9BVFJiSUE1eWFaamtSYU9n?=
- =?utf-8?B?dnBFWXdwRzg1QUFmUEJSTTJoVGV1RXNZZXg4RzJRQUpjdm5Xb0lpU3hzNyt6?=
- =?utf-8?B?SzZEOTl6dFN0QzVFOUxoTEZvcVRKaHAvKzltdm4xeVdWMmNGZ1FEdDNxak94?=
- =?utf-8?B?QlJXVTlZSXpvMGpqUTd4cEpQa1o1dS9iWmdVU0ZrQmpZWHBCUzFhL0ZBSVp5?=
- =?utf-8?B?MW5sdWhaR25Ta2VCTnVNNWVCMEpLTXJTdjhRMFptNHd6RlJTcUJkMHNVY2xs?=
- =?utf-8?B?ZFNRb3RGZ1NMaTE3cVVFSUlLWEFpSDFnbjZQanBuVHhNNGJNNXk1Q2FyaUc5?=
- =?utf-8?B?YUdvNC9aRGxzeGQrS1ZlVUJBUlNRZTFTU2dzWFJPOXdveGYxQUV4VnlMRFI3?=
- =?utf-8?Q?7KlVOokX0nojJWkAZxdJHTIzU?=
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB03.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(7416014)(36860700013)(1800799024)(376014)(82310400026)(921020);DIR:OUT;SFP:1101;
 X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 796ee058-5547-47be-f298-08dd8deb6410
-X-MS-Exchange-CrossTenant-AuthSource: DS7PR12MB6048.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 04:47:09.6222
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 05:00:27.3276
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3044362e-a62c-4e61-c8ce-08dd8ded3fde
 X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JVti5w0kQqTY00r2+tsOr8veiZInA3chzG8sZ/fMS9tjcIygQj3JR13lhdj2lCQ42QfPgi7LNs7JU6gVO0TSBg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7283
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB03.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9CD.namprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR12MB8371
 
-Jason,
+This patchset introduces an RDMA driver for the AMD Pensando adapter. 
+An AMD Pensando Ethernet device with RDMA capabilities extends its 
+functionality through an auxiliary device.
 
-On 5/7/2025 6:01 PM, Jason Gunthorpe wrote:
-> On Wed, May 07, 2025 at 01:11:43PM +0530, Vasant Hegde wrote:
->>   -  MMIO Offset 0018h IOMMU Control Register
->>      EventLogEn: Event log enable
->>        * When guest sets this bit, qemu will trap and will send queue_alloc
->>        * When guest disables this bit, qemu will trap and send vqueue_destroy
->>
->>      This part is fine.
-> 
-> Ok
-> 
->>      EventIntEn: Event log interrupt enable
->>        * When guest sets this bit, qemu will trap
->>        * this needs to be communicated to Host so that we can program VF Control
->> BAR and enable the interrupt
-> 
-> This sounds like modifying the vqueue? Or maybe on the viommu?
+The first 6 patches of the series modify the ionic Ethernet driver 
+to support the RDMA driver. The ionic RDMA driver implementation is 
+split into the remaining 8 patches.
 
-IMO its VIOMMU as it informs HW to trigger interrupt or not.
+v1->v2
+  - Removed netdev references from ionic RDMA driver
+  - Moved to ionic_lif* instead of void* to convey information between
+    aux devices and drivers.
 
+Abhijit Gangurde (14):
+  net: ionic: Create an auxiliary device for rdma driver
+  net: ionic: Update LIF identity with additional RDMA capabilities
+  net: ionic: Export the APIs from net driver to support device commands
+  net: ionic: Provide RDMA reset support for the RDMA driver
+  net: ionic: Provide interrupt allocation support for the RDMA driver
+  net: ionic: Provide doorbell and CMB region information
+  RDMA: Add IONIC to rdma_driver_id definition
+  RDMA/ionic: Register auxiliary module for ionic ethernet adapter
+  RDMA/ionic: Create device queues to support admin operations
+  RDMA/ionic: Register device ops for control path
+  RDMA/ionic: Register device ops for datapath
+  RDMA/ionic: Register device ops for miscellaneous functionality
+  RDMA/ionic: Implement device stats ops
+  RDMA/ionic: Add Makefile/Kconfig to kernel build environment
 
-> 
->>   - There is other bit "Completion wait interrupt enable"
->>     This doesn't related to any buffer. Instead if we configure this for
->> completion wait command it will generate interrupt.
-> 
-> This sounds like a modify on the VIOMMU object?
+ .../ethernet/pensando/ionic_rdma.rst          |   43 +
+ MAINTAINERS                                   |    9 +
+ drivers/infiniband/Kconfig                    |    1 +
+ drivers/infiniband/hw/Makefile                |    1 +
+ drivers/infiniband/hw/ionic/Kconfig           |   17 +
+ drivers/infiniband/hw/ionic/Makefile          |    9 +
+ drivers/infiniband/hw/ionic/ionic_admin.c     | 1241 +++++++
+ .../infiniband/hw/ionic/ionic_controlpath.c   | 2929 +++++++++++++++++
+ drivers/infiniband/hw/ionic/ionic_datapath.c  | 1422 ++++++++
+ drivers/infiniband/hw/ionic/ionic_fw.h        | 1031 ++++++
+ drivers/infiniband/hw/ionic/ionic_hw_stats.c  |  484 +++
+ drivers/infiniband/hw/ionic/ionic_ibdev.c     |  489 +++
+ drivers/infiniband/hw/ionic/ionic_ibdev.h     |  506 +++
+ drivers/infiniband/hw/ionic/ionic_lif_cfg.c   |  131 +
+ drivers/infiniband/hw/ionic/ionic_lif_cfg.h   |   67 +
+ drivers/infiniband/hw/ionic/ionic_pgtbl.c     |  143 +
+ drivers/infiniband/hw/ionic/ionic_queue.c     |   52 +
+ drivers/infiniband/hw/ionic/ionic_queue.h     |  234 ++
+ drivers/infiniband/hw/ionic/ionic_res.c       |   42 +
+ drivers/infiniband/hw/ionic/ionic_res.h       |  182 +
+ drivers/net/ethernet/pensando/Kconfig         |    1 +
+ drivers/net/ethernet/pensando/ionic/Makefile  |    2 +-
+ drivers/net/ethernet/pensando/ionic/ionic.h   |    7 -
+ .../net/ethernet/pensando/ionic/ionic_api.h   |  131 +
+ .../net/ethernet/pensando/ionic/ionic_aux.c   |  117 +
+ .../net/ethernet/pensando/ionic/ionic_aux.h   |   10 +
+ .../ethernet/pensando/ionic/ionic_bus_pci.c   |    7 +
+ .../net/ethernet/pensando/ionic/ionic_dev.c   |  270 +-
+ .../net/ethernet/pensando/ionic/ionic_dev.h   |   28 +-
+ .../net/ethernet/pensando/ionic/ionic_if.h    |  118 +-
+ .../net/ethernet/pensando/ionic/ionic_lif.c   |   47 +-
+ .../net/ethernet/pensando/ionic/ionic_lif.h   |    3 +
+ .../net/ethernet/pensando/ionic/ionic_main.c  |    4 +-
+ include/uapi/rdma/ib_user_ioctl_verbs.h       |    1 +
+ include/uapi/rdma/ionic-abi.h                 |  115 +
+ 35 files changed, 9830 insertions(+), 64 deletions(-)
+ create mode 100644 Documentation/networking/device_drivers/ethernet/pensando/ionic_rdma.rst
+ create mode 100644 drivers/infiniband/hw/ionic/Kconfig
+ create mode 100644 drivers/infiniband/hw/ionic/Makefile
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_admin.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_controlpath.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_datapath.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_fw.h
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_hw_stats.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_ibdev.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_ibdev.h
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_lif_cfg.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_lif_cfg.h
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_pgtbl.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_queue.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_queue.h
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_res.c
+ create mode 100644 drivers/infiniband/hw/ionic/ionic_res.h
+ create mode 100644 drivers/net/ethernet/pensando/ionic/ionic_api.h
+ create mode 100644 drivers/net/ethernet/pensando/ionic/ionic_aux.c
+ create mode 100644 drivers/net/ethernet/pensando/ionic/ionic_aux.h
+ create mode 100644 include/uapi/rdma/ionic-abi.h
 
-Again in my view its VIOMMU object as it tells HW what to do when it finishes
-completion wait command.
-
--Vasant
+-- 
+2.34.1
 
