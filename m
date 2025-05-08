@@ -1,466 +1,221 @@
-Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
+Received: from NAM10-BN7-obe.outbound.protection.outlook.com (mail-bn7nam10on2060.outbound.protection.outlook.com [40.107.92.60])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0584C2144D4
-	for <linux-doc@vger.kernel.org>; Thu,  8 May 2025 05:33:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746682385; cv=none; b=e7q/8ndDRBOsut3u2pY+YxG9ERKgeNuRM0A+Hic14Zlr3UVafsubkn1KzQhPCz6rzaPxO2t2cDaEasjKaHbWfTSDP1mpLpotz+TshEV+NhlSsQ0Aumt8wFRUkFKRi+ResMIGK69bX4+G8k33jUmQs23+xgGTaTMdkprh76rPS/s=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746682385; c=relaxed/simple;
-	bh=vdA88rmVDDDqBNJhLr9IRSPFOmtvltG0mLl29xwBZvY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CUa64h3qdTqmZynoXxJsrMtenB5ImSBpB3Cvshak71AHSsxSBJqm5j07utiLwi0So79KXJeLC0cU1C33J2AFOFuyRl8ec1WEtWqb8X4ipAb7hl/q9f57zOloJ+q2ujeoR63C9ZPXvtKQ4n1Ep3mN3tXdDaxQ6ehAdB3Qxvq7Nb4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=w0QWG88X; arc=none smtp.client-ip=91.218.175.181
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 349EF15B102;
+	Thu,  8 May 2025 05:56:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.92.60
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746683812; cv=fail; b=umQ3JFuyybldgjvIDxjSJd9QgrxQERaBax1eejk1/udf7tmLe81PZT0T1OgHRC7dI0bOWXadxEAxNajeFntxUY61xOxoy/QuUrcHZ1XVAE8zgVlzlPwcmT578rk3PfjoeC5o3YAJZ42feyNCvUNF2dhOhowsxtZ4dED3lszYYwM=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746683812; c=relaxed/simple;
+	bh=VlpvxeXDNfHWgUW8O8jSPiIpWArmUhyrQEW37SL6ypk=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=O7DbwOs2hLQJjM52lWhaUeymTbyDMsH+ziNPi/8pMEsD56Cq3k2QbCJI0CzkS3zHY3okCUV94VYAMYVEwgI6BVEdu4aut7tADInB8QvxONYPeElAFtaVbUdrwIP5ZAJ/Vq9uGu0+OuaoUMsC0bBwfIt8HqI781LfjCe+16eas/U=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=sy+2y/lL; arc=fail smtp.client-ip=40.107.92.60
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="w0QWG88X"
-Message-ID: <68ce43dc-d189-4d27-ab18-843068dd9052@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746682368;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=pWyXdJyDVOvsnw3mIOy/qxcsioDUDLWVAW6kNKfcW70=;
-	b=w0QWG88XNENMO1nhVnrNnhs7F7Gm2JtJLO2E+OIIbVEu2ckxC80oqi4AkZPnr2FqYLkBal
-	3i7AoGB/AjYoPGNQsQqVScSx5PHx+Q85QZ3Dyof76KkmNb6fTAvY4Vg2jcZ1eCJkVzFfKZ
-	1J71vA8AaF9JUU2P3fpTHkvzEWn9wno=
-Date: Thu, 8 May 2025 13:32:38 +0800
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="sy+2y/lL"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=DUqOeEu9itrJsv4JgBx4WvWSqm1xC0VYDjyYxL0TGj7pSi22Y3f6waUPEUTe1eZOarbCbmtN4wYsddMbZhbdDqQl82dgLMRZZ9VDu+yIE/8KaZofDk2d2YH+xGq/L3ic4FD0PG3PpYFImBU7r6YH6ILp0wqDu/lD6265dEcuBK0GG+D1XsYuH3SX0vu+pyxGMpCGzWOpsOk4e0iksJYUDcq6RNQXcHlujLxObI/cQ62bkQQzi2lTZ+nHYzZnQirZTmTatPadZzT5GAp1mZf/HBQzYvWycNUETyJmdNeJlbu0e7zoCl0mpHoM3H6vOtEyidwnYCYydwhl3XGOJY+Z1A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=YmvjnBE2oEwhye8goQClYmTzurS1AJd7We1OWo6cDbk=;
+ b=bGUyQsVWzRDt8IERBGQnoOMebVvbsvNpZV+ErrhdAdW9TVe8m+cRPFAQncPHYVvMsbNJralsJzUyl2tJyWVkid0bTkqpFmyf17FdHeNZjugMuqym3nYtuAI0IsZfKLVdlz5DDlBskxXAljzsuUq3fzV04Md43qdSCvTaTOoBjSDZ3wIPOfhLSnDuQxx1e0jttseBDoBK121LIawoz2ocY71tpTzkyn+S9EAsHvuiglwkkvj0m4hqX0oUuS9cRhSsac0MWlm3HjB4NGmXymeiavS2sVxN6Ak17mdmk0tKu6HlB55NH6bnkTKwUzVD/5RRDTUXW70XRCkZVUhpQYVuFw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=YmvjnBE2oEwhye8goQClYmTzurS1AJd7We1OWo6cDbk=;
+ b=sy+2y/lLR4RvRJW9dzsY1WN200JFY9OFS8DROMuw4W6ujSIQtIYznkF63dC2fKcXdRypF3mcXR+Pu3ZSUKltatij6gH9LgbUYvKm8I6l1C9XHjKkigbZCJFv+U7fUEpSkg05zDW4z2ZhMo6Qmly4W2QFPgcisKESFwq49/I3JQpUjSYQK8e/ypFypoaPgLbKmj6CX278IUEU4rwJV09TKFj4ma2nQ7giTJTzPzwI8xnvzcHTYVk/FAYRHyCeAM7zTIsX9MQ5PTdw/SY/T7ZbyiRM69w7lQVMX+XEdR5Fx9aQRd/ZxDgbZkKO1m+NrGW14uCbv30xqVR21OczfyGUgQ==
+Received: from MW4PR04CA0138.namprd04.prod.outlook.com (2603:10b6:303:84::23)
+ by PH7PR12MB7116.namprd12.prod.outlook.com (2603:10b6:510:1ef::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.26; Thu, 8 May
+ 2025 05:56:42 +0000
+Received: from BY1PEPF0001AE1A.namprd04.prod.outlook.com
+ (2603:10b6:303:84:cafe::f6) by MW4PR04CA0138.outlook.office365.com
+ (2603:10b6:303:84::23) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.30 via Frontend Transport; Thu,
+ 8 May 2025 05:56:41 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BY1PEPF0001AE1A.mail.protection.outlook.com (10.167.242.102) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.18 via Frontend Transport; Thu, 8 May 2025 05:56:41 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Wed, 7 May 2025
+ 22:56:26 -0700
+Received: from rnnvmail201.nvidia.com (10.129.68.8) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Wed, 7 May
+ 2025 22:56:25 -0700
+Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.8) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Wed, 7 May 2025 22:56:20 -0700
+Date: Wed, 7 May 2025 22:56:17 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: Vasant Hegde <vasant.hegde@amd.com>
+CC: Jason Gunthorpe <jgg@nvidia.com>, <kevin.tian@intel.com>,
+	<corbet@lwn.net>, <will@kernel.org>, <bagasdotme@gmail.com>,
+	<robin.murphy@arm.com>, <joro@8bytes.org>, <thierry.reding@gmail.com>,
+	<vdumpa@nvidia.com>, <jonathanh@nvidia.com>, <shuah@kernel.org>,
+	<jsnitsel@redhat.com>, <nathan@kernel.org>, <peterz@infradead.org>,
+	<yi.l.liu@intel.com>, <mshavit@google.com>, <praan@google.com>,
+	<zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, Suravee Suthikulpanit
+	<suravee.suthikulpanit@amd.com>
+Subject: Re: [PATCH v3 11/23] iommufd/viommu: Add IOMMUFD_CMD_VQUEUE_ALLOC
+ ioctl
+Message-ID: <aBxHgf4llBd7vA5w@nvidia.com>
+References: <cover.1746139811.git.nicolinc@nvidia.com>
+ <1ef2e242ee1d844f823581a5365823d78c67ec6a.1746139811.git.nicolinc@nvidia.com>
+ <6ffe5249-b429-435e-a780-ee90aeb3f0da@amd.com>
+ <20250506120114.GV2260709@nvidia.com>
+ <eb0d3629-8663-45e9-b929-0c6edff31291@amd.com>
+ <20250507123103.GC90261@nvidia.com>
+ <2356ff85-6651-47d9-90c7-f8cbf43b053b@amd.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH linux next] Docs/zh_CN: Translate napi.rst to Simplified
- Chinese
-To: jiang.kun2@zte.com.cn, alexs@kernel.org, corbet@lwn.net,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc: xu.xin16@zte.com.cn, yang.yang29@zte.com.cn, wang.yaxin@zte.com.cn,
- fan.yu9@zte.com.cn, he.peilin@zte.com.cn, tu.qiang35@zte.com.cn,
- qiu.yutan@zte.com.cn, zhang.yunkai@zte.com.cn, ye.xingchen@zte.com.cn
-References: <20250507140210549s39HyU1SAIDQp44OfaD6C@zte.com.cn>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <20250507140210549s39HyU1SAIDQp44OfaD6C@zte.com.cn>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Type: text/plain; charset="utf-8"
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+In-Reply-To: <2356ff85-6651-47d9-90c7-f8cbf43b053b@amd.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE1A:EE_|PH7PR12MB7116:EE_
+X-MS-Office365-Filtering-Correlation-Id: da343667-7c14-4fd7-4eb0-08dd8df51b31
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|1800799024|7416014|36860700013|82310400026|13003099007;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?bUdKTVIzRDd4QlYwUURacWZJOGlpUWpVS1RLWDUyYnNFeUVRTTVTN1d3Q0dr?=
+ =?utf-8?B?c0hPRm1ITks0NEwvRVYyWlY0VXpkQVNvYWhvd2ZqNmJzZFMzeGt2dFBPZnRY?=
+ =?utf-8?B?cnNZY2RYay9uL0tBSyt1dHJLcXR2aUFudTVHaEFSdnJsWWxjWGNmSmkrUXV0?=
+ =?utf-8?B?Tmt5d0RDZVB1V2J0ZWRIbWNndm9qWlp5aFhFdENJZk9VVjMyaTR2UE9JdFYx?=
+ =?utf-8?B?cGU4TUxWTFhnYU5iTGlJdjJNelMweHhCL2JzUVJUYUJoTTFDWkR5UUlaRmxl?=
+ =?utf-8?B?NkN2YzIyRWRRR3hjR3BOd2swUjlRMTVMRTk3aml6TXJKcjNKNHhwWFhyb1ZH?=
+ =?utf-8?B?ZjQyQktMRnV3RG90TURvd083UkMrT0hsZTJmOFFJNU44aHJJRVppd3h5elpa?=
+ =?utf-8?B?YkhJWWZwVkVEcHFrMDM3RkhHQmVBaXdqelNiNXZ5QXBWNlFQRUNFdVBIRk9Z?=
+ =?utf-8?B?TVJ4aHFGNmRrSlduVE50dmJOb29tL1ZkZ3V2ekVwVG9OQ1dFbldrL2k0NlNP?=
+ =?utf-8?B?K3ovUHJjZ00yTWpZUDYzSlgyUXRaUTkwQkhIdVBobHpEUzdXQXlyeko3Wkhy?=
+ =?utf-8?B?VEkrc040SFpvSTZOSnl6bTdHaWZDOWp3NndEcGJmYzhsTGJJanhSSUlvNFcw?=
+ =?utf-8?B?TmFUMWMvbGhlMkNtYWI5NzByVUhaWDhHcHZEQmZCQTJqSHNYWTI5bnNtaGFh?=
+ =?utf-8?B?c21rY0FubHJxWS9MSEFKRHQ1bnBPdStkVGhhaURxYmlSOWtnenFLdGVMaUYv?=
+ =?utf-8?B?ZHBmK2tFWlk1bFhVSStuSHpMMXk2dkJLaC94dGo0TWdiL3VnVm85ZjRsd1Ju?=
+ =?utf-8?B?aHZqbTBkSDVuRXZWRldnOFl2RnBmQlNGOE1XMkZ0bDY4ZHpUY3lkdGVKVnlB?=
+ =?utf-8?B?YnhCQzBYMnJtdkpmalBJSUkzM2hLU1JNZUNVZ1Y0UUs4dVhVVWk1bldzS1dD?=
+ =?utf-8?B?THlDQlpEYklCQVk5MkRPR0YyQjUya0g4L0pXSjZtUmJjaVRxb0wzU09kUEJC?=
+ =?utf-8?B?VitWVmNtdHg4aFp5eEVlcnBMUjl1ZGxaNlVmZ2FRdnY0eHg4L2hFZHIweFZQ?=
+ =?utf-8?B?Wk9xU3YyL0JBSklwcTZKSWNXc2hMMzBqQUZFakJ0U0xrVURIRUFpOTk3MFVU?=
+ =?utf-8?B?S1ZLYmY2Yjljb0tqRk5MekdJa2xiZVhaZDM4Y3oyUlJUR1Y0ekpwWk1zRThE?=
+ =?utf-8?B?NlF4UHdWVTh1S1I5VXBXbEIyVTZieEVjdmwxNU13aGhEVkd1bnoxa1oyVTY1?=
+ =?utf-8?B?czVLZGtpcE1CL3lFa3lIVnJkeUNlMWFQSXFFZVBJeFlLMkFMK1ljK2dtbVNT?=
+ =?utf-8?B?VEFzZFBOWFBnUmZmeDlZZ2thTEJQS1NnWVVqNHlMak0xdk8vK3NFQVZiazFz?=
+ =?utf-8?B?TENYNTViVlBiNktjOUQvdnFjNnl3NnQxT3JKcWpleGpyZ1pIRC90N1BkenV1?=
+ =?utf-8?B?RkZjc1BLeWNDeDl6SVVnQzlFNHo5YTFmRmtHUTgvSHFlMlRTV1V5RjNmNDNZ?=
+ =?utf-8?B?MVM2Z1N0cC9sS0FsTDBBQm5WeFJ4V3YyeHlNMmc2WTFtZFQxUUNKZFNKVmdY?=
+ =?utf-8?B?RVo2WWFLb2lDdjlFRi9TUW1jNzdqcSs2Q3QwSFBFZGxoVXZNZWRPWmhxdnEw?=
+ =?utf-8?B?SFZGZ0pLb3ZMcXJrbXJ0bjVFV0hqYkZYVk5YUjhoK3pCZ1VFaDUvUlgrTnNq?=
+ =?utf-8?B?QXQrVUt3NVBlZWE3RTNPL3ZHUkRQSi9MKy8wN1piU0UrWEVKMUdQdU12cXZi?=
+ =?utf-8?B?L3ozeWttVkJKYlU4ZUtxditZT1I0TzVPVDBwZ09UL1JvbEFSTkoxc1hKVVBv?=
+ =?utf-8?B?a01CVTU0NjVIUkZSSi80dHZrOFFPbGJTWnAyQVF3Ym90YXFYQllHUS8rTWd6?=
+ =?utf-8?B?UEpVc210T1pmanVVaXRsTTNHb2hETlNuclRTWk5pWUlnM2U2TTh0THYzYUM3?=
+ =?utf-8?B?TWxWYnNxTTVUTUM5RkthcW8rSEdYWkNmVzhZTXhtZHE3WWRtcXF3REtCZmhK?=
+ =?utf-8?B?a2VKS0lIRHF1U1VQQ0MvTU12WCtlaGRMWWI0RFpxNmQwdlJ3UnBYZkF0Z0Zh?=
+ =?utf-8?B?V05iaUdwR0lQSmFNTWpFdjZ1ZS9UOTlKWmRVdz09?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(376014)(1800799024)(7416014)(36860700013)(82310400026)(13003099007);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 May 2025 05:56:41.8828
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: da343667-7c14-4fd7-4eb0-08dd8df51b31
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BY1PEPF0001AE1A.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB7116
 
-在 5/7/25 2:02 PM, jiang.kun2@zte.com.cn 写道:
-> From: Wang Yaxin <wang.yaxin@zte.com.cn>
+On Thu, May 08, 2025 at 10:16:51AM +0530, Vasant Hegde wrote:
+> >>   - There is other bit "Completion wait interrupt enable"
+> >>     This doesn't related to any buffer. Instead if we configure this for
+> >> completion wait command it will generate interrupt.
+> > 
+> > This sounds like a modify on the VIOMMU object?
 > 
-> translate the "napi.rst" into Simplified Chinese.
-> 
-> Update to commit bf1b8e0abc39("documentation: networking: Add NAPI config")
-> 
-> Signed-off-by: Wang Yaxin <wang.yaxin@zte.com.cn>
-> Signed-off-by: Jiang Kun <jiang.kun2@zte.com.cn>
-> Signed-off-by: xu xin <xu.xin16@zte.com.cn>
-> ---
->   .../translations/zh_CN/networking/index.rst   |   2 +-
->   .../translations/zh_CN/networking/napi.rst    | 365 ++++++++++++++++++
->   2 files changed, 366 insertions(+), 1 deletion(-)
->   create mode 100644 Documentation/translations/zh_CN/networking/napi.rst
-> diff --git a/Documentation/translations/zh_CN/networking/index.rst b/Documentation/translations/zh_CN/networking/index.rst
-> index 79fa22a8b2a8..07a3933afe92 100644
-> --- a/Documentation/translations/zh_CN/networking/index.rst
-> +++ b/Documentation/translations/zh_CN/networking/index.rst
-> @@ -21,6 +21,7 @@
->      :maxdepth: 1
-> 
->      msg_zerocopy
-> +   napi.rst
-> 
->   Todolist:
-> 
-> @@ -94,7 +95,6 @@ Todolist:
->   *   mptcp-sysctl
->   *   multiqueue
->   *   multi-pf-netdev
-> -*   napi
->   *   net_cachelines/index
->   *   netconsole
->   *   netdev-features
-> diff --git a/Documentation/translations/zh_CN/networking/napi.rst b/Documentation/translations/zh_CN/networking/napi.rst
-> new file mode 100644
-> index 000000000000..d045c0ad7822
-> --- /dev/null
-> +++ b/Documentation/translations/zh_CN/networking/napi.rst
-> @@ -0,0 +1,365 @@
-> +.. SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +.. include:: ../disclaimer-zh_CN.rst
-> +
-> +:Original: Documentation/networking/napi.rst
-> +
-> +:翻译:
-> +
-> +   王亚鑫 Yaxin Wang <wang.yaxin@zte.com.cn>
-> +
-> +
+> Again in my view its VIOMMU object as it tells HW what to do when it finishes
+> completion wait command.
 
-> +.. _napi_zh_CN:
-In the past translation process, we defaulted to removing these tags.
-> +
-> +====
-> +NAPI
-> +====
-> +
-> +NAPI 是 Linux 网络堆栈中使用的事件处理机制。NAPI 的名称现在不再代表任何特定含义 [#]_。
-> +
-> +在基本操作中，设备通过中断通知主机有新事件发生。主机随后调度 NAPI 实例来处理这些事件。
-> +该设备也可以通过 NAPI 进行事件轮询，而无需先接收中断信号（:ref:`忙轮询<poll_zh_CN>`）。
-> +
-> +NAPI 处理通常发生在软中断上下文中，但有一个选项，可以使用 :ref:`单独的内核线程<threaded_zh_CN>`
-> +来进行 NAPI 处理。
-> +
-> +总的来说，NAPI 为驱动程序抽象了事件（数据包接收和发送）处理的上下文环境和配置情况。
-> +
-> +驱动程序API
-> +===========
-> +
-> +NAPI 最重要的两个元素是 struct napi_struct 和关联的 poll 方法。struct napi_struct
-> +持有 NAPI 实例的状态，而方法则是与驱动程序相关的事件处理器。该方法通常会释放已传输的发送
-> +(Tx)数据包并处理新接收的数据包。
-> +
+According to the spec:
+https://www.amd.com/content/dam/amd/en/documents/processor-tech-docs/specifications/48882_IOMMU.pdf
 
-> +.. _drv_ctrl_zh_CN:
-ditto.
-> +
-> +控制API
-> +-------
-> +
-> +netif_napi_add() 和 netif_napi_del() 用于向系统中添加/删除一个 NAPI 实例。实例会被
-> +附加到作为参数传递的 netdevice上（并在 netdevice 注销时自动删除）。实例在添加时处于禁
-> +用状态。
-> +
-> +napi_enable() 和 napi_disable() 管理禁用状态。禁用的 NAPI 不会被调度，并且保证其
-> +poll 方法不会被调用。napi_disable() 会等待 NAPI 实例的所有权被释放。
-> +
-> +这些控制 API 并非幂等的。控制 API 调用在面对数据路径 API 的并发使用时是安全的，但控制
-> +API 调用顺序错误可能会导致系统崩溃、死锁或竞态条件。例如，连续多次调用 napi_disable()
-> +会造成死锁。
-> +
-> +数据路径API
-> +-----------
-> +
-> +napi_schedule() 是调度 NAPI 轮询的基本方法。驱动程序应在其中断处理程序中调用此函数
-> +（更多信息请参见 :ref:`drv_sched_zh_CN`）。成功的 napi_schedule() 调用将获得 NAPI 实例
-> +的所有权。
-> +
-> +之后，在 NAPI 被调度后，驱动程序的 poll 方法将被调用以处理事件/数据包。该方法接受一个
-> +``budget`` 参数 - 驱动程序可以处理任意数量的发送 (Tx) 数据包完成，但处理最多处理
-> +``budget`` 个接收 (Rx) 数据包。处理接收数据包通常开销更大。
-> +
-> +换句话说，对于接收数据包的处理，``budget`` 参数限制了驱动程序在单次轮询中能够处理的数
-> +据包数量。当 ``budget`` 为 0 时，像页面池或 XDP 这类专门用于接收的 API 根本无法使用。
-> +无论 ``budget`` 的值是多少，skb 的发送处理都应该进行，但是如果 ``budget`` 参数为 0，
-> +驱动程序就不能调用任何 XDP（或页面池）API。
-> +
-> +.. warning::
-> +
-> +   如果内核仅尝试处理skb的发送完成情况，而不处理接收 (Rx) 或 XDP 数据包，那么 ``budget``
-> +   参数可能为 0。
-> +
-> +轮询方法会返回已完成的工作量。如果驱动程序仍有未完成的工作（例如，``budget`` 已用完），
-> +轮询方法应精确返回 ``budget`` 的值。在这种情况下，NAPI 实例将再次被处理 / 轮询（无需
-> +重新调度）。
-> +
-> +如果事件处理已完成（所有未处理的数据包都已处理完毕），轮询方法在返回之前应调用 napi_complete_done()。
-> +napi_complete_done() 会释放实例的所有权。
-> +
-> +.. warning::
-> +
-> +   当出现既完成了所有事件处理，又恰好达到了 ``budget`` 数量的情况时，必须谨慎处理。因为没
-> +   有办法将这种（很少出现的）情况报告给协议栈，所以驱动程序要么不调用 napi_complete_done()
-> +   并等待再次被调用，要么返回 ``budget - 1``。
-> +
-> +   当 ``budget`` 为 0 时，napi_complete_done() 绝对不能被调用。
-> +
-> +调用序列
-> +--------
-> +
-> +驱动程序不应假定调用的顺序是固定不变的。即使驱动程序没有调度该实例，轮询方法也可能会被调用
-> +（除非该实例处于禁用状态）。同样，即便 napi_schedule() 调用成功，也不能保证轮询方法一定
-> +会被调用（例如，如果该实例被禁用）。
-> +
-> +正如在 :ref:`drv_ctrl_zh_CN` 部分所提到的，napi_disable() 以及后续对轮询方法的调用，
-> +仅会等待该实例的所有权被释放，而不会等待轮询方法退出。这意味着，驱动程序在调用 napi_complete_done()
-> +之后，应避免访问任何数据结构。
-> +
-> +.. _drv_sched_zh_CN:
-> +
-> +调度与IRQ屏蔽
-> +-------------
-> +
-> +驱动程序应在调度 NAPI 实例后保持中断屏蔽 - 直到 NAPI 轮询完成，任何进一步的中断都是不必要的。
-> +
-> +显式屏蔽中断的驱动程序（而非设备自动屏蔽 IRQ）应使用 napi_schedule_prep() 和
-> +__napi_schedule() 调用：
-> +
-> +.. code-block:: c
-> +
-> +  if (napi_schedule_prep(&v->napi)) {
-> +      mydrv_mask_rxtx_irq(v->idx);
-> +      /* 在屏蔽后调度以避免竞争 */
-> +      __napi_schedule(&v->napi);
-> +  }
-> +
-> +IRQ 仅应在成功调用 napi_complete_done() 后取消屏蔽：
-> +
-> +.. code-block:: c
-> +
-> +  if (budget && napi_complete_done(&v->napi, work_done)) {
-> +    mydrv_unmask_rxtx_irq(v->idx);
-> +    return min(work_done, budget - 1);
-> +  }
-> +
-> +napi_schedule_irqoff() 是 napi_schedule() 的一个变体，它利用了在中断请求（IRQ）上下文
-> +环境中调用所带来的特性（无需屏蔽中断）。如果中断请求（IRQ）是通过线程处理的（例如启用了
-> +``PREEMPT_RT`` 时的情况），napi_schedule_irqoff() 会回退为使用 napi_schedule() 。
-> +
-> +实例到队列的映射
-> +----------------
-> +
-> +现代设备每个接口有多个 NAPI 实例（struct napi_struct）。关于实例如何映射到队列和中断没有
-> +严格要求。NAPI 主要是事件处理/轮询抽象，没有用户可见的语义。也就是说，大多数网络设备最终以
-> +非常相似的方式使用 NAPI。
-> +
-> +NAPI 实例最常以 1:1:1 映射到中断和队列对（队列对是由一个接收队列和一个发送队列组成的一组
-> +队列）。
-> +
-> +在不太常见的情况下，一个 NAPI 实例可能会用于处理多个队列，或者在单个内核上，接收（Rx）队列
-> +和发送（Tx）队列可以由不同的 NAPI 实例来处理。不过，无论队列如何分配，通常 NAPI 实例和中断
-> +之间仍然保持一一对应的关系。
-> +
-> +值得注意的是，ethtool API 使用了 “通道” 这一术语，每个通道可以是 ``rx`` （接收）、``tx``
-> +（发送）或 ``combined`` （组合）类型。目前尚不清楚一个通道具体由什么构成，建议的理解方式是
-> +将一个通道视为一个为特定类型队列提供服务的 IRQ（中断请求）/ NAPI 实例。例如，配置为 1 个
-> +``rx`` 通道、1 个 ``tx`` 通道和 1 个 ``combined`` 通道的情况下，预计会使用 3 个中断、
-> +2 个接收队列和 2 个发送队列。
-> +
-> +持久化NAPI配置
-> +--------------
-> +
-> +驱动程序常常会动态地分配和释放 NAPI 实例。这就导致每当 NAPI 实例被重新分配时，与 NAPI 相关
-> +的用户配置就会丢失。netif_napi_add_config() API接口通过将每个 NAPI 实例与基于驱动程序定义
-> +的索引值（如队列编号）的持久化 NAPI 配置相关联，从而避免了这种配置丢失的情况。
-> +
-> +使用此 API 可实现持久化的 NAPI 标识符（以及其他设置），这对于使用 ``SO_INCOMING_NAPI_ID``
-> +的用户空间程序来说是有益的。有关其他 NAPI 配置的设置，请参阅以下章节。
-> +
-> +驱动程序应尽可能尝试使用 netif_napi_add_config()。
-> +
-> +用户API
-> +=======
-> +
-> +用户与 NAPI 的交互依赖于 NAPI 实例 ID。这些实例 ID 仅通过 ``SO_INCOMING_NAPI_ID`` 套接字
-> +选项对用户可见。
-> +
-> +用户可以使用 Netlink 来查询某个设备或设备队列的 NAPI 标识符。这既可以在用户应用程序中通过编程
-> +方式实现，也可以使用内核源代码树中包含的一个脚本：tools/net/ynl/pyynl/cli.py 来完成。
-> +
-> +例如，使用该脚本转储某个设备的所有队列（这将显示每个队列的 NAPI 标识符）：
-> +
-> +
-> +.. code-block:: bash
-> +
-> +   $ kernel-source/tools/net/ynl/pyynl/cli.py \
-> +             --spec Documentation/netlink/specs/netdev.yaml \
-> +             --dump queue-get \
-> +             --json='{"ifindex": 2}'
-> +
-> +有关可用操作和属性的更多详细信息，请参阅 ``Documentation/netlink/specs/netdev.yaml``。
-> +
-> +软件IRQ合并
-> +-----------
-> +
-> +默认情况下，NAPI 不执行任何显式的事件合并。在大多数场景中，数据包的批量处理得益于设备进行
-> +的中断请求（IRQ）合并。不过，在某些情况下，软件层面的合并操作也很有帮助。
-> +
-> +可以将 NAPI 配置为设置一个重新轮询定时器，而不是在处理完所有数据包后立即取消屏蔽硬件中断。
-> +网络设备的 ``gro_flush_timeout`` sysfs 配置项可用于控制该定时器的延迟时间，而 ``napi_defer_hard_irqs``
-> +则用于控制在 NAPI 放弃并重新启用硬件中断之前，连续进行空轮询的次数。
-> +
-> +上述参数也可以通过 Netlink 的 netdev-genl 接口，基于每个 NAPI 实例进行设置。当通过
-> +Netlink 进行配置且是基于每个 NAPI 实例设置时，上述参数使用连字符（-）而非下划线（_）
-> +来命名，即 ``gro-flush-timeout`` 和 ``napi-defer-hard-irqs``。
-> +
-> +基于每个 NAPI 实例的配置既可以在用户应用程序中通过编程方式完成，也可以使用内核源代码树中的
-> +一个脚本实现，该脚本为 ``tools/net/ynl/pyynl/cli.py``。
-> +
-> +例如，通过如下方式使用该脚本：
-> +
-> +.. code-block:: bash
-> +
-> +  $ kernel-source/tools/net/ynl/pyynl/cli.py \
-> +            --spec Documentation/netlink/specs/netdev.yaml \
-> +            --do napi-set \
-> +            --json='{"id": 345,
-> +                     "defer-hard-irqs": 111,
-> +                     "gro-flush-timeout": 11111}'
-> +
-> +类似地，参数 ``irq-suspend-timeout`` 也可以通过 netlink 的 netdev-genl 设置。没有全局
-> +的 sysfs 参数可用于设置这个值。
-> +
-> +``irq-suspend-timeout`` 用于确定应用程序可以完全挂起 IRQ 的时长。与 SO_PREFER_BUSY_POLL
-> +结合使用，后者可以通过 ``EPIOCSPARAMS`` ioctl 在每个 epoll 上下文中设置。
-> +
-> +.. _poll_zh_CN:
-> +
-> +忙轮询
-> +------
-> +
-> +忙轮询允许用户进程在设备中断触发前检查传入的数据包。与其他忙轮询一样，它以 CPU 周期换取更低
-> +的延迟（生产环境中 NAPI 忙轮询的使用尚不明确）。
-> +
-> +通过在选定套接字上设置 ``SO_BUSY_POLL`` 或使用全局 ``net.core.busy_poll`` 和 ``net.core.busy_read``
-> +等 sysctls 启用忙轮询。还存在基于 io_uring 的 NAPI 忙轮询 API 可使用。
-> +
-> +基于epoll的忙轮询
-> +-----------------
-> +
-> +可以从 ``epoll_wait`` 调用直接触发数据包处理。为了使用此功能，用户应用程序必须确保添加到
-> +epoll 上下文的所有文件描述符具有相同的 NAPI ID。
-> +
-> +如果应用程序使用专用的 acceptor 线程，那么该应用程序可以获取传入连接的 NAPI ID（使用
-> +SO_INCOMING_NAPI_ID）然后将该文件描述符分发给工作线程。工作线程将该文件描述符添加到其
-> +epoll 上下文。这确保了每个工作线程的 epoll 上下文中所包含的文件描述符具有相同的 NAPI ID。
-> +
-> +或者，如果应用程序使用 SO_REUSEPORT，可以插入 bpf 或 ebpf 程序来分发传入连接，使得每个
-> +线程只接收具有相同 NAPI ID 的连接。但是必须谨慎处理系统中可能存在多个网卡的情况。
-> +
-> +为了启用忙轮询，有两种选择：
-> +
-> +1. ``/proc/sys/net/core/busy_poll`` 可以设置为微秒数以在忙循环中等待事件。这是一个系统
-> +   范围的设置，将导致所有基于 epoll 的应用程序在调用 epoll_wait 时忙轮询。这可能不是理想
-> +   的情况，因为许多应用程序可能不需要忙轮询。
-> +
-> +2. 使用最新内核的应用程序可以在 epoll 上下文的文件描述符上发出 ioctl 来设置(``EPIOCSPARAMS``)
-> +   或获取(``EPIOCGPARAMS``) ``struct epoll_params``，用户程序定义如下：
-> +
-> +.. code-block:: c
-> +
-> +  struct epoll_params {
-> +      uint32_t busy_poll_usecs;
-> +      uint16_t busy_poll_budget;
-> +      uint8_t prefer_busy_poll;
-> +
-> +      /* 将结构填充到 64 位的倍数 */
-> +      uint8_t __pad;
-> +  };
-> +
-> +IRQ缓解
-> +-------
-> +
-> +虽然忙轮询旨在用于低延迟应用，但类似的机制可用于减少中断请求。
-> +
-> +每秒高请求的应用程序（尤其是路由/转发应用程序和特别使用 AF_XDP 套接字的应用程序）
-> +可能希望在处理完一个请求或一批数据包之前不被中断。
-> +
-> +此类应用程序可以向内核承诺会定期执行忙轮询操作，而驱动程序应将设备的中断请求永久屏蔽。
-> +通过使用 ``SO_PREFER_BUSY_POLL`` 套接字选项可启用此模式。为避免系统出现异常，如果
-> +在 ``gro_flush_timeout`` 时间内没有进行任何忙轮询调用，该承诺将被撤销。对于基于
-> +epoll 的忙轮询应用程序，可以将 ``struct epoll_params`` 结构体中的 ``prefer_busy_poll``
-> +字段设置为 1，并使用 ``EPIOCSPARAMS`` 输入 / 输出控制（ioctl）操作来启用此模式。
-> +更多详情请参阅上述章节。
-> +
-> +NAPI 忙轮询的 budget 低于默认值（这符合正常忙轮询的低延迟意图）。减少中断请求的场景中
-> +并非如此，因此 budget 可以通过 ``SO_BUSY_POLL_BUDGET`` 套接字选项进行调整。对于基于
-> +epoll 的忙轮询应用程序，可以通过调整 ``struct epoll_params`` 中的 ``busy_poll_budget``
-> +字段为特定值，并使用 ``EPIOCSPARAMS`` ioctl 在特定 epoll 上下文中设置。更多详细信
-> +息请参见上述部分。
-> +
-> +需要注意的是，为 ``gro_flush_timeout`` 选择较大的值会延迟中断请求，以实现更好的批
-> +量处理，但在系统未满载时会增加延迟。为 ``gro_flush_timeout`` 选择较小的值可能会因
-> +设备中断请求和软中断处理而干扰尝试进行忙轮询的用户应用程序。应权衡这些因素后谨慎选择
-> +该值。基于 epoll 的忙轮询应用程序可以通过为 ``maxevents`` 选择合适的值来减少用户
-> +处理的干扰。
-> +
-> +用户可能需要考虑使用另一种方法，IRQ 挂起，以帮助应对这些权衡问题。
-> +
-> +IRQ挂起
-> +-------
-> +
-> +IRQ 挂起是一种机制，其中设备 IRQ 在 epoll 触发 NAPI 数据包处理期间被屏蔽。
-> +
-> +只要应用程序对 epoll_wait 的调用成功获取事件，内核就会推迟 IRQ 挂起定时器。如果
-> +在忙轮询期间没有获取任何事件（例如，因为网络流量减少），则会禁用IRQ挂起功能，并启
-> +用上述减少中断请求的策略。
-> +
-> +这允许用户在 CPU 消耗和网络处理效率之间取得平衡。
-> +
-> +要使用此机制：
-> +
-> +  1. 每个 NAPI 的配置参数 ``irq-suspend-timeout`` 应设置为应用程序可以挂起
-> +     IRQ 的最大时间（纳秒）。这通过 netlink 完成，如上所述。此超时时间作为一
-> +     种安全机制，如果应用程序停滞，将重新启动中断驱动程序的中断处理。此值应选择
-> +     为覆盖用户应用程序调用 epoll_wait 处理数据所需的时间，需注意的是，应用程
-> +     序可通过在调用 epoll_wait 时设置 ``max_events`` 来控制获取的数据量。
-> +
-> +  2. sysfs 参数或每个 NAPI 的配置参数 ``gro_flush_timeout`` 和 ``napi_defer_hard_irqs``
-> +     可以设置为较低值。它们将用于在忙轮询未找到数据时延迟 IRQs。
-> +
-> +  3. 必须将 ``prefer_busy_poll`` 标志设置为 true。如前文所述，可使用 ``EPIOCSPARAMS``
-> +     ioctl操作来完成此设置。
-> +
-> +  4. 应用程序按照上述方式使用 epoll 触发 NAPI 数据包处理。
-> +
-> +如上所述，只要后续对 epoll_wait 的调用向用户空间返回事件，``irq-suspend-timeout``
-> +就会被推迟并且 IRQ 会被禁用。这允许应用程序在无干扰的情况下处理数据。
-> +
-> +一旦 epoll_wait 的调用没有找到任何事件，IRQ 挂起会被自动禁用，并且 ``gro_flush_timeout``
-> +和 ``napi_defer_hard_irqs`` 缓解机制将开始起作用。
-> +
-> +预期是 ``irq-suspend-timeout`` 的设置值会远大于 ``gro_flush_timeout``，因为 ``irq-suspend-timeout``
-> +应在一个用户空间处理周期内暂停中断请求。
-> +
-> +虽然严格来说不必通过 ``napi_defer_hard_irqs`` 和 ``gro_flush_timeout`` 来执行 IRQ 挂起，
-> +但强烈建议这样做。
-> +
-> +中断请求挂起会使系统在轮询模式和由中断驱动的数据包传输模式之间切换。在网络繁忙期间，``irq-suspend-timeout``
-> +会覆盖 ``gro_flush_timeout``，使系统保持忙轮询状态，但是当 epoll 未发现任何事件时，``gro_flush_timeout``
-> +和 ``napi_defer_hard_irqs`` 的设置将决定下一步的操作。
-> +
-> +有三种可能的网络处理和数据包交付循环：
-> +
-> +1) 硬中断 -> 软中断 -> NAPI 轮询；基本中断交付
-> +2) 定时器 -> 软中断 -> NAPI 轮询；延迟的 IRQ 处理
-> +3) epoll -> 忙轮询 -> NAPI 轮询；忙循环
-> +
-> +循环 2 可以接管循环 1，如果设置了 ``gro_flush_timeout`` 和 ``napi_defer_hard_irqs``。
-> +
-> +如果设置了 ``gro_flush_timeout`` 和 ``napi_defer_hard_irqs``，循环 2 和 3 将互相“争夺”控制权。
-> +
-> +在繁忙时期，``irq-suspend-timeout`` 用作循环 2 的定时器，这基本上使网络处理倾向于循环 3。
-> +
-> +如果不设置 ``gro_flush_timeout`` 和 ``napi_defer_hard_irqs``，循环 3 无法从循环 1 接管。
-> +
-> +因此，建议设置 ``gro_flush_timeout`` 和 ``napi_defer_hard_irqs``，因为若不这样做，设置
-> +``irq-suspend-timeout`` 可能不会有明显效果。
-> +
-> +.. _threaded_zh_CN:
-> +
-> +线程化NAPI
-> +----------
-> +
-> +线程化 NAPI 是一种操作模式，它使用专用的内核线程而非软件中断上下文来进行 NAPI 处理。这种配置
-> +是针对每个网络设备的，并且会影响该设备的所有 NAPI 实例。每个 NAPI 实例将生成一个单独的线程
-> +（称为 ``napi/${ifc-name}-${napi-id}`` ）。
-> +
-> +建议将每个内核线程固定到单个 CPU 上，这个 CPU 与处理中断的 CPU 相同。请注意，中断请求（IRQ）
-> +和 NAPI 实例之间的映射关系可能并不简单（并且取决于驱动程序）。NAPI 实例 ID 的分配顺序将与内
-> +核线程的进程 ID 顺序相反。
-> +
-> +线程化 NAPI 是通过向网络设备的 sysfs 目录中的 ``threaded`` 文件写入 0 或 1 来控制的。
-> +
-> +.. rubric:: 脚注
-> +
-> +.. [#] NAPI 最初在 2.4 Linux 中被称为 New API。
+This is for an interrupt from a COMPLETION_WAIT command:
+"The COMPLETION_WAIT command allows software to serialize itself
+ with IOMMU command processing. The COMPLETION_WAIT command does
+ not finish until all older commands issued since a prior
+ COMPLETION_WAIT have completely executed."
 
-Thanks,
-Yanteng
+So, basically it's like the IRQ for CMD_SYNC on ARM. IMHO, this is
+very specific to Command Buffer (i.e. a vQUEUE object, and now HW
+QUEUE object), though the bit is located in a global IOMMU control
+register.
 
+Looking at this paragraph:
+"
+To restart the IOMMU command processing after the IOMMU halts it,
+use the following procedure.
+• Wait until CmdBufRun=0b in the IOMMU Status Register
+   [MMIO Offset 2020h] so that all commands complete processing as
+   the circumstances allow. CmdBufRun must be 0b to modify the
+   command buffer registers properly.
+• Set CmdBufEn=0b in the IOMMU Control Register [MMIO Offset 0018h].
+• As necessary, change the following registers (e.g., to relocate
+   the command buffer):
+   • the Command Buffer Base Address Register [MMIO Offset 0008h],
+   • the Command Buffer Head Pointer Register [MMIO Offset 2000h],
+   • the Command Buffer Tail Pointer Register [MMIO Offset 2008h].
+• Any or all command buffer entries may be copied from the old
+   command buffer to the new and software must set the head and tail
+   pointers appropriately.
+• Write the IOMMU Control Register [MMIO Offset 0018h] with
+   CmdBufEn=1b and ComWaitIntEn as desired
+",
+the ComWaitIntEn bit is suggested to be set along with the CmdBufEn
+bit, i.e. it can be a part of the IOMMU_HW_QUEUE_ALLOC ioctl.
+
+What I am not sure is if the HW allows setting the ComWaitIntEn bit
+after CmdBufEn=1, which seems to be unlikely but the spec does not
+highlight. If so, this would be an modification to the HW QUEUE, in
+which case we could either do an relocation of the HW QUEUE (where
+we can set the flag in the 2nd allocation) or add an new option via
+IOMMUFD_CMD_OPTION (as Kevin suggested), and I think it should be
+a per-HW_QUEUE option since it doesn't affect other type of queues
+like Event/PRR Log Buffers.
+
+Similarly, an Event Log Buffer can have an EventIntEn flag; and a
+PPR Log Buffer can have an PprIntEn flag too, right?
+
+Thanks
+Nicolin
