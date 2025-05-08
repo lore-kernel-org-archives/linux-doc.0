@@ -1,49 +1,35 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762F32222D7;
-	Thu,  8 May 2025 16:35:10 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899BD78F32;
+	Thu,  8 May 2025 16:51:28 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746722110; cv=none; b=m1xpPQHA4AM2hVWXfEXRyro9TLK4SjQt4QZsY9CGEK/CePjCewx6SfZIS6dIQj93aFboRvwfF723/4BQ6V/QFCZGguEeTVlHwsYR8fRODC294OEjgVK8lMEjOSFOVjdSFLSugD2wjLLNmCFFeLDdboI3DS1pXO4zPhdMUEeb3iI=
+	t=1746723088; cv=none; b=dyk1s5KnHd3JQfw3BzvCvYS61kMxqr4b0hZCPJ9BiZuSZuFXUu1Esa+X0eMTbwJAh9daJsfKxKgG68b/NEYKX+FKMr/FXQvBAtdJXiJoedV0jX+bzwo+7nFj3El6a9YRmt+AWHbIEsDD4zKGqGGNviuiuAie6yPLdXM6/ykNINQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746722110; c=relaxed/simple;
-	bh=zw69N1sh7qesflqhTh0NK6JUMUolWi0TizEUEVcFxlA=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=i+SL7x7cnTWz995PklCFf4nMpx+7WLDemxK/YMcSrmOnUFu27Ao4gXF02jPpz+Y//JTcttTzb4Dd1XONqfyqJ6PqnrHMCyTIUW57UIA8k+ZaAcgnAXV/bXFsGky26tDiN7KdxLUuGRwR8Ts4OfJjQOU93VYsU1XZvdNS8ogVL0w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NDbz+7F1; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746723088; c=relaxed/simple;
+	bh=0k+Wh6+uCGMO9uLN2T6ncyytOn1upByjcEkNa1fx1r4=;
+	h=Content-Type:MIME-Version:Subject:From:Message-Id:Date:References:
+	 In-Reply-To:To:Cc; b=fx6EYjdXLDLoJ9GyJn2Ncsdu3CkRMzepRlErVY+pTHGr7SRU3pJ+Swu6splZDwQxchVG1j/k3LscO2t16XnFGuRiXwHP2uQupvXQj2SiRkiEE2jFTI6Nlms18aRwI76pLt+HUaBnhEudHNK74atGyfNy2V4boIQB+JC3G3bVXs0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ejoa2BEd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NDbz+7F1"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B655EC4CEEB;
-	Thu,  8 May 2025 16:35:09 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ejoa2BEd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 56570C4CEE7;
+	Thu,  8 May 2025 16:51:28 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746722110;
-	bh=zw69N1sh7qesflqhTh0NK6JUMUolWi0TizEUEVcFxlA=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=NDbz+7F1512FyEYzrZEBPqSbS3DRB6QCp0TbaWZM1jE9I6oaepgzR4qL/rT9QJ8CK
-	 gi199aO6exscuDS17FWNa2gcW+og7Tqzln97CHEm82itEs/+X6Ptz+tPRU9+LtOEJ1
-	 oOyOMpX6NOSC/6ah7uH5GPge09dC1EgTzQRwf6LKPEMbJNm4TAuFzSV9at1PQTzwM8
-	 mprtj7Df6HWFMlWNZcBO0JYtAt0dvM3b7E4yTaDwq2nTWk/R5bgkpQn0Zts22wndVF
-	 gPN2CfsVrT6FOAu6kVItwjjqIRlj1LcM5T/EmS6hohDxZcFyLTKFd0AVL5PZg3aYIm
-	 kwGDhqPgXnVhw==
-From: SeongJae Park <sj@kernel.org>
-To: Yunjeong Mun <yunjeong.mun@sk.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	honggyu.kim@sk.com,
-	Jonathan Corbet <corbet@lwn.net>,
-	damon@lists.linux.dev,
-	kernel-team@meta.com,
-	linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-mm@kvack.org,
-	Andrew Morton <akpm@linux-foundation.org>,
-	kernel_team@skhynix.com
-Subject: Re: [PATCH 0/7] mm/damon: auto-tune DAMOS for NUMA setups including tiered memory
-Date: Thu,  8 May 2025 09:35:06 -0700
-Message-Id: <20250508163506.56305-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <20250508092833.800-1-yunjeong.mun@sk.com>
-References: 
+	s=k20201202; t=1746723088;
+	bh=0k+Wh6+uCGMO9uLN2T6ncyytOn1upByjcEkNa1fx1r4=;
+	h=Subject:From:Date:References:In-Reply-To:To:Cc:From;
+	b=ejoa2BEdUlP1DbdY+j6d/ljdnXRtQ1JbuAIfWusXbXKwEX2fAuyovjXR4W6Ae76iB
+	 K38V/ZVWGLbXs1xCy6gk+awFa54Rf1FxM+pA7SEMwyHQdjtXBLBBIsRZKr310lDAbR
+	 kihI2OY/f3f/wrzvZj0R1ayWyPLh/OnpZT6MIEcooHaLQJaWUQYK2jHBGZSaoEIV7K
+	 B3FHNQPprAa9LUrjKJhEoMbJkMusxLL7mUsQK/cIgq3Pf7lpskw8TxB/nBUsU9oE6Y
+	 FfCfGnvoHs8lEhvhnxA+Nje7AMklgjO2s9qIJzoSlO/Liq3TqHGc8te/hGkPFfXQ0X
+	 adn+WSXQ/Dlgg==
+Received: from [10.30.226.235] (localhost [IPv6:::1])
+	by aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org (Postfix) with ESMTP id 34016380AA70;
+	Thu,  8 May 2025 16:52:08 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -51,219 +37,55 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Subject: Re: [PATCH v2 0/5] riscv: misaligned: fix interruptible context and add
+ tests
+From: patchwork-bot+linux-riscv@kernel.org
+Message-Id: 
+ <174672312700.2976395.88758017141795080.git-patchwork-notify@kernel.org>
+Date: Thu, 08 May 2025 16:52:07 +0000
+References: <20250422162324.956065-1-cleger@rivosinc.com>
+In-Reply-To: <20250422162324.956065-1-cleger@rivosinc.com>
+To: =?utf-8?b?Q2zDqW1lbnQgTMOpZ2VyIDxjbGVnZXJAcml2b3NpbmMuY29tPg==?=@aws-us-west-2-korg-oddjob-rhel9-1.codeaurora.org
+Cc: linux-riscv@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ corbet@lwn.net, paul.walmsley@sifive.com, palmer@dabbelt.com,
+ aou@eecs.berkeley.edu, alex@ghiti.fr, shuah@kernel.org,
+ ajones@ventanamicro.com, samuel.holland@sifive.com
 
-On Thu,  8 May 2025 18:28:27 +0900 Yunjeong Mun <yunjeong.mun@sk.com> wrote:
+Hello:
 
-> Hi Seongjae, I'm sorry for the delayed response due to the holidays.
+This series was applied to riscv/linux.git (fixes)
+by Alexandre Ghiti <alexghiti@rivosinc.com>:
 
-No worry, hope you had a good break :)
-
+On Tue, 22 Apr 2025 18:23:07 +0200 you wrote:
+> This series fixes misaligned access handling when in non interruptible
+> context by reenabling interrupts when possible. A previous commit
+> changed raw_copy_from_user() with copy_from_user() which enables page
+> faulting and thus can sleep. While correct, a warning is now triggered
+> due to being called in an invalid context (sleeping in
+> non-interruptible). This series fixes that problem by factorizing
+> misaligned load/store entry in a single function than reenables
+> interrupt if the interrupted context had interrupts enabled.
+> In order for misaligned handling problems to be caught sooner, add a
+> kselftest for all the currently supported instructions .
 > 
-> On Fri,  2 May 2025 08:49:49 -0700 SeongJae Park <sj@kernel.org> wrote:
-> > Hi Yunjeong,
-> > 
-> > On Fri,  2 May 2025 16:38:48 +0900 Yunjeong Mun <yunjeong.mun@sk.com> wrote:
-> > 
-> > > Hi SeongJae, thanks for your helpful auto-tuning patchset, which optimizes 
-> > > the ease of used of DAMON on tiered memory systems. I have tested demotion
-> > > mechanism with a microbenchmark and would like to share the result.
-> > 
-> > Thank you for sharing your test result!
-> > 
-> > [...]
-> > > Hardware. 
-> > > - Node 0: 512GB DRAM
-> > > - Node 1: 0GB (memoryless)
-> > > - Node 2: 96GB CXL memory
-> > > 
-> > > Kernel
-> > > - RFC patchset on top of v6.14-rc7 
-> > > https://lore.kernel.org/damon/20250320053937.57734-1-sj@kernel.org/
-> > > 
-> > > Workload
-> > > - Microbenchmark creates hot and cold regions based on the specified parameters.
-> > >   $ ./hot_cold 1g 100g
-> > > It repetitively performs memset on a 1GB hot region, but only performs memset
-> > > once on a 100GB cold region. 
-> > > 
-> > > DAMON setup
-> > > - My intention is to demote most of all regions of cold memory from node 0 to 
-> > > node 2. So, damo start with below yaml configuration:
-> > > ...
-> > > # damo v2.7.2 from https://git.kernel.org/pub/scm/linux/kernel/git/sj/damo.git/
-> > >    schemes:
-> > >    - action: migrate_cold
-> > >       target_nid: 2
-> > > ...
-> > >       apply_interval_us: 0
-> > >       quotas:
-> > >         time_ms: 0 s
-> > >         sz_bytes: 0 GiB
-> > >         reset_interval_ms: 6 s
-> > >         goals:
-> > >         - metric: node_mem_free_bp 
-> > >           target_value: 99%
-> > >           nid: 0
-> > >           current_value: 1
-> > >         effective_sz_bytes: 0 B
-> > > ...
-> > 
-> > Sharing DAMON parameters you used can be helpful, thank you!  Can you further
-> > share full parameters?  I'm especially interested in how the parameters for
-> > monitoring targets and migrate_cold scheme's target access pattern, and if
-> > there are other DAMON contexts or DAMOS schemes running together.
-> > 
-> 
-> Actually, I realized that the 'regions' field in my YAML configuration is 
-> incorrect. I've been using a configuration file that was create on another 
-> server, not the testing server.
+> [...]
 
-To my understanding, you use YAML configuration because DAMON user-space tool
-doesn't provide good interface for multiple kdamonds setup.  Starting from
-v2.7.5, DAMON user-space tool supports multiple kdamonds setup from the command
-line, and it supports setting target regions as NUMA nodes (--numa_node).
-Using those might be a better option for you.
+Here is the summary with links:
+  - [v2,1/5] riscv: misaligned: factorize trap handling
+    (no matching commit)
+  - [v2,2/5] riscv: misaligned: enable IRQs while handling misaligned accesses
+    https://git.kernel.org/riscv/c/453805f0a28f
+  - [v2,3/5] riscv: misaligned: use get_user() instead of __get_user()
+    https://git.kernel.org/riscv/c/897e8aece3c8
+  - [v2,4/5] Documentation/sysctl: add riscv to unaligned-trap supported archs
+    (no matching commit)
+  - [v2,5/5] selftests: riscv: add misaligned access testing
+    (no matching commit)
 
-> As a result, the scheme is applied to wrong
-> region, causing the results to appear confusing. I've  fixed the issue and
-> confirmed that the demotion occured successfully. I'm sorry for any confusion
-> this may have caused.
-
-Glad to hear that the issue is fixed.
-
-> 
-> After fixing it up, Honggyu and I tested this patch again. I would like to
-> share two issues: 1) slow start of action, 2) action does not stop even when 
-> target is acheived. Below are the test configurations:
-> 
-> Hardware
-> - node 0: 64GB DRAM
-> - node 1: 0GB (memoryless)
-> - node 2: 96GB CXL memory
-> 
-> Kernel
-> - This patchset on top of v6.15-rc4
-> 
-> Workload: microbenchmark that `mmap` and `memset` once for size GB
-> $ ./mmap 50
-> 
-> DAMON setup: just one contexts and schemes.
->     ...
->     schemes:
->     - action: migrate_cold
->       target_nid: 2
->       access_pattern:
->         sz_bytes:
->           min: 4.000 KiB
->           max: max
->         nr_accesses:
->           min: 0 %
->           max: 0 %
->         age:
->           min: 10 s
->           max: max
->       apply_interval_us: 0
->       quotas:
->         time_ms: 0 s
->         sz_bytes: 0 GiB
->         reset_interval_ms: 20 s
->         goals:
->         - metric: node_mem_free_bp
->           target_value: 50%
->           nid: 0
->           current_value: 1
->      ...
-> 
-> Two issues mentioned above are both caused by the calculation logic of 
-> `quota->esz`, which grows too slowly and increases gradually.
-> 
-> Slow start: 50GB of data is allocated on node 0, and the demotion first occurs
-> after about 15 minutes. This is because `quota->esz` is growing slowly even
-> when the `current` is lower than the `target`. 
-
-This is an intended design to avoid making unnecessary actions for only
-temporal access pattern.  On realistic workloads having a time scale, I think
-some delay is not a big problem.  I agree 15 minutes is too long, though.  But,
-the speed also depends on reset_interval_ms.  The quota grows up to 100% once
-per reset_interval_ms.  The quota size is 1 byte in minimum, so it takes at
-least 12 reset_interval_ms to make the size quota at least single 4K page size.
-Because reset_interval_ms is 20 seconds in this setup, 12 reset_interval_ms is
-four minutes (240 seconds).
-
-My intended use of resset_interval_ms is setting it just not too short, to
-reduce unnecessary quota calculation overhead.  From my perspective, 20 seconds
-feels too long.  Is there a reason to set it so long?  If there is no reason,
-I'd recommend starting with 1 second reset_interval_ms and adjust for your
-setup if it doesn't work.
-
-And I realize this would better to be documented.  I will try to make this more
-clarified on the documentation when I get time.  Please feel free to submit a
-patch if you find a time faster than me :)
-
-> 
-> Not stop: the `target` is to maintain 50% free space on node 0, which we expect
-> to be about 32GB. However, it demoted more than intended, maintaing about 90%
-> free space as follows:
-> 
->   Per-node process memory usage (in MBs)
->   PID           Node 0 Node 1 Node 2 Total
->   ------------  ------ ------ ------ -----
->   1182 (watch)       2      0      0     2
->   1198 (mmap)     7015      0  44187 51201
->   ------------  ------ ------ ------ -----
->   Total           7017      0  44187 51204
-> 
-> This is becuase the `esz` decreased slowly after acheiving the `target`.
-> In the end, the demotion occured more excessively than intended.
-> 
-> We believe that the defference between `target` and `current` increases, the
-> `esz` should be raised more rapidly to increase the aggressiveness of action.
-> In the current implementation, the `esz` remains low even when the `current` is
-> below the `target`, leading to a slow start issue. Also, there is a not-stop
-> issue where high `esz` persist (decreasing slowly) even when an over_achieved
-> state. 
-
-This is yet another intended design.  The aim-oriented quota auto-tuning
-feature assumes there is an ideal amount of quota that fits for the current
-situation, that could dynamically change.  For example, proactively reclaiming
-cold memory aiming a modest level of memory pressure.
-
-For this case, I think you should have another scheme for promotion.  Please
-refer to the design and example implementation of the sample module.  Or, do
-you have a special reason to utilize only demotion scheme like this setup?  If
-so, please share.
-
-If you really need a feature that turns DAMOS on and off for given situation,
-DAMOS watermarks may be the right feature to look.  You could also override
-tuned quota from user space.  So you could monitor the free size of given NUMA
-node and set the tuned quota as zero, immediately, or jsut remove the scheme.
-
-Again, this might be due to the poor documentation.  Sorry about the poor
-documentation and thank you for letting me find this.  I'll try to make the
-documentation better.
-
-> 
-> > 
-> > Yes, as you intrpret, seems the auto-tuning is working as designed, but
-> > migration is not successfully happened.  I'm curious if migration is tried but
-> > failed.  DAMOS stats[1] may let us know that.  Can you check and share those?
-> > 
-> 
-> Thank you for providing the DAMOS stats information.
-> I will use it when analyzing with DAMON.
-
-Maybe an easiest way to monitor it is
-'damo report access --tried_regions_of X Y Z --style temperature-sz-hist'.
-
-> I would appreciate any feedback you
-> might have on the new
-> results.
-
-I wish my above replies helps a bit, and looking forward to anything I missed
-or your special reasons for your setup if you have.
+You are awesome, thank you!
+-- 
+Deet-doot-dot, I am a bot.
+https://korg.docs.kernel.org/patchwork/pwbot.html
 
 
-Thanks,
-SJ
-
-[...]
