@@ -1,128 +1,166 @@
-Received: from out-174.mta1.migadu.com (out-174.mta1.migadu.com [95.215.58.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B90B41DBB0C;
-	Thu,  8 May 2025 23:01:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 23CC56F073;
+	Thu,  8 May 2025 23:52:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746745288; cv=none; b=uMUwxjPsE80P5aD5jnSWrwh3xBwxQ5ZOtpXcwxP3RHxsYsEJp8taYBhM8zwtm543dnZpY+yMzuFhq/CznyxK4a66Fy22WPC2xODxh8b2IKEEkdO7/dqNjiTlPbTXs/Fu+SHKaGMJnEX5oi6rbEh6PrUq1fqfCkg8mgVdB43pRU4=
+	t=1746748345; cv=none; b=tN34ugdNj44jrm0pFLWc3Wzqs5V3LaVIDQQSIbYgSkK8gzGQh5ennivadKaf4yM1acCAllGh+QiBtSdp8H/JugjL8Qq7NSL/5XLW0LR+KcFzXhj4WXO+eMZpzjS7zrR55JlChmklZb/lNYSldfyeUwFI7hhQ1fhIiaIlQ1M/iGM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746745288; c=relaxed/simple;
-	bh=oEuSarxiPIA0IneriI2U0oIkS7qkQy2iN4xv7e9uIV4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=G/tw5j5M8VXcEZmrBLLLj/8t/dJJlpLLfTKVp7Z0n94k1JCN3p85hiYIBuBcrfQ1h96qVThLp3fdT3mzliBvA5w3q6qr/eY/FsIN2GkqKi1wO2UksmoCrZEz7VKopnAgQVcZyDWViUIhzyBEgaPHJPDxfx+viVaM2OgxdfHzk/4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=qK6Zu79Q; arc=none smtp.client-ip=95.215.58.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1746748345; c=relaxed/simple;
+	bh=zCcLlGfnA/SwK/QTsQ6H1iR+5VjSwFpBApt8bXe5e1E=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=L1gkDjfUSMJQZrr68HBQYX7A/ZHf+83NatGVnbArmDw/vt2KFTB95UxmtWwNgtto2Fk+GGoOCcBxVm2ItVjsLLtgd7qytv2qmOUpf3KC5Q8Rgde5EeyCNWwZzAlCj6yq9X9c0SWPh48lLluFALDCKQN9E4JZhyOBHOrtMlpeBBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=RgaprQwh; arc=none smtp.client-ip=209.85.214.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="qK6Zu79Q"
-Message-ID: <4032b00c-1194-45b1-b1e5-4e9237ed7948@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746745283;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=0podyQbI7EjhnM5+iaMAYRW3Emc7fSDLhAlACBiE+s0=;
-	b=qK6Zu79QrmwiVhmb0SUwlF/AmfkzMu19qf+dkBevTT2rvx0rNBA3gTno6MqT2qWTf4fMVs
-	gxD/PLt/EvSGIoMy129aGZ3w/Mkk5JRRS22r4+ABA1HHZbWa7Qf9RDrbOXY3uZqUb00KyB
-	qWyz0v9qW0KNNtOBJ9/V3dY4gkoObkE=
-Date: Thu, 8 May 2025 16:01:12 -0700
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="RgaprQwh"
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-22e16234307so17884905ad.0;
+        Thu, 08 May 2025 16:52:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746748342; x=1747353142; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=7+dTqK1fH1KDfSrx+FC1lge6PAOCtI5Bu9tu5w/CBEA=;
+        b=RgaprQwhAgT8ATCjCaWEG5F8oKCyelA4Jc6Fk/igFiIS7FIjnk5L13cHiaLrivzazM
+         Su2jjtNOXeWN5khEKexAdHO/Xj4TmqEFOfPJ6sK2RXZCzcayOXuCaalulYJ/o1BUgbgN
+         8IDCJH3aiFIPJdtkO/f5/6c1hOJuZ4R2Bn+XDwga4Ry9651wWYLSubSPLtacKcge3pjp
+         q4kHojX08dkhkkIqv3SOAQUtY97h4TNY48GuS1K6ZXqqHjvBryHPHN6JFWTye/HgOD/l
+         cBm84yQYRr2sUIXOmNa3+7DB1HhrtNQz8wyjtuQrGkcMLylFShwnXBb0C7AUjI0yJ5S0
+         g/VA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746748342; x=1747353142;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=7+dTqK1fH1KDfSrx+FC1lge6PAOCtI5Bu9tu5w/CBEA=;
+        b=AhtqR9gVgAnLrlspgF9ZikkAH9QFhyiK/rA9g5IRNYWEmRbQf747BJWBsgTrqqAb/j
+         EGG9BNmSIkeq8j3/Sb+8xLTA+JkNSj1PAJ3DdBzmEnTiXbwPdca8SJkgunBYlqQR3DC/
+         yzjx1a+DK9jWgXXv+9t99YzMUuxNFxR3dkSi2xRJ3Ys3tgYwsCyQ31v98DBDT1onbeXc
+         JorNKopZxXXGlkKsNXlDUYHDj/eb1/0khdWHmSrAFETGG10RzPlcQZJ4hg/39SsHURVd
+         YmtrTGZkzkh1H/sJdrvMI+t+mcMYPGPlsW6fuZo//5lj7QIhNbQpTvftmkwrdZxveFsA
+         jgNw==
+X-Forwarded-Encrypted: i=1; AJvYcCVkM4y0eSqPw/fQ1MzeTTbP7Yf3RXNE2llsL+bVY/s8d9u/Xde4SEKDuQkidJ8ox60yVfi30A+nshU=@vger.kernel.org, AJvYcCWsygji454zfHFUJeCaEuIBvicVbaRl7jThY4K4jJRO21deLmk2KDoq3W0eMZMcAVBlrF+UE9DM4xjVMQnYGCQ508Yrqg==@vger.kernel.org, AJvYcCXz1j6bVKHAKZI+c/RLQpSC5Ltczhp9iXcwDEYswNOwy4adJoCS58wbyuLpUv3CU97PWXf2EmUKlVHfEOwa@vger.kernel.org
+X-Gm-Message-State: AOJu0YyGaLmZs6IswHJW4oprQz5Mmi4Eir7BKBlOpMGtl1uAOPGQSKTC
+	EWhDfDlUEw3CmY9N/difS2IwnSPxtjo2zOT+XJw9/3wFxvfNBKPd
+X-Gm-Gg: ASbGnctlxKTkWggni6dXqngMhkRp2oV7JxHuQUALGcC71qr25b5loy9iwnmE4jf8CQk
+	7yZE5iCw3ho6Z9i0UGYU5HhDmxn3Pk/8S7NdEEBgdLFRbAZ2kGP96GHu3QZPkN3keqcOc+mMYwJ
+	fOkBVV5yATOCutRct+XSSxeDj74VY4T/fbLes2sUyQvfuKToxqL1LygYkNjqbSsoRh0S12AsA3g
+	bGZwBRUJ0frJEGAV8XlGlKNsfejQfwgP5V1W07Tww3147dXmwKdpyCNduPq4m9p97CvPgfaOsrp
+	KblESDZkq72jRyZplMoDgBbe9M/dkdLThOt4FHQ5j/xQd8AumFo3RQ6kK5DTX4pKCReB+SETYXT
+	aHXiUpiBJnWXVK6vRhP19M002VVyfH/qrOInlQT4=
+X-Google-Smtp-Source: AGHT+IESsDblSF+om3G+D3PxsuAoe6bcX9pTwOjV+DZvyRSsbWeo5knrzuuY7eJVy/VoPigXf3w0+A==
+X-Received: by 2002:a17:902:f602:b0:220:fe36:650c with SMTP id d9443c01a7336-22fc93e3d82mr18459165ad.23.1746748342170;
+        Thu, 08 May 2025 16:52:22 -0700 (PDT)
+Received: from localhost.localdomain (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc680515esm5844615ad.0.2025.05.08.16.52.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 May 2025 16:52:21 -0700 (PDT)
+From: "Derek J. Clark" <derekjohn.clark@gmail.com>
+To: Hans de Goede <hdegoede@redhat.com>,
+	=?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Armin Wolf <W_Armin@gmx.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Mario Limonciello <superm1@kernel.org>,
+	Luke Jones <luke@ljones.dev>,
+	Xino Ni <nijs1@lenovo.com>,
+	Zhixin Zhang <zhangzx36@lenovo.com>,
+	Mia Shao <shaohz1@lenovo.com>,
+	Mark Pearson <mpearson-lenovo@squebb.ca>,
+	"Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+	"Cody T . -H . Chiu" <codyit@gmail.com>,
+	John Martens <johnfanv2@gmail.com>,
+	Kurt Borja <kuurtb@gmail.com>,
+	"Derek J . Clark" <derekjohn.clark@gmail.com>,
+	platform-driver-x86@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v9 0/6] platform/x86: Add Lenovo WMI Gaming Series Drivers
+Date: Thu,  8 May 2025 16:51:33 -0700
+Message-ID: <20250508235217.12256-1-derekjohn.clark@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 05/14] riscv: sbi: add SBI FWFT extension calls
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org
-Cc: Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
-References: <20250424173204.1948385-1-cleger@rivosinc.com>
- <20250424173204.1948385-6-cleger@rivosinc.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Atish Patra <atish.patra@linux.dev>
-In-Reply-To: <20250424173204.1948385-6-cleger@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On 4/24/25 10:31 AM, ClÃ©ment LÃ©ger wrote:
-> Add FWFT extension calls. This will be ratified in SBI V3.0 hence, it is
-> provided as a separate commit that can be left out if needed.
-> 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->   arch/riscv/kernel/sbi.c | 20 +++++++++++++++++++-
->   1 file changed, 19 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
-> index d57e4dae7dac..070014ff35d4 100644
-> --- a/arch/riscv/kernel/sbi.c
-> +++ b/arch/riscv/kernel/sbi.c
-> @@ -299,6 +299,8 @@ static int __sbi_rfence_v02(int fid, const struct cpumask *cpu_mask,
->   	return 0;
->   }
->   
-> +static bool sbi_fwft_supported;
-> +
+Adds support for the Lenovo "Gaming Series" of laptop hardware that use
+WMI interfaces that control various power settings. There are multiple WMI
+interfaces that work in concert to provide getting and setting values as
+well as validation of input. Currently only the "Gamezone", "Other
+Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, but
+I attempted to structure the driver so that adding the "Custom Mode",
+"Lighting", and other data block interfaces would be trivial in later
+patches.
 
-super nit: Can declare this along with struct fwft_set_req so that they 
-are together ? You can move the sbi_fwft_set to below the struct 
-fwft_set_req.
+This driver attempts to standardize the exposed sysfs by mirroring the
+asus-armoury driver currently under review. As such, a lot of
+inspiration has been drawn from that driver.
+https://lore.kernel.org/platform-driver-x86/20250319065827.53478-1-luke@ljones.dev/#t
 
->   /**
->    * sbi_fwft_set() - Set a feature on the local hart
->    * @feature: The feature ID to be set
-> @@ -309,7 +311,15 @@ static int __sbi_rfence_v02(int fid, const struct cpumask *cpu_mask,
->    */
->   int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags)
->   {
-> -	return -EOPNOTSUPP;
-> +	struct sbiret ret;
-> +
-> +	if (!sbi_fwft_supported)
-> +		return -EOPNOTSUPP;
-> +
-> +	ret = sbi_ecall(SBI_EXT_FWFT, SBI_EXT_FWFT_SET,
-> +			feature, value, flags, 0, 0, 0);
-> +
-> +	return sbi_err_map_linux_errno(ret.error);
->   }
->   
->   struct fwft_set_req {
-> @@ -348,6 +358,9 @@ int sbi_fwft_set_cpumask(const cpumask_t *mask, u32 feature,
->   		.error = ATOMIC_INIT(0),
->   	};
->   
-> +	if (!sbi_fwft_supported)
-> +		return -EOPNOTSUPP;
-> +
->   	if (feature & SBI_FWFT_GLOBAL_FEATURE_BIT)
->   		return -EINVAL;
->   
-> @@ -679,6 +692,11 @@ void __init sbi_init(void)
->   			pr_info("SBI DBCN extension detected\n");
->   			sbi_debug_console_available = true;
->   		}
-> +		if (sbi_spec_version >= sbi_mk_version(3, 0) &&
-> +		    sbi_probe_extension(SBI_EXT_FWFT)) {
-> +			pr_info("SBI FWFT extension detected\n");
-> +			sbi_fwft_supported = true;
-> +		}
->   	} else {
->   		__sbi_set_timer = __sbi_set_timer_v01;
->   		__sbi_send_ipi	= __sbi_send_ipi_v01;
+The drivers have been tested by me on the Lenovo Legion Go and Legion Go
+S.
 
-Otherwise, LGTM.
+Suggested-by: Mario Limonciello <superm1@kernel.org>
+Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+---
+v8:
+https://lore.kernel.org/platform-driver-x86/20250505010659.1450984-1-derekjohn.clark@gmail.com/
+v7:
+https://lore.kernel.org/platform-driver-x86/20250503000142.1190354-1-derekjohn.clark@gmail.com/
+v6:
+https://lore.kernel.org/platform-driver-x86/20250428012029.970017-1-derekjohn.clark@gmail.com/
+v5:
+https://lore.kernel.org/platform-driver-x86/20250408012815.1032357-1-derekjohn.clark@gmail.com/
+v4:
+https://lore.kernel.org/platform-driver-x86/20250317144326.5850-1-derekjohn.clark@gmail.com/
+v3:
+https://lore.kernel.org/platform-driver-x86/20250225220037.16073-1-derekjohn.clark@gmail.com/
+v2:
+https://lore.kernel.org/platform-driver-x86/20250102004854.14874-1-derekjohn.clark@gmail.com/
+v1:
+https://lore.kernel.org/platform-driver-x86/20241217230645.15027-1-derekjohn.clark@gmail.com/
+Derek J. Clark (6):
+  platform/x86: Add lenovo-wmi-* driver Documentation
+  platform/x86: Add lenovo-wmi-helpers
+  platform/x86: Add Lenovo WMI Events Driver
+  platform/x86: Add Lenovo Capability Data 01 WMI Driver
+  platform/x86: Add Lenovo Gamezone WMI Driver
+  platform/x86: Add Lenovo Other Mode WMI Driver
 
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
+ .../wmi/devices/lenovo-wmi-gamezone.rst       | 203 ++++++
+ .../wmi/devices/lenovo-wmi-other.rst          | 108 +++
+ MAINTAINERS                                   |  12 +
+ drivers/platform/x86/Kconfig                  |  41 ++
+ drivers/platform/x86/Makefile                 |   5 +
+ drivers/platform/x86/lenovo-wmi-capdata01.c   | 303 ++++++++
+ drivers/platform/x86/lenovo-wmi-capdata01.h   |  25 +
+ drivers/platform/x86/lenovo-wmi-events.c      | 196 ++++++
+ drivers/platform/x86/lenovo-wmi-events.h      |  20 +
+ drivers/platform/x86/lenovo-wmi-gamezone.c    | 408 +++++++++++
+ drivers/platform/x86/lenovo-wmi-gamezone.h    |  20 +
+ drivers/platform/x86/lenovo-wmi-helpers.c     |  75 ++
+ drivers/platform/x86/lenovo-wmi-helpers.h     |  20 +
+ drivers/platform/x86/lenovo-wmi-other.c       | 658 ++++++++++++++++++
+ drivers/platform/x86/lenovo-wmi-other.h       |  16 +
+ 15 files changed, 2110 insertions(+)
+ create mode 100644 Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+ create mode 100644 Documentation/wmi/devices/lenovo-wmi-other.rst
+ create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-events.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-events.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.h
+ create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
+ create mode 100644 drivers/platform/x86/lenovo-wmi-other.h
+
+-- 
+2.49.0
+
