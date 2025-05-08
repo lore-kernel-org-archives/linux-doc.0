@@ -1,127 +1,203 @@
-Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+Received: from mail-pf1-f181.google.com (mail-pf1-f181.google.com [209.85.210.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 90A194A2D;
-	Thu,  8 May 2025 00:59:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 98BF78C0E;
+	Thu,  8 May 2025 02:08:53 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746665948; cv=none; b=lktxAMGxdxfg9OfkhN+S1AipYtyb4jB1WqvV5QSFuesf0HUzSQRjBZDQ0J6GO7aytlikBYEuF8WTi22iAbN6XpimpsApah2OE1iTn9fB5qoqz/SDwC88oha31heImjq5ioUHbWk/0wmRcKv2SiBv9Puwq4qs5zZ7hBJQ5evCMm0=
+	t=1746670135; cv=none; b=Hz+j6+kccKgolB3HlkA/gFM7IZTOiWYiqjwgXaC+qr2M2XCD+soj3Zax6hIy2/6gUoLGs+7E4ZcHz2hW6m3ieBQxYiedFBdv4LCKHrB+2cw8nhSyEXRYz23sSJNlM/tUr+u4+rnmRbtKarY0fVZjcHmFugezox5yIkb4Te7kTN8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746665948; c=relaxed/simple;
-	bh=uZ1Rq3Tz49OdfnMmW2XGJPejBxicbyFBWBkgjAk8IvE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KpKiHgkeVnzx2oQ9MU+FroWztziwo1chR9b5hErSA19Gh74KJzz/cYnfgI37TEJZxw4eOQSo5eHbCIHx7ujoDpcr/dfLt1PTzXVnmNmxz8PLnNDB7PjaFKVssGw6m8yrypaQYvcKhKOuXYhdxO+8Vx7oURnZF+P6BwEnUJq5R5s=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Jii040IR; arc=none smtp.client-ip=209.85.214.182
+	s=arc-20240116; t=1746670135; c=relaxed/simple;
+	bh=dLs5zRkSxw947DPEVhEALcB1cBdOeCpK5me8+HGfXT8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FLcfTrXNis0p86HTRv1OFe6BGQb0jU78iUss8y/YX66gxXQItusZolQX5Y1+XhjHFXZ97l3u/1k/drGIv9f9tZgdlGNYU3CzhZ6xgMWkcgmyCpO2Jwp13TB5CtJXCk/ShmbJkfkpNzqBhPkYcO10EYoCgV8NhF5Pq9rsCzIqVkM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=WPtszyIH; arc=none smtp.client-ip=209.85.210.181
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Jii040IR"
-Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-22e6344326dso5435615ad.1;
-        Wed, 07 May 2025 17:59:06 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="WPtszyIH"
+Received: by mail-pf1-f181.google.com with SMTP id d2e1a72fcca58-73c17c770a7so633227b3a.2;
+        Wed, 07 May 2025 19:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1746665946; x=1747270746; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=rat4LXV/5BNqG37wbxHnzeOktIjDujmT5cdZDtfs8yA=;
-        b=Jii040IR/0gH+bxO1/fAmsbYvvCmP8JszBw+HXY6LVZfU3oW/J/3F/2jOi2jEWqeUN
-         NCEqemKaxLnDROFC8g14ONvnSzbkfoNnbbNAJZ7rHxNhn7I8W4mD0ACdvZvjyEWKKQ00
-         Ka0lMBr2qdR5CGLyfcED+k5o8VTLFBxS6+AE3uZWwjkej4n4gA7ppUtF7rggXXuTqhji
-         cOzk61GxFOdNwGHIFH1IsWuYPFN38/Z/BhjjAbZgVD5GEbIfj4/ICzVKueLQs83Ady9Z
-         +04a9bcpaICyCQ0TDYCuNzRrilzWDos6kFkqwuvZB+1FcQEFnIIyxOmglL32FkbACwvr
-         z3jw==
+        d=gmail.com; s=20230601; t=1746670133; x=1747274933; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
+        bh=YHNvw92XYRZPUd0bYHJyEHW/Md8K5EFmOKRKZwWuqDk=;
+        b=WPtszyIHeAkHhVBI2/8I3EZWdQFSNn4qmnWPvfAnjcS33GHEH3SHf2MbNgHzBYNG0Z
+         AYRXVIpNjGTQoTuYL+XbhTqkUxtQe/x6F3dItvNJcoDHzOBP7dfUt8CcETdPM4+de6Dz
+         s7ozt0H85ZtgveajAyPxv3Cc2a21Fzlor9SrXG3WGlJn90Ftf4Z/r5tzXvbWf+qNEII3
+         sEqFKS4kt7sZmC8Yapc+jZg8yTWuyNPMA6n06mPxS0p6HbUNdgP9ew1RDx9tBZVfLu+x
+         JrI1xVwd+z0inozL27qV8C3B+cfKcinVEbynudMrBWDH2tKNDJAtXTmhfWa0bvmnk8cA
+         kkvA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746665946; x=1747270746;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=rat4LXV/5BNqG37wbxHnzeOktIjDujmT5cdZDtfs8yA=;
-        b=KZXI39j6XLjObmCc2erjO1WcyXNaw93Dn9o5xL82TXdy8FOzjy1PYh95KGsEWZz13O
-         /p3+PGQs71aUEYCqFXOQfJXccv3+V2EgVxZ9B10DdJ6BcSvWuctyIV/xArgxo6ELyvMX
-         x+BRgq+BFfWwE8cqt8J0SL43nXGXI9AZdH11GKxNJB86OGS3Y6rsZEo0vjCflOkgdlUl
-         lRn14bysh5Rx0FWjCb0TTH4yq2DNZ+6OhaLpDDlqD4IebvuRG+GFMJhjSyQnjwL6EEyF
-         ROE+C/Q2vdHPhxhLAYrKEWdBpzkdqhVy9k9dm5K0kBnRlIdR5EsnZQft4UocF08O0Fb6
-         Nc6A==
-X-Forwarded-Encrypted: i=1; AJvYcCW9haHEdtj/C6m4QoLJF4U4z+N5vWIKfUypLRVQ3flEOcTs3m/xnydaeZNEuZujPJNpna1scfuQRHU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz+QoEpgJxKVb6BRZxZBzadCOe8S8uQXwe8JY6O4T/lFwk1GFtc
-	2ujKXQsLW/0wzB8paL0/Mgzk8lH1Rr87jtvgYgC+vw21wSF10qhg
-X-Gm-Gg: ASbGncsGUDxrFNc3qPwaP5SFjIaIDVr1WW2lsP7G89dSCAiS4dTAA6pFytECxEQiNnt
-	iwXzq/WtK/XI2FxxU7mRa9k0OjRi3m5qWV7+hW8XfiZDokU316213BcrIcDZ8LzkgOf9EAqm4uv
-	ubMMhkSqfdGMnsJzoP2LBWC4iL3tS3A1gbycWGap07gc1f5hCWlyog9OUPTQJ5y42doEgTmCwNt
-	NIyZ5QmJoXOyP6rEBSoYqqqbuS6Z6iCZ4SDG2jDYc8zbsr9etBNqVZE+zcAL7ivFqxPaq2DoXxN
-	NgCCWYw4l/quWogdG8qB03UYYHex5YeDzCYzR1Ss
-X-Google-Smtp-Source: AGHT+IGPIJtk7+rifUWWKtc2+jzoFuZfZ7qkWDbJ7uoNF7pq2e0cK8YhDBQl0SA693AOH7zJ7bBpEA==
-X-Received: by 2002:a17:902:ecc6:b0:220:c4e8:3b9d with SMTP id d9443c01a7336-22e8a7f9156mr17678755ad.37.1746665945687;
-        Wed, 07 May 2025 17:59:05 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1746670133; x=1747274933;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=YHNvw92XYRZPUd0bYHJyEHW/Md8K5EFmOKRKZwWuqDk=;
+        b=K1NiHi+riL5Lae4cPzoO01VpZxUweOtmc3A6cWoDTWgv9Ckq5ZiPVYbROkXQU6X+gf
+         /3kfpACL+4nuEWbdftJqOUAXPi5T4tU0gYnT+kur0EQ7gEBXJOjEZ6B5xnCKEKl/qfSR
+         HVcUS7vBIfpiVwimXgCrhMsPTQOqQDGtusSdtZPmzD5XR5d3dT5O5yRbnzYztP/OX/YY
+         xHfVvdap+qNgAH2Tk6ATujV5UJb3tQGqpVADZvSwMgDQ9RsGI+nH4lqS2AJfYVoYC0ca
+         bRJ/WqBbp0X5QOopNMBPR1e+rNu5r8MF2p5RJKVa4aBwKfjb3/vTjeyHWLEnA/L6cOMe
+         3eTw==
+X-Forwarded-Encrypted: i=1; AJvYcCUBWsCzL9RnrtSsW2+7IUokRrz1FoKhEQWdyX4gNF8VVUE0+FQ7aDoABk5WaBv8mBA377O0eWTTv1g=@vger.kernel.org, AJvYcCVAaEW2COVvULvBdEdALAD0usmq/qg+N3EZQVXBl3M4FDalSAcIF7Sy/eg7m+5uNZAsi7+U/1RGw805k/r9yPLP@vger.kernel.org, AJvYcCWqGOh/VBH3CwkowXefcQc8M2OltsxUPQ6XCf6UURyEBgM8CdX1oEt7iNXrg43SxXMV9WjfG2wqRTPFvcdh@vger.kernel.org
+X-Gm-Message-State: AOJu0YwBEJNxBEvSxbCIglyNdt2hEOoFGXaMB4Z0rw7qi7jM29aLkfYu
+	F0iZJQFZiQkUGEj46kyglAcInyl1onrhux57VW7h+2YF5ZrfXsvP
+X-Gm-Gg: ASbGnctQp117AJuhmcyAO+o5v/KqVeCmuy9iMAwUIFgl0GD37G2z988lvE7jUMNB8bP
+	GXDoZcN0FKOOXsYceTYGIm6skeucxuHDBdl1UR4GUWKGIM5odM/k5y9mlheIK93TZWJm/zKSVzM
+	EKWNMBydhuiUL021os+8AL13QWoOm4jhMtUY/qa4Ib4b140jKq34KtC41Fi52FhC8HfQ8DRqzsH
+	aogVfLl6KPJOIqi/nd3BSkfVuBJEKehqqLbH7cym6TVvF88IrRjf3EjgujIWr2bAZAtz9ummgrX
+	1+KR+ssoUfYlS7dh9r0xPbJxfbmsLSIflPS2DBkK
+X-Google-Smtp-Source: AGHT+IHyYIyMS+wJOwvbZyE0lsRkB8xUwys37y10aXOMDjyVWuq4/1AmI36wrgPNKy15UXdo6BiBCA==
+X-Received: by 2002:a05:6a00:4c09:b0:737:6e1f:29da with SMTP id d2e1a72fcca58-740a9a71fc3mr2200262b3a.21.1746670132634;
+        Wed, 07 May 2025 19:08:52 -0700 (PDT)
 Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30ad4f58495sm881968a91.37.2025.05.07.17.59.04
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74059020dfdsm12047215b3a.119.2025.05.07.19.08.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 May 2025 17:59:05 -0700 (PDT)
+        Wed, 07 May 2025 19:08:51 -0700 (PDT)
 Received: by archie.me (Postfix, from userid 1000)
-	id CF60141E8D47; Thu, 08 May 2025 07:59:01 +0700 (WIB)
+	id 7B4A941E8D47; Thu, 08 May 2025 09:08:49 +0700 (WIB)
+Date: Thu, 8 May 2025 09:08:49 +0700
 From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Andrew Donnellan <ajd@linux.ibm.com>,
-	Frederic Barrat <fbarrat@linux.ibm.com>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Ming Lei <ming.lei@redhat.com>,
-	Lukas Bulwahn <lukas.bulwahn@redhat.com>,
-	Alyssa Ross <hi@alyssa.is>,
-	Beau Belgrave <beaub@linux.microsoft.com>,
-	Nuno Das Neves <nunodasneves@linux.microsoft.com>,
-	Eric Biggers <ebiggers@google.com>,
-	Michael Ellerman <mpe@ellerman.id.au>,
-	Jan Kara <jack@suse.cz>
-Subject: [PATCH v2] Documentation: ioctl-number: Update table intro
-Date: Thu,  8 May 2025 07:58:39 +0700
-Message-ID: <20250508005838.8381-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+To: Uday Shankar <ushankar@purestorage.com>, Ming Lei <ming.lei@redhat.com>,
+	Jens Axboe <axboe@kernel.dk>,
+	Caleb Sander Mateos <csander@purestorage.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>
+Cc: linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH v6 8/8] Documentation: ublk: document UBLK_F_RR_TAGS
+Message-ID: <aBwSMWYnh1zWgSjK@archie.me>
+References: <20250507-ublk_task_per_io-v6-0-a2a298783c01@purestorage.com>
+ <20250507-ublk_task_per_io-v6-8-a2a298783c01@purestorage.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1779; i=bagasdotme@gmail.com; h=from:subject; bh=uZ1Rq3Tz49OdfnMmW2XGJPejBxicbyFBWBkgjAk8IvE=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBkyDIv2uKbnq94q6fwb2bDk+m3XqUvm21QIp5o7RQRpr 5wSLzO1o5SFQYyLQVZMkWVSIl/T6V1GIhfa1zrCzGFlAhnCwMUpABP59Irhf+UOOcmQKdGThF4f VFlkyfE29FBWktejC5LJLd/tw5tfvmJkWHJjzzHTBVe0JIR3xHikV/CoVQYpBf72s93NtjVhlZc xHwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha512;
+	protocol="application/pgp-signature"; boundary="rg2BuDlVNkC7GlP/"
+Content-Disposition: inline
+In-Reply-To: <20250507-ublk_task_per_io-v6-8-a2a298783c01@purestorage.com>
 
-Introduction paragraph to the ioctl numbers table states that only
-ioctls in up to ancient Linux kernel version (v2.6.31) for x86 arch are
-listed. This is inaccurate as the table also lists ioctls from non-x86
-archs and the kernel is continously developed (currently in v6.x).
 
-Update the paragraph accordingly.
+--rg2BuDlVNkC7GlP/
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Changes since v1 [1]:
-  - Do not mention kernel version (Lukas)
+On Wed, May 07, 2025 at 03:49:42PM -0600, Uday Shankar wrote:
+> +Load balancing
+> +--------------
+> +
+> +A simple approach to designing a ublk server might involve selecting a
+> +number of I/O handler threads N, creating devices with N queues, and
+> +pairing up I/O handler threads with queues, so that each thread gets a
+> +unique qid, and it issues ``FETCH_REQ``s against all tags for that qid.
+                             ``FETCH_REQ``\s (escape s)
+> +Indeed, before the introduction of the ``UBLK_F_RR_TAGS`` feature, this
+> +was essentially the only option (*)
 
-[1]: https://lore.kernel.org/linux-doc/20250507055145.23345-2-bagasdotme@gmail.com/
+Use reST footnotes syntax, i.e.:
 
- Documentation/userspace-api/ioctl/ioctl-number.rst | 5 ++---
- 1 file changed, 2 insertions(+), 3 deletions(-)
+---- >8 ----
+diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
+index 440b63be4ea8b6..b1d29fceff4e80 100644
+--- a/Documentation/block/ublk.rst
++++ b/Documentation/block/ublk.rst
+@@ -325,7 +325,7 @@ number of I/O handler threads N, creating devices with =
+N queues, and
+ pairing up I/O handler threads with queues, so that each thread gets a
+ unique qid, and it issues ``FETCH_REQ``\s against all tags for that qid.
+ Indeed, before the introduction of the ``UBLK_F_RR_TAGS`` feature, this
+-was essentially the only option (*)
++was essentially the only option [#]_
 
-diff --git a/Documentation/userspace-api/ioctl/ioctl-number.rst b/Documentation/userspace-api/ioctl/ioctl-number.rst
-index 83e5d2abdad694..4915e1a7d304eb 100644
---- a/Documentation/userspace-api/ioctl/ioctl-number.rst
-+++ b/Documentation/userspace-api/ioctl/ioctl-number.rst
-@@ -62,9 +62,8 @@ Following this convention is good because:
- (5) When following the convention, the driver code can use generic
-     code to copy the parameters between user and kernel space.
- 
--This table lists ioctls visible from user land for Linux/x86.  It contains
--most drivers up to 2.6.31, but I know I am missing some.  There has been
--no attempt to list non-X86 architectures or ioctls from drivers/staging/.
-+This table lists ioctls visible from userland, excluding ones from
-+drivers/staging/.
- 
- ====  =====  ======================================================= ================================================================
- Code  Seq#    Include File                                           Comments
+ This approach can run into performance issues under imbalanced load.
+ This architecture taken together with the `blk-mq architecture
+@@ -368,8 +368,8 @@ With this setup, I/O submitted on a CPU which maps to q=
+ueue 0 will be
+ balanced across all threads instead of all landing on the same thread.
+ Thus, a potential bottleneck is avoided.
 
-base-commit: b91a0cbb6f27ee499e376091e8c8c0ddfd69103c
--- 
+-(*) technically, one I/O handling thread could service multiple queues
+-if it wanted to, but that doesn't help with imbalanced load
++.. [#] Technically, one I/O handling thread could service multiple queues
++       if it wanted to, but that doesn't help with imbalanced load
+
+ Zero copy
+ ---------
+
+> +
+> +This approach can run into performance issues under imbalanced load.
+> +This architecture taken together with the `blk-mq architecture
+> +<https://docs.kernel.org/block/blk-mq.html>`_ implies that there is a
+This architecture, taken together with the
+:doc:`blk-mq architecture </block/blk-mq>`, implies that ...
+> +fixed mapping from I/O submission CPU to the ublk server thread that
+> +handles it. If the workload is CPU-bottlenecked, only allowing one ublk
+> +server thread to handle all the I/O generated from a single CPU can
+> +limit peak bandwidth.
+> +
+> <snipped>...
+> +With these changes, a ublk server can balance load as follows:
+> +
+> +- create the device with ``UBLK_F_RR_TAGS`` set in
+> +  ``ublksrv_ctrl_dev_info::flags`` when issuing the ``ADD_DEV`` command
+> +- issue ``FETCH_REQ``s from ublk server threads to (qid,tag) pairs in
+> +  a round-robin manner. For example, for a device configured with
+> +  ``nr_hw_queues=3D2`` and ``queue_depth=3D4``, and a ublk server having=
+ 4
+> +  I/O handling threads, ``FETCH_REQ``s could be issued as follows, where
+> +  each entry in the table is the pair (``ublksrv_io_cmd::q_id``,
+> +  ``ublksrv_io_cmd::tag``) in the payload of the ``FETCH_REQ``.
+
+s/``FETCH_REQ``/``FETCH_REQ``\s/ (escape s after FETCH_REQ).
+
+> +
+> +  =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
+=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
+> +  thread 0 thread 1 thread 2 thread 3
+> +  =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=
+=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D
+> +  (0, 0)   (0, 1)   (0, 2)   (0, 3)
+> +  (1, 3)   (1, 0)   (1, 1)   (1, 2)
+
+Add table border in the bottom, i.e.:
+
+---- >8 ----
+diff --git a/Documentation/block/ublk.rst b/Documentation/block/ublk.rst
+index e9cbabdd69c553..dc6fdfedba9ab4 100644
+--- a/Documentation/block/ublk.rst
++++ b/Documentation/block/ublk.rst
+@@ -362,6 +362,7 @@ With these changes, a ublk server can balance load as f=
+ollows:
+   =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=
+=3D =3D=3D=3D=3D=3D=3D=3D=3D
+   (0, 0)   (0, 1)   (0, 2)   (0, 3)
+   (1, 3)   (1, 0)   (1, 1)   (1, 2)
++  =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=3D =3D=3D=3D=3D=3D=3D=3D=
+=3D =3D=3D=3D=3D=3D=3D=3D=3D
+
+ With this setup, I/O submitted on a CPU which maps to queue 0 will be
+ balanced across all threads instead of all landing on the same thread.
+
+Thanks.
+
+--=20
 An old man doll... just what I always wanted! - Clara
 
+--rg2BuDlVNkC7GlP/
+Content-Type: application/pgp-signature; name=signature.asc
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSSYQ6Cy7oyFNCHrUH2uYlJVVFOowUCaBwSLAAKCRD2uYlJVVFO
+o8UNAP9TgXY+vE6qRAR9fejHqskz0G+yEp7Vh1iKjQ4bgFEbqAEA/zXNe5QD6QeT
+g214Z1n7ONm2AqN+10jr5nYqvSlUiAs=
+=BlQj
+-----END PGP SIGNATURE-----
+
+--rg2BuDlVNkC7GlP/--
