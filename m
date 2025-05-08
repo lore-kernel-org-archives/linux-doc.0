@@ -1,176 +1,147 @@
-Received: from mail-lf1-f54.google.com (mail-lf1-f54.google.com [209.85.167.54])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1296221725
-	for <linux-doc@vger.kernel.org>; Thu,  8 May 2025 12:25:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.54
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1938D22B590;
+	Thu,  8 May 2025 13:27:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746707130; cv=none; b=cb05kb0BcVDthCjUW/UXVHAI58jijTal7SipOuZ24IVIx6/70ZOsx3rCIaGE0RK9WIvYPz+mHMXDWQsgWoxqfXwDhb4FSvqPH+5nYNskwyNePDnDaFBL+fCrBSwGW53NizbsCrUVz7XFCmfDV+skp1hecv7+83vDq9/bzQlaP94=
+	t=1746710826; cv=none; b=TgWXDlSxCQxZpVWzCX8NnO52CfQheaTfMZ1XPtRCs01GdJ7oqcabEKZpQUaUeElFqGW5qQMPHDFjLAKgPMewbkPjYgXtnKvaQt5Lin5bfbBKHUuJI07/wSIsnTSlZzFVqAqVb1b7k2EJNL16/BacfUPDay0GG0EfcTcMtfLYlW4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746707130; c=relaxed/simple;
-	bh=GSPlMkE9xl1CKG6+aR4Lnpqmp6kkUaBOsXBjm7FdCs8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Xtqi3woBKbMqmFlcwjGsLJjMXp/NLdG7emAF1YOy/2k3j9ugWQ4Extlbs1LYC8wlYMbt5HzimNha9WYfrCNDbCDEKkCzzk7wNmEpu5r6rkhADR498JRulf7a/ZnLFH8nFOeHGa9wlQS7z/FYvG7WNhWOs5OYyaiWwSgkXcmTUbI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ONaTa7mk; arc=none smtp.client-ip=209.85.167.54
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1746710826; c=relaxed/simple;
+	bh=dPpL/RWC7aL+EKekjxh/7eMQ479I+XUcW0IXz2XLt8Y=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=bIvIbKOtZlCPyd/fbMcBSPXCbDAzWOK+1oyY6MvRPvT3WhFoO/ddLFxC0YYOITjFaXmdiBTh85l7+nwZFqB/LX2LEyhaPo2WtuUVO2BgkDTYwA/eJNCtfPtbFiqS5cvYUn+um2ZK3iMxFN3iVtZajogZoo02FapG5tkrjHFKKso=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=BV0fRHlB; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ONaTa7mk"
-Received: by mail-lf1-f54.google.com with SMTP id 2adb3069b0e04-54b09cb06b0so1134976e87.1
-        for <linux-doc@vger.kernel.org>; Thu, 08 May 2025 05:25:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1746707126; x=1747311926; darn=vger.kernel.org;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:from:to:cc:subject:date:message-id:reply-to;
-        bh=SGXUIdTFQac7mJFRH+e+84EpMzV6neC01o/VEUKascg=;
-        b=ONaTa7mkd9jVBDhTxOiNjDB9oo7ZjFFzBT97onAVuG9S+UwGeCqO4hXZK/nqbJUC5t
-         2yJo4mux/6GIOUCviWK0mKOKdELAH4WroXckzdLgoeA5rmJ9Vq3E7TZrudMSm4/XLMSU
-         We0MQ/50Ns1jLNJ1iFHhLDLCobMR3pRT7CER365RgfcCCqK8pTxwLAVzHwOrcAfmrnQ3
-         p55KROtV+WfTFr2ua2Su1IXybLXufIrUacbo2ZwHgI97BYK6FDd2/vSDIXqjm9ApLE/e
-         zGp0bwKQ9lPRKEKvymtb7m/acWfQ8mZ/3YlUcbNuGnYsvDhvWBDj/BS03V+9LKduDxhs
-         jkNA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746707126; x=1747311926;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=SGXUIdTFQac7mJFRH+e+84EpMzV6neC01o/VEUKascg=;
-        b=CzFSFf4IXHxiBspaSFkZpai6db/Zk30GEEo4vN7OwyV6OX0tc0qTFKiJNLDf0J1QAj
-         DHYa8Hg5Zt8Xq4GAc3FUzeR2omTGE0AqFjiARGUzkgsPPZT/LWp56X0LQnVXHLtwv26r
-         8yX6uuqYPi1WN7fbcNsuOiLQSS66zSA9mAnI7fjWM6KFSdICvFlkFWbL3rZ3RvmXdiku
-         0FYMV+fk3sqtyu2905ZX32o+VgNtk5im+Z34hNfYG3QxOWiHEzghoTjtG4pWGZ03QlMx
-         V7ZxxfH/mJZwxCL9IDUZ+W9YTM7XNsZZo2aGtmPXjcYgTvJ62LJrpWLlf0AOF2Hemvja
-         SeLw==
-X-Forwarded-Encrypted: i=1; AJvYcCWkuQyOGDKsx+fzNFj5ysszNDq8KPrJsajW69WJ4CfYJMA0HOXDoU2YmYRT9LQ9yyYy8eAUcTS61Ak=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx0avnSyj6Do/iLhBw/dfHTqmFdd1dhSTNShN1Dx3J+JImQsvNd
-	R+QfJiKwZ9MzIl+ddfcwl1W/5reLjG4fARZ2qxg6xbxXJiP0tAKUerBMhyjLB2S1ljOBZpnbRBW
-	zWfhLeTtOo1ifRMFMeEdcl/AGDP9ERkheR8w+
-X-Gm-Gg: ASbGncvMCZ4N/jsgrpMZlayWrFGEomVfdW+ZeZl/jvZnLB3pYKRYClkk4EGO9UbFZjg
-	q5D84S+YSLGq859bAVPg+Cqh/GLpQ9QhkfqPulBRLxwZ5BO0JWr0NBbXnGwIJzo+u2iE2HlnDek
-	TDy7pAaOBQ9gxuqbWHTVjIMeiM796NmAYyB6WhNbp2S4q1YY0cgYhR
-X-Google-Smtp-Source: AGHT+IHELJP6PjDmjgnoQ+DcewZezMvkPDTBk3DlAEgOIW2HtUu14uSoRBVrm2tBSd/cEMjU36ADUjG1Ap9y8UFRrr8=
-X-Received: by 2002:a05:651c:b11:b0:30b:f006:3f5 with SMTP id
- 38308e7fff4ca-326b87dacdfmr7793251fa.15.1746707125568; Thu, 08 May 2025
- 05:25:25 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="BV0fRHlB"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 549C5C4CEE7;
+	Thu,  8 May 2025 13:27:02 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746710825;
+	bh=dPpL/RWC7aL+EKekjxh/7eMQ479I+XUcW0IXz2XLt8Y=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=BV0fRHlBCWobhfz8aMfe76eeZjjYo7R0yyCt4IKD8iUc7zvi3nuL+J0y7a5GVmNpN
+	 GHHIrGC4O/f/55i/H6Zhge8FiwqRMlz31Vt7ufJbEILC8XKa4MseEuDxDac6/d/HWf
+	 Pk/bwzw6aecim4iR1GVsXRJ6BvBjlHGa5GNLTHSNA7+V1CoiyG5ArUI8VSGSUlNJHZ
+	 CAFjzPh1GX45eJCZYHg8NZPKHvln9eHI8SvQTDYoHvJ8NOJ+K+l8lWSlVq4cGvaUSa
+	 4AS+OmW+HtQchYfdgS2uw3395A+D8KuUieSSrw7geSTsMQWYMbx5prxQwQ1ADGlHfQ
+	 pwc1IZL1ktqwA==
+Date: Thu, 8 May 2025 14:26:59 +0100
+From: Lee Jones <lee@kernel.org>
+To: Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc: Nam Tran <trannamatk@gmail.com>, andy@kernel.org, geert@linux-m68k.org,
+	pavel@ucw.cz, robh@kernel.org, krzk+dt@kernel.org,
+	conor+dt@kernel.org, christophe.jaillet@wanadoo.fr, corbet@lwn.net,
+	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, florian.fainelli@broadcom.com,
+	bcm-kernel-feedback-list@broadcom.com,
+	linux-rpi-kernel@lists.infradead.org,
+	linux-arm-kernel@lists.infradead.org
+Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix
+ LED driver
+Message-ID: <20250508132659.GL3865826@google.com>
+References: <CAHp75VcVmTwS-zw=o5=m1-x0XC67BKBVWae2mMKZQH=qLCxZwg@mail.gmail.com>
+ <20250507164219.10083-1-trannamatk@gmail.com>
+ <CAHp75VcNuXouL25ZRiym97AjR9249=ENMPFDQ7imZ_ZoeKc3Ng@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507180852.work.231-kees@kernel.org> <20250507181615.1947159-2-kees@kernel.org>
- <CANpmjNPcYPvnQzMT3p+Vc2=EiEbR1WnykUEjuYc0bH2HOFi6HQ@mail.gmail.com>
-In-Reply-To: <CANpmjNPcYPvnQzMT3p+Vc2=EiEbR1WnykUEjuYc0bH2HOFi6HQ@mail.gmail.com>
-From: Dmitry Vyukov <dvyukov@google.com>
-Date: Thu, 8 May 2025 14:25:13 +0200
-X-Gm-Features: ATxdqUEOMWVMkXbvXQaHqruZq4t8-pmXFLrRyvMg5ohXOpGrzDC1z300bwlcEE0
-Message-ID: <CACT4Y+betRmieWEHBdEf=gOLhWiNVRH5CSDeN6ykBtoP1GrzLA@mail.gmail.com>
-Subject: Re: [PATCH 2/8] init.h: Disable sanitizer coverage for __init and __head
-To: Marco Elver <elver@google.com>
-Cc: Kees Cook <kees@kernel.org>, Alexander Potapenko <glider@google.com>, 
-	Aleksandr Nogikh <nogikh@google.com>, Arnd Bergmann <arnd@arndb.de>, 
-	Andrey Konovalov <andreyknvl@gmail.com>, Andrey Ryabinin <ryabinin.a.a@gmail.com>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ard Biesheuvel <ardb@kernel.org>, 
-	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>, Hou Wenlong <houwenlong.hwl@antgroup.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, Masahiro Yamada <masahiroy@kernel.org>, 
-	"Peter Zijlstra (Intel)" <peterz@infradead.org>, Luis Chamberlain <mcgrof@kernel.org>, 
-	Sami Tolvanen <samitolvanen@google.com>, Christophe Leroy <christophe.leroy@csgroup.eu>, 
-	kasan-dev@googlegroups.com, "Gustavo A. R. Silva" <gustavoars@kernel.org>, 
-	Christoph Hellwig <hch@lst.de>, Nathan Chancellor <nathan@kernel.org>, 
-	Nicolas Schier <nicolas.schier@linux.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Bill Wendling <morbo@google.com>, 
-	Justin Stitt <justinstitt@google.com>, linux-kernel@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	kvmarm@lists.linux.dev, linux-riscv@lists.infradead.org, 
-	linux-s390@vger.kernel.org, linux-efi@vger.kernel.org, 
-	linux-hardening@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	sparclinux@vger.kernel.org, llvm@lists.linux.dev, 
-	syzkaller <syzkaller@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAHp75VcNuXouL25ZRiym97AjR9249=ENMPFDQ7imZ_ZoeKc3Ng@mail.gmail.com>
 
-On Thu, 8 May 2025 at 14:23, Marco Elver <elver@google.com> wrote:
->
-> +Cc KCOV maintainers
->
-> On Wed, 7 May 2025 at 20:16, Kees Cook <kees@kernel.org> wrote:
-> >
-> > While __noinstr already contained __no_sanitize_coverage, it needs to
-> > be added to __init and __head section markings to support the Clang
-> > implementation of CONFIG_STACKLEAK. This is to make sure the stack depth
-> > tracking callback is not executed in unsupported contexts.
-> >
-> > The other sanitizer coverage options (trace-pc and trace-cmp) aren't
-> > needed in __head nor __init either ("We are interested in code coverage
-> > as a function of a syscall inputs"[1]), so this appears safe to disable
-> > for them as well.
->
-> @ Dmitry, Aleksandr - Will this produce some unwanted side-effects for
-> syzbot? I also think it's safe, but just double checking.
+On Thu, 08 May 2025, Andy Shevchenko wrote:
 
-I do not see any problems with this.
+> First of all, I just noticed that you excluded Lee from the
+> distribution list. Don't do that as he is a stakeholder here as well
+> since it has not been decided yet where to go with your stuff.
+> 
+> On Wed, May 7, 2025 at 7:42 PM Nam Tran <trannamatk@gmail.com> wrote:
+> > On Tue, 29 Apr 2025 Andy Shevchenko wrote:
+> > > On Tue, Apr 29, 2025 at 8:02 PM Nam Tran <trannamatk@gmail.com> wrote:
+> > > > On Mon, 28 Apr 2025 Pavel Machek wrote:
+> > > > > > On Mon, 28 Apr 2025 Geert Uytterhoeven wrote:
+> > > > >
+> > > > > > > > > > - Move driver to drivers/auxdisplay/ instead of drivers/leds/.
+> > > > > > > > > > - Rename files from leds-lp5812.c/.h to lp5812.c/.h.
+> > > > > > > > > > - Move ti,lp5812.yaml binding to auxdisplay/ directory,
+> > > > > > > > > >   and update the title and $id to match new path.
+> > > > > > > > > > - No functional changes to the binding itself (keep Reviewed-by).
+> > > > > > > > > > - Update commit messages and patch titles to reflect the move.
+> > > > > > > > > > - Link to v7: https://lore.kernel.org/linux-leds/20250422190121.46839-1-trannamatk@gmail.com/
+> > > > > > > > >
+> > > > > > > > > Out of sudden without discussing with auxdisplay maintainers/reviewers?
+> > > > > > > > > Thanks, no.
+> > > > > > > > > Please, put into the cover letter the meaningful summary of what's
+> > > > > > > > > going on and why this becomes an auxdisplay issue. Brief review of the
+> > > > > > > > > bindings sounds more likely like LEDS or PWM subsystems.
+> > > > > > > >
+> > > > > > > > It is 4x3 matrix. That means it is not suitable for LEDs. I don't
+> > > > > > > > believe it is suitable for PWM, either -- yes, it is 36 PWM outputs,
+> > > > > > > > but...
+> > > > > > >
+> > > > > > > Is it intended to be used as a 4x3 matrix, or is this just an internal
+> > > > > > > wiring detail, and should it be exposed as 12 individual LEDs instead?
+> > > > > >
+> > > > > > The 4×3 matrix is a real and fundamental aspect of the LP5812’s operation.
+> > > > > > It is not just an internal wiring detail.
+> > > > > > The device adopts a Time-Cross-Multiplexing (TCM) structure, where 4 output
+> > > > > > pins control 12 LED dots individually through scanning. Each pin includes
+> > > > > > both high-side and low-side drive circuits, meaning matrix multiplexing is
+> > > > > > required for proper operation — it cannot be treated as 12 completely
+> > > > > > independent LEDs.
+> > > > >
+> > > > > Scanning is really a detail.
+> > > > >
+> > > > > If this is used as rectangular 4x3 display, then it goes to auxdisplay.
+> > > > >
+> > > > > If this is used as a power LED, SD activity LED, capslock and numlock
+> > > > > ... placed randomly all around the device, then it goes LED subsystem.
+> > > >
+> > > > The LP5812 is used for LED status indication in devices like smart speakers,
+> > > > wearables, and routers, not as a structured rectangular display.
+> > > >
+> > > > Given that, it seems to match the LED subsystem better than auxdisplay, doesn't it?
+> > >
+> > > I have mixed feelings about all this. As per hardware organisation it
+> > > sounds more like a matrix (for example. keyboard), where all entities
+> > > are accessed on a scanline, but at the same time each of the entities
+> > > may have orthogonal functions to each other. Have you checked with DRM
+> > > for the sake of completeness?
+> > > Personally I lean more to the something special, which doesn't fit
+> > > existing subsystems. Auxdisplay subsystem more or less about special
+> > > alphanumeric displays (with the exception of some FB kinda devices,
+> > > that were even discussed to have drivers be removed). Also maybe FB
+> > > might have something suitable, but in any case it looks quite
+> > > non-standard...
+> >
+> > I understand your mixed feelings about where the LP5812 fits within
+> > the existing subsystems.
+> >
+> > While the LP5812 uses a matrix-based structure for controlling LEDs,
+> > it is not intended for displaying structured text or graphics. Instead,
+> > it controls up to 4 RGB LEDs for status indication, where each RGB LED
+> > consists of 3 individual color LEDs: red, green, and blue. Based on this,
+> 
+> So, you probably should have started with this. As I read above that
+> this has to reside in drivers/leds/rgb for colour ones which seems to
+> me closest to your case. On top you might add an upper level
+> management to prevent users from using patterns whenever the LEDs are
+> requested individually. So, this driver should represent 4 RGB leds
+> and, possibly, the upper layer with those fancy stuff like breathing.
+> 
+> At least, based on the above it's my formal NAK from an auxdisplay perspective.
 
-> > Link: https://web.git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/kernel/kcov.c?h=v6.14#n179 [1]
-> > Signed-off-by: Kees Cook <kees@kernel.org>
->
-> Acked-by: Marco Elver <elver@google.com>
->
-> > ---
-> > Cc: Marco Elver <elver@google.com>
-> > Cc: Andrey Konovalov <andreyknvl@gmail.com>
-> > Cc: Andrey Ryabinin <ryabinin.a.a@gmail.com>
-> > Cc: Thomas Gleixner <tglx@linutronix.de>
-> > Cc: Ingo Molnar <mingo@redhat.com>
-> > Cc: Borislav Petkov <bp@alien8.de>
-> > Cc: Dave Hansen <dave.hansen@linux.intel.com>
-> > Cc: <x86@kernel.org>
-> > Cc: "H. Peter Anvin" <hpa@zytor.com>
-> > Cc: Ard Biesheuvel <ardb@kernel.org>
-> > Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-> > Cc: Hou Wenlong <houwenlong.hwl@antgroup.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: Masahiro Yamada <masahiroy@kernel.org>
-> > Cc: "Peter Zijlstra (Intel)" <peterz@infradead.org>
-> > Cc: Luis Chamberlain <mcgrof@kernel.org>
-> > Cc: Sami Tolvanen <samitolvanen@google.com>
-> > Cc: Arnd Bergmann <arnd@arndb.de>
-> > Cc: Christophe Leroy <christophe.leroy@csgroup.eu>
-> > Cc: <kasan-dev@googlegroups.com>
-> > ---
-> >  arch/x86/include/asm/init.h | 2 +-
-> >  include/linux/init.h        | 4 +++-
-> >  2 files changed, 4 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/arch/x86/include/asm/init.h b/arch/x86/include/asm/init.h
-> > index 8b1b1abcef15..6bfdaeddbae8 100644
-> > --- a/arch/x86/include/asm/init.h
-> > +++ b/arch/x86/include/asm/init.h
-> > @@ -5,7 +5,7 @@
-> >  #if defined(CONFIG_CC_IS_CLANG) && CONFIG_CLANG_VERSION < 170000
-> >  #define __head __section(".head.text") __no_sanitize_undefined __no_stack_protector
-> >  #else
-> > -#define __head __section(".head.text") __no_sanitize_undefined
-> > +#define __head __section(".head.text") __no_sanitize_undefined __no_sanitize_coverage
-> >  #endif
-> >
-> >  struct x86_mapping_info {
-> > diff --git a/include/linux/init.h b/include/linux/init.h
-> > index ee1309473bc6..c65a050d52a7 100644
-> > --- a/include/linux/init.h
-> > +++ b/include/linux/init.h
-> > @@ -49,7 +49,9 @@
-> >
-> >  /* These are for everybody (although not all archs will actually
-> >     discard it in modules) */
-> > -#define __init         __section(".init.text") __cold  __latent_entropy __noinitretpoline
-> > +#define __init         __section(".init.text") __cold __latent_entropy \
-> > +                                               __noinitretpoline       \
-> > +                                               __no_sanitize_coverage
-> >  #define __initdata     __section(".init.data")
-> >  #define __initconst    __section(".init.rodata")
-> >  #define __exitdata     __section(".exit.data")
-> > --
-> > 2.34.1
-> >
+This is fine.
+
+Just be aware, before you submit to LEDs again, that you need to use
+what is available in the LEDs subsystem to it's fullest, before
+hand-rolling all of your own APIs.  The first submission didn't use a
+single LED API.  This, as before, would be a big NACK also.
+
+-- 
+Lee Jones [李琼斯]
