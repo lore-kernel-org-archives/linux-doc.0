@@ -1,182 +1,210 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A304D269AE3
-	for <linux-doc@vger.kernel.org>; Fri,  9 May 2025 07:40:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8555E26FA6C;
+	Fri,  9 May 2025 07:41:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746776460; cv=none; b=EbynbHUvtEKYvDL/nR1o4WLuDc5UdOhkVVeXUpf6lhKeP7HYSDVG4MpVhBclpxei42Rl4Tfci+SfYFheVOiCHzap/nkiRQ+rd2Xdxy2Y1cvkgWNWDYQYBbteszK48KrvsPRb3YbOsaU5WYw1xHyuH6qCIgN2B4a3OZ2ME7nubWA=
+	t=1746776494; cv=none; b=NG1PBqQKO7M/Ph4OlhQf2Wi3kxzv/RImJiRSsyp7pTolltUngDEgg+c7D5k9vpPTDcEVwA85AyGkcpFw+EHkFcfdaN+CpLgrJdEjNzf81oHf9Pj/kL11SWKpwxb9ffS3uhzLdxioZuEJ33fWS0LOA+Z295kh1ebA2E84Ir0z5TM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746776460; c=relaxed/simple;
-	bh=KmAT6LtY7QcLblQ611owrIfQCbW1DtEAiEj0njoLyRk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=NHR0UByMTzR+MHaXYxvYSMtzYBm4nDwoxBZXiB4Sw4LaDVuAHWeHqJ0bnMxvBqUVWuaOn3LEujboU4i5SzGwgeK6zXXM/nnLPhS1Rnn5tdophVAI747ce7dY0J5nyXRn1DnGLwr4C8tK5Lerha+cNA2c3FibctIjNpOj7QPdbLw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=M/yDi+T2; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1746776494; c=relaxed/simple;
+	bh=jyO31/jl+RDl/d/ZdCzc5ZoO0zv88j+FCcX6tIa4kvA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e4JjyQSeZeEl+XhYq+Da1SDmIqYJBtCcEFcZpEFb+JNhSWJgjw+O2Mjis/kCjOXH+engEVTv/mqy5yWv++5WL67D4sBkVOG1OeCy0eK7rQ9zprMjknRf/4TpxwIMrZH8YeSfrcLbnin81wFj7MLeVFh/J6hvQFcYC2YuYtsRb0Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=LxW/AdrP; arc=none smtp.client-ip=209.85.128.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="M/yDi+T2"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1746776457;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=qZadeAT3wG/Mxtz9H4xGBzCmoVYS3YynDqPksK6AKGM=;
-	b=M/yDi+T2ryfYDAbJOzWT7+yRc02/6tjsU3m3S1BYMMZVoToCu2H+wUZQpwRcdwir1GryGn
-	jdJuNm/aOJ8Wj8f4/V7dpF6CDu6y8OwZ4T0SM/FfBW/rFtIUz9xxVratP3YRZQi0d6lK8d
-	HmwYaOtqnVLQZVQa8/57BgEgFpGf8K0=
-Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-344-Sc9IPGtCPy2Ug01D356qJA-1; Fri,
- 09 May 2025 03:40:52 -0400
-X-MC-Unique: Sc9IPGtCPy2Ug01D356qJA-1
-X-Mimecast-MFC-AGG-ID: Sc9IPGtCPy2Ug01D356qJA_1746776450
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 925F5195608B;
-	Fri,  9 May 2025 07:40:50 +0000 (UTC)
-Received: from fedora (unknown [10.72.116.140])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 73981180049D;
-	Fri,  9 May 2025 07:40:44 +0000 (UTC)
-Date: Fri, 9 May 2025 15:40:39 +0800
-From: Ming Lei <ming.lei@redhat.com>
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Jens Axboe <axboe@kernel.dk>,
-	Caleb Sander Mateos <csander@purestorage.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	Shuah Khan <shuah@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-	linux-block@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Subject: Re: [PATCH v6 4/8] selftests: ublk: kublk: tie sqe allocation to io
- instead of queue
-Message-ID: <aB2xd4593ZkWuMbB@fedora>
-References: <20250507-ublk_task_per_io-v6-0-a2a298783c01@purestorage.com>
- <20250507-ublk_task_per_io-v6-4-a2a298783c01@purestorage.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="LxW/AdrP"
+Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-708a853c362so17142697b3.2;
+        Fri, 09 May 2025 00:41:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746776491; x=1747381291; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=ye7rIPGO7oKTOhURnZxVJsCn/qQWh5VCeJGEhsIu90E=;
+        b=LxW/AdrPPTEWFDzmLrK89bae22NsAaXFucsHc03Pda8EQVHVpUEPVv4d7uhCitvVun
+         nPnOWdrECeKbkDyne5kIEdSdpDeCuRNdQWgF78sGxhA0pqcTGcVIFB/O4IaH/HcEqSvU
+         +MRRKCAifF3IV8yq4diW5vntQQKb5FhklL46AUlg7Y8AqICfnwdCGSFSPCkPdxJo5v/F
+         YwR1bWJk6H2NpIQ2Jrsx+pK7Pe7p8mcyEStRDe7vm7pVhq8mhsVjKxBVz4UnO0Sqjme4
+         evZ7wp3iXVr3dY9GYCzXikS0rI2BTR4BIb68/Qw2EJsgYVkT4TMdqKhdUVoNnm525AZu
+         mcOw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746776491; x=1747381291;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=ye7rIPGO7oKTOhURnZxVJsCn/qQWh5VCeJGEhsIu90E=;
+        b=tg6wzBEEtlJuA5jlGznLW6d9+4WtY+wxxwRa4kkCg0nAFuCJRnEjYMr/BiFH2m5HX1
+         wPJyxZKIymUTiAk3ykVeGb7i5th8IbMeILxu69CFKx6OqukMRDzfpMX2ZX3jeaS0D+/G
+         TkMKscCTYEeST0/6P+SDJ9hi1/k4OfXQsEQqqc+bMDgeHcq84fx7OtTqbfspqrDh6cs4
+         zDUr5yI8c/9SQRdqftxHfEqp4/mB4Rj1tXyNPpZy9Z+HpdwTJkuI56WAKbaRhCE9V0/v
+         ZLlFVya4+6Gc7cJE6FjYDRbJ+IiLksZXUawSOxTeoTeEEHLgZUs2YYLVId5z1H4FuLf2
+         09BQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUCPXr4Hr54Hrol4Iwe416AtYphl/px6qUkdzKl4BppMGI0Vc3Ps03XMX9kIngGTrun8WtgxqAqXhOc@vger.kernel.org, AJvYcCVJgSCNO0gloOt/q1yvu2Pv7ejy/S1bcmseBgqO46+wwfiHjC3hY6BsgkymAwINZZ6uycXoEFrbeQYU@vger.kernel.org, AJvYcCWSj3cW9Sdv00NC1kr2IKkpVFV/DAGpi14CGaPGN58YVrpFN+eZr+qr+uVYSIBkBYj4/ENp616leq1fXX8I@vger.kernel.org
+X-Gm-Message-State: AOJu0YywbP7CJqpLkXB6NEfzNjtBfq8tHXFvieKe7K8QpRuvhfK4cusT
+	qlD+r07q8RKKPii9J5T8YlenTVwm5W4TiqWJB+xNnWAZq+GKZeefDIxHY+WptZZkndZvBkG1hZT
+	WermsXXTq5qpI0uDbSoevWdLChuY=
+X-Gm-Gg: ASbGncv/fLW6p3oOcOXeeO+SZjrsnNKvbPNC0JTgDo9e7r7JTgGbOiFjc3YZkuOSuSv
+	lcyFBjGq5Fdlm9boYlXs87YA7SHKnxlp7G2tIXzs2zqMC7q7Zkp5bkLfHw9Wn8PhvmsTqdDsbMp
+	3CP62/4xS1mDtAp4NSltfKsSI=
+X-Google-Smtp-Source: AGHT+IGvkBefmqT0OnG87syXeRA3zl+7ZbjUE1o+Op5MMkoHcI93LSKQldFIuzU5TcJjgkm7YP+ahU+NuCOdLYn387w=
+X-Received: by 2002:a05:690c:3606:b0:708:be8b:8415 with SMTP id
+ 00721157ae682-70a3f9ec7bamr32338747b3.1.1746776491333; Fri, 09 May 2025
+ 00:41:31 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507-ublk_task_per_io-v6-4-a2a298783c01@purestorage.com>
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+References: <20250509065237.2392692-1-paweldembicki@gmail.com>
+ <20250509065237.2392692-2-paweldembicki@gmail.com> <272301e5-6561-499a-91eb-615fed4727fa@kernel.org>
+In-Reply-To: <272301e5-6561-499a-91eb-615fed4727fa@kernel.org>
+From: =?UTF-8?Q?Pawe=C5=82_Dembicki?= <paweldembicki@gmail.com>
+Date: Fri, 9 May 2025 09:41:20 +0200
+X-Gm-Features: ATxdqUHXjtSflO8ksX9UgpKJ0JRin_SxPFkWNwLey2-t_RPh9BHyKI_7T9j8Rjk
+Message-ID: <CAJN1KkxPOuZqRwysx3zu_5ChODn2wnizKXzfEZHD2AiHAbd0ig@mail.gmail.com>
+Subject: Re: [PATCH v2 1/5] hwmon: pmbus: mpq8785: Prepare driver for multiple
+ device support
+To: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: linux-hwmon@vger.kernel.org, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Rob Herring <robh@kernel.org>, 
+	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
+	Jonathan Corbet <corbet@lwn.net>, Noah Wang <noahwang.wang@outlook.com>, 
+	Naresh Solanki <naresh.solanki@9elements.com>, Fabio Estevam <festevam@gmail.com>, 
+	Michal Simek <michal.simek@amd.com>, Grant Peltier <grantpeltier93@gmail.com>, 
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>, Shen Lichuan <shenlichuan@vivo.com>, 
+	Peter Zijlstra <peterz@infradead.org>, Greg KH <gregkh@linuxfoundation.org>, 
+	Charles Hsu <ythsu0511@gmail.com>, devicetree@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 07, 2025 at 03:49:38PM -0600, Uday Shankar wrote:
-> We currently have a helper ublk_queue_alloc_sqes which the ublk targets
-> use to allocate SQEs for their own operations. However, as we move
-> towards decoupled ublk_queues and ublk server threads, this helper does
-> not make sense anymore. SQEs are allocated from rings, and we will have
-> one ring per thread to avoid locking. Change the SQE allocation helper
-> to ublk_io_alloc_sqes. Currently this still allocates SQEs from the io's
-> queue's ring, but when we fully decouple threads and queues, it will
-> allocate from the io's thread's ring instead.
-> 
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
-> ---
->  tools/testing/selftests/ublk/fault_inject.c |  2 +-
->  tools/testing/selftests/ublk/file_backed.c  |  6 +++---
->  tools/testing/selftests/ublk/kublk.c        |  3 ++-
->  tools/testing/selftests/ublk/kublk.h        | 11 +++++++----
->  tools/testing/selftests/ublk/null.c         |  2 +-
->  tools/testing/selftests/ublk/stripe.c       |  4 ++--
->  6 files changed, 16 insertions(+), 12 deletions(-)
-> 
-> diff --git a/tools/testing/selftests/ublk/fault_inject.c b/tools/testing/selftests/ublk/fault_inject.c
-> index 6bc8ee519b483ba6a365dccb03ad389425eefd3b..101c6dad6cf1f6dd45bbc46baa793493b97646bf 100644
-> --- a/tools/testing/selftests/ublk/fault_inject.c
-> +++ b/tools/testing/selftests/ublk/fault_inject.c
-> @@ -41,7 +41,7 @@ static int ublk_fault_inject_queue_io(struct ublk_queue *q, int tag)
->  		.tv_nsec = (long long)q->dev->private_data,
->  	};
->  
-> -	ublk_queue_alloc_sqes(q, &sqe, 1);
-> +	ublk_io_alloc_sqes(ublk_get_io(q, tag), &sqe, 1);
->  	io_uring_prep_timeout(sqe, &ts, 1, 0);
->  	sqe->user_data = build_user_data(tag, ublksrv_get_op(iod), 0, q->q_id, 1);
->  
-> diff --git a/tools/testing/selftests/ublk/file_backed.c b/tools/testing/selftests/ublk/file_backed.c
-> index 69991ac7a0a947acba7b23ac89348936a3fcef75..563f11a21604bbf5b9531f69f806d09cdd785960 100644
-> --- a/tools/testing/selftests/ublk/file_backed.c
-> +++ b/tools/testing/selftests/ublk/file_backed.c
-> @@ -18,7 +18,7 @@ static int loop_queue_flush_io(struct ublk_queue *q, const struct ublksrv_io_des
->  	unsigned ublk_op = ublksrv_get_op(iod);
->  	struct io_uring_sqe *sqe[1];
->  
-> -	ublk_queue_alloc_sqes(q, sqe, 1);
-> +	ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, 1);
->  	io_uring_prep_fsync(sqe[0], 1 /*fds[1]*/, IORING_FSYNC_DATASYNC);
->  	io_uring_sqe_set_flags(sqe[0], IOSQE_FIXED_FILE);
->  	/* bit63 marks us as tgt io */
-> @@ -34,7 +34,7 @@ static int loop_queue_tgt_rw_io(struct ublk_queue *q, const struct ublksrv_io_de
->  	struct io_uring_sqe *sqe[3];
->  
->  	if (!zc) {
-> -		ublk_queue_alloc_sqes(q, sqe, 1);
-> +		ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, 1);
->  		if (!sqe[0])
->  			return -ENOMEM;
->  
-> @@ -48,7 +48,7 @@ static int loop_queue_tgt_rw_io(struct ublk_queue *q, const struct ublksrv_io_de
->  		return 1;
->  	}
->  
-> -	ublk_queue_alloc_sqes(q, sqe, 3);
-> +	ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, 3);
->  
->  	io_uring_prep_buf_register(sqe[0], 0, tag, q->q_id, tag);
->  	sqe[0]->flags |= IOSQE_CQE_SKIP_SUCCESS | IOSQE_IO_HARDLINK;
-> diff --git a/tools/testing/selftests/ublk/kublk.c b/tools/testing/selftests/ublk/kublk.c
-> index d0eaf06fadbbb00c0549bba0a08f1be23baa2359..7b3af98546803134dd7f959c40408cefda7cd45c 100644
-> --- a/tools/testing/selftests/ublk/kublk.c
-> +++ b/tools/testing/selftests/ublk/kublk.c
-> @@ -439,6 +439,7 @@ static int ublk_queue_init(struct ublk_queue *q)
->  	for (i = 0; i < q->q_depth; i++) {
->  		q->ios[i].buf_addr = NULL;
->  		q->ios[i].flags = UBLKSRV_NEED_FETCH_RQ | UBLKSRV_IO_FREE;
-> +		q->ios[i].q = q;
->  
->  		if (q->state & UBLKSRV_NO_BUF)
->  			continue;
-> @@ -554,7 +555,7 @@ int ublk_queue_io_cmd(struct ublk_queue *q, struct ublk_io *io, unsigned tag)
->  	if (io_uring_sq_space_left(&q->ring) < 1)
->  		io_uring_submit(&q->ring);
->  
-> -	ublk_queue_alloc_sqes(q, sqe, 1);
-> +	ublk_io_alloc_sqes(ublk_get_io(q, tag), sqe, 1);
->  	if (!sqe[0]) {
->  		ublk_err("%s: run out of sqe %d, tag %d\n",
->  				__func__, q->q_id, tag);
-> diff --git a/tools/testing/selftests/ublk/kublk.h b/tools/testing/selftests/ublk/kublk.h
-> index 34f92bb2c64d0ddc7690b2654613e0c77b2b8121..7c912116606429215af7dbc2a8ce6b40ef89bfbd 100644
-> --- a/tools/testing/selftests/ublk/kublk.h
-> +++ b/tools/testing/selftests/ublk/kublk.h
-> @@ -119,6 +119,8 @@ struct ublk_io {
->  	unsigned short flags;
->  	unsigned short refs;		/* used by target code only */
->  
-> +	struct ublk_queue *q;
-> +
->  	int result;
+pt., 9 maj 2025 o 09:03 Krzysztof Kozlowski <krzk@kernel.org> napisa=C5=82(=
+a):
+>
+> On 09/05/2025 08:51, Pawel Dembicki wrote:
+> > Refactor the driver to support multiple Monolithic Power Systems device=
+s.
+> > Introduce chip ID handling based on device tree matching.
+> >
+> > No functional changes intended.
+> >
+> > Signed-off-by: Pawel Dembicki <paweldembicki@gmail.com>
+> >
+> > ---
+> > v2:
+> >  - no changes done
+> > ---
+> >  drivers/hwmon/pmbus/mpq8785.c | 38 +++++++++++++++++++++++++++--------
+> >  1 file changed, 30 insertions(+), 8 deletions(-)
+> >
+> > diff --git a/drivers/hwmon/pmbus/mpq8785.c b/drivers/hwmon/pmbus/mpq878=
+5.c
+> > index 331c274ca892..00ec21b081cb 100644
+> > --- a/drivers/hwmon/pmbus/mpq8785.c
+> > +++ b/drivers/hwmon/pmbus/mpq8785.c
+> > @@ -8,6 +8,8 @@
+> >  #include <linux/of_device.h>
+> >  #include "pmbus.h"
+> >
+> > +enum chips { mpq8785 };
+>
+> Use Linux coding style, so:
+> 1. missing wrapping after/before each {}
+> 2. missing descriptive name for the type (mpq8785_chips)
+> 3. CAPITALICS see Linux coding style - there is a chapter exactly about
+> this.
+>
+>
 
-In following patch, you added 'tag' to 'struct ublk_io', then 8bytes 'struct
-ublk_queue *q' needn't to be added because it can be figured out by
-container_of():
+Sorry, I was thinking that it is a local pmbus tradition.
+Many drivers have the same enum without capitalics :
 
-	- queue->ios can be calculated by 'io' address & its tag.
-	
-	- please add one helper ublk_io_to_queue(io) for it.
+grep -r "enum chips {" .
+./isl68137.c:enum chips {
+./bel-pfe.c:enum chips {pfe1100, pfe3000};
+./mp2975.c:enum chips {
+./ucd9200.c:enum chips { ucd9200, ucd9220, ucd9222, ucd9224, ucd9240,
+ucd9244, ucd9246,
+./zl6100.c:enum chips { zl2004, zl2005, zl2006, zl2008, zl2105,
+zl2106, zl6100, zl6105,
+./ucd9000.c:enum chips { ucd9000, ucd90120, ucd90124, ucd90160,
+ucd90320, ucd9090,
+./max16601.c:enum chips { max16508, max16600, max16601, max16602 };
+./q54sj108a2.c:enum chips {
+./bpa-rs600.c:enum chips { bpa_rs600, bpd_rs600 };
+./adm1275.c:enum chips { adm1075, adm1272, adm1273, adm1275, adm1276,
+adm1278, adm1281, adm1293, adm1294 };
+./max20730.c:enum chips {
+./mp2856.c:enum chips { mp2856, mp2857 };
+./tps53679.c:enum chips {
+./ltc2978.c:enum chips {
+./max34440.c:enum chips {
+./pim4328.c:enum chips { pim4006, pim4328, pim4820 };
+./fsp-3y.c:enum chips {
+./lm25066.c:enum chips { lm25056, lm25066, lm5064, lm5066, lm5066i };
 
-Also please try to avoid hole to 'ublk_io'.
+> > +
+> >  static int mpq8785_identify(struct i2c_client *client,
+> >                           struct pmbus_driver_info *info)
+> >  {
+> > @@ -53,26 +55,46 @@ static struct pmbus_driver_info mpq8785_info =3D {
+> >               PMBUS_HAVE_VOUT | PMBUS_HAVE_STATUS_VOUT |
+> >               PMBUS_HAVE_IOUT | PMBUS_HAVE_STATUS_IOUT |
+> >               PMBUS_HAVE_TEMP | PMBUS_HAVE_STATUS_TEMP,
+> > -     .identify =3D mpq8785_identify,
+> > -};
+> > -
+> > -static int mpq8785_probe(struct i2c_client *client)
+> > -{
+> > -     return pmbus_do_probe(client, &mpq8785_info);
+> >  };
+> >
+> >  static const struct i2c_device_id mpq8785_id[] =3D {
+> > -     { "mpq8785" },
+> > +     { "mpq8785", mpq8785 },
+> >       { },
+> >  };
+> >  MODULE_DEVICE_TABLE(i2c, mpq8785_id);
+> >
+> >  static const struct of_device_id __maybe_unused mpq8785_of_match[] =3D=
+ {
+> > -     { .compatible =3D "mps,mpq8785" },
+> > +     { .compatible =3D "mps,mpq8785", .data =3D (void *)mpq8785 },
+> >       {}
+> >  };
+> >  MODULE_DEVICE_TABLE(of, mpq8785_of_match);
+> >
+> > +static int mpq8785_probe(struct i2c_client *client)
+> > +{
+> > +     struct device *dev =3D &client->dev;
+> > +     struct pmbus_driver_info *info;
+> > +     enum chips chip_id;
+> > +
+> > +     info =3D devm_kmemdup(dev, &mpq8785_info, sizeof(*info), GFP_KERN=
+EL);
+> > +     if (!info)
+> > +             return -ENOMEM;
+> > +
+> > +     if (dev->of_node)
+> > +             chip_id =3D (uintptr_t)of_device_get_match_data(dev);
+>
+> (kernel_ulong_t) instead
+>
+> > +     else
+> > +             chip_id =3D i2c_match_id(mpq8785_id, client)->driver_data=
+;
+>
+> Do not open-code i2c_get_match_data().
+>
+>
+> Best regards,
+> Krzysztof
 
-Otherwise, this patch looks fine.
 
 
-
-thanks,
-Ming
-
+Best regards,
+Pawe=C5=82 Dembicki
