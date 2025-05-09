@@ -1,162 +1,166 @@
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA97E1372;
-	Fri,  9 May 2025 17:31:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6D722B8C5;
+	Fri,  9 May 2025 18:09:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746811909; cv=none; b=mI+xo4T57klh78OurbeVXUPKRzRWrkBPhbwKNL7dC/dHk/n/SvPEGFYFaKwTqzsgNA7FntoisDfDmK5iprHl+8xT6aWJCr+RGw2mfGcOtjGuIMiLMp/OpQj85gRQ7Z1lAw+aeuFr7pjmf7zyPpWI9J6z2tJ3yVTmzixUgy2hXxU=
+	t=1746814199; cv=none; b=Q1NtHPRkre8ryUKjGna8UlS6k0o/NV2nn/JAlhw1ZWwQxKRKNqMKofyMQGCy5tNYWmSToj4Fua3Kc3CNFoRKV2mRXTIPGfQ0jtkSoT94tQZ89j4nZAcFvLa+le11gP+/CfqBsF5xbB0KS/fLMJOX3qkBV1lreR58bD1g1BNaQXY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746811909; c=relaxed/simple;
-	bh=vUUMzSalBS7ynr0qoKcTSqzQTtVu9QNiDsNlvU5cDC0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
-	 In-Reply-To:Content-Type; b=NI/CzjWS71EetUIduKNXpOPMQYjA4wtA/BTVkgWK1rf/6CYrDdcq8h0d15PNNCRfqUTFCKdrmxU9OHfTlzwPOxG5eJyZawvJmNQyWzdrv0bO4eQ3FKm2Sg0S/7yJliPcdg5h6G1u3LnVTw/Vh5fQNj8AZOV/Z5jdR4uQn8cRkfQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=bD8fhrja; arc=none smtp.client-ip=205.220.168.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1746814199; c=relaxed/simple;
+	bh=NVAQxVyOoG9FX0y6Y2rJq7+QOyDoipjbegh4hKfM6Ok=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=HSxJ1kpi+s2oDh7zdnlJsFVb17AGm8NLY4/SwUVGdirN2ZpKUXBvYTuG2Xi59tIRQ/Lvo6ST/sLkaRl7JSdD575ohaMq105CenIPCpQl6vht8b9Mr3iUw8Y5O7CSGIPFefCFakCDh1NN6s9PV4l9u3BCKG8MjtFdN/XKKMz1fuc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QmAOyYPC; arc=none smtp.client-ip=95.215.58.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="bD8fhrja"
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 549BDwVr022888;
-	Fri, 9 May 2025 17:31:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	2rvKNTkCISVKKcRe+EYEYD9XBViFVbuiyWglBNhv5/g=; b=bD8fhrjab5V09uoQ
-	FXWRGIsLkWk3e0oVsKVUy8SiNLTab8dxh3IoPg56JJLnclibVBoU8okNZxpJ0mag
-	kGmr7P2UqJlH7/gb96vH2I1QxgU37S5XdmaA8Y0i76to2mmQZ24R80yo403zkGX/
-	U2X6CTOHhir6JXQaxZUdGcaRag4GJCNpF+27tcvfJ4tjx5llTZSOusikMV8xAxKZ
-	Xm3/9QnGRo0B60jUwFdKGe7IPajfe/hJA6dwf9bQmUnCamSkH3kfZRO/2TEuT2s7
-	mMOMc/r6kfEPG3K31DePPi+PmTvMXE9EDhatJ2yUl97wM8JEYtc7ibHrSc2Dc9T7
-	uoclxg==
-Received: from nasanppmta02.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46gnp85etw-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 09 May 2025 17:31:19 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA02.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 549HVJHc032364
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Fri, 9 May 2025 17:31:19 GMT
-Received: from [10.110.34.80] (10.80.80.8) by nasanex01a.na.qualcomm.com
- (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Fri, 9 May 2025
- 10:31:18 -0700
-Message-ID: <5ed2518b-6e90-4f70-9835-d7cf0600777a@quicinc.com>
-Date: Fri, 9 May 2025 10:31:17 -0700
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QmAOyYPC"
+Message-ID: <87b2eade-acda-428e-81af-d4927e517ebe@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1746814184;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=URPGJAItur5ro86msDKguo+AsJb0M+Qreyerm9JUIhE=;
+	b=QmAOyYPC6u20ITPaBw6Ha8aJZ5SkuvYHSBzdZn+LukNn9N+RF2l6kZWl4i8HY2iN8xSa3/
+	tRR0b2Vwb3FURyyvyNGCNFznDS++FHxCJiarEuklu+4bAraa+0PNDh4WOi8CnQ/hVnXHkT
+	cQd2oib4+zm6/z7aTg3m38NqWDWGL6E=
+Date: Fri, 9 May 2025 11:09:18 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH 01/14] Documentation: add kmemdump
-To: Eugen Hristev <eugen.hristev@linaro.org>, <linux-kernel@vger.kernel.org>,
-        <linux-arm-msm@vger.kernel.org>, <andersson@kernel.org>
-CC: <linux-doc@vger.kernel.org>, <corbet@lwn.net>, <tglx@linutronix.de>,
-        <mingo@redhat.com>, <rostedt@goodmis.org>, <john.ogness@linutronix.de>,
-        <senozhatsky@chromium.org>, <pmladek@suse.com>, <peterz@infradead.org>,
-        <mojha@qti.qualcomm.com>, <linux-arm-kernel@lists.infradead.org>,
-        <vincent.guittot@linaro.org>, <konradybcio@kernel.org>,
-        <dietmar.eggemann@arm.com>, <juri.lelli@redhat.com>
-References: <20250422113156.575971-1-eugen.hristev@linaro.org>
- <20250422113156.575971-2-eugen.hristev@linaro.org>
+Subject: Re: [PATCH v6 14/14] RISC-V: KVM: add support for
+ SBI_FWFT_MISALIGNED_DELEG
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
+ Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+ linux-kselftest@vger.kernel.org
+Cc: Samuel Holland <samuel.holland@sifive.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
+References: <20250424173204.1948385-1-cleger@rivosinc.com>
+ <20250424173204.1948385-15-cleger@rivosinc.com>
 Content-Language: en-US
-From: Trilok Soni <quic_tsoni@quicinc.com>
-In-Reply-To: <20250422113156.575971-2-eugen.hristev@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Authority-Analysis: v=2.4 cv=M7xNKzws c=1 sm=1 tr=0 ts=681e3be7 cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=KKAkSRfTAAAA:8
- a=WUIyGSjVLVz4V11vD3kA:9 a=QEXdDO2ut3YA:10 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-ORIG-GUID: I8wErxmwtbEu5RPRZpKaXr2e270vSs6l
-X-Proofpoint-GUID: I8wErxmwtbEu5RPRZpKaXr2e270vSs6l
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTA5MDE3NCBTYWx0ZWRfX3ogtweTJjaJn
- 918B8AzFvksZ1xvvsIDOz4MJZv4eB2KSw3hlr3QbyhMkpb+EBHI4Ga2ITeS4WCLSrHvWYHXw4Yj
- t/4MvnB2v93euP2D4631QTDDD0zQwx7yimMzE+WCw6BK7IQh/UcKQSC3Iwtu87PfX84RMHNUmaE
- SQDelVLjJd6sAdw6Ji4OORtbWzabhJeGNDsM78G+5NIwEnlWuHQqqpj6CZ9MIfZTq+uwoNsRCB7
- w61Fn0SoJZH4rKu2UU7Sck/oJpA7IKNNd0suj27EsYBwIcptE4aDefKSYe2exyFUqZcctS+bfw6
- BdmeIwv+UZI7yQIqmthufoYK0/GiKTweeKLTGMq8ndS6agwykT9gl1tpVQtP4xyUqFOLe1ko2V9
- 32StSOSl9Wrzer7cCIWakbRjSVJZCCxlBwIQmb920xZpQYbUysx3m1zro+QQbvjL0NXbda4+
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-09_06,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 lowpriorityscore=0 malwarescore=0 mlxscore=0 priorityscore=1501
- spamscore=0 mlxlogscore=945 bulkscore=0 impostorscore=0 clxscore=1015
- suspectscore=0 adultscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505090174
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Atish Patra <atish.patra@linux.dev>
+In-Reply-To: <20250424173204.1948385-15-cleger@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On 4/22/2025 4:31 AM, Eugen Hristev wrote:
-> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
-> ---
->  Documentation/debug/index.rst    | 17 +++++++
->  Documentation/debug/kmemdump.rst | 77 ++++++++++++++++++++++++++++++++
->  2 files changed, 94 insertions(+)
->  create mode 100644 Documentation/debug/index.rst
->  create mode 100644 Documentation/debug/kmemdump.rst
+On 4/24/25 10:32 AM, ClÃ©ment LÃ©ger wrote:
+> SBI_FWFT_MISALIGNED_DELEG needs hedeleg to be modified to delegate
+> misaligned load/store exceptions. Save and restore it during CPU
+> load/put.
 > 
-> diff --git a/Documentation/debug/index.rst b/Documentation/debug/index.rst
-> new file mode 100644
-> index 000000000000..9a9365c62f02
-> --- /dev/null
-> +++ b/Documentation/debug/index.rst
-> @@ -0,0 +1,17 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +===
-> +kmemdump
-> +===
-> +
-> +.. toctree::
-> +   :maxdepth: 1
-> +
-> +   kmemdump
-> +
-> +.. only::  subproject and html
-> +
-> +   Indices
-> +   =======
-> +
-> +   * :ref:`genindex`
-> diff --git a/Documentation/debug/kmemdump.rst b/Documentation/debug/kmemdump.rst
-> new file mode 100644
-> index 000000000000..dfee755a1be1
-> --- /dev/null
-> +++ b/Documentation/debug/kmemdump.rst
-> @@ -0,0 +1,77 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +==========================
-> +kmemdump
-> +==========================
-> +
-> +This document provides information about the kmemdump feature.
-> +
-> +Overview
-> +========
-> +
-> +kmemdump is a mechanism that allows any driver or producer to register a
-> +chunk of memory into kmemdump, to be used at a later time for a specific
-> +purpose like debugging or memory dumping.
-> +
-> +kmemdump allows a backend to be connected, this backend interfaces a
-> +specific hardware that can debug or dump the memory registered into
-> +kmemdump.
-> +
-> +kmemdump Internals
-> +=============
+> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
+> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+> ---
+>   arch/riscv/kvm/vcpu.c          |  3 +++
+>   arch/riscv/kvm/vcpu_sbi_fwft.c | 36 ++++++++++++++++++++++++++++++++++
+>   2 files changed, 39 insertions(+)
+> 
+> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+> index 542747e2c7f5..d98e379945c3 100644
+> --- a/arch/riscv/kvm/vcpu.c
+> +++ b/arch/riscv/kvm/vcpu.c
+> @@ -646,6 +646,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
+>   {
+>   	void *nsh;
+>   	struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
+> +	struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
+>   
+>   	vcpu->cpu = -1;
+>   
+> @@ -671,6 +672,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
+>   		csr->vstval = nacl_csr_read(nsh, CSR_VSTVAL);
+>   		csr->hvip = nacl_csr_read(nsh, CSR_HVIP);
+>   		csr->vsatp = nacl_csr_read(nsh, CSR_VSATP);
+> +		cfg->hedeleg = nacl_csr_read(nsh, CSR_HEDELEG);
+>   	} else {
+>   		csr->vsstatus = csr_read(CSR_VSSTATUS);
+>   		csr->vsie = csr_read(CSR_VSIE);
+> @@ -681,6 +683,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
+>   		csr->vstval = csr_read(CSR_VSTVAL);
+>   		csr->hvip = csr_read(CSR_HVIP);
+>   		csr->vsatp = csr_read(CSR_VSATP);
+> +		cfg->hedeleg = csr_read(CSR_HEDELEG);
 
-I feel that we are missing to explain "what you need from your firmware"
-to support kmemdump on your platform. We should add that section and 
-given an example on how Qualcomm does it in their firmware etc; 
+Can we avoid saving hedeleg in vcpu_put path by updating the 
+cfg->hedeleg in kvm_sbi_fwft_set_misaligned_delegation.
 
+We already update the hedeleg in vcpu_load path from cfg->hedeleg.
+If the next vcpu did not enable delegation it will get the correct 
+config written to hedeleg.
 
--- 
----Trilok Soni
+This will save us a csr read cost in each VM exit path for something 
+that is probably configured once in guest life time.
+
+>   	}
+>   }
+>   
+> diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwft.c
+> index b0f66c7bf010..d16ee477042f 100644
+> --- a/arch/riscv/kvm/vcpu_sbi_fwft.c
+> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
+> @@ -14,6 +14,8 @@
+>   #include <asm/kvm_vcpu_sbi.h>
+>   #include <asm/kvm_vcpu_sbi_fwft.h>
+>   
+> +#define MIS_DELEG (BIT_ULL(EXC_LOAD_MISALIGNED) | BIT_ULL(EXC_STORE_MISALIGNED))
+> +
+>   struct kvm_sbi_fwft_feature {
+>   	/**
+>   	 * @id: Feature ID
+> @@ -68,7 +70,41 @@ static bool kvm_fwft_is_defined_feature(enum sbi_fwft_feature_t feature)
+>   	return false;
+>   }
+>   
+> +static bool kvm_sbi_fwft_misaligned_delegation_supported(struct kvm_vcpu *vcpu)
+> +{
+> +	return misaligned_traps_can_delegate();
+> +}
+> +
+> +static long kvm_sbi_fwft_set_misaligned_delegation(struct kvm_vcpu *vcpu,
+> +					struct kvm_sbi_fwft_config *conf,
+> +					unsigned long value)
+> +{
+> +	if (value == 1)
+> +		csr_set(CSR_HEDELEG, MIS_DELEG);
+> +	else if (value == 0)
+> +		csr_clear(CSR_HEDELEG, MIS_DELEG);
+> +	else
+> +		return SBI_ERR_INVALID_PARAM;
+> +
+> +	return SBI_SUCCESS;
+> +}
+> +
+> +static long kvm_sbi_fwft_get_misaligned_delegation(struct kvm_vcpu *vcpu,
+> +					struct kvm_sbi_fwft_config *conf,
+> +					unsigned long *value)
+> +{
+> +	*value = (csr_read(CSR_HEDELEG) & MIS_DELEG) == MIS_DELEG;
+> +
+> +	return SBI_SUCCESS;
+> +}
+> +
+>   static const struct kvm_sbi_fwft_feature features[] = {
+> +	{
+> +		.id = SBI_FWFT_MISALIGNED_EXC_DELEG,
+> +		.supported = kvm_sbi_fwft_misaligned_delegation_supported,
+> +		.set = kvm_sbi_fwft_set_misaligned_delegation,
+> +		.get = kvm_sbi_fwft_get_misaligned_delegation,
+> +	},
+>   };
+>   
+>   static struct kvm_sbi_fwft_config *
+
