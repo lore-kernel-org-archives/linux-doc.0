@@ -1,40 +1,41 @@
-Received: from out-186.mta0.migadu.com (out-186.mta0.migadu.com [91.218.175.186])
+Received: from out-178.mta1.migadu.com (out-178.mta1.migadu.com [95.215.58.178])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 784734685
-	for <linux-doc@vger.kernel.org>; Fri,  9 May 2025 00:19:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.186
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8AD85C13B
+	for <linux-doc@vger.kernel.org>; Fri,  9 May 2025 00:27:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.178
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746749944; cv=none; b=cml0RZ0SmyjufzZTN11JLMpT3h+QpZZvTOeOy1bsuc148/yhkOEVdSjqKkb1jKNRcOu/veRfhfNLRI2mXCpuJUFuAK7Yna50bBKhGHrqSr3GOLSTP9RFOUyjb8yiRVnj6fAqBngZzLdLrM2DeGOTOyorF/WEOJhfC886EkfSaJk=
+	t=1746750473; cv=none; b=t2izHNcrLYeXLp+oNKsQJ9gzOlCsK+szIuCId+Svh9+oEBEk7OtfOua8f+SvwTK2tkUr1L/mqVvKmVTkyR9ogP3jpVBVDd/vsE8K2ApyzNEjafwl0OgHDK/E8qWfB56MxdHTCVlDnsd2qDWSxn5FoKxVx0AYqURpfz6rUqSktTc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746749944; c=relaxed/simple;
-	bh=BSAj4lCq7Pqars/QUd4bvA45uXjzmpaXuylFWd1d05k=;
+	s=arc-20240116; t=1746750473; c=relaxed/simple;
+	bh=4U0PtOTgyWwUYIgRnQyiflVPdeK7IJmEHyq/L90BZ88=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=svbDHteucHUSmnKGxh7GL+nZeqbC6FpwVY/r2mwVJnUrZkkGRE3hwE3yaMt0gWZOmY+RI4KGrObzyVxvIK6Rgd4cX2vAdWXcR4z9IcG6Xf9wWtdj9TJHLYgashr/zb+aRh3y6E7JlbnBzPux4hPRHC0+3TvqZ/mIj87AB/991tA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=iGazSvdg; arc=none smtp.client-ip=91.218.175.186
+	 In-Reply-To:Content-Type; b=WTWW7mEM6iinH7nCsvSRFuGUOJEG1L00RM1T4m5FSGsKqV52VO/HdJYwk43nEYJ8hwPElhVMbtHkFK8lXdMkInIswiBbBw+07e6s96emDDjH6eoy5yPGGWxYQxBQMkydKJ/MWNnZUMabusGGjuh9qErSmJbuax7lQDbGyocT070=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=S/yhTzFa; arc=none smtp.client-ip=95.215.58.178
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="iGazSvdg"
-Message-ID: <1c385a47-0a01-4be4-a34b-51a2f168e62d@linux.dev>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="S/yhTzFa"
+Message-ID: <a34e5893-0b7e-47e7-a655-a49e3472e0e9@linux.dev>
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746749938;
+	t=1746750469;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references;
-	bh=679XepidSuycXdyfHp1BFAWMxdV4mUKMvIzi7W0Gi8k=;
-	b=iGazSvdg0UerSGY5LF35krrRvhHcszcHHCCUdhyeSjPnV2j9Oeq51+LHgh5lsVUidMzbqM
-	+QsPiJo6mZKRzX3YVarn3vwbPVp3eEb3ChrYDnp7GfUjBYH90wQwN4EAVZjBi5K9UkmDO2
-	uwG8hwhmMaUG8Hkhfztpvpw9H95BPt8=
-Date: Thu, 8 May 2025 17:18:51 -0700
+	bh=focIGU9K6baIuUHoMWczpC1FYpctMA9LpP3THjX0tv8=;
+	b=S/yhTzFakjdfMXIvQjosSdkUsGCK+8PEHBvMHiTyVuN7hXwQ0YNKGjTbLAvgLRrcw3avQY
+	pduZN1V4KocO2xdemEmx1q1Huf/v1qISawu5FABFATS3F53m1xBxyHSFTO2wCmRWTZQBnq
+	23VctDWhLqEMU7OCy3cyW5hPtb9dUTQ=
+Date: Thu, 8 May 2025 17:26:52 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 04/14] riscv: sbi: add FWFT extension interface
+Subject: Re: [PATCH v6 11/14] RISC-V: KVM: add SBI extension init()/deinit()
+ functions
 To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
  Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
  <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
@@ -46,128 +47,104 @@ To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
 Cc: Samuel Holland <samuel.holland@sifive.com>,
  Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
 References: <20250424173204.1948385-1-cleger@rivosinc.com>
- <20250424173204.1948385-5-cleger@rivosinc.com>
+ <20250424173204.1948385-12-cleger@rivosinc.com>
 Content-Language: en-US
 X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
 From: Atish Patra <atish.patra@linux.dev>
-In-Reply-To: <20250424173204.1948385-5-cleger@rivosinc.com>
+In-Reply-To: <20250424173204.1948385-12-cleger@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-Migadu-Flow: FLOW_OUT
 
 On 4/24/25 10:31 AM, ClÃ©ment LÃ©ger wrote:
-> This SBI extensions enables supervisor mode to control feature that are
-> under M-mode control (For instance, Svadu menvcfg ADUE bit, Ssdbltrp
-> DTE, etc). Add an interface to set local features for a specific cpu
-> mask as well as for the online cpu mask.
+> The FWFT SBI extension will need to dynamically allocate memory and do
+> init time specific initialization. Add an init/deinit callbacks that
+> allows to do so.
 > 
 > Signed-off-by: Clément Léger <cleger@rivosinc.com>
 > Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
 > ---
->   arch/riscv/include/asm/sbi.h | 17 +++++++++++
->   arch/riscv/kernel/sbi.c      | 57 ++++++++++++++++++++++++++++++++++++
->   2 files changed, 74 insertions(+)
+>   arch/riscv/include/asm/kvm_vcpu_sbi.h |  9 +++++++++
+>   arch/riscv/kvm/vcpu.c                 |  2 ++
+>   arch/riscv/kvm/vcpu_sbi.c             | 26 ++++++++++++++++++++++++++
+>   3 files changed, 37 insertions(+)
 > 
-> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
-> index 7ec249fea880..3bbef56bcefc 100644
-> --- a/arch/riscv/include/asm/sbi.h
-> +++ b/arch/riscv/include/asm/sbi.h
-> @@ -503,6 +503,23 @@ int sbi_remote_hfence_vvma_asid(const struct cpumask *cpu_mask,
->   				unsigned long asid);
->   long sbi_probe_extension(int ext);
+> diff --git a/arch/riscv/include/asm/kvm_vcpu_sbi.h b/arch/riscv/include/asm/kvm_vcpu_sbi.h
+> index 4ed6203cdd30..bcb90757b149 100644
+> --- a/arch/riscv/include/asm/kvm_vcpu_sbi.h
+> +++ b/arch/riscv/include/asm/kvm_vcpu_sbi.h
+> @@ -49,6 +49,14 @@ struct kvm_vcpu_sbi_extension {
 >   
-> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags);
-> +int sbi_fwft_set_cpumask(const cpumask_t *mask, u32 feature,
-> +			 unsigned long value, unsigned long flags);
-> +/**
-> + * sbi_fwft_set_online_cpus() - Set a feature on all online cpus
-> + * @feature: The feature to be set
-> + * @value: The feature value to be set
-> + * @flags: FWFT feature set flags
-> + *
-> + * Return: 0 on success, appropriate linux error code otherwise.
-> + */
-> +static inline int sbi_fwft_set_online_cpus(u32 feature, unsigned long value,
-> +					   unsigned long flags)
-> +{
-> +	return sbi_fwft_set_cpumask(cpu_online_mask, feature, value, flags);
-> +}
+>   	/* Extension specific probe function */
+>   	unsigned long (*probe)(struct kvm_vcpu *vcpu);
 > +
->   /* Check if current SBI specification version is 0.1 or not */
->   static inline int sbi_spec_is_0_1(void)
+> +	/*
+> +	 * Init/deinit function called once during VCPU init/destroy. These
+> +	 * might be use if the SBI extensions need to allocate or do specific
+> +	 * init time only configuration.
+> +	 */
+> +	int (*init)(struct kvm_vcpu *vcpu);
+> +	void (*deinit)(struct kvm_vcpu *vcpu);
+>   };
+>   
+>   void kvm_riscv_vcpu_sbi_forward(struct kvm_vcpu *vcpu, struct kvm_run *run);
+> @@ -69,6 +77,7 @@ const struct kvm_vcpu_sbi_extension *kvm_vcpu_sbi_find_ext(
+>   bool riscv_vcpu_supports_sbi_ext(struct kvm_vcpu *vcpu, int idx);
+>   int kvm_riscv_vcpu_sbi_ecall(struct kvm_vcpu *vcpu, struct kvm_run *run);
+>   void kvm_riscv_vcpu_sbi_init(struct kvm_vcpu *vcpu);
+> +void kvm_riscv_vcpu_sbi_deinit(struct kvm_vcpu *vcpu);
+>   
+>   int kvm_riscv_vcpu_get_reg_sbi_sta(struct kvm_vcpu *vcpu, unsigned long reg_num,
+>   				   unsigned long *reg_val);
+> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
+> index 60d684c76c58..877bcc85c067 100644
+> --- a/arch/riscv/kvm/vcpu.c
+> +++ b/arch/riscv/kvm/vcpu.c
+> @@ -185,6 +185,8 @@ void kvm_arch_vcpu_postcreate(struct kvm_vcpu *vcpu)
+>   
+>   void kvm_arch_vcpu_destroy(struct kvm_vcpu *vcpu)
 >   {
-> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
-> index 1d44c35305a9..d57e4dae7dac 100644
-> --- a/arch/riscv/kernel/sbi.c
-> +++ b/arch/riscv/kernel/sbi.c
-> @@ -299,6 +299,63 @@ static int __sbi_rfence_v02(int fid, const struct cpumask *cpu_mask,
->   	return 0;
->   }
+> +	kvm_riscv_vcpu_sbi_deinit(vcpu);
+> +
+>   	/* Cleanup VCPU AIA context */
+>   	kvm_riscv_vcpu_aia_deinit(vcpu);
 >   
-> +/**
-> + * sbi_fwft_set() - Set a feature on the local hart
-> + * @feature: The feature ID to be set
-> + * @value: The feature value to be set
-> + * @flags: FWFT feature set flags
-> + *
-> + * Return: 0 on success, appropriate linux error code otherwise.
-> + */
-> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags)
-> +{
-> +	return -EOPNOTSUPP;
+> diff --git a/arch/riscv/kvm/vcpu_sbi.c b/arch/riscv/kvm/vcpu_sbi.c
+> index d1c83a77735e..3139f171c20f 100644
+> --- a/arch/riscv/kvm/vcpu_sbi.c
+> +++ b/arch/riscv/kvm/vcpu_sbi.c
+> @@ -508,5 +508,31 @@ void kvm_riscv_vcpu_sbi_init(struct kvm_vcpu *vcpu)
+>   		scontext->ext_status[idx] = ext->default_disabled ?
+>   					KVM_RISCV_SBI_EXT_STATUS_DISABLED :
+>   					KVM_RISCV_SBI_EXT_STATUS_ENABLED;
+> +
+> +		if (ext->init && ext->init(vcpu) != 0)
+> +			scontext->ext_status[idx] = KVM_RISCV_SBI_EXT_STATUS_UNAVAILABLE;
+> +	}
 > +}
 > +
-> +struct fwft_set_req {
-> +	u32 feature;
-> +	unsigned long value;
-> +	unsigned long flags;
-> +	atomic_t error;
-> +};
-> +
-> +static void cpu_sbi_fwft_set(void *arg)
+> +void kvm_riscv_vcpu_sbi_deinit(struct kvm_vcpu *vcpu)
 > +{
-> +	struct fwft_set_req *req = arg;
-> +	int ret;
+> +	struct kvm_vcpu_sbi_context *scontext = &vcpu->arch.sbi_context;
+> +	const struct kvm_riscv_sbi_extension_entry *entry;
+> +	const struct kvm_vcpu_sbi_extension *ext;
+> +	int idx, i;
 > +
-> +	ret = sbi_fwft_set(req->feature, req->value, req->flags);
-> +	if (ret)
-> +		atomic_set(&req->error, ret);
+> +	for (i = 0; i < ARRAY_SIZE(sbi_ext); i++) {
+> +		entry = &sbi_ext[i];
+> +		ext = entry->ext_ptr;
+> +		idx = entry->ext_idx;
+> +
+> +		if (idx < 0 || idx >= ARRAY_SIZE(scontext->ext_status))
+> +			continue;
+> +
+> +		if (scontext->ext_status[idx] == KVM_RISCV_SBI_EXT_STATUS_UNAVAILABLE ||
+> +		    !ext->deinit)
+> +			continue;
+> +
+> +		ext->deinit(vcpu);
+>   	}
+>   }
 
-What happens when cpuX executed first reported an error but cpuY 
-executed this function later and report success.
-
-The error will be masked in that case.
-
-> +}
-> +
-> +/**
-> + * sbi_fwft_set_cpumask() - Set a feature for the specified cpumask
-> + * @mask: CPU mask of cpus that need the feature to be set
-> + * @feature: The feature ID to be set
-> + * @value: The feature value to be set
-> + * @flags: FWFT feature set flags
-> + *
-> + * Return: 0 on success, appropriate linux error code otherwise.
-> + */
-> +int sbi_fwft_set_cpumask(const cpumask_t *mask, u32 feature,
-> +			       unsigned long value, unsigned long flags)
-> +{
-> +	struct fwft_set_req req = {
-> +		.feature = feature,
-> +		.value = value,
-> +		.flags = flags,
-> +		.error = ATOMIC_INIT(0),
-> +	};
-> +
-> +	if (feature & SBI_FWFT_GLOBAL_FEATURE_BIT)
-> +		return -EINVAL;
-> +
-> +	on_each_cpu_mask(mask, cpu_sbi_fwft_set, &req, 1);
-> +
-> +	return atomic_read(&req.error);
-> +}
-> +
->   /**
->    * sbi_set_timer() - Program the timer for next timer event.
->    * @stime_value: The value after which next timer event should fire.
-
+LGTM.
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
