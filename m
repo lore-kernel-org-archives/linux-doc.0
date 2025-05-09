@@ -1,76 +1,77 @@
-Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3F8CB1FB3;
-	Fri,  9 May 2025 00:55:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A649928682;
+	Fri,  9 May 2025 01:51:41 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746752142; cv=none; b=g1f5FXHiqVgWbl3N7B5OD6heJV8lgvaig/oxBkkBTsdY+DJ4XXnPviBo7Ev2Jb0ii5Dfu7bm+JM2rWk/9jSV9p4IcD+7VOcKtdAe0mMHNpkS4BYJLuQy1NqRn5OlR9IFiCFh3ET3lOy+df2cUtGp7GiToN/cw29iYV0SHWIEodg=
+	t=1746755502; cv=none; b=qrfkrm36DP9fEoOUzVd8nJA7UzKD4XF+XXexidNPJjTcVwTUWy/rZQB0VGfGxElggTxUpHbrGuE84qzgDyoBKRGF1ts4W74/xPDROBjU2vzBts4fkvOKAhb1g+2zOum61ItORZT3htgyyEhUzBaYJ8qfZqAps7nrqpRI3U5GMVM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746752142; c=relaxed/simple;
-	bh=eTn9W/L1nGkQsdzjJjRUCj2PWr8huBWV8nhOzCKqDJs=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=UrdGCld6QocPWknrX0SgBW8G9wdIN1dTyA+SFuaPLO+ZaSp+uiE4JX+hYWtFhh7BrBiwc49RwCMrrpN3C/sa/sswh+4md0YpZr1Qrof3NDsp3+bxyQmAnQMtLaLT1yNqjC0rWI+nEf0vCUE3sZWhJYfY5in0k3g/4wpKo8WsBRs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=D7ivdiFT; arc=none smtp.client-ip=198.137.202.133
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1746755502; c=relaxed/simple;
+	bh=T+0Q4j3MxfhBAraC6JNdvOq+YPwmYa27MFXEx5piVGo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=U6wVt+J20J8fQu7ah5kSa3mFZzBaeyc2nPswBPDw7K7FfIeFTZ3pKFSyMfJwQwtH1BtupLC6LNd0xQkieufwsA91WFl2dGmt3wJ6l6MbD1+kREsh7inVNCRQk2ru54IkSUN0rXFfqP8zMmjmyfS4xaCLkz5TnCMGHFT/6TlBJbo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Tzudw4Km; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="D7ivdiFT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
-	Content-ID:Content-Description:In-Reply-To:References;
-	bh=25OViHPlrDjlfagbh2iibN4Jl3Oh2Bhcbq18Fx0Ge1g=; b=D7ivdiFTtpG6ebtUmZmjZwDVYz
-	vfgxQXYR71pXVP1jzgcmSXzP736Kq6uFfWLtgIWzX9xX9tLrnJ7gWZUWsq+HB0AxCJymsFddOAJ7q
-	sg/5Kp8NO7NxSLtO3yLwduwliJpU3irKqG+0YQSpjXbBf18o0+vKr9J/G42eIeDbbCyEU4PkesNed
-	44d+a05LFjFegNU7U5unXpKRTqkspJuFEYeCuJm4+m0+yUdD8P65nU4GhkB13KvxyyAB2M8gKpnc/
-	G/+uIQdvuClUOKnlEyScmwgdO53ZT82C8RMezcsEIywYFbBjUgtTiqrwt/BEMW9GnY8CSWJE3p0Fy
-	rafAZMhA==;
-Received: from [50.39.124.201] (helo=bombadil.infradead.org)
-	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uDC1b-000000028r4-2aJW;
-	Fri, 09 May 2025 00:55:39 +0000
-From: Randy Dunlap <rdunlap@infradead.org>
-To: linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	linux-doc@vger.kernel.org,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	"Rafael J. Wysocki" <rafael@kernel.org>,
-	Danilo Krummrich <dakr@kernel.org>
-Subject: [PATCH] Docs: driver-api/basics: add kobject_event interfaces
-Date: Thu,  8 May 2025 17:55:38 -0700
-Message-ID: <20250509005538.685678-1-rdunlap@infradead.org>
-X-Mailer: git-send-email 2.49.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Tzudw4Km"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 056F2C4CEE7;
+	Fri,  9 May 2025 01:51:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746755501;
+	bh=T+0Q4j3MxfhBAraC6JNdvOq+YPwmYa27MFXEx5piVGo=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=Tzudw4KmBThifSMpYc7W7axYTh2IOejdGBQzfSlTyhpDun4fADce3rhT+rbLXgyFH
+	 WeVwMJ6rtnbnVI64ZmOiWnMgYl8FC/usqBLKxVnM8zlOELp8TtWy5HBDvGALKiWUf3
+	 74bJiMNfP1RR+WiknPHo6y3b/WDp6izOGynUrI84EAS3tbeUz7ysFIVIXgPiP3hosQ
+	 sjTWYS1ZuoAkDWnltTX/7Su589UipCycLv37+9wbq1CUu9AeohthlcIfQ+znHiYpiB
+	 4f3DdAY9bnVQ1IDAQxnahUu8JVNrccVTkpqQmY+tzH83jvfO0EjBe+2c4vEaqt82PY
+	 GCUoZe59P+zCQ==
+Date: Thu, 8 May 2025 18:51:38 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Gur Stavi <gur.stavi@huawei.com>
+Cc: Fan Gong <gongfan1@huawei.com>, <netdev@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Simon
+ Horman <horms@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ <linux-doc@vger.kernel.org>, Jonathan Corbet <corbet@lwn.net>, Bjorn
+ Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>, Xin Guo
+ <guoxin09@huawei.com>, Shen Chenyang <shenchenyang1@hisilicon.com>, Zhou
+ Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>, Shi Jing
+ <shijing34@huawei.com>, Meny Yossefi <meny.yossefi@huawei.com>, Lee Trager
+ <lee@trager.us>, Michael Ellerman <mpe@ellerman.id.au>, Suman Ghosh
+ <sumang@marvell.com>, Przemek Kitszel <przemyslaw.kitszel@intel.com>, Joe
+ Damato <jdamato@fastly.com>, Christophe JAILLET
+ <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next v14 1/1] hinic3: module initialization and
+ tx/rx logic
+Message-ID: <20250508185138.44849a7a@kernel.org>
+In-Reply-To: <35f370e77ceaec7ebff5e160e9daee2f9c7b98f0.1746689795.git.gur.stavi@huawei.com>
+References: <cover.1746689795.git.gur.stavi@huawei.com>
+	<35f370e77ceaec7ebff5e160e9daee2f9c7b98f0.1746689795.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-Add the kernel-doc comments from lib/kobject_uevent.c to the
-"Kernel objects manipulation" section of driver API Basics.
+On Thu, 8 May 2025 10:56:47 +0300 Gur Stavi wrote:
+> +	if (unlikely(__netif_subqueue_stopped(netdev, q_id) &&
+> +		     hinic3_wq_free_wqebbs(&txq->sq->wq) >= 1 &&
+> +		     test_bit(HINIC3_INTF_UP, &nic_dev->flags))) {
+> +		struct netdev_queue *netdev_txq =
+> +				netdev_get_tx_queue(netdev, q_id);
+> +
+> +		__netif_tx_lock(netdev_txq, smp_processor_id());
+> +		/* avoid re-waking subqueue with xmit_frame */
+> +		if (__netif_subqueue_stopped(netdev, q_id))
+> +			netif_wake_subqueue(netdev, q_id);
+> +
+> +		__netif_tx_unlock(netdev_txq);
 
-Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-Cc: Jonathan Corbet <corbet@lwn.net>
-Cc: linux-doc@vger.kernel.org
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: "Rafael J. Wysocki" <rafael@kernel.org>
-Cc: Danilo Krummrich <dakr@kernel.org>
----
- Documentation/driver-api/basics.rst |    3 +++
- 1 file changed, 3 insertions(+)
-
---- linux-next-20250508.orig/Documentation/driver-api/basics.rst
-+++ linux-next-20250508/Documentation/driver-api/basics.rst
-@@ -108,6 +108,9 @@ Kernel objects manipulation
- .. kernel-doc:: lib/kobject.c
-    :export:
- 
-+.. kernel-doc:: lib/kobject_uevent.c
-+   :export:
-+
- Kernel utility functions
- ------------------------
- 
+Have you tried the macros in net/net_queue.h ?
+netif_subqueue_maybe_stop() and netif_subqueue_completed_wake()
+They implement tried and tested ordering, the lock shouldn't be
+necessary.
