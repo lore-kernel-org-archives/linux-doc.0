@@ -1,224 +1,450 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2047.outbound.protection.outlook.com [40.107.244.47])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7920C2550AF;
-	Fri,  9 May 2025 20:56:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.47
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746824170; cv=fail; b=Q79DyUcPn7i/tCWNmr+Oqp8ksRZUmFAGGzeKuVagFz4iVwwcWZtJWWyoEZuZ/78zpn4rpZ/LWw4Sot4qDr7KfRwTCXAB/Gz5SddR/8Q/6hN22LkYxV2aqNr5E7e+DSkwnuuPch9xxA0zYikmi3PgBHAEzz/0znNqDkTWQUftv5c=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746824170; c=relaxed/simple;
-	bh=RoNGNA8um1eFBTQuOeMLUpTJLhgrzfq6xAKAFezf3pU=;
-	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=VvaWiaQWbmrSBP+g0yH047puuLaunIcN2MLBDdWpZUjmpPU1TmQw0ShkDga/LKYONTeZ5UwVoHV4EsH4UAlM7qzRkGTacqpyVBe+cWeTAzNROARUvt41k/UGJpRcvEa13gkWIWBXjqu6XxG4L3OM7+oNCReFtFf0g+tiJeUaV5A=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IusrpqCr; arc=fail smtp.client-ip=40.107.244.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 497BC25F79A;
+	Fri,  9 May 2025 22:38:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746830308; cv=none; b=Jpn8FM3G4NPX0pgc6HQ9LdxsQbxKTefPtOtFBtkJpbYyASkSZ/hbtAjZ8EAPIlFvCcIYYZ2ZTsHOxQTE/rEjs7hPosQxQ1UMeXX0QwJ2UyAuwg+L0oAgCt+sJRG8fUIbQZW6LP1JNgyAsmUIaNGZGQkxaGIMvlmgldebqryq0VA=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746830308; c=relaxed/simple;
+	bh=UFLG+qJLt7G6jEoUzpzLZXtZ0sylu//S/7ihWu5mva8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=J57z7reqrws2ajE3MFsEKKmj2bpUdntsCrJ+mIL9fh6wP/kNRr5NGx9jQ3tz060H54N2g93Ecrr3+VB3yIEpbzSr/g0kToE37WJw3S/jV2udXLJYBWFchX2ympPjLiDxJ6GRXFTQxVHcYrzJAJLv6ogX2pboJlZAMB7QZpCBLns=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=I9HLyYt7; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IusrpqCr"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=K2N5W0m0xsg6BQB1n8thiQcrnr+rY77WFoGk/8fJ7E1wLe3G1AGUeIBtW5F1YQ1Yy+oQezzpmhq/JpdZ5Xk6zATH/BXj9/yb4LWaofYt5ULVFO/HbQEbO6VzwMPhnLS4FiCRsYKMmsZXqzJ46luWoBQ53Ty09xVcTlN435kqxYeWfa3sEl4mrxN6siP7laDe9+V+s2DFc7IzCXNfEAVQTy0gmtC3h3R8cwoq28Lw7ySbWNm/x4Vtv8eeDR9AL50HpuhzVrXyl2nUdBNdMPVnZtmuLHScBklj+UK+kiERXAGkD5sH121EYfoOezGhalXywDQ4WSudzGu419hL+LwQSw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=s55AcDsRPAwyjXbqoLqU3KPmZvLbp6E7NjMC+wzxF3o=;
- b=ynxgqyqD5Rc0Eb7KRQGUBjSBOTCoYiHACWS2VNVNrJYcJje+Guex1LaeH8wHRYvVu5LPuFLzYaZZNzBqdioyR5bsxi9Shjvi67adCz4VB9M2IznVPySLDqknT4jW5xFcHkiDTr0QywQomK+heOtwiDOay5t+tvGU3BEzzDsGVzj+ZJNuBSCiHMBk6PJYvys+XcySos8PR5wlwlKWsSAyoZpwKK8cfFJLVljQQy99UUgDXdoGr1LPUpa3RSSsIWNqYuYh2Pp9stDOwC5evMk85ueirDLCmoYsbqwI8YrZ4vMkSbQynNVHdWInPT9/O/gK8M+UAkXmo8XyPAG/r5RXKw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=s55AcDsRPAwyjXbqoLqU3KPmZvLbp6E7NjMC+wzxF3o=;
- b=IusrpqCr36IoKRVX+nYR6uWJqdDzauqawXAYownFoKmgOmTLqIJta4sEileb17MZRitpD2SVnPkmQPVELBDntPEAZ4ol+GetYa2uUj84ZRFO/S25rdoICmqwh1lr9DxMe6Li0Olsyhp75PtJCLINAv18ZksGxKoKU6lfBhmmP8Ar4WvVSGZr9edGSzKWV5FdgMeN3kor/tAek0JsI/u8XN9vLHFxNVzPlAzmEf2oPRJcMvkRvB4uQo5nqh3BNL0KsCGtPy3TDATrKmcKEKDO4umL3RwnKqFd8TQnGH8aYQ8gvrydr7YSMLN3a062wnMmKY/jAJWiXyPZS90CqzoltA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nvidia.com;
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com (2603:10b6:806:32b::7)
- by PH7PR12MB6834.namprd12.prod.outlook.com (2603:10b6:510:1b4::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.23; Fri, 9 May
- 2025 20:56:05 +0000
-Received: from SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91]) by SN7PR12MB8059.namprd12.prod.outlook.com
- ([fe80::4ee2:654e:1fe8:4b91%3]) with mapi id 15.20.8699.035; Fri, 9 May 2025
- 20:56:05 +0000
-Message-ID: <600676ca-0daa-4697-9cb7-b72c082aa5bf@nvidia.com>
-Date: Fri, 9 May 2025 16:56:02 -0400
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 4/7] nova-core: docs: Document fwsec operation and
- layout
-To: Zhi Wang <zhiw@nvidia.com>
-Cc: linux-kernel@vger.kernel.org, Danilo Krummrich <dakr@kernel.org>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, nouveau@lists.freedesktop.org,
- dri-devel@lists.freedesktop.org, Alexandre Courbot <acourbot@nvidia.com>,
- John Hubbard <jhubbard@nvidia.com>, Shirish Baskaran <sbaskaran@nvidia.com>,
- Alistair Popple <apopple@nvidia.com>, Timur Tabi <ttabi@nvidia.com>,
- Ben Skeggs <bskeggs@nvidia.com>, rust-for-linux@vger.kernel.org,
- linux-doc@vger.kernel.org
-References: <20250503040802.1411285-1-joelagnelf@nvidia.com>
- <20250503040802.1411285-5-joelagnelf@nvidia.com>
- <20250506192641.7872cbd0@inno-thin-client>
-Content-Language: en-US
-From: Joel Fernandes <joelagnelf@nvidia.com>
-In-Reply-To: <20250506192641.7872cbd0@inno-thin-client>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: BN9PR03CA0887.namprd03.prod.outlook.com
- (2603:10b6:408:13c::22) To SN7PR12MB8059.namprd12.prod.outlook.com
- (2603:10b6:806:32b::7)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="I9HLyYt7"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9ABBCC4CEE4;
+	Fri,  9 May 2025 22:38:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746830307;
+	bh=UFLG+qJLt7G6jEoUzpzLZXtZ0sylu//S/7ihWu5mva8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=I9HLyYt786mNoMXtqssk56VK36x5mq/M717pcugDBZFZ1b+JUk0jUuo3xx0DOTtW2
+	 TQBwky9/5D2p5nrdqVSRjvBZoedDCVLFZsJXcU9n59krYRRYv+eHVKUI+KJ+wZ0tTK
+	 HdFPw48aANr941HIw+5SPrJ4DoTzDfLhYc6+PcK8dE1Iy6rPs8e1FFO+Ss4iilCJFE
+	 3NhtmKMkCvzvm+EuLVZOFeeaR0uJCB186uQD+YLezv1wFFjI903+GOa358IkTH6o5q
+	 LBRafNN+2xEpJPw4PAOODOsMhTSXOsVxNOxVZg5vsOxQij9t/mE56u6WTuTrq8+oo8
+	 Kswje5XCCMqLQ==
+Date: Fri, 9 May 2025 15:38:24 -0700
+From: Bjorn Andersson <andersson@kernel.org>
+To: Eugen Hristev <eugen.hristev@linaro.org>
+Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org, 
+	linux-doc@vger.kernel.org, corbet@lwn.net, tglx@linutronix.de, mingo@redhat.com, 
+	rostedt@goodmis.org, john.ogness@linutronix.de, senozhatsky@chromium.org, 
+	pmladek@suse.com, peterz@infradead.org, mojha@qti.qualcomm.com, 
+	linux-arm-kernel@lists.infradead.org, vincent.guittot@linaro.org, konradybcio@kernel.org, 
+	dietmar.eggemann@arm.com, juri.lelli@redhat.com
+Subject: Re: [RFC][PATCH 02/14] kmemdump: introduce kmemdump
+Message-ID: <qcpzoi6t2xvmncq4pbxnlnrdw5bj4dvedftsf5cp3zj7nbeklm@rmsrqqb5vta5>
+References: <20250422113156.575971-1-eugen.hristev@linaro.org>
+ <20250422113156.575971-3-eugen.hristev@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SN7PR12MB8059:EE_|PH7PR12MB6834:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0123ecba-551d-4990-dd6a-08dd8f3bea5a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|1800799024|366016;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?c1hTRGI4YURpZFVSWVUxSUI2a3RVZnUwbnBHS1YrY0FES3VTTW9Telp4T3JI?=
- =?utf-8?B?bzRFVk1mYytzcjNZMzBhUThiMUVrc2IvZUoxdGErb0lYbUFjdXF1dWl2Z0U0?=
- =?utf-8?B?djlMZjkyaFFZdEUzSkdENTMraEJnT0VNSHBoQWNwVGJ6c1NFZmxqdHJ1bC84?=
- =?utf-8?B?a1JrS1FWaDNSQzFtUjhOTDJ5TW40SFBUamo5UlpEV0h3VThQeVFpYmhzeDR5?=
- =?utf-8?B?OGZEOWR3blF6MWdONHpjV3AwL2VRY1VvNTJYY3BSVzBOMUhPNExpR2M0NmNW?=
- =?utf-8?B?OHhmNElkU2Y5QVQ5aUREV3hjTnNUZDlIRHRub1djK0xTelBTanppTVdmRFdO?=
- =?utf-8?B?bTdRRWhhbzljYis1KzBnTGZQY3lLZUcwZFI0WjhkYlNSYTlMR1FkekxDZFRO?=
- =?utf-8?B?eUhVUmpwWG91Szdjd0dyWGZsY3cxMFNXczhWL0lHb2tWbW1tQ1c2M0RJVkVJ?=
- =?utf-8?B?MGY5eWJJSDl2dGRaSytBMjJTeFF6ZDZyblpwRmw4bWUxNElpRWo2dVBKUXpW?=
- =?utf-8?B?WWlTcHJGVWs2TVJiYXR5a2YrSVZGMWgzSzNZVHBHQ3JKbnhxYVBJOUxKS09h?=
- =?utf-8?B?ZjBURklleUtYaWRhWkM0Y1VnNWwyZm41VFExamNxRWZ0TDgweFhrUllvMDlo?=
- =?utf-8?B?c3B3M1RvY2U3NmM1d0k1MmVlZEdMSldKYitIeVVWS3FFOHpWbVdza3U2Nk5L?=
- =?utf-8?B?YzBVVkJyNkpZa3RrVE01ZzFVMjFTWWR0UmlsSzBHbE5nQnI4WmVSUmgxbVA4?=
- =?utf-8?B?YU1jQ0FlbWd5Z3lmMnFmdjFyWHFIQzBMUTNyeGtiN1lRenNmbEhDZU1uaktO?=
- =?utf-8?B?aVBydnArVlo4NnNwMmNYQXkzSFRyaWNXV1BlWWNNeWptK2kvdXdpcytvaGFr?=
- =?utf-8?B?di9IQWhENUtrdllmbGIyVmJVRTJ3ZWxFcHVRaGx0czI1SmtBRGszTnlvdjBm?=
- =?utf-8?B?SmNYRG00OHFlckJIQTZZMVJaeUlOd2ZURTFzVGdMWFBQaHduRjFUaTZQbXBk?=
- =?utf-8?B?UHl2Q000MVh1a1RRMlBLb1BuM3hVdTRZNTBndEVER1NIRUEvZldkL1FJMHNn?=
- =?utf-8?B?SHlvQUdUeWF6VUV0Z1Q4YjduTTF0RFdOSjcwUy80UUhaZWpvRzYzNVR1SjBt?=
- =?utf-8?B?RjRoTFplT0VMUjNia2hOdkY1K3lRRHI5ZkFuTjlyTUtMVWc2WGdLemNXRlFz?=
- =?utf-8?B?RU40SFR2anJlQnd3aExDeWd1ZERaZUpnZkU2VWJaMlBUZEtwWGpMUUtxVGVo?=
- =?utf-8?B?OXVobVBrWktXOGtkNUQxK1Z1cWh1Zjdubi9RN0FvN0NPc01mc0tZeTNuRlZq?=
- =?utf-8?B?c1RYeFMyRk51SUxHajc4SGR0V1d1NVVDWXVyTTM2UFhoT0tPSlF3Qkc4TVgw?=
- =?utf-8?B?LzlWN2JJS1g5d1V5WkpMZytKZ2syQkxKU091MGNaNU84Y3haMWhPL2FxcEJh?=
- =?utf-8?B?aXd6YStyak02VGxickhrSkMwWnp6ZElrYUxPZko3emFpS3pWVGtyRTZobGlz?=
- =?utf-8?B?M0NGUnpXVCthYWhUNEszbkNITjc4Q1dJWlpaMGVGYU9MWnVUQ29PQ1h3THpo?=
- =?utf-8?B?SERidkdpL1pydy9nM0hXOFdHVU16Z0dLK0VUclkzOU0yS3NsT2lrNHh2UVNz?=
- =?utf-8?B?Yk1hcXhlajZCd2xOYXFVKy9vSkFpcU54bzVRRUZONnpUbm1RR1JxQzRGU01Q?=
- =?utf-8?B?UTZWMUsrL29KOWo1aEtkNkI0YkxaRndyY21meElDWktKd2ZDZGlYbnpkWG5G?=
- =?utf-8?B?UlQrQktsR0Q0Q1lhU3piZTVFeFZ0MmRvT2REalhZSStNckFrWTNCV0w1bGtO?=
- =?utf-8?B?d2ZQa2drOTB5eUw4WmVvNjhwWlN1UUswaU9WQUIvOU9RNjdEZFRNc1lKcFN2?=
- =?utf-8?B?V0FWMlo5cmhTME0zMDNIanl6amVGWHo2Z1VxRWhZMXE4WkhFbU1oOTFSS2FM?=
- =?utf-8?Q?y56n0heZRbs=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR12MB8059.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?utf-8?B?OHBaVDhmNkx5Yk5hVTBubTlubTl5TkZ1anl5QnNUeHBLSWUzL3poVzRGbE1w?=
- =?utf-8?B?dHV0NEd3Y3M5a05CeXBaZVRUQTlvdUJhYzJ0dk9ld2hPb09xb09tZmpGUUZP?=
- =?utf-8?B?RS9PTjc5T285WjBwZjNoRTBMb0lCS04vMDVVWnNOb3B1T2RFYlhIcFlleFl2?=
- =?utf-8?B?dUthdmNRSVBpQUlHeG82WXZ5VTNCbndBQURUYk1lVFhDdzllWVRrUXNsZkFJ?=
- =?utf-8?B?OSswSkZaNXA3ZVFLakcwT1RWWDhnWmNXSTJuYjBOZ0hvNjN6NDBERjd1SWV5?=
- =?utf-8?B?b0g3RUg4NStOVkl1UXN2M2VnZDZJUHd2dGFNRGJSNHNHRUxMUWpmb1hGNUZw?=
- =?utf-8?B?bDZVcFZ2MHpiRUNpWGJYbXdLOHA4V252RHd2dWFoYUY4eVNPTWFCWlRxbTlC?=
- =?utf-8?B?TGgvdDFHS1BWa0Y0VzkwZlFkNjU0MW1VdmswNUVEWFFPYXR2M0lHa3RMUXlI?=
- =?utf-8?B?dmR1QzJhMWNnakFNTC93NkhjRlorMDBOdkQ5aUg2eUUvZElQRE54dVRhZFFI?=
- =?utf-8?B?eHp1VG1OWUhUR01TU1M1NUhrcFlubklTdFFUVUVBQ0poUUFMV3BQN05WSGxR?=
- =?utf-8?B?ZmFRRjlHU3RlZHpJVk5KQ2wxb1FFeWh6Zm9XY0RraWo0U2pwOFNBMGxaaWFq?=
- =?utf-8?B?aWpKQkZkMzF1bFd5T1diQnUrbGlsa05DTThndnBVRnJ4empleDY1dGNTYjl6?=
- =?utf-8?B?NDBYa1EwbXBjMW9palR0bHQ3bW02RmxtOTBnQzZEVEN2dElhc0ZDUmxTdC9K?=
- =?utf-8?B?bm5IUmc4bEpxSW15dWJSc1pETmpvb3lzRGhINksvYldkbzIyL3VwczVXU21M?=
- =?utf-8?B?ck5hZ3BZUCtybC9YZGVMOGo2L2M5ejF3MVNGSFlScXpaU28yYlJqODNIaUZk?=
- =?utf-8?B?S0hIeGFENklZNEYyS3JJTXJ0RFpMbWNoa1JKU1VXVElwL0JpZUVzdS9xWmtU?=
- =?utf-8?B?MDM5aks5MndrWGVhdkMzdkJad3BGdXpaUnFWMHhXVnVreTl5WWY1bzdhOHd2?=
- =?utf-8?B?b2xWa1Q4WERSSkpuUnA0WlhYeDgwc0twZHZMcXk1S2pjM3dCWmlhMnVMQnpF?=
- =?utf-8?B?MDU5ZDJySFdnMDk5RXUzQVYwdkZVZmp4SHpNN0Y1cTB5NVRWejR0MDMyU1lx?=
- =?utf-8?B?OERmSWhyc1poNU1iQlowVXBELzVKUEFONjhLT0RFS1ZXcEJ4NklDV3lqWFpu?=
- =?utf-8?B?bTE2VDFhWXdLUzl2cG5pcWd4WGQwRDlHYkhTbjVxaXQ0c3NQeFFXOFFuQVRC?=
- =?utf-8?B?enFtd2F1eXFyY1ZlYWswMlpxZm1pa2pBSnlzdUVRK3RxZnJDd1pJejdHZm1j?=
- =?utf-8?B?OURTOWFvMDJNeFJFNktPYkUwTmNRbmN4TEZyQyttZm9qSjNmTXJoRUFwK3JW?=
- =?utf-8?B?NkhKRUVXRVZhd3hZSVhlQ2Z1LzhRMnhkcTVwQWRwdnlLMkk1SkVubVJ0Sm9q?=
- =?utf-8?B?U2labmJCN2xWQjJ4MnRGRUlWMHR4L1F1ZG9yb2Y1MVE0ZWVwcTdOZjhQdEpT?=
- =?utf-8?B?RUVmM2k0TVc5a2YxdlQ1RXRoZThXK0Q4M2lBWng0eFBSR1NJNTJPbDEzWHMr?=
- =?utf-8?B?THdhQXgwWDBOOUtSMUVXQXh0UlA3cnVqbVJPczJadFFhR0VjMHRhV1UveE5C?=
- =?utf-8?B?eWFTalRFOUVOVE9pQXd3ZXBrRlVjZ3dCdWw2VDc3OWRoNHpGSmZESWhUeWxJ?=
- =?utf-8?B?TEJPaGhpTlJtVmNqN1h6Q3F1c1g1NHNXT1I1WGY0eTdCT3NJZFFSU3VnVHkw?=
- =?utf-8?B?SXJhcTBXcXE2ckZseTdyS1loQVBaSldaa3dnSnNHSittMzROd0VMV0RRUHB1?=
- =?utf-8?B?MXBvZGdwQ0c4RGw3WStzbTd0YWdTd0c1TUwrUENVWERqZHVORFkyRHNnSU5L?=
- =?utf-8?B?c1lBRllNZE5KK3VTZWxRMEdJWGRWOFpveHZZT2xSU20zcWNOOVhwMm44NThn?=
- =?utf-8?B?dFNEYzhmeVNuQkM0MWpmUTlheEpZNTZxSnFkQmppMTJ3MW1FUVVhaUNJNm9u?=
- =?utf-8?B?SkpEQk1HR0NrM0tQcWprbkFMbEFiQnp0Wnc3aHNyMjMwblZ0VzNUdGVtRW5v?=
- =?utf-8?B?aUE1OXRSNGh0TXB2VWNYQVN4UmZac2RKTjVVMGl2aHBMdHdOa3JjQWd3dFNw?=
- =?utf-8?B?MVcxRWZNQ2dUN1I0ZEMwajEwdm5xY2U1Tlo4Y1F6aVgzS3dtM3VzdU5aQXhm?=
- =?utf-8?B?REE9PQ==?=
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0123ecba-551d-4990-dd6a-08dd8f3bea5a
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR12MB8059.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 20:56:05.6502
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: mr2ysVpzxISoVj+04H5Fa2NP2uMHdDw366stELB6v3mEip2sJwPGlJ7Ci05YG3/8IF1QduzZnfj0K0Bw5Ns/0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6834
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250422113156.575971-3-eugen.hristev@linaro.org>
 
+On Tue, Apr 22, 2025 at 02:31:44PM +0300, Eugen Hristev wrote:
+> Kmemdump mechanism allows any driver to mark a specific memory area
 
+I know naming is a hard problem, but "kmemdump" sounds to me like a
+mechanism where the kernel does the memory dumping - and in contrast to
+existing mechanisms, that's not what this does.
 
-On 5/6/2025 12:26 PM, Zhi Wang wrote:
-> On Sat,  3 May 2025 00:07:56 -0400
-> Joel Fernandes <joelagnelf@nvidia.com> wrote:
+> for later dumping purpose, depending on the functionality
+> of the attached backend. The backend would interface any hardware
+> mechanism that will allow dumping to complete regardless of the
+> state of the kernel (running, frozen, crashed, or any particular
+> state).
 > 
->> Add explanation of fwsec with diagrams. This helps clarify how the
->> nova-core falcon boot works.
->>
->> Signed-off-by: Joel Fernandes <joelagnelf@nvidia.com>
->> ---
->>  Documentation/gpu/nova/core/fwsec.rst | 180
->> ++++++++++++++++++++++++++ Documentation/gpu/nova/index.rst      |
->> 1 + 2 files changed, 181 insertions(+)
->>  create mode 100644 Documentation/gpu/nova/core/fwsec.rst
->>
->> diff --git a/Documentation/gpu/nova/core/fwsec.rst
->> b/Documentation/gpu/nova/core/fwsec.rst new file mode 100644
->> index 000000000000..bed941ac3f2b
->> --- /dev/null
->> +++ b/Documentation/gpu/nova/core/fwsec.rst
->> @@ -0,0 +1,180 @@
->> +.. SPDX-License-Identifier: (GPL-2.0+ OR MIT)
->> +=========================
->> +FWSEC (Firmware Security)
->> +=========================
->> +This document briefly/conceptually describes the FWSEC (Firmware
->> Security) image +and its role in the GPU boot sequence. As such, this
->> information is subject to +change in the future and is only current
->> as of the Ampere GPU family. However, +hopefully the concepts
->> described will be useful for understanding the kernel code +that
->> deals with it. All the information is derived from publicly available
->> +sources such as public drivers and documentation. +
->> +The role of FWSEC to provide secure boot, it is running in
->> Heavy-secure mode. It does +firmware verification after GPU reset and
->> load various ucode images on to the other +microcontrollers on the
->> GPU such as the PMU and GSP. +
->> +FWSEC itself is an application stored in the VBIOS ROM in the FWSEC
->> partition of +ROM (see vbios.rst for more details). It contains
->> different commands like FRTS +(Firmware Runtime Services) and SB
->> (Secure Booting other microcontrollers after +reset and loading them
->> with other non-FWSEC ucode). The kernel driver only needs to +to do
->> FRTS, since SB is already already after reset by the time the kernel
->> driver +is loaded. +
->> +The FRTS command carves out the WPR2 region (Write protected region)
->> which contains +data data required for power management. Once setup,
->
-> repetitive word "data" ^
->
+> Signed-off-by: Eugen Hristev <eugen.hristev@linaro.org>
+> ---
+>  drivers/Kconfig          |   2 +
+>  drivers/Makefile         |   2 +
+>  drivers/debug/Kconfig    |  16 ++++
+>  drivers/debug/Makefile   |   3 +
+>  drivers/debug/kmemdump.c | 185 +++++++++++++++++++++++++++++++++++++++
+>  include/linux/kmemdump.h |  52 +++++++++++
+>  6 files changed, 260 insertions(+)
+>  create mode 100644 drivers/debug/Kconfig
+>  create mode 100644 drivers/debug/Makefile
+>  create mode 100644 drivers/debug/kmemdump.c
+>  create mode 100644 include/linux/kmemdump.h
+> 
+> diff --git a/drivers/Kconfig b/drivers/Kconfig
+> index 7bdad836fc62..ef56588f559e 100644
+> --- a/drivers/Kconfig
+> +++ b/drivers/Kconfig
+> @@ -245,4 +245,6 @@ source "drivers/cdx/Kconfig"
+>  
+>  source "drivers/dpll/Kconfig"
+>  
+> +source "drivers/debug/Kconfig"
+> +
+>  endmenu
+> diff --git a/drivers/Makefile b/drivers/Makefile
+> index 45d1c3e630f7..cf544a405007 100644
+> --- a/drivers/Makefile
+> +++ b/drivers/Makefile
+> @@ -195,3 +195,5 @@ obj-$(CONFIG_CDX_BUS)		+= cdx/
+>  obj-$(CONFIG_DPLL)		+= dpll/
+>  
+>  obj-$(CONFIG_S390)		+= s390/
+> +
+> +obj-y				+= debug/
+> diff --git a/drivers/debug/Kconfig b/drivers/debug/Kconfig
+> new file mode 100644
+> index 000000000000..22348608d187
+> --- /dev/null
+> +++ b/drivers/debug/Kconfig
+> @@ -0,0 +1,16 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +menu "Generic Driver Debug Options"
+> +
+> +config DRIVER_KMEMDUMP
+> +	bool "Allow drivers to register memory for dumping"
 
-Fixed, thanks!
+You use kmemdump in non-driver code as well.
 
- - Joel
+> +	help
+> +	  Kmemdump mechanism allows any driver to mark a specific memory area
 
+I think it would be better to express this as "register specific memory
+areas with kmemdump for dumping" - you're not really marking any
+memory...
+
+> +	  for later dumping purpose, depending on the functionality
+> +	  of the attached backend. The backend would interface any hardware
+> +	  mechanism that will allow dumping to complete regardless of the
+> +	  state of the kernel (running, frozen, crashed, or any particular
+> +	  state).
+> +
+> +	  Note that modules using this feature must be rebuilt if option
+> +	  changes.
+
+While true, hopefully no human should be needed to act upon this fact?
+
+> +endmenu
+> diff --git a/drivers/debug/Makefile b/drivers/debug/Makefile
+> new file mode 100644
+> index 000000000000..cc14dea250e3
+> --- /dev/null
+> +++ b/drivers/debug/Makefile
+> @@ -0,0 +1,3 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +
+> +obj-$(CONFIG_DRIVER_KMEMDUMP) += kmemdump.o
+> diff --git a/drivers/debug/kmemdump.c b/drivers/debug/kmemdump.c
+> new file mode 100644
+> index 000000000000..a685c0863e25
+> --- /dev/null
+> +++ b/drivers/debug/kmemdump.c
+> @@ -0,0 +1,185 @@
+> +// SPDX-License-Identifier: GPL-2.0
+> +
+> +#include <linux/device.h>
+> +#include <linux/errno.h>
+> +#include <linux/module.h>
+> +#include <linux/kmemdump.h>
+> +#include <linux/idr.h>
+> +
+> +#define MAX_ZONES 512
+
+Why is this 512?
+
+Seems this depend on the backend, in which case 512 is unlikely to be
+the choosen limit.
+
+> +
+> +static struct kmemdump_backend *backend;
+> +static DEFINE_IDR(kmemdump_idr);
+> +static DEFINE_MUTEX(kmemdump_lock);
+> +static LIST_HEAD(kmemdump_list);
+> +
+> +/**
+> + * kmemdump_register() - Register region into kmemdump.
+> + * @handle: string of maximum 8 chars that identifies this region
+> + * @zone: pointer to the zone of memory
+> + * @size: region size
+> + *
+> + * Return: On success, it returns an allocated unique id that can be used
+> + *	at a later point to identify the region. On failure, it returns
+> + *	negative error value.
+
+You can say this more succinctly, something like:
+
+Return: "unique id for the zone, or negative errno on failure"
+
+> + */
+> +int kmemdump_register(char *handle, void *zone, size_t size)
+> +{
+> +	struct kmemdump_zone *z = kzalloc(sizeof(*z), GFP_KERNEL);
+> +	int id;
+> +
+> +	if (!z)
+> +		return -ENOMEM;
+> +
+> +	mutex_lock(&kmemdump_lock);
+> +
+> +	id = idr_alloc_cyclic(&kmemdump_idr, z, 0, MAX_ZONES, GFP_KERNEL);
+> +	if (id < 0) {
+> +		mutex_unlock(&kmemdump_lock);
+> +		return id;
+
+A goto out_unlock; seems reasonable here and below.
+
+And you're leaking 'z'
+
+> +	}
+> +
+> +	if (!backend)
+> +		pr_debug("kmemdump backend not available yet, waiting...\n");
+
+"waiting" tells me that we're waiting here, but you're "deferring".
+
+> +
+> +	z->zone = zone;
+> +	z->size = size;
+> +	z->id = id;
+> +
+> +	if (handle)
+> +		strscpy(z->handle, handle, 8);
+
+Isn't the 8 optional, given that z->handle is a statically sized array?
+
+> +
+> +	if (backend) {
+> +		int ret;
+> +
+> +		ret = backend->register_region(id, handle, zone, size);
+> +		if (ret) {
+> +			mutex_unlock(&kmemdump_lock);
+> +			return ret;
+> +		}
+> +		z->registered = true;
+> +	}
+> +
+> +	mutex_unlock(&kmemdump_lock);
+> +	return id;
+> +}
+> +EXPORT_SYMBOL_GPL(kmemdump_register);
+> +
+> +/**
+> + * kmemdump_unregister() - Unregister region from kmemdump.
+> + * @id: unique id that was returned when this region was successfully
+> + *	registered initially.
+> + *
+> + * Return: None
+> + */
+> +void kmemdump_unregister(int id)
+> +{
+> +	struct kmemdump_zone *z;
+> +
+> +	mutex_lock(&kmemdump_lock);
+> +
+> +	z = idr_find(&kmemdump_idr, id);
+> +	if (!z)
+> +		return;
+
+You forgot to unlock &kmemdump_lock.
+
+> +	if (z->registered && backend)
+> +		backend->unregister_region(z->id);
+> +
+> +	idr_remove(&kmemdump_idr, id);
+> +	kfree(z);
+> +
+> +	mutex_unlock(&kmemdump_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(kmemdump_unregister);
+> +
+> +static int kmemdump_register_fn(int id, void *p, void *data)
+> +{
+> +	struct kmemdump_zone *z = p;
+> +	int ret;
+> +
+> +	if (z->registered)
+> +		return 0;
+> +
+> +	ret = backend->register_region(z->id, z->handle, z->zone, z->size);
+> +	if (ret)
+> +		return ret;
+> +	z->registered = true;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * kmemdump_register_backend() - Register a backend into kmemdump.
+> + * Only one backend is supported at a time.
+> + * @be: Pointer to a driver allocated backend. This backend must have
+> + *	two callbacks for registering and deregistering a zone from the
+> + *	backend.
+> + *
+> + * Return: On success, it returns 0, negative error value otherwise.
+> + */
+> +int kmemdump_register_backend(struct kmemdump_backend *be)
+> +{
+> +	mutex_lock(&kmemdump_lock);
+> +
+> +	if (backend)
+> +		return -EALREADY;
+
+unlock
+
+> +
+> +	if (!be || !be->register_region || !be->unregister_region)
+> +		return -EINVAL;
+
+unlock
+
+
+Although neither one of these cases actually need to be handled under
+the lock.
+
+> +
+> +	backend = be;
+> +	pr_info("kmemdump backend %s registered successfully.\n",
+
+pr_debug() is probably enough.
+
+> +		backend->name);
+> +
+> +	/* Try to call the backend for all previously requested zones */
+> +	idr_for_each(&kmemdump_idr, kmemdump_register_fn, NULL);
+> +
+> +	mutex_unlock(&kmemdump_lock);
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(kmemdump_register_backend);
+> +
+> +static int kmemdump_unregister_fn(int id, void *p, void *data)
+> +{
+> +	int ret;
+> +	struct kmemdump_zone *z = p;
+> +
+> +	if (!z->registered)
+> +		return 0;
+> +
+> +	ret = backend->unregister_region(z->id);
+> +	if (ret)
+> +		return ret;
+> +	z->registered = false;
+> +
+> +	return 0;
+> +}
+> +
+> +/**
+> + * kmemdump_register_backend() - Unregister the backend from kmemdump.
+> + * Only one backend is supported at a time.
+> + * Before deregistering, this will call the backend to unregister all the
+> + * previously registered zones.
+
+These three lines seems more suitable below the argument definitions.
+
+> + * @be: Pointer to a driver allocated backend. This backend must match
+> + *	the initially registered backend.
+> + *
+> + * Return: None
+> + */
+> +void kmemdump_unregister_backend(struct kmemdump_backend *be)
+> +{
+> +	mutex_lock(&kmemdump_lock);
+> +
+> +	if (backend != be) {
+> +		mutex_unlock(&kmemdump_lock);
+> +		return;
+> +	}
+> +
+> +	/* Try to call the backend for all previously requested zones */
+> +	idr_for_each(&kmemdump_idr, kmemdump_unregister_fn, NULL);
+> +
+> +	backend = NULL;
+> +	pr_info("kmemdump backend %s removed successfully.\n", be->name);
+
+pr_debug()
+
+> +
+> +	mutex_unlock(&kmemdump_lock);
+> +}
+> +EXPORT_SYMBOL_GPL(kmemdump_unregister_backend);
+> diff --git a/include/linux/kmemdump.h b/include/linux/kmemdump.h
+> new file mode 100644
+> index 000000000000..b55b15c295ac
+> --- /dev/null
+> +++ b/include/linux/kmemdump.h
+> @@ -0,0 +1,52 @@
+> +/* SPDX-License-Identifier: GPL-2.0-only */
+> +#ifndef _KMEMDUMP_H
+> +#define _KMEMDUMP_H
+> +
+> +#define KMEMDUMP_ZONE_MAX_HANDLE 8
+> +/**
+> + * struct kmemdump_zone - region mark zone information
+> + * @id: unique id for this zone
+> + * @zone: pointer to the memory area for this zone
+> + * @size: size of the memory area of this zone
+> + * @registered: bool indicating whether this zone is registered into the
+> + *	backend or not.
+> + * @handle: a string representing this region
+> + */
+> +struct kmemdump_zone {
+
+It seems this is the internal-only representation of the zones and isn't
+part of the API (in either direction). Better move it into the
+implementation.
+
+> +	int id;
+> +	void *zone;
+> +	size_t size;
+> +	bool registered;
+> +	char handle[KMEMDUMP_ZONE_MAX_HANDLE];
+> +};
+> +
+> +#define KMEMDUMP_BACKEND_MAX_NAME 128
+> +/**
+> + * struct kmemdump_backend - region mark backend information
+> + * @name: the name of the backend
+> + * @register_region: callback to register region in the backend
+> + * @unregister_region: callback to unregister region in the backend
+> + */
+> +struct kmemdump_backend {
+> +	char name[KMEMDUMP_BACKEND_MAX_NAME];
+> +	int (*register_region)(unsigned int id, char *, void *, size_t);
+> +	int (*unregister_region)(unsigned int id);
+> +};
+> +
+> +#ifdef CONFIG_DRIVER_KMEMDUMP
+> +int kmemdump_register(char *handle, void *zone, size_t size);
+> +void kmemdump_unregister(int id);
+> +#else
+> +static inline int kmemdump_register(char *handle, void *area, size_t size)
+> +{
+> +	return 0;
+> +}
+> +
+> +static inline void kmemdump_unregister(int id)
+> +{
+> +}
+> +#endif
+> +
+> +int kmemdump_register_backend(struct kmemdump_backend *backend);
+> +void kmemdump_unregister_backend(struct kmemdump_backend *backend);
+
+These two functions are defined in kmemdump.c which is only built if
+CONFIG_DRIVER_KMEMDUMP=y, so shouldn't they be defined under the guard
+as well?
+
+Regards,
+Bjorn
+
+> +#endif
+> -- 
+> 2.43.0
+> 
