@@ -1,166 +1,127 @@
-Received: from out-172.mta1.migadu.com (out-172.mta1.migadu.com [95.215.58.172])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f66.google.com (mail-wm1-f66.google.com [209.85.128.66])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1A6D722B8C5;
-	Fri,  9 May 2025 18:09:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=95.215.58.172
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7E40023CF12
+	for <linux-doc@vger.kernel.org>; Fri,  9 May 2025 18:41:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746814199; cv=none; b=Q1NtHPRkre8ryUKjGna8UlS6k0o/NV2nn/JAlhw1ZWwQxKRKNqMKofyMQGCy5tNYWmSToj4Fua3Kc3CNFoRKV2mRXTIPGfQ0jtkSoT94tQZ89j4nZAcFvLa+le11gP+/CfqBsF5xbB0KS/fLMJOX3qkBV1lreR58bD1g1BNaQXY=
+	t=1746816072; cv=none; b=Q6HpM++jkR+SPuRjfdOdqLfhFPqUShP+yLPec+354lRPFdlpL6/uSpJHIfek2vXQTaMCUv9zFaZwVuOgeOUraLKU0N3eFjYx+WcURqieDM1GXIqjciWUbIcHHd1EmTsk5Bl2/v0vSQfDGa1YG0JA/9Qku0MBvZIIZoJagW4Lu2o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746814199; c=relaxed/simple;
-	bh=NVAQxVyOoG9FX0y6Y2rJq7+QOyDoipjbegh4hKfM6Ok=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HSxJ1kpi+s2oDh7zdnlJsFVb17AGm8NLY4/SwUVGdirN2ZpKUXBvYTuG2Xi59tIRQ/Lvo6ST/sLkaRl7JSdD575ohaMq105CenIPCpQl6vht8b9Mr3iUw8Y5O7CSGIPFefCFakCDh1NN6s9PV4l9u3BCKG8MjtFdN/XKKMz1fuc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=QmAOyYPC; arc=none smtp.client-ip=95.215.58.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1746816072; c=relaxed/simple;
+	bh=LgF5BtBmfpeEAq5nMJcPYE0NWNHuMEL3cucPPBu6hWI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=XA6JTK54U8JtaGNJC2Oo7n61Q4DLCwrFniP12XD28hDMRWBQ8+mzOREiLZEEwyuDYrrO9Nm6i/CkGI4w6X/IeDng7Y/fbrCpz1fDGMJL3QKnl4UxZH4uBob7djOa7At66ww8IrLTAwbvTH2ontkgiKFU1aRHdrQmikPR4ZQzqEA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com; spf=pass smtp.mailfrom=ionos.com; dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b=C6Cf05nh; arc=none smtp.client-ip=209.85.128.66
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=ionos.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ionos.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="QmAOyYPC"
-Message-ID: <87b2eade-acda-428e-81af-d4927e517ebe@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746814184;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=URPGJAItur5ro86msDKguo+AsJb0M+Qreyerm9JUIhE=;
-	b=QmAOyYPC6u20ITPaBw6Ha8aJZ5SkuvYHSBzdZn+LukNn9N+RF2l6kZWl4i8HY2iN8xSa3/
-	tRR0b2Vwb3FURyyvyNGCNFznDS++FHxCJiarEuklu+4bAraa+0PNDh4WOi8CnQ/hVnXHkT
-	cQd2oib4+zm6/z7aTg3m38NqWDWGL6E=
-Date: Fri, 9 May 2025 11:09:18 -0700
+	dkim=pass (2048-bit key) header.d=ionos.com header.i=@ionos.com header.b="C6Cf05nh"
+Received: by mail-wm1-f66.google.com with SMTP id 5b1f17b1804b1-43d2d952eb1so17481795e9.1
+        for <linux-doc@vger.kernel.org>; Fri, 09 May 2025 11:41:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ionos.com; s=google; t=1746816068; x=1747420868; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=J7xH+8c9IQ/eMw6xixEvFtV7xITokTNj2ogMwiKa5uM=;
+        b=C6Cf05nhNCJjbvEsVYuE5aFzTaeikmpl8ajkagMnTkI5oj7x4jZjQC1xMR1FkikHul
+         u92mm8Jx4qtLBbDUbYqxx4MK1kjM4kkcvUTiYHBQN/G+jYp7PYJ4gkJ0OgLjqE/TArDE
+         vpI9oPB+O5H0+BJsPRAa17z6O3r+Cm6yILTwDbhXpetZdAGInOSlPnO+oxJAlFj9PO4c
+         Bgoj4v7EPMNg8oDl29EWUncW3KmI0gJN3iKHmad7JKYo8aeHiXJWKpYmhnp2UbtiSsOU
+         MBnd9aNPtKxu03jgoG40f45VK8dZHkPwYccLh4SMco+Xay6A/EF1IIy4lflaMhR+UhEx
+         aNIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746816068; x=1747420868;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=J7xH+8c9IQ/eMw6xixEvFtV7xITokTNj2ogMwiKa5uM=;
+        b=c2nj7eUJRfDF+lmTDEZUFqJVcn65hUsUG4NSceb3gQFWatbEDx3lS+MRjfRaJN2iqY
+         UtiOhMdY5bUDTTMeG1WdP4tmTuRsLuIb+mZQhrPHYB7uSfHRwcknksyuQkWNXQQ9y9Kd
+         3cuvxJt5id/S8VtJY5vVQ/91h57xJ6fEUe1teZ+4HlHQ/DgVtaUWs4ad41COdyaSmsqT
+         XoMAtupioJKO4u/ZICl4TUk/Gf3qw8U28ylFOWs4YLEyze10wlswEQIQWqpHzib2IHGu
+         L7Y4X65XXqcYNbUqSHFB64gWVQP3XdS8zcpR3nzKZIG4/c1g5Rm9Ek2xB98LN+S3Ju9b
+         VazQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVGr9N2t3ZzS/SndoiudC9/990/IQjUZSJsANZlagdp/5zJ+8rzvLnMLNFKn/dNDv7xSLTLfjnqzK4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGmIO6wtXw49obtHATZFJESZ4JpTtj230i/ICWPqttIJxgvKyS
+	gEHNI6S5FIxJ81ygU/e/gWVrjDj83dFYKQsbtfJcPvcGlDj8H5mQYqX329tHw0Y=
+X-Gm-Gg: ASbGnctbOtX9K1El964bdBlG3wusbGE0+M0xlF+IfoHun5KwE5/8m2FTsXwdkNbFfzS
+	QRE1Nr9BXsgDw6oBadZ4yF0RmPtrG+9BxvdPR9+nmZT48aZE3lfBrPFcvFC7XsLlLuOhZiiMGH+
+	CMFhZsDNyoSlw2Ut88a+XaHk+n391tehHVfBpdP6dQkSZt9bU6dWaIaBInH4ZX9qt12uRjZ7tyv
+	TTEI8nrdPvd+ZGTktbno+jVlNV6FYwlrmtjGjL2VTIXTiCEBL2KT6701Wi7fmdMS42MB+KwiaHJ
+	s3ulbHySAtJlPaUfyS9zqEgsNv8zqcBxQwKDC9AWn2hCiscVodND6OFtqAQI8J/c9N6VVxzWkg0
+	HRSR5t0neBGd3kqGnSdF+LOaUOZj0knMnXCmJCdKVoekcA/2vb/9RAT4nbV21xA==
+X-Google-Smtp-Source: AGHT+IEzxzujGMd8NyxttjwFQjGc0xzB3QFdRjoydO8AuIWtcO29Kaq/G1I0ZFKFFTLzQq0b8NjSHA==
+X-Received: by 2002:a05:600c:3b85:b0:43b:c5a3:2e1a with SMTP id 5b1f17b1804b1-442d6d11fdemr38097465e9.2.1746816067774;
+        Fri, 09 May 2025 11:41:07 -0700 (PDT)
+Received: from raven.intern.cm-ag (p200300dc6f46c100023064fffe740809.dip0.t-ipconnect.de. [2003:dc:6f46:c100:230:64ff:fe74:809])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442d67df5ecsm37756915e9.9.2025.05.09.11.41.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 May 2025 11:41:07 -0700 (PDT)
+From: Max Kellermann <max.kellermann@ionos.com>
+To: ebiederm@xmission.com,
+	serge@hallyn.com,
+	paul@paul-moore.com,
+	jmorris@namei.org,
+	linux-security-module@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Cc: Max Kellermann <max.kellermann@ionos.com>
+Subject: [PATCH] Documentation/no_new_privs.rst: document dropping effective ids
+Date: Fri,  9 May 2025 20:41:05 +0200
+Message-ID: <20250509184105.840928-1-max.kellermann@ionos.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <87h61t7siv.fsf@email.froward.int.ebiederm.org>
+References: <87h61t7siv.fsf@email.froward.int.ebiederm.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 14/14] RISC-V: KVM: add support for
- SBI_FWFT_MISALIGNED_DELEG
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org
-Cc: Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
-References: <20250424173204.1948385-1-cleger@rivosinc.com>
- <20250424173204.1948385-15-cleger@rivosinc.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Atish Patra <atish.patra@linux.dev>
-In-Reply-To: <20250424173204.1948385-15-cleger@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
 
-On 4/24/25 10:32 AM, ClÃ©ment LÃ©ger wrote:
-> SBI_FWFT_MISALIGNED_DELEG needs hedeleg to be modified to delegate
-> misaligned load/store exceptions. Save and restore it during CPU
-> load/put.
-> 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->   arch/riscv/kvm/vcpu.c          |  3 +++
->   arch/riscv/kvm/vcpu_sbi_fwft.c | 36 ++++++++++++++++++++++++++++++++++
->   2 files changed, 39 insertions(+)
-> 
-> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
-> index 542747e2c7f5..d98e379945c3 100644
-> --- a/arch/riscv/kvm/vcpu.c
-> +++ b/arch/riscv/kvm/vcpu.c
-> @@ -646,6 +646,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->   {
->   	void *nsh;
->   	struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
-> +	struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
->   
->   	vcpu->cpu = -1;
->   
-> @@ -671,6 +672,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->   		csr->vstval = nacl_csr_read(nsh, CSR_VSTVAL);
->   		csr->hvip = nacl_csr_read(nsh, CSR_HVIP);
->   		csr->vsatp = nacl_csr_read(nsh, CSR_VSATP);
-> +		cfg->hedeleg = nacl_csr_read(nsh, CSR_HEDELEG);
->   	} else {
->   		csr->vsstatus = csr_read(CSR_VSSTATUS);
->   		csr->vsie = csr_read(CSR_VSIE);
-> @@ -681,6 +683,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->   		csr->vstval = csr_read(CSR_VSTVAL);
->   		csr->hvip = csr_read(CSR_HVIP);
->   		csr->vsatp = csr_read(CSR_VSATP);
-> +		cfg->hedeleg = csr_read(CSR_HEDELEG);
+Usually, execve() preserves the effective ids.  Many programs rely on
+this to detect setuid/setgid execution and will disable certain
+features (such as rejecting certain user input / environment
+variables).
 
-Can we avoid saving hedeleg in vcpu_put path by updating the 
-cfg->hedeleg in kvm_sbi_fwft_set_misaligned_delegation.
+However, if NO_NEW_PRIVS is set, effective ids are always reset by
+cap_bprm_creds_from_file(), but capabilities are not revoked.  That
+means the process looks like it's not setuid/setgid, but has full
+capabilities, and is effectively a superuser process.  This breaks
+userspace assumptions.
 
-We already update the hedeleg in vcpu_load path from cfg->hedeleg.
-If the next vcpu did not enable delegation it will get the correct 
-config written to hedeleg.
+It was argued [1] that this surprising behavior must not change
+because programs might rely on it:
 
-This will save us a csr read cost in each VM exit path for something 
-that is probably configured once in guest life time.
+Of course, this leaves many programs vulnerable, but if we decide the
+behavior must remain, we should at least document it with a warning.
 
->   	}
->   }
->   
-> diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> index b0f66c7bf010..d16ee477042f 100644
-> --- a/arch/riscv/kvm/vcpu_sbi_fwft.c
-> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> @@ -14,6 +14,8 @@
->   #include <asm/kvm_vcpu_sbi.h>
->   #include <asm/kvm_vcpu_sbi_fwft.h>
->   
-> +#define MIS_DELEG (BIT_ULL(EXC_LOAD_MISALIGNED) | BIT_ULL(EXC_STORE_MISALIGNED))
-> +
->   struct kvm_sbi_fwft_feature {
->   	/**
->   	 * @id: Feature ID
-> @@ -68,7 +70,41 @@ static bool kvm_fwft_is_defined_feature(enum sbi_fwft_feature_t feature)
->   	return false;
->   }
->   
-> +static bool kvm_sbi_fwft_misaligned_delegation_supported(struct kvm_vcpu *vcpu)
-> +{
-> +	return misaligned_traps_can_delegate();
-> +}
-> +
-> +static long kvm_sbi_fwft_set_misaligned_delegation(struct kvm_vcpu *vcpu,
-> +					struct kvm_sbi_fwft_config *conf,
-> +					unsigned long value)
-> +{
-> +	if (value == 1)
-> +		csr_set(CSR_HEDELEG, MIS_DELEG);
-> +	else if (value == 0)
-> +		csr_clear(CSR_HEDELEG, MIS_DELEG);
-> +	else
-> +		return SBI_ERR_INVALID_PARAM;
-> +
-> +	return SBI_SUCCESS;
-> +}
-> +
-> +static long kvm_sbi_fwft_get_misaligned_delegation(struct kvm_vcpu *vcpu,
-> +					struct kvm_sbi_fwft_config *conf,
-> +					unsigned long *value)
-> +{
-> +	*value = (csr_read(CSR_HEDELEG) & MIS_DELEG) == MIS_DELEG;
-> +
-> +	return SBI_SUCCESS;
-> +}
-> +
->   static const struct kvm_sbi_fwft_feature features[] = {
-> +	{
-> +		.id = SBI_FWFT_MISALIGNED_EXC_DELEG,
-> +		.supported = kvm_sbi_fwft_misaligned_delegation_supported,
-> +		.set = kvm_sbi_fwft_set_misaligned_delegation,
-> +		.get = kvm_sbi_fwft_get_misaligned_delegation,
-> +	},
->   };
->   
->   static struct kvm_sbi_fwft_config *
+[1] https://lore.kernel.org/lkml/87h61t7siv.fsf@email.froward.int.ebiederm.org/
+
+Signed-off-by: Max Kellermann <max.kellermann@ionos.com>
+---
+ Documentation/userspace-api/no_new_privs.rst | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/Documentation/userspace-api/no_new_privs.rst b/Documentation/userspace-api/no_new_privs.rst
+index d060ea217ea1..89b0884991e9 100644
+--- a/Documentation/userspace-api/no_new_privs.rst
++++ b/Documentation/userspace-api/no_new_privs.rst
+@@ -29,6 +29,12 @@ bits will no longer change the uid or gid; file capabilities will not
+ add to the permitted set, and LSMs will not relax constraints after
+ execve.
+ 
++A successful execve call with ``no_new_privs`` will reset the
++effective uid/gid to the real uid/gid, but does not drop capabilities.
++This means that comparing effective and real ids is not a valid method
++to detect setuid/setgid execution; the proper way to do that is
++getauxval(AT_SECURE).
++
+ To set ``no_new_privs``, use::
+ 
+     prctl(PR_SET_NO_NEW_PRIVS, 1, 0, 0, 0);
+-- 
+2.47.2
 
