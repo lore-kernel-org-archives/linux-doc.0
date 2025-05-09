@@ -1,217 +1,96 @@
-Received: from mail-ej1-f51.google.com (mail-ej1-f51.google.com [209.85.218.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B7DBD222595
-	for <linux-doc@vger.kernel.org>; Fri,  9 May 2025 15:19:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 699CD23314B;
+	Fri,  9 May 2025 15:59:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746803985; cv=none; b=W3E9138beegqBhwzP87d6wF55MGJcMSIrbPwBGVuhN0MfivbD23+GOtlgf5EzRtkxjTvqwqSbNHP0jHK78285XuAGtPZXbpS0krG2kO8ScvX0SlORugaaCip4VRmlsm8yyH3P0dEcnPh6zZmdoSORFByA27SWHKlcILlHsTVt6A=
+	t=1746806366; cv=none; b=QxLkHhQbDDIoyi56dttgIaaArpYZaVtUovJaBcZZs3SzU7S4KkQqiQ3+vbCU+oPT4n1DM+g+gIsFMvTCN9ZehrnxfHlv4MyI4PRm50QW2B9NXeCD7Gxuoq5RRjA4ZWoi4rLQUzOejaNsxzTcO2wVLBOZvKwlBcZ8s3tqGDzIqMA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746803985; c=relaxed/simple;
-	bh=m8aROJFjpKUVyoRqALJjh1WRQTPMz0f/huyI4HbWrnE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=NLrX81sdTUh96u9OsIS+FS8pHhjzjrOSYPj8W8CdlX0VONP5fmoF0kBqUmuuuvPx1YUKcyVh6f54NTu92Sxic7JnQvDymhPldA0msqvuZyXHnmY9ZmD1wAelLdGCuTE+dpjrZTGNROzI+9VtblyJCVZX4dpegRDvUc8sHQiJqfI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=dNiRD6Ga; arc=none smtp.client-ip=209.85.218.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="dNiRD6Ga"
-Received: by mail-ej1-f51.google.com with SMTP id a640c23a62f3a-ace3b03c043so359194066b.2
-        for <linux-doc@vger.kernel.org>; Fri, 09 May 2025 08:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1746803982; x=1747408782; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=piveaIt51APJH/cy/5pKer1njMs8SNMZ9Efypy4VJ1I=;
-        b=dNiRD6GaI77D5dW6OOZQ4/6JdA7T9ukKMjthTX0yONwvPcRqTCnkz9DgmE8funeHNk
-         elFJBjzITJsuXnqUddYp3esGhRKDDiJfTlVLiswUR1oz4KYO0imArHdy69twLlYJSuae
-         P8x/dSVTNjFObmRURW0sknerC7BK2cb+USvos4DHX49RWex5wfwpjaRuCLnYH9tt1nxY
-         fpnYwYvMUpfs2QjKamYzbfDqDs7k4bZZR8JW4iWyuqmrMXUPh+0WWrAJNfw0FfICGDBY
-         ARrEUpLNbeZuyoFok1YOSq4jvwYnJeMK6nacKci/IAoI96EcSw/b4G38SJQMcMYBV81y
-         uA5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746803982; x=1747408782;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=piveaIt51APJH/cy/5pKer1njMs8SNMZ9Efypy4VJ1I=;
-        b=gWCwtZAh8Mq9HjBRyEiR34t5XX1zUvEJt5dxdzqJbE+NVkqkJYk/5Q3WVc1z3NtXax
-         wb1gTZVWp66j5xTRNcnNYwrlVFyAtkIOadKT/sgXTo7fBdcsCx+H8GRTudaRkTfLTgmf
-         5NPnZU2msSbpfjc101ocpQAM129vjLJbNOuq6pNzg6snC2CDqIEXGVKeN2BiMfyG1gvi
-         Nv8aGYX6OLAvI/7ws3VVhge5yrAMwm9cWny4rlYkSXPlfqRyk5XRcpVgqrLiSY6+VLQ2
-         1R1Fb1L0jXMX5uoFHlNfpB3HyyjxJE/9XX4sbiiygZgXRzktK8u+5UO5lxLOYgwgTiLf
-         paxA==
-X-Forwarded-Encrypted: i=1; AJvYcCWnYcO6XvEYx0UpmQO8uMGO8EIuvASlH6FOXcbyvFOOQr9WirIACrlzjZDE9z5mmMYqvrXLMyAeB1M=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw+tZkpSuAjov5pcCpza0Nu/9ywEDH9YPCxtRZu22UX77MquRZu
-	BoXTwnP+Zqq28/6oP+1Nr3ZBwdgrC8auAwl8lKkVfEkDpskaRuPICLK57QDPHZo=
-X-Gm-Gg: ASbGncuZa9mSElNUwlywLd9qp6NKdHKRinhm4ZTystrC7tmvsXf4lYpzyikvAvw+djL
-	uxGNcbCnzXGKVYiwOyN+0HhYo2hn8J4DzzFVgECF08whykwyhPFEJxUMt0wH73+MjdPgNjV9fHt
-	c5a7apVUsjla7913ozZ027VzfB86+wTgsaYU35WiHl4ZasfdURloZFq3KE+TPsNGAr3C+zdQiFd
-	dZib93sot8SOK1Tbi1/iWeSN70O3BrNvOT4d7rGd9Zaj8V7u3gHvxtgDwTJHS5QjWoPEBWKzZ6o
-	NEw5JNZfOH1zKtw4WF5cTsBk5FEUgO5WHwu4kTLgzrCHJ9vf
-X-Google-Smtp-Source: AGHT+IHT7wYtfS2u3TlvINr8fJyTrH7JNqE175qLt+rBrEgAFEQwhYwKbs1ehus30wxqNmhfrYAvHA==
-X-Received: by 2002:a17:907:a2cd:b0:ace:caff:675a with SMTP id a640c23a62f3a-ad218e47c9bmr314645166b.10.1746803981845;
-        Fri, 09 May 2025 08:19:41 -0700 (PDT)
-Received: from [192.168.0.32] ([82.76.24.202])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad2197bd4d3sm164125066b.132.2025.05.09.08.19.40
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 09 May 2025 08:19:41 -0700 (PDT)
-Message-ID: <26cc3478-8f65-44bb-8ebe-24a28a858dab@linaro.org>
-Date: Fri, 9 May 2025 18:19:40 +0300
+	s=arc-20240116; t=1746806366; c=relaxed/simple;
+	bh=LVbe8NaiNwFmsU6alsTBr36nsp6BgvkDwyvbLPLKG8M=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=b+Vunv6AAs4qQJD0YbnYc5ORxzH+Rpq+8ncl3QC1BlcIhJZqZDxFXR7ScZYl+y/HOdrHm12j3Lr+fbBsuRYy/nQ0/hxeDF9W83/2/7KauPhE0yEsda80oazg4rkwgfWuqxLXYby9jAHmk1ZOWby4xPjDmLDHJ0bSZm50km7ELec=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 211D3C4CEE4;
+	Fri,  9 May 2025 15:59:20 +0000 (UTC)
+Date: Fri, 9 May 2025 16:59:18 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Will Deacon <will@kernel.org>
+Cc: Ryan Roberts <ryan.roberts@arm.com>,
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
+	suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
+	jean-philippe@linaro.org, robin.murphy@arm.com, joro@8bytes.org,
+	akpm@linux-foundation.org, paulmck@kernel.org, mark.rutland@arm.com,
+	joey.gouly@arm.com, maz@kernel.org, james.morse@arm.com,
+	broonie@kernel.org, oliver.upton@linux.dev, baohua@kernel.org,
+	david@redhat.com, ioworker0@gmail.com, jgg@ziepe.ca,
+	nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com,
+	smostafa@google.com, kevin.tian@intel.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
+Message-ID: <aB4mVtzLaS-YCzW2@arm.com>
+References: <20250428153514.55772-2-miko.lenczewski@arm.com>
+ <20250428153514.55772-4-miko.lenczewski@arm.com>
+ <20250506142508.GB1197@willie-the-truck>
+ <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
+ <20250509134904.GA5707@willie-the-truck>
+ <9bb94fe8-d605-49b4-91f0-0ad6d527b320@arm.com>
+ <20250509142852.GA5845@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC][PATCH 00/14] introduce kmemdump
-To: Bjorn Andersson <andersson@kernel.org>
-Cc: linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- linux-doc@vger.kernel.org, corbet@lwn.net, tglx@linutronix.de,
- mingo@redhat.com, rostedt@goodmis.org, john.ogness@linutronix.de,
- senozhatsky@chromium.org, pmladek@suse.com, peterz@infradead.org,
- mojha@qti.qualcomm.com, linux-arm-kernel@lists.infradead.org,
- vincent.guittot@linaro.org, konradybcio@kernel.org,
- dietmar.eggemann@arm.com, juri.lelli@redhat.com
-References: <20250422113156.575971-1-eugen.hristev@linaro.org>
- <mtetvagzj2xltczutahqj7ijgpr3fy7ppbp5w6rmn2w2zmukux@tawhrkyoqjli>
-From: Eugen Hristev <eugen.hristev@linaro.org>
-Content-Language: en-US
-In-Reply-To: <mtetvagzj2xltczutahqj7ijgpr3fy7ppbp5w6rmn2w2zmukux@tawhrkyoqjli>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250509142852.GA5845@willie-the-truck>
 
-Hello Bjorn,
-
-On 5/7/25 19:54, Bjorn Andersson wrote:
-> On Tue, Apr 22, 2025 at 02:31:42PM +0300, Eugen Hristev wrote:
->> kmemdump is a mechanism which allows the kernel to mark specific memory
->> areas for dumping or specific backend usage.
->> Once regions are marked, kmemdump keeps an internal list with the regions
->> and registers them in the backend.
->> Further, depending on the backend driver, these regions can be dumped using
->> firmware or different hardware block.
->> Regions being marked beforehand, when the system is up and running, there
->> is no need nor dependency on a panic handler, or a working kernel that can
->> dump the debug information.
->> The kmemdump approach works when pstore, kdump, or another mechanism do not.
->> Pstore relies on persistent storage, a dedicated RAM area or flash, which
->> has the disadvantage of having the memory reserved all the time, or another
->> specific non volatile memory. Some devices cannot keep the RAM contents on
->> reboot so ramoops does not work. Some devices do not allow kexec to run
->> another kernel to debug the crashed one.
->> For such devices, that have another mechanism to help debugging, like
->> firmware, kmemdump is a viable solution.
->>
->> kmemdump can create a core image, similar with /proc/vmcore, with only
->> the registered regions included. This can be loaded into crash tool/gdb and
->> analyzed.
->> To have this working, specific information from the kernel is registered,
->> and this is done at kmemdump init time, no need for the kmemdump user to
->> do anything.
->>
->> The implementation is based on the initial Pstore/directly mapped zones
->> published as an RFC here:
->> https://lore.kernel.org/all/20250217101706.2104498-1-eugen.hristev@linaro.org/
->>
->> The back-end implementation for qcom_smem is based on the minidump
->> patch series and driver written by Mukesh Ojha, thanks:
->> https://lore.kernel.org/lkml/20240131110837.14218-1-quic_mojha@quicinc.com/
->>
->> I appreciate the feedback on this series, I know it is a longshot, and there
->> is a lot to improve, but I hope I am on the right track.
->>
->> Thanks,
->> Eugen
->>
->> PS. Here is how crash tool reports the dump:
->>
->>      KERNEL: /home/eugen/linux-minidump/vmlinux  [TAINTED]
->>     DUMPFILE: /home/eugen/eee
+On Fri, May 09, 2025 at 03:28:53PM +0100, Will Deacon wrote:
+> On Fri, May 09, 2025 at 03:16:01PM +0100, Ryan Roberts wrote:
+> > On 09/05/2025 14:49, Will Deacon wrote:
+> > > I wonder if we could treat it like an erratum in some way instead? That
+> > > is, invert things so that CPUs which _don't_ have BBML2_NOABORT are
+> > > considered to have a "BBM_CONFLICT_ABORT" erratum (which we obviously
+> > > wouldn't shout about). Then we should be able to say:
+> > > 
+> > >   - If any of the early CPUs don't have BBML2_NOABORT, then the erratum
+> > >     would be enabled and we wouln't elide BBM.
+> > > 
+> > >   - If a late CPU doesn't have BBML2_NOABORT then it can't come online
+> > >     if the erratum isn't already enabled.
+> > 
+> > That's exactly the policy that this cludge provides. But it's using the midr to
+> > check if the CPU has BBML2_NOABORT. I'm not sure I follow your point about a
+> > "BBM_CONFLICT_ABORT" erratum?
 > 
-> Can you please describe the steps taken to get acquire/generate this
-> file and how to invoke crash?
-> 
+> I was hoping that it would mean that each CPU can independently determine
+> whether or not they have the erratum and then enable it as soon as they
+> detect it. That way, there's no need to iterate over all the early cores.
 
-Thank you for looking into this.
+But then we'll still have to disable the feature if one of the early
+CPUs doesn't have it. As a local CPU feature as per the errata handling,
+the feature (bug) is advertised if at least one CPU supports it. Here we
+kind of need a combination of system (available an all early CPUs) and
+local MIDR check.
 
-Next week, on 16th of May, on Friday, there will be a talk related to
-this patch series at Linaro Connect in Lisbon. In that talk I will also
-show a demo in which all the process of acquiring the core dump and
-crash will be covered.
-I will be traveling the following days, if I get the time I will submit
-the steps as a reply to this email, if not, then for sure I will submit
-them after the talk in Lisbon.
+We might be able to work with two features - one SCOPE_SYSTEM for the
+sanitised ID reg and a _negative_ (deny-list) SCOPE_LOCAL_CPU for the
+MIDR. Or probably a single CPU-local feature, but negative, that checks
+both the ID reg and MIDR, let's call it ARM64_HAS_NO_BBML2_NOABORT. If a
+single CPU does not have the ID reg or is on the MIDR deny-list, this
+"feature" will be enabled. For late CPUs, if NO_BBML2_NOABORT has been
+enabled, they are allowed to miss it (OPTIONAL_FOR_LATE_CPU). However,
+if NO_BBML2_NOABORT is cleared, a late CPU is not allowed to have it.
 
-Eugen
+Hmm, if I got the logic right, that's what
+ARM64_CPUCAP_LOCAL_CPU_ERRATUM means but we need to negate the feature
+to disable the optimisation if at least one CPU is on the deny-list or
+missing BBML2.
 
-> Regards,
-> Bjorn
-> 
->>         CPUS: 8 [OFFLINE: 7]
->>         DATE: Thu Jan  1 02:00:00 EET 1970
->>       UPTIME: 00:00:28
->>     NODENAME: qemuarm64
->>      RELEASE: 6.14.0-rc5-next-20250303-00014-g011eb2aaf7b6-dirty
->>      VERSION: #169 SMP PREEMPT Thu Apr 17 14:12:21 EEST 2025
->>      MACHINE: aarch64  (unknown Mhz)
->>       MEMORY: 0
->>        PANIC: ""
->>
->> crash> log
->> [    0.000000] Booting Linux on physical CPU 0x0000000000 [0x410fd4b2]
->> [    0.000000] Linux version 6.14.0-rc5-next-20250303-00014-g011eb2aaf7b6-dirty (eugen@eugen-station) (aarch64-none-linux-gnu-gcc (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 13.3.1 20240614, GNU ld (Arm GNU Toolchain 13.3.Rel1 (Build arm-13.24)) 2.42.0.20240614) #169 SMP PREEMPT Thu Apr 17 14:12:21 EEST 2025
->> [    0.000000] KASLR enabled
->> [...]
->>
->> Eugen Hristev (14):
->>   Documentation: add kmemdump
->>   kmemdump: introduce kmemdump
->>   kmemdump: introduce qcom-md backend driver
->>   soc: qcom: smem: add minidump device
->>   Documentation: kmemdump: add section for coreimage ELF
->>   kmemdump: add coreimage ELF layer
->>   printk: add kmsg_kmemdump_register
->>   kmemdump: coreimage: add kmsg registration
->>   genirq: add irq_kmemdump_register
->>   kmemdump: coreimage: add irq registration
->>   panic: add panic_kmemdump_register
->>   kmemdump: coreimage: add panic registration
->>   sched: add sched_kmemdump_register
->>   kmemdump: coreimage: add sched registration
->>
->>  Documentation/debug/index.rst      |  17 ++
->>  Documentation/debug/kmemdump.rst   |  83 +++++
->>  drivers/Kconfig                    |   2 +
->>  drivers/Makefile                   |   2 +
->>  drivers/debug/Kconfig              |  39 +++
->>  drivers/debug/Makefile             |   5 +
->>  drivers/debug/kmemdump.c           | 197 ++++++++++++
->>  drivers/debug/kmemdump_coreimage.c | 293 ++++++++++++++++++
->>  drivers/debug/qcom_md.c            | 467 +++++++++++++++++++++++++++++
->>  drivers/soc/qcom/smem.c            |  10 +
->>  include/linux/irqnr.h              |   1 +
->>  include/linux/kmemdump.h           |  77 +++++
->>  include/linux/kmsg_dump.h          |   6 +
->>  include/linux/panic.h              |   1 +
->>  include/linux/sched.h              |   1 +
->>  kernel/irq/irqdesc.c               |   7 +
->>  kernel/panic.c                     |   8 +
->>  kernel/printk/printk.c             |  13 +
->>  kernel/sched/core.c                |   7 +
->>  19 files changed, 1236 insertions(+)
->>  create mode 100644 Documentation/debug/index.rst
->>  create mode 100644 Documentation/debug/kmemdump.rst
->>  create mode 100644 drivers/debug/Kconfig
->>  create mode 100644 drivers/debug/Makefile
->>  create mode 100644 drivers/debug/kmemdump.c
->>  create mode 100644 drivers/debug/kmemdump_coreimage.c
->>  create mode 100644 drivers/debug/qcom_md.c
->>  create mode 100644 include/linux/kmemdump.h
->>
->> -- 
->> 2.43.0
->>
+(or maybe I haven't had enough coffee today)
 
+-- 
+Catalin
