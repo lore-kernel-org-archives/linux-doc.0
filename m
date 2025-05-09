@@ -1,407 +1,158 @@
-Received: from out-172.mta0.migadu.com (out-172.mta0.migadu.com [91.218.175.172])
+Received: from NAM11-BN8-obe.outbound.protection.outlook.com (mail-bn8nam11on2073.outbound.protection.outlook.com [40.107.236.73])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B26B23C4FD
-	for <linux-doc@vger.kernel.org>; Fri,  9 May 2025 18:49:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.172
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746816588; cv=none; b=ONUpYSbfLDhPQXSMkACZ430PzrG7c2aAeckXZAuhmrP71IF0kwZR2Pry2QLP6C8q/SY+/xM9AzGCZMiJIOk3cYQCq8TwavkMLN5TAAo0ACHChXSxAG25/8IQYE+saLTJ3OUHT+posDQrTg1/wtW1Gpxi3Thtjb+otvZ5eGCEoo8=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746816588; c=relaxed/simple;
-	bh=qffBJkvqeUNO/und6Qh2RkE/6kc4df+T6b36gSTk63Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CkfyrbA30AsNUi4oRg+DYef/sEvO/c8Hko8ZslbuPhbPfhR/8jp1oZLMDbJnMLNZdL8aDX1UiM+JIUOXFNZ1d8OBVdP+7qfI4G6q4CC9QzR/kJ5gS/B8ieXUvf5s4dr7Dy4cmA4nYm5zsOG/LvEwfqlAs6jaGokvWHsgJcrx94U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=uLqyyUS4; arc=none smtp.client-ip=91.218.175.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5F43F237173;
+	Fri,  9 May 2025 19:30:48 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.236.73
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1746819050; cv=fail; b=hVwW76vhvAgklx/4LBovB8VJlYUIf7sUseT4LQzV4HtttpW2dRUuNokNEB/0lq99D/K+G/bvw1iIPqJ81cBBvc5/0LJCefxocEDq85l4S/K+dRlO1R/Iyd2No0KiIY1mVRigC3oUTGQZhutMK0iGZmFkhoVIyAaAvcO0vzNRXNE=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1746819050; c=relaxed/simple;
+	bh=dT9ivRLf8W5mYMdi8MWSIWZnuzPqdqoPWcjm1l8tSaE=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=XyquZ5unXigZ9+AMJXGpCXCnPNT7tIE+2lYXA31uhxyNu6qVm+XNOEJt8PrKbmpogGRo5yM2vx2yyE+BsaC2G2KjHGX1EDNxWohn9jI95zrGziBaTqG2Sz5pZTHbTYxbqfsEXE1l2H1Q+7/pMjHYB56P++xYmc7zsgMmtlh3q2Y=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=SDdfn53F; arc=fail smtp.client-ip=40.107.236.73
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="uLqyyUS4"
-Message-ID: <1f24ee7d-df01-4386-b0c2-f68463519940@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1746816574;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=I+xTVNz/AWuQaww+Av/gvPGG3Ux3gd4hrwHisXmdbVY=;
-	b=uLqyyUS4mIQdPlYV7BSaILMetdyUkWxvIzHUMEOjSkHuGCm8a+Fy92UlKRYZaI5kWt5UQv
-	mx/LC1tQC1sGXBA+pYOVjeP48ZSFr3n6iJpJkJ32cHD0sYy8qI7TmLvtrA6M6VMTydMeev
-	wBorqTZBxwlM+8HVuZqqoSfXhImvhLc=
-Date: Fri, 9 May 2025 11:49:17 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="SDdfn53F"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=A6rANkyFaY8TS4qF6Q+vRCJRbNJPEDRv9OCgmTUs/8D9MrobPCk0iVg5wyrPXoE90ksSJpIh7D/SJj4rxnB4Cbw1W5mraeY+x40zarMp1Bp3gMxTSNpNAgebo4LljmUaUwz3MYRPk6ldgBgWgjjSdxxCNV876VYydJjMbmtMF6L1b8cNOPJFMwdt7CjfZp4oIbzsNow2T5RXJPl7JwzH5CDy5L55HA8l0qtyHRNUJ1363HwnTd4PkAABjdgXZjPR+iousfE2GEDkz6LA0lI7LuGGDGBs5DKjpSOylFhv0cgd0OaQ9oUdDtBBQWBBX3kkSEYaOWSEEh2IBfJbNmfrYg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=AE0Kz/IjOqS/PsGnt+6+i4dfJNt8icpzkbWuxm0yhTg=;
+ b=ioyJ3/n5eBN9LEiHY9oLyeVkeuWUWBe9ltTk3qV68cQXeZ5QXytzll0VpATLlnfL7E86/5+AubVQ//JF3jvqhqY04ffn13kQMITYxFcMkc+Nq+VwAUGmaaUWQhb1sD4bQsbixAEJxT6hSQpS6+JCha+pKOD4Rpux9/3m18eohPPaUdRk+r68W0n6T10SgsDJkw/4gOVkoedH8yFgXWWvGTFoWAd6M7F3IncGlj2MoomulU7r1M07yUqMAa1e6zJhtJDrt2s7gH4zgzY71vWpNzILqqxtY7LhzmlKxw34w6qu0VCVZip+wydV78EtU4E2z7/HaAn5ST+kbvWubG21mg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 216.228.117.160) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=nvidia.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=AE0Kz/IjOqS/PsGnt+6+i4dfJNt8icpzkbWuxm0yhTg=;
+ b=SDdfn53FKDuBLkaqzRClaIDy5maRcJ2V/hL0B4yYSNzPjwuTQRUW7UmcPZxnvKdkMZkuyCrofnUlVoaLitG7EJCY/tGpBW05/YyRyO/vW8N6VZoKKzcq7F3GHtreGGhumVMH16cBRIaCK1ChOYKRGD9wx41InFqGDjw/uIKhq9BCh/4mPV8ZYh/4kvkKz+jxw9zTEtOMlzgIcQvsvXObX0fgK3S73Y4VFI8H8uMa7kSEKzARR3O/A/XO6k12zVZoRe7xrp7yLA0CFyKLOYdqrn3LwiAGGSk3fj0k71FhYrTdNbYFQ7RguGXWsun7CqO448FDx7HrrGCxDSLLn2L2ZQ==
+Received: from BN9PR03CA0514.namprd03.prod.outlook.com (2603:10b6:408:131::9)
+ by LV3PR12MB9167.namprd12.prod.outlook.com (2603:10b6:408:196::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Fri, 9 May
+ 2025 19:30:45 +0000
+Received: from BN3PEPF0000B078.namprd04.prod.outlook.com
+ (2603:10b6:408:131:cafe::b6) by BN9PR03CA0514.outlook.office365.com
+ (2603:10b6:408:131::9) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8699.32 via Frontend Transport; Fri,
+ 9 May 2025 19:30:45 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
+ smtp.mailfrom=nvidia.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=nvidia.com;
+Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
+ 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
+ client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
+Received: from mail.nvidia.com (216.228.117.160) by
+ BN3PEPF0000B078.mail.protection.outlook.com (10.167.243.123) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.8722.18 via Frontend Transport; Fri, 9 May 2025 19:30:44 +0000
+Received: from rnnvmail202.nvidia.com (10.129.68.7) by mail.nvidia.com
+ (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Fri, 9 May 2025
+ 12:30:28 -0700
+Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail202.nvidia.com
+ (10.129.68.7) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Fri, 9 May
+ 2025 12:30:27 -0700
+Received: from nvidia.com (10.127.8.13) by mail.nvidia.com (10.129.68.10) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
+ Transport; Fri, 9 May 2025 12:30:22 -0700
+Date: Fri, 9 May 2025 12:30:19 -0700
+From: Nicolin Chen <nicolinc@nvidia.com>
+To: <jgg@nvidia.com>, <kevin.tian@intel.com>, <corbet@lwn.net>,
+	<will@kernel.org>
+CC: <bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
+	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
+	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
+	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
+	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
+	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
+Subject: Re: [PATCH v4 14/23] iommufd: Add mmap interface
+Message-ID: <aB5Xy67VU0ZNQpXH@nvidia.com>
+References: <cover.1746757630.git.nicolinc@nvidia.com>
+ <ee9ee287264fd75eb4fc64a63f20d03e9ba18161.1746757630.git.nicolinc@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [PATCH v6 13/14] RISC-V: KVM: add support for FWFT SBI extension
-To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org
-Cc: Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
-References: <20250424173204.1948385-1-cleger@rivosinc.com>
- <20250424173204.1948385-14-cleger@rivosinc.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Atish Patra <atish.patra@linux.dev>
-In-Reply-To: <20250424173204.1948385-14-cleger@rivosinc.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <ee9ee287264fd75eb4fc64a63f20d03e9ba18161.1746757630.git.nicolinc@nvidia.com>
+X-NV-OnPremToCloud: AnonymousSubmission
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN3PEPF0000B078:EE_|LV3PR12MB9167:EE_
+X-MS-Office365-Filtering-Correlation-Id: 934a96da-1996-4991-9b10-08dd8f2ffe5a
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|7416014|376014|1800799024|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?JLhE+Bb1wrr0yXZ2nc8ke+prk5JtsebOrrWUU1jX/l+5kOl16Ks2FlaiHGlF?=
+ =?us-ascii?Q?91DcgNLhYLc/Mf16eGlsGSp091CiokAtIGqXdGBSACuEwW2a+IK4lvNfnkPK?=
+ =?us-ascii?Q?sTEB1RhKdsCiei9m7+f2+Au+LPZDzZts7zY5BeJcb04k1Q09PcTlg/E5WH0M?=
+ =?us-ascii?Q?cGjIg+HdT3O2AF9U9eCcOqgtxMIsASGk/DolWt/Ee7tss2IHus9sYvlV2LsU?=
+ =?us-ascii?Q?Drc2CDC/VluCVHohBqJgBR07xV61Yy5s+Z7ZLKo2V+V4XpKQ1V0jdG3QyO1z?=
+ =?us-ascii?Q?yEhIDJp9dlT9v+J6eSFF8BPtwsEXcF0OlQSdtF2NTUdd+UugE0lGnU2N4Z0J?=
+ =?us-ascii?Q?6P8FnBArOufsrq9oIM1exSkrbJB+tJnV5KahbPLGiz2BjWKkKQC1GLhBkAcA?=
+ =?us-ascii?Q?yy6bJVYPCJ6vRlF9Q8szO7AKo9NR8GSg/aCn+UobdQrnk8/dF1JGc1kaMc55?=
+ =?us-ascii?Q?elbDiukB0YcxguIb+gk/0YmptjfYeQAluDt3vuKtJ5YMydA3IvHxMyL0sKhJ?=
+ =?us-ascii?Q?qdM5x0eRlH+m4Ec6NgjAISss6hv3t4QQt2nnUJxc54k80c8h+KG6uwZ38hxV?=
+ =?us-ascii?Q?8IG2xPlqyS7Fmz19MhxyEgyJW53XWe4dQhZUNhJvKkUIfTsjpy3WxfaaBNtM?=
+ =?us-ascii?Q?ybuiwpqXz0CpQ8X0/Xovx0Z9I9SJpOgQwVQoO9axBZ5G5BcwuKRfBReMWAYa?=
+ =?us-ascii?Q?+7m7k7O5t7q0Ib/snYwPhcxtGy0cjKxwvSo4T6U3GGMli2zSvCzxHDcVrY1B?=
+ =?us-ascii?Q?6eL+p/p7FpL5gOnIZGtXaityQ9dQt95IbziehqgPAqp9B9Z1/tGSJypqth1/?=
+ =?us-ascii?Q?TAzUk+JYnUPcIy+IMGFswJ6chNA98L1RbgfzHvsfrmzNXR30F9Md8RccgbsT?=
+ =?us-ascii?Q?Y8Lq1Oyjze3gaOOx4iG+y0f7NWP7YUKtq/0VQTqg72IBe5WG5MO/DHoBVl2X?=
+ =?us-ascii?Q?0KKGGugrKPdvv1MndHjtoaFLRwnmqLQkK7+Ei2AEuOA7TUdn/kPILV/ns5fr?=
+ =?us-ascii?Q?tuFgC/6TCu5aQ/HJCPSHBV6HZUd8V15vS1Toa3tvTqEnnKi42OFXpSPbC4lM?=
+ =?us-ascii?Q?61Sr35ojUsjLVGCbIBzS5lWzqoTZOeMBRXlC6Xp6j3GQ1+PAfoqORAqj/H9c?=
+ =?us-ascii?Q?ZpWFgqzMpv1APd8R0ZIGKwXwWghfsbpHvp5+0Q4xQg5doJbuvxJxJEkcciWz?=
+ =?us-ascii?Q?+RweWt6U7YB4L0XeG9NlHCMhzIAEZh4AlpRxNIRDOm/WBkrZXVZC5uvVyQU8?=
+ =?us-ascii?Q?dUDDU2aMOGIPPTbzRrAken5DTqP58hJGifhdWbOQx+Q91j/I9FnDb/55rPdE?=
+ =?us-ascii?Q?0VgtzI6g3BIYh6N9OU6fMsaTEmvxki/rQFEmUWLzyxbh8VcG1HFXhUGId98B?=
+ =?us-ascii?Q?6fwqWqRedNI6oaI6pisMJG08by7b6cKhSpp5Uxv1gQxVfhTwP9EwF4iPQl7I?=
+ =?us-ascii?Q?M8mUcozO0bL+A9mpxptmFrywxiYPQY/dT2kdwmgqFz3gluK+0tra/E1/14Ge?=
+ =?us-ascii?Q?lwSmZX9jNHHx0XVKSvI/tsPt4U2LNUEsuoJ3?=
+X-Forefront-Antispam-Report:
+	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 09 May 2025 19:30:44.7922
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 934a96da-1996-4991-9b10-08dd8f2ffe5a
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	BN3PEPF0000B078.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9167
 
-On 4/24/25 10:32 AM, ClÃ©ment LÃ©ger wrote:
-> Add basic infrastructure to support the FWFT extension in KVM.
-> 
-> Signed-off-by: Clément Léger <cleger@rivosinc.com>
-> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
-> ---
->   arch/riscv/include/asm/kvm_host.h          |   4 +
->   arch/riscv/include/asm/kvm_vcpu_sbi.h      |   1 +
->   arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h |  29 +++
->   arch/riscv/include/uapi/asm/kvm.h          |   1 +
->   arch/riscv/kvm/Makefile                    |   1 +
->   arch/riscv/kvm/vcpu_sbi.c                  |   4 +
->   arch/riscv/kvm/vcpu_sbi_fwft.c             | 216 +++++++++++++++++++++
->   7 files changed, 256 insertions(+)
->   create mode 100644 arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h
->   create mode 100644 arch/riscv/kvm/vcpu_sbi_fwft.c
-> 
-> diff --git a/arch/riscv/include/asm/kvm_host.h b/arch/riscv/include/asm/kvm_host.h
-> index 4fa02e082142..c3f880763b9a 100644
-> --- a/arch/riscv/include/asm/kvm_host.h
-> +++ b/arch/riscv/include/asm/kvm_host.h
-> @@ -19,6 +19,7 @@
->   #include <asm/kvm_vcpu_fp.h>
->   #include <asm/kvm_vcpu_insn.h>
->   #include <asm/kvm_vcpu_sbi.h>
-> +#include <asm/kvm_vcpu_sbi_fwft.h>
->   #include <asm/kvm_vcpu_timer.h>
->   #include <asm/kvm_vcpu_pmu.h>
->   
-> @@ -281,6 +282,9 @@ struct kvm_vcpu_arch {
->   	/* Performance monitoring context */
->   	struct kvm_pmu pmu_context;
->   
-> +	/* Firmware feature SBI extension context */
-> +	struct kvm_sbi_fwft fwft_context;
-> +
->   	/* 'static' configurations which are set only once */
->   	struct kvm_vcpu_config cfg;
->   
-> diff --git a/arch/riscv/include/asm/kvm_vcpu_sbi.h b/arch/riscv/include/asm/kvm_vcpu_sbi.h
-> index cb68b3a57c8f..ffd03fed0c06 100644
-> --- a/arch/riscv/include/asm/kvm_vcpu_sbi.h
-> +++ b/arch/riscv/include/asm/kvm_vcpu_sbi.h
-> @@ -98,6 +98,7 @@ extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_hsm;
->   extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_dbcn;
->   extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_susp;
->   extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_sta;
-> +extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_fwft;
->   extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_experimental;
->   extern const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_vendor;
->   
-> diff --git a/arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h b/arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h
-> new file mode 100644
-> index 000000000000..9ba841355758
-> --- /dev/null
-> +++ b/arch/riscv/include/asm/kvm_vcpu_sbi_fwft.h
-> @@ -0,0 +1,29 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only */
-> +/*
-> + * Copyright (c) 2025 Rivos Inc.
-> + *
-> + * Authors:
-> + *     Clément Léger <cleger@rivosinc.com>
-> + */
-> +
-> +#ifndef __KVM_VCPU_RISCV_FWFT_H
-> +#define __KVM_VCPU_RISCV_FWFT_H
-> +
-> +#include <asm/sbi.h>
-> +
-> +struct kvm_sbi_fwft_feature;
-> +
-> +struct kvm_sbi_fwft_config {
-> +	const struct kvm_sbi_fwft_feature *feature;
-> +	bool supported;
-> +	unsigned long flags;
-> +};
-> +
-> +/* FWFT data structure per vcpu */
-> +struct kvm_sbi_fwft {
-> +	struct kvm_sbi_fwft_config *configs;
-> +};
-> +
-> +#define vcpu_to_fwft(vcpu) (&(vcpu)->arch.fwft_context)
-> +
-> +#endif /* !__KVM_VCPU_RISCV_FWFT_H */
-> diff --git a/arch/riscv/include/uapi/asm/kvm.h b/arch/riscv/include/uapi/asm/kvm.h
-> index 5f59fd226cc5..5ba77a3d9f6e 100644
-> --- a/arch/riscv/include/uapi/asm/kvm.h
-> +++ b/arch/riscv/include/uapi/asm/kvm.h
-> @@ -204,6 +204,7 @@ enum KVM_RISCV_SBI_EXT_ID {
->   	KVM_RISCV_SBI_EXT_DBCN,
->   	KVM_RISCV_SBI_EXT_STA,
->   	KVM_RISCV_SBI_EXT_SUSP,
-> +	KVM_RISCV_SBI_EXT_FWFT,
->   	KVM_RISCV_SBI_EXT_MAX,
->   };
->   
-> diff --git a/arch/riscv/kvm/Makefile b/arch/riscv/kvm/Makefile
-> index 4e0bba91d284..06e2d52a9b88 100644
-> --- a/arch/riscv/kvm/Makefile
-> +++ b/arch/riscv/kvm/Makefile
-> @@ -26,6 +26,7 @@ kvm-y += vcpu_onereg.o
->   kvm-$(CONFIG_RISCV_PMU_SBI) += vcpu_pmu.o
->   kvm-y += vcpu_sbi.o
->   kvm-y += vcpu_sbi_base.o
-> +kvm-y += vcpu_sbi_fwft.o
->   kvm-y += vcpu_sbi_hsm.o
->   kvm-$(CONFIG_RISCV_PMU_SBI) += vcpu_sbi_pmu.o
->   kvm-y += vcpu_sbi_replace.o
-> diff --git a/arch/riscv/kvm/vcpu_sbi.c b/arch/riscv/kvm/vcpu_sbi.c
-> index 50be079b5528..0748810c0252 100644
-> --- a/arch/riscv/kvm/vcpu_sbi.c
-> +++ b/arch/riscv/kvm/vcpu_sbi.c
-> @@ -78,6 +78,10 @@ static const struct kvm_riscv_sbi_extension_entry sbi_ext[] = {
->   		.ext_idx = KVM_RISCV_SBI_EXT_STA,
->   		.ext_ptr = &vcpu_sbi_ext_sta,
->   	},
-> +	{
-> +		.ext_idx = KVM_RISCV_SBI_EXT_FWFT,
-> +		.ext_ptr = &vcpu_sbi_ext_fwft,
-> +	},
->   	{
->   		.ext_idx = KVM_RISCV_SBI_EXT_EXPERIMENTAL,
->   		.ext_ptr = &vcpu_sbi_ext_experimental,
-> diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> new file mode 100644
-> index 000000000000..b0f66c7bf010
-> --- /dev/null
-> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
-> @@ -0,0 +1,216 @@
-> +// SPDX-License-Identifier: GPL-2.0
-> +/*
-> + * Copyright (c) 2025 Rivos Inc.
-> + *
-> + * Authors:
-> + *     Clément Léger <cleger@rivosinc.com>
-> + */
-> +
-> +#include <linux/errno.h>
-> +#include <linux/err.h>
-> +#include <linux/kvm_host.h>
-> +#include <asm/cpufeature.h>
-> +#include <asm/sbi.h>
-> +#include <asm/kvm_vcpu_sbi.h>
-> +#include <asm/kvm_vcpu_sbi_fwft.h>
-> +
-> +struct kvm_sbi_fwft_feature {
-> +	/**
-> +	 * @id: Feature ID
-> +	 */
-> +	enum sbi_fwft_feature_t id;
-> +
-> +	/**
-> +	 * @supported: Check if the feature is supported on the vcpu
-> +	 *
-> +	 * This callback is optional, if not provided the feature is assumed to
-> +	 * be supported
-> +	 */
-> +	bool (*supported)(struct kvm_vcpu *vcpu);
-> +
-> +	/**
-> +	 * @set: Set the feature value
-> +	 *
-> +	 * Return SBI_SUCCESS on success or an SBI error (SBI_ERR_*)
-> +	 *
-> +	 * This callback is mandatory
-> +	 */
-> +	long (*set)(struct kvm_vcpu *vcpu, struct kvm_sbi_fwft_config *conf, unsigned long value);
-> +
-> +	/**
-> +	 * @get: Get the feature current value
-> +	 *
-> +	 * Return SBI_SUCCESS on success or an SBI error (SBI_ERR_*)
-> +	 *
-> +	 * This callback is mandatory
-> +	 */
-> +	long (*get)(struct kvm_vcpu *vcpu, struct kvm_sbi_fwft_config *conf, unsigned long *value);
-> +};
-> +
-> +static const enum sbi_fwft_feature_t kvm_fwft_defined_features[] = {
-> +	SBI_FWFT_MISALIGNED_EXC_DELEG,
-> +	SBI_FWFT_LANDING_PAD,
-> +	SBI_FWFT_SHADOW_STACK,
-> +	SBI_FWFT_DOUBLE_TRAP,
-> +	SBI_FWFT_PTE_AD_HW_UPDATING,
-> +	SBI_FWFT_POINTER_MASKING_PMLEN,
-> +};
-> +
-> +static bool kvm_fwft_is_defined_feature(enum sbi_fwft_feature_t feature)
+On Thu, May 08, 2025 at 08:02:35PM -0700, Nicolin Chen wrote:
+> +int _iommufd_alloc_mmap(struct iommufd_ctx *ictx, struct iommufd_object *owner,
+> +			phys_addr_t base, size_t length, unsigned long *offset)
 > +{
-> +	int i;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(kvm_fwft_defined_features); i++) {
-> +		if (kvm_fwft_defined_features[i] == feature)
-> +			return true;
-> +	}
-> +
-> +	return false;
-> +}
-> +
-> +static const struct kvm_sbi_fwft_feature features[] = {
-> +};
-> +
-> +static struct kvm_sbi_fwft_config *
-> +kvm_sbi_fwft_get_config(struct kvm_vcpu *vcpu, enum sbi_fwft_feature_t feature)
-> +{
-> +	int i;
-> +	struct kvm_sbi_fwft *fwft = vcpu_to_fwft(vcpu);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(features); i++) {
-> +		if (fwft->configs[i].feature->id == feature)
-> +			return &fwft->configs[i];
-> +	}
-> +
-> +	return NULL;
-> +}
-> +
-> +static int kvm_fwft_get_feature(struct kvm_vcpu *vcpu, u32 feature,
-> +				struct kvm_sbi_fwft_config **conf)
-> +{
-> +	struct kvm_sbi_fwft_config *tconf;
-> +
-> +	tconf = kvm_sbi_fwft_get_config(vcpu, feature);
-> +	if (!tconf) {
-> +		if (kvm_fwft_is_defined_feature(feature))
-> +			return SBI_ERR_NOT_SUPPORTED;
-> +
-> +		return SBI_ERR_DENIED;
-> +	}
-> +
-> +	if (!tconf->supported)
-> +		return SBI_ERR_NOT_SUPPORTED;
-> +
-> +	*conf = tconf;
-> +
-> +	return SBI_SUCCESS;
-> +}
-> +
-> +static int kvm_sbi_fwft_set(struct kvm_vcpu *vcpu, u32 feature,
-> +			    unsigned long value, unsigned long flags)
-> +{
-> +	int ret;
-> +	struct kvm_sbi_fwft_config *conf;
-> +
-> +	ret = kvm_fwft_get_feature(vcpu, feature, &conf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	if ((flags & ~SBI_FWFT_SET_FLAG_LOCK) != 0)
-> +		return SBI_ERR_INVALID_PARAM;
-> +
-> +	if (conf->flags & SBI_FWFT_SET_FLAG_LOCK)
-> +		return SBI_ERR_DENIED_LOCKED;
-> +
-> +	conf->flags = flags;
-> +
-> +	return conf->feature->set(vcpu, conf, value);
-> +}
-> +
-> +static int kvm_sbi_fwft_get(struct kvm_vcpu *vcpu, unsigned long feature,
-> +			    unsigned long *value)
-> +{
-> +	int ret;
-> +	struct kvm_sbi_fwft_config *conf;
-> +
-> +	ret = kvm_fwft_get_feature(vcpu, feature, &conf);
-> +	if (ret)
-> +		return ret;
-> +
-> +	return conf->feature->get(vcpu, conf, value);
-> +}
-> +
-> +static int kvm_sbi_ext_fwft_handler(struct kvm_vcpu *vcpu, struct kvm_run *run,
-> +				    struct kvm_vcpu_sbi_return *retdata)
-> +{
-> +	int ret;
-> +	struct kvm_cpu_context *cp = &vcpu->arch.guest_context;
-> +	unsigned long funcid = cp->a6;
-> +
-> +	switch (funcid) {
-> +	case SBI_EXT_FWFT_SET:
-> +		ret = kvm_sbi_fwft_set(vcpu, cp->a0, cp->a1, cp->a2);
-> +		break;
-> +	case SBI_EXT_FWFT_GET:
-> +		ret = kvm_sbi_fwft_get(vcpu, cp->a0, &retdata->out_val);
-> +		break;
-> +	default:
-> +		ret = SBI_ERR_NOT_SUPPORTED;
-> +		break;
-> +	}
-> +
-> +	retdata->err_val = ret;
-> +
-> +	return 0;
-> +}
-> +
-> +static int kvm_sbi_ext_fwft_init(struct kvm_vcpu *vcpu)
-> +{
-> +	struct kvm_sbi_fwft *fwft = vcpu_to_fwft(vcpu);
-> +	const struct kvm_sbi_fwft_feature *feature;
-> +	struct kvm_sbi_fwft_config *conf;
-> +	int i;
-> +
-> +	fwft->configs = kcalloc(ARRAY_SIZE(features), sizeof(struct kvm_sbi_fwft_config),
-> +				GFP_KERNEL);
-> +	if (!fwft->configs)
-> +		return -ENOMEM;
-> +
-> +	for (i = 0; i < ARRAY_SIZE(features); i++) {
-> +		feature = &features[i];
-> +		conf = &fwft->configs[i];
-> +		if (feature->supported)
-> +			conf->supported = feature->supported(vcpu);
-> +		else
-> +			conf->supported = true;
-> +
-> +		conf->feature = feature;
-> +	}
-> +
-> +	return 0;
-> +}
-> +
-> +static void kvm_sbi_ext_fwft_deinit(struct kvm_vcpu *vcpu)
-> +{
-> +	struct kvm_sbi_fwft *fwft = vcpu_to_fwft(vcpu);
-> +
-> +	kfree(fwft->configs);
-> +}
-> +
-> +static void kvm_sbi_ext_fwft_reset(struct kvm_vcpu *vcpu)
-> +{
-> +	int i;
-> +	struct kvm_sbi_fwft *fwft = vcpu_to_fwft(vcpu);
-> +
-> +	for (i = 0; i < ARRAY_SIZE(features); i++)
-> +		fwft->configs[i].flags = 0;
-> +}
-> +
-> +const struct kvm_vcpu_sbi_extension vcpu_sbi_ext_fwft = {
-> +	.extid_start = SBI_EXT_FWFT,
-> +	.extid_end = SBI_EXT_FWFT,
-> +	.handler = kvm_sbi_ext_fwft_handler,
-> +	.init = kvm_sbi_ext_fwft_init,
-> +	.deinit = kvm_sbi_ext_fwft_deinit,
-> +	.reset = kvm_sbi_ext_fwft_reset,
-> +};
+...
+> +	int num_pfns, rc;
+...
+> +	num_pfns = length >> PAGE_SHIFT;
 
-LGTM.
-Reviewed-by: Atish Patra <atishp@rivosinc.com>
+I forgot to clean away this num_pfns, as "length >> PAGE_SHIFT"
+stores to immap->num_pfns already.
+
+Will drop this in v5.
+
+Thanks
+Nicolin
