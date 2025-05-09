@@ -1,227 +1,297 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 899DD2918CF;
-	Fri,  9 May 2025 13:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0C47D277003;
+	Fri,  9 May 2025 13:54:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746798556; cv=none; b=qT7P+jReVIUO1vQXd1nzNmEAXfLhBc5mdTEJWa8fTA2EfhG7zx0Pgt8BgDUgMERqUlc1c/6eoukwBLQdcauEsTdAkCcrd2IIdhLgqxxGk4hlOeehhYdlLQ1gB4dxWJrvqqKURxxpxVaVa8cAr8czEuZowka0g45pVv5Q5ODNnCs=
+	t=1746798899; cv=none; b=iilQvdw2bT+0XBTytoGCFir2EMnup55Mr87Y2B5SlNt6nnx1HqV9Gpuz2QNZ6I/u1xxe9T1XRhLKwkZVi0E6BKSCSNkyJG7m4ru+2DZ4vB015UpmSfZXuHac/kHpjX+/ZRoBLn/bY5BZ4huBzFUitzxxpO85kicUbcsBgoUcltU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746798556; c=relaxed/simple;
-	bh=ddxFekODOqJy1oQlp1NZDYc/Pj9lvlATNoTbz761B5o=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VtCWacSf4WlHBRYgY4YJaeZeC19kEz+VzGjDeQovep4jafz/9aJDJT2yudrFwsfZt8OyqFct1Nx+uM/Y+v+UtUZa8HNRh/vss6EU6MTNJFM3W+p+jh59c8wVxUyHY5Q57FOXjixhpLPrVRVvWFKu4YvtnDfCA4aYxYgGPv+Q1Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=pQ+uoXUp; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746798899; c=relaxed/simple;
+	bh=kOK8ffgLkfBZTjFDWR6huYmQ6GfSpjDsOUCV/7DmqTM=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=YOjtGR94rgBQYse47qX9cK8VQOkKOQcY9UtqRn4O/j2TmnL3zFkHfpIAtn8QIHjeVkq+9gyPdRc1pp72wQ8cDkYHPEP60DjSZvuVnkpQo0pRXf/13b1mMhj5pNsZFvlktPLIeS93WXuYZz7WU3yvVjjSUh0wqE8U/aitdQhj9Ao=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1pZv1b9; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=roeck-us.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="pQ+uoXUp"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EDF75C4CEE4;
-	Fri,  9 May 2025 13:49:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746798553;
-	bh=ddxFekODOqJy1oQlp1NZDYc/Pj9lvlATNoTbz761B5o=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=pQ+uoXUpmF/3twCcIi3Lai3o3xk3GzjXh4Vtzef2xl+XK5lS7fyBbQ0UFZzYOkYpV
-	 dUtfTp8YyM+m1uCBcNG1HQvDk6Nf7/h0n9vLEZ88nS1jLaw3kZC+MJWQAs8/6JfmCW
-	 GLX/BJFBUp0BoBJxFAMpMHQQxyx062Ra3vAXfp7i5GUtnfWbItEAT9nUXEUdmY+WZG
-	 QaS5XlRufjGUUzac2Gdf4KQVW4gTJmD7URMBqCpPwQgEQkWKKaXQtwRRvrcbUiQUCW
-	 JAx1/diS1biH2qZn4t9dRTFqD8Klqp6AjFPQ8OnLTIf9OgIEOCwF0ak/GgLb9J7aoh
-	 g4HQFuPfD/y3w==
-Date: Fri, 9 May 2025 14:49:05 +0100
-From: Will Deacon <will@kernel.org>
-To: Ryan Roberts <ryan.roberts@arm.com>
-Cc: =?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
-	suzuki.poulose@arm.com, yang@os.amperecomputing.com, corbet@lwn.net,
-	catalin.marinas@arm.com, jean-philippe@linaro.org,
-	robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
-	paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
-	maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
-	oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
-	ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com,
-	mshavit@google.com, jsnitsel@redhat.com, smostafa@google.com,
-	kevin.tian@intel.com, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-	iommu@lists.linux.dev
-Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
-Message-ID: <20250509134904.GA5707@willie-the-truck>
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
- <20250428153514.55772-4-miko.lenczewski@arm.com>
- <20250506142508.GB1197@willie-the-truck>
- <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1pZv1b9"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-22e7eff58a0so20186825ad.3;
+        Fri, 09 May 2025 06:54:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746798897; x=1747403697; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:from:to:cc:subject:date:message-id:reply-to;
+        bh=HjPEbAslOM8khAqWQvdf6mvMkrymNkVDTRKMIC8N4zI=;
+        b=G1pZv1b9QV0QhKxjMwwT4NdiLnVI83WDw8O1NfLI4AGGdhadnAWkSeupXM2BgNMWQ2
+         ENnlal61gFhyDK9ZUgefPaJkLCSGhPxO/179jINbeasTOyrrYBRMwGAj/DJpCDKluHGk
+         lhJ7OXUvvjP4Q2ao4Ma58j0INPUH8dG6stpWyptOtjRcAU6kDaFBrHVhyvRjgtilG77d
+         U3Caa8yOd+kVna19YuqVOCqBN6qSVYD6PtQcOcJOsLsUWMf523EDQ0nr83sJTUPUPmFg
+         hoHQEyUxl7l4k9pkwp04M83XLwNmvkwTJ3Mu2Hpk8eVtiwCMkyJu142wg9alfl1m8+rL
+         70Jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746798897; x=1747403697;
+        h=content-transfer-encoding:in-reply-to:autocrypt:from
+         :content-language:references:cc:to:subject:user-agent:mime-version
+         :date:message-id:sender:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=HjPEbAslOM8khAqWQvdf6mvMkrymNkVDTRKMIC8N4zI=;
+        b=ekGEgGdhRd1jFmq/zOSEjjrrNaXx5dghgFqMfzMNrQcdV4sLlyxBLp62ctAXoE6bSd
+         nUvZ57zaIMsmbZN/wEIcoZHh5yGRaE1h7vNyCyVPU9MQknB8KtVq2QBkJ7r5Z3nmzUBZ
+         AzPzzzAoHQmaqTo0P48Yf2yXtQ/IDU9quyp/tbvtKGyB6c7KeZHuf0jDhHziDNVWy86d
+         gpFyfr7JGWJ+2B4hzK9Q5yNojx1gKf0ZREiJD1tr5MCaWMM/4OMp3Jg7GKD6OxRX/NFa
+         1AZN3h/TDbuO2kHoyRZpndZTTwcRm0161GP/Gff7JDxI/3k3b3jq4Y952HAVILx3Zo6U
+         jJgQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUy8NZjwm6RhROssNBt81tKl3D+9YmDU2gH6Lq/Z8HlcSe5+uauKvPwgvWfI4timjKjLTkHG4q9DLWm@vger.kernel.org, AJvYcCWLTBcwMEAU4x1GehZ3JfzCMYjKEWUa7eXcIwFcrRy4MPtmUlJDJ/x+jzjOYNCEoJLzL9J5cAWUDDezrBIO@vger.kernel.org, AJvYcCWfxq9/zWc8Ozlq26fscVipX1ORw5o0ymWjySlqpliJbRjjCSPgr2y0V+gjc9U2mVbYaa1YgJTkyC2W/h8=@vger.kernel.org, AJvYcCXjmZuCoTaQSFmsW72ll+mK+a8Z0xGyV9hl45YSykEDmjrnuie3e0TD0/L03RdulxsDb+Gj/7bgXu2Q@vger.kernel.org
+X-Gm-Message-State: AOJu0Yx1rJSGoE9d9rJJeiL72Wc8wYXYd9lx7lamEexYzoyboLrE9TN3
+	jxhMB9pGdOXhk5mINteOmjSQkAwtUh3MW3FNtL4jEBu07QC6IUkr
+X-Gm-Gg: ASbGnctG4rduaTpoXn0ZBVrhdsxxFKbeITPXH2vtepEsM7cOikPSDw1KFDpRD5riajg
+	w2+OS1Q+DWqgSmQUpIqfD1Hi7DnPsPU+KxnTLjxZsMhyFktX+yRPflG1g13OtUpTufyYeAz/s+i
+	GCaFy6/Z66S4ZMI7C4CeAm4QnReVYUPbzYEtmV0eVdYMwn3UvcBSixMXZU2nDMpJERdbwdNYbX1
+	EDbzkwWyYy6H+enkAYGfvKJIlovN2efmMvBig9lq80HAUT2sGqkQ/htXsSfL+gft5fMTrxqSJXu
+	yQvs6/oHnYDYQIz0rd9ILes+HMRISiZtenKCJ/AM3XEvpF9263MKw9XKqXkaf4ENs/UM0m77f3l
+	vtMG35XzmvduarA==
+X-Google-Smtp-Source: AGHT+IFNab2h5nbWwNqPeIs4h1OD9ciEWSqIsqQkZOIEEjog19nYd0vsEvL4MLY6A9E1QOb5DkmddA==
+X-Received: by 2002:a17:902:e84d:b0:22e:62cf:498f with SMTP id d9443c01a7336-22fc8e961a1mr55842795ad.38.1746798897167;
+        Fri, 09 May 2025 06:54:57 -0700 (PDT)
+Received: from ?IPV6:2600:1700:e321:62f0:da43:aeff:fecc:bfd5? ([2600:1700:e321:62f0:da43:aeff:fecc:bfd5])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc828b4d9sm16938695ad.191.2025.05.09.06.54.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 09 May 2025 06:54:56 -0700 (PDT)
+Sender: Guenter Roeck <groeck7@gmail.com>
+Message-ID: <45d1a08c-8a7f-4b6e-8068-4ab0e63abbf3@roeck-us.net>
+Date: Fri, 9 May 2025 06:54:55 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 2/5] hwmon: pmbus: mpq8785: Add support for MPM82504
+To: Pawel Dembicki <paweldembicki@gmail.com>, linux-hwmon@vger.kernel.org
+Cc: Jean Delvare <jdelvare@suse.com>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Noah Wang <noahwang.wang@outlook.com>, Fabio Estevam <festevam@gmail.com>,
+ Naresh Solanki <naresh.solanki@9elements.com>,
+ Michal Simek <michal.simek@amd.com>, Grant Peltier
+ <grantpeltier93@gmail.com>,
+ Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+ Peter Zijlstra <peterz@infradead.org>, Shen Lichuan <shenlichuan@vivo.com>,
+ Greg KH <gregkh@linuxfoundation.org>, Charles Hsu <ythsu0511@gmail.com>,
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org
+References: <20250509065237.2392692-1-paweldembicki@gmail.com>
+ <20250509065237.2392692-3-paweldembicki@gmail.com>
+Content-Language: en-US
+From: Guenter Roeck <linux@roeck-us.net>
+Autocrypt: addr=linux@roeck-us.net; keydata=
+ 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
+ mDW4+i+XlNFUPUYMrIKi9joBhu18ssf5i5Q=
+In-Reply-To: <20250509065237.2392692-3-paweldembicki@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 06, 2025 at 03:52:59PM +0100, Ryan Roberts wrote:
-> On 06/05/2025 15:25, Will Deacon wrote:
-> > On Mon, Apr 28, 2025 at 03:35:14PM +0000, Mikołaj Lenczewski wrote:
-> >> The Break-Before-Make cpu feature supports multiple levels (levels 0-2),
-> >> and this commit adds a dedicated BBML2 cpufeature to test against
-> >> support for, as well as a kernel commandline parameter to optionally
-> >> disable BBML2 altogether.
-> >>
-> >> This is a system feature as we might have a big.LITTLE architecture
-> >> where some cores support BBML2 and some don't, but we want all cores to
-> >> be available and BBM to default to level 0 (as opposed to having cores
-> >> without BBML2 not coming online).
-> >>
-> >> To support BBML2 in as wide a range of contexts as we can, we want not
-> >> only the architectural guarantees that BBML2 makes, but additionally
-> >> want BBML2 to not create TLB conflict aborts. Not causing aborts avoids
-> >> us having to prove that no recursive faults can be induced in any path
-> >> that uses BBML2, allowing its use for arbitrary kernel mappings.
-> >> Support detection of such CPUs.
-> >>
-> >> Signed-off-by: Mikołaj Lenczewski <miko.lenczewski@arm.com>
-> >> Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
-> >> Reviewed-by: Ryan Roberts <ryan.roberts@arm.com>
-> >> ---
-> >>  .../admin-guide/kernel-parameters.txt         |  3 +
-> >>  arch/arm64/Kconfig                            | 19 +++++
-> >>  arch/arm64/include/asm/cpucaps.h              |  2 +
-> >>  arch/arm64/include/asm/cpufeature.h           |  5 ++
-> >>  arch/arm64/kernel/cpufeature.c                | 71 +++++++++++++++++++
-> >>  arch/arm64/kernel/pi/idreg-override.c         |  2 +
-> >>  arch/arm64/tools/cpucaps                      |  1 +
-> >>  7 files changed, 103 insertions(+)
-> >>
-> >> diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
-> >> index d9fd26b95b34..2749c67a4f07 100644
-> >> --- a/Documentation/admin-guide/kernel-parameters.txt
-> >> +++ b/Documentation/admin-guide/kernel-parameters.txt
-> >> @@ -449,6 +449,9 @@
-> >>  	arm64.no32bit_el0 [ARM64] Unconditionally disable the execution of
-> >>  			32 bit applications.
-> >>  
-> >> +	arm64.nobbml2	[ARM64] Unconditionally disable Break-Before-Make Level
-> >> +			2 support
-> > 
-> > Hmm, I'm not sure we really want this. It opens up the door for folks to
-> > pass 'id_aa64mmfr2.bbm=2' without updating the allow-list which feels
-> > like it's going to make crashes harder to reason about.
-> > 
-> > Is there a compelling reason to add this right now?
+On 5/8/25 23:51, Pawel Dembicki wrote:
+> Add support for the Monolithic Power Systems MPM82504 digital voltage
+> regulator. MPM82504 uses PMBus direct format for voltage output.
 > 
-> I don't think there is a *compelling* reason. This came about from Suzuki's
-> feedback at [1]. He was keen to have a mechanism to disable BBML2 in case issues
-> were found.
+> Tested with device tree based matching.
 > 
-> But simpler is usually better; I'd be ok with removing.
-
-We can always add it back if we really need it, but adding an allowlist
-*and* a mechanism to override the allowlist at the same time seems overly
-pessimistic to me :)
-
-> >> diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
-> >> index 9c4d6d552b25..7a85a1bdc6e9 100644
-> >> --- a/arch/arm64/kernel/cpufeature.c
-> >> +++ b/arch/arm64/kernel/cpufeature.c
-> >> @@ -2200,6 +2200,70 @@ static bool hvhe_possible(const struct arm64_cpu_capabilities *entry,
-> >>  	return arm64_test_sw_feature_override(ARM64_SW_FEATURE_OVERRIDE_HVHE);
-> >>  }
-> >>  
-> >> +static bool cpu_has_bbml2_noabort(unsigned int cpu_midr)
-> >> +{
-> >> +	/*
-> >> +	 * We want to allow usage of bbml2 in as wide a range of kernel contexts
-> >> +	 * as possible. This list is therefore an allow-list of known-good
-> >> +	 * implementations that both support bbml2 and additionally, fulfill the
-> >> +	 * extra constraint of never generating TLB conflict aborts when using
-> >> +	 * the relaxed bbml2 semantics (such aborts make use of bbml2 in certain
-> >> +	 * kernel contexts difficult to prove safe against recursive aborts).
-> >> +	 *
-> >> +	 * Note that implementations can only be considered "known-good" if their
-> >> +	 * implementors attest to the fact that the implementation never raises
-> >> +	 * TLBI conflict aborts for bbml2 mapping granularity changes.
-> >> +	 */
-> >> +	static const struct midr_range supports_bbml2_noabort_list[] = {
-> >> +		MIDR_REV_RANGE(MIDR_CORTEX_X4, 0, 3, 0xf),
-> >> +		MIDR_REV_RANGE(MIDR_NEOVERSE_V3, 0, 2, 0xf),
-> >> +		{}
-> >> +	};
-> >> +
-> >> +	return is_midr_in_range_list(cpu_midr, supports_bbml2_noabort_list);
-> > 
-> > This doesn't compile against latest mainline as is_midr_in_range_list()
-> > no longer takes the midr.
+> Signed-off-by: Pawel Dembicki <paweldembicki@gmail.com>
 > 
-> Will ask Miko to fix.
-
-Cheers. v6.15-rc1 is probably the right base to use as that's what I've
-based for-next/mm on.
-
-> >> +static bool has_bbml2_noabort(const struct arm64_cpu_capabilities *caps, int scope)
-> >> +{
-> >> +	if (!IS_ENABLED(CONFIG_ARM64_BBML2_NOABORT))
-> >> +		return false;
-> >> +
-> >> +	if (scope & SCOPE_SYSTEM) {
-> >> +		int cpu;
-> >> +
-> >> +		/*
-> >> +		 * We are a boot CPU, and must verify that all enumerated boot
-> >> +		 * CPUs have MIDR values within our allowlist. Otherwise, we do
-> >> +		 * not allow the BBML2 feature to avoid potential faults when
-> >> +		 * the insufficient CPUs access memory regions using BBML2
-> >> +		 * semantics.
-> >> +		 */
-> >> +		for_each_online_cpu(cpu) {
-> >> +			if (!cpu_has_bbml2_noabort(cpu_read_midr(cpu)))
-> >> +				return false;
-> >> +		}
-> > 
-> > This penalises large homogeneous systems and it feels unnecessary given
-> > that we have the ability to check this per-CPU. Can you use
-> > ARM64_CPUCAP_BOOT_CPU_FEATURE instead of ARM64_CPUCAP_SYSTEM_FEATURE
-> > to solve this?
+> ---
+> v2:
+>    - fixed signedess for temperatures < 0 deg C
+>    - remove empty lines
+> ---
+>   Documentation/hwmon/mpq8785.rst | 20 +++++++++++++++-----
+>   drivers/hwmon/pmbus/mpq8785.c   | 30 +++++++++++++++++++++++++++++-
+>   2 files changed, 44 insertions(+), 6 deletions(-)
 > 
-> We are trying to solve for the case where the boot CPU has BBML2 but a secondary
-> CPU doesn't. (e.g. hetrogeneous system where boot CPU is big and secondary is
-> little and does not advertise the feature. I can't remember if we proved there
-> are real systems with this config - I have vague recollection that we did but my
-> memory is poor...).
-> 
-> My understanding is that for ARM64_CPUCAP_BOOT_CPU_FEATURE, "If the boot CPU
-> has enabled this feature already, then every late CPU must have it". So that
-> would exclude any secondary CPUs without BBML2 from coming online?
+> diff --git a/Documentation/hwmon/mpq8785.rst b/Documentation/hwmon/mpq8785.rst
+> index bf8176b87086..be228ee58ce2 100644
+> --- a/Documentation/hwmon/mpq8785.rst
+> +++ b/Documentation/hwmon/mpq8785.rst
+> @@ -6,6 +6,7 @@ Kernel driver mpq8785
+>   Supported chips:
+>   
+>     * MPS MPQ8785
+> +  * MPS MPM82504
+>   
+>       Prefix: 'mpq8785'
+>   
+> @@ -20,21 +21,30 @@ buck converter. The MPQ8785 offers a very compact solution that achieves up to
+>   wide input supply range. The MPQ8785 operates at high efficiency over a wide
+>   output current load range.
+>   
+> +The MPM82504 is a quad 25A, scalable, fully integrated power module with a PMBus
+> +interface. The device offers a complete power solution that achieves up to 25A
+> +per output channel. The MPM82504 has four output channels that can be paralleled
+> +to provide 50A, 75A, or 100A of output current for flexible configurations.
+> +The device can also operate in parallel with the MPM3695-100 and additional
+> +MPM82504 devices to provide a higher output current. The MPM82504 operates
+> +at high efficiency across a wide load range.
+> +
+>   The PMBus interface provides converter configurations and key parameters
+>   monitoring.
+>   
+> -The MPQ8785 adopts MPS's proprietary multi-phase digital constant-on-time (MCOT)
+> +The devices adopts MPS's proprietary multi-phase digital constant-on-time (MCOT)
+>   control, which provides fast transient response and eases loop stabilization.
+> -The MCOT scheme also allows multiple MPQ8785 devices to be connected in parallel
+> -with excellent current sharing and phase interleaving for high-current
+> +The MCOT scheme also allows multiple devices or chennels to be connected in
 
-Damn, yes, you're right. However, it still feels horribly hacky to iterate
-over the online CPUs in has_bbml2_noabort() -- the cpufeature framework
-has the ability to query features locally and we should be able to use
-that. We're going to want that should the architecture eventually decide
-on something like BBML3 for this.
+channels
 
-What we have with BBML2_NOABORT seems similar to an hwcap in that we only
-support the capability if all CPUs have it (rejecting late CPUs without it
-in that case) but we can live without it if not all of the early CPUs
-have it. Unlikely hwcaps, though, we shouldn't be advertising this to
-userspace and we can't derive the capability solely from the sanitised
-system registers.
+> +parallel with excellent current sharing and phase interleaving for high-current
+>   applications.
+>   
+>   Fully integrated protection features include over-current protection (OCP),
+>   over-voltage protection (OVP), under-voltage protection (UVP), and
+>   over-temperature protection (OTP).
+>   
+> -The MPQ8785 requires a minimal number of readily available, standard external
+> -components, and is available in a TLGA (5mmx6mm) package.
+> +All supported modules require a minimal number of readily available, standard
+> +external components. The MPQ8785 is available in a TLGA (5mmx6mm) package
+> +and the MPM82504 is available in a BGA (15mmx30mmx5.18mm) package.
+>   
+>   Device compliant with:
+>   
+> diff --git a/drivers/hwmon/pmbus/mpq8785.c b/drivers/hwmon/pmbus/mpq8785.c
+> index 00ec21b081cb..9a4a211b2aeb 100644
+> --- a/drivers/hwmon/pmbus/mpq8785.c
+> +++ b/drivers/hwmon/pmbus/mpq8785.c
+> @@ -8,7 +8,9 @@
+>   #include <linux/of_device.h>
+>   #include "pmbus.h"
+>   
+> -enum chips { mpq8785 };
+> +#define PMBUS_READ_TEMPERATURE_1_SIGN	BIT(9)
 
-I wonder if we could treat it like an erratum in some way instead? That
-is, invert things so that CPUs which _don't_ have BBML2_NOABORT are
-considered to have a "BBM_CONFLICT_ABORT" erratum (which we obviously
-wouldn't shout about). Then we should be able to say:
+s/PMBUS/MPM82504/
 
-  - If any of the early CPUs don't have BBML2_NOABORT, then the erratum
-    would be enabled and we wouln't elide BBM.
+because this is not a standard bit. Needs to include linux/bits.h
+or better linux/bitops.h (see below).
 
-  - If a late CPU doesn't have BBML2_NOABORT then it can't come online
-    if the erratum isn't already enabled.
+> +
+> +enum chips { mpq8785, mpm82504 };
 
-Does that work? If not, then perhaps the cpufeature/cpuerrata code needs
-some surgery for this.
+Please keep those in alphabetic order.
+>   
+>   static int mpq8785_identify(struct i2c_client *client,
+>   			    struct pmbus_driver_info *info)
+> @@ -36,6 +38,23 @@ static int mpq8785_identify(struct i2c_client *client,
+>   	return 0;
+>   };
+>   
+> +static int mpm82504_read_word_data(struct i2c_client *client, int page,
+> +				   int phase, int reg)
+> +{
+> +	int ret;
+> +
+> +	ret = pmbus_read_word_data(client, page, phase, reg);
+> +
+> +	if (ret < 0 || reg != PMBUS_READ_TEMPERATURE_1)
+> +		return ret;
+> +
+> +	/* Fix PMBUS_READ_TEMPERATURE_1 signedness */
+> +	if (ret & PMBUS_READ_TEMPERATURE_1_SIGN)
+> +		ret |= GENMASK(15, 10);
 
-> How do you see this working with ARM64_CPUCAP_BOOT_CPU_FEATURE? Or do you just
-> think that all systems will always be homogeneous with respect to FEAT_BBM?
+Better use sign_extend32(ret, PMBUS_READ_TEMPERATURE_1_SIGN) & 0xffff.
+The mask is a bit odd but there is no sign_extend16(), but this makes it
+more obvious what is done here.
 
-That's probably wishful thinking, sadly :(
+Also, this needs to include linux/bitops.h.
 
-Will
+> +
+> +	return ret;
+> +}
+> +
+>   static struct pmbus_driver_info mpq8785_info = {
+>   	.pages = 1,
+>   	.format[PSC_VOLTAGE_IN] = direct,
+> @@ -59,12 +78,14 @@ static struct pmbus_driver_info mpq8785_info = {
+>   
+>   static const struct i2c_device_id mpq8785_id[] = {
+>   	{ "mpq8785", mpq8785 },
+> +	{ "mpm82504", mpm82504 },
+>   	{ },
+>   };
+>   MODULE_DEVICE_TABLE(i2c, mpq8785_id);
+>   
+>   static const struct of_device_id __maybe_unused mpq8785_of_match[] = {
+>   	{ .compatible = "mps,mpq8785", .data = (void *)mpq8785 },
+> +	{ .compatible = "mps,mpm82504", .data = (void *)mpm82504 },
+
+Alphabetic order.
+
+>   	{}
+>   };
+>   MODULE_DEVICE_TABLE(of, mpq8785_of_match);
+> @@ -88,6 +109,13 @@ static int mpq8785_probe(struct i2c_client *client)
+>   	case mpq8785:
+>   		info->identify = mpq8785_identify;
+>   		break;
+> +	case mpm82504:
+> +		info->format[PSC_VOLTAGE_OUT] = direct;
+> +		info->m[PSC_VOLTAGE_OUT] = 8;
+> +		info->b[PSC_VOLTAGE_OUT] = 0;
+> +		info->R[PSC_VOLTAGE_OUT] = 2;
+> +		info->read_word_data = mpm82504_read_word_data;
+> +		break;
+
+Same here, with case statements. Sorry, I should have noticed in v1.
+
+Thanks,
+Guenter
+
+>   	default:
+>   		return -ENODEV;
+>   	}
+
