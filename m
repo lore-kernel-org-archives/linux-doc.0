@@ -1,116 +1,127 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8D417BB6;
-	Sun, 11 May 2025 03:37:40 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EF602F2E;
+	Sun, 11 May 2025 03:57:09 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746934661; cv=none; b=ky+s3qmgigPxnO739XvdhFxSibkVAL77Wr3neA6D3ERULMZfjPw+tRzXNQmRnUU8mU5TDGuYE5jcejw6u0i7JIDK+OzCXR3sLD58KhqJrm91onKnC37qvA5ZRITwuwBSVuS099cMDqh/w7X9j3b0qpc72LiQh3b7ytb325pHNv8=
+	t=1746935833; cv=none; b=eHlzfk17nToZC/16FZwz8euktsQcNM4vsmHnVQFp6mYYAxqsxOGeltasFcDM9otSg1wAyvFLSM0kCGEzGR4IpymomP6Mc3ZSwH9l47GsH7/0kqwyVhhXfxqEYFyo6+UB1HA1uv9yZM4lKBy7Ad9XPGpkBz/kl1iv/CWalgZu8XI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746934661; c=relaxed/simple;
-	bh=tv8sM48QUQnYFuWY8j3But9w9+nOTUysCQCeSSq/cvI=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=Aqhjp7bBGgEG5/YbQ8c3Rx5TaXkhfFbHlbSSqj1S4L8luqmui6wfUtBJBdtdOZAiwRyIX0iOLDUG4/UppLavOzgWc+lhmnJc58X6PoRNNApQL8BckwIPtQv9N9+tARpwFWoxtYk3etNNOgGPp/JD7REKieN7NNSLeA2cnbuSaDA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ns54DvY4; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1746935833; c=relaxed/simple;
+	bh=BFWDG7x7PxyrK87vVrq1U1GU7n1/sZ65EzhbnGNGff0=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ioTNCncnUrdQRqOesBkLKDkQbIVdTuaH2wstJyKEChQoZXJBRJJuF/IBEzvX16/+84GyyrnNAXAhFLlhvtOA9S5ikK8aSXp/7JrCBiNi+cF7mUwK6ec7VZ4So4XcNLY8vC7dJm0sJKDiOjn3/fDU0qK9DJCy9I1mBE+yDCkxiTc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=L/wFz/RD; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ns54DvY4"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B92C4CEEF;
-	Sun, 11 May 2025 03:37:39 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1746934659;
-	bh=tv8sM48QUQnYFuWY8j3But9w9+nOTUysCQCeSSq/cvI=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=ns54DvY4gvSO9qsL5HASYEdHS9OUC7FVnssa1PKYaFW1X41pR/9MgyiPhSPJUqYTp
-	 lqp6Xoi918hJJ0NgxdPIR42kXa9xaKNNgwgwJLn3sb94Zw+F/+Q2pMM0xhnX0NS8am
-	 u2dakWRe9tUtf7N+YXNBNvrBbavqjOUpCKoVWcu/OwQCcIC+mL0/ExpTBd8hZFf1PA
-	 nd52e6fNiplcfzqDpI26/YTSifi8PCqvZSBbNKQmMhe+OFTX+D70oxOfE/F3cy61dN
-	 VvRBHqHUVOixeYZL2zyEk0OZnXJ15HgEmbHSNkJ7eJUea6XbrEDTcNbU8fx4YMC2Va
-	 HaezDWyEj40IQ==
-Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30db3f3c907so32230081fa.1;
-        Sat, 10 May 2025 20:37:39 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCVWLa2VKc8sxqnMkcYDoI0dfH4/s6XQleadH6gd/J9BCRENZ64VaNHsoVby350wjmJGKXkfXFB/hZD7mspX@vger.kernel.org, AJvYcCXNF4hLkc64DiQcbkEvtpuHMMusJ79ubeUcxFgQQljx1MXjUB5TDd+h1Y3C9rCMNoDQUSI87CojdLMgb0dm@vger.kernel.org, AJvYcCXf3jRGacVuWFGeaSZm2j/lahZ6FvjdwoTGhjRj8Vhyu9LXU52Azonb2vsnaZ1S/k7Tig1dLpmYdwE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvPKcAonqISm9PeqR0t7O4d1/3FUJ8SwC0iFxOPdDXYE6VC6Uc
-	pixJ7nuBO5nVR00StRxLWl8TXPruQpSMpk7c+cgRjq0Ct2QjQOPx9cNsSriJ8S+Lopk79H7xr13
-	Ax6+3ZbnPjHUBpb0zVrwzM4hHURc=
-X-Google-Smtp-Source: AGHT+IGohHgR0c/CYoeV3cjcOvlGcK+kydJ3ZkZAGhP4m7AtpnaLaFHRSvPHsKGfxQxrD43XKQcTaTGGM6xMsn75eTQ=
-X-Received: by 2002:a05:651c:158c:b0:2ff:56a6:2992 with SMTP id
- 38308e7fff4ca-326c46ae922mr34320631fa.37.1746934658486; Sat, 10 May 2025
- 20:37:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="L/wFz/RD"
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43ce71582e9so24492235e9.1;
+        Sat, 10 May 2025 20:57:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1746935828; x=1747540628; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=SHEFdiF6nfDH2zTUJn06c/V9fo7ZCyft1hJ7/VuJE3I=;
+        b=L/wFz/RDaDZr/u+TLu1KebCkF2FfJEGxpdSdsKNvmn9lokEmxJfgJ94GFGKpPbLi5J
+         5r4Ytjmedjw/dV9hzEqAmrpesrUwD7DQIr5uC2jMQqsb7OmWUVbDyJ578cpcFg+8/Isk
+         IjugUbHcFBjPi+oRIXDe3fKXX5B02cYgNOjpgTgMNNO+Thpstx9B2ffjln5OdBsGZazI
+         UWd0DDsvBDglmlByGYjdLB72Svux8ToPPnqI6NiIw6KH4X6v21xZdtWvvgDuIYDZBvHx
+         GuIhL5GbXPRWP4ron7GCTB7Q0FCRv7ZR0CVgs0nvc1bk1yJWcGxM9hCrWqedj3KI4DFe
+         Qx/Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1746935828; x=1747540628;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=SHEFdiF6nfDH2zTUJn06c/V9fo7ZCyft1hJ7/VuJE3I=;
+        b=CQZJtSXL78o0uSeQ2z1IcWEezInEBpZogkudPA2nz5Ck0YTQE9rrqogXbjtOZ+5Ll5
+         34YuobpyI+tUvcK96cxT6SU++809CNR0YVDjk7M66cgd+7rMxUiDFavo1Jp0IdOCAqew
+         tv+AS9t2UY2hq3ZWVzDOOakwuztKvFsY4//MJfeCkWV8Tc1RJoeAjUAUr3Mul7yJVWnq
+         tYPevOTafo6VbD+o/8zJ4+ooZh9jkiOJnaV81Ejy1dXSsZIegtbH5Hjv2e5J0ANnaJJ5
+         XZI81xZrRkxmHRuIL7SOxqKxo9FC3LaqFiBuZjwpvjojBbLOHPSt5unayHUdY4G8XzK3
+         QwRA==
+X-Forwarded-Encrypted: i=1; AJvYcCURh6q3hzOikR6snK2HivVUDXeCpKHonFthQaDzpKIMIc0grPHruBuM738j9LvqQdHXQc/pKUUa1eVO@vger.kernel.org, AJvYcCV9XIl3uEbAf4aVwa/yXZQM0991UtTBUSc4mhPgreBs/rrizdja/EcDCON6VbhBpLF3oVAqoBFyZ6iMpmSd@vger.kernel.org, AJvYcCWVarnoZtzK3pGCKK1GAQXTxKQCHo7Y+a9lFpKxL9ZUCQg0Z3yelHgcX7vVI95coTnPI/DPUaVCvoRx@vger.kernel.org
+X-Gm-Message-State: AOJu0YywonlYR027rm3PSO1cmzOk7FYUwIYHWLix4a3jDGbbX80mcKkm
+	tqgE4/UQdZ1jeV7DgqypJFNioI/ItcBHE5DIctKYzO9Ebe+C2sCbkpSYim21
+X-Gm-Gg: ASbGncsFar6/XiB7jhBEpt5d57zVdmbQizl6+O+lZoSWhnO9nm8EBSgQzC4VRe4kbWE
+	z/wPdd1QOmYTFZTfftHw+UZlSxJNbXCV+v2nxhDuv8ZcG9Eri5xUnTjNbUDpdx0YmBmcq92BGU3
+	GrT/zZHnnq5OTfkhrNrcBnYHDvBqhh+eavi0xN9ohcWeOVVpSSH4euYu1W6Stgt97DfQTvRKvqI
+	8VOlfx1LDyLvxeOzm+ox8+1UoSR+sq6HK6jry5x2JljTX9HyfRALRAfdLlTVccoysMjYO402Sdr
+	aDzey+4keUbR+esz1TSC5SVlocx8LGJFXQh7bsscw2xsIcQJseVLOQZ/hkgB8dWXEf/ffcJEZuo
+	3
+X-Google-Smtp-Source: AGHT+IG0HTz6bxAK+xcJs42AI1myp6Y5c6S5+NDyZdHDXX1hxf3FhP1qJKA43nP75LRB1FiCiMkAAQ==
+X-Received: by 2002:a05:6000:402a:b0:3a0:a19f:2f47 with SMTP id ffacd0b85a97d-3a1f6487fa9mr7029885f8f.42.1746935827811;
+        Sat, 10 May 2025 20:57:07 -0700 (PDT)
+Received: from tempest2.110.lan (xt27dd.stansat.pl. [83.243.39.221])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c76dsm8163963f8f.92.2025.05.10.20.57.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 May 2025 20:57:07 -0700 (PDT)
+From: Pawel Dembicki <paweldembicki@gmail.com>
+To: linux-hwmon@vger.kernel.org
+Cc: Pawel Dembicki <paweldembicki@gmail.com>,
+	Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Noah Wang <noahwang.wang@outlook.com>,
+	Naresh Solanki <naresh.solanki@9elements.com>,
+	Fabio Estevam <festevam@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Grant Peltier <grantpeltier93@gmail.com>,
+	Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+	Greg KH <gregkh@linuxfoundation.org>,
+	Shen Lichuan <shenlichuan@vivo.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Charles Hsu <ythsu0511@gmail.com>,
+	devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [PATCH v4 0/5] hwmon: pmbus: Add support for MPM82504 and MPM3695 family
+Date: Sun, 11 May 2025 05:55:43 +0200
+Message-ID: <20250511035701.2607947-1-paweldembicki@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
- <aBEttQH4kimHFScx@intel.com> <5e996ded-2325-48b5-9cde-972b70e0934a@t-8ch.de>
-In-Reply-To: <5e996ded-2325-48b5-9cde-972b70e0934a@t-8ch.de>
-From: Masahiro Yamada <masahiroy@kernel.org>
-Date: Sun, 11 May 2025 05:37:02 +0200
-X-Gmail-Original-Message-ID: <CAK7LNAR8pRJXCPaiEjUAQs9L-FM3p3yv5wTfSjw5FN616hqDYQ@mail.gmail.com>
-X-Gm-Features: AX0GCFvrHv49d4NNQEfir1SoZpA39P5wX2n4q3mpmv5akjX7zL-kQAsb_Q060yk
-Message-ID: <CAK7LNAR8pRJXCPaiEjUAQs9L-FM3p3yv5wTfSjw5FN616hqDYQ@mail.gmail.com>
-Subject: Re: [PATCH v2] kbuild: make all file references relative to source root
-To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
-Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
-	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
-	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
-	"H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 5, 2025 at 9:30=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisssc=
-huh.net> wrote:
->
-> On 2025-04-29 22:51:17+0300, Ville Syrj=C3=A4l=C3=A4 wrote:
-> > On Sat, Mar 15, 2025 at 02:20:14PM +0100, Thomas Wei=C3=9Fschuh wrote:
-> > > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
-> > > Other references, for example in debug information, are not affected.
-> > > This makes handling of file references in the compiler outputs harder=
- to
-> > > use and creates problems for reproducible builds.
-> > >
-> > > Switch to -ffile-prefix map which affects all references.
-> > >
-> > > Also drop the documentation section advising manual specification of
-> > > -fdebug-prefix-map for reproducible builds, as it is not necessary
-> > > anymore.
-> >
-> > Hi,
-> >
-> > This broke 'objdump -S' completely for me.
-> >
-> > I see the following difference in the debug info:
-> > -    <12>   DW_AT_name        : (indirect line string, offset: 0): driv=
-ers/gpu/drm/i915/i915_config.c
-> > -    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x23): /=
-home/.../src/linux-2.6/build
-> > +    <12>   DW_AT_name        : (indirect line string, offset: 0): ../d=
-rivers/gpu/drm/i915/i915_config.c
-> > +    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x26): /=
-home/.../src/linux-2.6/build
-> >
-> > Looks like I can work around it with some combination of --prefix and
-> > --prefix-strip, but that seems far too tedious to have to do every
-> > time I need to decode an oops.
->
-> Yeah the --prefix and --prefix-strip mechanism is only an ugly
-> workaround.
-> Unfortunately I don't see a nice for this issue at the moment.
->
-> Masahiro, could you revert this commit for now?
-> I'll try to come up with something better.
+This series extends the hwmon PMBus driver for the MPS MPQ8785 to support
+two additional Monolithic Power Systems devices: the MPM82504 and
+MPM3695 family.
 
-Could you submit a patch
-with a commit description?
+The driver is restructured to support multiple devices using device tree
+matching. It also introduces an optional
+"mps,vout-fb-divider-ratio-permille" property to configure the
+VOUT_SCALE_LOOP PMBus register, which adjusts reported output voltages
+depending on the external feedback divider.
 
-Thanks.
+Device tree bindings are updated accordingly.
 
+Changes have been tested on hardware with device-tree based matching
+using the MPM82504 and MPM3695-10.
 
+Signed-off-by: Pawel Dembicki <paweldembicki@gmail.com>
 
+Pawel Dembicki (5):
+  dt-bindings: hwmon: Add bindings for mpq8785 driver
+  hwmon: pmbus: mpq8785: Prepare driver for multiple device support
+  hwmon: pmbus: mpq8785: Implement VOUT feedback resistor divider ratio
+    configuration
+  hwmon: pmbus: mpq8785: Add support for MPM82504
+  hwmon: pmbus: mpq8785: Add support for MPM3695 family
 
---=20
-Best Regards
-Masahiro Yamada
+ .../bindings/hwmon/pmbus/mps,mpq8785.yaml     | 74 +++++++++++++++
+ .../devicetree/bindings/trivial-devices.yaml  |  2 -
+ Documentation/hwmon/mpq8785.rst               | 27 ++++--
+ drivers/hwmon/pmbus/mpq8785.c                 | 91 +++++++++++++++++--
+ 4 files changed, 178 insertions(+), 16 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/hwmon/pmbus/mps,mpq8785.yaml
+
+-- 
+2.43.0
+
