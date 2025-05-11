@@ -1,384 +1,116 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3A82813E898;
-	Sun, 11 May 2025 02:54:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8D8D417BB6;
+	Sun, 11 May 2025 03:37:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746932080; cv=none; b=VjbeA4kVDmMB0ZwrBwFeCmDvXwEWlCih3F2Pz9l8Ekn8l4ZOGjbRc0bi8Qkt+tocfZDembpYDPL4wA/qnvifAydGRpXv7WlJcPjPAwJNO9J6zWN55IduO1Bz4RUCVGlQxoh2amUqyY/x996XdW10/TwPYKF2XJme3ZlrVHp3cJs=
+	t=1746934661; cv=none; b=ky+s3qmgigPxnO739XvdhFxSibkVAL77Wr3neA6D3ERULMZfjPw+tRzXNQmRnUU8mU5TDGuYE5jcejw6u0i7JIDK+OzCXR3sLD58KhqJrm91onKnC37qvA5ZRITwuwBSVuS099cMDqh/w7X9j3b0qpc72LiQh3b7ytb325pHNv8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746932080; c=relaxed/simple;
-	bh=IEEvh3JvV+l5F4j8MJqC9F3vQdI9e0b+9PInDCwaKa0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=tpqvf2wDMqJ6ixRIBZGgcn3PZCGd2EK9Ujlrac+0dDXcTtm4+c6XZjmf9WCMUt0qM8R7E0glIoHRZCUf3/se3k/PqvY+NKOlJrxDqp4Tqc1+O/ZfYlFfq2AJ3pWoWD6znoPf2r/5b0OZbi/NlEPLugFxDlzyF4Skf5caPaeLBkc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aYka45oT; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1746934661; c=relaxed/simple;
+	bh=tv8sM48QUQnYFuWY8j3But9w9+nOTUysCQCeSSq/cvI=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=Aqhjp7bBGgEG5/YbQ8c3Rx5TaXkhfFbHlbSSqj1S4L8luqmui6wfUtBJBdtdOZAiwRyIX0iOLDUG4/UppLavOzgWc+lhmnJc58X6PoRNNApQL8BckwIPtQv9N9+tARpwFWoxtYk3etNNOgGPp/JD7REKieN7NNSLeA2cnbuSaDA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ns54DvY4; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aYka45oT"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=D+ILB60tTLxf/T57GiFI+wFMqcCa8oqAF8HpkB/MccM=; b=aYka45oTsygBeZ0INvB4YPD1vf
-	uZCzaLtwvZhA8Z/wZ5EsmICw4ZwCW2ij8a9Cwsu7ckvR57u8gqdZe8if6z37XMeQI5KmCo5p/Yb5P
-	PEqtLEPIh6GCyMWqbcj5XnOyrEh79dlKOQwIUsn/t0zJBvXXpnY35FfqxX9yHTvZXxuaUHizlevr/
-	OLtp+GIxbJJvrsZfUTkFmBVP35RWF59Mo3/JQ9XnKPsQbOMg4QsPWKy3KNUXB7lhyzu1t6TB1JRsE
-	lBllVNBo6GwalM9xViMbYmfxssrANf8x+dMOLwSGRS7kWsDR95Y1d6zJObD3KfLhpgdJiATAOLd+x
-	FbizFu/g==;
-Received: from [50.39.124.201] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uDwpW-0000000GXXr-3T5U;
-	Sun, 11 May 2025 02:54:20 +0000
-Message-ID: <bb979120-cb57-4429-8438-a5713473403e@infradead.org>
-Date: Sat, 10 May 2025 19:54:14 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ns54DvY4"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8B92C4CEEF;
+	Sun, 11 May 2025 03:37:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1746934659;
+	bh=tv8sM48QUQnYFuWY8j3But9w9+nOTUysCQCeSSq/cvI=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=ns54DvY4gvSO9qsL5HASYEdHS9OUC7FVnssa1PKYaFW1X41pR/9MgyiPhSPJUqYTp
+	 lqp6Xoi918hJJ0NgxdPIR42kXa9xaKNNgwgwJLn3sb94Zw+F/+Q2pMM0xhnX0NS8am
+	 u2dakWRe9tUtf7N+YXNBNvrBbavqjOUpCKoVWcu/OwQCcIC+mL0/ExpTBd8hZFf1PA
+	 nd52e6fNiplcfzqDpI26/YTSifi8PCqvZSBbNKQmMhe+OFTX+D70oxOfE/F3cy61dN
+	 VvRBHqHUVOixeYZL2zyEk0OZnXJ15HgEmbHSNkJ7eJUea6XbrEDTcNbU8fx4YMC2Va
+	 HaezDWyEj40IQ==
+Received: by mail-lj1-f182.google.com with SMTP id 38308e7fff4ca-30db3f3c907so32230081fa.1;
+        Sat, 10 May 2025 20:37:39 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVWLa2VKc8sxqnMkcYDoI0dfH4/s6XQleadH6gd/J9BCRENZ64VaNHsoVby350wjmJGKXkfXFB/hZD7mspX@vger.kernel.org, AJvYcCXNF4hLkc64DiQcbkEvtpuHMMusJ79ubeUcxFgQQljx1MXjUB5TDd+h1Y3C9rCMNoDQUSI87CojdLMgb0dm@vger.kernel.org, AJvYcCXf3jRGacVuWFGeaSZm2j/lahZ6FvjdwoTGhjRj8Vhyu9LXU52Azonb2vsnaZ1S/k7Tig1dLpmYdwE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxvPKcAonqISm9PeqR0t7O4d1/3FUJ8SwC0iFxOPdDXYE6VC6Uc
+	pixJ7nuBO5nVR00StRxLWl8TXPruQpSMpk7c+cgRjq0Ct2QjQOPx9cNsSriJ8S+Lopk79H7xr13
+	Ax6+3ZbnPjHUBpb0zVrwzM4hHURc=
+X-Google-Smtp-Source: AGHT+IGohHgR0c/CYoeV3cjcOvlGcK+kydJ3ZkZAGhP4m7AtpnaLaFHRSvPHsKGfxQxrD43XKQcTaTGGM6xMsn75eTQ=
+X-Received: by 2002:a05:651c:158c:b0:2ff:56a6:2992 with SMTP id
+ 38308e7fff4ca-326c46ae922mr34320631fa.37.1746934658486; Sat, 10 May 2025
+ 20:37:38 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH v2 18/18] cxl: docs - add self-referencing cross-links
-To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com,
- ira.weiny@intel.com, dan.j.williams@intel.com, corbet@lwn.net
-References: <20250430181048.1197475-1-gourry@gourry.net>
- <20250430181048.1197475-19-gourry@gourry.net>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250430181048.1197475-19-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250315-kbuild-prefix-map-v2-1-00e1983b2a23@weissschuh.net>
+ <aBEttQH4kimHFScx@intel.com> <5e996ded-2325-48b5-9cde-972b70e0934a@t-8ch.de>
+In-Reply-To: <5e996ded-2325-48b5-9cde-972b70e0934a@t-8ch.de>
+From: Masahiro Yamada <masahiroy@kernel.org>
+Date: Sun, 11 May 2025 05:37:02 +0200
+X-Gmail-Original-Message-ID: <CAK7LNAR8pRJXCPaiEjUAQs9L-FM3p3yv5wTfSjw5FN616hqDYQ@mail.gmail.com>
+X-Gm-Features: AX0GCFvrHv49d4NNQEfir1SoZpA39P5wX2n4q3mpmv5akjX7zL-kQAsb_Q060yk
+Message-ID: <CAK7LNAR8pRJXCPaiEjUAQs9L-FM3p3yv5wTfSjw5FN616hqDYQ@mail.gmail.com>
+Subject: Re: [PATCH v2] kbuild: make all file references relative to source root
+To: =?UTF-8?Q?Thomas_Wei=C3=9Fschuh?= <linux@weissschuh.net>
+Cc: =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>, 
+	Nathan Chancellor <nathan@kernel.org>, Nicolas Schier <nicolas@fjasle.eu>, Jonathan Corbet <corbet@lwn.net>, 
+	Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>, 
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org, 
+	"H. Peter Anvin" <hpa@zytor.com>, Ben Hutchings <ben@decadent.org.uk>, linux-kbuild@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+On Mon, May 5, 2025 at 9:30=E2=80=AFAM Thomas Wei=C3=9Fschuh <linux@weisssc=
+huh.net> wrote:
+>
+> On 2025-04-29 22:51:17+0300, Ville Syrj=C3=A4l=C3=A4 wrote:
+> > On Sat, Mar 15, 2025 at 02:20:14PM +0100, Thomas Wei=C3=9Fschuh wrote:
+> > > -fmacro-prefix-map only affects __FILE__ and __BASE_FILE__.
+> > > Other references, for example in debug information, are not affected.
+> > > This makes handling of file references in the compiler outputs harder=
+ to
+> > > use and creates problems for reproducible builds.
+> > >
+> > > Switch to -ffile-prefix map which affects all references.
+> > >
+> > > Also drop the documentation section advising manual specification of
+> > > -fdebug-prefix-map for reproducible builds, as it is not necessary
+> > > anymore.
+> >
+> > Hi,
+> >
+> > This broke 'objdump -S' completely for me.
+> >
+> > I see the following difference in the debug info:
+> > -    <12>   DW_AT_name        : (indirect line string, offset: 0): driv=
+ers/gpu/drm/i915/i915_config.c
+> > -    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x23): /=
+home/.../src/linux-2.6/build
+> > +    <12>   DW_AT_name        : (indirect line string, offset: 0): ../d=
+rivers/gpu/drm/i915/i915_config.c
+> > +    <16>   DW_AT_comp_dir    : (indirect line string, offset: 0x26): /=
+home/.../src/linux-2.6/build
+> >
+> > Looks like I can work around it with some combination of --prefix and
+> > --prefix-strip, but that seems far too tedious to have to do every
+> > time I need to decode an oops.
+>
+> Yeah the --prefix and --prefix-strip mechanism is only an ugly
+> workaround.
+> Unfortunately I don't see a nice for this issue at the moment.
+>
+> Masahiro, could you revert this commit for now?
+> I'll try to come up with something better.
+
+Could you submit a patch
+with a commit description?
+
+Thanks.
 
 
 
-On 4/30/25 11:10 AM, Gregory Price wrote:
-> Add some crosslinks between pages in the CXL docs - mostly to the
-> ACPI tables.
-> 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
-> ---
->  .../driver-api/cxl/devices/device-types.rst   |  2 +-
->  .../cxl/linux/access-coordinates.rst          |  8 +++--
->  .../driver-api/cxl/linux/cxl-driver.rst       | 36 ++++++++++---------
->  .../driver-api/cxl/linux/early-boot.rst       | 30 +++++++++-------
->  .../driver-api/cxl/platform/bios-and-efi.rst  | 13 +++----
->  .../example-configurations/flexible.rst       | 10 +++---
->  .../example-configurations/hb-interleave.rst  | 10 +++---
->  .../multi-dev-per-hb.rst                      | 10 +++---
->  .../example-configurations/one-dev-per-hb.rst | 10 +++---
->  9 files changed, 71 insertions(+), 58 deletions(-)
-> 
 
-
-> diff --git a/Documentation/driver-api/cxl/linux/access-coordinates.rst b/Documentation/driver-api/cxl/linux/access-coordinates.rst
-> index b07950ea30c9..24db5b41716a 100644
-> --- a/Documentation/driver-api/cxl/linux/access-coordinates.rst
-> +++ b/Documentation/driver-api/cxl/linux/access-coordinates.rst
-> @@ -24,7 +24,8 @@ asymmetry in properties does not happen and all paths to EPs are equal.
->  
->  There can be multiple switches under an RP. There can be multiple RPs under
->  a CXL Host Bridge (HB). There can be multiple HBs under a CXL Fixed Memory
-> -Window Structure (CFMWS).
-> +Window Structure (CFMWS) in the
-> +Documentation/driver-api/cxl/platform/acpi/acpi/cedt.rst.
->  
->  An example hierarchy:
->  
-> @@ -83,8 +84,9 @@ also the index for the resulting xarray.
->  
->  The next step is to take the min() of the per host bridge bandwidth and the
->  bandwidth from the Generic Port (GP). The bandwidths for the GP is retrieved
-
-                                                                   are
-
-> -via ACPI tables SRAT/HMAT. The min bandwidth are aggregated under the same
-
-s/min/minimum/ preferably.
-
-> -ACPI0017 device to form a new xarray.
-> +via ACPI tables Documentation/driver-api/cxl/platform/acpi/srat.rst and
-> +Documentation/driver-api/cxl/platform/acpi/hmat.rst. The min bandwidth are
-> +aggregated under the same ACPI0017 device to form a new xarray.
->  
->  Finally, the cxl_region_update_bandwidth() is called and the aggregated
->  bandwidth from all the members of the last xarray is updated for the
-
-> diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
-> index 275174d5b0bb..309cc6999c6b 100644
-> --- a/Documentation/driver-api/cxl/linux/early-boot.rst
-> +++ b/Documentation/driver-api/cxl/linux/early-boot.rst
-> @@ -12,7 +12,8 @@ read EFI and ACPI information throughout this process to configure logical
->  representations of the devices.
->  
->  During Linux Early Boot stage (functions in the kernel that have the __init
-> -decorator), the system takes the resources created by EFI/BIOS (ACPI tables)
-> +decorator), the system takes the resources created by EFI/BIOS
-> +(Documentation/driver-api/cxl/platform/acpi.rst)
->  and turns them into resources that the kernel can consume.
->  
->  
-> @@ -69,13 +70,15 @@ significant impact performance depending on the memory capacity of the system.
->  NUMA Node Reservation
->  =====================
->  
-> -Linux refers to the proximity domains (:code:`PXM`) defined in the SRAT to
-> -create NUMA nodes in :code:`acpi_numa_init`. Typically, there is a 1:1 relation
-> -between :code:`PXM` and NUMA node IDs.
-> +Linux refers to the proximity domains (:code:`PXM`) defined in the
-> +Documentation/driver-api/cxl/platform/acpi/srat.rst to create NUMA nodes in
-> +:code:`acpi_numa_init`. Typically, there is a 1:1 relation between
-> +:code:`PXM` and NUMA node IDs.
->  
-> -SRAT is the only ACPI defined way of defining Proximity Domains. Linux chooses
-> -to, at most, map those 1:1 with NUMA nodes. CEDT adds a description of SPA
-> -ranges which Linux may wish to map to one or more NUMA nodes
-> +The SRAT is the only ACPI defined way of defining Proximity Domains. Linux
-> +chooses to, at most, map those 1:1 with NUMA nodes.
-> +Documentation/driver-api/cxl/platform/acpi/cedt.rst
-> +adds a description of SPA ranges which Linux may map to one or more NUMA nodes
-
-Add ending period ('.') above.
-
->  
->  If there are CXL ranges in the CFMWS but not in SRAT, then a fake :code:`PXM`
->  is created (as of v6.15). In the future, Linux may reject CFMWS not described
-> @@ -88,7 +91,7 @@ data for Linux to identify NUMA nodes their associated memory regions.
->  
->  The relevant code exists in: :code:`linux/drivers/acpi/numa/srat.c`.
->  
-> -See the Example Platform Configurations section for more information.
-> +See Documentation/driver-api/cxl/platform/example-configs.rst for more info.
->  
->  Memory Tiers Creation
->  =====================
-> @@ -107,10 +110,13 @@ Tier membership can be inspected in ::
->    /sys/devices/virtual/memory_tiering/memory_tierN/nodelist
->    0-1
->  
-> -If nodes are grouped which have clear difference in performance, check the HMAT
-> -and CDAT information for the CXL nodes.  All nodes default to the DRAM tier,
-> -unless HMAT/CDAT information is reported to the memory_tier component via
-> -`access_coordinates`.
-> +If nodes are grouped which have clear difference in performance, check the
-> +Documentation/driver-api/cxl/platform/acpi/hmat.rst and CDAT
-> +(Documentation/driver-api/cxl/devices/uefi.rst) information for the CXL nodes.
-> +All nodes default to the DRAM tier, unless HMAT/CDAT information is reported
-> +to the memory_tier component via `access_coordinates`.
-> +
-> +For more, see Documentation/driver-api/cxl/linux/access-coordinates.rst.
->  
->  Contiguous Memory Allocation
->  ============================
-
-
-> diff --git a/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst b/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
-> index 13a97c03e25a..b2559d2de225 100644
-> --- a/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
-> +++ b/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
-> @@ -18,7 +18,7 @@ Things to note:
->  * This SRAT describes one-node for each of the above CFMWS.
-
-                         one node
-
->  * The HMAT describes performance for each node in the SRAT.
->  
-> -CEDT ::
-> +Documentation/driver-api/cxl/platform/acpi/cedt.rst ::
->  
->              Subtable Type : 00 [CXL Host Bridge Structure]
->                   Reserved : 00
-> @@ -137,7 +137,7 @@ CEDT ::
->                      QtgId : 0001
->               First Target : 00000006
->  
-> -SRAT ::
-> +Documentation/driver-api/cxl/platform/acpi/srat.rst ::
->  
->           Subtable Type : 01 [Memory Affinity]
->                  Length : 28
-> @@ -223,7 +223,7 @@ SRAT ::
->         Hot Pluggable : 1
->          Non-Volatile : 0
->  
-> -HMAT ::
-> +Documentation/driver-api/cxl/platform/acpi/hmat.rst ::
->  
->                 Structure Type : 0001 [SLLBI]
->                      Data Type : 00   [Latency]
-> @@ -263,7 +263,7 @@ HMAT ::
->                          Entry : 0100
->                          Entry : 0100
->  
-> -SLIT ::
-> +Documentation/driver-api/cxl/platform/acpi/slit.rst ::
->  
->       Signature : "SLIT"    [System Locality Information Table]
->      Localities : 0000000000000003
-> @@ -276,7 +276,7 @@ SLIT ::
->    Locality   6 : FF FF FF FF FF FF 0A FF
->    Locality   7 : FF FF FF FF FF FF FF 0A
->  
-> -DSDT ::
-> +Documentation/driver-api/cxl/platform/acpi/dsdt.rst ::
->  
->    Scope (_SB)
->    {
-> diff --git a/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst b/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
-> index fa0885d82deb..9cbf3dd44b0f 100644
-> --- a/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
-> +++ b/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
-> @@ -13,7 +13,7 @@ Things to note:
->  * This SRAT describes one-node for both host bridges.
-
-                         one node
-
->  * The HMAT describes a single node's performance.
->  
-> -CEDT ::
-> +Documentation/driver-api/cxl/platform/acpi/cedt.rst ::
->  
->              Subtable Type : 00 [CXL Host Bridge Structure]
->                   Reserved : 00
-> @@ -48,7 +48,7 @@ CEDT ::
->               First Target : 00000007
->              Second Target : 00000006
->  
-> -SRAT ::
-> +Documentation/driver-api/cxl/platform/acpi/srat.rst ::
->  
->           Subtable Type : 01 [Memory Affinity]
->                  Length : 28
-> @@ -62,7 +62,7 @@ SRAT ::
->         Hot Pluggable : 1
->          Non-Volatile : 0
->  
-> -HMAT ::
-> +Documentation/driver-api/cxl/platform/acpi/hmat.rst ::
->  
->                 Structure Type : 0001 [SLLBI]
->                      Data Type : 00   [Latency]
-> @@ -80,14 +80,14 @@ HMAT ::
->                          Entry : 1200
->                          Entry : 0400
->  
-> -SLIT ::
-> +Documentation/driver-api/cxl/platform/acpi/slit.rst ::
->  
->       Signature : "SLIT"    [System Locality Information Table]
->      Localities : 0000000000000003
->    Locality   0 : 10 20
->    Locality   1 : FF 0A
->  
-> -DSDT ::
-> +Documentation/driver-api/cxl/platform/acpi/dsdt.rst ::
->  
->    Scope (_SB)
->    {
-> diff --git a/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst b/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
-> index 6adf7c639490..fa24243968ac 100644
-> --- a/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
-> +++ b/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
-> @@ -14,7 +14,7 @@ Things to note:
->  * This CEDT/SRAT describes one node for both devices.
->  * There is only one proximity domain the HMAT for both devices.
->  
-> -CEDT ::
-> +Documentation/driver-api/cxl/platform/acpi/cedt.rst ::
->  
->              Subtable Type : 00 [CXL Host Bridge Structure]
->                   Reserved : 00
-> @@ -39,7 +39,7 @@ CEDT ::
->                      QtgId : 0001
->               First Target : 00000007
->  
-> -SRAT ::
-> +Documentation/driver-api/cxl/platform/acpi/srat.rst ::
->  
->           Subtable Type : 01 [Memory Affinity]
->                  Length : 28
-> @@ -53,7 +53,7 @@ SRAT ::
->         Hot Pluggable : 1
->          Non-Volatile : 0
->  
-> -HMAT ::
-> +Documentation/driver-api/cxl/platform/acpi/hmat.rst ::
->  
->                 Structure Type : 0001 [SLLBI]
->                      Data Type : 00   [Latency]
-> @@ -69,14 +69,14 @@ HMAT ::
->                          Entry : 1200
->                          Entry : 0200
->  
-> -SLIT ::
-> +Documentation/driver-api/cxl/platform/acpi/slit.rst ::
->  
->       Signature : "SLIT"    [System Locality Information Table]
->      Localities : 0000000000000003
->    Locality   0 : 10 20
->    Locality   1 : FF 0A
->  
-> -DSDT ::
-> +Documentation/driver-api/cxl/platform/acpi/dsdt.rst ::
->  
->    Scope (_SB)
->    {
-> diff --git a/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst b/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-> index 8b732dc8c5b6..ee65b3364c5b 100644
-> --- a/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-> +++ b/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-> @@ -14,7 +14,7 @@ Things to note:
->  * This CEDT/SRAT describes one-node per device
-
-                              one node
-
->  * The expanders have the same performance and will be in the same memory tier.
->  
-> -CEDT ::
-> +Documentation/driver-api/cxl/platform/acpi/cedt.rst ::
->  
->              Subtable Type : 00 [CXL Host Bridge Structure]
->                   Reserved : 00
-> @@ -62,7 +62,7 @@ CEDT ::
->                      QtgId : 0001
->               First Target : 00000006
->  
-> -SRAT ::
-> +Documentation/driver-api/cxl/platform/acpi/srat.rst ::
->  
->           Subtable Type : 01 [Memory Affinity]
->                  Length : 28
-> @@ -88,7 +88,7 @@ SRAT ::
->         Hot Pluggable : 1
->          Non-Volatile : 0
->  
-> -HMAT ::
-> +Documentation/driver-api/cxl/platform/acpi/hmat.rst ::
->  
->                 Structure Type : 0001 [SLLBI]
->                      Data Type : 00   [Latency]
-> @@ -108,7 +108,7 @@ HMAT ::
->                          Entry : 0200
->                          Entry : 0200
->  
-> -SLIT ::
-> +Documentation/driver-api/cxl/platform/acpi/slit.rst ::
->  
->       Signature : "SLIT"    [System Locality Information Table]
->      Localities : 0000000000000003
-> @@ -116,7 +116,7 @@ SLIT ::
->    Locality   1 : FF 0A FF
->    Locality   2 : FF FF 0A
->  
-> -DSDT ::
-> +Documentation/driver-api/cxl/platform/acpi/dsdt.rst ::
->  
->    Scope (_SB)
->    {
-
--- 
-~Randy
-
+--=20
+Best Regards
+Masahiro Yamada
