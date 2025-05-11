@@ -1,134 +1,263 @@
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B710528E7
-	for <linux-doc@vger.kernel.org>; Sun, 11 May 2025 00:35:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8B384DDAD;
+	Sun, 11 May 2025 01:57:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1746923760; cv=none; b=qtQxa6tarZ9RngTUO2qCJ0O75cZU4iQDh9cUrNwc02uGsA9DJkrgTAwMU4pwFhMregtwOd9UTfur2SrytGL246gLMwwOePFxKnJlGwzG9AOxO19RqoshWDlvk9Y0pBWNLi5kP1sr2niaGgAxeRkwdtTKmtJWXCJD5C0/92UU0k4=
+	t=1746928651; cv=none; b=Co1XGDBx2Hk49jkG+yvzWbTEKkmwwvFsEh4lII9p1mzqI5LuBTGBTOJfScEmAeczp2bBKRpBRP3W7XoooGQn6TvAQW01UCvDrohxoee+RpsZYhuWFbgl8/xhVuCMF85a+ISzA0K3Cf3TmzSLSyDxtGyejtEGhQq7MUgMh6PZezg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1746923760; c=relaxed/simple;
-	bh=r03nLJvgUgmrXUBp6pwwH1baawwiopAwlukRYtT8E8Q=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=oZXRdtnxkpWpLOpLJcwRUsXLJbi+Zi+XSHVs9aaHYuWJMwj9+WegvEzOiVhdjsaAsOn6DtOs4/ECYnco+9VVP71/D+oPLUjRjaunjz2HU9+Hk1WTOq1+OALKNv6BeEWK/uKt5qlnLlc2HGjZtmbiLOMeLVTElAwQ5tR5hTCxAw8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com; spf=fail smtp.mailfrom=purestorage.com; dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b=YBKcljK1; arc=none smtp.client-ip=209.85.214.176
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=purestorage.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=purestorage.com
+	s=arc-20240116; t=1746928651; c=relaxed/simple;
+	bh=KdbX0jPiRd4tlxIfeYuW+jtn/LCXn3kN3RReU+jqVsY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=XiYqgb7TTW17Dqk2XmbGvCyYGEp9N0OldwXkQ3UPBzbcO76ao6WmSQdGvNnjIZEYf76qd3JkRTJ8uak6S4cwPjVdiYH5quzEKN54rb92JOBQu+HOe5PtSsPuNX19dwoukycEWOrCfM6bFXHCf1yyYpv6hYyzk9xIwPSmdm8DEdM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=pQ8KXZD5; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=purestorage.com header.i=@purestorage.com header.b="YBKcljK1"
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22fb6eda1cbso2082055ad.0
-        for <linux-doc@vger.kernel.org>; Sat, 10 May 2025 17:35:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=purestorage.com; s=google2022; t=1746923758; x=1747528558; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=gtRaVsiUBI+SZ9IP8U8WDTO4rTZdygKMrFtkoyTuE/s=;
-        b=YBKcljK1hLQ/txMdxQ1bK1cdOGHYDVulrCIfYr6zlA6qpQcrIlDwsulYknuGx7HFl2
-         UuV5kF2t7r0BEerB+2rwnefXHqPkA3F7WgBlxBHLnq6wSQxgm/Dwg1BdNyT4rTSehxyS
-         JQeruB4lNcl6A+tr9j5SA+n5t1wB7vEeZT+y0I0TMHACuOubs61o5yPSincVRFORTyIp
-         yTaHyaB1w5FesWJVlcoPGFH7e1GhqLZPFJnG6rP7uuecSBp7com0PP+Y40d1c+bp4IXc
-         9OtM9Xn9POU2FM+Z2uw0R062OZawBGEfDETnYlkvZYwwgSI4vBgcksn3D17NPBV52/fg
-         s3/Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1746923758; x=1747528558;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=gtRaVsiUBI+SZ9IP8U8WDTO4rTZdygKMrFtkoyTuE/s=;
-        b=EJgfAwhQd/iNqm8hgeESSD4yrkgjCwxrNHGP+XVDTUQGKlffmzWwHMf5zF/DQGdqk2
-         QobSHMD44KnBfJhWFdaRt8Upyq/PdYDI4o3xy3/r15hOZx/fGAJTqQ73e02GXOZ8n0sf
-         Cb/u464IQFaGpCj0F2H45HbZ6rwM1TMYaDEllDMzFVA1TDZFPHMf6jDZyfijSQc1KXfy
-         ooYxprfSuJQaOmQbAvB1Am0yb50QLBvorJmgxFCaawF9JdF5UimeMN3l6Ku6yPfU4Zla
-         DAPKSo1rLy9Y34gp24dleGfoKtz4CyUpdAkhGh+8DPfo3QXWVuEkw4N+qZwtyXjdD+4Z
-         VUew==
-X-Forwarded-Encrypted: i=1; AJvYcCWmTv1VD5cRgOkW5bd3TgkOF5c6V0Tayrb1YnCShkzXDHOHQLjB7LJHkv8Bwc4AB2gqkTRGyR0xfr0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzEtCUSXuzQ9Gjfn2unNycUPojvigXrGeuxfPSahj0s5AQiIKtJ
-	KOIWjxDCoMTaqlMgOYMKkGc11gALEl+fAffFzUCulI7Ow/a+hSf9HtZLShYs87pM/N1tg6geCsY
-	HxB+mVpS9WWzlKFuMCJ6bw71vbFXf5yx7rLORzw==
-X-Gm-Gg: ASbGnctr3YYeRgJjt1hi1kdyoSjdU0+mZ/ItBoTboVMGQvZcYG+aNtN24XEOlofmdQ9
-	FwCX74aPn139VpQ5pCiSG/zGlbyXyZSXs4+5bUzNzF3O7ZWNSq4bRKhzYa99KnAE9JwiYnpLDXn
-	+3L/Bkd+g2RV3kdbqU/4q7jSzvnzJ+rdg=
-X-Google-Smtp-Source: AGHT+IEQchr0wi7aB6E+8gcZ5oqBZRv0bHhEJAH4Nl3ce9Fg2GOxYYgtWBIB9g4f0p6+kGvZGmGTGjU/TmWpKmQUugs=
-X-Received: by 2002:a17:902:ced0:b0:224:216e:38bd with SMTP id
- d9443c01a7336-22fc8b3b40fmr53521885ad.5.1746923757953; Sat, 10 May 2025
- 17:35:57 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="pQ8KXZD5"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=Rh2oUnvKD7/7pfEaaCaR8pSVJXctOtXLnyFrbhpv8Io=; b=pQ8KXZD53+ZUytlfH/st7V4ixo
+	TZB8A0Q9zVngPf+vM6J8fva0Qx5sQDmKweGS0mSe6niePwFZFl0mDJHz2VT6sjWLNKuZE0FLpcPkV
+	2AuMddOKE+7YblPM2jzpzBsZTQBU4O1EtcaUavLuXr01dvGhANjc+ggcX/b9/NDb/XsphfTr0b5qa
+	wy14tNB4ChZO3TniTqZ7Ww4OxTzsEppJID3MPG1S6hR3aMTNgeKWeVF2/tgemnp4xEtFN+zm9BBat
+	I9DzVL1Ys9G80sbAM9vIXgCqAJm+O/RY6QIhBIHY3teBj8wSROXVVJJ2gEB8YUSwwA9Awg19vO3vk
+	hn5GOTBw==;
+Received: from [50.39.124.201] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1uDvwI-0000000GXIf-3r8z;
+	Sun, 11 May 2025 01:57:19 +0000
+Message-ID: <d8eadf5e-1b9f-4020-95de-cde60e4bee48@infradead.org>
+Date: Sat, 10 May 2025 18:57:05 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250507-ublk_task_per_io-v6-0-a2a298783c01@purestorage.com> <20250507-ublk_task_per_io-v6-2-a2a298783c01@purestorage.com>
-In-Reply-To: <20250507-ublk_task_per_io-v6-2-a2a298783c01@purestorage.com>
-From: Caleb Sander Mateos <csander@purestorage.com>
-Date: Sat, 10 May 2025 17:35:46 -0700
-X-Gm-Features: AX0GCFvq5YiYiXLcLb8hsdNH-xK5jnR1e6XUTmKox4Zk6Icabgf3xuys_D3kZR8
-Message-ID: <CADUfDZrhsQfx6nyCZQq=8HDZLysa48uBWuENY6oKnFuayt-wCw@mail.gmail.com>
-Subject: Re: [PATCH v6 2/8] sbitmap: fix off-by-one when wrapping hint
-To: Uday Shankar <ushankar@purestorage.com>
-Cc: Ming Lei <ming.lei@redhat.com>, Jens Axboe <axboe@kernel.dk>, 
-	Andrew Morton <akpm@linux-foundation.org>, Shuah Khan <shuah@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, linux-block@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, linux-doc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH v2 02/18] cxl: docs/devices - device reference and
+ uefi placeholder
+To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+ dave.jiang@intel.com, alison.schofield@intel.com, vishal.l.verma@intel.com,
+ ira.weiny@intel.com, dan.j.williams@intel.com, corbet@lwn.net
+References: <20250430181048.1197475-1-gourry@gourry.net>
+ <20250430181048.1197475-3-gourry@gourry.net>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250430181048.1197475-3-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 7, 2025 at 2:49=E2=80=AFPM Uday Shankar <ushankar@purestorage.c=
-om> wrote:
->
-> In update_alloc_hint_after_get, we wrap the new hint back to 0 one bit
-> too early. This breaks round robin tag allocation (BLK_MQ_F_TAG_RR) -
-> some tags get skipped, so we don't get round robin tags even in the
-> simple case of single-threaded load on a single hctx. Fix the off-by-one
-> in the wrapping condition so that round robin tag allocation works
-> properly.
->
-> The same pattern occurs in __sbitmap_get_word, so fix it there too.
 
-Should this have a Fixes tag? Looks like the off-by-one wrapping has
-existed since 4bb659b15699 ("blk-mq: implement new and more efficient
-tagging scheme"), but it's only a correctness issue with round-robin
-tag allocation, which was added in 24391c0dc57c ("blk-mq: add tag
-allocation policy").
 
-I don't have much background on blk-mq's round-robin tag allocation, but FW=
-IW,
-
-Reviewed-by: Caleb Sander Mateos <csander@purestorage.com>
-
->
-> Signed-off-by: Uday Shankar <ushankar@purestorage.com>
+On 4/30/25 11:10 AM, Gregory Price wrote:
+> Add a simple device primer sufficient to understand the theory
+> of operation documentation.
+> 
+> Add carve-out for CDAT with a TODO.
+> 
+> Signed-off-by: Gregory Price <gourry@gourry.net>
 > ---
->  lib/sbitmap.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/lib/sbitmap.c b/lib/sbitmap.c
-> index d3412984170c03dc6600bbe53f130404b765ac5a..aa1cec78b9649f1f3e8ef2d61=
-7dd7ee724391a8c 100644
-> --- a/lib/sbitmap.c
-> +++ b/lib/sbitmap.c
-> @@ -51,7 +51,7 @@ static inline void update_alloc_hint_after_get(struct s=
-bitmap *sb,
->         } else if (nr =3D=3D hint || unlikely(sb->round_robin)) {
->                 /* Only update the hint if we used it. */
->                 hint =3D nr + 1;
-> -               if (hint >=3D depth - 1)
-> +               if (hint >=3D depth)
->                         hint =3D 0;
->                 this_cpu_write(*sb->alloc_hint, hint);
->         }
-> @@ -182,7 +182,7 @@ static int __sbitmap_get_word(unsigned long *word, un=
-signed long depth,
->                         break;
->
->                 hint =3D nr + 1;
-> -               if (hint >=3D depth - 1)
-> +               if (hint >=3D depth)
->                         hint =3D 0;
->         }
->
->
-> --
-> 2.34.1
->
+>  .../driver-api/cxl/devices/device-types.rst   | 170 ++++++++++++++++++
+>  Documentation/driver-api/cxl/devices/uefi.rst |  10 ++
+>  Documentation/driver-api/cxl/index.rst        |   7 +
+>  3 files changed, 187 insertions(+)
+>  create mode 100644 Documentation/driver-api/cxl/devices/device-types.rst
+>  create mode 100644 Documentation/driver-api/cxl/devices/uefi.rst
+> 
+> diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
+> new file mode 100644
+> index 000000000000..dfe8d4711987
+> --- /dev/null
+> +++ b/Documentation/driver-api/cxl/devices/device-types.rst
+> @@ -0,0 +1,170 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=====================
+> +Devices and Protocols
+> +=====================
+> +
+> +The type of CXL device (Memory, Accelerator, etc) dictates many configuration steps. This section
+> +covers some basic background on device types and on-device resources used by the platform and OS
+> +which impact configuration.
+> +
+> +Protocols
+> +=========
+> +
+> +There are three core protocols to CXL.  For the purpose of this documentation,
+> +we will only discuss very high level definitions as the specific hardware
+> +details are largely abstracted away from Linux.  See the CXL specification
+> +for more details.
+> +
+> +CXL.io
+> +------
+> +The basic interaction protocol, similar to PCIe configuration mechanisms.
+> +Typically used for initialization, configuration, and I/O access for anything
+> +other than memory (CXL.mem) or cache (CXL.cache) operations.
+> +
+> +The Linux CXL driver exposes access to .io functionalty via the various sysfs
+> +interfaces and /dev/cxl/ devices (which exposes direct access to device
+> +mailboxes).
+> +
+> +CXL.cache
+> +---------
+> +The mechanism by which a device may coherently access and cache host memory.
+> +
+> +Largely transparent to Linux once configured.
+> +
+> +CXL.mem
+> +---------
+> +The mechanism by which the CPU may coherently access and cache device memory.
+> +
+> +Largely transparent to Linux once configured.
+> +
+> +
+> +Device Types
+> +============
+> +
+> +Type-1
+> +------
+> +
+> +A Type-1 CXL device:
+> +
+> +* Supports cxl.io and cxl.cache protocols
+> +* Implements a fully coherent cache
+> +* Allow Device-to-Host coherence and Host-to-Device snoops.
+
+     Allows
+
+> +* Does NOT have host-managed device memory (HDM)
+> +
+> +Typical examples of type-1 devices is a Smart NIC - which may want to
+> +directly operate on host-memory (DMA) to store incoming packets. These
+> +devices largely rely on CPU-attached memory.
+> +
+> +Type-2
+> +------
+> +
+> +A Type-2 CXL Device:
+> +
+> +* Supports cxl.io, cxl.cache, and cxl.mem protocols
+> +* Optionally implements coherent cache and Host-Managed Device Memory
+> +* Is typically an accelerator device w/ high bandwidth memory.
+> +
+> +The primary difference between a type-1 and type-2 device is the presence
+> +of host-managed device memory, which allows the device to operate on a
+> +local memory bank - while the CPU sill has coherent DMA to the same memory.
+> +
+> +The allows things like GPUs to expose their memory via DAX devices or file
+> +descriptors, allows drivers and programs direct access to device memory
+> +rather than use block-transfer semantics.
+> +
+> +Type-3
+> +------
+> +
+> +A Type-3 CXL Device
+> +
+> +* Supports cxl.io and cxl.mem
+> +* Implements Host-Managed Device Memory
+> +* May provide either Volatile or Persistent memory capacity (or both).
+> +
+> +A basic example of a type-3 device is a simple memory expanded, whose
+
+                                                         expander  ?
+
+> +local memory capacity is exposed to the CPU for access directly via
+> +basic coherent DMA.
+> +
+> +Switch
+> +------
+> +
+> +A CXL switch is a device capacity of routing any CXL (and by extension, PCIe)
+> +protocol between an upstream, downstream, or peer devices.  Many devices, such
+> +as Multi-Logical Devices, imply the presence of switching in some manner.
+> +
+> +Logical Devices and Heads
+> +-------------------------
+> +
+> +A CXL device may present one or more "Logical Devices" to one or more hosts
+> +(via physical "Heads").
+> +
+> +A Single-Logical Device (SLD) is a device which presents a single device to
+> +one or more heads.
+> +
+> +A Multi-Logical Device (MLD) is a device which may present multiple devices
+> +to one or more devices.
+> +
+> +A Single-Headed Device exposes only a single physical connection.
+> +
+> +A Multi-Headed Device exposes multiple physical connections.
+> +
+> +MHSLD
+> +~~~~~
+> +A Multi-Headed Single-Logical Device (MHSLD) exposes a single logical
+> +device to multiple heads which may be connected to one or more discrete
+> +hosts.  An example of this would be a simple memory-pool which may be
+> +statically configured (prior to boot) to expose portions of its memory
+> +to Linux via the CEDT ACPI table.
+> +
+> +MHMLD
+> +~~~~~
+> +A Multi-Headed Multi-Logical Device (MHMLD) exposes multiple logical
+> +devices to multiple heads which may be connected to one or more discrete
+> +hosts.  An example of this would be a Dynamic Capacity Device or which
+> +may be configured at runtime to expose portions of its memory to Linux.
+> +
+> +Example Devices
+> +===============
+> +
+> +Memory Expander
+> +---------------
+> +The simplest form of Type-3 device is a memory expander.  A memory expander
+> +exposes Host-Managed Device Memory (HDM) to Linux.  This memory may be
+> +Volatile or Non-Volatile (Persistent).
+> +
+> +Memory Expanders will typically be considered a form of Single-Headed,
+> +Single-Logical Device - as its form factor will typically be an add-in-card
+> +(AIC) or some other similar form-factor.
+> +
+> +The Linux CXL driver provides support for static or dynamic configuration of
+> +basic memory expanders.  The platform may program decoders prior to OS init
+> +(e.g. auto-decoders), or the user may program the fabric if the platform
+> +defers these operations to the OS.
+> +
+> +Multiple Memory Expanders may be added to an external chassis and exposed to
+> +a host via a head attached to a CXL switch.  This is a "memory pool", and
+> +would be considered an MHSLD or MHMLD depending on the management capabilities
+> +provided by the switch platform.
+> +
+> +As of v6.14, Linux does not provide a formalized interface to manage non-DCD
+> +MHSLD or MHMLD devices.
+> +
+> +Dynamic Capacity Device (DCD)
+> +-----------------------------
+> +
+> +A Dynamic Capacity Device is a Type-3 device which provides dynamic management
+> +of memory capacity. The basic premise of a DCD to provide an allocator-like
+> +interface for physical memory capacity to a "Fabric Manager" (an external,
+> +privileged host with privileges to change configurations for other hosts).
+> +
+> +A DCD manages "Memory Extents", which may be volatile or persistent. Extents
+> +may also be exclusive to a single host or shared across multiple.
+
+                                                           multiple hosts.
+
+> +
+> +As of v6.14, Linux does not provide a formalized interface to manage DCD
+> +devices, however there is active work on LKML targeting future release.
+> +
+> +Type-2 Device
+> +-------------
+> +
+> +Todo
+
+
+-- 
+~Randy
+
