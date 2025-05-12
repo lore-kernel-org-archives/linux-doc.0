@@ -1,129 +1,85 @@
-Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C98179BF;
-	Mon, 12 May 2025 07:42:58 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 009C7257442
+	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 08:10:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.171
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747035781; cv=none; b=FzLLXbHiL0LWG0yUKEKAjv2oX2Bm84TBjrc95ZN8w34CoJXShDeIYd0UBIGlG7tLIa0yA00JTjU8I2UrayYJY2LW+q4IQsZqk1zaD1TAvzeTkWAtY29vK+oOyv7bjXwonlQgx3DSPTys+m3XSFLOfYBmxn1hqz5yEXcJ/VUmjY4=
+	t=1747037455; cv=none; b=Ax6U5zhtONc3/+vG3pi6ZR2wtnhYPqVniXwfSfsF84nD7uilDRNnsHMJdAI/K7fo7YvbK5fEbysEtn/BB0e6ncH89msUp0NEBsKKJxaiWYgn9s8+2KotA0GdezvVS8uPB/vfGV8avFQyunXs2C281otZlv6vVV9S5Il3/SrSCug=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747035781; c=relaxed/simple;
-	bh=Bvd9v2KaOdNJwLWfy1ir5zBhQ0rZibvm1b+wCf5BiF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BFYGyspvWd6A7gb2UY1hl/VoWkPH25QqvCxF5/F5fMIEvL/dktujpDxnTsqYG3f/fH9sVJ0+mSkpAq3VuRQH1zKZQ+rtBYRrwevt/2EP24K+2qJO1qU0vCuy3sh/04sAghqOBKcvdDHzUX6mJO3INQH1lIdYTPxBsS4OQVeqEbE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/POGKet; arc=none smtp.client-ip=209.85.210.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747037455; c=relaxed/simple;
+	bh=BOP6Uw6zm7kXZhT9LMuJCWcMldNLHWkHgkN3+glNCvs=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=uu3kWeGb7sqpsQ0mVi6wyl36VdUNG8RET+yonbmK4PkEtmh/Ch8Yp5BRiwjJ8v1VDxw59BKwLKPx2E8wRPI2DdlnZFEYmweGWArefzGfJwecpA2wX9duoSMR0VxuFJ60l+Rqs93udU3+6jj5Y09sqz/YnxMg+T19t3pOR/ISFJ8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=QuDg+Yb4; arc=none smtp.client-ip=209.85.160.171
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/POGKet"
-Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7403f3ece96so5655087b3a.0;
-        Mon, 12 May 2025 00:42:58 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="QuDg+Yb4"
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-47662449055so22648521cf.1
+        for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 01:10:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747035778; x=1747640578; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=6ixYcQq0rSF0bg9NFU6d5lRXfvmxhdZj5BggjL8hxVE=;
-        b=M/POGKeti/aLSIhswhTtGCuE9w02VruiQNnl0H6fnQENPw3oHukEuv39+BbfO9S5eK
-         srhhVC8uugWoTAJPMfUbYAN2boUveeacKk08rkkeY53oiD9srBIs54Q/4/c93+XpPQH8
-         8mwgYzkHNEKwlhCNrDB1mwnXFPCspPseh8jpEk9pk1B/lzfiIMOffNqTl+fJatbSRVmi
-         TooHSn8LVf7kkU0pvBZMiIn+uYdk1TAKebTMkYYvWFPMJxx2oL8DzDnBPqopNm63ScK2
-         P20NOJlzXsSAxzFTupNjoZ0sAn2PcupZTHjOSYFHBMnYXkTUVA6UeW/8v/7pavT3/1Se
-         9QDw==
+        d=szeredi.hu; s=google; t=1747037451; x=1747642251; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=BOP6Uw6zm7kXZhT9LMuJCWcMldNLHWkHgkN3+glNCvs=;
+        b=QuDg+Yb4FoyhWZ7CnOsbbrw77oYDZczjXNHd4CPBAR899TYUPVigb8cMBnwHxItjdM
+         c0Zkpa3CBi3NVC3qQifXIdqVuNk+p//XpFEaIIG/Y5RnUL+M5BwsVUf2CkDXflr968GV
+         70EpHTuFgURd3CGYTtkY1cATZs9tVXOhOCiKc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747035778; x=1747640578;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=1e100.net; s=20230601; t=1747037451; x=1747642251;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=6ixYcQq0rSF0bg9NFU6d5lRXfvmxhdZj5BggjL8hxVE=;
-        b=G9POQC4RZjBp/Iitfw+0WPN1IOMxpTnOKZm6CxsmLKm6J066H0KR0VzhtGq9Kw1ncM
-         AHvwL0cDp69VBVLtbW5HwvZ4piLcnur4loJeaZd8oYPnxCN9EL9qI/4xs84VGSEn/1Ej
-         wvhnioW3s8xTqx7rhPuqEYJY9P0PwFnTQlis2Su5Udx0xHpVJRtXy2diPa/2RVOF19XA
-         JpXGVKqvEhfvDqN7iRUQT8KBsufVyCxiO8zvESwG70XPA/P3WT0IlJxeA5nvQioXr0vr
-         iayxtCEh5SUvK7vcuCEXN91MSEkOlkoUR/PxAV2SkYRztLf/sPpxRzEb61rZMlf23fH0
-         OTTA==
-X-Forwarded-Encrypted: i=1; AJvYcCUVO7i3F5wFeKEY8HCzIssI6PEfW5eEjv6yhQnlJCPXNj5R3i2HEboZkHueMpvojX9Ru21aX/haME0=@vger.kernel.org, AJvYcCXM1kxJOdKeoipOlsb1Vz3Vv6USsKgCKTT4DSp0e6WEvT/d8hqexGW0ZPNbU8Mvgmeq8xt/0iaiDwgSb+A=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxZ5CHZ5C4gC9QEJg/ZCJfVvn/SUSRi2K65LEEYdY+NdgWpxLYr
-	Mg4x1tlAUbhV1T2h0eEFonOgzvXh6aWH8KfyoV53eN1zaFIT3siN
-X-Gm-Gg: ASbGnctbKmtXXUOZNEs9xQpziiLTaae5+CwoNr0jFV3ih2zveocNIzSkXaLwqlhw9tt
-	CdVh6peldNGu+brid425Z5g37jclHSIitu0Zy8ND9WU9adgPveJXGKMHhKAhKBoIrXY4PBlmlUD
-	J3+/ARS7RLMoufkumZc/ZY+DGPST3nW8m+NDN4Otp8kHvI7naSYpFBczSGPxlHdw2Aehtzywia4
-	xGzheCijPAf5teh+fsl2FDRG/7IiOqlki7l+goWqskJ8FquhIHgqSVPJ8LMC7XNEhGYTK9vlE8C
-	4e0XedEeV8C0N0rifXzSA+d70bW6WMYxZM/fAP4dqAlnTq+LwlQ=
-X-Google-Smtp-Source: AGHT+IEM8O9x95BglttkpsX1VYoI4jLWpK+gMFTpf3ZBXg7sxj3iLdI7bWtsrH6IFjYE84LOvjVznA==
-X-Received: by 2002:a05:6a00:190f:b0:740:9a42:a356 with SMTP id d2e1a72fcca58-7423bd5544cmr17176473b3a.11.1747035778066;
-        Mon, 12 May 2025 00:42:58 -0700 (PDT)
-Received: from archie.me ([103.124.138.155])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a0d007sm5690848b3a.96.2025.05.12.00.42.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 00:42:57 -0700 (PDT)
-Received: by archie.me (Postfix, from userid 1000)
-	id C0F76420AB0E; Mon, 12 May 2025 14:42:52 +0700 (WIB)
-From: Bagas Sanjaya <bagasdotme@gmail.com>
-To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-	Linux Documentation <linux-doc@vger.kernel.org>,
-	Linux DRI Development <dri-devel@lists.freedesktop.org>,
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
-	Linux Media Subsystem <linux-media@vger.kernel.org>
-Cc: Alex Deucher <alexander.deucher@amd.com>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-	Maxime Ripard <mripard@kernel.org>,
-	Thomas Zimmermann <tzimmermann@suse.de>,
-	David Airlie <airlied@gmail.com>,
-	Simona Vetter <simona@ffwll.ch>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Rodrigo Siqueira <siqueira@igalia.com>,
-	Mauro Carvalho Chehab <mchehab@kernel.org>,
-	Bagas Sanjaya <bagasdotme@gmail.com>,
-	Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: [PATCH] Documentation/gpu: Disambiguate SPI term
-Date: Mon, 12 May 2025 14:42:16 +0700
-Message-ID: <20250512074215.40928-2-bagasdotme@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        bh=BOP6Uw6zm7kXZhT9LMuJCWcMldNLHWkHgkN3+glNCvs=;
+        b=wfm/CgSk4ytxeuSqQHk7SNb5+YF/4CPvXB1JuoP+xPrd1m46OQQfOVMnqJGL7uQHf/
+         0hBVP+PfZwPcD1Zisn7hvl9kJWBoEOADqYGC5w+u9D4ppH2CbAgJTrZ56N8cIPr825Jw
+         HpYKRN6N5RBTmDMktzUQ4HzBEaq258zHlwarXlxVmjc6fEDgPOIXUZggv+y0abORlIGg
+         b6DFdUzmkGpC0ctKEVmR5jj1K6qQhk1I3iyuar5DmELeT2jRBN7ycUyDnM9FXsQXpRnh
+         QgcCSrVmxlhXiUg68CPQtHK5jEHIz5SI8CkL6/NY54WXqhe1MlWR3+nf277ixxQjyN5a
+         2KEw==
+X-Forwarded-Encrypted: i=1; AJvYcCUGXZAIvt2F6o0u2H/Ui8i2GKfsGZufSUlM1MpeCBBJpci2F3xSKDxTWpteoqtJCzKp0QA+4y9JzSY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwF6rDGSTY/pghFdxb7WdM1p1ZIPeVR9QdS/UFgesYqMUXB59ib
+	dWPT87p03MkQ60barRsx/cPbs9Shwj4ejzD61o2RLTMByuJ1DRDPQiWojTKYPDv2717WyFYHs+p
+	Q3AMF/0lhyswUQDTnhtqcolBPQrwGwZ2W0qocvQ==
+X-Gm-Gg: ASbGnctmLI0rId/5YFrRwR3xEFI4dUFh3O3CZIV/cmD6Z8p+2R8dpUiyKpr4gwXSwGh
+	BUH9FFW3kBBl9y3yagT/rXQsp++rxQFABtgz/Uff4pCeCKCGVvqfjCDo7qYWLRipXk2AFQSjFi3
+	5j3YAkabRd+JKw3A06Py7LlC45xRi0F9JGDr8HbNMJClZZfA==
+X-Google-Smtp-Source: AGHT+IE9riVAa+kf1k7H/s/DMg0+dtkLLuYpL/QwjZJPyX/AyxDSXkoHgrrw6V5TpkgnV8ryhPngQ9J6/WtkR8aF34o=
+X-Received: by 2002:a05:622a:30c:b0:48a:e2ec:a3b4 with SMTP id
+ d75a77b69052e-49452744396mr167098991cf.17.1747037450856; Mon, 12 May 2025
+ 01:10:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1452; i=bagasdotme@gmail.com; h=from:subject; bh=0Ff/DfdS8SM8W7YuaV5Dll23KaO6sYsRLEZgfh2NHJI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmKSxutzjK83xzJWfo1+rSB1/66S/XV36er3TApzjA81 P5Q+o1ARykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACay9wPD/zCXyKlr4lNVHMKL ix8lhjNN5fR0bSuV3Kz27HEtX0IMM8P/hPX6hu+LdjKZsbzb95rhbZH7R/+Cnk8pWqH2DAtMGY8 zAwA=
-X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
-Content-Transfer-Encoding: 8bit
+References: <20250507-fuse-passthrough-doc-v2-0-ae7c0dd8bba6@uniontech.com>
+In-Reply-To: <20250507-fuse-passthrough-doc-v2-0-ae7c0dd8bba6@uniontech.com>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Mon, 12 May 2025 10:10:40 +0200
+X-Gm-Features: AX0GCFtoLXIKOqkBSTvl2qMeCrxjYdfhogIog4A5r7OHYgoDzEDxfLUMnrE1sJo
+Message-ID: <CAJfpegt46sKDJfB0V=1Db43VjoZQ-nxHuCVQU_k-A_AgxqnPVw@mail.gmail.com>
+Subject: Re: [PATCH v2 0/2] Add a documentation for FUSE passthrough
+To: chenlinxuan@uniontech.com
+Cc: Jonathan Corbet <corbet@lwn.net>, linux-kernel@vger.kernel.org, 
+	linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Bernd Schubert <bernd.schubert@fastmail.fm>
+Content-Type: text/plain; charset="UTF-8"
 
-Documentation/userspace-api/media/glossary.rst:170: WARNING: duplicate term description of SPI, other instance in gpu/amdgpu/amdgpu-glossary
+On Wed, 7 May 2025 at 10:42, Chen Linxuan via B4 Relay
+<devnull+chenlinxuan.uniontech.com@kernel.org> wrote:
+>
+> This series adds a new file,
+> Documentation/filesystems/fuse-passthrough.rst, which documents why
+> FUSE passthrough functionality requires CAP_SYS_ADMIN capabilities.
+>
+> The series also updates the MAINTAINERS file to ensure
+> scripts/get_maintainer.pl works correctly with FUSE documentation.
+>
+> Signed-off-by: Chen Linxuan <chenlinxuan@uniontech.com>
 
-That's because SPI of amdgpu (Shader Processor Input) shares the same
-global glossary term as SPI of media subsystem (which is Serial
-Peripheral Interface Bus). Disambiguate the former from the latter to
-fix the warning.
+Applied, thanks.
 
-Note that adding context qualifiers in the term is strictly necessary
-in order to make Sphinx happy.
-
-Fixes: dd3d035a7838 ("Documentation/gpu: Add new entries to amdgpu glossary")
-Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-Closes: https://lore.kernel.org/linux-next/20250509185845.60bf5e7b@canb.auug.org.au/
-Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
----
-Also Cc: media maintainers.
-
- Documentation/gpu/amdgpu/amdgpu-glossary.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-index 2040da593b1490..30812d9d53c645 100644
---- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-+++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-@@ -182,7 +182,7 @@ we have a dedicated glossary for Display Core at
-     SMU/SMC
-       System Management Unit / System Management Controller
- 
--    SPI
-+    SPI (AMDGPU)
-       Shader Processor Input
- 
-     SRLC
-
-base-commit: afc6053d4c4b0a6be500b9e643aa17221e93a57b
--- 
-An old man doll... just what I always wanted! - Clara
-
+Miklos
