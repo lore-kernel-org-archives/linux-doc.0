@@ -1,189 +1,227 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f169.google.com (mail-il1-f169.google.com [209.85.166.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C6F4F293731
-	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 11:55:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EC971266B6F;
+	Mon, 12 May 2025 12:04:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747050929; cv=none; b=V5qfv/YbiMJ6i3cfkVYXXgOuFTQjojg3TT/3Qm3GsVMOQphHsdjIMtWL8ypkNSs456ajdJDix92D8HSVutVa+nWiCMxaBCdyJBH7deOdo+CMYuhAp5iKoQhXQeTZGK14zUV6sD6W7eiFnYJvcxTbez+kGAqhJPvajUiJXtoJUvU=
+	t=1747051493; cv=none; b=j9ZQuFVt9/QSa1y+uP/5XIxbLiZufGNovo/m7pyQWOb43tUUcxL/vSrwra5kmRjyabqXAcM0u0IgT+JbUso8TcHnQrhloz5e4pmY+EpjUbS8HXyRJhJ6GxehS1i15UYcMqOFPe1wF8A+1yz3kXuMI+Lki4tBzRTFalm5ji/sksw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747050929; c=relaxed/simple;
-	bh=fpKuJ2+4jefwS/IKbyRXQB4RvXukKzGtBFAU7YzBq0M=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=RkhKW5clHvJZi3dEnobtkcoPXit1ljRAhnY8Riu6pjLF2XspuFLO9tEjVtOPA5aV4n+nz6xp3nBjmIKbz3GW1gPbOAv6U4T2Wnj0h7nPm+pS9MB0heKx82RvQUfZxzf0vUyKZgDGYIs2Kig/USGLZDraWlbnK7kdGQCjxWqwD3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=GlJWR5nY; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747051493; c=relaxed/simple;
+	bh=PpwkHoR7PJskW5QA/sZTjuYp/r8Etk0ME04dY9V1dvc=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=lKQzd+qron2b/D7osJ92S8ka/AwxLaeNG7boI8udwXnvgO05cIocUwVtOva4hqGsSLx/UR+jBC5MUAFYSXPLJtWvyDVKJBk8n+5w+qCyzmgNDKs8RGgwJERJ+F3YmiEJR2r+OQ+4s7/PlgCebuUK1RvprBgrYVJm/dz1kDmrDH8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MQjMNrFC; arc=none smtp.client-ip=209.85.166.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="GlJWR5nY"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747050926;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=m3w6DrVzh6eoUVhtoXnjZ8ZVgMOpqb53FdE8SSrAvQ0=;
-	b=GlJWR5nYUJGl1ZCtBqTfT2q6k0Wa+QCwXaHF9N6XSf6bJuElqTVDoc1PxncGAD+H/rtFfn
-	oFNFo7G3igQS41tbIueNhnFVWotrWJ1O8n7Us6ucFQ2TeqqGtfk8YFVSHWXOmR0sSWDivh
-	x37MM9nMwLy5oFI3g80bk5lZxq8U7Kg=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-351-Qddqo7gNMl6Iadh20AKurg-1; Mon,
- 12 May 2025 07:55:21 -0400
-X-MC-Unique: Qddqo7gNMl6Iadh20AKurg-1
-X-Mimecast-MFC-AGG-ID: Qddqo7gNMl6Iadh20AKurg_1747050919
-Received: from mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.40])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id BEBFA1956077;
-	Mon, 12 May 2025 11:55:18 +0000 (UTC)
-Received: from [10.44.34.215] (unknown [10.44.34.215])
-	by mx-prod-int-04.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id D89DA19560A3;
-	Mon, 12 May 2025 11:55:12 +0000 (UTC)
-Message-ID: <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
-Date: Mon, 12 May 2025 13:55:11 +0200
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MQjMNrFC"
+Received: by mail-il1-f169.google.com with SMTP id e9e14a558f8ab-3da74959554so10799595ab.2;
+        Mon, 12 May 2025 05:04:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747051491; x=1747656291; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=fVY7byQqj11Mp4UMewsQhtrEKoqNNj+/7xklvS2HfUE=;
+        b=MQjMNrFCsbr/GCOAG9js624WUrKlFLkHmSdFr2uXFGJg6Hprtl2qi8oM0QXbWlseTK
+         a67GqrfGZxpxRgauS1uBUKt77LPzS15LhTRFMUge7OGE6B3xG2L8/mI/zgJ2+iOc0RvK
+         /lcCbXPDOzYXwgZaQthKEnehcg9EOGE+z7Trp8+hZKEQP3oRb4XI+hn+OHVoz+B/AT6I
+         DOFRIszN+pes8lQ1TySYVF45isdtxT9Q+GqA1SWY37wKPj+ZNVkA30l4817F/XZWXAm5
+         89cInqnnlTSxMbzq/JFSAOpt4YVYbQDD5JQIx7r/zENqOet/3BdmVE5RQ6SRmxnpXk7r
+         7SXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747051491; x=1747656291;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fVY7byQqj11Mp4UMewsQhtrEKoqNNj+/7xklvS2HfUE=;
+        b=K37iNwOzD7IkS6OQpC/fzls++F+N8cj6G/vSt/0eQgBuoxmXmhTu6/M8p5p8G8Sjkm
+         woDbnxfvu2V1xfN6e3zyuzeALaDjJCiiw9UDBCLc/4Hvs3+Ch7cmGyUu0Yp0guMGF5TI
+         /n0n/Ni5iOKdKrU5N9N25heOGJKpTKy75swKoh2aDE0Cxm1pxsE8VzfrRPeOCS4zlZAA
+         4ptYVo5DB7UuHkwJgMc5KOe0FklGvjEI8oM+bXp9yl/dAYCD0dmRPTHvb5xl1TVRJZEb
+         IbBORiu/8Hlv930K4HWxRYqHo8X6OntKMRxAQPJiIu3pd1R8ybC7Ql1B4gJXXLGyacf4
+         c1GQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWDTux4F188puuFdTkXl+eEP5idIwiAmK2oXNewq4BszMTXDDFMbLoGUl3AbjDjeQSD7Mz/i+Rv52C0n0gp@vger.kernel.org, AJvYcCWFdlRaUFY0Z0xII7cB4XyDGSFWx1lRBr60gOf0iPbVf1jb6kjOyTWa5oaeQRCn3c/h6GkaKhYz3jk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyBgyBqyLXRZsjbFeIiKzAW85ZWHeMKp53Ex2Vn8XCuiR3s6kOa
+	PAgjDq2jjBuOLYXTRanxz7jcf6P4LbnIVn0TWN8mmXYcOhJ+FurHjD7DnweS7KkHh1UxtrNOKOX
+	hTE3mfk9/Y36XUtRAOojs7MjViXY=
+X-Gm-Gg: ASbGncsD1XnYb1yPzCCSxwBjT4wTslByqpb2Z6m7kQMA87IqYtKwScn16csIJgRtfFc
+	hOgNrQ1VamElItGtz9YN3J0cqSXDs/Fdsdz0/cWrhG1oBTF6ukbw1bqmWaGwKbrVfYOsTBuoTYB
+	9r56w5g3CIVNatg35GcaN5jd9GhRold/w=
+X-Google-Smtp-Source: AGHT+IF+cm95w7zeD5eNH1MGsRiuHvvjVFJ0Fx5a87jgCqHzQbLg02uuOBemX2pKy0udX77yN5QCfNXQ2TD5+M+uuiU=
+X-Received: by 2002:a92:c244:0:b0:3d8:975:b808 with SMTP id
+ e9e14a558f8ab-3da7e1e1a99mr144517865ab.5.1747051490823; Mon, 12 May 2025
+ 05:04:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
- during init
-To: Lee Jones <lee@kernel.org>, Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc: netdev@vger.kernel.org, Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250507124358.48776-1-ivecera@redhat.com>
- <20250507124358.48776-9-ivecera@redhat.com>
- <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
- <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
- <aBt1N6TcSckYj23A@smile.fi.intel.com> <20250507152609.GK3865826@google.com>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20250507152609.GK3865826@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.40
+References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
+ <aCFPRhfxKUeRu1Qh@gallifrey> <CAL+tcoBKZ4FMk9ozFidWUgfrEyRBrHCsh4cMMbTOA_e-wn0UJQ@mail.gmail.com>
+ <aCHggEc3MdlL6t7j@gallifrey>
+In-Reply-To: <aCHggEc3MdlL6t7j@gallifrey>
+From: Jason Xing <kerneljasonxing@gmail.com>
+Date: Mon, 12 May 2025 20:04:14 +0800
+X-Gm-Features: AX0GCFvG_McLYJiBDlL1xuYUkPzx-TAS0NIMozS3ebq7908bZVT8VDFSPGoA1Ww
+Message-ID: <CAL+tcoAdbQEuS5ZA3CJuEm4PDMKBF4mvv6cSV-xBtqK-pr_k2g@mail.gmail.com>
+Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
+To: "Dr. David Alan Gilbert" <linux@treblig.org>
+Cc: Andrew Morton <akpm@linux-foundation.org>, andriy.shevchenko@linux.intel.com, 
+	corbet@lwn.net, linux-doc@vger.kernel.org, 
+	LKML <linux-kernel@vger.kernel.org>, viro@zeniv.linux.org.uk, 
+	Jens Axboe <axboe@kernel.dk>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 07. 05. 25 5:26 odp., Lee Jones wrote:
-> On Wed, 07 May 2025, Andy Shevchenko wrote:
-> 
->> On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
->>> On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
->>>> On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> wrote:
->>
->> ...
->>
->>>>> +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>> +       { .channel = 0, },
->>>>> +       { .channel = 1, },
->>>>> +       { .channel = 2, },
->>>>> +       { .channel = 3, },
->>>>> +       { .channel = 4, },
->>>>> +};
->>>>
->>>>> +static const struct mfd_cell zl3073x_devs[] = {
->>>>> +       ZL3073X_CELL("zl3073x-dpll", 0),
->>>>> +       ZL3073X_CELL("zl3073x-dpll", 1),
->>>>> +       ZL3073X_CELL("zl3073x-dpll", 2),
->>>>> +       ZL3073X_CELL("zl3073x-dpll", 3),
->>>>> +       ZL3073X_CELL("zl3073x-dpll", 4),
->>>>> +};
->>>>
->>>>> +#define ZL3073X_MAX_CHANNELS   5
->>>>
->>>> Btw, wouldn't be better to keep the above lists synchronised like
->>>>
->>>> 1. Make ZL3073X_CELL() to use indexed variant
->>>>
->>>> [idx] = ...
->>>>
->>>> 2. Define the channel numbers
->>>>
->>>> and use them in both data structures.
->>>>
->>>> ...
->>>
->>> WDYM?
->>>
->>>> OTOH, I'm not sure why we even need this. If this is going to be
->>>> sequential, can't we make a core to decide which cell will be given
->>>> which id?
->>>
->>> Just a note that after introduction of PHC sub-driver the array will look
->>> like:
->>> static const struct mfd_cell zl3073x_devs[] = {
->>>         ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
->>>         ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
->>>         ZL3073X_CELL("zl3073x-dpll", 1),  // ...
->>>         ZL3073X_CELL("zl3073x-phc", 1),
->>>         ZL3073X_CELL("zl3073x-dpll", 2),
->>>         ZL3073X_CELL("zl3073x-phc", 2),
->>>         ZL3073X_CELL("zl3073x-dpll", 3),
->>>         ZL3073X_CELL("zl3073x-phc", 3),
->>>         ZL3073X_CELL("zl3073x-dpll", 4),
->>>         ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
->>> };
->>
->> Ah, this is very important piece. Then I mean only this kind of change
->>
->> enum {
->> 	// this or whatever meaningful names
->> 	..._CH_0	0
->> 	..._CH_1	1
->> 	...
->> };
->>
->> static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>         { .channel = ..._CH_0, },
->>         ...
->> };
->>
->> static const struct mfd_cell zl3073x_devs[] = {
->>         ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
->>         ZL3073X_CELL("zl3073x-phc", ..._CH_0),
->>         ...
->> };
-> 
-> This is getting hectic.  All for a sequential enumeration.  Seeing as
-> there are no other differentiations, why not use IDA in the child
-> instead?
+On Mon, May 12, 2025 at 7:50=E2=80=AFPM Dr. David Alan Gilbert
+<linux@treblig.org> wrote:
+>
+> * Jason Xing (kerneljasonxing@gmail.com) wrote:
+> > On Mon, May 12, 2025 at 9:30=E2=80=AFAM Dr. David Alan Gilbert
+> > <linux@treblig.org> wrote:
+> > >
+> > > * Jason Xing (kerneljasonxing@gmail.com) wrote:
+> > > > Hi All,
+> > >
+> > > Hi Jason,
+> > >
+> > > > I noticed this patch "relay: Remove unused relay_late_setup_files"
+> > > > appears in the mm branch already[1], which I totally missed. Sorry =
+for
+> > > > joining the party late.
+> > > >
+> > > > I have a different opinion on this. For me, I'm very cautious about
+> > > > what those so-called legacy interfaces are and how they can work in
+> > > > different cases and what the use case might be... There are still a
+> > > > small number of out-of-tree users like me heavily relying on relayf=
+s
+> > > > mechanism. So my humble opinion is that if you want to remove
+> > > > so-called dead code, probably clearly state why it cannot be used
+> > > > anymore in the future.
+> > >
+> > > We've got lots of deadcode, why it's dead varies a lot; for example
+> > > people forgetting to clean it up after other patches etc - so this
+> > > _could_ be used but hasn't been for well over 7 years.
+> > >
+> > > > Dr. David, I appreciate your patch, but please do not simply do the
+> > > > random cleanup work __here__. If you take a deep look at the relayf=
+s,
+> > > > you may find there are other interfaces/functions no one uses in th=
+e
+> > > > kernel tree.
+> > >
+> > > Actually, that was the only interface in relay that I found unused.
+> >
+> > Not really. More than this single one, say, __relay_write() and
+> > subbuf_start_reserve()...
+>
+> Ah, my tools only spot unused symbols, they're header inlines; I've
+> not found a way to spot those yet.
+>
+> > > > I'm now checking this kind of patch in relayfs one by one to avoid
+> > > > such a thing happening. I'm trying to maintain it as much as possib=
+le
+> > > > since we internally use it in the networking area to output useful
+> > > > information in the hot paths, a little bit like blktrace. BTW, rela=
+yfs
+> > > > is really a wonderful one that helps kernel modules communicate wit=
+h
+> > > > userspace very efficiently. I'm trying to revive it if I can.
+> > >
+> > > If you've got a use for that function, then I'm more than happy to su=
+ggest
+> > > just dropping my patch.
+> > >
+> > > However, it is a fairly chunky function that is built into distro
+> > > kernels - so I think it should have a little thought put to it.
+> > >
+> > > As I say, if you are using it, it's fine by me just to drop this patc=
+h.
+> >
+> > For now, I'm not using it but still considering what the use case
+> > might be in the future. As I mentioned earlier, I'm trying to make
+> > relayfs more robust with more realistic functions.
+> >
+> > IMHO, it's not really a dead code to me unless you can clarify why
+> > it's obsolete instead of claiming "no one is using it".
+>
+> i'm very gentle about this; I'm not pushing back hard if someone
+> says actually they want to keep something.
+>
+> I'd say my 'claim' is fairly good as even you say
+>   'I'm not using it but still considering..'
+>
+> You don't need to push back quite as hard on me!
 
-For that, there have to be two IDAs, one for DPLLs and one for PHCs...
-The approach in my second reply in this thread is simpler and taken
-in v8.
+Oh, sorry, It's absolutely not my intention. I was trying to share my
+opinion. No hard feelings;)
 
-<cite>
-+#define ZL3073X_PDATA(_channel)			\
-+	(&(const struct zl3073x_pdata) {	\
-+		.channel = _channel,		\
-+	})
-+
-+#define ZL3073X_CELL(_name, _channel)				\
-+	MFD_CELL_BASIC(_name, NULL, ZL3073X_PDATA(_channel),	\
-+		       sizeof(struct zl3073x_pdata), 0)
-+
-+static const struct mfd_cell zl3073x_devs[] = {
-+	ZL3073X_CELL("zl3073x-dpll", 0),
-+	ZL3073X_CELL("zl3073x-dpll", 1),
-+	ZL3073X_CELL("zl3073x-dpll", 2),
-+	ZL3073X_CELL("zl3073x-dpll", 3),
-+	ZL3073X_CELL("zl3073x-dpll", 4),
-+};
-</cite>
+>
+> > If you insist
+> > on the point, then most of relayfs would be removed, which is
+> > apparently not what I'm wishing for.
+>
+> You could forgive me for thinking this is unused;
+>   a) There are no callers in the tree - I can't possibly imagine all
+>    other trees to check; especially those on someones local disk
+>    or thoughts still bouncing around in your brain!
+>
+>   b) There's no listed maintainer, so I can't assume anyone is actively
+>   working on it
+>
+>   c) The only changes in years in the tree are cleanups, like strcpy
+>   variants.
+>
+> We do have other APIs that people care about and aren't in use;
+> now if those are nicely thought out APIs etc I think that's fine.
+> (I've had others say they want to keep some because they like them or
+> they're part of a well thought out API)
 
-Lee, WDYT?
+I see what you mean here. Relayfs is a bit special.
+
+>
+> > Probably it will be finally removed, but not at the moment. Evidence
+> > is still not clear to me :S
+> >
+> > For sure, the last call would be made by Andrew and Jens. Please help
+> > review this patch one more time. Thanks!
+>
+> Why don't you add a MAINTAINERS section with you added just as a
+> reviewer?   That at least gets you told if someone dares to clean it up
+> in the future!
+
+Right, thanks for advising. I'm now asking for permission from Andrew and J=
+ens.
 
 Thanks,
-Ivan
+Jason
 
+>
+> Dave
+>
+> > Thanks,
+> > Jason
+> >
+> > >
+> > > Dave
+> > >
+> > > > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/co=
+mmit/?h=3Dmm-everything&id=3D46aa76118ee365c25911806e34d28fc2aa5ef997
+> > > >
+> > > > Thanks,
+> > > > Jason
+> > > --
+> > >  -----Open up your eyes, open up your mind, open up your code -------
+> > > / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  =
+\
+> > > \        dave @ treblig.org |                               | In Hex =
+/
+> > >  \ _________________________|_____ http://www.treblig.org   |_______/
+> --
+>  -----Open up your eyes, open up your mind, open up your code -------
+> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \
+> \        dave @ treblig.org |                               | In Hex /
+>  \ _________________________|_____ http://www.treblig.org   |_______/
