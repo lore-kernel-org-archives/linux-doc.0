@@ -1,52 +1,46 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 997F52288FB;
-	Mon, 12 May 2025 14:34:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0082722B5AA;
+	Mon, 12 May 2025 14:55:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747060462; cv=none; b=bzaHSc4aC+T5sYhUA1TVMzqeh//M1z2X+gmXY6hjsfEyxETO2GuCZa0jXsuYuQztMCm2HiUA8M6YwvzPMt/jN2ync/WuR7H4848rXUpIMM78WStrBRci9WK5AtLevd+HsrRmoHiXt1pMxF2+uxOBKSeGfM9hCDTf/N/OoKoODKw=
+	t=1747061720; cv=none; b=mfm8JxwCdahXxK4idSrcdLNLjVerGO/wKuUUzylTCmtPh9ydekoxGmidsXXPecCy8XKVRkXMGOJq79KkNRb1xZqg6SdPKFFiiv4Pu8GxTDyIq/s1ITmfDn4H7ONiTzDaj5+c04ucFKMSwruPJ9zuWyl4/5CMZkHwyFnZWsXzGOI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747060462; c=relaxed/simple;
-	bh=VlIFsgYDVXWdTWkNJfheYZRoAUxvYsOa68ZD1Mj4cbE=;
+	s=arc-20240116; t=1747061720; c=relaxed/simple;
+	bh=bIXGnFUp3r/ltoiwYlUED+Cv66IJZeza+vWr9Tzoz0E=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qZLG021Todu4gT0Ndp4O8Z4A+RnvJMx8Mp/SSB4T5uEvMddxiJhmCEslumtitXSFwgDIrvZcMuBpRVa60nNU+wjifcqp3n0othXMk6dhoC5Mpw65Vhemc9p7awpVHdju3gJXVwHiMxYGaBcLY34+khcTn1DLcGSHDHy5bjkSHPM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PYd1ZyFH; arc=none smtp.client-ip=10.30.226.201
+	 Content-Type:Content-Disposition:In-Reply-To; b=fFnaOzJY9XEF8rQJU6oC8jDtwiVsb14cPES1RjKH5bA9WpdPE9NXF7UCvPAmTCSYMSXD9b9NRRRBu9RK71MxWumyawzFAp14Eib9cDyZ6J27N2M7DQqBq6O3FCGVzdZkwNzTsqFkkNwmvY1gyaDsF9vic7899/iH1PEFADs4sVI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=HyvkWqEq; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=bombadil.srs.infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PYd1ZyFH"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A0172C4CEE7;
-	Mon, 12 May 2025 14:34:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747060462;
-	bh=VlIFsgYDVXWdTWkNJfheYZRoAUxvYsOa68ZD1Mj4cbE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PYd1ZyFHU0tzsxlL6c95Cybu3vh8/CMQlfFAAC7pmbCskaRuQi4WJ/WN5senawLOq
-	 bwe+etRNUQctrmdOanCRtwZlbSe3sPow+BXXLolF08rGgicaFrwWOiMo1ddkH1gYFb
-	 pFugOoGuqxqnGQj5sqVYDUDgTsJFX7yeWRaa6u0+WL029FFuDY9K+rqFMmaELAqCyN
-	 +8CHlvMizgFvEVakuRn2dEqbpldt//UL5vsyTutct86XOoah5BlPhKaN+BgLALkDMk
-	 dC/j/ikfxCVTFUv9YYh8NBZLjVJFDYt047/l2SfzmFDLlg1gFioEyc93QVCDmXdKQC
-	 UiYQHP1Sqw6Ow==
-Date: Mon, 12 May 2025 15:34:16 +0100
-From: Simon Horman <horms@kernel.org>
-To: Lee Trager <lee@trager.us>
-Cc: Alexander Duyck <alexanderduyck@fb.com>,
-	Jakub Kicinski <kuba@kernel.org>, kernel-team@meta.com,
-	"David S. Miller" <davem@davemloft.net>,
-	Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Andrew Lunn <andrew+netdev@lunn.ch>,
-	Jacob Keller <jacob.e.keller@intel.com>,
-	Mohsin Bashir <mohsin.bashr@gmail.com>,
-	Sanman Pradhan <sanman.p211993@gmail.com>,
-	Su Hui <suhui@nfschina.com>, Al Viro <viro@zeniv.linux.org.uk>,
-	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
-	Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v4 4/5] eth: fbnic: Add mailbox support for PLDM
- updates
-Message-ID: <20250512143416.GN3339421@horms.kernel.org>
-References: <20250510002851.3247880-1-lee@trager.us>
- <20250510002851.3247880-5-lee@trager.us>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="HyvkWqEq"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=In-Reply-To:Content-Type:MIME-Version
+	:References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+	Content-Transfer-Encoding:Content-ID:Content-Description;
+	bh=3ZO7qs2cIM2wnLnq8b3WSje6dMXJly5sAUWvWi9DxZQ=; b=HyvkWqEqYVYc5FQibEj54dloH/
+	91znqrDukN3dTr6R1ifa98LxwzQSoHEG3BF/OCsQOFPdrgloHcqaevNEV5Y6ESD/KY3HdiqG813XJ
+	nK7lQsMKHgHBWUBdG5HgHCQDZGcyHaltpzobjIlsdVMcecKCd2kE+2PVdBB7eLRu0mv9ji2DAdgJr
+	ImD6F6U3H2miCSGkazAnFK4sf04/FVTUBCRmb6gqGIPX8bcIQaaNE8fJ9BiRy8b5KLq/qb/u6hfwb
+	XGbg7BDe2WvahNTYiNy2lb4mRHmfVDb16BqqAl8FLUoEnbpuVqAP87Gq7irB7PgmQS3q0Q8LwhBb4
+	tSCGexYg==;
+Received: from hch by bombadil.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uEUYl-00000009oCw-1zAN;
+	Mon, 12 May 2025 14:55:15 +0000
+Date: Mon, 12 May 2025 07:55:15 -0700
+From: Christoph Hellwig <hch@infradead.org>
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc: Jason Xing <kerneljasonxing@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	linux@treblig.org, viro@zeniv.linux.org.uk,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
+Message-ID: <aCIL0zZvf1fvTahk@infradead.org>
+References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
+ <aCGR4EOcWRK6Rgfv@smile.fi.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -55,21 +49,15 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250510002851.3247880-5-lee@trager.us>
+In-Reply-To: <aCGR4EOcWRK6Rgfv@smile.fi.intel.com>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by bombadil.infradead.org. See http://www.infradead.org/rpr.html
 
-On Fri, May 09, 2025 at 05:21:16PM -0700, Lee Trager wrote:
-> Add three new mailbox messages to support PLDM upgrades:
-> 
-> * FW_START_UPGRADE - Enables driver to request starting a firmware upgrade
->                      by specifying the component to be upgraded and its
-> 		     size.
-> * WRITE_CHUNK      - Allows firmware to request driver to send a chunk of
->                      data at the specified offset.
-> * FINISH_UPGRADE   - Allows firmware to cancel the upgrade process and
->                      return an error.
-> 
-> Signed-off-by: Lee Trager <lee@trager.us>
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+On Mon, May 12, 2025 at 09:14:56AM +0300, Andy Shevchenko wrote:
+> Also note, we usually do not care about the out-of-tree users. The main Q here
+> why are they out-of-tree for so long time?
 
-Reviewed-by: Simon Horman <horms@kernel.org>
+We do not care.  If some of this ever gets submitted it can add the
+needed helpers back.
+
+This entire discussion is silly.
 
