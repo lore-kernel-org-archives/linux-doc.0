@@ -1,128 +1,234 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3FDE42561A9;
-	Mon, 12 May 2025 07:25:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 287F2D528;
+	Mon, 12 May 2025 07:30:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747034738; cv=none; b=lKnMoRaLgftRxrz4T9IyKra4FKXgHy8Rfs4xi1N+P66HnSTzFFdqe2Vkck2OTtD1KTgnr+sJlQ2j2A9hvcw3vz/+5qVsG95ohWEjw6RToYWdTAxfzkarVmZyMfAjkPCZjqpwWhgmHL13v/D1PvBCLeZ5zSpNyO72VYbq4hPbdLg=
+	t=1747035045; cv=none; b=PT3HFUPafGbo0WNtn863OBQ3o098vdq8Od7bK9nf2MTVSaWmc3K2NxW+Fc9BucABLnPGxQQxtfmHasM2K4vQc7OCm09f7cPKAWQZQ5EQ3e2zbq7hMkFk5xk42Opw2D8Zsf+qkYHL2z96VaV0tbBKABV3cRy55RNBdi8d+al3bJ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747034738; c=relaxed/simple;
-	bh=y9J37bo2F5j0tycBv4bxMQnl44tqMOnN6NptncmaQeA=;
+	s=arc-20240116; t=1747035045; c=relaxed/simple;
+	bh=u4NoJq0BxC9RrjJ0WYKGghRiHQIO7pd2hT9ccDuugM4=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=pPoPjS79qf8DulFq117xxNO0VWrUqFAd2EGBUsMX00IFDJi8w6BkorUX/d0srQGzjyLpvWBfzQrAFK0eZ9mNHZaAN7cXx+9sg0pL6JnUYfcdQln7eDIWsFxE8/OvOToL+xC5UQ9lO1/qDP+EIJEhlg9bHo93k89NaUtu+18qGSY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=Fqa9Qf1m; arc=none smtp.client-ip=192.198.163.15
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=nI+zN6uDs5YNm+nyLpBmCABnoRKinCHGTEwXXhNEuNdE01DHZclLc0E+7PNlJlhBEFug1oieiJPl0biDyIpN7z7L3goFE6pTu3ayeaC8geZr5eiSef5RgN0HRliDXz1SG6I6IMnJsMFzlJOXHrtpD0DDoCTiqrmyUiq8I20uMPY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=IO1fiNs0; arc=none smtp.client-ip=159.69.126.157
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="Fqa9Qf1m"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747034737; x=1778570737;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=y9J37bo2F5j0tycBv4bxMQnl44tqMOnN6NptncmaQeA=;
-  b=Fqa9Qf1mfz1r66KRQoRCZfOORKHA1VE0+dQNU0uHlB5R8SK9jKkzSZ6g
-   ODAfGbrdJLr7JMMlmPadm/Ew5PsnFgF0VTjaNfOWlw6MIyfTCvqk7oq5M
-   c8FYkb9MdmKe1NUbwjvveRLKr0hV0U5Uj4UULbjGMzd0h0eUM+iii0EpT
-   upxKdAr/qeComZWiyfSRjK0hYWC/GQ/OL+ujUZII1smXsHDpfR15qNGif
-   t4aTpdSaV1NCmJifIyBKLoqXtmcUCGFMK89/TDolexVxTMpllAuxjMGxh
-   +ui7uNO7x+2igAzmY7+PFcicSltKFlFzUl96fOmiH79PUo2dZV+r6lq9o
-   Q==;
-X-CSE-ConnectionGUID: pycSO+GoSXm+LzOnbVKgrw==
-X-CSE-MsgGUID: 9Bu8C61sQz6vmCcjH55Htg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="48969368"
-X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="48969368"
-Received: from orviesa010.jf.intel.com ([10.64.159.150])
-  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 00:25:36 -0700
-X-CSE-ConnectionGUID: QS4BUgW5RGus07f112caSA==
-X-CSE-MsgGUID: aurh/BQUSGa8Sp9YIUmMcQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
-   d="scan'208";a="137143745"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 00:25:34 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uENXW-00000000qYh-1wUA;
-	Mon, 12 May 2025 10:25:30 +0300
-Date: Mon, 12 May 2025 10:25:30 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Jason Xing <kerneljasonxing@gmail.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
-	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-	linux@treblig.org, viro@zeniv.linux.org.uk,
-	Jens Axboe <axboe@kernel.dk>
-Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
-Message-ID: <aCGiaoqA1oA-M0PN@smile.fi.intel.com>
-References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
- <aCGR4EOcWRK6Rgfv@smile.fi.intel.com>
- <aCGSYSDwDZiJmOtD@smile.fi.intel.com>
- <CAL+tcoAkrtH3NYX+X+6WcvBgGWDW8POnENjbtxStMLRyPORf-A@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="IO1fiNs0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
+	s=mail; t=1747035040;
+	bh=u4NoJq0BxC9RrjJ0WYKGghRiHQIO7pd2hT9ccDuugM4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=IO1fiNs0X7hKCsp0a1l1aWfGNX7X5a8wv+633DWTFsDYbuH7fYCcmZcs6C8pE04x7
+	 DsCCwuJKztg7u2CUdE7Y953DiFdL2Npx294FguVYpZsYRWsVQvLTLRx5Ye2quRZbXK
+	 HMCyIl+TbtrgqaSVD2tKuD5otAl5IMbvYZyQWZZQ=
+Date: Mon, 12 May 2025 09:30:39 +0200
+From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
+To: lschyi@chromium.org
+Cc: Benson Leung <bleung@chromium.org>, 
+	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
+	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
+	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
+	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
+Subject: Re: [PATCH v3 2/3] hwmon: (cros_ec) add PWM control over fans
+Message-ID: <ca2c10be-3dc4-45e1-b7fc-f8db29a1b6a0@t-8ch.de>
+References: <20250512-cros_ec_fan-v3-0-a9f2b255f0cd@chromium.org>
+ <20250512-cros_ec_fan-v3-2-a9f2b255f0cd@chromium.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAL+tcoAkrtH3NYX+X+6WcvBgGWDW8POnENjbtxStMLRyPORf-A@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250512-cros_ec_fan-v3-2-a9f2b255f0cd@chromium.org>
 
-On Mon, May 12, 2025 at 02:55:45PM +0800, Jason Xing wrote:
-> On Mon, May 12, 2025 at 2:17 PM Andy Shevchenko
-> <andriy.shevchenko@linux.intel.com> wrote:
-> > On Mon, May 12, 2025 at 09:14:56AM +0300, Andy Shevchenko wrote:
-> > > On Mon, May 12, 2025 at 09:12:56AM +0800, Jason Xing wrote:
-> > > >
-> > > > I noticed this patch "relay: Remove unused relay_late_setup_files"
-> > > > appears in the mm branch already[1], which I totally missed. Sorry for
-> > > > joining the party late.
-> > > >
-> > > > I have a different opinion on this. For me, I'm very cautious about
-> > > > what those so-called legacy interfaces are and how they can work in
-> > > > different cases and what the use case might be... There are still a
-> > > > small number of out-of-tree users like me heavily relying on relayfs
-> > > > mechanism. So my humble opinion is that if you want to remove
-> > > > so-called dead code, probably clearly state why it cannot be used
-> > > > anymore in the future.
-> > > >
-> > > > Dr. David, I appreciate your patch, but please do not simply do the
-> > > > random cleanup work __here__. If you take a deep look at the relayfs,
-> > > > you may find there are other interfaces/functions no one uses in the
-> > > > kernel tree.
-> > > >
-> > > > I'm now checking this kind of patch in relayfs one by one to avoid
-> > > > such a thing happening. I'm trying to maintain it as much as possible
-> > > > since we internally use it in the networking area to output useful
-> > > > information in the hot paths, a little bit like blktrace. BTW, relayfs
-> > > > is really a wonderful one that helps kernel modules communicate with
-> > > > userspace very efficiently. I'm trying to revive it if I can.
-> > >
-> > > Jason, with all of the respect, if you are interested in keeping things going
-> > > on, please add yourself to the MAINTAINERS. It will makes the users of the
-> > > legacy code, Andrew and others, who are doing maintainer's/reviewer's job,
-> > > and you happy.
-> > >
-> > > Also note, we usually do not care about the out-of-tree users. The main Q here
-> > > why are they out-of-tree for so long time?
-> > >
-> > > > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-everything&id=46aa76118ee365c25911806e34d28fc2aa5ef997
-> >
-> > With the above being said, I am +1 for the patch to stay. Feel free to send
-> > a revert with a good justification of why it should stay. Note, out-of-tree
-> > is not enough argument.
+On 2025-05-12 15:11:56+0800, Sung-Chi Li via B4 Relay wrote:
+> From: Sung-Chi Li <lschyi@chromium.org>
 > 
-> Thanks for the vote. Let me seriously think of the possible use case
-> here. If I find one, I think I would revert it as soon as possible.
+> Newer EC firmware supports controlling fans through host commands, so
+> adding corresponding implementations for controlling these fans in the
+> driver for other kernel services and userspace to control them.
+> 
+> The driver will first probe the supported host command versions (get and
+> set of fan PWM values, get and set of fan control mode) to see if the
+> connected EC fulfills the requirements of controlling the fan, then
+> exposes corresponding sysfs nodes for userspace to control the fan with
+> corresponding read and write implementations.
+> As EC will automatically change the fan mode to auto when the device is
+> suspended, the power management hooks are added as well to keep the fan
+> control mode and fan PWM value consistent during suspend and resume. As
+> we need to access the hwmon device in the power management hook, update
+> the driver by storing the hwmon device in the driver data as well.
+> 
+> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
+> ---
+>  Documentation/hwmon/cros_ec_hwmon.rst |   5 +-
+>  drivers/hwmon/cros_ec_hwmon.c         | 228 ++++++++++++++++++++++++++++++++++
+>  2 files changed, 232 insertions(+), 1 deletion(-)
 
-Sure, I will be happy to help reviewing such a revert.
+<snip>
 
--- 
-With Best Regards,
-Andy Shevchenko
+>  static int cros_ec_hwmon_read_temp(struct cros_ec_device *cros_ec, u8 index, u8 *temp)
+>  {
+>  	unsigned int offset;
+> @@ -73,7 +117,9 @@ static long cros_ec_hwmon_temp_to_millicelsius(u8 temp)
+>  static int cros_ec_hwmon_read(struct device *dev, enum hwmon_sensor_types type,
+>  			      u32 attr, int channel, long *val)
+>  {
+> +	u8 control_method;
+>  	struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+> +	u8 pwm_value;
+>  	int ret = -EOPNOTSUPP;
+>  	u16 speed;
+>  	u8 temp;
 
+Ordering again.
 
+This should be:
+
+struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+int ret = -EOPNOTSUPP;
+u8 control_method;
+u8 pwm_value;
+u16 speed;
+u8 temp;
+
+or:
+
+struct cros_ec_hwmon_priv *priv = dev_get_drvdata(dev);
+u8 control_method, pwm_value, temp;
+int ret = -EOPNOTSUPP;
+u16 speed;
+
+<snip>
+
+> +static inline bool is_cros_ec_cmd_fulfilled(struct cros_ec_device *cros_ec,
+> +					    u16 cmd, u8 version)
+
+"fulfilled" -> "available" or "present"
+
+> +{
+> +	int ret;
+> +
+> +	ret = cros_ec_get_cmd_versions(cros_ec, cmd);
+> +	return ret >= 0 && (ret & EC_VER_MASK(version));
+> +}
+> +
+> +static bool cros_ec_hwmon_probe_fan_control_supported(struct cros_ec_device *cros_ec)
+> +{
+> +	if (!IS_ENABLED(CONFIG_PM))
+> +		return false;
+
+Why? This should generally work fine without CONFIG_PM.
+Only the suspend/resume callbacks are unnecessary in that case.
+
+> +
+> +	return is_cros_ec_cmd_fulfilled(cros_ec, EC_CMD_PWM_GET_FAN_DUTY, CROS_EC_HWMON_PWM_GET_FAN_DUTY_CMD_VERSION) &&
+> +	       is_cros_ec_cmd_fulfilled(cros_ec, EC_CMD_PWM_SET_FAN_DUTY, CROS_EC_HWMON_PWM_SET_FAN_DUTY_CMD_VERSION) &&
+> +	       is_cros_ec_cmd_fulfilled(cros_ec, EC_CMD_THERMAL_AUTO_FAN_CTRL, CROS_EC_HWMON_THERMAL_AUTO_FAN_CTRL_CMD_VERSION);
+> +}
+
+<snip>
+
+> +static int cros_ec_hwmon_suspend(struct platform_device *pdev, pm_message_t state)
+> +{
+> +	u8 control_method;
+> +	size_t i;
+> +	struct cros_ec_hwmon_priv *priv = platform_get_drvdata(pdev);
+> +	int ret;
+
+Ordering.
+
+> +
+> +	if (!priv->fan_control_supported)
+> +		return 0;
+> +
+> +	/* EC sets fan control to auto after suspended, store settings before suspending. */
+> +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> +		if (!(priv->usable_fans & BIT(i)))
+> +			continue;
+> +
+> +		ret = cros_ec_hwmon_read_pwm_enable(priv->cros_ec, i, &control_method);
+> +		if (ret) {
+> +			dev_warn(&pdev->dev, "failed to get mode setting for fan %zu: %d", i, ret);
+> +			continue;
+> +		}
+> +
+> +		if (control_method != 1) {
+> +			priv->manual_fans &= ~BIT(i);
+> +			continue;
+> +		} else {
+> +			priv->manual_fans |= BIT(i);
+> +		}
+> +
+> +		ret = cros_ec_hwmon_read_pwm_value(
+> +			priv->cros_ec, i, &priv->manual_fan_pwm_values[i]);
+> +		/*
+> +		 * If failed for storing the value, invalidate the stored mode value by setting it
+
+"If storing the value failed"
+
+> +		 * to auto control. EC will automatically switch to auto mode for that fan after
+> +		 * suspended.
+> +		 */
+> +		if (ret) {
+> +			priv->manual_fans &= ~BIT(i);
+> +			dev_warn(&pdev->dev, "failed to get PWM setting for fan %zu: %d", i, ret);
+
+Print the warning first, so it's easier to follow the logic.
+
+> +			continue;
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> +
+> +static int cros_ec_hwmon_resume(struct platform_device *pdev)
+> +{
+> +	size_t i;
+> +	const struct cros_ec_hwmon_priv *priv = platform_get_drvdata(pdev);
+> +	int ret;
+
+Ordering.
+
+> +
+> +	if (!priv->fan_control_supported)
+> +		return 0;
+> +
+> +	/* EC sets fan control to auto after suspended, restore to settings before suspended. */
+
+"after suspend"
+
+> +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
+> +		if (!(priv->manual_fans & BIT(i)))
+> +			continue;
+> +
+> +		/*
+> +		 * Setting fan PWM value to EC will change the mode to manual for that fan in EC as
+> +		 * well, so we do not need to issue a separate fan mode to manual call.
+> +		 */
+> +		ret = cros_ec_hwmon_set_fan_pwm_val(
+> +			priv->cros_ec, i, priv->manual_fan_pwm_values[i]);
+
+You could rename "manual_fan_pwm_values" to "manual_fan_pwm" to save
+some linebreaks here and in _suspend().
+
+> +		if (ret)
+> +			dev_warn(&pdev->dev, "failed to restore settings for fan %zu: %d", i, ret);
+
+You can use %pe to print errors instead of %d:
+
+"%zu: %pe\n", i, ERR_PTR(ret);
+
+Also missing newline at the end of the message.
+
+> +	}
+> +
+> +	return 0;
+> +}
+
+<snip>
