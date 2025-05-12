@@ -1,825 +1,145 @@
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.15])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 58D21248F56
-	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 07:18:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.50
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1CD07610D;
+	Mon, 12 May 2025 07:21:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747034300; cv=none; b=is440c1rslmChuI92SwxDIs2wpqm/fX4C0g5oh4B26NvQ052mLSq6JrDnzxtylK9nx+4iYSf3YU8mq8bn8g8hmSuiN/xPemeWEltfynjXqTzxrdfbPyZomN0Nfepep080Cbm2lHftQMzs/wfTMm/aOpmgic+sTwIWVYUmhVNTnY=
+	t=1747034469; cv=none; b=JqoJUz1TGdMBEifxkjxQw4mBC1SKW3MyquyUWRm+feAQwfSM3cpNBI8Xy8Td5cI04QJJ9ORjZindxq+MGpHVZXQ7BWvPVXnJCpgWnAldGlBxKshc+8/LSTagfEa+gQq4hGR15cbOPblepe5EcDG8ivloFGIH17lk4xiikFEFX9k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747034300; c=relaxed/simple;
-	bh=hZjhqS5/N+8sywzVFiFYmBNW54Bpz1a7DG+x4AdUUPo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=oeja5wacXXkh9AmW/ooxcII+Wj/ArYYOTuhqsT1qv6ZQ2RtZb/43v5v4+6Hdf4lLUc2gzGgkAJiDzA0TmBv/6Tvv9mTiBRMgf9qZCk+Re1zLqI/bN9ZWSzZjJoCpSZ24V5QphQugKGUi0Abpv+3mFzR7Wqa9LMVprzBhHv3OWZg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=IutG2NhB; arc=none smtp.client-ip=209.85.221.50
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1747034469; c=relaxed/simple;
+	bh=eF0FqKnVhO8GoltT+ZFMvKgjKuVLYtXTdM20AOWMwyY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=qJC0+M/B/iahrD4xIYEBXHiqohKoCnyEvM6CdWxxo+3hUyOI2IgynBlzirZ8BumRchq1IwdFzudO+Je7/PUGPyvA+McHyI2ooAsiJiY/bu5DfHF6O164bwDUNMLMwtUajYWcM7QiS2+Mt3xKPRpRfEejUDyqTsmOFzWxPGYOHcg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=XU/tH/h9; arc=none smtp.client-ip=192.198.163.15
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="IutG2NhB"
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-3a0b291093fso3127164f8f.0
-        for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 00:18:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747034294; x=1747639094; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=k5JEHhlAmapspw56HYcHFZ9QGA/eXUiRIXps8HeP010=;
-        b=IutG2NhBnJ2w2zsfZCrcRwDb0cg6zOKWc0WLuZLkXocfQrixY+6o42mX5nsGzo5ujy
-         xZeo/3QRUTZwC+QjlNq0Fa3hXfQtVGOCNel2hkSMKmkp1NivLvM4AtD7ylMyoK/rD6ZG
-         0DOG3hGMh+ryD03mhg3ml0+l54ZGC0+l0n5ACnB5ucbR/Z7oNuK8jfGN/QyTmOSwk8xp
-         v0OQrQFkTKcYw43YDMteRdJxT00oopYEQPnqCplpVyQms4QcCWY2mhsdLE/1pimkDJF1
-         HaDZh5AbOBcran+oA3lr/FSHf2sa21CghwHZXLipNxFi8b5MggmpfeRcRJupekkapw1S
-         5Ycw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747034294; x=1747639094;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=k5JEHhlAmapspw56HYcHFZ9QGA/eXUiRIXps8HeP010=;
-        b=cCAZmJI6pszepf/K8q64Nfu+Agr9gOudkFao4owsMbXr/RDRdR7vA6OOsnF4XKnUHG
-         xSt5fJzwAaeerftB/OqXfLR0K+KhRaB4LW6pNr/Sicqb4msmuzhjjfraU4qymgtAvOOn
-         ODhBeOJme+xG+YaTZFW5JaRreObrAnXmrPW6Pb3Yt/nfOU4LeLvcnWmtTN2mJZYtyEKw
-         IoGNA7JtEXQ5lfNCiFFyejgOKVXGX0UVy0Kw/3fhLaTw4yEQo45nX6Tw+yV4vr/vzP/M
-         qbQfhQPXVJ6guetGfTxz0sMqZzM02J/i633Kk32ZUmD7ezumH6C/c6bfEc6G8nVeq/64
-         Rr7w==
-X-Forwarded-Encrypted: i=1; AJvYcCWIvs0B96o5sdAjytJ6KtUyu76gzFuTsBPiXXMOmZTaEdr2OITCDeviVc8hFcBU714til5w401s2ug=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEPsZ4Kll7MptAnj0PZQJb8vbZwtVLZVXI36ZWzWRz9WmbCVkM
-	Y6p500bCKXamE4J2Mc+SnMAqsXMC3mv4RYFg/Wld/RE0GQ0Lej8eP8GVI0n276s=
-X-Gm-Gg: ASbGncu9r2cCNX+BcsgbIaApuTvogVLL/+bCeJ6N7pe6b4d63jxBMDACLgS9bp7aq7z
-	31XrKSmnaW/6we6DFi+3YxOdGei2JjzCMA7jgVDUDptC9nA57KTRGC+O/770tHJ7gR2XCZYcHai
-	cIo9wiSHmAXCfM3yuiBqEDJ2XG5VqMX4EeWU2AgytqHWXIycIePx+a1YbJbDBHv/zt8qQy1qg0i
-	5/P7Mi74c9Fq77Vr0sfOIEZc+nx4EWj6Hz6wTlvASfXj1dyMEeZ2kGTXP+6lV+UK1i6aI91e219
-	57sJATH4jBXZ+2+JTtBmsYCpz2dRGpnltIhMLPzTxwx640j8gmiK20ZuaYT02U9ZeS281Itjoyy
-	Vnp3hkHoGq7W17/fabDpv
-X-Google-Smtp-Source: AGHT+IEWe8yzD9vwpkXZoj/ZqflHV+AAYpT0w1yvzg8fyMp9muWzZkxeTolvd6afEMeKKIBr507cKQ==
-X-Received: by 2002:a5d:64ed:0:b0:3a0:b138:4810 with SMTP id ffacd0b85a97d-3a0b99171ecmr12472545f8f.17.1747034294355;
-        Mon, 12 May 2025 00:18:14 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a4c7b2sm11565060f8f.93.2025.05.12.00.18.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 00:18:13 -0700 (PDT)
-Message-ID: <91d6b423-1132-4d85-bdee-de20af5b4844@rivosinc.com>
-Date: Mon, 12 May 2025 09:18:11 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="XU/tH/h9"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747034467; x=1778570467;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=eF0FqKnVhO8GoltT+ZFMvKgjKuVLYtXTdM20AOWMwyY=;
+  b=XU/tH/h9xalOruc+hf2frwIt60WCPwW3kLIUdwD1MsskIAaaOUWzBwju
+   CmNEFwRHPSV1fp+DCos4vXP4jSkHXPUQk0xkRge6vJdzrwRWx3tWRDiv4
+   3uiFuf5DYYy1nru1tSVqHOAiAv4ossjPy9J9UNPjyjAyYMoaM0fYUn3fB
+   Nd5jRiBv88pNw5HnT2w2UayhoaE6kR63LApSIf99zBqghUtluamMg0Rem
+   HeV3CbVBvkRSsGZYMcsUJhjuHcBhAP6Df9puiljHYoX4chdZwhq7ZhSXx
+   Uiz39HKHqzoZmVVkTbBqAh8r1FMA30ad8ODDfVtKXQjS3P3qyG4Hm2jJE
+   A==;
+X-CSE-ConnectionGUID: ozZapiraSCm4qjRr16qD1Q==
+X-CSE-MsgGUID: IyqEX1KHTF6H6dSos5xJhg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11430"; a="48968605"
+X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
+   d="scan'208";a="48968605"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa109.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 00:21:06 -0700
+X-CSE-ConnectionGUID: 0ko3IX0jT5myWjtqQ2lVbg==
+X-CSE-MsgGUID: WlHOkBL0Qz2iSHb+zLrwAA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,281,1739865600"; 
+   d="scan'208";a="137142560"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 00:21:04 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uENTB-00000000qUl-1C0e;
+	Mon, 12 May 2025 10:21:01 +0300
+Date: Mon, 12 May 2025 10:21:01 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Jason Xing <kerneljasonxing@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	linux@treblig.org, viro@zeniv.linux.org.uk,
+	Jens Axboe <axboe@kernel.dk>
+Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
+Message-ID: <aCGhXcuqBDuceCqk@smile.fi.intel.com>
+References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
+ <aCGR4EOcWRK6Rgfv@smile.fi.intel.com>
+ <CAL+tcoDYOwmt+MqUouc=7DCpMyR3HfOhycgruX_n3+eKJxqv9Q@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 5/5] selftests: riscv: add misaligned access testing
-To: Alexandre Ghiti <alex@ghiti.fr>,
- "open list:DOCUMENTATION" <linux-doc@vger.kernel.org>,
- open list <linux-kernel@vger.kernel.org>,
- "open list:RISC-V ARCHITECTURE" <linux-riscv@lists.infradead.org>,
- "open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Paul Walmsley
- <paul.walmsley@sifive.com>, Palmer Dabbelt <palmer@dabbelt.com>,
- Albert Ou <aou@eecs.berkeley.edu>, Shuah Khan <shuah@kernel.org>,
- Andrew Jones <ajones@ventanamicro.com>,
- Samuel Holland <samuel.holland@sifive.com>
-References: <20250422162324.956065-1-cleger@rivosinc.com>
- <20250422162324.956065-6-cleger@rivosinc.com>
- <80edd225-046e-4ef4-9e71-7059aa523e3a@ghiti.fr>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <80edd225-046e-4ef4-9e71-7059aa523e3a@ghiti.fr>
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAL+tcoDYOwmt+MqUouc=7DCpMyR3HfOhycgruX_n3+eKJxqv9Q@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
+On Mon, May 12, 2025 at 02:53:56PM +0800, Jason Xing wrote:
+> On Mon, May 12, 2025 at 2:15 PM Andy Shevchenko
+> <andriy.shevchenko@linux.intel.com> wrote:
+> > On Mon, May 12, 2025 at 09:12:56AM +0800, Jason Xing wrote:
+> > >
+> > > I noticed this patch "relay: Remove unused relay_late_setup_files"
+> > > appears in the mm branch already[1], which I totally missed. Sorry for
+> > > joining the party late.
+> > >
+> > > I have a different opinion on this. For me, I'm very cautious about
+> > > what those so-called legacy interfaces are and how they can work in
+> > > different cases and what the use case might be... There are still a
+> > > small number of out-of-tree users like me heavily relying on relayfs
+> > > mechanism. So my humble opinion is that if you want to remove
+> > > so-called dead code, probably clearly state why it cannot be used
+> > > anymore in the future.
+> > >
+> > > Dr. David, I appreciate your patch, but please do not simply do the
+> > > random cleanup work __here__. If you take a deep look at the relayfs,
+> > > you may find there are other interfaces/functions no one uses in the
+> > > kernel tree.
+> > >
+> > > I'm now checking this kind of patch in relayfs one by one to avoid
+> > > such a thing happening. I'm trying to maintain it as much as possible
+> > > since we internally use it in the networking area to output useful
+> > > information in the hot paths, a little bit like blktrace. BTW, relayfs
+> > > is really a wonderful one that helps kernel modules communicate with
+> > > userspace very efficiently. I'm trying to revive it if I can.
+> >
+> > Jason, with all of the respect, if you are interested in keeping things going
+> > on, please add yourself to the MAINTAINERS. It will makes the users of the
+> > legacy code, Andrew and others, who are doing maintainer's/reviewer's job,
+> > and you happy.
+> 
+> I didn't subscribe to LKML because they're too many emails everyday.
+> Because of this, I missed most of changes in relayfs.
 
+And how is this relevant to my proposal?
 
-On 09/05/2025 10:22, Alexandre Ghiti wrote:
-> Hi Clément,
-> 
-> On 22/04/2025 18:23, Clément Léger wrote:
->> This selftest tests (almost) all the currently emulated instruction
->> (except for the RV32 compressed ones which are left as a future
->> exercise for a RV32 user). For the FPU instructions, all the FPU
->> registers are tested.
->>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> ---
->>   .../selftests/riscv/misaligned/.gitignore     |   1 +
->>   .../selftests/riscv/misaligned/Makefile       |  12 +
->>   .../selftests/riscv/misaligned/common.S       |  33 +++
->>   .../testing/selftests/riscv/misaligned/fpu.S  | 180 +++++++++++++
->>   tools/testing/selftests/riscv/misaligned/gp.S | 103 +++++++
->>   .../selftests/riscv/misaligned/misaligned.c   | 254 ++++++++++++++++++
->>   6 files changed, 583 insertions(+)
->>   create mode 100644 tools/testing/selftests/riscv/misaligned/.gitignore
->>   create mode 100644 tools/testing/selftests/riscv/misaligned/Makefile
->>   create mode 100644 tools/testing/selftests/riscv/misaligned/common.S
->>   create mode 100644 tools/testing/selftests/riscv/misaligned/fpu.S
->>   create mode 100644 tools/testing/selftests/riscv/misaligned/gp.S
->>   create mode 100644 tools/testing/selftests/riscv/misaligned/
->> misaligned.c
->>
->> diff --git a/tools/testing/selftests/riscv/misaligned/.gitignore b/
->> tools/testing/selftests/riscv/misaligned/.gitignore
->> new file mode 100644
->> index 000000000000..5eff15a1f981
->> --- /dev/null
->> +++ b/tools/testing/selftests/riscv/misaligned/.gitignore
->> @@ -0,0 +1 @@
->> +misaligned
->> diff --git a/tools/testing/selftests/riscv/misaligned/Makefile b/
->> tools/testing/selftests/riscv/misaligned/Makefile
->> new file mode 100644
->> index 000000000000..1aa40110c50d
->> --- /dev/null
->> +++ b/tools/testing/selftests/riscv/misaligned/Makefile
->> @@ -0,0 +1,12 @@
->> +# SPDX-License-Identifier: GPL-2.0
->> +# Copyright (C) 2021 ARM Limited
->> +# Originally tools/testing/arm64/abi/Makefile
->> +
->> +CFLAGS += -I$(top_srcdir)/tools/include
->> +
->> +TEST_GEN_PROGS := misaligned
->> +
->> +include ../../lib.mk
->> +
->> +$(OUTPUT)/misaligned: misaligned.c fpu.S gp.S
->> +    $(CC) -g3 -static -o$@ -march=rv64imafdc $(CFLAGS) $(LDFLAGS) $^
->> diff --git a/tools/testing/selftests/riscv/misaligned/common.S b/
->> tools/testing/selftests/riscv/misaligned/common.S
->> new file mode 100644
->> index 000000000000..8fa00035bd5d
->> --- /dev/null
->> +++ b/tools/testing/selftests/riscv/misaligned/common.S
->> @@ -0,0 +1,33 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2025 Rivos Inc.
->> + *
->> + * Authors:
->> + *     Clément Léger <cleger@rivosinc.com>
->> + */
->> +
->> +.macro lb_sb temp, offset, src, dst
->> +    lb \temp, \offset(\src)
->> +    sb \temp, \offset(\dst)
->> +.endm
->> +
->> +.macro copy_long_to temp, src, dst
->> +    lb_sb \temp, 0, \src, \dst,
->> +    lb_sb \temp, 1, \src, \dst,
->> +    lb_sb \temp, 2, \src, \dst,
->> +    lb_sb \temp, 3, \src, \dst,
->> +    lb_sb \temp, 4, \src, \dst,
->> +    lb_sb \temp, 5, \src, \dst,
->> +    lb_sb \temp, 6, \src, \dst,
->> +    lb_sb \temp, 7, \src, \dst,
->> +.endm
->> +
->> +.macro sp_stack_prologue offset
->> +    addi sp, sp, -8
->> +    sub sp, sp, \offset
->> +.endm
->> +
->> +.macro sp_stack_epilogue offset
->> +    add sp, sp, \offset
->> +    addi sp, sp, 8
->> +.endm
->> diff --git a/tools/testing/selftests/riscv/misaligned/fpu.S b/tools/
->> testing/selftests/riscv/misaligned/fpu.S
->> new file mode 100644
->> index 000000000000..d008bff58310
->> --- /dev/null
->> +++ b/tools/testing/selftests/riscv/misaligned/fpu.S
->> @@ -0,0 +1,180 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2025 Rivos Inc.
->> + *
->> + * Authors:
->> + *     Clément Léger <cleger@rivosinc.com>
->> + */
->> +
->> +#include "common.S"
->> +
->> +#define CASE_ALIGN        4
->> +
->> +.macro fpu_load_inst fpreg, inst, precision, load_reg
->> +.align CASE_ALIGN
->> +    \inst \fpreg, 0(\load_reg)
->> +    fmv.\precision fa0, \fpreg
->> +    j 2f
->> +.endm
->> +
->> +#define flw(__fpreg) fpu_load_inst __fpreg, flw, s, s1
->> +#define fld(__fpreg) fpu_load_inst __fpreg, fld, d, s1
->> +#define c_flw(__fpreg) fpu_load_inst __fpreg, c.flw, s, s1
->> +#define c_fld(__fpreg) fpu_load_inst __fpreg, c.fld, d, s1
->> +#define c_fldsp(__fpreg) fpu_load_inst __fpreg, c.fldsp, d, sp
->> +
->> +.macro fpu_store_inst fpreg, inst, precision, store_reg
->> +.align CASE_ALIGN
->> +    fmv.\precision \fpreg, fa0
->> +    \inst \fpreg, 0(\store_reg)
->> +    j 2f
->> +.endm
->> +
->> +#define fsw(__fpreg) fpu_store_inst __fpreg, fsw, s, s1
->> +#define fsd(__fpreg) fpu_store_inst __fpreg, fsd, d, s1
->> +#define c_fsw(__fpreg) fpu_store_inst __fpreg, c.fsw, s, s1
->> +#define c_fsd(__fpreg) fpu_store_inst __fpreg, c.fsd, d, s1
->> +#define c_fsdsp(__fpreg) fpu_store_inst __fpreg, c.fsdsp, d, sp
->> +
->> +.macro fp_test_prologue
->> +    move s1, a1
->> +    /*
->> +     * Compute jump offset to store the correct FP register since we
->> don't
->> +     * have indirect FP register access (or at least we don't use this
->> +     * extension so that works on all archs)
->> +     */
->> +    sll t0, a0, CASE_ALIGN
->> +    la t2, 1f
->> +    add t0, t0, t2
->> +    jr t0
->> +.align    CASE_ALIGN
->> +1:
->> +.endm
->> +
->> +.macro fp_test_prologue_compressed
->> +    /* FP registers for compressed instructions starts from 8 to 16 */
->> +    addi a0, a0, -8
->> +    fp_test_prologue
->> +.endm
->> +
->> +#define fp_test_body_compressed(__inst_func) \
->> +    __inst_func(f8); \
->> +    __inst_func(f9); \
->> +    __inst_func(f10); \
->> +    __inst_func(f11); \
->> +    __inst_func(f12); \
->> +    __inst_func(f13); \
->> +    __inst_func(f14); \
->> +    __inst_func(f15); \
->> +2:
->> +
->> +#define fp_test_body(__inst_func) \
->> +    __inst_func(f0); \
->> +    __inst_func(f1); \
->> +    __inst_func(f2); \
->> +    __inst_func(f3); \
->> +    __inst_func(f4); \
->> +    __inst_func(f5); \
->> +    __inst_func(f6); \
->> +    __inst_func(f7); \
->> +    __inst_func(f8); \
->> +    __inst_func(f9); \
->> +    __inst_func(f10); \
->> +    __inst_func(f11); \
->> +    __inst_func(f12); \
->> +    __inst_func(f13); \
->> +    __inst_func(f14); \
->> +    __inst_func(f15); \
->> +    __inst_func(f16); \
->> +    __inst_func(f17); \
->> +    __inst_func(f18); \
->> +    __inst_func(f19); \
->> +    __inst_func(f20); \
->> +    __inst_func(f21); \
->> +    __inst_func(f22); \
->> +    __inst_func(f23); \
->> +    __inst_func(f24); \
->> +    __inst_func(f25); \
->> +    __inst_func(f26); \
->> +    __inst_func(f27); \
->> +    __inst_func(f28); \
->> +    __inst_func(f29); \
->> +    __inst_func(f30); \
->> +    __inst_func(f31); \
->> +2:
->> +.text
->> +
->> +#define __gen_test_inst(__inst, __suffix) \
->> +.global test_ ## __inst; \
->> +test_ ## __inst:; \
->> +    fp_test_prologue ## __suffix; \
->> +    fp_test_body ## __suffix(__inst); \
->> +    ret
->> +
->> +#define gen_test_inst_compressed(__inst) \
->> +    .option arch,+c; \
->> +    __gen_test_inst(c_ ## __inst, _compressed)
->> +
->> +#define gen_test_inst(__inst) \
->> +    .balign 16; \
->> +    .option push; \
->> +    .option arch,-c; \
->> +    __gen_test_inst(__inst, ); \
->> +    .option pop
->> +
->> +.macro fp_test_prologue_load_compressed_sp
->> +    copy_long_to t0, a1, sp
->> +.endm
->> +
->> +.macro fp_test_epilogue_load_compressed_sp
->> +.endm
->> +
->> +.macro fp_test_prologue_store_compressed_sp
->> +.endm
->> +
->> +.macro fp_test_epilogue_store_compressed_sp
->> +    copy_long_to t0, sp, a1
->> +.endm
->> +
->> +#define gen_inst_compressed_sp(__inst, __type) \
->> +    .global test_c_ ## __inst ## sp; \
->> +    test_c_ ## __inst ## sp:; \
->> +        sp_stack_prologue a2; \
->> +        fp_test_prologue_## __type ## _compressed_sp; \
->> +        fp_test_prologue_compressed; \
->> +        fp_test_body_compressed(c_ ## __inst ## sp); \
->> +        fp_test_epilogue_## __type ## _compressed_sp; \
->> +        sp_stack_epilogue a2; \
->> +        ret
->> +
->> +#define gen_test_load_compressed_sp(__inst)
->> gen_inst_compressed_sp(__inst, load)
->> +#define gen_test_store_compressed_sp(__inst)
->> gen_inst_compressed_sp(__inst, store)
->> +
->> +/*
->> + * float_fsw_reg - Set a FP register from a register containing the
->> value
->> + * a0 = FP register index to be set
->> + * a1 = addr where to store register value
->> + * a2 = address offset
->> + * a3 = value to be store
->> + */
->> +gen_test_inst(fsw)
->> +
->> +/*
->> + * float_flw_reg - Get a FP register value and return it
->> + * a0 = FP register index to be retrieved
->> + * a1 = addr to load register from
->> + * a2 = address offset
->> + */
->> +gen_test_inst(flw)
->> +
->> +gen_test_inst(fsd)
->> +#ifdef __riscv_compressed
->> +gen_test_inst_compressed(fsd)
->> +gen_test_store_compressed_sp(fsd)
->> +#endif
->> +
->> +gen_test_inst(fld)
->> +#ifdef __riscv_compressed
->> +gen_test_inst_compressed(fld)
->> +gen_test_load_compressed_sp(fld)
->> +#endif
->> diff --git a/tools/testing/selftests/riscv/misaligned/gp.S b/tools/
->> testing/selftests/riscv/misaligned/gp.S
->> new file mode 100644
->> index 000000000000..f53f4c6d81dd
->> --- /dev/null
->> +++ b/tools/testing/selftests/riscv/misaligned/gp.S
->> @@ -0,0 +1,103 @@
->> +/* SPDX-License-Identifier: GPL-2.0-only */
->> +/*
->> + * Copyright (c) 2025 Rivos Inc.
->> + *
->> + * Authors:
->> + *     Clément Léger <cleger@rivosinc.com>
->> + */
->> +
->> +#include "common.S"
->> +
->> +.text
->> +
->> +.macro __gen_test_inst inst, src_reg
->> +    \inst a2, 0(\src_reg)
->> +    move a0, a2
->> +.endm
->> +
->> +.macro gen_func_header func_name, rvc
->> +    .option arch,\rvc
->> +    .global test_\func_name
->> +    test_\func_name:
->> +.endm
->> +
->> +.macro gen_test_inst inst
->> +    .option push
->> +    gen_func_header \inst, -c
->> +    __gen_test_inst \inst, a0
->> +    .option pop
->> +    ret
->> +.endm
->> +
->> +.macro __gen_test_inst_c name, src_reg
->> +    .option push
->> +    gen_func_header c_\name, +c
->> +     __gen_test_inst c.\name, \src_reg
->> +    .option pop
->> +    ret
->> +.endm
->> +
->> +.macro gen_test_inst_c name
->> +     __gen_test_inst_c \name, a0
->> +.endm
->> +
->> +
->> +.macro gen_test_inst_load_c_sp name
->> +    .option push
->> +    gen_func_header c_\name\()sp, +c
->> +    sp_stack_prologue a1
->> +    copy_long_to t0, a0, sp
->> +    c.ldsp a0, 0(sp)
->> +    sp_stack_epilogue a1
->> +    .option pop
->> +    ret
->> +.endm
->> +
->> +.macro lb_sp_sb_a0 reg, offset
->> +    lb_sb \reg, \offset, sp, a0
->> +.endm
->> +
->> +.macro gen_test_inst_store_c_sp inst_name
->> +    .option push
->> +    gen_func_header c_\inst_name\()sp, +c
->> +    /* Misalign stack pointer */
->> +    sp_stack_prologue a1
->> +    /* Misalign access */
->> +    c.sdsp a2, 0(sp)
->> +    copy_long_to t0, sp, a0
->> +    sp_stack_epilogue a1
->> +    .option pop
->> +    ret
->> +.endm
->> +
->> +
->> + /*
->> + * a0 = addr to load from
->> + * a1 = address offset
->> + * a2 = value to be loaded
->> + */
->> +gen_test_inst lh
->> +gen_test_inst lhu
->> +gen_test_inst lw
->> +gen_test_inst lwu
->> +gen_test_inst ld
->> +#ifdef __riscv_compressed
->> +gen_test_inst_c lw
->> +gen_test_inst_c ld
->> +gen_test_inst_load_c_sp ld
->> +#endif
->> +
->> +/*
->> + * a0 = addr where to store value
->> + * a1 = address offset
->> + * a2 = value to be stored
->> + */
->> +gen_test_inst sh
->> +gen_test_inst sw
->> +gen_test_inst sd
->> +#ifdef __riscv_compressed
->> +gen_test_inst_c sw
->> +gen_test_inst_c sd
->> +gen_test_inst_store_c_sp sd
->> +#endif
->> +
->> diff --git a/tools/testing/selftests/riscv/misaligned/misaligned.c b/
->> tools/testing/selftests/riscv/misaligned/misaligned.c
->> new file mode 100644
->> index 000000000000..c66aa87ec03e
->> --- /dev/null
->> +++ b/tools/testing/selftests/riscv/misaligned/misaligned.c
->> @@ -0,0 +1,254 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/*
->> + * Copyright (c) 2025 Rivos Inc.
->> + *
->> + * Authors:
->> + *     Clément Léger <cleger@rivosinc.com>
->> + */
->> +#include <signal.h>
->> +#include <stdio.h>
->> +#include <stdlib.h>
->> +#include <linux/ptrace.h>
->> +#include "../../kselftest_harness.h"
->> +
->> +#include <stdlib.h>
->> +#include <stdio.h>
->> +#include <stdint.h>
->> +#include <float.h>
->> +#include <errno.h>
->> +#include <math.h>
->> +#include <string.h>
->> +#include <signal.h>
->> +#include <stdbool.h>
->> +#include <unistd.h>
->> +#include <inttypes.h>
->> +#include <ucontext.h>
->> +
->> +#include <sys/prctl.h>
->> +
->> +#define stringify(s) __stringify(s)
->> +#define __stringify(s) #s
->> +
->> +#define VAL16    0x1234
->> +#define VAL32    0xDEADBEEF
->> +#define VAL64    0x45674321D00DF789
->> +
->> +#define VAL_float    78951.234375
->> +#define VAL_double    567890.512396965789589290
->> +
->> +static bool float_equal(float a, float b)
->> +{
->> +    float scaled_epsilon;
->> +    float difference = fabsf(a - b);
->> +
->> +    // Scale to the largest value.
->> +    a = fabsf(a);
->> +    b = fabsf(b);
->> +    if (a > b)
->> +        scaled_epsilon = FLT_EPSILON * a;
->> +    else
->> +        scaled_epsilon = FLT_EPSILON * b;
->> +
->> +    return difference <= scaled_epsilon;
->> +}
->> +
->> +static bool double_equal(double a, double b)
->> +{
->> +    double scaled_epsilon;
->> +    double difference = fabsf(a - b);
->> +
->> +    // Scale to the largest value.
->> +    a = fabs(a);
->> +    b = fabs(b);
->> +    if (a > b)
->> +        scaled_epsilon = DBL_EPSILON * a;
->> +    else
->> +        scaled_epsilon = DBL_EPSILON * b;
->> +
->> +    return difference <= scaled_epsilon;
->> +}
->> +
->> +#define fpu_load_proto(__inst, __type) \
->> +extern __type test_ ## __inst(unsigned long fp_reg, void *addr,
->> unsigned long offset, __type value)
->> +
->> +fpu_load_proto(flw, float);
->> +fpu_load_proto(fld, double);
->> +fpu_load_proto(c_flw, float);
->> +fpu_load_proto(c_fld, double);
->> +fpu_load_proto(c_fldsp, double);
->> +
->> +#define fpu_store_proto(__inst, __type) \
->> +extern void test_ ## __inst(unsigned long fp_reg, void *addr,
->> unsigned long offset, __type value)
->> +
->> +fpu_store_proto(fsw, float);
->> +fpu_store_proto(fsd, double);
->> +fpu_store_proto(c_fsw, float);
->> +fpu_store_proto(c_fsd, double);
->> +fpu_store_proto(c_fsdsp, double);
->> +
->> +#define gp_load_proto(__inst, __type) \
->> +extern __type test_ ## __inst(void *addr, unsigned long offset,
->> __type value)
->> +
->> +gp_load_proto(lh, uint16_t);
->> +gp_load_proto(lhu, uint16_t);
->> +gp_load_proto(lw, uint32_t);
->> +gp_load_proto(lwu, uint32_t);
->> +gp_load_proto(ld, uint64_t);
->> +gp_load_proto(c_lw, uint32_t);
->> +gp_load_proto(c_ld, uint64_t);
->> +gp_load_proto(c_ldsp, uint64_t);
->> +
->> +#define gp_store_proto(__inst, __type) \
->> +extern void test_ ## __inst(void *addr, unsigned long offset, __type
->> value)
->> +
->> +gp_store_proto(sh, uint16_t);
->> +gp_store_proto(sw, uint32_t);
->> +gp_store_proto(sd, uint64_t);
->> +gp_store_proto(c_sw, uint32_t);
->> +gp_store_proto(c_sd, uint64_t);
->> +gp_store_proto(c_sdsp, uint64_t);
->> +
->> +#define TEST_GP_LOAD(__inst, __type_size)                    \
->> +TEST(gp_load_ ## __inst)                            \
->> +{                                        \
->> +    int offset, ret;                            \
->> +    uint8_t buf[16] __attribute__((aligned(16)));                \
->> +                                        \
->> +    ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);            \
->> +    ASSERT_EQ(ret, 0);                            \
->> +                                        \
->> +    for (offset = 1; offset < __type_size / 8; offset++) {            \
->> +        uint ## __type_size ## _t val = VAL ## __type_size;        \
->> +        uint ## __type_size ## _t *ptr = (uint ## __type_size ## _t
->> *) (buf + offset); \
->> +        memcpy(ptr, &val, sizeof(val));                    \
->> +        val = test_ ## __inst(ptr, offset, val);            \
->> +        EXPECT_EQ(VAL ## __type_size, val);                \
->> +    }                                    \
->> +}
->> +
->> +TEST_GP_LOAD(lh, 16);
->> +TEST_GP_LOAD(lhu, 16);
->> +TEST_GP_LOAD(lw, 32);
->> +TEST_GP_LOAD(lwu, 32);
->> +TEST_GP_LOAD(ld, 64);
->> +#ifdef __riscv_compressed
->> +TEST_GP_LOAD(c_lw, 32);
->> +TEST_GP_LOAD(c_ld, 64);
->> +TEST_GP_LOAD(c_ldsp, 64);
->> +#endif
->> +
->> +#define TEST_GP_STORE(__inst, __type_size)                    \
->> +TEST(gp_load_ ## __inst)                            \
->> +{                                        \
->> +    int offset, ret;                            \
->> +    uint8_t buf[16] __attribute__((aligned(16)));                \
->> +                                        \
->> +    ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);            \
->> +    ASSERT_EQ(ret, 0);                            \
->> +                                        \
->> +    for (offset = 1; offset < __type_size / 8; offset++) {            \
->> +        uint ## __type_size ## _t val = VAL ## __type_size;        \
->> +        uint ## __type_size ## _t *ptr = (uint ## __type_size ## _t
->> *) (buf + offset); \
->> +        memset(ptr, 0, sizeof(val));                    \
->> +        test_ ## __inst(ptr, offset, val);                \
->> +        memcpy(&val, ptr, sizeof(val));                    \
->> +        EXPECT_EQ(VAL ## __type_size, val);                \
->> +    }                                    \
->> +}
->> +TEST_GP_STORE(sh, 16);
->> +TEST_GP_STORE(sw, 32);
->> +TEST_GP_STORE(sd, 64);
->> +#ifdef __riscv_compressed
->> +TEST_GP_STORE(c_sw, 32);
->> +TEST_GP_STORE(c_sd, 64);
->> +TEST_GP_STORE(c_sdsp, 64);
->> +#endif
->> +
->> +#define __TEST_FPU_LOAD(__type, __inst, __reg_start,
->> __reg_end)            \
->> +TEST(fpu_load_ ## __inst)                            \
->> +{                                        \
->> +    int i, ret, offset, fp_reg;                        \
->> +    uint8_t buf[16] __attribute__((aligned(16)));                \
->> +                                        \
->> +    ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);            \
->> +    ASSERT_EQ(ret, 0);                            \
->> +                                        \
->> +    for (fp_reg = __reg_start; fp_reg < __reg_end; fp_reg++) {        \
->> +        for (offset = 1; offset < 4; offset++) {            \
->> +            void *load_addr = (buf + offset);            \
->> +            __type val = VAL_ ## __type ;                \
->> +                                        \
->> +            memcpy(load_addr, &val, sizeof(val));            \
->> +            val = test_ ## __inst(fp_reg, load_addr, offset, val);    \
->> +            EXPECT_TRUE(__type ##_equal(val, VAL_## __type));    \
->> +        }                                \
->> +    }                                    \
->> +}
->> +#define TEST_FPU_LOAD(__type, __inst) \
->> +    __TEST_FPU_LOAD(__type, __inst, 0, 32)
->> +#define TEST_FPU_LOAD_COMPRESSED(__type, __inst) \
->> +    __TEST_FPU_LOAD(__type, __inst, 8, 16)
->> +
->> +TEST_FPU_LOAD(float, flw)
->> +TEST_FPU_LOAD(double, fld)
->> +#ifdef __riscv_compressed
->> +TEST_FPU_LOAD_COMPRESSED(double, c_fld)
->> +TEST_FPU_LOAD_COMPRESSED(double, c_fldsp)
->> +#endif
->> +
->> +#define __TEST_FPU_STORE(__type, __inst, __reg_start,
->> __reg_end)        \
->> +TEST(fpu_store_ ## __inst)                            \
->> +{                                        \
->> +    int i, ret, offset, fp_reg;                        \
->> +    uint8_t buf[16] __attribute__((aligned(16)));                \
->> +                                        \
->> +    ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);            \
->> +    ASSERT_EQ(ret, 0);                            \
->> +                                        \
->> +    for (fp_reg = __reg_start; fp_reg < __reg_end; fp_reg++) {        \
->> +        for (offset = 1; offset < 4; offset++) {            \
->> +                                        \
->> +            void *store_addr = (buf + offset);            \
->> +            __type val = VAL_ ## __type ;                \
->> +                                        \
->> +            test_ ## __inst(fp_reg, store_addr, offset, val);    \
->> +            memcpy(&val, store_addr, sizeof(val));            \
->> +            EXPECT_TRUE(__type ## _equal(val, VAL_## __type));    \
->> +        }                                \
->> +    }                                    \
->> +}
->> +#define TEST_FPU_STORE(__type, __inst) \
->> +    __TEST_FPU_STORE(__type, __inst, 0, 32)
->> +#define TEST_FPU_STORE_COMPRESSED(__type, __inst) \
->> +    __TEST_FPU_STORE(__type, __inst, 8, 16)
->> +
->> +TEST_FPU_STORE(float, fsw)
->> +TEST_FPU_STORE(double, fsd)
->> +#ifdef __riscv_compressed
->> +TEST_FPU_STORE_COMPRESSED(double, c_fsd)
->> +TEST_FPU_STORE_COMPRESSED(double, c_fsdsp)
->> +#endif
->> +
->> +TEST_SIGNAL(gen_sigbus, SIGBUS)
->> +{
->> +    uint32_t *ptr;
->> +    uint8_t buf[16] __attribute__((aligned(16)));
->> +    int ret;
->> +
->> +    ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_SIGBUS);
->> +    ASSERT_EQ(ret, 0);
->> +
->> +    ptr = (uint32_t *)(buf + 1);
->> +    *ptr = 0xDEADBEEFULL;
->> +}
->> +
->> +int main(int argc, char **argv)
->> +{
->> +    int ret, val;
->> +
->> +    ret = prctl(PR_GET_UNALIGN, &val);
->> +    if (ret == -1 && errno == EINVAL)
->> +        ksft_exit_skip("SKIP GET_UNALIGN_CTL not supported\n");
->> +
->> +    exit(test_harness_run(argc, argv));
->> +}
-> 
-> 
-> So I had to add the following to actually compile this selftest along
-> with other riscv tests and fix some warnings:
-> 
-> diff --git a/tools/testing/selftests/riscv/Makefile b/tools/testing/
-> selftests/riscv/Makefile
-> index 099b8c1f46f89..95a98ceeb3b3a 100644
-> --- a/tools/testing/selftests/riscv/Makefile
-> +++ b/tools/testing/selftests/riscv/Makefile
-> @@ -5,7 +5,7 @@
->  ARCH ?= $(shell uname -m 2>/dev/null || echo not)
-> 
->  ifneq (,$(filter $(ARCH),riscv))
-> -RISCV_SUBTARGETS ?= abi hwprobe mm sigreturn vector
-> +RISCV_SUBTARGETS ?= abi hwprobe mm sigreturn vector misaligned
->  else
->  RISCV_SUBTARGETS :=
->  endif
-> diff --git a/tools/testing/selftests/riscv/misaligned/misaligned.c b/
-> tools/testing/selftests/riscv/misaligned/misaligned.c
-> index c66aa87ec03ec..8fa5ad1a93d17 100644
-> --- a/tools/testing/selftests/riscv/misaligned/misaligned.c
-> +++ b/tools/testing/selftests/riscv/misaligned/misaligned.c
-> @@ -167,7 +167,7 @@ TEST_GP_STORE(c_sdsp, 64);
->  #define __TEST_FPU_LOAD(__type, __inst, __reg_start,
-> __reg_end)                             \
->  TEST(fpu_load_ ##
-> __inst)                                                      \
->  { \
-> -       int i, ret, offset,
-> fp_reg;                                             \
-> +       int ret, offset,
-> fp_reg;                                                \
->         uint8_t buf[16]
-> __attribute__((aligned(16)));                           \
-> \
->         ret = prctl(PR_SET_UNALIGN,
-> PR_UNALIGN_NOPRINT);                        \
-> @@ -199,7 +199,7 @@ TEST_FPU_LOAD_COMPRESSED(double, c_fldsp)
->  #define __TEST_FPU_STORE(__type, __inst, __reg_start,
-> __reg_end)               \
->  TEST(fpu_store_ ##
-> __inst)                                                     \
->  { \
-> -       int i, ret, offset,
-> fp_reg;                                             \
-> +       int ret, offset,
-> fp_reg;                                                \
->         uint8_t buf[16]
-> __attribute__((aligned(16)));                           \
-> \
->         ret = prctl(PR_SET_UNALIGN, PR_UNALIGN_NOPRINT);
-> 
-> 
-> I already merged the first 3 commits of this patchset in fixes, so can
-> you resend only the last 2 patches with the fixes above?
+Moreover with `lei` you can filter out from time to time the lore archive for
+these, no need to be subscribed and read LKML in full.
 
-Yes sure,
+> Sure, I'm happy to do so, but I'm not sure how/what the detailed
+> process is here. I would like to ask the core maintainers/developers
+> in advance.
+> 
+> Any thoughts on this? Andrew, Jens.
 
-Thanks,
+Just send a patch to the LKML which adds a relevant record into MAINTAINERS.
+I believe all stakeholders here will be happy to accept that kind of change.
 
-Clément
+At least you can get my Ack, FWIW (I am not a stakeholder here).
 
+> > Also note, we usually do not care about the out-of-tree users. The main Q here
+> > why are they out-of-tree for so long time?
 > 
-> Thanks,
-> 
-> Alex
-> 
-> 
+> It's due to the history problem. Back then, developers were trying to
+> develop various file systems to add more debuginfo. As you may notice,
+> blktrace is the one which manifests the answer.
+
+Then provide a roadmap on the upstreaming the necessary parts. Otherwise
+there is no room for a dead code in the Linux kernel. This is the rule:
+we do not add one, and we do not leave it dangling after removing the last
+user.
+
+> > > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit/?h=mm-everything&id=46aa76118ee365c25911806e34d28fc2aa5ef997
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
 
