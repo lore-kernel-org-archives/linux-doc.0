@@ -1,110 +1,141 @@
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from gmmr-2.centrum.cz (gmmr-2.centrum.cz [46.255.227.203])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 924CB27CCE7
-	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 11:04:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB6A52566DD;
+	Mon, 12 May 2025 11:11:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=46.255.227.203
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747047861; cv=none; b=cZIxQ+0pDVivBGFKQ5ut0Zx1S5E63vx+fBomT3Kf1WGgq5ahN/W+WwGdtvKzEDBbZoSmLfM51J8/yP9D01QKIsUJoHqM/RIuhH7LTf6w7DIyeMSaoVtIRKEdahMbN/zQbfqxISerGjIb3tmVu40a1RL+pvANlPX0lLoYq8tDqhQ=
+	t=1747048305; cv=none; b=BZXe3y2G/jNWYlAwAaDbQm3r9F3LmVqr5VGZ1D8LBCHR30u2h0c4jUqk2Uf8vIk+HlIBI4aAPvdXI8yd4vg+enozyBd+sFXqKQc6LJjSL4bNABGyLp98og7LsNY3/90TSSEKyTAoWB7OoldSVeHAf3cMR3yr8AYNMNdd67kWFkk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747047861; c=relaxed/simple;
-	bh=i+vwYiYS0pVOypAgoRmxtkSfZdGtVSsTRWBKtrFvEDM=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=TKEw0JGMZ9tHNccRk5NuHqD92mGUE3tVwPmmaJ1RVuXMSKXY70owbYQZ/+rlOUQe8PwIM+1Inf2DpbFFuTIazKS1A3zdSRPb7CXccziu3r6CTVS4CeGAwHBiGec6BNNROj4bmB5m+TBPWTAfJ2pHC7JG8+SP+hYm3l2xX+gahSs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us; spf=none smtp.mailfrom=resnulli.us; dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b=OvPCawOF; arc=none smtp.client-ip=209.85.221.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=resnulli.us
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=resnulli.us
+	s=arc-20240116; t=1747048305; c=relaxed/simple;
+	bh=s8IVsimdAxqn5dLm0HfceIPWVMmE+X8ujIEov8Zejuk=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version:Content-Type; b=ofjl+Q3EOAHhXonv0SrcPwfLVM1PmnlMXyEW4DJD75VWTWejloQCjbC63DezjElT8o9wGiKxOay3T+UmI8w5R+E2TFmYpoRahiMbw3JTAg8+GkmcCSHoFIl9QgOQS6I4IBOJ+CFQ2GBX81WvwFy4QRCNj1mS6bD3WQ/DlpO7pzs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=atlas.cz; spf=pass smtp.mailfrom=atlas.cz; dkim=pass (1024-bit key) header.d=atlas.cz header.i=@atlas.cz header.b=cMMdtW3z; arc=none smtp.client-ip=46.255.227.203
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=atlas.cz
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=atlas.cz
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=resnulli-us.20230601.gappssmtp.com header.i=@resnulli-us.20230601.gappssmtp.com header.b="OvPCawOF"
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-3a0bdcd7357so2922339f8f.1
-        for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 04:04:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=resnulli-us.20230601.gappssmtp.com; s=20230601; t=1747047857; x=1747652657; darn=vger.kernel.org;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:from:to:cc:subject:date:message-id:reply-to;
-        bh=owXIYpMV48is7ez5i1gXva+BBfYXyghjaJTpHVBLlkk=;
-        b=OvPCawOFhHG+a9M1lM4eEBD55Np3qYYEPEqPpSc8GiYS/1D7+EmssOrqqHtis0Kirb
-         OZG4DYFBZX8esDV8Nqf2UONTbwDBcAJkPYrdyCD13/FOdzzX8ldrRDDif7HEpgMB/olu
-         LF0QKmBpCZCgi4xKfIZDdlpuO6fcwqYPjcevyQTNdqPfCxFCXqERKwx7enccMPgUrv5c
-         /uzgcTK/2AObTsuhE9/fB1YswlLfNTJ5SDd0FKMEQbE4jP34EcsAlMRJEhOMp6OT4/LU
-         Ld0CNbtfhUQeE2Wktan2Llf7lYMSIQf8ykBac2RQw8MaXL3jKo2JUmSo93hTVzw6V2DA
-         e/CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747047857; x=1747652657;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=owXIYpMV48is7ez5i1gXva+BBfYXyghjaJTpHVBLlkk=;
-        b=G1xTXDZ9lP3O2KpuTEqZ3c3w11ka0N+Li9XdnhvpYjRn/DUnUoTTJDWGtCTYtmizI+
-         cjqrsp0J74xod3l2PSPxUiBIvMau9nQs2yQtuelfHCWuoR/FywpF0F0c7xc+hPcldcHV
-         O3OqyrAg089qtlHP+gEuSf9XDSwQ+vHoaGPDBfip/F4RwseDCRD5KUf+NhSdcV4HBJzY
-         3rkR1beiMHi8GuLAxoA+MTaOMFyguOkfr6swfdN5lAcM6qwUhktNv2SRJTw61SrtRa60
-         CcsjruOf//L6hm0/TG1mN26UnKuhulT9E4+L/CSaRsh2R2qiTqpRF7GHfEd9jTnmgBKD
-         zbpg==
-X-Forwarded-Encrypted: i=1; AJvYcCWtibKC7/+MXJwI+idabJA4pD0YroU4UWlRRHoYwjTJFuEy10i14HI8dzX67H/2LwI0QDJiNHVGcLY=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzOLZIik0uLAiO6S8rMnPL87lDevtl6P0MZwr8L+9F4BUgtf//A
-	k/81dNqiN3IoxnRG1LXt4rR302gsFFdT7dpibGvS1SRIJV8jS/3E/x4cjUOFkno=
-X-Gm-Gg: ASbGncsgVX1wYoWH60O/v9cnhmrlWdakFK4r96Zj+UlbpZi3Xm+1755mNDW2cH6krHH
-	CkiVczb7yxgThChTkzyj37caKv+mzye5Paiq33iCc1x1yz9sgS7MVdNVkT2pQNKpfks8G1op3cP
-	QwEl9AxawbWNtpU0lh+oMDlm8HUGb5BbUfh+C/u0S1NC0HCmSM5XREPDpc1/OWQM9PHOSPXgKAo
-	90+OJesaTwgpPAvMMDDJIorRBH9+A22tfb//6eoRLbSOz9IeCJizt1L3Y8bc7d/Xwzua3Fdh5JB
-	BB7sAkDNkgz/DOD5lGz9DkRvRpl/UporUXC/rjkIj2ta5WHveHq2Fd8ocbf98rdKGaag+VV5lLT
-	4cxML33MfH4VnrrjUfknFyjCJSNmTaIW5
-X-Google-Smtp-Source: AGHT+IHt6KtmDpEcGKKweKh0TJcjcFp4HoRFHcwbArajIswm0eri9Tb2+Y1mCu2ksq4RGxW3FEMBSA==
-X-Received: by 2002:a5d:5989:0:b0:3a1:fc5a:76ed with SMTP id ffacd0b85a97d-3a1fc5a77c5mr7258447f8f.26.1747047856657;
-        Mon, 12 May 2025 04:04:16 -0700 (PDT)
-Received: from jiri-mlt.client.nvidia.com (37-48-1-197.nat.epc.tmcz.cz. [37.48.1.197])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f3afdsm12321070f8f.60.2025.05.12.04.04.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 04:04:16 -0700 (PDT)
-Date: Mon, 12 May 2025 13:04:13 +0200
-From: Jiri Pirko <jiri@resnulli.us>
-To: Alper Ak <alperyasinak1@gmail.com>
-Cc: kuba@kernel.org, davem@davemloft.net, edumazet@google.com, 
-	pabeni@redhat.com, horms@kernel.org, corbet@lwn.net, netdev@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2] documentation: networking: devlink: Fix a typo in
- devlink-trap.rst
-Message-ID: <s73vdkwqfhzxtlqv5kqdkp3xxh72vgrkpz2l7y2755nzzyfqsi@wckiln42uwjj>
-References: <20250512110028.9670-1-alperyasinak1@gmail.com>
+	dkim=pass (1024-bit key) header.d=atlas.cz header.i=@atlas.cz header.b="cMMdtW3z"
+Received: from gmmr-2.centrum.cz (localhost [127.0.0.1])
+	by gmmr-2.centrum.cz (Postfix) with ESMTP id 51FCB2106B56;
+	Mon, 12 May 2025 13:10:16 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=atlas.cz; s=mail;
+	t=1747048216; bh=qSZn8HV3F0m0d25zorvEHVYRz/lcZYAE64vPNFRU29Q=;
+	h=From:To:Cc:Subject:Date:From;
+	b=cMMdtW3zzhI197smm6tobPccWMd42eQAnirYeOCf67C48mNTWAcBARc1Qe4Of7/a1
+	 LOUW/qHETLhgrt+dJvlTzZjPC+oV4q6Y8cQ8fN8k0Ob6+s7azi21mg3970XCY3NgDx
+	 fpBkRYbFz0iQ5FTPB02sd7FePKOyThoAW+e/5PLk=
+Received: from antispam37.centrum.cz (antispam37.cent [10.30.208.37])
+	by gmmr-2.centrum.cz (Postfix) with ESMTP id CD20620F55E1;
+	Mon, 12 May 2025 13:10:15 +0200 (CEST)
+X-CSE-ConnectionGUID: K9TSNbIUTFS9Yxr5BqUDYg==
+X-CSE-MsgGUID: xKK+IyrzRNGyFFe9l4fQNQ==
+X-ThreatScanner-Verdict: Negative
+X-IPAS-Result: =?us-ascii?q?A2FwAwAA1iFo/0vj/y5aHQEBAQEJARIBBQUBQAmBSoMDM?=
+ =?us-ascii?q?oFyhFWRcYt6hjOBIIxKDwEBAQEBAQEBAQlRBAEBPgGESItNJzgTAQIEAQEBA?=
+ =?us-ascii?q?QMCAwEBAQEBAQEBAQ0BAQYBAQEBAQEGBgECgR2FNVOCYgGEKQ8BRigNAiYCc?=
+ =?us-ascii?q?YMCgiMBAQEBEAEDMbF7gTIaAmXccgJJBVVkgSmBGy6IUAGEfIYpgg2EfYQKg?=
+ =?us-ascii?q?QaDDoJHIgSDQ4QkhCyFF4Jfgh2LeUiBBRwDWSwBVRMNCgsHBYFpAzUMCy4Vb?=
+ =?us-ascii?q?jMdgg2FGYIRggSJCIRKK0+FIoEkggdAAwsYDUgRLDcUGwY9AW4Hlg6Ce1EgW?=
+ =?us-ascii?q?jRblR+zS4QlhE6cfxozl1MfA5JkAYU8k0SkTIRpgX6BfzMiMIMiUhnXEHY8A?=
+ =?us-ascii?q?gcBCgEBAwmCO41PNIFLAQE?=
+IronPort-PHdr: A9a23:mYRZ1RH6hSzvPlJjkI6XRp1Gf7RLhN3EVzX9CrIZgr5DOp6u447ld
+ BSGo6k21hmRBc6As6sc2qL/iOPJZy8p2d65qncMcZhBBVcuqP49uEgNJvDAImDAaMDQUiohA
+ c5ZX0Vk9XzoeWJcGcL5ekGA6ibqtW1aFRrwLxd6KfroEYDOkcu3y/qy+5rOaAlUmTaxe7x/I
+ RuooQnLqsUanYRuJ6gtxhfUvndFf/ldyH91K16Ugxvz6cC88YJ5/S9Nofwh7clAUav7f6Q8U
+ 7NVCSktPn426sP2qxTNVBOD6HQEXGoZixZFHQfL4gziUpj+riX1uOx92DKHPcLtVrA7RS6i7
+ 6ZwRxD2jioMKiM0/3vWisx0i6JbvQ6hqhliyIPafI2ZKPxzdb7GcNgEWWROQNpeVy1ZAoO9c
+ YQPCfYBPf1FpIX5vlcCsAeyCRWpCO7p1zRGhGL53bci3uohDw/LwhEuEdwNvnrTo9r6KKgcX
+ PupzKTL1zjPc+lb1Sv/5YXObxsvoeuMXbV1ccfJ00cgCR/Fjk+NooPqJTyV0PoIs2uG5OdnT
+ +2vkW0npBt0oje13MchkZPGhp4Ryl/e7iV12po6JNyhRUN9fNWrH4deuTuAOItqXsMtXXtou
+ CAix7AapZK2eDYHxIknyhPRd/GKcoaF7gz9WeieLzl1mWxpdK+jihuw7EWt1+/xW8i13VtLr
+ CdIk8TAu3AC2hHO68WKTOZ28ES52TuX2A3e6/tILV40mKfbMZIt3KA8m5gJvUnBHiL6gFv6g
+ LKYe0k+5OSk9fjrbq/4qpKTK4N4kAXzP6Uol8eiG+o3KBIOUHKe+emk0b3j+lD2T6tSg/0tl
+ 6nZrIjaJcMGpq6lGwNV0pgs6xK4Dzq+39QYmGALLElAeBKbl4jlJkzCLOrkAvihhVSsjC1rx
+ +3DPrH7HprML2DPkLbnfblj905R0AU+wNFF655KCrwMIOj/VlHvuNHaFBM0MQy5z/7iCNpn1
+ 4MeXWyPArWeMKPXqVKH/PgvI+qWa48Qojn9MeMo6OTyjX89g1AdZrOl0ocWaXygBPRpP12ZY
+ WbwgtcGCWoFpBA+TO/wh12HSzFTfW2/ULgg5jE/Eo2mFp3PSZysgbCZxie0AoVWZnxaClCLC
+ XrnbYqFVOwLaC2MOcJhkSILVaKnS4A/0RGirhL1y7l/IurO5iIYrY7j1MRy5+DLlRE96Tx0A
+ t+Z02GWU2F4hH4HSCEu0KBlvUN90kuD0bR/g/FACdNT4OlJXRwkOp7A1OF6D97zWgTbctePV
+ lmmXs2qASstQdIp398Of0F9Fs2mjhDC2SqqHrAUm6WWC5wz7q3RxGbxJ8ljxHbczqUhjEcpQ
+ tFJNWK4gq5z7Q/TB5TGk0mBjaalabwc3DLR9GeE1WeOuEBYUAhtUaTKRHwfaFDWosnn6UPcU
+ bCuDa8qMhVOycGcMKtGcN7pgktcRPflJtveZ3i9m2CqBRaH3r+Mdpble30B3CXBD0gJiwQT/
+ XeANQgjCSatumHeAyJ0FVLpfUzs9fJzqG20TkAq1QGGdU5h2KSv+h4Tm/OcT+kf3rUeuCcus
+ zl0Gk2y0MrMC9WcvwphYLlcYdQl7VpFhirlsFl5P5q9P+Vhi0QYfgBfoUzjzVN0B59GnMxsq
+ 2klnyRoLqfN6F5dbXum1JZTOfWDI3Px9RWmcYbfxlXXy5Cd6PFcu7wDt1z/sVTxRQIZ+HJ93
+ owQiiPEjqg=
+IronPort-Data: A9a23:bzgADKy6XW0NnjMlu5p6t+cPxyrEfRIJ4+MujC+fZmUNrF6WrkVSn
+ WofXz+PPayJZ2f1f40gYY3k9EpUuZPRmoNgHFdo/lhgHilAwSbn6XV1DatS0we6dJCroJdPt
+ p1GAjX4BJlpCCKa/1H1b+WJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYx6TSCK13L4
+ I6aT/H3Ygf/hmYpazhMsspvlTs21BjMkGJF1rABTa8T1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+ZZk
+ 4wR6MPqGW/FCYWX8AgVe0Ew/yiTpsSq8pefSZS0mZT7I0Er7xIAahihZa07FdRwxwp5PY1B3
+ d9JFAsrZDG+u8yNkYOrULRGn/kPHca+aevzulk4pd3YJfkjBIvGX72TvJlT0TEsnN1LW/3MD
+ yYbQWYxKk6dPlsVYAhRV89WcOSA3xETdxVRslGcoKMty2HPyAVqlrP/WDbQUoXSGJwLwB7J+
+ goq+UzpITJZFc2F2wCj3WOCqOKemX/1YaQrQejQGvlCxQf7KnYoIBQMVlK+qOORg1K6UskZI
+ F580iM+p68/3E+mVN/wW1u0oxasvhUcc95LD6s25Wmlwa3O6QuFLmwbSHhHZcBOnMs3QyE6k
+ 1OOlPv3CjF19r6YU3SQ8vGTtzzaESwUK3ISICEfQQYb7t3Lvo4+lFTMQ8xlHarzicf6cRn0w
+ jaXvG09iq8VgMojyaq25xbEjiiqq5yPSRQ6jjg7RUr5sEUjOdPjPdb3rweGhRpdELukopC6l
+ CBss6CjAComV8DT/MBRaI3hxI2U2ss=
+IronPort-HdrOrdr: A9a23:YoIE+ao3rft7Gnp2WCqWpoMaV5o8eYIsimQD101hICG9JPb4qy
+ nOpoV/6faQsl0ssR4b6LK90cW7MBDhHOdOjrX5ZI3PYOCEghrNEGg41+XfKlTbckWVygc378
+ ddmsZFZeHNMQ==
+X-Talos-CUID: 9a23:6cT3nWAGQOY1jDz6Ewo2yHUyEOEYTlPmnUbAORKSEFtFebLAHA==
+X-Talos-MUID: =?us-ascii?q?9a23=3AaV1OEg1FqcSa8p8Vc0BTODRAgzUj84eNS2Eci4c?=
+ =?us-ascii?q?8neaVGwJ9ajPBgg2Re9py?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.15,282,1739833200"; 
+   d="scan'208";a="105166094"
+Received: from unknown (HELO gm-smtp11.centrum.cz) ([46.255.227.75])
+  by antispam37.centrum.cz with ESMTP; 12 May 2025 13:08:43 +0200
+Received: from localhost.localdomain (ip-213-220-240-96.bb.vodafone.cz [213.220.240.96])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by gm-smtp11.centrum.cz (Postfix) with ESMTPSA id 4F66B100CD4EA;
+	Mon, 12 May 2025 13:08:43 +0200 (CEST)
+From: =?UTF-8?q?Petr=20Van=C4=9Bk?= <arkamar@atlas.cz>
+To: linux-kernel@vger.kernel.org
+Cc: linux-doc@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Christoph Hellwig <hch@lst.de>,
+	Jens Axboe <axboe@kernel.dk>,
+	=?UTF-8?q?Petr=20Van=C4=9Bk?= <arkamar@atlas.cz>
+Subject: [PATCH RESEND] Documentation: fix typo in root= kernel parameter description
+Date: Mon, 12 May 2025 13:08:27 +0200
+Message-ID: <20250512110827.32530-1-arkamar@atlas.cz>
+X-Mailer: git-send-email 2.48.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250512110028.9670-1-alperyasinak1@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-Mon, May 12, 2025 at 01:00:28PM +0200, alperyasinak1@gmail.com wrote:
->From: alperak <alperyasinak1@gmail.com>
+Fixes a typo in the root= parameter description, changing
+"this a a" to "this is a".
 
-This line actually screws-up the correct "from" taken from the email
-headers. Avoid it.
+Fixes: c0c1a7dcb6f5 ("init: move the nfs/cifs/ram special cases out of name_to_dev_t")
+Signed-off-by: Petr Vaněk <arkamar@atlas.cz>
+---
+ Documentation/admin-guide/kernel-parameters.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
+diff --git a/Documentation/admin-guide/kernel-parameters.txt b/Documentation/admin-guide/kernel-parameters.txt
+index d9fd26b95b34..eddb27ce3f0c 100644
+--- a/Documentation/admin-guide/kernel-parameters.txt
++++ b/Documentation/admin-guide/kernel-parameters.txt
+@@ -6250,7 +6250,7 @@
+ 			port and the regular usb controller gets disabled.
+ 
+ 	root=		[KNL] Root filesystem
+-			Usually this a a block device specifier of some kind,
++			Usually this is a block device specifier of some kind,
+ 			see the early_lookup_bdev comment in
+ 			block/early-lookup.c for details.
+ 			Alternatively this can be "ram" for the legacy initial
+-- 
+2.48.1
 
->
->Fix a typo in the documentation: "errorrs" -> "errors".
->
->Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
->---
-> Documentation/networking/devlink/devlink-trap.rst | 2 +-
-> 1 file changed, 1 insertion(+), 1 deletion(-)
->
->diff --git a/Documentation/networking/devlink/devlink-trap.rst b/Documentation/networking/devlink/devlink-trap.rst
->index 2c14dfe69b3a..5885e21e2212 100644
->--- a/Documentation/networking/devlink/devlink-trap.rst
->+++ b/Documentation/networking/devlink/devlink-trap.rst
->@@ -451,7 +451,7 @@ be added to the following table:
->    * - ``udp_parsing``
->      - ``drop``
->      - Traps packets dropped due to an error in the UDP header parsing.
->-       This packet trap could include checksum errorrs, an improper UDP
->+       This packet trap could include checksum errors, an improper UDP
->        length detected (smaller than 8 bytes) or detection of header
->        truncation.
->    * - ``tcp_parsing``
->--
->2.43.0
->
