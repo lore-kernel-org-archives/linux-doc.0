@@ -1,132 +1,220 @@
-Received: from mail-pl1-f178.google.com (mail-pl1-f178.google.com [209.85.214.178])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from out-173.mta0.migadu.com (out-173.mta0.migadu.com [91.218.175.173])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 939A1B66E;
-	Mon, 12 May 2025 15:49:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9DC1A24888E;
+	Mon, 12 May 2025 16:10:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747064942; cv=none; b=pSvFbRsrffiJt4HOJJILkvqedts1JnG5gvIVojPuYBFNtL/Kqwc891NlUpawWH7I/DzKjq4PtMO/dItI9+tuy98xWWzpApuZ2Z9OIi8tvvcwfb1vuHRJcOOP8bau7rvZ2CzhqgBnccz2wbPFLDP2LhQUH/Opx5GiVLlIebTwyBs=
+	t=1747066238; cv=none; b=lIgR0qgVkLKHm2L/7gzIJn0PeoVGP4g2hlfvJ9I80LhLOm2NUH/yaSL/+Z4/VFCttgZ6IVMSOMSd0GvHyXguS2mqdJ26tSGDaQTplG2JiCOELTx7MVKImfhPaxiAA9hD7pN+pN8HRyMkOsDQF9ezngTy7TmUlbP19nYLWqwdX+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747064942; c=relaxed/simple;
-	bh=ZxtctWw3jWkEiCBJ6DMB5IpH+iqs5G/Twj0JOx7tcsM=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=mO+mHoYXvfXcnX2au99VVkVaey18m9vRtOoYn2OOZUwQN4G2mvjOHFFtGzRJavNubNa8271HjAe25RVKEsODTmcXxB6L2+0avdFc1GT5BTyNagDoB4ZtIftbsddhWUeKuys16bRvlWfwa1l7kINcis/Mkpo/VSbt4uUlqKkAX2w=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=SdGzU+Kh; arc=none smtp.client-ip=209.85.214.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747066238; c=relaxed/simple;
+	bh=B0nPLeWtQxrVBbaKk5kI+gOwm+9Hhm9hfWdjiK3tx8Y=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=lsgtFFEjXCBjp7bvSLKK/Zy/9U2gCrk9HmDYeUm6FA/txcpHDJGe/iXpnmUTV7pRjROLJYsowpQy1mr6a8nkbabjf7Z8vjuwA3ug2oTQbd/ABVzwnQiZMtvesTo8j79QG27ZqoDacMlmbeDhsI9uikvThbODV+BiMDY7Q8kBlGc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=PihTRmq8; arc=none smtp.client-ip=91.218.175.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="SdGzU+Kh"
-Received: by mail-pl1-f178.google.com with SMTP id d9443c01a7336-2300e7a3b71so1398485ad.0;
-        Mon, 12 May 2025 08:49:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747064940; x=1747669740; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=1toMIC5cZ80kbGTeUrqsXajhHvT1yGhs13QyNN+QB4o=;
-        b=SdGzU+KhwJmH2lGeJzDlZE1Bex6/78UgyB9nuS9UdHNDMuUvRsGUdwE5qY7xojX8tQ
-         eID+j9B0OCG2HHkVKZQBzXg4zCZEFMKxZyZ61GRtzSzW/YlSTB2NYHVldq1XAeaLWZOT
-         kdj9P4oodkDx/eY62rtKnm1nO6a7D1EiPLGFC86ugq1VdpgWP+z5hrdmLZR97JWzHApd
-         v6a5h9lN/jiQFrPs6yrZp3h4co0pvRgFGQlBsRNnD6qlW+klVERPz6n8Pk+mb9pKhhFH
-         V7VlhKUsBZ90ey9pFnDsx2abQ13YqaVQRO25llkbtCvwS9iKGoi/cUZjJGAib7fkS3lC
-         OypQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747064940; x=1747669740;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=1toMIC5cZ80kbGTeUrqsXajhHvT1yGhs13QyNN+QB4o=;
-        b=K3BGMPXuwK1c4vj3h+oZtnBQ346W2/xjXrIqaHDCTRAHdYbLdhhoD4FoLLgcKA+LTe
-         eqSOE0xz2artyZTds1vyqJMuXo6o+y5iJ2/D6eTHAJhzYQUz0XrsTDNEyxF+vDwjxK+1
-         Yeyh0FXBQQUdNm/YYUYd+X7LXtLWp276QoE0AjpKo2idutFGgJahJNVnoyAwY2honNgD
-         /OJJhK8DcG6rk1kS0vbQa2Y7JxN8FoXBZum103aKLNhoD5gWy+yoOL5b35anesq7pRgh
-         DBcPMUMNx1Q658TvUAJbAC1H091zJ15hq2FB8cdZDsCKF+F8JJB6/rMxs/2VodfTVyMF
-         GtuA==
-X-Forwarded-Encrypted: i=1; AJvYcCUk5XeUxsmj14whQsIaxit6oFCc+kl07xYraWuhv+pLhQKkhoDmIzKaX6yU2uMDChOXoP6P1YqaeJg=@vger.kernel.org, AJvYcCVQB1Sia1/vru5q/kfHe9frdBuFS9GyWeOOBoSFlTWDhoiup0WjttF5kKMqhItVsT6iy63abPhRduDErUc=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzFBLI5CPgB2JLE1NP2oH+HPpWvvz9NhribQT77bdZtk/wsZVR5
-	nb7A57Fs2fwthSYfHaKrj5amXLbtCoav1cpuHPU7ZV0vKlvC4yDr7eV1Ta3rnt1FlOiiuV5q1UA
-	ySE9Wzi9dZJYo6tpnRLO5fHXUqVQ=
-X-Gm-Gg: ASbGncvQLd1MJmJIwyu0nZ4/5BajCNIgsgZePdob2B6RkM8fZe5A2hpFIF5GpsegnZo
-	NrRkmeQ+hvmxZuMSn77B7JxJqNlf2dR05HMV0EvsZ/kpb+NjaFI+XZpE9G73eHz+RqM3lrZiHws
-	lXtNy1IzJ3MftNbACJwT/bPIJuJkgxyO6wtK8n6zYjUSc=
-X-Google-Smtp-Source: AGHT+IEf6tEKjFeycq+UPlsS94TJHt5DH6CFc9vHqIPjnQk1kbzxBAOujdq7+fVBzkSYWm7S9YFoxapZxqZHVDT5E44=
-X-Received: by 2002:a17:902:e88d:b0:22e:5bdc:fe24 with SMTP id
- d9443c01a7336-22fc894997cmr73958435ad.0.1747064939757; Mon, 12 May 2025
- 08:48:59 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="PihTRmq8"
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1747066233;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=wrTzsgQ6ASxvXtJ7h6OXxE11PcMzk4mLZ/qEK0FvDWc=;
+	b=PihTRmq84zB3wgRkrOYRHSsZjVF3ryXHhzb7vmGIPyIAvWGWpFEwKBlqHSU09wATyv5AHb
+	MRwTbgMysfypIwrQcEmplcQdPb/gjx/4weib6zquC0YRXLhw1jNtduUIXsu2wAmxZXXWj1
+	Zxs4oq1OCNVPiTPflcD95dHdWTdSjF4=
+From: Sean Anderson <sean.anderson@linux.dev>
+To: netdev@vger.kernel.org,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	"David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Russell King <linux@armlinux.org.uk>
+Cc: upstream@airoha.com,
+	Kory Maincent <kory.maincent@bootlin.com>,
+	Simon Horman <horms@kernel.org>,
+	Christian Marangi <ansuelsmth@gmail.com>,
+	linux-kernel@vger.kernel.org,
+	Heiner Kallweit <hkallweit1@gmail.com>,
+	Sean Anderson <sean.anderson@linux.dev>,
+	Alexandre Belloni <alexandre.belloni@bootlin.com>,
+	Alexandre Torgue <alexandre.torgue@foss.st.com>,
+	Clark Wang <xiaoning.wang@nxp.com>,
+	Claudiu Beznea <claudiu.beznea@microchip.com>,
+	Claudiu Manoil <claudiu.manoil@nxp.com>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Ioana Ciornei <ioana.ciornei@nxp.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Joyce Ooi <joyce.ooi@intel.com>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Madalin Bucur <madalin.bucur@nxp.com>,
+	Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+	Michal Simek <michal.simek@amd.com>,
+	Nicolas Ferre <nicolas.ferre@microchip.com>,
+	Radhey Shyam Pandey <radhey.shyam.pandey@amd.com>,
+	Rob Herring <robh+dt@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Robert Hancock <robert.hancock@calian.com>,
+	Saravana Kannan <saravanak@google.com>,
+	UNGLinuxDriver@microchip.com,
+	Vladimir Oltean <vladimir.oltean@nxp.com>,
+	Wei Fang <wei.fang@nxp.com>,
+	devicetree@vger.kernel.org,
+	imx@lists.linux.dev,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-stm32@st-md-mailman.stormreply.com
+Subject: [net-next PATCH v4 00/11] Add PCS core support
+Date: Mon, 12 May 2025 12:10:02 -0400
+Message-Id: <20250512161013.731955-1-sean.anderson@linux.dev>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250512074215.40928-2-bagasdotme@gmail.com>
-In-Reply-To: <20250512074215.40928-2-bagasdotme@gmail.com>
-From: Alex Deucher <alexdeucher@gmail.com>
-Date: Mon, 12 May 2025 11:48:47 -0400
-X-Gm-Features: AX0GCFsa3NVdD9o69w_BNRqPm2ZbQH3a8ks0cMWBhi2YgHQxsTH8KYq-3IVam30
-Message-ID: <CADnq5_O9X-rTUOPdaQEh_G3DajbSBwdxoDfDLVmDiyh-YT=ptQ@mail.gmail.com>
-Subject: Re: [PATCH] Documentation/gpu: Disambiguate SPI term
-To: Bagas Sanjaya <bagasdotme@gmail.com>
-Cc: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>, 
-	Linux Documentation <linux-doc@vger.kernel.org>, 
-	Linux DRI Development <dri-devel@lists.freedesktop.org>, 
-	Linux AMDGPU <amd-gfx@lists.freedesktop.org>, 
-	Linux Media Subsystem <linux-media@vger.kernel.org>, Alex Deucher <alexander.deucher@amd.com>, 
-	=?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
-	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard <mripard@kernel.org>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Jonathan Corbet <corbet@lwn.net>, Rodrigo Siqueira <siqueira@igalia.com>, 
-	Mauro Carvalho Chehab <mchehab@kernel.org>, Stephen Rothwell <sfr@canb.auug.org.au>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, May 12, 2025 at 3:58=E2=80=AFAM Bagas Sanjaya <bagasdotme@gmail.com=
-> wrote:
->
-> Documentation/userspace-api/media/glossary.rst:170: WARNING: duplicate te=
-rm description of SPI, other instance in gpu/amdgpu/amdgpu-glossary
->
-> That's because SPI of amdgpu (Shader Processor Input) shares the same
-> global glossary term as SPI of media subsystem (which is Serial
-> Peripheral Interface Bus). Disambiguate the former from the latter to
-> fix the warning.
->
-> Note that adding context qualifiers in the term is strictly necessary
-> in order to make Sphinx happy.
->
-> Fixes: dd3d035a7838 ("Documentation/gpu: Add new entries to amdgpu glossa=
-ry")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/linux-next/20250509185845.60bf5e7b@canb.a=
-uug.org.au/
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+This series adds support for creating PCSs as devices on a bus with a
+driver (patch 3). As initial users,
 
-Applied.  Thanks.
+- The Lynx PCS (and all of its users) is converted to this system (patch 5)
+- The Xilinx PCS is broken out from the AXI Ethernet driver (patches 6-8)
+- The Cadence MACB driver is converted to support external PCSs (namely
+  the Xilinx PCS) (patches 9-10).
 
-Alex
+To build documentation without errors, this series requires commit
+de258fa8ca8d ("scripts: kernel-doc: fix parsing function-like typedefs
+(again)"), currently applied to docs-next [1].
 
-> ---
-> Also Cc: media maintainers.
->
->  Documentation/gpu/amdgpu/amdgpu-glossary.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation=
-/gpu/amdgpu/amdgpu-glossary.rst
-> index 2040da593b1490..30812d9d53c645 100644
-> --- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> +++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
-> @@ -182,7 +182,7 @@ we have a dedicated glossary for Display Core at
->      SMU/SMC
->        System Management Unit / System Management Controller
->
-> -    SPI
-> +    SPI (AMDGPU)
->        Shader Processor Input
->
->      SRLC
->
-> base-commit: afc6053d4c4b0a6be500b9e643aa17221e93a57b
-> --
-> An old man doll... just what I always wanted! - Clara
->
+Care has been taken to ensure backwards-compatibility. The main source
+of this is that many PCS devices lack compatibles and get detected as
+PHYs. To address this, pcs_get_by_fwnode_compat allows drivers to edit
+the devicetree to add appropriate compatibles.
+
+There is another series [2] with the same goal by Christian Marangi. In
+comparison, I believe this series
+
+- Implements a simpler and more-robust method of PCS access.
+- Provides a more-direct upgrade path for existing MAC and PCS drivers.
+
+[1] https://lore.kernel.org/all/e0abb103c73a96d76602d909f60ab8fd6e2fd0bd.1744106242.git.mchehab+huawei@kernel.org/
+[2] https://lore.kernel.org/netdev/20250406221423.9723-1-ansuelsmth@gmail.com/
+
+Changes in v4:
+- Add a note about the license
+- Adjust variable ordering in pcs_find_fwnode
+- Annotate pcs_wrapper.wrapped with __rcu
+- Fix PCS lookup functions missing ERR_PTR casts
+- Fix documentation for devm_pcs_register_full
+- Fix incorrect condition in pcs_post_config
+- Fix linking when PCS && !OF_DYNAMIC
+- Fix linking when PCS && OF_DYNAMIC && PHYLIB=m
+- Re-add documentation for axienet_xilinx_pcs_get that was accidentally
+  removed
+- Reduce line lengths to under 80 characters
+- Remove unused dev parameter to pcs_put
+- Use a spinlock instead of a mutex to protect pcs_wrappers
+
+Changes in v3:
+- Add '>' modifier for paragraph to description
+- Adjust axienet_xilinx_pcs_get for changes to pcs_find_fwnode API
+- Drop patches destined for other trees, as they have either already
+  been applied or are no longer necessary.
+- Edit description to reference clocks instead of resets
+- Remove support for #pcs-cells. Upon further investigation, the
+  requested functionality can be accomplished by specifying the PCS's
+  fwnode manually.
+- Select PCS_XILINX unconditionally
+
+Changes in v2:
+- Add fallbacks for pcs_get* and pcs_put
+- Add support for #pcs-cells
+- Change base compatible to just xlnx,pcs
+- Change compatible to just xlnx,pcs
+- Defer devicetree updates for another series
+- Drop #clock-cells description
+- Drop PCS_ALTERA_TSE which was accidentally added while rebasing
+- Move #clock-cells after compatible
+- Move update to macb_pcs_get_state to previous patch
+- Remove outdated comment
+- Remove second example
+- Remove unused variable
+- Remove unused variable lynx_properties
+- Rename pcs-modes to xlnx,pcs-modes
+- Reorder pcs_handle to come before suffix props
+- Reword commit message
+- Rework xilinx_pcs_validate to just clear out half-duplex modes instead
+  of constraining modes based on the interface.
+
+Sean Anderson (10):
+  dt-bindings: net: Add Xilinx PCS
+  net: phylink: Support setting PCS link change callbacks
+  net: pcs: Add subsystem
+  net: pcs: lynx: Convert to an MDIO driver
+  net: phy: Export some functions
+  net: pcs: Add Xilinx PCS driver
+  net: axienet: Convert to use PCS subsystem
+  net: macb: Move most of mac_config to mac_prepare
+  net: macb: Support external PCSs
+  of: property: Add device link support for PCS
+
+Vladimir Oltean (1):
+  net: dsa: ocelot: suppress PHY device scanning on the internal MDIO
+    bus
+
+ .../devicetree/bindings/net/xilinx,pcs.yaml   | 114 +++
+ Documentation/networking/index.rst            |   1 +
+ Documentation/networking/kapi.rst             |   4 +
+ Documentation/networking/pcs.rst              | 102 +++
+ MAINTAINERS                                   |   8 +
+ drivers/net/dsa/ocelot/Kconfig                |   4 +
+ drivers/net/dsa/ocelot/felix_vsc9959.c        |  15 +-
+ drivers/net/dsa/ocelot/seville_vsc9953.c      |  16 +-
+ drivers/net/ethernet/altera/Kconfig           |   2 +
+ drivers/net/ethernet/altera/altera_tse_main.c |   7 +-
+ drivers/net/ethernet/cadence/macb.h           |   1 +
+ drivers/net/ethernet/cadence/macb_main.c      | 229 ++++--
+ drivers/net/ethernet/freescale/dpaa/Kconfig   |   2 +-
+ drivers/net/ethernet/freescale/dpaa2/Kconfig  |   3 +
+ .../net/ethernet/freescale/dpaa2/dpaa2-mac.c  |  11 +-
+ drivers/net/ethernet/freescale/enetc/Kconfig  |   2 +
+ .../net/ethernet/freescale/enetc/enetc_pf.c   |   8 +-
+ .../net/ethernet/freescale/enetc/enetc_pf.h   |   1 -
+ .../freescale/enetc/enetc_pf_common.c         |   4 +-
+ drivers/net/ethernet/freescale/fman/Kconfig   |   4 +-
+ .../net/ethernet/freescale/fman/fman_memac.c  |  25 +-
+ drivers/net/ethernet/stmicro/stmmac/Kconfig   |   3 +
+ .../ethernet/stmicro/stmmac/dwmac-socfpga.c   |   6 +-
+ drivers/net/ethernet/xilinx/Kconfig           |   7 +
+ drivers/net/ethernet/xilinx/xilinx_axienet.h  |   4 +-
+ .../net/ethernet/xilinx/xilinx_axienet_main.c | 104 +--
+ drivers/net/pcs/Kconfig                       |  45 +-
+ drivers/net/pcs/Makefile                      |   4 +
+ drivers/net/pcs/core.c                        | 686 ++++++++++++++++++
+ drivers/net/pcs/pcs-lynx.c                    | 110 +--
+ drivers/net/pcs/pcs-xilinx.c                  | 485 +++++++++++++
+ drivers/net/phy/mdio_device.c                 |   1 +
+ drivers/net/phy/phy_device.c                  |   3 +-
+ drivers/net/phy/phylink.c                     |  24 +-
+ drivers/of/property.c                         |   2 +
+ include/linux/pcs-lynx.h                      |  13 +-
+ include/linux/pcs-xilinx.h                    |  15 +
+ include/linux/pcs.h                           | 205 ++++++
+ include/linux/phy.h                           |   1 +
+ include/linux/phylink.h                       |  27 +-
+ 40 files changed, 2012 insertions(+), 296 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/net/xilinx,pcs.yaml
+ create mode 100644 Documentation/networking/pcs.rst
+ create mode 100644 drivers/net/pcs/core.c
+ create mode 100644 drivers/net/pcs/pcs-xilinx.c
+ create mode 100644 include/linux/pcs-xilinx.h
+ create mode 100644 include/linux/pcs.h
+
+-- 
+2.35.1.1320.gc452695387.dirty
+
