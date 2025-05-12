@@ -1,177 +1,114 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 5A421295514;
-	Mon, 12 May 2025 13:35:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pg1-f172.google.com (mail-pg1-f172.google.com [209.85.215.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 720332EB1D;
+	Mon, 12 May 2025 13:48:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747056910; cv=none; b=JPz8X3AHmQX18zBwaxmwZWXVERfLhLrZlcsHbyJlvtxs3hy7sEIcNfUG8WALqAmghLSjv4u3UoHIg0Al8eRHOYDUvmR8SJwlZpFQxL7Q2aJlhw8cTADfaWpDaapIGZFqXOCyBAWh9ngJroRVmFWgRyrwvL6Hk9lz0zSXRly/pjE=
+	t=1747057685; cv=none; b=Ab6u087UA0O9L/7geeBbaV34IzzReB1bxyH4oYJcAkqxa+Vdyi/YEH3oABMIY3deps9CR4cnb54KNWBlmXP7sypfxAlmapq44tPDFa+UhRBcBok5EfNd0YxTpnI4tsBkpghXf59a/qkV25Gkf3JMmRSdrCQdqSaIlKsUeKqnwuM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747056910; c=relaxed/simple;
-	bh=awHNVJyaHw8/80BC7Snxq4IjeNVF1gecvNMAl54NTRw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=omFE1InoU5iqGpKJzEy0qV4LHOGxumqhdrcaaVdfxX53P0/0nRdFOvpp4zj4rIRwXCHJDOMzjVH7Maw7SrYQ3OK6Q4mRzrtoaJxnzWSEJ/abTRsvI02aSiOnMjYj1t4vgR12FBohOru6i6PrNmRXsd6tgP4cjUQoU6eye7sUF3U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 814DF150C;
-	Mon, 12 May 2025 06:34:56 -0700 (PDT)
-Received: from [10.57.90.222] (unknown [10.57.90.222])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E57BB3F5A1;
-	Mon, 12 May 2025 06:35:02 -0700 (PDT)
-Message-ID: <99079d56-428b-4bc4-b20a-dc10032f2a2f@arm.com>
-Date: Mon, 12 May 2025 14:35:01 +0100
+	s=arc-20240116; t=1747057685; c=relaxed/simple;
+	bh=BHpueVAwfm3FWQvl4EsygXnay/5mtTUqUqaYBsW2JyM=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=kNpEGQrGZtbsYwQqOpvf73cANIWxGsRYkBEdfkZigTaAOf5dXOb1csE2bLaD9ORWRFxuY9ZKr3yyi8QXnhQQEzfUz0z2e6vYYpiDQHUlU0er25K6Ur/U5CeO5gmA09gSbmvjL/xI5Vy3tXsJ69OfNVpsFCnI4Dsf7j1wC1GWRgs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=a4xfudJ/; arc=none smtp.client-ip=209.85.215.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="a4xfudJ/"
+Received: by mail-pg1-f172.google.com with SMTP id 41be03b00d2f7-af5499ca131so363784a12.3;
+        Mon, 12 May 2025 06:48:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747057684; x=1747662484; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=b1fMuIe/7ONMMCdQeIFnVXYkOelK3PlNZeZ2qTQVxIk=;
+        b=a4xfudJ/s9mVIZaL9l12nxjr/ivn/qKigikuGFWoj2hrWsq300DXF9wHSaWf9mIarp
+         yG6ps6qgh+M+vmztXRs+shNsNXGeVe5k6umQ666Fmv8Le9tliGiWYAYG4LjDxamWSoO0
+         rx8vqrQ0gkYAkZ/rTvvmcEpwbhS8y30xqLVdFjrmeIDcj1nN1dYX8envogbq9npMUlpP
+         V8t2NVFZPrkpwr4nJqcssC24DzrBV4KWD7pTtKUFepy6HK2M+Dk8xMQI9poE5wReU7iz
+         NJWH9MKPgqmvPBk7KQpi+vxHmucNGKcco5lf/JnbSOmKtWxE+oIP/CC+3vwCghVz1T2J
+         RpdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747057684; x=1747662484;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=b1fMuIe/7ONMMCdQeIFnVXYkOelK3PlNZeZ2qTQVxIk=;
+        b=i+o4HbAeH8Aw6AE9hUeOWXwUMgwaA9K7JotLhm8uYZVNFa4iRjKhsbfo3VfFtdMJpG
+         fhaPkySmlgC68go/H/If/LyMWA9v/OHLxjZofb61X10nJmhzSBRCjZbUGzvJMoZEQGth
+         ZomfkucfG52dVdQw9KleV8jmSzDYienouQFo8beAcy/hYmE9zDuvC7XeTp1gYYoiIigU
+         VcOM+2fxARJYqPrrgYtnaQe5IT8YBcoN17YY6VEnJQxGqmyH6hVh0ZF+HxvaL5WJOCeY
+         iiPp6qSiMIXo3W5VnFwYEQodJlOxyRUK3msthjhzSmcqTcTGDLuO1Tx1PbZDDL2Dl9vy
+         TFiw==
+X-Forwarded-Encrypted: i=1; AJvYcCUWbBJjMeAUs5rQWOLsAkbuqp0Udy23e51SKrXl4NEhiw+au2JGeUAWda1PJTDy3GuZPWFFxik7ayOtpMd9@vger.kernel.org, AJvYcCWEiH3+Nt0ST/Pv66Pmw6QbDYGOx2QuAFv5VuLWz73QjAd94w7ItlxO8WxMW1AOV6mwLYAWOTNAr+0=@vger.kernel.org, AJvYcCXo/bJGjGocoZoxGCZXNR4F1u/SAWlNRGMy20Bzxes6lwOEYZ7M36Zn4Mk5sed1OXxHvkYgkKnH9P6O3i6y3bI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw/DFZ12EaguY5ZrgVLScpe2AyvWJVPlBgUni5/dXKOwJv0lWH1
+	6rvovstjDHqqFfNRBWsZafkiBp8hiu500HlDYmBjp0k763+pVK1lP2fbplM/GBdI7HbwvNflW1y
+	f1EsA3xJjug8EZWfOVaDXsiNLbN8=
+X-Gm-Gg: ASbGncunyB+87/NdFxrRbW8sIGnQES61bNOSjsG2fXizgqQBfd4B81ZesxZi/KIIDGH
+	UKyCJj9yN+kjGTT+RDYGhQlZ2Neb8gV7xzlUWNi9HQuxqaxdOTRAu9tjMtnP6zhiTwMQn7irH3c
+	HjV5OZkTFAKsaG7ovcUWD7hMQh0Y9EX0jU
+X-Google-Smtp-Source: AGHT+IFdgJb6WFnCwQ1ckUq6mAtXOgztfx5HsquGECmUxd5me5EhOzT9KO3/c+Lqq8UBo7wF7VCfW7Fkeyh9no0X8W8=
+X-Received: by 2002:a17:902:ec86:b0:224:1212:7da1 with SMTP id
+ d9443c01a7336-22fc918d174mr63653765ad.13.1747057683677; Mon, 12 May 2025
+ 06:48:03 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
-Content-Language: en-GB
-To: Suzuki K Poulose <suzuki.poulose@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>
-Cc: =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
- yang@os.amperecomputing.com, corbet@lwn.net, jean-philippe@linaro.org,
- robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
- paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
- maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
- oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
- ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com,
- jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
- <20250428153514.55772-4-miko.lenczewski@arm.com>
- <20250506142508.GB1197@willie-the-truck>
- <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
- <20250509134904.GA5707@willie-the-truck> <aB4nqtMJuvvp7Vwm@arm.com>
- <015746d7-ca46-4978-a441-09fba781fdd4@arm.com>
- <4709ff5a-f89c-426e-ae95-f8356808f4f5@arm.com>
-From: Ryan Roberts <ryan.roberts@arm.com>
-In-Reply-To: <4709ff5a-f89c-426e-ae95-f8356808f4f5@arm.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20250416112454.2503872-1-ojeda@kernel.org>
+In-Reply-To: <20250416112454.2503872-1-ojeda@kernel.org>
+From: Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date: Mon, 12 May 2025 15:47:51 +0200
+X-Gm-Features: AX0GCFssLceZsQg3tu5ORZXSomdeXScaEYnRsjvkmAEYjZ92Z9K6uKADlNuukfc
+Message-ID: <CANiq72kEgg2ATEdtVPLX5shUcVJdJKuftt6qMtA-t5C-ALpx6A@mail.gmail.com>
+Subject: Re: [PATCH] docs: rust: explain that `///` vs. `//` applies to
+ private items too
+To: Miguel Ojeda <ojeda@kernel.org>
+Cc: Alex Gaynor <alex.gaynor@gmail.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>, 
+	=?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, 
+	Benno Lossin <benno.lossin@proton.me>, Andreas Hindborg <a.hindborg@kernel.org>, 
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>, 
+	Danilo Krummrich <dakr@kernel.org>, rust-for-linux@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, patches@lists.linux.dev, 
+	Viresh Kumar <viresh.kumar@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On 12/05/2025 14:24, Suzuki K Poulose wrote:
-> On 12/05/2025 14:07, Ryan Roberts wrote:
->> On 09/05/2025 17:04, Catalin Marinas wrote:
->>> On Fri, May 09, 2025 at 02:49:05PM +0100, Will Deacon wrote:
->>>> On Tue, May 06, 2025 at 03:52:59PM +0100, Ryan Roberts wrote:
->>>>> On 06/05/2025 15:25, Will Deacon wrote:
->>>>>> This penalises large homogeneous systems and it feels unnecessary given
->>>>>> that we have the ability to check this per-CPU. Can you use
->>>>>> ARM64_CPUCAP_BOOT_CPU_FEATURE instead of ARM64_CPUCAP_SYSTEM_FEATURE
->>>>>> to solve this?
->>>>>
->>>>> We are trying to solve for the case where the boot CPU has BBML2 but a
->>>>> secondary
->>>>> CPU doesn't. (e.g. hetrogeneous system where boot CPU is big and secondary is
->>>>> little and does not advertise the feature. I can't remember if we proved there
->>>>> are real systems with this config - I have vague recollection that we did
->>>>> but my
->>>>> memory is poor...).
->>>>>
->>>>> My understanding is that for ARM64_CPUCAP_BOOT_CPU_FEATURE, "If the boot CPU
->>>>> has enabled this feature already, then every late CPU must have it". So that
->>>>> would exclude any secondary CPUs without BBML2 from coming online?
->>>>
->>>> Damn, yes, you're right. However, it still feels horribly hacky to iterate
->>>> over the online CPUs in has_bbml2_noabort() -- the cpufeature framework
->>>> has the ability to query features locally and we should be able to use
->>>> that. We're going to want that should the architecture eventually decide
->>>> on something like BBML3 for this.
->>>>
->>>> What we have with BBML2_NOABORT seems similar to an hwcap in that we only
->>>> support the capability if all CPUs have it (rejecting late CPUs without it
->>>> in that case) but we can live without it if not all of the early CPUs
->>>> have it. Unlikely hwcaps, though, we shouldn't be advertising this to
->>>> userspace and we can't derive the capability solely from the sanitised
->>>> system registers.
->>>>
->>>> I wonder if we could treat it like an erratum in some way instead? That
->>>> is, invert things so that CPUs which _don't_ have BBML2_NOABORT are
->>>> considered to have a "BBM_CONFLICT_ABORT" erratum (which we obviously
->>>> wouldn't shout about). Then we should be able to say:
->>>>
->>>>    - If any of the early CPUs don't have BBML2_NOABORT, then the erratum
->>>>      would be enabled and we wouln't elide BBM.
->>>>
->>>>    - If a late CPU doesn't have BBML2_NOABORT then it can't come online
->>>>      if the erratum isn't already enabled.
->>>>
->>>> Does that work? If not, then perhaps the cpufeature/cpuerrata code needs
->>>> some surgery for this.
->>>
->>> Ah, I should have read this thread in order. I think we can treat this
->>> as BBML2_NOABORT available as default based on ID regs and use the
->>> allow/deny-list as an erratum.
->>>
->>
->> Just to make sure I've understood all this, I think what you are both saying is
->> we can create a single capability called ARM64_HAS_NO_BBML2_NOABORT of type
->> ARM64_CPUCAP_LOCAL_CPU_ERRATUM. Each CPU will then check it has BBML2 and is in
->> the MIDR allow list; If any of those conditions are not met, the CPU is
->> considered to have ARM64_HAS_NO_BBML2_NOABORT.
-> 
-> I guess we need two caps.
-> 
-> 1. SYSTEM cap -> ARM64_HAS_BBML2. Based on the ID registers
-> 2. An erratum -> ARM64_BBML2_ABORTS. Based on BBLM2==1 && !in_midr_list()
+On Wed, Apr 16, 2025 at 1:25=E2=80=AFPM Miguel Ojeda <ojeda@kernel.org> wro=
+te:
+>
+> Sometimes kernel developers use `//` for documenting private items,
+> since those do not get rendered at the moment.
+>
+> That is reasonable, but the intention behind `///` (and `//!`) vs. `//`
+> is to convey the distinction between documentation and other kinds of
+> comments, such as implementation details or TODOs.
+>
+> It also increases consistency with the public items and thus e.g. allows
+> to change visibility of an item with less changed involved.
+>
+> It is not just useful for human readers, but also tooling. For instance,
+> we may want to eventually generate documentation for private items
+> (perhaps as a toggle in the HTML UI). On top of that, `rustdoc` lints
+> as usual for those, too, so we may want to do it even if we do not use
+> the result.
+>
+> Thus document this explicitly.
+>
+> Cc: Viresh Kumar <viresh.kumar@linaro.org>
+> Link: https://lore.kernel.org/rust-for-linux/CANiq72n_C7exSOMe5yf-7jKKnhS=
+Cv+a9QcD=3DOE2B_Q2UFBL3Xg@mail.gmail.com/
+> Link: https://github.com/Rust-for-Linux/linux/issues/1157
+> Signed-off-by: Miguel Ojeda <ojeda@kernel.org>
 
-I don't think we *need* two caps; I was suggesting to consider both of these
-conditions for the single cap. You are suggesting to separate them. But I think
-both approaches give the same result?
+Applied to `rust-next` -- thanks everyone!
 
-I'm easy either way, but keen to understand why 2 caps are preferred?
+    [ Fixed typo. - Miguel ]
 
-Perhaps for my version it would be better to refer to it as
-ARM64_CPUCAP_BOOT_RESTRICTED_CPU_LOCAL_FEATURE instead of
-ARM64_CPUCAP_LOCAL_CPU_ERRATUM (they both have the exact same semantics under
-the hood AFAICT).
-
-Thanks,
-Ryan
-
-> 
-> 
-> And then:
-> 
-> 
->>
->> Then we have this helper:
->>
->> static inline bool system_supports_bbml2_noabort(void)
->> {
->>     return system_capabilities_finalized() &&
->         alternative_has_cap_unlikely(ARM64_HAS_BBML2) &&
->         !alternative_has_cap_unlikely(!ARM64_HAS_BBML2_ABORTS)
-> 
-> Without (1), we may enable BBML2 on a (system with) CPU that doesn't
-> have BBML2 feature.
-> 
-> And (1) can prevent any non-BBML2 capable CPUs from booting or (2) can prevent
-> anything that aborts with BBML2.
-> 
-> 
-> Suzuki
-> 
-> 
->>            !alternative_has_cap_unlikely(ARM64_HAS_NO_BBML2_NOABORT);
-> 
-> 
->> }
->>
->> system_capabilities_finalized() is there to ensure an early call to this helper
->> returns false (i.e. the safe value before we have evaluated on all CPUs).
->> Because ARM64_HAS_NO_BBML2_NOABORT is inverted it would otherwise return true
->> prior to finalization.
->>
->> I don't believe we need any second (SYSTEM or BOOT) feature. This is sufficient
->> on its own?
->>
->> Thanks,
->> Ryan
->>
-> 
-
+Cheers,
+Miguel
