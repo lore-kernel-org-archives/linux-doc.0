@@ -1,211 +1,333 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-vk1-f179.google.com (mail-vk1-f179.google.com [209.85.221.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 70DD6296FDF;
-	Mon, 12 May 2025 19:14:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.7
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747077253; cv=fail; b=HYPRwbADc9/hO6woa+UpKt5QgQZp4mV4CMxr2qAVJ5uGxemVFOCqIFtirY4EuPDOiaLPx1qiP42KZIo31aXyLfEmgN5d1GR0ShNL0zNICHJ9/sc3OOUDb3gr0Fi3Sr1wICkTOeECaukUjpA7MPkEAisW4T8TxmRp4X1+jGRyQFI=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747077253; c=relaxed/simple;
-	bh=sSVYb45x7FaifdhTT3+8iKwj1A4WTfyYCO75FCGhwP8=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=K6BXp5F/kHP0fSiDjSNWRObrf1VAfxPkgij8CXsNePfQkq2Q5+Birpldu6Ou/eSAtxjfOiDsJoUyDgBgCnyP0Xd9OGSDOuVOZAiL7W2YxpVAJzgcBh7oZigRbvk5g5zyNFrDm15DyN3Je/0MSg9toI4Q30fnJuKpj9cofVK63T8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=nCTV/JrX; arc=fail smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39DEE2561CB;
+	Mon, 12 May 2025 19:16:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.179
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747077380; cv=none; b=uEgEGFPvT50R2j6F3QsGLXqwkzGjSXdALS3Z6CY4w6rUd3lzyyIddah5pBUUuMckgi8V30WONRtU/3LLTu3JUBpVenk/DSV7ETNQAoHOykn2jZhuXuIptu3R8MvdI1d7hXOfsUuPrqvA7jsbddnvmIBfJppDsOEZU7r6iJy/Z80=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747077380; c=relaxed/simple;
+	bh=csoWxmWxRHcoiw+mcdR3F2D8ykvGSGe3zRxtHmNwDhc=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:To:Cc:Subject:
+	 References:In-Reply-To; b=Hm2RYrf+x+WMShtPUCTwANu5rdGv5d5ZCpCKIM7QKhaC8A8aFEy6kLidb3z3p6/3fsFtO6b3wfL04WcGKxTdfSmPpd1FEJ+HHeGFeBAVBStUq67nzP++SsfhktukgpGDowNmYPZfMqb1eJLUXEPp9pJ9PUvrnnMcpLO0zIfnYHc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=IDDNIfWY; arc=none smtp.client-ip=209.85.221.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="nCTV/JrX"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747077251; x=1778613251;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=sSVYb45x7FaifdhTT3+8iKwj1A4WTfyYCO75FCGhwP8=;
-  b=nCTV/JrXLEVaCw6HRzmqF2LhYkKqMFcDAK4ir2X0t7QUpIThoyMH9TWp
-   4cuXdZKWKVr8bTbxgnKScPfW9vNpQDUd2DfTGtA6vu0GPOitbnxlwTHAS
-   OC7gdWvGLeTJUCRQxmo9TauxKmRhO+iwzJNgVCAoY6L7INxAne8G9EHde
-   wC5xQ+Dba3jsCJLG1JExRHzFJoe2zLUxm4UU/Ww6fZg1WrU0OmW46iSio
-   G78pqCdy2RzfG7TAbnbgEeo0rYLyJ7PfHLgndcCeHDwNa2vMOu97h5wXb
-   JtvzRxlLB8FMKE9S6VfmFYocSkYSTsk8RoDoaD9kH3vOuL9O/9hTl/+2G
-   A==;
-X-CSE-ConnectionGUID: gFHCYdnbTH+keOgctVB22w==
-X-CSE-MsgGUID: sri2tWrdQI2dW73wLNEh2w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11431"; a="74288246"
-X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="74288246"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 12:14:10 -0700
-X-CSE-ConnectionGUID: ihHO8O6ATkqlD6D/k1al5g==
-X-CSE-MsgGUID: EzDY3PlqR5CWJJKQ1iPEVw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,283,1739865600"; 
-   d="scan'208";a="138401467"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 May 2025 12:14:10 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Mon, 12 May 2025 12:14:09 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Mon, 12 May 2025 12:14:09 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.47) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Mon, 12 May 2025 12:14:09 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bpoL4yZVFSyo8PDo1kwx27RcsADOcuCjWKbIe+NlBr44LRu7/spUqyA87d+/j0qZomYNcOsh65U56NVmgWpKk+xgatjq/GNwU/RCVuP92rOm1CofMorDEdIYqsUEX5nFaqXb6seUpE/c03Oe6sPR9kFg1FMoWdWohT/7Vu7ja2X8CsRYSQNiwmNsMuTjsqEAiJo/KRIPxTssjFcYEuiW7zZON+Xr2ang28ZcN3zlQdVjxuYCNk6AOfwbkRkB1nz2OAg1Z9ACdAeusoxSra3FHMokjqrjEUH/WDhShtuV/cBMxUc/vNHg8Htk8grJqZ77YB8vn9Vps2El2Ypf9UTMWg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q1M1h94mBu0inlYs+58007RyNFRU2uI7JX1WF6sUyqM=;
- b=wcgfRCNFQE82lun6l0uVNSaqRAtsddmY31j2Iuh08d45NaQQClBSVtsC3oGGuvV0Yc0Ll7Xz9IlKkQapLEa5zpEWRWrg4P6R0BAkBk/XG4yew0z8tsIzzFJI7NqA/ER7IDiNssxEzqXf6efgBvyH8CF46AtJOmNaUw84kmDWsur+6qWGlvxOxM8Kryhtq9vkmJ5VeUEoIj0XtikqY5X0lIIl4xcBeTrfp/mHSZMNh7c7d0nKnWoC4g1OpdgV8scRr9MHd3aRVzVMt/5dzC40ASjkXR0q5BmhTRhSYHMWJiWCcEyoFB3sXR55Ez7yNWIZUzHq7jz/3tWC2xBx5Vipfg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com (2603:10b6:303:9b::16)
- by DS0PR11MB7360.namprd11.prod.outlook.com (2603:10b6:8:136::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.28; Mon, 12 May
- 2025 19:13:27 +0000
-Received: from CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::7de8:e1b1:a3b:b8a8]) by CO1PR11MB5089.namprd11.prod.outlook.com
- ([fe80::7de8:e1b1:a3b:b8a8%5]) with mapi id 15.20.8722.027; Mon, 12 May 2025
- 19:13:26 +0000
-Message-ID: <fbc8c469-7a6a-4b3d-a161-f2407b70a791@intel.com>
-Date: Mon, 12 May 2025 12:13:24 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v5 5/5] eth: fbnic: Add devlink dev flash support
-To: Lee Trager <lee@trager.us>, Alexander Duyck <alexanderduyck@fb.com>,
-	"Jakub Kicinski" <kuba@kernel.org>, <kernel-team@meta.com>, "David S. Miller"
-	<davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, Paolo Abeni
-	<pabeni@redhat.com>, Simon Horman <horms@kernel.org>, Jonathan Corbet
-	<corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>, Mohsin Bashir
-	<mohsin.bashr@gmail.com>, Sanman Pradhan <sanman.p211993@gmail.com>, Su Hui
-	<suhui@nfschina.com>, Al Viro <viro@zeniv.linux.org.uk>
-CC: Andrew Lunn <andrew@lunn.ch>, <netdev@vger.kernel.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-References: <20250512190109.2475614-1-lee@trager.us>
- <20250512190109.2475614-6-lee@trager.us>
-Content-Language: en-US
-From: Jacob Keller <jacob.e.keller@intel.com>
-In-Reply-To: <20250512190109.2475614-6-lee@trager.us>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: MW4PR04CA0312.namprd04.prod.outlook.com
- (2603:10b6:303:82::17) To CO1PR11MB5089.namprd11.prod.outlook.com
- (2603:10b6:303:9b::16)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="IDDNIfWY"
+Received: by mail-vk1-f179.google.com with SMTP id 71dfb90a1353d-52403e39a23so3275258e0c.2;
+        Mon, 12 May 2025 12:16:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747077377; x=1747682177; darn=vger.kernel.org;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=RYSuLkdFz2FZsbrZ/W7pjYu4T4GfGBCPecCYVxKA/cw=;
+        b=IDDNIfWYxobqphfjpCmHUa7SS7ZQ97Yag8t6xhXyKWuLbavDJAIqQRQ7YSF28ZAO3+
+         quPHOOd4Otuo3BRAyiy34ZD7t/wzWHXjXsL1BXy8ErbsyUBsMpxNYUj5qbUjex+0aPh6
+         GzcwV6M2xozFUTa59iXGtMzRlKd+Cqsa6FPPggftOXESHRFapIlhTUZzRdS+dYQVRY++
+         xOZ7NfasVJZZTRUaTTa6b9LKPBZlPW3niy18Wv3vBmka6xu/pU1Varf3jeFfDndjkcfK
+         L6V2CQ1VuyZf0wiJp0Tcw5HIoYQyTsdbe5GtNNDqM816sIjIC00A1Ns+O5DiNSHyzRzo
+         mKkA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747077377; x=1747682177;
+        h=in-reply-to:references:subject:cc:to:from:message-id:date
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RYSuLkdFz2FZsbrZ/W7pjYu4T4GfGBCPecCYVxKA/cw=;
+        b=RPkHKDycGiE/cCeItLX9DJDRbEZBCLfuriH8pEZHJk2w6Zfh/shEROIxRFUoMzV0EE
+         JtAP2ngEFpQ3vWykZxPaXnwvqlfbMGjEPqcyCgZcMSvE12CKE6NAPJZkuC94Hesh56iA
+         mPv0Dd8ilXjh+EFFEyWvc46Nn1KzZKfyavFx33RudtSDvI33OZ3wiPNsIbwdbu6oVSgW
+         T+SPwbuJPStKkbDTEdFxeZ0okN5wEhCzqi0j3qOo6S244Qt71kuKHfsv69KN35IRavG6
+         amM4q9CwvbZD7hxe2UaAy03PP7gwlWyVZhWeEpYn/mJ3UUuf7b21H5Hr4+URwrOTp/dX
+         9dIg==
+X-Forwarded-Encrypted: i=1; AJvYcCUa8fKRORCIerA796mdEcFnQxz97qY2fesSSoGBVrlKDzJHfiimHKAziwTRbo0OHPLx5N0Ry9f5htpWQ4LF@vger.kernel.org, AJvYcCUawa81ylf4FKdH7lEvQ50Y4vIapNfhg0k/u8JTLs77dfZsQ4MWFmDqyTo/6L6Pn+2bAk+c1rodY8LAVOVt5BfhnN3OLQ==@vger.kernel.org, AJvYcCW4LoaQDHv6jDzz130qu/hXrNt876nx9+A72+cZ56hzVFCm411KHiVa2ZcGg2bhfpKtMICNvpvutIjM1CE=@vger.kernel.org, AJvYcCWnMhLyCE1EeTydyAPtYqMhSQTNVOftrVV0oJO6HEXo3vIhch+UaCDJvuFmAxB1i1vZZZ1rfl7lsDo=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxbCsY90BOKixQIK9HLoH+KXYWhuqrlo7UKb8NOt9UG7jV1mJiI
+	bbSG3W6x/OfVrhFkI5dcTiskQbheJbVD+rKspNK9L0jVFMYpvXPuniXgJg==
+X-Gm-Gg: ASbGncsg2WHXDD3MQ7/1dDe07A1gm4zHiULKB0ijbFJCpEO5MTJ9x5GufjthVxhYZm0
+	Ay7cNVbqWlGHI2o9bNRMgKJxBqvP2Igh9nNNxoTpsKTgPOsFruJHFCi4lFFy3RIjrTcd2gdyDGR
+	jDiBvPiwIjK+jL79Pewr/laQKQ3ajPoCLj2VNJp1jMo1LIqysiMOFrTM+V12pStoOXKwaOJqAbi
+	11mSCyLgV1tmo5FPYilSm4DCBbejwiK8c0U0GCWdoDLld/Pd929uo5fcCMyFPW9QfTFIT5yOEl2
+	ZgnnB4FvZ2tfa21isIccmSdSpyOtXBsvwKLzdSe/OIEyNUBBhtfKJoE=
+X-Google-Smtp-Source: AGHT+IFHQoQemjQLv58nIUo1L8Az0vfwrtj4FK8I9sNBvd3K6hRB1VyQoRijEVWVHfUw7padc6pFtQ==
+X-Received: by 2002:a05:6122:1d14:b0:523:dd87:fe95 with SMTP id 71dfb90a1353d-52c53daf2admr11691435e0c.9.1747077376966;
+        Mon, 12 May 2025 12:16:16 -0700 (PDT)
+Received: from localhost ([181.91.133.137])
+        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-879f6298ebasm5631710241.34.2025.05.12.12.16.13
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 May 2025 12:16:16 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CO1PR11MB5089:EE_|DS0PR11MB7360:EE_
-X-MS-Office365-Filtering-Correlation-Id: daa58f71-02ed-4bd8-8217-08dd918912bc
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014|7053199007|921020;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?ZWlYbi9maDF0MWVSREZ5VnZNaEwyMlV2dEVmRmlmckRrdUJUbDErMTFiOXNI?=
- =?utf-8?B?Tmc4RG5Ed0l1WnN0akYzT3ZaOFdCQmIrVUxQd290WEVBWEE0a29pSEZ5UDh0?=
- =?utf-8?B?d3RHMUZmWFE5WGJ1WTJJdzAvbVVNdFpUMEFlbSsrL0J2Nm1UcHU0WjlUVkxy?=
- =?utf-8?B?VVY2MjY3WElXc0tsalltVUNkQjhpRkZuNnllV3hud09rbUpoRVJlN2c2KzNh?=
- =?utf-8?B?Y3kwUGRNVnJuclBMbGMxSlVTL21SY0d2ekVQMXVPd3UybkFqRkg4TWVxc2dQ?=
- =?utf-8?B?TmFVeTRFZ0lwV0sxQWxSUWM2dlNWVkl0c3RNNko3bXlKcDdQQlhnZ2c3WnRY?=
- =?utf-8?B?WE5NR05XTmgydURHYUc2bTJWUFdFdm8wajhUNzhCeUhhTjJyckY4aVlVRHl4?=
- =?utf-8?B?YmVGZkhQWWp2Z3dOUUxpcW9RdUVLZWpmSEVsalVheDlrckRJQjFXV0NLZ1hC?=
- =?utf-8?B?S1AvUW1zOGVqT1RIRUlSbnJMM0xydnpOemkyZ25yT1JnYy9IcklRMThDbW9y?=
- =?utf-8?B?amJneWgyeEF5L3NXRlpkQjFpeENVSlYyWENYRkRiSnUvSjN0U0lmTHlySXVG?=
- =?utf-8?B?amRPU3NISkFiakxoaWRjTDFqd09vS2R0K2Rhd1RZWDZaZUEzUEZySkVZUnZO?=
- =?utf-8?B?TFp4bzl2elV3aEVNQnhYRkZvc3VTTnZKeitPTEtEL25EL2hpdUFqK2FkMTF1?=
- =?utf-8?B?YlJvWDE1d1g5WG15ZkxvRDJteTF1OHRGSWVEOXowUUQ3L2ZIL29yZkVGRUhm?=
- =?utf-8?B?MTczSTh2cXJwUE1IZ3VESzlYZGs0c0JhdEJUT3ZKbjhCWDN0clFyS1prU2ZZ?=
- =?utf-8?B?S1RaNmNuTjNPMDBPVUlRUHFTRU8zRGVzSTVIVHNsV3pvQlJ5cVhBUVRGWmVP?=
- =?utf-8?B?YytZSWZYRVJleTJTaTdyZUsrM1M5Z21WTDhZaHJWb0tWRTlXeGQ0OVJ5eXJp?=
- =?utf-8?B?UVIvUG9DTmF4T0UzYkF0Y2RnTTkvVDZQdVBaZHB5MytwaGp3OWptSUQ0SStH?=
- =?utf-8?B?ZkMyejRodUdQQlVLbzRwQ0RGRzMwVm95OGNKazRJYWx3aXMwNGFJcUVUQ2Fa?=
- =?utf-8?B?aUpiUmJTNmlFMnoxV0JKSk1MazBrZkxUc29rc1NHQmtEaGZJTEplSElkemRj?=
- =?utf-8?B?dy93SisrT2d6eEgrZ0kwRjE4dXVyRmYwVDlPL3d2SzI4Y0pwRFk5NDRnaDJN?=
- =?utf-8?B?TUVMMFpUMGhaeTZUUkxLRXBHMVB1ajlUd2swUzB1UUxFSzJibUdRUTFLZkVy?=
- =?utf-8?B?VUMwN3ZKU0pXdGhsd1V2eWZDUzh6VHdpNllhWCtTRytJVHEvOFc1TFczRjZl?=
- =?utf-8?B?bjJEaHlDak9qYWRJYjlMUy9rdk1UM0lBOTRBenlza2NtS3RzclN6MW5QWkUw?=
- =?utf-8?B?MzhCeTd3QThXZ3FWcHYrNkoxYktKdEovMzBzeWRicldXa2d1WFpoZUp0UGdZ?=
- =?utf-8?B?YnQ2SWY1UEZRbG50ZFp2QkhYbGdObXNRS3BsTmRaZFlNeitvbjdDbWg1Z3dO?=
- =?utf-8?B?NURhcnhtL1ZVZE9QL1IyZjBMelNYdVRaNmswZ2JGS2Uwa1BadnNxUEIvbnFN?=
- =?utf-8?B?N1VjeWpnRmp3NEFORkxsTTFqWDZ0eDB4MWJCYTdWazAvWmNPOGtuRlUxUE8x?=
- =?utf-8?B?SWVRMGJiN2o0STdtc0diN2hDb01sZVRmYVMrdU92NGkvVVRoYUdFVjRYdTg0?=
- =?utf-8?B?aXpEK2VjZERncklJOTVKK2htY1MxZ0pvaTlWclR3bWN1dE1kdTkxOU5XZHor?=
- =?utf-8?B?V3V4Ym1jT2czUWttZWpnT2k4TDkySnFjdmNHOUR0dlAvakd3RG40TWdCRXI3?=
- =?utf-8?B?MEdoVjhVNzNLL0laY20rWjhWRUlJb1hQOCtGYlp0eHAxNWhtV1p2M3JZaWtm?=
- =?utf-8?B?MVpwVmhQQzJ5NVh6S2MzSTc1bzVlNjE1VXh1NmtBYnZIaHRubkRWcy90T2FE?=
- =?utf-8?B?dk11cFV6NUQ5S2g0V09kRFR4NnlVbkdhVTJkbDJLVTRCbndOWFhpdUlrVDRU?=
- =?utf-8?B?NXhrK2xjeStRPT0=?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CO1PR11MB5089.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014)(7053199007)(921020);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Q2c1NW85LzJ3dndYZFNiY2dXQmRDWGNXZ0VsS0FXOWErVXExYUFnOWlHa3Iz?=
- =?utf-8?B?MTluQW9DTkpGOTRlMGVLb3Y0Z3BHM3dHSTNXR2JNbVZaeUQyTWNoUGNCd2pj?=
- =?utf-8?B?M1o3M0FOZkVocmR4d2o3amo1TVJjRnFMbnRIWTNUc3M2Q2h1RDA4WGdUS05h?=
- =?utf-8?B?dGNCV3hMbGsxSThTVlpJalhxSjF4UXJmSEp1cFJwWDNyN3hvdUs5S1ArZVl0?=
- =?utf-8?B?Nno4dlJwYnFiUWRRQUFsMUNRcklEY09RRWFwR1pXL0ptNitBdDhxOUtRdnl4?=
- =?utf-8?B?Q01LYWlNak80aUZXQ3lvTXhCSTM5RzlobzZQenJKZ3BQaVhIOGVTTFM4TGZj?=
- =?utf-8?B?aTg5eDhycVVRMW5UZ2UxZmorZ1NZMmNnRlA4T2NNVCtFNVFHTHl0TWxSbEUx?=
- =?utf-8?B?UUdTSWlaZUN2M2FTZDEwcGdkWTNxTi9TdTJ6d0pCb0RMdng5KzFDQ2dUVTJh?=
- =?utf-8?B?VER6WjZIL3N3WlNVYUc0MXU4UkI3eUdDTTErdmpNL2pqUDk4M1hHQktPQlhh?=
- =?utf-8?B?QWRnaWVBRUJad0tNVm5PbUk3MEFIQ1RVRENkR2x1cjlNU1FjUXMvSEI4Ylg2?=
- =?utf-8?B?RUFSR04zUWo2RXltM1BlU3VvSWw1RlYydkxuWXVCZEZvcThqaDJNR0pQNU93?=
- =?utf-8?B?VlFKSHlaQzhIL2dtNmd0TTFjNUQ3VVhaUm5nWWJ6ZFFQUlB4a2hINkVNZ2Fy?=
- =?utf-8?B?YXptRnI5LzVWMlU0UEJiaTBaa01CQXphdHU0SGJBbDN3TlpWeVlBRXF2b25U?=
- =?utf-8?B?T2wzRk5KSHp5K2wvK0JsZC8zRjZCa29hdk1BK0VoM3YxdXF0Y3lSMzlrcFNn?=
- =?utf-8?B?U0UyMXZHL3R6aWJtL1FzWXBEYkdLSVVRVVFDQXBpa0N6QlZwYW02QXdXb2F2?=
- =?utf-8?B?UjlxRThoOEFWRHpzMFFac2t1ZUFvd2tBcFRpNlp3Ri8zUkVUd3hyWDQ1NXF6?=
- =?utf-8?B?cW9sc0VrMXlKUFBiSFpiVG1TUHUxaERrMWcrYjVPeVdIcjRJbkNtWE54Vi9S?=
- =?utf-8?B?M3lkd2VXc0M1L0QzT2o0SjFLMmxzdFY5UjBaV2E2MllLQzRJOHJwN25DL243?=
- =?utf-8?B?VEs2OGVYQUVXQ2p3eWNRbnhvZEVBTkdnZEVPekhCODJ1ZW9TZktzeTB3bkRE?=
- =?utf-8?B?cGJwcEMwRTJSeHQ1d1g2QkkzbzV1V1ZBaUI0VURDMHZrck1LWDl4dmF2S0ZH?=
- =?utf-8?B?MDJFK0c2QStocjZsOGZnM3hBT2RCa1NLYnR2Y2pxN09vam1VM1I5YmNxaFBL?=
- =?utf-8?B?Z3Q3TnFqRTJCUk04Z0FleVZEVVB3QWpodytteW5XQklycnF0THJZdDJqblFK?=
- =?utf-8?B?VVdLYXlhSUlCNzl6RTFJeFppcURFRWJZMDFkWHdhUzVDTjYva3JUNENZVklp?=
- =?utf-8?B?dEd4UzUyaUpvR0Y5bURFWk1OTHhJU1JJaHgxL0tiZjc2RFVpbG1BUkVIRVVY?=
- =?utf-8?B?VmdvQjk3NUZRK1lER05vUUNLeWd5K2dnU0NoQys4MVhoaE9LQ0preU5KeXZq?=
- =?utf-8?B?dncwanIvMkVXM2VKSjVNMks2N08zZDlVTXg4RUt6WGVWaUd3Q0V5MTFrTGtm?=
- =?utf-8?B?UUlVUjVQOTBCRDY1Y1lkL01UMWJlY3FPS2ZpVE91R3gwaW15dDJmeGhUc0Yy?=
- =?utf-8?B?cWhLK0FlNUVJMmNRL3lkOElDdEJwM2tPMktBNEt2UDlhaVhzT3lJTXQydkk0?=
- =?utf-8?B?eVNybU1HVlNhcmNIaHVuRjFWZks5RmZPb095L3Z0MHNxbTd5UlNDVWY4NVNV?=
- =?utf-8?B?czhrR0F6SE0yUkw2bGZocVZmT0xQR1RuT1BaRndsbzZkY21EYXNXYjl4OGlm?=
- =?utf-8?B?c3RTR0o0RUxPNEZFTHRkZVVtekdpWjMwa205SmhjODdqQnAwa01IQUFEcXd2?=
- =?utf-8?B?TE55QW9va3VWMEN3cUlRMWErcmpadTFBSGFWRkZyR2d4d2R4RkYyUVlPNHhT?=
- =?utf-8?B?SCtYOUEzcHhCOXlYbGhVNEVwNUZ6aUduakNaODNxRzBHVEpUTFN1WVFQaGNK?=
- =?utf-8?B?NXNPMWpNalEwd2VLSVY2RkZLL282MU9JaTRRQ3BOS2pHQ2wzK2Z2dHZMZ1JC?=
- =?utf-8?B?Z1JwUlhUbnI1ZURKWEtZYXJrMVlzczNsakp4ak9NQ0ZSaERXV1lMN2dKMWp6?=
- =?utf-8?B?YjNQeXRlYmlJVTZ4T2g2aUdSR2phNGRVZnZDcWhMU3FjSVlHWnJEOE5hcjJi?=
- =?utf-8?B?cGc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: daa58f71-02ed-4bd8-8217-08dd918912bc
-X-MS-Exchange-CrossTenant-AuthSource: CO1PR11MB5089.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 12 May 2025 19:13:26.8616
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: MUqT+mZsYpTqU17k+9xjxGq4TxD9g7Bgbhq/reIzhdv+U29zEOmZLGPzWhgZUIY6LEqxFTvDHFCBAWkFfJ8vMrMCCEq3hfZkKgnXyTwqOso=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7360
-X-OriginatorOrg: intel.com
+Mime-Version: 1.0
+Content-Type: multipart/signed;
+ boundary=5ca082a70d43aa946c92beeef9ccf0d061b858a7f9da8673702484b413ff;
+ micalg=pgp-sha512; protocol="application/pgp-signature"
+Date: Mon, 12 May 2025 16:16:12 -0300
+Message-Id: <D9UF8OXHEJKZ.23PW2J8J7VYSZ@gmail.com>
+From: "Kurt Borja" <kuurtb@gmail.com>
+To: "Antheas Kapenekakis" <lkml@antheas.dev>,
+ <platform-driver-x86@vger.kernel.org>
+Cc: "Armin Wolf" <W_Armin@gmx.de>, "Jonathan Corbet" <corbet@lwn.net>, "Hans
+ de Goede" <hdegoede@redhat.com>, =?utf-8?q?Ilpo_J=C3=A4rvinen?=
+ <ilpo.jarvinen@linux.intel.com>, "Jean Delvare" <jdelvare@suse.com>,
+ "Guenter Roeck" <linux@roeck-us.net>, <linux-doc@vger.kernel.org>,
+ <linux-kernel@vger.kernel.org>, <linux-hwmon@vger.kernel.org>
+Subject: Re: [PATCH v1 10/10] platform/x86: msi-wmi-platform: Restore fan
+ curves on PWM disable and unload
+X-Mailer: aerc 0.20.1-0-g2ecb8770224a
+References: <20250511204427.327558-1-lkml@antheas.dev>
+ <20250511204427.327558-11-lkml@antheas.dev>
+In-Reply-To: <20250511204427.327558-11-lkml@antheas.dev>
 
+--5ca082a70d43aa946c92beeef9ccf0d061b858a7f9da8673702484b413ff
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 
-
-On 5/12/2025 11:54 AM, Lee Trager wrote:
-> Add support to update the CMRT and control firmware as well as the UEFI
-> driver on fbnic using devlink dev flash.
-> 
-> Make sure the shutdown / quiescence paths like suspend take the devlink
-> lock to prevent them from interrupting the FW flashing process.
-> 
-> Signed-off-by: Lee Trager <lee@trager.us>
-> Signed-off-by: Jakub Kicinski <kuba@kernel.org>
+On Sun May 11, 2025 at 5:44 PM -03, Antheas Kapenekakis wrote:
+> MSI software is a bit weird in that even when the manual fan curve is
+> disabled, the fan speed is still somewhat affected by the curve. So
+> we have to restore the fan curves on unload and PWM disable, as it
+> is done in Windows.
+>
+> Suggested-by: Armin Wolf <W_Armin@gmx.de>
+> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
 > ---
-Reviewed-by: Jacob Keller <jacob.e.keller@intel.com>
+>  drivers/platform/x86/msi-wmi-platform.c | 123 +++++++++++++++++++++++-
+>  1 file changed, 122 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/platform/x86/msi-wmi-platform.c b/drivers/platform/x=
+86/msi-wmi-platform.c
+> index 7dafe17d4d6be..a917db0300c06 100644
+> --- a/drivers/platform/x86/msi-wmi-platform.c
+> +++ b/drivers/platform/x86/msi-wmi-platform.c
+> @@ -123,16 +123,25 @@ struct msi_wmi_platform_quirk {
+>  	bool shift_mode;	/* Shift mode is supported */
+>  	bool charge_threshold;	/* Charge threshold is supported */
+>  	bool dual_fans;		/* For devices with two hwmon fans */
+> +	bool restore_curves;	/* Restore factory curves on unload */
+>  	int pl_min;		/* Minimum PLx value */
+>  	int pl1_max;		/* Maximum PL1 value */
+>  	int pl2_max;		/* Maximum PL2 value */
+>  };
+> =20
+> +struct msi_wmi_platform_factory_curves {
+> +	u8 cpu_fan_table[32];
+> +	u8 gpu_fan_table[32];
+> +	u8 cpu_temp_table[32];
+> +	u8 gpu_temp_table[32];
+> +};
+> +
+>  struct msi_wmi_platform_data {
+>  	struct wmi_device *wdev;
+>  	struct msi_wmi_platform_quirk *quirks;
+>  	struct mutex wmi_lock;	/* Necessary when calling WMI methods */
+>  	struct device *ppdev;
+> +	struct msi_wmi_platform_factory_curves factory_curves;
+>  	struct acpi_battery_hook battery_hook;
+>  	struct device *fw_attrs_dev;
+>  	struct kset *fw_attrs_kset;
+> @@ -219,6 +228,7 @@ static struct msi_wmi_platform_quirk quirk_gen1 =3D {
+>  	.shift_mode =3D true,
+>  	.charge_threshold =3D true,
+>  	.dual_fans =3D true,
+> +	.restore_curves =3D true,
+>  	.pl_min =3D 8,
+>  	.pl1_max =3D 43,
+>  	.pl2_max =3D 45
+> @@ -227,6 +237,7 @@ static struct msi_wmi_platform_quirk quirk_gen2 =3D {
+>  	.shift_mode =3D true,
+>  	.charge_threshold =3D true,
+>  	.dual_fans =3D true,
+> +	.restore_curves =3D true,
+>  	.pl_min =3D 8,
+>  	.pl1_max =3D 30,
+>  	.pl2_max =3D 37
+> @@ -507,6 +518,94 @@ static struct attribute *msi_wmi_platform_hwmon_attr=
+s[] =3D {
+>  };
+>  ATTRIBUTE_GROUPS(msi_wmi_platform_hwmon);
+> =20
+> +static int msi_wmi_platform_curves_save(struct msi_wmi_platform_data *da=
+ta)
+> +{
+> +	int ret;
+> +
+> +	data->factory_curves.cpu_fan_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_CPU_FAN_TABLE;
+> +	ret =3D msi_wmi_platform_query_unlocked(
+> +		data, MSI_PLATFORM_GET_FAN,
+> +		data->factory_curves.cpu_fan_table,
+> +		sizeof(data->factory_curves.cpu_fan_table));
+> +	if (ret < 0)
+> +		return ret;
+> +	data->factory_curves.cpu_fan_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_CPU_FAN_TABLE;
+
+Is it necessary to set the subfeature again here (and bellow)?
+
+Also there is a lot of code repetition here, I would suggest a helper
+function. It will be optimized/inlined by the compiler anyway.
+
+> +
+> +	data->factory_curves.gpu_fan_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_GPU_FAN_TABLE;
+> +	ret =3D msi_wmi_platform_query_unlocked(
+> +		data, MSI_PLATFORM_GET_FAN,
+> +		data->factory_curves.gpu_fan_table,
+> +		sizeof(data->factory_curves.gpu_fan_table));
+> +	if (ret < 0)
+> +		return ret;
+> +	data->factory_curves.gpu_fan_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_GPU_FAN_TABLE;
+> +
+> +	data->factory_curves.cpu_temp_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_CPU_TEMP_TABLE;
+> +	ret =3D msi_wmi_platform_query_unlocked(
+> +		data, MSI_PLATFORM_GET_TEMPERATURE,
+> +		data->factory_curves.cpu_temp_table,
+> +		sizeof(data->factory_curves.cpu_temp_table));
+> +	if (ret < 0)
+> +		return ret;
+> +	data->factory_curves.cpu_temp_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_CPU_TEMP_TABLE;
+> +
+> +	data->factory_curves.gpu_temp_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_GPU_TEMP_TABLE;
+> +	ret =3D msi_wmi_platform_query_unlocked(
+> +		data, MSI_PLATFORM_GET_TEMPERATURE,
+> +		data->factory_curves.gpu_temp_table,
+> +		sizeof(data->factory_curves.gpu_temp_table));
+> +	if (ret < 0)
+> +		return ret;
+> +	data->factory_curves.gpu_temp_table[0] =3D
+> +		MSI_PLATFORM_FAN_SUBFEATURE_GPU_TEMP_TABLE;
+> +
+> +	return 0;
+> +}
+> +
+> +static int msi_wmi_platform_curves_load(struct msi_wmi_platform_data *da=
+ta)
+> +{
+> +	u8 buffer[32] =3D { };
+> +	int ret;
+> +
+> +	memcpy(buffer, data->factory_curves.cpu_fan_table,
+> +	       sizeof(data->factory_curves.cpu_fan_table));
+> +	ret =3D msi_wmi_platform_query_unlocked(data, MSI_PLATFORM_SET_FAN,
+> +					      buffer, sizeof(buffer));
+> +	if (ret < 0)
+> +		return ret;
+
+A helper for this operation would be nice too.
+
+> +
+> +	memcpy(buffer, data->factory_curves.gpu_fan_table,
+> +	       sizeof(data->factory_curves.gpu_fan_table));
+> +	ret =3D msi_wmi_platform_query_unlocked(data, MSI_PLATFORM_SET_FAN,
+> +					      buffer, sizeof(buffer));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	memcpy(buffer, data->factory_curves.cpu_temp_table,
+> +	       sizeof(data->factory_curves.cpu_temp_table));
+> +	ret =3D msi_wmi_platform_query_unlocked(
+> +		data, MSI_PLATFORM_SET_TEMPERATURE, buffer, sizeof(buffer));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	memcpy(buffer, data->factory_curves.gpu_temp_table,
+> +	       sizeof(data->factory_curves.gpu_temp_table));
+> +	ret =3D msi_wmi_platform_query_unlocked(
+> +		data, MSI_PLATFORM_SET_TEMPERATURE, buffer, sizeof(buffer));
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	return 0;
+> +}
+> +
+> +
+>  static umode_t msi_wmi_platform_is_visible(const void *drvdata, enum hwm=
+on_sensor_types type,
+>  					   u32 attr, int channel)
+>  {
+> @@ -603,9 +702,19 @@ static int msi_wmi_platform_write(struct device *dev=
+, enum hwmon_sensor_types ty
+>  				return -EINVAL;
+>  			}
+> =20
+> -			return msi_wmi_platform_query_unlocked(
+> +			ret =3D msi_wmi_platform_query_unlocked(
+>  				data, MSI_PLATFORM_SET_AP, buffer,
+>  				sizeof(buffer));
+> +			if (ret < 0)
+> +				return ret;
+> +
+> +			if (val =3D=3D 2 && data->quirks->restore_curves) {
+> +				ret =3D msi_wmi_platform_curves_load(data);
+> +				if (ret < 0)
+> +					return ret;
+> +			}
+> +
+> +			return 0;
+>  		default:
+>  			return -EOPNOTSUPP;
+>  		}
+> @@ -1373,6 +1482,13 @@ static int msi_wmi_platform_probe(struct wmi_devic=
+e *wdev, const void *context)
+> =20
+>  	msi_wmi_platform_profile_setup(data);
+> =20
+> +	if (data->quirks->restore_curves) {
+> +		guard(mutex)(&data->wmi_lock);
+
+We don't need locking here. data->factory_curves is not shared until you
+register the hwmon device.
+
+> +		ret =3D msi_wmi_platform_curves_save(data);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+>  	return msi_wmi_platform_hwmon_init(data);
+>  }
+> =20
+> @@ -1382,6 +1498,11 @@ static void msi_wmi_platform_remove(struct wmi_dev=
+ice *wdev)
+> =20
+>  	if (data->quirks->charge_threshold)
+>  		battery_hook_unregister(&data->battery_hook);
+> +
+> +	if (data->quirks->restore_curves) {
+> +		guard(mutex)(&data->wmi_lock);
+
+We can avoid locking here by adding a devm action that restores the
+curves. devm resources are unloaded in LIFO order.
+
+Please, also check my comments on [Patch 2]. I don't think that patch is
+needed.
+
+--=20
+ ~ Kurt
+
+> +		msi_wmi_platform_curves_load(data);
+> +	}
+>  }
+> =20
+>  static const struct wmi_device_id msi_wmi_platform_id_table[] =3D {
+
+
+--5ca082a70d43aa946c92beeef9ccf0d061b858a7f9da8673702484b413ff
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYKAB0WIQSHYKL24lpu7U7AVd8WYEM49J/UZgUCaCJJAAAKCRAWYEM49J/U
+ZsklAP4nP+TLLnauvq9QNwdLDzn1mhru1skaFEs6UZfARtrQWgEAoWwjSMYzbHky
+NEul9sSHiTtk8t2DDwCv4E5z70V7kAY=
+=mk39
+-----END PGP SIGNATURE-----
+
+--5ca082a70d43aa946c92beeef9ccf0d061b858a7f9da8673702484b413ff--
