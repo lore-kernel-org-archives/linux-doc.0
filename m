@@ -1,525 +1,398 @@
-Received: from mail-qt1-f169.google.com (mail-qt1-f169.google.com [209.85.160.169])
+Received: from mail-oo1-f45.google.com (mail-oo1-f45.google.com [209.85.161.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1B4E2951D1
-	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 16:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EEF1D5178;
+	Mon, 12 May 2025 16:28:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.161.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747066932; cv=none; b=cqn5+YH1Sm7MGqfT+R+CN4tu7bKU0mFPohxWq4OfMnUXnp+NIg0L6JBWzdz2oV48cZlnG/T2AopRKSoY+QBk+QvHQX6Y3rcRokXS3sOUsl0wjDoVVv72JINagTkpUrKNg7+3NyceocnZDXkPgM403KR5X0SSi7UA0TWQq//cHs0=
+	t=1747067296; cv=none; b=QnT3ADbkD8CyWdEgfTCDzBNMb0i6YZ/dISaUzfzNr8sBy6Rh6YaiQQm/DnQeO3aue78HwUIjCdcbLGlhg4lv4SUDXEXtvYdZLiD+aNe+Z20GO4NNBWDE5AfzrEv1s9QuJADiNAYqfVIMe7HA3Ze+dUfe7iNSPZ8xXDGKYpuKr74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747066932; c=relaxed/simple;
-	bh=A6Mies9hUhfrCMV4P20s2B5vlbK+fHovsvjiHQdVYCE=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=dFptW4ZxEqTd2Kv0F+n7J5pqjVIrm8QyGEIbg1w3U3Ur9pIYI9Ths4CjRhuiPRlQemNHW/i3AiyPweV7p3lQ86xtxBwszab/wNrrZ1sgXTYHPZU3tsszuRjkNNrunPMIKYNpjjoFiEoiBeTpFdHcfb4ZjTDlssIUlJQmwYJ2h+Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net; spf=pass smtp.mailfrom=gourry.net; dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b=WHZUZlq+; arc=none smtp.client-ip=209.85.160.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=gourry.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gourry.net
+	s=arc-20240116; t=1747067296; c=relaxed/simple;
+	bh=Jt9oZT6MxQ1c9CUyPBdh6LScXwRFEfayip1vATEJODY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=H3OJwU3ENuTMf3nfhY6fuy5AY8RnF5RFoXHBdDytgSW1KZNrno0hW1Tnp63bxA2QcXuoLxJer4HdO6Z1AA6uSHzjFqeD07MKNHOn5nZGVDJ/jXETLNZT19f7BbdOAYhL621B7fJGjW+Fd6545gNYyY1ieTI+xKdKxkdz5xcrbFk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=DYjlZx8P; arc=none smtp.client-ip=209.85.161.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=groves.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gourry.net header.i=@gourry.net header.b="WHZUZlq+"
-Received: by mail-qt1-f169.google.com with SMTP id d75a77b69052e-4769b16d4fbso25706141cf.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 09:22:09 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="DYjlZx8P"
+Received: by mail-oo1-f45.google.com with SMTP id 006d021491bc7-6063462098eso2917454eaf.0;
+        Mon, 12 May 2025 09:28:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gourry.net; s=google; t=1747066928; x=1747671728; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=Ci6f1K89LsZ+DF6ZgFYZsgSAOzS56KH3yJTL4ef3rh0=;
-        b=WHZUZlq+1rTSFZZPWvR1HjwnFQqgSG3OpqUrEt2xKc150AA+9Qj33nRvvGMLLg44YZ
-         TM5csfL4HO9k/iW3wBUT5Ka1omzgO5kVKmNMRqYFDxpRWAnkiNYXigersQl8JmrktOAZ
-         gdGmyMU5tmijl/Ov+l6i0mIydMzZt3r1u0LQPer9wV/QTGT1N3YXHnVmU8c9hbojzHAN
-         P9cwMQ86r0a9728uYlFP4LHAARZRACZCQZxd4fDzVAFfYJH9tUy6y5WATEIM5i/l2nVS
-         Zcy2JDgiHMGnWusOVWtQt/h/j1XH22cfgwbcRDboGZh0IURpUimWtN2QgFUPZerIukcp
-         a5JA==
+        d=gmail.com; s=20230601; t=1747067293; x=1747672093; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=yfXYK2WWJp0fMh8eXP5pHHTLg42XHMgL/jeicNVe0gE=;
+        b=DYjlZx8Pi7xfJYsGFDVn/ad9Q6akpk6gU0XOoz5IHxCOl69mvSvSSn87fBv0aB3sEb
+         8RceTjeWGcSBSUL6SHoHRJQOgQRT7uwgZhdZarANd03dyhL3lYda4EKWYpgtVjpFXlNv
+         N1kPsM3SC+14mDicaVee7DRMJA2JBAnQNSHWIfHuLZuAW2wtO//anWY7BRVsqD8Q2mLN
+         XFFTlmCkE2t179bTvMt+KSkh5zFKf05HMQ5pr2iEUppML/1UmE7Iwwifb1L5VLrpDO44
+         o3lKJ2RGZZ+rChEWrwqU4pvzXP3bVRstxTdN6ajAxMsKa/qXEaHQA1EcVRNKQC3FCGuo
+         /new==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747066928; x=1747671728;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=Ci6f1K89LsZ+DF6ZgFYZsgSAOzS56KH3yJTL4ef3rh0=;
-        b=MgJSX+R8YEtw87GMXJ9kqT6iHpuln7lqUGQd+vGQu0pJlHg9R0XNEFzK8kE8hw10Fd
-         vcBRzqg/rZ15bLdwDn/5Iry/6Mpa9bZ7TxdwXWqHcsTq1swpNDuxQyQczQ8qgbtH2ruO
-         90QJQXzej1M00LxjfE7ZwFU75po3gQkWNnNPQukpnL67j4Zh7leIYMxPCTJp296bJOvH
-         VZOYBVcS1rkJkFNWnk9VgDG/nLZvMZlYNS/1o3WQO+CjCUEB9l3htRX0Ab6GQidyQs4W
-         8YcSe7G9K1XA0WQq4uTpv2F2V7ERrIWjfVp/MHdxNqgGltuT5lL5+jir0kVrjYf2J5kg
-         n0mg==
-X-Gm-Message-State: AOJu0YzMiqxXoSfudvtn3kyxdg0zTmN0jLGYgMC6DdRIeJHbEChQOLWC
-	O2hHqHL1qwRh8SZMuQX4Sn6B4fv9qhDpK4ecjfxGQekv2ehIUXNfTrgpN0T0FkU=
-X-Gm-Gg: ASbGncu2hN9z8/VQlt+lOtMQDKXuCDAlvgRk7TIe61QpzjlIbI+XQDGrKEXuQNkYldo
-	fVpYZH9BdJDLe+lN9LVpf6MLwMeSOIYyV+Qx5mKcQe0bo3vRiJhLUklq5ekxk9H0qRXhjDb2DxB
-	1FdlIgCcHRLdX0ng5YOJsp/03pC1b38pFn7cfNpqGzFajT+XtKKj3uk96KLrmaSnitNdgvOkoCD
-	v4z1jPMgKtnJvbUHM8xkpBaQFKmWquez/IiEcXYrfX+ivdZQgFG3LXLeHLSZAAvqBMWkXw+Q1af
-	TkikTJTaKQLSMy99LOLKcByOBrB6fPjkgFONkkdZ8scXA4ebmNNBCiw4XmVHREk0gFgc5ubgFjX
-	RpgI9FkyWfA176clJRkUVsTpqW2ZapSeXfWg7wmbLSDrKxxI=
-X-Google-Smtp-Source: AGHT+IE6kifyyq68JXmdCyyHqCef0H7CrWN95iUQ8mmLv4UnZnRRmN3QUvUDR9Mvy0G1oQqLngMKog==
-X-Received: by 2002:a05:622a:1984:b0:476:ac73:c3f3 with SMTP id d75a77b69052e-494527162demr247105181cf.1.1747066928404;
-        Mon, 12 May 2025 09:22:08 -0700 (PDT)
-Received: from gourry-fedora-PF4VCD3F.lan (pool-96-255-20-42.washdc.ftas.verizon.net. [96.255.20.42])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-49452583961sm52461791cf.58.2025.05.12.09.22.07
+        d=1e100.net; s=20230601; t=1747067293; x=1747672093;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:sender
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=yfXYK2WWJp0fMh8eXP5pHHTLg42XHMgL/jeicNVe0gE=;
+        b=T//JSRKFKkUajWO6F6Kpl4nPYF1EQqgkC0WXwwzvRveARW9FZuWOwIcFD+GkEw3VUa
+         aMV3eXvoDTxIwlJHSSdiGK0VTIawrwBikP1iJOi6U5HP2tmbHJ9rKAWd7fJ4/hNY6Vfh
+         JcU7GPXV9eoTQHC7rSyG7A1ZLD5pJuWoEpnyQcnAcwDAW9MtpTKucFVrIcnTn35/0/Yt
+         3qeOVmQTY6cHRdInR84IOBOS924hFFQbUoy6v5wlE3W4/vESAzLgZ9/S4HQLMf4tYDjw
+         RNRE2TMZO7GHXWOngx7KtyX7dKzJc5tRNTs0oEFYQyvWM9qDrTyChQqydsLh32TetHBJ
+         XIPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUiK9EDmwHx7hpVsJ9Ks69kmVgVrSXPPsaJX4IL2i2klSZ/E6IQmoNiqmC4NBPD5zOvNR19vnjLXgkGnYAAnA==@vger.kernel.org, AJvYcCUuxyYPemU2BlZTA/ZEK4pByjnWMrTvRkrQW9oNszEa3ENfolKuxmjR3Q2am7taEhmf01VYpbPpux+yoTvR@vger.kernel.org, AJvYcCVWNb3zkX3hGC4CghSz82dF9e86Toy10WCmVBZO3D63k1SYh2LUJ2Pqk0iwEZ9gX9q1y2dYVtoDy16y@vger.kernel.org, AJvYcCWc8+qQfCpcz1X5VwmRY9NxwOiSERKhRAt/CQiH2kjSaMGH7U/IJTJWcXLDl+ioQFhbMmtL3K0swPk=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxskq+A+eCRk3PdcL6/R5jeMopzBrGwatZydWuSpmKCp4N/IibB
+	YnGtXiA4EPS+M11hifQ6lFhm10r2Jr0rFTe/WZjM8Dq9A/Yrv0U1
+X-Gm-Gg: ASbGncu22hWNDpQlzG+2iPSRBxXyClp4OWOZ8+Bc+OMp46PRiXvf96Aolo/zuBENTSX
+	3nGPf4Gbtf7D1jSi49WXEncxVD9IxcrfGy05/UMhWS/aJ+54Gb1A+lnsgo0eVr5zMkH5r0CHvP6
+	Prcuxm+1Xehbiwc4bSmEFEtkIQ9QkRGCKdD0A/5EtQKet8r+Wn/ZnAGhxhFxp1xxofBfYfW34Dd
+	DSBKIn6fXmXZF6FcpKohsuCIyIlx1MnYCX6Dsqv6h2ZQUfZi7/fXRSUFViImLbJTCZClMzmS2c6
+	6UNEXo+KEg38+iSZJxQENsn4MA4nCs5btm3HoRmYmGyUFCyrcbUl6kamcz8s+JWNNw==
+X-Google-Smtp-Source: AGHT+IEegXMkAWHU26748SkFBCyunApM/AHaeESZwvCaWTrrzbQhiaf7NFfNXS/WZE1r9TkuTiA14A==
+X-Received: by 2002:a05:6808:1706:b0:403:3503:6a16 with SMTP id 5614622812f47-4037fde77f3mr9050099b6e.1.1747067292387;
+        Mon, 12 May 2025 09:28:12 -0700 (PDT)
+Received: from groves.net ([2603:8080:1500:3d89:f16b:b065:d67a:e0f7])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-609a8cd7a4fsm985525eaf.10.2025.05.12.09.28.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 12 May 2025 09:22:08 -0700 (PDT)
-From: Gregory Price <gourry@gourry.net>
-To: linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	kernel-team@meta.com,
-	dave@stgolabs.net,
-	jonathan.cameron@huawei.com,
-	dave.jiang@intel.com,
-	alison.schofield@intel.com,
-	vishal.l.verma@intel.com,
-	ira.weiny@intel.com,
-	dan.j.williams@intel.com,
-	corbet@lwn.net,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v3 17/17] cxl: docs - add self-referencing cross-links
-Date: Mon, 12 May 2025 12:21:34 -0400
-Message-ID: <20250512162134.3596150-18-gourry@gourry.net>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250512162134.3596150-1-gourry@gourry.net>
-References: <20250512162134.3596150-1-gourry@gourry.net>
+        Mon, 12 May 2025 09:28:11 -0700 (PDT)
+Sender: John Groves <grovesaustin@gmail.com>
+Date: Mon, 12 May 2025 11:28:09 -0500
+From: John Groves <John@groves.net>
+To: Joanne Koong <joannelkoong@gmail.com>
+Cc: Dan Williams <dan.j.williams@intel.com>, 
+	Miklos Szeredi <miklos@szeredi.hu>, Bernd Schubert <bschubert@ddn.com>, 
+	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	"Darrick J . Wong" <djwong@kernel.org>, Luis Henriques <luis@igalia.com>, 
+	Randy Dunlap <rdunlap@infradead.org>, Jeff Layton <jlayton@kernel.org>, 
+	Kent Overstreet <kent.overstreet@linux.dev>, Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Josef Bacik <josef@toxicpanda.com>, 
+	Aravind Ramesh <arramesh@micron.com>, Ajay Joshi <ajayjoshi@micron.com>
+Subject: Re: [RFC PATCH 12/19] famfs_fuse: Plumb the GET_FMAP message/response
+Message-ID: <xhekfz652u3dla26aj4ge45zr4tk76b2jgkcb22jfo46gvf6ry@zze73cprkx6g>
+References: <20250421013346.32530-1-john@groves.net>
+ <20250421013346.32530-13-john@groves.net>
+ <CAJnrk1ZRSoMN+jan5D9d3UYWnTVxc_5KVaBtP7JV2b+0skrBfg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAJnrk1ZRSoMN+jan5D9d3UYWnTVxc_5KVaBtP7JV2b+0skrBfg@mail.gmail.com>
 
-Add some crosslinks between pages in the CXL docs - mostly to the
-ACPI tables.
+On 25/05/01 10:48PM, Joanne Koong wrote:
+> On Sun, Apr 20, 2025 at 6:34 PM John Groves <John@groves.net> wrote:
+> >
+> > Upon completion of a LOOKUP, if we're in famfs-mode we do a GET_FMAP to
+> > retrieve and cache up the file-to-dax map in the kernel. If this
+> > succeeds, read/write/mmap are resolved direct-to-dax with no upcalls.
+> >
+> > Signed-off-by: John Groves <john@groves.net>
+> > ---
+> >  fs/fuse/dir.c             | 69 +++++++++++++++++++++++++++++++++++++++
+> >  fs/fuse/fuse_i.h          | 36 +++++++++++++++++++-
+> >  fs/fuse/inode.c           | 15 +++++++++
+> >  include/uapi/linux/fuse.h |  4 +++
+> >  4 files changed, 123 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/fs/fuse/dir.c b/fs/fuse/dir.c
+> > index bc29db0117f4..ae135c55b9f6 100644
+> > --- a/fs/fuse/dir.c
+> > +++ b/fs/fuse/dir.c
+> > @@ -359,6 +359,56 @@ bool fuse_invalid_attr(struct fuse_attr *attr)
+> >         return !fuse_valid_type(attr->mode) || !fuse_valid_size(attr->size);
+> >  }
+> >
+> > +#define FMAP_BUFSIZE 4096
+> > +
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +static void
+> > +fuse_get_fmap_init(
+> > +       struct fuse_conn *fc,
+> > +       struct fuse_args *args,
+> > +       u64 nodeid,
+> > +       void *outbuf,
+> > +       size_t outbuf_size)
+> > +{
+> > +       memset(outbuf, 0, outbuf_size);
+> 
+> I think we can skip the memset here since kcalloc will zero out the
+> memory automatically when the fmap_buf gets allocated
 
-Suggested-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Gregory Price <gourry@gourry.net>
----
- .../driver-api/cxl/devices/device-types.rst   |  2 +-
- .../cxl/linux/access-coordinates.rst          |  7 ++--
- .../driver-api/cxl/linux/cxl-driver.rst       | 35 ++++++++++---------
- .../driver-api/cxl/linux/early-boot.rst       | 32 ++++++++++-------
- .../driver-api/cxl/platform/bios-and-efi.rst  | 12 +++----
- .../example-configurations/flexible.rst       | 10 +++---
- .../example-configurations/hb-interleave.rst  | 10 +++---
- .../multi-dev-per-hb.rst                      | 10 +++---
- .../example-configurations/one-dev-per-hb.rst | 10 +++---
- 9 files changed, 69 insertions(+), 59 deletions(-)
+Good catch, thanks. Queued to -next.
 
-diff --git a/Documentation/driver-api/cxl/devices/device-types.rst b/Documentation/driver-api/cxl/devices/device-types.rst
-index c70564cf0be3..f5e4330c1cfe 100644
---- a/Documentation/driver-api/cxl/devices/device-types.rst
-+++ b/Documentation/driver-api/cxl/devices/device-types.rst
-@@ -115,7 +115,7 @@ A Multi-Headed Single-Logical Device (MHSLD) exposes a single logical
- device to multiple heads which may be connected to one or more discrete
- hosts.  An example of this would be a simple memory-pool which may be
- statically configured (prior to boot) to expose portions of its memory
--to Linux via the CEDT ACPI table.
-+to Linux via :doc:`CEDT <../platform/acpi/cedt>`.
- 
- MHMLD
- ~~~~~
-diff --git a/Documentation/driver-api/cxl/linux/access-coordinates.rst b/Documentation/driver-api/cxl/linux/access-coordinates.rst
-index e408ecbc4038..71024fa0f561 100644
---- a/Documentation/driver-api/cxl/linux/access-coordinates.rst
-+++ b/Documentation/driver-api/cxl/linux/access-coordinates.rst
-@@ -24,7 +24,7 @@ asymmetry in properties does not happen and all paths to EPs are equal.
- 
- There can be multiple switches under an RP. There can be multiple RPs under
- a CXL Host Bridge (HB). There can be multiple HBs under a CXL Fixed Memory
--Window Structure (CFMWS).
-+Window Structure (CFMWS) in the :doc:`CEDT <../platform/acpi/cedt>`.
- 
- An example hierarchy::
- 
-@@ -83,8 +83,9 @@ also the index for the resulting xarray.
- 
- The next step is to take the min() of the per host bridge bandwidth and the
- bandwidth from the Generic Port (GP). The bandwidths for the GP are retrieved
--via ACPI tables SRAT/HMAT. The minimum bandwidth are aggregated under the same
--ACPI0017 device to form a new xarray.
-+via ACPI tables (:doc:`SRAT <../platform/acpi/srat>` and
-+:doc:`HMAT <../platform/acpi/hmat>`). The minimum bandwidth are aggregated
-+under the same ACPI0017 device to form a new xarray.
- 
- Finally, the cxl_region_update_bandwidth() is called and the aggregated
- bandwidth from all the members of the last xarray is updated for the
-diff --git a/Documentation/driver-api/cxl/linux/cxl-driver.rst b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-index cf6b397abdb1..9759e90c3cf1 100644
---- a/Documentation/driver-api/cxl/linux/cxl-driver.rst
-+++ b/Documentation/driver-api/cxl/linux/cxl-driver.rst
-@@ -77,11 +77,11 @@ Root Object` Device Class is found.
- 
- The Root contains links to:
- 
--* `Host Bridge Ports` defined by ACPI CEDT CHBS.
-+* `Host Bridge Ports` defined by CHBS in the :doc:`CEDT<../platform/acpi/cedt>`
- 
- * `Downstream Ports` typically connected to `Host Bridge Ports`.
- 
--* `Root Decoders` defined by ACPI CEDT CFMWS.
-+* `Root Decoders` defined by CFMWS the :doc:`CEDT<../platform/acpi/cedt>`
- 
- ::
- 
-@@ -150,9 +150,8 @@ An `endpoint` is a terminal port in the fabric.  This is a `logical device`,
- and may be one of many `logical devices` presented by a memory device. It
- is still considered a type of `port` in the fabric.
- 
--An `endpoint` contains `endpoint decoders` available for use and the
--*Coherent Device Attribute Table* (CDAT) used to describe the capabilities
--of the device. ::
-+An `endpoint` contains `endpoint decoders` and the device's Coherent Device
-+Attribute Table (which describes the device's capabilities). ::
- 
-   # ls /sys/bus/cxl/devices/endpoint5
-     CDAT        decoders_committed  modalias      uevent
-@@ -247,17 +246,18 @@ parameter.
- Root Decoder
- ~~~~~~~~~~~~
- A `Root Decoder` is logical construct of the physical address and interleave
--configurations present in the ACPI CEDT CFMWS.  Linux presents this information
--as a decoder present in the `CXL Root`.  We consider this a `Root Decoder`,
--though technically it exists on the boundary of the CXL specification and
--platform-specific CXL root implementations.
-+configurations present in the CFMWS field of the :doc:`CEDT
-+<../platform/acpi/cedt>`.
-+Linux presents this information as a decoder present in the `CXL Root`.  We
-+consider this a `Root Decoder`, though technically it exists on the boundary
-+of the CXL specification and platform-specific CXL root implementations.
- 
- Linux considers these logical decoders a type of `Routing Decoder`, and is the
- first decoder in the CXL fabric to receive a memory access from the platform's
- memory controllers.
- 
- `Root Decoders` are created during :code:`cxl_acpi_probe`.  One root decoder
--is created per CFMWS entry in the ACPI CEDT.
-+is created per CFMWS entry in the :doc:`CEDT <../platform/acpi/cedt>`.
- 
- The :code:`target_list` parameter is filled by the CFMWS target fields. Targets
- of a root decoder are `Host Bridges`, which means interleave done at the root
-@@ -267,9 +267,11 @@ Only root decoders are capable of `Inter-Host-Bridge Interleave`.
- 
- Such interleaves must be configured by the platform and described in the ACPI
- CEDT CFMWS, as the target CXL host bridge UIDs in the CFMWS must match the CXL
--host bridge UIDs in the ACPI CEDT CHBS and ACPI DSDT.
-+host bridge UIDs in the CHBS field of the :doc:`CEDT
-+<../platform/acpi/cedt>` and the UID field of CXL Host Bridges defined in
-+the :doc:`DSDT <../platform/acpi/dsdt>`.
- 
--Interleave settings in a rootdecoder describe how to interleave accesses among
-+Interleave settings in a root decoder describe how to interleave accesses among
- the *immediate downstream targets*, not the entire interleave set.
- 
- The memory range described in the root decoder is used to
-@@ -531,10 +533,11 @@ granularity configuration.
- 
- At Root
- ~~~~~~~
--Root decoder interleave is defined by the ACPI CEDT CFMWS.  The CEDT
--may actually define multiple CFMWS configurations to describe the same
--physical capacity - with the intent to allow users to decide at runtime
--whether to online memory as interleaved or non-interleaved. ::
-+Root decoder interleave is defined by CFMWS field of the :doc:`CEDT
-+<../platform/acpi/cedt>`.  The CEDT may actually define multiple CFMWS
-+configurations to describe the same physical capacity, with the intent to allow
-+users to decide at runtime whether to online memory as interleaved or
-+non-interleaved. ::
- 
-              Subtable Type : 01 [CXL Fixed Memory Window Structure]
-        Window base address : 0000000100000000
-diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
-index 8c1c497bc772..a7fc6fc85fbe 100644
---- a/Documentation/driver-api/cxl/linux/early-boot.rst
-+++ b/Documentation/driver-api/cxl/linux/early-boot.rst
-@@ -12,8 +12,9 @@ read EFI and ACPI information throughout this process to configure logical
- representations of the devices.
- 
- During Linux Early Boot stage (functions in the kernel that have the __init
--decorator), the system takes the resources created by EFI/BIOS (ACPI tables)
--and turns them into resources that the kernel can consume.
-+decorator), the system takes the resources created by EFI/BIOS
-+(:doc:`ACPI tables <../platform/acpi>`) and turns them into resources that the
-+kernel can consume.
- 
- 
- BIOS, Build and Boot Options
-@@ -70,13 +71,14 @@ significant impact performance depending on the memory capacity of the system.
- NUMA Node Reservation
- =====================
- 
--Linux refers to the proximity domains (:code:`PXM`) defined in the SRAT to
--create NUMA nodes in :code:`acpi_numa_init`. Typically, there is a 1:1 relation
--between :code:`PXM` and NUMA node IDs.
-+Linux refers to the proximity domains (:code:`PXM`) defined in the :doc:`SRAT
-+<../platform/acpi/srat>` to create NUMA nodes in :code:`acpi_numa_init`.
-+Typically, there is a 1:1 relation between :code:`PXM` and NUMA node IDs.
- 
--SRAT is the only ACPI defined way of defining Proximity Domains. Linux chooses
--to, at most, map those 1:1 with NUMA nodes. CEDT adds a description of SPA
--ranges which Linux may wish to map to one or more NUMA nodes.
-+The SRAT is the only ACPI defined way of defining Proximity Domains. Linux
-+chooses to, at most, map those 1:1 with NUMA nodes.
-+:doc:`CEDT <../platform/acpi/cedt>` adds a description of SPA ranges which
-+Linux may map to one or more NUMA nodes.
- 
- If there are CXL ranges in the CFMWS but not in SRAT, then a fake :code:`PXM`
- is created (as of v6.15). In the future, Linux may reject CFMWS not described
-@@ -89,7 +91,8 @@ data for Linux to identify NUMA nodes their associated memory regions.
- 
- The relevant code exists in: :code:`linux/drivers/acpi/numa/srat.c`.
- 
--See the Example Platform Configurations section for more information.
-+See :doc:`Example Platform Configurations <../platform/example-configs>`
-+for more info.
- 
- Memory Tiers Creation
- =====================
-@@ -108,10 +111,13 @@ Tier membership can be inspected in ::
-   /sys/devices/virtual/memory_tiering/memory_tierN/nodelist
-   0-1
- 
--If nodes are grouped which have clear difference in performance, check the HMAT
--and CDAT information for the CXL nodes.  All nodes default to the DRAM tier,
--unless HMAT/CDAT information is reported to the memory_tier component via
--`access_coordinates`.
-+If nodes are grouped which have clear difference in performance, check the
-+:doc:`HMAT <../platform/acpi/hmat>` and CDAT information for the CXL nodes. All
-+nodes default to the DRAM tier, unless HMAT/CDAT information is reported to the
-+memory_tier component via `access_coordinates`.
-+
-+For more, see :doc:`CXL access coordinates documentation
-+<../linux/access-coordinates>`.
- 
- Contiguous Memory Allocation
- ============================
-diff --git a/Documentation/driver-api/cxl/platform/bios-and-efi.rst b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-index 552a83992bcc..645322632cc9 100644
---- a/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-+++ b/Documentation/driver-api/cxl/platform/bios-and-efi.rst
-@@ -22,7 +22,7 @@ At a high level, this is what occurs during this phase of configuration.
- 
- Much of what this section is concerned with is ACPI Table production and
- static memory map configuration. More detail on these tables can be found
--under Platform Configuration -> ACPI Table Reference.
-+at :doc:`ACPI Tables <acpi>`.
- 
- .. note::
-    Platform Vendors should read carefully, as this sections has recommendations
-@@ -175,9 +175,9 @@ to implement driver support for your platform.
- 
- Interleave and Configuration Flexibility
- ----------------------------------------
--If providing cross-host-bridge interleave, a CFMWS entry in the CEDT must be
--presented with target host-bridges for the interleaved device sets (there may
--be multiple behind each host bridge).
-+If providing cross-host-bridge interleave, a CFMWS entry in the :doc:`CEDT
-+<acpi/cedt>` must be presented with target host-bridges for the interleaved
-+device sets (there may be multiple behind each host bridge).
- 
- If providing intra-host-bridge interleaving, only 1 CFMWS entry in the CEDT is
- required for that host bridge - if it covers the entire capacity of the devices
-@@ -193,8 +193,8 @@ different purposes.  For example, you may want to consider adding:
- 
- A platform may choose to add all of these, or change the mode based on a BIOS
- setting.  For each CFMWS entry, Linux expects descriptions of the described
--memory regions in the SRAT to determine the number of NUMA nodes it should
--reserve during early boot / init.
-+memory regions in the :doc:`SRAT <acpi/srat>` to determine the number of
-+NUMA nodes it should reserve during early boot / init.
- 
- As of v6.14, Linux will create a NUMA node for each CEDT CFMWS entry, even if
- a matching SRAT entry does not exist; however, this is not guaranteed in the
-diff --git a/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst b/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
-index e39daba65fa0..dab704b6fcc2 100644
---- a/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
-+++ b/Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
-@@ -18,7 +18,7 @@ Things to note:
- * This SRAT describes one node for each of the above CFMWS.
- * The HMAT describes performance for each node in the SRAT.
- 
--CEDT ::
-+:doc:`CEDT <../acpi/cedt>`::
- 
-             Subtable Type : 00 [CXL Host Bridge Structure]
-                  Reserved : 00
-@@ -137,7 +137,7 @@ CEDT ::
-                     QtgId : 0001
-              First Target : 00000006
- 
--SRAT ::
-+:doc:`SRAT <../acpi/srat>`::
- 
-          Subtable Type : 01 [Memory Affinity]
-                 Length : 28
-@@ -223,7 +223,7 @@ SRAT ::
-        Hot Pluggable : 1
-         Non-Volatile : 0
- 
--HMAT ::
-+:doc:`HMAT <../acpi/hmat>`::
- 
-                Structure Type : 0001 [SLLBI]
-                     Data Type : 00   [Latency]
-@@ -263,7 +263,7 @@ HMAT ::
-                         Entry : 0100
-                         Entry : 0100
- 
--SLIT ::
-+:doc:`SLIT <../acpi/slit>`::
- 
-      Signature : "SLIT"    [System Locality Information Table]
-     Localities : 0000000000000003
-@@ -276,7 +276,7 @@ SLIT ::
-   Locality   6 : FF FF FF FF FF FF 0A FF
-   Locality   7 : FF FF FF FF FF FF FF 0A
- 
--DSDT ::
-+:doc:`DSDT <../acpi/dsdt>`::
- 
-   Scope (_SB)
-   {
-diff --git a/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst b/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
-index ce07e6162f26..c474dcf09fb0 100644
---- a/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
-+++ b/Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
-@@ -13,7 +13,7 @@ Things to note:
- * This SRAT describes one node for both host bridges.
- * The HMAT describes a single node's performance.
- 
--CEDT ::
-+:doc:`CEDT <../acpi/cedt>`::
- 
-             Subtable Type : 00 [CXL Host Bridge Structure]
-                  Reserved : 00
-@@ -48,7 +48,7 @@ CEDT ::
-              First Target : 00000007
-             Second Target : 00000006
- 
--SRAT ::
-+:doc:`SRAT <../acpi/srat>`::
- 
-          Subtable Type : 01 [Memory Affinity]
-                 Length : 28
-@@ -62,7 +62,7 @@ SRAT ::
-        Hot Pluggable : 1
-         Non-Volatile : 0
- 
--HMAT ::
-+:doc:`HMAT <../acpi/hmat>`::
- 
-                Structure Type : 0001 [SLLBI]
-                     Data Type : 00   [Latency]
-@@ -80,14 +80,14 @@ HMAT ::
-                         Entry : 1200
-                         Entry : 0400
- 
--SLIT ::
-+:doc:`SLIT <../acpi/slit>`::
- 
-      Signature : "SLIT"    [System Locality Information Table]
-     Localities : 0000000000000003
-   Locality   0 : 10 20
-   Locality   1 : FF 0A
- 
--DSDT ::
-+:doc:`DSDT <../acpi/dsdt>`::
- 
-   Scope (_SB)
-   {
-diff --git a/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst b/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
-index 6adf7c639490..a7854a79dbbd 100644
---- a/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
-+++ b/Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
-@@ -14,7 +14,7 @@ Things to note:
- * This CEDT/SRAT describes one node for both devices.
- * There is only one proximity domain the HMAT for both devices.
- 
--CEDT ::
-+:doc:`CEDT <../acpi/cedt>`::
- 
-             Subtable Type : 00 [CXL Host Bridge Structure]
-                  Reserved : 00
-@@ -39,7 +39,7 @@ CEDT ::
-                     QtgId : 0001
-              First Target : 00000007
- 
--SRAT ::
-+:doc:`SRAT <../acpi/srat>`::
- 
-          Subtable Type : 01 [Memory Affinity]
-                 Length : 28
-@@ -53,7 +53,7 @@ SRAT ::
-        Hot Pluggable : 1
-         Non-Volatile : 0
- 
--HMAT ::
-+:doc:`HMAT <../acpi/hmat>`::
- 
-                Structure Type : 0001 [SLLBI]
-                     Data Type : 00   [Latency]
-@@ -69,14 +69,14 @@ HMAT ::
-                         Entry : 1200
-                         Entry : 0200
- 
--SLIT ::
-+:doc:`SLIT <../acpi/slit>`::
- 
-      Signature : "SLIT"    [System Locality Information Table]
-     Localities : 0000000000000003
-   Locality   0 : 10 20
-   Locality   1 : FF 0A
- 
--DSDT ::
-+:doc:`DSDT <../acpi/dsdt>`::
- 
-   Scope (_SB)
-   {
-diff --git a/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst b/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-index b89ba3cab98f..aebda0eb3e17 100644
---- a/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-+++ b/Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
-@@ -14,7 +14,7 @@ Things to note:
- * This CEDT/SRAT describes one node per device
- * The expanders have the same performance and will be in the same memory tier.
- 
--CEDT ::
-+:doc:`CEDT <../acpi/cedt>`::
- 
-             Subtable Type : 00 [CXL Host Bridge Structure]
-                  Reserved : 00
-@@ -62,7 +62,7 @@ CEDT ::
-                     QtgId : 0001
-              First Target : 00000006
- 
--SRAT ::
-+:doc:`SRAT <../acpi/srat>`::
- 
-          Subtable Type : 01 [Memory Affinity]
-                 Length : 28
-@@ -88,7 +88,7 @@ SRAT ::
-        Hot Pluggable : 1
-         Non-Volatile : 0
- 
--HMAT ::
-+:doc:`HMAT <../acpi/hmat>`::
- 
-                Structure Type : 0001 [SLLBI]
-                     Data Type : 00   [Latency]
-@@ -108,7 +108,7 @@ HMAT ::
-                         Entry : 0200
-                         Entry : 0200
- 
--SLIT ::
-+:doc:`SLIT <../acpi/slit>`::
- 
-      Signature : "SLIT"    [System Locality Information Table]
-     Localities : 0000000000000003
-@@ -116,7 +116,7 @@ SLIT ::
-   Locality   1 : FF 0A FF
-   Locality   2 : FF FF 0A
- 
--DSDT ::
-+:doc:`DSDT <../acpi/dsdt>`::
- 
-   Scope (_SB)
-   {
--- 
-2.49.0
+> 
+> > +       args->opcode = FUSE_GET_FMAP;
+> > +       args->nodeid = nodeid;
+> > +
+> > +       args->in_numargs = 0;
+> > +
+> > +       args->out_numargs = 1;
+> > +       args->out_args[0].size = FMAP_BUFSIZE;
+> > +       args->out_args[0].value = outbuf;
+> > +}
+> > +
+> > +static int
+> > +fuse_get_fmap(struct fuse_mount *fm, struct inode *inode, u64 nodeid)
+> > +{
+> > +       size_t fmap_size;
+> > +       void *fmap_buf;
+> > +       int err;
+> > +
+> > +       pr_notice("%s: nodeid=%lld, inode=%llx\n", __func__,
+> > +                 nodeid, (u64)inode);
+> > +       fmap_buf = kcalloc(1, FMAP_BUFSIZE, GFP_KERNEL);
+> > +       FUSE_ARGS(args);
+> > +       fuse_get_fmap_init(fm->fc, &args, nodeid, fmap_buf, FMAP_BUFSIZE);
+> > +
+> > +       /* Send GET_FMAP command */
+> > +       err = fuse_simple_request(fm, &args);
+> 
+> I'm assuming the fmap_buf gets freed in a later patch, but for this
+> one we'll probably need a kfree(fmap_buf) here in the meantime?
+
+Nice of you to give me the benefit of the doubt there ;)
+
+At this commit, nothing is done with fmap_buf, and a subsequent
+commit adds a call to famfs_file_init_dax(...fmap_buf...). But
+the fmap_buf was leaked.
+
+I'm adding a kfree(fmap_buf) to this commit, which will come after the
+call to famfs_file_init_dax() when that's added in a subsequent
+commit.
+
+Thanks!
+
+> 
+> > +       if (err) {
+> > +               pr_err("%s: err=%d from fuse_simple_request()\n",
+> > +                      __func__, err);
+> > +               return err;
+> > +       }
+> > +
+> > +       fmap_size = args.out_args[0].size;
+> > +       pr_notice("%s: nodei=%lld fmap_size=%ld\n", __func__, nodeid, fmap_size);
+> > +
+> > +       return 0;
+> > +}
+> > +#endif
+> > +
+> >  int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name,
+> >                      struct fuse_entry_out *outarg, struct inode **inode)
+> >  {
+> > @@ -404,6 +454,25 @@ int fuse_lookup_name(struct super_block *sb, u64 nodeid, const struct qstr *name
+> >                 fuse_queue_forget(fm->fc, forget, outarg->nodeid, 1);
+> >                 goto out;
+> >         }
+> > +
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       if (fm->fc->famfs_iomap) {
+> > +               if (S_ISREG((*inode)->i_mode)) {
+> > +                       /* Note Lookup returns the looked-up inode in the attr
+> > +                        * struct, but not in outarg->nodeid !
+> > +                        */
+> > +                       pr_notice("%s: outarg: size=%d nodeid=%lld attr.ino=%lld\n",
+> > +                                __func__, args.out_args[0].size, outarg->nodeid,
+> > +                                outarg->attr.ino);
+> > +                       /* Get the famfs fmap */
+> > +                       fuse_get_fmap(fm, *inode, outarg->attr.ino);
+> 
+> I agree with Darrick's comment about fetching the mappings only if the
+> file gets opened. I wonder though if we could bundle the open with the
+> get_fmap so that we don't have to do an additional request / incur 2
+> extra context switches. This seems feasible to me. When we send the
+> open request, we could check if fc->famfs_iomap is set and if so, set
+> inarg.open_flags to include FUSE_OPEN_GET_FMAP and set outarg.value to
+> an allocated buffer that holds both struct fuse_open_out and the
+> fmap_buf and adjust outarg.size accordingly. Then the server could
+> send both the open and corresponding fmap data in the reply.
+
+I agree about moving GET_FMAP to open, but I want to be cautious about 
+moving it *into* open. Right now fitting an entire fmap into a single
+message response looks like a totally acceptable requirement for famfs -
+but it might not survive as a permanent requirement, and it seems likely 
+not to work out for Darrick's use cases - which I think would lead us back 
+to needing GET_FMAP.
+
+Elswhere in this thread, and also 1:1, Darrick and I have discussed the
+possibility of partial retrieval of fmaps (in part due to the possibility
+that they might not always fit in a single message). If these responses 
+can get arbitrarily large, this would become a requirement. GET_FMAP could 
+specify an offset, and the reply could also specify its starting  offset; 
+I think it has to be in both places because  the current "elegantly simple" 
+fmap format doesn't always split easily at arbitrary offsets.
+
+Also, with famfs I think fmaps can be retained in-kernel past close,
+making the retrieval-on-open only needed if the fmap isn't already
+present. Famfs doesn't currently allow fmaps to change, although there
+are reasons we might relax that later.
+
+This can be revisited down the road.
+
+Unless I run into a blocker, the next rev of the series will call
+GET_FMAP on open...
+
+BTW I think moving GET_FMAP to open will remove the reasons why famfs
+currently needs to avoid READDIRPLUS.
+
+> 
+> > +               } else
+> > +                       pr_notice("%s: no get_fmap for non-regular file\n",
+> > +                                __func__);
+> > +       } else
+> > +               pr_notice("%s: fc->dax_iomap is not set\n", __func__);
+> > +#endif
+> > +
+> >         err = 0;
+> >
+> >   out_put_forget:
+> > diff --git a/fs/fuse/fuse_i.h b/fs/fuse/fuse_i.h
+> > index 931613102d32..437177c2f092 100644
+> > --- a/fs/fuse/fuse_i.h
+> > +++ b/fs/fuse/fuse_i.h
+> > @@ -193,6 +193,10 @@ struct fuse_inode {
+> >         /** Reference to backing file in passthrough mode */
+> >         struct fuse_backing *fb;
+> >  #endif
+> > +
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       void *famfs_meta;
+> > +#endif
+> >  };
+> >
+> >  /** FUSE inode state bits */
+> > @@ -942,6 +946,8 @@ struct fuse_conn {
+> >  #endif
+> >
+> >  #if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       struct rw_semaphore famfs_devlist_sem;
+> > +       struct famfs_dax_devlist *dax_devlist;
+> >         char *shadow;
+> >  #endif
+> >  };
+> > @@ -1432,11 +1438,14 @@ void fuse_free_conn(struct fuse_conn *fc);
+> >
+> >  /* dax.c */
+> >
+> > +static inline int fuse_file_famfs(struct fuse_inode *fi); /* forward */
+> > +
+> >  /* This macro is used by virtio_fs, but now it also needs to filter for
+> >   * "not famfs"
+> >   */
+> >  #define FUSE_IS_VIRTIO_DAX(fuse_inode) (IS_ENABLED(CONFIG_FUSE_DAX)    \
+> > -                                       && IS_DAX(&fuse_inode->inode))
+> > +                                       && IS_DAX(&fuse_inode->inode)   \
+> > +                                       && !fuse_file_famfs(fuse_inode))
+> >
+> >  ssize_t fuse_dax_read_iter(struct kiocb *iocb, struct iov_iter *to);
+> >  ssize_t fuse_dax_write_iter(struct kiocb *iocb, struct iov_iter *from);
+> > @@ -1547,4 +1556,29 @@ extern void fuse_sysctl_unregister(void);
+> >  #define fuse_sysctl_unregister()       do { } while (0)
+> >  #endif /* CONFIG_SYSCTL */
+> >
+> > +/* famfs.c */
+> > +static inline struct fuse_backing *famfs_meta_set(struct fuse_inode *fi,
+> > +                                                      void *meta)
+> > +{
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       return xchg(&fi->famfs_meta, meta);
+> > +#else
+> > +       return NULL;
+> > +#endif
+> > +}
+> > +
+> > +static inline void famfs_meta_free(struct fuse_inode *fi)
+> > +{
+> > +       /* Stub wil be connected in a subsequent commit */
+> > +}
+> > +
+> > +static inline int fuse_file_famfs(struct fuse_inode *fi)
+> > +{
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       return (fi->famfs_meta != NULL);
+> 
+> Does this need to be "return READ_ONCE(fi->famfs_meta) != NULL"?
+
+I'm not sure, but it can't hurt. Queued...
+
+> 
+> > +#else
+> > +       return 0;
+> > +#endif
+> > +}
+> > +
+> >  #endif /* _FS_FUSE_I_H */
+> > diff --git a/fs/fuse/inode.c b/fs/fuse/inode.c
+> > index 7f4b73e739cb..848c8818e6f7 100644
+> > --- a/fs/fuse/inode.c
+> > +++ b/fs/fuse/inode.c
+> > @@ -117,6 +117,9 @@ static struct inode *fuse_alloc_inode(struct super_block *sb)
+> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> >                 fuse_inode_backing_set(fi, NULL);
+> >
+> > +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX))
+> > +               famfs_meta_set(fi, NULL);
+> 
+> "fi->famfs_meta = NULL;" looks simpler here
+
+I toootally agree here, but I was following the passthrough pattern 
+just above.  @miklos or @Amir, got a preference here?
+
+Furthermore, initially I didn't init fi->famfs_meta at all because I 
+*assumed* fi (the fuse_inode) would be zeroed upon allocation - but it's 
+currently not. @miklos, would you object to zeroing fuse_inodes on 
+allocation?  Clearly it's working without that, but it seems like a 
+"normal" thing to do, that might someday pre-empt a problem.
+
+> 
+> > +
+> >         return &fi->inode;
+> >
+> >  out_free_forget:
+> > @@ -138,6 +141,13 @@ static void fuse_free_inode(struct inode *inode)
+> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> >                 fuse_backing_put(fuse_inode_backing(fi));
+> >
+> > +#if IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)
+> > +       if (S_ISREG(inode->i_mode) && fi->famfs_meta) {
+> > +               famfs_meta_free(fi);
+> > +               famfs_meta_set(fi, NULL);
+> > +       }
+> > +#endif
+> > +
+> >         kmem_cache_free(fuse_inode_cachep, fi);
+> >  }
+> >
+> > @@ -1002,6 +1012,11 @@ void fuse_conn_init(struct fuse_conn *fc, struct fuse_mount *fm,
+> >         if (IS_ENABLED(CONFIG_FUSE_PASSTHROUGH))
+> >                 fuse_backing_files_init(fc);
+> >
+> > +       if (IS_ENABLED(CONFIG_FUSE_FAMFS_DAX)) {
+> > +               pr_notice("%s: Kernel is FUSE_FAMFS_DAX capable\n", __func__);
+> > +               init_rwsem(&fc->famfs_devlist_sem);
+> > +       }
+> 
+> Should we only init this if the server chooses to opt into famfs (eg
+> if their init reply sets the FUSE_DAX_FMAP flag)? This imo seems to
+> belong more in process_init_reply().
+
+Another good catch. Queued - thanks!
+
+> 
+> 
+> Thanks,
+> Joanne
+
+Thank you!
 
