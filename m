@@ -1,128 +1,129 @@
-Received: from todd.t-8ch.de (todd.t-8ch.de [159.69.126.157])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f169.google.com (mail-pf1-f169.google.com [209.85.210.169])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F6EE255F4F;
-	Mon, 12 May 2025 07:35:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=159.69.126.157
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 19C98179BF;
+	Mon, 12 May 2025 07:42:58 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.169
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747035353; cv=none; b=oviKvWUoYbb5HpbIaeOmgMMAahIhEwxliSi9HeK+Z3KRUrkvfr8UVr8tLFiK61dHgSQPU1Bi+T6z7wq5ZEOOUSvO8Fw/TAs1YsEcV/fjAsZp/UkPmdX6UP6i2caEsACYblRbW0lcEas5BbavN9dDGAEWOG0eYXM+LmhX25s50u0=
+	t=1747035781; cv=none; b=FzLLXbHiL0LWG0yUKEKAjv2oX2Bm84TBjrc95ZN8w34CoJXShDeIYd0UBIGlG7tLIa0yA00JTjU8I2UrayYJY2LW+q4IQsZqk1zaD1TAvzeTkWAtY29vK+oOyv7bjXwonlQgx3DSPTys+m3XSFLOfYBmxn1hqz5yEXcJ/VUmjY4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747035353; c=relaxed/simple;
-	bh=zThPDjsAtVrDoxY89PisLPnV3mz6OPMwqflpMidXKdw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=eZ8FEg9WS90ANhtpRt73eckIlmYPDd6c4hexLP0SfDJ1R1AnTFP5VAxZsyi4UEEvjhsTZKEO9Q8XKIshEJjGNjHsJ5IBcwCHVYqLB+L4mZaNwMvdFtkY0pSOlghYRUn7upjgQav+GVA6aOpZlCyhcmb+V2VJPPi5JyM0jVr6oCU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net; spf=pass smtp.mailfrom=weissschuh.net; dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b=TBV7i6gq; arc=none smtp.client-ip=159.69.126.157
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=weissschuh.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=weissschuh.net
+	s=arc-20240116; t=1747035781; c=relaxed/simple;
+	bh=Bvd9v2KaOdNJwLWfy1ir5zBhQ0rZibvm1b+wCf5BiF8=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=BFYGyspvWd6A7gb2UY1hl/VoWkPH25QqvCxF5/F5fMIEvL/dktujpDxnTsqYG3f/fH9sVJ0+mSkpAq3VuRQH1zKZQ+rtBYRrwevt/2EP24K+2qJO1qU0vCuy3sh/04sAghqOBKcvdDHzUX6mJO3INQH1lIdYTPxBsS4OQVeqEbE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=M/POGKet; arc=none smtp.client-ip=209.85.210.169
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=weissschuh.net header.i=@weissschuh.net header.b="TBV7i6gq"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=weissschuh.net;
-	s=mail; t=1747035348;
-	bh=zThPDjsAtVrDoxY89PisLPnV3mz6OPMwqflpMidXKdw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=TBV7i6gqVq6TeLRnHc1vsuBvzG00bAGXz3AmvZZ+Ro4djFoPH3FL5zC2QpKVmN93p
-	 N2tip4L1hZgNYYgwuL5fYW4yBo6oGm+28ocvfkV3vXwIsbkRbRgJhvRTbKcEyCDC81
-	 wlclcmPfmej/Wyi2hlEAs/wn+5sYQxgIPEOSJCag=
-Date: Mon, 12 May 2025 09:35:47 +0200
-From: Thomas =?utf-8?Q?Wei=C3=9Fschuh?= <linux@weissschuh.net>
-To: lschyi@chromium.org
-Cc: Benson Leung <bleung@chromium.org>, 
-	Guenter Roeck <groeck@chromium.org>, Jean Delvare <jdelvare@suse.com>, 
-	Guenter Roeck <linux@roeck-us.net>, Jonathan Corbet <corbet@lwn.net>, 
-	chrome-platform@lists.linux.dev, linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org, 
-	linux-doc@vger.kernel.org, Sung-Chi Li <lschyi@google.com>
-Subject: Re: [PATCH v3 3/3] hwmon: (cros_ec) register fans into thermal
- framework cooling devices
-Message-ID: <7309c804-19e3-4715-b8c9-efa31c8ea9e1@t-8ch.de>
-References: <20250512-cros_ec_fan-v3-0-a9f2b255f0cd@chromium.org>
- <20250512-cros_ec_fan-v3-3-a9f2b255f0cd@chromium.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="M/POGKet"
+Received: by mail-pf1-f169.google.com with SMTP id d2e1a72fcca58-7403f3ece96so5655087b3a.0;
+        Mon, 12 May 2025 00:42:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747035778; x=1747640578; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=6ixYcQq0rSF0bg9NFU6d5lRXfvmxhdZj5BggjL8hxVE=;
+        b=M/POGKeti/aLSIhswhTtGCuE9w02VruiQNnl0H6fnQENPw3oHukEuv39+BbfO9S5eK
+         srhhVC8uugWoTAJPMfUbYAN2boUveeacKk08rkkeY53oiD9srBIs54Q/4/c93+XpPQH8
+         8mwgYzkHNEKwlhCNrDB1mwnXFPCspPseh8jpEk9pk1B/lzfiIMOffNqTl+fJatbSRVmi
+         TooHSn8LVf7kkU0pvBZMiIn+uYdk1TAKebTMkYYvWFPMJxx2oL8DzDnBPqopNm63ScK2
+         P20NOJlzXsSAxzFTupNjoZ0sAn2PcupZTHjOSYFHBMnYXkTUVA6UeW/8v/7pavT3/1Se
+         9QDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747035778; x=1747640578;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=6ixYcQq0rSF0bg9NFU6d5lRXfvmxhdZj5BggjL8hxVE=;
+        b=G9POQC4RZjBp/Iitfw+0WPN1IOMxpTnOKZm6CxsmLKm6J066H0KR0VzhtGq9Kw1ncM
+         AHvwL0cDp69VBVLtbW5HwvZ4piLcnur4loJeaZd8oYPnxCN9EL9qI/4xs84VGSEn/1Ej
+         wvhnioW3s8xTqx7rhPuqEYJY9P0PwFnTQlis2Su5Udx0xHpVJRtXy2diPa/2RVOF19XA
+         JpXGVKqvEhfvDqN7iRUQT8KBsufVyCxiO8zvESwG70XPA/P3WT0IlJxeA5nvQioXr0vr
+         iayxtCEh5SUvK7vcuCEXN91MSEkOlkoUR/PxAV2SkYRztLf/sPpxRzEb61rZMlf23fH0
+         OTTA==
+X-Forwarded-Encrypted: i=1; AJvYcCUVO7i3F5wFeKEY8HCzIssI6PEfW5eEjv6yhQnlJCPXNj5R3i2HEboZkHueMpvojX9Ru21aX/haME0=@vger.kernel.org, AJvYcCXM1kxJOdKeoipOlsb1Vz3Vv6USsKgCKTT4DSp0e6WEvT/d8hqexGW0ZPNbU8Mvgmeq8xt/0iaiDwgSb+A=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZ5CHZ5C4gC9QEJg/ZCJfVvn/SUSRi2K65LEEYdY+NdgWpxLYr
+	Mg4x1tlAUbhV1T2h0eEFonOgzvXh6aWH8KfyoV53eN1zaFIT3siN
+X-Gm-Gg: ASbGnctbKmtXXUOZNEs9xQpziiLTaae5+CwoNr0jFV3ih2zveocNIzSkXaLwqlhw9tt
+	CdVh6peldNGu+brid425Z5g37jclHSIitu0Zy8ND9WU9adgPveJXGKMHhKAhKBoIrXY4PBlmlUD
+	J3+/ARS7RLMoufkumZc/ZY+DGPST3nW8m+NDN4Otp8kHvI7naSYpFBczSGPxlHdw2Aehtzywia4
+	xGzheCijPAf5teh+fsl2FDRG/7IiOqlki7l+goWqskJ8FquhIHgqSVPJ8LMC7XNEhGYTK9vlE8C
+	4e0XedEeV8C0N0rifXzSA+d70bW6WMYxZM/fAP4dqAlnTq+LwlQ=
+X-Google-Smtp-Source: AGHT+IEM8O9x95BglttkpsX1VYoI4jLWpK+gMFTpf3ZBXg7sxj3iLdI7bWtsrH6IFjYE84LOvjVznA==
+X-Received: by 2002:a05:6a00:190f:b0:740:9a42:a356 with SMTP id d2e1a72fcca58-7423bd5544cmr17176473b3a.11.1747035778066;
+        Mon, 12 May 2025 00:42:58 -0700 (PDT)
+Received: from archie.me ([103.124.138.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a0d007sm5690848b3a.96.2025.05.12.00.42.56
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 May 2025 00:42:57 -0700 (PDT)
+Received: by archie.me (Postfix, from userid 1000)
+	id C0F76420AB0E; Mon, 12 May 2025 14:42:52 +0700 (WIB)
+From: Bagas Sanjaya <bagasdotme@gmail.com>
+To: Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	Linux Documentation <linux-doc@vger.kernel.org>,
+	Linux DRI Development <dri-devel@lists.freedesktop.org>,
+	Linux AMDGPU <amd-gfx@lists.freedesktop.org>,
+	Linux Media Subsystem <linux-media@vger.kernel.org>
+Cc: Alex Deucher <alexander.deucher@amd.com>,
+	=?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+	Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+	Maxime Ripard <mripard@kernel.org>,
+	Thomas Zimmermann <tzimmermann@suse.de>,
+	David Airlie <airlied@gmail.com>,
+	Simona Vetter <simona@ffwll.ch>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Rodrigo Siqueira <siqueira@igalia.com>,
+	Mauro Carvalho Chehab <mchehab@kernel.org>,
+	Bagas Sanjaya <bagasdotme@gmail.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: [PATCH] Documentation/gpu: Disambiguate SPI term
+Date: Mon, 12 May 2025 14:42:16 +0700
+Message-ID: <20250512074215.40928-2-bagasdotme@gmail.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250512-cros_ec_fan-v3-3-a9f2b255f0cd@chromium.org>
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1452; i=bagasdotme@gmail.com; h=from:subject; bh=0Ff/DfdS8SM8W7YuaV5Dll23KaO6sYsRLEZgfh2NHJI=; b=owGbwMvMwCX2bWenZ2ig32LG02pJDBmKSxutzjK83xzJWfo1+rSB1/66S/XV36er3TApzjA81 P5Q+o1ARykLgxgXg6yYIsukRL6m07uMRC60r3WEmcPKBDKEgYtTACay9wPD/zCXyKlr4lNVHMKL ix8lhjNN5fR0bSuV3Kz27HEtX0IMM8P/hPX6hu+LdjKZsbzb95rhbZH7R/+Cnk8pWqH2DAtMGY8 zAwA=
+X-Developer-Key: i=bagasdotme@gmail.com; a=openpgp; fpr=701B806FDCA5D3A58FFB8F7D7C276C64A5E44A1D
+Content-Transfer-Encoding: 8bit
 
-On 2025-05-12 15:11:57+0800, Sung-Chi Li via B4 Relay wrote:
-> From: Sung-Chi Li <lschyi@chromium.org>
-> 
-> Register fans connected under EC as thermal cooling devices as well, so
-> these fans can then work with the thermal framework.
-> 
-> During the driver probing phase, we will also try to register each fan
-> as a thermal cooling device based on previous probe result (whether the
-> there are fans connected on that channel, and whether EC supports fan
-> control). The basic get max state, get current state, and set current
-> state methods are then implemented as well.
-> 
-> Signed-off-by: Sung-Chi Li <lschyi@chromium.org>
-> ---
->  Documentation/hwmon/cros_ec_hwmon.rst |  2 +
->  drivers/hwmon/cros_ec_hwmon.c         | 78 +++++++++++++++++++++++++++++++++++
->  2 files changed, 80 insertions(+)
+Documentation/userspace-api/media/glossary.rst:170: WARNING: duplicate term description of SPI, other instance in gpu/amdgpu/amdgpu-glossary
 
-<snip>
+That's because SPI of amdgpu (Shader Processor Input) shares the same
+global glossary term as SPI of media subsystem (which is Serial
+Peripheral Interface Bus). Disambiguate the former from the latter to
+fix the warning.
 
-> +static void cros_ec_hwmon_register_fan_cooling_devices(struct device *dev,
-> +						       struct cros_ec_hwmon_priv *priv)
-> +{
-> +	struct thermal_cooling_device *cdev;
-> +	struct cros_ec_hwmon_cooling_priv *cpriv;
-> +	size_t i;
-> +	char *type;
+Note that adding context qualifiers in the term is strictly necessary
+in order to make Sphinx happy.
 
-Ordering.
+Fixes: dd3d035a7838 ("Documentation/gpu: Add new entries to amdgpu glossary")
+Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+Closes: https://lore.kernel.org/linux-next/20250509185845.60bf5e7b@canb.auug.org.au/
+Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
+---
+Also Cc: media maintainers.
 
-> +
-> +	if (!IS_ENABLED(CONFIG_THERMAL))
-> +		return;
-> +
-> +	if (!priv->fan_control_supported)
-> +		return;
-> +
-> +	for (i = 0; i < EC_FAN_SPEED_ENTRIES; i++) {
-> +		if (!(priv->usable_fans & BIT(i)))
-> +			continue;
-> +
-> +		cpriv = devm_kzalloc(dev, sizeof(*cpriv), GFP_KERNEL);
-> +		if (!cpriv)
-> +			return;
+ Documentation/gpu/amdgpu/amdgpu-glossary.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The failures are swallowed silently. They should be propagated.
+diff --git a/Documentation/gpu/amdgpu/amdgpu-glossary.rst b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+index 2040da593b1490..30812d9d53c645 100644
+--- a/Documentation/gpu/amdgpu/amdgpu-glossary.rst
++++ b/Documentation/gpu/amdgpu/amdgpu-glossary.rst
+@@ -182,7 +182,7 @@ we have a dedicated glossary for Display Core at
+     SMU/SMC
+       System Management Unit / System Management Controller
+ 
+-    SPI
++    SPI (AMDGPU)
+       Shader Processor Input
+ 
+     SRLC
 
-> +
-> +		type = devm_kasprintf(dev, GFP_KERNEL, "%s-fan%zu", dev_name(dev), i);
-> +		if (!type)
-> +			return;
-> +
-> +		cpriv->hwmon_priv = priv;
-> +		cpriv->index = i;
-> +		cdev = devm_thermal_of_cooling_device_register(dev, NULL, type, cpriv,
-> +							       &cros_ec_thermal_cooling_ops);
-> +		if (!cdev)
+base-commit: afc6053d4c4b0a6be500b9e643aa17221e93a57b
+-- 
+An old man doll... just what I always wanted! - Clara
 
-..._cooling_device_register() returns an error pointer on failure, not NULL.
-
-> +			return;
-> +	}
-> +}
-> +
->  static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  {
->  	struct device *dev = &pdev->dev;
-> @@ -412,6 +489,7 @@ static int cros_ec_hwmon_probe(struct platform_device *pdev)
->  	cros_ec_hwmon_probe_temp_sensors(dev, priv, thermal_version);
->  	cros_ec_hwmon_probe_fans(priv);
->  	priv->fan_control_supported = cros_ec_hwmon_probe_fan_control_supported(priv->cros_ec);
-> +	cros_ec_hwmon_register_fan_cooling_devices(dev, priv);
->  
->  	hwmon_dev = devm_hwmon_device_register_with_info(dev, "cros_ec", priv,
->  							 &cros_ec_hwmon_chip_info, NULL);
-> 
-> -- 
-> 2.49.0.1015.ga840276032-goog
-> 
-> 
