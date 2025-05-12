@@ -1,159 +1,177 @@
-Received: from mail-il1-f182.google.com (mail-il1-f182.google.com [209.85.166.182])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from bombadil.infradead.org (bombadil.infradead.org [198.137.202.133])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE7D3195;
-	Mon, 12 May 2025 02:23:22 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.182
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 56DDF8834;
+	Mon, 12 May 2025 02:32:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.133
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747016604; cv=none; b=BCNKg3JeFG7SNcLv13QXydkQ8wE7TLkgjlMRLCJdK/nmhKhViT2niV8qyLCfHb8dkFZUvIxUkvgWCCbK5n3Z1fwLnskoiPVgK2gazgd+y8mOBVJoenGktAAaObFZrY8aLPx2ie/gJwYcMoKq7aaLawNUncWY86Pu+1FmYcKtooE=
+	t=1747017157; cv=none; b=Bnp3l9D5xskKHq8rLTEaAkkvDohjbPNumDlZBpW7QWMMrnyQ1Y0FjuMpHF2ALbKWCDnaF2o4dLUGrw036NBJk8qBGOEJgdfMBa78trplJYZ0j+xhdLTwoBOBnsJZgEcDeJDZMIJ2AlhPmuQTLeKSL1EgYwYJCluz3nWrJJby99I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747016604; c=relaxed/simple;
-	bh=yAB5LyrtN+FS0esHAtIwzCdcCFJcUO7gVkLtVbAI5lw=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=iUXQM/gQ3gdaX5PV0khfyR7x28V3xB/NGo0MPDUGP6GCDX+C7wFO4xhB94hUHI0hGXEX9FOLqM//fab3TEg4v81r9iYEuOIdiBRuwr9uThZKIYGkdbPfJj30TZbbB0AVIR9KvaHKXACM4dbB63KIO5BaSr9we/q/+Eu4yLuWxNM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=Z0FCZl6a; arc=none smtp.client-ip=209.85.166.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747017157; c=relaxed/simple;
+	bh=Fv0oGHxn7CNZ/hNsG0S0rmMb+hGWvIVWBlE8n5pKX0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=VjjIeSzOhPigiEjCQaHgYFRAyKA1SSc8Ht0M/CKat80nUMuJJ4Zt8kz4F5Onk5bwgroP1sZfg/Bv9W93g+lE8Fw8Oq8e4AcQk9ssBh84QTWhCKbY0dTr2iPTkKU/+rQvaIj/EpdM9nWSi+AJjwhWDoPBfnEdMxZ9TOenQK+priE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=lG9vK+WD; arc=none smtp.client-ip=198.137.202.133
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="Z0FCZl6a"
-Received: by mail-il1-f182.google.com with SMTP id e9e14a558f8ab-3d81cba18e1so34013715ab.3;
-        Sun, 11 May 2025 19:23:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747016602; x=1747621402; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WZyhMsP21C11jZnfJwl5SYCwAR53Po10KU2bYlVY3YM=;
-        b=Z0FCZl6aEne/+jzd+7kXnkXzzYCTLka772mr1PoqJKdVhZwIjYFzJz8nfcxkStfYXV
-         IRg2wXL/eBbNbE78Jq7L91DYAx6UToDAdQX55lJXxPRExJZ5FEBr+HmvvzfJ/XcCkmiE
-         kpfbASyYmb6mMBkotEj3c085yvIvAyYY18Gzh/sVbS2r7suWnFW68M0e+V4lt2zlH4HL
-         By+JWzGcLYEuKXLqhHtH4Bln1T32LKBfXtwoZ8QY49l0n2i8PLqWXjI82CuBkUtDQBec
-         pJgguRJZ+1855Ou+wdqhRfEMz/7E1NvXlTAZfMQ9sT3U7fbxV6U/d0LX77agGBReFLke
-         4DmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747016602; x=1747621402;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=WZyhMsP21C11jZnfJwl5SYCwAR53Po10KU2bYlVY3YM=;
-        b=bkWCnLb4ZGVPPm8QK9MraD5LnpsxSR92VSJzENoAzOeRscmWvgD0+dRL9ji6BNUJAO
-         lxd8wghgIeM8hbTaLQdOC6sVM7gG3501CbvFJB2Jru79JRYnceaPGPyRMToGNB1Pqvdb
-         X01cax9bkGSWnOP78jkQMQ4r2fMnf5cPeSkZVX+DxzLiojVA010vJoH82Tii19zF4GXo
-         tkU21P0mgXjqJv9rUs+jzw7vqHmf9ovTT7TWmrEp65kOAA496oq0HrXVNBLNWoBE6fWZ
-         UPTybW4mW9ZabpHQ8d712x486nUTdTJs16CpnPDNHvUhQ4qdY4ybj1k9pprYqAiwtPRu
-         o5ew==
-X-Forwarded-Encrypted: i=1; AJvYcCU28K2nO8FkYRr03LsPGSdDT/yQjiNhozLnYLpy4ZnB55ERXtxjfh34JmCzEe3/vlrlNdMxigpPAqOVCAkG@vger.kernel.org, AJvYcCWNfKHGEZSuGG3J7NtROf5kb+gRoqQFZgceOMY2j2QliIZuZB7EgoVADHgxcFBCr6sR38AOQlax7PY=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx61B3iDTBJWBKFM8QFSYnKJmPvUjdFVevhJXWClU3xkWqx/EFp
-	rxbCa/NFwf4Hzo9lDRQvLGKn6W8UwamIGAPOuM60c+SiK+yIVsm7UlnWsE0SuurH2/GHTIfX4Hq
-	dZu7m9M7RmyA0iYgXMsao43bVDWk=
-X-Gm-Gg: ASbGncuVPGagP2BeoHkEuVhxLlpMomLvKa70gUL97X1gqoqu9UpiwBkYzXQ0IbOYiIZ
-	om0bYRohyP6IPZoVTtFxCMHHvIBNS80IMoRHNioqZFE7mtVt20zNb0Xq5ry7lPIHJwHQTr4mKFC
-	t7dw6XPS68qNwxbYrET5o0zzgkR7Fw8TgE
-X-Google-Smtp-Source: AGHT+IEuH6nOyvLaQ5zxqspmL/6pNAvDmL14tsAQ2iM2CURq1N74lAODObqPcgdaLwF4uKNZazOqMMDFAdBWYh4RCx4=
-X-Received: by 2002:a05:6e02:12c4:b0:3d4:244b:db1d with SMTP id
- e9e14a558f8ab-3da7e1e2f6amr123277275ab.6.1747016601747; Sun, 11 May 2025
- 19:23:21 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="lG9vK+WD"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=bombadil.20210309; h=Content-Transfer-Encoding:
+	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:
+	Content-ID:Content-Description:In-Reply-To:References;
+	bh=UBLZqzzG2NXRn25JYcRLvbgMLnU60sFpxmCVgCV7MEc=; b=lG9vK+WDlOeXoIm+icXujqr+8s
+	q9Ix2WRH0h4Io6x/t8tEp+aG1ZavnUEawcjpEtNU1OB3QRHRBdFHH/NfCT4efUUiSvO2tT0EGvNSU
+	AWlozNMGlYkhaYdCsq7YkFFOwzoIqauGaRpwwqUkl6xpzfiq+7u8pV3+mYDmAg+cSgTute9jldN9M
+	wLd8QBJG3LaaXs62ZuTYjrH7immTszDLtF6VgsyXpdwaeuc9CORPoXSh8vUlrz5REc3JgXr+7ldTO
+	7F5F9Lmkq3q3fJ+ff4LXYBGSzOIfBQxP391VYrFSdD/SMVSikkszUDsixhfTiVeP5IN3tPMeYVd/E
+	2/U9MHDg==;
+Received: from [50.39.124.201] (helo=bombadil.infradead.org)
+	by bombadil.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uEIy2-00000008Ck0-3Urk;
+	Mon, 12 May 2025 02:32:34 +0000
+From: Randy Dunlap <rdunlap@infradead.org>
+To: linux-kernel@vger.kernel.org
+Cc: Randy Dunlap <rdunlap@infradead.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-doc@vger.kernel.org,
+	Andrew Morton <akpm@linux-foundation.org>,
+	Jens Axboe <axboe@kernel.dk>,
+	Tom Zanussi <tzanussi@gmail.com>
+Subject: [PATCH] Docs: relay: editing cleanups
+Date: Sun, 11 May 2025 19:32:33 -0700
+Message-ID: <20250512023233.107582-1-rdunlap@infradead.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
- <aCFPRhfxKUeRu1Qh@gallifrey>
-In-Reply-To: <aCFPRhfxKUeRu1Qh@gallifrey>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Mon, 12 May 2025 10:22:45 +0800
-X-Gm-Features: AX0GCFutCEE_ey7c_2GpNPRcUFt88d_sFj3zmZKQO6BQr_r54gZw92rzxktXLAY
-Message-ID: <CAL+tcoBKZ4FMk9ozFidWUgfrEyRBrHCsh4cMMbTOA_e-wn0UJQ@mail.gmail.com>
-Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
-To: "Dr. David Alan Gilbert" <linux@treblig.org>
-Cc: Andrew Morton <akpm@linux-foundation.org>, andriy.shevchenko@linux.intel.com, 
-	corbet@lwn.net, linux-doc@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, viro@zeniv.linux.org.uk, 
-	Jens Axboe <axboe@kernel.dk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Mon, May 12, 2025 at 9:30=E2=80=AFAM Dr. David Alan Gilbert
-<linux@treblig.org> wrote:
->
-> * Jason Xing (kerneljasonxing@gmail.com) wrote:
-> > Hi All,
->
-> Hi Jason,
->
-> > I noticed this patch "relay: Remove unused relay_late_setup_files"
-> > appears in the mm branch already[1], which I totally missed. Sorry for
-> > joining the party late.
-> >
-> > I have a different opinion on this. For me, I'm very cautious about
-> > what those so-called legacy interfaces are and how they can work in
-> > different cases and what the use case might be... There are still a
-> > small number of out-of-tree users like me heavily relying on relayfs
-> > mechanism. So my humble opinion is that if you want to remove
-> > so-called dead code, probably clearly state why it cannot be used
-> > anymore in the future.
->
-> We've got lots of deadcode, why it's dead varies a lot; for example
-> people forgetting to clean it up after other patches etc - so this
-> _could_ be used but hasn't been for well over 7 years.
->
-> > Dr. David, I appreciate your patch, but please do not simply do the
-> > random cleanup work __here__. If you take a deep look at the relayfs,
-> > you may find there are other interfaces/functions no one uses in the
-> > kernel tree.
->
-> Actually, that was the only interface in relay that I found unused.
+Cleanup some punctuation, capital letter, and a missing word
+in relay.rst.
 
-Not really. More than this single one, say, __relay_write() and
-subbuf_start_reserve()...
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-doc@vger.kernel.org
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: Jens Axboe <axboe@kernel.dk>
+Cc: Tom Zanussi <tzanussi@gmail.com>
+---
+ Documentation/filesystems/relay.rst |   26 +++++++++++++-------------
+ 1 file changed, 13 insertions(+), 13 deletions(-)
 
->
-> > I'm now checking this kind of patch in relayfs one by one to avoid
-> > such a thing happening. I'm trying to maintain it as much as possible
-> > since we internally use it in the networking area to output useful
-> > information in the hot paths, a little bit like blktrace. BTW, relayfs
-> > is really a wonderful one that helps kernel modules communicate with
-> > userspace very efficiently. I'm trying to revive it if I can.
->
-> If you've got a use for that function, then I'm more than happy to sugges=
-t
-> just dropping my patch.
->
-> However, it is a fairly chunky function that is built into distro
-> kernels - so I think it should have a little thought put to it.
->
-> As I say, if you are using it, it's fine by me just to drop this patch.
-
-For now, I'm not using it but still considering what the use case
-might be in the future. As I mentioned earlier, I'm trying to make
-relayfs more robust with more realistic functions.
-
-IMHO, it's not really a dead code to me unless you can clarify why
-it's obsolete instead of claiming "no one is using it". If you insist
-on the point, then most of relayfs would be removed, which is
-apparently not what I'm wishing for.
-
-Probably it will be finally removed, but not at the moment. Evidence
-is still not clear to me :S
-
-For sure, the last call would be made by Andrew and Jens. Please help
-review this patch one more time. Thanks!
-
-Thanks,
-Jason
-
->
-> Dave
->
-> > [1]: https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git/commit=
-/?h=3Dmm-everything&id=3D46aa76118ee365c25911806e34d28fc2aa5ef997
-> >
-> > Thanks,
-> > Jason
-> --
->  -----Open up your eyes, open up your mind, open up your code -------
-> / Dr. David Alan Gilbert    |       Running GNU/Linux       | Happy  \
-> \        dave @ treblig.org |                               | In Hex /
->  \ _________________________|_____ http://www.treblig.org   |_______/
+--- linux-next-20250508.orig/Documentation/filesystems/relay.rst
++++ linux-next-20250508/Documentation/filesystems/relay.rst
+@@ -32,7 +32,7 @@ functions in the relay interface code -
+ Semantics
+ =========
+ 
+-Each relay channel has one buffer per CPU, each buffer has one or more
++Each relay channel has one buffer per CPU; each buffer has one or more
+ sub-buffers.  Messages are written to the first sub-buffer until it is
+ too full to contain a new message, in which case it is written to
+ the next (if available).  Messages are never split across sub-buffers.
+@@ -40,7 +40,7 @@ At this point, userspace can be notified
+ sub-buffer, while the kernel continues writing to the next.
+ 
+ When notified that a sub-buffer is full, the kernel knows how many
+-bytes of it are padding i.e. unused space occurring because a complete
++bytes of it are padding, i.e., unused space occurring because a complete
+ message couldn't fit into a sub-buffer.  Userspace can use this
+ knowledge to copy only valid data.
+ 
+@@ -71,7 +71,7 @@ klog and relay-apps example code
+ ================================
+ 
+ The relay interface itself is ready to use, but to make things easier,
+-a couple simple utility functions and a set of examples are provided.
++a couple of simple utility functions and a set of examples are provided.
+ 
+ The relay-apps example tarball, available on the relay sourceforge
+ site, contains a set of self-contained examples, each consisting of a
+@@ -91,7 +91,7 @@ registered will data actually be logged
+ examples for details).
+ 
+ It is of course possible to use the relay interface from scratch,
+-i.e. without using any of the relay-apps example code or klog, but
++i.e., without using any of the relay-apps example code or klog, but
+ you'll have to implement communication between userspace and kernel,
+ allowing both to convey the state of buffers (full, empty, amount of
+ padding).  The read() interface both removes padding and internally
+@@ -119,7 +119,7 @@ mmap()      results in channel buffer be
+ 	    must map the entire file, which is NRBUF * SUBBUFSIZE.
+ 
+ read()      read the contents of a channel buffer.  The bytes read are
+-	    'consumed' by the reader, i.e. they won't be available
++	    'consumed' by the reader, i.e., they won't be available
+ 	    again to subsequent reads.  If the channel is being used
+ 	    in no-overwrite mode (the default), it can be read at any
+ 	    time even if there's an active kernel writer.  If the
+@@ -138,7 +138,7 @@ poll()      POLLIN/POLLRDNORM/POLLERR su
+ 	    notified when sub-buffer boundaries are crossed.
+ 
+ close()     decrements the channel buffer's refcount.  When the refcount
+-	    reaches 0, i.e. when no process or kernel client has the
++	    reaches 0, i.e., when no process or kernel client has the
+ 	    buffer open, the channel buffer is freed.
+ =========== ============================================================
+ 
+@@ -149,7 +149,7 @@ host filesystem must be mounted.  For ex
+ 
+ .. Note::
+ 
+-	the host filesystem doesn't need to be mounted for kernel
++	The host filesystem doesn't need to be mounted for kernel
+ 	clients to create or use channels - it only needs to be
+ 	mounted when user space applications need access to the buffer
+ 	data.
+@@ -315,7 +315,7 @@ section, as it pertains mainly to mmap()
+ In 'overwrite' mode, also known as 'flight recorder' mode, writes
+ continuously cycle around the buffer and will never fail, but will
+ unconditionally overwrite old data regardless of whether it's actually
+-been consumed.  In no-overwrite mode, writes will fail, i.e. data will
++been consumed.  In no-overwrite mode, writes will fail, i.e., data will
+ be lost, if the number of unconsumed sub-buffers equals the total
+ number of sub-buffers in the channel.  It should be clear that if
+ there is no consumer or if the consumer can't consume sub-buffers fast
+@@ -334,7 +334,7 @@ initialize the next sub-buffer if approp
+ sub-buffer if appropriate and 3) return a boolean value indicating
+ whether or not to actually move on to the next sub-buffer.
+ 
+-To implement 'no-overwrite' mode, the userspace client would provide
++To implement 'no-overwrite' mode, the userspace client provides
+ an implementation of the subbuf_start() callback something like the
+ following::
+ 
+@@ -354,9 +354,9 @@ following::
+ 	    return 1;
+     }
+ 
+-If the current buffer is full, i.e. all sub-buffers remain unconsumed,
++If the current buffer is full, i.e., all sub-buffers remain unconsumed,
+ the callback returns 0 to indicate that the buffer switch should not
+-occur yet, i.e. until the consumer has had a chance to read the
++occur yet, i.e., until the consumer has had a chance to read the
+ current set of ready sub-buffers.  For the relay_buf_full() function
+ to make sense, the consumer is responsible for notifying the relay
+ interface when sub-buffers have been consumed via
+@@ -390,7 +390,7 @@ consulted.
+ 
+ The default subbuf_start() implementation, used if the client doesn't
+ define any callbacks, or doesn't define the subbuf_start() callback,
+-implements the simplest possible 'no-overwrite' mode, i.e. it does
++implements the simplest possible 'no-overwrite' mode, i.e., it does
+ nothing but return 0.
+ 
+ Header information can be reserved at the beginning of each sub-buffer
+@@ -457,7 +457,7 @@ rather than open and close a new channel
+ can be used for this purpose - it resets a channel to its initial
+ state without reallocating channel buffer memory or destroying
+ existing mappings.  It should however only be called when it's safe to
+-do so, i.e. when the channel isn't currently being written to.
++do so, i.e., when the channel isn't currently being written to.
+ 
+ Finally, there are a couple of utility callbacks that can be used for
+ different purposes.  buf_mapped() is called whenever a channel buffer
