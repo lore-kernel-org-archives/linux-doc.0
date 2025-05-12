@@ -1,76 +1,187 @@
-Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
+Received: from out-181.mta0.migadu.com (out-181.mta0.migadu.com [91.218.175.181])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9A3E2566DD;
-	Mon, 12 May 2025 17:52:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 188D51519B8
+	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 18:00:29 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.181
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747072360; cv=none; b=rPW7lSnazwlsIrS6WRJGmM1kB9O/IaVL8ZBgWQm/Yk135Hkx7pIDuaZVweiCp1eVk+m1FeL+JFQn1HFvkHQcsAFd9VBBFCNBVhCktdk+k+s+i9vgZM9eI1vyvGyFm4k0RjWnjIiVYOStNwA5eNuL0knE8ykVPFTh4kyIt0UGqEM=
+	t=1747072833; cv=none; b=KlKknFAcXkfVuu5zuHJdPIoktVa5DEaxDaIRVuRHCSw+X63KocHYG5Dc50ydhjN0gkFH105lFltkTaU7F1OKe58NlyBgwPanVm4yNVoc16a6rMawf1BF/NCxUQEzXDV8bG3CjLlY4Ei1wrhIYf0qQ9IGTFPNMm4oMovye1MBXTg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747072360; c=relaxed/simple;
-	bh=Ux3QgRt2jF2R8Z9eyxbrWaJo9VJUnFD9cGtGgwY/b4Y=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=gamh+/T3PPgPlOgizkeZeL714iHyYdEws1XfMtEHBNq7+N/nbgizUUpyMHDygfVV+tcG3ywJDf7ltD+bDd3ASYqttDvDnK6wZmNFomHAO5Af1HJdJRcBSDCsldny7SSyiJ4JemZqY0u388d6/9QPZww7HndvzHS8qTh1MSLwjEM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=SsjXZ0CO; arc=none smtp.client-ip=90.155.50.34
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747072833; c=relaxed/simple;
+	bh=fGBDzm38SHotQ4ArsU6HmeU+3zz7XAVrMhlyZFy3IZs=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=cXHwm/yg35OpemOmq3apeT6SR+HY8EXno8+f9LrPVrRJJfg91UbhmMhm5K2Muu31XZPBuhd3asXNhTnlcRoaL89yUDPDwm5oXEcINgx+2EXLOk4Dk1v88HAaCQaXTRdFV4mGI8ZNQfZ6H8BSDDhxrFTcNwQDDakKzV5xPzrw368=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=hGlf2DxK; arc=none smtp.client-ip=91.218.175.181
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="SsjXZ0CO"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-	References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-	Content-Transfer-Encoding:Content-ID:Content-Description;
-	bh=P6m/gOuJsgKXMELNFkjuzd8wF5VtSouHA+k5dme7F2s=; b=SsjXZ0COxXLba30mLcB5h6BhV9
-	rCcdqsNgk88F5FwY3wTnzUvUIp4MeroDZ+XXoZIME13xXCnQIAPewBFpe1CPbN/p6mXsY9nnL0r9x
-	/vHX0UZeOiuyPi6/FyCRUYKPnMWD5gA/q8/BjB2LUppmgkcqxwUBzyFx8QhNq2TmtO1Wtc4pZysAJ
-	bqLa7Q981MPxK5hA2Ndis6V7pf0yhRSCC5B5bV9aiBNF9vv28c6GBg4oGeeBN78J7qn3ya/52tRDO
-	TG/JWWVVpAX2pNBsDCckdi6BZpe2gFyp+WvElkQMMP/qZtKgT5kMMQqjh1JaBWLm2R7BWG23OWL5l
-	WYx9GS2Q==;
-Received: from willy by casper.infradead.org with local (Exim 4.98.2 #2 (Red Hat Linux))
-	id 1uEXKJ-0000000A6aP-3bSn;
-	Mon, 12 May 2025 17:52:31 +0000
-Date: Mon, 12 May 2025 18:52:31 +0100
-From: Matthew Wilcox <willy@infradead.org>
-To: Gregory Price <gourry@gourry.net>
-Cc: linux-cxl@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org, kernel-team@meta.com,
-	dave@stgolabs.net, jonathan.cameron@huawei.com,
-	dave.jiang@intel.com, alison.schofield@intel.com,
-	vishal.l.verma@intel.com, ira.weiny@intel.com,
-	dan.j.williams@intel.com, corbet@lwn.net
-Subject: Re: [PATCH v3 14/17] cxl: docs/allocation/page-allocator
-Message-ID: <aCI1X3NZwuagNOqS@casper.infradead.org>
-References: <20250512162134.3596150-1-gourry@gourry.net>
- <20250512162134.3596150-15-gourry@gourry.net>
- <aCIjMNooAzKaONod@casper.infradead.org>
- <aCIkF6RZJtU0m3Ia@gourry-fedora-PF4VCD3F>
+	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="hGlf2DxK"
+Message-ID: <f27b0506-4841-4650-a0ee-0fe1643fdf37@linux.dev>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
+	t=1747072827;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=ma5n1WWRt3IZMb/J5uvgHDAZKLn3T38CaI/Jo/Q76W4=;
+	b=hGlf2DxK/ll+4zVXxruxyenHniDCnXz8vzRbFapb8hUS/itdZEy/TPz0teFHV4TatUnnP5
+	BZv20ibsOKJy8hV5P8G/DZG5leGxmgDJH5uq+u9fW1PbSJFjurDRqz8BLE1IErge+GiHcI
+	Rumre5V3Jb6JPbLB6RELqbbucJ4f7ug=
+Date: Mon, 12 May 2025 11:00:21 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <aCIkF6RZJtU0m3Ia@gourry-fedora-PF4VCD3F>
+Subject: Re: [PATCH v6 04/14] riscv: sbi: add FWFT extension interface
+To: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
+ Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
+ linux-kselftest@vger.kernel.org
+Cc: Samuel Holland <samuel.holland@sifive.com>,
+ Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
+References: <20250424173204.1948385-1-cleger@rivosinc.com>
+ <20250424173204.1948385-5-cleger@rivosinc.com>
+ <1c385a47-0a01-4be4-a34b-51a2f168e62d@linux.dev>
+ <fe9d801b-007d-476d-97fe-96d0f3d218cd@rivosinc.com>
+Content-Language: en-US
+X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
+From: Atish Patra <atish.patra@linux.dev>
+In-Reply-To: <fe9d801b-007d-476d-97fe-96d0f3d218cd@rivosinc.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Migadu-Flow: FLOW_OUT
 
-On Mon, May 12, 2025 at 12:38:47PM -0400, Gregory Price wrote:
-> On Mon, May 12, 2025 at 05:34:56PM +0100, Matthew Wilcox wrote:
-> > On Mon, May 12, 2025 at 12:21:31PM -0400, Gregory Price wrote:
-> > > Document some interesting interactions that occur when exposing CXL
-> > > memory capacity to page allocator.
-> > 
-> > We should not do this.  Asking the page allocator for memory (eg for
-> > slab) should never return memory on CXL.  There need to be special
-> > interfaces for clients that know they can tolerate the added latency.
-> > 
-> > NAK this concept, and NAK this specific document.  I have no comment on
-> > the previous documents.
-> 
-> This describes what presently exists, so i'm not sure of what value a
-> NAK here is.
-> 
-> Feel free to submit patches that deletes the existing code if you want
-> it removed from the documentation.
 
-Who sneaked that in when?
+On 5/12/25 1:14 AM, Clément Léger wrote:
+>
+> On 09/05/2025 02:18, Atish Patra wrote:
+>> On 4/24/25 10:31 AM, ClÃ©ment LÃ©ger wrote:
+>>> This SBI extensions enables supervisor mode to control feature that are
+>>> under M-mode control (For instance, Svadu menvcfg ADUE bit, Ssdbltrp
+>>> DTE, etc). Add an interface to set local features for a specific cpu
+>>> mask as well as for the online cpu mask.
+>>>
+>>> Signed-off-by: Clément Léger <cleger@rivosinc.com>
+>>> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+>>> ---
+>>>    arch/riscv/include/asm/sbi.h | 17 +++++++++++
+>>>    arch/riscv/kernel/sbi.c      | 57 ++++++++++++++++++++++++++++++++++++
+>>>    2 files changed, 74 insertions(+)
+>>>
+>>> diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+>>> index 7ec249fea880..3bbef56bcefc 100644
+>>> --- a/arch/riscv/include/asm/sbi.h
+>>> +++ b/arch/riscv/include/asm/sbi.h
+>>> @@ -503,6 +503,23 @@ int sbi_remote_hfence_vvma_asid(const struct
+>>> cpumask *cpu_mask,
+>>>                    unsigned long asid);
+>>>    long sbi_probe_extension(int ext);
+>>>    +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long
+>>> flags);
+>>> +int sbi_fwft_set_cpumask(const cpumask_t *mask, u32 feature,
+>>> +             unsigned long value, unsigned long flags);
+>>> +/**
+>>> + * sbi_fwft_set_online_cpus() - Set a feature on all online cpus
+>>> + * @feature: The feature to be set
+>>> + * @value: The feature value to be set
+>>> + * @flags: FWFT feature set flags
+>>> + *
+>>> + * Return: 0 on success, appropriate linux error code otherwise.
+>>> + */
+>>> +static inline int sbi_fwft_set_online_cpus(u32 feature, unsigned long
+>>> value,
+>>> +                       unsigned long flags)
+>>> +{
+>>> +    return sbi_fwft_set_cpumask(cpu_online_mask, feature, value, flags);
+>>> +}
+>>> +
+>>>    /* Check if current SBI specification version is 0.1 or not */
+>>>    static inline int sbi_spec_is_0_1(void)
+>>>    {
+>>> diff --git a/arch/riscv/kernel/sbi.c b/arch/riscv/kernel/sbi.c
+>>> index 1d44c35305a9..d57e4dae7dac 100644
+>>> --- a/arch/riscv/kernel/sbi.c
+>>> +++ b/arch/riscv/kernel/sbi.c
+>>> @@ -299,6 +299,63 @@ static int __sbi_rfence_v02(int fid, const struct
+>>> cpumask *cpu_mask,
+>>>        return 0;
+>>>    }
+>>>    +/**
+>>> + * sbi_fwft_set() - Set a feature on the local hart
+>>> + * @feature: The feature ID to be set
+>>> + * @value: The feature value to be set
+>>> + * @flags: FWFT feature set flags
+>>> + *
+>>> + * Return: 0 on success, appropriate linux error code otherwise.
+>>> + */
+>>> +int sbi_fwft_set(u32 feature, unsigned long value, unsigned long flags)
+>>> +{
+>>> +    return -EOPNOTSUPP;
+>>> +}
+>>> +
+>>> +struct fwft_set_req {
+>>> +    u32 feature;
+>>> +    unsigned long value;
+>>> +    unsigned long flags;
+>>> +    atomic_t error;
+>>> +};
+>>> +
+>>> +static void cpu_sbi_fwft_set(void *arg)
+>>> +{
+>>> +    struct fwft_set_req *req = arg;
+>>> +    int ret;
+>>> +
+>>> +    ret = sbi_fwft_set(req->feature, req->value, req->flags);
+>>> +    if (ret)
+>>> +        atomic_set(&req->error, ret);
+>> What happens when cpuX executed first reported an error but cpuY
+>> executed this function later and report success.
+>>
+>> The error will be masked in that case.
+> We actually only set the bit if an error happened (consider it as a
+> sticky error bit). So if CPUy reports success, it won't clear the bit.
+
+Ahh yes. I missed that.
+
+> Thanks,
+>
+> Clément
+>
+>>> +}
+>>> +
+>>> +/**
+>>> + * sbi_fwft_set_cpumask() - Set a feature for the specified cpumask
+>>> + * @mask: CPU mask of cpus that need the feature to be set
+>>> + * @feature: The feature ID to be set
+>>> + * @value: The feature value to be set
+>>> + * @flags: FWFT feature set flags
+>>> + *
+>>> + * Return: 0 on success, appropriate linux error code otherwise.
+>>> + */
+>>> +int sbi_fwft_set_cpumask(const cpumask_t *mask, u32 feature,
+>>> +                   unsigned long value, unsigned long flags)
+>>> +{
+>>> +    struct fwft_set_req req = {
+>>> +        .feature = feature,
+>>> +        .value = value,
+>>> +        .flags = flags,
+>>> +        .error = ATOMIC_INIT(0),
+>>> +    };
+>>> +
+>>> +    if (feature & SBI_FWFT_GLOBAL_FEATURE_BIT)
+>>> +        return -EINVAL;
+>>> +
+>>> +    on_each_cpu_mask(mask, cpu_sbi_fwft_set, &req, 1);
+>>> +
+>>> +    return atomic_read(&req.error);
+>>> +}
+>>> +
+>>>    /**
+>>>     * sbi_set_timer() - Program the timer for next timer event.
+>>>     * @stime_value: The value after which next timer event should fire.
