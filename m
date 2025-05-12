@@ -1,208 +1,89 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 38F7E258CD5
-	for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 08:28:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9D8A4D528;
+	Mon, 12 May 2025 08:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747038487; cv=none; b=PMIFmOzUM0/tdCdzoVGO4npTrnguzVGkII024Gg1axiijq/AFsYSm1Lv+QJePSaN8UL7IMPAri1zxnuRi0D2zvpO5245O/QSmUrhektscCxcy9+UfXb1REP1cEf8GGCC9dwf5iHJ6fSC2NnWcbSThbicgz9PX6t/GoK7hTukjpQ=
+	t=1747039153; cv=none; b=JhFd34a04iji401WwLWhiO3ki2nilLm4l9iz59nRjdxDoEd40L2YuIWTl36zl45D0Lkyq872Jqo6NWEIHl1jFd3N9maHc6cSw5XiTnJmiPu9f5SMn/BJcKyr4w81P3Jlga5s7tP5LEZf8iSDrohH3qp02kK/hHvdgDdU5FUVf1Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747038487; c=relaxed/simple;
-	bh=FnqapDHA2Oh8Kjn2D4GnRbRG39bzWiagKhETfDHDPuY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=vCH+4HLzRb8+eidMHiSkEe8fRCvees2JZpu81ymSIk91wYiCb8JBXB21tXbFvy+giQLLAGZsWIaHtv1lRl7SF9/UUlJU5i0pUgUa31tWElq3wW0kxo26oUxjk9e8J4YCSLDhik4xsjCAzl8wShgbgXlmosOwe1Cc3dsFVXf2aGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=upmkSWB5; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	s=arc-20240116; t=1747039153; c=relaxed/simple;
+	bh=v7Q321BVuunXSgyj7aSO4QoqmSPSdep7tFWOWDiZU+A=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
+	 MIME-Version:Content-Type; b=jdF9zYXOyKx0n/+vNugp/CeBhHg9cAqeowy/BKzAwaA/oOv5xovr3psdY6SzL6iJASvZd3K4IxhjLoyc93/wDf5YqpZm323EH1/BmNfHKjgySC5LT5IjwdicNHQ76dBM9BQD/X1AiPK2oPweV2LdO5KY82ER2U6+ogM4iZMjaM0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=jkfD8kI9; arc=none smtp.client-ip=65.109.113.108
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="upmkSWB5"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a0b9e2d640so3801771f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 12 May 2025 01:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747038482; x=1747643282; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=/GHu16VagS4Zo0QZx5ctfJMlX1e+tH9PDkYdamiUkNk=;
-        b=upmkSWB5gkuTSDiWyiVat3gk1NnkqSA8LAKDyLbn9txIzzVs1IWi6P49GiWFrv7n8n
-         DGlXR7PHJMxyZV1TKu46Dy6YTyFnKwo7R/Ij0Hhfm/U7xkoOYD7O9WzcKG+TkOgEeXG+
-         bP6AY2Jp15xy0K0/iWZlXLjOOC0EYo1yMwexZ/HVedN5CG23CJA47FerszbrhHqCObXW
-         Z1oUzJgmzcZatXdZUmDUDV77p8mJPpqV4wOUmhIUPjT49RUrrvmL/YIQ46IE2sPHKiwX
-         MLqRg2x3bAUhm70Pn/A0tDaZN50caTrz/xHC4ofGCsg8FTW8I7CQ/AFPV2WH7dzFWPKl
-         /DwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747038482; x=1747643282;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=/GHu16VagS4Zo0QZx5ctfJMlX1e+tH9PDkYdamiUkNk=;
-        b=sDRJ/JM0/ylaFtUUo9qEctd2PDah8GrGwCvoIdMJZgzbRkOX++boEPs5nqewgTEHou
-         bKsqE0cwUGEqno6FFb952Dxb7CysFJiC1kBIKScywcu6kigs3mzkgD9XO44/E5VmYecx
-         4v+Ryfh9JGWncvshypvCmQNLz+TTNCrc1/j26kN30rzgk1bjjWe48KWF0L61ap6hx7Vn
-         CJfn8rERgJia0Ba1ppRdNGG4MnLEGxXChFqsJ4IgUVkHh+Go8AxAWfLdq/Q62+n2cIxA
-         d3BntnQZUGZLU71cFPmzH3I9Q/ulnR2qq1DOd9oJgFMNsib7LcxZADpIbe/OQskTvdoX
-         jL1Q==
-X-Forwarded-Encrypted: i=1; AJvYcCV40bgaO7dEAAFFQJErY5Hol7VMr315RwiaAq8Lm74J4UbwSZgTLhXYFFh4I10IayHzj52PNlnzESM=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwK/br25N9QJ7tXsxohNdfubaU7csYDwl1Y1CraHHGDCEkuRcNJ
-	NUnGiDgsCDUR9ea9iWmgcKMKDjY5rlsLB2ymHC+mb1FnkCREqlHmEgPMV0TvX0g=
-X-Gm-Gg: ASbGncsVFPlkwQ+08gBr/Rum8wfe/0QUmzRKsjGUPcfsu5YUqtiHFTElPdnZ8ZxRcVQ
-	lNaCPMjaVlmeP/8oYUnAm1L0oLNhw3xUlB3jj6rlUM1AiKCCnP8mzSYBSh0zqA+6CIwFV7nMhoo
-	+gl4SVo3cXYErlfCXyGq8tsN7ZILy2Qo3GrOlZNLZvqEa2S0Fs+4/vpV0z3AGa3/kWTpYZc0Fn2
-	QO6vBkLg//YDsOxndKrluEjta0eKhpEZFG8ARegFg3Lo3gcR4CPrRZ+w7bcBTvGeqpwCBE8P+jT
-	0+oIpK+GCdIi9P/KE5IdRsTQBbC3mYB9HUalXjxotP4u1U53fm5erygsooIcahMsNWmPtnxthKb
-	r2u/i6m+DOZ79zfk98VLb
-X-Google-Smtp-Source: AGHT+IF3cuftk1+itln34hyUlsyO+lAZrtrkx94Wsxfu0ogw4IibSZyT4oEk1i1ctGEF1Ke0Xxw6Ig==
-X-Received: by 2002:a05:6000:2410:b0:3a0:7a5d:96f6 with SMTP id ffacd0b85a97d-3a1f64b5850mr10211716f8f.38.1747038482577;
-        Mon, 12 May 2025 01:28:02 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f2ab2sm11460379f8f.46.2025.05.12.01.28.01
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 May 2025 01:28:02 -0700 (PDT)
-Message-ID: <67896719-5cbc-4bf6-8b00-3b785940952f@rivosinc.com>
-Date: Mon, 12 May 2025 10:28:01 +0200
+	dkim=pass (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="jkfD8kI9"
+Received: from localhost (localhost.localdomain [127.0.0.1])
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 0304840E01ED;
+	Mon, 12 May 2025 08:39:08 +0000 (UTC)
+X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
+Authentication-Results: mail.alien8.de (amavisd-new); dkim=pass (4096-bit key)
+	header.d=alien8.de
+Received: from mail.alien8.de ([127.0.0.1])
+	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
+	with ESMTP id 2n3dMIktGZCl; Mon, 12 May 2025 08:39:04 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
+	t=1747039141; bh=KB4Is1RNA340QS9c49/4swl8GNEr6mQ3bP8uGT6F+kA=;
+	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
+	b=jkfD8kI9m7w/EL5BJE8jNCY6yLd40dk3ED7YccKH3Y+cM+awVeLZgBSNcTZiwb2Hs
+	 ojhWgZaaHh0CqcJ6X4SQvPZG23k1o/XfeHRVFByAHAL2yraMOewMqhW85BshtzOdAd
+	 tNghZNy4Cz5gH4aTE726SN4k0OaXBpBwNoJTLh/5A1RQwMGRR42QnHrbpdbxPd++2J
+	 79v/w1xseqCjsoLvhnxlqd2s/2mZlC75PyDkkySfjRjt8TBgKldIFkD+bEudxVhhWA
+	 QICW6TB3q8pqwgLfNXprip8t1nmASQOpY4wqNw3BVNgNycK5Yfdt+zBoDYHbNs+fbf
+	 H8+I5qb42JHodExDXa63OExDLwby6JUp1eQmYKMmkREwHHmNL4ovQA2CbEOe7zsdb2
+	 izJNBL6IbDUpMdniZkq8g3Mm92GlDYJwWDOhuDakx6bIfazKYCJaycmQjZkMw6ef9h
+	 0Vyjtbm4+i6Qu8sGNf1ffcvdaxE6mSNK6gG3q+5ZUvj6oj2LLnWtl0Qa+MwaLk1tHf
+	 eodGn+JEyiEcsb99P7ABXIXFuGgFkBxA3vb2DwyDVLjS/ZCV+MVna/TfniMfvBO4eR
+	 v/j/dUDdatqtvArGB4wtp556TC5QGZUD0l7gUq6xnbWtSsDGKL2xKzRx7OLIzAmvv9
+	 AbZozIBFiN9Fby/J9iehu9/k=
+Received: from [IPv6:::1] (unknown [IPv6:2a02:3038:204:a05a:7dcf:8efb:5016:7f05])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature ECDSA (P-256) server-digest SHA256)
+	(No client certificate requested)
+	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id 221DE40E023B;
+	Mon, 12 May 2025 08:38:27 +0000 (UTC)
+Date: Mon, 12 May 2025 10:38:21 +0200
+From: Borislav Petkov <bp@alien8.de>
+To: Jonathan Cameron <Jonathan.Cameron@huawei.com>, shiju.jose@huawei.com
+CC: linux-edac@vger.kernel.org, linux-acpi@vger.kernel.org,
+ linux-doc@vger.kernel.org, rafael@kernel.org, tony.luck@intel.com,
+ lenb@kernel.org, leo.duran@amd.com, Yazen.Ghannam@amd.com,
+ mchehab@kernel.org, linux-mm@kvack.org, linuxarm@huawei.com,
+ rientjes@google.com, jiaqiyan@google.com, Jon.Grimm@amd.com,
+ dave.hansen@linux.intel.com, naoya.horiguchi@nec.com, james.morse@arm.com,
+ jthoughton@google.com, somasundaram.a@hpe.com, erdemaktas@google.com,
+ pgonda@google.com, duenwen@google.com, gthelen@google.com,
+ wschwartz@amperecomputing.com, dferguson@amperecomputing.com,
+ wbs@os.amperecomputing.com, nifan.cxl@gmail.com, tanxiaofei@huawei.com,
+ prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+ kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
+Subject: Re: [PATCH v5 0/2] ACPI: Add support for ACPI RAS2 feature table
+User-Agent: K-9 Mail for Android
+In-Reply-To: <20250512091644.00001598@huawei.com>
+References: <20250507214344.709-1-shiju.jose@huawei.com> <20250512091644.00001598@huawei.com>
+Message-ID: <3A6C3FC9-B347-4FA9-BA88-3DAF423853C5@alien8.de>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 14/14] RISC-V: KVM: add support for
- SBI_FWFT_MISALIGNED_DELEG
-To: Atish Patra <atish.patra@linux.dev>,
- Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
- <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org
-Cc: Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
-References: <20250424173204.1948385-1-cleger@rivosinc.com>
- <20250424173204.1948385-15-cleger@rivosinc.com>
- <87b2eade-acda-428e-81af-d4927e517ebe@linux.dev>
-Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <87b2eade-acda-428e-81af-d4927e517ebe@linux.dev>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain;
+ charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
+On May 12, 2025 10:16:44 AM GMT+02:00, Jonathan Cameron <Jonathan=2ECameron=
+@huawei=2Ecom> wrote:
+>What path do we expect this little series to take forwards?
+>
+>I'm kind of assuming through ACPI given the acpica dependency,=20
 
+Yeah, probably better thru the ACPI tree=2E=2E=2E
 
-On 09/05/2025 20:09, Atish Patra wrote:
-> On 4/24/25 10:32 AM, ClÃ©ment LÃ©ger wrote:
->> SBI_FWFT_MISALIGNED_DELEG needs hedeleg to be modified to delegate
->> misaligned load/store exceptions. Save and restore it during CPU
->> load/put.
->>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> Reviewed-by: Deepak Gupta <debug@rivosinc.com>
->> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->> ---
->>   arch/riscv/kvm/vcpu.c          |  3 +++
->>   arch/riscv/kvm/vcpu_sbi_fwft.c | 36 ++++++++++++++++++++++++++++++++++
->>   2 files changed, 39 insertions(+)
->>
->> diff --git a/arch/riscv/kvm/vcpu.c b/arch/riscv/kvm/vcpu.c
->> index 542747e2c7f5..d98e379945c3 100644
->> --- a/arch/riscv/kvm/vcpu.c
->> +++ b/arch/riscv/kvm/vcpu.c
->> @@ -646,6 +646,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->>   {
->>       void *nsh;
->>       struct kvm_vcpu_csr *csr = &vcpu->arch.guest_csr;
->> +    struct kvm_vcpu_config *cfg = &vcpu->arch.cfg;
->>         vcpu->cpu = -1;
->>   @@ -671,6 +672,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->>           csr->vstval = nacl_csr_read(nsh, CSR_VSTVAL);
->>           csr->hvip = nacl_csr_read(nsh, CSR_HVIP);
->>           csr->vsatp = nacl_csr_read(nsh, CSR_VSATP);
->> +        cfg->hedeleg = nacl_csr_read(nsh, CSR_HEDELEG);
->>       } else {
->>           csr->vsstatus = csr_read(CSR_VSSTATUS);
->>           csr->vsie = csr_read(CSR_VSIE);
->> @@ -681,6 +683,7 @@ void kvm_arch_vcpu_put(struct kvm_vcpu *vcpu)
->>           csr->vstval = csr_read(CSR_VSTVAL);
->>           csr->hvip = csr_read(CSR_HVIP);
->>           csr->vsatp = csr_read(CSR_VSATP);
->> +        cfg->hedeleg = csr_read(CSR_HEDELEG);
-> 
-> Can we avoid saving hedeleg in vcpu_put path by updating the cfg-
->>hedeleg in kvm_sbi_fwft_set_misaligned_delegation.
-> 
-> We already update the hedeleg in vcpu_load path from cfg->hedeleg.
-> If the next vcpu did not enable delegation it will get the correct
-> config written to hedeleg.
+Thx=2E
 
-Yeah that make sense, I'll modify that.
-
-Thanks,
-
-Clément
-
-> 
-> This will save us a csr read cost in each VM exit path for something
-> that is probably configured once in guest life time.>
->>       }
->>   }
->>   diff --git a/arch/riscv/kvm/vcpu_sbi_fwft.c b/arch/riscv/kvm/
->> vcpu_sbi_fwft.c
->> index b0f66c7bf010..d16ee477042f 100644
->> --- a/arch/riscv/kvm/vcpu_sbi_fwft.c
->> +++ b/arch/riscv/kvm/vcpu_sbi_fwft.c
->> @@ -14,6 +14,8 @@
->>   #include <asm/kvm_vcpu_sbi.h>
->>   #include <asm/kvm_vcpu_sbi_fwft.h>
->>   +#define MIS_DELEG (BIT_ULL(EXC_LOAD_MISALIGNED) |
->> BIT_ULL(EXC_STORE_MISALIGNED))
->> +
->>   struct kvm_sbi_fwft_feature {
->>       /**
->>        * @id: Feature ID
->> @@ -68,7 +70,41 @@ static bool kvm_fwft_is_defined_feature(enum
->> sbi_fwft_feature_t feature)
->>       return false;
->>   }
->>   +static bool kvm_sbi_fwft_misaligned_delegation_supported(struct
->> kvm_vcpu *vcpu)
->> +{
->> +    return misaligned_traps_can_delegate();
->> +}
->> +
->> +static long kvm_sbi_fwft_set_misaligned_delegation(struct kvm_vcpu
->> *vcpu,
->> +                    struct kvm_sbi_fwft_config *conf,
->> +                    unsigned long value)
->> +{
->> +    if (value == 1)
->> +        csr_set(CSR_HEDELEG, MIS_DELEG);
->> +    else if (value == 0)
->> +        csr_clear(CSR_HEDELEG, MIS_DELEG);
->> +    else
->> +        return SBI_ERR_INVALID_PARAM;
->> +
->> +    return SBI_SUCCESS;
->> +}
->> +
->> +static long kvm_sbi_fwft_get_misaligned_delegation(struct kvm_vcpu
->> *vcpu,
->> +                    struct kvm_sbi_fwft_config *conf,
->> +                    unsigned long *value)
->> +{
->> +    *value = (csr_read(CSR_HEDELEG) & MIS_DELEG) == MIS_DELEG;
->> +
->> +    return SBI_SUCCESS;
->> +}
->> +
->>   static const struct kvm_sbi_fwft_feature features[] = {
->> +    {
->> +        .id = SBI_FWFT_MISALIGNED_EXC_DELEG,
->> +        .supported = kvm_sbi_fwft_misaligned_delegation_supported,
->> +        .set = kvm_sbi_fwft_set_misaligned_delegation,
->> +        .get = kvm_sbi_fwft_get_misaligned_delegation,
->> +    },
->>   };
->>     static struct kvm_sbi_fwft_config *
-> 
-
+--=20
+Sent from a small device: formatting sucks and brevity is inevitable=2E 
