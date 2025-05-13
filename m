@@ -1,151 +1,81 @@
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE22E2522AC;
-	Tue, 13 May 2025 10:00:08 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D30E626A0E3;
+	Tue, 13 May 2025 10:24:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747130410; cv=none; b=uld7/yUHBiEP3obqpvZqw5ukGLPpYIwfPFKQFBu+GSY1dHWIT3fMGpT6VpMY2RO5+/2/cYzbfKy+TqPq6kBM0dcgJOZL9XovQM5q36Y/waxxIg1Td9Qgf4OkAwfEyXJmlrEYiy/sjBU2SU2Vs2pM9VGJ//4UKNLAqOGw24MCtGw=
+	t=1747131898; cv=none; b=Oz18f7+YMSkrfx7MbkRClpBumbcRCIl/CaO9BDJysadopkx5sYD7dPanwKronWLIA0wk3qB+PKKKlOhXWf/4YNRp1YnZiwoPYzb2b7OSDgc9nuFru0grJ3rg5aoODMobJahg3ul2nB4ulyRcNTTSpvW/rnBgO7TLKLFdjsmRfFs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747130410; c=relaxed/simple;
-	bh=AJF5DL3Pt5AO0mBUIrRPAreWbf8FJCsW/TNx0q0i4bI=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-ID:References:
-	 In-Reply-To:To:CC; b=UfEIBfWmTFK7VI8zDawwHOMSjPo2p9qVUdN9q6qp04JYkTGIMoZk90+SdULBpXIVsz42S1g/jWbvNhnxC1qttjxRtAY4CAfZ7Z5g/5OkjlzIXfUJwohOm//PRmDwq3relDAA2EJn0TdEkNqYeadZd/mMGzOen+SRp/OoB5cW2wY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=gSibRF26; arc=none smtp.client-ip=205.220.180.131
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+	s=arc-20240116; t=1747131898; c=relaxed/simple;
+	bh=Rzy/aSrQ5qPTke3jA3lx1Ow+aIJkGCNaJloJY0vpuZ4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TvMOsT6vmiPKCZCrskMHxjjTsb0BkAnZH7iYC/1CvIU7eP/MNU9K8wUzfD3JcOf0OLpfFsE0umTfJcUPqq+FzaOpJsq7YAnzBueFIQjkK87USybMUnfI1deINd/FU51obitRjjtb/mmhywRi3Nowwnyz405g+55WXmJoix7vYYY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HBi5Pj+A; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="gSibRF26"
-Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54D6W0Yx023765;
-	Tue, 13 May 2025 09:59:56 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
-	cc:content-transfer-encoding:content-type:date:from:in-reply-to
-	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
-	HkVtmIZ7z/sdEG12eKr6XekXbRRZ0uSQPinlKqmirv0=; b=gSibRF269Z2jU1WB
-	4hftfLFhmly3mH51RwELcqwMS9k5dSqh4juUA3O926LrZ7AIU+G0lLxy8z2UmSux
-	X9rDHJK87ZmnMUByvVWmp2Lch6PKB3EOAQuNlplIuaCOH+VUTdL8t29myGQgfKUv
-	+iP5dSsL/qQEddcoS2gy6uvEzpACrvHbfnreb+Zrz/cIYDcjgqx1H5awia5gnrGB
-	34mareFAhIA4NXulaSmDS6yFQkLWPAQ0ZisamJFuijaOc4Bjc7+wSNISy1/L/akk
-	QlNyfFks9SQCDHNbYRqz26XyYpxH/aCEvNuFX95icGy8j+Mvpi5yTrOaHofHnNUV
-	iAKWzw==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46kdsp3gjc-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 May 2025 09:59:56 +0000 (GMT)
-Received: from nasanex01b.na.qualcomm.com (nasanex01b.na.qualcomm.com [10.46.141.250])
-	by NASANPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54D9xtRk005027
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 13 May 2025 09:59:55 GMT
-Received: from nsssdc-sh01-lnx.ap.qualcomm.com (10.80.80.8) by
- nasanex01b.na.qualcomm.com (10.46.141.250) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.9; Tue, 13 May 2025 02:59:49 -0700
-From: Luo Jie <quic_luoj@quicinc.com>
-Date: Tue, 13 May 2025 17:58:34 +0800
-Subject: [PATCH net-next v4 14/14] MAINTAINERS: Add maintainer for Qualcomm
- PPE driver
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HBi5Pj+A"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A8048C4CEEF;
+	Tue, 13 May 2025 10:24:53 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747131897;
+	bh=Rzy/aSrQ5qPTke3jA3lx1Ow+aIJkGCNaJloJY0vpuZ4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HBi5Pj+ArRJTr5m9mWEccYUptEK4hu4fK/P47jL7upy1zXHtPwdbBRUc+1ktydFYz
+	 W9COYhRqrwE1d2ayJ5tcskKWnSDkif0qlsSITCODnE8HePeLtuzcBJepCu22QJP3an
+	 VPJrOGhegeNzxRiOS+qwmMANgvZqRtvS5FK1poo8rDvXnzBDF1rQj5GBE1vosYLc5d
+	 CyEqXmr+4BRv/3n6Afk4J1FHAq/fn6BWKhZXk2QoMU22kHDi2kXu2oRHE6Cqc+XmFk
+	 vFfbssBatn2o7O0+wUTsJ729K+KmKrPQ1es0XSdydhoN8xs44+IVy4zrv78ESNC28b
+	 S4Jzk+I123ZdQ==
+Date: Tue, 13 May 2025 11:24:51 +0100
+From: Lee Jones <lee@kernel.org>
+To: Krzysztof Kozlowski <krzysztof.kozlowski@linaro.org>
+Cc: Ivan Vecera <ivecera@redhat.com>, netdev@vger.kernel.org,
+	Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+	Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Conor Dooley <conor+dt@kernel.org>,
+	Prathosh Satish <Prathosh.Satish@microchip.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>, Andy Shevchenko <andy@kernel.org>,
+	Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+Subject: Re: [PATCH net-next v8 1/8] dt-bindings: dpll: Add DPLL device and
+ pin
+Message-ID: <20250513102451.GI2936510@google.com>
+References: <20250507152504.85341-1-ivecera@redhat.com>
+ <20250507152504.85341-2-ivecera@redhat.com>
+ <84410317-6f83-46a9-aa5c-a84947b89f00@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-ID: <20250513-qcom_ipq_ppe-v4-14-4fbe40cbbb71@quicinc.com>
-References: <20250513-qcom_ipq_ppe-v4-0-4fbe40cbbb71@quicinc.com>
-In-Reply-To: <20250513-qcom_ipq_ppe-v4-0-4fbe40cbbb71@quicinc.com>
-To: Andrew Lunn <andrew+netdev@lunn.ch>,
-        "David S. Miller"
-	<davem@davemloft.net>,
-        Eric Dumazet <edumazet@google.com>, Jakub Kicinski
-	<kuba@kernel.org>,
-        Paolo Abeni <pabeni@redhat.com>, Rob Herring
-	<robh@kernel.org>,
-        Krzysztof Kozlowski <krzk+dt@kernel.org>,
-        Conor Dooley
-	<conor+dt@kernel.org>, Lei Wei <quic_leiwei@quicinc.com>,
-        Suruchi Agarwal
-	<quic_suruchia@quicinc.com>,
-        Pavithra R <quic_pavir@quicinc.com>,
-        "Simon
- Horman" <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
-        Kees Cook
-	<kees@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        "Philipp
- Zabel" <p.zabel@pengutronix.de>
-CC: <linux-arm-msm@vger.kernel.org>, <netdev@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        <linux-doc@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
-        <quic_kkumarcs@quicinc.com>, <quic_linchen@quicinc.com>,
-        <srinivas.kandagatla@linaro.org>, <bartosz.golaszewski@linaro.org>,
-        <john@phrozen.org>, Luo Jie <quic_luoj@quicinc.com>
-X-Mailer: b4 0.14.1
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1747130311; l=880;
- i=quic_luoj@quicinc.com; s=20250209; h=from:subject:message-id;
- bh=AJF5DL3Pt5AO0mBUIrRPAreWbf8FJCsW/TNx0q0i4bI=;
- b=Uvsb5TY99W4dS757PWHK/7KdqU97PSzVnlBvKNygAqQyNcY6M72ntVfdllzM3LUmcOOemvKij
- H+pYIbQvRD2ACuv1FRd7afd+tAfkL/jO4q3ptXyeYqUGAnddxXGnTig
-X-Developer-Key: i=quic_luoj@quicinc.com; a=ed25519;
- pk=pzwy8bU5tJZ5UKGTv28n+QOuktaWuriznGmriA9Qkfc=
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01b.na.qualcomm.com (10.46.141.250)
-X-QCInternal: smtphost
-X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
-X-Proofpoint-GUID: VoRkG00_7tTZT3bthaLPoKQz7m-3N92E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTEzMDA5NCBTYWx0ZWRfXyYsy4uDMWCzV
- KBOgN+rSnHL0za7kEphXAqeDu3XOf1YXuE0B9OWVjm3/pPqPss8OXD1hIrrMRvHGUAOj2rHzWls
- yuBRB+ZKFwHpO8eaTSsV/GwXSGerMXjP8DmAijnn3mac15Np1Uk4Wbpqh3hfkmu54uXEpTzHdem
- CCrdz9CU51I0fESQHtubrcX9ehsWwt+X2xXBnAqUgkrrqdByDsnHE/8eNdO/cBWBjk0XTQTacA3
- 3cs2ernB3pCGeMzo9cFmx+jkoXV4RTfWY//OQ2FInQZw6NwLIueQzKZRWdeeJPJyRnX8/yoWpId
- Tg697l8xxGOMctnICnsApQb9ny62TB4QdAR3km1BAB51ketVP8ScclrrRo0Z/2s5atX3KfLuIr+
- D/GRUOGrtaeZfknTKQsWHREzoQi/XkQrg1u/LHZPakdqFGRiuYSMELoKphksr51VyvRn0ab6
-X-Authority-Analysis: v=2.4 cv=TrfmhCXh c=1 sm=1 tr=0 ts=6823181c cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=COk6AnOGAAAA:8
- a=VwQbUJbxAAAA:8 a=pGLkceISAAAA:8 a=0j1aX1m3PaPPFVcKZKQA:9 a=QEXdDO2ut3YA:10
- a=TjNXssC_j7lpFel5tvFf:22
-X-Proofpoint-ORIG-GUID: VoRkG00_7tTZT3bthaLPoKQz7m-3N92E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
- definitions=2025-05-12_07,2025-05-09_01,2025-02-21_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 clxscore=1015 spamscore=0 malwarescore=0 mlxlogscore=686
- suspectscore=0 phishscore=0 bulkscore=0 lowpriorityscore=0 adultscore=0
- mlxscore=0 impostorscore=0 classifier=spam authscore=0 authtc=n/a authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2504070000
- definitions=main-2505130094
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <84410317-6f83-46a9-aa5c-a84947b89f00@linaro.org>
 
-Add maintainer entry for PPE (Packet Process Engine) driver
-supported for Qualcomm IPQ SoCs.
+On Thu, 08 May 2025, Krzysztof Kozlowski wrote:
 
-Signed-off-by: Luo Jie <quic_luoj@quicinc.com>
----
- MAINTAINERS | 8 ++++++++
- 1 file changed, 8 insertions(+)
+> On 07/05/2025 17:24, Ivan Vecera wrote:
+> > Add a common DT schema for DPLL device and its associated pins.
+> > The DPLL (device phase-locked loop) is a device used for precise clock
+> > synchronization in networking and telecom hardware.
+> > 
+> > The device includes one or more DPLLs (channels) and one or more
+> > physical input/output pins.
+> > 
+> One patchset per 24h. You already sent it today and immediately send
+> next version without giving time for any actual review.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 873aa2cce4d7..57c00f9d7753 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19576,6 +19576,14 @@ S:	Maintained
- F:	Documentation/devicetree/bindings/mtd/qcom,nandc.yaml
- F:	drivers/mtd/nand/raw/qcom_nandc.c
- 
-+QUALCOMM PPE DRIVER
-+M:	Luo Jie <quic_luoj@quicinc.com>
-+L:	netdev@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/net/qcom,ipq9574-ppe.yaml
-+F:	Documentation/networking/device_drivers/ethernet/qualcomm/ppe/ppe.rst
-+F:	drivers/net/ethernet/qualcomm/ppe/
-+
- QUALCOMM QSEECOM DRIVER
- M:	Maximilian Luz <luzmaximilian@gmail.com>
- L:	linux-arm-msm@vger.kernel.org
+I just came by to say exactly the same.
+
+There is no rush.  Please slow down.
+
+This is not going to be applied for v6.16 and there is much to discuss.
 
 -- 
-2.34.1
-
+Lee Jones [李琼斯]
