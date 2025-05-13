@@ -1,150 +1,130 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f176.google.com (mail-qt1-f176.google.com [209.85.160.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DE9212FA2
-	for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 09:12:12 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 01F99214232
+	for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 09:15:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747127534; cv=none; b=ux1Bk/5v1IkFs6R8dbhBje5iNliqeBv86grwpl2cOYc3T+cNV4GdRS9kg+JfLynsH5T2BOAaHuJbBtgVmtC8u0lTDklKxDesSwa1WgGisKlpKzuEeB9iivVyzEV1D29eGVZUKRJ/o14DZLRRD3G49xGbyTAUddEOEA6UHWwlkoY=
+	t=1747127709; cv=none; b=Ndm3+WVtGHHBOaZWoPPu66BMll5ATarOY6d2x5La9NyoyEOyE7P3cnEYB0ciIdV+ka99pz9jd8OyUHOvRV9iEfOzCYefyT5e/nrRp7M9mnc8Ys/4kvMiOWNvT6C+wgI4uWjMvvfq9lgiB7FDLCTNK/q/SLcLYYjUJwP7Pt8AxBY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747127534; c=relaxed/simple;
-	bh=WDlpFsWbDcfzZLGnp/d3QNExJHb0unwOgNVXbvwod6g=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ptJHkUlBt6A4nPb8lXHwCx/orH0eQu2WRlsgqQS8R5KT7e6XBsCSzZL1s8LSp23T1iyMTlLNk1hOb/45Np4iL+XFsP4JM/EXhDNrANSPcZTd4uU+AbWwiAspNbFiEqDYgaGXb4cC0wVNVHwEgi2l33Z2hkQ897005uOSXyj0+GY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CACUYGAj; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747127709; c=relaxed/simple;
+	bh=dCEwNwEt7AuPcFjOYYqXUKN9++me11ouKXeEDU4JZv0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=f6wvF2pMe0M5zBViT8ttRLjv1JJsSnsG3JTWaMVG2H9LamnX7W0wUDluTKWVBgXAoA4tXIlPnFzUMc3EZP8DxFt2jW7QQcZK832U3E8wp0r+t36xgSHCMCZLIHwAsGJYOGDw+QyvBVCOkO+Dlefl0YSjXLRsm3pJhInqxrntNIg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Jdl0YN6z; arc=none smtp.client-ip=209.85.160.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CACUYGAj"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747127531;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=lSKXGvXgaIuXifWFUaLvMDff9Ik6twAKIvR+Y496sQE=;
-	b=CACUYGAjsm56aOJwv6UP3RGQM2dzjQ896IV1q1FoIdH1qXZEiZiFqZgbtWDAzIbsNo6lGp
-	TajrgtCE+ZyKdzUmVwWMVA4JzWokwTFOKNf4R/IAA5wd9FHrRG6LmmDkz/B3hsWJafUY6a
-	hYAGkAN7e7HLHb1rS8bQfpftAUK7yoc=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-590-Ai2elkrIOdq8HcnpNChj2w-1; Tue, 13 May 2025 05:12:10 -0400
-X-MC-Unique: Ai2elkrIOdq8HcnpNChj2w-1
-X-Mimecast-MFC-AGG-ID: Ai2elkrIOdq8HcnpNChj2w_1747127528
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-442cdf07ad9so22222765e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 02:12:08 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Jdl0YN6z"
+Received: by mail-qt1-f176.google.com with SMTP id d75a77b69052e-4775ccf3e56so77790911cf.0
+        for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 02:15:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1747127707; x=1747732507; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=4ihrFZxGWgoMburH5YAF+Sr/kylX3rOORHrh4dczbaY=;
+        b=Jdl0YN6znOpsaNcr/4Y+IU+mukRJybWqwj9SA9se6mTBMEacbqPEIrp4xJOb7w4DZW
+         tF9u+FRecvrs2dwHP7vobbMcXp2vAGOxIh8+tPgNQ1bJPK9v42+J/b1D75lBzq3VTBAo
+         FkW/Vv5JpRL5FeQ2qILC9yAb4ZwluKicFPyp0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747127528; x=1747732328;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=lSKXGvXgaIuXifWFUaLvMDff9Ik6twAKIvR+Y496sQE=;
-        b=wqyagQROlSGzIcoGEaZ0A7KGOzx1DvIq+whMjKMjwG7fwf45H0MaiHcnV93b5rojLp
-         dWelqlfbS+bxH4K6xoT9paxTdCukrdVsza99kovQfaqOCCqi05UjBbkm9ezdgRymojW+
-         UvN9S5SMytqnW6aL6h19K4nHHc9CrmXPI0FwPre2CfHknwPsrizOCEmgYM5h2os3mTyU
-         /XwxFGcq6Zheez36aKdqWvnhUuGX6RjvNobrXgWbXMQb8ycK1qVFLuSKL4LclJb0GhZO
-         maQw/D9/VsSMkVBU1eMI2f1WXg91cyGUVQ4fUXRNufs0KSE4fQ+mi9D1c+jjIjIOlYhe
-         cVQg==
-X-Forwarded-Encrypted: i=1; AJvYcCVRixIj5xyIDmEkvWPbo/DZcADb3/4snky9YCdCOU2QVkT5w7VP4EttN8TirDVJiMAx8nFnqIDM1Xw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxCDVJ2ngdAMQcYhFjj/eHK5vzPzogA/UoT+SgjfLmsnqZ+/Moq
-	6YnfbFCjV6LsojgZ19b/yEISqiXo5q34v4bZFXHo3Q1t60CIwu98x6gEYXUrqzYt9d8FU1yJvSq
-	dK42iOdRfkq7z6wkzp/E5bWo9q98havasZDD2YR+4Tzeadp0+4K3DnMrjVQ==
-X-Gm-Gg: ASbGncuSwLx02cfPFfz3j4F/gxHHzxu7VT/bZhcYnHOoYY/BT81GjNx/mtSIroQ8m2C
-	9lzvyPLbWiBJEnkggF1GkUyXt99FVc8CTqRRrHai6xjEZmzTFNsy2VL5iEwvBuUYnamBkXFdvxj
-	EFU5vPfEcKDKNg+ng6xDOdo+KS/35E2xj5d5rvPbmadLPxH9/2zWcvBUXIW7jADvHkba+EblEID
-	On7IoKWBPPKrD86rKCE4sT5nwktFo+amzyjKMh2M8dXGHKuo+dlcMAEz1BchgWYFjVR4TJBx1D3
-	6n2dOvgdaBsyMVO7uA4=
-X-Received: by 2002:a05:600c:4454:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-442d6d44aa7mr175600085e9.10.1747127527692;
-        Tue, 13 May 2025 02:12:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF7UByCIdv1fV6GeTCbxFUgA3MTskc+HSiE9ez+aliKyTiJ4Fv/7gBQk/cE3vpwwsDlBoiWaw==
-X-Received: by 2002:a05:600c:4454:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-442d6d44aa7mr175599485e9.10.1747127527311;
-        Tue, 13 May 2025 02:12:07 -0700 (PDT)
-Received: from ?IPV6:2a0d:3341:cc59:6510::f39? ([2a0d:3341:cc59:6510::f39])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442ea367102sm36670345e9.3.2025.05.13.02.12.05
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 02:12:06 -0700 (PDT)
-Message-ID: <085a78fc-acfc-4a86-9dbf-18795ad68b4c@redhat.com>
-Date: Tue, 13 May 2025 11:12:04 +0200
+        d=1e100.net; s=20230601; t=1747127707; x=1747732507;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=4ihrFZxGWgoMburH5YAF+Sr/kylX3rOORHrh4dczbaY=;
+        b=MdxFrUBL/x2nju2tToPDXwHvFF3of7JShkc2jHjbMYqrNUf6A6bldJUr7Tqe52Kf7Y
+         fNiuFfQxRAb2gXPuK1IXl+Xdevk5Kqh9o8AfulH7QdqEvEnjJ1px2UfLcQf77aW/C+eR
+         FDhWL9ix+ax2UfRTaaxu3ahfe8vukugmYecCILoWtz2xe0ZkddEAMRjWE0HVEd7GWMcS
+         VigXSlS6YHtTf2rnGv+6eyhbL32o19IGnhAbuBg7LrtZV8a+1yOuA0FkonlPEqWF5Tkk
+         cfxBo2SgoJdpuxAelqQQBnkmRa3nfw95X+dVh8R4qnnjPvpVHXiYUIVXQeKSI5PiJ3Xx
+         oh2g==
+X-Forwarded-Encrypted: i=1; AJvYcCV9MAHO9jN+WELup10xDye3id3Cxaud5+PEddzyTTVpy6tIjXxCp4SK1I2Nejj8/FeAJ+qXW/WWJIA=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzx+vVlVMuGhdmzgIWcC5wztZGMpeTf/J+mvZjLVrvivN4ije5z
+	SzrIkgJZdkoVkglCVZUllP09N66CHnXZ4bYBp47mzqg2Sv3hm/S3bywmvbeOt/VMENirlmfjzO8
+	G6eEVSgRA69u1ZSdYfd/SsuxdduzV3JUi88fPJQ==
+X-Gm-Gg: ASbGnctUAD0eMWXLk6UNpzPjnsrjCqlLSDrOlv9KSajdWy75O+QRCGolcJn0JkHQ/er
+	4tGkUvpJj+fl8a1NAAgJQ2rQrbFr1WSZN2fF3wkXI6RVl8OilBJdMkxpqx25v/Pz21xBJK1w+Vu
+	rro6uFYIMc5wJg6F1+ELHRO3iYRXzXuC0=
+X-Google-Smtp-Source: AGHT+IE6dZiqGjVqQyApS4pbcBalFyHHbwwvSoEvnbF7u5bEK2A/GpSwhcwNVYs+CDOmzCE0rRDdqSfuQIhXOHmw+f0=
+X-Received: by 2002:a05:622a:1a93:b0:494:6eed:37b1 with SMTP id
+ d75a77b69052e-4948732d7bdmr32223981cf.7.1747127706802; Tue, 13 May 2025
+ 02:15:06 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v14 4/9] net: devmem: Implement TX path
-To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- io-uring@vger.kernel.org, virtualization@lists.linux.dev,
- kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
-Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
- <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
- Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
- Jeroen de Borst <jeroendb@google.com>,
- Harshitha Ramamurthy <hramamurthy@google.com>,
- Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
- <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
- Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>,
- Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>,
- Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
- =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
- Stefan Hajnoczi <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
- sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
- Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
- <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>,
- Kaiyuan Zhang <kaiyuanz@google.com>
-References: <20250508004830.4100853-1-almasrymina@google.com>
- <20250508004830.4100853-5-almasrymina@google.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250508004830.4100853-5-almasrymina@google.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+References: <20250421013346.32530-1-john@groves.net> <20250421013346.32530-14-john@groves.net>
+ <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
+ <20250424143848.GN25700@frogsfrogsfrogs> <5rwwzsya6f7dkf4de2uje2b3f6fxewrcl4nv5ba6jh6chk36f3@ushxiwxojisf>
+ <20250428190010.GB1035866@frogsfrogsfrogs> <CAJfpegtR28rH1VA-442kS_ZCjbHf-WDD+w_FgrAkWDBxvzmN_g@mail.gmail.com>
+ <20250508155644.GM1035866@frogsfrogsfrogs>
+In-Reply-To: <20250508155644.GM1035866@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Tue, 13 May 2025 11:14:55 +0200
+X-Gm-Features: AX0GCFsg_IXaIo9w2jh-HmI1-M2cVqc9zT7I6qGhspawMoCH4j3pG6URFnq5ts0
+Message-ID: <CAJfpegt4drCVNomOLqcU8JHM+qLrO1JwaQbp69xnGdjLn5O6wA@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Luis Henriques <luis@igalia.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On 5/8/25 2:48 AM, Mina Almasry wrote:
-> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
-> index 86c427f166367..0ae265d39184e 100644
-> --- a/net/ipv4/tcp.c
-> +++ b/net/ipv4/tcp.c
-> @@ -1059,6 +1059,7 @@ int tcp_sendmsg_fastopen(struct sock *sk, struct msghdr *msg, int *copied,
->  
->  int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
->  {
-> +	struct net_devmem_dmabuf_binding *binding = NULL;
->  	struct tcp_sock *tp = tcp_sk(sk);
->  	struct ubuf_info *uarg = NULL;
->  	struct sk_buff *skb;
-> @@ -1066,11 +1067,23 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
->  	int flags, err, copied = 0;
->  	int mss_now = 0, size_goal, copied_syn = 0;
->  	int process_backlog = 0;
-> +	bool sockc_valid = true;
->  	int zc = 0;
->  	long timeo;
->  
->  	flags = msg->msg_flags;
->  
-> +	sockc = (struct sockcm_cookie){ .tsflags = READ_ONCE(sk->sk_tsflags) };
-> +	if (msg->msg_controllen) {
-> +		err = sock_cmsg_send(sk, msg, &sockc);
-> +		if (unlikely(err))
-> +			/* Don't return error until MSG_FASTOPEN has been
-> +			 * processed; that may succeed even if the cmsg is
-> +			 * invalid.
-> +			 */
-> +			sockc_valid = false;
+On Thu, 8 May 2025 at 17:56, Darrick J. Wong <djwong@kernel.org> wrote:
 
-It occurred to me a bit too late that this chunk of code could be
-cleaned-up a bit using a 'sockc_err' variable to store the
-sock_cmsg_send() return code instead of the 'sockc_valid' bool. It
-should avoid a conditional here and in the later error check.
+> Well right now my barely functional prototype exposes this interface
+> for communicating mappings to the kernel.  I've only gotten as far as
+> exposing the ->iomap_{begin,end} and ->iomap_ioend calls to the fuse
+> server with no caching, because the only functions I've implemented so
+> far are FIEMAP, SEEK_{DATA,HOLE}, and directio.
+>
+> So basically the kernel sends a FUSE_IOMAP_BEGIN command with the
+> desired (pos, count) file range to the fuse server, which responds with
+> a struct fuse_iomap_begin_out object that is translated into a struct
+> iomap.
+>
+> The fuse server then responds with a read mapping and a write mapping,
+> which tell the kernel from where to read data, and where to write data.
 
-(just to mention a possible follow-up! no need to repost!)
+So far so good.
+
+The iomap layer is non-caching, right?   This means that e.g. a
+direct_io request spanning two extents will result in two separate
+requests, since one FUSE_IOMAP_BEGIN can only return one extent.
+
+And the next direct_io request may need to repeat the query for the
+same extent as the previous one if the I/O boundary wasn't on the
+extent boundary (which is likely).
+
+So some sort of caching would make sense, but seeing the multitude of
+FUSE_IOMAP_OP_ types I'm not clearly seeing how that would look.
+
+> I'm a little confused, are you talking about FUSE_NOTIFY_INVAL_INODE?
+> If so, then I think that's the wrong layer -- INVAL_INODE invalidates
+> the page cache, whereas I'm talking about caching the file space
+> mappings that iomap uses to construct bios for disk IO, and possibly
+> wanting to invalidate parts of that cache to force the kernel to upcall
+> the fuse server for a new mapping.
+
+Maybe I'm confused, as the layering is not very clear in my head yet.
+
+But in your example you did say that invalidation of data as well as
+mapping needs to be invalidated, so I thought that the simplest thing
+to do is to just invalidate the cached mapping from
+FUSE_NOTIFY_INVAL_INODE as well.
 
 Thanks,
-
-Paolo
-
+Miklos
