@@ -1,133 +1,163 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912532BE114;
-	Tue, 13 May 2025 16:06:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2117515533F;
+	Tue, 13 May 2025 16:24:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747152421; cv=none; b=JsWYu593VdG3vpGQ/drhiKtUMqnNnfF10dOgBpt9BDfzwouP5nWElaZS6yCCc2f76iXBpxoORxriLwhVTHhrzukxJkRHy6xQ2IMKX9ULZKQVEPciie30VzJNoddbFpKEwa9HeZVyxtk2v+HhbNjlUHXL0jILIe/Zui6xl/IVTYY=
+	t=1747153485; cv=none; b=KPaTDW9rh1uis5XvlPDPySymkLyv+rKjV9XPUQ+kMkE+9r7wPEPG/fElHUFSvy6KbGDzFgcVcaTCV7TtxuUVJy770/VTbmRrurbh388CmZNuLEMumamS9MM2tpSlCLVx+FWcYVNI1yO+Se/K2FLQQKF4vyxOU2H7a6AbcuDVIvk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747152421; c=relaxed/simple;
-	bh=AtjmzhmTK2XEOwq1jRggREoKhGneutApb7VFOMLM7JU=;
-	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=oqDomdkXM1jrsQXP+7bctKAdJhzDkzTIk7SYJBQw23d6d5uiQJYdBkMltWl88OSRWEav2drQ9RCrpt4VV9efuxw0T+XHdUhjue5K2tUU5jcck+ZNMFLynw5ppB1jTpovHm3snKVWYWQrWXYFLtF9cyOde0Wu6UepqBdcFaEjEUo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Zxh7T4f9Wz6K8xB;
-	Wed, 14 May 2025 00:02:13 +0800 (CST)
-Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
-	by mail.maildlp.com (Postfix) with ESMTPS id 355F11402EA;
-	Wed, 14 May 2025 00:06:54 +0800 (CST)
-Received: from localhost (10.220.132.170) by frapeml500008.china.huawei.com
- (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 13 May
- 2025 18:06:51 +0200
-Date: Tue, 13 May 2025 17:06:48 +0100
-From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-To: <shiju.jose@huawei.com>
-CC: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
-	<dave@stgolabs.net>, <dave.jiang@intel.com>, <alison.schofield@intel.com>,
-	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
-	<linux-edac@vger.kernel.org>, <linux-doc@vger.kernel.org>, <bp@alien8.de>,
-	<tony.luck@intel.com>, <lenb@kernel.org>, <Yazen.Ghannam@amd.com>,
-	<mchehab@kernel.org>, <nifan.cxl@gmail.com>, <linuxarm@huawei.com>,
-	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
-	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
-	<wanghuiqiang@huawei.com>
-Subject: Re: [PATCH v4 2/8] cxl: Update prototype of function
- get_support_feature_info()
-Message-ID: <20250513170648.0000517e@huawei.com>
-In-Reply-To: <20250502084517.680-3-shiju.jose@huawei.com>
-References: <20250502084517.680-1-shiju.jose@huawei.com>
-	<20250502084517.680-3-shiju.jose@huawei.com>
-X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
+	s=arc-20240116; t=1747153485; c=relaxed/simple;
+	bh=5ExU0elbNPopRtmR4qkqMuHkiy7iFHwMixxy23Z1xnE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=plX7UVt+lTVhnl2zy2YjYgQ57/iQ/g2ZjH09y3IM2xVr1HKsq6m202jHORx8IsDnNBHoL5BE94tdqihjEo+4U9rcr2P2LajhUCMxBGH3A2LZtQVbiM0K5XXzS3OHPgrOf11l+dyWrod2Gm6UztQkKjvFh4kCa7yn2n/ic9AtAYQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=PujOiI0d; arc=none smtp.client-ip=13.77.154.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="PujOiI0d"
+Received: from [10.137.184.60] (unknown [131.107.1.188])
+	by linux.microsoft.com (Postfix) with ESMTPSA id 5A823201DB12;
+	Tue, 13 May 2025 09:24:43 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5A823201DB12
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
+	s=default; t=1747153483;
+	bh=hPw5Z2uvInKn7g/gZE/EvdCBuTQHsMF4h31bQ1SEDak=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=PujOiI0dqkEedcDbArZnlNr4qQUkjW6EgaOn59dT9qxC2WYV6oog4dOtjs3YNI8TE
+	 iAo+tTqsxqY0YkeqIDjtwXto1i0zsLHljx+IWZtRP3rsFwkrdIs0GdGWeX8X0pmiB1
+	 aqecwOK6IVebzWSG+HdIF3zto+Z4WMHhZemZ+tA8=
+Message-ID: <dd988a9d-edad-4362-a4c2-a6e6b1667e9b@linux.microsoft.com>
+Date: Tue, 13 May 2025 09:24:43 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
- frapeml500008.china.huawei.com (7.182.85.71)
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH hyperv-next v2 1/4] Documentation: hyperv: Confidential
+ VMBus
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>
+Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
+ sunilmut@microsoft.com, arnd@arndb.de, bp@alien8.de,
+ catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com,
+ decui@microsoft.com, haiyangz@microsoft.com, hpa@zytor.com,
+ kys@microsoft.com, mingo@redhat.com, tglx@linutronix.de, wei.liu@kernel.org,
+ will@kernel.org, x86@kernel.org, linux-hyperv@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org
+References: <20250511230758.160674-1-romank@linux.microsoft.com>
+ <20250511230758.160674-2-romank@linux.microsoft.com>
+ <5d21de5c-2da2-4a33-8d30-0475bc0edf4b@oracle.com>
+Content-Language: en-US
+From: Roman Kisel <romank@linux.microsoft.com>
+In-Reply-To: <5d21de5c-2da2-4a33-8d30-0475bc0edf4b@oracle.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Fri, 2 May 2025 09:45:10 +0100
-<shiju.jose@huawei.com> wrote:
 
-> From: Shiju Jose <shiju.jose@huawei.com>
+
+On 5/11/2025 10:22 PM, ALOK TIWARI wrote:
 > 
-> Add following changes to function get_support_feature_info()
-> 1. Make generic to share between cxl-fwctl and cxl-edac paths.
-> 2. Rename get_support_feature_info() to cxl_feature_info()
-> 3. Change parameter const struct fwctl_rpc_cxl *rpc_in to
->    const uuid_t *uuid.
 > 
-> Suggested-by: Dan Williams <dan.j.williams@intel.com>
-> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
-Oops. I missed giving a tag on this one.
-
-Seems fine to me.
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-
-Thanks for the poke. 
-
-> ---
->  drivers/cxl/core/core.h     |  2 ++
->  drivers/cxl/core/features.c | 17 +++++++----------
->  2 files changed, 9 insertions(+), 10 deletions(-)
+> On 12-05-2025 04:37, Roman Kisel wrote:
+>> Define what the confidential VMBus is and describe what advantages
+>> it offers on the capable hardware.
+>>
+>> Signed-off-by: Roman Kisel <romank@linux.microsoft.com>
+>> ---
+>>   Documentation/virt/hyperv/vmbus.rst | 41 +++++++++++++++++++++++++++++
+>>   1 file changed, 41 insertions(+)
+>>
+>> diff --git a/Documentation/virt/hyperv/vmbus.rst b/Documentation/virt/ 
+>> hyperv/vmbus.rst
+>> index 1dcef6a7fda3..ca2b948e5070 100644
+>> --- a/Documentation/virt/hyperv/vmbus.rst
+>> +++ b/Documentation/virt/hyperv/vmbus.rst
+>> @@ -324,3 +324,44 @@ rescinded, neither Hyper-V nor Linux retains any 
+>> state about
+>>   its previous existence. Such a device might be re-added later,
+>>   in which case it is treated as an entirely new device. See
+>>   vmbus_onoffer_rescind().
+>> +
+>> +Confidential VMBus
+>> +------------------
+>> +
 > 
-> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
-> index 17b692eb3257..613cce5c4f7b 100644
-> --- a/drivers/cxl/core/core.h
-> +++ b/drivers/cxl/core/core.h
-> @@ -124,6 +124,8 @@ int cxl_acpi_get_extended_linear_cache_size(struct resource *backing_res,
->  					    int nid, resource_size_t *size);
->  
->  #ifdef CONFIG_CXL_FEATURES
-> +struct cxl_feat_entry *
-> +cxl_feature_info(struct cxl_features_state *cxlfs, const uuid_t *uuid);
->  size_t cxl_get_feature(struct cxl_mailbox *cxl_mbox, const uuid_t *feat_uuid,
->  		       enum cxl_get_feat_selection selection,
->  		       void *feat_out, size_t feat_out_size, u16 offset,
-> diff --git a/drivers/cxl/core/features.c b/drivers/cxl/core/features.c
-> index 1498e2369c37..a83a2214a136 100644
-> --- a/drivers/cxl/core/features.c
-> +++ b/drivers/cxl/core/features.c
-> @@ -355,17 +355,11 @@ static void cxlctl_close_uctx(struct fwctl_uctx *uctx)
->  {
->  }
->  
-> -static struct cxl_feat_entry *
-> -get_support_feature_info(struct cxl_features_state *cxlfs,
-> -			 const struct fwctl_rpc_cxl *rpc_in)
-> +struct cxl_feat_entry *
-> +cxl_feature_info(struct cxl_features_state *cxlfs,
-> +		 const uuid_t *uuid)
->  {
->  	struct cxl_feat_entry *feat;
-> -	const uuid_t *uuid;
-> -
-> -	if (rpc_in->op_size < sizeof(uuid))
-> -		return ERR_PTR(-EINVAL);
-> -
-> -	uuid = &rpc_in->set_feat_in.uuid;
->  
->  	for (int i = 0; i < cxlfs->entries->num_features; i++) {
->  		feat = &cxlfs->entries->ent[i];
-> @@ -547,7 +541,10 @@ static bool cxlctl_validate_set_features(struct cxl_features_state *cxlfs,
->  	struct cxl_feat_entry *feat;
->  	u32 flags;
->  
-> -	feat = get_support_feature_info(cxlfs, rpc_in);
-> +	if (rpc_in->op_size < sizeof(uuid_t))
-> +		return ERR_PTR(-EINVAL);
-> +
-> +	feat = cxl_feature_info(cxlfs, &rpc_in->set_feat_in.uuid);
->  	if (IS_ERR(feat))
->  		return false;
->  
+> The purpose and benefits of the Confidential VMBus are not clearly stated.
+> for example:
+> "Confidential VMBus provides a secure communication channel between 
+> guest and paravisor, ensuring that sensitive data is protected from 
+> hypervisor-level access through memory encryption and register state 
+> isolation."
+> 
+>> +The confidential VMBus provides the control and data planes where
+>> +the guest doesn't talk to either the hypervisor or the host. Instead,
+>> +it relies on the trusted paravisor. The hardware (SNP or TDX) encrypts
+>> +the guest memory and the register state also measuring the paravisor
+> 
+> s/alos/while and s/via using/using
+> "register state while measuring the paravisor image using the platform 
+> security"
+> 
+>> +image via using the platform security processor to ensure trusted and
+>> +confidential computing.
+>> +
+>> +To support confidential communication with the paravisor, a VMBus client
+>> +will first attempt to use regular, non-isolated mechanisms for 
+>> communication.
+>> +To do this, it must:
+>> +
+>> +* Configure the paravisor SIMP with an encrypted page. The paravisor 
+>> SIMP is
+>> +  configured by setting the relevant MSR directly, without using GHCB 
+>> or tdcall.
+>> +
+>> +* Enable SINT 2 on both the paravisor and hypervisor, without setting 
+>> the proxy
+>> +  flag on the paravisor SINT. Enable interrupts on the paravisor SynIC.
+>> +
+>> +* Configure both the paravisor and hypervisor event flags page.
+>> +  Both pages will need to be scanned when VMBus receives a channel 
+>> interrupt.
+>> +
+>> +* Send messages to the paravisor by calling HvPostMessage directly, 
+>> without using
+>> +  GHCB or tdcall.
+>> +
+>> +* Set the EOM MSR directly in the paravisor, without using GHCB or 
+>> tdcall.
+>> +
+>> +If sending the InitiateContact message using non-isolated 
+>> HvPostMessage fails,
+>> +the client must fall back to using the hypervisor synic, by using the 
+>> GHCB/tdcall
+>> +as appropriate.
+>> +
+>> +To fall back, the client will have to reconfigure the following:
+>> +
+>> +* Configure the hypervisor SIMP with a host-visible page.
+>> +  Since the hypervisor SIMP is not used when in confidential mode,
+>> +  this can be done up front, or only when needed, whichever makes 
+>> sense for
+>> +  the particular implementation.
+> 
+> "SIMP is not used in confidential mode,
+> this can be done either upfront or only when needed, depending on the 
+> specific implementation."
+> 
+>> +
+>> +* Set the proxy flag on SINT 2 for the paravisor.
+> 
+
+Alok, thanks for you continued interest and support! I'll incorporate
+your suggestions in the next version of the patchset, great points!
+
+> 
+> Thanks,
+> Alok
+> 
+
+-- 
+Thank you,
+Roman
 
