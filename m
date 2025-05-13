@@ -1,125 +1,111 @@
-Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 0305979D0;
-	Tue, 13 May 2025 16:31:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=13.77.154.182
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB899126BF7;
+	Tue, 13 May 2025 16:34:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747153898; cv=none; b=f9d5Yc2wpuKYU5cPuDlTnwDqf626SyCfsmEtdj40/0FRGJ6X6w6PrGyXGo7u5W7wXdXy0IXUOH5VzaNO90Xz3/YaOjlhtrD0cAIUqMk8dlhP7NgNRmB4DWLsB+H/N9f+zsLQhPk++wLcaLPcwtCJknwE+Ux7j5lZDAZDdxsOmVw=
+	t=1747154070; cv=none; b=FrcDe4E3i1Ic17Re2ACKCdL++Il3mx3M8MjeanWbY30g/I8l4+P3GAx4LFUrutjps23IJyeagoGrHBdjIOArBzBxrEdedIhwR1SUnvcyAyEe7OFH2SwcaK+Zqva3tEaiBzIq/t8yF93rMY6GDxP9DFgmH4B5nkLZKZYCpnHYLJI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747153898; c=relaxed/simple;
-	bh=aBUoZJFpEpmEz0s0BhTVSS3PEUvzBXAhyJZAXhfePm0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=jjIvkWtYnXZoU10fYtFSxYKQQIxk792QWx0rJlaePKFWM9s7Wu2q7CkHJVHsWoH4hTvfZe/74wioODA/b21LLOE+YT5yAYSuTtzgnYp7PANtRlE5HjYmcjxXe5Xi5jltcvkwR7XhBxWcsnNnj91X2ivy9W1kmFOgrs6+777A55A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com; spf=pass smtp.mailfrom=linux.microsoft.com; dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b=PxGNd/Dd; arc=none smtp.client-ip=13.77.154.182
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.microsoft.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.microsoft.com
+	s=arc-20240116; t=1747154070; c=relaxed/simple;
+	bh=J6kUo0TnqtmYRJDJzmYIDRMEGGma9cxhZveycS1W0+k=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=TlFNjmXi8g5v5icXnpmjk4evjdXh4bnZ96wA8Map+sDZajEw4KGX4BkCKRj1Pn5agYEqn9IvtEuicc5DkHvuwxSCHCJXqDYP0CgeEeTeMPGSvBeAEyq6JbOGP4zNhcX6ZfeMClu92kxAldoQF41OuUtpeg/ja8SOND7cuNvCnLY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qhb5xrF4; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.microsoft.com header.i=@linux.microsoft.com header.b="PxGNd/Dd"
-Received: from [10.137.184.60] (unknown [131.107.1.188])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 5B716201DB28;
-	Tue, 13 May 2025 09:31:36 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 5B716201DB28
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1747153896;
-	bh=xeNP9qTG4NblI43yV9gDsR1NWq0U1vL5VHxMC8sh8Ak=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
-	b=PxGNd/DdbrmBW7NsLSjWGWpIQwTV5jQXEIrAyEsEvUtoZo91/T7H8HFZ5U+7WAKE8
-	 e/EgCpq2DQYeg+7CgV4P+eS2XizEApZfcH24R6hkNyEoAmvcRya+7SItd9iodwFLNI
-	 Z66jY48yWnl7EOg9vSwruk0X6yHKwqaeLDB0bAdA=
-Message-ID: <a7ad48ca-2346-4039-a3a9-f93317b2d1a1@linux.microsoft.com>
-Date: Tue, 13 May 2025 09:31:36 -0700
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qhb5xrF4"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 8EEF841086
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1747154062; bh=k0Gf3XhZLNWahCbpVInSPfr3HmHEAcs+CEs7roMgVVs=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=qhb5xrF4vKb/jrBZDeZBTLi6lov9cupPzSyPIdXQr6iAi6DpOj8ORcV3ilsOgTN8U
+	 c5rC07L/k/D+uBF7Drefz+g4SVhPHGhFfmv/qQg46jznhhyT7qAhVQPEG0oSCYKq6m
+	 lRUonCphnylNu7yN9CTRvWB1JTXAaNJzgis8nlvlWBF7bWFxxwh6IHhSR8y27qTM5t
+	 3wBJl71wUK9v858kh6YZytZHsrtPpgyZCdYEc3m17SSEnIp8RXfIcjTTqRfO/30Ma9
+	 896DX406rs/nntnHisbzMdjTfLBlWsTbV+gkZASB9VXZehhHm528wxwQzGaejW/sUG
+	 naure94b4LA9Q==
+Received: from localhost (mdns.lwn.net [45.79.72.68])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id 8EEF841086;
+	Tue, 13 May 2025 16:34:21 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: rujra <braker.noob.kernel@gmail.com>, skhan@linuxfoundation.org
+Cc: workflows@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+Subject: Re: [PATCH] TASK :Linux Kernel Bug Fixing: Fixing Warning/Spelling
+ checks on the rst file
+In-Reply-To: <CAG+54Db5eJVogCLKr3y5W02-Ksn7ChTpzz+UJaeoXJxA_V-QtQ@mail.gmail.com>
+References: <CAG+54Db5eJVogCLKr3y5W02-Ksn7ChTpzz+UJaeoXJxA_V-QtQ@mail.gmail.com>
+Date: Tue, 13 May 2025 10:34:18 -0600
+Message-ID: <87ecwspj05.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH hyperv-next v2 3/4] arch: hyperv: Get/set SynIC
- synth.registers via paravisor
-To: ALOK TIWARI <alok.a.tiwari@oracle.com>
-Cc: apais@microsoft.com, benhill@microsoft.com, bperkins@microsoft.com,
- sunilmut@microsoft.com, arnd@arndb.de, bp@alien8.de,
- catalin.marinas@arm.com, corbet@lwn.net, dave.hansen@linux.intel.com,
- decui@microsoft.com, haiyangz@microsoft.com, hpa@zytor.com,
- kys@microsoft.com, mingo@redhat.com, tglx@linutronix.de, wei.liu@kernel.org,
- will@kernel.org, x86@kernel.org, linux-hyperv@vger.kernel.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, linux-arch@vger.kernel.org
-References: <20250511230758.160674-1-romank@linux.microsoft.com>
- <20250511230758.160674-4-romank@linux.microsoft.com>
- <323ecc55-d829-4c74-8cb6-7b3a77dd3351@oracle.com>
-Content-Language: en-US
-From: Roman Kisel <romank@linux.microsoft.com>
-In-Reply-To: <323ecc55-d829-4c74-8cb6-7b3a77dd3351@oracle.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 
+Thank you for working to improve our documentation!
 
+A few things...
 
-On 5/12/2025 2:39 AM, ALOK TIWARI wrote:
-> 
-> 
-> On 12-05-2025 04:37, Roman Kisel wrote:
->> +/*
->> + * Not every paravisor supports getting SynIC registers, and
->> + * this function may fail. The caller has to make sure that this 
->> function
->> + * runs on the CPU of interest.
->> + */
-> 
-> Title and Intent: Clearly state the purpose of the function in the first 
-> sentence
-> /*
->   * Attempt to get the SynIC register value.
->   *
->   * Not all paravisors support reading SynIC registers, so this function
->   * may fail. The caller must ensure that it is executed on the target
->   * CPU.
->   *
->   * Returns: The SynIC register value or ~0ULL on failure.
->   * Sets err to -ENODEV if the provided register is not a valid SynIC
->   * MSR.
->   */
-> 
->> +u64 hv_pv_get_synic_register(unsigned int reg, int *err)
->> +{
->> +    if (!hv_is_synic_msr(reg)) {
->> +        *err = -ENODEV;
->> +        return !0ULL;
->> +    }
->> +    return native_read_msr_safe(reg, err);
->> +}
->> +EXPORT_SYMBOL_GPL(hv_pv_get_synic_register);
->> +
->> +/*
->> + * Not every paravisor supports setting SynIC registers, and
->> + * this function may fail. The caller has to make sure that this 
->> function
->> + * runs on the CPU of interest.
->> + */
-> 
-> ditto.
-> 
->> +int hv_pv_set_synic_register(unsigned int reg, u64 val)
->> +{
->> +    if (!hv_is_synic_msr(reg))
->> +        return -ENODEV;
->> +    return wrmsrl_safe(reg, val);
->> +}
->> +EXPORT_SYMBOL_GPL(hv_pv_set_synic_register);
-> 
+rujra <braker.noob.kernel@gmail.com> writes:
 
-Indeed, I wrote a bit of a novel in the comments which might be
-distracting and making it harder to find the point :)
+> TASK : Documentation Task
 
-Ought to be more conscious of the reader's perhaps constrained
-time budget. I'll restructure that as you suggested!
+This line doesn't belong in the changelog.
 
-> Thanks,
-> Alok
-> 
+> removed warnings and added "SPDX-License-Identifier: GPL-2.0"
+> in starting of the file , also instead of using re-use , have used
+> reuse.
 
--- 
-Thank you,
-Roman
+"also" in a changelog suggests you are doing more than one thing, which
+is a sign that a patch needs to be broken up.
 
+> Signed-off-by: Rujra Bhatt <braker.noob.kernel@gmail.com>
+> <rujrabhatt3@gmail.com>
+
+What's this line?
+
+> ---
+>  Documentation/process/adding-syscalls.rst | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/Documentation/process/adding-syscalls.rst
+> b/Documentation/process/adding-syscalls.rst
+> index 906c47f1a9e5..17652610450d 100644
+> --- a/Documentation/process/adding-syscalls.rst
+> +++ b/Documentation/process/adding-syscalls.rst
+> @@ -1,4 +1,4 @@
+> -
+> +.. SPDX-License-Identifier: GPL-2.0
+
+We want SPDX lines in our documentation files, but we have to be very
+careful about adding them.  Do you know that the author of this document
+meant to contribute it under that license?  They probably did, but it's
+not something we can make guesses about.
+
+>  .. _addsyscalls:
+>
+>  Adding a New System Call
+> @@ -117,7 +117,7 @@ then the flags argument should include a value
+> that is equivalent to setting
+>  the timing window between ``xyzzy()`` and calling
+>  ``fcntl(fd, F_SETFD, FD_CLOEXEC)``, where an unexpected ``fork()`` and
+>  ``execve()`` in another thread could leak a descriptor to
+> -the exec'ed program. (However, resist the temptation to re-use the actual value
+> +the exec'ed program. (However, resist the temptation to reuse the actual value
+>  of the ``O_CLOEXEC`` constant, as it is architecture-specific and is part of a
+
+As a typo goes, that's pretty minor.  When the other stuff is addressed
+I can apply this change as a first patch, but would suggest looking for
+more substantive problems to solve thereafter.
+
+Thanks,
+
+jon
