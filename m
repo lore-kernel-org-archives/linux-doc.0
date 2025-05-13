@@ -1,41 +1,50 @@
-Received: from mout.gmx.net (mout.gmx.net [212.227.15.19])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.19])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A8E4C42A80;
-	Tue, 13 May 2025 19:47:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.15.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C7F371F4608;
+	Tue, 13 May 2025 20:38:40 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.19
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747165643; cv=none; b=gy62OXQeG4ivkYrsyctG4l8OwmRKSQbz307dFkYm+gBt71tjxZpNrawQriEVW0sy8DsxkfXQzaRblu8n2EWF8W4/78Q4zw7jWZgbH15CSy25knPty5n5vbqjtzNBxZhBl70owlmrIfOElgJKEdZ6IUa48iItO1sQkeB4yexozbM=
+	t=1747168722; cv=none; b=mqvx18XY9sSMTHaCfTuqDk4iWyvRnwDuQ2dw7Kmeb22Dfy0029Tzl6TekpcQtDueoUXp+BKrLI+Q3Hiw25syMByJhQ4w9myy6UfQldiSEcl9/cx3qVsmWrtZnCUx4wpytInaofBGwyvXfD+pcoRuGzWfTqYQK1G+oZ+8rtm17/s=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747165643; c=relaxed/simple;
-	bh=kQXIKFkHopB881D/+rcYsW/DSTtHXNPYYrm1SPaK0tc=;
+	s=arc-20240116; t=1747168722; c=relaxed/simple;
+	bh=ZnpLTXMGgaL0ezSeVq7ySrTFe18ZLCGWZe1umzT/glY=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CHnemhYGq/qAxFs1prjnLIZmoqgvmgCHs6HjtZWirBNt/EoyAIhjt6OTNpy38h+DekNdbatV4zyXUXffmHRwuY7JssfzuGGU+5DvQXSnJDGEWGIdFJH1ZEKq3nxUu8JYbbe73ARLboHsjm/OFrL7Xt6mCx0Le7rqmBhQ0B8Suuw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=BmeY3436; arc=none smtp.client-ip=212.227.15.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
+	 In-Reply-To:Content-Type; b=Lnn0qnapn434E82ijScuNRz2UmMOqK9OtbCfQYqlSxc8CdxMF/1HTQdyT1FMMAyYYa0VwcfW8ll3C/8RwsnCPVmXZ0VaK6Fantg2RlzaSTevqN0EyL3UkOzwGYLH9BRHAcjfsbfWDD3RzLMTmJIspAUhg57nKNg7nbfV+pPn56Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QZi0cM4J; arc=none smtp.client-ip=192.198.163.19
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="BmeY3436"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
-	s=s31663417; t=1747165634; x=1747770434; i=w_armin@gmx.de;
-	bh=Fo3Xxh2RrxttsgvFoCkccAxMzFFBRgehDBGJ7ejlRqU=;
-	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To:Content-Type:
-	 Content-Transfer-Encoding:cc:content-transfer-encoding:
-	 content-type:date:from:message-id:mime-version:reply-to:subject:
-	 to;
-	b=BmeY3436aXbXXnqf9fvOb13jxL4tUxNN26+v0xjXaeZwyzmWauKs61Sg6UR81AFd
-	 bDImGXYzcroaszPo7VTDNKD0TaP5k0yiieE+FLljE3dxI+cKk/g+fXrQB//yo3YWS
-	 ZnSgqltZIaTI04vEGlDlRJ43hqHw+IMHZJ7u+mRKFTLbKZtWAUzR8d3748TVNClSL
-	 P4XMuv3Sj+vB//TLvrOlaMPe63mp9ueNbtpYkwSJuvzh8NOtRwNAAlC4R/7F+LCZd
-	 bSEaAlIOil7W4N83GVRpUNex6R3PkuVX4IQ5kj7ykNSkCS5avfqyVXlyuffkCFyXQ
-	 LImj9qI70QlyCNKKhA==
-X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
-Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx004
- [212.227.17.190]) with ESMTPSA (Nemesis) id 1MPokD-1uaBk11slX-00MNtI; Tue, 13
- May 2025 21:47:14 +0200
-Message-ID: <487100c4-f507-426a-b6fd-58a4cefced47@gmx.de>
-Date: Tue, 13 May 2025 21:47:12 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QZi0cM4J"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747168721; x=1778704721;
+  h=message-id:date:mime-version:subject:to:cc:references:
+   from:in-reply-to:content-transfer-encoding;
+  bh=ZnpLTXMGgaL0ezSeVq7ySrTFe18ZLCGWZe1umzT/glY=;
+  b=QZi0cM4J6Q0mnQi+lRzGcyrBn7z5kF1SPyaIjwvATvexcTX9g9Lt6SgH
+   4G7mgzR/eewLx40qHvACrfdb9wrT5hYzn/X8TD3BbAiMGZUY+roY1jhd0
+   wuR8+6OZi0WVuMyAZ+uRlrVgogD2xnx2viIjiHoIZ+G8w3ZG/AwP6pu8H
+   O/Nn5PpWi3s25RZ7q1ZwKP2Qw+ghiZmBFrWNy2Hx23PEjZ239FcVuxTxg
+   VVuKm8YwpvsIWy9QcTsH56qeJNKJC6lJ2GH6+uWtI45omPL0Zf2bRGo1b
+   lsAxcilbmO4adAVnsYROOlx/rreGS5wRaExPPEQ8g5M6vSigby9zXsmTg
+   A==;
+X-CSE-ConnectionGUID: +lAjIvjRSCSpF2mskBgRtg==
+X-CSE-MsgGUID: 61l7WWOXSeSUi09pgIeltQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48147347"
+X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
+   d="scan'208";a="48147347"
+Received: from fmviesa006.fm.intel.com ([10.60.135.146])
+  by fmvoesa113.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 13:38:40 -0700
+X-CSE-ConnectionGUID: vCPTIcmrTF6f8ibEeArQpQ==
+X-CSE-MsgGUID: 7bDlUerqT46csmmto6AOdA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,286,1739865600"; 
+   d="scan'208";a="137697046"
+Received: from ldmartin-desk2.corp.intel.com (HELO [10.125.109.16]) ([10.125.109.16])
+  by fmviesa006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 13:38:39 -0700
+Message-ID: <c164b38f-f6ee-456b-b6f5-3aef943890fb@intel.com>
+Date: Tue, 13 May 2025 13:38:37 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -43,155 +52,136 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v1 02/10] platform/x86: msi-wmi-platform: Add unlocked
- msi_wmi_platform_query
-To: Antheas Kapenekakis <lkml@antheas.dev>,
- platform-driver-x86@vger.kernel.org
-Cc: Jonathan Corbet <corbet@lwn.net>, Hans de Goede <hdegoede@redhat.com>,
- =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>,
- Jean Delvare <jdelvare@suse.com>, Guenter Roeck <linux@roeck-us.net>,
- Kurt Borja <kuurtb@gmail.com>, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-hwmon@vger.kernel.org
-References: <20250511204427.327558-1-lkml@antheas.dev>
- <20250511204427.327558-3-lkml@antheas.dev>
+Subject: Re: [PATCH v3 00/17] CXL Boot to Bash Documentation
+To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
+Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
+ alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
+ dan.j.williams@intel.com, corbet@lwn.net,
+ Joshua Hahn <joshua.hahnjy@gmail.com>
+References: <20250512162134.3596150-1-gourry@gourry.net>
 Content-Language: en-US
-From: Armin Wolf <W_Armin@gmx.de>
-In-Reply-To: <20250511204427.327558-3-lkml@antheas.dev>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: quoted-printable
-X-Provags-ID: V03:K1:93LxcMH+J0ZDaeNsAsDqPjI4w/OnB1nvcgp7bMHWSh9nSsv6eq4
- TlsuWDZMShZinvJvJ7x745xasQ3DdOSLTRK4iB8X2kXxk8G62iec3/kFjMTgBsZIOFn+2Gz
- 2Jn+Y4r8jJVWRRlMQ8IwmlvPJoAudo5L9PmOXN+X4PJBnqPzHkC/Mp0gMGbhnUYR/OINXAd
- c+GReJ8b2UkLiedCPF9rQ==
-X-Spam-Flag: NO
-UI-OutboundReport: notjunk:1;M01:P0:Sm3Rgi+gKPA=;Pv2cyXgag1k4vfBoiXqhm2Tlpst
- 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
- T+62GQJ9sK3DDpUeIPopkuDRHveihY7RED
+From: Dave Jiang <dave.jiang@intel.com>
+In-Reply-To: <20250512162134.3596150-1-gourry@gourry.net>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Am 11.05.25 um 22:44 schrieb Antheas Kapenekakis:
 
-> This driver requires to be able to handle transactions that perform
-> multiple WMI actions at a time. Therefore, it needs to be able to
-> lock the wmi_lock mutex for multiple operations.
->
-> Add msi_wmi_platform_query_unlocked() to allow the caller to
-> perform the WMI query without locking the wmi_lock mutex, by
-> renaming the existing function and adding a new one that only
-> locks the mutex.
->
-> Signed-off-by: Antheas Kapenekakis <lkml@antheas.dev>
+
+On 5/12/25 9:21 AM, Gregory Price wrote:
+> v3:
+> - Cross-links (Bagas)
+> - Grammar and spelling (Randy)
+> - added fixups to access-coordinates (Bagas)
+> - Drop TODO sections (use-case, memory-tiering, CDAT/UEFI, SRAT Genport)
+>   I unfortunately won't be able to come back around to this for
+>   a while, so I'd rather not let this rot.
+
+Applied to cxl/next
+
+> 
 > ---
->   drivers/platform/x86/msi-wmi-platform.c | 27 ++++++++++++++++---------
->   1 file changed, 17 insertions(+), 10 deletions(-)
->
-> diff --git a/drivers/platform/x86/msi-wmi-platform.c b/drivers/platform/=
-x86/msi-wmi-platform.c
-> index 41218a9d6e35d..f0d1b8e1a2fec 100644
-> --- a/drivers/platform/x86/msi-wmi-platform.c
-> +++ b/drivers/platform/x86/msi-wmi-platform.c
-> @@ -140,7 +140,7 @@ static int msi_wmi_platform_parse_buffer(union acpi_=
-object *obj, u8 *output, siz
->   	return 0;
->   }
->  =20
-> -static int msi_wmi_platform_query(struct msi_wmi_platform_data *data,
-> +static int msi_wmi_platform_query_unlocked(struct msi_wmi_platform_data=
- *data,
->   				  enum msi_wmi_platform_method method, u8 *buffer,
->   				  size_t length)
->   {
-> @@ -156,15 +156,9 @@ static int msi_wmi_platform_query(struct msi_wmi_pl=
-atform_data *data,
->   	if (!length)
->   		return -EINVAL;
->  =20
-> -	/*
-> -	 * The ACPI control method responsible for handling the WMI method cal=
-ls
-> -	 * is not thread-safe. Because of this we have to do the locking ourse=
-lf.
-> -	 */
-> -	scoped_guard(mutex, &data->wmi_lock) {
-> -		status =3D wmidev_evaluate_method(data->wdev, 0x0, method, &in, &out)=
-;
-> -		if (ACPI_FAILURE(status))
-> -			return -EIO;
-> -	}
-> +	status =3D wmidev_evaluate_method(data->wdev, 0x0, method, &in, &out);
-> +	if (ACPI_FAILURE(status))
-> +		return -EIO;
->  =20
->   	obj =3D out.pointer;
->   	if (!obj)
-> @@ -176,6 +170,19 @@ static int msi_wmi_platform_query(struct msi_wmi_pl=
-atform_data *data,
->   	return ret;
->   }
->  =20
-> +static int msi_wmi_platform_query(struct msi_wmi_platform_data *data,
-> +				  enum msi_wmi_platform_method method, u8 *buffer,
-> +				  size_t length)
-> +{
-> +	/*
-> +	 * The ACPI control method responsible for handling the WMI method cal=
-ls
-> +	 * is not thread-safe. Because of this we have to do the locking ourse=
-lf.
-> +	 */
-> +	scoped_guard(mutex, &data->wmi_lock) {
-> +		return msi_wmi_platform_query_unlocked(data, method, buffer, length);
-> +	}
+> 
+> This series converts CXL Boot to Bash Docs from LSFMM '25 to Linux
+> Kernel Docs.  In brief, this document covers (almost) everything Linux
+> expects from platforms to successfully bring volatile CXL memory
+> capacity online as a DAX device and/or SystemRAM.
+> 
+> It covers:
+> 
+> - Platform configuration data (ACPI Tables, EFI Memory Map, EFI Configs)
+> - Linux Build and Boot Parameters
+> - Linux consumption of Platform, Build, and Boot params
+> - Linux creation of base resources (NUMA nodes, memory tiers, etc)
+> - CXL Driver probe process and sysfs structure
+> - DAX Driver interactions between the CXL driver and memory hotplug
+> - Memory hotplug interactions
+> - Page allocator interactions (NUMA nodes, Memory Zones, Reclaim, etc).
+> 
+> Included are example platform configurations (ACPI tables) and cxl
+> decoder configurations to guide platform developers on expected
+> configurations (which may be more strict than the CXL spec).
+> 
+> Co-developed-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Signed-off-by: Joshua Hahn <joshua.hahnjy@gmail.com>
+> Signed-off-by: Gregory Price <gourry@gourry.net>
+> 
+> Gregory Price (17):
+>   cxl: update documentation structure in prep for new docs
+>   cxl: docs - access-coordinates doc fixups
+>   cxl: docs/devices - add cxl device and protocol reference
+>   cxl: docs/platform/bios-and-efi documentation
+>   cxl: docs/platform/acpi reference documentation
+>   cxl: docs/platform/example-configs documentation
+>   cxl: docs/linux - overview
+>   cxl: docs/linux - early boot configuration
+>   cxl: docs/linux - add cxl-driver theory of operation
+>   cxl: docs/linux/cxl-driver - add example configurations
+>   cxl: docs/linux/dax-driver documentation
+>   cxl: docs/linux/memory-hotplug
+>   cxl: docs/allocation/dax
+>   cxl: docs/allocation/page-allocator
+>   cxl: docs/allocation/reclaim
+>   cxl: docs/allocation/hugepages
+>   cxl: docs - add self-referencing cross-links
+> 
+>  .../driver-api/cxl/allocation/dax.rst         |  60 ++
+>  .../driver-api/cxl/allocation/hugepages.rst   |  32 +
+>  .../cxl/allocation/page-allocator.rst         |  85 +++
+>  .../driver-api/cxl/allocation/reclaim.rst     |  51 ++
+>  .../driver-api/cxl/devices/device-types.rst   | 165 +++++
+>  Documentation/driver-api/cxl/index.rst        |  45 +-
+>  .../cxl/{ => linux}/access-coordinates.rst    |  35 +-
+>  .../driver-api/cxl/linux/cxl-driver.rst       | 630 ++++++++++++++++++
+>  .../driver-api/cxl/linux/dax-driver.rst       |  43 ++
+>  .../driver-api/cxl/linux/early-boot.rst       | 137 ++++
+>  .../example-configurations/hb-interleave.rst  | 314 +++++++++
+>  .../intra-hb-interleave.rst                   | 291 ++++++++
+>  .../multi-interleave.rst                      | 401 +++++++++++
+>  .../example-configurations/single-device.rst  | 246 +++++++
+>  .../driver-api/cxl/linux/memory-hotplug.rst   |  78 +++
+>  .../driver-api/cxl/linux/overview.rst         | 103 +++
+>  .../driver-api/cxl/platform/acpi.rst          |  76 +++
+>  .../driver-api/cxl/platform/acpi/cedt.rst     |  62 ++
+>  .../driver-api/cxl/platform/acpi/dsdt.rst     |  28 +
+>  .../driver-api/cxl/platform/acpi/hmat.rst     |  32 +
+>  .../driver-api/cxl/platform/acpi/slit.rst     |  21 +
+>  .../driver-api/cxl/platform/acpi/srat.rst     |  44 ++
+>  .../driver-api/cxl/platform/bios-and-efi.rst  | 262 ++++++++
+>  .../cxl/platform/example-configs.rst          |  13 +
+>  .../example-configurations/flexible.rst       | 296 ++++++++
+>  .../example-configurations/hb-interleave.rst  | 107 +++
+>  .../multi-dev-per-hb.rst                      |  90 +++
+>  .../example-configurations/one-dev-per-hb.rst | 136 ++++
+>  ...ry-devices.rst => theory-of-operation.rst} |  10 +-
+>  29 files changed, 3867 insertions(+), 26 deletions(-)
+>  create mode 100644 Documentation/driver-api/cxl/allocation/dax.rst
+>  create mode 100644 Documentation/driver-api/cxl/allocation/hugepages.rst
+>  create mode 100644 Documentation/driver-api/cxl/allocation/page-allocator.rst
+>  create mode 100644 Documentation/driver-api/cxl/allocation/reclaim.rst
+>  create mode 100644 Documentation/driver-api/cxl/devices/device-types.rst
+>  rename Documentation/driver-api/cxl/{ => linux}/access-coordinates.rst (84%)
+>  create mode 100644 Documentation/driver-api/cxl/linux/cxl-driver.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/dax-driver.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/early-boot.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/example-configurations/hb-interleave.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/example-configurations/intra-hb-interleave.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/example-configurations/multi-interleave.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/example-configurations/single-device.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/memory-hotplug.rst
+>  create mode 100644 Documentation/driver-api/cxl/linux/overview.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/acpi.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/acpi/cedt.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/acpi/dsdt.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/acpi/hmat.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/acpi/slit.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/acpi/srat.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/bios-and-efi.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/example-configs.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/example-configurations/flexible.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/example-configurations/hb-interleave.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/example-configurations/multi-dev-per-hb.rst
+>  create mode 100644 Documentation/driver-api/cxl/platform/example-configurations/one-dev-per-hb.rst
+>  rename Documentation/driver-api/cxl/{memory-devices.rst => theory-of-operation.rst} (98%)
+> 
 
-Please just use guard() here.
-
-Thanks,
-Armin Wolf
-
-> +}
-> +
->   static umode_t msi_wmi_platform_is_visible(const void *drvdata, enum h=
-wmon_sensor_types type,
->   					   u32 attr, int channel)
->   {
