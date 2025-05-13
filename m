@@ -1,154 +1,113 @@
-Received: from mail-io1-f41.google.com (mail-io1-f41.google.com [209.85.166.41])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33F5C1EB5F0
-	for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 13:26:49 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.41
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8FC7428640E;
+	Tue, 13 May 2025 13:41:04 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747142811; cv=none; b=SpMSBfqHDghJSyJhAFNaYiYw+iL4XKJCpDMpYZTgSfDTgCbjPcAXqtQwIvvf6gIywZHuxm/d5HC96ufIoFHKFUxcckwJEslr4th0TMvA3aUaa2Rh1X8IGkg3kw+y6BJRcFBxfHa03BdwY68BwKUvUhLyBfkiw3rZtiuLMxWK5hQ=
+	t=1747143664; cv=none; b=Y4Tb3Zjzh6BFIaOeQZIHdxo/YAiglx+wbeKhzHnq4lAcQLECgEjRNf1pSaYz9r6BvCTebjyiSJL4aLYHU6yPcTqXRSSoCiFlPqr0UoqCQVUgduXu52Tfw/hYn82B+4QFy3Dkk02h4cFkS99HX0taOCt8JKN9X7xDGWoiFzrFXzs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747142811; c=relaxed/simple;
-	bh=avXa4CzgTRa1CXLtPFQwyy1iUXu+y9DyvpT7RS3bkE4=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KIH3K+6FnDKEg2pi1pHbYhdzFkD5liwmT63PmQWxUWZmEuZD4rShgByDttNw8auIfm3c9VAHOrPvyMVdZ9kVA7P1qOMaEM7Lo2vCF+14e4yiPME5FJPZYlqcH205kwKyyGmD0UvcssKUDBIuMazTwJL6guqg7BJ2F81TlOY+nGg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk; spf=pass smtp.mailfrom=kernel.dk; dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b=kOF85VoE; arc=none smtp.client-ip=209.85.166.41
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=kernel.dk
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=kernel.dk
+	s=arc-20240116; t=1747143664; c=relaxed/simple;
+	bh=S00eQUskUp0D65XsF+o/OCXFi+oPqCIXuzNkGKHgNjY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pQGAwuuleQ2GzPqkvTISB2eSkiQe5pCQTtCbf2me8ZWqHupFSwnizqKumfs0tzCykxrmaDqa3V81Hsx33tUvuQ5q6TtFB6Yd/ST07sl4VhfcyCh6ESQvgVLQ1EFVX6kidYMsSjfQ6dqP2Ftshc2M8WKbv5M3UU3vFE41HTp29W4=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=sA03Tyxp; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel-dk.20230601.gappssmtp.com header.i=@kernel-dk.20230601.gappssmtp.com header.b="kOF85VoE"
-Received: by mail-io1-f41.google.com with SMTP id ca18e2360f4ac-85e1b1f08a5so191109939f.2
-        for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 06:26:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kernel-dk.20230601.gappssmtp.com; s=20230601; t=1747142809; x=1747747609; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HhCoZuBkamztSe85E1nHmVRUFjyVRRB1qVkbWNxRjXg=;
-        b=kOF85VoEHzohnVnGZ0g48smAl5fLKJlB51d0y0/irg8MepOeajnqBvVEfsumQsW8Id
-         tyK96YcJGe0lDZnRYQe95FkvOiMuar9tvOMWx5ZpO5P23r8RrYi0XOYcGvXN9HujJaqw
-         XsdyYYJOFKd8MdAVXFJtVo+rLPnMrC1WUpuQuVWfgVAKgoEw6QeKoI1HJR72oElEbSPT
-         0NmJ2rksXkRZIWEmQL6QG/d0MmcEFYQ0vTfefdQ+7Bd1OULnAUO+ajqnvpumM+QiYXYb
-         U/DAX5NBdbLi6Uq7yJdNvlf8ZniMv4Ejz5eVS/mMqdtKWAhb7Ff7gqT512ncfJP/S1eo
-         vEVQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747142809; x=1747747609;
-        h=content-transfer-encoding:in-reply-to:content-language:from
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=HhCoZuBkamztSe85E1nHmVRUFjyVRRB1qVkbWNxRjXg=;
-        b=M/k5HRfsi79sQ3uVoRL8C5df0Nkrkx2MlPrnmvNF5oIznbXA/BsWDEpKiFXnUn+Wi6
-         42Kjaj4o0BoyF394ay/TOnOO9ili/wHAiVQJQVlWM3US68Ml0bCYjX+vYwHH4NdC/ne7
-         l9plC/WJ6evNX9RFvnETv5kYgg/h9syhJ4pl4DIdp7WWgYiERzFev75peOtR5H6qAaPf
-         5ZH3LbXXb30K7Y7CmisGvpTcCYx8ga3Vy/8iLQ94X+SbzqJzrlBPq716g3L3p9CYnAU7
-         S+aeQzFULTB2K4Y7e9P5RpBE0zdn4oZDk2WBroO7GBxwYHA27BquINlNxswEmz+aVnpq
-         /O+A==
-X-Forwarded-Encrypted: i=1; AJvYcCUbbzLfWqJgjSYXExLDAaCYGvRRwfMfwjgrvfEQ9LbE9OvadufvcDt0j59IYVy/FzECdJsHEtiGHU0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzuvFYtTBJX00tyL/B8vj3GgUT8Cc0DD+k2aJiJpq3xzKnBJx5P
-	hzoCA9oARFr9vL9L89OwrNAhmzOdoE47EIvCo2TualK6VUwfO/vMTXiRPRZpcRc=
-X-Gm-Gg: ASbGncvjoMn59JIcT27ozKPNVnAm8P8DC6pw6R/4ve7Hkm3I5nRVbcXVvP3IVv7Myg2
-	BNHDNuq7pmVnAWGTctsuenOmA0jCzVnuw5EpoF2oZZY7aQsZ9KT6MY89HKWmUoWviQ4PaAn5AQF
-	/36cJe+/iyeymwnjXFeszVue7z+JA8BZluORN0QifgP8ynNNwMrb0Y5p5sLRLnrA/ltkJU/djfl
-	JCKu187d9Zu1kvAWjz5m7Ky7hIjSf0XLgiddtX6if95VLxXaGy4h9Wp3Nfo5hyen4eHzpj6ALzT
-	UDaaiWuPwehcjZy/BMy+QfKOHPGTdSTbmZERtAkR82U1vYk=
-X-Google-Smtp-Source: AGHT+IHxMPTHetOq0Rkf6JYLZUfNRLNzTjYNetEJrIfuukLDFQJkMsEpufw4HAJKkcR1FnnOy795Nw==
-X-Received: by 2002:a05:6602:6d05:b0:867:47af:5df with SMTP id ca18e2360f4ac-8676338d48dmr1775119939f.0.1747142809073;
-        Tue, 13 May 2025 06:26:49 -0700 (PDT)
-Received: from [192.168.1.116] ([96.43.243.2])
-        by smtp.gmail.com with ESMTPSA id ca18e2360f4ac-8676359ba34sm225989239f.17.2025.05.13.06.26.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 May 2025 06:26:48 -0700 (PDT)
-Message-ID: <4ee5429c-7bb6-4c92-ad28-8e0d8454d4b0@kernel.dk>
-Date: Tue, 13 May 2025 07:26:47 -0600
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="sA03Tyxp"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 47246C4CEE4;
+	Tue, 13 May 2025 13:40:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747143664;
+	bh=S00eQUskUp0D65XsF+o/OCXFi+oPqCIXuzNkGKHgNjY=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=sA03TyxpdSkLcwUQ6qaOB9Kn1Tplkuq75cj2Zf4bbNLaRdG+LXqWkFjj91hDS4zWs
+	 +tlyO0fPEGFlzjTNk01cKiEmKosvj0hwU17+nM7m77dDSIAdp9kpULZenwB21O0vyw
+	 wgJYKLIxf4rnLtTZbVXhR3sUmENZWweOs1NdHo+X9hX6KNxC+ulrptUkxmMb7ysg8Y
+	 +5ZlsMPZOb6uTT78QuRBIBJFUMP22YkTwXUx1GxB6tn9xF/RibgfQAwXr4dH/ZEW9V
+	 AaO93EmzvnPamQ0UydWpVQ74EW/eHcfM7e5yEfRZZDiSgTvo0GIhmzWo5QmsYk5ONl
+	 DeMdEv8DRHyrA==
+Date: Tue, 13 May 2025 14:40:55 +0100
+From: Simon Horman <horms@kernel.org>
+To: Larysa Zaremba <larysa.zaremba@intel.com>
+Cc: intel-wired-lan@lists.osuosl.org,
+	Tony Nguyen <anthony.l.nguyen@intel.com>,
+	"David S. Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Jiri Pirko <jiri@resnulli.us>,
+	Tatyana Nikolova <tatyana.e.nikolova@intel.com>,
+	Andrew Lunn <andrew+netdev@lunn.ch>,
+	Alexander Lobakin <aleksander.lobakin@intel.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Maciej Fijalkowski <maciej.fijalkowski@intel.com>,
+	Lee Trager <lee@trager.us>,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Sridhar Samudrala <sridhar.samudrala@intel.com>,
+	Jacob Keller <jacob.e.keller@intel.com>,
+	Michal Swiatkowski <michal.swiatkowski@linux.intel.com>,
+	Mateusz Polchlopek <mateusz.polchlopek@intel.com>,
+	Ahmed Zaki <ahmed.zaki@intel.com>, netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	"Karlsson, Magnus" <magnus.karlsson@intel.com>,
+	Emil Tantilov <emil.s.tantilov@intel.com>,
+	Madhu Chittim <madhu.chittim@intel.com>,
+	Josh Hay <joshua.a.hay@intel.com>,
+	Milena Olech <milena.olech@intel.com>, pavan.kumar.linga@intel.com,
+	"Singhai, Anjali" <anjali.singhai@intel.com>
+Subject: Re: [PATCH iwl-next v3 00/15] Introduce iXD driver
+Message-ID: <20250513134055.GB3339421@horms.kernel.org>
+References: <20250509134319.66631-1-larysa.zaremba@intel.com>
+ <20250512124906.GA1417107@horms.kernel.org>
+ <aCH19kCiDI0GUs8s@soc-5CG4396X81.clients.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
-To: Jason Xing <kerneljasonxing@gmail.com>
-Cc: Christoph Hellwig <hch@infradead.org>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net,
- linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- linux@treblig.org, viro@zeniv.linux.org.uk
-References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
- <aCGR4EOcWRK6Rgfv@smile.fi.intel.com> <aCIL0zZvf1fvTahk@infradead.org>
- <CAL+tcoCJxoiGi=Ea1KCG4_ri2=GbNhhVhEV5anMLyai6qg2zeA@mail.gmail.com>
- <70293376-71b0-4b9d-b3c1-224b640f470b@kernel.dk>
- <CAL+tcoC9ioDpM93nHpoUS9icqG+pZvZU6mCEz1HbCrENrPeKwQ@mail.gmail.com>
-From: Jens Axboe <axboe@kernel.dk>
-Content-Language: en-US
-In-Reply-To: <CAL+tcoC9ioDpM93nHpoUS9icqG+pZvZU6mCEz1HbCrENrPeKwQ@mail.gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aCH19kCiDI0GUs8s@soc-5CG4396X81.clients.intel.com>
 
-On 5/12/25 8:17 PM, Jason Xing wrote:
-> On Tue, May 13, 2025 at 9:49?AM Jens Axboe <axboe@kernel.dk> wrote:
->>
->> On 5/12/25 6:49 PM, Jason Xing wrote:
->>> On Mon, May 12, 2025 at 10:55?PM Christoph Hellwig <hch@infradead.org> wrote:
->>>>
->>>> On Mon, May 12, 2025 at 09:14:56AM +0300, Andy Shevchenko wrote:
->>>>> Also note, we usually do not care about the out-of-tree users. The main Q here
->>>>> why are they out-of-tree for so long time?
->>>>
->>>> We do not care.  If some of this ever gets submitted it can add the
->>>> needed helpers back.
->>>>
->>>> This entire discussion is silly.
->>>>
->>>
->>> I'm surprised how you described it....
->>>
->>> Now relay works like a filesystem which helps out-of-tree users
->>> transfer a large amount of data efficiently. it's totally not like
->>> other pure dead code. I meant what the trouble of just leaving it
->>> untouched in the kernel could be?
->>>
->>> Let me put in a simpler way, two options, 1) just clean up, 2) keep it
->>> and help so-called 'out-of-tree' users even if you don't care. I don't
->>> figure out what the difficulty of keeping it is :S
->>
->> I think Christoph's email was quite clear, and I also said _exactly_ the
->> same thing in an email two days ago: we never EVER keep code in
->> kernel that isn't used by in-kernel code. Period. It's not a debate,
->> this is the law, if you will. It's a core principle because it allows
->> the kernel to be maintainable, rather than need to care about out of
->> tree code when changes are made. Similarly, we don't have a kernel API,
->> not even at the source level.
->>
->> This is one of the core tenets of the Linux kernel, and all in-tree code
->> must follow those. If you have aspirations of maintaining the relay code
->> going forward, you need to fully understand that. Either the dead code
->> goes, or the out-of-tree code that uses it must be merged. There's no
->> in-between.
+On Mon, May 12, 2025 at 03:21:58PM +0200, Larysa Zaremba wrote:
+> On Mon, May 12, 2025 at 01:49:06PM +0100, Simon Horman wrote:
+> > On Fri, May 09, 2025 at 03:42:57PM +0200, Larysa Zaremba wrote:
+> > > This patch series adds the iXD driver, which supports the Intel(R)
+> > > Control Plane PCI Function on Intel E2100 and later IPUs and FNICs.
+> > > It facilitates a centralized control over multiple IDPF PFs/VFs/SFs
+> > > exposed by the same card. The reason for the separation is to be able
+> > > to offload the control plane to the host different from where the data
+> > > plane is running.
+> > > 
+> > > This is the first phase in the release of this driver where we implement the
+> > > initialization of the core PCI driver. Subsequent phases will implement
+> > > advanced features like usage of idpf ethernet aux device, link management,
+> > > NVM update via devlink, switchdev port representors, data and exception path,
+> > > flow rule programming, etc.
+> > 
+> > Hi Larysa,
+> > 
+> > I am having a bit of trouble figuring out where to cleanly apply this
+> > series to. Could you help me out?
 > 
-> Thanks for clarifying this to me.
+> Tree did change quite a bit in a short span of time between me fetching and 
+> sending, sorry for the trouble.
 > 
-> At the moment, it seems the relay is still alive because of blktrace.
-> It looks like two options for me who wish to enhance the relay feature
-> in the long run:
-> 1) merge the networking trace feature that relies on relay.
-> 2) turn it into a file system
+> The base commit is 10f540c09cf9 "ice: default to TIME_REF instead of TXCO on 
+> E825-C". In case you cannot access it, I have pushed the tree to my github.
 > 
-> Seems option #2 is a more generic way to go?
+> https://github.com/walking-machine/linux/commits/ixd_phase1_iwl_v3
 
-Seems to me like option 1 would be the way to go. There's no point
-making something generic just for the sake of it, and particularly not
-if the goal is just to enable some out-of-tree use cases. That's not the
-kernel way...
+Thanks. I did not have that commit present locally, but I was able
+to fetch it from the URL above. And the series did indeed apply cleanly
+on top of it.
 
-> From the bottom of my heart, I really don't want to lose any 'unused'
-> parts in the relay because there are still more unused functions...
+> This version is probably much closer to what would be in dev-queue eventually, 
+> compared to a properly rebased one. Some patches were pulled out of dev-queue 
+> because of validation problems, but should be back pretty soon, as far as I 
+> know. Those patches are the reason why I have an additional fix in the github 
+> tree.
 
-I don't understand that part - the code is managed by git, it'll be in
-history forever. There's no losing, it's very much still there. If you
-or someone else needs to bring it back, it's _trivial_ to do so.
-
-Being hesitant to remove code for sentimental reasons is a mistake. The
-more code removed, the less to maintain. Win win.
-
--- 
-Jens Axboe
+Understood.
