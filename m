@@ -1,105 +1,88 @@
-Received: from mail-io1-f46.google.com (mail-io1-f46.google.com [209.85.166.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from trager.us (trager.us [52.5.81.116])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F175835963;
-	Tue, 13 May 2025 00:50:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 378405695;
+	Tue, 13 May 2025 00:59:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=52.5.81.116
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747097432; cv=none; b=M24OV655kKYh7/5gnqoLXejRa6PVOB3WDg+6EeL7coraLpbPDa9Hddsd6WQFDwD59v2CFLGHfGDvh3fFJzIXmhTzBSb0O7UejN9W6azfVsaEo0SMcIhljBafVkUGNz5SzmMCMfbqUJeLKIK7aFBb1Yovql5qUsjQVthRhuS9I/I=
+	t=1747097996; cv=none; b=OkXXgo6mV+vWpKUVsZJX9vuJb1R7ByLaLsiJM9B4s3v3PG/Q2+drXtUYJHNmLk+TDBMYOH29dWUzHGqKiW1BLm0+Xpx7W/A4ZYV6r4Xp2kXopEAXNUPI4HWCp7QkBhABxWx8sO/Rjm1ke2XaZ8LlAUtV9xNKlgctRZ7d4aTZz74=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747097432; c=relaxed/simple;
-	bh=pKJ3zzQ2o+0ek73CqN7VAD01BuP66vpZIIDFYMfhxik=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=RR2RZxTHilIeil7ASU6oM9hKCLfA9YF1AYfU241pI948rfz4GSga1Esms8LfVMj7wlONsmdF+labbDbh6VGf0nSOc3VxaL1FS4cmE/ypXDZzJVGkXEu6qWZNH9wgspuL3NG66m3GNx2SpDwPN15lpry7WKoNS94D9JY7Flf9MaE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QQEPzcGo; arc=none smtp.client-ip=209.85.166.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QQEPzcGo"
-Received: by mail-io1-f46.google.com with SMTP id ca18e2360f4ac-85dac9728cdso141084239f.0;
-        Mon, 12 May 2025 17:50:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747097430; x=1747702230; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=pFExgw6I64CfiBILuJYy3YAdnSGdTUqnVjigSWHrhlk=;
-        b=QQEPzcGomExo/5cgtYKivWhVO9MXN2aQAW1kxk0Yu45yZaxS4k+ZGnVvZ0SEL1VxeI
-         itBn+KqyUrNoe/mwzoQsCngpTvfOiAcyZSETVGsB+z5SloAeVM0w+27ay/vQck+E+xX6
-         zhzxZN4glxX711hZV3vciRaTWKSLi58CivdiDcSDqileEiLGTR7fOWeCLFbsDr4xgJ9q
-         sa/5aSpxz8PWPiz61Um3HBeO21X/KLUuSZTpKmKIA6q43oeUM0l1b10gRKvq3I3KIvP5
-         fXoC8slzvj7cT+4FAYzKxsmEfR5uuZu2vG0PK94OnIA0ZXuMulkdYuXdQZjhYKPeVdxR
-         nZtQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747097430; x=1747702230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=pFExgw6I64CfiBILuJYy3YAdnSGdTUqnVjigSWHrhlk=;
-        b=T7aU2jKwdMKqPJisUBZltRdAgsTlgC75Qx1G9UFss9qEtCbZIb/wMyPldGX6lunRIk
-         P9AqPL/aTRUgBb1nKPAwsqSm2I1K4GJ4lZVtCwXAfYdaOcohSLNIHi5k8QMgroKbHYde
-         xCR+cmXc279SEnOUadgCJvrFAYjYhTdUcPZMVy9aclR3WoSo+ZkNXODFStTxE4Qq+SAs
-         S1trdN9pRzOd1lHIzgkuhu5ApuLj/UJyTVd0AbJMzOUQnZyytp8w9Ud3DHJfdWrW0Iny
-         M7bnLWcBlbRvMHx7EcZD4V8yTC2aqMFHg3f/40IjdOkBeJnZItsvtKxfWZeF9znSGXW4
-         rfbQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUtMYAlcif9Un+Zijij+CxYVWaFxiBP/y1nrqxB9AOnnFfTvwN3XTbZglzQr6/bn0g1TVdzfmQxhV8=@vger.kernel.org, AJvYcCVfFmxjcwZXaEnGUPfpK0bPOnaSMUMOO9nC2y8YNHrR5LercDZzqLycg8I+7y2pajkDnlg2/D4noAqesXs/@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx5c3E3Wh0YgBlGlTBcwziDTsPILz78QQkyxAq5yeiGZLDDQOLX
-	Y9OPsAuWfJl63Q2VwzhYuyzRZTnzjcta9M5DFMvRwfNeJol0l5G1J/bn04q68R4d4Ugq/q7kik6
-	o7rpJKneRXmLBcaduoKP4V4+v5i52ttTN3Jg=
-X-Gm-Gg: ASbGnctwdyNchmay6KdgUExy4OtrNkCDz3mYuB/KSYs9eqkVgbeQNXa4WCb77Y1wrST
-	cbFr+l0MmLhKjk42OZOpjnjarZOq64NizrTqyvxkz1uaASUiOuHkbcmN9Gekf8W6UTxMWNIhHJm
-	t5T+1TVNA//P1K8IG+Oh1MjS0PBASquH/f
-X-Google-Smtp-Source: AGHT+IHg1M2nc8+AJQ2gyRTnCOW1RGBKSDLedExyUbzzJBOgk/rK/+JPsywaFblhSvrc696dqyzd8z+SAAgyUECzWu8=
-X-Received: by 2002:a05:6e02:188d:b0:3d8:1d7c:e190 with SMTP id
- e9e14a558f8ab-3da7e1e7416mr180384915ab.7.1747097429935; Mon, 12 May 2025
- 17:50:29 -0700 (PDT)
+	s=arc-20240116; t=1747097996; c=relaxed/simple;
+	bh=QijcsHL4yO/98JvNzuDTU3gbuRArHYMYfje6GRx7III=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ulTUljT+96nnugNl1Dwf+k2XV2JokQ1R5aZnbxMuc0zfkaku6s2myEMNwjJusdLBAE6kHm/jdFYbRYIa6qh/oDJ+3a8FIN+qZM8uSFbAHABdy6zdvKk4b+ALqVXJceFqyh/sTvxX6KdqpaHFdwYCOLsVkdxYQA++o75nZoaaE8Y=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trager.us; spf=pass smtp.mailfrom=trager.us; arc=none smtp.client-ip=52.5.81.116
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=trager.us
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=trager.us
+Received: from c-76-104-255-50.hsd1.wa.comcast.net ([76.104.255.50] helo=[192.168.1.225])
+	by trager.us with esmtpsa (TLSv1.3:TLS_AES_128_GCM_SHA256:128)
+	(Exim 4.92.3)
+	(envelope-from <lee@trager.us>)
+	id 1uEdzj-0007Pf-BI; Tue, 13 May 2025 00:59:43 +0000
+Message-ID: <98876971-e4e0-44f1-8faf-f791bd7a4e4e@trager.us>
+Date: Mon, 12 May 2025 17:59:35 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CAL+tcoCVjihJc=exL4hJDaLFr=CrMx=2JgYO_F_m12-LP9Lc-A@mail.gmail.com>
- <aCGR4EOcWRK6Rgfv@smile.fi.intel.com> <aCIL0zZvf1fvTahk@infradead.org>
-In-Reply-To: <aCIL0zZvf1fvTahk@infradead.org>
-From: Jason Xing <kerneljasonxing@gmail.com>
-Date: Tue, 13 May 2025 08:49:53 +0800
-X-Gm-Features: AX0GCFvYJrRX6jNEfyngKE_7qQIdJXCJWq9aLLm48eKkDFEPwUalY3JU0sUNA_Q
-Message-ID: <CAL+tcoCJxoiGi=Ea1KCG4_ri2=GbNhhVhEV5anMLyai6qg2zeA@mail.gmail.com>
-Subject: Re: [PATCH] relay: Remove unused relay_late_setup_files
-To: Christoph Hellwig <hch@infradead.org>
-Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, 
-	Andrew Morton <akpm@linux-foundation.org>, corbet@lwn.net, linux-doc@vger.kernel.org, 
-	LKML <linux-kernel@vger.kernel.org>, linux@treblig.org, viro@zeniv.linux.org.uk, 
-	Jens Axboe <axboe@kernel.dk>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v4 2/5] eth: fbnic: Accept minimum anti-rollback
+ version from firmware
+To: Jacob Keller <jacob.e.keller@intel.com>,
+ Alexander Duyck <alexanderduyck@fb.com>, Jakub Kicinski <kuba@kernel.org>,
+ kernel-team@meta.com, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>,
+ Simon Horman <horms@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Andrew Lunn <andrew+netdev@lunn.ch>, Mohsin Bashir <mohsin.bashr@gmail.com>,
+ Sanman Pradhan <sanman.p211993@gmail.com>, Su Hui <suhui@nfschina.com>,
+ Al Viro <viro@zeniv.linux.org.uk>,
+ Michal Swiatkowski <michal.swiatkowski@linux.intel.com>
+Cc: Andrew Lunn <andrew@lunn.ch>, netdev@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250510002851.3247880-1-lee@trager.us>
+ <20250510002851.3247880-3-lee@trager.us>
+ <a406ecb3-a94d-47a7-bff8-becc6302a775@intel.com>
+Content-Language: en-US
+From: Lee Trager <lee@trager.us>
+In-Reply-To: <a406ecb3-a94d-47a7-bff8-becc6302a775@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 12, 2025 at 10:55=E2=80=AFPM Christoph Hellwig <hch@infradead.o=
-rg> wrote:
+On 5/12/25 11:47 AM, Jacob Keller wrote:
+
 >
-> On Mon, May 12, 2025 at 09:14:56AM +0300, Andy Shevchenko wrote:
-> > Also note, we usually do not care about the out-of-tree users. The main=
- Q here
-> > why are they out-of-tree for so long time?
+> On 5/9/2025 5:21 PM, Lee Trager wrote:
+>> fbnic supports applying firmware which may not be rolled back. This is
+>> implemented in firmware however it is useful for the driver to know the
+>> minimum supported firmware version. This will enable the driver validate
+>> new firmware before it is sent to the NIC. If it is too old the driver can
+>> provide a clear message that the version is too old.
+>>
+> This reminds me of the original efforts i had with minimum firmware
+> versions for the ice E810 hardware.
 >
-> We do not care.  If some of this ever gets submitted it can add the
-> needed helpers back.
+> I guess for fbnic, you entirely handle this within firmware so there's
+> no reason to provide an interface to control this, and you have a lot
+> more control over verifying that the anti-rollback behavior is correct.
 >
-> This entire discussion is silly.
->
+> The definition for the minimum version is baked into the firmware image?
+> So once a version with this anti-rollback is applied it then prevents
+> you from rolling back to lower version, and can do a verification to
+> enforce this. Unlike the similar "opt-in" behavior in ice which requires
+> a user to first apply a firmware and then set the parameter, opening up
+> a bunch of attestation issues due to not being a single atomic operation.
 
-I'm surprised how you described it....
+Correct this is handled entirely in firmware. We use the normal firmware 
+update process when incrementing anti-rollback. During the updating 
+process firmware first validates that the new version number is >= to 
+the anti rollback version set in the SOTP. If not the update is 
+rejected. The drivers role is purely informational, it checks anti roll 
+back and provides devlink with a human readable error when necessary.
 
-Now relay works like a filesystem which helps out-of-tree users
-transfer a large amount of data efficiently. it's totally not like
-other pure dead code. I meant what the trouble of just leaving it
-untouched in the kernel could be?
+When incrementing anti rollback the NIC first boots the new firmware. 
+Once it has validated it can boot the new firmware it increments the 
+anti roll back version in the SOTP automatically. This makes anti roll 
+back automatic and provides a way for us to abort the process if needed.
 
-Let me put in a simpler way, two options, 1) just clean up, 2) keep it
-and help so-called 'out-of-tree' users even if you don't care. I don't
-figure out what the difficulty of keeping it is :S
-
-It seems that turning it back to a filesystem again is the only way to
-stop debate, then no one would clean up its dead code and reckon it's
-obsolete any more :S
