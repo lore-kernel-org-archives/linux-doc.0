@@ -1,81 +1,133 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BE14D1AF0A7;
-	Tue, 13 May 2025 14:41:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 912532BE114;
+	Tue, 13 May 2025 16:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747147288; cv=none; b=RI6yZvsHZtziQI7GRiS5XvB3l/owIgg8A0/IdXlWt9Qzc5GyxvP1CyDiSPZSd1xtoej7IqSemAJPSyYicJayXCcKUclsxyEHm/N1SiYIFPz8USDFakI2/ntsriJ/raZcwffSauNFePqsJ9DrvPA7JMAeAJFThxWYxECVhMY5ENM=
+	t=1747152421; cv=none; b=JsWYu593VdG3vpGQ/drhiKtUMqnNnfF10dOgBpt9BDfzwouP5nWElaZS6yCCc2f76iXBpxoORxriLwhVTHhrzukxJkRHy6xQ2IMKX9ULZKQVEPciie30VzJNoddbFpKEwa9HeZVyxtk2v+HhbNjlUHXL0jILIe/Zui6xl/IVTYY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747147288; c=relaxed/simple;
-	bh=9rek26u3z9azmwOQJIZVAvbpbRZcwrSvVWLI/781IIk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=nMWAzHnCwvR/orsu8NGLMwvSwlP7VICmepSf6sMEBw8Y1D5tQli+pBLYJk/NqJ56M6VkKV2ULGMZgBIUDqjGT2NIvUaf1VyvG6eiW4N4aMGqHd6UvbmWa+gDuO0NHjPIpbhC6GVWdXGzM7mDIVr+zYffEaRGE6xBHG9x6jJCpmI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=nGfsG26f; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="nGfsG26f"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E6E73C4CEE4;
-	Tue, 13 May 2025 14:41:27 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747147288;
-	bh=9rek26u3z9azmwOQJIZVAvbpbRZcwrSvVWLI/781IIk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=nGfsG26f/rgdzMXctx0MglLJybNp+KWifX6SJ136P6pW3LpTXKI6UHRPvbqdn8gCQ
-	 wsuGO387b9knuH5ITzA6E4CLjpKJPu7jZfh68e2JBLooX1Q0DefAfNKjtJt4ravwhn
-	 mCijz7ggSDagZH1eG9ETQmArV3xy00Y6TL/CMlZ9J1WQJ6eejFrdHRxvZy0bwN7H0H
-	 FUJqhmL2gHuKqOU7bgiyJDWwLJaaZh8FFhX2z1a+RYyjmImL8WNkrAHgNEK2KHWTZz
-	 EI49b7rHqPxyLgd7MPT8QENtb0FWgeudX+mmzO+QpuF61BxV1/nI5JeY4AtaK7ka6P
-	 b8ZJ9KuSJ2VVA==
-Date: Tue, 13 May 2025 07:41:27 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Kory Maincent <kory.maincent@bootlin.com>
-Cc: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>,
- "David S. Miller" <davem@davemloft.net>, Eric Dumazet
- <edumazet@google.com>, Paolo Abeni <pabeni@redhat.com>, Jonathan Corbet
- <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, Rob Herring
- <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, Simon Horman
- <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, Russell King
- <linux@armlinux.org.uk>, Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor
- Dooley <conor+dt@kernel.org>, Liam Girdwood <lgirdwood@gmail.com>, Mark
- Brown <broonie@kernel.org>, Thomas Petazzoni
- <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org,
- linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, Dent
- Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, Maxime
- Chevallier <maxime.chevallier@bootlin.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH net-next v10 02/13] net: pse-pd: Add support for
- reporting events
-Message-ID: <20250513074127.5b64fc6e@kernel.org>
-In-Reply-To: <20250513114409.6aae3eb9@kmaincent-XPS-13-7390>
-References: <20250506-feature_poe_port_prio-v10-0-55679a4895f9@bootlin.com>
-	<20250506-feature_poe_port_prio-v10-2-55679a4895f9@bootlin.com>
-	<20250508201041.40566d3f@kernel.org>
-	<20250513114409.6aae3eb9@kmaincent-XPS-13-7390>
+	s=arc-20240116; t=1747152421; c=relaxed/simple;
+	bh=AtjmzhmTK2XEOwq1jRggREoKhGneutApb7VFOMLM7JU=;
+	h=Date:From:To:CC:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=oqDomdkXM1jrsQXP+7bctKAdJhzDkzTIk7SYJBQw23d6d5uiQJYdBkMltWl88OSRWEav2drQ9RCrpt4VV9efuxw0T+XHdUhjue5K2tUU5jcck+ZNMFLynw5ppB1jTpovHm3snKVWYWQrWXYFLtF9cyOde0Wu6UepqBdcFaEjEUo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4Zxh7T4f9Wz6K8xB;
+	Wed, 14 May 2025 00:02:13 +0800 (CST)
+Received: from frapeml500008.china.huawei.com (unknown [7.182.85.71])
+	by mail.maildlp.com (Postfix) with ESMTPS id 355F11402EA;
+	Wed, 14 May 2025 00:06:54 +0800 (CST)
+Received: from localhost (10.220.132.170) by frapeml500008.china.huawei.com
+ (7.182.85.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.1.2507.39; Tue, 13 May
+ 2025 18:06:51 +0200
+Date: Tue, 13 May 2025 17:06:48 +0100
+From: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+To: <shiju.jose@huawei.com>
+CC: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
+	<dave@stgolabs.net>, <dave.jiang@intel.com>, <alison.schofield@intel.com>,
+	<vishal.l.verma@intel.com>, <ira.weiny@intel.com>,
+	<linux-edac@vger.kernel.org>, <linux-doc@vger.kernel.org>, <bp@alien8.de>,
+	<tony.luck@intel.com>, <lenb@kernel.org>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <nifan.cxl@gmail.com>, <linuxarm@huawei.com>,
+	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
+	<wanghuiqiang@huawei.com>
+Subject: Re: [PATCH v4 2/8] cxl: Update prototype of function
+ get_support_feature_info()
+Message-ID: <20250513170648.0000517e@huawei.com>
+In-Reply-To: <20250502084517.680-3-shiju.jose@huawei.com>
+References: <20250502084517.680-1-shiju.jose@huawei.com>
+	<20250502084517.680-3-shiju.jose@huawei.com>
+X-Mailer: Claws Mail 4.3.0 (GTK 3.24.42; x86_64-w64-mingw32)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+Content-Type: text/plain; charset="US-ASCII"
 Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: lhrpeml100012.china.huawei.com (7.191.174.184) To
+ frapeml500008.china.huawei.com (7.182.85.71)
 
-On Tue, 13 May 2025 11:44:09 +0200 Kory Maincent wrote:
-> > >  attribute-sets:
-> > >    -
-> > > @@ -1528,6 +1534,18 @@ attribute-sets:
-> > >          name: hwtstamp-flags
-> > >          type: nest
-> > >          nested-attributes: bitset
-> > > +  -
-> > > +    name: pse-ntf
-> > > +    attr-cnt-name: __ethtool-a-pse-ntf-cnt    
-> > 
-> > please use -- instead of underscores  
+On Fri, 2 May 2025 09:45:10 +0100
+<shiju.jose@huawei.com> wrote:
+
+> From: Shiju Jose <shiju.jose@huawei.com>
 > 
-> All the other attributes are using underscore in this property.
-> Are you sure about this?
+> Add following changes to function get_support_feature_info()
+> 1. Make generic to share between cxl-fwctl and cxl-edac paths.
+> 2. Rename get_support_feature_info() to cxl_feature_info()
+> 3. Change parameter const struct fwctl_rpc_cxl *rpc_in to
+>    const uuid_t *uuid.
+> 
+> Suggested-by: Dan Williams <dan.j.williams@intel.com>
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+Oops. I missed giving a tag on this one.
 
-yessir, we're trying to guide everyone to use -- these days.
-We should probably s/_/-/ all the existing cases which don't
-result in codegen changes.
+Seems fine to me.
+Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+
+Thanks for the poke. 
+
+> ---
+>  drivers/cxl/core/core.h     |  2 ++
+>  drivers/cxl/core/features.c | 17 +++++++----------
+>  2 files changed, 9 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/cxl/core/core.h b/drivers/cxl/core/core.h
+> index 17b692eb3257..613cce5c4f7b 100644
+> --- a/drivers/cxl/core/core.h
+> +++ b/drivers/cxl/core/core.h
+> @@ -124,6 +124,8 @@ int cxl_acpi_get_extended_linear_cache_size(struct resource *backing_res,
+>  					    int nid, resource_size_t *size);
+>  
+>  #ifdef CONFIG_CXL_FEATURES
+> +struct cxl_feat_entry *
+> +cxl_feature_info(struct cxl_features_state *cxlfs, const uuid_t *uuid);
+>  size_t cxl_get_feature(struct cxl_mailbox *cxl_mbox, const uuid_t *feat_uuid,
+>  		       enum cxl_get_feat_selection selection,
+>  		       void *feat_out, size_t feat_out_size, u16 offset,
+> diff --git a/drivers/cxl/core/features.c b/drivers/cxl/core/features.c
+> index 1498e2369c37..a83a2214a136 100644
+> --- a/drivers/cxl/core/features.c
+> +++ b/drivers/cxl/core/features.c
+> @@ -355,17 +355,11 @@ static void cxlctl_close_uctx(struct fwctl_uctx *uctx)
+>  {
+>  }
+>  
+> -static struct cxl_feat_entry *
+> -get_support_feature_info(struct cxl_features_state *cxlfs,
+> -			 const struct fwctl_rpc_cxl *rpc_in)
+> +struct cxl_feat_entry *
+> +cxl_feature_info(struct cxl_features_state *cxlfs,
+> +		 const uuid_t *uuid)
+>  {
+>  	struct cxl_feat_entry *feat;
+> -	const uuid_t *uuid;
+> -
+> -	if (rpc_in->op_size < sizeof(uuid))
+> -		return ERR_PTR(-EINVAL);
+> -
+> -	uuid = &rpc_in->set_feat_in.uuid;
+>  
+>  	for (int i = 0; i < cxlfs->entries->num_features; i++) {
+>  		feat = &cxlfs->entries->ent[i];
+> @@ -547,7 +541,10 @@ static bool cxlctl_validate_set_features(struct cxl_features_state *cxlfs,
+>  	struct cxl_feat_entry *feat;
+>  	u32 flags;
+>  
+> -	feat = get_support_feature_info(cxlfs, rpc_in);
+> +	if (rpc_in->op_size < sizeof(uuid_t))
+> +		return ERR_PTR(-EINVAL);
+> +
+> +	feat = cxl_feature_info(cxlfs, &rpc_in->set_feat_in.uuid);
+>  	if (IS_ERR(feat))
+>  		return false;
+>  
+
