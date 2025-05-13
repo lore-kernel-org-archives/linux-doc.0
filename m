@@ -1,158 +1,104 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 01CC018E362;
-	Tue, 13 May 2025 09:15:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-lj1-f174.google.com (mail-lj1-f174.google.com [209.85.208.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 857A5221FC0;
+	Tue, 13 May 2025 09:25:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747127756; cv=none; b=X9PKv5wqx62pYDeL7nU76wTHHiIFkmMbPB1PjY2x7y7c0uuA/HuoRDjLszbkZwe8/HXLZzcCJIySbSW1AryIbK5DuDXaoyVtrQ0mCVz0h7+eY5RHp+2Yhw6MlzcqR7RhMEg7WpUW9/4Mo2cDsR157SbZswOrrJDjRWG7P9HiNoM=
+	t=1747128319; cv=none; b=KhfihT1wUXypJLieAOMuQrjQDEZcu9vPSVKfDH9W9U8WXmL+dLzsq2xg1fI2CboCaO3AMaUVEYWfIxU7mfE2GmAIuMRQQDSuTerlZij+XqxfZHuBOCdzKo70lcqv9evWtcYHZQ4AjXACLTBjxKo9uwbGN8uLE7/oRk3OV7zXF0Q=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747127756; c=relaxed/simple;
-	bh=L36Sf6u/RDbBIgdHmhUm9WdOwooC5Gpp6K8/pGAS6us=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CImahyDBXn4m3d9Y/Vpkh6eOCRKM1hcFiM7HT2hZ1jqJ8U8vqmARgyCBRzazGCEPFJBxa0fNQDGqHCr01j2owXzp3NQLlexFMILsq2ivn4RgW+veg1f/7DYEnx8Aw27p2TqpcN+4ycZatROgWAB7IAkglVormEpCykkChXzjhyc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4A734168F;
-	Tue, 13 May 2025 02:15:43 -0700 (PDT)
-Received: from [10.1.197.1] (ewhatever.cambridge.arm.com [10.1.197.1])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 925F23F673;
-	Tue, 13 May 2025 02:15:50 -0700 (PDT)
-Message-ID: <c5a74dfe-68e2-48f1-9bbb-06db8e62ffea@arm.com>
-Date: Tue, 13 May 2025 10:15:49 +0100
+	s=arc-20240116; t=1747128319; c=relaxed/simple;
+	bh=0vnTH7IpcYbdB55+fKTyZHUcBuzLZwTH1WanZ3tgS0Q=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=cve5VpESD4+3xPGzEf8xw+giEw7neAXv3917HWGbcURXtcCxmyxa+wQ+5HfxkY1pp5tLvyhl9b7F7xel5DlwQrmurNhUmz341a1cdCW9CHgAmDNEpOy7AF63z12oG3qT72gURiOTZUOdiKU5cLgqDfM9WVpA+Q0ZuJRafj9Reto=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FTUTtI8i; arc=none smtp.client-ip=209.85.208.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FTUTtI8i"
+Received: by mail-lj1-f174.google.com with SMTP id 38308e7fff4ca-30c416cdcc0so51853821fa.2;
+        Tue, 13 May 2025 02:25:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747128315; x=1747733115; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=RIPpIwGNU4CPXqq/V0PRMisoOJXHPtuNqt6Y92vkNZU=;
+        b=FTUTtI8iYQ6nXoIH0O061z1SNkN7LdSZkGPP4tykWkpho68mQCW09vNA/SpinhJPhF
+         dnXRicvMmkAdaHp3+58e9EwX2xn1kioMMIW9iyhgq4+2t7usZn4fUqj7YiT6MmJUj88z
+         fYYf0SB5/PG0RetrNGb4b0ncU623DwMZbLzlfzc9NNfbSJ6zW77Zqr+uY/yLlHGT2CGz
+         U95GSmQbHUQ+VDpwkL30Pif2S8+Ib42fb9bW1mPmsx3JEupHqMd71qW9JfGxYgwSmpN4
+         ADUCGz2xeELf1W+86w7Wb0oBM9VLHxiWNidIyU/kbVxO0VrolcV9ChiPIV19iKdGD4tF
+         d1GQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747128315; x=1747733115;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=RIPpIwGNU4CPXqq/V0PRMisoOJXHPtuNqt6Y92vkNZU=;
+        b=dyhEs/9InKOdXQ7fXBopiixso60cCGr2h2kkWoxdOCQvjVO6W78nHZvQHmZMRK/4d0
+         AE6utAglBrSTvsoKuw2WH6KK+HBe7Nf6D/0lSbnA5hMV6dWBaQsoxjnFVvq7jxYnCEc9
+         2TklW9Zm6ZtQ/2wYvwY5vHLEkb3KWozrE1TfdHnfUcoovTtz8QnZR+U8RM3g5I59ASBo
+         673MTWEw3o95JvVc/1P/o8gvrcdkQTG7OFuQ5qWEIuS6ZY7VTNm/WMVujGOJ/tz7q7Hk
+         HHZZT0msAnGS3l70dE1dPgnGV+badQXAt9adYh3KQwU1Krj7+0Law6ekA9Xi6MK9GBtK
+         NwVw==
+X-Forwarded-Encrypted: i=1; AJvYcCVNh4kwNodB4k+NN/xedJVeNwspxyB/wajhmu5WPDcWPRC2xZ4VnCQn+nLDLgwSwqZltm9SQSO9@vger.kernel.org, AJvYcCWMopL+tevh6fTWCn0tunJuPAOKd3ofO53GYMvBCqRF0scdH1lcdZAblVDLUvkJe7dLC61+QqxYho6NRX+G@vger.kernel.org, AJvYcCWVXkxt43HY8ZWut9a9B6a0VP1nwAXwTDfM+aZngGR+UrnjsBy2UBA5zWZrj0vwW7OBB3Ya/KhpAFk=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwFru/pf473al0GGp7hhISu7mi+q+EPh+VuaXXnc8xbTPxd1OTg
+	UjvGwL966DIiCfWKDC8Z9pUOTO3UsGG6wF4mBPuOIO6Qhoi5e4+x
+X-Gm-Gg: ASbGnctU7Y/hcao3HktuuJxL5RNXzK5pLa2XR+AEhDgxtd161p8weHpMQlCUEMKuF6T
+	9sRk51HPGCDOKXyTNf31q3okQbW8WYmgWQ5wLXfX+GpKlZVpNgDwf72b3CEvtb7vVCCbVa1MAIl
+	pMyulanpYu5MHWA5s89Y7+yEfAw32q/3zjzdX/oc+eq5CHexayMEGncL1Nro1x5KUUgx/y1N2A8
+	hNdsj8JzAiKHJln8V7iict5u+koAjkSgxp1o0PjcFp15mEXB21r26CCoIk4Bqmm6eXt4p+BgTNr
+	qP8RlwEkNK9pNovusAzmATdcvH5ktDaPykLkZNtT05jpZ3gOejJ4cwUxkP6nI+ZL2s6l
+X-Google-Smtp-Source: AGHT+IEpVjrYLcux/PHYNZ9dnj51M8Wg5rrJhJDG4TZL5iP7mg4Qj3g39tFfIr7NKjOPPFfdl7GzvQ==
+X-Received: by 2002:a05:651c:2105:b0:307:dc1f:e465 with SMTP id 38308e7fff4ca-326c45cacbamr67113591fa.22.1747128315279;
+        Tue, 13 May 2025 02:25:15 -0700 (PDT)
+Received: from localhost.localdomain ([176.33.65.121])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-326c321f2d7sm16118171fa.0.2025.05.13.02.25.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 02:25:14 -0700 (PDT)
+From: Alper Ak <alperyasinak1@gmail.com>
+To: kuba@kernel.org
+Cc: jiri@resnulli.us,
+	davem@davemloft.net,
+	edumazet@google.com,
+	pabeni@redhat.com,
+	horms@kernel.org,
+	corbet@lwn.net,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	alperyasinak1@gmail.com
+Subject: [PATCH v3] documentation: networking: devlink: Fix a typo in devlink-trap.rst
+Date: Tue, 13 May 2025 12:24:51 +0300
+Message-ID: <20250513092451.22387-1-alperyasinak1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
-To: Catalin Marinas <catalin.marinas@arm.com>,
- Ryan Roberts <ryan.roberts@arm.com>
-Cc: Will Deacon <will@kernel.org>,
- =?UTF-8?Q?Miko=C5=82aj_Lenczewski?= <miko.lenczewski@arm.com>,
- yang@os.amperecomputing.com, corbet@lwn.net, jean-philippe@linaro.org,
- robin.murphy@arm.com, joro@8bytes.org, akpm@linux-foundation.org,
- paulmck@kernel.org, mark.rutland@arm.com, joey.gouly@arm.com,
- maz@kernel.org, james.morse@arm.com, broonie@kernel.org,
- oliver.upton@linux.dev, baohua@kernel.org, david@redhat.com,
- ioworker0@gmail.com, jgg@ziepe.ca, nicolinc@nvidia.com, mshavit@google.com,
- jsnitsel@redhat.com, smostafa@google.com, kevin.tian@intel.com,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
-References: <20250428153514.55772-2-miko.lenczewski@arm.com>
- <20250428153514.55772-4-miko.lenczewski@arm.com>
- <20250506142508.GB1197@willie-the-truck>
- <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
- <20250509134904.GA5707@willie-the-truck> <aB4nqtMJuvvp7Vwm@arm.com>
- <015746d7-ca46-4978-a441-09fba781fdd4@arm.com>
- <4709ff5a-f89c-426e-ae95-f8356808f4f5@arm.com>
- <99079d56-428b-4bc4-b20a-dc10032f2a2f@arm.com> <aCIiwrA_MOeVhFre@arm.com>
-Content-Language: en-US
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <aCIiwrA_MOeVhFre@arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
 
-On 12/05/2025 17:33, Catalin Marinas wrote:
-> On Mon, May 12, 2025 at 02:35:01PM +0100, Ryan Roberts wrote:
->> On 12/05/2025 14:24, Suzuki K Poulose wrote:
->>> On 12/05/2025 14:07, Ryan Roberts wrote:
->>>> On 09/05/2025 17:04, Catalin Marinas wrote:
->>>>> On Fri, May 09, 2025 at 02:49:05PM +0100, Will Deacon wrote:
->>>>>> I wonder if we could treat it like an erratum in some way instead? That
->>>>>> is, invert things so that CPUs which _don't_ have BBML2_NOABORT are
->>>>>> considered to have a "BBM_CONFLICT_ABORT" erratum (which we obviously
->>>>>> wouldn't shout about). Then we should be able to say:
->>>>>>
->>>>>>     - If any of the early CPUs don't have BBML2_NOABORT, then the erratum
->>>>>>       would be enabled and we wouln't elide BBM.
->>>>>>
->>>>>>     - If a late CPU doesn't have BBML2_NOABORT then it can't come online
->>>>>>       if the erratum isn't already enabled.
->>>>>>
->>>>>> Does that work? If not, then perhaps the cpufeature/cpuerrata code needs
->>>>>> some surgery for this.
->>>>>
->>>>> Ah, I should have read this thread in order. I think we can treat this
->>>>> as BBML2_NOABORT available as default based on ID regs and use the
->>>>> allow/deny-list as an erratum.
->>>>
->>>> Just to make sure I've understood all this, I think what you are both saying is
->>>> we can create a single capability called ARM64_HAS_NO_BBML2_NOABORT of type
->>>> ARM64_CPUCAP_LOCAL_CPU_ERRATUM. Each CPU will then check it has BBML2 and is in
->>>> the MIDR allow list; If any of those conditions are not met, the CPU is
->>>> considered to have ARM64_HAS_NO_BBML2_NOABORT.
->>>
->>> I guess we need two caps.
->>>
->>> 1. SYSTEM cap -> ARM64_HAS_BBML2. Based on the ID registers
->>> 2. An erratum -> ARM64_BBML2_ABORTS. Based on BBLM2==1 && !in_midr_list()
->>
->> I don't think we *need* two caps; I was suggesting to consider both of these
->> conditions for the single cap. You are suggesting to separate them. But I think
->> both approaches give the same result?
->>
->> I'm easy either way, but keen to understand why 2 caps are preferred?
-> 
-> I guess it's easier to reason about than a single, negated property but
-> the result should be identical. With two properties we can easily
-> implement the idreg override like nobbml2 since this works on the
-> sanitised ID regs. But we could also implement this differently, no need
-> to rely on the ID regs.
-> 
-> Stepping back a bit, we know that the MIDR allow-list implies
-> BBML2_NOABORT (and at least BBML2 as in the ID regs). In theory, we need
+Fix a typo in the documentation: "errorrs" -> "errors".
 
-Please be aware that BBML2_NOABORT midr list may not always imply BBLM2 
-in ID registers (e.g., AmpereOne. But the plan is to fixup the per cpu
-ID register - struct cpuinfo_arm64 - for such cores at early boot,
-individually, before it is used for sanitisation of the system wide
-copy).
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
+---
+ Documentation/networking/devlink/devlink-trap.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-
-> something like a SYSTEM_FEATURE which is the conjunction of all the
-> early CPUs. However, such system-level cap is only checked after all the
-> early CPUs booted _and_ only on the sanitised ID regs rather than MIDR.
-> 
-> We need a LOCAL_CPU feature behaviour to be called on each CPU but still
-> have the conjunction of early CPUs, more like the system one. It should
-> be permitted for late CPUs to have but not optional if already enabled.
-> 
-> So how about we introduce a WEAK_BOOT_CPU_FEATURE which gets enabled by
-> the boot CPU if it has it _but_ cleared by any secondary early CPU if it
-> doesn't (and never enabled by secondary CPUs). When the features are
-> finalised, we know if all early CPUs had it. In combination with
-> PERMITTED_FOR_LATE_CPU, we'd reject late CPUs that don't have it.
-
-That could work, but it introduces this "clearing" a capability, which
-we don't do at the moment.
-
-We had an offline discussion about this some time ago, with Mark
-Rutland. The best way to deal with this is to change the way we compute
-capabilities. i.e.,
-
-
-1. Each boot CPU run through all the capabilities and maintain a per-cpu
-    copy of the state.
-2. System wide capabilities can then be constructed from the all early
-    boot CPU capability state (e.g., ANDing all the state from all CPUs
-    for SCOPE_SYSTEM or ORing for LOCAL_CPU).
-
-But this requires a drastic change to the infrastructure.
-
-> 
-> I think if we can get the above, it would be the cleaner option than
-> trying to bend our minds around double negations like !NO_BBLM2_NOABORT.
-
-Agree, every time I come back to the thread, I have to write down the
-check and stare at it for a minute to agree with what it does. That said
-it may be ideal solution for the short term. Or stick to what we do in
-the patch currently, until we implement per-cpu capability proposal.
-
-Cheers
-Suzuki
-
-> 
+diff --git a/Documentation/networking/devlink/devlink-trap.rst b/Documentation/networking/devlink/devlink-trap.rst
+index 2c14dfe69b3a..5885e21e2212 100644
+--- a/Documentation/networking/devlink/devlink-trap.rst
++++ b/Documentation/networking/devlink/devlink-trap.rst
+@@ -451,7 +451,7 @@ be added to the following table:
+    * - ``udp_parsing``
+      - ``drop``
+      - Traps packets dropped due to an error in the UDP header parsing.
+-       This packet trap could include checksum errorrs, an improper UDP
++       This packet trap could include checksum errors, an improper UDP
+        length detected (smaller than 8 bytes) or detection of header
+        truncation.
+    * - ``tcp_parsing``
+-- 
+2.43.0
 
