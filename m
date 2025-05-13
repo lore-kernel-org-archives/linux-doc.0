@@ -1,233 +1,199 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+Received: from NAM12-BN8-obe.outbound.protection.outlook.com (mail-bn8nam12on2062.outbound.protection.outlook.com [40.107.237.62])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62FAF1A23AD;
-	Tue, 13 May 2025 17:56:47 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.20
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747159010; cv=none; b=SuUBZIq1m4/WmhMXNzlbGIZaJf7qL7QDXuQUiRkjA4a9GVHBfv5YZKdQAAsDHHux6nx96E2oTYg5FKXwa4gy1JS9ETk4kifW0dLANlHxwbGcCqdj9l+e+mZ6aBtP/J39Wv3WrltBXxMddnnHO7XUFalYXlJfzJbClzA3KKEv3IU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747159010; c=relaxed/simple;
-	bh=W6+yokoThvaOBBG/FB21beFAxqHZyI9YwRPBjPpV2mQ=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CTQjMSTCcr0kO9P2J/2StPiVJn7+xTCXu9iAwsLT/oQODHmB/CNNWYqNWc+a0nR12vhFiSRwXrvLzL9prjmh0GbzQYnHNvi5fUSgVrx2k2M/v1Mx5jx7XQPTPxRVzYxCGsdDxg+wBsHcCp09Qrwp/Q2h4O1MWgLMHGmr5m8Y69o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OfSPPNJ5; arc=none smtp.client-ip=198.175.65.20
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 931202BFC89;
+	Tue, 13 May 2025 18:53:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.237.62
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747162402; cv=fail; b=WQINEmGvlrj1vOIE/EXGtOFBklcS6nnKTGY8ubVZPKoooOqzZZRHlLYavcdmO93IGREcWLTsDu2SCEjQKR3Suf7ZoXWKzR1vFVHkDY8Xwf+KUtklmF5oSZaUBUA4evVsPOCeJoPJu1w9EudQhOgEfcF23SOBwmIOEW4s06jJ6fk=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747162402; c=relaxed/simple;
+	bh=h+71144dt+2T58u+RnQ3ymFKxsKtbDwsuXVKY2Ao4Hw=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=eBqaWtM/LevsIdwhkRGE1zCuBrBybkwneVgRXrp2zJz5JDuYinzlk67aFXReSb9Wfe7ikly3OfjTdoQji1nWEe3E77ohbhFQSTCo0ykGYSFbcAfdFSIhUy6m0cxOgFcKA8GARctBHM/+lL+xWae392ddEy+HVS+DETyCl5THvIE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=IfBUTovu; arc=fail smtp.client-ip=40.107.237.62
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OfSPPNJ5"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747159008; x=1778695008;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to:content-transfer-encoding;
-  bh=W6+yokoThvaOBBG/FB21beFAxqHZyI9YwRPBjPpV2mQ=;
-  b=OfSPPNJ5rQY3xUtmCXdz71fY30FoXpM6c5tgD/PlJ2PMFN7QzXGlz/of
-   5rpc8BHCEMaALYIZ2qzxtTYGRg9hPAXPSChKo8wkFbKJHxjaMT9FEaD1X
-   ekHUgj7J8JgPoinHZOfNl8l60Zu6uExC0BQEMSsPTgyaJv9YS8xBUa4MM
-   puB+q81rXAOxsz3nyt2HYCHOdQPIZhhVns7vESe4gajO6/hIzHrTgh0Tq
-   hUYJ2fixpRvzWui3Z1ydmUFd168fFjmtKFU7Vy9pcwYEw2OvmqDjjuCjx
-   MMR9iUQk1R3L4MKiQd1XG10ogkEK4vAdfN0mrMl3m4LOc1rEOd2Q7tCuG
-   Q==;
-X-CSE-ConnectionGUID: PVYQYT1iREKgDHWyGOIXgA==
-X-CSE-MsgGUID: W6Lt1jp4TVWz7n+jNJdmIg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11432"; a="48713146"
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="48713146"
-Received: from orviesa005.jf.intel.com ([10.64.159.145])
-  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 10:56:47 -0700
-X-CSE-ConnectionGUID: ie/sR7Q9QIuQkNkZA4lbqw==
-X-CSE-MsgGUID: K66ercwtRwWcEe8NNUXZnA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,285,1739865600"; 
-   d="scan'208";a="142885630"
-Received: from ldmartin-desk2.corp.intel.com (HELO [10.125.109.16]) ([10.125.109.16])
-  by orviesa005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 May 2025 10:56:47 -0700
-Message-ID: <c940d96a-d021-44e1-85e9-362ae4dd8d74@intel.com>
-Date: Tue, 13 May 2025 10:56:45 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="IfBUTovu"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=rhBm0ZMo6OqA4KXMXFaJNTryXHxLgNHZQKShd2oV9N6q/4tb0PB8D+L+2d9Hq/mXDzoQmY3P44tS8F6PI3/xYS2QoSToCPdov+nqRzb5aLWpffPjae3u9TjM/ymkZhjRhd19jnH9z0eNJVVKZTAOvaRIMSFqI1/Hxp5uoHOHAwQOsiSvBqmfWU+BBAzHWNXkllpWubMqWk8z81NXAdS6WwCt8JBAhNPEF8/268BIzOVh1dBGzOTX0Q8z0y7jGAef2tl2vcctlCdpDR7kofFsv+D3ipUiOiMJId3EYS6dUreeVpOgGHEuG1ck4Rf8i+lWWSjT/MQsvBevmQE6iMgJ7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=mrMp21WC+xE2uUatDKDfBDDao+sqAgjVDczM8mmx5aI=;
+ b=q+xVt+38XCSnQtcW8eGpVP6igoX10qF4IvN27wiA+L/8SZ9TE6G6E19ztlr8ZCBUGaN4uPgAe5FJg4eCKw9klVvoBdZ6cqLyqdlr16qn3lSsEiZ1xCqTRPu3mLfruvByiZe1HTkDXfMlhrADl+4wa7FhWDnakjykDF/s3vvcqgxfiavc3K6rPU9dkKgwrGMS9VGrf3ENDDvlVaA4P/qLCMTHWJ3VGFgbs88oBsKd6ColR0QxeLGCB+KCHkhEQz3sXaEee+XZF3oPce0ZpwOh/ervDM8F5tYAZRPBgssrkEB101olNcz7NiG+ti/glGpbcjUkt2H43EbC3dxxlphMZA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=mrMp21WC+xE2uUatDKDfBDDao+sqAgjVDczM8mmx5aI=;
+ b=IfBUTovutHhtxwUSNCXXQocc42UTvoC7363h2I5Vji3SpyNRiVWxyqf4+pIx7+40Fhfni0nEHtgZEUvjMwVk21sTziHVEsfd7WaR4kZnyODCqoMmSIc5kXg0gW/1WyLkscdpfzWbirT+CE81kBStTSGzaZpq6eYO1nrioKcVhV8ZVSSgRLZ2/l3B06RpwojKElj6jef0GZIdT+qHkZEqo6S+8R5vfjrbvp8/NcCsLz/OAwyUQA5z3/HZrjEtDGy07XEGs4fvemdlYeWilWQrPRjO2p4g5mYft4RS1MeAc6HEiqjDuLN37EH+ZMN8BxygsodyXaj8I9luXbGl33Q2sQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com (2603:10b6:303:240::9)
+ by CH3PR12MB9455.namprd12.prod.outlook.com (2603:10b6:610:1c1::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Tue, 13 May
+ 2025 18:53:11 +0000
+Received: from MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f]) by MW6PR12MB8663.namprd12.prod.outlook.com
+ ([fe80::594:5be3:34d:77f%6]) with mapi id 15.20.8722.027; Tue, 13 May 2025
+ 18:53:11 +0000
+Date: Tue, 13 May 2025 15:53:10 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Bagas Sanjaya <bagasdotme@gmail.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, iommu@lists.linux.dev,
+	Joerg Roedel <joro@8bytes.org>,
+	Justin Stitt <justinstitt@google.com>,
+	Kevin Tian <kevin.tian@intel.com>, linux-doc@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, llvm@lists.linux.dev,
+	Bill Wendling <morbo@google.com>,
+	Nathan Chancellor <nathan@kernel.org>,
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Robin Murphy <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>,
+	Suravee Suthikulpanit <suravee.suthikulpanit@amd.com>,
+	Will Deacon <will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>,
+	Alejandro Jimenez <alejandro.j.jimenez@oracle.com>,
+	James Gowans <jgowans@amazon.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Pasha Tatashin <pasha.tatashin@soleen.com>, patches@lists.linux.dev
+Subject: Re: [PATCH v2 02/15] genpt: Add Documentation/ files
+Message-ID: <20250513185310.GA451051@nvidia.com>
+References: <0-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+ <2-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+ <aBrHU-OGbfqk1DSq@archie.me>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <aBrHU-OGbfqk1DSq@archie.me>
+X-ClientProxiedBy: BN9P221CA0002.NAMP221.PROD.OUTLOOK.COM
+ (2603:10b6:408:10a::9) To MW6PR12MB8663.namprd12.prod.outlook.com
+ (2603:10b6:303:240::9)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 08/17] cxl: docs/linux - early boot configuration
-To: Gregory Price <gourry@gourry.net>, linux-cxl@vger.kernel.org
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- kernel-team@meta.com, dave@stgolabs.net, jonathan.cameron@huawei.com,
- alison.schofield@intel.com, vishal.l.verma@intel.com, ira.weiny@intel.com,
- dan.j.williams@intel.com, corbet@lwn.net
-References: <20250512162134.3596150-1-gourry@gourry.net>
- <20250512162134.3596150-9-gourry@gourry.net>
-Content-Language: en-US
-From: Dave Jiang <dave.jiang@intel.com>
-In-Reply-To: <20250512162134.3596150-9-gourry@gourry.net>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MW6PR12MB8663:EE_|CH3PR12MB9455:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2b24272e-e203-4e07-f99f-08dd924f68cc
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?abANiR2WDt14+ihwsWIyVGfxYkJQ9jeujs8ZF7+5rSb2Q5wmVP0eOpXSqpWB?=
+ =?us-ascii?Q?xVjkLSPJ87N0XeT67l7ImuZG9tQ8YIniCDY/LJpLvYdtsIpCa+UxEW4ZoZ4K?=
+ =?us-ascii?Q?qPbU5vPJNeLrs6vJ6nln+ePsSPZO6NbbVpuEMLynYeR+KZQF+8Y7KEgx7wMg?=
+ =?us-ascii?Q?9MLkHihA3yAgAgkHSEZ8UF6PdnilcBZTwvstvLUBseDR3TM6TrLuAjNJg3Oz?=
+ =?us-ascii?Q?2SRXMkSUMC/WD2wR/RdKxN46pXYS+oNx5IhjjySjwPZBd7JTZ9z1wCYN8akV?=
+ =?us-ascii?Q?BmEP06ald10N8FvhANGNpTQ2BfY2YcnF19zbxDEDtCBgsZNX+Kf6z+YXGsaR?=
+ =?us-ascii?Q?jzrpXXZuD3gAMfLaIaYWkJ3ee+nM9OtR84frekI4yH9ifWvLlV19/EnFc8Is?=
+ =?us-ascii?Q?hADYH2fQar7hVD+9jde1xvrW/ohBmTUVKe+KBzjhDz3AsRHc7h+kd++XnHn0?=
+ =?us-ascii?Q?jdK+IKIvvxddaTGCAG0Uawk951VfOL2Y5leP0H4LZ9W0jwfybBzImqPrhlka?=
+ =?us-ascii?Q?kyVB+7Nqp+jlDMnWfmaBSy75c/nSU8e8cwNVsPD7C219tpUbyGZC4+G87sqb?=
+ =?us-ascii?Q?g1ASNFn8R+2hHh2mtEWC1rz3bjye/myqjWv6J03K3B9gmnyHYueI+dzzyWSj?=
+ =?us-ascii?Q?NXAsFla5+a+VjbDXeFP2fJisFZ2iFql8LOXnPTeALeMIeLV2494gD7usiDAk?=
+ =?us-ascii?Q?d5hft6Zkr8kh3vOBD33NnhZ2hSvdBkfXe8e3p4DeJoZF8vndixsmgdjmoVAc?=
+ =?us-ascii?Q?kfqsnwOH8s5w/PNAez54BiWDopw8eJF7r6aN+FKySSCRmyByIEOnMvmRlKjw?=
+ =?us-ascii?Q?S1CHf+MLMjurXBtnmTkYqx7hbIEc+Oq2oIgcq+iWqg9tvuXFFzUr2HxB8NK/?=
+ =?us-ascii?Q?fiAODlYz4AeIye1vWR+TnVhR98UNZfhVe6x9+aCvIDbz93Y31A8DmnowaJLP?=
+ =?us-ascii?Q?5/GMdyqLT5ZGyTawuPGRXnA+pvDTupYq3IALg73beVGKZgRF2Od9t+wjXOHs?=
+ =?us-ascii?Q?mq2Na5Qz7tgyzGdhXtYSQK0aJ3eZHY3e7CmpV6PGNcvazXaesFttUdKd6fla?=
+ =?us-ascii?Q?jZXnlww+8LYJNxr/qDLlzxQlMW+4AScrITVqf6b8lGtXROyk9wxZjBThAKgY?=
+ =?us-ascii?Q?UONIN+r1MNy26feSYDWVB70t1FnVPiXXD7AX3MKUBNqhtwPlueucO2bZfeAY?=
+ =?us-ascii?Q?4rCVsgEnTo2v2itCtw3wHPnkoGFfcFCMcI7DZlgLppZJLIaZ61JalDe/hFsu?=
+ =?us-ascii?Q?A61tPXbO9q8DIi7gd90bDZULDBSqqoIfTstfXLs+6MB+iwcxDzHSkOKKoVrU?=
+ =?us-ascii?Q?jlh+Hyv1lEVif9/uQe6ywQ8OPsf2KTH3I/tIEhxE2ZgYOuUQjzeanQkQMQRi?=
+ =?us-ascii?Q?ocJU4W8YNlSANyLjciVenvAmzBReEAJYufR3LhFiMRCI6pLweA=3D=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MW6PR12MB8663.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?yphClw+BI2o9x4uDxRSDZv9JiZS3cOtO50VFsLmwg9k2itO0cXeEoB2NI7yg?=
+ =?us-ascii?Q?VytBi2GQ+mglmz/5Y/R55S/F5U3rWP1DrS0GHOHknEqb7lV1YxZSaNdlM+PK?=
+ =?us-ascii?Q?HG1XAS7brlElzWC89uHCDx0sWI3a77Biu0rJOlaZYOHqe+qYOvskxNr66cdP?=
+ =?us-ascii?Q?7uUtczkgpXlNGm0ljtSHXS2DULpFw1hOGP3g01UnKTx6ahXB1LRovwrFJXHB?=
+ =?us-ascii?Q?Ja+dQUOoKb2g5ybjs901CkbnhdyDW2tXSipNuM7NEEzvH4/T+r9jq0LEs3iX?=
+ =?us-ascii?Q?6GV7HmD17CSZXOjzhqxsRDNxDIJ3IYcSpqwKffc3K+MW+nKi3Np1/gVJ/QQi?=
+ =?us-ascii?Q?Cr2WG+vpOqq0QoKhYMxI1sOGU5Ft1TEhpp9BEjihi8tTuhhzepJfp2cNrkyr?=
+ =?us-ascii?Q?UP10U+SjT5MxRWlbV6006zAto3DFbB7SaagZil2nBp2TnxrR7iA0iQ9PuIUw?=
+ =?us-ascii?Q?IH9c4uBY+ZXZ4TaC4Cjp9U5ViJuVJtmFIJ5RPD/ceddHUV9hwkYnBlAA+ia9?=
+ =?us-ascii?Q?gOVFWecGGObQmOlJ66CuXB7d4mGMnoqDCIlDdQw3yisWanVOkhvrZ+fTvp5i?=
+ =?us-ascii?Q?9zPQp8gv07c0ZXfetkOrTMLuZs18nY64p7K7ljRb/GKgUgf+ecWBvDP2LRGn?=
+ =?us-ascii?Q?CTptecspX+AVCrIpfApmGnL2edtXmzAv2hLeMi63vyCzAr3uNqNKaSPu/e8X?=
+ =?us-ascii?Q?ZF7N8I4Jub8i5aIcQQeNTXBrNNdAbp1yyQWhpQh9hr59NI3KaBG5UES8dEYj?=
+ =?us-ascii?Q?Ib2hgP5iwNc1dKQDz7qDjiYU7mCNMWqXgr8xNduxkiK9chvfp/8EcapMqIBJ?=
+ =?us-ascii?Q?9cujg6v07dySgyXvOFTXwmiSaESo63Ly3LAwvrgXHllFfMTD5S0Q87lP+NQi?=
+ =?us-ascii?Q?P+REzKi+1cQMhyl/NKpC16XWNotHFPi6uuALjEUh18j/xsueCT58zciLYUY1?=
+ =?us-ascii?Q?krNIYNuu0qDvt3Kt7kO1g//pVpNvWfgcSRmSwSeG+COplHBge6GuwppP5SVM?=
+ =?us-ascii?Q?xk56XK7/rTR/okRL7IoBssvWUyiPpI6Q0qsPysqiJbl4gsvn87LmnaO3hHjP?=
+ =?us-ascii?Q?ZgbJSXzdbBnrJMwcWgH5cuP7ecQSM8laxEGR96LhtGPfLx6cmBczx7uWotgD?=
+ =?us-ascii?Q?M8qGulu0MzNvV2CBU/aY2zktm5sdG+yno6pMjqJeaiqpCJyiCzU6ftBjbRqY?=
+ =?us-ascii?Q?iNmQVFuwiEvh90LDB6Cb60rEUtJ7jJr2snuOaMBukkin26ClGPqGwPV+Id0w?=
+ =?us-ascii?Q?wvd65c4oA1Y9ErLVHmBSqQNA4V9mKDY2fwyiQoy94Lk0+2xo3qkZS8MQH6Pr?=
+ =?us-ascii?Q?vnEapj2CqcfwYjghjcABFA4/OwqZK36mjDItwkTVLVf0M+rqiNAwKkD3ZmC2?=
+ =?us-ascii?Q?uLIyIkAgqx8B+vi0rne99R+UgW0ueUz+wpQeTXHrczZJIC3AUep5xun8Wc7e?=
+ =?us-ascii?Q?lURGrF09p9/NIhfwljTWji4cUFspFDz9g6hdaamIr5Td4zJPhCnlVh7+Rno/?=
+ =?us-ascii?Q?4fiEBWAlgoJZ25FK9XLIAekMHSc8V/uhcSHYjscu4AcZ0gRAyH1nlQivsWDR?=
+ =?us-ascii?Q?G+u2WFpet0gTJNGK0n0=3D?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2b24272e-e203-4e07-f99f-08dd924f68cc
+X-MS-Exchange-CrossTenant-AuthSource: MW6PR12MB8663.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 13 May 2025 18:53:11.7652
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 1wYohHgmjviQg/NDOeSxrcZkButWL5VFsC3cPlnd9N4nWHdxPPVAs+c6iqrEPa9l
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR12MB9455
 
-
-
-On 5/12/25 9:21 AM, Gregory Price wrote:
-> Document __init time configurations that affect CXL driver probe
-> process and memory region configuration.
+On Wed, May 07, 2025 at 09:37:07AM +0700, Bagas Sanjaya wrote:
+> On Mon, May 05, 2025 at 11:18:32AM -0300, Jason Gunthorpe wrote:
+> > +Since each compilation unit can only access one underlying format at a time,
+> > +code that is intended to be generic across multiple formats has to compile
+> > +itself multiple times.
+> > +
+> > +In an implementation compilation unit the headers would normally be included as
+> > +follows::
+> > +
+> > +	#include <linux/generic_pt/common.h>
+> > +	#include "fmt/defs_amdv1.h"
+> > +	#include "pt_defs.h"
+> > +	#include "fmt/amdv1.h"
+> > +	#include "pt_common.h"
+> > +	#include "pt_iter.h"
 > 
-> Signed-off-by: Gregory Price <gourry@gourry.net>
+> What do you mean by compiling generic code multiple times? Including
+> their headers at multiple places like above?
 
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-> ---
->  Documentation/driver-api/cxl/index.rst        |   1 +
->  .../driver-api/cxl/linux/early-boot.rst       | 131 ++++++++++++++++++
->  2 files changed, 132 insertions(+)
->  create mode 100644 Documentation/driver-api/cxl/linux/early-boot.rst
-> 
-> diff --git a/Documentation/driver-api/cxl/index.rst b/Documentation/driver-api/cxl/index.rst
-> index bc2228c77c32..d2eefe575604 100644
-> --- a/Documentation/driver-api/cxl/index.rst
-> +++ b/Documentation/driver-api/cxl/index.rst
-> @@ -34,6 +34,7 @@ that have impacts on each other.  The docs here break up configurations steps.
->     :caption: Linux Kernel Configuration
->  
->     linux/overview
-> +   linux/early-boot
->     linux/access-coordinates
->  
->  
-> diff --git a/Documentation/driver-api/cxl/linux/early-boot.rst b/Documentation/driver-api/cxl/linux/early-boot.rst
-> new file mode 100644
-> index 000000000000..8c1c497bc772
-> --- /dev/null
-> +++ b/Documentation/driver-api/cxl/linux/early-boot.rst
-> @@ -0,0 +1,131 @@
-> +.. SPDX-License-Identifier: GPL-2.0
-> +
-> +=======================
-> +Linux Init (Early Boot)
-> +=======================
-> +
-> +Linux configuration is split into two major steps: Early-Boot and everything else.
-> +
-> +During early boot, Linux sets up immutable resources (such as numa nodes), while
-> +later operations include things like driver probe and memory hotplug.  Linux may
-> +read EFI and ACPI information throughout this process to configure logical
-> +representations of the devices.
-> +
-> +During Linux Early Boot stage (functions in the kernel that have the __init
-> +decorator), the system takes the resources created by EFI/BIOS (ACPI tables)
-> +and turns them into resources that the kernel can consume.
-> +
-> +
-> +BIOS, Build and Boot Options
-> +============================
-> +
-> +There are 4 pre-boot options that need to be considered during kernel build
-> +which dictate how memory will be managed by Linux during early boot.
-> +
-> +* EFI_MEMORY_SP
-> +
-> +  * BIOS/EFI Option that dictates whether memory is SystemRAM or
-> +    Specific Purpose.  Specific Purpose memory will be deferred to
-> +    drivers to manage - and not immediately exposed as system RAM.
-> +
-> +* CONFIG_EFI_SOFT_RESERVE
-> +
-> +  * Linux Build config option that dictates whether the kernel supports
-> +    Specific Purpose memory.
-> +
-> +* CONFIG_MHP_DEFAULT_ONLINE_TYPE
-> +
-> +  * Linux Build config that dictates whether and how Specific Purpose memory
-> +    converted to a dax device should be managed (left as DAX or onlined as
-> +    SystemRAM in ZONE_NORMAL or ZONE_MOVABLE).
-> +
-> +* nosoftreserve
-> +
-> +  * Linux kernel boot option that dictates whether Soft Reserve should be
-> +    supported.  Similar to CONFIG_EFI_SOFT_RESERVE.
-> +
-> +Memory Map Creation
-> +===================
-> +
-> +While the kernel parses the EFI memory map, if :code:`Specific Purpose` memory
-> +is supported and detected, it will set this region aside as
-> +:code:`SOFT_RESERVED`.
-> +
-> +If :code:`EFI_MEMORY_SP=0`, :code:`CONFIG_EFI_SOFT_RESERVE=n`, or
-> +:code:`nosoftreserve=y` - Linux will default a CXL device memory region to
-> +SystemRAM.  This will expose the memory to the kernel page allocator in
-> +:code:`ZONE_NORMAL`, making it available for use for most allocations (including
-> +:code:`struct page` and page tables).
-> +
-> +If `Specific Purpose` is set and supported, :code:`CONFIG_MHP_DEFAULT_ONLINE_TYPE_*`
-> +dictates whether the memory is onlined by default (:code:`_OFFLINE` or
-> +:code:`_ONLINE_*`), and if online which zone to online this memory to by default
-> +(:code:`_NORMAL` or :code:`_MOVABLE`).
-> +
-> +If placed in :code:`ZONE_MOVABLE`, the memory will not be available for most
-> +kernel allocations (such as :code:`struct page` or page tables).  This may
-> +significant impact performance depending on the memory capacity of the system.
-> +
-> +
-> +NUMA Node Reservation
-> +=====================
-> +
-> +Linux refers to the proximity domains (:code:`PXM`) defined in the SRAT to
-> +create NUMA nodes in :code:`acpi_numa_init`. Typically, there is a 1:1 relation
-> +between :code:`PXM` and NUMA node IDs.
-> +
-> +SRAT is the only ACPI defined way of defining Proximity Domains. Linux chooses
-> +to, at most, map those 1:1 with NUMA nodes. CEDT adds a description of SPA
-> +ranges which Linux may wish to map to one or more NUMA nodes.
-> +
-> +If there are CXL ranges in the CFMWS but not in SRAT, then a fake :code:`PXM`
-> +is created (as of v6.15). In the future, Linux may reject CFMWS not described
-> +by SRAT due to the ambiguity of proximity domain association.
-> +
-> +It is important to note that NUMA node creation cannot be done at runtime. All
-> +possible NUMA nodes are identified at :code:`__init` time, more specifically
-> +during :code:`mm_init`. The CEDT and SRAT must contain sufficient :code:`PXM`
-> +data for Linux to identify NUMA nodes their associated memory regions.
-> +
-> +The relevant code exists in: :code:`linux/drivers/acpi/numa/srat.c`.
-> +
-> +See the Example Platform Configurations section for more information.
-> +
-> +Memory Tiers Creation
-> +=====================
-> +Memory tiers are a collection of NUMA nodes grouped by performance characteristics.
-> +During :code:`__init`, Linux initializes the system with a default memory tier that
-> +contains all nodes marked :code:`N_MEMORY`.
-> +
-> +:code:`memory_tier_init` is called at boot for all nodes with memory online by
-> +default. :code:`memory_tier_late_init` is called during late-init for nodes setup
-> +during driver configuration.
-> +
-> +Nodes are only marked :code:`N_MEMORY` if they have *online* memory.
-> +
-> +Tier membership can be inspected in ::
-> +
-> +  /sys/devices/virtual/memory_tiering/memory_tierN/nodelist
-> +  0-1
-> +
-> +If nodes are grouped which have clear difference in performance, check the HMAT
-> +and CDAT information for the CXL nodes.  All nodes default to the DRAM tier,
-> +unless HMAT/CDAT information is reported to the memory_tier component via
-> +`access_coordinates`.
-> +
-> +Contiguous Memory Allocation
-> +============================
-> +The contiguous memory allocator (CMA) enables reservation of contiguous memory
-> +regions on NUMA nodes during early boot.  However, CMA cannot reserve memory
-> +on NUMA nodes that are not online during early boot. ::
-> +
-> +  void __init hugetlb_cma_reserve(int order) {
-> +    if (!node_online(nid))
-> +      /* do not allow reservations */
-> +  }
-> +
-> +This means if users intend to defer management of CXL memory to the driver, CMA
-> +cannot be used to guarantee huge page allocations.  If enabling CXL memory as
-> +SystemRAM in `ZONE_NORMAL` during early boot, CMA reservations per-node can be
-> +made with the :code:`cma_pernuma` or :code:`numa_cma` kernel command line
-> +parameters.
+How about like this:
 
+Instead the function pointers can end up at the higher level API (ie map/unmap,
+etc) and the per-format code can be directly inlined into the per-format
+compilation unit. For something like iommu each format will be compiled into a
+per-format iommu operations kernel module.
+
+For this to work the .c file for each compilation unit will include both the
+format headers and the generic code for the implementation. For instance in an
+implementation compilation unit the headers would normally be included as
+follows::
+
+	#include <linux/generic_pt/common.h>
+	#include "fmt/defs_amdv1.h"
+	#include "pt_defs.h"
+	#include "fmt/amdv1.h"
+	#include "pt_common.h"
+	#include "pt_iter.h"
+	#include "iommut_pt.h"  /* The iommu implementation */
+
+iommu_pt.h includes definitions that will generate the operations functions for
+map/unmap/etc using the definitions provided by AMDv1. The resulting module
+will have exported symbols named like pt_iommu_amdv1_init().
+
+Thanks,
+Jason
