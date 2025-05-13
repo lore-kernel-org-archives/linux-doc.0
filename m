@@ -1,241 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4208A27E7DE
-	for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 10:48:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4853823C8A3
+	for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 11:10:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747133286; cv=none; b=I/gwvij1M3oPlari2Ah1H0u0Rb16Du9VEThxLDgwzLnVYi2CSAdHLd2EbFkqqbFmOlh443r8N14XwMlgck5SnRA6z/0T3GprYaz1TkgqaX3flu8d1wSGU7RPpUnuxDOjSXksOjAuM5iRdccdfjsWpcwrc1DYE+7fk5g+Ggr3h1s=
+	t=1747134622; cv=none; b=Ow8G2/k3r2jkPaXCHxmcM/JSYhxua3guUgshxH1AxdbV2ujOWcEVFoebtxEEtF3wK3/WUQ1+jztuQRvMuMO3i0u2/I9vw0Ie5ka0fB1sC53DVcc86VDMvDxDezLq9YCxHanatezkknzu/cDf818nxaQdnmVnxi9quLTg47te0zI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747133286; c=relaxed/simple;
-	bh=8lNXhQlFgeQ+7nrfwX45y0yjpZCb+NXoHunbbiU7Y48=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=UL5uALQqj3IiGBYnDEFipLnuHG5g02+56FCEjOVP7LSiU7iRW0I7cGDK7VmB5zKLEUk9oLt6Zv0VsmYn0s13bhiXnLpKLo9dzhtXyuyFOomchL/Alc7v3FZZySsUKexejxB2SliHMl1r81N4MqZIjSo30UVXvPScjlXrfPj6ebc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gwM9fmuo; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747134622; c=relaxed/simple;
+	bh=vJ+aZs4J3I4B+KmzowPhOdBXKYIgIVVzFxRxaKSvLzU=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=ZQvRQoINbgDWfUkERQu9ye2SSb/4tNVycOxXo+Mf+68QKoeakBHcnNkwC+XH5QHcCW+NVs0sekO1rUs02mbkLN+pUHC/Jg/iZMMV4nfkxXvfUiTjW4md5EXAVCC1z/J6s15S9F+cxiCl++QbSPkJIH42v1TI8H33Gz1i/rx5i/k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be; spf=fail smtp.mailfrom=hammernet.be; dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b=feOfwgzT; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hammernet.be
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=hammernet.be
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gwM9fmuo"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747133283;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=f+wm1PKfRti2xGR/oblakeMEtVNw1jI8kFg4UxnuaZg=;
-	b=gwM9fmuopWBGqxA3QEDy0H8/XfG0NrIqUCw4xwQKFcPf19co76GcZlDtG7IPe7N49hkKtE
-	Tc7dv2apXvGULn9qiB0myVIwNuw+YY35RMV4BDNL9BrUeu6I6y1L+ZoOVdJDIlBnhVlnNF
-	zrARYqX4LebLiB8kK6R7vbsOlDA+jnU=
-Received: from mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-678-9EQRBOt-PaaVixkLmsDEpA-1; Tue,
- 13 May 2025 06:48:00 -0400
-X-MC-Unique: 9EQRBOt-PaaVixkLmsDEpA-1
-X-Mimecast-MFC-AGG-ID: 9EQRBOt-PaaVixkLmsDEpA_1747133278
-Received: from mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.111])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-01.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 7F0DD1955DA2;
-	Tue, 13 May 2025 10:47:57 +0000 (UTC)
-Received: from [10.44.34.49] (unknown [10.44.34.49])
-	by mx-prod-int-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 1BBDE180087C;
-	Tue, 13 May 2025 10:47:51 +0000 (UTC)
-Message-ID: <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
-Date: Tue, 13 May 2025 12:47:50 +0200
+	dkim=pass (2048-bit key) header.d=hammernet-be.20230601.gappssmtp.com header.i=@hammernet-be.20230601.gappssmtp.com header.b="feOfwgzT"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43cf257158fso37641465e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 04:10:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=hammernet-be.20230601.gappssmtp.com; s=20230601; t=1747134616; x=1747739416; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=xW5d22AyfE5WGuuD+WsgObkxfatUVH6GU6OG+OuxcAI=;
+        b=feOfwgzTJUIcVXscQynE6z5Jm9pi+Lsjg1PsO/MN+5UlVz/XG5zdnQGjTYMqx8VKbz
+         KK4Z0nmyUDYADLCC8fnbz8Qpqhavmeexhx6Qw2if+JgxVMMbUCBd00CEKSbBs5SfXSt1
+         qD9T8I7wRw7DRXHYreEVlATugJzc/OHEnj+ssWuwWxtQn+LC2w32pGydxrZVXU2PWJjO
+         U3KSl0MMiB6Uvvre4V30L5xEXG48BkoefApdmz0tVKWLPiws8xOLZYnGh1K2JqN4lRj8
+         /bfCwQ8QsxpYG1sxStxAt6/fGS+YxOVirWNXGHyHK4MW9YdMTY9zT3ZpAipciaAkk+mC
+         OfPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747134616; x=1747739416;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=xW5d22AyfE5WGuuD+WsgObkxfatUVH6GU6OG+OuxcAI=;
+        b=eA3J1hoC8UpjzOcGvkUSuTt+Y1ByKTI/bQn9MWU+Oi0VThXU4IL4ykhOuM03vqHbGp
+         GVldJuO4tt8hujeKlEPu/NkL3ToJT9SZzSce/JePsd0rui71bTMashPgrOP2MvUr5hUQ
+         kiwNNerjHhLKuNwTOv77Y/u8vhG8IH08kGu9jvBLPIby0k1wGq7JwMspsAUivuAaMxlr
+         CbpIZEAQ65cnqoK+ecpj8NNM4PXhbE0f/8FNFTME/3SxMy1wekezm/lXfmC6k6A3XiZG
+         kEJY45oENAafzTlPlDoMzvKxjI12S1zAKsUV1Bo+o0Z1eeUzUDTa4tg3eoUusvusZDW5
+         JRnQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWzUZzIZLq/zlggTLD81J6mj+b4m9mdev4Ir4aCoHEsLI4odzrCDl0HxKLsK77fF1qbgyjOIqAYeXM=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzkALY0T4siB/Pxw4GipmBhthQW66rsY284KjfWzrCNTDqqSWrY
+	FiqClu9SZuhSsMzWxvYBTikNYx/aj0Y+EAKTS7Sh2lYq4zEhv85LYy6pmVwAZOw=
+X-Gm-Gg: ASbGnctGTNoI+f6TvpwgHdUpEQYoaTHiPNkVK+kYVeuaUwXAdE8GEE9KNhSXiCPxwXn
+	OoljJ+PSnrbFYUEJqfRFBwcQYCB1Lul0rql2zjWMoIgkyuRI051dWauyIw27kIILqaoenF/6rBR
+	vBpcDZLGlLA2AsfNRdRyA9umyDwWeTj1zCU6biO8OsZICVMafidlYA4szr8gwLlPwn5M6ZB5UoF
+	0RhuGe2u12KaYfNqOzgDjd6wkzuIsmyyLS9KMIdI4IVGoBtbSlaWzTfYPEk6sphiZHACDVhdYcD
+	eeVwa67ZiH4TOKC8sQ8sx3DvQgagUCrBu8dU2c5IprlWaFWyzb8F1WdR/kz6j6+jMaoPq9cvLPW
+	sBQd1O5JvXxg=
+X-Google-Smtp-Source: AGHT+IFuIhHmYNLqyH+zu54PArNHeQDifEpT6IgxsW2fAt6qVuFPJEi1RiNOKS9sGvGl0NdPBZRNRQ==
+X-Received: by 2002:a05:6000:200d:b0:3a0:6f92:ef7c with SMTP id ffacd0b85a97d-3a1f64314c7mr13612076f8f.17.1747134616347;
+        Tue, 13 May 2025 04:10:16 -0700 (PDT)
+Received: from pop-os.telenet.be ([2a02:1807:2a00:3400:849e:fc74:c88b:cc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2d2d3sm16077941f8f.63.2025.05.13.04.10.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 13 May 2025 04:10:15 -0700 (PDT)
+From: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+To: corbet@lwn.net,
+	suzuki.poulose@arm.com,
+	mike.leach@linaro.org,
+	james.clark@linaro.org,
+	skhan@linuxfoundation.org
+Cc: coresight@lists.linaro.org,
+	linux-arm-kernel@lists.infradead.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+Subject: [PATCH] docs: fix "incase" typo in coresight/panic.rst
+Date: Tue, 13 May 2025 13:09:31 +0200
+Message-ID: <20250513110931.15072-1-hendrik.hamerlinck@hammernet.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
- during init
-To: Lee Jones <lee@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, netdev@vger.kernel.org,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250507124358.48776-1-ivecera@redhat.com>
- <20250507124358.48776-9-ivecera@redhat.com>
- <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
- <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
- <aBt1N6TcSckYj23A@smile.fi.intel.com> <20250507152609.GK3865826@google.com>
- <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
- <20250513094126.GF2936510@google.com>
-Content-Language: en-US
-From: Ivan Vecera <ivecera@redhat.com>
-In-Reply-To: <20250513094126.GF2936510@google.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.111
 
-On 13. 05. 25 11:41 dop., Lee Jones wrote:
-> On Mon, 12 May 2025, Ivan Vecera wrote:
-> 
->> On 07. 05. 25 5:26 odp., Lee Jones wrote:
->>> On Wed, 07 May 2025, Andy Shevchenko wrote:
->>>
->>>> On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
->>>>> On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
->>>>>> On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> wrote:
->>>>
->>>> ...
->>>>
->>>>>>> +static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>>>> +       { .channel = 0, },
->>>>>>> +       { .channel = 1, },
->>>>>>> +       { .channel = 2, },
->>>>>>> +       { .channel = 3, },
->>>>>>> +       { .channel = 4, },
->>>>>>> +};
->>>>>>
->>>>>>> +static const struct mfd_cell zl3073x_devs[] = {
->>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 0),
->>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 1),
->>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 2),
->>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 3),
->>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 4),
->>>>>>> +};
->>>>>>
->>>>>>> +#define ZL3073X_MAX_CHANNELS   5
->>>>>>
->>>>>> Btw, wouldn't be better to keep the above lists synchronised like
->>>>>>
->>>>>> 1. Make ZL3073X_CELL() to use indexed variant
->>>>>>
->>>>>> [idx] = ...
->>>>>>
->>>>>> 2. Define the channel numbers
->>>>>>
->>>>>> and use them in both data structures.
->>>>>>
->>>>>> ...
->>>>>
->>>>> WDYM?
->>>>>
->>>>>> OTOH, I'm not sure why we even need this. If this is going to be
->>>>>> sequential, can't we make a core to decide which cell will be given
->>>>>> which id?
->>>>>
->>>>> Just a note that after introduction of PHC sub-driver the array will look
->>>>> like:
->>>>> static const struct mfd_cell zl3073x_devs[] = {
->>>>>          ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
->>>>>          ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
->>>>>          ZL3073X_CELL("zl3073x-dpll", 1),  // ...
->>>>>          ZL3073X_CELL("zl3073x-phc", 1),
->>>>>          ZL3073X_CELL("zl3073x-dpll", 2),
->>>>>          ZL3073X_CELL("zl3073x-phc", 2),
->>>>>          ZL3073X_CELL("zl3073x-dpll", 3),
->>>>>          ZL3073X_CELL("zl3073x-phc", 3),
->>>>>          ZL3073X_CELL("zl3073x-dpll", 4),
->>>>>          ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
->>>>> };
->>>>
->>>> Ah, this is very important piece. Then I mean only this kind of change
->>>>
->>>> enum {
->>>> 	// this or whatever meaningful names
->>>> 	..._CH_0	0
->>>> 	..._CH_1	1
->>>> 	...
->>>> };
->>>>
->>>> static const struct zl3073x_pdata zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>          { .channel = ..._CH_0, },
->>>>          ...
->>>> };
->>>>
->>>> static const struct mfd_cell zl3073x_devs[] = {
->>>>          ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
->>>>          ZL3073X_CELL("zl3073x-phc", ..._CH_0),
->>>>          ...
->>>> };
->>>
->>> This is getting hectic.  All for a sequential enumeration.  Seeing as
->>> there are no other differentiations, why not use IDA in the child
->>> instead?
->>
->> For that, there have to be two IDAs, one for DPLLs and one for PHCs...
-> 
-> Sorry, can you explain a bit more.  Why is this a problem?
-> 
-> The IDA API is very simple.
-> 
-> Much better than building your own bespoke MACROs.
+Corrects a spelling mistake in Documentation/trace/coresight/panic.rst
+where "incase" was used instead of "in case".
 
-I will try to explain this in more detail... This MFD driver handles
-chip family ZL3073x where the x == number of DPLL channels and can
-be from <1, 5>.
+Signed-off-by: Hendrik Hamerlinck <hendrik.hamerlinck@hammernet.be>
+---
+ Documentation/trace/coresight/panic.rst | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-The driver creates 'x' DPLL sub-devices during probe and has to pass
-channel number that should this sub-device use. Here can be used IDA
-in DPLL sub-driver:
-e.g. ida_alloc_max(zldev->channels, zldev->max_channels, GFP_KERNEL);
-
-This way the DPLL sub-device get its own unique channel ID to use.
-
-The situation is getting more complicated with PHC sub-devices because
-the chip can provide UP TO 'x' PHC sub-devices depending on HW
-configuration. To handle this the MFD driver has to check this HW config
-for particular channel if it is capable to provide PHC functionality.
-
-E.g. ZL30735 chip has 5 channels, in this case the MFD driver should
-create 5 DPLL sub-devices. And then lets say channel 0, 2 and 4 are
-PHC capable. Then the MFD driver should create 3 PHC sub-devices and
-pass 0, 2 resp. 4 for them.
-
-In that case IDA cannot be simply used as the allocation is not
-sequential.
-
-So yes, for DPLL sub-devices IDA could be used but for the PHCs another
-approach (platform data) has to be used.
-
-There could be a hacky way to use IDA for PHCs: MFD would create PHC
-sub-devices for all channels and PHC sub-driver would check the channel
-config during probe and if the channel is not capable then returns
--ENODEV. But I don't think this is good idea to create MFD cells this
-way.
-
-Thanks for advices.
-
-Ivan
-
->> The approach in my second reply in this thread is simpler and taken
->> in v8.
->>
->> <cite>
->> +#define ZL3073X_PDATA(_channel)			\
->> +	(&(const struct zl3073x_pdata) {	\
->> +		.channel = _channel,		\
->> +	})
->> +
->> +#define ZL3073X_CELL(_name, _channel)				\
->> +	MFD_CELL_BASIC(_name, NULL, ZL3073X_PDATA(_channel),	\
->> +		       sizeof(struct zl3073x_pdata), 0)
->> +
->> +static const struct mfd_cell zl3073x_devs[] = {
->> +	ZL3073X_CELL("zl3073x-dpll", 0),
->> +	ZL3073X_CELL("zl3073x-dpll", 1),
->> +	ZL3073X_CELL("zl3073x-dpll", 2),
->> +	ZL3073X_CELL("zl3073x-dpll", 3),
->> +	ZL3073X_CELL("zl3073x-dpll", 4),
->> +};
->> </cite>
->>
->> Lee, WDYT?
->>
->> Thanks,
->> Ivan
->>
-> 
+diff --git a/Documentation/trace/coresight/panic.rst b/Documentation/trace/coresight/panic.rst
+index a58aa914c241..6e4bde953cae 100644
+--- a/Documentation/trace/coresight/panic.rst
++++ b/Documentation/trace/coresight/panic.rst
+@@ -67,8 +67,8 @@ Trace data captured at the time of panic, can be read from rebooted kernel
+ or from crashdump kernel using a special device file /dev/crash_tmc_xxx.
+ This device file is created only when there is a valid crashdata available.
+ 
+-General flow of trace capture and decode incase of kernel panic
+-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++General flow of trace capture and decode in case of kernel panic
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 1. Enable source and sink on all the cores using the sysfs interface.
+    ETR sinks should have trace buffers allocated from reserved memory,
+    by selecting "resrv" buffer mode from sysfs.
+-- 
+2.43.0
 
