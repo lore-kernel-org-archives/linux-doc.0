@@ -1,102 +1,150 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9640B1DC9BB;
-	Tue, 13 May 2025 08:51:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5DE9212FA2
+	for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 09:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747126264; cv=none; b=SEDazCOCxcCokjBmxmMemQIuuXZMSPhIz2UQmlL2cTiU2Yn4R11HrTgc1jhZQt97Ke3d6mFuAiwRT3wmVaccFdFh58H+bBbFOmfdNf3pAGQ7nuyUtc+KyxI7oBl9GYthyNkRsdonxmlnff9lkgfivtaE+iqH/JZPXTLPHz/pb/A=
+	t=1747127534; cv=none; b=ux1Bk/5v1IkFs6R8dbhBje5iNliqeBv86grwpl2cOYc3T+cNV4GdRS9kg+JfLynsH5T2BOAaHuJbBtgVmtC8u0lTDklKxDesSwa1WgGisKlpKzuEeB9iivVyzEV1D29eGVZUKRJ/o14DZLRRD3G49xGbyTAUddEOEA6UHWwlkoY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747126264; c=relaxed/simple;
-	bh=JuynMA1lFeLJ74JpIm5SB8vTf5FUAnMBpNKD71wdRG8=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kfdo4L6cUTJ7WHBvw+kJjjJQ4IYSVAl7Mpz9RdpMdg47FaPjsW9XpIiAnGYKI2WkBT2+e6shox3ER07Bm7ulDT/cf1KalWL93VA1oqQCpYM8idbRJy2Wirl2RfMuDLsocXWQy8ZeJx6xAlsbuQzb1wEPp/VD/vF4mZPDRzN5364=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=DT15juaJ; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747127534; c=relaxed/simple;
+	bh=WDlpFsWbDcfzZLGnp/d3QNExJHb0unwOgNVXbvwod6g=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=ptJHkUlBt6A4nPb8lXHwCx/orH0eQu2WRlsgqQS8R5KT7e6XBsCSzZL1s8LSp23T1iyMTlLNk1hOb/45Np4iL+XFsP4JM/EXhDNrANSPcZTd4uU+AbWwiAspNbFiEqDYgaGXb4cC0wVNVHwEgi2l33Z2hkQ897005uOSXyj0+GY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=CACUYGAj; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="DT15juaJ"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C3546C4CEE4;
-	Tue, 13 May 2025 08:51:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747126264;
-	bh=JuynMA1lFeLJ74JpIm5SB8vTf5FUAnMBpNKD71wdRG8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=DT15juaJQaVe76NCzznf+i5OE8q642AWY0Bo46tPhsaMgeMNuN9vTJlQdnBbHvxNp
-	 pFAaB6Q3SQAEB73ksaZsHmcnU2FXcNy+5kM7Kc/aXZQylqqK30abrcjihfdpMCVkEb
-	 fbrpj/A5YfXJbMBQPYOqo17tFSO9RyVGIbngMCSbno52H+izNHxlDrEQT7xTmlPFU4
-	 gX5m5LLcXLBU1nlH83EMbNwDzOElzGKYUipdDtBZOvW5muVXpIg4Sheb6gBCUfrSq3
-	 HDqmfrk/a6DrXZ84BGFTQQwxBznP3uXMsMZa91JtMbGWNv9Tjzj48HFudUrxR/gFXf
-	 oVG3HnaA173TQ==
-Date: Tue, 13 May 2025 09:50:57 +0100
-From: Lee Jones <lee@kernel.org>
-To: Geert Uytterhoeven <geert@linux-m68k.org>
-Cc: Nam Tran <trannamatk@gmail.com>, andy@kernel.org, pavel@ucw.cz,
-	robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org,
-	christophe.jaillet@wanadoo.fr, corbet@lwn.net,
-	devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, florian.fainelli@broadcom.com,
-	bcm-kernel-feedback-list@broadcom.com,
-	linux-rpi-kernel@lists.infradead.org,
-	linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v8 0/5] auxdisplay: add support for TI LP5812 4x3 Matrix
- LED driver
-Message-ID: <20250513085057.GB2936510@google.com>
-References: <aCGPuKtfprIvwADa@smile.fi.intel.com>
- <20250512173800.6767-1-trannamatk@gmail.com>
- <CAMuHMdWiTLbazxfe0joujONfLTQXT73WE=sq5F-4dwOq463b4g@mail.gmail.com>
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="CACUYGAj"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747127531;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=lSKXGvXgaIuXifWFUaLvMDff9Ik6twAKIvR+Y496sQE=;
+	b=CACUYGAjsm56aOJwv6UP3RGQM2dzjQ896IV1q1FoIdH1qXZEiZiFqZgbtWDAzIbsNo6lGp
+	TajrgtCE+ZyKdzUmVwWMVA4JzWokwTFOKNf4R/IAA5wd9FHrRG6LmmDkz/B3hsWJafUY6a
+	hYAGkAN7e7HLHb1rS8bQfpftAUK7yoc=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-590-Ai2elkrIOdq8HcnpNChj2w-1; Tue, 13 May 2025 05:12:10 -0400
+X-MC-Unique: Ai2elkrIOdq8HcnpNChj2w-1
+X-Mimecast-MFC-AGG-ID: Ai2elkrIOdq8HcnpNChj2w_1747127528
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-442cdf07ad9so22222765e9.2
+        for <linux-doc@vger.kernel.org>; Tue, 13 May 2025 02:12:08 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747127528; x=1747732328;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=lSKXGvXgaIuXifWFUaLvMDff9Ik6twAKIvR+Y496sQE=;
+        b=wqyagQROlSGzIcoGEaZ0A7KGOzx1DvIq+whMjKMjwG7fwf45H0MaiHcnV93b5rojLp
+         dWelqlfbS+bxH4K6xoT9paxTdCukrdVsza99kovQfaqOCCqi05UjBbkm9ezdgRymojW+
+         UvN9S5SMytqnW6aL6h19K4nHHc9CrmXPI0FwPre2CfHknwPsrizOCEmgYM5h2os3mTyU
+         /XwxFGcq6Zheez36aKdqWvnhUuGX6RjvNobrXgWbXMQb8ycK1qVFLuSKL4LclJb0GhZO
+         maQw/D9/VsSMkVBU1eMI2f1WXg91cyGUVQ4fUXRNufs0KSE4fQ+mi9D1c+jjIjIOlYhe
+         cVQg==
+X-Forwarded-Encrypted: i=1; AJvYcCVRixIj5xyIDmEkvWPbo/DZcADb3/4snky9YCdCOU2QVkT5w7VP4EttN8TirDVJiMAx8nFnqIDM1Xw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCDVJ2ngdAMQcYhFjj/eHK5vzPzogA/UoT+SgjfLmsnqZ+/Moq
+	6YnfbFCjV6LsojgZ19b/yEISqiXo5q34v4bZFXHo3Q1t60CIwu98x6gEYXUrqzYt9d8FU1yJvSq
+	dK42iOdRfkq7z6wkzp/E5bWo9q98havasZDD2YR+4Tzeadp0+4K3DnMrjVQ==
+X-Gm-Gg: ASbGncuSwLx02cfPFfz3j4F/gxHHzxu7VT/bZhcYnHOoYY/BT81GjNx/mtSIroQ8m2C
+	9lzvyPLbWiBJEnkggF1GkUyXt99FVc8CTqRRrHai6xjEZmzTFNsy2VL5iEwvBuUYnamBkXFdvxj
+	EFU5vPfEcKDKNg+ng6xDOdo+KS/35E2xj5d5rvPbmadLPxH9/2zWcvBUXIW7jADvHkba+EblEID
+	On7IoKWBPPKrD86rKCE4sT5nwktFo+amzyjKMh2M8dXGHKuo+dlcMAEz1BchgWYFjVR4TJBx1D3
+	6n2dOvgdaBsyMVO7uA4=
+X-Received: by 2002:a05:600c:4454:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-442d6d44aa7mr175600085e9.10.1747127527692;
+        Tue, 13 May 2025 02:12:07 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IF7UByCIdv1fV6GeTCbxFUgA3MTskc+HSiE9ez+aliKyTiJ4Fv/7gBQk/cE3vpwwsDlBoiWaw==
+X-Received: by 2002:a05:600c:4454:b0:440:9b1a:cd78 with SMTP id 5b1f17b1804b1-442d6d44aa7mr175599485e9.10.1747127527311;
+        Tue, 13 May 2025 02:12:07 -0700 (PDT)
+Received: from ?IPV6:2a0d:3341:cc59:6510::f39? ([2a0d:3341:cc59:6510::f39])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442ea367102sm36670345e9.3.2025.05.13.02.12.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 May 2025 02:12:06 -0700 (PDT)
+Message-ID: <085a78fc-acfc-4a86-9dbf-18795ad68b4c@redhat.com>
+Date: Tue, 13 May 2025 11:12:04 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAMuHMdWiTLbazxfe0joujONfLTQXT73WE=sq5F-4dwOq463b4g@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v14 4/9] net: devmem: Implement TX path
+To: Mina Almasry <almasrymina@google.com>, netdev@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ io-uring@vger.kernel.org, virtualization@lists.linux.dev,
+ kvm@vger.kernel.org, linux-kselftest@vger.kernel.org
+Cc: Donald Hunter <donald.hunter@gmail.com>, Jakub Kicinski
+ <kuba@kernel.org>, "David S. Miller" <davem@davemloft.net>,
+ Eric Dumazet <edumazet@google.com>, Simon Horman <horms@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andrew Lunn <andrew+netdev@lunn.ch>,
+ Jeroen de Borst <jeroendb@google.com>,
+ Harshitha Ramamurthy <hramamurthy@google.com>,
+ Kuniyuki Iwashima <kuniyu@amazon.com>, Willem de Bruijn
+ <willemb@google.com>, Jens Axboe <axboe@kernel.dk>,
+ Pavel Begunkov <asml.silence@gmail.com>, David Ahern <dsahern@kernel.org>,
+ Neal Cardwell <ncardwell@google.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+ Jason Wang <jasowang@redhat.com>, Xuan Zhuo <xuanzhuo@linux.alibaba.com>,
+ =?UTF-8?Q?Eugenio_P=C3=A9rez?= <eperezma@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>, Shuah Khan <shuah@kernel.org>,
+ sdf@fomichev.me, dw@davidwei.uk, Jamal Hadi Salim <jhs@mojatatu.com>,
+ Victor Nogueira <victor@mojatatu.com>, Pedro Tammela
+ <pctammela@mojatatu.com>, Samiullah Khawaja <skhawaja@google.com>,
+ Kaiyuan Zhang <kaiyuanz@google.com>
+References: <20250508004830.4100853-1-almasrymina@google.com>
+ <20250508004830.4100853-5-almasrymina@google.com>
+Content-Language: en-US
+From: Paolo Abeni <pabeni@redhat.com>
+In-Reply-To: <20250508004830.4100853-5-almasrymina@google.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, 13 May 2025, Geert Uytterhoeven wrote:
+On 5/8/25 2:48 AM, Mina Almasry wrote:
+> diff --git a/net/ipv4/tcp.c b/net/ipv4/tcp.c
+> index 86c427f166367..0ae265d39184e 100644
+> --- a/net/ipv4/tcp.c
+> +++ b/net/ipv4/tcp.c
+> @@ -1059,6 +1059,7 @@ int tcp_sendmsg_fastopen(struct sock *sk, struct msghdr *msg, int *copied,
+>  
+>  int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+>  {
+> +	struct net_devmem_dmabuf_binding *binding = NULL;
+>  	struct tcp_sock *tp = tcp_sk(sk);
+>  	struct ubuf_info *uarg = NULL;
+>  	struct sk_buff *skb;
+> @@ -1066,11 +1067,23 @@ int tcp_sendmsg_locked(struct sock *sk, struct msghdr *msg, size_t size)
+>  	int flags, err, copied = 0;
+>  	int mss_now = 0, size_goal, copied_syn = 0;
+>  	int process_backlog = 0;
+> +	bool sockc_valid = true;
+>  	int zc = 0;
+>  	long timeo;
+>  
+>  	flags = msg->msg_flags;
+>  
+> +	sockc = (struct sockcm_cookie){ .tsflags = READ_ONCE(sk->sk_tsflags) };
+> +	if (msg->msg_controllen) {
+> +		err = sock_cmsg_send(sk, msg, &sockc);
+> +		if (unlikely(err))
+> +			/* Don't return error until MSG_FASTOPEN has been
+> +			 * processed; that may succeed even if the cmsg is
+> +			 * invalid.
+> +			 */
+> +			sockc_valid = false;
 
-> Hi Nam,
-> 
-> On Mon, 12 May 2025 at 19:38, Nam Tran <trannamatk@gmail.com> wrote:
-> > On Mon, 12 May 2025 Andy Shevchenko wrote:
-> > > On Sat, May 10, 2025 at 02:48:02PM +0700, Nam Tran wrote:
-> > > > On Thu, 8 May 2025 Lee Jones wrote:
-> > > > > On Thu, 08 May 2025, Andy Shevchenko wrote:
-> > > > > > On Thu, May 8, 2025 at 5:27 PM Nam Tran <trannamatk@gmail.com> wrote:
-> > > > > > > On Thu, 8 May 2025 Lee Jones wrote:
-> > > > > > > > On Thu, 08 May 2025, Andy Shevchenko wrote:
-> >
-> > ...
-> >
-> > > > I think setting PWM also same as brightness_set API. However, there are
-> > > > many PWM config for a LED and it is one of other config to make autonomous mode work.
-> > > > Therefore, standard led API can use in some use cases only.
-> > > >
-> > > > Please see the link below for a better visualization of how to configure the LP5812.
-> > > > https://dev.ti.com/gallery/view/LED/LP581x/ver/0.10.0/
-> > >
-> > > To me it sounds like you should start from the small steps, i.e. do not
-> > > implement everything at once. And starting point of the 4 RGB LEDs sounds
-> > > the best approach to me. Then, if needed, you can always move on with
-> > > fancy features of this hardware on top of the existing code.
-> >
-> > Thanks for the suggestion.
-> > I understand your point and agree that starting with standard LED APIs is the preferred approach.
-> 
-> i.e. a drivers/leds/ driver.
-> 
-> > However, the LP5812 hardware offers more advanced features, and I’d like to support end users all
-> > features as shown in the link: https://dev.ti.com/gallery/view/LED/LP581x/ver/0.10.0/.
-> > It is easy for end user to investigate and use driver.
-> >
-> > If I want to keep the current driver interface to meet this expectation, would it be acceptable
-> > to move it to the misc subsystem to better support the hardware?
-> 
-> I guess you can add custom sysfs controls for the advanced features
-> on top of the drivers/leds/ driver?
+It occurred to me a bit too late that this chunk of code could be
+cleaned-up a bit using a 'sockc_err' variable to store the
+sock_cmsg_send() return code instead of the 'sockc_valid' bool. It
+should avoid a conditional here and in the later error check.
 
-Yes, exactly that.
+(just to mention a possible follow-up! no need to repost!)
 
--- 
-Lee Jones [李琼斯]
+Thanks,
+
+Paolo
+
