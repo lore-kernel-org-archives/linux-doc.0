@@ -1,34 +1,33 @@
 Received: from szxga05-in.huawei.com (szxga05-in.huawei.com [45.249.212.191])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E9221DEFDB;
-	Tue, 13 May 2025 03:11:24 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 33FCC1D6DB4;
+	Tue, 13 May 2025 03:13:26 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.249.212.191
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747105889; cv=none; b=uyGQWkKZUfMGss3WskH23znouT4UOgX7wUzuEnUyuHMfxwZZxfZe+KOtqzHzT+6wiMCnfx8Ux4Tl3toFkNDm1RY4Zf5Su6sogzC960KUmQrfGXXxREfHU13kb6q+xNA59bzKFEUnw/1mRDwAGrw3sG8B8/+rRTFGPwnbLTciNEk=
+	t=1747106010; cv=none; b=r2G5LkEwxyFNHPq1Bu8RR9lEb9j++F4C9QfxIq5wVb0womyFC0PQ8aadOBRqYAcsOtuMrbSpRhcs03HviwTCoIby7SgCevHW1Q9D8Vid4D1tBfNH3TCveLRERAhwYFrK4OUkwdqo9h0In/Jb/ZT3198Mjmv2Q5tcuxPg9XiGu+o=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747105889; c=relaxed/simple;
+	s=arc-20240116; t=1747106010; c=relaxed/simple;
 	bh=Q8W8qfwh8NxnjZiNXhyA9RyEchXuGPe2F2HUcz7ww6k=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=aDrXHvM8b5QEuWUwZjorWe8aJF6n6u01I2VkrQjIz1SIdZV3Y76mY0xxSj7d/Yfyc8GJRgPSsUDdmWrp8aEhp0Ly7YHvgnVkQk8pHpZ+kzl4jRQTwDmbSCNmNzlSYNN63+NtHI+iuCn3l8juSdR4hakHuI26odGnirNasB8d+s4=
+	h=From:To:CC:Subject:Date:Message-ID:Content-Type:MIME-Version; b=gTLA5qSuGPgp6JzC6ISj/aFMMJAYBRc7Lk65pr7K9xYIX2C1bjGGPbwtO5tj6jvhk5uQjP/dUD3l9FMzEYo5gvk3zU1RYhyYi7qj4JJ5i0cBfTgJTb5B1WIGu2YCK77qjFfrXyh72Q8FR1lTxw2W7yleMHSh67Wtq6KEQ7pSFZA=
 ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com; spf=pass smtp.mailfrom=hisilicon.com; arc=none smtp.client-ip=45.249.212.191
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=hisilicon.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=hisilicon.com
-Received: from mail.maildlp.com (unknown [172.19.88.214])
-	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4ZxLzR6Kz6z1R7m9;
-	Tue, 13 May 2025 11:09:07 +0800 (CST)
-Received: from kwepemg200004.china.huawei.com (unknown [7.202.181.31])
-	by mail.maildlp.com (Postfix) with ESMTPS id 647CB1A016C;
+Received: from mail.maildlp.com (unknown [172.19.162.112])
+	by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4ZxM1w2McHz1R7lv;
 	Tue, 13 May 2025 11:11:16 +0800 (CST)
+Received: from kwepemg200006.china.huawei.com (unknown [7.202.181.33])
+	by mail.maildlp.com (Postfix) with ESMTPS id D1D92140142;
+	Tue, 13 May 2025 11:13:24 +0800 (CST)
 Received: from dggpemf500008.china.huawei.com (7.185.36.156) by
- kwepemg200004.china.huawei.com (7.202.181.31) with Microsoft SMTP Server
+ kwepemg200006.china.huawei.com (7.202.181.33) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.11; Tue, 13 May 2025 11:11:15 +0800
+ 15.2.1544.11; Tue, 13 May 2025 11:13:24 +0800
 Received: from dggpemf500008.china.huawei.com ([7.185.36.156]) by
  dggpemf500008.china.huawei.com ([7.185.36.156]) with mapi id 15.02.1544.011;
- Tue, 13 May 2025 11:11:15 +0800
+ Tue, 13 May 2025 11:13:24 +0800
 From: Zhangxiquan <zhangxiquan@hisilicon.com>
-To: "Will Deacon " <IMCEAMAILTO-will+40kernel+2Eorg@huawei.com>
+To: "will@kernel.org" <will@kernel.org>
 CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "corbet@lwn.net"
 	<corbet@lwn.net>, "linux-arm-kernel@lists.infradead.org"
 	<linux-arm-kernel@lists.infradead.org>, "linux-doc@vger.kernel.org"
@@ -36,18 +35,13 @@ CC: "catalin.marinas@arm.com" <catalin.marinas@arm.com>, "corbet@lwn.net"
 	<linux-kernel@vger.kernel.org>, "maz@kernel.org" <maz@kernel.org>,
 	Zhengbingyang <zhengbingyang@hisilicon.com>, "Zhangyu(curtain,Babbage)"
 	<zhangyu550@huawei.com>, "wangkai (CF)" <wangkai113@huawei.com>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIXSBEb2N1bWVudGF0aW9uIChhcm02NCk6QWR2YW5jZWQg?=
- =?gb2312?Q?SIMD_and_floating_point_support_condition?=
-Thread-Topic: [PATCH] Documentation (arm64):Advanced SIMD and floating point
- support condition
-Thread-Index: AQHbuQg949jaHUBo+0OHD38f08bHYrPGl37wgAlXc8CAAAcTYA==
-Date: Tue, 13 May 2025 03:11:15 +0000
-Message-ID: <8d9400dcdf9442de82f43c484e82e7f2@hisilicon.com>
-References: <20250408031309.2095-1-zhangxiquan@hisilicon.com>
- <20250429131116.GA25912@willie-the-truck>
- <0acdf18f6c2748919dcbeb943e4ced3e@hisilicon.com>
- <a90e072198c344e3a4ae0ed0cb8bbe62@huawei.com>
-In-Reply-To: <a90e072198c344e3a4ae0ed0cb8bbe62@huawei.com>
+Subject: ReSent in case the last mail not arrived//////Re: [PATCH]
+ Documentation (arm64):Advanced SIMD and floating point support condition
+Thread-Topic: ReSent in case the last mail not arrived//////Re: [PATCH]
+ Documentation (arm64):Advanced SIMD and floating point support condition
+Thread-Index: AdvDtPi9Mm+WJIeIS/WYPsp7WKkbFw==
+Date: Tue, 13 May 2025 03:13:24 +0000
+Message-ID: <c544a845dc334f30afcb98f7c34e2f7c@hisilicon.com>
 Accept-Language: zh-CN, en-US
 Content-Language: zh-CN
 X-MS-Has-Attach:
