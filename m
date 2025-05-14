@@ -1,203 +1,267 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9187529670A
-	for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 20:41:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F26FC29673C
+	for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 21:29:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.54
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747255303; cv=none; b=XMlQAGF1tZ9XL+Q4Qa+ZSvTu6KicgGeDndZnNAiQUepTkqudWM83Vki6O3kFkMbOzfCFWF0Yo46nWhUAqpHD3zbgtvzkWwePdwB/QuMqiQ48GKnY+sZnDmmA3/boWFYwqPHy645f3DdWBJPRdVcc5Z/rbvLCNGF704hCsnI+RBE=
+	t=1747258166; cv=none; b=HHNGbT8q2EnxxeQwzu11JfkIifvjSvcpEGqW478+DZYxFWwEJAGLY6ZcIPzPjaACXnXQFpwNE2xiHkGbpzDndCoaWO6AwKQZgrRopExQjuvn96ZN9qs+aGi4ww7EeGvWvzNUA6bvYVm6aBWAUwExigeUBNBiRtrWHfJajd+8n3E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747255303; c=relaxed/simple;
-	bh=tOkMF7Bwact06Na7dZKX9/UA7Qz24kXdUH1fectYcHs=;
+	s=arc-20240116; t=1747258166; c=relaxed/simple;
+	bh=H6nUZsxGjiOGVIHyxpf5q9mNTETzbow/hvE9WPbCWeQ=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=k4XkaBwNAAsi4fBZEvVKSnQN3Aae6NcRa5++nfD9zbfXv9fOvTbxP+GAhjp6RDwAWkz+iQ+d6spN4DL47nfTWXNxdWzw74UglV9xvsor2DU5gi1L5IRdkZm8Z462o0btSDQAhufTuAXmL79eZ+BddkrZJ6RecDZgi2ESCicOMls=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=bjbgQse/; arc=none smtp.client-ip=10.30.226.201
+	 To:Cc:Content-Type; b=JtSIQF/lrVeL1UcLn/nkxRljOI97Z/+QPDopl59hzi4HOQZGBG/Z8aWDgzNugaj7M3neRvMpux6Tu724j+xja1XhAZUlo51VjhnBlxd/rQdf9ms64HiHPAxDwlThFMMVlPfnHfrKIFZ7VDSUPYwfMEhm5wcgvL3C6e6kHZV/DXg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=ev23C4K3; arc=none smtp.client-ip=209.85.128.54
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="bjbgQse/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3B793C4CEF8
-	for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 20:41:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747255303;
-	bh=tOkMF7Bwact06Na7dZKX9/UA7Qz24kXdUH1fectYcHs=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=bjbgQse/xG3MsQG9+HYMHVgWKDbUp4uOEAfRz61yWri4PVqMfmkOPk4TRkkB+bmBN
-	 9PSIOQpm50Jg5XNWbWL3EVqRD60iSeAWle9HkK3FHPfIW82+pM7//61QAsuelDWNW+
-	 KTsWAZEb4zkob0afRFK3ZpmvxKh+ke98YgsZPZpQyb0Qs064URcH4y+LuQpICRRZey
-	 /LVcsOqNCbNzZtCUjpSTRwYT9lgrHdPOG76OJjDWi4HVq0Bdrt1xbNBfud+WQq1HOj
-	 uyZUERufRc33KTJsdVqtOqRg1o6Qm4jqtEBD/pV9tgMpUViXcqV9ZcWENIF/xmtCLK
-	 xW8CymGzt8H5g==
-Received: by mail-ed1-f43.google.com with SMTP id 4fb4d7f45d1cf-5fbf007ea38so394733a12.3
-        for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 13:41:43 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCWIOMUnZxs0bQxeY6yY/BpZ3WenCXZilpbv4lHk2hSpN554GBhmQM0ZH0pv6mctcJH7uRYhr9KoyOg=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx/YiXQg4XZ1udwdhXr/gSYO8gnAJWtLdLwCBf6p6YyQcqv98um
-	pGWne2/czYESue10G8U62lVQEqtiVUEKiJdGQj/IVzJt75viSn1rxGL6ouoGWLAyYAvglv11ZOh
-	Mp265qGNXp25lV+pWzp3uWqjDOjujRLvuvIkm
-X-Google-Smtp-Source: AGHT+IG3uEVTmfjxY/9iZZiVBkcC3BqC8ZuWsZMesREaLwP/YP638UxFHKWvkWLaZ8NvWpWAPIRDz/WcSvbhhhM7aXI=
-X-Received: by 2002:a05:6402:3588:b0:5fb:1be2:270d with SMTP id
- 4fb4d7f45d1cf-5ff988def11mr3639855a12.29.1747255301288; Wed, 14 May 2025
- 13:41:41 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="ev23C4K3"
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-43cf3192d8bso7105e9.1
+        for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 14:29:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747258161; x=1747862961; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=Slx4ccuRWaY0rxsjL8o0FXzUV7zpEZYUBzQCDU2r9rQ=;
+        b=ev23C4K3cx39RmZ7a/Ml4F3SHeZixJ9kznNd//fgs+z31texeYxXFV0jXmzjOmVBWz
+         OQoX49nvDQdCgIQHDaCORqsnKTpsWPe6ZhD51N+DXK6aBsJIKiADXVFPmkmHPVD/McEq
+         HKgDbVYEoSM8/rZF1k1F3QSgLgTjPPbiQQKkDL1IXa4J5bt9ooytLeuGP84fQ09GTZv1
+         daQW+NIZbzDii/7Y/42pxpdIpMF9+yhfu514aOJ643+FqSWBaIoHctwanr4yWAKKI6VY
+         q/4KRUUvM9D6Z1VLUDhsti9JonVn9NYzKBUSPilO+4+r8lt/n2YOGEohHJ+f8uXsF8x5
+         RSrw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747258161; x=1747862961;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=Slx4ccuRWaY0rxsjL8o0FXzUV7zpEZYUBzQCDU2r9rQ=;
+        b=BqWn49uf4s0puHnryAuaYPlHbCbgsZCneROHg3SAGfKKSQEtwI2A5H9uhfDGufUgQt
+         Yc9JCfOcvdi0caJctaa/DZ0yYcm48y/hF92IGk7dlLqUhJJPnZM2c9PSydOV8cSUxOjn
+         Xftc8kx/etY7UOWzs0Mi19x7Nutj6LB8R4f6hohHXjXEnfj2YuJYi7GDyhCz3FTewIlu
+         Cojs8Dz7oQHoGdO5cXbXnouHF9GtS5XU9pGoFxX5irzcqJqOvSRhQlwum6Oy5tkvccUe
+         IYOgns/JQ9cVtTCOF8Le9GMKmTUqeVpL4muKW0/0CJV9t7naQ8BTzDiQALFF0XwpwqXS
+         Vuiw==
+X-Forwarded-Encrypted: i=1; AJvYcCXymNLDF2pf7ttlnPErwfmAUuVJ8gZBpA6XmJbRAgXDwwEblJOQzCEA8dscYgnxQf3o9G82FH3pWbY=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxPzuisMvw/2HF+ZXXQ3cIpSS/2WVSod/WkbPLCdolGQcLe5+yd
+	i85pyDNwZC7to17a1tzGYd7dD8ub6awHKQ39sHovjEcBVHLZLD2P/PIZBuYaqDnyNCzYPSERcHX
+	hLosBcsOx9mkZ9qHnLuXOdAl4fwmbVMnA4aYQO+lJ
+X-Gm-Gg: ASbGnctGo8DK5NhgfuT3oKXK2fjhvcwYKIABzHge2zyyd6DQez1orn/yKzdGKdG6khn
+	CnFwzLwACP96+kvFNxnvGrH+li/2OdUvfJSTAljusTGQatFm8nXx2NcchpC/plm6gJuSoEn4XFi
+	6DYI4OOhaf9+VDiqMM+5H4zx+NvXWxUgWPmkBfnVMFoTSWg27pGXkoQPNbOt+wFg==
+X-Google-Smtp-Source: AGHT+IHtyqQCkUrNJiUCv4rKrRfdaVNrxqYbN3dpp1JTn37YnHa0lc60bhCiTqHmnbfcp5FYiIwPf8xUOcF9xc4J1CY=
+X-Received: by 2002:a7b:cb0b:0:b0:439:9434:1b66 with SMTP id
+ 5b1f17b1804b1-442f96918d2mr1145e9.1.1747258160984; Wed, 14 May 2025 14:29:20
+ -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
- <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
- <beaa81748cf1325df67930bf74ea87e6cdcb3e46.camel@HansenPartnership.com>
- <CACYkzJ5XJOj08+hKheWDcqbPrFAwa+fFvOw+4QPAHBz1u2HgAg@mail.gmail.com>
- <4f92fcfaeffd179ff6ae265822dc79856310d6a3.camel@HansenPartnership.com>
- <CACYkzJ7Oh62u7bHwQ_nOLG54qnhyNU9msF5mWV_vFrBXw1oZqw@mail.gmail.com> <2f71d6c03698eb17d51f7247efde777627ee578a.camel@HansenPartnership.com>
-In-Reply-To: <2f71d6c03698eb17d51f7247efde777627ee578a.camel@HansenPartnership.com>
-From: KP Singh <kpsingh@kernel.org>
-Date: Wed, 14 May 2025 22:41:30 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ6PSFORZdSovJxN1+D59eTfyCkhWFsYYgYa=vbO5Tb4WA@mail.gmail.com>
-X-Gm-Features: AX0GCFv872xEPuwZl65stdeayBR4vTasOjSF4TX-Op_MckziGdwZlnt80nuf65g
-Message-ID: <CACYkzJ6PSFORZdSovJxN1+D59eTfyCkhWFsYYgYa=vbO5Tb4WA@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: James Bottomley <James.Bottomley@hansenpartnership.com>
-Cc: Paul Moore <paul@paul-moore.com>, bboscaccy@linux.microsoft.com, bpf@vger.kernel.org, 
-	code@tyhicks.com, corbet@lwn.net, davem@davemloft.net, dhowells@redhat.com, 
-	gnoack@google.com, herbert@gondor.apana.org.au, jarkko@kernel.org, 
-	jmorris@namei.org, jstancek@redhat.com, justinstitt@google.com, 
-	keyrings@vger.kernel.org, linux-crypto@vger.kernel.org, 
-	linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	linux-security-module@vger.kernel.org, llvm@lists.linux.dev, 
-	masahiroy@kernel.org, mic@digikod.net, morbo@google.com, nathan@kernel.org, 
-	neal@gompa.dev, nick.desaulniers+lkml@gmail.com, nicolas@fjasle.eu, 
-	nkapron@google.com, roberto.sassu@huawei.com, serge@hallyn.com, 
-	shuah@kernel.org, teknoraver@meta.com, xiyou.wangcong@gmail.com, 
-	kysrinivasan@gmail.com, Linus Torvalds <torvalds@linux-foundation.org>
+References: <20250505161412.1926643-1-jiaqiyan@google.com> <20250505161412.1926643-7-jiaqiyan@google.com>
+ <830ecd3d-13d4-4f12-9fea-e20cc69d0a5c@oracle.com>
+In-Reply-To: <830ecd3d-13d4-4f12-9fea-e20cc69d0a5c@oracle.com>
+From: Jiaqi Yan <jiaqiyan@google.com>
+Date: Wed, 14 May 2025 14:29:09 -0700
+X-Gm-Features: AX0GCFsv8ezjBmFZxLF3RCnN2B0FNrLKw7sWOsaJ5KQNDume-9PaaiuTEgpZ5b8
+Message-ID: <CACw3F53-SaPccosPqYcXWGEpwfKj-VbSJ5nJa3f82oFMbHAy2Q@mail.gmail.com>
+Subject: Re: [PATCH v1 6/6] Documentation: kvm: new uAPI for handling SEA
+To: ALOK TIWARI <alok.a.tiwari@oracle.com>
+Cc: maz@kernel.org, oliver.upton@linux.dev, joey.gouly@arm.com, 
+	suzuki.poulose@arm.com, yuzenghui@huawei.com, catalin.marinas@arm.com, 
+	will@kernel.org, pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, 
+	kvm@vger.kernel.org, kvmarm@lists.linux.dev, 
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	duenwen@google.com, rananta@google.com, jthoughton@google.com
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 14, 2025 at 10:32=E2=80=AFPM James Bottomley
-<James.Bottomley@hansenpartnership.com> wrote:
->
-> On Wed, 2025-05-14 at 20:35 +0200, KP Singh wrote:
-> > On Wed, May 14, 2025 at 7:45=E2=80=AFPM James Bottomley
-> > <James.Bottomley@hansenpartnership.com> wrote:
-> > >
-> > > On Wed, 2025-05-14 at 19:17 +0200, KP Singh wrote:
-> > > > On Wed, May 14, 2025 at 5:39=E2=80=AFPM James Bottomley
-> > > > <James.Bottomley@hansenpartnership.com> wrote:
-> > > > > On Sun, 2025-05-11 at 04:01 +0200, KP Singh wrote:
-> > > [...]
-> > > > > > This implicitly makes the payload equivalent to the signed
-> > > > > > block
-> > > > > > (B_signed)
-> > > > > >
-> > > > > >     I_loader || H_meta
-> > > > > >
-> > > > > > bpftool then generates the signature of this I_loader payload
-> > > > > > (which now contains the expected H_meta) using a key (system
-> > > > > > or
-> > > > > > user) with new flags that work in combination with bpftool -L
-> > > > >
-> > > > > Could I just push back a bit on this.  The theory of hash
-> > > > > chains
-> > > > > (which I've cut to shorten) is about pure data structures.  The
-> > > > > reason for that is that the entire hash chain is supposed to be
-> > > > > easily independently verifiable in any environment because
-> > > > > anything
-> > > > > can compute the hashes of the blocks and links.  This
-> > > > > independent
-> > > > > verification of the chain is key to formally proving hash
-> > > > > chains to
-> > > > > be correct.  In your proposal we lose the easy verifiability
-> > > > > because the link hash is embedded in the ebpf loader program
-> > > > > which
-> > > > > has to be disassembled to do the extraction of the hash and
-> > > > > verify
-> > > > > the loader is actually checking it.
-> > > >
-> > > > I am not sure I understand your concern. This is something that
-> > > > can
-> > > > easily be built into tooling / annotations.
-> > > >
-> > > >     bpftool -S -v <verification_key> <loader> <metadata>
-> > > >
-> > > > Could you explain what's the use-case for "easy verifiability".
-> > >
-> > > I mean verifiability of the hash chain link.  Given a signed
-> > > program, (i.e. a .h file which is generated by bpftool) which is a
-> > > signature over the loader only how would one use simple
-> > > cryptographic operations to verify it?
-> > >
-> >
-> > I literally just said it above the hash can be extracted if you
-> > really want offline verification. Are you saying this code is hard to
-> > write? or is the tooling hard to write? Do you have some definition
-> > of "simple cryptographic operations".  All operations use tooling.
->
-> As I said, you have a gap in that you not only have to extract the hash
-> and verify it against the map (which I agree is fairly simple) but also
-> verify the loader program actually checks it correctly.  That latter
-> operation is not a simple cryptographic one and represents a security
-> gap between this proposal and the hash linked chains you introduced in
-> your first email in this thread.
+Thanks ALOK, for pointing out the typos! Queued the fixes to V2 while
+awaiting for reviews on other patches.
 
-Sure, but I don't see this as being problematic. If it's hard for
-folks who do theoretical work, then I think it's okay to push this
-effort on them rather than every user.
-
+On Wed, May 7, 2025 at 12:25=E2=80=AFPM ALOK TIWARI <alok.a.tiwari@oracle.c=
+om> wrote:
 >
-> > > > > I was looking at ways we could use a pure hash chain (i.e.
-> > > > > signature over loader and real map hash) and it does strike me
-> > > > > that the above ebpf hash verification code is pretty invariant
-> > > > > and easy to construct, so it could run as a separate BPF
-> > > > > fragment that then jumps to the real loader.  In that case, it
-> > > > > could be constructed on the fly in a trusted environment, like
-> > > > > the kernel, from the link hash in the signature and the
-> > > > > signature could just be Sig(loader || map hash) which can then
-> > > > > be
-> > > >
-> > > > The design I proposed does the same thing:
-> > > >
-> > > >     Sig(loader || H_metadata)
-> > > >
-> > > > metadata is actually the data (programs, context etc) that's
-> > > > passed in the map. The verification just happens in the loader
-> > > > program and the loader || H_metadata is implemented elegantly to
-> > > > avoid any separate payloads.
-> > >
-> > > OK, so I think this is the crux of the problem:  In formal methods
-> > > proving the validity of a data based hash link is an easy set of
-> > > cryptographic operations.  You can assert that's equivalent to a
-> > > signature over a program that verifies the hash, but formally
-> > > proving it requires a formal analysis of the program to show that
-> > > 1) it contains the correct hash and 2) it correctly checks the hash
-> > > against the map.  That makes the task of someone receiving the .h
-> > > file containing the signed skeleton way harder: it's easy to prove
-> > > the signature matches the loader instructions, but they still have
-> > > to prove the instructions contain and verify the correct map hash.
-> > >
+> ...
+> > +Inject SError
+> > +~~~~~~~~~~~~~
+> > +
+> >   Set the pending SError exception state for this VCPU. It is not possi=
+ble to
+> >   'cancel' an Serror that has been made pending.
 > >
-> > I don't see this as a problem for 2 reasons:
+> > -If the guest performed an access to I/O memory which could not be hand=
+led by
+> > -userspace, for example because of missing instruction syndrome decode
+> > -information or because there is no device mapped at the accessed IPA, =
+then
+> > -userspace can ask the kernel to inject an external abort using the add=
+ress
+> > -from the exiting fault on the VCPU. It is a programming error to set
+> > -ext_dabt_pending after an exit which was not either KVM_EXIT_MMIO or
+> > -KVM_EXIT_ARM_NISV. This feature is only available if the system suppor=
+ts
+> > -KVM_CAP_ARM_INJECT_EXT_DABT. This is a helper which provides commonali=
+ty in
+> > -how userspace reports accesses for the above cases to guests, across d=
+ifferent
+> > -userspace implementations. Nevertheless, userspace can still emulate a=
+ll Arm
+> > -exceptions by manipulating individual registers using the KVM_SET_ONE_=
+REG API.
+> > +Inject SEA (synchronous external abort)
+> > +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> > +
+> > +- If the guest performed an access to I/O memory which could not be ha=
+ndled by
+> > +  userspace, for example because of missing instruction syndrome decod=
+e
+> > +  information or because there is no device mapped at the accessed IPA=
+.
+> > +
+> > +- If the guest consumed an uncorrected memory error, and RAS extension=
+ in the
+> > +  Trusted Firmware choose to notify PE with SEA, KVM has to handle it =
+when
+> > +  host APEI is unable to claim the SEA. For the following types of fau=
+lts,
+> > +  if userspace enabled KVM_CAP_ARM_SEA_TO_USER, KVM returns to userspa=
+ce with
+> > +  KVM_EXIT_ARM_SEA:
+> > +
+> > +  - Synchronous external abort, not on translation table walk or hardw=
+are
+> > +    update of translation table.
+> > +
+> > +  - Synchronous external abort on translation table walk or hardware u=
+pdate of
+> > +    translation table, including all levels.
+> > +
+> > +  - Synchronous parity or ECC error on memory access, not on translati=
+on table
+> > +    walk.
+> > +
+> > +  - Synchronous parity or ECC error on memory access on translation ta=
+ble walk
+> > +    or hardware update of translation table, including all levels.
+> > +
+> > +For the cases above, userspace can ask the kernel to replay either an =
+external
+> > +data abort (by setting ext_dabt_pending) or an external instruciton ab=
+ort
+>
+> typo instruciton -> instruction
+>
+> > +(by setting ext_iabt_pending) into the faulting VCPU. KVM will use the=
+ address
+> > +from the exiting fault on the VCPU. Setting both ext_dabt_pending and
+> > +ext_iabt_pending at the same time will return -EINVAL.
+> > +
+> > +It is a programming error to set ext_dabt_pending or ext_iabt_pending =
+after an
+> > +exit which was not KVM_EXIT_MMIO, KVM_EXIT_ARM_NISV or KVM_EXIT_ARM_SE=
+A.
+> > +Injecting SEA for data and instruction abort is only available if KVM =
+supports
+> > +KVM_CAP_ARM_INJECT_EXT_DABT and KVM_CAP_ARM_INJECT_EXT_IABT respective=
+ly.
+> > +
+> > +This is a helper which provides commonality in how userspace reports a=
+ccesses
+> > +for the above cases to guests, across different userspace implementati=
+ons.
+> > +Nevertheless, userspace can still emulate all Arm exceptions by manipu=
+lating
+> > +individual registers using the KVM_SET_ONE_REG API.
 > >
-> > 1. It's not hard
+> >   See KVM_GET_VCPU_EVENTS for the data structure.
+> >
+> > @@ -7151,6 +7184,55 @@ The valid value for 'flags' is:
+> >     - KVM_NOTIFY_CONTEXT_INVALID -- the VM context is corrupted and not=
+ valid
+> >       in VMCS. It would run into unknown result if resume the target VM=
+.
+> >
+> > +::
+> > +
+> > +    /* KVM_EXIT_ARM_SEA */
+> > +    struct {
+> > +      __u64 esr;
+> > +  #define KVM_EXIT_ARM_SEA_FLAG_GVA_VALID   (1ULL << 0)
+> > +  #define KVM_EXIT_ARM_SEA_FLAG_GPA_VALID   (1ULL << 1)
+> > +      __u64 flags;
+> > +      __u64 gva;
+> > +         __u64 gpa;
+> > +    } arm_sea;
+> > +
+> > +Used on arm64 systems. When the VM capability KVM_CAP_ARM_SEA_TO_USER =
+is
+> > +enabled, a VM exit is generated if guest caused a synchronous external=
+ abort
+> > +(SEA) and the host APEI fails to handle the SEA.
+> > +
+> > +Historically KVM handles SEA by first delegating the SEA to host APEI =
+as there
+> > +is high chance that the SEA is caused by consuming uncorrected memory =
+error.
+> > +However, not all platforms support SEA handling in APEI, and KVM's fal=
+lback
+> > +handling is to inject an async SError into the guest, which usually pa=
+nics
+> > +guest kernel unpleasantly. As an alternative, userspace can participat=
+e into
+> > +the SEA handling by enabling KVM_CAP_ARM_SEA_TO_USER at VM creation, a=
+fter
+> > +querying the capability. Once enabled, when KVM has to handle the gues=
+t
+> > +caused SEA, it returns to userspace with KVM_EXIT_ARM_SEA, with detail=
+s
+> > +about the SEA available in 'arm_sea'.
+> > +
+> > +The 'esr' filed holds the value of the exception syndrome register (ES=
+R) while
 >
-> it requires disassembling the first 20 or so BPF instructions and
-> verifying their operation, so that's harder than simply calculating
-> hashes and signatures.
+> 'esr' filed holds -> 'esr' field hold
 >
-> > 2. Your typical user does not want to do formal verification and
-> > extract signatures etc.
+> > +KVM taking the SEA, which tells userspace the character of the current=
+ SEA,
+> > +such as its Exception Class, Synchronous Error Type, Fault Specific Co=
+de and
+> > +so on. For more details on ESR, check the Arm Architecture Registers
+> > +documentation.
+> > +
+> > +The 'flags' field indicates if the faulting addresses are available wh=
+ile
+> > +taking the SEA:
+> > +
+> > +  - KVM_EXIT_ARM_SEA_FLAG_GVA_VALID -- the faulting guest virtual addr=
+ess
+> > +    is valid and userspace can get its value in the 'gva' field.
 >
-> Users don't want to do formal verification, agreed ... but they do want
-> to know that security experts have verified the algorithms they're
-> using.
+> the 'gpa' filed -> the 'gpa' field.
 >
-> That's why I was thinking, since the loader preamble that verifies the
-> hash is easy to construct, that the scheme could use a real hash linked
-> chain, which has already been formally verified and is well understood,
-> then construct the preamble for the loader you want in a trusted
-> environment based on the hashes, meaning there's no security gap.
+> > +  - KVM_EXIT_ARM_SEA_FLAG_GPA_VALID -- the faulting guest physical add=
+ress
+> > +    is valid and userspace can get its value in the 'gpa' filed.
+> > +
+> > +Userspace needs to take actions to handle guest SEA synchronously, nam=
+ely in
+> > +the same thread that runs KVM_RUN and receives KVM_EXIT_ARM_SEA. One o=
+f the
+> > +encouraged approaches is to utilize the KVM_SET_VCPU_EVENTS to inject =
+the SEA
+> > +to the faulting VCPU. This way, the guest has the opportunity to keep =
+running
+> > +and limit the blast radius of the SEA to the particular guest applicat=
+ion that
+> > +caused the SEA. If the Exception Class indicated by 'esr' field in 'ar=
+m_sea'
+> > +is data abort, userspace should inject data abort. If the Exception Cl=
+ass is
+> > +instruction abort, userspace should inject instruction abort.
 >
-> Regards,
 >
-> James
->
+> Thanks,
+> Alok
