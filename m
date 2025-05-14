@@ -1,176 +1,170 @@
-Received: from mail-lf1-f53.google.com (mail-lf1-f53.google.com [209.85.167.53])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5CF0E276052
-	for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 12:20:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 962B322A4EA;
+	Wed, 14 May 2025 12:35:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.152.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747225234; cv=none; b=JKwcXUZy/sN24XHcoXLWU7M9OzTWqIeqFwCcK6b6yziysoQ4Anx+/0ozBcyODQ7pEyU5I3TkNEpcBRGkYJ3GJtB+GSp0v3WERw3Is7TnI06VrYCaZlxFH2rZublKRzYy2FAgnPtcUaSyzYbtYLrQ7EFeoJ0AmXpQpdIDM9FcCqg=
+	t=1747226128; cv=none; b=VgdfJ2sueVr8xmILctMSFICQpUJVONIsuhvJP3qJx/8/WMylj1a2sKVfRrX2aioXQbgdHXBSZMAGg8d/7NLsFF5bK8VhtgYEKpxpwl/IlBsc1DF+XTyKcA0bp+hQB7PqeWVW/ZLvN5zsEyG1pK772Elo6OTh2x0cr51z8BOqfZs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747225234; c=relaxed/simple;
-	bh=BA5SZ3wC3jmhfEm9JysGzS/LcnF5mjapcbHGPPq6knQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Content-Type; b=aSAUd4GV3S3UyS23ibMKA82WTQwrt1K5VIXRSc2iIc4HlDlNQw+INrLdcMKr4FZlDOoVja91Y8Itz3CEXHwJRYtEDBdmzG2tiA5OM2HYUwDqpfOv1S50oQWb/3P9u6MUVjyQMoM1amJyoX1TVV7wHkJ62S1FdHvcILFdjNMEkfE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZO8QX2GO; arc=none smtp.client-ip=209.85.167.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747226128; c=relaxed/simple;
+	bh=2dw3JOnHoUcdzGRN6kdhMybNLL/lLmz++l0w6F81qtA=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=V4dGyynKORV0CW2f9XXEgZRmtMCDCMKkcg9MzoUWe/8/su/EYLnVdQh9pxeD0QaaJSRK+04G6CJHeUUj3yJAQVcrCwbECJZzXvkyj1INYqZ5l74V4n3EyKrEERZcXH0QmKxBNBjlYGLyzoAB91fS2JMpKXT0UhghVds78wIoEwc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net; spf=pass smtp.mailfrom=damsy.net; dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b=oMTg1HUK; dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b=8rhNJnqq; arc=none smtp.client-ip=51.159.152.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=damsy.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZO8QX2GO"
-Received: by mail-lf1-f53.google.com with SMTP id 2adb3069b0e04-54e7967cf67so8191845e87.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 05:20:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747225230; x=1747830030; darn=vger.kernel.org;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=BA5SZ3wC3jmhfEm9JysGzS/LcnF5mjapcbHGPPq6knQ=;
-        b=ZO8QX2GO1+63SKBwtO5hYFgYcmxzi9kVkYwutqBUv6zrvQPQVxO3YHZ3f2e7XjfxBY
-         1goT/BTR3LpVuLnQnl/LujVHTMWHptJgadfxF3YJ3QDWftdVSHJNTwM6cF0F3pnDSbGs
-         gDrYeUbvzPdxR5IM6mUkFOFD6aRRsiAY7he5kmOhWnd2IoJHBTKX7qvEBaAcbgmK8sht
-         +5YwRnHoSdE6JcskB62Gl3EEzBoBookf/5EBtXWk4z6vIh4CkvKs4GKTEetQNXkbilB1
-         H7WfBAffDWWsEgdHm+jxlesp3lfM3l6/IMD86WKAUR9ZSurTlNK9nTM6zMyOIfZ5KpSp
-         cBCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747225230; x=1747830030;
-        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=BA5SZ3wC3jmhfEm9JysGzS/LcnF5mjapcbHGPPq6knQ=;
-        b=rg1g4U2UZgybvDzjgPa0OEqe4GstTtRle991wfsiSPoyVZWIvdEdaZyhFl7WyS/Gcp
-         OIiQVWiXCh5p7U2fqvNQvlFdBIUsSu+1QM7QVwd6e6FUBkEmyrwBH1TODUArmkWJ1hb0
-         Bd49cblyfO4AYerUDhWV2ik8MZSdAdrq9Q0ASzHP2kIU9KYsWDEdBfAMhc/lh0NiX6T5
-         Z96lJRjq52AuKILKcgNPcaQZayCQyYB+gtvwrFhjKFART1he/Itwpt/QQWbMDIzphhPm
-         DVpJMSCr6fF8CLvnHH3odOmZwKQGciELvH2z8Vb3D77adW9BlJBBbPRNR2x8odnpgQXM
-         RuvA==
-X-Forwarded-Encrypted: i=1; AJvYcCV1oOWosILTenPiohEuYO43ersA9MtMYyyzBwmhnFNtKBTuQWWywvLt1NOBcTGdaiQEoKXG7O/ZB4E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwnZPVwK6LTvTsZLuo54C+ePkSgAUPIUP/ZYFzfYCfDk5rljSJz
-	JQqj9mvg/K6lbQX+Z3qAiQgnmqAOkWyHYMsc0efRmbnOV+e/l3byBhtLoTemBHF0xNNa/vl7CKz
-	uhvq0lyjWSrYQvHTvQo4rSzPRfPyk0BDyW4k=
-X-Gm-Gg: ASbGnctnFVtDjbBjwYvA3tz1FOxJDTZyLTGVTevsQq12KkgG9I77/j+pfB8YZQ92C1P
-	l/2H+Yi9EWIwHP01VYNYQ8jJmYHEewyWGAuTyG9t3YF1rpxoTDHcGE5CiXOw5JvwIXX2lgIfpWR
-	JYGs6UXk1jk0Bq4ptt10bJxOmpw4S7BCy/13+JVAhsWDf0njImKvelBl6cFAXipXlvENDTTLA=
-X-Google-Smtp-Source: AGHT+IH+U2JpekCH/uhsvxKzKKmt4U5sjHIIhV0kDs7su1I514NofSEKeqRXF+CjUWQvRT1oOz3FqjsjKKVDmjFYcrA=
-X-Received: by 2002:a05:6512:258c:b0:545:f9c:a80f with SMTP id
- 2adb3069b0e04-550d5f7c394mr1128152e87.1.1747225230148; Wed, 14 May 2025
- 05:20:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b="oMTg1HUK";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="8rhNJnqq"
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1747225555; bh=l7CVYbiYMp3bpjoLvOLIf89
+	4834vFxO7Y79o9x78pyY=; b=oMTg1HUKKUobVlbG1lxjwnSVhtfqSEmona5UDnIjZyLZ4MADxl
+	Iu+V4jDnCCa+oX6zJ5zpHnio52K1/GJjoriWc1Bl19m/F9Op7LPsok/s5OcAIziZgoGoGDpL/Gq
+	3DFUKcpBQniDaFPUFgVDsB0pE/7ZCIlPpHGPKafTS6OCDVZ1KeLhvn1hWVbyKe8ryC8P996eUyS
+	yoMVJNdLRG9ONuljR661KK1wpqwL5g4LF6x2NFg3Nf03bcRAc2Li+IyvqhLsZ0rbEuM0lWfTQ18
+	jSMTrtwtA/eip8TZHZ1M8LwKajaKqlXm5yI+W8s8V9AFFA3EEtABl6/eWFxNl59TMrw==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1747225555; bh=l7CVYbiYMp3bpjoLvOLIf89
+	4834vFxO7Y79o9x78pyY=; b=8rhNJnqqS9bntJ5mODbeO/T1NcD6UqMJSaRqqa55oYbmm812Ve
+	EVdgv1k90iVoDZxU6Dwj9GmsxfIwPu7djNBw==;
+Message-ID: <34321866-6991-4aa0-98e9-6d6b7c37e8e4@damsy.net>
+Date: Wed, 14 May 2025 14:25:54 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <CALFiBubTwgdQ7W5voXbry+D0Us8fsDAkkAr93xrRrT7Rk3tueA@mail.gmail.com>
- <CALFiBuas6B0LZWsW5oeKeAKmT1XqdSSEaR6EH8YkRpeuEd3C7A@mail.gmail.com>
-In-Reply-To: <CALFiBuas6B0LZWsW5oeKeAKmT1XqdSSEaR6EH8YkRpeuEd3C7A@mail.gmail.com>
-From: Shivam Sharma <10sharmashivam@gmail.com>
-Date: Wed, 14 May 2025 17:50:18 +0530
-X-Gm-Features: AX0GCFuXAfhZYMJlvTkz1HsuzmOjb_oEUoBxd7blF1fYy_SWm-ySsgjdy6Pv0v4
-Message-ID: <CALFiBuYqEocqYL5=59osNXORuzgpQk=7kJUSC=tajRynW_R6yg@mail.gmail.com>
-Subject: Re: LFX Mentorship Task Submissions
-To: skhan@linuxfoundation.org, linux-doc@vger.kernel.org
-Content-Type: multipart/mixed; boundary="0000000000002f9c750635179351"
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 00/10] Improve gpu_scheduler trace events + UAPI
+To: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ Philipp Stanner <phasta@kernel.org>
+Cc: =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ =?UTF-8?Q?Ma=C3=ADra_Canal?= <mcanal@igalia.com>,
+ =?UTF-8?Q?Thomas_Hellstr=C3=B6m?= <thomas.hellstrom@linux.intel.com>,
+ Abhinav Kumar <quic_abhinavk@quicinc.com>,
+ Alex Deucher <alexander.deucher@amd.com>,
+ Boris Brezillon <boris.brezillon@collabora.com>,
+ Danilo Krummrich <dakr@kernel.org>, David Airlie <airlied@gmail.com>,
+ Dmitry Baryshkov <lumag@kernel.org>, Felix Kuehling
+ <Felix.Kuehling@amd.com>, Frank Binns <frank.binns@imgtec.com>,
+ Jonathan Corbet <corbet@lwn.net>, Liviu Dudau <liviu.dudau@arm.com>,
+ Lizhi Hou <lizhi.hou@amd.com>, Lucas De Marchi <lucas.demarchi@intel.com>,
+ Lucas Stach <l.stach@pengutronix.de>, Lyude Paul <lyude@redhat.com>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Matt Coster <matt.coster@imgtec.com>, Matthew Brost
+ <matthew.brost@intel.com>, Maxime Ripard <mripard@kernel.org>,
+ Melissa Wen <mwen@igalia.com>, Min Ma <min.ma@amd.com>,
+ Oded Gabbay <ogabbay@kernel.org>, Philipp Stanner <phasta@kernel.org>,
+ Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+ Rob Herring <robh@kernel.org>, Rodrigo Vivi <rodrigo.vivi@intel.com>,
+ Simona Vetter <simona@ffwll.ch>, Steven Price <steven.price@arm.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, amd-gfx@lists.freedesktop.org,
+ dri-devel@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ freedreno@lists.freedesktop.org, intel-xe@lists.freedesktop.org,
+ lima@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+ linux-arm-msm@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+ nouveau@lists.freedesktop.org
+References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
---0000000000002f9c750635179351
-Content-Type: multipart/alternative; boundary="0000000000002f9c72063517934f"
+Hi Philipp,
 
---0000000000002f9c72063517934f
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Did you get a chance to take a look at the latest revision of this series?
 
-For the 2nd task (Documentation task), Please Find Attached .txt file also.
-It is the same .patch file, just different format.
+Thanks,
+Pierre-Eric
 
-Regards
+Le 24/04/2025 à 10:38, Pierre-Eric Pelloux-Prayer a écrit :
+> Hi,
+> 
+> The initial goal of this series was to improve the drm and amdgpu
+> trace events to be able to expose more of the inner workings of
+> the scheduler and drivers to developers via tools.
+> 
+> Then, the series evolved to become focused only on gpu_scheduler.
+> The changes around vblank events will be part of a different
+> series, as well as the amdgpu ones.
+> 
+> Moreover Sima suggested to make some trace events stable uAPI,
+> so tools can rely on them long term.
+> 
+> The first patches extend and cleanup the gpu scheduler events,
+> then add a documentation entry in drm-uapi.rst.
+> 
+> The last 2 patches are new in v8. One is based on a suggestion
+> from Tvrtko and gets rid of drm_sched_job::id. The other is a
+> cleanup of amdgpu trace events to use the fence=%llu:%llu format.
+> 
+> The drm_sched_job patches don't affect gpuvis which has code to parse
+> the gpu_scheduler events but these events are not enabled.
+> 
+> Changes since v8:
+> * swapped patches 8 & 9
+> * rebased on drm-next
+> 
+> Changes since v7:
+> * uint64_t -> u64
+> * reworked dependencies tracing (Tvrtko)
+> * use common name prefix for all events (Tvrtko)
+> * dropped drm_sched_job::id (Tvrtko)
+> 
+> Useful links:
+> - userspace tool using the updated events:
+> https://gitlab.freedesktop.org/tomstdenis/umr/-/merge_requests/37
+> - v8:
+> https://lists.freedesktop.org/archives/dri-devel/2025-March/496781.html
+> 
+> Pierre-Eric Pelloux-Prayer (10):
+>    drm/debugfs: output client_id in in drm_clients_info
+>    drm/sched: store the drm client_id in drm_sched_fence
+>    drm/sched: add device name to the drm_sched_process_job event
+>    drm/sched: cleanup gpu_scheduler trace events
+>    drm/sched: trace dependencies for gpu jobs
+>    drm/sched: add the drm_client_id to the drm_sched_run/exec_job events
+>    drm/sched: cleanup event names
+>    drm: get rid of drm_sched_job::id
+>    drm/doc: document some tracepoints as uAPI
+>    drm/amdgpu: update trace format to match gpu_scheduler_trace
+> 
+>   Documentation/gpu/drm-uapi.rst                |  19 ++++
+>   drivers/accel/amdxdna/aie2_ctx.c              |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_amdkfd.c    |   2 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c        |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.c       |   8 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_job.h       |   3 +-
+>   drivers/gpu/drm/amd/amdgpu/amdgpu_trace.h     |  32 +++---
+>   drivers/gpu/drm/drm_debugfs.c                 |  10 +-
+>   drivers/gpu/drm/etnaviv/etnaviv_gem_submit.c  |   2 +-
+>   drivers/gpu/drm/imagination/pvr_job.c         |   2 +-
+>   drivers/gpu/drm/imagination/pvr_queue.c       |   5 +-
+>   drivers/gpu/drm/imagination/pvr_queue.h       |   2 +-
+>   drivers/gpu/drm/lima/lima_gem.c               |   2 +-
+>   drivers/gpu/drm/lima/lima_sched.c             |   6 +-
+>   drivers/gpu/drm/lima/lima_sched.h             |   3 +-
+>   drivers/gpu/drm/msm/msm_gem_submit.c          |   8 +-
+>   drivers/gpu/drm/nouveau/nouveau_sched.c       |   3 +-
+>   drivers/gpu/drm/panfrost/panfrost_drv.c       |   2 +-
+>   drivers/gpu/drm/panthor/panthor_drv.c         |   3 +-
+>   drivers/gpu/drm/panthor/panthor_mmu.c         |   2 +-
+>   drivers/gpu/drm/panthor/panthor_sched.c       |   5 +-
+>   drivers/gpu/drm/panthor/panthor_sched.h       |   3 +-
+>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 100 +++++++++++++-----
+>   drivers/gpu/drm/scheduler/sched_entity.c      |  16 ++-
+>   drivers/gpu/drm/scheduler/sched_fence.c       |   4 +-
+>   drivers/gpu/drm/scheduler/sched_internal.h    |   2 +-
+>   drivers/gpu/drm/scheduler/sched_main.c        |  11 +-
+>   .../gpu/drm/scheduler/tests/mock_scheduler.c  |   2 +-
+>   drivers/gpu/drm/v3d/v3d_submit.c              |   2 +-
+>   drivers/gpu/drm/xe/xe_sched_job.c             |   3 +-
+>   include/drm/gpu_scheduler.h                   |  13 ++-
+>   31 files changed, 184 insertions(+), 97 deletions(-)
+> 
 
-On Wed, 14 May 2025 at 17:45, Shivam Sharma <10sharmashivam@gmail.com>
-wrote:
-
-> Dear Shuah Khan,
->
-> PFA 2nd task- Documentation task
->
-> Regards
->
-> On Wed, 14 May 2025 at 16:45, Shivam Sharma <10sharmashivam@gmail.com>
-> wrote:
->
->> Dear Shuah Khan,
->>
->> I applied for the Linux Kernel Bug Fixing Summer 2025 LFX Internship
->> *today*, *May 13, 2025*, and n*oticed some task deadlines (e.g., May 10)
->> have passed.* I=E2=80=99m highly motivated to complete all tasks and con=
-tribute
->> to the kernel. And will submit all of them in this email chain. I hope y=
-ou
->> consider this.
->>
->> PFA: my first task- Build & boot kernel
->>
->> Thank you for your guidance. Looking forward to hearing from you.
->>
->> Best regards,
->> Shivam Sharma
->>
->
-
---0000000000002f9c72063517934f
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">For the 2nd task (Documentation task), Please Find Attache=
-d .txt file also. It is the same .patch file, just different format.<div><b=
-r></div><div>Regards</div></div><br><div class=3D"gmail_quote gmail_quote_c=
-ontainer"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, 14 May 2025 at 17:4=
-5, Shivam Sharma &lt;<a href=3D"mailto:10sharmashivam@gmail.com">10sharmash=
-ivam@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex"><div dir=3D"ltr">Dear Shuah Khan,<br><br>PFA 2nd task-=C2=A0D=
-ocumentation task<br><br>Regards</div><br><div class=3D"gmail_quote"><div d=
-ir=3D"ltr" class=3D"gmail_attr">On Wed, 14 May 2025 at 16:45, Shivam Sharma=
- &lt;<a href=3D"mailto:10sharmashivam@gmail.com" target=3D"_blank">10sharma=
-shivam@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex"><div dir=3D"ltr">
-
-
-
-
-
-<p>Dear Shuah Khan,<br><br>I applied for the Linux Kernel Bug Fixing Summer=
- 2025 LFX Internship=C2=A0<b>today</b>,=C2=A0<b>May 13, 2025</b>, and n<b>o=
-ticed some task deadlines (e.g., May 10) have passed.</b>=C2=A0I=E2=80=99m =
-highly motivated to complete all tasks and contribute to the kernel. And wi=
-ll submit all of them in this email chain. I hope you consider this.=C2=A0<=
-br><br>PFA: my first task-=C2=A0Build &amp; boot kernel<br><br>Thank you fo=
-r your guidance. Looking forward to hearing from you.=C2=A0</p><div><br>Bes=
-t regards,<br>Shivam Sharma</div></div>
-</blockquote></div>
-</blockquote></div>
-
---0000000000002f9c72063517934f--
---0000000000002f9c750635179351
-Content-Type: text/plain; charset="US-ASCII"; name="kernel-doc-fix.txt"
-Content-Disposition: attachment; filename="kernel-doc-fix.txt"
-Content-Transfer-Encoding: base64
-Content-ID: <f_manwrl180>
-X-Attachment-Id: f_manwrl180
-
-RnJvbSA4MWNmMmI3NDI0MGNhNDUzMGM2Y2YwMmYwNjNkOTJkMjFlNWUxNzgwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBTaGl2YW0gU2hhcm1hIDwxMHNoYXJtYXNoaXZhbUBnbWFpbC5j
-b20+CkRhdGU6IFdlZCwgMTQgTWF5IDIwMjUgMTI6MDc6NDQgKzAwMDAKU3ViamVjdDogW1BBVENI
-XSBkb2NzOiBmaXgga2VybmVsLWRvYyB3YXJuaW5nIGZvcgogRENfSERDUF9MQ19FTkFCTEVfU1df
-RkFMTEJBQ0sgZW51bQoKVGhlIGVudW0gRENfSERDUF9MQ19FTkFCTEVfU1dfRkFMTEJBQ0sgd2Fz
-IG1pc3NpbmcgYSBjb2xvbiAnOicgaW4gaXRzIGtlcm5lbC1kb2MsCndoaWNoIGNhdXNlZCBkb2N1
-bWVudGF0aW9uIGJ1aWxkIHdhcm5pbmdzLiBUaGlzIHBhdGNoIGFkZHMgdGhlIG1pc3NpbmcgY29s
-b24uCgpTaWduZWQtb2ZmLWJ5OiBTaGl2YW0gU2hhcm1hIDwxMHNoYXJtYXNoaXZhbUBnbWFpbC5j
-b20+Ci0tLQogZHJpdmVycy9ncHUvZHJtL2FtZC9pbmNsdWRlL2FtZF9zaGFyZWQuaCB8IDIgKy0K
-IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQoKZGlmZiAtLWdp
-dCBhL2RyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9hbWRfc2hhcmVkLmggYi9kcml2ZXJzL2dw
-dS9kcm0vYW1kL2luY2x1ZGUvYW1kX3NoYXJlZC5oCmluZGV4IDRjOTViODg1ZC4uYzhlY2NlZTli
-IDEwMDY0NAotLS0gYS9kcml2ZXJzL2dwdS9kcm0vYW1kL2luY2x1ZGUvYW1kX3NoYXJlZC5oCisr
-KyBiL2RyaXZlcnMvZ3B1L2RybS9hbWQvaW5jbHVkZS9hbWRfc2hhcmVkLmgKQEAgLTM2Niw3ICsz
-NjYsNyBAQCBlbnVtIERDX0RFQlVHX01BU0sgewogCURDX0hEQ1BfTENfRk9SQ0VfRldfRU5BQkxF
-ID0gMHg4MDAwMCwKIAogCS8qKgotCSAqIEBEQ19IRENQX0xDX0VOQUJMRV9TV19GQUxMQkFDSyBJ
-ZiBzZXQsIHVwb24gSERDUCBMb2NhbGl0eSBDaGVjayBGVworCSAqIEBEQ19IRENQX0xDX0VOQUJM
-RV9TV19GQUxMQkFDSzogSWYgc2V0LCB1cG9uIEhEQ1AgTG9jYWxpdHkgQ2hlY2sgRlcKIAkgKiBw
-YXRoIGZhaWx1cmUsIHJldHJ5IHVzaW5nIGxlZ2FjeSBTVyBwYXRoLgogCSAqLwogCURDX0hEQ1Bf
-TENfRU5BQkxFX1NXX0ZBTExCQUNLID0gMHgxMDAwMDAsCi0tIAoyLjQ5LjAKCg==
---0000000000002f9c750635179351--
