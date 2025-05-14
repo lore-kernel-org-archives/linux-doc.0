@@ -1,215 +1,301 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2049.outbound.protection.outlook.com [40.107.244.49])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8E3156F45;
-	Wed, 14 May 2025 09:24:11 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.49
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747214654; cv=fail; b=qGAoBqHdjNcGtQybHvoitzju1q9kbr/yWqKPHEFBXgYPncZNwylXVtAUFz4YphoaOrUzDR1uRxBtcZXdu+d8dExzrDwWeQ5SwacVEKiZzpcEuJxKtqfxBsx7sdAxOGjIsu1HAeqOh6YzC2vt4BoPsGlWbg2Ug/k8VAhf9+V/CQc=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747214654; c=relaxed/simple;
-	bh=r8qCjqGK7UBWIEVW/ygwW947PP3Gz+pckem7sHnuOqg=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K2X7CSvMUeM8InO/GnOVU50bvXkE3x+RiRVDB1opzDoX6SX7CQqcwUJLE8Fu8tKPSY7fvfogCG2R4dCcFRt3vjByx/yWgUsQOnwKOxsRY8ydTJHTUnuN581eW2GGjckbRy1dWSXFiQaxak6/fruUeBcEbV79PpV1zqcLpnCoh7g=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=u2fez/Mn; arc=fail smtp.client-ip=40.107.244.49
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A22BE22AE7E;
+	Wed, 14 May 2025 09:37:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747215442; cv=none; b=h2X6FWiEHkcRlyzURrXmIQRpTppvVY60ZgAIc+Rw7qSLoK3mpkoB9WPZUteWylA36x7cX453QRNT7VMK8XfsX/dE8P23WJQ6dcQ4ngM0VyL4Q3sPDopna3cOXtQKOsqDpYrzKChgW9RbHgXYisTO+xt7D+he2O9+FSno7q081yQ=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747215442; c=relaxed/simple;
+	bh=avleXqFdRiHvr/nv0iuJrbDTjUHK6V3QXiYtGVW87k4=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=VsRl9/jCJLjFxpyZQaK4YyGCYFs5EmE36otu5IGT5Ik3zeM+AqwGJ93mQY3Sme5l/+0PTUEGZWISjnXiw7mpQ+k6BgIJTnFdLtC8UvE97u5k2sAK147ZbbN6eehT0oILUTanI0hwOv6rHcgYFov9pmKQiLqiKJw+RWmJ4y9++sk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HpBpenUJ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="u2fez/Mn"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x3D2+DFidbYCgt7igl/u5NxzKRnlEx0LwuEPYw0WmJC56nPh8A3g3oORC/4rDXiZaWIt6QjszYxgK1smLUqjMdSdtiRubXoOM5/XIFZsDNlofZeKLgc5jzQBLAKsXThmx9+4Lhy4tfOW6Wc2q4ZAc5aiWrU3pD6w4lea3tFbHhZ/phD6YdEdqcGMPAVp9WL16v/FZL9AzfBFAFdxIkb9Dpz9IiZsxaKjwJx7E4yaU736AoHzNzJBrcXOd7vpwwtawNEVRjbtB/CZgM3gGnzVPyJB9Qv1EXDxDzrWEAXxreHOrInC964ZaczuCiaHTny7GLXQl6/ZNY0dQcYy2jk5wQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XzqHf4w0uK1VjCpHR4KSwE2yYkhk+dmnpGCjNx8ggTM=;
- b=RfkGKqUWAybazZ/PaSegUcpHikwV92GfMvceYuCqvK0SWABeos5CAllWgza3nQRoilyAc49pF5SI9PlOsJbobtEKhFlyRPKFgJKZ9c+xgvAkBYe2222Zrmi/57dj+wPQwO2mzMwvpLws83g4Nlg0l9fs1bWKL5TgUu5rCPMqTHiyTqYEdpM+ITC1EQ3U9qxChRZjRBqGh69a+7wXR95jhA4lOMVmbQRDK+thlcJviC1BZ68tUbKhNTO3vL23e2hEcn9l7/KUnmo3Ytza7if1F0JBRy70OE9BAlAod3IQ5KQeM1rNDDn5GAzAT3JYFm+2qFjbCAluI3dqnHTzVpYBEg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XzqHf4w0uK1VjCpHR4KSwE2yYkhk+dmnpGCjNx8ggTM=;
- b=u2fez/MnaUa537aQ27aWwKlPi6llSEnjexZPbS4vDXVuhV4U9TYYkRb9JLGXzkWFQIUzZgLDPw9ahdVFCelVV95t8km+oTxiZAXk+G81CsFfFUNQnmcMDOGgP7K1K0Y808miVhXtQvIBYtdOp7vbuUVqv1jzmDgcEHGOCiLV9Fs=
-Received: from PH7P220CA0149.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:327::19)
- by SJ0PR12MB6685.namprd12.prod.outlook.com (2603:10b6:a03:478::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Wed, 14 May
- 2025 09:24:08 +0000
-Received: from CY4PEPF0000E9D7.namprd05.prod.outlook.com
- (2603:10b6:510:327:cafe::95) by PH7P220CA0149.outlook.office365.com
- (2603:10b6:510:327::19) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.16 via Frontend Transport; Wed,
- 14 May 2025 09:24:08 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- CY4PEPF0000E9D7.mail.protection.outlook.com (10.167.241.70) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8722.18 via Frontend Transport; Wed, 14 May 2025 09:24:08 +0000
-Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
- 2025 04:24:07 -0500
-Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
- (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
- 2025 04:24:07 -0500
-Received: from amd.com (10.180.168.240) by SATLEXMB04.amd.com (10.181.40.145)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39 via Frontend
- Transport; Wed, 14 May 2025 04:24:00 -0500
-Date: Wed, 14 May 2025 09:23:49 +0000
-From: Ankit Soni <Ankit.Soni@amd.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
-	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
-	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
-	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
-	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
- Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
- Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
-	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
-	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
- Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
-	<patches@lists.linux.dev>
-Subject: Re: [PATCH v2 03/15] iommupt: Add the basic structure of the iommu
- implementation
-Message-ID: <pntkuh63y26rygrkxegbzncvc3shtplucrnzkkz2dimpkfyn75@uekvyuz5kred>
-References: <0-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
- <3-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HpBpenUJ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id B0193C4CEEB;
+	Wed, 14 May 2025 09:37:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747215442;
+	bh=avleXqFdRiHvr/nv0iuJrbDTjUHK6V3QXiYtGVW87k4=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=HpBpenUJfwFge/x8Pqj6VQG9zPiPfjmW9I+3aewe0J8ufh5Oy8t9z8i5D6DXzrVco
+	 25Hdku+wKOcb8AaMF/UVFwk3jC0VIDnN7RtUmYkQ1kQ7ReojJdAatHfzMj0JNs1lbU
+	 pNaKvpAxXi8reY1IsHoxn65gQGZZrGRSZ6pINFiJIebod1BRlzEs+54w0ePUTqwaVE
+	 a3VxZvR/FVtjwuDav1JUbeL3KUlo1W9Own5EnOcWEu0q1knabx8vPohF42tHxBQumx
+	 JrrKxeCNzNUAFej808sqGsnAwic6ZeFRSi57o+IepkdIH7TfGFWOMnCG/fb1xCY4FH
+	 xaIQZeP0H9EWQ==
+Date: Wed, 14 May 2025 15:07:09 +0530
+From: Sumit Garg <sumit.garg@kernel.org>
+To: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+Cc: Jens Wiklander <jens.wiklander@linaro.org>,
+	Bjorn Andersson <andersson@kernel.org>,
+	Konrad Dybcio <konradybcio@kernel.org>,
+	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>,
+	Apurupa Pattapu <quic_apurupa@quicinc.com>,
+	Kees Cook <kees@kernel.org>,
+	"Gustavo A. R. Silva" <gustavoars@kernel.org>,
+	Sumit Semwal <sumit.semwal@linaro.org>,
+	Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+	linux-arm-msm@vger.kernel.org, op-tee@lists.trustedfirmware.org,
+	linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+	dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+	linux-doc@vger.kernel.org
+Subject: Re: [PATCH v4 05/11] firmware: qcom: scm: add support for object
+ invocation
+Message-ID: <aCRkRTMFi65zBODh@sumit-X1>
+References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
+ <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-5-6a143640a6cb@oss.qualcomm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <3-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D7:EE_|SJ0PR12MB6685:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81913992-9910-4663-53f1-08dd92c9144f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700013|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?owSStQRqWZN8xQvaYi7qtIWEptXJ2BDOKowZgLnFz8w5WmlTx47B027GAgWd?=
- =?us-ascii?Q?H2jHyyCurS7T1SNH7QEi7LJ4np2ZzCek1/UMDnoCaepMSwe97v7PjnZk+l3I?=
- =?us-ascii?Q?ArieQh+oGaOsiaSQeZ1Vpfga35mqpCO58mDRwhmRxGEmTS+z1boczly3ztN2?=
- =?us-ascii?Q?LlJNZBdaTbJ0atChtrdGEWGIr4gzRNikxYREMLMq3B6AOjPvMsyjIzOXGU25?=
- =?us-ascii?Q?wsQyZnodKVzUzCQOZRyW1CpsA5Ky1mboyMGXCuhRJikpvXY37KQSgAXtrCTH?=
- =?us-ascii?Q?VSeS1IoBGuP+BUFLf+Urk1flwBdh/qkymiUXKIlj41k8r4/UTu+EY8iZ3XTJ?=
- =?us-ascii?Q?iAr7jsLz9A9h1l32G47cV5LvATmAGewP0sumykwogJ8n7XruNpbptIc5lWiW?=
- =?us-ascii?Q?2uYmqVuy+azUihcFHzdPXKs0ckhxIjn/lzAXbTTUeJ+Z6KO6LWbkr7kf9wh4?=
- =?us-ascii?Q?9o9pmU35AxRm9ffFfkmuUiRd2D5JicLfOE8iISj0XE21hO4cQhfcbJSkk7PM?=
- =?us-ascii?Q?ogKJ7B/WS984sBGiVmiZK89BnEewUoB9WhLPyjoWsNAjyuTytOh+uyWieRyB?=
- =?us-ascii?Q?1FCByieIEs2nJg1awoowSSBGXK+YvKQxfrbwetuydp2qFh+ry1iQeDIzRISJ?=
- =?us-ascii?Q?H1ZCPa8FV194fnexmWHPG21Zfdtekvq0xOFyeaFb9ETngGVmEgvKG7enQO+I?=
- =?us-ascii?Q?KGpLqu1YDcDGC1IUIqP10hYzEGRLuNhLRalEvwrEQtNl6s0Hnal0U4gSrCQD?=
- =?us-ascii?Q?xmK08HScCrZJqyWyLCa2yDKSK4p0KnTw4/zXlwsyt0qCiNg+ChfTOSTRi73M?=
- =?us-ascii?Q?ZicuTXVciqbDsfqnJjskcK8g9jvpqkcyA4B9LfEBBXNFy1HUZTxpaxf7fdda?=
- =?us-ascii?Q?qo3e9oclO+GY80YUl+yeOMySPdQJUmf/HWZwT6qbSZtguAPVUmC0k2VYJCWc?=
- =?us-ascii?Q?YoUHnudIUAidCJPumr1iILZQRexQ+GEvM5sNP08lauYXpvcNrywOew+H/475?=
- =?us-ascii?Q?lkCE9d4QXHVlI0FVUd5QxcklCa8T9MhDI5hJGtfsUCgrtKAB2lgRJ6loZsRU?=
- =?us-ascii?Q?Bu8i/6xCX578lnaiVdh/1OT0ceXTs72+lz/Uko6C9EOKB5aleO/0L1E+Twka?=
- =?us-ascii?Q?5I4OR/f6mlJ2bzNRSFtDLWiaHFFWJ/H0MMwKbWC3Gttz7gkUX58kIsVRIAK6?=
- =?us-ascii?Q?delzTO02INb5PfikwBuqwHT4UnUQm1NcgbjQEAOq3bpumpdl5hqbF6NPRCPv?=
- =?us-ascii?Q?flN3NTehN33TcsCLjW2EXcNdpnLJa05JS9U8wHy7ypvhp4IF3oqX9N/DCBSS?=
- =?us-ascii?Q?/9pRcQAWE4p8aKQ45VwAwvgg3EwsgQEmkVEgUHB34Dil2lcxRKa+t03O1Xql?=
- =?us-ascii?Q?dCR/LaqxHPIZ9sd/HnSAsTyITpx0zDUvPBQybEzb5Rpt5TRMzpQxezWqZ8qJ?=
- =?us-ascii?Q?6hmog6uxQCyAvNXhFOLg6TCc2rDsdVZVH0qW09XIiqjfYA6/S+FshgNhaKBU?=
- =?us-ascii?Q?DDXBWxB/P+E1eOIBvdvxyE34AyI7NW4tpRhX?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 09:24:08.2308
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81913992-9910-4663-53f1-08dd92c9144f
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CY4PEPF0000E9D7.namprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6685
+In-Reply-To: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-5-6a143640a6cb@oss.qualcomm.com>
 
-Hi Jason,
+Hi Amir,
 
-On Mon, May 05, 2025 at 11:18:33AM -0300, Jason Gunthorpe wrote:
-> +static int pt_iommu_init_domain(struct pt_iommu *iommu_table,
-> +				struct iommu_domain *domain)
+On Mon, Apr 28, 2025 at 11:06:26PM -0700, Amirreza Zarrabi wrote:
+> Qualcomm TEE (QTEE) hosts Trusted Applications (TAs) and services in
+> the secure world, accessed via objects. A QTEE client can invoke these
+> objects to request services. Similarly, QTEE can request services from
+> the nonsecure world using objects exported to the secure world.
+> 
+> Add low-level primitives to facilitate the invocation of objects hosted
+> in QTEE, as well as those hosted in the nonsecure world.
+> 
+> If support for object invocation is available, the qcom_scm allocates
+> a dedicated child platform device. The driver for this device communicates
+> with QTEE using low-level primitives.
+> 
+> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+> ---
+>  drivers/firmware/qcom/qcom_scm.c       | 128 +++++++++++++++++++++++++++++++++
+>  drivers/firmware/qcom/qcom_scm.h       |   7 ++
+>  include/linux/firmware/qcom/qcom_scm.h |  27 +++++++
+>  3 files changed, 162 insertions(+)
+> 
+> diff --git a/drivers/firmware/qcom/qcom_scm.c b/drivers/firmware/qcom/qcom_scm.c
+> index fc4d67e4c4a6..bff1b0d3306e 100644
+> --- a/drivers/firmware/qcom/qcom_scm.c
+> +++ b/drivers/firmware/qcom/qcom_scm.c
+> @@ -2084,6 +2084,124 @@ static int qcom_scm_qseecom_init(struct qcom_scm *scm)
+>  
+>  #endif /* CONFIG_QCOM_QSEECOM */
+>  
+> +#ifdef CONFIG_QCOMTEE
+> +
+> +/**
+> + * qcom_scm_qtee_invoke_smc() - Invoke a QTEE object.
+> + * @inbuf: start address of memory area used for inbound buffer.
+> + * @inbuf_size: size of the memory area used for inbound buffer.
+> + * @outbuf: start address of memory area used for outbound buffer.
+> + * @outbuf_size: size of the memory area used for outbound buffer.
+> + * @result: result of QTEE object invocation.
+> + * @response_type: response type returned by QTEE.
+> + *
+> + * @response_type determines how the contents of @inbuf and @outbuf
+> + * should be processed.
+> + *
+> + * Return: On success, return 0 or <0 on failure.
+> + */
+> +int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
+> +			     phys_addr_t outbuf, size_t outbuf_size,
+> +			     u64 *result, u64 *response_type)
 > +{
-> +	struct pt_common *common = common_from_iommu(iommu_table);
-> +	struct pt_iommu_info info;
-> +	struct pt_range range;
+> +	struct qcom_scm_desc desc = {
+> +		.svc = QCOM_SCM_SVC_SMCINVOKE,
+> +		.cmd = QCOM_SCM_SMCINVOKE_INVOKE,
+> +		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
+> +		.args[0] = inbuf,
+> +		.args[1] = inbuf_size,
+> +		.args[2] = outbuf,
+> +		.args[3] = outbuf_size,
+> +		.arginfo = QCOM_SCM_ARGS(4, QCOM_SCM_RW, QCOM_SCM_VAL,
+> +					 QCOM_SCM_RW, QCOM_SCM_VAL),
+> +	};
+> +	struct qcom_scm_res res;
+> +	int ret;
 > +
-> +	NS(get_info)(iommu_table, &info);
+> +	ret = qcom_scm_call(__scm->dev, &desc, &res);
+> +	if (ret)
+> +		return ret;
 > +
-> +	domain->type = __IOMMU_DOMAIN_PAGING;
-> +	domain->pgsize_bitmap = info.pgsize_bitmap;
-> +
-> +	if (pt_feature(common, PT_FEAT_DYNAMIC_TOP))
-> +		range = _pt_top_range(common,
-> +				      _pt_top_set(NULL, PT_MAX_TOP_LEVEL));
-> +	else
-> +		range = pt_top_range(common);
-> +
-> +	/*
-> +	 * A 64 bit high address space table on a 32 bit system cannot work.
-> +	 */
-> +	domain->geometry.aperture_start = (unsigned long)range.va;
-> +	if ((pt_vaddr_t)domain->geometry.aperture_start != range.va ||
-> +	    range.va > ULONG_MAX)
-> +		return -EOVERFLOW;
-> +
-> +	/*
-> +	 * The aperture is limited to what the API can do after considering all
-> +	 * the different types dma_addr_t/unsigned long/pt_vaddr_t that are used
-> +	 * to store a VA. Set the aperture to something that is valid for all
-> +	 * cases. Saturate instead of truncate the end if the types are smaller
-> +	 * than the top range. aperture_end is a last.
-> +	 */
-> +	domain->geometry.aperture_end = (unsigned long)range.last_va;
-
-I am experiencing a system hang with a 5-level v2 page table mode, on boot.
-The NVMe boot drive is not initializing.
-Below are the relevant dmesg logs with some prints i had added:
-
-[    6.386439] AMD-Vi v2 domain init
-[    6.390132] AMD-Vi v2 pt init
-[    6.390133] AMD-Vi aperture end last va ffffffffffffff
-...
-[   10.315372] AMD-Vi gen pt MAP PAGES iova ffffffffffffe000 paddr 19351b000
-...
-[   72.171930] nvme nvme0: I/O tag 0 (0000) QID 0 timeout, disable controller
-[   72.179618] nvme nvme1: I/O tag 24 (0018) QID 0 timeout, disable controller
-[   72.197176] nvme nvme0: Identify Controller failed (-4)
-[   72.203063] nvme nvme1: Identify Controller failed (-4)
-[   72.209237] nvme 0000:05:00.0: probe with driver nvme failed with error -5
-[   72.209336] nvme 0000:44:00.0: probe with driver nvme failed with error -5
-...
-Timed out waiting for the udev queue to be empty.
-
-According to the dmesg logs above, the IOVA for the v2 page table appears 
-incorrect and is not aligned with domain->geometry.aperture_end. Which
-requires domain->geometry.force_aperture = true; to be added at the
-appropriate location. Proabably here!
-
-- Ankit
-
-> +	if ((pt_vaddr_t)domain->geometry.aperture_end != range.last_va) {
-> +		domain->geometry.aperture_end = ULONG_MAX;
-> +		domain->pgsize_bitmap &= ULONG_MAX;
-> +	}
+> +	*response_type = res.result[0];
+> +	*result = res.result[1];
 > +
 > +	return 0;
 > +}
+> +EXPORT_SYMBOL(qcom_scm_qtee_invoke_smc);
 > +
+> +/**
+> + * qcom_scm_qtee_callback_response() - Submit response for callback request.
+> + * @buf: start address of memory area used for outbound buffer.
+> + * @buf_size: size of the memory area used for outbound buffer.
+> + * @result: Result of QTEE object invocation.
+> + * @response_type: Response type returned by QTEE.
+> + *
+> + * @response_type determines how the contents of @buf should be processed.
+> + *
+> + * Return: On success, return 0 or <0 on failure.
+> + */
+> +int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
+> +				    u64 *result, u64 *response_type)
+> +{
+> +	struct qcom_scm_desc desc = {
+> +		.svc = QCOM_SCM_SVC_SMCINVOKE,
+> +		.cmd = QCOM_SCM_SMCINVOKE_CB_RSP,
+> +		.owner = ARM_SMCCC_OWNER_TRUSTED_OS,
+> +		.args[0] = buf,
+> +		.args[1] = buf_size,
+> +		.arginfo = QCOM_SCM_ARGS(2, QCOM_SCM_RW, QCOM_SCM_VAL),
+> +	};
+> +	struct qcom_scm_res res;
+> +	int ret;
+> +
+> +	ret = qcom_scm_call(__scm->dev, &desc, &res);
+> +	if (ret)
+> +		return ret;
+> +
+> +	*response_type = res.result[0];
+> +	*result = res.result[1];
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL(qcom_scm_qtee_callback_response);
+> +
+> +static void qcom_scm_qtee_free(void *data)
+> +{
+> +	struct platform_device *qtee_dev = data;
+> +
+> +	platform_device_unregister(qtee_dev);
+> +}
+> +
+> +static int qcom_scm_qtee_init(struct qcom_scm *scm)
+> +{
+> +	struct platform_device *qtee_dev;
+> +	int ret;
+> +
+
+I am still unable to get the QCOMTEE driver to work on db845c. As I can
+see machine: "qcom,sdm845" is not supported for tzmem based on SHM
+brigde here: drivers/firmware/qcom/qcom_tzmem.c +81. I am still seeing
+following logs from userspace:
+
+# /mnt/unittest -d
+[test_print_diagnostics_info][31] test_get_client_env_object.
+[test_supplicant_release][65] test_supplicant_worker killed.
+
+I think you should first check here for SHM bridge support. If available
+then only add a QTEE platform device.
+
+-Sumit
+
+> +	/* Setup QTEE interface device. */
+> +	qtee_dev = platform_device_alloc("qcomtee", -1);
+> +	if (!qtee_dev)
+> +		return -ENOMEM;
+> +
+> +	qtee_dev->dev.parent = scm->dev;
+> +
+> +	ret = platform_device_add(qtee_dev);
+> +	if (ret) {
+> +		platform_device_put(qtee_dev);
+> +		return ret;
+> +	}
+> +
+> +	return devm_add_action_or_reset(scm->dev, qcom_scm_qtee_free, qtee_dev);
+> +}
+> +
+> +#else
+> +
+> +static int qcom_scm_qtee_init(struct qcom_scm *scm)
+> +{
+> +	return 0;
+> +}
+> +
+> +#endif /* CONFIG_QCOMTEE */
+> +
+>  /**
+>   * qcom_scm_is_available() - Checks if SCM is available
+>   */
+> @@ -2319,6 +2437,16 @@ static int qcom_scm_probe(struct platform_device *pdev)
+>  	ret = qcom_scm_qseecom_init(scm);
+>  	WARN(ret < 0, "failed to initialize qseecom: %d\n", ret);
+>  
+> +	/*
+> +	 * Initialize the QTEE object interface.
+> +	 *
+> +	 * This only represents the availability for QTEE object invocation
+> +	 * and callback support. On failure, ignore the result. Any subsystem
+> +	 * depending on it may fail if it tries to access this interface.
+> +	 */
+> +	ret = qcom_scm_qtee_init(scm);
+> +	WARN(ret < 0, "failed to initialize qcomtee: %d\n", ret);
+> +
+>  	return 0;
+>  
+>  err:
+> diff --git a/drivers/firmware/qcom/qcom_scm.h b/drivers/firmware/qcom/qcom_scm.h
+> index 097369d38b84..a25202e99f7c 100644
+> --- a/drivers/firmware/qcom/qcom_scm.h
+> +++ b/drivers/firmware/qcom/qcom_scm.h
+> @@ -152,6 +152,13 @@ struct qcom_tzmem_pool *qcom_scm_get_tzmem_pool(void);
+>  #define QCOM_SCM_SVC_GPU			0x28
+>  #define QCOM_SCM_SVC_GPU_INIT_REGS		0x01
+>  
+> +/* ARM_SMCCC_OWNER_TRUSTED_OS calls */
+> +
+> +#define QCOM_SCM_SVC_SMCINVOKE			0x06
+> +#define QCOM_SCM_SMCINVOKE_INVOKE_LEGACY	0x00
+> +#define QCOM_SCM_SMCINVOKE_CB_RSP		0x01
+> +#define QCOM_SCM_SMCINVOKE_INVOKE		0x02
+> +
+>  /* common error codes */
+>  #define QCOM_SCM_V2_EBUSY	-12
+>  #define QCOM_SCM_ENOMEM		-5
+> diff --git a/include/linux/firmware/qcom/qcom_scm.h b/include/linux/firmware/qcom/qcom_scm.h
+> index 983e1591bbba..bf5e64f6deba 100644
+> --- a/include/linux/firmware/qcom/qcom_scm.h
+> +++ b/include/linux/firmware/qcom/qcom_scm.h
+> @@ -176,4 +176,31 @@ static inline int qcom_scm_qseecom_app_send(u32 app_id,
+>  
+>  #endif /* CONFIG_QCOM_QSEECOM */
+>  
+> +#ifdef CONFIG_QCOMTEE
+> +
+> +int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
+> +			     phys_addr_t outbuf, size_t outbuf_size,
+> +			     u64 *result, u64 *response_type);
+> +int qcom_scm_qtee_callback_response(phys_addr_t buf, size_t buf_size,
+> +				    u64 *result, u64 *response_type);
+> +
+> +#else /* CONFIG_QCOMTEE */
+> +
+> +static inline int qcom_scm_qtee_invoke_smc(phys_addr_t inbuf, size_t inbuf_size,
+> +					   phys_addr_t outbuf,
+> +					   size_t outbuf_size, u64 *result,
+> +					   u64 *response_type)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+> +static inline int qcom_scm_qtee_callback_response(phys_addr_t buf,
+> +						  size_t buf_size, u64 *result,
+> +						  u64 *response_type)
+> +{
+> +	return -EINVAL;
+> +}
+> +
+> +#endif /* CONFIG_QCOMTEE */
+> +
+>  #endif
+> 
+> -- 
+> 2.34.1
+> 
+> 
