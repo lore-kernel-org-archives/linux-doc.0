@@ -1,504 +1,215 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2049.outbound.protection.outlook.com [40.107.244.49])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6CC74221F0A
-	for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 08:44:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747212287; cv=none; b=K/Hq8yEwPqR0YP9tiqdKa4kztn59qL9p2uaSvOaeqvoZPfdiU6BsjuUQkDNpWZO/jewk+kMt3M6Rdr6CHqbqDXX/XWfYKCERBfcyQYqQsPrlApDXzyArFjtPMc6gLNweXL23POfs2oVwIEB9T/tJW6BDTUvF9wzSPZ1wH5tkgNk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747212287; c=relaxed/simple;
-	bh=JQllrsynzjm68Qj/f/HNSQitBzIq2FfcbBmseRxy/mA=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=Vwbfukuzw158g3IS1Kf7O3Q+ylqJ2+ZEwNnfwFfw+VJQLi9R486h6WgKQtePpFLAapR1WXSD6lWVKF4s5HlRBqGI+AAefe4hz0U1YWnfJ140pPSH3t/woYIbrHM1ZYdz9QyWqhLPNjIN+HwiRc7vj3/3ffg9zOf8edxmR3uHTro=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=G3aWz5hl; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D8E3156F45;
+	Wed, 14 May 2025 09:24:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.49
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747214654; cv=fail; b=qGAoBqHdjNcGtQybHvoitzju1q9kbr/yWqKPHEFBXgYPncZNwylXVtAUFz4YphoaOrUzDR1uRxBtcZXdu+d8dExzrDwWeQ5SwacVEKiZzpcEuJxKtqfxBsx7sdAxOGjIsu1HAeqOh6YzC2vt4BoPsGlWbg2Ug/k8VAhf9+V/CQc=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747214654; c=relaxed/simple;
+	bh=r8qCjqGK7UBWIEVW/ygwW947PP3Gz+pckem7sHnuOqg=;
+	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=K2X7CSvMUeM8InO/GnOVU50bvXkE3x+RiRVDB1opzDoX6SX7CQqcwUJLE8Fu8tKPSY7fvfogCG2R4dCcFRt3vjByx/yWgUsQOnwKOxsRY8ydTJHTUnuN581eW2GGjckbRy1dWSXFiQaxak6/fruUeBcEbV79PpV1zqcLpnCoh7g=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=u2fez/Mn; arc=fail smtp.client-ip=40.107.244.49
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="G3aWz5hl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747212284;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=tDUti7k9M7nDIV6nH94mmZUc7PAtTA41xzVPHy++Yzo=;
-	b=G3aWz5hlQjATdkYSLYB5dymSjC80ZKmt5AOjLhwXcDdilp9U7GP7/K0koSqsPuXjqcH6c1
-	5is4Ymltyu5pNAunkwtZHBQDzl4q9eq2aHeJMoi61foKa1JAvPMVcDhTgoj0c7vvvz4SuO
-	YKEMdBosi5e4YxGxYnLjm4k7zyE/HUo=
-Received: from mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-17-MlX00-HuN-GuKdOmZA5pVw-1; Wed,
- 14 May 2025 04:44:43 -0400
-X-MC-Unique: MlX00-HuN-GuKdOmZA5pVw-1
-X-Mimecast-MFC-AGG-ID: MlX00-HuN-GuKdOmZA5pVw_1747212281
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id D138A180035E;
-	Wed, 14 May 2025 08:44:41 +0000 (UTC)
-Received: from gmonaco-thinkpadt14gen3.rmtit.com (unknown [10.44.32.189])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 48A761953B80;
-	Wed, 14 May 2025 08:44:35 +0000 (UTC)
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: linux-kernel@vger.kernel.org,
-	Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Cc: Gabriele Monaco <gmonaco@redhat.com>,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Nam Cao <namcao@linutronix.de>,
-	Tomas Glozar <tglozar@redhat.com>,
-	Juri Lelli <jlelli@redhat.com>
-Subject: [RFC PATCH v2 12/12] rv: Add opid per-cpu monitor
-Date: Wed, 14 May 2025 10:43:14 +0200
-Message-ID: <20250514084314.57976-13-gmonaco@redhat.com>
-In-Reply-To: <20250514084314.57976-1-gmonaco@redhat.com>
-References: <20250514084314.57976-1-gmonaco@redhat.com>
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="u2fez/Mn"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x3D2+DFidbYCgt7igl/u5NxzKRnlEx0LwuEPYw0WmJC56nPh8A3g3oORC/4rDXiZaWIt6QjszYxgK1smLUqjMdSdtiRubXoOM5/XIFZsDNlofZeKLgc5jzQBLAKsXThmx9+4Lhy4tfOW6Wc2q4ZAc5aiWrU3pD6w4lea3tFbHhZ/phD6YdEdqcGMPAVp9WL16v/FZL9AzfBFAFdxIkb9Dpz9IiZsxaKjwJx7E4yaU736AoHzNzJBrcXOd7vpwwtawNEVRjbtB/CZgM3gGnzVPyJB9Qv1EXDxDzrWEAXxreHOrInC964ZaczuCiaHTny7GLXQl6/ZNY0dQcYy2jk5wQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=XzqHf4w0uK1VjCpHR4KSwE2yYkhk+dmnpGCjNx8ggTM=;
+ b=RfkGKqUWAybazZ/PaSegUcpHikwV92GfMvceYuCqvK0SWABeos5CAllWgza3nQRoilyAc49pF5SI9PlOsJbobtEKhFlyRPKFgJKZ9c+xgvAkBYe2222Zrmi/57dj+wPQwO2mzMwvpLws83g4Nlg0l9fs1bWKL5TgUu5rCPMqTHiyTqYEdpM+ITC1EQ3U9qxChRZjRBqGh69a+7wXR95jhA4lOMVmbQRDK+thlcJviC1BZ68tUbKhNTO3vL23e2hEcn9l7/KUnmo3Ytza7if1F0JBRy70OE9BAlAod3IQ5KQeM1rNDDn5GAzAT3JYFm+2qFjbCAluI3dqnHTzVpYBEg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 165.204.84.17) smtp.rcpttodomain=nvidia.com smtp.mailfrom=amd.com; dmarc=pass
+ (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=XzqHf4w0uK1VjCpHR4KSwE2yYkhk+dmnpGCjNx8ggTM=;
+ b=u2fez/MnaUa537aQ27aWwKlPi6llSEnjexZPbS4vDXVuhV4U9TYYkRb9JLGXzkWFQIUzZgLDPw9ahdVFCelVV95t8km+oTxiZAXk+G81CsFfFUNQnmcMDOGgP7K1K0Y808miVhXtQvIBYtdOp7vbuUVqv1jzmDgcEHGOCiLV9Fs=
+Received: from PH7P220CA0149.NAMP220.PROD.OUTLOOK.COM (2603:10b6:510:327::19)
+ by SJ0PR12MB6685.namprd12.prod.outlook.com (2603:10b6:a03:478::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Wed, 14 May
+ 2025 09:24:08 +0000
+Received: from CY4PEPF0000E9D7.namprd05.prod.outlook.com
+ (2603:10b6:510:327:cafe::95) by PH7P220CA0149.outlook.office365.com
+ (2603:10b6:510:327::19) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.16 via Frontend Transport; Wed,
+ 14 May 2025 09:24:08 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
+ smtp.mailfrom=amd.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=amd.com;
+Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
+ 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
+ client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
+Received: from SATLEXMB04.amd.com (165.204.84.17) by
+ CY4PEPF0000E9D7.mail.protection.outlook.com (10.167.241.70) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.8722.18 via Frontend Transport; Wed, 14 May 2025 09:24:08 +0000
+Received: from SATLEXMB06.amd.com (10.181.40.147) by SATLEXMB04.amd.com
+ (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
+ 2025 04:24:07 -0500
+Received: from SATLEXMB04.amd.com (10.181.40.145) by SATLEXMB06.amd.com
+ (10.181.40.147) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 14 May
+ 2025 04:24:07 -0500
+Received: from amd.com (10.180.168.240) by SATLEXMB04.amd.com (10.181.40.145)
+ with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39 via Frontend
+ Transport; Wed, 14 May 2025 04:24:00 -0500
+Date: Wed, 14 May 2025 09:23:49 +0000
+From: Ankit Soni <Ankit.Soni@amd.com>
+To: Jason Gunthorpe <jgg@nvidia.com>
+CC: Jonathan Corbet <corbet@lwn.net>, <iommu@lists.linux.dev>, Joerg Roedel
+	<joro@8bytes.org>, Justin Stitt <justinstitt@google.com>, Kevin Tian
+	<kevin.tian@intel.com>, <linux-doc@vger.kernel.org>,
+	<linux-kselftest@vger.kernel.org>, <llvm@lists.linux.dev>, Bill Wendling
+	<morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Nick Desaulniers
+	<nick.desaulniers+lkml@gmail.com>, Miguel Ojeda <ojeda@kernel.org>, "Robin
+ Murphy" <robin.murphy@arm.com>, Shuah Khan <shuah@kernel.org>, "Suravee
+ Suthikulpanit" <suravee.suthikulpanit@amd.com>, Will Deacon
+	<will@kernel.org>, Alexey Kardashevskiy <aik@amd.com>, Alejandro Jimenez
+	<alejandro.j.jimenez@oracle.com>, James Gowans <jgowans@amazon.com>, "Michael
+ Roth" <michael.roth@amd.com>, Pasha Tatashin <pasha.tatashin@soleen.com>,
+	<patches@lists.linux.dev>
+Subject: Re: [PATCH v2 03/15] iommupt: Add the basic structure of the iommu
+ implementation
+Message-ID: <pntkuh63y26rygrkxegbzncvc3shtplucrnzkkz2dimpkfyn75@uekvyuz5kred>
+References: <0-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+ <3-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+In-Reply-To: <3-v2-5c26bde5c22d+58b-iommu_pt_jgg@nvidia.com>
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CY4PEPF0000E9D7:EE_|SJ0PR12MB6685:EE_
+X-MS-Office365-Filtering-Correlation-Id: 81913992-9910-4663-53f1-08dd92c9144f
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|1800799024|7416014|376014|36860700013|82310400026;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?owSStQRqWZN8xQvaYi7qtIWEptXJ2BDOKowZgLnFz8w5WmlTx47B027GAgWd?=
+ =?us-ascii?Q?H2jHyyCurS7T1SNH7QEi7LJ4np2ZzCek1/UMDnoCaepMSwe97v7PjnZk+l3I?=
+ =?us-ascii?Q?ArieQh+oGaOsiaSQeZ1Vpfga35mqpCO58mDRwhmRxGEmTS+z1boczly3ztN2?=
+ =?us-ascii?Q?LlJNZBdaTbJ0atChtrdGEWGIr4gzRNikxYREMLMq3B6AOjPvMsyjIzOXGU25?=
+ =?us-ascii?Q?wsQyZnodKVzUzCQOZRyW1CpsA5Ky1mboyMGXCuhRJikpvXY37KQSgAXtrCTH?=
+ =?us-ascii?Q?VSeS1IoBGuP+BUFLf+Urk1flwBdh/qkymiUXKIlj41k8r4/UTu+EY8iZ3XTJ?=
+ =?us-ascii?Q?iAr7jsLz9A9h1l32G47cV5LvATmAGewP0sumykwogJ8n7XruNpbptIc5lWiW?=
+ =?us-ascii?Q?2uYmqVuy+azUihcFHzdPXKs0ckhxIjn/lzAXbTTUeJ+Z6KO6LWbkr7kf9wh4?=
+ =?us-ascii?Q?9o9pmU35AxRm9ffFfkmuUiRd2D5JicLfOE8iISj0XE21hO4cQhfcbJSkk7PM?=
+ =?us-ascii?Q?ogKJ7B/WS984sBGiVmiZK89BnEewUoB9WhLPyjoWsNAjyuTytOh+uyWieRyB?=
+ =?us-ascii?Q?1FCByieIEs2nJg1awoowSSBGXK+YvKQxfrbwetuydp2qFh+ry1iQeDIzRISJ?=
+ =?us-ascii?Q?H1ZCPa8FV194fnexmWHPG21Zfdtekvq0xOFyeaFb9ETngGVmEgvKG7enQO+I?=
+ =?us-ascii?Q?KGpLqu1YDcDGC1IUIqP10hYzEGRLuNhLRalEvwrEQtNl6s0Hnal0U4gSrCQD?=
+ =?us-ascii?Q?xmK08HScCrZJqyWyLCa2yDKSK4p0KnTw4/zXlwsyt0qCiNg+ChfTOSTRi73M?=
+ =?us-ascii?Q?ZicuTXVciqbDsfqnJjskcK8g9jvpqkcyA4B9LfEBBXNFy1HUZTxpaxf7fdda?=
+ =?us-ascii?Q?qo3e9oclO+GY80YUl+yeOMySPdQJUmf/HWZwT6qbSZtguAPVUmC0k2VYJCWc?=
+ =?us-ascii?Q?YoUHnudIUAidCJPumr1iILZQRexQ+GEvM5sNP08lauYXpvcNrywOew+H/475?=
+ =?us-ascii?Q?lkCE9d4QXHVlI0FVUd5QxcklCa8T9MhDI5hJGtfsUCgrtKAB2lgRJ6loZsRU?=
+ =?us-ascii?Q?Bu8i/6xCX578lnaiVdh/1OT0ceXTs72+lz/Uko6C9EOKB5aleO/0L1E+Twka?=
+ =?us-ascii?Q?5I4OR/f6mlJ2bzNRSFtDLWiaHFFWJ/H0MMwKbWC3Gttz7gkUX58kIsVRIAK6?=
+ =?us-ascii?Q?delzTO02INb5PfikwBuqwHT4UnUQm1NcgbjQEAOq3bpumpdl5hqbF6NPRCPv?=
+ =?us-ascii?Q?flN3NTehN33TcsCLjW2EXcNdpnLJa05JS9U8wHy7ypvhp4IF3oqX9N/DCBSS?=
+ =?us-ascii?Q?/9pRcQAWE4p8aKQ45VwAwvgg3EwsgQEmkVEgUHB34Dil2lcxRKa+t03O1Xql?=
+ =?us-ascii?Q?dCR/LaqxHPIZ9sd/HnSAsTyITpx0zDUvPBQybEzb5Rpt5TRMzpQxezWqZ8qJ?=
+ =?us-ascii?Q?6hmog6uxQCyAvNXhFOLg6TCc2rDsdVZVH0qW09XIiqjfYA6/S+FshgNhaKBU?=
+ =?us-ascii?Q?DDXBWxB/P+E1eOIBvdvxyE34AyI7NW4tpRhX?=
+X-Forefront-Antispam-Report:
+	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(376014)(36860700013)(82310400026);DIR:OUT;SFP:1101;
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 May 2025 09:24:08.2308
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 81913992-9910-4663-53f1-08dd92c9144f
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
+X-MS-Exchange-CrossTenant-AuthSource:
+	CY4PEPF0000E9D7.namprd05.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR12MB6685
 
-Add a per-cpu monitor as part of the sched model:
-* opid: operations with preemption and irq disabled
-    Monitor to ensure wakeup and need_resched occur with irq and
-    preemption disabled or in irq handlers.
+Hi Jason,
 
-Signed-off-by: Gabriele Monaco <gmonaco@redhat.com>
----
- Documentation/trace/rv/monitor_sched.rst   |  48 +++++++
- kernel/trace/rv/Kconfig                    |   1 +
- kernel/trace/rv/Makefile                   |   1 +
- kernel/trace/rv/monitors/opid/Kconfig      |  17 +++
- kernel/trace/rv/monitors/opid/opid.c       | 151 +++++++++++++++++++++
- kernel/trace/rv/monitors/opid/opid.h       |  64 +++++++++
- kernel/trace/rv/monitors/opid/opid_trace.h |  15 ++
- kernel/trace/rv/rv_trace.h                 |   1 +
- tools/verification/models/sched/opid.dot   |  35 +++++
- 9 files changed, 333 insertions(+)
- create mode 100644 kernel/trace/rv/monitors/opid/Kconfig
- create mode 100644 kernel/trace/rv/monitors/opid/opid.c
- create mode 100644 kernel/trace/rv/monitors/opid/opid.h
- create mode 100644 kernel/trace/rv/monitors/opid/opid_trace.h
- create mode 100644 tools/verification/models/sched/opid.dot
+On Mon, May 05, 2025 at 11:18:33AM -0300, Jason Gunthorpe wrote:
+> +static int pt_iommu_init_domain(struct pt_iommu *iommu_table,
+> +				struct iommu_domain *domain)
+> +{
+> +	struct pt_common *common = common_from_iommu(iommu_table);
+> +	struct pt_iommu_info info;
+> +	struct pt_range range;
+> +
+> +	NS(get_info)(iommu_table, &info);
+> +
+> +	domain->type = __IOMMU_DOMAIN_PAGING;
+> +	domain->pgsize_bitmap = info.pgsize_bitmap;
+> +
+> +	if (pt_feature(common, PT_FEAT_DYNAMIC_TOP))
+> +		range = _pt_top_range(common,
+> +				      _pt_top_set(NULL, PT_MAX_TOP_LEVEL));
+> +	else
+> +		range = pt_top_range(common);
+> +
+> +	/*
+> +	 * A 64 bit high address space table on a 32 bit system cannot work.
+> +	 */
+> +	domain->geometry.aperture_start = (unsigned long)range.va;
+> +	if ((pt_vaddr_t)domain->geometry.aperture_start != range.va ||
+> +	    range.va > ULONG_MAX)
+> +		return -EOVERFLOW;
+> +
+> +	/*
+> +	 * The aperture is limited to what the API can do after considering all
+> +	 * the different types dma_addr_t/unsigned long/pt_vaddr_t that are used
+> +	 * to store a VA. Set the aperture to something that is valid for all
+> +	 * cases. Saturate instead of truncate the end if the types are smaller
+> +	 * than the top range. aperture_end is a last.
+> +	 */
+> +	domain->geometry.aperture_end = (unsigned long)range.last_va;
 
-diff --git a/Documentation/trace/rv/monitor_sched.rst b/Documentation/trace/rv/monitor_sched.rst
-index 97f0f1a10f43..f044bca7ac31 100644
---- a/Documentation/trace/rv/monitor_sched.rst
-+++ b/Documentation/trace/rv/monitor_sched.rst
-@@ -315,6 +315,54 @@ after the task got to ``sleeping`` until a ``wakeup``::
-                                         |                            |
-                                         +----------------------------+
- 
-+Monitor opid
-+------------
-+
-+The operations with preemption and irq disabled (opid) monitor ensures
-+operations like ``wakeup`` and ``need_resched`` occur with interrupts and
-+preemption disabled or during IRQs, in such case preemption may not be disabled
-+explicitly.
-+``need_resched`` can be set by some RCU internals functions, in which case it
-+doesn't match a task wakeup and might occur with only interrupts disabled::
-+
-+                 |                     sched_need_resched
-+                 |                     sched_waking
-+                 |                     irq_entry
-+                 |                   +--------------------+
-+                 v                   v                    |
-+               +------------------------------------------------------+
-+  +----------- |                     disabled                         | <+
-+  |            +------------------------------------------------------+  |
-+  |              |                 ^                                     |
-+  |              |          preempt_disable      sched_need_resched      |
-+  |       preempt_enable           |           +--------------------+    |
-+  |              v                 |           v                    |    |
-+  |            +------------------------------------------------------+  |
-+  |            |                   irq_disabled                       |  |
-+  |            +------------------------------------------------------+  |
-+  |                              |             |        ^                |
-+  |                          irq_entry         |        |                |
-+  |     sched_need_resched       v             |   irq_disable           |
-+  |     sched_waking +--------------+          |        |                |
-+  |           +----- |              |     irq_enable    |                |
-+  |           |      |    in_irq    |          |        |                |
-+  |           +----> |              |          |        |                |
-+  |                  +--------------+          |        |          irq_disable
-+  |                     |                      |        |                |
-+  | irq_enable          | irq_enable           |        |                |
-+  |                     v                      v        |                |
-+  |            #======================================================#  |
-+  |            H                     enabled                          H  |
-+  |            #======================================================#  |
-+  |              |                   ^         ^ preempt_enable     |    |
-+  |       preempt_disable     preempt_enable   +--------------------+    |
-+  |              v                   |                                   |
-+  |            +------------------+  |                                   |
-+  +----------> | preempt_disabled | -+                                   |
-+               +------------------+                                      |
-+                 |                                                       |
-+                 +-------------------------------------------------------+
-+
- References
- ----------
- 
-diff --git a/kernel/trace/rv/Kconfig b/kernel/trace/rv/Kconfig
-index f106cf7b2fd3..9ebb80931a9f 100644
---- a/kernel/trace/rv/Kconfig
-+++ b/kernel/trace/rv/Kconfig
-@@ -36,6 +36,7 @@ source "kernel/trace/rv/monitors/sncid/Kconfig"
- source "kernel/trace/rv/monitors/sts/Kconfig"
- source "kernel/trace/rv/monitors/nrp/Kconfig"
- source "kernel/trace/rv/monitors/sssw/Kconfig"
-+source "kernel/trace/rv/monitors/opid/Kconfig"
- # Add new monitors here
- 
- config RV_REACTORS
-diff --git a/kernel/trace/rv/Makefile b/kernel/trace/rv/Makefile
-index c076cf48af18..0eca5e77d0d2 100644
---- a/kernel/trace/rv/Makefile
-+++ b/kernel/trace/rv/Makefile
-@@ -14,6 +14,7 @@ obj-$(CONFIG_RV_MON_SNCID) += monitors/sncid/sncid.o
- obj-$(CONFIG_RV_MON_STS) += monitors/sts/sts.o
- obj-$(CONFIG_RV_MON_NRP) += monitors/nrp/nrp.o
- obj-$(CONFIG_RV_MON_SSSW) += monitors/sssw/sssw.o
-+obj-$(CONFIG_RV_MON_OPID) += monitors/opid/opid.o
- # Add new monitors here
- obj-$(CONFIG_RV_REACTORS) += rv_reactors.o
- obj-$(CONFIG_RV_REACT_PRINTK) += reactor_printk.o
-diff --git a/kernel/trace/rv/monitors/opid/Kconfig b/kernel/trace/rv/monitors/opid/Kconfig
-new file mode 100644
-index 000000000000..c59d51654cd1
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/Kconfig
-@@ -0,0 +1,17 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+config RV_MON_OPID
-+	depends on RV
-+	depends on IRQSOFF_TRACER
-+	depends on PREEMPT_TRACER
-+	depends on RV_MON_SCHED
-+	default y
-+	select DA_MON_EVENTS_IMPLICIT
-+	bool "opid monitor"
-+	help
-+	  Monitor to ensure operations like wakeup and need resched occur with
-+	  interrupts and preemption disabled or during IRQs, where preemption
-+	  may not be disabled explicitly.
-+
-+	  For further information, see:
-+	    Documentation/trace/rv/monitor_sched.rst
-diff --git a/kernel/trace/rv/monitors/opid/opid.c b/kernel/trace/rv/monitors/opid/opid.c
-new file mode 100644
-index 000000000000..d8732d681753
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/opid.c
-@@ -0,0 +1,151 @@
-+// SPDX-License-Identifier: GPL-2.0
-+#include <linux/ftrace.h>
-+#include <linux/tracepoint.h>
-+#include <linux/kernel.h>
-+#include <linux/module.h>
-+#include <linux/init.h>
-+#include <linux/rv.h>
-+#include <rv/instrumentation.h>
-+#include <rv/da_monitor.h>
-+
-+#define MODULE_NAME "opid"
-+
-+#include <trace/events/sched.h>
-+#include <trace/events/irq.h>
-+#include <trace/events/preemptirq.h>
-+#include <rv_trace.h>
-+#include <monitors/sched/sched.h>
-+
-+#include "opid.h"
-+
-+static struct rv_monitor rv_opid;
-+DECLARE_DA_MON_PER_CPU(opid, unsigned char);
-+
-+#ifdef CONFIG_X86_LOCAL_APIC
-+#include <asm/trace/irq_vectors.h>
-+
-+static void handle_vector_irq_entry(void *data, int vector)
-+{
-+	da_handle_event_opid(irq_entry_opid);
-+}
-+
-+static void attach_vector_irq(void) {
-+	rv_attach_trace_probe("opid", local_timer_entry, handle_vector_irq_entry);
-+}
-+
-+static void detach_vector_irq(void) {
-+	rv_detach_trace_probe("opid", local_timer_entry, handle_vector_irq_entry);
-+}
-+
-+#else
-+/* We assume irq_entry tracepoints are sufficient on other architectures */
-+static void attach_vector_irq() { }
-+static void detach_vector_irq() { }
-+#endif
-+
-+static void handle_irq_disable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(irq_disable_opid);
-+}
-+
-+static void handle_irq_enable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(irq_enable_opid);
-+}
-+
-+static void handle_irq_entry(void *data, int irq, struct irqaction *action)
-+{
-+	da_handle_event_opid(irq_entry_opid);
-+}
-+
-+static void handle_preempt_disable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(preempt_disable_opid);
-+}
-+
-+static void handle_preempt_enable(void *data, unsigned long ip, unsigned long parent_ip)
-+{
-+	da_handle_event_opid(preempt_enable_opid);
-+}
-+
-+static void handle_sched_need_resched(void *data, struct task_struct *tsk, int cpu, int tif)
-+{
-+	if(in_irq())
-+		da_handle_event_opid(sched_need_resched_opid);
-+	else
-+		da_handle_start_event_opid(sched_need_resched_opid);
-+}
-+
-+static void handle_sched_waking(void *data, struct task_struct *p)
-+{
-+	if(in_irq())
-+		da_handle_event_opid(sched_waking_opid);
-+	else
-+		da_handle_start_event_opid(sched_waking_opid);
-+}
-+
-+static int enable_opid(void)
-+{
-+	int retval;
-+
-+	retval = da_monitor_init_opid();
-+	if (retval)
-+		return retval;
-+
-+	rv_attach_trace_probe("opid", irq_disable, handle_irq_disable);
-+	rv_attach_trace_probe("opid", irq_enable, handle_irq_enable);
-+	rv_attach_trace_probe("opid", irq_handler_entry, handle_irq_entry);
-+	rv_attach_trace_probe("opid", preempt_disable, handle_preempt_disable);
-+	rv_attach_trace_probe("opid", preempt_enable, handle_preempt_enable);
-+	rv_attach_trace_probe("opid", sched_set_need_resched_tp, handle_sched_need_resched);
-+	rv_attach_trace_probe("opid", sched_waking, handle_sched_waking);
-+	attach_vector_irq();
-+
-+	return 0;
-+}
-+
-+static void disable_opid(void)
-+{
-+	rv_opid.enabled = 0;
-+
-+	rv_detach_trace_probe("opid", irq_disable, handle_irq_disable);
-+	rv_detach_trace_probe("opid", irq_enable, handle_irq_enable);
-+	rv_detach_trace_probe("opid", irq_handler_entry, handle_irq_entry);
-+	rv_detach_trace_probe("opid", preempt_disable, handle_preempt_disable);
-+	rv_detach_trace_probe("opid", preempt_enable, handle_preempt_enable);
-+	rv_detach_trace_probe("opid", sched_set_need_resched_tp, handle_sched_need_resched);
-+	rv_detach_trace_probe("opid", sched_waking, handle_sched_waking);
-+	detach_vector_irq();
-+
-+	da_monitor_destroy_opid();
-+}
-+
-+/*
-+ * This is the monitor register section.
-+ */
-+static struct rv_monitor rv_opid = {
-+	.name = "opid",
-+	.description = "operations with preemption and irq disabled.",
-+	.enable = enable_opid,
-+	.disable = disable_opid,
-+	.reset = da_monitor_reset_all_opid,
-+	.enabled = 0,
-+};
-+
-+static int __init register_opid(void)
-+{
-+	rv_register_monitor(&rv_opid, &rv_sched);
-+	return 0;
-+}
-+
-+static void __exit unregister_opid(void)
-+{
-+	rv_unregister_monitor(&rv_opid);
-+}
-+
-+module_init(register_opid);
-+module_exit(unregister_opid);
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Gabriele Monaco <gmonaco@redhat.com>");
-+MODULE_DESCRIPTION("opid: operations with preemption and irq disabled.");
-diff --git a/kernel/trace/rv/monitors/opid/opid.h b/kernel/trace/rv/monitors/opid/opid.h
-new file mode 100644
-index 000000000000..4c6d4a3964c5
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/opid.h
-@@ -0,0 +1,64 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+/*
-+ * Automatically generated C representation of opid automaton
-+ * For further information about this format, see kernel documentation:
-+ *   Documentation/trace/rv/deterministic_automata.rst
-+ */
-+
-+enum states_opid {
-+	disabled_opid = 0,
-+	enabled_opid,
-+	in_irq_opid,
-+	irq_disabled_opid,
-+	preempt_disabled_opid,
-+	state_max_opid
-+};
-+
-+#define INVALID_STATE state_max_opid
-+
-+enum events_opid {
-+	irq_disable_opid = 0,
-+	irq_enable_opid,
-+	irq_entry_opid,
-+	preempt_disable_opid,
-+	preempt_enable_opid,
-+	sched_need_resched_opid,
-+	sched_waking_opid,
-+	event_max_opid
-+};
-+
-+struct automaton_opid {
-+	char *state_names[state_max_opid];
-+	char *event_names[event_max_opid];
-+	unsigned char function[state_max_opid][event_max_opid];
-+	unsigned char initial_state;
-+	bool final_states[state_max_opid];
-+};
-+
-+static const struct automaton_opid automaton_opid = {
-+	.state_names = {
-+		"disabled",
-+		"enabled",
-+		"in_irq",
-+		"irq_disabled",
-+		"preempt_disabled"
-+	},
-+	.event_names = {
-+		"irq_disable",
-+		"irq_enable",
-+		"irq_entry",
-+		"preempt_disable",
-+		"preempt_enable",
-+		"sched_need_resched",
-+		"sched_waking"
-+	},
-+	.function = {
-+		{         INVALID_STATE, preempt_disabled_opid,         disabled_opid,         INVALID_STATE,     irq_disabled_opid,         disabled_opid,         disabled_opid },
-+		{     irq_disabled_opid,         INVALID_STATE,         INVALID_STATE, preempt_disabled_opid,          enabled_opid,         INVALID_STATE,         INVALID_STATE },
-+		{         INVALID_STATE,          enabled_opid,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE,           in_irq_opid,           in_irq_opid },
-+		{         INVALID_STATE,          enabled_opid,           in_irq_opid,         disabled_opid,         INVALID_STATE,     irq_disabled_opid,         INVALID_STATE },
-+		{         disabled_opid,         INVALID_STATE,         INVALID_STATE,         INVALID_STATE,          enabled_opid,         INVALID_STATE,         INVALID_STATE },
-+	},
-+	.initial_state = disabled_opid,
-+	.final_states = { 0, 1, 0, 0, 0 },
-+};
-diff --git a/kernel/trace/rv/monitors/opid/opid_trace.h b/kernel/trace/rv/monitors/opid/opid_trace.h
-new file mode 100644
-index 000000000000..3df6ff955c30
---- /dev/null
-+++ b/kernel/trace/rv/monitors/opid/opid_trace.h
-@@ -0,0 +1,15 @@
-+/* SPDX-License-Identifier: GPL-2.0 */
-+
-+/*
-+ * Snippet to be included in rv_trace.h
-+ */
-+
-+#ifdef CONFIG_RV_MON_OPID
-+DEFINE_EVENT(event_da_monitor, event_opid,
-+	     TP_PROTO(char *state, char *event, char *next_state, bool final_state),
-+	     TP_ARGS(state, event, next_state, final_state));
-+
-+DEFINE_EVENT(error_da_monitor, error_opid,
-+	     TP_PROTO(char *state, char *event),
-+	     TP_ARGS(state, event));
-+#endif /* CONFIG_RV_MON_OPID */
-diff --git a/kernel/trace/rv/rv_trace.h b/kernel/trace/rv/rv_trace.h
-index d12ab74dcabc..5d3c5c3f7545 100644
---- a/kernel/trace/rv/rv_trace.h
-+++ b/kernel/trace/rv/rv_trace.h
-@@ -63,6 +63,7 @@ DECLARE_EVENT_CLASS(error_da_monitor,
- #include <monitors/snep/snep_trace.h>
- #include <monitors/sncid/sncid_trace.h>
- #include <monitors/sts/sts_trace.h>
-+#include <monitors/opid/opid_trace.h>
- // Add new monitors based on CONFIG_DA_MON_EVENTS_IMPLICIT here
- 
- #endif /* CONFIG_DA_MON_EVENTS_IMPLICIT */
-diff --git a/tools/verification/models/sched/opid.dot b/tools/verification/models/sched/opid.dot
-new file mode 100644
-index 000000000000..2d5e1df3405f
---- /dev/null
-+++ b/tools/verification/models/sched/opid.dot
-@@ -0,0 +1,35 @@
-+digraph state_automaton {
-+	center = true;
-+	size = "7,11";
-+	{node [shape = plaintext, style=invis, label=""] "__init_disabled"};
-+	{node [shape = circle] "disabled"};
-+	{node [shape = doublecircle] "enabled"};
-+	{node [shape = circle] "enabled"};
-+	{node [shape = circle] "in_irq"};
-+	{node [shape = circle] "irq_disabled"};
-+	{node [shape = circle] "preempt_disabled"};
-+	"__init_disabled" -> "disabled";
-+	"disabled" [label = "disabled"];
-+	"disabled" -> "disabled" [ label = "sched_need_resched\nsched_waking\nirq_entry" ];
-+	"disabled" -> "irq_disabled" [ label = "preempt_enable" ];
-+	"disabled" -> "preempt_disabled" [ label = "irq_enable" ];
-+	"enabled" [label = "enabled", color = green3];
-+	"enabled" -> "enabled" [ label = "preempt_enable" ];
-+	"enabled" -> "irq_disabled" [ label = "irq_disable" ];
-+	"enabled" -> "preempt_disabled" [ label = "preempt_disable" ];
-+	"in_irq" [label = "in_irq"];
-+	"in_irq" -> "enabled" [ label = "irq_enable" ];
-+	"in_irq" -> "in_irq" [ label = "sched_need_resched\nsched_waking" ];
-+	"irq_disabled" [label = "irq_disabled"];
-+	"irq_disabled" -> "disabled" [ label = "preempt_disable" ];
-+	"irq_disabled" -> "enabled" [ label = "irq_enable" ];
-+	"irq_disabled" -> "in_irq" [ label = "irq_entry" ];
-+	"irq_disabled" -> "irq_disabled" [ label = "sched_need_resched" ];
-+	"preempt_disabled" [label = "preempt_disabled"];
-+	"preempt_disabled" -> "disabled" [ label = "irq_disable" ];
-+	"preempt_disabled" -> "enabled" [ label = "preempt_enable" ];
-+	{ rank = min ;
-+		"__init_disabled";
-+		"disabled";
-+	}
-+}
--- 
-2.49.0
+I am experiencing a system hang with a 5-level v2 page table mode, on boot.
+The NVMe boot drive is not initializing.
+Below are the relevant dmesg logs with some prints i had added:
 
+[    6.386439] AMD-Vi v2 domain init
+[    6.390132] AMD-Vi v2 pt init
+[    6.390133] AMD-Vi aperture end last va ffffffffffffff
+...
+[   10.315372] AMD-Vi gen pt MAP PAGES iova ffffffffffffe000 paddr 19351b000
+...
+[   72.171930] nvme nvme0: I/O tag 0 (0000) QID 0 timeout, disable controller
+[   72.179618] nvme nvme1: I/O tag 24 (0018) QID 0 timeout, disable controller
+[   72.197176] nvme nvme0: Identify Controller failed (-4)
+[   72.203063] nvme nvme1: Identify Controller failed (-4)
+[   72.209237] nvme 0000:05:00.0: probe with driver nvme failed with error -5
+[   72.209336] nvme 0000:44:00.0: probe with driver nvme failed with error -5
+...
+Timed out waiting for the udev queue to be empty.
+
+According to the dmesg logs above, the IOVA for the v2 page table appears 
+incorrect and is not aligned with domain->geometry.aperture_end. Which
+requires domain->geometry.force_aperture = true; to be added at the
+appropriate location. Proabably here!
+
+- Ankit
+
+> +	if ((pt_vaddr_t)domain->geometry.aperture_end != range.last_va) {
+> +		domain->geometry.aperture_end = ULONG_MAX;
+> +		domain->pgsize_bitmap &= ULONG_MAX;
+> +	}
+> +
+> +	return 0;
+> +}
+> +
