@@ -1,98 +1,191 @@
-Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E5C0E2701C5
-	for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 10:51:36 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E570226883;
+	Wed, 14 May 2025 11:32:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747219898; cv=none; b=tsGkeh2EQqsCtKY9+j8aXcUDxtJwBWaaUSvpfAEMDV1aRepdcEoI5cA26Cv6LxaGZaQO/UB+FoIAUN+HiuojzTQmblfAbAIVWxRJu1Mz60Oe/QMrHvyCcTuFQGNN3cyRPPx9DMRcqvSaOnTr/XC51hlFbnA5Yo8fktxu7Q9JEbU=
+	t=1747222331; cv=none; b=dwrSAOuGjbB7Fq9Aw7KzrL0HctCkliy+1dxhgEQlukRUcT5kDCHeNpVzdn7hYiJ7LjTsyPgVYPBdNsDpNYMn7ES4/qmQKiQH+z7nOaCTzRopsUy7zApzZneqrlfCn4cwLAhGcCoiNZKkTTrybITQvGhC8VJaUDF8SbZDw1m7ShU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747219898; c=relaxed/simple;
-	bh=wLaFSE4Ego8v1EspVmpwZvp7EGmsaYZheUHWIKTDou0=;
-	h=Message-ID:From:To:Cc:Subject:Date:MIME-Version; b=ZhUdMvnTNjBgT2zM23G8mzB0wwZ39YDt4tQce06X7Nv/AbrqSPmP95ZLxrMdRuSJeD70q557baoymxP5zfnmPjXtohexwyxNly1E6Yiq6/u7M1HV0V+2bqlHhUwf6qGj3uQ2jKHyZlBTd3Mnze7f2Ll5zRoL7IjFYq5O4cF99rU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ht6ycDOG; arc=none smtp.client-ip=209.85.210.174
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ht6ycDOG"
-Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7399838db7fso711057b3a.0
-        for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 03:51:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747219896; x=1747824696; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:date:subject:cc:to:from
-         :message-id:from:to:cc:subject:date:message-id:reply-to;
-        bh=cq6p/kPXWwDEOATIHuka8hW4yqkWwDKs7Z4JsTS1wLU=;
-        b=ht6ycDOGjW3CoGbN7baK5BT6AEXH3v18v9Raz9LTCFFIvVKNVkh9FtbIbsauAVzG3y
-         merefg7QpcwVYfH37UuxRTWo2aHzFknWVhZ031Uz6jbDEVBWM/XHX9xW9JJ9svtxLBiL
-         /Jc/SCPKWIKK1EjQVd7Q4YpAXjCvgiUf+cTAW/tOzzAf+elJgLpNWDtB/iZJfNWNmjFh
-         VrSsV6SznTnCyDZ9TNIDsW1kiqBt4Sf1ieNv0tgnt5aaDouIVUyO2YTSQudKXDOOy7lN
-         MQY7REWkhIvnGZ8sPdRs/mG0LT3ICAn/A4aVSjrBgzjKr1SATnvZH1Fd37M0ZQIlyBJE
-         zrJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747219896; x=1747824696;
-        h=content-transfer-encoding:mime-version:date:subject:cc:to:from
-         :message-id:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=cq6p/kPXWwDEOATIHuka8hW4yqkWwDKs7Z4JsTS1wLU=;
-        b=xGsnenqaub+vhB+UpVhZfMjCeIBrSViiKZzLGkIF3HS/MP47otgnrIveL6gbRjuV+x
-         zrvlzODCc0CTedMPn5lc6S/8aNQOshbBpETxsAMYLv14EXU7HGNOUYxCler2IJ5QuNy8
-         RJOFKVf+q0adCcfo5vlOvPsUtqAOfwuM0gjATOtKI2NBPFP5TifjALQfPCxOMBstDo6A
-         dhnxfSXAIe/p2KdsVnlUAM8kTXvg1yuuMY/AIsyLzTdW2U+M83vOVS/7uN30vtN5U+5n
-         u4rv2pknsJ8FtZhr1b72bd7ZTe3h6fbBpi8VhehXONh3OH34dinSJOi+pk+LY0lLNakw
-         q4rA==
-X-Gm-Message-State: AOJu0YxsCuymSerTKNVGUKnAg8xcYuivf9n9xewVJ68KfBshPx6YUE7H
-	cfULA340BQyqvnrwLXYPLWUmojoGR+vnRAKygfyuj+XJC/nQZOqc
-X-Gm-Gg: ASbGnctT8p34aYuTLM1o4+tzQ03gsSdx+y4pn3Vzr87wZb83MJpaKDH1wumbIwPE9Ve
-	+UXs82/LpDWs88yGwv+daQapNdD4qIAOLbxrxAB3KnJz459rW5C79b+3IX3WUNQVyJYqfkooStX
-	rWIH9ldShf5FfjPv3uLlHtlGGKwQKjlXcaJ/i0iugEadPV6gpkfavC224Rk1P3DRHHDIv7ZRMBx
-	unX1mHDXlcCevgakxUq+M5/WAk4yV790UNtEujxJZczL+xiz4gmXxIhIQXX+inZ2NqW2vjInz27
-	cREFdGwNF5OmRdzlFBWPKBkOuoEsx36m9eOOKp7ul1kziMZXIDbLWy7VjcH1G8RlqtzaEvO8wfA
-	4bTyQy68zPM1EgYf2G4FQ8y0/75YqyDAxD21Cv5hGsDi7x3HfNXxx
-X-Google-Smtp-Source: AGHT+IFYG+4lKrUQRMI8+2vlGESDtnYJ/Cv0scShCKDuN9BYQE87CMSXbDjZXwStM+jyqy5BA7zP+A==
-X-Received: by 2002:a05:6a21:329f:b0:1f3:20be:c18a with SMTP id adf61e73a8af0-215fde5b623mr3695103637.10.1747219895988;
-        Wed, 14 May 2025 03:51:35 -0700 (PDT)
-Received: from codespaces-95fafa.2t4prynt4dlezbzls5ze3dxsqg.rx.internal.cloudapp.net ([13.71.3.104])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a104e7sm9482627b3a.104.2025.05.14.03.51.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 May 2025 03:51:35 -0700 (PDT)
-Message-ID: <682475b7.050a0220.1cdd73.481d@mx.google.com>
-X-Google-Original-Message-ID: <20250514105112.184925-1-10sharmashivam.com>
-From: 10sharmashivam@gmail.com
-X-Google-Original-From: 10sharmashivam.com
-To: skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org,
-	Shivam Sharma <66767992+10sharmashivam@users.noreply.github.com>
-Subject: [PATCH] docs: fix kernel-doc warning for DC_HDCP_LC_ENABLE_SW_FALLBACK enum
-Date: Wed, 14 May 2025 10:51:11 +0000
-X-Mailer: git-send-email 2.49.0
+	s=arc-20240116; t=1747222331; c=relaxed/simple;
+	bh=U0a33LtWm3c7usN0bq37jysT1DqBk4K2k4WTfaLAaX0=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=kYMCUaWOEtplAirvVgoAphrbggV3sn62YGVOuE2dIH5jfpTcLAEhgwSdS9rTaAmZYGfRC3GA6dlQOAJ+NfYw02/Q6lD48PsySCBMsojkChiw4yq9LY8ZC6uIbcJceZtMDZ1a+0SopUdnBNuMoI0bnJziFsvGyXPKNDgJREM3k60=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZyB4Z54PHz6K9BK;
+	Wed, 14 May 2025 19:31:26 +0800 (CST)
+Received: from frapeml100005.china.huawei.com (unknown [7.182.85.132])
+	by mail.maildlp.com (Postfix) with ESMTPS id E20BC1400DC;
+	Wed, 14 May 2025 19:31:59 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (7.182.85.172) by
+ frapeml100005.china.huawei.com (7.182.85.132) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 14 May 2025 13:31:59 +0200
+Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
+ frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
+ Wed, 14 May 2025 13:31:59 +0200
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Daniel Ferguson <danielf@os.amperecomputing.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
+CC: "bp@alien8.de" <bp@alien8.de>, "rafael@kernel.org" <rafael@kernel.org>,
+	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
+	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
+	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
+	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
+	"linux-mm@kvack.org" <linux-mm@kvack.org>, Linuxarm <linuxarm@huawei.com>,
+	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
+	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
+	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
+	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
+	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
+	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
+	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
+	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
+	<gthelen@google.com>, "wschwartz@amperecomputing.com"
+	<wschwartz@amperecomputing.com>, "dferguson@amperecomputing.com"
+	<dferguson@amperecomputing.com>, "wbs@os.amperecomputing.com"
+	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
+	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v5 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Thread-Topic: [PATCH v5 1/2] ACPI:RAS2: Add ACPI RAS2 driver
+Thread-Index: AQHbv5klMort+tGT8kGjctbrTEAbprPRVnoAgACt2EA=
+Date: Wed, 14 May 2025 11:31:59 +0000
+Message-ID: <19ccc1b78e104132962792b55ab92df5@huawei.com>
+References: <20250507214344.709-1-shiju.jose@huawei.com>
+ <20250507214344.709-2-shiju.jose@huawei.com>
+ <8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com>
+In-Reply-To: <8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 
-From: Shivam Sharma <66767992+10sharmashivam@users.noreply.github.com>
-
-Signed-off-by: Shivam Sharma <66767992+10sharmashivam@users.noreply.github.com>
----
- drivers/gpu/drm/amd/include/amd_shared.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/include/amd_shared.h b/drivers/gpu/drm/amd/include/amd_shared.h
-index 4c95b885d1d0..c8eccee9b023 100644
---- a/drivers/gpu/drm/amd/include/amd_shared.h
-+++ b/drivers/gpu/drm/amd/include/amd_shared.h
-@@ -366,7 +366,7 @@ enum DC_DEBUG_MASK {
- 	DC_HDCP_LC_FORCE_FW_ENABLE = 0x80000,
- 
- 	/**
--	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
-+	 * @DC_HDCP_LC_ENABLE_SW_FALLBACK: If set, upon HDCP Locality Check FW
- 	 * path failure, retry using legacy SW path.
- 	 */
- 	DC_HDCP_LC_ENABLE_SW_FALLBACK = 0x100000,
--- 
-2.49.0
-
+Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogRGFuaWVsIEZlcmd1c29uIDxkYW5p
+ZWxmQG9zLmFtcGVyZWNvbXB1dGluZy5jb20+DQo+U2VudDogMTQgTWF5IDIwMjUgMDM6NTUNCj5U
+bzogU2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPjsgbGludXgtZWRhY0B2Z2VyLmtl
+cm5lbC5vcmc7IGxpbnV4LQ0KPmFjcGlAdmdlci5rZXJuZWwub3JnOyBsaW51eC1kb2NAdmdlci5r
+ZXJuZWwub3JnDQo+Q2M6IGJwQGFsaWVuOC5kZTsgcmFmYWVsQGtlcm5lbC5vcmc7IHRvbnkubHVj
+a0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsNCj5sZW8uZHVyYW5AYW1kLmNvbTsgWWF6ZW4u
+R2hhbm5hbUBhbWQuY29tOyBtY2hlaGFiQGtlcm5lbC5vcmc7DQo+Sm9uYXRoYW4gQ2FtZXJvbiA8
+am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPjsgbGludXgtbW1Aa3ZhY2sub3JnOw0KPkxpbnV4
+YXJtIDxsaW51eGFybUBodWF3ZWkuY29tPjsgcmllbnRqZXNAZ29vZ2xlLmNvbTsNCj5qaWFxaXlh
+bkBnb29nbGUuY29tOyBKb24uR3JpbW1AYW1kLmNvbTsgZGF2ZS5oYW5zZW5AbGludXguaW50ZWwu
+Y29tOw0KPm5hb3lhLmhvcmlndWNoaUBuZWMuY29tOyBqYW1lcy5tb3JzZUBhcm0uY29tOyBqdGhv
+dWdodG9uQGdvb2dsZS5jb207DQo+c29tYXN1bmRhcmFtLmFAaHBlLmNvbTsgZXJkZW1ha3Rhc0Bn
+b29nbGUuY29tOyBwZ29uZGFAZ29vZ2xlLmNvbTsNCj5kdWVud2VuQGdvb2dsZS5jb207IGd0aGVs
+ZW5AZ29vZ2xlLmNvbTsNCj53c2Nod2FydHpAYW1wZXJlY29tcHV0aW5nLmNvbTsgZGZlcmd1c29u
+QGFtcGVyZWNvbXB1dGluZy5jb207DQo+d2JzQG9zLmFtcGVyZWNvbXB1dGluZy5jb207IG5pZmFu
+LmN4bEBnbWFpbC5jb207IHRhbnhpYW9mZWkNCj48dGFueGlhb2ZlaUBodWF3ZWkuY29tPjsgWmVu
+Z3RhbyAoQikgPHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8NCj5TYXNzdSA8cm9i
+ZXJ0by5zYXNzdUBodWF3ZWkuY29tPjsga2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOw0KPndh
+bmdodWlxaWFuZyA8d2FuZ2h1aXFpYW5nQGh1YXdlaS5jb20+DQo+U3ViamVjdDogUmU6IFtQQVRD
+SCB2NSAxLzJdIEFDUEk6UkFTMjogQWRkIEFDUEkgUkFTMiBkcml2ZXINCj4NCj4+ICtzdGF0aWMg
+aW50IHJhczJfcmVwb3J0X2NhcF9lcnJvcih1MzIgY2FwX3N0YXR1cykgew0KPj4gKwlzd2l0Y2gg
+KGNhcF9zdGF0dXMpIHsNCj4+ICsJY2FzZSBBQ1BJX1JBUzJfTk9UX1ZBTElEOg0KPj4gKwljYXNl
+IEFDUElfUkFTMl9OT1RfU1VQUE9SVEVEOg0KPj4gKwkJcmV0dXJuIC1FUEVSTTsNCj4+ICsJY2Fz
+ZSBBQ1BJX1JBUzJfQlVTWToNCj4+ICsJCXJldHVybiAtRUJVU1k7DQo+PiArCWNhc2UgQUNQSV9S
+QVMyX0ZBSUxFRDoNCj4+ICsJY2FzZSBBQ1BJX1JBUzJfQUJPUlRFRDoNCj4+ICsJY2FzZSBBQ1BJ
+X1JBUzJfSU5WQUxJRF9EQVRBOg0KPj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+PiArCWRlZmF1bHQ6
+IC8qIDAgb3Igb3RoZXIsIFN1Y2Nlc3MgKi8NCj4+ICsJCXJldHVybiAwOw0KPj4gKwl9DQo+PiAr
+fQ0KPj4gKw0KPj4gK3N0YXRpYyBpbnQgcmFzMl9jaGVja19wY2NfY2hhbihzdHJ1Y3QgcmFzMl9w
+Y2Nfc3Vic3BhY2UNCj4+ICsqcGNjX3N1YnNwYWNlKSB7DQo+PiArCXN0cnVjdCBhY3BpX3JhczJf
+c2htZW0gX19pb21lbSAqZ2VuX2NvbW1fYmFzZSA9IHBjY19zdWJzcGFjZS0NCj4+Y29tbV9hZGRy
+Ow0KPj4gKwl1MzIgY2FwX3N0YXR1czsNCj4+ICsJdTE2IHN0YXR1czsNCj4+ICsJdTMyIHJjOw0K
+Pj4gKw0KPj4gKwkvKg0KPj4gKwkgKiBBcyBwZXIgQUNQSSBzcGVjLCB0aGUgUENDIHNwYWNlIHdp
+bGwgYmUgaW5pdGlhbGl6ZWQgYnkNCj4+ICsJICogcGxhdGZvcm0gYW5kIHNob3VsZCBoYXZlIHNl
+dCB0aGUgY29tbWFuZCBjb21wbGV0aW9uIGJpdCB3aGVuDQo+PiArCSAqIFBDQyBjYW4gYmUgdXNl
+ZCBieSBPU1BNLg0KPj4gKwkgKg0KPj4gKwkgKiBQb2xsIFBDQyBzdGF0dXMgcmVnaXN0ZXIgZXZl
+cnkgM3VzKGRlbGF5X3VzKSBmb3IgbWF4aW11bSBvZg0KPj4gKwkgKiBkZWFkbGluZV91cyh0aW1l
+b3V0X3VzKSB1bnRpbCBQQ0MgY29tbWFuZCBjb21wbGV0ZSBiaXQgaXMNCj5zZXQoY29uZCkuDQo+
+PiArCSAqLw0KPj4gKwlyYyA9IHJlYWR3X3JlbGF4ZWRfcG9sbF90aW1lb3V0KCZnZW5fY29tbV9i
+YXNlLT5zdGF0dXMsIHN0YXR1cywNCj4+ICsJCQkJCXN0YXR1cyAmDQo+UENDX1NUQVRVU19DTURf
+Q09NUExFVEUsIDMsDQo+PiArCQkJCQlwY2Nfc3Vic3BhY2UtPmRlYWRsaW5lX3VzKTsNCj4+ICsJ
+aWYgKHJjKSB7DQo+PiArCQlwcl93YXJuKCJQQ0MgY2hlY2sgY2hhbm5lbCBmYWlsZWQgZm9yIDog
+JWQgcmM9JWRcbiIsDQo+PiArCQkJcGNjX3N1YnNwYWNlLT5wY2NfaWQsIHJjKTsNCj4+ICsJCXJl
+dHVybiByYzsNCj4+ICsJfQ0KPj4gKw0KPj4gKwlpZiAoc3RhdHVzICYgUENDX1NUQVRVU19FUlJP
+Uikgew0KPj4gKwkJY2FwX3N0YXR1cyA9IHJlYWR3X3JlbGF4ZWQoJmdlbl9jb21tX2Jhc2UtDQo+
+PnNldF9jYXBzX3N0YXR1cyk7DQo+PiArCQlyYyA9IHJhczJfcmVwb3J0X2NhcF9lcnJvcihjYXBf
+c3RhdHVzKTsNCj4+ICsNCj4+ICsJCXN0YXR1cyAmPSB+UENDX1NUQVRVU19FUlJPUjsNCj4+ICsJ
+CXdyaXRld19yZWxheGVkKHN0YXR1cywgJmdlbl9jb21tX2Jhc2UtPnN0YXR1cyk7DQo+PiArCQly
+ZXR1cm4gcmM7DQo+PiArCX0NCj4+ICsNCj4+ICsJaWYgKHN0YXR1cyAmIFBDQ19TVEFUVVNfQ01E
+X0NPTVBMRVRFKQ0KPj4gKwkJcmV0dXJuIDA7DQo+PiArDQo+PiArCXJldHVybiAtRUlPOw0KPj4g
+K30NCj4NCj5XZSBzdGlsbCBoYXZlIGFuIG91dHN0YW5kaW5nIHByb2JsZW0uIFRoaXMgbWF5IHNv
+dW5kIGZhbWlsaWFyLg0KPg0KPklmIGEgdXNlciBzcGVjaWZpZXMgYW4gaW52YWxpZCBhZGRyZXNz
+LCBvdXIgZmlybXdhcmUgd2lsbCBzZXQgYW4gZXJyb3IgY29kZSBpbiB0aGUNCj5zZXRfY2Fwc19z
+dGF0dXMgZmllbGQgb2YgdGhlIGFjcGlfcmFzMl9zaG1lbSBzdHJ1Y3R1cmUuIEluIG91ciBjYXNl
+LCB0aGUgZXJyb3INCj5jb2RlIGlzIEFDUElfUkFTMl9JTlZBTElEX0RBVEEsIGFuZCB0aGUgdXNl
+ciB3aWxsIG9ic2VydmUgYW4gRUlOVkFMLiBUaGlzIGlzDQo+ZXhwZWN0ZWQuDQo+DQo+SG93ZXZl
+ciwgaWYgdGhlIHVzZXIgdGhlbiBzdWJzZXF1ZW50bHkgYXR0ZW1wdHMgdG8gd3JpdGUgYSBWQUxJ
+RCBhZGRyZXNzLA0KPnJhczJfZ2V0X3BhdHJvbF9zY3J1Yl9ydW5uaW5nIHdpbGwgaW5kaXJlY3Rs
+eSBjYWxsIHJhczJfY2hlY2tfcGNjX2NoYW4gdXNpbmcNCj50aGUgcHJldmlvdXNseSBJTlZBTElE
+IGFkZHJlc3MgdG8gZGV0ZXJtaW5lIGlmIHRoZSBzY3J1YmJlciBpcyBzdGlsbCBydW5uaW5nLg0K
+PlVuZm9ydHVuYXRlbHksIHRoZSBJTlZBTElEIGFkZHJlc3MgY2F1c2VzIHJhczJfZ2V0X3BhdHJv
+bF9zY3J1Yl9ydW5uaW5nIHRvDQo+ZmFpbCwgdGhlcmVmb3JlIHByZXZlbnRpbmcgdGhlIHVzZXIg
+ZnJvbSBzcGVjaWZ5aW5nIGEgVkFMSUQgYWRkcmVzcyBhZnRlcg0KPnNwZWNpZnlpbmcgYW4gSU5W
+QUxJRCBhZGRyZXNzLg0KPg0KPlRoZSBvbmx5IHdheSB0byBtb3ZlIGZvcndhcmQgZnJvbSB0aGlz
+IGluZXNjYXBhYmxlIGNvbmRpdGlvbiBpcyB0byByZWJvb3QgdGhlDQo+c3lzdGVtLg0KPg0KPkhl
+cmUgaXMgYSBkZW1vIG9mIHRoZSBwcm9ibGVtIGFzIEkgcm91Z2hseSBzZWUgaXQgb24gb3VyIHN5
+c3RlbSAoSSd2ZSBsYWJlbGVkIHRoZQ0KPmxpbmUgbnVtYmVycyBmb3Igc2FrZSBvZiBkaXNjdXNz
+aW9uKToNCj4xICBbcm9vdEBteWhvc3Qgc2NydWIwXSMgZWNobyAweDEwMDAwMDAwMCA+IHNpemUN
+Cj4yICBbcm9vdEBteWhvc3Qgc2NydWIwXSMgZWNobyAweDFmMDAwMDAwMDAgPiBhZGRyDQo+MyAg
+W3Jvb3RAbXlob3N0IHNjcnViMF0jIGVjaG8gMHhjZjAwMDAwMDAwID4gYWRkcg0KPjQgIHdyaXRl
+IGVycm9yOiBJbnZhbGlkIGFyZ3VtZW50DQo+NSAgWyAgMjE0LjQ0NjMzOF0gUENDVCBQQ0NUOiBG
+YWlsZWQgdG8gc3RhcnQgZGVtYW5kIHNjcnViYmluZw0KPjYgIFtyb290QG15aG9zdCBzY3J1YjBd
+IyBlY2hvIDB4MWYwMDAwMDAwMCA+IGFkZHINCj43ICB3cml0ZSBlcnJvcjogSW52YWxpZCBhcmd1
+bWVudA0KPjggIFsgIDI0Mi4yNjM5MDldIFBDQ1QgUENDVDogZmFpbGVkIHRvIHJlYWQgcGFyYW1l
+dGVycw0KPjkgIFtyb290QG15aG9zdCBzY3J1YjBdIyBlY2hvIDB4MTAwMDAwMDAwID4gc2l6ZQ0K
+PjEwIHdyaXRlIGVycm9yOiBJbnZhbGlkIGFyZ3VtZW50DQo+MTEgWyAgMjQ2LjE5MDE5Nl0gUEND
+VCBQQ0NUOiBmYWlsZWQgdG8gcmVhZCBwYXJhbWV0ZXJzDQo+DQo+VGhlIHVwcGVyIG1vc3QgbWVt
+b3J5IGFkZHJlc3Mgb24gdGhpcyBzeXN0ZW0gaXMgMHhiZjAwMDAwMDAwLiBMaW5lIDEgYW5kIDIN
+Cj51c2UgdmFsaWQgdmFsdWVzLCBhbmQgbGluZSAyIHByb2R1Y2VzIHRoZSBleHBlY3RlZCByZXN1
+bHRzLiBPbiBsaW5lIDMsIEkndmUNCj5zcGVjaWZpZWQgYW4gSU5WQUxJRCBhZGRyZXNzIChvdXRz
+aWRlIG9mIHZhbGlkIHJhbmdlKS4gVGhlIGVycm9yIG9uIGxpbmUgNSBpcw0KPmV4cGVjdGVkIGFm
+dGVyIGV4ZWN1dGluZyB0aGUgU1RBUlRfUEFUUk9MX1NDUlVCQkVSIGNvbW1hbmQgd2l0aCBhbg0K
+PklOVkFMSUQgYWRkcmVzcy4NCj4NCj5MaW5lIDYgc2hvdyBob3cgSSBhdHRlbXB0IHRvIHNwZWNp
+ZnkgYSBWQUxJRCBhZGRyZXNzLiBVbmZvcnR1bmF0ZWx5LA0KPnJhczJfZ2V0X3BhdHJvbF9zY3J1
+Yl9ydW5uaW5nIGVuY291bnRlcnMgYW5kIGVycm9yIGFmdGVyIGV4ZWN1dGluZw0KPkdFVF9QQVRS
+T0xfUEFSQU1FVEVSUyBiZWNhdXNlIGl0IHVzZWQgdGhlIE9MRCBJTlZBTElEIHZhbHVlcyBpbiBw
+c19zbS0NCj4+cGFyYW1zLnJlcV9hZGRyX3JhbmdlLiBMaW5lIDcgYW5kIDggYXJlIHRoZSByZXN1
+bHQuIFNpbmNlIHRoZSBmbG93IG9mDQo+ZXhlY3V0aW9uIGlmIGFib3J0ZWQgYXQgdGhpcyBwb2lu
+dCwgeW91IGNhbiBuZXZlciByZWN0aWZ5IHRoZSBzaXR1YXRpb24gYW5kIGluc2VydCBhDQo+dmFs
+aWQgdmFsdWUgaW50byBwc19zbS0+cGFyYW1zLnJlcV9hZGRyX3JhbmdlLCB1bmxlc3MgeW91IHJl
+Ym9vdCB0aGUgc3lzdGVtLg0KPg0KPk9uZSBoYWxmIGJha2VkIHNvbHV0aW9uIHRvIHRoaXMgcHJv
+YmxlbSwgaXMgdG8gbW9kaWZ5DQo+cmFzMl9nZXRfcGF0cm9sX3NjcnViX3J1bm5pbmcgc28gdGhh
+dCBpZiB0aGVyZSBpcyBhIG5vbi16ZXJvIGFkZHJlc3Mgb3Igc2l6ZQ0KPnNwZWNpZmllZCwgQU5E
+IHRoZSBsYXN0IGVycm9yIGNvZGUgd2UgcmVjZWl2ZWQgd2FzIElOVkFMSUQgREFUQSwgdGhlbiBh
+c3N1bWUNCj50aGUgc2NydWJiZXIgaXMgTk9UIHJ1bm5pbmcuDQpIaSBEYW5pZWwsDQoNClRoYW5r
+cyBmb3IgcmVwb3J0aW5nIHRoZSBpc3N1ZS4NCkNhbiB5b3UgY2hlY2sgd2hldGhlciBmb2xsb3dp
+bmcgY2hhbmdlIGZpeCB0aGUgaXNzdWUgaW4geW91ciB0ZXN0IHNldHVwPw0KPT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9y
+YXMvYWNwaV9yYXMyLmMgYi9kcml2ZXJzL3Jhcy9hY3BpX3JhczIuYw0KaW5kZXggNGQ5Y2ZkM2Jk
+ZjQ1Li5mZjRhYTFiNzU4NjAgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3Jhcy9hY3BpX3JhczIuYw0K
+KysrIGIvZHJpdmVycy9yYXMvYWNwaV9yYXMyLmMNCkBAIC0yNTUsNiArMjU1LDEzIEBAIHN0YXRp
+YyBpbnQgcmFzMl9od19zY3J1Yl93cml0ZV9hZGRyKHN0cnVjdCBkZXZpY2UgKmRldiwgdm9pZCAq
+ZHJ2X2RhdGEsIHU2NCBiYXNlDQogICAgICAgIHJldCA9IHJhczJfc2VuZF9wY2NfY21kKHJhczJf
+Y3R4LCBQQ0NfQ01EX0VYRUNfUkFTMik7DQogICAgICAgIGlmIChyZXQpIHsNCiAgICAgICAgICAg
+ICAgICBkZXZfZXJyKHJhczJfY3R4LT5kZXYsICJGYWlsZWQgdG8gc3RhcnQgZGVtYW5kIHNjcnVi
+YmluZ1xuIik7DQorICAgICAgICAgICAgICAgaWYgKHJldCA9PSAtRVBFUk0gfHwgcmV0ID09IC1F
+SU5WQUwpIHsNCisgICAgICAgICAgICAgICAgICAgICAgIHBzX3NtLT5wYXJhbXMucmVxX2FkZHJf
+cmFuZ2VbMF0gPSAwOw0KKyAgICAgICAgICAgICAgICAgICAgICAgcHNfc20tPnBhcmFtcy5yZXFf
+YWRkcl9yYW5nZVsxXSA9IDA7DQorICAgICAgICAgICAgICAgICAgICAgICByYXMyX2N0eC0+YmFz
+ZSA9IDA7DQorICAgICAgICAgICAgICAgICAgICAgICByYXMyX2N0eC0+c2l6ZSA9IDA7DQorICAg
+ICAgICAgICAgICAgICAgICAgICByYXMyX2N0eC0+b2Rfc2NydWJfc3RzID0gT0RfU0NSVUJfU1RT
+X0lETEU7DQorICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQog
+ICAgICAgIH0NCiAgICAgICAgcmFzMl9jdHgtPm9kX3NjcnViX3N0cyA9IE9EX1NDUlVCX1NUU19B
+Q1RJVkU7DQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpU
+aGFua3MsDQpTaGlqdSANCg0KPg0KPlJlZ2FyZHMsDQo+fkRhbmllbA0K
