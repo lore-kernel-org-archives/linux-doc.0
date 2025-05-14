@@ -1,191 +1,280 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E570226883;
-	Wed, 14 May 2025 11:32:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2051327587A;
+	Wed, 14 May 2025 12:05:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747222331; cv=none; b=dwrSAOuGjbB7Fq9Aw7KzrL0HctCkliy+1dxhgEQlukRUcT5kDCHeNpVzdn7hYiJ7LjTsyPgVYPBdNsDpNYMn7ES4/qmQKiQH+z7nOaCTzRopsUy7zApzZneqrlfCn4cwLAhGcCoiNZKkTTrybITQvGhC8VJaUDF8SbZDw1m7ShU=
+	t=1747224346; cv=none; b=EOc2uJGWmqcFiElV1a/AYXKy1GpF98mmF5F7B0EsHkNUHjrsA45LO7UqEcIDvcZGlnWUIX1VXkntMPAym3m7+rmixuGX0AanZkW4uuUr+r8ua9W+uv9TfFpkRXTQUufcCqkUddcXCHoNBm3LU2YkJYFVxv43oRR21KROauNG0/c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747222331; c=relaxed/simple;
-	bh=U0a33LtWm3c7usN0bq37jysT1DqBk4K2k4WTfaLAaX0=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=kYMCUaWOEtplAirvVgoAphrbggV3sn62YGVOuE2dIH5jfpTcLAEhgwSdS9rTaAmZYGfRC3GA6dlQOAJ+NfYw02/Q6lD48PsySCBMsojkChiw4yq9LY8ZC6uIbcJceZtMDZ1a+0SopUdnBNuMoI0bnJziFsvGyXPKNDgJREM3k60=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.31])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4ZyB4Z54PHz6K9BK;
-	Wed, 14 May 2025 19:31:26 +0800 (CST)
-Received: from frapeml100005.china.huawei.com (unknown [7.182.85.132])
-	by mail.maildlp.com (Postfix) with ESMTPS id E20BC1400DC;
-	Wed, 14 May 2025 19:31:59 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml100005.china.huawei.com (7.182.85.132) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 14 May 2025 13:31:59 +0200
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Wed, 14 May 2025 13:31:59 +0200
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Daniel Ferguson <danielf@os.amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC: "bp@alien8.de" <bp@alien8.de>, "rafael@kernel.org" <rafael@kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
-	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
-	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
-	<gthelen@google.com>, "wschwartz@amperecomputing.com"
-	<wschwartz@amperecomputing.com>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "wbs@os.amperecomputing.com"
-	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v5 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Topic: [PATCH v5 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Index: AQHbv5klMort+tGT8kGjctbrTEAbprPRVnoAgACt2EA=
-Date: Wed, 14 May 2025 11:31:59 +0000
-Message-ID: <19ccc1b78e104132962792b55ab92df5@huawei.com>
-References: <20250507214344.709-1-shiju.jose@huawei.com>
- <20250507214344.709-2-shiju.jose@huawei.com>
- <8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com>
-In-Reply-To: <8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1747224346; c=relaxed/simple;
+	bh=sKIP/22I1SQvo6tkkmk2GpLfv/4h+uB9iEuhkOzX7dg=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=suSdf8Qr58FvobkrJIYGib6aVB1AhHEXe9zd/qhpxfJzoxumPx33SFMQBbke7YJm6sOed9keM07PQcBq17/Y9QAOO5HGH1csTDLgwk7vY1feiXhQ/tX5yh2MUWfTjo/3/lHKc3/YwJ0QNFmjUghSy61V6XCxMZkjVe9rTV+ayGE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A9E27C4CEF3;
+	Wed, 14 May 2025 12:05:40 +0000 (UTC)
+Date: Wed, 14 May 2025 13:05:37 +0100
+From: Catalin Marinas <catalin.marinas@arm.com>
+To: Suzuki K Poulose <suzuki.poulose@arm.com>
+Cc: Ryan Roberts <ryan.roberts@arm.com>, Will Deacon <will@kernel.org>,
+	=?utf-8?Q?Miko=C5=82aj?= Lenczewski <miko.lenczewski@arm.com>,
+	yang@os.amperecomputing.com, corbet@lwn.net,
+	jean-philippe@linaro.org, robin.murphy@arm.com, joro@8bytes.org,
+	akpm@linux-foundation.org, paulmck@kernel.org, mark.rutland@arm.com,
+	joey.gouly@arm.com, maz@kernel.org, james.morse@arm.com,
+	broonie@kernel.org, oliver.upton@linux.dev, baohua@kernel.org,
+	david@redhat.com, ioworker0@gmail.com, jgg@ziepe.ca,
+	nicolinc@nvidia.com, mshavit@google.com, jsnitsel@redhat.com,
+	smostafa@google.com, kevin.tian@intel.com,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, iommu@lists.linux.dev
+Subject: Re: [RESEND PATCH v6 1/3] arm64: Add BBM Level 2 cpu feature
+Message-ID: <aCSHESk1DzShD4vt@arm.com>
+References: <20250428153514.55772-4-miko.lenczewski@arm.com>
+ <20250506142508.GB1197@willie-the-truck>
+ <78fec33d-fe66-4352-be11-900f456c9af3@arm.com>
+ <20250509134904.GA5707@willie-the-truck>
+ <aB4nqtMJuvvp7Vwm@arm.com>
+ <015746d7-ca46-4978-a441-09fba781fdd4@arm.com>
+ <4709ff5a-f89c-426e-ae95-f8356808f4f5@arm.com>
+ <99079d56-428b-4bc4-b20a-dc10032f2a2f@arm.com>
+ <aCIiwrA_MOeVhFre@arm.com>
+ <c5a74dfe-68e2-48f1-9bbb-06db8e62ffea@arm.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5a74dfe-68e2-48f1-9bbb-06db8e62ffea@arm.com>
 
-Pi0tLS0tT3JpZ2luYWwgTWVzc2FnZS0tLS0tDQo+RnJvbTogRGFuaWVsIEZlcmd1c29uIDxkYW5p
-ZWxmQG9zLmFtcGVyZWNvbXB1dGluZy5jb20+DQo+U2VudDogMTQgTWF5IDIwMjUgMDM6NTUNCj5U
-bzogU2hpanUgSm9zZSA8c2hpanUuam9zZUBodWF3ZWkuY29tPjsgbGludXgtZWRhY0B2Z2VyLmtl
-cm5lbC5vcmc7IGxpbnV4LQ0KPmFjcGlAdmdlci5rZXJuZWwub3JnOyBsaW51eC1kb2NAdmdlci5r
-ZXJuZWwub3JnDQo+Q2M6IGJwQGFsaWVuOC5kZTsgcmFmYWVsQGtlcm5lbC5vcmc7IHRvbnkubHVj
-a0BpbnRlbC5jb207IGxlbmJAa2VybmVsLm9yZzsNCj5sZW8uZHVyYW5AYW1kLmNvbTsgWWF6ZW4u
-R2hhbm5hbUBhbWQuY29tOyBtY2hlaGFiQGtlcm5lbC5vcmc7DQo+Sm9uYXRoYW4gQ2FtZXJvbiA8
-am9uYXRoYW4uY2FtZXJvbkBodWF3ZWkuY29tPjsgbGludXgtbW1Aa3ZhY2sub3JnOw0KPkxpbnV4
-YXJtIDxsaW51eGFybUBodWF3ZWkuY29tPjsgcmllbnRqZXNAZ29vZ2xlLmNvbTsNCj5qaWFxaXlh
-bkBnb29nbGUuY29tOyBKb24uR3JpbW1AYW1kLmNvbTsgZGF2ZS5oYW5zZW5AbGludXguaW50ZWwu
-Y29tOw0KPm5hb3lhLmhvcmlndWNoaUBuZWMuY29tOyBqYW1lcy5tb3JzZUBhcm0uY29tOyBqdGhv
-dWdodG9uQGdvb2dsZS5jb207DQo+c29tYXN1bmRhcmFtLmFAaHBlLmNvbTsgZXJkZW1ha3Rhc0Bn
-b29nbGUuY29tOyBwZ29uZGFAZ29vZ2xlLmNvbTsNCj5kdWVud2VuQGdvb2dsZS5jb207IGd0aGVs
-ZW5AZ29vZ2xlLmNvbTsNCj53c2Nod2FydHpAYW1wZXJlY29tcHV0aW5nLmNvbTsgZGZlcmd1c29u
-QGFtcGVyZWNvbXB1dGluZy5jb207DQo+d2JzQG9zLmFtcGVyZWNvbXB1dGluZy5jb207IG5pZmFu
-LmN4bEBnbWFpbC5jb207IHRhbnhpYW9mZWkNCj48dGFueGlhb2ZlaUBodWF3ZWkuY29tPjsgWmVu
-Z3RhbyAoQikgPHByaW1lLnplbmdAaGlzaWxpY29uLmNvbT47IFJvYmVydG8NCj5TYXNzdSA8cm9i
-ZXJ0by5zYXNzdUBodWF3ZWkuY29tPjsga2FuZ2thbmcuc2hlbkBmdXR1cmV3ZWkuY29tOw0KPndh
-bmdodWlxaWFuZyA8d2FuZ2h1aXFpYW5nQGh1YXdlaS5jb20+DQo+U3ViamVjdDogUmU6IFtQQVRD
-SCB2NSAxLzJdIEFDUEk6UkFTMjogQWRkIEFDUEkgUkFTMiBkcml2ZXINCj4NCj4+ICtzdGF0aWMg
-aW50IHJhczJfcmVwb3J0X2NhcF9lcnJvcih1MzIgY2FwX3N0YXR1cykgew0KPj4gKwlzd2l0Y2gg
-KGNhcF9zdGF0dXMpIHsNCj4+ICsJY2FzZSBBQ1BJX1JBUzJfTk9UX1ZBTElEOg0KPj4gKwljYXNl
-IEFDUElfUkFTMl9OT1RfU1VQUE9SVEVEOg0KPj4gKwkJcmV0dXJuIC1FUEVSTTsNCj4+ICsJY2Fz
-ZSBBQ1BJX1JBUzJfQlVTWToNCj4+ICsJCXJldHVybiAtRUJVU1k7DQo+PiArCWNhc2UgQUNQSV9S
-QVMyX0ZBSUxFRDoNCj4+ICsJY2FzZSBBQ1BJX1JBUzJfQUJPUlRFRDoNCj4+ICsJY2FzZSBBQ1BJ
-X1JBUzJfSU5WQUxJRF9EQVRBOg0KPj4gKwkJcmV0dXJuIC1FSU5WQUw7DQo+PiArCWRlZmF1bHQ6
-IC8qIDAgb3Igb3RoZXIsIFN1Y2Nlc3MgKi8NCj4+ICsJCXJldHVybiAwOw0KPj4gKwl9DQo+PiAr
-fQ0KPj4gKw0KPj4gK3N0YXRpYyBpbnQgcmFzMl9jaGVja19wY2NfY2hhbihzdHJ1Y3QgcmFzMl9w
-Y2Nfc3Vic3BhY2UNCj4+ICsqcGNjX3N1YnNwYWNlKSB7DQo+PiArCXN0cnVjdCBhY3BpX3JhczJf
-c2htZW0gX19pb21lbSAqZ2VuX2NvbW1fYmFzZSA9IHBjY19zdWJzcGFjZS0NCj4+Y29tbV9hZGRy
-Ow0KPj4gKwl1MzIgY2FwX3N0YXR1czsNCj4+ICsJdTE2IHN0YXR1czsNCj4+ICsJdTMyIHJjOw0K
-Pj4gKw0KPj4gKwkvKg0KPj4gKwkgKiBBcyBwZXIgQUNQSSBzcGVjLCB0aGUgUENDIHNwYWNlIHdp
-bGwgYmUgaW5pdGlhbGl6ZWQgYnkNCj4+ICsJICogcGxhdGZvcm0gYW5kIHNob3VsZCBoYXZlIHNl
-dCB0aGUgY29tbWFuZCBjb21wbGV0aW9uIGJpdCB3aGVuDQo+PiArCSAqIFBDQyBjYW4gYmUgdXNl
-ZCBieSBPU1BNLg0KPj4gKwkgKg0KPj4gKwkgKiBQb2xsIFBDQyBzdGF0dXMgcmVnaXN0ZXIgZXZl
-cnkgM3VzKGRlbGF5X3VzKSBmb3IgbWF4aW11bSBvZg0KPj4gKwkgKiBkZWFkbGluZV91cyh0aW1l
-b3V0X3VzKSB1bnRpbCBQQ0MgY29tbWFuZCBjb21wbGV0ZSBiaXQgaXMNCj5zZXQoY29uZCkuDQo+
-PiArCSAqLw0KPj4gKwlyYyA9IHJlYWR3X3JlbGF4ZWRfcG9sbF90aW1lb3V0KCZnZW5fY29tbV9i
-YXNlLT5zdGF0dXMsIHN0YXR1cywNCj4+ICsJCQkJCXN0YXR1cyAmDQo+UENDX1NUQVRVU19DTURf
-Q09NUExFVEUsIDMsDQo+PiArCQkJCQlwY2Nfc3Vic3BhY2UtPmRlYWRsaW5lX3VzKTsNCj4+ICsJ
-aWYgKHJjKSB7DQo+PiArCQlwcl93YXJuKCJQQ0MgY2hlY2sgY2hhbm5lbCBmYWlsZWQgZm9yIDog
-JWQgcmM9JWRcbiIsDQo+PiArCQkJcGNjX3N1YnNwYWNlLT5wY2NfaWQsIHJjKTsNCj4+ICsJCXJl
-dHVybiByYzsNCj4+ICsJfQ0KPj4gKw0KPj4gKwlpZiAoc3RhdHVzICYgUENDX1NUQVRVU19FUlJP
-Uikgew0KPj4gKwkJY2FwX3N0YXR1cyA9IHJlYWR3X3JlbGF4ZWQoJmdlbl9jb21tX2Jhc2UtDQo+
-PnNldF9jYXBzX3N0YXR1cyk7DQo+PiArCQlyYyA9IHJhczJfcmVwb3J0X2NhcF9lcnJvcihjYXBf
-c3RhdHVzKTsNCj4+ICsNCj4+ICsJCXN0YXR1cyAmPSB+UENDX1NUQVRVU19FUlJPUjsNCj4+ICsJ
-CXdyaXRld19yZWxheGVkKHN0YXR1cywgJmdlbl9jb21tX2Jhc2UtPnN0YXR1cyk7DQo+PiArCQly
-ZXR1cm4gcmM7DQo+PiArCX0NCj4+ICsNCj4+ICsJaWYgKHN0YXR1cyAmIFBDQ19TVEFUVVNfQ01E
-X0NPTVBMRVRFKQ0KPj4gKwkJcmV0dXJuIDA7DQo+PiArDQo+PiArCXJldHVybiAtRUlPOw0KPj4g
-K30NCj4NCj5XZSBzdGlsbCBoYXZlIGFuIG91dHN0YW5kaW5nIHByb2JsZW0uIFRoaXMgbWF5IHNv
-dW5kIGZhbWlsaWFyLg0KPg0KPklmIGEgdXNlciBzcGVjaWZpZXMgYW4gaW52YWxpZCBhZGRyZXNz
-LCBvdXIgZmlybXdhcmUgd2lsbCBzZXQgYW4gZXJyb3IgY29kZSBpbiB0aGUNCj5zZXRfY2Fwc19z
-dGF0dXMgZmllbGQgb2YgdGhlIGFjcGlfcmFzMl9zaG1lbSBzdHJ1Y3R1cmUuIEluIG91ciBjYXNl
-LCB0aGUgZXJyb3INCj5jb2RlIGlzIEFDUElfUkFTMl9JTlZBTElEX0RBVEEsIGFuZCB0aGUgdXNl
-ciB3aWxsIG9ic2VydmUgYW4gRUlOVkFMLiBUaGlzIGlzDQo+ZXhwZWN0ZWQuDQo+DQo+SG93ZXZl
-ciwgaWYgdGhlIHVzZXIgdGhlbiBzdWJzZXF1ZW50bHkgYXR0ZW1wdHMgdG8gd3JpdGUgYSBWQUxJ
-RCBhZGRyZXNzLA0KPnJhczJfZ2V0X3BhdHJvbF9zY3J1Yl9ydW5uaW5nIHdpbGwgaW5kaXJlY3Rs
-eSBjYWxsIHJhczJfY2hlY2tfcGNjX2NoYW4gdXNpbmcNCj50aGUgcHJldmlvdXNseSBJTlZBTElE
-IGFkZHJlc3MgdG8gZGV0ZXJtaW5lIGlmIHRoZSBzY3J1YmJlciBpcyBzdGlsbCBydW5uaW5nLg0K
-PlVuZm9ydHVuYXRlbHksIHRoZSBJTlZBTElEIGFkZHJlc3MgY2F1c2VzIHJhczJfZ2V0X3BhdHJv
-bF9zY3J1Yl9ydW5uaW5nIHRvDQo+ZmFpbCwgdGhlcmVmb3JlIHByZXZlbnRpbmcgdGhlIHVzZXIg
-ZnJvbSBzcGVjaWZ5aW5nIGEgVkFMSUQgYWRkcmVzcyBhZnRlcg0KPnNwZWNpZnlpbmcgYW4gSU5W
-QUxJRCBhZGRyZXNzLg0KPg0KPlRoZSBvbmx5IHdheSB0byBtb3ZlIGZvcndhcmQgZnJvbSB0aGlz
-IGluZXNjYXBhYmxlIGNvbmRpdGlvbiBpcyB0byByZWJvb3QgdGhlDQo+c3lzdGVtLg0KPg0KPkhl
-cmUgaXMgYSBkZW1vIG9mIHRoZSBwcm9ibGVtIGFzIEkgcm91Z2hseSBzZWUgaXQgb24gb3VyIHN5
-c3RlbSAoSSd2ZSBsYWJlbGVkIHRoZQ0KPmxpbmUgbnVtYmVycyBmb3Igc2FrZSBvZiBkaXNjdXNz
-aW9uKToNCj4xICBbcm9vdEBteWhvc3Qgc2NydWIwXSMgZWNobyAweDEwMDAwMDAwMCA+IHNpemUN
-Cj4yICBbcm9vdEBteWhvc3Qgc2NydWIwXSMgZWNobyAweDFmMDAwMDAwMDAgPiBhZGRyDQo+MyAg
-W3Jvb3RAbXlob3N0IHNjcnViMF0jIGVjaG8gMHhjZjAwMDAwMDAwID4gYWRkcg0KPjQgIHdyaXRl
-IGVycm9yOiBJbnZhbGlkIGFyZ3VtZW50DQo+NSAgWyAgMjE0LjQ0NjMzOF0gUENDVCBQQ0NUOiBG
-YWlsZWQgdG8gc3RhcnQgZGVtYW5kIHNjcnViYmluZw0KPjYgIFtyb290QG15aG9zdCBzY3J1YjBd
-IyBlY2hvIDB4MWYwMDAwMDAwMCA+IGFkZHINCj43ICB3cml0ZSBlcnJvcjogSW52YWxpZCBhcmd1
-bWVudA0KPjggIFsgIDI0Mi4yNjM5MDldIFBDQ1QgUENDVDogZmFpbGVkIHRvIHJlYWQgcGFyYW1l
-dGVycw0KPjkgIFtyb290QG15aG9zdCBzY3J1YjBdIyBlY2hvIDB4MTAwMDAwMDAwID4gc2l6ZQ0K
-PjEwIHdyaXRlIGVycm9yOiBJbnZhbGlkIGFyZ3VtZW50DQo+MTEgWyAgMjQ2LjE5MDE5Nl0gUEND
-VCBQQ0NUOiBmYWlsZWQgdG8gcmVhZCBwYXJhbWV0ZXJzDQo+DQo+VGhlIHVwcGVyIG1vc3QgbWVt
-b3J5IGFkZHJlc3Mgb24gdGhpcyBzeXN0ZW0gaXMgMHhiZjAwMDAwMDAwLiBMaW5lIDEgYW5kIDIN
-Cj51c2UgdmFsaWQgdmFsdWVzLCBhbmQgbGluZSAyIHByb2R1Y2VzIHRoZSBleHBlY3RlZCByZXN1
-bHRzLiBPbiBsaW5lIDMsIEkndmUNCj5zcGVjaWZpZWQgYW4gSU5WQUxJRCBhZGRyZXNzIChvdXRz
-aWRlIG9mIHZhbGlkIHJhbmdlKS4gVGhlIGVycm9yIG9uIGxpbmUgNSBpcw0KPmV4cGVjdGVkIGFm
-dGVyIGV4ZWN1dGluZyB0aGUgU1RBUlRfUEFUUk9MX1NDUlVCQkVSIGNvbW1hbmQgd2l0aCBhbg0K
-PklOVkFMSUQgYWRkcmVzcy4NCj4NCj5MaW5lIDYgc2hvdyBob3cgSSBhdHRlbXB0IHRvIHNwZWNp
-ZnkgYSBWQUxJRCBhZGRyZXNzLiBVbmZvcnR1bmF0ZWx5LA0KPnJhczJfZ2V0X3BhdHJvbF9zY3J1
-Yl9ydW5uaW5nIGVuY291bnRlcnMgYW5kIGVycm9yIGFmdGVyIGV4ZWN1dGluZw0KPkdFVF9QQVRS
-T0xfUEFSQU1FVEVSUyBiZWNhdXNlIGl0IHVzZWQgdGhlIE9MRCBJTlZBTElEIHZhbHVlcyBpbiBw
-c19zbS0NCj4+cGFyYW1zLnJlcV9hZGRyX3JhbmdlLiBMaW5lIDcgYW5kIDggYXJlIHRoZSByZXN1
-bHQuIFNpbmNlIHRoZSBmbG93IG9mDQo+ZXhlY3V0aW9uIGlmIGFib3J0ZWQgYXQgdGhpcyBwb2lu
-dCwgeW91IGNhbiBuZXZlciByZWN0aWZ5IHRoZSBzaXR1YXRpb24gYW5kIGluc2VydCBhDQo+dmFs
-aWQgdmFsdWUgaW50byBwc19zbS0+cGFyYW1zLnJlcV9hZGRyX3JhbmdlLCB1bmxlc3MgeW91IHJl
-Ym9vdCB0aGUgc3lzdGVtLg0KPg0KPk9uZSBoYWxmIGJha2VkIHNvbHV0aW9uIHRvIHRoaXMgcHJv
-YmxlbSwgaXMgdG8gbW9kaWZ5DQo+cmFzMl9nZXRfcGF0cm9sX3NjcnViX3J1bm5pbmcgc28gdGhh
-dCBpZiB0aGVyZSBpcyBhIG5vbi16ZXJvIGFkZHJlc3Mgb3Igc2l6ZQ0KPnNwZWNpZmllZCwgQU5E
-IHRoZSBsYXN0IGVycm9yIGNvZGUgd2UgcmVjZWl2ZWQgd2FzIElOVkFMSUQgREFUQSwgdGhlbiBh
-c3N1bWUNCj50aGUgc2NydWJiZXIgaXMgTk9UIHJ1bm5pbmcuDQpIaSBEYW5pZWwsDQoNClRoYW5r
-cyBmb3IgcmVwb3J0aW5nIHRoZSBpc3N1ZS4NCkNhbiB5b3UgY2hlY2sgd2hldGhlciBmb2xsb3dp
-bmcgY2hhbmdlIGZpeCB0aGUgaXNzdWUgaW4geW91ciB0ZXN0IHNldHVwPw0KPT09PT09PT09PT09
-PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpkaWZmIC0tZ2l0IGEvZHJpdmVycy9y
-YXMvYWNwaV9yYXMyLmMgYi9kcml2ZXJzL3Jhcy9hY3BpX3JhczIuYw0KaW5kZXggNGQ5Y2ZkM2Jk
-ZjQ1Li5mZjRhYTFiNzU4NjAgMTAwNjQ0DQotLS0gYS9kcml2ZXJzL3Jhcy9hY3BpX3JhczIuYw0K
-KysrIGIvZHJpdmVycy9yYXMvYWNwaV9yYXMyLmMNCkBAIC0yNTUsNiArMjU1LDEzIEBAIHN0YXRp
-YyBpbnQgcmFzMl9od19zY3J1Yl93cml0ZV9hZGRyKHN0cnVjdCBkZXZpY2UgKmRldiwgdm9pZCAq
-ZHJ2X2RhdGEsIHU2NCBiYXNlDQogICAgICAgIHJldCA9IHJhczJfc2VuZF9wY2NfY21kKHJhczJf
-Y3R4LCBQQ0NfQ01EX0VYRUNfUkFTMik7DQogICAgICAgIGlmIChyZXQpIHsNCiAgICAgICAgICAg
-ICAgICBkZXZfZXJyKHJhczJfY3R4LT5kZXYsICJGYWlsZWQgdG8gc3RhcnQgZGVtYW5kIHNjcnVi
-YmluZ1xuIik7DQorICAgICAgICAgICAgICAgaWYgKHJldCA9PSAtRVBFUk0gfHwgcmV0ID09IC1F
-SU5WQUwpIHsNCisgICAgICAgICAgICAgICAgICAgICAgIHBzX3NtLT5wYXJhbXMucmVxX2FkZHJf
-cmFuZ2VbMF0gPSAwOw0KKyAgICAgICAgICAgICAgICAgICAgICAgcHNfc20tPnBhcmFtcy5yZXFf
-YWRkcl9yYW5nZVsxXSA9IDA7DQorICAgICAgICAgICAgICAgICAgICAgICByYXMyX2N0eC0+YmFz
-ZSA9IDA7DQorICAgICAgICAgICAgICAgICAgICAgICByYXMyX2N0eC0+c2l6ZSA9IDA7DQorICAg
-ICAgICAgICAgICAgICAgICAgICByYXMyX2N0eC0+b2Rfc2NydWJfc3RzID0gT0RfU0NSVUJfU1RT
-X0lETEU7DQorICAgICAgICAgICAgICAgfQ0KICAgICAgICAgICAgICAgIHJldHVybiByZXQ7DQog
-ICAgICAgIH0NCiAgICAgICAgcmFzMl9jdHgtPm9kX3NjcnViX3N0cyA9IE9EX1NDUlVCX1NUU19B
-Q1RJVkU7DQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09DQpU
-aGFua3MsDQpTaGlqdSANCg0KPg0KPlJlZ2FyZHMsDQo+fkRhbmllbA0K
+On Tue, May 13, 2025 at 10:15:49AM +0100, Suzuki K Poulose wrote:
+> On 12/05/2025 17:33, Catalin Marinas wrote:
+> > Stepping back a bit, we know that the MIDR allow-list implies
+> > BBML2_NOABORT (and at least BBML2 as in the ID regs). In theory, we need
+> 
+> Please be aware that BBML2_NOABORT midr list may not always imply BBLM2 in
+> ID registers (e.g., AmpereOne. But the plan is to fixup the per cpu
+> ID register - struct cpuinfo_arm64 - for such cores at early boot,
+> individually, before it is used for sanitisation of the system wide
+> copy).
+
+Ah, good point. We can then ignore BBML2 ID regs and only rely on MIDR
+(and some future BBML3).
+
+> > So how about we introduce a WEAK_BOOT_CPU_FEATURE which gets enabled by
+> > the boot CPU if it has it _but_ cleared by any secondary early CPU if it
+> > doesn't (and never enabled by secondary CPUs). When the features are
+> > finalised, we know if all early CPUs had it. In combination with
+> > PERMITTED_FOR_LATE_CPU, we'd reject late CPUs that don't have it.
+> 
+> That could work, but it introduces this "clearing" a capability, which
+> we don't do at the moment.
+> 
+> We had an offline discussion about this some time ago, with Mark
+> Rutland. The best way to deal with this is to change the way we compute
+> capabilities. i.e.,
+> 
+> 
+> 1. Each boot CPU run through all the capabilities and maintain a per-cpu
+>    copy of the state.
+> 2. System wide capabilities can then be constructed from the all early
+>    boot CPU capability state (e.g., ANDing all the state from all CPUs
+>    for SCOPE_SYSTEM or ORing for LOCAL_CPU).
+> 
+> But this requires a drastic change to the infrastructure.
+
+I think it's a lot simpler to achieve the ANDing - set the (system)
+capability if detected on the boot CPU, only clear it if missing on
+subsequent CPUs. See below on an attempt to introduce this. For lack of
+inspiration, I called it ARM64_CPUCAP_GLOBAL_CPU_FEATURE which has both
+SCOPE_LOCAL and SCOPE_SYSTEM. It's permitted for late CPUs but not
+optional if already enabled. The advantage of having both local&system
+is that the match function will be called for both scopes. I added a
+mask in to cpucap_default_scope() when calling matches() since so far
+no cap had both.
+
+---------------------8<-----------------------------------------
+diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+index c4326f1cb917..0b0b26a6f27b 100644
+--- a/arch/arm64/include/asm/cpufeature.h
++++ b/arch/arm64/include/asm/cpufeature.h
+@@ -331,6 +331,15 @@ extern struct arm64_ftr_reg arm64_ftr_reg_ctrel0;
+ #define ARM64_CPUCAP_BOOT_CPU_FEATURE                  \
+ 	(ARM64_CPUCAP_SCOPE_BOOT_CPU | ARM64_CPUCAP_PERMITTED_FOR_LATE_CPU)
+ 
++/*
++ * CPU feature detected at boot time based on all CPUs. It is safe for a late
++ * CPU to have this feature even though the system hasn't enabled it, although
++ * the feature will not be used by Linux in this case. If the system has
++ * enabled this feature already, then every late CPU must have it.
++ */
++#define ARM64_CPUCAP_GLOBAL_CPU_FEATURE			\
++	 (ARM64_CPUCAP_SCOPE_LOCAL_CPU | ARM64_CPUCAP_SYSTEM_FEATURE)
++
+ struct arm64_cpu_capabilities {
+ 	const char *desc;
+ 	u16 capability;
+@@ -391,6 +400,11 @@ static inline int cpucap_default_scope(const struct arm64_cpu_capabilities *cap)
+ 	return cap->type & ARM64_CPUCAP_SCOPE_MASK;
+ }
+ 
++static inline bool cpucap_global_scope(const struct arm64_cpu_capabilities *cap)
++{
++	return (cap->type & SCOPE_LOCAL_CPU) && (cap->type & SCOPE_SYSTEM);
++}
++
+ /*
+  * Generic helper for handling capabilities with multiple (match,enable) pairs
+  * of call backs, sharing the same capability bit.
+diff --git a/arch/arm64/kernel/cpufeature.c b/arch/arm64/kernel/cpufeature.c
+index 5ba149c0c2ac..1a5a51090c0e 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -3359,13 +3381,47 @@ static void update_cpu_capabilities(u16 scope_mask)
+ 
+ 	scope_mask &= ARM64_CPUCAP_SCOPE_MASK;
+ 	for (i = 0; i < ARM64_NCAPS; i++) {
++		bool global_cap = false;
++
+ 		caps = cpucap_ptrs[i];
+-		if (!caps || !(caps->type & scope_mask) ||
+-		    cpus_have_cap(caps->capability) ||
+-		    !caps->matches(caps, cpucap_default_scope(caps)))
++		if (!caps || !(caps->type & scope_mask))
+ 			continue;
+ 
+-		if (caps->desc && !caps->cpus)
++		global_cap = cpucap_global_scope(caps);
++
++		/*
++		 * If it's not a global CPU capability, avoid probing if
++		 * already detected.
++		 */
++		if (!global_cap && cpus_have_cap(caps->capability))
++			continue;
++
++		/*
++		 * Pass the actual scope we are probing to the match function.
++		 * This is important for the global CPU capabilities that are
++		 * checked both as a local CPU feature and as a system one.
++		 */
++		if (!caps->matches(caps,
++				   cpucap_default_scope(caps) & scope_mask)) {
++			/* All CPUs must have the global capability */
++			if (global_cap)
++				__clear_bit(caps->capability, system_cpucaps);
++			continue;
++		}
++
++		/*
++		 * A global capability is only set when probing the boot CPU.
++		 * It may be cleared subsequently if not detected on secondary
++		 * ones.
++		 */
++		if (global_cap && !(scope_mask & SCOPE_BOOT_CPU))
++			continue;
++
++		/*
++		 * Global CPU capabilities are logged later when the system
++		 * capabilities are finalised.
++		 */
++		if (!global_cap && caps->desc && !caps->cpus)
+ 			pr_info("detected: %s\n", caps->desc);
+ 
+ 		__set_bit(caps->capability, system_cpucaps);
+@@ -3771,17 +3827,24 @@ static void __init setup_system_capabilities(void)
+ 	enable_cpu_capabilities(SCOPE_ALL & ~SCOPE_BOOT_CPU);
+ 	apply_alternatives_all();
+ 
+-	/*
+-	 * Log any cpucaps with a cpumask as these aren't logged by
+-	 * update_cpu_capabilities().
+-	 */
+ 	for (int i = 0; i < ARM64_NCAPS; i++) {
+ 		const struct arm64_cpu_capabilities *caps = cpucap_ptrs[i];
+ 
+-		if (caps && caps->cpus && caps->desc &&
+-			cpumask_any(caps->cpus) < nr_cpu_ids)
++		if (!caps || !caps->desc)
++			continue;
++
++		/*
++		 * Log any cpucaps with a cpumask as these aren't logged by
++		 * update_cpu_capabilities().
++		 */
++		if (caps->cpus && cpumask_any(caps->cpus) < nr_cpu_ids)
+ 			pr_info("detected: %s on CPU%*pbl\n",
+ 				caps->desc, cpumask_pr_args(caps->cpus));
++
++		/* Log global CPU capabilities */
++		if (cpucap_global_scope(caps) &&
++		    cpus_have_cap(caps->capability))
++			pr_info("detected: %s\n", caps->desc);
+ 	}
+ 
+ 	/*
+---------------------8<-----------------------------------------
+
+And an dummy test:
+
+---------------------8<-----------------------------------------
+diff --git a/arch/arm64/include/asm/cpufeature.h b/arch/arm64/include/asm/cpufeature.h
+index 5ba149c0c2ac..1a5a51090c0e 100644
+--- a/arch/arm64/kernel/cpufeature.c
++++ b/arch/arm64/kernel/cpufeature.c
+@@ -2480,6 +2480,21 @@ test_has_mpam_hcr(const struct arm64_cpu_capabilities *entry, int scope)
+ 	return idr & MPAMIDR_EL1_HAS_HCR;
+ }
+ 
++static void
++cpu_enable_dummy_global(const struct arm64_cpu_capabilities *entry)
++{
++	pr_info("%s: %s: smp_processor_id() = %d", __func__, entry->desc, smp_processor_id());
++}
++
++static bool
++has_dummy_global(const struct arm64_cpu_capabilities *entry, int scope)
++{
++	pr_info("%s: %s: scope = %x smp_processor_id() = %d", __func__, entry->desc, scope, smp_processor_id());
++	if (smp_processor_id() < 4)
++		return true;
++	return false;
++}
++
+ static const struct arm64_cpu_capabilities arm64_features[] = {
+ 	{
+ 		.capability = ARM64_ALWAYS_BOOT,
+@@ -3050,6 +3065,13 @@ static const struct arm64_cpu_capabilities arm64_features[] = {
+ 		.matches = has_pmuv3,
+ 	},
+ #endif
++	{
++		.desc = "Dummy test for global CPU feature",
++		.capability = ARM64_HAS_GLOBAL_CPU_TEST,
++		.type = ARM64_CPUCAP_GLOBAL_CPU_FEATURE,
++		.cpu_enable = cpu_enable_dummy_global,
++		.matches = has_dummy_global,
++	},
+ 	{},
+ };
+ 
+diff --git a/arch/arm64/tools/cpucaps b/arch/arm64/tools/cpucaps
+index 772c1b008e43..dbc5a3eb5b3d 100644
+--- a/arch/arm64/tools/cpucaps
++++ b/arch/arm64/tools/cpucaps
+@@ -37,6 +37,7 @@ HAS_GENERIC_AUTH_IMP_DEF
+ HAS_GIC_CPUIF_SYSREGS
+ HAS_GIC_PRIO_MASKING
+ HAS_GIC_PRIO_RELAXED_SYNC
++HAS_GLOBAL_CPU_TEST
+ HAS_HCR_NV1
+ HAS_HCX
+ HAS_LDAPR
+---------------------8<-----------------------------------------
+
+-- 
+Catalin
