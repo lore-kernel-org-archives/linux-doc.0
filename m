@@ -1,63 +1,63 @@
-Received: from mail-qt1-f181.google.com (mail-qt1-f181.google.com [209.85.160.181])
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AD40225D529
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 18:23:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.181
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F372425D90D
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 18:23:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747333413; cv=none; b=sG4ZaUaZMtp4rqpcNOsV9qrer8I2u5IKBzW0siMbBHejPQJVHd/jY0feISFPxK2wx3SSBmVJAMMVzIyJsuPKh/j/Pn7lfzdYwzBelX3FKn5YzlSa1+8YzLecl7e6O+S4P4rAyvkdLRPkohlZ/C0QnjnjRQmxrvYahizIY97XGg0=
+	t=1747333413; cv=none; b=FeKLaOI5vE9HKhAc/MEI1+HTedqDDw55a05vbVWABkwmVfPOG2638FoE2gcAJA08qMXtjZLjy6VsAcXJiE/2Q2BISEOanFeexXdoC6PmEXY5Q2oklvGQuGvO0KJREBNHACdkJMwB77Hdbu53bfDPf/x+VwKeHvomOAv79O3Wtr0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747333413; c=relaxed/simple;
-	bh=1rYzlB4jt+NgzrmG5MLloEzusBe5IEirmGPBVFDNYcI=;
+	bh=34PU7KMU+N2wXJE1/J7frHbhOQwrIo8aVZDlebHSbbY=;
 	h=From:To:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=LbEuoZblm/vbrgm4BKGeyRR65bHnpLCjOnvwl9d1SVw+vWV7dTIIlqvmJnbhP0Szpe6JNhodqJMy4NHvWCHnqSUiTKthtavYTpO6i4YaQrZ8uZourEfVuQNvgBO9+Hjq7jI5N1M/Zym2DTHTm1/EV8TsC6rWVxI6Bysl2wR/9go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=u9AQ1qIa; arc=none smtp.client-ip=209.85.160.181
+	 MIME-Version; b=hKUwIqB1MOaZWbyJSF8fBlOTSMPVlnBc11INYAXdXgjRL+FNb+meDwp4uEUHb2XGgiX6cm+q6dKKM1k9xpoPY6xjp2X4ZXjDs9ON86QSkiLHnFTdslZqGrzIyoQfSurdW46YnSYni6o6BHTpju7FzJIHkm/W2lwsADHro8j5f3E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com; spf=pass smtp.mailfrom=soleen.com; dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b=iD4iya/d; arc=none smtp.client-ip=209.85.160.179
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=soleen.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=soleen.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="u9AQ1qIa"
-Received: by mail-qt1-f181.google.com with SMTP id d75a77b69052e-4769f3e19a9so9566231cf.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 11:23:30 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=soleen-com.20230601.gappssmtp.com header.i=@soleen-com.20230601.gappssmtp.com header.b="iD4iya/d"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-47664364628so15695291cf.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 11:23:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1747333409; x=1747938209; darn=vger.kernel.org;
+        d=soleen-com.20230601.gappssmtp.com; s=20230601; t=1747333411; x=1747938211; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to;
-        bh=/1cQld6s+fHhsQGRDIn5qKXAP1aMOMnCGujzp2H2Sb8=;
-        b=u9AQ1qIapwgr8HRYKUxb2EmTswFXhzvguFJGm3MZfOmRXRFWYIEU0KMHJcvMGj4S8j
-         Ixj9TQjQfElegZuG1vbLDlA/T5cVuJzs8ajiibWPo/RDiLN+D6JD8s7l1azqXwKOyeGR
-         29ZiCWHCGzLyUOh5V0+WmMWXTCE7A0PBcGibfHS2hN3pn1cFrMqNV11UmjDQMjRGZr1c
-         Kp3d3JdAe038R3M9QsGqeMganAGGN5POuPGJNHmT66nxA3Tx5tMIPlK47T50M+IXdRWN
-         iQZCamTKWedAyBVHcmR5+5a+uhuhkAsgQodpaJH5hPXigx+FoimPa4rTZ1l3GWiczZpU
-         iNgQ==
+        bh=FLBg4PWpdjUgYuKX869tnqzLKlnuTQmJAhNrRi7i9EE=;
+        b=iD4iya/d8DW52JB58NspQjkEx3yY1vOyuqnOseOy4BE8MkdMNShW3j2FOyqlD+TeV0
+         Suf+St61GwxZuh1Zw0w/wZtXdd54dsHda3RRJDWHyuAGsNogC5tAnmchFHLmpF9x8KSs
+         yTbgrpyBrSyiZfKR3dh2I0ldG6jyMBEchGSVxgzaUij2lb8zgP/3/RSj4HAscb4u/t0j
+         NSY9lc6KoRjJn4f6jHN1bP4LWEUmJzL31kcie8HwuG8suBWLGei+c//KE5+SHu6e1k8H
+         bAt9wUfbyVFvoU30uLTwMRto6TXTn/SqTTqkODkUuEFfMuGPSQauLqPKT4YgRoAc1HcS
+         7M3g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747333409; x=1747938209;
+        d=1e100.net; s=20230601; t=1747333411; x=1747938211;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=/1cQld6s+fHhsQGRDIn5qKXAP1aMOMnCGujzp2H2Sb8=;
-        b=FTk2+vPseXj1kLxdTLrpegnr2cYzoyeyk7Uaa+KR5Hy80OLuw+FRawMhaHIMBTURze
-         f1Yh9RqKTVwXlY4+CfXLZyvACJKyaZpGovf+By9OA4/zU4IkJwONqXFOJnMLf2oeWZy7
-         2rhxa/dUxlQeisrzeeHk6Imi1AJ4F6qJ8LffutTsOlFFsOkH96govcHJawtX4bLALjZ9
-         h7Gmto8KJwV6AGaeySgtKs8VQ5l1HTnafl1tgZ37r+s3tZZu4mkZRJurgp8nKmE4GmPk
-         JklT+LfR0igFJkeb/cOv849ZXhLKJkVwpOXlNu3jeSPaclwOE6sWMCWeiGsQHLG4UTjs
-         zbkg==
-X-Forwarded-Encrypted: i=1; AJvYcCWR0KBUZ2H7teZQKAKe1dz/c3Ym90vth7EMawmJB0ipxo/WP73B351pXa0jy14T2DGcJ4NPsj7O7hI=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz4S0jYO4zuCZgGjgC0/hIgigFitv2WJsgPKF0uhZGsCvpRCLyT
-	7zGVIbX9TqWkp9BKm8oSywoqC/CwdwrPMh26t5A+oeJrEgDfp50SUcCJ6A2aRxqulYs=
-X-Gm-Gg: ASbGncuQqYgUpboIzLxmTjlFzwswePj55uFF2UjtMN42O/eyNBezMsmu9lEdcnoeOQG
-	lV3pdB5Bv9u39B11gYc1K2Rr5W1GbqXndUiGbHIr98JhlFC7DbBzzAHeHhYDZsYJaoEnhP8B+c1
-	EoABGpLlkHs1WmrnZ8Hf8mpgbwLTPobgks6lMuqsBpYy1JTnAOKeewgYw6EVdXhpW2IUuueyVKn
-	5+/I7yH7Tw28O/zwarFCoPzyBEANMooAi4evVIPQlewdqJR7LPNcFF1d5u0kBgq/Rbz//f5BS4a
-	OA/xh0AeY8+by8kleGryZ6DVJNdvrvqK8c/uQZl1QAt9Crpee8nIfIBf/PTc7pdJF+caubCaaUM
-	xH/XLMBC/qqc03TgIlC9+Vll082yen0xDnhpLZETckFjc
-X-Google-Smtp-Source: AGHT+IHMdR7jltadwLx3md1mkyCXtwpjmFH9FzZ/ZTOjwdYm/5D6IYoCeXD8qKkrvwmgbOc0uZ2I7w==
-X-Received: by 2002:a05:622a:4ccc:b0:491:18c2:2d1 with SMTP id d75a77b69052e-494ae34b351mr5878641cf.7.1747333409292;
-        Thu, 15 May 2025 11:23:29 -0700 (PDT)
+        bh=FLBg4PWpdjUgYuKX869tnqzLKlnuTQmJAhNrRi7i9EE=;
+        b=DwayJcHNaDJUREn4RD/dmx4Bxq81ImsjC3Qc9f9sGEICW0A/VV1/u27mAx2F5NoTk/
+         O5Lei7zH4K6ybe1+R9PjvXrprHCAFke/BcannynuJna3JriT1vo8kQse2XPb5TRNkgFr
+         gmKxHfUKs24KT0z223noHXwein4jxX4u/Lo2BDEP54GCpB95aFjWzHS9U75UqcCv+aUt
+         yCsgxCaaCnrMu35UhpefWt3HwswmPfze/IWX7nBSw0E0NPcPSrKQAGut2TxY5dBl9PeR
+         e0TskpDmD9S95asqnjdLG0mYs2uzqbzppe28khRVcIN/gG0Wcq+VWg77dk7gUMrg2Q9g
+         x15w==
+X-Forwarded-Encrypted: i=1; AJvYcCXAGBicZu+TNgDxKmAfo063RoQbvKMiL82dpJV9VxqKZP6oIVICKDhVHRZhW1lEfdTEx8g7u758ahs=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzikdlF+4T5WvYEs30vADEYer2Y60F1DwzOtuKkVtqgQYMuvMQU
+	qgmcwIyptzPLzpm5+QEl0hpWUDZMo1OPIeZe+Aotruoe/CHP2uoTNxfMMebNUt0q8nQ=
+X-Gm-Gg: ASbGnctUSdYmkEycUSCDuPqWd5CNputamaIgRj35YJRAC59jCw0XfzxI0anzeOlGlFH
+	OCE5AEZP6LVQki1NI8d09E5LFxFpQKPrjRrO9Icit8dvHYbEkB7W3lXr9Fm4G1MJkS9AjhQX26C
+	5SYqu1RP11PMPzA/BrVEagGWjAaGzdGITTvkiUDKi6TvwDz4uF7OTSL5KZw6fohrrRSt+/zBID3
+	U3XspppYJ6dJmJWbLMErdCX98EO2dnMxGv9/1yt7jBTglPqz5ntFAHx0wlO7a2HjnmSrDzOGzu+
+	QTL8cQZMXe9ax4BscIz5F/cwpMbV8s3PLBitgGnNh746AlaStXC6WnwPFU5mype8avW4SS2LoMk
+	Nl6AS78BiGUoPwa4Qg+UIx8bwV0pGuTUGHFAyf0EPZlQp
+X-Google-Smtp-Source: AGHT+IHdVpoXFzO5vpvPCK/fe5GtMM9oE80sh2/xmjSmGwo/5647bcIutgv4NbFJWhbe73WlciRiuA==
+X-Received: by 2002:a05:622a:1999:b0:48d:4887:9850 with SMTP id d75a77b69052e-494a0e2b131mr70141661cf.19.1747333410606;
+        Thu, 15 May 2025 11:23:30 -0700 (PDT)
 Received: from soleen.c.googlers.com.com (138.200.150.34.bc.googleusercontent.com. [34.150.200.138])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd466fc2afsm18218685a.0.2025.05.15.11.23.28
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-7cd466fc2afsm18218685a.0.2025.05.15.11.23.29
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 11:23:28 -0700 (PDT)
+        Thu, 15 May 2025 11:23:30 -0700 (PDT)
 From: Pasha Tatashin <pasha.tatashin@soleen.com>
 To: pratyush@kernel.org,
 	jasonmiu@google.com,
@@ -121,9 +121,9 @@ To: pratyush@kernel.org,
 	djeffery@redhat.com,
 	stuart.w.hayes@gmail.com,
 	ptyadav@amazon.de
-Subject: [RFC v2 02/16] kho: allow to drive kho from within kernel
-Date: Thu, 15 May 2025 18:23:06 +0000
-Message-ID: <20250515182322.117840-3-pasha.tatashin@soleen.com>
+Subject: [RFC v2 03/16] kho: add kho_unpreserve_folio/phys
+Date: Thu, 15 May 2025 18:23:07 +0000
+Message-ID: <20250515182322.117840-4-pasha.tatashin@soleen.com>
 X-Mailer: git-send-email 2.49.0.1101.gccaa498523-goog
 In-Reply-To: <20250515182322.117840-1-pasha.tatashin@soleen.com>
 References: <20250515182322.117840-1-pasha.tatashin@soleen.com>
@@ -135,148 +135,171 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-Allow to do finalize and abort from kernel modules, so LUO could
-drive the KHO sequence via its own state machine.
+From: Changyuan Lyu <changyuanl@google.com>
 
+Allow users of KHO to cancel the previous preservation by adding the
+necessary interfaces to unpreserve folio.
+
+Signed-off-by: Changyuan Lyu <changyuanl@google.com>
+Co-developed-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 Signed-off-by: Pasha Tatashin <pasha.tatashin@soleen.com>
 ---
- include/linux/kexec_handover.h   | 15 +++++++++
- kernel/kexec_handover.c          | 54 ++++++++++++++++++++++++++++++++
- kernel/kexec_handover_debug.c    |  2 +-
- kernel/kexec_handover_internal.h |  2 ++
- 4 files changed, 72 insertions(+), 1 deletion(-)
+ include/linux/kexec_handover.h | 12 +++++
+ kernel/kexec_handover.c        | 84 ++++++++++++++++++++++++++++------
+ 2 files changed, 83 insertions(+), 13 deletions(-)
 
 diff --git a/include/linux/kexec_handover.h b/include/linux/kexec_handover.h
-index 348844cffb13..f98565def593 100644
+index f98565def593..3d209f9e9d3a 100644
 --- a/include/linux/kexec_handover.h
 +++ b/include/linux/kexec_handover.h
-@@ -54,6 +54,10 @@ void kho_memory_init(void);
+@@ -42,7 +42,9 @@ struct kho_serialization;
+ bool kho_is_enabled(void);
  
- void kho_populate(phys_addr_t fdt_phys, u64 fdt_len, phys_addr_t scratch_phys,
- 		  u64 scratch_len);
-+
-+int kho_finalize(void);
-+int kho_abort(void);
-+
- #else
- static inline bool kho_is_enabled(void)
- {
-@@ -104,6 +108,17 @@ static inline void kho_populate(phys_addr_t fdt_phys, u64 fdt_len,
- 				phys_addr_t scratch_phys, u64 scratch_len)
- {
+ int kho_preserve_folio(struct folio *folio);
++int kho_unpreserve_folio(struct folio *folio);
+ int kho_preserve_phys(phys_addr_t phys, size_t size);
++int kho_unpreserve_phys(phys_addr_t phys, size_t size);
+ struct folio *kho_restore_folio(phys_addr_t phys);
+ int kho_add_subtree(struct kho_serialization *ser, const char *name, void *fdt);
+ int kho_retrieve_subtree(const char *name, phys_addr_t *phys);
+@@ -69,11 +71,21 @@ static inline int kho_preserve_folio(struct folio *folio)
+ 	return -EOPNOTSUPP;
  }
-+
-+static inline int kho_finalize(void)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
-+static inline int kho_abort(void)
-+{
-+	return -EOPNOTSUPP;
-+}
-+
- #endif /* CONFIG_KEXEC_HANDOVER */
  
- #endif /* LINUX_KEXEC_HANDOVER_H */
++static inline int kho_unpreserve_folio(struct folio *folio)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline int kho_preserve_phys(phys_addr_t phys, size_t size)
+ {
+ 	return -EOPNOTSUPP;
+ }
+ 
++static inline int kho_unpreserve_phys(phys_addr_t phys, size_t size)
++{
++	return -EOPNOTSUPP;
++}
++
+ static inline struct folio *kho_restore_folio(phys_addr_t phys)
+ {
+ 	return NULL;
 diff --git a/kernel/kexec_handover.c b/kernel/kexec_handover.c
-index 5b65970e9746..8ff561e36a87 100644
+index 8ff561e36a87..eb305e7e6129 100644
 --- a/kernel/kexec_handover.c
 +++ b/kernel/kexec_handover.c
-@@ -734,6 +734,60 @@ int __kho_finalize(void)
- 	return err;
+@@ -101,26 +101,33 @@ static void *xa_load_or_alloc(struct xarray *xa, unsigned long index, size_t sz)
+ 	return elm;
  }
  
-+int kho_finalize(void)
-+{
-+	int ret = 0;
-+
-+	if (!kho_enable)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&kho_out.lock);
-+
-+	if (kho_out.finalized) {
-+		ret = -EEXIST;
-+		goto unlock;
-+	}
-+
-+	ret = __kho_finalize();
-+	if (ret)
-+		goto unlock;
-+
-+	kho_out.finalized = true;
-+	ret = kho_out_update_debugfs_fdt();
-+
-+unlock:
-+	mutex_unlock(&kho_out.lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(kho_finalize);
-+
-+int kho_abort(void)
-+{
-+	int ret = 0;
-+
-+	if (!kho_enable)
-+		return -EOPNOTSUPP;
-+
-+	mutex_lock(&kho_out.lock);
-+
-+	if (!kho_out.finalized) {
-+		ret = -ENOENT;
-+		goto unlock;
-+	}
-+
-+	ret = __kho_abort();
-+	if (ret)
-+		goto unlock;
-+
-+	kho_out.finalized = false;
-+	ret = kho_out_update_debugfs_fdt();
-+
-+unlock:
-+	mutex_unlock(&kho_out.lock);
-+	return ret;
-+}
-+EXPORT_SYMBOL_GPL(kho_abort);
-+
- struct kho_in kho_in = {
- 	.fdt_list = LIST_HEAD_INIT(kho_in.fdt_list),
- };
-diff --git a/kernel/kexec_handover_debug.c b/kernel/kexec_handover_debug.c
-index 696131a3480f..a15c238ec98e 100644
---- a/kernel/kexec_handover_debug.c
-+++ b/kernel/kexec_handover_debug.c
-@@ -55,7 +55,7 @@ int kho_debugfs_fdt_add(struct kho_serialization *ser, const char *name,
- 				     fdt);
- }
- 
--static int kho_out_update_debugfs_fdt(void)
-+int kho_out_update_debugfs_fdt(void)
+-static void __kho_unpreserve(struct kho_mem_track *track, unsigned long pfn,
+-			     unsigned long end_pfn)
++static void __kho_unpreserve_order(struct kho_mem_track *track, unsigned long pfn,
++				   unsigned int order)
  {
- 	int err = 0;
- 	struct fdt_debugfs *ff, *tmp;
-diff --git a/kernel/kexec_handover_internal.h b/kernel/kexec_handover_internal.h
-index 65ff0f651192..0b534758d39d 100644
---- a/kernel/kexec_handover_internal.h
-+++ b/kernel/kexec_handover_internal.h
-@@ -60,6 +60,7 @@ void kho_in_debugfs_init(const void *fdt);
- int kho_out_debugfs_init(void);
- int kho_debugfs_fdt_add(struct kho_serialization *ser, const char *name,
- 			const void *fdt);
-+int kho_out_update_debugfs_fdt(void);
- #else
- static inline int kho_debugfs_init(void) { return 0; }
- static inline void kho_in_debugfs_init(const void *fdt) { }
-@@ -67,6 +68,7 @@ static inline int kho_out_debugfs_init(void) { return 0; }
- static inline int kho_debugfs_fdt_add(struct kho_serialization *ser,
- 				      const char *name,
- 				      const void *fdt) { return 0; }
-+static inline int kho_out_update_debugfs_fdt(void) { return 0; }
- #endif /* CONFIG_KEXEC_HANDOVER_DEBUG */
+ 	struct kho_mem_phys_bits *bits;
+ 	struct kho_mem_phys *physxa;
++	const unsigned long pfn_high = pfn >> order;
  
- #endif /* LINUX_KEXEC_HANDOVER_INTERNAL_H */
+-	while (pfn < end_pfn) {
+-		const unsigned int order =
+-			min(count_trailing_zeros(pfn), ilog2(end_pfn - pfn));
+-		const unsigned long pfn_high = pfn >> order;
++	physxa = xa_load(&track->orders, order);
++	if (!physxa)
++		return;
+ 
+-		physxa = xa_load(&track->orders, order);
+-		if (!physxa)
+-			continue;
++	bits = xa_load(&physxa->phys_bits, pfn_high / PRESERVE_BITS);
++	if (!bits)
++		return;
+ 
+-		bits = xa_load(&physxa->phys_bits, pfn_high / PRESERVE_BITS);
+-		if (!bits)
+-			continue;
++	clear_bit(pfn_high % PRESERVE_BITS, bits->preserve);
++}
+ 
+-		clear_bit(pfn_high % PRESERVE_BITS, bits->preserve);
++static void __kho_unpreserve(struct kho_mem_track *track, unsigned long pfn,
++			     unsigned long end_pfn)
++{
++	unsigned int order;
++
++	while (pfn < end_pfn) {
++		order = min(count_trailing_zeros(pfn), ilog2(end_pfn - pfn));
++
++		__kho_unpreserve_order(track, pfn, order);
+ 
+ 		pfn += 1 << order;
+ 	}
+@@ -607,6 +614,29 @@ int kho_preserve_folio(struct folio *folio)
+ }
+ EXPORT_SYMBOL_GPL(kho_preserve_folio);
+ 
++/**
++ * kho_unpreserve_folio - unpreserve a folio.
++ * @folio: folio to unpreserve.
++ *
++ * Instructs KHO to unpreserve a folio that was preserved by
++ * kho_preserve_folio() before.
++ *
++ * Return: 0 on success, error code on failure
++ */
++int kho_unpreserve_folio(struct folio *folio)
++{
++	const unsigned long pfn = folio_pfn(folio);
++	const unsigned int order = folio_order(folio);
++	struct kho_mem_track *track = &kho_out.ser.track;
++
++	if (kho_out.finalized)
++		return -EBUSY;
++
++	__kho_unpreserve_order(track, pfn, order);
++	return 0;
++}
++EXPORT_SYMBOL_GPL(kho_unpreserve_folio);
++
+ /**
+  * kho_preserve_phys - preserve a physically contiguous range across kexec.
+  * @phys: physical address of the range.
+@@ -652,6 +682,34 @@ int kho_preserve_phys(phys_addr_t phys, size_t size)
+ }
+ EXPORT_SYMBOL_GPL(kho_preserve_phys);
+ 
++/**
++ * kho_unpreserve_phys - unpreserve a physically contiguous range across kexec.
++ * @phys: physical address of the range.
++ * @size: size of the range.
++ *
++ * Instructs KHO to unpreserve the memory range from @phys to @phys + @size
++ * across kexec.
++ *
++ * Return: 0 on success, error code on failure
++ */
++int kho_unpreserve_phys(phys_addr_t phys, size_t size)
++{
++	struct kho_mem_track *track = &kho_out.ser.track;
++	unsigned long pfn = PHYS_PFN(phys);
++	unsigned long end_pfn = PHYS_PFN(phys + size);
++
++	if (kho_out.finalized)
++		return -EBUSY;
++
++	if (!PAGE_ALIGNED(phys) || !PAGE_ALIGNED(size))
++		return -EINVAL;
++
++	__kho_unpreserve(track, pfn, end_pfn);
++
++	return 0;
++}
++EXPORT_SYMBOL_GPL(kho_unpreserve_phys);
++
+ int __kho_abort(void)
+ {
+ 	int err;
 -- 
 2.49.0.1101.gccaa498523-goog
 
