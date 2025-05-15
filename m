@@ -1,185 +1,167 @@
-Received: from NAM12-MW2-obe.outbound.protection.outlook.com (mail-mw2nam12on2061.outbound.protection.outlook.com [40.107.244.61])
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0B31B259CBE;
-	Thu, 15 May 2025 17:17:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.244.61
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747329449; cv=fail; b=GPSL1PNStK3Chq6R82HFY0Ap3rIAYQSnItsOMTLrfv2gAMhPIWCKuhj0RB8eXg3+gjHkRIdGLhj+MvSpSkHe3l8SxOpgurtCY0RSJGBIvXY33vfXW2IcdQC4XaCbcxjSeWSP8SzBClgZhOxDAbPTYRXJgWHnh5sjtuTrtQ3FB5Q=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747329449; c=relaxed/simple;
-	bh=eV9EsYTev1Zum796dh5gsCuB0gowAojCCLaSJU8xcVQ=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=cg9Dl8NieCOgXVs53RzziquQxeOqfvTS/uTEn1JGVRLsu/MVyda4k2vgI1+Yzq7Vfce77XuuwY2ppJ9fPhmaPsbgoZN73m5LnFzlSlsgwzR5/97phMRlgbfHaeyPnIvVyT8Lme6I/l/bb54ZNzAKklas+AR75Zq+9SN5tcli0IE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=Rg321tiW; arc=fail smtp.client-ip=40.107.244.61
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AFCB0AD51;
+	Thu, 15 May 2025 17:18:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747329508; cv=none; b=Qkv4h7NYsz56wp+BhmQm8L61B/vqxHh53ZQwdBERr9eHRumpYqlP+Ue0Nd/KPrTp7k/9K0y6yDX8WSJY6wd64ASjkrzC6zs3ANM9U8beTRiZExCFVI+X7+xlAAaJAj7Q0yIOAtCbEFoMykDQfZzVTmJ71OkW+cHMZ8XFYXjiCMs=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747329508; c=relaxed/simple;
+	bh=wsGF4OsDMyaa+R62thlurPMRdzyGrkqKmM3+seX1/NU=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=DJ7rvje/SuO+N5vmidHW5XZ5irIAr+E6vZpvyEQhqzT2qAaOFKwnLBqcucvvWqB0ask8tW6TfOOAKp+VQAGVfM2pOSZCfgY80p8ZbrRS5KXAPMbCt0wI1Y7SI7Ls+akzT8pTbgpTkDocM+fl5n8y/u/nmMa/qlmEaJ5XAnK3lqM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=aLJ/1FvL; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="Rg321tiW"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=x47t6z+N88iY2pW/khYRSoTTfnU4hKNXlAKEiru9J8SAJuCCVmM+lImk4MHCU5Z5npQzF1NYIblgr2mj6TxM9RDRh8OiMRNB9eSMnBzZFKxIrjY0H2Xx/oacMLxcVXvXps6T2EbwLG/oUjxCkngIW2z7fZ9efcvC/mGL7rzAy8VF0dwXj1DXVEIIZ7dfD4G8Y8PDdOSFDSHBTD3rx/TNZtmW1DSv6U+2G2nBFW43s+upv8UViommoadtcb6rg5eHHTGKMZ8BOjkHfhConD+y6DUX05I7R9C8+qqeA/s+17n2AHPUZohySHRHAeF5SdorS7Djdl4LzQh1r2m6cL6m9w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ld21duK/bsBrO04yS1GVyrYEhLYWTDvjWnjE2xsk2C0=;
- b=hh9GSIAa2sxp5xK8IO9atMLq7nMT0m82GSc6nMrj+O9rrkRQRNRNCMu3RJQMI/v05+wT5XWmOuc4OVY2lt2kQwK9g0m9TjAq0mxT/SsXx/g2hnYX4DBavsMIpqjDn2pgvUapsNA9oNcukbEKSzvTrIAu2wvmifGHEmI+vJyUQOgXb/tNg3dilw6vpfGgtacfJIr0NHFom1SOWgcZ4ZkOHg9hYG9Bd4H8bmOlC5/kF334/KNqJZrkpcXHXgG1BKlWmNZRAXTbcIUVl+GBq3Im1tZauflkUnku3tKya7qgzGEy35Mk6anpnEOx96zmSnRraEK2ZXqzHnIXZDZ9kVqljQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.118.232) smtp.rcpttodomain=lists.linux.dev smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ld21duK/bsBrO04yS1GVyrYEhLYWTDvjWnjE2xsk2C0=;
- b=Rg321tiW/jLAnbRaC/+DKYAYx/AvB59vHkzZxSk+fXIy06XyyYKyYTbmYzR/6vGIOesun/xFV1Dg6TNap/NJq+JNO3zsGGCE7C8RgbYoeRBb8mNaWF6UsHZsuqokpWP/0ezysl3xZh9nF6vGu/ydnTNN0k/Lgr8b9v2VRU+PzphyH1Lmcz8t66YsgGhKgDYH/DAeOvd6wHRHqQzVOy3quBrFb7A59SnvbyM7jbah+4A1cTMTub4wxpj758FKHXyJIDA5HLP4mmaWIXxVtdsnILDOKu59Sx7Zimw2BYLVsOJEPTehaoLIQgsn12BsLMUyHZbOa90zf4V0VlYsNLUlsw==
-Received: from CH0PR03CA0035.namprd03.prod.outlook.com (2603:10b6:610:b3::10)
- by PH7PR12MB9151.namprd12.prod.outlook.com (2603:10b6:510:2e9::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Thu, 15 May
- 2025 17:17:25 +0000
-Received: from CH1PEPF0000A349.namprd04.prod.outlook.com
- (2603:10b6:610:b3:cafe::8b) by CH0PR03CA0035.outlook.office365.com
- (2603:10b6:610:b3::10) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8722.20 via Frontend Transport; Thu,
- 15 May 2025 17:17:25 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.118.232)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.118.232 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.118.232; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.118.232) by
- CH1PEPF0000A349.mail.protection.outlook.com (10.167.244.9) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8722.18 via Frontend Transport; Thu, 15 May 2025 17:17:25 +0000
-Received: from drhqmail203.nvidia.com (10.126.190.182) by mail.nvidia.com
- (10.127.129.5) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Thu, 15 May
- 2025 10:17:09 -0700
-Received: from drhqmail202.nvidia.com (10.126.190.181) by
- drhqmail203.nvidia.com (10.126.190.182) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 15 May 2025 10:17:08 -0700
-Received: from Asurada-Nvidia (10.127.8.11) by mail.nvidia.com
- (10.126.190.181) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Thu, 15 May 2025 10:17:07 -0700
-Date: Thu, 15 May 2025 10:17:06 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Jason Gunthorpe <jgg@nvidia.com>
-CC: <kevin.tian@intel.com>, <corbet@lwn.net>, <will@kernel.org>,
-	<bagasdotme@gmail.com>, <robin.murphy@arm.com>, <joro@8bytes.org>,
-	<thierry.reding@gmail.com>, <vdumpa@nvidia.com>, <jonathanh@nvidia.com>,
-	<shuah@kernel.org>, <jsnitsel@redhat.com>, <nathan@kernel.org>,
-	<peterz@infradead.org>, <yi.l.liu@intel.com>, <mshavit@google.com>,
-	<praan@google.com>, <zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>, <vasant.hegde@amd.com>
-Subject: Re: [PATCH v4 10/23] iommufd/viommu: Introduce IOMMUFD_OBJ_HW_QUEUE
- and its related struct
-Message-ID: <aCYhksN8Zlp1QMP8@Asurada-Nvidia>
-References: <cover.1746757630.git.nicolinc@nvidia.com>
- <bedd9de4e24bb89f18f4b13b52c5fdb6db6bd889.1746757630.git.nicolinc@nvidia.com>
- <20250515153903.GI382960@nvidia.com>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="aLJ/1FvL"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=YvSXorUyf0f1h3hEkLq7sK0DPOGsoMputyGNv8Rgm3U=; b=aLJ/1FvLVdegqi55dnpCCJ+GEd
+	w291W6/YF3tv6qWxZRI7cDvxxe9o3Q7JXjNVgIgOYdp9bNCWgoziny1r9CodRmyD0ned+SIVN2/zu
+	y7z3SJOUpyY8Ravr9NkiZ2thuWHkkMMCCXxiPHgAzn/IiJT/xGjiVGzrJv/AB5EQwrpKvst2SLXgQ
+	c+3vEraGMZuXX9d3r2hVZkP8tcJXQqNGJTxBBXabU8NF8YQCCML1NjaG3uCjtPT1P4ao+8Yz2NViJ
+	VRi0vFFZ6u9zX7vWwH43CJNVwG3E8kbNHLTn1QpBsEJ1xhACFXF79bBitPIX2yfcM//rcW+RFK4om
+	3OCXgSuw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1uFcDp-0000000HVek-3XEg;
+	Thu, 15 May 2025 17:18:18 +0000
+Message-ID: <be15a320-66fa-48f4-8299-7628a9bfdb35@infradead.org>
+Date: Thu, 15 May 2025 10:18:11 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20250515153903.GI382960@nvidia.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000A349:EE_|PH7PR12MB9151:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20fef7d5-e850-4eb5-87a6-08dd93d45c9d
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|1800799024|36860700013|376014|82310400026;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?JobERncr8Ke0ylaGhIgNAzhag6WFAutnTlM25yBoKan1g6yKy3pN65opUvtx?=
- =?us-ascii?Q?4oQjo/wmeWQE7HUhpAfBE8wbuS+3ZN28YipRUhvvRshv3wIEl941ZiJrUaz7?=
- =?us-ascii?Q?SDm5hVlgsXbH2g6IUQjHLJEg6Nex0DIR54Md1L3zuzXEY/sxg9c6Xjtyj7FY?=
- =?us-ascii?Q?9K/QbKdw3MOGZK535vbuvdWnuHm3YkgAQc/zrRpC9cF72+DgkF0QqBvx2rM9?=
- =?us-ascii?Q?Vit3J4+1ToP8G+I+qky1chKpsrAUrgZfXr7kywZ6Ehkxq+CevekZwVY2SDiK?=
- =?us-ascii?Q?NR0QoonfPxoP+ZkD653JZbAvCkyU8NMzj4z/tZHTSqfRfZaxulFkiHXFssTq?=
- =?us-ascii?Q?LxIvr7HJ8l9ZpJ6xDPz6neNOxWyzmU1DrbcygaheRSgkLN5mOTigJtwsZ+/S?=
- =?us-ascii?Q?UzB2IiwB1gwFfdWdLvSEuBrTqV4ivpvccxtwBar3Ih1zz5WQaeZERALCeN+O?=
- =?us-ascii?Q?utYcSqD/SBN+9j8lOPQjIdQ9BhZkAWkH9x0fuNECk8km5JLIjfkjAtNnLHWQ?=
- =?us-ascii?Q?xvWncDrckOJ5Zd+iz3WBh95somm2HTpBy30MN+NTUbyiyeCEagMJd+bpKD4p?=
- =?us-ascii?Q?bWe1pDvwE+HxPMj/eY5Lc36iKnZpGoCYnJD5vdnOcw9+ffqlOqhWRrqCM/xy?=
- =?us-ascii?Q?DM5OqurdvbNvevJOK9Jxb3J4qtiJIbExLTFk1Vo3Bpxo5axwivFZL7KQKMGF?=
- =?us-ascii?Q?NwOTlfmdp47/LtSZKIAgYAeikVt5CW4A6iMEk2P2CvzXlZzdqqUAoB4mDnVI?=
- =?us-ascii?Q?6EhkaFSenVndCI7jKVrh2Cih9K8rblta3Xl9RFZHo+W5WxUi6fTQd6ofNRZr?=
- =?us-ascii?Q?UVnjDHfJGXLM9QkriamAZr1QhQjBth1ids3LYzxBCr7E+uUB8HktLyqwZL4V?=
- =?us-ascii?Q?/fQEDYhypLKbwH1srE1Nrp7102ILtHPLQGzv8RZ6wNlzo0pAzfCMPLitzApS?=
- =?us-ascii?Q?S7tIiqhUg9woH6aJSla4xWROL1y/3Cssz4zg5jvC6+a3/ijJlDpKrBd+QjoO?=
- =?us-ascii?Q?QeK6QsgQbSZiOGBwrBJnB/EtKZb37keyOc4cfJ5NjKpfLIeqTjvdhs13E2cv?=
- =?us-ascii?Q?OgJZJbyFjEIYHjQlWrzHbqrU78lKTHfARAmmyefROo+2ZI51v2W+tbvN92q6?=
- =?us-ascii?Q?x/Q+x94dRHXnTE/aL9NgGM9mJlUOUUl56sGnm+4zefhRV7o3Grdj7O599/g5?=
- =?us-ascii?Q?u2uWUFUGX/XKqofFLtEFENSQFVZsKVXum6ngqsfVdZLq90Jnl6HxBYGIYcZt?=
- =?us-ascii?Q?tBeJSwrzhg38yovhmXwPDy5fyIjY1IiJEefPuIk/IsmCx7lMb/0l89YRo3Ox?=
- =?us-ascii?Q?nZBysVsPTX5OJ5OCKIn3JZwdrn42tCpzUuwEr280S/EPNdksxe3jWSEY9D/b?=
- =?us-ascii?Q?9XogQEqDvTNXY6mxvRsTLhYwro69CvGGrMzsAYKTujGrLXOotl4HTzVtQr/S?=
- =?us-ascii?Q?3ERtXFUBFmuivOIdaltk+RaiLSznzYAr0rn9t+sZgBDyto3oeSWAdhYgTAKH?=
- =?us-ascii?Q?t1McvIVSZL528OPOLgReG9Ja6cbP82nyIXWn?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.118.232;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc7edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(1800799024)(36860700013)(376014)(82310400026);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 17:17:25.1157
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20fef7d5-e850-4eb5-87a6-08dd93d45c9d
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.118.232];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	CH1PEPF0000A349.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB9151
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v5 1/8] EDAC: Update documentation for the CXL memory
+ patrol scrub control feature
+To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
+ dan.j.williams@intel.com, jonathan.cameron@huawei.com, dave.jiang@intel.com,
+ dave@stgolabs.net, alison.schofield@intel.com, vishal.l.verma@intel.com,
+ ira.weiny@intel.com
+Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
+ tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com,
+ mchehab@kernel.org, nifan.cxl@gmail.com, linuxarm@huawei.com,
+ tanxiaofei@huawei.com, prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
+ kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
+References: <20250515115927.772-1-shiju.jose@huawei.com>
+ <20250515115927.772-2-shiju.jose@huawei.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250515115927.772-2-shiju.jose@huawei.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Thu, May 15, 2025 at 12:39:03PM -0300, Jason Gunthorpe wrote:
-> On Thu, May 08, 2025 at 08:02:31PM -0700, Nicolin Chen wrote:
-> > +#define iommufd_hw_queue_alloc(viommu, drv_struct, member)                     \
-> > +	({                                                                     \
-> > +		drv_struct *ret;                                               \
-> > +									       \
-> > +		static_assert(__same_type(struct iommufd_viommu, *viommu));    \
-> > +		static_assert(__same_type(struct iommufd_hw_queue,             \
-> > +					  ((drv_struct *)NULL)->member));      \
-> > +		static_assert(offsetof(drv_struct, member.obj) == 0);          \
-> > +		ret = (drv_struct *)_iommufd_object_alloc(                     \
-> > +			viommu->ictx, sizeof(drv_struct),                      \
-> > +			IOMMUFD_OBJ_HW_QUEUE);                                 \
-> > +		if (!IS_ERR(ret)) {                                            \
-> > +			ret->member.viommu = viommu;                           \
-> > +			ret->member.ictx = viommu->ictx;                       \
-> > +		}                                                              \
-> > +		ret;                                                           \
-> > +	})
+
+
+On 5/15/25 4:59 AM, shiju.jose@huawei.com wrote:
+> From: Shiju Jose <shiju.jose@huawei.com>
 > 
-> This should just call 
+> Update the Documentation/edac/scrub.rst to include use cases and
+> policies for CXL memory device-based, CXL region-based patrol scrub
+> control and CXL Error Check Scrub (ECS).
 > 
-> __iommufd_object_alloc(viommu->ictx, ret, IOMMUFD_OBJ_HW_QUEUE member.obj)
+> Reviewed-by: Dave Jiang <dave.jiang@intel.com>
+> Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
+> Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
+> ---
+>  Documentation/edac/scrub.rst | 76 ++++++++++++++++++++++++++++++++++++
+>  1 file changed, 76 insertions(+)
 > 
-> And all the casting and asserts should be in that macro, move it to
-> this header
+> diff --git a/Documentation/edac/scrub.rst b/Documentation/edac/scrub.rst
+> index daab929cdba1..5c99f42eae0a 100644
+> --- a/Documentation/edac/scrub.rst
+> +++ b/Documentation/edac/scrub.rst
+> @@ -264,3 +264,79 @@ Sysfs files are documented in
+>  `Documentation/ABI/testing/sysfs-edac-scrub`
+>  
+>  `Documentation/ABI/testing/sysfs-edac-ecs`
+> +
+> +Examples
+> +--------
+> +
+> +The usage takes the form shown in these examples:
+> +
+> +1. CXL memory Patrol Scrub
+> +
+> +The following are the use cases identified why we might increase the scrub rate.
+> +
+> +- Scrubbing is needed at device granularity because a device is showing
+> +  unexpectedly high errors.
+> +
+> +- Scrubbing may apply to memory that isn't online at all yet. Likely this
+> +  is a system wide default setting on boot.
+> +
+> +- Scrubbing at a higher rate because the monitor software has determined that
+> +  more reliability is necessary for a particular data set. This is called
+> +  Differentiated Reliability.
+> +
+> +1.1. Device based scrubbing
+> +
+> +CXL memory is exposed to memory management subsystem and ultimately userspace
+> +via CXL devices. Device-based scrubbing is used for the first use case
+> +described in "Section 1 CXL Memory Patrol Scrub".
+> +
+> +When combining control via the device interfaces and region interfaces,
+> +"see Section 1.2 Region based scrubbing".
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-scrub`
+> +
+> +1.2. Region based scrubbing
+> +
+> +CXL memory is exposed to memory management subsystem and ultimately userspace
+> +via CXL regions. CXL Regions represent mapped memory capacity in system
+> +physical address space. These can incorporate one or more parts of multiple CXL
+> +memory devices with traffic interleaved across them. The user may want to control
+> +the scrub rate via this more abstract region instead of having to figure out the
+> +constituent devices and program them separately. The scrub rate for each device
+> +covers the whole device. Thus if multiple regions use parts of that device then
+> +requests for scrubbing of other regions may result in a higher scrub rate than
+> +requested for this specific region.
+> +
+> +Region-based scrubbing is used for the third use case described in
+> +"Section 1 CXL Memory Patrol Scrub".
+> +
+> +Userspace must follow below set of rules on how to set the scrub rates for any
+> +mixture of requirements.
+> +
+> +1. Taking each region in turn from lowest desired scrub rate to highest and set
+> +   their scrub rates. Later regions may override the scrub rate on individual
+> +   devices (and hence potentially whole regions).
+> +
+> +2. Take each device for which enhanced scrubbing is required (higher rate) and
+> +   set those scrub rates. This will override the scrub rates of individual devices,
+> +   setting them to the maximum rate required for any of the regions they help back,
+> +   unless a specific rate is already defined.
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-scrub`
+> +
+> +2. CXL memory Error Check Scrub (ECS)
+> +
+> +The Error Check Scrub (ECS) feature enables a memory device to perform error
+> +checking and correction (ECC) and count single-bit errors. The associated
+> +memory controller sets the ECS mode with a trigger sent to the memory
+> +device. CXL ECS control, allows the host, thus the userspace, to change the
 
-Ack.
+   no comma:              ^
 
-> >  /* Helper for IOMMU driver to destroy structures created by allocators above */
-> >  #define iommufd_struct_destroy(drv_struct, member)                             \
-> >  	({                                                                     \
-> 
-> This is abort not destroy, the names should be consistent. But looking
-> more at the series I think it will be better to do the little rework I
-> suggested and not give this function to the driver in the first place.
+> +attributes for error count mode, threshold number of errors per segment
+> +(indicating how many segments have at least that number of errors) for
+> +reporting errors, and reset the ECS counter. Thus, the responsibility for
+> +initiating Error Check Scrub on a memory device may lie with the memory
+> +controller or platform when unexpectedly high error rates are detected.
+> +
+> +Sysfs files for scrubbing are documented in
+> +`Documentation/ABI/testing/sysfs-edac-ecs`
 
-Yea, it will be replaced in v5.
+-- 
+~Randy
 
-Thanks
-Nicolin
