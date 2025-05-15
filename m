@@ -1,132 +1,134 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.16])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 48DE529712C;
-	Thu, 15 May 2025 13:08:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.16
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C541929AAE8
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 13:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747314500; cv=none; b=vF+orbcJeqLJ5mlVtklaSE3LprtIzgaYHmTa4cqOSZMrnwzvZ9qnxV269pIK6of6x3rz+DB7oAqruw3cuBy0AaK52DledQ8w+IrQo9YPPrzo5rn9bL/1Sf+Ps5bKUFiTVIZ7szRj25afe0ismKk5o1iV44vS5Ia3uA50jkySVvE=
+	t=1747314734; cv=none; b=UoqmSVZhaVP700RKkQ98tgMYV87Klq1K53EGW5lHaYWQj02ChWJTDJdZcZWYPkZj3X+yl1k3E5ZxLPAEeql1cLXPHg0YKHc+xBdNI//3bgosGq7bIti643iKmSFDydFBCUN9FDcljIFn1Sg3Wgna7gDFuvFc6XXsg8W8CAIp3MM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747314500; c=relaxed/simple;
-	bh=e85/bhBHETcFCSUJZBS0UEVPKAob/R3o9IFPD/Ika/w=;
+	s=arc-20240116; t=1747314734; c=relaxed/simple;
+	bh=aaXgNL1VT+/xjMdQkulVFWEp4own6/PEE/2QTeFej9s=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=OFDITZg2sJhAPEtN3pXhhmbAUm+aTWzP/8H/ivulJuW1MsVY2CpaRm3CkbMgzG3hPyxs0MdNisLm0EO9ACacEsYv1LlAAL6HCoC4O+zz1ftGVr8sdBbp3GvRwvr0RhU9sugJfp3eLJbKnW+KXbIBeO6Iju6q0KIrTyIrt8gkXoQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=LSCvnkK3; arc=none smtp.client-ip=192.198.163.16
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+	 Content-Type:Content-Disposition:In-Reply-To; b=phsi+WUu6AFN2SxijAa1tH1lW5qqiDvGCliLAiW+nNPVUarZasMnyDtmi/jqqh7Mdvtn7B9D1QqKfzCcZ/hUclMGQSW2GEgiO7zW9MUAHD2RwvJuGheBlPfWNlzRXJJqFZ2q0xjExF7vl/vH/X0PHQYyFW2+VKqm650eFRTnD4c=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=wL7yyb+v; arc=none smtp.client-ip=209.85.221.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="LSCvnkK3"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747314499; x=1778850499;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=e85/bhBHETcFCSUJZBS0UEVPKAob/R3o9IFPD/Ika/w=;
-  b=LSCvnkK3v8s5DDlX92qR33ozB/wpsU97XSuEJGvwZXGksJOzHpxgrTce
-   mPSkiucoJL+EVPK9EYKDqikCifOIqw7Z37isKI5SFj94njRrkaadHTIYx
-   9mTsicaRPHWHceJgK6SxrGmfYpZHMO3SIYb+zYgH3C8OZfNLfAOCIQs68
-   N/wUmAa0EaZ62ksnfNagCCW3AoMNV27MnLLbw8KhPkPlSloGDAIr1F77z
-   ZVLfaMHAMlToRAhODZlZImM9CWzYAQrKXnbMTfu12pgbw8E77XoHuKHdB
-   coECFil4rrC3O6wqraD1g8PLN+eNmoqDqjLqI52SQb01m2AYS4MHjbbBw
-   w==;
-X-CSE-ConnectionGUID: vjV2fT8ORtSWk1jJnjYqZw==
-X-CSE-MsgGUID: dOdB2U+sSu+RuZsDamuXNA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="36865936"
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
-   d="scan'208";a="36865936"
-Received: from fmviesa008.fm.intel.com ([10.60.135.148])
-  by fmvoesa110.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 06:08:18 -0700
-X-CSE-ConnectionGUID: UnPUDn06SxiC8UQ1Lg/NLg==
-X-CSE-MsgGUID: VFJZK23ETZKHrNFMtW9LPw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,291,1739865600"; 
-   d="scan'208";a="138763592"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 06:08:16 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andriy.shevchenko@linux.intel.com>)
-	id 1uFYJp-00000001qoN-0Ms4;
-	Thu, 15 May 2025 16:08:13 +0300
-Date: Thu, 15 May 2025 16:08:12 +0300
-From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To: Philipp Stanner <phasta@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <bhelgaas@google.com>,
-	Mark Brown <broonie@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Zijun Hu <quic_zijuhu@quicinc.com>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: Re: [PATCH 0/7] PCI: Remove hybrid-devres region requests
-Message-ID: <aCXnPHy5heHCKVd_@smile.fi.intel.com>
-References: <20250515124604.184313-2-phasta@kernel.org>
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="wL7yyb+v"
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-3a0be50048eso836785f8f.0
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 06:12:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747314731; x=1747919531; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=c3MKAYkLPhubyXeqbsbbCcT1xzf3OGrKxlCFqhiA9Kk=;
+        b=wL7yyb+vOdzehR2e45DYkhLUmE3W5YDwaBXhcyEA6Ler9n9ATCM8gJncoXFSbrU/n2
+         N2BM/Y4+Uf50WAhm5SGpNK7DNN2LaUUvcKxo/ww3KgmXn17amXuWiMuc3B+BCtevUsu4
+         WB8mAHT9ZTxRtk5TtCSTsb7KJnopoGIN4ZneQkTLOdj1N5WI+TVlRYT8cljpBeHkr7tw
+         RQ3C77kVjdTCBxcueZNx/zrdiE+jSvNSAMZigL0OHzUiVydaGhAsrMrjzkd5ViJHOxP8
+         6qmL2zj594Tr8AuKzZBe13X+DVl83fHy+YsiPEXjF9TczuiS/rtS47Cr91uY6nsgrQfH
+         TAeQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747314731; x=1747919531;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=c3MKAYkLPhubyXeqbsbbCcT1xzf3OGrKxlCFqhiA9Kk=;
+        b=OazW6CCukWiO4bypFEtvkllYSQx29zRL1eQrp/QtPp632fVqdBjB4zbE7Ln9NaYBGa
+         im3IWs1Xep0JJS0TCGcdhRGHxgq8QeXZn6TrUaFAIEXyPAbe7sO8kxi61glTpOWAeMgV
+         B8NO/V8X68cvO6J0vBpSpGuYBTjGWzQKVKNkJ2i/x9X9PMoeBqNsFjJwweAXAqEP4gze
+         mO24r9Bh823f7L5afsUfbt/nrXNbNq6ilsCSsA3LpJ3IyucdJs/xy/FbpbISgtq7wXNn
+         xi5zPJWslWfa2UFOT0sh5ZSraeMM/+h7screO17aHemwFtAwZ5Gye7EFzoRF6u1EWdZW
+         t3lQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWnAoc43iLTk8LqymbpYe3H4A5rok0QVI+uvZXFrXuH2ebB82poIadvJJgpm4UGSm1BG7QTE5xro2Q=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyxFD7RnpJnfqX2h1JNc6P0VuDcVY0oMbZs/LbbA7IMMqZE5NfA
+	BKaD5Nfhp6i+oSN6Dn+004rlEHTZHD6knmbevnc4mFgq8U7+JNnc0iIipMIb4w==
+X-Gm-Gg: ASbGnctv4zRHHLa+3CjU75STVHBdIuZ/trYPYXlP3AHdiQLVC6KMRuzsl+dYswoTlAt
+	uFfOaNTgedv2GyXjT1uRhAx0zCDTiIdY9LH/u45UgTpkFTFD0+zOFfYmCfweuLfLMT7JWgQz+Xe
+	1zQqK2h33THJ7KpIE/ugcJTzTEkGSRa+9jDHVMe1qdyRrcK2B/XTFfgpMB+cEr5zuVkv5MzUJTS
+	IJ2YYOZMKStGqM4fUIYsElADvo1byZ8kC2TbroomcI53X0d0kf7SZJddmznTqVAehRCAvqJt4yX
+	0F/4K66xkU1K3LJ2Gj40ycj1V7RZ0vxxobIWU02+ti8B//gK99hGr44j1UCazBF9VSyU8jLNOGb
+	yStteU31Y13MWfg==
+X-Google-Smtp-Source: AGHT+IGKu1Mwu1s2x6/w2xAPOyXhBfvmQmeWUcOFV5VesSsNvTc5Oo3A3N42qaHch1nRV37wsCynTw==
+X-Received: by 2002:a5d:5f8e:0:b0:3a3:5bf8:36f6 with SMTP id ffacd0b85a97d-3a35bf838cemr980643f8f.55.1747314731020;
+        Thu, 15 May 2025 06:12:11 -0700 (PDT)
+Received: from thinkpad (110.8.30.213.rev.vodafone.pt. [213.30.8.110])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f3369sm22999193f8f.57.2025.05.15.06.12.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 06:12:10 -0700 (PDT)
+Date: Thu, 15 May 2025 14:12:09 +0100
+From: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
+Cc: bhelgaas@google.com, corbet@lwn.net, marek.vasut+renesas@gmail.com, 
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4] PCI: rcar-gen4: Add a document about the firmware
+Message-ID: <bo2hxi32znmikg3z6j3rreqqksoijfn3ugb5ahyn4qirixc2b6@k7bs2lvipfz2>
+References: <20250507100947.608875-1-yoshihiro.shimoda.uh@renesas.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20250515124604.184313-2-phasta@kernel.org>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250507100947.608875-1-yoshihiro.shimoda.uh@renesas.com>
 
-On Thu, May 15, 2025 at 02:45:58PM +0200, Philipp Stanner wrote:
-> Howdy,
+On Wed, May 07, 2025 at 07:09:47PM +0900, Yoshihiro Shimoda wrote:
+> Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
+> specific firmware downloading. So, add a document about the firmware
+> how to get.
 > 
-> the great day has finally arrived, I managed to get rid of one of the
-> big three remaining problems in the PCI devres API (the other two being
-> MSI having hybrid-devres, too, and the good old pcim_iomap_tablle)!
-> 
-> It turned out that there aren't even that many users of the hybrid API,
-> where pcim_enable_device() switches certain functions in pci.c into
-> managed devres mode, which we want to remove.
-> 
-> The affected drivers can be found with:
-> 
-> grep -rlZ "pcim_enable_device" | xargs -0 grep -l "pci_request"
-> 
-> These were:
-> 
-> 	ASoC [1]
-> 	alsa [2] 
+> Signed-off-by: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
 
-FWIW, tailing space here.
+Looks good to me. But there is a small nit below.
 
-> 	cardreader [3]
-> 	cirrus [4]
-> 	i2c [5]
-> 	mmc [6]
-> 	mtd [7]
-> 	mxser [8]
-> 	net [9]
-> 	spi [10]
-> 	vdpa [11]
-> 	vmwgfx [12]
-> 
-> All of those have been merged and are queued up for the merge window.
-> The only possible exception is vdpa, but it seems to be ramped up right
-> now; vdpa, however, doesn't even use the hybrid behavior, so that patch
-> is just for generic cleanup anyways.
-> 
-> With the users of the hybrid feature gone, the feature itself can
-> finally be burned.
-> 
-> So I'm sending out this series now to probe whether it's judged to be
-> good enough for the upcoming merge window. If we could take it, we would
-> make it impossible that anyone adds new users of the hybrid thing.
-> 
-> If it's too late for the merge window, then that's what it is, of
-> course.
-> 
-> In any case I'm glad we can get rid of most of that legacy stuff now.
+Reviewed-by: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
 
-For all non-commented patches,
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+> Changes from v3:
+> https://lore.kernel.org/linux-pci/20241024120525.291885-1-yoshihiro.shimoda.uh@renesas.com/
+>  - Rebase on v6.15-rc1.
+>  - Revise some descriptions (reviewed from Manivannan Sadhasivam).
+>  - Add the doc file entry into the MAINTAINER.
+> 
+> Changes from v2:
+> https://lore.kernel.org/linux-pci/20240703102937.1403905-1-yoshihiro.shimoda.uh@renesas.com/
+>  - Rebase on v6.12-rc1.
+>  - Move the document file on Documentation/PCI/.
+>  - Add SPDX-License-Identifier.
+> 
+>  Documentation/PCI/rcar-pcie-firmware.rst | 24 ++++++++++++++++++++++++
+>  MAINTAINERS                              |  1 +
+>  2 files changed, 25 insertions(+)
+>  create mode 100644 Documentation/PCI/rcar-pcie-firmware.rst
+> 
+> diff --git a/Documentation/PCI/rcar-pcie-firmware.rst b/Documentation/PCI/rcar-pcie-firmware.rst
+> new file mode 100644
+> index 0000000000000..0e285c4a7cd72
+> --- /dev/null
+> +++ b/Documentation/PCI/rcar-pcie-firmware.rst
+> @@ -0,0 +1,24 @@
+> +.. SPDX-License-Identifier: GPL-2.0
+> +
+> +=================================================
+> +Firmware of PCIe controller for Renesas R-Car V4H
+> +=================================================
+> +
+> +Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires specific
+> +firmware downloading. The firmware file "104_PCIe_fw_addr_data_ver1.05.txt"
+> +is available in the datasheet as a text file. But, Renesas is not able to
+> +distribute the firmware freely. So, it is required to convert the text file
+> +to a binary, and the binary should be placed in /lib/firmware before
+> +the driver runs by using the following script:
+
+nit: the above wording sounds like the script places the firmware under
+/lib/firmware, but it is not.
+
+- Mani
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+மணிவண்ணன் சதாசிவம்
