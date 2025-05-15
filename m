@@ -1,233 +1,265 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40992882CF;
-	Thu, 15 May 2025 08:21:15 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747297277; cv=fail; b=d+DoUOAsZzk7VcuoHtU8Eg0c/h1WvfpN/kHnDJAdTPjax76msUInBPsa8edEzPGFbbGodB17scFy+ZjOTB+cGd8if5aMFSIPIy+MTrdFa6ZWPebB5Ke2fiuNWuEvs+/IBh29Bc+LLHI6920yjMjWDViBLqJjeYbBTx54pjlxoPY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747297277; c=relaxed/simple;
-	bh=RcBHEkJ6RwqIxkvsXcpx26XQYdY37hi8aDkRI+2Yloc=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=ERyOgWLIn57lLK7jq0wJZLDP/HtwBVeRT7YkD8acdjdrSeG4RyowSkjP9Nua/PvVLGMnE2ZPHrIwMABqDNzcpSKQK5zwD4AOpa5QrD6NFswsDNV+kcTl5eglqT5YMCxD3CAZ3SIHStMURSoFfagQlVoeUAPDNYl8ZgUi4hkrHKE=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iMUIds06; arc=fail smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F672882C4
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 08:22:42 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747297366; cv=none; b=FYwTW+R9d+LUgcPB/hxa45QE638PgcvaxQiSOn2aC1rfBMVrH0J7j1jqyZrct0oW0nRHoohjrvvFXzX68XDDilCy/rW6uiIL01m9SV/yePbvEDqn2wnA4ty1xkT0vN6VzZmLnUcVzSKNGiuWoGPcRh01DBlDSoumypgJ+XRoM+8=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747297366; c=relaxed/simple;
+	bh=92odk2sd4sfHthMDJynyDSvgpIspg2D4IeMy8RWB//k=;
+	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
+	 MIME-Version; b=MdUslYhT6iijo2CAmzOfTjyOsjRU2pNKPmoemIYTxC4l8ap5bSIYRsD/THDogGJs2eSzJNerpM/R9byhz0Q0CZsVw0EWN3GD82Ln3XdPhP9BUu5tNMYnxp94RLmw/4KDZj1EbcZqzbP3yTzog9FXJk3uvB00uhcY/WwHOhpgp48=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=BprQF6cf; arc=none smtp.client-ip=209.85.216.47
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMUIds06"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747297276; x=1778833276;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=RcBHEkJ6RwqIxkvsXcpx26XQYdY37hi8aDkRI+2Yloc=;
-  b=iMUIds06p8RzbmcfHpo5JTlfBxlsmkP3ov7tdLOA4SeQhoIq0f7fMNUE
-   HmPiWSfapnf4bR4aQbzzvp2cZnHQMHNfNijP9IurYbmJr3hgH12OPV+7z
-   WacIBdwTPe/ErZyA+CwN5UxaAt20YmVQp1mxaC5rw3AxklDaFrwPIZ37V
-   CSQcjTQEPs0STcD5PISe7NLa8wWhTDjnpmdoBNn4jwQ4JLWwQp5mYSoyD
-   NfSOS506YHDR2x70F/tYPlI3f9iKhxfZWzMxn35CuCH45BZHDUmTKLKVm
-   yBSkNcoMRLPHcmr4N1fRO9neaJO5Qg2ypxP3ZZfAgv8cO/L8Wvt2zAaX5
-   Q==;
-X-CSE-ConnectionGUID: JzFjaeroSZqKNYjs50pcPg==
-X-CSE-MsgGUID: cPyFYIi7Sy+EBi/DSpGsOg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="66626176"
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="66626176"
-Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:21:15 -0700
-X-CSE-ConnectionGUID: +dgdTsJYSxK6we44YABzww==
-X-CSE-MsgGUID: 0HTt7quJTHGprLRPFh7lWg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="138832476"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:21:15 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 15 May 2025 01:21:13 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 15 May 2025 01:21:13 -0700
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 15 May 2025 01:21:13 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=t57WwcOComfPNQnEqLAGVw2gvJYDldsD6kmNahaPHg0AaXM09C7748aG/l0GEYrHGzh5Agpa5rD5ed4YGzxJrlvQ3o+lNFNUi4YL4Zlul7b3ZvxhF6Pqlc+VLH4lcx8FKvh5Fd7lKW0U2XV0tAW9sT8OQaoartkZhz6iK+o6gSdt0tDdKY/mfjYU59u0STv1lkDPHvNtoTiuBXv8SSgB9R6lVE7tKammbLdDUydIlLS0jO025XjBrdWr205+M4X8aAQJEFirmtXctWlF0jT/j+hfS92puK/gvDxRntS1cAbqD3dcjows/B9JvclhgfvsmMFKUWqiceSTYZa6YfB7FQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RcBHEkJ6RwqIxkvsXcpx26XQYdY37hi8aDkRI+2Yloc=;
- b=hBGWR3I6T72lwW8q28GHQ08Jkbbr/LaglNoqHXtDUA09wLhXE3we42TM/qnycXwQl1+UpnI8JccRzp80IZGDFnhw4UtTsefcV9x94rVxdnfca+1pW0tuaPLVRbeSO1nKxLXGgRVug7yKtQy0Lj7i1kvE7TmJIYyCAJvcrW/kHFE9f0P8ym6lWd75Kt+rmZQ1WXciu8iQVte0bYJjJ5c2AnTINcdstwzRZzG//m0ALybyJcBk5Gb1TbAG28j3Kf8BlA9rfMIFvQVh/rAZTC1E0o6pY7RTpvJdQT5ABmj7S/GdS8RQ1CpxwFH+zCEHqnkJ1si4mhoI06SufEq4F1EzrQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by SN7PR11MB7706.namprd11.prod.outlook.com (2603:10b6:806:32c::11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Thu, 15 May
- 2025 08:20:45 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%4]) with mapi id 15.20.8722.031; Thu, 15 May 2025
- 08:20:44 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org" <will@kernel.org>
-CC: "bagasdotme@gmail.com" <bagasdotme@gmail.com>, "robin.murphy@arm.com"
-	<robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, "vdumpa@nvidia.com"
-	<vdumpa@nvidia.com>, "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-	"shuah@kernel.org" <shuah@kernel.org>, "jsnitsel@redhat.com"
-	<jsnitsel@redhat.com>, "nathan@kernel.org" <nathan@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "Liu, Yi L"
-	<yi.l.liu@intel.com>, "mshavit@google.com" <mshavit@google.com>,
-	"praan@google.com" <praan@google.com>, "zhangzekun11@huawei.com"
-	<zhangzekun11@huawei.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
-	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
-	<vasant.hegde@amd.com>
-Subject: RE: [PATCH v4 21/23] iommu/tegra241-cmdqv: Do not statically map
- LVCMDQs
-Thread-Topic: [PATCH v4 21/23] iommu/tegra241-cmdqv: Do not statically map
- LVCMDQs
-Thread-Index: AQHbwI8Y4VeinSgz4ESE5mK6ZV7qObPTX8GQ
-Date: Thu, 15 May 2025 08:20:44 +0000
-Message-ID: <BN9PR11MB5276FF1D733E5F086C6A26968C90A@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <cover.1746757630.git.nicolinc@nvidia.com>
- <80d41b740635b40dd0f9ed4279dc1cdeb3c8942c.1746757630.git.nicolinc@nvidia.com>
-In-Reply-To: <80d41b740635b40dd0f9ed4279dc1cdeb3c8942c.1746757630.git.nicolinc@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SN7PR11MB7706:EE_
-x-ms-office365-filtering-correlation-id: fb4d382b-57e0-41b0-fba7-08dd938963ab
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?Cx2p+2qzmrgdet7ifXsdJVdn4X4faeKPjXWLS6toS6gBqwqR5LT4ezqJ+YEX?=
- =?us-ascii?Q?dOoGxgIK2AGXUo+RmLY+XKvf0qDzqkaxLxP66fPPXo5BcUrZzGuutcmOE/sM?=
- =?us-ascii?Q?OhSgMbT2JSVUKdx2CQWfNYa3WqOVAZViyzTMl5TNk4Mr4sqVbKgsTep4Rnjr?=
- =?us-ascii?Q?aTJqwRXFcuLZllR/0xf/GmqL2s9EHTetm4fUvwkwcKCbNa2KQlsMSJUpw+16?=
- =?us-ascii?Q?GZi2NE3fdUSGItFesA+Oo8yfn2/8j32ZXGSTZPTK9BNPNFFeQgKxKRqXwnap?=
- =?us-ascii?Q?Q93dKP5B+MugGMHU3W2DfVxh7D0NhuQ1yykYcyNBCFM+NjCaUPe6VHjx0ryl?=
- =?us-ascii?Q?WaykaYwREavXyL011xLlqYQFBaHIS3Pe44z80vMdW4tyKBg3tqYaxYVx5WEM?=
- =?us-ascii?Q?gggByVKNYy+OdXi4Dn2+KcP1HREvYfjEjG3kfTQOAalCKHdR5aZr9+6oHZph?=
- =?us-ascii?Q?iA8413H0wev/J9xGtGngxXRD6fAneuC+GHuLnY7iar8Nf293rYZc6k5d6fDv?=
- =?us-ascii?Q?Nbj6aWahZZsH1mXxQDOh/A5r6PkfnyuYbbzH9s7+knqVHLwPRxTQoovUD3l/?=
- =?us-ascii?Q?IyAcvCxxsyxUiIbwBF0AY3XydLhlpxsrCp+i+MiYkTw8LZMkTj88S+HasEEN?=
- =?us-ascii?Q?tHSy7y4YlVHFA2mV3BwL+gq97cU86bcCi6okvBzjOvJ/JwHsXT8SwRCcKmAj?=
- =?us-ascii?Q?WO2AKX+0tapG7NLmG+QE06fWYVsyhJEDAg0t2IOLHYFuewKCmZCNc/Bwecif?=
- =?us-ascii?Q?tslLkeZWht/A5vK8IL2s/hv9YyK+65gyY/5DAWWa6AE6qyRhSS0cix5p+KPr?=
- =?us-ascii?Q?8pqfeB4LSRWl7g43m3nJx6bkGMCYEbmQotZ/NcyDP6dE5Ma7T9qG3b1yPZXl?=
- =?us-ascii?Q?nYohSguxLDfSfyI2edE2VvpaCHfrGhsOdC+oVUW+eCFCiOJiXPP22/20DYbM?=
- =?us-ascii?Q?fTZZW1wUhynceMEDSCeQINGjqJVhK8qbF/kMSjyNOraXAcBsFfMMGwil0rtW?=
- =?us-ascii?Q?ERD5wRtbkZKKvjnV9aMY0a8g0maqC6adDTNiSB8XIMIniRtHA5cdsVOlCL/A?=
- =?us-ascii?Q?wOBPVGzC5gpFq6TNCk5Kx2ZUCjLkQU01mrphNSAclCncKc+Rab0NlWKpa3uT?=
- =?us-ascii?Q?Eh7WH5PT20thPgkce1fUXKccv3BjSkHaJQFeD2KIgM59810zKMXLUFWER0wT?=
- =?us-ascii?Q?GD0UxKB+7EsibV8DQngSBxHFRKnssGcIFISdSp07INl8O1vnDT7/D8r0Qr5b?=
- =?us-ascii?Q?Pl+C/8/Jv7NJES4wGWI9el3wy9Gfx1AiQsoiBarznUHEAFfxSjWNa4RODZhI?=
- =?us-ascii?Q?MtaL7TBNtTf/jSKU5sEXMLUWDsmJDB5B3AIv9h42KcfqOy1pADuRD2gHBgcO?=
- =?us-ascii?Q?QKvnxYOiKSCWOeU4EKvpeEYgpYeGCoXzN70FKGBiRexvz6PV1+D1hwbv5hJe?=
- =?us-ascii?Q?wW204JVPzCwUR+glBwR001XKCAk5ih6H0AobV/g4oBpR+44UefL3GT47pxkb?=
- =?us-ascii?Q?COraZToLYz1d6Fg=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0ZhQQWjB/eLvUz7eKEeHK66fdlFU1QMXpfaC9THpwV+qVRztwqgAv0YF4hMq?=
- =?us-ascii?Q?RHgjcmgqtbBbFBnPVJJKT5z0pgCFnjgQX97h9Ahji3SMvZ8CU6ejsr0nJSof?=
- =?us-ascii?Q?SkbqJzjHCDE7lqLqoIe6J5dL4VqXgp7WT/I4oM4W0lRiYz5VAZd7sCM0qhjO?=
- =?us-ascii?Q?6PIyT0gEji81FSQnkt4EKd4zXIFaBqgjZkzYcJ2TdTEM+PkNW/qL+RFMlcgL?=
- =?us-ascii?Q?17whrrg1S8buPReMVeLr5FjXMkbPPRqvITXk4V0P2lkhiKfQGU+0PBAYqCzZ?=
- =?us-ascii?Q?L+QzWA7nUZIAoOJLoqlSmYbYJ6eWPk6d/PjBbeZebBisFd3Be0HL4WVE9bgz?=
- =?us-ascii?Q?ebolUZhs1mXN91PYkUfmTsPkaGWOdFVS0HiKC1ScdrEF5tGSnFBP01EHba07?=
- =?us-ascii?Q?Abb8u9RuE/JORCC9h50G0lgl0aJ4F0wcRbmBGZs9ci4h8em1xEfT05aH1pwL?=
- =?us-ascii?Q?g5dXTtum4oN45dDphH0ay0w9W5KFi7w1b0CTEHeHL0jUMKIK3/HDFT7/FiJf?=
- =?us-ascii?Q?pYehCFT6szg2ROt/Tj16BfH/1ma7e5JClF12zATm7EhJNtofbdbu18kcgMl8?=
- =?us-ascii?Q?mN0lU/aOvar26hM/fZVxCMl0jATX7PC3KZBbJiTBUO+P+MYM/rEQZ0VKouB3?=
- =?us-ascii?Q?iCwgl4+zaeJrAQgpmXFwbAtqoCG/VYx74lzz35ukxSCbdU/XoVlUcMl2y9TT?=
- =?us-ascii?Q?8CoYCmwki2HtUynxhtsk/MJglQy7UqPxENHipb99FBFWhdBAJGT0YFGGXeqs?=
- =?us-ascii?Q?3NsZwOSmmBLGEbf16U9v6AAjQGIPDQNJK9JqktGIsUzrRB6t2H3jgFE8eC7s?=
- =?us-ascii?Q?TuAq89XmA1UGzxTH7tys+mSV53MhbtgisNOUGfIsG4PNR/f43Kq1lVLFGOEg?=
- =?us-ascii?Q?F+nJDt6piWeo7Ja6CwclvK5qIhWJWar1HpA7pIfSb4wxJeHXz214nqvThS6F?=
- =?us-ascii?Q?YbjrLe53HKCAZS05H++VgKz2i2NGO7LdlfxuFtK9ofE2LSgAABYUyVdXcGwp?=
- =?us-ascii?Q?svw3Mots8x4EYmd7nNQ0idz27HM3b08qW0mq15+9/ogy2KwyqrePXrxipRZB?=
- =?us-ascii?Q?tr2eeWqVmpZBsnQhLlV06/1JkaA0JIxqTae4elH93ZxLQqPWZ3JPnHGBupmg?=
- =?us-ascii?Q?M+Hf1uD7mmACICMSYqSq3uEgA/iSC15b9Iqr6FxgTWf3sS4Z9TsGyA8ArlW/?=
- =?us-ascii?Q?qgByTPdTymN86wIp0i6r1LRP1XxC83AbtPlslv2+jirv1jTx+nrsVWEHH8S1?=
- =?us-ascii?Q?qWdijfDuocKhEPDG9AkOmNeZMO8+A8U8SeqVV1Wz9SrG365jNFJ2SZa1hzpl?=
- =?us-ascii?Q?5ieetZvMZntWUkcVkfZiY1LCMn7kA7ooXag11W1/hshSkBMIRz32G4F3SGBf?=
- =?us-ascii?Q?iqSGSaug18J8/U1ilm2BAOidsN5EId5q0SYzebDLwbx8XfuwL+AW9/D1/9Lr?=
- =?us-ascii?Q?nklFQFVVmWBJypQp1h4trFXPril1EDn6bLsCakpey4lA5CiSPcDIyxYAK7zO?=
- =?us-ascii?Q?tdI/CJ+c58ucKct0y93c2J5orZSgog1rlCw+RYRZyvS7ZeiZMfnYKHXiuKc0?=
- =?us-ascii?Q?+vmKDbdSgzCCbxen2dIGebcCE1O+FnIhZ9SuV56g?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="BprQF6cf"
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-30c47918d84so628243a91.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 01:22:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=inventec.com; s=google; t=1747297362; x=1747902162; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=kwF2mpLnEXgp6MS24DBfTJGU9J3NTQxVKIISS1QkMRY=;
+        b=BprQF6cf1DYwGex5AP/dD5Mwqo9uYIXNN04hG2y2+onqfdzzL48z3MiLi9n+fJg+UE
+         WvDj6icQu3/o+m5pULXWX99o286OPsRIOXQfo5YHm5JS/fwN261MXgFuENHZON1YV9LD
+         aqy/cQqUe9PSvbvDdnuS/8WDfU/o5Aaw4Su5OOTTUVd9tS1p01FaUworE+UVnBumxdKw
+         42EAQMe//ZLPggVyxYAq7V+lZLSmsEFY+LG6fW1w4KpR7G2Une1eKU/65sXMp7IKGG62
+         s6DzguPmyYchw779JJ1n6tBEfV4tySWH5pOAD/XfwE3A/VCOwqDlBT4bx9Qsx0R1wZqd
+         II4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747297362; x=1747902162;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=kwF2mpLnEXgp6MS24DBfTJGU9J3NTQxVKIISS1QkMRY=;
+        b=cFjcjBAolpp6NljfM2YTPF8q9m6C0th0eGnfAYZXShgH+VQH3NBjnAyBZV8owL6hG7
+         aLTXe3WxFndiI6Vo7GgmP/q2VnTTgZGL64Kcfsi/wKJ5Olage0CwmKGPFlHTB3GvxY0V
+         THj9wnDBzxFHGIp6pR2J1rOJbRy77HwJwUbS45VEUEI+imd0r10VIpIF7Uw+Dzzpw8B/
+         sUFCmRFdYMMKA8Zi+cpDgjoDPCd6lj8xfleO3jZo8tjlsgnKcAxvn2iYjY8a7aOVoIxk
+         rJLzjsnVW3/Q7X3cbeCpXIMXjM0TjL9xcQ/po534PhKYqsYihEq5oiyER3FAq7rMLnLq
+         AQog==
+X-Forwarded-Encrypted: i=1; AJvYcCWvO9TnB6Hc02Ga4rOepT/+0JLMbIzrebcaPUABm6N6F5F436pVPVfYS5f6KsDQjRG8U+J9awlUPio=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJirLycYzXthFoFX0b2nK6uAMcVJxpwdOn0KKRyMOvNv8op+Ot
+	Yd5IZl2H+VR/tK076Sjf1Azx4EB3glQM45wIBd/ziY33I3lqaHRoeAjfa/GsO5eg8OrXF8EKuC+
+	o
+X-Gm-Gg: ASbGncv/P/CCbyLpHZacbsk4fTUFR5igYXo/xrONJEwv1TvPbvy5h5wH/jFwUwrEovI
+	eIeCuQFZpz+AayOhkMYsSiOYM/Ecq7Yx4mBNcol1ly4cF0+SHi3EQD7ETCgeN+ZWY1flpEhYF35
+	xrBhM5PtMRjuWLTYPS4y3GV6DAsN0OpNQBz6lTNTD2JNRhxJN1Fqd50V3EY9hQQ/v72s9DyznKe
+	RfSb388fqQ/xkjSxs6tC3PJvClqdrf4qXJTEj8bG+l8/aaNNpo4cPosvm3R5r92NAGq+B1tH+uG
+	8fDDusb8VRW+ohOAFwswT0hbHKKeUtPI8qOmbv1dNSVE80dbe8aZ0SEDP61EiBpezO0Kpy3nOHI
+	ZVmTEcFu5WtBXGGa+4Z4EPxraw9Enaevf8fpn19SXalI=
+X-Google-Smtp-Source: AGHT+IFoAqDUpGzwC9J9Vfxc7d04H0Ld+rHi4ImfRVH+QnmmS1i9bVST/jFIeL7kigUyfhHbFokLQQ==
+X-Received: by 2002:a17:90b:55d0:b0:309:fac6:44f9 with SMTP id 98e67ed59e1d1-30e51947471mr2175743a91.31.1747297361651;
+        Thu, 15 May 2025 01:22:41 -0700 (PDT)
+Received: from localhost.localdomain (59-120-179-172.hinet-ip.hinet.net. [59.120.179.172])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e33451e97sm2909715a91.25.2025.05.15.01.22.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 01:22:41 -0700 (PDT)
+From: Chiang Brian <chiang.brian@inventec.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>,
+	Alexandre Ghiti <alex@ghiti.fr>
+Cc: Chiang Brian <chiang.brian@inventec.com>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	linux-riscv@lists.infradead.org
+Subject: [PATCH v7 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
+Date: Thu, 15 May 2025 16:14:39 +0800
+Message-Id: <20250515081449.1433772-3-chiang.brian@inventec.com>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20250515081449.1433772-1-chiang.brian@inventec.com>
+References: <20250515081449.1433772-1-chiang.brian@inventec.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fb4d382b-57e0-41b0-fba7-08dd938963ab
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2025 08:20:44.8197
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: JbGLNZ9h8Wqm1xygcG6YolxgdJt+ZtRpSclhRPN9HORE2mgBbtd3yF7ua91Daoho2a9hyMhkWuha4N85Tj/ysg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7706
-X-OriginatorOrg: intel.com
+Content-Transfer-Encoding: 8bit
 
-> From: Nicolin Chen <nicolinc@nvidia.com>
-> Sent: Friday, May 9, 2025 11:03 AM
->=20
-> To simplify the mappings from global VCMDQs to VINTFs' LVCMDQs, the
-> design
-> chose to do static allocations and mappings in the global reset function.
->=20
-> However, with the user-owned VINTF support, it exposes a security concern=
-:
-> if user space VM only wants one LVCMDQ for a VINTF, statically mapping tw=
-o
-> or more LVCMDQs creates a hidden VCMDQ that user space could DoS attack
-> by
-> writing random stuff to overwhelm the kernel with unhandleable IRQs.
->=20
-> Thus, to support the user-owned VINTF feature, a LVCMDQ mapping has to
-> be
-> done dynamically.
->=20
-> HW allows pre-assigning global VCMDQs in the CMDQ_ALLOC registers,
-> without
-> finalizing the mappings by keeping CMDQV_CMDQ_ALLOCATED=3D0. So, add a
-> pair
-> of map/unmap helper that simply sets/clears that bit.
->=20
-> Delay the LVCMDQ mappings to tegra241_vintf_hw_init(), and the
-> unmappings
-> to tegra241_vintf_hw_deinit().
+The TPS53685 is a fully AMD SVI3 compliant step down
+controller with trans-inductor voltage regulator
+(TLVR) topology support, dual channels, built-in
+non-volatile memory (NVM), PMBus interface, and
+full compatible with TI NexFET smart power
+stages.
+Add support for it to the tps53679 driver.
 
-I don't know the specifics of tegra241-cmdqv. But the current description
-is a bit misleading. for native tegra241_vintf_hw_init() is called from res=
-et
-so the mapping is still enabled in that path. for user-owned then=20
-tegra241_vcmdq_map_lvcmdq() is called from tegra241_vintf_alloc_lvcmdq_user=
-()
-instead of tegra241_vintf_hw_init().
+Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
+---
+v6 -> v7:
+	1. Modify the type of device_id from u16 to char *
+	2. Run make.cross with ARCH nios2, powerpc, and riscv
+	- Link to v6: https://lore.kernel.org/all/20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com/
 
-so nothing is actually delayed in this patch.
+v5 -> v6:
+	1. Add information about tps53685 into tps53679.rst
+	2. Add additional flags when identifing the chip as tps53685
+	3. Adjust length once returned device id is terminated by null character
+	- Link to v5: https://lore.kernel.org/all/20250314033040.3190642-1-chiang.brian@inventec.com/
+
+v4 -> v5: 
+	1. document the compatible of tps53685 into dt-bindings
+	2. add the buffer length as argument for %*ph
+	3. Add Changelog
+	- Link to v4: https://lore.kernel.org/all/CAJCfHmW61d2jd_tYpNEqBG_Z58bEnVKAmsvhrEP1zXQoXqrUVw@mail.gmail.com/
+
+v3 -> v4: 
+	1. Add length comparison into the comparison of "id",or it may be true when 
+	   the substring of "id" matches device id. 
+	2. Restore `return 0;` in `tps53679_identify_chip()`
+	- Link to v3: https://lore.kernel.org/all/CAJCfHmVyaDPh0_ThPjhBP0zMO1oE1AR=4=Zsa0cMPXU3J4v6dw@mail.gmail.com/
+
+v2 -> v3:
+	1. Remove the length comparsion in the comparison of "id".
+	- Link to v2: https://lore.kernel.org/all/CAJCfHmUteFM+nUZWBWvmwFjALg1QUL5r+=syU1HmYTL1ewQWqA@mail.gmail.com/
+
+v1 -> v2: 
+	1. Modify subject and description to meet requirements
+	2. Add "tps53685" into enum chips with numeric order
+	3. Modify the content of marco "TPS53681_DEVICE_ID" from 0x81 to "\x81"
+	   Add marco "TPS53685_DEVICE_ID" with content "TIShP"
+	4. Modify the type of "id" from u16 to char* in `tps53679_identify_chip()`
+	5. Modify the comparison of "id". It will be true if the string "id" matches 
+	   device ID and compare with type char*,
+	6. Add the length comparsion into the comparison of "id".
+	7. Modify "len" as return code in `tps53679_identify_chip()`
+	8. Output device error log with %*ph, instead of 0x%x\n" 
+	9. Use existing tps53679_identify_multiphase() with argument 
+	   "TPS53685_DEVICE_ID" in tps53685_identify() rather than creating one
+	   tps53685_identify_multiphase()
+	- Link to v1: https://lore.kernel.org/all/CAJCfHmVy3O4-nz2_PKF7TcXYr+HqTte1-bdUWLBmV7JOS7He1g@mail.gmail.com/
+
+ Documentation/hwmon/tps53679.rst |  8 +++++++
+ drivers/hwmon/pmbus/tps53679.c   | 36 +++++++++++++++++++++++++++-----
+ 2 files changed, 39 insertions(+), 5 deletions(-)
+
+diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps53679.rst
+index 3b9561648c24..dd5e4a37375d 100644
+--- a/Documentation/hwmon/tps53679.rst
++++ b/Documentation/hwmon/tps53679.rst
+@@ -43,6 +43,14 @@ Supported chips:
+ 
+     Datasheet: https://www.ti.com/lit/gpn/TPS53681
+ 
++  * Texas Instruments TPS53685
++
++    Prefix: 'tps53685'
++
++    Addresses scanned: -
++
++    Datasheet: https://www.ti.com/lit/gpn/TPS53685
++
+   * Texas Instruments TPS53688
+ 
+     Prefix: 'tps53688'
+diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
+index 63524dff5e75..01fefaef1688 100644
+--- a/drivers/hwmon/pmbus/tps53679.c
++++ b/drivers/hwmon/pmbus/tps53679.c
+@@ -16,7 +16,7 @@
+ #include "pmbus.h"
+ 
+ enum chips {
+-	tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
++	tps53647, tps53667, tps53676, tps53679, tps53681, tps53685, tps53688
+ };
+ 
+ #define TPS53647_PAGE_NUM		1
+@@ -31,7 +31,8 @@ enum chips {
+ #define TPS53679_PROT_VR13_5MV		0x07 /* VR13.0 mode, 5-mV DAC */
+ #define TPS53679_PAGE_NUM		2
+ 
+-#define TPS53681_DEVICE_ID		0x81
++#define TPS53681_DEVICE_ID     "\x81"
++#define TPS53685_DEVICE_ID     "TIShP"
+ 
+ #define TPS53681_PMBUS_REVISION		0x33
+ 
+@@ -86,10 +87,12 @@ static int tps53679_identify_phases(struct i2c_client *client,
+ }
+ 
+ static int tps53679_identify_chip(struct i2c_client *client,
+-				  u8 revision, u16 id)
++				  u8 revision, char *id)
+ {
+ 	u8 buf[I2C_SMBUS_BLOCK_MAX];
+ 	int ret;
++	int buf_len;
++	int id_len;
+ 
+ 	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
+ 	if (ret < 0)
+@@ -102,8 +105,14 @@ static int tps53679_identify_chip(struct i2c_client *client,
+ 	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
+ 	if (ret < 0)
+ 		return ret;
+-	if (ret != 1 || buf[0] != id) {
+-		dev_err(&client->dev, "Unexpected device ID 0x%x\n", buf[0]);
++
++	/* Adjust length if null terminator if present */
++	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
++
++	id_len = strlen(id);
++
++	if (buf_len != id_len || strncmp(id, buf, id_len)) {
++		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
+ 		return -ENODEV;
+ 	}
+ 	return 0;
+@@ -138,6 +147,16 @@ static int tps53679_identify(struct i2c_client *client,
+ 	return tps53679_identify_mode(client, info);
+ }
+ 
++static int tps53685_identify(struct i2c_client *client,
++				 struct pmbus_driver_info *info)
++{
++	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
++			 PMBUS_HAVE_STATUS_INPUT;
++	info->format[PSC_VOLTAGE_OUT] = linear;
++	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
++					   TPS53685_DEVICE_ID);
++}
++
+ static int tps53681_identify(struct i2c_client *client,
+ 			     struct pmbus_driver_info *info)
+ {
+@@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
+ 		info->identify = tps53681_identify;
+ 		info->read_word_data = tps53681_read_word_data;
+ 		break;
++	case tps53685:
++	    info->pages = TPS53679_PAGE_NUM;
++	    info->identify = tps53685_identify;
++		break;
+ 	default:
+ 		return -ENODEV;
+ 	}
+@@ -277,6 +300,7 @@ static const struct i2c_device_id tps53679_id[] = {
+ 	{"tps53676", tps53676},
+ 	{"tps53679", tps53679},
+ 	{"tps53681", tps53681},
++	{"tps53685", tps53685},
+ 	{"tps53688", tps53688},
+ 	{}
+ };
+@@ -289,6 +313,7 @@ static const struct of_device_id __maybe_unused tps53679_of_match[] = {
+ 	{.compatible = "ti,tps53676", .data = (void *)tps53676},
+ 	{.compatible = "ti,tps53679", .data = (void *)tps53679},
+ 	{.compatible = "ti,tps53681", .data = (void *)tps53681},
++	{.compatible = "ti,tps53685", .data = (void *)tps53685},
+ 	{.compatible = "ti,tps53688", .data = (void *)tps53688},
+ 	{}
+ };
+-- 
+2.43.0
+
