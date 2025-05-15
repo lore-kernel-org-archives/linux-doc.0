@@ -1,249 +1,233 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 51F3E2248AE;
-	Thu, 15 May 2025 08:11:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747296698; cv=none; b=cgVWRlBfho1BzIUvi8rhQNcn7Bh2aN++McESiRvGxN0lQc5lQ6VXOC8Q4cnbH2QtQ8Lt4RR5n+0WdERMSDdiJ/ZGOoUXfxpBzOt0SdsEJzSR/+H6ITOa6X4rC/RrO2UZ1JsuJQeIbRQcIkGSBcAA+UIZZ3cIYNo5mXOEUmfztxU=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747296698; c=relaxed/simple;
-	bh=rbVrD9MiC3jK5EeZ9PE0xRdvA68qJ3Hw81sCpkWBrPE=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=tQLF5s0Gf0o+x0nsh+J1DVsCDfgMfpU9KahNF60l6JoYhw0nL7Han75RnznTa6VNWpVYvO6NkB8So/L9FkR4N4L+n1plgUiw65guiJJCGga/gU84MkR6VxyhLm1qjhV2OdZZut05tUiW4nnqnOSQOW0Ox2ZnEVO3N6AN6ruZg80=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ERYcFq8v; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A40992882CF;
+	Thu, 15 May 2025 08:21:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.10
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747297277; cv=fail; b=d+DoUOAsZzk7VcuoHtU8Eg0c/h1WvfpN/kHnDJAdTPjax76msUInBPsa8edEzPGFbbGodB17scFy+ZjOTB+cGd8if5aMFSIPIy+MTrdFa6ZWPebB5Ke2fiuNWuEvs+/IBh29Bc+LLHI6920yjMjWDViBLqJjeYbBTx54pjlxoPY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747297277; c=relaxed/simple;
+	bh=RcBHEkJ6RwqIxkvsXcpx26XQYdY37hi8aDkRI+2Yloc=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ERyOgWLIn57lLK7jq0wJZLDP/HtwBVeRT7YkD8acdjdrSeG4RyowSkjP9Nua/PvVLGMnE2ZPHrIwMABqDNzcpSKQK5zwD4AOpa5QrD6NFswsDNV+kcTl5eglqT5YMCxD3CAZ3SIHStMURSoFfagQlVoeUAPDNYl8ZgUi4hkrHKE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=iMUIds06; arc=fail smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ERYcFq8v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 14837C4CEE7;
-	Thu, 15 May 2025 08:11:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747296697;
-	bh=rbVrD9MiC3jK5EeZ9PE0xRdvA68qJ3Hw81sCpkWBrPE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=ERYcFq8viWWHeLzIq3zF3TXSURmbyOBjFGwFrxgsfBKl/Vl1cM37pvAxOajCil7f0
-	 j2P9euHQBTiqNh9uSCMBrpeSTLkv0XdnEz+4gocdIzdeHzOm530N52Q1X35dMIhNvL
-	 IR0ufUzR5vuqbjr87pM7vEV0BnCtiiZGmDz3nQ9VXcuaWifoN9vfuWhp7Zg2BRbTUB
-	 Fsp5AYee8t1CRiUcL0WwWIIupiMLEMMKNCHE05gR9q/BDOShObu9TGOvtYIshj8Te6
-	 1tf/j/3IDH4CW7woXYH53Yomw5CqD0dv+nGZvGIjGGPSmbmjdNl0VMJvhEvABKm6UP
-	 VZe48MnF/jggg==
-Date: Thu, 15 May 2025 10:11:33 +0200
-From: Maxime Ripard <mripard@kernel.org>
-To: Luca Ceresoli <luca.ceresoli@bootlin.com>
-Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
-	Simona Vetter <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, 
-	Andrzej Hajda <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>, 
-	Robert Foss <rfoss@kernel.org>, Laurent Pinchart <Laurent.pinchart@ideasonboard.com>, 
-	Jonas Karlman <jonas@kwiboo.se>, Jernej Skrabec <jernej.skrabec@gmail.com>, 
-	Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, 
-	Dmitry Baryshkov <lumag@kernel.org>, =?utf-8?B?SGVydsOp?= Codina <herve.codina@bootlin.com>, 
-	Hui Pu <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
- devm_drm_bridge_alloc()
-Message-ID: <gqe4ov7w54qe7mmfn2ud63g2ema2wh3qvyfvcaycvnh5mts3it@ef7qxryo2ccy>
-References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
- <20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
- <20250414-misty-hungry-woodlouse-dbbd64@houat>
- <20250415132214.19b1a4ff@booty>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="iMUIds06"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747297276; x=1778833276;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=RcBHEkJ6RwqIxkvsXcpx26XQYdY37hi8aDkRI+2Yloc=;
+  b=iMUIds06p8RzbmcfHpo5JTlfBxlsmkP3ov7tdLOA4SeQhoIq0f7fMNUE
+   HmPiWSfapnf4bR4aQbzzvp2cZnHQMHNfNijP9IurYbmJr3hgH12OPV+7z
+   WacIBdwTPe/ErZyA+CwN5UxaAt20YmVQp1mxaC5rw3AxklDaFrwPIZ37V
+   CSQcjTQEPs0STcD5PISe7NLa8wWhTDjnpmdoBNn4jwQ4JLWwQp5mYSoyD
+   NfSOS506YHDR2x70F/tYPlI3f9iKhxfZWzMxn35CuCH45BZHDUmTKLKVm
+   yBSkNcoMRLPHcmr4N1fRO9neaJO5Qg2ypxP3ZZfAgv8cO/L8Wvt2zAaX5
+   Q==;
+X-CSE-ConnectionGUID: JzFjaeroSZqKNYjs50pcPg==
+X-CSE-MsgGUID: cPyFYIi7Sy+EBi/DSpGsOg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="66626176"
+X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
+   d="scan'208";a="66626176"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:21:15 -0700
+X-CSE-ConnectionGUID: +dgdTsJYSxK6we44YABzww==
+X-CSE-MsgGUID: 0HTt7quJTHGprLRPFh7lWg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
+   d="scan'208";a="138832476"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa007.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:21:15 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14; Thu, 15 May 2025 01:21:13 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.14 via Frontend Transport; Thu, 15 May 2025 01:21:13 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.173)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.44; Thu, 15 May 2025 01:21:13 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=t57WwcOComfPNQnEqLAGVw2gvJYDldsD6kmNahaPHg0AaXM09C7748aG/l0GEYrHGzh5Agpa5rD5ed4YGzxJrlvQ3o+lNFNUi4YL4Zlul7b3ZvxhF6Pqlc+VLH4lcx8FKvh5Fd7lKW0U2XV0tAW9sT8OQaoartkZhz6iK+o6gSdt0tDdKY/mfjYU59u0STv1lkDPHvNtoTiuBXv8SSgB9R6lVE7tKammbLdDUydIlLS0jO025XjBrdWr205+M4X8aAQJEFirmtXctWlF0jT/j+hfS92puK/gvDxRntS1cAbqD3dcjows/B9JvclhgfvsmMFKUWqiceSTYZa6YfB7FQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=RcBHEkJ6RwqIxkvsXcpx26XQYdY37hi8aDkRI+2Yloc=;
+ b=hBGWR3I6T72lwW8q28GHQ08Jkbbr/LaglNoqHXtDUA09wLhXE3we42TM/qnycXwQl1+UpnI8JccRzp80IZGDFnhw4UtTsefcV9x94rVxdnfca+1pW0tuaPLVRbeSO1nKxLXGgRVug7yKtQy0Lj7i1kvE7TmJIYyCAJvcrW/kHFE9f0P8ym6lWd75Kt+rmZQ1WXciu8iQVte0bYJjJ5c2AnTINcdstwzRZzG//m0ALybyJcBk5Gb1TbAG28j3Kf8BlA9rfMIFvQVh/rAZTC1E0o6pY7RTpvJdQT5ABmj7S/GdS8RQ1CpxwFH+zCEHqnkJ1si4mhoI06SufEq4F1EzrQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
+ by SN7PR11MB7706.namprd11.prod.outlook.com (2603:10b6:806:32c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.30; Thu, 15 May
+ 2025 08:20:45 +0000
+Received: from BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
+ ([fe80::b576:d3bd:c8e0:4bc1%4]) with mapi id 15.20.8722.031; Thu, 15 May 2025
+ 08:20:44 +0000
+From: "Tian, Kevin" <kevin.tian@intel.com>
+To: Nicolin Chen <nicolinc@nvidia.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
+	"corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org" <will@kernel.org>
+CC: "bagasdotme@gmail.com" <bagasdotme@gmail.com>, "robin.murphy@arm.com"
+	<robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
+	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, "vdumpa@nvidia.com"
+	<vdumpa@nvidia.com>, "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+	"shuah@kernel.org" <shuah@kernel.org>, "jsnitsel@redhat.com"
+	<jsnitsel@redhat.com>, "nathan@kernel.org" <nathan@kernel.org>,
+	"peterz@infradead.org" <peterz@infradead.org>, "Liu, Yi L"
+	<yi.l.liu@intel.com>, "mshavit@google.com" <mshavit@google.com>,
+	"praan@google.com" <praan@google.com>, "zhangzekun11@huawei.com"
+	<zhangzekun11@huawei.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"linux-arm-kernel@lists.infradead.org"
+	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
+	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
+	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
+	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
+	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
+	<vasant.hegde@amd.com>
+Subject: RE: [PATCH v4 21/23] iommu/tegra241-cmdqv: Do not statically map
+ LVCMDQs
+Thread-Topic: [PATCH v4 21/23] iommu/tegra241-cmdqv: Do not statically map
+ LVCMDQs
+Thread-Index: AQHbwI8Y4VeinSgz4ESE5mK6ZV7qObPTX8GQ
+Date: Thu, 15 May 2025 08:20:44 +0000
+Message-ID: <BN9PR11MB5276FF1D733E5F086C6A26968C90A@BN9PR11MB5276.namprd11.prod.outlook.com>
+References: <cover.1746757630.git.nicolinc@nvidia.com>
+ <80d41b740635b40dd0f9ed4279dc1cdeb3c8942c.1746757630.git.nicolinc@nvidia.com>
+In-Reply-To: <80d41b740635b40dd0f9ed4279dc1cdeb3c8942c.1746757630.git.nicolinc@nvidia.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|SN7PR11MB7706:EE_
+x-ms-office365-filtering-correlation-id: fb4d382b-57e0-41b0-fba7-08dd938963ab
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|38070700018;
+x-microsoft-antispam-message-info: =?us-ascii?Q?Cx2p+2qzmrgdet7ifXsdJVdn4X4faeKPjXWLS6toS6gBqwqR5LT4ezqJ+YEX?=
+ =?us-ascii?Q?dOoGxgIK2AGXUo+RmLY+XKvf0qDzqkaxLxP66fPPXo5BcUrZzGuutcmOE/sM?=
+ =?us-ascii?Q?OhSgMbT2JSVUKdx2CQWfNYa3WqOVAZViyzTMl5TNk4Mr4sqVbKgsTep4Rnjr?=
+ =?us-ascii?Q?aTJqwRXFcuLZllR/0xf/GmqL2s9EHTetm4fUvwkwcKCbNa2KQlsMSJUpw+16?=
+ =?us-ascii?Q?GZi2NE3fdUSGItFesA+Oo8yfn2/8j32ZXGSTZPTK9BNPNFFeQgKxKRqXwnap?=
+ =?us-ascii?Q?Q93dKP5B+MugGMHU3W2DfVxh7D0NhuQ1yykYcyNBCFM+NjCaUPe6VHjx0ryl?=
+ =?us-ascii?Q?WaykaYwREavXyL011xLlqYQFBaHIS3Pe44z80vMdW4tyKBg3tqYaxYVx5WEM?=
+ =?us-ascii?Q?gggByVKNYy+OdXi4Dn2+KcP1HREvYfjEjG3kfTQOAalCKHdR5aZr9+6oHZph?=
+ =?us-ascii?Q?iA8413H0wev/J9xGtGngxXRD6fAneuC+GHuLnY7iar8Nf293rYZc6k5d6fDv?=
+ =?us-ascii?Q?Nbj6aWahZZsH1mXxQDOh/A5r6PkfnyuYbbzH9s7+knqVHLwPRxTQoovUD3l/?=
+ =?us-ascii?Q?IyAcvCxxsyxUiIbwBF0AY3XydLhlpxsrCp+i+MiYkTw8LZMkTj88S+HasEEN?=
+ =?us-ascii?Q?tHSy7y4YlVHFA2mV3BwL+gq97cU86bcCi6okvBzjOvJ/JwHsXT8SwRCcKmAj?=
+ =?us-ascii?Q?WO2AKX+0tapG7NLmG+QE06fWYVsyhJEDAg0t2IOLHYFuewKCmZCNc/Bwecif?=
+ =?us-ascii?Q?tslLkeZWht/A5vK8IL2s/hv9YyK+65gyY/5DAWWa6AE6qyRhSS0cix5p+KPr?=
+ =?us-ascii?Q?8pqfeB4LSRWl7g43m3nJx6bkGMCYEbmQotZ/NcyDP6dE5Ma7T9qG3b1yPZXl?=
+ =?us-ascii?Q?nYohSguxLDfSfyI2edE2VvpaCHfrGhsOdC+oVUW+eCFCiOJiXPP22/20DYbM?=
+ =?us-ascii?Q?fTZZW1wUhynceMEDSCeQINGjqJVhK8qbF/kMSjyNOraXAcBsFfMMGwil0rtW?=
+ =?us-ascii?Q?ERD5wRtbkZKKvjnV9aMY0a8g0maqC6adDTNiSB8XIMIniRtHA5cdsVOlCL/A?=
+ =?us-ascii?Q?wOBPVGzC5gpFq6TNCk5Kx2ZUCjLkQU01mrphNSAclCncKc+Rab0NlWKpa3uT?=
+ =?us-ascii?Q?Eh7WH5PT20thPgkce1fUXKccv3BjSkHaJQFeD2KIgM59810zKMXLUFWER0wT?=
+ =?us-ascii?Q?GD0UxKB+7EsibV8DQngSBxHFRKnssGcIFISdSp07INl8O1vnDT7/D8r0Qr5b?=
+ =?us-ascii?Q?Pl+C/8/Jv7NJES4wGWI9el3wy9Gfx1AiQsoiBarznUHEAFfxSjWNa4RODZhI?=
+ =?us-ascii?Q?MtaL7TBNtTf/jSKU5sEXMLUWDsmJDB5B3AIv9h42KcfqOy1pADuRD2gHBgcO?=
+ =?us-ascii?Q?QKvnxYOiKSCWOeU4EKvpeEYgpYeGCoXzN70FKGBiRexvz6PV1+D1hwbv5hJe?=
+ =?us-ascii?Q?wW204JVPzCwUR+glBwR001XKCAk5ih6H0AobV/g4oBpR+44UefL3GT47pxkb?=
+ =?us-ascii?Q?COraZToLYz1d6Fg=3D?=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(38070700018);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?0ZhQQWjB/eLvUz7eKEeHK66fdlFU1QMXpfaC9THpwV+qVRztwqgAv0YF4hMq?=
+ =?us-ascii?Q?RHgjcmgqtbBbFBnPVJJKT5z0pgCFnjgQX97h9Ahji3SMvZ8CU6ejsr0nJSof?=
+ =?us-ascii?Q?SkbqJzjHCDE7lqLqoIe6J5dL4VqXgp7WT/I4oM4W0lRiYz5VAZd7sCM0qhjO?=
+ =?us-ascii?Q?6PIyT0gEji81FSQnkt4EKd4zXIFaBqgjZkzYcJ2TdTEM+PkNW/qL+RFMlcgL?=
+ =?us-ascii?Q?17whrrg1S8buPReMVeLr5FjXMkbPPRqvITXk4V0P2lkhiKfQGU+0PBAYqCzZ?=
+ =?us-ascii?Q?L+QzWA7nUZIAoOJLoqlSmYbYJ6eWPk6d/PjBbeZebBisFd3Be0HL4WVE9bgz?=
+ =?us-ascii?Q?ebolUZhs1mXN91PYkUfmTsPkaGWOdFVS0HiKC1ScdrEF5tGSnFBP01EHba07?=
+ =?us-ascii?Q?Abb8u9RuE/JORCC9h50G0lgl0aJ4F0wcRbmBGZs9ci4h8em1xEfT05aH1pwL?=
+ =?us-ascii?Q?g5dXTtum4oN45dDphH0ay0w9W5KFi7w1b0CTEHeHL0jUMKIK3/HDFT7/FiJf?=
+ =?us-ascii?Q?pYehCFT6szg2ROt/Tj16BfH/1ma7e5JClF12zATm7EhJNtofbdbu18kcgMl8?=
+ =?us-ascii?Q?mN0lU/aOvar26hM/fZVxCMl0jATX7PC3KZBbJiTBUO+P+MYM/rEQZ0VKouB3?=
+ =?us-ascii?Q?iCwgl4+zaeJrAQgpmXFwbAtqoCG/VYx74lzz35ukxSCbdU/XoVlUcMl2y9TT?=
+ =?us-ascii?Q?8CoYCmwki2HtUynxhtsk/MJglQy7UqPxENHipb99FBFWhdBAJGT0YFGGXeqs?=
+ =?us-ascii?Q?3NsZwOSmmBLGEbf16U9v6AAjQGIPDQNJK9JqktGIsUzrRB6t2H3jgFE8eC7s?=
+ =?us-ascii?Q?TuAq89XmA1UGzxTH7tys+mSV53MhbtgisNOUGfIsG4PNR/f43Kq1lVLFGOEg?=
+ =?us-ascii?Q?F+nJDt6piWeo7Ja6CwclvK5qIhWJWar1HpA7pIfSb4wxJeHXz214nqvThS6F?=
+ =?us-ascii?Q?YbjrLe53HKCAZS05H++VgKz2i2NGO7LdlfxuFtK9ofE2LSgAABYUyVdXcGwp?=
+ =?us-ascii?Q?svw3Mots8x4EYmd7nNQ0idz27HM3b08qW0mq15+9/ogy2KwyqrePXrxipRZB?=
+ =?us-ascii?Q?tr2eeWqVmpZBsnQhLlV06/1JkaA0JIxqTae4elH93ZxLQqPWZ3JPnHGBupmg?=
+ =?us-ascii?Q?M+Hf1uD7mmACICMSYqSq3uEgA/iSC15b9Iqr6FxgTWf3sS4Z9TsGyA8ArlW/?=
+ =?us-ascii?Q?qgByTPdTymN86wIp0i6r1LRP1XxC83AbtPlslv2+jirv1jTx+nrsVWEHH8S1?=
+ =?us-ascii?Q?qWdijfDuocKhEPDG9AkOmNeZMO8+A8U8SeqVV1Wz9SrG365jNFJ2SZa1hzpl?=
+ =?us-ascii?Q?5ieetZvMZntWUkcVkfZiY1LCMn7kA7ooXag11W1/hshSkBMIRz32G4F3SGBf?=
+ =?us-ascii?Q?iqSGSaug18J8/U1ilm2BAOidsN5EId5q0SYzebDLwbx8XfuwL+AW9/D1/9Lr?=
+ =?us-ascii?Q?nklFQFVVmWBJypQp1h4trFXPril1EDn6bLsCakpey4lA5CiSPcDIyxYAK7zO?=
+ =?us-ascii?Q?tdI/CJ+c58ucKct0y93c2J5orZSgog1rlCw+RYRZyvS7ZeiZMfnYKHXiuKc0?=
+ =?us-ascii?Q?+vmKDbdSgzCCbxen2dIGebcCE1O+FnIhZ9SuV56g?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha384;
-	protocol="application/pgp-signature"; boundary="rle4hqmce2dkwfou"
-Content-Disposition: inline
-In-Reply-To: <20250415132214.19b1a4ff@booty>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: fb4d382b-57e0-41b0-fba7-08dd938963ab
+X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2025 08:20:44.8197
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: JbGLNZ9h8Wqm1xygcG6YolxgdJt+ZtRpSclhRPN9HORE2mgBbtd3yF7ua91Daoho2a9hyMhkWuha4N85Tj/ysg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR11MB7706
+X-OriginatorOrg: intel.com
 
-
---rle4hqmce2dkwfou
-Content-Type: text/plain; protected-headers=v1; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
- devm_drm_bridge_alloc()
-MIME-Version: 1.0
-
-On Tue, Apr 15, 2025 at 01:22:14PM +0200, Luca Ceresoli wrote:
-> > > +/*
-> > > + * Mimick the typical struct defined by a bridge driver, which embed=
-s a
-> > > + * bridge plus other fields.
-> > > + */
-> > > +struct dummy_drm_bridge {
-> > > +	int dummy; // ensure we test non-zero @bridge offset
-> > > +	struct drm_bridge bridge;
-> > > +}; =20
-> >=20
-> > drm_bridge_init_priv gives you that already.
+> From: Nicolin Chen <nicolinc@nvidia.com>
+> Sent: Friday, May 9, 2025 11:03 AM
 >=20
-> On one hand, that's true. On the other hand, looking at
-> drm_bridge_init_priv I noticed it is allocating a bridge without using
-> devm_drm_bridge_alloc(). This should be converted, like all bridge
-> alloctions.
->
-> So I think the we first need to update drm_bridge_test.c to allocate
-> the bridge using devm_drm_bridge_alloc(), along with the needed changes
-> to the kunit helpers.
-
-Oh, yeah, absolutely.
-
-> One way would be allocating the entire drm_bridge_init_priv using
-> devm_drm_bridge_alloc(), but that does not look like a correct design
-> and after reading the helpers code I'm not even sure it would be doable.
+> To simplify the mappings from global VCMDQs to VINTFs' LVCMDQs, the
+> design
+> chose to do static allocations and mappings in the global reset function.
 >=20
-> Instead I think we need to change struct drm_bridge_init_priv
-> to embed a pointer to (a modified version of) struct dummy_drm_bridge:
+> However, with the user-owned VINTF support, it exposes a security concern=
+:
+> if user space VM only wants one LVCMDQ for a VINTF, statically mapping tw=
+o
+> or more LVCMDQs creates a hidden VCMDQ that user space could DoS attack
+> by
+> writing random stuff to overwhelm the kernel with unhandleable IRQs.
 >=20
->  struct drm_bridge_init_priv {
->          struct drm_device drm;
->          struct drm_plane *plane;
->          struct drm_crtc *crtc;
->          struct drm_encoder encoder;
-> -        struct drm_bridge bridge;
-> +        struct dummy_drm_bridge *test_bridge;
->          struct drm_connector *connector;
->          unsigned int enable_count;
->          unsigned int disable_count;
->  };
+> Thus, to support the user-owned VINTF feature, a LVCMDQ mapping has to
+> be
+> done dynamically.
 >=20
-> So that devm_drm_bridge_alloc() can allocate the new test_bridge
-> dynamically:
+> HW allows pre-assigning global VCMDQs in the CMDQ_ALLOC registers,
+> without
+> finalizing the mappings by keeping CMDQV_CMDQ_ALLOCATED=3D0. So, add a
+> pair
+> of map/unmap helper that simply sets/clears that bit.
 >=20
->  priv->test_bridge =3D
->    devm_drm_bridge_alloc(..., struct dummy_drm_bridge, bridge, ...);
->=20
-> Do you think this would be the correct approach?
+> Delay the LVCMDQ mappings to tegra241_vintf_hw_init(), and the
+> unmappings
+> to tegra241_vintf_hw_deinit().
 
-It's kind of correct, but you're also correct that it's probably too
-much for those simple tests, so it might not be worth it in the end.
+I don't know the specifics of tegra241-cmdqv. But the current description
+is a bit misleading. for native tegra241_vintf_hw_init() is called from res=
+et
+so the mapping is still enabled in that path. for user-owned then=20
+tegra241_vcmdq_map_lvcmdq() is called from tegra241_vintf_alloc_lvcmdq_user=
+()
+instead of tegra241_vintf_hw_init().
 
-> > > +static const struct drm_bridge_funcs drm_bridge_dummy_funcs =3D {
-> > > +};
-> > > +
-> > > +static int drm_test_bridge_alloc_init(struct kunit *test)
-> > > +{
-> > > +	struct drm_bridge_alloc_test_ctx *ctx;
-> > > +
-> > > +	ctx =3D kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
-> > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
-> > > +
-> > > +	ctx->dev =3D kunit_device_register(test, "drm-bridge-dev");
-> > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
-> > > +
-> > > +	test->priv =3D ctx;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +/*
-> > > + * Test that the allocation and initialization of a bridge works as
-> > > + * expected and doesn't report any error.
-> > > + */
-> > > +static void drm_test_drm_bridge_alloc(struct kunit *test)
-> > > +{
-> > > +	struct drm_bridge_alloc_test_ctx *ctx =3D test->priv;
-> > > +	struct dummy_drm_bridge *dummy;
-> > > +
-> > > +	dummy =3D devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, =
-bridge,
-> > > +				      &drm_bridge_dummy_funcs);
-> > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy); =20
-> >=20
-> > Why did you need the dummy value in dummy_drm_bridge if you're not using
-> > it?
->=20
-> To ensure we test non-zero @bridge offset. Say there is a bug in the
-> pointer math, e.g. 'bridge =3D container - offset' instead of 'bridge =3D
-> container + offset'. That would not be caught if @bridge is the first
-> field in the struct.
->=20
-> Does this look like a good reason to keep it?
-
-Ack, but please document it with a comment
-
-> > We'd need a couple more tests, in particular some to make sure the
-> > bridge pointer is properly cleaned up when the device goes away, but not
-> > when we have called drm_bridge_get pointer on it, etc.
->=20
-> It would surely be useful, and there was one in the initial patch I
-> sent ([0], search for "destroyed"). Then I removed it because the code
-> changed, there is no callback anymore, so no place where this can be
-> tested.
-
-Why did we end up removing the destroy hook? It looks useful to me.
-
-> I'd be glad to re-add such a check but I don't see how it could be
-> implemented in a clean, non-invasive way.
->=20
-> The only way that comes to mind is be that the kunit test does not call
-> drm_bridge_put() but rather a kunit-specific reimplementation that
-> passes a reimplementation of __drm_bridge_free() which does the
-> accounting. Quick draft (note the added "_test" infix):
->=20
-> struct dummy_drm_bridge {
->         struct drm_bridge_init_priv *test_priv;
->         struct drm_bridge bridge;
-> };
->=20
-> // reimplemented version of __drm_bridge_free
-> static void __drm_test_bridge_free(struct kref *kref)
-> {
->         struct drm_bridge *bridge =3D container_of(kref, struct drm_bridg=
-e, refcount);
-> 	struct dummy_drm_bridge *dummy =3D bridge->container;
-> =09
-> 	dummy->text_priv->destroyed =3D true;
->         kfree(bridge->container);
-> }
->=20
-> // reimplemented version of drm_bridge_put
-> void drm_test_bridge_put(struct drm_bridge *bridge)
-> {
->         if (bridge)
->                 kref_put(&bridge->refcount, __drm_test_bridge_free);
-> }
->=20
-> My concern with this idea is that it is not testing the actual
-> drm_bridge.c code, but a different implementation. Even more, if the
-> functions in drm_bridge.c will change, the ones in drm_bridge_test.c
-> might be forgotten, thus we'd end up in testing code that is different
-> from the code actually used.
-
-Yeah, I agree, it's not really useful if it's not testing the code we
-would typically run.
-
-> Another way would be adding an optional .destroy a callback in struct
-> drm_bridge_funcs that is called in __drm_bridge_free(), and only the
-> kunit test code implements it. Maybe looks cleaner, but it would be
-> invasive on code that all bridges use. We had discussed a different
-> idea of .destroy callback in the past, for different reasons, and it
-> was not solving the problem we had in that case. So kunit would be the
-> only user for the foreseeable future.
-
-Sorry, we've had many conversations about all that work so I can't
-recall (or find) what your objections or concerns (or mine, maybe?) were
-about thing topic. It looks totally reasonable to me, and consistent
-with all the other DRM entities.
-
-I'm also not entirely sure how invasive it would be? Add that callback,
-check if it's set and if it is, call it from __drm_bridge_free(), and
-you're pretty much done, right?
-
-Maxime
-
---rle4hqmce2dkwfou
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iJUEABMJAB0WIQTkHFbLp4ejekA/qfgnX84Zoj2+dgUCaCWhrwAKCRAnX84Zoj2+
-dp8wAYDZZz4HohGInsWZy07HZIxX0HMbp0PSquVavPaf008d3H0IZzlRRPj6NV1t
-29nDYdoBgJ0iHLfCi6462W/6SPnuZwjhuK3xo8qH8E5zn1FgM6OBpNfEQGxgbxU6
-xsT9rNLviQ==
-=OO2v
------END PGP SIGNATURE-----
-
---rle4hqmce2dkwfou--
+so nothing is actually delayed in this patch.
