@@ -1,178 +1,212 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f174.google.com (mail-pf1-f174.google.com [209.85.210.174])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D4E64B1E44;
-	Thu, 15 May 2025 02:06:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CCF8F242D61;
+	Thu, 15 May 2025 02:34:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747274786; cv=none; b=LmbXApBD0lc60L15jfGdhSru6+Olk7kojD2qHNHqzXME4NhUzjVGga4rSC2rNuTKovYm1D7adetctWgm4JbnICR/wDTxQ2XaghDuYtOksVwUkKrW90vRBdohPgOf9tea+7Eyc1NzkqeXH1tvIVjYK5MYl6L6tArCpXYJKaVczuE=
+	t=1747276442; cv=none; b=klJEJlIqC6ywRWY5Lq2jgVH5zIOAVxqTO6ov37q2AB7PCU+/NS7VWbIrjdf3QehOxCvxjdYLMgEQ00C1LyuSTwY7ltrfRy1LyAcMduxMQ5wM9jKFQUiFy8qmlWEC9V8cAg12BBOhEIt8L5on6VGoTLSCG7M/PVIcpvo1OJy4eGs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747274786; c=relaxed/simple;
-	bh=0s4aP+GUXSooXukpZbwoYjCRRnKU1I3gEARrmJir8Kg=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=obrOdxbltJIKMybUVwax4Bfy/KyIg18++zMpXGMPiChW1AJE1oowE6O8jNudqt5KVSNRB7X16KsvjiwGrW3duHVOTSKuOEDLtx0puEyHu7ifwtwPPZ9zJSomY9w8AGB2sHNTrIVQNmHhyWapZwowVELo/H5hC+tDVOL9EWhRDVs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uxm1PjfW; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747276442; c=relaxed/simple;
+	bh=hPGiRiv5V/5eBwT9eqRBSUagayubbqJPRFPyfgwV1Es=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Z6z029yRRSgQp/JT8sFC2dW0NR1nijwUZ/8jTfewdKmzokzEr892yBtodhTxUIhgYe9wTCbVTQfcmcLnKbPqpDwrjph5N3HjirONtav6oFQHoEhsUU0L7Em0LvKi3XdIOiSJdDLdid9hIftVKVC7JKJuE3fdL7k+qijZxV/zKFI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=dNAP8jXI; arc=none smtp.client-ip=209.85.210.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uxm1PjfW"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 85924C4CEE3;
-	Thu, 15 May 2025 02:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747274785;
-	bh=0s4aP+GUXSooXukpZbwoYjCRRnKU1I3gEARrmJir8Kg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=uxm1PjfWlSxmPpIXMVfETaA8OuYRSur6Ps9dBWi2N9q2pRj6enIo2XEBzRmoohzhn
-	 cVA1Ud8dka8UNRuu5gc27gUmAEooIrqmlSHsvpDchkhy42rX/M12Ekb4nrlSmQlkqt
-	 YFXjwBKS/5BFGB41NEIwpQCzl6NoMh5JFST9Gzra80W7wC+Yhw6KzLC54vEn+2Os09
-	 KbvBUP325JH5Iyg6se3TA5IYgvmjD4k/IM79iSA3+EHKPV53v6DEMSWb3XC2BXfS3M
-	 R3AUE/BYHwqSR04VjJaRl+WIDwDbW4ictpm8FuMJbpzVVjFIPfGfbb8x209cJ+qFA8
-	 7bumzqpOSKidw==
-Date: Wed, 14 May 2025 19:06:24 -0700
-From: "Darrick J. Wong" <djwong@kernel.org>
-To: Miklos Szeredi <miklos@szeredi.hu>
-Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>,
-	Bernd Schubert <bschubert@ddn.com>,
-	John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>,
-	Vishal Verma <vishal.l.verma@intel.com>,
-	Dave Jiang <dave.jiang@intel.com>,
-	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>,
-	Alexander Viro <viro@zeniv.linux.org.uk>,
-	Christian Brauner <brauner@kernel.org>,
-	Luis Henriques <luis@igalia.com>,
-	Randy Dunlap <rdunlap@infradead.org>,
-	Jeff Layton <jlayton@kernel.org>,
-	Kent Overstreet <kent.overstreet@linux.dev>,
-	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	nvdimm@lists.linux.dev, linux-cxl@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, Amir Goldstein <amir73il@gmail.com>,
-	Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-	Stefan Hajnoczi <shajnocz@redhat.com>,
-	Joanne Koong <joannelkoong@gmail.com>,
-	Josef Bacik <josef@toxicpanda.com>,
-	Aravind Ramesh <arramesh@micron.com>,
-	Ajay Joshi <ajayjoshi@micron.com>
-Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
-Message-ID: <20250515020624.GP1035866@frogsfrogsfrogs>
-References: <20250421013346.32530-1-john@groves.net>
- <20250421013346.32530-14-john@groves.net>
- <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
- <20250424143848.GN25700@frogsfrogsfrogs>
- <5rwwzsya6f7dkf4de2uje2b3f6fxewrcl4nv5ba6jh6chk36f3@ushxiwxojisf>
- <20250428190010.GB1035866@frogsfrogsfrogs>
- <CAJfpegtR28rH1VA-442kS_ZCjbHf-WDD+w_FgrAkWDBxvzmN_g@mail.gmail.com>
- <20250508155644.GM1035866@frogsfrogsfrogs>
- <CAJfpegt4drCVNomOLqcU8JHM+qLrO1JwaQbp69xnGdjLn5O6wA@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="dNAP8jXI"
+Received: by mail-pf1-f174.google.com with SMTP id d2e1a72fcca58-7411f65811cso494890b3a.1;
+        Wed, 14 May 2025 19:34:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747276440; x=1747881240; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=plirSZS3Umg5IN7SzM6Sc8JXPbG9h2CH4yAqjcjZ1PM=;
+        b=dNAP8jXIw2JJaC2Z2Nen/buEVnMx34yfy/MyKD6RFfl/QBIRmBINaWn9uAT/C1mzsO
+         ZN/tNL1lFsb7DRVLmlcu2Uk4a28QQo1BeTHooE8v67wPqg8CAsT4H8Lv7UC8lShgtUzf
+         qstwGtgRZdirO5pLEm8PXveKPg7vFsSjrgSeZnM94yjt6bATDcbVyeDM0MhEnfq3DWG2
+         Lcnfhrzkt1DNOrGP/sz3SkQG+CHPUJKaQxWkDCZxQYigBGY0sEypdH7mV6bOnMmTOInV
+         DKOmo9QdJnrtKpMHD6VVL29lCVFxoDtiDcgBXy2TlZyX215Qo4SEzdUGcRhllAxOqHqP
+         XjEQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747276440; x=1747881240;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=plirSZS3Umg5IN7SzM6Sc8JXPbG9h2CH4yAqjcjZ1PM=;
+        b=goH7OetqoOnUIWkQY4kZbP890DPWPyhsINEOTJSVl1Nhfy8Py1k10UW5SXlrj7tau1
+         QzBTdaPvB3e6Q6sNnl/IRDNE5puJcgiZuEIGbuzTZC0s78XQEQz5QnL0qasO+Pn/yHfO
+         XA6sNDTqCYmQyrSsT7Oh3m23CQJpKeIbBx/h3IOzVvEj1QLZ5PfTTrR7SDwEAVgav53l
+         afkOfBoNEHQbWyL/H6zJf/RalWqAW8swGKhMNZws1k75aI+7ueyK2xzV0siS68GiYW6a
+         2EitvXuHDBXK9O2EdgIQV4KOx4ABcvCPedjD4CvJGUx9fRGEWZuOS8Sk1FlJbZzTIIro
+         72Cw==
+X-Forwarded-Encrypted: i=1; AJvYcCULM95gYk5Svmr1XCxzs6mhsI8/+z21+72uoAy42AHAFYAP92BygqGUKixBsIgJxkTgxVDv0E07tQgQ7w==@vger.kernel.org, AJvYcCV6E0rOslmXs9Mg3CfPx+EjE0/V6zkVUJNPuTTmAYrC+Aw6okgs+xeOdUCtGrt4IFs4oLAol9wRHW4=@vger.kernel.org, AJvYcCWP3VKs2xg+dqZyUNQ2pur4oe2cYaWY4ulX/zwtRQDpBWiIX1mPGOrQrC4n2aA+B9xe55glCoHloteCm9Sz@vger.kernel.org
+X-Gm-Message-State: AOJu0YyJMFDRgGelASZUrdqCB4AS2pCP9SoWJMUrT3T0rmL5KP10Cq/U
+	Aa2K9Nf5kom1TeieMHxVPwKXyan2gf1PzQIL7R89OBDIWFCI8nSX
+X-Gm-Gg: ASbGncu022MhP6lFmBXVGZyGbG8Ljb6xSo5k80Cj6phiPJ4rhtDpMIMNqfFaf8hAN0Q
+	l4HaCzxeHMOTO7DoQcdlGFfur1dNAxVb9KjsUewZOjzsB0F3b+wqw+otEPFrY9IrTEjegcSlZvm
+	MCxfiBw9J0/yhhiUZfgcybNLOVaE+T36WgMvqcDOQgN9m21VXzEczHcqs1vKWYbllIPd5BGShck
+	0xFABD8NZ7DIAYYFxFEX/0AeKxYpOvV2oaOO4NwDdJ4A6Fo5FJjxsRbq72Ejpog7+tWK8oRxWh8
+	WlUgjaiBfBxrr2J1ZO0kVGpBQx/2fANgfNQ9wc4XsAmZmK3FxQnOfMk+R4VGPGmJVEC7oX1l9b7
+	fSPXb08UhUa7Lc3BENt8xPw==
+X-Google-Smtp-Source: AGHT+IEBmuZ5OKTC7/G0rgZ3vGZnUopkbLTdWoHdraEp7/e8ePDaLszUsNz3ddo5f6GzeL/NobcqBA==
+X-Received: by 2002:a05:6a00:1897:b0:736:4fe0:2661 with SMTP id d2e1a72fcca58-742984f607amr1354352b3a.11.1747276439861;
+        Wed, 14 May 2025 19:33:59 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-74237a10608sm10472077b3a.101.2025.05.14.19.33.57
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 14 May 2025 19:33:59 -0700 (PDT)
+Message-ID: <879b49f5-7350-48e8-a84e-2c580a5b0ca8@gmail.com>
+Date: Thu, 15 May 2025 11:33:56 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAJfpegt4drCVNomOLqcU8JHM+qLrO1JwaQbp69xnGdjLn5O6wA@mail.gmail.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: build failure after merge all the trees
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: corbet@lwn.net, linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, Akira Yokosawa <akiyks@gmail.com>,
+ linux-doc@vger.kernel.org
+References: <20250508184839.656af8f6@canb.auug.org.au>
+ <3b35840a-7b87-44fc-8580-219ac78ad112@gmail.com>
+ <20250508222531.0e7fab9c@canb.auug.org.au> <20250508143911.5d7a77d4@foz.lan>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250508143911.5d7a77d4@foz.lan>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Tue, May 13, 2025 at 11:14:55AM +0200, Miklos Szeredi wrote:
-> On Thu, 8 May 2025 at 17:56, Darrick J. Wong <djwong@kernel.org> wrote:
+[+CC linux-doc]
+
+Hi,
+
+On Thu, 8 May 2025 14:39:11 +0200, Mauro Carvalho Chehab wrote:
+> Em Thu, 8 May 2025 22:25:31 +1000
+> Stephen Rothwell <sfr@canb.auug.org.au> escreveu:
+[...]
+
+>>
+>> So, I used "KERNELDOC=$(pwd)/scripts/kernel-doc.pl" and tried again.
+>>
+>> I got these (new) messages:
+>>
+>> Error: Cannot open file drivers/virt/coco/tsm-mr.c
+>> Error: Cannot open file drivers/virt/coco/tsm-mr.c
+>> WARNING: kernel-doc 'scripts/kernel-doc.pl -rst -enable-lineno -export drivers/virt/coco/tsm-mr.c' failed with return code 2
+>>
+>> (and a few other innocuous ones)
+>>
+>> So your guess is good.
+>>
+>> It would be nice to have the Python kernel-doc fixed as well as the
+>> devsec-tsm tree.
 > 
-> > Well right now my barely functional prototype exposes this interface
-> > for communicating mappings to the kernel.  I've only gotten as far as
-> > exposing the ->iomap_{begin,end} and ->iomap_ioend calls to the fuse
-> > server with no caching, because the only functions I've implemented so
-> > far are FIEMAP, SEEK_{DATA,HOLE}, and directio.
-> >
-> > So basically the kernel sends a FUSE_IOMAP_BEGIN command with the
-> > desired (pos, count) file range to the fuse server, which responds with
-> > a struct fuse_iomap_begin_out object that is translated into a struct
-> > iomap.
-> >
-> > The fuse server then responds with a read mapping and a write mapping,
-> > which tell the kernel from where to read data, and where to write data.
+> With regards to kernel-doc, failing to build if a file is missing
+> is the right thing to do.
+
+Mauro, I don't agree here.
+
+With the perl version of kernel-doc, a typo in a file path doesn't cause
+a fatal error of docs build.
+
+kernel-doc as python class libs ends up in a fatal error.
+
+Here is a log of such a fatal error (on top of current docs-next with
+intentional typo made in a pathname in one of .. kernel-doc::
+
+-----------------------------------------------------------------
+Sphinx parallel build error!
+
+Versions
+========
+
+* Platform:         linux; (Linux-6.8.0-59-generic-x86_64-with-glibc2.39)
+* Python version:   3.12.3 (CPython)
+* Sphinx version:   8.2.3
+* Docutils version: 0.21.2
+* Jinja2 version:   3.1.6
+* Pygments version: 2.19.1
+
+Last Messages
+=============
+
+    userspace-api/gpio/gpio-get-chipinfo-ioctl .. userspace-api/media/dvb/dmx-fclose
+
+
+    reading sources... [ 90%]
+    userspace-api/media/dvb/dmx-fopen .. userspace-api/media/mediactl/media-controller-model
+
+
+    reading sources... [ 92%]
+    userspace-api/media/mediactl/media-func-close .. userspace-api/media/v4l/diff-v4l
+
+Loaded Extensions
+=================
+
+* sphinx.ext.mathjax (8.2.3)
+* alabaster (1.0.0)
+* sphinxcontrib.applehelp (2.0.0)
+* sphinxcontrib.devhelp (2.0.0)
+* sphinxcontrib.htmlhelp (2.1.0)
+* sphinxcontrib.serializinghtml (2.0.0)
+* sphinxcontrib.qthelp (2.0.0)
+* kerneldoc (1.0)
+* rstFlatTable (1.0)
+* kernel_include (1.0)
+* kfigure (1.0.0)
+* sphinx.ext.ifconfig (8.2.3)
+* automarkup (unknown version)
+* maintainers_include (1.0)
+* sphinx.ext.autosectionlabel (8.2.3)
+* kernel_abi (1.0)
+* kernel_feat (1.0)
+* translations (unknown version)
+* sphinx.ext.imgmath (8.2.3)
+
+Traceback
+=========
+
+      File "/<...>/sphinx-8.2.3/lib/python3.12/site-packages/sphinx/util/parallel.py", line 137, in _join_one
+        raise SphinxParallelError(*result)
+    sphinx.errors.SphinxParallelError: KeyError: '/<...>/lib/bitmap-bad.c'
+
+
+The full traceback has been saved in:
+/tmp/sphinx-err-8jzxndsr.log
+
+To report this error to the developers, please open an issue at <https://github.com/sphinx-doc/sphinx/issues/>. Thanks!
+Please also report this if it was a user error, so that a better error message can be provided next time.
+make[3]: *** [/<...>/Documentation/Makefile:123: htmldocs] Error 2
+make[2]: *** [/<...>/Makefile:1806: htmldocs] Error 2
+make[1]: *** [/<...>/Makefile:248: __sub-make] Error 2
+make[1]: Leaving directory '/<...>/my-output'
+make: *** [Makefile:248: __sub-make] Error 2
+
+-----------------------------------------------------------------
+
+This would surprise innocent devs who are kindly willing to test docs build.
+
+I think you need to tame its behavior and make it emit a proper warning and
+continue building docs in case of such predictable user errors.
+
+Am I asking you something unreasonable?
+
+Thanks,
+Akira
+
+>                           As kernel-doc is now fully an Sphinx extension,
+> it now signalizes to Sphinx that the build has failed.
 > 
-> So far so good.
+> Yet, it should have produced some warnings. Maybe we need to specify a
+> different log level with Sphinx to make it happen. I'll double check it
+> and send a fix later on to kernel-doc.
 > 
-> The iomap layer is non-caching, right?   This means that e.g. a
-> direct_io request spanning two extents will result in two separate
-> requests, since one FUSE_IOMAP_BEGIN can only return one extent.
-
-Originally it wasn't supposed to be cached at all.  Then history taught
-us a lesson. :P
-
-In hindsight, there needs to be coordination of the space mapping
-manipulations that go on between pagecache writes and reclaim writeback.
-Pagecache write can get an unwritten iomap, then go to sleep while it
-tries to get a folio.  In the meantime, writeback can find the folio for
-that range, write it back to the disk (which converts unwritten to
-written) and reclaim the folio.  Now the first process wakes up and
-grabs a new folio.  Because its unwritten mapping is now stale, it must
-not start zeroing that folio; it needs to go get a new mapping.
-
-So iomap still doesn't need caching per se, but it needs writer threads
-to revalidate the mapping after locking a folio.  The reason for caching
-iomaps under the fuse_inode somewhere is that I don't want the
-revalidations to have to jump all the way out to userspace with a folio
-lock held.
-
-That said, on a VM on this 12 year old workstation, I can get about
-2.0GB/s direct writes in fuse2fs and 2.2GB/s in kernel ext4, and that's
-with initiating iomap_begin/end/ioends with no caching of the mappings.
-Pagecache writes run at about 1.9GB/s through fuse2fs and 1.5GB/s
-through the kernel, but only if I tweak fuse to use large folios and a
-relatively unconstrained bdi.  2GB/s might be enough IO for anyone. ;)
-
-> And the next direct_io request may need to repeat the query for the
-> same extent as the previous one if the I/O boundary wasn't on the
-> extent boundary (which is likely).
-> 
-> So some sort of caching would make sense, but seeing the multitude of
-> FUSE_IOMAP_OP_ types I'm not clearly seeing how that would look.
-
-Yeah, it's confusing.  The design doc tries to clarify this, but this is
-roughly what we need for fuse:
-
-FUSE_IOMAP_OP_WRITE being set means we're writing to the file.
-FUSE_IOMAP_OP_ZERO being set means we're zeroing the file.
-Neither of those being set means we're reading the file.
-
-(3 different operations)
-
-FUSE_IOMAP_OP_DIRECT being set means directio, and it not being set
-means pagecache.
-
-(and one flag, for 6 different types of IO)
-
-FUSE_IOMAP_OP_REPORT is set all by itself for things like FIEMAP and
-SEEK_DATA/HOLE.
-
-> > I'm a little confused, are you talking about FUSE_NOTIFY_INVAL_INODE?
-> > If so, then I think that's the wrong layer -- INVAL_INODE invalidates
-> > the page cache, whereas I'm talking about caching the file space
-> > mappings that iomap uses to construct bios for disk IO, and possibly
-> > wanting to invalidate parts of that cache to force the kernel to upcall
-> > the fuse server for a new mapping.
-> 
-> Maybe I'm confused, as the layering is not very clear in my head yet.
-> 
-> But in your example you did say that invalidation of data as well as
-> mapping needs to be invalidated, so I thought that the simplest thing
-> to do is to just invalidate the cached mapping from
-> FUSE_NOTIFY_INVAL_INODE as well.
-
-For now I want to keep the two invalidation types separate while I build
-out more of the prototype so that I can be more sure that I haven't
-broken any existing code. :)
-
-The mapping invalidation might be more useful for things like FICLONE on
-weird filesystems where the file allocation unit size is larger than the
-block size and we actually need to invalidate more mappings than the vfs
-knows about.
-
-But I'm only 80% sure of that, as I'm still figuring out how to create a
-notification and send it from fuse2fs and haven't gotten to the caching
-layer yet.
-
---D
-
 > Thanks,
-> Miklos
-> 
+> Mauro
+
