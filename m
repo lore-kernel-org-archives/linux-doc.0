@@ -1,246 +1,264 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-lf1-f48.google.com (mail-lf1-f48.google.com [209.85.167.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 183DC288CBA;
-	Thu, 15 May 2025 08:28:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.9
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747297685; cv=fail; b=jEcxSDZ10Qlev8s5NXJ6HVVAsNeFBNhuMdlZzuMg7M8O0QJ8iL4UPqvsQ1jsBZJkk4h0JRvLRo+mymcvMDo8z/9ZUhrpvThD7MQ4ZXH98qp/2vd5GDoXSjvjSI6P3VqoBxUw/aOCty2GlFxPT2srpALImmENWiMob2ZCkNSljjM=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747297685; c=relaxed/simple;
-	bh=9g9HZBOhOo3k1sKGB4K3JuigIr9FYmxblh4CVyZ7zvk=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=JKG6TudL+Ml1DMtmHHyHLjYYh9OKknsdW7+IBL2GPgX9114yg7uhY5Y3BbbotRv1RtwzyjOAHoO4YX8YRb0gXuOmeN0Rq0RKwKsPpPQum1LAT8d95wDLHHfSJaAhxFXxXE8amkKE0HcBQsdHgnTSXoRTpceQvCmFb+Odv6l+Nn0=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=jC70rgkp; arc=fail smtp.client-ip=198.175.65.9
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 57E2B2989A9
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 08:31:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.48
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747297921; cv=none; b=iO54R2cHnwYfK7yAD1kIEhwUC8G6mD9YjJemwZN1dtXGFqSj6QUOcamMszQ0u+WQc1e40FSYU2eWNZYwS4kcaMOwGld2Wh1MCr5WkVNZVUZ6c5PWCARKFc4KEMBsSpK60P2LEVSeZbJ/ibgnHavDnDKiMrkS1CnqUjHzF6xXrl0=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747297921; c=relaxed/simple;
+	bh=PGXvcUd7AEZN3/JlvOlbni86hFgiQ4HPyrDarRZ8hOI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=T59E8DMNhzsRT3OaqjoEKCN8fZvomuWtUrQolgRvbN1rfLfoZcVbezKGZ3iIW0jZUcojrckd22Eu2dH+uZ64ysUxlLTnXHxlx1T27nRKomwYUtQK7A4mrZaAIv8ji6tK2Np0kpEiVfqdyddV2PZW02KNihz8a3I13rClGGS/jYs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=3dc58+fh; arc=none smtp.client-ip=209.85.167.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="jC70rgkp"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747297684; x=1778833684;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=9g9HZBOhOo3k1sKGB4K3JuigIr9FYmxblh4CVyZ7zvk=;
-  b=jC70rgkpNA5pxjNdgOnJOsA8elrJgjqBJ+6RjDN4e5EaNrRXgNohPxgA
-   GLuC5lb0/5WIT/27qBjoisemFWB1Wf/yUGobALXVJzNWGR2qrsWRKO8ZD
-   bBMrX5UnlfQTgW1khyUp4yyoEtuYipLCQcEoYPThwGiufhj5+PFjI3d0z
-   ilE1DByiPv890tpfXVQ5WaKW1ZdclfNIrpdyKVPGMoNQ+MDYZLGeknAPu
-   xzrXQWJGJds3jHEKliTKVV1AERWGSkuTUcFrmHScgSyB6U0IaGQDEbBUR
-   3i4V6LR2gwp3P8nH1gplVnXczgl+BzQg7ttUX6iLRNG/nKkiKTR7SuGO+
-   Q==;
-X-CSE-ConnectionGUID: YCdvTLSNRDmgL9Zjuaa9Zw==
-X-CSE-MsgGUID: PuibCT0jTnK8gJ+aQGoo8w==
-X-IronPort-AV: E=McAfee;i="6700,10204,11433"; a="71731703"
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="71731703"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:28:03 -0700
-X-CSE-ConnectionGUID: 9wfhQZkKTrqnNs//aRi7qg==
-X-CSE-MsgGUID: YyVB5OD8T/GdNSeJB682Ew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,290,1739865600"; 
-   d="scan'208";a="143185843"
-Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
-  by fmviesa005.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 15 May 2025 01:28:02 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14; Thu, 15 May 2025 01:28:02 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.14 via Frontend Transport; Thu, 15 May 2025 01:28:02 -0700
-Received: from NAM12-BN8-obe.outbound.protection.outlook.com (104.47.55.168)
- by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.44; Thu, 15 May 2025 01:28:01 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CgxjsEU3M98op/9xYPmBY/mo2AOqWFY1hVofohhfR7bJyje+yQaDe+eXprh+cru4sLrEFwkISpAIw3Szap7PAfDl6W2yaPrYgNvwaZ1/95jxEvNB1WTyp2TJMHnZbaghCOITDRUPoKFw21ACzMF+i/dDeHq/vj9ejutYEHOqZQLkmCfSjk8rNK5gSoOYp350n3meKSXhimBr47Hn/m13Up/AKdlk3v8HNmRAjqzfQkq59jP+tR+EJUwzqNYaw9jtcBxA7QTPv63I3tznP2MxVjwfGgAgnST1SzsvvipdpeKALLIK0BhZldxIzKx7m7DGNjrHoBK49nNllgRbLGn25w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=lim6eoeiwl5IIqTfe9KxLrCvstMFuoWXmqzXZTej2fY=;
- b=S5W0i993MWW2TkOJf//JVyiIN7sK9v4H9eTe9nuWKYh1wC0CzISm2vtlgtQK/WLVH2/vtVuR0uCQ4AZ3k1Ry7gPMDNEQvwH6VoWrZt8pA8f6Fph4T/zRrDJ4oNETbzNc6ETDQaOCuL6WtCWAy3NxrwyEl7EWmQhZ8QcL7h8jMMTFBYYonY6rG6z01O4/KHn7p8KLoIH246nolyT8w7fnFwWRDAW/TGsqTulj11vIhQhmVFy9LTvTdLSwVCHQ/FUnVsQNll13KXTDm4Sy0bt3nihA6ell5nVXZupO1LsWMTB5Rjj1tohJNIfLxxHsF+qSqqQm/PcxUWcxUZLf5viOxg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com (2603:10b6:408:135::18)
- by DS0PR11MB7411.namprd11.prod.outlook.com (2603:10b6:8:150::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.31; Thu, 15 May
- 2025 08:27:17 +0000
-Received: from BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1]) by BN9PR11MB5276.namprd11.prod.outlook.com
- ([fe80::b576:d3bd:c8e0:4bc1%4]) with mapi id 15.20.8722.031; Thu, 15 May 2025
- 08:27:17 +0000
-From: "Tian, Kevin" <kevin.tian@intel.com>
-To: Nicolin Chen <nicolinc@nvidia.com>, "jgg@nvidia.com" <jgg@nvidia.com>,
-	"corbet@lwn.net" <corbet@lwn.net>, "will@kernel.org" <will@kernel.org>
-CC: "bagasdotme@gmail.com" <bagasdotme@gmail.com>, "robin.murphy@arm.com"
-	<robin.murphy@arm.com>, "joro@8bytes.org" <joro@8bytes.org>,
-	"thierry.reding@gmail.com" <thierry.reding@gmail.com>, "vdumpa@nvidia.com"
-	<vdumpa@nvidia.com>, "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
-	"shuah@kernel.org" <shuah@kernel.org>, "jsnitsel@redhat.com"
-	<jsnitsel@redhat.com>, "nathan@kernel.org" <nathan@kernel.org>,
-	"peterz@infradead.org" <peterz@infradead.org>, "Liu, Yi L"
-	<yi.l.liu@intel.com>, "mshavit@google.com" <mshavit@google.com>,
-	"praan@google.com" <praan@google.com>, "zhangzekun11@huawei.com"
-	<zhangzekun11@huawei.com>, "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"linux-arm-kernel@lists.infradead.org"
-	<linux-arm-kernel@lists.infradead.org>, "linux-tegra@vger.kernel.org"
-	<linux-tegra@vger.kernel.org>, "linux-kselftest@vger.kernel.org"
-	<linux-kselftest@vger.kernel.org>, "patches@lists.linux.dev"
-	<patches@lists.linux.dev>, "mochs@nvidia.com" <mochs@nvidia.com>,
-	"alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>, "vasant.hegde@amd.com"
-	<vasant.hegde@amd.com>
-Subject: RE: [PATCH v4 22/23] iommu/tegra241-cmdqv: Add user-space use support
-Thread-Topic: [PATCH v4 22/23] iommu/tegra241-cmdqv: Add user-space use
- support
-Thread-Index: AQHbwI8TP7a7pfTA+Eqp5zIRRE0caLPTY4PQ
-Date: Thu, 15 May 2025 08:27:17 +0000
-Message-ID: <BN9PR11MB5276D8FF50750CF35D0DF1838C90A@BN9PR11MB5276.namprd11.prod.outlook.com>
-References: <cover.1746757630.git.nicolinc@nvidia.com>
- <a06e91b8bb4a2966dbe7fc3349502d38c3ba38cb.1746757630.git.nicolinc@nvidia.com>
-In-Reply-To: <a06e91b8bb4a2966dbe7fc3349502d38c3ba38cb.1746757630.git.nicolinc@nvidia.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: BN9PR11MB5276:EE_|DS0PR11MB7411:EE_
-x-ms-office365-filtering-correlation-id: e95152d7-d6ea-4b73-1b32-08dd938a4de2
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014|38070700018;
-x-microsoft-antispam-message-info: =?us-ascii?Q?lq0M6LvoYXZ0fPjIoJy6JnknaMMw4HWC5bYYMIRzTKh4tGz6xf0T6YWaNZRk?=
- =?us-ascii?Q?my9BiazuwqiE5kRc+23j4IzdbF1Rur7SjlUGXb0z4IOwKfOOmWtErQoDXsHG?=
- =?us-ascii?Q?Ylo6GdSh29LeRgFbS9rveFNLcLUcra8aaZz8o27SbB1bSfwzhIDiC1hoZE6V?=
- =?us-ascii?Q?3Oe6YzNaL++BB+YrK+C2MF137+yOnrKRpYAQc83CPsDEuOP3oVJ/BigrRS7U?=
- =?us-ascii?Q?EGcXAN+ApI7smcK4vij6wf5JQfZt2gFu3ezPiO/MVpRMNUVTr9REpjHmFF1t?=
- =?us-ascii?Q?PfyQ/iikv+vEBCcrlqDq0vYwwdrnn+tJr86P0PtXZ3LoLFN013vm3UxZt8Oa?=
- =?us-ascii?Q?tLXiSgMZjI+eD8Hc/ReW2nr8WGUYwOBz5W7UD/uFx7luRNFCO+y9xa+H8sY7?=
- =?us-ascii?Q?BMNylg/2t75xq3hEdziE09P6xOdjxFpQ3efvFf5c4VnB9OvZbhNcBuewTASi?=
- =?us-ascii?Q?3IH3y5zWlp7XpJ03otzO0/5Av5BfeyGtdc+OPGI4Z2KxJsSf8F9taGsk9Vux?=
- =?us-ascii?Q?HMWFEVyFPFsMKHhBs5sh30TvLjny3mQptxAc6/7xMj1MV/ZpN4z83P/6q8Pz?=
- =?us-ascii?Q?P0A4iLqYAEfYyJrrQ1S3PZ8jbvQJicYPlb2sC534HzWnPUCOclzitLYeKroO?=
- =?us-ascii?Q?BipfrR4Sv0szUPxNEfdNjuc8UDxRUgazPPkQ/nKKvW2UY6gc9u1K2ofbLINv?=
- =?us-ascii?Q?ow3OFmYregSB/+DGFOjvH8javF40evZaXQtBhfC+JmG6lrlMx/Wg8RB0Fxqc?=
- =?us-ascii?Q?YvzCd8h5s79sN/B3NWs5d421Rvxr1fwHmbO9ZJh1rMI49qdw+lr4B9fDpq6N?=
- =?us-ascii?Q?pnuh5OHOQWfSGfPmap0mYcShqNJlWvIM1Z2bGtctk+LaLB6EqSbaCvnV4HHg?=
- =?us-ascii?Q?JsFSLLIyAbqjPCDqhNJJR0z9q1K3o6ZHSglgWukacdFweftlOzwUP0AgDMwn?=
- =?us-ascii?Q?gXHuDr0ocfDjq3iO/7FjHIfcNiujVnZCAEPJBDVncUyM4NvE/BPBQIudt61B?=
- =?us-ascii?Q?MZgR7h6BHnhOdTaIxMMcJ06Tth/Vu9dxCBFy6anmPYLAizj98+ezp2oq3Ph/?=
- =?us-ascii?Q?Huux7+bzeNltkZeMX3ALBRouLP6dxork7ZXSsz6LvmGjyn+ZVMfxeQTN2KVV?=
- =?us-ascii?Q?P+M2mjDMWRckMvYa0NncxroBaQnnlFF2hDgEAaBdNMXazgHHC+36lqTEMLn9?=
- =?us-ascii?Q?AVOdRYpjr+DLEU9zm6lynJa+1oP4illjl0mSRDJjlD/tIM9ItVkYM9KMP4XK?=
- =?us-ascii?Q?TUVTCW+9mgn7xFkKuU0BAmCmv4edplvWgHVo2WnTTMdngRUHxF7zs3yqmeRk?=
- =?us-ascii?Q?1+3T4MrblnB+/+6VvWJtbSbSwv24a1rH5KRmkGpJPMIyLj5UFWj77S7kQEUj?=
- =?us-ascii?Q?RWL1EH0UkHx0sWvI8SaCADaMDn/9XuAncZx56Sgs0bobyXp0ghOrW1TPUwSE?=
- =?us-ascii?Q?247sHQxlaP0fjIau+Qd8WDYl2/3SP2mcsdD6fgVWZafT2f6OfxK4Rfc8HLEF?=
- =?us-ascii?Q?474CgyU+OaXFd1A=3D?=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN9PR11MB5276.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014)(38070700018);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?Rnp+ShQwR95ptUXS1qtKiax9Efiivzw9m+m/BaNRPDtjOkvNMX5WhodhTEKM?=
- =?us-ascii?Q?a/ChV6Xa4SUR+C9sLll6t0qfCjI7Y+x/T9YInyx8INu0s/V/tkCAqEFIF+VE?=
- =?us-ascii?Q?8y4CBJP9K1gI94zYh59HIyXejwDfgFZAPw/KWCWWzwjvYo50Zy1JSTdPNMyz?=
- =?us-ascii?Q?a4z2CsyCRY1aookSsSlMmihgMW7KJfG97Sk01Bi7eRfYTlbZLvq0dqnUXWvS?=
- =?us-ascii?Q?3tPtNHrbB9avgrA8sx3B96QvHIKOyebW5xeMv3rKezopPZ4cWBS3Kh5anJUZ?=
- =?us-ascii?Q?licqtn+52FaYRY31N+QE/gW30YEjrMuly331684zf/dLpIIjv8x9HuUw6O/T?=
- =?us-ascii?Q?V83kQD6xkO3Pyr6emA2ZTfa9nmuFJlnEYVG5rP6LyEfbIEM1Q6cAl0jCrJgO?=
- =?us-ascii?Q?nsXUuvJpp3sCmlm0WPMt3hEAi9b3o6C/0c02ButcvZrGNzhV++wo2lgHKQdC?=
- =?us-ascii?Q?P2KaZk/T8uVdnLVfavZHje7EUBtGz5eNvQATShdiDeQJBMXdO9o8jZSbZ8dl?=
- =?us-ascii?Q?ufjKmL+UkSKfKBjPl/QeBlHFCfLEP7ofXTJZ5AXL72lHlsAAAKp3iyYf5Wfk?=
- =?us-ascii?Q?7zpyNChWus8uOQMHD70boN9f33zidGN9P8BA48Q3v3NexIcLQVZHfHPPTwv9?=
- =?us-ascii?Q?Om4GUPXsJ8GcacHVeMexDPtXCPbNL8YplB8XEsmnw2JMRxASZF3A1z8rY1Qf?=
- =?us-ascii?Q?K9zaambXh2Q5Liycxxr31M3yD7H1o5MEdOthX+8rF0mBKqTEqozlm9h/BVaH?=
- =?us-ascii?Q?gUz6RzrCeY14vhoVguArnKifnFyizrUNgWthzp409qiC84PpJ+TEGfWk49OD?=
- =?us-ascii?Q?kpiI3g0ETytREVZOTk8izdccj4UWJzcaERMnbuUIikQRbz+XZEucw/+X7Mos?=
- =?us-ascii?Q?Fu60enxq5KNaammiM/cGNU6KFhM1c5pk1W/2K7RqpUNBRVCsiZL6qcCTDWHK?=
- =?us-ascii?Q?hkdkd/2jNnyXhhFwZoi5DX1slC+e08li6Oqkgo/qh03OAVZ7akv8OqCOdvru?=
- =?us-ascii?Q?8TurqbkvEupsz8keGZ6LlMYwnq1HDkaPBvHUEjsvZzNVrsXSRs/aabsLPlRU?=
- =?us-ascii?Q?trursEyh7h3O4d5a3XANP2B5VC0xShbAB5nVSF/RJpHRSo3cwbf9wLPeQik8?=
- =?us-ascii?Q?C6z/AJAaa0SSn8f46Y+ZIbY85qxkVMyjY++9cGwjR9zDz5fGPmc5pxgRNmIW?=
- =?us-ascii?Q?Ne3hh10Ws/9ZsyKdc5AZz655ZJtTSZt5PQUP4CkyqPUYz3/4ZvEm1+L/B4uT?=
- =?us-ascii?Q?O+93l1MNnZNBFio4gpSXb/qmn4VF8TRsRIm3JYwSunO3v1ZdCpipiYrDd3St?=
- =?us-ascii?Q?ZsX78UnbF28vuSW/VVu2f6xEB6quIt9mdzbrZVT41yXutCOvYpyixhFFF04h?=
- =?us-ascii?Q?I1hf7W3dYmK1qD+tUdKN5rZs/bK4D2e7DSiKqXqNaQs/jRU6T3ThLK3yeQAP?=
- =?us-ascii?Q?h58i0B5/LYTbPtOxgBDlwQnaMDpZsPypdElLNVNvxrOaWm2n4jlahkupK1uR?=
- =?us-ascii?Q?GXs/gmqdmtbzbST5sGY0y65MYOixJq0msxWEjg95GxUXWvVATOeC3Ht4Sw+k?=
- =?us-ascii?Q?S4My4gPIOfcw5pXoRrBtPIu3XluqQ4Uj3FWcVW2v?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="3dc58+fh"
+Received: by mail-lf1-f48.google.com with SMTP id 2adb3069b0e04-54998f865b8so584814e87.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 01:31:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747297917; x=1747902717; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=IhYYFU/0gd4i6u7YSldc/A6P4zLJhDJyiOeiCd5c27I=;
+        b=3dc58+fhbqtihQEaoUPXQzu4lock6f/Tm+ofDWZgnCV2bmhp3kq9lVg9ljhrfeGLdx
+         lb4KZhRXZ+FdG/+/YfA0C3DoU/VNpPT8gUwFQJlAQSDyBYkoGX154QZhDxVmKoHawr15
+         EPhe3Cuc9twmtnh+X1zBXx7vi0VnCTgrX8dCv2FF9kp2/U3j/j+ZobUZgRyZupOeHUVp
+         qn2LH0yHF8k6SXe69CMk1/by051gF8p5RA9xDn++a6kYm1zqToidBi/Y5D4gFwgAgl6Q
+         A5oolVqHVjpYotVsED3a2MARTiU2SSTeSWMeuozgjGnhmTYTgGp9aLXQNzgtQ4bwqbmW
+         X13Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747297917; x=1747902717;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=IhYYFU/0gd4i6u7YSldc/A6P4zLJhDJyiOeiCd5c27I=;
+        b=hJ/mavFv/+qHCqB43KUz/JoaavkuiJwI1fc7DE1luJUNgIQf+02/RID1T56ukPxLJw
+         gmhbER4uAhdJuGTLrkM2Edx5j3hf/a3L5Ttwf5+9fHhZIAGx2t1gJ9pEDvXnbHw1rGM4
+         6s7s7qXLxPX71KodkWsobn0MJoBm7OR9dQBxcLtNhXfGVSos7fDw/iZwHl7bdoFIskCo
+         KGDE9SssfkfMbYAeuGG96Z7T8AfZyiLJkVahJY4bi9iAuqfZErygHMKt877mQBjZGBt5
+         gqACExRYW8BUmRgIdwj7FHy8PNTtRlzz+1AhBgR2zjU/I6tEs0fuwlHV8geeNs9iBJh7
+         VVKA==
+X-Forwarded-Encrypted: i=1; AJvYcCWI2yph6wLstgI/Gg9AFF2NjxP3ixAd6s5cIBBLFyFElR8B+0C/T/W9tmpb5SCq85tSPmmommNKNP4=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzaCQw3yybndUZHpF4ALUga4ZqpJ2ywjl5VesPZz8mZ8Yiiem2/
+	UfLtfx0fuOP1ZV62dj0te/xk6DgZ9nVTwH9WsX0ILIXOM+mlkPtTykjaouf/7FAPBmJIOTz3ISQ
+	Z
+X-Gm-Gg: ASbGncsihU1Erul4xQOQ94iZGmz2u/r4yVw1OGd/SlZMgo8VPNNQElm/33l5+d7DVSr
+	ymSdqfwMTCNc6xnj3o29ckdV5VHSjn3hA70p6a/4hou3Jy2KIm6t+K6DKZIEHPpsFkehdvI4WxM
+	YbzMECD7DhstTNlBt8qZe8l+96OLYL2tRPiXnia4Q+DZj9kdJW97vmR+lC8OSmOkk/oKoAYIA5o
+	QVCr0hwNiRiF3tgAyamxng1B+oV85fT/OEp0faU5cWhhSIWhmHajJf1gSOuftYwqpavAK2I61pn
+	DFcC/vySOsgRj5aYNp6gw9C6RuesLGxBjpdEn4RNLvdDEG6I4XAZIO071PNYhA==
+X-Google-Smtp-Source: AGHT+IGnVdWt5OD2bKCz++KFVpJxcO50pC03iTHgGj6sIJhut7VYuKCl9xAAlL4aqjVD7tiXjB6LOw==
+X-Received: by 2002:a05:600c:c0d2:20b0:442:f482:c421 with SMTP id 5b1f17b1804b1-442f482c78emr24654775e9.22.1747297431669;
+        Thu, 15 May 2025 01:23:51 -0700 (PDT)
+Received: from carbon-x1.. ([91.197.138.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f395166fsm59310785e9.18.2025.05.15.01.23.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 01:23:50 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Anup Patel <anup@brainfault.org>,
+	Atish Patra <atishp@atishpatra.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-riscv@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Deepak Gupta <debug@rivosinc.com>
+Subject: [PATCH v7 06/14] riscv: misaligned: request misaligned exception from SBI
+Date: Thu, 15 May 2025 10:22:07 +0200
+Message-ID: <20250515082217.433227-7-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250515082217.433227-1-cleger@rivosinc.com>
+References: <20250515082217.433227-1-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: BN9PR11MB5276.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: e95152d7-d6ea-4b73-1b32-08dd938a4de2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 15 May 2025 08:27:17.7574
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: PdtrOKljI2xmGLYaFhgy9zySoHAmJKI/Ks7VlqLg6O8boCagm1xlhgZPliBY/qddJrk71pq0xqiCFvjGlCoTOw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS0PR11MB7411
-X-OriginatorOrg: intel.com
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-> From: Nicolin Chen <nicolinc@nvidia.com>
-> Sent: Friday, May 9, 2025 11:03 AM
->=20
->  /**
->   * struct iommu_hw_info_arm_smmuv3 - ARM SMMUv3 hardware
-> information
->   *                                   (IOMMU_HW_INFO_TYPE_ARM_SMMUV3)
->   *
-> - * @flags: Must be set to 0
-> - * @impl: Must be 0
-> + * @flags: Combination of enum iommu_hw_info_arm_smmuv3_flags
-> + * @impl: Implementation-defined bits when the following flags are set:
-> + *        - IOMMU_HW_INFO_ARM_SMMUV3_HAS_TEGRA241_CMDQV
-> + *          Bits[15:12] - Log2 of the total number of SID replacements
-> + *          Bits[11:08] - Log2 of the total number of VINTFs per vIOMMU
-> + *          Bits[07:04] - Log2 of the total number of VCMDQs per vIOMMU
-> + *          Bits[03:00] - Version number for the CMDQ-V HW
+Now that the kernel can handle misaligned accesses in S-mode, request
+misaligned access exception delegation from SBI. This uses the FWFT SBI
+extension defined in SBI version 3.0.
 
-hmm throughout this series I drew an equation between VINTF
-and vIOMMU. Not sure how multiple VINTFs can be represented
-w/o introducing more objects. Do we want to keep such info here?
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+---
+ arch/riscv/include/asm/cpufeature.h        |  3 +-
+ arch/riscv/kernel/traps_misaligned.c       | 71 +++++++++++++++++++++-
+ arch/riscv/kernel/unaligned_access_speed.c |  8 ++-
+ 3 files changed, 77 insertions(+), 5 deletions(-)
 
-> +	 * - suggest to back the queue memory with contiguous physical
-> pages or
-> +	 *   a single huge page with alignment of the queue size, limit
-> vSMMU's
-> +	 *   IDR1.CMDQS to the huge page size divided by 16 bytes
-> +	 */
-> +	IOMMU_HW_QUEUE_TYPE_TEGRA241_CMDQV =3D 1,
+diff --git a/arch/riscv/include/asm/cpufeature.h b/arch/riscv/include/asm/cpufeature.h
+index f56b409361fb..dbe5970d4fe6 100644
+--- a/arch/riscv/include/asm/cpufeature.h
++++ b/arch/riscv/include/asm/cpufeature.h
+@@ -67,8 +67,9 @@ void __init riscv_user_isa_enable(void);
+ 	_RISCV_ISA_EXT_DATA(_name, _id, _sub_exts, ARRAY_SIZE(_sub_exts), _validate)
+ 
+ bool __init check_unaligned_access_emulated_all_cpus(void);
++void unaligned_access_init(void);
++int cpu_online_unaligned_access_init(unsigned int cpu);
+ #if defined(CONFIG_RISCV_SCALAR_MISALIGNED)
+-void check_unaligned_access_emulated(struct work_struct *work __always_unused);
+ void unaligned_emulation_finish(void);
+ bool unaligned_ctl_available(void);
+ DECLARE_PER_CPU(long, misaligned_access_speed);
+diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
+index 77c788660223..592b1a28e897 100644
+--- a/arch/riscv/kernel/traps_misaligned.c
++++ b/arch/riscv/kernel/traps_misaligned.c
+@@ -16,6 +16,7 @@
+ #include <asm/entry-common.h>
+ #include <asm/hwprobe.h>
+ #include <asm/cpufeature.h>
++#include <asm/sbi.h>
+ #include <asm/vector.h>
+ 
+ #define INSN_MATCH_LB			0x3
+@@ -646,7 +647,7 @@ bool __init check_vector_unaligned_access_emulated_all_cpus(void)
+ 
+ static bool unaligned_ctl __read_mostly;
+ 
+-void check_unaligned_access_emulated(struct work_struct *work __always_unused)
++static void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+ {
+ 	int cpu = smp_processor_id();
+ 	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
+@@ -657,6 +658,13 @@ void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+ 	__asm__ __volatile__ (
+ 		"       "REG_L" %[tmp], 1(%[ptr])\n"
+ 		: [tmp] "=r" (tmp_val) : [ptr] "r" (&tmp_var) : "memory");
++}
++
++static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
++{
++	long *mas_ptr = per_cpu_ptr(&misaligned_access_speed, cpu);
++
++	check_unaligned_access_emulated(NULL);
+ 
+ 	/*
+ 	 * If unaligned_ctl is already set, this means that we detected that all
+@@ -665,9 +673,10 @@ void check_unaligned_access_emulated(struct work_struct *work __always_unused)
+ 	 */
+ 	if (unlikely(unaligned_ctl && (*mas_ptr != RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED))) {
+ 		pr_crit("CPU misaligned accesses non homogeneous (expected all emulated)\n");
+-		while (true)
+-			cpu_relax();
++		return -EINVAL;
+ 	}
++
++	return 0;
+ }
+ 
+ bool __init check_unaligned_access_emulated_all_cpus(void)
+@@ -699,4 +708,60 @@ bool __init check_unaligned_access_emulated_all_cpus(void)
+ {
+ 	return false;
+ }
++static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
++{
++	return 0;
++}
++#endif
++
++#ifdef CONFIG_RISCV_SBI
++
++static bool misaligned_traps_delegated;
++
++static int cpu_online_sbi_unaligned_setup(unsigned int cpu)
++{
++	if (sbi_fwft_set(SBI_FWFT_MISALIGNED_EXC_DELEG, 1, 0) &&
++	    misaligned_traps_delegated) {
++		pr_crit("Misaligned trap delegation non homogeneous (expected delegated)");
++		return -EINVAL;
++	}
++
++	return 0;
++}
++
++void __init unaligned_access_init(void)
++{
++	int ret;
++
++	ret = sbi_fwft_set_online_cpus(SBI_FWFT_MISALIGNED_EXC_DELEG, 1, 0);
++	if (ret)
++		return;
++
++	misaligned_traps_delegated = true;
++	pr_info("SBI misaligned access exception delegation ok\n");
++	/*
++	 * Note that we don't have to take any specific action here, if
++	 * the delegation is successful, then
++	 * check_unaligned_access_emulated() will verify that indeed the
++	 * platform traps on misaligned accesses.
++	 */
++}
++#else
++void __init unaligned_access_init(void) {}
++
++static int cpu_online_sbi_unaligned_setup(unsigned int cpu __always_unused)
++{
++	return 0;
++}
+ #endif
++
++int cpu_online_unaligned_access_init(unsigned int cpu)
++{
++	int ret;
++
++	ret = cpu_online_sbi_unaligned_setup(cpu);
++	if (ret)
++		return ret;
++
++	return cpu_online_check_unaligned_access_emulated(cpu);
++}
+diff --git a/arch/riscv/kernel/unaligned_access_speed.c b/arch/riscv/kernel/unaligned_access_speed.c
+index b8ba13819d05..ae2068425fbc 100644
+--- a/arch/riscv/kernel/unaligned_access_speed.c
++++ b/arch/riscv/kernel/unaligned_access_speed.c
+@@ -236,6 +236,11 @@ arch_initcall_sync(lock_and_set_unaligned_access_static_branch);
+ 
+ static int riscv_online_cpu(unsigned int cpu)
+ {
++	int ret = cpu_online_unaligned_access_init(cpu);
++
++	if (ret)
++		return ret;
++
+ 	/* We are already set since the last check */
+ 	if (per_cpu(misaligned_access_speed, cpu) != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
+ 		goto exit;
+@@ -248,7 +253,6 @@ static int riscv_online_cpu(unsigned int cpu)
+ 	{
+ 		static struct page *buf;
+ 
+-		check_unaligned_access_emulated(NULL);
+ 		buf = alloc_pages(GFP_KERNEL, MISALIGNED_BUFFER_ORDER);
+ 		if (!buf) {
+ 			pr_warn("Allocation failure, not measuring misaligned performance\n");
+@@ -439,6 +443,8 @@ static int __init check_unaligned_access_all_cpus(void)
+ {
+ 	int cpu;
+ 
++	unaligned_access_init();
++
+ 	if (unaligned_scalar_speed_param != RISCV_HWPROBE_MISALIGNED_SCALAR_UNKNOWN) {
+ 		pr_info("scalar unaligned access speed set to '%s' (%lu) by command line\n",
+ 			speed_str[unaligned_scalar_speed_param], unaligned_scalar_speed_param);
+-- 
+2.49.0
 
-Not sure about the last sentence. 'limit' refers to a certain action
-which the user should perform?
-
-> +
-> +	ret =3D tegra241_vintf_init_lvcmdq(vintf, lidx, vcmdq);
-> +	if (ret)
-> +		goto undepend_vcmdq;
-> +
-> +	dev_dbg(cmdqv->dev, "%sallocated\n",
-> +		lvcmdq_error_header(vcmdq, header, 64));
-> +
-> +	tegra241_vcmdq_map_lvcmdq(vcmdq);
-> +
-> +	vcmdq->cmdq.q.q_base =3D q_base & VCMDQ_ADDR;
-> +	vcmdq->cmdq.q.q_base |=3D log2size;
-> +
-> +	ret =3D tegra241_vcmdq_hw_init_user(vcmdq);
-> +	if (ret)
-> +		goto unmap_lvcmdq;
-> +	vintf->lvcmdqs[lidx] =3D vcmdq;
-
-this is already done in tegra241_vintf_init_lvcmdq().
