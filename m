@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEFF7215198
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 15:58:02 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 73D2621B9C0
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 16:05:04 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747324684; cv=none; b=IoyVXJmO8tb3TRRFm6T4Mdu7zLolRQdT+xKnTBAR3KyzbRkpVyDicFEfJ+uL33bNisso9OI9ELHWddCA3ttVT1QU35bJtELf4e2a8aAGBhIlY2yUaqw4XpRQ65Y7MtoBYySmX9JdtFBouS9cjv5xR6eKxpYRZ6DPmrnXYJ006IE=
+	t=1747325106; cv=none; b=W1ylMBuFev9MNUFKhIphM7Zbs0698oR2TzkbgmzMWA0ekNSrTWBq9iD12334fuqz5bKgFjw19qsGgANLL1SfTB7jXXPgJe9PfH33ZzyyS2ffExgwXMVKMKMVznQZJZJmAlTn28tj747goExBdE0CRX1OGOPVrygrDbmbAlQBlRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747324684; c=relaxed/simple;
-	bh=CAgCfn0usxCDJUXcWdbnIyg7vNppfrJHISEf1FxTwaE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=hNDAOk+x1fxAUIetAA/rZ+PPtekPtwAWmzgnCH8f6LfzfZ2COROjg1REXk5M9wRekd/aaswq8cuvJvzcD66TWDYqLmCyJrIR+BHB9PW8Rgy4j7ck9J7FBP1LtrClEYDnD7wCDFgS6MAZCK3vwyNniQE3dw0xdYTUV5yzJ+3M5qs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=P8wbBbBM; arc=none smtp.client-ip=170.10.133.124
+	s=arc-20240116; t=1747325106; c=relaxed/simple;
+	bh=lqqfSNMdSrksNnDgecX0dYoZpavdojtFlDEi6NOHurk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=klMPx1nqBObAT4LoiIL3wJ3pMigvRue3tjIFyorIpQM4KaBAEaDn5h7PTpyqlfU/BKsd40u7nGfnPYUBWcwI9hruhkSK4YDC7XljqPC2x6zENJHju2i+l4OzH1YUDndyXvusrxHq4NArI+emOjXl6j1q5meXt5Mv4fSiJbydEvw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=FkguSUBf; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="P8wbBbBM"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="FkguSUBf"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747324681;
+	s=mimecast20190719; t=1747325103;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=SpV+trH7vdH9L7Y0TWVgvx/frrwF3qxSlQvVXRFdAuo=;
-	b=P8wbBbBMJmvyhfk30kMedNWtBoxPZBIkjiLq74iGXjLcfM7VrZwRhvkLi9PCLVRWNAXcNv
-	dQtlcyF5htNxLnKjfdkdVOK+sVmdiBx+WyK6pZCyYAmOYX0bhmglJIFnp9KztZxIdddkjx
-	aBaKvpY/Bztkl3uU3zP0rgAQA5ceDiM=
+	bh=Q/D3/aT0Ahsv4kPdgtfpkZeNzhWCseM3fk/LmCTRabU=;
+	b=FkguSUBf0J4LkSdas0RZv+RoL0F9fCB8o32sXfJzyTLflnC0KZAe/YVSe4Bm8I3tn5y0lS
+	m/HwTuMI/FUhw7UQSP79kwRTFDhliLWNCB29qMU6dMTPnR2tlcDN6L2dQujA8yeGUaW0jn
+	CM+UiXlA1LHORFvDEVbyJl00nDbx6pg=
 Received: from mail-wr1-f72.google.com (mail-wr1-f72.google.com
  [209.85.221.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-602-kZrHsLUlPGuREDWpE6v-NQ-1; Thu, 15 May 2025 11:58:00 -0400
-X-MC-Unique: kZrHsLUlPGuREDWpE6v-NQ-1
-X-Mimecast-MFC-AGG-ID: kZrHsLUlPGuREDWpE6v-NQ_1747324679
-Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a2046b5e75so547538f8f.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 08:58:00 -0700 (PDT)
+ us-mta-416-LpBn5ShyM2uQqzSBr1c1Hw-1; Thu, 15 May 2025 12:05:01 -0400
+X-MC-Unique: LpBn5ShyM2uQqzSBr1c1Hw-1
+X-Mimecast-MFC-AGG-ID: LpBn5ShyM2uQqzSBr1c1Hw_1747325100
+Received: by mail-wr1-f72.google.com with SMTP id ffacd0b85a97d-3a35c86b338so60798f8f.2
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 09:05:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747324679; x=1747929479;
+        d=1e100.net; s=20230601; t=1747325100; x=1747929900;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:to:subject:user-agent:mime-version
-         :date:message-id:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=SpV+trH7vdH9L7Y0TWVgvx/frrwF3qxSlQvVXRFdAuo=;
-        b=o/gjQocQnRkshUo3t9pLaMqZRV7MpiRJQJ3iJkWUBqcKbYZTz4rM7ZunhEp6FyEhCh
-         4/sNWaKmgpt3E6FWBwdTmuH9kr3b3LWqzc1mdY0iyJjMO4YWEx93TDIJmtIwgy8GJDnp
-         bkElFycfnXaMd9RrVmx11TeZ+fjOp9kqGwW5ufw+rMbbfNaJ4vUwMHCTdrt+QlGnQqcO
-         uTldD9OMxg1E0HU8YnLJIKCPoPqZ12Rpi5m17XlcZRL5OX9YeOcv+QES2Qs8EQaDeAu9
-         j/68j1Kk8gDh6ii6wVokbiMGlgKX1CF4fAWluKSy8nv/d4MbPRSN3JmbmMuNlfQ966/M
-         ffyA==
-X-Forwarded-Encrypted: i=1; AJvYcCVd/7dFEhrD53m0UELs6qc0BcoiG1lWyJ5d8ViFziktc+Q8czkv8GQEpNiegNzBe0oTy1xAe0Zvwts=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyHIqhlAui9WCaR6qHCGsmR/2W1SxeRidI61l3xOu9JxWIA8hpC
-	a1uqQ7i/VwkDb7IrSDGCpf4GTbdjS5wWeEHJ8IcPShzpVcNNNvg04atgblI/CNosEmxtfGUSxa2
-	izx0I4BWOoqgDbrCn8mlm8ACJk970Pa5YBJDSB8cz5OREojJSqLT9lQoz742pSA==
-X-Gm-Gg: ASbGncubRsWry8BpRAAF3ticCbZCog74YZM4rwOoDwBGc6Wi5nn3bESotyqDI5Zvma3
-	lnEGzXKsbgxKGEipq+34YwprrbQWfGLfnVpjSaf+HpZr4UM/lotMFfbOqLHIjOFDjvcgpQUkjSJ
-	onS/nfLSH/bjwSGXhu5SUpe6f6P+e9X3MoCdNOpGU9CSz0pHXqPRY7nnU8IqQc0+NrCG5HGk39g
-	ItF/h7XyiYgeDDdqbimyCYVEYUYAcY+K9lG7wVfOVF+vW5bR8u3oyg1UXWCvI/Fv7mDoDUsHt8x
-	ZhCtcnkDSLhC83QEJluU5DylUEXDVDEM5bEDxMiXPpOCsjaz0KAp7JOjiMEy9RzC9lsoPoVpfKE
-	Ry14D5D+vYaL/SPpUswmlukf5yr/sQt0L4qfkH6I=
-X-Received: by 2002:a5d:59a5:0:b0:3a1:f6fd:89da with SMTP id ffacd0b85a97d-3a35c8246d2mr312311f8f.31.1747324679290;
-        Thu, 15 May 2025 08:57:59 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEgna5Lm+DSIwVvuvxQmNhuZ1mmOTx1cg3R/ULzXDmFNfpsYDOXil9TXN8xmMqKs9yeo2pNig==
-X-Received: by 2002:a5d:59a5:0:b0:3a1:f6fd:89da with SMTP id ffacd0b85a97d-3a35c8246d2mr312285f8f.31.1747324678925;
-        Thu, 15 May 2025 08:57:58 -0700 (PDT)
+         :content-language:from:references:cc:to:subject:user-agent
+         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Q/D3/aT0Ahsv4kPdgtfpkZeNzhWCseM3fk/LmCTRabU=;
+        b=JFxw0hjqOQMUvAX6lvnbFLzUAhBK84iwfIDgxRHntVZ0jpHdKvr0vfH/PslakhYReL
+         r83FbhTpyiMmJ565cHqH0/7G10LOfCTmKv12p9NxuaqMtBgUNhb159mO0pI1H5ssu/eE
+         fxMhV4nDkLylmTKbLRA2dmWdZB6pKuuMrzfG6cO9PKVw5k3C1JWH1wV+tzoC/j8AhqCv
+         XsWKtGTqxys0exL5wBGcPCEPufwe75OOzKqEJs6RydJtnmLOAYzUzwcCAQrjE3YBwoKA
+         Y4xCKhI4/YaDYJ5llkoQ2Z416FnxSMSfRHePbIX16inL3z5PHeFFdWakzX4UR0Wx7lAx
+         ZFuQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVbH4lEorMwbD1xS0PxiGVNIPUB4VEneeEOy694yZedQwxi2WUjNGlzfDyoeEpgMJprZiMIGLxBwuw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwmK96NOjvHu4pBSFGYHAggGIONhZSXdJ+Y6E/TMEaTqu0BFquH
+	GK5o8nXgl6dvWY6qvL7zqebZpWS0HLPCJM1G35bKwlueyKighRCisONFwyiCxJg/Mr0/a6fjrkd
+	osVAcY8THEHKeH+1BWbUMu9rdRVAGkUibhr0t0pDX+ojTKCjcBtb4DN7VmspnpA==
+X-Gm-Gg: ASbGncvI1tCAjxZAyuu/tbqRIz7dLfYXJFu6xBKYnT4umD/K8lSv8hP8johmiCqiGZG
+	3CRWB+JBS0D8tfqcppi/46OkGd+srxWBthfIbc2BTDmEbCRta1ZRpjDXSBOug42hdMsF2JcQ7A3
+	P0oXzQV3Woj64JaLPnrXsWq+mT5BPe+yPoIl6aA6Mz43cU1xdsnBxjsgDCsjHKwqNq0iM/rxzHK
+	RglDo50ZTIMubn8xrLaNQTjpOfyabeQlFkkkYBVQ6Lq6eswB0Tn5/Iz9s7G46YMDsii8uu5hnBG
+	Gn/wmoLHmw2gMXaPwW8/WMhXedwPz/SVq98rDIu1tWcMGYBnKe4rgh0NEtNEuPgDFFhMOrpCArp
+	5LrVNyOPZEA+uZv1UmSIIyhIYL2CK3JQC3KHR1lc=
+X-Received: by 2002:a05:6000:2486:b0:3a3:4baa:4146 with SMTP id ffacd0b85a97d-3a35c825d23mr374907f8f.30.1747325100262;
+        Thu, 15 May 2025 09:05:00 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFl2K0fFMSTjEqLP6qPqDBAxLNpwT13jconYfR5p9OgM8lQ1fVoHvwGDlaQ5mD9XErQgQl4Uw==
+X-Received: by 2002:a05:6000:2486:b0:3a3:4baa:4146 with SMTP id ffacd0b85a97d-3a35c825d23mr374845f8f.30.1747325099769;
+        Thu, 15 May 2025 09:04:59 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f4a:8900:884a:b3af:e3c9:ec88? (p200300d82f4a8900884ab3afe3c9ec88.dip0.t-ipconnect.de. [2003:d8:2f4a:8900:884a:b3af:e3c9:ec88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f5a2cf1bsm23471025f8f.72.2025.05.15.08.57.57
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a1f58f3369sm23428151f8f.57.2025.05.15.09.04.58
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 May 2025 08:57:58 -0700 (PDT)
-Message-ID: <360bac52-2cda-41fd-a674-89b113fef918@redhat.com>
-Date: Thu, 15 May 2025 17:57:57 +0200
+        Thu, 15 May 2025 09:04:59 -0700 (PDT)
+Message-ID: <ba18e52a-f1f2-46a7-8c9e-90a0df04b7dd@redhat.com>
+Date: Thu, 15 May 2025 18:04:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,21 +75,19 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the
- process
-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>,
- Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+Subject: Re: [PATCH 0/6] prctl: introduce PR_SET/GET_THP_POLICY
+To: Usama Arif <usamaarif642@gmail.com>,
+ Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
  hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
  ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
- npache@redhat.com, ryan.roberts@arm.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
+ Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
 References: <20250515133519.2779639-1-usamaarif642@gmail.com>
- <20250515133519.2779639-2-usamaarif642@gmail.com>
- <c0af0eb2-d10f-4ee3-87dd-c23cca6cfd1a@lucifer.local>
- <2d30bcce-6f80-468f-945d-b63eff726db5@redhat.com>
- <kuxzxh4r6fapb5tjbhvm7fsw7p2g6vlasdv46j2ggedmbbsec2@zgt445q4oob2>
+ <6502bbb7-e8b3-4520-9547-823207119061@lucifer.local>
+ <5e4c107f-9db8-4212-99b6-a490406fec77@gmail.com>
+ <e3efdfb7-d309-43c8-be39-c02d886c5b45@lucifer.local>
+ <ef6c91e8-19e5-4e86-be1d-dd066a141ec6@gmail.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -137,55 +135,29 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <kuxzxh4r6fapb5tjbhvm7fsw7p2g6vlasdv46j2ggedmbbsec2@zgt445q4oob2>
+In-Reply-To: <ef6c91e8-19e5-4e86-be1d-dd066a141ec6@gmail.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
-On 15.05.25 17:45, Liam R. Howlett wrote:
-> * David Hildenbrand <david@redhat.com> [250515 10:44]:
->> On 15.05.25 16:40, Lorenzo Stoakes wrote:
->>> Overall I feel this series should _DEFINITELY_ be an RFC. This is pretty
->>> outlandish stuff and needs discussion.
->>>
->>> You're basically making it so /sys/kernel/mm/transparent_hugepage/enabled =
->>> never is completely ignored and overridden.
+>> Please no :) 'VMA' is implicit re: mappings. If you're touching memory
+>> mappings you're necessarily touching VMAs.
 >>
->> I thought I made it very clear during earlier discussions that never means
->> never.
+>> I know some prctl() (a pathway to many abilities some consider to be
+>> unnatural) uses 'VMA' in some of the endpoints but generally when referring
+>> to specific VMAs no?
+>>
+>> These namesa are already kinda horrible (yes naming is hard, for everyone,
+>> ask me about MADV_POISON/REMEDY) but I think something like:
+>>
+>> PR_DEFAULT_MADV_HUGEPAGE
+>> PR_DEFAULT_MADV_NOHUGEPAGE
+>>
+>> -ish :)
+>>
 > 
-> I also thought so, but the comments later made here [1] seem to
-> contradict that?
+> Sure, happy with that, Thanks.
 
-It's ... complicated.
-
-> 
-> It seems "never" means "default_no" and not actually "never"?
-
-We should consider these system toggles a single set of toggles that define a
-state, and not individual toggles that overwrite each other.
-
-If you say
-	/sys/kernel/mm/transparent_hugepage/enabled = never
-and
-	/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled = always
-
-instead of the *default*
-
-	/sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled = inherit
-
-the admin explicitly stats "I want the system behavior for 2048kB not to be configured using
-/sys/kernel/mm/transparent_hugepage/enabled". That's an admin decision, not a
-per-process overwrite or whatever.
-
-
-> 
-> Maybe the global/system toggles need to affect the state of each other?
-> That is, if /sys/kernel/mm/transparent_hugepage/enabled is never and you
-> set /sys/kernel/mm/transparent_hugepage/hugepages-2048kB/enabled to
-> madvise, it should not leave /sys/kernel/mm/transparent_hugepage/enabled
-> as never.
-
-I recall we discussed that, but there was also a catch to that. :(
+Yes, please :)
 
 -- 
 Cheers,
