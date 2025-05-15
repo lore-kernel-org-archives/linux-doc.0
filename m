@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F47428136E
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 19:12:20 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5413BDDC1
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 19:17:34 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747336342; cv=none; b=UD30rmf15nbKLHovnqKiQEckhxZsi36r3HtnhCIjYNfsMSVUyrHTlvhU2Dpwr3lUTYMUADkjXSDSqK/N6aXGKggj2nPBvIKUUTkbfBcWKyA66mSdcpimOsbyOIyLrJFNSCO+tMZrdIk6VVZ/gQ5uMGR3DVnhutqFl3l2v9QN/Xg=
+	t=1747336658; cv=none; b=YBJ/GgRYHBxizW9hIYhpJhrQd7+ZRXL1RsywzF5OwCUI5EARcY+FNW5gZpLjmZvXSSY2dF8B5SO4KIyCphcPwSmQDD/U/BI2jFRzYk0PXlMIgiIw+2LQNF7OPfViW3bqtfwB7iPapIiWz7PP1yqE72f3fzanHi0dUo4SdSdiv94=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747336342; c=relaxed/simple;
-	bh=KD0jJihtYhqfv1XEoRJC+fM9H80cCX8CrlPcHN4vXB4=;
+	s=arc-20240116; t=1747336658; c=relaxed/simple;
+	bh=L4ErrlartbpiaXjuuc4IMxcUD86ChXOTzftrgtTG3Mc=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=i8r+yAPHxOExnQ9QsjszzOWmVRvHRmBlHLUbXh13PlCjoyb9zsRMF+DTPzDFAo8S7WGNYftGu8jOqrIqmoL+/zpg4OWAGkFce866NKbXzq99K63ez9GHA2J7qcppK7k6viHBVwf4iq0noWTceDg2SssBJCZXGNRhv8CngvPiktY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZcVBwTTO; arc=none smtp.client-ip=170.10.133.124
+	 In-Reply-To:Content-Type; b=ItyX5EYKY5E/iCeyt+1fVtXEputjXrd7fDjjEsCx+vFjoI8iCDTLxFTbyGnaH20XL3qZRmAhwwv1DkFdfW66K6vk1fWRFnRwLnFE7XU9a/fEEUcRx8JUA+UqvGGGalKSRnUu5ajqYzTX4B1Q4rpZSkeT7r86LVmBnHPx2eXM1Uc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=ZznomIsl; arc=none smtp.client-ip=170.10.133.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZcVBwTTO"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="ZznomIsl"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747336339;
+	s=mimecast20190719; t=1747336654;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=Lw0p7v2GEGVvGwV2lhiAGAZ1uPNcAxe5ljCB58WtnWs=;
-	b=ZcVBwTTOqol69GM3SCo3544HQgnBvT9GXSExK/ufq16h6BEdYfcs0UUAqEEXbpG8RyDVqD
-	Z9XgKMAASLeZZpouMykFv75XG64XCUoRZYn/rImiUTozTnbQrH6D9TeB7c6pvN6nZKHKGF
-	cncToJQ47WAnFXjv1QHzdV57GrqQvfM=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=sJNMtDx5hX6lhKqp4kq8GqC8YkQ6trkiCXO1tYpsLKU=;
+	b=ZznomIslLMzifwVFznBBWLSkh3sm7DazxLLcNVOTEm7JituHs2VE0rexGE8w4NXbjZgGua
+	oorbgnWlKCd7x2d7Xz/sKHclDqvwNcDfO4VGHO4IwiBSG9SzlX1kjrmlZtrRJeNgqZylpj
+	+i7Rjw0iGHWUx1HZ3gtAkntKmrtMtvg=
+Received: from mail-wm1-f70.google.com (mail-wm1-f70.google.com
+ [209.85.128.70]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-322-41FM8PLfMFSl0_nz1iZJLQ-1; Thu, 15 May 2025 15:12:17 -0400
-X-MC-Unique: 41FM8PLfMFSl0_nz1iZJLQ-1
-X-Mimecast-MFC-AGG-ID: 41FM8PLfMFSl0_nz1iZJLQ_1747336336
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a1c86b62a8so866508f8f.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 12:12:16 -0700 (PDT)
+ us-mta-592-rHM_lfstNjiScte9mQGgKg-1; Thu, 15 May 2025 15:17:32 -0400
+X-MC-Unique: rHM_lfstNjiScte9mQGgKg-1
+X-Mimecast-MFC-AGG-ID: rHM_lfstNjiScte9mQGgKg_1747336651
+Received: by mail-wm1-f70.google.com with SMTP id 5b1f17b1804b1-43e9a3d2977so9643825e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 12:17:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747336336; x=1747941136;
+        d=1e100.net; s=20230601; t=1747336651; x=1747941451;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=Lw0p7v2GEGVvGwV2lhiAGAZ1uPNcAxe5ljCB58WtnWs=;
-        b=G2IGDp3AkrJyf1EQbXkvR19bdnoZS7Rho93E0RbB9wr/kseOmgWTDx5l4vUwsIABp1
-         u/lSOhCw/fQ7AUnWTgUg1W1TLmDdSesxepAphowwACkJWU0/yfmeVfSfXBz2t0shtmn6
-         LYvElNuuh2DDtcJmDSn0ukgYAoPGiF90Vsw6Vfi6AE09zdUlqLILIZauw6fBZsUp9rbB
-         6vJvHp1yZceiVjt8Z9hlgpEFYqMj7Y2XqZodNzu0Hhw+UfHLNd2YsfyubWnohw4jhcx/
-         +bKvL0/gk5wIIC7KyDoob+GphVSyXexWcY+e93eXfm1eqkh4pjqT4qsgwBCRUp8xmllS
-         fvhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXGAnrxjFft02GWM2Qi3tUtiiAUk4hCET8DNOH6vznTUzVVOWn1bEXPjhqlySXKq1xPR+1PVFCb6VQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yz1PtdjMyLvHR1eBFDktQRfFpjBiK3MP2w1kHjQonfCcuCg6/nw
-	tay+CFwagfx6LNEXez/d8GiMSBjwZVzczOWET8RC/Qp480Nxeqy8F4o0ONWnZu3oorbKua6Emmd
-	/Z6+0OUC9GD7yfAi9uvHiY6zYKZNIW+Ky3rdICbpz0FME9xRBFnTr7zjYyc3U2A==
-X-Gm-Gg: ASbGnct3ypD3ve0RhSASje8anWWSlZGW7fm3ezzAuagd7r/BloN3oOG4PGt0LPPQweW
-	MIL4PeqlHuO8YT0nc2Fcm69IQM3d228jKrck7wkuegaRw81zGlN7osPAbox/svHr6BamThhdiwc
-	zsOpJq9P6SpYH3ITABgXnBwWW9sMNybIaRWKf3Pn0+jcmOvd0GB3/tRBt+VgJL8vCzN7NU8ZA9s
-	n/swGiPmwSI/wiDgkcAMkrY9L4cwQDC1/HRNgskI+2fCvZcE/P5rppSzvP2gHZah/x0GMZamdoT
-	lsxjC1I4+Ci6KPujvizqnIghClzw/kb2GG1hc6NwjI5oM46BY5E7dW9ZVEyf6mL66rchoHB2QVc
-	fgJqwenGb2zr3p29LnVcY8CuHUAoBrMV3X05dVC4=
-X-Received: by 2002:a5d:5f8d:0:b0:3a0:88d5:7fca with SMTP id ffacd0b85a97d-3a35c808b9emr540605f8f.12.1747336335892;
-        Thu, 15 May 2025 12:12:15 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IGv6i9n2zMiKEPUzKWZIQ/UpOWV9YWFmOj8sYqnKvYQhL6NFvppJtQ08DGS6bNPQH7p/ND4xQ==
-X-Received: by 2002:a5d:5f8d:0:b0:3a0:88d5:7fca with SMTP id ffacd0b85a97d-3a35c808b9emr540585f8f.12.1747336335517;
-        Thu, 15 May 2025 12:12:15 -0700 (PDT)
+        bh=sJNMtDx5hX6lhKqp4kq8GqC8YkQ6trkiCXO1tYpsLKU=;
+        b=f/uwWkM32oVzDF6bnRsmgEy/cahs/ww+Tokk42lj5bNJ4D03pT32cq1liqVGb/6Fvu
+         BbAjNw6u3pDJT1khwfzHXJyWFDehsE2p9c/se7FEkEKIsXji1OI01YLt5zZih0O7n7et
+         rq/v4kIps9u1955MIuaGMzs9zwZoWZv44gW+gHOpbDSN5iUnX6uVOZ6HweLli312vJlr
+         KQsy28xXON/bFV5XhPn5w2Lltrb2SO1HmZ0p+Grmk7VA9aux/bfNz6IZxcPGh3fzcyXC
+         kBGZa1pp0YVsMEm4fxFGGq3cUFnbDMqBqt2PV915wojuleCka+fdktUGlgAKHC5Z9mmJ
+         C6ZQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWc9cI3lw6V23Bp29sxUbqAhYagRwLv+T5qrchNTJNsFyifR7jV4R3VU66Tf3/kxezT6fXqj72KyyE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzethdobDBD4AhbdkNlfNdeL8x2pxWDKybyzNN0r1GfZU7lIXFf
+	aUB6lm7nLBHzWbn56A4kYT/utpRIsp9tYPCif4QMQFop5XHtnHU44toFhtbcmH3kkf1EAj/VyzU
+	8pegJaJ+GWedcLT1sfU92rka8WYHD1gXF00eOriV98CHR4HKHZtMBm84iXcqOKA==
+X-Gm-Gg: ASbGncs0HtconPsCLKot5NhRQKPRhYOuXgzer+Mv9oatFfIGJDy+sSh0SZsa3IKYnWV
+	1N0yG3fzkmla4tb7FJPbzE2MNLBV2nMx3lOUO0xMtWTVEcORJezozglzVyEwnM67svH/gvzJI4H
+	T1Pp07WT713/sMzhAG6we+0Ammk3vybSk2tmS/I6iHvJo6457+uku1sgaoV3KcrWnG5apqcmRn5
+	ArBXRr0liaigoju3Bb8ZUfRhlgB2dgtYERUisnFy7YMFDDjbMZu6HYuFy75Y7qIPDx2dhdQiLAH
+	A+xOp2YZwDq57Km423FKTkv6l2XRd3kGw/WHiLxQDFIMy3DlY8vo3lNqfi43hUjBfcTNA5yOgdS
+	J9KnbickVODmhMKnbmamHqk1PWtGlhXUyBNCmmNQ=
+X-Received: by 2002:a5d:5f8d:0:b0:3a1:f5c6:2bd with SMTP id ffacd0b85a97d-3a35c835163mr1013200f8f.31.1747336651039;
+        Thu, 15 May 2025 12:17:31 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IECT8dyUlXgGTgoGjmJtA6ShxjYaPIjG4aJRMZeEL1TlBKtaWpU5rNup1niQGn7Xjq8wdQwXw==
+X-Received: by 2002:a5d:5f8d:0:b0:3a1:f5c6:2bd with SMTP id ffacd0b85a97d-3a35c835163mr1013167f8f.31.1747336650376;
+        Thu, 15 May 2025 12:17:30 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f4a:8900:884a:b3af:e3c9:ec88? (p200300d82f4a8900884ab3afe3c9ec88.dip0.t-ipconnect.de. [2003:d8:2f4a:8900:884a:b3af:e3c9:ec88])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca4d31fsm364329f8f.6.2025.05.15.12.12.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f39ef8f7sm76660795e9.39.2025.05.15.12.17.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 May 2025 12:12:15 -0700 (PDT)
-Message-ID: <5f77366d-e100-46bb-ac85-aa4b216eb2cf@redhat.com>
-Date: Thu, 15 May 2025 21:12:13 +0200
+        Thu, 15 May 2025 12:17:29 -0700 (PDT)
+Message-ID: <869607c4-5deb-451e-bd83-fe5890bd54cf@redhat.com>
+Date: Thu, 15 May 2025 21:17:28 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -77,9 +77,9 @@ MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
 Subject: Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the
  process
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
+To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
  hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
  ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
  Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
@@ -89,8 +89,8 @@ References: <20250515133519.2779639-1-usamaarif642@gmail.com>
  <c0af0eb2-d10f-4ee3-87dd-c23cca6cfd1a@lucifer.local>
  <ddc0dd46-8541-4d4a-ac59-287e11e1d3ff@gmail.com>
  <02ead03b-339b-45c8-b252-d31a66501c39@lucifer.local>
- <3a2a329d-2592-4e31-a763-d87dcd925966@redhat.com>
- <8ea288f2-5196-41f9-bd65-e29f22bb29e8@lucifer.local>
+ <732ff995-0e18-4e8c-a0a5-14da400d4078@gmail.com>
+ <6c66e167-1be5-4298-8131-5434d9ff67df@lucifer.local>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -138,12 +138,498 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <8ea288f2-5196-41f9-bd65-e29f22bb29e8@lucifer.local>
+In-Reply-To: <6c66e167-1be5-4298-8131-5434d9ff67df@lucifer.local>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 15.05.25 20:08, Lorenzo Stoakes wrote:
-> On Thu, May 15, 2025 at 06:11:55PM +0200, David Hildenbrand wrote:
+On 15.05.25 20:36, Lorenzo Stoakes wrote:
+> One thing I wanted to emphasise - shouldn't we invoke
+> khugepaged_enter_vma() for VMAs we set VM_HUGEPAGE for?
+> 
+> I note in __mmap_new_vma() we do so for non-anon VMAs _prior_ to invoking
+> vma_set_thp_policy().
+> 
+> I _really_ hate putting in conditional logic like this for specific
+> cases. Feels very hacky.
+> 
+> On Thu, May 15, 2025 at 05:47:34PM +0100, Usama Arif wrote:
+>>
+>>
+>> On 15/05/2025 17:06, Lorenzo Stoakes wrote:
+>>
+>>>> Its doing the same as KSM as suggested by David. Does KSM break these tests?
+>>>> Is there some specific test you can point to that I can run that is breaking
+>>>> with this patch and not without it?
+>>>
+>>> They don't build, at all. I explain how you can attempt a build below.
+>>>
+>>
+>> Ah yes, I initially thought by break you meant they were failing. I saw that,
+>> will fix it.
+>>
+>>> And no, KSM doesn't break the tests, because steps were taken to make them
+>>> not break the tests :) I mean it's really easy - it's just adding some
+>>> trivial stubs.
+>>>
+>>
+>> Yes, will do Thanks!
+> 
+> Thanks.
+> 
+>>
+>>> If you need help with it just ping me in whatever way helps and I can help!
+>>>
+>>> It's understandable as it's not necessarily clear this is a thing (maybe we
+>>> need self tests to build it, but that might break CI setups so unclear).
+>>>
+>>> The merging is much more important!
+> 
+> To re-emphasise ^ the merging is key - I will unfortunately have to NACK
+> any series that breaks it. So this is an absolute requirement here.
+> 
+>>>
+>>>>
+>>>>
+>>>>> I really feel this series needs to be an RFC until we can get some
+>>>>> consensus on how to approach this.
+>>>>
+>>>> There was consensus in https://lore.kernel.org/all/97702ff0-fc50-4779-bfa8-83dc42352db1@redhat.com/
+>>>
+>>> I disagree with this asssessment, that doesn't look like consensus at all,
+>>> I think at least this is a very contentious or at least _complicated_ topic
+>>> that we need to really dig into.
+>>>
+>>> So in my view - it's this kind of situation that warrants an RFC until
+>>> there's some stabilisation and agreement on a way forward.
+>>>
+>>
+>> Sure will change next revision to RFC, unless hopefully maybe we can
+>> get a consensus in this revision :)
+> 
+> Thanks!
+> 
+>>
+>>>>
+>>>>>
+>>>>> On Thu, May 15, 2025 at 02:33:30PM +0100, Usama Arif wrote:
+>>>>>> This is set via the new PR_SET_THP_POLICY prctl.
+>>>>>
+>>>>> What is?
+>>>>>
+>>>>> You're making very major changes here, including adding a new flag to
+>>>>> mm_struct (!!) and the explanation/justification for this is missing.
+>>>>>
+>>>>
+>>>> I have added the justification in your reply to the coverletter.
+>>>
+>>> As stated there, you've not explained why alternatives are unworkable, I
+>>> think we need this!
+>>>
+>>> Sort of:
+>>>
+>>> 1. Why not cgroups? blah blah blah
+>>> 2. Why not process_madvise()? blah blah blah
+>>> 3. Why not bpf? blah blah blah
+>>> 4. Why not <something I've not thought of>? blah blah blah
+>>>
+>>
+>> I will add this in the next cover letter.
+> 
+> Thanks
+> 
+>>
+>>
+>>>>
+>>>>>> This will set the MMF2_THP_VMA_DEFAULT_HUGE process flag
+>>>>>> which changes the default of new VMAs to be VM_HUGEPAGE. The
+>>>>>> call also modifies all existing VMAs that are not VM_NOHUGEPAGE
+>>>>>> to be VM_HUGEPAGE. The policy is inherited during fork+exec.
+>>>>>
+>>>>> So you can only set this flag?
+>>>>>
+>>>>
+>>>> ??
+>>>
+>>> This patch is only allowing the setting of this flag. I am asking 'so you
+>>> can only set this flag?'
+>>>
+>>> To which it appears the answer is, yes I think :)
+>>>
+>>> An improved cover letter could say something like:
+>>>
+>>> "
+>>> Here we implement the first flag intended to allow the _overriding_ of huge
+>>> page policy to ensure that, when
+>>> /sys/kernel/mm/transparent_hugepage/enabled is set to madvise, we are able
+>>> to maintain fine-grained control of individual processes, including any
+>>> fork/exec'd, by setting this flag.
+>>>
+>>> In subsequent commits, we intend to permit further such control.
+>>> "
+>>>
+>>>>
+>>>>>>
+>>>>>> This allows systems where the global policy is set to "madvise"
+>>>>>> to effectively have THPs always for the process. In an environment
+>>>>>> where different types of workloads are stacked on the same machine,
+>>>>>> this will allow workloads that benefit from always having hugepages
+>>>>>> to do so, without regressing those that don't.
+>>>>>
+>>>>> Again, this explanation really makes no sense at all to me, I don't really
+>>>>> know what you mean, you're not going into what you're doing in this change,
+>>>>> this is just a very unclear commit message.
+>>>>>
+>>>>
+>>>> I hope this is answered in my reply to your coverletter.
+>>>
+>>> You still need to improve the cover letter here I think, see above for a
+>>> suggestion!
+>>>
+>>
+>> Sure, will do in the next revision, Thanks!
+> 
+> Thanks
+> 
+>>>>
+>>>>>>
+>>>>>> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+>>>>>> ---
+>>>>>>   include/linux/huge_mm.h                       |  3 ++
+>>>>>>   include/linux/mm_types.h                      | 11 +++++++
+>>>>>>   include/uapi/linux/prctl.h                    |  4 +++
+>>>>>>   kernel/fork.c                                 |  1 +
+>>>>>>   kernel/sys.c                                  | 21 ++++++++++++
+>>>>>>   mm/huge_memory.c                              | 32 +++++++++++++++++++
+>>>>>>   mm/vma.c                                      |  2 ++
+>>>>>>   tools/include/uapi/linux/prctl.h              |  4 +++
+>>>>>>   .../trace/beauty/include/uapi/linux/prctl.h   |  4 +++
+>>>>>>   9 files changed, 82 insertions(+)
+>>>>>>
+>>>>>> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+>>>>>> index 2f190c90192d..e652ad9ddbbd 100644
+>>>>>> --- a/include/linux/huge_mm.h
+>>>>>> +++ b/include/linux/huge_mm.h
+>>>>>> @@ -260,6 +260,9 @@ static inline unsigned long thp_vma_suitable_orders(struct vm_area_struct *vma,
+>>>>>>   	return orders;
+>>>>>>   }
+>>>>>>
+>>>>>> +void vma_set_thp_policy(struct vm_area_struct *vma);
+>>>>>
+>>>>> This is a VMA-specific function but you're putting it in huge_mm.h? Why
+>>>>> can't
+>>>> this be in vma.h or vma.c?
+>>>>>
+>>>>
+>>>> Sure can move it there.
+>>>>
+>>>>>> +void process_vmas_thp_default_huge(struct mm_struct *mm);
+>>>>>
+>>>>> 'vmas' is redundant here.
+>>>>>
+>>>>
+>>>> Sure.
+>>>>>> +
+>>>>>>   unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>>>>>   					 unsigned long vm_flags,
+>>>>>>   					 unsigned long tva_flags,
+>>>>>> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
+>>>>>> index e76bade9ebb1..2fe93965e761 100644
+>>>>>> --- a/include/linux/mm_types.h
+>>>>>> +++ b/include/linux/mm_types.h
+>>>>>> @@ -1066,6 +1066,7 @@ struct mm_struct {
+>>>>>>   		mm_context_t context;
+>>>>>>
+>>>>>>   		unsigned long flags; /* Must use atomic bitops to access */
+>>>>>> +		unsigned long flags2;
+>>>>>
+>>>>>
+>>>>> Ugh, god really??
+>>>>>
+>>>>> I really am not a fan of adding flags2 just to add a prctl() feature like
+>>>>> this. This is crazy.
+>>>>>
+>>>>> Also this is a TERRIBLE name. I mean, no please PLEASE no.
+>>>>>
+>>>>> Do we really have absolutely no choice but to add a new flags field here?
+>>>>>
+>>>>> It again doesn't help that you don't mention nor even try to justify this
+>>>>> in the commit message or cover letter.
+>>>>>
+>>>>
+>>>> And again, I hope my reply to your email has given you the justification.
+>>>
+>>> No :) I understood why you did this though of course.
+>>>
+>>>>
+>>>>> If this is a 32-bit kernel vs. 64-bit kernel thing so we 'ran out of bits',
+>>>>> let's just go make this flags field 64-bit on 32-bit kernels.
+>>>>>
+>>>>> I mean - I'm kind of insisting we do that to be honest. Because I really
+>>>>> don't like this.
+>>>>
+>>>>
+>>>> If the maintainers want this, I will make it a 64 bit only feature. We
+>>>> are only using it for 64 bit servers. But it will probably mean ifdef
+>>>> config 64 bit in a lot of places.
+>>>
+>>> I'm going to presume you are including me in this category rather than
+>>> implying that you are deferring only to others :)
+>>>
+>>
+>> Yes ofcourse! I mean all maintainers :)
+>>
+>> And hopefully everyone else as well :)
+>>
+>>> So, there's another option:
+>>>
+>>> Have a prerequisite series that makes mm_struct->flags 64-bit on 32-bit
+>>> kernels, which solves this problem everywhere and avoids us wasting a bunch
+>>> of memory for a very specific usecase, splitting flag state across 2 fields
+>>> (which are no longer atomic as a whole of course), adding confusion,
+>>> possibly subtly breaking anywhere that assumes mm->flags completely
+>>> describes mm-granularity flag state etc.
+>>>
+>>
+>> This is probably a very basic question, but by make mm_struct->flags 64-bit on 32-bit
+>> do you mean convert flags to unsigned long long when !CONIFG_64BIT?
+> 
+> Yes. This would be a worthwhile project in its own right.
+> 
+> I will be changing vma->vm_flags in the same way soon.
+> 
+>>
+>>> The RoI here is not looking good, otherwise.
+>>>
+>>>>
+>>>>>
+>>>>> Also if we _HAVE_ to have this, shouldn't we duplicate that comment about
+>>>>> atomic bitops?...
+>>>>>
+>>>>
+>>>> Sure
+>>>>
+>>>>>>
+>>>>>>   #ifdef CONFIG_AIO
+>>>>>>   		spinlock_t			ioctx_lock;
+>>>>>> @@ -1744,6 +1745,11 @@ enum {
+>>>>>>   				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK |\
+>>>>>>   				 MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK)
+>>>>>>
+>>>>>> +#define MMF2_THP_VMA_DEFAULT_HUGE		0
+>>>>>
+>>>>> I thought the whole idea was to move away from explicitly refrencing 'THP'
+>>>>> in a future where large folios are implicit and now we're saying 'THP'.
+>>>>>
+>>>>> Anyway the 'VMA' is totally redundant here.
+>>>>>
+>>>>
+>>>> Sure, I can remove VMA.
+>>>> I see THP everywhere in the kernel code.
+>>>> Its mentioned 108 times in transhuge.rst alone :)
+>>>> If you have any suggestion to rename this flag, happy to take it :)
+>>>
+>>> Yeah I mean it's a mess man, and it's not your fault... Again naming is
+>>> hard, I put a suggestion in reply to cover letter anyway...
+>>>
+>>>>
+>>>>>> +#define MMF2_THP_VMA_DEFAULT_HUGE_MASK		(1 << MMF2_THP_VMA_DEFAULT_HUGE)
+>>>>>
+>>>>> Do we really need explicit trivial mask declarations like this?
+>>>>>
+>>>>
+>>>> I have followed the convention that has existed in this file, please see below
+>>>> links :)
+>>>> https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1645
+>>>> https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1623
+>>>> https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1603
+>>>> https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1582
+>>>
+>>> Ack, yuck but ack.
+>>>
+>>>>
+>>>>
+>>>>>> +
+>>>>>> +#define MMF2_INIT_MASK		(MMF2_THP_VMA_DEFAULT_HUGE_MASK)
+>>>>>
+>>>>>> +
+>>>>>>   static inline unsigned long mmf_init_flags(unsigned long flags)
+>>>>>>   {
+>>>>>>   	if (flags & (1UL << MMF_HAS_MDWE_NO_INHERIT))
+>>>>>> @@ -1752,4 +1758,9 @@ static inline unsigned long mmf_init_flags(unsigned long flags)
+>>>>>>   	return flags & MMF_INIT_MASK;
+>>>>>>   }
+>>>>>>
+>>>>>> +static inline unsigned long mmf2_init_flags(unsigned long flags)
+>>>>>> +{
+>>>>>> +	return flags & MMF2_INIT_MASK;
+>>>>>> +}
+>>>>>> +
+>>>>>>   #endif /* _LINUX_MM_TYPES_H */
+>>>>>> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
+>>>>>> index 15c18ef4eb11..325c72f40a93 100644
+>>>>>> --- a/include/uapi/linux/prctl.h
+>>>>>> +++ b/include/uapi/linux/prctl.h
+>>>>>> @@ -364,4 +364,8 @@ struct prctl_mm_map {
+>>>>>>   # define PR_TIMER_CREATE_RESTORE_IDS_ON		1
+>>>>>>   # define PR_TIMER_CREATE_RESTORE_IDS_GET	2
+>>>>>>
+>>>>>> +#define PR_SET_THP_POLICY		78
+>>>>>> +#define PR_GET_THP_POLICY		79
+>>>>>> +#define PR_THP_POLICY_DEFAULT_HUGE	0
+>>>>>> +
+>>>>>>   #endif /* _LINUX_PRCTL_H */
+>>>>>> diff --git a/kernel/fork.c b/kernel/fork.c
+>>>>>> index 9e4616dacd82..6e5f4a8869dc 100644
+>>>>>> --- a/kernel/fork.c
+>>>>>> +++ b/kernel/fork.c
+>>>>>> @@ -1054,6 +1054,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
+>>>>>>
+>>>>>>   	if (current->mm) {
+>>>>>>   		mm->flags = mmf_init_flags(current->mm->flags);
+>>>>>> +		mm->flags2 = mmf2_init_flags(current->mm->flags2);
+>>>>>>   		mm->def_flags = current->mm->def_flags & VM_INIT_DEF_MASK;
+>>>>>>   	} else {
+>>>>>>   		mm->flags = default_dump_filter;
+>>>>>> diff --git a/kernel/sys.c b/kernel/sys.c
+>>>>>> index c434968e9f5d..1115f258f253 100644
+>>>>>> --- a/kernel/sys.c
+>>>>>> +++ b/kernel/sys.c
+>>>>>> @@ -2658,6 +2658,27 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
+>>>>>>   			clear_bit(MMF_DISABLE_THP, &me->mm->flags);
+>>>>>>   		mmap_write_unlock(me->mm);
+>>>>>>   		break;
+>>>>>> +	case PR_GET_THP_POLICY:
+>>>>>> +		if (arg2 || arg3 || arg4 || arg5)
+>>>>>> +			return -EINVAL;
+>>>>>> +		if (!!test_bit(MMF2_THP_VMA_DEFAULT_HUGE, &me->mm->flags2))
+>>>>>
+>>>>> I really don't think we need the !!? Do we?
+>>>>
+>>>> I have followed the convention that has existed in this file already,
+>>>> please see:
+>>>> https://elixir.bootlin.com/linux/v6.14.6/source/kernel/sys.c#L2644
+>>>
+>>> OK, but please don't, I don't see why this is necessary. if (truthy) is
+>>> fine.
+>>>
+>>> Unless somebody has a really good reason why this is necessary, it's just
+>>> ugly ceremony.
+>>>
+>>
+>> Agreed :)
+> 
+> Thanks
+> 
+>>
+>>>>
+>>>>>
+>>>>> Shouldn't we lock the mm when we do this no? Can't somebody change this?
+>>>>>
+>>>>
+>>>> It wasn't locked in PR_GET_THP_DISABLE
+>>>> https://elixir.bootlin.com/linux/v6.14.6/source/kernel/sys.c#L2644
+>>>>
+>>>> I can acquire do mmap_write_lock_killable the same as PR_SET_THP_POLICY
+>>>> in the next series.
+>>>>
+>>>> I can also add the lock in PR_GET_THP_DISABLE.
+>>>
+>>> Well, the issue I guess is... if the flags field is atomic, and we know
+>>> over this call maybe we can rely on mm sticking around, then we probalby
+>>> don't need an mmap lock actually.
+>>>
+>>>>
+>>>>>> +			error = PR_THP_POLICY_DEFAULT_HUGE;
+>>>
+>>> Wait, error = PR_THP_POLICY_DEFAULT_HUGE? Is this the convention for
+>>> returning here? :)
+>>
+>> I see a few of the PR_GET_.. setting the return value. I hope I didnt
+>> misinterpret that.
+> 
+> Yeah I thought it might be the case. I reemphasise my dislike of prctl().
+> 
+>>
+>>>
+>>>>>> +		break;
+>>>>>> +	case PR_SET_THP_POLICY:
+>>>>>> +		if (arg3 || arg4 || arg5)
+>>>>>> +			return -EINVAL;
+>>>>>> +		if (mmap_write_lock_killable(me->mm))
+>>>>>> +			return -EINTR;
+>>>>>> +		switch (arg2) {
+>>>>>> +		case PR_THP_POLICY_DEFAULT_HUGE:
+>>>>>> +			set_bit(MMF2_THP_VMA_DEFAULT_HUGE, &me->mm->flags2);
+>>>>>> +			process_vmas_thp_default_huge(me->mm);
+>>>>>> +			break;
+>>>>>> +		default:
+>>>>>> +			return -EINVAL;
+>>>
+>>> Oh I just noticed - this is really broken - you're not unlocking the mmap()
+>>> here on error... :) you definitely need to fix this.
+>>>
+>>
+>> Ah yes, will do Thanks!
+> 
+> Thanks
+> 
+>>
+>>>>>> +		}
+>>>>>> +		mmap_write_unlock(me->mm);
+>>>>>> +		break;
+>>>>>>   	case PR_MPX_ENABLE_MANAGEMENT:
+>>>>>>   	case PR_MPX_DISABLE_MANAGEMENT:
+>>>>>>   		/* No longer implemented: */
+>>>>>> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+>>>>>> index 2780a12b25f0..64f66d5295e8 100644
+>>>>>> --- a/mm/huge_memory.c
+>>>>>> +++ b/mm/huge_memory.c
+>>>>>> @@ -98,6 +98,38 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
+>>>>>>   	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
+>>>>>>   }
+>>>>>>
+>>>>>> +void vma_set_thp_policy(struct vm_area_struct *vma)
+>>>>>> +{
+>>>>>> +	struct mm_struct *mm = vma->vm_mm;
+>>>>>> +
+>>>>>> +	if (test_bit(MMF2_THP_VMA_DEFAULT_HUGE, &mm->flags2))
+>>>>>> +		vm_flags_set(vma, VM_HUGEPAGE);
+>>>>>> +}
+>>>>>> +
+>>>>>> +static void vmas_thp_default_huge(struct mm_struct *mm)
+>>>>>> +{
+>>>>>> +	struct vm_area_struct *vma;
+>>>>>> +	unsigned long vm_flags;
+>>>>>> +
+>>>>>> +	VMA_ITERATOR(vmi, mm, 0);
+>>>>>
+>>>>> This is a declaration, it should be grouped with declarations...
+>>>>>
+>>>>
+>>>> Sure, will make the change in next version.
+>>>>
+>>>> Unfortunately checkpatch didn't complain.
+>>>
+>>> Checkpatch actually complains the other way :P it doesn't understand
+>>> macros.
+>>>
+>>> So you'll start getting a warning here, which you can ignore. It sucks, but
+>>> there we go. Making checkpatch.pl understand that would be a pain, probs.
+>>>
+>>>>
+>>>>>> +	for_each_vma(vmi, vma) {
+>>>>>> +		vm_flags = vma->vm_flags;
+>>>>>> +		if (vm_flags & VM_NOHUGEPAGE)
+>>>>>> +			continue;
+>>>>>
+>>>>> Literally no point in you putting vm_flags as a separate variable here.
+>>>>>
+>>>>
+>>>> Sure, will make the change in next version.
+>>>
+>>> Thanks!
+>>>
+>>>>
 >>>>> So if you're not overriding VM_NOHUGEPAGE, the whole point of this exercise
 >>>>> is to override global 'never'?
 >>>>>
@@ -155,71 +641,235 @@ On 15.05.25 20:08, Lorenzo Stoakes wrote:
 >>>
 >>> Yeah, again ack, but I kind of hate that we set VM_HUGEPAGE everywhere even
 >>> if the policy is never.
+>>>
+>>> And we now get into realms of:
+>>>
+>>> 'Hey I set prctl() to make everything huge pages, and PR_GET_THP_POLICY
+>>> says I've set that, but nothing is huge? BUG???'
+>>>
+>>> Of course then you get into - if somebody sets it to never, do we go around
+>>> and remove VM_HUGEPAGE and this MMF_ flag?
+>>>
+>>>>
+>>>>
+>>>>> I'm really concerned about this.
+>>>>>
+>>>>>> +		vm_flags_set(vma, VM_HUGEPAGE);
+>>>>>> +	}
+>>>>>> +}
+>>>>>
+>>>>> Do we have an mmap write lock established here? Can you confirm that? Also
+>>>>> you should add an assert for that here.
+>>>>>
+>>>>
+>>>> Yes I do, its only called in PR_SET_THP_POLICY where mmap_write lock was taken.
+>>>> I can add an assert if it helps.
+>>>
+>>> It not only helps, it's utterly critical :)
+>>>
+>>> 'It's only called in xxx()' is famous last words for a programmer, because
+>>> later somebody (maybe even your good self) calls it from somewhere else
+>>> and... we've all been there...
+>>>
 >>
->> I think it should behave just as if someone does manually an madvise(). So
->> whatever we do here during an madvise, we should try to do the same thing
->> here.
+>> Thanks! Will do.
 > 
-> Ack I agree with this.
+> Thanks.
 > 
-> It actually simplifies things a LOT to view it this way - we're saying 'by
-> default apply madvise(...) to new VMAs'.
+>>>>
+>>>>>> +
+>>>>>> +void process_vmas_thp_default_huge(struct mm_struct *mm)
+>>>>>> +{
+>>>>>> +	if (test_bit(MMF2_THP_VMA_DEFAULT_HUGE, &mm->flags2))
+>>>>>> +		return;
+>>>>>> +
+>>>>>> +	set_bit(MMF2_THP_VMA_DEFAULT_HUGE, &mm->flags2);
+>>>>>> +	vmas_thp_default_huge(mm);
+>>>>>> +}
+>>>>>> +
+>>>>>> +
+>>>>>>   unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
+>>>>>>   					 unsigned long vm_flags,
+>>>>>>   					 unsigned long tva_flags,
+>>>>>> diff --git a/mm/vma.c b/mm/vma.c
+>>>>>> index 1f2634b29568..101b19c96803 100644
+>>>>>> --- a/mm/vma.c
+>>>>>> +++ b/mm/vma.c
+>>>>>> @@ -2476,6 +2476,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap)
+>>>>>>   	if (!vma_is_anonymous(vma))
+>>>>>>   		khugepaged_enter_vma(vma, map->flags);
+>>>>>>   	ksm_add_vma(vma);
+>>>>>> +	vma_set_thp_policy(vma);
+>>>>>
+>>>>> You're breaking VMA merging completely by doing this here...
+>>>>>
+>>>>> Now I can map one VMA with this policy set, then map another immediately
+>>>>> next to it and - oops - no merge, ever, because the VM_HUGEPAGE flag is not
+>>>>> set in the new VMA on merge attempt.
+>>>>>
+>>>>> I realise KSM is just as broken (grr) but this doesn't justify us
+>>>>> completely breaking VMA merging here.
+>>>>
+>>>> I think this answers it. Its doing the same as KSM.
+>>>
+>>> Yes, but as I said there, it's not acceptable, at all.
+>>>
+>>> You're making it so litearlly VMA merging _does not happen at all_. That's
+>>> unacceptable and might even break some workloads.
+>>>
+>>> You'll certainly cause very big kernel metadata usage.
+>>>
+>>> Consider:
+>>>
+>>> |-----------------------------|..................|
+>>> | some VMA flags, VM_HUGEPAGE | proposed new VMA |
+>>> |-----------------------------|..................|
+>>>
+>>> Now, because you set VM_HUGEPAGE _after any merge is attempted_, this will
+>>> _always_ be fragmented, forever.
+>>>
+>>
+>> So if __mmap_new_vma and do_brk_flags are called after merge attempt,
+>> is it possible to vma_set_thp_policy (or do something similar) before
+>> the merge attempt?
+>>
+>> Actually I just read your reply to the next block, so I think its ok?
+>> Added more to the next block.
+>>
+>> I dont have any preference on where its put, so happy with putting this
+>> earlier.
 > 
-> Hm I wonder if we could have a more generic version of this...
+> Yeah, you can just do it earlier. But you maybe should just set the flag in
+> the appropriate field rather than using the set flags helper.
 > 
-> Note though that we're not _quite_ doing this.
+>>
+>>
+>>> That's just not... acceptable.
+>>>
+>>> The fact KSM is broken this way doesn't make that OK.
+>>>
+>>> Especially on brk(), which now will _always_ allocate new VMAs for every
+>>> brk() expansion which doesn't seem very efficient.
+>>>
+>>> It may also majorly degrade performance.
+>>>
+>>> That makes me think we need some perf testing for this ideally...
+>>>
+>>>>
+>>>>>
+>>>>> You need to set earlier than this. Then of course a driver might decide to
+>>>>> override this, so maybe then we need to override that.
+>>>>>
+>>>>> But then we're getting into realms of changing fundamental VMA code _just
+>>>>> for this feature_.
+>>>>>
+>>>>> Again I'm iffy about this. Very.
+>>>>>
+>>>>> Also you've broken the VMA userland tests here:
+>>>>>
+>>>>> $ cd tools/testing/vma
+>>>>> $ make
+>>>>> ...
+>>>>> In file included from vma.c:33:
+>>>>> ../../../mm/vma.c: In function ‘__mmap_new_vma’:
+>>>>> ../../../mm/vma.c:2486:9: error: implicit declaration of function ‘vma_set_thp_policy’; did you mean ‘vma_dup_policy’? [-Wimplicit-function-declaration]
+>>>>>   2486 |         vma_set_thp_policy(vma);
+>>>>>        |         ^~~~~~~~~~~~~~~~~~
+>>>>>        |         vma_dup_policy
+>>>>> make: *** [<builtin>: vma.o] Error 1
+>>>>>
+>>>>> You need to create stubs accordingly.
+>>>>>
+>>>>
+>>>> Thanks will do.
+>>>
+>>> Thanks!
+>>>
+>>>>
+>>>>>>   	*vmap = vma;
+>>>>>>   	return 0;
+>>>>>>
+>>>>>> @@ -2705,6 +2706,7 @@ int do_brk_flags(struct vma_iterator *vmi, struct vm_area_struct *vma,
+>>>>>>   	mm->map_count++;
+>>>>>>   	validate_mm(mm);
+>>>>>>   	ksm_add_vma(vma);
+>>>>>> +	vma_set_thp_policy(vma);
+>>>>>
+>>>>> You're breaking merging again... This is quite a bad case too as now you'll
+>>>>> have totally fragmented brk VMAs no?
+>>>>>
+>>>>
+>>>> Again doing it the same as KSM.
+>>>
+>>> That doesn't make it ok. Just because KSM is broken doesn't make this ok. I
+>>> mean grr at KSM :) I'm going to look into that and see about
+>>> investigating/fixing that behaviour.
+>>>
+>>> obviously I can't accept anything that will fundamentally break VMA
+>>> merging.
+>>>
+>>
+>> Ofcourse!
+>>
+>>> The answer really is to do this earlier, but you risk a driver overriding
+>>> it, but that's OK I think (I don't even think any in-tree ones do actually
+>>> _anywhere_ - and yes I was literally reading through _every single_ .mmap()
+>>> callback lately because I am quite obviously insane ;)
+>>>
+>>> Again I can help with this.
+>>>
+>>
+>> Appreaciate it!
+>>
+>> I am actually not familiar with the merge code. I will try and have a look,
+>> but if you could give a pointer to the file:line after which its not acceptable
+>> to have and I can move vma_set_thp_policy to before it or try and do something
+>> similar to that.
 > 
-> So in hugepage_madvise():
+> Ack.
 > 
-> int hugepage_madvise(struct vm_area_struct *vma,
-> 		     unsigned long *vm_flags, int advice)
-> {
-> 	...
+> I wrote the latest merge and mmap() code so am well placed on this :>)
 > 
-> 	switch (advice) {
-> 	case MADV_HUGEPAGE:
-> 		*vm_flags &= ~VM_NOHUGEPAGE;
-> 		*vm_flags |= VM_HUGEPAGE;
+> But I don't think we should use vma_set_thp_policy() in these places, we
+> should just set the flag, to avoid trying to do a write lock etc. etc.,
+> plus we want to set the flag in a place that's not a VMA yet in both cases.
 > 
-> 		...
+> So we'd need something like in do_mmap():
 > 
-> 		break;
+> +	vm_flags |= mm_implied_vma_flags(mm);
+> 	addr = mmap_region(file, addr, len, vm_flags, pgoff, uf);
 > 
-> 		...
-> 	}
+> Where mm_implied_vma_flags() reads the MMF flags and sees if any imply VMA
+> flags.
 > 
-> 	...
-> }
+> But we have something for that already don't we? mm->def_flags.
 > 
-> So here we're actually clearing VM_NOHUGEPAGE and overriding it, but in the
-> proposed code we're not.
+> Can't we use that actually? That should work for mmap too?
 
-Yeah, I think I suggested that, but probably we should just do exactly 
-what madvise() does.
+Yeah, look at
 
-> 
-> So we're back into confusing territory again :)
-> 
-> I wonder if we could...
-> 
-> 1. Add an MADV_xxx that mimics the desired behaviour here.
-> 
-> 2. Add a generic 'madvise() by default' thing at a process level?
-> 
-> Is this crazy?
+commit 1860033237d4be09c5d7382585f0c7229367a534
+Author: Michal Hocko <mhocko@suse.com>
+Date:   Mon Jul 10 15:48:02 2017 -0700
 
-I think that's what I had in mind, just a bit twisted.
-
-What could work is
-
-1) prctl to set the default
-
-2) madvise() to adjust all existing VMAs
+     mm: make PR_SET_THP_DISABLE immediately active
 
 
-We might have to teach 2) to ignore non-compatible VMAs / holes. Maybe 
-not, worth an investigation.
+Where we moved away from that. As raised, I am not sure I like what we 
+did with PR_SET_THP_DISABLE.
 
+And I don't want any new magical prctl like that that add new magical 
+internal toggles.
+
+OTOH, I am completely fine with a prctl that just changes the default 
+for new VMAs (just like applying madvise imemdiately afterwards). I'm 
+also fine with a prtctl that changes all existing VMAs, but maybe just 
+issuing a madvise() is the better solution, to cleanly separate it.
+
+All not too crazy and not too invasive -- piggybagging on VM_HUGEPAGE / 
+VM_NOHUGEPAGE.
+
+I can life with that if it solves a use case.
 
 -- 
 Cheers,
