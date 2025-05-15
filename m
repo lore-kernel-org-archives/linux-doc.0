@@ -1,208 +1,227 @@
-Received: from SEYPR02CU001.outbound.protection.outlook.com (mail-koreacentralazon11023141.outbound.protection.outlook.com [40.107.44.141])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9BE0B17BA3;
-	Thu, 15 May 2025 03:18:04 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.44.141
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747279090; cv=fail; b=n3LbYaQg2UPhJkJPw8yeTHbDbgFh6WVTW/+XKcyQXKeY467Mjkfh8qOUeZRIpqIEs/RSucA9vQtTuIzOQX4sqNLpTSjDd1/jkiIwp72iNNZ+haXluldN5otrTpa0ayqVV3J0oSsBqxWl1uCUB6ampbkvVoPW/a/J9nKNViYKeYQ=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747279090; c=relaxed/simple;
-	bh=RqCRMlqWOV7RBASrnVbt/oxZz1ha3/kR54QBeaFzqFU=;
-	h=From:To:Cc:Subject:Date:Message-Id:Content-Type:MIME-Version; b=YKSZhnLv0e68Hp9DGWLkBvoAzLJ5LLbpq0BAoqmIjmYolMY3msgQsBrgA8otPXmYHm3OMYOLyUd4Ipxw8Cptbb7h+ddCkGM69lrhwGEjuOS8ZtBq45ElWICdQuXFujNjbSx38X1t70QF7IIg5RtKwlrXAPLY6URkZbQeeqY0vm8=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com; spf=pass smtp.mailfrom=fibocom.com; dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b=EgaHhw9h; arc=fail smtp.client-ip=40.107.44.141
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=fibocom.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fibocom.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75F471A28D
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 03:21:44 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747279306; cv=none; b=jYutKo3as3t3Ff3wOZAcIMS04v/xFZ1syZy0wwO/gKXI9poTPiDBhoPQO9aWntcmHXdpUg7SXqcr9RNP6BlFxk/X3y4ZIFxKGNFTuTMAcyhj+A4RrifoSqM3zZ5eSDWRuzmIHoqDuwuJ6xq/l2hDLaPdo+XEpaHckYXnHX79W9s=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747279306; c=relaxed/simple;
+	bh=nZ7fPcFM09Quvx4U8CoxDdb4H334WsV9KVwTmqQi9nk=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=CQUOg87FRIda2nE3lc9oYbqq7wZ9gPLeohUkh+SajMo+Pa+F8TzPCsqQw9AZoHY78MGaM7PAWzag6KX5FLvWTwEXOFp9c3v5lMBwnOqToazipTLZRzxlGueRvHdTETJDscvV9DVDCGh7S1dD43DfQkOaNIyLLnrKad0mapxTQ64=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=N71Anwui; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=fibocomcorp.onmicrosoft.com header.i=@fibocomcorp.onmicrosoft.com header.b="EgaHhw9h"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nvYJ7buWk5axVkVzDwzokgCUISAmSACJ2rDZyB9eD4Pjf6a2fFQEOtu+rZFQkTEt4kAm3IOBQEZGXpKVehUl67y/Rn5pkbTo/pOwAaTnjWREuArlO5ZSIYtPCNnawItFXZQX845q5Oun+Vd7zbh0uO5X5HvLRu4BP4lgjnJGwU96W0D7kZ9PL4UPfVqlyIqcNi3MhXrY0Y0YJFboP6sXWinwr8HEOpRFr9jHQX6v+midgtsqC5ydmGqqgNO/QSQiBsaZF3p/34L+c2agQsADlMQUIAU2EQ4nmyuXZR9r9faWXwvdrcauBMwgKRaHKZo1470z3poxqofe43DAqQRtDA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=hBMN+GRtJJDYBUKragPrGaRYI5mmdtAgkKFutxwO9ZQ=;
- b=dyBoD6oYMxA88D/4Au9seYZMyfFquJDwf6Mwgi5IUx2/KNkxuWSQsbYoc3aFqgiE6zMMBDOeOnk1k/nfOcn3uX6DVKsQW29tZTfuz1SXR6L7oC6ksl7qWpv7QgGdBJeme05PxOlouhoFOMoJtY3ylw/Q/o5c/fL6wpYpuDMw1LyK8aJV0B9WQ5FxYa8vN4j89rzS+9dNXFDrK3+AosfjIo8aaST2uddaHrca3ozDYgcSf6cvLx0QH/ltNyd+vdYFiVbMzXrY8YOiD8eQlOpIp38UZQwJbSY8U1XVmmy8DOqs6D1EgzOqSgGvoshByi+HDbQqf2rtoq8XUv1m40eM5Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=fibocom.com; dmarc=pass action=none header.from=fibocom.com;
- dkim=pass header.d=fibocom.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=fibocomcorp.onmicrosoft.com; s=selector1-fibocomcorp-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hBMN+GRtJJDYBUKragPrGaRYI5mmdtAgkKFutxwO9ZQ=;
- b=EgaHhw9hkK+AXOBt+yjHjGfZM/rOMxsT6bxmrmuNaKxbR/L9Y1ejrmmVPLGHa2xtf+7gx3P/7dLxrzkkb5O8ZDlWMwq2XJI6wOGjopM8OqzgXlPO+uUZzFeX5Xc/9t7hRDx6joXrQhgklwxkOPuqC5drYMXb5d+sl7K5X+d1LjA=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=fibocom.com;
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com (2603:1096:400:1b5::6)
- by KL1PR02MB6332.apcprd02.prod.outlook.com (2603:1096:820:e9::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Thu, 15 May
- 2025 03:18:01 +0000
-Received: from TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b]) by TY0PR02MB5766.apcprd02.prod.outlook.com
- ([fe80::f53d:47b:3b04:9a8b%4]) with mapi id 15.20.8722.027; Thu, 15 May 2025
- 03:18:00 +0000
-From: Jinjian Song <jinjian.song@fibocom.com>
-To: chandrashekar.devegowda@intel.com,
-	chiranjeevi.rapolu@linux.intel.com,
-	haijun.liu@mediatek.com,
-	m.chetan.kumar@linux.intel.com,
-	ricardo.martinez@linux.intel.com,
-	loic.poulain@linaro.org,
-	ryazanov.s.a@gmail.com,
-	johannes@sipsolutions.net,
-	davem@davemloft.net,
-	edumazet@google.com,
-	kuba@kernel.org,
-	pabeni@redhat.com
-Cc: linux-kernel@vger.kernel.org,
-	netdev@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	angelogioacchino.delregno@collabora.com,
-	linux-arm-kernel@lists.infradead.org,
-	matthias.bgg@gmail.com,
-	corbet@lwn.net,
-	linux-mediatek@lists.infradead.org,
-	helgaas@kernel.org,
-	danielwinkler@google.com,
-	andrew+netdev@lunn.ch,
-	horms@kernel.org,
-	Jinjian Song <jinjian.song@fibocom.com>
-Subject: [net v1] net: wwan: t7xx: Fix napi rx poll issue
-Date: Thu, 15 May 2025 11:17:42 +0800
-Message-Id: <20250515031743.246178-1-jinjian.song@fibocom.com>
-X-Mailer: git-send-email 2.34.1
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SG2PR06CA0243.apcprd06.prod.outlook.com
- (2603:1096:4:ac::27) To TY0PR02MB5766.apcprd02.prod.outlook.com
- (2603:1096:400:1b5::6)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="N71Anwui"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747279303;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=fTeV/WO8sCZkiFkU9JmxKppZ1kmH8Wa3R30xrqm9r44=;
+	b=N71AnwuiIN04VRSqGWYaaxpzhzfALjKJ7PePfiJyylx2cn/BadbajSH1+q+AdPubj0oIDC
+	FZSrdCXyV5FVVmwSkMs4tsJ40lg7UtaCdL7YN6VuBdh54Q1+tShzrEJA9f5sa0C7VnBeEv
+	REIPfu7yO5Y3O9uwB1R4NpyzPwmfgGs=
+Received: from mail-yw1-f199.google.com (mail-yw1-f199.google.com
+ [209.85.128.199]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-223-4VU04wVsOAqPyktoFeFptg-1; Wed, 14 May 2025 23:21:42 -0400
+X-MC-Unique: 4VU04wVsOAqPyktoFeFptg-1
+X-Mimecast-MFC-AGG-ID: 4VU04wVsOAqPyktoFeFptg_1747279301
+Received: by mail-yw1-f199.google.com with SMTP id 00721157ae682-7082d8db9bcso7725357b3.3
+        for <linux-doc@vger.kernel.org>; Wed, 14 May 2025 20:21:41 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747279301; x=1747884101;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=fTeV/WO8sCZkiFkU9JmxKppZ1kmH8Wa3R30xrqm9r44=;
+        b=m5Fs666tkI4atQsHT+NhbbZj7wF5iEMDKDXdJlC+XU6S92quZTpYzsC50z0KJA+7lN
+         n3yhsjGQ0InK5G6dqUY65VArxYXm6BfO+S3Oj1o/xqnhDyBP6g9GeheCGA8JhtsmCl7v
+         +cQ6/XHTSemKWzpFZe7OY6QpITiWZwcpmjyMDXAa8BEAm4FQGBsLMh91p4yoFNXwsRT7
+         gDHgNn2jT6WQYePkRLcnCkUgyRMjXwf1OmAYr3mQ200aWsv3svbhjP3yb4bXY/DLDKVj
+         eHhRK9bJql+w4vaGJETy2idGA9YflNliwT9+vNK24tfbhMWaaCyBRo6qSmRLBptg4Z+G
+         X+Qw==
+X-Forwarded-Encrypted: i=1; AJvYcCV8rJviMAazggthHNJkO0wCZms9CJRBeJihIQfuaUXauhGz4+I5B9WSsKb+rDxQAbZF6pf9yIndTTQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyDthxUA+CLCr2+BVs6SMZH3pF3EEHaa/AQMAWaLK0gNn15o6u1
+	I9iWwWXFZCt26pObJMJkEYhSoPGHkbeBa8zun0A6/2ZsqFWGyeOhRpoJ8GS2H2ej2fGq9ibMHqA
+	N+mii8Wm+mGPROonWT/FgSB+vmK5xnHTVL9LnDVvs7RRn47i9YUIb1sjVlBmobzxCuJjrMLXIL6
+	oBae/vyxBhPpWpF3ZY4dkDX8WAYieqEdlz
+X-Gm-Gg: ASbGncuwBqXxWyl/xbrRNeZK5/j9hfFEncBdi4+n16ilE3DJ8TM+un+Jg4ksemSEAVw
+	OqPcZVNyT7yxl8l9PLov6/ngkeOuY0wSaGQA8vPxAxxFIR75Q42RnGeTP7i+2XVt87+lRqCQ=
+X-Received: by 2002:a05:690c:6e0e:b0:708:3a47:3d2c with SMTP id 00721157ae682-70c7f12c8famr94768707b3.13.1747279301396;
+        Wed, 14 May 2025 20:21:41 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFM4mZxig5/05EWPU+CFmocywD5iXORxl4Y6pxrnOlBmTEaXyhJqWFviIYIj7G5V/QV7i7XgKaqOB+7kYcteo0=
+X-Received: by 2002:a05:690c:6e0e:b0:708:3a47:3d2c with SMTP id
+ 00721157ae682-70c7f12c8famr94768327b3.13.1747279300939; Wed, 14 May 2025
+ 20:21:40 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: TY0PR02MB5766:EE_|KL1PR02MB6332:EE_
-X-MS-Office365-Filtering-Correlation-Id: ea21e94d-3ffc-469f-3d6f-08dd935f18c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|1800799024|7416014|52116014|376014|366016|921020|38350700014;
-X-Microsoft-Antispam-Message-Info:
-	=?us-ascii?Q?yAIq+GGQChM4A+5w8T6HskRORiitjhz22RVMWk1tgEJnFWz9b/alwddi+rg+?=
- =?us-ascii?Q?0MQ3WKh4dGe/5LP/FyflrmWbWQrVEY1o+uG5Esc4mRqKZLGqDmxEIukHzCmN?=
- =?us-ascii?Q?xAkcCmALC0erSoiJDwvMxnkxwyChKVn6sc+XDl2pXiaKAsE+vazc1rpXpokB?=
- =?us-ascii?Q?Anlre2X5V+PWYp1C487kq7hDBym4hYpVvfgFWqbqH7J9mr4jwkJmmwWoiZQt?=
- =?us-ascii?Q?Tu3IdU9TZZAFbP+8Vf4IPMYahnHgkJzsQEKaZ5VXEHRsHXIwuk+tA7FCMisu?=
- =?us-ascii?Q?fQJ/H/R9IZWpG2ZR4feJpy87BFfEQa3ZDDgRD2AZShcQu5W5KRLj+8AUbi0m?=
- =?us-ascii?Q?dSd7/uyTBitJwPnJwuaTL5PhO0Snt5FNI4QKlYSz6mvvUEANOjQeC9W97UCC?=
- =?us-ascii?Q?fgXgGtypWFfd7EWNfauX1o+t4QQGhuAWnL2BYzuHNQw7m8pdzekk+9P3ARXb?=
- =?us-ascii?Q?ugxeM/bKtXQfqCqPhjGhnQel5dmF6dWyXTCr8gC+7bKkIf+vlrlAUvoMEYiJ?=
- =?us-ascii?Q?r082xAlXuNFnrfloSkw7Csv0D2mDBLvRm4OXR5alUllwD/EHybUH7IIZLYKn?=
- =?us-ascii?Q?RFILgbp9eRQUi4FFYmEQOuFlLR1sr9uozzbqUrsR0ZLXWqIScGcTAizPg4uz?=
- =?us-ascii?Q?wMXAEaj/85ZA6cJn9ExoeeviDiK2OOxppYEYhWV2I66aMiBFtQVKYYR0dWxX?=
- =?us-ascii?Q?hR5hm4vdWzfq6nnZsl5urtWe4mmB9ai9/ywO7VxRNGpNf7fdfNveKdJhwBGz?=
- =?us-ascii?Q?kzHjFoE71vdBI7dZvM572PdWV5gVZGC0vFCPuZBnIbp2aimBwTo5HI8Xa+El?=
- =?us-ascii?Q?zjiGC0GED8JvORt2NRvtvx9wt5KXQQXeV4nINbsaxVOeiZN+UoUCPa3XvoSl?=
- =?us-ascii?Q?nyCDQDsYXgihW31mUZZL34oB+1YMafaQ+vZ0b4NWTFvGB4dQVW/NK7jL9PFD?=
- =?us-ascii?Q?XVGBpZY0Ui3hsOJeBBelZRzwPDOnRh0wWZjc7LGxXs7PevZUhd1TCJ6UGvQB?=
- =?us-ascii?Q?6ahWMOk2HDo3dn80bo9y/M4vwjJsvyX4oB4dyak9cbzQF+8C0NVtpPFC7nMr?=
- =?us-ascii?Q?luYB1JH7c/6mZueLVNmhe3KQIyx3YsrMjQSu7GC2STOzWu7WpbYyC4pxEaPR?=
- =?us-ascii?Q?JGID+cAw0gKNQvgVNvhcgCiFBfwftlziTFop72E6MRiLLqZV4em09pLCDYbs?=
- =?us-ascii?Q?36OTFOTdidyGWQl3lKUtIfm91pQnhPMjOolKTqwJuBXsboWeoiyzjDHXljAW?=
- =?us-ascii?Q?KOLoHBtVksI2A6G6Mfjlnr7waEj6nGSvFh7hLD1/+ZLCj4/SUY4JQaWQm6+Q?=
- =?us-ascii?Q?JQWfCcrOLtijFUriB93DbBL4hFUcPugXzpQyP9AOBL46MfbSwv6s8zatQkxQ?=
- =?us-ascii?Q?ZV8IDW8CqTvYWCeUKzhFjY8mWbeJhY7e6nUfgL0c2Ov+/LjUA/FN1/5BFyrH?=
- =?us-ascii?Q?0eBQLkDJnt7cKbzWZvm9fLEH6OUaQ0VSek09fkzzWwCvO0JSN8u0w/fXIaTH?=
- =?us-ascii?Q?Duaz+U+PAuwvK8M=3D?=
-X-Forefront-Antispam-Report:
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:TY0PR02MB5766.apcprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(7416014)(52116014)(376014)(366016)(921020)(38350700014);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0:
-	=?us-ascii?Q?SdhgG8LxrQHzrnRgAOPGppE2HlqjOgdzKqvUa6sdi5gWUaKTe1+O5XMrrAFY?=
- =?us-ascii?Q?ie1ThFD7dq/C9gNB2X7I3RxjVoQQ05/2wWNAlonqCv4GfTD3XoNvPJ/s8LN+?=
- =?us-ascii?Q?wIDIWx6w1axTqwckv7kRotdvHg0S+IgueFf+8eijASyCS+ku/F/H2Np+fhlE?=
- =?us-ascii?Q?WQRtfucHYFgRWwqFYmdetELQ41zA1GrrVa7uwbxh0MATGSEVg5Frs5V3wayt?=
- =?us-ascii?Q?rUotBxz6xkoSdkmn7AbLBL8GtxBxIDT4trynEdOe2Wtkkb8yToRsomgoqtli?=
- =?us-ascii?Q?TSTiRzKx7giu6PFezvAadBVMEqiSjGMC2yVLZRotj3T6mJ6+JESNwo8ZomaD?=
- =?us-ascii?Q?QHhFnTuPOh75/8nP935mvq0nbNn252pr31ZdRSWhPihAV4Wchwi5MtqbsJEg?=
- =?us-ascii?Q?8bJt/pO5qg42YjV9XkWh6zQZ/lpUkv0E2BuGACEXb+77hXyca/pbcKAbGII3?=
- =?us-ascii?Q?IyhEVqjFEEV2YX9JDp5M/T6fhkWnGSpRUMoeqy2q0bNnsXLm61YMSAyBVCsy?=
- =?us-ascii?Q?ZJjzEhMqPsdxFyAWIPIMOi1G6wxGPCCLdMf8dFUCW9SMO07Aa8Mo8i66OaFa?=
- =?us-ascii?Q?NqYisQMZGDrXjB6sQ1I+/S1HnKEQJ+B02FwnGPBAupqgWdHCK5g83IgnYxPW?=
- =?us-ascii?Q?NJRDnyEMxqZz7Z/p2fH58C8qGtdvEovySYXEwf/xxtpV8XWrdPnWqivLAiNB?=
- =?us-ascii?Q?gtcjEXJBc/EUnFetnnT0SLizCzVSfEOm9cBEvETFl8Kj1Qjbpr+QufiDzn/3?=
- =?us-ascii?Q?M4QEOp9uy5fFgZYp13G8e7KNqxUqvTP9/5HZscauVueIc12505OOqrewebxE?=
- =?us-ascii?Q?RL5o/J+ZwIHks4ZI688mzyQrsfEqVIYyHEQL7RnVjgPSSP5ioFdUrMSGlYlA?=
- =?us-ascii?Q?Lepbqc+meWJLkf2uTzgH3Nip2W2cq8uLxNbl4Fo0mbYN6fmEX1ZMB2VfrKjr?=
- =?us-ascii?Q?8DQ/5M+UJhfFDngy2pfgm4zILvnOszldoKSp3wpdAp2/uDot5L8KLre+s6oo?=
- =?us-ascii?Q?cQEszmaLz5YSnXLPFXDoKhy/+CIAJEWlF3RyMqy96MPUsaO6C1BlmNEWgX0U?=
- =?us-ascii?Q?uCnqqFnTAeD4c/fAoeTYNUTBIXLFwHSyVi6gckgO0HtBd1LNHeFpA4++tfr5?=
- =?us-ascii?Q?7J9NamSLPolIzGh73YGQQ+r+2LB9H7hZvuCta+CzZnpgug876K1PS0VcLucU?=
- =?us-ascii?Q?aeu6p1AqF10aig0td8SnR2FvdrbrvUDRHZTO8dj3ayfpf3DQgkM+0zT8h1FU?=
- =?us-ascii?Q?v4o+fOVDk6kqSNwfAAIiTxHTcOvGebGjEXiSTGOJDIbWvnYgb0+1+10G3RFw?=
- =?us-ascii?Q?BHmTHgM/JAFdzMu2n0wpePC1osSbYPJnjRkVhcM/4C3c4WVDT8JBsNBccBET?=
- =?us-ascii?Q?U9vQLQp4sLhwVsAPjl7kGF8AIlEnR5f6z/Dj2vGXo51j2hc5aucdNytLMvNz?=
- =?us-ascii?Q?c79OaJ8i3ofY9dmdnqwS7poc5gxppZtP9v9GBRepkKpqFAPwzMADNm9L5y0X?=
- =?us-ascii?Q?vOiUeaO0ENAuIqLpQ7kEcoT9b3lTjitk1pLWinZO/KXTRZa/NxGcrJO/8XV1?=
- =?us-ascii?Q?x7WZWN5OovcImzTUcd5Y0vCJTkp4XepeO4ZrSRmgnMb1RHZwjHB4X/ba/Fms?=
- =?us-ascii?Q?VA=3D=3D?=
-X-OriginatorOrg: fibocom.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ea21e94d-3ffc-469f-3d6f-08dd935f18c8
-X-MS-Exchange-CrossTenant-AuthSource: TY0PR02MB5766.apcprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 03:18:00.7928
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 889bfe61-8c21-436b-bc07-3908050c8236
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: nl6UwWZxDrKc2vxAEoyHKn9xMXIBQISzBYD8VvdyHeVSSnuodktO+RtqiYZKqZTJbYILe2H9RcPfKcRmMKOtbxr4PXODXks2VWl/2cObyBA=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: KL1PR02MB6332
+References: <20250515030312.125567-1-npache@redhat.com>
+In-Reply-To: <20250515030312.125567-1-npache@redhat.com>
+From: Nico Pache <npache@redhat.com>
+Date: Wed, 14 May 2025 21:21:14 -0600
+X-Gm-Features: AX0GCFuDBI2AES8eO7twjKdGMIMeHHi4i6ePTC9RxmHbpsPIlqmkhrIU3ijT4fQ
+Message-ID: <CAA1CXcAKk5z+gTrQDe-eLsxkrsNrf8G9HD5KBPTJv_EECei_Mg@mail.gmail.com>
+Subject: Re: [PATCH v6 00/12] khugepaged: mTHP support
+To: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org
+Cc: david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com, 
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com, ryan.roberts@arm.com, 
+	dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-When driver handles the napi rx polling requests, the netdev might
-have been released by the dellink logic triggered by the disconnect
-operation on user plane. However, in the logic of processing skb in
-polling, an invalid netdev is still being used, which causes a panic.
+Ugh... So sorry, I forgot to turn off the chain-reply-to.
 
-BUG: kernel NULL pointer dereference, address: 00000000000000f1
-Oops: 0000 [#1] PREEMPT SMP NOPTI
-RIP: 0010:dev_gro_receive+0x3a/0x620
-[...]
-Call Trace:
- <IRQ>
- ? __die_body+0x68/0xb0
- ? page_fault_oops+0x379/0x3e0
- ? exc_page_fault+0x4f/0xa0
- ? asm_exc_page_fault+0x22/0x30
- ? __pfx_t7xx_ccmni_recv_skb+0x10/0x10 [mtk_t7xx (HASH:1400 7)]
- ? dev_gro_receive+0x3a/0x620
- napi_gro_receive+0xad/0x170
- t7xx_ccmni_recv_skb+0x48/0x70 [mtk_t7xx (HASH:1400 7)]
- t7xx_dpmaif_napi_rx_poll+0x590/0x800 [mtk_t7xx (HASH:1400 7)]
- net_rx_action+0x103/0x470
- irq_exit_rcu+0x13a/0x310
- sysvec_apic_timer_interrupt+0x56/0x90
- </IRQ>
+resending V7 *facepalm*
 
-Fixes: 5545b7b9f294 ("net: wwan: t7xx: Add NAPI support")
-Signed-off-by: Jinjian Song <jinjian.song@fibocom.com>
----
- drivers/net/wwan/t7xx/t7xx_netdev.c | 1 +
- 1 file changed, 1 insertion(+)
-
-diff --git a/drivers/net/wwan/t7xx/t7xx_netdev.c b/drivers/net/wwan/t7xx/t7xx_netdev.c
-index 91fa082e9cab..2116ff81728b 100644
---- a/drivers/net/wwan/t7xx/t7xx_netdev.c
-+++ b/drivers/net/wwan/t7xx/t7xx_netdev.c
-@@ -324,6 +324,7 @@ static void t7xx_ccmni_wwan_dellink(void *ctxt, struct net_device *dev, struct l
- 	if (WARN_ON(ctlb->ccmni_inst[if_id] != ccmni))
- 		return;
- 
-+	ctlb->ccmni_inst[if_id] = NULL;
- 	unregister_netdevice(dev);
- }
- 
--- 
-2.34.1
+On Wed, May 14, 2025 at 9:03=E2=80=AFPM Nico Pache <npache@redhat.com> wrot=
+e:
+>
+> The following series provides khugepaged and madvise collapse with the
+> capability to collapse anonymous memory regions to mTHPs.
+>
+> To achieve this we generalize the khugepaged functions to no longer depen=
+d
+> on PMD_ORDER. Then during the PMD scan, we keep track of chunks of pages
+> (defined by KHUGEPAGED_MTHP_MIN_ORDER) that are utilized. This info is
+> tracked using a bitmap. After the PMD scan is done, we do binary recursio=
+n
+> on the bitmap to find the optimal mTHP sizes for the PMD range. The
+> restriction on max_ptes_none is removed during the scan, to make sure we
+> account for the whole PMD range. When no mTHP size is enabled, the legacy
+> behavior of khugepaged is maintained. max_ptes_none will be scaled by the
+> attempted collapse order to determine how full a THP must be to be
+> eligible. If a mTHP collapse is attempted, but contains swapped out, or
+> shared pages, we dont perform the collapse.
+>
+> With the default max_ptes_none=3D511, the code should keep its most of it=
+s
+> original behavior. To exercise mTHP collapse we need to set
+> max_ptes_none<=3D255. With max_ptes_none > HPAGE_PMD_NR/2 you will
+> experience collapse "creep" and constantly promote mTHPs to the next
+> available size. This is due the fact that it will introduce at least 2x
+> the number of pages, and on a future scan will satisfy that condition onc=
+e
+> again.
+>
+> Patch 1:     Refactor/rename hpage_collapse
+> Patch 2:     Some refactoring to combine madvise_collapse and khugepaged
+> Patch 3-5:   Generalize khugepaged functions for arbitrary orders
+> Patch 6-9:   The mTHP patches
+> Patch 10-11: Tracing/stats
+> Patch 12:    Documentation
+>
+> ---------
+>  Testing
+> ---------
+> - Built for x86_64, aarch64, ppc64le, and s390x
+> - selftests mm
+> - I created a test script that I used to push khugepaged to its limits
+>    while monitoring a number of stats and tracepoints. The code is
+>    available here[1] (Run in legacy mode for these changes and set mthp
+>    sizes to inherit)
+>    The summary from my testings was that there was no significant
+>    regression noticed through this test. In some cases my changes had
+>    better collapse latencies, and was able to scan more pages in the same
+>    amount of time/work, but for the most part the results were consistent=
+.
+> - redis testing. I tested these changes along with my defer changes
+>   (see followup post for more details).
+> - some basic testing on 64k page size.
+> - lots of general use.
+>
+> V6 Changes:
+> - Dont release the anon_vma_lock early (like in the PMD case), as not all
+>   pages are isolated.
+> - Define the PTE as null to avoid a uninitilized condition
+> - minor nits and newline cleanup
+> - make sure to unmap and unlock the pte for the swapin case
+> - change the revalidation to always check the PMD order (as this will mak=
+e
+>   sure that no other VMA spans it)
+>
+> V5 Changes [2]:
+> - switched the order of patches 1 and 2
+> - fixed some edge cases on the unified madvise_collapse and khugepaged
+> - Explained the "creep" some more in the docs
+> - fix EXCEED_SHARED vs EXCEED_SWAP accounting issue
+> - fix potential highmem issue caused by a early unmap of the PTE
+>
+> V4 Changes:
+> - Rebased onto mm-unstable
+> - small changes to Documentation
+>
+> V3 Changes:
+> - corrected legacy behavior for khugepaged and madvise_collapse
+> - added proper mTHP stat tracking
+> - Minor changes to prevent a nested lock on non-split-lock arches
+> - Took Devs version of alloc_charge_folio as it has the proper stats
+> - Skip cases were trying to collapse to a lower order would still fail
+> - Fixed cases were the bitmap was not being updated properly
+> - Moved Documentation update to this series instead of the defer set
+> - Minor bugs discovered during testing and review
+> - Minor "nit" cleanup
+>
+> V2 Changes:
+> - Minor bug fixes discovered during review and testing
+> - removed dynamic allocations for bitmaps, and made them stack based
+> - Adjusted bitmap offset from u8 to u16 to support 64k pagesize.
+> - Updated trace events to include collapsing order info.
+> - Scaled max_ptes_none by order rather than scaling to a 0-100 scale.
+> - No longer require a chunk to be fully utilized before setting the bit.
+>    Use the same max_ptes_none scaling principle to achieve this.
+> - Skip mTHP collapse that requires swapin or shared handling. This helps
+>    prevent some of the "creep" that was discovered in v1.
+>
+> [1] - https://gitlab.com/npache/khugepaged_mthp_test
+> [2] - https://lore.kernel.org/all/20250428181218.85925-1-npache@redhat.co=
+m/
+>
+> Dev Jain (1):
+>   khugepaged: generalize alloc_charge_folio()
+>
+> Nico Pache (11):
+>   khugepaged: rename hpage_collapse_* to khugepaged_*
+>   introduce khugepaged_collapse_single_pmd to unify khugepaged and
+>     madvise_collapse
+>   khugepaged: generalize hugepage_vma_revalidate for mTHP support
+>   khugepaged: generalize __collapse_huge_page_* for mTHP support
+>   khugepaged: introduce khugepaged_scan_bitmap for mTHP support
+>   khugepaged: add mTHP support
+>   khugepaged: skip collapsing mTHP to smaller orders
+>   khugepaged: avoid unnecessary mTHP collapse attempts
+>   khugepaged: improve tracepoints for mTHP orders
+>   khugepaged: add per-order mTHP khugepaged stats
+>   Documentation: mm: update the admin guide for mTHP collapse
+>
+>  Documentation/admin-guide/mm/transhuge.rst |  14 +-
+>  include/linux/huge_mm.h                    |   5 +
+>  include/linux/khugepaged.h                 |   4 +
+>  include/trace/events/huge_memory.h         |  34 +-
+>  mm/huge_memory.c                           |  11 +
+>  mm/khugepaged.c                            | 472 ++++++++++++++-------
+>  6 files changed, 382 insertions(+), 158 deletions(-)
+>
+> --
+> 2.49.0
+>
 
