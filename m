@@ -1,90 +1,179 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2041.outbound.protection.outlook.com [40.107.243.41])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E107B1DDD1;
-	Thu, 15 May 2025 17:23:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747329822; cv=none; b=iwKg/12tG+jucp3qrWJavN1ctVD145udbieUBlZBdvC5dX+YM9IKIkSYqKccfj9teKrZTsAjOgkRv1Gkbe4+MbD+WAZ6lZxNLlr2KTka2oxc3os+bDGy0Xapgwj5xLv7Gb8hHD1YSNbpjcvkSWfOslDLSjtl4LJ6HsWKNRtYRWE=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747329822; c=relaxed/simple;
-	bh=cN0o+cjEAmcsbf3emVfh0/+2GXrsKo2GngcXznfkrF0=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=CqvzMvNKC9PrsP3g1/3gQgrZ2yvaovoI9NnVU1ZemNHoz12p5HmOBt4o1Lcz2/SfMS0aA2/YF23yXWfS+/sj4lyRlpAv4UslM8UEqskZPGjVEeZp8Gp02Y/z1NUbLkgC9AflhRe2NgKaxk3fbmQz61Z5ez8xgFb61lzs7Ukw4BI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=NJf6lDcc; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 266CB1487ED;
+	Thu, 15 May 2025 17:27:13 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.41
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747330035; cv=fail; b=eIlTMjgV1S1PiEFugkIhXBcusuGB8IfjLWz7gBE1w2PrZZRYj8oPEHEpocorXQ0wDQMa+Rr6HH/+mcZtjfc3C/ODedIohCtrQwcGflllEZMJk7uKTS5eva0r8R4K2GFCc0IrbFwB6OJYCireljT8ygPH6DQkn3Spp3EjYUd1NAY=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747330035; c=relaxed/simple;
+	bh=wWZn0Sy+HnwoYn/ZQIhtiKECdbCdAJMzc49WBWU7vzc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=qXY3JZoW3x+qGgFB7rGCMCKrwsLkMpqi5Ra50HxufJuqSHrTAB7y/2Ty1kLbSoC/yjwYLg0U0JY+VPVlLb3n19X5gpjnsV/w0EaD0CgBOfp+Xoc3QIuC9DidkFTGDzvnsyRJw1x+Ky9o0UQz6D61svUNm8n7aG7nWhkg2+nHwOI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=rIvGvF3w; arc=fail smtp.client-ip=40.107.243.41
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="NJf6lDcc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=GTCT7BSmAZqTWnu91btoJaKscnIU2IMk9i6RJnUQ9pA=; b=NJf6lDccfxPbXwIG7n6eC04DiW
-	RyLMA0kreSdpdLkcH1h85edPITzAkQFciyzItPFtP9VUj06nYCn/p9f+d/NMib8uhUZEI3pGF7LSh
-	DFNt4PdMWTNruOqjvbCvDkBiGlovAWXyoKG3ctism7pETo82x0ZQ9g1s5b5x9q3R0CPg6z/+OUY1N
-	SQpttZFyildt5AvqjgV9ecypb9qULP7kFPMHawM92uYZqbSqTSdeEpVW+X6qQFA5M+1j5cgEBzB9M
-	sf93EsvXMTRCrX2/aX3HbJMf+vkdXwzTXGSZJF96oHfzF/dCcSP47//5no0edPvKccFQFahL34/8R
-	NOWHxT9w==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uFcIy-0000000HVi1-2R7x;
-	Thu, 15 May 2025 17:23:36 +0000
-Message-ID: <86282fa2-3248-44bc-835e-4121214d6992@infradead.org>
-Date: Thu, 15 May 2025 10:23:31 -0700
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="rIvGvF3w"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=HDhEctfQhNA1mjbuihdaDoX/VyfvYeCtRmEePQpCnmLJr5FDUGUKemF+EWZnhqZ0vn7weS9g586MGXkJO7tjgfBeqpn004drlcqCrq099tNIGQ/SNT94QkJ4cEsn2HMAUu+OYyxPVN9QrSc4FPUmQ2bT09rjYPX5r+uALVsMTekHiwIDXjO7tQCONDMA/I7MoYGlMSaAb2Y5A6M8Zsybrk7ASnhjH5Kf+bTPPXUpM69+dVhnRYA7/0FDv+zXWiDEK7NNLy0bjpUI9GBI32J1xOheXpJvsI6KAPwkqsu2PHf6rPdMSE9A2A+MJeiQrPTUphELpuUYiNK6yc1mEYFzaA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=e5vidOQ5j2sPkYODhvidI01yrgD5U7uBd91KxXSvIf4=;
+ b=nEt9MfbEL0GcpxFGNvo1OwDwxJtm4pzPcsDSo4205fTjlmCk+8w9uaT0W1/2I/6TWNymZWyFMGAV+OJKRHuc/tP+ldVYIBY1bToKapXthQ46kgM1qHPvvNBoRu36rl32mMEhOExHQ/4cLTAhXhMr3dO02R6eI9LotSwxzrSGlh1u2afn7Ui8IsJ1iyQAV7VZ4VHEYgTH2JDH8ZEZqA0TT1TkTaVa3RBXF8soBljpsLtH6cDrH8yTNglbh8MIrWsJmXuxyU8Rz0SeXImD9RoAjtnwf0Kj1yDk19Te+5SLPqY3ObD1wsZpzIGBAwWO/Ee0EMeoAPFXAE8yJgylM4rfZw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=e5vidOQ5j2sPkYODhvidI01yrgD5U7uBd91KxXSvIf4=;
+ b=rIvGvF3wgMKVVa8hi6/dIYMoEhwPaGLhkDjW0EUjwI6/+suoR3SZLpPZtT0wUL7B5B1jWcuAnEpzLJOW5db2mwZhjSy74ecZXEoIKCRw0b4oQGsJFkztYPM7LAFQ6apzkzxpvGQV7o3gp55kmv3z9L2UwgjbjNxJu7zO9vVbm5DF6J/UHp11bMppsbXymBNmI4gqGZgwds+QkprkNJulsqXTJwBkW10xo/Lg0J6D5UkuSIeWsgZAd3Fqc0wPINJVziu6D/c1999fH2BnnqLumkrD95aFgeny+42bbN15v0gSAzkscKUxd6+AjSvA3ZfeTYeYWToUIKEu/iIn+Clh0A==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by DM4PR12MB6086.namprd12.prod.outlook.com (2603:10b6:8:b2::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.32; Thu, 15 May
+ 2025 17:27:10 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8722.031; Thu, 15 May 2025
+ 17:27:10 +0000
+Date: Thu, 15 May 2025 14:27:08 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v4 20/23] iommu/tegra241-cmdqv: Simplify deinit flow in
+ tegra241_cmdqv_remove_vintf()
+Message-ID: <20250515172708.GQ382960@nvidia.com>
+References: <cover.1746757630.git.nicolinc@nvidia.com>
+ <9d4d85724f872033157ceb576bbfe92102261248.1746757630.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9d4d85724f872033157ceb576bbfe92102261248.1746757630.git.nicolinc@nvidia.com>
+X-ClientProxiedBy: YQBP288CA0036.CANP288.PROD.OUTLOOK.COM
+ (2603:10b6:c01:9d::6) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v5 8/8] cxl/edac: Add CXL memory device soft PPR control
- feature
-To: shiju.jose@huawei.com, linux-cxl@vger.kernel.org,
- dan.j.williams@intel.com, jonathan.cameron@huawei.com, dave.jiang@intel.com,
- dave@stgolabs.net, alison.schofield@intel.com, vishal.l.verma@intel.com,
- ira.weiny@intel.com
-Cc: linux-edac@vger.kernel.org, linux-doc@vger.kernel.org, bp@alien8.de,
- tony.luck@intel.com, lenb@kernel.org, Yazen.Ghannam@amd.com,
- mchehab@kernel.org, nifan.cxl@gmail.com, linuxarm@huawei.com,
- tanxiaofei@huawei.com, prime.zeng@hisilicon.com, roberto.sassu@huawei.com,
- kangkang.shen@futurewei.com, wanghuiqiang@huawei.com
-References: <20250515115927.772-1-shiju.jose@huawei.com>
- <20250515115927.772-9-shiju.jose@huawei.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250515115927.772-9-shiju.jose@huawei.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|DM4PR12MB6086:EE_
+X-MS-Office365-Filtering-Correlation-Id: dae93bc0-9221-4fa3-a5f9-08dd93d5b8ff
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|366016|1800799024|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?U1xCVI8Z8kVZeySLaygh9gW89VQifIANgeQbXpdO2ojzguspzq2eYJ46TVnh?=
+ =?us-ascii?Q?3Wa2WqeQK6Y/IuCLDbzTTUi9iGgNx8L8t2a2m8GLgBO42WG9uYbJ/ONNjPVg?=
+ =?us-ascii?Q?OCQMI7tcqnzP5iE0seX6iF1/S+GexORGA8G1fO9gWeJ4Bdhxc80Y+EAWlW/9?=
+ =?us-ascii?Q?ZsSgku95iYIo2FKxPeB3cOcP+U57XEecuZ7j+DgD7tMCrwECYZdo7rrhclcv?=
+ =?us-ascii?Q?1wMEUQHqwhSI+3ARCDfg4X9W2lGKPBNSgeZsdA6xjBzMbQtCg1wStPG4knJk?=
+ =?us-ascii?Q?jKC8KHVB+OoDIJb/zf59AG4fQCiO9GNFnP9q2bessG4tUwe8IUxYX3ZNn47q?=
+ =?us-ascii?Q?c7T24FFe/jS2RA65Y7zQgyzBXSoCpOokFu1TShPgjZTCadUhbE7tgjtgMwZj?=
+ =?us-ascii?Q?GBc55apO8UgmRfffWcV6HmWwf0WKNID/iXtJxInKZb8xPo+gJfBRJApHLog8?=
+ =?us-ascii?Q?4FVsg9d9AuGxRFYnXBvcoA8d2AEyr/h47L+MsRtdz4VKrTef1+EqUp0pb8Zo?=
+ =?us-ascii?Q?bL60NVesdtH8W1WkqV6mJw4HY+rKvavth84Ew0IS6t/XdU778znjXD5x2+p3?=
+ =?us-ascii?Q?Vhv5Twp2Whi6AgOubfF7buGm4b52yHsEPhjw/MvpI1FZVTaAzcbqWpcdsNeR?=
+ =?us-ascii?Q?TN+Kr5rQu+yT7uk5PJto8D65qpDZIJ81x7bicR4alsp63JPRhqXLnOWVv38j?=
+ =?us-ascii?Q?gTqeF/rJNJWr3w7p41jJjcrRlRxuORgUtP0wm7Bd40UTF8i3jbsjYLN2pobQ?=
+ =?us-ascii?Q?KT080F2zBhgsf/wnLrfmOfzS8UO17ubjnUid8q/1FJk0h96g7LB21yLxeCq3?=
+ =?us-ascii?Q?9CS9o4imcWBLqhNFYgE19+0Ih7goeqLQbgNHD5uUMNrc+VejQXOvQLcjBunK?=
+ =?us-ascii?Q?PWmwFeMmNEXTIjSg0lFzHJY2c3ZA4H4hRAhB3ctFxlDzMLN1Y7O4zCR04zhy?=
+ =?us-ascii?Q?Az5IJFm2iwAkzCpVHsbQ2w3yo/p0vRiThuTPscE8xGOqDMaM94miA1AqhjVV?=
+ =?us-ascii?Q?XkBxxggoE4Opt/2mzLi+48mNwIrGT011zJLleSJG73eZy2i8oDSp2M8bQnJ4?=
+ =?us-ascii?Q?QW7jSIXhrK4xFQBXCdPjvrhq8BGa9mQVlnJDTGuy+2aIgEtWpX/E/MPHUpB/?=
+ =?us-ascii?Q?OCh/Up4RfyQ5pHTad1B8X8UBHcck3ssTWqJywPLd/PzvZ51zGClC6dkIKVzx?=
+ =?us-ascii?Q?t5oXzAiPG3pt4zFvAvZnynevLNapHPylr6L2bmDB11CG4RoLuAdLP1Y9F0Sz?=
+ =?us-ascii?Q?AtBLiaSmS5mE0q8M+VyFcU6UAdliFS1sGkTTnCawLYbVO3gJqkTRdOC0qXPx?=
+ =?us-ascii?Q?GJYr+fCfijpcwYOaUjBl47BLEtTT2QjJyp694eY/4TyIY12SJ/wacnNKtOlY?=
+ =?us-ascii?Q?Z94hqpG4ulKQNHhp/loNPjZTV9WmrhhUl/ILxUNquyCErbgiQ7reJmH57qCV?=
+ =?us-ascii?Q?rYK5nZZvQi8=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(1800799024)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?9xMvNEW/38JInXZDvEaxs7o3Cqd7Xdttam0v21VuSlhXvvL8ewZw0ME2P7dP?=
+ =?us-ascii?Q?vKJJyKF/FoMIbCcNnUvPT3MogLS0loq4PUP0pLzpFIQGGDqiPvCWQj8zVLFi?=
+ =?us-ascii?Q?CJj7JcA5199sCYrjCeubhD87WPZQRsbCvnTiJ34II2fi4Z9t1gobisJDNJ3B?=
+ =?us-ascii?Q?XHEjcIPEH8LgRQ2eOb0qsmV258VW79CZt8pOpBAHLmu++EqqkG18zce8yeAE?=
+ =?us-ascii?Q?NNxOm3XmPrUO6n37tCzZ+NPy9nUmVZwb8ULG6Q6UEjal3ZbBGgjET3SircHN?=
+ =?us-ascii?Q?aRGPG1GvbZej0xnKaaU1T3uOvdUlPFbWficiv1RNUGL1bOx9NF1HdN/RoZaH?=
+ =?us-ascii?Q?K+cMu8A9XQw/ELUHHcT6bYja6hUIsbQCaMlSYnCBM3pSSvorYxtc74gXDnII?=
+ =?us-ascii?Q?YJg9aeUTfo8cigJ6ML+u539YFQInF7PlLs1HX10dFpY3yOIuSdWyPwEfS1OS?=
+ =?us-ascii?Q?K/p7hR5sowGWkXSuCAXJ9845Diuid1kb00XFjpWf7zG2S0K0a5PqQJAuBgRp?=
+ =?us-ascii?Q?5Rx/Zoeo6zzSztS97HKB85DNiupB6JOnhohMoGdi0/730pXKVJDufl/Wbtk6?=
+ =?us-ascii?Q?tkyePvPNgdydwGgFek5g5T+mMOfG5Vadqn0S73F4chtEN3qBqQOhmpwnI6vC?=
+ =?us-ascii?Q?SzwbDutFI/JVNeBuRnsHUAOTH9TIvCn2IPyH+70C1VhCyzMsYitcx2Mqoiqh?=
+ =?us-ascii?Q?TSpD49hPRzxp01+FUT9l0oUQooktogZPD9bCtHKHSEkRPZeM7CM3ve1SPAFp?=
+ =?us-ascii?Q?Uu9bjMQb7EevfsJryXLIMcZyVnrOTVB9q68gfnCDWvXOXX3nEJXpXztb3Dl2?=
+ =?us-ascii?Q?Z19MyQiS6u9vYwTm0B2+VTeVHAfT8aoEueNsQ4Qh1wKOpgWpX6bT8UkGOqJL?=
+ =?us-ascii?Q?CDFyRx5W6acYFJSObNEoWpDl6+Zq/aBpmv5fzvqXmzfJuzHDOeEu8U+X2YFp?=
+ =?us-ascii?Q?0KrsI3kPb12Um1SYVZnFRICLDaPJFc5Kd/jbWR1WjyPyyV+MAGP2gvynCVao?=
+ =?us-ascii?Q?zt49+A9ep3c+4U0EZmEQuXebs3eiH3I+rgeJhiIkKvhbK3Bo3Yj1EMO9momY?=
+ =?us-ascii?Q?IWOw8sOJ2QhTm2qzD+gppZi4nU+trKZPFTfI7d0gyeWBwFEc+5k93Hk3LnVK?=
+ =?us-ascii?Q?d27MKGwU6RX4epq0sXNvDE6xaqjUEy5c/srh+PbDmTuIkP3f5AE043w0z2jr?=
+ =?us-ascii?Q?juYLK4WGigCM2jq4MvFQqB+QM/EcBF0QBLhtw0+ZNH/F0zWk0VE148TJT56d?=
+ =?us-ascii?Q?RC8gaKd46dP9xAbrif4vP1L/bNP+YV1/xHt5RI2DhbQsZV6nq6ZL1wkXG57d?=
+ =?us-ascii?Q?SMqflWJrUAYkLOSwSuT+wYTIMMSMRBpmQYG0Lvaovs8w+5/3BmkRp9usKrLE?=
+ =?us-ascii?Q?RiFf/aSTCv1tqGpGDPZc3escfiOJxhyiwD/dCmqDfkg2IcUKNvz20jgYZoTK?=
+ =?us-ascii?Q?iFCGyrZgIcvE/yEpoBt0C2p+zRQhF1waj1oasySMu4s/Nq4euwaJ8ASiRmsy?=
+ =?us-ascii?Q?6IMJXnah7GaFVNCzbB8q1vsD+sovBUKnwx/+Cb7lH6wf/4HeLAK5OfvL1NNI?=
+ =?us-ascii?Q?Pd8Udxc4/DbXGKsCId0CAQwamHzSX4v0YoWOtudk?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: dae93bc0-9221-4fa3-a5f9-08dd93d5b8ff
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 17:27:09.9225
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: Ewakjb53BrL/T8hI8+M9NcrEH/6w88KEc4W8y4bfMpMoMlJfi7bVohYGQgEbts5D
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR12MB6086
 
+On Thu, May 08, 2025 at 08:02:41PM -0700, Nicolin Chen wrote:
+> The current flow of tegra241_cmdqv_remove_vintf() is:
+>  1. For each LVCMDQ, tegra241_vintf_remove_lvcmdq():
+>     a. Disable the LVCMDQ HW
+>     b. Release the LVCMDQ SW resource
+>  2. For current VINTF, tegra241_vintf_hw_deinit():
+>     c. Disable all LVCMDQ HWs
+>     d. Disable VINTF HW
+> 
+> Obviously, the step 1.a and the step 2.c are redundant.
+> 
+> Since tegra241_vintf_hw_deinit() disables all of its LVCMDQ HWs, it could
+> simplify the flow in tegra241_cmdqv_remove_vintf() by calling that first:
+>  1. For current VINTF, tegra241_vintf_hw_deinit():
+>     a. Disable all LVCMDQ HWs
+>     b. Disable VINTF HW
+>  2. Release all LVCMDQ SW resources
+> 
+> Drop tegra241_vintf_remove_lvcmdq(), and move tegra241_vintf_free_lvcmdq()
+> as the new step 2.
+> 
+> Acked-by: Pranjal Shrivastava <praan@google.com>
+> Signed-off-by: Nicolin Chen <nicolinc@nvidia.com>
+> ---
+>  drivers/iommu/arm/arm-smmu-v3/tegra241-cmdqv.c | 13 +++----------
+>  1 file changed, 3 insertions(+), 10 deletions(-)
 
+Reviewed-by: Jason Gunthorpe <jgg@nvidia.com>
 
-On 5/15/25 4:59 AM, shiju.jose@huawei.com wrote:
-> diff --git a/Documentation/edac/memory_repair.rst b/Documentation/edac/memory_repair.rst
-> index 5b1cd8297442..3a3fc11b8fea 100644
-> --- a/Documentation/edac/memory_repair.rst
-> +++ b/Documentation/edac/memory_repair.rst
-> @@ -138,5 +138,15 @@ CXL device to perform a repair operation on its media. For example, a CXL
->  device with DRAM components that support memory sparing features may
->  implement sparing maintenance operations.
->  
-> +2. CXL memory Soft Post Package Repair (sPPR)
-> +
-> +Post Package Repair (PPR) maintenance operations may be supported by CXL
-> +devices that implement CXL.mem protocol. A PPR maintenance operation
-> +requests the CXL device to perform a repair operation on its media.
-> +For example, a CXL device with DRAM components that support PPR features
-> +may implement PPR Maintenance operations. Soft PPR (sPPR), is a temporary
-
-  no comma:                                                 ^
-
-> +row repair. Soft PPR may be faster, but the repair is lost with a power
-> +cycle.
-> +
->  Sysfs files for memory repair are documented in
->  `Documentation/ABI/testing/sysfs-edac-memory-repair
-
--- 
-~Randy
-
+Jason
