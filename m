@@ -1,96 +1,93 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7A0E7293749
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 03:26:03 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1803A14A4DF
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 03:39:31 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747279565; cv=none; b=Z6Wd4FtsHnmmrm/7OEBvX+SswBcxkXGhBvqWFcL8t7Ye9+Ev48khrJJ3QFWs3GTj1A8rHgkQX/xEfT538LChAXa/Fqyt+3xYtkst1VEgoN5AuU8Xm91/dMTel7ENwgtOzYaAkfPrDLpRQ8JupXGp7PI7FRJPj4bhXgEB93Wcx0g=
+	t=1747280373; cv=none; b=mFp2wrKPpSi+Ttl5ffOzVCC8xtbHyo49SSBGsx0qBNsBGPKwe+CmjHVQa4uJJS20lgY1vs2/A15vl6omGA78dLmWYRR8M8TTaq16Uh1uWpIqH64vvnE3zCKjPba0s9zynoBtki56cJ07cYMhz2nsb75eigSWAqpNcL0rYJGaij4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747279565; c=relaxed/simple;
-	bh=WOupC6E4HpO8mX5nlK6W7ryVaOhAjAR0LIPnaWVxKwc=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=FfgsGT0ImbyLRgoTMoR4OAqbYAjYH9k5LoLsPclSgWzfai6sL1CnlA+MWq9JmpgK1/5Vn/UWAvmPIj3qyauB0vdj8dG047fc34diDS03GczW4KOAXo7sU+BDnoYDJokNfjZ/LqsPmcYwmoOJf7dEg2JpSiYDVp342YiSvh9Qalw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i9pyHTd8; arc=none smtp.client-ip=170.10.129.124
+	s=arc-20240116; t=1747280373; c=relaxed/simple;
+	bh=/hLxrPyLj0L7WyFSf7/68ZsQ9VoDSyyMZyFXnAugEv4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=KpT0Nx4tZVU9SqMQBbt+q+hHNKmf7QiU0Ie1htD2myG0D1OGIUWh6mm8048DiAhYqF0GH6pr9Uz5wP08GL8S8LEky43E9ZPvJjHiZO4tyorTT4OkJl6dsejYkVpSDyJbKoViWuAOPyAl59SfYtiP3hPTWvp1askzXBlfJMJ2Ues=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gvlhC9t8; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i9pyHTd8"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gvlhC9t8"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747279562;
+	s=mimecast20190719; t=1747280371;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=ahT4btz576S69wvUnfwsCRHjbpr8W2QT0Gxup0BuO2U=;
-	b=i9pyHTd8C5ddgR0CSyXvPVpADfMxEswmpOHsB29GEAYbXSjyHQT+6YgGv8XQBB+6sVSMDI
-	ghfLEtVOC7LwiN0UOFZqcRrAPwjkBULQjlJbh/FaKHQShN4XCINj/DTBla4bxkhnRp3/Wz
-	Sbpcck6QdsqYLNQzq8ss0AHju+vcdJY=
-Received: from mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com
+	 content-transfer-encoding:content-transfer-encoding;
+	bh=b3N47OnInst/UbZLqqieOD9Ze+opRltby/uUlyZCiJo=;
+	b=gvlhC9t8K9/o3dWxUQURmMiaveDWHxr8frhtVCWHPuCyS8xONqS9Zzm/OsAQTWnYJ5ESNA
+	ub3L9TOqswW/1z5O9AWElDUvBtwOjHrsQnTcuhsaTB7w6P5wfDESDDY1fFQY26AHfVSKlL
+	yYz+cFe6DRp2lz5XaqPTQWa+K1lePIo=
+Received: from mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com
  (ec2-54-186-198-63.us-west-2.compute.amazonaws.com [54.186.198.63]) by
  relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-669-KOhIuteWMa2BBXwiIcLjhg-1; Wed,
- 14 May 2025 23:25:59 -0400
-X-MC-Unique: KOhIuteWMa2BBXwiIcLjhg-1
-X-Mimecast-MFC-AGG-ID: KOhIuteWMa2BBXwiIcLjhg_1747279555
-Received: from mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.93])
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-605-oNCaLXnNMS2Oe823YFcD_A-1; Wed,
+ 14 May 2025 23:39:27 -0400
+X-MC-Unique: oNCaLXnNMS2Oe823YFcD_A-1
+X-Mimecast-MFC-AGG-ID: oNCaLXnNMS2Oe823YFcD_A_1747280363
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by mx-prod-mc-03.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id EB38619560B0;
-	Thu, 15 May 2025 03:25:54 +0000 (UTC)
+	by mx-prod-mc-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 44B2F1956086;
+	Thu, 15 May 2025 03:39:22 +0000 (UTC)
 Received: from h1.redhat.com (unknown [10.22.88.116])
-	by mx-prod-int-06.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 1C2ED18008F4;
-	Thu, 15 May 2025 03:25:39 +0000 (UTC)
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id 294C01955F24;
+	Thu, 15 May 2025 03:39:04 +0000 (UTC)
 From: Nico Pache <npache@redhat.com>
 To: linux-mm@kvack.org,
 	linux-doc@vger.kernel.org,
 	linux-kernel@vger.kernel.org,
-	linux-trace-kernel@vger.kernel.org
-Cc: david@redhat.com,
-	ziy@nvidia.com,
-	baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com,
-	Liam.Howlett@oracle.com,
-	ryan.roberts@arm.com,
-	dev.jain@arm.com,
-	corbet@lwn.net,
-	rostedt@goodmis.org,
-	mhiramat@kernel.org,
-	mathieu.desnoyers@efficios.com,
-	akpm@linux-foundation.org,
-	baohua@kernel.org,
-	willy@infradead.org,
-	peterx@redhat.com,
-	wangkefeng.wang@huawei.com,
-	usamaarif642@gmail.com,
-	sunnanyong@huawei.com,
-	vishal.moola@gmail.com,
-	thomas.hellstrom@linux.intel.com,
-	yang@os.amperecomputing.com,
-	kirill.shutemov@linux.intel.com,
-	aarcange@redhat.com,
-	raquini@redhat.com,
-	anshuman.khandual@arm.com,
-	catalin.marinas@arm.com,
-	tiwai@suse.de,
-	will@kernel.org,
-	dave.hansen@linux.intel.com,
-	jack@suse.cz,
-	cl@gentwo.org,
-	jglisse@google.com,
-	surenb@google.com,
-	zokeefe@google.com,
+	linux-kselftest@vger.kernel.org
+Cc: rientjes@google.com,
 	hannes@cmpxchg.org,
-	rientjes@google.com,
-	mhocko@suse.com,
+	lorenzo.stoakes@oracle.com,
 	rdunlap@infradead.org,
-	Bagas Sanjaya <bagasdotme@gmail.com>
-Subject: [PATCH v7 12/12] Documentation: mm: update the admin guide for mTHP collapse
-Date: Wed, 14 May 2025 21:22:26 -0600
-Message-ID: <20250515032226.128900-13-npache@redhat.com>
-In-Reply-To: <20250515032226.128900-1-npache@redhat.com>
-References: <20250515032226.128900-1-npache@redhat.com>
+	mhocko@suse.com,
+	Liam.Howlett@oracle.com,
+	zokeefe@google.com,
+	surenb@google.com,
+	jglisse@google.com,
+	cl@gentwo.org,
+	jack@suse.cz,
+	dave.hansen@linux.intel.com,
+	will@kernel.org,
+	tiwai@suse.de,
+	catalin.marinas@arm.com,
+	anshuman.khandual@arm.com,
+	dev.jain@arm.com,
+	raquini@redhat.com,
+	aarcange@redhat.com,
+	kirill.shutemov@linux.intel.com,
+	yang@os.amperecomputing.com,
+	thomas.hellstrom@linux.intel.com,
+	vishal.moola@gmail.com,
+	sunnanyong@huawei.com,
+	usamaarif642@gmail.com,
+	wangkefeng.wang@huawei.com,
+	ziy@nvidia.com,
+	shuah@kernel.org,
+	peterx@redhat.com,
+	willy@infradead.org,
+	ryan.roberts@arm.com,
+	baolin.wang@linux.alibaba.com,
+	baohua@kernel.org,
+	david@redhat.com,
+	mathieu.desnoyers@efficios.com,
+	mhiramat@kernel.org,
+	rostedt@goodmis.org,
+	corbet@lwn.net,
+	akpm@linux-foundation.org,
+	npache@redhat.com
+Subject: [PATCH v6 0/4] mm: introduce THP deferred setting
+Date: Wed, 14 May 2025 21:38:53 -0600
+Message-ID: <20250515033857.132535-1-npache@redhat.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -98,49 +95,106 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.4.1 on 10.30.177.93
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Now that we can collapse to mTHPs lets update the admin guide to
-reflect these changes and provide proper guidence on how to utilize it.
+This series is a follow-up to [1], which adds mTHP support to khugepaged.
+mTHP khugepaged support is a "loose" dependency for the sysfs/sysctl
+configs to make sense. Without it global="defer" and  mTHP="inherit" case
+is "undefined" behavior.
 
-Reviewed-by: Bagas Sanjaya <bagasdotme@gmail.com>
-Signed-off-by: Nico Pache <npache@redhat.com>
----
- Documentation/admin-guide/mm/transhuge.rst | 14 +++++++++++++-
- 1 file changed, 13 insertions(+), 1 deletion(-)
+We've seen cases were customers switching from RHEL7 to RHEL8 see a
+significant increase in the memory footprint for the same workloads.
 
-diff --git a/Documentation/admin-guide/mm/transhuge.rst b/Documentation/admin-guide/mm/transhuge.rst
-index dff8d5985f0f..5c63fe51b3ad 100644
---- a/Documentation/admin-guide/mm/transhuge.rst
-+++ b/Documentation/admin-guide/mm/transhuge.rst
-@@ -63,7 +63,7 @@ often.
- THP can be enabled system wide or restricted to certain tasks or even
- memory ranges inside task's address space. Unless THP is completely
- disabled, there is ``khugepaged`` daemon that scans memory and
--collapses sequences of basic pages into PMD-sized huge pages.
-+collapses sequences of basic pages into huge pages.
- 
- The THP behaviour is controlled via :ref:`sysfs <thp_sysfs>`
- interface and using madvise(2) and prctl(2) system calls.
-@@ -144,6 +144,18 @@ hugepage sizes have enabled="never". If enabling multiple hugepage
- sizes, the kernel will select the most appropriate enabled size for a
- given allocation.
- 
-+khugepaged uses max_ptes_none scaled to the order of the enabled mTHP size
-+to determine collapses. When using mTHPs it's recommended to set
-+max_ptes_none low-- ideally less than HPAGE_PMD_NR / 2 (255 on 4k page
-+size). This will prevent undesired "creep" behavior that leads to
-+continuously collapsing to a larger mTHP size; When we collapse, we are
-+bringing in new non-zero pages that will, on a subsequent scan, cause the
-+max_ptes_none check of the +1 order to always be satisfied. By limiting
-+this to less than half the current order, we make sure we don't cause this
-+feedback loop. max_ptes_shared and max_ptes_swap have no effect when
-+collapsing to a mTHP, and mTHP collapse will fail on shared or swapped out
-+pages.
-+
- It's also possible to limit defrag efforts in the VM to generate
- anonymous hugepages in case they're not immediately free to madvise
- regions or to never try to defrag memory and simply fallback to regular
+Through our investigations we found that a large contributing factor to
+the increase in RSS was an increase in THP usage.
+
+For workloads like MySQL, or when using allocators like jemalloc, it is
+often recommended to set /transparent_hugepages/enabled=never. This is
+in part due to performance degradations and increased memory waste.
+
+This series introduces enabled=defer, this setting acts as a middle
+ground between always and madvise. If the mapping is MADV_HUGEPAGE, the
+page fault handler will act normally, making a hugepage if possible. If
+the allocation is not MADV_HUGEPAGE, then the page fault handler will
+default to the base size allocation. The caveat is that khugepaged can
+still operate on pages that are not MADV_HUGEPAGE.
+
+This allows for three things... one, applications specifically designed to
+use hugepages will get them, and two, applications that don't use
+hugepages can still benefit from them without aggressively inserting
+THPs at every possible chance. This curbs the memory waste, and defers
+the use of hugepages to khugepaged. Khugepaged can then scan the memory
+for eligible collapsing. Lastly there is the added benefit for those who
+want THPs but experience higher latency PFs. Now you can get base page
+performance at the PF handler and Hugepage performance for those mappings
+after they collapse.
+
+Admins may want to lower max_ptes_none, if not, khugepaged may
+aggressively collapse single allocations into hugepages.
+
+TESTING:
+- Built for x86_64, aarch64, ppc64le, and s390x
+- selftests mm
+- In [1] I provided a script [2] that has multiple access patterns
+- lots of general use.
+- redis testing. This test was my original case for the defer mode. What I
+   was able to prove was that THP=always leads to increased max_latency
+   cases; hence why it is recommended to disable THPs for redis servers.
+   However with 'defer' we dont have the max_latency spikes and can still
+   get the system to utilize THPs. I further tested this with the mTHP
+   defer setting and found that redis (and probably other jmalloc users)
+   can utilize THPs via defer (+mTHP defer) without a large latency
+   penalty and some potential gains. I uploaded some mmtest results
+   here[3] which compares:
+       stock+thp=never
+       stock+(m)thp=always
+       khugepaged-mthp + defer (max_ptes_none=64)
+
+  The results show that (m)THPs can cause some throughput regression in
+  some cases, but also has gains in other cases. The mTHP+defer results
+  have more gains and less losses over the (m)THP=always case.
+
+V6 Changes:
+- nits
+- rebased dependent series and added review tags
+
+V5 Changes:
+- rebased dependent series
+- added reviewed-by tag on 2/4
+
+V4 Changes:
+- Minor Documentation fixes
+- rebased the dependent series [1] onto mm-unstable
+    commit 0e68b850b1d3 ("vmalloc: use atomic_long_add_return_relaxed()")
+
+V3 Changes:
+- Combined the documentation commits into one, and moved a section to the
+  khugepaged mthp patchset
+
+V2 Changes:
+- base changes on mTHP khugepaged support
+- Fix selftests parsing issue
+- add mTHP defer option
+- add mTHP defer Documentation
+
+[1] - https://lore.kernel.org/all/20250515032226.128900-1-npache@redhat.com/
+[2] - https://gitlab.com/npache/khugepaged_mthp_test
+[3] - https://people.redhat.com/npache/mthp_khugepaged_defer/testoutput2/output.html
+
+Nico Pache (4):
+  mm: defer THP insertion to khugepaged
+  mm: document (m)THP defer usage
+  khugepaged: add defer option to mTHP options
+  selftests: mm: add defer to thp setting parser
+
+ Documentation/admin-guide/mm/transhuge.rst | 31 +++++++---
+ include/linux/huge_mm.h                    | 18 +++++-
+ mm/huge_memory.c                           | 69 +++++++++++++++++++---
+ mm/khugepaged.c                            |  8 +--
+ tools/testing/selftests/mm/thp_settings.c  |  1 +
+ tools/testing/selftests/mm/thp_settings.h  |  1 +
+ 6 files changed, 106 insertions(+), 22 deletions(-)
+
 -- 
 2.49.0
 
