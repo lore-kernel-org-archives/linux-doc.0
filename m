@@ -1,567 +1,184 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from NAM12-DM6-obe.outbound.protection.outlook.com (mail-dm6nam12on2083.outbound.protection.outlook.com [40.107.243.83])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E45D82153E1;
-	Thu, 15 May 2025 15:28:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747322937; cv=none; b=g25JqiDwDlZ43u5+eqohTjZcreDlMyU8+bnFsoUVpdKHQYBBeEmXtkTbSptnpqTuPmcNByMrpP1DQ80+mBcShl30HgsoFrK2FsJf74UryVEG7PZ/30q8LqtLvORbS1mz1LAU3vGfvK6dSmWkzEpbtFebWi3G1ReHyRZVdGR+ZkI=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747322937; c=relaxed/simple;
-	bh=h6Wl5IuSa47/C9/SH7TFfsIPXIqa88Ii3G8oV5HUTnY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=j4Q2WvG78Vip2WPZtdp4F1vq9FUXVauUP1kL35n51PUeEivoJB/dx/wG/Ph6oVuik6ynkRIbJ94hXeBlU7MJjpQPw/AUQYGOHYcezF4KERiQSoKNv7scPDv7GZStr/FOn0O2rCFHA9upKn9W0DZnOGB797LhaPa7q+UFVlu/198=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=JXGiLDNd; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CEEE033DF;
+	Thu, 15 May 2025 15:39:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.243.83
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747323550; cv=fail; b=M/P8OdwXm3X8/qdbfZlzXofvp/pZEOeFeNs3IFvtADHDpgFS1QL9XAzanu4gM3c4WMTAL/aB7y6LH4b9Y/6L9ICKJEmOranI2V2DbADlGJxVfH7eJ9fUVrASMAtaggp9CqURdPciJby/ajgE3zV7fwbDtB6FnQswXXVVQg+AeoQ=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747323550; c=relaxed/simple;
+	bh=RLfJagRcPfe7TjX12AIZFxIoouAtvcDl0kxC4+0Wh7g=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=o5t36mRaR5AIL8dO7gu3ZoccnDH1u9hPgisR7oFXEOV1r5zWwXtJhHwUpGSGtLuZ0O+Xl8NHwGJfhhSW0r+J/Vxhw6RVC2gSS7b14YI4HLG4Q13sZ/XsBBU7YLh8xrKZbxUBVXPRDjTn7/sTjG3beSTzvQuUyMQv/dJlWXrR9c8=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=CZYY/kb6; arc=fail smtp.client-ip=40.107.243.83
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="JXGiLDNd"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-442ea95f738so8239835e9.3;
-        Thu, 15 May 2025 08:28:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747322933; x=1747927733; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=D7AAD3LdsvKo5tA4lpWbxFHUp+Gt+Z7ZzZD2NXLS1po=;
-        b=JXGiLDNdgqR7ohah2x0J6GckfGVdOmKR1gQZclkVzZa+QVXFvcttfjHAm5+rfngWju
-         TocGUvSmuTd1sSsMVOR/YR1v3eTCgUsM6aWcFvaV+V+CJNIFS3yPuh9d7hJvHxYD1S8h
-         HLrlyb4MqK8XvXFIyh9PTrJqVE/1YMC5dTYUm2u+UAq0VVDslhyd4pnCK8hu+Nj7JVdp
-         fRw0Y3L6GqzCk5SBqrutADLkjHAZMqgMLZFCO9tWqfHG/vTlaz4dWWQxAoOgMg5tAT12
-         x2v0piCtxSRJTlaSlnDwRRYREZcYS8rA8h2nq4e1whr+ky1ar0hRfhtWzDwdYtqCk/ne
-         cGwQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747322933; x=1747927733;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=D7AAD3LdsvKo5tA4lpWbxFHUp+Gt+Z7ZzZD2NXLS1po=;
-        b=w0B7CwyMtGeXfl8axRSvZ+9/JoCR4UUpUCyjZimO+ztmYWWWAVQ+W5R5l2+MDN64Aj
-         VNxr/Y0OCto5BRjkakOBsuRInxVDuYFTwBRTeE23UmiIw7wQfmNggAXuhjbKnCq/mQ0/
-         TEJ+xs01E41+gkiqaCQv8A2+Zc8urhs/Y/CkvbZudGI1WrFMjmXVGng6InZtaeXz5RiK
-         dj/nMg3J7xhJLgijV8GMKSXZ5NGBrNwZhGEaH4oQVyoq69Vz1tEFDxWQLOuUcspVyL1i
-         1qqxTBX/SJFE7wMKzy5KZBDJRblG6+uL4IOXo4WZiZpqqA0fyyJJUzkF2mhRlnYYI4V3
-         375A==
-X-Forwarded-Encrypted: i=1; AJvYcCVdrK+M4jmnEyMPmRsErGAe+lX0aHsCyesyaEkbDQiCbU99vpoc35zq74NwGc9ax4sCfFTCM6zUZA3/1GXe@vger.kernel.org, AJvYcCXc6VMIU7VYQgklw6oZ6mUvAxZ9sSmEmqxZsnBveUJl/R1QphRAg01UTEFJH3wpGU7jY79fihJmEI8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyprVL7fT84eTssv+4+Gs+5NPUvbFEwyb29v6jmx9s6bGEVusbH
-	yZ8Hv6w+/xHOGymyDWSpcEej63Uwm3keJ/zZRlLxe4IC4ZY+lKUL
-X-Gm-Gg: ASbGncv7tHip7DJfu6LvcNod6fqWM/pgU0zgLLLsOkiJJkS8P10gQy/BXrf8d6ZG6HI
-	UVwdD2ubze3OyDGaiKFM7KWIVayzkSpP2U7Vt0NxK2S/gjf87SIpUPPmNU17o7bUrxG93Th2wMw
-	plgteXgzIA/QOor+yd5DYzYV/HbVUh9g9l00M7JS9i8IgKBa8iFjdPBkh+NJvxP6WWCMhBTS5Gw
-	FRAjeqrDis7PeYFmXZIUVPfEU67J7RyiPj7HKSkRzDzU431xBXO/48j9bSoNAO3Tf1l0aU6laTa
-	SJ19I+I/UQJpk5U5QjoYJEOcnQxnGmv5os6wGkptqcEULdUuCxFGQiXrGqXy/VYNVgHDMKfznxG
-	ugN9FncDzK28hLTZMGisPypiQJO0btOzJ/fcZlY8QLT5dNierkqFPJgGAhA==
-X-Google-Smtp-Source: AGHT+IGyhRJm6hIscXI54RRLFX6yhkPE2B+310LzxI3caTo7gC5vMA58aEy8uRRlbA4OmO7DFKD9QQ==
-X-Received: by 2002:a05:600c:1385:b0:434:fa55:eb56 with SMTP id 5b1f17b1804b1-442f20b9725mr70211705e9.7.1747322932687;
-        Thu, 15 May 2025 08:28:52 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:b211:ad00:1096:2c00:b223:9747? ([2a01:4b00:b211:ad00:1096:2c00:b223:9747])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442fd50ee03sm379325e9.14.2025.05.15.08.28.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 15 May 2025 08:28:52 -0700 (PDT)
-Message-ID: <ddc0dd46-8541-4d4a-ac59-287e11e1d3ff@gmail.com>
-Date: Thu, 15 May 2025 16:28:51 +0100
+	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="CZYY/kb6"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nJNMIm6W3gucFcxqwICUmhmXbxr2Rnr0pFyLqqK59EAXmbCGEzYMvD4wOAy2Nxq5aeVOc+bT0MwqQlUVF3PI+he+LE+0gh0l1+HxIWQAfOBiNp44rUQIwRN9bFA4XLqF0Jk/h6FZqwN7MBuXAu8Qbp+QoJc7tmjylSM4ijHPm8wNHm3AKYh6n1DFv9FzNQdqtbYUk+uyE/7NyQXkCRX8WFP7RcEOBgdHZrnfRsEiT2D7gMJ+rpGqZ8B8uH568B1wSBujASX3XcL5G9zLP6nrwYgfdInY382ZJwquUcxhv9qehVSkA2MyiaPD+HTCBja9YBJYBHhxAcOGBDSISgmlgA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=1zITZIhVP3HHsz2zhQzalhOP+fE343sw8OlKE0+4V3E=;
+ b=K6E1cxASb/EO/vuoJrSwT5AUFyK2opzbl7JLGqS/4ldvh7zxz94OEkuV1twV/KJY8hpnFC34qDNvr5CI0gu3tCGqh0K/5f7E+ZNJiDXg5HoCKoJgcWdDm5Wlmuv4QhtUTlJ/nO7vEk3wRJ9yM/20caQxCGTCCuRTEu84N1loOrqByzitCQsWzoat10yt0uo11q3xANlMNogd3WMMzoTqBR4IsvAlbHf1R++uqaEhJzDp5NdCCRz0vTFux+g/PrjaBK+YWArev+Mf5yIuzBFfRdOaX3meEwaK9nsgVan4PNq6YwhVx09yC2Yp+bmBhnyn9qQ50+3rTJE+ZiPS/c50ww==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=1zITZIhVP3HHsz2zhQzalhOP+fE343sw8OlKE0+4V3E=;
+ b=CZYY/kb6f+AYhIuVlg87xzAHsGJz/7ysAXWkxf0LuSIxRKX0cOtDX5nKX+kuLmQHeBuxn1RRtVd3Eh7xDR3c6PPTju1QKyDYopBOTBIFq7EsEn/xsCVXUY4hde683w3JAgiAKqJDO2SJcGApwz73US2FJAo7pIKhnv1TgZRkrfb9gsdQ+VpDxV0MuMbUj+51dWpunb68rum45F01alz+9ospuQ19NIHvB8w8jsUGfI3TZ2p5HLWAiq2Wj1LGIlA67t7i87f7IDXuLkOm6KnwXeOyd5+nu4n+9gGPogYnq4UXm7k4mjBUBjcJQTka7ovnCeAORuddwr27cZUfB64AyQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=nvidia.com;
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com (2603:10b6:610:17c::13)
+ by PH7PR12MB8122.namprd12.prod.outlook.com (2603:10b6:510:2b7::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.29; Thu, 15 May
+ 2025 15:39:05 +0000
+Received: from CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732]) by CH3PR12MB8659.namprd12.prod.outlook.com
+ ([fe80::6eb6:7d37:7b4b:1732%7]) with mapi id 15.20.8722.031; Thu, 15 May 2025
+ 15:39:05 +0000
+Date: Thu, 15 May 2025 12:39:03 -0300
+From: Jason Gunthorpe <jgg@nvidia.com>
+To: Nicolin Chen <nicolinc@nvidia.com>
+Cc: kevin.tian@intel.com, corbet@lwn.net, will@kernel.org,
+	bagasdotme@gmail.com, robin.murphy@arm.com, joro@8bytes.org,
+	thierry.reding@gmail.com, vdumpa@nvidia.com, jonathanh@nvidia.com,
+	shuah@kernel.org, jsnitsel@redhat.com, nathan@kernel.org,
+	peterz@infradead.org, yi.l.liu@intel.com, mshavit@google.com,
+	praan@google.com, zhangzekun11@huawei.com, iommu@lists.linux.dev,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-arm-kernel@lists.infradead.org, linux-tegra@vger.kernel.org,
+	linux-kselftest@vger.kernel.org, patches@lists.linux.dev,
+	mochs@nvidia.com, alok.a.tiwari@oracle.com, vasant.hegde@amd.com
+Subject: Re: [PATCH v4 10/23] iommufd/viommu: Introduce IOMMUFD_OBJ_HW_QUEUE
+ and its related struct
+Message-ID: <20250515153903.GI382960@nvidia.com>
+References: <cover.1746757630.git.nicolinc@nvidia.com>
+ <bedd9de4e24bb89f18f4b13b52c5fdb6db6bd889.1746757630.git.nicolinc@nvidia.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <bedd9de4e24bb89f18f4b13b52c5fdb6db6bd889.1746757630.git.nicolinc@nvidia.com>
+X-ClientProxiedBy: YQXPR0101CA0057.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:c00:14::34) To CH3PR12MB8659.namprd12.prod.outlook.com
+ (2603:10b6:610:17c::13)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the
- process
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
- linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- riel@surriel.com, ziy@nvidia.com, laoar.shao@gmail.com,
- baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com,
- ryan.roberts@arm.com, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250515133519.2779639-1-usamaarif642@gmail.com>
- <20250515133519.2779639-2-usamaarif642@gmail.com>
- <c0af0eb2-d10f-4ee3-87dd-c23cca6cfd1a@lucifer.local>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <c0af0eb2-d10f-4ee3-87dd-c23cca6cfd1a@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH3PR12MB8659:EE_|PH7PR12MB8122:EE_
+X-MS-Office365-Filtering-Correlation-Id: a0ddf9ac-c473-48f3-86eb-08dd93c69fef
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|7416014|366016|1800799024;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?dzBBoCERQLG4OQDhpPX3XNjHo9/8yacqpQUHMTwPE/ZjkYyEUhIOfiFRIZ1h?=
+ =?us-ascii?Q?51wzlhMYMQLLVMQCZxBJC7X3IcHrHjzNJ4iguRrIRg4uEzdfz1+4yw5iKqLU?=
+ =?us-ascii?Q?dCmFP7/CHQ2gI2svgJhYIE9jh+w1Wjfa8hCDmvUFZA/JEsOgy1q8/A1HUdiB?=
+ =?us-ascii?Q?MgJf7nU+0FjELgMkBk8NxAiVss08irbs/eQ1Yanl1BNX+6zMgMgBIFH+fLTZ?=
+ =?us-ascii?Q?zThTgKRl9ljg3OHl6RhcIlq0kpEqTxw0kqYUtDA28qAFmba5PY3Whfwqd8lm?=
+ =?us-ascii?Q?kZol8GQayv4GF7Zl0tTclwy1SAjpAZVz9cYxTehFAdpMN5XVSU8sTRGxFNKK?=
+ =?us-ascii?Q?+UkWlLxnvtb/dGM2HSQIPjU3ycW4hIxQcCn2BdJAWMTvSWq613cdh5WUSh/Y?=
+ =?us-ascii?Q?ketq0okatnOMVYC+l2OoQTtBhfmRAsQkzlxgL6yo8HiN2PrLVM3z6UfqIosN?=
+ =?us-ascii?Q?HlcgbSwPJWKzQ8+F4Awf8BMdJIuD4IGBImyr5EG7Ec95q4vuzmdhV6mJLNPL?=
+ =?us-ascii?Q?hZ/U8yzUdkMXwbZyBlQc+XcGe+mm28QwNGQjIVvDS9rQFl6+9qYN346J9tN6?=
+ =?us-ascii?Q?MqFYpRDFtlCd5/oFtYYAP2oikDU99aZBVVTkrRPromo4tXJls3JB9DD762Ya?=
+ =?us-ascii?Q?LZWDRgKIuVWpnMZyJdCobQ6d/nhrlVCIaj/zddDMPYEaVHN/9WAn+0sGI9PV?=
+ =?us-ascii?Q?JkMPOlWWuqJhTY/rXThdrpoylnyylyN3BEYIAy5uDQc7mvIF8DOY/hrpZpYA?=
+ =?us-ascii?Q?MbBCSY9tt+icgXJqEA0oe1bssCxC/5Akn4v+ocqZ7/Psfa7miN/k9Jv9pXxR?=
+ =?us-ascii?Q?DsHi2Si4rMaWuU3E2zfMBmkEM+5c3TGDIP/iHZ20KHcacDh9EFs5cW81DMRS?=
+ =?us-ascii?Q?M0SXuD89j0qS5tKnr1FjF3dFZUbG1igYMnYr4By97mGDepboTSrVYQfUht0j?=
+ =?us-ascii?Q?17CvLxJuRCAmu+aciKY6F9NqLUtxidnpdqKXQmu3/eOXpqHhPjEh6edT8ux2?=
+ =?us-ascii?Q?FOJZg0r2w0A8aCfaysfgi6w6uRZStwkOILY1jyR3X34mgfwqaUUFfpRJOFTX?=
+ =?us-ascii?Q?pKBf/S3AS41nAFEBs1d6e2agFKKy7jxdntpskVXtYNFI/YzBdIysgBgs0xTr?=
+ =?us-ascii?Q?LnjNQ2yF7D1oQCRxs6Iy8Trpw9JHqi1jdnizs6rUz2LOHCLDzxocvj76XlD0?=
+ =?us-ascii?Q?z2caUZuvanM0Va0/8Fn26Oc761Mm3Ww2iGIUWy+0eutrnBWZve3Q1wbKKooV?=
+ =?us-ascii?Q?CCLh4i/Nft9J9rvG/JIpbfvBt6lXVN5qlruJZMW24v0Y8k5svSbl9XFMD/24?=
+ =?us-ascii?Q?+vVVbwtV4oBGXxXK4YzcmmWu0Bo/HLgWIj9AW1ksoODpi36Y3qjxEJ8wqgav?=
+ =?us-ascii?Q?ZRLZFT4AZxcJ7mE1uhmlPMOl3r9qTyvrlzKSmk+JiL2YrB3OpUu6/qUb7jaY?=
+ =?us-ascii?Q?kQVTn3Aw+3U=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CH3PR12MB8659.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(366016)(1800799024);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?+tJAulyhJ5hf9CePsfgphuX7wFcIgviDtsLijzHNmwrXJvZ9gFJJdVurTMQ1?=
+ =?us-ascii?Q?XtKnCixmsbad8V03+d0qYDq5rV5Dw9gfBMSTaWhh15/RzfqM86lZVvj5xhms?=
+ =?us-ascii?Q?dxPux8Ct7K92GaKQ9NYspLx2T16SjStj93Ahe4mwrpusa4If9YAhzQIqp+/j?=
+ =?us-ascii?Q?OVgdcL6r/bYRFpFOcoX3o98+xmWn4I1oro8I4SLVUriN4X1JRBEXCx/2Rje+?=
+ =?us-ascii?Q?z8F/qpdTtx/1KiWyoVvWJZr9+Z8vzRgFdDVoF9/12KPWSAHsSiAtg8I23KgU?=
+ =?us-ascii?Q?Z13wdB6jyHIb0+LN7TsVuD6UPFc9FdG6FfJsGcYTggWgffNmGHdE1x3yi+0H?=
+ =?us-ascii?Q?Lt0GfWcJE++V0sPDrVmZHayW+eTzPDt07dBusm2XiollLAE30sJfqJm+aBp6?=
+ =?us-ascii?Q?wOiddkmPvBtgWGzeq6qM1Qya7/Gr6ir3mwr2f1JuBFP5AOa5c/9PMBCoM+r4?=
+ =?us-ascii?Q?e3mF28DapROEXTj3vsGxVswoRAltDbEKYjMSVbX3sxg4TKY/1vBv9nP76Rj0?=
+ =?us-ascii?Q?JhPChEO9b/nVy5DuqyXPPXZf8mgmblpoNEgnExDKI4uCY7dgpPh1jr72eciu?=
+ =?us-ascii?Q?DvoRW3GR2GW4rWct6yiwj+N9ZBw24M+59V1wsYvJppHwHYfKRJT/7saj0Txb?=
+ =?us-ascii?Q?xslbQHSzyYpKCp46+LI0ofKWxYaHGOtEkF5WmGPfsxH/9ljyWiU+t15aC1N3?=
+ =?us-ascii?Q?oZkMfE9CLS+8CpcWmNfoarewovpFU2VOnJhaJaKI3tco398mt/u2i0yDPZzE?=
+ =?us-ascii?Q?PbomfNCZJwjGrTVwi/YYn6l9jZ4JO7u/+YJ4zsRCgbdCn3TAXp2uov+hMk+V?=
+ =?us-ascii?Q?evf8x1KpxMmV9HMW7kn2f1MxLKymW3+jWUkSsbFHCM9D7/SMS5w6Yiyk5bL4?=
+ =?us-ascii?Q?dYQG7FNf5OLCh/qiVRB6mqWBC+ObSdFcearW9RICxpx6JyN49YZ6JHNImAK+?=
+ =?us-ascii?Q?IETeIiLhsUOpQax4oP90Xj9GGCkG7v7u5x2zu5KKrzpxFSwqnJC2MZIuqgw7?=
+ =?us-ascii?Q?6huEHSWy3YwjBvK9oqIZ+M5KAxezlIHBn3w6+VLjAnqo24STpapPShkKgp/x?=
+ =?us-ascii?Q?0H/e7Zfn6KAGhm9XbS2NhhM6q7EYFG252mL0eBnufYPw7viMKT3Sf9/Wqr9c?=
+ =?us-ascii?Q?VwCmQIwKXfyFyPLTrHCnUaFZADD4OGYfGRCWbJHThsBASlDF/CdTgEF2omIF?=
+ =?us-ascii?Q?lCDC4moka/TJAB0rfcRJDS5wCw7TCkgPLODIB9LdTUog6fps2nxxJ5NJaRig?=
+ =?us-ascii?Q?Qamlm+xXusjCc6+q0nhulzIV3d2K6mWFPH2sJn30XOPyIBeg2CfGrmplIwyd?=
+ =?us-ascii?Q?C54L4DHxRQHlRU6xEYqSjezcvGe7PT/F8ohgTjU2CNZGRA8NrbRAb5YZyWgg?=
+ =?us-ascii?Q?G89lGP39/zD8dQYX4j9AK70aFS2ujQLCxv1ynv5O9cMYwh4K9n9Q0CDe2IT9?=
+ =?us-ascii?Q?HE0f25XraJ+WXE87sskDTWtXPj+Oe6FVOSPRm92jm70wPGRjz1+n44CSssa8?=
+ =?us-ascii?Q?S3VLJ4KP7hGf0CiDCcVB6H35/Qgdi4ztCK8dKt8EHEV6hODeZ8YXA8K7xzNf?=
+ =?us-ascii?Q?dMH1NZp2164d6tTdHK2du1WbUKAV7qEP7fedEzoZ?=
+X-OriginatorOrg: Nvidia.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0ddf9ac-c473-48f3-86eb-08dd93c69fef
+X-MS-Exchange-CrossTenant-AuthSource: CH3PR12MB8659.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 May 2025 15:39:05.4285
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: IaPMn73LV6N1A5tqC4KFQYQtZHezvFgxNOxQKJgzB8PfMDI9vixs02jGFGv1JlBH
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB8122
 
+On Thu, May 08, 2025 at 08:02:31PM -0700, Nicolin Chen wrote:
+> +#define iommufd_hw_queue_alloc(viommu, drv_struct, member)                     \
+> +	({                                                                     \
+> +		drv_struct *ret;                                               \
+> +									       \
+> +		static_assert(__same_type(struct iommufd_viommu, *viommu));    \
+> +		static_assert(__same_type(struct iommufd_hw_queue,             \
+> +					  ((drv_struct *)NULL)->member));      \
+> +		static_assert(offsetof(drv_struct, member.obj) == 0);          \
+> +		ret = (drv_struct *)_iommufd_object_alloc(                     \
+> +			viommu->ictx, sizeof(drv_struct),                      \
+> +			IOMMUFD_OBJ_HW_QUEUE);                                 \
+> +		if (!IS_ERR(ret)) {                                            \
+> +			ret->member.viommu = viommu;                           \
+> +			ret->member.ictx = viommu->ictx;                       \
+> +		}                                                              \
+> +		ret;                                                           \
+> +	})
 
+This should just call 
 
-On 15/05/2025 15:40, Lorenzo Stoakes wrote:
-> Overall I feel this series should _DEFINITELY_ be an RFC. This is pretty
-> outlandish stuff and needs discussion.
-> 
+__iommufd_object_alloc(viommu->ictx, ret, IOMMUFD_OBJ_HW_QUEUE member.obj)
 
-There was a lot of discussion in the
-original patch (https://lore.kernel.org/linux-mm/20250507141132.2773275-1-usamaarif642@gmail.com/).
-And there was a conclusion to go with Davids suggestion (https://lore.kernel.org/all/13b68fa0-8755-43d8-8504-d181c2d46134@gmail.com/)
-and the following reply (https://lore.kernel.org/all/97702ff0-fc50-4779-bfa8-83dc42352db1@redhat.com/)
+And all the casting and asserts should be in that macro, move it to
+this header
 
+>  /* Helper for IOMMU driver to destroy structures created by allocators above */
+>  #define iommufd_struct_destroy(drv_struct, member)                             \
+>  	({                                                                     \
 
-> You're basically making it so /sys/kernel/mm/transparent_hugepage/enabled =
-> never is completely ignored and overridden. Which I am emphatically not
-> comfortable with. And you're not saying that you're doing this,
-> anywhere. Which is wrong.
+This is abort not destroy, the names should be consistent. But looking
+more at the series I think it will be better to do the little rework I
+suggested and not give this function to the driver in the first place.
 
-No I am not.
-
-hugepage_global_always and hugepage_global_enabled will evaluate to false
-and you will not get a hugepage.
-
-> 
-> Also, this patch is quite broken.
-> 
-> I'm hugely not a fan of adding mm_struct->flags2, and I'm even more not a
-> fan of you not mentioning such a completely fundamental change in the
-> commit mesage.
-
-This was also discussed in the original series.
-
-If there is a very serious issue with going with flags2, I can try and just
-reuse mm->flags bit 18, but it will mean that only MMF2_THP_VMA_DEFAULT_HUGE
-can be implemented and not MMF2_THP_VMA_DEFAULT_NOHUGE
-
-We have run out of bits in mm->flags.
-If there is something new that we are developing that needs another bit,
-we either need to add flags2 (I don't care about the name, can be anything),
-or we need to limit it to 64 bit machines only.
-
-If the maintainers have an issue with flags2. I can limit this to 64 bits,
-it will probably mean ifdefs everywhere...
-
-> 
-> This patch also breaks VMA merging and the VMA tests...
-> 
-
-Its doing the same as KSM as suggested by David. Does KSM break these tests?
-Is there some specific test you can point to that I can run that is breaking
-with this patch and not without it?
-
-
-> I really feel this series needs to be an RFC until we can get some
-> consensus on how to approach this.
-
-There was consensus in https://lore.kernel.org/all/97702ff0-fc50-4779-bfa8-83dc42352db1@redhat.com/
-
-> 
-> On Thu, May 15, 2025 at 02:33:30PM +0100, Usama Arif wrote:
->> This is set via the new PR_SET_THP_POLICY prctl.
-> 
-> What is?
-> 
-> You're making very major changes here, including adding a new flag to
-> mm_struct (!!) and the explanation/justification for this is missing.
-> 
-
-I have added the justification in your reply to the coverletter.
-
->> This will set the MMF2_THP_VMA_DEFAULT_HUGE process flag
->> which changes the default of new VMAs to be VM_HUGEPAGE. The
->> call also modifies all existing VMAs that are not VM_NOHUGEPAGE
->> to be VM_HUGEPAGE. The policy is inherited during fork+exec.
-> 
-> So you can only set this flag?
-> 
-
-?? 
-
->>
->> This allows systems where the global policy is set to "madvise"
->> to effectively have THPs always for the process. In an environment
->> where different types of workloads are stacked on the same machine,
->> this will allow workloads that benefit from always having hugepages
->> to do so, without regressing those that don't.
-> 
-> Again, this explanation really makes no sense at all to me, I don't really
-> know what you mean, you're not going into what you're doing in this change,
-> this is just a very unclear commit message.
-> 
-
-I hope this is answered in my reply to your coverletter.
- 
->>
->> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
->> ---
->>  include/linux/huge_mm.h                       |  3 ++
->>  include/linux/mm_types.h                      | 11 +++++++
->>  include/uapi/linux/prctl.h                    |  4 +++
->>  kernel/fork.c                                 |  1 +
->>  kernel/sys.c                                  | 21 ++++++++++++
->>  mm/huge_memory.c                              | 32 +++++++++++++++++++
->>  mm/vma.c                                      |  2 ++
->>  tools/include/uapi/linux/prctl.h              |  4 +++
->>  .../trace/beauty/include/uapi/linux/prctl.h   |  4 +++
->>  9 files changed, 82 insertions(+)
->>
->> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->> index 2f190c90192d..e652ad9ddbbd 100644
->> --- a/include/linux/huge_mm.h
->> +++ b/include/linux/huge_mm.h
->> @@ -260,6 +260,9 @@ static inline unsigned long thp_vma_suitable_orders(struct vm_area_struct *vma,
->>  	return orders;
->>  }
->>
->> +void vma_set_thp_policy(struct vm_area_struct *vma);
-> 
-> This is a VMA-specific function but you're putting it in huge_mm.h? Why
-> can't 
-this be in vma.h or vma.c?
-> 
-
-Sure can move it there.
-
->> +void process_vmas_thp_default_huge(struct mm_struct *mm);
-> 
-> 'vmas' is redundant here.
-> 
-
-Sure.
->> +
->>  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
->>  					 unsigned long vm_flags,
->>  					 unsigned long tva_flags,
->> diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
->> index e76bade9ebb1..2fe93965e761 100644
->> --- a/include/linux/mm_types.h
->> +++ b/include/linux/mm_types.h
->> @@ -1066,6 +1066,7 @@ struct mm_struct {
->>  		mm_context_t context;
->>
->>  		unsigned long flags; /* Must use atomic bitops to access */
->> +		unsigned long flags2;
-> 
-> 
-> Ugh, god really??
-> 
-> I really am not a fan of adding flags2 just to add a prctl() feature like
-> this. This is crazy.
-> 
-> Also this is a TERRIBLE name. I mean, no please PLEASE no.
-> 
-> Do we really have absolutely no choice but to add a new flags field here?
-> 
-> It again doesn't help that you don't mention nor even try to justify this
-> in the commit message or cover letter.
-> 
-
-And again, I hope my reply to your email has given you the justification.
-
-> If this is a 32-bit kernel vs. 64-bit kernel thing so we 'ran out of bits',
-> let's just go make this flags field 64-bit on 32-bit kernels.
-> 
-> I mean - I'm kind of insisting we do that to be honest. Because I really
-> don't like this.
-
-
-If the maintainers want this, I will make it a 64 bit only feature. We
-are only using it for 64 bit servers. But it will probably mean ifdef
-config 64 bit in a lot of places.
-
-> 
-> Also if we _HAVE_ to have this, shouldn't we duplicate that comment about
-> atomic bitops?...
-> 
-
-Sure
-
->>
->>  #ifdef CONFIG_AIO
->>  		spinlock_t			ioctx_lock;
->> @@ -1744,6 +1745,11 @@ enum {
->>  				 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK |\
->>  				 MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK)
->>
->> +#define MMF2_THP_VMA_DEFAULT_HUGE		0
-> 
-> I thought the whole idea was to move away from explicitly refrencing 'THP'
-> in a future where large folios are implicit and now we're saying 'THP'.
-> 
-> Anyway the 'VMA' is totally redundant here.
-> 
-
-Sure, I can remove VMA.
-I see THP everywhere in the kernel code.
-Its mentioned 108 times in transhuge.rst alone :)
-If you have any suggestion to rename this flag, happy to take it :)
-
->> +#define MMF2_THP_VMA_DEFAULT_HUGE_MASK		(1 << MMF2_THP_VMA_DEFAULT_HUGE)
-> 
-> Do we really need explicit trivial mask declarations like this?
-> 
-
-I have followed the convention that has existed in this file, please see below
-links :)
-https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1645
-https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1623
-https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1603
-https://elixir.bootlin.com/linux/v6.14.6/source/include/linux/mm_types.h#L1582
-
- 
->> +
->> +#define MMF2_INIT_MASK		(MMF2_THP_VMA_DEFAULT_HUGE_MASK)
-> 
->> +
->>  static inline unsigned long mmf_init_flags(unsigned long flags)
->>  {
->>  	if (flags & (1UL << MMF_HAS_MDWE_NO_INHERIT))
->> @@ -1752,4 +1758,9 @@ static inline unsigned long mmf_init_flags(unsigned long flags)
->>  	return flags & MMF_INIT_MASK;
->>  }
->>
->> +static inline unsigned long mmf2_init_flags(unsigned long flags)
->> +{
->> +	return flags & MMF2_INIT_MASK;
->> +}
->> +
->>  #endif /* _LINUX_MM_TYPES_H */
->> diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
->> index 15c18ef4eb11..325c72f40a93 100644
->> --- a/include/uapi/linux/prctl.h
->> +++ b/include/uapi/linux/prctl.h
->> @@ -364,4 +364,8 @@ struct prctl_mm_map {
->>  # define PR_TIMER_CREATE_RESTORE_IDS_ON		1
->>  # define PR_TIMER_CREATE_RESTORE_IDS_GET	2
->>
->> +#define PR_SET_THP_POLICY		78
->> +#define PR_GET_THP_POLICY		79
->> +#define PR_THP_POLICY_DEFAULT_HUGE	0
->> +
->>  #endif /* _LINUX_PRCTL_H */
->> diff --git a/kernel/fork.c b/kernel/fork.c
->> index 9e4616dacd82..6e5f4a8869dc 100644
->> --- a/kernel/fork.c
->> +++ b/kernel/fork.c
->> @@ -1054,6 +1054,7 @@ static struct mm_struct *mm_init(struct mm_struct *mm, struct task_struct *p,
->>
->>  	if (current->mm) {
->>  		mm->flags = mmf_init_flags(current->mm->flags);
->> +		mm->flags2 = mmf2_init_flags(current->mm->flags2);
->>  		mm->def_flags = current->mm->def_flags & VM_INIT_DEF_MASK;
->>  	} else {
->>  		mm->flags = default_dump_filter;
->> diff --git a/kernel/sys.c b/kernel/sys.c
->> index c434968e9f5d..1115f258f253 100644
->> --- a/kernel/sys.c
->> +++ b/kernel/sys.c
->> @@ -2658,6 +2658,27 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
->>  			clear_bit(MMF_DISABLE_THP, &me->mm->flags);
->>  		mmap_write_unlock(me->mm);
->>  		break;
->> +	case PR_GET_THP_POLICY:
->> +		if (arg2 || arg3 || arg4 || arg5)
->> +			return -EINVAL;
->> +		if (!!test_bit(MMF2_THP_VMA_DEFAULT_HUGE, &me->mm->flags2))
-> 
-> I really don't think we need the !!? Do we?
-
-I have followed the convention that has existed in this file already,
-please see:
-https://elixir.bootlin.com/linux/v6.14.6/source/kernel/sys.c#L2644
-
-> 
-> Shouldn't we lock the mm when we do this no? Can't somebody change this?
-> 
-
-It wasn't locked in PR_GET_THP_DISABLE
-https://elixir.bootlin.com/linux/v6.14.6/source/kernel/sys.c#L2644
-
-I can acquire do mmap_write_lock_killable the same as PR_SET_THP_POLICY
-in the next series.
-
-I can also add the lock in PR_GET_THP_DISABLE.
-
->> +			error = PR_THP_POLICY_DEFAULT_HUGE;
->> +		break;
->> +	case PR_SET_THP_POLICY:
->> +		if (arg3 || arg4 || arg5)
->> +			return -EINVAL;
->> +		if (mmap_write_lock_killable(me->mm))
->> +			return -EINTR;
->> +		switch (arg2) {
->> +		case PR_THP_POLICY_DEFAULT_HUGE:
->> +			set_bit(MMF2_THP_VMA_DEFAULT_HUGE, &me->mm->flags2);
->> +			process_vmas_thp_default_huge(me->mm);
->> +			break;
->> +		default:
->> +			return -EINVAL;
->> +		}
->> +		mmap_write_unlock(me->mm);
->> +		break;
->>  	case PR_MPX_ENABLE_MANAGEMENT:
->>  	case PR_MPX_DISABLE_MANAGEMENT:
->>  		/* No longer implemented: */
->> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
->> index 2780a12b25f0..64f66d5295e8 100644
->> --- a/mm/huge_memory.c
->> +++ b/mm/huge_memory.c
->> @@ -98,6 +98,38 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
->>  	return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
->>  }
->>
->> +void vma_set_thp_policy(struct vm_area_struct *vma)
->> +{
->> +	struct mm_struct *mm = vma->vm_mm;
->> +
->> +	if (test_bit(MMF2_THP_VMA_DEFAULT_HUGE, &mm->flags2))
->> +		vm_flags_set(vma, VM_HUGEPAGE);
->> +}
->> +
->> +static void vmas_thp_default_huge(struct mm_struct *mm)
->> +{
->> +	struct vm_area_struct *vma;
->> +	unsigned long vm_flags;
->> +
->> +	VMA_ITERATOR(vmi, mm, 0);
-> 
-> This is a declaration, it should be grouped with declarations...
-> 
-
-Sure, will make the change in next version.
-
-Unfortunately checkpatch didn't complain.
-
->> +	for_each_vma(vmi, vma) {
->> +		vm_flags = vma->vm_flags;
->> +		if (vm_flags & VM_NOHUGEPAGE)
->> +			continue;
-> 
-> Literally no point in you putting vm_flags as a separate variable here.
-> 
-
-Sure, will make the change in next version.
-
-> So if you're not overriding VM_NOHUGEPAGE, the whole point of this exercise
-> is to override global 'never'?
-> 
-
-Again, I am not overriding never. 
-
-hugepage_global_always and hugepage_global_enabled will evaluate to false
-and you will not get a hugepage.
-
-
-> I'm really concerned about this.
-> 
->> +		vm_flags_set(vma, VM_HUGEPAGE);
->> +	}
->> +}
-> 
-> Do we have an mmap write lock established here? Can you confirm that? Also
-> you should add an assert for that here.
-> 
-
-Yes I do, its only called in PR_SET_THP_POLICY where mmap_write lock was taken.
-I can add an assert if it helps.
-
->> +
->> +void process_vmas_thp_default_huge(struct mm_struct *mm)
->> +{
->> +	if (test_bit(MMF2_THP_VMA_DEFAULT_HUGE, &mm->flags2))
->> +		return;
->> +
->> +	set_bit(MMF2_THP_VMA_DEFAULT_HUGE, &mm->flags2);
->> +	vmas_thp_default_huge(mm);
->> +}
->> +
->> +
->>  unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
->>  					 unsigned long vm_flags,
->>  					 unsigned long tva_flags,
->> diff --git a/mm/vma.c b/mm/vma.c
->> index 1f2634b29568..101b19c96803 100644
->> --- a/mm/vma.c
->> +++ b/mm/vma.c
->> @@ -2476,6 +2476,7 @@ static int __mmap_new_vma(struct mmap_state *map, struct vm_area_struct **vmap)
->>  	if (!vma_is_anonymous(vma))
->>  		khugepaged_enter_vma(vma, map->flags);
->>  	ksm_add_vma(vma);
->> +	vma_set_thp_policy(vma);
-> 
-> You're breaking VMA merging completely by doing this here...
-> 
-> Now I can map one VMA with this policy set, then map another immediately
-> next to it and - oops - no merge, ever, because the VM_HUGEPAGE flag is not
-> set in the new VMA on merge attempt.
-> 
-> I realise KSM is just as broken (grr) but this doesn't justify us
-> completely breaking VMA merging here.
-
-I think this answers it. Its doing the same as KSM.
-
-> 
-> You need to set earlier than this. Then of course a driver might decide to
-> override this, so maybe then we need to override that.
-> 
-> But then we're getting into realms of changing fundamental VMA code _just
-> for this feature_.
-> 
-> Again I'm iffy about this. Very.
-> 
-> Also you've broken the VMA userland tests here:
-> 
-> $ cd tools/testing/vma
-> $ make
-> ...
-> In file included from vma.c:33:
-> ../../../mm/vma.c: In function ‘__mmap_new_vma’:
-> ../../../mm/vma.c:2486:9: error: implicit declaration of function ‘vma_set_thp_policy’; did you mean ‘vma_dup_policy’? [-Wimplicit-function-declaration]
->  2486 |         vma_set_thp_policy(vma);
->       |         ^~~~~~~~~~~~~~~~~~
->       |         vma_dup_policy
-> make: *** [<builtin>: vma.o] Error 1
-> 
-> You need to create stubs accordingly.
-> 
-
-Thanks will do.
-
->>  	*vmap = vma;
->>  	return 0;
->>
->> @@ -2705,6 +2706,7 @@ int do_brk_flags(struct vma_iterator *vmi, struct vm_area_struct *vma,
->>  	mm->map_count++;
->>  	validate_mm(mm);
->>  	ksm_add_vma(vma);
->> +	vma_set_thp_policy(vma);
-> 
-> You're breaking merging again... This is quite a bad case too as now you'll
-> have totally fragmented brk VMAs no?
-> 
-
-Again doing it the same as KSM.
-
-> We can't have it implemented this way.
-> 
->>  out:
->>  	perf_event_mmap(vma);
->>  	mm->total_vm += len >> PAGE_SHIFT;
->> diff --git a/tools/include/uapi/linux/prctl.h b/tools/include/uapi/linux/prctl.h
->> index 35791791a879..f5945ebfe3f2 100644
->> --- a/tools/include/uapi/linux/prctl.h
->> +++ b/tools/include/uapi/linux/prctl.h
->> @@ -328,4 +328,8 @@ struct prctl_mm_map {
->>  # define PR_PPC_DEXCR_CTRL_CLEAR_ONEXEC	0x10 /* Clear the aspect on exec */
->>  # define PR_PPC_DEXCR_CTRL_MASK		0x1f
->>
->> +#define PR_SET_THP_POLICY		78
->> +#define PR_GET_THP_POLICY		79
->> +#define PR_THP_POLICY_DEFAULT_HUGE	0
->> +
->>  #endif /* _LINUX_PRCTL_H */
->> diff --git a/tools/perf/trace/beauty/include/uapi/linux/prctl.h b/tools/perf/trace/beauty/include/uapi/linux/prctl.h
->> index 15c18ef4eb11..325c72f40a93 100644
->> --- a/tools/perf/trace/beauty/include/uapi/linux/prctl.h
->> +++ b/tools/perf/trace/beauty/include/uapi/linux/prctl.h
->> @@ -364,4 +364,8 @@ struct prctl_mm_map {
->>  # define PR_TIMER_CREATE_RESTORE_IDS_ON		1
->>  # define PR_TIMER_CREATE_RESTORE_IDS_GET	2
->>
->> +#define PR_SET_THP_POLICY		78
->> +#define PR_GET_THP_POLICY		79
->> +#define PR_THP_POLICY_DEFAULT_HUGE	0
->> +
->>  #endif /* _LINUX_PRCTL_H */
->> --
->> 2.47.1
->>
-
+Jason
