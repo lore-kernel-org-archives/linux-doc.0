@@ -1,265 +1,166 @@
-Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 82F672882C4
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 08:22:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.47
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6DD8D289E20
+	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 08:23:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747297366; cv=none; b=FYwTW+R9d+LUgcPB/hxa45QE638PgcvaxQiSOn2aC1rfBMVrH0J7j1jqyZrct0oW0nRHoohjrvvFXzX68XDDilCy/rW6uiIL01m9SV/yePbvEDqn2wnA4ty1xkT0vN6VzZmLnUcVzSKNGiuWoGPcRh01DBlDSoumypgJ+XRoM+8=
+	t=1747297428; cv=none; b=kfywpKHxXvQH6mSAJhMwi6qZd3YmIlNPTrCPRBqVE/soYKrky/2y6lGYVKicebG3wHpKnSiv6RUQTeJ38ouY5yeMiYjGe9ZsKNulDXczQc0APL3pinJDpKC0kAE9sc6mteqEPovxNkfwAzu/jPIerQIlYnfBbiBhqp1ykcIiQQ4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747297366; c=relaxed/simple;
-	bh=92odk2sd4sfHthMDJynyDSvgpIspg2D4IeMy8RWB//k=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=MdUslYhT6iijo2CAmzOfTjyOsjRU2pNKPmoemIYTxC4l8ap5bSIYRsD/THDogGJs2eSzJNerpM/R9byhz0Q0CZsVw0EWN3GD82Ln3XdPhP9BUu5tNMYnxp94RLmw/4KDZj1EbcZqzbP3yTzog9FXJk3uvB00uhcY/WwHOhpgp48=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=BprQF6cf; arc=none smtp.client-ip=209.85.216.47
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1747297428; c=relaxed/simple;
+	bh=a4HmXbZsUXBGVxOtLEuaSzvGsxTBPYeLxEetHvR5itM=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=OV2NSnuYSiYWTVVEW3wYA1WJD8Do2swePpVbHmlOxz9g4g9kOYKiDyC078MIya/emdPLgBrA0vMOTHP+6NJwfa7RdbKsYXyuprQPLwteQHEwFtSDTjpdLNb0AmNkWjPskWPlsmEIzrUVlhB1tSLqnzzjeUuX1SRGwaB4LBzYlnc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=BOEqXedG; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="BprQF6cf"
-Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-30c47918d84so628243a91.3
-        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 01:22:42 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="BOEqXedG"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-442f5b3c710so5080695e9.1
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 01:23:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1747297362; x=1747902162; darn=vger.kernel.org;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747297425; x=1747902225; darn=vger.kernel.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=kwF2mpLnEXgp6MS24DBfTJGU9J3NTQxVKIISS1QkMRY=;
-        b=BprQF6cf1DYwGex5AP/dD5Mwqo9uYIXNN04hG2y2+onqfdzzL48z3MiLi9n+fJg+UE
-         WvDj6icQu3/o+m5pULXWX99o286OPsRIOXQfo5YHm5JS/fwN261MXgFuENHZON1YV9LD
-         aqy/cQqUe9PSvbvDdnuS/8WDfU/o5Aaw4Su5OOTTUVd9tS1p01FaUworE+UVnBumxdKw
-         42EAQMe//ZLPggVyxYAq7V+lZLSmsEFY+LG6fW1w4KpR7G2Une1eKU/65sXMp7IKGG62
-         s6DzguPmyYchw779JJ1n6tBEfV4tySWH5pOAD/XfwE3A/VCOwqDlBT4bx9Qsx0R1wZqd
-         II4Q==
+        bh=GthJpHk7CYaw8f95HNVaUdqkaGIjKWsbIYnr+62Txtw=;
+        b=BOEqXedGgKBrqtt6+QDX0qKChGPFjJzR+fX1Qb9EUvVY9PCc//lb/ltgncyEroOSYA
+         nB/N39aWg32Y37VSFupzZmcxqHQa4zY1Eg6EIytHx4/tLuNIGmdX7WADYd/dQoCcWtq4
+         jq9vDYIo69Bag2XuHEnT/mWx9N1VVWZATJA00yjmChuW+LZwb8rfoGtqdfhqI58p9UBE
+         tDYTrkZmreUzchxg8HGqp2DobGihtsB+Z4F5WWkZsx2mPa6b+sYZyyrvDM1TiN1dxiR8
+         gCr3PBV0m/zpkqHZTS2vmnKeFy6wYD6FN7jrq5OOYS2Ecbh6mIjg1VCXLgs91x/IfXVo
+         /8Tw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747297362; x=1747902162;
+        d=1e100.net; s=20230601; t=1747297425; x=1747902225;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=kwF2mpLnEXgp6MS24DBfTJGU9J3NTQxVKIISS1QkMRY=;
-        b=cFjcjBAolpp6NljfM2YTPF8q9m6C0th0eGnfAYZXShgH+VQH3NBjnAyBZV8owL6hG7
-         aLTXe3WxFndiI6Vo7GgmP/q2VnTTgZGL64Kcfsi/wKJ5Olage0CwmKGPFlHTB3GvxY0V
-         THj9wnDBzxFHGIp6pR2J1rOJbRy77HwJwUbS45VEUEI+imd0r10VIpIF7Uw+Dzzpw8B/
-         sUFCmRFdYMMKA8Zi+cpDgjoDPCd6lj8xfleO3jZo8tjlsgnKcAxvn2iYjY8a7aOVoIxk
-         rJLzjsnVW3/Q7X3cbeCpXIMXjM0TjL9xcQ/po534PhKYqsYihEq5oiyER3FAq7rMLnLq
-         AQog==
-X-Forwarded-Encrypted: i=1; AJvYcCWvO9TnB6Hc02Ga4rOepT/+0JLMbIzrebcaPUABm6N6F5F436pVPVfYS5f6KsDQjRG8U+J9awlUPio=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyJirLycYzXthFoFX0b2nK6uAMcVJxpwdOn0KKRyMOvNv8op+Ot
-	Yd5IZl2H+VR/tK076Sjf1Azx4EB3glQM45wIBd/ziY33I3lqaHRoeAjfa/GsO5eg8OrXF8EKuC+
-	o
-X-Gm-Gg: ASbGncv/P/CCbyLpHZacbsk4fTUFR5igYXo/xrONJEwv1TvPbvy5h5wH/jFwUwrEovI
-	eIeCuQFZpz+AayOhkMYsSiOYM/Ecq7Yx4mBNcol1ly4cF0+SHi3EQD7ETCgeN+ZWY1flpEhYF35
-	xrBhM5PtMRjuWLTYPS4y3GV6DAsN0OpNQBz6lTNTD2JNRhxJN1Fqd50V3EY9hQQ/v72s9DyznKe
-	RfSb388fqQ/xkjSxs6tC3PJvClqdrf4qXJTEj8bG+l8/aaNNpo4cPosvm3R5r92NAGq+B1tH+uG
-	8fDDusb8VRW+ohOAFwswT0hbHKKeUtPI8qOmbv1dNSVE80dbe8aZ0SEDP61EiBpezO0Kpy3nOHI
-	ZVmTEcFu5WtBXGGa+4Z4EPxraw9Enaevf8fpn19SXalI=
-X-Google-Smtp-Source: AGHT+IFoAqDUpGzwC9J9Vfxc7d04H0Ld+rHi4ImfRVH+QnmmS1i9bVST/jFIeL7kigUyfhHbFokLQQ==
-X-Received: by 2002:a17:90b:55d0:b0:309:fac6:44f9 with SMTP id 98e67ed59e1d1-30e51947471mr2175743a91.31.1747297361651;
-        Thu, 15 May 2025 01:22:41 -0700 (PDT)
-Received: from localhost.localdomain (59-120-179-172.hinet-ip.hinet.net. [59.120.179.172])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30e33451e97sm2909715a91.25.2025.05.15.01.22.39
+        bh=GthJpHk7CYaw8f95HNVaUdqkaGIjKWsbIYnr+62Txtw=;
+        b=bKT9jXhy/PO6RoB+5lUrfWUPg4fQO7il3+LkcgYY8w+1xnTS+x+jrZAlRSsQbdmmCS
+         GlPYkyrq3p+TtefrE14Gpr6nZ+R5DfcWa2rqoLClAa9R070qxoBty/0ecp4LWdoapcuM
+         p68qhw1azKrRpI+2IsuJGAnqifpsXokLzLTuAiBtHprkGQaOzHgKZ9/EuzF6U3t7vBOE
+         vkZl41ajQEXIIw1r2pdaprKXPRoKrVJ/K8aPJ/8SdfqZmtMMlhYc8XbyIRkbN1InLboN
+         XmI/vBH9CUmdH2UKR8yGoKugwkX0s1IpJbMAlPKDUZE8JoAXvgvW2ssWwIASc5ieE15w
+         hncA==
+X-Forwarded-Encrypted: i=1; AJvYcCViGAFuk6zH1hfWlMfmlBsCxagCiG2RZTdEFf2bgzzPSPVXtAc929k3BZQaEKNcw4VCrtdLLdJwiIY=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yy8Kecd6Tv/Da8M1u9xYOeNOIa1pi067xVZ0juAgyxl9EuVskb2
+	j540uaqZTF/fcE8ejDrnm8IJAoZC635dbKphwY6AQZKB/ysNRnJpawb/XNN5GnA=
+X-Gm-Gg: ASbGncsmthweG52BoIQ3XsaaAGjan1sbbJ7IN/+f5aSgQMOU82gChSXK2mmOvoVyiq5
+	rpJXVrp9HsUVFLTQ1aUT5qAJw5xdiomJsPFKoT9g+xUVsDs7DDlz3agZKgCC8ZgFXim0fW1fjlT
+	SgxncDmUMRwAHN9n2FMmN6PVbHnpDfF4Oub41c7STuEaM+ZEMPu7Q/ITZbTV5ERLKSSVtNX+iDR
+	nB58MH4zwQIibIpDcrAni+mofTMAUs5dD+YE5bacKDkmw/xXJE6js+Ia0ol6pSWTqmNLqwUuEQi
+	IB7YL+ZjHZ0iWA4mV4/+tBk4ylsNEN3pnRGd23G9iUuOAu+h1jA=
+X-Google-Smtp-Source: AGHT+IH7x3YD3rfJ1K3d7RT3c2JHqxBPnyHoNq9PzYlNLe+gbgjdmPJmhvvDoyxbPRh62T/5hHxcIw==
+X-Received: by 2002:a05:600c:c09:b0:43d:82c:2b23 with SMTP id 5b1f17b1804b1-442f2168c29mr50336365e9.23.1747297424728;
+        Thu, 15 May 2025 01:23:44 -0700 (PDT)
+Received: from carbon-x1.. ([91.197.138.148])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f395166fsm59310785e9.18.2025.05.15.01.23.43
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 01:22:41 -0700 (PDT)
-From: Chiang Brian <chiang.brian@inventec.com>
-To: Jean Delvare <jdelvare@suse.com>,
-	Guenter Roeck <linux@roeck-us.net>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Paul Walmsley <paul.walmsley@sifive.com>,
+        Thu, 15 May 2025 01:23:44 -0700 (PDT)
+From: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>
+To: Paul Walmsley <paul.walmsley@sifive.com>,
 	Palmer Dabbelt <palmer@dabbelt.com>,
-	Albert Ou <aou@eecs.berkeley.edu>,
-	Alexandre Ghiti <alex@ghiti.fr>
-Cc: Chiang Brian <chiang.brian@inventec.com>,
-	linux-hwmon@vger.kernel.org,
-	linux-doc@vger.kernel.org,
+	Anup Patel <anup@brainfault.org>,
+	Atish Patra <atishp@atishpatra.org>,
+	Shuah Khan <shuah@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-riscv@lists.infradead.org,
 	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org
-Subject: [PATCH v7 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Date: Thu, 15 May 2025 16:14:39 +0800
-Message-Id: <20250515081449.1433772-3-chiang.brian@inventec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250515081449.1433772-1-chiang.brian@inventec.com>
-References: <20250515081449.1433772-1-chiang.brian@inventec.com>
+	linux-doc@vger.kernel.org,
+	kvm@vger.kernel.org,
+	kvm-riscv@lists.infradead.org,
+	linux-kselftest@vger.kernel.org
+Cc: =?UTF-8?q?Cl=C3=A9ment=20L=C3=A9ger?= <cleger@rivosinc.com>,
+	Samuel Holland <samuel.holland@sifive.com>,
+	Andrew Jones <ajones@ventanamicro.com>,
+	Deepak Gupta <debug@rivosinc.com>,
+	Atish Patra <atishp@rivosinc.com>
+Subject: [PATCH v7 01/14] riscv: sbi: add Firmware Feature (FWFT) SBI extensions definitions
+Date: Thu, 15 May 2025 10:22:02 +0200
+Message-ID: <20250515082217.433227-2-cleger@rivosinc.com>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250515082217.433227-1-cleger@rivosinc.com>
+References: <20250515082217.433227-1-cleger@rivosinc.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
-The TPS53685 is a fully AMD SVI3 compliant step down
-controller with trans-inductor voltage regulator
-(TLVR) topology support, dual channels, built-in
-non-volatile memory (NVM), PMBus interface, and
-full compatible with TI NexFET smart power
-stages.
-Add support for it to the tps53679 driver.
+The Firmware Features extension (FWFT) was added as part of the SBI 3.0
+specification. Add SBI definitions to use this extension.
 
-Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
+Signed-off-by: Clément Léger <cleger@rivosinc.com>
+Reviewed-by: Samuel Holland <samuel.holland@sifive.com>
+Tested-by: Samuel Holland <samuel.holland@sifive.com>
+Reviewed-by: Deepak Gupta <debug@rivosinc.com>
+Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
+Reviewed-by: Atish Patra <atishp@rivosinc.com>
 ---
-v6 -> v7:
-	1. Modify the type of device_id from u16 to char *
-	2. Run make.cross with ARCH nios2, powerpc, and riscv
-	- Link to v6: https://lore.kernel.org/all/20250424132538.2004510-2-chiang.brian@inventec.corp-partner.google.com/
+ arch/riscv/include/asm/sbi.h | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-v5 -> v6:
-	1. Add information about tps53685 into tps53679.rst
-	2. Add additional flags when identifing the chip as tps53685
-	3. Adjust length once returned device id is terminated by null character
-	- Link to v5: https://lore.kernel.org/all/20250314033040.3190642-1-chiang.brian@inventec.com/
-
-v4 -> v5: 
-	1. document the compatible of tps53685 into dt-bindings
-	2. add the buffer length as argument for %*ph
-	3. Add Changelog
-	- Link to v4: https://lore.kernel.org/all/CAJCfHmW61d2jd_tYpNEqBG_Z58bEnVKAmsvhrEP1zXQoXqrUVw@mail.gmail.com/
-
-v3 -> v4: 
-	1. Add length comparison into the comparison of "id",or it may be true when 
-	   the substring of "id" matches device id. 
-	2. Restore `return 0;` in `tps53679_identify_chip()`
-	- Link to v3: https://lore.kernel.org/all/CAJCfHmVyaDPh0_ThPjhBP0zMO1oE1AR=4=Zsa0cMPXU3J4v6dw@mail.gmail.com/
-
-v2 -> v3:
-	1. Remove the length comparsion in the comparison of "id".
-	- Link to v2: https://lore.kernel.org/all/CAJCfHmUteFM+nUZWBWvmwFjALg1QUL5r+=syU1HmYTL1ewQWqA@mail.gmail.com/
-
-v1 -> v2: 
-	1. Modify subject and description to meet requirements
-	2. Add "tps53685" into enum chips with numeric order
-	3. Modify the content of marco "TPS53681_DEVICE_ID" from 0x81 to "\x81"
-	   Add marco "TPS53685_DEVICE_ID" with content "TIShP"
-	4. Modify the type of "id" from u16 to char* in `tps53679_identify_chip()`
-	5. Modify the comparison of "id". It will be true if the string "id" matches 
-	   device ID and compare with type char*,
-	6. Add the length comparsion into the comparison of "id".
-	7. Modify "len" as return code in `tps53679_identify_chip()`
-	8. Output device error log with %*ph, instead of 0x%x\n" 
-	9. Use existing tps53679_identify_multiphase() with argument 
-	   "TPS53685_DEVICE_ID" in tps53685_identify() rather than creating one
-	   tps53685_identify_multiphase()
-	- Link to v1: https://lore.kernel.org/all/CAJCfHmVy3O4-nz2_PKF7TcXYr+HqTte1-bdUWLBmV7JOS7He1g@mail.gmail.com/
-
- Documentation/hwmon/tps53679.rst |  8 +++++++
- drivers/hwmon/pmbus/tps53679.c   | 36 +++++++++++++++++++++++++++-----
- 2 files changed, 39 insertions(+), 5 deletions(-)
-
-diff --git a/Documentation/hwmon/tps53679.rst b/Documentation/hwmon/tps53679.rst
-index 3b9561648c24..dd5e4a37375d 100644
---- a/Documentation/hwmon/tps53679.rst
-+++ b/Documentation/hwmon/tps53679.rst
-@@ -43,6 +43,14 @@ Supported chips:
+diff --git a/arch/riscv/include/asm/sbi.h b/arch/riscv/include/asm/sbi.h
+index 3d250824178b..bb077d0c912f 100644
+--- a/arch/riscv/include/asm/sbi.h
++++ b/arch/riscv/include/asm/sbi.h
+@@ -35,6 +35,7 @@ enum sbi_ext_id {
+ 	SBI_EXT_DBCN = 0x4442434E,
+ 	SBI_EXT_STA = 0x535441,
+ 	SBI_EXT_NACL = 0x4E41434C,
++	SBI_EXT_FWFT = 0x46574654,
  
-     Datasheet: https://www.ti.com/lit/gpn/TPS53681
+ 	/* Experimentals extensions must lie within this range */
+ 	SBI_EXT_EXPERIMENTAL_START = 0x08000000,
+@@ -402,6 +403,33 @@ enum sbi_ext_nacl_feature {
+ #define SBI_NACL_SHMEM_SRET_X(__i)		((__riscv_xlen / 8) * (__i))
+ #define SBI_NACL_SHMEM_SRET_X_LAST		31
  
-+  * Texas Instruments TPS53685
++/* SBI function IDs for FW feature extension */
++#define SBI_EXT_FWFT_SET		0x0
++#define SBI_EXT_FWFT_GET		0x1
 +
-+    Prefix: 'tps53685'
++enum sbi_fwft_feature_t {
++	SBI_FWFT_MISALIGNED_EXC_DELEG		= 0x0,
++	SBI_FWFT_LANDING_PAD			= 0x1,
++	SBI_FWFT_SHADOW_STACK			= 0x2,
++	SBI_FWFT_DOUBLE_TRAP			= 0x3,
++	SBI_FWFT_PTE_AD_HW_UPDATING		= 0x4,
++	SBI_FWFT_POINTER_MASKING_PMLEN		= 0x5,
++	SBI_FWFT_LOCAL_RESERVED_START		= 0x6,
++	SBI_FWFT_LOCAL_RESERVED_END		= 0x3fffffff,
++	SBI_FWFT_LOCAL_PLATFORM_START		= 0x40000000,
++	SBI_FWFT_LOCAL_PLATFORM_END		= 0x7fffffff,
 +
-+    Addresses scanned: -
++	SBI_FWFT_GLOBAL_RESERVED_START		= 0x80000000,
++	SBI_FWFT_GLOBAL_RESERVED_END		= 0xbfffffff,
++	SBI_FWFT_GLOBAL_PLATFORM_START		= 0xc0000000,
++	SBI_FWFT_GLOBAL_PLATFORM_END		= 0xffffffff,
++};
 +
-+    Datasheet: https://www.ti.com/lit/gpn/TPS53685
++#define SBI_FWFT_PLATFORM_FEATURE_BIT		BIT(30)
++#define SBI_FWFT_GLOBAL_FEATURE_BIT		BIT(31)
 +
-   * Texas Instruments TPS53688
- 
-     Prefix: 'tps53688'
-diff --git a/drivers/hwmon/pmbus/tps53679.c b/drivers/hwmon/pmbus/tps53679.c
-index 63524dff5e75..01fefaef1688 100644
---- a/drivers/hwmon/pmbus/tps53679.c
-+++ b/drivers/hwmon/pmbus/tps53679.c
-@@ -16,7 +16,7 @@
- #include "pmbus.h"
- 
- enum chips {
--	tps53647, tps53667, tps53676, tps53679, tps53681, tps53688
-+	tps53647, tps53667, tps53676, tps53679, tps53681, tps53685, tps53688
- };
- 
- #define TPS53647_PAGE_NUM		1
-@@ -31,7 +31,8 @@ enum chips {
- #define TPS53679_PROT_VR13_5MV		0x07 /* VR13.0 mode, 5-mV DAC */
- #define TPS53679_PAGE_NUM		2
- 
--#define TPS53681_DEVICE_ID		0x81
-+#define TPS53681_DEVICE_ID     "\x81"
-+#define TPS53685_DEVICE_ID     "TIShP"
- 
- #define TPS53681_PMBUS_REVISION		0x33
- 
-@@ -86,10 +87,12 @@ static int tps53679_identify_phases(struct i2c_client *client,
- }
- 
- static int tps53679_identify_chip(struct i2c_client *client,
--				  u8 revision, u16 id)
-+				  u8 revision, char *id)
- {
- 	u8 buf[I2C_SMBUS_BLOCK_MAX];
- 	int ret;
-+	int buf_len;
-+	int id_len;
- 
- 	ret = pmbus_read_byte_data(client, 0, PMBUS_REVISION);
- 	if (ret < 0)
-@@ -102,8 +105,14 @@ static int tps53679_identify_chip(struct i2c_client *client,
- 	ret = i2c_smbus_read_block_data(client, PMBUS_IC_DEVICE_ID, buf);
- 	if (ret < 0)
- 		return ret;
--	if (ret != 1 || buf[0] != id) {
--		dev_err(&client->dev, "Unexpected device ID 0x%x\n", buf[0]);
++#define SBI_FWFT_SET_FLAG_LOCK			BIT(0)
 +
-+	/* Adjust length if null terminator if present */
-+	buf_len = (buf[ret - 1] != '\x00' ? ret : ret - 1);
-+
-+	id_len = strlen(id);
-+
-+	if (buf_len != id_len || strncmp(id, buf, id_len)) {
-+		dev_err(&client->dev, "Unexpected device ID: %*ph\n", ret, buf);
- 		return -ENODEV;
- 	}
- 	return 0;
-@@ -138,6 +147,16 @@ static int tps53679_identify(struct i2c_client *client,
- 	return tps53679_identify_mode(client, info);
- }
+ /* SBI spec version fields */
+ #define SBI_SPEC_VERSION_DEFAULT	0x1
+ #define SBI_SPEC_VERSION_MAJOR_SHIFT	24
+@@ -419,6 +447,11 @@ enum sbi_ext_nacl_feature {
+ #define SBI_ERR_ALREADY_STARTED -7
+ #define SBI_ERR_ALREADY_STOPPED -8
+ #define SBI_ERR_NO_SHMEM	-9
++#define SBI_ERR_INVALID_STATE	-10
++#define SBI_ERR_BAD_RANGE	-11
++#define SBI_ERR_TIMEOUT		-12
++#define SBI_ERR_IO		-13
++#define SBI_ERR_DENIED_LOCKED	-14
  
-+static int tps53685_identify(struct i2c_client *client,
-+				 struct pmbus_driver_info *info)
-+{
-+	info->func[1] |= PMBUS_HAVE_VIN | PMBUS_HAVE_IIN | PMBUS_HAVE_PIN |
-+			 PMBUS_HAVE_STATUS_INPUT;
-+	info->format[PSC_VOLTAGE_OUT] = linear;
-+	return tps53679_identify_chip(client, TPS53681_PMBUS_REVISION,
-+					   TPS53685_DEVICE_ID);
-+}
-+
- static int tps53681_identify(struct i2c_client *client,
- 			     struct pmbus_driver_info *info)
- {
-@@ -263,6 +282,10 @@ static int tps53679_probe(struct i2c_client *client)
- 		info->identify = tps53681_identify;
- 		info->read_word_data = tps53681_read_word_data;
- 		break;
-+	case tps53685:
-+	    info->pages = TPS53679_PAGE_NUM;
-+	    info->identify = tps53685_identify;
-+		break;
- 	default:
- 		return -ENODEV;
- 	}
-@@ -277,6 +300,7 @@ static const struct i2c_device_id tps53679_id[] = {
- 	{"tps53676", tps53676},
- 	{"tps53679", tps53679},
- 	{"tps53681", tps53681},
-+	{"tps53685", tps53685},
- 	{"tps53688", tps53688},
- 	{}
- };
-@@ -289,6 +313,7 @@ static const struct of_device_id __maybe_unused tps53679_of_match[] = {
- 	{.compatible = "ti,tps53676", .data = (void *)tps53676},
- 	{.compatible = "ti,tps53679", .data = (void *)tps53679},
- 	{.compatible = "ti,tps53681", .data = (void *)tps53681},
-+	{.compatible = "ti,tps53685", .data = (void *)tps53685},
- 	{.compatible = "ti,tps53688", .data = (void *)tps53688},
- 	{}
- };
+ extern unsigned long sbi_spec_version;
+ struct sbiret {
 -- 
-2.43.0
+2.49.0
 
