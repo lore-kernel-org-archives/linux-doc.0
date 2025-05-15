@@ -1,120 +1,223 @@
-Received: from mail-pg1-f169.google.com (mail-pg1-f169.google.com [209.85.215.169])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 952CD289E35
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 08:53:21 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.169
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 65942221F2A;
+	Thu, 15 May 2025 09:06:06 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.180.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747299204; cv=none; b=nsSj/jvYXhG9wYT4TMPGn/qJlR4SK7rLJ/4V1yBT9+EHpnAxb/CkHtY+wShcZqNs/Jn5GcuveTZ6x74wc/S0wDF/rg/KWR5FU0VRvowIgOON7y5soB1eINv2DRlHSG4YX/cfndWp3xQx2irIkZZlTcU3fC//cPy9iUvMh9OP8i0=
+	t=1747299969; cv=none; b=pAghBkzPp/O+LIIlHMaH0UfdAGADWe2hDdlASeDg+mn6CzERiIV8+ExR+9gkNgTvuF1Awd1Kz1b6Jx3Y7hHKLqxrTKZnHjKDD6wRGx6Gzv+RUAmAXNSK0QKZT37g0q3dOKnYjKusi02SHYn3JQyXtaJBAIxQa0Pg4EMB32bIpx0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747299204; c=relaxed/simple;
-	bh=lIfNCPP66O5sWacTogM/feH6CoiW9xHNdDEGcTAOa1g=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=f+r4HJta0kq8K0ayF1jBzE0yq4zm0FF9BUdQ+yQgUMn1wHaCd4f+DopX0u5fBHOypPiqKLaxLuAB7zFmW8OzgZCh4DSoG48bQIl6LVZXdOEmbflMnQHsXZfQhvVnCfpF9Im+ZM9eVLUTjljyb6kn3NVgC/yARkFGV5oftj7lpYg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com; spf=pass smtp.mailfrom=inventec.com; dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b=JIbYk9p2; arc=none smtp.client-ip=209.85.215.169
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=inventec.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=inventec.com
+	s=arc-20240116; t=1747299969; c=relaxed/simple;
+	bh=IU/roORDYzgbEqlRhZdc0PCV3WR+hlwzv0gD5uIaSYw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:CC:References:From:
+	 In-Reply-To:Content-Type; b=bcEOk7OZi6lW3Nb8H5u4bLD44UOTN3rTLeywhgK9brP7gkdQpUgdcLO129nnMUQDAw/l5+uaAfTEz2KMoEXnPp+HZ4OA0MYQMh9CyB2BxRrl+gLYgiG0F4RZ9AKa/3LieJY+cVsKVssxEpeNBoJqPmpRh2z1PD0btr564GHYKkQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=Qp5/WAig; arc=none smtp.client-ip=205.220.180.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=inventec.com header.i=@inventec.com header.b="JIbYk9p2"
-Received: by mail-pg1-f169.google.com with SMTP id 41be03b00d2f7-af908bb32fdso525198a12.1
-        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 01:53:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=inventec.com; s=google; t=1747299201; x=1747904001; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=nOVoQnwWT25lQttWoZH7JoBjuOJGRtQg1frpngi8VzY=;
-        b=JIbYk9p23k25N0ts46ZfByaxfR0wUe8eftbnQ8WcAraUkc5xwLHLFqGjjEukAywz6N
-         xSR1QlxoxfR27yuHr2SMsufGmo4iLnqENPkJKf0yWc6eUI7Ip51A+C8pXOwOTTsMWTcA
-         2m21uEEzRYwdxC0NsLOM2H6iSYtdMdDzNxlQI2FLcuBTS9IyA/b2O+4ZzbywUS0ZM+Go
-         M1ln70M26ZUX26+5VM+EUUV4+kf13mIc9ImYLFzoIxZSZuYL8fXnC0Fnomg92SCdwsy3
-         wIfQATH+vKhLNKmwIZ4b5TPob6Rp6xCh/kSfn2VeVPMTyC70Eyl7YnXo+D0KjFRIaBor
-         /I0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747299201; x=1747904001;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=nOVoQnwWT25lQttWoZH7JoBjuOJGRtQg1frpngi8VzY=;
-        b=Ql79/R9/s3e82M2CkpDSGtZZzGXssk9r8aUwkwPAO8rv1L+nqIHwmGFa2LrpBlTQd8
-         bli0MpL887T86toRW9c6qyxB/3Ylf1arq1RXh3OvFLmlUxGeYzF5D58dtb7d+ykrBCHX
-         VWlXRlD5WQO8w/bTWzRNMqhWzMvrjq6vPqfY+DaIi7p4jMsRZ2BuOTyqyDCJT3S8jn3K
-         oO21BToqhlcImAHI86xYjwzouoXjUSpEq1xoNgzf7y7RYgIuhbbwnG3L5OayjMNLJdVZ
-         wULKHipqSPSN6wafiOxNv+CxaA8ktNuc/Q0G6XgBGnZr24kth9rzkUlmVdzFtyoJvai7
-         SbLQ==
-X-Forwarded-Encrypted: i=1; AJvYcCU+hjaTdiftJhX/+YRRs4l+2w6P0oJXJa43/0lvWlydySq+dpN9+Q4MzKoqKIFeuz6tHL03ILoOzW4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxjLGZj16kpoJU1/8mpWoTs8Cbgg03QZ4WGoJmPaqEzYg5gsnW+
-	z025++AGvTyV7LHDd1ABVir4My4uxfJS0BlK9jgEx1F+3L0/QYDxk+YPtR/47/M=
-X-Gm-Gg: ASbGncubUlkPxXzZHRoEuexDh4J60M+H7oHQUAzM083dHs69GsL7AMzxAtITf1p/1Pi
-	/ID3XQ47nJJGBwiSm/1LzsHq8xHt5ylsaFqKsCiRUr6PzJDTr8UVQiSUecweEZj5adroXuXqFZp
-	DWD13DoiaQvitWmL52gQAeQOaZnJrFI6vQ61DJVmbdZgf5Q1pGIduG60N8LhXLkeNiocCuZ5vb+
-	HURtVTBWSyr5ykjzn0tURATBBW7fIRiIrJS09peSxgqJeaohwtoVcDs4TVfpfV4OjRJu4Y9EXV/
-	P7ThMabOqifc4nnL+QBO+qE9EiFtG11p6fAdmb+rd4+28ZLLbuAnJjPjuBS9PbBBdBArdF/9NWT
-	0OC4MwW427jrHG/v03FIQryAGPVCjjG8O
-X-Google-Smtp-Source: AGHT+IENsPZ/AMQVPFzwdzV24c1hYE73gMI1F84hexuGBFYoNLNqWR0VXSlco8GETzsjYyrN3LMd4Q==
-X-Received: by 2002:a17:903:1252:b0:21f:2e:4e4e with SMTP id d9443c01a7336-231b3970b19mr36155395ad.5.1747299200653;
-        Thu, 15 May 2025 01:53:20 -0700 (PDT)
-Received: from localhost.localdomain (60-250-242-163.hinet-ip.hinet.net. [60.250.242.163])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-22fc7742f3csm111237665ad.99.2025.05.15.01.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 15 May 2025 01:53:20 -0700 (PDT)
-From: Chiang Brian <chiang.brian@inventec.com>
-To: chiang.brian@inventec.com
-Cc: alex@ghiti.fr,
-	aou@eecs.berkeley.edu,
-	corbet@lwn.net,
-	jdelvare@suse.com,
-	linux-doc@vger.kernel.org,
-	linux-hwmon@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-riscv@lists.infradead.org,
-	linux@roeck-us.net,
-	palmer@dabbelt.com,
-	paul.walmsley@sifive.com
-Subject: Re: [PATCH v7 2/2] hwmon: (pmbus/tps53679) Add support for TPS53685
-Date: Thu, 15 May 2025 16:45:40 +0800
-Message-Id: <20250515084540.1558914-1-chiang.brian@inventec.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20250515083706.1554823-1-chiang.brian@inventec.com>
-References: <20250515083706.1554823-1-chiang.brian@inventec.com>
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="Qp5/WAig"
+Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54EKnbAa015271;
+	Thu, 15 May 2025 09:05:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	0+JUJwBGk6EfyJ0jZn76d0sgqFvhNWii6j18SwECpBM=; b=Qp5/WAigV4GzHeOQ
+	qEQANw7cJg8OYtw2/5cZbmhfZGIbJY+CwDYRokXerwbGrj2KOpQr1sqgZ4IGrxq1
+	WHVp1IsQlUJc5GM8xtWHDKjmZTroAS4nXVUUTe9c6OVaJiSOUvvLUHhUnukSpmP5
+	xAmlF9aXvu6/d62aniRrD7Loib02w7vKQQU6ejkSGzRQuyzw6p56Mqsq9xnjp6KZ
+	2HsPGYNdy/L4nLKRt/8rziBtooGnUoWzi9pgDg9Pz7H4zbsgo5XYg7VMmbJu1vP+
+	Aouv++1wKWTlwtOKkxBdDrndy3yFuTZgU72eh0kbgFOvgeeyWv0eZinmokWm3tMk
+	PVRyHA==
+Received: from nalasppmta05.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46mbcr5f5a-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 May 2025 09:05:56 +0000 (GMT)
+Received: from nalasex01b.na.qualcomm.com (nalasex01b.na.qualcomm.com [10.47.209.197])
+	by NALASPPMTA05.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54F95t6g016854
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 15 May 2025 09:05:55 GMT
+Received: from [10.218.44.178] (10.80.80.8) by nalasex01b.na.qualcomm.com
+ (10.47.209.197) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Thu, 15 May
+ 2025 02:05:50 -0700
+Message-ID: <dc3c6aab-42d8-4741-826f-d22f140184e2@quicinc.com>
+Date: Thu, 15 May 2025 14:35:34 +0530
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 08/11] tee: add Qualcomm TEE driver
+To: Sumit Garg <sumit.garg@kernel.org>,
+        Amirreza Zarrabi
+	<amirreza.zarrabi@oss.qualcomm.com>
+CC: Jens Wiklander <jens.wiklander@linaro.org>,
+        Bjorn Andersson
+	<andersson@kernel.org>,
+        Konrad Dybcio <konradybcio@kernel.org>,
+        "Bartosz
+ Golaszewski" <bartosz.golaszewski@linaro.org>,
+        Apurupa Pattapu
+	<quic_apurupa@quicinc.com>,
+        Kees Cook <kees@kernel.org>,
+        "Gustavo A. R.
+ Silva" <gustavoars@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        <linux-arm-msm@vger.kernel.org>, <op-tee@lists.trustedfirmware.org>,
+        <linux-kernel@vger.kernel.org>, <linux-hardening@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>, <linaro-mm-sig@lists.linaro.org>,
+        <linux-doc@vger.kernel.org>
+References: <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-0-6a143640a6cb@oss.qualcomm.com>
+ <20250428-qcom-tee-using-tee-ss-without-mem-obj-v4-8-6a143640a6cb@oss.qualcomm.com>
+ <aCSZ4n5UMP_Jom2h@sumit-X1>
+Content-Language: en-US
+From: Kuldeep Singh <quic_kuldsing@quicinc.com>
+In-Reply-To: <aCSZ4n5UMP_Jom2h@sumit-X1>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nalasex01b.na.qualcomm.com (10.47.209.197)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-ORIG-GUID: jE82sMeDPdTRDYWFaLaUE7soCqIgHBhw
+X-Authority-Analysis: v=2.4 cv=Auju3P9P c=1 sm=1 tr=0 ts=6825ae74 cx=c_pps
+ a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10 a=EUspDBNiAAAA:8
+ a=VwQbUJbxAAAA:8 a=KKAkSRfTAAAA:8 a=bKlOgf2cc0x0kgLSBpIA:9 a=QEXdDO2ut3YA:10
+ a=cvBusfyB2V15izCimMoJ:22
+X-Proofpoint-GUID: jE82sMeDPdTRDYWFaLaUE7soCqIgHBhw
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE1MDA4NyBTYWx0ZWRfXxG92tc1sTpxz
+ 9oQPNmNmmAGEmQ+vg3WoDy6ULWiZ0TNJLm1zjT/KgGXxVxDhGi8D/OzR9qGtD6X/2OZv1gxwDwT
+ SmFaU1gJQYcPYyzKUfnQjGonVEwThlFRSLLwxdyIK+JocDHWcqDkmMlprCYCLp9yFhu22CeDyMA
+ 5UTsHuraCdImHx2STHw8OvuuuOiWmkvfC6YUlZZoXdYXlIbEWoYIn/eDR69LhqW1ugqCQewvvOS
+ BAiosviKgKpyR5Q0rQav7itDLoZf7Abh/+4MW7DQoakyUVg1QV83x6FI3eCzg+Mm+IrVJDievNC
+ ERq6Hmd8LxaodtcFOGLSIi6dDrwhBWweSR3bAbCvrhqc8peE1mGmJHAZ8eN6Ahu1AsHzGiOW53q
+ h5CfRwUsVqx6k37fdQerz5r+R/nCtEBR5mB+tqgi7FNTelcCIN161fGOYCtAr8FWiyKTyT7i
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-15_04,2025-05-14_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 clxscore=1015 spamscore=0 impostorscore=0 lowpriorityscore=0
+ malwarescore=0 mlxscore=0 adultscore=0 priorityscore=1501 mlxlogscore=999
+ phishscore=0 suspectscore=0 classifier=spam authscore=0 authtc=n/a authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.19.0-2505070000
+ definitions=main-2505150087
 
-On 15/05/2025 08:37 GMT, Chiang Brian wrote:
+
+
+On 5/14/2025 6:55 PM, Sumit Garg wrote:
+> Hi Amir,
 > 
-> On 14/03/2025 07:11, Chiang Brian wrote:
-> > 
-> > On 14/03/2025 04:28, Chiang Brian wrote:
-> > > Add undocumented tps53685 into compatible in dt-bindings
-> > > 
-> > > Signed-off-by: Chiang Brian <chiang.brian@inventec.com>
-> > >  Documentation/devicetree/bindings/trivial-devices.yaml | 2 ++
-> > >  1 file changed, 2 insertions(+)
-> > > 
-> > > diff --git a/Documentation/devicetree/bindings/trivial-devices.yaml b/Documentation/devicetree/bindings/trivial-devices.yaml
-> > > index fadbd3c041c8..c98d69facb48 100644
-> > > --- a/Documentation/devicetree/bindings/trivial-devices.yaml
-> > > +++ b/Documentation/devicetree/bindings/trivial-devices.yaml
-> > > @@ -380,6 +380,8 @@ properties:
-> > >            - ti,tps53676
-> > >              # TI Dual channel DCAP+ multiphase controller TPS53679
-> > >            - ti,tps53679
-> > > +            # TI Dual channel DCAP+ multiphase controller TPS53685 with AMD-SVI3
-> > > +          - ti,tps53685
-> >
-> > There is no user of such compatible, so how can it be undocumented?
+> Apologies for getting to this patch review a bit late, mostly due to
+> it's enormous size.
 > 
-> The following link is the patch which I would like to add support tps53685,
-> and I think it is the user of the compatible:
-> https://lore.kernel.org/lkml/20250314033040.3190642-1-chiang.brian@inventec.com/
+> On Mon, Apr 28, 2025 at 11:06:29PM -0700, Amirreza Zarrabi wrote:
+>> Introduce qcomtee_object, which represents an object in both QTEE and
+>> the kernel. QTEE clients can invoke an instance of qcomtee_object to
+>> access QTEE services. If this invocation produces a new object in QTEE,
+>> an instance of qcomtee_object will be returned.
+>>
+>> Similarly, QTEE can request services from the kernel by issuing a callback
+>> request, which invokes an instance of qcomtee_object in the kernel.
+>> Any subsystem that exposes a service to QTEE should allocate and initialize
+>> an instance of qcomtee_object with a dispatcher callback that is called
+>> when the object is invoked.
+> 
+> I can't see any kernel subsystem exposing a service to QTEE as of now. I
+> suppose RPMB is surely going to be the one. So I would suggest you to
+> drop exposing kernel APIs for that and instead they should be pushed
+> alongside a patch-set adding a real kernel service for QTEE. This will
+> help in the review as well.
+> 
+>>
+>> Implement initial support for exporting qcomtee_object to userspace
+>> and QTEE, enabling the invocation of objects hosted in QTEE and userspace
+>> through the TEE subsystem.
+> 
+> I think this is the main goal of this patch-set, so we should limit it
+> to that.
+> 
+>>
+>> Signed-off-by: Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+>> ---
+>>  MAINTAINERS                            |   7 +
+>>  drivers/tee/Kconfig                    |   1 +
+>>  drivers/tee/Makefile                   |   1 +
+>>  drivers/tee/qcomtee/Kconfig            |  10 +
+>>  drivers/tee/qcomtee/Makefile           |   9 +
+>>  drivers/tee/qcomtee/async.c            | 160 +++++++
+>>  drivers/tee/qcomtee/call.c             | 764 +++++++++++++++++++++++++++++++
+>>  drivers/tee/qcomtee/core.c             | 806 +++++++++++++++++++++++++++++++++
+>>  drivers/tee/qcomtee/qcom_scm.c         |  38 ++
+>>  drivers/tee/qcomtee/qcomtee_msg.h      | 239 ++++++++++
+>>  drivers/tee/qcomtee/qcomtee_private.h  | 222 +++++++++
+>>  drivers/tee/qcomtee/release.c          |  48 ++
+>>  drivers/tee/qcomtee/shm.c              | 149 ++++++
+>>  drivers/tee/qcomtee/user_obj.c         | 713 +++++++++++++++++++++++++++++
+>>  include/linux/firmware/qcom/qcom_tee.h | 302 ++++++++++++
+>>  include/uapi/linux/tee.h               |   1 +
+>>  16 files changed, 3470 insertions(+)
+>>
+>> diff --git a/MAINTAINERS b/MAINTAINERS
+>> index 906881b6c5cb..88a9ad34bcf6 100644
+>> --- a/MAINTAINERS
+>> +++ b/MAINTAINERS
+>> @@ -20257,6 +20257,13 @@ F:	Documentation/networking/device_drivers/cellular/qualcomm/rmnet.rst
+>>  F:	drivers/net/ethernet/qualcomm/rmnet/
+>>  F:	include/linux/if_rmnet.h
+>>  
+>> +QUALCOMM TEE (QCOMTEE) DRIVER
+>> +M:	Amirreza Zarrabi <amirreza.zarrabi@oss.qualcomm.com>
+>> +L:	linux-arm-msm@vger.kernel.org
+>> +S:	Maintained
+>> +F:	drivers/tee/qcomtee/
+>> +F:	include/linux/firmware/qcom/qcom_tee.h
+>> +
+>>  QUALCOMM TRUST ZONE MEMORY ALLOCATOR
+>>  M:	Bartosz Golaszewski <bartosz.golaszewski@linaro.org>
+>>  L:	linux-arm-msm@vger.kernel.org
+>> diff --git a/drivers/tee/Kconfig b/drivers/tee/Kconfig
+>> index 61b507c18780..3a995d7f0d74 100644
+>> --- a/drivers/tee/Kconfig
+>> +++ b/drivers/tee/Kconfig
+>> @@ -16,5 +16,6 @@ if TEE
+>>  source "drivers/tee/optee/Kconfig"
+>>  source "drivers/tee/amdtee/Kconfig"
+>>  source "drivers/tee/tstee/Kconfig"
+>> +source "drivers/tee/qcomtee/Kconfig"
+>>  
+>>  endif
+>> diff --git a/drivers/tee/Makefile b/drivers/tee/Makefile
+>> index 5488cba30bd2..74e987f8f7ea 100644
+>> --- a/drivers/tee/Makefile
+>> +++ b/drivers/tee/Makefile
+>> @@ -6,3 +6,4 @@ tee-objs += tee_shm_pool.o
+>>  obj-$(CONFIG_OPTEE) += optee/
+>>  obj-$(CONFIG_AMDTEE) += amdtee/
+>>  obj-$(CONFIG_ARM_TSTEE) += tstee/
+>> +obj-$(CONFIG_QCOMTEE) += qcomtee/
+>> diff --git a/drivers/tee/qcomtee/Kconfig b/drivers/tee/qcomtee/Kconfig
+>> new file mode 100644
+>> index 000000000000..d180a6d07d33
+>> --- /dev/null
+>> +++ b/drivers/tee/qcomtee/Kconfig
+>> @@ -0,0 +1,10 @@
+>> +# SPDX-License-Identifier: GPL-2.0-only
+>> +# Qualcomm Trusted Execution Environment Configuration
+>> +config QCOMTEE
+>> +	tristate "Qualcomm TEE Support"
+>> +	select QCOM_SCM
+> 
+> You should add a dependency on QCOM_TZMEM_MODE_SHMBRIDGE too here.
 
-Sorry for the wrong post, and please ignore it.
-Thank you.
+I think you meant QCOM_TZMEM because MODE_SHMBRIDGE is one aspect just
+like MODE_GENERIC.
 
-Best Regards,
-Brian Chiang
+-- 
+Regards
+Kuldeep
+
