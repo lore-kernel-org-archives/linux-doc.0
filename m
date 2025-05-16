@@ -1,160 +1,170 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.15])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00333158520;
-	Fri, 16 May 2025 12:19:19 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 85CF01E871;
+	Fri, 16 May 2025 12:33:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.15
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747397961; cv=none; b=X2XPXSWHjBH3s2Az0xgP10ylVEljB/nnnU1BbumQgdEdG2fvtjds2IpuekDkvzCO2J44n1VAzdnvIvnk6btJOZN+k59U7PEHXcPXlAL3NG8mbVfD73l6EW8/1Uu5RQ+hOU7zz8yllxQuRCyEu0jMdurwb1eUNSgy1/aphw0OtMo=
+	t=1747398808; cv=none; b=L3FJpdamsrsGoI0kpRsrdiycfhGBHurwWleVNS/94KNrB+jh2EimrKtlQwuiKDIXF3ggzoFZopXNp43ra1IuUPM9AItW5y2brNhGRhbuYjsE0FSlZVuTmvivlZPTFTFBXXYei8H8DvX47vPvH3Vbbq7KMELGdWDQSITSsYHsO4I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747397961; c=relaxed/simple;
-	bh=Fcg+JWkvcZH1Z0cctkokT8yd5m4s1jckd+YU3YEbcG8=;
-	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
-	 MIME-Version:Content-Type; b=n67TwDIQUQboXZCDFcWrVEGM00B74vGRc11AArhX2UJm0PMurCTNTfsrDs0UajVNPpMsWad4c0OaQZII1CNnbheYzYhMRtzn4Yv0Uq9UJQ78Bfn66ypzD/0mfW06K6xFdmzntsdc4xMnzq9wgOpCuj9kXItSqpoemLkOv2DjH7o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RyiCCUvm; arc=none smtp.client-ip=198.175.65.17
+	s=arc-20240116; t=1747398808; c=relaxed/simple;
+	bh=ralu6RICTpQnyjwnYm0KblIg9bXK3LZesJ0Nb9yI6wI=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=fte1/LMhXgIvyYnbmUPW/cLUPEm0H5d197CFMzCh+Cvl+WNMKyheGcY40A2P0oWD4Yk1AeNdaWTSuA18BqiUBMcOk5C/ftMLAdgDlPVcW8rkXH8HYyOYpmL4vIVU6aHhjLqAc8GhamIK1lgSQw9smZ03HbL2rI3s1F+OY098NQ0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.helo=mgamail.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=m9y+kmP7; arc=none smtp.client-ip=198.175.65.15
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.helo=mgamail.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RyiCCUvm"
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="m9y+kmP7"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
   d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747397960; x=1778933960;
-  h=from:date:to:cc:subject:in-reply-to:message-id:
-   references:mime-version;
-  bh=Fcg+JWkvcZH1Z0cctkokT8yd5m4s1jckd+YU3YEbcG8=;
-  b=RyiCCUvmSJAZvWIgJab6P+E3ha0rYUOYqc4GI8cTWHqldXAQZOUqP/fP
-   p0rjwYAw1hOrmS8X2Lujx8Jd/Yjc5xPpkbCsapl1YMSa+Fsoc7wZ3dei4
-   WASTZn3MOBg342K9k1MSk2F9kfQ2kF4sYjdhBa18H8nyU2r/W3vbRabSb
-   L7YvFdOEmTabsnmcW1IaRHbd0xtLwLQVxq62JiSy2o/ZGpSRV0N2mSIhK
-   8eimYEx1X8l4TlI9YZL0k5t25/UMq+zmkp8CkqzIVn0oyw5cUnowfaSF6
-   EGXLkG4lrxTGAXiHui5Cvavv+KvLg7cnrf1a+HajcvD1pHrfxLfU+cXj9
+  t=1747398807; x=1778934807;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=ralu6RICTpQnyjwnYm0KblIg9bXK3LZesJ0Nb9yI6wI=;
+  b=m9y+kmP73V3KdCNuJLFdAGD7rYfFU+SnW4uzbRPs5Kl0i38PSKUEJdCs
+   reR/xg1cnINnwTMQd6ILpTMMD4V8eOBNOeZXkUWOM47x/ovssTbbzQbL5
+   mXj7xD6spgF79k0UOsAcW9IUAmfAJ8LbfU+V2f/dOBFu2DVbi7lk6Gq64
+   +CQvj7uK0UJ7utYXZinfynUQsU0GzT3+CCV7sWKtlZN3Rg/zsLPkVITh3
+   MhOggtxCbO4ixEdogoeNmIlXw+XboCyT3MPjMiqOCkfYC/f3UUIs94EHF
+   7fjEAzuF932wJ+JOladbCJucgt0Mk9a+aXxfqflVscrLGBoWDk6jST7l+
    g==;
-X-CSE-ConnectionGUID: k7ZSf14gSCKegh79GNteCA==
-X-CSE-MsgGUID: BqbrZWAvTW2/XOyNBjpH7g==
-X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49353851"
+X-CSE-ConnectionGUID: St1/buTmQcmm5sDJvwYb5Q==
+X-CSE-MsgGUID: Xl2UV874S56ETGD7cUldYQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="53041500"
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="49353851"
+   d="scan'208";a="53041500"
 Received: from orviesa007.jf.intel.com ([10.64.159.147])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:19:19 -0700
-X-CSE-ConnectionGUID: iA2lZ15ERLmg1Yu/PVRF0g==
-X-CSE-MsgGUID: IvuoMZssTe6Dm2b1qsLgAQ==
+  by orvoesa107.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:33:25 -0700
+X-CSE-ConnectionGUID: ufwtGiO9Sx+Nj2lVwjM4gg==
+X-CSE-MsgGUID: S0Enck1iT7ioNUavPLVvaQ==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
-   d="scan'208";a="139213792"
-Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.94])
-  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:19:15 -0700
-From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
-Date: Fri, 16 May 2025 15:19:11 +0300 (EEST)
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-cc: Hans de Goede <hdegoede@redhat.com>, linux-gpio@vger.kernel.org, 
-    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
-    platform-driver-x86@vger.kernel.org, 
-    Linus Walleij <linus.walleij@linaro.org>, 
-    Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>, 
-    Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
-    Dongliang Mu <dzm91@hust.edu.cn>, Stephen Rothwell <sfr@canb.auug.org.au>
-Subject: Re: [PATCH v1 1/1] gpiolib-acpi: Update file references in the
- Documentation and MAINTAINERS
-In-Reply-To: <20250516095306.3417798-1-andriy.shevchenko@linux.intel.com>
-Message-ID: <02bdf242-cbfd-18e2-fabc-82f20823dcbb@linux.intel.com>
-References: <20250516095306.3417798-1-andriy.shevchenko@linux.intel.com>
+   d="scan'208";a="139216320"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orviesa007.jf.intel.com with ESMTP; 16 May 2025 05:33:20 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1000)
+	id 84F571E0; Fri, 16 May 2025 15:33:19 +0300 (EEST)
+From: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
+To: Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>,
+	x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>,
+	"Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Michael Roth <michael.roth@amd.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Juergen Gross <jgross@suse.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org,
+	linux-mm@kvack.org
+Subject: [PATCHv3 4/4] x86/paravirt: Restrict PARAVIRT_XXL to 64-bit only
+Date: Fri, 16 May 2025 15:33:06 +0300
+Message-ID: <20250516123306.3812286-5-kirill.shutemov@linux.intel.com>
+X-Mailer: git-send-email 2.47.2
+In-Reply-To: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
+References: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323328-42645495-1747397951=:1009"
+Content-Transfer-Encoding: 8bit
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+PARAVIRT_XXL is exclusively utilized by XEN_PV, which is only compatible
+with 64-bit machines.
 
---8323328-42645495-1747397951=:1009
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: QUOTED-PRINTABLE
+Clearly designate PARAVIRT_XXL as 64-bit only and remove ifdefs to
+support CONFIG_PGTABLE_LEVELS < 5.
 
-On Fri, 16 May 2025, Andy Shevchenko wrote:
+Signed-off-by: Kirill A. Shutemov <kirill.shutemov@linux.intel.com>
+---
+ arch/x86/Kconfig                      | 1 +
+ arch/x86/include/asm/paravirt.h       | 4 ----
+ arch/x86/include/asm/paravirt_types.h | 2 --
+ arch/x86/kernel/paravirt.c            | 2 --
+ 4 files changed, 1 insertion(+), 8 deletions(-)
 
-> The recent changes in the gpiolib-acpi.c need also updates in the Documen=
-tation
-> and MAINTAINERS. Do the necessary changes here.
->=20
-> Fixes: babb541af627 ("gpiolib: acpi: Move quirks to a separate file")
-> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
-> Closes: https://lore.kernel.org/r/20250516193436.09bdf8cc@canb.auug.org.a=
-u
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> ---
->  Documentation/driver-api/gpio/index.rst                    | 2 +-
->  Documentation/translations/zh_CN/driver-api/gpio/index.rst | 2 +-
->  MAINTAINERS                                                | 2 +-
->  drivers/platform/x86/intel/int0002_vgpio.c                 | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/Documentation/driver-api/gpio/index.rst b/Documentation/driv=
-er-api/gpio/index.rst
-> index 34b57cee3391..43f6a3afe10b 100644
-> --- a/Documentation/driver-api/gpio/index.rst
-> +++ b/Documentation/driver-api/gpio/index.rst
-> @@ -27,7 +27,7 @@ Core
->  ACPI support
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> =20
-> -.. kernel-doc:: drivers/gpio/gpiolib-acpi.c
-> +.. kernel-doc:: drivers/gpio/gpiolib-acpi-core.c
->     :export:
-> =20
->  Device tree support
-> diff --git a/Documentation/translations/zh_CN/driver-api/gpio/index.rst b=
-/Documentation/translations/zh_CN/driver-api/gpio/index.rst
-> index e4d54724a1b5..f64a69f771ca 100644
-> --- a/Documentation/translations/zh_CN/driver-api/gpio/index.rst
-> +++ b/Documentation/translations/zh_CN/driver-api/gpio/index.rst
-> @@ -42,7 +42,7 @@ ACPI=E6=94=AF=E6=8C=81
-> =20
->  =E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
-=81=E4=B8=AD:
-> =20
-> -drivers/gpio/gpiolib-acpi.c
-> +drivers/gpio/gpiolib-acpi-core.c
-> =20
->  =E8=AE=BE=E5=A4=87=E6=A0=91=E6=94=AF=E6=8C=81
->  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 96b827049501..d1290bbb6ac6 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10105,7 +10105,7 @@ L:=09linux-acpi@vger.kernel.org
->  S:=09Supported
->  T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-gpio-i=
-ntel.git
->  F:=09Documentation/firmware-guide/acpi/gpio-properties.rst
-> -F:=09drivers/gpio/gpiolib-acpi.c
-> +F:=09drivers/gpio/gpiolib-acpi-*.c
->  F:=09drivers/gpio/gpiolib-acpi.h
-> =20
->  GPIO AGGREGATOR
-> diff --git a/drivers/platform/x86/intel/int0002_vgpio.c b/drivers/platfor=
-m/x86/intel/int0002_vgpio.c
-> index 3b48cd7a4075..b7b98343fdc6 100644
-> --- a/drivers/platform/x86/intel/int0002_vgpio.c
-> +++ b/drivers/platform/x86/intel/int0002_vgpio.c
-> @@ -23,7 +23,7 @@
->   * ACPI mechanisms, this is not a real GPIO at all.
->   *
->   * This driver will bind to the INT0002 device, and register as a GPIO
-> - * controller, letting gpiolib-acpi.c call the _L02 handler as it would
-> + * controller, letting gpiolib-acpi call the _L02 handler as it would
->   * for a real GPIO controller.
->   */
-> =20
->=20
+diff --git a/arch/x86/Kconfig b/arch/x86/Kconfig
+index 7aed3fa0e780..a9d4c715b9fc 100644
+--- a/arch/x86/Kconfig
++++ b/arch/x86/Kconfig
+@@ -799,6 +799,7 @@ config PARAVIRT
+ 
+ config PARAVIRT_XXL
+ 	bool
++	depends on X86_64
+ 
+ config PARAVIRT_DEBUG
+ 	bool "paravirt-ops debugging"
+diff --git a/arch/x86/include/asm/paravirt.h b/arch/x86/include/asm/paravirt.h
+index 03f680d1057a..b5e59a7ba0d0 100644
+--- a/arch/x86/include/asm/paravirt.h
++++ b/arch/x86/include/asm/paravirt.h
+@@ -463,8 +463,6 @@ static inline void set_p4d(p4d_t *p4dp, p4d_t p4d)
+ 	PVOP_VCALL2(mmu.set_p4d, p4dp, val);
+ }
+ 
+-#if CONFIG_PGTABLE_LEVELS >= 5
+-
+ static inline p4d_t __p4d(p4dval_t val)
+ {
+ 	p4dval_t ret = PVOP_ALT_CALLEE1(p4dval_t, mmu.make_p4d, val,
+@@ -496,8 +494,6 @@ static inline void __set_pgd(pgd_t *pgdp, pgd_t pgd)
+ 		set_pgd(pgdp, native_make_pgd(0));			\
+ } while (0)
+ 
+-#endif  /* CONFIG_PGTABLE_LEVELS == 5 */
+-
+ static inline void p4d_clear(p4d_t *p4dp)
+ {
+ 	set_p4d(p4dp, native_make_p4d(0));
+diff --git a/arch/x86/include/asm/paravirt_types.h b/arch/x86/include/asm/paravirt_types.h
+index b08b9d3122d6..37a8627d8277 100644
+--- a/arch/x86/include/asm/paravirt_types.h
++++ b/arch/x86/include/asm/paravirt_types.h
+@@ -189,12 +189,10 @@ struct pv_mmu_ops {
+ 
+ 	void (*set_p4d)(p4d_t *p4dp, p4d_t p4dval);
+ 
+-#if CONFIG_PGTABLE_LEVELS >= 5
+ 	struct paravirt_callee_save p4d_val;
+ 	struct paravirt_callee_save make_p4d;
+ 
+ 	void (*set_pgd)(pgd_t *pgdp, pgd_t pgdval);
+-#endif	/* CONFIG_PGTABLE_LEVELS >= 5 */
+ 
+ 	struct pv_lazy_ops lazy_mode;
+ 
+diff --git a/arch/x86/kernel/paravirt.c b/arch/x86/kernel/paravirt.c
+index 015bf298434f..ab3e172dcc69 100644
+--- a/arch/x86/kernel/paravirt.c
++++ b/arch/x86/kernel/paravirt.c
+@@ -211,12 +211,10 @@ struct paravirt_patch_template pv_ops = {
+ 
+ 	.mmu.set_p4d		= native_set_p4d,
+ 
+-#if CONFIG_PGTABLE_LEVELS >= 5
+ 	.mmu.p4d_val		= PTE_IDENT,
+ 	.mmu.make_p4d		= PTE_IDENT,
+ 
+ 	.mmu.set_pgd		= native_set_pgd,
+-#endif /* CONFIG_PGTABLE_LEVELS >= 5 */
+ 
+ 	.mmu.pte_val		= PTE_IDENT,
+ 	.mmu.pgd_val		= PTE_IDENT,
+-- 
+2.47.2
 
-Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
-
-I assume this goes through some other tree than pxd86 ?
-
---=20
- i.
-
---8323328-42645495-1747397951=:1009--
