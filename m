@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 024744C91;
-	Fri, 16 May 2025 00:52:53 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7AE271F956;
+	Fri, 16 May 2025 01:09:01 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747356774; cv=none; b=Hzz+DYiti/A09lvNJAIIzAN8miaBIyzr6T7hcUqp5M0jJYQIJWK5cEA/A85jdn5NLkeNwDx3nNUGj/FX1IONfEf4NsWGBJsqPoyecK1OD5P3dATcFLDQiwgV31JEBWex3lSod7yXYywWPTzVx/0MeHqgzl4x3cEC1eI3kZwSl0Q=
+	t=1747357741; cv=none; b=jONY7cFI0GBXQktKdUQNr8Hf/WeS+mVeP0uuiaZQcxV1QuPDCwnxDcG9/Ri4UDolky6DVUGiNGQH2zyzSwbbagqeWgifnWbRHtAeZOUr9DrhzTErSfJSmNp/zOMFsa5FGtu6iA5GN1HV+4HUBERqeyT1+xosUGjj1TkRRQGYFFM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747356774; c=relaxed/simple;
-	bh=W4XvKUUpI1NuoyrHwx51qsaD68pHRMjadUnfOiZwxE8=;
+	s=arc-20240116; t=1747357741; c=relaxed/simple;
+	bh=LlunDUDR2TDmEZ4XUi/62Fa3/lxpELn/iGKcFemx0pY=;
 	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=T+ZE/kMZ/7ebxBblNKST2mRz6CM2l5VIpOiYwzq3/ArwRXcgaw43Cbv6NmbP10HRqkD/noETA2ZYaBAFbedPDUmA4IHLihMFpV8L5ztIUzyaSZrNVL6qYl5OzvmWRQv5mtJ8Ys7GoZxEaPpOWk0pAAD5DkJXauOo2+Tv387D6I0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=CpNCw2K5; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version:Content-Type; b=An9X1wT3vSj9uWjVEfBPbE3POVKNfBeLcmcjHWU4CkByI+xLPp/j+wLAPxfQmMaqjuFIcUGCMN0HPxjCGIePDQMzxH+iYSymSkN5cc6XPsovkoOMVFpjZZNoWY0jI1sJzW2GQU3A0JZ3jNKLwXogytWav751eK0dL6FDYXDXngo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=RGbgPKQx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="CpNCw2K5"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6926EC4CEE7;
-	Fri, 16 May 2025 00:52:52 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="RGbgPKQx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD1F0C4CEE7;
+	Fri, 16 May 2025 01:08:59 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747356773;
-	bh=W4XvKUUpI1NuoyrHwx51qsaD68pHRMjadUnfOiZwxE8=;
+	s=k20201202; t=1747357740;
+	bh=LlunDUDR2TDmEZ4XUi/62Fa3/lxpELn/iGKcFemx0pY=;
 	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=CpNCw2K54cXl1rkR48zAeUVMW7/fudU4soX9CFb4lUusKu2f9ZpdLF+ezxUlVUShR
-	 kApJXAwkj5Ft9u+K6tv2d3huqCJp0gQ+9EGddd4/TAahTkl7P+RHznu0yaMzmT6/4Q
-	 qJEsGB/IZg0SMUKdofMuVQNNOH1E6Pa4QxOm4p9UQq5+/kr6AF2uehMX5rcHQ3dwYn
-	 Xkj8ub/YvVOJkippnp0cUQk2GUY+SJn0CXjUwZ06cdnJJQzw5kxUhjzLoz22MAKMvx
-	 rNQecW8QT0sAWW7KseycQY22QXS8mRidLknoCjaaBsvY69hst3KbAFqF2iPvv4zo9g
-	 GEBrSj9ketR7g==
-Date: Thu, 15 May 2025 17:52:51 -0700
+	b=RGbgPKQxwqSNa6sH9Id4EeYCV2OlsMGF0tPsQ2HerBXkMsznD/z1C1dV7O90isz/5
+	 PvGQjMzjA7R0CEJl7QIWw6BW9uQTvj6EYlwj8YUeyEvzablmHzdgLEsLbBVjNBhCUk
+	 HnbbR1dPatfKYT9qMd9bPlH50j8zjn8hnWKtt4jZj/XkJxAPi+AT/oWgrTwivLKlD6
+	 cCzJmLUVLB5/3qqoiMZkD25VaGRxzw3iBAmJ64j8yLD9pIrJe49KhLUBaYdZluIFEO
+	 8sBH69+tOVkmjgtGEGnxxwtTlqwra9xHqA27Y639nB4an2gwDDGKM3ufJ+jxUOPofZ
+	 4inbHkljJci3g==
+Date: Thu, 15 May 2025 18:08:58 -0700
 From: Jakub Kicinski <kuba@kernel.org>
 To: Jinjian Song <jinjian.song@fibocom.com>
 Cc: chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
@@ -38,11 +38,13 @@ Cc: chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
  angelogioacchino.delregno@collabora.com,
  linux-arm-kernel@lists.infradead.org, matthias.bgg@gmail.com,
  corbet@lwn.net, linux-mediatek@lists.infradead.org, helgaas@kernel.org,
- danielwinkler@google.com, andrew+netdev@lunn.ch, horms@kernel.org
-Subject: Re: [net v1] net: wwan: t7xx: Fix napi rx poll issue
-Message-ID: <20250515175251.58b5123f@kernel.org>
-In-Reply-To: <20250515031743.246178-1-jinjian.song@fibocom.com>
-References: <20250515031743.246178-1-jinjian.song@fibocom.com>
+ danielwinkler@google.com, korneld@google.com, andrew+netdev@lunn.ch,
+ horms@kernel.org, rafael.wang@fibocom.com
+Subject: Re: [net-next v1] net: wwan: t7xx: Parameterize data plane RX BAT
+ and FAG count
+Message-ID: <20250515180858.2568d930@kernel.org>
+In-Reply-To: <20250514104728.10869-1-jinjian.song@fibocom.com>
+References: <20250514104728.10869-1-jinjian.song@fibocom.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -52,20 +54,14 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 
-On Thu, 15 May 2025 11:17:42 +0800 Jinjian Song wrote:
-> diff --git a/drivers/net/wwan/t7xx/t7xx_netdev.c b/drivers/net/wwan/t7xx/t7xx_netdev.c
-> index 91fa082e9cab..2116ff81728b 100644
-> --- a/drivers/net/wwan/t7xx/t7xx_netdev.c
-> +++ b/drivers/net/wwan/t7xx/t7xx_netdev.c
-> @@ -324,6 +324,7 @@ static void t7xx_ccmni_wwan_dellink(void *ctxt, struct net_device *dev, struct l
->  	if (WARN_ON(ctlb->ccmni_inst[if_id] != ccmni))
->  		return;
->  
-> +	ctlb->ccmni_inst[if_id] = NULL;
->  	unregister_netdevice(dev);
+On Wed, 14 May 2025 18:47:28 +0800 Jinjian Song wrote:
+> The DMA buffer for data plane RX is currently fixed, being parameterized
+> to allow configuration.
 
-I don't see any synchronization between this write and NAPI processing.
-Is this safe? NAPI can be at any point of processing as we set the ptr
-to NULL
+Module parameters are discouraged, they are pretty poor as an API since
+they apply to all devices in the system. Can you describe what "frg"
+and "bat" are ? One of the existing APIs likely covers them.
+Please also describe the scope (are they per netdev or some sort of
+device level params)?
 -- 
 pw-bot: cr
