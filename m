@@ -1,117 +1,177 @@
-Received: from mout-p-103.mailbox.org (mout-p-103.mailbox.org [80.241.56.161])
+Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4316B22ACD3;
-	Fri, 16 May 2025 07:58:07 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=80.241.56.161
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DA521FF4A;
+	Fri, 16 May 2025 08:01:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.152.102
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747382288; cv=none; b=pLNDoESj9s11ezXyOus7uF2dDOyD9533N9H7iD4sPjrd94ZLbg3Mqs8gXIpHB7+a5AXB2VWy51gLsz3CxCamoMBJRb/Up8ZJ/u6gcjK9wCKxD0AveCSW3r3I69qV/+UD2M1tQaW/J8P2zDn96mpfAUQcFdDzWXrTDQQ5BBPxFgM=
+	t=1747382503; cv=none; b=tcT6pRHErEd3c1YN1VyfjTN8ZGTaa2wsQh5Mp36xOisC4hrfDR+medADCpSlwNbDQQ5UArnFq6U0fHK1/SPMx7fW1Z/0uOAXjM7T1wOFaQ6DbyZCU8hHP2wBxlBzuzeJ5Xfx5orqBTWZPv5jrbYpWu5SIsm55rcAT8G2D2KSVr4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747382288; c=relaxed/simple;
-	bh=KQzgvdfnxhFmKbgaGYV4sNqWFHEH1innGGJwJp7KDIc=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=kYPVDWUqJMA8aXu6AtrgVzHHP55vFBovJCzq+zayBnq6LrA1BZ+TyqVAXUfab2PGHJwOOrWhPbLouwZvcvz+sNDDuw+qc8W8e5ryG1TlHHQPYnE/kW6XVVJYAYPin2CEOC3XgjkZcp98ItiFrXZ1serM3LATzjQO98jwHBb2Nak=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org; spf=pass smtp.mailfrom=mailbox.org; dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b=fv2zWKYn; arc=none smtp.client-ip=80.241.56.161
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=mailbox.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mailbox.org
+	s=arc-20240116; t=1747382503; c=relaxed/simple;
+	bh=yUSd1lLOUTfXqwk/RalMi6aO3FyaQpO1WZ3T1xPz8kY=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=aJ3uUunyhD1mAMJAYKlbzcGg7ZN1wZy62MfFsHPjWmY7j/fpl8n8XOBvzfx06/Q8Cz3U54FPnUDi8W4CJ14SDXt/gDgar6qNEFuQTrtS50c3FQGQxTpejrTvEWa1sYgMX/Cx28gyY76XmFOxHHt1k7yHlfXcWYWdFrc7NvSKBhs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net; spf=pass smtp.mailfrom=damsy.net; dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b=CgXcYEZX; dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b=cr+6076D; arc=none smtp.client-ip=51.159.152.102
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=damsy.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=mailbox.org header.i=@mailbox.org header.b="fv2zWKYn"
-Received: from smtp102.mailbox.org (smtp102.mailbox.org [IPv6:2001:67c:2050:b231:465::102])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mout-p-103.mailbox.org (Postfix) with ESMTPS id 4ZzK2l34QKz9sq3;
-	Fri, 16 May 2025 09:48:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=mailbox.org; s=mail20150812;
-	t=1747381727; h=from:from:reply-to:reply-to:subject:subject:date:date:
-	 message-id:message-id:to:to:cc:cc:mime-version:mime-version:
-	 content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=BNKQroZcyCu5Hf7yNgyeFiNusKguz3mFzcsyXu/Esv8=;
-	b=fv2zWKYnimboxIx7CSjtJkLgAYLzafYZQdAGoeB0Y7E4YhI7oN5gylgLCCKI8EhFG9DDuC
-	SwLivhT/bAUGLTCfTn+GatbiycJjUImNpuQ+m2nPKneRZEcRqhxHWBMDeUag1FpLb/Bv20
-	G8u6qs9H6xeTwozzmrc1AR/ODRqIxVaZZ8OmGl8q2c5lsJ8JQi5h3wbzCDykjDwreOTkLP
-	MijZXrgvapDnlTpmgyYkd84hJmgGItWQiXY76mm17J1FKoY9oqYYdRTZLz84aXzvm818Q6
-	6x5E9lJQnmiZ4WOPczxFVUOuZTcAOaEEF3lcOlmX2m9dStkRPLlaEOe/fNIaBw==
-Message-ID: <4592c50fd3168eb3319f4b24cb072e8d8357562d.camel@mailbox.org>
-Subject: Re: [PATCH 4/7] PCI: Remove request_flags relict from devres
-From: Philipp Stanner <phasta@mailbox.org>
-Reply-To: phasta@kernel.org
-To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Philipp Stanner
-	 <phasta@kernel.org>
-Cc: Jonathan Corbet <corbet@lwn.net>, Bjorn Helgaas <bhelgaas@google.com>, 
- Mark Brown <broonie@kernel.org>, David Lechner <dlechner@baylibre.com>,
- Zijun Hu <quic_zijuhu@quicinc.com>,  Yang Yingliang
- <yangyingliang@huawei.com>, Greg Kroah-Hartman
- <gregkh@linuxfoundation.org>,  linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org,  linux-pci@vger.kernel.org
-Date: Fri, 16 May 2025 09:48:42 +0200
-In-Reply-To: <aCXlWoPm2XVA5m7M@smile.fi.intel.com>
-References: <20250515124604.184313-2-phasta@kernel.org>
-	 <20250515124604.184313-6-phasta@kernel.org>
-	 <aCXlWoPm2XVA5m7M@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+	dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b="CgXcYEZX";
+	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="cr+6076D"
+DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1747382182; bh=YPy+tEZL6apKgfvAMCRSsSk
+	8zKBxHWC7t2m1Vfn3jPs=; b=CgXcYEZX8hN/Q2e8M/80XSvSboXrdC5slsIEaxO8MEjbT6Mt06
+	NdM43xSHHG2AVxLNrAJ4Z/rw82f8ujBNTnDLilcOjG59X7I7rVHF//JMltYERkh69ySJFndsqSx
+	2HhmYqvQC7SUV5omtgvmMwLo0ARUefbpfAS/r+YYeQl/GundzUUsICBAzgrplwocwNIoenYkdiW
+	goHq/TnW15uWBkrP31QDMpLX2C8+q4Gm30YK12rfwlU0W2q4vIPu1XLqmwTw79bf5dWhsKd/qJi
+	RepcAKpFb9Gsi4geYsjwp19Die7hbGY4GrXm9agLG5xJ3BpvoG7HBdb1iKUDvsec6cQ==;
+DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net; c=relaxed/relaxed;
+	h=From:To:Subject:Date:Message-ID; t=1747382182; bh=YPy+tEZL6apKgfvAMCRSsSk
+	8zKBxHWC7t2m1Vfn3jPs=; b=cr+6076Dkxypklpp92ebvSZPCsy2GPT7BKIzpqigg57qRQwr/u
+	kl/P0+TezIcHj+VIk3KIKeqKsYydjFqRI+Aw==;
+Message-ID: <7f04847e-9549-47cc-9b61-7b32df24ef8e@damsy.net>
+Date: Fri, 16 May 2025 09:56:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MBO-RS-META: 1fftmgenrs6wkrfi1wuig4pbwnnuxmua
-X-MBO-RS-ID: aabbcd1ec9dfca90bf6
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
+To: phasta@kernel.org,
+ Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ Jonathan Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,
+ Danilo Krummrich <dakr@kernel.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
+ Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Lucas Stach <l.stach@pengutronix.de>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
+ <mcanal@igalia.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
+ <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
+ <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
+ <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
+Content-Language: en-US
+From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
+In-Reply-To: <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-On Thu, 2025-05-15 at 16:00 +0300, Andy Shevchenko wrote:
-> On Thu, May 15, 2025 at 02:46:02PM +0200, Philipp Stanner wrote:
-> > pcim_request_region_exclusive(), the only user in PCI devres that
-> > needed
-> > exclusive region requests, has been removed.
-> >=20
-> > All features related to exclusive requests can, therefore, be
-> > removed,
-> > too. Remove them.
->=20
-> ...
->=20
-> > =C2=A0int pcim_request_region(struct pci_dev *pdev, int bar, const char
-> > *name)
-> > =C2=A0{
-> > -	return _pcim_request_region(pdev, bar, name, 0);
-> > +	int ret;
-> > +	struct pcim_addr_devres *res;
-> > +
-> > +	if (!pci_bar_index_is_valid(bar))
-> > +		return -EINVAL;
-> > +
-> > +	res =3D pcim_addr_devres_alloc(pdev);
-> > +	if (!res)
-> > +		return -ENOMEM;
-> > +	res->type =3D PCIM_ADDR_DEVRES_TYPE_REGION;
-> > +	res->bar =3D bar;
-> > +
-> > +	ret =3D __pcim_request_region(pdev, bar, name, 0);
->=20
-> > +	if (ret !=3D 0) {
->=20
-> While at it, drop the=C2=A0 ' !=3D 0' part?
+Hi,
 
-I want it to be clear to be just a pure code move. It's a shame that
-the git-diff can't just handle that through the function head,
-resulting in a +/-2 diff
+Le 14/05/2025 à 14:53, Philipp Stanner a écrit :
+> On Thu, 2025-04-24 at 10:38 +0200, Pierre-Eric Pelloux-Prayer wrote:
+>> This commit adds a document section in drm-uapi.rst about
+>> tracepoints,
+>> and mark the events gpu_scheduler_trace.h as stable uAPI.
+>>
+>> The goal is to explicitly state that tools can rely on the fields,
+>> formats and semantics of these events.
+>>
+>> Acked-by: Lucas Stach <l.stach@pengutronix.de>
+>> Acked-by: Maíra Canal <mcanal@igalia.com>
+>> Reviewed-by: Christian König <christian.koenig@amd.com>
+>> Signed-off-by: Pierre-Eric Pelloux-Prayer
+>> <pierre-eric.pelloux-prayer@amd.com>
+>> ---
+>>   Documentation/gpu/drm-uapi.rst                | 19
+>> +++++++++++++++++++
+>>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 19
+>> +++++++++++++++++++
+>>   2 files changed, 38 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-
+>> uapi.rst
+>> index 69f72e71a96e..4863a4deb0ee 100644
+>> --- a/Documentation/gpu/drm-uapi.rst
+>> +++ b/Documentation/gpu/drm-uapi.rst
+>> @@ -693,3 +693,22 @@ dma-buf interoperability
+>>   
+>>   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst
+>> for
+>>   information on how dma-buf is integrated and exposed within DRM.
+>> +
+>> +
+>> +Trace events
+>> +============
+>> +
+>> +See Documentation/trace/tracepoints.rst for information about using
+>> +Linux Kernel Tracepoints.
+>> +In the DRM subsystem, some events are considered stable uAPI to
+>> avoid
+>> +breaking tools (e.g.: GPUVis, umr) relying on them. Stable means
+>> that fields
+>> +cannot be removed, nor their formatting updated. Adding new fields
+>> is
+>> +possible, under the normal uAPI requirements.
+>> +
+>> +Stable uAPI events
+>> +------------------
+>> +
+>> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
+>> +
+>> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> +   :doc: uAPI trace events
+>> \ No newline at end of file
+>> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> index 781b20349389..7e840d08ef39 100644
+>> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
+>> @@ -32,6 +32,25 @@
+>>   #define TRACE_SYSTEM gpu_scheduler
+>>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
+>>   
+>> +/**
+>> + * DOC: uAPI trace events
+>> + *
+>> + * ``drm_sched_job_queue``, ``drm_sched_job_run``,
+>> ``drm_sched_job_add_dep``,
+>> + * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are
+>> considered
+>> + * stable uAPI.
+>> + *
+>> + * Common trace events attributes:
+>> + *
+>> + * * ``dev``   - the dev_name() of the device running the job.
+>> + *
+>> + * * ``ring``  - the hardware ring running the job. Together with
+>> ``dev`` it
+>> + *   uniquely identifies where the job is going to be executed.
+>> + *
+>> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
+>> + *   &drm_sched_fence.finished
+>> + *
+>> + */
+> 
+> For my understanding, why do you use the double apostrophes here?
 
-Style adjustments, which might also be necessary in pci.c in many
-places, could be done through dedicated commits.
+To get similar formatting to function arguments and make the output a bit nicer to read.
 
-P.
+> 
+> Also, the linking for the docu afair here two requires you to write
+> 
+> &struct dma_fence.seqno
+> 
+> If I am not mistaken
+> 
+> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highlights-and-cross-references
 
->=20
-> > +		pcim_addr_devres_free(res);
-> > +		return ret;
-> > +	}
-> > +
-> > +	devres_add(&pdev->dev, res);
-> > +	return 0;
-> > =C2=A0}
->=20
+Indeed, thanks. I fixed this.
+
+Pierre-Eric
+
+> 
+> 
+> P.
+> 
+>> +
+>>   DECLARE_EVENT_CLASS(drm_sched_job,
+>>   	    TP_PROTO(struct drm_sched_job *sched_job, struct
+>> drm_sched_entity *entity),
+>>   	    TP_ARGS(sched_job, entity),
 
