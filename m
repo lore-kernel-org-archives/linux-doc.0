@@ -1,88 +1,98 @@
-Received: from out30-98.freemail.mail.aliyun.com (out30-98.freemail.mail.aliyun.com [115.124.30.98])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com [209.85.210.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63CAE3D69;
-	Fri, 16 May 2025 03:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=115.124.30.98
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AEEB72192EB;
+	Fri, 16 May 2025 03:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747365660; cv=none; b=WofnVF2r2Er7ubX+TGKxafnmeRP048w388KNkalEKj/4nqdgSRU9QeqjY0qhIAXB5BvYXg61JqvbTWxRYzgR/JEoj3ejhGfuwrOw0X2V69L2XSeRmAfi39AZCIwwLjitH1fJI6MYG8IOeVUpRr1YcuR1ufzVhHmSED/GT1q2X6o=
+	t=1747366149; cv=none; b=tlIF6/FVaJBgNVx/g7E5hlxZnN10EsGjhnkZ+mcBHtqOwV17HdHt+essUqv/cPqsYqi0iQbwlqrW/7LJQzt73HB9kjsDTJHLFBCOY5UCHJkRF5VNjqPyIaKbz+2g0QjABAykTFJFgixCTaQnrEG6mDZFxZxLrRRsN8Y1NFAdyLc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747365660; c=relaxed/simple;
-	bh=hO+rR+dWcD6f6Hge8HMHr7Cb8QAg8f4oCX2KJ+iFwGg=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=ThYBdsP6hx/dFQoSi5G7HUkYLbGRsGFAJWJiJ/JAQDeoGjHA+G1N/dpvlG0riiLGbzy6n/JSHiX1Teek4gatIb11DwM8C2ow3S/IBdQuC8K4jMp3Ihc9gVZBEf6Gt0B4YyCfWQGKq9yzW/VnFclJZPOzTiQwBn6BJSx5ZX8PoJM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com; spf=pass smtp.mailfrom=linux.alibaba.com; dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b=Qe2vQ5ES; arc=none smtp.client-ip=115.124.30.98
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.alibaba.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.alibaba.com
+	s=arc-20240116; t=1747366149; c=relaxed/simple;
+	bh=qykaAmrt0fiJaOPZFM0q6IKoWOzYGwEEmiBfiUtXGVo=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=T6CVT1EW6ZCSFKrbh1muyhmY50Etd2c1HLcx83z3v1fMOdKIc1Jex3WsgQW3NeFdkDO4F2Pa+pt8I2zTJbUckUBbh1X4C1YFGrJ0cqmQ5oBiYgKOjqsGoroYKAkyKNVFJsliguXJ02GlTGbB1sNpC3hDREL0NEyHZWb1JTYN1rs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=UQQMnaV9; arc=none smtp.client-ip=209.85.210.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.alibaba.com header.i=@linux.alibaba.com header.b="Qe2vQ5ES"
-DKIM-Signature:v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=linux.alibaba.com; s=default;
-	t=1747365649; h=Message-ID:Date:MIME-Version:Subject:To:From:Content-Type;
-	bh=GExNtFmUWMDmQxbl32tS+x8auE8iVSf/kkBrvwmxa6I=;
-	b=Qe2vQ5EScnbO8JSIBIePdAgK5F+iwDwlWl4bdEp+3E8ZhAvyGiZWaPpNeFweKwaA47898Zp+6bEWBnG3dJzSHeqU9toaqcH4ZkIRu6WDU1KY6NNykvf05JhEu8cdGtExjm1413XDlB0o+ABqA7EsEcKGnXWpLXF9nuxHV1pkib0=
-Received: from 30.74.144.109(mailfrom:baolin.wang@linux.alibaba.com fp:SMTPD_---0WatldDB_1747365643 cluster:ay36)
-          by smtp.aliyun-inc.com;
-          Fri, 16 May 2025 11:20:45 +0800
-Message-ID: <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
-Date: Fri, 16 May 2025 11:20:42 +0800
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="UQQMnaV9"
+Received: by mail-ot1-f44.google.com with SMTP id 46e09a7af769-7300069c447so1536301a34.2;
+        Thu, 15 May 2025 20:29:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747366146; x=1747970946; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=ZjWVCNUbb27cqpL8lz3saxtPoltKk51BxDAUjAb3qlo=;
+        b=UQQMnaV9VX/hOZgfdPiDzVfzlt2jE5zEEyKbsWhU9/ClJ/1VUtz4XNvR7Z7cxq40ZJ
+         JGPl9oeIHWc84ML1rdRYM8d6tm6mBmera4LhCaiN89QE8Sp9H7u4/DF6SDLElUqhgPZa
+         A5XSZKPGlR07iRWNO4nNgpsXVznyulYJJ1Ah6sDYyOp1EeiglCv5Fga837KGNGrK08wi
+         0bVOTjFnWU31kXFyT5P5wlzVbP3bWO0UQjZgl5WnDYTcTtv+xX7G3nq8yqehuJXjJwUe
+         5ABLkTSet2Bi9H5bGo8qzI18x9IFSLIyqFKJUjhRP8h4ZZz1Hfv1Y2a7q+GIYG0Cju6T
+         hVOg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747366146; x=1747970946;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=ZjWVCNUbb27cqpL8lz3saxtPoltKk51BxDAUjAb3qlo=;
+        b=Lsjba3DItUcU5NtyZcay2XrnOdpwAxrbzX2oZBUeJJ0mEdixTQTMs6Y68UoA9C6H61
+         Yi7mNPgG2QQ6UeOF/7uCK4OhgbJ7+FphvfBknF/GwzRfQaJ7srjzaX5SDvPgtFYAvNMl
+         xlaWNzYCRJA551lpPRjIr3tIiLooY7tjNgoXZhLe3z6iMd+5PzBJwpkDOFaPHtQyJpES
+         lk/ETrdhmq6CeiJ6S1XbOvF6pKTaujksOSfpPJL6mGS7Sh4CrRuHlQPpC+Tiop7TgmgM
+         4ABnPLjNEsSJMhXgV0DHraa2e43Llownu3TJBY8EOnqhqqgdy7cuDa5CtJ7ct1TEicrW
+         qYdA==
+X-Forwarded-Encrypted: i=1; AJvYcCXNQ7hJiXi/W1avHWZaPtJs4xsq0g1scIVhM1QuaVhe43dULKAm+1J/LxWcvqmBVhMeV9F4iclcPO4=@vger.kernel.org, AJvYcCXvRFordKTj8GkZe54AwWBLvyQkjZkBgxAtFzrii/rOJk+mPJo2FfhWR+8rx8a0G+GmERQN5LnKLtFjFOmK@vger.kernel.org
+X-Gm-Message-State: AOJu0Yw+u+vGVecyAD3UukHkL5qGe1Bg9Eb98DOk2WEQ19YOol+p1NWQ
+	QsFltHGopy1/W3OpK1H7kn1eHDLnkjw4dxjhR4DpvAVNmyvRZyUrWDi+
+X-Gm-Gg: ASbGnctJdYiLTcRzuid4tBdsWKqexWBDbu7gO67NuFzfXQzCjSGbfrmLfPmnsDjHFB4
+	TdtWxevwkDbQmtMTnILgEXZ4tqDbGp6MSVDh88z3AsKcTeWpcFECXTE+FO0Sn0S9buTRyMhxPdf
+	pA4kaQ8JuWC7q2xUvK3LK7h2/BPOzQ7BkvSi5oARfI5C6SMu9zaN8qzvf4nMi3uPKEhJWhpeft/
+	at5k3TnCib9MfgNCExjyUIJgkyNvGuhV48H8W0PiPta2MEXk6lAJ9N/HRHdAlsDIucEaP92R8ve
+	wDbjcqlE4TvJZOj9OhakDpeQR9xYK+YilpSj8ggw7kEerpNT0U2Y6x48urTLhl05olbh+PrwJiQ
+	q3yM=
+X-Google-Smtp-Source: AGHT+IEGMDnSOq3he1EH+1aAF01gXDsDaoR4guIYTd4cbcSz5Jpq7bPGL2qgfd7mqZFoUj+ovmZTiw==
+X-Received: by 2002:a05:6830:601b:b0:72c:3235:9c5a with SMTP id 46e09a7af769-734f6ab3705mr1240915a34.1.1747366146481;
+        Thu, 15 May 2025 20:29:06 -0700 (PDT)
+Received: from localhost.localdomain ([129.244.19.62])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-734f6a7ffe2sm209711a34.23.2025.05.15.20.29.05
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Thu, 15 May 2025 20:29:06 -0700 (PDT)
+From: Benton Raymer <benton.raymer@gmail.com>
+To: corbet@lwn.net,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Cc: Benton Raymer <benton.raymer@gmail.com>
+Subject: [PATCH] docs: memory-devices: fix typo in emif.rst
+Date: Thu, 15 May 2025 22:27:59 -0500
+Message-ID: <20250516032837.42124-1-benton.raymer@gmail.com>
+X-Mailer: git-send-email 2.46.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 06/12] khugepaged: introduce khugepaged_scan_bitmap for
- mTHP support
-To: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-trace-kernel@vger.kernel.org
-Cc: david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com,
- Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
- corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
- mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
- baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
- wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com,
- vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com,
- yang@os.amperecomputing.com, kirill.shutemov@linux.intel.com,
- aarcange@redhat.com, raquini@redhat.com, anshuman.khandual@arm.com,
- catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org,
- dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org,
- jglisse@google.com, surenb@google.com, zokeefe@google.com,
- hannes@cmpxchg.org, rientjes@google.com, mhocko@suse.com,
- rdunlap@infradead.org
-References: <20250515032226.128900-1-npache@redhat.com>
- <20250515032226.128900-7-npache@redhat.com>
-From: Baolin Wang <baolin.wang@linux.alibaba.com>
-In-Reply-To: <20250515032226.128900-7-npache@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
+Fixes a minor typo in the /Documentation/driver-api/memory-devices/ti-emif.rst file
 
+Signed-off-by: Benton Raymer <benton.raymer@gmail.com>
+---
+ Documentation/driver-api/memory-devices/ti-emif.rst | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On 2025/5/15 11:22, Nico Pache wrote:
-> khugepaged scans anons PMD ranges for potential collapse to a hugepage.
-> To add mTHP support we use this scan to instead record chunks of utilized
-> sections of the PMD.
-> 
-> khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
-> that represents chunks of utilized regions. We can then determine what
-> mTHP size fits best and in the following patch, we set this bitmap while
-> scanning the anon PMD. A minimum collapse order of 2 is used as this is
-> the lowest order supported by anon memory.
-> 
-> max_ptes_none is used as a scale to determine how "full" an order must
-> be before being considered for collapse.
-> 
-> When attempting to collapse an order that has its order set to "always"
-> lets always collapse to that order in a greedy manner without
-> considering the number of bits set.
-> 
-> Signed-off-by: Nico Pache <npache@redhat.com>
+diff --git a/Documentation/driver-api/memory-devices/ti-emif.rst b/Documentation/driver-api/memory-devices/ti-emif.rst
+index dea2ad9bcd7e..d824cc0dce89 100644
+--- a/Documentation/driver-api/memory-devices/ti-emif.rst
++++ b/Documentation/driver-api/memory-devices/ti-emif.rst
+@@ -29,7 +29,7 @@ This driver is for the EMIF module available in Texas Instruments
+ SoCs. EMIF is an SDRAM controller that, based on its revision,
+ supports one or more of DDR2, DDR3, and LPDDR2 SDRAM protocols.
+ This driver takes care of only LPDDR2 memories presently. The
+-functions of the driver includes re-configuring AC timing
++functions of the driver include re-configuring AC timing
+ parameters and other settings during frequency, voltage and
+ temperature changes
+ 
+-- 
+2.46.0
 
-Sigh. You still haven't addressed or explained the issues I previously 
-raised [1], so I don't know how to review this patch again...
-
-[1] 
-https://lore.kernel.org/all/83a66442-b7c7-42e7-af4e-fd211d8ed6f8@linux.alibaba.com/
