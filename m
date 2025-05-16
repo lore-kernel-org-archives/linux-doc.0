@@ -1,94 +1,127 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 75D401CEAC2;
-	Fri, 16 May 2025 19:28:00 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DB38DEEBA;
+	Fri, 16 May 2025 19:31:16 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747423682; cv=none; b=Xbceu8Dho/R3qaO30NZTb5lb+ZW1YUGxT2atNRX6a+WhQ7KdyWhLxI/rc8yblvChYX/v+EjMCBV7cTbM64ivG0mQPquABQUI6RbGg3Gpi28UdQ6nesUnLaw9kV9j9jibdOo1UBAxdLGYs9eFlBqFzsyijT8H0iHX4ljfQRi49t4=
+	t=1747423878; cv=none; b=tHw0+abtAXRFK6hR/7QIGELWZOiHC7rkA4abuvChTWIRXZtb81D1q9Uq8yfgLABH5C499aaWAgPYd9KBvBajAfE6x2iD0lYuUXk6HZnnsBHZP+Y2iENt0WMYWgwjhxAVQT3NIXm4OkQfzu4yArcUXzK9t1Xj9q7WaEyQNFjrUQY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747423682; c=relaxed/simple;
-	bh=8szMpAx4GbkKtdl9rIKAP5pwATyUKPg7MocRMWOyX2Y=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=b6cMBKM7WywAezfsV7heowe1pVA3/MFd7ThYL9bJAa8YtlCYrGtIA53qjr3mnQ92T9a3QwFyqGDpQLdntanuKo9gVLPp5RTXRCugoHdtSB3lLLKW9WQ49ugxNDFtiz2fBflQ/2/c5lEkditP808f9tO4N+uEWARvTnAEyvzsfgw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=M/O+MtAc; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747423878; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=LyICde8WPO+Mw3XQqgzLFNjq+RGP1U3DtpfWg4tn1L7/XtSfFGE3fgy3hlS1xEt3QQxHt4/Ur+zo7VlUqKaBjd2Kk1MdC70Uh/kGcTBH1VDDcgH1G569Rw8y3jlAd0QR4bbUuWXZstiuaMFzub2xOfiDp0o89Mu5HCXNVPnunFA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=EndgVF7j; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="M/O+MtAc"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=JPS4NRNnkUopVfkxBsto11zOA6kziWl5Eya9/gk+PQ8=; b=M/O+MtAcr2hdJSi0CqruV2pI3U
-	ESjAkCxesKcdcRnONIfqv4saA7YhsulDtqtJCGzc1AggQbn7kufDDubq0KLA6bJVmySAbjtb+o9ud
-	BwE7JM35siEEOjJaGVzu/8YNcqBJXM93ZN4ypNCiU7mUUyoRuA/tSSLzHtpDDBCeugv604dvo6gJX
-	tlC+jUPkUyMhEfTvjhvhM5izd4jFdX7Yd0GdxGMalqxSpL8+RYmQAouIX9b63ur/rpDsmxdlkGcr9
-	ubLTZn8vrx4crehCA8vkMiL4LOjLakjxIsyIdcRqIdYLqAIBc+uPZP7qBOMgjCmwUsp//7DxSpP0k
-	srxcmybw==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uG0if-000000006g1-2DoZ;
-	Fri, 16 May 2025 19:27:46 +0000
-Message-ID: <393bdc27-a6a3-416c-93e9-d2a9ee9fb465@infradead.org>
-Date: Fri, 16 May 2025 12:27:40 -0700
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="EndgVF7j"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 296CFC4CEE4;
+	Fri, 16 May 2025 19:31:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747423876;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=EndgVF7jHnRNOZffKKDayjFtL05ED5RQkdlaGYZWIvu0UXFilqtk8NXOQ+IlfVVxm
+	 abX+EGyiT298vd5JGQY+ri7TQ28zNYmVxR8Ii8dWGw3aPAsZxQ5t3brz2OEro3ASzL
+	 oxpineiAJTm71bOH7dlLGr+vSaiYGdSK0OJXKxjRezK7lz6ronWfMBc/jJpjJdwfhr
+	 GjA57D3RkdirRz1PR+T3wqMkyVdKMTkUi1fzRx/MbATfaEqjy4RLuvy74Ld1KOMGXP
+	 pZNg/e+6nBokBQeleuf8CpDJz2NjZlQ5hYSqcvaAMjA3tS22hYobBm7YE6CPyHjZQr
+	 3csYRAZKS0euw==
+Date: Fri, 16 May 2025 14:31:14 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v2 2/6] Documentation/driver-api: Update
- pcim_enable_device()
-To: Philipp Stanner <phasta@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Bjorn Helgaas <bhelgaas@google.com>, Mark Brown <broonie@kernel.org>,
- David Lechner <dlechner@baylibre.com>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
- Zijun Hu <quic_zijuhu@quicinc.com>, Yang Yingliang
- <yangyingliang@huawei.com>, Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
- =?UTF-8?Q?Krzysztof_Wilczy=C5=84ski?= <kw@linux.com>
-Cc: linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-pci@vger.kernel.org
-References: <20250516174141.42527-1-phasta@kernel.org>
- <20250516174141.42527-3-phasta@kernel.org>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250516174141.42527-3-phasta@kernel.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <20250516193114.N52Ziuwwi-5P9WInk07F0Sc5w1_mo4jBj-FDlwgE0bM@z>
 
-Hi,
 
-On 5/16/25 10:41 AM, Philipp Stanner wrote:
-> pcim_enable_device() is not related anymore to switching the mode of
-> operation of any functions. It merely sets up a devres callback for
-> automatically disabling the PCI device on driver detach.
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> Adjust the function's documentation.
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
 > 
-> Signed-off-by: Philipp Stanner <phasta@kernel.org>
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
 > ---
->  Documentation/driver-api/driver-model/devres.rst | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
 > 
-> diff --git a/Documentation/driver-api/driver-model/devres.rst b/Documentation/driver-api/driver-model/devres.rst
-> index d75728eb05f8..9443911c4742 100644
-> --- a/Documentation/driver-api/driver-model/devres.rst
-> +++ b/Documentation/driver-api/driver-model/devres.rst
-> @@ -391,7 +391,7 @@ PCI
->    devm_pci_remap_cfgspace()	: ioremap PCI configuration space
->    devm_pci_remap_cfg_resource()	: ioremap PCI configuration space resource
->  
-> -  pcim_enable_device()		: after success, some PCI ops become managed
-> +  pcim_enable_device()		: after success, PCI dev gets deactivated automatically
 
-I think that the patch description has a better comment that could be put here. ^^^^^
+My bot found errors running 'make dt_binding_check' on your patch:
 
->    pcim_iomap()			: do iomap() on a single BAR
->    pcim_iomap_regions()		: do request_region() and iomap() on multiple BARs
->    pcim_iomap_table()		: array of mapped addresses indexed by BAR
+yamllint warnings/errors:
 
--- 
-~Randy
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
