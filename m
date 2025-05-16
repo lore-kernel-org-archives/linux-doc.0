@@ -1,156 +1,184 @@
-Received: from mail-yw1-f177.google.com (mail-yw1-f177.google.com [209.85.128.177])
+Received: from mail-oi1-f177.google.com (mail-oi1-f177.google.com [209.85.167.177])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 689EB1E5B97
-	for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 23:16:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.177
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 88E6B635
+	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 00:13:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.167.177
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747350975; cv=none; b=kzAhdr2wnnnfMjyT9YRAVQzAJSv93LEaD7lQqPF6Shb5t0ghh1+fCECZpjkHcFRnuG3hGw/+kG07PPoCDlvRyic9NzUnbcnSol5MmSrAR7Hqh1/QNZGbE01+euPea8CaBkAhZq5a7ruHqeAyIRR1pWpO+e97u1R+aNYfLPDHJFc=
+	t=1747354418; cv=none; b=goadgJohCg9fNCYiqY/EbuOZatwLuiAF6HW5vSNPZgU5+pWmtx5ngFAZ2SpReQdZ+EqXRlIxlNwjLQAXe/7LmZUCD1r38PzZfqpAF0xJ/pAbunxd8+ZUwanv/mnkAjGeKGhe2pGuY2P4iRk9/ND8tj5xsp/suh10FTzvXq+b5j8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747350975; c=relaxed/simple;
-	bh=5PFE6PBDej7JAYJBtqMW55W8SV4SYUKu1kOFhZZm1Pc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=WzDDreJNcQ/g3hOrErWlqE6hrLG+oe22aM4ICDWF1TdZo5UQmG611JX4mJXEloPQYZLvlmTBiWwNgxwVSu9OEQv78xOptMfw1iHL/c2WTsLga1g7RrAoIrv0MhOJPBHbXGZB/TusFox6qBVMl7YGgqSFz0JJ9pUlLDeOQ7GlnKI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=mrzA7Uu9; arc=none smtp.client-ip=209.85.128.177
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1747354418; c=relaxed/simple;
+	bh=CGG6jGXMIinSQ0YSIHvn85mnGlEINaaQlo/+CW6AhP8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=TCfkTkSU1NTU+RDpwvccfIQRAsbvPmiJ+mIKDsPq82UmU+vVPxj97OV1gqmDNvGJ1oAQj8QsqLKmCGzCvXLr2ny9g+les0VI06csGWGfwT2gKbTv88n14B8j4mGIafAXqvO4gtQ6PU/wzVLVyhwEgv91uVaHM1UXvgPamg6lX7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net; spf=none smtp.mailfrom=minyard.net; dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b=KLt8igYK; arc=none smtp.client-ip=209.85.167.177
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=minyard.net
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=minyard.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="mrzA7Uu9"
-Received: by mail-yw1-f177.google.com with SMTP id 00721157ae682-70ca2888e99so6805537b3.0
-        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 16:16:13 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=minyard-net.20230601.gappssmtp.com header.i=@minyard-net.20230601.gappssmtp.com header.b="KLt8igYK"
+Received: by mail-oi1-f177.google.com with SMTP id 5614622812f47-3f6aa4b3a7fso874430b6e.3
+        for <linux-doc@vger.kernel.org>; Thu, 15 May 2025 17:13:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747350972; x=1747955772; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
+        d=minyard-net.20230601.gappssmtp.com; s=20230601; t=1747354414; x=1747959214; darn=vger.kernel.org;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=Y5mmOI/4OR6UtWDoONoFMIJO2T0/hKQ0wXwTW+1Gf8g=;
-        b=mrzA7Uu9uhun9n6z9ivisGksvdBQrhFphoKwT97qJN8NToFU9agT/bmtitqYDLSdGE
-         0rB3lOl5P3RvbWZNyIbIt+e4C34LvGqylhiY5kCVj+0g0Vf2WRQazn3oUbcL+w3kO4l9
-         q1wHHmTg13ZNPPYzYsLEWMHA3EpwbY3bIHFLLY6wfxnav844w2pR8WKEEkp3wxrTmkw6
-         GNgQ0Xh/fx5jOzvgFv3/XF7OBYTSUhl1gm3DAYpGnXDUHrWrGF6GJzMrzfx4vazkqAS2
-         TPARsLjCRsle8nAZgi4cuY2Jy5UgNPqjGjnNMf6shprJqnTYyzeH60fc3ukJHfCzMr8R
-         RMog==
+        bh=fIQzh+d2Cl2iQMRyzQRgpL9ZV/FSzUS9sLNvNDM8pQA=;
+        b=KLt8igYKlyM4HV0pKbdTyuu8GU2D7C05GSikv+1kCHjhbRjIfnBrH6eiXow0kVQE+2
+         iqmKyjBINNqHUm106f8ban0PT4YGVbFYw8dQdHmoiQO/e/Z6mF0jsXDrvxwp8zlT1u9k
+         Nq34Adlk1yagXoXST9lgb9u6Ml7ltvzA5Wg0h1s1LsP07LsmVUDV/pPIshP5wk2WnjLR
+         IOZOzva+6u4q/VQ75UP+a0PnEZdg61bwX4w4Y5DEi9TOi4Pos/nGo8HxNAu24ASrf0lv
+         azheBEezhjzj+BJjvjcjRBHXxmIG1lhdStS6JLVbMIInMPSFCPx/IT443V8nVA4Hpw96
+         wg0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747350972; x=1747955772;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+        d=1e100.net; s=20230601; t=1747354414; x=1747959214;
+        h=in-reply-to:content-disposition:mime-version:references:reply-to
+         :message-id:subject:cc:to:from:date:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=Y5mmOI/4OR6UtWDoONoFMIJO2T0/hKQ0wXwTW+1Gf8g=;
-        b=DeJNhe7ndiQkmGmaGa6vzeAlLDMZzna+GM29sLOnsp/iilAaRPooohWEUAUnEBew1j
-         w7ss0h0EI+d8vup/hZDtFQ2ayZA5FkO6ir381kxqTKjCBKD9E0NCrdLHQdtIsW7udF4d
-         pL40U8WTuturle5t7F0Bbnk3i/PgjLhDu/g8g8ayOrm55dQjpc5uQNkP5dD+ZW8cpXpo
-         oteCkIuViVnSc/f1ILM/n3oNLz27DTOqbPUo64I+qqyevyn6xYiHyPTnsbZu+uxFQBhY
-         mRO3gBP/6VAy+JTcevr4YOtXTueFD8WF8UsWBZ718+73W6V24Q/1mcTXDVsFZt2Vkfbg
-         4inQ==
-X-Forwarded-Encrypted: i=1; AJvYcCW2e+nXyZmFLzOVWjmvwFMK+yF+c/afvD8JFDzsDo1seafDQnbk24/ZnmseNQLFm8IDzUvYQ4jc5a4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxcXxdNo33WoVOUvGCQP/udh35w/UFDaUY+Ddp0tQGttet24Ft8
-	g+pUl6rUbVyzMfoYLOUK+R8+Q9cvSAOyt3XNArDCXb25FNEm7UrUGIt6q/cOa4E5SvN7VRguZg6
-	wHZpvEAZYkSFWrBtHOottAXAKnIsS6gwGaieP3/fj
-X-Gm-Gg: ASbGncs7tzSM4zhOl3C8NqrkiySq4owxxwwoRl6mudvUv90Ti+phN9OwzZ77mDIIpYe
-	5WYoCURhkE5mjRtE/+z55g5MTXeXmOsmsNcdQ6Jk7BLV/zLw2dP0y/x+m7PF29E/eCyz8Ut55SQ
-	BkVJt5VYjzQbNXA1TvpMkD4Yy8TU+nQOp6NqgSdHaAJLXTA9fY/bsA6epyFAEJctgPeZOGHYinu
-	w==
-X-Google-Smtp-Source: AGHT+IFFHBYRwvCtfapZS/yu0YBHtTfKBBrDprV/SIxy8r7ithlDy7wnX4wo9osw8Ua2f4JgbG2SQ+W5qDC1/NhHDR0=
-X-Received: by 2002:a05:690c:6c0c:b0:708:3532:ec94 with SMTP id
- 00721157ae682-70ca75dd471mr27677277b3.0.1747350971992; Thu, 15 May 2025
- 16:16:11 -0700 (PDT)
+        bh=fIQzh+d2Cl2iQMRyzQRgpL9ZV/FSzUS9sLNvNDM8pQA=;
+        b=ASj4Y9Wguux1nNlze0OJP5zUETgfOcI7VVuMMMwZsTKYdxK8Kt1y60WJb9a1U35Q3C
+         1xr4vnqp0zMFVPkEytrVC6Mh7hhALvXVokBEQNpLBg1/eSKuknrtdLzN0Gt78e4XFgie
+         RRPK6Y1W0ClDR/cHn2hTyCg9RqariqEtaIw7AyRTOzBOdQAmElYzw3Gmdur+Bi7VOSNR
+         zD5W4B5I3dxSo6WlSnWW9L2Lr7XJY9qgSEtgCsjz9fJ5h9xFpqjYJuCknXG0qqdS0R9e
+         gLuSs0ZF+u31Bbtpomjv2h5FwE9Iy93mXRgrH/zBNbT+UYcdpqGxY9ji/+odQPgm3mcO
+         KyIQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWP4yPdqGC5trXPXyt6PC0YiT4AbuC+NTnPpiCldloH6gZ1uHFJH5Bo5cwTQfAYqUAw1U2HFpFBR3M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxRRWCWNxATsIbrHWW8mU0/sPlcDwPT88PJ5/Dh6T6uF2aScFKb
+	WIfzcsKPDtPpB82X46z8kUZ6RHdSto4JOCoyluSMAshsF2aU51cy8bjMPZRKHcWmW3IkBrigi7/
+	3LL0GG/s=
+X-Gm-Gg: ASbGncsjr0DaO1zk/Ab3gqy4ViJGZTjuwFXp8mYq6LYjk+wyWqwG2V67GBKG9CQZylN
+	zFsajg+V8kjSx99kyOzhrEwLVDjrCXVkX6MjEwrcAa9BdivGYHOaXWCGXs93mnqsStMTXEU7Ar4
+	oLTRSLqBEqmVRbahaS//Yz0tqDvRT5+ivqXZgYu2J9VKaYI88cl/Aghk+6O3p2ivbkwDZ7nCVpQ
+	/fEBXymXr0SX3tjO1sRajFoqUaUULmb6dZNst9U0A/tqhpYtwpayiXzWaPCaPMt7rxll+8ZTwLW
+	+N0Fycgx8uvABkZ2IFecn6tNBHzKPE/bKZBx2+K388lWrpT7QeymZ7U=
+X-Google-Smtp-Source: AGHT+IHw+xOETWTyOT89ZTuJ4/7y2Jcun/+WyMsgKHv9WFHVKeTtE/CECud8o+oMJFlD/SDqIiuTug==
+X-Received: by 2002:a05:6808:338c:b0:3f9:2fdc:ee93 with SMTP id 5614622812f47-404d87b897dmr1274677b6e.30.1747354414372;
+        Thu, 15 May 2025 17:13:34 -0700 (PDT)
+Received: from mail.minyard.net ([2001:470:b8f6:1b:d0c5:1ce0:9035:258c])
+        by smtp.gmail.com with ESMTPSA id 006d021491bc7-609f2f43884sm188602eaf.15.2025.05.15.17.13.31
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 15 May 2025 17:13:32 -0700 (PDT)
+Date: Thu, 15 May 2025 19:13:27 -0500
+From: Corey Minyard <corey@minyard.net>
+To: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+Cc: corbet@lwn.net, openipmi-developer@lists.sourceforge.net,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	skhan@linuxfoundation.org, linux-kernel-mentees@lists.linux.dev
+Subject: Re: [PATCH] docs: ipmi: fix spelling and grammar mistakes
+Message-ID: <aCaDJyq18soCNMqa@mail.minyard.net>
+Reply-To: corey@minyard.net
+References: <20250515234757.19710-1-praveen.balakrishnan@magd.ox.ac.uk>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515182322.117840-1-pasha.tatashin@soleen.com> <20250515182322.117840-9-pasha.tatashin@soleen.com>
-In-Reply-To: <20250515182322.117840-9-pasha.tatashin@soleen.com>
-From: James Houghton <jthoughton@google.com>
-Date: Thu, 15 May 2025 16:15:36 -0700
-X-Gm-Features: AX0GCFvcRAz1A96zfk5fwiW5s1ruo_5m1cnWp4ykamlEP9S3Jtz2iPKdg4_M8Ho
-Message-ID: <CADrL8HWdAzQRVhLh2Pq1GV2fy6tus66Eo37PvG9A98kUJTihsg@mail.gmail.com>
-Subject: Re: [RFC v2 08/16] luo: luo_files: add infrastructure for FDs
-To: Pasha Tatashin <pasha.tatashin@soleen.com>
-Cc: pratyush@kernel.org, jasonmiu@google.com, graf@amazon.com, 
-	changyuanl@google.com, rppt@kernel.org, dmatlack@google.com, 
-	rientjes@google.com, corbet@lwn.net, rdunlap@infradead.org, 
-	ilpo.jarvinen@linux.intel.com, kanie@linux.alibaba.com, ojeda@kernel.org, 
-	aliceryhl@google.com, masahiroy@kernel.org, akpm@linux-foundation.org, 
-	tj@kernel.org, yoann.congal@smile.fr, mmaurer@google.com, 
-	roman.gushchin@linux.dev, chenridong@huawei.com, axboe@kernel.dk, 
-	mark.rutland@arm.com, jannh@google.com, vincent.guittot@linaro.org, 
-	hannes@cmpxchg.org, dan.j.williams@intel.com, david@redhat.com, 
-	joel.granados@kernel.org, rostedt@goodmis.org, anna.schumaker@oracle.com, 
-	song@kernel.org, zhangguopeng@kylinos.cn, linux@weissschuh.net, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, linux-mm@kvack.org, 
-	gregkh@linuxfoundation.org, tglx@linutronix.de, mingo@redhat.com, 
-	bp@alien8.de, dave.hansen@linux.intel.com, x86@kernel.org, hpa@zytor.com, 
-	rafael@kernel.org, dakr@kernel.org, bartosz.golaszewski@linaro.org, 
-	cw00.choi@samsung.com, myungjoo.ham@samsung.com, yesanishhere@gmail.com, 
-	Jonathan.Cameron@huawei.com, quic_zijuhu@quicinc.com, 
-	aleksander.lobakin@intel.com, ira.weiny@intel.com, 
-	andriy.shevchenko@linux.intel.com, leon@kernel.org, lukas@wunner.de, 
-	bhelgaas@google.com, wagi@kernel.org, djeffery@redhat.com, 
-	stuart.w.hayes@gmail.com, ptyadav@amazon.de
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250515234757.19710-1-praveen.balakrishnan@magd.ox.ac.uk>
 
-On Thu, May 15, 2025 at 11:23=E2=80=AFAM Pasha Tatashin
-<pasha.tatashin@soleen.com> wrote:
-> +/**
-> + * luo_retrieve_file - Find a registered file instance by its token.
-> + * @token: The unique token of the file instance to retrieve.
-> + * @file: Output parameter. On success (return value 0), this will point
-> + * to the retrieved "struct file".
-> + *
-> + * Searches the global list for a &struct luo_file matching the @token. =
-Uses a
-> + * read lock, allowing concurrent retrievals.
-> + *
-> + * Return: 0 on success. Negative errno on failure.
-> + */
-> +int luo_retrieve_file(u64 token, struct file **file)
-> +{
-> +       struct luo_file *luo_file;
-> +       int ret =3D 0;
-> +
-> +       luo_files_recreate_luo_files_xa_in();
-> +       luo_state_read_enter();
-> +       if (!liveupdate_state_updated()) {
-> +               pr_warn("File can be retrieved only in updated state\n");
-> +               luo_state_read_exit();
-> +               return -EBUSY;
-> +       }
-> +
-> +       luo_file =3D xa_load(&luo_files_xa_in, token);
-> +       if (luo_file && !luo_file->reclaimed) {
-> +               luo_file->reclaimed =3D true;
+On Fri, May 16, 2025 at 12:47:57AM +0100, Praveen Balakrishnan wrote:
+> Corrected various spelling and grammatical mistakes in
+> Documentation/driver-api/ipmi.rst to improve readability.
+> 
+> No changes to the technical content has been made.
 
-I haven't been able to pay too much attention to the series yet, and I
-know this was posted as an RFC, so pardon my nit-picking.
+Thank you, I have added this to my tree.
 
-I think you need to have xchg here for this not to be racy, so something li=
-ke:
+-corey
 
-`if (luo_file && !xchg(&luo_file->reclaimed, true))`
-
-Or maybe you meant to avoid this race some other way; IIUC,
-luo_state_read_enter() is not sufficient.
-
-Thanks!
-
-> +               ret =3D luo_file->fs->retrieve(luo_file->fs->arg,
-> +                                            luo_file->private_data,
-> +                                            file);
-> +               if (!ret)
-> +                       luo_file->file =3D *file;
-> +       } else if (luo_file && luo_file->reclaimed) {
-> +               pr_err("The file descriptor for token %lld has already be=
-en retrieved\n",
-> +                      token);
-> +               ret =3D -EINVAL;
-> +       } else {
-> +               ret =3D -ENOENT;
-> +       }
-> +
-> +       luo_state_read_exit();
-> +
-> +       return ret;
-> +}
+> 
+> Signed-off-by: Praveen Balakrishnan <praveen.balakrishnan@magd.ox.ac.uk>
+> ---
+>  Documentation/driver-api/ipmi.rst | 20 ++++++++++----------
+>  1 file changed, 10 insertions(+), 10 deletions(-)
+> 
+> diff --git a/Documentation/driver-api/ipmi.rst b/Documentation/driver-api/ipmi.rst
+> index dfa021eacd63..d9fb2376e8da 100644
+> --- a/Documentation/driver-api/ipmi.rst
+> +++ b/Documentation/driver-api/ipmi.rst
+> @@ -45,7 +45,7 @@ manual), choose the 'IPMI SI handler' option.  A driver also exists
+>  for direct I2C access to the IPMI management controller.  Some boards
+>  support this, but it is unknown if it will work on every board.  For
+>  this, choose 'IPMI SMBus handler', but be ready to try to do some
+> -figuring to see if it will work on your system if the SMBIOS/APCI
+> +figuring to see if it will work on your system if the SMBIOS/ACPI
+>  information is wrong or not present.  It is fairly safe to have both
+>  these enabled and let the drivers auto-detect what is present.
+>  
+> @@ -63,7 +63,7 @@ situation, you need to read the section below named 'The SI Driver' or
+>  IPMI defines a standard watchdog timer.  You can enable this with the
+>  'IPMI Watchdog Timer' config option.  If you compile the driver into
+>  the kernel, then via a kernel command-line option you can have the
+> -watchdog timer start as soon as it initializes.  It also have a lot
+> +watchdog timer start as soon as it initializes.  It also has a lot
+>  of other options, see the 'Watchdog' section below for more details.
+>  Note that you can also have the watchdog continue to run if it is
+>  closed (by default it is disabled on close).  Go into the 'Watchdog
+> @@ -317,13 +317,13 @@ This gives the receiver a place to actually put the message.
+>  
+>  If the message cannot fit into the data you provide, you will get an
+>  EMSGSIZE error and the driver will leave the data in the receive
+> -queue.  If you want to get it and have it truncate the message, us
+> +queue.  If you want to get it and have it truncate the message, use
+>  the IPMICTL_RECEIVE_MSG_TRUNC ioctl.
+>  
+>  When you send a command (which is defined by the lowest-order bit of
+>  the netfn per the IPMI spec) on the IPMB bus, the driver will
+>  automatically assign the sequence number to the command and save the
+> -command.  If the response is not receive in the IPMI-specified 5
+> +command.  If the response is not received in the IPMI-specified 5
+>  seconds, it will generate a response automatically saying the command
+>  timed out.  If an unsolicited response comes in (if it was after 5
+>  seconds, for instance), that response will be ignored.
+> @@ -367,7 +367,7 @@ channel bitmasks do not overlap.
+>  
+>  To respond to a received command, set the response bit in the returned
+>  netfn, use the address from the received message, and use the same
+> -msgid that you got in the receive message.
+> +msgid that you got in the received message.
+>  
+>  From userland, equivalent IOCTLs are provided to do these functions.
+>  
+> @@ -440,7 +440,7 @@ register would be 0xca6.  This defaults to 1.
+>  
+>  The regsizes parameter gives the size of a register, in bytes.  The
+>  data used by IPMI is 8-bits wide, but it may be inside a larger
+> -register.  This parameter allows the read and write type to specified.
+> +register.  This parameter allows the read and write type to be specified.
+>  It may be 1, 2, 4, or 8.  The default is 1.
+>  
+>  Since the register size may be larger than 32 bits, the IPMI data may not
+> @@ -481,8 +481,8 @@ If your IPMI interface does not support interrupts and is a KCS or
+>  SMIC interface, the IPMI driver will start a kernel thread for the
+>  interface to help speed things up.  This is a low-priority kernel
+>  thread that constantly polls the IPMI driver while an IPMI operation
+> -is in progress.  The force_kipmid module parameter will all the user to
+> -force this thread on or off.  If you force it off and don't have
+> +is in progress.  The force_kipmid module parameter will allow the user
+> +to force this thread on or off.  If you force it off and don't have
+>  interrupts, the driver will run VERY slowly.  Don't blame me,
+>  these interfaces suck.
+>  
+> @@ -583,7 +583,7 @@ kernel command line as::
+>  These are the same options as on the module command line.
+>  
+>  The I2C driver does not support non-blocking access or polling, so
+> -this driver cannod to IPMI panic events, extend the watchdog at panic
+> +this driver cannot do IPMI panic events, extend the watchdog at panic
+>  time, or other panic-related IPMI functions without special kernel
+>  patches and driver modifications.  You can get those at the openipmi
+>  web page.
+> @@ -610,7 +610,7 @@ Parameters are::
+>  	ipmi_ipmb.retry_time_ms=<Time between retries on IPMB>
+>  	ipmi_ipmb.max_retries=<Number of times to retry a message>
+>  
+> -Loading the module will not result in the driver automatcially
+> +Loading the module will not result in the driver automatically
+>  starting unless there is device tree information setting it up.  If
+>  you want to instantiate one of these by hand, do::
+>  
+> -- 
+> 2.39.5
+> 
