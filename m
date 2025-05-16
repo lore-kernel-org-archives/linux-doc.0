@@ -1,150 +1,160 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 99C0A238C1D
-	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 11:59:53 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00333158520;
+	Fri, 16 May 2025 12:19:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747396796; cv=none; b=L/KYXA4RiOZeYDomiPK/BziSRYVVvLnU/hVnKv/XOk4oCC1rZhmX5OMvCrEEtfJbtLA5OohI0fOtWrQjbs4u8pclUoMC2tMZM9PQTDj7CJXeOad+WxWDkuJPk+/ssg2Q75vTBmcwRl7vRiESHvtKKGK4PM1TIILIfXco5l4iDLI=
+	t=1747397961; cv=none; b=X2XPXSWHjBH3s2Az0xgP10ylVEljB/nnnU1BbumQgdEdG2fvtjds2IpuekDkvzCO2J44n1VAzdnvIvnk6btJOZN+k59U7PEHXcPXlAL3NG8mbVfD73l6EW8/1Uu5RQ+hOU7zz8yllxQuRCyEu0jMdurwb1eUNSgy1/aphw0OtMo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747396796; c=relaxed/simple;
-	bh=b90/SYVIw+dBZMEUT65DfGZIzxwPVR5WwyeqFl4BJvc=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=BbgezcU5mJvK8G3e2bziSabPpcApGQLZSbnanoG7on93TbZpJ+Cs2+btUI0xJKp7sbXQKh/8V21D3tuwGETju7aUxTFK5zBfDVYdpXQXVVUXsXVCAySdaPLaEkg2A/pjaeiyWVIlzsw1S7fgWQnb6pKvKn4SDZgxb/1cZczsD1o=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=iDRJncNL; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747397961; c=relaxed/simple;
+	bh=Fcg+JWkvcZH1Z0cctkokT8yd5m4s1jckd+YU3YEbcG8=;
+	h=From:Date:To:cc:Subject:In-Reply-To:Message-ID:References:
+	 MIME-Version:Content-Type; b=n67TwDIQUQboXZCDFcWrVEGM00B74vGRc11AArhX2UJm0PMurCTNTfsrDs0UajVNPpMsWad4c0OaQZII1CNnbheYzYhMRtzn4Yv0Uq9UJQ78Bfn66ypzD/0mfW06K6xFdmzntsdc4xMnzq9wgOpCuj9kXItSqpoemLkOv2DjH7o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=RyiCCUvm; arc=none smtp.client-ip=198.175.65.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="iDRJncNL"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747396792;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=jV3TfuTBMPGuPU48cWyK877zQ+ap+DzX8iP1e9/vVHE=;
-	b=iDRJncNL8zxbAM2QsbK/laUhH9WaFPz5kLtlijCak8OOdjJnU9YiEdq4v6qcrbrRltgGjf
-	zMcqaX8U9+1jbfN9iepYMg0REcDSF99iUfW6khh/oa5rwA3I5i3TTXQ/qH8WFmYAzfsBhO
-	H6lQZUcL1m6do53WB5RyHzyEZ4atemo=
-Received: from mail-yw1-f198.google.com (mail-yw1-f198.google.com
- [209.85.128.198]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-479-fkRemp0wPf-PWTaKMTE01Q-1; Fri, 16 May 2025 07:59:51 -0400
-X-MC-Unique: fkRemp0wPf-PWTaKMTE01Q-1
-X-Mimecast-MFC-AGG-ID: fkRemp0wPf-PWTaKMTE01Q_1747396790
-Received: by mail-yw1-f198.google.com with SMTP id 00721157ae682-708b6b57e67so31006247b3.0
-        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 04:59:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747396790; x=1748001590;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=jV3TfuTBMPGuPU48cWyK877zQ+ap+DzX8iP1e9/vVHE=;
-        b=ftRKPr5Zs+uhWO1MCmv+dx+QjpnWimEgyywg4oUIZ9VXjheAHkNON2Ta6LJAVpFBo4
-         gmKLJt7qWszWZoeVSj1HdSxz/qwdcWVmHb7zSoPwrgAOq61uALEZ8n95HxhK9uZdc3oL
-         JsB7qGVFt6XMbSxCoV1YsBm4EvrmBK4x+AIsN0LERPEuwjKm9J5uVhNkMMwpnIKst7jL
-         Se5MGAlcS0N6lbez0Wc5zx421261gdhF98sf7fQ5ewpjR5+Ij2chqSxHzoFNtq37dl6Y
-         9LVaKONLPqncAFpnschBpTj6pzDgUGdpKwBEAjX9XaoK8XJ9WJ8gES7L2qlg3a5E7y6T
-         tkBg==
-X-Forwarded-Encrypted: i=1; AJvYcCXuGJnWuk6AaWUpYbWVKoMMX4cywbNPPXe0GM+PGpdqAGWcb66oxMP478B5dV16sgb1H1zfr+Ewsz0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwmpYXruXmIOgP7u9bYKRnLArmO0H7aDQYWBp1wKAeUFxwlqsOf
-	1N52gQ+2XPgMsNj45T6lDSyMF2xNC8N8uR7zkPzkWosVjtEkKZx54T6NlRYYd1hoHojFtvlEeCf
-	K7XM8+mt6gdfr40yGXt843QGbL7cPfIuverAXT5O5oGZXUXM2d4ceSuB/u/y8auASIyfzDrrRve
-	zOx4MZZ0vr9O9msep+/BtzJt/h9TLr2vRTyTJ8
-X-Gm-Gg: ASbGncva6c+1hnUWAgOjF8fwI/je/X0MyjfD58FnanNTEPPEmh0IRtg6q7DUUR75Z46
-	jJ1G/3cihJ2nwIEGrWhj+XaYolbg6oshfGcGiJVY/iMsKwOYr7RbAwtatp8JrGHfs/KsG1bM=
-X-Received: by 2002:a05:690c:2902:b0:708:39f0:e673 with SMTP id 00721157ae682-70cab099541mr32558967b3.26.1747396790713;
-        Fri, 16 May 2025 04:59:50 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFcYYv1aKngeTdy5ir8TbnMDL+aYvllbV4F5smezS9aZSJthiJS0se5fLpqvHuQKj9tO3mUUquimR8mFmse0lE=
-X-Received: by 2002:a05:690c:2902:b0:708:39f0:e673 with SMTP id
- 00721157ae682-70cab099541mr32558767b3.26.1747396790429; Fri, 16 May 2025
- 04:59:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="RyiCCUvm"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747397960; x=1778933960;
+  h=from:date:to:cc:subject:in-reply-to:message-id:
+   references:mime-version;
+  bh=Fcg+JWkvcZH1Z0cctkokT8yd5m4s1jckd+YU3YEbcG8=;
+  b=RyiCCUvmSJAZvWIgJab6P+E3ha0rYUOYqc4GI8cTWHqldXAQZOUqP/fP
+   p0rjwYAw1hOrmS8X2Lujx8Jd/Yjc5xPpkbCsapl1YMSa+Fsoc7wZ3dei4
+   WASTZn3MOBg342K9k1MSk2F9kfQ2kF4sYjdhBa18H8nyU2r/W3vbRabSb
+   L7YvFdOEmTabsnmcW1IaRHbd0xtLwLQVxq62JiSy2o/ZGpSRV0N2mSIhK
+   8eimYEx1X8l4TlI9YZL0k5t25/UMq+zmkp8CkqzIVn0oyw5cUnowfaSF6
+   EGXLkG4lrxTGAXiHui5Cvavv+KvLg7cnrf1a+HajcvD1pHrfxLfU+cXj9
+   g==;
+X-CSE-ConnectionGUID: k7ZSf14gSCKegh79GNteCA==
+X-CSE-MsgGUID: BqbrZWAvTW2/XOyNBjpH7g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11434"; a="49353851"
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="49353851"
+Received: from orviesa007.jf.intel.com ([10.64.159.147])
+  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:19:19 -0700
+X-CSE-ConnectionGUID: iA2lZ15ERLmg1Yu/PVRF0g==
+X-CSE-MsgGUID: IvuoMZssTe6Dm2b1qsLgAQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,293,1739865600"; 
+   d="scan'208";a="139213792"
+Received: from ijarvine-mobl1.ger.corp.intel.com (HELO localhost) ([10.245.245.94])
+  by orviesa007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 05:19:15 -0700
+From: =?UTF-8?q?Ilpo=20J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Date: Fri, 16 May 2025 15:19:11 +0300 (EEST)
+To: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+cc: Hans de Goede <hdegoede@redhat.com>, linux-gpio@vger.kernel.org, 
+    linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>, 
+    platform-driver-x86@vger.kernel.org, 
+    Linus Walleij <linus.walleij@linaro.org>, 
+    Bartosz Golaszewski <brgl@bgdev.pl>, Jonathan Corbet <corbet@lwn.net>, 
+    Alex Shi <alexs@kernel.org>, Yanteng Si <si.yanteng@linux.dev>, 
+    Dongliang Mu <dzm91@hust.edu.cn>, Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v1 1/1] gpiolib-acpi: Update file references in the
+ Documentation and MAINTAINERS
+In-Reply-To: <20250516095306.3417798-1-andriy.shevchenko@linux.intel.com>
+Message-ID: <02bdf242-cbfd-18e2-fabc-82f20823dcbb@linux.intel.com>
+References: <20250516095306.3417798-1-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515032226.128900-1-npache@redhat.com> <20250515032226.128900-3-npache@redhat.com>
- <4e00b5df-e9ce-40fa-8da0-9c66fe18bfd7@linux.alibaba.com>
-In-Reply-To: <4e00b5df-e9ce-40fa-8da0-9c66fe18bfd7@linux.alibaba.com>
-From: Nico Pache <npache@redhat.com>
-Date: Fri, 16 May 2025 05:59:24 -0600
-X-Gm-Features: AX0GCFt3NyCdj_YZyS35SoBcI6yDKLZwAnHKx4ZKJFM0r8cs98JHtyZCbongSjc
-Message-ID: <CAA1CXcAO5OkB=P++89q1VhcoRG6j6JR5K15m9sOaPdKwZ-LEkw@mail.gmail.com>
-Subject: Re: [PATCH v7 02/12] introduce khugepaged_collapse_single_pmd to
- unify khugepaged and madvise_collapse
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/mixed; boundary="8323328-42645495-1747397951=:1009"
 
-On Wed, May 14, 2025 at 11:50=E2=80=AFPM Baolin Wang
-<baolin.wang@linux.alibaba.com> wrote:
->
->
->
-> On 2025/5/15 11:22, Nico Pache wrote:
-> > The khugepaged daemon and madvise_collapse have two different
-> > implementations that do almost the same thing.
-> >
-> > Create khugepaged_collapse_single_pmd to increase code
-> > reuse and create an entry point for future khugepaged changes.
-> >
-> > Refactor madvise_collapse and khugepaged_scan_mm_slot to use
-> > the new khugepaged_collapse_single_pmd function.
-> >
-> > Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
-> > Signed-off-by: Nico Pache <npache@redhat.com>
-> > ---
-> >   mm/khugepaged.c | 96 +++++++++++++++++++++++++-----------------------=
--
-> >   1 file changed, 49 insertions(+), 47 deletions(-)
-> >
-> > diff --git a/mm/khugepaged.c b/mm/khugepaged.c
-> > index 806bcd8c5185..5457571d505a 100644
-> > --- a/mm/khugepaged.c
-> > +++ b/mm/khugepaged.c
-> > @@ -2353,6 +2353,48 @@ static int khugepaged_scan_file(struct mm_struct=
- *mm, unsigned long addr,
-> >       return result;
-> >   }
-> >
-> > +/*
-> > + * Try to collapse a single PMD starting at a PMD aligned addr, and re=
-turn
-> > + * the results.
-> > + */
-> > +static int khugepaged_collapse_single_pmd(unsigned long addr,
-> > +                                struct vm_area_struct *vma, bool *mmap=
-_locked,
-> > +                                struct collapse_control *cc)
-> > +{
-> > +     int result =3D SCAN_FAIL;
-> > +     struct mm_struct *mm =3D vma->vm_mm;
-> > +
-> > +     if (IS_ENABLED(CONFIG_SHMEM) && !vma_is_anonymous(vma)) {
->
-> I've removed the CONFIG_SHMEM dependency[1], please do not add it again.
+  This message is in MIME format.  The first part should be readable text,
+  while the remaining parts are likely unreadable without MIME-aware tools.
 
-Sorry I handled the conflict on the removal parts, forgot to handle
-the addition part... my bad.
->
-> [1]
-> https://lore.kernel.org/all/ce5c2314e0368cf34bda26f9bacf01c982d4da17.1747=
-119309.git.baolin.wang@linux.alibaba.com/
->
+--8323328-42645495-1747397951=:1009
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: QUOTED-PRINTABLE
 
+On Fri, 16 May 2025, Andy Shevchenko wrote:
+
+> The recent changes in the gpiolib-acpi.c need also updates in the Documen=
+tation
+> and MAINTAINERS. Do the necessary changes here.
+>=20
+> Fixes: babb541af627 ("gpiolib: acpi: Move quirks to a separate file")
+> Reported-by: Stephen Rothwell <sfr@canb.auug.org.au>
+> Closes: https://lore.kernel.org/r/20250516193436.09bdf8cc@canb.auug.org.a=
+u
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> ---
+>  Documentation/driver-api/gpio/index.rst                    | 2 +-
+>  Documentation/translations/zh_CN/driver-api/gpio/index.rst | 2 +-
+>  MAINTAINERS                                                | 2 +-
+>  drivers/platform/x86/intel/int0002_vgpio.c                 | 2 +-
+>  4 files changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/Documentation/driver-api/gpio/index.rst b/Documentation/driv=
+er-api/gpio/index.rst
+> index 34b57cee3391..43f6a3afe10b 100644
+> --- a/Documentation/driver-api/gpio/index.rst
+> +++ b/Documentation/driver-api/gpio/index.rst
+> @@ -27,7 +27,7 @@ Core
+>  ACPI support
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> =20
+> -.. kernel-doc:: drivers/gpio/gpiolib-acpi.c
+> +.. kernel-doc:: drivers/gpio/gpiolib-acpi-core.c
+>     :export:
+> =20
+>  Device tree support
+> diff --git a/Documentation/translations/zh_CN/driver-api/gpio/index.rst b=
+/Documentation/translations/zh_CN/driver-api/gpio/index.rst
+> index e4d54724a1b5..f64a69f771ca 100644
+> --- a/Documentation/translations/zh_CN/driver-api/gpio/index.rst
+> +++ b/Documentation/translations/zh_CN/driver-api/gpio/index.rst
+> @@ -42,7 +42,7 @@ ACPI=E6=94=AF=E6=8C=81
+> =20
+>  =E8=AF=A5API=E5=9C=A8=E4=BB=A5=E4=B8=8B=E5=86=85=E6=A0=B8=E4=BB=A3=E7=A0=
+=81=E4=B8=AD:
+> =20
+> -drivers/gpio/gpiolib-acpi.c
+> +drivers/gpio/gpiolib-acpi-core.c
+> =20
+>  =E8=AE=BE=E5=A4=87=E6=A0=91=E6=94=AF=E6=8C=81
+>  =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 96b827049501..d1290bbb6ac6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10105,7 +10105,7 @@ L:=09linux-acpi@vger.kernel.org
+>  S:=09Supported
+>  T:=09git git://git.kernel.org/pub/scm/linux/kernel/git/andy/linux-gpio-i=
+ntel.git
+>  F:=09Documentation/firmware-guide/acpi/gpio-properties.rst
+> -F:=09drivers/gpio/gpiolib-acpi.c
+> +F:=09drivers/gpio/gpiolib-acpi-*.c
+>  F:=09drivers/gpio/gpiolib-acpi.h
+> =20
+>  GPIO AGGREGATOR
+> diff --git a/drivers/platform/x86/intel/int0002_vgpio.c b/drivers/platfor=
+m/x86/intel/int0002_vgpio.c
+> index 3b48cd7a4075..b7b98343fdc6 100644
+> --- a/drivers/platform/x86/intel/int0002_vgpio.c
+> +++ b/drivers/platform/x86/intel/int0002_vgpio.c
+> @@ -23,7 +23,7 @@
+>   * ACPI mechanisms, this is not a real GPIO at all.
+>   *
+>   * This driver will bind to the INT0002 device, and register as a GPIO
+> - * controller, letting gpiolib-acpi.c call the _L02 handler as it would
+> + * controller, letting gpiolib-acpi call the _L02 handler as it would
+>   * for a real GPIO controller.
+>   */
+> =20
+>=20
+
+Acked-by: Ilpo J=C3=A4rvinen <ilpo.jarvinen@linux.intel.com>
+
+I assume this goes through some other tree than pxd86 ?
+
+--=20
+ i.
+
+--8323328-42645495-1747397951=:1009--
