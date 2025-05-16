@@ -1,384 +1,281 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mx0a-00069f02.pphosted.com (mx0a-00069f02.pphosted.com [205.220.165.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2D921D5174;
-	Fri, 16 May 2025 17:19:35 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747415978; cv=none; b=BzwhJa7fZAnxzoK3Pem/vpu37VZZHRz3P9IAMnLB0VKq276/9vSj762dRuE45N/mUoExU4xUfWh2Wj8wAQo7BZwcvOu4N6heLASV890v3Tlti1jQMAPqY9NwpdENnuMUzpb40yn+cwbl59cEFxtub1geaMqiDXKcN2B7wJgvQUg=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747415978; c=relaxed/simple;
-	bh=oU/upza6fHD2xQ5TLfC2wgPPp/ppsw0/de/y+5bcXOw=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=HhVCkwMEksB/CXXHIfxFv7tsi0Tfg5w9+TlrDWyAB//Kz2BwmF691352eFLMP0QEmy+L14Hl05M3VwgvA9tbsTwoMSvil3iDyLZjW3l1qHBnthxpTvUH6vIKyli8wRU764okayhTlV0fhcv48esEGVJo3Fie8FBP5L43AxmRqDY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ecgyck1S; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3E2B126B974;
+	Fri, 16 May 2025 17:28:01 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.165.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747416484; cv=fail; b=Qkbu5aCig1KSU0ahm6OmHLIqRfQvR5FnAHVqBNGBuzYZSHX8F3Qc2j/HFHo39y4sQ4ZWrJ0JuOex+wyyPvh2CTUTt+7OX3eGjcdT47niiBYmA0jogNIKOK3iYicB8bLU6lIDnYNCuc9A4GTd4z2KsiuaaT/Is9l+ZlhhR7dh1Ko=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747416484; c=relaxed/simple;
+	bh=DPL4ISzDTLVSCYgLO15VFPlA4sCDr0WacSNRi/ge62o=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=njy+oTx1BAks7kodoW52SfnYWunuu3QURA1+N2b6qxVzmTJBa5kWhejqZZEmfCOhOh52HwdOrJ6QoxwY7oJqgoUYEraLiaLBQGA47ZAkCx4B35lr+ILEZeIlPkbYVgeh5mr3B+ftjHCFkeuHE4oF7OO6fbMyRAmOVMAmjWWIJYI=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=Lh8RkvZM; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=kaVpzsXm; arc=fail smtp.client-ip=205.220.165.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ecgyck1S"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a1d8c0966fso1665637f8f.1;
-        Fri, 16 May 2025 10:19:35 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="Lh8RkvZM";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="kaVpzsXm"
+Received: from pps.filterd (m0333521.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54GGfsa3001013;
+	Fri, 16 May 2025 17:14:48 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=Ox4AaKhpCpRKs0YHxx
+	rdUa+YMJFTcJxjA4cOw5QMt/U=; b=Lh8RkvZMcxOhz5vEoMt2/Qem+wZKHEynTW
+	7u6XjnMA1VYlmVCCzFjhO8W0cVj6XWw0AbRhVSLGCo/S87bFoj04ReDNFGFiGHIV
+	Qjs82kpDwaMiTKwU0s2jvOMFOaBuHVrnxxtYn3ONxPiFLqaxokStvXmjYz+o1qZ/
+	Iksz9IwxeBKFP+W6L88TF5g/6uioWd1FlQfRwLi1x6Fa2keo7DAJ+tQ2Gm4c4asT
+	XyhkGsQzMxni4g+LcidPjfViuUVMNSzK1MT2e5EZgn4iaca3BEZI0mPgWdfa7kdX
+	yIxa+uFqH8D9rvHwmsNCO91xjtRFZ4ue04kWDZp/ClTJ4vOzwfzw==
+Received: from phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta02.appoci.oracle.com [147.154.114.232])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46nre01ung-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 May 2025 17:14:47 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 54GH6CBa004951;
+	Fri, 16 May 2025 17:14:46 GMT
+Received: from nam11-dm6-obe.outbound.protection.outlook.com (mail-dm6nam11lp2168.outbound.protection.outlook.com [104.47.57.168])
+	by phxpaimrmta02.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46mrmfkrdr-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 16 May 2025 17:14:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ryaMLB5JccmstSb5uv6L676x+u2CpCgyno9rSMGyLNB6Tdp184OUkjWPZ8vSNAlCBAYP/2S3oFEec74vZ03aOIOFHgfFE0JxrUK2dMASJRuSol6xmojSLe3OvEWGsTsV2uZFfZkldnAeQQjYlnrxvMltCWKSCXLjU2RVI1nklbcGw0JgA99Xp8hl7eEbPWsYAWTWm/xNZxtE4asJbKaUPzNWfm0SBKXTlLJyIq/hICyiw03nYu7wXr6kUm0X8RSx04AS9SsQX56bG/H9iH5ItkmyPJO1MqBjT4skKfBleHcXFuuOdRLND3Y5GYbuhcPyM3Av5+7cO4Ot8xrxqoU5bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Ox4AaKhpCpRKs0YHxxrdUa+YMJFTcJxjA4cOw5QMt/U=;
+ b=JkCMjSg6ioBLHdOgh7uyjTzJi0BJOKaVoLsrEOmIjzTGM5cgjswaGZFvJGK0pwflDfOnSLZdgeVKIDUZQIZZXtPuXUPB8nixtzn4osFPqVxYxOYt3ovtzGaj0eGpbGC5p/LRJOj4Ww4o4Y/oDflRHP34tP+20+B3rd0m2l3jhnGVSnGYBwba5UbQRK3fkF9tobGu8tqVENUA8yl3UBOjkM5o+B8BRan0ooDuW3gc4hOE4TVkdfq5yjbkScKTXouzEZqO8NP9GrWoL3iMQ/hiDdHyeNjRoLRMNb2kHoke47201kP+qU+6PPjktTWweccPjOCMztQY4yK0kk8jITkrRA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747415974; x=1748020774; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=scp30wX9S3En5NLP8zYpz0v3AMQnTSxhNtpujWPSkWo=;
-        b=ecgyck1SO2082mMSag/sGrjRldUqirRjem5OdOTuqsvQYJp8bvQazGjGsnmoRBOs1g
-         WoUiCrgKARlWfQQjATuH0ylL3cozZOo3Rnd/tzfM6HgDqJPVeeDhpx5sMMPde7BKs5yf
-         dUvEhavAi2PREDFD6NprojRukfY8RUnguPeO0djjQ8oRoAEz1Ih/y73Di9Z7GYLCmLrO
-         qm92rYQuCBeCA4G7YUXk44YJuWLun9KpoOwtIqhmlSIhctDOGYpZFIVBpYKvMkjByh3I
-         gYjYrqX45J6kYAGT32rdpMbYPUKFpZO5BqHH3bAuwHQ+lPjbWMCi/kgH4h+tyuy66c06
-         fGjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747415974; x=1748020774;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=scp30wX9S3En5NLP8zYpz0v3AMQnTSxhNtpujWPSkWo=;
-        b=nIkBJ3i5r8K2syLl+ZMK1oX4vu03NbumY1KinV6qz07CPo8o8USVAMNUD2qDR89IQl
-         rfITfrGRRB8yX/DeRiysg7kjSpUfHqY17mcs1YTmBXiN38xltidPrzrPG9cwBxV0yphw
-         aRUPM1FtIzFN4eVtJ+GMDP7NsZwWXLU0pGp/yBDy1Ebm3PG1q4i2fPMLcktNSHvCUAfI
-         wL5zj3g1uEXmU5IUbAHk1MOplzSzRbP6UZUgPLQQYigaWLV+ESfdH1oyomz5EDEMayjo
-         U0wju2PnegtMUDMEjzX2uAa5Pq2RQPGMXmVNxLwjFE0GAVdyr3Jc3zXbRl/r6RDJS3Qo
-         u3KQ==
-X-Forwarded-Encrypted: i=1; AJvYcCUJuY0Mm29VMcomHBg1Fb2xjl/S9xW3hc/WSms/0nRnalj37bOLCYs2wVeAhqpavZgJk87ZJNGRpT8=@vger.kernel.org, AJvYcCXzFyms4pxWprPW9BSl/wZZ7R62FOdeuJctyQmob7GP4HidQOSKExkMssEEuDZ6De8paWJ+GmI0nVim2HV6@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyn2NfDrZa26Te+mwwve+WXrUsdnroku5PHcZeDQEv6ae1ZMNVz
-	dyaWO0WYxMuxIjIOxOAzMKmB6WcH1u/EWa1wkX+kRuekm+PLq/24xbT1
-X-Gm-Gg: ASbGncvvLmS9TJUuCXUrEAYjjAdx9eu9+alEh7Tl1rctqG87pamzppSvsapqOTB2/aX
-	Vrl3BsVzhnjOycXA5K0BCc2MhohNqvtZFhlETgRVSgYJrEdTjlKiS3mJKVOmaWFOP3hpYtyVaxU
-	uU/o8BfnsfFBJ2R661yneIwEXhOdtSJj4wz7d4OjCo5vfvmXwXozt5djZZz83rvd76LEgI5dT+l
-	sQR3LeBwsg9RCEpFwCUcIkeF0ePBzNE4ISow0i9jOd+aG2E0mYDjo0aL2vgPCHifYqRvxe+N1pR
-	h0Ty6UVxEQ7iXR7202ZYqtLTp+99G49iMDMYc0Fjc2Yvx+GG1W3nqSlYVIrmJUpBLwJtUOHJoqY
-	0QrNEx5dIHRIhSmDWhVxvY5dW6k8BREx0D8YMkf45ZLYTwOCOMKIXoEr/RQ==
-X-Google-Smtp-Source: AGHT+IEzy01Mr4eOjhKk/daIdILUsRnMi+mICtkNBZwJf2oVbEFvg6chOyHRDPdQXEo31nfb/2V3og==
-X-Received: by 2002:a05:6000:2a5:b0:3a0:b817:2d7a with SMTP id ffacd0b85a97d-3a351222edemr7573219f8f.29.1747415973931;
-        Fri, 16 May 2025 10:19:33 -0700 (PDT)
-Received: from ?IPV6:2a01:4b00:b211:ad00:1096:2c00:b223:9747? ([2a01:4b00:b211:ad00:1096:2c00:b223:9747])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442fd50ee03sm40122895e9.14.2025.05.16.10.19.33
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 May 2025 10:19:33 -0700 (PDT)
-Message-ID: <3284ec20-2c3f-46d0-a599-2f322b2883c8@gmail.com>
-Date: Fri, 16 May 2025 18:19:32 +0100
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Ox4AaKhpCpRKs0YHxxrdUa+YMJFTcJxjA4cOw5QMt/U=;
+ b=kaVpzsXmf344NVqF/uQrigbOxqSGkoVATMpSNqA5GPRzkshD5O2KDDHH6Eo6dCaX52Y7hxPSuF5iQNzvT8uSiJ2oP9SeFR3CRagova1yqpNehJmRkbXi5zh06wkLWCUKT8Z6jwXmaGTnjFSYZI0zj21z/5jLWK1XwWGdBnflL/E=
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com (2603:10b6:510:128::16)
+ by CO1PR10MB4642.namprd10.prod.outlook.com (2603:10b6:303:6f::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Fri, 16 May
+ 2025 17:14:43 +0000
+Received: from PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::75a8:21cc:f343:f68c]) by PH0PR10MB5777.namprd10.prod.outlook.com
+ ([fe80::75a8:21cc:f343:f68c%6]) with mapi id 15.20.8722.027; Fri, 16 May 2025
+ 17:14:43 +0000
+Date: Fri, 16 May 2025 13:14:37 -0400
+From: "Liam R. Howlett" <Liam.Howlett@oracle.com>
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org,
+        david@redhat.com, ziy@nvidia.com, baolin.wang@linux.alibaba.com,
+        lorenzo.stoakes@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com,
+        corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org,
+        mathieu.desnoyers@efficios.com, akpm@linux-foundation.org,
+        baohua@kernel.org, willy@infradead.org, peterx@redhat.com,
+        wangkefeng.wang@huawei.com, usamaarif642@gmail.com,
+        sunnanyong@huawei.com, vishal.moola@gmail.com,
+        thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com,
+        kirill.shutemov@linux.intel.com, aarcange@redhat.com,
+        raquini@redhat.com, anshuman.khandual@arm.com, catalin.marinas@arm.com,
+        tiwai@suse.de, will@kernel.org, dave.hansen@linux.intel.com,
+        jack@suse.cz, cl@gentwo.org, jglisse@google.com, surenb@google.com,
+        zokeefe@google.com, hannes@cmpxchg.org, rientjes@google.com,
+        mhocko@suse.com, rdunlap@infradead.org
+Subject: Re: [PATCH v7 03/12] khugepaged: generalize hugepage_vma_revalidate
+ for mTHP support
+Message-ID: <5u5ealsawrsaybblcfqorwljb4delzlmcjhdd274333daxb4p2@m47iodmem2fg>
+Mail-Followup-To: "Liam R. Howlett" <Liam.Howlett@oracle.com>, 
+	Nico Pache <npache@redhat.com>, linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, david@redhat.com, 
+	ziy@nvidia.com, baolin.wang@linux.alibaba.com, lorenzo.stoakes@oracle.com, 
+	ryan.roberts@arm.com, dev.jain@arm.com, corbet@lwn.net, rostedt@goodmis.org, 
+	mhiramat@kernel.org, mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, 
+	baohua@kernel.org, willy@infradead.org, peterx@redhat.com, 
+	wangkefeng.wang@huawei.com, usamaarif642@gmail.com, sunnanyong@huawei.com, 
+	vishal.moola@gmail.com, thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, will@kernel.org, 
+	dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, jglisse@google.com, 
+	surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, rientjes@google.com, 
+	mhocko@suse.com, rdunlap@infradead.org
+References: <20250515032226.128900-1-npache@redhat.com>
+ <20250515032226.128900-4-npache@redhat.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250515032226.128900-4-npache@redhat.com>
+User-Agent: NeoMutt/20240425
+X-ClientProxiedBy: YT4PR01CA0178.CANPRD01.PROD.OUTLOOK.COM
+ (2603:10b6:b01:110::22) To PH0PR10MB5777.namprd10.prod.outlook.com
+ (2603:10b6:510:128::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the
- process
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
- David Hildenbrand <david@redhat.com>,
- "Liam R. Howlett" <Liam.Howlett@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
- ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
- Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <c0af0eb2-d10f-4ee3-87dd-c23cca6cfd1a@lucifer.local>
- <ddc0dd46-8541-4d4a-ac59-287e11e1d3ff@gmail.com>
- <02ead03b-339b-45c8-b252-d31a66501c39@lucifer.local>
- <3a2a329d-2592-4e31-a763-d87dcd925966@redhat.com>
- <8ea288f2-5196-41f9-bd65-e29f22bb29e8@lucifer.local>
- <5f77366d-e100-46bb-ac85-aa4b216eb2cf@redhat.com>
- <cbc95f9b-1c13-45ec-8d34-38544d3f2dd3@lucifer.local>
- <8f0a22c2-3176-4942-994d-58d940901ecf@redhat.com>
- <1a175a2c-8afa-4995-9dec-e3e7cf1efc72@lucifer.local>
- <d8a7644b-6ec5-48bd-9789-cb5017075690@redhat.com>
- <c390dd7e-0770-4d29-bb0e-f410ff6678e3@lucifer.local>
-Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <c390dd7e-0770-4d29-bb0e-f410ff6678e3@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PH0PR10MB5777:EE_|CO1PR10MB4642:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cdbc041-4fa7-4963-f3b9-08dd949d268c
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam:
+	BCL:0;ARA:13230040|376014|7416014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?mtpc89NNPTzh0z3GrlARorlikLw+JAgUh/ZNM1DU2d+OZJB2O9L34Q5RKu/W?=
+ =?us-ascii?Q?NlhOH9KkC4wDT0Rs5e4ahxap5lnw1/vD6BSfZYaB1eaglfxxhEIwECNyexpN?=
+ =?us-ascii?Q?Ey9rLLK1Xa6dUb7leDKl9JwuFdzsLT5IYl9lzEOnEUX6QuOnfRUqlK91lL/R?=
+ =?us-ascii?Q?qTuI4GSXDpK7dIeCkJg4c1JctzP0yk1XA5AzNYvqrqURlrEr37bDxnr7MRkg?=
+ =?us-ascii?Q?iZRs5I62gQXNrS8CP+zVi7vEiggMhtwM57zt35159AOjzHfEEuR0TJCnWRV2?=
+ =?us-ascii?Q?5UFhtZJQq5jO/UbiJ/4P/Zk89eNVOTE7b/fJk99327QTR60AXFrksR14s7vE?=
+ =?us-ascii?Q?62a6S49gur+fyQ/fEqpGZLBnzrACl0jvQB247IdPtdmm2jNbNwL5ziAapTcc?=
+ =?us-ascii?Q?fx0tkP3G4GPPxMf9gsT76akTJXODmxfU/5BPYJUwfx1dwnIVC/yr6DnsR3lT?=
+ =?us-ascii?Q?K47FixGP1yhjl/AIGkOyNkIDp1KoZfHx2RVJjbxbc38HaBf7yNgjHr+CjQ9A?=
+ =?us-ascii?Q?oKvJTZ9ndq7uCwhhD167ctpFRJA26nDxvND1E7DWcLd9bG1DQ49jRYM9SEPP?=
+ =?us-ascii?Q?RTTFjAS8HmyPMEuZPCDAXaSVpzwhrBqCi1SYD1cTlD6AW3d/bAARVNiyOZ+D?=
+ =?us-ascii?Q?pYlU9zhKR0oPCyfosXJcdCxxfcPozH31JeThhthp90gLuroA14hAGj7JwqNj?=
+ =?us-ascii?Q?E4hZHCdRQaL/4KtBbjnW+PxLyh6TkhHTZ8UUVV+uJxJxGfeWhiT+4wpJF5M3?=
+ =?us-ascii?Q?yeqb5LndwXwIVii7BZSBi/URF8yWlo6SyPnQF6oPrVLuYnZG/9FNZZFZfAe/?=
+ =?us-ascii?Q?bn3qsG29P4ZI09DLjY/rB9fLO4BF62xz4fvEhuy8D5N8qWqeq4t+6bluL1Uy?=
+ =?us-ascii?Q?zYEZLE8IyoiCMsV+t5rlKne+ysMNJen9nJdvW9p4rhB5KmaW/e0kxnNkmkDh?=
+ =?us-ascii?Q?tamveDebgjCdTrKRL+JGh0wsNwAfMiokQw2PLea9dVqRrxkxQktpcY2dWkf1?=
+ =?us-ascii?Q?0QF4qj2aWqfAN7KS7i6nAbVL9qDEP3KqiSHkBEMT7RGp4ex94TM11gClZcX2?=
+ =?us-ascii?Q?NNb5d+XuLxPOoFPVn6aFHJaIPikIo4qGWK1A+TpnbnxiGEhYuUg2JYWCPnvV?=
+ =?us-ascii?Q?cmW7wZzJG9OD0A/BS+xNLRxUzb05NxqdbbyyuFx/VaE5hXOFfdTBO9H1FMEo?=
+ =?us-ascii?Q?k/XBRZS7y9g8xtZf2CEaBTlOKAHIfPWjN3yqmdP8Lf/GEVtL+F95vtuQRuoe?=
+ =?us-ascii?Q?QWwvMEMD4O58KcmH0216wYGtwR8GLY9xzA8HX5VbBDBJsupWgLdxkTr5cAcm?=
+ =?us-ascii?Q?5jNQgKJFXnC9s9AiHQDDrcdblNWR8Z5n9FznJ3ZJ69Xlno+FwswF/ctxzdl3?=
+ =?us-ascii?Q?0a5xDjJ/qsBfz6DjH+0Ez7cm4Z7vx4Ci8SiHHt2nBX452BRaiGiZItdzqSmb?=
+ =?us-ascii?Q?V6hHRyz5yto=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR10MB5777.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(7416014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?eVLLEA7xS49vN8k7VaVkjWWx2q48iWR/YxsNCJbFEw2wzE4tJMaClsNJcM+l?=
+ =?us-ascii?Q?0cndfYZb5rcxagrwLsxIsdO2XQT4VwRxYSCF8YfAj5Ec2klQaeXdoJeavDiF?=
+ =?us-ascii?Q?G0OOrda9kaXtHRYeHyfUGXSee9n6RFonh8Ugi1sBRnbDDDFQfgc6CxsjgaLj?=
+ =?us-ascii?Q?ZDUErRzk8Bus5dap2MuKuKnnnY4qV3zdiB4MZH/pSbkTxd18xfruc7t+3jt7?=
+ =?us-ascii?Q?k3F6aNdWKicwTb5WX3ePtl6k1smOC9phxAoGszFKqg4gDUaT7JUO35HZmCnp?=
+ =?us-ascii?Q?BX1GLDOkVNeKVA0n2x/luyGG3o6a5YsDCAx0WWwlyUWpPkIPiQL5Nh+zb8P7?=
+ =?us-ascii?Q?dWc99ppAjHutrswng3VyHpTaKOHkaPRtXxh4fVq+lCjzJlHKezsQN5rABjNP?=
+ =?us-ascii?Q?B/4yY5hgQi1fTq5+24e8p4Fe8cAG/uc+cSEd12Jtjaxn3LtA1r8uRp1EkKlN?=
+ =?us-ascii?Q?96IQPY/uryjidud9IHxCTijACvLA0F5nkSBfOzlteLqcZ2dYUcQEiPcehfnO?=
+ =?us-ascii?Q?wTb1tSnswaPn+Uhc5/L+keqr3WfQnQMyXPWRolFQh/NgzGlTDZG8eLO2uCTZ?=
+ =?us-ascii?Q?eA5O6eE2Qxx3EMxzTeIfivCK49/0y80kmTljGU+8keD7Sw75GNsI8pCbSv6R?=
+ =?us-ascii?Q?O+QI0+0xKHJweRT9iitdZs1yqxZUk06I8Jz/9CJ23T1RpAdKq1K3mTlFdnXJ?=
+ =?us-ascii?Q?YiKUvH+wpQLRTGMuJPttJl/csqedtrkE8GFIOLwJQ5H+RhTEzkxaA6loRh2R?=
+ =?us-ascii?Q?IGf8hrMknsqZ9WbcqGU/WWSFV1kWAuDm06OKSYoty97sOT1Sord9a9mts3Dl?=
+ =?us-ascii?Q?K0p5o4Vz6scARqaYdYLKO4ouMDzd/p9E0SFA1qwyEEHV1XDDapP6k2JyXEoE?=
+ =?us-ascii?Q?eaF0Wk0NFoox4Hybo6SwH6etLn0zUX9ZD3xO1mSFStr30y7mRwru6Efy2j/g?=
+ =?us-ascii?Q?suUQ76Rqs2WQ8O97MwN9v0IfOu1nLX8DIMdbwxDNhYmRjdBeuVQNQm4CB2KP?=
+ =?us-ascii?Q?vCrcaev0/qBVH1P8Zr6NPjtRm8emILsqkXyiKK9B8LhymLPTD8yDaoYQEZcF?=
+ =?us-ascii?Q?EUh4c1kuphZqQx9qlhWZ4v9p2IMJXSh3CEl4UNxdZL315geR5oaeM+EgwJ58?=
+ =?us-ascii?Q?TyGixK1ut6Yikd7rGKvIvxrHthQ/8RWZ4ykGnKRg5xOx0cB3yVyKm4wxtD91?=
+ =?us-ascii?Q?SvVJi3U+Kb1cAbSfmu5GE6E0LWPtkljpwsI03pdpGrAV16zwpRAW0+2az6N3?=
+ =?us-ascii?Q?5f8x7FtQ9iW96pey3nah+ZnHCSN+a4ACvTTCgs6go9QoIN03SK8HcjroBTqy?=
+ =?us-ascii?Q?6LtQ+7TZAt1JOEPLVRCoHpF4e3Tcy+m4c/K+MS5u4HMgWBWP+nhHxGczVZF6?=
+ =?us-ascii?Q?MUbNK4ZmpxbCPgiHDZ1bIjYLu55OSf08qFQKNEMxA/ZvIViHg9bvNn4W1g9m?=
+ =?us-ascii?Q?XMEUwFvjsZPnqEihEuzSrQ/qn94UNfCh06tD1jCFGfPaHpc3ociM3rZetcjO?=
+ =?us-ascii?Q?JbTLrHaQbL1/9phKTJX6pWIkG4osLo2hKOB9mNZ0ahOriPJ4hKjsIaEAdwmP?=
+ =?us-ascii?Q?0Va6CqkhVsa7juRevNjFpiPJ1l9ru96qrbzJiS/h?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	8V54JZNQv0+2brTkY/22gtFs0PtrJDyMlBpeUF02o3MXWbdRweVuZ94+ALeTMyFzW3A1bXzl4MMcsOKX8mCHQyYWrxwwXBQlZz5Y7ZVYd6MNYUn/5JOKLlXtcdabJvWLzUC97TYk9TmPIqPwJ1bJnTOFdG8ss9n3jvV4cCSJwvZbeXCm2LqKASXaK2OtZXWsNNnJRkrrd42OKdVk4ikm+bDmY7dJ4ZhcoHp8Dh06cdyiCmcJbDY4PP4DgcCIMryZXighqKqEhoujGfRznEYQk8gevncwoVOpRz0O+Hr7fn2F9CBMakMzICvYqIjhe9+kSB7XOFUrbj+MT5mR4sOJdrdVbW6VhsJ2LHew7RvqruJlm+f4fWJ6amwGM3ImVZv7BelS9GEvxUH77BSRc5Lq8noIetPmvXyMQxsO9jHz4IhzkCEd7Y2Bf4e0WJbdxtFP4knQ4Tlq9pGBsb9lPAeAObgq/Az/SqpTfZPD2rd1CydVR5iWekhw4U+Cr40cDQnfdU0oM4FhtSByJ+QYBXociuVJN8MUIT4VwKg3lYHZCe14NdEhA6Lm0WNOALL3y+FE2oa9S9CBHydZjJ26pzzj3cW3NzghRLXIq/Ji4zEHZjY=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cdbc041-4fa7-4963-f3b9-08dd949d268c
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR10MB5777.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 May 2025 17:14:43.5402
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: 6lC5N0Ihih1mG7PRhidwiX5EGuND0o8JOgc3f216SZzf0Nfojm6VU0YBpmc1nmNFbMd9lMdp6Oehf22yAFabvg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO1PR10MB4642
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-16_05,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 spamscore=0
+ suspectscore=0 mlxscore=0 phishscore=0 mlxlogscore=999 adultscore=0
+ bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505070000 definitions=main-2505160168
+X-Proofpoint-GUID: gU-HPqa5OyW1o7yUts7-FyyKAMEh2iTU
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTE2MDE2OCBTYWx0ZWRfX02PsApUnVtvd M3la4AFlIY2v7PPIPacS6IImcA0FEBlQ8UwvZODs15wDAzVUameq5fQcz/m2H1Df3ifQpElzZ9V yR/Efnh5iC+dQODVjkVqwFrAg0Xto8fQamlsFMFdrSF0A9k7LtZBDRyHgoO0ZBqStOeMzJ0zoEh
+ wY3Se9Uy/P6iWKMdfFNcgeDASmg4mN1/DsiLNwTU6zrKLe4nOYRdXOYxBZK37mR58SvoPuJsZHK gsqvq8MQyjc5YqoSgv1Fa0DBOKcMBY49PO4SPlNfI9sxj0DMjDnb40f3LeSQ66U/9N+2TYLa58j lBqEGClPHjQpxtId5sLey2RQiHID9PNLihSac4KWbkun6EQ8O7Meyb+XZ3SnKLmj4tHHyoo0N9G
+ TR7cH5xBQSeVo5Qhe1/yB9NoqDBtagu9Bq6oG0T6G2E1AUE8SuNNsfFMfwSh6dfXxfdrdx4u
+X-Proofpoint-ORIG-GUID: gU-HPqa5OyW1o7yUts7-FyyKAMEh2iTU
+X-Authority-Analysis: v=2.4 cv=O9s5vA9W c=1 sm=1 tr=0 ts=68277287 cx=c_pps a=OOZaFjgC48PWsiFpTAqLcw==:117 a=OOZaFjgC48PWsiFpTAqLcw==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10
+ a=kj9zAlcOel0A:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=20KFwNOVAAAA:8 a=SRrdq9N9AAAA:8 a=7CQSdrXTAAAA:8 a=vghThWDQyLxkgOGcvckA:9 a=CjuIK1q_8ugA:10 a=a-qgeE7W1pNrGK8U0ZQC:22
 
+* Nico Pache <npache@redhat.com> [250514 23:23]:
+> For khugepaged to support different mTHP orders, we must generalize this
+> to check if the PMD is not shared by another VMA and the order is
+> enabled.
+> 
+> No functional change in this patch.
 
+This patch needs to be with the functional change for git blame and
+reviewing the changes.
 
-On 16/05/2025 13:57, Lorenzo Stoakes wrote:
-> On Fri, May 16, 2025 at 01:24:18PM +0200, David Hildenbrand wrote:
->> Looking forward to hearing what your magic thinking cap can do! :)
 > 
-> OK so just to say at the outset, this is purely playing around with a
-> theoretical idea here, so if it's crazy just let me know :))
+> Reviewed-by: Baolin Wang <baolin.wang@linux.alibaba.com>
+> Co-developed-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Dev Jain <dev.jain@arm.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  mm/khugepaged.c | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> Right now madvise() has limited utility because:
+> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+> index 5457571d505a..0c4d6a02d59c 100644
+> --- a/mm/khugepaged.c
+> +++ b/mm/khugepaged.c
+> @@ -920,7 +920,7 @@ static int khugepaged_find_target_node(struct collapse_control *cc)
+>  static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>  				   bool expect_anon,
+>  				   struct vm_area_struct **vmap,
+> -				   struct collapse_control *cc)
+> +				   struct collapse_control *cc, int order)
+>  {
+>  	struct vm_area_struct *vma;
+>  	unsigned long tva_flags = cc->is_khugepaged ? TVA_ENFORCE_SYSFS : 0;
+> @@ -934,7 +934,7 @@ static int hugepage_vma_revalidate(struct mm_struct *mm, unsigned long address,
+>  
+>  	if (!thp_vma_suitable_order(vma, address, PMD_ORDER))
+>  		return SCAN_ADDRESS_RANGE;
+> -	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, PMD_ORDER))
+> +	if (!thp_vma_allowable_order(vma, vma->vm_flags, tva_flags, order))
+>  		return SCAN_VMA_CHECK;
+>  	/*
+>  	 * Anon VMA expected, the address may be unmapped then
+> @@ -1130,7 +1130,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>  		goto out_nolock;
+>  
+>  	mmap_read_lock(mm);
+> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
+> +	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, HPAGE_PMD_ORDER);
+>  	if (result != SCAN_SUCCEED) {
+>  		mmap_read_unlock(mm);
+>  		goto out_nolock;
+> @@ -1164,7 +1164,7 @@ static int collapse_huge_page(struct mm_struct *mm, unsigned long address,
+>  	 * mmap_lock.
+>  	 */
+>  	mmap_write_lock(mm);
+> -	result = hugepage_vma_revalidate(mm, address, true, &vma, cc);
+> +	result = hugepage_vma_revalidate(mm, address, true, &vma, cc, HPAGE_PMD_ORDER);
+>  	if (result != SCAN_SUCCEED)
+>  		goto out_up_write;
+>  	/* check if the pmd is still valid */
+> @@ -2782,7 +2782,7 @@ int madvise_collapse(struct vm_area_struct *vma, struct vm_area_struct **prev,
+>  			mmap_read_lock(mm);
+>  			mmap_locked = true;
+>  			result = hugepage_vma_revalidate(mm, addr, false, &vma,
+> -							 cc);
+> +							 cc, HPAGE_PMD_ORDER);
+>  			if (result  != SCAN_SUCCEED) {
+>  				last_fail = result;
+>  				goto out_nolock;
+> -- 
+> 2.49.0
 > 
-> - You have little control over how the operation is done
-> - You get little feedback about what's actually succeeded or not
-> - While you can perform multiple operations at once via process_madvise(),
->   even to the current process (after my changes to extend it), it's limited
->   to a single advice over 8 ranges.
-> - You can't say 'ignore errors just try'
-> - You get the weird gap behaviour.
-> 
-> So the concept is - make everything explicit and add a new syscall that
-> wraps the existing madvise() stuff and addresses all the above issues.
-> 
-> Specifically pertinent to the case at hand - also add a 'set_default'
-> boolean (you'll see shortly exactly where) to also tell madvise() to make
-> all future VMAs default to the specified advice. We'll whitelist what we're
-> allowed to use here and should be able to use mm->def_flags.
-> 
-> So the idea is we'll use a helper struct-configured function (hey, it's me,
-> I <3 helper structs so of course) like:
-> 
-> int madvise_ranges(struct madvise_range_control *ctl);
-> 
-> With the data structures as follows (untested, etc. etc.):
-> 
-> enum madvise_range_type {
-> 	MADVISE_RANGE_SINGLE,
-> 	MADVISE_RANGE_MULTI,
-> 	MADVISE_RANGE_ALL,
-> };
-> 
-> struct madvise_range {
-> 	const void *addr;
-> 	size_t size;
-> 	int advice;
-> };
-> 
-> struct madvise_ranges {
-> 	const struct madvise_range *arr;
-> 	size_t count;
-> };
-> 
-> struct madvise_range_stats {
-> 	struct madvise_range range;
-> 	bool success;
-> 	bool partial;
-> };
-> 
-> struct madvise_ranges_stats {
-> 	unsigned long nr_mappings_advised;
-> 	unsigned long nr_mappings_skipped;
-> 	unsigned long nr_pages_advised;
-> 	unsigned long nr_pages_skipped;
-> 	unsigned long nr_gaps;
-> 
-> 	/*
-> 	 * Useful for madvise_range_control->ignore_errors:
-> 	 *
-> 	 * If non-NULL, points to an array of size equal to the number of ranges
-> 	 * specified. Indiciates the specified range, whether it succeeded, and
-> 	 * whether that success was partial (that is, the range specified
-> 	 * multiple mappings, only some of which had advice applied
-> 	 * successfully).
-> 	 *
-> 	 * Not valid for MADVISE_RANGE_ALL.
-> 	 */
->  	struct madvise_range_stats *per_range_stats;
-> 
-> 	/* Error details. */
-> 	int err;
-> 	unsigned long failed_address;
-> 	size_t offset; /* If multi, at which offset did this occur? */
-> };
-> 
-> struct madvise_ranges_control {
-> 	int version; /* Allow future updates to API. */
-> 
-> 	enum madvise_range_type type;
-> 
-> 	union {
-> 		struct madvise_range range; /* MADVISE_RANGE_SINGLE */
-> 		struct madvise_ranges ranges; /* MADVISE_RANGE_MULTI */
-> 		struct all { /* MADVISE_RANGE_ALL */
-> 			int advice;
-> 			/*
-> 			 * If set, also have all future mappings have this applied by default.
-> 			 *
-> 			 * Only whitelisted advice may set this, otherwise -EINVAL will be returned.
-> 			 */
-> 			bool set_default;
-> 		};
-> 	};
-> 	struct madvise_ranges_stats *stats; /* If non-NULL, report information about operation. */
-> 
-> 	int pidfd; /* If is_remote set, the remote process. */
-> 
-> 	/* Options. */
-> 	bool is_remote :1; /* Target remote process as specified by pidfd. */
-> 	bool ignore_errors :1; /* If error occurs applying advice, carry on to next VMA. */
-> 	bool single_mapping_only :1; /* Error out if any range is not a single VMA. */
-> 	bool stop_on_gap :1; /* Stop operation if input range includes unmapped memory. */
-> };
-> 
-> So the user can specify whether to apply advice to a single range,
-> multiple, or the whole address space, with real control over how the operation proceeds.
-> 
-
-For single range, we have madvise, for multiple ranges we have process_madvise,
-we can have a very very simple solution for whole address space with prctl.
-
-IMHO, above is really not be needed (but I might be wrong :)), this will introduce a
-lot of code to solve something that can be done in a very very simple way and it will introduce
-another syscall when prctl is designed for this, I understand that you don't like prctl,
-but it is there.
-
-I have added below what patch 1 of 6 would look like after incorporating all your feedback.
-(Thanks for all the feedback, really appreciate it!!)
-Main difference from the current revisions:
-- no more flags2.
-- no more MMF2_...
-- renamed policy to PR_DEFAULT_MADV_HUGEPAGE
-- mmap_write_lock_killable acquired in PR_GET_THP_POLICY
-- mmap_write lock fixed in PR_SET_THP_POLICY
-- check if hugepage_global_enabled is enabled in the call and account for s390
-- set mm->def_flags VM_HUGEPAGE and VM_NOHUGEPAGE according to the policy in the way
-  done by madvise(). I believe VM merge will not be broken in this way, please let me know
-  otherwise.
-- process_default_madv_hugepage function that does for_each_vma and calls hugepage_madvise.
-  (I can move it to vma.c or any other file you prefer).
-
-Please let me know if this looks acceptable and I can send this as RFC v3 for all the
-6 patches (the rest are done in a similar way to below)
-
-
-
-
-diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
-index 2f190c90192d..a8c3ce15a504 100644
---- a/include/linux/huge_mm.h
-+++ b/include/linux/huge_mm.h
-@@ -260,6 +260,8 @@ static inline unsigned long thp_vma_suitable_orders(struct vm_area_struct *vma,
-        return orders;
- }
- 
-+void process_default_madv_hugepage(struct mm_struct *mm, int advice);
-+
- unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
-                                         unsigned long vm_flags,
-                                         unsigned long tva_flags,
-diff --git a/include/linux/mm.h b/include/linux/mm.h
-index 43748c8f3454..436f4588bce8 100644
---- a/include/linux/mm.h
-+++ b/include/linux/mm.h
-@@ -466,7 +466,7 @@ extern unsigned int kobjsize(const void *objp);
- #define VM_NO_KHUGEPAGED (VM_SPECIAL | VM_HUGETLB)
- 
- /* This mask defines which mm->def_flags a process can inherit its parent */
--#define VM_INIT_DEF_MASK       VM_NOHUGEPAGE
-+#define VM_INIT_DEF_MASK       (VM_HUGEPAGE | VM_NOHUGEPAGE)
- 
- /* This mask represents all the VMA flag bits used by mlock */
- #define VM_LOCKED_MASK (VM_LOCKED | VM_LOCKONFAULT)
-diff --git a/include/linux/mm_types.h b/include/linux/mm_types.h
-index e76bade9ebb1..f1836b7c5704 100644
---- a/include/linux/mm_types.h
-+++ b/include/linux/mm_types.h
-@@ -1703,6 +1703,7 @@ enum {
-                                        /* leave room for more dump flags */
- #define MMF_VM_MERGEABLE       16      /* KSM may merge identical pages */
- #define MMF_VM_HUGEPAGE                17      /* set when mm is available for khugepaged */
-+#define MMF_VM_HUGEPAGE_MASK   (1 << MMF_VM_HUGEPAGE)
- 
- /*
-  * This one-shot flag is dropped due to necessity of changing exe once again
-@@ -1742,7 +1743,8 @@ enum {
- 
- #define MMF_INIT_MASK          (MMF_DUMPABLE_MASK | MMF_DUMP_FILTER_MASK |\
-                                 MMF_DISABLE_THP_MASK | MMF_HAS_MDWE_MASK |\
--                                MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK)
-+                                MMF_VM_MERGE_ANY_MASK | MMF_TOPDOWN_MASK |\
-+                                MMF_VM_HUGEPAGE_MASK)
- 
- static inline unsigned long mmf_init_flags(unsigned long flags)
- {
-diff --git a/include/uapi/linux/prctl.h b/include/uapi/linux/prctl.h
-index 15c18ef4eb11..15aaa4db5ff8 100644
---- a/include/uapi/linux/prctl.h
-+++ b/include/uapi/linux/prctl.h
-@@ -364,4 +364,8 @@ struct prctl_mm_map {
- # define PR_TIMER_CREATE_RESTORE_IDS_ON                1
- # define PR_TIMER_CREATE_RESTORE_IDS_GET       2
- 
-+#define PR_SET_THP_POLICY              78
-+#define PR_GET_THP_POLICY              79
-+#define PR_DEFAULT_MADV_HUGEPAGE       0
-+
- #endif /* _LINUX_PRCTL_H */
-diff --git a/kernel/sys.c b/kernel/sys.c
-index c434968e9f5d..4fe860b0ff25 100644
---- a/kernel/sys.c
-+++ b/kernel/sys.c
-@@ -2658,6 +2658,44 @@ SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-                        clear_bit(MMF_DISABLE_THP, &me->mm->flags);
-                mmap_write_unlock(me->mm);
-                break;
-+       case PR_GET_THP_POLICY:
-+               if (arg2 || arg3 || arg4 || arg5)
-+                       return -EINVAL;
-+               if (mmap_write_lock_killable(me->mm))
-+                       return -EINTR;
-+               if (me->mm->def_flags & VM_HUGEPAGE)
-+                       error = PR_DEFAULT_MADV_HUGEPAGE;
-+               mmap_write_unlock(me->mm);
-+               break;
-+       case PR_SET_THP_POLICY:
-+               if (arg3 || arg4 || arg5)
-+                       return -EINVAL;
-+               if (mmap_write_lock_killable(me->mm))
-+                       return -EINTR;
-+               switch (arg2) {
-+               case PR_DEFAULT_MADV_HUGEPAGE:
-+                       if (!hugepage_global_enabled())
-+                               error = -EPERM;
-+#ifdef CONFIG_S390
-+                       /*
-+                       * qemu blindly sets MADV_HUGEPAGE on all allocations, but s390
-+                       * can't handle this properly after s390_enable_sie, so we simply
-+                       * ignore the madvise to prevent qemu from causing a SIGSEGV.
-+                       */
-+                       else if (mm_has_pgste(vma->vm_mm))
-+                               error = -EPERM;
-+#endif
-+                       else {
-+                               me->mm->def_flags &= ~VM_NOHUGEPAGE;
-+                               me->mm->def_flags |= VM_HUGEPAGE;
-+                               process_default_madv_hugepage(me->mm, MADV_HUGEPAGE);
-+                       }
-+                       break;
-+               default:
-+                       error = -EINVAL;
-+               }
-+               mmap_write_unlock(me->mm);
-+               break;
-        case PR_MPX_ENABLE_MANAGEMENT:
-        case PR_MPX_DISABLE_MANAGEMENT:
-                /* No longer implemented: */
-diff --git a/mm/huge_memory.c b/mm/huge_memory.c
-index 2780a12b25f0..2b9a3e280ae4 100644
---- a/mm/huge_memory.c
-+++ b/mm/huge_memory.c
-@@ -98,6 +98,18 @@ static inline bool file_thp_enabled(struct vm_area_struct *vma)
-        return !inode_is_open_for_write(inode) && S_ISREG(inode->i_mode);
- }
- 
-+void process_default_madv_hugepage(struct mm_struct *mm, int advice)
-+{
-+       struct vm_area_struct *vma;
-+       unsigned long vm_flags;
-+
-+       VMA_ITERATOR(vmi, mm, 0);
-+       for_each_vma(vmi, vma) {
-+               vm_flags = vma->vm_flags;
-+               hugepage_madvise(vma, &vm_flags, advice);
-+       }
-+}
-+
- unsigned long __thp_vma_allowable_orders(struct vm_area_struct *vma,
-                                         unsigned long vm_flags,
-                                         unsigned long tva_flags,
-
-
-
-
-> This basically solves the problem this series tries to address while also
-> providing an improved madvise() API at the same time.
-> 
-> Thoughts? Have I finally completely lost my mind?
-
-
