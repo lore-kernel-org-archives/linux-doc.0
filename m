@@ -1,177 +1,121 @@
-Received: from jeth.damsy.net (jeth.damsy.net [51.159.152.102])
+Received: from fhigh-a4-smtp.messagingengine.com (fhigh-a4-smtp.messagingengine.com [103.168.172.155])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 00DA521FF4A;
-	Fri, 16 May 2025 08:01:39 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.159.152.102
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 976BA22C32D;
+	Fri, 16 May 2025 08:14:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=103.168.172.155
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747382503; cv=none; b=tcT6pRHErEd3c1YN1VyfjTN8ZGTaa2wsQh5Mp36xOisC4hrfDR+medADCpSlwNbDQQ5UArnFq6U0fHK1/SPMx7fW1Z/0uOAXjM7T1wOFaQ6DbyZCU8hHP2wBxlBzuzeJ5Xfx5orqBTWZPv5jrbYpWu5SIsm55rcAT8G2D2KSVr4=
+	t=1747383276; cv=none; b=HpZlzM2gfW1PzC+UzTnmAS8QVNFZJmluXAbF4Ck8Dh1dNZWcpMPlCpT2FdDWVTWxtC0TU/WdF+t9oRDDoaQPqD76qYGb5lLwYIHkU5fHdG564WjDukLpLAoslt/57OCBWih43SMAv3vHh1MpVvjrBiTbRBQOQ3Wu50oYM9LOiSs=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747382503; c=relaxed/simple;
-	bh=yUSd1lLOUTfXqwk/RalMi6aO3FyaQpO1WZ3T1xPz8kY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=aJ3uUunyhD1mAMJAYKlbzcGg7ZN1wZy62MfFsHPjWmY7j/fpl8n8XOBvzfx06/Q8Cz3U54FPnUDi8W4CJ14SDXt/gDgar6qNEFuQTrtS50c3FQGQxTpejrTvEWa1sYgMX/Cx28gyY76XmFOxHHt1k7yHlfXcWYWdFrc7NvSKBhs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net; spf=pass smtp.mailfrom=damsy.net; dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b=CgXcYEZX; dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b=cr+6076D; arc=none smtp.client-ip=51.159.152.102
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=damsy.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=damsy.net
+	s=arc-20240116; t=1747383276; c=relaxed/simple;
+	bh=5o8u9UI3qSzHKBb8msf+BmnRXu2vA5xfWjWzupRBzf0=;
+	h=MIME-Version:Date:From:To:Cc:Message-Id:In-Reply-To:References:
+	 Subject:Content-Type; b=dsJOAuSFgpFb+jGW4cIKJKUesyR6An0gICyBUuKLmbBeiB85oMWASighWyd3ZcAvA8N/ZbAayNrhCyQAuZlzoeXVhZ/PnqzmUHIcxgvTJguy4U/tPhiUvtW1rkK0AKHIWHJ4vE4eV2TfD0prNf166FDdkPhCAyYXpwell78zT0I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de; spf=pass smtp.mailfrom=arndb.de; dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b=052ekoYV; dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b=drdAYO9a; arc=none smtp.client-ip=103.168.172.155
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arndb.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arndb.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=damsy.net header.i=@damsy.net header.b="CgXcYEZX";
-	dkim=permerror (0-bit key) header.d=damsy.net header.i=@damsy.net header.b="cr+6076D"
-DKIM-Signature: v=1; a=rsa-sha256; s=202408r; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1747382182; bh=YPy+tEZL6apKgfvAMCRSsSk
-	8zKBxHWC7t2m1Vfn3jPs=; b=CgXcYEZX8hN/Q2e8M/80XSvSboXrdC5slsIEaxO8MEjbT6Mt06
-	NdM43xSHHG2AVxLNrAJ4Z/rw82f8ujBNTnDLilcOjG59X7I7rVHF//JMltYERkh69ySJFndsqSx
-	2HhmYqvQC7SUV5omtgvmMwLo0ARUefbpfAS/r+YYeQl/GundzUUsICBAzgrplwocwNIoenYkdiW
-	goHq/TnW15uWBkrP31QDMpLX2C8+q4Gm30YK12rfwlU0W2q4vIPu1XLqmwTw79bf5dWhsKd/qJi
-	RepcAKpFb9Gsi4geYsjwp19Die7hbGY4GrXm9agLG5xJ3BpvoG7HBdb1iKUDvsec6cQ==;
-DKIM-Signature: v=1; a=ed25519-sha256; s=202408e; d=damsy.net; c=relaxed/relaxed;
-	h=From:To:Subject:Date:Message-ID; t=1747382182; bh=YPy+tEZL6apKgfvAMCRSsSk
-	8zKBxHWC7t2m1Vfn3jPs=; b=cr+6076Dkxypklpp92ebvSZPCsy2GPT7BKIzpqigg57qRQwr/u
-	kl/P0+TezIcHj+VIk3KIKeqKsYydjFqRI+Aw==;
-Message-ID: <7f04847e-9549-47cc-9b61-7b32df24ef8e@damsy.net>
-Date: Fri, 16 May 2025 09:56:21 +0200
+	dkim=pass (2048-bit key) header.d=arndb.de header.i=@arndb.de header.b="052ekoYV";
+	dkim=pass (2048-bit key) header.d=messagingengine.com header.i=@messagingengine.com header.b="drdAYO9a"
+Received: from phl-compute-05.internal (phl-compute-05.phl.internal [10.202.2.45])
+	by mailfhigh.phl.internal (Postfix) with ESMTP id 42FFD11400EF;
+	Fri, 16 May 2025 04:14:31 -0400 (EDT)
+Received: from phl-imap-12 ([10.202.2.86])
+  by phl-compute-05.internal (MEProxy); Fri, 16 May 2025 04:14:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arndb.de; h=cc
+	:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1747383271;
+	 x=1747469671; bh=TNQAy/3v/9QLSLFFH92xpmcRe2YVjxYAjNqCMFTN3Ec=; b=
+	052ekoYV6RayiTa2DxfUFA6HabKwskEGS2Tqtj0/bs7nkYANgSbIAuf727TX1cQ6
+	P928iyqi3au10lYINrEVu3QH8QD6qV5f+sR+dtRqm7ky+fs/1y28AEXystFF8z34
+	7GNVCn45I+AHO7nT7mOlBSsSw8hKr+TV0vwS8hRljWxrQuAnMGvyDCspzMD9faTH
+	auoWsAyhNzl9qkXt/ko3JnNS0tz8h+uC8uu+PerXcTS95OUE3pBq2T2dKW0LMsZt
+	/YPA85CGUUla92Kg0hFUlZlR5wJi6iu3B7EtntsGwjmqAAdr3rPANPOca9KV8hZk
+	zMj3RTNXU4PWdF5phr1aAA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1747383271; x=
+	1747469671; bh=TNQAy/3v/9QLSLFFH92xpmcRe2YVjxYAjNqCMFTN3Ec=; b=d
+	rdAYO9ahRidVZ+oA9KDWOKxoWfMZjU4euDQQmdqiwe/fw/2l5reWmiMlPUKgtORN
+	A4ac3uesbCs66B392kXrrhNbF2KvTqNfLTGldWKeKj9WmMhlNUOzqIAMnm7+DFcN
+	pB9TnP0ndwgdv+haN5uzaTa7bHFuVDkoJW7iuq8/uiLYh8aXsyapHn10xVIW2a70
+	1GyiHByZWdegATwuB1qbTcErcui7fNZo/twFLnBOlF7M27RPE1Z7RptkyCAGJUpi
+	lCGkdshhXWZVTLSLkDcrVi19M6UE1Ltk/YFfeBWR+zrHoy4zEy/eEV0Tqpw8pWp6
+	242ywdHunbRspJTC7Hg+Q==
+X-ME-Sender: <xms:5vMmaGaxVnX6-ZGYTswN4aSmYLmQ-lMxCwBc4hvycnecD5YvZAXPQA>
+    <xme:5vMmaJZISR81F_TkRhU9DLiwVhxx6qkv0nlzj8Ofn59spVch-MXn_aa35eRjIm_eb
+    Vtp7G-9t3ZhPBb7OXQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefuddvvdehucetufdoteggodetrf
+    dotffvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdggtfgfnhhsuhgsshgtrhhisggv
+    pdfurfetoffkrfgpnffqhgenuceurghilhhouhhtmecufedttdenucesvcftvggtihhpih
+    gvnhhtshculddquddttddmnecujfgurhepofggfffhvfevkfgjfhfutgfgsehtjeertder
+    tddtnecuhfhrohhmpedftehrnhguuceuvghrghhmrghnnhdfuceorghrnhgusegrrhhnug
+    gsrdguvgeqnecuggftrfgrthhtvghrnhephfdthfdvtdefhedukeetgefggffhjeeggeet
+    fefggfevudegudevledvkefhvdeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrg
+    hmpehmrghilhhfrhhomheprghrnhgusegrrhhnuggsrdguvgdpnhgspghrtghpthhtohep
+    vdejpdhmohguvgepshhmthhpohhuthdprhgtphhtthhopegsphesrghlihgvnhekrdguvg
+    dprhgtphhtthhopegtrghtrghlihhnrdhmrghrihhnrghssegrrhhmrdgtohhmpdhrtghp
+    thhtohepmhgrrhhkrdhruhhtlhgrnhgusegrrhhmrdgtohhmpdhrtghpthhtohepnhhitg
+    holhgrshesfhhjrghslhgvrdgvuhdprhgtphhtthhopegsrhhgvghrshhtsehgmhgrihhl
+    rdgtohhmpdhrtghpthhtohepuhgsihiijhgrkhesghhmrghilhdrtghomhdprhgtphhtth
+    hopehhvghrsggvrhhtsehgohhnughorhdrrghprghnrgdrohhrghdrrghupdhrtghpthht
+    oheprghruggssehkvghrnhgvlhdrohhrghdprhgtphhtthhopegrrhhnugeskhgvrhhnvg
+    hlrdhorhhg
+X-ME-Proxy: <xmx:5vMmaA8EEx-OxskfKuRjr9KqwyscGaSynjNvYYLiCrwTmbWD-bToJw>
+    <xmx:5vMmaIqgdVU4_r5WTwAPfvdbHYn3RYDW3ij-ah7orJFBFDb_ec2hGQ>
+    <xmx:5vMmaBobzfhKEgME9i6MR7L-msBVA1kr6N4cGHyO6v-shXK68N8ERA>
+    <xmx:5vMmaGSCjD70OA_GBpm2DaKQJhs2uNV6k2rokbq8YEFk3LnNyAWwuQ>
+    <xmx:5_MmaH_50-jHxQd0krYUtVXnXcC7JhRQ2lGKO5MUdnKqV1cmrQSgd23Q>
+Feedback-ID: i56a14606:Fastmail
+Received: by mailuser.phl.internal (Postfix, from userid 501)
+	id 0AD69106005E; Fri, 16 May 2025 04:14:30 -0400 (EDT)
+X-Mailer: MessagingEngine.com Webmail Interface
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v9 09/10] drm/doc: document some tracepoints as uAPI
-To: phasta@kernel.org,
- Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- Jonathan Corbet <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>,
- Danilo Krummrich <dakr@kernel.org>,
- =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
- Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>, =?UTF-8?Q?Ma=C3=ADra_Canal?=
- <mcanal@igalia.com>, =?UTF-8?Q?Christian_K=C3=B6nig?=
- <christian.koenig@amd.com>, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-References: <20250424083834.15518-1-pierre-eric.pelloux-prayer@amd.com>
- <20250424083834.15518-10-pierre-eric.pelloux-prayer@amd.com>
- <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
-Content-Language: en-US
-From: Pierre-Eric Pelloux-Prayer <pierre-eric@damsy.net>
-In-Reply-To: <27825c551adeda28f4b329f44c316ad2ab67fa5d.camel@mailbox.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+X-ThreadId: T1c7885e3064aa147
+Date: Fri, 16 May 2025 10:14:08 +0200
+From: "Arnd Bergmann" <arnd@arndb.de>
+To: "Eric Biggers" <ebiggers@kernel.org>, "Arnd Bergmann" <arnd@kernel.org>
+Cc: linux-kbuild@vger.kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ "Ard Biesheuvel" <ardb@kernel.org>, "Borislav Petkov" <bp@alien8.de>,
+ "Brian Gerst" <brgerst@gmail.com>,
+ "Catalin Marinas" <catalin.marinas@arm.com>,
+ "Dave Hansen" <dave.hansen@linux.intel.com>,
+ "Herbert Xu" <herbert@gondor.apana.org.au>, "Ingo Molnar" <mingo@redhat.com>,
+ "Jonathan Corbet" <corbet@lwn.net>, "Marc Zyngier" <maz@kernel.org>,
+ "Mark Rutland" <mark.rutland@arm.com>,
+ "Masahiro Yamada" <masahiroy@kernel.org>,
+ "Nathan Chancellor" <nathan@kernel.org>,
+ "Nicolas Schier" <nicolas@fjasle.eu>, "Takashi Iwai" <tiwai@suse.com>,
+ "Thomas Gleixner" <tglx@linutronix.de>, "Uros Bizjak" <ubizjak@gmail.com>,
+ "Will Deacon" <will@kernel.org>, linux-arm-kernel@lists.infradead.org,
+ linux-crypto@vger.kernel.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-raid@vger.kernel.org, x86@kernel.org
+Message-Id: <77dca5eb-74d6-4363-9d8b-e7b0d449dcb7@app.fastmail.com>
+In-Reply-To: <20250515182806.GD1411@quark>
+References: <20250407094116.1339199-1-arnd@kernel.org>
+ <20250407094116.1339199-2-arnd@kernel.org> <20250515182806.GD1411@quark>
+Subject: Re: [PATCH 1/4] kbuild: require gcc-8 and binutils-2.30
+Content-Type: text/plain
+Content-Transfer-Encoding: 7bit
 
-Hi,
+On Thu, May 15, 2025, at 20:28, Eric Biggers wrote:
+> On Mon, Apr 07, 2025 at 11:41:13AM +0200, Arnd Bergmann wrote:
+>
+> Later in this file, there's another mention of the binutils version that needs
+> to be updated.  (Or maybe removed since it's redundant with the table?)
+>
+>     Binutils 2.25 or newer is needed to build the kernel.
 
-Le 14/05/2025 à 14:53, Philipp Stanner a écrit :
-> On Thu, 2025-04-24 at 10:38 +0200, Pierre-Eric Pelloux-Prayer wrote:
->> This commit adds a document section in drm-uapi.rst about
->> tracepoints,
->> and mark the events gpu_scheduler_trace.h as stable uAPI.
->>
->> The goal is to explicitly state that tools can rely on the fields,
->> formats and semantics of these events.
->>
->> Acked-by: Lucas Stach <l.stach@pengutronix.de>
->> Acked-by: Maíra Canal <mcanal@igalia.com>
->> Reviewed-by: Christian König <christian.koenig@amd.com>
->> Signed-off-by: Pierre-Eric Pelloux-Prayer
->> <pierre-eric.pelloux-prayer@amd.com>
->> ---
->>   Documentation/gpu/drm-uapi.rst                | 19
->> +++++++++++++++++++
->>   .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 19
->> +++++++++++++++++++
->>   2 files changed, 38 insertions(+)
->>
->> diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-
->> uapi.rst
->> index 69f72e71a96e..4863a4deb0ee 100644
->> --- a/Documentation/gpu/drm-uapi.rst
->> +++ b/Documentation/gpu/drm-uapi.rst
->> @@ -693,3 +693,22 @@ dma-buf interoperability
->>   
->>   Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst
->> for
->>   information on how dma-buf is integrated and exposed within DRM.
->> +
->> +
->> +Trace events
->> +============
->> +
->> +See Documentation/trace/tracepoints.rst for information about using
->> +Linux Kernel Tracepoints.
->> +In the DRM subsystem, some events are considered stable uAPI to
->> avoid
->> +breaking tools (e.g.: GPUVis, umr) relying on them. Stable means
->> that fields
->> +cannot be removed, nor their formatting updated. Adding new fields
->> is
->> +possible, under the normal uAPI requirements.
->> +
->> +Stable uAPI events
->> +------------------
->> +
->> +From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
->> +
->> +.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +   :doc: uAPI trace events
->> \ No newline at end of file
->> diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> index 781b20349389..7e840d08ef39 100644
->> --- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> +++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
->> @@ -32,6 +32,25 @@
->>   #define TRACE_SYSTEM gpu_scheduler
->>   #define TRACE_INCLUDE_FILE gpu_scheduler_trace
->>   
->> +/**
->> + * DOC: uAPI trace events
->> + *
->> + * ``drm_sched_job_queue``, ``drm_sched_job_run``,
->> ``drm_sched_job_add_dep``,
->> + * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are
->> considered
->> + * stable uAPI.
->> + *
->> + * Common trace events attributes:
->> + *
->> + * * ``dev``   - the dev_name() of the device running the job.
->> + *
->> + * * ``ring``  - the hardware ring running the job. Together with
->> ``dev`` it
->> + *   uniquely identifies where the job is going to be executed.
->> + *
->> + * * ``fence`` - the &dma_fence.context and the &dma_fence.seqno of
->> + *   &drm_sched_fence.finished
->> + *
->> + */
-> 
-> For my understanding, why do you use the double apostrophes here?
+Thanks for noticing, I've fixed both the English and Italian documentation
+files now.
 
-To get similar formatting to function arguments and make the output a bit nicer to read.
-
-> 
-> Also, the linking for the docu afair here two requires you to write
-> 
-> &struct dma_fence.seqno
-> 
-> If I am not mistaken
-> 
-> https://www.kernel.org/doc/html/latest/doc-guide/kernel-doc.html#highlights-and-cross-references
-
-Indeed, thanks. I fixed this.
-
-Pierre-Eric
-
-> 
-> 
-> P.
-> 
->> +
->>   DECLARE_EVENT_CLASS(drm_sched_job,
->>   	    TP_PROTO(struct drm_sched_job *sched_job, struct
->> drm_sched_entity *entity),
->>   	    TP_ARGS(sched_job, entity),
-
+     Arnd
