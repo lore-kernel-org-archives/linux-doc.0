@@ -1,341 +1,267 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 510C7231C9F;
-	Fri, 16 May 2025 10:26:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747391176; cv=pass; b=k0LoO3cBNjdrfeFoxs88JuKJ55UHdPCT6mEtLMguDBqiq7GAvgafx7iNQZMcTQddZLH6UeR5jHCk369h69Pk6JQDG7a+IDq/SP1Kr2sEOz0K1lrJfiXlZup+6tXlhbDj/nJ/3wIhT8yLUtMWSMDCaeC4gvJ4G4t+kXcszQXdo1k=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747391176; c=relaxed/simple;
-	bh=8SfH7tS1+DBD1BFvcUPQKwcuArOyOFY5FbHf3u/nmF8=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=e3z+RnOI2UWVP+a+A4KKcbaHGwueIbyCUKgeAM4YBzcJxnhFg7lGZBbjQhJB3oaWnACkrEiL6tt//6Zm1ZHuJjJo1VPFA6fscGQdJ1EFcWJen9vniG2hKg+Ie6Vki8sxyAlD1XxDfcr+getnSRi92ZCw6AOm3Be6XNDV5vEnj28=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=JB1cbKT7; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CBD45233128
+	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 10:42:25 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.44
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747392148; cv=none; b=JO7BqBuQ+NfM/hHoqZRYawaOFX5gLgHPgEDbQ9eNID7e9UN+Bk56M+ZO2jCpED+zQjbnlf5Xj7pO/RGEgwyEtN/40MuVt4Fp+2xeR/ksoLkbJBW+6OabzCMXGssWaKQijPbzsJFUTlWIubB8oWAAfE772G7BUoM7jptxloWxOJI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747392148; c=relaxed/simple;
+	bh=Hc8t9atv4fpFog7hirL8DOXDeOQFYClBoxp14PBEVKE=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=r+HqKwj9slRXCiX8q6NkBY+FwTWgCHD0TcnDKhMt5aqIDlLW+8G4NyGVJdoy94ucC9D64z1mX7b4tzGS0lYs20OFimtkVCT5sA6Mag97BhgrmDM/NFiZU2p1+t8oR+RiOzwRknfnRXc/kyCwyXLcIxKMumcK6LmF93Y0aPl61xE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=IURTkVMI; arc=none smtp.client-ip=209.85.128.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="JB1cbKT7"
-ARC-Seal: i=1; a=rsa-sha256; t=1747391146; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=bemhvM9pwc8lCTJ7XG1tyEEogtDBUUEZ41R2u5OYVFdWR9MOMZskgudhQ3OsgdJO9qjTiLycp/YDRQ8yMEzBwBAwIhN66m/UvH3eoL6WsNwtaduS5/XHC/BWuGmjdXY9vtyRIvW41BGUyo13vMCmBOD/rFbR6pyOkdqIOjZ0FEA=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1747391146; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=7ufq7J+dS4vCBPvGzC6/ZAkxwKyIeNhF3xU0c1WaRyU=; 
-	b=bUS/5eaIuaigVKEH3qqBDvXf5I2A9R4xE8DqK+/1KGO6mC4zhLQLWCc+mDKecABgyufYYTFnZMHmWG1rf1ncsVdFk1s3JPPySHXSInhxKmIzXpf3h+DM2AGOLKRIukfrVZ+Zt/IWFxAq8fA+w725ywuw8g54OfCoLoNgMbH4FpI=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747391146;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:To:To:Cc:Cc:Subject:Subject:Date:Date:Message-ID:In-Reply-To:References:MIME-Version:Content-Transfer-Encoding:Content-Type:Message-Id:Reply-To;
-	bh=7ufq7J+dS4vCBPvGzC6/ZAkxwKyIeNhF3xU0c1WaRyU=;
-	b=JB1cbKT7TU5UV3Ld8nZuGxkJHP3cleYuTIvTef8FpJFjK8fYRWPCM+r/1kBImbrj
-	HVMBehTCRnncUQKVNuhcnj/F05QRYNtjQjeEH8tjJ9wuaSxKQNNuwcb+G2R4iP0yRmM
-	ACYHzsfKj0H8AQMBslE47Ai8jzFBAm6A1nehUxAk=
-Received: by mx.zohomail.com with SMTPS id 1747391144724792.7392507526358;
-	Fri, 16 May 2025 03:25:44 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
- Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?UTF-8?B?S8O2bmln?= <christian.koenig@amd.com>,
- Sebastian Reichel <sebastian.reichel@collabora.com>,
- Jeffrey Hugo <quic_jhugo@quicinc.com>, linux-rockchip@lists.infradead.org,
- devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
- linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 1/7] dt-bindings: npu: rockchip,rknn: Add bindings
-Date: Fri, 16 May 2025 12:25:37 +0200
-Message-ID: <6549034.lOV4Wx5bFT@workhorse>
-In-Reply-To:
- <CAAObsKDYpDt15NePk7DZbfwXnn5uaJxCu-pwZd-+PDEi56C73A@mail.gmail.com>
-References:
- <20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net>
- <3628015.iIbC2pHGDl@workhorse>
- <CAAObsKDYpDt15NePk7DZbfwXnn5uaJxCu-pwZd-+PDEi56C73A@mail.gmail.com>
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="IURTkVMI"
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-43edecbfb46so15386985e9.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 03:42:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1747392144; x=1747996944; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=Hc8t9atv4fpFog7hirL8DOXDeOQFYClBoxp14PBEVKE=;
+        b=IURTkVMIHE8CufrklxhGJJmveZD9GQKB4U91Xn5cKASTF/ujEPMAH3wQ8N3xaa9zaG
+         qvw5iFDwgWWUtdWPVperJdRPHRDCTK+XWZFy53iEKC06z318eeuxEimcqNfvwCobuKJg
+         r8Q2mdbAUHEu8Rs/sVeea6aXUQTtrskO3fEHZjq64QfuZdSvTe2gEgLd7GdwYuYDTCbC
+         44E2BL44cA3pEGQffRs3qJ/0ZvL5ickJTpD8HcGUL+DTnQwsla8EBfRjM5Dd857Hswdl
+         xIC/pzzAczK9F71p+88SpK5I0p25vbC2y2yLUTJlIthMkir9XQ3kiXY9uM8cOpd9+o8n
+         0ALg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747392144; x=1747996944;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=Hc8t9atv4fpFog7hirL8DOXDeOQFYClBoxp14PBEVKE=;
+        b=j1kE0s6ODJ4PCaFc5lV7UPhw/gvf64FDgfzXypCHBvqtRTlaORGYI4UDVCW7SN1f1O
+         tmoEW29xCJs8Y6dqqd19MiO+YDgYoZ2H7NlL8hNOKmNNqGMKa4xzCH2BZZzB+QfIHknD
+         VqaC2ri93fu58yzKHr1i2hv3XH4/OpTcakTyVoa4vDowRVaiXuVmNFu9NZuNHbZNn7U7
+         tvrqgUx2RhGcJo4/x0aDlJkREcHsiVFuu9D1CTeYF1r/YzDTqQZz66mqzXFm85YBTGKU
+         aWwel6IItweIRhAjj/c0Ho6gRpFnm5cC/IWqgKK2IaDjMSi4sR1+SRb4sOjUA+/tQ+G+
+         kldQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWXwd3kGN8DUQ+ykkzPpalJcsDXvFooN7Vr4YAjyyVAr3r+D3XDQi5WkDYhPhPmtfU+srOokON55/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0YwxoIUPrRQEBrjnG3Jyfq5f3qs93yc0Zxxob7XakJsuccnMinbN
+	nJtnr1FUB6nncjK/YHArDX52um041JzOqQkKSi7XxI5NLMFXassUPA2/jnhYNXSllI0=
+X-Gm-Gg: ASbGnctKWPpJVifHn1vvExSgiMCHckDI8G1V51PyN9Y2x3bItDOStTWSYBdEZ80h7et
+	MdJe9BTOaBqfJPnY7AlLxbrM56zwrdVofJhy0FpO61chW3y1SY+Ho33RGnIhkN/lxUB7D1GUX4+
+	mqJzaFuGv+hmUoxpfvsNQAJEVODeTFQffsyDHKS6jB83djq2w7Xruony/P452ejaNMac/ykKDGL
+	eH3klZfEQy/n/rBNKixsJIKxKhqPmo1TEljW7tpN3J06XwrFkkBpR+2Rv8u/54PcZLTAg0bqH7G
+	WOkDh/O7u96Iira9TKNI0OqikSV8W3KhpxMW37G/V4bZRyg/BEalObJECp+FidQFaENURJhyaMr
+	3m5S2u0+QpVOEbfaXhZAfcQu5wmRAqeCetJ5utOaaTk3ts0/8yikLpHPvDumZ64/gTshs+luKki
+	IW
+X-Google-Smtp-Source: AGHT+IGzDF2pGCAsvZ8sCjnKAYFrxAilZcpoyAUFibDM9GZPAumjW+h5LuQj3I8QuNtrS85uIQNJaw==
+X-Received: by 2002:adf:f048:0:b0:3a3:5cca:a55e with SMTP id ffacd0b85a97d-3a35ffd28edmr1340240f8f.41.1747392144031;
+        Fri, 16 May 2025 03:42:24 -0700 (PDT)
+Received: from ?IPV6:2003:e5:872a:8800:5c7b:1ac1:4fa0:423b? (p200300e5872a88005c7b1ac14fa0423b.dip0.t-ipconnect.de. [2003:e5:872a:8800:5c7b:1ac1:4fa0:423b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f338070csm100087585e9.15.2025.05.16.03.42.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 May 2025 03:42:23 -0700 (PDT)
+Message-ID: <e5c5037f-6429-41bd-8166-de3aa1de01bd@suse.com>
+Date: Fri, 16 May 2025 12:42:21 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
+ unconditional
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Sandipan Das <sandipan.das@amd.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
+References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
+ <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+Content-Language: en-US
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Autocrypt: addr=jgross@suse.com; keydata=
+ xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
+ ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
+ dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
+ NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
+ XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
+ AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
+ mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
+ G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
+ kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
+ Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
+ RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
+ vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
+ sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
+ aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
+ w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
+ auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
+ 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
+ fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
+ HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
+ QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
+ ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
+In-Reply-To: <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------h992ua0zbd7j7dBeHqQzGy9A"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------h992ua0zbd7j7dBeHqQzGy9A
+Content-Type: multipart/mixed; boundary="------------LcjDojQIdU6adEh2O9mhOsdr";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Sandipan Das <sandipan.das@amd.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
+Message-ID: <e5c5037f-6429-41bd-8166-de3aa1de01bd@suse.com>
+Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
+ unconditional
+References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
+ <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+In-Reply-To: <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+
+--------------LcjDojQIdU6adEh2O9mhOsdr
+Content-Type: multipart/mixed; boundary="------------Q43IOLb0wAgXa0Ac93H8yBNv"
+
+--------------Q43IOLb0wAgXa0Ac93H8yBNv
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: base64
+
+T24gMTYuMDUuMjUgMTE6MTUsIEtpcmlsbCBBLiBTaHV0ZW1vdiB3cm90ZToNCj4gQm90aCBJ
+bnRlbCBhbmQgQU1EIENQVXMgc3VwcG9ydCA1LWxldmVsIHBhZ2luZywgd2hpY2ggaXMgZXhw
+ZWN0ZWQgdG8NCj4gYmVjb21lIG1vcmUgd2lkZWx5IGFkb3B0ZWQgaW4gdGhlIGZ1dHVyZS4N
+Cj4gDQo+IFJlbW92ZSBDT05GSUdfWDg2XzVMRVZFTCBhbmQgaWZkZWZmZXJ5IGZvciBpdCB0
+byBtYWtlIGl0IG1vcmUgcmVhZGFibGUuDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBLaXJpbGwg
+QS4gU2h1dGVtb3YgPGtpcmlsbC5zaHV0ZW1vdkBsaW51eC5pbnRlbC5jb20+DQo+IFN1Z2dl
+c3RlZC1ieTogQm9yaXNsYXYgUGV0a292IDxicEBhbGllbjguZGU+DQo+IC0tLQ0KPiAgIERv
+Y3VtZW50YXRpb24vYXJjaC94ODYvY3B1aW5mby5yc3QgICAgICAgICAgICB8ICA4ICsrKy0t
+LS0NCj4gICAuLi4vYXJjaC94ODYveDg2XzY0LzVsZXZlbC1wYWdpbmcucnN0ICAgICAgICAg
+fCAgOSAtLS0tLS0tLQ0KPiAgIGFyY2gveDg2L0tjb25maWcgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICB8IDIyICstLS0tLS0tLS0tLS0tLS0tLS0NCj4gICBhcmNoL3g4Ni9LY29u
+ZmlnLmNwdWZlYXR1cmVzICAgICAgICAgICAgICAgICAgfCAgNCAtLS0tDQo+ICAgYXJjaC94
+ODYvYm9vdC9jb21wcmVzc2VkL3BndGFibGVfNjQuYyAgICAgICAgIHwgMTEgKystLS0tLS0t
+LQ0KPiAgIGFyY2gveDg2L2Jvb3QvaGVhZGVyLlMgICAgICAgICAgICAgICAgICAgICAgICB8
+ICA0IC0tLS0NCj4gICBhcmNoL3g4Ni9ib290L3N0YXJ0dXAvbWFwX2tlcm5lbC5jICAgICAg
+ICAgICAgfCAgNSArLS0tLQ0KPiAgIGFyY2gveDg2L2luY2x1ZGUvYXNtL3BhZ2VfNjQuaCAg
+ICAgICAgICAgICAgICB8ICAyIC0tDQo+ICAgYXJjaC94ODYvaW5jbHVkZS9hc20vcGFnZV82
+NF90eXBlcy5oICAgICAgICAgIHwgIDcgLS0tLS0tDQo+ICAgYXJjaC94ODYvaW5jbHVkZS9h
+c20vcGd0YWJsZV82NF90eXBlcy5oICAgICAgIHwgMTggLS0tLS0tLS0tLS0tLS0tDQo+ICAg
+YXJjaC94ODYva2VybmVsL2FsdGVybmF0aXZlLmMgICAgICAgICAgICAgICAgIHwgIDIgKy0N
+Cj4gICBhcmNoL3g4Ni9rZXJuZWwvaGVhZDY0LmMgICAgICAgICAgICAgICAgICAgICAgfCAg
+MiAtLQ0KPiAgIGFyY2gveDg2L2tlcm5lbC9oZWFkXzY0LlMgICAgICAgICAgICAgICAgICAg
+ICB8ICAyIC0tDQo+ICAgYXJjaC94ODYvbW0vaW5pdC5jICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgIHwgIDQgLS0tLQ0KPiAgIGFyY2gveDg2L21tL3BndGFibGUuYyAgICAgICAgICAg
+ICAgICAgICAgICAgICB8ICAyICstDQo+ICAgZHJpdmVycy9maXJtd2FyZS9lZmkvbGlic3R1
+Yi94ODYtNWx2bC5jICAgICAgIHwgIDIgKy0NCj4gICAxNiBmaWxlcyBjaGFuZ2VkLCAxMCBp
+bnNlcnRpb25zKCspLCA5NCBkZWxldGlvbnMoLSkNCg0KVGhlcmUgYXJlIHNvbWUgaW5zdGFu
+Y2VzIG9mOg0KDQojaWYgQ09ORklHX1BHVEFCTEVfTEVWRUxTID49IDUNCg0KaW4gNjQtYml0
+LW9ubHkgY29kZSB1bmRlciBhcmNoL3g4Niwgd2hpY2ggY291bGQgYmUgc2ltcGxpZmllZCwg
+dG9vLg0KDQpUaGV5IGFyZSBzdGlsbCBjb3JyZWN0LCBidXQgSSB3YW50ZWQgdG8gaGludCBh
+dCBmdXJ0aGVyIGNvZGUgcmVtb3ZhbHMNCmJlaW5nIHBvc3NpYmxlLg0KDQoNCkp1ZXJnZW4N
+Cg==
+--------------Q43IOLb0wAgXa0Ac93H8yBNv
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="utf-8"
 
-On Thursday, 15 May 2025 10:30:14 Central European Summer Time Tomeu Vizoso=
- wrote:
-> On Wed, May 14, 2025 at 7:50=E2=80=AFPM Nicolas Frattaroli
-> <nicolas.frattaroli@collabora.com> wrote:
-> >
-> > On Wednesday, 14 May 2025 17:18:22 Central European Summer Time Tomeu V=
-izoso wrote:
-> > > Hi Nicolas,
-> > >
-> > > Thanks for looking at this. Some thoughts below:
-> > >
-> > > On Fri, Apr 25, 2025 at 8:50=E2=80=AFPM Nicolas Frattaroli
-> > > <nicolas.frattaroli@collabora.com> wrote:
-> > > >
-> > > > On Tuesday, 25 February 2025 08:55:47 Central European Summer Time =
-Tomeu Vizoso wrote:
-> > > > > Add the bindings for the Neural Processing Unit IP from Rockchip.
-> > > > >
-> > > > > v2:
-> > > > > - Adapt to new node structure (one node per core, each with its o=
-wn
-> > > > >   IOMMU)
-> > > > > - Several misc. fixes from Sebastian Reichel
-> > > > >
-> > > > > Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > > > > Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> > > > > ---
-> > > > >  .../bindings/npu/rockchip,rknn-core.yaml           | 152 +++++++=
-++++++++++++++
-> > > > >  1 file changed, 152 insertions(+)
-> > > > >
-> > > > > diff --git a/Documentation/devicetree/bindings/npu/rockchip,rknn-=
-core.yaml b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml
-> > > > > new file mode 100644
-> > > > > index 0000000000000000000000000000000000000000..e8d0afe4a7d1c4f16=
-6cf13a9f4aa7c1901362a3f
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/npu/rockchip,rknn-core.ya=
-ml
-> > > > > @@ -0,0 +1,152 @@
-> > > > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: Neural Processing Unit IP from Rockchip
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> > > > > +
-> > > > > +description:
-> > > > > +  Rockchip IP for accelerating inference of neural networks, bas=
-ed on NVIDIA's
-> > > > > +  open source NVDLA IP.
-> > > > > +
-> > > > > +properties:
-> > > > > +  $nodename:
-> > > > > +    pattern: '^npu-core@[a-f0-9]+$'
-> > > > > +
-> > > > > +  compatible:
-> > > > > +    oneOf:
-> > > > > +      - items:
-> > > > > +          - enum:
-> > > > > +              - rockchip,rk3588-rknn-core-top
-> > > > > +          - const: rockchip,rknn-core-top
-> > > > > +      - items:
-> > > > > +          - enum:
-> > > > > +              - rockchip,rk3588-rknn-core
-> > > > > +          - const: rockchip,rknn-core
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > >
-> > > > Hi Tomeu,
-> > > >
-> > > > as you probably know, RK3576 has quite a similar NPU. This is why I=
-'m currently
-> > > > poking at this patch series. One of the differences I ran into was =
-that the
-> > > > IOMMU of each NPU core now sits within the reg address space range =
-of the core
-> > > > as described by the single reg item binding and assumed by the driv=
-er.
-> > >
-> > > But this is not a difference, right?
-> >
-> > It is. E.g. on RK3588, you use reg =3D <0x0 0xfdab0000 0x0 0x9000>; for
-> > rknn_core_top, and rknn_mmu_top then sits at 0xfdab9000, which is just
-> > outside the reg range of the rknn_core_top node. That means acquiring t=
-he
-> > iomem as a resource succeeds for you, whereas for me it fails.
->=20
-> Ah, got it now, thanks.
->=20
-> > >
-> > > > This seemed weird to me at first, since I would've guessed the core=
-s would be
-> > > > exactly the same, but I noticed that they kind of still are; the RK=
-3588's NPU
-> > > > also has a "hole" between 0x2000 and 0x2fff on each core, which is =
-where RK3576
-> > > > put its IOMMU.
-> > >
-> > > So this is the same in both RK3576 and RK3588, right?
-> >
-> > Yes, both RK3576 and RK3588 have a hole in the same area. RK3562 also h=
-as
-> > the same hole. RK3568 doesn't have the offsets for the individual parts=
- of
-> > the NPU in the TRM, making all the relative register offsets the TRM th=
-en
-> > goes on to document completely pointless as it omits what those offsets
-> > are based on, so we don't know if it has a hole there. I vaguely recall
-> > that it has the IOMMU either before or past the global range (not sure =
-if
-> > I wrote these findings down anywhere?), so if it has a hole at 0x2000
-> > then it's unused like on the RK3588. I don't have access to the RV1106
-> > Part 2 TRM where the NPU is described, so I don't know whether that has=
- a
-> > hole there unless we dig into the downstream code.
-> >
-> > >
-> > > > This is some information I gleaned from the RK3588 TRM, specificall=
-y section
-> > > > 36.4.1 "Internal Address Mapping", which shows where each "part" of=
- the NPU core
-> > > > has its address space.
-> > > >
-> > > > Right now we just represent this as a single reg item per core. I'v=
-e played
-> > > > with the idea of splitting this up into the distinct ranges the TRM=
- lists and
-> > > > giving each a reg-names entry, but this would require a major rewor=
-k of the
-> > > > driver from what I can tell, including to the auto-generated regist=
-er header.
-> > > >
-> > > > For now, my hack on RK3576 is to just ioremap the range defined by =
-resource
-> > > > start to resource end inside rocket manually if I get -EBUSY trying=
- to ioremap
-> > > > the resource proper. This is quite an ugly hack though, it means th=
-e IOMMU node
-> > > > still has its address overlapping with another node in the DT, and =
-it also means
-> > > > we have an unavoidable error message printed into the kernel log. T=
-his is also
-> > > > what the vendor driver seems to do.
-> > > >
-> > > > What do you reckon is a reg setup in the binding that is both reaso=
-nable to
-> > > > implement in the driver while accurately describing the hardware?
-> > >
-> > > Guess we could go with some smaller granularity and have 3 register
-> > > areas per core, instead of 10:
-> > >
-> > > - CORE: PC+CNA (0x0000 ~ 0x1fff)
-> > > - AUX: CORE+DPU+PPU+DDMA+SDMA (0x3000 ~ 0x9fff)
-> > > - GLOBAL (0xf000 ~ 0xf004)
-> > >
-> > > So the IOMMU on all the known SoCs can have its own regmap. I have
-> > > chosen to call the first one CORE because these are the components
-> > > that are absolutely needed in any NPU that is oriented towards
-> > > convolutional networks (convolutions, basically). I have named the
-> > > second AUX because it contains hardware units that are optional and
-> > > are used to implement operations that may be common but that aren't as
-> > > computational expensive as convolutions and thus might be skipped in
-> > > lower-end versions of the IP.
-> > >
-> > > What do you think?
-> >
-> > I'm personally fine with this approach. I've floated a two-area approach
-> > to Sebastian Reichel before who, as far as I can recall, expressed his
-> > distaste for  it as it seemed like an arbitrary division. I do concur in
-> > that, it seems very arbitrary, so it's hard to say whether the bindings
-> > maintainers would let us get away with it if they get wind of it.
-> > Unfortunately they are Cc'd on this E-Mail, so the cat is out of the bag
-> > in this regard.
->=20
-> Actually, after thinking a bit more about it I'm leaning towards only
-> having the PC, CNA and CORE areas in the DT, as those are the only
-> ones that should be accessible from the CPU.
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-That does make sense to me. I've just checked the RK3576 specific reg
-fiddling code I hacked in and it doesn't appear to be writing to any
-other areas either.
+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
+kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
+=3DeeAB
+-----END PGP PUBLIC KEY BLOCK-----
 
->=20
-> The registers for the other units should be set by the PC, as it reads
-> the command stream.
->=20
-> So three register areas that can be set to wherever Rockchip has
-> placed them, and we just ignore the others in the kernel, as we don't
-> have any business messing with them ourselves.
->=20
-> What do you think?
+--------------Q43IOLb0wAgXa0Ac93H8yBNv--
 
-This seems like a good solution. Any further reg ranges that are used in
-other variants (e.g. RK3562/RK3576 and maybe RV1106) introduce something
-called "CBUF" and I'm not yet sure if that'll need any writes to its regs
-from the driver, but if it does then it's easy to add another range for it
-in the binding for just those compatibles.
+--------------LcjDojQIdU6adEh2O9mhOsdr--
 
->=20
-> Thanks,
->=20
-> Tomeu
+--------------h992ua0zbd7j7dBeHqQzGy9A
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
-Kind regards,
-Nicolas Frattaroli
+-----BEGIN PGP SIGNATURE-----
 
->=20
-> > What speaks for the 3 register area split is that anything that brings
-> > more holes and doubly mapped things into the AUX area is probably going
-> > to be so radically different it'll ideally have its own binding anyway,
-> > or needs more than just a compatible added to the binding.
-> >
-> > I think as far as arbitrary splits goes, the one you propose is probably
-> > the one most closely aligned with reality. Certain register areas do
-> > seem like something they'd never move away from its corresponding
-> > companion, whereas adding parts to the AUX area or removing from it is
-> > probably going to be quite common. So it can essentially be treated as
-> > the area where optional things will most likely land as you pointed out,
-> > which then don't need more bindings fiddling to add those optional thin=
-gs
-> > as explicitly named areas in the bindings as long as we treat it as just
-> > one opaque area s far as the binding is concerned.
-> >
-> > Also, unless there's some virtual combined sparse iomem API in the kern=
-el
-> > that I'm not aware of, that's probably the easiest path forward for the
-> > driver as well.
-> >
-> > >
-> > > Regards,
-> > >
-> > > Tomeu
-> >
-> > Kind regards,
-> > Nicolas Frattaroli
-> >
-> > >
-> > > > The RK3568, which uses a similar NPU design has the IOMMU at an off=
-set of 0xb000
-> > > > from the core's start of PC, so probably after any core specifics b=
-ut before the
-> > > > global registers if I hazard a guess.
-> > > >
-> > > > For those without access to the TRM: splitting this up into multipl=
-e reg items
-> > > > per core precisely the way the TRM does it would result in no less =
-than 10 reg
-> > > > items on RK3588, if I count correctly.
-> > > >
-> > > > Kind regards,
-> > > > Nicolas Frattaroli
-> > > >
-> > > >
-> > >
-> >
-> >
-> >
-> >
->=20
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmgnFo4FAwAAAAAACgkQsN6d1ii/Ey9i
+3Qf/eoetVr9X2s8c2Kxx3UrBEabLIZ4kYmfDwlmoH7ZN0f1mnbE1oyNVvgVYd38Klrac4cbLMeIv
+keQBD+TwZE74sk+wUcQSMfHmyx7CM/B/1tKA+7CpLFYxq7mjZjJ7fUj+15KVJyL0Td8sZDWtQhQ2
+uvJwBg6wShpTbEr4WxLaeM63+Uk+XRs99MTDUWXU/oj8oxVjkspE8Rl5BqqIQAVekwqUS2vbMP5s
+DCqgZBWAnIRRoojGlfQcX+NuTlXBBtMbRvGf8T6DWALAMENf/7GpKJriFVdSGqRmSwznZoGZIVxw
+dChi3rKICadeAP+9p1wRipg9bGJKp3NjzhzbNmIhIQ==
+=wbjB
+-----END PGP SIGNATURE-----
 
-
-
-
+--------------h992ua0zbd7j7dBeHqQzGy9A--
