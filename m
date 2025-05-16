@@ -1,155 +1,151 @@
-Received: from mail.alien8.de (mail.alien8.de [65.109.113.108])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B4011B87C0;
-	Fri, 16 May 2025 15:57:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=65.109.113.108
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03B3119CC27;
+	Fri, 16 May 2025 16:53:28 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747411050; cv=none; b=L9s7jdO0l7ce8BA1M3jpHkePURzr8yP796cqr3j/aWlx+5MJbdmN4uHC5btc6uAR94wkCf1c7tlIbhXOuGDz1Pa32mM8UxqyQXPMpNkaXaAPeESUCPH7jVb0MXyZo8DnyMGiSCnNQlR485XmbFaB6B9JVV6SxcwYVfK/FjDI/ms=
+	t=1747414411; cv=none; b=qnfqkkgMPgVSNlHSsIV9c+S0BhON/CXyKp9O32A9GjJskiE5cRV3nIp4pT3DBCusimmoomyP5jZmdTdtLM1HC5kvLW7rPYt64C9f0o32jZxt16wnMWgfSxGyVQ4tCv2EennMjubXVh58EW6s4YypgJHia9JOGxTKvSd9aG8/Rko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747411050; c=relaxed/simple;
-	bh=vmOhw7E5n8ItXJtoI0Qn1bmqPGvIwGI25HVL824vRQk=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=ny2gMgcJqkcypldFIs4NDA2kAJ5lL3vW+27DH3QtcMyC0jbhjmF9fP5sSIFNzr36IOO2HbAS02DRyduL65vIMR3saVcMgCcCQ71ha3S0eTqdAaXOdVOf4s0caqzFhfLlKq8ezijg5hZheW3KxYF0Hb9GBDjRLCYATjoZvdGRI3A=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de; spf=pass smtp.mailfrom=alien8.de; dkim=fail (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b=AjJ9cePP reason="signature verification failed"; arc=none smtp.client-ip=65.109.113.108
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=alien8.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=alien8.de
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=fail reason="signature verification failed" (4096-bit key) header.d=alien8.de header.i=@alien8.de header.b="AjJ9cePP"
-Received: from localhost (localhost.localdomain [127.0.0.1])
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTP id 766CD40E0196;
-	Fri, 16 May 2025 15:57:25 +0000 (UTC)
-X-Virus-Scanned: Debian amavisd-new at mail.alien8.de
-Authentication-Results: mail.alien8.de (amavisd-new); dkim=fail (4096-bit key)
-	reason="fail (body has been altered)" header.d=alien8.de
-Received: from mail.alien8.de ([127.0.0.1])
-	by localhost (mail.alien8.de [127.0.0.1]) (amavisd-new, port 10026)
-	with ESMTP id ftRXRXYPH5WN; Fri, 16 May 2025 15:57:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=alien8.de; s=alien8;
-	t=1747411039; bh=d43PR9DO7flii+mSU353fCYxRMVTIixhK4mXJVLuqvE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=AjJ9cePP7C8WJjPGUBhpAGUIwQSbXvP5Y/KBwNRbCto1Kl6rmnUL8kB7a0K2KaHxn
-	 LGhLp8LxH9qEq8+sFBPRku+hXkZ3PEfcJyvaVCDSUSWQaAn/8+Ltab/SwVA3EYbCND
-	 jGfZkEh3/ebi5b/5ZrGU4PtYGzBn4g9s5F1ZNdQdbY1wbt+3dFKoFQ+i1/PP1UnN/q
-	 NNxdf3jACnj+RGPInrkxbcHDD+g3Ux1CqBCY+Rg1ma8HxxHgbagdPTfOwLKx33QeSW
-	 dNCcDm08qDjhui2empuUurv/RQF624XAvLqcQnljUJWs064HWAagP0sdWnKKaAcrDU
-	 mHnh79jqhtQi+5xKHbj1x+LFg2/Q0A3DEO8r4sH3F+asol1by69VEQxtNeAQf01UrL
-	 bj9unSQqLzM+eQRyFbkem+pG2n0txW88XYnv1vm5dahcoNacRFefKL8byO5zAmj4r3
-	 37XVv3oFzLA+bvCXaNnAznN5GQMrQ240rvo6oEQjFRv14I62aIul3lfp+TWFcmE3HX
-	 W6ILZ3piqRAHkKJM3RXNHAOciA6tlL5YpWNfVEyYPUF6OTmbycA1K2s8ulRssHxsWI
-	 LwsGoMbg3IdSEUybVtvSAS4VZz4i4hScxUGgeFWhLwhoEM+XRFCXqoHFzaPTvKY8qr
-	 SavJA9Mp/Kz9zVtD0quep+QM=
-Received: from zn.tnic (p579690ee.dip0.t-ipconnect.de [87.150.144.238])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange ECDHE (P-256) server-signature ECDSA (P-256) server-digest SHA256)
-	(No client certificate requested)
-	by mail.alien8.de (SuperMail on ZX Spectrum 128k) with ESMTPSA id F032F40E0239;
-	Fri, 16 May 2025 15:56:55 +0000 (UTC)
-Date: Fri, 16 May 2025 17:56:49 +0200
-From: Borislav Petkov <bp@alien8.de>
-To: Ingo Molnar <mingo@kernel.org>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Michael Roth <michael.roth@amd.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Juergen Gross <jgross@suse.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
- unconditional
-Message-ID: <20250516155649.GFaCdgQa7sX75vOLSm@fat_crate.local>
-References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
- <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
- <20250516153009.GEaCdaAdhCVpjaViSx@fat_crate.local>
- <aCdd60hwRbx207bU@gmail.com>
+	s=arc-20240116; t=1747414411; c=relaxed/simple;
+	bh=hhs3FGcn8tdYcYNA+c0yVqziQ6ixryuNilAWsptvP9k=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=TvQSi/dZ/oKlJtqMSmCPZb5Fnc4G2LqXsaTsN5jKrviFlCUsVJY4Zwkp4n/QyYmyqfhgsakNagenFcrBbgVkKnLR4PHzUkVFeJggkacTtjnHveOWIwsOOiD1eoidUT1VqvsuxzFBmfTkoQ9dPyXmJkV1/S7S0KMcoY1lScFfQKg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.51
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-43cfa7e7f54so17781625e9.1;
+        Fri, 16 May 2025 09:53:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747414407; x=1748019207;
+        h=cc:to:content-transfer-encoding:mime-version:message-id:date
+         :subject:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=WjWgWtoIZo8y/TKpOs5rk2BDTL4bgGyGDJJ1PVIbYcw=;
+        b=s6S1t8VejJ3obkwYSfHOMAqOoeC48Ktj6Of3zpt+8z2kWyNMpfGU9YyBEanD8iKwYz
+         o0f6K4TVk4VdCg+TScyW6yAvgbehSdceaF2XjZlfw5MuA5IOg8tvC6jGgJu26Ceb8lFl
+         ujqOmc7HCqqm7tcKI/I75tAPcPj+X1axk+Qn+KMTimf+XTO3NODq+KzR3bhC97eyWROn
+         PCr0TB45Nt7qd+S14j51iAkE6jvAZ4GnAPrQbnSYtmX1QXg6Sq7fYCZyrFkWm/ZDzV7h
+         b5HmEaigevxToYgJizqzMZB+egddKo3UWn1Wp95GLDSUp6tOzfH+EdVNP/rJb19aq4qL
+         A9uw==
+X-Forwarded-Encrypted: i=1; AJvYcCXWHXGTjJTuPRQJ1yTIz44bRZWJ7EzUTnvikt8GrzsO0zMzbVSHax1bnWU3oE3G1uxDZvDdXC7Cy4w=@vger.kernel.org, AJvYcCXhrpvopJDWYxdWU2d4ebe/VquRioLEhBjGEVj71bqfkevqZv0dxGS4iYKWSjwAYorCFXwPnd9Zmv0QCYo=@vger.kernel.org, AJvYcCXw3E0X1ABmzMZyPEDgMvp1S0t0vS3fYGGjUETpDc5RefV5RciIaX17bqeypW3145QkSUuFy2xVvEhUUm7M@vger.kernel.org
+X-Gm-Message-State: AOJu0Ywp6i8mjMlg3t7ZHIw1p+FeJpCmUkhmmERK9kGQQq2TfpA5uHE3
+	+0mGMgOiiXrTjRTz6DyGguBrLVjCEzJw+7oZw/fxqmTaTs/pynkxInUf
+X-Gm-Gg: ASbGnctsrOJucuH4FjTpqgVJGdDPmJuadP/7wX0Ko5IY+a03kvFyYwIvhH8mUkbbWSp
+	RLzymPwkFG4lNW2L3zxWXCo7lvbLfueI8PwbuPJ93pQdiIucFPHivzOiYhF5KgNDFPfAMRVwWAM
+	YIV4JzDVt9qyX4haNv93NAFrWXZPnwsqYipISPMzobfc48DCs6B8OIaG0y1aED2XoDE/wy8kzxC
+	En34w4ZBCuCvevylh5Vu8zY4RM9ML/mFWEjxkOpKSc7T+YoaImxaPtuoL+gnrWkuVQDjGUfOM1r
+	Ac4cTll+PkVOmso1uENvFHeaspFFjTKGStOYkZQNDuq3swwEpO4C8mA3k0Eb/5QckrF8pbCME+6
+	YVoZ7UGa1ANljVGSAkjt7
+X-Google-Smtp-Source: AGHT+IFKbF9gN1yX2abHe3gEHPJVfqjkBh9yk3mcerUyAXMO/v4S+hII+M7JTfdRqYHVCzhKlPw+sw==
+X-Received: by 2002:a05:600c:870c:b0:439:8490:d1e5 with SMTP id 5b1f17b1804b1-442fd268c7cmr48300955e9.4.1747414406901;
+        Fri, 16 May 2025 09:53:26 -0700 (PDT)
+Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442f3380498sm116511755e9.11.2025.05.16.09.53.24
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 May 2025 09:53:25 -0700 (PDT)
+From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Subject: [PATCH v3 00/10] New DRM accel driver for Rockchip's RKNN NPU
+Date: Fri, 16 May 2025 18:53:14 +0200
+Message-Id: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <aCdd60hwRbx207bU@gmail.com>
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIAHptJ2gC/23OTQrCMBCG4avIrI1Mpmn8WXkPcVGTqQ1iI0kMa
+ undTQsuRJfvB/MwA0QOjiPsFgMEzi4635eolgswXdOfWThbGghJoZYktJAogjcXTmJbSW25NVK
+ ZNZSLW+DWPWbtcCzduZh8eM54ltP638lSoECNrDbMDdW4T/7K9+xePvpVzwkmLdNHqJGo/haoC
+ FbZk2mb6R/5K4zj+AY3RKj87gAAAA==
+X-Change-ID: 20240612-6-10-rocket-9316defc14c7
+To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+ linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+ dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+ linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
+ Tomeu Vizoso <tomeu@tomeuvizoso.net>
+X-Mailer: b4 0.14.2
 
-On Fri, May 16, 2025 at 05:46:51PM +0200, Ingo Molnar wrote:
->=20
-> * Borislav Petkov <bp@alien8.de> wrote:
->=20
-> > On Fri, May 16, 2025 at 12:15:33PM +0300, Kirill A. Shutemov wrote:
-> > > @@ -173,10 +173,10 @@ For example, when an old kernel is running on=
- new hardware.
-> > >  The kernel disabled support for it at compile-time
-> > >  --------------------------------------------------
-> > > =20
-> > > -For example, if 5-level-paging is not enabled when building (i.e.,
-> > > -CONFIG_X86_5LEVEL is not selected) the flag "la57" will not show u=
-p [#f1]_.
-> > > +For example, if Linear Address Masking (LAM) is not enabled when b=
-uilding (i.e.,
-> > > +CONFIG_ADDRESS_MASKING is not selected) the flag "lam" will not sh=
-ow up.
-> > >  Even though the feature will still be detected via CPUID, the kern=
-el disables
-> > > -it by clearing via setup_clear_cpu_cap(X86_FEATURE_LA57).
-> > > +it by clearing via setup_clear_cpu_cap(X86_FEATURE_LAM).
-> >=20
-> > LOL, good one.
-> >=20
-> > The rest looks nice and good to me. And FWIW, it boots fine on my Zen=
-5 with
-> > 5lvl enabled.
-> >=20
-> > Reviewed-by: Borislav Petkov (AMD) <bp@alien8.de>
+This series adds a new driver for the NPU that Rockchip includes in its
+newer SoCs, developed by them on the NVDLA base.
 
-Bah, and I thought I'm replying to v3. :-\
+In its current form, it supports the specific NPU in the RK3588 SoC.
 
-Anyway...
+The userspace driver is part of Mesa and an initial draft can be found at:
 
-> What's your preference on timing? v6.17 or v6.16?
+https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
 
-Right, here's what I'm thinking:
+Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+---
+Changes in v3:
+- Reference in the device tree only the register blocks that are
+  actually used.
+- Several style and robustness fixes suggested in the mailing list.
+- Added patches from Nicolas Frattaroli that add support to the NPU for
+  the Rock 5B board.
+- Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net
 
-* Kirill's patches would simplify Ard's cleanup a bit
+Changes in v2:
+- Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian Reichel)
+- Drop patch adding support for multiple power domains to rockchip-iommu (Sebastian Reichel)
+- Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net
 
-* The 4th one: Kirill A. Shutemov ( :  85|) =E2=94=9C=E2=94=80>[PATCHv3 4=
-/4] x86/paravirt: Restrict PARAVIRT_XXL to 64-bit only
+---
+Nicolas Frattaroli (2):
+      arm64: dts: rockchip: add pd_npu label for RK3588 power domains
+      arm64: dts: rockchip: enable NPU on ROCK 5B
 
-looks ok too.
+Tomeu Vizoso (8):
+      dt-bindings: npu: rockchip,rknn: Add bindings
+      arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588s
+      arm64: dts: rockchip: Enable the NPU on quartzpro64
+      accel/rocket: Add registers header
+      accel/rocket: Add a new driver for Rockchip's NPU
+      accel/rocket: Add IOCTL for BO creation
+      accel/rocket: Add job submission IOCTL
+      accel/rocket: Add IOCTLs for synchronizing memory accesses
 
-So, I don't see anything speaking against queueing them *now* for the upc=
-oming
-merge window, I am testing the tip lineup on a daily basis this and next =
-week
-and if it all looks good, we could probably send them.
+ Documentation/accel/index.rst                      |    1 +
+ Documentation/accel/rocket/index.rst               |   25 +
+ .../bindings/npu/rockchip,rknn-core.yaml           |  162 +
+ MAINTAINERS                                        |   10 +
+ arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |   87 +-
+ .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts |   30 +
+ arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts    |   56 +
+ drivers/accel/Kconfig                              |    1 +
+ drivers/accel/Makefile                             |    1 +
+ drivers/accel/rocket/Kconfig                       |   25 +
+ drivers/accel/rocket/Makefile                      |   10 +
+ drivers/accel/rocket/rocket_core.c                 |  103 +
+ drivers/accel/rocket/rocket_core.h                 |   59 +
+ drivers/accel/rocket/rocket_device.c               |   45 +
+ drivers/accel/rocket/rocket_device.h               |   31 +
+ drivers/accel/rocket/rocket_drv.c                  |  337 ++
+ drivers/accel/rocket/rocket_drv.h                  |   17 +
+ drivers/accel/rocket/rocket_gem.c                  |  211 +
+ drivers/accel/rocket/rocket_gem.h                  |   31 +
+ drivers/accel/rocket/rocket_job.c                  |  723 ++++
+ drivers/accel/rocket/rocket_job.h                  |   50 +
+ drivers/accel/rocket/rocket_registers.h            | 4425 ++++++++++++++++++++
+ include/uapi/drm/rocket_accel.h                    |  145 +
+ 23 files changed, 6584 insertions(+), 1 deletion(-)
+---
+base-commit: 46bfbcd135a6df00c49cf043bf2c9c9387bc882d
+change-id: 20240612-6-10-rocket-9316defc14c7
 
-If not, we delay.
+Best regards,
+-- 
+Tomeu Vizoso <tomeu@tomeuvizoso.net>
 
-And if there's other issues which get detected later, during the 6.16-rc
-phase, we revert.
-
-So we have an exit route from each scenario.
-
-So I guess let's...
-
-Unless I'm missing an aspect.
-
-Thx.
-
---=20
-Regards/Gruss,
-    Boris.
-
-https://people.kernel.org/tglx/notes-about-netiquette
