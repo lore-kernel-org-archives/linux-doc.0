@@ -1,103 +1,238 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from relay7-d.mail.gandi.net (relay7-d.mail.gandi.net [217.70.183.200])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 593961B87EB;
-	Fri, 16 May 2025 15:35:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CABA77D07D;
+	Fri, 16 May 2025 15:38:34 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.200
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747409729; cv=none; b=Il/6LyHztwpQZ6jWbpSVy92cuqDakViu1BzeSa6+9GTzP/EG3LqjfnW8oxguuM4QgmfZsSlqwvhHyYcuLbh4Ng6PBD0s3pk55Lbeh0n5iIDnTRbCVKAMIAgjQV+J2HPqsrzGkH1CiiiUKIe2D7cnHIKZwo8RWm/QLT56R0NNGFo=
+	t=1747409919; cv=none; b=Q58ENvAy0mACFGIcyVWmKlgUAA7iya7mgdEqj3/HGCU2DIVF1FptpRRFJ9xVo1ToyklCtuq8uqtUsdQbyPKiHHsRsLliBvvYItqcLOvUXDV5XnT5PhPHQtAQEIYiiJ2Xj38+64qJ43ToHC7Ssy9RxJWpcc1oaS/udPw9cKdozoE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747409729; c=relaxed/simple;
-	bh=tFBuEkfpTZDqLAksOlNvQnNL7DfHD68oh+9DLHIsuks=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=JAdOwviyIjquJzrUUNbcpITZ2+vrOVXKoKdhkEmn5CBZQ3Sd+OT/1EFJhH3L0dc6OUxkj2zED8QjmqZIqJ/sWsUJWajS3/3MmqIM3p3TqttpMVJWyu6guFq0DWUI0lZNksB0byyxZDIUrcvzngJOo0WBfHFRKBz0UQx5TnEriB4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GjOgxn5L; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747409919; c=relaxed/simple;
+	bh=s5+6lgtxXAG27zO+fAMLWNdH6pr1ETlmYSxhSB3Vr6Q=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=kcw7b/t5dWvU+ZGmt966Xr/OC4RTuIUqMAvYfdiwlUUggjfrq6E79SbYSCGvIKHm7SAyp7TARmgWVDnqdjq8f3WHPihwrpRSNfT06s74gYESYpSIY+8x1yVyXSu/twdhk7uzh3H8ND4v9aVF/+9Emswn3xqqiFd+mP7Aoq9Qdk8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=ic8/mJM5; arc=none smtp.client-ip=217.70.183.200
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GjOgxn5L"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id C10FFC4CEE4;
-	Fri, 16 May 2025 15:35:23 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747409728;
-	bh=tFBuEkfpTZDqLAksOlNvQnNL7DfHD68oh+9DLHIsuks=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=GjOgxn5L6HlZB4ZnV59WnZgXYTasRydElhhX/90ByVYGKA645uJNUCcwDN1MkudLW
-	 I385G8yrdoUqBTB0XqhZqvllLe2wsxKZjeRnR4KKbO5HXWEfFyqn/4NEX62m0tqr/2
-	 aaOKx3eiTkuC/4G20XNhpblZv3nPfyzyk3l18ZDrDVQMEFsB0/RWFkbX3F/v2Jp5Tz
-	 //XKYXg7JDq5PbYSI7NgiwkCIInbZ/e9i8+oMQqpKOd9qksPul59oxrToC359hYxXt
-	 UPGYCcJgt9BB305oJmHH+WHc/mOTeuaHgmYWMsjUit2gy5ooPaGl9bgUaj6Ya5Pojs
-	 Q03v2FKgO1BXg==
-Date: Fri, 16 May 2025 17:35:21 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Dave Hansen <dave.hansen@intel.com>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Michael Roth <michael.roth@amd.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Juergen Gross <jgross@suse.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCHv3 2/4] x86/64/mm: Make SPARSEMEM_VMEMMAP the only memory
- model
-Message-ID: <aCdbOeK3EkVUTGD2@gmail.com>
-References: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
- <20250516123306.3812286-3-kirill.shutemov@linux.intel.com>
- <30570ca0-8da4-4ebc-84d6-0a4badfb7154@intel.com>
- <rqkfqkkli57fbd5zkj3bwko44kmqqwnfdm766snm26y2so52ss@6it24qxv356q>
- <aCdGzpXSVx15gz90@gmail.com>
- <a0ca765c-a506-4c1f-a38c-24a8074988df@intel.com>
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="ic8/mJM5"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 76DEB43965;
+	Fri, 16 May 2025 15:38:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747409913;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=I+g3IdGvcfrmRH4F4rawwQsSgXUu5S0J2PdLVNQvNPs=;
+	b=ic8/mJM5ChESit1NZjJEPl8fCMX5fTQ9Nv7DTLDz9siekasP2HvEHm/uq/oyGqiJySBvMy
+	5IBHfiZHo/0v9sMM1mhKF/zB8f4Hmhtr8t5HyS3V83CFv4WVuJvRGFCsGVkw2mikxSg8Yh
+	9GkgXILZqtxMfMm15eWMAVWintdVsgl2mYUxjYwyzaTgcNWD1N4c4Axb3gy72Fkv14uK9Q
+	YIs28qPOMogVyCbYfxGolDdG4dWMflTrBpXC3T19jcfPWc6pTGRdHGs5yDDtZPMgQJ9IGY
+	xnHir0H9pmYUhv9qkqi1qgNCGr+YBPL/JJxc/Uex8ymp0dU1bsGqUbuaD7WMxA==
+Date: Fri, 16 May 2025 17:38:28 +0200
+From: Luca Ceresoli <luca.ceresoli@bootlin.com>
+To: Maxime Ripard <mripard@kernel.org>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Thomas Zimmermann
+ <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, Simona Vetter
+ <simona@ffwll.ch>, Jonathan Corbet <corbet@lwn.net>, Andrzej Hajda
+ <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
+ Robert Foss <rfoss@kernel.org>, Laurent Pinchart
+ <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
+ Jernej Skrabec <jernej.skrabec@gmail.com>, Anusha Srivatsa
+ <asrivats@redhat.com>, Paul Kocialkowski <paulk@sys-base.io>, Dmitry
+ Baryshkov <lumag@kernel.org>, =?UTF-8?B?SGVydsOp?= Codina
+ <herve.codina@bootlin.com>, Hui Pu <Hui.Pu@gehealthcare.com>, Thomas
+ Petazzoni <thomas.petazzoni@bootlin.com>, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v7 2/2] drm/tests: bridge: add a KUnit test for
+ devm_drm_bridge_alloc()
+Message-ID: <20250516173828.7f1aa70c@booty>
+In-Reply-To: <gqe4ov7w54qe7mmfn2ud63g2ema2wh3qvyfvcaycvnh5mts3it@ef7qxryo2ccy>
+References: <20250409-drm-bridge-alloc-doc-test-v7-0-a3ca4b97597f@bootlin.com>
+	<20250409-drm-bridge-alloc-doc-test-v7-2-a3ca4b97597f@bootlin.com>
+	<20250414-misty-hungry-woodlouse-dbbd64@houat>
+	<20250415132214.19b1a4ff@booty>
+	<gqe4ov7w54qe7mmfn2ud63g2ema2wh3qvyfvcaycvnh5mts3it@ef7qxryo2ccy>
+Organization: Bootlin
+X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a0ca765c-a506-4c1f-a38c-24a8074988df@intel.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeefvddrtddtgdefudefuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnheplefhudeuffegvefhvdeuueekkeetgeehffehgeehheetvddtudettedvtefggeeunecuffhomhgrihhnpehkvghrnhgvlhdrohhrghdptggrthhirhgtlhhoghhsrdhorhhgpdgsohhothhlihhnrdgtohhmnecukfhppedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgdphhgvlhhopegsohhothihpdhmrghilhhfrhhomheplhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvddupdhrtghpthhtohepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepmhgrrghrthgvnhdrlhgrnhhkhhhorhhstheslhhinhhugidri
+ hhnthgvlhdrtghomhdprhgtphhtthhopehtiihimhhmvghrmhgrnhhnsehsuhhsvgdruggvpdhrtghpthhtoheprghirhhlihgvugesghhmrghilhdrtghomhdprhgtphhtthhopehsihhmohhnrgesfhhffihllhdrtghhpdhrtghpthhtoheptghorhgsvghtsehlfihnrdhnvghtpdhrtghpthhtoheprghnughriigvjhdrhhgrjhgurgesihhnthgvlhdrtghomhdprhgtphhtthhopehnvghilhdrrghrmhhsthhrohhngheslhhinhgrrhhordhorhhg
+X-GND-Sasl: luca.ceresoli@bootlin.com
 
+Hi Maxime,
 
-* Dave Hansen <dave.hansen@intel.com> wrote:
+On Thu, 15 May 2025 10:11:33 +0200
+Maxime Ripard <mripard@kernel.org> wrote:
 
-> On 5/16/25 07:08, Ingo Molnar wrote:
-> >> And is there any value to support !SPARSEMEM_VMEMMAP?
-> > Not really IMHO:
+> On Tue, Apr 15, 2025 at 01:22:14PM +0200, Luca Ceresoli wrote:
+> > > > +/*
+> > > > + * Mimick the typical struct defined by a bridge driver, which embeds a
+> > > > + * bridge plus other fields.
+> > > > + */
+> > > > +struct dummy_drm_bridge {
+> > > > +	int dummy; // ensure we test non-zero @bridge offset
+> > > > +	struct drm_bridge bridge;
+> > > > +};    
+> > > 
+> > > drm_bridge_init_priv gives you that already.  
 > > 
-> >   .config.opensuse.default:    CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-> >   .config.ubuntu.localinstall: CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-> >   .config.fedora.generic:      CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-> >   .config.rhel.generic:        CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
+> > On one hand, that's true. On the other hand, looking at
+> > drm_bridge_init_priv I noticed it is allocating a bridge without using
+> > devm_drm_bridge_alloc(). This should be converted, like all bridge
+> > alloctions.
+> >
+> > So I think the we first need to update drm_bridge_test.c to allocate
+> > the bridge using devm_drm_bridge_alloc(), along with the needed changes
+> > to the kunit helpers.  
 > 
-> I look at the distro configs all the time as well.
+> Oh, yeah, absolutely.
 > 
-> But let's also not forget that none of these have lockdep turned on,
+> > One way would be allocating the entire drm_bridge_init_priv using
+> > devm_drm_bridge_alloc(), but that does not look like a correct design
+> > and after reading the helpers code I'm not even sure it would be doable.
+> > 
+> > Instead I think we need to change struct drm_bridge_init_priv
+> > to embed a pointer to (a modified version of) struct dummy_drm_bridge:
+> > 
+> >  struct drm_bridge_init_priv {
+> >          struct drm_device drm;
+> >          struct drm_plane *plane;
+> >          struct drm_crtc *crtc;
+> >          struct drm_encoder encoder;
+> > -        struct drm_bridge bridge;
+> > +        struct dummy_drm_bridge *test_bridge;
+> >          struct drm_connector *connector;
+> >          unsigned int enable_count;
+> >          unsigned int disable_count;
+> >  };
+> > 
+> > So that devm_drm_bridge_alloc() can allocate the new test_bridge
+> > dynamically:
+> > 
+> >  priv->test_bridge =
+> >    devm_drm_bridge_alloc(..., struct dummy_drm_bridge, bridge, ...);
+> > 
+> > Do you think this would be the correct approach?  
+> 
+> It's kind of correct, but you're also correct that it's probably too
+> much for those simple tests, so it might not be worth it in the end.
 
-Not actually true, quite a few distro debug kernel packages have 
-lockdep on, and it's often enabled in internal QA rigs as well.
+I haven't found any better ways, so I implemented the idea sketched
+above. It will be in v8.
 
-Not so SPARSEMEM_VMEMMAP...
+> > > > +static const struct drm_bridge_funcs drm_bridge_dummy_funcs = {
+> > > > +};
+> > > > +
+> > > > +static int drm_test_bridge_alloc_init(struct kunit *test)
+> > > > +{
+> > > > +	struct drm_bridge_alloc_test_ctx *ctx;
+> > > > +
+> > > > +	ctx = kunit_kzalloc(test, sizeof(*ctx), GFP_KERNEL);
+> > > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx);
+> > > > +
+> > > > +	ctx->dev = kunit_device_register(test, "drm-bridge-dev");
+> > > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, ctx->dev);
+> > > > +
+> > > > +	test->priv = ctx;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +/*
+> > > > + * Test that the allocation and initialization of a bridge works as
+> > > > + * expected and doesn't report any error.
+> > > > + */
+> > > > +static void drm_test_drm_bridge_alloc(struct kunit *test)
+> > > > +{
+> > > > +	struct drm_bridge_alloc_test_ctx *ctx = test->priv;
+> > > > +	struct dummy_drm_bridge *dummy;
+> > > > +
+> > > > +	dummy = devm_drm_bridge_alloc(ctx->dev, struct dummy_drm_bridge, bridge,
+> > > > +				      &drm_bridge_dummy_funcs);
+> > > > +	KUNIT_ASSERT_NOT_ERR_OR_NULL(test, dummy);    
+> > > 
+> > > Why did you need the dummy value in dummy_drm_bridge if you're not using
+> > > it?  
+> > 
+> > To ensure we test non-zero @bridge offset. Say there is a bug in the
+> > pointer math, e.g. 'bridge = container - offset' instead of 'bridge =
+> > container + offset'. That would not be caught if @bridge is the first
+> > field in the struct.
+> > 
+> > Does this look like a good reason to keep it?  
+> 
+> Ack, but please document it with a comment
 
-> [...] and we don't want to toss out lockdep support on x86, for 
-> example. ;)
+There is one already:
 
-That's an apples to oranges comparison:
+struct dummy_drm_bridge {
+	int dummy; // ensure we test non-zero @bridge offset
+	struct drm_bridge bridge;
+};    
 
- - SPARSEMEM_VMEMMAP is always enabled, in standard and debug kernels 
-   as well.
+but the v8 code will be different because of the conversion to
+devm_drm_bdirge_alloc(), and anyway I extended the comment.
 
- - lockdep is disabled in standard kernels, enabled in debug kernels 
-   and very much relied on.
+> > Another way would be adding an optional .destroy a callback in struct
+> > drm_bridge_funcs that is called in __drm_bridge_free(), and only the
+> > kunit test code implements it. Maybe looks cleaner, but it would be
+> > invasive on code that all bridges use. We had discussed a different
+> > idea of .destroy callback in the past, for different reasons, and it
+> > was not solving the problem we had in that case. So kunit would be the
+> > only user for the foreseeable future.  
+> 
+> Sorry, we've had many conversations about all that work so I can't
+> recall (or find) what your objections or concerns (or mine, maybe?) were
+> about thing topic. It looks totally reasonable to me, and consistent
+> with all the other DRM entities.
 
-Thanks,
+That was a long story and I also don't remember all the details,
+however here's a summary of what I can recollect:
 
-	Ingo
+ 1. initially I proposed a .destroy called in *drm_bridge_free(), i.e.
+    upon the last put [1]
+     * it was used to ask the bridge driver to kfree() the driver struct
+       that embeds the drm_bridge; that was not a good design, putting
+       deallocation duties on each driver's shoulders
+     * it was made unnecessary by devm_drm_bridge_alloc(), which moved
+       the entire kfree into __drm_bridge_free() itself, based on the 
+       .container pointer
+ 2. we re-discussed it as a way to handle the panel_bridge, but in that
+    case it would have been called by drm_bridge_remove() IIRC [2]
+     * you said it was not a good solution (and I agree) and that a much
+       wider rework would be needed for panels, eventually including the
+       panel_bridge
+     * then Anusha sent the patches to start the panel rework
+
+So now we are discussing adding .destroy again, and in
+__drm_bridge_free(), as it was at step 1, but for a different reason.
+
+[1] https://lore.kernel.org/all/20241231-hotplug-drm-bridge-v5-3-173065a1ece1@bootlin.com/
+[2] https://oftc.catirclogs.org/dri-devel/2025-02-14#
+
+> I'm also not entirely sure how invasive it would be? Add that callback,
+> check if it's set and if it is, call it from __drm_bridge_free(), and
+> you're pretty much done, right?
+
+No much added code indeed. My concern is about the fact that the
+callback would be used only by kunit test and not "real code". It is
+possibly worth doing anyway, so I wrote something for v8 and we'll see
+how it looks.
+
+Luca
+
+-- 
+Luca Ceresoli, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
