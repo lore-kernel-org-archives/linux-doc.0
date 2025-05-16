@@ -1,90 +1,126 @@
-Received: from mail.zytor.com (terminus.zytor.com [198.137.202.136])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B28152701A7;
-	Fri, 16 May 2025 18:29:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.137.202.136
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 354511A255C;
+	Fri, 16 May 2025 18:30:52 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747420145; cv=none; b=E8uQlPYviDlq6L5TRUyyXNKaiOie37a2nJ0pOj7T+DLPZNCAtk0iqIBIUp2cSYF/dHBlzcEzwEs8gkRQKLf/E4uPrmWQyA2t6EV6xesGaSe7XGh39dzgwSIXgEoS/HNkhqNEav5iL1+nJtHupEo9iBJPYuKeXsZpG44ndLMvMfc=
+	t=1747420253; cv=none; b=BlQNVICVp0N774qwE7iVwboqw98XtgfZY0RZ9yvKpguYylfO2slQ/gYqwiC4OVjwkaMrFeNTidZjiSIi8uY6Fccdz6yHX5Y+bfyKh76X4TQcY1wFxkmyog1/CHveWEawrpApucALaDBq7NRUphjSlVqLPLwc1eqKJW31zkxvJrY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747420145; c=relaxed/simple;
-	bh=1fx++dC2G7xSlPOJeN/lnsabkaaWW/8faZQ+ylHw9QY=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=m+2/cO7NyR4ewDsZZsEUkbTXpWOkiduoO9TgJdzN8gwxLrbpib7NBmJYTESCnMzh7XY/oxiAffstPCByJ4JYTOkH4gPUHcq3RWpfNkyeS1DFsLvItAnSpApCmXZ6xNTj4l/BA2e2ZDU1GNNtZ8J8KzyrDLXMqUlok3tnuHsRi6Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com; spf=pass smtp.mailfrom=zytor.com; dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b=GCnfT63U; arc=none smtp.client-ip=198.137.202.136
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=zytor.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=zytor.com
+	s=arc-20240116; t=1747420253; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=qXdX4bCN7HtaX8bdLkO2Ylkgz83iURTt2fDqokY4W11shuWeKdr9wU7cZQ2pcC6YDgiHEpEvtWR2iS2P5vD8yw+7vEmJ0WiiOUHDI13I7npUYoE/YZ2be+hXWjLye7U+QUCBW9DKfemXJuTjqY2o07kwMD9cQntac0/GTSAdP9w=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=NpfJnmbW; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=zytor.com header.i=@zytor.com header.b="GCnfT63U"
-Received: from [127.0.0.1] ([76.133.66.138])
-	(authenticated bits=0)
-	by mail.zytor.com (8.18.1/8.17.1) with ESMTPSA id 54GISMke189240
-	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NO);
-	Fri, 16 May 2025 11:28:22 -0700
-DKIM-Filter: OpenDKIM Filter v2.11.0 mail.zytor.com 54GISMke189240
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=zytor.com;
-	s=2025042001; t=1747420104;
-	bh=3kdcS+HU5yAUDKLqMb85cLKeCxs+E5AFWAZY7/43xqA=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:From;
-	b=GCnfT63UVHPPWk3YILYl72t8nFDrdhAUhsSKpxTGreTT2ddjyna85jiy6hjBNoU+H
-	 zO0Amspxwwj3SrM0jc56ax9egcxoqYJ0Mtq2SZJYd4neyBWLdaIJY4ZKeLWT5063eG
-	 GPKZ8dzj0/p5DYkqI2VD1Y24LSyVzviNL2aaV5LWGeTsVbr3rTqY4jOc1mjP6inPtv
-	 RQVuKLUT27Sxx7NTlIMfs8SzYGZF1GEc7dzddouFfGdMSkTcHAYM/IC8oclN28dELh
-	 rx0KqNw70zDrEFNuq7sZbnxlNMP+YfNXvQUThV8kiFSVLTFtl/CEhlQU9m/8QVROkV
-	 7d7Ljwnra47+A==
-Date: Fri, 16 May 2025 11:28:20 -0700
-From: "H. Peter Anvin" <hpa@zytor.com>
-To: Dave Hansen <dave.hansen@intel.com>, Ingo Molnar <mingo@kernel.org>
-CC: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-        Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
-        Borislav Petkov <bp@alien8.de>,
-        Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-        Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
-        Peter Zijlstra <peterz@infradead.org>,
-        Ard Biesheuvel <ardb@kernel.org>, Jan Kiszka <jan.kiszka@siemens.com>,
-        Kieran Bingham <kbingham@kernel.org>,
-        Michael Roth <michael.roth@amd.com>,
-        Rick Edgecombe <rick.p.edgecombe@intel.com>,
-        Brijesh Singh <brijesh.singh@amd.com>,
-        Sandipan Das <sandipan.das@amd.com>, Juergen Gross <jgross@suse.com>,
-        Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, linux-efi@vger.kernel.org,
-        linux-mm@kvack.org
-Subject: =?US-ASCII?Q?Re=3A_=5BPATCHv3_2/4=5D_x86/64/mm=3A_Make_SP?=
- =?US-ASCII?Q?ARSEMEM=5FVMEMMAP_the_only_memory_model?=
-User-Agent: K-9 Mail for Android
-In-Reply-To: <6c33159d-8e4f-474b-a60a-bfa95eca6042@intel.com>
-References: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com> <20250516123306.3812286-3-kirill.shutemov@linux.intel.com> <30570ca0-8da4-4ebc-84d6-0a4badfb7154@intel.com> <rqkfqkkli57fbd5zkj3bwko44kmqqwnfdm766snm26y2so52ss@6it24qxv356q> <aCdGzpXSVx15gz90@gmail.com> <a0ca765c-a506-4c1f-a38c-24a8074988df@intel.com> <aCdbOeK3EkVUTGD2@gmail.com> <6c33159d-8e4f-474b-a60a-bfa95eca6042@intel.com>
-Message-ID: <304EB2DB-3EB9-4D2E-8807-E170B9061A63@zytor.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="NpfJnmbW"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 4F32DC4CEE4;
+	Fri, 16 May 2025 18:30:52 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747420252;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=NpfJnmbWyUqyMYoLy35vtxm0N29rgijba7ENUDqS7YmsKZUjUSF9tmwKOrEJMV3sh
+	 BOJ+AttBuVq8cSt48iOr9mkb3Lh54y/rA743ERhn9bavTxA66G9K4nY+vqUMYyvrUq
+	 pMuoisg9g1acwcd2Ohpqspyw4DZ3Bs72y9MVjchH2UnMlcG7PCQmnOvi7ptszJrLzd
+	 6loH1rBQKNyR4iKiDuf1m96yLUTX/I7GK7ZCZF7FTeW+XK5ihU9YtAH7p8jresWjGY
+	 FFvdQ3mTfy2XP+gLjQR2Cvrb6Xai9RjaFlkRc6wAgftsA5qwcTnVWIpNoT5D17ix6a
+	 YQGHmGwBWpsNw==
+Date: Fri, 16 May 2025 13:30:50 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-Id: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
 
-On May 16, 2025 8:46:07 AM PDT, Dave Hansen <dave=2Ehansen@intel=2Ecom> wro=
-te:
->On 5/16/25 08:35, Ingo Molnar wrote:
->>   =2Econfig=2Eopensuse=2Edefault:    CONFIG_SPARSEMEM_VMEMMAP_ENABLE=3D=
-y
->>   =2Econfig=2Eubuntu=2Elocalinstall: CONFIG_SPARSEMEM_VMEMMAP_ENABLE=3D=
-y
->>   =2Econfig=2Efedora=2Egeneric:      CONFIG_SPARSEMEM_VMEMMAP_ENABLE=3D=
-y
->>   =2Econfig=2Erhel=2Egeneric:        CONFIG_SPARSEMEM_VMEMMAP_ENABLE=3D=
-y
->
->That reminds me=2E=2E=2E
->
->Does everybody keep their own local copies of these configs in their
->environment? I do, and I refresh them periodically from the distros=2E I
->assume everybody else is doing something similar=2E
->
->Is there a better way?
 
-What I do is keep a set of minimal configs which are the deltas from the d=
-efault=2E=20
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
+
