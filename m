@@ -1,73 +1,66 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0ABCA220F3F
-	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 11:24:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4C609227EBF
+	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 11:29:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747394665; cv=none; b=vE0L/Wix1MZiJZhY+MhUiZzhDCOLT8Ee7IwMAX8l9nQfQ7U7P2XaCTqrBXOXbB0t0r+gFlpnWdpV4VoXl+WtSPw9pKrICGpsmqRid2b0mtNi+Mux9hWuLxKl3GGIQ+47tYhxzRKr0zS0io4Pe1tnuwxowoJIUuA72hfeV2baFG0=
+	t=1747394974; cv=none; b=ZHy2t5KnZEGzEy6JbjBbyjefoeQk5HScioR9iX/ovEZreLN0O7i1PnnSx6C9MJ0GmuJU4CY31TbUDqpM5JjpdESjTmfvY8F72aLnQ438OwwUJdUlMSZb6iVY27eYbIwj7ZcRwDifynam6gd2Xq/LJvSjCuMJOmKPCgIpI3zMkzg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747394665; c=relaxed/simple;
-	bh=jQP1pnOprXUwt0tijnckEd9rfdYhpNlyLu0SOkhTh5Y=;
+	s=arc-20240116; t=1747394974; c=relaxed/simple;
+	bh=lx3ZnbJ8D1Vx/zYL8QEh2/tlJsc2zjevswU0UTmTozU=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=AMyxMH1EXd48g/julhCnxMwR1lO/ISxBy9NhKITtrcrfBGPJ/yJ5JxBw2XekKeB5wiTu/f3Z/TuJ64nXBp7XjwHxI7jibeqrvrKO4x+kzSDuliKduLFMBmiPC6HpsAbNqt/d3yYW4A189PVvI4RSDK0B3dKXHpAcOAuptOAENiQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=i8/4z+1x; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	 In-Reply-To:Content-Type; b=XySZHyKqGPro9/mp9yZuuKvd9EZu+HFlLNM+9L5SgucKW7lba0PuyaLaVFyKmK0wAD+lwGGHEJtSAVyHf3xZoqTMPaxjKeKUY7M/XHEfjbNn8wZ0N4lA6OnfPnlGEPgngTZ3uSyFqT3pbSJ677CjW4AGNuoJxKHKXo0BERQYtyM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com; spf=pass smtp.mailfrom=suse.com; dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b=L4CDeVWn; arc=none smtp.client-ip=209.85.208.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=suse.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=suse.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="i8/4z+1x"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747394662;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=5CeGhcoalkCiRBD5Dh2QJQGoIoNoVyW9oUyPObGCVyU=;
-	b=i8/4z+1xrvaZ/BnKmfpRzVFAzUB9RuOCU6wycmaaPpDU9YPCdewDGEekePA+G3ymxM68ZH
-	sZPeyOIs7/Vx7NC/T3fV2uLXdDMSOJPcolOluXPdLIk2RQBA0W2kFULx8X5qyVAsr3OIQA
-	b0Pbdv3rRTCa+aAiv++45PsX1HVWOUI=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-563-JXN2SV9gN4eGGrfZ8DrAcw-1; Fri, 16 May 2025 07:24:21 -0400
-X-MC-Unique: JXN2SV9gN4eGGrfZ8DrAcw-1
-X-Mimecast-MFC-AGG-ID: JXN2SV9gN4eGGrfZ8DrAcw_1747394660
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-43cf3168b87so10794475e9.2
-        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 04:24:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747394660; x=1747999460;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
+	dkim=pass (2048-bit key) header.d=suse.com header.i=@suse.com header.b="L4CDeVWn"
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-601609043cfso872698a12.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 04:29:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=suse.com; s=google; t=1747394969; x=1747999769; darn=vger.kernel.org;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=5CeGhcoalkCiRBD5Dh2QJQGoIoNoVyW9oUyPObGCVyU=;
-        b=WgxCoAnfcAojcOOIZ3UaAiBzirllT3zTaaiN5820s3aid2aErTy3hD/yubj8k0NPqc
-         kGYDKRqyn8OOsDB0CmgSaM2aTuy0aoEEKDcFxo0HEB7xi/F/qHQxkRktjm6CVNM6uG23
-         kOIWhambdCegvD+OYN5Wa0giuKK6bNkbzsu4fPPSx4o450KGBpHshTbpgDvBeL98m9Oc
-         TRUmbtdd1GU8XROEwQ0hIPU5UE2KjVsl5ZSeD2NlYisWqAZxsfbcch4CP2mxTGIDV97i
-         6Tw1/KLWIqedQ+s2lPxSZBLGmEjvkUbO1glaZzhJYn1EI2r+aPH7SfGZGer6LAnzO23H
-         IgpQ==
-X-Forwarded-Encrypted: i=1; AJvYcCXxGDf+6EPwW71hTlwnN7p+wXB4NDpIQinF/pQ4DeqoHQCz3bdY0uMDd8bmWuGD8IE7a4b6W+mxOi0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YwKcy7ghLRW73eJNaw/+C/PnlPmVTmXmKEPVHuQ9mh+HlVtciYQ
-	3qa6+uVRhk5bGsNPNeWwrlLbyBOCE5H/8BxvN7nND4yKN3r2KcJOg+SDt8mBVoEgPbcZBr3f8U8
-	mhHL8fhvLOkYSlm2FmnWAEW0Tzg/yMWRUfuxLXXNQaBYiohJvuJst97rSShC48w==
-X-Gm-Gg: ASbGncsNtonV6f40f4nmY41HHAn3QlLXQrC4JBZh6SA97nCegnF8JCszvX9uqUvolEP
-	DK9p3A/+cPR5U4pIecD1+dbpiYq4+BlLQFMwKlzUrMIcn81Rv+eK7AtV8f1BqODaIwvDo3BL/FR
-	3+k+QlBXKF//eLtW/Fq6kW3LMjcUgKC9ryPYLOLuUfHjEuD2vn3oUqDYEuJfiu2fRj8pyyKJjXt
-	91n8z83x6xbN2WJFT3qhgQ4uK3TT9g5ZBiSzfrcZqaieUc5Wcl+pMjfRrBkwwYc5sucKF/oxhM9
-	ByJyrljFvGxMkkrGuYPQjck5gv0A4r9oz9Je9isV0kXikIMq21RMkljHsmEfkbj2JvN5V6szqn5
-	CQMO4YAD667gRtRTls1gpLAlUo9opQm1a7Rml7Fk=
-X-Received: by 2002:a05:600c:35c8:b0:441:d43d:4f68 with SMTP id 5b1f17b1804b1-442fd63c6b7mr34276715e9.15.1747394660415;
-        Fri, 16 May 2025 04:24:20 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFazKZM6MNCASQkRETRXEk1OXkFxsOav8YosRbDcJ0GaU1XHyulDBu1J46n9FJq5xeSunXT0w==
-X-Received: by 2002:a05:600c:35c8:b0:441:d43d:4f68 with SMTP id 5b1f17b1804b1-442fd63c6b7mr34276335e9.15.1747394659986;
-        Fri, 16 May 2025 04:24:19 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f47:4700:e6f9:f453:9ece:7602? (p200300d82f474700e6f9f4539ece7602.dip0.t-ipconnect.de. [2003:d8:2f47:4700:e6f9:f453:9ece:7602])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442fd583f07sm29331245e9.31.2025.05.16.04.24.18
+        bh=lx3ZnbJ8D1Vx/zYL8QEh2/tlJsc2zjevswU0UTmTozU=;
+        b=L4CDeVWnOYtqbfjKzecosFmsnejreH6AJMkKA84YjpZ4TUCflcBUftsjq+hLcluZRx
+         In9l8LV6/J/F2tZB20h6THPu3V/SRlGdcmRDlLNzHoZ3+0LaVN6SAP2PVLeqLnKzHOIy
+         tsXHe7IAh8qTMIUhrQoCAicmws9CIbw5+EEJE/A0EsLobjNz97QP4uZtGGKwALD2ce8D
+         6Ptew5umdi1koHQIPo7HSlPkYa9Vn3yZS5PqJU/kPk/5uCITu7CTh41lOMszWTeY5oG2
+         hb154mmMFTPlbLhVCrz0sAYmhQaK+PUNovnGo0BA/odkMYaPQarF+XkBmQCtsEeujb1n
+         7Q1Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747394969; x=1747999769;
+        h=in-reply-to:autocrypt:from:content-language:references:cc:to
+         :subject:user-agent:mime-version:date:message-id:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=lx3ZnbJ8D1Vx/zYL8QEh2/tlJsc2zjevswU0UTmTozU=;
+        b=ozxMoI3P2vUe+xBHUPlW/y9/9HK10PJ3vUPQGCc/u0oDpWNC3AsD4ewWIE3QRrv63W
+         yMMO7ZsenLgSce3SEYcGYYjI1f+G7Y8jm2Z9IRb1do06ETdSdOhli/BqgEZVdNfFf4KB
+         tcMqxMeMs/KRfUz56oq4kEr3wFxFLnyHkfohVX8QGCCjzUNYJ5lokEC4Q06sW205C5D5
+         t4VlhrkcDu3pvZsyBUKFkIrG/XEtq61VNsO0Ww5f2uE2LXYgj/XiUmIKtvz3M0/8et6g
+         zDsYNkKVd8HURdckLGe2GWHMXbx4tbEO0aG5woYhypcIvylTfF5VwAbvJYJ4OWfu0g/T
+         GdhA==
+X-Forwarded-Encrypted: i=1; AJvYcCV/1arTFlXIBK18A/pJ9iUwAJpJmujm3q2eXsc/2Ylob6W/wXx0SUOd9/Y0Ocs8vxBsUayGcWykd/w=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yxzp1qD7Iu1VdTCq8bAPkBLGjCyE+pb8gtbYS06MHzfsTdbyh1d
+	EeJXwI1goglY55BoNiK90zSGZPfK0gxwZdtW5cNFZd4cgYklYebq3b2+6buIvo8VqYI=
+X-Gm-Gg: ASbGnctcxzm6TV7Tht2DjSz1F6+uqrZplBe2H7qLcwpoTfLcmnschVFrVhx/kfc4fAg
+	U9/9xVYqXZMB9SVo4e+LG7kSG/t3wk+jiS0TU0ZPMc47eH+6/82GRWLAG20y9pALbVkCKLlM3po
+	hZEo41cyt1KCviUq/1oljqvG4FAKoq2SsOUTx1iiRHE4619NFde9ZAABI5bN+k03QfnNndtrsG+
+	9uYqlDUC4jL+dpUrfPO6NLxSaAD7MK73n9DxXhz0m8+JHyOGzspBRAMYkX+HqB07n9/WsauroaT
+	eAKPfSVj4WnK0+4eXJEdvYsm2D7hLu8GBQ6mIYmr2UfsX49Nsm2sifmfNOVDAoSJtFjN6VAJPRo
+	Dgy8u3uDKber3274DFyXA5lowgKpouV2Tyd0FEPKRjckoImzKnC5WU+cJAH+1IOUVdBD1EeqlDI
+	1ctzLbtibedjw=
+X-Google-Smtp-Source: AGHT+IHUXyVsv1xttXUXWNxCD1WVA2GLAyUyvDKqRxK9+9DWGO+hc2LBjxThaESjuf5EKHMzEneqlQ==
+X-Received: by 2002:a05:6402:3509:b0:601:7a58:4afa with SMTP id 4fb4d7f45d1cf-6017a584f89mr1269265a12.14.1747394969419;
+        Fri, 16 May 2025 04:29:29 -0700 (PDT)
+Received: from ?IPV6:2003:e5:872a:8800:5c7b:1ac1:4fa0:423b? (p200300e5872a88005c7b1ac14fa0423b.dip0.t-ipconnect.de. [2003:e5:872a:8800:5c7b:1ac1:4fa0:423b])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6004d4f1c7esm1296321a12.14.2025.05.16.04.29.28
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 May 2025 04:24:19 -0700 (PDT)
-Message-ID: <d8a7644b-6ec5-48bd-9789-cb5017075690@redhat.com>
-Date: Fri, 16 May 2025 13:24:18 +0200
+        Fri, 16 May 2025 04:29:29 -0700 (PDT)
+Message-ID: <51d78ee7-4b68-425b-bccb-d123d7210305@suse.com>
+Date: Fri, 16 May 2025 13:29:27 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,255 +68,253 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the
- process
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
- ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
- Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250515133519.2779639-1-usamaarif642@gmail.com>
- <20250515133519.2779639-2-usamaarif642@gmail.com>
- <c0af0eb2-d10f-4ee3-87dd-c23cca6cfd1a@lucifer.local>
- <ddc0dd46-8541-4d4a-ac59-287e11e1d3ff@gmail.com>
- <02ead03b-339b-45c8-b252-d31a66501c39@lucifer.local>
- <3a2a329d-2592-4e31-a763-d87dcd925966@redhat.com>
- <8ea288f2-5196-41f9-bd65-e29f22bb29e8@lucifer.local>
- <5f77366d-e100-46bb-ac85-aa4b216eb2cf@redhat.com>
- <cbc95f9b-1c13-45ec-8d34-38544d3f2dd3@lucifer.local>
- <8f0a22c2-3176-4942-994d-58d940901ecf@redhat.com>
- <1a175a2c-8afa-4995-9dec-e3e7cf1efc72@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
+Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
+ unconditional
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Sandipan Das <sandipan.das@amd.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
+References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
+ <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+ <e5c5037f-6429-41bd-8166-de3aa1de01bd@suse.com>
+ <oqdepd27wqf4duawnb3qo2ra6ftjyzjqfxupfj3hkmxvp6w4tl@oy32plygk7dt>
 Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <1a175a2c-8afa-4995-9dec-e3e7cf1efc72@lucifer.local>
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+Autocrypt: addr=jgross@suse.com; keydata=
+ xsBNBFOMcBYBCACgGjqjoGvbEouQZw/ToiBg9W98AlM2QHV+iNHsEs7kxWhKMjrioyspZKOB
+ ycWxw3ie3j9uvg9EOB3aN4xiTv4qbnGiTr3oJhkB1gsb6ToJQZ8uxGq2kaV2KL9650I1SJve
+ dYm8Of8Zd621lSmoKOwlNClALZNew72NjJLEzTalU1OdT7/i1TXkH09XSSI8mEQ/ouNcMvIJ
+ NwQpd369y9bfIhWUiVXEK7MlRgUG6MvIj6Y3Am/BBLUVbDa4+gmzDC9ezlZkTZG2t14zWPvx
+ XP3FAp2pkW0xqG7/377qptDmrk42GlSKN4z76ELnLxussxc7I2hx18NUcbP8+uty4bMxABEB
+ AAHNH0p1ZXJnZW4gR3Jvc3MgPGpncm9zc0BzdXNlLmNvbT7CwHkEEwECACMFAlOMcK8CGwMH
+ CwkIBwMCAQYVCAIJCgsEFgIDAQIeAQIXgAAKCRCw3p3WKL8TL8eZB/9G0juS/kDY9LhEXseh
+ mE9U+iA1VsLhgDqVbsOtZ/S14LRFHczNd/Lqkn7souCSoyWsBs3/wO+OjPvxf7m+Ef+sMtr0
+ G5lCWEWa9wa0IXx5HRPW/ScL+e4AVUbL7rurYMfwCzco+7TfjhMEOkC+va5gzi1KrErgNRHH
+ kg3PhlnRY0Udyqx++UYkAsN4TQuEhNN32MvN0Np3WlBJOgKcuXpIElmMM5f1BBzJSKBkW0Jc
+ Wy3h2Wy912vHKpPV/Xv7ZwVJ27v7KcuZcErtptDevAljxJtE7aJG6WiBzm+v9EswyWxwMCIO
+ RoVBYuiocc51872tRGywc03xaQydB+9R7BHPzsBNBFOMcBYBCADLMfoA44MwGOB9YT1V4KCy
+ vAfd7E0BTfaAurbG+Olacciz3yd09QOmejFZC6AnoykydyvTFLAWYcSCdISMr88COmmCbJzn
+ sHAogjexXiif6ANUUlHpjxlHCCcELmZUzomNDnEOTxZFeWMTFF9Rf2k2F0Tl4E5kmsNGgtSa
+ aMO0rNZoOEiD/7UfPP3dfh8JCQ1VtUUsQtT1sxos8Eb/HmriJhnaTZ7Hp3jtgTVkV0ybpgFg
+ w6WMaRkrBh17mV0z2ajjmabB7SJxcouSkR0hcpNl4oM74d2/VqoW4BxxxOD1FcNCObCELfIS
+ auZx+XT6s+CE7Qi/c44ibBMR7hyjdzWbABEBAAHCwF8EGAECAAkFAlOMcBYCGwwACgkQsN6d
+ 1ii/Ey9D+Af/WFr3q+bg/8v5tCknCtn92d5lyYTBNt7xgWzDZX8G6/pngzKyWfedArllp0Pn
+ fgIXtMNV+3t8Li1Tg843EXkP7+2+CQ98MB8XvvPLYAfW8nNDV85TyVgWlldNcgdv7nn1Sq8g
+ HwB2BHdIAkYce3hEoDQXt/mKlgEGsLpzJcnLKimtPXQQy9TxUaLBe9PInPd+Ohix0XOlY+Uk
+ QFEx50Ki3rSDl2Zt2tnkNYKUCvTJq7jvOlaPd6d/W0tZqpyy7KVay+K4aMobDsodB3dvEAs6
+ ScCnh03dDAFgIq5nsB11j3KPKdVoPlfucX2c7kGNH+LUMbzqV6beIENfNexkOfxHfw==
+In-Reply-To: <oqdepd27wqf4duawnb3qo2ra6ftjyzjqfxupfj3hkmxvp6w4tl@oy32plygk7dt>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="------------CymqGH96G71Tbf8XGvvggu1f"
+
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--------------CymqGH96G71Tbf8XGvvggu1f
+Content-Type: multipart/mixed; boundary="------------17wFTfAy0AWdHiCoJoEwcMnN";
+ protected-headers="v1"
+From: =?UTF-8?B?SsO8cmdlbiBHcm/Dnw==?= <jgross@suse.com>
+To: "Kirill A. Shutemov" <kirill@shutemov.name>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+ Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+ Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
+ x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
+ Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
+ Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
+ Michael Roth <michael.roth@amd.com>,
+ Rick Edgecombe <rick.p.edgecombe@intel.com>,
+ Brijesh Singh <brijesh.singh@amd.com>, Sandipan Das <sandipan.das@amd.com>,
+ Tom Lendacky <thomas.lendacky@amd.com>, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-efi@vger.kernel.org, linux-mm@kvack.org
+Message-ID: <51d78ee7-4b68-425b-bccb-d123d7210305@suse.com>
+Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
+ unconditional
+References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
+ <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+ <e5c5037f-6429-41bd-8166-de3aa1de01bd@suse.com>
+ <oqdepd27wqf4duawnb3qo2ra6ftjyzjqfxupfj3hkmxvp6w4tl@oy32plygk7dt>
+In-Reply-To: <oqdepd27wqf4duawnb3qo2ra6ftjyzjqfxupfj3hkmxvp6w4tl@oy32plygk7dt>
+
+--------------17wFTfAy0AWdHiCoJoEwcMnN
+Content-Type: multipart/mixed; boundary="------------jf3AJhHNZgwVQ7NlRDjQicxJ"
+
+--------------jf3AJhHNZgwVQ7NlRDjQicxJ
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-On 16.05.25 12:57, Lorenzo Stoakes wrote:
-> On Fri, May 16, 2025 at 09:45:17AM +0200, David Hildenbrand wrote:
->> On 15.05.25 22:35, Lorenzo Stoakes wrote:
->>> On Thu, May 15, 2025 at 09:12:13PM +0200, David Hildenbrand wrote:
->>>> On 15.05.25 20:08, Lorenzo Stoakes wrote:
->>>>> On Thu, May 15, 2025 at 06:11:55PM +0200, David Hildenbrand wrote:
->>>>>>>>> So if you're not overriding VM_NOHUGEPAGE, the whole point of this exercise
->>>>>>>>> is to override global 'never'?
->>>>>>>>>
->>>>>>>>
->>>>>>>> Again, I am not overriding never.
->>>>>>>>
->>>>>>>> hugepage_global_always and hugepage_global_enabled will evaluate to false
->>>>>>>> and you will not get a hugepage.
->>>>>>>
->>>>>>> Yeah, again ack, but I kind of hate that we set VM_HUGEPAGE everywhere even
->>>>>>> if the policy is never.
->>>>>>
->>>>>> I think it should behave just as if someone does manually an madvise(). So
->>>>>> whatever we do here during an madvise, we should try to do the same thing
->>>>>> here.
->>>>>
->>>>> Ack I agree with this.
->>>>>
->>>>> It actually simplifies things a LOT to view it this way - we're saying 'by
->>>>> default apply madvise(...) to new VMAs'.
->>>>>
->>>>> Hm I wonder if we could have a more generic version of this...
->>>>>
->>>>> Note though that we're not _quite_ doing this.
->>>>>
->>>>> So in hugepage_madvise():
->>>>>
->>>>> int hugepage_madvise(struct vm_area_struct *vma,
->>>>> 		     unsigned long *vm_flags, int advice)
->>>>> {
->>>>> 	...
->>>>>
->>>>> 	switch (advice) {
->>>>> 	case MADV_HUGEPAGE:
->>>>> 		*vm_flags &= ~VM_NOHUGEPAGE;
->>>>> 		*vm_flags |= VM_HUGEPAGE;
->>>>>
->>>>> 		...
->>>>>
->>>>> 		break;
->>>>>
->>>>> 		...
->>>>> 	}
->>>>>
->>>>> 	...
->>>>> }
->>>>>
->>>>> So here we're actually clearing VM_NOHUGEPAGE and overriding it, but in the
->>>>> proposed code we're not.
->>>>
->>>> Yeah, I think I suggested that, but probably we should just do exactly what
->>>> madvise() does.
->>>
->>> Yes, agreed.
->>>
->>> Usama - do you have any issue with us switching to how madvise() does it?
->>>
->>>>
->>>>>
->>>>> So we're back into confusing territory again :)
->>>>>
->>>>> I wonder if we could...
->>>>>
->>>>> 1. Add an MADV_xxx that mimics the desired behaviour here.
->>>>>
->>>>> 2. Add a generic 'madvise() by default' thing at a process level?
->>>>>
->>>>> Is this crazy?
->>>>
->>>> I think that's what I had in mind, just a bit twisted.
->>>>
->>>> What could work is
->>>>
->>>> 1) prctl to set the default
->>>>
->>>> 2) madvise() to adjust all existing VMAs
->>>>
->>>>
->>>> We might have to teach 2) to ignore non-compatible VMAs / holes. Maybe not,
->>>> worth an investigation.
->>>
->>> Yeah, I think it'd _probably_ be ok except on s390 (which can fail, and so
->>> we'd have to be able to say - skip on error, carry on).
->>>
->>> We'll just get an -ENOMEM at the end for the gaps (god how I hate
->>> that). Otherwise I don't think MADV_HUGEPAGE actually is really that
->>> restrictive.
->>>
->>> That would simplify :)
->>>
->>> But I still so hate using prctl()... this might be one of those cases where
->>> we simply figure out we have no other choice.
->>>> But when you put it as simply as this maybe it's not so bad. With the
->>> flags2 gone by fixing this stupid 32-bit limit it's less awful.
->>>
->>> Perhaps worth seeing what an improved RFC of this series looks like with
->>> all the various bits fixed to give an idea.
->>
->> Yes.
->>
->>>
->>> But you do then wonder if we could make this _generic_ for _any_ madvise(),
->>> and how _that_ would look.
->>>
->>> But perhaps that's insane because many VMAs would simply not be suited to
->>> having certain madvise flags set hmm.
->>
->> Same thinking. I think this is rather special.
->>
->> In a perfect world not even the madvise(*HUGEPAGE) would exist.
->>
->> But here we are ... 14 years (wow!) after
-> 
-> This feels like the tale of the kernel :)
-> 
->>
->> commit 0af4e98b6b095c74588af04872f83d333c958c32
->> Author: Andrea Arcangeli <aarcange@redhat.com>
->> Date:   Thu Jan 13 15:46:55 2011 -0800
->>
->>      thp: madvise(MADV_HUGEPAGE)
->>
->>
->>
->> (I'm surprised you don't complain about madvise(). IMHO, prctl() is even a
->> better interface than catch-all madvise(); a syscall where an advise might
->> not be an advise. I saw some funny rants about MADV_DONTNEED on reddit at
->> some point ... :) mctrl() would have been clearer, at least for me :D )
-> 
-> No I prefer madvise() massively, I mean yes in a way it's hacky, but prctl() is
-> the ultimate hack.
-> 
-> So as an interface it's actually kinda fine like 'virtual range X-Y, advise ZZZ
-> about it'.
-> 
-> (as for naming haha maybe you have a point actually, the 'advice' bit
-> has always been strange... :)
-> 
-> But.
-> 
-> The actual set of advice is bloody hideous and confusing and I've seen
-> first hand userspace people get very, very confused about what each thing
-> does. The naming is horrible, overloaded, overwrought.
-> 
-> And the weird behaviour with gaps is also horrible...
-> 
-> So there's lots to moan about there, but saying prctl() is somehow superior
-> to the true evil of prctl() is far too far :P
+T24gMTYuMDUuMjUgMTM6MDksIEtpcmlsbCBBLiBTaHV0ZW1vdiB3cm90ZToNCj4gT24gRnJp
+LCBNYXkgMTYsIDIwMjUgYXQgMTI6NDI6MjFQTSArMDIwMCwgSsO8cmdlbiBHcm/DnyB3cm90
+ZToNCj4+IE9uIDE2LjA1LjI1IDExOjE1LCBLaXJpbGwgQS4gU2h1dGVtb3Ygd3JvdGU6DQo+
+Pj4gQm90aCBJbnRlbCBhbmQgQU1EIENQVXMgc3VwcG9ydCA1LWxldmVsIHBhZ2luZywgd2hp
+Y2ggaXMgZXhwZWN0ZWQgdG8NCj4+PiBiZWNvbWUgbW9yZSB3aWRlbHkgYWRvcHRlZCBpbiB0
+aGUgZnV0dXJlLg0KPj4+DQo+Pj4gUmVtb3ZlIENPTkZJR19YODZfNUxFVkVMIGFuZCBpZmRl
+ZmZlcnkgZm9yIGl0IHRvIG1ha2UgaXQgbW9yZSByZWFkYWJsZS4NCj4+Pg0KPj4+IFNpZ25l
+ZC1vZmYtYnk6IEtpcmlsbCBBLiBTaHV0ZW1vdiA8a2lyaWxsLnNodXRlbW92QGxpbnV4Lmlu
+dGVsLmNvbT4NCj4+PiBTdWdnZXN0ZWQtYnk6IEJvcmlzbGF2IFBldGtvdiA8YnBAYWxpZW44
+LmRlPg0KPj4+IC0tLQ0KPj4+ICAgIERvY3VtZW50YXRpb24vYXJjaC94ODYvY3B1aW5mby5y
+c3QgICAgICAgICAgICB8ICA4ICsrKy0tLS0NCj4+PiAgICAuLi4vYXJjaC94ODYveDg2XzY0
+LzVsZXZlbC1wYWdpbmcucnN0ICAgICAgICAgfCAgOSAtLS0tLS0tLQ0KPj4+ICAgIGFyY2gv
+eDg2L0tjb25maWcgICAgICAgICAgICAgICAgICAgICAgICAgICAgICB8IDIyICstLS0tLS0t
+LS0tLS0tLS0tLS0NCj4+PiAgICBhcmNoL3g4Ni9LY29uZmlnLmNwdWZlYXR1cmVzICAgICAg
+ICAgICAgICAgICAgfCAgNCAtLS0tDQo+Pj4gICAgYXJjaC94ODYvYm9vdC9jb21wcmVzc2Vk
+L3BndGFibGVfNjQuYyAgICAgICAgIHwgMTEgKystLS0tLS0tLQ0KPj4+ICAgIGFyY2gveDg2
+L2Jvb3QvaGVhZGVyLlMgICAgICAgICAgICAgICAgICAgICAgICB8ICA0IC0tLS0NCj4+PiAg
+ICBhcmNoL3g4Ni9ib290L3N0YXJ0dXAvbWFwX2tlcm5lbC5jICAgICAgICAgICAgfCAgNSAr
+LS0tLQ0KPj4+ICAgIGFyY2gveDg2L2luY2x1ZGUvYXNtL3BhZ2VfNjQuaCAgICAgICAgICAg
+ICAgICB8ICAyIC0tDQo+Pj4gICAgYXJjaC94ODYvaW5jbHVkZS9hc20vcGFnZV82NF90eXBl
+cy5oICAgICAgICAgIHwgIDcgLS0tLS0tDQo+Pj4gICAgYXJjaC94ODYvaW5jbHVkZS9hc20v
+cGd0YWJsZV82NF90eXBlcy5oICAgICAgIHwgMTggLS0tLS0tLS0tLS0tLS0tDQo+Pj4gICAg
+YXJjaC94ODYva2VybmVsL2FsdGVybmF0aXZlLmMgICAgICAgICAgICAgICAgIHwgIDIgKy0N
+Cj4+PiAgICBhcmNoL3g4Ni9rZXJuZWwvaGVhZDY0LmMgICAgICAgICAgICAgICAgICAgICAg
+fCAgMiAtLQ0KPj4+ICAgIGFyY2gveDg2L2tlcm5lbC9oZWFkXzY0LlMgICAgICAgICAgICAg
+ICAgICAgICB8ICAyIC0tDQo+Pj4gICAgYXJjaC94ODYvbW0vaW5pdC5jICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgIHwgIDQgLS0tLQ0KPj4+ICAgIGFyY2gveDg2L21tL3BndGFibGUu
+YyAgICAgICAgICAgICAgICAgICAgICAgICB8ICAyICstDQo+Pj4gICAgZHJpdmVycy9maXJt
+d2FyZS9lZmkvbGlic3R1Yi94ODYtNWx2bC5jICAgICAgIHwgIDIgKy0NCj4+PiAgICAxNiBm
+aWxlcyBjaGFuZ2VkLCAxMCBpbnNlcnRpb25zKCspLCA5NCBkZWxldGlvbnMoLSkNCj4+DQo+
+PiBUaGVyZSBhcmUgc29tZSBpbnN0YW5jZXMgb2Y6DQo+Pg0KPj4gI2lmIENPTkZJR19QR1RB
+QkxFX0xFVkVMUyA+PSA1DQo+Pg0KPj4gaW4gNjQtYml0LW9ubHkgY29kZSB1bmRlciBhcmNo
+L3g4Niwgd2hpY2ggY291bGQgYmUgc2ltcGxpZmllZCwgdG9vLg0KPj4NCj4+IFRoZXkgYXJl
+IHN0aWxsIGNvcnJlY3QsIGJ1dCBJIHdhbnRlZCB0byBoaW50IGF0IGZ1cnRoZXIgY29kZSBy
+ZW1vdmFscw0KPj4gYmVpbmcgcG9zc2libGUuDQo+IA0KPiBPa2F5LCBmYWlyIGVub3VnaC4g
+Rml4dXAgaXMgYmVsb3cuDQo+IA0KPiBEaWQgSSBtaXNzIGFueXRoaW5nIGVsc2U/DQoNClll
+cy4NCg0KT25lIG1vcmUgaW5zdGFuY2UgaW4gYXJjaC94ODYveGVuL21tdV9wdi5jLA0Kb25l
+IGluIGFyY2gveDg2L2luY2x1ZGUvYXNtL3BhcmF2aXJ0LmgsDQpvbmUgaW4gYXJjaC94ODYv
+aW5jbHVkZS9hc20vcGFyYXZpcnRfdHlwZXMuaCwNCm9uZSBpbiBhcmNoL3g4Ni9rZXJuZWwv
+cGFyYXZpcnQuYw0KDQoNCkp1ZXJnZW4NCg0KPiANCj4gZGlmZiAtLWdpdCBhL2FyY2gveDg2
+L2VudHJ5L3ZzeXNjYWxsL3ZzeXNjYWxsXzY0LmMgYi9hcmNoL3g4Ni9lbnRyeS92c3lzY2Fs
+bC92c3lzY2FsbF82NC5jDQo+IGluZGV4IDJmYjdkNTNjZjMzMy4uYzkxMDNhNmZhMDZlIDEw
+MDY0NA0KPiAtLS0gYS9hcmNoL3g4Ni9lbnRyeS92c3lzY2FsbC92c3lzY2FsbF82NC5jDQo+
+ICsrKyBiL2FyY2gveDg2L2VudHJ5L3ZzeXNjYWxsL3ZzeXNjYWxsXzY0LmMNCj4gQEAgLTM0
+MSw5ICszNDEsNyBAQCB2b2lkIF9faW5pdCBzZXRfdnN5c2NhbGxfcGd0YWJsZV91c2VyX2Jp
+dHMocGdkX3QgKnJvb3QpDQo+ICAgCXBnZCA9IHBnZF9vZmZzZXRfcGdkKHJvb3QsIFZTWVND
+QUxMX0FERFIpOw0KPiAgIAlzZXRfcGdkKHBnZCwgX19wZ2QocGdkX3ZhbCgqcGdkKSB8IF9Q
+QUdFX1VTRVIpKTsNCj4gICAJcDRkID0gcDRkX29mZnNldChwZ2QsIFZTWVNDQUxMX0FERFIp
+Ow0KPiAtI2lmIENPTkZJR19QR1RBQkxFX0xFVkVMUyA+PSA1DQo+ICAgCXNldF9wNGQocDRk
+LCBfX3A0ZChwNGRfdmFsKCpwNGQpIHwgX1BBR0VfVVNFUikpOw0KPiAtI2VuZGlmDQo+ICAg
+CXB1ZCA9IHB1ZF9vZmZzZXQocDRkLCBWU1lTQ0FMTF9BRERSKTsNCj4gICAJc2V0X3B1ZChw
+dWQsIF9fcHVkKHB1ZF92YWwoKnB1ZCkgfCBfUEFHRV9VU0VSKSk7DQo+ICAgCXBtZCA9IHBt
+ZF9vZmZzZXQocHVkLCBWU1lTQ0FMTF9BRERSKTsNCj4gZGlmZiAtLWdpdCBhL2FyY2gveDg2
+L2luY2x1ZGUvYXNtL3BndGFibGVfNjQuaCBiL2FyY2gveDg2L2luY2x1ZGUvYXNtL3BndGFi
+bGVfNjQuaA0KPiBpbmRleCBiODlmOGYxMTk0YTkuLmYwNmU1ZDZhMjc0NyAxMDA2NDQNCj4g
+LS0tIGEvYXJjaC94ODYvaW5jbHVkZS9hc20vcGd0YWJsZV82NC5oDQo+ICsrKyBiL2FyY2gv
+eDg2L2luY2x1ZGUvYXNtL3BndGFibGVfNjQuaA0KPiBAQCAtNDEsMTEgKzQxLDkgQEAgc3Rh
+dGljIGlubGluZSB2b2lkIHN5bmNfaW5pdGlhbF9wYWdlX3RhYmxlKHZvaWQpIHsgfQ0KPiAg
+IAlwcl9lcnIoIiVzOiVkOiBiYWQgcHVkICVwKCUwMTZseClcbiIsCQlcDQo+ICAgCSAgICAg
+ICBfX0ZJTEVfXywgX19MSU5FX18sICYoZSksIHB1ZF92YWwoZSkpDQo+ICAgDQo+IC0jaWYg
+Q09ORklHX1BHVEFCTEVfTEVWRUxTID49IDUNCj4gICAjZGVmaW5lIHA0ZF9FUlJPUihlKQkJ
+CQkJXA0KPiAgIAlwcl9lcnIoIiVzOiVkOiBiYWQgcDRkICVwKCUwMTZseClcbiIsCQlcDQo+
+ICAgCSAgICAgICBfX0ZJTEVfXywgX19MSU5FX18sICYoZSksIHA0ZF92YWwoZSkpDQo+IC0j
+ZW5kaWYNCj4gICANCj4gICAjZGVmaW5lIHBnZF9FUlJPUihlKQkJCQkJXA0KPiAgIAlwcl9l
+cnIoIiVzOiVkOiBiYWQgcGdkICVwKCUwMTZseClcbiIsCQlcDQo+IGRpZmYgLS1naXQgYS9h
+cmNoL3g4Ni94ZW4vbW11X3B2LmMgYi9hcmNoL3g4Ni94ZW4vbW11X3B2LmMNCj4gaW5kZXgg
+Mzg5NzFjNmRjZDRiLi42MWM1MmJiODBlMzMgMTAwNjQ0DQo+IC0tLSBhL2FyY2gveDg2L3hl
+bi9tbXVfcHYuYw0KPiArKysgYi9hcmNoL3g4Ni94ZW4vbW11X3B2LmMNCj4gQEAgLTU3OCw3
+ICs1NzgsNiBAQCBzdGF0aWMgdm9pZCB4ZW5fc2V0X3A0ZChwNGRfdCAqcHRyLCBwNGRfdCB2
+YWwpDQo+ICAgCXhlbl9tY19pc3N1ZShYRU5fTEFaWV9NTVUpOw0KPiAgIH0NCj4gICANCj4g
+LSNpZiBDT05GSUdfUEdUQUJMRV9MRVZFTFMgPj0gNQ0KPiAgIF9fdmlzaWJsZSBwNGR2YWxf
+dCB4ZW5fcDRkX3ZhbChwNGRfdCBwNGQpDQo+ICAgew0KPiAgIAlyZXR1cm4gcHRlX21mbl90
+b19wZm4ocDRkLnA0ZCk7DQo+IEBAIC01OTIsNyArNTkxLDYgQEAgX192aXNpYmxlIHA0ZF90
+IHhlbl9tYWtlX3A0ZChwNGR2YWxfdCBwNGQpDQo+ICAgCXJldHVybiBuYXRpdmVfbWFrZV9w
+NGQocDRkKTsNCj4gICB9DQo+ICAgUFZfQ0FMTEVFX1NBVkVfUkVHU19USFVOSyh4ZW5fbWFr
+ZV9wNGQpOw0KPiAtI2VuZGlmICAvKiBDT05GSUdfUEdUQUJMRV9MRVZFTFMgPj0gNSAqLw0K
+PiAgIA0KPiAgIHN0YXRpYyB2b2lkIHhlbl9wbWRfd2FsayhzdHJ1Y3QgbW1fc3RydWN0ICpt
+bSwgcG1kX3QgKnBtZCwNCj4gICAJCQkgdm9pZCAoKmZ1bmMpKHN0cnVjdCBtbV9zdHJ1Y3Qg
+Km1tLCBzdHJ1Y3QgcGFnZSAqLA0KDQo=
+--------------jf3AJhHNZgwVQ7NlRDjQicxJ
+Content-Type: application/pgp-keys; name="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Disposition: attachment; filename="OpenPGP_0xB0DE9DD628BF132F.asc"
+Content-Description: OpenPGP public key
+Content-Transfer-Encoding: quoted-printable
 
-Haha :)
+-----BEGIN PGP PUBLIC KEY BLOCK-----
 
-> 
-> I mean take a look at https://man7.org/linux/man-pages/man2/prctl.2.html
-> 
-> Things like:
-> 
-> 	PR_SET_MM
-> 	PR_SET_VMA
-> 
-> Are super worrying...
+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
+kt+z4drzFUyEjLM1vVvIMjkUoJs=3D
+=3DeeAB
+-----END PGP PUBLIC KEY BLOCK-----
 
-Don't get me wrong. I like the concept of prctl(), but not whatever 
-weird stuff we squeezed in there. And there is *a lot* of weird stuff in 
-there that probably shouldn't exist.
+--------------jf3AJhHNZgwVQ7NlRDjQicxJ--
 
-Similar to madvise(), where we squeezed in a lot of stuff ... but that 
-ship has sailed.
+--------------17wFTfAy0AWdHiCoJoEwcMnN--
 
-Looking forward to hearing what your magic thinking cap can do! :)
+--------------CymqGH96G71Tbf8XGvvggu1f
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature.asc"
 
--- 
-Cheers,
+-----BEGIN PGP SIGNATURE-----
 
-David / dhildenb
+wsB5BAABCAAjFiEEhRJncuj2BJSl0Jf3sN6d1ii/Ey8FAmgnIZcFAwAAAAAACgkQsN6d1ii/Ey/y
+zwf7BFJ4W28gPYT5FHV9wh0oB+P5okg8UnrhivxTgFygu6CqB9ji5nasoe3G4krsjX/CCLtjSC/f
+IAollkJWwBZIj2VkJuAmz4l3vLE8o9sEcCwjIkH+s+GlomymvkwCYL+dGYwyKPYWqMnBbqWtxAEN
+COtY7a9ra1W4QwCZNW9CZVUPNWZAV+HMaFvZa+F7IX0Q68isTzN+Uul4qDwQ8yxpET7TAZ+qHLgt
+orlALsS+ey2CiwEcQa0XYM80Oq+ykPmfbo7oOvHMzl9aIeOKbmZY0do0ncxOtHgkK5VJYFwxKjOO
+yNooVzCjsiGGazPSD65Id+BRUf8NceN2hTt23H89wQ==
+=sZ4W
+-----END PGP SIGNATURE-----
 
+--------------CymqGH96G71Tbf8XGvvggu1f--
