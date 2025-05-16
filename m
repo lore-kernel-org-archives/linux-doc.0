@@ -1,100 +1,139 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1E92C219E0;
-	Fri, 16 May 2025 14:08:22 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A60C439ACC;
+	Fri, 16 May 2025 14:38:52 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747404502; cv=none; b=Jmz3MQ1sklCLhAOlCy2H/KszPOa8hSL0/Prfkqhiyo/hgQ2FSt7N1APTbaAeXVjGiTjF0GQ6VtK0VjVBMVZRx89UKiMH4bGVUduCFyFCgfq6Wu9Io/DuyI9SWngg2haBMM1/wQ0FlEyCoNIj2J0ttclO3Mg2l/VbzTwPx4myShA=
+	t=1747406332; cv=none; b=f2cga5lXoURjMAcXxcbvfwdOxXKJBNtG6D8oArcxlN6cSkXmITKsy/JhK+I4SK3Kkyy29QSD85vDjQbOVwJX1iiRlwuy+FE7YLHQcSc35l/+YA7827P15mGrTq65Hm1dUoSK3WHyAdtc4gjNu8XcZUMC7Cwbcl7UAGGZgUfjrG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747404502; c=relaxed/simple;
-	bh=S0UMLpnZ2LCy67bBVlX9k8i+8TEK54UopOU4ZIM201E=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LfdwOtAz0RJBVr4tBtTpjnkI1N49QFQnPCG7U4WRR8xODMBcxPgM5pgUdpd7TgLCVjAgJytq89DZzovmoNAcSVW5IPKCzXUlOPorC2MyUb9wXzZyzlqcu35TJ0E73kJZQrvv90AEBfeFqDa7AZrCvXzCnRjc9gSU1udS48zcYgc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aFue6Bcg; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747406332; c=relaxed/simple;
+	bh=l46kwxbPoNzDDSweacWIRFfRPs/0kNJkrBDYOOUaEF4=;
+	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=ocTwR5MF024g/hkBxpmXMM/8HtUqeshzM2dhlqirxIGg7guf5csynxSJwt/nZThX/EENokhUHSzsZfMEVIezUylQjSiyJPPQlAeHDpsR2w1ymyZDLZkQDWW434mLP92YrShSvCuC9erMTeWzhoSLUjlO/JRS0lG9lfPy9XlgLOs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZrFLqBwc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aFue6Bcg"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id EB7A3C4CEE4;
-	Fri, 16 May 2025 14:08:16 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZrFLqBwc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 17874C4CEE4;
+	Fri, 16 May 2025 14:38:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747404501;
-	bh=S0UMLpnZ2LCy67bBVlX9k8i+8TEK54UopOU4ZIM201E=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aFue6Bcgdymnr+9kcKWC4RHjfE44xDWPRwL4CHK6AsQsUwaC69XLGdW3cVBy2U2+H
-	 FxrcIfKT5s4dD/f912TbUXt9L1wo+WWPBzflWrv66/RQ8yObYQZ+KGKc4PAz8GMgyE
-	 kt3DQqmpyyME/vQQpzZmtLeJV/U2X/TUz+l/20R/Zjo4pUSLokaeDa64Z/qp5ED5Fp
-	 4AzQWH/Tnpa9se76mtKq/jis3M/pVD1vWuoC+nu9l6nSUjg6sdYPzs4GpoDS2KDZXh
-	 0o+TqDdhjCe0GQTBD65y3dkRmK+MNJLqnEk9E6HgCy+URdsDDffaLgPlucPtkQHfmC
-	 Mec8EjpzJL8kg==
-Date: Fri, 16 May 2025 16:08:14 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>
-Cc: Dave Hansen <dave.hansen@intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Lutomirski <luto@kernel.org>,
+	s=k20201202; t=1747406332;
+	bh=l46kwxbPoNzDDSweacWIRFfRPs/0kNJkrBDYOOUaEF4=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=ZrFLqBwc+bmZgKP4ysNa27JWlVVh2fI3XBE0Q4rbGJ5tmnj7DN0xElAYQKtyHv+cD
+	 U/Qkg5apYb4d/VNOCBoN9GuU1IuQJSoxW2pLDWHET9IPNfUNxaCTsBoSPikjPQhogX
+	 cTXcFCeE+/mSMv0UVbvnb6axASj8+CsiwwfLYfUKMcGg+R3HlcBDLI05cYakndF3KG
+	 MkRyb+z+eTQgJQz7oTIROYcTHqpDX0Qk2eq4UTWhQNmQMnbyqAxqwSL+ug1uIzi4dO
+	 IShlEdMPWduVz+UaElDFaAiDDuFPo6yemYxY9hs/JRYwXj1EvngevKbZKKSBWqv214
+	 OAn0K5e6diF1Q==
+Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
+	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+	(Exim 4.95)
+	(envelope-from <maz@kernel.org>)
+	id 1uFwD3-00FaaK-A8;
+	Fri, 16 May 2025 15:38:49 +0100
+Date: Fri, 16 May 2025 15:38:48 +0100
+Message-ID: <8634d4fwnb.wl-maz@kernel.org>
+From: Marc Zyngier <maz@kernel.org>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>,
+	Mark Rutland <mark.rutland@arm.com>,
 	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Michael Roth <michael.roth@amd.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Juergen Gross <jgross@suse.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCHv3 2/4] x86/64/mm: Make SPARSEMEM_VMEMMAP the only memory
- model
-Message-ID: <aCdGzpXSVx15gz90@gmail.com>
-References: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
- <20250516123306.3812286-3-kirill.shutemov@linux.intel.com>
- <30570ca0-8da4-4ebc-84d6-0a4badfb7154@intel.com>
- <rqkfqkkli57fbd5zkj3bwko44kmqqwnfdm766snm26y2so52ss@6it24qxv356q>
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>,
+	Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	leo.yan@arm.com,
+	linux-arm-kernel@lists.infradead.org,
+	linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH 01/10] arm64: sysreg: Add new PMSIDR_EL1 and PMSFCR_EL1 fields
+In-Reply-To: <20250506-james-perf-feat_spe_eft-v1-1-dd480e8e4851@linaro.org>
+References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
+	<20250506-james-perf-feat_spe_eft-v1-1-dd480e8e4851@linaro.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
+ FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
+ (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <rqkfqkkli57fbd5zkj3bwko44kmqqwnfdm766snm26y2so52ss@6it24qxv356q>
+MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
+Content-Type: text/plain; charset=US-ASCII
+X-SA-Exim-Connect-IP: 185.219.108.64
+X-SA-Exim-Rcpt-To: james.clark@linaro.org, catalin.marinas@arm.com, will@kernel.org, mark.rutland@arm.com, peterz@infradead.org, mingo@redhat.com, acme@kernel.org, namhyung@kernel.org, alexander.shishkin@linux.intel.com, jolsa@kernel.org, irogers@google.com, adrian.hunter@intel.com, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, leo.yan@arm.com, linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+X-SA-Exim-Mail-From: maz@kernel.org
+X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
 
-
-* Kirill A. Shutemov <kirill.shutemov@linux.intel.com> wrote:
-
-> On Fri, May 16, 2025 at 06:42:03AM -0700, Dave Hansen wrote:
-> > On 5/16/25 05:33, Kirill A. Shutemov wrote:
-> > > 5-level paging only supports SPARSEMEM_VMEMMAP. CONFIG_X86_5LEVEL is
-> > > being phased out, making 5-level paging support mandatory.
-> > > 
-> > > Make CONFIG_SPARSEMEM_VMEMMAP mandatory for x86-64 and eliminate
-> > > any associated conditional statements.
-> > I think we have ourselves a catch-22 here.
-> > 
-> > SPARSEMEM_VMEMMAP was selected because the other sparsemem modes
-> > couldn't handle a dynamic MAX_PHYS{MEM,ADDR}_BITS introduced by 5-level
-> > paging. Now you're proposing making it static again, but keeping the
-> > SPARSEMEM_VMEMMAP dependency.
-> > 
-> > If you remove the dynamic MAX_PHYS{MEM,ADDR}_BITS, you should also
-> > remove the dependency on SPARSEMEM_VMEMMAP. No?
+On Tue, 06 May 2025 12:41:33 +0100,
+James Clark <james.clark@linaro.org> wrote:
 > 
-> I guess. But how?
+> Add new fields and registers that are introduced for the features
+> FEAT_SPE_CRR (call return records), FEAT_SPE_EFT (extended filtering),
+> FEAT_SPE_FPF (floating point flag), FEAT_SPE_FDS (data source
+> filtering), FEAT_SPE_ALTCLK and FEAT_SPE_SME.
+>
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  arch/arm64/tools/sysreg | 26 ++++++++++++++++++++++----
+>  1 file changed, 22 insertions(+), 4 deletions(-)
 > 
-> And is there any value to support !SPARSEMEM_VMEMMAP?
+> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
+> index bdf044c5d11b..80d57c83a5f5 100644
+> --- a/arch/arm64/tools/sysreg
+> +++ b/arch/arm64/tools/sysreg
+> @@ -2205,11 +2205,20 @@ Field	0	RND
+>  EndSysreg
+>  
+>  Sysreg	PMSFCR_EL1	3	0	9	9	4
+> -Res0	63:19
+> +Res0	63:53
+> +Field	52	SIMDm
+> +Field	51	FPm
+> +Field	50	STm
+> +Field	49	LDm
+> +Field	48	Bm
+> +Res0	47:21
+> +Field	20	SIMD
+> +Field	19	FP
+>  Field	18	ST
+>  Field	17	LD
+>  Field	16	B
+> -Res0	15:4
+> +Res0	15:5
+> +Field	4	FDS
+>  Field	3	FnE
+>  Field	2	FL
+>  Field	1	FT
+> @@ -2226,7 +2235,12 @@ Field	15:0	MINLAT
+>  EndSysreg
+>  
+>  Sysreg	PMSIDR_EL1	3	0	9	9	7
+> -Res0	63:25
+> +Res0	63:33
+> +Field	32	SME
+> +Field	31:28	ALTCLK
+> +Field	27	FPF
+> +Field	26	EFT
+> +Field	25	CRR
 
-Not really IMHO:
+These are described as enumerations in the JSON file (see [1]).
 
-  .config.opensuse.default:    CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-  .config.ubuntu.localinstall: CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-  .config.fedora.generic:      CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
-  .config.rhel.generic:        CONFIG_SPARSEMEM_VMEMMAP_ENABLE=y
+	M.
 
-Thanks,
+[1] https://lore.kernel.org/all/20250506164348.346001-7-maz@kernel.org
 
-	Ingo
+-- 
+Without deviation from the norm, progress is not possible.
