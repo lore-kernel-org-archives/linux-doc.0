@@ -1,93 +1,64 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 047065661;
-	Fri, 16 May 2025 15:46:58 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 815C85661;
+	Fri, 16 May 2025 15:48:44 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747410419; cv=none; b=oOYcvl/2LmJ3cedk/JDJYIK0ZaVMDOJVlje652ZDU34pmDbJ3od+kh+Yg87YIGlNBS7/weh2Wt6z3X3bOUsHY3A6T8ROx6VsaIsjMhTzDUdvsfq50ILoL8Jv9YyiXgF7msKFu2iv8Xk0wldyoVXbgUylkyA10k5WQ7pvhK7reqM=
+	t=1747410524; cv=none; b=SCTV6vIiiDPXYODW+EWvqRcO6JmTNRpq2TJCHvckI/5PR3UJ8B4ERDt1O8Yev73XCfRR3zGziuLqb8UbGUbNbR2M7c/avrAP1zlzf+uEB399B6h6iko+HWfZb5FtMkseySQcPbAaage3CKj1RbxD3knLNhm1yDSATkW+I/56qvU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747410419; c=relaxed/simple;
-	bh=mUg2KCJM3nZNLfgyNFElxT8URgyqRgXL21LFChPENMc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=iSNlI3cX8SaU5IIJebR3Ly2TjJR1bpZEjUX9yBGb/soN4pWQ5hD2niox46Qg8HXIGiSzTDlxlYrqD4BV2S1kGnT+L99Q3Tdnvd+8i0Hm9dR6b4Lr1v6dmd8/akc2K2fyoUp0+AezWXVjsVWjAt6VZv6zy05EdKNA7J838QUKZA0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=Li3qHaSS; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747410524; c=relaxed/simple;
+	bh=YwkrdAsWoKSTg4VyvIMwADPTVOl64Ko9498w1w+F5+o=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=QhY8Yjg7UGtQTcX2wxQzCT10+jjdZH8E8NIt/A7vWMopgKrx94+e7CJ335Sz6ANQJyj6HQZjHTY8BpS+Vq6EPkAV3c9HjhuJ7LL8NR3lvQaI7Smf6hfdMMKwL1oJQ+QNPcbXCcKjWO/BIUe8gpq7oOtzYQzh3WqCHfhTDgK6W+k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=KY1DIJmd; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="Li3qHaSS"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id AE0B6C4CEE4;
-	Fri, 16 May 2025 15:46:53 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="KY1DIJmd"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 513B8C4CEE4;
+	Fri, 16 May 2025 15:48:43 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747410418;
-	bh=mUg2KCJM3nZNLfgyNFElxT8URgyqRgXL21LFChPENMc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Li3qHaSS9TkT6mLcLhYB4VIBNnt5ObMy+G1liN+Z4gP4Um6ezhoLyAkbM7NmhXDuE
-	 9sg+oqlMSzZsRHs55D8CJy/r4o7z6OIaBvbdCcqUJ8qQ34ywTMJZiFD6+MftlFCl6E
-	 y/vfvpe+iJshxbogh5k5OOyss2nRXIBmZxwy/QbnFaJyMe13nvmGWoa8NKwKJs4rxs
-	 I0MdFbc3/aYparPnNkgh7VN+MENRkCV46inZ9awjeaSCR6Xn8BI2fea7uhusvq/fIa
-	 nvO9+zMlKfPg5feoQCTowKyz72zrTfGTaQvRO8LfVG6sYROEeGE+Q16uKGOKC29CxE
-	 3yUjgXprxS7rw==
-Date: Fri, 16 May 2025 17:46:51 +0200
-From: Ingo Molnar <mingo@kernel.org>
-To: Borislav Petkov <bp@alien8.de>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
-	Thomas Gleixner <tglx@linutronix.de>,
-	Ingo Molnar <mingo@redhat.com>,
-	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
-	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
-	Andy Lutomirski <luto@kernel.org>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ard Biesheuvel <ardb@kernel.org>,
-	Jan Kiszka <jan.kiszka@siemens.com>,
-	Kieran Bingham <kbingham@kernel.org>,
-	Michael Roth <michael.roth@amd.com>,
-	Rick Edgecombe <rick.p.edgecombe@intel.com>,
-	Brijesh Singh <brijesh.singh@amd.com>,
-	Sandipan Das <sandipan.das@amd.com>,
-	Juergen Gross <jgross@suse.com>,
-	Tom Lendacky <thomas.lendacky@amd.com>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	linux-efi@vger.kernel.org, linux-mm@kvack.org
-Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
- unconditional
-Message-ID: <aCdd60hwRbx207bU@gmail.com>
-References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
- <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
- <20250516153009.GEaCdaAdhCVpjaViSx@fat_crate.local>
+	s=k20201202; t=1747410524;
+	bh=YwkrdAsWoKSTg4VyvIMwADPTVOl64Ko9498w1w+F5+o=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=KY1DIJmdEOjykVGmXpktVEaoBzevy5wMtkqjEZljk71vzm2nLkxE+xKQCVABROLH3
+	 J2yWPNtA5bC96cIUKUflcR25hDaxENp8fqasS975RreMjoyKl7fTbF4g2RIn5uXoQF
+	 u21mcgYMDYn8WsTnp3KPbPxtZn9ik0hO7nmrS799zCrAwv7ZjLEUCOjQR+fJKyND4Q
+	 6obyKZdRJPLXfVgUWFu1RCrGNuHzLwAZrgd87/gqvsd+44OiDcuJqvIPutFW1cBXdY
+	 8/+d9sgXWCav4LUg8sbB6JUD8vwBV+OAoee1dzzFEjehxNl3MPObiLZYk740MIsuQj
+	 3OiGxhe/DTc/g==
+Date: Fri, 16 May 2025 08:48:42 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Jinjian Song <jinjian.song@fibocom.com>
+Cc: andrew+netdev@lunn.ch, angelogioacchino.delregno@collabora.com,
+ chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
+ corbet@lwn.net, danielwinkler@google.com, davem@davemloft.net,
+ edumazet@google.com, haijun.liu@mediatek.com, helgaas@kernel.org,
+ horms@kernel.org, johannes@sipsolutions.net,
+ linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
+ loic.poulain@linaro.org, m.chetan.kumar@linux.intel.com,
+ matthias.bgg@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com,
+ ricardo.martinez@linux.intel.com, ryazanov.s.a@gmail.com
+Subject: Re: [net v1] net: wwan: t7xx: Fix napi rx poll issue
+Message-ID: <20250516084842.26c80cb5@kernel.org>
+In-Reply-To: <20250515175251.58b5123f@kernel.org>
+References: <20250515031743.246178-1-jinjian.song@fibocom.com>
+	<20250515175251.58b5123f@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250516153009.GEaCdaAdhCVpjaViSx@fat_crate.local>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
+On Fri, 16 May 2025 15:30:38 +0800 Jinjian Song wrote:
+> It seems that a judgment is made every time ccmni_inst[x] is used in the driver,
+> and the synchronization on the 2 way might have been done when NAPI triggers
+> polling by napi_schedule and when WWAN trigger dellink. 
 
-* Borislav Petkov <bp@alien8.de> wrote:
-
-> On Fri, May 16, 2025 at 12:15:33PM +0300, Kirill A. Shutemov wrote:
-> > @@ -173,10 +173,10 @@ For example, when an old kernel is running on new hardware.
-> >  The kernel disabled support for it at compile-time
-> >  --------------------------------------------------
-> >  
-> > -For example, if 5-level-paging is not enabled when building (i.e.,
-> > -CONFIG_X86_5LEVEL is not selected) the flag "la57" will not show up [#f1]_.
-> > +For example, if Linear Address Masking (LAM) is not enabled when building (i.e.,
-> > +CONFIG_ADDRESS_MASKING is not selected) the flag "lam" will not show up.
-> >  Even though the feature will still be detected via CPUID, the kernel disables
-> > -it by clearing via setup_clear_cpu_cap(X86_FEATURE_LA57).
-> > +it by clearing via setup_clear_cpu_cap(X86_FEATURE_LAM).
-> 
-> LOL, good one.
-> 
-> The rest looks nice and good to me. And FWIW, it boots fine on my Zen5 with
-> 5lvl enabled.
-> 
-> Reviewed-by: Borislav Petkov (AMD) <bp@alien8.de>
-
-What's your preference on timing? v6.17 or v6.16?
-
-Thanks,
-
-	Ingo
+Synchronization is about ensuring that the condition validating
+by the if() remains true for as long as necessary.
+You need to wrap the read with READ_ONCE() and write with WRITE_ONCE().
+The rest if fine because netdev unregister sync against NAPIs in flight.
