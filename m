@@ -1,152 +1,235 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.11])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C085A32;
-	Fri, 16 May 2025 15:08:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.11
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B88FB1A7264
+	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 15:16:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747408112; cv=none; b=FgWFhpEsamwMUrTlrpf+k2gX93c1OIlxfRzOWCU6CXEK+9rkIMpIQDqZCw790cqZwBLQf0uPboGl9RQvT7/5QzFuUN5ZA1bagJdNdOdrd1d2zBKU8id4movAJGcgOHBpbgxMUKwZ2cTmqSfP4AI7XTq2nbPFdypR7GLrt2OMwuU=
+	t=1747408576; cv=none; b=pCBiFbR1zNdMG94eEVKdul/ji29PiW2yYy87bCSNP56WVE0d+vF4DZAY8wY23aq8zC72E4XdvoSElmI0qFjm40p+2pXKLlA0cXjqDAOrimA1m+fkd0Qr7AfF/CNzpchux7w+4U5pxFQ/cdHJ+tF9SrOcRS8BY+wVlJuA1Kh3ZIc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747408112; c=relaxed/simple;
-	bh=S1rTemPleZoxFgD2rnwNc3cuHHFApdCRGDenc4n5ltg=;
-	h=Content-Type:Message-ID:Date:MIME-Version:Subject:To:Cc:
-	 References:From:In-Reply-To; b=CZC6qO5CAgvEGEerFpTk157oZEChSq9AZax5SjzB7vGy9tLof4vWavG/padihv/1YRr0jLRqeTc5OuEMaiVubz+Z3AvC0h+SZIVSntk/a1wWTiPGQxgSCvEcTpqTyLOBhLrUPQlzE16sjjvwrX6j9F7FXSXuKOQkjFXqYZO6fk8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=aMBisQGl; arc=none smtp.client-ip=198.175.65.11
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747408576; c=relaxed/simple;
+	bh=t+2Gst9xAi5hlIwYx/cxza1UHimWoYdHPusTdQrrccY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=iiyM7GXMrJXzJXJS0kRcyTZ6fA6BmyD5ubXRzEe4LUU6xsNvOEZYJwQiEw6yb424LNsH3zrlg+0Q5TdWs7PWgedI3F26PPX3KBxbZWx1zKFJsY1F1n0GEbtpTprQH6e5olBBzkm5F/B2bnRehHnnFy9UT7LO/GRchSfgB9Zox4Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=GQfsSeGy; arc=none smtp.client-ip=209.85.214.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="aMBisQGl"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747408111; x=1778944111;
-  h=message-id:date:mime-version:subject:to:cc:references:
-   from:in-reply-to;
-  bh=S1rTemPleZoxFgD2rnwNc3cuHHFApdCRGDenc4n5ltg=;
-  b=aMBisQGl0ex3XzzovVdTYKQHTkAdl0f6Tcs1Nt0gjc6OjE71pb0Cmsua
-   Mk72YQrYzVzUtozdo9gUSdf17XQvCKItf3KaOA9JtyVQC4RgrtYJqXsJc
-   BklmuwgbwInGIMX9yNFRNDlhFwEk5rBiOam7kR4qkGbFi2zIN8Z+Gus+y
-   aNbOxvr9bB0vMZnoucDXoQXycsRg7phTWtbA/QBitZgebzfPbKY/HRTAJ
-   nNJgOVrYQWmrlCy24C1geehVKWxa2/LwZBWnrknJz4AMGpJnqQhst7LG0
-   TB09ATH4nGNzqrNS4TSRUHE0MwobniQVhry69ps5WRVwA0qwmJfFGVvu9
-   Q==;
-X-CSE-ConnectionGUID: mplF9e7MQP60AIdsA2ZW/Q==
-X-CSE-MsgGUID: wpC6yiW/TDuU4OflxxWX6A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="59613708"
-X-IronPort-AV: E=Sophos;i="6.15,294,1739865600"; 
-   d="scan'208";a="59613708"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by orvoesa103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 08:08:30 -0700
-X-CSE-ConnectionGUID: ArPasoMzSvyin085H2g8Yw==
-X-CSE-MsgGUID: pYmG387RQTGarcuW6yiTbQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,294,1739865600"; 
-   d="scan'208";a="139203982"
-Received: from vverma7-desk1.amr.corp.intel.com (HELO [10.125.109.57]) ([10.125.109.57])
-  by fmviesa010-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 May 2025 08:08:28 -0700
-Content-Type: multipart/mixed; boundary="------------qrIpUdE0q96cUsCGDhanNjXJ"
-Message-ID: <6228b588-790a-4bbd-87e6-1bd69f3703c9@intel.com>
-Date: Fri, 16 May 2025 08:08:25 -0700
+	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="GQfsSeGy"
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-22e033a3a07so23783785ad.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 08:16:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747408574; x=1748013374; darn=vger.kernel.org;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=0GNirFBXfZksDmcLkIx7giCST3II4UpjpZdHFvaex5s=;
+        b=GQfsSeGyAB7JAoCVcMbV98hs3mI84XNwIJHFtrgZ90GXZKudh64JoDvi+O3SUidgzX
+         wiBkIPz47Q97T6sfusCfCzh0Dk5lLz3omyUJigHsvb/MvSSSToZxSPeDs55kTmN+Dje6
+         Ki0sQL/oLrJp6rWPCpfIOTDzB9OS/ZWkGpE4op+b3+LdLJw9FuUA61krpV1YlMV3tJPq
+         sjiDQ/w1EIWBYEb6Q1/yCANfG3KI4kwTvTy0TolvE/EhUPFv+EAYz+RSaAjDs5FwXb24
+         QgtLTuDiBW3kzQCZJyeDIGKyfXtcikj3A4LntFRTfkmy/zOIk4iF1Nso18z8PWPcJ3sj
+         3wIg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747408574; x=1748013374;
+        h=in-reply-to:content-transfer-encoding:content-disposition
+         :mime-version:references:message-id:subject:cc:to:from:date
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=0GNirFBXfZksDmcLkIx7giCST3II4UpjpZdHFvaex5s=;
+        b=oa3UMjvQFA602hgiYtN9C/kOrOCuMiHH3kFxjtCRpmOmRPkeoPtMB0gtoYnXF2irmY
+         rxCbe/d5T5Fiw/qbzskQGZNE2XRJcn8wA6P06m+pCBd9+w11ZxG6CTNxH01kyLIz7/Io
+         BtmHWiak9arelthdOJKf9UhgMd4UBjyppbxgHk4LglfzoRgn1HQUIJxjvLqS8TsVhWAr
+         4T8ExoYDzV6AvaSZ+rghMKmyFr7A4Z+93q4rPPwUnQf3S8aehUtFG9QbLAvwOIcvnwIL
+         dxZJVt9ReFZmsjXI/tveXEJviS58YG8Wfzd2CYvEz2WxCqKQ1NF9nJwWvUvK8xvzjBGV
+         gF3Q==
+X-Forwarded-Encrypted: i=1; AJvYcCX3sVyRVmBV0CI1Jt43Q/Le1AbtxiZnqX4Ijl4DyjQ7K7Zyysv8f2+LK64PHYluJ/yaiZ4rLt/Scpc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YyWYptSf5XDIvmTThvBpH7a5sbGfDha6Acj7C706vaF3nsAJ1e0
+	6XnWwbfuVBikKLdBwOttTtGKhJcX8ucjPQ+B+ImdgpiFgxNYPZaZo440Z2rA/o+mN9o=
+X-Gm-Gg: ASbGncsJmEP3s2DHrB8kNxtXm90D1iCfYV3Dv7YB2wzSGgWZqbsrV77jQzIi8IXnPXv
+	4DAp+K6+meuuD+LFSp8d67HwOQpEphK7VKKubjyNhBgt2RF8EX5GyeR2bvWaj4pDCEMVk/77dix
+	gb9SJGUCDqDn7j/E0ZzRMZzLWBNoKEZdLrea8vZWctQIEhmdBS8UrHKDNOjBPVZZ4wfZzTbOsDf
+	KwX3r43xVOceTQt56UKasrg6Q+BxuKbnNnyTlk3MKqHmSq23M4jdgVVePbbhXVHeXRZG73pN2Y2
+	GxUnopNoVvFcdSu1kyGGgUz9nbgMcYagm6xaWZr5x1LISSJ4LWLm+acobPrcAA==
+X-Google-Smtp-Source: AGHT+IHSSRQv6UaVUp1uY7YxcQ7Fp0Nkh/iVwU/C9R2BEes+S1JYlxj3SIRdl94BDLGOoJJBYixrLQ==
+X-Received: by 2002:a17:903:faf:b0:224:c46:d167 with SMTP id d9443c01a7336-231d44e7049mr42573705ad.16.1747408573939;
+        Fri, 16 May 2025 08:16:13 -0700 (PDT)
+Received: from debug.ba.rivosinc.com ([64.71.180.162])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4ebb0d4sm15446025ad.195.2025.05.16.08.16.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 May 2025 08:16:13 -0700 (PDT)
+Date: Fri, 16 May 2025 08:16:09 -0700
+From: Deepak Gupta <debug@rivosinc.com>
+To: Alexandre Ghiti <alex@ghiti.fr>
+Cc: Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
+	Borislav Petkov <bp@alien8.de>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>,
+	Andrew Morton <akpm@linux-foundation.org>,
+	"Liam R. Howlett" <Liam.Howlett@oracle.com>,
+	Vlastimil Babka <vbabka@suse.cz>,
+	Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+	Paul Walmsley <paul.walmsley@sifive.com>,
+	Palmer Dabbelt <palmer@dabbelt.com>,
+	Albert Ou <aou@eecs.berkeley.edu>, Conor Dooley <conor@kernel.org>,
+	Rob Herring <robh@kernel.org>,
+	Krzysztof Kozlowski <krzk+dt@kernel.org>,
+	Arnd Bergmann <arnd@arndb.de>,
+	Christian Brauner <brauner@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Oleg Nesterov <oleg@redhat.com>,
+	Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+	Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+	Miguel Ojeda <ojeda@kernel.org>,
+	Alex Gaynor <alex.gaynor@gmail.com>,
+	Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+	=?iso-8859-1?Q?Bj=F6rn?= Roy Baron <bjorn3_gh@protonmail.com>,
+	Benno Lossin <benno.lossin@proton.me>,
+	Andreas Hindborg <a.hindborg@kernel.org>,
+	Alice Ryhl <aliceryhl@google.com>, Trevor Gross <tmgross@umich.edu>,
+	linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+	linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+	devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+	alistair.francis@wdc.com, richard.henderson@linaro.org,
+	jim.shu@sifive.com, andybnac@gmail.com, kito.cheng@sifive.com,
+	charlie@rivosinc.com, atishp@rivosinc.com, evan@rivosinc.com,
+	cleger@rivosinc.com, alexghiti@rivosinc.com,
+	samitolvanen@google.com, broonie@kernel.org,
+	rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+	Zong Li <zong.li@sifive.com>
+Subject: Re: [PATCH v15 22/27] riscv: enable kernel access to shadow stack
+ memory via FWFT sbi call
+Message-ID: <aCdWueNaGeru4CRW@debug.ba.rivosinc.com>
+References: <20250502-v5_user_cfi_series-v15-0-914966471885@rivosinc.com>
+ <20250502-v5_user_cfi_series-v15-22-914966471885@rivosinc.com>
+ <c911eead-30c4-497d-8a56-1450792b24bd@ghiti.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCHv3 2/4] x86/64/mm: Make SPARSEMEM_VMEMMAP the only memory
- model
-To: Ingo Molnar <mingo@kernel.org>
-Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
- Thomas Gleixner <tglx@linutronix.de>, Ingo Molnar <mingo@redhat.com>,
- Borislav Petkov <bp@alien8.de>, Dave Hansen <dave.hansen@linux.intel.com>,
- x86@kernel.org, "H. Peter Anvin" <hpa@zytor.com>,
- Jonathan Corbet <corbet@lwn.net>, Andy Lutomirski <luto@kernel.org>,
- Peter Zijlstra <peterz@infradead.org>, Ard Biesheuvel <ardb@kernel.org>,
- Jan Kiszka <jan.kiszka@siemens.com>, Kieran Bingham <kbingham@kernel.org>,
- Michael Roth <michael.roth@amd.com>,
- Rick Edgecombe <rick.p.edgecombe@intel.com>,
- Brijesh Singh <brijesh.singh@amd.com>, Sandipan Das <sandipan.das@amd.com>,
- Juergen Gross <jgross@suse.com>, Tom Lendacky <thomas.lendacky@amd.com>,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-efi@vger.kernel.org, linux-mm@kvack.org
-References: <20250516123306.3812286-1-kirill.shutemov@linux.intel.com>
- <20250516123306.3812286-3-kirill.shutemov@linux.intel.com>
- <30570ca0-8da4-4ebc-84d6-0a4badfb7154@intel.com> <aCdBXxPNO4NtZ_Wl@gmail.com>
- <f93a6e4d-4970-4352-97ff-643d67662c32@intel.com>
-From: Dave Hansen <dave.hansen@intel.com>
-Content-Language: en-US
-Autocrypt: addr=dave.hansen@intel.com; keydata=
- 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
-In-Reply-To: <f93a6e4d-4970-4352-97ff-643d67662c32@intel.com>
+Content-Type: text/plain; charset=iso-8859-1; format=flowed
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <c911eead-30c4-497d-8a56-1450792b24bd@ghiti.fr>
 
-This is a multi-part message in MIME format.
---------------qrIpUdE0q96cUsCGDhanNjXJ
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+On Thu, May 15, 2025 at 09:10:08AM +0200, Alexandre Ghiti wrote:
+>Hi Deepak,
+>
+>On 03/05/2025 01:30, Deepak Gupta wrote:
+>>Kernel will have to perform shadow stack operations on user shadow stack.
+>>Like during signal delivery and sigreturn, shadow stack token must be
+>>created and validated respectively. Thus shadow stack access for kernel
+>>must be enabled.
+>>
+>>In future when kernel shadow stacks are enabled for linux kernel, it must
+>>be enabled as early as possible for better coverage and prevent imbalance
+>>between regular stack and shadow stack. After `relocate_enable_mmu` has
+>>been done, this is as early as possible it can enabled.
+>>
+>>Reviewed-by: Zong Li <zong.li@sifive.com>
+>>Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+>>---
+>>  arch/riscv/kernel/asm-offsets.c |  4 ++++
+>>  arch/riscv/kernel/head.S        | 27 +++++++++++++++++++++++++++
+>>  2 files changed, 31 insertions(+)
+>>
+>>diff --git a/arch/riscv/kernel/asm-offsets.c b/arch/riscv/kernel/asm-offsets.c
+>>index f33945432f8f..7ab41f01aa17 100644
+>>--- a/arch/riscv/kernel/asm-offsets.c
+>>+++ b/arch/riscv/kernel/asm-offsets.c
+>>@@ -514,4 +514,8 @@ void asm_offsets(void)
+>>  	DEFINE(FREGS_A6,	    offsetof(struct __arch_ftrace_regs, a6));
+>>  	DEFINE(FREGS_A7,	    offsetof(struct __arch_ftrace_regs, a7));
+>>  #endif
+>>+	DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
+>>+	DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
+>>+	DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
+>>+	DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
+>
+>
+>kernel test robot reported errors when !RV64 and !SBI, the following 
+>diff fixes it:
+>
+>diff --git a/arch/riscv/kernel/asm-offsets.c 
+>b/arch/riscv/kernel/asm-offsets.c
+>index 7fc085d27ca79..3aa5f56a84e9a 100644
+>--- a/arch/riscv/kernel/asm-offsets.c
+>+++ b/arch/riscv/kernel/asm-offsets.c
+>@@ -532,8 +532,10 @@ void asm_offsets(void)
+>        DEFINE(FREGS_A6,            offsetof(struct 
+>__arch_ftrace_regs, a6));
+>        DEFINE(FREGS_A7,            offsetof(struct 
+>__arch_ftrace_regs, a7));
+> #endif
+>+#ifdef CONFIG_RISCV_SBI
+>        DEFINE(SBI_EXT_FWFT, SBI_EXT_FWFT);
+>        DEFINE(SBI_EXT_FWFT_SET, SBI_EXT_FWFT_SET);
+>        DEFINE(SBI_FWFT_SHADOW_STACK, SBI_FWFT_SHADOW_STACK);
+>        DEFINE(SBI_FWFT_SET_FLAG_LOCK, SBI_FWFT_SET_FLAG_LOCK);
+>+#endif
+> }
+>
+>No need to resend the whole series, I'll squash it.
 
-On 5/16/25 07:59, Dave Hansen wrote:
-> The only option would be to make them static when using non-vmemmap
-> sparsemem. But that's new-ish, and probably won't get any testing.
-
-Something like this. But I don't particularly like it.
---------------qrIpUdE0q96cUsCGDhanNjXJ
-Content-Type: text/x-patch; charset=UTF-8; name="static-sparsemem-0.patch"
-Content-Disposition: attachment; filename="static-sparsemem-0.patch"
-Content-Transfer-Encoding: base64
-
-CgotLS0KCiBiL2FyY2gveDg2L2luY2x1ZGUvYXNtL3NwYXJzZW1lbS5oIHwgICAgNCArKysr
-CiAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCspCgpkaWZmIC1wdU4gYXJjaC94ODYv
-aW5jbHVkZS9hc20vc3BhcnNlbWVtLmh+c3RhdGljLXNwYXJzZW1lbS0wIGFyY2gveDg2L2lu
-Y2x1ZGUvYXNtL3NwYXJzZW1lbS5oCi0tLSBhL2FyY2gveDg2L2luY2x1ZGUvYXNtL3NwYXJz
-ZW1lbS5ofnN0YXRpYy1zcGFyc2VtZW0tMAkyMDI1LTA1LTE2IDA4OjA1OjE5LjAwNjE1MDEz
-OSAtMDcwMAorKysgYi9hcmNoL3g4Ni9pbmNsdWRlL2FzbS9zcGFyc2VtZW0uaAkyMDI1LTA1
-LTE2IDA4OjA3OjE0LjUxNzE4OTAyNCAtMDcwMApAQCAtMjYsNyArMjYsMTEgQEAKICMgZW5k
-aWYKICNlbHNlIC8qIENPTkZJR19YODZfMzIgKi8KICMgZGVmaW5lIFNFQ1RJT05fU0laRV9C
-SVRTCTI3IC8qIG1hdHQgLSAxMjggaXMgY29udmVuaWVudCByaWdodCBub3cgKi8KKyNpZmRl
-ZiBDT05GSUdfU1BBUlNFTUVNX1ZNRU1NQVAKICMgZGVmaW5lIE1BWF9QSFlTTUVNX0JJVFMJ
-KHBndGFibGVfbDVfZW5hYmxlZCgpID8gNTIgOiA0NikKKyMgZWxzZQorIyBkZWZpbmUgTUFY
-X1BIWVNNRU1fQklUUwk0NgorIyBlbmRpZgogI2VuZGlmCiAKICNlbmRpZiAvKiBDT05GSUdf
-U1BBUlNFTUVNICovCl8K
-
---------------qrIpUdE0q96cUsCGDhanNjXJ--
+Thanks.
+>
+>Thanks,
+>
+>Alex
+>
+>
+>>  }
+>>diff --git a/arch/riscv/kernel/head.S b/arch/riscv/kernel/head.S
+>>index 356d5397b2a2..7eae9a172351 100644
+>>--- a/arch/riscv/kernel/head.S
+>>+++ b/arch/riscv/kernel/head.S
+>>@@ -15,6 +15,7 @@
+>>  #include <asm/image.h>
+>>  #include <asm/scs.h>
+>>  #include <asm/xip_fixup.h>
+>>+#include <asm/usercfi.h>
+>>  #include "efi-header.S"
+>>  __HEAD
+>>@@ -164,6 +165,19 @@ secondary_start_sbi:
+>>  	call relocate_enable_mmu
+>>  #endif
+>>  	call .Lsetup_trap_vector
+>>+#if defined(CONFIG_RISCV_SBI) && defined(CONFIG_RISCV_USER_CFI)
+>>+	li a7, SBI_EXT_FWFT
+>>+	li a6, SBI_EXT_FWFT_SET
+>>+	li a0, SBI_FWFT_SHADOW_STACK
+>>+	li a1, 1 /* enable supervisor to access shadow stack access */
+>>+	li a2, SBI_FWFT_SET_FLAG_LOCK
+>>+	ecall
+>>+	beqz a0, 1f
+>>+	la a1, riscv_nousercfi
+>>+	li a0, CMDLINE_DISABLE_RISCV_USERCFI_BCFI
+>>+	REG_S a0, (a1)
+>>+1:
+>>+#endif
+>>  	scs_load_current
+>>  	call smp_callin
+>>  #endif /* CONFIG_SMP */
+>>@@ -320,6 +334,19 @@ SYM_CODE_START(_start_kernel)
+>>  	la tp, init_task
+>>  	la sp, init_thread_union + THREAD_SIZE
+>>  	addi sp, sp, -PT_SIZE_ON_STACK
+>>+#if defined(CONFIG_RISCV_SBI) && defined(CONFIG_RISCV_USER_CFI)
+>>+	li a7, SBI_EXT_FWFT
+>>+	li a6, SBI_EXT_FWFT_SET
+>>+	li a0, SBI_FWFT_SHADOW_STACK
+>>+	li a1, 1 /* enable supervisor to access shadow stack access */
+>>+	li a2, SBI_FWFT_SET_FLAG_LOCK
+>>+	ecall
+>>+	beqz a0, 1f
+>>+	la a1, riscv_nousercfi
+>>+	li a0, CMDLINE_DISABLE_RISCV_USERCFI_BCFI
+>>+	REG_S a0, (a1)
+>>+1:
+>>+#endif
+>>  	scs_load_current
+>>  #ifdef CONFIG_KASAN
+>>
