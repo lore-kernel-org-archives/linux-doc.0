@@ -1,101 +1,118 @@
-Received: from out-185.mta0.migadu.com (out-185.mta0.migadu.com [91.218.175.185])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f172.google.com (mail-qt1-f172.google.com [209.85.160.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E60F72AE8D
-	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 10:02:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=91.218.175.185
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6502B233739
+	for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 10:06:57 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747389757; cv=none; b=mS/J4Bdgddjr3Tw+uiewMooKmgCQmtSUVimsOGZehr7d9NfQca1I5bnep8uZZ3bui5jX04MEHr7mdo27RG0rdTvxJPkLs+mpQt4lG5pDLkHXNGwqlHtyZua8n3GSfR/7mmYbQLrC+YIPEj1UVqirpSGYvvqoLPIfAM2EhFAAU1E=
+	t=1747390019; cv=none; b=YScz/bDUFJNCeoJ2s2rWiGciCtOrsl+IMRxGCwpq6mYZvqxwOQ17N2C9bLq9zqL/9GQlIawPCFcyPkJHhJsTaCtnmGtGQ2vbB6pOIBsyv9+7iuol8b24ez9o/1WMHKGUGo588sK2LGJ3Qiep/+DcqjLNef7mGH+iAV9CQ7nYBtg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747389757; c=relaxed/simple;
-	bh=N8pVf6uPVWHrmuSPndy18RwQszdKatoUxiYz3Fvo4PY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mlYp3pnI3aKu7lNSTs4VJOATfqXKKIAeCCVRAH+qY0eGchql5Re3ojpy5vgjJFCM878AGQCZVPIB+qGGnoHpLpln4ZQvbnWTJjbrRDCQwtAVC83G+ncWFhsbXDGYNuNyEQ60RuV5xuMVOJf9C9gZQ1Mt66CoWamynyDL30q6bJc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev; spf=pass smtp.mailfrom=linux.dev; dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b=T4oAqCY7; arc=none smtp.client-ip=91.218.175.185
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.dev
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linux.dev
+	s=arc-20240116; t=1747390019; c=relaxed/simple;
+	bh=PZ1hzhVLhPa3dLDbMLplQU4Z4StkFXuYbw7/HI9oWu0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=jkoxq+HasRX32V/G1m8kPL5xo5sigfhaFeX3qWLHyHQ4lOWAs8C9jpzK2Jtm+ohDfi9N910mNdz0fJ1c30ycXklGvkD8JKisHwtiAdryPKw9UnTJjFMDLS/tQmAo0t2w0L8obruckI3hzeoQ5OxKX4nP3pAvNhMtQOGBvkXS81s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu; spf=pass smtp.mailfrom=szeredi.hu; dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b=Q2yObfd3; arc=none smtp.client-ip=209.85.160.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=szeredi.hu
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=szeredi.hu
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linux.dev header.i=@linux.dev header.b="T4oAqCY7"
-Message-ID: <dcb8c986-b6ec-4803-aa88-2ef2670a6b10@linux.dev>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.dev; s=key1;
-	t=1747389727;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=N8pVf6uPVWHrmuSPndy18RwQszdKatoUxiYz3Fvo4PY=;
-	b=T4oAqCY7nXZIFXf/G8yg6HFZ7L7lDx0X8A/rDoxJXGmD/vPbAaZMsnB43dQL8z64jLBFHt
-	sn8g3cvnULvd3/MXPRNoVDYtKxDqxUVHqyrXLLcBPSS9Xnumf7iR/ORR2MEeh+dr69maR1
-	B3YkE7+nondMuWWTn0rdvA2LI34iCM4=
-Date: Fri, 16 May 2025 18:01:48 +0800
+	dkim=pass (1024-bit key) header.d=szeredi.hu header.i=@szeredi.hu header.b="Q2yObfd3"
+Received: by mail-qt1-f172.google.com with SMTP id d75a77b69052e-47698757053so26247201cf.0
+        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 03:06:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=szeredi.hu; s=google; t=1747390016; x=1747994816; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to;
+        bh=sYr4H36z0vOGSYanC1w0/PBFKEWt1tWAZvghYgV0VXg=;
+        b=Q2yObfd32ppE92QCNh3FmQzpGJVQIMNxEUm6x5bXLgiqgoo46K5nyHKNOjGcAqbemp
+         XCzovOtqA5NEaBLxS0I6sqJRDmdqHGQJ34ko+evlxLbg9MjtbqSGRDdCtThEDw2qLt3/
+         bnigLsB8NS4D6wnRo4FM3E1HTAe1FzaZ5BZC8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747390016; x=1747994816;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=sYr4H36z0vOGSYanC1w0/PBFKEWt1tWAZvghYgV0VXg=;
+        b=rjwMlg199nT9YkgzP/mWyKx6k0Lsqn8SjhTutZ0tNhAVeNhNOUicFRkNmDyEkz8rlF
+         /RG3u4mfanKPLJ3zO5Rrr35752UP2L/EApt2pETiV0zDLzeo5pxDONhb4ug2Dz4zNqt+
+         XFKP5xoroCEKepDp1LDj688lU3QBuWGSmL3r/XHyuGIEvQKoyUxIGtx0+V+QliLehyFE
+         ipJvxoz+rGOhMz32rilXSf7DnRDxW3cHINahwtbmkFD0sqOsKga2Mm2+iQDcdX7SZeax
+         cFLIw1lGUw7V+f2lL7IJVjRLyR7lSW5M+6m6gHdAlL53eJRPIFShiJk/OwJs6qZ+W+UN
+         IekQ==
+X-Forwarded-Encrypted: i=1; AJvYcCUppaGLbwyjVcia8JJ27TJ7KTTch4e2JxapyXNjyc496Mv+flexBEcus8hGNNjJ/MVheKjrKsSH8Ng=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzGjpIXdjqJv7ECvQMgPbDrgjzB18noCZn0hYUpjg6R2QKnZ9P2
+	TKsHW9jg2vEL3gIYuyFj7NogNy6aGK7vQDz/HiepUdhcYY6K6FMfAFVVEs+LrwpO+gtvKeR1sHr
+	83ZNixRRhZnL11iMFwDjt7MEP8B9lLSrgGXioz/3BaA==
+X-Gm-Gg: ASbGnct3IFA+1aY570QuQK9lYCRRCrgEp9Rv47de/0X2e9w+Ya61q5yvaDhxonUEHPN
+	EQV9Q7CDVyZKtCJjbgBK4PD14YODsHLrWva4lKjA+bpJtdEu3W0WshOqKFd2+DLuCMWQ1OgnVL7
+	9tdGQnKx/hr82H8y/UULT+Cgeg+4QZbKw=
+X-Google-Smtp-Source: AGHT+IFq1iLsujGv3MRAp/42wUNDp8Fjtx0tUWAIAmM1RivLIsnYNC1bAGTr6piq4vefDLhpVhUdj5QcvATegQP1E2k=
+X-Received: by 2002:a05:622a:1f9b:b0:477:13b7:8336 with SMTP id
+ d75a77b69052e-494ae391ca0mr49345951cf.17.1747390016120; Fri, 16 May 2025
+ 03:06:56 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Subject: Re: [lwn:docs-next 37/72] htmldocs: Warning:
- Documentation/translations/zh_CN/how-to.rst references a file that doesn't
- exist: Documentation/xxx/xxx.rst
-To: kernel test robot <lkp@intel.com>
-Cc: oe-kbuild-all@lists.linux.dev, linux-doc@vger.kernel.org,
- Alex Shi <alexs@kernel.org>, Dongliang Mu <dzm91@hust.edu.cn>
-References: <202505160627.WtzIIpL6-lkp@intel.com>
-Content-Language: en-US
-X-Report-Abuse: Please report any abuse attempt to abuse@migadu.com and include these headers.
-From: Yanteng Si <si.yanteng@linux.dev>
-In-Reply-To: <202505160627.WtzIIpL6-lkp@intel.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Migadu-Flow: FLOW_OUT
+References: <20250421013346.32530-1-john@groves.net> <20250421013346.32530-14-john@groves.net>
+ <nedxmpb7fnovsgbp2nu6y3cpvduop775jw6leywmmervdrenbn@kp6xy2sm4gxr>
+ <20250424143848.GN25700@frogsfrogsfrogs> <5rwwzsya6f7dkf4de2uje2b3f6fxewrcl4nv5ba6jh6chk36f3@ushxiwxojisf>
+ <20250428190010.GB1035866@frogsfrogsfrogs> <CAJfpegtR28rH1VA-442kS_ZCjbHf-WDD+w_FgrAkWDBxvzmN_g@mail.gmail.com>
+ <20250508155644.GM1035866@frogsfrogsfrogs> <CAJfpegt4drCVNomOLqcU8JHM+qLrO1JwaQbp69xnGdjLn5O6wA@mail.gmail.com>
+ <20250515020624.GP1035866@frogsfrogsfrogs>
+In-Reply-To: <20250515020624.GP1035866@frogsfrogsfrogs>
+From: Miklos Szeredi <miklos@szeredi.hu>
+Date: Fri, 16 May 2025 12:06:44 +0200
+X-Gm-Features: AX0GCFvDzLpmkF12kGaynggeZWP00Cr6BBFBchrM1Bqzro0NRWRGfjqCVUyzE8E
+Message-ID: <CAJfpegsKf8Zog3Q6Vd1kBmD6anLSdyYyxy4BjD-dvcyWOyr4QQ@mail.gmail.com>
+Subject: Re: [RFC PATCH 13/19] famfs_fuse: Create files with famfs fmaps
+To: "Darrick J. Wong" <djwong@kernel.org>
+Cc: John Groves <John@groves.net>, Dan Williams <dan.j.williams@intel.com>, 
+	Bernd Schubert <bschubert@ddn.com>, John Groves <jgroves@micron.com>, Jonathan Corbet <corbet@lwn.net>, 
+	Vishal Verma <vishal.l.verma@intel.com>, Dave Jiang <dave.jiang@intel.com>, 
+	Matthew Wilcox <willy@infradead.org>, Jan Kara <jack@suse.cz>, 
+	Alexander Viro <viro@zeniv.linux.org.uk>, Christian Brauner <brauner@kernel.org>, 
+	Luis Henriques <luis@igalia.com>, Randy Dunlap <rdunlap@infradead.org>, 
+	Jeff Layton <jlayton@kernel.org>, Kent Overstreet <kent.overstreet@linux.dev>, 
+	Petr Vorel <pvorel@suse.cz>, Brian Foster <bfoster@redhat.com>, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, nvdimm@lists.linux.dev, 
+	linux-cxl@vger.kernel.org, linux-fsdevel@vger.kernel.org, 
+	Amir Goldstein <amir73il@gmail.com>, Jonathan Cameron <Jonathan.Cameron@huawei.com>, 
+	Stefan Hajnoczi <shajnocz@redhat.com>, Joanne Koong <joannelkoong@gmail.com>, 
+	Josef Bacik <josef@toxicpanda.com>, Aravind Ramesh <arramesh@micron.com>, 
+	Ajay Joshi <ajayjoshi@micron.com>
+Content-Type: text/plain; charset="UTF-8"
 
-Hi robot,
+On Thu, 15 May 2025 at 04:06, Darrick J. Wong <djwong@kernel.org> wrote:
 
-在 5/16/25 7:04 AM, kernel test robot 写道:
-> Warning: Documentation/translations/zh_CN/how-to.rst references a file that doesn't exist: Documentation/xxx/xxx.rst
+> Yeah, it's confusing.  The design doc tries to clarify this, but this is
+> roughly what we need for fuse:
+>
+> FUSE_IOMAP_OP_WRITE being set means we're writing to the file.
+> FUSE_IOMAP_OP_ZERO being set means we're zeroing the file.
+> Neither of those being set means we're reading the file.
+>
+> (3 different operations)
 
-I didn't reproduce this warning locally. It seems to be a difference
+Okay, I get why these need to be distinct cases.
 
-between different versions of Sphinx.
+Am I right that the only read is sanely cacheable?
 
-Could you please provide your Sphinx version?
+> FUSE_IOMAP_OP_DIRECT being set means directio, and it not being set
+> means pagecache.
+>
+> (and one flag, for 6 different types of IO)
 
-^^^^^^^^^^^^^^^^^
+Why does this make a difference?
 
-+译文格式要求
-+------------
-+
-+    - 每行长度最多不超过40个字符
-+    - 每行长度请保持一致
-+    - 标题的下划线长度请按照一个英文一个字符、一个中文两个字符与标题对齐
-+    - 其它的修饰符请与英文文档保持一致
-+
-+此外在译文的头部，您需要插入以下内容::
-+
-+    .. SPDX-License-Identifier: GPL-2.0
-+    .. include:: ../disclaimer-zh_CN.rst  #您需要了解该文件的路径，根
-+                        据您实际翻译的文档灵活调整
-+
-+    :Original: Documentation/xxx/xxx.rst  #替换为您翻译的英文文档路径
-+
-+    :翻译:
-+
-+     司延腾 Yanteng Si <si.yanteng@linux.dev> #替换为您自己的联系方式
-+
-+翻译技巧
-+--------
-+
-+中文文档有每行40字符限制，因为一个中文字符等于2个英文字符。但是社区并没有
+Okay, maybe I can imagine difference allocation strategies.  Which
+means that it only matters for the write case?
 
-^^^^^^^^^^^^^^^^^^^
+> FUSE_IOMAP_OP_REPORT is set all by itself for things like FIEMAP and
+> SEEK_DATA/HOLE.
 
-
-I think my grammar is fine. Does anyone know what's going on?
-
+Which should again always be the same as the read case, no?
 
 Thanks,
-
-Yanteng
-
-
-
+Miklos
