@@ -1,143 +1,107 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21B1156F5E
-	for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 06:48:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C250F19047F;
+	Sat, 17 May 2025 07:53:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747464487; cv=none; b=SBFj291PsUQ1NjArYKBALGS8r6pJ1dQNTIlMiYHmP68aoQ5/lV9j/gZe5fKnTyZr7no4bCuFgA34P5WmvFG+uG2k4FUkfcY6KPa8an/8OFULENwRePKupVWhcWUjEv9zAhEVTELOLEOt9BBDPPtzKNReNO7YddOHKG20sFa/bFE=
+	t=1747468401; cv=none; b=MLAU+Jp7Jx6aTZqzSH7rhAPMoEya35EWCWtSJFZd1aqkoa6xUisScdD0e/WMJ8dxuUYQ09Z0e25+TZdHT1XazlTPO/ECyaJUMLFejhyw41eg1cYLUqJr3Y4O7NfWs+4QVhCOo+vJJPSXJyDECK8LySLnbztfYHAY7JCiqiD0wgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747464487; c=relaxed/simple;
-	bh=xoefSDHoQ2MJkgHc9vHEmIq4AuLZsAA319tBfQ3WAL0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=e4AdRC40Z5nVIy+pHTGfIaFauj5+P+nrOyMuqIi4zbkABgDgOzNVkdQxAI+9iMRGIgi7gLOFURtTD/e3E+9rYif1zPG3UtYZQ8N1ZleXJpGhZtiGB6riQ3jXgPl+DCSInoO6FmxCfyKobur4QKqJzysEzQ2fanha/7b4+vX2kmw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dl+WyXLt; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747468401; c=relaxed/simple;
+	bh=bkyAutU5aluPJG5m0qPDsBW2dnn+e6enuHRk5zy1yFY=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=CfbrnKlOxHwOseZ/hicAMArvLGEG60/FfFT40A4AnBspEqkuCGest7rAgd7iOw2wiFIat83VALDZ37oXw09k2nRA9FMYDXxgnfJMcMjvl2iDkMnA251n0ZFEku0kEURm8xOMRohsrT46BFMuG1Q4tPv9dcSHMpnlVzKd1dWqCvo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f85PPfWr; arc=none smtp.client-ip=192.198.163.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dl+WyXLt"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747464484;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=xoefSDHoQ2MJkgHc9vHEmIq4AuLZsAA319tBfQ3WAL0=;
-	b=Dl+WyXLtxx32GZORrm5EDLTlkAXRq8u0OFl5v8sZOh1Ak6+sihX9ehrk6sZAsJ+5evMcX1
-	+WGHxHPSwhOmT3tRkO0bzkn6RsxS28DSw8tSja8TjLxRVokX7JzbhLIDfRbTINagvnoJRx
-	yST0Ar98MW41yLhuuWL5D2+UF0jPmlA=
-Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
- [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-648-xhlTewH4OvuTCqoC2hth0g-1; Sat, 17 May 2025 02:48:02 -0400
-X-MC-Unique: xhlTewH4OvuTCqoC2hth0g-1
-X-Mimecast-MFC-AGG-ID: xhlTewH4OvuTCqoC2hth0g_1747464482
-Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-70ad3a91ab2so40850387b3.1
-        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 23:48:02 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747464482; x=1748069282;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xoefSDHoQ2MJkgHc9vHEmIq4AuLZsAA319tBfQ3WAL0=;
-        b=FSkxIQPYB9WQ+sBJ3CodW+dBfjkWwhe9xnyuzxg9ZlgS8rPO5USu6UpI9O7eQXNZGJ
-         yCmivSPZ/NNMtDwSxtQNA+y5M08kUz0H4+J7hh3nIdNgMLIqZ7Vam2gQ8fudWzSQZW6t
-         qRAawIF5E8FB27okSIhHPUPSfgz8g0jSjl9HwRC78cc+pfqNuSd/2u8C5cQA64LRTo1P
-         acUhQGteORV7nURzAtKfT4+YdbhbNDHIbqnypfCM5wZIxDOycQlWp4cYFhEdGFTGR1px
-         SCfNXKoCbGELne7DCUtPaa5TEY4O2zda5AhUlXJmiMDzzHCIrFpS/iMtgLRxpk35L2WO
-         LWwQ==
-X-Forwarded-Encrypted: i=1; AJvYcCWl076RXgO4uUH36YWQteoArt5EVH7d4wnCNNJ4vaQ5Ay4ifwwklJF6+t8xhm8j8/0J9UbDZ802zZ8=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yyvvb5lVEgBAwJuoZ2/KcfhQISfT032xCjf2mABrBxw4cXAF+Sa
-	Hi6HfYA7pAHBhcKKKG7Reu2sUYPm6+nF00hRtxHrU6WFOOllcd3cqNueKKAKe5zkp6719bmrtR5
-	6b2rFeBDhZwWRTrqwgTDGVeGiF51jelezIVu4CPYI/3QPfDYi5ocHO9nPgIIeiWx/6knuFKpYVo
-	c3S3D8nPsUfRit6P0Fy6H/hg7PCugel3bNH3mf
-X-Gm-Gg: ASbGncvQiKHtTQffLkuSbVXUD/ff6fsSgd3YwVbGDyv/5roKGW3GKxNvVpFvRTeLpi9
-	tSBaMIK+9skuogFmjJU5ujf0JKnVYR1ZIqxLh1ThjWkw5Vt9qGj026nAYQ07pCMtK9uG2RWQ=
-X-Received: by 2002:a05:690c:3:b0:707:dba5:2e44 with SMTP id 00721157ae682-70ca7ba0d8emr93966777b3.30.1747464482218;
-        Fri, 16 May 2025 23:48:02 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IFNMmgN96ppS4R9A56rSKNlS+EhkQE/xJYfY1RrmT+t29R40GTIUMkgVA9ErgvZMyurnYk8q2A+N4SmrSywNXI=
-X-Received: by 2002:a05:690c:3:b0:707:dba5:2e44 with SMTP id
- 00721157ae682-70ca7ba0d8emr93966347b3.30.1747464481896; Fri, 16 May 2025
- 23:48:01 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f85PPfWr"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747468399; x=1779004399;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=bkyAutU5aluPJG5m0qPDsBW2dnn+e6enuHRk5zy1yFY=;
+  b=f85PPfWrqO+DPERBW2hF9Q+6CttejKBV49+cBmPC3n534kAyjfAjqHvp
+   O2A0v1UoBPTMwIADL9AcXXsC624ILAVs/IySbikgSrHuPm0eoOjWn4OCi
+   wZvbns2nYXfrdm3yd+J5zss60gb7AOyF7wxCb+3sBZx8nIJr4P7yxVycg
+   qWIh9koLwl7wA2oAN77SOU66XDmyyg0SSUPMKEQumn3AeILK0o7mp3WnJ
+   2Zw872/ZsSpjT8RG4AbQUwDP2KB8HrwRgUUreJaLYinQP/6PIsQ5wiJgF
+   VnFUcTqnV4AUcPdgu3cZ9rXWFAOyOpob7ww+JfmnAdJYZKdj/JM+6mzh6
+   Q==;
+X-CSE-ConnectionGUID: jRxeT8UnRKqm/2FxYXyRDQ==
+X-CSE-MsgGUID: h5bIKQVSTjyHAqH+rNDIYw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60779423"
+X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
+   d="scan'208";a="60779423"
+Received: from orviesa006.jf.intel.com ([10.64.159.146])
+  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 00:53:18 -0700
+X-CSE-ConnectionGUID: OaTLfoUeSamInBJ4Ny9vxQ==
+X-CSE-MsgGUID: FTIsr3dGQ0uFyh6EnhFRew==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
+   d="scan'208";a="138808544"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa006.jf.intel.com with ESMTP; 17 May 2025 00:53:16 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uGCM5-000K0V-29;
+	Sat, 17 May 2025 07:53:13 +0000
+Date: Sat, 17 May 2025 15:53:05 +0800
+From: kernel test robot <lkp@intel.com>
+To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org
+Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@linux.intel.com,
+	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, Even Xu <even.xu@intel.com>,
+	Chong Han <chong.han@intel.com>
+Subject: Re: [PATCH v1 7/7] HID: Intel-thc-hid: Intel-quicki2c: Add two new
+ features to PTL
+Message-ID: <202505171535.Yrj5T8jh-lkp@intel.com>
+References: <20250514061944.125857-8-even.xu@intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515032226.128900-1-npache@redhat.com> <20250515032226.128900-7-npache@redhat.com>
- <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
-In-Reply-To: <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
-From: Nico Pache <npache@redhat.com>
-Date: Sat, 17 May 2025 00:47:35 -0600
-X-Gm-Features: AX0GCFs8Yc5oWY97Oxpxk79pJ4fpAxS1pc4Oj0m-wPhCk0WUp_t3490TgtutRYc
-Message-ID: <CAA1CXcC9MB2Nw4MmGajESfH8DhAsh4QvTj4ABG3+Rg2iPi087w@mail.gmail.com>
-Subject: Re: [PATCH v7 06/12] khugepaged: introduce khugepaged_scan_bitmap for
- mTHP support
-To: Baolin Wang <baolin.wang@linux.alibaba.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
-	david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com, 
-	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
-	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
-	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
-	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
-	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
-	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
-	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
-	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
-	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
-	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
-	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250514061944.125857-8-even.xu@intel.com>
 
-On Thu, May 15, 2025 at 9:20=E2=80=AFPM Baolin Wang
-<baolin.wang@linux.alibaba.com> wrote:
->
->
->
-> On 2025/5/15 11:22, Nico Pache wrote:
-> > khugepaged scans anons PMD ranges for potential collapse to a hugepage.
-> > To add mTHP support we use this scan to instead record chunks of utiliz=
-ed
-> > sections of the PMD.
-> >
-> > khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
-> > that represents chunks of utilized regions. We can then determine what
-> > mTHP size fits best and in the following patch, we set this bitmap whil=
-e
-> > scanning the anon PMD. A minimum collapse order of 2 is used as this is
-> > the lowest order supported by anon memory.
-> >
-> > max_ptes_none is used as a scale to determine how "full" an order must
-> > be before being considered for collapse.
-> >
-> > When attempting to collapse an order that has its order set to "always"
-> > lets always collapse to that order in a greedy manner without
-> > considering the number of bits set.
-> >
-> > Signed-off-by: Nico Pache <npache@redhat.com>
->
-> Sigh. You still haven't addressed or explained the issues I previously
-> raised [1], so I don't know how to review this patch again...
-Can you still reproduce this issue?
-I can no longer reproduce this issue, that's why I posted... although
-I should have followed up, and looked into what the original issue
-was. Nothing really sticks out so perhaps something in mm-new was
-broken and pulled out... not sure.
+Hi Even,
 
-It should now follow the expected behavior, which is that no mTHP
-collapse occurs because if the PMD size is disabled so is khugepaged
-collapse.
+kernel test robot noticed the following build warnings:
 
-Lmk if you are still experiencing this issue please.
+[auto build test WARNING on hid/for-next]
+[also build test WARNING on linus/master v6.15-rc6 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Cheers,
--- Nico
->
-> [1]
-> https://lore.kernel.org/all/83a66442-b7c7-42e7-af4e-fd211d8ed6f8@linux.al=
-ibaba.com/
->
+url:    https://github.com/intel-lab-lkp/linux/commits/Even-Xu/HID-Intel-thc-hid-Intel-thc-Add-thc_dma_content-into-kernel-doc/20250514-142347
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
+patch link:    https://lore.kernel.org/r/20250514061944.125857-8-even.xu%40intel.com
+patch subject: [PATCH v1 7/7] HID: Intel-thc-hid: Intel-quicki2c: Add two new features to PTL
+config: x86_64-randconfig-121-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171535.Yrj5T8jh-lkp@intel.com/config)
+compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171535.Yrj5T8jh-lkp@intel.com/reproduce)
 
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505171535.Yrj5T8jh-lkp@intel.com/
+
+sparse warnings: (new ones prefixed by >>)
+>> drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c:21:23: sparse: sparse: symbol 'ptl_ddata' was not declared. Should it be static?
+
+vim +/ptl_ddata +21 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
+
+    20	
+  > 21	struct quicki2c_ddata ptl_ddata = {
+    22		.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
+    23	};
+    24	
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
