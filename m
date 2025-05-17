@@ -1,112 +1,138 @@
-Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6C84B1E45
-	for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 08:33:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DA5A885C5E;
+	Sat, 17 May 2025 08:44:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747470824; cv=none; b=Ga9zUVhfQrHB4SIBguKMxkNY6krz8dMGnw5J49PEN6tG/p2SnzsUGgxk5tC2y46nyFdgcubdfRqvSKhLczEy0DnSuzZvE2xRMk+caLXDpjh9bKAjMjYrDUlR7tee0Kznj8iWWmpetr3doku4F4cRjrnETUC1kxf3MMhyxddVglc=
+	t=1747471496; cv=none; b=Z6+2HfbjLpN6A6SabpYKmU089skYSw2p9cdoRqjXdpTO1j6Xsfc2MB9b8Ew8h1iVQsYhqjRB+Z2gjK1Gghq2jbpX9dOAJRq8W7zfcB/KctXeGF6P0Aox6niX5hjPpJkT3FMpyNp2xWKiQTp5TQvzRmtzwoE0LDjwg4fczsbQKjM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747470824; c=relaxed/simple;
-	bh=qgtA86Yosv2NneSBCP+iV6OsZBRXdb4OvstnimqrWXE=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N9+XpAtbTJ2OILbknvPc8gZ5Pc6V8Ttz7wsN0i+e6AyedDNNGQDTLNMN9KlBMUA9qeearWxqlUQiiHGUVoHIS5sxJlYwSZhR7iJN1Ao5fAP+0lM59F9GDO206LIyF7Jwj1PLoFjNn+pv2JIfaCZxBM9jxyWy7gZbksDpqL4Qmgg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6Ov4sdH; arc=none smtp.client-ip=209.85.210.175
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747471496; c=relaxed/simple;
+	bh=j0LTn1lN+WcSRX3JpuiuLhB0VN18irvMtE1JbmGibaI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=nxBdFeqfTzrKzmsEEI1I6MAbC+tCVERQtVUMWxJZs1mejuvgKpoAsYNl3RnPU5pSx3gXJF29DpwZVBBGxyKXLVFwzX6ZjoXJmihJANzmNlem0BlPRip8QOD74WylYQkp68N/22xwtEvAx9CBnn0gWWPfhE0vkD4HJqI3EnXs6VU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=qCqIQM+a; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6Ov4sdH"
-Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7427a4def77so3326713b3a.0
-        for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 01:33:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747470822; x=1748075622; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=46W3U69RgmnXuEh9Y5vUZYFbM1wVfN7RR1Zl3hEWpoU=;
-        b=V6Ov4sdHGtu4p1A+qqEl30ZWk8o84wAQPJyVuySToZDa2iaB3TbRBNV9nl/Q2K4pPM
-         5kWk/nE6eQTTruUZUX5VOTYgJouHCIN4McBzbrBXUegnSw9yeBHOFVJ9Q4DKOnjDbxbr
-         k/OFO8RzYqW4o4uoFnompHsMdLe4BBwxFmyBNyTspHDvY6PWffVwjWM2NFLg6g89M4xo
-         DwV3Q+9ZwH3uFq6yOwGeKHtRvp7Ubg+Ot2BobAkIVfIGS4eFBWvqNGzszWvMFoUquzaD
-         +7KWDfci3MgApBQK20TL164acjL62iUout0UEYoTm3clg8A/MPthG0r/mOhwSoqmh21t
-         BEQA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747470822; x=1748075622;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=46W3U69RgmnXuEh9Y5vUZYFbM1wVfN7RR1Zl3hEWpoU=;
-        b=qQFfV0BdU3ixJROCRjySUqUWuQoZgvhXQtDW6MVIy9aqT/I5waLjfTWojJA7kIB5GY
-         dF8zKq7voc0iIrNLJmdNVpnYx9TG4NTMTNC9DG/ICG4861YIb5PQhFYVeY+m1Jh0jxSh
-         6sxP8n+XXG3BuhnHocdESMl+iPUY4YOO+SxGvLVRf2QWPJBAeiaU130kiGh/uDjt0ckR
-         BQjYdB2UdmUgcmmHdG1Wj587jF0h6piE3iaJWJjnRVFIK8PId6yQUFG+2Cx8YHUk98/v
-         hcRmZZjgnv1A+DvjqLUXMbQQlHn7hnXTCpfXDkwUuNOF4Ej09e7yeI51owx36Hccccl+
-         04IA==
-X-Gm-Message-State: AOJu0YwhkbHhy8SYEUDHApbXRgsYVioCFuDo7MTitH5VfVzq/O+zsBVz
-	w1ZEq/4cxd1fX9Ne9y2Lwl4WL1U4jSVGYyIaFwbC52+RHXBuPuxS3Z+p
-X-Gm-Gg: ASbGncvJKXPBtjcQtrSTsRyXqQZYaUn7GzBcuhFNWAsL0RbjcFyO6FII0GeNdfaeXPj
-	bQo4hTX657m1aoH70SrSIyaIfoyN0U1rnugIM68QZFHRhl/LaPxCCZ9LIV+LeCU/66Wtc8BJm+f
-	fsHgCkKNr6P/SjZVz9f0J3/eRO9+P/m5xLNvG0J64iGZA6t+8dBO1uEVOoM42/0zQ1Ehp3HuGan
-	+aJDDoHLBeEyjw43FvXN3MJ2CYVpmJk47sQseiQ9F4RE3smTGGQRI28T71mOtq8M+MLd46s3Bvu
-	OOuBgFr64YxtLznDwO0YahySZp2/nzaVVyZn8ql9x9yYf+/Fe2HbZicwXI4Jwrf2IJzMQxUORHl
-	kOr52Bw==
-X-Google-Smtp-Source: AGHT+IFTbZ9GzDjQsXxuZOL1wswGi5YMveAdD3xRQe0RmvR3Pc6UARz6iAXGf5wZ1VQWK7V/ciyUiA==
-X-Received: by 2002:a05:6a00:9094:b0:736:53f2:87bc with SMTP id d2e1a72fcca58-742acce4f17mr7568603b3a.13.1747470822369;
-        Sat, 17 May 2025 01:33:42 -0700 (PDT)
-Received: from ak-workspace.tail730999.ts.net ([2406:7400:63:a412:9ce1:c852:2f5a:2714])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829b7csm2734652b3a.119.2025.05.17.01.33.40
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 17 May 2025 01:33:42 -0700 (PDT)
-From: Akshaykumar Gunari <akshaygunari@gmail.com>
-To: skhan@linuxfoundation.org
-Cc: linux-doc@vger.kernel.org,
-	akshaygunari@gmail.com
-Subject: [PATCH] docs: hid: Fix typo in intel-thc-hid.rst
-Date: Sat, 17 May 2025 14:03:34 +0530
-Message-ID: <20250517083334.6766-1-akshaygunari@gmail.com>
-X-Mailer: git-send-email 2.43.0
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="qCqIQM+a"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7AFACC4CEE3;
+	Sat, 17 May 2025 08:44:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747471495;
+	bh=j0LTn1lN+WcSRX3JpuiuLhB0VN18irvMtE1JbmGibaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=qCqIQM+awYF3higFIfsJGgfizWdYEJdayAkA+d2TShUU0oMsxxZRgrHH0g1eDbHBQ
+	 ERsS+e2UX6tqWy0p3lR6z23HSpgvepSSEKxs+BAyuSZ0AtHjIhwmh+YyKuMIjdvc/d
+	 uX7+aXjk9b/uVYfMIAUZgZp1brr+mVwTZemVp7+1xt0kPHvSa6jyL0XAvdwaC16E7+
+	 OM+LlO8k3cSSmJM9gytA2HC0+1/wxYMnpc60pVzN2h6HgEtqzHhXSyPvEJX1ivhkF9
+	 N7MlamtfHWzPiuXGImzRIMv8pDm6eNmclio7fP+lf/FcV9oXm+N4dFv7lpGHSdDXnd
+	 edUPPspMWxvPg==
+Date: Sat, 17 May 2025 10:44:47 +0200
+From: Ingo Molnar <mingo@kernel.org>
+To: Borislav Petkov <bp@alien8.de>
+Cc: "Kirill A. Shutemov" <kirill.shutemov@linux.intel.com>,
+	Thomas Gleixner <tglx@linutronix.de>,
+	Ingo Molnar <mingo@redhat.com>,
+	Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+	"H. Peter Anvin" <hpa@zytor.com>, Jonathan Corbet <corbet@lwn.net>,
+	Andy Lutomirski <luto@kernel.org>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ard Biesheuvel <ardb@kernel.org>,
+	Jan Kiszka <jan.kiszka@siemens.com>,
+	Kieran Bingham <kbingham@kernel.org>,
+	Michael Roth <michael.roth@amd.com>,
+	Rick Edgecombe <rick.p.edgecombe@intel.com>,
+	Brijesh Singh <brijesh.singh@amd.com>,
+	Sandipan Das <sandipan.das@amd.com>,
+	Juergen Gross <jgross@suse.com>,
+	Tom Lendacky <thomas.lendacky@amd.com>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-efi@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCHv2 3/3] x86/64/mm: Make 5-level paging support
+ unconditional
+Message-ID: <aChMf-wxUeE0oI1Y@gmail.com>
+References: <20250516091534.3414310-1-kirill.shutemov@linux.intel.com>
+ <20250516091534.3414310-4-kirill.shutemov@linux.intel.com>
+ <20250516153009.GEaCdaAdhCVpjaViSx@fat_crate.local>
+ <aCdd60hwRbx207bU@gmail.com>
+ <20250516155649.GFaCdgQa7sX75vOLSm@fat_crate.local>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20250516155649.GFaCdgQa7sX75vOLSm@fat_crate.local>
 
-Corrected a spelling mistake in Documentation/hid/intel-thc-hid.rst.
-Replaced 'triggerred' with 'triggered' and 'flexiblity' with 'flexibility' to
-improve documentation clarity.
 
-Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
----
- Documentation/hid/intel-thc-hid.rst | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+* Borislav Petkov <bp@alien8.de> wrote:
 
-diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
-index 6c417205ac6a..dc9250787fc5 100644
---- a/Documentation/hid/intel-thc-hid.rst
-+++ b/Documentation/hid/intel-thc-hid.rst
-@@ -182,7 +182,7 @@ value and use PIO write (by setting SubIP write opcode) to do a write operation.
- 
- THC also includes two GPIO pins, one for interrupt and the other for device reset control.
- 
--Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
-+Interrupt line can be configured to either level triggered or edge triggered by setting MMIO
- Control register.
- 
- Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
-@@ -302,10 +302,10 @@ waiting for interrupt ready then read out the data from system memory.
- 3.3.2 Software DMA channel
- ~~~~~~~~~~~~~~~~~~~~~~~~~~
- 
--THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
-+THC supports a software triggered RxDMA mode to read the touch data from touch IC. This SW RxDMA
- is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
--difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
--interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
-+difference is this SW RxDMA is triggered by software, and RxDMA2 is triggered by external Touch IC
-+interrupt. It gives a flexibility to software driver to use RxDMA read Touch IC data in any time.
- 
- Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
- and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS = 1), other operations are the same with
--- 
-2.43.0
+> On Fri, May 16, 2025 at 05:46:51PM +0200, Ingo Molnar wrote:
+> > 
+> > * Borislav Petkov <bp@alien8.de> wrote:
+> > 
+> > > On Fri, May 16, 2025 at 12:15:33PM +0300, Kirill A. Shutemov wrote:
+> > > > @@ -173,10 +173,10 @@ For example, when an old kernel is running on new hardware.
+> > > >  The kernel disabled support for it at compile-time
+> > > >  --------------------------------------------------
+> > > >  
+> > > > -For example, if 5-level-paging is not enabled when building (i.e.,
+> > > > -CONFIG_X86_5LEVEL is not selected) the flag "la57" will not show up [#f1]_.
+> > > > +For example, if Linear Address Masking (LAM) is not enabled when building (i.e.,
+> > > > +CONFIG_ADDRESS_MASKING is not selected) the flag "lam" will not show up.
+> > > >  Even though the feature will still be detected via CPUID, the kernel disables
+> > > > -it by clearing via setup_clear_cpu_cap(X86_FEATURE_LA57).
+> > > > +it by clearing via setup_clear_cpu_cap(X86_FEATURE_LAM).
+> > > 
+> > > LOL, good one.
+> > > 
+> > > The rest looks nice and good to me. And FWIW, it boots fine on my Zen5 with
+> > > 5lvl enabled.
+> > > 
+> > > Reviewed-by: Borislav Petkov (AMD) <bp@alien8.de>
+> 
+> Bah, and I thought I'm replying to v3. :-\
+> 
+> Anyway...
+> 
+> > What's your preference on timing? v6.17 or v6.16?
+> 
+> Right, here's what I'm thinking:
+> 
+> * Kirill's patches would simplify Ard's cleanup a bit
 
+Yeah.
+
+> * The 4th one: Kirill A. Shutemov ( :  85|) ├─>[PATCHv3 4/4] x86/paravirt: Restrict PARAVIRT_XXL to 64-bit only
+> 
+> looks ok too.
+
+Yeah, and now has an Ack from Jürgen too.
+
+> So, I don't see anything speaking against queueing them *now* for the 
+> upcoming merge window, I am testing the tip lineup on a daily basis 
+> this and next week and if it all looks good, we could probably send 
+> them.
+
+Cool!
+
+> If not, we delay.
+> 
+> And if there's other issues which get detected later, during the 
+> 6.16-rc phase, we revert.
+> 
+> So we have an exit route from each scenario.
+> 
+> So I guess let's...
+> 
+> Unless I'm missing an aspect.
+
+I think that's a good plan. I've queued up Kirill's latest in 
+tip:x86/core, with tags updated, and it boots fine on my
+testsystems as well. Knock on wood. :)
+
+Thanks,
+
+	Ingo
