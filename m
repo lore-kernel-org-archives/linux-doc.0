@@ -1,56 +1,78 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-il1-f172.google.com (mail-il1-f172.google.com [209.85.166.172])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B1176C2C6;
-	Sat, 17 May 2025 20:25:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D7E511F462C
+	for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 21:10:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.166.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747513529; cv=none; b=naswXoyl8cV7WPh6cgoyc0giBNgWDP/8B3sxu4anUdevkN8cgppV60+zM/C2XBaOyQzlfVy4iCF4YKbUyC570oKMyywY6P3cyLyuLqTHhGxk0cQLbJGr9UPN9hL96k9+UTWDF31gGhzWbE5XLClYuStszQ6iU8l7gFPfU+nMFxI=
+	t=1747516251; cv=none; b=bpat1I/8LfP1pbO3tioKpmjG2slGKySK1SSqcRyetOVzAv3JZ6vWTd62+e7d1n/NT+EGHzdxUykIkZ02GiE22HAUW4ZnUAM7K5DvkLmVOnhnJ+TzMEc6e9h9nae+LXX7Sh7e0WTM2bhkpoPvbv8/Vjmxr77ddtMeMCTyZPte3C0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747513529; c=relaxed/simple;
-	bh=q/+LJzWV//jJOpKwrMia7KlW4iMjaB4bjxmcmW7qiw0=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=kqQ3BLq7FZoC/cKN5JDxPi9Z/BDCZuBvaixavXXEtRUPvAf0nOPhpYiDbt2OYXJHnU6HmQp0CXkP0f+mkJOje0F4IiMywMQX6jZERp0PaS0Uo9Y2dVv730nJqYl2qekgAMMF/I6nLf4swpDY0PV1L3Y7SxrBthF1qLI9UN0DUeI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FHN5K+e3; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747516251; c=relaxed/simple;
+	bh=o/Nya/tGk006xRA5N500QpaY5OOYSf0gkMPQt5ZX/IE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=aJOlGI7Dsj5VKUebzsYKAX8wV37nXkl9gF7lnkR1GZqO2RD1vLXP5I1Tt9Swm0SYNuylHWhEqB5Y6dFzEpLNl02+ed207sw8yuBxao5POhhOuwwVWbYzzFTMCgEKeim7UgAja4EmfHvxXHPiV0MDL5WIiUjqqUZn1gXDOdylBBM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com; spf=pass smtp.mailfrom=brighamcampbell.com; dkim=fail (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b=GHL2o8lq reason="key not found in DNS"; arc=none smtp.client-ip=209.85.166.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=brighamcampbell.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=brighamcampbell.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FHN5K+e3"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id E201EC4CEE3;
-	Sat, 17 May 2025 20:25:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747513529;
-	bh=q/+LJzWV//jJOpKwrMia7KlW4iMjaB4bjxmcmW7qiw0=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FHN5K+e3zuEN/BDoe9RC8m3AEMhJKFPcFc2TF8QUouNHFZ4jPXTmHB6dJM0nw7zN+
-	 HdS9ZZGfCiaFPrf1rbHbkiIxPuDkhWD1UQ8xUNt4djb2gZiPhge0uT/cwP8wCz0sfE
-	 K1oTJGXqfprP2UU229Nl6tSNYxvlPfCkiApc1AxuPJvi1eBp47dAKzKiP7E5rjiefW
-	 lqe4sXol5lzO+WnM7FJW+KkVUy+rNrBzpZTZ1Gjcp1nD2MiNK+eWam0Z+rZYyMoZdn
-	 fjnhkwL7azFvIlqNg2Ckke0W10sOi8dIJGlPB9Gi5uqCQUI21nSuA6r8waTyjyoeeG
-	 VOYL0e5stpqMw==
-From: SeongJae Park <sj@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	David Hildenbrand <david@redhat.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	hannes@cmpxchg.org,
-	shakeel.butt@linux.dev,
-	riel@surriel.com,
-	ziy@nvidia.com,
-	laoar.shao@gmail.com,
-	baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Re: Is number of process_madvise()-able ranges limited to 8? (was Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the process)
-Date: Sat, 17 May 2025 13:25:26 -0700
-Message-Id: <20250517202526.39730-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <005161f7-d849-41a9-8350-f56e52c49e7e@lucifer.local>
-References: 
+	dkim=fail reason="key not found in DNS" (0-bit key) header.d=brighamcampbell.com header.i=@brighamcampbell.com header.b="GHL2o8lq"
+Received: by mail-il1-f172.google.com with SMTP id e9e14a558f8ab-3db7b3de375so23263545ab.1
+        for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 14:10:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=brighamcampbell.com; s=google; t=1747516249; x=1748121049; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=qsAWXt+W0ngarXnftcnhixQhh8eXvZ1EEvRj0zEMsI4=;
+        b=GHL2o8lqkSudd1Uk7QW6I/krnKcP1hv0oaz7UrRhzq5v+hosno1Ww8QLyFHHusTMmV
+         WmWLXiHS9azgnOeUrfyq+1ZSXeG8z3fpEW/aWntFtMzMG2+APGCh4wYRQQ2IJmZ7zTTv
+         CDsW+24S/ZNUIsYvulzEG1h2BRFtq2123S6ahbbvFWSWrmNzL3zKdKIpDbDIUG+Oe6Lg
+         uycSWRKorKXGC/MWIAMI0Jswy/iZKj7wy0brCN44tvm9AdiIJ/uDPEsZ6CpuahdbdYTc
+         oR1cCw+mxSz7wZ1llfnAXtHpiQGCCRxvheq1BzLAJ1sh4a8t6tJyxpndje989X6tf4kN
+         vvMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747516249; x=1748121049;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=qsAWXt+W0ngarXnftcnhixQhh8eXvZ1EEvRj0zEMsI4=;
+        b=wGdMGpELH3glcHSuNWmAlQv61D48LbqvaOumldOYTLJeK0VpG0TlUgy9hP2BEhXolf
+         3+iMtb/6PtXzMb0kLNSO+S+3IhmVKSumnGdxd+v9KQhKIRnDfq+MZDwZEtyA6BkShhjd
+         O6ILeuzx89W3zJ8RhSTSQf0B5aXZ73QqyUg1tk1EjaGum+MKwUCW4LSiwpY2GT5E5GuV
+         F33gHOyvSV4d6jgXtswaAutzVSNoNUNF/vTF/cZ9263ygMzQJbqf0Uejz8hvrlKlsccA
+         x+eukVuo4ouj8TtVpPDhO4oqEYZJ7AcmYVC2bPrtR8YSi4d+kjgZXSEdFyhPJAjDh0RZ
+         sg4w==
+X-Forwarded-Encrypted: i=1; AJvYcCVT+p3vxR8myCmXtEnr9p8GPFR8EuSSspI4l9Q9IofcIaDJ6xKKARW4JNr4i6AWU6NdK9+6aOWpDpQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxeEFOv6O8rUYXlsYcj+aiKAm/Y9JHzNo1QA+N3IGMmkq0uMHAL
+	TQPVHHHzQzdLdvuiXBdHzvk91TMGmYVUgs0mOBiRkFIHk1sSIcMa5jBxauBRzNFVIws=
+X-Gm-Gg: ASbGnctVO5BzHBrtk9SJ6WhaTVXcBJENOaxou3V7bo4UrezUmAdyqZ/p+hj9w3Fsnxr
+	DPKTKIyDzbwizu1bbQQL1T1ZTdfENxe8xFVbOSOUx10XnTgzrQtu/7hVL/0RI87MUSJgBM9QE8e
+	NY8sW0QMtJHLxzWttd+KmG6BPINvhG+Q6B5gThlnh3DZJdv8kK9GcHTHjxPEBojr6//EOejRken
+	4BIP8UpdrEolhiM+gnZuffYl16nc4o9sGTOZ0A+7iJDczzFsrcvEzdgR6ZPz5tr9eO0uAqgP92a
+	XHRqEBshj3xh4fmJGudZbtuT49UFqRXyN3sDsou0T1AroQ3zlC9YFV9mUFekFzjq8Ykaw+j8vPy
+	aQHgMKzk=
+X-Google-Smtp-Source: AGHT+IHO8vmPZ9wtEiIB3JiDHbb2n/QkwioIBKsC0rUUGe/Wln0nL1EQukSNTPuRfRNcvEViMy2SvA==
+X-Received: by 2002:a05:6e02:1c02:b0:3d9:66ba:1ad2 with SMTP id e9e14a558f8ab-3db8569e88bmr68385155ab.0.1747516248818;
+        Sat, 17 May 2025 14:10:48 -0700 (PDT)
+Received: from mystery-machine.brighamcampbell.com ([64.71.154.6])
+        by smtp.gmail.com with ESMTPSA id e9e14a558f8ab-3db843e07b8sm11777445ab.20.2025.05.17.14.10.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 May 2025 14:10:47 -0700 (PDT)
+From: Brigham Campbell <me@brighamcampbell.com>
+To: shuah@kernel.org,
+	linux-kernel-mentees@lists.linux.dev,
+	Madhavan Srinivasan <maddy@linux.ibm.com>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Nicholas Piggin <npiggin@gmail.com>,
+	Christophe Leroy <christophe.leroy@csgroup.eu>,
+	Naveen N Rao <naveen@kernel.org>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linuxppc-dev@lists.ozlabs.org (open list:LINUX FOR POWERPC (32-BIT AND 64-BIT)),
+	linux-doc@vger.kernel.org (open list:DOCUMENTATION),
+	linux-kernel@vger.kernel.org (open list)
+Cc: Brigham Campbell <me@brighamcampbell.com>
+Subject: [PATCH] docs: powerpc: Add htm.rst to table of contents
+Date: Sat, 17 May 2025 15:07:59 -0600
+Message-ID: <20250517210757.1076554-3-me@brighamcampbell.com>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -59,83 +81,29 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 
-On Sat, 17 May 2025 19:50:34 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
+These changes fix the following error, which was introduced by commit
+ab1456c5 when Documentation/arch/powerpc/htm.rst was added to the
+repository without any reference to the document.
 
-[...]
-> Let's keep this simple - I'm just wrong here :) apologies, entirely my
-> fault.
+Documentation/arch/powerpc/htm.rst: WARNING: document isn't included in any toctree [toc.not_included]
 
-No worry, appreciate your kind and detailed answer.
+Signed-off-by: Brigham Campbell <me@brighamcampbell.com>
+---
+ Documentation/arch/powerpc/index.rst | 1 +
+ 1 file changed, 1 insertion(+)
 
-[...]
-> Anyway, let's dig into the code to get things right:
-[...]
-> So - this confirms it - we're fine, it just tries to use the stack-based
-> array if it can - otherwise it kmalloc()'s.
-> 
-> Of course, UIO_MAXIOV remains the _actual_ hard limit (hardcoded to 1,024
-> in include/uapi/linux/uio.h).
+diff --git a/Documentation/arch/powerpc/index.rst b/Documentation/arch/powerpc/index.rst
+index 0560cbae5fa1..53fc9f89f3e4 100644
+--- a/Documentation/arch/powerpc/index.rst
++++ b/Documentation/arch/powerpc/index.rst
+@@ -19,6 +19,7 @@ powerpc
+     elf_hwcaps
+     elfnote
+     firmware-assisted-dump
++    htm
+     hvcs
+     imc
+     isa-versions
+-- 
+2.49.0
 
-Thanks for kind clarifications.  All your explanations perfectly matches with
-my understanding.  I'm happy to be on the same page with you!
-
-> 
-> The other points I made about the proposed interface remain, but I won't go
-> into more detail as we are obviously lacking that context here.
-> 
-> Thanks for bringing this up and correcting my misinterpretation, as well as
-> providing the below repro code, and let's revisit your old series... but on
-> Monday :)
-
-Sure, and no worry, take your time :)
-
-> 
-> I should really not be looking at work mail on a Saturday (mea culpa, once
-> again... :)
-
-I hope your remaining weekend be calm and uninterruptable.  Keeping you not
-burned out is important for the community :)
-
-> 
-> One small nit in the repro code below (hey I'm a kernel dev, can't help
-> myself... ;)
-
-To me, being a kernel programmer rather than a user-space c code programmer is
-a good excuse for asking to be generous to my user-space bugs ;)  Thank you for
-your kind comment below, anyway :)
-
-> 
-> Cheers, Lorenzo
-> 
-> >
-> > Attaching my test code below.  You could simply run it as below.
-> >
-> >     gcc test.c && ./a.out
-> >
-> > ==== Attachment 0 (test.c) ====
-[...]
-> > 	ret = syscall(SYS_process_madvise, pidfd, vec, NR_PAGES,
-> > 			MADV_DONTNEED, 0);
-> > 	if (ret != MMAP_SZ) {
-> > 		printf("process_madvise fail\n");
-> > 		return -1;
-> > 	}
-> 
-> To be pedantic, you are really only checking to see if an error was
-> returned, in theory no error might have been returned but the operation
-> might have not proceeded, so a more proper check here would be to populated
-> the anon memory with non-zero data, then check afterwards that it's zeroed.
-> 
-> Given this outcome would probably imply iovec issues, it's not likely, but
-> to really assert the point you'd probably want to do that!
-
-Good points!  I once considered making this test better and posting to be
-included in mm selftests, but found no time to do that so far.  Above input
-must be very helpful in a case that I (or someone else) find a time to write
-such process_madvise() selftest.
-
-
-Thanks,
-SJ
-
-[...]
