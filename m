@@ -1,166 +1,200 @@
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mout.gmx.net (mout.gmx.net [212.227.17.21])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C9C0F2557C;
-	Sat, 17 May 2025 16:13:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 80F1A8248C;
+	Sat, 17 May 2025 16:17:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=212.227.17.21
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747498433; cv=none; b=oIcMiQen/iv5ly5U72jh7tLjU2uzAqqGn8qKcUOg4Gv8dKuAKzfB6Sr9z3TgQuXRSk1aqvk6+clm4YQgeBi/z2QoDHFtvH3xOMHS/z0LFObEA/I/n2bGWP6IFGljIG9vTdKA8vheewzLYUsFBoWe3riCCuIK+RqiDnk2NmBPzjo=
+	t=1747498638; cv=none; b=rfrQEVzvW7yCr+EJ/PBiZJqGp88xxvCiAcF5M2SaHk+RFA9FMmWDCCv9HZSzobmq7g2qspK0SXzuuz5L305co26nAPwVB8UCv3TdiT9y+izwyrmOsctBr5sWiPIUSJchwcdEbtZgD9XBwKwAOtGVT7TeJS1KhMY6WbqXURvUMKI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747498433; c=relaxed/simple;
-	bh=LbvYxJ3Tcd/Fw7lY2lX1yyeiA5XRGFWTyq4VYLwKSqQ=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=D+T/5vdXqGIMt0+L3LGArbk9+IhRhD0y414IBeg5bAuDeuCI50g7JwhaeCjiA8XYc7xD6VFVCsv9BXy9fmTndmPujbou+tZm0zDaKoMJ4du2dVolXsv7F6CekJvq1HrRJwVx6EwExgYw3qdJITP4NVwg8S6+RQj4obEDfyvauCI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=nTBGT/01; arc=none smtp.client-ip=209.85.221.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	s=arc-20240116; t=1747498638; c=relaxed/simple;
+	bh=jqC0oNsvaMfQBpuzLLjNALuC7em7l6f7WRTKE/2ZKMk=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Bjo7hJc5la+Eh+5C8wHqL8t6J2BgS2Pvgzas7qJNrM9bCoH5YkhBaJyzBduosofiiu3isCwy48yXHQFbUo9DpStfyIRd6ghaZZDKdjWJPs0FAy8SIp+2TtKCEtNVMjHuQ/lsJc5YwtO3ScZwB8sn2yJAwoOgz8QC0xv33Vl6Bnk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de; spf=pass smtp.mailfrom=gmx.de; dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b=FnJblw4l; arc=none smtp.client-ip=212.227.17.21
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=gmx.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmx.de
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="nTBGT/01"
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a0b9c371d8so2671458f8f.0;
-        Sat, 17 May 2025 09:13:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747498430; x=1748103230; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=82OhuhlHOez3jDmdlmzfxsmkDtQ4s4LOyl3j3kN+AnA=;
-        b=nTBGT/01H+eq9KdQi+bR9DU46UHjLQBaOIpcjC7JoATNP2q0mhNpf7xb+tKz3sQZHy
-         BB+LvyPA67atSfC341FvcKF7w82PZBFE9EuBUTaTunkblL1B/aE0PJwDhxgctPuXQzbF
-         NdZkni1rpAN+3Q+eitA49TmSfCMOMdAEBuGqe3GWPnTR4QB0t/Ce8cY93cPYAUv42nIM
-         PTxgvH9hnplgR5AsFjI3g8dHLQr4skS3w1tCzwYwhEqWwgZCLoAUlOIrEsggAIxUEIqG
-         4o2BojEvB6PYxcK+05NV2ihUOG0mG8LJorfVP9tJX+JVLqqyVJvRqvCV2fhlpZst2m4V
-         4nFw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747498430; x=1748103230;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=82OhuhlHOez3jDmdlmzfxsmkDtQ4s4LOyl3j3kN+AnA=;
-        b=NoCB5GUkByRNheL0ITp+tIV6chRPxkfuKYayR9jSYYGH99gu9rbQUUBVvip2wyoM/T
-         3/CBzd8prEbnwFYMHV+uLULcNITAfrDlIZQM2Zah4hMrt3flVQMpl6MHnfIqYauQDkHp
-         CyTd96GPzTWCZDGULEIEB6JWrmzWknnA2iy1f1LjlNj/MG4O6n61KYYcTyBvvZjeSHAS
-         nGIAy7/22DEGWXDR0rrI+lsUv+JamwZvba3KcEiaYVL/sZhF/O1A6FCaNo0mel/URQMz
-         EeuwVgHx4sF2Izd9JCpRSCGD7Oq9kwiaZonAub+tRBWez48tTOig/52qiQ1zlWxnYa0K
-         rZvA==
-X-Forwarded-Encrypted: i=1; AJvYcCU6wdXtC500QXVAeRifnV5iwbqfp/z+bk2PPDeX1ECRoFR/eGgJS2j3F1NGeRZgfmPCG/VLO6j2Khu8rA81qOP97Aj6bv7Z@vger.kernel.org, AJvYcCUedfdAQbgITPoRYwNhvgf56D77sbkVJjilGE7+NrwJO8YBJ3NdWLAvcmVEpPf6irsCxjeAuyu4TMusBbh+@vger.kernel.org, AJvYcCUf/a++0Px5nUoZqEJUFH6hb9RFzzRGnEez28qArtKcJMO29RwUKsQ6mI6Y3Q4Zvgkoh5NF6j+ccLU=@vger.kernel.org, AJvYcCVZE2R9fjX6nuhL8xhHDbrfwHIgyUe86gVPXSQY5GfOuHufizD6jB9Tpd35xMqzqlggr0AvPk3sNFI0hctd7hW4@vger.kernel.org, AJvYcCWZIcIVTIGrLad0rP1Tccrlm/IMWOBYH7eTKofRAtZeSq2tNEpdbebw9vk2woN2jb0EJmugyQrYYkLaeexr@vger.kernel.org, AJvYcCX5efwZkQPs8GhTO+iPimW6qVp9bsnnikmn1D5uWXEH59wvaie8PvnjfpeMn9RbALEce6tKLLPTlNBZ@vger.kernel.org, AJvYcCXnPPhkGyRjS7tHmyTghAq1q085zolJKSSxVRqQW02HJEXBSE64OoQyAZxYvCG7SQmyxaI=@vger.kernel.org, AJvYcCXwiGTDHV/Dri7JBzq7V1hMDf231cAY2Rjku6KZAVQQJQ5c1UBHXyviyud3i4mOU7Y8oor/5fwaJZagaq+5@vger.kernel.org
-X-Gm-Message-State: AOJu0Yy/AYOfeC9Wm1qgzjo+vC6YAALu3BbmJVhHUs/hSALcICdV0Ey+
-	Aqe8rsn8sn3yJ61GenoD2ZgHikOt1wESFd2O5rqNcOH8lT0BPyVoWr6DnAeMnOudax7YdwmvpYZ
-	4zPwUDCbOlwQiNkwvEOMQ6PBGRhDlfhA=
-X-Gm-Gg: ASbGncvuXOhrslUcVYjG+0jaz/6fvAkti4VUdZgzg2itMb1HS8pdYloLT1Ph458OslB
-	PkBQSIPl9LrBVYGZUqhwA4y9Una6Tw8JHCaV3nUpoofiVbgBlb/dPfi1ww+aZzi158JFEivpCv+
-	G2QS+0hoB7CuwM/cgYoNOCASXXJ3smMdSPZ8SpdF5v5Bn6UeQBavMosOg3JxnTOQ==
-X-Google-Smtp-Source: AGHT+IGarazK394xibyYuLT0mYueQg8j7j5ZYb5Tjx68VPA3RvUUD+et9GfgP4lQjmkZi97eSRT8BdRUfJNPJzdkQVg=
-X-Received: by 2002:a05:6000:2a5:b0:3a3:6a77:3387 with SMTP id
- ffacd0b85a97d-3a36a7736b3mr770880f8f.6.1747498429897; Sat, 17 May 2025
- 09:13:49 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmx.de header.i=w_armin@gmx.de header.b="FnJblw4l"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmx.de;
+	s=s31663417; t=1747498623; x=1748103423; i=w_armin@gmx.de;
+	bh=7eMgYhWoMENx/gHrNpuojOvrrjgIHdixsXjVMlaf7CQ=;
+	h=X-UI-Sender-Class:Message-ID:Date:MIME-Version:Subject:To:Cc:
+	 References:From:In-Reply-To:Content-Type:
+	 Content-Transfer-Encoding:cc:content-transfer-encoding:
+	 content-type:date:from:message-id:mime-version:reply-to:subject:
+	 to;
+	b=FnJblw4lsIwSDJ9FaaUS3TFnzZ77lievGVPkHLQsk8Mw3y5tadEGcMjRekp+g7RQ
+	 XiWVUSMUd3amKytJWBRff4mp3bOjg8MVTdSBgwret15vaYZde/KuJFofM3TUXqhew
+	 mVh0veQIcjN5dM+0IAhUb5v3hLSLc9/DNLJhnJcwf79oeH1HQiYs453IvaCNrMICZ
+	 xpfjCTNDhAiPcVW6B4CkQJG8QHLnsjevHTmkO4HGJS41KMnjRRl6O9/z8FheO7pOB
+	 PocZjgTUFGQIk0Gs/hTU8WZDvjVTFux1NynTcGPmeIMFrnX9Lz583prAfN5UN4aYO
+	 f+bVkvNmI1RpzxiEwg==
+X-UI-Sender-Class: 724b4f7f-cbec-4199-ad4e-598c01a50d3a
+Received: from [192.168.0.69] ([87.177.78.219]) by mail.gmx.net (mrgmx105
+ [212.227.17.168]) with ESMTPSA (Nemesis) id 1N5G9t-1uzahf3uCr-00uOZA; Sat, 17
+ May 2025 18:17:03 +0200
+Message-ID: <637c0f0e-3858-43bd-b122-ff52a5580077@gmx.de>
+Date: Sat, 17 May 2025 18:16:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
- <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
- <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
- <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
- <CAHC9VhTeFBhdagvw4cT3EvA72EYCfAn6ToptpE9PWipG9YLrFw@mail.gmail.com>
- <CAADnVQJ4GDKvLSWuAMdwajA0V2DEw5m-O228QknW8Eo9jxhyig@mail.gmail.com> <CAHC9VhTJcV1mqBpxVUtpLhrN4Y9W_BGgB_La5QCqObGheK28Ug@mail.gmail.com>
-In-Reply-To: <CAHC9VhTJcV1mqBpxVUtpLhrN4Y9W_BGgB_La5QCqObGheK28Ug@mail.gmail.com>
-From: Alexei Starovoitov <alexei.starovoitov@gmail.com>
-Date: Sat, 17 May 2025 09:13:38 -0700
-X-Gm-Features: AX0GCFvp20fiHibEhTzOmtoJ3hSYUBnQTUWsP4BmGr2mNOIhP3brqkNqnicpeoo
-Message-ID: <CAADnVQ+wE5cGhy6tgmWgUwkNutueEsrhh6UR8N2fzrZjt-vb4g@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: Paul Moore <paul@paul-moore.com>
-Cc: KP Singh <kpsingh@kernel.org>, Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, bpf <bpf@vger.kernel.org>, 
-	code@tyhicks.com, Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
-	David Howells <dhowells@redhat.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	James Morris <jmorris@namei.org>, Jan Stancek <jstancek@redhat.com>, 
-	Justin Stitt <justinstitt@google.com>, keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas@fjasle.eu>, nkapron@google.com, 
-	Roberto Sassu <roberto.sassu@huawei.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Shuah Khan <shuah@kernel.org>, Matteo Croce <teknoraver@meta.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, kysrinivasan@gmail.com, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v10 0/6] platform/x86: Add Lenovo WMI Gaming Series
+ Drivers
+To: "Derek J. Clark" <derekjohn.clark@gmail.com>,
+ Hans de Goede <hdegoede@redhat.com>,
+ =?UTF-8?Q?Ilpo_J=C3=A4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
+ Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
+ Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
+ Mark Pearson <mpearson-lenovo@squebb.ca>,
+ "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
+ "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
+ Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20250515182224.8277-1-derekjohn.clark@gmail.com>
+Content-Language: en-US
+From: Armin Wolf <W_Armin@gmx.de>
+In-Reply-To: <20250515182224.8277-1-derekjohn.clark@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:CoWOPoTcK/MQENKk6TrKTjAJVAccIyWOWn+DcvPzBV7hqXrGnKf
+ GNcnUpryF8/QaUBve6K9vBjATVYKJ7/m2msz+dOjR2NAUX0gpucSwAGdHbeAH2uTASqEc9Z
+ sjr6kpB74KjTWwTiB4eoIQJf54Dd99gZUrSnqUJVExcNz3pfTfbWV8nsgYhEtwxGuJk3R7+
+ KyaKyrCwWo05o4r1HSe1w==
+X-Spam-Flag: NO
+UI-OutboundReport: notjunk:1;M01:P0://xcj8/Zq/c=;5y4sra9Hf3OEg7GxZkrdJR+511C
+ 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
 
-On Sat, May 17, 2025 at 8:03=E2=80=AFAM Paul Moore <paul@paul-moore.com> wr=
-ote:
->
-> On Fri, May 16, 2025 at 7:49=E2=80=AFPM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> > On Fri, May 16, 2025 at 12:49=E2=80=AFPM Paul Moore <paul@paul-moore.co=
-m> wrote:
-> > >
-> > > I think we need some clarification on a few of these details, it woul=
-d
-> > > be good if you could answer the questions below about the
-> > > authorization aspects of your design?
-> > >
-> > > * Is the signature validation code in the BPF verifier *always* going
-> > > to be enforced when a signature is passed in from userspace?  In othe=
-r
-> > > words, in your design is there going to be either a kernel build time
-> > > or runtime configuration knob that could selectively enable (or
-> > > disable) signature verification in the BPF verifier?
-> >
-> > If there is a signature in union bpf_attr and it's incorrect
-> > the prog_load command will be rejected.
-> > No point in adding a knob to control that.
->
-> I agree that when a signature is provided and that signature check
-> fails, the BPF load should be rejected.  I'm simply trying to
-> understand how you envision your design handling all of the cases, not
-> just this one, as well as what build and runtime options you expect
-> for controlling various aspects of this behavior.
->
-> > > * In the case where the signature validation code in the BPF verifier
-> > > is active, what happens when a signature is *not* passed in from
-> > > userspace?  Will the BPF verifier allow the program load to take
-> > > place?  Will the load operation be blocked?  Will the load operation
-> > > be subject to a more granular policy, and if so, how do you plan to
-> > > incorporate that policy decision into the BPF program load path?
-> >
-> > If there is no signature the existing loading semantics will remain int=
-act.
-> > We can discuss whether to add a sysctl or cgroup knob to disallow
-> > loading when signature is not present ...
->
-> As mentioned earlier this week, if the BPF verifier is performing the
-> signature verification as KP described, we will need a LSM hook after
-> the verifier to serve as an access control point.  Of course that
-> doesn't preclude the addition of some type of sysctl/cgroup/whatever
-> based access control, but the LSM hook would be needed regardless.
+Am 15.05.25 um 20:22 schrieb Derek J. Clark:
 
-No. New hook is not needed.
-
-> > but it probably should be a job of trivial LSM ...
+> Adds support for the Lenovo "Gaming Series" of laptop hardware that use
+> WMI interfaces that control various power settings. There are multiple WMI
+> interfaces that work in concert to provide getting and setting values as
+> well as validation of input. Currently only the "Gamezone", "Other
+> Mode", and "LENOVO_CAPABILITY_DATA_01" interfaces are implemented, but
+> I attempted to structure the driver so that adding the "Custom Mode",
+> "Lighting", and other data block interfaces would be trivial in later
+> patches.
 >
-> Exactly.  If the LSM is simply verifying the signature validation
-> state of the BPF program being loaded it seems like an addition to IPE
-> would be the best option from an upstream, in-tree perspective.
-> However, with the post verifier LSM hook in place, one could also
-> supply a BPF LSM to do something similar.
+> This driver attempts to standardize the exposed sysfs by mirroring the
+> asus-armoury driver currently under review. As such, a lot of
+> inspiration has been drawn from that driver.
+> https://lore.kernel.org/platform-driver-x86/20250319065827.53478-1-luke@ljones.dev/#t
 >
-> It sounds like we are in agreement on the desirability and need for a
-> post verifier LSM hook; we'll keep moving forward with this idea
-> despite KP's earlier objections to the hook.
+> The drivers have been tested by me on the Lenovo Legion Go and Legion Go
+> S.
 
-Don't twist my words please.
-We're absolutely _not_ in agreement.
-What I described above can be done with the existing hook and
-its current set of arguments.
-We're not going to move or change the existing hook.
+Nice work, i think the whole series is now ready for the mainline kernel.
+
+Thanks,
+Armin Wolf
+
+> Suggested-by: Mario Limonciello <superm1@kernel.org>
+> Reviewed-by: Armin Wolf <W_Armin@gmx.de>
+> Signed-off-by: Derek J. Clark <derekjohn.clark@gmail.com>
+> ---
+> v10:
+>    - Fix build error.
+> v9:
+> https://lore.kernel.org/platform-driver-x86/20250508235217.12256-1-derekjohn.clark@gmail.com/
+> v8:
+> https://lore.kernel.org/platform-driver-x86/20250505010659.1450984-1-derekjohn.clark@gmail.com/
+> v7:
+> https://lore.kernel.org/platform-driver-x86/20250503000142.1190354-1-derekjohn.clark@gmail.com/
+> v6:
+> https://lore.kernel.org/platform-driver-x86/20250428012029.970017-1-derekjohn.clark@gmail.com/
+> v5:
+> https://lore.kernel.org/platform-driver-x86/20250408012815.1032357-1-derekjohn.clark@gmail.com/
+> v4:
+> https://lore.kernel.org/platform-driver-x86/20250317144326.5850-1-derekjohn.clark@gmail.com/
+> v3:
+> https://lore.kernel.org/platform-driver-x86/20250225220037.16073-1-derekjohn.clark@gmail.com/
+> v2:
+> https://lore.kernel.org/platform-driver-x86/20250102004854.14874-1-derekjohn.clark@gmail.com/
+> v1:
+> https://lore.kernel.org/platform-driver-x86/20241217230645.15027-1-derekjohn.clark@gmail.com/
+>
+> Derek J. Clark (6):
+>    platform/x86: Add lenovo-wmi-* driver Documentation
+>    platform/x86: Add lenovo-wmi-helpers
+>    platform/x86: Add Lenovo WMI Events Driver
+>    platform/x86: Add Lenovo Capability Data 01 WMI Driver
+>    platform/x86: Add Lenovo Gamezone WMI Driver
+>    platform/x86: Add Lenovo Other Mode WMI Driver
+>
+>   .../wmi/devices/lenovo-wmi-gamezone.rst       | 203 ++++++
+>   .../wmi/devices/lenovo-wmi-other.rst          | 108 +++
+>   MAINTAINERS                                   |  12 +
+>   drivers/platform/x86/Kconfig                  |  41 ++
+>   drivers/platform/x86/Makefile                 |   5 +
+>   drivers/platform/x86/lenovo-wmi-capdata01.c   | 303 ++++++++
+>   drivers/platform/x86/lenovo-wmi-capdata01.h   |  25 +
+>   drivers/platform/x86/lenovo-wmi-events.c      | 196 +++++
+>   drivers/platform/x86/lenovo-wmi-events.h      |  20 +
+>   drivers/platform/x86/lenovo-wmi-gamezone.c    | 408 +++++++++++
+>   drivers/platform/x86/lenovo-wmi-gamezone.h    |  20 +
+>   drivers/platform/x86/lenovo-wmi-helpers.c     |  75 ++
+>   drivers/platform/x86/lenovo-wmi-helpers.h     |  20 +
+>   drivers/platform/x86/lenovo-wmi-other.c       | 667 ++++++++++++++++++
+>   drivers/platform/x86/lenovo-wmi-other.h       |  16 +
+>   15 files changed, 2119 insertions(+)
+>   create mode 100644 Documentation/wmi/devices/lenovo-wmi-gamezone.rst
+>   create mode 100644 Documentation/wmi/devices/lenovo-wmi-other.rst
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.c
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-capdata01.h
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-events.c
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-events.h
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.c
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-gamezone.h
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.c
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-helpers.h
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-other.c
+>   create mode 100644 drivers/platform/x86/lenovo-wmi-other.h
+>
