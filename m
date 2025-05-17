@@ -1,135 +1,95 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 762198248C;
-	Sat, 17 May 2025 16:20:56 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9EC6915748F;
+	Sat, 17 May 2025 16:28:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.17
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747498856; cv=none; b=nASIBYdQg1dI4LoNATUb/2skT4/BK3ef/fYtwgJSEsNY0QgHO95Cpso/qiHenSvxqw8GxHUIjItXlUROo0pe3KXV/zShj36KRau8h6UneqA61Dn9UOAM+43b/XRNBtY69c1PTDVqUsG9fxbzCeUbdpMRhOvDDEa5TnzldTeHWAM=
+	t=1747499320; cv=none; b=byc+l0AHHvk4ivFPlfXcNzSWMqxV28uBBxCl0R4+4AiMOSFQkTEhE+QPTVMalRIjwkpSvbEBhU3s72Oco5I3+5dqS0M6IXdsjWpMSqvB0ZhTENSZhd4W+PcPAw/Vvh2r6+8jQnuaifBjufsoEU7yntdJMFX9XQzXYsU10FEpYOw=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747498856; c=relaxed/simple;
-	bh=GHDZJ1uuaBxwqH16gslmLd0P/tpgd2EgjPAEvjkwuAQ=;
-	h=From:To:Cc:Subject:Date:Message-Id:In-Reply-To:References:
-	 MIME-Version; b=TzxICXi8ri5miiupycnNAlBly0PLk64m0ZK8rCAT5/e/HIkHvMmUIPoIr0wyAuDIMBuft9OQtmcKgzLVkXOFZ5eBpwWmhiDhM3xyXAUNCDL5TE1Nd3UTlO7uOGay0eYV4B3dloj4wJKYY7u83wow5zSqFu9+6VAVqNCLAli7oSk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=FHiwGbKR; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747499320; c=relaxed/simple;
+	bh=WJbQgRZO8pBaUF67/UjtlS0RvUVsOBvvMvIIb35Oaso=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=BpkBPMfkTzZHzRlScAmHGzuxHNtjUpDdRme95st0G2vOVAnahB6JosG6Lmsa6GtIRozoxU4e+tvR+jKQcsjfw1OsCcuMn2MvxffDcEkmSDuLBCxVsm87egpj5z17sldqu6lTc0TAQpM4ijYWCrELoMhJjkmLc2ZjLkmc/y6cua0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=PbTUAr7p; arc=none smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="FHiwGbKR"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BD3ECC4CEE3;
-	Sat, 17 May 2025 16:20:55 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747498855;
-	bh=GHDZJ1uuaBxwqH16gslmLd0P/tpgd2EgjPAEvjkwuAQ=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=FHiwGbKRX1aEb1keMr1efkCOl0cX+2+d9G34DoywXf9R2wPoNRlTUPAjaS70phMyg
-	 5jcmLR0m2ivEwDLF28P3tWipqbKMG78FU0MYI+UazujlrbMJvMQHjo3r7FRYIgWLj+
-	 Y+RfvkuSJWSItjedaw/XP6oGEf/gM61GfuRRBB+igfRlYLd6XuLzoGSCUsM8uElApG
-	 us3RKLty01MAlJIWH82UANfVOBPNALmr3OrYlVLTv73BxiARYPE/xYKPoIRPhwAmJF
-	 OAJZsUF0kIfI76BtepqHRc3FQ1q0YdrzF0iRTy+e80BZ1PBGXUiEAFJaVeFAr9qS84
-	 p6D4xfyLOSvyw==
-From: SeongJae Park <sj@kernel.org>
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: SeongJae Park <sj@kernel.org>,
-	David Hildenbrand <david@redhat.com>,
-	Usama Arif <usamaarif642@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>,
-	linux-mm@kvack.org,
-	hannes@cmpxchg.org,
-	shakeel.butt@linux.dev,
-	riel@surriel.com,
-	ziy@nvidia.com,
-	laoar.shao@gmail.com,
-	baolin.wang@linux.alibaba.com,
-	Liam.Howlett@oracle.com,
-	npache@redhat.com,
-	ryan.roberts@arm.com,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kernel-team@meta.com
-Subject: Is number of process_madvise()-able ranges limited to 8? (was Re: [PATCH 1/6] prctl: introduce PR_THP_POLICY_DEFAULT_HUGE for the process)
-Date: Sat, 17 May 2025 09:20:48 -0700
-Message-Id: <20250517162048.36347-1-sj@kernel.org>
-X-Mailer: git-send-email 2.39.5
-In-Reply-To: <c390dd7e-0770-4d29-bb0e-f410ff6678e3@lucifer.local>
-References: 
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="PbTUAr7p"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747499319; x=1779035319;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:content-transfer-encoding:in-reply-to;
+  bh=WJbQgRZO8pBaUF67/UjtlS0RvUVsOBvvMvIIb35Oaso=;
+  b=PbTUAr7pXHXoFXFVdoffUkDyD6t0qGoAWV8CC53tjTMW/jPA+s56+Tls
+   Dqd2ahSGLU5BiNv4wD7QAgRzQizJYuhBXdSqUSYfxrTFLwdVfA63yzKK7
+   p7oN5d7s5lOPhSNPxjOEvMrP37ysVz/5qLltunFLWTEuAAwMuORooKP1N
+   qHGha4KWzR48PefCb1bKEpx5GpnjNitpCaIMG5Obd1mTekcJVWKgkME/R
+   fbFYfD10ZUenU7I+1uQ108ddagsSq8a6avGnQ36l873NdDKmvE82pyEyT
+   9/cwETtaRjQyzVFw5bjV9NbiMuXt0YYYEELwC91auRjlz4EESTEgKWIyY
+   g==;
+X-CSE-ConnectionGUID: nqCwJXSQS4ClQU+GCLhxUA==
+X-CSE-MsgGUID: hF9AxtVuQtOMLpgvrwsYwg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11436"; a="49381462"
+X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
+   d="scan'208";a="49381462"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 09:28:38 -0700
+X-CSE-ConnectionGUID: Sq/Jz2YURICyO09R2idEew==
+X-CSE-MsgGUID: N510eJ5qQimeFD2btNcvxA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,297,1739865600"; 
+   d="scan'208";a="138711331"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 09:28:34 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uGKOl-00000002Teu-1Rtb;
+	Sat, 17 May 2025 19:28:31 +0300
+Date: Sat, 17 May 2025 19:28:30 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Ilpo =?iso-8859-1?Q?J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
+Cc: Hans de Goede <hdegoede@redhat.com>, linux-gpio@vger.kernel.org,
+	linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+	platform-driver-x86@vger.kernel.org,
+	Linus Walleij <linus.walleij@linaro.org>,
+	Bartosz Golaszewski <brgl@bgdev.pl>,
+	Jonathan Corbet <corbet@lwn.net>, Alex Shi <alexs@kernel.org>,
+	Yanteng Si <si.yanteng@linux.dev>, Dongliang Mu <dzm91@hust.edu.cn>,
+	Stephen Rothwell <sfr@canb.auug.org.au>
+Subject: Re: [PATCH v1 1/1] gpiolib-acpi: Update file references in the
+ Documentation and MAINTAINERS
+Message-ID: <aCi5LitM88RnoN73@smile.fi.intel.com>
+References: <20250516095306.3417798-1-andriy.shevchenko@linux.intel.com>
+ <02bdf242-cbfd-18e2-fabc-82f20823dcbb@linux.intel.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <02bdf242-cbfd-18e2-fabc-82f20823dcbb@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-Hi Lorenzo,
+On Fri, May 16, 2025 at 03:19:11PM +0300, Ilpo Järvinen wrote:
+> On Fri, 16 May 2025, Andy Shevchenko wrote:
 
-On Fri, 16 May 2025 13:57:18 +0100 Lorenzo Stoakes <lorenzo.stoakes@oracle.com> wrote:
-[...]
-> Right now madvise() has limited utility because:
-[...]
-> - While you can perform multiple operations at once via process_madvise(),
->   even to the current process (after my changes to extend it), it's limited
->   to a single advice over 8 ranges.
+...
 
-I'm bit confused by the last part, since I'm understanding your point as 'vlen'
-parameter of process_madvise() is limited to 8, but my test code below succeeds
-with 'vlen' parameter value 512.  Could you please enlighten me?
+> Acked-by: Ilpo Järvinen <ilpo.jarvinen@linux.intel.com>
 
-Attaching my test code below.  You could simply run it as below.
+Thanks!
 
-    gcc test.c && ./a.out
+> I assume this goes through some other tree than pxd86 ?
 
-==== Attachment 0 (test.c) ====
-#define _GNU_SOURCE
+Yes, via Intel GPIO.
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <sys/mman.h>
-#include <sys/syscall.h>
-#include <sys/uio.h>
-#include <unistd.h>
+-- 
+With Best Regards,
+Andy Shevchenko
 
-#define SZ_PAGE (4096)
-#define NR_PAGES (512)
-#define MMAP_SZ	(SZ_PAGE * NR_PAGES)
 
-int main(void)
-{
-	char *buf;
-	unsigned int i;
-	int ret;
-	pid_t pid = getpid();
-	int pidfd = syscall(SYS_pidfd_open, pid, 0);
-	struct iovec *vec;
-
-	buf = mmap(NULL, MMAP_SZ, PROT_READ | PROT_WRITE, MAP_PRIVATE |
-			MAP_ANON, -1, 0);
-	if (buf == MAP_FAILED) {
-		printf("mmap fail\n");
-		return -1;
-	}
-
-	for (i = 0; i < MMAP_SZ; i++)
-		buf[i] = 123;
-
-	vec = malloc(sizeof(*vec) * NR_PAGES);
-	for (i = 0; i < NR_PAGES; i++) {
-		vec[i].iov_base = &buf[i * SZ_PAGE];
-		vec[i].iov_len = SZ_PAGE;
-	}
-
-	ret = syscall(SYS_process_madvise, pidfd, vec, NR_PAGES,
-			MADV_DONTNEED, 0);
-	if (ret != MMAP_SZ) {
-		printf("process_madvise fail\n");
-		return -1;
-	}
-
-	ret = munmap(buf, MMAP_SZ);
-	if (ret) {
-		printf("munmap failed\n");
-		return -1;
-	}
-
-	close(pidfd);
-	printf("good\n");
-	return 0;
-}
