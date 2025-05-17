@@ -1,127 +1,143 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4B14A8F6F;
-	Sat, 17 May 2025 03:33:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A21B1156F5E
+	for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 06:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747452819; cv=none; b=NRHfNaEwOFRM2U7K5tmklKRIzHl13HS7nPL/3Ek/+j1P0HhmxeykZE3yTGfgiV9VkVdiCu6KGRdchGJp57Yu2b0X6BdpxU8/Cs6SwH1EKVvoQOsR9bBGmgHZP7aG7hpQRn3W1tvyvfPtJKEma0iyj1vZ3RLbIAM3wp6xpXRP6dQ=
+	t=1747464487; cv=none; b=SBFj291PsUQ1NjArYKBALGS8r6pJ1dQNTIlMiYHmP68aoQ5/lV9j/gZe5fKnTyZr7no4bCuFgA34P5WmvFG+uG2k4FUkfcY6KPa8an/8OFULENwRePKupVWhcWUjEv9zAhEVTELOLEOt9BBDPPtzKNReNO7YddOHKG20sFa/bFE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747452819; c=relaxed/simple;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=TLJ5Iqo1Wa0Mlb4yLSUhra4839rkZlri5eUHItgMQAoitAfSj23Z01qfjSW0u5qEaMDxFhU5FapvQT/8aaeRGoQTDGTC4FncDZbjJmuyXHyvzhcxw2ASbL2QBtMo//5PWUFYKyDh7PTzATUmlICS3puUyTsLnX6YwR7s57xFV4E=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=HmJ8yckV; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747464487; c=relaxed/simple;
+	bh=xoefSDHoQ2MJkgHc9vHEmIq4AuLZsAA319tBfQ3WAL0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=e4AdRC40Z5nVIy+pHTGfIaFauj5+P+nrOyMuqIi4zbkABgDgOzNVkdQxAI+9iMRGIgi7gLOFURtTD/e3E+9rYif1zPG3UtYZQ8N1ZleXJpGhZtiGB6riQ3jXgPl+DCSInoO6FmxCfyKobur4QKqJzysEzQ2fanha/7b4+vX2kmw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=Dl+WyXLt; arc=none smtp.client-ip=170.10.133.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="HmJ8yckV"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 71CC6C4CEE4;
-	Sat, 17 May 2025 03:33:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747452818;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=HmJ8yckV02na2BlMCmeVWnJjkGQj3zmQIiH34ixgqwRY4AhiFG48HX9ludo2KuTnq
-	 okvf4QqPNMVvOAQ9ptKll0delkhvBYl/9h+8W+fs+8U4b7PwXeZFtWBghG8+nzEvK5
-	 NQXEfG6uQ4XPkiLSNCq98xCbYGj6WugNRJ2yTFi32x2lBJuKrfo5W22QRz111O46M/
-	 qo9z9IYxdwV7t8fFTP7ichoBu1WP5EXFpAT0MbbJkPEvt7fuI9Fn4vrv+JbfTbeuXI
-	 MqxyVRTeIaQQvoG3oS07JNGfE8c/49/ehsjzjhcKCkfE3ecb6c/ljTDkFDwUl3YJf/
-	 HzjrAh0sYgUDQ==
-Date: Fri, 16 May 2025 22:33:37 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="Dl+WyXLt"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747464484;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=xoefSDHoQ2MJkgHc9vHEmIq4AuLZsAA319tBfQ3WAL0=;
+	b=Dl+WyXLtxx32GZORrm5EDLTlkAXRq8u0OFl5v8sZOh1Ak6+sihX9ehrk6sZAsJ+5evMcX1
+	+WGHxHPSwhOmT3tRkO0bzkn6RsxS28DSw8tSja8TjLxRVokX7JzbhLIDfRbTINagvnoJRx
+	yST0Ar98MW41yLhuuWL5D2+UF0jPmlA=
+Received: from mail-yw1-f197.google.com (mail-yw1-f197.google.com
+ [209.85.128.197]) by relay.mimecast.com with ESMTP with STARTTLS
+ (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
+ us-mta-648-xhlTewH4OvuTCqoC2hth0g-1; Sat, 17 May 2025 02:48:02 -0400
+X-MC-Unique: xhlTewH4OvuTCqoC2hth0g-1
+X-Mimecast-MFC-AGG-ID: xhlTewH4OvuTCqoC2hth0g_1747464482
+Received: by mail-yw1-f197.google.com with SMTP id 00721157ae682-70ad3a91ab2so40850387b3.1
+        for <linux-doc@vger.kernel.org>; Fri, 16 May 2025 23:48:02 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747464482; x=1748069282;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xoefSDHoQ2MJkgHc9vHEmIq4AuLZsAA319tBfQ3WAL0=;
+        b=FSkxIQPYB9WQ+sBJ3CodW+dBfjkWwhe9xnyuzxg9ZlgS8rPO5USu6UpI9O7eQXNZGJ
+         yCmivSPZ/NNMtDwSxtQNA+y5M08kUz0H4+J7hh3nIdNgMLIqZ7Vam2gQ8fudWzSQZW6t
+         qRAawIF5E8FB27okSIhHPUPSfgz8g0jSjl9HwRC78cc+pfqNuSd/2u8C5cQA64LRTo1P
+         acUhQGteORV7nURzAtKfT4+YdbhbNDHIbqnypfCM5wZIxDOycQlWp4cYFhEdGFTGR1px
+         SCfNXKoCbGELne7DCUtPaa5TEY4O2zda5AhUlXJmiMDzzHCIrFpS/iMtgLRxpk35L2WO
+         LWwQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWl076RXgO4uUH36YWQteoArt5EVH7d4wnCNNJ4vaQ5Ay4ifwwklJF6+t8xhm8j8/0J9UbDZ802zZ8=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyvvb5lVEgBAwJuoZ2/KcfhQISfT032xCjf2mABrBxw4cXAF+Sa
+	Hi6HfYA7pAHBhcKKKG7Reu2sUYPm6+nF00hRtxHrU6WFOOllcd3cqNueKKAKe5zkp6719bmrtR5
+	6b2rFeBDhZwWRTrqwgTDGVeGiF51jelezIVu4CPYI/3QPfDYi5ocHO9nPgIIeiWx/6knuFKpYVo
+	c3S3D8nPsUfRit6P0Fy6H/hg7PCugel3bNH3mf
+X-Gm-Gg: ASbGncvQiKHtTQffLkuSbVXUD/ff6fsSgd3YwVbGDyv/5roKGW3GKxNvVpFvRTeLpi9
+	tSBaMIK+9skuogFmjJU5ujf0JKnVYR1ZIqxLh1ThjWkw5Vt9qGj026nAYQ07pCMtK9uG2RWQ=
+X-Received: by 2002:a05:690c:3:b0:707:dba5:2e44 with SMTP id 00721157ae682-70ca7ba0d8emr93966777b3.30.1747464482218;
+        Fri, 16 May 2025 23:48:02 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFNMmgN96ppS4R9A56rSKNlS+EhkQE/xJYfY1RrmT+t29R40GTIUMkgVA9ErgvZMyurnYk8q2A+N4SmrSywNXI=
+X-Received: by 2002:a05:690c:3:b0:707:dba5:2e44 with SMTP id
+ 00721157ae682-70ca7ba0d8emr93966347b3.30.1747464481896; Fri, 16 May 2025
+ 23:48:01 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <20250517033337.2fzuaxL-xrDSTTR4C_0TWNbsFJ1U45hbkH4c1fLW99o@z>
+References: <20250515032226.128900-1-npache@redhat.com> <20250515032226.128900-7-npache@redhat.com>
+ <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
+In-Reply-To: <9c54397f-3cbf-4fa2-bf69-ba89613d355f@linux.alibaba.com>
+From: Nico Pache <npache@redhat.com>
+Date: Sat, 17 May 2025 00:47:35 -0600
+X-Gm-Features: AX0GCFs8Yc5oWY97Oxpxk79pJ4fpAxS1pc4Oj0m-wPhCk0WUp_t3490TgtutRYc
+Message-ID: <CAA1CXcC9MB2Nw4MmGajESfH8DhAsh4QvTj4ABG3+Rg2iPi087w@mail.gmail.com>
+Subject: Re: [PATCH v7 06/12] khugepaged: introduce khugepaged_scan_bitmap for
+ mTHP support
+To: Baolin Wang <baolin.wang@linux.alibaba.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-trace-kernel@vger.kernel.org, 
+	david@redhat.com, ziy@nvidia.com, lorenzo.stoakes@oracle.com, 
+	Liam.Howlett@oracle.com, ryan.roberts@arm.com, dev.jain@arm.com, 
+	corbet@lwn.net, rostedt@goodmis.org, mhiramat@kernel.org, 
+	mathieu.desnoyers@efficios.com, akpm@linux-foundation.org, baohua@kernel.org, 
+	willy@infradead.org, peterx@redhat.com, wangkefeng.wang@huawei.com, 
+	usamaarif642@gmail.com, sunnanyong@huawei.com, vishal.moola@gmail.com, 
+	thomas.hellstrom@linux.intel.com, yang@os.amperecomputing.com, 
+	kirill.shutemov@linux.intel.com, aarcange@redhat.com, raquini@redhat.com, 
+	anshuman.khandual@arm.com, catalin.marinas@arm.com, tiwai@suse.de, 
+	will@kernel.org, dave.hansen@linux.intel.com, jack@suse.cz, cl@gentwo.org, 
+	jglisse@google.com, surenb@google.com, zokeefe@google.com, hannes@cmpxchg.org, 
+	rientjes@google.com, mhocko@suse.com, rdunlap@infradead.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Thu, May 15, 2025 at 9:20=E2=80=AFPM Baolin Wang
+<baolin.wang@linux.alibaba.com> wrote:
+>
+>
+>
+> On 2025/5/15 11:22, Nico Pache wrote:
+> > khugepaged scans anons PMD ranges for potential collapse to a hugepage.
+> > To add mTHP support we use this scan to instead record chunks of utiliz=
+ed
+> > sections of the PMD.
+> >
+> > khugepaged_scan_bitmap uses a stack struct to recursively scan a bitmap
+> > that represents chunks of utilized regions. We can then determine what
+> > mTHP size fits best and in the following patch, we set this bitmap whil=
+e
+> > scanning the anon PMD. A minimum collapse order of 2 is used as this is
+> > the lowest order supported by anon memory.
+> >
+> > max_ptes_none is used as a scale to determine how "full" an order must
+> > be before being considered for collapse.
+> >
+> > When attempting to collapse an order that has its order set to "always"
+> > lets always collapse to that order in a greedy manner without
+> > considering the number of bits set.
+> >
+> > Signed-off-by: Nico Pache <npache@redhat.com>
+>
+> Sigh. You still haven't addressed or explained the issues I previously
+> raised [1], so I don't know how to review this patch again...
+Can you still reproduce this issue?
+I can no longer reproduce this issue, that's why I posted... although
+I should have followed up, and looked into what the original issue
+was. Nothing really sticks out so perhaps something in mm-new was
+broken and pulled out... not sure.
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+It should now follow the expected behavior, which is that no mTHP
+collapse occurs because if the PMD size is disabled so is khugepaged
+collapse.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Lmk if you are still experiencing this issue please.
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+Cheers,
+-- Nico
+>
+> [1]
+> https://lore.kernel.org/all/83a66442-b7c7-42e7-af4e-fd211d8ed6f8@linux.al=
+ibaba.com/
+>
 
