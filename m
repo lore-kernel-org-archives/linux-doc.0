@@ -1,609 +1,171 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 683501FAC59;
-	Sat, 17 May 2025 13:18:29 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E11EA202998
+	for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 15:03:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747487909; cv=none; b=M2z57sgbtbgrbtY9oKgi1YT1UQaDupX6bFDerA9SfX7KNjgsuy18XxvtDc9cUav5PmJHvL0BIk7zO8tsDKaJxKGNkw0FxYf2RGh4CSpnJlBTbjO9NvL6NPM8GE73o3c0Dygolp06z0ypcSE+a0vAsOJjqru4tTmuBBKVEFxVt10=
+	t=1747494188; cv=none; b=Dqmw/5CfL87TUSC6b3yvCaUREIutCcook3Kb12MDB4eiRe/JBS6c1ZyWf7Y7KG03mdZa5sH3BC8v+3pypfuAUl8xMGMaaLLHwMzlUL6nQO51nkiztfWLJuTgjBLV7Ow564U7ymjd9HGE++xa16KIJVUOgcFU+jpoVGJvyi6E9QA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747487909; c=relaxed/simple;
-	bh=DJpYyCXPn+0w1uzXrT/Hky91JRRtHMWBS8vbbcW679c=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=D0jI/XOAfBkFfs832el279FKXuB2h76GYmv7MrnWxUkMDxzZItmQmBEept0bizjlL0qnN7bnm2It2N3fQtQEgM0oPBqnpNnW0hgyKwYfaeFuE0aVtS+AlQvFIqGLXvawC6vAggpZEIJRFLFdRcixfkgQvcP+QCFoyYOv+Z5mmAs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=StBG8kwa; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747494188; c=relaxed/simple;
+	bh=0I1eiVOJEdVLLXIohuqFusEWQMPeVi5Dp73/GaN/bZ4=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=j//4SpOZ28wjY/2HdLPhH2D3PjmzxYzWSRA20wHfa8DxAlyt53Ft+pMPqEjGz1EjWpyI6W/RcpIwtwPs6dYG08ghmu1vnPZHUwHZ1D0OmgleI9F0n23KlbO5aPHzuyLug9ahu40ehzQ8dqvjFTPbFjXuzyP2e2spAtGxHWYp4vk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=K4490URf; arc=none smtp.client-ip=209.85.128.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="StBG8kwa"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 853EAC4CEE3;
-	Sat, 17 May 2025 13:18:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747487908;
-	bh=DJpYyCXPn+0w1uzXrT/Hky91JRRtHMWBS8vbbcW679c=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=StBG8kwaObNycElMD+kuJuWeD1ozGf8LTgH414M9nIG3Z2DvfP0Da4aJgWwc/timp
-	 r031X4rbvOIE77qnUnSGKb8+GtgCRtpk7qZ7udf+xmlGJ/DWEw+1a07j3v5Uz+biBa
-	 70oV3Ls6OZlc3AxUtrQtpqeKwM3OREZTyzbXZehQuOTAvgiP6LdvcWDTZ4Yq2eNBUK
-	 oeKDeX1rzKi2Sxf4iRcZ/wZ5IRkQh+L+AGbLrA2cFdz3R9/C4H/xQtRND0krAqL1zu
-	 6ixQ0ZrLB8RaMabdPg8kXMaSc0waDu6GgZpl6cdKG4yqBihWmD20el8AxiBR2zTWNB
-	 w52puZVw7zIfw==
-Date: Sat, 17 May 2025 08:18:27 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="K4490URf"
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-70b4e497d96so27920507b3.2
+        for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 08:03:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=paul-moore.com; s=google; t=1747494185; x=1748098985; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=6NTpCRL9xhCjiiet8qAMOfllcsVau1k8+ucYSc+O5KM=;
+        b=K4490URfks6tr9jn8LqvKaTG0G3arWwIyUz/hYiwUHy5vP69Uk/3qdDOSbzm8zCVmW
+         oElnbeUeKqdv8DBESWoFm8cCLrcRnoe71LeOpOlF6NxaQybDTBf2HL2pm7DorY6SWMc8
+         M7RGF5bGgDbi42iyjYbaYMUZ+/UtD2iB2CDIMVbgEKOrhVw0QDlgC1hqZvwpvSA+B/n/
+         f+4xVtzk6vqX1PHA0/g2gzNPxksXtM1EutFARSBniMpMYifo9mqnF+U8OLaDIcBdyXra
+         cUjiLfghFY5Bf1WPqRxBYcL/Ng/MPVBKbIp+UG/30/Ce9YXnvHMCYvD4RFN/44fJXcY3
+         8rcw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747494185; x=1748098985;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=6NTpCRL9xhCjiiet8qAMOfllcsVau1k8+ucYSc+O5KM=;
+        b=aoLyJ+32m7HxTP2EJlhVwgMJhaBgfUREu/ap2nku7P+ZBLPR/ZFdgGnaIDwc4xZN0z
+         FP3p6/BRqvUaGbQ0efuV7oiXZTZQZKn0nQGstB8ZhADq3SM3ujT2gkzQeVHLcHNBOIq1
+         XpacwTh8yn8n15ZQYtHoZK8AP7afDximR1LNOL0mIYIyz5UxiDa2vvD8/V4//YX8gYnc
+         aHRYaUcACAj0bazIRPrBMavdgyBIGmW3y7aQSHkjIq5NvNKC/iDE/S0jEwway/CX/Xau
+         3WrtsShuWdi+z0hTSQka7lZ7JKZ+FOs5D6VAnvt/XF1nytjCACBSljBM5LUz1VJCc/r0
+         7UjA==
+X-Forwarded-Encrypted: i=1; AJvYcCVRJGk3Eqc5bFefdpM47e3hu1no+TZJUKPQ5GTdFXCpQODWPMCsDqGGO7R899PaGHLZQwe3lbboqNQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yz/Sq6tAsPPV36IGFJVaNTo+dIG+ptKIvTaR8Uvo0Ojp8NZbaP5
+	iaWYuF4Fwfeg5Oywi8q1wsMWuwimVHkClchnTl8M6O1yXl74aLGdEZOKPX5LRbxhQ1hkmxwgItS
+	NlyXQzpnqGD8hHU1PTlmdQHhZk/LsTNi4L36d95M3
+X-Gm-Gg: ASbGncuz+h9gE6ohptiFKuzv6k0gzJBzWbO8s6C74zzayZ6Ta5bd9oUDUF5cTk7xOnv
+	cEZqaTs6GWrEqJCmVRe4nVcUL/B5Vnf6MEq5sjt0g5/m9B2WKaZ3pn2iGTWUWaZfmHNOGDMWwuy
+	/DMPuppT/P6jqzzWRv9jq83U7GzSpFk2jd
+X-Google-Smtp-Source: AGHT+IH4cvXZ2A6B3NQOnryIolvKUjfmtGf2pZQLNvPvX7nedF6oJ2mP2HSmm3dkkvdcM65QuaIOMlI3AMimnH5TpLo=
+X-Received: by 2002:a05:690c:3749:b0:70c:b882:2f3 with SMTP id
+ 00721157ae682-70cb882052emr47413877b3.4.1747494184512; Sat, 17 May 2025
+ 08:03:04 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- linux-doc@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Maxime Ripard <mripard@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Conor Dooley <conor+dt@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- devicetree@vger.kernel.org, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- linux-media@vger.kernel.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, Thomas Zimmermann <tzimmermann@suse.de>, 
- linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org, 
- Simona Vetter <simona@ffwll.ch>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, David Airlie <airlied@gmail.com>, 
- Oded Gabbay <ogabbay@kernel.org>, linaro-mm-sig@lists.linaro.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
-Message-Id: <174748777004.930482.4953696932186780972.robh@kernel.org>
-Subject: Re: [PATCH v3 00/10] New DRM accel driver for Rockchip's RKNN NPU
+References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
+ <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
+ <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
+ <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
+ <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
+ <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
+ <CAHC9VhTeFBhdagvw4cT3EvA72EYCfAn6ToptpE9PWipG9YLrFw@mail.gmail.com> <CAADnVQJ4GDKvLSWuAMdwajA0V2DEw5m-O228QknW8Eo9jxhyig@mail.gmail.com>
+In-Reply-To: <CAADnVQJ4GDKvLSWuAMdwajA0V2DEw5m-O228QknW8Eo9jxhyig@mail.gmail.com>
+From: Paul Moore <paul@paul-moore.com>
+Date: Sat, 17 May 2025 11:02:53 -0400
+X-Gm-Features: AX0GCFuTvPgKKVsi_C1ZZBN1jNV8jcEHmfkcEtykXlcuzLm0gL1ZiUersRDfwfQ
+Message-ID: <CAHC9VhTJcV1mqBpxVUtpLhrN4Y9W_BGgB_La5QCqObGheK28Ug@mail.gmail.com>
+Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
+To: Alexei Starovoitov <alexei.starovoitov@gmail.com>
+Cc: KP Singh <kpsingh@kernel.org>, Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
+	James Bottomley <James.Bottomley@hansenpartnership.com>, bpf <bpf@vger.kernel.org>, 
+	code@tyhicks.com, Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
+	David Howells <dhowells@redhat.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
+	Herbert Xu <herbert@gondor.apana.org.au>, Jarkko Sakkinen <jarkko@kernel.org>, 
+	James Morris <jmorris@namei.org>, Jan Stancek <jstancek@redhat.com>, 
+	Justin Stitt <justinstitt@google.com>, keyrings@vger.kernel.org, 
+	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
+	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
+	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
+	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
+	LSM List <linux-security-module@vger.kernel.org>, 
+	clang-built-linux <llvm@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
+	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
+	Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Neal Gompa <neal@gompa.dev>, 
+	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas@fjasle.eu>, nkapron@google.com, 
+	Roberto Sassu <roberto.sassu@huawei.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
+	Shuah Khan <shuah@kernel.org>, Matteo Croce <teknoraver@meta.com>, 
+	Cong Wang <xiyou.wangcong@gmail.com>, kysrinivasan@gmail.com, 
+	Linus Torvalds <torvalds@linux-foundation.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, May 16, 2025 at 7:49=E2=80=AFPM Alexei Starovoitov
+<alexei.starovoitov@gmail.com> wrote:
+> On Fri, May 16, 2025 at 12:49=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
+ wrote:
+> >
+> > I think we need some clarification on a few of these details, it would
+> > be good if you could answer the questions below about the
+> > authorization aspects of your design?
+> >
+> > * Is the signature validation code in the BPF verifier *always* going
+> > to be enforced when a signature is passed in from userspace?  In other
+> > words, in your design is there going to be either a kernel build time
+> > or runtime configuration knob that could selectively enable (or
+> > disable) signature verification in the BPF verifier?
+>
+> If there is a signature in union bpf_attr and it's incorrect
+> the prog_load command will be rejected.
+> No point in adding a knob to control that.
 
-On Fri, 16 May 2025 18:53:14 +0200, Tomeu Vizoso wrote:
-> This series adds a new driver for the NPU that Rockchip includes in its
-> newer SoCs, developed by them on the NVDLA base.
-> 
-> In its current form, it supports the specific NPU in the RK3588 SoC.
-> 
-> The userspace driver is part of Mesa and an initial draft can be found at:
-> 
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/29698
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> ---
-> Changes in v3:
-> - Reference in the device tree only the register blocks that are
->   actually used.
-> - Several style and robustness fixes suggested in the mailing list.
-> - Added patches from Nicolas Frattaroli that add support to the NPU for
->   the Rock 5B board.
-> - Link to v2: https://lore.kernel.org/r/20250225-6-10-rocket-v2-0-d4dbcfafc141@tomeuvizoso.net
-> 
-> Changes in v2:
-> - Drop patch adding the rk3588 compatible to rockchip-iommu (Sebastian Reichel)
-> - Drop patch adding support for multiple power domains to rockchip-iommu (Sebastian Reichel)
-> - Link to v1: https://lore.kernel.org/r/20240612-6-10-rocket-v1-0-060e48eea250@tomeuvizoso.net
-> 
-> ---
-> Nicolas Frattaroli (2):
->       arm64: dts: rockchip: add pd_npu label for RK3588 power domains
->       arm64: dts: rockchip: enable NPU on ROCK 5B
-> 
-> Tomeu Vizoso (8):
->       dt-bindings: npu: rockchip,rknn: Add bindings
->       arm64: dts: rockchip: Add nodes for NPU and its MMU to rk3588s
->       arm64: dts: rockchip: Enable the NPU on quartzpro64
->       accel/rocket: Add registers header
->       accel/rocket: Add a new driver for Rockchip's NPU
->       accel/rocket: Add IOCTL for BO creation
->       accel/rocket: Add job submission IOCTL
->       accel/rocket: Add IOCTLs for synchronizing memory accesses
-> 
->  Documentation/accel/index.rst                      |    1 +
->  Documentation/accel/rocket/index.rst               |   25 +
->  .../bindings/npu/rockchip,rknn-core.yaml           |  162 +
->  MAINTAINERS                                        |   10 +
->  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi      |   87 +-
->  .../arm64/boot/dts/rockchip/rk3588-quartzpro64.dts |   30 +
->  arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts    |   56 +
->  drivers/accel/Kconfig                              |    1 +
->  drivers/accel/Makefile                             |    1 +
->  drivers/accel/rocket/Kconfig                       |   25 +
->  drivers/accel/rocket/Makefile                      |   10 +
->  drivers/accel/rocket/rocket_core.c                 |  103 +
->  drivers/accel/rocket/rocket_core.h                 |   59 +
->  drivers/accel/rocket/rocket_device.c               |   45 +
->  drivers/accel/rocket/rocket_device.h               |   31 +
->  drivers/accel/rocket/rocket_drv.c                  |  337 ++
->  drivers/accel/rocket/rocket_drv.h                  |   17 +
->  drivers/accel/rocket/rocket_gem.c                  |  211 +
->  drivers/accel/rocket/rocket_gem.h                  |   31 +
->  drivers/accel/rocket/rocket_job.c                  |  723 ++++
->  drivers/accel/rocket/rocket_job.h                  |   50 +
->  drivers/accel/rocket/rocket_registers.h            | 4425 ++++++++++++++++++++
->  include/uapi/drm/rocket_accel.h                    |  145 +
->  23 files changed, 6584 insertions(+), 1 deletion(-)
-> ---
-> base-commit: 46bfbcd135a6df00c49cf043bf2c9c9387bc882d
-> change-id: 20240612-6-10-rocket-9316defc14c7
-> 
-> Best regards,
-> --
-> Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> 
-> 
-> 
+I agree that when a signature is provided and that signature check
+fails, the BPF load should be rejected.  I'm simply trying to
+understand how you envision your design handling all of the cases, not
+just this one, as well as what build and runtime options you expect
+for controlling various aspects of this behavior.
 
+> > * In the case where the signature validation code in the BPF verifier
+> > is active, what happens when a signature is *not* passed in from
+> > userspace?  Will the BPF verifier allow the program load to take
+> > place?  Will the load operation be blocked?  Will the load operation
+> > be subject to a more granular policy, and if so, how do you plan to
+> > incorporate that policy decision into the BPF program load path?
+>
+> If there is no signature the existing loading semantics will remain intac=
+t.
+> We can discuss whether to add a sysctl or cgroup knob to disallow
+> loading when signature is not present ...
 
-My bot found new DTB warnings on the .dts files added or changed in this
-series.
+As mentioned earlier this week, if the BPF verifier is performing the
+signature verification as KP described, we will need a LSM hook after
+the verifier to serve as an access control point.  Of course that
+doesn't preclude the addition of some type of sysctl/cgroup/whatever
+based access control, but the LSM hook would be needed regardless.
 
-Some warnings may be from an existing SoC .dtsi. Or perhaps the warnings
-are fixed by another series. Ultimately, it is up to the platform
-maintainer whether these warnings are acceptable or not. No need to reply
-unless the platform maintainer has comments.
+> but it probably should be a job of trivial LSM ...
 
-If you already ran DT checks and didn't see these error(s), then
-make sure dt-schema is up to date:
+Exactly.  If the LSM is simply verifying the signature validation
+state of the BPF program being loaded it seems like an addition to IPE
+would be the best option from an upstream, in-tree perspective.
+However, with the post verifier LSM hook in place, one could also
+supply a BPF LSM to do something similar.
 
-  pip3 install dtschema --upgrade
+It sounds like we are in agreement on the desirability and need for a
+post verifier LSM hook; we'll keep moving forward with this idea
+despite KP's earlier objections to the hook.
 
+> Note that the prog verification itself is independent of the signature.
+> If prog fails to pass safety checks it will still be rejected
+> even if signature is ok.
 
-This patch series was applied (using b4) to base:
- Base: base-commit 46bfbcd135a6df00c49cf043bf2c9c9387bc882d not known, ignoring
- Base: attempting to guess base-commit...
- Base: tags/v6.15-rc6-20-g4106486839d1 (exact match)
+There is plenty of precedence for a kernel subsystem rejecting a
+security relevant operation before a LSM access control hook is
+called; the reasons range from discretionary access control issues to
+simple matters of resource exhaustion.  The possibility of the BPF
+verifier rejecting the program load due to verifier constraints is
+reasonable and expected.
 
-If this is not the correct base, please add 'base-commit' tag
-(or use b4 which does this automatically)
+> We're not going to do a verifier bypass.
 
-New warnings running 'make CHECK_DTBS=y for arch/arm64/boot/dts/rockchip/' for 20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net:
+Agreed.  I don't recall anyone ever suggesting that as part of this
+recent BPF signature verification effort.
 
-arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-genbook.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-odroid-m2.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5b.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-h96-max-v58.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-armsom-w3.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-ultra.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-jaguar.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6b-io.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-ok3588-c.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-gameforce-ace.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-orangepi-5.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-tiger-haikou.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3582-radxa-e52c.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-toybrick-x0.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-coolpi-4b.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-khadas-edge2.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-friendlyelec-cm3588-nas.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-edgeble-neu6a-io.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-rock-5-itx.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-rock-5a.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-evb1-v10.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-quartzpro64.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-turing-rk1.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-mnt-reform2.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-armsom-sige7.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6-lts.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6c.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-plus.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-nanopc-t6.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-nanopi-r6s.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-orangepi-5-max.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-rock-5c.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-firefly-itx-3588j.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-evb1-v10.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588-coolpi-cm5-evb.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-arch/arm64/boot/dts/rockchip/rk3588s-indiedroid-nova.dtb: npu-core@fdad0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-
-
-
-
-
+--=20
+paul-moore.com
