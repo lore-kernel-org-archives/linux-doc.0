@@ -1,107 +1,112 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.10])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f175.google.com (mail-pf1-f175.google.com [209.85.210.175])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C250F19047F;
-	Sat, 17 May 2025 07:53:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5B6C84B1E45
+	for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 08:33:43 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.175
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747468401; cv=none; b=MLAU+Jp7Jx6aTZqzSH7rhAPMoEya35EWCWtSJFZd1aqkoa6xUisScdD0e/WMJ8dxuUYQ09Z0e25+TZdHT1XazlTPO/ECyaJUMLFejhyw41eg1cYLUqJr3Y4O7NfWs+4QVhCOo+vJJPSXJyDECK8LySLnbztfYHAY7JCiqiD0wgY=
+	t=1747470824; cv=none; b=Ga9zUVhfQrHB4SIBguKMxkNY6krz8dMGnw5J49PEN6tG/p2SnzsUGgxk5tC2y46nyFdgcubdfRqvSKhLczEy0DnSuzZvE2xRMk+caLXDpjh9bKAjMjYrDUlR7tee0Kznj8iWWmpetr3doku4F4cRjrnETUC1kxf3MMhyxddVglc=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747468401; c=relaxed/simple;
-	bh=bkyAutU5aluPJG5m0qPDsBW2dnn+e6enuHRk5zy1yFY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=CfbrnKlOxHwOseZ/hicAMArvLGEG60/FfFT40A4AnBspEqkuCGest7rAgd7iOw2wiFIat83VALDZ37oXw09k2nRA9FMYDXxgnfJMcMjvl2iDkMnA251n0ZFEku0kEURm8xOMRohsrT46BFMuG1Q4tPv9dcSHMpnlVzKd1dWqCvo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=f85PPfWr; arc=none smtp.client-ip=192.198.163.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	s=arc-20240116; t=1747470824; c=relaxed/simple;
+	bh=qgtA86Yosv2NneSBCP+iV6OsZBRXdb4OvstnimqrWXE=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=N9+XpAtbTJ2OILbknvPc8gZ5Pc6V8Ttz7wsN0i+e6AyedDNNGQDTLNMN9KlBMUA9qeearWxqlUQiiHGUVoHIS5sxJlYwSZhR7iJN1Ao5fAP+0lM59F9GDO206LIyF7Jwj1PLoFjNn+pv2JIfaCZxBM9jxyWy7gZbksDpqL4Qmgg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=V6Ov4sdH; arc=none smtp.client-ip=209.85.210.175
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="f85PPfWr"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747468399; x=1779004399;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=bkyAutU5aluPJG5m0qPDsBW2dnn+e6enuHRk5zy1yFY=;
-  b=f85PPfWrqO+DPERBW2hF9Q+6CttejKBV49+cBmPC3n534kAyjfAjqHvp
-   O2A0v1UoBPTMwIADL9AcXXsC624ILAVs/IySbikgSrHuPm0eoOjWn4OCi
-   wZvbns2nYXfrdm3yd+J5zss60gb7AOyF7wxCb+3sBZx8nIJr4P7yxVycg
-   qWIh9koLwl7wA2oAN77SOU66XDmyyg0SSUPMKEQumn3AeILK0o7mp3WnJ
-   2Zw872/ZsSpjT8RG4AbQUwDP2KB8HrwRgUUreJaLYinQP/6PIsQ5wiJgF
-   VnFUcTqnV4AUcPdgu3cZ9rXWFAOyOpob7ww+JfmnAdJYZKdj/JM+6mzh6
-   Q==;
-X-CSE-ConnectionGUID: jRxeT8UnRKqm/2FxYXyRDQ==
-X-CSE-MsgGUID: h5bIKQVSTjyHAqH+rNDIYw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11435"; a="60779423"
-X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
-   d="scan'208";a="60779423"
-Received: from orviesa006.jf.intel.com ([10.64.159.146])
-  by fmvoesa104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 17 May 2025 00:53:18 -0700
-X-CSE-ConnectionGUID: OaTLfoUeSamInBJ4Ny9vxQ==
-X-CSE-MsgGUID: FTIsr3dGQ0uFyh6EnhFRew==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,296,1739865600"; 
-   d="scan'208";a="138808544"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by orviesa006.jf.intel.com with ESMTP; 17 May 2025 00:53:16 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uGCM5-000K0V-29;
-	Sat, 17 May 2025 07:53:13 +0000
-Date: Sat, 17 May 2025 15:53:05 +0800
-From: kernel test robot <lkp@intel.com>
-To: Even Xu <even.xu@intel.com>, jikos@kernel.org, bentiss@kernel.org
-Cc: oe-kbuild-all@lists.linux.dev, srinivas.pandruvada@linux.intel.com,
-	linux-input@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, Even Xu <even.xu@intel.com>,
-	Chong Han <chong.han@intel.com>
-Subject: Re: [PATCH v1 7/7] HID: Intel-thc-hid: Intel-quicki2c: Add two new
- features to PTL
-Message-ID: <202505171535.Yrj5T8jh-lkp@intel.com>
-References: <20250514061944.125857-8-even.xu@intel.com>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="V6Ov4sdH"
+Received: by mail-pf1-f175.google.com with SMTP id d2e1a72fcca58-7427a4def77so3326713b3a.0
+        for <linux-doc@vger.kernel.org>; Sat, 17 May 2025 01:33:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747470822; x=1748075622; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=46W3U69RgmnXuEh9Y5vUZYFbM1wVfN7RR1Zl3hEWpoU=;
+        b=V6Ov4sdHGtu4p1A+qqEl30ZWk8o84wAQPJyVuySToZDa2iaB3TbRBNV9nl/Q2K4pPM
+         5kWk/nE6eQTTruUZUX5VOTYgJouHCIN4McBzbrBXUegnSw9yeBHOFVJ9Q4DKOnjDbxbr
+         k/OFO8RzYqW4o4uoFnompHsMdLe4BBwxFmyBNyTspHDvY6PWffVwjWM2NFLg6g89M4xo
+         DwV3Q+9ZwH3uFq6yOwGeKHtRvp7Ubg+Ot2BobAkIVfIGS4eFBWvqNGzszWvMFoUquzaD
+         +7KWDfci3MgApBQK20TL164acjL62iUout0UEYoTm3clg8A/MPthG0r/mOhwSoqmh21t
+         BEQA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747470822; x=1748075622;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=46W3U69RgmnXuEh9Y5vUZYFbM1wVfN7RR1Zl3hEWpoU=;
+        b=qQFfV0BdU3ixJROCRjySUqUWuQoZgvhXQtDW6MVIy9aqT/I5waLjfTWojJA7kIB5GY
+         dF8zKq7voc0iIrNLJmdNVpnYx9TG4NTMTNC9DG/ICG4861YIb5PQhFYVeY+m1Jh0jxSh
+         6sxP8n+XXG3BuhnHocdESMl+iPUY4YOO+SxGvLVRf2QWPJBAeiaU130kiGh/uDjt0ckR
+         BQjYdB2UdmUgcmmHdG1Wj587jF0h6piE3iaJWJjnRVFIK8PId6yQUFG+2Cx8YHUk98/v
+         hcRmZZjgnv1A+DvjqLUXMbQQlHn7hnXTCpfXDkwUuNOF4Ej09e7yeI51owx36Hccccl+
+         04IA==
+X-Gm-Message-State: AOJu0YwhkbHhy8SYEUDHApbXRgsYVioCFuDo7MTitH5VfVzq/O+zsBVz
+	w1ZEq/4cxd1fX9Ne9y2Lwl4WL1U4jSVGYyIaFwbC52+RHXBuPuxS3Z+p
+X-Gm-Gg: ASbGncvJKXPBtjcQtrSTsRyXqQZYaUn7GzBcuhFNWAsL0RbjcFyO6FII0GeNdfaeXPj
+	bQo4hTX657m1aoH70SrSIyaIfoyN0U1rnugIM68QZFHRhl/LaPxCCZ9LIV+LeCU/66Wtc8BJm+f
+	fsHgCkKNr6P/SjZVz9f0J3/eRO9+P/m5xLNvG0J64iGZA6t+8dBO1uEVOoM42/0zQ1Ehp3HuGan
+	+aJDDoHLBeEyjw43FvXN3MJ2CYVpmJk47sQseiQ9F4RE3smTGGQRI28T71mOtq8M+MLd46s3Bvu
+	OOuBgFr64YxtLznDwO0YahySZp2/nzaVVyZn8ql9x9yYf+/Fe2HbZicwXI4Jwrf2IJzMQxUORHl
+	kOr52Bw==
+X-Google-Smtp-Source: AGHT+IFTbZ9GzDjQsXxuZOL1wswGi5YMveAdD3xRQe0RmvR3Pc6UARz6iAXGf5wZ1VQWK7V/ciyUiA==
+X-Received: by 2002:a05:6a00:9094:b0:736:53f2:87bc with SMTP id d2e1a72fcca58-742acce4f17mr7568603b3a.13.1747470822369;
+        Sat, 17 May 2025 01:33:42 -0700 (PDT)
+Received: from ak-workspace.tail730999.ts.net ([2406:7400:63:a412:9ce1:c852:2f5a:2714])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829b7csm2734652b3a.119.2025.05.17.01.33.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 17 May 2025 01:33:42 -0700 (PDT)
+From: Akshaykumar Gunari <akshaygunari@gmail.com>
+To: skhan@linuxfoundation.org
+Cc: linux-doc@vger.kernel.org,
+	akshaygunari@gmail.com
+Subject: [PATCH] docs: hid: Fix typo in intel-thc-hid.rst
+Date: Sat, 17 May 2025 14:03:34 +0530
+Message-ID: <20250517083334.6766-1-akshaygunari@gmail.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514061944.125857-8-even.xu@intel.com>
+Content-Transfer-Encoding: 8bit
 
-Hi Even,
+Corrected a spelling mistake in Documentation/hid/intel-thc-hid.rst.
+Replaced 'triggerred' with 'triggered' and 'flexiblity' with 'flexibility' to
+improve documentation clarity.
 
-kernel test robot noticed the following build warnings:
+Signed-off-by: Akshaykumar Gunari <akshaygunari@gmail.com>
+---
+ Documentation/hid/intel-thc-hid.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-[auto build test WARNING on hid/for-next]
-[also build test WARNING on linus/master v6.15-rc6 next-20250516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
-
-url:    https://github.com/intel-lab-lkp/linux/commits/Even-Xu/HID-Intel-thc-hid-Intel-thc-Add-thc_dma_content-into-kernel-doc/20250514-142347
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/hid/hid.git for-next
-patch link:    https://lore.kernel.org/r/20250514061944.125857-8-even.xu%40intel.com
-patch subject: [PATCH v1 7/7] HID: Intel-thc-hid: Intel-quicki2c: Add two new features to PTL
-config: x86_64-randconfig-121-20250517 (https://download.01.org/0day-ci/archive/20250517/202505171535.Yrj5T8jh-lkp@intel.com/config)
-compiler: clang version 20.1.2 (https://github.com/llvm/llvm-project 58df0ef89dd64126512e4ee27b4ac3fd8ddf6247)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250517/202505171535.Yrj5T8jh-lkp@intel.com/reproduce)
-
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505171535.Yrj5T8jh-lkp@intel.com/
-
-sparse warnings: (new ones prefixed by >>)
->> drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c:21:23: sparse: sparse: symbol 'ptl_ddata' was not declared. Should it be static?
-
-vim +/ptl_ddata +21 drivers/hid/intel-thc-hid/intel-quicki2c/pci-quicki2c.c
-
-    20	
-  > 21	struct quicki2c_ddata ptl_ddata = {
-    22		.max_detect_size = MAX_RX_DETECT_SIZE_PTL,
-    23	};
-    24	
-
+diff --git a/Documentation/hid/intel-thc-hid.rst b/Documentation/hid/intel-thc-hid.rst
+index 6c417205ac6a..dc9250787fc5 100644
+--- a/Documentation/hid/intel-thc-hid.rst
++++ b/Documentation/hid/intel-thc-hid.rst
+@@ -182,7 +182,7 @@ value and use PIO write (by setting SubIP write opcode) to do a write operation.
+ 
+ THC also includes two GPIO pins, one for interrupt and the other for device reset control.
+ 
+-Interrupt line can be configured to either level triggerred or edge triggerred by setting MMIO
++Interrupt line can be configured to either level triggered or edge triggered by setting MMIO
+ Control register.
+ 
+ Reset line is controlled by BIOS (or EFI) through ACPI _RST method, driver needs to call this
+@@ -302,10 +302,10 @@ waiting for interrupt ready then read out the data from system memory.
+ 3.3.2 Software DMA channel
+ ~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+-THC supports a software triggerred RxDMA mode to read the touch data from touch IC. This SW RxDMA
++THC supports a software triggered RxDMA mode to read the touch data from touch IC. This SW RxDMA
+ is the 3rd THC RxDMA engine with the similar functionalities as the existing two RxDMAs, the only
+-difference is this SW RxDMA is triggerred by software, and RxDMA2 is triggerred by external Touch IC
+-interrupt. It gives a flexiblity to software driver to use RxDMA read Touch IC data in any time.
++difference is this SW RxDMA is triggered by software, and RxDMA2 is triggered by external Touch IC
++interrupt. It gives a flexibility to software driver to use RxDMA read Touch IC data in any time.
+ 
+ Before software starts a SW RxDMA, it shall stop the 1st and 2nd RxDMA, clear PRD read/write pointer
+ and quiesce the device interrupt (THC_DEVINT_QUIESCE_HW_STS = 1), other operations are the same with
 -- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+2.43.0
+
