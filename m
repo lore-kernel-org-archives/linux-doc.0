@@ -1,105 +1,125 @@
-Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.12])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 39B4A21CA12
-	for <linux-doc@vger.kernel.org>; Sun, 18 May 2025 17:37:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9246E21D583;
+	Sun, 18 May 2025 18:07:00 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.12
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747589846; cv=none; b=Vli6aI1kd1w7IL8J7Qynx8x97anJDpKPi5mxmSsgvJwbDTJ39x6xGRUUpNXN6agrHoylEJE2TWQ+6QQXvYLxltYHZ8K1Mq3nykk0b1PPxNwH21dl1vpf0Kut63r6/kQ3InSxMd8LXRxuSKyveEN26Y4mwOtQxOku7JkTKdjXvJs=
+	t=1747591622; cv=none; b=bznDTprcoYLOIjWthaFOAMBRE7MGoUNEaLRr99uu0j5ddM4qQuFbsV0gRXkY46SfIThqHd1bz+eeFAprxPNB25IFrNnYL48ctEaaagbF/U16hFJiTUtV8oc/1aAj2RLYzFzDw+WNsbpdjRB3Q6DDHFyY6BIJlcmjSbkifVXakRo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747589846; c=relaxed/simple;
-	bh=CSRxbM3+T6U5byPtqB+FhmAWooidlHo2X7w37MqtYVE=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=c/UyRR5ubgFO+wjyT5xdn1+RJLACuHp5zj2SOQY5Cutff43S/MwHuHPDxiZ/CmO1dPEM1Xxy0gd1XXMgSwFvIwMitL9ObhvJSwt+xefvZjEihFlzwq+A0IKHBhhO0GtoAEXv+H4WklDgRmzDwPKiAnhulZQdaSBl38BSXe/6/mc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rK2TRKH+; arc=none smtp.client-ip=90.155.92.199
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+	s=arc-20240116; t=1747591622; c=relaxed/simple;
+	bh=pskOUvGEBKAl0vNeYYdPWPN8DH4UBURr9gH4uXhAoYQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pc6SW3p8u/p/aTfZ7ol4aVjmH0Cy1zHHhcQpAhwgmrKKimmd3wRpGCuWB5STuy9c0tgUmy2X99PnWjyNjr0W2tHw3Qy/fW4BdURlYnBOyGBNQhR/PKhW6R+V550MLWCHKY0nZ/Q1aYPGqWPhwgkXthAD5ptiISl9avkqpi7dS1E=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=MBSQVE7X; arc=none smtp.client-ip=192.198.163.12
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rK2TRKH+"
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
-	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
-	Sender:Reply-To:Content-ID:Content-Description;
-	bh=iKn9cvuYfxqJJaFXdXO2+NnISc4hH2vzGer5n9wvfbM=; b=rK2TRKH+h1R6ieAG135MGmJrUJ
-	iJccO3sfNHaDUO83MCttA5zkTlRnRCzd5yoMuLlRRpfWoZIOxsHvrQLaIdzzCUGjQv69pD9DELlRd
-	tsXnetF2D8Anl47doEQ/nuMENOEVPoQoVUAGb7IxiL5o681nLUjRs1cazT2TUBps/+pBMQnNNJbMm
-	aanBKj4BXDNOlfTbRMkYjzl9CiZGImZfeAnaejDX8W2m+wAGd1BqfOkc05TsO98RrkDwrlqBrCSb6
-	5jPGnAZCI1sFi6B8RhmNj+0CjWMNIsg95klnSPL92YQ4ujbnI13VrZ1vdaLBUp+cCf2cotvcrZOrb
-	YTc/6yWQ==;
-Received: from [50.53.25.54] (helo=[192.168.254.17])
-	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
-	id 1uGhwi-00000000VYU-0xZp;
-	Sun, 18 May 2025 17:37:09 +0000
-Message-ID: <a7f91768-a05f-4c1b-afa6-42da1b371e97@infradead.org>
-Date: Sun, 18 May 2025 10:37:04 -0700
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="MBSQVE7X"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747591620; x=1779127620;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=pskOUvGEBKAl0vNeYYdPWPN8DH4UBURr9gH4uXhAoYQ=;
+  b=MBSQVE7XEbY3dosgWk7RLmpzlmu0us6B8FAfg6mDHlMKAP2oF6wrpsgq
+   5FaY3/koUgZ46Sm5efXC2D45QwFvV1fT7qh4ajJg51rUkoADbKyo/r5uw
+   9sKES/FefPivJrZv7u7hLaZ7xz/GyGIpK9DvkDPIclTj8xP4CZw3Iv9zQ
+   ZuUuOufrNE6SixehDJdCCr4DD8ZREGxeI4JLiumSazgin63+glD/nqZeV
+   k3nL+0RXz2y3Y1zQJS/wyp+Ym/koMZ2EhkR6WmZrBWvv5HgVUeKjurovH
+   mgeOta2vFBRi1rG9uvhNuPwNV2mOyOhDlpwgS7TEq1n+lfJoDdHIEW/Kz
+   w==;
+X-CSE-ConnectionGUID: X73GSG06SFKRfK7gJesJyw==
+X-CSE-MsgGUID: 7qcqoqFGS/mA+4Fkv5vDkg==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="53296878"
+X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
+   d="scan'208";a="53296878"
+Received: from orviesa009.jf.intel.com ([10.64.159.149])
+  by fmvoesa106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 May 2025 11:06:59 -0700
+X-CSE-ConnectionGUID: n6mz+/FWR1CZPevGq+cRjg==
+X-CSE-MsgGUID: KxbogY7STF6fUxxxWpNfvQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,299,1739865600"; 
+   d="scan'208";a="138910479"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa009.jf.intel.com with ESMTP; 18 May 2025 11:06:55 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uGiPT-000Ky3-2r;
+	Sun, 18 May 2025 18:06:51 +0000
+Date: Mon, 19 May 2025 02:06:38 +0800
+From: kernel test robot <lkp@intel.com>
+To: Gur Stavi <gur.stavi@huawei.com>, Fan Gong <gongfan1@huawei.com>
+Cc: oe-kbuild-all@lists.linux.dev, netdev@vger.kernel.org,
+	linux-kernel@vger.kernel.org, Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	Andrew Lunn <andrew+netdev@lunn.ch>, linux-doc@vger.kernel.org,
+	Jonathan Corbet <corbet@lwn.net>,
+	Bjorn Helgaas <helgaas@kernel.org>, luosifu <luosifu@huawei.com>,
+	Xin Guo <guoxin09@huawei.com>,
+	Shen Chenyang <shenchenyang1@hisilicon.com>,
+	Zhou Shuai <zhoushuai28@huawei.com>, Wu Like <wulike1@huawei.com>,
+	Shi Jing <shijing34@huawei.com>,
+	Meny Yossefi <meny.yossefi@huawei.com>, Lee Trager <lee@trager.us>,
+	Michael Ellerman <mpe@ellerman.id.au>,
+	Suman Ghosh <sumang@marvell.com>,
+	Przemek Kitszel <przemyslaw.kitszel@intel.com>,
+	Joe Damato <jdamato@fastly.com>,
+	Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: Re: [PATCH net-next v15 1/1] hinic3: module initialization and tx/rx
+ logic
+Message-ID: <202505190148.x7llMRfr-lkp@intel.com>
+References: <b5e005d0f8255df11f052b17a8deb856f8a7bdc2.1747556339.git.gur.stavi@huawei.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH] docs: admin-guide: fix typos in reporting-issues.rst
-To: 10sharmashivam@gmail.com, corbet@lwn.net
-Cc: linux@leemhuis.info, linux-doc@vger.kernel.org,
- linux-kernel-mentees@vger.kernel.org, skhan@linuxfoundation.org
-References: <20250518172658.6983-1-10sharmashivam@gmail.com>
-Content-Language: en-US
-From: Randy Dunlap <rdunlap@infradead.org>
-In-Reply-To: <20250518172658.6983-1-10sharmashivam@gmail.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <b5e005d0f8255df11f052b17a8deb856f8a7bdc2.1747556339.git.gur.stavi@huawei.com>
+
+Hi Gur,
+
+kernel test robot noticed the following build warnings:
+
+[auto build test WARNING on 67fa756408a5359941bea2c021740da5e9ed490d]
+
+url:    https://github.com/intel-lab-lkp/linux/commits/Gur-Stavi/hinic3-module-initialization-and-tx-rx-logic/20250518-160845
+base:   67fa756408a5359941bea2c021740da5e9ed490d
+patch link:    https://lore.kernel.org/r/b5e005d0f8255df11f052b17a8deb856f8a7bdc2.1747556339.git.gur.stavi%40huawei.com
+patch subject: [PATCH net-next v15 1/1] hinic3: module initialization and tx/rx logic
+config: alpha-allyesconfig (https://download.01.org/0day-ci/archive/20250519/202505190148.x7llMRfr-lkp@intel.com/config)
+compiler: alpha-linux-gcc (GCC) 14.2.0
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250519/202505190148.x7llMRfr-lkp@intel.com/reproduce)
+
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505190148.x7llMRfr-lkp@intel.com/
+
+All warnings (new ones prefixed by >>):
+
+   drivers/net/ethernet/huawei/hinic3/hinic3_tx.c: In function 'hinic3_tx_poll':
+>> drivers/net/ethernet/huawei/hinic3/hinic3_tx.c:633:32: warning: variable 'nic_dev' set but not used [-Wunused-but-set-variable]
+     633 |         struct hinic3_nic_dev *nic_dev;
+         |                                ^~~~~~~
 
 
+vim +/nic_dev +633 drivers/net/ethernet/huawei/hinic3/hinic3_tx.c
 
-On 5/18/25 10:26 AM, 10sharmashivam@gmail.com wrote:
-> From: Shivam Sharma <10sharmashivam@gmail.com>
-> 
-> Correct pin-point to pinpoint, If that the case to If that is the case,
-> and its only slightly modified to it's only slightly modified in
-> Documentation/admin-guide/reporting-issues.rst for proper spelling and grammar.
-> 
-> Signed-off-by: Shivam Sharma <10sharmashivam@gmail.com>
-
-Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
-
-Thanks.
-
-> ---
->  Documentation/admin-guide/reporting-issues.rst | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/Documentation/admin-guide/reporting-issues.rst b/Documentation/admin-guide/reporting-issues.rst
-> index 2fd5a030235a..9a847506f6ec 100644
-> --- a/Documentation/admin-guide/reporting-issues.rst
-> +++ b/Documentation/admin-guide/reporting-issues.rst
-> @@ -41,7 +41,7 @@ If you are facing multiple issues with the Linux kernel at once, report each
->  separately. While writing your report, include all information relevant to the
->  issue, like the kernel and the distro used. In case of a regression, CC the
->  regressions mailing list (regressions@lists.linux.dev) to your report. Also try
-> -to pin-point the culprit with a bisection; if you succeed, include its
-> +to pinpoint the culprit with a bisection; if you succeed, include its
->  commit-id and CC everyone in the sign-off-by chain.
->  
->  Once the report is out, answer any questions that come up and help where you
-> @@ -206,7 +206,7 @@ Reporting issues only occurring in older kernel version lines
->  This subsection is for you, if you tried the latest mainline kernel as outlined
->  above, but failed to reproduce your issue there; at the same time you want to
->  see the issue fixed in a still supported stable or longterm series or vendor
-> -kernels regularly rebased on those. If that the case, follow these steps:
-> +kernels regularly rebased on those. If that is the case, follow these steps:
->  
->   * Prepare yourself for the possibility that going through the next few steps
->     might not get the issue solved in older releases: the fix might be too big
-> @@ -312,7 +312,7 @@ small modifications to a kernel based on a recent Linux version; that for
->  example often holds true for the mainline kernels shipped by Debian GNU/Linux
->  Sid or Fedora Rawhide. Some developers will also accept reports about issues
->  with kernels from distributions shipping the latest stable kernel, as long as
-> -its only slightly modified; that for example is often the case for Arch Linux,
-> +it's only slightly modified; that for example is often the case for Arch Linux,
->  regular Fedora releases, and openSUSE Tumbleweed. But keep in mind, you better
->  want to use a mainline Linux and avoid using a stable kernel for this
->  process, as outlined in the section 'Install a fresh kernel for testing' in more
+   625	
+   626	#define HINIC3_BDS_PER_SQ_WQEBB \
+   627		(HINIC3_SQ_WQEBB_SIZE / sizeof(struct hinic3_sq_bufdesc))
+   628	
+   629	bool hinic3_tx_poll(struct hinic3_txq *txq, int budget)
+   630	{
+   631		struct net_device *netdev = txq->netdev;
+   632		u16 hw_ci, sw_ci, q_id = txq->sq->q_id;
+ > 633		struct hinic3_nic_dev *nic_dev;
 
 -- 
-~Randy
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
