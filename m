@@ -1,127 +1,125 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 72AED33C9;
-	Sun, 18 May 2025 09:26:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BA4201FDA;
+	Sun, 18 May 2025 11:13:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747560397; cv=none; b=hBJvJAPAOE3IMxI2BbBr+7GaYdpNLjX9hPHlkkaWYQ3kanjqcMbb9UcW3GN3Ru+S84EakBHF1HmEcKEC4od2DvYUTkurSd6V8McMwEzFX92JdfXj7xVZOIySpabJavcAF2N0lWEqz022CjPRLn6P1/cAuF5mlK7Ixe4AhkqjKTI=
+	t=1747566818; cv=none; b=ahqa7rGmW08SryojNjYQhiFKAY01gLFCepafmS8le+BiMtoEIhp32jiN8bKPzOREThQy6duqyiBOiyjHXzZ4xj8m2we6ssxNq2qMvFSItYJ8lSqMez34WQf30V8Su29T2wVyD3G+0CocQLFxQ4NkhwrI9FUbYJfuvZgK7ICDCw4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747560397; c=relaxed/simple;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=Yh/374buvIAv6DUaLTK/FN/+8vGtrgRQbRWnft602VS5i/2GJXpHHTAekOMi5HkiKCI6CuorzzxxneNP9KbC0ZA9VDfkMzHQvmmc+NnUtZ4mU2quIC1+XPvikcfU4WQJT75kdH1BwTd0ip+tn+lx3yEN85W6EXCk61sTxqE6tjY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=J6AANobj; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747566818; c=relaxed/simple;
+	bh=R+TEraDLDNidnCV2uxbixNQu/nbUtr3STwS7VAkKwZc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=rfSk+ZAbFAWJavyf5ok3/Eyk49VfYKbJdXcq5G5U787Hm74zNGcVz0TgCai/xOWRGaMdjIiijSTfxImAcKKxF69YNLCGVx6DfNzWVKklan2s9fEKKLDcGBxlDeBcov6vuSJuuyKPwdWUO3rz1fqSK3VqeKWjXmTN+tRaI24UO4M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=HqCq/d/8; arc=none smtp.client-ip=209.85.221.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="J6AANobj"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A01A3C4CEE7;
-	Sun, 18 May 2025 09:26:36 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747560396;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=J6AANobjKgcNhsMt0KnvgBjf2rp5qbUANPEGp3iZd5xWq5RxVU/ONdZJ48PYRTQJf
-	 LxAjejZOsy0+jxMGCKzfBT50+jWoAlbpymugkliadWnOjwOkXH/1+shEFiGi//if9L
-	 eDSybT1snCvrkZkOPdXoQYxLbAX40zRH/+dxExBHCPV6b9LV7sR8oFmimtsI0/glbk
-	 iwT3OgKeIb6D6tjAVqvbHDv/q0W8FvZX0R6HXAT/o7a2ohmAntvxLLeJQWZxY0pb8m
-	 Dx4mz/g//1HfL5mp4e8B4LcbTKi32vCm9+jNveunrd5gGTm/YarHtmTzEA4zCAA2Qy
-	 SWZxGa0WfL42Q==
-Date: Sun, 18 May 2025 04:26:35 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="HqCq/d/8"
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-3a368259589so153661f8f.3;
+        Sun, 18 May 2025 04:13:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747566815; x=1748171615; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=udI0P9KnZ4OkRW9TYCKx0BAqR2AQ70yA+7pr8haeQfo=;
+        b=HqCq/d/8748nNvlB1iZMCytbOtlKmrd8yVn4ShdWVPvexkcDkuL/aTSxJJuoBU9UIv
+         61B3qlvm3ReH/0XOnpzb3Iv6mWysnTtrbfsVrVSt14cprdX/YPcTlgWIiXbX78wclD7Q
+         X08yht/nxbtWbUSX0XdIRr3KGG7tfbyFfgTW5kiCmwtPcgZirFMG05y74NoRQPLaVntG
+         YBMDmVCDJybl7SVONO29y1sqS8EMtthl1PmjgZSIGRCr+RQym5K5ezlkO4RXwgKcg51W
+         v9GUopjLoqf5X6/2ob6bOlXntHlm0R3ZEYCJ3w4DEp/QTEoWuG/8kvKYFGlQRR1zf9nn
+         m+Eg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747566815; x=1748171615;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=udI0P9KnZ4OkRW9TYCKx0BAqR2AQ70yA+7pr8haeQfo=;
+        b=m6fx+VLJiWlQUcgkT+mMzLIAPt7q8a1jRnLoJXGh88Tww+7mDT3ZkbI2kRSYQFbxvd
+         ACaxD+Ah//hQa4zTKT/3BKM3pdMwm2VW2JVjdWVBNS5y/75jmBwN68OA2vp0xbDEogMJ
+         SXfOZm2h/5zJnwr199nXpcquXSASqGJ5LvasknEQTT3F5SzawmcQo8RD058ArBmQ/IWw
+         iZ1exwIdKiuX1un9RjANubKp1J8Sx7qYjthbSRAIGg/i3mriNFeptjcR8hyqidzE8ydi
+         viDYmt5liaBxL72A2rRjxS7k3U71SzeRj8stCIo0MRA/GGU1k0ielkXvdqq5PjQM/VC8
+         D3sQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVPIELo04XiqET0u6+DBWVA69H0/je11vlU4jSu8hMhk0D6Fkq0yOXRyF8XdwWGPiz6u2bCBE3Wms0=@vger.kernel.org, AJvYcCVrj8CFUJ3EOEMpf0ixiGqfdOt3xUfMHe4kRWe0/yDD85WvK5NM+WA2j9dT6IK3grd0Z/TOSKPSr25Ipfau@vger.kernel.org
+X-Gm-Message-State: AOJu0YzzDyVhrhbksjB8wI5PxI907Z/WK/YK+1Dv1Bj/GBGnRWeDYHMe
+	Dw3hprld21BDYX0gR0xVORDGTnN9xfin8N/ebjh5vlK7xOPlDqPg2oG2
+X-Gm-Gg: ASbGncsS0vE89jt3h4D78lt1bdA1m7XzcopvX2940KBiSAcHj16JFKXV4u0vafVwOEU
+	gs4qZJUcS3SUDgAQKsESZZ1W8nA8ghfP40FXR6B26CTHq2twTabjjt9QrVSE+oPaqOLg8VMhW24
+	Jo3Utwtszji1U+/1be47DOLyHt+NFfmosGv2SFGIZaDbOSQbDUY/Zwks/p6PxjNWSfhJ/qdaF2U
+	x7NP7pUpPiy5640IehoLY8Wx9rTyc3XQcp+YWbWHksjbddP5kiXlb5PufFxX78aKfiIufzDNSbi
+	K2ApttZ98sDjrYeq/Y2lGDTX6L4iRF1WkOTr9XoAEUQu5YJEgIcHm+8/PrfUj1/ceDyCc1BHbgX
+	HW5Un2c2s+5o4ycWsYK2p4Q==
+X-Google-Smtp-Source: AGHT+IFnS1JrojVbae7P1o//nUXJgNSG7rUZiFcVW+tiUlY+rr/dakFmfpUKqaM+dOoVjm7xhUMGEA==
+X-Received: by 2002:a05:6000:400f:b0:39c:1401:6ede with SMTP id ffacd0b85a97d-3a35c80a23bmr2737364f8f.3.1747566814796;
+        Sun, 18 May 2025 04:13:34 -0700 (PDT)
+Received: from localhost.localdomain (84-72-156-211.dclient.hispeed.ch. [84.72.156.211])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca4d1dfsm9287446f8f.18.2025.05.18.04.13.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 18 May 2025 04:13:34 -0700 (PDT)
+From: Lothar Rubusch <l.rubusch@gmail.com>
+To: jic23@kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	lucas.p.stankus@gmail.com,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com
+Cc: linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Lothar Rubusch <l.rubusch@gmail.com>
+Subject: [PATCH v1 00/12] iio: accel: adxl313: add power-save on activity/inactivity
+Date: Sun, 18 May 2025 11:13:09 +0000
+Message-Id: <20250518111321.75226-1-l.rubusch@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <20250518092635.Kp57E0z2oJLpQgik9ltHIZtdycZeEWV87brhMW6ygBw@z>
+Content-Transfer-Encoding: 8bit
 
+The patch set covers the following topics:
+- add debug register and regmap cache
+- prepare iio channel scan_type and scan_index
+- prepare interrupt handling
+- implement fifo with watermark
+- add activity/inactivity together with auto-sleep with link bit
+- documentation
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+Similar situation and approach as for the ADXL345. AC/DC coupling might be
+a pending option as it is quite the same as for ADXL345.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Since activity and inactivity here are implemented covering all axis, I
+assumed x&y&z. Thus the driver uses a fake channel for activity/inactiviy.
 
-yamllint warnings/errors:
+Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+---
+Lothar Rubusch (12):
+  iio: accel: adxl313: add debug register
+  iio: accel: adxl313: introduce channel scan_index
+  iio: accel: adxl313: configure scan type for buffer
+  iio: accel: adxl313: make use of regmap cache
+  iio: accel: adxl313: add function to enable measurement
+  iio: accel: adxl313: prepare interrupt handling
+  iio: accel: adxl313: add basic interrupt handling
+  iio: accel: adxl313: add FIFO watermark
+  iio: accel: adxl313: add activity sensing
+  iio: accel: adxl313: add inactivity sensing
+  iio: accel: adxl313: implement power-save on inactivity
+  docs: iio: add ADXL313 accelerometer
 
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+ Documentation/iio/adxl313.rst    | 196 +++++++++
+ Documentation/iio/index.rst      |   1 +
+ drivers/iio/accel/adxl313.h      |  35 +-
+ drivers/iio/accel/adxl313_core.c | 658 ++++++++++++++++++++++++++++++-
+ drivers/iio/accel/adxl313_i2c.c  |   6 +
+ drivers/iio/accel/adxl313_spi.c  |   6 +
+ 6 files changed, 893 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/iio/adxl313.rst
 
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+-- 
+2.39.5
 
