@@ -1,96 +1,113 @@
-Received: from mail-pf1-f179.google.com (mail-pf1-f179.google.com [209.85.210.179])
+Received: from mail-ed1-f66.google.com (mail-ed1-f66.google.com [209.85.208.66])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 03211182D7
-	for <linux-doc@vger.kernel.org>; Sun, 18 May 2025 14:02:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.179
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9AA0321CC70;
+	Sun, 18 May 2025 14:42:36 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.66
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747576974; cv=none; b=oobZjxShA36eHXOkPOCeq56cD3QIbv3SsaLCKAlP72uf9b7i3VfOpUBDMU5OR6sgY8CFvKJn5A/a1xpy+wYXcePvFtoTcRprfkkAymohRpn3TpfDwvGZ6PBPuObdcjwLNlkTfH1kVjpnBoHP93xIjEx70a7ptX4u8yHnkOMv/As=
+	t=1747579358; cv=none; b=YNkmUv2vfep/IE43ZVDQNCElQW/Nv5No4BvdSQq3psdxCWb9PuISBZb0zIH63EDcfYLiYOU5IHsJuSN45NnvTAi3AoxmPJUCZq2ceuaB8PKQkvIc3hCBFTF9Bqcevj0bcuSVhjKD6mHD8JOturnXylHgcQPd5/e/15eNrdAiogg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747576974; c=relaxed/simple;
-	bh=d1HvxwGZsiv8u1F0MMX7hbxvK/sQWlak+mL76ubJS+Q=;
-	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=SDdfNdWxCNQxBvmH/XL+2Mdzws+XR3UhJ2MfekC5A+CWIgb2TWSVh5oMyRIVQgd5qRP/DYeJ4+xqdJZ/hnPzZU7ggOAyLrB1mgGHN1fsFC62A5gnoy44JXdA0uuXy79JcnjNf6xbDVGlj+9ZC+d0Pyw91DMJo9E9gDm6MX/TbgI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcZ55+E3; arc=none smtp.client-ip=209.85.210.179
+	s=arc-20240116; t=1747579358; c=relaxed/simple;
+	bh=rAUybgx3w08Pk16V3V7ElWMaPW68BeTRsRpRxxQzxeE=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=S1PO2xylGll94R/nHkgM/fczSfgeBTBNCUPWXd+AIM14ale7NIk1t3FbzhOR1IIuzM8dLLnZMamAhvP7JUocLFXGIPlls+RUyTAAMERX6iyUlcN9E8zgDzkjackaLw8PImIFER/bM7X4RuREbty72vgdZiNPxLtMUry3Nq68AXM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=G1bdDZCh; arc=none smtp.client-ip=209.85.208.66
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcZ55+E3"
-Received: by mail-pf1-f179.google.com with SMTP id d2e1a72fcca58-74267c68c11so3189901b3a.0
-        for <linux-doc@vger.kernel.org>; Sun, 18 May 2025 07:02:52 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="G1bdDZCh"
+Received: by mail-ed1-f66.google.com with SMTP id 4fb4d7f45d1cf-600210e4219so4856566a12.0;
+        Sun, 18 May 2025 07:42:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747576972; x=1748181772; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to;
-        bh=Fsy/1/2jfhTrQ8yFSRwPaazrBwxXz9myqjSPmcjdTek=;
-        b=ZcZ55+E3denlU1z+tiJ+D4oKGtyTXStJ0RvJe1Id1gwMfKh8i6zlYPeZQBAlzN7nck
-         h3eqnq6vZVW/C2NRcQS2U2byZ87f4nOzX06kcH8FnlAzElt4KvgZVXivx9wCt1L5aDIm
-         SApH5FbPHyGpHiJc26MBdBNmsa3sBPJ8UupafjHUB5hVpvfNL0T9F+clpTfUdVTvhhYb
-         11YVWajuR73P/AlzJ3I3Vbzu/8PQn88qYkCHA3CLQMDXb6ei7yn+M97Ea67ciVCfFwWV
-         edDszfe163EAXSIU5/ers+Mu3Aaiw3hknZgGwpF+Yojc2I8CSdRp8zGfxocHxyqQzMBW
-         koOA==
+        d=gmail.com; s=20230601; t=1747579355; x=1748184155; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=rAUybgx3w08Pk16V3V7ElWMaPW68BeTRsRpRxxQzxeE=;
+        b=G1bdDZChhUwF2sG9iVs+z/F/5uX1r5kqzCa7/RAF39YNgFr5Ju19V4F5od73pYxw9b
+         BY02mHbrtNRrItX4s7d5HHt21X5GO7w0dGd0oFV4JsXRWqoKnfOXFT2n4+OIZ3/5gbCG
+         9Iiw4s5LFnnzd/grzoN3S1fVp1g22VkE6PYr8iQMx1cYb1ILwS+4Rq1cSUQfD8OLWmak
+         4Ofuow556uEVs6Q4e1+N73AXzIGpy0XL/vmEYJXHIh2bj/e5IhIrooh/eK8c4UgkTXvp
+         3tny1iEy17VP7QnRNC02oyWoTXvpGWgImMKilKUr1dUJ2wWw5uPNpOcPFw940WBbdEkM
+         9osg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747576972; x=1748181772;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=Fsy/1/2jfhTrQ8yFSRwPaazrBwxXz9myqjSPmcjdTek=;
-        b=cbnWB9KELzW2ylDZEHR428Zckje862jFOxeKBO3GU2+okCMMDKF3SHaanqIYxQYQRv
-         xGMmvy1FRZjMMoYYWOdOXbrzT3MxfcJrnxCwEMzoFDmvk6HPa26n94dSQ0vPgcmzfVW2
-         II25YgGnfUee4+8+Xk1UHaKau1tDPyFWDMVH3i+k8qqWpOmvNqGBMzwP0yKhiathmOCV
-         OPvCl/FFmBayciml9RZnGN/W+lQLlMLCMYFw+qwkfNtrDkNIdmOlAhuW/FvWFrga5FVB
-         TlEt8+myGsekBgZaAyn86BUM3/pxPYfqgXzEBUv5DG2ccYjmcoAUG51fAYUrTRwyx7ib
-         Cnhg==
-X-Forwarded-Encrypted: i=1; AJvYcCXn7zx8xsQ4Uz/8LW4KeZTxgpvU7C8lGu8I55s6zuqttMpqSaQlI9KN5KHgAENvPIYcRSOq6gT1Jy0=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxBpcLCR2udXDdiff/rI/I8lXSlmr/vhvl1aAbq4H/YKQcJtRiw
-	qR8Q9mxOLR6+xgfuyDSWfkUUoPtopv9uMBsrBcWZoiDgGRWUGp3SbGXW
-X-Gm-Gg: ASbGncsm7xHiwqZZdC6lHq9Ewe1szOgeorm79d8Qwm2N74INUpHAGP3nRwKx0Xwwewx
-	FMsXh8zHka0uj2cnerMWOdP8OaWQCQ9Vc9luiv+OBw4DkVhsleEsd6TYRXNxq+eAIiYpW+b/PXp
-	BOJRqbuzlmCUDttp8dzcTqzRg5gKB/7Vcu5ELiFZvDK+J0RUJbhZWTrcJuafypHkheNGok50WyC
-	ztvChkG8QBtBAr9oXmNuNXPOMbdaO44/xpmAvc628XHgUK26KCXY3OEWs90O7YodfomqyJ0BnyA
-	c9n7vPHU+dHUSiCz5UDd1J9DM2XFQ24GJUsLI7cLbH1rtZ8Cn35fFbZG/xMelGQNxzl4pw==
-X-Google-Smtp-Source: AGHT+IFWVlgoy86Ca//+WDZja6kxlAwBtvJ14qE1042DmKmudax7KJPnkF29yOYElYTXfa2jhTC0vw==
-X-Received: by 2002:a05:6a00:9094:b0:736:57cb:f2b6 with SMTP id d2e1a72fcca58-742acce138dmr12728298b3a.12.1747576970595;
-        Sun, 18 May 2025 07:02:50 -0700 (PDT)
-Received: from localhost.localdomain ([45.252.73.168])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a98a4755sm4685230b3a.179.2025.05.18.07.02.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 May 2025 07:02:50 -0700 (PDT)
-From: Anish Dabhane <anishdabhane71@gmail.com>
-To: corbet@lwn.net,
-	skhan@linuxfoundation.org,
-	linux-kernel-mentees@lists.linux.dev
-Cc: Anish Dabhane <anishdabhane71@gmail.com>,
-	linux-doc@vger.kernel.org
-Subject: [PATCH] Fix spelling error for 'parallel'
-Date: Sun, 18 May 2025 19:31:03 +0530
-Message-ID: <20250518140107.21310-1-anishdabhane71@gmail.com>
-X-Mailer: git-send-email 2.49.0
+        d=1e100.net; s=20230601; t=1747579355; x=1748184155;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=rAUybgx3w08Pk16V3V7ElWMaPW68BeTRsRpRxxQzxeE=;
+        b=nin/U/PbR07oLePzhN5mU1XPjJzfQirSLbesBbenRDJW8Yuytunp/9qv+ZISA+m2Ew
+         ouL2eibE6WEZYRdczmsGk27KCbT4dj5Ssk6l23ATji+jZsWnaPXZMu1JUHSUhzhx1BJk
+         x3B6Jkesw9KjG1JLXDYzWoJD/A70EUzNAPEFmauQhNy94o1KBwUH/rE3+VLGqzv19oXP
+         wduSum7t1M0Drn6UKaPqTPksCi5VhUyUi69tI3uClmcVevmxhcrC9HcPqyzqInZIdU6f
+         tgouh7XnL/WtKFY8+G4oOEgfaRXkRr1aSVow+ZsZuj7PRGzXZ2jGmNe5OO3pO1ArqzXe
+         zlbA==
+X-Forwarded-Encrypted: i=1; AJvYcCUh2XN1qysNgyScsPKSIauxItG+OjnwyUF6MxxkJJQArbtl5liifIBrhB1Z8SZI3rqcoBEMXyGisciMemYOWRYD@vger.kernel.org, AJvYcCUvxjxEtd8Ee7FW3gBVRIomRPyyRb1PPLIWD0YsHO3zUCace1c7VmBD7ttWP/+dG9I5Uv9L048kpDYs@vger.kernel.org, AJvYcCWlKabIPOI1wx0FzIypnjsbACZh61xYgoJ0dIaH8BOfRE7d3srJYYnZdAk75FEO45eiYyy4GzUo0DdK4RQ=@vger.kernel.org, AJvYcCWvb5nL4+qmLv/R1MX0s1Iu780VInluxfwoFhRCB73KDmZ2uT7M8b39soNgYgzVFe71atoX8Dd7t7MD@vger.kernel.org, AJvYcCXo6NiD6uHdxET/tatyKdf2JNLfyv4FGvG2YDNByGQeI7pJeC5Fzt4DjOfmziZWndt9t1Yt/THi/owtdYEZ@vger.kernel.org
+X-Gm-Message-State: AOJu0YyloTETXRsazmoivtTNjujBtDMpUd8mAcgNnnqaglx7Je3E9OAv
+	9NkWBPOj/k7uPJZ+ZFxpK2ubJ9csWwgE5JkZmjbToO86vyO9d93Po2vd+KwVEInsnNuUANZhNLL
+	xB6ToQTn8bXJF8h+wR+UCm/ZK8sucRCE=
+X-Gm-Gg: ASbGncsERKVSxQ7BRt1dL5UuEoye3hAsbwQCqzfuJK37N2XywRz6nAyJ3yXt+x3fopY
+	uCS9Jwda/RA+hMqNTBFfRRW8MZOlvpk7AUctjf+fTsltsN1E5y1mYAh86zvYi3fbPd5I1BlwmLY
+	WwjXhLa2+++fVdn02RiPR27gmAWMphhQ==
+X-Google-Smtp-Source: AGHT+IHB++m0GR0lO5TfW8cZq+R6bSxHcLUjm6jGofGJAl2FV1P4JdhTYEzSIBs2qV2FvWjm0WoY9STztiddXe/xN+k=
+X-Received: by 2002:a17:907:7d8d:b0:ad5:4998:9f1a with SMTP id
+ a640c23a62f3a-ad549a7e5e8mr600457266b.5.1747579354599; Sun, 18 May 2025
+ 07:42:34 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <18F9BD47-282D-4225-AB6B-FDA4AD52D7AE@gmail.com>
+ <9b18e8e3-f3e2-48d4-839a-56e1d8f62657@intel.com> <03d0db6b-628e-4a5e-8e71-852233b83f60@apertussolutions.com>
+ <fbb23ee0-c0b4-4b0e-8861-940f8ceaf161@intel.com>
+In-Reply-To: <fbb23ee0-c0b4-4b0e-8861-940f8ceaf161@intel.com>
+From: Mike <mikewallacesmith90@gmail.com>
+Date: Sun, 18 May 2025 09:42:23 -0500
+X-Gm-Features: AX0GCFuU42_TMoi_HKtSGmNW7XrkC1FL6iyDZjOSvOw7NwM1rf6CdCYLar4WcGI
+Message-ID: <CAAyYeYjp0v2PYt1owTdOpQD8_NjakquyXbUr5M1a_OWLEKHQ0A@mail.gmail.com>
+Subject: Re: [PATCH v14 00/19] x86: Trenchboot secure dynamic launch Linux
+ kernel support
+To: Dave Hansen <dave.hansen@intel.com>
+Cc: "Daniel P. Smith" <dpsmith@apertussolutions.com>, Rich Persaud <persaur@gmail.com>, 
+	Ross Philipson <ross.philipson@oracle.com>, linux-kernel@vger.kernel.org, x86@kernel.org, 
+	linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-crypto@vger.kernel.org, kexec@lists.infradead.org, 
+	linux-efi@vger.kernel.org, iommu@lists.linux.dev, tglx@linutronix.de, 
+	mingo@redhat.com, bp@alien8.de, hpa@zytor.com, dave.hansen@linux.intel.com, 
+	ardb@kernel.org, mjg59@srcf.ucam.org, James.Bottomley@hansenpartnership.com, 
+	peterhuewe@gmx.de, jarkko@kernel.org, jgg@ziepe.ca, luto@amacapital.net, 
+	nivedita@alum.mit.edu, herbert@gondor.apana.org.au, davem@davemloft.net, 
+	corbet@lwn.net, ebiederm@xmission.com, dwmw2@infradead.org, 
+	baolu.lu@linux.intel.com, kanth.ghatraju@oracle.com, 
+	andrew.cooper3@citrix.com, trenchboot-devel@googlegroups.com, 
+	Sergii Dmytruk <sergii.dmytruk@3mdeb.com>, openxt@googlegroups.com, 
+	"Mowka, Mateusz" <mateusz.mowka@intel.com>, Ning Sun <ning.sun@intel.com>, 
+	tboot-devel@lists.sourceforge.net
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Anish Dabhane <anishdabhane71@gmail.com>
----
- Documentation/gpu/rfc/i915_scheduler.rst | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Mon, Apr 28, 2025 at 7:57=E2=80=AFPM Dave Hansen <dave.hansen@intel.com>=
+ wrote:
+>
+> On 4/28/25 17:04, Daniel P. Smith wrote:
+> >> OK, but why do this in Linux as opposed to tboot? Right now, much of t=
+he
+> >> TXT magic is done outside of the kernel. Why do it *IN* the kernel?
+> >
+> > There was a patch set submitted to tboot to add AMD support. It was
+> > rejected as tboot is solely focused on Intel TXT implementation.
+> >
+> > This meant I either had to go the route of yet another standalone loade=
+r
+> > kernel or do it in the kernel. Doing it as an external loader would hav=
+e
+> > required a new set of touchpoints, like the one you are highlighting. A=
+t
+> > which point, I am sure I would have gotten the question of why I didn't
+> > do it in the kernel.
 
-diff --git a/Documentation/gpu/rfc/i915_scheduler.rst b/Documentation/gpu/rfc/i915_scheduler.rst
-index c237ebc024cd..2974525f0ac5 100644
---- a/Documentation/gpu/rfc/i915_scheduler.rst
-+++ b/Documentation/gpu/rfc/i915_scheduler.rst
-@@ -26,7 +26,7 @@ i915 with the DRM scheduler is:
- 	  which configures a slot with N contexts
- 	* After I915_CONTEXT_ENGINES_EXT_PARALLEL a user can submit N batches to
- 	  a slot in a single execbuf IOCTL and the batches run on the GPU in
--	  paralllel
-+	  parallel
- 	* Initially only for GuC submission but execlists can be supported if
- 	  needed
- * Convert the i915 to use the DRM scheduler
--- 
-2.49.0
+Will this cause any patent infringement issues in Linux [1]?
 
+1. https://patents.google.com/patent/US9075995B2
