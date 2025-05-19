@@ -1,96 +1,388 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id AF1DA281346;
-	Mon, 19 May 2025 15:40:20 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B178279907
+	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 15:59:30 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747669222; cv=none; b=QurPCTXyk/LC8lOYms/CYCT/+IE2Xat8FpeAQ859EVLDoCHj8UYuNq3kVFZSUOUTaS+J+u8gvW5x1CVC/hlrSxaBVxEFfcWMZb9nRj2osEfN7Dw9q/pu0VpwLJdy27xRia2hDmz3PTToSlAlB+pahthwbEq9h+vcgi+TaBDunlA=
+	t=1747670372; cv=none; b=pIb1kSOo0Iu4nibQdx2f3daOzjoVFJk0dTbqlRx7WkX+aKrSoULG3bKhUJRv05LoKlT0L5ia8YKvYBX5n8DogQL2SubDvDpxdbBQDpIKgsMAjdRctqrI2y/XFxVdKcYNtCuhFXxsiKwNAYc3NrnkvXDCKWLaTIQNTYdUGS18xac=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747669222; c=relaxed/simple;
-	bh=BM/Dl5qWCkMnJg16IPiFKB0N4stAnTqyudz0G2oBd3Q=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=pA9e0f2RDtLHu8xnABNNQs56LoW+DcyF/ZUJpbjmrmg6wxhxpTbpjLYTwcMuQcVwPUmjABA+GcSBCOm4S6HXwzw8hOYlj+ZAWjG/an4o4OVCKX+RA60hkSEicjWSNJ7l5dAmyEYKc7MnnR73jw0ZYnsfrAGh0Yoy/yHRFBAFvLM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=XIqp4KIr; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1747670372; c=relaxed/simple;
+	bh=q3Yw+OBX0QTm6oPq+h1IDg4NKnRFK6FTU0+fyigY/L0=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=EG0yNJGeZZRXOGN0raaUE0f/GqoO7Nl9otu4H33FLGzfgCffWVPoP0HoY/s7pdSc6FdXJ/VNx/k66dtRS8t3IB5ShJtmMJXBzGs4/1nalxdtWE4A612ZwxmYwmORSRDtxViL+KwijwT5ZkHVfvv6sI5QA3C8yUbfEAzU7/iqHBo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=moXqK21p; arc=none smtp.client-ip=209.85.208.46
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="XIqp4KIr"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 61B3D41AA1
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1747669219; bh=NsIpsnCHMaMX+L15e7tjvSysbCwRgG5P+DOALl6smkY=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=XIqp4KIrZbxWevhvMsGnazsroPPopIYmYQ4Zp9YyfirCSncs81GyuxYz1djcggK5T
-	 U0vTUgwiADRBmVVqZkVVF4JDwtg0TcmUsPn3gWNUy7b4cK0Y6kmZhAToo/TuLfR/Ha
-	 TRhxzxWOPQu7zLmfZOqSSOHQluSk8D5coBz6oW7ePMXtaXaX32JIiuc0OalkEHSGMM
-	 1JwVon9qVfrjkkWeT72fDD6Q6RyLqsnfbJhQUHvfkFntRmYAZhV5f+vKtfdVp63lJw
-	 yHT/EAA8VeKjQzlYblZ+O5zbmS/sdgINTkI9QJorwZ/2XNWmHyEtuejRvdC+D3Igfk
-	 flbFcoIS7Q2bg==
-Received: from localhost (mdns.lwn.net [45.79.72.68])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id 61B3D41AA1;
-	Mon, 19 May 2025 15:40:18 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Jesung Yang <y.j3ms.n@gmail.com>
-Cc: Vineet Gupta <vgupta@kernel.org>, Catalin Marinas
- <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>, Guo Ren
- <guoren@kernel.org>, Brian Cain <bcain@kernel.org>, Huacai Chen
- <chenhuacai@kernel.org>, WANG Xuerui <kernel@xen0n.name>, Dinh Nguyen
- <dinguyen@kernel.org>, Jonas Bonn <jonas@southpole.se>, Stefan
- Kristiansson <stefan.kristiansson@saunalahti.fi>, Stafford Horne
- <shorne@gmail.com>, Paul Walmsley <paul.walmsley@sifive.com>, Palmer
- Dabbelt <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>, Alexandre
- Ghiti <alex@ghiti.fr>, linux-snps-arc@lists.infradead.org,
- linux-arm-kernel@lists.infradead.org, linux-csky@vger.kernel.org,
- linux-hexagon@vger.kernel.org, loongarch@lists.linux.dev,
- linux-openrisc@vger.kernel.org, linux-riscv@lists.infradead.org,
- workflows@vger.kernel.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, Jesung Yang <y.j3ms.n@gmail.com>
-Subject: Re: [PATCH] docs: align with scripts/syscall.tbl migration
-In-Reply-To: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
-References: <20250506194841.1567737-1-y.j3ms.n@gmail.com>
-Date: Mon, 19 May 2025 09:40:15 -0600
-Message-ID: <87ldqsip7k.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="moXqK21p"
+Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-601f278369bso2089301a12.1
+        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 08:59:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747670369; x=1748275169; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=5iq8LHyv9RV/CVDgUxqSajyS8K6FiqWuTrvwgcmvX60=;
+        b=moXqK21pjVsLn4NTh1tINtcojbnJavZe2Yq84WWIus8/FpDVkQfRfJnurCk2YOo+Uj
+         Pe5d12H1wuEJp1GV3aIyU2nOkn6nFm2J077BvnyETaB/p+Yfb858EITGLRThCvdnOFSV
+         KzERB5D5GT4wB8ME54snuVGN3TPcfVZNC0Y6eZTnQLIbJYyMdUGsG4VxlICLeyQn4F4a
+         pRjvdIG096/D1SB2nJrMDvyxst0uukxJdqvyVe9uv9Q4NIT2GfYsCcJJV2NztuT5eIex
+         B9CTL5c1mFvqWBGFdlrGvmE7z3Bo8aazKxESsa7RPWHdelXmTLm98pZtv6sWRwkjU7kE
+         rV9w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747670369; x=1748275169;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=5iq8LHyv9RV/CVDgUxqSajyS8K6FiqWuTrvwgcmvX60=;
+        b=HmovpvbEq6N0KvqtfgsSv9vOd6zU0inRIb0uomxi60/OQSeSaU25cn7EZa2693s0o0
+         tQKTyqh5VG4xa1FxnSc0Gwk5e+0P68tNqOedY6zKLygD1BbcJQbc7HOXZujdCGygxNgE
+         MdjA2xH2tqUOIR0iYozEJaANMrJzvuenz/1Jx0oAi5+xjdDv9fFEeYQYuFgoebQYkNm4
+         8a5jncj31FwJlY9KrkFVNct5P69MFxQIq3xDEybfcll18M3lqzUFwGG6xhdHvitdx7F0
+         Vtxp/E+KsOW6UcsTPujvr1tZe4aHRSvNWqYu2fFWoblJ8ufcfegkGQ2+YJfEdsKvx79+
+         v1Jw==
+X-Forwarded-Encrypted: i=1; AJvYcCVdMpVyuYivVtV7S8UtMCwj96b2SE2Qw5DPeVJ/m9I84AnQbw8ChNB7cjWje6Xt94ZxoyCLVrgwysw=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxB5/+GARvkNVV3QLNzdfWVZnfq9kanO8AAS+fm/FuU6BybbPQG
+	f/IaX+506u8CoqtGwLQMuUQNTZpdXTQNb42S0ftsZMYb8etZ++tHso3+URvNSHaqRMFZOnKUe1g
+	nBLI1ADWADLRKOy5rvIK77u5baFelmAZMK/xjI6cW
+X-Gm-Gg: ASbGnctrb0b3FSEODi+WBLjVrkzXU1MTM874cu15FaA8fCR/JKMdFiGGqOF7i4wF4vc
+	96icA6ocdefo3H3vz2KOb2u+CrszE0+b9gH6bxlXMaLeXCYJvlLmJSOTL7nalSL7w4i9QFc/u66
+	BjKCxLORLBsBrYloxEEGlu+t+OlL5ijJ8s4lWFTYs6a6RNsGEk/qFnraofAPYASaQ=
+X-Google-Smtp-Source: AGHT+IGHx7XYjznCA8NoWXqp8glIQFM7/slQY0nVa3dI7cbvYzCYsaMwznG/WKqMNPIcF9nk92x5mVcesT0TGEvb910=
+X-Received: by 2002:a05:6402:1e90:b0:601:f4ff:c637 with SMTP id
+ 4fb4d7f45d1cf-601f4ffc768mr2532082a12.16.1747670368456; Mon, 19 May 2025
+ 08:59:28 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+References: <cover.1747349530.git.babu.moger@amd.com>
+In-Reply-To: <cover.1747349530.git.babu.moger@amd.com>
+From: Peter Newman <peternewman@google.com>
+Date: Mon, 19 May 2025 17:59:17 +0200
+X-Gm-Features: AX0GCFtpVLCPJ3bEF9V3Lsx_tKe6Jbl3hAbpo7h2eiLnTQscgwKyjo2KmUM019g
+Message-ID: <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Babu Moger <babu.moger@amd.com>
+Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, james.morse@arm.com, dave.martin@arm.com, 
+	fenghuay@nvidia.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, 
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org, 
+	ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, alexandre.chartre@oracle.com, 
+	pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com, 
+	ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com, 
+	andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com, Xiaojian.Du@amd.com, 
+	gautham.shenoy@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Jesung Yang <y.j3ms.n@gmail.com> writes:
+Hi Babu,
 
-> Update the documentation to reflect the migration of the following
-> architectures to the centralized syscall table format:
+On Fri, May 16, 2025 at 12:52=E2=80=AFAM Babu Moger <babu.moger@amd.com> wr=
+ote:
 >
->   arc, arm64, csky, hexagon, loongarch, nios2, openrisc, riscv
 >
-> As of commit 3db80c999debbad ("riscv: convert to generic syscall table"),
-> these architectures no longer rely on include/uapi/asm-generic/unistd.h.
-> Instead, syscall table headers (syscall_table_{32,64}.h) are generated by
-> scripts/syscalltbl.sh based on entries in scripts/syscall.tbl, with ABIs
-> specified in arch/*/kernel/Makefile.syscalls.
+> This series adds the support for Assignable Bandwidth Monitoring Counters
+> (ABMC). It is also called QoS RMID Pinning feature
 >
-> For the convenience of developers working with older kernel versions, the
-> original documentation is fully retained, with new sections added to
-> cover the scripts/syscall.tbl approach.
+> Series is written such that it is easier to support other assignable
+> features supported from different vendors.
 >
-> Verified with `make htmldocs`.
+> The feature details are documented in the  APM listed below [1].
+> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
+> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
+> Monitoring (ABMC). The documentation is available at
+> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
 >
-> Signed-off-by: Jesung Yang <y.j3ms.n@gmail.com>
-> Link: https://lore.kernel.org/lkml/20240704143611.2979589-1-arnd@kernel.org
+> The patches are based on top of commit
+> 92a09c47464d0 (tag: v6.15-rc5, tip/irq/merge) Linux 6.15-rc5
+> plus
+> https://lore.kernel.org/lkml/20250515165855.31452-1-james.morse@arm.com/
+>
+> It is very clear these patches will go after James's resctrl FS/ARCH
+> restructure. Hoping to avoid one review cycle due to the merge.
+>
+> # Introduction
+>
+> Users can create as many monitor groups as RMIDs supported by the hardwar=
+e.
+> However, bandwidth monitoring feature on AMD system only guarantees that
+> RMIDs currently assigned to a processor will be tracked by hardware.
+> The counters of any other RMIDs which are no longer being tracked will be
+> reset to zero. The MBM event counters return "Unavailable" for the RMIDs
+> that are not tracked by hardware. So, there can be only limited number of
+> groups that can give guaranteed monitoring numbers. With ever changing
+> configurations there is no way to definitely know which of these groups
+> are being tracked for certain point of time. Users do not have the option
+> to monitor a group or set of groups for certain period of time without
+> worrying about counter being reset in between.
+>
+> The ABMC feature provides an option to the user to assign a hardware
+> counter to an RMID, event pair and monitor the bandwidth as long as it is
+> assigned.  The assigned RMID will be tracked by the hardware until the us=
+er
+> unassigns it manually. There is no need to worry about counters being res=
+et
+> during this period. Additionally, the user can specify a bitmask identify=
+ing
+> the specific bandwidth types from the given source to track with the coun=
+ter.
+>
+> Without ABMC enabled, monitoring will work in current 'default' mode with=
+out
+> assignment option.
+>
+> # History
+>
+> Earlier implementation of ABMC had dependancy on BMEC (Bandwidth Monitori=
+ng
+> Event Configuration). Peter had concerns with that implementation because
+> it may be not be compatible with ARM's MPAM.
+>
+> Here are the threads discussing the concerns and new interface to address=
+ the concerns.
+> https://lore.kernel.org/lkml/CALPaoCg97cLVVAcacnarp+880xjsedEWGJPXhYpy4P7=
+=3Dky4MZw@mail.gmail.com/
+> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=3DkVLBzhfNo0SFqt4kQGwGS=
+GVUqvr2Dg@mail.gmail.com/
+>
+> Here are the finalized requirements based on the discussion:
+>
+> *   Remove BMEC dependency on the ABMC feature.
+>
+> *   Eliminate global assignment listing. The interface
+>     /sys/fs/resctrl/info/L3_MON/mbm_assign_control is no longer required.
+>
+> *   Create the configuration directories at /sys/fs/resctrl/info/L3_MON/c=
+ounter_configs/.
+>     The configuration file names should be free-form, allowing users to c=
+reate them as needed.
+>
+> *   Perform assignment listing at the group level by introducing mbm_L3_a=
+ssignments
+>     in each monitoring group. The listing should provide the following de=
+tails:
+>
+>     Event Configuration: Specifies the event configuration applied. This =
+will be crucial
+>     when "mkdir" on event configuration is added in the future, leading t=
+o the creation
+>     of mon_data/mon_l3_*/<event configuration>.
+>
+>     Domains: Identifies the domains where the configuration is applied, s=
+upporting multi-domain setups.
+>
+>     Assignment Type: Indicates whether the assignment is Exclusive (e or =
+d), Shared (s), or Unassigned (_).
+>
+> *   Provide option to enable or disable auto assignment when new group is=
+ created.
 
-I'm not sure anybody has looked at this ... but nobody has complained,
-anyway.
+So far I was able to reenable MBM on AMD implementations (for some
+users) while deferring on the counter assignment interface discussion
+by just making shared assignment the default for newly-created groups.
+Until they want to upgrade assignments to exclusive or break down
+traffic with multiple counters to watch a particular group more
+closely, they won't need to change any assignments.
 
-I have applied it but ... it seems like this document needs a more
-thorough refresh rather than just adding some "actually, don't do it
-that way on these architectures" notes?  Hopefully somebody will find
-the energy to do that at some point.
+Just pointing out that this turned out to be a useful first step in
+deploying ABMC support.
+
+>
+> This series tries to address all the requirements listed above.
+>
+> # Implementation details
+>
+> Create a generic interface aimed to support user space assignment of scar=
+ce
+> counters used for monitoring. First usage of interface is by ABMC with op=
+tion
+> to expand usage to "soft-ABMC" and MPAM counters in future.
+
+I'll try to identify any issues I've encountered with "soft-ABMC".
+Hopefully I'll be able to share a sample implementation based on these
+patches soon.
+
+There's now more interest in Google for allowing explicit control of
+where RMIDs are assigned on Intel platforms. Even though the number of
+RMIDs implemented by hardware tends to be roughly the number of
+containers they want to support, they often still need to create
+containers when all RMIDs have already been allocated, which is not
+currently allowed. Once the container has been created and starts
+running, it's no longer possible to move its threads into a monitoring
+group whenever RMIDs should become available again, so it's important
+for resctrl to maintain an accurate task list for a container even
+when RMIDs are not available.
+
+>
+> Feature adds following interface files:
+>
+> /sys/fs/resctrl/info/L3_MON/mbm_assign_mode: Reports the list of assignab=
+le
+> monitoring features supported. The enclosed brackets indicate which
+> feature is enabled.
+>
+> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of monitori=
+ng
+> counters available for assignment.
+
+Earlier I discussed with Reinette[1] what num_mbm_cntrs should
+represent in a "soft-ABMC" implementation where assignment is
+implemented by assigning an RMID, which would result in all events
+being assigned at once.
+
+My main concern is how many "counters" you can assign by assigning
+RMIDs. I recall Reinette proposed reporting the number of groups which
+can be assigned separately from counters which can be assigned.
+
+>
+> /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs: Reports the number of mo=
+nitoring
+> counters free in each domain.
+>
+> /sys/fs/resctrl/info/L3_MON/counter_configs : Directory to hold the count=
+er configuration.
+>
+> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/event_filter =
+: Default configuration
+> for MBM total events.
+>
+> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes/event_filter =
+: Default configuration
+> for MBM local events.
+
+IIUC, this needs to be implemented now so you can drop BMEC with this serie=
+s?
+
+>
+> /sys/fs/resctrl/mbm_L3_assignments: Interface to list or modify assignmen=
+t states on each group.
+>
+> # Examples
+>
+> a. Check if ABMC support is available
+>         #mount -t resctrl resctrl /sys/fs/resctrl/
+>
+>         # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
+>         [mbm_cntr_assign]
+>         default
+>
+>         ABMC feature is detected and it is enabled.
+>
+> b. Check how many ABMC counters are available.
+>
+>         # cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+>         32
+>
+> c. Check how many ABMC counters are available in each domain.
+>
+>         # cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs
+>         0=3D30;1=3D30
+>
+> d. Check default counter configuration.
+>
+>         # cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes=
+/event_filter
+>         local_reads, remote_reads, local_non_temporal_writes, remote_non_=
+temporal_writes,
+>         local_reads_slow_memory, remote_reads_slow_memory, dirty_victim_w=
+rites_all
+>
+>         # cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes=
+/event_filter
+>         local_reads, local_non_temporal_writes, local_reads_slow_memory
+>
+> e. Series adds a new interface file "mbm_L3_assignments" in each monitori=
+ng group
+>    to list and modify any group's monitoring states.
+
+To confirm, would we have "mbm_<resource_name>_assignments" for each
+resource where MBM-ish events could be assigned?
+
+>
+>         The list is displayed in the following format:
+>
+>         <Event configuration>:<Domain id>=3D<Assignment type>
+
+For soft-ABMC assignment, is there just a single event configuration
+representing all the events tracked by the RMID?
+
+>
+>         Event configuration: A valid event configuration listed in the
+>         /sys/fs/resctrl/info/L3_MON/counter_configs directory.
+>
+>         Domain ID: A valid domain ID number.
+>
+>         Assignment types:
+>
+>         _ : No event configuration assigned
+>
+>         e : Event configuration assigned in exclusive mode
+>
+>         To list the default group states:
+>         # cat /sys/fs/resctrl/mbm_L3_assignments
+>         mbm_total_bytes:0=3De;1=3De
+>         mbm_local_bytes:0=3De;1=3De
+>
+>         To unassign the configuration of mbm_total_bytes on domain 0:
+>         #echo "mbm_total_bytes:0=3D_" > mbm_L3_assignments
+>         #cat mbm_L3_assignments
+>         mbm_total_bytes:0=3D_;1=3De
+>         mbm_local_bytes:0=3De;1=3De
+>
+>         To unassign the mbm_total_bytes configuration on all domains:
+>         $echo "mbm_total_bytes:*=3D_" > mbm_L3_assignments
+>         $cat mbm_L3_assignments
+>         mbm_total_bytes:0=3D_;1=3D_
+>         mbm_local_bytes:0=3De;1=3De
+>
+>         To assign the mbm_total_bytes configuration on all domains in exc=
+lusive mode:
+>         $echo "mbm_total_bytes:*=3De" > mbm_L3_assignments
+>         $cat mbm_L3_assignments
+>         mbm_total_bytes:0=3De;1=3De
+>         mbm_local_bytes:0=3De;1=3De
+>
+> g. Read the events mbm_total_bytes and mbm_local_bytes of the default gro=
+up.
+>    There is no change in reading the events with ABMC. If the event is un=
+assigned
+>    when reading, then the read will come back as "Unassigned".
+>
+>         # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
+>         779247936
+>         # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
+>         765207488
+>
+> h. Check the default event configurations.
+>
+>         #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/=
+event_filter
+>         local_reads, remote_reads, local_non_temporal_writes, remote_non_=
+temporal_writes,
+>         local_reads_slow_memory, remote_reads_slow_memory, dirty_victim_w=
+rites_all
+>
+>         #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes/=
+event_filter
+>         local_reads, local_non_temporal_writes, local_reads_slow_memory
+
+These look like the BMEC event names converted from camel case. Will
+event filter programming be portable?
 
 Thanks,
+-Peter
 
-jon
+
+[1] https://lore.kernel.org/lkml/b3babdac-da08-4dfd-9544-47db31d574f5@intel=
+.com/
