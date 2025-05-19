@@ -1,135 +1,165 @@
-Received: from galois.linutronix.de (Galois.linutronix.de [193.142.43.55])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9003226B2D8;
-	Mon, 19 May 2025 08:42:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=193.142.43.55
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2ED56210FB;
+	Mon, 19 May 2025 08:48:05 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747644146; cv=none; b=HKdKxxV4UqFQgv4UJ1Y2GGSZi9Q5K42+J4tzl/f2GKhpKwoZ5WEEAX+HsxAZt6F/j3Zfm00HSLtC9EgK1KIxxPoUI3VsetFqVMlx4MOtdhquYr2eIFIRceIpEUZA5wmAhtAZm4cwDaDu/zrGFNmV9V66lXE9XPnFB7bKKflSVUk=
+	t=1747644487; cv=none; b=skQtlqKdkRs5nVARFNQvTdJqKGOEDgDFzNpBkM2A0LoLIdTuUTsm+9+4y48Lo82KPPCXyaDhSGeZj3CYw/waquv5VbxLJOgBZGYbDmH2nAeWg30nxHLtgkeFPZaWU4nmCaa2PTixV5xtcGJmzv1y9h/bqvryZbScxjymSebD/SM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747644146; c=relaxed/simple;
-	bh=/HRLDkt+Ui17Ewjay2IkB2Ip02Jr3M9xwlPXp7quBVw=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Tdk/4DmM0slBbgKAApSLzxk2ZlrTRhKvidk2NB1ixwfHc3rrCWicmbUWy/8KNyPJ7+aBod7dkhAe+Pqt6XG1Rj8aPEZzD3BpWfVTcLDcASs3AD4nfZo6+pLEeiw5M2CHRcM/Jaz60qfyKpzxt9S20qGkstn8m2u2FNqd9GVSD7U=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de; spf=pass smtp.mailfrom=linutronix.de; dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=vyWqfl2e; dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b=aqomLv1G; arc=none smtp.client-ip=193.142.43.55
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linutronix.de
+	s=arc-20240116; t=1747644487; c=relaxed/simple;
+	bh=e2P5kIf12pmhzIP6nIe0ke4cFpoL7ha0XqwOXr3qDxQ=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=RRWL+nFfSJkz1Q2FQ6JBJm3rnUKWPleDpXumjI48dbqwnqwJm35Nrvf7D/3qioQSBjJVZ9u4fvkUn0MW+801mVKnoMxwqMAQepK+nDLdL2slvZgUjdskqcaW6Uq7KF/zwYTTX6crVjSuNGeFF3arBaurBB6zKS3vGjzh3m7n8ps=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=vJ0jq/7V; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="vyWqfl2e";
-	dkim=permerror (0-bit key) header.d=linutronix.de header.i=@linutronix.de header.b="aqomLv1G"
-Date: Mon, 19 May 2025 10:42:20 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020; t=1747644142;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QCQgi10UR992dlQaoDPJB7yxvwRcrEs7GWQVXJ/StA8=;
-	b=vyWqfl2e01zzIkoAlczlLbWUZsXt3dFksf2d0OsI9vjBOZEBCeWAuQ1aTB5Pwebs2dMShy
-	FfYUtKMWXG34vxokQ3xeeLsTXmiLT6C+pBh9K7gwuI7dkch6pnlG6E/ft0rlh3pH0g/h2J
-	3dE6gd4Wd5VNq28Sw0wShGkfZlfAaRPRfsWH1uSks/GOtojb7uCzqsDExH4le7p5nt/Sfw
-	5dwIRqNymrKZQX8mu6GsDQ+LZQVcXTN3p3mjBDOGUXZm3OFY31tkhdMlPwqQqvEr+p4RE+
-	ahYQWHklXVxaDveXunbVC3kZMmC/U5hpRrBKkf2UZNQ/jhWEKBPHkiq238Y6Tg==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-	s=2020e; t=1747644142;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 in-reply-to:in-reply-to:references:references;
-	bh=QCQgi10UR992dlQaoDPJB7yxvwRcrEs7GWQVXJ/StA8=;
-	b=aqomLv1Gmgp7tEXc8UIWNdjxYTH53YmENrIPEIM37jiONNWWjvTBMotaA7OwApJrXrwvUZ
-	mhuDNhOCakK05fCA==
-From: Nam Cao <namcao@linutronix.de>
-To: Gabriele Monaco <gmonaco@redhat.com>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Masami Hiramatsu <mhiramat@kernel.org>,
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	Ingo Molnar <mingo@redhat.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Tomas Glozar <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>
-Subject: Re: [RFC PATCH v2 07/12] rv: Adapt the sco monitor to the new
- set_state
-Message-ID: <20250519084220.iProU-cg@linutronix.de>
-References: <20250514084314.57976-1-gmonaco@redhat.com>
- <20250514084314.57976-8-gmonaco@redhat.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="vJ0jq/7V"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 25C08C4CEE4;
+	Mon, 19 May 2025 08:47:59 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747644485;
+	bh=e2P5kIf12pmhzIP6nIe0ke4cFpoL7ha0XqwOXr3qDxQ=;
+	h=Date:Subject:To:Cc:References:From:In-Reply-To:From;
+	b=vJ0jq/7VyJqgSVlYbHkY5RMeRQrUJfL5za0MN+a/59F4KhWyWMMQ6dl/a3ckFH8Uc
+	 MNrm9ChLSNlVW4O6+z9boGrKsTkOgr15pBcs+uSILRksNIjMBms7HbKKZTPMmPBX3x
+	 tWj6/UBUq0hQurFJ3nA8cWXrs1Pdxz3sL8rZ2QELa8k8msyHR1U58i518qoWNG68bk
+	 wOdflOyC3mVuyOpm33gLCbhCqiCICYX09t2Z8POZTv+x9iImZd6AhnTtjAeWgi1NSI
+	 sVjzkX0GuisIjD98xnvir5VDUrBCWTUzpjZ2WWODwSZW9xUbd5PvXxtKTU6ozPUOdK
+	 5LOc0kJBgm3hg==
+Message-ID: <f8cf2c4e-0ae2-4799-bda8-654b4f515846@kernel.org>
+Date: Mon, 19 May 2025 10:47:57 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250514084314.57976-8-gmonaco@redhat.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v3 02/10] arm64: dts: rockchip: Add nodes for NPU and its
+ MMU to rk3588s
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Cc: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>,
+ Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>,
+ Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>,
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>,
+ David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
+ Sumit Semwal <sumit.semwal@linaro.org>,
+ =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+ Sebastian Reichel <sebastian.reichel@collabora.com>,
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org, linux-rockchip@lists.infradead.org,
+ linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org,
+ linux-doc@vger.kernel.org, linux-media@vger.kernel.org,
+ linaro-mm-sig@lists.linaro.org
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-2-7051ac9225db@tomeuvizoso.net>
+ <4bd79c88-7da5-4bf0-9300-cfdb296c8919@kernel.org>
+ <CAAObsKDsO=5uK3BEn6BOgatb+y73jc-Se6mmSbhwG9P_1nVtwg@mail.gmail.com>
+From: Krzysztof Kozlowski <krzk@kernel.org>
+Content-Language: en-US
+Autocrypt: addr=krzk@kernel.org; keydata=
+ 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 a/A=
+In-Reply-To: <CAAObsKDsO=5uK3BEn6BOgatb+y73jc-Se6mmSbhwG9P_1nVtwg@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 
-On Wed, May 14, 2025 at 10:43:09AM +0200, Gabriele Monaco wrote:
->  	.function = {
-> -		{     thread_context_sco, scheduling_context_sco,          INVALID_STATE },
-> -		{          INVALID_STATE,          INVALID_STATE,     thread_context_sco },
-> +		{     thread_context_sco,          INVALID_STATE, scheduling_context_sco,          INVALID_STATE },
-> +		{          INVALID_STATE, scheduling_context_sco,          INVALID_STATE,     thread_context_sco },
+On 19/05/2025 10:27, Tomeu Vizoso wrote:
+> On Mon, May 19, 2025 at 8:08 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>>
+>> On 16/05/2025 18:53, Tomeu Vizoso wrote:
+>>> See Chapter 36 "RKNN" from the RK3588 TRM (Part 1).
+>>>
+>>> This is a derivative of NVIDIA's NVDLA, but with its own front-end
+>>> processor.
+>>>
+>>> The IP is divided in three cores, programmed independently. The first
+>>> core though is special, requiring to be powered on before any of the
+>>> others can be used.
+>>>
+>>> The IOMMU of the first core is also special in that it has two subunits
+>>> (read/write?) that need to be programmed in sync.
+>>>
+>>> v2:
+>>> - Have one device for each NPU core (Sebastian Reichel)
+>>> - Have one device for each IOMMU (Sebastian Reichel)
+>>> - Correctly sort nodes (Diederik de Haas)
+>>> - Add rockchip,iommu compatible to IOMMU nodes (Sebastian Reichel)
+>>>
+>>> v3:
+>>> - Adapt to a split of the register block in the DT bindings (Nicolas
+>>>   Frattaroli)
+>>>
+>>> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+>>> ---
+>>>  arch/arm64/boot/dts/rockchip/rk3588-base.dtsi | 85 +++++++++++++++++++++++++++
+>>>  1 file changed, 85 insertions(+)
+>>>
+>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+>>> index 1e18ad93ba0ebdad31642b88ff0f90ef4e8dc76f..7b961ab838212fad8e4a70390fdc917a828433a9 100644
+>>> --- a/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+>>> +++ b/arch/arm64/boot/dts/rockchip/rk3588-base.dtsi
+>>> @@ -1136,6 +1136,91 @@ power-domain@RK3588_PD_SDMMC {
+>>>               };
+>>>       };
+>>>
+>>> +     rknn_core_top: npu-core@fdab0000 {
+>>
+>> npu@
+>>
+>>> +             compatible = "rockchip,rk3588-rknn-core-top", "rockchip,rknn-core-top";
+>>
+>> You never tested this. Test before sending instead of relying on us or
+>> after merging.
+> 
+> Can you please extend on this? I have tested this series before
+> sending and I don't understand what you mean here.
 
-This is over the 100 column limit.
-
-I know it is not your fault, this is generated. Back when I was playing
-with DA monitor, I made a patch to fix this. Maybe you could include it in
-your series?
-
-From b4fb648398a29a9c0d8e08bd12394978d3948a5e Mon Sep 17 00:00:00 2001
-From: Nam Cao <namcao@linutronix.de>
-Date: Fri, 15 Nov 2024 14:56:33 +0100
-Subject: [PATCH] tools/rv/dot2c: Fix generated files going over 100 column
- limit
-
-The dot2c.py script generates all states in a single line. This breaks the
-100 column limit when the state machines are non-trivial.
-
-Change dot2c.py to generate the states in separate lines.
-
-Signed-off-by: Nam Cao <namcao@linutronix.de>
----
- tools/verification/rvgen/rvgen/dot2c.py | 13 +++----------
- 1 file changed, 3 insertions(+), 10 deletions(-)
-
-diff --git a/tools/verification/rvgen/rvgen/dot2c.py b/tools/verification/rvgen/rvgen/dot2c.py
-index 6009caf568d9..abc0ee569b34 100644
---- a/tools/verification/rvgen/rvgen/dot2c.py
-+++ b/tools/verification/rvgen/rvgen/dot2c.py
-@@ -152,29 +152,22 @@ class Dot2c(Automata):
-         max_state_name = max(self.states, key = len).__len__()
-         return max(max_state_name, self.invalid_state_str.__len__())
- 
--    def __get_state_string_length(self):
--        maxlen = self.__get_max_strlen_of_states() + self.enum_suffix.__len__()
--        return "%" + str(maxlen) + "s"
--
-     def get_aut_init_function(self):
-         nr_states = self.states.__len__()
-         nr_events = self.events.__len__()
-         buff = []
- 
--        strformat = self.__get_state_string_length()
--
-         for x in range(nr_states):
--            line = "\t\t{ "
-+            buff.append("\t\t{")
-             for y in range(nr_events):
-                 next_state = self.function[x][y]
-                 if next_state != self.invalid_state_str:
-                     next_state = self.function[x][y] + self.enum_suffix
- 
-                 if y != nr_events-1:
--                    line = line + strformat % next_state + ", "
-+                    buff.append(''.join(("\t\t\t", next_state, ",")))
-                 else:
--                    line = line + strformat % next_state + " },"
--            buff.append(line)
-+                    buff.append(''.join(("\t\t\t", next_state, "\n\t\t},")))
- 
-         return self.__buff_to_string(buff)
- 
--- 
-2.39.5
-
+I mean exactly that: it was not tested, because warnings are clearly
+visible/expected. I also found now Rob's report which even shows you the
+warnings, so how come you still claim this was tested?
 
 Best regards,
-Nam
+Krzysztof
