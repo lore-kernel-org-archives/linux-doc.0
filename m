@@ -1,388 +1,225 @@
-Received: from mail-ed1-f46.google.com (mail-ed1-f46.google.com [209.85.208.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7B178279907
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 15:59:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.208.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06A3278E42
+	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 16:59:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747670372; cv=none; b=pIb1kSOo0Iu4nibQdx2f3daOzjoVFJk0dTbqlRx7WkX+aKrSoULG3bKhUJRv05LoKlT0L5ia8YKvYBX5n8DogQL2SubDvDpxdbBQDpIKgsMAjdRctqrI2y/XFxVdKcYNtCuhFXxsiKwNAYc3NrnkvXDCKWLaTIQNTYdUGS18xac=
+	t=1747673973; cv=none; b=WDCrruBspWZeSms8r599IZMJKbfj9veIfr02mV4wynxVos9LQJds8A11vinsEkeuPtC5CmWHCctrf1tZGl0ZI8IMMipjDPl0gQfV2xOBSBBsM/87gIT34ZsS3T6Fg/6UnzZubtb8ttD8hmM0PkfLviImPuHGz5ovtRAQh0VK9hk=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747670372; c=relaxed/simple;
-	bh=q3Yw+OBX0QTm6oPq+h1IDg4NKnRFK6FTU0+fyigY/L0=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=EG0yNJGeZZRXOGN0raaUE0f/GqoO7Nl9otu4H33FLGzfgCffWVPoP0HoY/s7pdSc6FdXJ/VNx/k66dtRS8t3IB5ShJtmMJXBzGs4/1nalxdtWE4A612ZwxmYwmORSRDtxViL+KwijwT5ZkHVfvv6sI5QA3C8yUbfEAzU7/iqHBo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=moXqK21p; arc=none smtp.client-ip=209.85.208.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
+	s=arc-20240116; t=1747673973; c=relaxed/simple;
+	bh=zuoMwm3Fi1tu/yOuE4z8nGew8+H+DeVtGJuNkhaiCGE=;
+	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
+	 In-Reply-To:Content-Type; b=poq7HzANiZJLVlpYPRTlGme1MCTtxGEMzFTpfaMdri9bz1PKUU+B6zZuNEDf9fDCgqn4Xwk0HRPu+B0jQCzdD3SuO7/iH/sZ1BmPbe91iMwVKHGp8dr6DgFIodjThd2FuYwbcpOTKW0tL7vriIPf5ZdNdJXqx0QPdOf1tsuRUv8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SB0R6nNh; arc=none smtp.client-ip=170.10.129.124
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="moXqK21p"
-Received: by mail-ed1-f46.google.com with SMTP id 4fb4d7f45d1cf-601f278369bso2089301a12.1
-        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 08:59:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747670369; x=1748275169; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=5iq8LHyv9RV/CVDgUxqSajyS8K6FiqWuTrvwgcmvX60=;
-        b=moXqK21pjVsLn4NTh1tINtcojbnJavZe2Yq84WWIus8/FpDVkQfRfJnurCk2YOo+Uj
-         Pe5d12H1wuEJp1GV3aIyU2nOkn6nFm2J077BvnyETaB/p+Yfb858EITGLRThCvdnOFSV
-         KzERB5D5GT4wB8ME54snuVGN3TPcfVZNC0Y6eZTnQLIbJYyMdUGsG4VxlICLeyQn4F4a
-         pRjvdIG096/D1SB2nJrMDvyxst0uukxJdqvyVe9uv9Q4NIT2GfYsCcJJV2NztuT5eIex
-         B9CTL5c1mFvqWBGFdlrGvmE7z3Bo8aazKxESsa7RPWHdelXmTLm98pZtv6sWRwkjU7kE
-         rV9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747670369; x=1748275169;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=5iq8LHyv9RV/CVDgUxqSajyS8K6FiqWuTrvwgcmvX60=;
-        b=HmovpvbEq6N0KvqtfgsSv9vOd6zU0inRIb0uomxi60/OQSeSaU25cn7EZa2693s0o0
-         tQKTyqh5VG4xa1FxnSc0Gwk5e+0P68tNqOedY6zKLygD1BbcJQbc7HOXZujdCGygxNgE
-         MdjA2xH2tqUOIR0iYozEJaANMrJzvuenz/1Jx0oAi5+xjdDv9fFEeYQYuFgoebQYkNm4
-         8a5jncj31FwJlY9KrkFVNct5P69MFxQIq3xDEybfcll18M3lqzUFwGG6xhdHvitdx7F0
-         Vtxp/E+KsOW6UcsTPujvr1tZe4aHRSvNWqYu2fFWoblJ8ufcfegkGQ2+YJfEdsKvx79+
-         v1Jw==
-X-Forwarded-Encrypted: i=1; AJvYcCVdMpVyuYivVtV7S8UtMCwj96b2SE2Qw5DPeVJ/m9I84AnQbw8ChNB7cjWje6Xt94ZxoyCLVrgwysw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxB5/+GARvkNVV3QLNzdfWVZnfq9kanO8AAS+fm/FuU6BybbPQG
-	f/IaX+506u8CoqtGwLQMuUQNTZpdXTQNb42S0ftsZMYb8etZ++tHso3+URvNSHaqRMFZOnKUe1g
-	nBLI1ADWADLRKOy5rvIK77u5baFelmAZMK/xjI6cW
-X-Gm-Gg: ASbGnctrb0b3FSEODi+WBLjVrkzXU1MTM874cu15FaA8fCR/JKMdFiGGqOF7i4wF4vc
-	96icA6ocdefo3H3vz2KOb2u+CrszE0+b9gH6bxlXMaLeXCYJvlLmJSOTL7nalSL7w4i9QFc/u66
-	BjKCxLORLBsBrYloxEEGlu+t+OlL5ijJ8s4lWFTYs6a6RNsGEk/qFnraofAPYASaQ=
-X-Google-Smtp-Source: AGHT+IGHx7XYjznCA8NoWXqp8glIQFM7/slQY0nVa3dI7cbvYzCYsaMwznG/WKqMNPIcF9nk92x5mVcesT0TGEvb910=
-X-Received: by 2002:a05:6402:1e90:b0:601:f4ff:c637 with SMTP id
- 4fb4d7f45d1cf-601f4ffc768mr2532082a12.16.1747670368456; Mon, 19 May 2025
- 08:59:28 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SB0R6nNh"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+	s=mimecast20190719; t=1747673970;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=de5QczKhzDILlofV3VvBYBfmYguEK4gP2S/GreOWyBg=;
+	b=SB0R6nNhmRMrgdqC9ACB6D19AacQoeqok6p4kccYKrU3RHeMvfLvzh1MgRnglG/jJDArX4
+	8UHfcIDFkYsMqDyaCgQdbmHfvBdKrEvBHbsDgzMpPwbeiXe6gPEYGetofOT5YiI5qUe+OR
+	SPumjw7JYZYcnld7H1qTmqcnFtGZ7xo=
+Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
+ (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
+ relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
+ cipher=TLS_AES_256_GCM_SHA384) id us-mta-241-0njOWL6mM3aBo3HobqfX2A-1; Mon,
+ 19 May 2025 12:59:29 -0400
+X-MC-Unique: 0njOWL6mM3aBo3HobqfX2A-1
+X-Mimecast-MFC-AGG-ID: 0njOWL6mM3aBo3HobqfX2A_1747673967
+Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C14951846EF8;
+	Mon, 19 May 2025 16:59:16 +0000 (UTC)
+Received: from [10.45.224.62] (unknown [10.45.224.62])
+	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5D4951955F35;
+	Mon, 19 May 2025 16:59:11 +0000 (UTC)
+Message-ID: <612b24c5-8100-4bf1-afae-78d6f38c6bbb@redhat.com>
+Date: Mon, 19 May 2025 18:59:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <cover.1747349530.git.babu.moger@amd.com>
-In-Reply-To: <cover.1747349530.git.babu.moger@amd.com>
-From: Peter Newman <peternewman@google.com>
-Date: Mon, 19 May 2025 17:59:17 +0200
-X-Gm-Features: AX0GCFtpVLCPJ3bEF9V3Lsx_tKe6Jbl3hAbpo7h2eiLnTQscgwKyjo2KmUM019g
-Message-ID: <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
-Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: Babu Moger <babu.moger@amd.com>
-Cc: corbet@lwn.net, tony.luck@intel.com, reinette.chatre@intel.com, 
-	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
-	dave.hansen@linux.intel.com, james.morse@arm.com, dave.martin@arm.com, 
-	fenghuay@nvidia.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, 
-	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org, 
-	ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com, 
-	jpoimboe@kernel.org, alexandre.chartre@oracle.com, 
-	pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com, 
-	perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com, 
-	xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com, 
-	ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com, 
-	andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
-	maciej.wieczor-retman@intel.com, eranian@google.com, Xiaojian.Du@amd.com, 
-	gautham.shenoy@amd.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
+ during init
+From: Ivan Vecera <ivecera@redhat.com>
+To: Lee Jones <lee@kernel.org>
+Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, netdev@vger.kernel.org,
+ Vadim Fedorenko <vadim.fedorenko@linux.dev>,
+ Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
+ Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
+ "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
+ Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
+ Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
+References: <20250507124358.48776-1-ivecera@redhat.com>
+ <20250507124358.48776-9-ivecera@redhat.com>
+ <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
+ <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
+ <aBt1N6TcSckYj23A@smile.fi.intel.com> <20250507152609.GK3865826@google.com>
+ <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
+ <20250513094126.GF2936510@google.com>
+ <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
+Content-Language: en-US
+In-Reply-To: <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
 
-Hi Babu,
 
-On Fri, May 16, 2025 at 12:52=E2=80=AFAM Babu Moger <babu.moger@amd.com> wr=
-ote:
->
->
-> This series adds the support for Assignable Bandwidth Monitoring Counters
-> (ABMC). It is also called QoS RMID Pinning feature
->
-> Series is written such that it is easier to support other assignable
-> features supported from different vendors.
->
-> The feature details are documented in the  APM listed below [1].
-> [1] AMD64 Architecture Programmer's Manual Volume 2: System Programming
-> Publication # 24593 Revision 3.41 section 19.3.3.3 Assignable Bandwidth
-> Monitoring (ABMC). The documentation is available at
-> Link: https://bugzilla.kernel.org/show_bug.cgi?id=3D206537
->
-> The patches are based on top of commit
-> 92a09c47464d0 (tag: v6.15-rc5, tip/irq/merge) Linux 6.15-rc5
-> plus
-> https://lore.kernel.org/lkml/20250515165855.31452-1-james.morse@arm.com/
->
-> It is very clear these patches will go after James's resctrl FS/ARCH
-> restructure. Hoping to avoid one review cycle due to the merge.
->
-> # Introduction
->
-> Users can create as many monitor groups as RMIDs supported by the hardwar=
-e.
-> However, bandwidth monitoring feature on AMD system only guarantees that
-> RMIDs currently assigned to a processor will be tracked by hardware.
-> The counters of any other RMIDs which are no longer being tracked will be
-> reset to zero. The MBM event counters return "Unavailable" for the RMIDs
-> that are not tracked by hardware. So, there can be only limited number of
-> groups that can give guaranteed monitoring numbers. With ever changing
-> configurations there is no way to definitely know which of these groups
-> are being tracked for certain point of time. Users do not have the option
-> to monitor a group or set of groups for certain period of time without
-> worrying about counter being reset in between.
->
-> The ABMC feature provides an option to the user to assign a hardware
-> counter to an RMID, event pair and monitor the bandwidth as long as it is
-> assigned.  The assigned RMID will be tracked by the hardware until the us=
-er
-> unassigns it manually. There is no need to worry about counters being res=
-et
-> during this period. Additionally, the user can specify a bitmask identify=
-ing
-> the specific bandwidth types from the given source to track with the coun=
-ter.
->
-> Without ABMC enabled, monitoring will work in current 'default' mode with=
-out
-> assignment option.
->
-> # History
->
-> Earlier implementation of ABMC had dependancy on BMEC (Bandwidth Monitori=
-ng
-> Event Configuration). Peter had concerns with that implementation because
-> it may be not be compatible with ARM's MPAM.
->
-> Here are the threads discussing the concerns and new interface to address=
- the concerns.
-> https://lore.kernel.org/lkml/CALPaoCg97cLVVAcacnarp+880xjsedEWGJPXhYpy4P7=
-=3Dky4MZw@mail.gmail.com/
-> https://lore.kernel.org/lkml/CALPaoCiii0vXOF06mfV=3DkVLBzhfNo0SFqt4kQGwGS=
-GVUqvr2Dg@mail.gmail.com/
->
-> Here are the finalized requirements based on the discussion:
->
-> *   Remove BMEC dependency on the ABMC feature.
->
-> *   Eliminate global assignment listing. The interface
->     /sys/fs/resctrl/info/L3_MON/mbm_assign_control is no longer required.
->
-> *   Create the configuration directories at /sys/fs/resctrl/info/L3_MON/c=
-ounter_configs/.
->     The configuration file names should be free-form, allowing users to c=
-reate them as needed.
->
-> *   Perform assignment listing at the group level by introducing mbm_L3_a=
-ssignments
->     in each monitoring group. The listing should provide the following de=
-tails:
->
->     Event Configuration: Specifies the event configuration applied. This =
-will be crucial
->     when "mkdir" on event configuration is added in the future, leading t=
-o the creation
->     of mon_data/mon_l3_*/<event configuration>.
->
->     Domains: Identifies the domains where the configuration is applied, s=
-upporting multi-domain setups.
->
->     Assignment Type: Indicates whether the assignment is Exclusive (e or =
-d), Shared (s), or Unassigned (_).
->
-> *   Provide option to enable or disable auto assignment when new group is=
- created.
 
-So far I was able to reenable MBM on AMD implementations (for some
-users) while deferring on the counter assignment interface discussion
-by just making shared assignment the default for newly-created groups.
-Until they want to upgrade assignments to exclusive or break down
-traffic with multiple counters to watch a particular group more
-closely, they won't need to change any assignments.
+On 13. 05. 25 12:47 odp., Ivan Vecera wrote:
+> On 13. 05. 25 11:41 dop., Lee Jones wrote:
+>> On Mon, 12 May 2025, Ivan Vecera wrote:
+>>
+>>> On 07. 05. 25 5:26 odp., Lee Jones wrote:
+>>>> On Wed, 07 May 2025, Andy Shevchenko wrote:
+>>>>
+>>>>> On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
+>>>>>> On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
+>>>>>>> On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> 
+>>>>>>> wrote:
+>>>>>
+>>>>> ...
+>>>>>
+>>>>>>>> +static const struct zl3073x_pdata 
+>>>>>>>> zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
+>>>>>>>> +       { .channel = 0, },
+>>>>>>>> +       { .channel = 1, },
+>>>>>>>> +       { .channel = 2, },
+>>>>>>>> +       { .channel = 3, },
+>>>>>>>> +       { .channel = 4, },
+>>>>>>>> +};
+>>>>>>>
+>>>>>>>> +static const struct mfd_cell zl3073x_devs[] = {
+>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 0),
+>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 1),
+>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 2),
+>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 3),
+>>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 4),
+>>>>>>>> +};
+>>>>>>>
+>>>>>>>> +#define ZL3073X_MAX_CHANNELS   5
+>>>>>>>
+>>>>>>> Btw, wouldn't be better to keep the above lists synchronised like
+>>>>>>>
+>>>>>>> 1. Make ZL3073X_CELL() to use indexed variant
+>>>>>>>
+>>>>>>> [idx] = ...
+>>>>>>>
+>>>>>>> 2. Define the channel numbers
+>>>>>>>
+>>>>>>> and use them in both data structures.
+>>>>>>>
+>>>>>>> ...
+>>>>>>
+>>>>>> WDYM?
+>>>>>>
+>>>>>>> OTOH, I'm not sure why we even need this. If this is going to be
+>>>>>>> sequential, can't we make a core to decide which cell will be given
+>>>>>>> which id?
+>>>>>>
+>>>>>> Just a note that after introduction of PHC sub-driver the array 
+>>>>>> will look
+>>>>>> like:
+>>>>>> static const struct mfd_cell zl3073x_devs[] = {
+>>>>>>          ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
+>>>>>>          ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
+>>>>>>          ZL3073X_CELL("zl3073x-dpll", 1),  // ...
+>>>>>>          ZL3073X_CELL("zl3073x-phc", 1),
+>>>>>>          ZL3073X_CELL("zl3073x-dpll", 2),
+>>>>>>          ZL3073X_CELL("zl3073x-phc", 2),
+>>>>>>          ZL3073X_CELL("zl3073x-dpll", 3),
+>>>>>>          ZL3073X_CELL("zl3073x-phc", 3),
+>>>>>>          ZL3073X_CELL("zl3073x-dpll", 4),
+>>>>>>          ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
+>>>>>> };
+>>>>>
+>>>>> Ah, this is very important piece. Then I mean only this kind of change
+>>>>>
+>>>>> enum {
+>>>>>     // this or whatever meaningful names
+>>>>>     ..._CH_0    0
+>>>>>     ..._CH_1    1
+>>>>>     ...
+>>>>> };
+>>>>>
+>>>>> static const struct zl3073x_pdata 
+>>>>> zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
+>>>>>          { .channel = ..._CH_0, },
+>>>>>          ...
+>>>>> };
+>>>>>
+>>>>> static const struct mfd_cell zl3073x_devs[] = {
+>>>>>          ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
+>>>>>          ZL3073X_CELL("zl3073x-phc", ..._CH_0),
+>>>>>          ...
+>>>>> };
+>>>>
+>>>> This is getting hectic.  All for a sequential enumeration.  Seeing as
+>>>> there are no other differentiations, why not use IDA in the child
+>>>> instead?
+>>>
+>>> For that, there have to be two IDAs, one for DPLLs and one for PHCs...
+>>
+>> Sorry, can you explain a bit more.  Why is this a problem?
+>>
+>> The IDA API is very simple.
+>>
+>> Much better than building your own bespoke MACROs.
+> 
+> I will try to explain this in more detail... This MFD driver handles
+> chip family ZL3073x where the x == number of DPLL channels and can
+> be from <1, 5>.
+> 
+> The driver creates 'x' DPLL sub-devices during probe and has to pass
+> channel number that should this sub-device use. Here can be used IDA
+> in DPLL sub-driver:
+> e.g. ida_alloc_max(zldev->channels, zldev->max_channels, GFP_KERNEL);
+> 
+> This way the DPLL sub-device get its own unique channel ID to use.
+> 
+> The situation is getting more complicated with PHC sub-devices because
+> the chip can provide UP TO 'x' PHC sub-devices depending on HW
+> configuration. To handle this the MFD driver has to check this HW config
+> for particular channel if it is capable to provide PHC functionality.
+> 
+> E.g. ZL30735 chip has 5 channels, in this case the MFD driver should
+> create 5 DPLL sub-devices. And then lets say channel 0, 2 and 4 are
+> PHC capable. Then the MFD driver should create 3 PHC sub-devices and
+> pass 0, 2 resp. 4 for them.
+> 
+> In that case IDA cannot be simply used as the allocation is not
+> sequential.
+> 
+> So yes, for DPLL sub-devices IDA could be used but for the PHCs another
+> approach (platform data) has to be used.
+> 
+> There could be a hacky way to use IDA for PHCs: MFD would create PHC
+> sub-devices for all channels and PHC sub-driver would check the channel
+> config during probe and if the channel is not capable then returns
+> -ENODEV. But I don't think this is good idea to create MFD cells this
+> way.
+> 
+> Thanks for advices.
+> 
+> Ivan
 
-Just pointing out that this turned out to be a useful first step in
-deploying ABMC support.
-
->
-> This series tries to address all the requirements listed above.
->
-> # Implementation details
->
-> Create a generic interface aimed to support user space assignment of scar=
-ce
-> counters used for monitoring. First usage of interface is by ABMC with op=
-tion
-> to expand usage to "soft-ABMC" and MPAM counters in future.
-
-I'll try to identify any issues I've encountered with "soft-ABMC".
-Hopefully I'll be able to share a sample implementation based on these
-patches soon.
-
-There's now more interest in Google for allowing explicit control of
-where RMIDs are assigned on Intel platforms. Even though the number of
-RMIDs implemented by hardware tends to be roughly the number of
-containers they want to support, they often still need to create
-containers when all RMIDs have already been allocated, which is not
-currently allowed. Once the container has been created and starts
-running, it's no longer possible to move its threads into a monitoring
-group whenever RMIDs should become available again, so it's important
-for resctrl to maintain an accurate task list for a container even
-when RMIDs are not available.
-
->
-> Feature adds following interface files:
->
-> /sys/fs/resctrl/info/L3_MON/mbm_assign_mode: Reports the list of assignab=
-le
-> monitoring features supported. The enclosed brackets indicate which
-> feature is enabled.
->
-> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of monitori=
-ng
-> counters available for assignment.
-
-Earlier I discussed with Reinette[1] what num_mbm_cntrs should
-represent in a "soft-ABMC" implementation where assignment is
-implemented by assigning an RMID, which would result in all events
-being assigned at once.
-
-My main concern is how many "counters" you can assign by assigning
-RMIDs. I recall Reinette proposed reporting the number of groups which
-can be assigned separately from counters which can be assigned.
-
->
-> /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs: Reports the number of mo=
-nitoring
-> counters free in each domain.
->
-> /sys/fs/resctrl/info/L3_MON/counter_configs : Directory to hold the count=
-er configuration.
->
-> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/event_filter =
-: Default configuration
-> for MBM total events.
->
-> /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes/event_filter =
-: Default configuration
-> for MBM local events.
-
-IIUC, this needs to be implemented now so you can drop BMEC with this serie=
-s?
-
->
-> /sys/fs/resctrl/mbm_L3_assignments: Interface to list or modify assignmen=
-t states on each group.
->
-> # Examples
->
-> a. Check if ABMC support is available
->         #mount -t resctrl resctrl /sys/fs/resctrl/
->
->         # cat /sys/fs/resctrl/info/L3_MON/mbm_assign_mode
->         [mbm_cntr_assign]
->         default
->
->         ABMC feature is detected and it is enabled.
->
-> b. Check how many ABMC counters are available.
->
->         # cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
->         32
->
-> c. Check how many ABMC counters are available in each domain.
->
->         # cat /sys/fs/resctrl/info/L3_MON/available_mbm_cntrs
->         0=3D30;1=3D30
->
-> d. Check default counter configuration.
->
->         # cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes=
-/event_filter
->         local_reads, remote_reads, local_non_temporal_writes, remote_non_=
-temporal_writes,
->         local_reads_slow_memory, remote_reads_slow_memory, dirty_victim_w=
-rites_all
->
->         # cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes=
-/event_filter
->         local_reads, local_non_temporal_writes, local_reads_slow_memory
->
-> e. Series adds a new interface file "mbm_L3_assignments" in each monitori=
-ng group
->    to list and modify any group's monitoring states.
-
-To confirm, would we have "mbm_<resource_name>_assignments" for each
-resource where MBM-ish events could be assigned?
-
->
->         The list is displayed in the following format:
->
->         <Event configuration>:<Domain id>=3D<Assignment type>
-
-For soft-ABMC assignment, is there just a single event configuration
-representing all the events tracked by the RMID?
-
->
->         Event configuration: A valid event configuration listed in the
->         /sys/fs/resctrl/info/L3_MON/counter_configs directory.
->
->         Domain ID: A valid domain ID number.
->
->         Assignment types:
->
->         _ : No event configuration assigned
->
->         e : Event configuration assigned in exclusive mode
->
->         To list the default group states:
->         # cat /sys/fs/resctrl/mbm_L3_assignments
->         mbm_total_bytes:0=3De;1=3De
->         mbm_local_bytes:0=3De;1=3De
->
->         To unassign the configuration of mbm_total_bytes on domain 0:
->         #echo "mbm_total_bytes:0=3D_" > mbm_L3_assignments
->         #cat mbm_L3_assignments
->         mbm_total_bytes:0=3D_;1=3De
->         mbm_local_bytes:0=3De;1=3De
->
->         To unassign the mbm_total_bytes configuration on all domains:
->         $echo "mbm_total_bytes:*=3D_" > mbm_L3_assignments
->         $cat mbm_L3_assignments
->         mbm_total_bytes:0=3D_;1=3D_
->         mbm_local_bytes:0=3De;1=3De
->
->         To assign the mbm_total_bytes configuration on all domains in exc=
-lusive mode:
->         $echo "mbm_total_bytes:*=3De" > mbm_L3_assignments
->         $cat mbm_L3_assignments
->         mbm_total_bytes:0=3De;1=3De
->         mbm_local_bytes:0=3De;1=3De
->
-> g. Read the events mbm_total_bytes and mbm_local_bytes of the default gro=
-up.
->    There is no change in reading the events with ABMC. If the event is un=
-assigned
->    when reading, then the read will come back as "Unassigned".
->
->         # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_total_bytes
->         779247936
->         # cat /sys/fs/resctrl/mon_data/mon_L3_00/mbm_local_bytes
->         765207488
->
-> h. Check the default event configurations.
->
->         #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_total_bytes/=
-event_filter
->         local_reads, remote_reads, local_non_temporal_writes, remote_non_=
-temporal_writes,
->         local_reads_slow_memory, remote_reads_slow_memory, dirty_victim_w=
-rites_all
->
->         #cat /sys/fs/resctrl/info/L3_MON/counter_configs/mbm_local_bytes/=
-event_filter
->         local_reads, local_non_temporal_writes, local_reads_slow_memory
-
-These look like the BMEC event names converted from camel case. Will
-event filter programming be portable?
+Lee, any comment? What about my proposal in v8?
 
 Thanks,
--Peter
+Ivan
 
-
-[1] https://lore.kernel.org/lkml/b3babdac-da08-4dfd-9544-47db31d574f5@intel=
-.com/
