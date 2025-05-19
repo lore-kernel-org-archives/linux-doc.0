@@ -1,82 +1,186 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13009267B9F;
-	Mon, 19 May 2025 12:19:23 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 965E8276045
+	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 12:39:11 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.42
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747657165; cv=none; b=Yh5FLpqHoW21Gehczk4v6l/db1wqD9j8efENyM70CLgCNbRMW/0fGbg5mKnoIJJi0AVuzcFrYLPiDJqrc6YhuvZVnryGM1hUXV1z6wE3ir9AuJPmQdB5AlZuWoGNlegJWNyp1BghTdppIa1BBC0L3T/Non999Zn5HKgQMoGpZec=
+	t=1747658353; cv=none; b=eRNM5nA/F2GyDZOsZG64FsYC/lBP0mPYCify1JKXufWJ14ANREjemTySn2PNc46MyhmSlVKtHE1p1Qf5bCFDPgQixDN4BuYihyz5GJ7kNKCFqxilyPsoXf/75I15+kHVuanj74gyMnpwiHxgYxZ0OcVeXHHT25AcjolgN1Jhke8=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747657165; c=relaxed/simple;
-	bh=iADNEAYrNZtJETpUlGNLpdWpRegUl4ENkmhjZSXboto=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=j4nheCMGVTMYppznm1rtGTqu9SmouWwqfEILcYkl1mmbRRfMlcqDse+H5fL1Lb2XkMQsk0fOveDhbiEQga3mueF4tapoX3bHc0Np5/UZxww+GkpXNnvCLQPeFThVQhK+AJqKDQ2p3++ezEZynRX9pPmKG+CQEiVge220hQ4qa08=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.14
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: p4ymKJWdT7K8J6CeE0n2iA==
-X-CSE-MsgGUID: QUiDZi2+RSiYXvqJ7VzBdg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49658128"
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="49658128"
-Received: from fmviesa007.fm.intel.com ([10.60.135.147])
-  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 05:19:23 -0700
-X-CSE-ConnectionGUID: oRZygWbkRhyO/xZ6v1wvDw==
-X-CSE-MsgGUID: N08AOnqyTB6Zivp042cW6Q==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
-   d="scan'208";a="139396661"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 05:19:21 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy@kernel.org>)
-	id 1uGzSg-000000031st-01Ib;
-	Mon, 19 May 2025 15:19:18 +0300
-Date: Mon, 19 May 2025 15:19:17 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
-	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 11/12] iio: accel: adxl313: implement power-save on
- inactivity
-Message-ID: <aCshxSTfh88KN6Hx@smile.fi.intel.com>
-References: <20250518111321.75226-1-l.rubusch@gmail.com>
- <20250518111321.75226-12-l.rubusch@gmail.com>
+	s=arc-20240116; t=1747658353; c=relaxed/simple;
+	bh=wAgE1d1Nn9Gs3icpp4n2PghbKllsJSUIZKEeigydyr0=;
+	h=Mime-Version:Content-Type:Date:Message-Id:From:Subject:Cc:To:
+	 References:In-Reply-To; b=bRklg4CJ8c+juI9HlUOYxBfD5/+fnM6CRO6/6IsfLIZT7v2W1MbBuuzCcSlubSdSj5ITxvn87RL6W+UEX1DmlDo33o87tfEO/3AN/josG//8eLcAG/XhYgHvAQYTsg1rwGyIalvbkDY6Y+xjSo+J0heXE7rOgufc3p25QmccE30=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com; spf=pass smtp.mailfrom=ventanamicro.com; dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b=c0asuxeh; arc=none smtp.client-ip=209.85.128.42
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ventanamicro.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ventanamicro.com header.i=@ventanamicro.com header.b="c0asuxeh"
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-43cfe99f2a7so4354095e9.2
+        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 05:39:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ventanamicro.com; s=google; t=1747658350; x=1748263150; darn=vger.kernel.org;
+        h=in-reply-to:references:to:cc:subject:from:message-id:date
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=8TID/8Or9YAzKWADzCmDKYmYbQ3PtBl4rxavpksxXcw=;
+        b=c0asuxeh9zKDI4BFM+0+N/0QABL/hv9jgthEHTsCykJZ49PXAo5NS4AbsKwWngXmAP
+         XUSqAurvr+cBeuW9/QQotGhmFmgPGhn+d6Ja/1dA8PBwkUcBy8CC2B6VeGNshgTdK6Pw
+         tcaZU8hVqAxZaK4Ca5Nih6cf3qFBrNvw0fSbId0IPZZxi//uKN5+xqRuG2TtIfzxzYun
+         F2Pv86q84JNAlfLHK2+scX0atyD/IwnGhwqe9AlZlqwfGNiW3jScfqEuzgkvlPIvlu9s
+         LafrHDMlIQymbeapTyTmKUweUd38786lwxgaaJWyenB/0Z+5jDAYxkMK3BAs9NMI+z21
+         2hfg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747658350; x=1748263150;
+        h=in-reply-to:references:to:cc:subject:from:message-id:date
+         :content-transfer-encoding:mime-version:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to;
+        bh=8TID/8Or9YAzKWADzCmDKYmYbQ3PtBl4rxavpksxXcw=;
+        b=VZOkbNvN2+5kYWWnpygECN9UWbiINGnbt1pxvQozJeP9ZXJDnyUQ9NhgO2ubbiHy72
+         5zHsdnhZ2mUKj/+Gq/4HG7Gc7WHeaB7+nqkVR31g1KO3BlWUVx2vhtagdW3yx0KFbtBR
+         AvG+eGSW1a8vQukqrUADhpNStK7yQNXnG4XpoLEaXR8HNhz7xTo9Q7ukmCYXgsDNmNlh
+         Tz+sW1A7sYay/jq8VSiUZjrezNGxMOkih2vvomg8tSo592HFMdPqX7RYy4OlIeBFOyak
+         Vk8NrG/fTZaoCaZVoCBYkI+nyTsbUi/JNSMytFO3RZelC8kTSVYKI5BsoKK5WIrTJ4qd
+         gWeQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVeqZ0X/xnEa47ZNzgmTpNi+y1R/KLsKxde9TZYY7kJS2+r6G/c1db//BK161SuHeGoEdPYOqg5BGc=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzVIAyijWMxobG9LLcD1SN3BwkEDo/h42JoRUGxP05BCLEX20Mc
+	MclYafFMuSO+oB33NO9uZBZka/0eYqsofOoVQ6lccdM4GOmicO9znZb7jScUOKJpfwc=
+X-Gm-Gg: ASbGncuFpkJoxLxiDqWGTsSDrVlVEP73ZbrRaTqbiUudjbdo9u+YZ6c0OWA+keTFPU7
+	WNAvwjYGs66H7YQkfRoGMLjpSluKoGe9OWG7ToINgEW7KyAPWA5ALNXUhJTy+0aKZ+GVD6j84l/
+	HtBPCLf/S4gdMdbYhHrMJln45FBw+TPEnF56grnFLxIPDlOn2u1SXiIWCHhrighIX3q3nz+VRR7
+	BJFFpLO5fVfgmlO82A4vrYhoy+mXE6AWO0N6eURp15ygDbYTTwobd2Es1BKn9ideA88EO65vRoo
+	cWCoP5oeCRNUhBDOjEaSBBos9tBOpPN5pGgowyedkNSJ0KZOWk4Wn0pIzIA=
+X-Google-Smtp-Source: AGHT+IFfWi9oi0Jcra9sXbpqrxyg3hOkHnBuCeesfYKMaPVxn3iQR7mctJDpcqzl/F4hYBE/NRWxrg==
+X-Received: by 2002:a05:600d:108:10b0:43b:c0fa:f9bf with SMTP id 5b1f17b1804b1-442fd7165b7mr23100365e9.3.1747658349729;
+        Mon, 19 May 2025 05:39:09 -0700 (PDT)
+Received: from localhost ([2a02:8308:a00c:e200:29b7:4911:a29c:2135])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442fd583f20sm136362615e9.28.2025.05.19.05.39.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 May 2025 05:39:09 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250518111321.75226-12-l.rubusch@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 19 May 2025 14:39:08 +0200
+Message-Id: <DA056HQ5G6S6.2B1OITOT8LLWS@ventanamicro.com>
+From: =?utf-8?q?Radim_Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@ventanamicro.com>
+Subject: Re: [PATCH v15 05/27] riscv: usercfi state for task and
+ save/restore of CSR_SSP on trap entry/exit
+Cc: "Alexandre Ghiti" <alex@ghiti.fr>, "Thomas Gleixner"
+ <tglx@linutronix.de>, "Ingo Molnar" <mingo@redhat.com>, "Borislav Petkov"
+ <bp@alien8.de>, "Dave Hansen" <dave.hansen@linux.intel.com>,
+ <x86@kernel.org>, "H. Peter Anvin" <hpa@zytor.com>, "Andrew Morton"
+ <akpm@linux-foundation.org>, "Liam R. Howlett" <Liam.Howlett@oracle.com>,
+ "Vlastimil Babka" <vbabka@suse.cz>, "Lorenzo Stoakes"
+ <lorenzo.stoakes@oracle.com>, "Paul Walmsley" <paul.walmsley@sifive.com>,
+ "Palmer Dabbelt" <palmer@dabbelt.com>, "Albert Ou" <aou@eecs.berkeley.edu>,
+ "Conor Dooley" <conor@kernel.org>, "Rob Herring" <robh@kernel.org>,
+ "Krzysztof Kozlowski" <krzk+dt@kernel.org>, "Arnd Bergmann"
+ <arnd@arndb.de>, "Christian Brauner" <brauner@kernel.org>, "Peter Zijlstra"
+ <peterz@infradead.org>, "Oleg Nesterov" <oleg@redhat.com>, "Eric Biederman"
+ <ebiederm@xmission.com>, "Kees Cook" <kees@kernel.org>, "Jonathan Corbet"
+ <corbet@lwn.net>, "Shuah Khan" <shuah@kernel.org>, "Jann Horn"
+ <jannh@google.com>, "Conor Dooley" <conor+dt@kernel.org>, "Miguel Ojeda"
+ <ojeda@kernel.org>, "Alex Gaynor" <alex.gaynor@gmail.com>, "Boqun Feng"
+ <boqun.feng@gmail.com>, "Gary Guo" <gary@garyguo.net>,
+ =?utf-8?q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>, "Benno Lossin"
+ <benno.lossin@proton.me>, "Andreas Hindborg" <a.hindborg@kernel.org>,
+ "Alice Ryhl" <aliceryhl@google.com>, "Trevor Gross" <tmgross@umich.edu>,
+ <linux-kernel@vger.kernel.org>, <linux-fsdevel@vger.kernel.org>,
+ <linux-mm@kvack.org>, <linux-riscv@lists.infradead.org>,
+ <devicetree@vger.kernel.org>, <linux-arch@vger.kernel.org>,
+ <linux-doc@vger.kernel.org>, <linux-kselftest@vger.kernel.org>,
+ <alistair.francis@wdc.com>, <richard.henderson@linaro.org>,
+ <jim.shu@sifive.com>, <andybnac@gmail.com>, <kito.cheng@sifive.com>,
+ <charlie@rivosinc.com>, <atishp@rivosinc.com>, <evan@rivosinc.com>,
+ <cleger@rivosinc.com>, <alexghiti@rivosinc.com>, <samitolvanen@google.com>,
+ <broonie@kernel.org>, <rick.p.edgecombe@intel.com>,
+ <rust-for-linux@vger.kernel.org>, "Zong Li" <zong.li@sifive.com>,
+ "linux-riscv" <linux-riscv-bounces@lists.infradead.org>
+To: "Deepak Gupta" <debug@rivosinc.com>
+References: <20250502-v5_user_cfi_series-v15-0-914966471885@rivosinc.com>
+ <20250502-v5_user_cfi_series-v15-5-914966471885@rivosinc.com>
+ <D9OZVNOGLU4T.2XOUPX27HN0W8@ventanamicro.com>
+ <122fc6cd-2e21-4fca-979d-bcf558107b81@ghiti.fr>
+ <D9WLRSAB63M5.3DZD4ND3WVZ6F@ventanamicro.com>
+ <aCdbASlCyqhid82c@debug.ba.rivosinc.com>
+In-Reply-To: <aCdbASlCyqhid82c@debug.ba.rivosinc.com>
 
-On Sun, May 18, 2025 at 11:13:20AM +0000, Lothar Rubusch wrote:
-> Link activity and inactivity to indicate the internal power-saving state.
-> Add auto-sleep to be linked to inactivity.
+2025-05-16T08:34:25-07:00, Deepak Gupta <debug@rivosinc.com>:
+> On Thu, May 15, 2025 at 10:48:35AM +0200, Radim Kr=C4=8Dm=C3=A1=C5=99 wro=
+te:
+>>2025-05-15T09:28:25+02:00, Alexandre Ghiti <alex@ghiti.fr>:
+>>> On 06/05/2025 12:10, Radim Kr=C4=8Dm=C3=A1=C5=99 wrote:
+>>>> 2025-05-02T16:30:36-07:00, Deepak Gupta <debug@rivosinc.com>:
+>>>>> diff --git a/arch/riscv/kernel/entry.S b/arch/riscv/kernel/entry.S
+>>>>> @@ -91,6 +91,32 @@
+>>>>> +.macro restore_userssp tmp
+>>>>> +	ALTERNATIVE("nops(2)",
+>>>>> +		__stringify(				\
+>>>>> +		REG_L \tmp, TASK_TI_USER_SSP(tp);	\
+>>>>> +		csrw CSR_SSP, \tmp),
+>>>>> +		0,
+>>>>> +		RISCV_ISA_EXT_ZICFISS,
+>>>>> +		CONFIG_RISCV_USER_CFI)
+>>>>> +.endm
+>>>> Do we need to emit the nops when CONFIG_RISCV_USER_CFI isn't selected?
+>>>>
+>>>> (Why not put #ifdef CONFIG_RISCV_USER_CFI around the ALTERNATIVES?)
+>>>
+>>> The alternatives are used to create a generic kernel that contains the
+>>> code for a large number of extensions and only enable it at runtime
+>>> depending on the platform capabilities. This way distros can ship a
+>>> single kernel that works on all platforms.
+>>
+>>Yup, and if a kernel is compiled without CONFIG_RISCV_USER_CFI, the nops
+>>will only enlarge the binary and potentially slow down execution.
+>>In other words, why we don't do something like this
+>>
+>> (!CONFIG_RISCV_USER_CFI ? "" :
+>>   (RISCV_ISA_EXT_ZICFISS ? __stringify(...) : "nops(x)"))
+>>
+>>instead of the current
+>>
+>> (CONFIG_RISCV_USER_CFI &&
+>>    RISCV_ISA_EXT_ZICFISS ? __stringify(...) : "nops(x)")
+>>
+>>It could be a new preprocessor macro in case we wanted to make it nice,
+>>but it's probably not a common case, so an ifdef could work as well.
+>>
+>>Do we just generally not care about such minor optimizations?
+>
+> On its own just for this series, I am not sure if I would call it even a
+> minor optimization.
 
-...
+This patch uses ifdef in thread_info, but not here.
 
-> +	en = en && act_en && inact_en;
-> +
-> +	return regmap_update_bits(data->regmap,
-> +				  ADXL313_REG_POWER_CTL,
-> +				  ADXL313_POWER_CTL_INACT_MSK,
+Both places minimize the runtime impact on kernels that don't have
+CONFIG_RISCV_USER_CFI, so I would like to understand the reasoning
+behind the decision to include one and not the other.
 
-> +				  en ? (ADXL313_POWER_CTL_AUTO_SLEEP | ADXL313_POWER_CTL_LINK)
-> +					  : 0);
+> But sure, it may (or may not) have noticeable effect if someone were
+> to go around and muck with ALTERNATIVES macro and emit `old_c` only
+> if config were selected. That should be a patch set on its own with
+> data providing benefits from it.
 
-Make it a logical split
+The difference is small and each build and implementation can behave
+differently, so code analysis seems the most appropriate tool here.
+We must still do a lot of subjective guesswork, because it is hard to
+predict the future development.
 
-				  en ?
-				  (ADXL313_POWER_CTL_AUTO_SLEEP | ADXL313_POWER_CTL_LINK) : 0);
+We should be moving on the pareto front and there are 3 roughly
+optimization parameters in this case: the C code, the binary code, and
+the work done by the programmer.
+The current patch is forgoing the binary quality (nops are strictly
+worse).
+The ifdef and the macro solutions prefer binary quality, and then differ
+if they consider work minimization (ifdef) or nice C (macro).
 
--- 
-With Best Regards,
-Andy Shevchenko
+Does the current patch represent the ideal compromise?
+(I can just recalibrate my values for future reviews...)
 
-
+Thanks.
