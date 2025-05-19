@@ -1,170 +1,127 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id EF6A226B96B
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 09:05:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 54DCB27877E;
+	Mon, 19 May 2025 09:18:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747645505; cv=none; b=aqsGGKmvaKzZ4SdeegFWDNsK0eaQt4NNe0Av1tLAGP7m8ga924k6FNiz+udNAYTX6IQGSk7fNwekhlDP8JOOuV7/Lwo5pHuiknOgY6zNV4ukRLlWfHCl/mpD7hLw2d5tAiFNOTpp4+3tQLMLp4NGMvWxIwf7zUn99M4cDvBvTUI=
+	t=1747646337; cv=none; b=MVn4BfI7LRMI4dMFow0aR3ft2Y5629L20uUHW5VdfLuBHWj/fE7nIeCbGcRVfSbAqFT+avDwaHaxQl+kNmkctWg3Gu5XRCCf1dZwuzGvM2wFj3SgEw7qdZ4scpQan9beWu+e0OMyntx4nVcYK+73M9kFJ/gxfc+IsYxoec7lw9I=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747645505; c=relaxed/simple;
-	bh=YjbtpUGlNEv5zF08hpRyZW7vUzTqaWMFJYNJKvujq+U=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=pz7s1bwuUvKZ2EDhdrpPhnOluntBAy9PtUod15Fnwu0quNKBBOi/OqrlD/r7+Q/yxbkOCyc6rRiW9qO4Bl+gKXfRkUROPU9++0Jxzz12vpDpwhzDoTMX+0mF0d+jgDs8XtAVQlArqq7Cy3rf5hXBX1hXbgirS511W0v9+GqY9Pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=VkrcYEj9; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747646337; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=OiI99OCKfe1CNGuePrLtL88yxCKglfqVY4MRt9GAQsH4QW+kxr1nf8PVBTZVrcUFV2JrwgqmeRrzVsAe+Vj9zOlDplbBfAdpK/39JNVzH9iVPrjibFeVYDd1iOG5fHRcquspy2VyV0svFowboRAXzehZBjtU4ebl4KXDnGbrjJU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=rtLIIpFQ; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="VkrcYEj9"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747645502;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=YjbtpUGlNEv5zF08hpRyZW7vUzTqaWMFJYNJKvujq+U=;
-	b=VkrcYEj9njhMtOBltjcm3e9oDxNhI+debwyvslBl81gZ2KEDnY16FvM4pBfre+t4/IshO7
-	QlGi2FikO4F8io1FCcG5MMZJ5pmem59DtK+ZGln0gc9Uddyizl56CGaVEZn2lsCas9f3Hu
-	F9sWQ30UWZGh/4lTOG7cEQj68ujPYCM=
-Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
- [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-31-BqwurDwZPvWuDRJ7Gwir3Q-1; Mon, 19 May 2025 05:05:01 -0400
-X-MC-Unique: BqwurDwZPvWuDRJ7Gwir3Q-1
-X-Mimecast-MFC-AGG-ID: BqwurDwZPvWuDRJ7Gwir3Q_1747645500
-Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43eed325461so23899065e9.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 02:05:01 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747645500; x=1748250300;
-        h=mime-version:user-agent:content-transfer-encoding:autocrypt
-         :references:in-reply-to:date:cc:to:from:subject:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=YjbtpUGlNEv5zF08hpRyZW7vUzTqaWMFJYNJKvujq+U=;
-        b=EuIMAdTSa6NKrT4Q4H4xIPqmbpkUu3tYUQMDJcGTK9Ke9DIskUYItrlebXnB4K+YGK
-         xhuuu6/VGSbJCKnr15/1gcfri/BWnIj/w+9fAcP5wG6Uj55BFKHSpdhTBbv6UAYIyeD4
-         8PBEgOC3wyavhgig9ZrI7lCB0jGo5lCQfpLWtEHZ+39t/b/B2mr+mwANDsWcyBgPowvC
-         D7B9Z5CLkBW5wcHs1CfaXu0LHLdP7MVLoCUSqs8WtR9+F5jo9WHln61Dy/7Tq2wd9en8
-         xvwOYW5fEhqlW88sVKGvKoR1rBO4dkwTaNq1tEQspBltLU1grOjDFdPOjJMx7eRFJDDi
-         WAog==
-X-Forwarded-Encrypted: i=1; AJvYcCWTq+0yVUQTdRo2+/HOSythvRT8BEpzQRbAnT9iIt6/HZS5XLQaWInbrCvOD0cYOpc3DRIcZ0drnCE=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzomIwyQneeKKuDRntD2QYoDkO9LATNnTdCwc8PTYrPrEFLOrv3
-	GZvnQcmT6CCLlBkRGtciReNp8kBSSns77vcvvSijCTjfcy05pGC8t8rPdvyPlrPnG/ie/04qhoL
-	l2WL4fML8N1o4DwdAUehujCbnz0tR7pFX1I4lWvfv2DVyTsGPkc6TCVNIAqrBhw==
-X-Gm-Gg: ASbGncvBN3/ykTHNdBFhRuBdH4XNa678QTFsmPmzYajPzJAVHlGhaEDf2yKrDQfVezD
-	gezSptbwaZGeg5IPNuu3cdPjeS1+//H0B/JjsOJi+uHYSGIgwxTKtrFFxWr/YOge1cjGwqe0jf8
-	JR//K3KybTp7KWmOvNjnDgTpyFv6laGEswNxf/TJchFc7uPXJr7QyqRmb2B4O7liaEXFSuFLFtB
-	HMHUGwM8X/vQ+aV/RmzkkvdHX5qVj7R6n/B+bzRv7cVsg48bKLbp0jP88HNs7Bdi9KFU8OHDNJ0
-	g92PxwEoN8RAjQJdAn1F88yb5J26SavTwcpkkQ==
-X-Received: by 2002:a05:600c:1f87:b0:440:6a79:6df0 with SMTP id 5b1f17b1804b1-442ff03281dmr62660915e9.22.1747645500183;
-        Mon, 19 May 2025 02:05:00 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IEtHmBiJiIZSAh1CkB/DnMloy3lXPe4XZ0UFDPkqDYHYqqpW0CHXsKxcray4myhNO5vOONyUw==
-X-Received: by 2002:a05:600c:1f87:b0:440:6a79:6df0 with SMTP id 5b1f17b1804b1-442ff03281dmr62660665e9.22.1747645499817;
-        Mon, 19 May 2025 02:04:59 -0700 (PDT)
-Received: from gmonaco-thinkpadt14gen3.rmtit.csb ([185.107.56.42])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442fd583fb7sm131633895e9.32.2025.05.19.02.04.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 May 2025 02:04:59 -0700 (PDT)
-Message-ID: <2b501844f1a238ef7eb12b98f14db02a64d06226.camel@redhat.com>
-Subject: Re: [RFC PATCH v2 07/12] rv: Adapt the sco monitor to the new
- set_state
-From: Gabriele Monaco <gmonaco@redhat.com>
-To: Nam Cao <namcao@linutronix.de>
-Cc: linux-kernel@vger.kernel.org, Steven Rostedt <rostedt@goodmis.org>, 
- Jonathan Corbet
-	 <corbet@lwn.net>, Masami Hiramatsu <mhiramat@kernel.org>, 
-	linux-trace-kernel@vger.kernel.org, linux-doc@vger.kernel.org, Ingo Molnar
-	 <mingo@redhat.com>, Peter Zijlstra <peterz@infradead.org>, Tomas Glozar
-	 <tglozar@redhat.com>, Juri Lelli <jlelli@redhat.com>
-Date: Mon, 19 May 2025 11:04:56 +0200
-In-Reply-To: <20250519084220.iProU-cg@linutronix.de>
-References: <20250514084314.57976-1-gmonaco@redhat.com>
-	 <20250514084314.57976-8-gmonaco@redhat.com>
-	 <20250519084220.iProU-cg@linutronix.de>
-Autocrypt: addr=gmonaco@redhat.com; prefer-encrypt=mutual;
- keydata=mDMEZuK5YxYJKwYBBAHaRw8BAQdAmJ3dM9Sz6/Hodu33Qrf8QH2bNeNbOikqYtxWFLVm0
- 1a0JEdhYnJpZWxlIE1vbmFjbyA8Z21vbmFjb0ByZWRoYXQuY29tPoiZBBMWCgBBFiEEysoR+AuB3R
- Zwp6j270psSVh4TfIFAmbiuWMCGwMFCQWjmoAFCwkIBwICIgIGFQoJCAsCBBYCAwECHgcCF4AACgk
- Q70psSVh4TfJzZgD/TXjnqCyqaZH/Y2w+YVbvm93WX2eqBqiVZ6VEjTuGNs8A/iPrKbzdWC7AicnK
- xyhmqeUWOzFx5P43S1E1dhsrLWgP
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: base64
-User-Agent: Evolution 3.56.1 (3.56.1-1.fc42) 
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="rtLIIpFQ"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 377E3C4CEF0;
+	Mon, 19 May 2025 09:18:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747646336;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=rtLIIpFQVtYo6VXTO0s1zvBVtvBa82kjvThqya8pE2en+MjB9S8VGf6I9jeN66TP/
+	 FNdd0ocloPoy/nXYzhNvor2c/qUUdvfZ6mMsAF7hRSTjyapp3fve7gUCQiqr8EJXMI
+	 es1PVIoWZ6q+TCUOHnKunlgYB7WSzOwfz85wzGYSiJN4fbCsRbZPSTN4ebQtqEY4Eu
+	 3VbwrgOE+Haz3Wi8Fbj+wumy3Zir2TJJl/01H55fiNMgX8TDWBg+XhQuiu8o7ck/Pa
+	 Ir9YRaU1/knWPYpFA8luAyaRqbte37FCnIdxHuU56r0nWAKXHjjFwwyCpSI+gtCiVN
+	 UfbpjWM/IqYtw==
+Date: Mon, 19 May 2025 04:18:54 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <20250519091854.4N503AqWihyMKXc1-PIzsqgwz-uLM4j2_0Vhqo73YPo@z>
 
-CgpPbiBNb24sIDIwMjUtMDUtMTkgYXQgMTA6NDIgKzAyMDAsIE5hbSBDYW8gd3JvdGU6Cj4gT24g
-V2VkLCBNYXkgMTQsIDIwMjUgYXQgMTA6NDM6MDlBTSArMDIwMCwgR2FicmllbGUgTW9uYWNvIHdy
-b3RlOgo+ID4gwqAJLmZ1bmN0aW9uID0gewo+ID4gLQkJe8KgwqDCoMKgIHRocmVhZF9jb250ZXh0
-X3NjbywKPiA+IHNjaGVkdWxpbmdfY29udGV4dF9zY28swqDCoMKgwqDCoMKgwqDCoMKgIElOVkFM
-SURfU1RBVEUgfSwKPiA+IC0JCXvCoMKgwqDCoMKgwqDCoMKgwqAgSU5WQUxJRF9TVEFURSzCoMKg
-wqDCoMKgwqDCoMKgwqAKPiA+IElOVkFMSURfU1RBVEUswqDCoMKgwqAgdGhyZWFkX2NvbnRleHRf
-c2NvIH0sCj4gPiArCQl7wqDCoMKgwqAgdGhyZWFkX2NvbnRleHRfc2NvLMKgwqDCoMKgwqDCoMKg
-wqDCoCBJTlZBTElEX1NUQVRFLAo+ID4gc2NoZWR1bGluZ19jb250ZXh0X3NjbyzCoMKgwqDCoMKg
-wqDCoMKgwqAgSU5WQUxJRF9TVEFURSB9LAo+ID4gKwkJe8KgwqDCoMKgwqDCoMKgwqDCoCBJTlZB
-TElEX1NUQVRFLAo+ID4gc2NoZWR1bGluZ19jb250ZXh0X3NjbyzCoMKgwqDCoMKgwqDCoMKgwqAg
-SU5WQUxJRF9TVEFURSzCoMKgwqDCoAo+ID4gdGhyZWFkX2NvbnRleHRfc2NvIH0sCj4gCj4gVGhp
-cyBpcyBvdmVyIHRoZSAxMDAgY29sdW1uIGxpbWl0Lgo+IAo+IEkga25vdyBpdCBpcyBub3QgeW91
-ciBmYXVsdCwgdGhpcyBpcyBnZW5lcmF0ZWQuIEJhY2sgd2hlbiBJIHdhcwo+IHBsYXlpbmcKPiB3
-aXRoIERBIG1vbml0b3IsIEkgbWFkZSBhIHBhdGNoIHRvIGZpeCB0aGlzLiBNYXliZSB5b3UgY291
-bGQgaW5jbHVkZQo+IGl0IGluCj4geW91ciBzZXJpZXM/Cj4gCj4gRnJvbSBiNGZiNjQ4Mzk4YTI5
-YTljMGQ4ZTA4YmQxMjM5NDk3OGQzOTQ4YTVlIE1vbiBTZXAgMTcgMDA6MDA6MDAKPiAyMDAxCj4g
-RnJvbTogTmFtIENhbyA8bmFtY2FvQGxpbnV0cm9uaXguZGU+Cj4gRGF0ZTogRnJpLCAxNSBOb3Yg
-MjAyNCAxNDo1NjozMyArMDEwMAo+IFN1YmplY3Q6IFtQQVRDSF0gdG9vbHMvcnYvZG90MmM6IEZp
-eCBnZW5lcmF0ZWQgZmlsZXMgZ29pbmcgb3ZlciAxMDAKPiBjb2x1bW4KPiDCoGxpbWl0Cj4gCj4g
-VGhlIGRvdDJjLnB5IHNjcmlwdCBnZW5lcmF0ZXMgYWxsIHN0YXRlcyBpbiBhIHNpbmdsZSBsaW5l
-LiBUaGlzCj4gYnJlYWtzIHRoZQo+IDEwMCBjb2x1bW4gbGltaXQgd2hlbiB0aGUgc3RhdGUgbWFj
-aGluZXMgYXJlIG5vbi10cml2aWFsLgo+IAo+IENoYW5nZSBkb3QyYy5weSB0byBnZW5lcmF0ZSB0
-aGUgc3RhdGVzIGluIHNlcGFyYXRlIGxpbmVzLgo+IAo+IFNpZ25lZC1vZmYtYnk6IE5hbSBDYW8g
-PG5hbWNhb0BsaW51dHJvbml4LmRlPgo+IC0tLQo+IMKgdG9vbHMvdmVyaWZpY2F0aW9uL3J2Z2Vu
-L3J2Z2VuL2RvdDJjLnB5IHwgMTMgKysrLS0tLS0tLS0tLQo+IMKgMSBmaWxlIGNoYW5nZWQsIDMg
-aW5zZXJ0aW9ucygrKSwgMTAgZGVsZXRpb25zKC0pCj4gCj4gZGlmZiAtLWdpdCBhL3Rvb2xzL3Zl
-cmlmaWNhdGlvbi9ydmdlbi9ydmdlbi9kb3QyYy5weQo+IGIvdG9vbHMvdmVyaWZpY2F0aW9uL3J2
-Z2VuL3J2Z2VuL2RvdDJjLnB5Cj4gaW5kZXggNjAwOWNhZjU2OGQ5Li5hYmMwZWU1NjliMzQgMTAw
-NjQ0Cj4gLS0tIGEvdG9vbHMvdmVyaWZpY2F0aW9uL3J2Z2VuL3J2Z2VuL2RvdDJjLnB5Cj4gKysr
-IGIvdG9vbHMvdmVyaWZpY2F0aW9uL3J2Z2VuL3J2Z2VuL2RvdDJjLnB5Cj4gQEAgLTE1MiwyOSAr
-MTUyLDIyIEBAIGNsYXNzIERvdDJjKEF1dG9tYXRhKToKPiDCoMKgwqDCoMKgwqDCoMKgIG1heF9z
-dGF0ZV9uYW1lID0gbWF4KHNlbGYuc3RhdGVzLCBrZXkgPSBsZW4pLl9fbGVuX18oKQo+IMKgwqDC
-oMKgwqDCoMKgwqAgcmV0dXJuIG1heChtYXhfc3RhdGVfbmFtZSwgc2VsZi5pbnZhbGlkX3N0YXRl
-X3N0ci5fX2xlbl9fKCkpCj4gwqAKPiAtwqDCoMKgIGRlZiBfX2dldF9zdGF0ZV9zdHJpbmdfbGVu
-Z3RoKHNlbGYpOgo+IC3CoMKgwqDCoMKgwqDCoCBtYXhsZW4gPSBzZWxmLl9fZ2V0X21heF9zdHJs
-ZW5fb2Zfc3RhdGVzKCkgKwo+IHNlbGYuZW51bV9zdWZmaXguX19sZW5fXygpCj4gLcKgwqDCoMKg
-wqDCoMKgIHJldHVybiAiJSIgKyBzdHIobWF4bGVuKSArICJzIgo+IC0KPiDCoMKgwqDCoCBkZWYg
-Z2V0X2F1dF9pbml0X2Z1bmN0aW9uKHNlbGYpOgo+IMKgwqDCoMKgwqDCoMKgwqAgbnJfc3RhdGVz
-ID0gc2VsZi5zdGF0ZXMuX19sZW5fXygpCj4gwqDCoMKgwqDCoMKgwqDCoCBucl9ldmVudHMgPSBz
-ZWxmLmV2ZW50cy5fX2xlbl9fKCkKPiDCoMKgwqDCoMKgwqDCoMKgIGJ1ZmYgPSBbXQo+IMKgCj4g
-LcKgwqDCoMKgwqDCoMKgIHN0cmZvcm1hdCA9IHNlbGYuX19nZXRfc3RhdGVfc3RyaW5nX2xlbmd0
-aCgpCj4gLQo+IMKgwqDCoMKgwqDCoMKgwqAgZm9yIHggaW4gcmFuZ2UobnJfc3RhdGVzKToKPiAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBsaW5lID0gIlx0XHR7ICIKPiArwqDCoMKgwqDCoMKgwqDC
-oMKgwqDCoCBidWZmLmFwcGVuZCgiXHRcdHsiKQo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBm
-b3IgeSBpbiByYW5nZShucl9ldmVudHMpOgo+IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgIG5leHRfc3RhdGUgPSBzZWxmLmZ1bmN0aW9uW3hdW3ldCj4gwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqAgaWYgbmV4dF9zdGF0ZSAhPSBzZWxmLmludmFsaWRfc3RhdGVfc3RyOgo+
-IMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgbmV4dF9zdGF0ZSA9IHNl
-bGYuZnVuY3Rpb25beF1beV0gKwo+IHNlbGYuZW51bV9zdWZmaXgKPiDCoAo+IMKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgIGlmIHkgIT0gbnJfZXZlbnRzLTE6Cj4gLcKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGxpbmUgPSBsaW5lICsgc3RyZm9ybWF0ICUgbmV4
-dF9zdGF0ZSArICIsICIKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAg
-YnVmZi5hcHBlbmQoJycuam9pbigoIlx0XHRcdCIsIG5leHRfc3RhdGUsCj4gIiwiKSkpCj4gwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZWxzZToKPiAtwqDCoMKgwqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqAgbGluZSA9IGxpbmUgKyBzdHJmb3JtYXQgJSBuZXh0X3N0YXRl
-ICsgIiB9LCIKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBidWZmLmFwcGVuZChsaW5lKQo+ICvC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBidWZmLmFwcGVuZCgnJy5qb2lu
-KCgiXHRcdFx0IiwgbmV4dF9zdGF0ZSwKPiAiXG5cdFx0fSwiKSkpCj4gwqAKPiDCoMKgwqDCoMKg
-wqDCoMKgIHJldHVybiBzZWxmLl9fYnVmZl90b19zdHJpbmcoYnVmZikKPiDCoAoKVGhhbmtzIGZv
-ciBicmluZ2luZyB0aGlzIHVwLCBJJ20gYSBiaXQgdW5kZWNpZGVkIG9uIHRoaXMgb25lLi4KClRo
-ZSBuaWNlIHRoaW5nIG9mIHRoZSBjdXJyZW50IHJlcHJlc2VudGF0aW9uIGlzIHRoYXQgaXQgc2hv
-d3MgYSBtYXRyaXgKYW5kIGl0J3MgcmVsYXRpdmVseSBlYXN5IHRvIHNlZSB3aGF0IGVhY2ggZXZl
-bnQgZG9lcy4KT24gdGhlIG90aGVyIGhhbmQgaXQncyB0cnVlIGxhcmdlciBtb2RlbHMgZG8gZXhj
-ZWVkIHF1aXRlIGEgYml0IHRoZQpzaXplIGxpbWl0cyBhbmQgY29uc2lkZXJpbmcgeW91IGFyZW4n
-dCByZWFsbHkgc3VwcG9zZWQgdG8gdG91Y2ggdGhpcwpmaWxlIGRpcmVjdGx5IChhcyB0aGUgc2Ny
-aXB0IGRvZXMgaXQgZm9yIHlvdSksIHBlcmhhcHMgY2xlYW5lciBDIGNvZGUKc2hvdWxkIGJlIHRo
-ZSBwcmlvcml0eS4KCkknbGwgcGxheSB3aXRoIHlvdXIgcGF0Y2ggYW5kIHNlZSBpZiBpdCBuZWdh
-dGl2ZWx5IGFmZmVjdHMgdGhlIHdvcmtmbG93CmluIGFueSB3YXkuIElmIG5vdCwgSSdkIGluY2x1
-ZGUgaXQgYW5kIGFkYXB0IHRoZSBtb25pdG9ycyAocGVyaGFwcyBvbmx5CnRob3NlIHdpdGggbG9u
-ZyBsaW5lcywgbm90IHJlYWxseSBuZWVkIHRvIGNoYW5nZSBhbGwpLgoKVGhhbmtzLApHYWJyaWVs
-ZQo=
+
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
+
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
