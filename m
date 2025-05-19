@@ -1,225 +1,271 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2085.outbound.protection.outlook.com [40.107.220.85])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 13EC5B67F;
-	Mon, 19 May 2025 18:14:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.85
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747678486; cv=fail; b=WbTf0L11v66iRHs79Cixuf+sDOheG86UBnizMRGCcWXT3MvGGcIw7WoGmSwQIrAaVbZnPYGJKYGK2x1agIkH2T+sWAIu3F9Z91QvV4tCIt1LN/XgEuPa71RIMe7vrMTuB3bcU+ogvxSIa1fdaF0gQxPGR96w4f/XYvVG02BiwQY=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747678486; c=relaxed/simple;
-	bh=E43AkYRLdFE5+RqexdlrbVD9X6eueE2CIqfUGywhgmY=;
-	h=Date:From:To:CC:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=K3KpDGQt/eoGtGzZtJC3MIIAah/78KJaV9YNQTvd8EuVkza4vvdhsyhXBQGefaibBdfoNbTSYlhC7cI4t3LnP6dXNc5l99DUSEgjG3uUA0brb+jOWXWlOFos88izmpBRIoHSfyp5D4EqFKqUlW8EkapVpZr6UJwPhhY0COw4U2U=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com; spf=fail smtp.mailfrom=nvidia.com; dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b=cR73ycpR; arc=fail smtp.client-ip=40.107.220.85
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=nvidia.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=nvidia.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A532321171D;
+	Mon, 19 May 2025 19:31:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747683078; cv=none; b=Rbs4/LkuJDXX+gbflZ7x9l6dVru4zUx6efrIzBnkX8UF2vT7iuhWc6BqjVq3UOnaqzQUj4A9TLfz9W5gk5cU5vIvMdDII+UZ9tPTDHR2Z+82Ll0XP9oeW1vJ7Vt714+JZRYGH8I/mhob0+LZWinf3OhPXKBOcJgyKOBVEvdVimo=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747683078; c=relaxed/simple;
+	bh=gNg/DaGQnuA//ujvR2i1hxwQU/CrZUxguVa5vf6EakQ=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=FOliP20VD/hVL6vXsGtjtGcePQKTibFp7b0nV+g1MiFTmgAs3k9ZegDvNSuHfJ223dY0JJ1n+ygJe2eINhTQzkvgFlvG3oWt8bGkd2O3lwnq6SmwprcMp5amu5X1ZXiN/od7gWPDqvSvvw+EkQ3p9ftiGiKEjASvPIzIN3Y11Zc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4IBLEQs; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=Nvidia.com header.i=@Nvidia.com header.b="cR73ycpR"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=duM+doj7pYvTdkoz/xDShOW0pXZo0ho6d4UA/qyPY0nPg4t+TMAFOEOLYfbbB9Hjv3fPFd/Fr5ToDgMkbhS9/fC7gU2iiHNeFTs5aKbIzliBf3jSubVGgnu6nxMqzz4Kph/cxhQn2ro8uhKuugQddz/RLUfrgDWbHqigB0p/vFCFOxZ4Ttj0mQKiwl5bSQeGTRNRrZfwx0BxpY8XcSfCv0a0haBdkJd9j1/eOFU/oR/pBNodjQBDrVMrdIuP9hGzIKuUjkE/SXe9tEkdgUpAEDDXdO0jox6V+ChZjPv/VXkb4HxPOKzgJqSUDxX7hSn/vpz46IjaDPrjnQJucFm1Gg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eiI7muI5EcSG+i3BLj2dZs+EX1mzG+fMXwUIvgZpRvQ=;
- b=Y11+ztooPYSqBItL76cyeBbRtUkM67lH6KB4O0eZrKbWh3ESP5IyrATzSBTzj4HzW8aFSwlOwMRV/TUp/XLt892SRNLdd1Yc8g1+3KmbA+y+ruMZaRsTm08moj7RqA2/61LNE4AiJbZugJsC4NX+P4r8IsWtw/KdWiMFO6eUZ2njFUxVfF9QXQpLKPpf3q61+x0IWCyJB16CPgy95nmY3IGMpuTJF8ibs5qh+S0mXc4tg32u/xZm+/95+xUN+2Zy+/nFjgFySwCuTSCkJhAVfOkCnvRkiH+Ou7vq5iqOKy92S6cTjft+CHw4CHAceb0D5i6cuNVe9X5YG1MbwyUB/w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 216.228.117.160) smtp.rcpttodomain=amd.com smtp.mailfrom=nvidia.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=nvidia.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=Nvidia.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eiI7muI5EcSG+i3BLj2dZs+EX1mzG+fMXwUIvgZpRvQ=;
- b=cR73ycpRwVDuTqfkO4Wum/NAf4E4t+l/Jq4dvgirgtwuVe0kIKf6hVjnPRFyzyWnBVCXCgXElevTgyiWKfBFRB1z/aAsKED4MJ9jAZtXxnnB2lMmq7CftHcI6xKXnmAuwgOWenMJTREkobR54HAIpuCP8CnjgYmlqsiEwElK/wehu37BNSXYx/behP6ckIPy9XIx++VT7C+aMKquGvRAgMCegfGT35hDMyNMVWgzWEXFjnNiE7TZDuUWDdQ9u9tmAhol2PEuCZhTIW3xstwOnhGNfTNUmB8vzuXvYVIaCE3LGaUafwnW4qEU4DfsDj+vlff6xh+/cqhgCzJrX0XVgA==
-Received: from BYAPR01CA0067.prod.exchangelabs.com (2603:10b6:a03:94::44) by
- LV3PR12MB9167.namprd12.prod.outlook.com (2603:10b6:408:196::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8699.19; Mon, 19 May
- 2025 18:14:42 +0000
-Received: from SJ1PEPF00002315.namprd03.prod.outlook.com
- (2603:10b6:a03:94:cafe::1a) by BYAPR01CA0067.outlook.office365.com
- (2603:10b6:a03:94::44) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8746.16 via Frontend Transport; Mon,
- 19 May 2025 18:15:03 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 216.228.117.160)
- smtp.mailfrom=nvidia.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=nvidia.com;
-Received-SPF: Pass (protection.outlook.com: domain of nvidia.com designates
- 216.228.117.160 as permitted sender) receiver=protection.outlook.com;
- client-ip=216.228.117.160; helo=mail.nvidia.com; pr=C
-Received: from mail.nvidia.com (216.228.117.160) by
- SJ1PEPF00002315.mail.protection.outlook.com (10.167.242.169) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.8769.18 via Frontend Transport; Mon, 19 May 2025 18:14:42 +0000
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by mail.nvidia.com
- (10.129.200.66) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.4; Mon, 19 May
- 2025 11:14:26 -0700
-Received: from rnnvmail205.nvidia.com (10.129.68.10) by rnnvmail205.nvidia.com
- (10.129.68.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14; Mon, 19 May
- 2025 11:14:25 -0700
-Received: from Asurada-Nvidia (10.127.8.10) by mail.nvidia.com (10.129.68.10)
- with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.14 via Frontend
- Transport; Mon, 19 May 2025 11:14:24 -0700
-Date: Mon, 19 May 2025 11:14:22 -0700
-From: Nicolin Chen <nicolinc@nvidia.com>
-To: Vasant Hegde <vasant.hegde@amd.com>
-CC: Jason Gunthorpe <jgg@nvidia.com>, <kevin.tian@intel.com>,
-	<corbet@lwn.net>, <will@kernel.org>, <bagasdotme@gmail.com>,
-	<robin.murphy@arm.com>, <joro@8bytes.org>, <thierry.reding@gmail.com>,
-	<vdumpa@nvidia.com>, <jonathanh@nvidia.com>, <shuah@kernel.org>,
-	<jsnitsel@redhat.com>, <nathan@kernel.org>, <peterz@infradead.org>,
-	<yi.l.liu@intel.com>, <mshavit@google.com>, <praan@google.com>,
-	<zhangzekun11@huawei.com>, <iommu@lists.linux.dev>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-arm-kernel@lists.infradead.org>, <linux-tegra@vger.kernel.org>,
-	<linux-kselftest@vger.kernel.org>, <patches@lists.linux.dev>,
-	<mochs@nvidia.com>, <alok.a.tiwari@oracle.com>
-Subject: Re: [PATCH v4 11/23] iommufd/viommu: Add IOMMUFD_CMD_HW_QUEUE_ALLOC
- ioctl
-Message-ID: <aCt0/kOwCn8wZJG0@Asurada-Nvidia>
-References: <cover.1746757630.git.nicolinc@nvidia.com>
- <f52937c027e2fd25d76bc47f4965ba46f82c77c0.1746757630.git.nicolinc@nvidia.com>
- <20250515160620.GJ382960@nvidia.com>
- <0019943c-44c4-4dae-a175-8a5bdc02f017@amd.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4IBLEQs"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB437C4CEE4;
+	Mon, 19 May 2025 19:31:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747683078;
+	bh=gNg/DaGQnuA//ujvR2i1hxwQU/CrZUxguVa5vf6EakQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=M4IBLEQs1j7rqqlJMrer+R9eK8Uu3wPF+8htwN6MfYqavo8fsdG+TXKGawl6qgll5
+	 Xpvk34Sp9b7SEw4th06cWm2bmnLa13ffJ27fy+ghspt2o0WcFg2l8TQcATKoz+TwOQ
+	 jWE1aurFQNUwWjz7BNJG/vizT7BUJFIdovfI1e3IOiRqAQ7Unb8KiGZl2RkPop2qVU
+	 PVq1+vpoI7HR2+ywAgau9Lr57jXx7He1nii4IIrpwI1BtK7lSHtrRlP6OZrZx7I2Te
+	 E2Z7oiA5zZelFCeZ7xmX6xLkC2JP+CDAb3IXmvUDj3qi60rFFsVtw5jK+atauATUAk
+	 2zyk+YDbKYeUA==
+Date: Mon, 19 May 2025 14:31:16 -0500
+From: Rob Herring <robh@kernel.org>
+To: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Catalin Marinas <catalin.marinas@arm.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	James Clark <james.clark@linaro.org>,
+	Anshuman Khandual <anshuman.khandual@arm.com>,
+	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org,
+	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+Subject: Re: [PATCH v21 2/4] arm64: Handle BRBE booting requirements
+Message-ID: <20250519193116.GA2650608-robh@kernel.org>
+References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
+ <20250407-arm-brbe-v19-v21-2-ff187ff6c928@kernel.org>
+ <20250519140713.GA16991@willie-the-truck>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <0019943c-44c4-4dae-a175-8a5bdc02f017@amd.com>
-X-NV-OnPremToCloud: AnonymousSubmission
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ1PEPF00002315:EE_|LV3PR12MB9167:EE_
-X-MS-Office365-Filtering-Correlation-Id: 123ca0fc-542e-4a22-53c4-08dd970106de
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|7416014|376014|1800799024|82310400026|36860700013;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?WUtybDNtZytxbVhLbDJINWVwaHNsbzU5U3g4UStsS00yMlFWSmp1bERzK2V2?=
- =?utf-8?B?QnlZQ3MxYjhhWVpScTQwWWNTaHJtM3I1UDFaQ0xpN1ZtZmZHakFOR1lrWHJr?=
- =?utf-8?B?TFZTMXRNQ0x2d0RDa0FWNDBJZ1dCZ2hJRXNaL3pMdGQrbG5BQ0JzWjBjRE5N?=
- =?utf-8?B?YThpN2syRGRSS3p1eldRayt1d3BOUVJhd0IwaHhlZlljS3BBUFd1aURNV3lv?=
- =?utf-8?B?UEYzbmNPakplMEdZcEFhYkxLcVVrQTJuNWUrVFdEZU95b1NuQkJKREVjWEgw?=
- =?utf-8?B?d2Z0ZHFkdVM2UXpqbW9aM2JoRWhVNzFEeFdNaEJMTnBqOWhWNjhKWmVWUjBM?=
- =?utf-8?B?Q3lXK1ZCRHhmckQvVmZwYVl0V214NFQ2SkRZTDJxRS9KeUptSU1Fc28rYzlJ?=
- =?utf-8?B?VmJyVlBkblU0VFU3a1p6SGcwbTZhWlJicTdYUlpvMHdHWUdMVG1LWlJHeDVT?=
- =?utf-8?B?bndWTkhLSTFXTkx1ZzA3Tkt3bUJRQldPUS80R2hBYlZ4WVJrd2VwWThyS25z?=
- =?utf-8?B?N1d3bTc0TDZuSmtaOVR4TnZYTi9sYjNCUDRxOHVNVGRXVEFzUU8wN2xFUFJE?=
- =?utf-8?B?eE5WTnBvOVE1aHJXVitMc2dndGJSdkNPVUIreUhRTWVnT3pXd25HYTJ0RHov?=
- =?utf-8?B?T29TaXlQQ3ZJckVoMTRRYkN0OW13WWNYbjZpemtCOEFQTWJjalFIUkF1MVc5?=
- =?utf-8?B?ZGNNdHhLNW1Hek9Lek5FQzU5UzVLTDNkU2JoRjZDbzVFSVhQTUg1QUpUcmM5?=
- =?utf-8?B?NlZvendPY0tpcmZLV1g0aldUYWxNb3F1TmFNWmltbGl6OFNkU09uQVlIeStJ?=
- =?utf-8?B?ZVhMbVVFVlZwYlV0VDkzMVNPeHp2R213WTVia21qWFl1clp4RVlZTU9mWms4?=
- =?utf-8?B?RHRXZUllekdaMzJrU0w3bHR1Zk5lV2RsUmV3dXhXNWZ1SDM2eEszWGxKeEpv?=
- =?utf-8?B?UXVwTzJ3TWtrcFI4WmwwU2M4RDJzMnY2QVVPQm1SUkxsOFJDTmZkaVZTUWtJ?=
- =?utf-8?B?cTh1UXEzRDJwVnFHMWpqUDVXcDJJVmU1cEY0cEtRSlBGazFJKzk0bmNrL2tD?=
- =?utf-8?B?S0M4VEhtdEhOeW1xN3ZVWnNva3lpbm4zZ0pGa2tqbEtKMWYrUDg5eXZ4VXpW?=
- =?utf-8?B?NTZGQ3FtU3NSMy9peEdXeDIwSlkvVmVwbVFDY0QzM2l4bkozNDBTNHFjS0Ew?=
- =?utf-8?B?THZ5Vm0wcXdEam52a1JWT2xuMmd6cWRrVXppQUNubytGV2Q4N251MW1oaHV1?=
- =?utf-8?B?T0tURXQvY1kzM0g2R2ZjeTJUT3d1SnF0TkU5MldFMm1JMmpkMTRmWTRZQUNZ?=
- =?utf-8?B?eDVmWklBSHVGT054TVgwdlpGRnZvM0pXbkRDQ3gwaHQvVSs2S2F1RGxUdnNh?=
- =?utf-8?B?QThMSXE4QXl2NlVPOWptQktJOUhZbm9VQzVwanc0cjJKa21wZXZaaTRnQ2RW?=
- =?utf-8?B?T3NYZzNBeVQybkttR3Z5WXVpTG5ITjZyRDN0RTVVNUR6NlRKaHd3V3p2ek5o?=
- =?utf-8?B?bmZJNnRXdVlvQ2U2TU5SRjRoaCtnZ2xMeDFSaFJDY3VjenZYYUc5TGpZRVk5?=
- =?utf-8?B?VFZudVFaUmlXNnpYdlNTTllKL21JNUtUMnNwT0VBZktjWCtIKzhoN2YvT3NR?=
- =?utf-8?B?RjNmRDRjVnFDS3JJcFJwV1B2VFd6MTZ5RENKQlV6Tm1GMmt2WU5yRElZWE1C?=
- =?utf-8?B?NEpGT0tvSkFVVEEzYlhmckdLN25pVGVSM01ZelVjL0pBNVFXMllBOXgyeWtY?=
- =?utf-8?B?dlRaL29rS3ArZzdWdzVNVTZOYzcrSHFzOVptanlrNXN2Z1NCV0pidG5JZ3Mv?=
- =?utf-8?B?ZmNOczNiR2psK0VKUVRHdCtLK3U1Z25MZ1pFMm96K0x6NnllM2FvamxqU3Jy?=
- =?utf-8?B?UzgyNXZZQ1BWVnRoajA5Njd0VzZheFJIUmxXN0hwUjF2UGsveHI4b2xQMUJE?=
- =?utf-8?B?ZU9NTnpRV2lxUDJZU1AxR3VMOEtiWmJmS3N0N0ttd1NLRzNUOHZjRzB3Ky9v?=
- =?utf-8?B?a1Z0K0NXVTVsYmdoSnhaQU5vV1k0QVFnTERmRWVwZXlwcmkzbHViMmdqTElB?=
- =?utf-8?Q?43vmJi?=
-X-Forefront-Antispam-Report:
-	CIP:216.228.117.160;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.nvidia.com;PTR:dc6edge1.nvidia.com;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(82310400026)(36860700013);DIR:OUT;SFP:1101;
-X-OriginatorOrg: Nvidia.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 18:14:42.1417
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 123ca0fc-542e-4a22-53c4-08dd970106de
-X-MS-Exchange-CrossTenant-Id: 43083d15-7273-40c1-b7db-39efd9ccc17a
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=43083d15-7273-40c1-b7db-39efd9ccc17a;Ip=[216.228.117.160];Helo=[mail.nvidia.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	SJ1PEPF00002315.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR12MB9167
+In-Reply-To: <20250519140713.GA16991@willie-the-truck>
 
-On Mon, May 19, 2025 at 10:59:49PM +0530, Vasant Hegde wrote:
-> Jason, Nicolin, Kevin,
-> 
-> 
-> On 5/15/2025 9:36 PM, Jason Gunthorpe wrote:
-> > On Thu, May 08, 2025 at 08:02:32PM -0700, Nicolin Chen wrote:
-> >> +/**
-> >> + * struct iommu_hw_queue_alloc - ioctl(IOMMU_HW_QUEUE_ALLOC)
-> >> + * @size: sizeof(struct iommu_hw_queue_alloc)
-> >> + * @flags: Must be 0
-> >> + * @viommu_id: Virtual IOMMU ID to associate the HW queue with
-> >> + * @type: One of enum iommu_hw_queue_type
-> >> + * @index: The logical index to the HW queue per virtual IOMMU for a multi-queue
-> >> + *         model
-> >> + * @out_hw_queue_id: The ID of the new HW queue
-> >> + * @base_addr: Base address of the queue memory in guest physical address space
-> >> + * @length: Length of the queue memory in the guest physical address space
-> >> + *
-> >> + * Allocate a HW queue object for a vIOMMU-specific HW-accelerated queue, which
-> >> + * allows HW to access a guest queue memory described by @base_addr and @length.
-> >> + * Upon success, the underlying physical pages of the guest queue memory will be
-> >> + * pinned to prevent VMM from unmapping them in the IOAS until the HW queue gets
-> >> + * destroyed.
+On Mon, May 19, 2025 at 03:07:15PM +0100, Will Deacon wrote:
+> On Mon, Apr 07, 2025 at 12:41:31PM -0500, Rob Herring (Arm) wrote:
+> > From: Anshuman Khandual <anshuman.khandual@arm.com>
 > > 
-> > Do we have way to make the pinning optional?
+> > To use the Branch Record Buffer Extension (BRBE), some configuration is
+> > necessary at EL3 and EL2. This patch documents the requirements and adds
+> > the initial EL2 setup code, which largely consists of configuring the
+> > fine-grained traps and initializing a couple of BRBE control registers.
 > > 
-> > As I understand AMD's system the iommu HW itself translates the
-> > base_addr through the S2 page table automatically, so it doesn't need
-> > pinned memory and physical addresses but just the IOVA.
-> 
-> Correct. HW will translate GPA -> SPA automatically using below information.
-> 
-> AMD IOMMU need special device ID to setup with  GPA -> SPA mapping per VM.
-> and its programmed in VF Control BAR (VFCntlMMIO Offset {16’b[GuestID],
-> 6’b01_0000} Guest Miscellaneous Control Register). IOMMU HW will use this
-> address for GPA to SPA translation for buffers like command buffer.
-> 
-> So HW will use Base address (GPA), head/tail pointer to get the offset from
-> Base. Then it will use GPA -> SPA translation.
-> 
-> 
+> > Before this patch, __init_el2_fgt() would initialize HDFGRTR_EL2 and
+> > HDFGWTR_EL2 with the same value, relying on the read/write trap controls
+> > for a register occupying the same bit position in either register. The
+> > 'nBRBIDR' trap control only exists in bit 59 of HDFGRTR_EL2, while bit
+> > 59 of HDFGWTR_EL2 is RES0, and so this assumption no longer holds.
 > > 
-> > Perhaps for this reason the pinning should be done with a function
-> > call from the driver?
+> > To handle HDFGRTR_EL2 and HDFGWTR_EL2 having (slightly) different bit
+> > layouts, __init_el2_fgt() is changed to accumulate the HDFGRTR_EL2 and
+> > HDFGWTR_EL2 control bits separately. While making this change the
+> > open-coded value (1 << 62) is replaced with
+> > HDFG{R,W}TR_EL2_nPMSNEVFR_EL1_MASK.
+> > 
+> > The BRBCR_EL1 and BRBCR_EL2 registers are unusual and require special
+> > initialisation: even though they are subject to E2H renaming, both have
+> > an effect regardless of HCR_EL2.TGE, even when running at EL2, and
+> > consequently both need to be initialised. This is handled in
+> > __init_el2_brbe() with a comment to explain the situation.
+> > 
+> > Cc: Marc Zyngier <maz@kernel.org>
+> > Cc: Oliver Upton <oliver.upton@linux.dev>
+> > Reviewed-by: Leo Yan <leo.yan@arm.com>
+> > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
+> > [Mark: rewrite commit message, fix typo in comment]
+> > Signed-off-by: Mark Rutland <mark.rutland@arm.com>
+> > Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
+> > Tested-by: James Clark <james.clark@linaro.org>
+> > ---
+> > v20:
+> >  - Document that MDCR_EL3.SBRBE can be 0b01 also
+> >  - Fix "HDFGWTR_EL2 is RES0" in commit msg
+> > ---
+> >  Documentation/arch/arm64/booting.rst | 21 +++++++++
+> >  arch/arm64/include/asm/el2_setup.h   | 86 ++++++++++++++++++++++++++++++++++--
+> >  2 files changed, 104 insertions(+), 3 deletions(-)
 > 
-> We still need to make sure memory allocated for page is present in memory so
-> that IOMMU HW can access it.
+> It would be good to have an Ack from the kvm/arm64 side on this, but in
+> the meantime I've left some comments inline.
 > 
-> Pinning at the time of guest boot is enough here -OR- do we need to increase
-> reference in queue_alloc() path ?
+> > diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+> > index dee7b6de864f..a627c1e0e4a0 100644
+> > --- a/Documentation/arch/arm64/booting.rst
+> > +++ b/Documentation/arch/arm64/booting.rst
+> > @@ -358,6 +358,27 @@ Before jumping into the kernel, the following conditions must be met:
+> >  
+> >      - HWFGWTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
+> >  
+> > +  For CPUs with feature Branch Record Buffer Extension (FEAT_BRBE):
+> 
+> This doesn't make sense ^^^
 
-For NVIDIA's vCMDQ that reads host PA directly, pages should be
-pinned once when stage 2 mappings are created for the guest RAM,
-and iommu_hw_queue_alloc() should pin the pages again to prevent
-the gPA from being unmapped in the stage 2 page table. Otherwise
-it will be a security hole, as HW continues to read the unmapped
-memory through physical address space.
+You mean it should be "with the Branch Record Buffer Extension feature" 
+instead?
 
-I understand that AMD Command Buffer also needs the S2 mappings
-to be present in order to work correctly. But what happens if a
-queue memory that isn't pinned (or even gets unmapped)? Will it
-raise a translation fault v.s. HW reading the unmapped memory?
+> 
+> > diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> > index ebceaae3c749..e7fcba1e7d8e 100644
+> > --- a/arch/arm64/include/asm/el2_setup.h
+> > +++ b/arch/arm64/include/asm/el2_setup.h
+> > @@ -189,6 +189,39 @@
+> >  .Lskip_set_cptr_\@:
+> >  .endm
+> >  
+> > +/*
+> > + * Configure BRBE to permit recording cycle counts and branch mispredicts.
+> > + *
+> > + * At any EL, to record cycle counts BRBE requires that both BRBCR_EL2.CC=1 and
+> > + * BRBCR_EL1.CC=1.
+> > + *
+> > + * At any EL, to record branch mispredicts BRBE requires that both
+> > + * BRBCR_EL2.MPRED=1 and BRBCR_EL1.MPRED=1.
+> > + *
+> > + * When HCR_EL2.E2H=1, the BRBCR_EL1 encoding is redirected to BRBCR_EL2, but
+> > + * the {CC,MPRED} bits in the real BRBCR_EL1 register still apply.
+> > + *
+> > + * Set {CC,MPRED} in both BRBCR_EL2 and BRBCR_EL1 so that at runtime we only
+> > + * need to enable/disable these in BRBCR_EL1 regardless of whether the kernel
+> > + * ends up executing in EL1 or EL2.
+> > + */
+> > +.macro __init_el2_brbe
+> > +	mrs	x1, id_aa64dfr0_el1
+> > +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
+> > +	cbz	x1, .Lskip_brbe_\@
+> > +
+> > +	mov_q	x0, BRBCR_ELx_CC | BRBCR_ELx_MPRED
+> > +	msr_s	SYS_BRBCR_EL2, x0
+> > +
+> > +	__check_hvhe .Lset_brbe_nvhe_\@, x1
+> > +	msr_s	SYS_BRBCR_EL12, x0	// VHE
+> > +	b	.Lskip_brbe_\@
+> > +
+> > +.Lset_brbe_nvhe_\@:
+> > +	msr_s	SYS_BRBCR_EL1, x0	// NVHE
+> > +.Lskip_brbe_\@:
+> 
+> Why do we have to poke BRBCR_EL12/BRBCR_EL1 here rather than in the BRBE
+> driver code?
 
-If so, I think this is Jason's point: there would be unlikely a
-security hole, i.e. for AMD, iommu_hw_queue_alloc() pinning the
-physical pages is likely optional.
+Yeah, I think we can drop this. Originally, the driver did not touch 
+SYS_BRBCR_EL12, but it turns out we need to for freeze on overflow to 
+work correctly with VHE (see the comment in the driver for 
+SYS_BRBCR_EL12 access).
 
-Thanks
-Nicolin
+The only other reason I can come up with is some fields reset to UNKNOWN 
+and there may be no driver. However, the important ones, ExBRE, reset to 
+0, so we should be fine.
+
+
+> > +.endm
+> > +
+> >  /* Disable any fine grained traps */
+> >  .macro __init_el2_fgt
+> >  	mrs	x1, id_aa64mmfr0_el1
+> > @@ -196,16 +229,48 @@
+> >  	cbz	x1, .Lskip_fgt_\@
+> >  
+> >  	mov	x0, xzr
+> > +	mov	x2, xzr
+> >  	mrs	x1, id_aa64dfr0_el1
+> >  	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+> >  	cmp	x1, #3
+> >  	b.lt	.Lskip_spe_fgt_\@
+> > +
+> >  	/* Disable PMSNEVFR_EL1 read and write traps */
+> > -	orr	x0, x0, #(1 << 62)
+> > +	orr	x0, x0, #HDFGRTR_EL2_nPMSNEVFR_EL1_MASK
+> > +	orr	x2, x2, #HDFGWTR_EL2_nPMSNEVFR_EL1_MASK
+> >  
+> >  .Lskip_spe_fgt_\@:
+> > +#ifdef CONFIG_ARM64_BRBE
+> 
+> Why is this gated on CONFIG_ARM64_BRBE?
+
+Shrug. We don't do that anywhere else, so I'll drop it.
+
+> > +	mrs	x1, id_aa64dfr0_el1
+> > +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
+> > +	cbz	x1, .Lskip_brbe_reg_fgt_\@
+> > +
+> > +	/*
+> > +	 * Disable read traps for the following registers
+> > +	 *
+> > +	 * [BRBSRC|BRBTGT|RBINF]_EL1
+> > +	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
+> > +	 */
+> > +	orr	x0, x0, #HDFGRTR_EL2_nBRBDATA_MASK
+> > +
+> > +	/*
+> > +	 * Disable write traps for the following registers
+> > +	 *
+> > +	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
+> > +	 */
+> > +	orr	x2, x2, #HDFGWTR_EL2_nBRBDATA_MASK
+> > +
+> > +	/* Disable read and write traps for [BRBCR|BRBFCR]_EL1 */
+> > +	orr	x0, x0, #HDFGRTR_EL2_nBRBCTL_MASK
+> > +	orr	x2, x2, #HDFGWTR_EL2_nBRBCTL_MASK
+> > +
+> > +	/* Disable read traps for BRBIDR_EL1 */
+> > +	orr	x0, x0, #HDFGRTR_EL2_nBRBIDR_MASK
+> > +
+> > +.Lskip_brbe_reg_fgt_\@:
+> 
+> I think this label should become .Lset_debug_fgt_\@:. That way, we have
+> a clear point at which we're done with HDFG*TR_EL2. We can zero x0 and
+> x2 and from then on we can focus on HFG*TR + HFGITR.
+> 
+> nit: the existing .Lskip_debug_fgt_\@ label looks to be misnamed -- it
+> should probably be .Lskip_sme_fgt_\@ ?
+> 
+> > +#endif /* CONFIG_ARM64_BRBE */
+> >  	msr_s	SYS_HDFGRTR_EL2, x0
+> > -	msr_s	SYS_HDFGWTR_EL2, x0
+> > +	msr_s	SYS_HDFGWTR_EL2, x2
+> 
+> nit: It would be cleaner to use x0/x1 for the pair of trap registers
+> but I can see that would be a more invasive change.
+
+That would not be worth the churn IMO. We'd want to just swap x1 and x2 
+everywhere so we consistently use x2 for ID registers. 
+
+And then I'd be to blame for *all* this wonderful code. ;)
+
+> 
+> >  	mov	x0, xzr
+> >  	mrs	x1, id_aa64pfr1_el1
+> > @@ -246,7 +311,21 @@
+> >  .Lset_fgt_\@:
+> >  	msr_s	SYS_HFGRTR_EL2, x0
+> >  	msr_s	SYS_HFGWTR_EL2, x0
+> > -	msr_s	SYS_HFGITR_EL2, xzr
+> > +	mov	x0, xzr
+> > +#ifdef CONFIG_ARM64_BRBE
+> > +	mrs	x1, id_aa64dfr0_el1
+> > +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
+> > +	cbz	x1, .Lskip_brbe_insn_fgt_\@
+> 
+> It would probably scale better if we unconditionally stick x2 in
+> HFGITR_EL2 and zero that register in '.Lset_debug_fgt_\@'. We still have
+> two checks for BRBE, but at least '.Lset_fgt_\@' could just stick to
+> writing the registers.
+
+All that looks doable.
+
+Rob
