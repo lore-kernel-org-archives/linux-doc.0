@@ -1,127 +1,121 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from esa2.hc1455-7.c3s2.iphmx.com (esa2.hc1455-7.c3s2.iphmx.com [207.54.90.48])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821EF266581;
-	Mon, 19 May 2025 07:18:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5FCC91DA5F;
+	Mon, 19 May 2025 07:29:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=207.54.90.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747639093; cv=none; b=GIacchmcwptzpGh4hE2+MdiLlO4CIj2p/9vY5TKvXGNdsk/54JTddcRP+XI2RHZMbPdb8CfhRSdIJcsQh5l9WaJeWYYJUNW29Xan0F2Rk46obkTIMar4CADyPNud3e/TLBCp36ulPHCTnQbi18rH8jTDFm+55PtssDNG2a67u4k=
+	t=1747639763; cv=none; b=Lo6Ya17hv7KJITuQZQvs+Uia9fuEYnnQjSZackDH6Y1aCp47JtBwd8vEyK2DgtQPRgCZWTvKpwJrEgzTebxxxuTmLRdlYnHUSeRMQT9dhA70DFIo0vYlIgGW4uKXvOXCBvKDE07/167xcjxQaImr82/ffb3Vfut1/k7DEAmRYU4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747639093; c=relaxed/simple;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=OcyV32eukvXsHlw7J9SriniLhgdRcZAGX1HjrnPumhvJydBttKlhKu3z15ZznMHEtRuC36bQa1KefmooDA3t/AmNSSK99ZcadurlNpG6a+Nw/IbboNqihdDA1ih/ElJwADNVImPJ+63g3cBjBT1WufUthiEjx+g8kDPwLJTN/eQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTELbrBI; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747639763; c=relaxed/simple;
+	bh=iH+nmmU4D2Q00jNKLdtiGfpOSOS2rVBXD5mlABm6pso=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version; b=jrJ0g0feV1gJaJqSyV4qgq74gti/i3ig3gI4i0jCYNOvUc83D/1bhXnnNbpEwMMXZcxXadd/lImQZX60kYcVWvI3SqCbyohfe2bY2oYrbEKt/Lvs/yFO5Lr6eY3YpmNvVMTjgfvOhCRbMei1VDqHcZ73lxBAh0uCn9/Z2vi0aTk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com; spf=pass smtp.mailfrom=fujitsu.com; dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b=aBNBTtc+; arc=none smtp.client-ip=207.54.90.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=fujitsu.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=fujitsu.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTELbrBI"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C78C4CEE4;
-	Mon, 19 May 2025 07:18:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747639092;
-	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
-	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=VTELbrBISofftmki5GL5K5nGm+lxjdgs5GkfKNFZ1DAL4fqNFwwJw0MioLwU5rfp9
-	 jA4zz2b+jc/kOXPU0fsIJSOpw+7Wc1oST5tlUCfG/CttzNA0AAp/1yi6IElOjtRWQB
-	 +vhtQhkCWpr8ak7UayLarOZHSfQcOgC4h7XoqvRDhVfVoxGtHUmQxXklmq/uP1MUv6
-	 Xd2PRMxocR0bYmpVo3j9QuAvctorvp4ItO4+m5qmiMHs7Exoedc+kgGAjuyF4/5l/r
-	 gcSS7pO8DmFlMmRsBiZQaag6LaONO6UszngnZtBA3XwzYY7f5qZv8yfoXvMFcVVvwK
-	 qUB0be5VuahNw==
-Date: Mon, 19 May 2025 02:18:10 -0500
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
+	dkim=pass (2048-bit key) header.d=fujitsu.com header.i=@fujitsu.com header.b="aBNBTtc+"
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
+  t=1747639762; x=1779175762;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=iH+nmmU4D2Q00jNKLdtiGfpOSOS2rVBXD5mlABm6pso=;
+  b=aBNBTtc+MHiSTumhPcxLUiVBgU+E5KxLI09oXOiPdRilF8t2aAairZK7
+   4ndZsiXUY96NCHTirQkmnL7B7eWscuB3dT3q+XR/SnB1at3BRx1JLpcMz
+   +MbCS6FKXr4d6sbwk9QyKNIJDrsFMuHRn9OpgH8hp1cO/rtHGnbbBJsD1
+   Ca+ZqtYt0yMHJdif0ch1hLaPsnEZXf7Q1KMS1Jiz1TIm7zJsSf+YGzfLK
+   MJ9zzRH+y0VadaRAUsMkUYZWywmsbCHGC3f+avMtOXRWt0ndGI4BAUYay
+   wwoHkfcLP0Hk16fDIcCQnbcucT1fD/z0Qq0A2qoJsWltrACmDI4iIts+Y
+   w==;
+X-CSE-ConnectionGUID: cGY1z9TzRq+UqnqKSUyfEA==
+X-CSE-MsgGUID: 5wJRuWrdT7acLME9mSHw6g==
+X-IronPort-AV: E=McAfee;i="6700,10204,11437"; a="199874952"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739804400"; 
+   d="scan'208";a="199874952"
+Received: from unknown (HELO oym-r3.gw.nic.fujitsu.com) ([210.162.30.91])
+  by esa2.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 16:28:11 +0900
+Received: from oym-m1.gw.nic.fujitsu.com (oym-nat-oym-m1.gw.nic.fujitsu.com [192.168.87.58])
+	by oym-r3.gw.nic.fujitsu.com (Postfix) with ESMTP id 3AC98C2260;
+	Mon, 19 May 2025 16:28:08 +0900 (JST)
+Received: from oym-om4.fujitsu.com (oym-om4.o.css.fujitsu.com [10.85.58.164])
+	by oym-m1.gw.nic.fujitsu.com (Postfix) with ESMTP id 0C513D88D0;
+	Mon, 19 May 2025 16:28:08 +0900 (JST)
+Received: from sm-arm-grace07.ssoft.mng.com (sm-x86-stp01.soft.fujitsu.com [10.124.178.20])
+	by oym-om4.fujitsu.com (Postfix) with ESMTP id B038A4005AE54;
+	Mon, 19 May 2025 16:28:07 +0900 (JST)
+From: Shinji Nomoto <fj5851bi@fujitsu.com>
+To: Jean Delvare <jdelvare@suse.com>,
+	Guenter Roeck <linux@roeck-us.net>,
+	Jonathan Corbet <corbet@lwn.net>,
+	linux-hwmon@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org,
+	Shinji Nomoto <fj5851bi@fujitsu.com>
+Subject: [PATCH] doc: hwmon: acpi_power_meter: Add information about enabling the power capping feature.
+Date: Mon, 19 May 2025 16:27:44 +0900
+Message-ID: <20250519072756.1512244-1-fj5851bi@fujitsu.com>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-From: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
- Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
- linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
- Oded Gabbay <ogabbay@kernel.org>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Jonathan Corbet <corbet@lwn.net>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
- linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
- Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
- linux-doc@vger.kernel.org
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
- <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
-Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
-Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <20250519071810.uLOHtUKGzjUUh5nQJu2DN-KOenxHxftuRMZGShr2vbU@z>
+Content-Transfer-Encoding: 8bit
 
+To enable the power capping feature of the acpi_power_meter driver on
+systems other than IBM products, you must explicitly specify
+the force_cap_on module parameter.
 
-On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
-> Add the bindings for the Neural Processing Unit IP from Rockchip.
-> 
-> v2:
-> - Adapt to new node structure (one node per core, each with its own
->   IOMMU)
-> - Several misc. fixes from Sebastian Reichel
-> 
-> v3:
-> - Split register block in its constituent subblocks, and only require
->   the ones that the kernel would ever use (Nicolas Frattaroli)
-> - Group supplies (Rob Herring)
-> - Explain the way in which the top core is special (Rob Herring)
-> 
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
-> ---
->  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
->  1 file changed, 162 insertions(+)
-> 
+Add information to the documentation about enabling the power capping
+feature with this driver, including the above, to improve user convenience.
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Signed-off-by: Shinji Nomoto <fj5851bi@fujitsu.com>
+---
+ Documentation/hwmon/acpi_power_meter.rst | 25 +++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
 
-yamllint warnings/errors:
-
-dtschema/dtc warnings/errors:
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
-	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
-	False schema does not allow 3
-	1 was expected
-	3 is greater than the maximum of 2
-	hint: "minItems" is only needed if less than the "items" list length
-	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
-	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
-	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
-	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
-	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
-
-doc reference errors (make refcheckdocs):
-
-See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
-
-The base for the series is generally the latest rc1. A different dependency
-should be noted in *this* patch.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit after running the above command yourself. Note
-that DT_SCHEMA_FILES can be set to your schema file to speed up checking
-your schema. However, it must be unset to test all examples with your schema.
+diff --git a/Documentation/hwmon/acpi_power_meter.rst b/Documentation/hwmon/acpi_power_meter.rst
+index 8628c1161015..334054afc498 100644
+--- a/Documentation/hwmon/acpi_power_meter.rst
++++ b/Documentation/hwmon/acpi_power_meter.rst
+@@ -37,9 +37,16 @@ arbitrary strings that ACPI provides with the meter.  The measures/ directory
+ contains symlinks to the devices that this meter measures.
+ 
+ Some computers have the ability to enforce a power cap in hardware.  If this is
+-the case, the `power[1-*]_cap` and related sysfs files will appear.  When the
+-average power consumption exceeds the cap, an ACPI event will be broadcast on
+-the netlink event socket and a poll notification will be sent to the
++the case, the `power[1-*]_cap` and related sysfs files will appear.
++For information on enabling the power cap feature, refer to the description
++of the "force_on_cap" option in the "Module Parameters" chapter.
++To use the power cap feature properly, you need to set appropriate value
++(in microWatts) to the `power[1-*]_cap` sysfs files.
++The value must be within the range between the minimum value at `power[1-]_cap_min`
++and the maximum value at `power[1-]_cap_max (both in microWatts)`.
++
++When the average power consumption exceeds the cap, an ACPI event will be
++broadcast on the netlink event socket and a poll notification will be sent to the
+ appropriate `power[1-*]_alarm` file to indicate that capping has begun, and the
+ hardware has taken action to reduce power consumption.  Most likely this will
+ result in reduced performance.
+@@ -52,3 +59,15 @@ follows:
+ `power[1-*]_cap` will be notified if the firmware changes the power cap.
+ `power[1-*]_interval` will be notified if the firmware changes the averaging
+ interval.
++
++Module Parameters
++-----------------
++
++* force_cap_on: bool
++                        Forcefully enable the power capping feature to specify
++                        the upper limit of the system's power consumption.
++
++                        By default, the driver's power capping feature is only
++                        enabled on IBM products.
++                        Therefore, on other systems that support power capping,
++                        you will need to use the option to enable it.
+-- 
+2.43.0
 
