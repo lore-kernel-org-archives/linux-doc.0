@@ -1,206 +1,149 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EE91D5AD4;
-	Mon, 19 May 2025 15:06:28 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 583642853EF;
+	Mon, 19 May 2025 15:12:12 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747667189; cv=none; b=szcbzEvEA7eAzuAxTd7G68Kz43i9ntDOMJIuSA8lcyHtD2DxIrnKUY9CWc3DOyP86drOTXTSar2ilLJf/WlJ1XprRy7vGbenyhFsoBep+o6aeTEAKnLgf882IiSyJ2/KaEAF3MPvc+laxp7wstFW0alvokInQqHxTJjFQP1aDYw=
+	t=1747667536; cv=none; b=A0SBVzWOp9JgmGQYK94uBMPsPqGRlNp/i/NLUmzZynbjriIuSFjc455nxgg3hHD7ef8hmDFza7qeLDdPAWDc2AhGuAwC3espdrWRRTgJIAwyhLCSMx4FqM9duluXeK+IbkJwgkgSH4H+2wnu0b2u/aRilJO9pmoTZo57+7zS+/E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747667189; c=relaxed/simple;
-	bh=NxCscuWDEk40ScYO6BS2xsUrg53DUDC+eeyYtmp5F9w=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=U4Ge/q5NX48+RBcM1tjlfL0YCvcDI6yEyVK+qLV0FJbDCqVS+NgmIwpAqkttDGiu17GSx3cU5xJB3w5axqsC+UnPep14fk3qJw6b9b1x6bieiOiMowyBOAvxacP8RH49zMVzT/v0P8XHiMXLuPz2esfR7CuVZ/bztHT1HG92l3c=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=PyKlxc9J; arc=none smtp.client-ip=10.30.226.201
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="PyKlxc9J"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9BFAFC4CEE9;
-	Mon, 19 May 2025 15:06:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747667188;
-	bh=NxCscuWDEk40ScYO6BS2xsUrg53DUDC+eeyYtmp5F9w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=PyKlxc9JGfp8zqj+F7Qo0tV+o1iYgCctIO5AHaP9Js5pqYnaaldq2+b32dJmiapmM
-	 OPgDd1FtR8UdhM/f6W10ClhUUlXzZ9qcG+iCOL9KYzyrg8kJXeML64MoOM0HRBci98
-	 /K+O0amOXixJxEna0qr8KNl+0Gbx4wy9U1Rd5muimUpe5zJqAbA1R6rk15olRjM6rL
-	 u2BVzsXM7XUUNpEnlA/GKgXUx0UcxbM+l6aOABY/JWXsZC8sEMX2q0+8ceuXjpMvtx
-	 EkM0n9Feo1KtJIWu+foOa12t7SJgAlkLBeBas0qmM1S/iY98JYUUK3930sW+IatGGI
-	 NJjuJvUsxg6xg==
-Date: Mon, 19 May 2025 16:06:22 +0100
-From: Will Deacon <will@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v21 4/4] perf: arm_pmuv3: Add support for the Branch
- Record Buffer Extension (BRBE)
-Message-ID: <20250519150621.GA17177@willie-the-truck>
-References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
- <20250407-arm-brbe-v19-v21-4-ff187ff6c928@kernel.org>
+	s=arc-20240116; t=1747667536; c=relaxed/simple;
+	bh=4yDTTgeK3NB53OcYwuVVMvoPuDfwm79+z+SSPTGZzh4=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=a8W9oO2KJpp55GpMlV9IJbWgAH72MbyzXLRKAV63Ih6XhWGtzoygqZlOZeryleI4jFcb0CpauH9WH/6UjoWk7yVqkEb4KaHPPYq05cc3cEEZo/Bxa95QRFGU9ApYaVN6cBWUagqisrSpH59IJBq7yjlFNIXmWnpyNr4yYuH95No=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b1LjV1JM3z6K9ql;
+	Mon, 19 May 2025 23:10:54 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id C04721400E3;
+	Mon, 19 May 2025 23:11:41 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.148.165) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Mon, 19 May 2025 17:11:40 +0200
+From: <shiju.jose@huawei.com>
+To: <linux-edac@vger.kernel.org>, <linux-acpi@vger.kernel.org>,
+	<linux-doc@vger.kernel.org>
+CC: <bp@alien8.de>, <rafael@kernel.org>, <tony.luck@intel.com>,
+	<lenb@kernel.org>, <leo.duran@amd.com>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <jonathan.cameron@huawei.com>, <linux-mm@kvack.org>,
+	<linuxarm@huawei.com>, <rientjes@google.com>, <jiaqiyan@google.com>,
+	<Jon.Grimm@amd.com>, <dave.hansen@linux.intel.com>,
+	<naoya.horiguchi@nec.com>, <james.morse@arm.com>, <jthoughton@google.com>,
+	<somasundaram.a@hpe.com>, <erdemaktas@google.com>, <pgonda@google.com>,
+	<duenwen@google.com>, <gthelen@google.com>, <wschwartz@amperecomputing.com>,
+	<dferguson@amperecomputing.com>, <wbs@os.amperecomputing.com>,
+	<nifan.cxl@gmail.com>, <tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
+	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
+Subject: [PATCH v7 0/2] ACPI: Add support for ACPI RAS2 feature table
+Date: Mon, 19 May 2025 16:11:13 +0100
+Message-ID: <20250519151116.803-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250407-arm-brbe-v19-v21-4-ff187ff6c928@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: lhrpeml100009.china.huawei.com (7.191.174.83) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-Hey Rob,
+From: Shiju Jose <shiju.jose@huawei.com>
 
-On Mon, Apr 07, 2025 at 12:41:33PM -0500, Rob Herring (Arm) wrote:
-> From: Anshuman Khandual <anshuman.khandual@arm.com>
-> 
-> The ARMv9.2 architecture introduces the optional Branch Record Buffer
-> Extension (BRBE), which records information about branches as they are
-> executed into set of branch record registers. BRBE is similar to x86's
-> Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
-> (BHRB).
+Add support for ACPI RAS2 feature table (RAS2) defined in the
+ACPI 6.5 specification, section 5.2.21 and RAS2 HW based memory
+scrubbing feature.
 
-Since you picked this up from v19, the driver has changed considerably
-and I presume you will be continuing to extend it in future as the
-architecture progresses. Perhaps having you listed as Author (and
-crucially, in git blame :p) with Anshuman as a Co-developed-by: would be
-more appropriate?
+ACPI RAS2 patches were part of the EDAC series [1].
 
-> ---
->  drivers/perf/Kconfig         |  11 +
->  drivers/perf/Makefile        |   1 +
->  drivers/perf/arm_brbe.c      | 802 +++++++++++++++++++++++++++++++++++++++++++
->  drivers/perf/arm_brbe.h      |  47 +++
->  drivers/perf/arm_pmu.c       |  15 +-
->  drivers/perf/arm_pmuv3.c     | 129 ++++++-
->  include/linux/perf/arm_pmu.h |   8 +
->  7 files changed, 1006 insertions(+), 7 deletions(-)
+The code is based on ras.git: edac-for-next branch [2]
+merged with linux-pm.git [3] : linux-next branch.
 
-Do you know if James Clark's tests [1] are going to be respun for the
-perf tool? It would be handy to have some way to test this new
-functionality.
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://web.git.kernel.org/pub/scm/linux/kernel/git/ras/ras.git/log/?h=edac-for-next
+3. https://web.git.kernel.org/pub/scm/linux/kernel/git/rafael/linux-pm.git/
 
-> diff --git a/drivers/perf/Kconfig b/drivers/perf/Kconfig
-> index 4e268de351c4..3be60ff4236d 100644
-> --- a/drivers/perf/Kconfig
-> +++ b/drivers/perf/Kconfig
-> @@ -223,6 +223,17 @@ config ARM_SPE_PMU
->  	  Extension, which provides periodic sampling of operations in
->  	  the CPU pipeline and reports this via the perf AUX interface.
->  
-> +config ARM64_BRBE
-> +	bool "Enable support for branch stack sampling using FEAT_BRBE"
-> +	depends on ARM_PMUV3 && ARM64
-> +	default y
-> +	help
-> +	  Enable perf support for Branch Record Buffer Extension (BRBE) which
-> +	  records all branches taken in an execution path. This supports some
-> +	  branch types and privilege based filtering. It captures additional
-> +	  relevant information such as cycle count, misprediction and branch
-> +	  type, branch privilege level etc.
+Changes
+=======
+v6 -> v7:
+1. Fix for the issue reported by Daniel,
+   In ras2_check_pcc_chan(), add read, clear and check RAS2 set_cap_status outside
+   if (status & PCC_STATUS_ERROR) check. 
+   https://lore.kernel.org/all/51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com/
 
-It's a shame that this can't be modular, but I suppose the tight
-integration with the CPU PMU driver precludes that. Oh well.
+v5 -> v6:
+1. Fix for the issue reported by Daniel, in start scrubbing with correct addr and size
+   after firmware return INVALID DATA error for scrub request with invalid addr or size.
+   https://lore.kernel.org/all/8cdf7885-31b3-4308-8a7c-f4e427486429@os.amperecomputing.com/
+   
+v4 -> v5:
+1. Fix for the build warnings reported by kernel test robot.
+   https://patchwork.kernel.org/project/linux-edac/patch/20250423163511.1412-3-shiju.jose@huawei.com/
+2. Removed patch "ACPI: ACPI 6.5: RAS2: Rename RAS2 table structure and field names"
+   from the series as the patch was merged to linux-pm.git : branch linux-next
+3. Rebased to ras.git: edac-for-next branch merged with linux-pm.git : linux-next branch.
+      
+v3 -> v4:
+1.  Changes for feedbacks from Yazen on v3.
+    https://lore.kernel.org/all/20250415210504.GA854098@yaz-khff2.amd.com/
 
-> diff --git a/drivers/perf/arm_brbe.c b/drivers/perf/arm_brbe.c
-> new file mode 100644
-> index 000000000000..2f254bd40af3
-> --- /dev/null
-> +++ b/drivers/perf/arm_brbe.c
+v2 -> v3:
+1. Rename RAS2 table structure and field names in 
+   include/acpi/actbl2.h limited to only necessary
+   for RAS2 scrub feature.
+2. Changes for feedbacks from Jonathan on v2.
+3. Daniel reported a known behaviour: when readback 'size' attribute after
+   setting in, returns 0 before starting scrubbing via 'addr' attribute.
+   Changes added to fix this.
+4. Daniel reported that firmware cannot update status of demand scrubbing
+   via the 'Actual Address Range (OUTPUT)', thus add workaround in the
+   kernel to update sysfs 'addr' attribute with the status of demand
+   scrubbing.
+5. Optimized logic in ras2_check_pcc_chan() function
+   (patch - ACPI:RAS2: Add ACPI RAS2 driver).
+6. Add PCC channel lock to struct ras2_pcc_subspace and change
+   lock in ras2_mem_ctx as a pointer to pcc channel lock to make sure
+   writing to PCC subspace shared memory is protected from race conditions.
+   
+v1 -> v2:
+1.  Changes for feedbacks from Borislav.
+    - Shorten ACPI RAS2 structures and variables names.
+    - Shorten some of the other variables in the RAS2 drivers.
+    - Fixed few CamelCases.
 
-(The driver code looks fine to me but I'd like an Ack from Mark on the
-UAPI).
+2.  Changes for feedbacks from Yazen.
+    - Added newline after number of '}' and return statements.
+    - Changed return type for "ras2_add_aux_device() to 'int'.
+    - Deleted a duplication of acpi_get_table("RAS2",...) in the ras2_acpi_parse_table().
+    - Add "FW_WARN" to few error logs in the ras2_acpi_parse_table().
+    - Rename ras2_acpi_init() to acpi_ras2_init() and modified to call acpi_ras2_init()
+      function from the acpi_init().
+    - Moved scrub related variables from the struct ras2_mem_ctx from  patch
+      "ACPI:RAS2: Add ACPI RAS2 driver" to "ras: mem: Add memory ACPI RAS2 driver".
 
-> diff --git a/drivers/perf/arm_pmu.c b/drivers/perf/arm_pmu.c
-> index 2f33e69a8caf..df9867c0dc57 100644
-> --- a/drivers/perf/arm_pmu.c
-> +++ b/drivers/perf/arm_pmu.c
-> @@ -99,7 +99,7 @@ static const struct pmu_irq_ops percpu_pmunmi_ops = {
->  	.free_pmuirq = armpmu_free_percpu_pmunmi
->  };
->  
-> -static DEFINE_PER_CPU(struct arm_pmu *, cpu_armpmu);
-> +DEFINE_PER_CPU(struct arm_pmu *, cpu_armpmu);
->  static DEFINE_PER_CPU(int, cpu_irq);
->  static DEFINE_PER_CPU(const struct pmu_irq_ops *, cpu_irq_ops);
->  
-> @@ -317,6 +317,11 @@ armpmu_del(struct perf_event *event, int flags)
->  	struct hw_perf_event *hwc = &event->hw;
->  	int idx = hwc->idx;
->  
-> +	if (has_branch_stack(event)) {
-> +		hw_events->branch_users--;
-> +		perf_sched_cb_dec(event->pmu);
-> +	}
+Shiju Jose (2):
+  ACPI:RAS2: Add ACPI RAS2 driver
+  ras: mem: Add memory ACPI RAS2 driver
 
-Shouldn't we decrement this *after* calling armpmu_stop()?
+ Documentation/edac/scrub.rst |  78 ++++++
+ drivers/acpi/Kconfig         |  11 +
+ drivers/acpi/Makefile        |   1 +
+ drivers/acpi/bus.c           |   3 +
+ drivers/acpi/ras2.c          | 450 +++++++++++++++++++++++++++++++++++
+ drivers/ras/Kconfig          |  11 +
+ drivers/ras/Makefile         |   1 +
+ drivers/ras/acpi_ras2.c      | 424 +++++++++++++++++++++++++++++++++
+ include/acpi/ras2.h          |  70 ++++++
+ 9 files changed, 1049 insertions(+)
+ create mode 100644 drivers/acpi/ras2.c
+ create mode 100644 drivers/ras/acpi_ras2.c
+ create mode 100644 include/acpi/ras2.h
 
-> +
->  	armpmu_stop(event, PERF_EF_UPDATE);
->  	hw_events->events[idx] = NULL;
->  	armpmu->clear_event_idx(hw_events, event);
+-- 
+2.43.0
 
-[...]
-
-> +static int branch_records_alloc(struct arm_pmu *armpmu)
-> +{
-> +	struct perf_branch_stack *branch_stack_cpu;
-> +	struct perf_branch_stack __percpu *branch_stack;
-> +	size_t size = struct_size(branch_stack_cpu, entries, brbe_num_branch_records(armpmu));
-> +	int cpu;
-> +
-> +	branch_stack = __alloc_percpu_gfp(size, __alignof__(*branch_stack_cpu),
-> +					  GFP_KERNEL);
-> +	if (!branch_stack)
-> +		return -ENOMEM;
-> +
-> +	for_each_possible_cpu(cpu) {
-> +		struct pmu_hw_events *events_cpu;
-> +
-> +		events_cpu = per_cpu_ptr(armpmu->hw_events, cpu);
-> +		branch_stack_cpu = per_cpu_ptr(branch_stack, cpu);
-> +		events_cpu->branch_stack = branch_stack_cpu;
-> +	}
-> +	return 0;
->  }
-
-How does this work in a heterogeneous system? Shouldn't we at least
-scope the allocation to the CPUs associated with this PMU?
-
->  static int armv8pmu_probe_pmu(struct arm_pmu *cpu_pmu)
-> @@ -1255,7 +1367,15 @@ static int armv8pmu_probe_pmu(struct arm_pmu *cpu_pmu)
->  	if (ret)
->  		return ret;
->  
-> -	return probe.present ? 0 : -ENODEV;
-> +	if (!probe.present)
-> +		return -ENODEV;
-> +
-> +	if (brbe_num_branch_records(cpu_pmu)) {
-> +		ret = branch_records_alloc(cpu_pmu);
-> +		if (ret)
-> +			return ret;
-> +	}
-> +	return 0;
->  }
->  
->  static void armv8pmu_disable_user_access_ipi(void *unused)
-> @@ -1314,6 +1434,7 @@ static int armv8_pmu_init(struct arm_pmu *cpu_pmu, char *name,
->  	cpu_pmu->set_event_filter	= armv8pmu_set_event_filter;
->  
->  	cpu_pmu->pmu.event_idx		= armv8pmu_user_event_idx;
-> +	cpu_pmu->pmu.sched_task		= armv8pmu_sched_task;
-
-Can we avoid assigning this unless BRBE actually probed?
-
-Will
-
-[1] https://gitlab.arm.com/linux-arm/linux-jc/-/commit/3a7ddce70c2daadb63fcc511de0a89055ca48b32
