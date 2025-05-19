@@ -1,225 +1,247 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from NAM02-DM3-obe.outbound.protection.outlook.com (mail-dm3nam02on2087.outbound.protection.outlook.com [40.107.95.87])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B06A3278E42
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 16:59:31 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747673973; cv=none; b=WDCrruBspWZeSms8r599IZMJKbfj9veIfr02mV4wynxVos9LQJds8A11vinsEkeuPtC5CmWHCctrf1tZGl0ZI8IMMipjDPl0gQfV2xOBSBBsM/87gIT34ZsS3T6Fg/6UnzZubtb8ttD8hmM0PkfLviImPuHGz5ovtRAQh0VK9hk=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747673973; c=relaxed/simple;
-	bh=zuoMwm3Fi1tu/yOuE4z8nGew8+H+DeVtGJuNkhaiCGE=;
-	h=Message-ID:Date:MIME-Version:Subject:From:To:Cc:References:
-	 In-Reply-To:Content-Type; b=poq7HzANiZJLVlpYPRTlGme1MCTtxGEMzFTpfaMdri9bz1PKUU+B6zZuNEDf9fDCgqn4Xwk0HRPu+B0jQCzdD3SuO7/iH/sZ1BmPbe91iMwVKHGp8dr6DgFIodjThd2FuYwbcpOTKW0tL7vriIPf5ZdNdJXqx0QPdOf1tsuRUv8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=SB0R6nNh; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2037E278E42;
+	Mon, 19 May 2025 17:05:26 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.95.87
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747674328; cv=fail; b=aEOLVIAQNbNGJNhOF1WFnn/fKExEbq+HmWwdVn6A+WRm6FvOw3BoJdNKE4OnUkAGMuYbaSkMy5LE2Vc1SWO32NIqmnoS6owWu6Sm9W2HdGUl50joxKkZ2cqOBpRdvV91jP5gj01wQuRzHm5uB4m/L8FKiLdcbujvNRBK9dO28U0=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747674328; c=relaxed/simple;
+	bh=+gaZCykeH3Ve0bDCDh2ARCsolM3rpSiZEk+eqt19L5w=;
+	h=Message-ID:Date:Subject:To:Cc:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=qFMvse/sdbVPkMVRB7tjFPe0jnK5ZKWqPnLs3oUGYMlulZkXrrGRPsjLRNBvWasrmFG2Vq+swc9oQustjumPN4BOVlMr0r7U93Qtwe8UthQZZJ+61C2DFgLRtc43r/R+Y7nRpTgDwPpjRP4PQy4WyuKhSq+ZB1lCOOqoz29TFKE=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=mKt5Jq25; arc=fail smtp.client-ip=40.107.95.87
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="SB0R6nNh"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747673970;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=de5QczKhzDILlofV3VvBYBfmYguEK4gP2S/GreOWyBg=;
-	b=SB0R6nNhmRMrgdqC9ACB6D19AacQoeqok6p4kccYKrU3RHeMvfLvzh1MgRnglG/jJDArX4
-	8UHfcIDFkYsMqDyaCgQdbmHfvBdKrEvBHbsDgzMpPwbeiXe6gPEYGetofOT5YiI5qUe+OR
-	SPumjw7JYZYcnld7H1qTmqcnFtGZ7xo=
-Received: from mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com
- (ec2-35-165-154-97.us-west-2.compute.amazonaws.com [35.165.154.97]) by
- relay.mimecast.com with ESMTP with STARTTLS (version=TLSv1.3,
- cipher=TLS_AES_256_GCM_SHA384) id us-mta-241-0njOWL6mM3aBo3HobqfX2A-1; Mon,
- 19 May 2025 12:59:29 -0400
-X-MC-Unique: 0njOWL6mM3aBo3HobqfX2A-1
-X-Mimecast-MFC-AGG-ID: 0njOWL6mM3aBo3HobqfX2A_1747673967
-Received: from mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com [10.30.177.15])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by mx-prod-mc-08.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTPS id C14951846EF8;
-	Mon, 19 May 2025 16:59:16 +0000 (UTC)
-Received: from [10.45.224.62] (unknown [10.45.224.62])
-	by mx-prod-int-02.mail-002.prod.us-west-2.aws.redhat.com (Postfix) with ESMTP id 5D4951955F35;
-	Mon, 19 May 2025 16:59:11 +0000 (UTC)
-Message-ID: <612b24c5-8100-4bf1-afae-78d6f38c6bbb@redhat.com>
-Date: Mon, 19 May 2025 18:59:09 +0200
+	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="mKt5Jq25"
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=s6hB6TVg9t4Xz0UHrtZqrPOqrZxNPdDQAM3MaM5feQrmbDnsGbEmdIgLbrTyFCoXoH2nWNu+uHpt9FZwTV6/jbLrSSkBDzQOZh+wvjVzI5t8lRSZLcZz9OErb+qrRE7cQQ7JyW8xyQYKj4Xhzb8i2XHaIauMsUzDwtX/I7zU8NY4w0SX+d9cqK3OIBZHHWE2pstpKBeAvySRyPjDkYLkAWJZf2te2c0FT+9rKY7I+cEZ3pmCwKMirnNXKn4ylwzwBb0d4462g3diIPoqp1fBX6mabfPDtZ8u7dd4O7cyI0a4OEl0fAxhF5+LhoIa/OIgPd2HYMGM1KmOhYPBmls9ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/5BArQx0hRBlgBGAB+Rnop+oLO8pn80ii8FzIJcNt34=;
+ b=mXA6lbh7QwES/c/vXLw689iIPq5m0tiXthhU5ZXG7O2hlDMFMft2wTQzizs8asr/mo8ZqO5XjQu2GVogvt02lA++MLDzkmZ/XjciAIJjOwmPmvsoOQDiJN7F/rMKogy2fJqM9pl4T2Ndi8trhjyIoJ54/y/+s6uiuHVqMkUCx0+Au1svPohxZnLORvjN99OZcppmho261fDCiGXVCZJv3/MDglc75W6RAqT5afmIdbHABEFLJtowYf10Q0uCvCkcxuiwXQ5Hs8KuBPv/JKXN6DREa9kY/Yn5oYe2Uxpacvtyaa/ANFq792SKtmsUyoqezcIDw1DfCFjId8nlsZOrUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/5BArQx0hRBlgBGAB+Rnop+oLO8pn80ii8FzIJcNt34=;
+ b=mKt5Jq25UUKZv0FOwdBEvEYRiTate9lHoYyUhcgkaUSMYwQR17iPcj4gmLJri2yB42f7DvyhIlxq7nHkVYGPTo6ChxOsHfSWMfYs2m+/kDC/RT9sd1qlRA40r6DGNCZD18/WQ7FpkMzflW9lPTNSlsHftnTv3nwqhV4thjLx1ZY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=amd.com;
+Received: from IA1PR12MB6043.namprd12.prod.outlook.com (2603:10b6:208:3d5::20)
+ by PH7PR12MB6540.namprd12.prod.outlook.com (2603:10b6:510:213::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Mon, 19 May
+ 2025 17:05:24 +0000
+Received: from IA1PR12MB6043.namprd12.prod.outlook.com
+ ([fe80::73e4:a06a:f737:e9be]) by IA1PR12MB6043.namprd12.prod.outlook.com
+ ([fe80::73e4:a06a:f737:e9be%4]) with mapi id 15.20.8746.029; Mon, 19 May 2025
+ 17:05:24 +0000
+Message-ID: <c0af7aa9-a991-4d20-a2bd-c6065f04fc3d@amd.com>
+Date: Mon, 19 May 2025 22:35:11 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 10/23] iommufd/viommu: Introduce IOMMUFD_OBJ_HW_QUEUE
+ and its related struct
+To: "Tian, Kevin" <kevin.tian@intel.com>, Nicolin Chen <nicolinc@nvidia.com>
+Cc: "jgg@nvidia.com" <jgg@nvidia.com>, "corbet@lwn.net" <corbet@lwn.net>,
+ "will@kernel.org" <will@kernel.org>,
+ "bagasdotme@gmail.com" <bagasdotme@gmail.com>,
+ "robin.murphy@arm.com" <robin.murphy@arm.com>,
+ "joro@8bytes.org" <joro@8bytes.org>,
+ "thierry.reding@gmail.com" <thierry.reding@gmail.com>,
+ "vdumpa@nvidia.com" <vdumpa@nvidia.com>,
+ "jonathanh@nvidia.com" <jonathanh@nvidia.com>,
+ "shuah@kernel.org" <shuah@kernel.org>,
+ "jsnitsel@redhat.com" <jsnitsel@redhat.com>,
+ "nathan@kernel.org" <nathan@kernel.org>,
+ "peterz@infradead.org" <peterz@infradead.org>, "Liu, Yi L"
+ <yi.l.liu@intel.com>, "mshavit@google.com" <mshavit@google.com>,
+ "praan@google.com" <praan@google.com>,
+ "zhangzekun11@huawei.com" <zhangzekun11@huawei.com>,
+ "iommu@lists.linux.dev" <iommu@lists.linux.dev>,
+ "linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+ "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+ "linux-arm-kernel@lists.infradead.org"
+ <linux-arm-kernel@lists.infradead.org>,
+ "linux-tegra@vger.kernel.org" <linux-tegra@vger.kernel.org>,
+ "linux-kselftest@vger.kernel.org" <linux-kselftest@vger.kernel.org>,
+ "patches@lists.linux.dev" <patches@lists.linux.dev>,
+ "mochs@nvidia.com" <mochs@nvidia.com>,
+ "alok.a.tiwari@oracle.com" <alok.a.tiwari@oracle.com>
+References: <cover.1746757630.git.nicolinc@nvidia.com>
+ <bedd9de4e24bb89f18f4b13b52c5fdb6db6bd889.1746757630.git.nicolinc@nvidia.com>
+ <BN9PR11MB52765915FACBF590E09EC46E8C90A@BN9PR11MB5276.namprd11.prod.outlook.com>
+ <aCajRTEU3vPQAzpD@Asurada-Nvidia>
+ <BN9PR11MB527678D4598D453EE1EBF4588C93A@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Language: en-US
+From: Vasant Hegde <vasant.hegde@amd.com>
+In-Reply-To: <BN9PR11MB527678D4598D453EE1EBF4588C93A@BN9PR11MB5276.namprd11.prod.outlook.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: PN4PR01CA0011.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:272::6) To IA1PR12MB6043.namprd12.prod.outlook.com
+ (2603:10b6:208:3d5::20)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH net-next v7 8/8] mfd: zl3073x: Register DPLL sub-device
- during init
-From: Ivan Vecera <ivecera@redhat.com>
-To: Lee Jones <lee@kernel.org>
-Cc: Andy Shevchenko <andy.shevchenko@gmail.com>, netdev@vger.kernel.org,
- Vadim Fedorenko <vadim.fedorenko@linux.dev>,
- Arkadiusz Kubalewski <arkadiusz.kubalewski@intel.com>,
- Jiri Pirko <jiri@resnulli.us>, Rob Herring <robh@kernel.org>,
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Prathosh Satish <Prathosh.Satish@microchip.com>,
- "David S. Miller" <davem@davemloft.net>, Jakub Kicinski <kuba@kernel.org>,
- Paolo Abeni <pabeni@redhat.com>, Simon Horman <horms@kernel.org>,
- Michal Schmidt <mschmidt@redhat.com>, devicetree@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250507124358.48776-1-ivecera@redhat.com>
- <20250507124358.48776-9-ivecera@redhat.com>
- <CAHp75Ven0i05QhKz2djYx0UU9E9nipb7Qw3mm4e+UN+ZSF_enA@mail.gmail.com>
- <2e3eb9e3-151d-42ef-9043-998e762d3ba6@redhat.com>
- <aBt1N6TcSckYj23A@smile.fi.intel.com> <20250507152609.GK3865826@google.com>
- <b095ffb9-c274-4520-a45e-96861268500b@redhat.com>
- <20250513094126.GF2936510@google.com>
- <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
-Content-Language: en-US
-In-Reply-To: <6f693bb5-da3c-4363-895f-58a267e52a18@redhat.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-Scanned-By: MIMEDefang 3.0 on 10.30.177.15
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: IA1PR12MB6043:EE_|PH7PR12MB6540:EE_
+X-MS-Office365-Filtering-Correlation-Id: 87102a01-aa2a-4805-c279-08dd96f75841
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|376014|7416014;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RDRxKy95OHlacEc2eWlvZ0ZoQVlvZDFYcFBhN1FjWFphTkxCYnkxRWFOZDRm?=
+ =?utf-8?B?dkNyWHJyQ2YrcjBRaE9oOUljai9CbDNmSjZDdFowc293UVUweHZEazdyU0do?=
+ =?utf-8?B?eXR5bUZqbEo2RWpzMDRLM1I2SVJKZXRMY05XWnJFc3ZwK2xaRjZMU3VoVTY1?=
+ =?utf-8?B?QU9pOVdNTG1uUXp6MHBtL1RicjlwQ1RwMEJQSGZGK2lYUXdyQzRYb3l2VVQ1?=
+ =?utf-8?B?ZllFYUVrd1praTBXRzNxUnVDbFlxM1dmbFVPUGxhb0NYMFlkQkM2YkZjVlFp?=
+ =?utf-8?B?cmdIQm1sUDVjbWV6dFF6MGtTSDNWYkoyTFV4RytQQlFGNklkSVFGT0d1MmlQ?=
+ =?utf-8?B?YzJNUGhTL2ZHOFhHYXcvWkpuODBSY3BDdTArMXRGWG1FTmdjYTRIc21hZnpS?=
+ =?utf-8?B?elZuNlo2bWZOTFFTeWN2ejdFZHVVWnd6NkhRc3BzWVZ0bVpFSm9VZVVldTNQ?=
+ =?utf-8?B?SFphWjBiZW45Qmh6cld2VlBDMUF3RlJFU1hXT1VNYkllYWtXSStVcGRlaW1Z?=
+ =?utf-8?B?ZVlEL0tZS2NRbk5FSG1MVldLWFZadmcwZnMvelArdkJaK1ZOMlMwbjYwMWFL?=
+ =?utf-8?B?dEZnNlFmcVZCWWdXUlVXMjBSZWlaNlRlaGYwSjZNZ3Zyc2JGbTkrVG81MEwz?=
+ =?utf-8?B?VFN1YzhVSHo1OS93WVdFRlBvUTg0Smh3L0hySFJBdHRsQk4yYXdWZEJyMFF3?=
+ =?utf-8?B?dEFCazJ6cXB4SGtpUFZhR1JWQlB4UE1wcUZuOThEZThlaUZaa0l6czRoaUtn?=
+ =?utf-8?B?ZGhHTkthd0R6UEN4WFplV3cvZHBXdVRlMDl6bFZnZWRSN054dHIzV2MvWGlQ?=
+ =?utf-8?B?NVp5QnFUcjFibVd6TUc1RjRsd0RvSXE2TTJBRXlab2k4TzNnWFRUOEVobmph?=
+ =?utf-8?B?UnA5dEtNcEg5aGJJVWxucndBenhnUTBlMTZDZTRhT0pVc1pVa0tRQ0U4c21G?=
+ =?utf-8?B?aTd5U1lqT2ZZeFRXL0VqNllCVDUraThmUHVaTzM1NTAwUjZuTUJ5bWpSZnpZ?=
+ =?utf-8?B?VGMyRmRHWHJXZS81V1RNeEJUbUJkZFRoZVpDRGg0MjVUNm9pRkFoSG9hQ0ky?=
+ =?utf-8?B?OGpHZ3AydU5nNklad2VvVXVwUFZMMWh0SjhxdWxkM3VrK3lRUTVIUnBKaFM4?=
+ =?utf-8?B?bnJ3SjI3VCtTMG5tNVdqUHYxbzYyaXdyUmtSbmpzNW9xOW5rQXdpd1JYWUtl?=
+ =?utf-8?B?bFMyNE1WWkUzS0JLV2dIbkFaeUVVVWpqaVhaWDVoVGZ2UU8xdDFaUEJnRGE3?=
+ =?utf-8?B?ZTl3ZnlWNjNkaFdGUGlsSVVPRmRBbDFITjF6bDRxZGNDQjAybXJ4Wnl4QWpB?=
+ =?utf-8?B?QTFDcENpdk1rNUJ4SDJ6TFIwTmhubWtiSElkeklYazI4QVEya1NUeTdHN0Rn?=
+ =?utf-8?B?RjhicFEwSTgxSUNDdDFRQWRySkNUcGV1MmladFB3bExKVXZTTDQ1UnVQbkg0?=
+ =?utf-8?B?bmppUkJ0YThwVHJjNkZEWUFtTGszM3J1dTFSMDdJNU5CYUJNWHZwNWN5bklW?=
+ =?utf-8?B?Qy9zTTk2bFIvYTQ2bGNnRWs2L2xMK2xtU3JWTnhRd1dxc1VsMDdlS2FudlZD?=
+ =?utf-8?B?NEJNa0dDNDY2WFZKUnRJMUxrWmlTNTc3dlVPVlJKdm1EenY2N1NkUEczdVZG?=
+ =?utf-8?B?NWxZc244RFhJVGYyV0Zyc2lyQ3NuWDgyWUh2MmV5cTVsbys2dHA4N1RuRzJN?=
+ =?utf-8?B?a3UxbXl4YW1VRjQyVW9JS3hpV0dJdjAvZGovTUFwRUtTR2pRQ1BiamVFazVa?=
+ =?utf-8?B?NHhlSjF0Y1R3VnZnblVCSnpEaGlQQmdEVVU4bnovbEU2WlBDWjNMZmxGNWlQ?=
+ =?utf-8?B?OWp5Nks1c1MrUEF0SU5aSHE2UGJPWGdWR0ozMCs0ZkQ0RFlXNDA1VGtpSnFv?=
+ =?utf-8?Q?Jbeo6UvO49BXL?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:IA1PR12MB6043.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?utf-8?B?M3lnbHVWK1NBQ0xTNTE4VkwzOHY5SXRyUmpacnFaNERHVUlWVTlzK20yY2N4?=
+ =?utf-8?B?L1p3UmV6QXgzeHRVMHU5SGVuNFRyOE0yUW04dktwd0hEYTB4c05PZWFCVVR1?=
+ =?utf-8?B?YnYrUEtVN0ZlbFJ6czR3eUs5Ty9uUDFrWkRmVC9qNTRtaUxlOVpZc0E5aHR3?=
+ =?utf-8?B?TTJlRnJMVUJVYUo3OUloVlJRSVR5SVdKS3ZiSGpjcmhIa0lSWFhwUW1QY0p0?=
+ =?utf-8?B?c2lURlVONHdPUjRQQjE2cyt6OElpYTF2OC93MmF3ckVwMGZuOFpsTVhTSGhs?=
+ =?utf-8?B?ankyQ2J6TUs5eDVPYS9pbTRGZGg4SXlKK3AwdEJ6Z0hpNEQwcW1aUERJdURx?=
+ =?utf-8?B?NndrWiticnIrQ1pNcnJneTlrTVZPWTl3SmtQZEU2UHFsZS9zZndBaXJjc1NG?=
+ =?utf-8?B?Y0syUmxDK3h4aTVyR2hOYnRkWkhVaDhGRnJBamV2dXRETFd6b0tOc2laVzNz?=
+ =?utf-8?B?VFROQWxyRzNMcm9jQ1hWWFdpTUVyU2lrYVN4dFhLVFlLeENsUkgxOUdKck5L?=
+ =?utf-8?B?d2R2ZkF0NzJXV2o4YVFnZTNoVXJVcW1Xb2tuL0paNm5IcllZM01tam9TelVM?=
+ =?utf-8?B?YmJET3BncFk1dk9iRU45S1JVVWdGNDFWMzNucnREMldKb0JwSndIR013REtv?=
+ =?utf-8?B?TGJNUEphc2ZMOXRHTkI5RnJYUzR0U1orUU1TVnVMNzcrL1RLemhrKzdybUlY?=
+ =?utf-8?B?TW9jN0o3MWFRL2VHZVNsMHBzRFJRZmt0ajRPUitpOGUvaW5pdnhxWWlwdWo0?=
+ =?utf-8?B?dThWcStXVG9qaHNDb1VkeWNtRVVKSjdxVmo2NHluZmlkdVJRM1J1T3NGNklM?=
+ =?utf-8?B?V05BcmNxL2lWZnNBbmZFL2w3RGltWERrZWpRYU1BbnZnVFJTUmJUZzdrSmFQ?=
+ =?utf-8?B?dmluaUR0d0p0RzRRRWxwQUpCTWJnVGtoaUNwV0dxaXFSYmM0ZFVnOUJKbnZ6?=
+ =?utf-8?B?cnM5cVBYVWtSaXl2bDJvTVFQdDZMK29idEdabmhXVFJld2hNMmN5Q0hKd2hp?=
+ =?utf-8?B?TWhTTHVxNEZ1MTZTeG1kMlNHbU8yVHpacUZlc1lBT3NyMWMvRHR2b1NteUpV?=
+ =?utf-8?B?cFJqSUdpYzhGcEYyYm1rNVFFeHdYbHB4eFBKOHowV0RLVHprY1dlYUJ0amo3?=
+ =?utf-8?B?R2pHU08zaVhyZkxORG9wK3oxYmFRQThYdFlaOUFNbEp1MUxYclJOR1k0Mmpz?=
+ =?utf-8?B?M0FhMk8rQjNwTTh1amQvb1pSbDVMNkN4VzNjWGQ3dUFISkNMd0JhNVlGV1Z0?=
+ =?utf-8?B?dXpCYW5jdmMvR09nUm1ZM1FrdVBGa2tGb3ZyMHdsV1FZU1Y1WjNLT2pOTnY1?=
+ =?utf-8?B?T0taVGNUZXExMVpLOGllQy9BR1g1cWM4bkZOdDJOQUdTM0dlV3BScitPY0Fo?=
+ =?utf-8?B?QnpQWWoxSnpORnc2Ulp0ajJNOTJsSGVURVA1Q2hwZ083Ym1FUzUxQ0p1SU9n?=
+ =?utf-8?B?UG1tN3VFMDBMZ0djcnhqQ0E3anBGY2ZuTEZXbnJmWkhjNWFlWHVJOXJhNFhp?=
+ =?utf-8?B?R3hLbnNuY1pZRW9KMmU3QUhJdEY2OUhkaGJ5UE9FbTZGL2tpb2QzSmNkOUJW?=
+ =?utf-8?B?QUxReER3cE1NWUo4SzVINkVWREZIdXk1UEl2VHVlaHBDRkg2NWcyR1BjcVlK?=
+ =?utf-8?B?S3BmUnY0MEp5ai9iNUxsdmhQbHM2Q2JJcUdhTzAyRm5rZXRYT1VYVnMrUC9h?=
+ =?utf-8?B?WC9kaFZxVmtYbFB0Y3JlUnRqdWRoaVFqa3VEUnhEVWFEZUZnb0Q2UGFKT3Nt?=
+ =?utf-8?B?ZXRJbGpnSmtHb1NlVmFwQmlUQ1V3Vk84d0MxaSt4L2pieDQyUTZzSk9NT1E3?=
+ =?utf-8?B?dHNDMHpMek56V0Z5R2lnOGVCbkpFN1hvd25RYW9mN20yajNLQ3pVM0poV1ky?=
+ =?utf-8?B?Y3FyMzRleHdDUkd0aEVUem5Na3I5TGQwVWVScFRzNVlJUUpPYWxRTkhGU0w5?=
+ =?utf-8?B?d256Q2xnMTNiQldtNXlNZVAxdjlmSUZNQ2w1NHl3bWgyRjJHODVpa2hhMnB4?=
+ =?utf-8?B?SjJoU1RmUGluK2NOcVQxSXRBZ2xzOXRPNHlwdVpHdTdlUTA5UGFmRzNkaTd6?=
+ =?utf-8?B?N3ZSWXliWmp6b3RNZ3IzQ00xOEVKeDNkdkxJSTl6TDFRL20vb1BISzk4Wm4y?=
+ =?utf-8?Q?Afr27TJyAi0ne0y4YLc4e14CE?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 87102a01-aa2a-4805-c279-08dd96f75841
+X-MS-Exchange-CrossTenant-AuthSource: IA1PR12MB6043.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 May 2025 17:05:24.1841
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +6paPEi7pG64LXccT4GlfXsyGMpp18+KJr3HFvBS5MaT7DSKxBpU1bXYBSrH0/b/HzS9wAohgH45CF0Vt7a1Lw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR12MB6540
+
+Kevin, Nicolin,
 
 
-
-On 13. 05. 25 12:47 odp., Ivan Vecera wrote:
-> On 13. 05. 25 11:41 dop., Lee Jones wrote:
->> On Mon, 12 May 2025, Ivan Vecera wrote:
+On 5/16/2025 8:29 AM, Tian, Kevin wrote:
+>> From: Nicolin Chen <nicolinc@nvidia.com>
+>> Sent: Friday, May 16, 2025 10:30 AM
 >>
->>> On 07. 05. 25 5:26 odp., Lee Jones wrote:
->>>> On Wed, 07 May 2025, Andy Shevchenko wrote:
+>> On Thu, May 15, 2025 at 05:58:41AM +0000, Tian, Kevin wrote:
+>>>> From: Nicolin Chen <nicolinc@nvidia.com>
+>>>> Sent: Friday, May 9, 2025 11:03 AM
 >>>>
->>>>> On Wed, May 07, 2025 at 03:56:37PM +0200, Ivan Vecera wrote:
->>>>>> On 07. 05. 25 3:41 odp., Andy Shevchenko wrote:
->>>>>>> On Wed, May 7, 2025 at 3:45 PM Ivan Vecera <ivecera@redhat.com> 
->>>>>>> wrote:
->>>>>
->>>>> ...
->>>>>
->>>>>>>> +static const struct zl3073x_pdata 
->>>>>>>> zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>>>>> +       { .channel = 0, },
->>>>>>>> +       { .channel = 1, },
->>>>>>>> +       { .channel = 2, },
->>>>>>>> +       { .channel = 3, },
->>>>>>>> +       { .channel = 4, },
->>>>>>>> +};
->>>>>>>
->>>>>>>> +static const struct mfd_cell zl3073x_devs[] = {
->>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 0),
->>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 1),
->>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 2),
->>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 3),
->>>>>>>> +       ZL3073X_CELL("zl3073x-dpll", 4),
->>>>>>>> +};
->>>>>>>
->>>>>>>> +#define ZL3073X_MAX_CHANNELS   5
->>>>>>>
->>>>>>> Btw, wouldn't be better to keep the above lists synchronised like
->>>>>>>
->>>>>>> 1. Make ZL3073X_CELL() to use indexed variant
->>>>>>>
->>>>>>> [idx] = ...
->>>>>>>
->>>>>>> 2. Define the channel numbers
->>>>>>>
->>>>>>> and use them in both data structures.
->>>>>>>
->>>>>>> ...
->>>>>>
->>>>>> WDYM?
->>>>>>
->>>>>>> OTOH, I'm not sure why we even need this. If this is going to be
->>>>>>> sequential, can't we make a core to decide which cell will be given
->>>>>>> which id?
->>>>>>
->>>>>> Just a note that after introduction of PHC sub-driver the array 
->>>>>> will look
->>>>>> like:
->>>>>> static const struct mfd_cell zl3073x_devs[] = {
->>>>>>          ZL3073X_CELL("zl3073x-dpll", 0),  // DPLL sub-dev for chan 0
->>>>>>          ZL3073X_CELL("zl3073x-phc", 0),   // PHC sub-dev for chan 0
->>>>>>          ZL3073X_CELL("zl3073x-dpll", 1),  // ...
->>>>>>          ZL3073X_CELL("zl3073x-phc", 1),
->>>>>>          ZL3073X_CELL("zl3073x-dpll", 2),
->>>>>>          ZL3073X_CELL("zl3073x-phc", 2),
->>>>>>          ZL3073X_CELL("zl3073x-dpll", 3),
->>>>>>          ZL3073X_CELL("zl3073x-phc", 3),
->>>>>>          ZL3073X_CELL("zl3073x-dpll", 4),
->>>>>>          ZL3073X_CELL("zl3073x-phc", 4),   // PHC sub-dev for chan 4
->>>>>> };
->>>>>
->>>>> Ah, this is very important piece. Then I mean only this kind of change
->>>>>
->>>>> enum {
->>>>>     // this or whatever meaningful names
->>>>>     ..._CH_0    0
->>>>>     ..._CH_1    1
->>>>>     ...
->>>>> };
->>>>>
->>>>> static const struct zl3073x_pdata 
->>>>> zl3073x_pdata[ZL3073X_MAX_CHANNELS] = {
->>>>>          { .channel = ..._CH_0, },
->>>>>          ...
->>>>> };
->>>>>
->>>>> static const struct mfd_cell zl3073x_devs[] = {
->>>>>          ZL3073X_CELL("zl3073x-dpll", ..._CH_0),
->>>>>          ZL3073X_CELL("zl3073x-phc", ..._CH_0),
->>>>>          ...
->>>>> };
+>>>> Add IOMMUFD_OBJ_HW_QUEUE with an iommufd_hw_queue structure,
+>>>> representing
+>>>> a HW-accelerated queue type of IOMMU's physical queue that can be
+>> passed
+>>>> through to a user space VM for direct hardware control, such as:
+>>>>  - NVIDIA's Virtual Command Queue
+>>>>  - AMD vIOMMU's Command Buffer, Event Log Buffer, and PPR Log Buffer
 >>>>
->>>> This is getting hectic.  All for a sequential enumeration.  Seeing as
->>>> there are no other differentiations, why not use IDA in the child
->>>> instead?
+>>>> Introduce an allocator iommufd_hw_queue_alloc(). And add a pair of
+>>>> viommu
+>>>> ops for iommufd to forward user space ioctls to IOMMU drivers.
+>>>>
+>>>> Given that the first user of this HW QUEUE (tegra241-cmdqv) will need to
+>>>> ensure the queue memory to be physically contiguous, add a flag
+>> property
+>>>> in iommufd_viommu_ops and
+>>>> IOMMUFD_VIOMMU_FLAG_HW_QUEUE_READS_PA to allow
+>>>> driver to flag it so that the core will validate the physical pages of a
+>>>> given guest queue.
 >>>
->>> For that, there have to be two IDAs, one for DPLLs and one for PHCs...
+>>> 'READS' is confusing here. What about xxx_CONTIG_PAS?
 >>
->> Sorry, can you explain a bit more.  Why is this a problem?
+>> Combining Jason's first comments here:
+>> https://lore.kernel.org/linux-
+>> iommu/20250515160620.GJ382960@nvidia.com/
 >>
->> The IDA API is very simple.
->>
->> Much better than building your own bespoke MACROs.
-> 
-> I will try to explain this in more detail... This MFD driver handles
-> chip family ZL3073x where the x == number of DPLL channels and can
-> be from <1, 5>.
-> 
-> The driver creates 'x' DPLL sub-devices during probe and has to pass
-> channel number that should this sub-device use. Here can be used IDA
-> in DPLL sub-driver:
-> e.g. ida_alloc_max(zldev->channels, zldev->max_channels, GFP_KERNEL);
-> 
-> This way the DPLL sub-device get its own unique channel ID to use.
-> 
-> The situation is getting more complicated with PHC sub-devices because
-> the chip can provide UP TO 'x' PHC sub-devices depending on HW
-> configuration. To handle this the MFD driver has to check this HW config
-> for particular channel if it is capable to provide PHC functionality.
-> 
-> E.g. ZL30735 chip has 5 channels, in this case the MFD driver should
-> create 5 DPLL sub-devices. And then lets say channel 0, 2 and 4 are
-> PHC capable. Then the MFD driver should create 3 PHC sub-devices and
-> pass 0, 2 resp. 4 for them.
-> 
-> In that case IDA cannot be simply used as the allocation is not
-> sequential.
-> 
-> So yes, for DPLL sub-devices IDA could be used but for the PHCs another
-> approach (platform data) has to be used.
-> 
-> There could be a hacky way to use IDA for PHCs: MFD would create PHC
-> sub-devices for all channels and PHC sub-driver would check the channel
-> config during probe and if the channel is not capable then returns
-> -ENODEV. But I don't think this is good idea to create MFD cells this
-> way.
-> 
-> Thanks for advices.
-> 
-> Ivan
+>> So, pinning should be optional too. And I think there would be
+>> unlikely a case where HW needs contiguous physical pages while
+>> not requiring to pin the pages, right?
 
-Lee, any comment? What about my proposal in v8?
+AMD IOMMU needs contiguous GPA space for buffer (like command buffer), not
+contiguous physical address.
 
-Thanks,
-Ivan
+
+>>
+>> So, we need an flag that could indicate to do both tests. Yet,
+>> "xxx_CONTIG_PAS" doesn't sound very fitting, compared to this
+>> "IOMMUFD_VIOMMU_FLAG_HW_QUEUE_READS_PA".
+>>
+>> Perhaps, we should just add some comments to clarify a bit. Or
+>> do you have some better naming?
+>>
+> 
+> let's wait until that open is closed, i.e. whether we still let the core
+> manage it and whether AMD requires pinning even when IOVA
+> is used.
+
+I think we may still want to pin those buffer address.
+
+-Vasant
+
 
