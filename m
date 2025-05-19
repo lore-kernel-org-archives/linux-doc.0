@@ -1,32 +1,32 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A90E5245035;
-	Mon, 19 May 2025 06:32:55 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 821EF266581;
+	Mon, 19 May 2025 07:18:13 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747636376; cv=none; b=YbRWCLeOPFrJHCp7zf0bnkMB9RO3j/I5JTGW/6EdyfVN3Kc4qLTXnqRy636TdyKa1REY7odzfaMWV4ku0/ZRB83zjegqhXJYyJJwY09mQMpnbw9OmBWNEPcuDILcclqBSc93lJEPJlkPqMbfYC6hqoFn7G/8A9p1taf+oyWHT/Y=
+	t=1747639093; cv=none; b=GIacchmcwptzpGh4hE2+MdiLlO4CIj2p/9vY5TKvXGNdsk/54JTddcRP+XI2RHZMbPdb8CfhRSdIJcsQh5l9WaJeWYYJUNW29Xan0F2Rk46obkTIMar4CADyPNud3e/TLBCp36ulPHCTnQbi18rH8jTDFm+55PtssDNG2a67u4k=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747636376; c=relaxed/simple;
+	s=arc-20240116; t=1747639093; c=relaxed/simple;
 	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
 	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
-	 Message-Id:Subject; b=SrOPa+63X4Z/wclZ4LWTR3HetMWsUuUAsXSCm0TIWJhm2Sim5GcEoMeSqsdvYwGG5jNXBkNn68oFcRpFV5XIzTJHoG3oXgsyAAHNauhVZ2mWArybpqkfngBCGlt2bI7Uz9nHzMD7dJwFwqO3XcSjRFp/kKDQTaFgmX7G8c+k8VU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ZhMR1wU/; arc=none smtp.client-ip=10.30.226.201
+	 Message-Id:Subject; b=OcyV32eukvXsHlw7J9SriniLhgdRcZAGX1HjrnPumhvJydBttKlhKu3z15ZznMHEtRuC36bQa1KefmooDA3t/AmNSSK99ZcadurlNpG6a+Nw/IbboNqihdDA1ih/ElJwADNVImPJ+63g3cBjBT1WufUthiEjx+g8kDPwLJTN/eQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=VTELbrBI; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ZhMR1wU/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id D8470C4CEE4;
-	Mon, 19 May 2025 06:32:54 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="VTELbrBI"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id A3C78C4CEE4;
+	Mon, 19 May 2025 07:18:12 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747636375;
+	s=k20201202; t=1747639092;
 	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
 	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
-	b=ZhMR1wU/X0Ftyf6ohXFPrJXQwhkWzueNT8/spvuGLMldbiR4tGeBv435mgPBDj2fh
-	 h25+ZLh+a/oVqqUA5g0Ccm5c9J0tXEjJbDzOuHGcX5mBwdxO8AhQpofalAsMrAtDuI
-	 BvQN/BzF702ipIzpZ5PzL79fM7+EJ84LPtubD4wh4tD8ilYMNr5f3dWQJEDjpyzcBY
-	 m1aFqPnt6pLdPNgeIhHQD+2RALGu6wORmSWzaoT8REybCVfUD8Tb+snf3J9uDFIM3Z
-	 xyh3qQx4S/YK7PS+R2D1lczDI7cXCS5I1PU6CR1Ve2TSAfIiSA1ftZ1WaugAZ9Mt6H
-	 VqjHQ+lP7NuqA==
-Date: Mon, 19 May 2025 01:32:53 -0500
+	b=VTELbrBISofftmki5GL5K5nGm+lxjdgs5GkfKNFZ1DAL4fqNFwwJw0MioLwU5rfp9
+	 jA4zz2b+jc/kOXPU0fsIJSOpw+7Wc1oST5tlUCfG/CttzNA0AAp/1yi6IElOjtRWQB
+	 +vhtQhkCWpr8ak7UayLarOZHSfQcOgC4h7XoqvRDhVfVoxGtHUmQxXklmq/uP1MUv6
+	 Xd2PRMxocR0bYmpVo3j9QuAvctorvp4ItO4+m5qmiMHs7Exoedc+kgGAjuyF4/5l/r
+	 gcSS7pO8DmFlMmRsBiZQaag6LaONO6UszngnZtBA3XwzYY7f5qZv8yfoXvMFcVVvwK
+	 qUB0be5VuahNw==
+Date: Mon, 19 May 2025 02:18:10 -0500
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -58,7 +58,7 @@ References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
  <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
 Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
 Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
-Message-ID: <20250519063253.z4SU03iX3VWmiF5Opxs_8_U2Z_O8D5pNQc9Iqa0V3Rw@z>
+Message-ID: <20250519071810.uLOHtUKGzjUUh5nQJu2DN-KOenxHxftuRMZGShr2vbU@z>
 
 
 On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
