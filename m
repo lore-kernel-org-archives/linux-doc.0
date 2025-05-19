@@ -1,150 +1,290 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 06F3B1C683;
-	Mon, 19 May 2025 12:12:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD5BF275846;
+	Mon, 19 May 2025 12:15:23 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747656768; cv=none; b=i6l4z2sUWIuy/MGSLf4lhIqYTe+jVbaqsQhzTjTdQwo4tvaAIpK+E/Cs4bCXOO+x8+TbXvNQQ1dOxv+ZsFmr0e/AQDgwreL3QrDKo3xKrqtRdVFJEV9JrDMmXI0RzK1lb4v/0JXt+FAq4YkK/fisTnaEpzOk5VuGVGJkkfWzoeM=
+	t=1747656926; cv=none; b=qWOwPT3+qoDKjKLGvtIMJq41GI2lG0r1Z+/NJCpZFMmvRLe4KMWR2Xk0gucGgvoYlT6hreEtzD04kaubSxFesBCkXlcr65/DTWdZNPuOuIxD2jLzEYJkiXCmwVk5hx6EbjoriCWSdtJoVLru9nSRABM+Prb1ShkMb6yfnfqfu8E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747656768; c=relaxed/simple;
-	bh=rFRIvFuWUliJwSLHrP/h/3fIaAtmVc4vP2aeAbKLg5g=;
-	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
-	 Content-Type:MIME-Version; b=rPm5/hLu5g/9VxyP+yQ83c95cYRFh34UoYwO12iH1DLd2HQLVV8Lqsi3clr+D1wvOWQ4QZaMvKeEEQppB5KUR9OzY77UCwT8Z/cR2tlOcW+6dgzjsARagr11D7OXhuNYZT9IOb9/DCoFZICIrnrYCtGkk+OAhTw4GB3Lh2hCJvc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.216])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b1Gky1LM6z6K9jp;
-	Mon, 19 May 2025 20:11:54 +0800 (CST)
-Received: from frapeml500005.china.huawei.com (unknown [7.182.85.13])
-	by mail.maildlp.com (Postfix) with ESMTPS id 7B9C4140133;
-	Mon, 19 May 2025 20:12:41 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (7.182.85.172) by
- frapeml500005.china.huawei.com (7.182.85.13) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Mon, 19 May 2025 14:12:41 +0200
-Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
- frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
- Mon, 19 May 2025 14:12:41 +0200
-From: Shiju Jose <shiju.jose@huawei.com>
-To: Daniel Ferguson <danielf@os.amperecomputing.com>,
-	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
-	"linux-acpi@vger.kernel.org" <linux-acpi@vger.kernel.org>,
-	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>
-CC: "bp@alien8.de" <bp@alien8.de>, "rafael@kernel.org" <rafael@kernel.org>,
-	"tony.luck@intel.com" <tony.luck@intel.com>, "lenb@kernel.org"
-	<lenb@kernel.org>, "leo.duran@amd.com" <leo.duran@amd.com>,
-	"Yazen.Ghannam@amd.com" <Yazen.Ghannam@amd.com>, "mchehab@kernel.org"
-	<mchehab@kernel.org>, Jonathan Cameron <jonathan.cameron@huawei.com>,
-	"linux-mm@kvack.org" <linux-mm@kvack.org>, Linuxarm <linuxarm@huawei.com>,
-	"rientjes@google.com" <rientjes@google.com>, "jiaqiyan@google.com"
-	<jiaqiyan@google.com>, "Jon.Grimm@amd.com" <Jon.Grimm@amd.com>,
-	"dave.hansen@linux.intel.com" <dave.hansen@linux.intel.com>,
-	"naoya.horiguchi@nec.com" <naoya.horiguchi@nec.com>, "james.morse@arm.com"
-	<james.morse@arm.com>, "jthoughton@google.com" <jthoughton@google.com>,
-	"somasundaram.a@hpe.com" <somasundaram.a@hpe.com>, "erdemaktas@google.com"
-	<erdemaktas@google.com>, "pgonda@google.com" <pgonda@google.com>,
-	"duenwen@google.com" <duenwen@google.com>, "gthelen@google.com"
-	<gthelen@google.com>, "wschwartz@amperecomputing.com"
-	<wschwartz@amperecomputing.com>, "dferguson@amperecomputing.com"
-	<dferguson@amperecomputing.com>, "wbs@os.amperecomputing.com"
-	<wbs@os.amperecomputing.com>, "nifan.cxl@gmail.com" <nifan.cxl@gmail.com>,
-	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
-	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
-	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
-Subject: RE: [PATCH v6 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Topic: [PATCH v6 1/2] ACPI:RAS2: Add ACPI RAS2 driver
-Thread-Index: AQHbxmZ7uLoEIE5IaUS4NXsz+YRI27PVfH2AgARkgPA=
-Date: Mon, 19 May 2025 12:12:41 +0000
-Message-ID: <a98451bf422e4dcba7bb0075fa892e5b@huawei.com>
-References: <20250516132205.789-1-shiju.jose@huawei.com>
-	<20250516132205.789-2-shiju.jose@huawei.com>
- <51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com>
-In-Reply-To: <51bcb52c-4132-4daf-8903-29b121c485a1@os.amperecomputing.com>
-Accept-Language: en-GB, en-US
-Content-Language: en-US
-X-MS-Has-Attach:
-X-MS-TNEF-Correlator:
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+	s=arc-20240116; t=1747656926; c=relaxed/simple;
+	bh=tNM305ttJ97N5szcmiZosc3SsEJonoEDwtoWV06EsW8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=eHuXg8ngJf2Nr5dqxRMocyAkslwGhunusufh8+YccQ4u5BAah71Fuo59FGB+kWREaHJE2ZoLZVkainO7/A0hNqU+J/+XRxZg5Ks8/USZxB8ZxPUB2l1Xx+CxsBR1rwVxLQB1cE9qXTOo3eLc3jyIP1SvRVBYzmx8IBK9od78tmE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: zEjjuuF2SXOZ8c9yvnFH7A==
+X-CSE-MsgGUID: NVY0tqKNQz2VJXX634cAyA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49657670"
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="49657670"
+Received: from fmviesa007.fm.intel.com ([10.60.135.147])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 05:15:23 -0700
+X-CSE-ConnectionGUID: g1C1h59sRKa7mLT+S9tB+w==
+X-CSE-MsgGUID: /yvKf85WRYizI3FayBA+YA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,300,1739865600"; 
+   d="scan'208";a="139395929"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa007.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 May 2025 05:15:20 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1uGzOn-000000031pb-3X9A;
+	Mon, 19 May 2025 15:15:17 +0300
+Date: Mon, 19 May 2025 15:15:17 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 09/12] iio: accel: adxl313: add activity sensing
+Message-ID: <aCsg1XddkT6sGjev@smile.fi.intel.com>
+References: <20250518111321.75226-1-l.rubusch@gmail.com>
+ <20250518111321.75226-10-l.rubusch@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250518111321.75226-10-l.rubusch@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-DQoNCj4tLS0tLU9yaWdpbmFsIE1lc3NhZ2UtLS0tLQ0KPkZyb206IERhbmllbCBGZXJndXNvbiA8
-ZGFuaWVsZkBvcy5hbXBlcmVjb21wdXRpbmcuY29tPg0KPlNlbnQ6IDE2IE1heSAyMDI1IDIwOjA1
-DQo+VG86IFNoaWp1IEpvc2UgPHNoaWp1Lmpvc2VAaHVhd2VpLmNvbT47IGxpbnV4LWVkYWNAdmdl
-ci5rZXJuZWwub3JnOyBsaW51eC0NCj5hY3BpQHZnZXIua2VybmVsLm9yZzsgbGludXgtZG9jQHZn
-ZXIua2VybmVsLm9yZw0KPkNjOiBicEBhbGllbjguZGU7IHJhZmFlbEBrZXJuZWwub3JnOyB0b255
-Lmx1Y2tAaW50ZWwuY29tOyBsZW5iQGtlcm5lbC5vcmc7DQo+bGVvLmR1cmFuQGFtZC5jb207IFlh
-emVuLkdoYW5uYW1AYW1kLmNvbTsgbWNoZWhhYkBrZXJuZWwub3JnOw0KPkpvbmF0aGFuIENhbWVy
-b24gPGpvbmF0aGFuLmNhbWVyb25AaHVhd2VpLmNvbT47IGxpbnV4LW1tQGt2YWNrLm9yZzsNCj5M
-aW51eGFybSA8bGludXhhcm1AaHVhd2VpLmNvbT47IHJpZW50amVzQGdvb2dsZS5jb207DQo+amlh
-cWl5YW5AZ29vZ2xlLmNvbTsgSm9uLkdyaW1tQGFtZC5jb207IGRhdmUuaGFuc2VuQGxpbnV4Lmlu
-dGVsLmNvbTsNCj5uYW95YS5ob3JpZ3VjaGlAbmVjLmNvbTsgamFtZXMubW9yc2VAYXJtLmNvbTsg
-anRob3VnaHRvbkBnb29nbGUuY29tOw0KPnNvbWFzdW5kYXJhbS5hQGhwZS5jb207IGVyZGVtYWt0
-YXNAZ29vZ2xlLmNvbTsgcGdvbmRhQGdvb2dsZS5jb207DQo+ZHVlbndlbkBnb29nbGUuY29tOyBn
-dGhlbGVuQGdvb2dsZS5jb207DQo+d3NjaHdhcnR6QGFtcGVyZWNvbXB1dGluZy5jb207IGRmZXJn
-dXNvbkBhbXBlcmVjb21wdXRpbmcuY29tOw0KPndic0Bvcy5hbXBlcmVjb21wdXRpbmcuY29tOyBu
-aWZhbi5jeGxAZ21haWwuY29tOyB0YW54aWFvZmVpDQo+PHRhbnhpYW9mZWlAaHVhd2VpLmNvbT47
-IFplbmd0YW8gKEIpIDxwcmltZS56ZW5nQGhpc2lsaWNvbi5jb20+OyBSb2JlcnRvDQo+U2Fzc3Ug
-PHJvYmVydG8uc2Fzc3VAaHVhd2VpLmNvbT47IGthbmdrYW5nLnNoZW5AZnV0dXJld2VpLmNvbTsN
-Cj53YW5naHVpcWlhbmcgPHdhbmdodWlxaWFuZ0BodWF3ZWkuY29tPg0KPlN1YmplY3Q6IFJlOiBb
-UEFUQ0ggdjYgMS8yXSBBQ1BJOlJBUzI6IEFkZCBBQ1BJIFJBUzIgZHJpdmVyDQo+DQo+PiArc3Rh
-dGljIGludCByYXMyX2NoZWNrX3BjY19jaGFuKHN0cnVjdCByYXMyX3BjY19zdWJzcGFjZQ0KPj4g
-KypwY2Nfc3Vic3BhY2UpIHsNCj4+ICsJc3RydWN0IGFjcGlfcmFzMl9zaG1lbSBfX2lvbWVtICpn
-ZW5fY29tbV9iYXNlID0gcGNjX3N1YnNwYWNlLQ0KPj5jb21tX2FkZHI7DQo+PiArCXUzMiBjYXBf
-c3RhdHVzOw0KPj4gKwl1MTYgc3RhdHVzOw0KPj4gKwl1MzIgcmM7DQo+PiArDQo+PiArCS8qDQo+
-PiArCSAqIEFzIHBlciBBQ1BJIHNwZWMsIHRoZSBQQ0Mgc3BhY2Ugd2lsbCBiZSBpbml0aWFsaXpl
-ZCBieQ0KPj4gKwkgKiBwbGF0Zm9ybSBhbmQgc2hvdWxkIGhhdmUgc2V0IHRoZSBjb21tYW5kIGNv
-bXBsZXRpb24gYml0IHdoZW4NCj4+ICsJICogUENDIGNhbiBiZSB1c2VkIGJ5IE9TUE0uDQo+PiAr
-CSAqDQo+PiArCSAqIFBvbGwgUENDIHN0YXR1cyByZWdpc3RlciBldmVyeSAzdXMoZGVsYXlfdXMp
-IGZvciBtYXhpbXVtIG9mDQo+PiArCSAqIGRlYWRsaW5lX3VzKHRpbWVvdXRfdXMpIHVudGlsIFBD
-QyBjb21tYW5kIGNvbXBsZXRlIGJpdCBpcw0KPnNldChjb25kKS4NCj4+ICsJICovDQo+PiArCXJj
-ID0gcmVhZHdfcmVsYXhlZF9wb2xsX3RpbWVvdXQoJmdlbl9jb21tX2Jhc2UtPnN0YXR1cywgc3Rh
-dHVzLA0KPj4gKwkJCQkJc3RhdHVzICYNCj5QQ0NfU1RBVFVTX0NNRF9DT01QTEVURSwgMywNCj4+
-ICsJCQkJCXBjY19zdWJzcGFjZS0+ZGVhZGxpbmVfdXMpOw0KPj4gKwlpZiAocmMpIHsNCj4+ICsJ
-CXByX3dhcm4oIlBDQyBjaGVjayBjaGFubmVsIGZhaWxlZCBmb3IgOiAlZCByYz0lZFxuIiwNCj4+
-ICsJCQlwY2Nfc3Vic3BhY2UtPnBjY19pZCwgcmMpOw0KPj4gKwkJcmV0dXJuIHJjOw0KPj4gKwl9
-DQo+PiArDQo+PiArCWlmIChzdGF0dXMgJiBQQ0NfU1RBVFVTX0VSUk9SKSB7DQo+PiArCQljYXBf
-c3RhdHVzID0gcmVhZHdfcmVsYXhlZCgmZ2VuX2NvbW1fYmFzZS0NCj4+c2V0X2NhcHNfc3RhdHVz
-KTsNCj4+ICsJCXJjID0gcmFzMl9yZXBvcnRfY2FwX2Vycm9yKGNhcF9zdGF0dXMpOw0KPj4gKw0K
-Pj4gKwkJc3RhdHVzICY9IH5QQ0NfU1RBVFVTX0VSUk9SOw0KPj4gKwkJd3JpdGV3X3JlbGF4ZWQo
-c3RhdHVzLCAmZ2VuX2NvbW1fYmFzZS0+c3RhdHVzKTsNCj4+ICsJCXJldHVybiByYzsNCj4+ICsJ
-fQ0KPj4gKw0KPj4gKwlpZiAoc3RhdHVzICYgUENDX1NUQVRVU19DTURfQ09NUExFVEUpDQo+PiAr
-CQlyZXR1cm4gMDsNCj4+ICsNCj4+ICsJcmV0dXJuIC1FSU87DQo+PiArfQ0KPg0KPkhpLCBJJ20g
-dGVycmlibHkgc29ycnkgZm9yIHRoZSBsYXRlIGNodXJuDQo+DQo+SXQgaXMgb3VyIGN1cnJlbnQg
-YmVsaWVmIHRoYXQgY2hlY2tpbmcgdGhlIHNldF9jYXBzX3N0YXR1cyBpcyBub3QgZGVwZW5kZW50
-IG9uIGlmDQo+dGhlIFBDQ19TVEFUVVNfRVJST1IgYml0IGlzIHNldC4gSXQgc2VlbXMgdG8gdXMs
-IHRoYXQgdGhlIFBDQ19TVEFUVVNfRVJST1INCj5iaXQgc2hvdWxkIG9ubHkgYmUgc2V0IGlmIHRo
-ZXJlIGlzIGEgcHJvYmxlbSB3aXRoIHRoZSBQQ0MgcHJvdG9jb2wuIFdlJ3ZlDQo+aW50ZXJwcmV0
-ZWQgdGhlIHNldF9jYXBzX3N0YXR1cyBhcyBhIGNhcGFiaWxpdHkgc3BlY2lmaWMgZXJyb3IgcmVw
-b3J0aW5nDQo+bWVjaGFuaXNtLiBXZSBoYXZlIHRlc3RlZCB0aGUgZm9sbG93aW5nIGFtZW5kbWVu
-dCB0byB0aGlzIGZsb3csIGFuZCB1cmdlIHlvdQ0KPnRvIGNvbnNpZGVyIHRoaXMgY2hhbmdlLCBv
-ciBhIGZ1bmN0aW9uYWxseSBlcXVpdmFsZW50IG9uZToNCg0KVGhhbmtzIERhbmllbCBmb3IgdGhl
-IHN1Z2dlc3Rpb24uIEkgaGF2ZSB0ZXN0ZWQgd2l0aCB0aGUgY2hhbmdlcyBhbmQgd2lsbCBpbmNv
-cnBvcmF0ZQ0KaW4gdjcuDQoNClRoYW5rcywNClNoaWp1ICAgDQo+DQo+ZGlmZiAtLWdpdCBhL2Ry
-aXZlcnMvYWNwaS9yYXMyLmMgYi9kcml2ZXJzL2FjcGkvcmFzMi5jIGluZGV4DQo+NmJiYjAwOTFi
-NGIzLi4zZjczYzlmZjMzYTMgMTAwNjQ0DQo+LS0tIGEvZHJpdmVycy9hY3BpL3JhczIuYw0KPisr
-KyBiL2RyaXZlcnMvYWNwaS9yYXMyLmMNCj5AQCAtMTE2LDE4ICsxMTYsMjAgQEAgc3RhdGljIGlu
-dCByYXMyX2NoZWNrX3BjY19jaGFuKHN0cnVjdA0KPnJhczJfcGNjX3N1YnNwYWNlDQo+KnBjY19z
-dWJzcGFjZSkNCj4gICAgICAgIH0NCj4NCj4gICAgICAgIGlmIChzdGF0dXMgJiBQQ0NfU1RBVFVT
-X0VSUk9SKSB7DQo+LSAgICAgICAgICAgICAgIGNhcF9zdGF0dXMgPSByZWFkd19yZWxheGVkKCZn
-ZW5fY29tbV9iYXNlLT5zZXRfY2Fwc19zdGF0dXMpOw0KPi0gICAgICAgICAgICAgICByYyA9IHJh
-czJfcmVwb3J0X2NhcF9lcnJvcihjYXBfc3RhdHVzKTsNCj4tDQo+ICAgICAgICAgICAgICAgIHN0
-YXR1cyAmPSB+UENDX1NUQVRVU19FUlJPUjsNCj4gICAgICAgICAgICAgICAgd3JpdGV3X3JlbGF4
-ZWQoc3RhdHVzLCAmZ2VuX2NvbW1fYmFzZS0+c3RhdHVzKTsNCj4tICAgICAgICAgICAgICAgcmV0
-dXJuIHJjOw0KPisgICAgICAgICAgICAgICByZXR1cm4gLUVJTzsNCj4gICAgICAgIH0NCj4NCj4t
-ICAgICAgIGlmIChzdGF0dXMgJiBQQ0NfU1RBVFVTX0NNRF9DT01QTEVURSkNCj4tICAgICAgICAg
-ICAgICAgcmV0dXJuIDA7DQo+DQo+LSAgICAgICByZXR1cm4gLUVJTzsNCj4rICAgICAgIGlmICgh
-KHN0YXR1cyAmIFBDQ19TVEFUVVNfQ01EX0NPTVBMRVRFKSkNCj4rICAgICAgICAgICAgICAgcmV0
-dXJuIC1FSU87DQo+Kw0KPisgICAgICAgLy8gQ2FjaGUsIENsZWFyLCBhbmQgUmVwb3J0IGZlYXR1
-cmUgc3BlY2lmaWMgc3RhdHVzDQo+KyAgICAgICBjYXBfc3RhdHVzID0gcmVhZHdfcmVsYXhlZCgm
-Z2VuX2NvbW1fYmFzZS0+c2V0X2NhcHNfc3RhdHVzKTsNCj4rICAgICAgIHdyaXRld19yZWxheGVk
-KDB4MCwgJmdlbl9jb21tX2Jhc2UtPnNldF9jYXBzX3N0YXR1cyk7DQo+KyAgICAgICByYyA9IHJh
-czJfcmVwb3J0X2NhcF9lcnJvcihjYXBfc3RhdHVzKTsNCj4rICAgICAgIHJldHVybiByYzsNCj4g
-fQ0KPg0KPlRoYW5rcyBhZ2FpbiwNCj5+RGFuaWVsDQoNCg==
+On Sun, May 18, 2025 at 11:13:18AM +0000, Lothar Rubusch wrote:
+> Add possibilities to set a threshold for activity sensing. Extend the
+> interrupt handler to process activity interrupts. Provide functions to set
+> the activity threshold and to enable/disable activity sensing. Further add
+> a fake channel for having x, y and z axis anded on the iio channel.
+> 
+> This is a preparatory patch. Some of the definitions and functions are
+> supposed to be extended for inactivity later on.
+
+...
+
+> +static int adxl313_is_act_inact_en(struct adxl313_data *data,
+> +				   enum adxl313_activity_type type,
+> +				   bool *en)
+> +{
+> +	unsigned int axis_ctrl;
+> +	unsigned int regval;
+> +	int ret;
+
+> +	*en = false;
+
+Even in case of an error? The rule of thumb is to avoid assigning output when
+we know that the error will be returned to the caller.
+
+> +	ret = regmap_read(data->regmap, ADXL313_REG_ACT_INACT_CTL, &axis_ctrl);
+> +	if (ret)
+> +		return ret;
+
+> +	if (type == ADXL313_ACTIVITY)
+> +		*en = FIELD_GET(ADXL313_ACT_XYZ_EN, axis_ctrl);
+> +
+> +	if (*en) {
+
+This doesn't need to re-write the value of *en. Just declare local boolean
+temporary variable and use it and only assign it on success.
+
+> +		ret = regmap_read(data->regmap, ADXL313_REG_INT_ENABLE, &regval);
+> +		if (ret)
+> +			return ret;
+> +
+> +		*en = adxl313_act_int_reg[type] & regval;
+> +	}
+> +
+> +	return 0;
+> +}
+
+...
+
+> +static int adxl313_set_act_inact_en(struct adxl313_data *data,
+> +				    enum adxl313_activity_type type,
+> +				    bool cmd_en)
+> +{
+> +	unsigned int axis_ctrl = 0;
+> +	unsigned int threshold;
+> +	bool en;
+> +	int ret;
+> +
+> +	if (type == ADXL313_ACTIVITY)
+> +		axis_ctrl = ADXL313_ACT_XYZ_EN;
+> +
+> +	ret = regmap_update_bits(data->regmap,
+> +				 ADXL313_REG_ACT_INACT_CTL,
+> +				 axis_ctrl,
+> +				 cmd_en ? 0xff : 0x00);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = regmap_read(data->regmap, adxl313_act_thresh_reg[type], &threshold);
+> +	if (ret)
+> +		return ret;
+
+> +	en = false;
+
+Instead...
+
+> +	if (type == ADXL313_ACTIVITY)
+> +		en = cmd_en && threshold;
+
+	else
+		en = false;
+
+> +	return regmap_update_bits(data->regmap, ADXL313_REG_INT_ENABLE,
+> +				  adxl313_act_int_reg[type],
+> +				  en ? adxl313_act_int_reg[type] : 0);
+> +}
+
+...
+
+> +static int adxl313_read_event_config(struct iio_dev *indio_dev,
+> +				     const struct iio_chan_spec *chan,
+> +				     enum iio_event_type type,
+> +				     enum iio_event_direction dir)
+> +{
+> +	struct adxl313_data *data = iio_priv(indio_dev);
+
+> +	bool int_en;
+
+Why? You return the int here... I would expect rather to see unsigned int...
+
+> +	int ret;
+> +
+> +	switch (type) {
+> +	case IIO_EV_TYPE_MAG:
+> +		switch (dir) {
+> +		case IIO_EV_DIR_RISING:
+> +			ret = adxl313_is_act_inact_en(data,
+> +						      ADXL313_ACTIVITY,
+> +						      &int_en);
+> +			if (ret)
+> +				return ret;
+> +			return int_en;
+
+...or even simply
+
+			return adx1313...(...);
+
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+...
+
+> +static int adxl313_read_event_value(struct iio_dev *indio_dev,
+> +				    const struct iio_chan_spec *chan,
+> +				    enum iio_event_type type,
+> +				    enum iio_event_direction dir,
+> +				    enum iio_event_info info,
+> +				    int *val, int *val2)
+> +{
+> +	struct adxl313_data *data = iio_priv(indio_dev);
+> +	unsigned int act_threshold;
+> +	int ret;
+> +
+> +	/* measurement stays enabled, reading from regmap cache */
+> +
+> +	switch (type) {
+> +	case IIO_EV_TYPE_MAG:
+> +		switch (info) {
+> +		case IIO_EV_INFO_VALUE:
+> +			switch (dir) {
+> +			case IIO_EV_DIR_RISING:
+> +				ret = regmap_read(data->regmap,
+> +						  adxl313_act_thresh_reg[ADXL313_ACTIVITY],
+> +						  &act_threshold);
+> +				if (ret)
+> +					return ret;
+> +				*val = act_threshold * 15625;
+
+> +				*val2 = 1000000;
+
+MICRO?
+
+> +				return IIO_VAL_FRACTIONAL;
+> +			default:
+> +				return -EINVAL;
+> +			}
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+> +
+> +static int adxl313_write_event_value(struct iio_dev *indio_dev,
+> +				     const struct iio_chan_spec *chan,
+> +				     enum iio_event_type type,
+> +				     enum iio_event_direction dir,
+> +				     enum iio_event_info info,
+> +				     int val, int val2)
+> +{
+> +	struct adxl313_data *data = iio_priv(indio_dev);
+> +	unsigned int regval;
+> +	int ret;
+> +
+> +	ret = adxl313_set_measure_en(data, false);
+> +	if (ret)
+> +		return ret;
+> +
+> +	switch (type) {
+> +	case IIO_EV_TYPE_MAG:
+
+This can be collapsed to the conditional, making indentation better overall.
+Same applies to the other parts of the code outside of this function.
+
+> +		switch (info) {
+> +		case IIO_EV_INFO_VALUE:
+> +			/* The scale factor is 15.625 mg/LSB */
+> +			regval = DIV_ROUND_CLOSEST(1000000 * val + val2, 15625);
+
+MICRO?
+
+> +			switch (dir) {
+> +			case IIO_EV_DIR_RISING:
+> +				ret = regmap_write(data->regmap,
+> +						   adxl313_act_thresh_reg[ADXL313_ACTIVITY],
+> +						   regval);
+> +				if (ret)
+> +					return ret;
+> +				return adxl313_set_measure_en(data, true);
+> +			default:
+> +				return -EINVAL;
+> +			}
+> +		default:
+> +			return -EINVAL;
+> +		}
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +}
+
+...
+
+> +		ret = regmap_write(data->regmap, ADXL313_REG_ACT_INACT_CTL, 0);
+
+0x00 ?
+
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = regmap_write(data->regmap, ADXL313_REG_THRESH_ACT, 0x52);
+> +		if (ret)
+> +			return ret;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
