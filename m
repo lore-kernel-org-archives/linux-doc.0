@@ -1,121 +1,127 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BAF45278756;
-	Mon, 19 May 2025 11:30:44 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 463EC274FCD;
+	Mon, 19 May 2025 11:35:06 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747654244; cv=none; b=rbHGWClqkMsLq6YZBAGMV+U5eb0e5tugiaR8nIy76ZZNu/atTNXFYN2ofncnq3KKI9Y2QQpRyxZBovBSwsW33YkKm7/v7JI0sFO3jmbLKYDoSqUhNjTRUkuBAAibwRkJmMJ9/bR49g1nMYzVRpE8OaDh+IBufYNQRCA3JmD1gM8=
+	t=1747654507; cv=none; b=UcE6mBwZ4fdBf9ZmdYs56zQfUPGLemEqg95CA/yHQXshfpBeQNPnHg3BbMO+LEhgRLhYAci9KgvcZkRE7DMCd0nQuH+64uJDk0CWXtS37FmcXHwBUdswKcPo7E+SEisbQowexo/LNLYhLAW588Rq8DmMV1Wn1it0ywWcGZO7Xds=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747654244; c=relaxed/simple;
-	bh=Dmbm1Nsz0mLac3rVEQyjSTWhEKqeKGKYB7oPAJpKuco=;
-	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=vEbGPiae9v2vSbLlj68tQiFc7M44hkB3Wj/ZaTWm+R0CPDLMWiNL8Xl27vC/8nDpaiYlGhZtGEEk7NsmAMEUBTJYVmFZrBbSoUA9OuICaSTYpN9bz1UTWZH+51PWvXurU5hQrhueqE7tKkAoRSVAWwrzp5qK27/16kPWqiJQkR0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=lY4cbMiM; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747654507; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=Jm4yvwHHZRL3lPL5kO2nQjsnHlQSaSF0fE1d2m6PUTSnucwHUpO7/0oVLg8crwLS+RAIyi7Lv+O8qGmoj9NMmb+eKxz2fyor2rJMZtF25Bfx54ixLiCw7FJZdLL8UN6wShfjzJLj7TRI+V6C0oSMm6eHpVDxY60CIVhCBgpDVR0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=ARPAoil1; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="lY4cbMiM"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 26FC2C4CEE4;
-	Mon, 19 May 2025 11:30:40 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="ARPAoil1"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 7039CC4CEE4;
+	Mon, 19 May 2025 11:35:06 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747654244;
-	bh=Dmbm1Nsz0mLac3rVEQyjSTWhEKqeKGKYB7oPAJpKuco=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lY4cbMiMv6Z+P9EKta3qTSi8UgTM02ZQ2FlgtSfE5Qo6GK1tS6l9VBjTemm8fVs2S
-	 mS661TIhZ3d61gbOvIdGyTWe1ZaD7Y1LUrdclpqhP1GEWNMZRx7WRuemtIXuGGU3pL
-	 n+rv5P8VY+OZRLqvvvpz2WHS56VIMDsbcgw3IOzMc7AUG4ZiPSK7bD4ZFhMxz4y1KK
-	 RbsJMWfBtkSrU20pC0YV4EXqRNcx5w8T+TLnZu4CN4KBRXEjEfF7X8MbtyLLFYD1UW
-	 5OHIDWgUlQjb7yByJz3sf5fa/+uaSd6Yw0MMJh2NvhZfCdcA/IiwANnQtyw5sjeHuW
-	 LczAisYgykAEg==
-From: Philipp Stanner <phasta@kernel.org>
-To: Jonathan Corbet <corbet@lwn.net>,
-	Bjorn Helgaas <bhelgaas@google.com>,
-	Mark Brown <broonie@kernel.org>,
-	Philipp Stanner <phasta@kernel.org>,
-	David Lechner <dlechner@baylibre.com>,
-	Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-	Yang Yingliang <yangyingliang@huawei.com>,
-	Zijun Hu <quic_zijuhu@quicinc.com>,
-	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-	Sathyanarayanan Kuppuswamy <sathyanarayanan.kuppuswamy@linux.intel.com>
-Cc: linux-doc@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-pci@vger.kernel.org
-Subject: [PATCH v3 6/6] PCI: Remove hybrid-devres hazzard warnings from doc
-Date: Mon, 19 May 2025 13:30:00 +0200
-Message-ID: <20250519112959.25487-8-phasta@kernel.org>
-X-Mailer: git-send-email 2.49.0
-In-Reply-To: <20250519112959.25487-2-phasta@kernel.org>
-References: <20250519112959.25487-2-phasta@kernel.org>
+	s=k20201202; t=1747654506;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=ARPAoil1c3u/sCK9+f+i48JmtcFrCNOMjZ6ahQ/YV4lHg3OLLaN6VBASpD2BNL/nn
+	 m/JTsTiEBQYZqejNrOIPrAJzGrjaiKAZrVW9x3+8tUYf/kjADGOCAlZb4EueHQqzzM
+	 n5bFO40gnwgq7xHiZsMFYwzyRKmSFL6GjQRwOuMmVRpZP3SMmx7d3ryLvUSUdGVj9+
+	 oJEsalgbnnggpqNAaLqNA9zCToPpwZYrwsWG8ft9ICn8Nn/ANbxhhzV/hEyYR8XIWN
+	 wooCesYp61Z3hQcFBI3PYDJTAAsfwkymlvT0LzoQ/AlVt71QgKse+J3pQRqWu7AvoX
+	 H/TFzFrT3uCNQ==
+Date: Mon, 19 May 2025 06:35:04 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <20250519113504.Lby1cz0N8EyNYnHYjLFUeOJrm8ppsYgPDjIW92dXM98@z>
 
-pci/iomap.c still contains warnings about those functions not behaving
-in a managed manner if pcim_enable_device() was called. Since all hybrid
-behavior that users could know about has been removed by now, those
-explicit warnings are no longer necessary.
 
-Remove the hybrid-devres warnings from the docstrings.
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
+> 
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
+> 
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
+> 
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
+> 
 
-Signed-off-by: Philipp Stanner <phasta@kernel.org>
-Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Reviewed-by: Kuppuswamy Sathyanarayanan <sathyanarayanan.kuppuswamy@linux.intel.com>
----
- drivers/pci/iomap.c | 16 ----------------
- 1 file changed, 16 deletions(-)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-diff --git a/drivers/pci/iomap.c b/drivers/pci/iomap.c
-index fe706ed946df..ea86c282a386 100644
---- a/drivers/pci/iomap.c
-+++ b/drivers/pci/iomap.c
-@@ -25,10 +25,6 @@
-  *
-  * @maxlen specifies the maximum length to map. If you want to get access to
-  * the complete BAR from offset to the end, pass %0 here.
-- *
-- * NOTE:
-- * This function is never managed, even if you initialized with
-- * pcim_enable_device().
-  * */
- void __iomem *pci_iomap_range(struct pci_dev *dev,
- 			      int bar,
-@@ -76,10 +72,6 @@ EXPORT_SYMBOL(pci_iomap_range);
-  *
-  * @maxlen specifies the maximum length to map. If you want to get access to
-  * the complete BAR from offset to the end, pass %0 here.
-- *
-- * NOTE:
-- * This function is never managed, even if you initialized with
-- * pcim_enable_device().
-  * */
- void __iomem *pci_iomap_wc_range(struct pci_dev *dev,
- 				 int bar,
-@@ -127,10 +119,6 @@ EXPORT_SYMBOL_GPL(pci_iomap_wc_range);
-  *
-  * @maxlen specifies the maximum length to map. If you want to get access to
-  * the complete BAR without checking for its length first, pass %0 here.
-- *
-- * NOTE:
-- * This function is never managed, even if you initialized with
-- * pcim_enable_device(). If you need automatic cleanup, use pcim_iomap().
-  * */
- void __iomem *pci_iomap(struct pci_dev *dev, int bar, unsigned long maxlen)
- {
-@@ -152,10 +140,6 @@ EXPORT_SYMBOL(pci_iomap);
-  *
-  * @maxlen specifies the maximum length to map. If you want to get access to
-  * the complete BAR without checking for its length first, pass %0 here.
-- *
-- * NOTE:
-- * This function is never managed, even if you initialized with
-- * pcim_enable_device().
-  * */
- void __iomem *pci_iomap_wc(struct pci_dev *dev, int bar, unsigned long maxlen)
- {
--- 
-2.49.0
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
