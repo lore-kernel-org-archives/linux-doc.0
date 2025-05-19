@@ -1,271 +1,196 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from casper.infradead.org (casper.infradead.org [90.155.50.34])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A532321171D;
-	Mon, 19 May 2025 19:31:18 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E46191EB18A;
+	Mon, 19 May 2025 19:33:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.50.34
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747683078; cv=none; b=Rbs4/LkuJDXX+gbflZ7x9l6dVru4zUx6efrIzBnkX8UF2vT7iuhWc6BqjVq3UOnaqzQUj4A9TLfz9W5gk5cU5vIvMdDII+UZ9tPTDHR2Z+82Ll0XP9oeW1vJ7Vt714+JZRYGH8I/mhob0+LZWinf3OhPXKBOcJgyKOBVEvdVimo=
+	t=1747683201; cv=none; b=MdaOBp5G5+KNlsMdmvTxDGBHXRzal387swydg2Yxv8Hwrk+/Lr6mYGl6m9IRmTlbr/qZvN7GXt0dei4GhXZmbh/IeUCETn1GVWSRHXAycgJ9ykNYDOiEeT1+A9Q4qsqAS6l8dNpWNR+aLwvTHiBP0Pg8aKALiSCSxEz+eiaFBYg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747683078; c=relaxed/simple;
-	bh=gNg/DaGQnuA//ujvR2i1hxwQU/CrZUxguVa5vf6EakQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=FOliP20VD/hVL6vXsGtjtGcePQKTibFp7b0nV+g1MiFTmgAs3k9ZegDvNSuHfJ223dY0JJ1n+ygJe2eINhTQzkvgFlvG3oWt8bGkd2O3lwnq6SmwprcMp5amu5X1ZXiN/od7gWPDqvSvvw+EkQ3p9ftiGiKEjASvPIzIN3Y11Zc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=M4IBLEQs; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747683201; c=relaxed/simple;
+	bh=A0wQ3tP7Kt9+GSjmXRRUkxNxuXQE6aet64FxQJPc7Ao=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=PgFrTyj4f+vPAlAZYDERihwmIEMfjUsFwLWnbxPVWl8dyc7tCmCrzJrn0B+bcZNZRd5aGVBtYbW10HL8zrH0HQC1h8pymcweaVq0w0XyjV48de2MdLuEeNg9F8TdJs07y1emYI1HaIastTLUSRWA/U552gc7S309IRp5GrNs9NQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=VE6nigwP; arc=none smtp.client-ip=90.155.50.34
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="M4IBLEQs"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DB437C4CEE4;
-	Mon, 19 May 2025 19:31:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747683078;
-	bh=gNg/DaGQnuA//ujvR2i1hxwQU/CrZUxguVa5vf6EakQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=M4IBLEQs1j7rqqlJMrer+R9eK8Uu3wPF+8htwN6MfYqavo8fsdG+TXKGawl6qgll5
-	 Xpvk34Sp9b7SEw4th06cWm2bmnLa13ffJ27fy+ghspt2o0WcFg2l8TQcATKoz+TwOQ
-	 jWE1aurFQNUwWjz7BNJG/vizT7BUJFIdovfI1e3IOiRqAQ7Unb8KiGZl2RkPop2qVU
-	 PVq1+vpoI7HR2+ywAgau9Lr57jXx7He1nii4IIrpwI1BtK7lSHtrRlP6OZrZx7I2Te
-	 E2Z7oiA5zZelFCeZ7xmX6xLkC2JP+CDAb3IXmvUDj3qi60rFFsVtw5jK+atauATUAk
-	 2zyk+YDbKYeUA==
-Date: Mon, 19 May 2025 14:31:16 -0500
-From: Rob Herring <robh@kernel.org>
-To: Will Deacon <will@kernel.org>
-Cc: Mark Rutland <mark.rutland@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Leo Yan <leo.yan@arm.com>, linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-Subject: Re: [PATCH v21 2/4] arm64: Handle BRBE booting requirements
-Message-ID: <20250519193116.GA2650608-robh@kernel.org>
-References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
- <20250407-arm-brbe-v19-v21-2-ff187ff6c928@kernel.org>
- <20250519140713.GA16991@willie-the-truck>
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="VE6nigwP"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+	In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:Sender
+	:Reply-To:Content-ID:Content-Description;
+	bh=InuXJoEHlMlH9HLxvIAMD1VL/vcfOh5/RbshItV4lp0=; b=VE6nigwP79v15FaeosO9qW8Wb7
+	U5KNQIzCRFkK/uk/hrv/hYcX1/dgBy9PwBVkQS874Ez/LkpNdbYaiMRDsH11A+DcBc3fSWPSnSoyQ
+	FDe6GEDB3Q5bxiXEsNsWCIbDzeP6qbfBRw2g4mWw98MZVvCYAywQVyURH7vq8Zyl0ndtEF/QyAwcx
+	favf2Rrhddyy6jQpBcw1RB/zNAHleaOPzEE46QllL6Goy660dpv2Tg5Fpc0UT63dM41HaNJm5xpQf
+	KtN3EK5FTa10pAJYqLprcENaGqbBk0cR148embdEjn+5CFV2CRzRMIpakVxiQ0cY8GU0vnU4YMatq
+	+sMVtNVw==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by casper.infradead.org with esmtpsa (Exim 4.98.2 #2 (Red Hat Linux))
+	id 1uH6EZ-00000002GyR-29fL;
+	Mon, 19 May 2025 19:33:11 +0000
+Message-ID: <0a6cbe7b-814b-407c-ac1c-96ab7b787d88@infradead.org>
+Date: Mon, 19 May 2025 12:33:03 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250519140713.GA16991@willie-the-truck>
+User-Agent: Mozilla Thunderbird
+Subject: Re: linux-next: build failure after merge all the trees
+To: Akira Yokosawa <akiyks@gmail.com>,
+ Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Stephen Rothwell <sfr@canb.auug.org.au>
+Cc: corbet@lwn.net, linux-kernel@vger.kernel.org, linux-next@vger.kernel.org,
+ Dan Williams <dan.j.williams@intel.com>, linux-doc@vger.kernel.org
+References: <20250508184839.656af8f6@canb.auug.org.au>
+ <3b35840a-7b87-44fc-8580-219ac78ad112@gmail.com>
+ <20250508222531.0e7fab9c@canb.auug.org.au> <20250508143911.5d7a77d4@foz.lan>
+ <879b49f5-7350-48e8-a84e-2c580a5b0ca8@gmail.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <879b49f5-7350-48e8-a84e-2c580a5b0ca8@gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-On Mon, May 19, 2025 at 03:07:15PM +0100, Will Deacon wrote:
-> On Mon, Apr 07, 2025 at 12:41:31PM -0500, Rob Herring (Arm) wrote:
-> > From: Anshuman Khandual <anshuman.khandual@arm.com>
-> > 
-> > To use the Branch Record Buffer Extension (BRBE), some configuration is
-> > necessary at EL3 and EL2. This patch documents the requirements and adds
-> > the initial EL2 setup code, which largely consists of configuring the
-> > fine-grained traps and initializing a couple of BRBE control registers.
-> > 
-> > Before this patch, __init_el2_fgt() would initialize HDFGRTR_EL2 and
-> > HDFGWTR_EL2 with the same value, relying on the read/write trap controls
-> > for a register occupying the same bit position in either register. The
-> > 'nBRBIDR' trap control only exists in bit 59 of HDFGRTR_EL2, while bit
-> > 59 of HDFGWTR_EL2 is RES0, and so this assumption no longer holds.
-> > 
-> > To handle HDFGRTR_EL2 and HDFGWTR_EL2 having (slightly) different bit
-> > layouts, __init_el2_fgt() is changed to accumulate the HDFGRTR_EL2 and
-> > HDFGWTR_EL2 control bits separately. While making this change the
-> > open-coded value (1 << 62) is replaced with
-> > HDFG{R,W}TR_EL2_nPMSNEVFR_EL1_MASK.
-> > 
-> > The BRBCR_EL1 and BRBCR_EL2 registers are unusual and require special
-> > initialisation: even though they are subject to E2H renaming, both have
-> > an effect regardless of HCR_EL2.TGE, even when running at EL2, and
-> > consequently both need to be initialised. This is handled in
-> > __init_el2_brbe() with a comment to explain the situation.
-> > 
-> > Cc: Marc Zyngier <maz@kernel.org>
-> > Cc: Oliver Upton <oliver.upton@linux.dev>
-> > Reviewed-by: Leo Yan <leo.yan@arm.com>
-> > Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> > [Mark: rewrite commit message, fix typo in comment]
-> > Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> > Signed-off-by: "Rob Herring (Arm)" <robh@kernel.org>
-> > Tested-by: James Clark <james.clark@linaro.org>
-> > ---
-> > v20:
-> >  - Document that MDCR_EL3.SBRBE can be 0b01 also
-> >  - Fix "HDFGWTR_EL2 is RES0" in commit msg
-> > ---
-> >  Documentation/arch/arm64/booting.rst | 21 +++++++++
-> >  arch/arm64/include/asm/el2_setup.h   | 86 ++++++++++++++++++++++++++++++++++--
-> >  2 files changed, 104 insertions(+), 3 deletions(-)
+
+
+On 5/14/25 7:33 PM, Akira Yokosawa wrote:
+> [+CC linux-doc]
 > 
-> It would be good to have an Ack from the kvm/arm64 side on this, but in
-> the meantime I've left some comments inline.
+> Hi,
 > 
-> > diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
-> > index dee7b6de864f..a627c1e0e4a0 100644
-> > --- a/Documentation/arch/arm64/booting.rst
-> > +++ b/Documentation/arch/arm64/booting.rst
-> > @@ -358,6 +358,27 @@ Before jumping into the kernel, the following conditions must be met:
-> >  
-> >      - HWFGWTR_EL2.nSMPRI_EL1 (bit 54) must be initialised to 0b01.
-> >  
-> > +  For CPUs with feature Branch Record Buffer Extension (FEAT_BRBE):
+> On Thu, 8 May 2025 14:39:11 +0200, Mauro Carvalho Chehab wrote:
+>> Em Thu, 8 May 2025 22:25:31 +1000
+>> Stephen Rothwell <sfr@canb.auug.org.au> escreveu:
+> [...]
 > 
-> This doesn't make sense ^^^
-
-You mean it should be "with the Branch Record Buffer Extension feature" 
-instead?
-
+>>>
+>>> So, I used "KERNELDOC=$(pwd)/scripts/kernel-doc.pl" and tried again.
+>>>
+>>> I got these (new) messages:
+>>>
+>>> Error: Cannot open file drivers/virt/coco/tsm-mr.c
+>>> Error: Cannot open file drivers/virt/coco/tsm-mr.c
+>>> WARNING: kernel-doc 'scripts/kernel-doc.pl -rst -enable-lineno -export drivers/virt/coco/tsm-mr.c' failed with return code 2
+>>>
+>>> (and a few other innocuous ones)
+>>>
+>>> So your guess is good.
+>>>
+>>> It would be nice to have the Python kernel-doc fixed as well as the
+>>> devsec-tsm tree.
+>>
+>> With regards to kernel-doc, failing to build if a file is missing
+>> is the right thing to do.
 > 
-> > diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
-> > index ebceaae3c749..e7fcba1e7d8e 100644
-> > --- a/arch/arm64/include/asm/el2_setup.h
-> > +++ b/arch/arm64/include/asm/el2_setup.h
-> > @@ -189,6 +189,39 @@
-> >  .Lskip_set_cptr_\@:
-> >  .endm
-> >  
-> > +/*
-> > + * Configure BRBE to permit recording cycle counts and branch mispredicts.
-> > + *
-> > + * At any EL, to record cycle counts BRBE requires that both BRBCR_EL2.CC=1 and
-> > + * BRBCR_EL1.CC=1.
-> > + *
-> > + * At any EL, to record branch mispredicts BRBE requires that both
-> > + * BRBCR_EL2.MPRED=1 and BRBCR_EL1.MPRED=1.
-> > + *
-> > + * When HCR_EL2.E2H=1, the BRBCR_EL1 encoding is redirected to BRBCR_EL2, but
-> > + * the {CC,MPRED} bits in the real BRBCR_EL1 register still apply.
-> > + *
-> > + * Set {CC,MPRED} in both BRBCR_EL2 and BRBCR_EL1 so that at runtime we only
-> > + * need to enable/disable these in BRBCR_EL1 regardless of whether the kernel
-> > + * ends up executing in EL1 or EL2.
-> > + */
-> > +.macro __init_el2_brbe
-> > +	mrs	x1, id_aa64dfr0_el1
-> > +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
-> > +	cbz	x1, .Lskip_brbe_\@
-> > +
-> > +	mov_q	x0, BRBCR_ELx_CC | BRBCR_ELx_MPRED
-> > +	msr_s	SYS_BRBCR_EL2, x0
-> > +
-> > +	__check_hvhe .Lset_brbe_nvhe_\@, x1
-> > +	msr_s	SYS_BRBCR_EL12, x0	// VHE
-> > +	b	.Lskip_brbe_\@
-> > +
-> > +.Lset_brbe_nvhe_\@:
-> > +	msr_s	SYS_BRBCR_EL1, x0	// NVHE
-> > +.Lskip_brbe_\@:
+> Mauro, I don't agree here.
 > 
-> Why do we have to poke BRBCR_EL12/BRBCR_EL1 here rather than in the BRBE
-> driver code?
-
-Yeah, I think we can drop this. Originally, the driver did not touch 
-SYS_BRBCR_EL12, but it turns out we need to for freeze on overflow to 
-work correctly with VHE (see the comment in the driver for 
-SYS_BRBCR_EL12 access).
-
-The only other reason I can come up with is some fields reset to UNKNOWN 
-and there may be no driver. However, the important ones, ExBRE, reset to 
-0, so we should be fine.
-
-
-> > +.endm
-> > +
-> >  /* Disable any fine grained traps */
-> >  .macro __init_el2_fgt
-> >  	mrs	x1, id_aa64mmfr0_el1
-> > @@ -196,16 +229,48 @@
-> >  	cbz	x1, .Lskip_fgt_\@
-> >  
-> >  	mov	x0, xzr
-> > +	mov	x2, xzr
-> >  	mrs	x1, id_aa64dfr0_el1
-> >  	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
-> >  	cmp	x1, #3
-> >  	b.lt	.Lskip_spe_fgt_\@
-> > +
-> >  	/* Disable PMSNEVFR_EL1 read and write traps */
-> > -	orr	x0, x0, #(1 << 62)
-> > +	orr	x0, x0, #HDFGRTR_EL2_nPMSNEVFR_EL1_MASK
-> > +	orr	x2, x2, #HDFGWTR_EL2_nPMSNEVFR_EL1_MASK
-> >  
-> >  .Lskip_spe_fgt_\@:
-> > +#ifdef CONFIG_ARM64_BRBE
+> With the perl version of kernel-doc, a typo in a file path doesn't cause
+> a fatal error of docs build.
 > 
-> Why is this gated on CONFIG_ARM64_BRBE?
-
-Shrug. We don't do that anywhere else, so I'll drop it.
-
-> > +	mrs	x1, id_aa64dfr0_el1
-> > +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
-> > +	cbz	x1, .Lskip_brbe_reg_fgt_\@
-> > +
-> > +	/*
-> > +	 * Disable read traps for the following registers
-> > +	 *
-> > +	 * [BRBSRC|BRBTGT|RBINF]_EL1
-> > +	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
-> > +	 */
-> > +	orr	x0, x0, #HDFGRTR_EL2_nBRBDATA_MASK
-> > +
-> > +	/*
-> > +	 * Disable write traps for the following registers
-> > +	 *
-> > +	 * [BRBSRCINJ|BRBTGTINJ|BRBINFINJ|BRBTS]_EL1
-> > +	 */
-> > +	orr	x2, x2, #HDFGWTR_EL2_nBRBDATA_MASK
-> > +
-> > +	/* Disable read and write traps for [BRBCR|BRBFCR]_EL1 */
-> > +	orr	x0, x0, #HDFGRTR_EL2_nBRBCTL_MASK
-> > +	orr	x2, x2, #HDFGWTR_EL2_nBRBCTL_MASK
-> > +
-> > +	/* Disable read traps for BRBIDR_EL1 */
-> > +	orr	x0, x0, #HDFGRTR_EL2_nBRBIDR_MASK
-> > +
-> > +.Lskip_brbe_reg_fgt_\@:
+> kernel-doc as python class libs ends up in a fatal error.
 > 
-> I think this label should become .Lset_debug_fgt_\@:. That way, we have
-> a clear point at which we're done with HDFG*TR_EL2. We can zero x0 and
-> x2 and from then on we can focus on HFG*TR + HFGITR.
+> Here is a log of such a fatal error (on top of current docs-next with
+> intentional typo made in a pathname in one of .. kernel-doc::
 > 
-> nit: the existing .Lskip_debug_fgt_\@ label looks to be misnamed -- it
-> should probably be .Lskip_sme_fgt_\@ ?
+> -----------------------------------------------------------------
+> Sphinx parallel build error!
 > 
-> > +#endif /* CONFIG_ARM64_BRBE */
-> >  	msr_s	SYS_HDFGRTR_EL2, x0
-> > -	msr_s	SYS_HDFGWTR_EL2, x0
-> > +	msr_s	SYS_HDFGWTR_EL2, x2
+> Versions
+> ========
 > 
-> nit: It would be cleaner to use x0/x1 for the pair of trap registers
-> but I can see that would be a more invasive change.
-
-That would not be worth the churn IMO. We'd want to just swap x1 and x2 
-everywhere so we consistently use x2 for ID registers. 
-
-And then I'd be to blame for *all* this wonderful code. ;)
-
+> * Platform:         linux; (Linux-6.8.0-59-generic-x86_64-with-glibc2.39)
+> * Python version:   3.12.3 (CPython)
+> * Sphinx version:   8.2.3
+> * Docutils version: 0.21.2
+> * Jinja2 version:   3.1.6
+> * Pygments version: 2.19.1
 > 
-> >  	mov	x0, xzr
-> >  	mrs	x1, id_aa64pfr1_el1
-> > @@ -246,7 +311,21 @@
-> >  .Lset_fgt_\@:
-> >  	msr_s	SYS_HFGRTR_EL2, x0
-> >  	msr_s	SYS_HFGWTR_EL2, x0
-> > -	msr_s	SYS_HFGITR_EL2, xzr
-> > +	mov	x0, xzr
-> > +#ifdef CONFIG_ARM64_BRBE
-> > +	mrs	x1, id_aa64dfr0_el1
-> > +	ubfx	x1, x1, #ID_AA64DFR0_EL1_BRBE_SHIFT, #4
-> > +	cbz	x1, .Lskip_brbe_insn_fgt_\@
+> Last Messages
+> =============
 > 
-> It would probably scale better if we unconditionally stick x2 in
-> HFGITR_EL2 and zero that register in '.Lset_debug_fgt_\@'. We still have
-> two checks for BRBE, but at least '.Lset_fgt_\@' could just stick to
-> writing the registers.
+>     userspace-api/gpio/gpio-get-chipinfo-ioctl .. userspace-api/media/dvb/dmx-fclose
+> 
+> 
+>     reading sources... [ 90%]
+>     userspace-api/media/dvb/dmx-fopen .. userspace-api/media/mediactl/media-controller-model
+> 
+> 
+>     reading sources... [ 92%]
+>     userspace-api/media/mediactl/media-func-close .. userspace-api/media/v4l/diff-v4l
+> 
+> Loaded Extensions
+> =================
+> 
+> * sphinx.ext.mathjax (8.2.3)
+> * alabaster (1.0.0)
+> * sphinxcontrib.applehelp (2.0.0)
+> * sphinxcontrib.devhelp (2.0.0)
+> * sphinxcontrib.htmlhelp (2.1.0)
+> * sphinxcontrib.serializinghtml (2.0.0)
+> * sphinxcontrib.qthelp (2.0.0)
+> * kerneldoc (1.0)
+> * rstFlatTable (1.0)
+> * kernel_include (1.0)
+> * kfigure (1.0.0)
+> * sphinx.ext.ifconfig (8.2.3)
+> * automarkup (unknown version)
+> * maintainers_include (1.0)
+> * sphinx.ext.autosectionlabel (8.2.3)
+> * kernel_abi (1.0)
+> * kernel_feat (1.0)
+> * translations (unknown version)
+> * sphinx.ext.imgmath (8.2.3)
+> 
+> Traceback
+> =========
+> 
+>       File "/<...>/sphinx-8.2.3/lib/python3.12/site-packages/sphinx/util/parallel.py", line 137, in _join_one
+>         raise SphinxParallelError(*result)
+>     sphinx.errors.SphinxParallelError: KeyError: '/<...>/lib/bitmap-bad.c'
+> 
+> 
+> The full traceback has been saved in:
+> /tmp/sphinx-err-8jzxndsr.log
+> 
+> To report this error to the developers, please open an issue at <https://github.com/sphinx-doc/sphinx/issues/>. Thanks!
+> Please also report this if it was a user error, so that a better error message can be provided next time.
+> make[3]: *** [/<...>/Documentation/Makefile:123: htmldocs] Error 2
+> make[2]: *** [/<...>/Makefile:1806: htmldocs] Error 2
+> make[1]: *** [/<...>/Makefile:248: __sub-make] Error 2
+> make[1]: Leaving directory '/<...>/my-output'
+> make: *** [Makefile:248: __sub-make] Error 2
+> 
+> -----------------------------------------------------------------
+> 
+> This would surprise innocent devs who are kindly willing to test docs build.
+> 
+> I think you need to tame its behavior and make it emit a proper warning and
+> continue building docs in case of such predictable user errors.
 
-All that looks doable.
+Totally agree.
+Thanks.
 
-Rob
+> Am I asking you something unreasonable?
+> 
+> Thanks,
+> Akira
+> 
+>>                           As kernel-doc is now fully an Sphinx extension,
+>> it now signalizes to Sphinx that the build has failed.
+>>
+>> Yet, it should have produced some warnings. Maybe we need to specify a
+>> different log level with Sphinx to make it happen. I'll double check it
+>> and send a fix later on to kernel-doc.
+>>
+>> Thanks,
+>> Mauro
+> 
+> 
+
+-- 
+~Randy
+
