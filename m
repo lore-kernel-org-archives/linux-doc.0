@@ -1,80 +1,81 @@
 Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F24743F9D2;
-	Mon, 19 May 2025 14:59:34 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6A99B1C8603;
+	Mon, 19 May 2025 15:02:17 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747666776; cv=none; b=dnKOldbScWxygX/5S2Y541Nh4R7bkmsD0/huzUn0FkKKGq8EsovWHel1IDZlOTNMzm7ErtXJY9zbYiY2iv96J9Pf6MJYnLJuqbqxOQ0B/qgx+FF3chr1fVcKVN9VwnXwycQYRbKgR/nzaerWHytAlh3atSOK+8QIXnljIhY6FKk=
+	t=1747666939; cv=none; b=MzQRW9UODN7NwUHb7Hg0SHUUZVmmBEXXTqj1zYaIpz3kuBmcuuebaeCAjd0dbYYx+NDtHY8VtDDHVWD2RyFxD6MIx3CuG2iLoZAhrWHrjic73ORvbqVWy2ZZN9imzVoAFeFnOqN+G9ggLGA3kSuOg70KJFjYucc74BZrTX4vEko=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747666776; c=relaxed/simple;
-	bh=LlINlnvjkPrNwRHqI0nwGTekbcuufu1HgbzTRAhzUbY=;
+	s=arc-20240116; t=1747666939; c=relaxed/simple;
+	bh=iOG4uVnyNgfIKYKGomwH6kQE4Zu2JYG+HCSm5JAh6ZA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=ippFdmtY4/haL3ykLV8lX2yLI5F446ZFwKj28Ljb2lWATABIvFXRCUkw1TFXrA6WZMsD74s+lImVwBanIddaE0VKqTCXqYZpKu2zNEo/IeD/O+CPVF+UCZhac9a2UgAiWnWN7Oxql7htS+xNKcDCzxUGKlbvRDIEiBXAmQ04XqE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=BC5MN+Tv; arc=none smtp.client-ip=45.79.88.28
+	 MIME-Version:Content-Type; b=VEVNlY35xL1gwgLfvebr8/nZs7I+1kXYx7R+Iu74AJNFmZDRe2pGE+EQyV2g0PahJTGuffTIro+lSif6u0KLj5M0Q5qOzp9/a+vvofM2d+18QuaPp221IX75YFeAnNkHu79zinN4aPUO7CoSJBmkZnWjoK/jGLce7Eu0dYDSHG0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=qfO1NOoP; arc=none smtp.client-ip=45.79.88.28
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="BC5MN+Tv"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net EA1FD41086
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="qfO1NOoP"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 2FC2841EC5
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1747666774; bh=+rX5+eunrT2/Z/JqYzLSRdS/nAoA5hDjcDv7ReJ+phc=;
+	t=1747666936; bh=iOG4uVnyNgfIKYKGomwH6kQE4Zu2JYG+HCSm5JAh6ZA=;
 	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=BC5MN+TvAPKphNSf29MF+MCPM2Fuqns7MMGVFRi1YCn08eO2Oucwn6AXYqto2hvXr
-	 ANqicqrNEGDnTZDLuPtQX9GxnUk0+ZiUUJGO6/0gdumyFS93rQgxje5HnpwHSVzsNj
-	 Of5jxXj+yDRn0iQWoCJFRr28dSvxqhAFFS1B7ZR3+upWTHZ8tjd7TPKYcvPg9IwMHe
-	 56abe+fJ0aF+3zDvIEhPfs3BBiQIucBjCa008Gn9hOwmrZAkAWTnoSJoW89WWirtZf
-	 wylnTRwEPsxkcM83spIDoWIdH4oFN76c6infWRxgRnJWuDMajJA0CxTQfBvvouGsp4
-	 q+MEVQKzxsf3A==
+	b=qfO1NOoP9fPo5gXZIp9Kxaap4jXSGzx6QaMvwFHhzka7t7k3EN3kNrP41vaFiSCs5
+	 gJq8p9rj3QIc2oTX6cETDNXWes9X6h0diMNcaoX5jZ/xQjq+Y08gnIXwtWL/BAhW16
+	 6q6c0i/CU/XdbMdTNQS5NChqD2n7+e7xuSVrORiSHwjA26kCUATp08OlDMJuQpiuHV
+	 DFpBWAvTDzizgK0Ggq6w2LUnrr7bLjW3uOzktkKwOdfo2YlLoL/YiE/ROSFTmX0pws
+	 rhc1+Of2EITPfUKT/oCXbNGkSlgfzNgmKhQKJc8Ye8CbZe7Yab7J26lsfjnFpLdGjT
+	 GNSx1yJSKID2g==
 Received: from localhost (mdns.lwn.net [45.79.72.68])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id EA1FD41086;
-	Mon, 19 May 2025 14:59:32 +0000 (UTC)
+	by ms.lwn.net (Postfix) with ESMTPSA id 2FC2841EC5;
+	Mon, 19 May 2025 15:02:14 +0000 (UTC)
 From: Jonathan Corbet <corbet@lwn.net>
-To: Bagas Sanjaya <bagasdotme@gmail.com>, Linux Kernel Mailing List
- <linux-kernel@vger.kernel.org>, Linux Documentation
- <linux-doc@vger.kernel.org>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>, Andrew Donnellan
- <ajd@linux.ibm.com>, Frederic Barrat <fbarrat@linux.ibm.com>, Bagas
- Sanjaya <bagasdotme@gmail.com>, Ming Lei <ming.lei@redhat.com>, Lukas
- Bulwahn <lukas.bulwahn@redhat.com>, Alyssa Ross <hi@alyssa.is>, Beau
- Belgrave <beaub@linux.microsoft.com>, Nuno Das Neves
- <nunodasneves@linux.microsoft.com>, Eric Biggers <ebiggers@google.com>,
- Michael Ellerman <mpe@ellerman.id.au>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v2] Documentation: ioctl-number: Update table intro
-In-Reply-To: <20250508005838.8381-2-bagasdotme@gmail.com>
-References: <20250508005838.8381-2-bagasdotme@gmail.com>
-Date: Mon, 19 May 2025 08:59:29 -0600
-Message-ID: <87y0usir3i.fsf@trenco.lwn.net>
+To: Amir Goldstein <amir73il@gmail.com>, chenlinxuan@uniontech.com
+Cc: Miklos Szeredi <miklos@szeredi.hu>, linux-kernel@vger.kernel.org,
+ linux-fsdevel@vger.kernel.org, linux-doc@vger.kernel.org, Bernd Schubert
+ <bernd.schubert@fastmail.fm>, Bagas Sanjaya <bagasdotme@gmail.com>
+Subject: Re: [PATCH 2/2] docs: filesystems: add fuse-passthrough.rst
+In-Reply-To: <CAOQ4uxiMh+3JqzqMbK+HpFt-hWaM6A2nW3UHNK9nNntDRkRBeQ@mail.gmail.com>
+References: <20250507-fuse-passthrough-doc-v1-0-cc06af79c722@uniontech.com>
+ <20250507-fuse-passthrough-doc-v1-2-cc06af79c722@uniontech.com>
+ <CAOQ4uxiMh+3JqzqMbK+HpFt-hWaM6A2nW3UHNK9nNntDRkRBeQ@mail.gmail.com>
+Date: Mon, 19 May 2025 09:02:11 -0600
+Message-ID: <87tt5giqz0.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Bagas Sanjaya <bagasdotme@gmail.com> writes:
+Amir Goldstein <amir73il@gmail.com> writes:
 
-> Introduction paragraph to the ioctl numbers table states that only
-> ioctls in up to ancient Linux kernel version (v2.6.31) for x86 arch are
-> listed. This is inaccurate as the table also lists ioctls from non-x86
-> archs and the kernel is continously developed (currently in v6.x).
+> On Wed, May 7, 2025 at 7:17=E2=80=AFAM Chen Linxuan via B4 Relay
+> <devnull+chenlinxuan.uniontech.com@kernel.org> wrote:
+>>
+>> From: Chen Linxuan <chenlinxuan@uniontech.com>
+>>
+>> Add a documentation about FUSE passthrough.
+>>
+>> It's mainly about why FUSE passthrough needs CAP_SYS_ADMIN.
+>>
 >
-> Update the paragraph accordingly.
+> Hi Chen,
 >
-> Signed-off-by: Bagas Sanjaya <bagasdotme@gmail.com>
-> ---
-> Changes since v1 [1]:
->   - Do not mention kernel version (Lukas)
+> Thank you for this contribution!
 >
-> [1]: https://lore.kernel.org/linux-doc/20250507055145.23345-2-bagasdotme@gmail.com/
+> Very good summary.
+> with minor nits below fix you may add to both patches:
 >
->  Documentation/userspace-api/ioctl/ioctl-number.rst | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
+> Reviewed-by: Amir Goldstein <amir73il@gmail.com>
 
-Applied, thanks.
+It looks like these comments were never addressed ... ?
+
+Thanks,
 
 jon
