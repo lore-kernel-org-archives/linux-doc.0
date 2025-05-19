@@ -1,161 +1,127 @@
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0241E267F51
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 08:16:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.221.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DD681EA7D2;
+	Mon, 19 May 2025 08:18:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747642618; cv=none; b=J1BRuOYRfYPZlr3BY5ebFENnD16KAdRo/TCmmwLc0l89Ikozrj/W4WgYaU42MjhoPpbMlQeZ/dTc4yDp92+4CqxO9DQfcWZ8zFj8jqCF+y7uCxuO0Fz0vv/NnCCmw3xGsBuWjBQni/ckdBI9Xc8R84+sh5M1feLE/ihWvRbC3rQ=
+	t=1747642716; cv=none; b=hYB+6nUklY7j4Nq5DgJLhaGvP+VqnZshFNVxK51QIxYJD3BYOkhmQumtdh+oEoM84SOjkSZnCib7LlMdJXT72pSkCvTKUQeZHx7xM1kTM1ULoC2475ZoUw/S1OUe8t5AzkKLK1yln1hS3frNOQHItXInU+M7d5DwkJeNhcKMwBA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747642618; c=relaxed/simple;
-	bh=H8ajxtmiTCjvOOIE2ApRVZ9momS0HTXG8Sy481IZrjo=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=kjIGU1u8RxfHoeFDPYl6UzRZ+oXGBEpNdu2ddy6qmqHBKY00LYbI1TnJjWU+f0Z9yDovg8j9+FoC784Ekvbfc2DOf/GikXLT7H/a/wkkUK9eT8xIWMvPoIb/xIdzh6mxO+86IqZ5ky5nZnWtN3nLS1Z1otOyzGPHQ69V33W3eoE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=gXTWb3m8; arc=none smtp.client-ip=209.85.221.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747642716; c=relaxed/simple;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:Content-Type:MIME-Version:From:Cc:To:In-Reply-To:References:
+	 Message-Id:Subject; b=TPNLFOXuLS2znVWSytw5i7BDr2lGahCE548vthmdSvlAnl2PCMJFD6p3+Mxj10UeI3MsTPJ3v0EfSE/n5bB/bOXyUo9ItP4H6dI7GCpzgXWjMvBeAR+nbHtGa5PvxIjLBHZs+TwWrsTPNAKYjxVcfoEqlB6MKEZ2qS4TlxcNcIY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=gIB8RnbV; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="gXTWb3m8"
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-3a3673e12c4so906758f8f.2
-        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 01:16:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747642613; x=1748247413; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=kUL9QUi3QxO33JzaB+qq5zCH3BOr2BvD/SOLCCy++Kg=;
-        b=gXTWb3m8+DxkSvlQoHuyrSofaHzPX8tzwlt/5WgQBGDt5+d62bx8K8mj/CrvtM9sPP
-         jy7W31BGaYKqb154FVdEFfftsbIkqflvvNc5u3Oc3FismUyCV4mRYpdaRtyNRnMUwZdw
-         VKUUw97RPtCJxnfH77GTmGOuS1lPCwBvnDtcKR9xQmOlhAyaQtzx2P7WBV42zyAAopC1
-         /6yzmiVKgTHciw3diIb0lczJUqukmRU3HvU5F4AZVG6VpvXqGc3/uSkZVrLp/K3yEmYr
-         LHxoKcpJOstyiUysxdbvuI1j4j9JOAotrMzUxhh7BbqOfMANVldNmlSG9k8xn0wMV7L9
-         +9Fg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747642613; x=1748247413;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=kUL9QUi3QxO33JzaB+qq5zCH3BOr2BvD/SOLCCy++Kg=;
-        b=UUw52qO18dhHMgjcjIKMFUwfopZfnH5aBmLNjM/JhoWDFHRyhNW/5cQLq57uB6DUqk
-         D234jzurX3ggmysD7NDJw4T0E/+pVGf3js9jd+FeDi/P0sLpvumOE51hXnaMOk/7axn8
-         Psmc2IseD1tvKfkBBkw3xc8CAFRQY5U2GjEdurRRWuKLJ1hd6u4IJwL8zAxQ+iSMlGr2
-         03FCqd1EQwBlwYMe4kW3NPxPDvjPCBTI6adb6nyh5IFnX865j3MXPLisTfa/WYWKnpjC
-         FXWSvWLRkVoWmPkPtJ+hH2x5YO/1vfVu19/ALvAfYmEu1YEHPA2Nf9kGcc0IhIkmaXVS
-         HsIA==
-X-Forwarded-Encrypted: i=1; AJvYcCVXiCgHNkKw7i6UP/vvgI6kUwIv0PINQqZAGQTL5Tv7P4u0NImVJ95uEB0vdfl3n1JWbcLsEjbHE5E=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzV/m/JwwGDcx8lhBeuzGJp059w8RX5eXaQBV5a1d96dBDFMc4H
-	LvcucZXGn78tPkO0FTPgnzTrHezwA0se0aya9njZm2LFgQjp/6X0ftoa9cS36iJKYHc=
-X-Gm-Gg: ASbGncvO/oSr1vO/NEpa4c6P4KkNhFMXIdq1Pnw5QCeDfUXIP0X1fobRIO4sPkGpKKf
-	6JI8QqcMA6JE5X06Ms2Dor9DzY7Brbn9XpUafGgTPjq3FInyCMWK3c65QXm5jX2fuFUSGw7lKHI
-	BN4knlqHLvBtZEhJz6cJYaGWvmAMUewwQaz0gnYyaXi0gWFGn64NuYamXOF2Ae2pk45poFsqxAH
-	GdeNzBPSO/sRi7dA4ah+M8BpKlw6as2HywydtibOfzmk2lYU06sMn2gdKHizukBV1Cjh3WukQ5w
-	JtP7VcCt6Db/NpRDmcqbnMT0U6CL2aZ2ePEx8OMOLiFirkNqwXNCaj1u
-X-Google-Smtp-Source: AGHT+IHSO1KA4bNQxfQbc4te6baDy9fxE6Gyb6malS9UHm7L4qyXIFr1J9YNRKOGPiR0u203LvVC6Q==
-X-Received: by 2002:a05:6000:2911:b0:3a3:6bc1:f1e7 with SMTP id ffacd0b85a97d-3a36bc1f466mr3082730f8f.52.1747642613267;
-        Mon, 19 May 2025 01:16:53 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.136.128])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-442fd4a0a5dsm132048605e9.0.2025.05.19.01.16.51
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 19 May 2025 01:16:52 -0700 (PDT)
-Message-ID: <8518b861-326d-472f-b6ff-3cda41517587@linaro.org>
-Date: Mon, 19 May 2025 09:16:50 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="gIB8RnbV"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 49D80C4CEE4;
+	Mon, 19 May 2025 08:18:35 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747642715;
+	bh=AWPQKMivdFQ6QmrVDoYacp12BqW2VCLe3IzFWlx64xM=;
+	h=Date:From:Cc:To:In-Reply-To:References:Subject:From;
+	b=gIB8RnbVS+04t84cV0goWDLCVeDQvx65RAZ3M92Pf5h28kBq+Ri+5qQsS+fp7Glih
+	 NVlgpejExtWCj8mgCHW9dsGWy5MtgYv3Y7ftuyCzbNqZrUumMRXwL7H6CVH06aNtmz
+	 eUhRN1FPMekD1f/FA652VoWYhrCVFG8cE1eYFtIl2rS+auyNBcZ8JjVNw10KddvwuQ
+	 k7iLvBeFSeEYwxmF1sIMA1XqwfH+sgE+w1ok4TIMqldALHez1pidN3nCS59a65Vzqy
+	 j3pFDak0FAkdpMvrimzTpwXKEsnUqILef0GT4BMX23kYs5AoijM6XyL9ueuPJB0TP+
+	 hcWmIrsMT5gwg==
+Date: Mon, 19 May 2025 03:18:33 -0500
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 01/10] arm64: sysreg: Add new PMSIDR_EL1 and PMSFCR_EL1
- fields
-To: Marc Zyngier <maz@kernel.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Oliver Upton <oliver.upton@linux.dev>, Joey Gouly <joey.gouly@arm.com>,
- Suzuki K Poulose <suzuki.poulose@arm.com>, Zenghui Yu
- <yuzenghui@huawei.com>, leo.yan@arm.com,
- linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
- linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-1-dd480e8e4851@linaro.org>
- <8634d4fwnb.wl-maz@kernel.org>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <8634d4fwnb.wl-maz@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+From: "Rob Herring (Arm)" <robh@kernel.org>
+Cc: David Airlie <airlied@gmail.com>, devicetree@vger.kernel.org, 
+ Thomas Zimmermann <tzimmermann@suse.de>, Maxime Ripard <mripard@kernel.org>, 
+ linux-kernel@vger.kernel.org, Conor Dooley <conor+dt@kernel.org>, 
+ Oded Gabbay <ogabbay@kernel.org>, 
+ Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
+ Jonathan Corbet <corbet@lwn.net>, 
+ Sebastian Reichel <sebastian.reichel@collabora.com>, 
+ dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org, 
+ linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, 
+ =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
+ Jeff Hugo <jeff.hugo@oss.qualcomm.com>, 
+ Sumit Semwal <sumit.semwal@linaro.org>, Heiko Stuebner <heiko@sntech.de>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
+ Simona Vetter <simona@ffwll.ch>, linux-rockchip@lists.infradead.org, 
+ linux-doc@vger.kernel.org
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+In-Reply-To: <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+References: <20250516-6-10-rocket-v3-0-7051ac9225db@tomeuvizoso.net>
+ <20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net>
+Message-ID: <174742024812.3649303.12389396177218408388.robh@kernel.org>
+Subject: Re: [PATCH v3 01/10] dt-bindings: npu: rockchip,rknn: Add bindings
+Message-ID: <20250519081833.nv7dIKqJRvbtJa0U71BxHb4eqrbR3Eu2_YDfabmyXg4@z>
 
 
-
-On 16/05/2025 3:38 pm, Marc Zyngier wrote:
-> On Tue, 06 May 2025 12:41:33 +0100,
-> James Clark <james.clark@linaro.org> wrote:
->>
->> Add new fields and registers that are introduced for the features
->> FEAT_SPE_CRR (call return records), FEAT_SPE_EFT (extended filtering),
->> FEAT_SPE_FPF (floating point flag), FEAT_SPE_FDS (data source
->> filtering), FEAT_SPE_ALTCLK and FEAT_SPE_SME.
->>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   arch/arm64/tools/sysreg | 26 ++++++++++++++++++++++----
->>   1 file changed, 22 insertions(+), 4 deletions(-)
->>
->> diff --git a/arch/arm64/tools/sysreg b/arch/arm64/tools/sysreg
->> index bdf044c5d11b..80d57c83a5f5 100644
->> --- a/arch/arm64/tools/sysreg
->> +++ b/arch/arm64/tools/sysreg
->> @@ -2205,11 +2205,20 @@ Field	0	RND
->>   EndSysreg
->>   
->>   Sysreg	PMSFCR_EL1	3	0	9	9	4
->> -Res0	63:19
->> +Res0	63:53
->> +Field	52	SIMDm
->> +Field	51	FPm
->> +Field	50	STm
->> +Field	49	LDm
->> +Field	48	Bm
->> +Res0	47:21
->> +Field	20	SIMD
->> +Field	19	FP
->>   Field	18	ST
->>   Field	17	LD
->>   Field	16	B
->> -Res0	15:4
->> +Res0	15:5
->> +Field	4	FDS
->>   Field	3	FnE
->>   Field	2	FL
->>   Field	1	FT
->> @@ -2226,7 +2235,12 @@ Field	15:0	MINLAT
->>   EndSysreg
->>   
->>   Sysreg	PMSIDR_EL1	3	0	9	9	7
->> -Res0	63:25
->> +Res0	63:33
->> +Field	32	SME
->> +Field	31:28	ALTCLK
->> +Field	27	FPF
->> +Field	26	EFT
->> +Field	25	CRR
+On Fri, 16 May 2025 18:53:15 +0200, Tomeu Vizoso wrote:
+> Add the bindings for the Neural Processing Unit IP from Rockchip.
 > 
-> These are described as enumerations in the JSON file (see [1]).
+> v2:
+> - Adapt to new node structure (one node per core, each with its own
+>   IOMMU)
+> - Several misc. fixes from Sebastian Reichel
 > 
-> 	M.
+> v3:
+> - Split register block in its constituent subblocks, and only require
+>   the ones that the kernel would ever use (Nicolas Frattaroli)
+> - Group supplies (Rob Herring)
+> - Explain the way in which the top core is special (Rob Herring)
 > 
-> [1] https://lore.kernel.org/all/20250506164348.346001-7-maz@kernel.org
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+> Signed-off-by: Sebastian Reichel <sebastian.reichel@collabora.com>
+> ---
+>  .../bindings/npu/rockchip,rknn-core.yaml           | 162 +++++++++++++++++++++
+>  1 file changed, 162 insertions(+)
 > 
 
-So they are. I'll take your commit and double check the other new ones 
-against the json.
+My bot found errors running 'make dt_binding_check' on your patch:
 
-Thanks
-James
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.yaml: properties:reg-names: 'oneOf' conditional failed, one must be fixed:
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too long
+	[{'const': 'pc'}, {'const': 'cna'}, {'const': 'core'}] is too short
+	False schema does not allow 3
+	1 was expected
+	3 is greater than the maximum of 2
+	hint: "minItems" is only needed if less than the "items" list length
+	from schema $id: http://devicetree.org/meta-schemas/items.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core-top', 'rockchip,rknn-core-top'] is too long
+	'rockchip,rk3588-rknn-core-top' is not one of ['rockchip,rk3588-rknn-core']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdab0000 (rockchip,rk3588-rknn-core-top): reg: [[0, 4255842304, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): compatible: 'oneOf' conditional failed, one must be fixed:
+	['rockchip,rk3588-rknn-core', 'rockchip,rknn-core'] is too long
+	'rockchip,rk3588-rknn-core' is not one of ['rockchip,rk3588-rknn-core-top']
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+/builds/robherring/dt-review-ci/linux/Documentation/devicetree/bindings/npu/rockchip,rknn-core.example.dtb: npu-core@fdac0000 (rockchip,rk3588-rknn-core): reg: [[0, 4255907840, 0, 36864]] is too short
+	from schema $id: http://devicetree.org/schemas/npu/rockchip,rknn-core.yaml#
+
+doc reference errors (make refcheckdocs):
+
+See https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20250516-6-10-rocket-v3-1-7051ac9225db@tomeuvizoso.net
+
+The base for the series is generally the latest rc1. A different dependency
+should be noted in *this* patch.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit after running the above command yourself. Note
+that DT_SCHEMA_FILES can be set to your schema file to speed up checking
+your schema. However, it must be unset to test all examples with your schema.
 
