@@ -1,58 +1,55 @@
-Received: from mail-yw1-f178.google.com (mail-yw1-f178.google.com [209.85.128.178])
+Received: from mail-pg1-f174.google.com (mail-pg1-f174.google.com [209.85.215.174])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5EAB21D5B0
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 22:59:05 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.178
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B63EEB67A
+	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 23:01:08 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.215.174
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747695547; cv=none; b=lXZ5YAAzQ0IYtKBVuND8549bAsvB4tdVyTDNlyVU9U8M4E/s5orHkqabD5aT6o7fCXY4zf1fUKwvgzLFPBtd6cFKmhaW3glIKaUszlsntPBZPjft4ETzHueuBDo/jiGEy9OD19jSjWAWqPJW5nCEgp+GYoSj9Ul5oADrKH1epao=
+	t=1747695670; cv=none; b=dtYHXGdD0Kv+WFuzV3XN/kT2Sm39uZo3k1PiMeGwvFiPUJ/PDpsraD+RKP28MjnXeWyZhv2CSHogbjYC+cFKUic/zw1Gd0+gHlUZdfNh/+zpX9UKufM7rB/HkvSl/Z4vT8/Y46+JnG5zIGh/CpktjvKrGX/QNJOGTJIJFwHY+tA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747695547; c=relaxed/simple;
-	bh=kjwn2ds7cCMY6u8Wc4J5VzC7zaszlbkpn9nqAdYGxDc=;
+	s=arc-20240116; t=1747695670; c=relaxed/simple;
+	bh=ATNfJvLN2RdaN37+gdMKwi/xRzkT0JCaUkz0KtZ8TQ8=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=XLi6Ui4Dubtz3FfIicQJicTdB2wdrNWWLamDYrDV1oAotUGuh5QI3bTTzQr0vLUnseJFniwfwitzxhIAvr4NcFGlfp068HGdVqV1DTQjDeQiMjqlG/mRvSH0O1h47BQxoIxBtZ35vkzN+cDET1yw3a7E5MLDjSjFTyUEMIOfFr8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=fkFXWMWP; arc=none smtp.client-ip=209.85.128.178
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	 To:Cc:Content-Type; b=rfUbETTjkNCdfQ3/Yt1Js5FEMXl1+AZ/blhJlT6N35E0P2YWe+T2VrJUectWvaz3UIbiU09obKfokWXfO3OtpqkuUvjVq44/iCX4XmxtJwXVuyJsTb1s/40tk9zaX1ksWsa1gpgMCW8IvwyuINbt96wms7JH0kFGMi0BQwUwCLw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riotgames.com; spf=pass smtp.mailfrom=riotgames.com; dkim=pass (1024-bit key) header.d=riotgames.com header.i=@riotgames.com header.b=kDgEZLfI; arc=none smtp.client-ip=209.85.215.174
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=riotgames.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=riotgames.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="fkFXWMWP"
-Received: by mail-yw1-f178.google.com with SMTP id 00721157ae682-70ccb7effb0so13275217b3.0
-        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 15:59:05 -0700 (PDT)
+	dkim=pass (1024-bit key) header.d=riotgames.com header.i=@riotgames.com header.b="kDgEZLfI"
+Received: by mail-pg1-f174.google.com with SMTP id 41be03b00d2f7-b27015122c4so1520630a12.3
+        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 16:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1747695544; x=1748300344; darn=vger.kernel.org;
+        d=riotgames.com; s=riotgames; t=1747695668; x=1748300468; darn=vger.kernel.org;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:from:to:cc:subject:date
          :message-id:reply-to;
-        bh=p/RrrGUvS6xBKIaPYnBpsLPZNCZLvh9OPRpykB0Ulvk=;
-        b=fkFXWMWP+yIpMcz3/yLRTMSF7KTizTvEe/1IMUwI59Galoy+CCGn3uSpuTHianl9pO
-         I/qgZV5I35wpxgHkphUEYeObqMQnvBP++kkzVnYZOe9+lpgr1nrLt9TmqX/BT6EU8CfL
-         NbrHe5U3+tJdb6yV4rmXX1YO4FBeHYpS+2NuiUZxyHKcOgC1ZrzkkeRrFmvVDmSy7Hkw
-         OTgq8l49gun3sDfiqu0wWmwQtP9N+hDnFf+F9fyFgdKZQhtfUVMFUzrd2TeJHpECNber
-         1eVc8FF6HZZADKUTU5AbB9rhzvskwxDGXDgoDqz9QSepKUJEXP9WDkU8M5BBBHvHcGxh
-         tFKg==
+        bh=waKOIo5gUpaOrddr0SeUUhd92poB67UKhg23Qr5hz4U=;
+        b=kDgEZLfIPPqxh3mPPkkQc8tiIaXyWhglgExZyHVdEBDXSWK2BpCtfJuEQQ1agNk+MK
+         k6S2YIdCaI+SAFllgi7KB14FRvdRkl97XrgJQtVDvQBeD6fI5Rzgx07mFuLLozbshxQg
+         dIBpNXPXWti20/K/dq+hApSSUwKPVm0qHqNCU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747695544; x=1748300344;
+        d=1e100.net; s=20230601; t=1747695668; x=1748300468;
         h=content-transfer-encoding:cc:to:subject:message-id:date:from
          :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to;
-        bh=p/RrrGUvS6xBKIaPYnBpsLPZNCZLvh9OPRpykB0Ulvk=;
-        b=jFhCHpyiYhkQ3frCKNexEQMui/sGVL/nAxEJmnzxRCeGH8nESWTlatOsUJcKPUXsXL
-         Me6SYavkIZBATN/o+KhPxHvKMwio7n12BT2Ga3rx/uddumyQbH5KUEOfaeS6qxGL6NdN
-         zXIe/p7dLphoP0ROjftcxn7vWIowWTTyh1wkc3kE/JUhSj7r6mHXP1Pnyey3792yfie2
-         JAJE8lKpyTfbKYw+lGvzto73QvNj2cxfEPj19gQZKRisWpmoTCQ05HoaRR0jguoTuCtw
-         2q1shTkru6RJFeQm+A7FkYh5a4ctNvIJudr5y49YX3mnG9iewbczq7WSCaJX0xbSULXP
-         Mq0g==
-X-Forwarded-Encrypted: i=1; AJvYcCWg8I13wJTBMA9IGr3taEO+JODNOb1G/Au1Xlr4aKVGTvUv7YlWR+LisOc51Ah5rkeCrF/+DxM6WZw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YzZNeDloWCTy8flMhBrJmtEk5k3QP5bOwU9YYKiPu7JEx1MQsAS
-	GOf7yR4gLoYo8VtCPS35tUxZmSnGE3eXdTt54oNL+ERdnLRG7gU/IR8ZXN59S7ZMSY45adZH+bu
-	0XT6ddG7vnIXZPPdOKoSs53O3v8J8WTSJrR/Sxeiz
-X-Gm-Gg: ASbGncsXCk/350rTCtrx0hpxEOjQpn0hwg+ktCSRKFsRigJV+8ZF2qdvykS8SxqheAk
-	VnN9xzYSYBsqXQYGi9sez0w+Am+6F5Jhpb4BGDtkTYC+4U6OfuDphCHWGKUbkFMRjPQ3JuqGk5X
-	l80Vlgu0wxEldbbVEAMRGdU3bhScuJ4gQy
-X-Google-Smtp-Source: AGHT+IFgdXMx0++rCnS34CKw8hZgyEs80zXpEEvuAIv/c65tdIdqmkcl1gyVl8f56p6dX5jzkRw5EVPCF2N2N1x3l0g=
-X-Received: by 2002:a05:690c:4910:b0:70c:cbef:df27 with SMTP id
- 00721157ae682-70ccbefe1f2mr105461797b3.14.1747695544492; Mon, 19 May 2025
- 15:59:04 -0700 (PDT)
+        bh=waKOIo5gUpaOrddr0SeUUhd92poB67UKhg23Qr5hz4U=;
+        b=HY/L+hxg9bHG00cfIjbUqrBws+KLYVE5OYOXPzfCSCHaVERMHBe3om8QYRruvGb95c
+         0gF+2Cc/779oXwXA0WfwSKHsuhSkBN7ussBeuYf5cOzeW4RP5bK8HqC/8HoIqFCN0Y9n
+         wzkeFZJL5/9Iz7jTxsiWN58J0IG1GNHGl2aaeMd7WBPROJv/JtHq+BFsfbj+mdDXZkQD
+         j4+N6LYcgTgzJsKvNX5aj07jJyAAs59QIWydcC4TS4smElmGkHMAfWScEj663jTlaqHg
+         E7/MnFLmZfJf2feL+bK8idog+OnKcMiU+egJ2zxiODU98fk9PJIebBqMn9wDxOcQFswb
+         HtYQ==
+X-Forwarded-Encrypted: i=1; AJvYcCV5gaibHlFyaRdvwPfcwvFC4PK6tjUAhbCFFYbW2miuI5vmNrU+aoSlN5R6WSBE5C6+LnDMBu+AV+M=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzOnpeYYvtSNiC1fqBFOrBjLo+8T5WcsXyZ/TW0T7ontBoryGif
+	r59Xc7NODU9/HkGH2Nw29T5jQgryhWUDTwDEMMPDHDr3KNgtL5Ys3DyeJA6EBpoSNi4jBLYigmU
+	DRVwrT7Zg0tYXGTFlWK1HMfdxT3mzBbFJZ3dqqLm3jg==
+X-Gm-Gg: ASbGncuZIYMaaT6AipQUjmJ7epy5kbiDt2MW3IogjFUAf25NMC0wNOxfCOUM34MnWZg
+	IFZ8UAPPviLCgJJJenZqxL2UJuXeyp2n/Pt6THoq8BvX3xzYXXZL3ilk/YZrwPGRzg6dU+JCWPz
+	Rnk0wDqo4LNhBXjIoB8lH6Va7hh9ruPdLz
+X-Google-Smtp-Source: AGHT+IGqGkiGQXKjNuOS/Jzhro9EPxplPI4zYl45YFPAd3e+QPi6agsft/NyAicfvCJMfzlVT/0v96mFansDA2bGSpo=
+X-Received: by 2002:a17:902:da86:b0:220:cb1a:da5 with SMTP id
+ d9443c01a7336-231d4596c6cmr217126845ad.40.1747695667964; Mon, 19 May 2025
+ 16:01:07 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -73,13 +70,13 @@ References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
  <CAADnVQ+=2PnYHui2L0g0brNc+NqV8MtaRaU-XXpoXfJoghXpww@mail.gmail.com>
  <CAHC9VhRKZdEia0XUMs2+hRVC7oDzkBfkk5FPMD+Fq5V7mAk=Vg@mail.gmail.com> <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com>
 In-Reply-To: <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com>
-From: Paul Moore <paul@paul-moore.com>
-Date: Mon, 19 May 2025 18:58:53 -0400
-X-Gm-Features: AX0GCFuNK2GlgjCzp9NuXPlW8VAedGQJmwklDdgcpEoZxd4pfb2_T3t5Jc58lno
-Message-ID: <CAHC9VhQ7Rr1jJm=HY2ixUWpsRuwCxjOq5OTMfn5k5hRzxTCz-Q@mail.gmail.com>
+From: Zvi Effron <zeffron@riotgames.com>
+Date: Mon, 19 May 2025 16:00:56 -0700
+X-Gm-Features: AX0GCFsSVZRnQmnvW7OAmjsIttCmabXOOvUXwiDYzPKxxMnJVpGcvnqs-JPLKgE
+Message-ID: <CAC1LvL2F_WbObrdcumVZCKc7yLeq4e9PQhYHrLiyVzpzf=V_Xg@mail.gmail.com>
 Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
 To: KP Singh <kpsingh@kernel.org>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
+Cc: Paul Moore <paul@paul-moore.com>, Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
 	Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
 	James Bottomley <James.Bottomley@hansenpartnership.com>, bpf <bpf@vger.kernel.org>, 
 	code@tyhicks.com, Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
@@ -103,10 +100,12 @@ Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>,
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 19, 2025 at 6:20=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote=
+On Mon, May 19, 2025 at 3:20=E2=80=AFPM KP Singh <kpsingh@kernel.org> wrote=
 :
+>
 > On Sun, May 18, 2025 at 11:34=E2=80=AFPM Paul Moore <paul@paul-moore.com>=
  wrote:
+> >
 > > On Sun, May 18, 2025 at 11:52=E2=80=AFAM Alexei Starovoitov
 > > <alexei.starovoitov@gmail.com> wrote:
 > > > On Sat, May 17, 2025 at 10:49=E2=80=AFPM Paul Moore <paul@paul-moore.=
@@ -217,23 +216,27 @@ ation
 > * What the LSM can specify a policy for is when a signature is not
 > passed, for this, it does not need an aux field or a signature or the
 > new hook, existing hooks are sufficient.
+>
 
-When the kernel performs a security relevant operation, such as
-verifying the signature on a BPF program, where the result of the
-operation serves as input to a policy decision, system measurement,
-audit event, etc. the LSM hook needs to be located after the security
-relevant operation takes place so that the hook is able to properly
-take into account the state of the event/system and record the actual
-result as opposed to an implied result (this is critical for auditing,
-measurement, attestation, etc.).
+What about wanting to create a policy that requires signatures under certai=
+n
+situations and allowing the lack of a signature under others? How is that
+implemented with the existing hooks?
+As I understand it, all the existing hooks know (would know) is that _if_ t=
+here
+is a signature _then_ it will be enforced. There is no way to know _whether=
+_
+there is a signature.
 
-You explained why you believe the field/hook is not required, but I'm
-asking for your *technical*objections*.  I understand that you believe
-these changes are not required, but as described above, I happen to
-disagree and therefore it would be helpful to understand the technical
-reasons why you can't accept the field/hook changes.  Is there a
-technical reason which would prevent such changes, or is it simply a
-rejection of the use case and requirements above?
+An example policy I can think of is that most users (with CAP_BPF) must sub=
+mit
+signed programs but some users are exempted. Would that policy be able to b=
+e
+made with the current hooks?
 
---=20
-paul-moore.com
+> - KP
+>
+> >
+> > --
+> > paul-moore.com
+>
