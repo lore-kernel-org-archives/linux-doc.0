@@ -1,199 +1,174 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qt1-f179.google.com (mail-qt1-f179.google.com [209.85.160.179])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1EDC7144304
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 22:20:25 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7F03F1EF382;
+	Mon, 19 May 2025 22:33:46 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.160.179
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747693225; cv=none; b=QbB0PQgduqffVpesa3Tbzwwa6RO8LIhw496GyrKiZLfbs0q15A2cdi8B4HONa6Kn2HF+0NIv2ylILN3WuUhlvZH8EoKXqhh6BRNL5Q8/ONUnrGj4WjRWIrqXkA3Om6+HLMZx5MsO0euTHpqaMNEA+DULtmcsruq6bzqlQrQaCNA=
+	t=1747694028; cv=none; b=fd+IDNuY3K8PmylsvEbqz2oSw8tVTdV/siA65dUUGtv1YkFx3Zf0mf+2LJjZEDoXmowGs0cwtyu8KnLrtHB6kCeLu+3Rz1CKFhA0Yo61kNsFKWHnKELhFeiiwaHBAwhR0ED+FZOcUDVqXxUfEkRKkKsDWH14kphnpZDAD6JZiKE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747693225; c=relaxed/simple;
-	bh=uZ8XlymW+4rF1CnsOePthFc1cGC0345sXJLUZ4Dhuzo=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=b4XCLJYjQkm1I1JmQsdD6JZSTVi4r75Kx9EOWWeIalHvNPaelpEuOkJuBmySaAXJSjQC+vDI00p7v0tW1yEK0BPNCFOhAYtb8684r3vpT4dn8awKjceCuQ4bb6hiscDmVBLQsOXqWxfmIeV1ik48WZy0iTxNksLzFNm49f+f2go=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eszoFnIP; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747694028; c=relaxed/simple;
+	bh=PfAY27T09TjnJ/nIpVYoM9+S1fT0+OEtJubTxVt/1WE=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=pHjSzDD5jy68i8lnMYWooFiVbD6qA/UzROq67w7m7Rl8QoSxDb12vbZIu5j4t48hFEG7qrEk5U4D7Pzk8/adcpIhPUS6LXCnyHamMwPDSoocd2gUwS7Hb7FUB+b5YbYAkCGSGJesV3oVDBCWjsrrum1GTglhFAegaBXYKzCIc7k=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=e0BZmtx+; arc=none smtp.client-ip=209.85.160.179
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eszoFnIP"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DFC16C4CEE4
-	for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 22:20:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747693224;
-	bh=uZ8XlymW+4rF1CnsOePthFc1cGC0345sXJLUZ4Dhuzo=;
-	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-	b=eszoFnIPKkpgkkcnKomJsKn4S5EB6a0pPOT2n5RcqdpHCJevupHKUMAXcSgA0CUsV
-	 vtZEOwUfaJi0TVnmxkUwURdQAD+GBNBKCM15oeC21i3Pdxmx1Or2Rb34oHVPA6InE4
-	 JQPTpmpaxMl6j2fDTQcI8PzGizIaFSvjoVFYdfrEA7LWP/Tx/aXKYZj6sP6gyS/f8Y
-	 SsUK6rcT/Ro+SoYafFUKheYNtb8gl/36+SBFTx3Wa3na1uG4mIIceMzxePqijWB8c/
-	 fpeEQ0vmMpWT5DtcNU0vh9hTTvl9GRCRFvFDPaY79weniZMe214b4a9q5W27dFN47c
-	 PRUNfIapgUWdw==
-Received: by mail-qv1-f54.google.com with SMTP id 6a1803df08f44-6f8ae08e3b3so47061266d6.3
-        for <linux-doc@vger.kernel.org>; Mon, 19 May 2025 15:20:24 -0700 (PDT)
-X-Forwarded-Encrypted: i=1; AJvYcCU0r8DoL6+DtMaWuflizJa8hnPGk5RxvjbUTlS0HWcaFQj3Hqp+LlbsMwOUX6sbU/Z0RG0Z/w7k4bU=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyOjaejcKRffFWoiKtLs/Ve7615FegVPRxW/MA9mZiyaXxuUOaV
-	/pDKhDBnnfM/Zhh3jo5qvEoQ8AIvA0mZ8iI9UwBOxivM+25FT5zycW+r7GHLFkoJgBpCefbQnOF
-	pw8YA8H2edcUxEcE5HcGyXA8tf/QEGA4h92hkuEPG
-X-Google-Smtp-Source: AGHT+IHFHdg5xMZ80kod/4sph2VycUtK9qNlkm2FnJGRZxVkUq3RbTcJ3jP0aO1H2L1OVI6jAzpln5vFVLpAvKyKmlI=
-X-Received: by 2002:a05:6214:d4a:b0:6e8:9086:261 with SMTP id
- 6a1803df08f44-6f8b084b144mr244282176d6.3.1747693224025; Mon, 19 May 2025
- 15:20:24 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="e0BZmtx+"
+Received: by mail-qt1-f179.google.com with SMTP id d75a77b69052e-47ae894e9b7so91042401cf.3;
+        Mon, 19 May 2025 15:33:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747694025; x=1748298825; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=SZoVm58CBAxFKJ1NXNNUrIOPj0gNvc2sOGcRB/nswhY=;
+        b=e0BZmtx+V8+9LF1CheNx/AwLBGS1pTXSOnSMFejkAytkePnEscForSB6/+w/byxXh7
+         3YxlXaXHCZ064msksFCrb1V+0QRcBqmaO/Lf5NtCuslschlBRY9s/mMGc6DjJa822Plx
+         gMmfaTwkMVqBRseN3nk1x1Z4pS27bgvLvaSv7wxlmDqWiBx7J3OGM558vFf7hidBJKFS
+         T4OY7DjnaUrGqzvY9hQeSm4p5vy7Yf0cMkIwalnQEFIF6FdtPNUeyPMlNuqXeAAogWFp
+         jT79BJ4xfJnPM9g0e7wGS7C6zfKHPPjE23HX0JiHnDBo1jcGe3sK0fqcyUUMg48VAAaH
+         zGQQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747694025; x=1748298825;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=SZoVm58CBAxFKJ1NXNNUrIOPj0gNvc2sOGcRB/nswhY=;
+        b=XhhKAPLIXUZ4eyxKg5X6txTKGzPKYfcOjntR//57S78Tuya6Ip5OMu8EiRhCS1zqLS
+         +pqIi3HKApZdW3TB+pi8dWvK1yhzV1t8PJTKLsNEHOPnN5YRlpeFPIb/GjB5ysKBcTvx
+         LSD3qdKqRZRS/Z/7XjSogFi5RuNYKcfJ7+ZooZINSbt/ok6bezzTkJ2EdRTbhqi2qgpE
+         ZAYqIht0ofo24SQcHcptOypnia41iF6HyunY1HMs+jGRSQkfdZ4ZegJE74jooDVjD1B8
+         nWdGhzdHteDYoflFvAaAu1Ccwox9hoOY7lOQt6loCHXzQFsQfo/EFfg2K6iKftiBiQ2u
+         NnSQ==
+X-Forwarded-Encrypted: i=1; AJvYcCU5neIVVOn6X4//P7gLRBwwHBYToE/fJmxBp7eQAGXV3gc+ihFvyS6DDp9C6IsQzS1SlSs5fvICzPs=@vger.kernel.org, AJvYcCXBNuwIqnhmXXj0e1P7VSkA9YgHv33gCMkP/zRQ/d7cNaT2yrbT/gT7hwxcamFXbA0ZmjOhpMsmGtTKX+MO@vger.kernel.org
+X-Gm-Message-State: AOJu0Yyy/I+20yBnQBOzWIAWTW3RDNXkwb4ZuFTEE07ZciFdUpXlGmp/
+	zqJfIymdkWMSuXbYl939csQVDH7pZ0FZLIDL05PpDr4Bj4k7/GtmTH9I
+X-Gm-Gg: ASbGnctQScXGjocjIm8PXNlaCUZnraG7/oc5/0dDxr/yD6de95Rf8NFEMUxg+gHVxvp
+	/A1K8eh0aw8mrvqs7fILc79+2XA0KVks5KhGJ8bv67V0Z0cGaiq0EWjE/0L2KOA4xiOtECwdshI
+	bTZBXdVBE98MdqLH+tI+memyx7Y41ciha5YGJu0/uEO7y1aQ4Um30VigirhGiDoZYBjWwgEsMJT
+	oyQId+4V6ADNimCR95VYqibfyvAWU5h4eJyzigYp9XFu0WjYnLev+OTejuubDJODTQmsaJq6ely
+	bTylGhAP9f5mLQwM4jNWChtwD71x5Avm/ovFmvEsNlmmIlVq
+X-Google-Smtp-Source: AGHT+IFSgdGO5NmmqTJLvtd4NIb4WXRuj3aQMKYRB2sVptgzNbInCwcG2zfX8HRipunbeXTsp22ejw==
+X-Received: by 2002:a05:622a:5519:b0:491:286a:8606 with SMTP id d75a77b69052e-494b00e92e2mr230773771cf.0.1747694025116;
+        Mon, 19 May 2025 15:33:45 -0700 (PDT)
+Received: from localhost ([2a03:2880:20ff:7::])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-494b344924fsm57559991cf.40.2025.05.19.15.33.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 May 2025 15:33:44 -0700 (PDT)
+From: Usama Arif <usamaarif642@gmail.com>
+To: Andrew Morton <akpm@linux-foundation.org>,
+	david@redhat.com,
+	linux-mm@kvack.org
+Cc: hannes@cmpxchg.org,
+	shakeel.butt@linux.dev,
+	riel@surriel.com,
+	ziy@nvidia.com,
+	laoar.shao@gmail.com,
+	baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com,
+	Liam.Howlett@oracle.com,
+	npache@redhat.com,
+	ryan.roberts@arm.com,
+	vbabka@suse.cz,
+	jannh@google.com,
+	Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	kernel-team@meta.com,
+	Usama Arif <usamaarif642@gmail.com>
+Subject: [PATCH v3 1/7] mm: khugepaged: extract vm flag setting outside of hugepage_madvise
+Date: Mon, 19 May 2025 23:29:53 +0100
+Message-ID: <20250519223307.3601786-2-usamaarif642@gmail.com>
+X-Mailer: git-send-email 2.47.1
+In-Reply-To: <20250519223307.3601786-1-usamaarif642@gmail.com>
+References: <20250519223307.3601786-1-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250502184421.1424368-1-bboscaccy@linux.microsoft.com>
- <20250502210034.284051-1-kpsingh@kernel.org> <CAHC9VhS5Vevcq90OxTmAp2=XtR1qOiDDe5sSXReX5oXzf+siVQ@mail.gmail.com>
- <CACYkzJ5jsWFiXMRDwoGib5t+Xje6STTuJGRZM9Vg2dFz7uPa-g@mail.gmail.com>
- <CACYkzJ6VQUExfyt0=-FmXz46GHJh3d=FXh5j4KfexcEFbHV-vg@mail.gmail.com>
- <CAHC9VhQL_FkUH8F1fvFZmC-8UwZh3zkwjomCo1PiWNW0EGYUPw@mail.gmail.com>
- <CACYkzJ4+=3owK+ELD9Nw7Rrm-UajxXEw8kVtOTJJ+SNAXpsOpw@mail.gmail.com>
- <CAHC9VhTeFBhdagvw4cT3EvA72EYCfAn6ToptpE9PWipG9YLrFw@mail.gmail.com>
- <CAADnVQJ4GDKvLSWuAMdwajA0V2DEw5m-O228QknW8Eo9jxhyig@mail.gmail.com>
- <CAHC9VhTJcV1mqBpxVUtpLhrN4Y9W_BGgB_La5QCqObGheK28Ug@mail.gmail.com>
- <CAADnVQ+wE5cGhy6tgmWgUwkNutueEsrhh6UR8N2fzrZjt-vb4g@mail.gmail.com>
- <196e1f03128.28a7.85c95baa4474aabc7814e68940a78392@paul-moore.com>
- <CAADnVQ+=2PnYHui2L0g0brNc+NqV8MtaRaU-XXpoXfJoghXpww@mail.gmail.com> <CAHC9VhRKZdEia0XUMs2+hRVC7oDzkBfkk5FPMD+Fq5V7mAk=Vg@mail.gmail.com>
-In-Reply-To: <CAHC9VhRKZdEia0XUMs2+hRVC7oDzkBfkk5FPMD+Fq5V7mAk=Vg@mail.gmail.com>
-From: KP Singh <kpsingh@kernel.org>
-Date: Tue, 20 May 2025 00:20:12 +0200
-X-Gmail-Original-Message-ID: <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com>
-X-Gm-Features: AX0GCFtuAbaLmBw9yy0173D8s7LpAOVbxR9TeXNkvABXPMZF511wGOkzeZtojxE
-Message-ID: <CACYkzJ7oxFA3u9eKDpKgCsZsYsBojVJPHVeHZnVaYQ5e9DavmQ@mail.gmail.com>
-Subject: Re: [PATCH v3 0/4] Introducing Hornet LSM
-To: Paul Moore <paul@paul-moore.com>
-Cc: Alexei Starovoitov <alexei.starovoitov@gmail.com>, 
-	Blaise Boscaccy <bboscaccy@linux.microsoft.com>, 
-	James Bottomley <James.Bottomley@hansenpartnership.com>, bpf <bpf@vger.kernel.org>, 
-	code@tyhicks.com, Jonathan Corbet <corbet@lwn.net>, "David S. Miller" <davem@davemloft.net>, 
-	David Howells <dhowells@redhat.com>, =?UTF-8?Q?G=C3=BCnther_Noack?= <gnoack@google.com>, 
-	Herbert Xu <herbert@gondor.apana.org.au>, Jarkko Sakkinen <jarkko@kernel.org>, 
-	James Morris <jmorris@namei.org>, Jan Stancek <jstancek@redhat.com>, 
-	Justin Stitt <justinstitt@google.com>, keyrings@vger.kernel.org, 
-	Linux Crypto Mailing List <linux-crypto@vger.kernel.org>, 
-	"open list:DOCUMENTATION" <linux-doc@vger.kernel.org>, 
-	Linux Kbuild mailing list <linux-kbuild@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>, 
-	"open list:KERNEL SELFTEST FRAMEWORK" <linux-kselftest@vger.kernel.org>, 
-	LSM List <linux-security-module@vger.kernel.org>, 
-	clang-built-linux <llvm@lists.linux.dev>, Masahiro Yamada <masahiroy@kernel.org>, 
-	=?UTF-8?B?TWlja2HDq2wgU2FsYcO8bg==?= <mic@digikod.net>, 
-	Bill Wendling <morbo@google.com>, Nathan Chancellor <nathan@kernel.org>, Neal Gompa <neal@gompa.dev>, 
-	Nick Desaulniers <nick.desaulniers+lkml@gmail.com>, Nicolas Schier <nicolas@fjasle.eu>, nkapron@google.com, 
-	Roberto Sassu <roberto.sassu@huawei.com>, "Serge E . Hallyn" <serge@hallyn.com>, 
-	Shuah Khan <shuah@kernel.org>, Matteo Croce <teknoraver@meta.com>, 
-	Cong Wang <xiyou.wangcong@gmail.com>, kysrinivasan@gmail.com, 
-	Linus Torvalds <torvalds@linux-foundation.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 
-On Sun, May 18, 2025 at 11:34=E2=80=AFPM Paul Moore <paul@paul-moore.com> w=
-rote:
->
-> On Sun, May 18, 2025 at 11:52=E2=80=AFAM Alexei Starovoitov
-> <alexei.starovoitov@gmail.com> wrote:
-> > On Sat, May 17, 2025 at 10:49=E2=80=AFPM Paul Moore <paul@paul-moore.co=
-m> wrote:
-> > > On May 17, 2025 12:13:50 PM Alexei Starovoitov
-> > > <alexei.starovoitov@gmail.com> wrote:
-> > > > On Sat, May 17, 2025 at 8:03=E2=80=AFAM Paul Moore <paul@paul-moore=
-.com> wrote:
-> > > >> On Fri, May 16, 2025 at 7:49=E2=80=AFPM Alexei Starovoitov
-> > > >> <alexei.starovoitov@gmail.com> wrote:
-> > > >>> On Fri, May 16, 2025 at 12:49=E2=80=AFPM Paul Moore <paul@paul-mo=
-ore.com> wrote:
-> > > >>>>
-> > > >>>> I think we need some clarification on a few of these details, it=
- would
-> > > >>>> be good if you could answer the questions below about the
-> > > >>>> authorization aspects of your design?
-> > > >>>>
-> > > >>>> * Is the signature validation code in the BPF verifier *always* =
-going
-> > > >>>> to be enforced when a signature is passed in from userspace?  In=
- other
-> > > >>>> words, in your design is there going to be either a kernel build=
- time
-> > > >>>> or runtime configuration knob that could selectively enable (or
-> > > >>>> disable) signature verification in the BPF verifier?
-> > > >>>
-> > > >>> If there is a signature in union bpf_attr and it's incorrect
-> > > >>> the prog_load command will be rejected.
-> > > >>> No point in adding a knob to control that.
-> > > >>
-> > > >> I agree that when a signature is provided and that signature check
-> > > >> fails, the BPF load should be rejected.  I'm simply trying to
-> > > >> understand how you envision your design handling all of the cases,=
- not
-> > > >> just this one, as well as what build and runtime options you expec=
-t
-> > > >> for controlling various aspects of this behavior.
-> > > >>
-> > > >>>> * In the case where the signature validation code in the BPF ver=
-ifier
-> > > >>>> is active, what happens when a signature is *not* passed in from
-> > > >>>> userspace?  Will the BPF verifier allow the program load to take
-> > > >>>> place?  Will the load operation be blocked?  Will the load opera=
-tion
-> > > >>>> be subject to a more granular policy, and if so, how do you plan=
- to
-> > > >>>> incorporate that policy decision into the BPF program load path?
-> > > >>>
-> > > >>> If there is no signature the existing loading semantics will rema=
-in intact.
-> > > >>> We can discuss whether to add a sysctl or cgroup knob to disallow
-> > > >>> loading when signature is not present ...
-> > > >>
-> > > >> As mentioned earlier this week, if the BPF verifier is performing =
-the
-> > > >> signature verification as KP described, we will need a LSM hook af=
-ter
-> > > >> the verifier to serve as an access control point.  Of course that
-> > > >> doesn't preclude the addition of some type of sysctl/cgroup/whatev=
-er
-> > > >> based access control, but the LSM hook would be needed regardless.
-> > > >
-> > > > No. New hook is not needed.
-> > >
-> > > It would be good for you to explain how the existing LSM hook is suff=
-icient
-> > > to authorize the loading of a BPF program using the signature validat=
-ion
-> > > state determined in the BPF verifier.
-> >
-> > I already explained:
-> > .. a job of trivial LSM:
-> > if (prog_attr doesn't have signature &&
-> >    (task =3D=3D .. || task is under certain cgroup || whatever))
-> >   disallow.
->
-> I read that earlier reply as an example that covers a sample use case,
-> I didn't realize you were asserting that was the only approach you
-> were considering.  Perhaps that was the source of confusion earlier,
-> we may disagree, but I don't intentionally "twist" words; not only is
-> that rude, it's just stupid in public, archived discussions.
->
-> As I mentioned previously, we really need to see an explicit yes/no
-> flag from the BPF verifier to indicate that the signature on the BPF
-> program has been validated.  It really should be as simple as adding a
-> bool to bpf_prog_aux which the BPF verifier sets to true upon
-> successful signature validation, and then an LSM can use this flag as
-> input to an access control decision in a hook placed after the
-> verifier.  Are you objecting to the addition of a flag in the
-> bpf_prog_aux struct (or some other struct tightly coupled to the BPF
-> program), the LSM hook after the verifier, or both?  It would also be
-> helpful if you can elaborate on the technical reasons behind these
-> objections.
+This is so that flag setting can be resused later in other functions,
+to reduce code duplication (including the s390 exception).
 
-Neither the aux field, nor the hook are required because:
+No functional change intended with this patch.
 
-* If the signature is passed, it will be enforced, there are no
-"runtime aspects" that need to be configurable here.
-* What the LSM can specify a policy for is when a signature is not
-passed, for this, it does not need an aux field or a signature or the
-new hook, existing hooks are sufficient.
+Signed-off-by: Usama Arif <usamaarif642@gmail.com>
+---
+ include/linux/huge_mm.h |  1 +
+ mm/khugepaged.c         | 26 +++++++++++++++++---------
+ 2 files changed, 18 insertions(+), 9 deletions(-)
 
-- KP
+diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+index 2f190c90192d..23580a43787c 100644
+--- a/include/linux/huge_mm.h
++++ b/include/linux/huge_mm.h
+@@ -431,6 +431,7 @@ change_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
+ 			__split_huge_pud(__vma, __pud, __address);	\
+ 	}  while (0)
+ 
++int hugepage_set_vmflags(unsigned long *vm_flags, int advice);
+ int hugepage_madvise(struct vm_area_struct *vma, unsigned long *vm_flags,
+ 		     int advice);
+ int madvise_collapse(struct vm_area_struct *vma,
+diff --git a/mm/khugepaged.c b/mm/khugepaged.c
+index b04b6a770afe..ab3427c87422 100644
+--- a/mm/khugepaged.c
++++ b/mm/khugepaged.c
+@@ -346,8 +346,7 @@ struct attribute_group khugepaged_attr_group = {
+ };
+ #endif /* CONFIG_SYSFS */
+ 
+-int hugepage_madvise(struct vm_area_struct *vma,
+-		     unsigned long *vm_flags, int advice)
++int hugepage_set_vmflags(unsigned long *vm_flags, int advice)
+ {
+ 	switch (advice) {
+ 	case MADV_HUGEPAGE:
+@@ -358,16 +357,10 @@ int hugepage_madvise(struct vm_area_struct *vma,
+ 		 * ignore the madvise to prevent qemu from causing a SIGSEGV.
+ 		 */
+ 		if (mm_has_pgste(vma->vm_mm))
+-			return 0;
++			return -EPERM;
+ #endif
+ 		*vm_flags &= ~VM_NOHUGEPAGE;
+ 		*vm_flags |= VM_HUGEPAGE;
+-		/*
+-		 * If the vma become good for khugepaged to scan,
+-		 * register it here without waiting a page fault that
+-		 * may not happen any time soon.
+-		 */
+-		khugepaged_enter_vma(vma, *vm_flags);
+ 		break;
+ 	case MADV_NOHUGEPAGE:
+ 		*vm_flags &= ~VM_HUGEPAGE;
+@@ -383,6 +376,21 @@ int hugepage_madvise(struct vm_area_struct *vma,
+ 	return 0;
+ }
+ 
++int hugepage_madvise(struct vm_area_struct *vma,
++		     unsigned long *vm_flags, int advice)
++{
++	if (advice == MADV_HUGEPAGE && !hugepage_set_vmflags(vm_flags, advice)) {
++		/*
++		 * If the vma become good for khugepaged to scan,
++		 * register it here without waiting a page fault that
++		 * may not happen any time soon.
++		 */
++		khugepaged_enter_vma(vma, *vm_flags);
++	}
++
++	return 0;
++}
++
+ int __init khugepaged_init(void)
+ {
+ 	mm_slot_cache = KMEM_CACHE(khugepaged_mm_slot, 0);
+-- 
+2.47.1
 
->
-> --
-> paul-moore.com
