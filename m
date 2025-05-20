@@ -1,142 +1,249 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 7315026A1CC;
-	Tue, 20 May 2025 16:10:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from relay9-d.mail.gandi.net (relay9-d.mail.gandi.net [217.70.183.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24417268691;
+	Tue, 20 May 2025 16:11:21 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747757412; cv=none; b=cfjyTJd9y9A16CPgU08/tWttacUx2+5MQnwYOdizuXgjJjQ1nPQPTw96t6GHGhV6KQN/jkLJc4z30a8ASE7/iV8r+/OCOLDvK7hljntWoFVXCVsRLXgBoyj77Z6wcSfzPvU5YXExQ7/4+APL0lXQ56B/cloT9E/A7nW11gcJNSg=
+	t=1747757485; cv=none; b=rSi5Asqcf8BqwQb07EZ0mXymE+ZsBCG+cYJpnus3ww0rBmWpOrSzqNa6q5uzEY/9qX367W/47dyDU2b+mQ3gNh5r5+Ik42DsMS1AK257AHs2hKM2Co+7lCxB/W25pSEHTxMR+McszoN4OVlFX1w76hfjBeWFhCtXvtuY++8gmlM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747757412; c=relaxed/simple;
-	bh=ErlHlMGeCflWV/46sY9cMO1F7pLkz/dFsaYh/d+ovXA=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=LYuTzwQP3a2rZrOsgYWPcFjA8IQwz+IeSfNChijQY49A48UCP7WzygdHcMYGJoKJbWK4q7NmwOeVFZucDmfssyueRX2lpQ2j3gPgn/M2nmXLpi7P5CzW5CewStCbHb/9p+SJYuREKyc0WBGWB5UsR9qTIdFkhVYWx4kInUbfYt8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BCAB1516;
-	Tue, 20 May 2025 09:09:56 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 211903F5A1;
-	Tue, 20 May 2025 09:10:09 -0700 (PDT)
-Date: Tue, 20 May 2025 17:10:03 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
- source
-Message-ID: <20250520161003.GT412060@e132581.arm.com>
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
- <20250520134632.GR412060@e132581.arm.com>
- <443141db-6950-4a15-83be-ad9e9c0e03a0@linaro.org>
+	s=arc-20240116; t=1747757485; c=relaxed/simple;
+	bh=5zBqkOd/JR4sL0Zx3JV6mBbHzN63ECXpQrVEipiYn9Q=;
+	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
+	 In-Reply-To:To:Cc; b=qyszCRUFkTjCaUqs/YfMiBRNNeG8TlG1G9TnCquzQdkrhpnOEZeJTLPV9Pljxp7HFALkAYeFqruFPcdifmF59XTo6A3sOcc6dM2xaHmwz5RVrfwTEQjDgPVSCa+Abf6yl2kQ1LUVdtLPxKrAtP6/0q7QmyhDRrmgC0N/Zu/qm8M=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=kxf0OSzD; arc=none smtp.client-ip=217.70.183.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="kxf0OSzD"
+Received: by mail.gandi.net (Postfix) with ESMTPSA id 5C05D4397B;
+	Tue, 20 May 2025 16:11:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
+	t=1747757480;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	 content-transfer-encoding:content-transfer-encoding:
+	 in-reply-to:in-reply-to:references:references;
+	bh=Opk45UsWK8agVJCxfm99YbDO9xDuvWxn6d7SyiYPx48=;
+	b=kxf0OSzDt+e+f8z38jQv6UnPWZx97ed8JL+e6w/DKyzTNruHVZQyOhOYURvkcQeYBxXw40
+	dfBbHV7rlh8AWqDPNp7ouXpsh92GXdlV4OERrX57rVa+7K+D4N798tMsAdPuqCKNlQdoMN
+	Nemddt70Ny3b1pmDnWt3AiWmjP5QVlTWHpnhdKN4t/6ZdjCvb3f/oGKt8WZ0bGiAj9ZdUS
+	cc2AQSVxQvWVzjk6qZICzfFfIKCE27sGqTkQonBEKl5O4RIoDMXohFM3Mk/qgks7roTtLD
+	Wpu05kBfKVvWEWUdg0xnRNlDZ52aFidr2AJNs74bgJfryuLwnEOkcXxLNJdFkg==
+From: Kory Maincent <kory.maincent@bootlin.com>
+Date: Tue, 20 May 2025 18:11:03 +0200
+Subject: [PATCH net-next v11 01/13] net: pse-pd: Introduce attached_phydev
+ to pse control
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <443141db-6950-4a15-83be-ad9e9c0e03a0@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20250520-feature_poe_port_prio-v11-1-bbaf447e1b28@bootlin.com>
+References: <20250520-feature_poe_port_prio-v11-0-bbaf447e1b28@bootlin.com>
+In-Reply-To: <20250520-feature_poe_port_prio-v11-0-bbaf447e1b28@bootlin.com>
+To: Andrew Lunn <andrew@lunn.ch>, Oleksij Rempel <o.rempel@pengutronix.de>, 
+ "David S. Miller" <davem@davemloft.net>, Eric Dumazet <edumazet@google.com>, 
+ Jakub Kicinski <kuba@kernel.org>, Paolo Abeni <pabeni@redhat.com>, 
+ Jonathan Corbet <corbet@lwn.net>, Donald Hunter <donald.hunter@gmail.com>, 
+ Rob Herring <robh@kernel.org>, Andrew Lunn <andrew+netdev@lunn.ch>, 
+ Simon Horman <horms@kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>, 
+ Russell King <linux@armlinux.org.uk>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, 
+ Conor Dooley <conor+dt@kernel.org>
+Cc: Liam Girdwood <lgirdwood@gmail.com>, Mark Brown <broonie@kernel.org>, 
+ Thomas Petazzoni <thomas.petazzoni@bootlin.com>, netdev@vger.kernel.org, 
+ linux-doc@vger.kernel.org, Kyle Swenson <kyle.swenson@est.tech>, 
+ Dent Project <dentproject@linuxfoundation.org>, kernel@pengutronix.de, 
+ Maxime Chevallier <maxime.chevallier@bootlin.com>, 
+ devicetree@vger.kernel.org, linux-kernel@vger.kernel.org, 
+ "Kory Maincent (Dent Project)" <kory.maincent@bootlin.com>
+X-Mailer: b4 0.15-dev-8cb71
+X-GND-State: clean
+X-GND-Score: -100
+X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdeiheculddtuddrgeefvddrtddtmdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfitefpfffkpdcuggftfghnshhusghstghrihgsvgenuceurghilhhouhhtmecufedtudenucesvcftvggtihhpihgvnhhtshculddquddttddmnecujfgurhephfffufggtgfgkfhfjgfvvefosehtjeertdertdejnecuhfhrohhmpefmohhrhicuofgrihhntggvnhhtuceokhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepvefgvdfgkeetgfefgfegkedugffghfdtffeftdeuteehjedtvdelvddvleehtdevnecukfhppeeltddrkeelrdduieefrdduvdejnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehinhgvthepledtrdekledrudeifedruddvjedphhgvlhhopegluddvjedrtddruddrudgnpdhmrghilhhfrhhomhepkhhorhihrdhmrghinhgtvghnthessghoohhtlhhinhdrtghomhdpnhgspghrtghpthhtohepvdejpdhrtghpthhtohepkhhusggrsehkvghrnhgvlhdrohhrghdprhgtphhtthhopeguohhnrghlugdrhhhunhhtvghrsehgmhgrihhlrdgtohhmpdhrtghpthhtohepvgguuhhmrgiivghtsehgohhoghhlvgdrtghomhdprhgtphhtthhopehordhrvghmphgvlhesphgvnhhguhhtrhhonhhigidruggvpdhrtghpthhtohepkhhriihkodgutheskhgvrhhnvghlrdhorhhgp
+ dhrtghpthhtoheplhhinhhugidqughotgesvhhgvghrrdhkvghrnhgvlhdrohhrghdprhgtphhtthhopegsrhhoohhnihgvsehkvghrnhgvlhdrohhrghdprhgtphhtthhopehmrgigihhmvgdrtghhvghvrghllhhivghrsegsohhothhlihhnrdgtohhm
+X-GND-Sasl: kory.maincent@bootlin.com
 
-On Tue, May 20, 2025 at 04:00:59PM +0100, James Clark wrote:
-> On 20/05/2025 2:46 pm, Leo Yan wrote:
-> > On Tue, May 06, 2025 at 12:41:39PM +0100, James Clark wrote:
-> > > SPE_FEAT_FDS adds the ability to filter on the data source of packets.
-> > > Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
-> > > when any of the filter bits are set.
-> > > 
-> > > Each bit maps to data sources 0-63 described by bits[0:5] in the data
-> > > source packet (although the full range of data source is 16 bits so
-> > > higher value data sources can't be filtered on). The filter is an OR of
-> > > all the bits, so for example setting bits 0 and 3 filters packets from
-> > > data sources 0 OR 3.
-> > 
-> > As Arm ARM says:
-> > 
-> >    0b0 : If PMSFCR_EL1.FDS is 1, do not record load operations that have
-> >          bits [5:0] of the Data Source packet set to <m>.
-> >    0b1 : Load operations with Data Source <m> are unaffected by
-> >          PMSFCR_EL1.FDS.
-> > 
-> > We need extra handling for this configuration (0b0 means filtering,
-> > 0b1 means no affaction):
-> > 
-> > - By default, the driver should set all bits in the 'data_src_filter'
-> >    field.
-> > 
-> > - The perf tool needs an extra patch in userspace to initialize all
-> >    bits in config4 unless user specify other values.
-> > 
-> 
-> Did you take into account PMSFCR_EL1.FDS being set automatically?
+From: Kory Maincent (Dent Project) <kory.maincent@bootlin.com>
 
-Good point. TBH, I did not give it enough consideration until your
-remdinding, but let me elaborate on why I suggested the approach above.
+In preparation for reporting PSE events via ethtool notifications,
+introduce an attached_phydev field in the pse_control structure.
+This field stores the phy_device associated with the PSE PI,
+ensuring that notifications are sent to the correct network
+interface.
 
-> I think the wording is slightly confusing but I tested it on the model and it works.
-> 
-> If PMSFCR_EL1.FDS == 0 then PMSDSFR_EL1 does nothing, and if the data source
-> filter isn't set by the user then FDS isn't set so there's no need to set
-> all the bits in the filter to 1. Once the user asks for any filter then we
-> set FDS, at which point it's whatever filter they asked for. They can set
-> all the bits if they want, or just one.
-> 
-> This is same way PMSFCR_EL1.FT already works. If the user asks for any
-> filter then it's set automatically, but we don't allow the user to ask for
-> "no filters" but with FT set.
-> 
-> So the only thing we can't do is filter out samples with _any_ data source.
-> Which would be PMSFCR_EL1.FDS == 1 and PMSDSFR_EL1 == 0. But I don't think
-> that's useful, and there are other filters to get you all or most of the way
-> there.
+The attached_phydev pointer is directly tied to the PHY lifecycle. It
+is set when the PHY is registered and cleared when the PHY is removed.
+There is no need to use a refcount, as doing so could interfere with
+the PHY removal process.
 
-My suggestion is coming for handling the case you mentioned.  Let us see
-the combinations:
+Signed-off-by: Kory Maincent <kory.maincent@bootlin.com>
+---
 
- PMSFCR_EL1.FDS == 0
- PMSDSFR_EL1 == 0xFFFF,FFFF,FFFF,FFFF
-   No filtering on data source
+Change in v11:
+- New patch due to a split of the next patch.
+---
+ drivers/net/mdio/fwnode_mdio.c | 26 ++++++++++++++------------
+ drivers/net/pse-pd/pse_core.c  | 11 ++++++++---
+ include/linux/pse-pd/pse.h     |  6 ++++--
+ 3 files changed, 26 insertions(+), 17 deletions(-)
 
- PMSFCR_EL1.FDS == 1
- PMSDSFR_EL1 == 0xFFFF,FFFF,FFFF,FFFF
-   No filtering on data source
+diff --git a/drivers/net/mdio/fwnode_mdio.c b/drivers/net/mdio/fwnode_mdio.c
+index aea0f0357568..9b41d4697a40 100644
+--- a/drivers/net/mdio/fwnode_mdio.c
++++ b/drivers/net/mdio/fwnode_mdio.c
+@@ -18,7 +18,8 @@ MODULE_LICENSE("GPL");
+ MODULE_DESCRIPTION("FWNODE MDIO bus (Ethernet PHY) accessors");
+ 
+ static struct pse_control *
+-fwnode_find_pse_control(struct fwnode_handle *fwnode)
++fwnode_find_pse_control(struct fwnode_handle *fwnode,
++			struct phy_device *phydev)
+ {
+ 	struct pse_control *psec;
+ 	struct device_node *np;
+@@ -30,7 +31,7 @@ fwnode_find_pse_control(struct fwnode_handle *fwnode)
+ 	if (!np)
+ 		return NULL;
+ 
+-	psec = of_pse_control_get(np);
++	psec = of_pse_control_get(np, phydev);
+ 	if (PTR_ERR(psec) == -ENOENT)
+ 		return NULL;
+ 
+@@ -128,15 +129,9 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
+ 	u32 phy_id;
+ 	int rc;
+ 
+-	psec = fwnode_find_pse_control(child);
+-	if (IS_ERR(psec))
+-		return PTR_ERR(psec);
+-
+ 	mii_ts = fwnode_find_mii_timestamper(child);
+-	if (IS_ERR(mii_ts)) {
+-		rc = PTR_ERR(mii_ts);
+-		goto clean_pse;
+-	}
++	if (IS_ERR(mii_ts))
++		return PTR_ERR(mii_ts);
+ 
+ 	is_c45 = fwnode_device_is_compatible(child, "ethernet-phy-ieee802.3-c45");
+ 	if (is_c45 || fwnode_get_phy_id(child, &phy_id))
+@@ -169,6 +164,12 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
+ 			goto clean_phy;
+ 	}
+ 
++	psec = fwnode_find_pse_control(child, phy);
++	if (IS_ERR(psec)) {
++		rc = PTR_ERR(psec);
++		goto unregister_phy;
++	}
++
+ 	phy->psec = psec;
+ 
+ 	/* phy->mii_ts may already be defined by the PHY driver. A
+@@ -180,12 +181,13 @@ int fwnode_mdiobus_register_phy(struct mii_bus *bus,
+ 
+ 	return 0;
+ 
++unregister_phy:
++	if (is_acpi_node(child) || is_of_node(child))
++		phy_device_remove(phy);
+ clean_phy:
+ 	phy_device_free(phy);
+ clean_mii_ts:
+ 	unregister_mii_timestamper(mii_ts);
+-clean_pse:
+-	pse_control_put(psec);
+ 
+ 	return rc;
+ }
+diff --git a/drivers/net/pse-pd/pse_core.c b/drivers/net/pse-pd/pse_core.c
+index 4602e26eb8c8..4610c1f0ddd6 100644
+--- a/drivers/net/pse-pd/pse_core.c
++++ b/drivers/net/pse-pd/pse_core.c
+@@ -23,6 +23,7 @@ static LIST_HEAD(pse_controller_list);
+  * @list: list entry for the pcdev's PSE controller list
+  * @id: ID of the PSE line in the PSE controller device
+  * @refcnt: Number of gets of this pse_control
++ * @attached_phydev: PHY device pointer attached by the PSE control
+  */
+ struct pse_control {
+ 	struct pse_controller_dev *pcdev;
+@@ -30,6 +31,7 @@ struct pse_control {
+ 	struct list_head list;
+ 	unsigned int id;
+ 	struct kref refcnt;
++	struct phy_device *attached_phydev;
+ };
+ 
+ static int of_load_single_pse_pi_pairset(struct device_node *node,
+@@ -599,7 +601,8 @@ void pse_control_put(struct pse_control *psec)
+ EXPORT_SYMBOL_GPL(pse_control_put);
+ 
+ static struct pse_control *
+-pse_control_get_internal(struct pse_controller_dev *pcdev, unsigned int index)
++pse_control_get_internal(struct pse_controller_dev *pcdev, unsigned int index,
++			 struct phy_device *phydev)
+ {
+ 	struct pse_control *psec;
+ 	int ret;
+@@ -638,6 +641,7 @@ pse_control_get_internal(struct pse_controller_dev *pcdev, unsigned int index)
+ 	psec->pcdev = pcdev;
+ 	list_add(&psec->list, &pcdev->pse_control_head);
+ 	psec->id = index;
++	psec->attached_phydev = phydev;
+ 	kref_init(&psec->refcnt);
+ 
+ 	return psec;
+@@ -693,7 +697,8 @@ static int psec_id_xlate(struct pse_controller_dev *pcdev,
+ 	return pse_spec->args[0];
+ }
+ 
+-struct pse_control *of_pse_control_get(struct device_node *node)
++struct pse_control *of_pse_control_get(struct device_node *node,
++				       struct phy_device *phydev)
+ {
+ 	struct pse_controller_dev *r, *pcdev;
+ 	struct of_phandle_args args;
+@@ -743,7 +748,7 @@ struct pse_control *of_pse_control_get(struct device_node *node)
+ 	}
+ 
+ 	/* pse_list_mutex also protects the pcdev's pse_control list */
+-	psec = pse_control_get_internal(pcdev, psec_id);
++	psec = pse_control_get_internal(pcdev, psec_id, phydev);
+ 
+ out:
+ 	mutex_unlock(&pse_list_mutex);
+diff --git a/include/linux/pse-pd/pse.h b/include/linux/pse-pd/pse.h
+index c773eeb92d04..8b0866fad2ad 100644
+--- a/include/linux/pse-pd/pse.h
++++ b/include/linux/pse-pd/pse.h
+@@ -250,7 +250,8 @@ struct device;
+ int devm_pse_controller_register(struct device *dev,
+ 				 struct pse_controller_dev *pcdev);
+ 
+-struct pse_control *of_pse_control_get(struct device_node *node);
++struct pse_control *of_pse_control_get(struct device_node *node,
++				       struct phy_device *phydev);
+ void pse_control_put(struct pse_control *psec);
+ 
+ int pse_ethtool_get_status(struct pse_control *psec,
+@@ -268,7 +269,8 @@ bool pse_has_c33(struct pse_control *psec);
+ 
+ #else
+ 
+-static inline struct pse_control *of_pse_control_get(struct device_node *node)
++static inline struct pse_control *of_pse_control_get(struct device_node *node,
++						     struct phy_device *phydev)
+ {
+ 	return ERR_PTR(-ENOENT);
+ }
 
- PMSFCR_EL1.FDS == 0
- PMSDSFR_EL1 == 0x0
-   No filtering on data source
+-- 
+2.34.1
 
- PMSFCR_EL1.FDS == 1
- PMSDSFR_EL1 == 0x0
-   Filtering on all data source
-
-If 'PMSFCR_EL1.FDS == 0 and PMSDSFR_EL1 == 0xFFFF,FFFF,FFFF,FFFF' is
-initialized state, when a user set all bits to '1' for the data source
-filter, then no matter we enable or disable FDS bit, it can work as
-expected for disabling filtering.
-
-If 'PMSFCR_EL1.FDS == 0 and PMSDSFR_EL1 == 0x0' is the init state, as
-you said, when user passed 0xFFFF,FFFF,FFFF,FFFF for data filter, we
-cannot distinguish it from the init state, as a result, we will fail
-to handle this case.
-
-How about you think?
-
-Thanks,
-Leo
