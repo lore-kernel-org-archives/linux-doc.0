@@ -1,199 +1,99 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 9DB5122DA15;
-	Tue, 20 May 2025 13:46:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D8ECA2475CD;
+	Tue, 20 May 2025 14:08:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747748799; cv=none; b=vDeDCPPZqT48XC9DlXwwjTdt7gLqr5Zofu78a4NIJNEVSxuYW+G7boP7tBlPzVnRbO+BurHb93B+DlVYt62gBkzPihw1tuqEtxfczFspu/dyArXBrabBXiqAXVtmuf58ltWPtdJAVF7m2LfJzZexcgdXikadx9R4/0n4DAXCP8o=
+	t=1747750114; cv=none; b=m61bbRHotu9WNavp2Fkql6XP/aTcLLU9lynGAyU2o2yYErcdqwu/zBLKdNpQNulz98ZOvic0IXbG1nbX6XO7rqxOcHDYJMPGWjMum/+gYs+NIFIPCHSBlgIFyjc4YpLT91rTPLeHtVn0cWRsvGBPlnUXCRsyJog+WlkM2kS8tZE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747748799; c=relaxed/simple;
-	bh=A3ymgb18BnOuOySJr5/XRA0C9ZYBVPd49CK+UkvTeoc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=X8tY3LD7q/OVK1QefhINkxvO6ViBFfr6IwQcmPE0UP0WysY3JfTeBXZd0Vft9nl7GoKvQsjjpQuujk5piR0PFicrkqJ8ypmtihgKCump4wC65MEbOqPRCtBbBkG/PY48KFdcyNZtRPD8DEJo0Zk0c5uVqZ/ZguHqKSRrHAiQOm4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 709A31516;
-	Tue, 20 May 2025 06:46:23 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 7CBB93F5A1;
-	Tue, 20 May 2025 06:46:36 -0700 (PDT)
-Date: Tue, 20 May 2025 14:46:32 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
- source
-Message-ID: <20250520134632.GR412060@e132581.arm.com>
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
+	s=arc-20240116; t=1747750114; c=relaxed/simple;
+	bh=ttAbpSM1hXQuNR/OMOYp8x1yy4Ma9fGMFXn0HWuoelg=;
+	h=From:Subject:Date:Message-Id:MIME-Version:Content-Type:To:Cc; b=O5PIZlLKH+VhQKSkD4ZgE47IYduU2r/4xvs/aL8SE4ZI3A2Kes8xDloxq8smT1pBomrX2L0orPdmgtgoIAyNtTA7lzfMcTs882uqGU5HcmvCxWnh+gJcpxdrckvwd8Zel9K2BRoa+54KGmRDmaarb+Dvi/eXwwRfQ9ZARhyb1YI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dMtZZJZy; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dMtZZJZy"
+Received: by smtp.kernel.org (Postfix) with ESMTPS id 9A84CC4CEF1;
+	Tue, 20 May 2025 14:08:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747750113;
+	bh=ttAbpSM1hXQuNR/OMOYp8x1yy4Ma9fGMFXn0HWuoelg=;
+	h=From:Subject:Date:To:Cc:Reply-To:From;
+	b=dMtZZJZyHdgW2RKC+xdk3FBoCiDoQdmAjq+EUAaBKQx3v58faXyCucAcDRauheXl/
+	 2kRjuabrUdWtUKouTQ9OIDdcqe46q5XtesFoUrDfB7ymTTB4vhOfjy3264oDOWq3Mq
+	 /UoKwpaEySrwnztJW47el/uvK97P8/oep/hJby1spoy62dhEVe6XHOhLEgLZtOywxM
+	 YWCF4b+AHnh5BkxU3rR5yn3owOEPZ9i2lFhzQECRQv2cOL3pr5dttrXPlqbStp1ynM
+	 42nH/0X67TeqgMAU+dC+0JMXs7g1oskePFEmbJab00+HoxhKyNmnqvU/vmL1x3+ETO
+	 i449+VP1kWkXg==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ADAEC3ABDD;
+	Tue, 20 May 2025 14:08:33 +0000 (UTC)
+From: Shashank Balaji via B4 Relay <devnull+shashank.mahadasyam.sony.com@kernel.org>
+Subject: [PATCH v2 0/3] cgroup, docs: cpu controller interaction with
+ various scheduling policies
+Date: Tue, 20 May 2025 23:07:44 +0900
+Message-Id: <20250520-rt-and-cpu-controller-doc-v2-0-70a2b6a1b703@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+X-B4-Tracking: v=1; b=H4sIALGMLGgC/32NQQ6CMBBFr0Jm7ZhSLBBX3MOwqO1UmmBLpkgkh
+ Ltbce/yveS/v0Ei9pTgWmzAtPjkY8ggTwWYQYcHobeZQQqphJQ18ow6WDTTC00MM8dxJEYbDba
+ 61dqoRrqKIO8nJuffR/vWZx58miOvx9VSfu2vWgn1p7qUKLC517p2yrlLZbsUw3o28Qn9vu8f9
+ QYiscEAAAA=
+X-Change-ID: 20250226-rt-and-cpu-controller-doc-8a8aac572f3e
+To: Tejun Heo <tj@kernel.org>, Johannes Weiner <hannes@cmpxchg.org>, 
+ =?utf-8?q?Michal_Koutn=C3=BD?= <mkoutny@suse.com>, 
+ Jonathan Corbet <corbet@lwn.net>
+Cc: cgroups@vger.kernel.org, linux-doc@vger.kernel.org, 
+ linux-kernel@vger.kernel.org, Shinya Takumi <shinya.takumi@sony.com>, 
+ Shashank Balaji <shashank.mahadasyam@sony.com>
+X-Mailer: b4 0.14.2
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1257;
+ i=shashank.mahadasyam@sony.com; h=from:subject:message-id;
+ bh=ttAbpSM1hXQuNR/OMOYp8x1yy4Ma9fGMFXn0HWuoelg=;
+ b=owGbwMvMwCV2mPH4Ij++H1mMp9WSGDJ0eu6rPGPd+v97b+NxtpuqO+YKrd8TpLhUpG5b7ux9q
+ 7z751WrdpSyMIhxMciKKbK8k1l34aCVZdPX4wzfYOawMoEMYeDiFICJ5HExMqyZ1Pbk+N95RTsT
+ DEIN9jPeWCzKvvKf1I+16bM9ZnFF1T5m+O8+48/RVZemsCus8Jw/v38in/T1NUtZU65t/LR1SWH
+ KlvncAA==
+X-Developer-Key: i=shashank.mahadasyam@sony.com; a=openpgp;
+ fpr=EE1CAED0C13A3982F5C700F6C301C7A24E0EF86A
+X-Endpoint-Received: by B4 Relay for shashank.mahadasyam@sony.com/default
+ with auth_id=354
+X-Original-From: Shashank Balaji <shashank.mahadasyam@sony.com>
+Reply-To: shashank.mahadasyam@sony.com
 
-On Tue, May 06, 2025 at 12:41:39PM +0100, James Clark wrote:
-> SPE_FEAT_FDS adds the ability to filter on the data source of packets.
-> Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
-> when any of the filter bits are set.
-> 
-> Each bit maps to data sources 0-63 described by bits[0:5] in the data
-> source packet (although the full range of data source is 16 bits so
-> higher value data sources can't be filtered on). The filter is an OR of
-> all the bits, so for example setting bits 0 and 3 filters packets from
-> data sources 0 OR 3.
+The cgroup v2 cpu controller interface files interact with processes
+differently based on their scheduling policy and the underlying
+scheduler used (fair-class vs. BPF scheduler). This patchset
+documents these differences.
 
-As Arm ARM says:
+This is related to the previous patchset titled "cgroup, docs: Clarify
+interaction of RT processes with cgroup v2 cpu controller"
+(https://lore.kernel.org/all/20250305-rt-and-cpu-controller-doc-v1-0-7b6a6f5ff43d@sony.com/),
+which focused solely on RT processes. The current patchset incorporates
+the previous feedback and expands on the scope of scheduling policies.
 
-  0b0 : If PMSFCR_EL1.FDS is 1, do not record load operations that have
-        bits [5:0] of the Data Source packet set to <m>.
-  0b1 : Load operations with Data Source <m> are unaffected by
-        PMSFCR_EL1.FDS.
+Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+---
+Shashank Balaji (3):
+      cgroup, docs: be specific about bandwidth control of rt processes
+      sched_ext, docs: add label
+      cgroup, docs: cpu controller interaction with various scheduling policies
 
-We need extra handling for this configuration (0b0 means filtering,
-0b1 means no affaction):
+ Documentation/admin-guide/cgroup-v2.rst | 100 ++++++++++++++++++++++++--------
+ Documentation/scheduler/sched-ext.rst   |   2 +
+ 2 files changed, 78 insertions(+), 24 deletions(-)
+---
+base-commit: 036ee8a17bd046d7a350de0aae152307a061cc46
+change-id: 20250226-rt-and-cpu-controller-doc-8a8aac572f3e
 
-- By default, the driver should set all bits in the 'data_src_filter'
-  field.
+Best regards,
+-- 
+Shashank Balaji <shashank.mahadasyam@sony.com>
 
-- The perf tool needs an extra patch in userspace to initialize all
-  bits in config4 unless user specify other values.
 
-Thanks,
-Leo
-
-> Signed-off-by: James Clark <james.clark@linaro.org>
-> ---
->  drivers/perf/arm_spe_pmu.c | 31 +++++++++++++++++++++++++++++++
->  1 file changed, 31 insertions(+)
-> 
-> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-> index 9309b846f642..d04318411f77 100644
-> --- a/drivers/perf/arm_spe_pmu.c
-> +++ b/drivers/perf/arm_spe_pmu.c
-> @@ -87,6 +87,7 @@ struct arm_spe_pmu {
->  #define SPE_PMU_FEAT_INV_FILT_EVT		(1UL << 6)
->  #define SPE_PMU_FEAT_DISCARD			(1UL << 7)
->  #define SPE_PMU_FEAT_EFT			(1UL << 8)
-> +#define SPE_PMU_FEAT_FDS			(1UL << 9)
->  #define SPE_PMU_FEAT_DEV_PROBED			(1UL << 63)
->  	u64					features;
->  
-> @@ -232,6 +233,10 @@ static const struct attribute_group arm_spe_pmu_cap_group = {
->  #define ATTR_CFG_FLD_inv_event_filter_LO	0
->  #define ATTR_CFG_FLD_inv_event_filter_HI	63
->  
-> +#define ATTR_CFG_FLD_data_src_filter_CFG	config4	/* PMSDSFR_EL1 */
-> +#define ATTR_CFG_FLD_data_src_filter_LO	0
-> +#define ATTR_CFG_FLD_data_src_filter_HI	63
-> +
->  GEN_PMU_FORMAT_ATTR(ts_enable);
->  GEN_PMU_FORMAT_ATTR(pa_enable);
->  GEN_PMU_FORMAT_ATTR(pct_enable);
-> @@ -248,6 +253,7 @@ GEN_PMU_FORMAT_ATTR(float_filter);
->  GEN_PMU_FORMAT_ATTR(float_filter_mask);
->  GEN_PMU_FORMAT_ATTR(event_filter);
->  GEN_PMU_FORMAT_ATTR(inv_event_filter);
-> +GEN_PMU_FORMAT_ATTR(data_src_filter);
->  GEN_PMU_FORMAT_ATTR(min_latency);
->  GEN_PMU_FORMAT_ATTR(discard);
->  
-> @@ -268,6 +274,7 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
->  	&format_attr_float_filter_mask.attr,
->  	&format_attr_event_filter.attr,
->  	&format_attr_inv_event_filter.attr,
-> +	&format_attr_data_src_filter.attr,
->  	&format_attr_min_latency.attr,
->  	&format_attr_discard.attr,
->  	NULL,
-> @@ -286,6 +293,9 @@ static umode_t arm_spe_pmu_format_attr_is_visible(struct kobject *kobj,
->  	if (attr == &format_attr_inv_event_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_INV_FILT_EVT))
->  		return 0;
->  
-> +	if (attr == &format_attr_data_src_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_FDS))
-> +		return 0;
-> +
->  	if ((attr == &format_attr_branch_filter_mask.attr ||
->  	     attr == &format_attr_load_filter_mask.attr ||
->  	     attr == &format_attr_store_filter_mask.attr ||
-> @@ -406,6 +416,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
->  	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
->  		reg |= PMSFCR_EL1_FnE;
->  
-> +	if (ATTR_CFG_GET_FLD(attr, data_src_filter))
-> +		reg |= PMSFCR_EL1_FDS;
-> +
->  	if (ATTR_CFG_GET_FLD(attr, min_latency))
->  		reg |= PMSFCR_EL1_FL;
->  
-> @@ -430,6 +443,12 @@ static u64 arm_spe_event_to_pmslatfr(struct perf_event *event)
->  	return FIELD_PREP(PMSLATFR_EL1_MINLAT, ATTR_CFG_GET_FLD(attr, min_latency));
->  }
->  
-> +static u64 arm_spe_event_to_pmsdsfr(struct perf_event *event)
-> +{
-> +	struct perf_event_attr *attr = &event->attr;
-> +	return ATTR_CFG_GET_FLD(attr, data_src_filter);
-> +}
-> +
->  static void arm_spe_pmu_pad_buf(struct perf_output_handle *handle, int len)
->  {
->  	struct arm_spe_pmu_buf *buf = perf_get_aux(handle);
-> @@ -788,6 +807,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
->  	if (arm_spe_event_to_pmsnevfr(event) & arm_spe_pmsevfr_res0(spe_pmu->pmsver))
->  		return -EOPNOTSUPP;
->  
-> +	if (arm_spe_event_to_pmsdsfr(event) &&
-> +	    !(spe_pmu->features & SPE_PMU_FEAT_FDS))
-> +		return -EOPNOTSUPP;
-> +
->  	if (attr->exclude_idle)
->  		return -EOPNOTSUPP;
->  
-> @@ -857,6 +880,11 @@ static void arm_spe_pmu_start(struct perf_event *event, int flags)
->  		write_sysreg_s(reg, SYS_PMSNEVFR_EL1);
->  	}
->  
-> +	if (spe_pmu->features & SPE_PMU_FEAT_FDS) {
-> +		reg = arm_spe_event_to_pmsdsfr(event);
-> +		write_sysreg_s(reg, SYS_PMSDSFR_EL1);
-> +	}
-> +
->  	reg = arm_spe_event_to_pmslatfr(event);
->  	write_sysreg_s(reg, SYS_PMSLATFR_EL1);
->  
-> @@ -1116,6 +1144,9 @@ static void __arm_spe_pmu_dev_probe(void *info)
->  	if (FIELD_GET(PMSIDR_EL1_EFT, reg))
->  		spe_pmu->features |= SPE_PMU_FEAT_EFT;
->  
-> +	if (FIELD_GET(PMSIDR_EL1_FDS, reg))
-> +		spe_pmu->features |= SPE_PMU_FEAT_FDS;
-> +
->  	/* This field has a spaced out encoding, so just use a look-up */
->  	fld = FIELD_GET(PMSIDR_EL1_INTERVAL, reg);
->  	switch (fld) {
-> 
-> -- 
-> 2.34.1
-> 
