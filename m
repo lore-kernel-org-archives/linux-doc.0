@@ -1,490 +1,248 @@
-Received: from sender4-pp-f112.zoho.com (sender4-pp-f112.zoho.com [136.143.188.112])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 59954266592;
-	Tue, 20 May 2025 15:57:32 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=pass smtp.client-ip=136.143.188.112
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E9CCE241696;
+	Tue, 20 May 2025 16:06:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.9
 ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747756655; cv=pass; b=Q+9Wo90mULtTHz/kHT7azs5tHfut/i0Una7AOG402xJ2Sk0aB4ik9qTYYLf9pdR3kJT84XRp+95n3XjK1Ch6cXGyJMiPf0c4u46l10uBdJ0NkERxA93I11lkSs5IpPZjtKC05Kactqzd5bDbvolGwYPlhfGqVIFMYcAM3QvLACM=
+	t=1747757211; cv=fail; b=LkUrQAkFAnBXmeo64gkgmzq61bUvUfkIztqT3e19TCezS9YWRlzjYU4GWOZ5UNTUksxe8iOjojt3FPEWWTNmZravGg64j8zobF/fBcYuc3OMwLqk1C8czkOlfHTqH0SnydGnl06tHkKYAtsjT5W1eKXq0Um9kpBrQ3TBIXQaYkI=
 ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747756655; c=relaxed/simple;
-	bh=nQI6L7wo6nOQ6itKtFl4U5on3EvuP0P0ORwafgrPHa0=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=VcDuLzUp0rYmZrKD65i99sMIghBvY1y1KR+WDOX2ugdcoagzce944C6LXegkxkCyPNhbXzZytRtOiXeibVRfNTCAn4DYASF2w5mkbHSVIG18ymei3uQ7HPy03tbExBnsQZ1K7xBj+8DkqPyDEwJaj1hHp+WeRHUIrEQVSNrUSTw=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com; spf=pass smtp.mailfrom=collabora.com; dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b=iGkeNS/4; arc=pass smtp.client-ip=136.143.188.112
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=collabora.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=collabora.com
+	s=arc-20240116; t=1747757211; c=relaxed/simple;
+	bh=Mw4/Fx+weuneIEG17/Be/ktyCixTbDvhbU1g3XuqWIQ=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=RsCUautgssUooEpYsXdiNcG44NUY2+1c3Za925Ga27LXthnXhaxgWiVW02rU4ti0JVSo+tCSlC5AD5Ro1NAi/NkodlKzlN7eKAbAz25ZRNRbnawrMXlduLXPG0aMMKDJJlQz/FwiUXXPTa2clfHKrs94A4Hh9UuqcEmpWtON474=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=OhgB+y31; arc=fail smtp.client-ip=192.198.163.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=collabora.com header.i=nicolas.frattaroli@collabora.com header.b="iGkeNS/4"
-ARC-Seal: i=1; a=rsa-sha256; t=1747756645; cv=none; 
-	d=zohomail.com; s=zohoarc; 
-	b=UjGj6C4EDK97NZk7G7C+OQtAEuXMb/0P5aqWC/Y8SQfwYhB6H5JCKu2Pg3esJBAXRswBJeH2mvFINcvmP/aXUfGgdSAEpGc2mU8i0Oh8kth3nbJx3yanj6aLAUAQQ2f7PpxsUB9hjTpDlCYTOgKfSoWlb4ARNOqgopjMH77CsC0=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zohomail.com; s=zohoarc; 
-	t=1747756645; h=Content-Type:Content-Transfer-Encoding:Cc:Cc:Date:Date:From:From:In-Reply-To:MIME-Version:Message-ID:References:Subject:Subject:To:To:Message-Id:Reply-To; 
-	bh=VHjk4Bf/QGRzRDkOeyGhCa9baizht500HJklCSaHrQA=; 
-	b=KT9sNa3jpiCp9qTNNRFWEtWfGe8IE93Of2lBaXYQXmIv2jRNZqYRWgPpimnWrmAz+XHZXUNyMSyMh2D5FAuf8hy4kRbvP1CMDmbSNEFHY2fG0CV21f+qYmwXqB3TlpO66rRFztuAV5RMf4+Sl7pZg2TyJlW93RSxzxWOFJWC1TM=
-ARC-Authentication-Results: i=1; mx.zohomail.com;
-	dkim=pass  header.i=collabora.com;
-	spf=pass  smtp.mailfrom=nicolas.frattaroli@collabora.com;
-	dmarc=pass header.from=<nicolas.frattaroli@collabora.com>
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1747756645;
-	s=zohomail; d=collabora.com; i=nicolas.frattaroli@collabora.com;
-	h=From:From:Date:Date:Subject:Subject:MIME-Version:Content-Type:Content-Transfer-Encoding:Message-Id:Message-Id:References:In-Reply-To:To:To:Cc:Cc:Reply-To;
-	bh=VHjk4Bf/QGRzRDkOeyGhCa9baizht500HJklCSaHrQA=;
-	b=iGkeNS/4VjaDS1tP5rANszwnjK3PO20tLczXWps2ac4eQC9uTbURVpcVk33olkWQ
-	N1Vxc6cWVYxrGLufwn1QWUAipsT1e7inWUBNNqk/xbexHd84DksDNvsh3kks9/b3MZC
-	zEEedC97tcOxBM1ysGdsG4kwQxtm1DCraHz5eGkQ=
-Received: by mx.zohomail.com with SMTPS id 1747756644135260.52544976196987;
-	Tue, 20 May 2025 08:57:24 -0700 (PDT)
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Date: Tue, 20 May 2025 17:57:15 +0200
-Subject: [PATCH 2/2] docs: document linked lists
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="OhgB+y31"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747757210; x=1779293210;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=Mw4/Fx+weuneIEG17/Be/ktyCixTbDvhbU1g3XuqWIQ=;
+  b=OhgB+y319lVb80aXR1ajeJi+4H2lmKyqWv09elxo3V2ir7LfvfWU+ZMb
+   jEbEL4rq4/TcgyOK4xb1Ah2YMTrGtcXVNhhgrYHqcED77YAFVzdREC+G1
+   lvqapAJ2n5iIxOtqmnSlAoMVVuq4Nu7nLDVyaeX8RIkn1Uwk6wlfC7Wj5
+   P5V/ad5Wt8SBxVLu0WJ9GB9zkIpOPAmRE9gvIyjj34O5D63WBvIaHUcI5
+   TCxBUtWDlop/JS4l7WaKrVNTF6+ckYyHNiJ9nWZRIEftknqsYDmSV0PA4
+   iX8LEhFJNVr2ez7K7/UtObnv4gHDKRSEd2aQkFSSOYpnC5JS4WB9VZTkZ
+   Q==;
+X-CSE-ConnectionGUID: Rx4kbVbdShaETLkgIU5DBA==
+X-CSE-MsgGUID: 4K68egZGQyeFOYJFsRmAgA==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="60357467"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="60357467"
+Received: from orviesa010.jf.intel.com ([10.64.159.150])
+  by fmvoesa103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:06:49 -0700
+X-CSE-ConnectionGUID: SWU+ouZvTn6UIwaQNIrfVQ==
+X-CSE-MsgGUID: A0JaF1JURR+TKYGlJejbLg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="139586448"
+Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
+  by orviesa010.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 09:06:48 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Tue, 20 May 2025 09:06:47 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Tue, 20 May 2025 09:06:47 -0700
+Received: from NAM11-CO1-obe.outbound.protection.outlook.com (104.47.56.169)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Tue, 20 May 2025 09:06:44 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ojkGrucKvb5iQUQh4ooz6prYM2asxqwLqFzQZ+K2EzJWLwgQcOgyRz54fBOpNfuL6WF3OoXOsfbGY2faK6w1w5pDW/zf34M4X9rxR2rUJSt63qGpGF8htaR/bCx70O7kH58QJXCxvjGcEYjreeP3GtSdSyTs08bsuxT10nfcRUi2j00uVIrq92cyV0Cg/DNZQzXd6mcRdmEqRpIWJpYpQfw0sjJzb33bgHciX0Ow8p12MTo8F0SMrYRsG9lQhpkruYVOWNCrucRIlS7k11GgIJQQpzr0R1Tn6O4K6Dep3DwaV2OfeOaTIu0UyiPa3om4akuaNMuVf3ti1ieiXh7Xhw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=bGe21YaqBTgy0DUORJpFOloVUmKLkw3H0XJnaqDE0yM=;
+ b=iepw7JeR7zPtthBSFVeiXDpB8JAyi+/2TnYiZGL8F3mlA8aO0+UcFOzTNe1cSoT5nVwQjjBgbIgzn2ndbbtwE6TsY/0dWB8qCnP7EuL6++H6kTnV/euBrjRxgn8I01QCudhb/Hc8h0fcUONNNl3+xqfkNYqCCknit7ooDkQ6yiK74tHJdFLG3j5G1zlus4iSEq/GWAQFpySEr2qLBEtfVjjF5dmLr2/yWRhW3BS9DEMQzDZkEs0cFUIIFz1J6fGEfTHZmK2SS9dmdgngYWYqcONuvlafkFUO0FFhdEbvYMkGp87vHyjuFeNToaooiMOGpstIMF1Fn2v6WfjoIak/mw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by DM4PR11MB8159.namprd11.prod.outlook.com (2603:10b6:8:17d::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8722.33; Tue, 20 May
+ 2025 16:06:39 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.8746.030; Tue, 20 May 2025
+ 16:06:39 +0000
+Message-ID: <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
+Date: Tue, 20 May 2025 09:06:36 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: <babu.moger@amd.com>, Peter Newman <peternewman@google.com>
+CC: <corbet@lwn.net>, <tony.luck@intel.com>, <tglx@linutronix.de>,
+	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
+	<james.morse@arm.com>, <dave.martin@arm.com>, <fenghuay@nvidia.com>,
+	<x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
+	<akpm@linux-foundation.org>, <thuth@redhat.com>, <rostedt@goodmis.org>,
+	<ardb@kernel.org>, <gregkh@linuxfoundation.org>,
+	<daniel.sneddon@linux.intel.com>, <jpoimboe@kernel.org>,
+	<alexandre.chartre@oracle.com>, <pawan.kumar.gupta@linux.intel.com>,
+	<thomas.lendacky@amd.com>, <perry.yuan@amd.com>, <seanjc@google.com>,
+	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>,
+	<xin3.li@intel.com>, <ebiggers@google.com>, <xin@zytor.com>,
+	<sohil.mehta@intel.com>, <andrew.cooper3@citrix.com>,
+	<mario.limonciello@amd.com>, <linux-doc@vger.kernel.org>,
+	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
+	<eranian@google.com>, <Xiaojian.Du@amd.com>, <gautham.shenoy@amd.com>
+References: <cover.1747349530.git.babu.moger@amd.com>
+ <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+ <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: SJ0PR13CA0070.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::15) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
-References: <20250520-linked-list-docs-v1-0-db74f7449785@collabora.com>
-In-Reply-To: <20250520-linked-list-docs-v1-0-db74f7449785@collabora.com>
-To: Jonathan Corbet <corbet@lwn.net>
-Cc: kernel@collabora.com, linux-doc@vger.kernel.org, 
- linux-kernel@vger.kernel.org, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-X-Mailer: b4 0.14.2
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|DM4PR11MB8159:EE_
+X-MS-Office365-Filtering-Correlation-Id: 16abe764-c233-4b83-ee68-08dd97b84dc1
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7416014|376014|1800799024|366016|7053199007;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?aEsya2loVlg1Z2JoL2YyeHljRXN4S1duMHRRQ3loSWIwTk12QUFDU1dpRE9M?=
+ =?utf-8?B?MWtRbG5RM0FGUHRJdC9FZU5aRHIxcEZ1ei8yWjBkeFlqa0RSWGlmZVBRUUE2?=
+ =?utf-8?B?dW1xU0dPR2tmY1kzekpvSTdqV0UzNUluamxSZUk3YWFSVm9WeVFJRlFFVGlK?=
+ =?utf-8?B?blpOV2l2QWRpOUZ6bUVaN0xOZWd0VzJwb1JwMmo4SG1qYjZLUE9FTmhRSS8z?=
+ =?utf-8?B?dUQxYi81b2g0WVg1dU50QkRkUm1EOVlIWVpDNmwxditCZWw3NVA2UHQrbFh2?=
+ =?utf-8?B?UUxJRjdXVm92TEZZUGY0S0FKODNSWTk5Q0RCNlhjVGtEZVNHRkpoWmhlMXJN?=
+ =?utf-8?B?TzRXdzU4ajNSWUV3RVNqU252cm42SDdmWDlwWXl1cXlrL0ZCZ0svYlhyWGdn?=
+ =?utf-8?B?alBtUkJpRmFWalU1Z1kxN3JwRjZZdXI0c3VtLzBlZnA5MEVSWmw1NUJsWGdp?=
+ =?utf-8?B?Q09tM25kbU41bHBrSmxEanhTWUFkVFJRSHRJRlZtNGFTV2VoWFpvUFgxaGl2?=
+ =?utf-8?B?UytrakZDd2NXa0NKUlhKY2dvTHNpUGk1N1gvc2tiZEhlWkdncEVDeTFtaTIw?=
+ =?utf-8?B?M3I4UHpZaTVnditva3lrVGlEOG5Ta00xRlZsVzVWUlU0eGt5ZkdGU2xZOEIw?=
+ =?utf-8?B?NDN2aE1kZUZmYm1NZkpZWjN2eTJZRmNvRVV1OXFjRFlSaFBRVktMU1VtTlc4?=
+ =?utf-8?B?dHBDTzRRNjZQbE1ZQk5XczRqRWJXV3ErMUg1Y2VtWjl2QUpIUzdHNy9WZi9E?=
+ =?utf-8?B?YncyQ0cxNzVjWC80TFBuWWhrcXo5T2hFTDNxS1pYWWxhZmN1b1NHS2NrWWdT?=
+ =?utf-8?B?bDhRSmJtZHZEY0FCTzZOVXl1RFozWEZXS0FCdVg1bmxlZ1FFNnY1ck5nZmNw?=
+ =?utf-8?B?UHQ5TGVzbjlKeW5OTDF2MmNRMGUvY0hUNkM3YUNCcnRvQy9qcWM4aVZMbERC?=
+ =?utf-8?B?Z3NUbTNiVFRUK0tQb0Jya3czV3p3TUcrRnBKdjFaK09ERVBTQmRYY2E2U0Jk?=
+ =?utf-8?B?d1JRQnVyODgzRDJESzUxTzJMek1jY3JtdjBNYWJuOVpERmMyWWhWaHdXYlB6?=
+ =?utf-8?B?a2ZiUzNPME5OYSthRm83djd3b0lTL3lWcmdTZUV5U2JsUy9aa05pb3I5YU9a?=
+ =?utf-8?B?cFZIWDV1ZllKMnlpT2ZKRk8rS284cUp2Vm9hcUFITERDWmtnOXhsU1VRSXFJ?=
+ =?utf-8?B?YmVUWWtSOUNVMjYzMmpVTExqcFJDVDZmV3B0ekJLMHlTaHk0aHFoZjFXUlpG?=
+ =?utf-8?B?bmJtVjczUGtZR2lkVUJNSnhVMm5XSzZQTGYvb2RtN24zWXU4alRKWkUwUW1X?=
+ =?utf-8?B?eGd4Q1RFOU9LTW5DdjF2R24wQU81aWpXUTlZWCtNRU5RSjlzRlBQeEVmZkRU?=
+ =?utf-8?B?aDZtZzNmYktLMnJ2aWpoV0FEVG82bzNIbnBTVzYzZ0dEQ1hmQlcrQStyZ2ts?=
+ =?utf-8?B?M29vc3I3T0czTzFFNDNHT1htTjNTRTBiZ1U5UmJxejJsOHVhWWdkNW5Bcklh?=
+ =?utf-8?B?WUN6ZWtJdDNrQlpuWFVWakhkcmVUZTBITXRyS05TNTV6b2piZlpMbitxaCto?=
+ =?utf-8?B?THFYZ3U1NVZ1TnZuUHJIaEJ4MFlLYm03VEx2M3RTYmlFRnJyVGhEV1dFRHVp?=
+ =?utf-8?B?bm1ucnc0RVFwTCtkMW9leXdSeUhySGVEQWdDMG5UN1k0ZUZjRVVFTythMWhR?=
+ =?utf-8?B?ckZFUDRzUjVZbm9DWTVaVFphK0o2dG5ZUkNjZlQ3M1ZXcndoYzNRZzYwTUIx?=
+ =?utf-8?B?eTd4c0FwWGUyZ0w3aEYyd0hXdHdkWEhidW9uOUxNZ2lGV2JiZmdBQmtOTVpP?=
+ =?utf-8?B?NWFyU1JJMzhJbVZOdENuY1BMeEIxQ1hrd1JqSk95T3hiaXZPSmZvOGdFNE5E?=
+ =?utf-8?Q?TGZCwWeIt/Kqs?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(7416014)(376014)(1800799024)(366016)(7053199007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?Ymk4cWlyaUFkQXVwRzR5anhrRHhtNHNzOFRGRjh5blFJYWJENkRyRzgyYjlQ?=
+ =?utf-8?B?cCtBaldTODUwUFBueU9EQnphZWdGSWZvOFVZM2N0QThBdGhaYm5lcHBiUGF4?=
+ =?utf-8?B?NitxZVdaOE1wTzg4K0k4bUh0MElURmU2dUxYb0FQK2hPaWJhYTZNZk04TW12?=
+ =?utf-8?B?U0JiWWtidnFqalpVM2NCdW9RNlNBSElUWW9qdVEwb2RzM2l5YWdkSHNHQ0tI?=
+ =?utf-8?B?SGRDTHNFamlCQXYwMElKMVF5RmZTd1JjMndtUkR5YjQyeHpKbWNWSG9LR20r?=
+ =?utf-8?B?a0x0RXJoeVZmaTdGVHQrR0k3d2RoS1UyWk14NG1sZGphZnVVdmZkZkJ1UWlh?=
+ =?utf-8?B?V1l4SDUrVE5MZlhsa0UxenBJZm5MUHp1eUd5TmtzY0VVWlNiZEhnRnZGUnZh?=
+ =?utf-8?B?ZDl0SkVFRElCYmxKNEtJWFN3eFJwS2FaRGcydUY0aTRiakowb2M1Kzhldk1G?=
+ =?utf-8?B?Q0o4TkVxL2x3amtEWUlMUVd2S1cxTk9HSXdHaGJXZVgwYVJwbXFyTGtjWnJH?=
+ =?utf-8?B?YzhnaUxaZE1pL0R4cGQ4bmJheHl6ZGh5SWZXVklLOHVPbFArcHNQOGdIdENh?=
+ =?utf-8?B?TUFSNllWaG5lNzlJdFFKVytrbjFnYkR6K0lrTVlYbTdidCtOVFpyTTF0ZW44?=
+ =?utf-8?B?am9yMHpZd2RqaDVGbVZIeVVCUG1VK0ZxTHNrdFh5V2ZrSGJyUUo4MU55cDZV?=
+ =?utf-8?B?d21FcU5hcmQ4d0wzN2R5aWVNcUJWS2NpcmI2SXlpTWhqME9GbjhXd05sY2Rr?=
+ =?utf-8?B?bXkrcXVSTVZJYkh3c3BZa1NlQ2JZbXFnUDdzWExVMlJySVJCeUQraTZDWERJ?=
+ =?utf-8?B?V3RnYUtvT001QnQrSHNZY3dENDY5VDRDWEhDQWtLTXR5S1NrM2ZPY2NqYWx4?=
+ =?utf-8?B?RllGTkZDUmpYZS95Qk16N2dXK0V3Ny9PUkg0UjVSWjhRL2lnNlVKT3pUalpp?=
+ =?utf-8?B?RXJqbXZ1MTFZdXd3dDR0c2xtNTRwRW03Z0ZWdGNjNW9SUGxqVDFsM2ZKNHlw?=
+ =?utf-8?B?V1lsenVCc3k2bjF2QUwwZWwyOFIrTERqUFVOaDdMYkV1aitHSFpYK1ZGTzVr?=
+ =?utf-8?B?ZTFBdlhyM3QwUDduZXdaM3Y0WnpqNzRkUlpOM1FCci9zeEYwSktWbGh2aTh3?=
+ =?utf-8?B?bVRvcDhCNDZFWk9kSHlWbG9wa281VlhBLzVldU9NNHRPdUpPamx0aDZKYkQr?=
+ =?utf-8?B?ajRYVk9TVk9iOHB5a2FjaTRnaWtTd2IvVzA3NXJxem16aUdxMVFEZnJLRG1X?=
+ =?utf-8?B?VXVNQTlVbjVJcndmZ3V4SG11N29nTEl0SGVVbXdROXl1Y3UzNHd6UThGdkt0?=
+ =?utf-8?B?V283TjU1R2dmZ0xBQ1RFVXNlSGR0aHUzdXVnVGxNZ2NSTFBBSk9PQnRiZnBQ?=
+ =?utf-8?B?WWNOdWREZ2tiL3BPbG5vTzZvdEFuV1RLbGNGeUw0Y2xYMURJaWpZSjV6Z09I?=
+ =?utf-8?B?YS9kaTZRUC9NUjUzN2dQc21IWFJlMk9QVTlLOHpLeVQ4aXAyTVRvQkNDUm1M?=
+ =?utf-8?B?UmsxQlU2MVIxVkpST0VEdTVsYm13L015NzBGYklnejkxNUxLSnZCTXVROE9E?=
+ =?utf-8?B?NXpqblNqa3RhU0VaUjUxRW1KQzUrWXpEbGg5REFKZ2NlVytkczRVRVJSSUc3?=
+ =?utf-8?B?NGwyVlNxcmpwd0JTSFpKd2Q0MDcyNmlpd0xMc1ovWDhNNzZZZjdIMnc2bWx5?=
+ =?utf-8?B?cURqM3piMVZsWm1OZmtPZUxKVkV0dlVZcERvekppMUFtMGd6bm9kWDNVZVFE?=
+ =?utf-8?B?V0IyMDQvWEJtR2F2RDhRRVcrajJoeGR3QnRPdFhzSWI3TmtRWjB5T0FTSDhl?=
+ =?utf-8?B?WEVQV2xWd1RlUHozWEdzQ00xNDdXK3crWkthYUJMU1ZlSHRSMGx4TytycnlG?=
+ =?utf-8?B?aHo2cWFTb0tQeTBSMnhrdEZaWTRNa0xrRzJOci9pU3BNVTArbEVqMVUrdUMy?=
+ =?utf-8?B?ai9hdmlVakJlQzRRMG1LWCs0Z2pkOTlPNFJMbEJXNUphOXF4WE9PSmFLMTdj?=
+ =?utf-8?B?Y3pWQ0tTNGtRZVk3bUhqZ2wzeXdadGtMSm12a1FMb0JPOVFaNEhvdWw0cHM1?=
+ =?utf-8?B?b2hmMSsrRXNFQ2VtSE1CUlliSHp6aFRaMUlTZ3AvckdVemFnZjZBM1BDc09z?=
+ =?utf-8?B?cFlNM256a0VJK3F5aHlNRjJiTjZrRlhJUm9UczNiK1FBUVRsMlpaNzllanBz?=
+ =?utf-8?B?VHc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: 16abe764-c233-4b83-ee68-08dd97b84dc1
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 16:06:39.2271
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: SbPPUwX/LLbM8xvrAe6Hn9QyYtCxvrsnKTVTQ+Rt8MV6ftnhQC/l9jPpQCIBxLAjvz2OaGeDtSKlI04hJ2D109JJ5wNUwCV6qgH9qVgkIIM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM4PR11MB8159
+X-OriginatorOrg: intel.com
 
-The kernel contains various generic data structures that should ideally
-not be reinvented. However, it often fails to document the usage of
-these in the in-tree kernel documentation beyond just a listing of
-header symbols in the very lengthy kernel-api docs page. This is fine
-for things that have simple invocations, but occasionally things devolve
-into several layers of concatenating macros, which are subpar for humans
-to parse.
+Hi Babu,
 
-Begin making a small impact by adding some rudimentary example-driven
-documentation for the linked list type. It's far from exhaustive, as
-many list modification functions are currently not mentioned. However,
-it covers the basics and directs readers towards further documentation
-should they be interested in concurrency.
+On 5/20/25 8:28 AM, Moger, Babu wrote:
+> On 5/19/25 10:59, Peter Newman wrote:
+>> On Fri, May 16, 2025 at 12:52 AM Babu Moger <babu.moger@amd.com> wrote:
 
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
----
- Documentation/core-api/index.rst |   1 +
- Documentation/core-api/list.rst  | 390 +++++++++++++++++++++++++++++++++++++++
- 2 files changed, 391 insertions(+)
+...
 
-diff --git a/Documentation/core-api/index.rst b/Documentation/core-api/index.rst
-index e9789bd381d8048364b2f679bb668f503f8780ec..5723432593f46144dbc4c0232086649bab05f24b 100644
---- a/Documentation/core-api/index.rst
-+++ b/Documentation/core-api/index.rst
-@@ -54,6 +54,7 @@ Library functionality that is used throughout the kernel.
-    union_find
-    min_heap
-    parser
-+   list
- 
- Low level entry and exit
- ========================
-diff --git a/Documentation/core-api/list.rst b/Documentation/core-api/list.rst
-new file mode 100644
-index 0000000000000000000000000000000000000000..1c7375a52afaf884418c4ea2b64d4d0bb6b79d9d
---- /dev/null
-+++ b/Documentation/core-api/list.rst
-@@ -0,0 +1,390 @@
-+.. SPDX-License-Identifier: GPL-2.0+
-+
-+=====================
-+Linked Lists in Linux
-+=====================
-+
-+:Author: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-+
-+.. contents::
-+
-+Introduction
-+============
-+
-+Linked lists are one of the most basic data structures used in many programs.
-+The Linux kernel implements several different flavours of linked lists. The
-+purpose of this document is not to explain linked lists in general, but to show
-+new kernel developers how to use the Linux kernel implementations of linked
-+lists.
-+
-+Please note that while linked lists certainly are ubiquitous, they may not
-+always be the best data structure to use in cases where a simple array doesn't
-+already suffice. Familiarizing oneself with other in-kernel generic data
-+structures, especially for concurrent accesses, is highly encouraged.
-+
-+Linux implementation of doubly linked lists
-+===========================================
-+
-+Linux's linked list implementations can be used by including the header file
-+``<linux/list.h>``.
-+
-+The doubly-linked list will likely be the most familiar to many readers. It's a
-+list that can efficiently be traversed forwards and backwards.
-+
-+The Linux kernel's doubly-linked list is circular in nature. This means that to
-+get from the head node to the tail, we can just travel one edge backwards.
-+Similarly, to get from the tail node to the head, we can simply travel forwards
-+"beyond" the tail and arrive back at the head.
-+
-+Declaring a node
-+----------------
-+
-+A node in a doubly-linked list is declared by adding a ``struct list_head``
-+member to the struct you wish to be contained in the list:
-+
-+.. code-block:: c
-+
-+  struct clown {
-+          unsigned long long shoe_size;
-+          const char *name;
-+          struct list_head node;  /* the aforementioned member */
-+  };
-+
-+This may be an unfamiliar approach to some, as the classical explanation of a
-+linked list is a list node struct with pointers to the previous and next list
-+node, as well the payload data. Linux chooses this approach because it allows
-+for generic list modification code regardless of what data struct is contained
-+within the list. Since the ``struct list_head`` member is not a pointer but part
-+of the struct proper, the ``container_of`` pattern can be used by the list
-+implementation to access the payload data regardless of its type, while staying
-+oblivious to what said type actually is.
-+
-+Declaring and initializing a list
-+---------------------------------
-+
-+A doubly-linked list can then be declared as just another ``struct list_head``,
-+and initialised with the LIST_HEAD_INIT() macro during initial assignment, or
-+with the INIT_LIST_HEAD() function later:
-+
-+.. code-block:: c
-+
-+  struct clown_car {
-+          int tyre_pressure[4];
-+          struct list_head clowns;        /* Looks like a node! */
-+  };
-+
-+  /* ... Somewhere later in our driver ... */
-+
-+  static int circus_init(struct circus_priv *circus)
-+  {
-+          struct clown_car other_car = {
-+                .tyre_pressure = {10, 12, 11, 9},
-+                .clowns = LIST_HEAD_INIT(other_car.clowns)
-+          };
-+
-+          circus->car.clowns = INIT_LIST_HEAD(&circus->car.clowns);
-+
-+          return 0;
-+  }
-+
-+A further point of confusion to some may be that the list itself doesn't really
-+have its own type. The concept of the entire linked list and a
-+``struct list_head`` member that points to other entries in the list are one and
-+the same.
-+
-+Adding nodes to the list
-+------------------------
-+
-+Adding a node to the linked list is done through the list_add() function.
-+
-+We'll return to our clown car example to illustrate how nodes get added to the
-+list:
-+
-+.. code-block:: c
-+
-+  static int circus_fill_car(struct circus_priv *circus)
-+  {
-+          struct clown_car *car = &circus->car;
-+          struct clown *grock;
-+          struct clown *dimitri;
-+
-+          /* State 1 */
-+
-+          grock = kzalloc(sizeof(*grock), GFP_KERNEL);
-+          if (!grock)
-+                  return -ENOMEM;
-+          grock->name = "Grock";
-+          grock->shoe_size = 1000;
-+
-+          /* Note that we're adding the "node" member */
-+          list_add(&grock->node, &car->clowns);
-+
-+          /* State 2 */
-+
-+          dimitri = kzalloc(sizeof(*dimitri), GFP_KERNEL);
-+          if (!dimitri)
-+                  return -ENOMEM;
-+          dimitri->name = "Dimitri";
-+          dimitri->shoe_size = 50;
-+
-+          list_add(&dimitri->node, &car->clowns);
-+
-+          /* State 3 */
-+
-+          return 0;
-+  }
-+
-+In State 1, our list of clowns is still empty:
-+
-+.. kernel-render:: DOT
-+   :alt: Visualization of clowns list in State 1
-+   :caption: clowns list in State 1, grey dashed lines are "prev" edges
-+
-+   digraph c {
-+    rankdir="LR";
-+    node [shape=box];
-+    "clowns" -> "clowns";
-+    "clowns" -> "clowns" [color=gray, style=dashed, constraint=false, arrowsize=0.5];
-+   }
-+
-+In State 2, we've added Grock after the list head:
-+
-+.. kernel-render:: DOT
-+   :alt: Visualization of clowns list in State 2
-+   :caption: clowns list in State 2, grey dashed lines are "prev" edges
-+
-+   digraph c {
-+    rankdir="LR";
-+    node [shape=box];
-+    "clowns" -> "Grock";
-+    "Grock" -> "clowns" [constraint=false];
-+    "clowns" -> "Grock" -> "clowns" [color=gray, style=dashed, constraint=false,
-+                                     arrowsize=0.5];
-+   }
-+
-+In State 3, we've added Dimitri after the list head, resulting in the following:
-+
-+.. kernel-render:: DOT
-+   :alt: Visualization of clowns list in State 3
-+   :caption: clowns list in State 3, grey dashed lines are "prev" edges
-+
-+   digraph c {
-+    rankdir="LR";
-+    node [shape=box];
-+    "clowns" -> "Dimitri" -> "Grock";
-+    "Grock" -> "clowns" [constraint=false];
-+    "clowns" -> "Grock" -> "Dimitri" -> "clowns" [color=gray, style=dashed,
-+                                                  constraint=false, arrowsize=0.5];
-+   }
-+
-+If we wanted to have Dimitri inserted at the end of the list instead, we'd use
-+list_add_tail(). Our code would then look like this:
-+
-+.. code-block:: c
-+
-+  static int circus_fill_car(struct circus_priv *circus)
-+  {
-+          /* ... */
-+
-+          list_add_tail(&dimitri->node, &car->clowns);
-+
-+          /* State 3b */
-+
-+          return 0;
-+  }
-+
-+This results in the following list:
-+
-+.. kernel-render:: DOT
-+   :alt: Visualization of clowns list in State 3b
-+   :caption: clowns list in State 3b, grey dashed lines are "prev" edges
-+
-+   digraph c {
-+    rankdir="LR";
-+    node [shape=box];
-+    "clowns" -> "Grock" -> "Dimitri";
-+    "Dimitri" -> "clowns" [constraint=false];
-+    "clowns" -> "Dimitri" -> "Grock" -> "clowns" [color=gray, style=dashed,
-+                                                  constraint=false, arrowsize=0.5];
-+   }
-+
-+Traversing the list
-+-------------------
-+
-+To iterate the list, we can loop through all nodes within the list with
-+list_for_each().
-+
-+In our clown example, this results in the following somewhat awkward code:
-+
-+.. code-block:: c
-+
-+  static unsigned long long circus_get_max_shoe_size(struct circus_priv *circus)
-+  {
-+          unsigned long long res = 0;
-+          struct clown *e;
-+          struct list_head *cur;
-+
-+          list_for_each(cur, &circus->car.clowns) {
-+                  e = list_entry(cur, struct clown, node);
-+                  if (e->shoe_size > res)
-+                          res = e->shoe_size;
-+          }
-+
-+          return res;
-+  }
-+
-+Note how the additional ``list_entry`` call is a little awkward here. It's only
-+there because we're iterating through the ``node`` members, but we really want
-+to iterate through the payload, i.e. the ``struct clown`` that contains each
-+node's ``struct list_head``. For this reason, there is a second macro:
-+list_for_each_entry()
-+
-+Using it would change our code to something like this:
-+
-+.. code-block:: c
-+
-+  static unsigned long long circus_get_max_shoe_size(struct circus_priv *circus)
-+  {
-+          unsigned long long res = 0;
-+          struct clown *e;
-+
-+          list_for_each_entry(e, &circus->car.clowns, node) {
-+                  if (e->shoe_size > res)
-+                          res = e->shoe_size;
-+          }
-+
-+          return res;
-+  }
-+
-+This eliminates the need for the ``list_entry`` step, and our loop cursor is now
-+of the type of our payload. The macro is given the member name that corresponds
-+to the list's ``struct list_head`` within the clown struct so that it can still
-+walk the list.
-+
-+Removing nodes from the list
-+----------------------------
-+
-+The list_del() function can be used to remove entries from the list. It not only
-+removes the given entry from the list, but poisons the entry's ``prev`` and
-+``next`` pointers, so that unintended use of the entry after removal does not
-+go unnoticed.
-+
-+We can extend our previous example to remove one of the entries:
-+
-+.. code-block:: c
-+
-+  static int circus_fill_car(struct circus_priv *circus)
-+  {
-+          /* ... */
-+
-+          list_add(&dimitri->node, &car->clowns);
-+
-+          /* State 3 */
-+
-+          list_del(&dimitri->node);
-+
-+          /* State 4 */
-+
-+          return 0;
-+  }
-+
-+The result of this would be this:
-+
-+.. kernel-render:: DOT
-+   :alt: Visualization of clowns list in State 4
-+   :caption: clowns list in State 4, grey dashed lines are "prev" edges. Note
-+             how the Dimitri node no longer points to itself.
-+
-+   digraph c {
-+    rankdir="LR";
-+    node [shape=box];
-+    "Dimitri";
-+    "clowns" -> "Grock";
-+    "Grock" -> "clowns" [constraint=false];
-+    "clowns" -> "Grock" -> "clowns" [color=gray, style=dashed, constraint=false,
-+                                     arrowsize=0.5];
-+   }
-+
-+If we wanted to reinitialize the removed node instead to make it point at itself
-+again like an empty list head, we can use list_del_init() instead:
-+
-+.. code-block:: c
-+
-+  static int circus_fill_car(struct circus_priv *circus)
-+  {
-+          /* ... */
-+
-+          list_add(&dimitri->node, &car->clowns);
-+
-+          /* State 3 */
-+
-+          list_del_init(&dimitri->node);
-+
-+          /* State 4b */
-+
-+          return 0;
-+  }
-+
-+This results in the deleted node pointing to itself again:
-+
-+.. kernel-render:: DOT
-+   :alt: Visualization of clowns list in State 4b
-+   :caption: clowns list in State 4b, grey dashed lines are "prev" edges. Note
-+             how the Dimitri node points to itself again.
-+
-+   digraph c {
-+    rankdir="LR";
-+    node [shape=box];
-+    "Dimitri" -> "Dimitri";
-+    "Dimitri" -> "Dimitri" [color=gray, style=dashed, constraint=false, arrowsize=0.5];
-+    "clowns" -> "Grock";
-+    "Grock" -> "clowns" [constraint=false];
-+    "clowns" -> "Grock" -> "clowns" [color=gray, style=dashed, constraint=false,
-+                                     arrowsize=0.5];
-+   }
-+
-+Traversing whilst removing nodes
-+--------------------------------
-+
-+Deleting entries while we're traversing the list will cause problems if we use
-+list_for_each() and list_for_each_entry(), as deleting the current entry would
-+modify the ``next`` pointer of it, which means the traversal can't properly
-+advance to the next list entry.
-+
-+There is a solution to this however: list_for_each_safe() and
-+list_for_each_entry_safe(). These take an additional parameter of a pointer to
-+a ``struct list_head`` to use as temporary storage for the next entry during,
-+iteration, solving the issue.
-+
-+An example of how to use it:
-+
-+.. code-block:: c
-+
-+  static void circus_eject_insufficient_clowns(struct circus_priv *circus)
-+  {
-+          struct clown *e;
-+          struct clown *n;      /* temporary storage for safe iteration */
-+
-+          list_for_each_entry_safe(e, n, &circus->car.clowns, node) {
-+                if (e->shoe_size < 500)
-+                        list_del(&e->node);
-+          }
-+  }
-+
-+Proper memory management (i.e. freeing the deleted node while making sure
-+nothing still references it) in this case is left up as an exercise to the
-+reader.
-+
-+Concurrency considerations
-+--------------------------
-+
-+Concurrent access and modification of a list needs to be protected with a lock
-+in most cases. Alternatively and preferably, one may use the RCU primitives for
-+lists in read-mostly use-cases, where read accesses to the list are common but
-+modifications to the list less so. See Documentation/RCU/listRCU.rst for more
-+details.
-+
-+Further reading
-+---------------
-+
-+* `How does the kernel implements Linked Lists? - KernelNewbies <https://kernelnewbies.org/FAQ/LinkedLists>`_
+>>> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of monitoring
+>>> counters available for assignment.
+>>
+>> Earlier I discussed with Reinette[1] what num_mbm_cntrs should
+>> represent in a "soft-ABMC" implementation where assignment is
+>> implemented by assigning an RMID, which would result in all events
+>> being assigned at once.
+>>
+>> My main concern is how many "counters" you can assign by assigning
+>> RMIDs. I recall Reinette proposed reporting the number of groups which
+>> can be assigned separately from counters which can be assigned.
+> 
+> More context may be needed here. Currently, num_mbm_cntrs indicates the
+> number of counters available per domain, which is 32.
+> 
+> At the moment, we can assign 2 counters to each group, meaning each RMID
+> can be associated with 2 hardware counters. In theory, it's possible to
+> assign all 32 hardware counters to a group—allowing one RMID to be linked
+> with up to 32 counters. However, we currently lack the interface to
+> support that level of assignment.
+> 
+> For now, the plan is to support basic assignment and expand functionality
+> later once we have the necessary data structure and requirements.
 
--- 
-2.49.0
+Looks like some requirements did not make it into this implementation.
+Do you recall the discussion that resulted in you writing [2]? Looks like
+there is a question to Peter in there on how to determine how many "counters"
+are available in soft-ABMC. I interpreted [3] at that time to mean that this
+information would be available in a future AMD publication.
 
+Reinette
+
+[2] https://lore.kernel.org/lkml/afb99efe-0de2-f7ad-d0b8-f2a0ea998efd@amd.com/ 
+[3] https://lore.kernel.org/lkml/CALPaoCg3KpF94g2MEmfP_Ro2mQZYFA8sKVkmb+7isotKNgdY9A@mail.gmail.com/
