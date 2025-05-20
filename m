@@ -1,162 +1,208 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id ED8A825C701;
-	Tue, 20 May 2025 09:20:02 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6DF25B1C5;
+	Tue, 20 May 2025 09:24:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747732803; cv=none; b=iBLeO5Nypifo8xQ+ykYplKICACW+TmspyZUJNPXDGkW1Q2cau77Fpg9Y785UC+tqDukl6U5gGIh/4LSWekgL9PgiGoOnG+woewHdTry9vljb/p8VUeRI1ORIlDk2b5F4SKP3X3lwFp2bUo0v8I3v1d0fGHCuofF2N5IdG9DKCnQ=
+	t=1747733096; cv=none; b=uQjATmDwsI3e9UzrE3xvVtvoFSc4XPBzGIz3sCySoaxj+Sw66OYhBUrhabx+5HjFVpgZxhhvsHKTfirZ6jDN6DiVe7P+qFOCugJ9mabRKGNTm1Kz3W6MLGsuWzWBHUVCXIINhp9FixKh8naFOdW+ACp9PNOa4yiVtfP6Sfn6zgY=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747732803; c=relaxed/simple;
-	bh=OvPIBUE0bWywwX+5amiRSbhQI4shI1x2lmUM9etBsf8=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=cY11P6jThLD0rmg+IJ0nymDN3KGlhsONB4aEkt9znE0G9XtbuK7ckPQqVWI5w0ZRG3AFY5T5w4VLGlJPDbS9fScY76AMneRA39J4IBbteDaEeaPSDgacaIN3F/Tz3lW8FnIjjJXTbdeyH338hWIkRtRv6KqHiTfFa1Knt07Uiwo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=mSKWpIrx; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747733096; c=relaxed/simple;
+	bh=8lqQQP4T8U24N8XgiVMBAB9dvBkyWQckbVdZ4ZEwckU=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=OgsawpDf4yuLwQEUHFyTFAfAU75eh+j6RW15bf+0G8raxUHD1q93Z+EJhpOPYCfz2hxlVgLaMNmuoNJ23KR69JAQ+5XvK0xyrODPCu1QHatxpDLnKS2+Uw/Ycdn+5P4eehLVACJcCxvuzitkhuwiN/ElAfBep2GYnofp1d7UdBg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mfGvtzNB; arc=none smtp.client-ip=209.85.219.44
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="mSKWpIrx"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 6D4D8C4CEE9;
-	Tue, 20 May 2025 09:20:00 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747732802;
-	bh=OvPIBUE0bWywwX+5amiRSbhQI4shI1x2lmUM9etBsf8=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=mSKWpIrxHRb/73jCabMq1y4CdFRUjth/kB+0BkUUFXNa/OIlqS6LP0eE+TMzaoDgK
-	 7O7fC42aQEAfVelBhu82SowO0pjOCbOUA14zX3bI8OmZ2TwJixtlSk+ZG8nggP8KZd
-	 gf2zdD4TGrP7yaX3iuuCqww0zBs7aILbqvH3gu8sCNFFcEos6ViRVaWHjkHGBPdnwr
-	 WItIFeNV+FvEBQX93CulDXJcRpvPUCEWq6/6N8VhGzu851P/bOoTP1dPqdjDhvYLpq
-	 RFRDEISaw6yUbLauKof8kkRI8yeQ6SZq+d/QIv68U8EOTk2Eu+z5SpYJDikratL9sH
-	 M7Q4/uLafw7Kw==
-Date: Tue, 20 May 2025 11:19:56 +0200
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Akira Yokosawa <akiyks@gmail.com>
-Cc: Randy Dunlap <rdunlap@infradead.org>, Jonathan Corbet <corbet@lwn.net>,
- Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Nicolas Schier
- <nicolas.schier@linux.dev>, Stephen Rothwell <sfr@canb.auug.org.au>,
- linux-doc@vger.kernel.org, linux-kbuild@vger.kernel.org,
- linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: kerneldoc.py: don't use Sphinx logger
-Message-ID: <20250520111956.1db9db88@sal.lan>
-In-Reply-To: <590981da-4d37-464f-a52e-ba163d3ecbc5@gmail.com>
-References: <cover.1747719873.git.mchehab+huawei@kernel.org>
-	<6b81b1aaa8446b4d850064dd38ffffa1a1cb6254.1747719873.git.mchehab+huawei@kernel.org>
-	<7bbe75ff-548f-4ffd-9522-59d1518d6c72@infradead.org>
-	<20250520095037.3dc39685@sal.lan>
-	<590981da-4d37-464f-a52e-ba163d3ecbc5@gmail.com>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.43; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mfGvtzNB"
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6f8cb6b3340so45299006d6.1;
+        Tue, 20 May 2025 02:24:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747733093; x=1748337893; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=xx//TkYKG/87T6qfujpj4GQczz4RSpoekiQT+JUTLAs=;
+        b=mfGvtzNBMuMptWP++LSaQ1dMlqMX/AQ5CSVcMOohu4y+gIsyv7tHZDqVsE1CkBy8Bx
+         qj6lOiZO15AMLWCG0sMXDPQGls71ayREZq6m6l9U4G58QU1aPXAQWwk1cz6/qklCmf4j
+         mEGOEMzjkIbGZhHPbbDQAOIwQgxGj2BQP87kjeJXEDzJB4xzqA6I1w4ik9wx20Dvsbml
+         b5jEdu3LezhA3lSgyoQXA0tBvoRRhpMFnPchvHjwZRo0QssOSXieffKk/mxpp/MCC44W
+         ju/nI3d0udaZ/rjMp5X0zXCJ+1DkG1iY2DFOfdkQ8TuxULh8IXIL7XtDWE8jtBwuy/x/
+         sgBw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747733093; x=1748337893;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xx//TkYKG/87T6qfujpj4GQczz4RSpoekiQT+JUTLAs=;
+        b=CFfZi+oAouBeo/R8F3gVyKRaXNkB7A5AiWEDJ16GoE6sEtMRTHhxABHJi+yYXX2J2N
+         cOeS4tzhuicGt8tXG713ZxOnsm6zfI0ndct2jl8Kyw+Nmneh8IfPBiJ3fQE7ougwsBPT
+         8woSeLCP5gTxe9XP8AozPUNusflIfENeOe3rMf9RGP/1ooqBwTwOIX2aFpHBd4Swp9Sw
+         ii7nrQCTu1SJ4Lv1ZGAimDCY8IG8kk9Tfgx+0j1fhheFYigoMbsciNSllqwi68wmdvq8
+         fozZdXPfCwZ3Yv7ylGnUzo8pkqQ1DpErYWSkMTtLb5mgkDH+daQN2zjKOMWRgjWH0Qsa
+         PXyQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVmqr487JOZtRYOPzco+RT2KAHjpx+Os9hcrHBAt+wBfMGhpqfPM0Pw4MmyCnnGG37EhhIFDb4235q9MwTPx4Kc@vger.kernel.org, AJvYcCVyIQiOmWoXolyT6IeebjKnC7HNf3EqwezrBD5yoEQXTfgwVp6qp/najBp9I51VRIc1XSFxyTgCvWReQO3I@vger.kernel.org, AJvYcCWW9feh+uweAYJMc5/Uiapn3tBmYG7rixCu8BuiU8R6vPp0K+pdvN0RIbphHBIuNx3fTZ6s/dkclzI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YydMj/DUzC+vly4eA1i8KkdjKJhtXLyMjaVhf+Xu8xttiDJu4U2
+	mmhN0KL7KslJL/Um/SXmVunTwSZ1bk4aa4vRFXeG0raKgES0H2u1j7XbaG8NTjktm3+TeH+/2Zf
+	hgtameIHv9GzQNYUgW02gZ8F+jJOx9I4=
+X-Gm-Gg: ASbGncvTp5K7HGWFuzvee+fijXTwy9MiUP60bdoiBmrw3s/TMlIWzWvVZgpO5CB+q3d
+	tKuzdBDDtUTOt+8ntAksfLgWpEHYR7p9SwzV9VThvkZ9vfilU2PFwarmsUdwxLAEApBdHZRDHBt
+	HV791qHdV+bpW5L4I3Mr95jEpGH6LsOCHq7g==
+X-Google-Smtp-Source: AGHT+IGgparnaxmNvuHM/lrDoY1fvAKD0ORwmu9fSSm7EZPsILX0++SVjr2wKYyuavU6HNxWcE8IYtysoLY8rG5k1Go=
+X-Received: by 2002:ad4:5aa3:0:b0:6f5:38a2:52dd with SMTP id
+ 6a1803df08f44-6f8b2d12d21mr267363036d6.31.1747733093356; Tue, 20 May 2025
+ 02:24:53 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20250515033857.132535-1-npache@redhat.com>
+In-Reply-To: <20250515033857.132535-1-npache@redhat.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Tue, 20 May 2025 17:24:16 +0800
+X-Gm-Features: AX0GCFuzkEn4ubaObVckXJemP0oCOx73QZ9HTjLQbxewFSpT9IkcJKm3ftBH9v4
+Message-ID: <CALOAHbAa7DY6+hO4RJtjg-MS+cnUmsiPXX8KS1MKSfgy6HLYAQ@mail.gmail.com>
+Subject: Re: [PATCH v6 0/4] mm: introduce THP deferred setting
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	rientjes@google.com, hannes@cmpxchg.org, lorenzo.stoakes@oracle.com, 
+	rdunlap@infradead.org, mhocko@suse.com, Liam.Howlett@oracle.com, 
+	zokeefe@google.com, surenb@google.com, jglisse@google.com, cl@gentwo.org, 
+	jack@suse.cz, dave.hansen@linux.intel.com, will@kernel.org, tiwai@suse.de, 
+	catalin.marinas@arm.com, anshuman.khandual@arm.com, dev.jain@arm.com, 
+	raquini@redhat.com, aarcange@redhat.com, kirill.shutemov@linux.intel.com, 
+	yang@os.amperecomputing.com, thomas.hellstrom@linux.intel.com, 
+	vishal.moola@gmail.com, sunnanyong@huawei.com, usamaarif642@gmail.com, 
+	wangkefeng.wang@huawei.com, ziy@nvidia.com, shuah@kernel.org, 
+	peterx@redhat.com, willy@infradead.org, ryan.roberts@arm.com, 
+	baolin.wang@linux.alibaba.com, baohua@kernel.org, david@redhat.com, 
+	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org, 
+	corbet@lwn.net, akpm@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Em Tue, 20 May 2025 17:23:30 +0900
-Akira Yokosawa <akiyks@gmail.com> escreveu:
+On Thu, May 15, 2025 at 11:41=E2=80=AFAM Nico Pache <npache@redhat.com> wro=
+te:
+>
+> This series is a follow-up to [1], which adds mTHP support to khugepaged.
+> mTHP khugepaged support is a "loose" dependency for the sysfs/sysctl
+> configs to make sense. Without it global=3D"defer" and  mTHP=3D"inherit" =
+case
+> is "undefined" behavior.
+>
+> We've seen cases were customers switching from RHEL7 to RHEL8 see a
+> significant increase in the memory footprint for the same workloads.
+>
+> Through our investigations we found that a large contributing factor to
+> the increase in RSS was an increase in THP usage.
+>
+> For workloads like MySQL, or when using allocators like jemalloc, it is
+> often recommended to set /transparent_hugepages/enabled=3Dnever. This is
+> in part due to performance degradations and increased memory waste.
+>
+> This series introduces enabled=3Ddefer, this setting acts as a middle
+> ground between always and madvise. If the mapping is MADV_HUGEPAGE, the
+> page fault handler will act normally, making a hugepage if possible. If
+> the allocation is not MADV_HUGEPAGE, then the page fault handler will
+> default to the base size allocation. The caveat is that khugepaged can
+> still operate on pages that are not MADV_HUGEPAGE.
+>
+> This allows for three things... one, applications specifically designed t=
+o
+> use hugepages will get them, and two, applications that don't use
+> hugepages can still benefit from them without aggressively inserting
+> THPs at every possible chance. This curbs the memory waste, and defers
+> the use of hugepages to khugepaged. Khugepaged can then scan the memory
+> for eligible collapsing. Lastly there is the added benefit for those who
+> want THPs but experience higher latency PFs. Now you can get base page
+> performance at the PF handler and Hugepage performance for those mappings
+> after they collapse.
+>
+> Admins may want to lower max_ptes_none, if not, khugepaged may
+> aggressively collapse single allocations into hugepages.
+>
+> TESTING:
+> - Built for x86_64, aarch64, ppc64le, and s390x
+> - selftests mm
+> - In [1] I provided a script [2] that has multiple access patterns
+> - lots of general use.
+> - redis testing. This test was my original case for the defer mode. What =
+I
+>    was able to prove was that THP=3Dalways leads to increased max_latency
+>    cases; hence why it is recommended to disable THPs for redis servers.
+>    However with 'defer' we dont have the max_latency spikes and can still
+>    get the system to utilize THPs. I further tested this with the mTHP
+>    defer setting and found that redis (and probably other jmalloc users)
+>    can utilize THPs via defer (+mTHP defer) without a large latency
+>    penalty and some potential gains. I uploaded some mmtest results
+>    here[3] which compares:
+>        stock+thp=3Dnever
+>        stock+(m)thp=3Dalways
+>        khugepaged-mthp + defer (max_ptes_none=3D64)
+>
+>   The results show that (m)THPs can cause some throughput regression in
+>   some cases, but also has gains in other cases. The mTHP+defer results
+>   have more gains and less losses over the (m)THP=3Dalways case.
+>
+> V6 Changes:
+> - nits
+> - rebased dependent series and added review tags
+>
+> V5 Changes:
+> - rebased dependent series
+> - added reviewed-by tag on 2/4
+>
+> V4 Changes:
+> - Minor Documentation fixes
+> - rebased the dependent series [1] onto mm-unstable
+>     commit 0e68b850b1d3 ("vmalloc: use atomic_long_add_return_relaxed()")
+>
+> V3 Changes:
+> - Combined the documentation commits into one, and moved a section to the
+>   khugepaged mthp patchset
+>
+> V2 Changes:
+> - base changes on mTHP khugepaged support
+> - Fix selftests parsing issue
+> - add mTHP defer option
+> - add mTHP defer Documentation
+>
+> [1] - https://lore.kernel.org/all/20250515032226.128900-1-npache@redhat.c=
+om/
+> [2] - https://gitlab.com/npache/khugepaged_mthp_test
+> [3] - https://people.redhat.com/npache/mthp_khugepaged_defer/testoutput2/=
+output.html
+>
+> Nico Pache (4):
+>   mm: defer THP insertion to khugepaged
+>   mm: document (m)THP defer usage
+>   khugepaged: add defer option to mTHP options
+>   selftests: mm: add defer to thp setting parser
+>
+>  Documentation/admin-guide/mm/transhuge.rst | 31 +++++++---
+>  include/linux/huge_mm.h                    | 18 +++++-
+>  mm/huge_memory.c                           | 69 +++++++++++++++++++---
+>  mm/khugepaged.c                            |  8 +--
+>  tools/testing/selftests/mm/thp_settings.c  |  1 +
+>  tools/testing/selftests/mm/thp_settings.h  |  1 +
+>  6 files changed, 106 insertions(+), 22 deletions(-)
+>
+> --
+> 2.49.0
+>
+>
 
-> On Tue, 20 May 2025 09:50:37 +0200, Mauro Carvalho Chehab wrote:
-> > Hi Randy,
-> > 
-> > Em Mon, 19 May 2025 22:55:08 -0700
-> > Randy Dunlap <rdunlap@infradead.org> escreveu:
-> >   
-> [...]
-> 
-> >> Traceback
-> >> =========
-> >>
-> >>       File "/usr/lib/python3.13/site-packages/sphinx/util/parallel.py", line 137, in _join_one
-> >>         raise SphinxParallelError(*result)
-> >>     sphinx.errors.SphinxParallelError: KeyError: '../drivers/gpio/gpiolib-acpi.c'
-> >>
-> >> and then it's finished (not a normal finish).
-> >> So IMHO this patch is not sufficient.  
-> > 
-> > Well, on next-20250516:
-> > 
-> > 	$ ls drivers/gpio/gpiolib-acpi.c
-> > 	ls: cannot access 'drivers/gpio/gpiolib-acpi.c': No such file or directory
-> > 
-> > Avoiding the script to abort is a matter of adding a try/except
-> > block at kerneldoc.py, but I'd say that, if an include file (or any other
-> > file needed for the build) is not found, "make" should abort anyway for
-> > the affected target (Kernel compilation or when doc building).  
-> 
-> Interesting ...
-> 
-> So, it sounds to me you think you have the right to break Stephen's (and
-> possibly other devs') workflow of test-building kernel docs, aren't you?
-> 
-> I don't buy such an argument.
-> 
-> An innocent typo in pathname somewhere in the doc tree deserves a friendly
-> warning at most, not a fatal crash within Sphinx.  That would need another
-> run of "make htmldocs" after fixing the fatal error to see for other
-> innocuous warnings.
+Hello Nico,
 
-If by "innocent typo" you mean removing/renaming/moving a file from
-the Kernel tree without updating Makefiles, or adding them with wrong
-names, then yes: I do think this should be fatal for the affected "make" 
-targets. The quickest such build issues are caught, the best for everyone.
+Upon reviewing the series, it occurred to me that BPF could solve this
+more cleanly. Adding a 'tva_flags' parameter to the BPF hook would
+handle this case and future scenarios without requiring new modes. The
+BPF mode could then serve as a unified solution.
 
-Yet, this is is a separate discussion: if there are bugs at the doc
-build system, they should be fixed. In this specific case, the missing
-file produces a KeyError when the messages that were supposed to be
-generated by it aren't stored on a dict. I sent already some patches
-addressing it:
-
-	https://lore.kernel.org/linux-doc/cover.1747730982.git.mchehab+huawei@kernel.org/T/#t
-
-Plus the logger fix to prevent Sphinx to suppress warnings/errors:
-	https://lore.kernel.org/linux-doc/cover.1747719873.git.mchehab+huawei@kernel.org/T/#t
-
-> 
-> And your change has no effect on exposing those innocuous warnings.
-> 
-> On current docs-next + your change above, running:
-> 
->     make cleandocs; make KERNELDOC=$PWD/scripts/kernel-doc.pl htmldocs
-> 
-> produces these 3 warnings:
-> 
-> ----------------------------------------------------------------------
-> ./drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
-> ./drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
-> ./drivers/gpu/drm/amd/include/amd_shared.h:373: warning: Enum value 'DC_HDCP_LC_ENABLE_SW_FALLBACK' not described in enum 'DC_DEBUG_MASK'
-> ----------------------------------------------------------------------
-> 
-> , while running:
-> 
->     make cleandocs; make htmldocs
-> 
-> or:
-> 
->     make cleandocs; make KERNELDOC=$PWD/scripts/kerneldoc htmldocs
-> 
-> doesn't produce them.
-
-Testing here with next-20250516:
-
-	$ ./scripts/kernel-doc.pl -Wall -none ./drivers/gpu/drm/amd/include/amd_shared.h
-	$
-
-	$ ./scripts/kernel-doc.py -Wall -none ./drivers/gpu/drm/amd/include/amd_shared.h
-	$
-
-Also, if I rename the value 'DC_HDCP_LC_ENABLE_SW_FALLBACK_XXX',
-both produces identical warnings:
-
-	$ ./scripts/kernel-doc.pl -Wall -none ./drivers/gpu/drm/amd/include/amd_shared.h
-	./drivers/gpu/drm/amd/include/amd_shared.h:373: warning: Enum value 'DC_HDCP_LC_ENABLE_SW_FALLBACK_XXX' not described in enum 'DC_DEBUG_MASK'
-	./drivers/gpu/drm/amd/include/amd_shared.h:373: warning: Excess enum value 'DC_HDCP_LC_ENABLE_SW_FALLBACK' description in 'DC_DEBUG_MASK'
-
-	$ ./scripts/kernel-doc.py -Wall -none ./drivers/gpu/drm/amd/include/amd_shared.h
-	Warning: ./drivers/gpu/drm/amd/include/amd_shared.h:372 Enum value 'DC_HDCP_LC_ENABLE_SW_FALLBACK_XXX' not described in enum 'DC_DEBUG_MASK'
-	Warning: ./drivers/gpu/drm/amd/include/amd_shared.h:372 Excess enum value '%DC_HDCP_LC_ENABLE_SW_FALLBACK' description in 'DC_DEBUG_MASK'
-
-So, it sounds to me that things are the way they're expected,
-after applying both series.
-
-Regards,
-Mauro
+--=20
+Regards
+Yafang
