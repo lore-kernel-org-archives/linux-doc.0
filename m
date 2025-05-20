@@ -1,175 +1,70 @@
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id A55552701CB;
-	Tue, 20 May 2025 10:27:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 15EA626E167;
+	Tue, 20 May 2025 10:29:07 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747736867; cv=none; b=GFt//Er8sywtLbB+vxEmd5Wr9nCerMNuuY7Se7vzoUYVG0v6WGtBqMtde6JsmnEtLoFzr8izh0VGZVwc6wXevalwNYY1ayovDiIh3aU8/TCMcIAUcO+d7TBuEVPTZ4Q3x+kS9eORCgEYKb84UTbaH/X+T5xjvABVeANQy/nqf5g=
+	t=1747736951; cv=none; b=uD5/7JCr9ipiIkbJNEEY5qLmZIY3kFRcjm1B+x0Tyv3TedliBKvAzdlz/UGEa3BjEHj9Z3mJB4VdDjvy8c2igm7aCjNneYAdUFtA8oYRUruySr/hEtx1PofImL3WJ60G5EP8EcQbKf31X9LQsmAyNs7Ly820Kpl6grDcd//1Bvg=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747736867; c=relaxed/simple;
-	bh=qcLANFQYB6F1aTadtJclYNPeTflXqceuvsxjG9tl5Gg=;
-	h=From:Date:Subject:MIME-Version:Content-Type:Message-Id:References:
-	 In-Reply-To:To:Cc; b=gLUFyCtwsqamR6tv453yV7PgIrYzTBE882ZZjruSKsWEsRuTKLx5NILPPfw8RKnGA2Yk1vO58/YoXRq37jGbx0+iDAPgcP1kU/GUWz9JZKT639i666/YIWdcM87wYZxHHfTXx/6Iqt9HsyoO/8gdXr6PSSts0qJy04XMf2UdUv4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.128.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=tomeuvizoso.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-442f9043f56so29597685e9.0;
-        Tue, 20 May 2025 03:27:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747736864; x=1748341664;
-        h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
-         :mime-version:subject:date:from:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=anhtEfC+aYWJeJvUly60jdWH8rm+sVcW8pcF9vb2eMk=;
-        b=N6WNFXRpPNc9+4xvuoJF3BsFa1PAqBYxuDGeDGf7s18Gszx0VqJLeJVNoH2nKHvBvf
-         ewU3v09u7IRwhGwpYsm1XY1OsvueSMq18uZQ+Drqh4ICLEm4m1dKyIytGpfmAPzpqGRs
-         LvbB4R4wwbIvqOWlXpwJo7Yc9Zd0epL7SmkLj7kfR5SpQeyb8bqKzzsfTLyiP5pX0kbs
-         Udko8o2Gdd69BIKydAGozktSzr37IZYGfWPdRo59TduBfmM4o/7tLv2rJT8wh07JLwFh
-         Kz5AV9E7Eh3W7ej6EOdrcU5MI01gGDZcn3AEWKGRNh6srfHMaJYGXXuk6t3Md3z5dggf
-         1Xzw==
-X-Forwarded-Encrypted: i=1; AJvYcCUXfjDRl4sUsEf8iR6YL7JPiGGMup2nBAkVj4q+hbd9UiSs741NlWaVfV1vpUAMJpdK5gCEFTobEwwxRiB0@vger.kernel.org, AJvYcCW2WKKLyIIvp7ZXG4g6Rrgux5l57xfZjzU09i7sOMJflS7UstM9Z47d8nulmtySXPVU4Bb+Fg9SV+khdt0=@vger.kernel.org, AJvYcCXFZkgVcjmp4bc8V0DYpdm6NKQ4P7/usX0YoJZcgkMgKdip4axNIKhZho/1jSuMGxgWcAvnK7po66Y=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yw/Folp1f4/ixCnIENp0U2mZcIW1cYc9+W2fZPppW1XMyZnhdhk
-	mftGsAVqM2/RJabE/6dkvSQA/gFD8sn9Rqs1k11ukx7QQ8BPYJ2isq01IRZIi389
-X-Gm-Gg: ASbGncuBTJJtrEhj58kbN1S2BYlEQvEyDpZCaIrKqdTFwP1LLa52qqZr3MS5M2B9ERn
-	wGLxoryIX9TfusY5v+jWlNR/6I62KCx+xWCio6FxOFlWdwHSgby1wwjx+9U0SeQ7CT8VmRnbPeU
-	sQ7XC6y6K/podCXdHsRxDoxYnXMrmGKeDhQtXuFu270mu9QFJAY45LzPJUnWlkB4tPRFnO7WPUe
-	A1ZJB/YwWaYoO2BzZgbNeuW4VohWvFW7x74qGLptsqLYl+r6F7dqDGwYgIDp8A877c3paPThfCG
-	/OsYdaUMMvbmXcF0pyzVXynqGlx3Hq9PZ1Z5OGg5Z/eKf35Dyv8/ZS7/1YQs2xsWAlxp08evxz0
-	c8/6aRdV49g==
-X-Google-Smtp-Source: AGHT+IGUarcsN0dGkfly/Rx4SdIOJyJyOrzjU/pgpXaQr2qIzh21VVgC/kOUDjf60ygnRBw0CXG2wQ==
-X-Received: by 2002:a05:600c:154a:b0:442:eaa9:31c9 with SMTP id 5b1f17b1804b1-442fd66dd78mr108589395e9.22.1747736863892;
-        Tue, 20 May 2025 03:27:43 -0700 (PDT)
-Received: from [10.42.0.1] (cst-prg-46-162.cust.vodafone.cz. [46.135.46.162])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f73d3defsm24680025e9.18.2025.05.20.03.27.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 03:27:43 -0700 (PDT)
-From: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Date: Tue, 20 May 2025 12:27:03 +0200
-Subject: [PATCH v5 10/10] arm64: dts: rockchip: enable NPU on ROCK 5B
+	s=arc-20240116; t=1747736951; c=relaxed/simple;
+	bh=n1/N84FGPvJ0N7dn/KQSt8LMWrvxmEIlbBp0ODZnP8A=;
+	h=From:To:Subject:Date:Message-ID:MIME-Version:Content-Type; b=lEZ0aS6nuMEy165foKpJdSqC/DNgMz61XGcdio0Ik5zYmilAy8Nf1ifayKzQLDsjL/n3sX7KRJMuOBu+izXEDdhnsPAH1taztKoVAJnrFqgsE5inr1zPjPNvk//MCaFcm7bSNWyKCyLNp2Gsv3e5qiSd2XOtwOlJUD8jeEXyA6o=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au; spf=pass smtp.mailfrom=ellerman.id.au; dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b=qxN+37x0; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=ellerman.id.au
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=ellerman.id.au header.i=@ellerman.id.au header.b="qxN+37x0"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ellerman.id.au;
+	s=201909; t=1747736939;
+	bh=7jOe1qDYuPcz7q3O2yaxSQ02D4UR7czAnJDhSuRfs6A=;
+	h=From:To:Subject:Date:From;
+	b=qxN+37x0LWPEzCiV/P+gUaZs3P8diJ3DDn/NwGFHhTs68e+obQH2/SymkM4qNiMzz
+	 8z7IZP6NhQhTUmcEyG/IxZREPKUHR1HZ2CRyzL8fmhMqP0taAwKlvXzfpDGOSI/Dwl
+	 /noxVzrMmYyyadvMQUn6OdRB9GfT1YSgIr0Ge631FmNTQ/Bf20Hq7kZY5PeLM5Tli6
+	 lGqMwsSUDAP8Y/epOo2EABgTNqyZq7P1ECs9ujTqHxV6t938eqIpsz6gRVVwc6rBKf
+	 ps/U9DUn++Nz0gRzoUm6ZPNUn99Vs8wC3UAqfNfP3TelQcRq4pSzpNTom7uIvCzsh8
+	 M0uQ4O1Hskukw==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4b1rPl6GgLz4wxh;
+	Tue, 20 May 2025 20:28:59 +1000 (AEST)
+From: Michael Ellerman <mpe@ellerman.id.au>
+To: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+ maddy@linux.ibm.com, linuxppc-dev@lists.ozlabs.org
+Subject: [PATCH] Documentation: embargoed-hardware-issues.rst: Remove myself
+Date: Tue, 20 May 2025 20:28:55 +1000
+Message-ID: <8734czh8yg.fsf@mpe.ellerman.id.au>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20250520-6-10-rocket-v5-10-18c9ca0fcb3c@tomeuvizoso.net>
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
-In-Reply-To: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
-To: Rob Herring <robh@kernel.org>, Krzysztof Kozlowski <krzk+dt@kernel.org>, 
- Conor Dooley <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, 
- Oded Gabbay <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, 
- Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
- Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
- David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
- Sumit Semwal <sumit.semwal@linaro.org>, 
- =?utf-8?q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>, 
- Sebastian Reichel <sebastian.reichel@collabora.com>, 
- Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
- Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
- linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
- dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
- linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org, 
- Tomeu Vizoso <tomeu@tomeuvizoso.net>
-X-Mailer: b4 0.14.2
+Content-Type: text/plain
 
-From: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
+I'm no longer able to perform this role since I left IBM.
 
-The NPU on the ROCK5B uses the same regulator for both the sram-supply
-and the npu's supply. Add this regulator, and enable all the NPU bits.
-Also add the regulator as a domain-supply to the pd_npu power domain.
-
-Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
-Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
 ---
- arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts | 56 +++++++++++++++++++++++++
- 1 file changed, 56 insertions(+)
+ Documentation/process/embargoed-hardware-issues.rst | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-index d22068475c5dc6cb885f878f3f527a66edf1ba70..49500f7cbcb14af4919a6c1997e9e53a01d84973 100644
---- a/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-+++ b/arch/arm64/boot/dts/rockchip/rk3588-rock-5b.dts
-@@ -316,6 +316,28 @@ regulator-state-mem {
- 	};
- };
- 
-+&i2c1 {
-+	pinctrl-names = "default";
-+	pinctrl-0 = <&i2c1m2_xfer>;
-+	status = "okay";
-+
-+	vdd_npu_s0: regulator@42 {
-+		compatible = "rockchip,rk8602";
-+		reg = <0x42>;
-+		fcs,suspend-voltage-selector = <1>;
-+		regulator-name = "vdd_npu_s0";
-+		regulator-boot-on;
-+		regulator-min-microvolt = <550000>;
-+		regulator-max-microvolt = <950000>;
-+		regulator-ramp-delay = <2300>;
-+		vin-supply = <&vcc5v0_sys>;
-+
-+		regulator-state-mem {
-+			regulator-off-in-suspend;
-+		};
-+	};
-+};
-+
- &i2c6 {
- 	status = "okay";
- 
-@@ -440,6 +462,10 @@ &pd_gpu {
- 	domain-supply = <&vdd_gpu_s0>;
- };
- 
-+&pd_npu {
-+	domain-supply = <&vdd_npu_s0>;
-+};
-+
- &pinctrl {
- 	hdmirx {
- 		hdmirx_hpd: hdmirx-5v-detection {
-@@ -500,6 +526,36 @@ &pwm1 {
- 	status = "okay";
- };
- 
-+&rknn_core_top {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_1 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_core_2 {
-+	npu-supply = <&vdd_npu_s0>;
-+	sram-supply = <&vdd_npu_s0>;
-+	status = "okay";
-+};
-+
-+&rknn_mmu_top {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_1 {
-+	status = "okay";
-+};
-+
-+&rknn_mmu_2 {
-+	status = "okay";
-+};
-+
- &saradc {
- 	vref-supply = <&avcc_1v8_s0>;
- 	status = "okay";
-
+diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
+index 0e19d2f0d6bb..da6bf0f6d01e 100644
+--- a/Documentation/process/embargoed-hardware-issues.rst
++++ b/Documentation/process/embargoed-hardware-issues.rst
+@@ -290,7 +290,6 @@ an involved disclosed party. The current ambassadors list:
+   AMD		Tom Lendacky <thomas.lendacky@amd.com>
+   Ampere	Darren Hart <darren@os.amperecomputing.com>
+   ARM		Catalin Marinas <catalin.marinas@arm.com>
+-  IBM Power	Michael Ellerman <ellerman@au.ibm.com>
+   IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
+   Intel		Tony Luck <tony.luck@intel.com>
+   Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
 -- 
-2.49.0
+2.47.1
 
