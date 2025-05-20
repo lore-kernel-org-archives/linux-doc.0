@@ -1,51 +1,60 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id BC4181DB356;
-	Tue, 20 May 2025 16:22:52 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mail-pl1-f182.google.com (mail-pl1-f182.google.com [209.85.214.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 76D92211497;
+	Tue, 20 May 2025 16:47:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747758174; cv=none; b=YLhTj/N8BRVzFcxte+Qr4C3SifbWmTdWimwg+r55qjfD1alkf8yENQl/XFBHlxhLZyW3XSRZhanacJlVxt4BaXdkI9zx3ECkP9s8ieop6NxYT8Bpl9RGSJ6eVxqX9XJtqL2cJUJZQ4rxcIEsuD6RFpVpic2JY0tRHbPgj3OJHgI=
+	t=1747759639; cv=none; b=dobYqFVdIMBJIkmo311hXbOLqqxox3+GhYEZ0LmsB55jQ0yIqDzgWkzQ20JrI2Jkb6wEYTtl4iEkLziVyjA0Y/8sCz4l1RRK4HyMOIuQ/RKTfvHFAPvn57K3xzbgzvMkcTpsCofD+gL4DIPRXLbbrsIZKoZoQbowk5S2j36KypU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747758174; c=relaxed/simple;
-	bh=TSLEjjv6+H/htSfF8goosdAaQZvhHFQIi6xN9xhIFDY=;
+	s=arc-20240116; t=1747759639; c=relaxed/simple;
+	bh=2NGTDWs3Hq6NMR5n/ts2uMt2qyRP4UKlR/SwMOFxg3o=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Pd7jYzNZAf5DPyAkHWM5XCcKbknlhTqjb/fsxx2xBz3kCMR+01UDPq6UY8e5OicilQpsgNwbWCxBFUMCTgaiiNf9MV9N0XZLQVjmHNc8LYHfOibnlyuAsSAeJ83oe2PrNwtGBq8RYyvtyXmlof/EQv17I/xMsOZk0hT8uOQokQA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89D2E1516;
-	Tue, 20 May 2025 09:22:38 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 9FD9C3F5A1;
-	Tue, 20 May 2025 09:22:51 -0700 (PDT)
-Date: Tue, 20 May 2025 17:22:43 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
- source
-Message-ID: <20250520162243.GU412060@e132581.arm.com>
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
- <20250520134632.GR412060@e132581.arm.com>
- <443141db-6950-4a15-83be-ad9e9c0e03a0@linaro.org>
- <20250520161003.GT412060@e132581.arm.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=EcNvSa7nal1AQ9fgWcSVzXDb8k9NfPzGgO5ZqoxdbUR2aZz7XG8zlRZEIPTNNgeLfAh015f17jDYhi+12UwFK99ovHnZI24OPHMvQpg+L/DeC6LoP/6Osoav7TEJJYr5PIYMcoGB4L0FJlrlPn5UvOiJvTzf2O9qBGD8sg56ZAc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.214.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+Received: by mail-pl1-f182.google.com with SMTP id d9443c01a7336-231e21d3b63so54463015ad.3;
+        Tue, 20 May 2025 09:47:17 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747759637; x=1748364437;
+        h=in-reply-to:content-disposition:mime-version:references:message-id
+         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=f7UE7WXC8qw9v7aifxKYFbDyIfGVZWMNuD82B1Mnd4g=;
+        b=PfMUJf/WAEKki+jNXZGLDiq/vEr/PqhwZFJj7MrHrFnfDdK0IUl8hwT04MZuT9GjJW
+         u7vSmSPMEQYYZidPJoLJzX6sd6MmsgloP9ImxKxPdVk0p0F3k8Lgj8i/WxGKR0PIcxrZ
+         QBxLS+4AtWRXxf+IXFQPHK43ieG6COK5mmV/SzVeNR1N1zptj1aLILod866r/mwrz/84
+         4H40nG6SzvLaeG5wuJ+yS8v8j1rlJQHS4MX8TpK8QQX5bQDOLwuDo3o1arGM8DKiR6iK
+         yz7Fw+xeb9niwihhoXgEz8ggU0Q6Nw2hU88au5ibP5lMD7nEEugecBJIt4rJypx8J/y5
+         1EaQ==
+X-Forwarded-Encrypted: i=1; AJvYcCVKL7DZndfA591sKUgJsUl/7iNBjaAHfAyv5i196C/vjZEtBkW5WxPBWb3PTMZIjKbno3jbAN3lZYsn@vger.kernel.org, AJvYcCX6J0hB83Po+lrk3G75GApFqWJRgh5Ftjh5FYOGQpws0QcLCFLmlCWNt5bwev9kLwwPhDFKTrqdamxxTR/tMPva/O0=@vger.kernel.org, AJvYcCXH/D7YEf3IVtjrOQZokbNculsL8iWzsyXx0lePV/breomNoiAU1zz40oURk6zR2090wR1/pPu+hxI=@vger.kernel.org
+X-Gm-Message-State: AOJu0YySRh9RJjYUemhV9CYp505fg+XxA9nlMG2eOeTvrWep28pSrJpM
+	XC9GTBReGEh0/JiIIZI05XN+hZZYF++WRGHixPLzDRuBltw3zYR52/s7
+X-Gm-Gg: ASbGncuYAWBsjhbXa8mlBz5oybCQl0WEHowfzGcUGjVsUSDKHKRIt57XYhMUNvgaRHi
+	KXLbB6Jvg5wSocHQtmhbU5sj8uc6Y6b6D6cMjw2RMF0AK5l7SPxFU/Pz3P2VTbw5lFRZxHcYKCa
+	SnxDVqhXnPktctW0KD2HEgGwcIZ6SZuE/3G5nmjohn5w/2Er91xg1n5E9Cc17NfQHjPB0ToOCKp
+	U6LwH5ntKRg4QiMFuXcOcOor5dW7NWzwk9FYaq81NHjv24La6Sp917QfiAWbYHhFgeXfdyJ08br
+	92vBlpTalAMvp7gpAHC0xGIavSx/r316S+5EkQkLd8XvMwfXRTPbjM5bK6Q1Q4ibgA8RV6pJPKM
+	CI/w2xNp+vOvj7n4amtsC
+X-Google-Smtp-Source: AGHT+IHQ3oPrmboPC2ZZK2eQwFDCsPYpNsIBS8VEm7t6ia6CuKf6ymSSTrLyZKRhNmSsDFjRZWOGbQ==
+X-Received: by 2002:a17:903:46d0:b0:21f:f3d:d533 with SMTP id d9443c01a7336-231de351537mr209933165ad.2.1747759636603;
+        Tue, 20 May 2025 09:47:16 -0700 (PDT)
+Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
+        by smtp.gmail.com with UTF8SMTPSA id d9443c01a7336-231d4ebae24sm78905725ad.197.2025.05.20.09.47.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 09:47:15 -0700 (PDT)
+Date: Wed, 21 May 2025 01:47:13 +0900
+From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
+To: Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Cc: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>,
+	bhelgaas@google.com, corbet@lwn.net, marek.vasut+renesas@gmail.com,
+	linux-pci@vger.kernel.org, linux-doc@vger.kernel.org,
+	linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v4] PCI: rcar-gen4: Add a document about the firmware
+Message-ID: <20250520164713.GA1052522@rocinante>
+References: <20250507100947.608875-1-yoshihiro.shimoda.uh@renesas.com>
+ <bo2hxi32znmikg3z6j3rreqqksoijfn3ugb5ahyn4qirixc2b6@k7bs2lvipfz2>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -54,20 +63,27 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20250520161003.GT412060@e132581.arm.com>
+In-Reply-To: <bo2hxi32znmikg3z6j3rreqqksoijfn3ugb5ahyn4qirixc2b6@k7bs2lvipfz2>
 
-On Tue, May 20, 2025 at 05:10:03PM +0100, Leo Yan wrote:
+Hello,
 
-[...]
+> > +Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires specific
+> > +firmware downloading. The firmware file "104_PCIe_fw_addr_data_ver1.05.txt"
+> > +is available in the datasheet as a text file. But, Renesas is not able to
+> > +distribute the firmware freely. So, it is required to convert the text file
+> > +to a binary, and the binary should be placed in /lib/firmware before
+> > +the driver runs by using the following script:
+> 
+> nit: the above wording sounds like the script places the firmware under
+> /lib/firmware, but it is not.
 
-> If 'PMSFCR_EL1.FDS == 0 and PMSDSFR_EL1 == 0x0' is the init state, as
-> you said, when user passed 0xFFFF,FFFF,FFFF,FFFF for data filter, we
-> cannot distinguish it from the init state, as a result, we will fail
-> to handle this case.
+I took the liberty and refactored the entire document which is being added,
+changing the wording and formatting it a little bit.  Have a look at:
 
-Correct a typo. The case above, it means "when a user passes 0x0 for
-data source filter ....".
+  https://git.kernel.org/pub/scm/linux/kernel/git/pci/pci.git/commit/?h=controller/rcar-gen4&id=2bdf6ffe9f66d74a6baed3012d78f580c66c0583
 
-Sorry for spamming.
+Let me know if anything needs to be changed.
 
-Leo
+Thank you!
+
+	Krzysztof
