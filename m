@@ -1,73 +1,112 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DF1F8267F41;
-	Tue, 20 May 2025 11:05:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6234C26738B;
+	Tue, 20 May 2025 11:39:10 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747739110; cv=none; b=lO5QsjRazacNMNGw1gz7jgfzCjDX/rIg9xhWx9JLup4Xi8uertVCAUHhlsLtSQYAp66NsK0Z/0nICLHmo8zsQe2706nInv+Fc8SobMWIOGPYgGoJXYqxb5eLwra4t1rbFDV0ZvWfZwE9xxDJntGhj2Q8+QFGGDK4eIBMhxNu9jY=
+	t=1747741155; cv=none; b=GkUIH0leZmy5qvyWZmVjFgmFKrtJYVtuemRltM2FxS9J3aU6ePu8rEySlpoXhCwoPMXTVBwJ7Jh6SluUmPkJzH6LSVmFEse2FIfG8BD747gl/VRCc15al787QL1oUHZmB5hg5j0vbaJ33Z2SlbSddaIFipCrMmdC5ay8ZvyL5E0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747739110; c=relaxed/simple;
-	bh=dqzHqbI45drYiJcBhZWpXVC3zrDHhjThfa+aqxLgwrc=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=kovNdDB1ea6VUCzQfmZIiUziKP7EU05FDmY3I6VP0oZCBSBo6yCp7I5H0TAmNRpHADYypyesUb8djiiy0KP4u1KhXoaKvVW5mrnj7ixiIGqfr9uDh7V2Rqu2VhDOX7/XW5D2n/Ts6RwOgOVWHxOcaLdkp2Y1BAsHRJy/ONCDz70=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b=nrgUP7hf; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747741155; c=relaxed/simple;
+	bh=0ckXESPmy56qefBczM+kDRhj+1MO6ts6V2d771eEkCo=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=RRawKF2dPN22ixTThDARFIHCQZ6irCzaGms+n6qAox70FbWvRXjzAQCERWpInUZw8LBULirHBWsP8yfS66NPWJ+FGV/ajq18rAXgdM3jaSK7GXmurxZfurfFNdoW5Nta43WHbpQuq3tUk1egxVu2AcHIN8KG+9zTkfsVgGYUOQI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=pZ1Dj1H4; arc=none smtp.client-ip=150.107.74.76
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=linuxfoundation.org header.i=@linuxfoundation.org header.b="nrgUP7hf"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id DF75FC4CEE9;
-	Tue, 20 May 2025 11:05:08 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
-	s=korg; t=1747739109;
-	bh=dqzHqbI45drYiJcBhZWpXVC3zrDHhjThfa+aqxLgwrc=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=nrgUP7hfhz5mXv2m1/f+QzqIHK72xfHiTHCMO0Sau8GbC1B5LyHb3dOKygYBk3yjF
-	 1WAGBWIES+DRDo7d8Xq6AcTD6DeCUf1iL55Y7j5jxHkR/L1Sd7loUjy5zMwYHIit8t
-	 wV8YCDAakvMjTrDzrVTlYo3C24SCx1kf71Ce/rHc=
-Date: Tue, 20 May 2025 13:05:05 +0200
-From: Greg KH <gregkh@linuxfoundation.org>
-To: Michael Ellerman <mpe@ellerman.id.au>
-Cc: Jonathan Corbet <corbet@lwn.net>, workflows@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	maddy@linux.ibm.com, linuxppc-dev@lists.ozlabs.org
-Subject: Re: [PATCH] Documentation: embargoed-hardware-issues.rst: Remove
- myself
-Message-ID: <2025052056-disarray-blitz-acb2@gregkh>
-References: <8734czh8yg.fsf@mpe.ellerman.id.au>
+	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="pZ1Dj1H4"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
+	s=202503; t=1747741148;
+	bh=isXZU+uZtSED1OfnliPgQkBj45lD0diwEJrlIXtWn7k=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=pZ1Dj1H4ulNQ7kGt5wvwxN0bP5VTtRc5PKewajYxbJ/WaSgj4ces2etZJNAPYZdj3
+	 COvyYXhqwJegHRs2op6KmiTx5WhOz5PjiLHOosuW3evJSnDQwb2ntvroRtepo+cpCv
+	 3pchQQ8xJLv16CNLyt7Pn4dV07SPaLYmA6xKBxliUjTrfsyxC9XVAkQOhkXKNRyPPm
+	 1EgvJmiYq/2bx3lbPuZhB+aEXwtM/IwbNWEXLW6dsYU0YkilMdq/ug+hJLDky3mEgK
+	 M8I+yg7usAgqUa9Bj4VvC8eD5Gqc+mLgyGZExNMQ+XuttnHxsrtTIvWLSRvR5n9ID2
+	 dFKcP9I8XGkKg==
+Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
+	(Client did not present a certificate)
+	by mail.ozlabs.org (Postfix) with ESMTPSA id 4b1syg26XMz4xQ0;
+	Tue, 20 May 2025 21:39:07 +1000 (AEST)
+Date: Tue, 20 May 2025 21:39:06 +1000
+From: Stephen Rothwell <sfr@canb.auug.org.au>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Akira Yokosawa <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
+ Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko
+ <andriy.shevchenko@linux.intel.com>, Nicolas Schier
+ <nicolas.schier@linux.dev>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 1/1] docs: kerneldoc.py: don't use Sphinx logger
+Message-ID: <20250520213906.6ec263d8@canb.auug.org.au>
+In-Reply-To: <20250520111956.1db9db88@sal.lan>
+References: <cover.1747719873.git.mchehab+huawei@kernel.org>
+	<6b81b1aaa8446b4d850064dd38ffffa1a1cb6254.1747719873.git.mchehab+huawei@kernel.org>
+	<7bbe75ff-548f-4ffd-9522-59d1518d6c72@infradead.org>
+	<20250520095037.3dc39685@sal.lan>
+	<590981da-4d37-464f-a52e-ba163d3ecbc5@gmail.com>
+	<20250520111956.1db9db88@sal.lan>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8734czh8yg.fsf@mpe.ellerman.id.au>
+Content-Type: multipart/signed; boundary="Sig_/6D2avqjLhsiENX9knPfToA9";
+ protocol="application/pgp-signature"; micalg=pgp-sha256
 
-On Tue, May 20, 2025 at 08:28:55PM +1000, Michael Ellerman wrote:
-> I'm no longer able to perform this role since I left IBM.
-> 
-> Signed-off-by: Michael Ellerman <mpe@ellerman.id.au>
-> ---
->  Documentation/process/embargoed-hardware-issues.rst | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/Documentation/process/embargoed-hardware-issues.rst b/Documentation/process/embargoed-hardware-issues.rst
-> index 0e19d2f0d6bb..da6bf0f6d01e 100644
-> --- a/Documentation/process/embargoed-hardware-issues.rst
-> +++ b/Documentation/process/embargoed-hardware-issues.rst
-> @@ -290,7 +290,6 @@ an involved disclosed party. The current ambassadors list:
->    AMD		Tom Lendacky <thomas.lendacky@amd.com>
->    Ampere	Darren Hart <darren@os.amperecomputing.com>
->    ARM		Catalin Marinas <catalin.marinas@arm.com>
-> -  IBM Power	Michael Ellerman <ellerman@au.ibm.com>
->    IBM Z		Christian Borntraeger <borntraeger@de.ibm.com>
->    Intel		Tony Luck <tony.luck@intel.com>
->    Qualcomm	Trilok Soni <quic_tsoni@quicinc.com>
-> -- 
-> 2.47.1
-> 
-> 
+--Sig_/6D2avqjLhsiENX9knPfToA9
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Thanks for the patch, I'll take this through my tree.
+Hi Mauro,
 
-greg k-h
+I do appreciate your work on the document system.  Particularly you
+have made the process much faster.  However, see below.
+
+On Tue, 20 May 2025 11:19:56 +0200 Mauro Carvalho Chehab <mchehab+huawei@ke=
+rnel.org> wrote:
+>
+> If by "innocent typo" you mean removing/renaming/moving a file from
+> the Kernel tree without updating Makefiles, or adding them with wrong
+> names, then yes: I do think this should be fatal for the affected "make"=
+=20
+> targets. The quickest such build issues are caught, the best for everyone.
+
+They are found if you leave them as warnings and just continue on.  I
+have been finding them by when the current python version just crashes
+(without any useful message before your current change) I rerun the
+htmldocs using the perl version to get the name of the missing file and
+then report it so it can be fixed.  But the perl version continues on
+and produces all the other warnings so I can compare with the previous
+and only report new errors/warnigs.  Sometime these reports are not
+foxed for days or weeks (or months).
+
+So, please, now that you are producing more warnings, make a missing
+file just a warning (or at least continue on).  I have enough to do
+every day without having to run "make htmldocs" more than once.
+
+--=20
+Cheers,
+Stephen Rothwell
+
+--Sig_/6D2avqjLhsiENX9knPfToA9
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmgsadoACgkQAVBC80lX
+0GzHewf7BV0JJMGCOQmObOrtJSh/grehBjDOzcfMC9XJQyfkvhdrdsgqx1TNh6cp
+ZEl+HR0GKkaJljAhN+59QzVhNkLivGEGhSF7F30ZTo7Wy+FMtH+NJcmOVr6BIVUW
+Lp6HcSB/yqObkxH0uFo8OCaE6pF6fXt/Qd5s8NBTMv1cjhh9m4qMR2wBVWuSl0T1
+XPO0DVyBFKZhaLWCUbDhFBuLWl1rzHol/mp2y1VMS6Pn2eZWVQvGgGIVYQWBPIkh
+d5qY+hbrLyiOpNFiPbMZZeAOIVSSng8navSKXJcrAJSaiG/E2d2xU8xPbui+AdTM
+YcRyOmnSfBRUSBCquyTtyON+v4L6hQ==
+=HPCw
+-----END PGP SIGNATURE-----
+
+--Sig_/6D2avqjLhsiENX9knPfToA9--
