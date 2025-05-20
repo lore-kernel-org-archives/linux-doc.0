@@ -1,77 +1,88 @@
-Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from desiato.infradead.org (desiato.infradead.org [90.155.92.199])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5C3F425228B;
-	Tue, 20 May 2025 16:50:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 0F4A91C8603;
+	Tue, 20 May 2025 16:53:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=90.155.92.199
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747759846; cv=none; b=dCYJ/a5yVL/RDmRtTKByC3AHsBav/x7RByDEFY+l5Edf5p0IP7kb5C09oY5fApPKYopbOd2+yIrzlFlpJcr0BrYmzvmhPnY5Xdd3bL6ab/zAr5u1Fn//RVeA2cr2wMz3BLwO92pqbiU3fYje4LzvyF835+ZDxtVs4kT7mPu4fGc=
+	t=1747760042; cv=none; b=KjSKRVgPvXOuQgKH7BPBgaRii1wyx2R3z0P945W2DFzngCFZuPYnAMFdMqCE1HSBFc4qaoqbzN/EJscijSG2HSXjn9LzzSqZnE86DOjFMgGcO6OUEQwxZnegbwGCCOHvV4KhVyQvGRdaHQH/ePdCpf6F5tgmaFuXQ6XBX2tK438=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747759846; c=relaxed/simple;
-	bh=fP3WnGbVpbjKLLP+WumUgq3kLsREfVjEBNjJ/qtRChI=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=XF0XEKRP3DMcb/MUZl66r1W8tS5xMGLSO/d1GO3njbgflqCjHNn6+hQtzOfrihGNBumoyo9SV8B5L7BqQQHQR4H9e7hLtp8dNFuGaLf7mVNLqpJ+GmOafGFwicb8dZuai9hXSFYje880PXpEyJ4ILXM5bZI/YtQI6+1glNMXJmU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.210.180
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=none dis=none) header.from=linux.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-7425bd5a83aso5931552b3a.0;
-        Tue, 20 May 2025 09:50:45 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747759845; x=1748364645;
-        h=in-reply-to:content-disposition:mime-version:references:message-id
-         :subject:cc:to:from:date:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=WCBUuwBl8iFbAAN/KUsLEzXhGpRUp+BR6OrbKlR7sTg=;
-        b=HKn5Cf5pWMZDUac8Fuzx/Zn7t8gzvnKSbhN7QawGqVpmxfYuPXL/zrDSB62wFh/MkI
-         +RBSRz9G/YpGVYg9jw6cmRGmfAs+tA61Hl0Gu1E7CtqRrTN5QeXWo6i8pWMdeQxJ9wkA
-         Hk/tkakyHX4ARl2RrnMkG8PgFclzeNaevv/bMJDEIDSq0NLW4TQi7hheyuGIST028T7l
-         LJ4o42CMt7jo6uv6yi26BXdOxrauNs4uIxvD+J86cch7X/N39vk0ApDEMQtjDRI2J5wA
-         c9GmImMPl3BjkHbaHNN6u/A8V6oOQl4Sf5crNmFpRSYhMxfpNmWcwU7Fn4Dd33RVgkv8
-         sIEg==
-X-Forwarded-Encrypted: i=1; AJvYcCVJfqV03KAiLcJIpbE21ccNF8BzdM71WhnnNQ+PbHg113iRQ4wCfgOqJhQUj+v4VeJup6mGAt0gPx18@vger.kernel.org, AJvYcCWDJ1n6dxfo2zStTXhaIt+TYCfgQaX3dLhnw83cw5CYEZykVquoIkNIB05Tv4O2qptz3tPfTawvvrtI5/CVQ5K4nmk=@vger.kernel.org, AJvYcCXngIFm/RYku7kK7KhJ165GHa8eSKy/JlX+DuIpG79GAHmbn8iQad9ew4XEcMP2PfGhEsGuX9Nwrnw=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyK3KYSyk5r1LjNbqY11FQ+z0HIMRnK1vKE9km6kFCV5k/gy5Ir
-	Kjg7HrY92TCmY8M7Re1Lg50aHh+uncicl1qgjt4m4dzRZcNc0X4zTct7
-X-Gm-Gg: ASbGnctBETWEu2LoezP+s4uGQjpltpJT1q1jMUM/q6qV7iTNs41rDAE9hp+Khm9zgPR
-	miSVs3nWEy7ZyelR4gPqqAs/64Bb16P0OquE+RGe7b8VGwVox0+un7DRlblX0BIx1r2rDxh2K5e
-	jh2Fn85ihMU0O1FsiMXOfIXuby+3v+JZ2PSRXYZEqYmgFBnh/hM7f2noA3LnzZv0m7+Uc/iTjgC
-	Bze5kYkaFUvagrwX1mXgF4QfyqoqC32rrBr8uXYRUiy1MPLj6kQ+asl4vcfk0ANdzO36pfHMNHe
-	A5skQFLLw9+KjbHOwA/wsk/bAZIbCGnHfLqE9O0wH/bDCKUnykzec/yDlECPNSucsebIs5rfDrw
-	cdQCvOZdYkg==
-X-Google-Smtp-Source: AGHT+IEw6XKMxP6OGG6/UxL8ZYVTnYc0oOWD9/Zun/nIQqLzQQC0jnHV/hAcscDTtTLQZIjDi7ns1w==
-X-Received: by 2002:a05:6a00:18a7:b0:742:a0cf:7753 with SMTP id d2e1a72fcca58-742a97769efmr26725344b3a.3.1747759844656;
-        Tue, 20 May 2025 09:50:44 -0700 (PDT)
-Received: from localhost (fpd11144dd.ap.nuro.jp. [209.17.68.221])
-        by smtp.gmail.com with UTF8SMTPSA id d2e1a72fcca58-742b6c3989asm6727984b3a.122.2025.05.20.09.50.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 09:50:44 -0700 (PDT)
-Date: Wed, 21 May 2025 01:50:42 +0900
-From: Krzysztof =?utf-8?Q?Wilczy=C5=84ski?= <kw@linux.com>
-To: Yoshihiro Shimoda <yoshihiro.shimoda.uh@renesas.com>
-Cc: bhelgaas@google.com, corbet@lwn.net, manivannan.sadhasivam@linaro.org,
-	marek.vasut+renesas@gmail.com, linux-pci@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v4] PCI: rcar-gen4: Add a document about the firmware
-Message-ID: <20250520165042.GA1228552@rocinante>
-References: <20250507100947.608875-1-yoshihiro.shimoda.uh@renesas.com>
+	s=arc-20240116; t=1747760042; c=relaxed/simple;
+	bh=VkByo1HPsP/hbipUyhngrImmGy9MW/0PJEmfdD9x+9o=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=Khu5QbdXervSFlAHNiiQZWUHr2gMdqX2FNGAZzGM31b/vot47jxeDcOdjO62aWcGJNnx05Wh01mKSySclZNJyXHm25hl1zXzzbZ6knnGH562GVxGLKPs7vIrgK+ejWDy3Eu+cVEhizKUIl1v9Ti/IoJpQA+cW9Aph/Tkxst2MyA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org; spf=none smtp.mailfrom=infradead.org; dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b=rf3YKHrk; arc=none smtp.client-ip=90.155.92.199
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=infradead.org
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=infradead.org
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=infradead.org header.i=@infradead.org header.b="rf3YKHrk"
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=infradead.org; s=desiato.20200630; h=Content-Transfer-Encoding:Content-Type
+	:In-Reply-To:From:References:Cc:To:Subject:MIME-Version:Date:Message-ID:
+	Sender:Reply-To:Content-ID:Content-Description;
+	bh=d2HxAl8hZL6hszoEsQi3MPlumgb/D4h+6a194lkmrEc=; b=rf3YKHrkh6HogdpAQ8SyHjulZM
+	MFPgLUxkrlcfcE+my5Y3YHZrvCwqnWLB4Z5cfsVlmTYdig64mGOY3gKdAhhkJV6oypdAen3A45dKH
+	+MTGvLePh4g8mLOymPjOWbsp1UjX6e31WQsCt7PVk9NdUU3fjPdeMPwWX1zz7OdUeRjIbIsGPliIJ
+	8Y2QhL0WXHuXDY0nXNE+CF/Wuhwx4Er10B6MSG5WUNplkVcsc7OmE2vYHVqjBCOl271GC0Rbh4fE7
+	4mmbfNGuGnyEp9kN2ptBSYbxXEvxp+fvkg9OlJldCxy8oiCl+v1/h3ySvx+4V9/kbgC315jNuOTTn
+	62NrXp8A==;
+Received: from [50.53.25.54] (helo=[192.168.254.17])
+	by desiato.infradead.org with esmtpsa (Exim 4.98.1 #2 (Red Hat Linux))
+	id 1uHQE0-00000000nQP-3hhP;
+	Tue, 20 May 2025 16:53:57 +0000
+Message-ID: <05c67fab-bf89-478f-9298-a7f827b0d5e9@infradead.org>
+Date: Tue, 20 May 2025 09:53:54 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250507100947.608875-1-yoshihiro.shimoda.uh@renesas.com>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 2/2] docs: document linked lists
+To: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>,
+ Jonathan Corbet <corbet@lwn.net>
+Cc: kernel@collabora.com, linux-doc@vger.kernel.org,
+ linux-kernel@vger.kernel.org
+References: <20250520-linked-list-docs-v1-0-db74f7449785@collabora.com>
+ <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
+Content-Language: en-US
+From: Randy Dunlap <rdunlap@infradead.org>
+In-Reply-To: <20250520-linked-list-docs-v1-2-db74f7449785@collabora.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hello,
 
-> Renesas R-Car V4H (r8a779g0) has PCIe controller, and it requires
-> specific firmware downloading. So, add a document about the firmware
-> how to get.
 
-Applied to controller/rcar-gen4, thank you!
+On 5/20/25 8:57 AM, Nicolas Frattaroli wrote:
+> The kernel contains various generic data structures that should ideally
+> not be reinvented. However, it often fails to document the usage of
+> these in the in-tree kernel documentation beyond just a listing of
+> header symbols in the very lengthy kernel-api docs page. This is fine
+> for things that have simple invocations, but occasionally things devolve
+> into several layers of concatenating macros, which are subpar for humans
+> to parse.
+> 
+> Begin making a small impact by adding some rudimentary example-driven
+> documentation for the linked list type. It's far from exhaustive, as
+> many list modification functions are currently not mentioned. However,
+> it covers the basics and directs readers towards further documentation
+> should they be interested in concurrency.
+> 
+> Signed-off-by: Nicolas Frattaroli <nicolas.frattaroli@collabora.com>
 
-[1/1] PCI: rcar-gen4: Add a document about the firmware
-      https://git.kernel.org/pci/pci/c/2bdf6ffe9f66
+Nice. Thanks.
 
-	Krzysztof
+
+Tested-by: Randy Dunlap <rdunlap@infradead.org>
+Reviewed-by: Randy Dunlap <rdunlap@infradead.org>
+
+
+
+> ---
+>  Documentation/core-api/index.rst |   1 +
+>  Documentation/core-api/list.rst  | 390 +++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 391 insertions(+)
+
+-- 
+~Randy
