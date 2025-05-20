@@ -1,127 +1,127 @@
-Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9D2280033
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 10:42:27 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id 4E3AA267F41;
+	Tue, 20 May 2025 11:04:56 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747737750; cv=none; b=bDxsiw/yoXrsGaiVb+RoBw7yEQ6YE6KHUhWYdx6sUAf1PPVv9X0+obNhpXCPjhuMNQ/GJ0M07TszK0N1zl55eYHWLIkbZKHidag/xiV+QuwgWy/cQKBttC8RYDLFyVXdxip+7FU2AiOvMM5EFVVfuC9H+a1B28CJ5AhLEJyLcZ0=
+	t=1747739098; cv=none; b=IR/7H0Zm1ljUdSXQC+SH6BSNCReCJzZ/u50foZK+0EW5NaLB2t3u/0SpjlESbUmqMEpX8KUJDVI/519HzZWMnB5dro+PNtjqjbFKD7t7QnY4P0zSOrGMMOJTfVFKHadhuqgVn7FpmPZ3pUKXx9fGY2ES40WVbDMxut8bK5n7dzA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747737750; c=relaxed/simple;
-	bh=ypsgp/8EOQfhR3gpKtdjHjDSjKXledeokdgkhyDij6s=;
-	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
-	 Content-Type:MIME-Version; b=j1pUZVRQA6sLlMheXAYz7w60meOF1kptrdfrjTiqvUJj468zwaKN0bRhgyLyYJiUoTU6pAD+hD5KWb3S6gXd8SHcimVh2L1/QZ/QcUXJwGtedShNRfs40asROQ8fPBb9CmLPz2N9IART09BTn1DGF2IzTExLY8ldsiRjQCAioOk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
-Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
-	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.92)
-	(envelope-from <l.stach@pengutronix.de>)
-	id 1uHKPz-0001aN-MM; Tue, 20 May 2025 12:41:55 +0200
-Message-ID: <e7c08305612e7323ca9d9ff6c44f3e2b63f171ff.camel@pengutronix.de>
-Subject: Re: [PATCH v5 08/10] accel/rocket: Add IOCTLs for synchronizing
- memory accesses
-From: Lucas Stach <l.stach@pengutronix.de>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>, 
- Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
- <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay
- <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst
- <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
- Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
- Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
- Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Sebastian
- Reichel <sebastian.reichel@collabora.com>,  Nicolas Frattaroli
- <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
-Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
-	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
-	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Date: Tue, 20 May 2025 12:41:47 +0200
-In-Reply-To: <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
-References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
-	 <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
+	s=arc-20240116; t=1747739098; c=relaxed/simple;
+	bh=v9wMhG1tbcMgzdvcVcBK6f1E05JBFTb3Aj60AGJruF8=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=EHc4K2FwWbnBJRopptGEvPnEXFoKuJW5nkFfO38XM5xW+nH+zQfLzjh0azXP3iS2fs0vMHqJ5gaS1FT6qUcYXshdJd1trARDASB9tvbsPD/Ge9BFprtVxsygxsDjmnpW8wcDCy9VKPZGQeIOSSy/11NFedIdt8ZR1Dbp3DXlQBs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 387571516;
+	Tue, 20 May 2025 04:04:42 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 397943F6A8;
+	Tue, 20 May 2025 04:04:55 -0700 (PDT)
+Date: Tue, 20 May 2025 12:04:50 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH 04/10] arm64/boot: Enable EL2 requirements for
+ SPE_FEAT_FDS
+Message-ID: <20250520110450.GN412060@e132581.arm.com>
+References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
+ <20250506-james-perf-feat_spe_eft-v1-4-dd480e8e4851@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
-X-SA-Exim-Mail-From: l.stach@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-doc@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250506-james-perf-feat_spe_eft-v1-4-dd480e8e4851@linaro.org>
 
-Hi Tomeu,
-
-Am Dienstag, dem 20.05.2025 um 12:27 +0200 schrieb Tomeu Vizoso:
-> The NPU cores have their own access to the memory bus, and this isn't
-> cache coherent with the CPUs.
->=20
-> Add IOCTLs so userspace can mark when the caches need to be flushed, and
-> also when a writer job needs to be waited for before the buffer can be
-> accessed from the CPU.
->=20
-> Initially based on the same IOCTLs from the Etnaviv driver.
->=20
-> v2:
-> - Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
->=20
-> v3:
-> - Check that padding fields in IOCTLs are zero (Jeff Hugo)
->=20
-> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
+On Tue, May 06, 2025 at 12:41:36PM +0100, James Clark wrote:
+> SPE data source filtering (optional from Armv8.8) requires that traps to
+> the filter register PMSDSFR be disabled. Document the requirements and
+> disable the traps if the feature is present.
+> 
+> Signed-off-by: James Clark <james.clark@linaro.org>
 > ---
->  drivers/accel/rocket/rocket_drv.c |  2 +
->  drivers/accel/rocket/rocket_gem.c | 80 +++++++++++++++++++++++++++++++++=
-++++++
->  drivers/accel/rocket/rocket_gem.h |  5 +++
->  include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
->  4 files changed, 124 insertions(+)
->=20
-> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/roc=
-ket_drv.c
-> index fef9b93372d3f65c41c1ac35a9bfa0c01ee721a5..c06e66939e6c39909fe08bef3=
-c4f301b07bf8fbf 100644
-> --- a/drivers/accel/rocket/rocket_drv.c
-> +++ b/drivers/accel/rocket/rocket_drv.c
-> @@ -59,6 +59,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_io=
-ctls[] =3D {
-> =20
->  	ROCKET_IOCTL(CREATE_BO, create_bo),
->  	ROCKET_IOCTL(SUBMIT, submit),
-> +	ROCKET_IOCTL(PREP_BO, prep_bo),
-> +	ROCKET_IOCTL(FINI_BO, fini_bo),
->  };
-> =20
->  DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
-> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/roc=
-ket_gem.c
-> index 8a8a7185daac4740081293aae6945c9b2bbeb2dd..cdc5238a93fa5978129dc1ac8=
-ec8de955160dc18 100644
-> --- a/drivers/accel/rocket/rocket_gem.c
-> +++ b/drivers/accel/rocket/rocket_gem.c
-> @@ -129,3 +129,83 @@ int rocket_ioctl_create_bo(struct drm_device *dev, v=
-oid *data, struct drm_file *
-> =20
->  	return ret;
->  }
+>  Documentation/arch/arm64/booting.rst | 11 +++++++++++
+>  arch/arm64/include/asm/el2_setup.h   | 14 ++++++++++++++
+>  2 files changed, 25 insertions(+)
+> 
+> diff --git a/Documentation/arch/arm64/booting.rst b/Documentation/arch/arm64/booting.rst
+> index dee7b6de864f..8da6801da9a0 100644
+> --- a/Documentation/arch/arm64/booting.rst
+> +++ b/Documentation/arch/arm64/booting.rst
+> @@ -404,6 +404,17 @@ Before jumping into the kernel, the following conditions must be met:
+>      - HDFGWTR2_EL2.nPMICFILTR_EL0 (bit 3) must be initialised to 0b1.
+>      - HDFGWTR2_EL2.nPMUACR_EL1 (bit 4) must be initialised to 0b1.
+>  
+> +  For CPUs with SPE data source filtering (SPE_FEAT_FDS):
+
+For alignment with Arm ARM:
+
+s/SPE_FEAT_FDS/FEAT_SPE_FDS
+
 > +
-> +static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
-> +{
-> +	if (op & ROCKET_PREP_READ)
-> +		return DMA_FROM_DEVICE;
-> +	else if (op & ROCKET_PREP_WRITE)
-> +		return DMA_TO_DEVICE;
-> +	else
-> +		return DMA_BIDIRECTIONAL;
-> +}
+> +  - If EL3 is present:
+> +
+> +    - MDCR_EL3.EnPMS3 (bit 42) must be initialised to 0b1.
+> +
+> +  - If the kernel is entered at EL1 and EL2 is present:
+> +
+> +    - HDFGRTR2_EL2.nPMSDSFR_EL1 (bit 19) must be initialised to 0b1.
+> +    - HDFGWTR2_EL2.nPMSDSFR_EL1 (bit 19) must be initialised to 0b1.
+> +
+>    For CPUs with Memory Copy and Memory Set instructions (FEAT_MOPS):
+>  
+>    - If the kernel is entered at EL1 and EL2 is present:
+> diff --git a/arch/arm64/include/asm/el2_setup.h b/arch/arm64/include/asm/el2_setup.h
+> index ebceaae3c749..155b45092f5e 100644
+> --- a/arch/arm64/include/asm/el2_setup.h
+> +++ b/arch/arm64/include/asm/el2_setup.h
+> @@ -275,6 +275,20 @@
+>  	orr	x0, x0, #HDFGRTR2_EL2_nPMICFILTR_EL0
+>  	orr	x0, x0, #HDFGRTR2_EL2_nPMUACR_EL1
+>  .Lskip_pmuv3p9_\@:
+> +	mrs	x1, id_aa64dfr0_el1
+> +	ubfx	x1, x1, #ID_AA64DFR0_EL1_PMSVer_SHIFT, #4
+> +	/* If SPE is implemented, we can read PMSIDR and */
+> +	cmp	x1, #ID_AA64DFR0_EL1_PMSVer_IMP
+> +	b.lt	.Lskip_spefds_\@
+> +
+> +	mrs_s	x1, SYS_PMSIDR_EL1
+> +	and	x1, x1, PMSIDR_EL1_FDS_SHIFT
 
-This has copied over the bug fixed in etnaviv commit 58979ad6330a
-("drm/etnaviv: fix DMA direction handling for cached RW buffers")
+Should be:
 
-Regards,
-Lucas
+        and     x1, x1, #(1 << PMSIDR_EL1_FDS_SHIFT)
+
+> +	/* if FEAT_SPE_FDS is implemented, */
+> +	cbz	x1, .Lskip_spefds_\@
+> +	/* disable traps to PMSDSFR. */
+> +	orr	x0, x0, #HDFGRTR2_EL2_nPMSDSFR_EL1
+> +
+> +.Lskip_spefds_\@:
+>  	msr_s   SYS_HDFGRTR2_EL2, x0
+>  	msr_s   SYS_HDFGWTR2_EL2, x0
+>  	msr_s   SYS_HFGRTR2_EL2, xzr
+> 
+> -- 
+> 2.34.1
+> 
