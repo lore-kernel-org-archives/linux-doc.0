@@ -1,73 +1,73 @@
 Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id C1EE625742A
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 09:09:11 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E2A66126BFA
+	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 09:15:16 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747732153; cv=none; b=sBWBMdElRJXRACvERyYJBy3ruDrA2P4yRBeA1Jj+NptWXiDEO75HxjDZYBK6DpJJk0jewcWNqXmiYoipUJ6XaaXNGyUIp/vHr8vod05n6EtMb1cWce0Y7ZY1EKEMhpnsKmbglHOkDCGvwCBjtnBTf5cX2dWdCbt3Wmd0D3opfB0=
+	t=1747732519; cv=none; b=pwDkPByvipIJn7v7A/pWHSqd7NvzsBHTcmDEWf97ebWQv6dF6uwI7haMVeVck6Fv1WSAP7vzsLBykp3R5Pqz/x59hT8PFSIGrz1GHz0uNcWFy6AeZB5tRqd9odD8akQuUCCNXTjdRX4fd+48T875DN+QdmpQJF/++UWgwxwan+U=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747732153; c=relaxed/simple;
-	bh=i189y3JicnOaB/mVZ8D5BCO5Hqn0YOHD+KDV+ksF/Ws=;
+	s=arc-20240116; t=1747732519; c=relaxed/simple;
+	bh=O6cWyhsHStT5Ag5OkXoQaH7X7ykROd2XjVvE6eEcmSs=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=s7OTukEFnHb2+DsY9XkqTKJ/ws7wseF7zaRcGD9W8WE1fXwkzTcmIFJrdLwCtgrQyo75DbVmLf3m06NwEf16slmn05pUB6qx6whsglnvLC4rppKztFP91fkOFv9M4cdbugZqi/xncSyPq4ui9WjtdxoFCAqS1yUkz8oTN6NB9sQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=W/Azni7m; arc=none smtp.client-ip=170.10.129.124
+	 In-Reply-To:Content-Type; b=eJLZDym5h6iQzxnwNVpwtphjds+32rxI8L1pYu/qUzA/Nu6x9p6KsfLJ1pG9BgfQtxXt7HAWly9/1bxqHB+6lJ2/LqGueqho8laIWcG9FN8+K6KaCAfmM+2XHmfCs2I6qcOGaFogh6Bfo7PLXaT1U7t+Os55o1Sib+KCC1bbh/0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=d2rq4/3N; arc=none smtp.client-ip=170.10.129.124
 Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="W/Azni7m"
+	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="d2rq4/3N"
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747732150;
+	s=mimecast20190719; t=1747732515;
 	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
 	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
 	 content-transfer-encoding:content-transfer-encoding:
 	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=fy68e5jAh3724JC4rcZ3X5I4NSu8tckhblr3+hmPAsA=;
-	b=W/Azni7mm1PMs+cm03fP0tgyNyT4fasqKPchcCnWYRcTKBTTcCSMn6d03gqhj2ol3CIorv
-	nqHvW/Uh6o3zhAa/W/Vo9imrTtIsrcGP72mC/1cFhjvjvtJ/A6cVvXXKo7YHfxkQfy2Dyl
-	4uHIlaz6eKqGkMOm/QmzAonLd9YTbMU=
-Received: from mail-wm1-f71.google.com (mail-wm1-f71.google.com
- [209.85.128.71]) by relay.mimecast.com with ESMTP with STARTTLS
+	bh=DQclSPssqKfzv1ED9H1sAsmNx0RuC8HY6/KzQCHlf14=;
+	b=d2rq4/3N3RFLcFizAUQF5HYG/+h563QgG43qcp7LH0wOMS690t87mNG5hHH55qKJDLxd39
+	NA5J5uf66h1wgrjXjpnnIZbxdI6cv43kOhQ+2SbWf4A6Fn9pU1OIiGpU5awOxyRbHok20J
+	lwK03pwphetmiAtFijIcVmhogK7AtCw=
+Received: from mail-wm1-f72.google.com (mail-wm1-f72.google.com
+ [209.85.128.72]) by relay.mimecast.com with ESMTP with STARTTLS
  (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-557-Zv6H6FjCNw2CBWJnriKN6A-1; Tue, 20 May 2025 05:09:08 -0400
-X-MC-Unique: Zv6H6FjCNw2CBWJnriKN6A-1
-X-Mimecast-MFC-AGG-ID: Zv6H6FjCNw2CBWJnriKN6A_1747732147
-Received: by mail-wm1-f71.google.com with SMTP id 5b1f17b1804b1-43eed325461so30963535e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 02:09:08 -0700 (PDT)
+ us-mta-395-1is6j4DTPw6fkaaA9eMXFA-1; Tue, 20 May 2025 05:15:14 -0400
+X-MC-Unique: 1is6j4DTPw6fkaaA9eMXFA-1
+X-Mimecast-MFC-AGG-ID: 1is6j4DTPw6fkaaA9eMXFA_1747732513
+Received: by mail-wm1-f72.google.com with SMTP id 5b1f17b1804b1-43cf172ff63so31066205e9.3
+        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 02:15:14 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747732147; x=1748336947;
+        d=1e100.net; s=20230601; t=1747732513; x=1748337313;
         h=content-transfer-encoding:in-reply-to:organization:autocrypt
          :content-language:from:references:cc:to:subject:user-agent
          :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
          :date:message-id:reply-to;
-        bh=fy68e5jAh3724JC4rcZ3X5I4NSu8tckhblr3+hmPAsA=;
-        b=g6eGyxB5dG65XgPs/74J5f7/vaBogPQ3JKqYHKp1mJS+yRjolM4cgZNGEwqOL+KUCb
-         hz69c7uvHCXQC520dsk7V0UJZTJU25KD0dRFc+8C4sYJz2lmILT71cyXh7m5qultzBQ6
-         wEoFMx3g9ZTKIe/aqm6ieHBRwU3ViUcr0ieSF8x0iBAjzmHPtuVvxJtHYmGkHhJgkMot
-         saPp+hvQjSY6mz6onBYh4zE/01zuJywM4Gc/1l2eRQWsJj2W27nrO9u+al5046V4NzQZ
-         1Yb2vD3e1QWCG5NtdzckzNBQnCySh5pKnI7BmVBFYSiJfZZjRDXx31bAl0S1LslHcCHs
-         ihsg==
-X-Forwarded-Encrypted: i=1; AJvYcCXIFiiOmEcdAfuNg7c4QnDMCf6g/2BQ6geQbesH6pp3FEszr+6p+K5JfIFACuEsorSakXRz5JClFBA=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxQytxHM1Ia9cfd0qa223Tdnu1ZleXqyWZxs/INT6HS+xrptzmY
-	+vbeWEQ2tXBd433G6ApasiY7Gc3TsgYYPQotEnGwInUrGbfpaE+ZDOhxg+rh1Qt2WOjF6YfMohb
-	Ff9xGdr7trDzcrblmLolSElBEpzdLKuZNp2Zqu2o4GZ4jZER/OkogSKSbuGg3rQ==
-X-Gm-Gg: ASbGnctZU3/4XbYuVXSQeKtmcGJEvE2D+hvAb57WUVNnaguw+6FI7iy3UJNN8I+aCfh
-	kEp4Q7Lh3DA5ah9dMg1/eMarwwiM5SXJDLvSUDK55Io9/6rU8eyzPmsRCjSbDPtRzPKnPLPCefu
-	lXNjHWEH318ncHkFaqxzhijIbKCgw20BdcG/U8w7/3LVt5/vxYZB+J+ei8jPa4LHe1ReXwXSR/X
-	6faC+ihJXa4EbQMJJpbpp7ZQoIxQlYbs1Uw1UD2m17Wl2W5edizyqkkuQghcaozvKvATxwVwIRu
-	ulkr+yp1I1zMRDGVRqmMuLYYkKgSG9eQFQYNUy54K5XcBm/d8QrZrhsnn4LcKqzmEJ0+EZCNkPD
-	skKQsK9SuZsV50V0YAl+dMQ+BP1RN0uiCDaT1mws=
-X-Received: by 2002:a05:6000:401f:b0:391:4ca:490 with SMTP id ffacd0b85a97d-3a35fe951d1mr14213990f8f.29.1747732147332;
-        Tue, 20 May 2025 02:09:07 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IF4UwqKv/S4hpb4W/UurGSAAjxCwB6mQ/y5lcCLudd2V8P5i6xAWnw8jxB/XZ53zEoEBGBjZQ==
-X-Received: by 2002:a05:6000:401f:b0:391:4ca:490 with SMTP id ffacd0b85a97d-3a35fe951d1mr14213961f8f.29.1747732146964;
-        Tue, 20 May 2025 02:09:06 -0700 (PDT)
+        bh=DQclSPssqKfzv1ED9H1sAsmNx0RuC8HY6/KzQCHlf14=;
+        b=O8awk2qwOdZaGDh0DA0dueDPKI24LH4vCpdru/2FqNRQFNdqu5mfwoHMZG3wzUP4gr
+         PciiDLMLz2khly8LoEoB7FOtY9dBjRXwMLYWkqrXEXlqeJj12BBkkcMuCVFmpF6sOmtq
+         Z4DjLGFhD/Ja0ZeibYO6QzMxDWqIxXrmZV76ctlMNv1isEmB0Hl8HHJ4V5at6eL21SIz
+         8YoQNKw3qaykM48TsJHZ9zDdEsxeVWBiK0zADC2kmpLNaxUiiRKPeSZc52UqyjBQEvXS
+         gL9WJNvrRtA0T4m2781TI4Bl9dDpqZqkDpfoxh9heIwWjrQGtPr9lhoEtJBKogmIbxyP
+         UksA==
+X-Forwarded-Encrypted: i=1; AJvYcCUYBA6WBfH7MHY3VPsCUqvS/6CJd9Z8DwCrRiWOFikQMVDo+TrPj0gS4PRUDgqzUJtJ1iERhyMmg0I=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxsLdcNdCv/Our/P/VQILH9v2cHc1Ea08SREu7ex8poaLs7ilGl
+	Tbz8fkCcU+KE3QIEK+aBLChbMw42tQLlfnXdbwA5w37jxdkACAq/OR8Suee3dYP5CxUW7FrrxtZ
+	/m2DXIBRmsG1v+sRC4b3UPMMX5YZ5Lot6IWwBA8Rdt9q9WAQ6QtyGDyQKFUSFFQ==
+X-Gm-Gg: ASbGncuRK6BVP+6l5TCvQHqFzGmH4Sh+YDQy0giXQXJ4MpeSntnE6uChr2CBSdoN8lv
+	9nPDVhfJVUzDmaFgFT5D0pr9lTy9VrCnHF+IkgPCfBpOnl1sQLZbjmbqoHaf3M2nK5GnALpk1Mt
+	1RRwIPk52PUj7AC/Zt96YeX6XftQpLEheD9iKnYWn+U4Oj4MHzsfkjDsOrBzVOyqwkSsNA8+l4E
+	i0wSuVhOOgjen2FM6Dgx1hd9dXx4A7f4dCvtnn0pEe7GyL6QK9DsgcGHHxRtL5YvInNrH4er1oC
+	UDf5jUi9r2GmbQreysIpHx7SINb5LFoh9JF6Y04PTmMNIBvmVlOxLaV+vToEmxnvAnn/HYczPN6
+	9KvgKZ+MR5n0ZGmpmy4MtvmNpbQATrCCqcEHNjRg=
+X-Received: by 2002:a05:600c:1d96:b0:43c:fe90:1282 with SMTP id 5b1f17b1804b1-442fd60b8ccmr144678655e9.7.1747732513106;
+        Tue, 20 May 2025 02:15:13 -0700 (PDT)
+X-Google-Smtp-Source: AGHT+IFDGYnKAtYaTtcjuvMXr+O7qtxRfqAO3w9ORzRc+8Vi6r9F/kkDXnoXTRmpornrqmt65GhM8g==
+X-Received: by 2002:a05:600c:1d96:b0:43c:fe90:1282 with SMTP id 5b1f17b1804b1-442fd60b8ccmr144678175e9.7.1747732512693;
+        Tue, 20 May 2025 02:15:12 -0700 (PDT)
 Received: from ?IPV6:2003:d8:2f16:e400:525a:df91:1f90:a6a8? (p200300d82f16e400525adf911f90a6a8.dip0.t-ipconnect.de. [2003:d8:2f16:e400:525a:df91:1f90:a6a8])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca62204sm15406514f8f.42.2025.05.20.02.09.05
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f18251c7sm23400405e9.3.2025.05.20.02.15.10
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 02:09:06 -0700 (PDT)
-Message-ID: <6e27e97c-db1a-437e-93ac-f7c1329b0e00@redhat.com>
-Date: Tue, 20 May 2025 11:09:05 +0200
+        Tue, 20 May 2025 02:15:12 -0700 (PDT)
+Message-ID: <b4fa1720-a7f5-48cc-bff0-5400b989d44d@redhat.com>
+Date: Tue, 20 May 2025 11:15:09 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -75,20 +75,40 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 2/7] prctl: introduce PR_DEFAULT_MADV_HUGEPAGE for the
- process
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>, Jann Horn <jannh@google.com>
-Cc: Usama Arif <usamaarif642@gmail.com>,
- Andrew Morton <akpm@linux-foundation.org>, linux-mm@kvack.org,
- hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
- ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
- Liam.Howlett@oracle.com, npache@redhat.com, ryan.roberts@arm.com,
- vbabka@suse.cz, Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250519223307.3601786-1-usamaarif642@gmail.com>
- <20250519223307.3601786-3-usamaarif642@gmail.com>
- <CAG48ez2y_PP7Uba8uq_Y+auKRUHPcJ19Nnn15GAaVS=M4DC73g@mail.gmail.com>
- <13d618ed-2cdb-4a5b-9dd4-189f65244a60@lucifer.local>
+Subject: Re: [PATCH v15 01/27] mm: VM_SHADOW_STACK definition for riscv
+To: Deepak Gupta <debug@rivosinc.com>, Thomas Gleixner <tglx@linutronix.de>,
+ Ingo Molnar <mingo@redhat.com>, Borislav Petkov <bp@alien8.de>,
+ Dave Hansen <dave.hansen@linux.intel.com>, x86@kernel.org,
+ "H. Peter Anvin" <hpa@zytor.com>, Andrew Morton <akpm@linux-foundation.org>,
+ "Liam R. Howlett" <Liam.Howlett@oracle.com>, Vlastimil Babka
+ <vbabka@suse.cz>, Lorenzo Stoakes <lorenzo.stoakes@oracle.com>,
+ Paul Walmsley <paul.walmsley@sifive.com>, Palmer Dabbelt
+ <palmer@dabbelt.com>, Albert Ou <aou@eecs.berkeley.edu>,
+ Conor Dooley <conor@kernel.org>, Rob Herring <robh@kernel.org>,
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Arnd Bergmann <arnd@arndb.de>,
+ Christian Brauner <brauner@kernel.org>, Peter Zijlstra
+ <peterz@infradead.org>, Oleg Nesterov <oleg@redhat.com>,
+ Eric Biederman <ebiederm@xmission.com>, Kees Cook <kees@kernel.org>,
+ Jonathan Corbet <corbet@lwn.net>, Shuah Khan <shuah@kernel.org>,
+ Jann Horn <jannh@google.com>, Conor Dooley <conor+dt@kernel.org>,
+ Miguel Ojeda <ojeda@kernel.org>, Alex Gaynor <alex.gaynor@gmail.com>,
+ Boqun Feng <boqun.feng@gmail.com>, Gary Guo <gary@garyguo.net>,
+ =?UTF-8?Q?Bj=C3=B6rn_Roy_Baron?= <bjorn3_gh@protonmail.com>,
+ Benno Lossin <benno.lossin@proton.me>,
+ Andreas Hindborg <a.hindborg@kernel.org>, Alice Ryhl <aliceryhl@google.com>,
+ Trevor Gross <tmgross@umich.edu>
+Cc: linux-kernel@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+ linux-mm@kvack.org, linux-riscv@lists.infradead.org,
+ devicetree@vger.kernel.org, linux-arch@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-kselftest@vger.kernel.org,
+ alistair.francis@wdc.com, richard.henderson@linaro.org, jim.shu@sifive.com,
+ andybnac@gmail.com, kito.cheng@sifive.com, charlie@rivosinc.com,
+ atishp@rivosinc.com, evan@rivosinc.com, cleger@rivosinc.com,
+ alexghiti@rivosinc.com, samitolvanen@google.com, broonie@kernel.org,
+ rick.p.edgecombe@intel.com, rust-for-linux@vger.kernel.org,
+ Zong Li <zong.li@sifive.com>
+References: <20250502-v5_user_cfi_series-v15-0-914966471885@rivosinc.com>
+ <20250502-v5_user_cfi_series-v15-1-914966471885@rivosinc.com>
 From: David Hildenbrand <david@redhat.com>
 Content-Language: en-US
 Autocrypt: addr=david@redhat.com; keydata=
@@ -136,54 +156,21 @@ Autocrypt: addr=david@redhat.com; keydata=
  jPrnvUsUUsjRoRNJjKKA/REq+sAnhkNPPZ/NNMjaZ5b8Tovi8C0tmxiCHaQYqj7G2rgnT0kt
  WNyWQQ==
 Organization: Red Hat
-In-Reply-To: <13d618ed-2cdb-4a5b-9dd4-189f65244a60@lucifer.local>
+In-Reply-To: <20250502-v5_user_cfi_series-v15-1-914966471885@rivosinc.com>
 Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-On 20.05.25 07:23, Lorenzo Stoakes wrote:
-> On Tue, May 20, 2025 at 01:01:38AM +0200, Jann Horn wrote:
->> On Tue, May 20, 2025 at 12:33 AM Usama Arif <usamaarif642@gmail.com> wrote:
->>> This is set via the new PR_SET_THP_POLICY prctl. It has 2 affects:
->>> - It sets VM_HUGEPAGE and clears VM_NOHUGEPAGE on the default VMA flags
->>>    (def_flags). This means that every new VMA will be considered for
->>>    hugepage.
->>> - Iterate through every VMA in the process and call hugepage_madvise
->>>    on it, with MADV_HUGEPAGE policy.
->>> The policy is inherited during fork+exec.
->>
->> As I replied to Lorenzo's series
->> (https://lore.kernel.org/all/CAG48ez3-7EnBVEjpdoW7z5K0hX41nLQN5Wb65Vg-1p8DdXRnjg@mail.gmail.com/),
->> it would be nice if you could avoid introducing new flags that have
->> the combination of all the following properties:
->>
->> 1. persists across exec
->> 2. not cleared on secureexec execution
->> 3. settable without ns_capable(CAP_SYS_ADMIN)
->> 4. settable without NO_NEW_PRIVS
->>
->> Flags that have all of these properties need to be reviewed extra
->> carefully to see if there is any way they could impact the security of
->> setuid binaries, for example by changing mmap() behavior in a way that
->> makes addresses significantly more predictable.
+On 03.05.25 01:30, Deepak Gupta wrote:
+> VM_HIGH_ARCH_5 is used for riscv
 > 
-> Indeed, this series was meant to be as RFC as mine while we still figured this
-> out :) grr. Well, with the NACK it is - in effect - now an RFC.
-> 
-> Yes having something persistent like this is not great, the idea of
-> introducing this in my series was to provide an alternative generic version
-> of this approach that can be better controlled and isn't just a 'tacked on'
-> change specific to one company's needs but rather a more general idea of
-> 'madvise() by default'.
-> 
-> I do wonder in this case, whether we need be so cautious however given the
-> _relatively_ safe nature of these flags?
+> Reviewed-by: Zong Li <zong.li@sifive.com>
+> Reviewed-by: Alexandre Ghiti <alexghiti@rivosinc.com>
+> Signed-off-by: Deepak Gupta <debug@rivosinc.com>
+> ---
 
-Yes. Changing VM_HUGEPAGE / VM_NOHUGEPAGE defaults should have little 
-impact, but we better be careful.
 
-setuid execution is certainly an interesting point. Maybe the general 
-rule should be, that it is not inherited over secureexec unless 
-CAP_SYS_ADMIN?
+  Acked-by: David Hildenbrand <david@redhat.com>
+
 
 -- 
 Cheers,
