@@ -1,217 +1,127 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C066926F468;
-	Tue, 20 May 2025 10:36:03 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from metis.whiteo.stw.pengutronix.de (metis.whiteo.stw.pengutronix.de [185.203.201.7])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2D9D2280033
+	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 10:42:27 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.203.201.7
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747737366; cv=none; b=WdC/dpHnqoU3vK1zS8neDEfuBbc24Iiz+Q9NcIiOpaClHORrRmOdzPbA9pte68FwbEvBM0HT4U5Sn8ILKKxqqSYUR/4b92xR5KHu8b6qxKm1BdrfUiXneH4J6ldquMQmNRbvpS04ng+pHGk1Cw3fpyOyA99imGBbCMC8uAiHuro=
+	t=1747737750; cv=none; b=bDxsiw/yoXrsGaiVb+RoBw7yEQ6YE6KHUhWYdx6sUAf1PPVv9X0+obNhpXCPjhuMNQ/GJ0M07TszK0N1zl55eYHWLIkbZKHidag/xiV+QuwgWy/cQKBttC8RYDLFyVXdxip+7FU2AiOvMM5EFVVfuC9H+a1B28CJ5AhLEJyLcZ0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747737366; c=relaxed/simple;
-	bh=w7K5pMtdrZyVLt797Uyr9uyQu/cmuG0bNkwUckl/TuY=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=J3FqR7ECKYbNN+BsRItG+dG1Ilf1I25Q5KedEv93DoHMWAul8KomMhN2TcWXUbjS4qXBJEbj+l8FWsvScsZrN+t0XPsKXVSVOICRpm3/vZltjL+wytnJIeOSb5UQWh1yKf3DqwgoY+8hDKvfoAVeKE5YKiE6oja94oe/PGudOos=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id AC3CF1516;
-	Tue, 20 May 2025 03:35:49 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AC6343F6A8;
-	Tue, 20 May 2025 03:36:02 -0700 (PDT)
-Date: Tue, 20 May 2025 11:35:58 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH 03/10] perf: arm_spe: Add support for FEAT_SPE_EFT
- extended filtering
-Message-ID: <20250520103558.GM412060@e132581.arm.com>
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-3-dd480e8e4851@linaro.org>
+	s=arc-20240116; t=1747737750; c=relaxed/simple;
+	bh=ypsgp/8EOQfhR3gpKtdjHjDSjKXledeokdgkhyDij6s=;
+	h=Message-ID:Subject:From:To:Cc:Date:In-Reply-To:References:
+	 Content-Type:MIME-Version; b=j1pUZVRQA6sLlMheXAYz7w60meOF1kptrdfrjTiqvUJj468zwaKN0bRhgyLyYJiUoTU6pAD+hD5KWb3S6gXd8SHcimVh2L1/QZ/QcUXJwGtedShNRfs40asROQ8fPBb9CmLPz2N9IART09BTn1DGF2IzTExLY8ldsiRjQCAioOk=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de; spf=pass smtp.mailfrom=pengutronix.de; arc=none smtp.client-ip=185.203.201.7
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=pengutronix.de
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=pengutronix.de
+Received: from ptz.office.stw.pengutronix.de ([2a0a:edc0:0:900:1d::77] helo=[IPv6:::1])
+	by metis.whiteo.stw.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+	(Exim 4.92)
+	(envelope-from <l.stach@pengutronix.de>)
+	id 1uHKPz-0001aN-MM; Tue, 20 May 2025 12:41:55 +0200
+Message-ID: <e7c08305612e7323ca9d9ff6c44f3e2b63f171ff.camel@pengutronix.de>
+Subject: Re: [PATCH v5 08/10] accel/rocket: Add IOCTLs for synchronizing
+ memory accesses
+From: Lucas Stach <l.stach@pengutronix.de>
+To: Tomeu Vizoso <tomeu@tomeuvizoso.net>, Rob Herring <robh@kernel.org>, 
+ Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley
+ <conor+dt@kernel.org>, Heiko Stuebner <heiko@sntech.de>, Oded Gabbay
+ <ogabbay@kernel.org>, Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst
+ <maarten.lankhorst@linux.intel.com>,  Maxime Ripard <mripard@kernel.org>,
+ Thomas Zimmermann <tzimmermann@suse.de>, David Airlie <airlied@gmail.com>, 
+ Simona Vetter <simona@ffwll.ch>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Christian =?ISO-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>, Sebastian
+ Reichel <sebastian.reichel@collabora.com>,  Nicolas Frattaroli
+ <nicolas.frattaroli@collabora.com>, Jeff Hugo <jeff.hugo@oss.qualcomm.com>
+Cc: devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
+	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, 
+	dri-devel@lists.freedesktop.org, linux-doc@vger.kernel.org, 
+	linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Date: Tue, 20 May 2025 12:41:47 +0200
+In-Reply-To: <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
+References: <20250520-6-10-rocket-v5-0-18c9ca0fcb3c@tomeuvizoso.net>
+	 <20250520-6-10-rocket-v5-8-18c9ca0fcb3c@tomeuvizoso.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.52.4 (3.52.4-2.fc40) 
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250506-james-perf-feat_spe_eft-v1-3-dd480e8e4851@linaro.org>
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:900:1d::77
+X-SA-Exim-Mail-From: l.stach@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.whiteo.stw.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-doc@vger.kernel.org
 
-On Tue, May 06, 2025 at 12:41:35PM +0100, James Clark wrote:
-> FEAT_SPE_EFT (optional from Armv9.4) adds mask bits for the existing
-> load, store and branch filters. It also adds two new filter bits for
-> SIMD and floating point with their own associated mask bits. The current
-> filters only allow OR filtering on samples that are load OR store etc,
-> and the new mask bits allow setting part of the filter to an AND, for
-> example filtering samples that are store AND SIMD. With mask bits set to
-> 0, the OR behavior is preserved, so the unless any masks are explicitly
-> set old filters will behave the same.
-> 
-> Add them all and make them behave the same way as existing format bits,
-> hidden and return EOPNOTSUPP if set when the feature doesn't exist.
-> 
-> Signed-off-by: James Clark <james.clark@linaro.org>
+Hi Tomeu,
 
-Reviewed-by: Leo Yan <leo.yan@arm.com>
-
+Am Dienstag, dem 20.05.2025 um 12:27 +0200 schrieb Tomeu Vizoso:
+> The NPU cores have their own access to the memory bus, and this isn't
+> cache coherent with the CPUs.
+>=20
+> Add IOCTLs so userspace can mark when the caches need to be flushed, and
+> also when a writer job needs to be waited for before the buffer can be
+> accessed from the CPU.
+>=20
+> Initially based on the same IOCTLs from the Etnaviv driver.
+>=20
+> v2:
+> - Don't break UABI by reordering the IOCTL IDs (Jeff Hugo)
+>=20
+> v3:
+> - Check that padding fields in IOCTLs are zero (Jeff Hugo)
+>=20
+> Signed-off-by: Tomeu Vizoso <tomeu@tomeuvizoso.net>
 > ---
->  drivers/perf/arm_spe_pmu.c | 64 ++++++++++++++++++++++++++++++++++++++++++++++
->  1 file changed, 64 insertions(+)
-> 
-> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
-> index d9f6d229dce8..9309b846f642 100644
-> --- a/drivers/perf/arm_spe_pmu.c
-> +++ b/drivers/perf/arm_spe_pmu.c
-> @@ -86,6 +86,7 @@ struct arm_spe_pmu {
->  #define SPE_PMU_FEAT_ERND			(1UL << 5)
->  #define SPE_PMU_FEAT_INV_FILT_EVT		(1UL << 6)
->  #define SPE_PMU_FEAT_DISCARD			(1UL << 7)
-> +#define SPE_PMU_FEAT_EFT			(1UL << 8)
->  #define SPE_PMU_FEAT_DEV_PROBED			(1UL << 63)
->  	u64					features;
->  
-> @@ -197,6 +198,27 @@ static const struct attribute_group arm_spe_pmu_cap_group = {
->  #define ATTR_CFG_FLD_discard_CFG		config	/* PMBLIMITR_EL1.FM = DISCARD */
->  #define ATTR_CFG_FLD_discard_LO			35
->  #define ATTR_CFG_FLD_discard_HI			35
-> +#define ATTR_CFG_FLD_branch_filter_mask_CFG	config	/* PMSFCR_EL1.Bm */
-> +#define ATTR_CFG_FLD_branch_filter_mask_LO	36
-> +#define ATTR_CFG_FLD_branch_filter_mask_HI	36
-> +#define ATTR_CFG_FLD_load_filter_mask_CFG	config	/* PMSFCR_EL1.LDm */
-> +#define ATTR_CFG_FLD_load_filter_mask_LO	37
-> +#define ATTR_CFG_FLD_load_filter_mask_HI	37
-> +#define ATTR_CFG_FLD_store_filter_mask_CFG	config	/* PMSFCR_EL1.STm */
-> +#define ATTR_CFG_FLD_store_filter_mask_LO	38
-> +#define ATTR_CFG_FLD_store_filter_mask_HI	38
-> +#define ATTR_CFG_FLD_simd_filter_CFG		config	/* PMSFCR_EL1.SIMD */
-> +#define ATTR_CFG_FLD_simd_filter_LO		39
-> +#define ATTR_CFG_FLD_simd_filter_HI		39
-> +#define ATTR_CFG_FLD_simd_filter_mask_CFG	config	/* PMSFCR_EL1.SIMDm */
-> +#define ATTR_CFG_FLD_simd_filter_mask_LO	40
-> +#define ATTR_CFG_FLD_simd_filter_mask_HI	40
-> +#define ATTR_CFG_FLD_float_filter_CFG		config	/* PMSFCR_EL1.FP */
-> +#define ATTR_CFG_FLD_float_filter_LO		41
-> +#define ATTR_CFG_FLD_float_filter_HI		41
-> +#define ATTR_CFG_FLD_float_filter_mask_CFG	config	/* PMSFCR_EL1.FPm */
-> +#define ATTR_CFG_FLD_float_filter_mask_LO	42
-> +#define ATTR_CFG_FLD_float_filter_mask_HI	42
->  
->  #define ATTR_CFG_FLD_event_filter_CFG		config1	/* PMSEVFR_EL1 */
->  #define ATTR_CFG_FLD_event_filter_LO		0
-> @@ -215,8 +237,15 @@ GEN_PMU_FORMAT_ATTR(pa_enable);
->  GEN_PMU_FORMAT_ATTR(pct_enable);
->  GEN_PMU_FORMAT_ATTR(jitter);
->  GEN_PMU_FORMAT_ATTR(branch_filter);
-> +GEN_PMU_FORMAT_ATTR(branch_filter_mask);
->  GEN_PMU_FORMAT_ATTR(load_filter);
-> +GEN_PMU_FORMAT_ATTR(load_filter_mask);
->  GEN_PMU_FORMAT_ATTR(store_filter);
-> +GEN_PMU_FORMAT_ATTR(store_filter_mask);
-> +GEN_PMU_FORMAT_ATTR(simd_filter);
-> +GEN_PMU_FORMAT_ATTR(simd_filter_mask);
-> +GEN_PMU_FORMAT_ATTR(float_filter);
-> +GEN_PMU_FORMAT_ATTR(float_filter_mask);
->  GEN_PMU_FORMAT_ATTR(event_filter);
->  GEN_PMU_FORMAT_ATTR(inv_event_filter);
->  GEN_PMU_FORMAT_ATTR(min_latency);
-> @@ -228,8 +257,15 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
->  	&format_attr_pct_enable.attr,
->  	&format_attr_jitter.attr,
->  	&format_attr_branch_filter.attr,
-> +	&format_attr_branch_filter_mask.attr,
->  	&format_attr_load_filter.attr,
-> +	&format_attr_load_filter_mask.attr,
->  	&format_attr_store_filter.attr,
-> +	&format_attr_store_filter_mask.attr,
-> +	&format_attr_simd_filter.attr,
-> +	&format_attr_simd_filter_mask.attr,
-> +	&format_attr_float_filter.attr,
-> +	&format_attr_float_filter_mask.attr,
->  	&format_attr_event_filter.attr,
->  	&format_attr_inv_event_filter.attr,
->  	&format_attr_min_latency.attr,
-> @@ -250,6 +286,16 @@ static umode_t arm_spe_pmu_format_attr_is_visible(struct kobject *kobj,
->  	if (attr == &format_attr_inv_event_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_INV_FILT_EVT))
->  		return 0;
->  
-> +	if ((attr == &format_attr_branch_filter_mask.attr ||
-> +	     attr == &format_attr_load_filter_mask.attr ||
-> +	     attr == &format_attr_store_filter_mask.attr ||
-> +	     attr == &format_attr_simd_filter.attr ||
-> +	     attr == &format_attr_simd_filter_mask.attr ||
-> +	     attr == &format_attr_float_filter.attr ||
-> +	     attr == &format_attr_float_filter_mask.attr) &&
-> +	     !(spe_pmu->features & SPE_PMU_FEAT_EFT))
-> +		return 0;
-> +
->  	return attr->mode;
+>  drivers/accel/rocket/rocket_drv.c |  2 +
+>  drivers/accel/rocket/rocket_gem.c | 80 +++++++++++++++++++++++++++++++++=
+++++++
+>  drivers/accel/rocket/rocket_gem.h |  5 +++
+>  include/uapi/drm/rocket_accel.h   | 37 ++++++++++++++++++
+>  4 files changed, 124 insertions(+)
+>=20
+> diff --git a/drivers/accel/rocket/rocket_drv.c b/drivers/accel/rocket/roc=
+ket_drv.c
+> index fef9b93372d3f65c41c1ac35a9bfa0c01ee721a5..c06e66939e6c39909fe08bef3=
+c4f301b07bf8fbf 100644
+> --- a/drivers/accel/rocket/rocket_drv.c
+> +++ b/drivers/accel/rocket/rocket_drv.c
+> @@ -59,6 +59,8 @@ static const struct drm_ioctl_desc rocket_drm_driver_io=
+ctls[] =3D {
+> =20
+>  	ROCKET_IOCTL(CREATE_BO, create_bo),
+>  	ROCKET_IOCTL(SUBMIT, submit),
+> +	ROCKET_IOCTL(PREP_BO, prep_bo),
+> +	ROCKET_IOCTL(FINI_BO, fini_bo),
+>  };
+> =20
+>  DEFINE_DRM_ACCEL_FOPS(rocket_accel_driver_fops);
+> diff --git a/drivers/accel/rocket/rocket_gem.c b/drivers/accel/rocket/roc=
+ket_gem.c
+> index 8a8a7185daac4740081293aae6945c9b2bbeb2dd..cdc5238a93fa5978129dc1ac8=
+ec8de955160dc18 100644
+> --- a/drivers/accel/rocket/rocket_gem.c
+> +++ b/drivers/accel/rocket/rocket_gem.c
+> @@ -129,3 +129,83 @@ int rocket_ioctl_create_bo(struct drm_device *dev, v=
+oid *data, struct drm_file *
+> =20
+>  	return ret;
 >  }
->  
-> @@ -341,8 +387,15 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
->  	u64 reg = 0;
->  
->  	reg |= FIELD_PREP(PMSFCR_EL1_LD, ATTR_CFG_GET_FLD(attr, load_filter));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_LDm, ATTR_CFG_GET_FLD(attr, load_filter_mask));
->  	reg |= FIELD_PREP(PMSFCR_EL1_ST, ATTR_CFG_GET_FLD(attr, store_filter));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_STm, ATTR_CFG_GET_FLD(attr, store_filter_mask));
->  	reg |= FIELD_PREP(PMSFCR_EL1_B, ATTR_CFG_GET_FLD(attr, branch_filter));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_Bm, ATTR_CFG_GET_FLD(attr, branch_filter_mask));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_SIMD, ATTR_CFG_GET_FLD(attr, simd_filter));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_SIMDm, ATTR_CFG_GET_FLD(attr, simd_filter_mask));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_FP, ATTR_CFG_GET_FLD(attr, float_filter));
-> +	reg |= FIELD_PREP(PMSFCR_EL1_FPm, ATTR_CFG_GET_FLD(attr, float_filter_mask));
->  
->  	if (reg)
->  		reg |= PMSFCR_EL1_FT;
-> @@ -716,6 +769,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
->  	u64 reg;
->  	struct perf_event_attr *attr = &event->attr;
->  	struct arm_spe_pmu *spe_pmu = to_spe_pmu(event->pmu);
-> +	const u64 feat_spe_eft_bits = PMSFCR_EL1_LDm | PMSFCR_EL1_STm |
-> +				      PMSFCR_EL1_Bm | PMSFCR_EL1_SIMD |
-> +				      PMSFCR_EL1_SIMDm | PMSFCR_EL1_FP |
-> +				      PMSFCR_EL1_FPm;
->  
->  	/* This is, of course, deeply driver-specific */
->  	if (attr->type != event->pmu->type)
-> @@ -761,6 +818,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
->  	    !(spe_pmu->features & SPE_PMU_FEAT_FILT_LAT))
->  		return -EOPNOTSUPP;
->  
-> +	if ((reg & feat_spe_eft_bits) &&
-> +	    !(spe_pmu->features & SPE_PMU_FEAT_EFT))
-> +		return -EOPNOTSUPP;
 > +
->  	if (ATTR_CFG_GET_FLD(&event->attr, discard) &&
->  	    !(spe_pmu->features & SPE_PMU_FEAT_DISCARD))
->  		return -EOPNOTSUPP;
-> @@ -1052,6 +1113,9 @@ static void __arm_spe_pmu_dev_probe(void *info)
->  	if (spe_pmu->pmsver >= ID_AA64DFR0_EL1_PMSVer_V1P2)
->  		spe_pmu->features |= SPE_PMU_FEAT_DISCARD;
->  
-> +	if (FIELD_GET(PMSIDR_EL1_EFT, reg))
-> +		spe_pmu->features |= SPE_PMU_FEAT_EFT;
-> +
->  	/* This field has a spaced out encoding, so just use a look-up */
->  	fld = FIELD_GET(PMSIDR_EL1_INTERVAL, reg);
->  	switch (fld) {
-> 
-> -- 
-> 2.34.1
-> 
+> +static inline enum dma_data_direction rocket_op_to_dma_dir(u32 op)
+> +{
+> +	if (op & ROCKET_PREP_READ)
+> +		return DMA_FROM_DEVICE;
+> +	else if (op & ROCKET_PREP_WRITE)
+> +		return DMA_TO_DEVICE;
+> +	else
+> +		return DMA_BIDIRECTIONAL;
+> +}
+
+This has copied over the bug fixed in etnaviv commit 58979ad6330a
+("drm/etnaviv: fix DMA direction handling for cached RW buffers")
+
+Regards,
+Lucas
