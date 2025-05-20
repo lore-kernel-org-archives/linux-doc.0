@@ -1,165 +1,161 @@
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 300C8258CDB
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 23:39:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.52
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14A6F20C469;
+	Tue, 20 May 2025 23:44:18 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747784357; cv=none; b=r9YSUXeZMQOClwEHfx5DczxHrSDXQukMJ1RnDEQMu3FXMNWVst4W0/f2xQoAxC1N5e+Q9yWQaOBaPxkpcY5CH5hQMYcILbLGXqnBzqwrfKMseAKGfzE8tGle9XW9YONn/rV92a65ZEEDmoBMhCGWWfGX+ns13MZQ9h3yCXEMOVU=
+	t=1747784663; cv=none; b=YqMs9Bv/qUNgXy87kzkwWjeFJLlTpBS5+wjbBK+rGQ0JfsAkgedtyfk9S5gxHA5RQwf28dkjerhXRI1KgHjhDTtuHvFUqaNJv61apNAjVCD84m5PUK+EewbcpvlfEJVleCVa86lfg3Ts8P4qwrVRtLPcnTTc9nIwv2OoINOuHi4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747784357; c=relaxed/simple;
-	bh=qNW0arWXlRmhF4tOVFZz0ZKha2LDMSjtrVhlYdBNed8=;
-	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=cPFcNFSnCbFVdRFEMvOZ/8L3685sOl+F8KulfaW8af8NL17iqognFoYmQE1aVQcJ8KlQQ5/ChhiBd/OQB3XlDkrnpmqFCgN8ieMnBG4YUVdgYWpxS6q57HKlbSOsnJkoTo7w2CMFzqe7rqfbEMG5wKpfK8rqrC7o7qNmuLlmPZY=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=phYVTxvS; arc=none smtp.client-ip=209.85.128.52
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="phYVTxvS"
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-442f97af707so193355e9.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 16:39:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20230601; t=1747784352; x=1748389152; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=cRuU/m5dc5FtJi/f3Rrw2anhfRohi0i8yf3iq1OlqJ0=;
-        b=phYVTxvSAmpqz/M4n0Rk87yvA4M6W32UAkrZOlT+psyUIysRvKkFuoqSDcX7S/opnV
-         KL1GpAF6jpi8WvDGCdm6/uPZxx04PV/Ec/eimFSmmQcEzU6QlJxack6+QC0ZKphw0QNU
-         icmO0QZFLgXcvOmizZm0nzwJsg/F+tqJIMNq/yOLB83J6WD9Updphm1gva09AyIA6iq7
-         JqZLYj4gII8JO+I/V5Oo0z8XvJJ94Vatwwg9cOVD6VB9kW2jaixtyNHNVR+l6Ejc1/iY
-         tzpeGbsD9iIixVs7zVpE11lv45+lShP3mgpinP4pnyN2SFXJnc5rbdRAF2Ql2Chd/18E
-         vwPQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747784352; x=1748389152;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=cRuU/m5dc5FtJi/f3Rrw2anhfRohi0i8yf3iq1OlqJ0=;
-        b=mC5StnesVj6Bzg6K7MAd8SFhEbQpLS6kuzzG17gW0WeGolUfetDBKfZNbfdfKWp50N
-         J5ii2VQG91w5ebf/KgTUbn7FKSvLUmwc18S34nFmjjMKKhkb1zH74anmRdmJleVvtBtz
-         HSsEGuOm1Ynk8Tzn1JEFKUULIZSi4jD+fV/DlKDcIi+xYrwmwEGTc/h0edUyehLruAFb
-         Vn0GW0/2N2pAqL14YGg5muu5h4gfF/4uMSQC2XjkpvRlK4jCuphBFTe/eB6Altk+x/7e
-         6LU1od6SekD+MNelLAQOkjAltUloBwsrT0bVBC4WL30TcGjkwGA8pOEXdy9xWZA6xWuU
-         Yvvw==
-X-Forwarded-Encrypted: i=1; AJvYcCX1iWq1SkZP6ALJN00jC/ZSj1spg0I6yuEgFHSFmaovBKbnN1b9L/8Ovs4D/LvVjFTwujp816y6gho=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxGVVGI41/JwR6edB9b8dVWAENLkEnlYNu2WBuP+ocxXpDJVUZc
-	cGMs0vCUtQbN6F/lJew2K4TF0tVgYhT2Cb03wBQ0cAv4GqvTOjLWBLQyD92OgBj3t0zeUB9vCLv
-	pkGGWEXHLahPC/2B/Dq6A4FtnOmGbDRyVYQAAMXHY
-X-Gm-Gg: ASbGnctQTi7oEGlJA61P+R6yBwZEsQNu7CpWKEeFLIMX6Horbw3bI5bBs70NfhGYLHE
-	AL/080baHFqMrczQZHRE2ifGJMqOXczgjtfBOue7VF3SN+Kgvg48eZCw+Rj+Zg2k2c+zjiLx5E5
-	JEDqfw2rWa60DHkN1xQnBIdyAc1H8FQ9R2+kmjNtIV6aSKqHQzHzDP7lsC1AM3JdVH9ycF06Y3
-X-Google-Smtp-Source: AGHT+IEmTo+oS9URXfIuKouUY0B0Y62o5TMKaVmZC8slqtUcsFC1AZMBLwucs8WQvvTTsv5lG6xeERtZDgSchwhBuX8=
-X-Received: by 2002:a05:600c:2e49:b0:439:961d:fc7d with SMTP id
- 5b1f17b1804b1-443ae3dbdfdmr4250875e9.6.1747784352208; Tue, 20 May 2025
- 16:39:12 -0700 (PDT)
+	s=arc-20240116; t=1747784663; c=relaxed/simple;
+	bh=x/eVtiBKZUtdF5Mz7daO0zlZe8NYUeYy4df1FsOSzyg=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=ZQiitSeTveZBY61/tM3oqYp9H3uRhpOawJE2nLGRjWeUOyAXf0siTIbKQvUuHjFmYE/QNT0avyhEbd1YAxWZ26VsHfG3CIsjreE1ZnKVWSrcDScytDaUVibHeDWn+wZF1rHcScKsMJ7GaK1slKpUOF/aWKJnnnIzbHuKilF6o7I=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.231])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b29zk4r16z6L50b;
+	Wed, 21 May 2025 07:41:06 +0800 (CST)
+Received: from frapeml100008.china.huawei.com (unknown [7.182.85.131])
+	by mail.maildlp.com (Postfix) with ESMTPS id 500B8140519;
+	Wed, 21 May 2025 07:44:16 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (7.182.85.172) by
+ frapeml100008.china.huawei.com (7.182.85.131) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 21 May 2025 01:44:15 +0200
+Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
+ frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
+ Wed, 21 May 2025 01:44:15 +0200
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Alison Schofield <alison.schofield@intel.com>
+CC: "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"dan.j.williams@intel.com" <dan.j.williams@intel.com>, Jonathan Cameron
+	<jonathan.cameron@huawei.com>, "dave.jiang@intel.com" <dave.jiang@intel.com>,
+	"dave@stgolabs.net" <dave@stgolabs.net>, "vishal.l.verma@intel.com"
+	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bp@alien8.de"
+	<bp@alien8.de>, "tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>, "Yazen.Ghannam@amd.com"
+	<Yazen.Ghannam@amd.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, Linuxarm <linuxarm@huawei.com>,
+	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v5 0/8] cxl: support CXL memory RAS features
+Thread-Topic: [PATCH v5 0/8] cxl: support CXL memory RAS features
+Thread-Index: AQHbxZDbv1byJEJ2lESUs1jPn5i3f7Paom2AgAEr/5A=
+Date: Tue, 20 May 2025 23:44:15 +0000
+Message-ID: <5cd76e828f694871a83747384dd5f90d@huawei.com>
+References: <20250515115927.772-1-shiju.jose@huawei.com>
+ <aCvcgUv03XUWtYKS@aschofie-mobl2.lan>
+In-Reply-To: <aCvcgUv03XUWtYKS@aschofie-mobl2.lan>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250505161412.1926643-1-jiaqiyan@google.com> <20250505161412.1926643-3-jiaqiyan@google.com>
- <86zffcefk9.wl-maz@kernel.org>
-In-Reply-To: <86zffcefk9.wl-maz@kernel.org>
-From: Jiaqi Yan <jiaqiyan@google.com>
-Date: Tue, 20 May 2025 16:39:00 -0700
-X-Gm-Features: AX0GCFtfiDim2rVM9--MtRE7iY2zI_cJEhnOXz73-OdjqCpU57FjKEAM9M0zDCo
-Message-ID: <CACw3F52v_WSR=HkmeW7be+YRFkUzA-n-=mVHHw4wvJK7ongkYQ@mail.gmail.com>
-Subject: Re: [PATCH v1 2/6] KVM: arm64: Set FnV for VCPU when FAR_EL2 is invalid
-To: Marc Zyngier <maz@kernel.org>
-Cc: oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, 
-	yuzenghui@huawei.com, catalin.marinas@arm.com, will@kernel.org, 
-	pbonzini@redhat.com, corbet@lwn.net, shuah@kernel.org, kvm@vger.kernel.org, 
-	kvmarm@lists.linux.dev, linux-arm-kernel@lists.infradead.org, 
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
-	linux-kselftest@vger.kernel.org, duenwen@google.com, rananta@google.com, 
-	jthoughton@google.com
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 16, 2025 at 8:33=E2=80=AFAM Marc Zyngier <maz@kernel.org> wrote=
-:
+>-----Original Message-----
+>From: Alison Schofield <alison.schofield@intel.com>
+>Sent: 20 May 2025 02:36
+>To: Shiju Jose <shiju.jose@huawei.com>
+>Cc: linux-cxl@vger.kernel.org; dan.j.williams@intel.com; Jonathan Cameron
+><jonathan.cameron@huawei.com>; dave.jiang@intel.com; dave@stgolabs.net;
+>vishal.l.verma@intel.com; ira.weiny@intel.com; linux-edac@vger.kernel.org;
+>linux-doc@vger.kernel.org; bp@alien8.de; tony.luck@intel.com;
+>lenb@kernel.org; Yazen.Ghannam@amd.com; mchehab@kernel.org;
+>nifan.cxl@gmail.com; Linuxarm <linuxarm@huawei.com>; tanxiaofei
+><tanxiaofei@huawei.com>; Zengtao (B) <prime.zeng@hisilicon.com>; Roberto
+>Sassu <roberto.sassu@huawei.com>; kangkang.shen@futurewei.com;
+>wanghuiqiang <wanghuiqiang@huawei.com>
+>Subject: Re: [PATCH v5 0/8] cxl: support CXL memory RAS features
 >
-> On Mon, 05 May 2025 17:14:08 +0100,
-> Jiaqi Yan <jiaqiyan@google.com> wrote:
-> >
-> > Certain microarchitectures (e.g. Neoverse V2) do not keep track of
-> > the faulting address for a memory load that consumes poisoned data
-> > and results in a synchronous external abort (SEA). This means the
-> > faulting guest physical address is unavailable when KVM handles such
-
-Actually this is not relevant to the code, I think it is just
-sufficient to say "This means that FAR_EL2 holds a garbage value and
-therefore kvm_vcpu_get_hfar holds a garbage value too".
-
-> > SEA in EL2, and FAR_EL2 just holds a garbage value.
+>On Thu, May 15, 2025 at 12:59:16PM +0100, shiju.jose@huawei.com wrote:
+>> From: Shiju Jose <shiju.jose@huawei.com>
+>>
+>> Support for CXL memory EDAC features: patrol scrub, ECS, soft-PPR and
+>> memory sparing.
 >
-> I don't understand. FAR_ELx holds a *virtual* address, and never a
-> physical address (that'd be PFAR_ELx).
+>snip
+>
+>>
+>> Shiju Jose (8):
+>>   EDAC: Update documentation for the CXL memory patrol scrub control
+>>     feature
+>>   cxl: Update prototype of function get_support_feature_info()
+>>   cxl/edac: Add CXL memory device patrol scrub control feature
+>>   cxl/edac: Add CXL memory device ECS control feature
+>>   cxl/edac: Add support for PERFORM_MAINTENANCE command
+>>   cxl/edac: Support for finding memory operation attributes from the
+>>     current boot
+>>   cxl/edac: Add CXL memory device memory sparing control feature
+>>   cxl/edac: Add CXL memory device soft PPR control feature
+>>
+>>  Documentation/edac/memory_repair.rst |   31 +
+>>  Documentation/edac/scrub.rst         |   76 +
+>>  drivers/cxl/Kconfig                  |   71 +
+>>  drivers/cxl/core/Makefile            |    1 +
+>>  drivers/cxl/core/core.h              |    2 +
+>>  drivers/cxl/core/edac.c              | 2082 ++++++++++++++++++++++++++
+>
+>Hi Shiju,
+>
+>The file edac.c contains a scattering of ifdef's that can be replaced with=
+ the
+>IS_ENABLED() mechanism.
+>
+>This issue touches many patches, looks like patches 3-7 all added to edac.=
+c.
+>
+>See Documentation/process/coding-style.rst  "Conditional Compilation".
+>You'll find a few usage example in drivers/cxl/ and of course many more al=
+l over
+>the kernel.
+>
+>Conversely, in cxlmem.h, the patch uses IS_ENABLED() where an #ifdef is
+>perfectly fine and expected. See the surrounding ifdef's in cxlmem.h
+>
+>I'm aware it's not a simple search and replace operation to rework this bu=
+t it is
+>worth doing now to make the code more readable forever, and there's also t=
+he
+>benefit of allowing the compiler to check code inside the block for correc=
+tness.
 
-Sorry my writing is misleading. If you are still interested, the
-scenario I meant to describe is
-1. There is a SEA taken by KVM when memory load from the guest
-consumes poisoned data.
-2. The guest physical address (or IPA) of the poisoned data will not
-be available in HPFAR_EL2 per architecture register documentation [1].
-3. Although HPFAR_EL2 is unusable, KVM can still attempt address
-translation with the guest virtual address in FAR_EL2 to get the
-poisoned IPA.
-4. However, FAR_EL2 is not valid on certain microarchitectures (e.g.
-Neoverse V2), so in the end it is just impossible for KVM to know the
-poisoned IPA.
+Hi Alison,
 
-Does this clarify things? But again, it is confusing and will be removed.
+Thanks for the feedback.
 
-[1] https://developer.arm.com/documentation/ddi0601/2025-03/AArch64-Registe=
-rs/HPFAR-EL2--Hypervisor-IPA-Fault-Address-Register?lang=3Den
+I replaced #ifdef  with  IS_ENABLED() in .c file and opposite in cxlmem.h.
 
+Thanks,
+Shiju
 
 >
-> >
-> > In case VMM later asks KVM to synchronously inject a SEA into the
-> > guest, KVM should set FnV bit
-> > - in VCPU's ESR_EL1 to let guest kernel know that FAR_EL1 is invalid
-> >   and holds garbage value
-> > - in VCPU's ESR_EL2 to let nested virtualization know that FAR_EL2
-> >   is invalid and holds garbage value
-> >
-> > Signed-off-by: Jiaqi Yan <jiaqiyan@google.com>
-> > ---
-> >  arch/arm64/kvm/inject_fault.c | 3 +++
-> >  1 file changed, 3 insertions(+)
-> >
-> > diff --git a/arch/arm64/kvm/inject_fault.c b/arch/arm64/kvm/inject_faul=
-t.c
-> > index a640e839848e6..b4f9a09952ead 100644
-> > --- a/arch/arm64/kvm/inject_fault.c
-> > +++ b/arch/arm64/kvm/inject_fault.c
-> > @@ -81,6 +81,9 @@ static void inject_abt64(struct kvm_vcpu *vcpu, bool =
-is_iabt, unsigned long addr
-> >       if (!is_iabt)
-> >               esr |=3D ESR_ELx_EC_DABT_LOW << ESR_ELx_EC_SHIFT;
-> >
-> > +     if (!kvm_vcpu_sea_far_valid(vcpu))
-> > +             esr |=3D ESR_ELx_FnV;
-> > +
+>-- Alison
 >
-> I don't understand what this has anything to do with the uarch details
-> you talk about in the commit message. If the VMM inject an exception,
-> surely it has populated the exception context itself. I don't even see
-> how we'd end-up here (__kvm_arm_vcpu_set_events? seems unlikely).
->
+>>  drivers/cxl/core/features.c          |   17 +-
+>>  drivers/cxl/core/mbox.c              |   11 +-
+>>  drivers/cxl/core/memdev.c            |    1 +
+>>  drivers/cxl/core/region.c            |   10 +
+>>  drivers/cxl/cxl.h                    |   10 +
+>>  drivers/cxl/cxlmem.h                 |   36 +
+>>  drivers/cxl/mem.c                    |    4 +
+>>  drivers/edac/mem_repair.c            |    9 +
+>>  include/linux/edac.h                 |    7 +
+>>  15 files changed, 2356 insertions(+), 12 deletions(-)  create mode
+>> 100644 drivers/cxl/core/edac.c
+>>
+>> --
+>> 2.43.0
+>>
 
-KVM_SET_VCPU_EVENTS is indeed the case this commit wants to fix.
-Instead of populating the exception registers itself, VMM can use
-KVM_SET_VCPU_EVENTS to let KVM do that per existing KVM doc [2], e.g.
-when VMM handles the KVM_EXIT_ARM_SEA introduced in the previous
-commit. The intent is to tell guest, for example, to not use FAR_EL1.
-
-[2] https://www.kernel.org/doc/html/v5.10/virt/kvm/api.html#id3
-
->         M.
->
-> --
-> Without deviation from the norm, progress is not possible.
