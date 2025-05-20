@@ -1,66 +1,65 @@
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02AF9263C8E
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 08:19:50 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.45
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BB829262815;
+	Tue, 20 May 2025 08:23:33 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.214.173
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747729193; cv=none; b=ZnDST1IKJH12+5ZLO6VSgIVIB+trNmp3rTelStZkNKBtpVB4pOKjYYTTxFp7mIjpOVrBoS/t/BbRfuG/aV7AZxuvMzfV2Qwej3Oolx9S09wXEVLpTd+su0vOsQnz4MI6VtPEE9EHC83TbXepvtQs8d2ENC3CvaZ1+WJieY2jdRQ=
+	t=1747729415; cv=none; b=Ttlh+BbLtT5+/Kf2sGF/JIdtvEH9TJ4h8AhW/vFoGa4My887iQKop2eCY6Pfm0oWXnHEaQzEuKtIeXtoBMD3uCjTnZFbsPeUtc1Gm5kyIBxaALondSBnmXvpcahaLMc4Lnc3uHykZQ+4Ys/FNNr8Ofl0sg594qKBDu17lk/VS4g=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747729193; c=relaxed/simple;
-	bh=oIeZDvZ06+adGEcc2PTcN9SlCbujZpBAp1mCH9C1Smw=;
+	s=arc-20240116; t=1747729415; c=relaxed/simple;
+	bh=85eJrd8qf21lJrgf9znNNn+vgQiRAfNyHii39Y0MMB0=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=S/eziF4GhPnROzyd21GnH4xYsSgZJlUHiLktLqy+84smwPSPgEqUN2K7yecXwqvUXLUCDdsatrtKeYwaCjXnzpTvevIi/OFGKWzKPsa4lMZiCiweO27XFCb6JXFb3CH6GQ5pDhxKPSlxHo196ZZfsfH7TxqqD8nAIj0DXIYLZ2Q=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com; spf=pass smtp.mailfrom=rivosinc.com; dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b=YbITwSei; arc=none smtp.client-ip=209.85.128.45
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=rivosinc.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=rivosinc.com
+	 In-Reply-To:Content-Type; b=FGo2orvnWSAE8nTMPehDzTFcRPSrOyTTBYIyMmncRpnOHExJAXS+tZVqBCda5K4mGL39NxyFaRB6luj4EZwkCkpftTvrFoC6eYUsC1Joh4bLT+34Hihq35N87u25kShKlxeSfDZD39PYS0rX/94aumSVZJswj3ztu6rBJ6OHRGg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ORNhjbdU; arc=none smtp.client-ip=209.85.214.173
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=rivosinc-com.20230601.gappssmtp.com header.i=@rivosinc-com.20230601.gappssmtp.com header.b="YbITwSei"
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-43cfebc343dso39666945e9.2
-        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 01:19:50 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ORNhjbdU"
+Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-231ecd4f2a5so30964635ad.0;
+        Tue, 20 May 2025 01:23:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=rivosinc-com.20230601.gappssmtp.com; s=20230601; t=1747729189; x=1748333989; darn=vger.kernel.org;
+        d=gmail.com; s=20230601; t=1747729413; x=1748334213; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=Rg4dqqae5QAhm/jj8YkR21SQpKcd2PY6mEVX2p2RC/E=;
-        b=YbITwSeizmZTb4FHUBv2km9ODeH/W1bdvnX3RZw7o9fw9gKd1vD/PCqLqBCUA2ZL/o
-         DRhenXVr+2QzKz+XoR+inJOiWl4wJ6BuF44WjLxK0i/ShYKsWIYzs2hKT4JLSKHuHQXt
-         jrYxtzKtyyailtF+p6D5LjeUyOz1IRUmbpdZdeHScPW/vNlvX1d8gjboPjO2Pf/xwz32
-         8HytyKBdAcdsBu0/nUZUjEXmu6sChpxKt8TXWr5hDt3Itz1fAx9qFTAxF7S3eO7Gl8KN
-         TH0ekSCbegqfTEl9Bs+M4BPtfh183BXHpIGCalPKSH+4GlRjy6ziYtEr1JYVld0eIoS6
-         Tu6g==
+        bh=/EAzD/tIu0MqQ7G+EY88O64O0FaxVAHT+5gF5Zrxa8s=;
+        b=ORNhjbdU+1LlF58lYLLdZMWuSAjLSSvx1hqitrP0iRjAdjWylPBphgUWpNh9RBNX0f
+         NTWxEewr2pBR1/9QF3+XQnjOZOLXj5v+9Czf1GZbULhz01PzRBtVNa4ZYPcgNiEFH/Ux
+         t0g0/vwLc2RFwFQUwhwwyP3/VDwIPZKBauTOM3qcTRHTIaXFQAiG3NfzOp4LDl4OaVc1
+         ClSAkayxc3hN90AJuSlsZcJr0F+X5TeotU9J7X/LwhEo+nOrENbR1QkrIHFAH0vvujY8
+         A/2VkT4H2D5Qp+ZBjOLOkd2pSItYNYaoKrH4UeCVPq1JZPe7Xly/b0Nil+EMCps6nR7V
+         SU1Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747729189; x=1748333989;
+        d=1e100.net; s=20230601; t=1747729413; x=1748334213;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=Rg4dqqae5QAhm/jj8YkR21SQpKcd2PY6mEVX2p2RC/E=;
-        b=R32V21Tm+nOM0WEaW/BymbkVlhji7WRBXieZJ3g+MaqtGaJBqO0+DpxLISVBpFGipl
-         xiSuHZS0KwOZggqZEB21HbAsJNo8JjneQXJV+/lLT1/hepcZxpbDwFlsGqcIQOh3i+lc
-         /Ku1nOo9+kfCaOwLSU5xfw2kaEwl477oIxSPhzW/ulomH5gDqtqKYLeq/rzk7r53pDoH
-         wbhfzwSqCo+mh4nRPIqXIm6vAB/0X2jXrmgCJZbNvzr0k0ODfKoHQjHGtSDoM5llS/VR
-         HPVdwJlOM+eLv9V88T15AOMOqTMw+OxhjJZVPhrqJyLN4fvbXNL2u4NRmp1198NHxJBF
-         5mgA==
-X-Forwarded-Encrypted: i=1; AJvYcCVicVAt7Q1OqXrO+fP8c3AhaHr/MrU0aXk18Fgm0YBVNGLtFIhbpWuFu60NGn0C0MBKSm/wYLj7tNQ=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yx++PfrYRL08qhXQ57tkIc4vYi21ZAdsHYxT5RT5Le7euSlY6Y6
-	HrSMopy07KW3n6e9NDSZmHU5CO6JLEqeiS0HmsipIcygfHNBRUFk2GBKpWIfBwXRDymYEmdcMTq
-	CR1N0ex0=
-X-Gm-Gg: ASbGncuV4FMQCj8EdnSVUbD6UrKsKNso/oKBz4UXHNhhyem1mokFmmQrZQdtqXdyKse
-	qgv/yLOBXHY6ES4SyeY5K152gpX8zcB9+tMNMtL5FIt4v93MRiqvjhxaJrYutxDEkvOlxi2RF02
-	1Z4c7JtY8vqfCEaSS567vRwiZ5bJDrZBnToUa9wJ0wuSR+YX5nol99Gam39tm+qaF/Us/cGSlyq
-	DlDtVdfEbe+g4wQeSpDyHThxLt406CZA7fpignXwwPIFRaabPKW4J0oK9k/kVLUnVjkH592r7CV
-	owJ63r+rZs4nSWMO5/fjPaQ+uFccN4T/6Do3LCCsEEgK4vh8LBsUwqnLTHSYZOX973tmxVOlD88
-	+XbmU6DkgX+yQrPIVHPce
-X-Google-Smtp-Source: AGHT+IEnBNI1O6DOXTrHnPp911hPTHbpDnBVZzrdBEbI+pdS0MKdIeQtQ/je5/atfqHW1EnEtC8JdA==
-X-Received: by 2002:a05:600c:1c03:b0:43d:2313:7b49 with SMTP id 5b1f17b1804b1-442fd627744mr144511695e9.12.1747729189050;
-        Tue, 20 May 2025 01:19:49 -0700 (PDT)
-Received: from ?IPV6:2a01:e0a:e17:9700:16d2:7456:6634:9626? ([2a01:e0a:e17:9700:16d2:7456:6634:9626])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f78aea59sm21045525e9.25.2025.05.20.01.19.48
+        bh=/EAzD/tIu0MqQ7G+EY88O64O0FaxVAHT+5gF5Zrxa8s=;
+        b=Cg0NCvUYwu9GqIxelRPSOOFB8z0YA+MIu5pXsvz8c1y7qyavX2z1iJNlinE2ib756M
+         b3AilE/18HAm5PAx/cE2WYATg1nkDooS/NNbGobFsmKy/ivaqi/J62/9R7684WPgk4mA
+         Isbxkmjc92bhSZaoqH6WRgTJq14xxFy4jmMFD1sRNANkRGtgBmEgXpocYCG8o91W0j0v
+         ExdMVJLVnoroXc/0idU/KvZGBFMfMgGI7VyIpmbto7vpRwYBC1KslOZlrsVIlaN72cpX
+         8xhDWVydDABlpAldRt7k+pjCGdPVw6moPNDx2/FdfqNnqIp5SJY6heWcwrdW0/uLE8w8
+         vyZg==
+X-Forwarded-Encrypted: i=1; AJvYcCVqTr47V1hcgJ6ODJ0+mXFdbNrNLcbjpqFBfzFFX4uS43eQJmV+vOweDlD/T39zn1XYpIE+humbTBswITBH@vger.kernel.org, AJvYcCW73sSR6OgF32b/vCcBJtkutfrNFkIyre5pP/96ixN5tR6HHuRc7PIP3FiowLCdFQA5vL38uVsMQTKUwKjQ@vger.kernel.org, AJvYcCX6ux+UjGfF4j25puSlCsnsJ888R7aZpzUfDIDsyG2Bf4evrHAh3z3fGh7tSTdP5qd7q3FNtImgVrI=@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzvs4o1sWSVrjG7GQBPDtRexFCSy0PCkM/scXQCmup/clpe5h88
+	0Yk3U3Xwg2lUFUd4rGWIMYI44qfa5i81o1uLkbT4YWrkXKuF5miaQygZ
+X-Gm-Gg: ASbGncuMGAjq4QIIuND0ehJS1rs3uNuIUennfyScA6ZoHLuoTWE+lSQmmfT+SaseZQT
+	ejdnnsqgVEUoEWQ0aEPfGObaK8nBiG56DX9xgmDDA0CvmdW42faSo9F9jqxpbKZJBI/KQXwWN/q
+	W27s5BKcXdgeX5Fwh+ltJm6qL4lSl/1+WN/+CN4tPWKXxgjrvCmej6y4/ow2VdioKWnC3SIUl3I
+	RonvK4oWhv0sAAmIW6FwTCrVdmq4K/QiBYYL6GC+oXsdEjWBV9balFS5qdj81jizYWpWNMtfPYY
+	ONO5QieTI4tkud25QDMOH7g4mSM/YM5xv2QeX1ZtwoA3kF9DQE44KYi/+moVrvSNgd0bGVW44LK
+	2MzwguHwmTlwtCUK4ZV8cTg==
+X-Google-Smtp-Source: AGHT+IFuYg2ieDC3caAihREPImXBFbx/3VCQNzBF0LOiwMfF7rCLpeBZ3U/hwiCmzMCamPHp46lUGQ==
+X-Received: by 2002:a17:902:f648:b0:224:f12:3735 with SMTP id d9443c01a7336-231de34468fmr236710165ad.31.1747729412928;
+        Tue, 20 May 2025 01:23:32 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d9443c01a7336-231d4e9713bsm71474085ad.150.2025.05.20.01.23.30
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 01:19:48 -0700 (PDT)
-Message-ID: <126762fc-17ca-4e9d-94d0-3aed1ae321ff@rivosinc.com>
-Date: Tue, 20 May 2025 10:19:47 +0200
+        Tue, 20 May 2025 01:23:32 -0700 (PDT)
+Message-ID: <590981da-4d37-464f-a52e-ba163d3ecbc5@gmail.com>
+Date: Tue, 20 May 2025 17:23:30 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -68,119 +67,93 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 09/14] riscv: misaligned: move emulated access
- uniformity check in a function
-To: Charlie Jenkins <charlie@rivosinc.com>
-Cc: Paul Walmsley <paul.walmsley@sifive.com>,
- Palmer Dabbelt <palmer@dabbelt.com>, Anup Patel <anup@brainfault.org>,
- Atish Patra <atishp@atishpatra.org>, Shuah Khan <shuah@kernel.org>,
- Jonathan Corbet <corbet@lwn.net>, linux-riscv@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvm@vger.kernel.org, kvm-riscv@lists.infradead.org,
- linux-kselftest@vger.kernel.org, Samuel Holland <samuel.holland@sifive.com>,
- Andrew Jones <ajones@ventanamicro.com>, Deepak Gupta <debug@rivosinc.com>
-References: <20250515082217.433227-1-cleger@rivosinc.com>
- <20250515082217.433227-10-cleger@rivosinc.com> <aCu_ce-kVQsyjrh5@ghost>
+Subject: Re: [PATCH 1/1] docs: kerneldoc.py: don't use Sphinx logger
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+ Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Stephen Rothwell <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1747719873.git.mchehab+huawei@kernel.org>
+ <6b81b1aaa8446b4d850064dd38ffffa1a1cb6254.1747719873.git.mchehab+huawei@kernel.org>
+ <7bbe75ff-548f-4ffd-9522-59d1518d6c72@infradead.org>
+ <20250520095037.3dc39685@sal.lan>
 Content-Language: en-US
-From: =?UTF-8?B?Q2zDqW1lbnQgTMOpZ2Vy?= <cleger@rivosinc.com>
-In-Reply-To: <aCu_ce-kVQsyjrh5@ghost>
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <20250520095037.3dc39685@sal.lan>
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 
-
-
-On 20/05/2025 01:32, Charlie Jenkins wrote:
-> On Thu, May 15, 2025 at 10:22:10AM +0200, Clément Léger wrote:
->> Split the code that check for the uniformity of misaligned accesses
->> performance on all cpus from check_unaligned_access_emulated_all_cpus()
->> to its own function which will be used for delegation check. No
->> functional changes intended.
->>
->> Signed-off-by: Clément Léger <cleger@rivosinc.com>
->> Reviewed-by: Andrew Jones <ajones@ventanamicro.com>
->> ---
->>  arch/riscv/kernel/traps_misaligned.c | 20 ++++++++++++++------
->>  1 file changed, 14 insertions(+), 6 deletions(-)
->>
->> diff --git a/arch/riscv/kernel/traps_misaligned.c b/arch/riscv/kernel/traps_misaligned.c
->> index e551ba17f557..287ec37021c8 100644
->> --- a/arch/riscv/kernel/traps_misaligned.c
->> +++ b/arch/riscv/kernel/traps_misaligned.c
->> @@ -647,6 +647,18 @@ bool __init check_vector_unaligned_access_emulated_all_cpus(void)
->>  }
->>  #endif
->>  
->> +static bool all_cpus_unaligned_scalar_access_emulated(void)
->> +{
->> +	int cpu;
->> +
->> +	for_each_online_cpu(cpu)
->> +		if (per_cpu(misaligned_access_speed, cpu) !=
+On Tue, 20 May 2025 09:50:37 +0200, Mauro Carvalho Chehab wrote:
+> Hi Randy,
 > 
-> misaligned_access_speed is only defined when
-> CONFIG_RISCV_SCALAR_MISALIGNED. This function should return false when
-> !CONFIG_RISCV_SCALAR_MISALIGNED and only use this logic otherwise.
-
-Hi Charlie,
-
-misaligned_access_speed is defined in unaligned_access_speed.c which is
-compiled based on CONFIG_RISCV_MISALIGNED (ditto for trap_misaligned.c)
-
-obj-$(CONFIG_RISCV_MISALIGNED)	+= unaligned_access_speed.o
-
-However, the declaration for it in the header cpu-feature.h however is
-under a CONFIG_RISCV_SCALAR_MISALIGNED ifdef. So either the declaration
-or the definition is wrong but the ifdefery soup makes it quite
-difficult to understand what's going on.
-
-I would suggest to move the DECLARE_PER_CPU under
-CONFIG_RISCV_MISALIGNED so that it reduces ifdef in traps_misaligned as
-well.
-
-Thanks,
-
-Clément
-
+> Em Mon, 19 May 2025 22:55:08 -0700
+> Randy Dunlap <rdunlap@infradead.org> escreveu:
 > 
-> - Charlie
+[...]
+
+>> Traceback
+>> =========
+>>
+>>       File "/usr/lib/python3.13/site-packages/sphinx/util/parallel.py", line 137, in _join_one
+>>         raise SphinxParallelError(*result)
+>>     sphinx.errors.SphinxParallelError: KeyError: '../drivers/gpio/gpiolib-acpi.c'
+>>
+>> and then it's finished (not a normal finish).
+>> So IMHO this patch is not sufficient.
 > 
->> +		    RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
->> +			return false;
->> +
->> +	return true;
->> +}
->> +
->>  #ifdef CONFIG_RISCV_SCALAR_MISALIGNED
->>  
->>  static bool unaligned_ctl __read_mostly;
->> @@ -685,8 +697,6 @@ static int cpu_online_check_unaligned_access_emulated(unsigned int cpu)
->>  
->>  bool __init check_unaligned_access_emulated_all_cpus(void)
->>  {
->> -	int cpu;
->> -
->>  	/*
->>  	 * We can only support PR_UNALIGN controls if all CPUs have misaligned
->>  	 * accesses emulated since tasks requesting such control can run on any
->> @@ -694,10 +704,8 @@ bool __init check_unaligned_access_emulated_all_cpus(void)
->>  	 */
->>  	on_each_cpu(check_unaligned_access_emulated, NULL, 1);
->>  
->> -	for_each_online_cpu(cpu)
->> -		if (per_cpu(misaligned_access_speed, cpu)
->> -		    != RISCV_HWPROBE_MISALIGNED_SCALAR_EMULATED)
->> -			return false;
->> +	if (!all_cpus_unaligned_scalar_access_emulated())
->> +		return false;
->>  
->>  	unaligned_ctl = true;
->>  	return true;
->> -- 
->> 2.49.0
->>
->>
->> _______________________________________________
->> linux-riscv mailing list
->> linux-riscv@lists.infradead.org
->> http://lists.infradead.org/mailman/listinfo/linux-riscv
+> Well, on next-20250516:
+> 
+> 	$ ls drivers/gpio/gpiolib-acpi.c
+> 	ls: cannot access 'drivers/gpio/gpiolib-acpi.c': No such file or directory
+> 
+> Avoiding the script to abort is a matter of adding a try/except
+> block at kerneldoc.py, but I'd say that, if an include file (or any other
+> file needed for the build) is not found, "make" should abort anyway for
+> the affected target (Kernel compilation or when doc building).
+
+Interesting ...
+
+So, it sounds to me you think you have the right to break Stephen's (and
+possibly other devs') workflow of test-building kernel docs, aren't you?
+
+I don't buy such an argument.
+
+An innocent typo in pathname somewhere in the doc tree deserves a friendly
+warning at most, not a fatal crash within Sphinx.  That would need another
+run of "make htmldocs" after fixing the fatal error to see for other
+innocuous warnings.
+
+And your change has no effect on exposing those innocuous warnings.
+
+On current docs-next + your change above, running:
+
+    make cleandocs; make KERNELDOC=$PWD/scripts/kernel-doc.pl htmldocs
+
+produces these 3 warnings:
+
+----------------------------------------------------------------------
+./drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
+./drivers/gpu/drm/amd/include/amd_shared.h:369: warning: Incorrect use of kernel-doc format:          * @DC_HDCP_LC_ENABLE_SW_FALLBACK If set, upon HDCP Locality Check FW
+./drivers/gpu/drm/amd/include/amd_shared.h:373: warning: Enum value 'DC_HDCP_LC_ENABLE_SW_FALLBACK' not described in enum 'DC_DEBUG_MASK'
+----------------------------------------------------------------------
+
+, while running:
+
+    make cleandocs; make htmldocs
+
+or:
+
+    make cleandocs; make KERNELDOC=$PWD/scripts/kerneldoc htmldocs
+
+doesn't produce them.
+
+Sorry, but I believe you have run out of time.
+
+And let me remind you of the expectation for backward-compatibility widely
+accepted our community.
+
+Akira
 
