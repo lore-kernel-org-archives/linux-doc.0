@@ -1,101 +1,78 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 87082175D53;
-	Tue, 20 May 2025 05:29:32 +0000 (UTC)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 67FDDA94F;
+	Tue, 20 May 2025 05:47:56 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747718972; cv=none; b=a6TadnFjM+4oZ9mwq8n9In+A76W6CDw+wC/k1z6x6OveENhaRHNquXFTyQ3eUXT2g0clwjjstedHkMBAODX9qgkWOAhPHWAMvhNqPMH4WHLBPDbOiwzmDgwrUfoaemzNY4s0i91ohBkYJTQANxDYI0n2IDvSQ4B3H4fX+O9JO7Q=
+	t=1747720076; cv=none; b=uFvuTB7bh7hHZ3iILePoa6SCEVgtbfBG7l/G6qO/Dw4IQ2dkT0ed+4+cPYp7aU20yiVq5xfl56L/Qc+m4legEYgrvWUWjAWFbyTXsDeqkMIWS47G1DDCMtCIlNMP7+qzHtJVy41GgXltN4RgmfU7IOMC5qDzjMR/9/8NsryCges=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747718972; c=relaxed/simple;
-	bh=DVsu2Y2hWXGHe9RVnQiDNeXn9UsIdvyoAfdK2Av5qhE=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=NIfHVsYW++hrQCh6YZ7RaFlHTbpXTyrsG0O+1MOwy68qZwTXzyTDEILqyHQVGmIi1Z/1scf6F05j9bARpeWjNOqKJVC/yBezw5wNCBvHwTqgIKMRpqAMGM/qo1V7QE509na8uIuHA3vMzFqicNQsV5cCl6agUyYmQ76JvoDE8XA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eC9qsNcU; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747720076; c=relaxed/simple;
+	bh=cGkO944WICoB6nKSoSYfKOcpvk1XE/JpCHluP26oNPg=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=X9zyML9t8+kSjnKXkRB76XpBEZEOAJ0mH0ZiB+hecu1GiWRQ2rbzSA0cXDZgjXkKUsBFsJh2LoHMEsm+ljJSe7K1swIho4kU5cNFb1JUwO489qwySIBEAMQkykeUPW41DBQkfAVR+o3GAwKZXObBD0YJZuarMp4QPR6ltOlxhMs=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=L5k4rXbG; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eC9qsNcU"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id B2C5CC4CEEA;
-	Tue, 20 May 2025 05:29:30 +0000 (UTC)
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="L5k4rXbG"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id D6A27C4CEEA;
+	Tue, 20 May 2025 05:47:55 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747718972;
-	bh=DVsu2Y2hWXGHe9RVnQiDNeXn9UsIdvyoAfdK2Av5qhE=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=eC9qsNcU7/EBvw18oLOTiD+EsrHHIePWeyVudBwVnyB6FD1w0njN6zTazSTm7dZ8o
-	 U/qYr1a1VxD71L3aOYtIVFeWa3dSP2hTQwC4Ucl2qk1DlOsgBP1UhJ244wWsTeGKyW
-	 0XfQcsYX2ZpElsSWnx+Mbx09BoqtNqo3rIyq8BcEoe9rLSeBX8WEILotiCgxpbzj+Z
-	 RoKZh/q4A01BFkyDkmbbuvCzKKkZFPy/cqs1glFJUhfoJ+8y0jElKqBqMMfR9USnd7
-	 xwYcoISVMB+ysjTee4/dqy2NdU/69hD2bDFwd9yLH5d3r3+qxEdQ3XoxiDod3VT+Es
-	 f/qCX12TE2gTQ==
-Date: Tue, 20 May 2025 07:29:28 +0200
+	s=k20201202; t=1747720075;
+	bh=cGkO944WICoB6nKSoSYfKOcpvk1XE/JpCHluP26oNPg=;
+	h=From:To:Cc:Subject:Date:From;
+	b=L5k4rXbGSSK59JGl7RKL8NLhXMnR6PylTxYigWsepeM7GFHK+LOigdmPbT16TIBp7
+	 sEOr/CoVaz6snsbuk5Cff2FSIKU0h5ziQpP208RX2I6fo7F6dAXJaTaCDP/BWcgbkI
+	 ZpAuBfa1xX4B/nm9Au3/zr0clMSsaGCCyJDFebsBnG1GnhTLLZB8tBepbBKR5fAZmd
+	 LdhusfDsy/fXLDx/OSyGBWyQQUIn9K3gJnOKD2vC79ilheFpACUPFUp2+q67XMQ1Y6
+	 7rCgxnFCQSSJ57rvyv6tlJZUUFetDMWjwzy8bXcezkplpF5/1iNjE4wHvr2CP+nxtI
+	 aG7j48jZ3iTfA==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab+huawei@kernel.org>)
+	id 1uHFpS-000000056IQ-05FV;
+	Tue, 20 May 2025 07:47:54 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To: Randy Dunlap <rdunlap@infradead.org>
-Cc: linux-kernel@vger.kernel.org, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org, Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] docs: doc-guide: clarify latest theme usage
-Message-ID: <20250520072921.588589cb@foz.lan>
-In-Reply-To: <20250519223613.37277-1-rdunlap@infradead.org>
-References: <20250519223613.37277-1-rdunlap@infradead.org>
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+To: Jonathan Corbet <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	Akira Yokosawa <akiyks@gmail.com>,
+	linux-doc@vger.kernel.org,
+	Masahiro Yamada <mchehab+huawei@kernel.org>,
+	Nathan Chancellor <mchehab+huawei@kernel.org>,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Randy Dunlap <rdunlap@infradead.org>,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 0/1] docs: kernel-doc: doesn't suppress error/warnings
+Date: Tue, 20 May 2025 07:47:44 +0200
+Message-ID: <cover.1747719873.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Em Mon, 19 May 2025 15:36:13 -0700
-Randy Dunlap <rdunlap@infradead.org> escreveu:
+As discussed at:
+   https://lore.kernel.org/all/20250516200350.63be46cd@canb.auug.org.au/
 
-> We have been using the Alabaster theme as the default theme since
-> Sept. 2022.
-> 
-> Keep the information on the RTD theme around in case someone wants to
-> try it with the DOCS_THEME environment variable.
-> 
-> Fixes: 26d797ffc1c0 ("docs: update sphinx.rst to reflect the default theme change")
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Sphinx logger is set in a way that errors/warnings from kernel-doc are
+suppressed, except when V=1.
 
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Finding the root cause is not trivial, as we need to go into the Sphinx
+overlays on the top of Python's default logger class. Instead, let's take
+the trivial approach: use logger class directly. As we can later revisit
+such decision, let's add a comment at the code.
 
-> ---
->  Documentation/doc-guide/sphinx.rst |   12 ++++++------
->  1 file changed, 6 insertions(+), 6 deletions(-)
-> 
-> --- linux-next-20250516.orig/Documentation/doc-guide/sphinx.rst
-> +++ linux-next-20250516/Documentation/doc-guide/sphinx.rst
-> @@ -42,12 +42,6 @@ with your distributions. In order to do
->  Sphinx inside a virtual environment, using ``virtualenv-3``
->  or ``virtualenv``, depending on how your distribution packaged Python 3.
->  
-> -.. note::
-> -
-> -   #) It is recommended to use the RTD theme for html output. Depending
-> -      on the Sphinx version, it should be installed separately,
-> -      with ``pip install sphinx_rtd_theme``.
-> -
->  In summary, if you want to install the latest version of Sphinx, you
->  should do::
->  
-> @@ -162,6 +156,12 @@ By default, the "Alabaster" theme is use
->  this theme is bundled with Sphinx and need not be installed separately.
->  The Sphinx theme can be overridden by using the ``DOCS_THEME`` make variable.
->  
-> +.. note::
-> +
-> +   Some people might prefer to use the RTD theme for html output.
-> +   Depending on the Sphinx version, it should be installed separately,
-> +   with ``pip install sphinx_rtd_theme``.
-> +
->  There is another make variable ``SPHINXDIRS``, which is useful when test
->  building a subset of documentation.  For example, you can build documents
->  under ``Documentation/doc-guide`` by running
+Mauro Carvalho Chehab (1):
+  docs: kerneldoc.py: don't use Sphinx logger
+
+ Documentation/sphinx/kerneldoc.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
+
+-- 
+2.49.0
 
 
-
-Thanks,
-Mauro
