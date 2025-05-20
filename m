@@ -1,208 +1,128 @@
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+Received: from mail-ua1-f45.google.com (mail-ua1-f45.google.com [209.85.222.45])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9C6DF25B1C5;
-	Tue, 20 May 2025 09:24:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8C47226460B;
+	Tue, 20 May 2025 09:26:54 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.222.45
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747733096; cv=none; b=uQjATmDwsI3e9UzrE3xvVtvoFSc4XPBzGIz3sCySoaxj+Sw66OYhBUrhabx+5HjFVpgZxhhvsHKTfirZ6jDN6DiVe7P+qFOCugJ9mabRKGNTm1Kz3W6MLGsuWzWBHUVCXIINhp9FixKh8naFOdW+ACp9PNOa4yiVtfP6Sfn6zgY=
+	t=1747733216; cv=none; b=R1KccSRxnw7EOuKh/vDQ7JRgFbeOMsk2gmXcLY5Jl61Tc+liHu+bmh96tOs/305m8eH9t72zCi6Fx9a9OQwHjS5i8TgP6mc5RgYKSQ2Ooe/qPxSosBt7uIVQ+6mHR4B2Ofr8BIePhpB7xSfdra/7DZ/oi9n1w4c5VADU8iMWRt0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747733096; c=relaxed/simple;
-	bh=8lqQQP4T8U24N8XgiVMBAB9dvBkyWQckbVdZ4ZEwckU=;
+	s=arc-20240116; t=1747733216; c=relaxed/simple;
+	bh=rR2ODFobvB6aQcm+jleTMvFv46973eoS1Nxd5m44XoM=;
 	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
-	 To:Cc:Content-Type; b=OgsawpDf4yuLwQEUHFyTFAfAU75eh+j6RW15bf+0G8raxUHD1q93Z+EJhpOPYCfz2hxlVgLaMNmuoNJ23KR69JAQ+5XvK0xyrODPCu1QHatxpDLnKS2+Uw/Ycdn+5P4eehLVACJcCxvuzitkhuwiN/ElAfBep2GYnofp1d7UdBg=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mfGvtzNB; arc=none smtp.client-ip=209.85.219.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+	 To:Cc:Content-Type; b=Z0MXndEuBR4RpxLiwigIcynA+lj0T15mpwoUsRBRt/jvXZ0Z+wdPBgOBsw9rzVDWXwnLug0dSXbz6oOtPM+r06SyhdTZIGJrIfdHsEZ3KjSISB/ct+a4EOv9ft1gnSbprxx8mE3bgRlkdU2o5i0IDZRkEL7QoDmbz8GnaVkLamE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org; spf=pass smtp.mailfrom=gmail.com; arc=none smtp.client-ip=209.85.222.45
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=linux-m68k.org
 Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mfGvtzNB"
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-6f8cb6b3340so45299006d6.1;
-        Tue, 20 May 2025 02:24:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747733093; x=1748337893; darn=vger.kernel.org;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:from:to:cc:subject:date
-         :message-id:reply-to;
-        bh=xx//TkYKG/87T6qfujpj4GQczz4RSpoekiQT+JUTLAs=;
-        b=mfGvtzNBMuMptWP++LSaQ1dMlqMX/AQ5CSVcMOohu4y+gIsyv7tHZDqVsE1CkBy8Bx
-         qj6lOiZO15AMLWCG0sMXDPQGls71ayREZq6m6l9U4G58QU1aPXAQWwk1cz6/qklCmf4j
-         mEGOEMzjkIbGZhHPbbDQAOIwQgxGj2BQP87kjeJXEDzJB4xzqA6I1w4ik9wx20Dvsbml
-         b5jEdu3LezhA3lSgyoQXA0tBvoRRhpMFnPchvHjwZRo0QssOSXieffKk/mxpp/MCC44W
-         ju/nI3d0udaZ/rjMp5X0zXCJ+1DkG1iY2DFOfdkQ8TuxULh8IXIL7XtDWE8jtBwuy/x/
-         sgBw==
+Received: by mail-ua1-f45.google.com with SMTP id a1e0cc1a2514c-87beaae0d45so1040322241.3;
+        Tue, 20 May 2025 02:26:54 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747733093; x=1748337893;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to;
-        bh=xx//TkYKG/87T6qfujpj4GQczz4RSpoekiQT+JUTLAs=;
-        b=CFfZi+oAouBeo/R8F3gVyKRaXNkB7A5AiWEDJ16GoE6sEtMRTHhxABHJi+yYXX2J2N
-         cOeS4tzhuicGt8tXG713ZxOnsm6zfI0ndct2jl8Kyw+Nmneh8IfPBiJ3fQE7ougwsBPT
-         8woSeLCP5gTxe9XP8AozPUNusflIfENeOe3rMf9RGP/1ooqBwTwOIX2aFpHBd4Swp9Sw
-         ii7nrQCTu1SJ4Lv1ZGAimDCY8IG8kk9Tfgx+0j1fhheFYigoMbsciNSllqwi68wmdvq8
-         fozZdXPfCwZ3Yv7ylGnUzo8pkqQ1DpErYWSkMTtLb5mgkDH+daQN2zjKOMWRgjWH0Qsa
-         PXyQ==
-X-Forwarded-Encrypted: i=1; AJvYcCVmqr487JOZtRYOPzco+RT2KAHjpx+Os9hcrHBAt+wBfMGhpqfPM0Pw4MmyCnnGG37EhhIFDb4235q9MwTPx4Kc@vger.kernel.org, AJvYcCVyIQiOmWoXolyT6IeebjKnC7HNf3EqwezrBD5yoEQXTfgwVp6qp/najBp9I51VRIc1XSFxyTgCvWReQO3I@vger.kernel.org, AJvYcCWW9feh+uweAYJMc5/Uiapn3tBmYG7rixCu8BuiU8R6vPp0K+pdvN0RIbphHBIuNx3fTZ6s/dkclzI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YydMj/DUzC+vly4eA1i8KkdjKJhtXLyMjaVhf+Xu8xttiDJu4U2
-	mmhN0KL7KslJL/Um/SXmVunTwSZ1bk4aa4vRFXeG0raKgES0H2u1j7XbaG8NTjktm3+TeH+/2Zf
-	hgtameIHv9GzQNYUgW02gZ8F+jJOx9I4=
-X-Gm-Gg: ASbGncvTp5K7HGWFuzvee+fijXTwy9MiUP60bdoiBmrw3s/TMlIWzWvVZgpO5CB+q3d
-	tKuzdBDDtUTOt+8ntAksfLgWpEHYR7p9SwzV9VThvkZ9vfilU2PFwarmsUdwxLAEApBdHZRDHBt
-	HV791qHdV+bpW5L4I3Mr95jEpGH6LsOCHq7g==
-X-Google-Smtp-Source: AGHT+IGgparnaxmNvuHM/lrDoY1fvAKD0ORwmu9fSSm7EZPsILX0++SVjr2wKYyuavU6HNxWcE8IYtysoLY8rG5k1Go=
-X-Received: by 2002:ad4:5aa3:0:b0:6f5:38a2:52dd with SMTP id
- 6a1803df08f44-6f8b2d12d21mr267363036d6.31.1747733093356; Tue, 20 May 2025
- 02:24:53 -0700 (PDT)
+        d=1e100.net; s=20230601; t=1747733212; x=1748338012;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=I35pJzfJnVpM8mnqD+jIZ0IpwIQDyk5+35hdygHMvDU=;
+        b=RHRd6wJwKu4tTUGfKkIqLTNwJ5uSDilcIrCMKKK1szT+Z2mQKed4u71Wiw8gSfJC+o
+         N6mLS3zDfxxiy70kXIsLeZuQwIUqUcmvi3zoUova4u72aKqaZ8GNUBGgi3FOcCkCAcP6
+         BgqCoDm0IR9B4l3W2Fss2iEEez2HebAk07gDUf+9WWjdp9XhxIiDLSvRCbjH82wa3ZeB
+         9stzC+NNXvcl1IPhZArBjncPWpSA29B5EY9XIEriOwbxIxavwunKmX1YZrO0WCHf4R0x
+         ltkrSTf9IE5mq/lwYpKW9e0edWhQ/bSwwqmGKX9Xmv1b6M8BrpUmEWatpPg/MLVBCgmU
+         QP/w==
+X-Forwarded-Encrypted: i=1; AJvYcCVAXmcSBt70w+zbSFBdNPVXEIPUb9jeagBAO65hrkGUG8Z4l4/fSZfpEJ2HmT5W4EBP1NK46URzDi/1@vger.kernel.org, AJvYcCWbMBpKwudkkMWW0Xt+aFhCRm9EE+e4UMwnYPR0KVlQvS4vQH0T+lL/WHnb5D4X1N4rY3oZylw3qQjLv1Hq@vger.kernel.org, AJvYcCXdVLx9gK0YlyCt4SWgkZnaKM0JOmIgFJxVTAKKp2KLcAbjYhQNz51gIr9uzEa4AubDJ6HFdUXw8Hrw@vger.kernel.org
+X-Gm-Message-State: AOJu0Yzys9zsGs22GXx7n4prDMnpVlPt7fhRBEFgm2rZ+K1sgK+ewBP6
+	D3zTRyjGnfUB9vVTA405bzeSRXbjmpN47RbhIkfaeB4fNhOR1eoTNHW178fVROYs
+X-Gm-Gg: ASbGncuJs/pEYVV7xHhs9IVPIrb1V8heIY0dknHGrQL/e/8TPB8ZPix0ry535SAjjIr
+	e15s3TQ/ddx+FRNcj+r4H3jBjvnCcxizqnOjyj5onoTYXmGXos2ZsXQ0Ys/i9Bv+IOfNCj62UZM
+	y9kJUTkjkR2laQwJq6NdpNnnzsDLXSTTWtkyCbYZJuyLMtLaFouhlbpE9q81ubIo1L7azKs1bbF
+	1KJTJl34QfmmWpkBGBNFSercGAdXam3LOr9TcWRcyjrIwcL7mcaEw5MJY39zHf4dVsUObX/z3T4
+	4K/sRbftJzr1bQfc+WsPnUt3Jj0qUZxbFwK9d8wYcllrpTDjZjOorUnCEhQtbroLByymvBDGMy9
+	WGMYd9hNB7a0lGc2JNQ==
+X-Google-Smtp-Source: AGHT+IH1U+FJwe59eLhCkNgPwu3N3GCETWRisn7/wPwT6aa5vc+UqJyj7EH3jX+plFLTkvzgMmeCCw==
+X-Received: by 2002:a05:6102:f8f:b0:4bb:eb4a:fa03 with SMTP id ada2fe7eead31-4e053c658b9mr13617664137.23.1747733211834;
+        Tue, 20 May 2025 02:26:51 -0700 (PDT)
+Received: from mail-vk1-f182.google.com (mail-vk1-f182.google.com. [209.85.221.182])
+        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-4e19508b101sm4515791137.29.2025.05.20.02.26.50
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 May 2025 02:26:51 -0700 (PDT)
+Received: by mail-vk1-f182.google.com with SMTP id 71dfb90a1353d-52413efd0d3so1583269e0c.2;
+        Tue, 20 May 2025 02:26:50 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCVph91zBm2sVjgx02SVwHGZeaclzauO5+x4+OhZrMDOjACKbeDUeVc8lhcELd2PtfQ2k6xl0Jeh+OBc@vger.kernel.org, AJvYcCWR+YrXw+InddNesDL6AsmysJM8qrf0oNeUe+NB+6BA8WJUgW60Z8+qW/qX4bK5YGba4ioEto9CFhp0NiEJ@vger.kernel.org, AJvYcCWVkVkcihjV78VA2KGOK/riSFE4uuebljDkz2SYwBdZsacw4L9uFkTLNBoFnqZaM8UbnZWRTciuZE35@vger.kernel.org
+X-Received: by 2002:a05:6122:d16:b0:529:be0:8353 with SMTP id
+ 71dfb90a1353d-52dbcc563e6mr14351261e0c.2.1747733210548; Tue, 20 May 2025
+ 02:26:50 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-References: <20250515033857.132535-1-npache@redhat.com>
-In-Reply-To: <20250515033857.132535-1-npache@redhat.com>
-From: Yafang Shao <laoar.shao@gmail.com>
-Date: Tue, 20 May 2025 17:24:16 +0800
-X-Gm-Features: AX0GCFuzkEn4ubaObVckXJemP0oCOx73QZ9HTjLQbxewFSpT9IkcJKm3ftBH9v4
-Message-ID: <CALOAHbAa7DY6+hO4RJtjg-MS+cnUmsiPXX8KS1MKSfgy6HLYAQ@mail.gmail.com>
-Subject: Re: [PATCH v6 0/4] mm: introduce THP deferred setting
-To: Nico Pache <npache@redhat.com>
-Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
-	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
-	rientjes@google.com, hannes@cmpxchg.org, lorenzo.stoakes@oracle.com, 
-	rdunlap@infradead.org, mhocko@suse.com, Liam.Howlett@oracle.com, 
-	zokeefe@google.com, surenb@google.com, jglisse@google.com, cl@gentwo.org, 
-	jack@suse.cz, dave.hansen@linux.intel.com, will@kernel.org, tiwai@suse.de, 
-	catalin.marinas@arm.com, anshuman.khandual@arm.com, dev.jain@arm.com, 
-	raquini@redhat.com, aarcange@redhat.com, kirill.shutemov@linux.intel.com, 
-	yang@os.amperecomputing.com, thomas.hellstrom@linux.intel.com, 
-	vishal.moola@gmail.com, sunnanyong@huawei.com, usamaarif642@gmail.com, 
-	wangkefeng.wang@huawei.com, ziy@nvidia.com, shuah@kernel.org, 
-	peterx@redhat.com, willy@infradead.org, ryan.roberts@arm.com, 
-	baolin.wang@linux.alibaba.com, baohua@kernel.org, david@redhat.com, 
-	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org, 
-	corbet@lwn.net, akpm@linux-foundation.org
+References: <20250516030310.16950-1-cyan.yang@sifive.com> <20250516030310.16950-3-cyan.yang@sifive.com>
+In-Reply-To: <20250516030310.16950-3-cyan.yang@sifive.com>
+From: Geert Uytterhoeven <geert@linux-m68k.org>
+Date: Tue, 20 May 2025 11:26:39 +0200
+X-Gmail-Original-Message-ID: <CAMuHMdVoUx99rK3bZZnpTh699fQouVfmTfzvuM_UfGS=PAvW2Q@mail.gmail.com>
+X-Gm-Features: AX0GCFszGmUcQtLoTyNNFovF2YojcjcAcPR9b8MIsnl3CFxsjuc5ApH7U3El6W8
+Message-ID: <CAMuHMdVoUx99rK3bZZnpTh699fQouVfmTfzvuM_UfGS=PAvW2Q@mail.gmail.com>
+Subject: Re: [PATCH v2 02/12] riscv: Add SiFive xsfvqmaccdod and xsfvqmaccqoq
+ vendor extensions
+To: Cyan Yang <cyan.yang@sifive.com>
+Cc: robh@kernel.org, krzk+dt@kernel.org, conor+dt@kernel.org, corbet@lwn.net, 
+	paul.walmsley@sifive.com, palmer@dabbelt.com, aou@eecs.berkeley.edu, 
+	alex@ghiti.fr, samuel.holland@sifive.com, linux-doc@vger.kernel.org, 
+	devicetree@vger.kernel.org, linux-riscv@lists.infradead.org, 
+	linux-kernel@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 15, 2025 at 11:41=E2=80=AFAM Nico Pache <npache@redhat.com> wro=
-te:
->
-> This series is a follow-up to [1], which adds mTHP support to khugepaged.
-> mTHP khugepaged support is a "loose" dependency for the sysfs/sysctl
-> configs to make sense. Without it global=3D"defer" and  mTHP=3D"inherit" =
-case
-> is "undefined" behavior.
->
-> We've seen cases were customers switching from RHEL7 to RHEL8 see a
-> significant increase in the memory footprint for the same workloads.
->
-> Through our investigations we found that a large contributing factor to
-> the increase in RSS was an increase in THP usage.
->
-> For workloads like MySQL, or when using allocators like jemalloc, it is
-> often recommended to set /transparent_hugepages/enabled=3Dnever. This is
-> in part due to performance degradations and increased memory waste.
->
-> This series introduces enabled=3Ddefer, this setting acts as a middle
-> ground between always and madvise. If the mapping is MADV_HUGEPAGE, the
-> page fault handler will act normally, making a hugepage if possible. If
-> the allocation is not MADV_HUGEPAGE, then the page fault handler will
-> default to the base size allocation. The caveat is that khugepaged can
-> still operate on pages that are not MADV_HUGEPAGE.
->
-> This allows for three things... one, applications specifically designed t=
-o
-> use hugepages will get them, and two, applications that don't use
-> hugepages can still benefit from them without aggressively inserting
-> THPs at every possible chance. This curbs the memory waste, and defers
-> the use of hugepages to khugepaged. Khugepaged can then scan the memory
-> for eligible collapsing. Lastly there is the added benefit for those who
-> want THPs but experience higher latency PFs. Now you can get base page
-> performance at the PF handler and Hugepage performance for those mappings
-> after they collapse.
->
-> Admins may want to lower max_ptes_none, if not, khugepaged may
-> aggressively collapse single allocations into hugepages.
->
-> TESTING:
-> - Built for x86_64, aarch64, ppc64le, and s390x
-> - selftests mm
-> - In [1] I provided a script [2] that has multiple access patterns
-> - lots of general use.
-> - redis testing. This test was my original case for the defer mode. What =
-I
->    was able to prove was that THP=3Dalways leads to increased max_latency
->    cases; hence why it is recommended to disable THPs for redis servers.
->    However with 'defer' we dont have the max_latency spikes and can still
->    get the system to utilize THPs. I further tested this with the mTHP
->    defer setting and found that redis (and probably other jmalloc users)
->    can utilize THPs via defer (+mTHP defer) without a large latency
->    penalty and some potential gains. I uploaded some mmtest results
->    here[3] which compares:
->        stock+thp=3Dnever
->        stock+(m)thp=3Dalways
->        khugepaged-mthp + defer (max_ptes_none=3D64)
->
->   The results show that (m)THPs can cause some throughput regression in
->   some cases, but also has gains in other cases. The mTHP+defer results
->   have more gains and less losses over the (m)THP=3Dalways case.
->
-> V6 Changes:
-> - nits
-> - rebased dependent series and added review tags
->
-> V5 Changes:
-> - rebased dependent series
-> - added reviewed-by tag on 2/4
->
-> V4 Changes:
-> - Minor Documentation fixes
-> - rebased the dependent series [1] onto mm-unstable
->     commit 0e68b850b1d3 ("vmalloc: use atomic_long_add_return_relaxed()")
->
-> V3 Changes:
-> - Combined the documentation commits into one, and moved a section to the
->   khugepaged mthp patchset
->
-> V2 Changes:
-> - base changes on mTHP khugepaged support
-> - Fix selftests parsing issue
-> - add mTHP defer option
-> - add mTHP defer Documentation
->
-> [1] - https://lore.kernel.org/all/20250515032226.128900-1-npache@redhat.c=
-om/
-> [2] - https://gitlab.com/npache/khugepaged_mthp_test
-> [3] - https://people.redhat.com/npache/mthp_khugepaged_defer/testoutput2/=
-output.html
->
-> Nico Pache (4):
->   mm: defer THP insertion to khugepaged
->   mm: document (m)THP defer usage
->   khugepaged: add defer option to mTHP options
->   selftests: mm: add defer to thp setting parser
->
->  Documentation/admin-guide/mm/transhuge.rst | 31 +++++++---
->  include/linux/huge_mm.h                    | 18 +++++-
->  mm/huge_memory.c                           | 69 +++++++++++++++++++---
->  mm/khugepaged.c                            |  8 +--
->  tools/testing/selftests/mm/thp_settings.c  |  1 +
->  tools/testing/selftests/mm/thp_settings.h  |  1 +
->  6 files changed, 106 insertions(+), 22 deletions(-)
->
-> --
-> 2.49.0
->
->
+Hi Cyan,
 
-Hello Nico,
+On Fri, 16 May 2025 at 05:07, Cyan Yang <cyan.yang@sifive.com> wrote:
+> Add SiFive vendor extension support to the kernel with the target of
+> "xsfvqmaccdod" and "xsfvqmaccqoq".
+>
+> Signed-off-by: Cyan Yang <cyan.yang@sifive.com>
 
-Upon reviewing the series, it occurred to me that BPF could solve this
-more cleanly. Adding a 'tva_flags' parameter to the BPF hook would
-handle this case and future scenarios without requiring new modes. The
-BPF mode could then serve as a unified solution.
+Thanks for your patch, which is now commit 2d147d77ae6e96c1 ("riscv:
+Add SiFive xsfvqmaccdod and xsfvqmaccqoq vendor extensions")
+in riscv/for-next.
 
---=20
-Regards
-Yafang
+> --- a/arch/riscv/Kconfig.vendor
+> +++ b/arch/riscv/Kconfig.vendor
+> @@ -16,6 +16,19 @@ config RISCV_ISA_VENDOR_EXT_ANDES
+>           If you don't know what to do here, say Y.
+>  endmenu
+>
+> +menu "SiFive"
+> +config RISCV_ISA_VENDOR_EXT_SIFIVE
+> +       bool "SiFive vendor extension support"
+> +       select RISCV_ISA_VENDOR_EXT
+> +       default y
+
+I guess this has no dependency on ARCH_SIFIVE and does not default
+to ARCH_SIFIVE because this extension can be present on non-Sifive
+SoCs, too?
+
+Probably I should have asked this when the other RISCV_ISA_VENDOR_EXT_*
+were introduced, but at least for ANDES I already know the answer.
+
+> +       help
+> +         Say N here if you want to disable all SiFive vendor extension
+> +         support. This will cause any SiFive vendor extensions that are
+> +         requested by hardware probing to be ignored.
+> +
+> +         If you don't know what to do here, say Y.
+> +endmenu
+> +
+>  menu "T-Head"
+>  config RISCV_ISA_VENDOR_EXT_THEAD
+>         bool "T-Head vendor extension support"
+
+Gr{oetje,eeting}s,
+
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
