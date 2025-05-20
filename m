@@ -1,65 +1,64 @@
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 14FBA24E4A4;
-	Tue, 20 May 2025 14:57:38 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.44
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 310BE242D95
+	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 15:01:02 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.53
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747753061; cv=none; b=Fh/Ny+3w8vpYB02oYXYkFxqQ4qxPrUk2BtpgVEzl212bknAykg+Nkjov8YnujuGw87soTs+anEwWTO6lpPM7r0/hdToq0VjE9/fD57Ri672z3LfaAlfFoxWG12cd9Jh6nyeUWA7JSw0/N4Hr2NO4vqvgUa1BD0dtlsQ5RwXPLlc=
+	t=1747753266; cv=none; b=YsTGpW/dD5HGwhLaVy+GWDPDeLne08/nOrXWySr/i3dPr11iSkkukYBv1kaD1o5Pv0nuF2srxZBhL+lvefWZR5GSiJ89d96dKeBSuXabhQj0MyxgP25wWAI8sQ3DWHaLsjrnpTiCuNbcvwelGct6zN8gydsTcLjhcox7uCB2+4c=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747753061; c=relaxed/simple;
-	bh=cij4uuiDuZVZQTPbEd/ZprWqMclxmm1xVHu26/6GCjU=;
+	s=arc-20240116; t=1747753266; c=relaxed/simple;
+	bh=vxtLkO7E3I4lrtJrUfMLXkQwXrxvUdKqWCgJy3w4zag=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=QOWl6e5FPcd9ERH6Er+UEnV0tt0QNHUG1guCOn3+a4NCL9dIBfOZFMBJKg4M/+jy6QuUifShzGvOUuM7buTgwkj0TiAUZh1KDvVkArA1C96xX6f4nRFstgQB+tHfHeWgU5DMIUYUccI5v3tDWIhydONUT3KzQDkapEioEnoii7k=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=ZcQdLI1r; arc=none smtp.client-ip=209.85.218.44
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	 In-Reply-To:Content-Type; b=gsJWMfKONQHff5rC58Fko7bhqlN8tzAg2OqDLfU0RYFAWbbaXC8dSVPQ3WtyKcttKL6DsRR+qDKQH2OXz/wivfayS31oZAo+LT5SBSmyU4IHHxwoW3OKtO4lEKQn4s5De/WMuzL3cyrto2oHF0o9omSlbhL+Yh9uB/k2EFYCmIA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=WviNNwbI; arc=none smtp.client-ip=209.85.128.53
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="ZcQdLI1r"
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-ad572ba1347so295934566b.1;
-        Tue, 20 May 2025 07:57:38 -0700 (PDT)
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="WviNNwbI"
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-442ec3ce724so47129225e9.0
+        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 08:01:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747753057; x=1748357857; darn=vger.kernel.org;
+        d=linaro.org; s=google; t=1747753261; x=1748358061; darn=vger.kernel.org;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :from:to:cc:subject:date:message-id:reply-to;
-        bh=IajgCekFJONzao3c/Mri5HJ7aoxC+foi/7AqMFd+OWU=;
-        b=ZcQdLI1rgxIxnVcGeRfaGZcUVzFWnVjBwbS8AUNdS6pLbCntT30GqtjOnWuriGzKXV
-         1bM9YOOdOPsrYj03g8XqWO76UUw0k94eqdytmv4R80hPfMiVOvcqYnbqCeJKLnHUtzIb
-         2te/Rn41CjDkNR8rfYEFilwYCcV+HcudsJpbCbjb8HH6zoCVaDZWkgqHXMbbeyMgj8XA
-         M8+8ObfNhLOFjgxm/AcE1BZiYnOrfnmGxu1XoKBHsiNuhqsnyal8JxjLn807P5aO7ECQ
-         9VcIFjjC0FBIGGd63sQ6HBBpma/GVCfNQVITFrAouNK/c/Gjhgut0B0YHIrliOm/QJ70
-         dEEA==
+        bh=YEtrnnDuAmJYKZeSMvf5c7nmLNzlk/l+Iae0vySJelU=;
+        b=WviNNwbI+XG3gnlTkqtjB/mdipNWnaApELzacJvMBfW2ZC+QBvLvo+a6mAWKAmXCD5
+         K2Ql765lzPDsSrh+7MW33gMShbqpSrJkS6injdC/4hAWrm+jwnE8tibISaa8uyQyEXcN
+         3JnUn7G8ljuoMe64vtE5RdjdVivzBHLr06eiX1R5NeND6++Anms1Wr3wLTfoWH1moj3a
+         IS4lTVOJKv1P8Fhop/5iv5C+Tz+3Vicw8LtZRmcu6iwIhbBDQeJLVYuFlcszWs0pZ1Ii
+         cg6K2V4I3Ti6krsGXyckGeF690VZEfHsjxJ7L8pOEXa/yk0jOI11xgiAzlshzFeeUlyy
+         3h8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747753057; x=1748357857;
+        d=1e100.net; s=20230601; t=1747753261; x=1748358061;
         h=content-transfer-encoding:in-reply-to:from:content-language
          :references:cc:to:subject:user-agent:mime-version:date:message-id
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=IajgCekFJONzao3c/Mri5HJ7aoxC+foi/7AqMFd+OWU=;
-        b=KheFYesMA/GUiJi2AGaMfjexniKggsh0H7Sn4+vR4uzMMRyHbbhsSXtV9VaFt9bJXH
-         ZTHd7CJCpVuUcOqdRgEZATsMTf9JwObY3i9TkfvaQJy5eQpM2CjnIySKn2TyPXtBRBC6
-         gWyBJl6ZmfbP8HHBb2X9zkgM0WauJZJ6Q275f+cpfBVoXMhQfYZcUD1VT8FPwre/KElV
-         t3Bbk8RuuMgZ6bktEHpHWjdhSK64uG2OcbtUpQJKhIyR43ko1u6DE6EtAeIBiu5aW+Se
-         nnyjh1Vit/CK0UPNGv2bFx15w137SgyTN3nwBI2xs+wA1hbKoVISEoy6qEeYz5a/yq/1
-         Qppg==
-X-Forwarded-Encrypted: i=1; AJvYcCUVJuWGLd5dH0r6mocbeDsyXyLOzlJHD5F1GDFz2TtY+iOGNZsyK59dRN/Li8UjBVoIIiyVLc/+sh4=@vger.kernel.org, AJvYcCXpfO91ogiWozSl9CDO+8tmSUnJICyAfJD6n5lsMiPj+1k2RtSHlbTnvwz9hsY5/F24HCHjJWOqyFOTzvDO@vger.kernel.org
-X-Gm-Message-State: AOJu0YyEuzcZLVJlJhVcCpzTaJCNUziO2WEFA+MCGYYnHSFP6JjEiQlH
-	UVR80Dr0PJOk3yaqv5MryN0s/O4OJFaU/K5cHFpGhY/Dkr26tj8bsG8E
-X-Gm-Gg: ASbGncuIyhD1qHZ3Ztew0MZzbW4skfp7AX4Z2x64apLg5+rHx3VmEY4c7X289qOtXmX
-	Dy5VoZ7J9C/A2MhI7XSQQZSdWiypctFiiV2/uqqi4NoYm2VWxK/IZkIg9acyLr91ooZW/ClKphB
-	Q+eMFVLLEgPDJN90HdSjgp7Qu6Jg209VngTsyQG0bmbDyG9RcNdE3051388TqDag3C0/P4MMTo8
-	2UROoASr2jm/TuT+EmVY9rY2czipDe7SW87I7Ol7ghGvKTf9EBILlqp58ACk8yh9kGKL3A8FqfS
-	8VaNxAy57Zn8LHIn6ja0/HAICEIF0oiy2QAQAXiY0JKswff5tteL2UUuJ/wgj8HRHDZxDXk/K2K
-	K/ci6X9vRBBnhfr93HkSwl/3g
-X-Google-Smtp-Source: AGHT+IFUKv/+NdaIlzfh/ttE9lZCb6A245ofH9pugxyKdQVM+d5CP7HrC+FNTyOKq0BC3a57Lx+N+w==
-X-Received: by 2002:a17:907:7294:b0:ad5:6337:ba42 with SMTP id a640c23a62f3a-ad56337c96dmr941030966b.46.1747753057000;
-        Tue, 20 May 2025 07:57:37 -0700 (PDT)
-Received: from ?IPV6:2a03:83e0:1126:4:1c0a:f3ac:4087:51c8? ([2620:10d:c092:500::7:66a9])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-ad52d438c3csm735693066b.88.2025.05.20.07.57.36
+        bh=YEtrnnDuAmJYKZeSMvf5c7nmLNzlk/l+Iae0vySJelU=;
+        b=KhH9orjdNqJGG0t0gVZjW5VAmEK31wuu8sH4sXQ/F0aEp5zm3VfSm2uZEYM9uenjtN
+         l/9qcIQJA8xtXFJdmLHxHjmEHFCQlM+RG4q6kobbBkRybWvikgH/v7+vcSQYCrBJIvaL
+         X3IctRAhdxcMOYCo3gScylf6S5lGq+wC39hOw1modh0gjdgc4oC7cTU28Xuhl7eNwOSZ
+         Cf12mvdWt1efP3E+f8InRi8UpXVRAFJSs/504lsgda4nSUaqJoGflVevH6GqLkwHclv9
+         PQPk4qngOPFm/TM/3hUlJ4/fjYmGSSc+eN24+9l8mm6Tz4qnloSWdTtv9uqiNXaLQOpY
+         vVNg==
+X-Forwarded-Encrypted: i=1; AJvYcCWRdweU7TsKkCsiHbRTWDhspCu3PcV0Rp/uNzI1Cz8Iaxf6IbIzi87AmEojb9jIDu11lTMLLgOU1ig=@vger.kernel.org
+X-Gm-Message-State: AOJu0YywEsqVWHGIf4hQop5hjcee6sU/Dt9LXWpBq1iGzZnSURUgUUHQ
+	MWhWsS8Ps5E0ECiv8flQ0Q4+wKm8+x69U9g3Zx1y2OexZP9nCcwNFUAlb/kqK4JdXCI=
+X-Gm-Gg: ASbGncs2PuXE807uzSvbDlolfo8pX2htssvwuyEUFfWcNFZLknwlusu/YwjmtRp54Tj
+	ZJxs1W3R/S1bBBScXjvYLCmSzx6kEISFbQOgDrQelf51ZLYqfVrATqkdyeM87wmXzoQaCMyACIr
+	8YBQN8BpUGkLqm9faaZaG1TQKHkJjcNsZFNPwFX5nz3d/sZ0EbqdNkFDYf6JlkCgmGaUjmUnXNh
+	WY+FPTkXHCimFsSL9URD67heIiAo0KwBdaLvrJvDIvKYx8H7d1i861CHgZSxxolDG15xo8r6VP7
+	LR3VRYPb2yidREtpjK7khw6EFgBjLpVrZDA1NZvIhO7KATltI9wKzo+T
+X-Google-Smtp-Source: AGHT+IH24Rob6qzsp/B6a4YvVXoqQFWt4twT0lUoObQ25VvZu+ofvWuRa8S+DtGe5tHJROxKWkMZ3Q==
+X-Received: by 2002:a05:600c:a418:b0:445:1984:2479 with SMTP id 5b1f17b1804b1-445198425a6mr87579185e9.5.1747753261270;
+        Tue, 20 May 2025 08:01:01 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.136.128])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-447f6b295fdsm35699865e9.5.2025.05.20.08.00.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 07:57:36 -0700 (PDT)
-Message-ID: <ad5b93bf-24e6-4b15-9c0d-5c501c74de86@gmail.com>
-Date: Tue, 20 May 2025 15:57:35 +0100
+        Tue, 20 May 2025 08:01:00 -0700 (PDT)
+Message-ID: <443141db-6950-4a15-83be-ad9e9c0e03a0@linaro.org>
+Date: Tue, 20 May 2025 16:00:59 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -67,201 +66,195 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v3 1/7] mm: khugepaged: extract vm flag setting outside of
- hugepage_madvise
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
- linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
- riel@surriel.com, ziy@nvidia.com, laoar.shao@gmail.com,
- baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com, npache@redhat.com,
- ryan.roberts@arm.com, vbabka@suse.cz, jannh@google.com,
- Arnd Bergmann <arnd@arndb.de>, linux-kernel@vger.kernel.org,
- linux-doc@vger.kernel.org, kernel-team@meta.com
-References: <20250519223307.3601786-1-usamaarif642@gmail.com>
- <20250519223307.3601786-2-usamaarif642@gmail.com>
- <18be636f-d6a7-4270-b324-22750b3a358c@lucifer.local>
+Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
+ source
+To: Leo Yan <leo.yan@arm.com>
+Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
+ Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>,
+ Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
+ Namhyung Kim <namhyung@kernel.org>,
+ Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+ Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+ Adrian Hunter <adrian.hunter@intel.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>, linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
+ linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
+References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
+ <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
+ <20250520134632.GR412060@e132581.arm.com>
 Content-Language: en-US
-From: Usama Arif <usamaarif642@gmail.com>
-In-Reply-To: <18be636f-d6a7-4270-b324-22750b3a358c@lucifer.local>
-Content-Type: text/plain; charset=UTF-8
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20250520134632.GR412060@e132581.arm.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
 
 
 
-On 20/05/2025 15:43, Lorenzo Stoakes wrote:
-> This commit message is really poor. You're also not mentioning that you're
-> changing s390 behaviour?
-> 
-> On Mon, May 19, 2025 at 11:29:53PM +0100, Usama Arif wrote:
->> This is so that flag setting can be resused later in other functions,
-> 
-> Typo.
-> 
->> to reduce code duplication (including the s390 exception).
+On 20/05/2025 2:46 pm, Leo Yan wrote:
+> On Tue, May 06, 2025 at 12:41:39PM +0100, James Clark wrote:
+>> SPE_FEAT_FDS adds the ability to filter on the data source of packets.
+>> Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
+>> when any of the filter bits are set.
 >>
->> No functional change intended with this patch.
+>> Each bit maps to data sources 0-63 described by bits[0:5] in the data
+>> source packet (although the full range of data source is 16 bits so
+>> higher value data sources can't be filtered on). The filter is an OR of
+>> all the bits, so for example setting bits 0 and 3 filters packets from
+>> data sources 0 OR 3.
 > 
-> I'm pretty sure somebody reviewed that this should just be merged with whatever
-> uses this? I'm not sure this is all that valuable as you're not really changing
-> this structurally very much.
+> As Arm ARM says:
+> 
+>    0b0 : If PMSFCR_EL1.FDS is 1, do not record load operations that have
+>          bits [5:0] of the Data Source packet set to <m>.
+>    0b1 : Load operations with Data Source <m> are unaffected by
+>          PMSFCR_EL1.FDS.
+> 
+> We need extra handling for this configuration (0b0 means filtering,
+> 0b1 means no affaction):
+> 
+> - By default, the driver should set all bits in the 'data_src_filter'
+>    field.
+> 
+> - The perf tool needs an extra patch in userspace to initialize all
+>    bits in config4 unless user specify other values.
+> 
+> Thanks,
+> Leo
 > 
 
-Please see patch 2 where hugepage_set_vmflags is reused.
-I was just trying to follow your feedback from previous revision that the flag
-setting and s390 code part is duplicate code and should be common in the prctl
-and madvise function.
+Did you take into account PMSFCR_EL1.FDS being set automatically? I 
+think the wording is slightly confusing but I tested it on the model and 
+it works.
 
-I realize I messed up the arg not having vma and the order of the if statement.
+If PMSFCR_EL1.FDS == 0 then PMSDSFR_EL1 does nothing, and if the data 
+source filter isn't set by the user then FDS isn't set so there's no 
+need to set all the bits in the filter to 1. Once the user asks for any 
+filter then we set FDS, at which point it's whatever filter they asked 
+for. They can set all the bits if they want, or just one.
 
->>
->> Signed-off-by: Usama Arif <usamaarif642@gmail.com>
-> 
-> Yeah I'm not a fan of this patch, it's buggy and really unclear what the
-> purpose is here.
+This is same way PMSFCR_EL1.FT already works. If the user asks for any 
+filter then it's set automatically, but we don't allow the user to ask 
+for "no filters" but with FT set.
 
-No functional change was intended (I realized the order below broke it but can be fixed).
+So the only thing we can't do is filter out samples with _any_ data 
+source. Which would be PMSFCR_EL1.FDS == 1 and PMSDSFR_EL1 == 0. But I 
+don't think that's useful, and there are other filters to get you all or 
+most of the way there.
 
-In the previous revision it was:
-+       case PR_SET_THP_POLICY:
-+               if (arg3 || arg4 || arg5)
-+                       return -EINVAL;
-+               if (mmap_write_lock_killable(me->mm))
-+                       return -EINTR;
-+               switch (arg2) {
-+               case PR_DEFAULT_MADV_HUGEPAGE:
-+                       if (!hugepage_global_enabled())
-+                               error = -EPERM;
-+#ifdef CONFIG_S390
-+                       /*
-+                       * qemu blindly sets MADV_HUGEPAGE on all allocations, but s390
-+                       * can't handle this properly after s390_enable_sie, so we simply
-+                       * ignore the madvise to prevent qemu from causing a SIGSEGV.
-+                       */
-+                       else if (mm_has_pgste(vma->vm_mm))
-+                               error = -EPERM;
-+#endif
-+                       else {
-+                               me->mm->def_flags &= ~VM_NOHUGEPAGE;
-+                               me->mm->def_flags |= VM_HUGEPAGE;
-+                               process_default_madv_hugepage(me->mm, MADV_HUGEPAGE);
-+                       }
-+                       break;
-...
-
-Now with this hugepage_set_vmflags, it would be 
-
-+       case PR_SET_THP_POLICY:
-+               if (arg3 || arg4 || arg5)
-+                       return -EINVAL;
-+               if (mmap_write_lock_killable(mm))
-+                       return -EINTR;
-+               switch (arg2) {
-+               case PR_DEFAULT_MADV_HUGEPAGE:
-+                       if (!hugepage_global_enabled())
-+                               error = -EPERM;
-+                       error = hugepage_set_vmflags(&mm->def_flags, MADV_HUGEPAGE);
-+                       if (!error)
-+                               process_default_madv_hugepage(mm, MADV_HUGEPAGE);
-+                       break;
-
-
-I am happy to go with either of the methods above, but was just trying to
-incorporate your feedback :)
-
-Would you like the method from previous version?
-
-> 
+>> Signed-off-by: James Clark <james.clark@linaro.org>
 >> ---
->>  include/linux/huge_mm.h |  1 +
->>  mm/khugepaged.c         | 26 +++++++++++++++++---------
->>  2 files changed, 18 insertions(+), 9 deletions(-)
+>>   drivers/perf/arm_spe_pmu.c | 31 +++++++++++++++++++++++++++++++
+>>   1 file changed, 31 insertions(+)
 >>
->> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
->> index 2f190c90192d..23580a43787c 100644
->> --- a/include/linux/huge_mm.h
->> +++ b/include/linux/huge_mm.h
->> @@ -431,6 +431,7 @@ change_huge_pud(struct mmu_gather *tlb, struct vm_area_struct *vma,
->>  			__split_huge_pud(__vma, __pud, __address);	\
->>  	}  while (0)
->>
->> +int hugepage_set_vmflags(unsigned long *vm_flags, int advice);
->>  int hugepage_madvise(struct vm_area_struct *vma, unsigned long *vm_flags,
->>  		     int advice);
->>  int madvise_collapse(struct vm_area_struct *vma,
->> diff --git a/mm/khugepaged.c b/mm/khugepaged.c
->> index b04b6a770afe..ab3427c87422 100644
->> --- a/mm/khugepaged.c
->> +++ b/mm/khugepaged.c
->> @@ -346,8 +346,7 @@ struct attribute_group khugepaged_attr_group = {
->>  };
->>  #endif /* CONFIG_SYSFS */
->>
->> -int hugepage_madvise(struct vm_area_struct *vma,
->> -		     unsigned long *vm_flags, int advice)
->> +int hugepage_set_vmflags(unsigned long *vm_flags, int advice)
-> 
-> 
->>  {
->>  	switch (advice) {
->>  	case MADV_HUGEPAGE:
->> @@ -358,16 +357,10 @@ int hugepage_madvise(struct vm_area_struct *vma,
->>  		 * ignore the madvise to prevent qemu from causing a SIGSEGV.
->>  		 */
->>  		if (mm_has_pgste(vma->vm_mm))
-> 
-> This is broken, you refer to vma which doesn't exist.
-> 
-> As the kernel bots are telling you...
-> 
->> -			return 0;
->> +			return -EPERM;
-> 
-> Why are you now returning an error?
-> 
-> This seems like a super broken way of making the caller return 0. Just make this
-> whole thing a bool return if you're going to treat it like a boolean function.
-> 
->>  #endif
->>  		*vm_flags &= ~VM_NOHUGEPAGE;
->>  		*vm_flags |= VM_HUGEPAGE;
->> -		/*
->> -		 * If the vma become good for khugepaged to scan,
->> -		 * register it here without waiting a page fault that
->> -		 * may not happen any time soon.
->> -		 */
->> -		khugepaged_enter_vma(vma, *vm_flags);
->>  		break;
->>  	case MADV_NOHUGEPAGE:
->>  		*vm_flags &= ~VM_HUGEPAGE;
->> @@ -383,6 +376,21 @@ int hugepage_madvise(struct vm_area_struct *vma,
->>  	return 0;
->>  }
->>
->> +int hugepage_madvise(struct vm_area_struct *vma,
->> +		     unsigned long *vm_flags, int advice)
->> +{
->> +	if (advice == MADV_HUGEPAGE && !hugepage_set_vmflags(vm_flags, advice)) {
-> 
-> So now you've completely broken MADV_NOHUGEPAGE haven't you?
-> 
-
-Yeah order needs to be reversed.
-
->> +		/*
->> +		 * If the vma become good for khugepaged to scan,
->> +		 * register it here without waiting a page fault that
->> +		 * may not happen any time soon.
->> +		 */
->> +		khugepaged_enter_vma(vma, *vm_flags);
->> +	}
+>> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+>> index 9309b846f642..d04318411f77 100644
+>> --- a/drivers/perf/arm_spe_pmu.c
+>> +++ b/drivers/perf/arm_spe_pmu.c
+>> @@ -87,6 +87,7 @@ struct arm_spe_pmu {
+>>   #define SPE_PMU_FEAT_INV_FILT_EVT		(1UL << 6)
+>>   #define SPE_PMU_FEAT_DISCARD			(1UL << 7)
+>>   #define SPE_PMU_FEAT_EFT			(1UL << 8)
+>> +#define SPE_PMU_FEAT_FDS			(1UL << 9)
+>>   #define SPE_PMU_FEAT_DEV_PROBED			(1UL << 63)
+>>   	u64					features;
+>>   
+>> @@ -232,6 +233,10 @@ static const struct attribute_group arm_spe_pmu_cap_group = {
+>>   #define ATTR_CFG_FLD_inv_event_filter_LO	0
+>>   #define ATTR_CFG_FLD_inv_event_filter_HI	63
+>>   
+>> +#define ATTR_CFG_FLD_data_src_filter_CFG	config4	/* PMSDSFR_EL1 */
+>> +#define ATTR_CFG_FLD_data_src_filter_LO	0
+>> +#define ATTR_CFG_FLD_data_src_filter_HI	63
 >> +
->> +	return 0;
+>>   GEN_PMU_FORMAT_ATTR(ts_enable);
+>>   GEN_PMU_FORMAT_ATTR(pa_enable);
+>>   GEN_PMU_FORMAT_ATTR(pct_enable);
+>> @@ -248,6 +253,7 @@ GEN_PMU_FORMAT_ATTR(float_filter);
+>>   GEN_PMU_FORMAT_ATTR(float_filter_mask);
+>>   GEN_PMU_FORMAT_ATTR(event_filter);
+>>   GEN_PMU_FORMAT_ATTR(inv_event_filter);
+>> +GEN_PMU_FORMAT_ATTR(data_src_filter);
+>>   GEN_PMU_FORMAT_ATTR(min_latency);
+>>   GEN_PMU_FORMAT_ATTR(discard);
+>>   
+>> @@ -268,6 +274,7 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
+>>   	&format_attr_float_filter_mask.attr,
+>>   	&format_attr_event_filter.attr,
+>>   	&format_attr_inv_event_filter.attr,
+>> +	&format_attr_data_src_filter.attr,
+>>   	&format_attr_min_latency.attr,
+>>   	&format_attr_discard.attr,
+>>   	NULL,
+>> @@ -286,6 +293,9 @@ static umode_t arm_spe_pmu_format_attr_is_visible(struct kobject *kobj,
+>>   	if (attr == &format_attr_inv_event_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_INV_FILT_EVT))
+>>   		return 0;
+>>   
+>> +	if (attr == &format_attr_data_src_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_FDS))
+>> +		return 0;
+>> +
+>>   	if ((attr == &format_attr_branch_filter_mask.attr ||
+>>   	     attr == &format_attr_load_filter_mask.attr ||
+>>   	     attr == &format_attr_store_filter_mask.attr ||
+>> @@ -406,6 +416,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
+>>   	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
+>>   		reg |= PMSFCR_EL1_FnE;
+>>   
+>> +	if (ATTR_CFG_GET_FLD(attr, data_src_filter))
+>> +		reg |= PMSFCR_EL1_FDS;
+>> +
+>>   	if (ATTR_CFG_GET_FLD(attr, min_latency))
+>>   		reg |= PMSFCR_EL1_FL;
+>>   
+>> @@ -430,6 +443,12 @@ static u64 arm_spe_event_to_pmslatfr(struct perf_event *event)
+>>   	return FIELD_PREP(PMSLATFR_EL1_MINLAT, ATTR_CFG_GET_FLD(attr, min_latency));
+>>   }
+>>   
+>> +static u64 arm_spe_event_to_pmsdsfr(struct perf_event *event)
+>> +{
+>> +	struct perf_event_attr *attr = &event->attr;
+>> +	return ATTR_CFG_GET_FLD(attr, data_src_filter);
 >> +}
 >> +
->>  int __init khugepaged_init(void)
->>  {
->>  	mm_slot_cache = KMEM_CACHE(khugepaged_mm_slot, 0);
->> --
->> 2.47.1
+>>   static void arm_spe_pmu_pad_buf(struct perf_output_handle *handle, int len)
+>>   {
+>>   	struct arm_spe_pmu_buf *buf = perf_get_aux(handle);
+>> @@ -788,6 +807,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
+>>   	if (arm_spe_event_to_pmsnevfr(event) & arm_spe_pmsevfr_res0(spe_pmu->pmsver))
+>>   		return -EOPNOTSUPP;
+>>   
+>> +	if (arm_spe_event_to_pmsdsfr(event) &&
+>> +	    !(spe_pmu->features & SPE_PMU_FEAT_FDS))
+>> +		return -EOPNOTSUPP;
+>> +
+>>   	if (attr->exclude_idle)
+>>   		return -EOPNOTSUPP;
+>>   
+>> @@ -857,6 +880,11 @@ static void arm_spe_pmu_start(struct perf_event *event, int flags)
+>>   		write_sysreg_s(reg, SYS_PMSNEVFR_EL1);
+>>   	}
+>>   
+>> +	if (spe_pmu->features & SPE_PMU_FEAT_FDS) {
+>> +		reg = arm_spe_event_to_pmsdsfr(event);
+>> +		write_sysreg_s(reg, SYS_PMSDSFR_EL1);
+>> +	}
+>> +
+>>   	reg = arm_spe_event_to_pmslatfr(event);
+>>   	write_sysreg_s(reg, SYS_PMSLATFR_EL1);
+>>   
+>> @@ -1116,6 +1144,9 @@ static void __arm_spe_pmu_dev_probe(void *info)
+>>   	if (FIELD_GET(PMSIDR_EL1_EFT, reg))
+>>   		spe_pmu->features |= SPE_PMU_FEAT_EFT;
+>>   
+>> +	if (FIELD_GET(PMSIDR_EL1_FDS, reg))
+>> +		spe_pmu->features |= SPE_PMU_FEAT_FDS;
+>> +
+>>   	/* This field has a spaced out encoding, so just use a look-up */
+>>   	fld = FIELD_GET(PMSIDR_EL1_INTERVAL, reg);
+>>   	switch (fld) {
+>>
+>> -- 
+>> 2.34.1
 >>
 
