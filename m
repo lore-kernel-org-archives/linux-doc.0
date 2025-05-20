@@ -1,64 +1,109 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-yb1-f176.google.com (mail-yb1-f176.google.com [209.85.219.176])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 36C1E25A354;
-	Tue, 20 May 2025 19:21:43 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8F32F1FDE19;
+	Tue, 20 May 2025 19:32:55 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.176
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747768905; cv=none; b=dqojVJ6Kwo4tCGiGW5d/lnAnm0bw5ua3ajG9fcLbDBP4DPg7PHv36iuEaffl7zWdYmf8wBKtSKWRBiDg5SkCqptDu/Cmkn7nhMBG1uF7S6Fw9AsobQRXR2xzLqcxIH6Z4irvJdA4G7fvfcacWiOX6kj+N9iN/ChAydc0Uyakv8A=
+	t=1747769577; cv=none; b=NxdmNhLH0lgV6bEb+mkLUDqyHGnMnQr1IeKAxxJH+h77BfNc4+vgZyKqAoAT1tvgwrCMNlfBwK8P3V7N1mxN2myuYTrXcQtjzGspDPmr7Kn6uYL5xT+fZ7LRbCEDeFDHtzlfHZ/xsrEXS4KsrZ3HFBMo7rhTWVCo+aepeX/jRLo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747768905; c=relaxed/simple;
-	bh=vs3CFjXmqEXOSPVSSq2eRt847mz0iU3nVHHR5d/56uk=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=GvfgzDlP9zatTb+4/nMjVVSFkw9DCJnImjQqAivbpKZxr2eFHjnGx3exlwKT+9z7jtJIBMkeZIw+VjMwV7chUvUfzgksFib+9X310MyU4GQooqgjpWro/Lc2Vpw7Qublgtc2GVpmj3EtJYLqqXjJip7VcvhGZL6ifz5m7MrxMfw=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=tTelEoS/; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747769577; c=relaxed/simple;
+	bh=DyY1sI3JCNQaoxUjUXWnrVZV3nJ3zWYHOEWyQDjkcxM=;
+	h=MIME-Version:From:Date:Message-ID:Subject:To:Cc:Content-Type; b=PwN0yknN5hBWTFA01qMeSodJYyTEg8fnBEq7yUlJ2qVxGb+2MjnFEAWtCvDGkL7hjjoz6h7TEmHAa7Wv9bnjeOk/sINl+FLphaShRIA6eGHVT5Biz4GhBkVG79RkvinA5VcgXUBKVU0hffjFTMjD2DCIgoH2o1ZIpE/jJB54WBQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MLpG4VNx; arc=none smtp.client-ip=209.85.219.176
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="tTelEoS/"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id A873FC4CEE9;
-	Tue, 20 May 2025 19:21:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747768903;
-	bh=vs3CFjXmqEXOSPVSSq2eRt847mz0iU3nVHHR5d/56uk=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=tTelEoS/+Ch4CXVNu8XnwfONMGSWq32RyBUgHsQLJycqZhkyFy3NXwHEqtfi+hb7h
-	 TyOmRv4IMy4Gd2WTDz27ccWRdaPPu+r3YIKz8DvEFJidFUb9IxOpj6oHQWyRbFp8eX
-	 MMT0xXZsFI9kL+JS1iv/TQPw7dbxO5rOJo8xFhixQY2N5YYe5tuvGzTj9W6NymERve
-	 FV7KENOfVGyPWgENAPjQCx0e+4yOdxsA8GpricQpQ1d+oO/ZlZ1uArSJ/Ow2IOHqEq
-	 HFwmH9TW0CaBA7evhoWPwCeEuCwBp/3xgXqXWqgLPiJLR+kDExmTJDGvCBClEPQxDL
-	 u3iA1N+Lpl9LQ==
-Date: Tue, 20 May 2025 12:21:41 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jinjian Song <jinjian.song@fibocom.com>
-Cc: andrew+netdev@lunn.ch, angelogioacchino.delregno@collabora.com,
- chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
- corbet@lwn.net, danielwinkler@google.com, davem@davemloft.net,
- edumazet@google.com, haijun.liu@mediatek.com, helgaas@kernel.org,
- horms@kernel.org, johannes@sipsolutions.net, korneld@google.com,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- loic.poulain@linaro.org, m.chetan.kumar@linux.intel.com,
- matthias.bgg@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com,
- rafael.wang@fibocom.com, ricardo.martinez@linux.intel.com,
- ryazanov.s.a@gmail.com
-Subject: Re: [net-next v1] net: wwan: t7xx: Parameterize data plane RX BAT
- and FAG count
-Message-ID: <20250520122141.025616c9@kernel.org>
-In-Reply-To: <20250516084320.66998caf@kernel.org>
-References: <20250514104728.10869-1-jinjian.song@fibocom.com>
-	<20250515180858.2568d930@kernel.org>
-	<20250516084320.66998caf@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MLpG4VNx"
+Received: by mail-yb1-f176.google.com with SMTP id 3f1490d57ef6-e7ab5705fafso738918276.3;
+        Tue, 20 May 2025 12:32:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747769574; x=1748374374; darn=vger.kernel.org;
+        h=cc:to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=MKP6+1oGcQmi64pHElG6X6g0bpuaSoRy90HYWIOpyos=;
+        b=MLpG4VNxmjYaVnNWIBCQyoGO/zLfP3AIaXFaGJk59G7CHja4v6QrHQk7vEHoXbMbNs
+         Vjk3GofMdzB34PPQNjdwpMROAzt/itpVextztl2FvVu4lX8DKpDSBJqbv4l9wosPUH2d
+         xIQKd6PjAuCl3qTjxQIqd7J2fq5533HeX3iOk6WCdN/a9E55ELE9YScC6ZJ4H/WNfC8j
+         52xX2rxE3oYLbh3J0qVtf3LdXaHkPKYWf5Oc7+v0LMEit7lXHgNhyojyz90At6oh+DMV
+         Gk3MJAxhZnL60booyhKcTvqONib8czz5BFHlXuOu4TA9CJbjSXDznoOk176SoXknie+F
+         Cc6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747769574; x=1748374374;
+        h=cc:to:subject:message-id:date:from:mime-version:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=MKP6+1oGcQmi64pHElG6X6g0bpuaSoRy90HYWIOpyos=;
+        b=ZUKUeeUpVhoZeTzUkf9WYMfmHMfL/aDr3MpDvZ8ASubbghW59JmFWV81FR8WuH9WzL
+         CMGf/wQdCmlZQlvdWqnjeKrpDtVN+5sGTXOkh8tspT2edCwobdfEcwstzqBFb2xsbGjT
+         gP2rNzzqhbDEtKumXxyyGA5DXFTU45GIfGwTqEp776/HEsK3Fd873/gipDPX58+WqH0l
+         Xc26dvc4uCbr7T1ql9CcynikeLMps3dhB3zUohFv7jFk8PZZAQlyrMfqE/A6irZoF9Fq
+         jx1WsrdgIpaDp00oTqIlMNvilqe9jU7X2W3KZrSdIr20MePlT2pnm3Wb0iwfjOCKUAvb
+         ztiA==
+X-Forwarded-Encrypted: i=1; AJvYcCVl2ncmWetVhk6w1sq+4FRh8kScKoTJ/fyExCUQ0WO6kS3oGM3YOhisPSGLjwnrue6oLu5zI9yq8MDOiYSz@vger.kernel.org, AJvYcCWzQre8iu3VOWE4/bs4MKm2yrW2SCc9aX52z0Hdyk9dC3Wovs9kqv2ElKsh67tQU/HYdTR21EexLa8=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxHMT1NOEhf0gsoHJ77boeJZz+mEiQb/sF3WzKA3jVVico0CVzI
+	IiA2p0tmK0Ssw+pFsUfDtHfcbYrjUJ5ZmjhAvRBnAGzT6gQIp1Qo1rrM/yF8FqETAjAZHKFwqgV
+	nmZzeUlPI5qkkGxCQoQcvhUDT1Aez9Ng=
+X-Gm-Gg: ASbGncvK/i3tVPekg+6FOXf5uAlTdV+AXZWu61f2ZTcDgJ1LLXhPlYtZhbqDBNEHRBu
+	q6MB65czOduTiCWaMRTq/xQoPKAWhAozgFtlX2k2h2zOWb19iZxAEfk9LlzAUoSep9QVN6v5yL0
+	3oFZQeN/W1Db5lrXXYFcqSrTz0gQosXfCXAY9w6P0zrBk=
+X-Google-Smtp-Source: AGHT+IGJiEG8zJ/8kQF0sNzLIRKcYrQVfcThLoxYp2PsjAHiGu/ZkT83IPTm/EDO5QZHcDozPrCpRV3IlyrBYFpS8Es=
+X-Received: by 2002:a05:690c:8001:b0:70c:b9c2:a966 with SMTP id
+ 00721157ae682-70cb9c2b5d8mr65319227b3.3.1747769574269; Tue, 20 May 2025
+ 12:32:54 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+From: Lothar Rubusch <l.rubusch@gmail.com>
+Date: Tue, 20 May 2025 21:32:18 +0200
+X-Gm-Features: AX0GCFvICKQf8CUfKFbX0hxnd25EN6iXvBHxrIc72rFEcfC2BMMS0gVdHSaZbgo
+Message-ID: <CAFXKEHYe_LBV=95Rm75UXF97oUU5CTYzDdwXJZ=cr+4fGOf80g@mail.gmail.com>
+Subject: Re: [PATCH v1 06/12] iio: accel: adxl313: prepare interrupt handling
+To: andy@kernel.org, jic23@kernel.org, dlechner@baylibre.com, 
+	nuno.sa@analog.com, corbet@lwn.net, lucas.p.stankus@gmail.com, 
+	lars@metafoo.de, Michael.Hennerich@analog.com
+Cc: linux-iio@vger.kernel.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, Lothar Rubusch <l.rubusch@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 
-On Tue, 20 May 2025 10:59:34 +0800 Jinjian Song wrote:
->   If it's not feasible to directly add parameters for configuring this RX buffer(BAT/FAG) to 
-> the mtk_t7xx driver, would it be allowed to add aparameter for a default configuration 
-> ratio (1/2, 1/4)? Or is it not recommended to use driver parameters for mtk_t7xx driver.
+Hi Andy, I forgot to put my mail addresses as well. I copied your answer
+now from the mailing list archive. Hence, sorry for the bad formatting
+of this mail.
 
-Looks into devlink params then
+One question / remark down below.
+
+> On Sun, May 18, 2025 at 11:13:15AM +0000, Lothar Rubusch wrote:
+> > Evaluate the devicetree property for an optional interrupt line, and
+> > configure the interrupt mapping accordingly. When no interrupt line
+> > is defined in the devicetree, keep the FIFO in bypass mode as before.
+>
+> ...
+>
+> > +        ret = regmap_write(data->regmap, ADXL313_REG_INT_MAP, regval);
+>
+> Don't you want to use regmap_assign_bits() or something like this to have
+> the above ternary be included?
+>
+
+Thank you so much. I guess this is a function I was looking for quite
+a while and I
+know several places where to use it.
+
+Anyway, I saw, my hardware test setup still runs on an older kernel
+w/o regmap_assign_bits().
+So, I kindly liked to ask if you have any objections against leaving
+regmap_write() for now? Actually I'd prefer first to see the
+activity/inactivity stuff in, in case this will need some more
+modifications and I need to verify them on hardware. I think, leaving
+regmap_write() here would make that easier for this patch set. Please,
+let me know?
+
+I'm about to send a v2, for the follow up discussion.
+Best,
+L
+
+> > +        if (ret)
+> > +            return ret;
+>
