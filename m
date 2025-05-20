@@ -1,34 +1,34 @@
 Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E380F8BEC;
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 3B60E22D794;
 	Tue, 20 May 2025 13:33:22 +0000 (UTC)
 Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747748003; cv=none; b=uW149tapRmZTFRcJWkmV/0RJyRW5J3hEJqD0qwjlMGRuJ+PiwQTLvXMzdbSGBD2KbFL0+I1VDtBa66jquED9PX+M8Xxzeixp/rlHZmccbqqr6JjXbOANmxk2HRBErkAC9aAMYHLrfOGUXhHw2ck9gjIN1Lk+Esp7xr8QNeIMGFI=
+	t=1747748003; cv=none; b=NC1S/evKTTqkAW8wBxsHa6dnLCBzrKAcUg/d5qsJv9STFj7YmnqwdkOq8FEOvLb0eddgiDnX1rgb8GUfCJBLwuHFFHY8UmHzFuT3/sTId9CK0HPrViPuNXCX+afa8peFGvJdWZbtm7jNNpVpKFYnTvXFgNdcQ7ceiRKjOOsci00=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
 	s=arc-20240116; t=1747748003; c=relaxed/simple;
-	bh=hcqt6eZBGihUCfmwzVKOQS5DiA0cgTfveFjb6FGh0AA=;
+	bh=4nApEr5ie+wHKfoUKfSRSdRlkw1Tcp1VpPHE1i2VbGw=;
 	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version; b=X+hjRTBpy03TAT8x/N8vwKBVbWee6NwAR35gtcMNaDabCvuml5vbgOeSad5mEX2VvlOKTWHbG1ZJnGH4qexLiAx1UJ5aErl83qn/YCdC2bkJexKu0xn1LxDs8PZQEw1MMRMBwRkRR5yfSlIvwwclZzYsJ6x/T/PYnZt7OKQbr5g=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aeB9wu5v; arc=none smtp.client-ip=10.30.226.201
+	 MIME-Version; b=VxilFaRNJ4vbipLrLJUsXfPPpmKs15rXzE0u3hVqf3vv/Gk9fjdx4ld4w/paF4/66r6xZ261iTkmOI5+TNBjTB4v/0kSG29mpOJQhIWAuKK0JIm/0ohCxdfHJRVCu4XIfizjD4QR3n9OFC0kJ4FYlyfOd2Rtct84rBYBUZCL9F0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=f2uKt0Tc; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aeB9wu5v"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE631C4CEEF;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="f2uKt0Tc"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BAF80C4AF09;
 	Tue, 20 May 2025 13:33:22 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
 	s=k20201202; t=1747748002;
-	bh=hcqt6eZBGihUCfmwzVKOQS5DiA0cgTfveFjb6FGh0AA=;
+	bh=4nApEr5ie+wHKfoUKfSRSdRlkw1Tcp1VpPHE1i2VbGw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=aeB9wu5v9brlBWlXZj5OgJdERjIs97QsvnMwDUCy7ZAE6mbkLjP8/1CuwfgwIPm6b
-	 NYib1TSTuNnM0nzEeaOhi9g6POrRmuCm7IiV+PJqNDMcqcidKa8rdS//BvEm89BHi5
-	 YSnBQ+xFMfPNbLvH3fHKC+Go2GYn2R3et8Za+Juw/jlBVXwE8/M+OZ6mVXbSjO64hM
-	 sWsqPPNcFx/CfRF+EILwqSGcLge0dIkc6R6lPEuxKkHZD2ZdHFR9lct6mEhwrwAArh
-	 qRUryuH5UDKN9prDXyBRaS3OJ2eLGNzlgQhlmcNPw8rBs16l1P6oRSLr3Z0MxaZEE6
-	 iaybZW0q8APNw==
+	b=f2uKt0Tc7HkAwBGRFz00KE+i3IjbxvdvWOPIMXUP1hRRDAndpRBQH2tDtPbpHEKpt
+	 9GbcInaMUzyWAp5LjqeslxYJe+cH40kt5GSmU1JyYXMD4Qu4q1Lkj3nTc84taNnGUk
+	 mvcOzTZEHniQgdEVB+a9IWKuR6kIQ5FHQGc0EETQ06VmmTetdxwNSfvzU6jPlJg4zH
+	 kGNxlC96yQ59nfw0BVqEf1WyJo1e8GMfFCFDtYoBR2gJGRWSy0/WN+7TyrzdYpcTmw
+	 I3QwJLQjeQtNqvMpo9mbnWAF01yVsgGc9SmWiDhT+oMIwRJvvmFcVAQtxroRvWM+P6
+	 1ymeH34K0dK4g==
 Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
 	(envelope-from <mchehab@kernel.org>)
-	id 1uHN5r-00000006n8R-1We9;
+	id 1uHN5r-00000006n8L-1LgH;
 	Tue, 20 May 2025 15:33:19 +0200
 From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To: "Jonathan Corbet" <corbet@lwn.net>
@@ -42,9 +42,9 @@ Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
 	linux-doc@vger.kernel.org,
 	linux-kbuild@vger.kernel.org,
 	linux-kernel@vger.kernel.org
-Subject: [PATCH 3/4] docs: kerneldoc.py: add try/except blocks for kernel-doc class errors
-Date: Tue, 20 May 2025 15:33:08 +0200
-Message-ID: <064bac2f462c13f56154891d8f3fb788db94f325.1747747695.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 1/4] docs: kerneldoc.py: don't use Sphinx logger
+Date: Tue, 20 May 2025 15:33:06 +0200
+Message-ID: <b5c5fa41278bc0317461a5074d5229883c5753ef.1747747695.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.49.0
 In-Reply-To: <cover.1747747695.git.mchehab+huawei@kernel.org>
 References: <cover.1747747695.git.mchehab+huawei@kernel.org>
@@ -57,49 +57,30 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
-Replicate the same behavior as what's done with kernel-doc.pl:
-continue building docs even when there are exceptions.
+Unfortunately, currently Sphinx logger is suppressing too much, not
+allowing warnings to be displayed. Disable it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/sphinx/kerneldoc.py | 21 +++++++++++++++++----
- 1 file changed, 17 insertions(+), 4 deletions(-)
+ Documentation/sphinx/kerneldoc.py | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
 diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
-index 314479718a01..4de667d4d95b 100644
+index b713a2c4a615..314479718a01 100644
 --- a/Documentation/sphinx/kerneldoc.py
 +++ b/Documentation/sphinx/kerneldoc.py
-@@ -278,14 +278,27 @@ class KernelDocDirective(Directive):
- 
-         node = nodes.section()
- 
--        kfiles.parse(**self.parse_args)
--        filenames = self.parse_args["file_list"]
-+        try:
-+            kfiles.parse(**self.parse_args)
-+            filenames = self.parse_args["file_list"]
-+            msgs = kfiles.msg(**self.msg_args, filenames=filenames)
- 
--        for filename, out in kfiles.msg(**self.msg_args, filenames=filenames):
-+        except Exception as e:  # pylint: disable=W0703
-+            logger.warning("kernel-doc '%s' processing failed with: %s" %
-+                           (cmd_str(cmd), str(e)))
+@@ -311,7 +311,11 @@ def setup_kfiles(app):
+     if kerneldoc_bin and kerneldoc_bin.endswith("kernel-doc.py"):
+         print("Using Python kernel-doc")
+         out_style = RestFormat()
+-        kfiles = KernelFiles(out_style=out_style, logger=logger)
 +
-+        for filename, out in msgs:
-             if self.verbose >= 1:
-                 print(cmd_str(cmd))
- 
--            ret = self.parse_msg(filename, node, out, cmd)
-+            try:
-+                ret = self.parse_msg(filename, node, out, cmd)
-+
-+            except Exception as e:  # pylint: disable=W0703
-+                logger.warning("kernel-doc '%s' processing failed with: %s" %
-+                               (cmd_str(cmd), str(e)))
-+                return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
-+
-             if ret:
-                 return ret
++        # Ideally, we should be using Sphinx logger here, but its filtering
++        # rules ending filtering out warnings and errors. So, let's use
++        # Python default logger instead.
++        kfiles = KernelFiles(out_style=out_style)
+     else:
+         print(f"Using {kerneldoc_bin}")
  
 -- 
 2.49.0
