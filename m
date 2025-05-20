@@ -1,236 +1,106 @@
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 9F4A72309A7
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 13:24:26 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.46
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E380F8BEC;
+	Tue, 20 May 2025 13:33:22 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747747469; cv=none; b=a6U3kvxd78v+lUPNlocqdrIySzU0S4Cb/M8Xrl9rCN2dBqsxMZTLdMGpeEeEDW69QSh3RmSJuelmz5mfHkc7juGQYSazq9ji9+SEA+JtUGeGMFgz08OF1B69GP/iBtWQY/lSwvv6iKDn7XQW70n3kRXmefjcTm/RlfDyDnXUJHY=
+	t=1747748003; cv=none; b=uW149tapRmZTFRcJWkmV/0RJyRW5J3hEJqD0qwjlMGRuJ+PiwQTLvXMzdbSGBD2KbFL0+I1VDtBa66jquED9PX+M8Xxzeixp/rlHZmccbqqr6JjXbOANmxk2HRBErkAC9aAMYHLrfOGUXhHw2ck9gjIN1Lk+Esp7xr8QNeIMGFI=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747747469; c=relaxed/simple;
-	bh=EO7Bz8Z7ZpsEWzXQ/VGnf3r1ktTQqaVjzcs3ERWBOgk=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mDgJsMfH3576lIecpnoGeoZn6zWru38qs2A4B5Ec1a2HyUgrrRFa1lAYXzyFMSxfsn5rCrIorl40wQZGqsvkz8wmoV9+WPL70Y/WE0TtvdCSU9M236pKdWthqAlWpwPb+QkirmpojCryAkYXOconKYsBMCSExf9bZaCtY/AyaKA=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=ther39kV; arc=none smtp.client-ip=209.85.128.46
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
+	s=arc-20240116; t=1747748003; c=relaxed/simple;
+	bh=hcqt6eZBGihUCfmwzVKOQS5DiA0cgTfveFjb6FGh0AA=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=X+hjRTBpy03TAT8x/N8vwKBVbWee6NwAR35gtcMNaDabCvuml5vbgOeSad5mEX2VvlOKTWHbG1ZJnGH4qexLiAx1UJ5aErl83qn/YCdC2bkJexKu0xn1LxDs8PZQEw1MMRMBwRkRR5yfSlIvwwclZzYsJ6x/T/PYnZt7OKQbr5g=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=aeB9wu5v; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="ther39kV"
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-43cec5cd73bso37962535e9.3
-        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 06:24:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google; t=1747747465; x=1748352265; darn=vger.kernel.org;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=mQHlbMiBxLSmXP52BL1UDUEb0aWb4op30nkibuEcEDI=;
-        b=ther39kVhOOxFJDw1ClHBfxwFYzTnxzYPIbBiRLBtCa4gY2g8SYfqcg02T7DMU8j+h
-         wPmEaOMLUASNfoo8MKakQ72INoep7YFz2oMMxB1wv8ZpG/0XAst0QptUMXGiMstieA3j
-         GXH1DDE+2uoKlOwiE54JsUugnyGje1XL+Wb58G6ceMAr7DxUITRzS6DIWoSn2znoe9dj
-         m3cWuyo4nox8+H3L1o+dqqc/Z1jsbdasqXFM4hfxyvUFMB1ugozAvUj22qcWLHDJn3NI
-         +GuG5uuAfjXXgtWo2UktyDv641rMpdvY6V2oUD1YF4kQA565nvVWfwWKMCKZhAMFgzKZ
-         U05w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747747465; x=1748352265;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:cc:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=mQHlbMiBxLSmXP52BL1UDUEb0aWb4op30nkibuEcEDI=;
-        b=cWhOgzZBG7g0VsE4dC3j5wvwdDiiy0jqZCzL9n7mJdhx2Zz3FYCBxzq7yz0AaG41EI
-         o9Io5o82WGCYLI2Mz2SV4L158DRGTpyHssOQrfK6K43JGoFGN867RNTPygsEijElZri5
-         KRW31eiW4QEEfyhrk+HTMw6ICbOfPZoYgDYaUC2Hvf8GKyhnlz+cPs4+47SvyH2MKrpo
-         JJNtascwOpin9f37uduoG/MCiOAiqgvz2vVdmVXB0q+OJBdW7QQK6lPxIlNOt7YSYcAV
-         EUKVxrTEf4CNQ+0WErbXRPWSSZ3cScocbG5hH4M+3uxRbwtZ32TZ9UCHsr/GX6qCS/MO
-         dBKg==
-X-Forwarded-Encrypted: i=1; AJvYcCXcQ6W44R4hEVXIrgkRi0Gbozh+77HxOAcp07pR+Gn8WxbVNaC62AUuDMBay0ucNnoo8eFX8H1jtKU=@vger.kernel.org
-X-Gm-Message-State: AOJu0Yzij8jLYUd7dezwgpCe6su7wcb552fz5GEHpW+yPlJAT5rKq02Y
-	5EOZVFlrlB91gQY37KOd3vhZ+HLmmbv6kG0uq83f/+AbJuEPSLLZBKmwpF+6AM1MkIo=
-X-Gm-Gg: ASbGnctNkjqd+xVxF3rWSiG7cUdjZzKP4Pgm6INudzPdJt/wJufOBzVFUcEbApS+Q6f
-	RMSSDcpOGATcGDLyIb+Q2qtdA5jPlfDjWLOCot+ByCIa2G0jInOOoff/J8DAPyDLHobIg8JAmSM
-	9tEbW2eC52zdxfl+dNMoUj1+ZB1z91sM6KKY7lPiupd3ydRJmJpnk90rQP0B5cmdEVGIQIiWraP
-	HTHMsNb7PGzzoLO+aAT21dh0+/kwuZGwfUA7tJY8hcX3HjS8FbzDSj1+Y2AzwllTyCwi2Vd9ztM
-	2Ep1vPEXS3eR0UaJYQXKMgyk2H2mTY/soCO2cVgLfKk0N5WS7fZDxG2j
-X-Google-Smtp-Source: AGHT+IE3zELuhSN3TwYO27umiBhhWtesQN6BNGvzjaw7PU+Jb1bNssmWf19VcuZ1nvC7Yd9VZCvZug==
-X-Received: by 2002:a05:600c:4f42:b0:442:dc75:5625 with SMTP id 5b1f17b1804b1-442fd60cb7bmr151310375e9.5.1747747464942;
-        Tue, 20 May 2025 06:24:24 -0700 (PDT)
-Received: from [192.168.1.3] ([37.18.136.128])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca88735sm16788347f8f.69.2025.05.20.06.24.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 06:24:24 -0700 (PDT)
-Message-ID: <25d64842-79c7-4d70-a5d7-08cd60208681@linaro.org>
-Date: Tue, 20 May 2025 14:24:23 +0100
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="aeB9wu5v"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id BE631C4CEEF;
+	Tue, 20 May 2025 13:33:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747748002;
+	bh=hcqt6eZBGihUCfmwzVKOQS5DiA0cgTfveFjb6FGh0AA=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=aeB9wu5v9brlBWlXZj5OgJdERjIs97QsvnMwDUCy7ZAE6mbkLjP8/1CuwfgwIPm6b
+	 NYib1TSTuNnM0nzEeaOhi9g6POrRmuCm7IiV+PJqNDMcqcidKa8rdS//BvEm89BHi5
+	 YSnBQ+xFMfPNbLvH3fHKC+Go2GYn2R3et8Za+Juw/jlBVXwE8/M+OZ6mVXbSjO64hM
+	 sWsqPPNcFx/CfRF+EILwqSGcLge0dIkc6R6lPEuxKkHZD2ZdHFR9lct6mEhwrwAArh
+	 qRUryuH5UDKN9prDXyBRaS3OJ2eLGNzlgQhlmcNPw8rBs16l1P6oRSLr3Z0MxaZEE6
+	 iaybZW0q8APNw==
+Received: from mchehab by mail.kernel.org with local (Exim 4.98.2)
+	(envelope-from <mchehab@kernel.org>)
+	id 1uHN5r-00000006n8R-1We9;
+	Tue, 20 May 2025 15:33:19 +0200
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To: "Jonathan Corbet" <corbet@lwn.net>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+	"Akira Yokosawa" <akiyks@gmail.com>,
+	"Andy Shevchenko" <andriy.shevchenko@linux.intel.com>,
+	"Nicolas Schier" <nicolas.schier@linux.dev>,
+	"Randy Dunlap" <rdunlap@infradead.org>,
+	"Stephen Rothwell" <sfr@canb.auug.org.au>,
+	Kees Cook <kees@kernel.org>,
+	linux-doc@vger.kernel.org,
+	linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH 3/4] docs: kerneldoc.py: add try/except blocks for kernel-doc class errors
+Date: Tue, 20 May 2025 15:33:08 +0200
+Message-ID: <064bac2f462c13f56154891d8f3fb788db94f325.1747747695.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <cover.1747747695.git.mchehab+huawei@kernel.org>
+References: <cover.1747747695.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
- source
-To: Leo Yan <leo.yan@arm.com>
-Cc: Catalin Marinas <catalin.marinas@arm.com>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>, Peter Zijlstra <peterz@infradead.org>,
- Ingo Molnar <mingo@redhat.com>, Arnaldo Carvalho de Melo <acme@kernel.org>,
- Namhyung Kim <namhyung@kernel.org>,
- Alexander Shishkin <alexander.shishkin@linux.intel.com>,
- Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
- Adrian Hunter <adrian.hunter@intel.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
- Zenghui Yu <yuzenghui@huawei.com>, linux-arm-kernel@lists.infradead.org,
- linux-kernel@vger.kernel.org, linux-perf-users@vger.kernel.org,
- linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
- <20250520114309.GO412060@e132581.arm.com>
-Content-Language: en-US
-From: James Clark <james.clark@linaro.org>
-In-Reply-To: <20250520114309.GO412060@e132581.arm.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 
+Replicate the same behavior as what's done with kernel-doc.pl:
+continue building docs even when there are exceptions.
 
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+---
+ Documentation/sphinx/kerneldoc.py | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
 
-On 20/05/2025 12:43 pm, Leo Yan wrote:
-> On Tue, May 06, 2025 at 12:41:39PM +0100, James Clark wrote:
->> SPE_FEAT_FDS adds the ability to filter on the data source of packets.
->> Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
->> when any of the filter bits are set.
->>
->> Each bit maps to data sources 0-63 described by bits[0:5] in the data
->> source packet (although the full range of data source is 16 bits so
->> higher value data sources can't be filtered on). The filter is an OR of
->> all the bits, so for example setting bits 0 and 3 filters packets from
->> data sources 0 OR 3.
->>
->> Signed-off-by: James Clark <james.clark@linaro.org>
->> ---
->>   drivers/perf/arm_spe_pmu.c | 31 +++++++++++++++++++++++++++++++
->>   1 file changed, 31 insertions(+)
->>
->> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
->> index 9309b846f642..d04318411f77 100644
->> --- a/drivers/perf/arm_spe_pmu.c
->> +++ b/drivers/perf/arm_spe_pmu.c
->> @@ -87,6 +87,7 @@ struct arm_spe_pmu {
->>   #define SPE_PMU_FEAT_INV_FILT_EVT		(1UL << 6)
->>   #define SPE_PMU_FEAT_DISCARD			(1UL << 7)
->>   #define SPE_PMU_FEAT_EFT			(1UL << 8)
->> +#define SPE_PMU_FEAT_FDS			(1UL << 9)
->>   #define SPE_PMU_FEAT_DEV_PROBED			(1UL << 63)
->>   	u64					features;
->>   
->> @@ -232,6 +233,10 @@ static const struct attribute_group arm_spe_pmu_cap_group = {
->>   #define ATTR_CFG_FLD_inv_event_filter_LO	0
->>   #define ATTR_CFG_FLD_inv_event_filter_HI	63
->>   
->> +#define ATTR_CFG_FLD_data_src_filter_CFG	config4	/* PMSDSFR_EL1 */
->> +#define ATTR_CFG_FLD_data_src_filter_LO	0
->> +#define ATTR_CFG_FLD_data_src_filter_HI	63
->> +
->>   GEN_PMU_FORMAT_ATTR(ts_enable);
->>   GEN_PMU_FORMAT_ATTR(pa_enable);
->>   GEN_PMU_FORMAT_ATTR(pct_enable);
->> @@ -248,6 +253,7 @@ GEN_PMU_FORMAT_ATTR(float_filter);
->>   GEN_PMU_FORMAT_ATTR(float_filter_mask);
->>   GEN_PMU_FORMAT_ATTR(event_filter);
->>   GEN_PMU_FORMAT_ATTR(inv_event_filter);
->> +GEN_PMU_FORMAT_ATTR(data_src_filter);
->>   GEN_PMU_FORMAT_ATTR(min_latency);
->>   GEN_PMU_FORMAT_ATTR(discard);
->>   
->> @@ -268,6 +274,7 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
->>   	&format_attr_float_filter_mask.attr,
->>   	&format_attr_event_filter.attr,
->>   	&format_attr_inv_event_filter.attr,
->> +	&format_attr_data_src_filter.attr,
->>   	&format_attr_min_latency.attr,
->>   	&format_attr_discard.attr,
->>   	NULL,
->> @@ -286,6 +293,9 @@ static umode_t arm_spe_pmu_format_attr_is_visible(struct kobject *kobj,
->>   	if (attr == &format_attr_inv_event_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_INV_FILT_EVT))
->>   		return 0;
->>   
->> +	if (attr == &format_attr_data_src_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_FDS))
->> +		return 0;
->> +
->>   	if ((attr == &format_attr_branch_filter_mask.attr ||
->>   	     attr == &format_attr_load_filter_mask.attr ||
->>   	     attr == &format_attr_store_filter_mask.attr ||
->> @@ -406,6 +416,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
->>   	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
->>   		reg |= PMSFCR_EL1_FnE;
->>   
->> +	if (ATTR_CFG_GET_FLD(attr, data_src_filter))
->> +		reg |= PMSFCR_EL1_FDS;
->> +
->>   	if (ATTR_CFG_GET_FLD(attr, min_latency))
->>   		reg |= PMSFCR_EL1_FL;
->>   
->> @@ -430,6 +443,12 @@ static u64 arm_spe_event_to_pmslatfr(struct perf_event *event)
->>   	return FIELD_PREP(PMSLATFR_EL1_MINLAT, ATTR_CFG_GET_FLD(attr, min_latency));
->>   }
->>   
->> +static u64 arm_spe_event_to_pmsdsfr(struct perf_event *event)
->> +{
->> +	struct perf_event_attr *attr = &event->attr;
->> +	return ATTR_CFG_GET_FLD(attr, data_src_filter);
->> +}
-> 
-> Seems to me, arm_spe_event_to_pmsdsfr() is not needed as it does not do
-> any conversion from event config to register value.  So simply read the
-> field value in opened code would be fine.
-> 
-> I am fine to keep it and would leave SPE driver maintainers to decide
-> which is preferring.  Otherwise, LGTM:
-> 
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> 
-
-It's purely for consistency with the existing code. See 
-arm_spe_event_to_pmsevfr() etc.
-
->> +
->>   static void arm_spe_pmu_pad_buf(struct perf_output_handle *handle, int len)
->>   {
->>   	struct arm_spe_pmu_buf *buf = perf_get_aux(handle);
->> @@ -788,6 +807,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
->>   	if (arm_spe_event_to_pmsnevfr(event) & arm_spe_pmsevfr_res0(spe_pmu->pmsver))
->>   		return -EOPNOTSUPP;
->>   
->> +	if (arm_spe_event_to_pmsdsfr(event) &&
->> +	    !(spe_pmu->features & SPE_PMU_FEAT_FDS))
->> +		return -EOPNOTSUPP;
->> +
->>   	if (attr->exclude_idle)
->>   		return -EOPNOTSUPP;
->>   
->> @@ -857,6 +880,11 @@ static void arm_spe_pmu_start(struct perf_event *event, int flags)
->>   		write_sysreg_s(reg, SYS_PMSNEVFR_EL1);
->>   	}
->>   
->> +	if (spe_pmu->features & SPE_PMU_FEAT_FDS) {
->> +		reg = arm_spe_event_to_pmsdsfr(event);
->> +		write_sysreg_s(reg, SYS_PMSDSFR_EL1);
->> +	}
->> +
->>   	reg = arm_spe_event_to_pmslatfr(event);
->>   	write_sysreg_s(reg, SYS_PMSLATFR_EL1);
->>   
->> @@ -1116,6 +1144,9 @@ static void __arm_spe_pmu_dev_probe(void *info)
->>   	if (FIELD_GET(PMSIDR_EL1_EFT, reg))
->>   		spe_pmu->features |= SPE_PMU_FEAT_EFT;
->>   
->> +	if (FIELD_GET(PMSIDR_EL1_FDS, reg))
->> +		spe_pmu->features |= SPE_PMU_FEAT_FDS;
->> +
->>   	/* This field has a spaced out encoding, so just use a look-up */
->>   	fld = FIELD_GET(PMSIDR_EL1_INTERVAL, reg);
->>   	switch (fld) {
->>
->> -- 
->> 2.34.1
->>
-> 
+diff --git a/Documentation/sphinx/kerneldoc.py b/Documentation/sphinx/kerneldoc.py
+index 314479718a01..4de667d4d95b 100644
+--- a/Documentation/sphinx/kerneldoc.py
++++ b/Documentation/sphinx/kerneldoc.py
+@@ -278,14 +278,27 @@ class KernelDocDirective(Directive):
+ 
+         node = nodes.section()
+ 
+-        kfiles.parse(**self.parse_args)
+-        filenames = self.parse_args["file_list"]
++        try:
++            kfiles.parse(**self.parse_args)
++            filenames = self.parse_args["file_list"]
++            msgs = kfiles.msg(**self.msg_args, filenames=filenames)
+ 
+-        for filename, out in kfiles.msg(**self.msg_args, filenames=filenames):
++        except Exception as e:  # pylint: disable=W0703
++            logger.warning("kernel-doc '%s' processing failed with: %s" %
++                           (cmd_str(cmd), str(e)))
++
++        for filename, out in msgs:
+             if self.verbose >= 1:
+                 print(cmd_str(cmd))
+ 
+-            ret = self.parse_msg(filename, node, out, cmd)
++            try:
++                ret = self.parse_msg(filename, node, out, cmd)
++
++            except Exception as e:  # pylint: disable=W0703
++                logger.warning("kernel-doc '%s' processing failed with: %s" %
++                               (cmd_str(cmd), str(e)))
++                return [nodes.error(None, nodes.paragraph(text = "kernel-doc missing"))]
++
+             if ret:
+                 return ret
+ 
+-- 
+2.49.0
 
