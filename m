@@ -1,86 +1,129 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BFC9825CC46;
-	Tue, 20 May 2025 22:39:44 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id D6C44219A80;
+	Tue, 20 May 2025 22:50:38 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.48
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747780784; cv=none; b=ogdznWQ1H8GCK86yOjgKvWgFOyokbTHGUBPsVGijl3dlXFxSnm/C/ChJRycJhJQFz7x5D5AWYe5YfDf4vJaeR54XYH+U59XrFpmsXwrsmCpQi41TF5kKHh2RosZX/kRoN4lwDUEaCHq7CHrogK2fioUT6L/7wpXAMEzWEJ1g4Uk=
+	t=1747781440; cv=none; b=AoWY3LWFlZtQaMvLOUkfGog9RJtLQd8Cj8C3W2S7CFvrlQZBzzsqakFYzuAhLtKLvVBfgH/0Z3XKbnFy6SFa+aG3YwoQh2vkFi8bo/pXWkSuo1i3IC4ahvZ9J1IEqgFWMPzfNnAoqMhpym8Pb4dA0hx/qfWXDZ0emRolIH3LEOM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747780784; c=relaxed/simple;
-	bh=Ba/FhmLexBi3mPBWZB+4SlEG/6brlQ6vfvQAbNqiwqw=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=f6zrwrPTSrll3LlyJMsID72sQPim2eSSaTeBZnB4120CnPZeGi+vGirPb1+iGhSf25AT7wJaM9+ZzMFMyeWY+Eja+OH1prFDiiZooreQYk9KA5lXW5euCe+r0HDmRiVVe00L599k7UWE1w5lH8aH1FPGV06i2JZynatAwlV/zj4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=B0SqrZ2+; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747781440; c=relaxed/simple;
+	bh=2/OIFjmwq+riyOvRUGqpFShvIoJFI5zO46oI4YEh3Bc=;
+	h=From:To:Cc:Subject:Date:Message-Id:MIME-Version; b=J8saE6mmmS4jokl2PLt6Ef5C62ES+kYxUWpv6yRoeLygRu/dHUaMKyYuCaUyi/lihCQZU0DT0OtizNcxdA2XaO0F+vZCXZ/ubqO04I7YyNYHV8UT1yKnSGo8eoLm4sRTGGgHkKTRw0ZsATWDNnYSY5JRjPdswEPaOh2tPdoSvvc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=FmENFF7W; arc=none smtp.client-ip=209.85.128.48
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="B0SqrZ2+"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 3D70AC4CEE9;
-	Tue, 20 May 2025 22:39:43 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747780784;
-	bh=Ba/FhmLexBi3mPBWZB+4SlEG/6brlQ6vfvQAbNqiwqw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=B0SqrZ2+Pr88VCSbssvnXmw1Bnr/JVMF8S6WA+sisgl1IboJsa6DCT1eWb0nWy4Nu
-	 zwLOTn0SCZEIhTA+iA/wpFgEJCwTiyFxPHx4/rFp/b8e0Q1avyYMdrrdXMpAVYmwGO
-	 ymIfhJIVNdgdCAHBRtmARdXT8hqZKmdHR81NQqKwgpvl2jyVQsbb5qynAATxqMAT2S
-	 rc0/0JVwSHs++YRk2H2ncfnjoQiSToRRzFi+L2yo8TDWjO96+lZl9nPoAl8ngzD6Fy
-	 dqTgYe8GkKWNviFC61B3Sy0tsACp5MIiIR46Z08Y2Bo1S+VBILf2icigNAHSgrGQkC
-	 vPm9FLBs6Ml5Q==
-Date: Tue, 20 May 2025 15:39:42 -0700
-From: Jakub Kicinski <kuba@kernel.org>
-To: Jinjian Song <jinjian.song@fibocom.com>
-Cc: andrew+netdev@lunn.ch, angelogioacchino.delregno@collabora.com,
- chandrashekar.devegowda@intel.com, chiranjeevi.rapolu@linux.intel.com,
- corbet@lwn.net, danielwinkler@google.com, davem@davemloft.net,
- edumazet@google.com, haijun.liu@mediatek.com, helgaas@kernel.org,
- horms@kernel.org, johannes@sipsolutions.net,
- linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-mediatek@lists.infradead.org,
- loic.poulain@linaro.org, m.chetan.kumar@linux.intel.com,
- matthias.bgg@gmail.com, netdev@vger.kernel.org, pabeni@redhat.com,
- ricardo.martinez@linux.intel.com, ryazanov.s.a@gmail.com, liuqf@fibocom.com
-Subject: Re: [net v1] net: wwan: t7xx: Fix napi rx poll issue
-Message-ID: <20250520153942.7cb63bac@kernel.org>
-In-Reply-To: <20250516084842.26c80cb5@kernel.org>
-References: <20250515031743.246178-1-jinjian.song@fibocom.com>
-	<20250515175251.58b5123f@kernel.org>
-	<20250516084842.26c80cb5@kernel.org>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="FmENFF7W"
+Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-442f4d40152so6708675e9.2;
+        Tue, 20 May 2025 15:50:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747781437; x=1748386237; darn=vger.kernel.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to;
+        bh=Ojzw/UeRGpiMC2qAUta51BQ3KrOpPXeDDbwrtQc+tiE=;
+        b=FmENFF7W2YaT0JZC3wWDg0dU760hcG6Dd9SmU7pIkfeXPYhqzjIRO2tuND1qA8wZGr
+         GRUIAdfhVne8NkT8H5s6q/u18pvOjvcv0TxXO2j1elW5Yf4HR05udSJupErsn/UB7lNK
+         gBAAIrtvJqtYb2iQqTMkWL5Dg9VVs+8zQJK+xEoB3KqzMUYpvV+0CcyJPmpYo5t8wK6H
+         l0ZKwixitlB+EHp9I8HlbruyZkrzmEWcRJtJ+IrBsAePeFz32ZGBYkoev8RC+amdhAZQ
+         EF0ClhxA/slUGjg0KSi/9qi2WlQvEb0SLD1kx9f6UcaiHr7fJeT+VRXZhGIuXhdxPXJV
+         h9OQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747781437; x=1748386237;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to;
+        bh=Ojzw/UeRGpiMC2qAUta51BQ3KrOpPXeDDbwrtQc+tiE=;
+        b=m+1VIIjvOceCY0opSoZAKeZ+fzZlng4IVY6FmPRmqg00STUOiE7XebSldusjEBh/Nu
+         eTKFM9+vThtXNtG5uQQoigsYe+1ohLIWuPSiN9QgP6O0qonQRNNh6FGbxBVXarXoPqe1
+         iNW4CAVBoM0FxBfQRWfIKvywsE4lHEVzQfeqqyZf4CAyUxbOQSz5kALveJh4dgdjpzLI
+         TQQ/moLoqe+CH9kMpaKmg+1k1wHRTURpGcdatSbsme7ccGrni8mFVM8VFiUtJRCKH71A
+         ZuBg7KpV7DP0Kmm8+16uQqaLTAY0I2j8wgiqxiBDsg2LJ4L1iMQS7uN2h/VKURyOtcYC
+         aWPg==
+X-Forwarded-Encrypted: i=1; AJvYcCUBgHvgoAjQqUM0FhqD5sIDs80NneuThMm1mpDbugu5li+ZJItZ9hnPyHvz8BBF5WfIoxam2/yDGU8=@vger.kernel.org, AJvYcCUkBufQZm0LY764P6H0PqMCY3e8GW67J5rh3NcNZJVH2ud0qPXCvOy9J67VvTXbiygne63Csu3L+BGVl9z3@vger.kernel.org
+X-Gm-Message-State: AOJu0YxZL1XScreAzEpWNUitA7r9sZlQXbBQqulxlemShDoBF+aMMLRY
+	MvedR7mqtL7KyttMFyA+BVBCbbcAuB3pmxB/4JSmOPYeJUWh1xIOdfYW
+X-Gm-Gg: ASbGncs6uffUPKUSBviBVgThFjCYJAHkg+7bFY4mhcrnMpNE9R0Al6QM4LD8mCqZBLk
+	zSdnse85rS9d2MBZf4Kpz4VhodLWax44dL0xhV4D+d7EhWci7Q1XjXZAMI0a7j+I9KXi1euFpiD
+	pEM7hfVg9+KqB6TsnJkIlJ6UgqWMXgyPQcrEZJXug9i39/mNQ5sytR8cH078QSj96Xh46Mos5u2
+	fEetaTzxIls5gjtGTW0Nz34u/VQORA5ZAGiGz1jjYGWdUL6eegJA5Mr1Ob/8ylQPt9nTf34EyIl
+	L+aee64nvtPtPlMQw5Y5Rs0VPpUQURqvf+LNy2f/qPILvZfcVvgCWW9YH4KN0zadMOePST6cyGt
+	LcOOpxuo1YwUQrYrzASC+5A==
+X-Google-Smtp-Source: AGHT+IFnZVnz91E1aMX7ARDwYwg+BARaYt6e05+1A6Tv5WdtL6O5XLGtiPAePXWaNL8IZcemymeVgQ==
+X-Received: by 2002:a05:6000:184d:b0:3a0:99a5:237 with SMTP id ffacd0b85a97d-3a35c825937mr6267676f8f.7.1747781436956;
+        Tue, 20 May 2025 15:50:36 -0700 (PDT)
+Received: from localhost.localdomain (84-72-156-211.dclient.hispeed.ch. [84.72.156.211])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca4d105sm18101588f8f.11.2025.05.20.15.50.35
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 May 2025 15:50:36 -0700 (PDT)
+From: Lothar Rubusch <l.rubusch@gmail.com>
+To: jic23@kernel.org,
+	dlechner@baylibre.com,
+	nuno.sa@analog.com,
+	andy@kernel.org,
+	corbet@lwn.net,
+	lucas.p.stankus@gmail.com,
+	lars@metafoo.de,
+	Michael.Hennerich@analog.com,
+	l.rubusch@gmail.com
+Cc: linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: [PATCH v2 00/12] iio: accel: adxl313: add power-save on activity/inactivity
+Date: Tue, 20 May 2025 22:49:55 +0000
+Message-Id: <20250520225007.10990-1-l.rubusch@gmail.com>
+X-Mailer: git-send-email 2.39.5
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 May 2025 15:05:34 +0800 Jinjian Song wrote:
-> >Synchronization is about ensuring that the condition validating
-> >by the if() remains true for as long as necessary.
-> >You need to wrap the read with READ_ONCE() and write with WRITE_ONCE().
-> >The rest if fine because netdev unregister sync against NAPIs in flight.
-> >  
-> 
-> Hi Jakub,
->   I think I got your point.
->   I can use the atomic_t usage in struct t7xx_ccmni to synchronization.
->   
->   static void t7xx_ccmni_wwan_dellink(...) {
-> 
->   [...]
-> 
->   if (WARN_ON(ctlb->ccmni_inst[if_id] != ccmni))
->     return;
-> 
->   unregister_netdevice(dev);
-> 
->   //Add here use this variable(ccmnii->usage) to synchronization
-> 
->   if (atomic_read(&ccmni->usage) == 0)
->      ccmni == NULL;
-> 
->   }
-> 
->   How about this modify?
+The patch set covers the following topics:
+- add debug register and regmap cache
+- prepare iio channel scan_type and scan_index
+- prepare interrupt handling
+- implement fifo with watermark
+- add activity/inactivity together with auto-sleep with link bit
+- documentation
 
-Just use READ_ONCE() / WRITE_ONCE() on the pointer as I suggested.
+Similar situation and approach as for the ADXL345. AC/DC coupling might be
+a pending option as it is quite the same as for ADXL345.
+
+Since activity and inactivity here are implemented covering all axis, I
+assumed x&y&z. Thus the driver uses a fake channel for activity/inactiviy.
+
+Signed-off-by: Lothar Rubusch <l.rubusch@gmail.com>
+---
+v1 -> v2:
+- usage of units.h
+- simplify approach for return values
+---
+Lothar Rubusch (12):
+  iio: accel: adxl313: add debug register
+  iio: accel: adxl313: introduce channel scan_index
+  iio: accel: adxl313: configure scan type for buffer
+  iio: accel: adxl313: make use of regmap cache
+  iio: accel: adxl313: add function to enable measurement
+  iio: accel: adxl313: prepare interrupt handling
+  iio: accel: adxl313: add basic interrupt handling
+  iio: accel: adxl313: add FIFO watermark
+  iio: accel: adxl313: add activity sensing
+  iio: accel: adxl313: add inactivity sensing
+  iio: accel: adxl313: implement power-save on inactivity
+  docs: iio: add ADXL313 accelerometer
+
+ Documentation/iio/adxl313.rst    | 196 ++++++++++
+ Documentation/iio/index.rst      |   1 +
+ drivers/iio/accel/adxl313.h      |  35 +-
+ drivers/iio/accel/adxl313_core.c | 625 ++++++++++++++++++++++++++++++-
+ drivers/iio/accel/adxl313_i2c.c  |   6 +
+ drivers/iio/accel/adxl313_spi.c  |   6 +
+ 6 files changed, 860 insertions(+), 9 deletions(-)
+ create mode 100644 Documentation/iio/adxl313.rst
+
+-- 
+2.39.5
+
