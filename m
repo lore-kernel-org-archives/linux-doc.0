@@ -1,508 +1,219 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.12])
+Received: from mx0b-00069f02.pphosted.com (mx0b-00069f02.pphosted.com [205.220.177.32])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1FF3025D8E2;
-	Tue, 20 May 2025 08:48:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.12
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747730898; cv=none; b=LJkEPwl+ICX7JLBKt8CkLfagwTI9L2cWsbVhc4dmTVFHxJ1rnAkpPhX/GkNHfFOabD5NBO8yoyLchh+2Kd4aaLDZpIzrXy3DFl3svkwttV4uxyt2dVHADnRvrH8gPEQKCRXq1LtTZvI5BPCWWR8Z9K5hUt9N14eQ6z/s6CcaROY=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747730898; c=relaxed/simple;
-	bh=Nvx6Aq+SBJqdlffn+UwWMGGi9i089aEYk067EZNhwWU=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Sdfv8zQ909Y19nNYdwJ17F1pezo2Mp1eRiTBkelnohzaWHbju/Egv/MT2Rpqv1XmW9kt1iQ4RjksQSIz2/JPXr6z3dt0ghSyD98rWtVuFGAoRHLzZVSeIHn9bb5lAjHkEdeVAa33qpXR+Bzc+UXruws25PVwmZTQKNB38ZHbAgQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=gugs7sNN; arc=none smtp.client-ip=198.175.65.12
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 063F020E6E2;
+	Tue, 20 May 2025 08:52:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=205.220.177.32
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747731142; cv=fail; b=THtZQH+ZmXvY1dQn1wSiNz+RMt6rC3t4YFijHmstRDC2Em9mpzxVFJ/5220JLuuYrH6sexRi8TNv/RiWLFD9jvAP7APafsxc1kqUqUTVYz5lXHn3hM5aZ1h3GTGuHS8eox9CM7feyoFTQvGoOjX5DY/pEV4+B3crnbF/qzBq+uU=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747731142; c=relaxed/simple;
+	bh=HF+0tSB9H6VfPkb7YSzThfoooeVi81IXU6Je3O901yc=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:Content-Type:
+	 Content-Disposition:In-Reply-To:MIME-Version; b=DyFT+aMsEPrtWU+vhbf+T0uTsJBuoq/W1U0rMNe6r0oFiCJZeOeJzNNd1eo3QhXNSS87AfrvmgW3QUgVVukGyKBq+u9v7hajRJ7HaJUU2t0KKZmzXlTqR3wa7HwsH/WJsd9aQfRqEyp8aXDc2C3S62QMUHlebyIoZkATiitXfoY=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com; spf=pass smtp.mailfrom=oracle.com; dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b=PyrzlX7d; dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b=wTNxBO2r; arc=fail smtp.client-ip=205.220.177.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=oracle.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=oracle.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="gugs7sNN"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747730897; x=1779266897;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:in-reply-to;
-  bh=Nvx6Aq+SBJqdlffn+UwWMGGi9i089aEYk067EZNhwWU=;
-  b=gugs7sNN65vvv84svopu5PIh8NVGOgrFqxaQhvobTN4llwWZ5qiL5HX6
-   GH8vKrCPu/cJNCP0+r67+32xL93jIbkWIxeVE344r9MffCsYpAAVNN249
-   k8Y/tP6pO3RRp5Qaz+nkzE/mvHEar8T9pnL78i1cVa7oW7Px2bfibxL15
-   lrvSPUALJw8f7PDNNSPI5U4t5dY2aAv/6tP1WOLes6qOOIyz6MUKHBm8v
-   SCf2wCnNIg1ic0RK1ZzEFaqKdD9HUbGvWWrMArvCNZSTS9DPQAWVlyU3C
-   agVyNQ4zSOHe5AgXHXgwtVxXSr+3fwNu/gPFCCpBkV4peXF1Npks0Lvc3
-   Q==;
-X-CSE-ConnectionGUID: 6dv1zwC9SEmDapnb4bFLEw==
-X-CSE-MsgGUID: 6PPXbeEnRqmQtErZ6vAPRA==
-X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="61047115"
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="61047115"
-Received: from fmviesa005.fm.intel.com ([10.60.135.145])
-  by orvoesa104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 01:48:16 -0700
-X-CSE-ConnectionGUID: 6+YtTFaVSKOaoy72gA7D6w==
-X-CSE-MsgGUID: xbJeOMHdSIaobOMTRaVbvw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="144482702"
-Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
-  by fmviesa005.fm.intel.com with ESMTP; 20 May 2025 01:48:10 -0700
-Received: from kbuild by 1992f890471c with local (Exim 4.96)
-	(envelope-from <lkp@intel.com>)
-	id 1uHIds-000MLc-0r;
-	Tue, 20 May 2025 08:48:08 +0000
-Date: Tue, 20 May 2025 16:48:00 +0800
-From: kernel test robot <lkp@intel.com>
-To: Usama Arif <usamaarif642@gmail.com>,
-	Andrew Morton <akpm@linux-foundation.org>, david@redhat.com
-Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
-	Linux Memory Management List <linux-mm@kvack.org>,
-	hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
-	ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
-	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
-	npache@redhat.com, ryan.roberts@arm.com, vbabka@suse.cz,
-	jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
-	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
-	kernel-team@meta.com, Usama Arif <usamaarif642@gmail.com>
-Subject: Re: [PATCH v3 2/7] prctl: introduce PR_DEFAULT_MADV_HUGEPAGE for the
- process
-Message-ID: <202505201614.N4SXnAln-lkp@intel.com>
-References: <20250519223307.3601786-3-usamaarif642@gmail.com>
+	dkim=pass (2048-bit key) header.d=oracle.com header.i=@oracle.com header.b="PyrzlX7d";
+	dkim=pass (1024-bit key) header.d=oracle.onmicrosoft.com header.i=@oracle.onmicrosoft.com header.b="wTNxBO2r"
+Received: from pps.filterd (m0333520.ppops.net [127.0.0.1])
+	by mx0b-00069f02.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54K8fY7q020606;
+	Tue, 20 May 2025 08:51:37 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=cc
+	:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=corp-2025-04-25; bh=HF+0tSB9H6VfPkb7YS
+	zThfoooeVi81IXU6Je3O901yc=; b=PyrzlX7dK+sSF4J0y1dztAeu6qufscR2kF
+	d2T/IhgkRsrN9roMF6o13r0bg8+lAqCp20fOnyDJCuTGPwENNiD44uVsfkoyduU4
+	ah7dRXe74zAkeBlZaGiPDiZ+XcarmbnjW3djicPvXIkAzG8XHPgnCUn1GXB5NJJY
+	0668exGQMTiUDFgw9SPKd1UG//n/QDec/koKIdUm6cYUkk7W3izUWo1cpRptdE8A
+	0EziVSjQmqx3idRNdyB8ApkRfZYyEirjXOJQdZjfAeh0dOW4X8PVD/t6Rr0nSw3U
+	Bxj8rJzZnLAySpyn0adxEhzxuZn/WfJ54fNdYtXv8NjWhXqfN6yw==
+Received: from phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (phxpaimrmta01.appoci.oracle.com [138.1.114.2])
+	by mx0b-00069f02.pphosted.com (PPS) with ESMTPS id 46pjge4xnv-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 20 May 2025 08:51:36 +0000 (GMT)
+Received: from pps.filterd (phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com [127.0.0.1])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (8.18.1.2/8.18.1.2) with ESMTP id 54K8T7Ek015637;
+	Tue, 20 May 2025 08:51:35 GMT
+Received: from nam12-mw2-obe.outbound.protection.outlook.com (mail-mw2nam12lp2041.outbound.protection.outlook.com [104.47.66.41])
+	by phxpaimrmta01.imrmtpd1.prodappphxaev1.oraclevcn.com (PPS) with ESMTPS id 46pgw7fys1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 20 May 2025 08:51:35 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AL1yfvOLAew5vZbKMVct5Z4j49zhJTDULn26/+Ebodxjqn/0Ky4tJw0FqwoeLHyZI1cDWSFLPdTxAma9naabidhoY7XgGW39BsxNVY3os8fln6eu3a0SpDjqi/O46EMBgD4gHyv8di0abv4kjdxIeERx5gCVygiDkZZ4rbb0JWLDlnIjl68q22C+6IbLWPxDokYGSaVJCtU5iDPG/33j2AOerlIZ+5vKvDbJ+881UQ2L0PvOdqrKpM00SriUWnQNLzymvNn7Fs6gZZE7vZDeYod9hYmO6dRewibZG3HVZJ7Kxsx3J9nGq0PJKGW/Xo+oHtt4CCdSiDjGvCpcokpVEQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=HF+0tSB9H6VfPkb7YSzThfoooeVi81IXU6Je3O901yc=;
+ b=oGHAUHJyOv2ztfA4zO1HGnavXRwgldbnqda4cZqFv18Zbl8BAEoCQQGJ57YEcf0cDmk7iN3QW1AOcL495oW7DcUarnHgUQaTuimCLMy6/D18V4UxnhvehqEOSD8b7j3RO2aHFK6fck3HV2ih3xr6U2hDV0TS1kElzHRI8QLI4aQBWWrzxsAKWS827GSsjywWEF3MTlB6CY+sv76x/pcqKrLr8nen9Pu8MVsvGYcHpmQxCdkPaaLR+PiJr59yYRknXe/k53Wv8o5mIZomnPoupGWRjasUcdOnszo+un1IgJ2mZnxzbxsO9mdQ1c/ESLGVVfYpkelIwbSOz91VQW6AfQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oracle.com; dmarc=pass action=none header.from=oracle.com;
+ dkim=pass header.d=oracle.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=oracle.onmicrosoft.com; s=selector2-oracle-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=HF+0tSB9H6VfPkb7YSzThfoooeVi81IXU6Je3O901yc=;
+ b=wTNxBO2rws20NGdU73YXnwg9VVekCfFzE7fXetuRw1E5hH1RQbDAaoLCguViWjZIWpMjS+bISHGKgvBD7gFUkII/8kDwlr0sXYYTG5kdRPKhYs+c/TXdkkAtJhrbTDeDp2n/ALQK7SqbT0I/ywEs6RHOn0UABYvVEnx1TniK4+o=
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com (2603:10b6:8:1cc::16)
+ by DM6PR10MB4299.namprd10.prod.outlook.com (2603:10b6:5:216::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 20 May
+ 2025 08:51:33 +0000
+Received: from DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2]) by DM4PR10MB8218.namprd10.prod.outlook.com
+ ([fe80::2650:55cf:2816:5f2%5]) with mapi id 15.20.8746.030; Tue, 20 May 2025
+ 08:51:33 +0000
+Date: Tue, 20 May 2025 09:51:29 +0100
+From: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
+To: Usama Arif <usamaarif642@gmail.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>, david@redhat.com,
+        linux-mm@kvack.org, hannes@cmpxchg.org, shakeel.butt@linux.dev,
+        riel@surriel.com, ziy@nvidia.com, laoar.shao@gmail.com,
+        baolin.wang@linux.alibaba.com, Liam.Howlett@oracle.com,
+        npache@redhat.com, ryan.roberts@arm.com, vbabka@suse.cz,
+        jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+        linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+        kernel-team@meta.com
+Subject: Re: [PATCH v3 0/7] prctl: introduce PR_SET/GET_THP_POLICY
+Message-ID: <6a86eec6-4d94-4273-9796-7ed31e2ea34a@lucifer.local>
+References: <20250519223307.3601786-1-usamaarif642@gmail.com>
+ <562293c3-fe6f-448c-a5d7-affb1d622c7d@lucifer.local>
+ <28c0a856-c828-4521-bddc-45ee038d0fa7@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <28c0a856-c828-4521-bddc-45ee038d0fa7@gmail.com>
+X-ClientProxiedBy: LO4P123CA0564.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:33b::17) To DM4PR10MB8218.namprd10.prod.outlook.com
+ (2603:10b6:8:1cc::16)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250519223307.3601786-3-usamaarif642@gmail.com>
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR10MB8218:EE_|DM6PR10MB4299:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5239ef9-9559-435f-8959-08dd977b8556
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|1800799024|366016|7416014|376014;
+X-Microsoft-Antispam-Message-Info:
+	=?us-ascii?Q?mjv0sOzTa1VmCyKx63dd0snxD/ujb0dAKXx9jJagqLZbIC45NL+TGEPwSvKs?=
+ =?us-ascii?Q?aqHhDZTrp5tb77T5P6ntUsaUu2/xpRLiFAYRk0vn3p0b8auMP4VkJCPbC/5w?=
+ =?us-ascii?Q?GQwg2qHsdE/6p2MT7caYsWbf0XdurxayzYUSNcJKJbYK/CkJWqzOuLmLe7/t?=
+ =?us-ascii?Q?l2rs/VcYwU2GJBBt9TgxeMfOcwOsE2VkA5NQkHqxpjjsHA6mqQ4qUEUFapQj?=
+ =?us-ascii?Q?3AA9zB3/AJuwmcUpGFFXdMWx+bWZJ17aYrvLrmbXQO3zVpcVNyXW663GneZz?=
+ =?us-ascii?Q?TU239A//jOWe21snpdyUl0c17lyzBZ2PbfWUD3rAN77Bo3GCd5qYP6v40h6E?=
+ =?us-ascii?Q?AyyMemQoll6ao+wttc4UFOo8YqKMu5GR+6eqo2hioiVMZmbUhTnLra4wFMox?=
+ =?us-ascii?Q?zsgjXS7EmSXBY/d5vtHFCX/+JHXS3w6sVR/X45tGc/03Cy3U3i8Q15iLvrLO?=
+ =?us-ascii?Q?7N/4SpVu3GmjdeH/qyrO3VfSuRSl1etxznWqw19FELnnQCGpd/x6vVtkfYUp?=
+ =?us-ascii?Q?xzlwDraeCnAqfm+vKZFD11UCt0qaOwb8Og5SbnaazY9HCzQQP8WxxaEwhue0?=
+ =?us-ascii?Q?cglAPq1rbmW8Ju3CeMsGC2VLMVwrpGsX+bp68c1/45PbabaPjnPuUD06vL1m?=
+ =?us-ascii?Q?YRnXV1qRxGkKW7f7DI7TF/VUAJzrFSxam/B72NEbBvtnyWEelFusZlNsXkTH?=
+ =?us-ascii?Q?4EUBDVkSsOk6yTBuakSAYzPyLmjmzDalNUQR/MMasGTRasd/1fHYclAkq/oc?=
+ =?us-ascii?Q?3Vudg+JQpJxECNGFaO9uDw8vouzfuZcenQ5EtQbYHYVMvyx38+qQTvZ+i2EC?=
+ =?us-ascii?Q?3UIknV0YyXlgRGiiORMNAq36RCaKEfuBCsSUrIjsPCF1ttsCYqdLXoSZ1kY6?=
+ =?us-ascii?Q?yv772be68Yb1R8siV6w8rPhOXuiJix3vwOD//+UExa2Q2Q7NQ1r3IRAKqXS7?=
+ =?us-ascii?Q?YU1y5WiEOfnDxEtu8+H4DSzlsYhR/Q+xVYph9nGukIXOtQRJoQUdGI2z3AXy?=
+ =?us-ascii?Q?vV32I9SLXIqhEBMo3XMxpMgmZCzeaXD5k6KbFiIp+x++5cYhIIfXmSBAKIy/?=
+ =?us-ascii?Q?kEsrXbkydAYNjlGMAydYSG8+jqFnYafDREnyFphm1UkuAj+mrqaxe0Njf4Za?=
+ =?us-ascii?Q?SpoI56bwROK2mNBquR22Tkpz2JbL5Gaq/je3clTBQ8xl/YOP9iaJ7E1zWJC4?=
+ =?us-ascii?Q?Fo9g+6SX0N+BgZZKDjB4bo8g7G46DcrGi45Y92GQ1Gxiqj4SlzidppX6kj/L?=
+ =?us-ascii?Q?EEXgHw1znto4DzH3YA1+LncYVWPCoaTGrA7kVhtKEEO1ZKx+wacOBAKKzqgi?=
+ =?us-ascii?Q?9wmdmfW22j3zXKSsp0BVxmyWiihAdxkuDa4Qr1r88HAcuRz1uSvKvg0FKsSn?=
+ =?us-ascii?Q?M/7b05boZ6ji8VzfGLm9gyRbhnTfkBqrXjsUOqlsK6ODbgJKOsKveHYd0N0p?=
+ =?us-ascii?Q?tkO3au6gFcE=3D?=
+X-Forefront-Antispam-Report:
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR10MB8218.namprd10.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(7416014)(376014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0:
+	=?us-ascii?Q?OvTliOrTo6qK91rSdWb7qlQDoQmDM9e2WlIgCXaY6kFa2DgCCVgOGLW6lPdA?=
+ =?us-ascii?Q?jimTCAXpuFnUVHd6bmQLgYCfdr0Y7KXywMiKt489KbuKekTFcLOGibNGI78T?=
+ =?us-ascii?Q?ctL0ukAg2CWqcFH6Fpn9CdBbdVv8RNm4Vs+VgekAhV5+cZk49zhsTyVNsIKT?=
+ =?us-ascii?Q?MX2yemGeJzlYXpJKInxkPcDP+xaDhcb+TdutCksqaM+jLGV7VPcvbDd6+9Gz?=
+ =?us-ascii?Q?cAlIyBr+jhx/eb1567hYw9AtOi3fZq4wCMauMISwnZd8XUIOYZJQAAoRytdU?=
+ =?us-ascii?Q?ktVl8j+tpjbnXnjyOD3MAWq6GdMXNu1PhdHCYzRw5RPSHcOu5pzQPzp0BMfu?=
+ =?us-ascii?Q?sgElILbaoyfZxXzYiu7AFdDkXCFcK830TKXoo97Bz1HhUoQtu25lTTNBPJvv?=
+ =?us-ascii?Q?wPwl68I77Vp56DwsNT1KuRQdpyh632E2d1st2lb4rgiVR6n7JKxPdTNK+PIi?=
+ =?us-ascii?Q?RPDrhOqvVwL0aTTzY2nM3JPZR/xlI1A+xfxaXQ+MKGLG2JPTc7pBHbzXJivN?=
+ =?us-ascii?Q?oOEcXavRsdT46t4slbtJnF81I0HIHioK5q44MqivtaL8k1CHLLUnqNqAZPDW?=
+ =?us-ascii?Q?HDx6iR9GDwDCCTzML2/ebWzb8oiHwxh8ZZcIFJ0Wlm95G7KzWfkA8AjMOubL?=
+ =?us-ascii?Q?nl8qjbFi7EXRHQqeKtMh3z4LevPf3lpUXXjrSmXxqCr/2aMMShbJptSc5g1b?=
+ =?us-ascii?Q?sGjrP+ggIR8SgAznTZ+DP1Nrob1zUqg0ZEEjFGphB5BXZU9Lf1CpRvBlqGDo?=
+ =?us-ascii?Q?8ZTrmhZMrBQciUyKzajizS9o/5KL6Pb0Co703kcOkbzCwOaD34E/2s5VwqeY?=
+ =?us-ascii?Q?+JBA4XCRSOaANSMNNxdLxpUxtFZhixh0NBcUUdZI6QAHkBOukDPiujafe8hS?=
+ =?us-ascii?Q?MuokgBFMBBFkHDiJp7Yo2hoIqSmWmX1VgpjhdnJhQTyuB4XlMHBCFuSCifd4?=
+ =?us-ascii?Q?6GF3oCt3jf9KliMMVwopziacXTAA0UeAipzsO0B1D/wSDGt5SODHug6NmkS+?=
+ =?us-ascii?Q?hcFclduc3rVLHfGqTakeqdb9Ew7BilcMiuuA2CjetDEaANaY8dM6Y0ouc4E2?=
+ =?us-ascii?Q?pVJSEQSlFRodSVi7MgVrQMtDxhGd1TWcb3VGlAYGdMrI0JIClw3TEpnYXKP1?=
+ =?us-ascii?Q?bA7jFDVjftSXEm7nCqv/nzx5vzm5OialBq62NsofYl7I68eH+vcLAe17mV8X?=
+ =?us-ascii?Q?HTo0d1lr2qhbl/N3Q18FXsiO2kLMaFqS8EiCPz0eOrnzvIQruUlGViVAbZfK?=
+ =?us-ascii?Q?ouU7c6T6C1dEAW8G6kHjDg5acUFQV6CV9TzeHs8tQwbtGvfTNimw+RiRoj1e?=
+ =?us-ascii?Q?b+NI48QMUItS4QsnThrlwLjnbawql1urdCS1w4Tn6vRDGv+PPhQhPcADFxre?=
+ =?us-ascii?Q?0XtfO7DTJ48TPcuHDnrDWA0MOyq96O8dDlY2RgL+N9obBU58VwMu65ibgPWM?=
+ =?us-ascii?Q?JjShHvdx1LoR5O4YQKYtyehfd+rIgTSt1XNgbGp8z9xG/0/TbZkjSvale3G2?=
+ =?us-ascii?Q?iE2guNijaHFVV7kALmy0jQtF6DpEUsQUFQ2J1t7XfiLF6sI2W5yvsLzQ9obp?=
+ =?us-ascii?Q?qQDnkL3e7dyAwlQtiWHvb0UPD07QDnPKmjnw7ohTkxjVaJsZv/GGxK0TFPNF?=
+ =?us-ascii?Q?2A=3D=3D?=
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0:
+	JLpfkEsis8DZ9DwNIU858JhUHW/ly1r0CkGc55UJtjis8SltN9CnEYPTYB1CQsAcyclFQlITE1vS1SW8JmBdb7hjBpr5M7Pgj4UM0aFLtD2a5rjjT3ABv9zFUTmyvC1kbum1HhzhYan83Bi+yVddPdbRU0FWhwAaLH98JkzstQE0l6GCs9zpWiwuOfBRT+xCGlmXzDv7xzrmHsjXCCTH4fS/4mkJQYo/LS3Cpciz7YRCu2K/8yue1TJyDzD8vVNEbHefoDkQqv8kz0ZlL3mSfC9BD/Aae8eJrJA2DmmLnAbA8cyiSX+LhzURzIHwiZNW+XAm6r4TOTmB53Rohi+nr6IiGWGZd5oCz3oz8B+zzba6KOfuA3MTfTuusLJpctWpoBZi2HV3FVmlyeuClx2/Yz+cfjAUHHIVK7S60Z7lyW0sRt/fQuo0wXfEMnfSSK+DC7KCUqTUOAicybgGS4qrCemhc8ls3N2A5Ilhom8ddDloRWkBMZLXHpX/IVrXsiDqnQCteWPpaUG/oJ73ckV9kiEjlI6RhPiC9kOAUNjeM2dkWTKEFIggLSCSqH673/OxWisoIaZlBF/SaWIq+dCvaJ6pDD3WIIELxrFKkBpPdAU=
+X-OriginatorOrg: oracle.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5239ef9-9559-435f-8959-08dd977b8556
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR10MB8218.namprd10.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 08:51:33.1022
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 4e2c6054-71cb-48f1-bd6c-3a9705aca71b
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: npvVOK24U9CRPb/zrgOCT+hAKY6XTGnyyhL46RvLHtmgU/09Yn4pozPFn82fLAwh9nVfJux2QxKzymI1fgX6EGwNlf8lNFIfO/ig9wXyKJk=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR10MB4299
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-20_04,2025-05-16_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 suspectscore=0
+ bulkscore=0 mlxscore=0 spamscore=0 mlxlogscore=940 adultscore=0
+ phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2505070000 definitions=main-2505200070
+X-Authority-Analysis: v=2.4 cv=RamQC0tv c=1 sm=1 tr=0 ts=682c4298 cx=c_pps a=XiAAW1AwiKB2Y8Wsi+sD2Q==:117 a=XiAAW1AwiKB2Y8Wsi+sD2Q==:17 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=wKuvFiaSGQ0qltdbU6+NXLB8nM8=:19 a=Ol13hO9ccFRV9qXi2t6ftBPywas=:19 a=xqWC_Br6kY4A:10
+ a=kj9zAlcOel0A:10 a=dt9VzEwgFbYA:10 a=GoEa3M9JfhUA:10 a=-MNnj1IjRdHHYyMaHHIA:9 a=CjuIK1q_8ugA:10
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIwMDA3MiBTYWx0ZWRfX8I8OiO04Pwnb yl1SjilaXdayy8DzHBnkJIzA0OxaK5P1QLZmWeU+sN0AzVyEqG7Lj6gz5Ky/ryaLTaQ73QY31GF U9VAtfUjygOXkobJiKPKQeRN/rwYaKsFiwidiVTWphvke4Dpyb0ahxGmzh0YZe1Ud21fhxVeyz1
+ XCKFf1VIYy1l/gaMv/pkH1XV5Ihc7pd1an1k+ex2JlqoEE5Vw26JKX+BBQB6UIoSiluQypZdm8W CK1LT0jMXA78rdgfap6+aC26YjMBOc44cKMGzedX+RX9DrZlnuGCfwwVWV8PPom23h7+ODG4Sgn 5nBL6i8v0Hadgyr608V+H9+moRz2S0G5iZJVZL66x+w3abcDfVL537EfvZuobkEoS5dtxSCIdnA
+ hcgT29NphXaoq8yKgnYEbF1mYVpNKyVO5kGxACB7+KmsyER8XWpWWwoBsldj1gnDXjDSO0I/
+X-Proofpoint-ORIG-GUID: BN6A6Grrwy1b7webATanNIld2KDsqXER
+X-Proofpoint-GUID: BN6A6Grrwy1b7webATanNIld2KDsqXER
 
-Hi Usama,
+On Tue, May 20, 2025 at 08:46:43AM +0100, Usama Arif wrote:
+>
+>
+> On 20/05/2025 06:14, Lorenzo Stoakes wrote:
+> > NACK the whole series.
+> >
+> > Usama - I explicitly said make this an RFC, so we can see what this
+> > approach _looks like_ to further examine it, to which you agreed. And now
+> > you've sent it non-RFC. That's not acceptable.
+> >
+> > If you agree to something in review, it's not then optional as to whether
+> > you do it.
+>
+> It was a bit late yesterday and I completely forgot to change --subject-prefix="PATCH v3"
+> to --subject-prefix="RFC v3". Mistakes happen and I apologize.
 
-kernel test robot noticed the following build errors:
+Ack, but in future please try to be careful about this! This obviously
+changes the nature of the series and important to highlight we're still in
+the planning stages here.
 
-[auto build test ERROR on akpm-mm/mm-everything]
-[also build test ERROR on perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master v6.15-rc7]
-[cannot apply to acme/perf/core next-20250516]
-[If your patch is applied to the wrong git tree, kindly drop us a note.
-And when submitting patch, we suggest to use '--base' as documented in
-https://git-scm.com/docs/git-format-patch#_base_tree_information]
+>
+> I agreed to make it RFC and had full intention of doing that.
+> Would you like me to resend it with the RFC tag?
 
-url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-khugepaged-extract-vm-flag-setting-outside-of-hugepage_madvise/20250520-063452
-base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
-patch link:    https://lore.kernel.org/r/20250519223307.3601786-3-usamaarif642%40gmail.com
-patch subject: [PATCH v3 2/7] prctl: introduce PR_DEFAULT_MADV_HUGEPAGE for the process
-config: s390-randconfig-001-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201614.N4SXnAln-lkp@intel.com/config)
-compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
-reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201614.N4SXnAln-lkp@intel.com/reproduce)
+There's no need, we've got discussion here already so it's sensible to keep
+things as-is, the series is in-effect an RFC now as it's NACK'd.
 
-If you fix the issue in a separate patch/commit (i.e. not just a new version of
-the same patch/commit), kindly add following tags
-| Reported-by: kernel test robot <lkp@intel.com>
-| Closes: https://lore.kernel.org/oe-kbuild-all/202505201614.N4SXnAln-lkp@intel.com/
+>
+> Thanks,
+> Usama
 
-All errors (new ones prefixed by >>):
-
->> kernel/sys.c:2678:9: error: call to undeclared function 'hugepage_global_enabled'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2678 |                         if (!hugepage_global_enabled())
-         |                              ^
->> kernel/sys.c:2680:12: error: call to undeclared function 'hugepage_set_vmflags'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2680 |                         error = hugepage_set_vmflags(&mm->def_flags, MADV_HUGEPAGE);
-         |                                 ^
->> kernel/sys.c:2682:5: error: call to undeclared function 'process_default_madv_hugepage'; ISO C99 and later do not support implicit function declarations [-Wimplicit-function-declaration]
-    2682 |                                 process_default_madv_hugepage(mm, MADV_HUGEPAGE);
-         |                                 ^
-   3 errors generated.
-
-
-vim +/hugepage_global_enabled +2678 kernel/sys.c
-
-  2472	
-  2473	SYSCALL_DEFINE5(prctl, int, option, unsigned long, arg2, unsigned long, arg3,
-  2474			unsigned long, arg4, unsigned long, arg5)
-  2475	{
-  2476		struct task_struct *me = current;
-  2477		struct mm_struct *mm = me->mm;
-  2478		unsigned char comm[sizeof(me->comm)];
-  2479		long error;
-  2480	
-  2481		error = security_task_prctl(option, arg2, arg3, arg4, arg5);
-  2482		if (error != -ENOSYS)
-  2483			return error;
-  2484	
-  2485		error = 0;
-  2486		switch (option) {
-  2487		case PR_SET_PDEATHSIG:
-  2488			if (!valid_signal(arg2)) {
-  2489				error = -EINVAL;
-  2490				break;
-  2491			}
-  2492			me->pdeath_signal = arg2;
-  2493			break;
-  2494		case PR_GET_PDEATHSIG:
-  2495			error = put_user(me->pdeath_signal, (int __user *)arg2);
-  2496			break;
-  2497		case PR_GET_DUMPABLE:
-  2498			error = get_dumpable(me->mm);
-  2499			break;
-  2500		case PR_SET_DUMPABLE:
-  2501			if (arg2 != SUID_DUMP_DISABLE && arg2 != SUID_DUMP_USER) {
-  2502				error = -EINVAL;
-  2503				break;
-  2504			}
-  2505			set_dumpable(me->mm, arg2);
-  2506			break;
-  2507	
-  2508		case PR_SET_UNALIGN:
-  2509			error = SET_UNALIGN_CTL(me, arg2);
-  2510			break;
-  2511		case PR_GET_UNALIGN:
-  2512			error = GET_UNALIGN_CTL(me, arg2);
-  2513			break;
-  2514		case PR_SET_FPEMU:
-  2515			error = SET_FPEMU_CTL(me, arg2);
-  2516			break;
-  2517		case PR_GET_FPEMU:
-  2518			error = GET_FPEMU_CTL(me, arg2);
-  2519			break;
-  2520		case PR_SET_FPEXC:
-  2521			error = SET_FPEXC_CTL(me, arg2);
-  2522			break;
-  2523		case PR_GET_FPEXC:
-  2524			error = GET_FPEXC_CTL(me, arg2);
-  2525			break;
-  2526		case PR_GET_TIMING:
-  2527			error = PR_TIMING_STATISTICAL;
-  2528			break;
-  2529		case PR_SET_TIMING:
-  2530			if (arg2 != PR_TIMING_STATISTICAL)
-  2531				error = -EINVAL;
-  2532			break;
-  2533		case PR_SET_NAME:
-  2534			comm[sizeof(me->comm) - 1] = 0;
-  2535			if (strncpy_from_user(comm, (char __user *)arg2,
-  2536					      sizeof(me->comm) - 1) < 0)
-  2537				return -EFAULT;
-  2538			set_task_comm(me, comm);
-  2539			proc_comm_connector(me);
-  2540			break;
-  2541		case PR_GET_NAME:
-  2542			get_task_comm(comm, me);
-  2543			if (copy_to_user((char __user *)arg2, comm, sizeof(comm)))
-  2544				return -EFAULT;
-  2545			break;
-  2546		case PR_GET_ENDIAN:
-  2547			error = GET_ENDIAN(me, arg2);
-  2548			break;
-  2549		case PR_SET_ENDIAN:
-  2550			error = SET_ENDIAN(me, arg2);
-  2551			break;
-  2552		case PR_GET_SECCOMP:
-  2553			error = prctl_get_seccomp();
-  2554			break;
-  2555		case PR_SET_SECCOMP:
-  2556			error = prctl_set_seccomp(arg2, (char __user *)arg3);
-  2557			break;
-  2558		case PR_GET_TSC:
-  2559			error = GET_TSC_CTL(arg2);
-  2560			break;
-  2561		case PR_SET_TSC:
-  2562			error = SET_TSC_CTL(arg2);
-  2563			break;
-  2564		case PR_TASK_PERF_EVENTS_DISABLE:
-  2565			error = perf_event_task_disable();
-  2566			break;
-  2567		case PR_TASK_PERF_EVENTS_ENABLE:
-  2568			error = perf_event_task_enable();
-  2569			break;
-  2570		case PR_GET_TIMERSLACK:
-  2571			if (current->timer_slack_ns > ULONG_MAX)
-  2572				error = ULONG_MAX;
-  2573			else
-  2574				error = current->timer_slack_ns;
-  2575			break;
-  2576		case PR_SET_TIMERSLACK:
-  2577			if (rt_or_dl_task_policy(current))
-  2578				break;
-  2579			if (arg2 <= 0)
-  2580				current->timer_slack_ns =
-  2581						current->default_timer_slack_ns;
-  2582			else
-  2583				current->timer_slack_ns = arg2;
-  2584			break;
-  2585		case PR_MCE_KILL:
-  2586			if (arg4 | arg5)
-  2587				return -EINVAL;
-  2588			switch (arg2) {
-  2589			case PR_MCE_KILL_CLEAR:
-  2590				if (arg3 != 0)
-  2591					return -EINVAL;
-  2592				current->flags &= ~PF_MCE_PROCESS;
-  2593				break;
-  2594			case PR_MCE_KILL_SET:
-  2595				current->flags |= PF_MCE_PROCESS;
-  2596				if (arg3 == PR_MCE_KILL_EARLY)
-  2597					current->flags |= PF_MCE_EARLY;
-  2598				else if (arg3 == PR_MCE_KILL_LATE)
-  2599					current->flags &= ~PF_MCE_EARLY;
-  2600				else if (arg3 == PR_MCE_KILL_DEFAULT)
-  2601					current->flags &=
-  2602							~(PF_MCE_EARLY|PF_MCE_PROCESS);
-  2603				else
-  2604					return -EINVAL;
-  2605				break;
-  2606			default:
-  2607				return -EINVAL;
-  2608			}
-  2609			break;
-  2610		case PR_MCE_KILL_GET:
-  2611			if (arg2 | arg3 | arg4 | arg5)
-  2612				return -EINVAL;
-  2613			if (current->flags & PF_MCE_PROCESS)
-  2614				error = (current->flags & PF_MCE_EARLY) ?
-  2615					PR_MCE_KILL_EARLY : PR_MCE_KILL_LATE;
-  2616			else
-  2617				error = PR_MCE_KILL_DEFAULT;
-  2618			break;
-  2619		case PR_SET_MM:
-  2620			error = prctl_set_mm(arg2, arg3, arg4, arg5);
-  2621			break;
-  2622		case PR_GET_TID_ADDRESS:
-  2623			error = prctl_get_tid_address(me, (int __user * __user *)arg2);
-  2624			break;
-  2625		case PR_SET_CHILD_SUBREAPER:
-  2626			me->signal->is_child_subreaper = !!arg2;
-  2627			if (!arg2)
-  2628				break;
-  2629	
-  2630			walk_process_tree(me, propagate_has_child_subreaper, NULL);
-  2631			break;
-  2632		case PR_GET_CHILD_SUBREAPER:
-  2633			error = put_user(me->signal->is_child_subreaper,
-  2634					 (int __user *)arg2);
-  2635			break;
-  2636		case PR_SET_NO_NEW_PRIVS:
-  2637			if (arg2 != 1 || arg3 || arg4 || arg5)
-  2638				return -EINVAL;
-  2639	
-  2640			task_set_no_new_privs(current);
-  2641			break;
-  2642		case PR_GET_NO_NEW_PRIVS:
-  2643			if (arg2 || arg3 || arg4 || arg5)
-  2644				return -EINVAL;
-  2645			return task_no_new_privs(current) ? 1 : 0;
-  2646		case PR_GET_THP_DISABLE:
-  2647			if (arg2 || arg3 || arg4 || arg5)
-  2648				return -EINVAL;
-  2649			error = !!test_bit(MMF_DISABLE_THP, &me->mm->flags);
-  2650			break;
-  2651		case PR_SET_THP_DISABLE:
-  2652			if (arg3 || arg4 || arg5)
-  2653				return -EINVAL;
-  2654			if (mmap_write_lock_killable(me->mm))
-  2655				return -EINTR;
-  2656			if (arg2)
-  2657				set_bit(MMF_DISABLE_THP, &me->mm->flags);
-  2658			else
-  2659				clear_bit(MMF_DISABLE_THP, &me->mm->flags);
-  2660			mmap_write_unlock(me->mm);
-  2661			break;
-  2662		case PR_GET_THP_POLICY:
-  2663			if (arg2 || arg3 || arg4 || arg5)
-  2664				return -EINVAL;
-  2665			if (mmap_write_lock_killable(mm))
-  2666				return -EINTR;
-  2667			if (mm->def_flags & VM_HUGEPAGE)
-  2668				error = PR_DEFAULT_MADV_HUGEPAGE;
-  2669			mmap_write_unlock(mm);
-  2670			break;
-  2671		case PR_SET_THP_POLICY:
-  2672			if (arg3 || arg4 || arg5)
-  2673				return -EINVAL;
-  2674			if (mmap_write_lock_killable(mm))
-  2675				return -EINTR;
-  2676			switch (arg2) {
-  2677			case PR_DEFAULT_MADV_HUGEPAGE:
-> 2678				if (!hugepage_global_enabled())
-  2679					error = -EPERM;
-> 2680				error = hugepage_set_vmflags(&mm->def_flags, MADV_HUGEPAGE);
-  2681				if (!error)
-> 2682					process_default_madv_hugepage(mm, MADV_HUGEPAGE);
-  2683				break;
-  2684			default:
-  2685				error = -EINVAL;
-  2686				break;
-  2687			}
-  2688			mmap_write_unlock(mm);
-  2689			break;
-  2690		case PR_MPX_ENABLE_MANAGEMENT:
-  2691		case PR_MPX_DISABLE_MANAGEMENT:
-  2692			/* No longer implemented: */
-  2693			return -EINVAL;
-  2694		case PR_SET_FP_MODE:
-  2695			error = SET_FP_MODE(me, arg2);
-  2696			break;
-  2697		case PR_GET_FP_MODE:
-  2698			error = GET_FP_MODE(me);
-  2699			break;
-  2700		case PR_SVE_SET_VL:
-  2701			error = SVE_SET_VL(arg2);
-  2702			break;
-  2703		case PR_SVE_GET_VL:
-  2704			error = SVE_GET_VL();
-  2705			break;
-  2706		case PR_SME_SET_VL:
-  2707			error = SME_SET_VL(arg2);
-  2708			break;
-  2709		case PR_SME_GET_VL:
-  2710			error = SME_GET_VL();
-  2711			break;
-  2712		case PR_GET_SPECULATION_CTRL:
-  2713			if (arg3 || arg4 || arg5)
-  2714				return -EINVAL;
-  2715			error = arch_prctl_spec_ctrl_get(me, arg2);
-  2716			break;
-  2717		case PR_SET_SPECULATION_CTRL:
-  2718			if (arg4 || arg5)
-  2719				return -EINVAL;
-  2720			error = arch_prctl_spec_ctrl_set(me, arg2, arg3);
-  2721			break;
-  2722		case PR_PAC_RESET_KEYS:
-  2723			if (arg3 || arg4 || arg5)
-  2724				return -EINVAL;
-  2725			error = PAC_RESET_KEYS(me, arg2);
-  2726			break;
-  2727		case PR_PAC_SET_ENABLED_KEYS:
-  2728			if (arg4 || arg5)
-  2729				return -EINVAL;
-  2730			error = PAC_SET_ENABLED_KEYS(me, arg2, arg3);
-  2731			break;
-  2732		case PR_PAC_GET_ENABLED_KEYS:
-  2733			if (arg2 || arg3 || arg4 || arg5)
-  2734				return -EINVAL;
-  2735			error = PAC_GET_ENABLED_KEYS(me);
-  2736			break;
-  2737		case PR_SET_TAGGED_ADDR_CTRL:
-  2738			if (arg3 || arg4 || arg5)
-  2739				return -EINVAL;
-  2740			error = SET_TAGGED_ADDR_CTRL(arg2);
-  2741			break;
-  2742		case PR_GET_TAGGED_ADDR_CTRL:
-  2743			if (arg2 || arg3 || arg4 || arg5)
-  2744				return -EINVAL;
-  2745			error = GET_TAGGED_ADDR_CTRL();
-  2746			break;
-  2747		case PR_SET_IO_FLUSHER:
-  2748			if (!capable(CAP_SYS_RESOURCE))
-  2749				return -EPERM;
-  2750	
-  2751			if (arg3 || arg4 || arg5)
-  2752				return -EINVAL;
-  2753	
-  2754			if (arg2 == 1)
-  2755				current->flags |= PR_IO_FLUSHER;
-  2756			else if (!arg2)
-  2757				current->flags &= ~PR_IO_FLUSHER;
-  2758			else
-  2759				return -EINVAL;
-  2760			break;
-  2761		case PR_GET_IO_FLUSHER:
-  2762			if (!capable(CAP_SYS_RESOURCE))
-  2763				return -EPERM;
-  2764	
-  2765			if (arg2 || arg3 || arg4 || arg5)
-  2766				return -EINVAL;
-  2767	
-  2768			error = (current->flags & PR_IO_FLUSHER) == PR_IO_FLUSHER;
-  2769			break;
-  2770		case PR_SET_SYSCALL_USER_DISPATCH:
-  2771			error = set_syscall_user_dispatch(arg2, arg3, arg4,
-  2772							  (char __user *) arg5);
-  2773			break;
-  2774	#ifdef CONFIG_SCHED_CORE
-  2775		case PR_SCHED_CORE:
-  2776			error = sched_core_share_pid(arg2, arg3, arg4, arg5);
-  2777			break;
-  2778	#endif
-  2779		case PR_SET_MDWE:
-  2780			error = prctl_set_mdwe(arg2, arg3, arg4, arg5);
-  2781			break;
-  2782		case PR_GET_MDWE:
-  2783			error = prctl_get_mdwe(arg2, arg3, arg4, arg5);
-  2784			break;
-  2785		case PR_PPC_GET_DEXCR:
-  2786			if (arg3 || arg4 || arg5)
-  2787				return -EINVAL;
-  2788			error = PPC_GET_DEXCR_ASPECT(me, arg2);
-  2789			break;
-  2790		case PR_PPC_SET_DEXCR:
-  2791			if (arg4 || arg5)
-  2792				return -EINVAL;
-  2793			error = PPC_SET_DEXCR_ASPECT(me, arg2, arg3);
-  2794			break;
-  2795		case PR_SET_VMA:
-  2796			error = prctl_set_vma(arg2, arg3, arg4, arg5);
-  2797			break;
-  2798		case PR_GET_AUXV:
-  2799			if (arg4 || arg5)
-  2800				return -EINVAL;
-  2801			error = prctl_get_auxv((void __user *)arg2, arg3);
-  2802			break;
-  2803	#ifdef CONFIG_KSM
-  2804		case PR_SET_MEMORY_MERGE:
-  2805			if (arg3 || arg4 || arg5)
-  2806				return -EINVAL;
-  2807			if (mmap_write_lock_killable(me->mm))
-  2808				return -EINTR;
-  2809	
-  2810			if (arg2)
-  2811				error = ksm_enable_merge_any(me->mm);
-  2812			else
-  2813				error = ksm_disable_merge_any(me->mm);
-  2814			mmap_write_unlock(me->mm);
-  2815			break;
-  2816		case PR_GET_MEMORY_MERGE:
-  2817			if (arg2 || arg3 || arg4 || arg5)
-  2818				return -EINVAL;
-  2819	
-  2820			error = !!test_bit(MMF_VM_MERGE_ANY, &me->mm->flags);
-  2821			break;
-  2822	#endif
-  2823		case PR_RISCV_V_SET_CONTROL:
-  2824			error = RISCV_V_SET_CONTROL(arg2);
-  2825			break;
-  2826		case PR_RISCV_V_GET_CONTROL:
-  2827			error = RISCV_V_GET_CONTROL();
-  2828			break;
-  2829		case PR_RISCV_SET_ICACHE_FLUSH_CTX:
-  2830			error = RISCV_SET_ICACHE_FLUSH_CTX(arg2, arg3);
-  2831			break;
-  2832		case PR_GET_SHADOW_STACK_STATUS:
-  2833			if (arg3 || arg4 || arg5)
-  2834				return -EINVAL;
-  2835			error = arch_get_shadow_stack_status(me, (unsigned long __user *) arg2);
-  2836			break;
-  2837		case PR_SET_SHADOW_STACK_STATUS:
-  2838			if (arg3 || arg4 || arg5)
-  2839				return -EINVAL;
-  2840			error = arch_set_shadow_stack_status(me, arg2);
-  2841			break;
-  2842		case PR_LOCK_SHADOW_STACK_STATUS:
-  2843			if (arg3 || arg4 || arg5)
-  2844				return -EINVAL;
-  2845			error = arch_lock_shadow_stack_status(me, arg2);
-  2846			break;
-  2847		case PR_TIMER_CREATE_RESTORE_IDS:
-  2848			if (arg3 || arg4 || arg5)
-  2849				return -EINVAL;
-  2850			error = posixtimer_create_prctl(arg2);
-  2851			break;
-  2852		default:
-  2853			trace_task_prctl_unknown(option, arg2, arg3, arg4, arg5);
-  2854			error = -EINVAL;
-  2855			break;
-  2856		}
-  2857		return error;
-  2858	}
-  2859	
-
--- 
-0-DAY CI Kernel Test Service
-https://github.com/intel/lkp-tests/wiki
+Cheers, Lorenzo
