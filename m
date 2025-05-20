@@ -1,135 +1,144 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.129.124])
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.14])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 012092135D1
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 09:49:57 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.129.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 63C08266565;
+	Tue, 20 May 2025 09:52:24 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.14
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747734599; cv=none; b=TiWDHpdQ2TQocMhkkHgifUGgS6LYUHhmlQSSIGvJ/b1dxi6CRQ9/kWzuV595CAgxuduNHvWnc5WoUyxKVyBRABuxZtvFioa8gkdto5Q8Nb2QGwIi843V72Z4xwiv21XHyffoozMQqcu1bnwXADN4N//A69qecWPeTEvnuHGoDbA=
+	t=1747734747; cv=none; b=EXFmnMovImvBc2bsd6nwVcI+fTivqkbJZAtSnGuLN/eIacokN+l95oD5mKqyKX3VzQewEHvy+/UjDLQQup4vT8QSSbb3xevbV6PQiOHILaPioOD7nZVqmoED6T5k6V6Dz/GAIzkC1yWS0zwKHTlDrstUvkfX/kJk2yx2agOroTM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747734599; c=relaxed/simple;
-	bh=zmMeJiDDZWaauBVCwiIbfO5yDwZo3DooABBxbFXHDdY=;
-	h=Message-ID:Date:MIME-Version:Subject:To:References:From:
-	 In-Reply-To:Content-Type; b=Yh591z5kFo/nmekMkiZdkAw9pvew99hOpyTExVKYPy4RhSj5gzaZ3UqfkLm0WIrktxwm4XHzPy8EKw5Alsz/VbfP3huBNhM2sx91BYrgk/1xMtr3MxXyIw3H/CYrEWqWeYPSgpHeaqErAyvpUx4qCpNUxlOZ5BVL4LvshsPtf54=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=OilUs5VI; arc=none smtp.client-ip=170.10.129.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
+	s=arc-20240116; t=1747734747; c=relaxed/simple;
+	bh=h/h0dnmW+e8eb7BpFrGOs6KEuwxdMkbEf18N/8+UCyU=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=JiaqIcSOL+AN8tA/rC4hFQswJIYXjBxyrjOgZOARaNdA+BWkF5Is7AhEijvuZVrWjIkypetqsfP3P/3q1cX/vUHU9QIDwKIW382rjZaoz76FxRlqmts1UQ+sE/5Z7oYc6Md3Hj5dh34sdFoMNlsvJCk8g/qJlwmyJo8RaD4IqVA=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=eCf4FFuy; arc=none smtp.client-ip=192.198.163.14
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="OilUs5VI"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747734596;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=aKVK+uAlT4VzaC9oAx0YIHTOnxhoJDuCN0nhLSXNB60=;
-	b=OilUs5VIuMkAc5DqdUq5KBNkbKNbgf8IVIE6lFJx4vKDMkDaBxvYuTC0RMlOZaXz/gJSNd
-	AaUGHNkYk3DCOwMG+mkHhVdpbRSJ+GKFAaW3+IU3OwNiHEzfEs0az+i0clj7ukNizoSC1f
-	5ta/UULC7J4J/+3d6BOTTYZGJWMjPM4=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-299-HVj9GA8_MNGZaOd0kqxviQ-1; Tue, 20 May 2025 05:49:55 -0400
-X-MC-Unique: HVj9GA8_MNGZaOd0kqxviQ-1
-X-Mimecast-MFC-AGG-ID: HVj9GA8_MNGZaOd0kqxviQ_1747734595
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a362dcc86fso1465470f8f.0
-        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 02:49:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747734595; x=1748339395;
-        h=content-transfer-encoding:in-reply-to:from:content-language
-         :references:to:subject:user-agent:mime-version:date:message-id
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
-        bh=aKVK+uAlT4VzaC9oAx0YIHTOnxhoJDuCN0nhLSXNB60=;
-        b=vFKyJluoNtKcrPBNjCKq75wddav9Cexppcw8JfVhz9QRHLHw31rLhPg08w0dOGImnY
-         9T6c2OPV5txyZcYUtnN34ThwDp4Z4/et3NJ4GBaLJMldbXVVCg/D5RQykz/2pWMMtIEz
-         DofKwHTgam/yyAEpNm+E0HNwUIsqMFA1sv3FX/1CK1uV1d2vIS2AO3QEHHpbcV/5XfPN
-         I3wQKAix9b6GLkD/qtT+5Lk1yqCzdDLm3yFnrfpwB3LMxpbkisod1L3CMlyacerLg5u0
-         RLclhs9o29swReINZXJrW3VQilxMt9Nn3ApBCE4zpba9RfV1sXtVbWo1FvgY0vtKZrzo
-         4e8g==
-X-Forwarded-Encrypted: i=1; AJvYcCXocGXHtkzoQzkUPiDSRpvswraj6kvAu2rkLVLiz4kAFXIbYnZdZcU09xuabzR1R49y1t1vpqnGy1Q=@vger.kernel.org
-X-Gm-Message-State: AOJu0YyY453Qf0jif1ZxkCykuZkPEWKL7FTTXSx5FXGhlMq72qsNaLPb
-	1ZTntHZm9PtWSbXQLp43M7PQF2eBMmjGYF4BhKZqooecA/2T7O/lU4PpKvLcbEIP9DVMVysE837
-	oNIxPaSHzlfH0NK12XmBlf08aVjnpF7TCiSO0PMhuGFPS4OKmPtstHTtb42KC1w==
-X-Gm-Gg: ASbGnctdyUpdSVjUlpd4nu/6kVA7pQ57JJw2Tnu3zY3+yn0bkMVx+3bMgjcWdIkjUiW
-	Pjcz+5lTPOwIikl8s+nv8ZzZ9CdA+N481Bl3lVfC2n6M5fThUrotbU8LIXRoDNUM3rMhs278kxL
-	oZI0/FTYHjR779O2qB+6u4TEBnKlObG7USdgZSGNK+P5Zk9cCs9WYIYMcb9T6xDhzHEbJzpHAND
-	8hO3COH/1AfKb/6SIj/ofoycRRrVKn3/O7IuCKaIZ9YBjNqrGsotTEVsA0eHiOvBW6if5WDeoW9
-	zLlJM+hZlwPl1uloNOtAxV6Sojdcjr7sq8xnQPCNIcRW1Ukx8KLVShT+kGI=
-X-Received: by 2002:a5d:6a49:0:b0:3a3:5cca:a56a with SMTP id ffacd0b85a97d-3a35ccaa7ccmr9872999f8f.32.1747734594722;
-        Tue, 20 May 2025 02:49:54 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IERZPLs4JlsuZmumP5YHPtj9qIckLqLuPz2NZ0FOXcdTy6ANbEKQ9dbQymmsaS/IsilI+AwLw==
-X-Received: by 2002:a5d:6a49:0:b0:3a3:5cca:a56a with SMTP id ffacd0b85a97d-3a35ccaa7ccmr9872974f8f.32.1747734594291;
-        Tue, 20 May 2025 02:49:54 -0700 (PDT)
-Received: from ?IPV6:2a0d:3344:244f:5710:ef42:9a8d:40c2:f2db? ([2a0d:3344:244f:5710:ef42:9a8d:40c2:f2db])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca88a13sm15601908f8f.74.2025.05.20.02.49.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 20 May 2025 02:49:53 -0700 (PDT)
-Message-ID: <6ce5f200-aacc-4b01-b3b6-b2dbe543248d@redhat.com>
-Date: Tue, 20 May 2025 11:49:51 +0200
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="eCf4FFuy"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747734745; x=1779270745;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=h/h0dnmW+e8eb7BpFrGOs6KEuwxdMkbEf18N/8+UCyU=;
+  b=eCf4FFuyCc+i+bVcUb/wsKzac3ST57HGtcOpmqlpYq+PnR5U+K0C46QW
+   +B7yU8kRw2wseBSfVZeGXF2EqJ64I3wfzK0IhraJ1cy7o9s6gASjgv6w8
+   HNWW5gm8H30JymFj10LjTkKJCkwNABiJYdgHVFs8wBf1fp1zp5mgYK+t4
+   cTRdis7xovowyWhtySKVxvmebjON2vZ/jxI+jyrI9Lfqr6hpz05vOoRlp
+   nQtoJg5zb6KiH3asl/4f9ZU2KY21AtIUlWuz1KJsgzSa7lM7/Ec3zvUrr
+   h0EHnkQwc7e2Ey5LVmI/izz83f+k0l4ejPwA8ME5j2rU8cBDlK1ZJKWsR
+   A==;
+X-CSE-ConnectionGUID: SvDaUKMRQfmhJxkyKstojA==
+X-CSE-MsgGUID: Wcqsk+zTSTKo688DNqI8fw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11438"; a="49760568"
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="49760568"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by fmvoesa108.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 02:52:23 -0700
+X-CSE-ConnectionGUID: 3qIB5naYSh6wPginL6Csgw==
+X-CSE-MsgGUID: 2CquOxyBQUSUf7T5Q6efTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
+   d="scan'208";a="170531758"
+Received: from lkp-server01.sh.intel.com (HELO 1992f890471c) ([10.239.97.150])
+  by orviesa002.jf.intel.com with ESMTP; 20 May 2025 02:52:18 -0700
+Received: from kbuild by 1992f890471c with local (Exim 4.96)
+	(envelope-from <lkp@intel.com>)
+	id 1uHJdv-000MPc-23;
+	Tue, 20 May 2025 09:52:15 +0000
+Date: Tue, 20 May 2025 17:51:26 +0800
+From: kernel test robot <lkp@intel.com>
+To: Usama Arif <usamaarif642@gmail.com>,
+	Andrew Morton <akpm@linux-foundation.org>, david@redhat.com
+Cc: llvm@lists.linux.dev, oe-kbuild-all@lists.linux.dev,
+	Linux Memory Management List <linux-mm@kvack.org>,
+	hannes@cmpxchg.org, shakeel.butt@linux.dev, riel@surriel.com,
+	ziy@nvidia.com, laoar.shao@gmail.com, baolin.wang@linux.alibaba.com,
+	lorenzo.stoakes@oracle.com, Liam.Howlett@oracle.com,
+	npache@redhat.com, ryan.roberts@arm.com, vbabka@suse.cz,
+	jannh@google.com, Arnd Bergmann <arnd@arndb.de>,
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+	kernel-team@meta.com, Usama Arif <usamaarif642@gmail.com>
+Subject: Re: [PATCH v3 1/7] mm: khugepaged: extract vm flag setting outside
+ of hugepage_madvise
+Message-ID: <202505201734.8Fyk3qKi-lkp@intel.com>
+References: <20250519223307.3601786-2-usamaarif642@gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v7 net-next 10/15] tcp: accecn: AccECN option send control
-To: chia-yu.chang@nokia-bell-labs.com, linux-doc@vger.kernel.org,
- corbet@lwn.net, horms@kernel.org, dsahern@kernel.org, kuniyu@amazon.com,
- bpf@vger.kernel.org, netdev@vger.kernel.org, dave.taht@gmail.com,
- jhs@mojatatu.com, kuba@kernel.org, stephen@networkplumber.org,
- xiyou.wangcong@gmail.com, jiri@resnulli.us, davem@davemloft.net,
- edumazet@google.com, andrew+netdev@lunn.ch, donald.hunter@gmail.com,
- ast@fiberby.net, liuhangbin@gmail.com, shuah@kernel.org,
- linux-kselftest@vger.kernel.org, ij@kernel.org, ncardwell@google.com,
- koen.de_schepper@nokia-bell-labs.com, g.white@cablelabs.com,
- ingemar.s.johansson@ericsson.com, mirja.kuehlewind@ericsson.com,
- cheshire@apple.com, rs.ietf@gmx.at, Jason_Livingood@comcast.com,
- vidhi_goel@apple.com
-References: <20250514135642.11203-1-chia-yu.chang@nokia-bell-labs.com>
- <20250514135642.11203-11-chia-yu.chang@nokia-bell-labs.com>
-Content-Language: en-US
-From: Paolo Abeni <pabeni@redhat.com>
-In-Reply-To: <20250514135642.11203-11-chia-yu.chang@nokia-bell-labs.com>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250519223307.3601786-2-usamaarif642@gmail.com>
 
-On 5/14/25 3:56 PM, chia-yu.chang@nokia-bell-labs.com wrote:
-> @@ -6450,8 +6480,12 @@ static bool tcp_validate_incoming(struct sock *sk, struct sk_buff *skb,
->  	 * RFC 5961 4.2 : Send a challenge ack
->  	 */
->  	if (th->syn) {
-> -		if (tcp_ecn_mode_accecn(tp))
-> +		if (tcp_ecn_mode_accecn(tp)) {
-> +			u8 opt_demand = max_t(u8, 1, tp->accecn_opt_demand);
-> +
->  			accecn_reflector = true;
-> +			tp->accecn_opt_demand = opt_demand;
+Hi Usama,
 
-There is similar code to update accecn_opt_demand above, possibly worth
-an helper.
+kernel test robot noticed the following build errors:
 
-> @@ -1237,12 +1253,16 @@ static unsigned int tcp_established_options(struct sock *sk, struct sk_buff *skb
->  	}
->  
->  	if (tcp_ecn_mode_accecn(tp) &&
-> -	    sock_net(sk)->ipv4.sysctl_tcp_ecn_option) {
-> +	    sock_net(sk)->ipv4.sysctl_tcp_ecn_option &&
-> +	    (sock_net(sk)->ipv4.sysctl_tcp_ecn_option >= TCP_ECN_OPTION_FULL ||
-> +	     tp->accecn_opt_demand ||
-> +	     tcp_accecn_option_beacon_check(sk))) {
->  		int saving = opts->num_sack_blocks > 0 ? 2 : 0;
->  		int remaining = MAX_TCP_OPTION_SPACE - size;
->  
->  		opts->ecn_bytes = tp->received_ecn_bytes;
-> -		size += tcp_options_fit_accecn(opts, tp->accecn_minlen,
-> +		size += tcp_options_fit_accecn(opts,
-> +					       tp->accecn_minlen,
->  					       remaining,
->  					       saving);
+[auto build test ERROR on akpm-mm/mm-everything]
+[also build test ERROR on perf-tools-next/perf-tools-next tip/perf/core perf-tools/perf-tools linus/master acme/perf/core v6.15-rc7 next-20250516]
+[If your patch is applied to the wrong git tree, kindly drop us a note.
+And when submitting patch, we suggest to use '--base' as documented in
+https://git-scm.com/docs/git-format-patch#_base_tree_information]
 
-Please avoid unneeded white-space only changes.
+url:    https://github.com/intel-lab-lkp/linux/commits/Usama-Arif/mm-khugepaged-extract-vm-flag-setting-outside-of-hugepage_madvise/20250520-063452
+base:   https://git.kernel.org/pub/scm/linux/kernel/git/akpm/mm.git mm-everything
+patch link:    https://lore.kernel.org/r/20250519223307.3601786-2-usamaarif642%40gmail.com
+patch subject: [PATCH v3 1/7] mm: khugepaged: extract vm flag setting outside of hugepage_madvise
+config: s390-randconfig-002-20250520 (https://download.01.org/0day-ci/archive/20250520/202505201734.8Fyk3qKi-lkp@intel.com/config)
+compiler: clang version 21.0.0git (https://github.com/llvm/llvm-project f819f46284f2a79790038e1f6649172789734ae8)
+reproduce (this is a W=1 build): (https://download.01.org/0day-ci/archive/20250520/202505201734.8Fyk3qKi-lkp@intel.com/reproduce)
 
-/P
+If you fix the issue in a separate patch/commit (i.e. not just a new version of
+the same patch/commit), kindly add following tags
+| Reported-by: kernel test robot <lkp@intel.com>
+| Closes: https://lore.kernel.org/oe-kbuild-all/202505201734.8Fyk3qKi-lkp@intel.com/
+
+All errors (new ones prefixed by >>):
+
+>> mm/khugepaged.c:359:20: error: use of undeclared identifier 'vma'
+     359 |                 if (mm_has_pgste(vma->vm_mm))
+         |                                  ^
+   1 error generated.
 
 
+vim +/vma +359 mm/khugepaged.c
+
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  348  
+d2a8f83f11a4ba Usama Arif         2025-05-19  349  int hugepage_set_vmflags(unsigned long *vm_flags, int advice)
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  350  {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  351  	switch (advice) {
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  352  	case MADV_HUGEPAGE:
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  353  #ifdef CONFIG_S390
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  354  		/*
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  355  		 * qemu blindly sets MADV_HUGEPAGE on all allocations, but s390
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  356  		 * can't handle this properly after s390_enable_sie, so we simply
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  357  		 * ignore the madvise to prevent qemu from causing a SIGSEGV.
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  358  		 */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26 @359  		if (mm_has_pgste(vma->vm_mm))
+d2a8f83f11a4ba Usama Arif         2025-05-19  360  			return -EPERM;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  361  #endif
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  362  		*vm_flags &= ~VM_NOHUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  363  		*vm_flags |= VM_HUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  364  		break;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  365  	case MADV_NOHUGEPAGE:
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  366  		*vm_flags &= ~VM_HUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  367  		*vm_flags |= VM_NOHUGEPAGE;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  368  		/*
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  369  		 * Setting VM_NOHUGEPAGE will prevent khugepaged from scanning
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  370  		 * this vma even if we leave the mm registered in khugepaged if
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  371  		 * it got registered before VM_NOHUGEPAGE was set.
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  372  		 */
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  373  		break;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  374  	}
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  375  
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  376  	return 0;
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  377  }
+b46e756f5e4703 Kirill A. Shutemov 2016-07-26  378  
+
+-- 
+0-DAY CI Kernel Test Service
+https://github.com/intel/lkp-tests/wiki
