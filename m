@@ -1,103 +1,100 @@
-Received: from mail-qv1-f51.google.com (mail-qv1-f51.google.com [209.85.219.51])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id BD7061E9B19
-	for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 21:16:01 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.219.51
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 7BA4521516E;
+	Tue, 20 May 2025 22:22:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747775764; cv=none; b=KNKMOCmtZgzpSujTyhMAYEHXsUPo9QFiIhJnicpIFg3VGG1spUHCxQZOiUtYkrDu26R87xlkycCltkcJy89XzxUPQ8Z8cVkndAixDxRaEYK3aUV+I8ruFoSd2bvNrdiaBriQ0TZ2r4rzYtgkAI/inI3q5t3iLAiOcy8vVTXzia0=
+	t=1747779739; cv=none; b=qdpMKEz4UDCoi6k8l61iaAY4uw34Whb/0/oJaG4rXK/ytDOYkGhe3nV9i5p0VPvi5CmUJkW1NH3J7WOsn8U8LltemsjVlDBTb+fNF1i3y8i37k44U36cn6JfWULh1gv0iGp/4VXSI8KM6IgETVrMulcGGqzRsk8BYt1dsbrXWlU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747775764; c=relaxed/simple;
-	bh=PokIbil+4vzb3IM+d56Xpj4Mvgib+ySxP9q4ulJxR48=;
-	h=Date:Message-ID:MIME-Version:Content-Type:From:To:Cc:Subject:
-	 References:In-Reply-To; b=Xr9cqhUN3lpjBT0gJYpCzPsoJVVmXLa8CAAlr9yt22XUFsoJn8hk/NhNxJQ5rrkMz4Uh97+kevUQ6or6zoE8MH6XKQ49RHxAnvE9gbF8Ys1BTgGIV0eTJeplUrcXIZ9c/ChPOdV3dl0uajtiijf7tf4oM8NAQby0IdUTlVhFDT8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com; spf=pass smtp.mailfrom=paul-moore.com; dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b=SATGsQUV; arc=none smtp.client-ip=209.85.219.51
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=paul-moore.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=paul-moore.com
+	s=arc-20240116; t=1747779739; c=relaxed/simple;
+	bh=PSFnRhdA6dv0Ibd3iDpTetyUbHtuWoDiaLttMv9a8UA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=MuTFjfVZddhlyoAzjKw9Bvh/QC7Gaf7QUxb4Gth5n1IAmr1dsOnQcXnTlX1OHqV7qOKw2lWVirBVuBwmODfJUoQKkiE8e5MgE1Hm079cunXgE+Ex1h7CnfNOZ+y+COpIoLYRhQqUXQmz1INcQqxKRFYgSYKcdtc9CkevNajqKK8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=uqEQU7Qx; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=paul-moore.com header.i=@paul-moore.com header.b="SATGsQUV"
-Received: by mail-qv1-f51.google.com with SMTP id 6a1803df08f44-6f8cad66696so35443916d6.2
-        for <linux-doc@vger.kernel.org>; Tue, 20 May 2025 14:16:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=paul-moore.com; s=google; t=1747775760; x=1748380560; darn=vger.kernel.org;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :mime-version:message-id:date:from:to:cc:subject:date:message-id
-         :reply-to;
-        bh=0Vcim2IrvThidRodNsg/OfOdq2fd5gLucgy52LkkAJU=;
-        b=SATGsQUVNCcWA5EQ2sN31YQi0KcO0OMgg67xcYs16ITaMOe6Op0u1D+gq7ILTSB/DL
-         FQdpiltkvmAEgWIanzWiNeydwbuD0aYpWwjtKgHSWO2+a1IMCM/L2d/EDsMDVqiR/t2A
-         Dr4vo7CV/Fw3dsrFiU//gjBLuMSUaBhq8lVdNQAtdZY1PTDlbLXocFdQ0S6bxFniWug3
-         JssnaOmXDTxnsZ7//pEfNyN7VOKN1Tmeke8pl+mCHHEZ5Qa9IcHIRRtY9bPIi/qbv8Zm
-         XyXzgURy4XykbyrKYNDGCVpAz3iq+XNE3u0910/h/s0G2OWeoqOMatHPvm/cFMZvW8ps
-         LJIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747775760; x=1748380560;
-        h=in-reply-to:references:subject:cc:to:from:content-transfer-encoding
-         :mime-version:message-id:date:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=0Vcim2IrvThidRodNsg/OfOdq2fd5gLucgy52LkkAJU=;
-        b=O6Xh5Jj4/KTWcUihR4wMbTSWG4DufJ2CtF0hBcwcy0LnGEJUR8iu2L0L39jbR9eN/z
-         f6mFXM/2soSmYjvQzHSsqLXByJCZEaqgIixa/S6a3I5Yl6qLuiyCaAOk7KtwscH+Zj86
-         OhO9zNgPD4Z+m+QI6wx5q0V6Dw2q8oaeF/KP3dpuKO6mmRrpn0BXI+OZJjFGu22DGWOa
-         E4sfICP6SZ1tnV8HjqMqO2+w1lKG8T3a9hZi+dhMurXkhEUPsLtVfA0/hgQgI0EZDYKv
-         9A8wlXzYIY81ZdONUdVSVVNufe2k4hebuHiT9p4M/4OCTBD51RVlArcLTXpkgtueBMEt
-         Tuuw==
-X-Forwarded-Encrypted: i=1; AJvYcCU7oWDy11T454i8rH5bgCIQin0yJDrmVP1ccZq5Wl/l31pCRLo09ZRYvj4mW9C0YJyUA+aBo6DcRiI=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxvOTRvPirLg3zf0UVd1eLAA5cm/fVaQhgx6fhUd8qM2GfCXX2i
-	AdhyegY+i/upFupkQ3piZUVGsH8aUCyuAaX0ADa7y1yKCaLnODiEucKNhvW1Uap1Sg==
-X-Gm-Gg: ASbGncs7xo0S6jqcpZyvWuVXKbQpvYdjdLILfl/MBs3ErkYhdYe6y+t4pEZTCOREVa1
-	8itxIW7XZ/SrnEcgANPFKr81Y9k+ZSaTTvLbSwAv1hZ1QYkk95rBElydxgbWD3jdz6M5MepQFX+
-	nbZEo26MywXeumjPII5j2lvOKHCBMObADaQgMYa0tBFGTwoMJtxWxitK3OPJTPNhdacyrIHB2u2
-	5gnGFNDaOqLuAZv4xolAU6PbZexUTZz9sHViPFTE5Ga1qY/3CU86tiiFPdp5pzJRflfpUaq8/JJ
-	BckSaw2CmveAtrdnPpIJhqf8ztZYzg/kYp5HiRBw3jpoU2icoYPsX4wUhb7nXtWHFfJkPnJPH36
-	SZ0vf/HgdWfBmLGzE0E/H4klA1MimxOA=
-X-Google-Smtp-Source: AGHT+IGXRcWfO4AHv0ErYu9MQe8pxWB5OkTwD4jggVmmRyicMFT0cpUlaxE7iaZV/7atuSeHLh1gYg==
-X-Received: by 2002:ad4:5e8f:0:b0:6d8:a8e1:b57b with SMTP id 6a1803df08f44-6f8b0873ba6mr330435226d6.36.1747775760552;
-        Tue, 20 May 2025 14:16:00 -0700 (PDT)
-Received: from localhost (pool-71-126-255-178.bstnma.fios.verizon.net. [71.126.255.178])
-        by smtp.gmail.com with UTF8SMTPSA id 6a1803df08f44-6f8b0883b93sm76456226d6.14.2025.05.20.14.15.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 May 2025 14:15:59 -0700 (PDT)
-Date: Tue, 20 May 2025 17:15:59 -0400
-Message-ID: <eb68761b5a2d53702f4d6b80fe2a6457@paul-moore.com>
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="uqEQU7Qx"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 005B1C4CEF0;
+	Tue, 20 May 2025 22:22:18 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747779739;
+	bh=PSFnRhdA6dv0Ibd3iDpTetyUbHtuWoDiaLttMv9a8UA=;
+	h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+	b=uqEQU7Qx052CYgFoK14TYHm07pqL9HttCt0RkS5DIje8K9StJYmkNw9g+u8tq/2wr
+	 5RGm2y07KmQKKlHfkI1YJiunsSMpznKqf/w90actLrdnMjGb1VjKjpKSU4aDlVbR16
+	 XrvTMp7yjpCiU37oOD8ximJLfxaqKVdiRePRN/Yq6OIODft51LuYb3uRnt5BWxjJ24
+	 RfLjGHALLZyGQyg5sDTBh8GEDc+MD3xMZibDeL98zsHY2qUrhRHqmtJ0RkN9/ZC1N9
+	 34lihYFSdcOg5sPQX+YgaFbGCT5bMgac90T6OXSipHOkysUbowsKJq6bQYrbJr8RFD
+	 7SGYVaSrjqcjA==
+Received: by mail-ej1-f54.google.com with SMTP id a640c23a62f3a-ad1f6aa2f84so1188029366b.0;
+        Tue, 20 May 2025 15:22:18 -0700 (PDT)
+X-Forwarded-Encrypted: i=1; AJvYcCU058q+FZQZKNQqMT/RGXYe0vpSU076LH3nYJLPZ6ExyMBd/iby7zjRh8m18sJ38TCYoys+y9B5H/Iw86zS@vger.kernel.org, AJvYcCUnwo/fa26DZrfjovYRj1CM2I+AWgOZ3FX+8KZHYCX6fyzBOpGqUGcUCrl1XZNTOp2cAxpOu9eAnvw=@vger.kernel.org, AJvYcCXDW1wcREyPxuMDgzAYCW8ml13Y78iiLFnozp5fyKeEEGwA2IoE0R6dgupgXxjJXhnzptT0vNWipXpBspb6nhyKBQ==@vger.kernel.org
+X-Gm-Message-State: AOJu0YwJvc2BCWgWupTqT7zUJGKXvLDLD5wyGhYBOHIPMDpSkQp+tByK
+	y8UjW+eCzQdhMqZdh5Tpkv74HhEv6+EI23LQqyZHVFTXkNJHSAontCdrjLEyFp1L/NUZjCWvOGT
+	SvxuZjEVPvO++3LO6AZzbQYUNN4dRPQ==
+X-Google-Smtp-Source: AGHT+IGov0hihbX3nMjv/1exgX1GdOXfquBDi24JqrrM+xtngJD67Rk/E6K9Ejlx6ygNLKgOhEILcowTjixD7Xd6Yss=
+X-Received: by 2002:a17:907:3f08:b0:ad5:67f3:73ea with SMTP id
+ a640c23a62f3a-ad567f37579mr886028566b.21.1747779737495; Tue, 20 May 2025
+ 15:22:17 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 
-Content-Type: text/plain; charset=UTF-8 
-Content-Transfer-Encoding: 8bit 
-X-Mailer: pstg-pwork:20250520_1533/pstg-lib:20250520_1521/pstg-pwork:20250520_1533
-From: Paul Moore <paul@paul-moore.com>
-To: Li Li <dualli@chromium.org>, dualli@google.com, corbet@lwn.net, davem@davemloft.net, edumazet@google.com, kuba@kernel.org, pabeni@redhat.com, donald.hunter@gmail.com, gregkh@linuxfoundation.org, arve@android.com, tkjos@android.com, maco@android.com, joel@joelfernandes.org, brauner@kernel.org, cmllamas@google.com, surenb@google.com, omosnace@redhat.com, shuah@kernel.org, arnd@arndb.de, masahiroy@kernel.org, bagasdotme@gmail.com, horms@kernel.org, tweek@google.com, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, netdev@vger.kernel.org, selinux@vger.kernel.org, linux-security-module@vger.kernel.org, hridya@google.com
-Cc: smoreland@google.com, ynaffit@google.com, kernel-team@android.com
-Subject: Re: [PATCH v17 1/3] lsm, selinux: Add setup_report permission to  binder
-References: <20250417002005.2306284-2-dualli@chromium.org>
-In-Reply-To: <20250417002005.2306284-2-dualli@chromium.org>
+MIME-Version: 1.0
+References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
+ <20250407-arm-brbe-v19-v21-4-ff187ff6c928@kernel.org> <20250519150621.GA17177@willie-the-truck>
+ <20250519215651.GB2650608-robh@kernel.org>
+In-Reply-To: <20250519215651.GB2650608-robh@kernel.org>
+From: Rob Herring <robh@kernel.org>
+Date: Tue, 20 May 2025 17:22:06 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqL2KgLQGXRLZJ3txuvytqbRRkdK1nM=5_URO2gH_nZMWw@mail.gmail.com>
+X-Gm-Features: AX0GCFtFzlmCBASIuU0YBO76uu_wIfpgFX6QwQXx6mNBYPf-UQnVG91SPo_aQCM
+Message-ID: <CAL_JsqL2KgLQGXRLZJ3txuvytqbRRkdK1nM=5_URO2gH_nZMWw@mail.gmail.com>
+Subject: Re: [PATCH v21 4/4] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>, Catalin Marinas <catalin.marinas@arm.com>, 
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>, 
+	Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>, 
+	Zenghui Yu <yuzenghui@huawei.com>, James Clark <james.clark@linaro.org>, 
+	Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>, 
+	linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, 
+	kvmarm@lists.linux.dev
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Apr 16, 2025 Li Li <dualli@chromium.org> wrote:
-> 
-> Introduce a new permission "setup_report" to the "binder" class.
-> This persmission controls the ability to set up the binder generic
-> netlink driver to report certain binder transactions.
-> 
-> Signed-off-by: Thiébaud Weksteen <tweek@google.com>
-> Signed-off-by: Li Li <dualli@google.com>
-> ---
->  include/linux/lsm_hook_defs.h       |  1 +
->  include/linux/security.h            |  6 ++++++
->  security/security.c                 | 13 +++++++++++++
->  security/selinux/hooks.c            |  7 +++++++
->  security/selinux/include/classmap.h |  3 ++-
->  5 files changed, 29 insertions(+), 1 deletion(-)
+On Mon, May 19, 2025 at 4:59=E2=80=AFPM Rob Herring <robh@kernel.org> wrote=
+:
+>
+> On Mon, May 19, 2025 at 04:06:22PM +0100, Will Deacon wrote:
+> > Hey Rob,
+> >
+> > On Mon, Apr 07, 2025 at 12:41:33PM -0500, Rob Herring (Arm) wrote:
+> > > From: Anshuman Khandual <anshuman.khandual@arm.com>
+> > >
+> > > The ARMv9.2 architecture introduces the optional Branch Record Buffer
+> > > Extension (BRBE), which records information about branches as they ar=
+e
+> > > executed into set of branch record registers. BRBE is similar to x86'=
+s
+> > > Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
+> > > (BHRB).
+> >
+> > Since you picked this up from v19, the driver has changed considerably
+> > and I presume you will be continuing to extend it in future as the
+> > architecture progresses. Perhaps having you listed as Author (and
+> > crucially, in git blame :p) with Anshuman as a Co-developed-by: would b=
+e
+> > more appropriate?
+>
+> Shrug.
 
-When possible, it is helpful to include at least one caller in the patch
-which adds a new LSM hook as it helps put the hook in context.  With that
-in mind, I think it would be best to reorder this patchset so that patch
-2/3 comes first and this patch comes second, with this patch including
-the change to binder_nl_report_setup_doit() which adds the call to the
-new LSM hook.
+I did a comparison to v18 arm_brbe.c. It was 1134 lines. I (and Mark)
+have removed 332 lines and changed 369 lines. So a little more than
+half remains, but the unchanged parts are a lot of 1 line helper
+functions, brackets and whitespace. So given the more complex parts
+have changed, I will change the authorship.
 
---
-paul-moore.com
+Rob
