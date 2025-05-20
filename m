@@ -1,47 +1,44 @@
-Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.7])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 8EB32157487;
-	Tue, 20 May 2025 19:49:13 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=192.198.163.7
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 50DE127C863;
+	Tue, 20 May 2025 20:11:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747770555; cv=none; b=ZHRUHy0Mu7rmgVXuhfY+KM1OS83TFe2A1FMqkpq98Xem0Emddw12SSZCpArEI2gMSVkFGwqnfJ1LduXoNRg/DNwLVzndpKo8SbQIy3yMxS9+S7z5iP8g5ZGkHcnAO39xblF3JlZnyH7+VgwrtrOQm3aNKdrP7mLN0NLSkh2f+6g=
+	t=1747771910; cv=none; b=up8BklG13yNYGE0M7Oa4uZEOSt6INw1LgYW6SW0JLBcd7VWOcxebzNFm8WqkNgm7Bbqyrjp8iCC1epIcyF8vLl3KmX+LegatX6/YezVtH9UHOU/l7CUGI4mdBV/E8BITbBij+PqAJdyOydKNFenFcNZZNr97n/ZQ5XM6/AijBG4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747770555; c=relaxed/simple;
-	bh=1tzGZcKwkoir6NZZhVk7qpPRhCTL48Sf9Au3BYNZfwI=;
+	s=arc-20240116; t=1747771910; c=relaxed/simple;
+	bh=3naj0bjbvDnkEd9GJtDdldNR7frDExsIaFCZiA5vpkQ=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=VMVsvSwrB8Z20sxVmhcnxwtMB534oH8kShknUp2+nqLiTr9xh5ZiTVAtVd0GNfJ3sJEeeU9xdh8Eoy6sNwCwycVMH3z84MvnDFUz0GM/pRQROmN6kTrcnjDDtPdxb8Duv+T3izNZDlRbOeIcZAlEXAkoRyRU3dWPoazUaKFu7pc=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=192.198.163.7
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: adkY8KTMSkmO5r+KlmWN8Q==
-X-CSE-MsgGUID: iCEvoSlXQ/GAtivKiL748Q==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="75124751"
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="75124751"
-Received: from fmviesa010.fm.intel.com ([10.60.135.150])
-  by fmvoesa101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 12:49:12 -0700
-X-CSE-ConnectionGUID: 8W+OoyMcSwCgH8u2jRwtJA==
-X-CSE-MsgGUID: hxgK8sU9T0iuFbTG92XQMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,302,1739865600"; 
-   d="scan'208";a="140319501"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa010.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 12:49:09 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy@kernel.org>)
-	id 1uHSxW-00000003Pa8-2YdM;
-	Tue, 20 May 2025 22:49:06 +0300
-Date: Tue, 20 May 2025 22:49:06 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
-	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 06/12] iio: accel: adxl313: prepare interrupt handling
-Message-ID: <aCzcskqKEXpM2jui@smile.fi.intel.com>
-References: <CAFXKEHYe_LBV=95Rm75UXF97oUU5CTYzDdwXJZ=cr+4fGOf80g@mail.gmail.com>
+	 Content-Type:Content-Disposition:In-Reply-To; b=Ncv168NsNnKqbKmnomP/4/GNNNlh1YEYgZ3UITow3+wc4egwFrhqYwWbjAHrLrk7iroeya2XUldDwel3jWDaTX48+CgAjgnMl+LCuH8/jy6UzMpPZabkOtV9o/I4clfKeivPEHmks1MOvT1ycxruicak8pBU9sRMiDMLe8jAY3Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=GOsTVKi5; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="GOsTVKi5"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 9429FC4CEE9;
+	Tue, 20 May 2025 20:11:49 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747771909;
+	bh=3naj0bjbvDnkEd9GJtDdldNR7frDExsIaFCZiA5vpkQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=GOsTVKi5WWDOcGNVPRsqVqE63azerDqF4l+YLT8Fwi7D7vVdpMwo61KTyhNScJpf/
+	 zeOywi3Se7KOMH7KrYds7hoor/cZdLTDkfqtjYW15VIOuRBSO6y1Mwn11MqcwV4gp3
+	 Fx1oNj7DPuBb6rrFY4zSzhDax+tpgUEqcPwlxmlqSP60fUhGc9a408SAosu9NQqEu7
+	 hMVnEaehfsu2NSu+L15BqByd28YHwYd8vISJ1FLv1AP3jql+7dNtsuBUi3NlZ0u612
+	 /xmVV4YsAZPgP/Sz/ZyDkctQUTxrI21m4kDbenozQ7/8LH6TQFWNPpXS4+r2JWEaH1
+	 yAQnaUV47Ppvw==
+Date: Tue, 20 May 2025 10:11:47 -1000
+From: Tejun Heo <tj@kernel.org>
+To: shashank.mahadasyam@sony.com
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+	Shinya Takumi <shinya.takumi@sony.com>
+Subject: Re: [PATCH v2 1/3] cgroup, docs: be specific about bandwidth control
+ of rt processes
+Message-ID: <aCziA1tUAnnGId6_@slm.duckdns.org>
+References: <20250520-rt-and-cpu-controller-doc-v2-0-70a2b6a1b703@sony.com>
+ <20250520-rt-and-cpu-controller-doc-v2-1-70a2b6a1b703@sony.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,49 +47,31 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFXKEHYe_LBV=95Rm75UXF97oUU5CTYzDdwXJZ=cr+4fGOf80g@mail.gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20250520-rt-and-cpu-controller-doc-v2-1-70a2b6a1b703@sony.com>
 
-On Tue, May 20, 2025 at 09:32:18PM +0200, Lothar Rubusch wrote:
-> Hi Andy, I forgot to put my mail addresses as well. I copied your answer
-> now from the mailing list archive. Hence, sorry for the bad formatting
-> of this mail.
+On Tue, May 20, 2025 at 11:07:45PM +0900, Shashank Balaji via B4 Relay wrote:
+> From: Shashank Balaji <shashank.mahadasyam@sony.com>
 > 
-> One question / remark down below.
+> Signed-off-by: Shashank Balaji <shashank.mahadasyam@sony.com>
+> ---
+>  Documentation/admin-guide/cgroup-v2.rst | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> > On Sun, May 18, 2025 at 11:13:15AM +0000, Lothar Rubusch wrote:
-> > > Evaluate the devicetree property for an optional interrupt line, and
-> > > configure the interrupt mapping accordingly. When no interrupt line
-> > > is defined in the devicetree, keep the FIFO in bypass mode as before.
+> diff --git a/Documentation/admin-guide/cgroup-v2.rst b/Documentation/admin-guide/cgroup-v2.rst
+> index 1a16ce68a4d7f6f8c9070be89c4975dbfa79077e..3b3685736fe9b12e96a273248dfb4a8c62a4b698 100644
+> --- a/Documentation/admin-guide/cgroup-v2.rst
+> +++ b/Documentation/admin-guide/cgroup-v2.rst
+> @@ -1076,7 +1076,7 @@ cpufreq governor about the minimum desired frequency which should always be
+>  provided by a CPU, as well as the maximum desired frequency, which should not
+>  be exceeded by a CPU.
+>  
+> -WARNING: cgroup2 cpu controller doesn't yet fully support the control of
+> +WARNING: cgroup2 cpu controller doesn't yet support the (bandwidth) control of
 
-...
+This reads weird to me. Without the () part, it becomes "doesn't yet support
+the control of". Maybe rephrase it a bit more?
 
-> > > +        ret = regmap_write(data->regmap, ADXL313_REG_INT_MAP, regval);
-> >
-> > Don't you want to use regmap_assign_bits() or something like this to have
-> > the above ternary be included?
-> 
-> Thank you so much. I guess this is a function I was looking for quite
-> a while and I know several places where to use it.
-> 
-> Anyway, I saw, my hardware test setup still runs on an older kernel
-> w/o regmap_assign_bits().
-
-You are going to upstream the driver, right? So, we don't care about old
-kernels as there was no such code at all, and since it's not a fix for
-backporting I see no impediments to use the modern APIs.
-
-> So, I kindly liked to ask if you have any objections against leaving
-> regmap_write() for now? Actually I'd prefer first to see the
-> activity/inactivity stuff in, in case this will need some more
-> modifications and I need to verify them on hardware. I think, leaving
-> regmap_write() here would make that easier for this patch set. Please,
-> let me know?
-
-Ask maintainers. I will not object if they agree on your justification.
+Thanks.
 
 -- 
-With Best Regards,
-Andy Shevchenko
-
-
+tejun
