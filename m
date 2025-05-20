@@ -1,329 +1,277 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.17])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 24B8A25D219;
-	Tue, 20 May 2025 23:44:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=198.175.65.17
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747784678; cv=fail; b=SYgVPZm5UVPQYlsxbfik2kJ2doSBv4PWoqMud+bsDHPo8S+t76nbQ1zM3W1MbI0Llf72x8rudcQ5SzN8w4yg7rOPQQixhdNK7L2TiBxFaofLHnd5YXcCLzK0a4j9iBhReDQ8jwzRnUhE7DRk9ANMzHY+u46Kics7vAGTEa9av0w=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747784678; c=relaxed/simple;
-	bh=o6uWa7WRXIiGcgwMvFdO3rOhVOI/sf4XyD+f4odI7sw=;
-	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
-	 Content-Type:MIME-Version; b=TtxH/WhhGuSEhCRflaUJbFBQiBDL+mdc52QKajN5vn2PJhgKVxviojrpVzz1dNosrq+IedINP6O1A4Cwvy1IirXo6H654V5lL4wPdefZtIq46KwnpbJ3IHL3yFg5IixEz+TCGmWtVgNp126kymUwepkmjj3ki23MzbRQDeraeSM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=QzNebU4b; arc=fail smtp.client-ip=198.175.65.17
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="QzNebU4b"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1747784677; x=1779320677;
-  h=message-id:date:subject:to:cc:references:from:
-   in-reply-to:content-transfer-encoding:mime-version;
-  bh=o6uWa7WRXIiGcgwMvFdO3rOhVOI/sf4XyD+f4odI7sw=;
-  b=QzNebU4bekKNomjW1vQlzwpwTkd6oqaUVDJezHbtDsP5Qa83MdkpJPqv
-   QmdT7+CTOb32H3VOsiMMR4kau041zqrtztFjl2U5ltrPnSNWykjgG67+v
-   ZBreEe7PujuzMKK89KpLVeat0lPKvnpmhmggThCyHNIBxXjwwFHOj0WBM
-   CYNzmwaB4U+LYHHCnVWKR98ONtdzBhNfYuo9zEsgNUr0S+wgBT7us9IDS
-   yyBIbcLr4ddXOuEJct2Mj2NqQ05Fyzi7/v0lFnxuiBDRNW66rGIDiJFUs
-   Zn8pekrBLPoUjcF0/pbu6OlXZ4nQf1qQhaqBGevvFG3d4CwEbXSeTQO6N
-   w==;
-X-CSE-ConnectionGUID: bFqx8sZsQFCIbPba3QYH/w==
-X-CSE-MsgGUID: hi9nQt3BQ5SnhsGHB8NR+A==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49727626"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="49727626"
-Received: from orviesa004.jf.intel.com ([10.64.159.144])
-  by orvoesa109.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 16:44:35 -0700
-X-CSE-ConnectionGUID: x2Vj8jY0Q8WJtahOauASFg==
-X-CSE-MsgGUID: f9hZmC61RSCZvjX4FSuYMg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="144808254"
-Received: from orsmsx901.amr.corp.intel.com ([10.22.229.23])
-  by orviesa004.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 May 2025 16:44:35 -0700
-Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id F2F151DE2BF;
+	Tue, 20 May 2025 23:45:14 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747784718; cv=none; b=ox95dgR6Xe/THhd7gYJokm5QakP4f/XHg4v/zkQd2CqhnvvjVvz4DCH75X3jfZRQal6kF+IJq6oe2v83uBGz7Zbni1hR3WHFlw/YBhxLrO6pnodVzXIEiAJYNwrISf/d35U2Dh76KaNkSEN/5fRoE7KP6fk0azzsdivnUei/3mI=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747784718; c=relaxed/simple;
+	bh=jl3rQ8yvljv9R1GJ2Pf212zCz8OEOuFMxnWHrwdeimA=;
+	h=From:To:CC:Subject:Date:Message-ID:References:In-Reply-To:
+	 Content-Type:MIME-Version; b=mQUW7QvlVlqv7k27TgQ0HaMv86ZWiHefOdK4h8bz2FD6pbMgpy+tooVRo/ZE3RKiDutqvQcxWjuvMbi4T14iCEP2IBMd+9iv+Q3aWr8rAXxcwQmHHfPUmR1G2BYpLStqJI6wux02Fo0OC9tw7jVlHJSgiWk8Qzxl2bE5eMb3UlM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b29yt2zvhz6M4xg;
+	Wed, 21 May 2025 07:40:22 +0800 (CST)
+Received: from frapeml500006.china.huawei.com (unknown [7.182.85.219])
+	by mail.maildlp.com (Postfix) with ESMTPS id F2A201402F7;
+	Wed, 21 May 2025 07:45:12 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (7.182.85.172) by
+ frapeml500006.china.huawei.com (7.182.85.219) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25; Tue, 20 May 2025 16:44:33 -0700
-Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
- ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.1544.25 via Frontend Transport; Tue, 20 May 2025 16:44:33 -0700
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.42) by
- edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.55; Tue, 20 May 2025 16:44:33 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=XjtBpgGVkwvcB5vJ5xo+/PaRnfORdI2Y/gn39TbFTtmOoGL8rqjP5nNpLgZxlfEVKvCViNra/I0YRtqQJL/u4/kj3S+jT2ci7ApWDDh3qsWpAa+4yzkzmC+oGJYPh4ydaGjC/c/9GCna1LYxGrz/d8SmoTsoytQwElOy5FSpjbPW5CLX/cwzG2zrZq29Z4hYr7A3KvYgc9OO4FlyU/QGFTpMyge32sMuvlIwTHWYim5UuFzUSj5Ogx6DXj7Iss4DEUQpq7hTcEuQ+rkMmyvEEvGcSU+KZXUES+iQE5E/yfXinbxFAWf05vsvrNqYr/Mm7gH7pc7B9G1whXUHmGweAQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BEQBZ/iMfDc1nnX/eLBsDY4NLhVSmMdCiCzHm/fsG1Q=;
- b=R8mvceQJnZtbnYCCIyCL31rVvUy11QyCJ2BvrnWDJ/l1P0UYoutUgf/FPNo4Q71DsJLBzywPqZ3TzjmzDWZxPlolCNnfCUHAUl5iNPqE9h48usHuxeT8NdkWz7ZGTfhtykz5QBR+PfHEyxLmAd8dAOipsFwuN1+QP2gLP3OPg4EDPhZTmFoQx1oG5QtX2F3Vyv+wTd8FqJWXNN+C9fMY1NgJxBU3j4JIxXuXehUdmSN1iCfgzZVxFADrJB+lH2M9d5TNGUVZLmOf9kPuJXnsKB//APvRxfDk6h3Z3Ze8Ke9epaEuVkddfVlbR385ssa53PO4V7Py0/83z/Ixw7mtAw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
- by SJ0PR11MB8272.namprd11.prod.outlook.com (2603:10b6:a03:47d::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Tue, 20 May
- 2025 23:44:10 +0000
-Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
- ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.8746.030; Tue, 20 May 2025
- 23:44:10 +0000
-Message-ID: <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
-Date: Tue, 20 May 2025 16:44:07 -0700
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
- Monitoring Counters (ABMC)
-To: "Moger, Babu" <bmoger@amd.com>, <babu.moger@amd.com>, Peter Newman
-	<peternewman@google.com>
-CC: <corbet@lwn.net>, <tony.luck@intel.com>, <tglx@linutronix.de>,
-	<mingo@redhat.com>, <bp@alien8.de>, <dave.hansen@linux.intel.com>,
-	<james.morse@arm.com>, <dave.martin@arm.com>, <fenghuay@nvidia.com>,
-	<x86@kernel.org>, <hpa@zytor.com>, <paulmck@kernel.org>,
-	<akpm@linux-foundation.org>, <thuth@redhat.com>, <rostedt@goodmis.org>,
-	<ardb@kernel.org>, <gregkh@linuxfoundation.org>,
-	<daniel.sneddon@linux.intel.com>, <jpoimboe@kernel.org>,
-	<alexandre.chartre@oracle.com>, <pawan.kumar.gupta@linux.intel.com>,
-	<thomas.lendacky@amd.com>, <perry.yuan@amd.com>, <seanjc@google.com>,
-	<kai.huang@intel.com>, <xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>,
-	<xin3.li@intel.com>, <ebiggers@google.com>, <xin@zytor.com>,
-	<sohil.mehta@intel.com>, <andrew.cooper3@citrix.com>,
-	<mario.limonciello@amd.com>, <linux-doc@vger.kernel.org>,
-	<linux-kernel@vger.kernel.org>, <maciej.wieczor-retman@intel.com>,
-	<eranian@google.com>, <Xiaojian.Du@amd.com>, <gautham.shenoy@amd.com>
-References: <cover.1747349530.git.babu.moger@amd.com>
- <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
- <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com>
- <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
- <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com>
- <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
- <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com>
-From: Reinette Chatre <reinette.chatre@intel.com>
+ 15.1.2507.39; Wed, 21 May 2025 01:45:12 +0200
+Received: from frapeml500007.china.huawei.com ([7.182.85.172]) by
+ frapeml500007.china.huawei.com ([7.182.85.172]) with mapi id 15.01.2507.039;
+ Wed, 21 May 2025 01:45:12 +0200
+From: Shiju Jose <shiju.jose@huawei.com>
+To: Alison Schofield <alison.schofield@intel.com>
+CC: "linux-cxl@vger.kernel.org" <linux-cxl@vger.kernel.org>,
+	"dan.j.williams@intel.com" <dan.j.williams@intel.com>, Jonathan Cameron
+	<jonathan.cameron@huawei.com>, "dave.jiang@intel.com" <dave.jiang@intel.com>,
+	"dave@stgolabs.net" <dave@stgolabs.net>, "vishal.l.verma@intel.com"
+	<vishal.l.verma@intel.com>, "ira.weiny@intel.com" <ira.weiny@intel.com>,
+	"linux-edac@vger.kernel.org" <linux-edac@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>, "bp@alien8.de"
+	<bp@alien8.de>, "tony.luck@intel.com" <tony.luck@intel.com>,
+	"lenb@kernel.org" <lenb@kernel.org>, "Yazen.Ghannam@amd.com"
+	<Yazen.Ghannam@amd.com>, "mchehab@kernel.org" <mchehab@kernel.org>,
+	"nifan.cxl@gmail.com" <nifan.cxl@gmail.com>, Linuxarm <linuxarm@huawei.com>,
+	tanxiaofei <tanxiaofei@huawei.com>, "Zengtao (B)" <prime.zeng@hisilicon.com>,
+	Roberto Sassu <roberto.sassu@huawei.com>, "kangkang.shen@futurewei.com"
+	<kangkang.shen@futurewei.com>, wanghuiqiang <wanghuiqiang@huawei.com>
+Subject: RE: [PATCH v5 6/8] cxl/edac: Support for finding memory operation
+ attributes from the current boot
+Thread-Topic: [PATCH v5 6/8] cxl/edac: Support for finding memory operation
+ attributes from the current boot
+Thread-Index: AQHbxZDgFo0Ql6ZU2E6LyYo7gzjDYrPa01AAgAFiT8A=
+Date: Tue, 20 May 2025 23:45:12 +0000
+Message-ID: <879667a6c73a475ab8ef06b0448258a3@huawei.com>
+References: <20250515115927.772-1-shiju.jose@huawei.com>
+ <20250515115927.772-7-shiju.jose@huawei.com>
+ <aCwFhNeeX0YC41A3@aschofie-mobl2.lan>
+In-Reply-To: <aCwFhNeeX0YC41A3@aschofie-mobl2.lan>
+Accept-Language: en-GB, en-US
 Content-Language: en-US
-In-Reply-To: <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SJ0PR05CA0148.namprd05.prod.outlook.com
- (2603:10b6:a03:33d::33) To SJ2PR11MB7573.namprd11.prod.outlook.com
- (2603:10b6:a03:4d2::10)
+X-MS-Has-Attach:
+X-MS-TNEF-Correlator:
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|SJ0PR11MB8272:EE_
-X-MS-Office365-Filtering-Correlation-Id: 918bd565-5bef-4022-9cc9-08dd97f837e5
-X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|7416014|376014;
-X-Microsoft-Antispam-Message-Info: =?utf-8?B?QkR0TzluQ2kxZmZ0ZGp5UFd1NFJORjk1TWZPZFlDemwwa1RjZ0psZnNManYy?=
- =?utf-8?B?WEhpaWhpbXZRT2h0YlFIQWlxekk5MFlpTkRTRU9rNWlSSVQ3cVpwYmgxQ2dy?=
- =?utf-8?B?ZkVuM2paQi9aZ1g5c1NMQWRUcUR3VndPWTNWU0J2dTJpRk9FQmw5R28vUEh2?=
- =?utf-8?B?TEk2RE9ubXNXcWxPSWowVXAwSm5BQ3gxQmR5ZHBsMjV1Vm11RzRkanpzKzlV?=
- =?utf-8?B?alJsbGZrbVQ2cFNXZGtDNGxQWllFYldFdzJVZDFvS2tzNUNCTXBzTmhNbm16?=
- =?utf-8?B?bVdkQy9ONk5iYW1qWnBzQkMvYWNpTFNoczJYVjhhVzJPbjRiMDRvWHRVS0kz?=
- =?utf-8?B?Zk5BR1VBc25SRmpKVk82VzgyTjJKSy9ESTY4TTd1NnF3SXhnYzNDSTRUMTlu?=
- =?utf-8?B?aFRIK1hCRXY1TnlPNThhSUJ1QVVWSEZhMStzeGZiMFR4d1NocWhQaGNGeTAr?=
- =?utf-8?B?OVh1Uko0NytVVCtLaUlWOE5zcUk4SzdoVi9qc1R0Q0NVU05GQU02RGtnTUgz?=
- =?utf-8?B?ZVZ6R3FGcWppSFY2dlhXcUQ5TWNpYkp6eWh1QVkzaEtoYXNXenU2NmdsYXJN?=
- =?utf-8?B?dVo1Sm5WZ1Q5QUpJU0FNRG1aQ0ttaG9EMVU2cnM4bXVIZTNicDRGMjZKWjZQ?=
- =?utf-8?B?MDRMd3JIY1pWMlgyMHBQUSthRDgvVDN4U3RCTmZSQWFMMUMxclF4NjFqU3pR?=
- =?utf-8?B?d3Zid256dTBFUTh1STZoRGlLQUdtaTQxTnd3VklZQ1F3UFNUN2E2UG84d05Y?=
- =?utf-8?B?eDY4bXB0RXhhSDlnclhTdktUU3JrdVlTd1psUG9XdzI4Szh2NWltR3hId2Ju?=
- =?utf-8?B?ckFkRVlTTEdXWGFnOE9JaDNncFBtQy8rWW1IdWMrd29RT0FPd2NaakhQZ3NV?=
- =?utf-8?B?a0FuWGliYmVJa3NXYTMwVjVSdndvVlRsVDFCdENoVG1zRmFtOENXbGZnOEQy?=
- =?utf-8?B?TEh6TEhUc0JYYjlINGJsRUdwU2JCS2J6dlFZMHh0bnozQTgrWFJRbG0yMnRm?=
- =?utf-8?B?K1R6NVRaSTdjbjFqZlNLby9LWWdTM2YvY0Z6Y3haRkRaaTgyWnR4d3BVNjA1?=
- =?utf-8?B?YUpyOUlXc3Z6V2lXSGluaURoRGtEVTJQMTUrVk1SdW9uTHlJYzdxOFBtRXRh?=
- =?utf-8?B?b1JQNjJJczJwRnZpcitzNFA2WGZEa0tkNXdxQ3dKWlJ0WitibHQ4SjdhT3lj?=
- =?utf-8?B?TGpiSXlaV3JtdnhQQ1lldFhEUmwwRkpNRGd0UGxNWnRjTWJiai9sbitSdzNC?=
- =?utf-8?B?cXVSK1ZwWjhiUTRMZVlHRmdXbmtmOHgwQWdoOFgxT1RVdERFVlFJK1BrS2U1?=
- =?utf-8?B?R0E4TnNQbGwvZGdpMUVxL2FFZjBLbjJERzNDRTB2bWFab2tiRXhocG1tQXU5?=
- =?utf-8?B?eVF0aUM0dHVRck9WNk5oNzBjMHRGci9jd2RuV0ZGQms3UHJUQlRrKzhaYnYv?=
- =?utf-8?B?VndnNEpSbkRYU2pQZ3FraGlyRG90YUYxN2J4bTlWeTNMMWtmOWR0SGpPY0Nv?=
- =?utf-8?B?QVNhZUtjMXM5VWNnYzR3dkppZ0VmNWtJeUJRcWE4OGVDdXJhV0krZzFFSW5n?=
- =?utf-8?B?U2ZKYWpiUm9Tc20wQkh6ZFREbXpzUTFwTUY2WFgwUnFMMGkvWi9CZVFJMjh3?=
- =?utf-8?B?NWZGZFhySTVwZGJ3enJxTnA5TEtqbEtpbXNzTDVRMjlJQVBNd01YVVRqREl2?=
- =?utf-8?B?RlR4M1RZU1g5Q2h5bHFsbm9pNEJGWHVweSs4V01nSE92UHBLd292VHQ5bnYy?=
- =?utf-8?B?OTUxcE0reTMwRk1iTitzdDlnVENVT1JVYmZkaUxGUytIa0pOc2ZidUVkMGls?=
- =?utf-8?B?YTdrNGI1a0VoZTRkancwdE1FbXl0Rkk4ZGdnRVVHWVpkMEtSZUVwWCtWUWJx?=
- =?utf-8?Q?C7zBO2NF66oOu?=
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(7416014)(376014);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?eHkxVjFpRlFZci9WY2dCTHVMeGF4d0dwRFRjQncwQjJQUmY5Z2gyeFAwVWsw?=
- =?utf-8?B?VnZwZjZzSHFzMVNZeDNTN3h5MVR2Q2drdm9vTFpzSWdtdncwNUt6bllRSXhY?=
- =?utf-8?B?KzJxUng0Y2lPeWdTdlFDaHhQTzRXaWRsVWFuTThRZ0M5NTJiU0N1bmo5bi9F?=
- =?utf-8?B?UUhUczh2andJVm5JQ2drZGdXdE1PWGUzdmViOXJpalpVemxFSVFObkxmeHBw?=
- =?utf-8?B?OG82UUgwdmgrNU1ZM3ZwUW1OaThvRnZKTk40bHA3bUtJditpeE9qZVozSFpp?=
- =?utf-8?B?cVljeXY0UHJrM09uUjhVdWV1SzV5RlhaeGlhb0dyZTRzaVdGV2h2ejkzZWlV?=
- =?utf-8?B?K2RXT0FlLzJZRHAzUUVoODVjVVlYcXhNMG1uWmFhaFRGUnN5clJiQTM0cEo2?=
- =?utf-8?B?OFovTkt1WERoQ1pLVndPcGhMVGl6QjYxcEJVQ2s3ekEraHR5V1NoSHBFeDUr?=
- =?utf-8?B?SFcwSnFseThSQVFtKzk0Y2pTQ1JqNTF3ZnRiNnRUZ1pxSG5VVXp2YmpoRGdJ?=
- =?utf-8?B?Q01qUjkrTHdsQ1JoakFNb1ZLZGVCY2xKb3VyUEhERzNCdUxCK2VyMFhMbFVW?=
- =?utf-8?B?UnJTY053K0xUUVVLbXB3WlErbFFpWnhGQ2JiL0xydzRibTFSSE16NWR4SmpC?=
- =?utf-8?B?alBIV2dqdHYvWUpxa01SdjVrck9FRkViT1dDeU8wSzVBRVJSQzFOajU4dy8r?=
- =?utf-8?B?QlJlTEFlTkF4aVl1VzdhaFJTcmVzTVhMNytVZW9UamlvVnBRT3JtUkM5UkNY?=
- =?utf-8?B?QTVwZUdrenV0ZytDNHpGVmdjcEtvZEhyMlZwT290bVgwM0JzU2VCVHVUeHd1?=
- =?utf-8?B?QS9BTFRSUkt2c2ZCNDNOT0hLYVV6RDJRT2JUZG4zNmRiUElOdWcvQWM2blJF?=
- =?utf-8?B?QXZkeDdtRjJIdDYxaUoxTmJpT01RVkNMNmZncUx6Qit3TlhRRnN6YXpMYkxr?=
- =?utf-8?B?RzdkeG0yOStrYWpYZ2lKSzJFUVVreE53V3RkVHhvamo4MUNDZFREZ3I3Y1FD?=
- =?utf-8?B?RTkzK2FwbnhlcDloUlNSdE93VFo0TDRFYzFvTVNCMnFHUGxRWDIrSVluTFJj?=
- =?utf-8?B?N203WGZaa2ZsRU9aUUY1cmdhN0JScFd2d1dqNmtpL0k1WEdkWmpiMGFSNHJ6?=
- =?utf-8?B?aVlzRmxmRW9jNXY0UW5WU2wvYzNENjBFaGtDV3ZmbGJWVldzSllBNVR6ZmVr?=
- =?utf-8?B?MDZVU1crVTF1L1VSS05OZWUxRk1GUm9VS0JmbFpVQXV0ZGZ2dloramUrcUpD?=
- =?utf-8?B?OXF6Tnl6S0thT3Y1NWdpRGEwU1NQUm1FUzRhYkJoNmxSTTJEWldpTitISVF2?=
- =?utf-8?B?aVRxRUZ1MnNEZUhmY2hhTDdCelo3cXNIOXpOa0sva0hUMWsxSWMyS3RsR25t?=
- =?utf-8?B?ZjVLTng4VVdodkh0anRKcWRvRnoyWC9nS1pWUXdhVkhTZXJrcDBNRjRyWjl2?=
- =?utf-8?B?RWNMYXo3TzJvT0ZGZ0lXWUpIandXVEI1TDdOeEZQc2xxWGVDeVBRZTlZNThp?=
- =?utf-8?B?N1JZWjRJR24wNTBGaTFmRVZWT0VkUmRZRW9qOXpGaFZld25HL2NWaVRaZkJx?=
- =?utf-8?B?R2lrUHJmOFhMdVRXc3hqVVh5dE1xT2tIWHdPNWpCekI2Vm5wakYxQlgydzJx?=
- =?utf-8?B?ZHd6SzdDaDVoQm1hVWJVZHUxaWJRR1lBQitNMVhDdjhnSUZCUms3b2FBYzdK?=
- =?utf-8?B?RytrdTR4bXNFRkdzRUxVc1NkVTJmdG1kOVRFUWJFVkJHVmxLanZqL1k3aG41?=
- =?utf-8?B?dlZUQjB5OFdyakJycnhCeGtQOEtMSmNabXFBdzFQUVNDYzNlcU9DV1YzSmh4?=
- =?utf-8?B?MXZiYWtDOEpCeUdTaXh1MFVySFIzUmhCUFp0cm1nSFcrVk9Gc3N0K01OOUxQ?=
- =?utf-8?B?STBnKzlOMXd5bEN2NWl0TXZ3V3lxdVJQTStGNlFqeWt4T1lJc0pEbzlCMXFv?=
- =?utf-8?B?UnR6ZnowQU1PSFVpMkpQd2h3RSsrUHUwWHdzcHVUaG5NVVdIaUw4TDRxUEFO?=
- =?utf-8?B?MHRlMEk0VCtrY21KbWRyeVBicmw1UXRYU3p1U3JQRzNDcUdSUmhTV1VEWFlU?=
- =?utf-8?B?eTdybmVxWHROT21kWGRKcWpZR01rZjRRNHNNbE16aXZJKzRUZjdxUU5QRm9Z?=
- =?utf-8?B?emFCMXVDNkp3TXZnRnVIaDg4WWxMaDBpZzlvU1hJbUVjWFhjRmo5bHZRdHdI?=
- =?utf-8?B?WHc9PQ==?=
-X-MS-Exchange-CrossTenant-Network-Message-Id: 918bd565-5bef-4022-9cc9-08dd97f837e5
-X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 May 2025 23:44:10.3942
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pXfruag5g/2pgPPynxbA8ukXTyEKC/e7fNZ1IChStHTFURxI7Lb3TlYL+NEkzQWptSX2OQJmDXHV4hLWLaqrjvuG8gllFgsmc+1UOZDlUPo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ0PR11MB8272
-X-OriginatorOrg: intel.com
 
-Hi Babu,
+>-----Original Message-----
+>From: Alison Schofield <alison.schofield@intel.com>
+>Sent: 20 May 2025 05:31
+>To: Shiju Jose <shiju.jose@huawei.com>
+>Cc: linux-cxl@vger.kernel.org; dan.j.williams@intel.com; Jonathan Cameron
+><jonathan.cameron@huawei.com>; dave.jiang@intel.com; dave@stgolabs.net;
+>vishal.l.verma@intel.com; ira.weiny@intel.com; linux-edac@vger.kernel.org;
+>linux-doc@vger.kernel.org; bp@alien8.de; tony.luck@intel.com;
+>lenb@kernel.org; Yazen.Ghannam@amd.com; mchehab@kernel.org;
+>nifan.cxl@gmail.com; Linuxarm <linuxarm@huawei.com>; tanxiaofei
+><tanxiaofei@huawei.com>; Zengtao (B) <prime.zeng@hisilicon.com>; Roberto
+>Sassu <roberto.sassu@huawei.com>; kangkang.shen@futurewei.com;
+>wanghuiqiang <wanghuiqiang@huawei.com>
+>Subject: Re: [PATCH v5 6/8] cxl/edac: Support for finding memory operation
+>attributes from the current boot
+>
+>On Thu, May 15, 2025 at 12:59:22PM +0100, shiju.jose@huawei.com wrote:
+>> From: Shiju Jose <shiju.jose@huawei.com>
+>>
+>> Certain operations on memory, such as memory repair, are permitted
+>> only when the address and other attributes for the operation are from
+>> the current boot. This is determined by checking whether the memory
+>> attributes for the operation match those in the CXL gen_media or CXL
+>> DRAM memory event records reported during the current boot.
+>>
+>> The CXL event records must be backed up because they are cleared in
+>> the hardware after being processed by the kernel.
+>>
+>> Support is added for storing CXL gen_media or CXL DRAM memory event
+>> records in xarrays. Old records are deleted when they expire or when
+>> there is an overflow and which depends on platform correctly report
+>> Event Record Timestamp field of CXL spec Table 8-55 Common Event
+>> Record Format.
+>>
+>> Additionally, helper functions are implemented to find a matching
+>> record in the xarray storage based on the memory attributes and repair
+>> type.
+>>
+>> Add validity check, when matching attributes for sparing, using the
+>> validity flag in the DRAM event record, to ensure that all required
+>> attributes for a requested repair operation are valid and set.
+>
+>Using cxl-test I'm getting the below stack trace when trying to modprobe -=
+r cxl-
+>test.
+>
+>These cxl-test memdevs have num_ras_features =3D=3D 0 so upon adding the
+>memdevs
+>	edac_dev_register() returns -EINVAL,
+>as does
+>	devm_cxl_memdev_edac_register()
+>
+>Later on when I try to modprobe -r cxl-test, it seems odd that the
+>devm_cxl_memdev_edac_release() is being called for this device, but it is,=
+ and
+>that where the kfree() oops happens.  Are those register and release funct=
+ions
+>intended to be paired/reciprocal ?
+>
+>Here's the code segment (from this patch) where it is failing, and the sta=
+ck trace
+>follows.
+>
+>> +
+>> +void devm_cxl_memdev_edac_release(struct cxl_memdev *cxlmd) { #ifdef
+>> +CONFIG_CXL_EDAC_MEM_REPAIR
+>> +	struct cxl_mem_err_rec *array_rec =3D cxlmd->array_err_rec;
+>> +	struct cxl_event_gen_media *rec_gen_media;
+>> +	struct cxl_event_dram *rec_dram;
+>> +	unsigned long index;
+>> +
+>> +	if (!array_rec)
+>> +		return;
+>> +
+>> +	xa_for_each(&array_rec->rec_dram, index, rec_dram)
+>> +		kfree(rec_dram);
+>
+>It fails above. That's as far as I've gotten. Hoping that you recognize so=
+mething
+>with this case where num_ras_features =3D=3D 0 that can lead to this.
+>
+>Here's the stack trace, and I'll hop to the point in the diff below where =
+it's
+>failing:
 
-On 5/20/25 4:25 PM, Moger, Babu wrote:
-> Hi Reinette,
-> 
-> On 5/20/2025 1:23 PM, Reinette Chatre wrote:
->> Hi Babu,
->>
->> On 5/20/25 10:51 AM, Moger, Babu wrote:
->>> Hi Reinette,
->>>
->>> On 5/20/25 11:06, Reinette Chatre wrote:
->>>> Hi Babu,
->>>>
->>>> On 5/20/25 8:28 AM, Moger, Babu wrote:
->>>>> On 5/19/25 10:59, Peter Newman wrote:
->>>>>> On Fri, May 16, 2025 at 12:52 AM Babu Moger <babu.moger@amd.com> wrote:
->>>>
->>>> ...
->>>>
->>>>>>> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of monitoring
->>>>>>> counters available for assignment.
->>>>>>
->>>>>> Earlier I discussed with Reinette[1] what num_mbm_cntrs should
->>>>>> represent in a "soft-ABMC" implementation where assignment is
->>>>>> implemented by assigning an RMID, which would result in all events
->>>>>> being assigned at once.
->>>>>>
->>>>>> My main concern is how many "counters" you can assign by assigning
->>>>>> RMIDs. I recall Reinette proposed reporting the number of groups which
->>>>>> can be assigned separately from counters which can be assigned.
->>>>>
->>>>> More context may be needed here. Currently, num_mbm_cntrs indicates the
->>>>> number of counters available per domain, which is 32.
->>>>>
->>>>> At the moment, we can assign 2 counters to each group, meaning each RMID
->>>>> can be associated with 2 hardware counters. In theory, it's possible to
->>>>> assign all 32 hardware counters to a group—allowing one RMID to be linked
->>>>> with up to 32 counters. However, we currently lack the interface to
->>>>> support that level of assignment.
->>>>>
->>>>> For now, the plan is to support basic assignment and expand functionality
->>>>> later once we have the necessary data structure and requirements.
->>>>
->>>> Looks like some requirements did not make it into this implementation.
->>>> Do you recall the discussion that resulted in you writing [2]? Looks like
->>>> there is a question to Peter in there on how to determine how many "counters"
->>>> are available in soft-ABMC. I interpreted [3] at that time to mean that this
->>>> information would be available in a future AMD publication.
->>>
->>> We already have a method to determine the number of counters in soft-ABMC
->>> mode, which Peter has addressed [4].
->>>
->>> [4]
->>> https://lore.kernel.org/lkml/20250203132642.2746754-1-peternewman@google.com/
->>>
->>> This appears to be more of a workaround, and I doubt it will be included
->>> in any official AMD documentation. Additionally, the long-term direction
->>> is moving towards ABMC.
->>>
->>> I don’t believe this workaround needs to be part of the current series. It
->>> can be added later when soft-ABMC is implemented.
->>
->> Agreed. What about the plans described in [2]? (Thanks to Peter for
->> catching this!).
->>
->> It is important to keep track of requirements while working on a feature to
->> ensure that the implementation supports the planned use cases. Re-reading that
->> thread it is not clear to me how soft-ABMC's per-group assignment would look.
->> Could you please share how you see it progress from this implementation?
->> This includes the single event vs. multiple event assignment. I would like to
->> highlight that this is not a request for this to be supported in this implementation
->> but there needs to be a plan for how this can be supported on top of interfaces
->> established by this work.
->>
-> 
-> Here’s my current understanding of soft-ABMC. Peter may have a more in-depth perspective on this.
-> 
-> Soft-ABMC:
-> a. num_mbm_cntrs: This is a software-defined limit based on the number of active RMIDs that can be supported. The value can be obtained using the code referenced in [4].
-> 
-> b. Assignments: No hardware configuration is required. We simply need to ensure that no more than num_mbm_cntrs RMIDs are active at any given time.
-> 
-> c. Configuration: Controlled via /info/L3_MON/mbm_total_bytes_config and mbm_local_bytes_config.
-> 
-> d. Events: Only two events can be assigned(local and total).
-> 
-> ABMC:
-> a. num_mbm_cntrs: This is defined by the hardware.
-> b. Assignments: Requires special MSR writes to assign counters.
-> c. Configuration: Comes from /info/L3_MON/counter_configs/.
-> d. Events: More than two events can be assigned to a group (currently up to 2).
-> 
-> Commonalities:
-> a. Assignments can be either exclusive or shared in both these modes.
-> 
-> Given these, I believe we can easily accommodate soft-ABMC in this interface.
+Thanks Alison for reporting and sharing the debug info.
 
-This is not so obvious to me. It looks to me as though the user is forced to interpret
-the content of resctrl files differently based on soft-ABMC vs ABMC making the interface 
-inconsistent and user thus needing to know details of implementations. This is what the previous
-discussion I linked to aimed to address. It sounds to me as though you believe that this is no longer
-an issue. Could you please show examples of what a user can expect from the interfaces and how a user
-will interact with the interfaces on both a non-ABMC and ABMC system? 
+I think following  changes should fix the issue. =20
+Dave verified fix in his test setup. Thanks Dave.
 
-Thank you
+Thanks,
+Shiju
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D
+diff --git a/drivers/cxl/core/edac.c b/drivers/cxl/core/edac.c index 87b347=
+c232b2..0f001f969228 100644
+--- a/drivers/cxl/core/edac.c
++++ b/drivers/cxl/core/edac.c
+@@ -1992,15 +1992,6 @@ int devm_cxl_memdev_edac_register(struct cxl_memdev =
+*cxlmd)  #endif
+=20
+ #ifdef CONFIG_CXL_EDAC_MEM_REPAIR
+-       struct cxl_mem_err_rec *array_rec =3D
+-               devm_kzalloc(&cxlmd->dev, sizeof(*array_rec), GFP_KERNEL);
+-       if (!array_rec)
+-               return -ENOMEM;
+-
+-       cxlmd->array_err_rec =3D array_rec;
+-       xa_init(&array_rec->rec_gen_media);
+-       xa_init(&array_rec->rec_dram);
+-
+        for (int i =3D 0; i < CXL_MEM_SPARING_MAX; i++) {
+                rc =3D cxl_memdev_sparing_init(cxlmd,
+                                             &ras_features[num_ras_features=
+], @@ -2023,6 +2014,16 @@ int devm_cxl_memdev_edac_register(struct cxl_memd=
+ev *cxlmd)
+                repair_inst++;
+                num_ras_features++;
+        }
++       if (repair_inst) {
++               struct cxl_mem_err_rec *array_rec =3D
++                       devm_kzalloc(&cxlmd->dev, sizeof(*array_rec), GFP_K=
+ERNEL);
++               if (!array_rec)
++                       return -ENOMEM;
++
++               cxlmd->array_err_rec =3D array_rec;
++               xa_init(&array_rec->rec_gen_media);
++               xa_init(&array_rec->rec_dram);
++       }
+ #endif
+        char *cxl_dev_name __free(kfree) =3D
+                kasprintf(GFP_KERNEL, "cxl_%s", dev_name(&cxlmd->dev));
 
-Reinette
-
-> 
->>>>
->>>> [2] https://lore.kernel.org/lkml/afb99efe-0de2-f7ad-d0b8-f2a0ea998efd@amd.com/
->>>> [3] https://lore.kernel.org/lkml/CALPaoCg3KpF94g2MEmfP_Ro2mQZYFA8sKVkmb+7isotKNgdY9A@mail.gmail.com/
->>>
->>
->>
-> 
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D
+>
+>
+>[  108.114491] cxl mem9: ALISON try_free_rec_dram [  108.115654] Oops:
+>general protection fault, probably for non-canonical address
+>0x1ad998badadad88: 0000 [#1] SMP NOPTI
+>[  108.118125] CPU: 0 UID: 0 PID: 1187 Comm: modprobe Tainted: G          =
+ O
+>6.15.0-rc4+ #1 PREEMPT(voluntary)
+>[  108.120507] Tainted: [O]=3DOOT_MODULE
+>[  108.121202] Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS
+>0.0.0 02/06/2015 [  108.122466] RIP: 0010:kfree+0x6e/0x300 [  108.123099]
+>Code: 80 48 01 d8 0f 82 98 02 00 00 48 c7 c2 00 00 00 80 48 2b 15 94 70 61=
+ 01
+>48 01 d0 48 c1 e8 0c 48 c1 e0 06 48 03 05 72 70 61 01 <48> 8b 50 08 49 89 =
+c5 f6
+>c2 01 0f 85 4c 01 00 00 0f 1f 44 00 00 41 [  108.126050] RSP:
+>0018:ffffc90002c03be0 EFLAGS: 00010203 [  108.126905] RAX:
+>01ad998badadad80 RBX: 6b6b6b6b6b6b6b6b RCX: 0000000000000002 [
+>108.128035] RDX: 0000777f80000000 RSI: ffffffff82a44991 RDI: ffffffff82a5a=
+c86
+>[  108.129194] RBP: ffffc90002c03c30 R08: 0000000000000000 R09:
+>0000000000000000 [  108.130346] R10: 0000000000000001 R11:
+>ffff888276ffe000 R12: ffff8880075a5000 [  108.131414] R13: ffff88800680a57=
+8
+>R14: 0000000000000000 R15: 000000000000000b [  108.132234] FS:
+>00007fce1dd38740(0000) GS:ffff8880fa52b000(0000) knlGS:0000000000000000
+>[  108.133256] CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033 [
+>108.133952] CR2: 00007ffce474e6e8 CR3: 0000000143296006 CR4:
+>0000000000370ef0 [  108.134787] DR0: 0000000000000000 DR1:
+>0000000000000000 DR2: 0000000000000000 [  108.135560] DR3:
+>0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400 [
+>108.136375] Call Trace:
+>[  108.136694]  <TASK>
+>[  108.136939]  devm_cxl_memdev_edac_release+0x6d/0x130 [cxl_core] [
+>108.137611]  cxl_memdev_release+0x22/0x40 [cxl_core] [  108.138268]
+>device_release+0x30/0x90 [  108.138720]  kobject_put+0x85/0x1c0 [
+>108.139111]  put_device+0xe/0x20 [  108.139478]
+>cxl_memdev_unregister+0x42/0x50 [cxl_core] [  108.140092]
+>devm_action_release+0xd/0x20 [  108.140531]  devres_release_all+0xa5/0xe0 =
+[
+>108.141059]  device_unbind_cleanup+0xd/0x70 [  108.141416]
+>device_release_driver_internal+0x1d3/0x220
+>[  108.141890]  device_release_driver+0xd/0x20 [  108.142236]
+>bus_remove_device+0xd7/0x140 [  108.142578]  device_del+0x15a/0x3a0 [
+>108.142932]  platform_device_del.part.0+0x13/0x80
+>[  108.143330]  platform_device_unregister+0x1b/0x40
+>[  108.143786]  cxl_test_exit+0x1a/0xd80 [cxl_test] [  108.144171]
+>__x64_sys_delete_module+0x17d/0x260
+>[  108.144579]  ? debug_smp_processor_id+0x17/0x20 [  108.145004]
+>x64_sys_call+0x19bd/0x1f90 [  108.145321]  do_syscall_64+0x64/0x140 [
+>108.145628]  entry_SYSCALL_64_after_hwframe+0x71/0x79
+>[  108.146284] RIP: 0033:0x7fce1d5128cb
+>[  108.146775] Code: 73 01 c3 48 8b 0d 55 55 0e 00 f7 d8 64 89 01 48 83 c8=
+ ff c3
+>66 2e 0f 1f 84 00 00 00 00 00 90 f3 0f 1e fa b8 b0 00 00 00 0f 05 <48> 3d =
+01 f0 ff
+>ff 73 01 c3 48 8b 0d 25 55 0e 00 f7 d8 64 89 01 48 [  108.148672] RSP:
+>002b:00007ffce4752768 EFLAGS: 00000206 ORIG_RAX: 00000000000000b0 [
+>108.149490] RAX: ffffffffffffffda RBX: 0000556b12b5dd60 RCX:
+>00007fce1d5128cb [  108.150284] RDX: 0000000000000000 RSI:
+>0000000000000800 RDI: 0000556b12b5ddc8 [  108.151169] RBP:
+>0000556b12b5ddc8 R08: 1999999999999999 R09: 0000000000000000 [
+>108.151982] R10: 00007fce1d59dac0 R11: 0000000000000206 R12:
+>0000000000000001 [  108.152756] R13: 0000000000000000 R14:
+>00007ffce4754aa8 R15: 0000556b12b5def0 [  108.153523]  </TASK> [
+>108.153925] Modules linked in: dax_pmem nd_pmem kmem nd_btt device_dax
+>dax_cxl nd_e820 nfit cxl_mock_mem(O) cxl_test(O-) cxl_mem(O) cxl_pmem(O)
+>cxl_acpi(O) cxl_port(O) cxl_mock(O) cxl_core(O) libnvdimm [  108.155784] -=
+--[
+>end trace 0000000000000000 ]---
+>
 
