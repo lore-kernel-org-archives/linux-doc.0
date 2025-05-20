@@ -1,112 +1,190 @@
-Received: from mail.ozlabs.org (gandalf.ozlabs.org [150.107.74.76])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6234C26738B;
-	Tue, 20 May 2025 11:39:10 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=150.107.74.76
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id A8C3B266EEA;
+	Tue, 20 May 2025 11:43:15 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747741155; cv=none; b=GkUIH0leZmy5qvyWZmVjFgmFKrtJYVtuemRltM2FxS9J3aU6ePu8rEySlpoXhCwoPMXTVBwJ7Jh6SluUmPkJzH6LSVmFEse2FIfG8BD747gl/VRCc15al787QL1oUHZmB5hg5j0vbaJ33Z2SlbSddaIFipCrMmdC5ay8ZvyL5E0=
+	t=1747741398; cv=none; b=GMpie/t4dqWB0T/uHXWeteBCUhTpqpKtPQ+1g4QKjNzpmCZZjBMPCcDZPLN0g1fPAApu6vQMltLPtdkQKtM5G8D3CTwE2iBVsPEqMdrl/zMgg4sZWvTRTguDNd0n6wy7sP8qmtfTSUXbjmIxTQyEpEXC7T+i9Bl/sbhp0H8w48E=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747741155; c=relaxed/simple;
-	bh=0ckXESPmy56qefBczM+kDRhj+1MO6ts6V2d771eEkCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=RRawKF2dPN22ixTThDARFIHCQZ6irCzaGms+n6qAox70FbWvRXjzAQCERWpInUZw8LBULirHBWsP8yfS66NPWJ+FGV/ajq18rAXgdM3jaSK7GXmurxZfurfFNdoW5Nta43WHbpQuq3tUk1egxVu2AcHIN8KG+9zTkfsVgGYUOQI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au; spf=pass smtp.mailfrom=canb.auug.org.au; dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b=pZ1Dj1H4; arc=none smtp.client-ip=150.107.74.76
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=canb.auug.org.au
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=canb.auug.org.au header.i=@canb.auug.org.au header.b="pZ1Dj1H4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=canb.auug.org.au;
-	s=202503; t=1747741148;
-	bh=isXZU+uZtSED1OfnliPgQkBj45lD0diwEJrlIXtWn7k=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=pZ1Dj1H4ulNQ7kGt5wvwxN0bP5VTtRc5PKewajYxbJ/WaSgj4ces2etZJNAPYZdj3
-	 COvyYXhqwJegHRs2op6KmiTx5WhOz5PjiLHOosuW3evJSnDQwb2ntvroRtepo+cpCv
-	 3pchQQ8xJLv16CNLyt7Pn4dV07SPaLYmA6xKBxliUjTrfsyxC9XVAkQOhkXKNRyPPm
-	 1EgvJmiYq/2bx3lbPuZhB+aEXwtM/IwbNWEXLW6dsYU0YkilMdq/ug+hJLDky3mEgK
-	 M8I+yg7usAgqUa9Bj4VvC8eD5Gqc+mLgyGZExNMQ+XuttnHxsrtTIvWLSRvR5n9ID2
-	 dFKcP9I8XGkKg==
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (4096 bits) server-digest SHA256)
-	(Client did not present a certificate)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 4b1syg26XMz4xQ0;
-	Tue, 20 May 2025 21:39:07 +1000 (AEST)
-Date: Tue, 20 May 2025 21:39:06 +1000
-From: Stephen Rothwell <sfr@canb.auug.org.au>
-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc: Akira Yokosawa <akiyks@gmail.com>, Randy Dunlap <rdunlap@infradead.org>,
- Jonathan Corbet <corbet@lwn.net>, Andy Shevchenko
- <andriy.shevchenko@linux.intel.com>, Nicolas Schier
- <nicolas.schier@linux.dev>, linux-doc@vger.kernel.org,
- linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 1/1] docs: kerneldoc.py: don't use Sphinx logger
-Message-ID: <20250520213906.6ec263d8@canb.auug.org.au>
-In-Reply-To: <20250520111956.1db9db88@sal.lan>
-References: <cover.1747719873.git.mchehab+huawei@kernel.org>
-	<6b81b1aaa8446b4d850064dd38ffffa1a1cb6254.1747719873.git.mchehab+huawei@kernel.org>
-	<7bbe75ff-548f-4ffd-9522-59d1518d6c72@infradead.org>
-	<20250520095037.3dc39685@sal.lan>
-	<590981da-4d37-464f-a52e-ba163d3ecbc5@gmail.com>
-	<20250520111956.1db9db88@sal.lan>
+	s=arc-20240116; t=1747741398; c=relaxed/simple;
+	bh=qr0eZYmHJGO5MdXBVpRR9jra0EGYvmiK9FXIt8YD2kI=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=Vdju7ln6Y9vOEjBFTqSDwV30lZFFrU4hfg56hYe/qQgqD9zhbfySpEL5WwTFkYhWREoJJkt5JAbJg60OTouC4GW0Lb0sUEvbc0wTUsP8sMo4wb+9V2dkRA2Xq2QT9Ys4924I/lF0CRoOeHRG2eDoB/qsFRSEYxFiWhsihl9qOTw=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E8121516;
+	Tue, 20 May 2025 04:43:01 -0700 (PDT)
+Received: from localhost (e132581.arm.com [10.1.196.87])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 72D593F6A8;
+	Tue, 20 May 2025 04:43:14 -0700 (PDT)
+Date: Tue, 20 May 2025 12:43:09 +0100
+From: Leo Yan <leo.yan@arm.com>
+To: James Clark <james.clark@linaro.org>
+Cc: Catalin Marinas <catalin.marinas@arm.com>,
+	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
+	Peter Zijlstra <peterz@infradead.org>,
+	Ingo Molnar <mingo@redhat.com>,
+	Arnaldo Carvalho de Melo <acme@kernel.org>,
+	Namhyung Kim <namhyung@kernel.org>,
+	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
+	Adrian Hunter <adrian.hunter@intel.com>,
+	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
+	Oliver Upton <oliver.upton@linux.dev>,
+	Joey Gouly <joey.gouly@arm.com>,
+	Suzuki K Poulose <suzuki.poulose@arm.com>,
+	Zenghui Yu <yuzenghui@huawei.com>,
+	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
+	kvmarm@lists.linux.dev
+Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
+ source
+Message-ID: <20250520114309.GO412060@e132581.arm.com>
+References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
+ <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; boundary="Sig_/6D2avqjLhsiENX9knPfToA9";
- protocol="application/pgp-signature"; micalg=pgp-sha256
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
 
---Sig_/6D2avqjLhsiENX9knPfToA9
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: quoted-printable
+On Tue, May 06, 2025 at 12:41:39PM +0100, James Clark wrote:
+> SPE_FEAT_FDS adds the ability to filter on the data source of packets.
+> Like the other existing filters, enable filtering with PMSFCR_EL1.FDS
+> when any of the filter bits are set.
+> 
+> Each bit maps to data sources 0-63 described by bits[0:5] in the data
+> source packet (although the full range of data source is 16 bits so
+> higher value data sources can't be filtered on). The filter is an OR of
+> all the bits, so for example setting bits 0 and 3 filters packets from
+> data sources 0 OR 3.
+> 
+> Signed-off-by: James Clark <james.clark@linaro.org>
+> ---
+>  drivers/perf/arm_spe_pmu.c | 31 +++++++++++++++++++++++++++++++
+>  1 file changed, 31 insertions(+)
+> 
+> diff --git a/drivers/perf/arm_spe_pmu.c b/drivers/perf/arm_spe_pmu.c
+> index 9309b846f642..d04318411f77 100644
+> --- a/drivers/perf/arm_spe_pmu.c
+> +++ b/drivers/perf/arm_spe_pmu.c
+> @@ -87,6 +87,7 @@ struct arm_spe_pmu {
+>  #define SPE_PMU_FEAT_INV_FILT_EVT		(1UL << 6)
+>  #define SPE_PMU_FEAT_DISCARD			(1UL << 7)
+>  #define SPE_PMU_FEAT_EFT			(1UL << 8)
+> +#define SPE_PMU_FEAT_FDS			(1UL << 9)
+>  #define SPE_PMU_FEAT_DEV_PROBED			(1UL << 63)
+>  	u64					features;
+>  
+> @@ -232,6 +233,10 @@ static const struct attribute_group arm_spe_pmu_cap_group = {
+>  #define ATTR_CFG_FLD_inv_event_filter_LO	0
+>  #define ATTR_CFG_FLD_inv_event_filter_HI	63
+>  
+> +#define ATTR_CFG_FLD_data_src_filter_CFG	config4	/* PMSDSFR_EL1 */
+> +#define ATTR_CFG_FLD_data_src_filter_LO	0
+> +#define ATTR_CFG_FLD_data_src_filter_HI	63
+> +
+>  GEN_PMU_FORMAT_ATTR(ts_enable);
+>  GEN_PMU_FORMAT_ATTR(pa_enable);
+>  GEN_PMU_FORMAT_ATTR(pct_enable);
+> @@ -248,6 +253,7 @@ GEN_PMU_FORMAT_ATTR(float_filter);
+>  GEN_PMU_FORMAT_ATTR(float_filter_mask);
+>  GEN_PMU_FORMAT_ATTR(event_filter);
+>  GEN_PMU_FORMAT_ATTR(inv_event_filter);
+> +GEN_PMU_FORMAT_ATTR(data_src_filter);
+>  GEN_PMU_FORMAT_ATTR(min_latency);
+>  GEN_PMU_FORMAT_ATTR(discard);
+>  
+> @@ -268,6 +274,7 @@ static struct attribute *arm_spe_pmu_formats_attr[] = {
+>  	&format_attr_float_filter_mask.attr,
+>  	&format_attr_event_filter.attr,
+>  	&format_attr_inv_event_filter.attr,
+> +	&format_attr_data_src_filter.attr,
+>  	&format_attr_min_latency.attr,
+>  	&format_attr_discard.attr,
+>  	NULL,
+> @@ -286,6 +293,9 @@ static umode_t arm_spe_pmu_format_attr_is_visible(struct kobject *kobj,
+>  	if (attr == &format_attr_inv_event_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_INV_FILT_EVT))
+>  		return 0;
+>  
+> +	if (attr == &format_attr_data_src_filter.attr && !(spe_pmu->features & SPE_PMU_FEAT_FDS))
+> +		return 0;
+> +
+>  	if ((attr == &format_attr_branch_filter_mask.attr ||
+>  	     attr == &format_attr_load_filter_mask.attr ||
+>  	     attr == &format_attr_store_filter_mask.attr ||
+> @@ -406,6 +416,9 @@ static u64 arm_spe_event_to_pmsfcr(struct perf_event *event)
+>  	if (ATTR_CFG_GET_FLD(attr, inv_event_filter))
+>  		reg |= PMSFCR_EL1_FnE;
+>  
+> +	if (ATTR_CFG_GET_FLD(attr, data_src_filter))
+> +		reg |= PMSFCR_EL1_FDS;
+> +
+>  	if (ATTR_CFG_GET_FLD(attr, min_latency))
+>  		reg |= PMSFCR_EL1_FL;
+>  
+> @@ -430,6 +443,12 @@ static u64 arm_spe_event_to_pmslatfr(struct perf_event *event)
+>  	return FIELD_PREP(PMSLATFR_EL1_MINLAT, ATTR_CFG_GET_FLD(attr, min_latency));
+>  }
+>  
+> +static u64 arm_spe_event_to_pmsdsfr(struct perf_event *event)
+> +{
+> +	struct perf_event_attr *attr = &event->attr;
+> +	return ATTR_CFG_GET_FLD(attr, data_src_filter);
+> +}
 
-Hi Mauro,
+Seems to me, arm_spe_event_to_pmsdsfr() is not needed as it does not do
+any conversion from event config to register value.  So simply read the
+field value in opened code would be fine.
 
-I do appreciate your work on the document system.  Particularly you
-have made the process much faster.  However, see below.
+I am fine to keep it and would leave SPE driver maintainers to decide
+which is preferring.  Otherwise, LGTM:
 
-On Tue, 20 May 2025 11:19:56 +0200 Mauro Carvalho Chehab <mchehab+huawei@ke=
-rnel.org> wrote:
->
-> If by "innocent typo" you mean removing/renaming/moving a file from
-> the Kernel tree without updating Makefiles, or adding them with wrong
-> names, then yes: I do think this should be fatal for the affected "make"=
-=20
-> targets. The quickest such build issues are caught, the best for everyone.
+Reviewed-by: Leo Yan <leo.yan@arm.com>
 
-They are found if you leave them as warnings and just continue on.  I
-have been finding them by when the current python version just crashes
-(without any useful message before your current change) I rerun the
-htmldocs using the perl version to get the name of the missing file and
-then report it so it can be fixed.  But the perl version continues on
-and produces all the other warnings so I can compare with the previous
-and only report new errors/warnigs.  Sometime these reports are not
-foxed for days or weeks (or months).
-
-So, please, now that you are producing more warnings, make a missing
-file just a warning (or at least continue on).  I have enough to do
-every day without having to run "make htmldocs" more than once.
-
---=20
-Cheers,
-Stephen Rothwell
-
---Sig_/6D2avqjLhsiENX9knPfToA9
-Content-Type: application/pgp-signature
-Content-Description: OpenPGP digital signature
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEENIC96giZ81tWdLgKAVBC80lX0GwFAmgsadoACgkQAVBC80lX
-0GzHewf7BV0JJMGCOQmObOrtJSh/grehBjDOzcfMC9XJQyfkvhdrdsgqx1TNh6cp
-ZEl+HR0GKkaJljAhN+59QzVhNkLivGEGhSF7F30ZTo7Wy+FMtH+NJcmOVr6BIVUW
-Lp6HcSB/yqObkxH0uFo8OCaE6pF6fXt/Qd5s8NBTMv1cjhh9m4qMR2wBVWuSl0T1
-XPO0DVyBFKZhaLWCUbDhFBuLWl1rzHol/mp2y1VMS6Pn2eZWVQvGgGIVYQWBPIkh
-d5qY+hbrLyiOpNFiPbMZZeAOIVSSng8navSKXJcrAJSaiG/E2d2xU8xPbui+AdTM
-YcRyOmnSfBRUSBCquyTtyON+v4L6hQ==
-=HPCw
------END PGP SIGNATURE-----
-
---Sig_/6D2avqjLhsiENX9knPfToA9--
+> +
+>  static void arm_spe_pmu_pad_buf(struct perf_output_handle *handle, int len)
+>  {
+>  	struct arm_spe_pmu_buf *buf = perf_get_aux(handle);
+> @@ -788,6 +807,10 @@ static int arm_spe_pmu_event_init(struct perf_event *event)
+>  	if (arm_spe_event_to_pmsnevfr(event) & arm_spe_pmsevfr_res0(spe_pmu->pmsver))
+>  		return -EOPNOTSUPP;
+>  
+> +	if (arm_spe_event_to_pmsdsfr(event) &&
+> +	    !(spe_pmu->features & SPE_PMU_FEAT_FDS))
+> +		return -EOPNOTSUPP;
+> +
+>  	if (attr->exclude_idle)
+>  		return -EOPNOTSUPP;
+>  
+> @@ -857,6 +880,11 @@ static void arm_spe_pmu_start(struct perf_event *event, int flags)
+>  		write_sysreg_s(reg, SYS_PMSNEVFR_EL1);
+>  	}
+>  
+> +	if (spe_pmu->features & SPE_PMU_FEAT_FDS) {
+> +		reg = arm_spe_event_to_pmsdsfr(event);
+> +		write_sysreg_s(reg, SYS_PMSDSFR_EL1);
+> +	}
+> +
+>  	reg = arm_spe_event_to_pmslatfr(event);
+>  	write_sysreg_s(reg, SYS_PMSLATFR_EL1);
+>  
+> @@ -1116,6 +1144,9 @@ static void __arm_spe_pmu_dev_probe(void *info)
+>  	if (FIELD_GET(PMSIDR_EL1_EFT, reg))
+>  		spe_pmu->features |= SPE_PMU_FEAT_EFT;
+>  
+> +	if (FIELD_GET(PMSIDR_EL1_FDS, reg))
+> +		spe_pmu->features |= SPE_PMU_FEAT_FDS;
+> +
+>  	/* This field has a spaced out encoding, so just use a look-up */
+>  	fld = FIELD_GET(PMSIDR_EL1_INTERVAL, reg);
+>  	switch (fld) {
+> 
+> -- 
+> 2.34.1
+> 
