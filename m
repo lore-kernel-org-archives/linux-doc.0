@@ -1,170 +1,188 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f180.google.com (mail-pf1-f180.google.com [209.85.210.180])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6520A25CC56;
-	Tue, 20 May 2025 07:37:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 02DBCEEC8;
+	Tue, 20 May 2025 07:43:59 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.180
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747726663; cv=none; b=tpDmegiVfXhN614MPIcvyb+wMxJNhk2tuKOQcJQCrVSjrmmbowbYzMBLjNLOLU38XjeXUBdfQq92T/Ta7FPXE+yAuTX/PVReFOf62UEDy/vEHhuJwWdGPXMm9ac+B9hYV6/YXrOYbqZ68qPg9EznTZrA3fXfdBiYQMqjaM+fOC8=
+	t=1747727041; cv=none; b=KYu86dcYrMcsOnZqckU4+MDe7QfiJVQXGY5Tardm+H7K66q7GeEsPoVK3pNHq3Rzlgef9JlC5w7MH1js4TfdCBfugX3vnG3VldRxodN7Sl8ppFWlvclgc2oCKxD0UW87crXOZReu7bKqEJD7nJZLQ5/jsODX8HxmJX+/MHG2r/Y=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747726663; c=relaxed/simple;
-	bh=fVyiR8D7qQA0+vUTgX2LRrLxivKrGYmC1L9B3HBhIp4=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=DYPG6A+GOfrWNyezMs8Se5zHDnyEaAiWNtYC9FArYne07a4m8YHpz4eSROY5r0zVb5D3SPIIEVKo3TtCBfr2edcnYj3s2NYuzsSrqC8/SDaob78X9qzXoXmRbvnolvS7hzMANyx8/ZCVjzf97ibE4OUwdCktQ7+1Zt+SRCdviL0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=dBCD7X/I; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747727041; c=relaxed/simple;
+	bh=zIL2YBPH1fTre1k7ZCpC3okZ8sjc/bzzUxupO/yQ9jA=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=ABdsd7w7kmpYkDlSyEtoIv6gOrli5TST+e8hdkR1bfEB/yN7VZc8Hr8IogWI5mZ/TLjiYPdO75a/ZBv0ZeNWo9CgbFPqTHuuyVIsmDtID+niWIULnvaUyIg+02GnffRKpBKr1bkNgWsto7UW8gGLgv45E9blh/wiszFUHcwRtt0=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=mO8c8ad3; arc=none smtp.client-ip=209.85.210.180
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="dBCD7X/I"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 48570C4CEE9;
-	Tue, 20 May 2025 07:37:42 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747726662;
-	bh=fVyiR8D7qQA0+vUTgX2LRrLxivKrGYmC1L9B3HBhIp4=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=dBCD7X/Ibe+2sYG6xP8sVpZb/vvzfhqkfWycoZsODdRu0VlV9AzpwEbDry/P8F/Ki
-	 160DahL5vOyYPwKvMHogsbRJjloc+9RW95QTgbAOYkHGrvyU6pZOIzBMpLDSRvv58+
-	 BUnXAyXUkB275DFTYj37RQ48hOiD4G6tZPHThU8pDoh7Q96nKggGXnvCvaWTssLPXy
-	 D4Lxnato7ApFWIGCt02TmsNFsgVWDS05ddVMquc+IEx925tVwN1KoOstszxYB9LJSg
-	 931bNAa+VGLwHHpB9NalKtr0s4Ta9DlL0WsQCce7tNWGaAiywZjHqBSPLO//shlkOy
-	 Xncs2LCkxJUOg==
-Date: Tue, 20 May 2025 09:37:40 +0200
-From: Krzysztof Kozlowski <krzk@kernel.org>
-To: Tomeu Vizoso <tomeu@tomeuvizoso.net>
-Cc: Rob Herring <robh@kernel.org>, 
-	Krzysztof Kozlowski <krzk+dt@kernel.org>, Conor Dooley <conor+dt@kernel.org>, 
-	Heiko Stuebner <heiko@sntech.de>, Oded Gabbay <ogabbay@kernel.org>, 
-	Jonathan Corbet <corbet@lwn.net>, Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, 
-	Maxime Ripard <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, 
-	David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, 
-	Sumit Semwal <sumit.semwal@linaro.org>, Christian =?utf-8?B?S8O2bmln?= <christian.koenig@amd.com>, 
-	Sebastian Reichel <sebastian.reichel@collabora.com>, Nicolas Frattaroli <nicolas.frattaroli@collabora.com>, 
-	Jeff Hugo <jeff.hugo@oss.qualcomm.com>, devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org, 
-	linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org, dri-devel@lists.freedesktop.org, 
-	linux-doc@vger.kernel.org, linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 05/10] accel/rocket: Add a new driver for Rockchip's
- NPU
-Message-ID: <20250520-silent-prophetic-cricket-fa0fa9@kuoka>
-References: <20250519-6-10-rocket-v4-0-d6dff6b4c0ae@tomeuvizoso.net>
- <20250519-6-10-rocket-v4-5-d6dff6b4c0ae@tomeuvizoso.net>
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="mO8c8ad3"
+Received: by mail-pf1-f180.google.com with SMTP id d2e1a72fcca58-742c46611b6so3178993b3a.1;
+        Tue, 20 May 2025 00:43:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1747727039; x=1748331839; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=9uo8wrvNhdGkpDaupALM2V4X4G0GERtYOC9S6Rbd7JE=;
+        b=mO8c8ad3TQkXvGNdx4kaZSrIM4zaUAN+RJUY3jv/XzJBUNQym7YOqpAsO0HGgHAzjb
+         1BryM9JvF2h5sVJ8NSNIbWmds/aa6W04EwMKE1TceIPM/Jt11Twe1e1l1j0qA418Y2w5
+         VUQ8DrXtFxKwfvA9Tsb4pDilvMsq+z2ioRTTmkKg+ZgIxZZ3bO0bpsLFYE6e1jIZcrB4
+         jA+EQST7BLyKE2VzfB9LMv75iikS4X/uUdwoUeIr5r5u7J+hgwO2O4yIurUfqWl/d9bf
+         zruCyKSwRnKxsh5s6aAA2sul6iRYDd5mbxTRUsiZ+WLFzMvSsQOiu+d1qGSFYF98rfl+
+         8EeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747727039; x=1748331839;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=9uo8wrvNhdGkpDaupALM2V4X4G0GERtYOC9S6Rbd7JE=;
+        b=OM2oc2J7Gl6k4OY9BH2nigp1zWPlGsN9kAyUBogkYCF3ZuldU9DLN+lnJF1DRbG3Kq
+         iOjwD1DB9VA94b6BKDkvULPs0+F4fazg8wcRFKm5svluWL7X01fwBDfkSQ8v9wX6voJI
+         ZmrWkDBo3nGrheczSjhxj51srBYeoT9dpa5TieYLxbVwq3i6ZMVJ5W+0HoRhkHOhPk5+
+         Oyp8w9Cg/aWVgdnlhewPzv372oYMP5vPY/+agg63UmrsnzjZedCt3p5nlH0imIUX+NQA
+         MxUwmz+PUOA2o7hhplbs3uJw6O1QWMlprXuhkqJlVTrgnkC32KilfnXiApIJi+qvNQYK
+         lMUg==
+X-Forwarded-Encrypted: i=1; AJvYcCVJQG98KYU6Vrp5MUXn/GOjifIPL2wkeVB9KIU04477razE5VI3ty8x2VkpDa86teY7GZFWQU0NhRizvhHLU2gw@vger.kernel.org, AJvYcCVbaoj3Wz/tHxBCbC+2eEfYpCP7SpUgkoMNwvIx4QYRTnlhhNRizooAs3NycVNqEdwXeBoMZTKOu/I=@vger.kernel.org, AJvYcCVzYnmJ/AenULUd0KqcZ1HUjT/3BpnDccQ16I6VjCYPXTF0KJt6FknrzJkLR2kDnNhaqrxDzRpg1HenY+Ah@vger.kernel.org
+X-Gm-Message-State: AOJu0YxCoCi9WBdL6B8iBDO0gVaQiu/oEHRs20zyriB4BdLXfar60Dsy
+	6S4FRmLyekTUJ6PbAdpazu8n6d4I1BMsYrDPp5wGrPRfXpJTc44eYr+0xPlpd25d6Az7KusVNQn
+	KlJrFUqOe66x4FXb1lP3Z2Y/KJqzVjxiQxfiFYM8=
+X-Gm-Gg: ASbGncvSlZuoEzr0oIwwfu/2/lWnIqj1XUyuVNIoUJhzouWkVaO0QSZHWCcX1nAepbI
+	wLY7OSyrDW4IdM+9Wv5OFrrgCC6zeHYJfZDStzV4xDKLa+ZlLpyeUDqRsxUIBoiXbIP8c0LYemG
+	tTdszUdIgDzEaDb3zVu1plqODxSwS3ezp2Og==
+X-Google-Smtp-Source: AGHT+IH2XeVratNvJ8FEJrrphJj/JDteq0tJv39Wdwj//5c4Z8WnAee6xYifV9WTkK9RBrjweCf0CdsRboWOvSrgV9Y=
+X-Received: by 2002:ad4:5caa:0:b0:6f8:9a8c:9d83 with SMTP id
+ 6a1803df08f44-6f8b2d0d149mr244508426d6.35.1747727028940; Tue, 20 May 2025
+ 00:43:48 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20250519-6-10-rocket-v4-5-d6dff6b4c0ae@tomeuvizoso.net>
+References: <20250515033857.132535-1-npache@redhat.com> <20250515033857.132535-2-npache@redhat.com>
+In-Reply-To: <20250515033857.132535-2-npache@redhat.com>
+From: Yafang Shao <laoar.shao@gmail.com>
+Date: Tue, 20 May 2025 15:43:12 +0800
+X-Gm-Features: AX0GCFvt6zLLvpZVET4ZwVYJYj9_BSwEJPuE1M1fe9g1tsw5I4FK7vP9A1HV5ug
+Message-ID: <CALOAHbCkhakdoD=HtM7=XwkHvsWu5BA6dLVofO7oFY_Os168uw@mail.gmail.com>
+Subject: Re: [PATCH v6 1/4] mm: defer THP insertion to khugepaged
+To: Nico Pache <npache@redhat.com>
+Cc: linux-mm@kvack.org, linux-doc@vger.kernel.org, 
+	linux-kernel@vger.kernel.org, linux-kselftest@vger.kernel.org, 
+	rientjes@google.com, hannes@cmpxchg.org, lorenzo.stoakes@oracle.com, 
+	rdunlap@infradead.org, mhocko@suse.com, Liam.Howlett@oracle.com, 
+	zokeefe@google.com, surenb@google.com, jglisse@google.com, cl@gentwo.org, 
+	jack@suse.cz, dave.hansen@linux.intel.com, will@kernel.org, tiwai@suse.de, 
+	catalin.marinas@arm.com, anshuman.khandual@arm.com, dev.jain@arm.com, 
+	raquini@redhat.com, aarcange@redhat.com, kirill.shutemov@linux.intel.com, 
+	yang@os.amperecomputing.com, thomas.hellstrom@linux.intel.com, 
+	vishal.moola@gmail.com, sunnanyong@huawei.com, usamaarif642@gmail.com, 
+	wangkefeng.wang@huawei.com, ziy@nvidia.com, shuah@kernel.org, 
+	peterx@redhat.com, willy@infradead.org, ryan.roberts@arm.com, 
+	baolin.wang@linux.alibaba.com, baohua@kernel.org, david@redhat.com, 
+	mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org, 
+	corbet@lwn.net, akpm@linux-foundation.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 19, 2025 at 03:43:37PM GMT, Tomeu Vizoso wrote:
-> +#endif
-> diff --git a/drivers/accel/rocket/rocket_device.c b/drivers/accel/rocket/rocket_device.c
-> new file mode 100644
-> index 0000000000000000000000000000000000000000..bb469ac87d36249157f4ba9d9f7106ad558309e4
-> --- /dev/null
-> +++ b/drivers/accel/rocket/rocket_device.c
-> @@ -0,0 +1,39 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +/* Copyright 2024-2025 Tomeu Vizoso <tomeu@tomeuvizoso.net> */
-> +
-> +#include <linux/clk.h>
-> +#include <linux/dev_printk.h>
-> +
-> +#include "rocket_device.h"
-> +
-> +int rocket_device_init(struct rocket_device *rdev)
+On Thu, May 15, 2025 at 12:39=E2=80=AFPM Nico Pache <npache@redhat.com> wro=
+te:
+>
+> setting /transparent_hugepages/enabled=3Dalways allows applications
+> to benefit from THPs without having to madvise. However, the page fault
+> handler takes very few considerations to decide weather or not to actuall=
+y
+> use a THP. This can lead to a lot of wasted memory. khugepaged only
+> operates on memory that was either allocated with enabled=3Dalways or
+> MADV_HUGEPAGE.
+>
+> Introduce the ability to set enabled=3Ddefer, which will prevent THPs fro=
+m
+> being allocated by the page fault handler unless madvise is set,
+> leaving it up to khugepaged to decide which allocations will collapse to =
+a
+> THP. This should allow applications to benefits from THPs, while curbing
+> some of the memory waste.
+>
+> Acked-by: Zi Yan <ziy@nvidia.com>
+> Co-developed-by: Rafael Aquini <raquini@redhat.com>
+> Signed-off-by: Rafael Aquini <raquini@redhat.com>
+> Signed-off-by: Nico Pache <npache@redhat.com>
+> ---
+>  include/linux/huge_mm.h | 15 +++++++++++++--
+>  mm/huge_memory.c        | 31 +++++++++++++++++++++++++++----
+>  2 files changed, 40 insertions(+), 6 deletions(-)
+>
+> diff --git a/include/linux/huge_mm.h b/include/linux/huge_mm.h
+> index e3d15c737008..02038e3db829 100644
+> --- a/include/linux/huge_mm.h
+> +++ b/include/linux/huge_mm.h
+> @@ -48,6 +48,7 @@ enum transparent_hugepage_flag {
+>         TRANSPARENT_HUGEPAGE_UNSUPPORTED,
+>         TRANSPARENT_HUGEPAGE_FLAG,
+>         TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG,
+> +       TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG,
+>         TRANSPARENT_HUGEPAGE_DEFRAG_DIRECT_FLAG,
+>         TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_FLAG,
+>         TRANSPARENT_HUGEPAGE_DEFRAG_KSWAPD_OR_MADV_FLAG,
+> @@ -186,6 +187,7 @@ static inline bool hugepage_global_enabled(void)
+>  {
+>         return transparent_hugepage_flags &
+>                         ((1<<TRANSPARENT_HUGEPAGE_FLAG) |
+> +                       (1<<TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG) |
+>                         (1<<TRANSPARENT_HUGEPAGE_REQ_MADV_FLAG));
+>  }
+>
+> @@ -195,6 +197,12 @@ static inline bool hugepage_global_always(void)
+>                         (1<<TRANSPARENT_HUGEPAGE_FLAG);
+>  }
+>
+> +static inline bool hugepage_global_defer(void)
 > +{
-> +	struct device *dev = rdev->cores[0].dev;
-> +	int err;
-> +
-> +	rdev->clk_npu = devm_clk_get(dev, "npu");
-> +	if (IS_ERR(rdev->clk_npu)) {
-> +		err = PTR_ERR(rdev->clk_npu);
-> +		dev_err(dev, "devm_clk_get failed %d for clock npu\n", err);
-> +		return err;
-> +	}
-
-That's probe path? so use standard syntax:
-
-return dev_err_probe(). One line instead of four.
-
-> +
-> +	rdev->pclk = devm_clk_get(dev, "pclk");
-> +	if (IS_ERR(rdev->pclk)) {
-> +		err = PTR_ERR(rdev->pclk);
-> +		dev_err(dev, "devm_clk_get failed %d for clock pclk\n", err);
-> +		return err;
-
-Same here... except that this should be blk API and entire function gets
-smaller.
-
-> +	}
-> +
-> +	/* Initialize core 0 (top) */
-> +	err = rocket_core_init(&rdev->cores[0]);
-> +	if (err)
-> +		return err;
-> +
-> +	return 0;
+> +       return transparent_hugepage_flags &
+> +                       (1<<TRANSPARENT_HUGEPAGE_DEFER_PF_FLAG);
 > +}
+> +
+>  static inline int highest_order(unsigned long orders)
+>  {
+>         return fls_long(orders) - 1;
+> @@ -291,13 +299,16 @@ unsigned long thp_vma_allowable_orders(struct vm_ar=
+ea_struct *vma,
+>                                        unsigned long tva_flags,
+>                                        unsigned long orders)
+>  {
+> +       if ((tva_flags & TVA_IN_PF) && hugepage_global_defer() &&
+> +                       !(vm_flags & VM_HUGEPAGE))
+> +               return 0;
+> +
+>         /* Optimization to check if required orders are enabled early. */
+>         if ((tva_flags & TVA_ENFORCE_SYSFS) && vma_is_anonymous(vma)) {
+>                 unsigned long mask =3D READ_ONCE(huge_anon_orders_always)=
+;
+> -
+>                 if (vm_flags & VM_HUGEPAGE)
+>                         mask |=3D READ_ONCE(huge_anon_orders_madvise);
+> -               if (hugepage_global_always() ||
+> +               if (hugepage_global_always() || hugepage_global_defer() |=
+|
+>                     ((vm_flags & VM_HUGEPAGE) && hugepage_global_enabled(=
+)))
+>                         mask |=3D READ_ONCE(huge_anon_orders_inherit);
+>
+> diff --git a/mm/huge_memory.c b/mm/huge_memory.c
+> index 700988a0d5cf..ce0ee74753af 100644
+> --- a/mm/huge_memory.c
+> +++ b/mm/huge_memory.c
+> @@ -297,12 +297,15 @@ static ssize_t enabled_show(struct kobject *kobj,
+>         const char *output;
+>
+>         if (test_bit(TRANSPARENT_HUGEPAGE_FLAG, &transparent_hugepage_fla=
+gs))
+> -               output =3D "[always] madvise never";
+> +               output =3D "[always] madvise defer never";
 
-...
+a small nit: alphabetical ordering might improve readability here.
 
-> +static int rocket_device_runtime_resume(struct device *dev)
-> +{
-> +	struct rocket_device *rdev = dev_get_drvdata(dev);
-> +	int core = find_core_for_dev(dev);
-> +	int err = 0;
-> +
-> +	if (core < 0)
-> +		return -ENODEV;
-> +
-> +	if (core == 0) {
-> +		err = clk_prepare_enable(rdev->clk_npu);
-> +		if (err) {
-> +			dev_err(dev, "clk_prepare_enable failed %d for clock npu\n", err);
-> +			return err;
-> +		}
-> +
-> +		err = clk_prepare_enable(rdev->pclk);
-> +		if (err) {
-> +			dev_err(dev, "clk_prepare_enable failed %d for clock pclk\n", err);
-> +			goto error_clk_npu;
-> +		}
-> +	}
-> +
-> +	err = clk_prepare_enable(rdev->cores[core].a_clk);
-> +	if (err) {
-> +		dev_err(dev, "clk_prepare_enable failed %d for a_clk in core %d\n", err, core);
-> +		goto error_pclk;
-> +	}
-> +
-> +	err = clk_prepare_enable(rdev->cores[core].h_clk);
-> +	if (err) {
-> +		dev_err(dev, "clk_prepare_enable failed %d for h_clk in core %d\n", err, core);
-> +		goto error_a_clk;
-> +	}
-
-All four above calls could be just one call with bulk API.
-
-> +
-> +	return 0;
-> +
-> +error_a_clk:
-> +	clk_disable_unprepare(rdev->cores[core].a_clk);
-> +
-> +error_pclk:
-> +	if (core == 0)
-> +		clk_disable_unprepare(rdev->pclk);
-> +
-> +error_clk_npu:
-> +	if (core == 0)
-> +		clk_disable_unprepare(rdev->clk_npu);
-
-And all this would be gone...
-
-> +
-> +	return err;
-
-Best regards,
-Krzysztof
-
+--=20
+Regards
+Yafang
