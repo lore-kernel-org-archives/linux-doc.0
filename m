@@ -1,224 +1,249 @@
-Received: from NAM11-CO1-obe.outbound.protection.outlook.com (mail-co1nam11on2082.outbound.protection.outlook.com [40.107.220.82])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from sonic308-9.consmr.mail.ne1.yahoo.com (sonic308-9.consmr.mail.ne1.yahoo.com [66.163.187.32])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 1DEA9220F57;
-	Wed, 21 May 2025 15:47:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=40.107.220.82
-ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747842474; cv=fail; b=nzDF0eEVYsW4AkCKmPbAQ3XKUmldwmrvRR2AEulHo7henh/HQyIKheH4DabQQwtmwZfvt0f0cWrg/PUjDlAwADrGYZvHBNgByRDIPQ5JuX/ZRwQZ1MmzXEpFUGJX3JR0UpTA+EvPPZmF6T42f/PzK07nT8J2/QMljcK5r3qDFR0=
-ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747842474; c=relaxed/simple;
-	bh=jhpGfvv6CWUzPoQCHO3Atk0OtyqOuJlyW3j0S+K3L1o=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=EH1QgOsZzRUUOYjYEM4HG2N5g9d734yfggyBlLkVvyQP2+/gTOP7WdtzoY0Rpm90bbKtb62q7jT7lYl5vNi6BnNvgXUgE3AcTibD4wjUsuEjQbkbWdOVMEQncP2V67ahkafOvG3sq3cgUC/rVwbex3h6glDrYSEfZ24HAf0b9gM=
-ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com; spf=fail smtp.mailfrom=amd.com; dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b=0vemNurX; arc=fail smtp.client-ip=40.107.220.82
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=amd.com
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=amd.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE91528001B
+	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 15:58:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.187.32
+ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747843101; cv=none; b=sUWo4jrrDmozW50qpmUh3i0P+JLK/EYvE+ALlQUaXvAuSGTf6izhF5Uu3nFXCrnsGOL215g+QUEChLxFlygVHf1N+3EIdaKafM28BRES4s1szdt3HVPJhhPW12mOPdxFBXKiGm19ieulcf/vZLSWOL0qCSn520jgxeubi4QqFBw=
+ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747843101; c=relaxed/simple;
+	bh=BGgcqRuU13Vh++D4w49Yy7U8WDceLk5GAUaKFmIp5xw=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=KASHMoV0kmBRmRXRTR99cGyNTnHFdB7UBWem9nWK6eNYPE3R1KHuxjFfaNIXZJPU4QES9Z06g96M16QZN2oEqc1DIxqpqXGCQlg/kRSl5i6LdtOcGsmLfKmx8HIxHX2x2Hz5ydQ20/tv20sYVr3UCi66XTsZ7ZiCjxmU3MNt8O8=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=S0fu6bET; arc=none smtp.client-ip=66.163.187.32
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=amd.com header.i=@amd.com header.b="0vemNurX"
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DrOxjw0Hg4gPt5nab6D73dB9MLsysGIGQxG9ebylqzsbiK9n6V1osdY8ieVvQyggsYPdV0K1hVB8ySfTuqxJJ+XWNhZYPk/EeEeOEt2jUzdYK662Lh0J3xC3DKPkXpkCzxkBm0JIgWrQkp11qEx6pt8YutqEzn/iAgmLZT8emnU3KhImNRIVzM5RnWq90QfcGojRx0hbdh2OWNfokKt2fvYQfjDG0ZOU6+BJT+lyNvk3FuNIew+Dn8QwTUnvAjibZqjnrlgJ7xH6UMQpTj5d2uOM2zOMI5eWTs/W+mp9qcV+fnxEz8IoU1/Fc2XBPc3TBlvt6C8B/mUMZ/3nHWrRqg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=zw2huqsza4q5J5wpoyqjqOyZRA3CmN84hy7iWKy+kRo=;
- b=nqbKFO059KkRT14+F8izeNXRFsyaXq6vEOe1pvVvc1faA/rm/At94CRAvoaCPqEH7ICPgUog6V3NG2GOjK+odBJFoSQH7CF6FKyNfUeQ6qciTsSgsG+d6CgtKxK4ymd3FBJuuQHl3R2JM5AAZfzJ1655DCA+GUMSDte00xM9x8dWvl21npmvL/zTdf/zrLXO2az0di7qYrRyJqxwnlDhuQ8jRuW4rLz7/cLyeohuzqw8ZoVqNAZw+bmtpG7wGhFWtUTs6IlfwzT1tzDRoAqNHO3WCs4fSVhS0IkZYSdZByVuX6qj7LN8DtJ0YPPx4bJeJ1KjShXMuoR7j9iNXJvCTA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 165.204.84.17) smtp.rcpttodomain=gmail.com smtp.mailfrom=amd.com; dmarc=pass
- (p=quarantine sp=quarantine pct=100) action=none header.from=amd.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=amd.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=zw2huqsza4q5J5wpoyqjqOyZRA3CmN84hy7iWKy+kRo=;
- b=0vemNurXepMuTJfrnSSQg4YZiYryBPqDASCZu/Kz3PquREWSgI3ZN7auo3d0/t+7vS3IaKQEnkh8xyhlBj/iD/9YW6shLlr00dBIzUwUnWRI7elDKOCarZQGECKI7gJQt8+q2l8+s7OS2WAj26p12rj0RIXk34Rt3uvQ6+RbSKA=
-Received: from DS7PR03CA0268.namprd03.prod.outlook.com (2603:10b6:5:3b3::33)
- by CYYPR12MB8921.namprd12.prod.outlook.com (2603:10b6:930:c7::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Wed, 21 May
- 2025 15:47:49 +0000
-Received: from DS1PEPF00017092.namprd03.prod.outlook.com
- (2603:10b6:5:3b3:cafe::18) by DS7PR03CA0268.outlook.office365.com
- (2603:10b6:5:3b3::33) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.20.8769.18 via Frontend Transport; Wed,
- 21 May 2025 15:47:49 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 165.204.84.17)
- smtp.mailfrom=amd.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=amd.com;
-Received-SPF: Pass (protection.outlook.com: domain of amd.com designates
- 165.204.84.17 as permitted sender) receiver=protection.outlook.com;
- client-ip=165.204.84.17; helo=SATLEXMB04.amd.com; pr=C
-Received: from SATLEXMB04.amd.com (165.204.84.17) by
- DS1PEPF00017092.mail.protection.outlook.com (10.167.17.135) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.8769.18 via Frontend Transport; Wed, 21 May 2025 15:47:49 +0000
-Received: from FRAPPELLOUX01.amd.com (10.180.168.240) by SATLEXMB04.amd.com
- (10.181.40.145) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.39; Wed, 21 May
- 2025 10:47:46 -0500
-From: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
-To: David Airlie <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>,
-	"Maarten Lankhorst" <maarten.lankhorst@linux.intel.com>, Maxime Ripard
-	<mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, "Jonathan
- Corbet" <corbet@lwn.net>, Matthew Brost <matthew.brost@intel.com>, "Danilo
- Krummrich" <dakr@kernel.org>, Philipp Stanner <phasta@kernel.org>,
-	=?UTF-8?q?Christian=20K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>, "Sumit
- Semwal" <sumit.semwal@linaro.org>
-CC: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>, "Lucas
- Stach" <l.stach@pengutronix.de>, =?UTF-8?q?Ma=C3=ADra=20Canal?=
-	<mcanal@igalia.com>, =?UTF-8?q?Christian=20K=C3=B6nig?=
-	<christian.koenig@amd.com>, <dri-devel@lists.freedesktop.org>,
-	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-	<linux-media@vger.kernel.org>, <linaro-mm-sig@lists.linaro.org>
-Subject: [PATCH v10 09/10] drm/doc: Document some tracepoints as uAPI
-Date: Wed, 21 May 2025 17:45:11 +0200
-Message-ID: <20250521154531.10541-10-pierre-eric.pelloux-prayer@amd.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20250521154531.10541-1-pierre-eric.pelloux-prayer@amd.com>
-References: <20250521154531.10541-1-pierre-eric.pelloux-prayer@amd.com>
+	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="S0fu6bET"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1747843091; bh=yOmpglE/0iE5Dkli7Rq/91RmE/Ae1zpfw90UnkxLyJE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=S0fu6bETdejpqMv4JHcWzCa79cZQHuedKmEYVnPTXFrltd6ZsW7DFkSQvcSBf4phz5Kxb0/L+AZQ8YmIYZ+7aN/VZ5O7azsL/nlMbkJ5B047Z99SjhW6pUkH4NxW6X4gz6eSEMmXqwCIlW2CU6ksy1X42t2DPgT6+1nbvFVdmF7PSFhcoHFvVQdBcocQcyN72fPt2KX7po35uHBOQva/z8MQ5zdHuYTWaH0aswEMF+kaazMHKo33peelcwO49EzPZBvy4JnAca/NfdVBtNCK9cHMNPj4+QU/mZxU9x0n/etwZxSULAtrxM+DfWrR1aKebONR0x7QcWo2nGzQbAIBfg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1747843091; bh=xEL2xcipIZ/nfEWIDgCa8hl6nDjfcTzwI8lAQxv236Q=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=It71Y6VNJimnDPF/r3B9rxmuts8Az/ml/M8RyLKaLVA4uDCD9tVU6Jxbw76asMCorfzlVH3PMrriV6LUoEJJxQNwTwfX5dTbYJk1rtroiWKoUAQwf7Pm5FlHSZ6Vgmhvb308iaOdBhexwcGcj9SVCW+4EGRzKEZnfF0ajreXXKtQ0/+/oknIxw/jvubKIFOL87TAfxwuzlvCOreRyng3yvNxR4HNQgRg76YRpZf9wh9zoobRtpLzuOWoY6tAudN0vSRMvHF57uEJv6jMKHT56AUt6OZ+Y641GIj0Wt9f9OBmHwVHZVFSwhu3BHYf6yS/MuopHkNq8Dv5RGQj68fugQ==
+X-YMail-OSG: clByqJoVM1moRTe52CSJ83UXr1yauiFENOkLifcwnyG6f5cKkKdfmnpo9yqeNfA
+ 6nAaknoo9mJJ4syusfV9q9BDEQih1IRYInV9PzewRbmc0icvU1.MEuIq7vkhxTNtxX23iyvnjAbM
+ nNUO7IHJJ4gjtygdnPh_6QqLolqs2qWyXKowwJ9MM8kOq7mWQHXyxoWb7usWB0Robx11v3Qax5TI
+ 6Gn2dKIVv06XFi52FyIFHE8p8nAqh2GEWxmatPtMm6XygnaFVA7F5fDtVjvs5tjtv_IkdZePsC.l
+ mrDiHYIa82zVo.zPdwKxblTk0ofs2JREbuGaFXK7.mQIKLIn4uodfpZrzfMg3cVSNS8UH7DiMuKS
+ AWhWmQJzBNDUucyi0MmEKM8_OE4QVZo67hvInHNLNlKs7QwpMU23Nrc0KDzpBuamRbXP9e.8fwnm
+ Faqu2YZpRi2Ho6cXVWScZOKveXFXnitMWdhYPNwdVQAoHW8C.ZjBLdeN60mtjmUaG_oLr7NodEof
+ 6us2vWafytDEB_A8wMx.VfzLGa8SczM6cq7kIOr2VtGbOeHAFfRoV37FVWLrADBFaIn4zo4wRoI7
+ A41Mz5kreczCDBq8SEwlhb17PQqq5XIyzfnth3HO9QOaUS.B.MoeFHwT8i0uRTq21RB1LOqkokVI
+ 6QbyNkiEBIwnElisPFPYMGF8jVE1LfelNkvnVvMcMqndziBC8aYzRrf6E35dq9d7NbFMUEOTa1YM
+ pFZs8N90cdl5JJctOlee9g5GaWxRYaXeondJlvGfqnzevQfMhqdWjH20js6GvEQRf1NHnkdmEIr7
+ RgARLH9OsS__.FZEaKyV_oanjgX.Tky79SdYASgoTCUkoWzTCPvRYtbgP8qMTT4c.Psjojr_HXAb
+ VeJmIbAu_tCUiizFzcX8D5rM9PSzzVtklzW3JU31E40Z42vi0uFBHBq67k3rqnYCKzJ53iYrNxTk
+ 9_as4N.dJ8BpJ0kKr8vAwYeVzGmRc60TVpUI8Ig5PE5R7a9J_VZutv9DYrfh3ZW.xWJ7xiS.ztPE
+ UYs1.yX3pS0wvQr8hagSzSty4AK_4ettxb22xZP58Oi01UNfqHlmIGnNo0qRK2J_WiuKyYDwZUev
+ iAwL5kg0F4LjJpmmtcIi8H_hZU4egIftqzZQCdssWrrDdmyRfADSdMVz7ZOsXu8.9cLbLh1J4LcA
+ gUqpkVVvMmQNuQYroQuiB2.TADdG5W9Jlf8ZvlmK0rVqL.alCa0fwYbklrc8sunjCjm4eRjrUNeS
+ Aw9fSxPlMQsXkUE_7TA7Zu7O4HeJZHXdksnRFvi4SYQvtA7oahSGJT8pHSVirW0ZkM32StU0gHHq
+ uTAEjl56ZFlcGILdF2KdODAugxcJHFmSZpQ9AaBw7aimLegYhfPlFapKvHINjwWGdjnfsoUVAZUy
+ VIAEBocBxUUJQvK5EAqUJJ9e2o1x0JL43dk5yrISZbbBm5W6WGhi2baKsfawiUUhy41b1RTMpcvE
+ ZG9T0fA4XMjNKdZ6roYlb7FTtruxC0lgcpuQsmLc6557LUZEYf2AX2pt4snGEN8pZFyKArcYZuEk
+ 0JIi8HHzwWZojxJL43oZpLwTypzQobksA1qce_kHBucMWf0QK2DnRfCUh6XFUV.X9bV6FombXx9H
+ qCnvlnXpzDQHDxpk9w.Ejzwq9Jpn3vv4FCDYwxVuWgroY_n0dU2WgF5XrKXFAUeDYLtolS1zvrpA
+ mH99Cp4Rntdy0J6gvTyKET2CtGCP8aNB2o3uPWAYSNP1VQWHfJje_femBOh9nceG6GQOAt3HR2RI
+ zi8Amj_vr9zi0C4MeW0Mtq3ZSSnQ3GB9JC8Sjx0FRfZFMzheE4nV5NbsV2lP1Z.flZTs15bpbmTr
+ XajYhaOLQW69bTpVGEF.orx1rHSRmWil4kkHy3UgZLc4rQlef.Psh3f9EBumCjgcHpEDDpgHD_ay
+ KgFuHUVx4W2a5h9O8_VfxJAgeJ0xIN.gqN3aqiY1A2vAEd758VzJT.6bswfymfTpsLdRZHBjzNya
+ TcvKSxpRqTjXtzxTH8xCF7jFm
+X-Sonic-MF: <casey@schaufler-ca.com>
+X-Sonic-ID: b8629f42-b60d-43ff-9800-f898e860a3c8
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Wed, 21 May 2025 15:58:11 +0000
+Received: by hermes--production-gq1-74d64bb7d7-x7xzm (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ee12a9316542bcda0cf8edd5de5dde10;
+          Wed, 21 May 2025 15:48:01 +0000 (UTC)
+Message-ID: <518c8bdd-4f73-4b8b-bdb9-be3294723c99@schaufler-ca.com>
+Date: Wed, 21 May 2025 08:47:59 -0700
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8bit
-X-ClientProxiedBy: SATLEXMB03.amd.com (10.181.40.144) To SATLEXMB04.amd.com
- (10.181.40.145)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DS1PEPF00017092:EE_|CYYPR12MB8921:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0d82ef2-6a9e-4d56-b781-08dd987ed724
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam:
-	BCL:0;ARA:13230040|36860700013|1800799024|82310400026|376014|7416014|921020;
-X-Microsoft-Antispam-Message-Info:
-	=?utf-8?B?MFBqcXlKVXM5aFlyQUxkSHFNNUpyS3Znam15TCtXTFVlT1lGNkdWMVFodUdW?=
- =?utf-8?B?ZFZqdEt0QVVPK0FEUFprbnpFeUlOcEV3bSswRm52TzlsNXZkN3RuSVNIZXZ4?=
- =?utf-8?B?am8wR05SS3puVXpGeFNHamllTXp4UGlvdWdYeFVnWnI0aC94NkNaMXdLWUxS?=
- =?utf-8?B?UE1LZXhPWWlyZHNROEEvMUNYR255Rmg3c0h0VDVRWURhODFDRGRaUFQ4SDFr?=
- =?utf-8?B?YmczcEowQW8wS3BwNFpZdnRXVEhoZlNMczhrdWNJcVNFdlVkN2o1cTFLUk5E?=
- =?utf-8?B?MVRZd2pTUzFZd29Va0ZDWVQ4Q2Y5aGxDWWRKc3VxL3ZUUVVsSUxUc3FhM0ww?=
- =?utf-8?B?VjJHTUxjcXkxeXpCOW82aHlBcUlnK3ZGRHZFYXArV2p5ak5XdGpNTlB4WFRk?=
- =?utf-8?B?QjQ0T2J1OFY3OWZtR29HTC9WN2xSK2xiUlFONlFOUFh2YWs0M1dMV1pzYmln?=
- =?utf-8?B?c0h6RU9pbllteC9ObTVPb1pBZWtBc0NMa3lINlcybnBOMlZReHNMM3k3czZW?=
- =?utf-8?B?ZnhEVVVzUUFlM0lMY3NETlNmbjJWMDdTdXZZd20yWkdLUHFwS1ZBZ1JqcFJK?=
- =?utf-8?B?OUpUbkdiWHBPR1ExVUxjODVlZm96aUtQUEJvUWNncEpWU1NXYVV1Qk40WjhF?=
- =?utf-8?B?blFzcStUaWVvL2s2ZDdIenRNRnJ3VThvRlFmQXVxNzNSRy94MnF2dXpMVTJV?=
- =?utf-8?B?T2YxZ3lySWxtOGNqdFgxTjVtVzhoN2JVeHFod0dMYjdIOFBEQ3JsYTNHczZ1?=
- =?utf-8?B?VTlJT3dQbXdJZlgzWnZKQ3pVMllkUFllYUdJVWZzd3V1YjJpQVQrSy8ybjZt?=
- =?utf-8?B?Yjl1QXh1OUVWNXpFRVRLK1AxbUZuVTJqdHVjVUJmZFZHM3RQQUxNMTRXeG5X?=
- =?utf-8?B?YzZsOGpzbWF3eVVoaWhldDl4bEFudDF1T2FGSjlCYWtJZm03K0pkWUdIdjhE?=
- =?utf-8?B?UXBJeUZHVUF3WUdSeG4wN1Z0TjNDamVaZTJtQno2d1JtckJ3blJpL0VGS1hX?=
- =?utf-8?B?cDU5UlhibjdkL0JzSVV0aWozSWN6REtTOVNwZlJRVXFOR3dyTGF3UXUxU2Z5?=
- =?utf-8?B?SDhyOFlicC9qc0NabmkrZmRNMmJmeFV6K09UVVd1VW5mZVBhcy8wTHNiWG5J?=
- =?utf-8?B?VGhjSklMTXQzMTlIZTcwOWtIdHczVEpGc3lRQ0Q0cisyc045ajYyWGtUVDB6?=
- =?utf-8?B?ejVodkw3cUdqWC9OU0lDN1VwaTlPRm5wK2VybTcxelNVZ0c1Y0NGdnBMVm5V?=
- =?utf-8?B?cjFRK09mTVVKM09qOVU5YWJmUkV0ays1RnVNVy9Jc01hQlNZVVExSXdBVnZY?=
- =?utf-8?B?UDB4NTRZaUJ3UVB5emtmcm9XcVlUb3d3dVg1WDlSZ2oxUXBNbFFxTGN3cFdz?=
- =?utf-8?B?UlFsemlheDhYSnQrNjNHY0Q5d0p0VHZqN0ZraHFrVlNzNm9nRTA3NFdBWFlI?=
- =?utf-8?B?azVLU0p3RTVnZ2Y4eXJSZERxWFZVOUZiYUpVVm9nelhHcXM4b0piY3FpNDRn?=
- =?utf-8?B?TVpxZGRvT3lZcnhjMkJJSzRKNnRhZXNwWEFrTncvU2VyS2p6Y0d2ZGMwSklP?=
- =?utf-8?B?MWZnYldrWURUdGkzSzFNNkhSbXZsWE41bSs3Qk1wUEhSWkZkRitiSTNETGxr?=
- =?utf-8?B?WUFla3ZMbUlvc25nSzhtV0pub1JUUE92TjhzSlowRlJDNWxKN3hpWi9yazh4?=
- =?utf-8?B?emFTeWtUbFF6VXZTaklaSnBJYUNmMkhsNCs0RWJLdzJ6bXBFbWNaTFlFUlJG?=
- =?utf-8?B?TFF0K1R3M1pBS2JnK2laL2JQWmF3N2ZveG5jbkR6ajM1L3I3UTJWSGo4aEdl?=
- =?utf-8?B?dERTSFM4L3d6WmYxT01vNmJHU1crcGRHYkpjUVNFcjA1aG9tQUV5YTE2UkRm?=
- =?utf-8?B?cUdvS1BPOGFtMFNSaTlYRjh0dUlrSjI1RHdoanhpMjZBNkdMRUU5dUFFSy9W?=
- =?utf-8?B?MGpIQWo0TlhtbU9FN2JqSHU5WWRWRFE1aVdHVlIxKzdIZzRMUk00ME4vQ0pP?=
- =?utf-8?B?eER6bVJCREpmQ1c4ekxob3VvR3JtaFArblVZaXl2bzVMVk5DMkFvamF2TVFp?=
- =?utf-8?B?Nk1INFJxT3padWFXaFBHUlhkejNDUDZwRFAxdz09?=
-X-Forefront-Antispam-Report:
-	CIP:165.204.84.17;CTRY:US;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:SATLEXMB04.amd.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700013)(1800799024)(82310400026)(376014)(7416014)(921020);DIR:OUT;SFP:1101;
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 15:47:49.8476
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0d82ef2-6a9e-4d56-b781-08dd987ed724
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=3dd8961f-e488-4e60-8e11-a82d994e183d;Ip=[165.204.84.17];Helo=[SATLEXMB04.amd.com]
-X-MS-Exchange-CrossTenant-AuthSource:
-	DS1PEPF00017092.namprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CYYPR12MB8921
+User-Agent: Mozilla Thunderbird
+Subject: Re: [RFC PATCH 3/9] Loadpol LSM: filter kernel module request
+ according to the policy
+To: Simon THOBY <git@nightmared.fr>, linux-security-module@vger.kernel.org
+Cc: linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
+ Casey Schaufler <casey@schaufler-ca.com>
+References: <20250521140121.591482-1-git@nightmared.fr>
+ <20250521140121.591482-4-git@nightmared.fr>
+Content-Language: en-US
+From: Casey Schaufler <casey@schaufler-ca.com>
+In-Reply-To: <20250521140121.591482-4-git@nightmared.fr>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Mailer: WebService/1.1.23840 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-This commit adds a document section in drm-uapi.rst about tracepoints,
-and mark the events gpu_scheduler_trace.h as stable uAPI.
+On 5/21/2025 7:01 AM, Simon THOBY wrote:
+> When a kernel module is loaded, the LSM accepts or rejects the demand
+> according to its policy.
+>
+> Signed-off-by: Simon THOBY <git@nightmared.fr>
+> ---
+>  security/loadpol/Makefile         |  2 +-
+>  security/loadpol/loadpol.c        | 22 ++++++++++++
+>  security/loadpol/loadpol.h        | 27 ++++++++++++++
+>  security/loadpol/loadpol_policy.c | 59 +++++++++++++++++++++++++++++++
+>  4 files changed, 109 insertions(+), 1 deletion(-)
+>  create mode 100644 security/loadpol/loadpol_policy.c
+>
+> diff --git a/security/loadpol/Makefile b/security/loadpol/Makefile
+> index a794c8cfbfee..062215e1f831 100644
+> --- a/security/loadpol/Makefile
+> +++ b/security/loadpol/Makefile
+> @@ -1 +1 @@
+> -obj-$(CONFIG_SECURITY_LOADPOL) := loadpol.o
+> +obj-$(CONFIG_SECURITY_LOADPOL) := loadpol.o loadpol_policy.o
+> diff --git a/security/loadpol/loadpol.c b/security/loadpol/loadpol.c
+> index 3fc29263e2f8..4d1a495a1462 100644
+> --- a/security/loadpol/loadpol.c
+> +++ b/security/loadpol/loadpol.c
+> @@ -6,6 +6,15 @@
+>  
+>  #include "loadpol.h"
+>  
+> +// default policy: allow all modules
+> +static struct loadpol_policy_entry default_policy_entries[] __ro_after_init = {
+> +	{
+> +		.origin = (ORIGIN_KERNEL | ORIGIN_USERSPACE),
+> +		.action = ACTION_ALLOW,
+> +		.module_name = NULL,
+> +	},
+> +};
+> +
+>  static int __init loadpol_init(void);
+>  
+>  static const struct lsm_id loadpol_lsmid = {
+> @@ -14,6 +23,7 @@ static const struct lsm_id loadpol_lsmid = {
+>  };
+>  
+>  static struct security_hook_list loadpol_hooks[] __ro_after_init = {
+> +	LSM_HOOK_INIT(kernel_module_load, loadpol_kernel_module_load),
+>  };
+>  
+>  DEFINE_LSM(LOADPOL_NAME) = {
+> @@ -23,6 +33,18 @@ DEFINE_LSM(LOADPOL_NAME) = {
+>  
+>  static int __init loadpol_init(void)
+>  {
+> +	for (int i = 0; i < ARRAY_SIZE(default_policy_entries); i++) {
+> +		struct loadpol_policy_entry *entry = kmemdup(
+> +			&default_policy_entries[i],
+> +			sizeof(struct loadpol_policy_entry),
+> +			GFP_KERNEL
+> +		);
+> +		if (!entry)
+> +			return -ENOMEM;
+> +
+> +		list_add_tail(&entry->list, loadpol_policy);
+> +	}
+> +
+>  	security_add_hooks(loadpol_hooks, ARRAY_SIZE(loadpol_hooks), &loadpol_lsmid);
+>  	pr_info("Loadpol started.\n");
+>  	return 0;
+> diff --git a/security/loadpol/loadpol.h b/security/loadpol/loadpol.h
+> index 5e11474191f0..a81d52f6d4da 100644
+> --- a/security/loadpol/loadpol.h
+> +++ b/security/loadpol/loadpol.h
+> @@ -3,6 +3,33 @@
+>  #ifndef _SECURITY_LOADPOL_LOADPOL_H
+>  #define _SECURITY_LOADPOL_LOADPOL_H
+>  
+> +#include "linux/list.h"
+> +
+>  #define LOADPOL_NAME "loadpol"
+>  
+> +enum policy_entry_origin {
+> +	ORIGIN_KERNEL = 1 << 0,
+> +	ORIGIN_USERSPACE = 1 << 1,
+> +};
+> +
+> +enum __packed policy_entry_action {
+> +	ACTION_UNDEFINED,
+> +	ACTION_ALLOW,
+> +	ACTION_DENY
+> +};
+> +
+> +struct loadpol_policy_entry {
+> +	struct list_head list;
+> +	// bitfield of policy_entry_origin
 
-The goal is to explicitly state that tools can rely on the fields,
-formats and semantics of these events.
+The // comment style is not used in the kernel.
 
-Acked-by: Lucas Stach <l.stach@pengutronix.de>
-Acked-by: Maíra Canal <mcanal@igalia.com>
-Reviewed-by: Christian König <christian.koenig@amd.com>
-Signed-off-by: Pierre-Eric Pelloux-Prayer <pierre-eric.pelloux-prayer@amd.com>
----
- Documentation/gpu/drm-uapi.rst                | 19 ++++++++++++++++
- .../gpu/drm/scheduler/gpu_scheduler_trace.h   | 22 +++++++++++++++++++
- 2 files changed, 41 insertions(+)
-
-diff --git a/Documentation/gpu/drm-uapi.rst b/Documentation/gpu/drm-uapi.rst
-index 69f72e71a96e..4863a4deb0ee 100644
---- a/Documentation/gpu/drm-uapi.rst
-+++ b/Documentation/gpu/drm-uapi.rst
-@@ -693,3 +693,22 @@ dma-buf interoperability
- 
- Please see Documentation/userspace-api/dma-buf-alloc-exchange.rst for
- information on how dma-buf is integrated and exposed within DRM.
-+
-+
-+Trace events
-+============
-+
-+See Documentation/trace/tracepoints.rst for information about using
-+Linux Kernel Tracepoints.
-+In the DRM subsystem, some events are considered stable uAPI to avoid
-+breaking tools (e.g.: GPUVis, umr) relying on them. Stable means that fields
-+cannot be removed, nor their formatting updated. Adding new fields is
-+possible, under the normal uAPI requirements.
-+
-+Stable uAPI events
-+------------------
-+
-+From ``drivers/gpu/drm/scheduler/gpu_scheduler_trace.h``
-+
-+.. kernel-doc::  drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+   :doc: uAPI trace events
-\ No newline at end of file
-diff --git a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-index 781b20349389..261713dd7d5a 100644
---- a/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-+++ b/drivers/gpu/drm/scheduler/gpu_scheduler_trace.h
-@@ -32,6 +32,28 @@
- #define TRACE_SYSTEM gpu_scheduler
- #define TRACE_INCLUDE_FILE gpu_scheduler_trace
- 
-+/**
-+ * DOC: uAPI trace events
-+ *
-+ * ``drm_sched_job_queue``, ``drm_sched_job_run``, ``drm_sched_job_add_dep``,
-+ * ``drm_sched_job_done`` and ``drm_sched_job_unschedulable`` are considered
-+ * stable uAPI.
-+ *
-+ * Common trace events attributes:
-+ *
-+ * * ``dev``   - the dev_name() of the device running the job.
-+ *
-+ * * ``ring``  - the hardware ring running the job. Together with ``dev`` it
-+ *   uniquely identifies where the job is going to be executed.
-+ *
-+ * * ``fence`` - the &struct dma_fence.context and the &struct dma_fence.seqno of
-+ *   &struct drm_sched_fence.finished
-+ *
-+ * All the events depends on drm_sched_job_arm() having been called already for
-+ * the job because they use &struct drm_sched_job.sched or
-+ * &struct drm_sched_job.s_fence.
-+ */
-+
- DECLARE_EVENT_CLASS(drm_sched_job,
- 	    TP_PROTO(struct drm_sched_job *sched_job, struct drm_sched_entity *entity),
- 	    TP_ARGS(sched_job, entity),
--- 
-2.43.0
-
+> +	u8 origin;
+> +	enum policy_entry_action action;
+> +	// when NULL, the policy apply to every module
+> +	char *module_name;
+> +};
+> +
+> +extern struct list_head __rcu *loadpol_policy;
+> +
+> +// evaluate if a kernel module called 'kmod' is allowed to be loaded in the kernel
+> +int loadpol_kernel_module_load(const char *kmod);
+> +
+>  #endif /* _SECURITY_LOADPOL_LOADPOL_H */
+> diff --git a/security/loadpol/loadpol_policy.c b/security/loadpol/loadpol_policy.c
+> new file mode 100644
+> index 000000000000..6ba5ab600e3e
+> --- /dev/null
+> +++ b/security/loadpol/loadpol_policy.c
+> @@ -0,0 +1,59 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +
+> +#include "linux/rculist.h"
+> +#include <linux/sched.h>
+> +#include <linux/sysctl.h>
+> +#include <linux/parser.h>
+> +
+> +#include "loadpol.h"
+> +
+> +/*  use A/B policy entries: switch from one to the next every time the policy get overwritten */
+> +static LIST_HEAD(loadpol_policy_a);
+> +static LIST_HEAD(loadpol_policy_b);
+> +struct list_head __rcu *loadpol_policy = (struct list_head __rcu *)(&loadpol_policy_a);
+> +
+> +int loadpol_kernel_module_load(const char *kmod)
+> +{
+> +	struct task_struct *parent_task;
+> +	struct loadpol_policy_entry *entry;
+> +	struct list_head *policy_list_tmp;
+> +	enum policy_entry_origin orig = ORIGIN_USERSPACE;
+> +	bool allowed = false;
+> +
+> +	rcu_read_lock();
+> +	parent_task = rcu_dereference(current->parent);
+> +	/* the parent of the current task is a workqueue -> the request comes from the kernel */
+> +	if (parent_task && (parent_task->flags & PF_WQ_WORKER))
+> +		orig = ORIGIN_KERNEL;
+> +	rcu_read_unlock();
+> +
+> +	pr_debug("Loadpol: trying to load '%s' (asked by %s)",
+> +		 kmod,
+> +		 orig == ORIGIN_KERNEL ? "kernel" : "userspace");
+> +
+> +	rcu_read_lock();
+> +	policy_list_tmp = rcu_dereference(loadpol_policy);
+> +	list_for_each_entry_rcu(entry, policy_list_tmp, list) {
+> +		/* the requestor does not match */
+> +		if ((orig & entry->origin) == 0)
+> +			continue;
+> +
+> +		allowed = entry->action == ACTION_ALLOW;
+> +
+> +		if (!entry->module_name)
+> +			goto unlock_and_exit;
+> +
+> +		if (entry->module_name && match_wildcard(entry->module_name, kmod))
+> +			goto unlock_and_exit;
+> +	}
+> +
+> +	/* No match -> reject the demand */
+> +	allowed = false;
+> +
+> +unlock_and_exit:
+> +	rcu_read_unlock();
+> +
+> +	pr_debug("Loadpol: load of module '%s' %s", kmod, allowed ? "allowed" : "blocked");
+> +
+> +	return allowed ? 0 : -EPERM;
+> +}
