@@ -1,502 +1,151 @@
-Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5D4B426C398;
-	Wed, 21 May 2025 12:48:34 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 26789267B74;
+	Wed, 21 May 2025 12:52:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=205.220.168.131
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747831716; cv=none; b=Bxwqab5n2N1YTkKWVTWRrgOM4q7umw3zYX/rHwq78bvku2YuYWhb6+WeEGA/3LWZFq3CowUsqk5akElcpFNiDfVQGtY4VgXR/fGwpl9QeVx+ejhHjODrqo2KK6gVWEWPq+KM5kRIRYWPt6tovP3z+CdZkTfgpKQpc1qGvQSPI8o=
+	t=1747831962; cv=none; b=pzSEvbxrnEzYki/9huwD9aZzAP1ZFLb9JadHIkAagvqwFfxI4vj2rkUrzRETCSpe7mFQ46SaK3HkVkgPrOhAVEw9GG6ildo25pE0ScuSDP+WdPr1FdFMKfEg95jqerCvA73OTC4qu8gJDayZIhPBymXjioo+FgOlaf8fb523/mM=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747831716; c=relaxed/simple;
-	bh=KkwF9iFHegWUpMUWWxGyZkhwDteH9bHAuYAoycQuKeA=;
-	h=From:To:CC:Subject:Date:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=kGehp/R4pcF7ycKcN3Hg9f7R9+1Y9yr4U5by1lltvzBG/qwcHSpBvQ9ZHZkHmQaxvHrYX7oNB2VhlU/mcf3qT0en43Gcb2vl0mCZrigw5hVfJzlezWHmaGVobbtL8B1fAVoS1Rrp1JP7ssxPs3uS8jflXqZV2CTBNigrCDZqaz8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
-Received: from mail.maildlp.com (unknown [172.18.186.231])
-	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b2WNc2rbFz6H7yb;
-	Wed, 21 May 2025 20:45:20 +0800 (CST)
-Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
-	by mail.maildlp.com (Postfix) with ESMTPS id BE73B140557;
-	Wed, 21 May 2025 20:48:31 +0800 (CST)
-Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.151.26) by
- frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.2507.39; Wed, 21 May 2025 14:48:30 +0200
-From: <shiju.jose@huawei.com>
-To: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
-	<jonathan.cameron@huawei.com>, <dave.jiang@intel.com>, <dave@stgolabs.net>,
-	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
-	<ira.weiny@intel.com>
-CC: <linux-edac@vger.kernel.org>, <linux-doc@vger.kernel.org>, <bp@alien8.de>,
-	<tony.luck@intel.com>, <lenb@kernel.org>, <Yazen.Ghannam@amd.com>,
-	<mchehab@kernel.org>, <nifan.cxl@gmail.com>, <linuxarm@huawei.com>,
-	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
-	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
-	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
-Subject: [PATCH v6 8/8] cxl/edac: Add CXL memory device soft PPR control feature
-Date: Wed, 21 May 2025 13:47:46 +0100
-Message-ID: <20250521124749.817-9-shiju.jose@huawei.com>
-X-Mailer: git-send-email 2.43.0.windows.1
-In-Reply-To: <20250521124749.817-1-shiju.jose@huawei.com>
-References: <20250521124749.817-1-shiju.jose@huawei.com>
+	s=arc-20240116; t=1747831962; c=relaxed/simple;
+	bh=rgboF6O42TahFs/8pXgNbmH2+IAqnYb0uPyGcWYivRM=;
+	h=Message-ID:Date:MIME-Version:From:Subject:To:CC:References:
+	 In-Reply-To:Content-Type; b=Sjw1slXKObLfbQZh4xk4yS86FJCQhLnszBVvs6DgtC8q3nftNOdRch39mycMOkX3lBvoCtt6OGuAoNhvzfBMfrVz8IU+iuVaCgZofO2+EyTwoEyi1TjqZckx+L6nzoarHQb/r2u5atJLw9ATX/EoZjdwFMb/PUMeXUBMPH4iquQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com; spf=pass smtp.mailfrom=quicinc.com; dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b=DQOlnmv/; arc=none smtp.client-ip=205.220.168.131
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=quicinc.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=quicinc.com header.i=@quicinc.com header.b="DQOlnmv/"
+Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.2/8.18.1.2) with ESMTP id 54L9XNIu029164;
+	Wed, 21 May 2025 12:52:12 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=quicinc.com; h=
+	cc:content-transfer-encoding:content-type:date:from:in-reply-to
+	:message-id:mime-version:references:subject:to; s=qcppdkim1; bh=
+	zAkNkquuUoYz7N8pVRuD9/VogaSosp8jzMIXjAaUFXs=; b=DQOlnmv/yR7/cuRp
+	dnHWHgqEi+r8gdlhjgt8IvX64z4XfQ2QpKecAzWnh4sp638MdHpRurNkYctpCKV9
+	SzRNqNN+qhRvV9giFDlONaIRO5iQXEmGc2V7WKowEY5oIcnvG2cF3vkHLhY2lKT6
+	h1F0EoqikmiCzKHCJhEMRqJg/uCqGQgs8fAV/BeQKsititybyNlCV1DOvhdXh0Vs
+	BA1JZxGl7NzBPtnFBhm93NdQN3JVkjzs0WyDrMY3wD4cO5g4qzqDTSrIHYMRDoQc
+	Bo/+W6NCF56RkRZl4cVMGIBrUXbNfjmZKGSwil21shQSHJz6SkiMzeucqeZsNjCX
+	tBXosw==
+Received: from nasanppmta04.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 46rwf430us-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 May 2025 12:52:12 +0000 (GMT)
+Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
+	by NASANPPMTA04.qualcomm.com (8.18.1.2/8.18.1.2) with ESMTPS id 54LCqBI6021618
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Wed, 21 May 2025 12:52:11 GMT
+Received: from [10.253.72.103] (10.80.80.8) by nasanex01a.na.qualcomm.com
+ (10.52.223.231) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1544.9; Wed, 21 May
+ 2025 05:52:08 -0700
+Message-ID: <a7edb7e8-37ac-45ae-b5c7-2c9034dce4d7@quicinc.com>
+Date: Wed, 21 May 2025 20:50:48 +0800
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
- frapeml500007.china.huawei.com (7.182.85.172)
+User-Agent: Mozilla Thunderbird
+From: Lei Wei <quic_leiwei@quicinc.com>
+Subject: Re: [net-next PATCH v4 03/11] net: pcs: Add subsystem
+To: Sean Anderson <sean.anderson@linux.dev>, <netdev@vger.kernel.org>,
+        Andrew
+ Lunn <andrew+netdev@lunn.ch>,
+        "David S . Miller" <davem@davemloft.net>,
+        Eric
+ Dumazet <edumazet@google.com>, Jakub Kicinski <kuba@kernel.org>,
+        Paolo Abeni
+	<pabeni@redhat.com>, Russell King <linux@armlinux.org.uk>
+CC: <upstream@airoha.com>, Kory Maincent <kory.maincent@bootlin.com>,
+        Simon
+ Horman <horms@kernel.org>,
+        Christian Marangi <ansuelsmth@gmail.com>,
+        <linux-kernel@vger.kernel.org>, Heiner Kallweit <hkallweit1@gmail.com>,
+        Jonathan Corbet <corbet@lwn.net>, <linux-doc@vger.kernel.org>
+References: <20250512161013.731955-1-sean.anderson@linux.dev>
+ <20250512161013.731955-4-sean.anderson@linux.dev>
+ <e92c87cf-2645-493c-b9d3-ce92249116d1@quicinc.com>
+ <4556e55b-2360-4780-a282-b2f04f5cc994@linux.dev>
+Content-Language: en-US
+In-Reply-To: <4556e55b-2360-4780-a282-b2f04f5cc994@linux.dev>
+Content-Type: text/plain; charset="UTF-8"; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
+ nasanex01a.na.qualcomm.com (10.52.223.231)
+X-QCInternal: smtphost
+X-Proofpoint-Virus-Version: vendor=nai engine=6200 definitions=5800 signatures=585085
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjUwNTIxMDEyNCBTYWx0ZWRfX5PbrLYDXKQWN
+ uA4IqaIqcLFXtjMfEtGdnJAjsZ0l8dStAF2Wa8I401PwZVMy+972FVizFtdaq4eMFYzBuBUERH1
+ Q/BxixJHLfyyRlksqyOS7YZJlIarxHHwhLe9e0Bmzqjs/MhfgIqSOnry4TrOrgl5IMEiwrwSKQ+
+ DYuxDnXaNn1LWTxjxFobossQ7VwPCCwSQwuJA6y9DA0deMbaAst7VWKUUnb7assHoQAZlhMxuIo
+ tIaW8/WXrSKv62kquiOxJU6GvCCCAavlqdvTFfdxD72fd33AjEX+RN55PylCOANP9HkPTZv4/pA
+ OnNNsrERJbATPA0Y2OjsjyxT64wb9TCow+73yy2gzCmlogRwOWNizu3DzS6589SgO8SJ9Lkwy+j
+ XW+klpxtSor22+03ojDZubcB5cSLCE4y9yFEg/3Hz3MJpGbitRs/Fg+O3BpnIaxZlg2qFuSS
+X-Proofpoint-GUID: qNMarVzvYdQZ0J3EKqySIf0AQkmmAfEk
+X-Authority-Analysis: v=2.4 cv=Ws8rMcfv c=1 sm=1 tr=0 ts=682dcc7c cx=c_pps
+ a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
+ a=GEpy-HfZoHoA:10 a=IkcTkHD0fZMA:10 a=dt9VzEwgFbYA:10
+ a=eH__3MDfRxuffPQLZlIA:9 a=QEXdDO2ut3YA:10
+X-Proofpoint-ORIG-GUID: qNMarVzvYdQZ0J3EKqySIf0AQkmmAfEk
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1099,Hydra:6.0.736,FMLib:17.12.80.40
+ definitions=2025-05-21_04,2025-05-20_03,2025-03-28_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 clxscore=1015 suspectscore=0 mlxscore=0
+ bulkscore=0 phishscore=0 priorityscore=1501 impostorscore=0
+ lowpriorityscore=0 mlxlogscore=999 adultscore=0 classifier=spam authscore=0
+ authtc=n/a authcc= route=outbound adjust=0 reason=mlx scancount=1
+ engine=8.19.0-2505160000 definitions=main-2505210124
 
-From: Shiju Jose <shiju.jose@huawei.com>
 
-Post Package Repair (PPR) maintenance operations may be supported by CXL
-devices that implement CXL.mem protocol. A PPR maintenance operation
-requests the CXL device to perform a repair operation on its media.
-For example, a CXL device with DRAM components that support PPR features
-may implement PPR Maintenance operations. DRAM components may support two
-types of PPR, hard PPR (hPPR), for a permanent row repair, and Soft PPR
-(sPPR), for a temporary row repair. Soft PPR is much faster than hPPR,
-but the repair is lost with a power cycle.
 
-During the execution of a PPR Maintenance operation, a CXL memory device:
-- May or may not retain data
-- May or may not be able to process CXL.mem requests correctly, including
-the ones that target the DPA involved in the repair.
-These CXL Memory Device capabilities are specified by Restriction Flags
-in the sPPR Feature and hPPR Feature.
+On 5/20/2025 1:43 AM, Sean Anderson wrote:
+> On 5/14/25 12:22, Lei Wei wrote:
+>>
+>>
+>> On 5/13/2025 12:10 AM, Sean Anderson wrote:
+>>> +/**
+>>> + * pcs_register_full() - register a new PCS
+>>> + * @dev: The device requesting the PCS
+>>> + * @fwnode: The PCS's firmware node; typically @dev.fwnode
+>>> + * @pcs: The PCS to register
+>>> + *
+>>> + * Registers a new PCS which can be attached to a phylink.
+>>> + *
+>>> + * Return: 0 on success, or -errno on error
+>>> + */
+>>> +int pcs_register_full(struct device *dev, struct fwnode_handle *fwnode,
+>>> +              struct phylink_pcs *pcs)
+>>> +{
+>>> +    struct pcs_wrapper *wrapper;
+>>> +
+>>> +    if (!dev || !pcs->ops)
+>>> +        return -EINVAL;
+>>> +
+>>> +    if (!pcs->ops->pcs_an_restart || !pcs->ops->pcs_config ||
+>>> +        !pcs->ops->pcs_get_state)
+>>> +        return -EINVAL;
+>>> +
+>>> +    wrapper = kzalloc(sizeof(*wrapper), GFP_KERNEL);
+>>> +    if (!wrapper)
+>>> +        return -ENOMEM;
+>>
+>> How about the case where pcs is removed and then comes back again? Should we find the original wrapper and attach it to pcs again instead of creating a new wrapper?
+> 
+> When the PCS is removed the old wrapper is removed from pcs_wrappers, so
+> it can no longer be looked up any more. I think trying to save/restore
+> the wrapper would be much more trouble than it's worth.
+> 
 
-Soft PPR maintenance operation may be executed at runtime, if data is
-retained and CXL.mem requests are correctly processed. For CXL devices with
-DRAM components, hPPR maintenance operation may be executed only at boot
-because typically data may not be retained with hPPR maintenance operation.
+In the case where Ethernet is not removed but PCS is removed and then
+comes back (when the sysfs unbind followed by bind method is used),
+it will not work because the Ethernet probe will not be initiated again, 
+to call "pcs_get" again to obtain the new wrapper, it would still hold 
+the old wrapper.
 
-When a CXL device identifies error on a memory component, the device
-may inform the host about the need for a PPR maintenance operation by using
-an Event Record, where the Maintenance Needed flag is set. The Event Record
-specifies the DPA that should be repaired. A CXL device may not keep track
-of the requests that have already been sent and the information on which
-DPA should be repaired may be lost upon power cycle.
-The userspace tool requests for maintenance operation if the number of
-corrected error reported on a CXL.mem media exceeds error threshold.
-
-CXL spec 3.2 section 8.2.10.7.1.2 describes the device's sPPR (soft PPR)
-maintenance operation and section 8.2.10.7.1.3 describes the device's
-hPPR (hard PPR) maintenance operation feature.
-
-CXL spec 3.2 section 8.2.10.7.2.1 describes the sPPR feature discovery and
-configuration.
-
-CXL spec 3.2 section 8.2.10.7.2.2 describes the hPPR feature discovery and
-configuration.
-
-Add support for controlling CXL memory device soft PPR (sPPR) feature.
-Register with EDAC driver, which gets the memory repair attr descriptors
-from the EDAC memory repair driver and exposes sysfs repair control
-attributes for PRR to the userspace. For example CXL PPR control for the
-CXL mem0 device is exposed in /sys/bus/edac/devices/cxl_mem0/mem_repairX/
-
-Add checks to ensure the memory to be repaired is offline and originates
-from a CXL DRAM or CXL gen_media error record reported in the current boot,
-before requesting a PPR operation on the device.
-
-Note: Tested with QEMU patch for CXL PPR feature.
-https://lore.kernel.org/linux-cxl/20250509172229.726-1-shiju.jose@huawei.com/T/#m70b2b010f43f7f4a6f9acee5ec9008498bf292c3
-
-[dj: Check return from cxl_feature_info() with IS_ERR]
-
-Reviewed-by: Dave Jiang <dave.jiang@intel.com>
-Reviewed-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
-Signed-off-by: Shiju Jose <shiju.jose@huawei.com>
----
- Documentation/edac/memory_repair.rst |  10 +
- drivers/cxl/core/edac.c              | 328 ++++++++++++++++++++++++++-
- 2 files changed, 337 insertions(+), 1 deletion(-)
-
-diff --git a/Documentation/edac/memory_repair.rst b/Documentation/edac/memory_repair.rst
-index 5b1cd8297442..5f8da7c9b186 100644
---- a/Documentation/edac/memory_repair.rst
-+++ b/Documentation/edac/memory_repair.rst
-@@ -138,5 +138,15 @@ CXL device to perform a repair operation on its media. For example, a CXL
- device with DRAM components that support memory sparing features may
- implement sparing maintenance operations.
- 
-+2. CXL memory Soft Post Package Repair (sPPR)
-+
-+Post Package Repair (PPR) maintenance operations may be supported by CXL
-+devices that implement CXL.mem protocol. A PPR maintenance operation
-+requests the CXL device to perform a repair operation on its media.
-+For example, a CXL device with DRAM components that support PPR features
-+may implement PPR Maintenance operations. Soft PPR (sPPR) is a temporary
-+row repair. Soft PPR may be faster, but the repair is lost with a power
-+cycle.
-+
- Sysfs files for memory repair are documented in
- `Documentation/ABI/testing/sysfs-edac-memory-repair`
-diff --git a/drivers/cxl/core/edac.c b/drivers/cxl/core/edac.c
-index 90f7f8df34bf..eba00e99bf4b 100644
---- a/drivers/cxl/core/edac.c
-+++ b/drivers/cxl/core/edac.c
-@@ -14,6 +14,7 @@
- #include <linux/cleanup.h>
- #include <linux/edac.h>
- #include <linux/limits.h>
-+#include <linux/unaligned.h>
- #include <linux/xarray.h>
- #include <cxl/features.h>
- #include <cxl.h>
-@@ -21,7 +22,7 @@
- #include "core.h"
- #include "trace.h"
- 
--#define CXL_NR_EDAC_DEV_FEATURES 6
-+#define CXL_NR_EDAC_DEV_FEATURES 7
- 
- #define CXL_SCRUB_NO_REGION -1
- 
-@@ -1666,6 +1667,321 @@ static int cxl_memdev_sparing_init(struct cxl_memdev *cxlmd,
- 	return 0;
- }
- 
-+/*
-+ * CXL memory soft PPR & hard PPR control
-+ */
-+struct cxl_ppr_context {
-+	uuid_t repair_uuid;
-+	u8 instance;
-+	u16 get_feat_size;
-+	u16 set_feat_size;
-+	u8 get_version;
-+	u8 set_version;
-+	u16 effects;
-+	u8 op_class;
-+	u8 op_subclass;
-+	bool cap_dpa;
-+	bool cap_nib_mask;
-+	bool media_accessible;
-+	bool data_retained;
-+	struct cxl_memdev *cxlmd;
-+	enum edac_mem_repair_type repair_type;
-+	bool persist_mode;
-+	u64 dpa;
-+	u32 nibble_mask;
-+};
-+
-+/*
-+ * See CXL rev 3.2 @8.2.10.7.2.1 Table 8-128 sPPR Feature Readable Attributes
-+ *
-+ * See CXL rev 3.2 @8.2.10.7.2.2 Table 8-131 hPPR Feature Readable Attributes
-+ */
-+
-+#define CXL_PPR_OP_CAP_DEVICE_INITIATED BIT(0)
-+#define CXL_PPR_OP_MODE_DEV_INITIATED BIT(0)
-+
-+#define CXL_PPR_FLAG_DPA_SUPPORT_MASK BIT(0)
-+#define CXL_PPR_FLAG_NIB_SUPPORT_MASK BIT(1)
-+#define CXL_PPR_FLAG_MEM_SPARING_EV_REC_SUPPORT_MASK BIT(2)
-+#define CXL_PPR_FLAG_DEV_INITED_PPR_AT_BOOT_CAP_MASK BIT(3)
-+
-+#define CXL_PPR_RESTRICTION_FLAG_MEDIA_ACCESSIBLE_MASK BIT(0)
-+#define CXL_PPR_RESTRICTION_FLAG_DATA_RETAINED_MASK BIT(2)
-+
-+#define CXL_PPR_SPARING_EV_REC_EN_MASK BIT(0)
-+#define CXL_PPR_DEV_INITED_PPR_AT_BOOT_EN_MASK BIT(1)
-+
-+#define CXL_PPR_GET_CAP_DPA(flags) \
-+	FIELD_GET(CXL_PPR_FLAG_DPA_SUPPORT_MASK, flags)
-+#define CXL_PPR_GET_CAP_NIB_MASK(flags) \
-+	FIELD_GET(CXL_PPR_FLAG_NIB_SUPPORT_MASK, flags)
-+#define CXL_PPR_GET_MEDIA_ACCESSIBLE(restriction_flags) \
-+	(FIELD_GET(CXL_PPR_RESTRICTION_FLAG_MEDIA_ACCESSIBLE_MASK, \
-+		   restriction_flags) ^ 1)
-+#define CXL_PPR_GET_DATA_RETAINED(restriction_flags) \
-+	(FIELD_GET(CXL_PPR_RESTRICTION_FLAG_DATA_RETAINED_MASK, \
-+		   restriction_flags) ^ 1)
-+
-+struct cxl_memdev_ppr_rd_attrbs {
-+	struct cxl_memdev_repair_rd_attrbs_hdr hdr;
-+	u8 ppr_flags;
-+	__le16 restriction_flags;
-+	u8 ppr_op_mode;
-+} __packed;
-+
-+/*
-+ * See CXL rev 3.2 @8.2.10.7.1.2 Table 8-118 sPPR Maintenance Input Payload
-+ *
-+ * See CXL rev 3.2 @8.2.10.7.1.3 Table 8-119 hPPR Maintenance Input Payload
-+ */
-+struct cxl_memdev_ppr_maintenance_attrbs {
-+	u8 flags;
-+	__le64 dpa;
-+	u8 nibble_mask[3];
-+} __packed;
-+
-+static int cxl_mem_ppr_get_attrbs(struct cxl_ppr_context *cxl_ppr_ctx)
-+{
-+	size_t rd_data_size = sizeof(struct cxl_memdev_ppr_rd_attrbs);
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_mailbox *cxl_mbox = &cxlmd->cxlds->cxl_mbox;
-+	u16 restriction_flags;
-+	size_t data_size;
-+	u16 return_code;
-+
-+	struct cxl_memdev_ppr_rd_attrbs *rd_attrbs __free(kfree) =
-+		kmalloc(rd_data_size, GFP_KERNEL);
-+	if (!rd_attrbs)
-+		return -ENOMEM;
-+
-+	data_size = cxl_get_feature(cxl_mbox, &cxl_ppr_ctx->repair_uuid,
-+				    CXL_GET_FEAT_SEL_CURRENT_VALUE, rd_attrbs,
-+				    rd_data_size, 0, &return_code);
-+	if (!data_size)
-+		return -EIO;
-+
-+	cxl_ppr_ctx->op_class = rd_attrbs->hdr.op_class;
-+	cxl_ppr_ctx->op_subclass = rd_attrbs->hdr.op_subclass;
-+	cxl_ppr_ctx->cap_dpa = CXL_PPR_GET_CAP_DPA(rd_attrbs->ppr_flags);
-+	cxl_ppr_ctx->cap_nib_mask =
-+		CXL_PPR_GET_CAP_NIB_MASK(rd_attrbs->ppr_flags);
-+
-+	restriction_flags = le16_to_cpu(rd_attrbs->restriction_flags);
-+	cxl_ppr_ctx->media_accessible =
-+		CXL_PPR_GET_MEDIA_ACCESSIBLE(restriction_flags);
-+	cxl_ppr_ctx->data_retained =
-+		CXL_PPR_GET_DATA_RETAINED(restriction_flags);
-+
-+	return 0;
-+}
-+
-+static int cxl_mem_perform_ppr(struct cxl_ppr_context *cxl_ppr_ctx)
-+{
-+	struct cxl_memdev_ppr_maintenance_attrbs maintenance_attrbs;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_mem_repair_attrbs attrbs = { 0 };
-+
-+	struct rw_semaphore *region_lock __free(rwsem_read_release) =
-+		rwsem_read_intr_acquire(&cxl_region_rwsem);
-+	if (!region_lock)
-+		return -EINTR;
-+
-+	struct rw_semaphore *dpa_lock __free(rwsem_read_release) =
-+		rwsem_read_intr_acquire(&cxl_dpa_rwsem);
-+	if (!dpa_lock)
-+		return -EINTR;
-+
-+	if (!cxl_ppr_ctx->media_accessible || !cxl_ppr_ctx->data_retained) {
-+		/* Memory to repair must be offline */
-+		if (cxl_is_memdev_memory_online(cxlmd))
-+			return -EBUSY;
-+	} else {
-+		if (cxl_is_memdev_memory_online(cxlmd)) {
-+			/* Check memory to repair is from the current boot */
-+			attrbs.repair_type = CXL_PPR;
-+			attrbs.dpa = cxl_ppr_ctx->dpa;
-+			attrbs.nibble_mask = cxl_ppr_ctx->nibble_mask;
-+			if (!cxl_find_rec_dram(cxlmd, &attrbs) &&
-+			    !cxl_find_rec_gen_media(cxlmd, &attrbs))
-+				return -EINVAL;
-+		}
-+	}
-+
-+	memset(&maintenance_attrbs, 0, sizeof(maintenance_attrbs));
-+	maintenance_attrbs.flags = 0;
-+	maintenance_attrbs.dpa = cpu_to_le64(cxl_ppr_ctx->dpa);
-+	put_unaligned_le24(cxl_ppr_ctx->nibble_mask,
-+			   maintenance_attrbs.nibble_mask);
-+
-+	return cxl_perform_maintenance(&cxlmd->cxlds->cxl_mbox,
-+				       cxl_ppr_ctx->op_class,
-+				       cxl_ppr_ctx->op_subclass,
-+				       &maintenance_attrbs,
-+				       sizeof(maintenance_attrbs));
-+}
-+
-+static int cxl_ppr_get_repair_type(struct device *dev, void *drv_data,
-+				   const char **repair_type)
-+{
-+	*repair_type = edac_repair_type[EDAC_REPAIR_PPR];
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_persist_mode(struct device *dev, void *drv_data,
-+				    bool *persist_mode)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*persist_mode = cxl_ppr_ctx->persist_mode;
-+
-+	return 0;
-+}
-+
-+static int cxl_get_ppr_safe_when_in_use(struct device *dev, void *drv_data,
-+					bool *safe)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*safe = cxl_ppr_ctx->media_accessible & cxl_ppr_ctx->data_retained;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_min_dpa(struct device *dev, void *drv_data, u64 *min_dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+
-+	*min_dpa = cxlds->dpa_res.start;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_max_dpa(struct device *dev, void *drv_data, u64 *max_dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+
-+	*max_dpa = cxlds->dpa_res.end;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_dpa(struct device *dev, void *drv_data, u64 *dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*dpa = cxl_ppr_ctx->dpa;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_set_dpa(struct device *dev, void *drv_data, u64 dpa)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+	struct cxl_memdev *cxlmd = cxl_ppr_ctx->cxlmd;
-+	struct cxl_dev_state *cxlds = cxlmd->cxlds;
-+
-+	if (dpa < cxlds->dpa_res.start || dpa > cxlds->dpa_res.end)
-+		return -EINVAL;
-+
-+	cxl_ppr_ctx->dpa = dpa;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_get_nibble_mask(struct device *dev, void *drv_data,
-+				   u32 *nibble_mask)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	*nibble_mask = cxl_ppr_ctx->nibble_mask;
-+
-+	return 0;
-+}
-+
-+static int cxl_ppr_set_nibble_mask(struct device *dev, void *drv_data,
-+				   u32 nibble_mask)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	cxl_ppr_ctx->nibble_mask = nibble_mask;
-+
-+	return 0;
-+}
-+
-+static int cxl_do_ppr(struct device *dev, void *drv_data, u32 val)
-+{
-+	struct cxl_ppr_context *cxl_ppr_ctx = drv_data;
-+
-+	if (!cxl_ppr_ctx->dpa || val != EDAC_DO_MEM_REPAIR)
-+		return -EINVAL;
-+
-+	return cxl_mem_perform_ppr(cxl_ppr_ctx);
-+}
-+
-+static const struct edac_mem_repair_ops cxl_sppr_ops = {
-+	.get_repair_type = cxl_ppr_get_repair_type,
-+	.get_persist_mode = cxl_ppr_get_persist_mode,
-+	.get_repair_safe_when_in_use = cxl_get_ppr_safe_when_in_use,
-+	.get_min_dpa = cxl_ppr_get_min_dpa,
-+	.get_max_dpa = cxl_ppr_get_max_dpa,
-+	.get_dpa = cxl_ppr_get_dpa,
-+	.set_dpa = cxl_ppr_set_dpa,
-+	.get_nibble_mask = cxl_ppr_get_nibble_mask,
-+	.set_nibble_mask = cxl_ppr_set_nibble_mask,
-+	.do_repair = cxl_do_ppr,
-+};
-+
-+static int cxl_memdev_soft_ppr_init(struct cxl_memdev *cxlmd,
-+				    struct edac_dev_feature *ras_feature,
-+				    u8 repair_inst)
-+{
-+	struct cxl_ppr_context *cxl_sppr_ctx;
-+	struct cxl_feat_entry *feat_entry;
-+	int ret;
-+
-+	feat_entry = cxl_feature_info(to_cxlfs(cxlmd->cxlds),
-+				      &CXL_FEAT_SPPR_UUID);
-+	if (IS_ERR(feat_entry))
-+		return -EOPNOTSUPP;
-+
-+	if (!(le32_to_cpu(feat_entry->flags) & CXL_FEATURE_F_CHANGEABLE))
-+		return -EOPNOTSUPP;
-+
-+	cxl_sppr_ctx =
-+		devm_kzalloc(&cxlmd->dev, sizeof(*cxl_sppr_ctx), GFP_KERNEL);
-+	if (!cxl_sppr_ctx)
-+		return -ENOMEM;
-+
-+	*cxl_sppr_ctx = (struct cxl_ppr_context){
-+		.get_feat_size = le16_to_cpu(feat_entry->get_feat_size),
-+		.set_feat_size = le16_to_cpu(feat_entry->set_feat_size),
-+		.get_version = feat_entry->get_feat_ver,
-+		.set_version = feat_entry->set_feat_ver,
-+		.effects = le16_to_cpu(feat_entry->effects),
-+		.cxlmd = cxlmd,
-+		.repair_type = EDAC_REPAIR_PPR,
-+		.persist_mode = 0,
-+		.instance = repair_inst,
-+	};
-+	uuid_copy(&cxl_sppr_ctx->repair_uuid, &CXL_FEAT_SPPR_UUID);
-+
-+	ret = cxl_mem_ppr_get_attrbs(cxl_sppr_ctx);
-+	if (ret)
-+		return ret;
-+
-+	ras_feature->ft_type = RAS_FEAT_MEM_REPAIR;
-+	ras_feature->instance = cxl_sppr_ctx->instance;
-+	ras_feature->mem_repair_ops = &cxl_sppr_ops;
-+	ras_feature->ctx = cxl_sppr_ctx;
-+
-+	return 0;
-+}
-+
- int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
- {
- 	struct edac_dev_feature ras_features[CXL_NR_EDAC_DEV_FEATURES];
-@@ -1705,6 +2021,16 @@ int devm_cxl_memdev_edac_register(struct cxl_memdev *cxlmd)
- 			num_ras_features++;
- 		}
- 
-+		rc = cxl_memdev_soft_ppr_init(cxlmd, &ras_features[num_ras_features],
-+					      repair_inst);
-+		if (rc < 0 && rc != -EOPNOTSUPP)
-+			return rc;
-+
-+		if (rc != -EOPNOTSUPP) {
-+			repair_inst++;
-+			num_ras_features++;
-+		}
-+
- 		if (repair_inst) {
- 			struct cxl_mem_err_rec *array_rec =
- 				devm_kzalloc(&cxlmd->dev, sizeof(*array_rec),
--- 
-2.43.0
+> --Sean
 
