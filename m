@@ -1,219 +1,277 @@
-Received: from relay4-d.mail.gandi.net (relay4-d.mail.gandi.net [217.70.183.196])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 956DC1A23A5;
-	Wed, 21 May 2025 14:22:37 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.70.183.196
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id CDEA6178372
+	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 14:27:35 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.218.52
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747837360; cv=none; b=Mp536ELrXPW6bANBtThrCXMBT75y2BssBa9IV53GcpNaer5pby3Psg0O9m5Td1TWwZYVkJ7i4tlPMT/10z6WE8NFty7JubiQq1r3GlyqsmAtOD/pAfXXwMer8ygjhtFenUuTD0YRaRZ7lNpJm+XCFDcb3BFAuAfCY58qeFLSG28=
+	t=1747837657; cv=none; b=TLKwo5lk5uXOE1ub+6nDAreqL2K6aCyxUbsqjSKLLmWfOwzOmacLlPfMs9m92ZI552b2hkCArbMG7y0x4VjgE+m28EH2kHTXpsYIJwkWQqVKnaVXKPSsbHXSdGZp5aj41J3aw/WNljfrxvOSKVux9sVP6ZtNUO5x3jSvItXqeSE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747837360; c=relaxed/simple;
-	bh=SBMc3kULvbN/i0mN07lWs8tAIHU7iwXg5MTlRdbwlWA=;
-	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=Y4PVL61IK5ze/IWKC6aiKrsCraRlAhVcqHTwpwdwNobRtuExypKUWQ9O6VE6wEORKZ/64Ab/w4xTmYLInm6y3BNuCPDd+Qe4h9oKMpxit/Yofw9PHc3tnv1L0G+mfzAo/GThbopx2/lqPnXb3yyBcB4F9vt2LYOXWgA6rnKqrBI=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com; spf=pass smtp.mailfrom=bootlin.com; dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b=fYSLMVVs; arc=none smtp.client-ip=217.70.183.196
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=bootlin.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=bootlin.com
+	s=arc-20240116; t=1747837657; c=relaxed/simple;
+	bh=25OiMrHTnmN8O0Pud42IS80U7rOWLOusJf6uPPxMmWw=;
+	h=MIME-Version:References:In-Reply-To:From:Date:Message-ID:Subject:
+	 To:Cc:Content-Type; b=tvatsjpIwZBKfJ9TyTqxZ4tZHLU8qfkibxCG5HZPpIweh5LFAGI9BTwUFraUIN9dpCqn2zEPPJRI7vzUZnDLuWyL4J3d95NNS2agRdeMU/vyvQ1409RtUPaaDeX68C8z+O7qZncV8hCqKiI3xtHgo2Zpvu2AoTIytJuooP3PR2s=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com; spf=pass smtp.mailfrom=google.com; dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b=1Xak7+dh; arc=none smtp.client-ip=209.85.218.52
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=reject dis=none) header.from=google.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=google.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=bootlin.com header.i=@bootlin.com header.b="fYSLMVVs"
-Received: by mail.gandi.net (Postfix) with ESMTPSA id 8FD7443B3F;
-	Wed, 21 May 2025 14:22:18 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=gm1;
-	t=1747837350;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references;
-	bh=vyPpXbcuqSIPDBMFEqspo4iXigHvW7uXfydpRN7Xbhk=;
-	b=fYSLMVVsQYfpq0UfcQjtXHhEeq5bfCS6ZfFtSy9WALjrRzfOI1oCmQiRh9/p/2Tov1lqL6
-	6hd7ysvk/ltTNuZ3CAlJ8hxNJb1U4hh9oDe0vFEV7Qmtyyl2jnGS6vHAh+CJjT02k5hPnx
-	/8mrP78Ua2u8o332sEOuGFEL01a6KTHTgbKtJYOaO92+nm28+YzX+fKLT5azjlVWA6wd7P
-	QGZK2iH33WbGHOFi2Bk+4Ix+bA6ASPEQH4bi0kJlvRry4ViIVwFyHbkOYow1fiiPEcPty3
-	9UYIHe6MjbBN6AI7Wu+J/2jCVZHKny42qJOnl6aqWr/VeHDBSzrL8xxwzk+UAA==
-Date: Wed, 21 May 2025 16:22:16 +0200
-From: Luca Ceresoli <luca.ceresoli@bootlin.com>
-To: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>, Maxime Ripard
- <mripard@kernel.org>, Thomas Zimmermann <tzimmermann@suse.de>, David Airlie
- <airlied@gmail.com>, Simona Vetter <simona@ffwll.ch>, Andrzej Hajda
- <andrzej.hajda@intel.com>, Neil Armstrong <neil.armstrong@linaro.org>,
- Robert Foss <rfoss@kernel.org>, Laurent Pinchart
- <Laurent.pinchart@ideasonboard.com>, Jonas Karlman <jonas@kwiboo.se>,
- Jernej Skrabec <jernej.skrabec@gmail.com>, Jagan Teki
- <jagan@amarulasolutions.com>, Shawn Guo <shawnguo@kernel.org>, Sascha Hauer
- <s.hauer@pengutronix.de>, Pengutronix Kernel Team <kernel@pengutronix.de>,
- Fabio Estevam <festevam@gmail.com>, Douglas Anderson
- <dianders@chromium.org>, Chun-Kuang Hu <chunkuang.hu@kernel.org>, Krzysztof
- Kozlowski <krzk@kernel.org>, Liu Ying <victor.liu@nxp.com>
-Cc: Anusha Srivatsa <asrivats@redhat.com>, Paul Kocialkowski
- <paulk@sys-base.io>, Dmitry Baryshkov <lumag@kernel.org>, Hui Pu
- <Hui.Pu@gehealthcare.com>, Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
- dri-devel@lists.freedesktop.org, asahi@lists.linux.dev,
- linux-kernel@vger.kernel.org, chrome-platform@lists.linux.dev,
- imx@lists.linux.dev, linux-arm-kernel@lists.infradead.org,
- linux-mediatek@lists.infradead.org, linux-amlogic@lists.infradead.org,
- linux-renesas-soc@vger.kernel.org, platform-driver-x86@vger.kernel.org,
- linux-samsung-soc@vger.kernel.org, linux-arm-msm@vger.kernel.org,
- freedreno@lists.freedesktop.org, linux-stm32@st-md-mailman.stormreply.com,
- Louis Chauvet <louis.chauvet@bootlin.com>, Alim Akhtar
- <alim.akhtar@samsung.com>, Inki Dae <inki.dae@samsung.com>, Kyungmin Park
- <kyungmin.park@samsung.com>, Seung-Woo Kim <sw0312.kim@samsung.com>,
- Manikandan Muralidharan <manikandan.m@microchip.com>, Adam Ford
- <aford173@gmail.com>, Adrien Grassein <adrien.grassein@gmail.com>,
- Aleksandr Mishin <amishin@t-argos.ru>, Andy Yan <andy.yan@rock-chips.com>,
- AngeloGioacchino Del Regno <angelogioacchino.delregno@collabora.com>,
- Benson Leung <bleung@chromium.org>, Biju Das <biju.das.jz@bp.renesas.com>,
- Christoph Fritz <chf.fritz@googlemail.com>, Cristian Ciocaltea
- <cristian.ciocaltea@collabora.com>, Detlev Casanova
- <detlev.casanova@collabora.com>, Dharma Balasubiramani
- <dharma.b@microchip.com>, Guenter Roeck <groeck@chromium.org>, Heiko
- Stuebner <heiko@sntech.de>, Jani Nikula <jani.nikula@intel.com>, Janne
- Grunau <j@jannau.net>, Jerome Brunet <jbrunet@baylibre.com>, Jesse Van
- Gavere <jesseevg@gmail.com>, Kevin Hilman <khilman@baylibre.com>, Kieran
- Bingham <kieran.bingham+renesas@ideasonboard.com>, Martin Blumenstingl
- <martin.blumenstingl@googlemail.com>, Matthias Brugger
- <matthias.bgg@gmail.com>, Philipp Zabel <p.zabel@pengutronix.de>, Phong LE
- <ple@baylibre.com>, Sasha Finkelstein <fnkl.kernel@gmail.com>, Sugar Zhang
- <sugar.zhang@rock-chips.com>, Sui Jingfeng <sui.jingfeng@linux.dev>, Tomi
- Valkeinen <tomi.valkeinen+renesas@ideasonboard.com>, Vitalii Mordan
- <mordan@ispras.ru>, "Rob Herring (Arm)" <robh@kernel.org>, Hsin-Te Yuan
- <yuanhsinte@chromium.org>, Pin-yen Lin <treapking@chromium.org>, Xin Ji
- <xji@analogixsemi.com>, Aradhya Bhatia <a-bhatia1@ti.com>, Tomi Valkeinen
- <tomi.valkeinen@ideasonboard.com>, Ian Ray <ian.ray@gehealthcare.com>,
- Martyn Welch <martyn.welch@collabora.co.uk>, Peter Senna Tschudin
- <peter.senna@gmail.com>, Helge Deller <deller@gmx.de>, Kuninori Morimoto
- <kuninori.morimoto.gx@renesas.com>, Laurent Pinchart
- <laurent.pinchart+renesas@ideasonboard.com>, Alexandre Torgue
- <alexandre.torgue@foss.st.com>, Maxime Coquelin
- <mcoquelin.stm32@gmail.com>, Philippe Cornu <philippe.cornu@foss.st.com>,
- Raphael Gallais-Pou <raphael.gallais-pou@foss.st.com>, Yannick Fertre
- <yannick.fertre@foss.st.com>, Alain Volmat <alain.volmat@foss.st.com>,
- Raphael Gallais-Pou <rgallaispou@gmail.com>, Michal Simek
- <michal.simek@amd.com>, Jonathan Corbet <corbet@lwn.net>,
- linux-doc@vger.kernel.org
-Subject: Re: [PATCH v3 00/22] drm: convert all bridges to
- devm_drm_bridge_alloc()
-Message-ID: <20250521162216.79dd3290@booty>
-In-Reply-To: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-References: <20250509-drm-bridge-convert-to-alloc-api-v3-0-b8bc1f16d7aa@bootlin.com>
-Organization: Bootlin
-X-Mailer: Claws Mail 4.3.1 (GTK 3.24.49; x86_64-redhat-linux-gnu)
+	dkim=pass (2048-bit key) header.d=google.com header.i=@google.com header.b="1Xak7+dh"
+Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-ad51ba0af48so1089499066b.0
+        for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 07:27:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20230601; t=1747837654; x=1748442454; darn=vger.kernel.org;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:from:to:cc:subject:date
+         :message-id:reply-to;
+        bh=25OiMrHTnmN8O0Pud42IS80U7rOWLOusJf6uPPxMmWw=;
+        b=1Xak7+dhcuNY2L2HK9Os0aixz1IN0otKPh0BPL853QnNJajpl6xtNs5rvjtqHp6wbD
+         3jNCDi1V/3ThWVJQ4XAAB6yFDw6K3xuW/0mMQ/stT/R14zxBhCJPVmORHK9glS27EHc+
+         s99EiXafKB7CmcDs3+gV70K+8hfcZVLU+dZsIaun9Lv5xlKK+L4O0G8+0PzhWGwy9C2q
+         BDENidYpV4J9QjtBr+eNvq7crPguB/IvYBaYOsLyRL9sScRGwK/nX6u3kgK5/lUS6gjf
+         alHe16lN7yj1y7UQYu69HBkGGeTSlcHN6mRvxRNXqLJZZYGo0GwAm51fzb8c+EF0DwpG
+         WvLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747837654; x=1748442454;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=25OiMrHTnmN8O0Pud42IS80U7rOWLOusJf6uPPxMmWw=;
+        b=Wy/byAblMRBtl2nnUELRRdXl6fPVes79iAP1SXDVlbuqEUwxSwx/bK5A6ogAqsp9u8
+         M+pQIVuZrnYvSMA9p+ZkZqSiVHguwfXnqUvRUME7VWRmP1Bggix3drbgAGvmCRuZveQX
+         ZLkna2gd10IUeG43ibVwN6WhtNGv/HL40Ox7qcn4T16y9MKsBqXNf1WuKNXyqYo3YENW
+         Rc3auCliTQP1OazojA2UKdRjTJlUfHequMe72JFcUTv7ZRbcYRsmAKz5nRqXdKVuJthd
+         Wy28q/JOHXTUaejVSN/s1WTes7Hbi0eEKV6L5ZR67LeXH5Ts+xmkT79+xo9hKCWgVG3g
+         F8Nw==
+X-Forwarded-Encrypted: i=1; AJvYcCXXy4SlB6AH4Cw9AZdEJZwDLbPhMSBSjwWGwqD10e6toWfvOvcJ/AfcbBdso+b9JiBwnIitKOAFPwE=@vger.kernel.org
+X-Gm-Message-State: AOJu0YxBzJbB3eSTHMaBHAiAklArCff4j0MmT6IK8Gkmqy/1rWfVF9V5
+	VJ+URkgH7Y85quLsE0sQOdreu4fILi+9BuOmoFs9tgTstzS9cDfIuTiWJ7ckh258xk9yzvUxA0X
+	9lSikPx84/SFz46XMRVAIHn5Bme18utHmwGf8coLeGIu3ArRj7Ds0NzVCY9/4iw==
+X-Gm-Gg: ASbGncvjDvvUm/EUL1Dkhp7BOthcec9GqJgpnWHSDXLYaX49WwBfSfiQeUwywZBi3NX
+	55Z4VI47wcYj51tklo2uh7C0xv4r/IRPe03iuAHo0rPA9kW2q79pGCPRXIyxLE3nU/ypuX3HEGh
+	0E3+9jTKFv6YSUgF4UANigeV+PBmx2b2kTYSYqy8jHAdmSryx9hlQ81i9OUqHrgJB+Z7oHo/iw7
+	w==
+X-Google-Smtp-Source: AGHT+IFrVEL9vM+PK/PFMCGm5hhZiCJYxcWpaRZrgM05TsUrUUXxjj8nsmh7GYTXQ3QblzfDm36MnMKMGiQolJ7NV3M=
+X-Received: by 2002:a17:907:7f23:b0:ad5:6622:114e with SMTP id
+ a640c23a62f3a-ad56622283emr1372999366b.30.1747837640170; Wed, 21 May 2025
+ 07:27:20 -0700 (PDT)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-GND-State: clean
-X-GND-Score: -100
-X-GND-Cause: gggruggvucftvghtrhhoucdtuddrgeeffedrtddtgdeffedtucdltddurdegfedvrddttddmucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuifetpfffkfdpucggtfgfnhhsuhgsshgtrhhisggvnecuuegrihhlohhuthemuceftddunecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenucfjughrpeffhffvvefukfgjfhhoofggtgfgsehtjeertdertddvnecuhfhrohhmpefnuhgtrgcuvegvrhgvshholhhiuceolhhutggrrdgtvghrvghsohhlihessghoohhtlhhinhdrtghomheqnecuggftrfgrthhtvghrnhepheelfeevlefgkeekvdffveehudeihfdtjefhieehgfejveduieffgffhjeejleevnecuffhomhgrihhnpehfrhgvvgguvghskhhtohhprdhorhhgpdhkvghrnhgvlhdrohhrghdpsghoohhtlhhinhdrtghomhenucfkphepvdgrtddvmeeijedtmedvtddvtdemvggrtddumegsvgegudemleehvgejmeefgeefmeeludefvgenucevlhhushhtvghrufhiiigvpedtnecurfgrrhgrmhepihhnvghtpedvrgdtvdemieejtdemvddtvddtmegvrgdtudemsggvgedumeelhegvjeemfeegfeemledufegvpdhhvghlohepsghoohhthidpmhgrihhlfhhrohhmpehluhgtrgdrtggvrhgvshholhhisegsohhothhlihhnrdgtohhmpdhnsggprhgtphhtthhopeelhedprhgtphhtthhopehmrggrrhhtvghnrdhlrghnkhhhohhrshhtsehlihhnuhigrdhinhhtvghlrdgtohhmpdhrtghpthhto
- hepmhhrihhprghrugeskhgvrhhnvghlrdhorhhgpdhrtghpthhtohepthiiihhmmhgvrhhmrghnnhesshhushgvrdguvgdprhgtphhtthhopegrihhrlhhivggusehgmhgrihhlrdgtohhmpdhrtghpthhtohepshhimhhonhgrsehffhiflhhlrdgthhdprhgtphhtthhopegrnhgurhiivghjrdhhrghjuggrsehinhhtvghlrdgtohhmpdhrtghpthhtohepnhgvihhlrdgrrhhmshhtrhhonhhgsehlihhnrghrohdrohhrghdprhgtphhtthhopehrfhhoshhssehkvghrnhgvlhdrohhrgh
-X-GND-Sasl: luca.ceresoli@bootlin.com
+References: <cover.1747349530.git.babu.moger@amd.com> <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+ <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com> <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
+ <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com> <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
+ <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com> <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+In-Reply-To: <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+From: Peter Newman <peternewman@google.com>
+Date: Wed, 21 May 2025 16:27:08 +0200
+X-Gm-Features: AX0GCFvI_VqOz7HBCiWvX7WLMV1GSF9dYUPgJjYBds9AdJ2n5AmEAKL_72IWPfc
+Message-ID: <CALPaoCgtcz6tZnmeH8v4r2=HRVh7qEDZgraLU+Euhq3qLkRZhA@mail.gmail.com>
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Reinette Chatre <reinette.chatre@intel.com>
+Cc: "Moger, Babu" <bmoger@amd.com>, babu.moger@amd.com, corbet@lwn.net, tony.luck@intel.com, 
+	tglx@linutronix.de, mingo@redhat.com, bp@alien8.de, 
+	dave.hansen@linux.intel.com, james.morse@arm.com, dave.martin@arm.com, 
+	fenghuay@nvidia.com, x86@kernel.org, hpa@zytor.com, paulmck@kernel.org, 
+	akpm@linux-foundation.org, thuth@redhat.com, rostedt@goodmis.org, 
+	ardb@kernel.org, gregkh@linuxfoundation.org, daniel.sneddon@linux.intel.com, 
+	jpoimboe@kernel.org, alexandre.chartre@oracle.com, 
+	pawan.kumar.gupta@linux.intel.com, thomas.lendacky@amd.com, 
+	perry.yuan@amd.com, seanjc@google.com, kai.huang@intel.com, 
+	xiaoyao.li@intel.com, kan.liang@linux.intel.com, xin3.li@intel.com, 
+	ebiggers@google.com, xin@zytor.com, sohil.mehta@intel.com, 
+	andrew.cooper3@citrix.com, mario.limonciello@amd.com, 
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org, 
+	maciej.wieczor-retman@intel.com, eranian@google.com, Xiaojian.Du@amd.com, 
+	gautham.shenoy@amd.com
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello Maxime, Shawn, Liu, all,
+Hi Reinette,
 
-On Fri, 09 May 2025 15:53:26 +0200
-Luca Ceresoli <luca.ceresoli@bootlin.com> wrote:
+On Wed, May 21, 2025 at 1:44=E2=80=AFAM Reinette Chatre
+<reinette.chatre@intel.com> wrote:
+>
+> Hi Babu,
+>
+> On 5/20/25 4:25 PM, Moger, Babu wrote:
+> > Hi Reinette,
+> >
+> > On 5/20/2025 1:23 PM, Reinette Chatre wrote:
+> >> Hi Babu,
+> >>
+> >> On 5/20/25 10:51 AM, Moger, Babu wrote:
+> >>> Hi Reinette,
+> >>>
+> >>> On 5/20/25 11:06, Reinette Chatre wrote:
+> >>>> Hi Babu,
+> >>>>
+> >>>> On 5/20/25 8:28 AM, Moger, Babu wrote:
+> >>>>> On 5/19/25 10:59, Peter Newman wrote:
+> >>>>>> On Fri, May 16, 2025 at 12:52=E2=80=AFAM Babu Moger <babu.moger@am=
+d.com> wrote:
+> >>>>
+> >>>> ...
+> >>>>
+> >>>>>>> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of =
+monitoring
+> >>>>>>> counters available for assignment.
+> >>>>>>
+> >>>>>> Earlier I discussed with Reinette[1] what num_mbm_cntrs should
+> >>>>>> represent in a "soft-ABMC" implementation where assignment is
+> >>>>>> implemented by assigning an RMID, which would result in all events
+> >>>>>> being assigned at once.
+> >>>>>>
+> >>>>>> My main concern is how many "counters" you can assign by assigning
+> >>>>>> RMIDs. I recall Reinette proposed reporting the number of groups w=
+hich
+> >>>>>> can be assigned separately from counters which can be assigned.
+> >>>>>
+> >>>>> More context may be needed here. Currently, num_mbm_cntrs indicates=
+ the
+> >>>>> number of counters available per domain, which is 32.
+> >>>>>
+> >>>>> At the moment, we can assign 2 counters to each group, meaning each=
+ RMID
+> >>>>> can be associated with 2 hardware counters. In theory, it's possibl=
+e to
+> >>>>> assign all 32 hardware counters to a group=E2=80=94allowing one RMI=
+D to be linked
+> >>>>> with up to 32 counters. However, we currently lack the interface to
+> >>>>> support that level of assignment.
+> >>>>>
+> >>>>> For now, the plan is to support basic assignment and expand functio=
+nality
+> >>>>> later once we have the necessary data structure and requirements.
+> >>>>
+> >>>> Looks like some requirements did not make it into this implementatio=
+n.
+> >>>> Do you recall the discussion that resulted in you writing [2]? Looks=
+ like
+> >>>> there is a question to Peter in there on how to determine how many "=
+counters"
+> >>>> are available in soft-ABMC. I interpreted [3] at that time to mean t=
+hat this
+> >>>> information would be available in a future AMD publication.
+> >>>
+> >>> We already have a method to determine the number of counters in soft-=
+ABMC
+> >>> mode, which Peter has addressed [4].
+> >>>
+> >>> [4]
+> >>> https://lore.kernel.org/lkml/20250203132642.2746754-1-peternewman@goo=
+gle.com/
+> >>>
+> >>> This appears to be more of a workaround, and I doubt it will be inclu=
+ded
+> >>> in any official AMD documentation. Additionally, the long-term direct=
+ion
+> >>> is moving towards ABMC.
+> >>>
+> >>> I don=E2=80=99t believe this workaround needs to be part of the curre=
+nt series. It
+> >>> can be added later when soft-ABMC is implemented.
+> >>
+> >> Agreed. What about the plans described in [2]? (Thanks to Peter for
+> >> catching this!).
+> >>
+> >> It is important to keep track of requirements while working on a featu=
+re to
+> >> ensure that the implementation supports the planned use cases. Re-read=
+ing that
+> >> thread it is not clear to me how soft-ABMC's per-group assignment woul=
+d look.
+> >> Could you please share how you see it progress from this implementatio=
+n?
+> >> This includes the single event vs. multiple event assignment. I would =
+like to
+> >> highlight that this is not a request for this to be supported in this =
+implementation
+> >> but there needs to be a plan for how this can be supported on top of i=
+nterfaces
+> >> established by this work.
+> >>
+> >
+> > Here=E2=80=99s my current understanding of soft-ABMC. Peter may have a =
+more in-depth perspective on this.
+> >
+> > Soft-ABMC:
+> > a. num_mbm_cntrs: This is a software-defined limit based on the number =
+of active RMIDs that can be supported. The value can be obtained using the =
+code referenced in [4].
+> >
+> > b. Assignments: No hardware configuration is required. We simply need t=
+o ensure that no more than num_mbm_cntrs RMIDs are active at any given time=
+.
+> >
+> > c. Configuration: Controlled via /info/L3_MON/mbm_total_bytes_config an=
+d mbm_local_bytes_config.
+> >
+> > d. Events: Only two events can be assigned(local and total).
+> >
+> > ABMC:
+> > a. num_mbm_cntrs: This is defined by the hardware.
+> > b. Assignments: Requires special MSR writes to assign counters.
+> > c. Configuration: Comes from /info/L3_MON/counter_configs/.
+> > d. Events: More than two events can be assigned to a group (currently u=
+p to 2).
+> >
+> > Commonalities:
+> > a. Assignments can be either exclusive or shared in both these modes.
+> >
+> > Given these, I believe we can easily accommodate soft-ABMC in this inte=
+rface.
+>
+> This is not so obvious to me. It looks to me as though the user is forced=
+ to interpret
+> the content of resctrl files differently based on soft-ABMC vs ABMC makin=
+g the interface
+> inconsistent and user thus needing to know details of implementations. Th=
+is is what the previous
+> discussion I linked to aimed to address. It sounds to me as though you be=
+lieve that this is no longer
+> an issue. Could you please show examples of what a user can expect from t=
+he interfaces and how a user
+> will interact with the interfaces on both a non-ABMC and ABMC system?
 
-> devm_drm_bridge_alloc() [0] is the new API to allocate and initialize a DRM
-> bridge, and the only one supported from now on. It is the first milestone
-> towards removal of bridges from a still existing DRM pipeline without
-> use-after-free.
+At the interface level, I think mbm_L3_assignments on a non-ABMC
+system would only need to contain a single line:
 
-I applied on drm-misc-next patches 3-17,20-21 as they match all the
-criteria:
- - At least a Acked-by (or R-by maintainers)
- - patch is for drm-misc
+0=3Ds;1=3Ds;...;31=3Ds
 
-Being my very first commits to drm-misc, I tried to be careful, and
-double checked all the patches with Louis (thanks!).
+But maybe for consistency we would synthesize a single, unmodifiable
+counter configuration to reflect that allocating an RMID in a domain
+results in assignment to all events and deallocating the RMID
+unassigns all events. We could call it "group" to say it's assigning
+at the group level, or perhaps just '*':
 
-Here are the pending questions and plan for the remaining patches.
+*:0=3Ds;1=3Ds;...;31=3Ds
 
->       Revert "drm/exynos: mic: convert to devm_drm_bridge_alloc() API"
+I'm not sure about allowing a '*' on ABMC hardware, because it could
+be interpreted as allocating a lot of counters when a large number of
+event configurations exist.
 
-This reverts the commit applied my mistake:
-https://gitlab.freedesktop.org/drm/misc/kernel/-/commit/91c5c7b5bb2dd09b43b025bce6d790d3c79f4518
+*:0=3Ds;1=3Ds;...;31=3Ds
 
-Neither the  original patch nor the revert has been reviewed/acked.
+-Peter
 
-As the commit was a mistake, I'm applying the revert by the end of this
-week (i.e. on Friday) unless there are better instructions.
 
->       drm: convert many bridge drivers from devm_kzalloc() to devm_drm_bridge_alloc() API
-
-This patch affects multiple drivers. Running get_maintainers.pl
-points at Shawn Guo's repository. After reviewing the MAINTAINERS file,
-this looks like due to the 'N:' line in:
-
-ARM/FREESCALE IMX / MXC ARM ARCHITECTURE
-M:	Shawn Guo <shawnguo@kernel.org>
-M:	Sascha Hauer <s.hauer@pengutronix.de>
-R:	Pengutronix Kernel Team <kernel@pengutronix.de>
-...
-T:	git git://git.kernel.org/pub/scm/linux/kernel/git/shawnguo/linux.git
-N:	imx
-...
-
-(https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L2511-2528)
-
-Here 'imx' matches the 'drivers/gpu/drm/bridge/imx/imx-legacy-bridge.c'
-file that is touched by the patch. That regexp appears overly generic to me.
-
-Shawn, can it be fixed by making it less generic?
-
-If not, can we at least add a band-aid 'X:' entry for
-drivers/gpu/drm/bridge/imx?
-
-I think the other matching entry is the one to consider:
-
-DRM DRIVERS FOR FREESCALE IMX BRIDGE
-M:	Liu Ying <victor.liu@nxp.com>
-L:	dri-devel@lists.freedesktop.org
-S:	Maintained
-F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-ldb.yaml
-F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-combiner.yaml
-F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pixel-link.yaml
-F:	Documentation/devicetree/bindings/display/bridge/fsl,imx8qxp-pxl2dpi.yaml
-F:	drivers/gpu/drm/bridge/imx/
-
-(https://gitlab.freedesktop.org/drm/misc/kernel/-/blob/drm-misc-next/MAINTAINERS?ref_type=heads#L7940-7948)
-
-However it does not list any trees. I _guess_ drm-misc applies here as
-a fallback as well as common sense.
-
-Liu, should this entry have a 'T:' line for drm/misc?
-
->       drm/bridge: imx8qxp-pixel-combiner: convert to devm_drm_bridge_alloc() API
-
-Not acked/reviewed, some discussion happened. I am resending it in v4,
-possibly with updates based on the discussion.
-
-But it has the same issue discussed above, with get_maintiners.pl
-pointing at Shawn Guo's tree, so in the future I'm assuming this goes
-to drm-misc unless there are news about that.
-
->       drm/bridge: tc358767: convert to devm_drm_bridge_alloc() API
-
-No feedback, resending in v4.
-
->       drm/todo: add entry to remove devm_drm_put_bridge()
-
-This involves documentation maintained on another tree. Where should it
-be applied? There are two matching entries in MAINTAINERS:
-
- * DRM DRIVERS -> the drm tree
- * DRM DRIVERS AND MISC GPU PATCHES -> the drm-misc tree
-
-To me it looks like the second is obviously the closest match as we are
-dealing with DRM bridges, so I'm applying this as well on Friday unless
-there are better instructions.
-
-Best regards,
-Luca
-
--- 
-Luca Ceresoli, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+>
+> Thank you
+>
+> Reinette
+>
+> >
+> >>>>
+> >>>> [2] https://lore.kernel.org/lkml/afb99efe-0de2-f7ad-d0b8-f2a0ea998ef=
+d@amd.com/
+> >>>> [3] https://lore.kernel.org/lkml/CALPaoCg3KpF94g2MEmfP_Ro2mQZYFA8sKV=
+kmb+7isotKNgdY9A@mail.gmail.com/
+> >>>
+> >>
+> >>
+> >
+>
