@@ -1,145 +1,135 @@
-Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 34B0A270548;
-	Wed, 21 May 2025 13:22:09 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
+Received: from mail.nightmared.fr (mail.nightmared.fr [51.158.148.24])
+	by smtp.subspace.kernel.org (Postfix) with ESMTP id DBC6170830;
+	Wed, 21 May 2025 14:01:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.158.148.24
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747833732; cv=none; b=Uudp9ffDKcqFaAmeZvVPYRyOJ2rtUnU7pT92njXR4YLxDCPO1irm9CEdK8j6CteUsTIlLt6nDS71MEoZNopmAQNIHuWS0ZZTcQuWgeylVzQEW8wCc+XD4CzFnvkgZGTDvZfKi00Wt0bYua8lze8cW4JUwIbNsPMgDVkAYzYeO6w=
+	t=1747836115; cv=none; b=imEdaKvF06KpDBUVSAMMULYZo2GafmMftytFfs6yY2Oe82WI5ZclqTaXOBVNun3kYlgMI3mBfwhx27EwKpyU6DbBfuV/RasAgfaVVT8jiopIUKJKwYI1TZmnh0Cu8gOQtRZgzFnLnHv7Sh4kE2mdlqwbQKlP0TPhiw7ySxlwgn4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747833732; c=relaxed/simple;
-	bh=EX4ui2tQT7UMETR1W+xK25rJPJELgoGDLpEuPhuzklw=;
-	h=Date:Message-ID:From:To:Cc:Subject:In-Reply-To:References:
-	 MIME-Version:Content-Type; b=bsXw8bW4GHdo0WjrHtSXpUhb60NtltfO9+//SsF78MpmMyQLkAWMG6u1ZpJhe06UI4D4QKAnJV9UIkTfyurnEt6+VyMivqzfs8HsVF6VnodkA25fFab6dwKT5XZwy/Ry90ksrKY2ltFSAz0lkLf44IEJNofwzpJqgjT45R/xNgU=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=E6jBTMek; arc=none smtp.client-ip=10.30.226.201
+	s=arc-20240116; t=1747836115; c=relaxed/simple;
+	bh=PORCLUTtbHg0liQ9+fwRmNNkrW0epbHx7vY+INFzv64=;
+	h=From:To:Cc:Subject:Date:Message-ID:In-Reply-To:References:
+	 MIME-Version; b=qjEldgZREOEzAg56yWj0D2ytHbSutj2P2E2RwK99vZPU9Rq6Kb21YuHZdoVlskjYCwEPALkp3oCRbYnpmWqTPM8OYhvdL7dusrhigWxLLNtCHfwcnP/R8Y0Xit+0dwVd3wlwSXQdfNmdwrWyhN/VnQmqUfI8Wfx7U9Kf0rVLNZY=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr; spf=pass smtp.mailfrom=nightmared.fr; dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b=EOPPLhyU; arc=none smtp.client-ip=51.158.148.24
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nightmared.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="E6jBTMek"
-Received: by smtp.kernel.org (Postfix) with ESMTPSA id 8CBF4C4CEE7;
-	Wed, 21 May 2025 13:22:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-	s=k20201202; t=1747833729;
-	bh=EX4ui2tQT7UMETR1W+xK25rJPJELgoGDLpEuPhuzklw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=E6jBTMekBv+UH9ycukXQK3H0XIxjnYZg58I9raQ05E10M9qL3PlndBrrRB12kMb08
-	 iqktE52OFdoAFLtISTnJFqKBhKN6BdmAjziVHoh95aCf7PaCdh9+0fllYKDz6oCBk+
-	 6Q+Q7u3ytdNjmawsULl8BmV8rLtnCf/C4DViZyhMpbkOXa/d7hZVJT49XCTw/Ik1DD
-	 S2u5NI+atPUaOeHnw6+813IgVJvh92MGCgJ/+k4L2qd9kIeNJS86XhcWACfsUuRx7T
-	 MMFLYsUWhGzRyyRgwQVdL+eguZVorq2GrBcVSfnaikocXW3qRLNswt4DtvbPiskgkg
-	 FRmF6L9gww5xA==
-Received: from sofa.misterjones.org ([185.219.108.64] helo=goblin-girl.misterjones.org)
-	by disco-boy.misterjones.org with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-	(Exim 4.95)
-	(envelope-from <maz@kernel.org>)
-	id 1uHjOZ-00GwxK-Fd;
-	Wed, 21 May 2025 14:22:07 +0100
-Date: Wed, 21 May 2025 14:22:06 +0100
-Message-ID: <86r00idrpd.wl-maz@kernel.org>
-From: Marc Zyngier <maz@kernel.org>
-To: "Rob Herring (Arm)" <robh@kernel.org>
-Cc: Will Deacon <will@kernel.org>,
-	Mark Rutland <mark.rutland@arm.com>,
-	Catalin Marinas <catalin.marinas@arm.com>,
-	Jonathan Corbet <corbet@lwn.net>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	James Clark <james.clark@linaro.org>,
-	Anshuman Khandual <anshuman.khandual@arm.com>,
-	Leo Yan <leo.yan@arm.com>,
-	linux-arm-kernel@lists.infradead.org,
-	linux-perf-users@vger.kernel.org,
-	linux-kernel@vger.kernel.org,
-	linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH v22 4/5] KVM: arm64: nvhe: Disable branch generation in nVHE guests
-In-Reply-To: <20250520-arm-brbe-v19-v22-4-c1ddde38e7f8@kernel.org>
-References: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
-	<20250520-arm-brbe-v19-v22-4-c1ddde38e7f8@kernel.org>
-User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI-EPG/1.14.7 (Harue)
- FLIM-LB/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL-LB/10.8 EasyPG/1.0.0 Emacs/30.1
- (aarch64-unknown-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+	dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b="EOPPLhyU"
+Received: from localhost.localdomain (atoulon-651-1-170-218.w83-113.abo.wanadoo.fr [83.113.65.218])
+	by mail.nightmared.fr (Postfix) with ESMTPSA id 17F881087A48;
+	Wed, 21 May 2025 14:01:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nightmared.fr;
+	s=docker; t=1747836108;
+	bh=PORCLUTtbHg0liQ9+fwRmNNkrW0epbHx7vY+INFzv64=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References;
+	b=EOPPLhyUiIgYSE0j7BAjBsijWBM33boD5aT7KGveroR2XRNo8ApDjMWfh8djHBHgD
+	 uBQgxjM3DTsMg+r7s0LY69kGlgNVp41DnJlVX7qs77jwuYgaMbqC8+sYtkDPmuykYT
+	 0fLBPgTwuneo8SJi+DSQqWI59LszzZAJen/tyKh96WOkTGnvC1qjIe5SmYNBLiyhhk
+	 bjJcIp6RWJb67IDjkOJUKscQ9oQ6OAIlmLGpC0r2NrnKqefIQQzfaCC3mex9OuTQwM
+	 p3Z08XQqlxdth2eNTqA7btEPitKWER6IoV3WcNecg9DFL6/1onTI9PKdUCb3RH84YI
+	 2XXNEK6jv0Vmw==
+From: Simon THOBY <git@nightmared.fr>
+To: linux-security-module@vger.kernel.org
+Cc: Simon THOBY <git@nightmared.fr>,
+	linux-integrity@vger.kernel.org,
+	linux-doc@vger.kernel.org
+Subject: [RFC PATCH 5/9] Loadpol LSM: add a sysctl to lock the policy
+Date: Wed, 21 May 2025 16:01:09 +0200
+Message-ID: <20250521140121.591482-6-git@nightmared.fr>
+X-Mailer: git-send-email 2.49.0
+In-Reply-To: <20250521140121.591482-1-git@nightmared.fr>
+References: <20250521140121.591482-1-git@nightmared.fr>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
-MIME-Version: 1.0 (generated by SEMI-EPG 1.14.7 - "Harue")
-Content-Type: text/plain; charset=US-ASCII
-X-SA-Exim-Connect-IP: 185.219.108.64
-X-SA-Exim-Rcpt-To: robh@kernel.org, will@kernel.org, mark.rutland@arm.com, catalin.marinas@arm.com, corbet@lwn.net, oliver.upton@linux.dev, joey.gouly@arm.com, suzuki.poulose@arm.com, yuzenghui@huawei.com, james.clark@linaro.org, anshuman.khandual@arm.com, leo.yan@arm.com, linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org, linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org, kvmarm@lists.linux.dev
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 
-On Tue, 20 May 2025 23:27:39 +0100,
-"Rob Herring (Arm)" <robh@kernel.org> wrote:
-> 
-> From: Anshuman Khandual <anshuman.khandual@arm.com>
-> 
-> While BRBE can record branches within guests, the host recording
-> branches in guests is not supported by perf (though events are).
-> Support for BRBE in guests will supported by providing direct access
-> to BRBE within the guests. That is how x86 LBR works for guests.
-> Therefore, BRBE needs to be disabled on guest entry and restored on
-> exit.
-> 
-> For nVHE, this requires explicit handling for guests. Before
-> entering a guest, save the BRBE state and disable the it. When
-> returning to the host, restore the state.
-> 
-> For VHE, it is not necessary. We initialize
-> BRBCR_EL1.{E1BRE,E0BRE}=={0,0} at boot time, and HCR_EL2.TGE==1 while
-> running in the host. We configure BRBCR_EL2.{E2BRE,E0HBRE} to enable
-> branch recording in the host. When entering the guest, we set
-> HCR_EL2.TGE==0 which means BRBCR_EL1 is used instead of BRBCR_EL2.
-> Consequently for VHE, BRBE recording is disabled at EL1 and EL0 when
-> running a guest.
-> 
-> Should recording in guests (by the host) ever be desired, the perf ABI
-> will need to be extended to distinguish guest addresses (struct
-> perf_branch_entry.priv) for starters. BRBE records would also need to be
-> invalidated on guest entry/exit as guest/host EL1 and EL0 records can't
-> be distinguished.
-> 
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> Co-developed-by: Rob Herring (Arm) <robh@kernel.org>
-> Tested-by: James Clark <james.clark@linaro.org>
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
-> ---
-> v20:
->  - Reword commit message about no guest recording.
->  - Add BRBE to __kvm_vcpu_run() synchronization comment
-> 
-> v19:
->  - Rework due to v6.14 debug flag changes
->  - Redo commit message
-> ---
->  arch/arm64/include/asm/kvm_host.h  |  2 ++
->  arch/arm64/kvm/debug.c             |  4 ++++
->  arch/arm64/kvm/hyp/nvhe/debug-sr.c | 32 ++++++++++++++++++++++++++++++++
->  arch/arm64/kvm/hyp/nvhe/switch.c   |  2 +-
->  4 files changed, 39 insertions(+), 1 deletion(-)
-> 
-> diff --git a/arch/arm64/include/asm/kvm_host.h b/arch/arm64/include/asm/kvm_host.h
-> index e98cfe7855a6..e3f1e7b5ce52 100644
-> --- a/arch/arm64/include/asm/kvm_host.h
-> +++ b/arch/arm64/include/asm/kvm_host.h
-> @@ -654,6 +654,7 @@ struct kvm_host_data {
->  #define KVM_HOST_DATA_FLAG_HAS_TRBE			1
->  #define KVM_HOST_DATA_FLAG_TRBE_ENABLED			4
->  #define KVM_HOST_DATA_FLAG_EL1_TRACING_CONFIGURED	5
-> +#define KVM_HOST_DATA_FLAG_HAS_BRBE			6
+Once the policy is properly configurd, users may want to lock that
+policy to ensure no future change can be applied to it.
 
-Just as a heads up: this is going to clash with what is currently
-queued in -next (bits 6 and 7 are already claimed).
+Add a sysctl that can be toggled to lock the policy.
 
-Otherwise,
+Signed-off-by: Simon THOBY <git@nightmared.fr>
+---
+ security/loadpol/loadpol_fs.c | 31 +++++++++++++++++++++++++++++++
+ 1 file changed, 31 insertions(+)
 
-Acked-by: Marc Zyngier <maz@kernel.org>
-
-	M.
-
+diff --git a/security/loadpol/loadpol_fs.c b/security/loadpol/loadpol_fs.c
+index 9134d11718a0..1fec94de9f40 100644
+--- a/security/loadpol/loadpol_fs.c
++++ b/security/loadpol/loadpol_fs.c
+@@ -1,6 +1,7 @@
+ // SPDX-License-Identifier: GPL-2.0-only
+ 
+ #include "linux/array_size.h"
++#include <linux/sysctl.h>
+ #include <linux/security.h>
+ 
+ #include "loadpol.h"
+@@ -8,8 +9,22 @@
+ static struct dentry *securityfs_dir;
+ static struct dentry *securityfs_policy;
+ 
++static bool policy_locked;
+ static DEFINE_MUTEX(policy_write_mutex);
+ 
++static const struct ctl_table sysctls[] = {
++	{
++		.procname	= "locked",
++		.data		= &policy_locked,
++		.maxlen		= sizeof(int),
++		.mode		= 0644,
++		/* only allow a transition from 0 (not locked) to 1 (locked) */
++		.proc_handler	= proc_dointvec_minmax,
++		.extra1		= SYSCTL_ONE,
++		.extra2		= SYSCTL_ONE,
++	},
++};
++
+ static const struct seq_operations loadpol_policy_seqops = {
+ 	.start = loadpol_policy_start,
+ 	.next = loadpol_policy_next,
+@@ -33,6 +48,13 @@ static ssize_t loadpol_write_policy(struct file *file, const char __user *buf,
+ 	char *data;
+ 	ssize_t ret;
+ 
++	/* Once the policy is locked, modifications are blocked */
++	if (policy_locked) {
++		pr_warn("Loadpol is locked, the policy cannot be modified");
++		ret = -EPERM;
++		goto out;
++	}
++
+ 	/*
+ 	 * arbitrary size limit (to prevent a DoS but still allow loading a policy with a few
+ 	 * thousands of entries)
+@@ -81,8 +103,15 @@ static const struct file_operations loadpol_policy_ops = {
+ 
+ static int __init loadpol_init_fs(void)
+ {
++	struct ctl_table_header *sysctl_hdr = NULL;
+ 	int ret;
+ 
++	sysctl_hdr = register_sysctl_sz("security/" LOADPOL_NAME, sysctls, ARRAY_SIZE(sysctls));
++	if (IS_ERR(sysctl_hdr)) {
++		ret = PTR_ERR(sysctl_hdr);
++		goto err;
++	}
++
+ 	securityfs_dir = securityfs_create_dir(LOADPOL_NAME, NULL);
+ 	if (IS_ERR(securityfs_dir)) {
+ 		ret = PTR_ERR(securityfs_dir);
+@@ -99,6 +128,8 @@ static int __init loadpol_init_fs(void)
+ 
+ 	return 0;
+ err:
++	if (!IS_ERR(sysctl_hdr))
++		unregister_sysctl_table(sysctl_hdr);
+ 	securityfs_remove(securityfs_policy);
+ 	securityfs_remove(securityfs_dir);
+ 	return ret;
 -- 
-Without deviation from the norm, progress is not possible.
+2.49.0
+
