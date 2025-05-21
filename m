@@ -1,203 +1,223 @@
-Received: from us-smtp-delivery-124.mimecast.com (us-smtp-delivery-124.mimecast.com [170.10.133.124])
+Received: from frasgout.his.huawei.com (frasgout.his.huawei.com [185.176.79.56])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2B948248F49
-	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 12:40:24 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=170.10.133.124
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2998F238C1A;
+	Wed, 21 May 2025 12:48:20 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=185.176.79.56
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747831226; cv=none; b=nhzjjY2OGHWLM+O7Pn2Vt1wGo89MOWQ1uUWqqACg0B6WtsHnrquSAxAvUdSb3UU0mkgj9XSlaQxKEIqdy4hdLRHVAZSguvNvMr3qE5PPtSWWelNuIgUkCahQL/cayYSXlsF8QvtvxIqx2Oo5yLJijSQ6lZp3Wl3gVlXyytpDbLM=
+	t=1747831704; cv=none; b=NJZUZ3rqLfAphp3o1bF7hDCeGoCBo0gE14T/GIT8/S2BX71nNBjJIDmpIwm6SyKM50fLvqdL1HWUKohZGFVU1pgrZgEqkd5Vlzk1feclzKyz7cy0/geSTzrztG6yhpAIM+QMo/aJTWXvQ3346eS0JGv7DBieLa7MaLFLU+onjGE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747831226; c=relaxed/simple;
-	bh=tTqNFmY7Fo+W9DQPNJ04izuxXClK18UgfLsPJ1r3CfU=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=plGvDI0lwZA4XCNkb+Dtp8+23VdHHGwTIl2B1EDxwg+Vo6o9r4J7VyLub0grywSCVJvIVig0cMIxfHrNaIrCET/AsH/MSq6jRlrqcp617GTKfRuLXZTU1LYjmmjULJg6iKB/F34BXJi6otHZnjdyXS8/iI13carEyBtbRPZLXe0=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com; spf=pass smtp.mailfrom=redhat.com; dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b=gV52cut4; arc=none smtp.client-ip=170.10.133.124
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=redhat.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=redhat.com
-Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (1024-bit key) header.d=redhat.com header.i=@redhat.com header.b="gV52cut4"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-	s=mimecast20190719; t=1747831224;
-	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-	 to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-	 content-transfer-encoding:content-transfer-encoding:
-	 in-reply-to:in-reply-to:references:references:autocrypt:autocrypt;
-	bh=47i7ScqL4Dt1l5IDcflwbZQ28MiUnTzedB2xEZMgKIc=;
-	b=gV52cut4fjupoytGTRhZefyioyjWkDR36BsYgKD4V05h9jka+coXw0//DYKB/K0+PL5law
-	m2g04/ulzbEWPN6+dtM7scDvHSAWdHXyAqxCzCBWX3+DJpDKn7v+j1cGTVHZptrGklbu7U
-	rwYe+G/z3GJkgj/BuZXEIJmdcd8FZ5Q=
-Received: from mail-wr1-f69.google.com (mail-wr1-f69.google.com
- [209.85.221.69]) by relay.mimecast.com with ESMTP with STARTTLS
- (version=TLSv1.3, cipher=TLS_AES_256_GCM_SHA384) id
- us-mta-108-CpUfM7sINTaQDlsxqPrCIg-1; Wed, 21 May 2025 08:40:23 -0400
-X-MC-Unique: CpUfM7sINTaQDlsxqPrCIg-1
-X-Mimecast-MFC-AGG-ID: CpUfM7sINTaQDlsxqPrCIg_1747831222
-Received: by mail-wr1-f69.google.com with SMTP id ffacd0b85a97d-3a370309dcbso1599594f8f.1
-        for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 05:40:22 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747831222; x=1748436022;
-        h=content-transfer-encoding:in-reply-to:organization:autocrypt
-         :content-language:from:references:cc:to:subject:user-agent
-         :mime-version:date:message-id:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=47i7ScqL4Dt1l5IDcflwbZQ28MiUnTzedB2xEZMgKIc=;
-        b=NSTL+l6ylwGmnBR1qoi8sQCqz4LfCKNJ12CADpJVuzz+g7TvzS4fvkaTBAnDgq+U1S
-         NeAWLwqhUu9vI9+UMUKTWWpEjalCRoYSiFzaVNERGV0xRratTqoBAnQgrbzaTIvLeDa+
-         BoZnXPOSot5MfvfDVGfcjW44MXoZSK14aNiy3ZSbFjQvEMeWGPEHiEw4DCj5Bax0RuQV
-         jwgzIm/SNxpdZGfIJRZjHYCV5rV2X4uVu+atlo9r3EDoXsOxlM/+K/0pZbfz47qdOz9E
-         EqM2omdT6JOl4p1oMYM46LZX07Gz8X6R1juWvCIQmui2YEfFi84eZ1GtXhLWRpWPs1SN
-         IrCA==
-X-Forwarded-Encrypted: i=1; AJvYcCXF8LIapiD/6SDCnnmZmWjWVkixzfFWFCfly1jciggaROEOfBobLF01/O9MkpE3kMuewmgh46538j8=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxpraAREwSVoTteF5TCEAvaPxQOGDCLDyjEMAwIh28bqyfl2IwS
-	rzfyBzRDE4fRlg/MO+meYtPtbow8mDyAjFatcZkvQkEwXfrYoZeAknHNnK//7E+05EOlf7REDdG
-	1/s5LSO1bTGyHsGOksTok21kEsI8YuUGaoe/tDHsQKSq3HeCRtGSZB9qlns3Sgw==
-X-Gm-Gg: ASbGncubtLgaUDFdb8gCqq6Np6o2zDlXYEuwsbLgohzBWNmEfOrj1Lfqcd0CoE2svX3
-	SGPSWsx9mq86TPhn0egl8E6epKSpHabZC/YU7w0r89MbinWaaWDOcGfDrUwHc8X9trPzyqmVWyf
-	pumHC464yesdiXPA/Iz8Po3yX4JoHsKdPo25Vvb2RhtWnTxxNzpgo6qgTOgO0Du/Kp0NTRyl4V5
-	k9g6kn/680O0JXptXjlAHI23mymvy+GBXI+yvaAPHgAYIYSRJIfcymMhCnGDhSlJrfFd6+IB/Zt
-	y6VkknWY3nFxYaiHgOKfXohFyd/ZGxc2KaIDc95H5B7K6bFXycISMTKUb2zKPjFzknz/ltPHeZv
-	/H1Ho+1fZxz6ys1jImAeiD+FDHbzKWW/ey3FBRrA=
-X-Received: by 2002:a05:6000:2085:b0:3a3:ec58:ea81 with SMTP id ffacd0b85a97d-3a3ec58ef6bmr2132416f8f.42.1747831221444;
-        Wed, 21 May 2025 05:40:21 -0700 (PDT)
-X-Google-Smtp-Source: AGHT+IELT/ajcBAx5hniEy9ixvTLJkxiRoZyN5z9+vEaPoPoysqIknJuVEHsl42ksznPlxQM6GRRuw==
-X-Received: by 2002:a05:6000:2085:b0:3a3:ec58:ea81 with SMTP id ffacd0b85a97d-3a3ec58ef6bmr2132360f8f.42.1747831220972;
-        Wed, 21 May 2025 05:40:20 -0700 (PDT)
-Received: from ?IPV6:2003:d8:2f25:9c00:e2c7:6eb5:8a51:1c60? (p200300d82f259c00e2c76eb58a511c60.dip0.t-ipconnect.de. [2003:d8:2f25:9c00:e2c7:6eb5:8a51:1c60])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca888afsm19964905f8f.64.2025.05.21.05.40.18
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 May 2025 05:40:20 -0700 (PDT)
-Message-ID: <53fb879b-dde8-43f2-9324-c367570a9c60@redhat.com>
-Date: Wed, 21 May 2025 14:40:18 +0200
+	s=arc-20240116; t=1747831704; c=relaxed/simple;
+	bh=SuRriLrT8FOsYS7AMsbmyVYcNzuxv0Dy2Uw5orbbr94=;
+	h=From:To:CC:Subject:Date:Message-ID:MIME-Version:Content-Type; b=qySyUR5MbGvXxuFRUb786X4gvpvCHFHYQU34oW/PPNrweisAAA2lERFHVePP8pdEn4X2GQDHpzCDN1fJdKIBiy28URD96BLTgOCnu2k0fWK1BAo8D28FlJRk4uAH2/54T3US8RFjwu2TqdISI+FVEk1Pbxeptt3+xqDOG56Co3U=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com; spf=pass smtp.mailfrom=huawei.com; arc=none smtp.client-ip=185.176.79.56
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=huawei.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=huawei.com
+Received: from mail.maildlp.com (unknown [172.18.186.31])
+	by frasgout.his.huawei.com (SkyGuard) with ESMTP id 4b2WR12W52z6GD7D;
+	Wed, 21 May 2025 20:47:25 +0800 (CST)
+Received: from frapeml500007.china.huawei.com (unknown [7.182.85.172])
+	by mail.maildlp.com (Postfix) with ESMTPS id 6B6EA140390;
+	Wed, 21 May 2025 20:48:18 +0800 (CST)
+Received: from P_UKIT01-A7bmah.china.huawei.com (10.48.151.26) by
+ frapeml500007.china.huawei.com (7.182.85.172) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.39; Wed, 21 May 2025 14:48:17 +0200
+From: <shiju.jose@huawei.com>
+To: <linux-cxl@vger.kernel.org>, <dan.j.williams@intel.com>,
+	<jonathan.cameron@huawei.com>, <dave.jiang@intel.com>, <dave@stgolabs.net>,
+	<alison.schofield@intel.com>, <vishal.l.verma@intel.com>,
+	<ira.weiny@intel.com>
+CC: <linux-edac@vger.kernel.org>, <linux-doc@vger.kernel.org>, <bp@alien8.de>,
+	<tony.luck@intel.com>, <lenb@kernel.org>, <Yazen.Ghannam@amd.com>,
+	<mchehab@kernel.org>, <nifan.cxl@gmail.com>, <linuxarm@huawei.com>,
+	<tanxiaofei@huawei.com>, <prime.zeng@hisilicon.com>,
+	<roberto.sassu@huawei.com>, <kangkang.shen@futurewei.com>,
+	<wanghuiqiang@huawei.com>, <shiju.jose@huawei.com>
+Subject: [PATCH v6 0/8] cxl: support CXL memory RAS features
+Date: Wed, 21 May 2025 13:47:38 +0100
+Message-ID: <20250521124749.817-1-shiju.jose@huawei.com>
+X-Mailer: git-send-email 2.43.0.windows.1
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v6 0/4] mm: introduce THP deferred setting
-To: Lorenzo Stoakes <lorenzo.stoakes@oracle.com>
-Cc: Nico Pache <npache@redhat.com>, linux-mm@kvack.org,
- linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
- linux-kselftest@vger.kernel.org, rientjes@google.com, hannes@cmpxchg.org,
- rdunlap@infradead.org, mhocko@suse.com, Liam.Howlett@oracle.com,
- zokeefe@google.com, surenb@google.com, jglisse@google.com, cl@gentwo.org,
- jack@suse.cz, dave.hansen@linux.intel.com, will@kernel.org, tiwai@suse.de,
- catalin.marinas@arm.com, anshuman.khandual@arm.com, dev.jain@arm.com,
- raquini@redhat.com, aarcange@redhat.com, kirill.shutemov@linux.intel.com,
- yang@os.amperecomputing.com, thomas.hellstrom@linux.intel.com,
- vishal.moola@gmail.com, sunnanyong@huawei.com, usamaarif642@gmail.com,
- wangkefeng.wang@huawei.com, ziy@nvidia.com, shuah@kernel.org,
- peterx@redhat.com, willy@infradead.org, ryan.roberts@arm.com,
- baolin.wang@linux.alibaba.com, baohua@kernel.org,
- mathieu.desnoyers@efficios.com, mhiramat@kernel.org, rostedt@goodmis.org,
- corbet@lwn.net, akpm@linux-foundation.org
-References: <20250515033857.132535-1-npache@redhat.com>
- <a8bc6012-578b-412a-8dc9-fa9349feaa8b@lucifer.local>
- <CAA1CXcD8FCdCsBkyW=Ppbr-ZRD8PNmPu-3khipX0fVK3mxs-EQ@mail.gmail.com>
- <c027a3db-eb6d-4a3c-98b0-635f3f842ee6@lucifer.local>
- <43d6aa16-3e52-45df-9366-e072c0cb3065@redhat.com>
- <a41ea49b-2bac-44c8-9a4a-dd55dfd0d171@lucifer.local>
- <db190425-9959-4d0c-b928-c537c69bc5a7@redhat.com>
- <085de112-7238-4bbe-822c-198a7291ea89@lucifer.local>
-From: David Hildenbrand <david@redhat.com>
-Content-Language: en-US
-Autocrypt: addr=david@redhat.com; keydata=
- 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
- WNyWQQ==
-Organization: Red Hat
-In-Reply-To: <085de112-7238-4bbe-822c-198a7291ea89@lucifer.local>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: lhrpeml100001.china.huawei.com (7.191.160.183) To
+ frapeml500007.china.huawei.com (7.182.85.172)
 
-On 21.05.25 14:33, Lorenzo Stoakes wrote:
-> Fundamentally I trust you to make sure this all goes correctly so let's not
-> belabour the point or delay things here :)
-> 
-> So in that vein, Nico - I would sugesst for future respins adding a really
-> clear bit to the header as David suggested :) also update the cover letter
-> tests so it isn't reliant on a possibly ephemeral web link.
-> 
-> But otherwise let's proceed as was.
+From: Shiju Jose <shiju.jose@huawei.com>
 
-Right, and maybe only post this series if there was a major change, 
-otherwise wait until the other thing is on it's way upstream.
+Support for CXL memory EDAC features: patrol scrub, ECS, soft-PPR and
+memory sparing.
 
-> 
-> On Wed, May 21, 2025 at 02:24:45PM +0200, David Hildenbrand wrote:
->>>>
->>>> Anyhow, to me the dependency is obvious, but I've followed the MM meeting
->>>> discussions, development etc.
->>>
->>> Right but is it clear to Andrew? I mean the cover letter was super unclear
->>> to me.
->>
->> I mean, assuming that it would not be clear to Andrew (and I think it is
->> clear to Andrew), I we would get CCed on these emails and could immediately
->> scream STOOOOOP :)
->>
->> And until this would hit mm-stable, a bit more time would pass.
->>
->>>
->>> What's to prevent things getting merged out of order?
->>
->> Fortunately, there are still people working here and not machines (at least,
->> that's what I hope).
-> 
-> Obligatory link to this :P
-> 
+Detailed history of the complete EDAC series with CXL EDAC patches
+up to V20 [1] and this CXL specific series had separated from V20 of
+the above series.
 
-It's scary how relevant that has become lately :D
+The series is based on [2] v6.15-rc4 (based on comment from Dave
+in the thread [4]).
 
-> https://www.youtube.com/watch?v=5lsExRvJTAI
+Also applied(no conflicts) and tested on cxl.git [3] branch: next
 
-... fortunately, whenever I tell the chatbots that they are wrong (IOW, 
-everytime I use them) they reply with "Oh yes, you are right." ... so 
-far ...
+1. https://lore.kernel.org/linux-cxl/20250212143654.1893-1-shiju.jose@huawei.com/
+2. https://github.com/torvalds/linux.git
+3. https://git.kernel.org/pub/scm/linux/kernel/git/cxl/cxl.git
+4. https://lore.kernel.org/all/d83a83d1-37e7-4192-913f-243098f679e3@intel.com/
+
+Userspace code for CXL memory repair features [5] and
+sample boot-script for CXL memory repair [6].
+
+[5]: https://lore.kernel.org/lkml/20250207143028.1865-1-shiju.jose@huawei.com/
+[6]: https://lore.kernel.org/lkml/20250207143028.1865-5-shiju.jose@huawei.com/
+
+Changes
+=======
+v5 -> v6:
+1. Fixed feedback from Randy Dunlap on CXL EDAC documentation.
+
+2. Feedback from Alison:
+  - Replace #ifdef using IS_ENABLED() in the series
+  - Fix for the kfree() oops in devm_cxl_memdev_edac_release()
+    while unloading cxl-test module. 
+  - Added separate helper functions for scrub set attributes for
+    dev scrub and region scrub.
+  - renaming to scrub_cycle and scrub_region_id.
+      
+3. Feedback from Dave:
+  - Fix for the kfree() oops in devm_cxl_memdev_edac_release()
+    while unloading cxl-test module.
+  - Add cxl_test inclusion of edac.o
+  - Check return from cxl_feature_info() with IS_ERR in the series. 
+ 
+4. Rebased to linux.git [2] v6.15-rc4 (based on comment from Dave
+in the thread [4]).
+   
+v4 -> v5:
+1. Fixed a compilation warning introduced by v3->v4, reported by Dave Jiang on v4. 
+   drivers/cxl/core/edac.c: In function ‘cxl_mem_perform_sparing’:
+   drivers/cxl/core/edac.c:1335:29: warning: the comparison will always evaluate as ‘true’ for the address of ‘validity_flags’ will never be NULL [-Waddress]
+ 1335 |                         if (!rec->media_hdr.validity_flags)
+      |                             ^
+   In file included from ./drivers/cxl/cxlmem.h:10,
+                 from drivers/cxl/core/edac.c:21:
+   ./include/cxl/event.h:35:12: note: ‘validity_flags’ declared here
+   35 |         u8 validity_flags[2];
+      |            ^~~~~~~~~~~~~~
+2. Updated patches for tags given.
+
+v3 -> v4:
+1. Feedback from Dave Jiang on v3,
+1.1. Changes for comments in EDAC scrub documentation for CXL use cases.
+     https://lore.kernel.org/all/2df68c68-f1a8-4327-abc9-d265326c133d@intel.com/
+1.2. Changes for comments in CXL memory sparing control feature.
+     https://lore.kernel.org/all/4ee3323c-fb27-4fbe-b032-78fd54bc21a0@intel.com/
+      
+v2 -> v3:
+1. Feedback from Dan Williams on v2,
+   https://lore.kernel.org/linux-mm/20250320180450.539-1-shiju.jose@huawei.com/
+  - Modified get_support_feature_info() in fwctl series generic to use in
+    cxl/fxctl and cxl/edac and replace cxl_get_feature_entry() in the CXL edac
+    series.
+  - Add usecase note for CXL ECS in Documentation/edac/scrub.rst.
+  - Add info message when device scrub rate set by a region overwritten with a
+    local device scrub rate or another region's scrub rate.
+  - Replace 'ps' with patrol_scrub in the patrol scrub feature.
+  - Replaced usage of intermediate objects struct cxl_memdev_ps_params and
+    enum cxl_scrub_param etc for patrol scrub and did same for ECS.
+  - Rename CXL_MEMDEV_PS_* macros.
+  - Rename scrub_cycle_hrs-> scrub_cycle_hours
+  - Add if (!cxl_dev_name)
+	return -ENOMEM;  to devm_cxl_memdev_edac_register()
+  - Add  devm_cxl_region_edac_register(cxlr) for CXL_PARTMODE_PMEM case.
+  - Add separate configurations for CXL scrub, ECS and memory repair
+    CXL_EDAC_SCRUB, CXL_EDAC_ECS and CXL_EDAC_MEM_REPAIR.
+  - Add 
+       if (!capable(CAP_SYS_RAWIO))
+             return -EPERM; for set attributes callbacks for CXL scrub, ECS and
+    memory repair.  	       
+  - In patch "cxl/mbox: Add support for PERFORM_MAINTENANCE mailbox command"
+    * cxl_do_maintenance() -> cxl_perform_maintenance() and moved to cxl/core/edac.c 
+    * kmalloc() -> kvzalloc()
+  - In patch, "cxl: Support for finding memory operation attributes from the current boot"  
+    * Moved code from drivers/cxl/core/ras.c to drivers/cxl/core/edac.c
+    * Add few logics to releasing the cache to give safety with respect to error storms and burning
+    * unlimited memory. 
+    * Add estimated memory overhead expense of this feature documented in the Kconfig.
+    * Unified various names such as attr, param, attrbs throughout the patches.
+    * Moved > struct xarray rec_gen_media and struct xarray rec_dram; out of struct cxl_memdev
+      to CXL edac object, but there is required a pointer to this object in struct cxl_memdev
+      because the error records are reported and thus stored in the cxl_memdev context not
+      in the CXL EDAC context.
+      
+2. Feedback from Borislav on v2,
+  - In include/linux/edac.h 
+    Replace EDAC_PPR -> EDAC_REPAIR_PPR
+            EDAC_CACHELINE_SPARING -> EDAC_REPAIR_CACHELINE_SPARING etc.
+
+v1 -> v2:
+1. Feedback from Dan Williams on v1,
+   https://lore.kernel.org/linux-mm/20250307091137.00006a0a@huawei.com/T/
+  - Fixed lock issues in region scrubbing, added local cxl_acquire()
+    and cxl_unlock.
+  - Replaced CXL examples using cat and echo from EDAC .rst docs
+    with short description and ref to ABI docs. Also corrections
+    in existing descriptions as suggested by Dan.
+  - Add policy description for the scrub control feature.
+    However this may require inputs from CXL experts.
+  - Replaced CONFIG_CXL_RAS_FEATURES with CONFIG_CXL_EDAC_MEM_FEATURES.
+  - Few changes to depends part of CONFIG_CXL_EDAC_MEM_FEATURES.
+  - Rename drivers/cxl/core/memfeatures.c as drivers/cxl/core/edac.c
+  - snprintf() -> kasprintf() in few places.
+
+2. Feedback from Alison on v1,
+  - In cxl_get_feature_entry()(patch 1), return NULL on failures and
+    reintroduced checks in cxl_get_feature_entry().
+  - Changed logic in for loop in region based scrubbing code.
+  - Replace cxl_are_decoders_committed() to cxl_is_memdev_memory_online()
+    and add as a local function to drivers/cxl/core/edac.c
+  - Changed few multiline comments to single line comments.
+  - Removed unnecessary comments from the code.
+  - Reduced line length of few macros in ECS and memory repair code.
+  - In new files, changed "GPL-2.0-or-later" -> "GPL-2.0-only".
+  - Ran clang-format for new files and updated.                                                                                                                                          
+3. Changes for feedbacks from Jonathan on v1.
+  - Changed few multiline comments to single line comments.
+
+Shiju Jose (8):
+  EDAC: Update documentation for the CXL memory patrol scrub control
+    feature
+  cxl: Update prototype of function get_support_feature_info()
+  cxl/edac: Add CXL memory device patrol scrub control feature
+  cxl/edac: Add CXL memory device ECS control feature
+  cxl/edac: Add support for PERFORM_MAINTENANCE command
+  cxl/edac: Support for finding memory operation attributes from the
+    current boot
+  cxl/edac: Add CXL memory device memory sparing control feature
+  cxl/edac: Add CXL memory device soft PPR control feature
+
+ Documentation/edac/memory_repair.rst |   31 +
+ Documentation/edac/scrub.rst         |   76 +
+ drivers/cxl/Kconfig                  |   71 +
+ drivers/cxl/core/Makefile            |    1 +
+ drivers/cxl/core/core.h              |    2 +
+ drivers/cxl/core/edac.c              | 2103 ++++++++++++++++++++++++++
+ drivers/cxl/core/features.c          |   17 +-
+ drivers/cxl/core/mbox.c              |   11 +-
+ drivers/cxl/core/memdev.c            |    1 +
+ drivers/cxl/core/region.c            |   10 +
+ drivers/cxl/cxl.h                    |   10 +
+ drivers/cxl/cxlmem.h                 |   30 +
+ drivers/cxl/mem.c                    |    4 +
+ drivers/edac/mem_repair.c            |    9 +
+ include/linux/edac.h                 |    7 +
+ tools/testing/cxl/Kbuild             |    1 +
+ 16 files changed, 2372 insertions(+), 12 deletions(-)
+ create mode 100644 drivers/cxl/core/edac.c
 
 -- 
-Cheers,
-
-David / dhildenb
+2.43.0
 
