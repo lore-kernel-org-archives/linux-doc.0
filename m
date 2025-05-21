@@ -1,53 +1,47 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C5951259C8B;
-	Wed, 21 May 2025 09:51:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B37259C8B;
+	Wed, 21 May 2025 09:58:51 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747821122; cv=none; b=KBFJ+xeF87q8uz6G8G/7V9PWj4WJPIdV7yRmtB14/N6ZdpRNYRqNVDzlD+5pVDauuhQXJD3Exahu2tNMhVWtXhHmmHbmmFzgWRDtK02ywy4K0K5H1bnoqnTEQS4vzbFKCLph96lGrdfH+pQJOzjrEu8OGRlf2VzaKNEzoT2L2no=
+	t=1747821533; cv=none; b=AVfJ02acA9+X1T/Nq1PRj18UfCpT9MO93Af6fkzV308olKhxUKXIuTrKhhf1bxO0RiA39rqUAa0Zx64LTdLQKRSOo2/DHttj4LZ/tJBv/mnjxdF0E0r+zPWiwlY+aKzbSjURG932uXGPUpyWWSvBFtmKYvf2frBni/4iVX8SUqE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747821122; c=relaxed/simple;
-	bh=LpXCQ/B/3LRSzVl5sAv4IFoyYafIpCfcQtXKvLccu+I=;
+	s=arc-20240116; t=1747821533; c=relaxed/simple;
+	bh=/AEdO5xOOYcRYmyslAG1dnL4NyVxYBFOODoOflYKuK0=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=qB5DvZljFGqDPrOEiv/ZfCRiMnr2J4j6mP8bVo56bX4zHME67jrqLtAIliCSNJ4llQPYk4lUO2w8076agpE3yWSLB3/QahgULuA4D+Q3VmgwW3gXcJSq1U4Ep9Rh/f22dn+MhBnUSmPosJE/b/0tIa7Q2OPcXakcN2vaN1yFDkQ=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 364E61515;
-	Wed, 21 May 2025 02:51:45 -0700 (PDT)
-Received: from localhost (e132581.arm.com [10.1.196.87])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 8E2003F6A8;
-	Wed, 21 May 2025 02:51:58 -0700 (PDT)
-Date: Wed, 21 May 2025 10:51:54 +0100
-From: Leo Yan <leo.yan@arm.com>
-To: James Clark <james.clark@linaro.org>
-Cc: Catalin Marinas <catalin.marinas@arm.com>,
-	Will Deacon <will@kernel.org>, Mark Rutland <mark.rutland@arm.com>,
-	Peter Zijlstra <peterz@infradead.org>,
-	Ingo Molnar <mingo@redhat.com>,
-	Arnaldo Carvalho de Melo <acme@kernel.org>,
-	Namhyung Kim <namhyung@kernel.org>,
-	Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-	Jiri Olsa <jolsa@kernel.org>, Ian Rogers <irogers@google.com>,
-	Adrian Hunter <adrian.hunter@intel.com>,
-	Jonathan Corbet <corbet@lwn.net>, Marc Zyngier <maz@kernel.org>,
-	Oliver Upton <oliver.upton@linux.dev>,
-	Joey Gouly <joey.gouly@arm.com>,
-	Suzuki K Poulose <suzuki.poulose@arm.com>,
-	Zenghui Yu <yuzenghui@huawei.com>,
-	linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-	linux-perf-users@vger.kernel.org, linux-doc@vger.kernel.org,
-	kvmarm@lists.linux.dev
-Subject: Re: [PATCH 07/10] perf: arm_spe: Add support for filtering on data
- source
-Message-ID: <20250521095154.GV412060@e132581.arm.com>
-References: <20250506-james-perf-feat_spe_eft-v1-0-dd480e8e4851@linaro.org>
- <20250506-james-perf-feat_spe_eft-v1-7-dd480e8e4851@linaro.org>
- <20250520134632.GR412060@e132581.arm.com>
- <443141db-6950-4a15-83be-ad9e9c0e03a0@linaro.org>
- <20250520161003.GT412060@e132581.arm.com>
- <20250520162243.GU412060@e132581.arm.com>
- <5752f039-51c1-4452-b5df-03ff06da7be3@linaro.org>
+	 Content-Type:Content-Disposition:In-Reply-To; b=a+fB6bXoC2TEaIQlVseMr92nki7wvrMoEG902DUEXyZHZ9Sz+XSiCvTWh+rqu9rGPrIiFbGtljLaTQqXhZtsAWrNRGohSwGVo6meFS3BMOp3xEzkZR/XPV2mVUHqPHCMNK6kF5uHuaQD4rhNtxnC9LrUeVMq/fOOHmlJNTeMeBE=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
+Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
+Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
+X-CSE-ConnectionGUID: cfYk2Vp+Sa2LC7O3R2JZOw==
+X-CSE-MsgGUID: LIRdZfzOQZaz5ES8IGKZqw==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="67204643"
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
+   d="scan'208";a="67204643"
+Received: from fmviesa002.fm.intel.com ([10.60.135.142])
+  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 02:58:51 -0700
+X-CSE-ConnectionGUID: SQjm8CQ8T4edxqW5+apF5g==
+X-CSE-MsgGUID: AOY/iVoNSRGkWPmzoGkpBQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
+   d="scan'208";a="163272720"
+Received: from smile.fi.intel.com ([10.237.72.52])
+  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 02:58:48 -0700
+Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
+	(envelope-from <andy@kernel.org>)
+	id 1uHgDl-00000003a2x-1YlF;
+	Wed, 21 May 2025 12:58:45 +0300
+Date: Wed, 21 May 2025 12:58:45 +0300
+From: Andy Shevchenko <andy@kernel.org>
+To: Lothar Rubusch <l.rubusch@gmail.com>
+Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
+	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
+	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
+	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v1 09/12] iio: accel: adxl313: add activity sensing
+Message-ID: <aC2j1U11BqkDn2II@smile.fi.intel.com>
+References: <CAFXKEHavquk_oyhMpkawkKUwnfNA_eFWH5XYFsZQkM1_-Rh6Vg@mail.gmail.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -56,43 +50,149 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5752f039-51c1-4452-b5df-03ff06da7be3@linaro.org>
+In-Reply-To: <CAFXKEHavquk_oyhMpkawkKUwnfNA_eFWH5XYFsZQkM1_-Rh6Vg@mail.gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Wed, May 21, 2025 at 09:54:48AM +0100, James Clark wrote:
-> On 20/05/2025 5:22 pm, Leo Yan wrote:
+On Tue, May 20, 2025 at 10:25:03PM +0200, Lothar Rubusch wrote:
+> > On Sun, May 18, 2025 at 11:13:18AM +0000, Lothar Rubusch wrote:
 
-[...]
+...
 
-> I'm thinking I'd rather leave it consistent with PMSFCR_EL1.FT and
-> automatically enable PMSFCR_EL1.FDS for any non zero data-source filter.
+> > > +static int adxl313_set_act_inact_en(struct adxl313_data *data,
+> > > +                               enum adxl313_activity_type type,
+> > > +                               bool cmd_en)
+> > > +{
+> > > +   unsigned int axis_ctrl = 0;
+> > > +   unsigned int threshold;
+> > > +   bool en;
+> > > +   int ret;
+> > > +
+> > > +   if (type == ADXL313_ACTIVITY)
+> > > +           axis_ctrl = ADXL313_ACT_XYZ_EN;
+> > > +
+> > > +   ret = regmap_update_bits(data->regmap,
+> > > +                            ADXL313_REG_ACT_INACT_CTL,
+> > > +                            axis_ctrl,
+> > > +                            cmd_en ? 0xff : 0x00);
+> > > +   if (ret)
+> > > +           return ret;
+> > > +
+> > > +   ret = regmap_read(data->regmap, adxl313_act_thresh_reg[type], &threshold);
+> > > +   if (ret)
+> > > +           return ret;
+> >
+> > > +   en = false;
+> >
+> > Instead...
+> >
+> > > +   if (type == ADXL313_ACTIVITY)
+> > > +           en = cmd_en && threshold;
+> >
+> >       else
+> >               en = false;
+> >
+> > > +   return regmap_update_bits(data->regmap, ADXL313_REG_INT_ENABLE,
+> > > +                             adxl313_act_int_reg[type],
+> > > +                             en ? adxl313_act_int_reg[type] : 0);
+> > > +}
+> 
+> The above is a good example for the following. From time to time, I face
+> the situation in a function where I'd like to end up with something like
+> 
+>     if (foo = A) {
+>         var = thenDoA();
+>     } else {
+>         var = thenDoB();
+>     }
+>     doSomething(var);
+> 
+> In a first patch I'll introduce only the following and remark in the
+> commit message, that this will be extended. Since smatch/sparse tool
+> will complain, I'll need to fiddle around with initializations
+> (becoming obsolete in the end), e.g. I'll end up with something like
+> this in a first patch A:
+> 
+>     var = nonsense;
+>     if (foo = A) {
+>         var = thenDoA();
+>     }
+>     doSomething(var);
+> 
+> This is the case for switch(type) case IIO_...MAG: as only type (for
+> now). This is the case for this is_act_inact_enabled(),
+> set_act_inact(), etc.
+> 
+> I assume it's better to simplify each commit individually and don't
+> leave the "churn" around which might make sense in combination with a
+> follow patch? Is this a general approach I should follow?
 
-This is fine for me.
+I believe so.
 
-Just a minor thing, for the case PMSDSFR_EL1 = 0xFFFF,FFFF,FFFF,FFFF,
-we might consider to clear the PMSFCR_EL1.FDS bit.  This would be a bit
-performance benefit for disabling data source filter rather than
-enabling the filter with unaffecting all data sources.
+> Or, can it be legitimate to just split an if/else and add if-clause in
+> a patch A and the else clause in the other patch B, since both are
+> probably actually not complex. Such that patch A for itself looks a
+> bit odd, but will make sense together with patch B?
 
-> This means we don't need a tool change to set some other flag when a filter
-> is provided (even if it's zero) and it's much simpler. It also doesn't
-> prevent the possibility of adding the enable flag in the future if someone
-> comes out with a need for it, but I don't think it needs to be done now.
+Yes, but just make sure the each of the patches (after being applied) give the
+plausible result.
 
-The question comes down to the complexity in user-space tools.
+...
 
-Perf initializes the attribute configs to zeros. If we want to set all
-bits in config4 as a default value, we would need additional change
-in the perf tool. Also initializing config4 to all ones is likely to
-cause confusion if other tools want to enable the feature.
+> > > +static int adxl313_read_event_config(struct iio_dev *indio_dev,
+> > > +                                const struct iio_chan_spec *chan,
+> > > +                                enum iio_event_type type,
+> > > +                                enum iio_event_direction dir)
+> > > +{
+> > > +   struct adxl313_data *data = iio_priv(indio_dev);
+> >
+> > > +   bool int_en;
+> >
+> > Why? You return the int here... I would expect rather to see unsigned int...
+> >
+> > > +   int ret;
+> > > +
+> > > +   switch (type) {
+> > > +   case IIO_EV_TYPE_MAG:
+> > > +           switch (dir) {
+> > > +           case IIO_EV_DIR_RISING:
+> > > +                   ret = adxl313_is_act_inact_en(data,
+> > > +                                                 ADXL313_ACTIVITY,
+> > > +                                                 &int_en);
+> > > +                   if (ret)
+> > > +                           return ret;
+> > > +                   return int_en;
+> >
+> > ...or even simply
+> >
+> >                       return adx1313...(...);
+> >
+> > > +           default:
+> > > +                   return -EINVAL;
+> > > +           }
+> > > +   default:
+> > > +           return -EINVAL;
+> > > +   }
+> > > +}
+> 
+> This one here is interesting, to my understanding I followed here e.g.
+> the approach of the ADXL380 which is supposed to be a quite recent
+> driver [the _read/write_event_config() there.]
 
-I agree that a cleaner way would be to use an enable flag + mask, we can
-defer to add flag if needed.
+> Now, your remark made me think: I'm unsure, can I actually I implement
+> the following approach here?
+> - return >0 : true
 
-> TBH I can't imagine a case where someone would want to filter out any samples
-> that have any data source. Surely you'd only be looking for a selected set
-> of data sources, or no filtering at all.
+=1, but yes. We have plenty of functions like this in the kernel.
 
-Agreed this is a rare case.
+> - return =0 : false
+> - return <0 : error
+> 
+> It seems to work (unsure about the  error cases, though),
+> but much cleaner and simpler! I'll send that in v2,
+> pls let me know if I missunderstood you.
 
-Thanks,
-Leo
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
