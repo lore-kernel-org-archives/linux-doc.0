@@ -1,136 +1,81 @@
-Received: from mail.nightmared.fr (mail.nightmared.fr [51.158.148.24])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id C067B1DF754;
-	Wed, 21 May 2025 16:29:30 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=51.158.148.24
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E364A1C5F09;
+	Wed, 21 May 2025 16:30:19 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747844973; cv=none; b=GWZa5s0KX1acRIY7doRjdKa+zuQtQGSgbDx6BDP7cxcCZqlL11cRBF8l+1WgwnFuv5KF12hJbRgt32uPpn7Hwd+1xrgRKvPbQjVULP3GXDOsP5p4+1wNn6oHb/e+H76AoVE2pmehCnuZhi6RJGcQDReW8sqywSNWn0I/RlosTgs=
+	t=1747845021; cv=none; b=sVkeKsinY1y3OQV10NUjq+QReArBqUwbxaw8caCDgEhrBW0DQxk1iC1nvYqAuooRFlHUTw9pN44mpD4uauW6G05GFRTmt4c25AtZ+E09EXF3rs7twc4V9YVtb4aB0h01AMYpuGFVJ75MKyWlRFi4RLuv//6jnrPbl1/Hc3rggYo=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747844973; c=relaxed/simple;
-	bh=zaU4BpUiukO3w2ZEfCf3wUHR9P3VDLZNtA00D1cGp7w=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=mVM4ZesRohwncqRXmcJKehWsNbShYNlYdyn59b9Xi4j3kfR4tTKFGzpq8eZvN2XfmPlT6fTFRi6Bu9TcISjR/2A6XeBexNlHZr5+FzldBh2nO0R+9BhSeRJDm2VZ/Tr4vzee2nThqDqK8jU36YSIi1dn39AVYKLt2zHpP/jvROk=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr; spf=pass smtp.mailfrom=nightmared.fr; dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b=enx1VokA; arc=none smtp.client-ip=51.158.148.24
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=quarantine dis=none) header.from=nightmared.fr
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=nightmared.fr
+	s=arc-20240116; t=1747845021; c=relaxed/simple;
+	bh=TBKT53j1ZzWAdU9ZNkIj6bRV4r88F4Q4v6goyOVmE40=;
+	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
+	 Content-Type:Content-Disposition:In-Reply-To; b=pgnlV8jjhzd8449RR8dtHW/Ig1O2cNOx8mqMLopFrQLzcYTwN/LJloNUptT9UjA6ABk3tbS5RqKGhMG/r0QuhKgtkT7dgcuVyRWk9T5Mn5PdqwQIxsLWPaOdg1Vwi64iJfQo5d9XUuL4nOrJX/QR6gNwEX/eJwmcECUq4ipmVnI=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=SRICNdHn; arc=none smtp.client-ip=10.30.226.201
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=nightmared.fr header.i=@nightmared.fr header.b="enx1VokA"
-Received: from [10.5.1.10] (atoulon-651-1-170-218.w83-113.abo.wanadoo.fr [83.113.65.218])
-	by mail.nightmared.fr (Postfix) with ESMTPSA id 4AA711087928;
-	Wed, 21 May 2025 16:29:29 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=nightmared.fr;
-	s=docker; t=1747844969;
-	bh=zaU4BpUiukO3w2ZEfCf3wUHR9P3VDLZNtA00D1cGp7w=;
-	h=Date:Subject:To:Cc:References:From:In-Reply-To;
-	b=enx1VokACY6jpTzXPrbdgL/vHyFO29Z9lzexZGUp6+AOHX2qVEX7f7kEPh6OUZ5hL
-	 yA7dcMN6s/uU5955EUKuwCApsNirDV0iZVBydHEqQK5WjXbYrY8oHb3RV08UCAt31h
-	 GVrYL2tm7r0h/LU37Xg6ZGIlJlmQAVUbbjd1Ya44mcUQtKsp+BSYDGxAQChyT+VVXI
-	 QNaVWpF+aKjNnNFHk0Ts/24NXyK6J9KBqt4KEEPnFvBGwqoMcw4WF7azDpRC5eKjUz
-	 v7s9nrZRUHwDf4zzzvAi+ARX2jdshSJoMLqvQHSQojQliBN/qTVZqLoW0/chB3/8BG
-	 2+cO26bXvZQnQ==
-Message-ID: <c1d89b32-d041-415a-9046-8c2c1300b788@nightmared.fr>
-Date: Wed, 21 May 2025 18:29:28 +0200
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="SRICNdHn"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 39A0BC4CEE4;
+	Wed, 21 May 2025 16:30:19 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747845019;
+	bh=TBKT53j1ZzWAdU9ZNkIj6bRV4r88F4Q4v6goyOVmE40=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=SRICNdHnk5ZfQ4BZ12LbWKVqwbmkQvECkH6aACSqU73mdY74isIny/u2rhKTpcu1N
+	 AdquhS23K+yjXMvElYq4Ej+EUzi2WKVVzuvZLWpZMhvmOjtrclHYrftgNEq2Cy1bne
+	 0SNBF2VxZtbWaxmvzbQuDL4BVCVvLsma1RAGRnSsEb56tpIhsPZB29F8+9v+9M5d1+
+	 vQ2bxlZciEahwGjz43tpRhH9h4Yn0c5m0SqQl8/D+fkRkOhZpBOPGreJaHJCS/QH26
+	 QtyiCXvmrpunlXy5r75hhpplw7OrQ8Whum5rrHpmjliyEJSPHAtOhAWqPpfrvdU3Ou
+	 xVF3FSG6Zv4YA==
+Date: Wed, 21 May 2025 06:30:18 -1000
+From: Tejun Heo <tj@kernel.org>
+To: "Shashank.Mahadasyam@sony.com" <Shashank.Mahadasyam@sony.com>
+Cc: Johannes Weiner <hannes@cmpxchg.org>,
+	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
+	Jonathan Corbet <corbet@lwn.net>,
+	"cgroups@vger.kernel.org" <cgroups@vger.kernel.org>,
+	"linux-doc@vger.kernel.org" <linux-doc@vger.kernel.org>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Shinya.Takumi@sony.com" <Shinya.Takumi@sony.com>
+Subject: Re: [PATCH v2 1/3] cgroup, docs: be specific about bandwidth control
+ of rt processes
+Message-ID: <aC3_moeLiTc4x85y@slm.duckdns.org>
+References: <20250520-rt-and-cpu-controller-doc-v2-0-70a2b6a1b703@sony.com>
+ <20250520-rt-and-cpu-controller-doc-v2-1-70a2b6a1b703@sony.com>
+ <aCziA1tUAnnGId6_@slm.duckdns.org>
+ <OSZPR01MB67115CCC104221C27EE63709939EA@OSZPR01MB6711.jpnprd01.prod.outlook.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 9/9] Loadpol LSM: add a minimal documentation
-To: Randy Dunlap <rdunlap@infradead.org>,
- linux-security-module@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org
-References: <20250521140121.591482-1-git@nightmared.fr>
- <20250521140121.591482-10-git@nightmared.fr>
- <ef2d4d13-d8f3-4922-b3ce-54606d733b1b@infradead.org>
-Content-Language: en-US
-From: Simon Thoby <git@nightmared.fr>
-In-Reply-To: <ef2d4d13-d8f3-4922-b3ce-54606d733b1b@infradead.org>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <OSZPR01MB67115CCC104221C27EE63709939EA@OSZPR01MB6711.jpnprd01.prod.outlook.com>
 
+Hello,
 
+On Wed, May 21, 2025 at 01:14:53AM +0000, Shashank.Mahadasyam@sony.com wrote:
+> Hi Tejun,
+> 
+> On 21 May 2025 5:11, Tejun Heo wrote:
+> > > -WARNING: cgroup2 cpu controller doesn't yet fully support the control of
+> > > +WARNING: cgroup2 cpu controller doesn't yet support the (bandwidth) control of
+> >
+> > This reads weird to me. Without the () part, it becomes "doesn't yet support
+> > the control of". Maybe rephrase it a bit more?
+> 
+> I'm not sure how to rephrase it. It sounds fine to me 😅 Moreover, "doesn't
+> yet support the control of" was the wording when the warning paragraph on
+> RT_GROUP_SCHED was added in commit c2f31b79 (cgroup: add warning about RT
+> not being supported on cgroup2). Would removing the parentheses, making it
+> "doesn't yet support the bandwidth control of", sound better?
 
-On 5/21/25 18:26, Randy Dunlap wrote:
-> Hi--
-> 
-> On 5/21/25 7:01 AM, Simon THOBY wrote:
->> Introduce a minimal documentation for Loadpol, presenting the policy
->> format and the two user interfaces: the securityfs policy file and the
->> sysctl.
->>
->> Signed-off-by: Simon THOBY <git@nightmared.fr>
->> ---
->>  Documentation/admin-guide/LSM/Loadpol.rst | 81 +++++++++++++++++++++++
->>  Documentation/admin-guide/LSM/index.rst   |  1 +
->>  2 files changed, 82 insertions(+)
->>  create mode 100644 Documentation/admin-guide/LSM/Loadpol.rst
->>
->> diff --git a/Documentation/admin-guide/LSM/Loadpol.rst b/Documentation/admin-guide/LSM/Loadpol.rst
->> new file mode 100644
->> index 000000000000..0aa24a8d393c
->> --- /dev/null
->> +++ b/Documentation/admin-guide/LSM/Loadpol.rst
->> @@ -0,0 +1,81 @@
->> +.. SPDX-License-Identifier: GPL-2.0
->> +
->> +=======
->> +Loadpol
->> +=======
->> +
->> +Loadpol is a Linux Security Module that enforces a user-provided policy
->> +when decided whether a dynamic module can be loaded or not.
->> +
->> +The policy can be read and rewritten at ``/sys/kernel/security/loadpol/policy``.
->> +
->> +A default policy is created that contains the current list of blacklisted modules,
-> 
-> Where does the current list of blacklisted modules come from?
-> Is it from the kernel command line parameter "module_blacklist=" or
-> somewhere else?
-> 
+You're right. I was thinking about sched_ext not RT. Lemme apply the patch
+as-is.
 
-Correct, it comes from that command line argument.
-It is actually not really necessary to include it in the policy (the kernel blacklist is applied
-prior to the LSM hook, so it will always apply anyway), but I thought it nice to have a "bird view"
-of all the policies that apply that can prevent the load of a kernel module.
+Thanks.
 
->> +and a catch-all entry that allow loading any module.
->> +
->> +Policy format
->> +=============
->> +
->> +The policy is defined as a set of line-separated entries.
->> +Each entry define the conditions for a match (the origin of the load request and
->> +the name of the kernel module), and the action to take when the load request
->> +matches the entry.
->> +
->> +
->> +Entry syntax: ``[origin=(userspace|kernel|kernel,userspace)] [module=<module_name>] action=(allow|deny)``
->> +
->> +There are two matching conditions:
->> +
->> +``origin``:
->> +    Load Requests can come from two origins:
->> +
->> +    * ``userspace`` (ie. a program in userspace called modprobe/insmod)
->                        (i.e.,
-> 
->> +    * ``kernel`` (the kernel requested the module directly by calling
->> +      ``request_module(...)``, e.g. loading a filesystem when performing a
->> +      ``-o loop`` mount).
->> +
->> +    When unspecified, the condition defaults to ``kernel,userspace`` (which means
->> +    that both origins match).
->> +
->> +``module``:
->> +    Name of the kernel module being matched. The name can contain wilcards.
-> 
->                                                                      wildcards.
-> 
->> +    Beware, module aliases do not work!
->> +
-> 
-> 
-
-Thanks for the typos, will fix.
+-- 
+tejun
