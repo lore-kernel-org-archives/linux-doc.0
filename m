@@ -1,58 +1,64 @@
-Received: from sonic308-9.consmr.mail.ne1.yahoo.com (sonic308-9.consmr.mail.ne1.yahoo.com [66.163.187.32])
+Received: from mail-wm1-f65.google.com (mail-wm1-f65.google.com [209.85.128.65])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DE91528001B
-	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 15:58:17 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=66.163.187.32
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2DE9E26F46C
+	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 15:58:45 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.128.65
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747843101; cv=none; b=sUWo4jrrDmozW50qpmUh3i0P+JLK/EYvE+ALlQUaXvAuSGTf6izhF5Uu3nFXCrnsGOL215g+QUEChLxFlygVHf1N+3EIdaKafM28BRES4s1szdt3HVPJhhPW12mOPdxFBXKiGm19ieulcf/vZLSWOL0qCSn520jgxeubi4QqFBw=
+	t=1747843128; cv=none; b=HRvBzxN/UAHJAp/wkj5vuNczcAZIa2/DtgKYK1hHlZjjM/gyXjr+a12KlAhZQdeHrWkViHTRQrvF0ePD0H2SD7VtI0VIQX8IL9SlgzY6vKdwqonuH/+YHtPCgcfOOQdHL4nakrvLcvLPRc0uNF/9uGQApWdYBuAvU4CHEGR1eB4=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747843101; c=relaxed/simple;
-	bh=BGgcqRuU13Vh++D4w49Yy7U8WDceLk5GAUaKFmIp5xw=;
+	s=arc-20240116; t=1747843128; c=relaxed/simple;
+	bh=I9VBBxVFYOrWsTK7GjRldDLctXPPzg+fbuHoTp+4SCk=;
 	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=KASHMoV0kmBRmRXRTR99cGyNTnHFdB7UBWem9nWK6eNYPE3R1KHuxjFfaNIXZJPU4QES9Z06g96M16QZN2oEqc1DIxqpqXGCQlg/kRSl5i6LdtOcGsmLfKmx8HIxHX2x2Hz5ydQ20/tv20sYVr3UCi66XTsZ7ZiCjxmU3MNt8O8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com; spf=none smtp.mailfrom=schaufler-ca.com; dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b=S0fu6bET; arc=none smtp.client-ip=66.163.187.32
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=schaufler-ca.com
-Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=schaufler-ca.com
+	 In-Reply-To:Content-Type; b=sB2jgvk8mYgMgcLDSBw21avZMa1i5ja7VE9RpRPTEL2+v5jZKJdY4hkMX4Ox8br1hO3CbKg+JCBafdE1Vq28UNLY32ae4dOq7KRXsvuThjjbDApnhE+HYDtaKZlohcLMvHdMBhyblWaspigjqKS4Rh5gBRB/Q87p5CDMr7GcEmQ=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org; spf=pass smtp.mailfrom=linaro.org; dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b=h6hrAbYx; arc=none smtp.client-ip=209.85.128.65
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linaro.org
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=linaro.org
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=yahoo.com header.i=@yahoo.com header.b="S0fu6bET"
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1747843091; bh=yOmpglE/0iE5Dkli7Rq/91RmE/Ae1zpfw90UnkxLyJE=; h=Date:Subject:To:Cc:References:From:In-Reply-To:From:Subject:Reply-To; b=S0fu6bETdejpqMv4JHcWzCa79cZQHuedKmEYVnPTXFrltd6ZsW7DFkSQvcSBf4phz5Kxb0/L+AZQ8YmIYZ+7aN/VZ5O7azsL/nlMbkJ5B047Z99SjhW6pUkH4NxW6X4gz6eSEMmXqwCIlW2CU6ksy1X42t2DPgT6+1nbvFVdmF7PSFhcoHFvVQdBcocQcyN72fPt2KX7po35uHBOQva/z8MQ5zdHuYTWaH0aswEMF+kaazMHKo33peelcwO49EzPZBvy4JnAca/NfdVBtNCK9cHMNPj4+QU/mZxU9x0n/etwZxSULAtrxM+DfWrR1aKebONR0x7QcWo2nGzQbAIBfg==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1747843091; bh=xEL2xcipIZ/nfEWIDgCa8hl6nDjfcTzwI8lAQxv236Q=; h=X-Sonic-MF:Date:Subject:To:From:From:Subject; b=It71Y6VNJimnDPF/r3B9rxmuts8Az/ml/M8RyLKaLVA4uDCD9tVU6Jxbw76asMCorfzlVH3PMrriV6LUoEJJxQNwTwfX5dTbYJk1rtroiWKoUAQwf7Pm5FlHSZ6Vgmhvb308iaOdBhexwcGcj9SVCW+4EGRzKEZnfF0ajreXXKtQ0/+/oknIxw/jvubKIFOL87TAfxwuzlvCOreRyng3yvNxR4HNQgRg76YRpZf9wh9zoobRtpLzuOWoY6tAudN0vSRMvHF57uEJv6jMKHT56AUt6OZ+Y641GIj0Wt9f9OBmHwVHZVFSwhu3BHYf6yS/MuopHkNq8Dv5RGQj68fugQ==
-X-YMail-OSG: clByqJoVM1moRTe52CSJ83UXr1yauiFENOkLifcwnyG6f5cKkKdfmnpo9yqeNfA
- 6nAaknoo9mJJ4syusfV9q9BDEQih1IRYInV9PzewRbmc0icvU1.MEuIq7vkhxTNtxX23iyvnjAbM
- nNUO7IHJJ4gjtygdnPh_6QqLolqs2qWyXKowwJ9MM8kOq7mWQHXyxoWb7usWB0Robx11v3Qax5TI
- 6Gn2dKIVv06XFi52FyIFHE8p8nAqh2GEWxmatPtMm6XygnaFVA7F5fDtVjvs5tjtv_IkdZePsC.l
- mrDiHYIa82zVo.zPdwKxblTk0ofs2JREbuGaFXK7.mQIKLIn4uodfpZrzfMg3cVSNS8UH7DiMuKS
- AWhWmQJzBNDUucyi0MmEKM8_OE4QVZo67hvInHNLNlKs7QwpMU23Nrc0KDzpBuamRbXP9e.8fwnm
- Faqu2YZpRi2Ho6cXVWScZOKveXFXnitMWdhYPNwdVQAoHW8C.ZjBLdeN60mtjmUaG_oLr7NodEof
- 6us2vWafytDEB_A8wMx.VfzLGa8SczM6cq7kIOr2VtGbOeHAFfRoV37FVWLrADBFaIn4zo4wRoI7
- A41Mz5kreczCDBq8SEwlhb17PQqq5XIyzfnth3HO9QOaUS.B.MoeFHwT8i0uRTq21RB1LOqkokVI
- 6QbyNkiEBIwnElisPFPYMGF8jVE1LfelNkvnVvMcMqndziBC8aYzRrf6E35dq9d7NbFMUEOTa1YM
- pFZs8N90cdl5JJctOlee9g5GaWxRYaXeondJlvGfqnzevQfMhqdWjH20js6GvEQRf1NHnkdmEIr7
- RgARLH9OsS__.FZEaKyV_oanjgX.Tky79SdYASgoTCUkoWzTCPvRYtbgP8qMTT4c.Psjojr_HXAb
- VeJmIbAu_tCUiizFzcX8D5rM9PSzzVtklzW3JU31E40Z42vi0uFBHBq67k3rqnYCKzJ53iYrNxTk
- 9_as4N.dJ8BpJ0kKr8vAwYeVzGmRc60TVpUI8Ig5PE5R7a9J_VZutv9DYrfh3ZW.xWJ7xiS.ztPE
- UYs1.yX3pS0wvQr8hagSzSty4AK_4ettxb22xZP58Oi01UNfqHlmIGnNo0qRK2J_WiuKyYDwZUev
- iAwL5kg0F4LjJpmmtcIi8H_hZU4egIftqzZQCdssWrrDdmyRfADSdMVz7ZOsXu8.9cLbLh1J4LcA
- gUqpkVVvMmQNuQYroQuiB2.TADdG5W9Jlf8ZvlmK0rVqL.alCa0fwYbklrc8sunjCjm4eRjrUNeS
- Aw9fSxPlMQsXkUE_7TA7Zu7O4HeJZHXdksnRFvi4SYQvtA7oahSGJT8pHSVirW0ZkM32StU0gHHq
- uTAEjl56ZFlcGILdF2KdODAugxcJHFmSZpQ9AaBw7aimLegYhfPlFapKvHINjwWGdjnfsoUVAZUy
- VIAEBocBxUUJQvK5EAqUJJ9e2o1x0JL43dk5yrISZbbBm5W6WGhi2baKsfawiUUhy41b1RTMpcvE
- ZG9T0fA4XMjNKdZ6roYlb7FTtruxC0lgcpuQsmLc6557LUZEYf2AX2pt4snGEN8pZFyKArcYZuEk
- 0JIi8HHzwWZojxJL43oZpLwTypzQobksA1qce_kHBucMWf0QK2DnRfCUh6XFUV.X9bV6FombXx9H
- qCnvlnXpzDQHDxpk9w.Ejzwq9Jpn3vv4FCDYwxVuWgroY_n0dU2WgF5XrKXFAUeDYLtolS1zvrpA
- mH99Cp4Rntdy0J6gvTyKET2CtGCP8aNB2o3uPWAYSNP1VQWHfJje_femBOh9nceG6GQOAt3HR2RI
- zi8Amj_vr9zi0C4MeW0Mtq3ZSSnQ3GB9JC8Sjx0FRfZFMzheE4nV5NbsV2lP1Z.flZTs15bpbmTr
- XajYhaOLQW69bTpVGEF.orx1rHSRmWil4kkHy3UgZLc4rQlef.Psh3f9EBumCjgcHpEDDpgHD_ay
- KgFuHUVx4W2a5h9O8_VfxJAgeJ0xIN.gqN3aqiY1A2vAEd758VzJT.6bswfymfTpsLdRZHBjzNya
- TcvKSxpRqTjXtzxTH8xCF7jFm
-X-Sonic-MF: <casey@schaufler-ca.com>
-X-Sonic-ID: b8629f42-b60d-43ff-9800-f898e860a3c8
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic308.consmr.mail.ne1.yahoo.com with HTTP; Wed, 21 May 2025 15:58:11 +0000
-Received: by hermes--production-gq1-74d64bb7d7-x7xzm (Yahoo Inc. Hermes SMTP Server) with ESMTPA ID ee12a9316542bcda0cf8edd5de5dde10;
-          Wed, 21 May 2025 15:48:01 +0000 (UTC)
-Message-ID: <518c8bdd-4f73-4b8b-bdb9-be3294723c99@schaufler-ca.com>
-Date: Wed, 21 May 2025 08:47:59 -0700
+	dkim=pass (2048-bit key) header.d=linaro.org header.i=@linaro.org header.b="h6hrAbYx"
+Received: by mail-wm1-f65.google.com with SMTP id 5b1f17b1804b1-43cfdc2c8c9so42770845e9.2
+        for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 08:58:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google; t=1747843124; x=1748447924; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=7jGMaRN9DTvk91Wh6QyGZY6sK/KJmkltlvMirfVWYJg=;
+        b=h6hrAbYxPLcQy8VKLANuehUMWTeH3kchwwt/Ziv7rjzpaLz/DEp8cQE8torhel0Qvz
+         Ob1lje5u0MZG/Uw7QWb/IaH2BnyuIhzYiAAa3KvUlOd53MAlb7Crxa5NiWPrWfhz8MUP
+         GsPJoBEIDSFZDw0uziIZPzR7g17niLjHxy7Q7ns/mRQhdTXW9ZlO8ELHny+RkGDpW3jw
+         u5gLLJ47LnDjKF2gEUwQQr+GE4wWUNxrmo+uXn9zZGoDcJrbwziJPsqLeqINhhuwZOL+
+         gxGqYOY93xiGMP43iLx6MMCW9dfG21kiiISGi19UXE5jXQzbUkx0xVAIH+pXLOhkAHkz
+         WPpA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747843124; x=1748447924;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=7jGMaRN9DTvk91Wh6QyGZY6sK/KJmkltlvMirfVWYJg=;
+        b=AOsMqlybu8F3ZK1EhzLveN/+oMHcYvOVt12S6UtTxpFL2e6oOEk8Yfdsb94eVkaH1G
+         anjaaUfh9GtXW0afr/PUIyBbf4ba1Lhv1KErpt7mdP23eyECGtWN3+UCASpQ/CSfbfxW
+         C9v+6wgF+OnA/3OCmJo0RkblaXVLBIY9MP/eAn+lPHIdeY756wu3YVB9tzG/SDszaTvG
+         /6tUAWIZI2cqvv5nsKJf1YXGyyxuN0ljztUeA3euKL5DIl2jiE1eacZx/VeTWrj+pccf
+         fyT7x6RrSNrbRFxKdppOiJx/Imqb+kESuONnVUoyWDcjBmz+0b4qjinOOsVHa+y4DI8r
+         T1gA==
+X-Forwarded-Encrypted: i=1; AJvYcCXOtpEtwAP/4w6KY6+vI9xZKiWrKRTk0rHiZcqo0fTDzy326CburigUFQxwP1Bcak3+uWNoq9VcoZQ=@vger.kernel.org
+X-Gm-Message-State: AOJu0YzHRnIytF4VvfLYK4eJvcbINfHtnRrSIsaZTfLdIRonGxpvaYtP
+	1EsriD6x5+MnAl2CmVPqdEsVIl5Lnk8KrNRcSeGHXN5cyANwZngKH5JuIAaRWlRkvH0=
+X-Gm-Gg: ASbGnctEK4vPlNtUDSdSh/Ou0kq5Md2u3VprENxfcCsR05o+kR76TYwsoqC8DN8+2Sx
+	cDu6lbWUCTWx4rBf/IrRUfEPmCUX7QXp7y71BZ63DCX/++DK2SS5GpLMKgoh9UabyRdxukzTsaN
+	vPVv2Wr+wVUxA7m1wm5WGy8K2034lGn+NJDfhcMA0VARMyO0Br323DYvK+e2ZrcJFEKasf4drzA
+	+f9GuV/77sSs3rQ7i1yGRXLGAYZIbGmJHRyUAyQ+9LQozRR+vdii9AVLDdU/nKHHFxWZhG/ecgn
+	KaOuuy/MjvLH0Lg9FMYaxHSQp8I3LzTIXCCdhi9K4/Q3ByB7tJdF2SY+eKz4npJK/Ak=
+X-Google-Smtp-Source: AGHT+IE94Qc/sbvf18GBZCQv3ZQ8s8ZqdtBvtnfrv3gSKGcbnewhx8YlU5QP8S7QSIUDnlJDrBopzQ==
+X-Received: by 2002:a05:600c:34c4:b0:43c:ee62:33f5 with SMTP id 5b1f17b1804b1-442fd6752e7mr217340645e9.27.1747843124389;
+        Wed, 21 May 2025 08:58:44 -0700 (PDT)
+Received: from [192.168.1.3] ([37.18.136.128])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-3a35ca4d2ddsm19933864f8f.7.2025.05.21.08.58.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 May 2025 08:58:44 -0700 (PDT)
+Message-ID: <119c9a70-6ea8-46f0-b877-8a433d97ce84@linaro.org>
+Date: Wed, 21 May 2025 16:58:42 +0100
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -60,190 +66,73 @@ List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 User-Agent: Mozilla Thunderbird
-Subject: Re: [RFC PATCH 3/9] Loadpol LSM: filter kernel module request
- according to the policy
-To: Simon THOBY <git@nightmared.fr>, linux-security-module@vger.kernel.org
-Cc: linux-integrity@vger.kernel.org, linux-doc@vger.kernel.org,
- Casey Schaufler <casey@schaufler-ca.com>
-References: <20250521140121.591482-1-git@nightmared.fr>
- <20250521140121.591482-4-git@nightmared.fr>
+Subject: Re: [PATCH v21 4/4] perf: arm_pmuv3: Add support for the Branch
+ Record Buffer Extension (BRBE)
+To: Rob Herring <robh@kernel.org>, Will Deacon <will@kernel.org>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+ Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
+ Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
+ Joey Gouly <joey.gouly@arm.com>, Suzuki K Poulose <suzuki.poulose@arm.com>,
+ Zenghui Yu <yuzenghui@huawei.com>,
+ Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>,
+ linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
+ linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
+ kvmarm@lists.linux.dev
+References: <20250407-arm-brbe-v19-v21-0-ff187ff6c928@kernel.org>
+ <20250407-arm-brbe-v19-v21-4-ff187ff6c928@kernel.org>
+ <20250519150621.GA17177@willie-the-truck>
+ <20250519215651.GB2650608-robh@kernel.org>
 Content-Language: en-US
-From: Casey Schaufler <casey@schaufler-ca.com>
-In-Reply-To: <20250521140121.591482-4-git@nightmared.fr>
-Content-Type: text/plain; charset=UTF-8
+From: James Clark <james.clark@linaro.org>
+In-Reply-To: <20250519215651.GB2650608-robh@kernel.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Mailer: WebService/1.1.23840 mail.backend.jedi.jws.acl:role.jedi.acl.token.atz.jws.hermes.yahoo
 
-On 5/21/2025 7:01 AM, Simon THOBY wrote:
-> When a kernel module is loaded, the LSM accepts or rejects the demand
-> according to its policy.
->
-> Signed-off-by: Simon THOBY <git@nightmared.fr>
-> ---
->  security/loadpol/Makefile         |  2 +-
->  security/loadpol/loadpol.c        | 22 ++++++++++++
->  security/loadpol/loadpol.h        | 27 ++++++++++++++
->  security/loadpol/loadpol_policy.c | 59 +++++++++++++++++++++++++++++++
->  4 files changed, 109 insertions(+), 1 deletion(-)
->  create mode 100644 security/loadpol/loadpol_policy.c
->
-> diff --git a/security/loadpol/Makefile b/security/loadpol/Makefile
-> index a794c8cfbfee..062215e1f831 100644
-> --- a/security/loadpol/Makefile
-> +++ b/security/loadpol/Makefile
-> @@ -1 +1 @@
-> -obj-$(CONFIG_SECURITY_LOADPOL) := loadpol.o
-> +obj-$(CONFIG_SECURITY_LOADPOL) := loadpol.o loadpol_policy.o
-> diff --git a/security/loadpol/loadpol.c b/security/loadpol/loadpol.c
-> index 3fc29263e2f8..4d1a495a1462 100644
-> --- a/security/loadpol/loadpol.c
-> +++ b/security/loadpol/loadpol.c
-> @@ -6,6 +6,15 @@
->  
->  #include "loadpol.h"
->  
-> +// default policy: allow all modules
-> +static struct loadpol_policy_entry default_policy_entries[] __ro_after_init = {
-> +	{
-> +		.origin = (ORIGIN_KERNEL | ORIGIN_USERSPACE),
-> +		.action = ACTION_ALLOW,
-> +		.module_name = NULL,
-> +	},
-> +};
-> +
->  static int __init loadpol_init(void);
->  
->  static const struct lsm_id loadpol_lsmid = {
-> @@ -14,6 +23,7 @@ static const struct lsm_id loadpol_lsmid = {
->  };
->  
->  static struct security_hook_list loadpol_hooks[] __ro_after_init = {
-> +	LSM_HOOK_INIT(kernel_module_load, loadpol_kernel_module_load),
->  };
->  
->  DEFINE_LSM(LOADPOL_NAME) = {
-> @@ -23,6 +33,18 @@ DEFINE_LSM(LOADPOL_NAME) = {
->  
->  static int __init loadpol_init(void)
->  {
-> +	for (int i = 0; i < ARRAY_SIZE(default_policy_entries); i++) {
-> +		struct loadpol_policy_entry *entry = kmemdup(
-> +			&default_policy_entries[i],
-> +			sizeof(struct loadpol_policy_entry),
-> +			GFP_KERNEL
-> +		);
-> +		if (!entry)
-> +			return -ENOMEM;
-> +
-> +		list_add_tail(&entry->list, loadpol_policy);
-> +	}
-> +
->  	security_add_hooks(loadpol_hooks, ARRAY_SIZE(loadpol_hooks), &loadpol_lsmid);
->  	pr_info("Loadpol started.\n");
->  	return 0;
-> diff --git a/security/loadpol/loadpol.h b/security/loadpol/loadpol.h
-> index 5e11474191f0..a81d52f6d4da 100644
-> --- a/security/loadpol/loadpol.h
-> +++ b/security/loadpol/loadpol.h
-> @@ -3,6 +3,33 @@
->  #ifndef _SECURITY_LOADPOL_LOADPOL_H
->  #define _SECURITY_LOADPOL_LOADPOL_H
->  
-> +#include "linux/list.h"
-> +
->  #define LOADPOL_NAME "loadpol"
->  
-> +enum policy_entry_origin {
-> +	ORIGIN_KERNEL = 1 << 0,
-> +	ORIGIN_USERSPACE = 1 << 1,
-> +};
-> +
-> +enum __packed policy_entry_action {
-> +	ACTION_UNDEFINED,
-> +	ACTION_ALLOW,
-> +	ACTION_DENY
-> +};
-> +
-> +struct loadpol_policy_entry {
-> +	struct list_head list;
-> +	// bitfield of policy_entry_origin
 
-The // comment style is not used in the kernel.
 
-> +	u8 origin;
-> +	enum policy_entry_action action;
-> +	// when NULL, the policy apply to every module
-> +	char *module_name;
-> +};
-> +
-> +extern struct list_head __rcu *loadpol_policy;
-> +
-> +// evaluate if a kernel module called 'kmod' is allowed to be loaded in the kernel
-> +int loadpol_kernel_module_load(const char *kmod);
-> +
->  #endif /* _SECURITY_LOADPOL_LOADPOL_H */
-> diff --git a/security/loadpol/loadpol_policy.c b/security/loadpol/loadpol_policy.c
-> new file mode 100644
-> index 000000000000..6ba5ab600e3e
-> --- /dev/null
-> +++ b/security/loadpol/loadpol_policy.c
-> @@ -0,0 +1,59 @@
-> +// SPDX-License-Identifier: GPL-2.0-only
-> +
-> +#include "linux/rculist.h"
-> +#include <linux/sched.h>
-> +#include <linux/sysctl.h>
-> +#include <linux/parser.h>
-> +
-> +#include "loadpol.h"
-> +
-> +/*  use A/B policy entries: switch from one to the next every time the policy get overwritten */
-> +static LIST_HEAD(loadpol_policy_a);
-> +static LIST_HEAD(loadpol_policy_b);
-> +struct list_head __rcu *loadpol_policy = (struct list_head __rcu *)(&loadpol_policy_a);
-> +
-> +int loadpol_kernel_module_load(const char *kmod)
-> +{
-> +	struct task_struct *parent_task;
-> +	struct loadpol_policy_entry *entry;
-> +	struct list_head *policy_list_tmp;
-> +	enum policy_entry_origin orig = ORIGIN_USERSPACE;
-> +	bool allowed = false;
-> +
-> +	rcu_read_lock();
-> +	parent_task = rcu_dereference(current->parent);
-> +	/* the parent of the current task is a workqueue -> the request comes from the kernel */
-> +	if (parent_task && (parent_task->flags & PF_WQ_WORKER))
-> +		orig = ORIGIN_KERNEL;
-> +	rcu_read_unlock();
-> +
-> +	pr_debug("Loadpol: trying to load '%s' (asked by %s)",
-> +		 kmod,
-> +		 orig == ORIGIN_KERNEL ? "kernel" : "userspace");
-> +
-> +	rcu_read_lock();
-> +	policy_list_tmp = rcu_dereference(loadpol_policy);
-> +	list_for_each_entry_rcu(entry, policy_list_tmp, list) {
-> +		/* the requestor does not match */
-> +		if ((orig & entry->origin) == 0)
-> +			continue;
-> +
-> +		allowed = entry->action == ACTION_ALLOW;
-> +
-> +		if (!entry->module_name)
-> +			goto unlock_and_exit;
-> +
-> +		if (entry->module_name && match_wildcard(entry->module_name, kmod))
-> +			goto unlock_and_exit;
-> +	}
-> +
-> +	/* No match -> reject the demand */
-> +	allowed = false;
-> +
-> +unlock_and_exit:
-> +	rcu_read_unlock();
-> +
-> +	pr_debug("Loadpol: load of module '%s' %s", kmod, allowed ? "allowed" : "blocked");
-> +
-> +	return allowed ? 0 : -EPERM;
-> +}
+On 19/05/2025 10:56 pm, Rob Herring wrote:
+> On Mon, May 19, 2025 at 04:06:22PM +0100, Will Deacon wrote:
+>> Hey Rob,
+>>
+>> On Mon, Apr 07, 2025 at 12:41:33PM -0500, Rob Herring (Arm) wrote:
+>>> From: Anshuman Khandual <anshuman.khandual@arm.com>
+>>>
+>>> The ARMv9.2 architecture introduces the optional Branch Record Buffer
+>>> Extension (BRBE), which records information about branches as they are
+>>> executed into set of branch record registers. BRBE is similar to x86's
+>>> Last Branch Record (LBR) and PowerPC's Branch History Rolling Buffer
+>>> (BHRB).
+>>
+>> Since you picked this up from v19, the driver has changed considerably
+>> and I presume you will be continuing to extend it in future as the
+>> architecture progresses. Perhaps having you listed as Author (and
+>> crucially, in git blame :p) with Anshuman as a Co-developed-by: would be
+>> more appropriate?
+> 
+> Shrug.
+> 
+>>> ---
+>>>   drivers/perf/Kconfig         |  11 +
+>>>   drivers/perf/Makefile        |   1 +
+>>>   drivers/perf/arm_brbe.c      | 802 +++++++++++++++++++++++++++++++++++++++++++
+>>>   drivers/perf/arm_brbe.h      |  47 +++
+>>>   drivers/perf/arm_pmu.c       |  15 +-
+>>>   drivers/perf/arm_pmuv3.c     | 129 ++++++-
+>>>   include/linux/perf/arm_pmu.h |   8 +
+>>>   7 files changed, 1006 insertions(+), 7 deletions(-)
+>>
+>> Do you know if James Clark's tests [1] are going to be respun for the
+>> perf tool? It would be handy to have some way to test this new
+>> functionality.
+> 
+> Yes. I dropped them here because I've been told by Arnaldo in the past
+> to send userspace stuff separately.
+> 
+
+That version of the test was out of date so I've pushed the new version 
+here: 
+https://git.linaro.org/plugins/gitiles/people/james.clark/linux.git/+/16e4a18c2d5fc53736f05c9052b1d11d74909707
+
+But I'll wait for the driver changes to be finalised before posting it. 
+Or Rob can take it back into the patchset.
+
