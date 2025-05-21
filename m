@@ -1,47 +1,64 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.10])
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.9])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 62B37259C8B;
-	Wed, 21 May 2025 09:58:51 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.10
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 5DC8422B59D;
+	Wed, 21 May 2025 10:04:49 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.9
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747821533; cv=none; b=AVfJ02acA9+X1T/Nq1PRj18UfCpT9MO93Af6fkzV308olKhxUKXIuTrKhhf1bxO0RiA39rqUAa0Zx64LTdLQKRSOo2/DHttj4LZ/tJBv/mnjxdF0E0r+zPWiwlY+aKzbSjURG932uXGPUpyWWSvBFtmKYvf2frBni/4iVX8SUqE=
+	t=1747821891; cv=none; b=NQFb4GRVQyo08YyPAwyTWj3+pQFxHwtHNI3tGGQUBghb3hYu5vWYf+H0JCfNyUzMjJPrAiz7rk2gGnAtmJhh2XoyKvkaeGzyBhXEP2NTfE/8mN3hvtCdywuaWa6bhpuPc2h/noRDR3uZHrVy6lW33T7p/H67zL7SH7kPzwn7ZfA=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747821533; c=relaxed/simple;
-	bh=/AEdO5xOOYcRYmyslAG1dnL4NyVxYBFOODoOflYKuK0=;
+	s=arc-20240116; t=1747821891; c=relaxed/simple;
+	bh=vS/+CTtAxwz4y5synzPvLNW2wyjb4MRW5uQRuO6Y8rk=;
 	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=a+fB6bXoC2TEaIQlVseMr92nki7wvrMoEG902DUEXyZHZ9Sz+XSiCvTWh+rqu9rGPrIiFbGtljLaTQqXhZtsAWrNRGohSwGVo6meFS3BMOp3xEzkZR/XPV2mVUHqPHCMNK6kF5uHuaQD4rhNtxnC9LrUeVMq/fOOHmlJNTeMeBE=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.10
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: cfYk2Vp+Sa2LC7O3R2JZOw==
-X-CSE-MsgGUID: LIRdZfzOQZaz5ES8IGKZqw==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="67204643"
+	 Content-Type:Content-Disposition:In-Reply-To; b=BKR1L+MTSwQIW+Yp/NnIrcKqbDNnC4AUsPJGkFBqTOVzDWSSp3SBchPoitKCXsowmhQQSjDLqMbyV/bfYh0+CTD+b2wHwfjqNnFoJXgf57Et/8aLXv7D0dxcOxXdNxLvDV3kU9T4fOoifT00i6BYkcr0o1eV7eGyxMSI0g9YcHo=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com; spf=none smtp.mailfrom=linux.intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=EXDFqe+h; arc=none smtp.client-ip=198.175.65.9
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux.intel.com
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="EXDFqe+h"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747821889; x=1779357889;
+  h=date:from:to:cc:subject:message-id:references:
+   mime-version:in-reply-to;
+  bh=vS/+CTtAxwz4y5synzPvLNW2wyjb4MRW5uQRuO6Y8rk=;
+  b=EXDFqe+huKSq3+YzwunSOrBmWjzov53z75CG4jLZ/D42jXDIfg8h70rj
+   oTN/g+L+nSzozocrws/fwrxJPHpDmZm+irqq7N1JtvglZCSpJxhjWHne8
+   m1xUePiETAi3KG4TQfPNGcUWtWjMWcA0baD33uytOUzklNMSRbUWe/ntG
+   pcYMAbMjqdSVEiaKN6Vfi1B3rNUmjRnHgyZqriKEeOAeBTrr98vMMkEvT
+   la7BkRu4iQ+UHF2fP2Ei6fL94nr0JVtOo9OblZ1JKYMJJvEjCpgyrUUdQ
+   5h8IbMBmkl2zEs8zx3SmR7g+l/C4q2HGhrSW0a2YDPDRfVgc6QkIYBr/o
+   g==;
+X-CSE-ConnectionGUID: XFNIBfztRPiCbMHPC1Hv3w==
+X-CSE-MsgGUID: cxDjEG7wS3m35VCEFqBNHQ==
+X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="72310778"
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="67204643"
-Received: from fmviesa002.fm.intel.com ([10.60.135.142])
-  by orvoesa102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 02:58:51 -0700
-X-CSE-ConnectionGUID: SQjm8CQ8T4edxqW5+apF5g==
-X-CSE-MsgGUID: AOY/iVoNSRGkWPmzoGkpBQ==
+   d="scan'208";a="72310778"
+Received: from orviesa002.jf.intel.com ([10.64.159.142])
+  by orvoesa101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 03:04:48 -0700
+X-CSE-ConnectionGUID: OynbmfR/QG+ZTFFoHm4ydg==
+X-CSE-MsgGUID: nXHpVQeXTpuHGq8bWViLtA==
 X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="163272720"
+   d="scan'208";a="170865893"
 Received: from smile.fi.intel.com ([10.237.72.52])
-  by fmviesa002.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 02:58:48 -0700
+  by orviesa002.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 03:04:46 -0700
 Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy@kernel.org>)
-	id 1uHgDl-00000003a2x-1YlF;
-	Wed, 21 May 2025 12:58:45 +0300
-Date: Wed, 21 May 2025 12:58:45 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
-	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v1 09/12] iio: accel: adxl313: add activity sensing
-Message-ID: <aC2j1U11BqkDn2II@smile.fi.intel.com>
-References: <CAFXKEHavquk_oyhMpkawkKUwnfNA_eFWH5XYFsZQkM1_-Rh6Vg@mail.gmail.com>
+	(envelope-from <andriy.shevchenko@linux.intel.com>)
+	id 1uHgJX-00000003a8o-1UET;
+	Wed, 21 May 2025 13:04:43 +0300
+Date: Wed, 21 May 2025 13:04:43 +0300
+From: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>,
+	linux-doc@vger.kernel.org,
+	Nicolas Schier <nicolas.schier@linux.dev>,
+	Stephen Rothwell <sfr@canb.auug.org.au>,
+	Randy Dunlap <rdunlap@infradead.org>, linux-kbuild@vger.kernel.org,
+	linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Some kernel-doc fixes
+Message-ID: <aC2lO7g_x6oTLYDA@smile.fi.intel.com>
+References: <cover.1747817887.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
@@ -50,146 +67,51 @@ List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFXKEHavquk_oyhMpkawkKUwnfNA_eFWH5XYFsZQkM1_-Rh6Vg@mail.gmail.com>
+In-Reply-To: <cover.1747817887.git.mchehab+huawei@kernel.org>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 
-On Tue, May 20, 2025 at 10:25:03PM +0200, Lothar Rubusch wrote:
-> > On Sun, May 18, 2025 at 11:13:18AM +0000, Lothar Rubusch wrote:
-
-...
-
-> > > +static int adxl313_set_act_inact_en(struct adxl313_data *data,
-> > > +                               enum adxl313_activity_type type,
-> > > +                               bool cmd_en)
-> > > +{
-> > > +   unsigned int axis_ctrl = 0;
-> > > +   unsigned int threshold;
-> > > +   bool en;
-> > > +   int ret;
-> > > +
-> > > +   if (type == ADXL313_ACTIVITY)
-> > > +           axis_ctrl = ADXL313_ACT_XYZ_EN;
-> > > +
-> > > +   ret = regmap_update_bits(data->regmap,
-> > > +                            ADXL313_REG_ACT_INACT_CTL,
-> > > +                            axis_ctrl,
-> > > +                            cmd_en ? 0xff : 0x00);
-> > > +   if (ret)
-> > > +           return ret;
-> > > +
-> > > +   ret = regmap_read(data->regmap, adxl313_act_thresh_reg[type], &threshold);
-> > > +   if (ret)
-> > > +           return ret;
-> >
-> > > +   en = false;
-> >
-> > Instead...
-> >
-> > > +   if (type == ADXL313_ACTIVITY)
-> > > +           en = cmd_en && threshold;
-> >
-> >       else
-> >               en = false;
-> >
-> > > +   return regmap_update_bits(data->regmap, ADXL313_REG_INT_ENABLE,
-> > > +                             adxl313_act_int_reg[type],
-> > > +                             en ? adxl313_act_int_reg[type] : 0);
-> > > +}
+On Wed, May 21, 2025 at 11:02:12AM +0200, Mauro Carvalho Chehab wrote:
+> Hi Jon,
 > 
-> The above is a good example for the following. From time to time, I face
-> the situation in a function where I'd like to end up with something like
+> That's the third version of the kernel-doc fixup patch series.
 > 
->     if (foo = A) {
->         var = thenDoA();
->     } else {
->         var = thenDoB();
->     }
->     doSomething(var);
+> It address the root cause why Sphinx logger was not working: there
+> was a call there for logger.verbose(). According with:
 > 
-> In a first patch I'll introduce only the following and remark in the
-> commit message, that this will be extended. Since smatch/sparse tool
-> will complain, I'll need to fiddle around with initializations
-> (becoming obsolete in the end), e.g. I'll end up with something like
-> this in a first patch A:
+> 	https://www.sphinx-doc.org/en/master/extdev/logging.html
 > 
->     var = nonsense;
->     if (foo = A) {
->         var = thenDoA();
->     }
->     doSomething(var);
+> This is a valid call, but it doesn't verbose messages. Instead, it is
+> crashing with modern Sphinx versions, causing the log to not work.
 > 
-> This is the case for switch(type) case IIO_...MAG: as only type (for
-> now). This is the case for this is_act_inact_enabled(),
-> set_act_inact(), etc.
+> I got rid of it, replacing by logger.info().  I took the time to also
+> address an issue pointed by Andy: not having the same log message
+> placed everywhere. With such change, we can keep using Sphinx
+> logger (which produces colored messages) inside kernel-doc
+> classes.
 > 
-> I assume it's better to simplify each commit individually and don't
-> leave the "churn" around which might make sense in combination with a
-> follow patch? Is this a general approach I should follow?
-
-I believe so.
-
-> Or, can it be legitimate to just split an if/else and add if-clause in
-> a patch A and the else clause in the other patch B, since both are
-> probably actually not complex. Such that patch A for itself looks a
-> bit odd, but will make sense together with patch B?
-
-Yes, but just make sure the each of the patches (after being applied) give the
-plausible result.
-
-...
-
-> > > +static int adxl313_read_event_config(struct iio_dev *indio_dev,
-> > > +                                const struct iio_chan_spec *chan,
-> > > +                                enum iio_event_type type,
-> > > +                                enum iio_event_direction dir)
-> > > +{
-> > > +   struct adxl313_data *data = iio_priv(indio_dev);
-> >
-> > > +   bool int_en;
-> >
-> > Why? You return the int here... I would expect rather to see unsigned int...
-> >
-> > > +   int ret;
-> > > +
-> > > +   switch (type) {
-> > > +   case IIO_EV_TYPE_MAG:
-> > > +           switch (dir) {
-> > > +           case IIO_EV_DIR_RISING:
-> > > +                   ret = adxl313_is_act_inact_en(data,
-> > > +                                                 ADXL313_ACTIVITY,
-> > > +                                                 &int_en);
-> > > +                   if (ret)
-> > > +                           return ret;
-> > > +                   return int_en;
-> >
-> > ...or even simply
-> >
-> >                       return adx1313...(...);
-> >
-> > > +           default:
-> > > +                   return -EINVAL;
-> > > +           }
-> > > +   default:
-> > > +           return -EINVAL;
-> > > +   }
-> > > +}
+> With that, we have:
 > 
-> This one here is interesting, to my understanding I followed here e.g.
-> the approach of the ADXL380 which is supposed to be a quite recent
-> driver [the _read/write_event_config() there.]
-
-> Now, your remark made me think: I'm unsure, can I actually I implement
-> the following approach here?
-> - return >0 : true
-
-=1, but yes. We have plenty of functions like this in the kernel.
-
-> - return =0 : false
-> - return <0 : error
+> Patch 1:	makes Lore and kernel-doc ML receive patches related
+> 	to kernel-doc.py and get_abi.py.
+> Patch 2:	cleanup try/except logic and get rid of logger.verbose();
+> Patch 3:	fix a KeyError when trying to acess data from non-existing files;
 > 
-> It seems to work (unsure about the  error cases, though),
-> but much cleaner and simpler! I'll send that in v2,
-> pls let me know if I missunderstood you.
+> If you test just patch 1 on the top of next-20250516, you'll see the
+> keyerror message (in red):
+> 
+> 	ERROR: Cannot find file ./drivers/gpio/gpiolib-acpi.c
+> 	ERROR: Cannot find file ./drivers/gpio/gpiolib-acpi.c
+> 	WARNING: kernel-doc './scripts/kernel-doc.py -rst -enable-lineno -export ./drivers/gpio/gpiolib-acpi.c' processing failed with: KeyError('./drivers/gpio/gpiolib-acpi.c')
+> 
+> And the script doesn't crash anymore. After patch 2, the try/except
+> warning gets replaced by a proper message:
+> 
+> 	ERROR: Cannot find file ./drivers/gpio/gpiolib-acpi.c
+> 	ERROR: Cannot find file ./drivers/gpio/gpiolib-acpi.c
+> 	WARNING: No kernel-doc for file ./drivers/gpio/gpiolib-acpi.c
+
+Sounds reasonable to me.
+Acked-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
 -- 
 With Best Regards,
