@@ -1,135 +1,92 @@
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.19])
+Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id E03CC25A2C7;
-	Wed, 21 May 2025 10:16:16 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=198.175.65.19
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 708FC23D285;
+	Wed, 21 May 2025 10:19:39 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747822579; cv=none; b=EeW9mjueRlJVpFefOUhvLxpnNfID+z4gIKw6z128Z5oU8ItR39XbuZ/e9wUasgEskQdPU+/g3orRmjWvs8IUGfV3vbDO7mFw62I/QvLgi5249JlNMwqkfunNDemH0iAdz4ODY2tOCCT7MPYDCdIlUkgLQ2PjTGFaiHq1ds1qClY=
+	t=1747822781; cv=none; b=jdBZvBQDlAacb8Rm9B6PfCTPUC5On8PYH4DwQZt29zgkmRF8prGFyTFgRisrpgcDwluF/X9Kbewl4qtCGkajpDZCm6rYafbXIM6heU7TcNbQBw/LbocMPbsMrRR2YyVvkTmFB001dxyJLKk9JUCZwHk+6OfudKvu7nHHZk8SuOE=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747822579; c=relaxed/simple;
-	bh=6T1QUc/amUE5rsNgEE10e/znSfETAyKzzFtKKUT26m0=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=Nt+qgXFpuhtGqO4xlIiNSDK5Cpai9I1qUaY3wnSgzTSLGWWJrk2hYAkDiC/yoLcxhDjQZx1UzYpd3v7kYQ29Q09vAZLmnxyLSSKJ4kNWzIhB0wvZK49VQExEeeCHhSa0gYxx4gN+yYKiZSSbD9fmP/Bwjnf0hvlWbaFbdvnY5oo=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org; spf=fail smtp.mailfrom=kernel.org; arc=none smtp.client-ip=198.175.65.19
-Authentication-Results: smtp.subspace.kernel.org; dmarc=fail (p=quarantine dis=none) header.from=kernel.org
-Authentication-Results: smtp.subspace.kernel.org; spf=fail smtp.mailfrom=kernel.org
-X-CSE-ConnectionGUID: 2ow+Ga8wT1eXx7zNMU8Auw==
-X-CSE-MsgGUID: HBFHxumzSmuthN6rNTvMhg==
-X-IronPort-AV: E=McAfee;i="6700,10204,11439"; a="49667007"
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="49667007"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa111.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 03:16:06 -0700
-X-CSE-ConnectionGUID: BXhdV1A+QI2fjeweGsmcRA==
-X-CSE-MsgGUID: rNvr0/6OSvCAuxoonGGq5g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.15,303,1739865600"; 
-   d="scan'208";a="140937255"
-Received: from smile.fi.intel.com ([10.237.72.52])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 03:16:04 -0700
-Received: from andy by smile.fi.intel.com with local (Exim 4.98.2)
-	(envelope-from <andy@kernel.org>)
-	id 1uHgUS-00000003aGi-1Na8;
-	Wed, 21 May 2025 13:16:00 +0300
-Date: Wed, 21 May 2025 13:16:00 +0300
-From: Andy Shevchenko <andy@kernel.org>
-To: Lothar Rubusch <l.rubusch@gmail.com>
-Cc: jic23@kernel.org, dlechner@baylibre.com, nuno.sa@analog.com,
-	corbet@lwn.net, lucas.p.stankus@gmail.com, lars@metafoo.de,
-	Michael.Hennerich@analog.com, linux-iio@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH v2 08/12] iio: accel: adxl313: add FIFO watermark
-Message-ID: <aC2n4OuzzcMTxudT@smile.fi.intel.com>
-References: <20250520225007.10990-1-l.rubusch@gmail.com>
- <20250520225007.10990-9-l.rubusch@gmail.com>
+	s=arc-20240116; t=1747822781; c=relaxed/simple;
+	bh=+iFhBXf0vbCbL+XqEy89NDjV9grPFRpL54vjJA7X/Ew=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
+	 MIME-Version:Content-Type; b=pC5ztnyrxCe3Fn8oxVfRF41AZy0xs9XWzg2zsiEfs7zqQ7CFokcB4mwZn5jke3EZ//LwbPD4Q0cxYRHafT/njOlwaX5sKbHMT60cxozr/SsqG0ai5FLEsC/fAsbVNAiiAEpPj7xFZk+KjNIpCmLP6Y9M+5WdCThFYfOuLW8CFDM=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=KLbvwtRd; arc=none smtp.client-ip=45.79.88.28
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="KLbvwtRd"
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net E368A41A9E
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+	t=1747822773; bh=4Rpc61MxhtsPFZeepnU8k+b9p0Cplh44VpM/YqieauU=;
+	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
+	b=KLbvwtRd8red76Ln7sMFAksJUB3m0CxUDf2hBjNbowmRIxxxj6y/ENGapzU+nKtfy
+	 VX1FErAjt/DFgbda6zW3WDqIuhIilvsO9ZLg2rR9QuAuckRq7NddDhNhDWfZr4j5WH
+	 WYOzfPL0fkcV7QRy++XN01D45b1TcT5Fs3ZMfBV3BtdiGtwbDxFrUGMSPpvWaZYJuv
+	 fYIffx4yAh06T9lOZGBfHbI8HGdNphT/pXBSeOFl0bAPbCHrbLpbD9b3TtZl7PFXst
+	 QVDFwqlNNV9tL7Y5mp5lS569TEVXV4z4rDrQIuiw8mRFoy3/+NaF7uDXLXqt9KRAIL
+	 Fx/mcnGBdU2Og==
+Received: from localhost (unknown [93.187.88.32])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by ms.lwn.net (Postfix) with ESMTPSA id E368A41A9E;
+	Wed, 21 May 2025 10:19:32 +0000 (UTC)
+From: Jonathan Corbet <corbet@lwn.net>
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>, Akira Yokosawa
+ <akiyks@gmail.com>, linux-doc@vger.kernel.org, Masahiro Yamada
+ <mchehab+huawei@kernel.org>, Nathan Chancellor
+ <mchehab+huawei@kernel.org>, Nicolas Schier <nicolas.schier@linux.dev>,
+ Andy Shevchenko <andriy.shevchenko@linux.intel.com>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, Randy Dunlap <rdunlap@infradead.org>,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 0/3] Some kernel-doc fixes
+In-Reply-To: <cover.1747817887.git.mchehab+huawei@kernel.org>
+References: <cover.1747817887.git.mchehab+huawei@kernel.org>
+Date: Wed, 21 May 2025 04:19:29 -0600
+Message-ID: <875xhugtam.fsf@trenco.lwn.net>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250520225007.10990-9-l.rubusch@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain
 
-On Tue, May 20, 2025 at 10:50:03PM +0000, Lothar Rubusch wrote:
-> Add FIFO watermark configuration and evaluation. Let a watermark to be
-> configured. Evaluate the interrupt accordingly. Read out the FIFO content
-> and push the values to the IIO channel.
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-...
+> Hi Jon,
+>
+> That's the third version of the kernel-doc fixup patch series.
+>
+> It address the root cause why Sphinx logger was not working: there
+> was a call there for logger.verbose(). According with:
+>
+> 	https://www.sphinx-doc.org/en/master/extdev/logging.html
+>
+> This is a valid call, but it doesn't verbose messages. Instead, it is
+> crashing with modern Sphinx versions, causing the log to not work.
+>
+> I got rid of it, replacing by logger.info().  I took the time to also
+> address an issue pointed by Andy: not having the same log message
+> placed everywhere. With such change, we can keep using Sphinx
+> logger (which produces colored messages) inside kernel-doc
+> classes.
+>
+> With that, we have:
+>
+> Patch 1:	makes Lore and kernel-doc ML receive patches related
+> 	to kernel-doc.py and get_abi.py.
+> Patch 2:	cleanup try/except logic and get rid of logger.verbose();
+> Patch 3:	fix a KeyError when trying to acess data from non-existing files;
 
-> +	const unsigned int fifo_mask = 0x1f, watermark_mask  = 0x02;
+OK, I've applied the series, thanks.
 
-Seems you have some (wrong) setting in the text editor?
-One space too many again...
+Sorry for my relative absence through all of this - I've been out of the
+country and poorly connected for the last three weeks; done with that
+now.
 
-...
+Thanks,
 
-> +static int adxl313_fifo_push(struct iio_dev *indio_dev, int samples)
-> +{
-> +	struct adxl313_data *data = iio_priv(indio_dev);
-> +	int i, ret;
-
-Why is 'i' signed?
-
-> +	if (samples <= 0)
-
-What is the semantics of the negative samples? Is it an error code? Why not?
-I believe it's ignored again from my previous review.
-
-> +		return -EINVAL;
-> +
-> +	ret = adxl313_fifo_transfer(data, samples);
-> +	if (ret)
-> +		return ret;
-> +
-> +	for (i = 0; i  < ADXL313_NUM_AXIS * samples; i += ADXL313_NUM_AXIS)
-
-Ouch, one space too many, *again*!
-
-> +		iio_push_to_buffers(indio_dev, &data->fifo_buf[i]);
-> +
-> +	return 0;
-> +}
-
-...
-
-> +static int adxl313_push_event(struct iio_dev *indio_dev, int int_stat)
-> +{
-> +	struct adxl313_data *data =  iio_priv(indio_dev);
-> +	int samples;
-> +	int ret = -ENOENT;
-> +
-> +	if (FIELD_GET(ADXL313_INT_WATERMARK, int_stat)) {
-> +		samples = adxl313_get_samples(data);
-> +		if (samples < 0)
-> +			return -EINVAL;
-> +
-> +		ret = adxl313_fifo_push(indio_dev, samples);
-> +	}
-> +
-> +	return ret;
-> +}
-
-...and again... If you are going to ignore most of the comments, do not expect
-your patches to be applied. I'm stopping here.
-
-...
-
-Also note, try to avoid sending a new version until the review is settled down
-on a previous round.
-
-...
-
-With this being said, I stopped here. Take your time (you have now a few weeks)
-and carefully address / discuss all mentioned pieces of the code in both review
-rounds.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+jon
