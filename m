@@ -1,157 +1,83 @@
-Received: from mail.hallyn.com (mail.hallyn.com [178.63.66.53])
+Received: from smtp.kernel.org (aws-us-west-2-korg-mail-1.web.codeaurora.org [10.30.226.201])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4453A21E0A2;
-	Wed, 21 May 2025 22:11:45 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=178.63.66.53
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4F543148827;
+	Wed, 21 May 2025 22:24:32 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=10.30.226.201
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747865508; cv=none; b=UGypgCsSePjqET/VtWyj5pu0elESMGyI8psv5THLqYihUeKeq44H8c2FEFBTedHv7Lb3Lj1o96tyO3Uh202HbteY1Da4yUF0PsP3j36cidJdDgpIKaQ5e9LH0FG0uBqwoHLYow+wf0N2DBPnuVo8I5tB39eTtkQWgBEyg0OpSjw=
+	t=1747866273; cv=none; b=oAAXwSndJvtzGOSiPkdFFqxWzTER2cHhLmChYssSagUpznAtXdMJhNySz++VWEE8C+w7d0ChZJFub6I95k2WMRFVFU0D9uIq2PdjXxJV9oNOn/ELpDIib40zncEaUBivsGWu7/oQhMfNPA6RxdjEIuDgIkGSokC3sy0uXOxF8hQ=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747865508; c=relaxed/simple;
-	bh=PIxsFoyl0Qm3a53tAerIdBCz2QjjEP745QHvK76hLJQ=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AAnLMrbarNeG08SECWL4Ah+GiMZ02p/v3VVpNX3WHBjIi9JdH9ThUB0uPlrFOv6JIdR6V+fymx6VuW2hdVoSjvbIzd9OdByNLLrNRk8VkV/L8UBlp9XG4dBb2TA/KHo6pcDXfhJZPcgek1BtwEvx3hJGbOxcUS8EI1AYvNMSxOs=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com; spf=pass smtp.mailfrom=mail.hallyn.com; arc=none smtp.client-ip=178.63.66.53
-Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=hallyn.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=mail.hallyn.com
-Received: by mail.hallyn.com (Postfix, from userid 1001)
-	id 073A61399; Wed, 21 May 2025 17:03:49 -0500 (CDT)
-Date: Wed, 21 May 2025 17:03:49 -0500
-From: "Serge E. Hallyn" <serge@hallyn.com>
-To: Simon THOBY <git@nightmared.fr>
-Cc: linux-security-module@vger.kernel.org, linux-integrity@vger.kernel.org,
-	linux-doc@vger.kernel.org
-Subject: Re: [RFC PATCH 1/9] LSM: Introduce a new hook:
- security_kernel_module_load
-Message-ID: <20250521220349.GA22189@mail.hallyn.com>
-References: <20250521140121.591482-1-git@nightmared.fr>
- <20250521140121.591482-2-git@nightmared.fr>
+	s=arc-20240116; t=1747866273; c=relaxed/simple;
+	bh=rcfJMid0U4cIWv6iZ+LwO1ZLuUmxSmI5sKUmm3O/BjI=;
+	h=Date:From:To:Cc:Subject:Message-ID:In-Reply-To:References:
+	 MIME-Version:Content-Type; b=iVEsuEe/iDzLwE454miKQY22ocBA2rPwVkLPwCUcwlgg3O0vf6Px/i4bHVB3+yUF33Dwoq6g4EbidSwxK0BLZJVKvOXAQ3dorhimjhrufpGpwENBMDIi2IX8Dof76UNajc9tGy7pLfqyGMa9ENVVnSEtlIpROOW7eFaw41MJQMU=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b=eBXxWeYK; arc=none smtp.client-ip=10.30.226.201
+Authentication-Results: smtp.subspace.kernel.org;
+	dkim=pass (2048-bit key) header.d=kernel.org header.i=@kernel.org header.b="eBXxWeYK"
+Received: by smtp.kernel.org (Postfix) with ESMTPSA id 1A3D8C4CEE4;
+	Wed, 21 May 2025 22:24:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1747866272;
+	bh=rcfJMid0U4cIWv6iZ+LwO1ZLuUmxSmI5sKUmm3O/BjI=;
+	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+	b=eBXxWeYKurv7wpSzLSEP6u+SZgbUssr4hTy0pMxj8Ufd3NTDHjXiIvhSCAN9b4YUt
+	 7LQ2vMeKG7p1LmhNAuwp7/LdJQevfz9jhtIUVapLokNY4kOsO9KLmWmxGMlC52rHKI
+	 A0JD4qQXeY+0FhCCt8EqYjBXa1wBl+lXpCflstA/O+6DW2Pn10mRWqGcIvo7QRVi62
+	 Ud6vY5MubCH9s90fkBko3zfp6TUKXcajJro3Z6qodWL8gEfHqaqzZyInKgSygKCqga
+	 lKKoDhpVQ0pteUvVMRVJH5ySq4NA7VU0x6dD39puIwcCidn/m99TKduA5IYnXMhyjv
+	 we+FplDfZ3hsA==
+Date: Wed, 21 May 2025 15:24:31 -0700
+From: Jakub Kicinski <kuba@kernel.org>
+To: Carolina Jubran <cjubran@nvidia.com>
+Cc: Tariq Toukan <tariqt@nvidia.com>, "David S. Miller"
+ <davem@davemloft.net>, Paolo Abeni <pabeni@redhat.com>, Eric Dumazet
+ <edumazet@google.com>, Andrew Lunn <andrew+netdev@lunn.ch>, Jiri Pirko
+ <jiri@nvidia.com>, Gal Pressman <gal@nvidia.com>, Leon Romanovsky
+ <leonro@nvidia.com>, Donald Hunter <donald.hunter@gmail.com>, Jiri Pirko
+ <jiri@resnulli.us>, Jonathan Corbet <corbet@lwn.net>, Saeed Mahameed
+ <saeedm@nvidia.com>, Leon Romanovsky <leon@kernel.org>, Shuah Khan
+ <shuah@kernel.org>, netdev@vger.kernel.org, linux-kernel@vger.kernel.org,
+ linux-doc@vger.kernel.org, linux-rdma@vger.kernel.org,
+ linux-kselftest@vger.kernel.org, Moshe Shemesh <moshe@nvidia.com>, Mark
+ Bloch <mbloch@nvidia.com>, Cosmin Ratiu <cratiu@nvidia.com>
+Subject: Re: [PATCH net-next V10 2/6] selftest: netdevsim: Add devlink rate
+ tc-bw test
+Message-ID: <20250521152431.56a77580@kernel.org>
+In-Reply-To: <de344976-6117-478f-987c-3d24be590399@nvidia.com>
+References: <1747766287-950144-1-git-send-email-tariqt@nvidia.com>
+	<1747766287-950144-3-git-send-email-tariqt@nvidia.com>
+	<20250520155957.04b27217@kernel.org>
+	<de344976-6117-478f-987c-3d24be590399@nvidia.com>
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20250521140121.591482-2-git@nightmared.fr>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 
-On Wed, May 21, 2025 at 04:01:05PM +0200, Simon THOBY wrote:
-> Introduce a new hook to allow LSMs to decide whether to block the load
-> of a kernel module.
+On Thu, 22 May 2025 00:05:32 +0300 Carolina Jubran wrote:
+> On 21/05/2025 1:59, Jakub Kicinski wrote:
+> > On Tue, 20 May 2025 21:38:03 +0300 Tariq Toukan wrote:  
+> >> Test verifies that netdevsim correctly implements devlink ops callbacks
+> >> that set tc-bw on leaf or node rate object.  
+> > 
+> > Please add a test that can actually validate a NIC HW.
+> > The test probably needs to be in Python to use a remote endpoint,
+> > and should live under tools/testing/../drivers/net/hw
+> > 
+> > We had a long conversation about what we expect from the API
+> > vs how your HW works. One of the test cases should confirm
+> > the expected behavior, IOW fail on mlx5. Which is fine,
+> > unlikely that any NIC will have 100% compliance. But at
+> > least we will be documenting the expectations.  
 > 
-> Two hooks already exist:
-> - kernel_module_request is called when the kernel itself (not userspace)
->  request the load of a module, e.g. because a device was detected.
->  - security_kernel_load_data(LOADING_MODULE) is called when userspace calls
->  init_module/finit_module, but lack information about the module because
->  its  headers have not been loaded into kernel space, let alone parsed.
->  This may not be sufficient for some LSMs.
-> 
-> This new hook is similar to security_kernel_load_data(LOADING_MODULE),
-> but called after the module signature and header are verified, and only
-> takes the module name for now.
-> 
-> Signed-off-by: Simon THOBY <git@nightmared.fr>
-> ---
->  include/linux/lsm_hook_defs.h |  1 +
->  include/linux/module.h        |  1 +
->  include/linux/security.h      |  6 ++++++
->  kernel/module/main.c          |  4 ++++
->  security/security.c           | 14 ++++++++++++++
->  5 files changed, 26 insertions(+)
-> 
-> diff --git a/include/linux/lsm_hook_defs.h b/include/linux/lsm_hook_defs.h
-> index bf3bbac4e02a..51c5212d8bb6 100644
-> --- a/include/linux/lsm_hook_defs.h
-> +++ b/include/linux/lsm_hook_defs.h
-> @@ -223,6 +223,7 @@ LSM_HOOK(void, LSM_RET_VOID, cred_getlsmprop, const struct cred *c,
->  LSM_HOOK(int, 0, kernel_act_as, struct cred *new, u32 secid)
->  LSM_HOOK(int, 0, kernel_create_files_as, struct cred *new, struct inode *inode)
->  LSM_HOOK(int, 0, kernel_module_request, char *kmod_name)
-> +LSM_HOOK(int, 0, kernel_module_load, const char *kmod_name)
->  LSM_HOOK(int, 0, kernel_load_data, enum kernel_load_data_id id, bool contents)
->  LSM_HOOK(int, 0, kernel_post_load_data, char *buf, loff_t size,
->  	 enum kernel_load_data_id id, char *description)
-> diff --git a/include/linux/module.h b/include/linux/module.h
-> index 8050f77c3b64..b6b8d6f7f599 100644
-> --- a/include/linux/module.h
-> +++ b/include/linux/module.h
-> @@ -39,6 +39,7 @@ struct modversion_info {
->  	char name[MODULE_NAME_LEN];
->  };
->  
-> +struct load_info;
->  struct module;
->  struct exception_table_entry;
->  
-> diff --git a/include/linux/security.h b/include/linux/security.h
-> index cc9b54d95d22..e175b2cc8caf 100644
-> --- a/include/linux/security.h
-> +++ b/include/linux/security.h
-> @@ -498,6 +498,7 @@ void security_cred_getlsmprop(const struct cred *c, struct lsm_prop *prop);
->  int security_kernel_act_as(struct cred *new, u32 secid);
->  int security_kernel_create_files_as(struct cred *new, struct inode *inode);
->  int security_kernel_module_request(char *kmod_name);
-> +int security_kernel_module_load(const char *kmod_name);
->  int security_kernel_load_data(enum kernel_load_data_id id, bool contents);
->  int security_kernel_post_load_data(char *buf, loff_t size,
->  				   enum kernel_load_data_id id,
-> @@ -1255,6 +1256,11 @@ static inline int security_kernel_module_request(char *kmod_name)
->  	return 0;
->  }
->  
-> +static inline int security_kernel_module_load(const char *kmod_name)
-> +{
-> +	return 0;
-> +}
-> +
->  static inline int security_kernel_load_data(enum kernel_load_data_id id, bool contents)
->  {
->  	return 0;
-> diff --git a/kernel/module/main.c b/kernel/module/main.c
-> index a2859dc3eea6..12a1a5f4d823 100644
-> --- a/kernel/module/main.c
-> +++ b/kernel/module/main.c
-> @@ -3228,6 +3228,10 @@ static int early_mod_check(struct load_info *info, int flags)
->  		return -EPERM;
->  	}
->  
-> +	err = security_kernel_module_load(info->name);
+> Working on this. Let me know if the netdevsim selftest should stay 
+> alongside the hardware tests, or be removed.
 
-Would it be more useful to pass in the whole info struct?
+I think it's nice to have. But please share a link to the patches which
+add the support in the CLI next time. Can be a lore link if posted, or a
+GH repo. 
 
-> +	if (err)
-> +		return err;
-> +
->  	err = rewrite_section_headers(info, flags);
->  	if (err)
->  		return err;
-> diff --git a/security/security.c b/security/security.c
-> index fb57e8fddd91..b9430499c332 100644
-> --- a/security/security.c
-> +++ b/security/security.c
-> @@ -3336,6 +3336,20 @@ int security_kernel_module_request(char *kmod_name)
->  	return call_int_hook(kernel_module_request, kmod_name);
->  }
->  
-> +/**
-> + * security_kernel_module_load() - Check if loading a module is allowed
-> + * @kmod_name: name of the kernel module being loaded
-> + *
-> + * This method is called when the userspace called init_module/finit_module
-> + * with a valid module
-> + *
-> + * Return: Returns 0 if successful.
-> + */
-> +int security_kernel_module_load(const char *kmod_name)
-> +{
-> +	return call_int_hook(kernel_module_load, kmod_name);
-> +}
-> +
->  /**
->   * security_kernel_read_file() - Read a file specified by userspace
->   * @file: file
-> -- 
-> 2.49.0
-> 
+I need to pull the pending patches into the CI so that the test can run.
