@@ -1,118 +1,124 @@
-Received: from jpms-ob02.noc.sony.co.jp (jpms-ob02.noc.sony.co.jp [211.125.140.165])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+Received: from mail-pf1-f182.google.com (mail-pf1-f182.google.com [209.85.210.182])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DEB4E235BF4;
-	Wed, 21 May 2025 08:00:06 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=211.125.140.165
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 4440122D4F2;
+	Wed, 21 May 2025 08:21:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.210.182
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747814410; cv=none; b=cQrAEVH8TOgzV+OE+d2DGNQCDWe9lrXPMoAvfj5y95zDFYFey7WBx+RaKRAtGma7SIQrhMkA/kcj1fIGnVS38S9NcYUk6rR6WiffT60EGirxinsObcLlaXKEAyCzVUfnZn8ebPj7TWtc9tFR9olj2GikBGpmy695qTubdhkRS0M=
+	t=1747815699; cv=none; b=dsmBNfhKHEugpfnaiEIfiJcDsYvKtRmx+L5B7kPD5KIYNUAcWfUaOs1fxk4S8+R3Si+S3zbScNegzUAzfb6/m46zyRIWuYTyZnwXt8XRwuLvzvV1XnqaNTJoqnBbzJA4wIZq+Wk/DQRwX+y+UNlw+R5gO5hFz08hgajAYwupvLU=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747814410; c=relaxed/simple;
-	bh=O18BluLzd0V6rN+4d/OuPHmQZQMOEKQe/u9KiGlBwCo=;
-	h=Date:From:To:Cc:Subject:Message-ID:References:MIME-Version:
-	 Content-Type:Content-Disposition:In-Reply-To; b=AIqgDVZ8hyrGdahrj4PNBz+LEUVqxAZHtHjtLdD8lmLiFAiCBJ59osza80BfaCgQGCSNjmJp24BAG+Iqu6edmV5pHzoRpSTKe8Tlik2FJHco8xeSrAAZj+jsLJkrvXVsYMC3v530OcK/1XUcZ5GTxX2QKyPblzIAz/Sykh6YKW4=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com; spf=pass smtp.mailfrom=sony.com; dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b=BVjkU+Om; arc=none smtp.client-ip=211.125.140.165
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=sony.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=sony.com
+	s=arc-20240116; t=1747815699; c=relaxed/simple;
+	bh=1yr88d78dbJoyHseY0iODvxbYn9iaROa07uhiiSB3bc=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=jEoXrH/GvRhgx6fLljyj3CxR1GgCg4AGhUnxRl3gj8NtVm/WALv0SRj/n3uEf0e5PpcHu9JmQ4J6iVvLZHgks1k2YNSGt3yXnyIor0iFRazekMrjQAzV9p3D0KtCpQqiozYnX6Um1O6eGnXDfMexmi9avE2Zzpb434nfW1U4UBc=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=MhfaCwbz; arc=none smtp.client-ip=209.85.210.182
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=sony.com header.i=@sony.com header.b="BVjkU+Om"
+	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="MhfaCwbz"
+Received: by mail-pf1-f182.google.com with SMTP id d2e1a72fcca58-742c7a52e97so2968321b3a.3;
+        Wed, 21 May 2025 01:21:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=sony.com; s=s1jp; t=1747814407; x=1779350407;
-  h=date:from:to:cc:subject:message-id:references:
-   mime-version:content-transfer-encoding:in-reply-to;
-  bh=SRSeRZLTM88Xmp2dMNkQnEEMrTwWD8k4Sd+UM3+C5T0=;
-  b=BVjkU+OmQDYbgjKbm0KtZV8q14tEUZa/tcvDSQ9+94qn99Q0UY5AWoKy
-   jz4Lbb1an94t7v0ZtAfi9HwY0hyEh2L7SBW2oOMHnvClTjCFbA12jp/5T
-   dO5WiYtVaT21V80mGo3mN/bBfqUMEfi7qeeRF1oL9ArJR8EZpkpu1mn1G
-   HAXLOpllGwvcwTXQNnqflQQGmppX8LGj2+9kTu9N0rK1toCHeajZJCpFf
-   UwbXlDC++rNcZljGlvGGaYKs3zBLEsK3eldKAGdTCEVnrK4+rmwO5Hlec
-   IRC78VDRDDB3AWzcAezAGkZv0yud4ZaRjcEpm/9TCDBK/7KX2qfL5eXo9
-   g==;
-Received: from unknown (HELO jpmta-ob02.noc.sony.co.jp) ([IPv6:2001:cf8:0:6e7::7])
-  by jpms-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:49:56 +0900
-X-IronPort-AV: E=Sophos;i="6.15,303,1739804400"; 
-   d="scan'208";a="532312397"
-Received: from unknown (HELO JPC00244420) ([IPv6:2001:cf8:1:573:0:dddd:6b3e:119e])
-  by jpmta-ob02.noc.sony.co.jp with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:49:56 +0900
-Date: Wed, 21 May 2025 16:49:43 +0900
-From: Shashank Balaji <shashank.mahadasyam@sony.com>
-To: Tejun Heo <tj@kernel.org>
-Cc: Johannes Weiner <hannes@cmpxchg.org>,
-	Michal =?iso-8859-1?Q?Koutn=FD?= <mkoutny@suse.com>,
-	Jonathan Corbet <corbet@lwn.net>, cgroups@vger.kernel.org,
-	linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
-	Shinya Takumi <shinya.takumi@sony.com>,
-	shashank.mahadasyam@sony.com
-Subject: Re: [PATCH v2 3/3] cgroup, docs: cpu controller interaction with
- various scheduling policies
-Message-ID: <aC2Fl4DVRbn6bS8H@JPC00244420>
-References: <20250520-rt-and-cpu-controller-doc-v2-0-70a2b6a1b703@sony.com>
- <20250520-rt-and-cpu-controller-doc-v2-3-70a2b6a1b703@sony.com>
- <aCzjJp1ovS6kCqHj@slm.duckdns.org>
+        d=gmail.com; s=20230601; t=1747815697; x=1748420497; darn=vger.kernel.org;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :from:to:cc:subject:date:message-id:reply-to;
+        bh=nvSWvwLBzxHWGi3TMvGZ02bO771wE+TwCy5ipwia7RY=;
+        b=MhfaCwbzEva9vmd8e4cyvzFD24DxDIt2bFQOsUH8xbz1VqAkIxFDaLmM/vdH21FYQL
+         zJLGzb+MExX3HqJkCeyDuYJ0IdfADwCDRXqtuBd8DTnXSghyTJEmKxeTaxbjJo5FynBR
+         W2DgnC0UItIKDXFs+cTDHgp7b1kxFtYsrWapGOSuAg+CyjCaToU4Wa/6W5lnYdYplVIS
+         2tqhpUQY4NgGdaeoEp99Ww89DOvOv7r+LJSFJa70lsc1l0pOKpjznEJvXbmUuUl5qsT6
+         Yan+slabl7l1FECFBuHMv6edKvDXKm/dKmuM8h9T/2FN+dtQdLM5jmfs5nNC0e9bxKRh
+         aEeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1747815697; x=1748420497;
+        h=content-transfer-encoding:in-reply-to:from:content-language
+         :references:cc:to:subject:user-agent:mime-version:date:message-id
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nvSWvwLBzxHWGi3TMvGZ02bO771wE+TwCy5ipwia7RY=;
+        b=Fg5aPvvi9G8FX01A+MrQklFJ4iCzr86n1Unfe7v0YBJMzv05+UXGrJqoBXLnHpFFTo
+         G+3Sf2QidP5dR07m5GwPBYbLzeZJ8hGtWZRMRJ7WJOdD6kDEuBSxRjoG3Wz2EXG0M39y
+         Wqkk7hJ5PZla2vS+MeCtfu7ecz7KoX5mmjo3Hzbu7mKNEheFFQWWLLadScUPGlP3STbP
+         HnjqeK+CvdEzeUlJPj+862SeR+Oyvd51i0Rt5m6PqzVNq2qWLi3b2s3gWYAxPppOrUQX
+         +rp5+eVrdS1kDM9GOnRL8azslHjOME2w7/IJdGydADt/SKS8PHSs++Lppe+CrOwKVLmN
+         omNw==
+X-Forwarded-Encrypted: i=1; AJvYcCV4g92X+Tr+08lCVYUf761UtHGPAWRigo8kqjAOY8wmKPrqxHdFFsex3iBsXY+KCxXPxuZnKVHwEgyzZJ9z@vger.kernel.org, AJvYcCW6Fgs/PcQt8M6Wcfu/YSfyzq2zI2rSPocA+1YvZLV679GoRI7V0QOlpk05dhtCxC1KtGDlgvdwxP8=@vger.kernel.org, AJvYcCW8LfGOKVUNhMK0l9cOrXgsA4zxH0iR7Qwce1uaFIK9M/37gr9TZLeb2ETweOp9K3/NlMmMwY8uuXvN0bRc@vger.kernel.org
+X-Gm-Message-State: AOJu0YwAEiyUzG2ayICqMbC6T9tyRYv/6Vbw6ofiAnoOAIjC2Gf7YnYl
+	uZW6Sg0hv0fPgXc8UujCnawdFTsof30oQlh8Sf4LHn/viwJuRzIp87Zc
+X-Gm-Gg: ASbGncs0w5eIoJydbBnFY6fhipXW/pxuhZs0+gRJiqd95ql87eN3I4cCAFW+qjfV0jp
+	O4dewaFbffvtiJTusoq1oplatZYTIM6/K+epFj8VacIH6dRgCLonK91zNOxWYCKXEHDHvE6Yl1X
+	XT5OXX0dzQKILgaYxdT1Lia2Jb4sdF/05gRxjwGulNp1cqqeoOOoszyfW35WMPjhrymcoQGJ/t/
+	7dWeC3bRjagJlbyUF83x6DLvPpdPEAD1qvZPJto9AiqNplJj/r+qhISaf9tA5AS5Ri9cdy70IJd
+	XIFNI57A7/vYf8E0xWvMoM43FJZQn4eEUgWv/Kx9nnXUO8B0FAq+2rZKnPcVJC8TlYD+mUCB8a0
+	SViAhSO9lcrH4M94/tuOuxw==
+X-Google-Smtp-Source: AGHT+IHkPdOHdo6U5XKzLsO4vBkhhMBqed8AsqpMrklD9moN1gb+50YL+ATTD9IqOwaDP88IxFcHEg==
+X-Received: by 2002:a05:6a20:1591:b0:1f1:432:f4a3 with SMTP id adf61e73a8af0-2170ccb2dccmr28533558637.23.1747815697375;
+        Wed, 21 May 2025 01:21:37 -0700 (PDT)
+Received: from [10.0.2.15] (KD106167137155.ppp-bb.dion.ne.jp. [106.167.137.155])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-742a9829af3sm9477246b3a.94.2025.05.21.01.21.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 21 May 2025 01:21:36 -0700 (PDT)
+Message-ID: <595c820a-e14c-4152-8ece-efeb72a49bbc@gmail.com>
+Date: Wed, 21 May 2025 17:21:31 +0900
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <aCzjJp1ovS6kCqHj@slm.duckdns.org>
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v2 1/3] MAINTAINERS: update linux-doc entry to cover new
+ Python scripts
+To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc: Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+ Nicolas Schier <nicolas.schier@linux.dev>,
+ Randy Dunlap <rdunlap@infradead.org>, Stephen Rothwell
+ <sfr@canb.auug.org.au>, linux-doc@vger.kernel.org,
+ linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+ Jonathan Corbet <corbet@lwn.net>, Akira Yokosawa <akiyks@gmail.com>
+References: <cover.1747810691.git.mchehab+huawei@kernel.org>
+ <e1199a4ae39daaf191c166332ba65bb632935024.1747810691.git.mchehab+huawei@kernel.org>
+Content-Language: en-US
+From: Akira Yokosawa <akiyks@gmail.com>
+In-Reply-To: <e1199a4ae39daaf191c166332ba65bb632935024.1747810691.git.mchehab+huawei@kernel.org>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
 
-Hi Tejun,
+Hi Mauro,
 
-On Tue, May 20, 2025 at 10:16:38AM -1000, Tejun Heo wrote:
-> Hello,
+On Wed, 21 May 2025 08:59:31 +0200, Mauro Carvalho Chehab wrote:
+> Changes to ABI and kernel-doc need to be c/c linux-doc. Update
+> the maintainer's entry to cover those files.
+
+See below for a couple of trivial typo. 
+
 > 
-> On Tue, May 20, 2025 at 11:07:47PM +0900, Shashank Balaji via B4 Relay wrote:
-> ...
-> > +The interaction of a process with the cpu controller depends on its scheduling
-> > +policy. We have the following scheduling policies: ``SCHED_IDLE``, ``SCHED_BATCH``,
-> > +``SCHED_OTHER``, ``SCHED_EXT`` (if ``CONFIG_SCHED_CLASS_EXT`` is enabled), ``SCHED_FIFO``,
-> > +``SCHED_RR``, and ``SCHED_DEADLINE``. ``SCHED_{IDLE,BATCH,OTHER,EXT}`` can be scheduled
-> > +either by the fair-class scheduler or by a BPF scheduler::
-> > +
-> > +    CONFIG_SCHED_CLASS_EXT
-> > +    ├─ Disabled
-> > +    |   └─ SCHED_{IDLE,BATCH,OTHER} -> fair-class scheduler
-> > +    └─ Enabled
-> > +        ├─ BPF scheduler disabled
-> > +        |   └─ SCHED_{IDLE,BATCH,OTHER,EXT} -> fair-class scheduler
-> > +        ├─ BPF scheduler without SCX_OPS_SWITCH_PARTIAL enabled
-> > +        |   └─ SCHED_{IDLE,BATCH,OTHER,EXT} -> BPF scheduler
-> > +        └─ BPF scheduler with SCX_OPS_SWITCH_PARTIAL enabled
-> > +            ├─ SCHED_{IDLE,BATCH,OTHER} -> fair-class scheduler
-> > +            └─ SCHED_EXT -> BPF scheduler
-> > +
-> > +For more details on ``SCHED_EXT``, check out :ref:`Documentation/scheduler/sched-ext.rst. <sched-ext>`
-> > +From the point of view of the cpu controller, processes can be categorized as
-> > +follows:
-> > +
-> > +* Processes under the fair-class scheduler
-> > +* Processes under a BPF scheduler with the ``cgroup_set_weight`` callback
-> > +* Everything else: ``SCHED_{FIFO,RR,DEADLINE}`` and processes under a BPF scheduler
-> > +  without the ``cgroup_set_weight`` callback
-> > +
-> > +Note that the ``cgroup_*`` family of callbacks require ``CONFIG_EXT_GROUP_SCHED``
-> > +to be enabled. For each of the following interface files, the above categories
-> > +will be referred to. All time durations are in microseconds.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  MAINTAINERS | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 > 
-> Can we document the above in sched_ext documentation and point to it from
-> here? Documenting sched_ext details here seems a bit out of place and prone
-> to becoming stale over time.
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 20e07e61a148..a668808769b6 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -7173,7 +7173,10 @@ T:	git git://git.lwn.net/linux.git docs-next
+>  F:	Documentation/
+>  F:	scripts/check-variable-fonts.sh
+>  F:	scripts/documentation-file-ref-check
+> -F:	scripts/kernel-doc
+> +F:	scripts/get_abi.py
+> +F:	scripts/kernel-doc*
+> +F	scripts/lib/abi/*
+   F:	scripts/lib/abi/*
 
-Got it. Apart from that, is the content alright? 
+> +F	scripts/lib/kdoc/*
+   F:	scripts/lib/kdoc/*
 
-> Can you please separate out indentation changes to a separate patch? These
-> usually make reviewing tricky.
-
-Got it.
-
-Thank you
+>  F:	scripts/sphinx-pre-install
+>  X:	Documentation/ABI/
+>  X:	Documentation/admin-guide/media/
 
 Regards,
-Shashank
+Akira
 
-PS: Apologies for any malformed emails. I finally managed to switch from Outlook
-to mutt.
