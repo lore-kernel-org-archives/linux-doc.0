@@ -1,1057 +1,520 @@
-Received: from mail-pj1-f43.google.com (mail-pj1-f43.google.com [209.85.216.43])
-	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+Received: from mgamail.intel.com (mgamail.intel.com [192.198.163.17])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 2C2C71754B;
-	Wed, 21 May 2025 22:39:54 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=209.85.216.43
-ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747867197; cv=none; b=dHuKZzF5PestsOdV93AuzDwavmX77/KAGePUMeTL3cuWW3Zeb7cdpJiV0pbHMbYIhHkNtLBmoQprLB2Y69b3wZoNRaIt2yFUSRtEUfyXLa6UCPV8KxYzuUhiA22bsMX9i+x8C/7L4xnziHQ5xM3/9eN4ygYaZhnNYCi6mCwumGo=
-ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747867197; c=relaxed/simple;
-	bh=UAfN7Z4xxDqZFYDlX9c5U20PR6iyEdlq8k6awjzda6g=;
-	h=Date:From:To:CC:Subject:In-Reply-To:References:Message-ID:
-	 MIME-Version:Content-Type; b=sal+tDWOY4NwVagApEIYKItZpXeBjJx4Ie8z1T26EALVSHXIzWH0J+cpLY9eHXYjBif4lzaoCsfBCLD1CDnCYuwrEtQdeKosgdWCZjjuSdUzQNceu7ROonHLDbpWTxhOXmrQsKgKJpAfCtR6UzBwCP2ZQuSeRjfgYG695VubP58=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com; spf=pass smtp.mailfrom=gmail.com; dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b=QyWkrN0U; arc=none smtp.client-ip=209.85.216.43
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=gmail.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=gmail.com
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 6E25A23BCF2;
+	Wed, 21 May 2025 23:04:37 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=fail smtp.client-ip=192.198.163.17
+ARC-Seal:i=2; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
+	t=1747868679; cv=fail; b=lY2FcxD2XwdSytCAquef8Jz+TJfq7FLcF+O6thWw+IuvDh7KfcwJ9GX0uWiYgFMKNuTFeoYEU0Vb49CwHCrbbalZwutobruaqJlk5kzr+Y3KpF2+YGBwFfvAi+jP7lvY8PrrqeVg32F7gQr1y/DJOYtrdQS97gePYYpAD5crKcw=
+ARC-Message-Signature:i=2; a=rsa-sha256; d=subspace.kernel.org;
+	s=arc-20240116; t=1747868679; c=relaxed/simple;
+	bh=6wbpIlYw3YN0DuZiJhBBMaJdDjGl82nc/PLnFKSH/Rs=;
+	h=Message-ID:Date:Subject:To:CC:References:From:In-Reply-To:
+	 Content-Type:MIME-Version; b=BLMFUXHL6Au5ci6DTzmMYK6mptFKYgw15TYoUIz9pYUcCpIgFy5AIzWASU1eEpoaM/CDUM6nrcsx7MLJ3OvtaZi6o5h72RQw4oGWgSHbuqWjts97A7+JysIwzbGQ9pMPEvanFY687XzpwSmhFDIqj3pztXitkQOkHuExAPja1WU=
+ARC-Authentication-Results:i=2; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com; spf=pass smtp.mailfrom=intel.com; dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b=A8SKswMi; arc=fail smtp.client-ip=192.198.163.17
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=intel.com
+Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=intel.com
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=gmail.com header.i=@gmail.com header.b="QyWkrN0U"
-Received: by mail-pj1-f43.google.com with SMTP id 98e67ed59e1d1-30e8a968b15so5071751a91.3;
-        Wed, 21 May 2025 15:39:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20230601; t=1747867194; x=1748471994; darn=vger.kernel.org;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:from:to:cc:subject
-         :date:message-id:reply-to;
-        bh=HSxm4ndUjsT6o0eGmBAmgDHAuoqCMZQNWu5Un2rcpLI=;
-        b=QyWkrN0UEEJRhqGpPGIZwu9JLRKxwM0QMceJUzo6nH0VRuZOs72BC88txtPKdyjEgu
-         mY7YO0ZM2qzxuASg4wVGmvoZH0ohc77pBCqq2AXhVpP5fCi96UpGsZkcbbsW0cuRDmOS
-         l6CN9aTskbLAkwBJpaXk2f2lGiJGX7R4gALDjxRxnQkWDXi/a2W95LS32SpF1BBnms/e
-         GplFq3GpdKmfUXqea3PcNODIvdLL/cDUnRuWo3OoUcaFAp40HF1ABwtYKBAx4tDnuG8C
-         dN3fg9wc1ya67AAbhD91MaKVKokm1jlLEQUfGbRszwshzhSkAC7viBIyjLTr3yYmdJPe
-         3l2g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20230601; t=1747867194; x=1748471994;
-        h=content-transfer-encoding:mime-version:message-id:references
-         :in-reply-to:user-agent:subject:cc:to:from:date:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to;
-        bh=HSxm4ndUjsT6o0eGmBAmgDHAuoqCMZQNWu5Un2rcpLI=;
-        b=IWbJ4vaqZTDyir5WfZFf1UFfiZtnK0/a5HNYI+Aw2jm0XSlw4t+q0fqYzzFnonR2LV
-         vWTzQlxyXxMNade/l3gHL4uGu0vTnn6aroiJFHb909eDsWkk0GFxK3OUaon5nwYUCewo
-         yoweC3J9/NQUMXVWB027qkCI4jq2fVFC9Zs7DH1zcw905O4c0dJzeIk5lWEGa4C16RW5
-         bmDuOM+1hSoOBf4/97WpOgqtV3SfS86oZ2r2liDT6zUbXemSjlPtXn6htz34DFoYiZnE
-         9HjLVOy2ZxgKL14xtzyfjg0dLbazbOx/k/nhFztwSBkjmkHs9J2LekSC469KKdMVh2KZ
-         zqWA==
-X-Forwarded-Encrypted: i=1; AJvYcCU40X3YMXsI1RUU/GCsSkev8Pugob6sTKzoO9Rl3jsoV3m2NDKjXrSf/pWBXhlscNOqoV9EZlwPdHn8LEapo/1Qp8N4kg==@vger.kernel.org, AJvYcCVzVu5HyeBVGMNP9kdJYX7DhCNeVQ6YW/6GL3zP5HCc2cKMUtGhWn28259j+eZuFcIq/fAH9h+dLbGwaaH1@vger.kernel.org, AJvYcCWQm5HlYX5D5pu9e2Jeogh4WRkl5hpGoSU023+iKyJXSGMmUWGTeG7+vxkfOdMNHyNWBCNZzjhm7N4=@vger.kernel.org
-X-Gm-Message-State: AOJu0YxPtLzCY2V1+HqVtHZP7lEXONcArcWLvkULWmtIU3dZVAWBm+LF
-	wtko/JXKb+97EiV7Q+ne/YzicTygxYNejAICt3Xj36WL9Nx2qZZfgrAp
-X-Gm-Gg: ASbGncsRqXBK4fz7ikyCDNunCUudnYdxxf2nNuBIR9DsbIhfKMuJUkp1MGHI2v1tDeR
-	O74Kg4oZWISB9ISlhLO0J1vYUkZL7+BFa7cmmLXzbIUx9M02jH7jY0UV8z+V9bF6HBVATKbs9I8
-	tjzhnWkXzpBuabGV9Xje7mIKtPssATFu5WykFEjzhdpPb+pf63//rszonXzFlmlmD6VhIlZMWiw
-	n4hVpQAkConezffNJy4cyj0YqR2/prSTGIkVt6bGtbP/33qMlDuMHRVSUu5/RpB4RLcutPOoNK7
-	ScneNGw+n6gNQd2nquXqBJrioDkFt5C1VRz8Z6FX2UzU+F8ZGuY6KDSneQT9AFV8MAwHzz9GIjP
-	asy1pQJv9QJuP3MB6veHEeBPtVTjcUvHsdPE=
-X-Google-Smtp-Source: AGHT+IFMK99cu1ggnbQ2Y0mKbwzHxO1Fi9bOzxBNICwJ03PGypidwHY6h9ZIP27qf0Ynv+V6i8o/wA==
-X-Received: by 2002:a17:90b:4acf:b0:2ee:aa28:79aa with SMTP id 98e67ed59e1d1-30e830c772dmr29938922a91.6.1747867193932;
-        Wed, 21 May 2025 15:39:53 -0700 (PDT)
-Received: from [127.0.0.1] (108-228-232-20.lightspeed.sndgca.sbcglobal.net. [108.228.232.20])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-30f365d4599sm4188248a91.28.2025.05.21.15.39.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 21 May 2025 15:39:53 -0700 (PDT)
-Date: Wed, 21 May 2025 06:40:39 -0700
-From: "Derek J. Clark" <derekjohn.clark@gmail.com>
-To: =?ISO-8859-1?Q?Ilpo_J=E4rvinen?= <ilpo.jarvinen@linux.intel.com>
-CC: Hans de Goede <hdegoede@redhat.com>, Armin Wolf <W_Armin@gmx.de>,
- Jonathan Corbet <corbet@lwn.net>, Mario Limonciello <superm1@kernel.org>,
- Luke Jones <luke@ljones.dev>, Xino Ni <nijs1@lenovo.com>,
- Zhixin Zhang <zhangzx36@lenovo.com>, Mia Shao <shaohz1@lenovo.com>,
- Mark Pearson <mpearson-lenovo@squebb.ca>,
- "Pierre-Loup A . Griffais" <pgriffais@valvesoftware.com>,
- "Cody T . -H . Chiu" <codyit@gmail.com>, John Martens <johnfanv2@gmail.com>,
- Kurt Borja <kuurtb@gmail.com>, platform-driver-x86@vger.kernel.org,
- linux-doc@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
- Alok Tiwari <alok.a.tiwari@oracle.com>
-Subject: Re: [PATCH v10 6/6] platform/x86: Add Lenovo Other Mode WMI Driver
-User-Agent: Thunderbird for Android
-In-Reply-To: <e9e9a503-25f6-a57a-8ae2-4b9dd57dc89e@linux.intel.com>
-References: <20250515182224.8277-1-derekjohn.clark@gmail.com> <20250515182224.8277-7-derekjohn.clark@gmail.com> <e9e9a503-25f6-a57a-8ae2-4b9dd57dc89e@linux.intel.com>
-Message-ID: <E8223BBA-144B-4F30-865E-2078D0E58934@gmail.com>
+	dkim=pass (2048-bit key) header.d=intel.com header.i=@intel.com header.b="A8SKswMi"
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1747868677; x=1779404677;
+  h=message-id:date:subject:to:cc:references:from:
+   in-reply-to:content-transfer-encoding:mime-version;
+  bh=6wbpIlYw3YN0DuZiJhBBMaJdDjGl82nc/PLnFKSH/Rs=;
+  b=A8SKswMisu3AVUgQv+XtXbWVaMuJVWFKPaEUK8+2QCPQx7PAo3FQO3CY
+   IwdacLTTwNpw2dGlkgcBvF4SoJMOTZt4nLGfwt6kLGequj4W90R51K6ci
+   Dk6bHTNDwS5BwnxmLSb+8KnJKxpxyZt/9st9VuM08MP4B26gKvNYbP338
+   SYozr9ZdoNgYLljIrgq6lncHynhrDKGIi+gFpZB1V5g2TO7EcC0+UinE0
+   tddAIHupC8UZ97ZJCNTS0g2nvBrIDEDCO0wNV7Oi2Uh2Ev/OlH9vbtn5W
+   o5/GNlmTT7rIa1qYkOauvXfhPiihd059ORN0jhHFdFQCQI2YZgJiro2CP
+   g==;
+X-CSE-ConnectionGUID: aCEcegwpS/mdG7pkFaPMKw==
+X-CSE-MsgGUID: JrdmyZaiS7+E29VJ4BZS9A==
+X-IronPort-AV: E=McAfee;i="6700,10204,11440"; a="49793304"
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="49793304"
+Received: from fmviesa008.fm.intel.com ([10.60.135.148])
+  by fmvoesa111.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:04:36 -0700
+X-CSE-ConnectionGUID: AJ4yxjJKQdScvOvhjE4m7g==
+X-CSE-MsgGUID: TJOE8K5LSSyLemROl3uPMw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="6.15,304,1739865600"; 
+   d="scan'208";a="140721878"
+Received: from orsmsx903.amr.corp.intel.com ([10.22.229.25])
+  by fmviesa008.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 May 2025 16:04:36 -0700
+Received: from ORSMSX901.amr.corp.intel.com (10.22.229.23) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25; Wed, 21 May 2025 16:04:30 -0700
+Received: from orsedg603.ED.cps.intel.com (10.7.248.4) by
+ ORSMSX901.amr.corp.intel.com (10.22.229.23) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.1544.25 via Frontend Transport; Wed, 21 May 2025 16:04:30 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.172)
+ by edgegateway.intel.com (134.134.137.100) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.1.2507.55; Wed, 21 May 2025 16:03:43 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=tX8EyuXAsy0zLD67enrglmnALIqaQMY9xtvy9+x2PWVRqLuaq47aXCjVv+GS13RO/WGleE/mT9tOK80LKsRYfZRzwtr+vIx+rAkEGTHSpuaT5LPIFPfzD331d0456VqBxFh76q+NLQOnlkKHBBw8pZtr5kXw9dDgY5sGM3US7Uh6F8uvTcLgCCjveYEB5Vz+LUXXV6XXRWaMeKYmu2wo/GFnEiqjppimCj501sBkWXk2TGjnJg8CXXqBnRITRqIu2q7SfYeZj8Xt+PTOyuvFslJG6yDc8+/I/sRzEenHr2t/BVVYWxdgNRWQ1Zrb4Gg7SHV940JLUsuklSlyZ5Fd+Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=w5DQPFPxg6ag09betZ+6gfnky00FNMNS37MwoYNZfDI=;
+ b=voJCjENvm/PakKIBfuG5YjlgIxgQ4KhKmtywLedrGokgnjvU2u7/SVbJ2WLpBTKcxH9o+QUqUVPg5hNPAM22nSoQw2EfYcr/czBqwvjGf93c2UfWlFzWqCKUdU7SA1/K12ks4KTCN3JlA+a3It/yD3fgsVLysLgcobgS/T43dtwQoZT9EUT9BEUrCG71LWLwCA3Oa61rNrlmNZ4qCPGo6yKqrvrsLcaobeOk3KCyHkzKzmP28z8VnegJT/QJJrmlqbrsdbXR6W7MRQ1DpfTdRd8xfZnTNZYZqkISqlLfJWoVJgrk5gzQIJGNB7nxUjK5JMN25i4cAKILx4eeQrfvLA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com (2603:10b6:a03:4d2::10)
+ by IA1PR11MB8785.namprd11.prod.outlook.com (2603:10b6:208:599::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.8746.30; Wed, 21 May
+ 2025 23:03:40 +0000
+Received: from SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf]) by SJ2PR11MB7573.namprd11.prod.outlook.com
+ ([fe80::61a:aa57:1d81:a9cf%3]) with mapi id 15.20.8746.030; Wed, 21 May 2025
+ 23:03:40 +0000
+Message-ID: <7f10fa69-d1fe-4748-b10c-fa0c9b60bd66@intel.com>
+Date: Wed, 21 May 2025 16:03:37 -0700
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v13 00/27] x86/resctrl : Support AMD Assignable Bandwidth
+ Monitoring Counters (ABMC)
+To: Peter Newman <peternewman@google.com>
+CC: "Moger, Babu" <bmoger@amd.com>, <babu.moger@amd.com>, <corbet@lwn.net>,
+	<tony.luck@intel.com>, <tglx@linutronix.de>, <mingo@redhat.com>,
+	<bp@alien8.de>, <dave.hansen@linux.intel.com>, <james.morse@arm.com>,
+	<dave.martin@arm.com>, <fenghuay@nvidia.com>, <x86@kernel.org>,
+	<hpa@zytor.com>, <paulmck@kernel.org>, <akpm@linux-foundation.org>,
+	<thuth@redhat.com>, <rostedt@goodmis.org>, <ardb@kernel.org>,
+	<gregkh@linuxfoundation.org>, <daniel.sneddon@linux.intel.com>,
+	<jpoimboe@kernel.org>, <alexandre.chartre@oracle.com>,
+	<pawan.kumar.gupta@linux.intel.com>, <thomas.lendacky@amd.com>,
+	<perry.yuan@amd.com>, <seanjc@google.com>, <kai.huang@intel.com>,
+	<xiaoyao.li@intel.com>, <kan.liang@linux.intel.com>, <xin3.li@intel.com>,
+	<ebiggers@google.com>, <xin@zytor.com>, <sohil.mehta@intel.com>,
+	<andrew.cooper3@citrix.com>, <mario.limonciello@amd.com>,
+	<linux-doc@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+	<maciej.wieczor-retman@intel.com>, <eranian@google.com>,
+	<Xiaojian.Du@amd.com>, <gautham.shenoy@amd.com>
+References: <cover.1747349530.git.babu.moger@amd.com>
+ <CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com>
+ <4dbcea13-382e-4af2-960d-0e66652cc2f5@amd.com>
+ <8dd6e3a0-b2e1-48a7-8fa4-62e78b1407ae@intel.com>
+ <6c77b065-a54e-4b9c-a4cf-8b81676f2ab2@amd.com>
+ <f4178258-f7ad-4db2-9284-3f28e8ee8d00@intel.com>
+ <92bcab75-72c6-46d4-97a2-119e7124c90c@amd.com>
+ <11465976-f030-4c1b-88c6-3eebf0c8f13b@intel.com>
+ <CALPaoCjTwySGX9i7uAtCWLKQpmELKP55xDLJhHmUve8ptsfFTw@mail.gmail.com>
+From: Reinette Chatre <reinette.chatre@intel.com>
+Content-Language: en-US
+In-Reply-To: <CALPaoCjTwySGX9i7uAtCWLKQpmELKP55xDLJhHmUve8ptsfFTw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: BYAPR05CA0037.namprd05.prod.outlook.com
+ (2603:10b6:a03:74::14) To SJ2PR11MB7573.namprd11.prod.outlook.com
+ (2603:10b6:a03:4d2::10)
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain;
- charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ2PR11MB7573:EE_|IA1PR11MB8785:EE_
+X-MS-Office365-Filtering-Correlation-Id: d4144c5e-fafe-471a-4aab-08dd98bbb9e1
+X-LD-Processed: 46c98d88-e344-4ed4-8496-4ed7712e255d,ExtAddr
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|366016|1800799024|376014|7416014;
+X-Microsoft-Antispam-Message-Info: =?utf-8?B?RGhZVFJoSFVDWGlXaUxWK3AvaDU2U0JmMFlWL1Rtbk00VzRIaVRjQTRrU2VQ?=
+ =?utf-8?B?SVErMFBLb2RmUlBreEd1a0FHNE15QStrVTJvNUlBb3R3U1pGbmRsY1Rmc29X?=
+ =?utf-8?B?c0Y1QnVqbDZiTEQvTFdpc2RNeXYva24wN1pmd0ZkVmdRSjEvMGtBRUFtbDVC?=
+ =?utf-8?B?R0tEMHl5c0w5OXZ5MVJaOEdOOUhscUVaQjRZOVAxNzY3Z1R5bzErT0VzNURo?=
+ =?utf-8?B?TDlZQjBvMFF3TzhSSHpNU0JoanFXbDJiMjBBMUhycTZJWTEzMHRjR2F4ZCtn?=
+ =?utf-8?B?eDkvOGx5aHJ2bEQxS3E1clg4anFmV2tyaDA2NlpUM2M1SGhWdmRUM2pKdjVZ?=
+ =?utf-8?B?WlU5Q1Y4VWJPSjkwdzJLR0pBQWI1QmRIZEZDMUIrOFVibVNiQkhLRnpSazJ4?=
+ =?utf-8?B?OFh1VkgrSjV2alhCRWQ2LzdndjdPd0VWdHd0c1NQazNYczYyUVJKdHhaenJl?=
+ =?utf-8?B?bTBqMzZ0VEhQN0MwSjZ1eUo3Vlp3R05FbmdUYXJFR0xtRTFwVVVCMzFRempY?=
+ =?utf-8?B?em1nRmVNM0IvekxudnV1TUh2TjVTN3VEVXprN1VKWHNUNElpNU5hem14dkNS?=
+ =?utf-8?B?Z3lER2d4NjZLbjhZVk1wT1VDc2dJOGtQV3N3Q3gwYlE3dXY0U2V1Nk93ank1?=
+ =?utf-8?B?OHRxeDdkMzdGanl4bzk1ZHd2aHgvbXJsZzB2d3FnM3poNzdKb0t1amRLdFNi?=
+ =?utf-8?B?dmYrdHdtdXU4OHRITmF1bWFpSDRHVmdFVGFVWXB3M0xveXNLQ2J3U1dEdVFs?=
+ =?utf-8?B?aHZYQWdqcVVMa2lnNm5jamlOZEtVc01iMWhtSnRSamdjNFBlTzBlWUcrUlNk?=
+ =?utf-8?B?SmpUeTI1cjhYTGxUUUM3RnEwUEZKTDRQSjFhOEJIWVI3RUtqSXNCZXlyK0tU?=
+ =?utf-8?B?c3NheEM4T0F2RXB0eVU1K1NJN01Sd0N1QkVYQ3R0ZUVVYVJ5bmpZOFg5S0Iy?=
+ =?utf-8?B?cFpibFd0UnhSTGZ3aE9CM0c5WXB6ZXo3M256WjRmMitRSE5FeU5qSklxa3Jz?=
+ =?utf-8?B?Vm5XUmZCcFVyMlpEejdnbkRiZnF6dkMzMGQxcG5vdmlaVytQaElwMXFDNUdO?=
+ =?utf-8?B?UXo4U2J3RE0wcmliQm5wejI4endPa09NRFhMSHVZL3oxbjNhcGVGb0Z1ZGVm?=
+ =?utf-8?B?cU54V0FJcEIvbUduVERGZlV0MXZjdkpaT09EVXd2clk5VHU5WEx0eTZ0dnNC?=
+ =?utf-8?B?OVk1OTQwQTd5aTI2Q2dOTElRY1U5bG9pSGtPN202Y3QyamJlaHJTZlJGME03?=
+ =?utf-8?B?b2FyMU9vRXFGZURnM0FjcFlKdHkyZXhxYWRYWTVpZ2NxV0VQamlSMVF5dHpi?=
+ =?utf-8?B?SnR3QTdGUW1ETG5RM3ZqZWUvTXA3eWpJQ3Q3bG85d1p2T3BUc09LeHVkLzA4?=
+ =?utf-8?B?UDNpVXZUbEJkSnhrbXBsM1FXWkZDSURJWVdSZDQ2U2FOeDNjK09WZHBtbjBz?=
+ =?utf-8?B?bUIzSDlkbWtJeG94VFpZNTlOSjJvM25xVFJyR0s3S1FOMjJLd3BvbjRjeTBT?=
+ =?utf-8?B?M3V3MkF2M0JxaEUyNXFLd1pUOFlRRXpxWDVSMGF1bnpaZ1AxZmxYS1lXUWll?=
+ =?utf-8?B?eEhKbVV6dlNnNDE3cnBIY1ZmWkE4Y0tpSTNrY3ozMUhCZ2w4R2xDMjhlSGp2?=
+ =?utf-8?B?NDE2TDFBNkg2Q0VhdTYxYnBDVklYOFVnK0lIN0JDZmxsVUxBN2pMc1VWa3FM?=
+ =?utf-8?B?Um9MMngyQnBTQ0plZ0QyUlhiNFo3Z3hGeDRNTnp2SFhuRjdNbFRkTndGb3V1?=
+ =?utf-8?B?Y0RhaEY4eDJLVUxITmtVT0hNaUtyYTJuYzFPQWVtZDRDSDZhZXhiN0IrRjBl?=
+ =?utf-8?B?YzdFdCtKbHJWWFdENTBTazd6U1l3aTBReWRSVnd1aS9BV0xXNnhpQ0h4bHNM?=
+ =?utf-8?Q?eKyEJV5fLRGAa?=
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ2PR11MB7573.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(7416014);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: =?utf-8?B?dXpUTmFJVjMreFJJWFZjQjN5bCs2WVZaRkhTUkJEdDhsZ09wWXFjdXVRaVps?=
+ =?utf-8?B?SktMZURIWkx4dmJBcUZKYmdjOXFkVkg4Wm9hVVBWSXIwQ3d3WjF3ZVhITUJy?=
+ =?utf-8?B?VmlJZGxCRk1FSzBDUXAxRndWeEJKRjh3L296Ym5TYnI3Umh4UkJRWjhLYzQw?=
+ =?utf-8?B?N0cxZmlVWW1TSWdFb2pzNE12dGxCTkgxUThZZ3hleE5YUlc2QUxBdll2bzN5?=
+ =?utf-8?B?OVNONUhxRWpxZ3Bad0NUWXBNcUV6cDZ0d1h5UGhqdFFrd3BiZnVwcTVhbk54?=
+ =?utf-8?B?VXJPV1VEeHlhVy92ejMwbnhVVytuckZmcnN0bGVoT0xjSmxEMDEvQnFOT2hB?=
+ =?utf-8?B?SDZyZlRPRVpQRTFlN0hvT0tpMnJVSHRLdlU0L3BzTzBXR3VzcUd0SlFsZm9k?=
+ =?utf-8?B?K0lIU2IxZlMzSWJrOTVNVUV5UW55NG5zbmUreW9oMmhJVHN6VnplaXFtalhM?=
+ =?utf-8?B?RldTMENqdWQrTWszWW16bHE1aGowbU03dCtFQ3JkeGhISU0xcXlQNTJpVVRo?=
+ =?utf-8?B?ZDg0S0V0WGJDbG4wSFpXUkg1NURlRExYNEFDTGtxRDFiR2RIdE1ONjJnVzh6?=
+ =?utf-8?B?eDdEQTg3OHhsRDdsSndQVzNvRXQzelBUS2YrczB4d1pJeno1WVFIK2VVaUgw?=
+ =?utf-8?B?djI1Y1dNcDcxb1F3T0dsZVVsUnc0SXVWZEZ1dGFpS0gxOEZOVXJ3TTdONlgz?=
+ =?utf-8?B?ZmlVUU1RZi83ZTluNmVzajhMM0VmWEJvZXhoeFF3ZHNYTzdWdElpaTN3KzlW?=
+ =?utf-8?B?MVdoVkhlQm5lU3VxSGNZVVBBU0lRWDFMVjExQ2RzRU9Rc0dmd2NJWnNqNjU2?=
+ =?utf-8?B?TnVLOGNqWDdSOHNsbFlXQjlsbEw0MzlCMEovNlpZcFI2dGZneUJRZGxzLytI?=
+ =?utf-8?B?SXZDRk5aeUFoTzBuWnZvbS9UQlBNSUhWY05URFdoM0YvU04zNkpwcWdGUkQ0?=
+ =?utf-8?B?WW9MUTUyMHFZcDMvUUZwM2lBdVpDN0ZNZGhKdlEwSUtjTGtIWkZ2aHVqNkJK?=
+ =?utf-8?B?akRiMk4wUHpXeWovZ2hyY2FRS3RlQndjb3dTckMralpQcEZudXFmOFdZb1hv?=
+ =?utf-8?B?UUh4bGl4UWNidVVoZHNYajZZMENsUzVSL1BCNFlXUDQ4bmtkNm1TR1ZDcm0z?=
+ =?utf-8?B?THhQcjh5QVNWTys2YnJlZ0Y1WU8ycFAvYjV2S241aUNqM3hRQmlFaUgxTnJ1?=
+ =?utf-8?B?ZEFnSU5DdU8rRkdnTmxEdURuNzVvRGNEbDYrNHJCUHg0WEFyajd3dldLQWI3?=
+ =?utf-8?B?aXZDcUdCb0tYc0xldUZNejh2TXJnL3hHN1NDdWl1N3lFUnpjSndRUVdDUUJH?=
+ =?utf-8?B?Rm9iOUpQNDlLRzkvbndzQnJuNUU4dkYrOG9ERVVDUDkzMk9vMVZZaTFrbU5k?=
+ =?utf-8?B?TEtSQjk0cFpKTSs2WDlpd1JRbkFrT3NIaDJaQkVkcHVuR0llYmhrQjNkOHpi?=
+ =?utf-8?B?aThRTTVPQVIvMEh1MHhNc2JCSFJUYTV5OXlqeTBQU203YjZYODltdHFzZ1No?=
+ =?utf-8?B?Q3l5cVgyK3RtUWMvcjlBQXBkVTA2Y3FweGo2ZTIxVjFuVElyZUFsbU1MeGsv?=
+ =?utf-8?B?QnVRK1hHRnRMVUVvYWp4WWVoK2R2SVdkbElJL1hMYVlmV0czRG5IVXEvMU1n?=
+ =?utf-8?B?OXF5Qm4yM3VKN29MZ1VGcnpqaVU4bGliNVRlUjJrVjVOSzlqOTR4eVNqT3BL?=
+ =?utf-8?B?VStvSjM4b1VsbW16Ynp3dmJzdG9EWW9CQXZId2kvbk1la1V2NDJSdnhPanRw?=
+ =?utf-8?B?V005Q2pBNm5tMyt5ekdhbG5lOG5mbUM2NlNyOVArc1k0VFVZeVloNGV6U1pL?=
+ =?utf-8?B?MlVYVWVpYVladnV5ZXpvMU9WTXdCQ0l4cFNqSHZabkJqck5nQlhYMGIyRHhQ?=
+ =?utf-8?B?Z01ZeS91OTJFTlljUWdwemN2SytKeGxkalNQbmcrRVgyQXB2SE5seDhRaWIz?=
+ =?utf-8?B?c1BmYnNRTm8rQWx1YndmMEl2RVdlNFR5dDVnTTVJQlNMeHlEV2JGQnRQbW1l?=
+ =?utf-8?B?OVJlamJ4cmNvVFZJa3F3aDJBMXl6ZTZjRnhGSzRVYkVpSVNRc044QnVqMGJm?=
+ =?utf-8?B?MllVSjR3WVdVN3pJTTNyV3NLWlE2ME12aG1RelBxYW9reGltUnZJdVIyRzY0?=
+ =?utf-8?B?aHk5d3pub210Vy9rRFlxRGg2cURJcU0xWjZIeTR1TVBTU3ZCSjhtTjNaeW9K?=
+ =?utf-8?B?NGc9PQ==?=
+X-MS-Exchange-CrossTenant-Network-Message-Id: d4144c5e-fafe-471a-4aab-08dd98bbb9e1
+X-MS-Exchange-CrossTenant-AuthSource: SJ2PR11MB7573.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 May 2025 23:03:40.4891
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: fyQMnMVfjmOUJ+VwMhuK0dsqX3o+ciF7GhhWu+xvLn4nThj50OYAheGEBKqErM2q3aP7El0LDW2E9laJTCDbU0z1jiz5ZDSW0Y66Tzf7r80=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA1PR11MB8785
+X-OriginatorOrg: intel.com
+
+Hi Peter and Babu,
+
+On 5/21/25 2:18 AM, Peter Newman wrote:
+> Hi Babu/Reinette,
+> 
+> On Wed, May 21, 2025 at 1:44 AM Reinette Chatre
+> <reinette.chatre@intel.com> wrote:
+>>
+>> Hi Babu,
+>>
+>> On 5/20/25 4:25 PM, Moger, Babu wrote:
+>>> Hi Reinette,
+>>>
+>>> On 5/20/2025 1:23 PM, Reinette Chatre wrote:
+>>>> Hi Babu,
+>>>>
+>>>> On 5/20/25 10:51 AM, Moger, Babu wrote:
+>>>>> Hi Reinette,
+>>>>>
+>>>>> On 5/20/25 11:06, Reinette Chatre wrote:
+>>>>>> Hi Babu,
+>>>>>>
+>>>>>> On 5/20/25 8:28 AM, Moger, Babu wrote:
+>>>>>>> On 5/19/25 10:59, Peter Newman wrote:
+>>>>>>>> On Fri, May 16, 2025 at 12:52 AM Babu Moger <babu.moger@amd.com> wrote:
+>>>>>>
+>>>>>> ...
+>>>>>>
+>>>>>>>>> /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs: Reports the number of monitoring
+>>>>>>>>> counters available for assignment.
+>>>>>>>>
+>>>>>>>> Earlier I discussed with Reinette[1] what num_mbm_cntrs should
+>>>>>>>> represent in a "soft-ABMC" implementation where assignment is
+>>>>>>>> implemented by assigning an RMID, which would result in all events
+>>>>>>>> being assigned at once.
+>>>>>>>>
+>>>>>>>> My main concern is how many "counters" you can assign by assigning
+>>>>>>>> RMIDs. I recall Reinette proposed reporting the number of groups which
+>>>>>>>> can be assigned separately from counters which can be assigned.
+>>>>>>>
+>>>>>>> More context may be needed here. Currently, num_mbm_cntrs indicates the
+>>>>>>> number of counters available per domain, which is 32.
+>>>>>>>
+>>>>>>> At the moment, we can assign 2 counters to each group, meaning each RMID
+>>>>>>> can be associated with 2 hardware counters. In theory, it's possible to
+>>>>>>> assign all 32 hardware counters to a group—allowing one RMID to be linked
+>>>>>>> with up to 32 counters. However, we currently lack the interface to
+>>>>>>> support that level of assignment.
+>>>>>>>
+>>>>>>> For now, the plan is to support basic assignment and expand functionality
+>>>>>>> later once we have the necessary data structure and requirements.
+>>>>>>
+>>>>>> Looks like some requirements did not make it into this implementation.
+>>>>>> Do you recall the discussion that resulted in you writing [2]? Looks like
+>>>>>> there is a question to Peter in there on how to determine how many "counters"
+>>>>>> are available in soft-ABMC. I interpreted [3] at that time to mean that this
+>>>>>> information would be available in a future AMD publication.
+>>>>>
+>>>>> We already have a method to determine the number of counters in soft-ABMC
+>>>>> mode, which Peter has addressed [4].
+>>>>>
+>>>>> [4]
+>>>>> https://lore.kernel.org/lkml/20250203132642.2746754-1-peternewman@google.com/
+>>>>>
+>>>>> This appears to be more of a workaround, and I doubt it will be included
+>>>>> in any official AMD documentation. Additionally, the long-term direction
+>>>>> is moving towards ABMC.
+>>>>>
+>>>>> I don’t believe this workaround needs to be part of the current series. It
+>>>>> can be added later when soft-ABMC is implemented.
+>>>>
+>>>> Agreed. What about the plans described in [2]? (Thanks to Peter for
+>>>> catching this!).
+>>>>
+>>>> It is important to keep track of requirements while working on a feature to
+>>>> ensure that the implementation supports the planned use cases. Re-reading that
+>>>> thread it is not clear to me how soft-ABMC's per-group assignment would look.
+>>>> Could you please share how you see it progress from this implementation?
+>>>> This includes the single event vs. multiple event assignment. I would like to
+>>>> highlight that this is not a request for this to be supported in this implementation
+>>>> but there needs to be a plan for how this can be supported on top of interfaces
+>>>> established by this work.
+>>>>
+>>>
+>>> Here’s my current understanding of soft-ABMC. Peter may have a more in-depth perspective on this.
+>>>
+>>> Soft-ABMC:
+>>> a. num_mbm_cntrs: This is a software-defined limit based on the number of active RMIDs that can be supported. The value can be obtained using the code referenced in [4].
+> 
+> I would call it a hardware-defined limit that can be probed by software.
+> 
+> The main question is whether this file returns the exact number of
+> RMIDs hardware can track or double that number (mbm_total_bytes +
+> mbm_local_bytes) so that the value is always measured in events.
+
+tl;dr: I continue [3] to find it most intuitive for num_mbm_cntrs to be the exact
+number of "active" RMIDs that the system can support *and* changing the name of
+the modes to help user interpret num_mbm_cntrs: "mbm_cntr_event_assign" for ABMC,
+"mbm_cntr_group_assign" for soft-ABMC.
+
+details
+-------
+
+We are now back to the previous discussion about what user can expect from
+the interface. Let me try and re-cap that discussion so that we can all hopefully
+get back on the same page. Please add corrections/updates where needed.
+
+soft-ABMC
+---------
+  soft-ABMC manages "active" (term TBD) RMID assignment to monitor groups. When an
+  "active" RMID is assigned to a monitor group then *all* MBM events (not LLC occupancy)
+  in that monitor group are counted. "Active" RMID assignment can be done per domain.
+
+  Requirement: resctrl should accurately reflect which events are counted. That is,
+  we do not want resctrl to pretend to allow user to assign an "active" RMID to
+  only one event in a monitor group while all events are actually counted.
+
+  Caveat: To support rapid re-assignment of RMIDs to monitor groups, llc_occupancy
+  event is disabled when soft-ABMC is enabled.
+
+ABMC
+----
+  ABMC manages (hardware) counter assignment to monitor group (RMID), event pairs.
+  When a hardware counter is assigned to an RMID, event pair then only that
+  RMID, event is counted. Hardware counter assignment can be done per domain.
 
 
+shared assignment
+-----------------
+A shared assignment applies to both soft-ABMC and ABMC. A user can designate a
+"counter" (could be hardware counter or "active" RMID) as shared and that means
+the counter within that domain is shared between different monitor groups and actual
+assignment is scheduled by resctrl.  
 
-On May 21, 2025 3:55:09 AM PDT, "Ilpo J=C3=A4rvinen" <ilpo=2Ejarvinen@linu=
-x=2Eintel=2Ecom> wrote:
->On Thu, 15 May 2025, Derek J=2E Clark wrote:
->
->> Adds lenovo-wmi-other driver which provides the Lenovo "Other Mode" WMI
->> interface that comes on some Lenovo "Gaming Series" hardware=2E Provide=
-s a
->> firmware-attributes class which enables the use of tunable knobs for SP=
-L,
->> SPPT, and FPPT=2E
->>=20
->> Reviewed-by: Alok Tiwari <alok=2Ea=2Etiwari@oracle=2Ecom>
->> Reviewed-by: Armin Wolf <W_Armin@gmx=2Ede>
->> Signed-off-by: Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->> ---
->> v10:
->>  - include kdev_t to fix build error=2E
->> v9:
->>  - Make tunable_attr_01 declarations static & adjust formatting=2E
->> v8:
->>  - Remove dead code=2E
->>  - use struct cd01_list pointer instead of void pointer in
->>    lwmi_cd01_priv=2E
->> v7:
->>  - Use stach allocated capdata01 stuct instead of getting a pointer fro=
-m
->>    lenovo-wmi-capdata01=2E
->>  - Fix typos=2E
->> v6:
->> - Pass locally stored pointer to cd01_list back to lenovo-wmi-capdata01
->>   instead of itterating over the list locally=2E Due to ACPI event hand=
-ing
->>   the list is now mutexed=2E
->> - Fix typos and rewordings from v5 review=2E
->> v5:
->> - Switch from locally storing capability data list to storing a pointer
->>   from the capability data interface=2E
->> - Add portion of Gamezone driver that relies on the exported functions
->>   of this driver=2E
->> - Properly initialize IDA and use it for naming the firmware-attributes
->>   path=2E
->> - Rename most defines to clearly indicate they are from this driver=2E
->> - Misc fixes from v4 review=2E
->> v4:
->> - Treat Other Mode as a notifier chain head, use the notifier chain to
->>   get the current mode from Gamezone=2E
->> - Add header file for Other Mode specific structs and finctions=2E
->> - Use component master bind to cache the capdata01 array locally=2E
->> - Drop all reference to external driver private data structs=2E
->> - Various fixes from review=2E
->> v3:
->> - Add notifier block and store result for getting the Gamezone interfac=
-e
->>   profile changes=2E
->> - Add driver as master component of capdata01 driver=2E
->> - Use FIELD_PREP where appropriate=2E
->> - Move macros and associated functions out of lemovo-wmi=2Eh that are o=
-nly
->>   used by this driver=2E
->> v2:
->> - Use devm_kmalloc to ensure driver can be instanced, remove global
->>   reference=2E
->> - Ensure reverse Christmas tree for all variable declarations=2E
->> - Remove extra whitespace=2E
->> - Use guard(mutex) in all mutex instances, global mutex=2E
->> - Use pr_fmt instead of adding the driver name to each pr_err=2E
->> - Remove noisy pr_info usage=2E
->> - Rename other_method_wmi to lenovo_wmi_om_priv and om_wmi to priv=2E
->> - Use list to get the lenovo_wmi_om_priv instance in some macro
->>   called functions as the data provided by the macros that use it
->>   doesn't pass a member of the struct for use in container_of=2E
->> - Do not rely on GameZone interface to grab the current fan mode=2E
->> ---
->>  MAINTAINERS                                |   1 +
->>  drivers/platform/x86/Kconfig               |  15 +
->>  drivers/platform/x86/Makefile              |   1 +
->>  drivers/platform/x86/lenovo-wmi-gamezone=2Ec |   8 +-
->>  drivers/platform/x86/lenovo-wmi-other=2Ec    | 667 +++++++++++++++++++=
-++
->>  drivers/platform/x86/lenovo-wmi-other=2Eh    |  16 +
->>  6 files changed, 707 insertions(+), 1 deletion(-)
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-other=2Ec
->>  create mode 100644 drivers/platform/x86/lenovo-wmi-other=2Eh
->>=20
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 673535395ae8=2E=2E764eadee48ac 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -13168,6 +13168,7 @@ F:	drivers/platform/x86/lenovo-wmi-capdata01=2E=
-*
->>  F:	drivers/platform/x86/lenovo-wmi-events=2E*
->>  F:	drivers/platform/x86/lenovo-wmi-gamezone=2E*
->>  F:	drivers/platform/x86/lenovo-wmi-helpers=2E*
->> +F:	drivers/platform/x86/lenovo-wmi-other=2E*
->> =20
->>  LENOVO WMI HOTKEY UTILITIES DRIVER
->>  M:	Jackie Dong <xy-jackie@139=2Ecom>
->> diff --git a/drivers/platform/x86/Kconfig b/drivers/platform/x86/Kconfi=
-g
->> index aaa1a69c10ca=2E=2Ebe5ab24960b5 100644
->> --- a/drivers/platform/x86/Kconfig
->> +++ b/drivers/platform/x86/Kconfig
->> @@ -485,6 +485,21 @@ config LENOVO_WMI_DATA01
->>  	tristate
->>  	depends on ACPI_WMI
->> =20
->> +config LENOVO_WMI_TUNING
->> +	tristate "Lenovo Other Mode WMI Driver"
->> +	depends on ACPI_WMI
->> +	select FW_ATTR_CLASS
->> +	select LENOVO_WMI_DATA01
->> +	select LENOVO_WMI_EVENTS
->> +	select LENOVO_WMI_HELPERS
->> +	help
->> +	  Say Y here if you have a WMI aware Lenovo Legion device and would l=
-ike to use the
->> +	  firmware_attributes API to control various tunable settings typical=
-ly exposed by
->> +	  Lenovo software in Windows=2E
->> +
->> +	  To compile this driver as a module, choose M here: the module will
->> +	  be called lenovo-wmi-other=2E
->> +
->>  config IDEAPAD_LAPTOP
->>  	tristate "Lenovo IdeaPad Laptop Extras"
->>  	depends on ACPI
->> diff --git a/drivers/platform/x86/Makefile b/drivers/platform/x86/Makef=
-ile
->> index 60058b547de2=2E=2Ef3e64926a96b 100644
->> --- a/drivers/platform/x86/Makefile
->> +++ b/drivers/platform/x86/Makefile
->> @@ -73,6 +73,7 @@ obj-$(CONFIG_LENOVO_WMI_DATA01)	+=3D lenovo-wmi-capda=
-ta01=2Eo
->>  obj-$(CONFIG_LENOVO_WMI_EVENTS)	+=3D lenovo-wmi-events=2Eo
->>  obj-$(CONFIG_LENOVO_WMI_GAMEZONE)	+=3D lenovo-wmi-gamezone=2Eo
->>  obj-$(CONFIG_LENOVO_WMI_HELPERS)	+=3D lenovo-wmi-helpers=2Eo
->> +obj-$(CONFIG_LENOVO_WMI_TUNING)	+=3D lenovo-wmi-other=2Eo
->> =20
->>  # Intel
->>  obj-y				+=3D intel/
->> diff --git a/drivers/platform/x86/lenovo-wmi-gamezone=2Ec b/drivers/pla=
-tform/x86/lenovo-wmi-gamezone=2Ec
->> index 6f460ddf584a=2E=2E304eecc5560c 100644
->> --- a/drivers/platform/x86/lenovo-wmi-gamezone=2Ec
->> +++ b/drivers/platform/x86/lenovo-wmi-gamezone=2Ec
->> @@ -374,7 +374,12 @@ static int lwmi_gz_probe(struct wmi_device *wdev, =
-const void *context)
->>  		return ret;
->> =20
->>  	priv->event_nb=2Enotifier_call =3D lwmi_gz_event_call;
->> -	return devm_lwmi_events_register_notifier(&wdev->dev, &priv->event_nb=
-);
->> +	ret =3D devm_lwmi_events_register_notifier(&wdev->dev, &priv->event_n=
-b);
->> +	if (ret)
->> +		return ret;
->> +
->> +	priv->mode_nb=2Enotifier_call =3D lwmi_gz_mode_call;
->> +	return devm_lwmi_om_register_notifier(&wdev->dev, &priv->mode_nb);
->>  }
->> =20
->>  static const struct wmi_device_id lwmi_gz_id_table[] =3D {
->> @@ -396,6 +401,7 @@ module_wmi_driver(lwmi_gz_driver);
->> =20
->>  MODULE_IMPORT_NS("LENOVO_WMI_EVENTS");
->>  MODULE_IMPORT_NS("LENOVO_WMI_HELPERS");
->> +MODULE_IMPORT_NS("LENOVO_WMI_OTHER");
->>  MODULE_DEVICE_TABLE(wmi, lwmi_gz_id_table);
->>  MODULE_AUTHOR("Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>");
->>  MODULE_DESCRIPTION("Lenovo GameZone WMI Driver");
->> diff --git a/drivers/platform/x86/lenovo-wmi-other=2Ec b/drivers/platfo=
-rm/x86/lenovo-wmi-other=2Ec
->> new file mode 100644
->> index 000000000000=2E=2Ebfcb768053b6
->> --- /dev/null
->> +++ b/drivers/platform/x86/lenovo-wmi-other=2Ec
->> @@ -0,0 +1,667 @@
->> +// SPDX-License-Identifier: GPL-2=2E0-or-later
->> +/*
->> + * Lenovo Other Mode WMI interface driver=2E
->> + *
->> + * This driver uses the fw_attributes class to expose the various WMI =
-functions
->> + * provided by the "Other Mode" WMI interface=2E This enables CPU and =
-GPU power
->> + * limit as well as various other attributes for devices that fall und=
-er the
->> + * "Gaming Series" of Lenovo laptop devices=2E Each attribute exposed =
-by the
->> + * "Other Mode" interface has a corresponding Capability Data struct t=
-hat
->> + * allows the driver to probe details about the attribute such as if i=
-t is
->> + * supported by the hardware, the default_value, max_value, min_value,=
- and step
->> + * increment=2E
->> + *
->> + * These attributes typically don't fit anywhere else in the sysfs and=
- are set
->> + * in Windows using one of Lenovo's multiple user applications=2E
->> + *
->> + * Copyright (C) 2025 Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>
->> + */
->> +
->> +#include <linux/acpi=2Eh>
->> +#include <linux/bitfield=2Eh>
->> +#include <linux/cleanup=2Eh>
->> +#include <linux/component=2Eh>
->> +#include <linux/container_of=2Eh>
->> +#include <linux/device=2Eh>
->> +#include <linux/export=2Eh>
->> +#include <linux/gfp_types=2Eh>
->> +#include <linux/idr=2Eh>
->> +#include <linux/kdev_t=2Eh>
->> +#include <linux/kobject=2Eh>
->> +#include <linux/module=2Eh>
->> +#include <linux/notifier=2Eh>
->> +#include <linux/platform_profile=2Eh>
->> +#include <linux/types=2Eh>
->> +#include <linux/wmi=2Eh>
->> +
->> +#include "lenovo-wmi-capdata01=2Eh"
->> +#include "lenovo-wmi-events=2Eh"
->> +#include "lenovo-wmi-gamezone=2Eh"
->> +#include "lenovo-wmi-helpers=2Eh"
->> +#include "lenovo-wmi-other=2Eh"
->> +#include "firmware_attributes_class=2Eh"
->> +
->> +#define LENOVO_OTHER_MODE_GUID "DC2A8805-3A8C-41BA-A6F7-092E0089CD3B"
->> +
->> +#define LWMI_DEVICE_ID_CPU 0x01
->> +
->> +#define LWMI_FEATURE_ID_CPU_SPPT 0x01
->> +#define LWMI_FEATURE_ID_CPU_SPL 0x02
->> +#define LWMI_FEATURE_ID_CPU_FPPT 0x03
->> +
->> +#define LWMI_TYPE_ID_NONE 0x00
->> +
->> +#define LWMI_FEATURE_VALUE_GET 17
->> +#define LWMI_FEATURE_VALUE_SET 18
->> +
->> +#define LWMI_ATTR_DEV_ID_MASK GENMASK(31, 24)
->> +#define LWMI_ATTR_FEAT_ID_MASK GENMASK(23, 16)
->> +#define LWMI_ATTR_MODE_ID_MASK GENMASK(15, 8)
->> +#define LWMI_ATTR_TYPE_ID_MASK GENMASK(7, 0)
->> +
->> +#define LWMI_OM_FW_ATTR_BASE_PATH "lenovo-wmi-other"
->> +
->> +static BLOCKING_NOTIFIER_HEAD(om_chain_head);
->> +static DEFINE_IDA(lwmi_om_ida);
->> +
->> +enum attribute_property {
->> +	DEFAULT_VAL,
->> +	MAX_VAL,
->> +	MIN_VAL,
->> +	STEP_VAL,
->> +	SUPPORTED,
->> +};
->> +
->> +struct lwmi_om_priv {
->> +	struct component_master_ops *ops;
->> +	struct cd01_list *cd01_list; /* only valid after capdata01 bind */
->> +	struct device *fw_attr_dev;
->> +	struct kset *fw_attr_kset;
->> +	struct notifier_block nb;
->> +	struct wmi_device *wdev;
->> +	int ida_id;
->> +};
->> +
->> +struct tunable_attr_01 {
->> +	struct capdata01 *capdata;
->> +	struct device *dev;
->> +	u32 feature_id;
->> +	u32 device_id;
->> +	u32 type_id;
->> +};
->> +
->> +static struct tunable_attr_01 ppt_pl1_spl =3D {
->> +	=2Edevice_id =3D LWMI_DEVICE_ID_CPU,
->> +	=2Efeature_id =3D LWMI_FEATURE_ID_CPU_SPL,
->> +	=2Etype_id =3D LWMI_TYPE_ID_NONE,
->> +};
->> +
->> +static struct tunable_attr_01 ppt_pl2_sppt =3D {
->> +	=2Edevice_id =3D LWMI_DEVICE_ID_CPU,
->> +	=2Efeature_id =3D LWMI_FEATURE_ID_CPU_SPPT,
->> +	=2Etype_id =3D LWMI_TYPE_ID_NONE,
->> +};
->> +
->> +static struct tunable_attr_01 ppt_pl3_fppt =3D {
->> +	=2Edevice_id =3D LWMI_DEVICE_ID_CPU,
->> +	=2Efeature_id =3D LWMI_FEATURE_ID_CPU_FPPT,
->> +	=2Etype_id =3D LWMI_TYPE_ID_NONE,
->> +};
->> +
->> +struct capdata01_attr_group {
->> +	const struct attribute_group *attr_group;
->> +	struct tunable_attr_01 *tunable_attr;
->> +};
->> +
->> +/**
->> + * lwmi_om_register_notifier() - Add a notifier to the blocking notifi=
-er chain
->> + * @nb: The notifier_block struct to register
->> + *
->> + * Call blocking_notifier_chain_register to register the notifier bloc=
-k to the
->> + * lenovo-wmi-other driver notifier chain=2E
->> + *
->> + * Return: 0 on success, %-EEXIST on error=2E
->> + */
->> +int lwmi_om_register_notifier(struct notifier_block *nb)
->> +{
->> +	return blocking_notifier_chain_register(&om_chain_head, nb);
->> +}
->> +EXPORT_SYMBOL_NS_GPL(lwmi_om_register_notifier, "LENOVO_WMI_OTHER");
->> +
->> +/**
->> + * lwmi_om_unregister_notifier() - Remove a notifier from the blocking=
- notifier
->> + * chain=2E
->> + * @nb: The notifier_block struct to register
->> + *
->> + * Call blocking_notifier_chain_unregister to unregister the notifier =
-block from the
->> + * lenovo-wmi-other driver notifier chain=2E
->> + *
->> + * Return: 0 on success, %-ENOENT on error=2E
->> + */
->> +int lwmi_om_unregister_notifier(struct notifier_block *nb)
->> +{
->> +	return blocking_notifier_chain_unregister(&om_chain_head, nb);
->> +}
->> +EXPORT_SYMBOL_NS_GPL(lwmi_om_unregister_notifier, "LENOVO_WMI_OTHER");
->> +
->> +/**
->> + * devm_lwmi_om_unregister_notifier() - Remove a notifier from the blo=
-cking
->> + * notifier chain=2E
->> + * @data: Void pointer to the notifier_block struct to register=2E
->> + *
->> + * Call lwmi_om_unregister_notifier to unregister the notifier block f=
-rom the
->> + * lenovo-wmi-other driver notifier chain=2E
->> + *
->> + * Return: 0 on success, %-ENOENT on error=2E
->> + */
->> +static void devm_lwmi_om_unregister_notifier(void *data)
->> +{
->> +	struct notifier_block *nb =3D data;
->> +
->> +	lwmi_om_unregister_notifier(nb);
->> +}
->> +
->> +/**
->> + * devm_lwmi_om_register_notifier() - Add a notifier to the blocking n=
-otifier
->> + * chain=2E
->> + * @dev: The parent device of the notifier_block struct=2E
->> + * @nb: The notifier_block struct to register
->> + *
->> + * Call lwmi_om_register_notifier to register the notifier block to th=
-e
->> + * lenovo-wmi-other driver notifier chain=2E Then add devm_lwmi_om_unr=
-egister_notifier
->> + * as a device managed action to automatically unregister the notifier=
- block
->> + * upon parent device removal=2E
->> + *
->> + * Return: 0 on success, or on error=2E
->> + */
->> +int devm_lwmi_om_register_notifier(struct device *dev,
->> +				   struct notifier_block *nb)
->> +{
->> +	int ret;
->> +
->> +	ret =3D lwmi_om_register_notifier(nb);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	return devm_add_action_or_reset(dev, devm_lwmi_om_unregister_notifier=
-,
->> +					nb);
->> +}
->> +EXPORT_SYMBOL_NS_GPL(devm_lwmi_om_register_notifier, "LENOVO_WMI_OTHER=
-");
->> +
->> +/**
->> + * lwmi_om_notifier_call() - Call functions for the notifier call chai=
-n=2E
->> + * @mode: Pointer to a thermal mode enum to retrieve the data from=2E
->> + *
->> + * Call blocking_notifier_call_chain to retrieve the thermal mode from=
- the
->> + * lenovo-wmi-gamezone driver=2E
->> + *
->> + * Return: 0 on success, or on error=2E
->> + */
->> +static int lwmi_om_notifier_call(enum thermal_mode *mode)
->> +{
->> +	int ret;
->> +
->> +	ret =3D blocking_notifier_call_chain(&om_chain_head,
->> +					   LWMI_GZ_GET_THERMAL_MODE, &mode);
->> +	if ((ret & ~NOTIFY_STOP_MASK) !=3D NOTIFY_OK)
->> +		return -EINVAL;
->> +
->> +	return 0;
->> +}
->> +
->> +/* Attribute Methods */
->> +
->> +/**
->> + * int_type_show() - Emit the data type for an integer attribute
->> + * @kobj: Pointer to the driver object=2E
->> + * @kobj_attribute: Pointer to the attribute calling this function=2E
->> + * @buf: The buffer to write to=2E
->> + *
->> + * Return: Number of characters written to buf=2E
->> + */
->> +static ssize_t int_type_show(struct kobject *kobj, struct kobj_attribu=
-te *kattr,
->> +			     char *buf)
->> +{
->> +	return sysfs_emit(buf, "integer\n");
->> +}
->> +
->> +/**
->> + * attr_capdata01_show() - Get the value of the specified attribute pr=
-operty
->> + *
->> + * @kobj: Pointer to the driver object=2E
->> + * @kobj_attribute: Pointer to the attribute calling this function=2E
->> + * @buf: The buffer to write to=2E
->> + * @tunable_attr: The attribute to be read=2E
->> + * @prop: The property of this attribute to be read=2E
->> + *
->> + * Retrieves the given property from the capability data 01 struct for=
- the
->> + * specified attribute's "custom" thermal mode=2E This function is int=
-ended
->> + * to be generic so it can be called from any integer attributes "_sho=
-w"
->> + * function=2E
->> + *
->> + * If the WMI is success the sysfs attribute is notified=2E
->> + *
->> + * Return: Either number of characters written to buf, or an error cod=
-e=2E
->> + */
->> +static ssize_t attr_capdata01_show(struct kobject *kobj,
->> +				   struct kobj_attribute *kattr, char *buf,
->> +				   struct tunable_attr_01 *tunable_attr,
->> +				   enum attribute_property prop)
->> +{
->> +	struct lwmi_om_priv *priv =3D dev_get_drvdata(tunable_attr->dev);
->> +	struct capdata01 capdata;
->> +	u32 attribute_id;
->> +	int value, ret;
->> +
->> +	attribute_id =3D
->> +		FIELD_PREP(LWMI_ATTR_DEV_ID_MASK, tunable_attr->device_id) |
->> +		FIELD_PREP(LWMI_ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
->> +		FIELD_PREP(LWMI_ATTR_MODE_ID_MASK,
->> +			   LWMI_GZ_THERMAL_MODE_CUSTOM) |
->> +		FIELD_PREP(LWMI_ATTR_TYPE_ID_MASK, tunable_attr->type_id);
->> +
->> +	ret =3D lwmi_cd01_get_data(priv->cd01_list, attribute_id, &capdata);
->> +	if (ret)
->> +		return ret;
->> +
->> +	switch (prop) {
->> +	case DEFAULT_VAL:
->> +		value =3D capdata=2Edefault_value;
->> +		break;
->> +	case MAX_VAL:
->> +		value =3D capdata=2Emax_value;
->> +		break;
->> +	case MIN_VAL:
->> +		value =3D capdata=2Emin_value;
->> +		break;
->> +	case STEP_VAL:
->> +		value =3D capdata=2Estep;
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +	return sysfs_emit(buf, "%d\n", value);
->> +}
->> +
->> +/**
->> + * att_current_value_store() - Set the current value of the given attr=
-ibute
->> + * @kobj: Pointer to the driver object=2E
->> + * @kobj_attribute: Pointer to the attribute calling this function=2E
->> + * @buf: The buffer to read from, this is parsed to `int` type=2E
->> + * @count: Required by sysfs attribute macros, pass in from the callee=
- attr=2E
->> + * @tunable_attr: The attribute to be stored=2E
->> + *
->> + * Sets the value of the given attribute when operating under the "cus=
-tom"
->> + * smartfan profile=2E The current smartfan profile is retrieved from =
-the
->> + * lenovo-wmi-gamezone driver and error is returned if the result is n=
-ot
->> + * "custom"=2E This function is intended to be generic so it can be ca=
-lled from
->> + * any integer attribute's "_store" function=2E The integer to be sent=
- to the WMI
->> + * method is range checked and an error code is returned if out of ran=
-ge=2E
->> + *
->> + * If the value is valid and WMI is success, then the sysfs attribute =
-is
->> + * notified=2E
->> + *
->> + * Return: Either count, or an error code=2E
->> + */
->> +static ssize_t attr_current_value_store(struct kobject *kobj,
->> +					struct kobj_attribute *kattr,
->> +					const char *buf, size_t count,
->> +					struct tunable_attr_01 *tunable_attr)
->> +{
->> +	struct lwmi_om_priv *priv =3D dev_get_drvdata(tunable_attr->dev);
->> +	struct wmi_method_args_32 args;
->> +	struct capdata01 capdata;
->> +	enum thermal_mode mode;
->> +	u32 attribute_id;
->> +	u32 value;
->> +	int ret;
->> +
->> +	ret =3D lwmi_om_notifier_call(&mode);
->> +	if (ret)
->> +		return ret;
->> +
->> +	if (mode !=3D LWMI_GZ_THERMAL_MODE_CUSTOM)
->> +		return -EBUSY;
->> +
->> +	attribute_id =3D
->> +		FIELD_PREP(LWMI_ATTR_DEV_ID_MASK, tunable_attr->device_id) |
->> +		FIELD_PREP(LWMI_ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
->> +		FIELD_PREP(LWMI_ATTR_MODE_ID_MASK, mode) |
->> +		FIELD_PREP(LWMI_ATTR_TYPE_ID_MASK, tunable_attr->type_id);
->> +
->> +	ret =3D lwmi_cd01_get_data(priv->cd01_list, attribute_id, &capdata);
->> +	if (ret)
->> +		return ret;
->> +
->> +	ret =3D kstrtouint(buf, 10, &value);
->> +	if (ret)
->> +		return ret;
->> +
->> +	if (value < capdata=2Emin_value || value > capdata=2Emax_value)
->> +		return -EINVAL;
->> +
->> +	args=2Earg0 =3D attribute_id;
->> +	args=2Earg1 =3D value;
->> +
->> +	ret =3D lwmi_dev_evaluate_int(priv->wdev, 0x0, LWMI_FEATURE_VALUE_SET=
-,
->> +				    (unsigned char *)&args, sizeof(args), NULL);
->> +
->> +	if (ret)
->
->Hi Derek,
->
->Please go through the entire patch series and remove empty lines=20
->between a call and its error handling=2E There are a few of them so I=20
->didn't want to do it manually here while applying=2E
->
->Once ready, please send v11=2E
->
->--
-> i=2E
->
 
-Will do=2E If I don't get to it today then I should be able to tomorrow=2E
+user interface
+--------------
 
-Thanks,
-Derek
+Next, consider the interface while keeping above definitions and requirements in mind.
 
->> +		return ret;
->> +
->> +	return count;
->> +};
->> +
->> +/**
->> + * attr_current_value_show() - Get the current value of the given attr=
-ibute
->> + * @kobj: Pointer to the driver object=2E
->> + * @kobj_attribute: Pointer to the attribute calling this function=2E
->> + * @buf: The buffer to write to=2E
->> + * @tunable_attr: The attribute to be read=2E
->> + *
->> + * Retrieves the value of the given attribute for the current smartfan=
- profile=2E
->> + * The current smartfan profile is retrieved from the lenovo-wmi-gamez=
-one driver=2E
->> + * This function is intended to be generic so it can be called from an=
-y integer
->> + * attribute's "_show" function=2E
->> + *
->> + * If the WMI is success the sysfs attribute is notified=2E
->> + *
->> + * Return: Either number of characters written to buf, or an error cod=
-e=2E
->> + */
->> +static ssize_t attr_current_value_show(struct kobject *kobj,
->> +				       struct kobj_attribute *kattr, char *buf,
->> +				       struct tunable_attr_01 *tunable_attr)
->> +{
->> +	struct lwmi_om_priv *priv =3D dev_get_drvdata(tunable_attr->dev);
->> +	struct wmi_method_args_32 args;
->> +	enum thermal_mode mode;
->> +	u32 attribute_id;
->> +	int retval;
->> +	int err;
->> +
->> +	err =3D lwmi_om_notifier_call(&mode);
->> +	if (err)
->> +		return err;
->> +
->> +	attribute_id =3D
->> +		FIELD_PREP(LWMI_ATTR_DEV_ID_MASK, tunable_attr->device_id) |
->> +		FIELD_PREP(LWMI_ATTR_FEAT_ID_MASK, tunable_attr->feature_id) |
->> +		FIELD_PREP(LWMI_ATTR_MODE_ID_MASK, mode) |
->> +		FIELD_PREP(LWMI_ATTR_TYPE_ID_MASK, tunable_attr->type_id);
->> +
->> +	args=2Earg0 =3D attribute_id;
->> +
->> +	err =3D lwmi_dev_evaluate_int(priv->wdev, 0x0, LWMI_FEATURE_VALUE_GET=
-,
->> +				    (unsigned char *)&args, sizeof(args),
->> +				    &retval);
->> +
->> +	if (err)
->> +		return err;
->> +
->> +	return sysfs_emit(buf, "%d\n", retval);
->> +}
->> +
->> +/* Lenovo WMI Other Mode Attribute macros */
->> +#define __LWMI_ATTR_RO(_func, _name)                                  =
-\
->> +	{                                                             \
->> +		=2Eattr =3D { =2Ename =3D __stringify(_name), =2Emode =3D 0444 }, \
->> +		=2Eshow =3D _func##_##_name##_show,                       \
->> +	}
->> +
->> +#define __LWMI_ATTR_RO_AS(_name, _show)                               =
-\
->> +	{                                                             \
->> +		=2Eattr =3D { =2Ename =3D __stringify(_name), =2Emode =3D 0444 }, \
->> +		=2Eshow =3D _show,                                        \
->> +	}
->> +
->> +#define __LWMI_ATTR_RW(_func, _name) \
->> +	__ATTR(_name, 0644, _func##_##_name##_show, _func##_##_name##_store)
->> +
->> +/* Shows a formatted static variable */
->> +#define __LWMI_ATTR_SHOW_FMT(_prop, _attrname, _fmt, _val)            =
-         \
->> +	static ssize_t _attrname##_##_prop##_show(                           =
-  \
->> +		struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
->> +	{                                                                    =
-  \
->> +		return sysfs_emit(buf, _fmt, _val);                            \
->> +	}                                                                    =
-  \
->> +	static struct kobj_attribute attr_##_attrname##_##_prop =3D          =
-    \
->> +		__LWMI_ATTR_RO(_attrname, _prop)
->> +
->> +/* Attribute current value read/write */
->> +#define __LWMI_TUNABLE_CURRENT_VALUE_CAP01(_attrname)                 =
-         \
->> +	static ssize_t _attrname##_current_value_store(                      =
-  \
->> +		struct kobject *kobj, struct kobj_attribute *kattr,            \
->> +		const char *buf, size_t count)                                 \
->> +	{                                                                    =
-  \
->> +		return attr_current_value_store(kobj, kattr, buf, count,       \
->> +						&_attrname);                   \
->> +	}                                                                    =
-  \
->> +	static ssize_t _attrname##_current_value_show(                       =
-  \
->> +		struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
->> +	{                                                                    =
-  \
->> +		return attr_current_value_show(kobj, kattr, buf, &_attrname);  \
->> +	}                                                                    =
-  \
->> +	static struct kobj_attribute attr_##_attrname##_current_value =3D    =
-    \
->> +		__LWMI_ATTR_RW(_attrname, current_value)
->> +
->> +/* Attribute property read only */
->> +#define __LWMI_TUNABLE_RO_CAP01(_prop, _attrname, _prop_type)         =
-         \
->> +	static ssize_t _attrname##_##_prop##_show(                           =
-  \
->> +		struct kobject *kobj, struct kobj_attribute *kattr, char *buf) \
->> +	{                                                                    =
-  \
->> +		return attr_capdata01_show(kobj, kattr, buf, &_attrname,       \
->> +					   _prop_type);                        \
->> +	}                                                                    =
-  \
->> +	static struct kobj_attribute attr_##_attrname##_##_prop =3D          =
-    \
->> +		__LWMI_ATTR_RO(_attrname, _prop)
->> +
->> +#define LWMI_ATTR_GROUP_TUNABLE_CAP01(_attrname, _fsname, _dispname)  =
-    \
->> +	__LWMI_TUNABLE_CURRENT_VALUE_CAP01(_attrname);                    \
->> +	__LWMI_TUNABLE_RO_CAP01(default_value, _attrname, DEFAULT_VAL);   \
->> +	__LWMI_ATTR_SHOW_FMT(display_name, _attrname, "%s\n", _dispname); \
->> +	__LWMI_TUNABLE_RO_CAP01(max_value, _attrname, MAX_VAL);           \
->> +	__LWMI_TUNABLE_RO_CAP01(min_value, _attrname, MIN_VAL);           \
->> +	__LWMI_TUNABLE_RO_CAP01(scalar_increment, _attrname, STEP_VAL);   \
->> +	static struct kobj_attribute attr_##_attrname##_type =3D            \
->> +		__LWMI_ATTR_RO_AS(type, int_type_show);                   \
->> +	static struct attribute *_attrname##_attrs[] =3D {                  \
->> +		&attr_##_attrname##_current_value=2Eattr,                   \
->> +		&attr_##_attrname##_default_value=2Eattr,                   \
->> +		&attr_##_attrname##_display_name=2Eattr,                    \
->> +		&attr_##_attrname##_max_value=2Eattr,                       \
->> +		&attr_##_attrname##_min_value=2Eattr,                       \
->> +		&attr_##_attrname##_scalar_increment=2Eattr,                \
->> +		&attr_##_attrname##_type=2Eattr,                            \
->> +		NULL,                                                     \
->> +	};                                                                \
->> +	static const struct attribute_group _attrname##_attr_group =3D {    \
->> +		=2Ename =3D _fsname, =2Eattrs =3D _attrname##_attrs               \
->> +	}
->> +
->> +LWMI_ATTR_GROUP_TUNABLE_CAP01(ppt_pl1_spl, "ppt_pl1_spl",
->> +			      "Set the CPU sustained power limit");
->> +LWMI_ATTR_GROUP_TUNABLE_CAP01(ppt_pl2_sppt, "ppt_pl2_sppt",
->> +			      "Set the CPU slow package power tracking limit");
->> +LWMI_ATTR_GROUP_TUNABLE_CAP01(ppt_pl3_fppt, "ppt_pl3_fppt",
->> +			      "Set the CPU fast package power tracking limit");
->> +
->> +static struct capdata01_attr_group cd01_attr_groups[] =3D {
->> +	{ &ppt_pl1_spl_attr_group, &ppt_pl1_spl },
->> +	{ &ppt_pl2_sppt_attr_group, &ppt_pl2_sppt },
->> +	{ &ppt_pl3_fppt_attr_group, &ppt_pl3_fppt },
->> +	{},
->> +};
->> +
->> +/**
->> + * lwmi_om_fw_attr_add() - Register all firmware_attributes_class memb=
-ers
->> + * @priv: The Other Mode driver data=2E
->> + *
->> + * Return: Either 0, or an error code=2E
->> + */
->> +static int lwmi_om_fw_attr_add(struct lwmi_om_priv *priv)
->> +{
->> +	unsigned int i;
->> +	int err;
->> +
->> +	priv->ida_id =3D ida_alloc(&lwmi_om_ida, GFP_KERNEL);
->> +	if (priv->ida_id < 0)
->> +		return priv->ida_id;
->> +
->> +	priv->fw_attr_dev =3D device_create(&firmware_attributes_class, NULL,
->> +					  MKDEV(0, 0), NULL, "%s-%u",
->> +					  LWMI_OM_FW_ATTR_BASE_PATH,
->> +					  priv->ida_id);
->> +	if (IS_ERR(priv->fw_attr_dev)) {
->> +		err =3D PTR_ERR(priv->fw_attr_dev);
->> +		goto err_free_ida;
->> +	}
->> +
->> +	priv->fw_attr_kset =3D kset_create_and_add("attributes", NULL,
->> +						 &priv->fw_attr_dev->kobj);
->> +	if (!priv->fw_attr_kset) {
->> +		err =3D -ENOMEM;
->> +		goto err_destroy_classdev;
->> +	}
->> +
->> +	for (i =3D 0; i < ARRAY_SIZE(cd01_attr_groups) - 1; i++) {
->> +		err =3D sysfs_create_group(&priv->fw_attr_kset->kobj,
->> +					 cd01_attr_groups[i]=2Eattr_group);
->> +		if (err)
->> +			goto err_remove_groups;
->> +
->> +		cd01_attr_groups[i]=2Etunable_attr->dev =3D &priv->wdev->dev;
->> +	}
->> +	return 0;
->> +
->> +err_remove_groups:
->> +	while (i--)
->> +		sysfs_remove_group(&priv->fw_attr_kset->kobj,
->> +				   cd01_attr_groups[i]=2Eattr_group);
->> +
->> +	kset_unregister(priv->fw_attr_kset);
->> +
->> +err_destroy_classdev:
->> +	device_unregister(priv->fw_attr_dev);
->> +
->> +err_free_ida:
->> +	ida_free(&lwmi_om_ida, priv->ida_id);
->> +	return err;
->> +}
->> +
->> +/**
->> + * lwmi_om_fw_attr_remove() - Unregister all capability data attribute=
- groups
->> + * @priv: the lenovo-wmi-other driver data=2E
->> + */
->> +static void lwmi_om_fw_attr_remove(struct lwmi_om_priv *priv)
->> +{
->> +	for (unsigned int i =3D 0; i < ARRAY_SIZE(cd01_attr_groups) - 1; i++)
->> +		sysfs_remove_group(&priv->fw_attr_kset->kobj,
->> +				   cd01_attr_groups[i]=2Eattr_group);
->> +
->> +	kset_unregister(priv->fw_attr_kset);
->> +	device_unregister(priv->fw_attr_dev);
->> +}
->> +
->> +/**
->> + * lwmi_om_master_bind() - Bind all components of the other mode drive=
-r
->> + * @dev: The lenovo-wmi-other driver basic device=2E
->> + *
->> + * Call component_bind_all to bind the lenovo-wmi-capdata01 driver to =
-the
->> + * lenovo-wmi-other master driver=2E On success, assign the capability=
- data 01
->> + * list pointer to the driver data struct for later access=2E This poi=
-nter
->> + * is only valid while the capdata01 interface exists=2E Finally, regi=
-ster all
->> + * firmware attribute groups=2E
->> + *
->> + * Return: 0 on success, or an error code=2E
->> + */
->> +static int lwmi_om_master_bind(struct device *dev)
->> +{
->> +	struct lwmi_om_priv *priv =3D dev_get_drvdata(dev);
->> +	struct cd01_list *tmp_list;
->> +	int ret;
->> +
->> +	ret =3D component_bind_all(dev, &tmp_list);
->> +	if (ret)
->> +		return ret;
->> +
->> +	priv->cd01_list =3D tmp_list;
->> +
->> +	if (!priv->cd01_list)
->> +		return -ENODEV;
->> +
->> +	return lwmi_om_fw_attr_add(priv);
->> +}
->> +
->> +/**
->> + * lwmi_om_master_unbind() - Unbind all components of the other mode d=
-river
->> + * @dev: The lenovo-wmi-other driver basic device
->> + *
->> + * Unregister all capability data attribute groups=2E Then call
->> + * component_unbind_all to unbind the lenovo-wmi-capdata01 driver from=
- the
->> + * lenovo-wmi-other master driver=2E Finally, free the IDA for this de=
-vice=2E
->> + */
->> +static void lwmi_om_master_unbind(struct device *dev)
->> +{
->> +	struct lwmi_om_priv *priv =3D dev_get_drvdata(dev);
->> +
->> +	lwmi_om_fw_attr_remove(priv);
->> +	component_unbind_all(dev, NULL);
->> +}
->> +
->> +static const struct component_master_ops lwmi_om_master_ops =3D {
->> +	=2Ebind =3D lwmi_om_master_bind,
->> +	=2Eunbind =3D lwmi_om_master_unbind,
->> +};
->> +
->> +static int lwmi_other_probe(struct wmi_device *wdev, const void *conte=
-xt)
->> +{
->> +	struct component_match *master_match =3D NULL;
->> +	struct lwmi_om_priv *priv;
->> +
->> +	priv =3D devm_kzalloc(&wdev->dev, sizeof(*priv), GFP_KERNEL);
->> +	if (!priv)
->> +		return -ENOMEM;
->> +
->> +	priv->wdev =3D wdev;
->> +	dev_set_drvdata(&wdev->dev, priv);
->> +
->> +	component_match_add(&wdev->dev, &master_match, lwmi_cd01_match, NULL)=
-;
->> +	if (IS_ERR(master_match))
->> +		return PTR_ERR(master_match);
->> +
->> +	return component_master_add_with_match(&wdev->dev, &lwmi_om_master_op=
-s,
->> +					       master_match);
->> +}
->> +
->> +static void lwmi_other_remove(struct wmi_device *wdev)
->> +{
->> +	struct lwmi_om_priv *priv =3D dev_get_drvdata(&wdev->dev);
->> +
->> +	component_master_del(&wdev->dev, &lwmi_om_master_ops);
->> +	ida_free(&lwmi_om_ida, priv->ida_id);
->> +}
->> +
->> +static const struct wmi_device_id lwmi_other_id_table[] =3D {
->> +	{ LENOVO_OTHER_MODE_GUID, NULL },
->> +	{}
->> +};
->> +
->> +static struct wmi_driver lwmi_other_driver =3D {
->> +	=2Edriver =3D {
->> +		=2Ename =3D "lenovo_wmi_other",
->> +		=2Eprobe_type =3D PROBE_PREFER_ASYNCHRONOUS,
->> +	},
->> +	=2Eid_table =3D lwmi_other_id_table,
->> +	=2Eprobe =3D lwmi_other_probe,
->> +	=2Eremove =3D lwmi_other_remove,
->> +	=2Eno_singleton =3D true,
->> +};
->> +
->> +module_wmi_driver(lwmi_other_driver);
->> +
->> +MODULE_IMPORT_NS("LENOVO_WMI_CD01");
->> +MODULE_IMPORT_NS("LENOVO_WMI_HELPERS");
->> +MODULE_DEVICE_TABLE(wmi, lwmi_other_id_table);
->> +MODULE_AUTHOR("Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>");
->> +MODULE_DESCRIPTION("Lenovo Other Mode WMI Driver");
->> +MODULE_LICENSE("GPL");
->> diff --git a/drivers/platform/x86/lenovo-wmi-other=2Eh b/drivers/platfo=
-rm/x86/lenovo-wmi-other=2Eh
->> new file mode 100644
->> index 000000000000=2E=2E8ebf5602bb99
->> --- /dev/null
->> +++ b/drivers/platform/x86/lenovo-wmi-other=2Eh
->> @@ -0,0 +1,16 @@
->> +/* SPDX-License-Identifier: GPL-2=2E0-or-later */
->> +
->> +/* Copyright (C) 2025 Derek J=2E Clark <derekjohn=2Eclark@gmail=2Ecom>=
- */
->> +
->> +#ifndef _LENOVO_WMI_OTHER_H_
->> +#define _LENOVO_WMI_OTHER_H_
->> +
->> +struct device;
->> +struct notifier_block;
->> +
->> +int lwmi_om_register_notifier(struct notifier_block *nb);
->> +int lwmi_om_unregister_notifier(struct notifier_block *nb);
->> +int devm_lwmi_om_register_notifier(struct device *dev,
->> +				   struct notifier_block *nb);
->> +
->> +#endif /* !_LENOVO_WMI_OTHER_H_ */
->>=20
+This series introduces (using implementation, not cover-letter):
 
-- Derek
+/sys/fs/resctrl/info/L3_MON/num_mbm_cntrs 
+"num_mbm_cntrs":                                                               
+	The maximum number of monitoring counters (total of available and assigned
+	counters) in each domain when the system supports mbm_cntr_assign mode. 
+
+/sys/fs/resctrl/mbm_L3_assignments
+"mbm_L3_assignments":                                                          
+	This interface file is created when the mbm_cntr_assign mode is supported
+	and shows the assignment status for each group.              
+
+Consider "mbm_L3_assignments" first. The interface is documented for ABMC support
+where it is possible to manage individual event assignment within monitor group.
+
+For ABMC it is possible to assign just one event at a time and doing so consumes
+one counter in that domain:
+
+a) Starting state on system with 32 counters per domain, two events in default
+   resource group consumes two counters in that domain:
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+0=30;1=32
+# cat /sys/fs/resctrl/mbm_L3_assignments
+mbm_total_bytes:0=e;1=_
+mbm_local_bytes:0=e;1=_
+
+b) Assign counter to mbm_local_bytes in domain 1:
+# echo "mbm_local_bytes:1=e" > /sys/fs/resctrl/mbm_L3_assignments
+# cat /sys/fs/resctrl/mbm_L3_assignments
+mbm_total_bytes:0=e;1=_
+mbm_local_bytes:0=e;1=e
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+0=30;1=31
+
+The question is how this should look on soft-ABMC system. Let's say hypothetically
+that on a soft-ABMC system it is possible to have 32 "active" RMIDs.
+
+a) Starting state on system with 32 "active RMIDs" per domain, two events in default
+   resource group consumes one RMID in that domain:
+
+# cat /sys/fs/resctrl/mbm_L3_assignments
+mbm_total_bytes:0=e;1=_
+mbm_local_bytes:0=e;1=_
+
+What should num_mbm_cntrs display?
+
+Option A (counters are RMIDs):
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+0=31;1=32
+
+Option B (pretend RMIDs are events):
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+0=62;1=64
+
+b) Assign counter to mbm_local_bytes in domain 1:
+# echo "mbm_local_bytes:1=e" > /sys/fs/resctrl/mbm_L3_assignments
+# cat /sys/fs/resctrl/mbm_L3_assignments
+mbm_total_bytes:0=e;1=e
+mbm_local_bytes:0=e;1=e
+
+Note that even though user requested only mbm_local_bytes to be assigned, it
+actually results in both mbm_total_bytes and mbm_local_bytes to be assigned. This
+ensures accurate state representation to user space but this also creates an
+inconsistent user interface between soft-ABMC and ABMC since user space intends
+to use the same interface but "sometimes" assigning one event results in assign
+of one event while "sometimes" it results in assign of multiple events.
+
+wrt "num_mbm_cntrs"
+
+Option A (counters are RMIDs):
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+0=31;1=31
+
+Option B (pretend RMIDs are events):
+# cat /sys/fs/resctrl/info/L3_MON/num_mbm_cntrs
+0=62;1=62 
+
+Neither option seems ideal to me since the interface cannot be consistent
+between ABMC and soft-ABMC.
+As I mentioned in [2] it is not possible to hide ABMC and soft-ABMC behind
+the same interface. When user space wants to monitor a particular monitor group
+then it should be clear how that can be accomplished. Not knowing if
+an assignment/unassignment to/from an event would impact one or all events
+and whether it will consume one or multiple counters does not sound like a good
+interface to me. 
+
+As I understand current interface, user is required to know how ABMC and soft-ABMC
+is implemented to be able to configure the system. For example, if user has file like:
+	# cat /sys/fs/resctrl/mbm_L3_assignments
+	mbm_total_bytes:0=e;1=e
+	mbm_local_bytes:0=e;1=e
+user must know underlying implementation to be able to manage monitoring of
+events and assigning counters otherwise it will be a surprise to lose monitoring
+of all events when unassigning one event.
+
+This is why I proposed in [3] that the name of the mode reflects how user can interact
+with the system. Instead of one "mbm_cntr_assign" mode there can be "mbm_cntr_event_assign"
+that is used for ABMC and "mbm_cntr_group_assign" that is used for soft-ABMC. The mode should
+make it clear what the system is capable of wrt counter assignments.
+
+Considering this the interface should be clear:
+num_mbm_cntrs: reflects the number of counters in each domain that can be assigned. In
+"mbm_cntr_event_assign" this will be the number of counters that can be assigned to 
+each event within a monitoring group, in "mbm_cntr_group_assign" this will be the number
+of counters that can be assigned to entire monitoring groups impacting all MBM events.
+
+mbm_L3_assignments: manages the counter assignment in each group. When user knows the mode
+is "mbm_cntr_event_assign"/"mbm_cntr_group_assign" then it should be clear to user space how the
+interface behaves wrt assignment, no surprises of multiple events impacted when
+assigning/unassigning single event.
+
+For soft-ABMC I thus find it most intuitive for num_mbm_cntrs to be the exact number
+of "active" RMIDs that the system can support *and* changing the name of the modes
+to help user interpret num_mbm_cntrs.
+
+> 
+> There's also the mongroup-RMID overcommit use case I described
+> above[1]. On Intel we can safely assume that there are counters to
+> back all RMIDs, so num_mbm_cntrs would be calculated directly from
+> num_rmids.
+
+This is about the:
+	There's now more interest in Google for allowing explicit control of
+	where RMIDs are assigned on Intel platforms. Even though the number of
+	RMIDs implemented by hardware tends to be roughly the number of
+	containers they want to support, they often still need to create
+	containers when all RMIDs have already been allocated, which is not
+	currently allowed. Once the container has been created and starts
+	running, it's no longer possible to move its threads into a monitoring
+	group whenever RMIDs should become available again, so it's important
+	for resctrl to maintain an accurate task list for a container even
+	when RMIDs are not available.
+
+I see a monitor group as a collection of tasks that need to be monitored together.
+The "task list" is the group of tasks that share a monitoring ID that
+is required to be a valid ID since when any of the tasks are scheduled that ID is
+written to the hardware. I intentionally tried to not use RMID since I believe
+this is required for all archs.
+I thus do not understand how a task can start running when it does not have
+a valid monitoring ID. The idea of "deferred assignment" is not clear to me,
+there can never be "unmonitored tasks", no? I think I am missing something here.
+
+> I realized this use case is more difficult to implement on MPAM,
+> because a PARTID is effectively a CLOSID+RMID, so deferring assigning
+> a unique PARTID to a group also results in it being in a different
+> allocation group. It will work if the unmonitored groups could find a
+> way to share PARTIDs, but this has consequences on allocation - but
+> hopefully no worse than sharing CLOSIDs on x86.
+> 
+> There's a lot of interest in monitoring ID overcommit in Google, so I
+> think it's worth it for me to investigate the additional structural
+> changes needed in resctrl (i.e., breaking the FS-level association
+> between mongroups and HW monitoring IDs). Such a framework could be a
+> better fit for soft-ABMC. For example, if overcommit is allowed, we
+> would just report the number of simultaneous RMIDs we were able to
+> probe as num_rmids. I would want the same shared assignment scheduler
+> to be able to work with RMIDs and counters, though.
+> 
+> Thanks,
+> -Peter
+> 
+> [1] https://lore.kernel.org/lkml/CALPaoChSzzU5mzMZsdT6CeyEn0WD1qdT9fKCoNW_ty4tojtrkw@mail.gmail.com/
+
+Reinette
+
+[2] https://lore.kernel.org/lkml/b9e48e8f-3035-4a7e-a983-ce829bd9215a@intel.com/
+[3] https://lore.kernel.org/lkml/b3babdac-da08-4dfd-9544-47db31d574f5@intel.com/
