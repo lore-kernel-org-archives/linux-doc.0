@@ -1,87 +1,90 @@
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
-	by smtp.subspace.kernel.org (Postfix) with ESMTP id 2B1122472BC;
-	Wed, 21 May 2025 09:36:59 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=217.140.110.172
+Received: from laurent.telenet-ops.be (laurent.telenet-ops.be [195.130.137.89])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+	(No client certificate requested)
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id B5CAA259C8C
+	for <linux-doc@vger.kernel.org>; Wed, 21 May 2025 09:51:31 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=195.130.137.89
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747820222; cv=none; b=R1gdlfGnokxH4GOWpFrRtpP1UH9xsLAqmQdMtDvWZ/XWc22TGA6w11I5ByVirGlUOgQ6n8o7zxyR/esrseweUWGddni091om5XSdMuo0QSLUAdTHpJR2czhpWJ1Ne5zd28nsxpaKIV+eDzx+0JVk1dD15eLgzGtTBGNW2zdwKVQ=
+	t=1747821093; cv=none; b=GsQfxRtp4lAjtrd0SBeFoafoLw0+NWA5xN/Aq8YyHctRflbLisOG62z8/9C5EVrp3uAagiVRHvXprQQpQgXVnuBNMLG9hRtAuxc6SKaB8pqU2DnViL+thKgsuMrsRB1MNz6Sx8Sfm8klqClXy+G6bjf950ks6xfEEmDU9ZXxAy0=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747820222; c=relaxed/simple;
-	bh=1PncFmIAJ84Ts3xsxuSGdS6jgxzdgBDMZOlYYKVRVY8=;
-	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
-	 In-Reply-To:Content-Type; b=gB+Lb7WjGGZSodJP7uSPuNCEVxPip2zRH/O46m9lm5XCIaY2fna6ETD2yjeDmbuwR3vz5T3wPIkhKLV6Af1uKm7HIHLJx3dgT0UBoZWGeQ9mSW2FxSzg86iZKXzCUKT7Y+2dfvarRcNGD/py8KTmd9GA5HnxedMK4GP5t0r8IgM=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com; spf=pass smtp.mailfrom=arm.com; arc=none smtp.client-ip=217.140.110.172
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=arm.com
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=arm.com
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id BCA4A1515;
-	Wed, 21 May 2025 02:36:45 -0700 (PDT)
-Received: from [10.57.50.40] (unknown [10.57.50.40])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id F39DC3F6A8;
-	Wed, 21 May 2025 02:36:56 -0700 (PDT)
-Message-ID: <c057dcd5-6a75-4689-8812-6e62bf79e9b1@arm.com>
-Date: Wed, 21 May 2025 10:36:56 +0100
+	s=arc-20240116; t=1747821093; c=relaxed/simple;
+	bh=xrJuzbpRorAnN9mGOXoLPRNxKUvk4+A/9QDxx8iS3R4=;
+	h=From:To:Cc:Subject:Date:Message-ID:MIME-Version; b=oBkORwuton2k731fxxmKJn5S6x8M9b5MowtW/g8ClXBSEbWLtlQZp8bbGiEpAF22JrvZulEvCT2iQyiGopDDbJROgMnpYCgMAYMkdBC5ben1iGUOYzNymv0je92U8ss37bIbndim9VlxibXP+Rbin15JgUOMdsexzmhE5HoSA/Q=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be; spf=none smtp.mailfrom=linux-m68k.org; arc=none smtp.client-ip=195.130.137.89
+Authentication-Results: smtp.subspace.kernel.org; dmarc=none (p=none dis=none) header.from=glider.be
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=linux-m68k.org
+Received: from ramsan.of.borg ([IPv6:2a02:1810:ac12:ed80:2bba:d77b:9240:3c4e])
+	by laurent.telenet-ops.be with cmsmtp
+	id rlrQ2E00F4GqtyW01lrQTG; Wed, 21 May 2025 11:51:29 +0200
+Received: from rox.of.borg ([192.168.97.57])
+	by ramsan.of.borg with esmtp (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uHg6R-00000002iLy-10Ar;
+	Wed, 21 May 2025 11:51:24 +0200
+Received: from geert by rox.of.borg with local (Exim 4.97)
+	(envelope-from <geert@linux-m68k.org>)
+	id 1uHg6e-00000002iau-1QTe;
+	Wed, 21 May 2025 11:51:24 +0200
+From: Geert Uytterhoeven <geert+renesas@glider.be>
+To: Oliver Hartkopp <socketcan@hartkopp.net>,
+	Marc Kleine-Budde <mkl@pengutronix.de>,
+	Jonathan Corbet <corbet@lwn.net>,
+	Wolfgang Grandegger <wg@grandegger.com>
+Cc: "David S . Miller" <davem@davemloft.net>,
+	Eric Dumazet <edumazet@google.com>,
+	Jakub Kicinski <kuba@kernel.org>,
+	Paolo Abeni <pabeni@redhat.com>,
+	Simon Horman <horms@kernel.org>,
+	linux-can@vger.kernel.org,
+	netdev@vger.kernel.org,
+	linux-doc@vger.kernel.org,
+	Geert Uytterhoeven <geert+renesas@glider.be>
+Subject: [PATCH] documentation: networking: can: Document alloc_candev_mqs()
+Date: Wed, 21 May 2025 11:51:21 +0200
+Message-ID: <a679123dfa5a5a421b8ed3e34963835e019099b0.1747820705.git.geert+renesas@glider.be>
+X-Mailer: git-send-email 2.43.0
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v22 4/5] KVM: arm64: nvhe: Disable branch generation in
- nVHE guests
-Content-Language: en-GB
-To: "Rob Herring (Arm)" <robh@kernel.org>, Will Deacon <will@kernel.org>,
- Mark Rutland <mark.rutland@arm.com>,
- Catalin Marinas <catalin.marinas@arm.com>, Jonathan Corbet <corbet@lwn.net>,
- Marc Zyngier <maz@kernel.org>, Oliver Upton <oliver.upton@linux.dev>,
- Joey Gouly <joey.gouly@arm.com>, Zenghui Yu <yuzenghui@huawei.com>,
- James Clark <james.clark@linaro.org>,
- Anshuman Khandual <anshuman.khandual@arm.com>, Leo Yan <leo.yan@arm.com>
-Cc: linux-arm-kernel@lists.infradead.org, linux-perf-users@vger.kernel.org,
- linux-kernel@vger.kernel.org, linux-doc@vger.kernel.org,
- kvmarm@lists.linux.dev
-References: <20250520-arm-brbe-v19-v22-0-c1ddde38e7f8@kernel.org>
- <20250520-arm-brbe-v19-v22-4-c1ddde38e7f8@kernel.org>
-From: Suzuki K Poulose <suzuki.poulose@arm.com>
-In-Reply-To: <20250520-arm-brbe-v19-v22-4-c1ddde38e7f8@kernel.org>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 
-On 20/05/2025 23:27, Rob Herring (Arm) wrote:
-> From: Anshuman Khandual <anshuman.khandual@arm.com>
-> 
-> While BRBE can record branches within guests, the host recording
-> branches in guests is not supported by perf (though events are).
-> Support for BRBE in guests will supported by providing direct access
-> to BRBE within the guests. That is how x86 LBR works for guests.
-> Therefore, BRBE needs to be disabled on guest entry and restored on
-> exit.
-> 
-> For nVHE, this requires explicit handling for guests. Before
-> entering a guest, save the BRBE state and disable the it. When
-> returning to the host, restore the state.
-> 
-> For VHE, it is not necessary. We initialize
-> BRBCR_EL1.{E1BRE,E0BRE}=={0,0} at boot time, and HCR_EL2.TGE==1 while
-> running in the host. We configure BRBCR_EL2.{E2BRE,E0HBRE} to enable
-> branch recording in the host. When entering the guest, we set
-> HCR_EL2.TGE==0 which means BRBCR_EL1 is used instead of BRBCR_EL2.
-> Consequently for VHE, BRBE recording is disabled at EL1 and EL0 when
-> running a guest.
-> 
-> Should recording in guests (by the host) ever be desired, the perf ABI
-> will need to be extended to distinguish guest addresses (struct
-> perf_branch_entry.priv) for starters. BRBE records would also need to be
-> invalidated on guest entry/exit as guest/host EL1 and EL0 records can't
-> be distinguished.
-> 
-> Signed-off-by: Anshuman Khandual <anshuman.khandual@arm.com>
-> Signed-off-by: Mark Rutland <mark.rutland@arm.com>
-> Co-developed-by: Rob Herring (Arm) <robh@kernel.org>
-> Tested-by: James Clark <james.clark@linaro.org>
-> Reviewed-by: Leo Yan <leo.yan@arm.com>
-> Signed-off-by: Rob Herring (Arm) <robh@kernel.org>
+Since the introduction of alloc_candev_mqs() and friends, there is no
+longer a need to allocate a generic network device and perform explicit
+CAN-specific setup.  Remove the code showing this setup, and document
+alloc_candev_mqs() instead.
 
-Reviewed-by: Suzuki K Poulose <suzuki.poulose@arm.com>
+Signed-off-by: Geert Uytterhoeven <geert+renesas@glider.be>
+---
+Dunno if this deserves
+Fixes: 39549eef3587f1c1 ("can: CAN Network device driver and Netlink interface")
 
+ Documentation/networking/can.rst | 9 +++------
+ 1 file changed, 3 insertions(+), 6 deletions(-)
+
+diff --git a/Documentation/networking/can.rst b/Documentation/networking/can.rst
+index b018ce346392652b..784dbd19b140d262 100644
+--- a/Documentation/networking/can.rst
++++ b/Documentation/networking/can.rst
+@@ -1106,13 +1106,10 @@ General Settings
+ 
+ .. code-block:: C
+ 
+-    dev->type  = ARPHRD_CAN; /* the netdevice hardware type */
+-    dev->flags = IFF_NOARP;  /* CAN has no arp */
++CAN network device drivers can use alloc_candev_mqs() and friends instead of
++alloc_netdev_mqs(), to automatically take care of CAN-specific setup:
+ 
+-    dev->mtu = CAN_MTU; /* sizeof(struct can_frame) -> Classical CAN interface */
+-
+-    or alternative, when the controller supports CAN with flexible data rate:
+-    dev->mtu = CANFD_MTU; /* sizeof(struct canfd_frame) -> CAN FD interface */
++    dev = alloc_candev_mqs(...);
+ 
+ The struct can_frame or struct canfd_frame is the payload of each socket
+ buffer (skbuff) in the protocol family PF_CAN.
+-- 
+2.43.0
 
