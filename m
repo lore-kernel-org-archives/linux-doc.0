@@ -1,76 +1,89 @@
-Received: from ms.lwn.net (ms.lwn.net [45.79.88.28])
+Received: from mail.cjdns.fr (mail.cjdns.fr [5.135.140.105])
 	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by smtp.subspace.kernel.org (Postfix) with ESMTPS id DFC6321B1AB;
-	Wed, 21 May 2025 10:28:42 +0000 (UTC)
-Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=45.79.88.28
+	by smtp.subspace.kernel.org (Postfix) with ESMTPS id 71B3C25B671;
+	Wed, 21 May 2025 10:41:17 +0000 (UTC)
+Authentication-Results: smtp.subspace.kernel.org; arc=none smtp.client-ip=5.135.140.105
 ARC-Seal:i=1; a=rsa-sha256; d=subspace.kernel.org; s=arc-20240116;
-	t=1747823324; cv=none; b=qe2BZDbtCPnwitQTATyW0OHqiNFSjSOdBMeRGGI/O9QQT9PkM/KIdXGkWjp2bX9knIuPHJzVMNXS92U4uB3HU4HcGSGGuMhDYrMjUijfP+NFGNJ4JIfry3QF7BzXm0I4acqdDKgNhahmvrU2CE4COmxoCthcDa2AnzNamUaCXb8=
+	t=1747824079; cv=none; b=OUgiWN4JSmSQiPxcNjfZxePZppPtxQrcmDqLE7sD4eBbGb4+k4FrRSDWRW26ax4OjjHBONyoTlFJ7oMILmCUV0cIwx2lGOD7Elh/R7rYgrJBnXnuLhNFYtPEdU/VCYxSn7sZ5ZObOS5slWxPLBoAtgDgFxOo+uIYYHH9U7sNh/M=
 ARC-Message-Signature:i=1; a=rsa-sha256; d=subspace.kernel.org;
-	s=arc-20240116; t=1747823324; c=relaxed/simple;
-	bh=tjAa5qfSW304MZRjU8O+2TQWJaTBZRn54Nu7A3w6zZ4=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:Message-ID:
-	 MIME-Version:Content-Type; b=azThhk4nE+ISmn4EWUOe/galoNoRHG7TJaBT76fjVrXxlHfzD1uIBPW+AkHL0wZApenAWfs1mnbezVQLyD2Rpe9Qr9gdy2WmciU9CF5w+6OQJqukTgPdGqAxZ0pUhWqVadqAhd1nuz68Q4Ieqr+NC7n/bispl/VgVYRJgTWLGH8=
-ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net; spf=pass smtp.mailfrom=lwn.net; dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b=UutLolWK; arc=none smtp.client-ip=45.79.88.28
-Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=lwn.net
-Authentication-Results: smtp.subspace.kernel.org; spf=pass smtp.mailfrom=lwn.net
+	s=arc-20240116; t=1747824079; c=relaxed/simple;
+	bh=Nk2+KANPF/BgPS8S7aM7RxvEJIQEP0hm9XqCd36R04k=;
+	h=Message-ID:Date:MIME-Version:Subject:To:Cc:References:From:
+	 In-Reply-To:Content-Type; b=skiqUMKMyaOppZdTkeDLfScMp307BMdo/c6sudi5EkmY5Jd8WJtlNtDme22u/2bfIzQt3egqywaBCCLyU/pzYqwlHRSJJfpF6zw0zmlW0DRxDvjnT7QPRQzpMSiluSiUobJHwIC/M+KT+Tpo/qcd54/kwgTL2SNQAzqQeDK34tg=
+ARC-Authentication-Results:i=1; smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr; spf=none smtp.mailfrom=cjdns.fr; dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b=ejlgr+Ry; arc=none smtp.client-ip=5.135.140.105
+Authentication-Results: smtp.subspace.kernel.org; dmarc=pass (p=none dis=none) header.from=cjdns.fr
+Authentication-Results: smtp.subspace.kernel.org; spf=none smtp.mailfrom=cjdns.fr
 Authentication-Results: smtp.subspace.kernel.org;
-	dkim=pass (2048-bit key) header.d=lwn.net header.i=@lwn.net header.b="UutLolWK"
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net C3AB241A9E
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-	t=1747823322; bh=DeF1xZRaa3WvltCwTn/lKXhpNOwpvZ0prQhLjG1Q5w0=;
-	h=From:To:Cc:Subject:In-Reply-To:References:Date:From;
-	b=UutLolWKPf6EqKauOkrwvduhFO9IM6G64fhYdveKOZ56oZ0UMS/+aKaOqY8jUyr37
-	 2gPg7sOVQUebpRrinYvjDl5JpOkKFbMTUk/vOe6Cc3QBOsdfzgOXgxdTaCQn2/L9Rw
-	 plKzK3TVzjc1nuNo6eQ2mgnSvtuOMqP2YiemoeDv98TLsi/JQh38+Y40LDwqozEDWP
-	 vH7x+ymIoC/H+yoiztBkD07JtYvB+kYcdp85dCZizJzlmkmscPKisC5i7o1AM83TGG
-	 JBrw2g6XWai9eF1kQ1vCy5IAEeUsiLfnkVzduiCLvgBr1QDgoIY4zcgpriH8CUBBze
-	 vjjfl3INiMXYA==
-Received: from localhost (unknown [93.187.88.32])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by ms.lwn.net (Postfix) with ESMTPSA id C3AB241A9E;
-	Wed, 21 May 2025 10:28:41 +0000 (UTC)
-From: Jonathan Corbet <corbet@lwn.net>
-To: Randy Dunlap <rdunlap@infradead.org>, linux-kernel@vger.kernel.org
-Cc: Randy Dunlap <rdunlap@infradead.org>, linux-doc@vger.kernel.org, Mauro
- Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH] Docs: doc-guide: update sphinx.rst Sphinx version number
-In-Reply-To: <20250519220413.2914890-1-rdunlap@infradead.org>
-References: <20250519220413.2914890-1-rdunlap@infradead.org>
-Date: Wed, 21 May 2025 04:28:38 -0600
-Message-ID: <87r00ifeax.fsf@trenco.lwn.net>
+	dkim=pass (2048-bit key) header.d=cjdns.fr header.i=@cjdns.fr header.b="ejlgr+Ry"
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 73B85197AB2;
+	Wed, 21 May 2025 12:41:11 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cjdns.fr; s=dkim;
+	t=1747824074; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:content-language:in-reply-to:references;
+	bh=o1TFnGELkG9UAXtbubbM/91RSHqAHcQfQZfaBIl9xc4=;
+	b=ejlgr+RyuCuImwXx+ddV47BbFrKf6puX0L3fuervHjGhpb/k39vt1O+De0MnuGGUEPyRbU
+	4v3xP802r9WsKh3OJSsiP4qhENv6gi66pC33qVdwf5/BV2NQouBPMzLWz4xEPaYWVmfXm6
+	cvLt4DB/k56yayL/LnehTsufqEn7BgrmS1d/H3I+yDmKmo0vjMKAqYxWErMNDTuG3E4s0O
+	7PNVF2QE1zG6y1c9ix2O+sJMv++IMwhCXnRRjXiVBZrfuatl0XrD94MVl0J7MX4qfcYNGT
+	ChiOJRj3gZ68TTS8gTDKvOmB0BwlVifPv5+ek7WB/dBpvuMV6TIRxhWJ+LpqRw==
+Message-ID: <c1914730-62ba-4600-a58b-feefd2f65e9d@cjdns.fr>
+Date: Wed, 21 May 2025 12:41:11 +0200
 Precedence: bulk
 X-Mailing-List: linux-doc@vger.kernel.org
 List-Id: <linux-doc.vger.kernel.org>
 List-Subscribe: <mailto:linux-doc+subscribe@vger.kernel.org>
 List-Unsubscribe: <mailto:linux-doc+unsubscribe@vger.kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
+User-Agent: Mozilla Thunderbird Beta
+Subject: Re: [mips-linux:mips-next 19/19] htmldocs: Warning: MAINTAINERS
+ references a file that doesn't exist:
+ Documentation/devicetree/bindings/interrupt-controller/econet,en751221-intc.yaml
+To: kernel test robot <lkp@intel.com>
+Cc: oe-kbuild-all@lists.linux.dev, linux-mips@vger.kernel.org,
+ Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=C3=A9?= <philmd@linaro.org>,
+ linux-doc@vger.kernel.org
+References: <202505201832.NNOJ4E78-lkp@intel.com>
+Content-Language: en-US
+From: Caleb James DeLisle <cjd@cjdns.fr>
+In-Reply-To: <202505201832.NNOJ4E78-lkp@intel.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-Last-TLS-Session-Version: TLSv1.3
 
-Randy Dunlap <rdunlap@infradead.org> writes:
 
-> Update the minimum version number to match both
-> Documentation/Changes and Documentation/conf.py.
+On 20/05/2025 12:35, kernel test robot wrote:
+> tree:   https://git.kernel.org/pub/scm/linux/kernel/git/mips/linux.git mips-next
+> head:   faefb0a59c5914b7b8f737e2ec5c82822e5bc4c7
+> commit: faefb0a59c5914b7b8f737e2ec5c82822e5bc4c7 [19/19] MAINTAINERS: Add entry for newly added EcoNet platform.
+> reproduce: (https://download.01.org/0day-ci/archive/20250520/202505201832.NNOJ4E78-lkp@intel.com/reproduce)
 >
-> Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
-> Cc: Jonathan Corbet <corbet@lwn.net>
-> Cc: linux-doc@vger.kernel.org
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> ---
->  Documentation/doc-guide/sphinx.rst |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> If you fix the issue in a separate patch/commit (i.e. not just a new version of
+> the same patch/commit), kindly add following tags
+> | Reported-by: kernel test robot <lkp@intel.com>
+> | Closes: https://lore.kernel.org/oe-kbuild-all/202505201832.NNOJ4E78-lkp@intel.com/
 >
-> --- linux-next-20250516.orig/Documentation/doc-guide/sphinx.rst
-> +++ linux-next-20250516/Documentation/doc-guide/sphinx.rst
-> @@ -28,7 +28,7 @@ Sphinx Install
->  ==============
->  
->  The ReST markups currently used by the Documentation/ files are meant to be
-> -built with ``Sphinx`` version 2.4.4 or higher.
-> +built with ``Sphinx`` version 3.4.3 or higher.
->  
-Applied, thanks.
+> All warnings (new ones prefixed by >>):
+>
+>     Warning: Documentation/translations/zh_CN/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>     Warning: Documentation/translations/zh_TW/admin-guide/README.rst references a file that doesn't exist: Documentation/dev-tools/kgdb.rst
+>     Warning: Documentation/translations/zh_TW/dev-tools/gdb-kernel-debugging.rst references a file that doesn't exist: Documentation/dev-tools/gdb-kernel-debugging.rst
+>     Warning: Documentation/userspace-api/netlink/index.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>     Warning: Documentation/userspace-api/netlink/specs.rst references a file that doesn't exist: Documentation/networking/netlink_spec/index.rst
+>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/interrupt-controller/econet,en751221-intc.yaml
+>>> Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/timer/econet,en751221-timer.yaml
 
-jon
+AFAICT no action needed as this will be resolved when trees are merged.
+
+Thanks,
+
+Caleb
+
+
+>     Warning: MAINTAINERS references a file that doesn't exist: Documentation/devicetree/bindings/leds/backlight/ti,lp8864.yaml
+>     Can't build as 1 mandatory dependency is missing at ./scripts/sphinx-pre-install line 984.
+>     make[2]: *** [Documentation/Makefile:121: htmldocs] Error 255
+>     make[1]: *** [Makefile:1801: htmldocs] Error 2
+>     make: *** [Makefile:248: __sub-make] Error 2
+>
